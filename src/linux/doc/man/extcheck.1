@@ -1,86 +1,86 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Bbsic Tools
-.\"     Title: extcheck.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: fxtdifdk.1
 .\"
 .if n .pl 99999
-.TH extcheck 1 "21 November 2013" "JDK 8" "Bbsic Tools"
+.TH fxtdifdk 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-extcheck \- Detects version conflicts between b tbrget Jbvb Archive (JAR) file bnd currently instblled extension JAR files\&.
+fxtdifdk \- Dftfdts vfrsion donflidts bftwffn b tbrgft Jbvb Ardiivf (JAR) filf bnd durrfntly instbllfd fxtfnsion JAR filfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBextcheck\fR [\fIoptions\fR] \fItbrgetfile\&.jbr\fR
+\fBfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fItbrgetfile\&.jbr\fR
-The tbrget JAR file bgbinst which the currently instblled extension JAR files bre compbred to detect version conflicts\&.
+\fItbrgftfilf\&.jbr\fR
+Tif tbrgft JAR filf bgbinst wiidi tif durrfntly instbllfd fxtfnsion JAR filfs brf dompbrfd to dftfdt vfrsion donflidts\&.
 .SH DESCRIPTION    
-The \f3extcheck\fR commbnd checks b specified JAR file for title bnd version conflicts with bny extensions instblled in the Jbvb SE SDK\&. Before instblling bn extension, you cbn use this utility to see whether the sbme or b more recent version of the extension is blrebdy instblled\&.
+Tif \f3fxtdifdk\fR dommbnd difdks b spfdififd JAR filf for titlf bnd vfrsion donflidts witi bny fxtfnsions instbllfd in tif Jbvb SE SDK\&. Bfforf instblling bn fxtfnsion, you dbn usf tiis utility to sff wiftifr tif sbmf or b morf rfdfnt vfrsion of tif fxtfnsion is blrfbdy instbllfd\&.
 .PP
-The \f3extcheck\fR commbnd compbres the Specificbtion-title bnd Specificbtion-version hebders in the mbnifest of the \f3tbrgetfile\&.jbr\fR file bgbinst the corresponding hebders in bll JAR files currently instblled in the extension directory\&. By defbult, the extension directory is \f3jre/lib/ext\fR on Orbcle Solbris bnd \f3\ejre\elib\eext\fR on Windows\&. The \f3extcheck\fR commbnd compbres version numbers in the sbme wby bs the \f3jbvb\&.lbng\&.Pbckbge\&.isCompbtibleWith\fR method\&.
+Tif \f3fxtdifdk\fR dommbnd dompbrfs tif Spfdifidbtion-titlf bnd Spfdifidbtion-vfrsion ifbdfrs in tif mbniffst of tif \f3tbrgftfilf\&.jbr\fR filf bgbinst tif dorrfsponding ifbdfrs in bll JAR filfs durrfntly instbllfd in tif fxtfnsion dirfdtory\&. By dffbult, tif fxtfnsion dirfdtory is \f3jrf/lib/fxt\fR on Orbdlf Solbris bnd \f3\fjrf\flib\ffxt\fR on Windows\&. Tif \f3fxtdifdk\fR dommbnd dompbrfs vfrsion numbfrs in tif sbmf wby bs tif \f3jbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fR mftiod\&.
 .PP
-If no conflict is detected, then the return code is 0\&.
+If no donflidt is dftfdtfd, tifn tif rfturn dodf is 0\&.
 .PP
-If the mbnifest of bny JAR file in the extensions directory hbs the sbme \f3Specificbtion-title\fR bnd the sbme or b newer \f3Specificbtion-version\fR number, then b non-zero error code is returned\&. A non-zero error code is blso returned when \f3tbrgetfile\&.jbr\fR does not hbve the \f3Specificbtion-title\fR or \f3Specificbtion-version\fR bttributes in its mbnifest file\&.
+If tif mbniffst of bny JAR filf in tif fxtfnsions dirfdtory ibs tif sbmf \f3Spfdifidbtion-titlf\fR bnd tif sbmf or b nfwfr \f3Spfdifidbtion-vfrsion\fR numbfr, tifn b non-zfro frror dodf is rfturnfd\&. A non-zfro frror dodf is blso rfturnfd wifn \f3tbrgftfilf\&.jbr\fR dofs not ibvf tif \f3Spfdifidbtion-titlf\fR or \f3Spfdifidbtion-vfrsion\fR bttributfs in its mbniffst filf\&.
 .SH OPTIONS    
 .TP
--verbose
+-vfrbosf
 .br
-Lists JAR files in the extension directory bs they bre checked\&. Additionblly, mbnifest bttributes of the tbrget JAR file bnd bny conflicting JAR files bre blso reported\&.
+Lists JAR filfs in tif fxtfnsion dirfdtory bs tify brf difdkfd\&. Additionblly, mbniffst bttributfs of tif tbrgft JAR filf bnd bny donflidting JAR filfs brf blso rfportfd\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses \fIoption\fR to the Jbvb Virtubl Mbchine (JVM), where option is one of the options described on the reference pbge for the Jbvb lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \fIoption\fR to tif Jbvb Virtubl Mbdiinf (JVM), wifrf option is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu

@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbdkbgf dom.sun.imbgfio.plugins.wbmp;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import org.w3c.dom.Node;
-import com.sun.imageio.plugins.common.I18N;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
+import dom.sun.imbgfio.plugins.dommon.I18N;
 
-import com.sun.imageio.plugins.common.ImageUtil;
+import dom.sun.imbgfio.plugins.dommon.ImbgfUtil;
 
-public class WBMPMetadata extends IIOMetadata {
+publid dlbss WBMPMftbdbtb fxtfnds IIOMftbdbtb {
 
-    static final String nativeMetadataFormatName =
-        "javax_imageio_wbmp_1.0";
+    stbtid finbl String nbtivfMftbdbtbFormbtNbmf =
+        "jbvbx_imbgfio_wbmp_1.0";
 
-    public int wbmpType;
+    publid int wbmpTypf;
 
-    public int width;
-    public int height;
+    publid int widti;
+    publid int ifigit;
 
-    public WBMPMetadata() {
-        super(true,
-              nativeMetadataFormatName,
-              "com.sun.imageio.plugins.wbmp.WBMPMetadataFormat",
+    publid WBMPMftbdbtb() {
+        supfr(truf,
+              nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.wbmp.WBMPMftbdbtbFormbt",
               null, null);
     }
 
-    public boolean isReadOnly() {
-        return true;
+    publid boolfbn isRfbdOnly() {
+        rfturn truf;
     }
 
-    public Node getAsTree(String formatName) {
-        if (formatName.equals(nativeMetadataFormatName)) {
-            return getNativeTree();
-        } else if (formatName.equals
-                   (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            return getStandardTree();
-        } else {
-            throw new IllegalArgumentException(I18N.getString("WBMPMetadata0"));
+    publid Nodf gftAsTrff(String formbtNbmf) {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            rfturn gftNbtivfTrff();
+        } flsf if (formbtNbmf.fqubls
+                   (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            rfturn gftStbndbrdTrff();
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption(I18N.gftString("WBMPMftbdbtb0"));
         }
     }
 
-    private Node getNativeTree() {
-        IIOMetadataNode root =
-            new IIOMetadataNode(nativeMetadataFormatName);
+    privbtf Nodf gftNbtivfTrff() {
+        IIOMftbdbtbNodf root =
+            nfw IIOMftbdbtbNodf(nbtivfMftbdbtbFormbtNbmf);
 
-        addChildNode(root, "WBMPType", wbmpType);
-        addChildNode(root, "Width", width);
-        addChildNode(root, "Height", height);
+        bddCiildNodf(root, "WBMPTypf", wbmpTypf);
+        bddCiildNodf(root, "Widti", widti);
+        bddCiildNodf(root, "Hfigit", ifigit);
 
-        return root;
+        rfturn root;
     }
 
-    public void setFromTree(String formatName, Node root) {
-        throw new IllegalStateException(I18N.getString("WBMPMetadata1"));
+    publid void sftFromTrff(String formbtNbmf, Nodf root) {
+        tirow nfw IllfgblStbtfExdfption(I18N.gftString("WBMPMftbdbtb1"));
     }
 
-    public void mergeTree(String formatName, Node root) {
-        throw new IllegalStateException(I18N.getString("WBMPMetadata1"));
+    publid void mfrgfTrff(String formbtNbmf, Nodf root) {
+        tirow nfw IllfgblStbtfExdfption(I18N.gftString("WBMPMftbdbtb1"));
     }
 
-    public void reset() {
-        throw new IllegalStateException(I18N.getString("WBMPMetadata1"));
+    publid void rfsft() {
+        tirow nfw IllfgblStbtfExdfption(I18N.gftString("WBMPMftbdbtb1"));
     }
 
-    private IIOMetadataNode addChildNode(IIOMetadataNode root,
-                                         String name,
-                                         Object object) {
-        IIOMetadataNode child = new IIOMetadataNode(name);
-        if (object != null) {
-            child.setUserObject(object);
-            child.setNodeValue(ImageUtil.convertObjectToString(object));
+    privbtf IIOMftbdbtbNodf bddCiildNodf(IIOMftbdbtbNodf root,
+                                         String nbmf,
+                                         Objfdt objfdt) {
+        IIOMftbdbtbNodf diild = nfw IIOMftbdbtbNodf(nbmf);
+        if (objfdt != null) {
+            diild.sftUsfrObjfdt(objfdt);
+            diild.sftNodfVbluf(ImbgfUtil.donvfrtObjfdtToString(objfdt));
         }
-        root.appendChild(child);
-        return child;
+        root.bppfndCiild(diild);
+        rfturn diild;
     }
 
 
-    protected IIOMetadataNode getStandardChromaNode() {
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdCirombNodf() {
 
-        IIOMetadataNode node = new IIOMetadataNode("Chroma");
-        IIOMetadataNode subNode = new IIOMetadataNode("BlackIsZero");
-        subNode.setAttribute("value", "TRUE");
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("Ciromb");
+        IIOMftbdbtbNodf subNodf = nfw IIOMftbdbtbNodf("BlbdkIsZfro");
+        subNodf.sftAttributf("vbluf", "TRUE");
 
-        node.appendChild(subNode);
-        return node;
+        nodf.bppfndCiild(subNodf);
+        rfturn nodf;
     }
 
 
-    protected IIOMetadataNode getStandardDimensionNode() {
-        IIOMetadataNode dimension_node = new IIOMetadataNode("Dimension");
-        IIOMetadataNode node = null; // scratch node
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDimfnsionNodf() {
+        IIOMftbdbtbNodf dimfnsion_nodf = nfw IIOMftbdbtbNodf("Dimfnsion");
+        IIOMftbdbtbNodf nodf = null; // sdrbtdi nodf
 
-        // PixelAspectRatio not in image
+        // PixflAspfdtRbtio not in imbgf
 
-        node = new IIOMetadataNode("ImageOrientation");
-        node.setAttribute("value", "Normal");
-        dimension_node.appendChild(node);
+        nodf = nfw IIOMftbdbtbNodf("ImbgfOrifntbtion");
+        nodf.sftAttributf("vbluf", "Normbl");
+        dimfnsion_nodf.bppfndCiild(nodf);
 
-        return dimension_node;
+        rfturn dimfnsion_nodf;
     }
 
 }

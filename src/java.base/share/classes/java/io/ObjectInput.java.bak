@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * ObjectInput extends the DataInput interface to include the reading of
- * objects. DataInput includes methods for the input of primitive types,
- * ObjectInput extends that interface to include objects, arrays, and Strings.
+ * ObjfdtInput fxtfnds tif DbtbInput intfrfbdf to indludf tif rfbding of
+ * objfdts. DbtbInput indludfs mftiods for tif input of primitivf typfs,
+ * ObjfdtInput fxtfnds tibt intfrfbdf to indludf objfdts, brrbys, bnd Strings.
  *
- * @author  unascribed
- * @see java.io.InputStream
- * @see java.io.ObjectOutputStream
- * @see java.io.ObjectInputStream
- * @since   1.1
+ * @butior  unbsdribfd
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ * @sindf   1.1
  */
-public interface ObjectInput extends DataInput, AutoCloseable {
+publid intfrfbdf ObjfdtInput fxtfnds DbtbInput, AutoClosfbblf {
     /**
-     * Read and return an object. The class that implements this interface
-     * defines where the object is "read" from.
+     * Rfbd bnd rfturn bn objfdt. Tif dlbss tibt implfmfnts tiis intfrfbdf
+     * dffinfs wifrf tif objfdt is "rfbd" from.
      *
-     * @return the object read from the stream
-     * @exception java.lang.ClassNotFoundException If the class of a serialized
-     *      object cannot be found.
-     * @exception IOException If any of the usual Input/Output
-     * related exceptions occur.
+     * @rfturn tif objfdt rfbd from tif strfbm
+     * @fxdfption jbvb.lbng.ClbssNotFoundExdfption If tif dlbss of b sfriblizfd
+     *      objfdt dbnnot bf found.
+     * @fxdfption IOExdfption If bny of tif usubl Input/Output
+     * rflbtfd fxdfptions oddur.
      */
-    public Object readObject()
-        throws ClassNotFoundException, IOException;
+    publid Objfdt rfbdObjfdt()
+        tirows ClbssNotFoundExdfption, IOExdfption;
 
     /**
-     * Reads a byte of data. This method will block if no input is
-     * available.
-     * @return  the byte read, or -1 if the end of the
-     *          stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rfbds b bytf of dbtb. Tiis mftiod will blodk if no input is
+     * bvbilbblf.
+     * @rfturn  tif bytf rfbd, or -1 if tif fnd of tif
+     *          strfbm is rfbdifd.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public int read() throws IOException;
+    publid int rfbd() tirows IOExdfption;
 
     /**
-     * Reads into an array of bytes.  This method will
-     * block until some input is available.
-     * @param b the buffer into which the data is read
-     * @return  the actual number of bytes read, -1 is
-     *          returned when the end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rfbds into bn brrby of bytfs.  Tiis mftiod will
+     * blodk until somf input is bvbilbblf.
+     * @pbrbm b tif bufffr into wiidi tif dbtb is rfbd
+     * @rfturn  tif bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd wifn tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public int read(byte b[]) throws IOException;
+    publid int rfbd(bytf b[]) tirows IOExdfption;
 
     /**
-     * Reads into an array of bytes.  This method will
-     * block until some input is available.
-     * @param b the buffer into which the data is read
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes read
-     * @return  the actual number of bytes read, -1 is
-     *          returned when the end of the stream is reached.
-     * @exception IOException If an I/O error has occurred.
+     * Rfbds into bn brrby of bytfs.  Tiis mftiod will
+     * blodk until somf input is bvbilbblf.
+     * @pbrbm b tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn  tif bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd wifn tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public int read(byte b[], int off, int len) throws IOException;
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption;
 
     /**
-     * Skips n bytes of input.
-     * @param n the number of bytes to be skipped
-     * @return  the actual number of bytes skipped.
-     * @exception IOException If an I/O error has occurred.
+     * Skips n bytfs of input.
+     * @pbrbm n tif numbfr of bytfs to bf skippfd
+     * @rfturn  tif bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public long skip(long n) throws IOException;
+    publid long skip(long n) tirows IOExdfption;
 
     /**
-     * Returns the number of bytes that can be read
-     * without blocking.
-     * @return the number of available bytes.
-     * @exception IOException If an I/O error has occurred.
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd
+     * witiout blodking.
+     * @rfturn tif numbfr of bvbilbblf bytfs.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public int available() throws IOException;
+    publid int bvbilbblf() tirows IOExdfption;
 
     /**
-     * Closes the input stream. Must be called
-     * to release any resources associated with
-     * the stream.
-     * @exception IOException If an I/O error has occurred.
+     * Closfs tif input strfbm. Must bf dbllfd
+     * to rflfbsf bny rfsourdfs bssodibtfd witi
+     * tif strfbm.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void close() throws IOException;
+    publid void dlosf() tirows IOExdfption;
 }

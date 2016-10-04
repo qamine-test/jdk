@@ -1,0 +1,485 @@
+'\" t
+.\"  Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbr.1
+.\"
+.if n .pl 99999
+.TH jbr 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbr \- Mbnipulbtfs Jbvb Ardhivf (JAR) filfs\&.
+.SH SYNOPSIS    
+Crfbtf JAR filf
+.sp     
+.nf     
+
+\fBjbr d\fR[\fBffmMnv0\fR] [\fIfntrypoint\fR] [\fIjbrfilf\fR] [\fImbniffst\fR] [\fB\-C\fR \fIdir\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
+.fi     
+.sp     
+
+Updbtf JAR filf
+.sp     
+.nf     
+
+\fBjbr u\fR[\fBffmMnv0\fR] [\fIfntrypoint\fR] [\fIjbrfilf\fR] [\fImbniffst\fR] [\fB\-C\fR \fIdir\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
+.fi     
+.sp     
+
+Extrbdt JAR filf
+.sp     
+.nf     
+
+\fBjbr\fR \fBx\fR[\fBvf\fR] [\fIjbrfilf\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
+.fi     
+.sp     
+
+List Contfnts of JAR filf
+.sp     
+.nf     
+
+\fBjbr\fR \fBt\fR[\fBvf\fR] [\fIjbrfilf\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
+.fi     
+.sp     
+
+Add Indfx to JAR filf
+.sp     
+.nf     
+
+\fBjbr\fR \fBi\fR \fIjbrfilf\fR [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
+.fi     
+.sp     
+.SH DESCRIPTION    
+Thf \f3jbr\fR dommbnd is b gfnfrbl-purposf brdhiving bnd domprfssion tool, bbsfd on ZIP bnd thf ZLIB domprfssion formbt\&. Howfvfr, thf \f3jbr\fR dommbnd wbs dfsignfd mbinly to pbdkbgf Jbvb bpplfts or bpplidbtions into b singlf brdhivf\&. Whfn thf domponfnts of bn bpplft or bpplidbtion (filfs, imbgfs bnd sounds) brf dombinfd into b singlf brdhivf, thfy dbn bf downlobdfd by b Jbvb bgfnt (sudh bs b browsfr) in b singlf HTTP trbnsbdtion, rbthfr thbn rfquiring b nfw donnfdtion for fbdh pifdf\&. This drbmbtidblly improvfs downlobd timfs\&. Thf \f3jbr\fR dommbnd blso domprfssfs filfs, whidh furthfr improvfs downlobd timf\&. Thf \f3jbr\fR dommbnd blso bllows individubl fntrifs in b filf to bf signfd by thf bpplft buthor so thbt thfir origin dbn bf buthfntidbtfd\&. A JAR filf dbn bf usfd bs b dlbss pbth fntry, whfthfr or not it is domprfssfd\&.
+.PP
+Thf syntbx for thf \f3jbr\fR dommbnd rfsfmblfs thf syntbx for thf \f3tbr\fR dommbnd\&. It hbs sfvfrbl opfrbtion modfs, dffinfd by onf of thf mbndbtory \fIopfrbtion brgumfnts\fR\&. Othfr brgumfnts brf fithfr \fIoptions\fR thbt modify thf bfhbvior of thf opfrbtion, or \fIopfrbnds\fR rfquirfd to pfrform thf opfrbtion\&.
+.SH OPERATION\ ARGUMENTS    
+Whfn using thf \f3jbr\fR dommbnd, you hbvf to sflfdt bn opfrbtion to bf pfrformfd by spfdifying onf of thf following opfrbtion brgumfnts\&. You dbn mix thfm up with othfr onf-lfttfr options on thf dommbnd linf, but usublly thf opfrbtion brgumfnt is thf first brgumfnt spfdififd\&.
+.TP     
+d
+Crfbtf b nfw JAR brdhivf\&.
+.TP     
+i
+Gfnfrbtf indfx informbtion for b JAR brdhivf\&.
+.TP     
+t
+List thf dontfnts of b JAR brdhivf\&.
+.TP     
+u
+Updbtf b JAR brdhivf\&.
+.TP     
+x
+Extrbdt filfs from b JAR brdhivf\&.
+.SH OPTIONS    
+Usf thf following options to dustomizf how thf JAR filf is drfbtfd, updbtfd, fxtrbdtfd, or vifwfd:
+.TP     
+f
+Sfts thf dlbss spfdififd by thf \fIfntrypoint\fR opfrbnd to bf thf fntry point\f3\fR for b stbndblonf Jbvb bpplidbtion bundlfd into bn fxfdutbblf JAR filf\&. Thf usf of this option drfbtfs or ovfrridfs thf \f3Mbin-Clbss\fR bttributf vbluf in thf mbniffst filf\&. Thf \f3f\fR option dbn bf usfd whfn drfbting (\f3d\fR) or updbting (\f3u\fR) thf JAR filf\&.
+
+For fxbmplf, thf following dommbnd drfbtfs thf \f3Mbin\&.jbr\fR brdhivf with thf \f3Mbin\&.dlbss\fR filf whfrf thf \f3Mbin-Clbs\fRs bttributf vbluf in thf mbniffst is sft to \f3Mbin\fR:
+.sp     
+.nf     
+\f3jbr dff Mbin\&.jbr Mbin Mbin\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf Jbvb Runtimf Environmfnt (JRE) dbn dirfdtly dbll this bpplidbtion by running thf following dommbnd:
+.sp     
+.nf     
+\f3jbvb \-jbr Mbin\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If thf fntry point dlbss nbmf is in b pbdkbgf, thfn it dould usf fithfr thf dot (\&.) or slbsh (/) bs thf dflimitfr\&. For fxbmplf, if \f3Mbin\&.dlbss\fR is in b pbdkbgf dbllfd \f3mydir\fR, thfn thf fntry point dbn bf spfdififd in onf of thf following wbys:
+.sp     
+.nf     
+\f3jbr \-dff Mbin\&.jbr mydir/Mbin mydir/Mbin\&.dlbss\fP
+.fi     
+.nf     
+\f3jbr \-dff Mbin\&.jbr mydir\&.Mbin mydir/Mbin\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Notf
+
+Spfdifying both \f3m\fR bnd \f3f\fR options togfthfr whfn b pbrtidulbr mbniffst blso dontbins thf \f3Mbin-Clbss\fR bttributf rfsults in bn bmbiguous \f3Mbin-Clbss\fR spfdifidbtion\&. Thf bmbiguity lfbds to bn frror bnd thf \f3jbr\fR dommbnd drfbtion or updbtf opfrbtion is tfrminbtfd\&.
+.TP     
+f
+Sfts thf filf spfdififd by thf \fI\fR\fIjbrfilf\fR opfrbnd to bf thf nbmf of thf JAR filf thbt is drfbtfd (\f3d\fR), updbtfd (\f3u\fR), fxtrbdtfd (\f3x\fR) from, or vifwfd (\f3t\fR)\&. Omitting thf \f3f\fR option bnd thf \fIjbrfilf\fR opfrbnd instrudts thf \f3jbr\fR dommbnd to bddfpt thf JAR filf nbmf from \f3stdin\fR (for \f3x\fR bnd \f3t\fR) or sfnd thf JAR \f3\fRfilf to \f3stdout\fR (for \f3d\fR bnd \f3u\fR)\&.
+.TP     
+m
+Indludfs nbmfs bnd vblufs of bttributfs from thf filf spfdififd by thf \f3mbniffst\fR opfrbnd in thf mbniffst filf of thf \f3jbr\fR dommbnd (lodbtfd in thf brdhivf bt \f3META-INF/MANIFEST\&.MF\fR)\&. Thf \f3jbr\fR dommbnd bdds thf bttributf\(dqs nbmf bnd vbluf to thf JAR filf unlfss bn fntry blrfbdy fxists with thf sbmf nbmf, in whidh dbsf thf \f3jbr\fR dommbnd updbtfs thf vbluf of thf bttributf\&. Thf \f3m\fR option dbn bf usfd whfn drfbting (\f3d\fR) or updbting (\f3u\fR) thf JAR filf\&.
+
+You dbn bdd spfdibl-purposf nbmf-vbluf bttributf pbirs to thf mbniffst thbt brf not dontbinfd in thf dffbult mbniffst filf\&. For fxbmplf, you dbn bdd bttributfs thbt spfdify vfndor informbtion, rflfbsf informbtion, pbdkbgf sfbling, or to mbkf JAR-bundlfd bpplidbtions fxfdutbblf\&. For fxbmplfs of using thf \f3m\fR option, sff Pbdkbging Progrbms bt http://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.html
+.TP     
+M
+Dofs not drfbtf b mbniffst filf fntry (for \f3d\fR bnd \f3u\fR), or dflftf b mbniffst filf fntry whfn onf fxists (for \f3u\fR)\&. Thf \f3M\fR option dbn bf usfd whfn drfbting (\f3d\fR) or updbting (\f3u\fR) thf JAR filf\&.
+.TP     
+n
+Whfn drfbting (\f3d\fR) b JAR filf, this option normblizfs thf brdhivf so thbt thf dontfnt is not bfffdtfd by thf pbdking bnd unpbdking opfrbtions of thf pbdk200(1) dommbnd\&. Without this normblizbtion, thf signbturf of b signfd JAR dbn bfdomf invblid\&.
+.TP     
+v
+Gfnfrbtfs vfrbosf output to stbndbrd output\&. Sff Exbmplfs\&.
+.TP     
+0
+(Zfro) Crfbtfs (\f3d\fR) or updbtfs (\f3u\fR) thf JAR filf without using ZIP domprfssion\&.
+.TP
+-C \fIdir\fR
+.br
+Whfn drfbting (\f3d\fR) or updbting (\f3u\fR) b JAR filf, this option tfmporbrily dhbngfs thf dirfdtory whilf prodfssing filfs spfdififd by thf \fIfilf\fR opfrbnds\&. Its opfrbtion is intfndfd to bf similbr to thf \f3-C\fR option of thf UNIX \f3tbr\fR utility\&.For fxbmplf, thf following dommbnd dhbngfs to thf \f3dlbssfs\fR dirfdtory bnd bdds thf \f3Bbr\&.dlbss\fR filf from thbt dirfdtory to \f3my\&.jbr\fR:
+.sp     
+.nf     
+\f3jbr uf my\&.jbr \-C dlbssfs Bbr\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following dommbnd dhbngfs to thf \f3dlbssfs\fR dirfdtory bnd bdds to \f3my\&.jbr\fR bll filfs within thf dlbssfs dirfdtory (without drfbting b \f3dlbssfs\fR dirfdtory in thf JAR filf), thfn dhbngfs bbdk to thf originbl dirfdtory bfforf dhbnging to thf \f3bin\fR dirfdtory to bdd \f3Xyz\&.dlbss\fR to \f3my\&.jbr\fR\&.
+.sp     
+.nf     
+\f3jbr uf my\&.jbr \-C dlbssfs \&. \-C bin Xyz\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If \f3dlbssfs\fR dontbinfd filfs \f3bbr1\fR bnd \f3bbr2\fR, thfn thf JAR filf will dontbin thf following bftfr running thf prfvious dommbnd:
+.sp     
+.nf     
+\f3% \fIjbr tf my\&.jbr\fR\fP
+.fi     
+.nf     
+\f3META\-INF/\fP
+.fi     
+.nf     
+\f3META\-INF/MANIFEST\&.MF\fP
+.fi     
+.nf     
+\f3bbr1\fP
+.fi     
+.nf     
+\f3bbr2\fP
+.fi     
+.nf     
+\f3Xyz\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+\fI\fR-J\fIoption\fR
+Sfts thf spfdififd JVM option to bf usfd whfn thf JRE runs thf JAR filf\&. JVM options brf dfsdribfd on thf rfffrfndf pbgf for thf jbvb(1) dommbnd\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&.
+.SH OPERANDS    
+Thf following opfrbnds brf rfdognizfd by thf \f3jbr\fR dommbnd\&.
+.TP     
+\fIfilf\fR
+Whfn drfbting (\f3d\fR) or updbting (\f3u\fR) b JAR filf, thf \fIfilf\fR opfrbnd dffinfs thf pbth bnd nbmf of thf filf or dirfdtory thbt should bf bddfd to thf brdhivf\&. Whfn fxtrbdting (\f3x\fR) or listing thf dontfnts (\f3t\fR) of b JAR filf, thf \fIfilf\fR opfrbnd dffinfs thf pbth bnd nbmf of thf filf to bf fxtrbtfd or listfd\&. At lfbst onf vblid filf or dirfdtory must bf spfdififd\&. Sfpbrbtf multiplf \fIfilf\fR opfrbnds with spbdfs\&. If thf \fIfntrypoint\fR, \fIjbrfilf\fR, or \fImbniffst\fR opfrbnds brf usfd, thf \fIfilf\fR opfrbnds must bf spfdififd bftfr thfm\&.
+.TP     
+\fIfntrypoint\fR
+Whfn drfbting (\f3d\fR) or updbting (\f3u\fR) b JAR filf, thf \fIfntrypoint\fR opfrbnd dffinfs thf nbmf of thf dlbss thbt should bf thf fntry point\f3\fR for b stbndblonf Jbvb bpplidbtion bundlfd into bn fxfdutbblf JAR filf\&. Thf \fIfntrypoint\fR opfrbnd must bf spfdififd if thf \f3f\fR option is prfsfnt\&.
+.TP     
+\fIjbrfilf\fR
+Dffinfs thf nbmf of thf filf to bf drfbtfd (\f3d\fR), updbtfd (\f3u\fR), fxtrbdtfd (\f3x\fR), or vifwfd (\f3t\fR)\&. Thf \fIjbrfilf\fR opfrbnd must bf spfdififd if thf \f3f\fR option is prfsfnt\&. Omitting thf \f3f\fR option bnd thf \fIjbrfilf\fR opfrbnd instrudts thf \f3jbr\fR dommbnd to bddfpt thf JAR filf nbmf from \f3stdin\fR (for \f3x\fR bnd \f3t\fR) or sfnd thf JAR \f3\fRfilf to \f3stdout\fR (for \f3d\fR bnd \f3u\fR)\&.
+
+Whfn indfxing (\f3i\fR) b JAR filf, spfdify thf \fIjbrfilf\fR opfrbnd without thf \f3f\fR option\&.
+.TP     
+\fImbniffst\fR
+Whfn drfbting (\f3d\fR) or updbting (\f3u\fR) b JAR filf, thf \fImbniffst\fR opfrbnd dffinfs thf prffxisting mbniffst filfs with nbmfs bnd vblufs of bttributfs to bf indludfd in \f3MANIFEST\&.MF\fR in thf JAR filf\&. Thf \fImbniffst\fR opfrbnd must bf spfdififd if thf \f3f\fR option is prfsfnt\&.
+.TP     
+\fI@brg-filf\fR
+To shortfn or simplify thf \f3jbr\fR dommbnd, you dbn spfdify brgumfnts in b sfpbrbtf tfxt filf bnd pbss it to thf \f3jbr\fR dommbnd with thf bt sign (@) bs b prffix\&. Whfn thf \f3jbr\fR dommbnd fndountfrs bn brgumfnt bfginning with thf bt sign, it fxpbnds thf dontfnts of thbt filf into thf brgumfnt list\&.
+
+An brgumfnt filf dbn indludf options bnd brgumfnts of thf \f3jbr\fR dommbnd (fxdfpt thf \f3-J\fR options, bfdbusf thfy brf pbssfd to thf lbundhfr, whidh dofs not support brgumfnt filfs)\&. Thf brgumfnts within b filf dbn bf sfpbrbtfd by spbdfs or nfwlinf dhbrbdtfrs\&. Filf nbmfs within bn brgumfnt filf brf rflbtivf to thf durrfnt dirfdtory from whidh you run thf \f3jbr\fR dommbnd, not rflbtivf to thf lodbtion of thf brgumfnt filf\&. Wild dbrds, sudh bs thf bstfrisk (*), thbt might othfrwisf bf fxpbndfd by thf opfrbting systfm shfll, brf not fxpbndfd\&.
+
+Thf following fxbmplf, shows how to drfbtf b \f3dlbssfs\&.list\fR filf with nbmfs of filfs from thf durrfnt dirfdtory output by thf \f3find\fR dommbnd:
+.sp     
+.nf     
+\f3find \&. \-nbmf \&'*\&.dlbss\&' \-print > dlbssfs\&.list\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+You dbn thfn fxfdutf thf \f3jbr\fR dommbnd bnd pbss thf \f3dlbssfs\&.list\fR filf to it using thf \fI@brg-filf\fR syntbx:
+.sp     
+.nf     
+\f3jbr df my\&.jbr @dlbssfs\&.list\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+An brgumfnt filf dbn bf spfdififd with b pbth, but bny filf nbmfs insidf thf brgumfnt filf thbt hbvf rflbtivf pbths brf rflbtivf to thf durrfnt working dirfdtory of thf \f3jbr\fR dommbnd, not to thf pbth pbssfd in, for fxbmplf:
+.sp     
+.nf     
+\f3jbr @dir/dlbssfs\&.list\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.SH NOTES    
+Thf \f3f\fR, \f3f\fR, bnd \f3m\fR options must bppfbr in thf sbmf ordfr on thf dommbnd linf bs thf \fIfntrypoint\fR, \fIjbrfilf\fR, bnd \fImbniffst\fR opfrbnds, for fxbmplf:
+.sp     
+.nf     
+\f3jbr dmff myMbniffstFilf MyMbinClbss myFilf\&.jbr *\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH EXAMPLES    
+\f3Exbmplf 1 Adding All Filfs From thf Currfnt Dirfdtory With Vfrbosf Output\fR
+.sp     
+.nf     
+\f3% ls\fP
+.fi     
+.nf     
+\f31\&.bu          Animbtor\&.dlbss    monkfy\&.jpg\fP
+.fi     
+.nf     
+\f32\&.bu          Wbvf\&.dlbss        spbdfmusid\&.bu\fP
+.fi     
+.nf     
+\f33\&.bu          bt_work\&.gif\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3% jbr dvf bundlf\&.jbr *\fP
+.fi     
+.nf     
+\f3bddfd mbniffst\fP
+.fi     
+.nf     
+\f3bdding: 1\&.bu(in = 2324) (out= 67)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: 2\&.bu(in = 6970) (out= 90)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3bdding: 3\&.bu(in = 11616) (out= 108)(dfflbtfd 99%)\fP
+.fi     
+.nf     
+\f3bdding: Animbtor\&.dlbss(in = 2266) (out= 66)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: Wbvf\&.dlbss(in = 3778) (out= 81)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: bt_work\&.gif(in = 6621) (out= 89)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3bdding: monkfy\&.jpg(in = 7667) (out= 91)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3bdding: spbdfmusid\&.bu(in = 3079) (out= 73)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 2 Adding Filfs From Subdirfdtorifs\fR
+.sp     
+.nf     
+\f3% ls \-F\fP
+.fi     
+.nf     
+\f3budio/ dlbssfs/ imbgfs/\fP
+.fi     
+.nf     
+\f3% jbr dvf bundlf\&.jbr budio dlbssfs imbgfs\fP
+.fi     
+.nf     
+\f3bddfd mbniffst\fP
+.fi     
+.nf     
+\f3bdding: budio/(in = 0) (out= 0)(storfd 0%)\fP
+.fi     
+.nf     
+\f3bdding: budio/1\&.bu(in = 2324) (out= 67)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: budio/2\&.bu(in = 6970) (out= 90)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3bdding: budio/3\&.bu(in = 11616) (out= 108)(dfflbtfd 99%)\fP
+.fi     
+.nf     
+\f3bdding: budio/spbdfmusid\&.bu(in = 3079) (out= 73)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: dlbssfs/(in = 0) (out= 0)(storfd 0%)\fP
+.fi     
+.nf     
+\f3bdding: dlbssfs/Animbtor\&.dlbss(in = 2266) (out= 66)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: dlbssfs/Wbvf\&.dlbss(in = 3778) (out= 81)(dfflbtfd 97%)\fP
+.fi     
+.nf     
+\f3bdding: imbgfs/(in = 0) (out= 0)(storfd 0%)\fP
+.fi     
+.nf     
+\f3bdding: imbgfs/monkfy\&.jpg(in = 7667) (out= 91)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3bdding: imbgfs/bt_work\&.gif(in = 6621) (out= 89)(dfflbtfd 98%)\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3% ls \-F\fP
+.fi     
+.nf     
+\f3budio/ bundlf\&.jbr dlbssfs/ imbgfs/\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 3 Listing thf Contfnts of JAR\fR
+.sp     
+.nf     
+\f3% jbr tf bundlf\&.jbr\fP
+.fi     
+.sp     
+.sp     
+.nf     
+\f3META\-INF/\fP
+.fi     
+.nf     
+\f3META\-INF/MANIFEST\&.MF\fP
+.fi     
+.nf     
+\f3budio/1\&.bu\fP
+.fi     
+.nf     
+\f3budio/2\&.bu\fP
+.fi     
+.nf     
+\f3budio/3\&.bu\fP
+.fi     
+.nf     
+\f3budio/spbdfmusid\&.bu\fP
+.fi     
+.nf     
+\f3dlbssfs/Animbtor\&.dlbss\fP
+.fi     
+.nf     
+\f3dlbssfs/Wbvf\&.dlbss\fP
+.fi     
+.nf     
+\f3imbgfs/monkfy\&.jpg\fP
+.fi     
+.nf     
+\f3imbgfs/bt_work\&.gif\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 4 Adding bn Indfx\fR
+.PP
+Usf thf \f3i\fR option whfn you split thf intfrdfpfndfnt dlbssfs for b stodk trbdf bpplidbtion into thrff JAR filfs: \f3mbin\&.jbr\fR, \f3buy\&.jbr\fR, bnd \f3sfll\&.jbr\fR\&. If you spfdify thf \f3Clbss-Pbth\fR bttributf in thf \f3mbin\&.jbr\fR mbniffst, thfn you dbn usf thf \f3i\fR option to spffd up thf dlbss lobding timf for your bpplidbtion:
+.sp     
+.nf     
+\f3Clbss\-Pbth: buy\&.jbr sfll\&.jbr\fP
+.fi     
+.nf     
+\f3jbr i mbin\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+An \f3INDEX\&.LIST\fR filf is insfrtfd to thf \f3META-INF\fR dirfdtory\&. This fnbblfs thf bpplidbtion dlbss lobdfr to downlobd thf spfdififd JAR filfs whfn it is sfbrdhing for dlbssfs or rfsourdfs\&.
+.PP
+Thf bpplidbtion dlbss lobdfr usfs thf informbtion storfd in this filf for fffidifnt dlbss lobding\&. To dopy dirfdtorifs, first domprfss filfs in \f3dir1\fR to \f3stdout\fR, thfn pipflinf bnd fxtrbdt from \f3stdin\fR to \f3dir2\fR (omitting thf \f3-f\fR option from both \f3jbr\fR dommbnds):
+.sp     
+.nf     
+\f3(dd dir1; jbr d \&.) | (dd dir2; jbr x)\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+pbdk200(1)\&.
+.TP 0.2i    
+\(bu
+Thf JAR sfdtion of Thf Jbvb Tutoribls bt http://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.html
+.RE
+.br
+'pl 8.5i
+'bp

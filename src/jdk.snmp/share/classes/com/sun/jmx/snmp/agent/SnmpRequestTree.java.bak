@@ -1,725 +1,725 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Arrays;
-import java.util.logging.Level;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.logging.Lfvfl;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpEngine;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpEnginf;
 
-//  XXX: things to do: use SnmpOid rather than `instance' for future
-//       evolutions.
-//  XXX: Maybe use hashlists rather than vectors for entries?
-//       => in that case, the key should be SnmpOid.toString()
+//  XXX: tiings to do: usf SnmpOid rbtifr tibn `instbndf' for futurf
+//       fvolutions.
+//  XXX: Mbybf usf ibsilists rbtifr tibn vfdtors for fntrifs?
+//       => in tibt dbsf, tif kfy siould bf SnmpOid.toString()
 //
 /**
- * This class is used to register varbinds from a SNMP varbind list with
- * the SnmpMibNode responsible for handling the requests concerning that
- * varbind.
- * This class holds a hashtable of Handler nodes, whith the involved
- * SnmpMibNode as a key.
- * When the involved SnmpMibNode is a group, the sublist of varbind is
- * directly stored in the Handler node.
- * When the involved SnmpMibNode is a table, the sublist is stored in a
- * sorted array indexed by the OID of the entry involved.
+ * Tiis dlbss is usfd to rfgistfr vbrbinds from b SNMP vbrbind list witi
+ * tif SnmpMibNodf rfsponsiblf for ibndling tif rfqufsts dondfrning tibt
+ * vbrbind.
+ * Tiis dlbss iolds b ibsitbblf of Hbndlfr nodfs, wiiti tif involvfd
+ * SnmpMibNodf bs b kfy.
+ * Wifn tif involvfd SnmpMibNodf is b group, tif sublist of vbrbind is
+ * dirfdtly storfd in tif Hbndlfr nodf.
+ * Wifn tif involvfd SnmpMibNodf is b tbblf, tif sublist is storfd in b
+ * sortfd brrby indfxfd by tif OID of tif fntry involvfd.
  */
-final class SnmpRequestTree {
+finbl dlbss SnmpRfqufstTrff {
 
-    // Constructor:
-    // @param  req The SnmpMibRequest that will be segmented in this
-    //         tree. It holds the original varbind vector passed
-    //         by the SnmpSubRequestHandler to this MIB. This
-    //         varbind vector is used to retrieve the "real"
-    //         position of a varbind in the vector. There is no other easy
-    //         way to do this - since as a result of the segmentation the
-    //         original positions will be lost.
-    // @param  creationflag indicates whether the operation involved
-    //         allows for entry creation (ie: it is a SET request).
-    // @param  pdutype indicates the type of the request PDU as defined
-    //         in SnmpDefinitions
+    // Construdtor:
+    // @pbrbm  rfq Tif SnmpMibRfqufst tibt will bf sfgmfntfd in tiis
+    //         trff. It iolds tif originbl vbrbind vfdtor pbssfd
+    //         by tif SnmpSubRfqufstHbndlfr to tiis MIB. Tiis
+    //         vbrbind vfdtor is usfd to rftrifvf tif "rfbl"
+    //         position of b vbrbind in tif vfdtor. Tifrf is no otifr fbsy
+    //         wby to do tiis - sindf bs b rfsult of tif sfgmfntbtion tif
+    //         originbl positions will bf lost.
+    // @pbrbm  drfbtionflbg indidbtfs wiftifr tif opfrbtion involvfd
+    //         bllows for fntry drfbtion (if: it is b SET rfqufst).
+    // @pbrbm  pdutypf indidbtfs tif typf of tif rfqufst PDU bs dffinfd
+    //         in SnmpDffinitions
     //
-    SnmpRequestTree(SnmpMibRequest req, boolean creationflag, int pdutype) {
-        this.request = req;
-        this.version  = req.getVersion();
-        this.creationflag = creationflag;
-        this.hashtable = new Hashtable<>();
-        setPduType(pdutype);
+    SnmpRfqufstTrff(SnmpMibRfqufst rfq, boolfbn drfbtionflbg, int pdutypf) {
+        tiis.rfqufst = rfq;
+        tiis.vfrsion  = rfq.gftVfrsion();
+        tiis.drfbtionflbg = drfbtionflbg;
+        tiis.ibsitbblf = nfw Hbsitbblf<>();
+        sftPduTypf(pdutypf);
     }
 
-    public static int mapSetException(int errorStatus, int version)
-        throws SnmpStatusException {
+    publid stbtid int mbpSftExdfption(int frrorStbtus, int vfrsion)
+        tirows SnmpStbtusExdfption {
 
-        final int errorCode = errorStatus;
+        finbl int frrorCodf = frrorStbtus;
 
-        if (version == SnmpDefinitions.snmpVersionOne)
-            return errorCode;
+        if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn frrorCodf;
 
-        int mappedErrorCode = errorCode;
+        int mbppfdErrorCodf = frrorCodf;
 
-        // Now take care of V2 errorCodes that can be stored
-        // in the varbind itself:
-        if (errorCode == SnmpStatusException.noSuchObject)
-            // noSuchObject => notWritable
-            mappedErrorCode = SnmpStatusException.snmpRspNotWritable;
+        // Now tbkf dbrf of V2 frrorCodfs tibt dbn bf storfd
+        // in tif vbrbind itsflf:
+        if (frrorCodf == SnmpStbtusExdfption.noSudiObjfdt)
+            // noSudiObjfdt => notWritbblf
+            mbppfdErrorCodf = SnmpStbtusExdfption.snmpRspNotWritbblf;
 
-        else if (errorCode == SnmpStatusException.noSuchInstance)
-            // noSuchInstance => notWritable
-            mappedErrorCode = SnmpStatusException.snmpRspNotWritable;
+        flsf if (frrorCodf == SnmpStbtusExdfption.noSudiInstbndf)
+            // noSudiInstbndf => notWritbblf
+            mbppfdErrorCodf = SnmpStbtusExdfption.snmpRspNotWritbblf;
 
-        return mappedErrorCode;
+        rfturn mbppfdErrorCodf;
     }
 
-    public static int mapGetException(int errorStatus, int version)
-        throws SnmpStatusException {
+    publid stbtid int mbpGftExdfption(int frrorStbtus, int vfrsion)
+        tirows SnmpStbtusExdfption {
 
-        final int errorCode = errorStatus;
-        if (version == SnmpDefinitions.snmpVersionOne)
-            return errorCode;
+        finbl int frrorCodf = frrorStbtus;
+        if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn frrorCodf;
 
-        int mappedErrorCode = errorCode;
+        int mbppfdErrorCodf = frrorCodf;
 
-        // Now take care of V2 errorCodes that can be stored
-        // in the varbind itself:
-        if (errorCode ==
-            SnmpStatusException.noSuchObject)
-            // noSuchObject => noSuchObject
-            mappedErrorCode = errorCode;
+        // Now tbkf dbrf of V2 frrorCodfs tibt dbn bf storfd
+        // in tif vbrbind itsflf:
+        if (frrorCodf ==
+            SnmpStbtusExdfption.noSudiObjfdt)
+            // noSudiObjfdt => noSudiObjfdt
+            mbppfdErrorCodf = frrorCodf;
 
-        else if (errorCode ==
-                 SnmpStatusException.noSuchInstance)
-            // noSuchInstance => noSuchInstance
-            mappedErrorCode = errorCode;
+        flsf if (frrorCodf ==
+                 SnmpStbtusExdfption.noSudiInstbndf)
+            // noSudiInstbndf => noSudiInstbndf
+            mbppfdErrorCodf = frrorCodf;
 
-        // Now we're going to try to transform every other
-        // global code in either noSuchInstance or noSuchObject,
-        // so that the get can return a partial result.
+        // Now wf'rf going to try to trbnsform fvfry otifr
+        // globbl dodf in fitifr noSudiInstbndf or noSudiObjfdt,
+        // so tibt tif gft dbn rfturn b pbrtibl rfsult.
         //
-        // Only noSuchInstance or noSuchObject can be stored
-        // in the varbind itself.
+        // Only noSudiInstbndf or noSudiObjfdt dbn bf storfd
+        // in tif vbrbind itsflf.
         //
 
-        // According to RFC 1905: noAccess is emitted when the
-        // the access is denied because it is not in the MIB view...
+        // Addording to RFC 1905: noAddfss is fmittfd wifn tif
+        // tif bddfss is dfnifd bfdbusf it is not in tif MIB vifw...
         //
-        else if (errorCode ==
-                 SnmpStatusException.noAccess)
-            // noAccess => noSuchInstance
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        flsf if (frrorCodf ==
+                 SnmpStbtusExdfption.noAddfss)
+            // noAddfss => noSudiInstbndf
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudiInstbndf;
 
-        // According to RFC 1905: (my interpretation because it is not
-        // really clear) The specified variable name exists - but the
-        // variable does not exists and cannot be created under the
-        // present circumstances (probably because the request specifies
-        // another variable/value which is incompatible, or because the
-        // value of some other variable in the MIB prevents the creation)
+        // Addording to RFC 1905: (my intfrprftbtion bfdbusf it is not
+        // rfblly dlfbr) Tif spfdififd vbribblf nbmf fxists - but tif
+        // vbribblf dofs not fxists bnd dbnnot bf drfbtfd undfr tif
+        // prfsfnt dirdumstbndfs (probbbly bfdbusf tif rfqufst spfdififs
+        // bnotifr vbribblf/vbluf wiidi is indompbtiblf, or bfdbusf tif
+        // vbluf of somf otifr vbribblf in tif MIB prfvfnts tif drfbtion)
         //
-        // Note that this error should never be raised in a GET context
-        // but who knows?
+        // Notf tibt tiis frror siould nfvfr bf rbisfd in b GET dontfxt
+        // but wio knows?
         //
-        else if (errorCode == SnmpStatusException.snmpRspInconsistentName)
-            // inconsistentName => noSuchInstance
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        flsf if (frrorCodf == SnmpStbtusExdfption.snmpRspIndonsistfntNbmf)
+            // indonsistfntNbmf => noSudiInstbndf
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudiInstbndf;
 
-        // All the errors comprised between snmpRspWrongType and
-        // snmpRspInconsistentValue concern values: so we're going
-        // to assume the OID was correct, and reply with noSuchInstance.
+        // All tif frrors domprisfd bftwffn snmpRspWrongTypf bnd
+        // snmpRspIndonsistfntVbluf dondfrn vblufs: so wf'rf going
+        // to bssumf tif OID wbs dorrfdt, bnd rfply witi noSudiInstbndf.
         //
-        // Note that this error should never be raised in a GET context
-        // but who knows?
+        // Notf tibt tiis frror siould nfvfr bf rbisfd in b GET dontfxt
+        // but wio knows?
         //
-        else if ((errorCode >= SnmpStatusException.snmpRspWrongType) &&
-                 (errorCode <= SnmpStatusException.snmpRspInconsistentValue))
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        flsf if ((frrorCodf >= SnmpStbtusExdfption.snmpRspWrongTypf) &&
+                 (frrorCodf <= SnmpStbtusExdfption.snmpRspIndonsistfntVbluf))
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudiInstbndf;
 
-        // We're going to assume the OID was correct, and reply
-        // with noSuchInstance.
+        // Wf'rf going to bssumf tif OID wbs dorrfdt, bnd rfply
+        // witi noSudiInstbndf.
         //
-        else if (errorCode == SnmpStatusException.readOnly)
-            mappedErrorCode = SnmpStatusException.noSuchInstance;
+        flsf if (frrorCodf == SnmpStbtusExdfption.rfbdOnly)
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudiInstbndf;
 
-        // For all other errors but genErr, we're going to reply with
-        // noSuchObject
+        // For bll otifr frrors but gfnErr, wf'rf going to rfply witi
+        // noSudiObjfdt
         //
-        else if (errorCode != SnmpStatusException.snmpRspAuthorizationError &&
-                 errorCode != SnmpStatusException.snmpRspGenErr)
-            mappedErrorCode = SnmpStatusException.noSuchObject;
+        flsf if (frrorCodf != SnmpStbtusExdfption.snmpRspAutiorizbtionError &&
+                 frrorCodf != SnmpStbtusExdfption.snmpRspGfnErr)
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudiObjfdt;
 
-        // Only genErr will abort the GET and be returned as global
-        // error.
+        // Only gfnErr will bbort tif GET bnd bf rfturnfd bs globbl
+        // frror.
         //
-        return mappedErrorCode;
+        rfturn mbppfdErrorCodf;
 
     }
 
     //-------------------------------------------------------------------
-    // This class is a package implementation of the enumeration of
-    // SnmSubRequest associated with an Handler node.
+    // Tiis dlbss is b pbdkbgf implfmfntbtion of tif fnumfrbtion of
+    // SnmSubRfqufst bssodibtfd witi bn Hbndlfr nodf.
     //-------------------------------------------------------------------
 
-    static final class Enum implements Enumeration<SnmpMibSubRequest> {
-        Enum(SnmpRequestTree hlist,Handler h) {
-            handler = h;
-            this.hlist = hlist;
-            size = h.getSubReqCount();
+    stbtid finbl dlbss Enum implfmfnts Enumfrbtion<SnmpMibSubRfqufst> {
+        Enum(SnmpRfqufstTrff ilist,Hbndlfr i) {
+            ibndlfr = i;
+            tiis.ilist = ilist;
+            sizf = i.gftSubRfqCount();
         }
-        private final Handler handler;
-        private final SnmpRequestTree hlist;
-        private int   entry = 0;
-        private int   iter  = 0;
-        private int   size  = 0;
+        privbtf finbl Hbndlfr ibndlfr;
+        privbtf finbl SnmpRfqufstTrff ilist;
+        privbtf int   fntry = 0;
+        privbtf int   itfr  = 0;
+        privbtf int   sizf  = 0;
 
-        @Override
-        public boolean hasMoreElements() {
-            return iter < size;
+        @Ovfrridf
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn itfr < sizf;
         }
 
-        @Override
-        public SnmpMibSubRequest nextElement() throws NoSuchElementException  {
-            if (iter == 0) {
-                if (handler.sublist != null) {
-                    iter++;
-                    return hlist.getSubRequest(handler);
+        @Ovfrridf
+        publid SnmpMibSubRfqufst nfxtElfmfnt() tirows NoSudiElfmfntExdfption  {
+            if (itfr == 0) {
+                if (ibndlfr.sublist != null) {
+                    itfr++;
+                    rfturn ilist.gftSubRfqufst(ibndlfr);
                 }
             }
-            iter ++;
-            if (iter > size) throw new NoSuchElementException();
-            SnmpMibSubRequest result = hlist.getSubRequest(handler,entry);
-            entry++;
-            return result;
+            itfr ++;
+            if (itfr > sizf) tirow nfw NoSudiElfmfntExdfption();
+            SnmpMibSubRfqufst rfsult = ilist.gftSubRfqufst(ibndlfr,fntry);
+            fntry++;
+            rfturn rfsult;
         }
     }
 
     //-------------------------------------------------------------------
-    // This class is a package implementation of the SnmpMibSubRequest
-    // interface. It can only be instantiated by SnmpRequestTree.
+    // Tiis dlbss is b pbdkbgf implfmfntbtion of tif SnmpMibSubRfqufst
+    // intfrfbdf. It dbn only bf instbntibtfd by SnmpRfqufstTrff.
     //-------------------------------------------------------------------
 
-    static final class SnmpMibSubRequestImpl implements SnmpMibSubRequest {
-        SnmpMibSubRequestImpl(SnmpMibRequest global, Vector<SnmpVarBind> sublist,
-                           SnmpOid entryoid, boolean isnew,
-                           boolean getnextflag, SnmpVarBind rs) {
-            this.global = global;
-            varbinds           = sublist;
-            this.version       = global.getVersion();
-            this.entryoid      = entryoid;
-            this.isnew         = isnew;
-            this.getnextflag   = getnextflag;
-            this.statusvb      = rs;
+    stbtid finbl dlbss SnmpMibSubRfqufstImpl implfmfnts SnmpMibSubRfqufst {
+        SnmpMibSubRfqufstImpl(SnmpMibRfqufst globbl, Vfdtor<SnmpVbrBind> sublist,
+                           SnmpOid fntryoid, boolfbn isnfw,
+                           boolfbn gftnfxtflbg, SnmpVbrBind rs) {
+            tiis.globbl = globbl;
+            vbrbinds           = sublist;
+            tiis.vfrsion       = globbl.gftVfrsion();
+            tiis.fntryoid      = fntryoid;
+            tiis.isnfw         = isnfw;
+            tiis.gftnfxtflbg   = gftnfxtflbg;
+            tiis.stbtusvb      = rs;
         }
 
-        final private Vector<SnmpVarBind> varbinds;
-        final private SnmpMibRequest global;
-        final private int            version;
-        final private boolean        isnew;
-        final private SnmpOid        entryoid;
-        final private boolean        getnextflag;
-        final private SnmpVarBind    statusvb;
+        finbl privbtf Vfdtor<SnmpVbrBind> vbrbinds;
+        finbl privbtf SnmpMibRfqufst globbl;
+        finbl privbtf int            vfrsion;
+        finbl privbtf boolfbn        isnfw;
+        finbl privbtf SnmpOid        fntryoid;
+        finbl privbtf boolfbn        gftnfxtflbg;
+        finbl privbtf SnmpVbrBind    stbtusvb;
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public Enumeration<SnmpVarBind> getElements() {
-            return varbinds.elements();
-        }
-
-        // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
-        // -------------------------------------------------------------
-        @Override
-        public Vector<SnmpVarBind> getSubList() {
-            return varbinds;
+        @Ovfrridf
+        publid Enumfrbtion<SnmpVbrBind> gftElfmfnts() {
+            rfturn vbrbinds.flfmfnts();
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public final int getSize()  {
-            if (varbinds == null) return 0;
-            return varbinds.size();
+        @Ovfrridf
+        publid Vfdtor<SnmpVbrBind> gftSubList() {
+            rfturn vbrbinds;
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public void addVarBind(SnmpVarBind varbind) {
-            // XXX not sure we must also add the varbind in the global
-            //     request? or whether we should raise an exception:
-            //     in principle, this method should not be called!
-            varbinds.addElement(varbind);
-            global.addVarBind(varbind);
+        @Ovfrridf
+        publid finbl int gftSizf()  {
+            if (vbrbinds == null) rfturn 0;
+            rfturn vbrbinds.sizf();
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public boolean isNewEntry() {
-            return isnew;
+        @Ovfrridf
+        publid void bddVbrBind(SnmpVbrBind vbrbind) {
+            // XXX not surf wf must blso bdd tif vbrbind in tif globbl
+            //     rfqufst? or wiftifr wf siould rbisf bn fxdfption:
+            //     in prindiplf, tiis mftiod siould not bf dbllfd!
+            vbrbinds.bddElfmfnt(vbrbind);
+            globbl.bddVbrBind(vbrbind);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public SnmpOid getEntryOid() {
-            return entryoid;
+        @Ovfrridf
+        publid boolfbn isNfwEntry() {
+            rfturn isnfw;
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public int getVarIndex(SnmpVarBind varbind) {
-            if (varbind == null) return 0;
-            return global.getVarIndex(varbind);
+        @Ovfrridf
+        publid SnmpOid gftEntryOid() {
+            rfturn fntryoid;
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public Object getUserData() { return global.getUserData(); }
+        @Ovfrridf
+        publid int gftVbrIndfx(SnmpVbrBind vbrbind) {
+            if (vbrbind == null) rfturn 0;
+            rfturn globbl.gftVbrIndfx(vbrbind);
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid Objfdt gftUsfrDbtb() { rfturn globbl.gftUsfrDbtb(); }
 
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
 
-        @Override
-        public void registerGetException(SnmpVarBind var,
-                                         SnmpStatusException exception)
-            throws SnmpStatusException {
-            // The index in the exception must correspond to
-            // the SNMP index ...
+        @Ovfrridf
+        publid void rfgistfrGftExdfption(SnmpVbrBind vbr,
+                                         SnmpStbtusExdfption fxdfption)
+            tirows SnmpStbtusExdfption {
+            // Tif indfx in tif fxdfption must dorrfspond to
+            // tif SNMP indfx ...
             //
-            if (version == SnmpDefinitions.snmpVersionOne)
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+            if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+                tirow nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
 
-            if (var == null)
-                throw exception;
+            if (vbr == null)
+                tirow fxdfption;
 
-            // If we're doing a getnext ==> endOfMibView
-            if (getnextflag) {
-                var.value = SnmpVarBind.endOfMibView;
-                return;
+            // If wf'rf doing b gftnfxt ==> fndOfMibVifw
+            if (gftnfxtflbg) {
+                vbr.vbluf = SnmpVbrBind.fndOfMibVifw;
+                rfturn;
             }
 
-            final int errorCode = mapGetException(exception.getStatus(),
-                                                  version);
+            finbl int frrorCodf = mbpGftExdfption(fxdfption.gftStbtus(),
+                                                  vfrsion);
 
-            // Now take care of V2 errorCodes that can be stored
-            // in the varbind itself:
-            if (errorCode ==
-                SnmpStatusException.noSuchObject)
-                // noSuchObject => noSuchObject
-                var.value= SnmpVarBind.noSuchObject;
+            // Now tbkf dbrf of V2 frrorCodfs tibt dbn bf storfd
+            // in tif vbrbind itsflf:
+            if (frrorCodf ==
+                SnmpStbtusExdfption.noSudiObjfdt)
+                // noSudiObjfdt => noSudiObjfdt
+                vbr.vbluf= SnmpVbrBind.noSudiObjfdt;
 
-            else if (errorCode ==
-                     SnmpStatusException.noSuchInstance)
-                // noSuchInstance => noSuchInstance
-                var.value= SnmpVarBind.noSuchInstance;
+            flsf if (frrorCodf ==
+                     SnmpStbtusExdfption.noSudiInstbndf)
+                // noSudiInstbndf => noSudiInstbndf
+                vbr.vbluf= SnmpVbrBind.noSudiInstbndf;
 
-            else
-                throw new SnmpStatusException(errorCode, getVarIndex(var)+1);
+            flsf
+                tirow nfw SnmpStbtusExdfption(frrorCodf, gftVbrIndfx(vbr)+1);
 
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public void registerSetException(SnmpVarBind var,
-                                         SnmpStatusException exception)
-            throws SnmpStatusException {
-            // The index in the exception must correspond to
-            // the SNMP index ...
+        @Ovfrridf
+        publid void rfgistfrSftExdfption(SnmpVbrBind vbr,
+                                         SnmpStbtusExdfption fxdfption)
+            tirows SnmpStbtusExdfption {
+            // Tif indfx in tif fxdfption must dorrfspond to
+            // tif SNMP indfx ...
             //
-            if (version == SnmpDefinitions.snmpVersionOne)
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+            if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+                tirow nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
 
-            // Although the first pass of check() did not fail,
-            // the set() phase could not be carried out correctly.
-            // Since we don't know how to make an "undo", and some
-            // assignation may already have been performed, we're going
-            // to throw an snmpRspUndoFailed.
+            // Altiougi tif first pbss of difdk() did not fbil,
+            // tif sft() pibsf dould not bf dbrrifd out dorrfdtly.
+            // Sindf wf don't know iow to mbkf bn "undo", bnd somf
+            // bssignbtion mby blrfbdy ibvf bffn pfrformfd, wf'rf going
+            // to tirow bn snmpRspUndoFbilfd.
             //
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspUndoFailed,
-                                          getVarIndex(var)+1);
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspUndoFbilfd,
+                                          gftVbrIndfx(vbr)+1);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibSubRequest interface.
-        // See SnmpMibSubRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public void registerCheckException(SnmpVarBind var,
-                                           SnmpStatusException exception)
-            throws SnmpStatusException {
-            // The index in the exception must correspond to
-            // the SNMP index ...
+        @Ovfrridf
+        publid void rfgistfrCifdkExdfption(SnmpVbrBind vbr,
+                                           SnmpStbtusExdfption fxdfption)
+            tirows SnmpStbtusExdfption {
+            // Tif indfx in tif fxdfption must dorrfspond to
+            // tif SNMP indfx ...
             //
-            // We throw the exception in order to abort the SET operation
-            // in an atomic way.
-            final int errorCode = exception.getStatus();
-            final int mappedErrorCode = mapSetException(errorCode,
-                                                        version);
+            // Wf tirow tif fxdfption in ordfr to bbort tif SET opfrbtion
+            // in bn btomid wby.
+            finbl int frrorCodf = fxdfption.gftStbtus();
+            finbl int mbppfdErrorCodf = mbpSftExdfption(frrorCodf,
+                                                        vfrsion);
 
-            if (errorCode != mappedErrorCode)
-                throw new
-                    SnmpStatusException(mappedErrorCode, getVarIndex(var)+1);
-            else
-                throw new SnmpStatusException(exception, getVarIndex(var)+1);
+            if (frrorCodf != mbppfdErrorCodf)
+                tirow nfw
+                    SnmpStbtusExdfption(mbppfdErrorCodf, gftVbrIndfx(vbr)+1);
+            flsf
+                tirow nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
         }
 
         // -------------------------------------------------------------
-        // Implements the method defined in SnmpMibRequest interface.
-        // See SnmpMibRequest for the java doc.
+        // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for tif jbvb dod.
         // -------------------------------------------------------------
-        @Override
-        public int getVersion() {
-            return version;
+        @Ovfrridf
+        publid int gftVfrsion() {
+            rfturn vfrsion;
         }
 
-        @Override
-        public SnmpVarBind getRowStatusVarBind() {
-            return statusvb;
+        @Ovfrridf
+        publid SnmpVbrBind gftRowStbtusVbrBind() {
+            rfturn stbtusvb;
         }
 
-        @Override
-        public SnmpPdu getPdu() {
-            return global.getPdu();
+        @Ovfrridf
+        publid SnmpPdu gftPdu() {
+            rfturn globbl.gftPdu();
         }
 
-        @Override
-        public int getRequestPduVersion() {
-            return global.getRequestPduVersion();
+        @Ovfrridf
+        publid int gftRfqufstPduVfrsion() {
+            rfturn globbl.gftRfqufstPduVfrsion();
         }
 
-        @Override
-        public SnmpEngine getEngine() {
-            return global.getEngine();
+        @Ovfrridf
+        publid SnmpEnginf gftEnginf() {
+            rfturn globbl.gftEnginf();
         }
 
-        @Override
-        public String getPrincipal() {
-            return global.getPrincipal();
+        @Ovfrridf
+        publid String gftPrindipbl() {
+            rfturn globbl.gftPrindipbl();
         }
 
-        @Override
-        public int getSecurityLevel() {
-            return global.getSecurityLevel();
+        @Ovfrridf
+        publid int gftSfdurityLfvfl() {
+            rfturn globbl.gftSfdurityLfvfl();
         }
 
-        @Override
-        public int getSecurityModel() {
-            return global.getSecurityModel();
+        @Ovfrridf
+        publid int gftSfdurityModfl() {
+            rfturn globbl.gftSfdurityModfl();
         }
 
-        @Override
-        public byte[] getContextName() {
-            return global.getContextName();
+        @Ovfrridf
+        publid bytf[] gftContfxtNbmf() {
+            rfturn globbl.gftContfxtNbmf();
         }
 
-        @Override
-        public byte[] getAccessContextName() {
-            return global.getAccessContextName();
+        @Ovfrridf
+        publid bytf[] gftAddfssContfxtNbmf() {
+            rfturn globbl.gftAddfssContfxtNbmf();
         }
     }
 
     //-------------------------------------------------------------------
-    // This class implements a node in the SnmpRequestTree.
-    // It stores:
-    //    o The SnmpMibNode involved (key)
-    //    o The sublist of varbind directly handled by this node
-    //    o A vector of sublists concerning the entries (existing or not)
-    //      of the SnmpMIbNode (when it is a table).
+    // Tiis dlbss implfmfnts b nodf in tif SnmpRfqufstTrff.
+    // It storfs:
+    //    o Tif SnmpMibNodf involvfd (kfy)
+    //    o Tif sublist of vbrbind dirfdtly ibndlfd by tiis nodf
+    //    o A vfdtor of sublists dondfrning tif fntrifs (fxisting or not)
+    //      of tif SnmpMIbNodf (wifn it is b tbblf).
     //-------------------------------------------------------------------
 
-    static final class Handler {
-        SnmpMibNode meta;       // The meta  which handles the sublist.
-        int         depth;      // The depth of the meta node.
-        Vector<SnmpVarBind> sublist; // The sublist of varbinds to be handled.
-        // List        entryoids;  // Sorted array of entry oids
-        // List        entrylists; // Sorted array of entry lists
-        // List        isentrynew; // Sorted array of booleans
-        SnmpOid[]     entryoids  = null; // Sorted array of entry oids
-        Vector<SnmpVarBind>[] entrylists = null; // Sorted array of entry lists
-        boolean[]     isentrynew = null; // Sorted array of booleans
-        SnmpVarBind[] rowstatus  = null; // RowStatus varbind, if any
-        int entrycount = 0;
-        int entrysize  = 0;
+    stbtid finbl dlbss Hbndlfr {
+        SnmpMibNodf mftb;       // Tif mftb  wiidi ibndlfs tif sublist.
+        int         dfpti;      // Tif dfpti of tif mftb nodf.
+        Vfdtor<SnmpVbrBind> sublist; // Tif sublist of vbrbinds to bf ibndlfd.
+        // List        fntryoids;  // Sortfd brrby of fntry oids
+        // List        fntrylists; // Sortfd brrby of fntry lists
+        // List        isfntrynfw; // Sortfd brrby of boolfbns
+        SnmpOid[]     fntryoids  = null; // Sortfd brrby of fntry oids
+        Vfdtor<SnmpVbrBind>[] fntrylists = null; // Sortfd brrby of fntry lists
+        boolfbn[]     isfntrynfw = null; // Sortfd brrby of boolfbns
+        SnmpVbrBind[] rowstbtus  = null; // RowStbtus vbrbind, if bny
+        int fntrydount = 0;
+        int fntrysizf  = 0;
 
-        final int type; // request PDU type as defined in SnmpDefinitions
-        final private static int Delta = 10;
+        finbl int typf; // rfqufst PDU typf bs dffinfd in SnmpDffinitions
+        finbl privbtf stbtid int Dfltb = 10;
 
-        public Handler(int pduType) {
-            this.type = pduType;
+        publid Hbndlfr(int pduTypf) {
+            tiis.typf = pduTypf;
         }
 
         /**
-         * Adds a varbind in this node sublist.
+         * Adds b vbrbind in tiis nodf sublist.
          */
-        public void addVarbind(SnmpVarBind varbind) {
-            if (sublist == null) sublist = new Vector<>();
-            sublist.addElement(varbind);
+        publid void bddVbrbind(SnmpVbrBind vbrbind) {
+            if (sublist == null) sublist = nfw Vfdtor<>();
+            sublist.bddElfmfnt(vbrbind);
         }
 
         /**
-         * register an entry for the given oid at the given position with
-         * the given sublist.
+         * rfgistfr bn fntry for tif givfn oid bt tif givfn position witi
+         * tif givfn sublist.
          */
-        @SuppressWarnings("unchecked")
-        // We need this because of new Vector[n] instead of
-        // new Vector<SnmpVarBind>[n], which is illegal.
-        void add(int pos,SnmpOid oid, Vector<SnmpVarBind> v, boolean isnew,
-                 SnmpVarBind statusvb) {
+        @SupprfssWbrnings("undifdkfd")
+        // Wf nffd tiis bfdbusf of nfw Vfdtor[n] instfbd of
+        // nfw Vfdtor<SnmpVbrBind>[n], wiidi is illfgbl.
+        void bdd(int pos,SnmpOid oid, Vfdtor<SnmpVbrBind> v, boolfbn isnfw,
+                 SnmpVbrBind stbtusvb) {
 
-            if (entryoids == null) {
-                // Vectors are null: Allocate new vectors
+            if (fntryoids == null) {
+                // Vfdtors brf null: Allodbtf nfw vfdtors
 
-                entryoids  = new SnmpOid[Delta];
-                entrylists = (Vector<SnmpVarBind>[])new Vector<?>[Delta];
-                isentrynew = new boolean[Delta];
-                rowstatus  = new SnmpVarBind[Delta];
-                entrysize  = Delta;
+                fntryoids  = nfw SnmpOid[Dfltb];
+                fntrylists = (Vfdtor<SnmpVbrBind>[])nfw Vfdtor<?>[Dfltb];
+                isfntrynfw = nfw boolfbn[Dfltb];
+                rowstbtus  = nfw SnmpVbrBind[Dfltb];
+                fntrysizf  = Dfltb;
                 pos = 0;
 
-            } else if (pos >= entrysize || entrycount == entrysize) {
-                // Vectors must be enlarged
+            } flsf if (pos >= fntrysizf || fntrydount == fntrysizf) {
+                // Vfdtors must bf fnlbrgfd
 
-                // Save old vectors
-                SnmpOid[]     olde = entryoids;
-                Vector<SnmpVarBind>[]      oldl = entrylists;
-                boolean[]     oldn = isentrynew;
-                SnmpVarBind[] oldr = rowstatus;
+                // Sbvf old vfdtors
+                SnmpOid[]     oldf = fntryoids;
+                Vfdtor<SnmpVbrBind>[]      oldl = fntrylists;
+                boolfbn[]     oldn = isfntrynfw;
+                SnmpVbrBind[] oldr = rowstbtus;
 
-                // Allocate larger vectors
-                entrysize += Delta;
-                entryoids =  new SnmpOid[entrysize];
-                entrylists = (Vector<SnmpVarBind>[])new Vector<?>[entrysize];
-                isentrynew = new boolean[entrysize];
-                rowstatus  = new SnmpVarBind[entrysize];
+                // Allodbtf lbrgfr vfdtors
+                fntrysizf += Dfltb;
+                fntryoids =  nfw SnmpOid[fntrysizf];
+                fntrylists = (Vfdtor<SnmpVbrBind>[])nfw Vfdtor<?>[fntrysizf];
+                isfntrynfw = nfw boolfbn[fntrysizf];
+                rowstbtus  = nfw SnmpVbrBind[fntrysizf];
 
-                // Check pos validity
-                if (pos > entrycount) pos = entrycount;
+                // Cifdk pos vblidity
+                if (pos > fntrydount) pos = fntrydount;
                 if (pos < 0) pos = 0;
 
-                final int l1 = pos;
-                final int l2 = entrycount - pos;
+                finbl int l1 = pos;
+                finbl int l2 = fntrydount - pos;
 
-                // Copy original vectors up to `pos'
+                // Copy originbl vfdtors up to `pos'
                 if (l1 > 0) {
-                    java.lang.System.arraycopy(olde,0,entryoids,
+                    jbvb.lbng.Systfm.brrbydopy(oldf,0,fntryoids,
                                                0,l1);
-                    java.lang.System.arraycopy(oldl,0,entrylists,
+                    jbvb.lbng.Systfm.brrbydopy(oldl,0,fntrylists,
                                                0,l1);
-                    java.lang.System.arraycopy(oldn,0,isentrynew,
+                    jbvb.lbng.Systfm.brrbydopy(oldn,0,isfntrynfw,
                                                0,l1);
-                    java.lang.System.arraycopy(oldr,0,rowstatus,
+                    jbvb.lbng.Systfm.brrbydopy(oldr,0,rowstbtus,
                                                0,l1);
                 }
 
-                // Copy original vectors from `pos' to end, leaving
-                // an empty room at `pos' in the new vectors.
+                // Copy originbl vfdtors from `pos' to fnd, lfbving
+                // bn fmpty room bt `pos' in tif nfw vfdtors.
                 if (l2 > 0) {
-                    final int l3 = l1+1;
-                    java.lang.System.arraycopy(olde,l1,entryoids,
+                    finbl int l3 = l1+1;
+                    jbvb.lbng.Systfm.brrbydopy(oldf,l1,fntryoids,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldl,l1,entrylists,
+                    jbvb.lbng.Systfm.brrbydopy(oldl,l1,fntrylists,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldn,l1,isentrynew,
+                    jbvb.lbng.Systfm.brrbydopy(oldn,l1,isfntrynfw,
                                                l3,l2);
-                    java.lang.System.arraycopy(oldr,l1,rowstatus,
+                    jbvb.lbng.Systfm.brrbydopy(oldr,l1,rowstbtus,
                                                l3,l2);
                 }
 
 
-            } else if (pos < entrycount) {
-                // Vectors are large enough to accommodate one additional
-                // entry.
+            } flsf if (pos < fntrydount) {
+                // Vfdtors brf lbrgf fnougi to bddommodbtf onf bdditionbl
+                // fntry.
                 //
-                // Shift vectors, making an empty room at `pos'
-                final int l1 = pos+1;
-                final int l2 = entrycount - pos;
+                // Siift vfdtors, mbking bn fmpty room bt `pos'
+                finbl int l1 = pos+1;
+                finbl int l2 = fntrydount - pos;
 
-                java.lang.System.arraycopy(entryoids,pos,entryoids,
+                jbvb.lbng.Systfm.brrbydopy(fntryoids,pos,fntryoids,
                                            l1,l2);
-                java.lang.System.arraycopy(entrylists,pos,entrylists,
+                jbvb.lbng.Systfm.brrbydopy(fntrylists,pos,fntrylists,
                                            l1,l2);
-                java.lang.System.arraycopy(isentrynew,pos,isentrynew,
+                jbvb.lbng.Systfm.brrbydopy(isfntrynfw,pos,isfntrynfw,
                                            l1,l2);
-                java.lang.System.arraycopy(rowstatus,pos,rowstatus,
+                jbvb.lbng.Systfm.brrbydopy(rowstbtus,pos,rowstbtus,
                                            l1,l2);
             }
 
-            // Fill the gap at `pos'
-            entryoids[pos]  = oid;
-            entrylists[pos] = v;
-            isentrynew[pos] = isnew;
-            rowstatus[pos]  = statusvb;
-            entrycount++;
+            // Fill tif gbp bt `pos'
+            fntryoids[pos]  = oid;
+            fntrylists[pos] = v;
+            isfntrynfw[pos] = isnfw;
+            rowstbtus[pos]  = stbtusvb;
+            fntrydount++;
         }
 
-        public void addVarbind(SnmpVarBind varbind, SnmpOid entryoid,
-                               boolean isnew, SnmpVarBind statusvb)
-            throws SnmpStatusException {
-            Vector<SnmpVarBind> v = null;
-            SnmpVarBind rs = statusvb;
+        publid void bddVbrbind(SnmpVbrBind vbrbind, SnmpOid fntryoid,
+                               boolfbn isnfw, SnmpVbrBind stbtusvb)
+            tirows SnmpStbtusExdfption {
+            Vfdtor<SnmpVbrBind> v = null;
+            SnmpVbrBind rs = stbtusvb;
 
-            if (entryoids == null) {
-//              entryoids = new ArrayList();
-//              entrylists = new ArrayList();
-//              isentrynew = new ArrayList();
-                v = new Vector<>();
-//              entryoids.add(entryoid);
-//              entrylists.add(v);
-//              isentrynew.add(new Boolean(isnew));
-                add(0,entryoid,v,isnew,rs);
-            } else {
-                // int pos = findOid(entryoids,entryoid);
-                // int pos = findOid(entryoids,entrycount,entryoid);
-                final int pos =
-                    getInsertionPoint(entryoids,entrycount,entryoid);
-                if (pos > -1 && pos < entrycount &&
-                    entryoid.compareTo(entryoids[pos]) == 0) {
-                    v  = entrylists[pos];
-                    rs = rowstatus[pos];
-                } else {
-                    // if (pos == -1 || pos >= entryoids.size() ) {
-                    // if (pos == -1 || pos >= entrycount ) {
-                    // pos = getInsertionPoint(entryoids,entryoid);
-                    // pos = getInsertionPoint(entryoids,entrycount,entryoid);
-                    v = new Vector<>();
-//                  entryoids.add(pos,entryoid);
-//                  entrylists.add(pos,v);
-//                  isentrynew.add(pos,new Boolean(isnew));
-                    add(pos,entryoid,v,isnew,rs);
+            if (fntryoids == null) {
+//              fntryoids = nfw ArrbyList();
+//              fntrylists = nfw ArrbyList();
+//              isfntrynfw = nfw ArrbyList();
+                v = nfw Vfdtor<>();
+//              fntryoids.bdd(fntryoid);
+//              fntrylists.bdd(v);
+//              isfntrynfw.bdd(nfw Boolfbn(isnfw));
+                bdd(0,fntryoid,v,isnfw,rs);
+            } flsf {
+                // int pos = findOid(fntryoids,fntryoid);
+                // int pos = findOid(fntryoids,fntrydount,fntryoid);
+                finbl int pos =
+                    gftInsfrtionPoint(fntryoids,fntrydount,fntryoid);
+                if (pos > -1 && pos < fntrydount &&
+                    fntryoid.dompbrfTo(fntryoids[pos]) == 0) {
+                    v  = fntrylists[pos];
+                    rs = rowstbtus[pos];
+                } flsf {
+                    // if (pos == -1 || pos >= fntryoids.sizf() ) {
+                    // if (pos == -1 || pos >= fntrydount ) {
+                    // pos = gftInsfrtionPoint(fntryoids,fntryoid);
+                    // pos = gftInsfrtionPoint(fntryoids,fntrydount,fntryoid);
+                    v = nfw Vfdtor<>();
+//                  fntryoids.bdd(pos,fntryoid);
+//                  fntrylists.bdd(pos,v);
+//                  isfntrynfw.bdd(pos,nfw Boolfbn(isnfw));
+                    bdd(pos,fntryoid,v,isnfw,rs);
                 }
-//              } else v = (Vector) entrylists.get(pos);
-                    // } else v = entrylists[pos];
-                if (statusvb != null) {
-                    if ((rs != null) && (rs != statusvb) &&
-                        ((type == SnmpDefinitions.pduWalkRequest) ||
-                         (type == SnmpDefinitions.pduSetRequestPdu))) {
-                        throw new SnmpStatusException(
-                              SnmpStatusException.snmpRspInconsistentValue);
+//              } flsf v = (Vfdtor) fntrylists.gft(pos);
+                    // } flsf v = fntrylists[pos];
+                if (stbtusvb != null) {
+                    if ((rs != null) && (rs != stbtusvb) &&
+                        ((typf == SnmpDffinitions.pduWblkRfqufst) ||
+                         (typf == SnmpDffinitions.pduSftRfqufstPdu))) {
+                        tirow nfw SnmpStbtusExdfption(
+                              SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
                     }
-                    rowstatus[pos] = statusvb;
+                    rowstbtus[pos] = stbtusvb;
                 }
             }
 
-            // We do not include the status variable in the varbind,
-            // because we're going to set it separately...
+            // Wf do not indludf tif stbtus vbribblf in tif vbrbind,
+            // bfdbusf wf'rf going to sft it sfpbrbtfly...
             //
-            if (statusvb != varbind)
-                v.addElement(varbind);
+            if (stbtusvb != vbrbind)
+                v.bddElfmfnt(vbrbind);
         }
 
-        public int getSubReqCount() {
-            int count = 0;
-            if (sublist != null) count++;
-//          if (entryoids != null) count += entryoids.size();
-            if (entryoids != null) count += entrycount;
-            return count;
+        publid int gftSubRfqCount() {
+            int dount = 0;
+            if (sublist != null) dount++;
+//          if (fntryoids != null) dount += fntryoids.sizf();
+            if (fntryoids != null) dount += fntrydount;
+            rfturn dount;
         }
 
-        public Vector<SnmpVarBind> getSubList() {
-            return sublist;
+        publid Vfdtor<SnmpVbrBind> gftSubList() {
+            rfturn sublist;
         }
 
-        public int getEntryPos(SnmpOid entryoid) {
-            // return findOid(entryoids,entryoid);
-            return findOid(entryoids,entrycount,entryoid);
+        publid int gftEntryPos(SnmpOid fntryoid) {
+            // rfturn findOid(fntryoids,fntryoid);
+            rfturn findOid(fntryoids,fntrydount,fntryoid);
         }
 
-        public SnmpOid getEntryOid(int pos) {
-            if (entryoids == null) return null;
-            // if (pos == -1 || pos >= entryoids.size() ) return null;
-            if (pos == -1 || pos >= entrycount ) return null;
-            // return (SnmpOid) entryoids.get(pos);
-            return entryoids[pos];
+        publid SnmpOid gftEntryOid(int pos) {
+            if (fntryoids == null) rfturn null;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn null;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn (SnmpOid) fntryoids.gft(pos);
+            rfturn fntryoids[pos];
         }
 
-        public boolean isNewEntry(int pos) {
-            if (entryoids == null) return false;
-            // if (pos == -1 || pos >= entryoids.size() ) return false;
-            if (pos == -1 || pos >= entrycount ) return false;
-            // return ((Boolean)isentrynew.get(pos)).booleanValue();
-            return isentrynew[pos];
+        publid boolfbn isNfwEntry(int pos) {
+            if (fntryoids == null) rfturn fblsf;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn fblsf;
+            if (pos == -1 || pos >= fntrydount ) rfturn fblsf;
+            // rfturn ((Boolfbn)isfntrynfw.gft(pos)).boolfbnVbluf();
+            rfturn isfntrynfw[pos];
         }
 
-        public SnmpVarBind getRowStatusVarBind(int pos) {
-            if (entryoids == null) return null;
-            // if (pos == -1 || pos >= entryoids.size() ) return false;
-            if (pos == -1 || pos >= entrycount ) return null;
-            // return ((Boolean)isentrynew.get(pos)).booleanValue();
-            return rowstatus[pos];
+        publid SnmpVbrBind gftRowStbtusVbrBind(int pos) {
+            if (fntryoids == null) rfturn null;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn fblsf;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn ((Boolfbn)isfntrynfw.gft(pos)).boolfbnVbluf();
+            rfturn rowstbtus[pos];
         }
 
-        public Vector<SnmpVarBind> getEntrySubList(int pos) {
-            if (entrylists == null) return null;
-            // if (pos == -1 || pos >= entrylists.size() ) return null;
-            if (pos == -1 || pos >= entrycount ) return null;
-            // return (Vector) entrylists.get(pos);
-            return entrylists[pos];
+        publid Vfdtor<SnmpVbrBind> gftEntrySubList(int pos) {
+            if (fntrylists == null) rfturn null;
+            // if (pos == -1 || pos >= fntrylists.sizf() ) rfturn null;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn (Vfdtor) fntrylists.gft(pos);
+            rfturn fntrylists[pos];
         }
 
-        public Iterator<SnmpOid> getEntryOids() {
-            if (entryoids == null) return null;
-            // return entryoids.iterator();
-            return Arrays.asList(entryoids).iterator();
+        publid Itfrbtor<SnmpOid> gftEntryOids() {
+            if (fntryoids == null) rfturn null;
+            // rfturn fntryoids.itfrbtor();
+            rfturn Arrbys.bsList(fntryoids).itfrbtor();
         }
 
-        public int getEntryCount() {
-            if (entryoids == null) return 0;
-            // return entryoids.size();
-            return entrycount;
+        publid int gftEntryCount() {
+            if (fntryoids == null) rfturn 0;
+            // rfturn fntryoids.sizf();
+            rfturn fntrydount;
         }
 
     }
@@ -727,365 +727,365 @@ final class SnmpRequestTree {
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
-    // Public interface
+    // Publid intfrfbdf
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
     //-------------------------------------------------------------------
-    // Returns the contextual object containing user-data allocated
-    // through the SnmpUserDataFactory for this request.
+    // Rfturns tif dontfxtubl objfdt dontbining usfr-dbtb bllodbtfd
+    // tirougi tif SnmpUsfrDbtbFbdtory for tiis rfqufst.
     //-------------------------------------------------------------------
 
-    public Object getUserData() { return request.getUserData(); }
+    publid Objfdt gftUsfrDbtb() { rfturn rfqufst.gftUsfrDbtb(); }
 
     //-------------------------------------------------------------------
-    // Tells whether creation of new entries is allowed with respect
-    // to the operation involved (GET=>false/SET=>true)
+    // Tflls wiftifr drfbtion of nfw fntrifs is bllowfd witi rfspfdt
+    // to tif opfrbtion involvfd (GET=>fblsf/SET=>truf)
     //-------------------------------------------------------------------
 
-    public boolean isCreationAllowed() {
-        return creationflag;
+    publid boolfbn isCrfbtionAllowfd() {
+        rfturn drfbtionflbg;
     }
 
     //-------------------------------------------------------------------
-    // Tells whether we are currently processing a SET request (check/set)
+    // Tflls wiftifr wf brf durrfntly prodfssing b SET rfqufst (difdk/sft)
     //-------------------------------------------------------------------
 
-    public boolean isSetRequest() {
-        return setreqflag;
+    publid boolfbn isSftRfqufst() {
+        rfturn sftrfqflbg;
     }
 
     //-------------------------------------------------------------------
-    // Returns the protocol version in which the original request is
-    // evaluated.
+    // Rfturns tif protodol vfrsion in wiidi tif originbl rfqufst is
+    // fvblubtfd.
     //-------------------------------------------------------------------
 
-    public int getVersion() {
-        return version;
+    publid int gftVfrsion() {
+        rfturn vfrsion;
     }
 
     //-------------------------------------------------------------------
-    // Returns the actual protocol version of the request PDU.
+    // Rfturns tif bdtubl protodol vfrsion of tif rfqufst PDU.
     //-------------------------------------------------------------------
 
-    public int getRequestPduVersion() {
-        return request.getRequestPduVersion();
+    publid int gftRfqufstPduVfrsion() {
+        rfturn rfqufst.gftRfqufstPduVfrsion();
     }
 
     //-------------------------------------------------------------------
-    // Returns the SnmpMibNode associated with the given handler
+    // Rfturns tif SnmpMibNodf bssodibtfd witi tif givfn ibndlfr
     //-------------------------------------------------------------------
 
-    public SnmpMibNode getMetaNode(Handler handler) {
-        return handler.meta;
+    publid SnmpMibNodf gftMftbNodf(Hbndlfr ibndlfr) {
+        rfturn ibndlfr.mftb;
     }
 
     //-------------------------------------------------------------------
-    // Indicates the depth of the arc in the OID that identifies the
-    // SnmpMibNode associated with the given handler
+    // Indidbtfs tif dfpti of tif brd in tif OID tibt idfntififs tif
+    // SnmpMibNodf bssodibtfd witi tif givfn ibndlfr
     //-------------------------------------------------------------------
 
-    public int getOidDepth(Handler handler) {
-        return handler.depth;
+    publid int gftOidDfpti(Hbndlfr ibndlfr) {
+        rfturn ibndlfr.dfpti;
     }
 
     //-------------------------------------------------------------------
-    // returns an enumeration of the SnmpMibSubRequest's to be invoked on
-    // the SnmpMibNode associated with a given Handler node.
-    // If this node is a group, there will be a single subrequest.
-    // If it is a table, there will be one subrequest per entry involved.
+    // rfturns bn fnumfrbtion of tif SnmpMibSubRfqufst's to bf invokfd on
+    // tif SnmpMibNodf bssodibtfd witi b givfn Hbndlfr nodf.
+    // If tiis nodf is b group, tifrf will bf b singlf subrfqufst.
+    // If it is b tbblf, tifrf will bf onf subrfqufst pfr fntry involvfd.
     //-------------------------------------------------------------------
 
-    public Enumeration<SnmpMibSubRequest> getSubRequests(Handler handler) {
-        return new Enum(this,handler);
+    publid Enumfrbtion<SnmpMibSubRfqufst> gftSubRfqufsts(Hbndlfr ibndlfr) {
+        rfturn nfw Enum(tiis,ibndlfr);
     }
 
     //-------------------------------------------------------------------
-    // returns an enumeration of the Handlers stored in the Hashtable.
+    // rfturns bn fnumfrbtion of tif Hbndlfrs storfd in tif Hbsitbblf.
     //-------------------------------------------------------------------
 
-    public Enumeration<Handler> getHandlers() {
-        return hashtable.elements();
+    publid Enumfrbtion<Hbndlfr> gftHbndlfrs() {
+        rfturn ibsitbblf.flfmfnts();
     }
 
     //-------------------------------------------------------------------
-    // adds a varbind to a handler node sublist
+    // bdds b vbrbind to b ibndlfr nodf sublist
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpVarBind varbind)
-        throws SnmpStatusException {
-        registerNode(meta,depth,null,varbind,false,null);
+    publid void bdd(SnmpMibNodf mftb, int dfpti, SnmpVbrBind vbrbind)
+        tirows SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpti,null,vbrbind,fblsf,null);
     }
 
     //-------------------------------------------------------------------
-    // adds an entry varbind to a handler node sublist
+    // bdds bn fntry vbrbind to b ibndlfr nodf sublist
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                    SnmpVarBind varbind, boolean isnew)
-        throws SnmpStatusException {
-        registerNode(meta,depth,entryoid,varbind,isnew,null);
+    publid void bdd(SnmpMibNodf mftb, int dfpti, SnmpOid fntryoid,
+                    SnmpVbrBind vbrbind, boolfbn isnfw)
+        tirows SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpti,fntryoid,vbrbind,isnfw,null);
     }
 
     //-------------------------------------------------------------------
-    // adds an entry varbind to a handler node sublist - specifying the
-    // varbind which holds the row status
+    // bdds bn fntry vbrbind to b ibndlfr nodf sublist - spfdifying tif
+    // vbrbind wiidi iolds tif row stbtus
     //-------------------------------------------------------------------
 
-    public void add(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                    SnmpVarBind varbind, boolean isnew,
-                    SnmpVarBind statusvb)
-        throws SnmpStatusException {
-        registerNode(meta,depth,entryoid,varbind,isnew,statusvb);
-    }
-
-
-    //-------------------------------------------------------------------
-    //-------------------------------------------------------------------
-    // Protected interface
-    //-------------------------------------------------------------------
-    //-------------------------------------------------------------------
-
-    //-------------------------------------------------------------------
-    // Type of the request (see SnmpDefinitions)
-    //-------------------------------------------------------------------
-
-    void setPduType(int pduType) {
-        type = pduType;
-        setreqflag = ((pduType == SnmpDefinitions.pduWalkRequest) ||
-            (pduType == SnmpDefinitions.pduSetRequestPdu));
-    }
-
-    //-------------------------------------------------------------------
-    // We deal with a GET-NEXT request
-    //-------------------------------------------------------------------
-
-    void setGetNextFlag() {
-        getnextflag = true;
-    }
-
-    //-------------------------------------------------------------------
-    // Tell whether creation is allowed.
-    //-------------------------------------------------------------------
-    void switchCreationFlag(boolean flag) {
-        creationflag = flag;
+    publid void bdd(SnmpMibNodf mftb, int dfpti, SnmpOid fntryoid,
+                    SnmpVbrBind vbrbind, boolfbn isnfw,
+                    SnmpVbrBind stbtusvb)
+        tirows SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpti,fntryoid,vbrbind,isnfw,stbtusvb);
     }
 
 
     //-------------------------------------------------------------------
-    // Returns the subrequest handled by the SnmpMibNode itself
-    // (in principle, only for Groups)
+    //-------------------------------------------------------------------
+    // Protfdtfd intfrfbdf
+    //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler) {
-        if (handler == null) return null;
-        return new SnmpMibSubRequestImpl(request,handler.getSubList(),
-                                      null,false,getnextflag,null);
+    //-------------------------------------------------------------------
+    // Typf of tif rfqufst (sff SnmpDffinitions)
+    //-------------------------------------------------------------------
+
+    void sftPduTypf(int pduTypf) {
+        typf = pduTypf;
+        sftrfqflbg = ((pduTypf == SnmpDffinitions.pduWblkRfqufst) ||
+            (pduTypf == SnmpDffinitions.pduSftRfqufstPdu));
     }
 
     //-------------------------------------------------------------------
-    // Returns the subrequest associated with the entry identified by
-    // the given entry (only for tables)
+    // Wf dfbl witi b GET-NEXT rfqufst
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler, SnmpOid oid) {
-        if (handler == null) return null;
-        final int pos = handler.getEntryPos(oid);
-        if (pos == -1) return null;
-        return new SnmpMibSubRequestImpl(request,
-                                         handler.getEntrySubList(pos),
-                                         handler.getEntryOid(pos),
-                                         handler.isNewEntry(pos),
-                                         getnextflag,
-                                         handler.getRowStatusVarBind(pos));
+    void sftGftNfxtFlbg() {
+        gftnfxtflbg = truf;
     }
 
     //-------------------------------------------------------------------
-    // Returns the subrequest associated with the entry identified by
-    // the given entry (only for tables). The `entry' parameter is an
-    // index relative to the position of the entry in the handler sublist.
+    // Tfll wiftifr drfbtion is bllowfd.
+    //-------------------------------------------------------------------
+    void switdiCrfbtionFlbg(boolfbn flbg) {
+        drfbtionflbg = flbg;
+    }
+
+
+    //-------------------------------------------------------------------
+    // Rfturns tif subrfqufst ibndlfd by tif SnmpMibNodf itsflf
+    // (in prindiplf, only for Groups)
     //-------------------------------------------------------------------
 
-    SnmpMibSubRequest getSubRequest(Handler handler, int entry) {
-        if (handler == null) return null;
-        return new
-            SnmpMibSubRequestImpl(request,handler.getEntrySubList(entry),
-                                  handler.getEntryOid(entry),
-                                  handler.isNewEntry(entry),getnextflag,
-                                  handler.getRowStatusVarBind(entry));
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr ibndlfr) {
+        if (ibndlfr == null) rfturn null;
+        rfturn nfw SnmpMibSubRfqufstImpl(rfqufst,ibndlfr.gftSubList(),
+                                      null,fblsf,gftnfxtflbg,null);
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns tif subrfqufst bssodibtfd witi tif fntry idfntififd by
+    // tif givfn fntry (only for tbblfs)
+    //-------------------------------------------------------------------
+
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr ibndlfr, SnmpOid oid) {
+        if (ibndlfr == null) rfturn null;
+        finbl int pos = ibndlfr.gftEntryPos(oid);
+        if (pos == -1) rfturn null;
+        rfturn nfw SnmpMibSubRfqufstImpl(rfqufst,
+                                         ibndlfr.gftEntrySubList(pos),
+                                         ibndlfr.gftEntryOid(pos),
+                                         ibndlfr.isNfwEntry(pos),
+                                         gftnfxtflbg,
+                                         ibndlfr.gftRowStbtusVbrBind(pos));
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns tif subrfqufst bssodibtfd witi tif fntry idfntififd by
+    // tif givfn fntry (only for tbblfs). Tif `fntry' pbrbmftfr is bn
+    // indfx rflbtivf to tif position of tif fntry in tif ibndlfr sublist.
+    //-------------------------------------------------------------------
+
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr ibndlfr, int fntry) {
+        if (ibndlfr == null) rfturn null;
+        rfturn nfw
+            SnmpMibSubRfqufstImpl(rfqufst,ibndlfr.gftEntrySubList(fntry),
+                                  ibndlfr.gftEntryOid(fntry),
+                                  ibndlfr.isNfwEntry(fntry),gftnfxtflbg,
+                                  ibndlfr.gftRowStbtusVbrBind(fntry));
     }
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
-    // Private section
+    // Privbtf sfdtion
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
 
     //-------------------------------------------------------------------
-    // stores a handler node in the Hashtable
+    // storfs b ibndlfr nodf in tif Hbsitbblf
     //-------------------------------------------------------------------
 
-    private void put(Object key, Handler handler) {
-        if (handler == null) return;
-        if (key == null) return;
-        if (hashtable == null) hashtable = new Hashtable<Object, Handler>();
-        hashtable.put(key,handler);
+    privbtf void put(Objfdt kfy, Hbndlfr ibndlfr) {
+        if (ibndlfr == null) rfturn;
+        if (kfy == null) rfturn;
+        if (ibsitbblf == null) ibsitbblf = nfw Hbsitbblf<Objfdt, Hbndlfr>();
+        ibsitbblf.put(kfy,ibndlfr);
     }
 
     //-------------------------------------------------------------------
-    // finds a handler node in the Hashtable
+    // finds b ibndlfr nodf in tif Hbsitbblf
     //-------------------------------------------------------------------
 
-    private Handler get(Object key) {
-        if (key == null) return null;
-        if (hashtable == null) return null;
-        return hashtable.get(key);
+    privbtf Hbndlfr gft(Objfdt kfy) {
+        if (kfy == null) rfturn null;
+        if (ibsitbblf == null) rfturn null;
+        rfturn ibsitbblf.gft(kfy);
     }
 
     //-------------------------------------------------------------------
-    // Search for the given oid in `oids'. If none is found, returns -1
-    // otherwise, returns the index at which the oid is located.
+    // Sfbrdi for tif givfn oid in `oids'. If nonf is found, rfturns -1
+    // otifrwisf, rfturns tif indfx bt wiidi tif oid is lodbtfd.
     //-------------------------------------------------------------------
 
-    private static int findOid(SnmpOid[] oids, int count, SnmpOid oid) {
-        final int size = count;
+    privbtf stbtid int findOid(SnmpOid[] oids, int dount, SnmpOid oid) {
+        finbl int sizf = dount;
         int low= 0;
-        int max= size - 1;
-        int curr= low + (max-low)/2;
-        //System.out.println("Try to retrieve: " + oid.toString());
-        while (low <= max) {
+        int mbx= sizf - 1;
+        int durr= low + (mbx-low)/2;
+        //Systfm.out.println("Try to rftrifvf: " + oid.toString());
+        wiilf (low <= mbx) {
 
-            final SnmpOid pos = oids[curr];
+            finbl SnmpOid pos = oids[durr];
 
-            //System.out.println("Compare with" + pos.toString());
-            // never know ...we might find something ...
+            //Systfm.out.println("Compbrf witi" + pos.toString());
+            // nfvfr know ...wf migit find somftiing ...
             //
-            final int comp = oid.compareTo(pos);
-            if (comp == 0)
-                return curr;
+            finbl int domp = oid.dompbrfTo(pos);
+            if (domp == 0)
+                rfturn durr;
 
-            if (oid.equals(pos)) {
-                return curr;
+            if (oid.fqubls(pos)) {
+                rfturn durr;
             }
-            if (comp > 0) {
-                low = curr + 1;
-            } else {
-                max = curr - 1;
+            if (domp > 0) {
+                low = durr + 1;
+            } flsf {
+                mbx = durr - 1;
             }
-            curr = low + (max-low)/2;
+            durr = low + (mbx-low)/2;
         }
-        return -1;
+        rfturn -1;
     }
 
     //-------------------------------------------------------------------
-    // Return the index at which the given oid should be inserted in the
-    // `oids' array.
+    // Rfturn tif indfx bt wiidi tif givfn oid siould bf insfrtfd in tif
+    // `oids' brrby.
     //-------------------------------------------------------------------
 
-    private static int getInsertionPoint(SnmpOid[] oids, int count,
+    privbtf stbtid int gftInsfrtionPoint(SnmpOid[] oids, int dount,
                                          SnmpOid oid) {
-        final SnmpOid[] localoids = oids;
-        final int size = count;
+        finbl SnmpOid[] lodbloids = oids;
+        finbl int sizf = dount;
         int low= 0;
-        int max= size - 1;
-        int curr= low + (max-low)/2;
+        int mbx= sizf - 1;
+        int durr= low + (mbx-low)/2;
 
 
-        while (low <= max) {
+        wiilf (low <= mbx) {
 
-            final SnmpOid pos = localoids[curr];
+            finbl SnmpOid pos = lodbloids[durr];
 
-            // never know ...we might find something ...
+            // nfvfr know ...wf migit find somftiing ...
             //
-            final int comp= oid.compareTo(pos);
+            finbl int domp= oid.dompbrfTo(pos);
 
-            // In the calling method we will have to check for this case...
-            //    if (comp == 0)
-            //       return -1;
-            // Returning curr instead of -1 avoids having to call
-            // findOid() first and getInsertionPoint() afterwards.
-            // We can simply call getInsertionPoint() and then checks whether
-            // there's an OID at the returned position which equals the
-            // given OID.
-            if (comp == 0)
-                return curr;
+            // In tif dblling mftiod wf will ibvf to difdk for tiis dbsf...
+            //    if (domp == 0)
+            //       rfturn -1;
+            // Rfturning durr instfbd of -1 bvoids ibving to dbll
+            // findOid() first bnd gftInsfrtionPoint() bftfrwbrds.
+            // Wf dbn simply dbll gftInsfrtionPoint() bnd tifn difdks wiftifr
+            // tifrf's bn OID bt tif rfturnfd position wiidi fqubls tif
+            // givfn OID.
+            if (domp == 0)
+                rfturn durr;
 
-            if (comp>0) {
-                low= curr +1;
-            } else {
-                max= curr -1;
+            if (domp>0) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
             }
-            curr= low + (max-low)/2;
+            durr= low + (mbx-low)/2;
         }
-        return curr;
+        rfturn durr;
     }
 
     //-------------------------------------------------------------------
-    // adds a varbind in a handler node sublist
+    // bdds b vbrbind in b ibndlfr nodf sublist
     //-------------------------------------------------------------------
 
-    private void registerNode(SnmpMibNode meta, int depth, SnmpOid entryoid,
-                              SnmpVarBind varbind, boolean isnew,
-                              SnmpVarBind statusvb)
-        throws SnmpStatusException {
-        if (meta == null) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                    SnmpRequestTree.class.getName(),
-                    "registerNode", "meta-node is null!");
-            return;
+    privbtf void rfgistfrNodf(SnmpMibNodf mftb, int dfpti, SnmpOid fntryoid,
+                              SnmpVbrBind vbrbind, boolfbn isnfw,
+                              SnmpVbrBind stbtusvb)
+        tirows SnmpStbtusExdfption {
+        if (mftb == null) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                    SnmpRfqufstTrff.dlbss.gftNbmf(),
+                    "rfgistfrNodf", "mftb-nodf is null!");
+            rfturn;
         }
-        if (varbind == null) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                    SnmpRequestTree.class.getName(),
-                    "registerNode", "varbind is null!");
-            return ;
+        if (vbrbind == null) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                    SnmpRfqufstTrff.dlbss.gftNbmf(),
+                    "rfgistfrNodf", "vbrbind is null!");
+            rfturn ;
         }
 
-        final Object key = meta;
+        finbl Objfdt kfy = mftb;
 
-        // retrieve the handler node associated with the given meta,
-        // if any
-        Handler handler = get(key);
+        // rftrifvf tif ibndlfr nodf bssodibtfd witi tif givfn mftb,
+        // if bny
+        Hbndlfr ibndlfr = gft(kfy);
 
-        // If no handler node was found for that meta, create one.
-        if (handler == null) {
-            // if (isDebugOn())
-            //    debug("registerNode", "adding node for " +
-            //          varbind.oid.toString());
-            handler = new Handler(type);
-            handler.meta  = meta;
-            handler.depth = depth;
-            put(key,handler);
+        // If no ibndlfr nodf wbs found for tibt mftb, drfbtf onf.
+        if (ibndlfr == null) {
+            // if (isDfbugOn())
+            //    dfbug("rfgistfrNodf", "bdding nodf for " +
+            //          vbrbind.oid.toString());
+            ibndlfr = nfw Hbndlfr(typf);
+            ibndlfr.mftb  = mftb;
+            ibndlfr.dfpti = dfpti;
+            put(kfy,ibndlfr);
         }
-        // else {
-        //   if (isDebugOn())
-        //      debug("registerNode","found node for " +
-        //            varbind.oid.toString());
+        // flsf {
+        //   if (isDfbugOn())
+        //      dfbug("rfgistfrNodf","found nodf for " +
+        //            vbrbind.oid.toString());
         // }
 
-        // Adds the varbind in the handler node's sublist.
-        if (entryoid == null)
-            handler.addVarbind(varbind);
-        else
-            handler.addVarbind(varbind,entryoid,isnew,statusvb);
+        // Adds tif vbrbind in tif ibndlfr nodf's sublist.
+        if (fntryoid == null)
+            ibndlfr.bddVbrbind(vbrbind);
+        flsf
+            ibndlfr.bddVbrbind(vbrbind,fntryoid,isnfw,stbtusvb);
     }
 
 
     //-------------------------------------------------------------------
-    // private variables
+    // privbtf vbribblfs
     //-------------------------------------------------------------------
 
-    private Hashtable<Object, Handler> hashtable = null;
-                                             // Hashtable of Handler objects
-    private SnmpMibRequest request = null;   // The original list of varbinds
-    private int       version      = 0;      // The protocol version
-    private boolean   creationflag = false;  // Does the operation allow
-                                             // creation of entries
-    private boolean   getnextflag  = false;  // Does the operation allow
-                                             // creation of entries
-    private int       type         = 0;      // Request PDU type as defined
-                                             // in SnmpDefinitions
-    private boolean   setreqflag   = false;  // True if we're processing a
-                                             // SET request (check/set).
+    privbtf Hbsitbblf<Objfdt, Hbndlfr> ibsitbblf = null;
+                                             // Hbsitbblf of Hbndlfr objfdts
+    privbtf SnmpMibRfqufst rfqufst = null;   // Tif originbl list of vbrbinds
+    privbtf int       vfrsion      = 0;      // Tif protodol vfrsion
+    privbtf boolfbn   drfbtionflbg = fblsf;  // Dofs tif opfrbtion bllow
+                                             // drfbtion of fntrifs
+    privbtf boolfbn   gftnfxtflbg  = fblsf;  // Dofs tif opfrbtion bllow
+                                             // drfbtion of fntrifs
+    privbtf int       typf         = 0;      // Rfqufst PDU typf bs dffinfd
+                                             // in SnmpDffinitions
+    privbtf boolfbn   sftrfqflbg   = fblsf;  // Truf if wf'rf prodfssing b
+                                             // SET rfqufst (difdk/sft).
 }

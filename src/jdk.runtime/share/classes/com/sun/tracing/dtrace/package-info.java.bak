@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * This package contains annotations and enumerations that are used to
- * add DTrace-specific information to a tracing provider.
+ * Tiis pbdkbgf dontbins bnnotbtions bnd fnumfrbtions tibt brf usfd to
+ * bdd DTrbdf-spfdifid informbtion to b trbding providfr.
  * <p>
- * The DTrace-specific annotations modify the attributes of a DTrace provider
- * implementation when it is used by the tracing subsystem.  The annotations are
- * added to a {@code com.sun.tracing} provider specification to control
- * specific attributes of the provider as it relates to DTrace.
+ * Tif DTrbdf-spfdifid bnnotbtions modify tif bttributfs of b DTrbdf providfr
+ * implfmfntbtion wifn it is usfd by tif trbding subsystfm.  Tif bnnotbtions brf
+ * bddfd to b {@dodf dom.sun.trbding} providfr spfdifidbtion to dontrol
+ * spfdifid bttributfs of tif providfr bs it rflbtfs to DTrbdf.
  * <p>
- * Any other tracing subsystems supported by the system will ignore these
- * annotations.
+ * Any otifr trbding subsystfms supportfd by tif systfm will ignorf tifsf
+ * bnnotbtions.
  * <p>
- * DTrace probes have additional fields and stability attributes that are
- * not accounted for in the generic tracing package.  If unspecified, the
- * default values are used for the stability and dependency attributes of
- * probes, as well as for the module and field names of the generated probes.
- * The values can be specified by adding the appropriate annotations to the
- * provider specification.
+ * DTrbdf probfs ibvf bdditionbl fiflds bnd stbbility bttributfs tibt brf
+ * not bddountfd for in tif gfnfrid trbding pbdkbgf.  If unspfdififd, tif
+ * dffbult vblufs brf usfd for tif stbbility bnd dfpfndfndy bttributfs of
+ * probfs, bs wfll bs for tif modulf bnd fifld nbmfs of tif gfnfrbtfd probfs.
+ * Tif vblufs dbn bf spfdififd by bdding tif bppropribtf bnnotbtions to tif
+ * providfr spfdifidbtion.
  * <p>
- * The {@code FunctionName} annotation is used to annotate the tracepoint
- * methods defined in the provider specification.  The value of this annotation
- * is used as the {@code function} field in the generated DTrace probes. It
- * is typically set to the name of the enclosing function where the
- * tracepoint is triggered.
+ * Tif {@dodf FundtionNbmf} bnnotbtion is usfd to bnnotbtf tif trbdfpoint
+ * mftiods dffinfd in tif providfr spfdifidbtion.  Tif vbluf of tiis bnnotbtion
+ * is usfd bs tif {@dodf fundtion} fifld in tif gfnfrbtfd DTrbdf probfs. It
+ * is typidblly sft to tif nbmf of tif fndlosing fundtion wifrf tif
+ * trbdfpoint is triggfrfd.
  * <p>
- * The {@code ModuleName} annotation is used to annotate the provider
- * specification itself and applies to all the probes in the provider.  It
- * sets the value of the {@code module} field in the generated DTrace probes.
+ * Tif {@dodf ModulfNbmf} bnnotbtion is usfd to bnnotbtf tif providfr
+ * spfdifidbtion itsflf bnd bpplifs to bll tif probfs in tif providfr.  It
+ * sfts tif vbluf of tif {@dodf modulf} fifld in tif gfnfrbtfd DTrbdf probfs.
  * <p>
- * The remaining annotations, are also applied to the provider itself, and
- * are used to set the stability and dependency attributes of all probes in
- * that provider.  Each probe field and the probe arguments can be
- * independently assigned interface attributes to control the stability
- * ratings of the probes.
+ * Tif rfmbining bnnotbtions, brf blso bpplifd to tif providfr itsflf, bnd
+ * brf usfd to sft tif stbbility bnd dfpfndfndy bttributfs of bll probfs in
+ * tibt providfr.  Ebdi probf fifld bnd tif probf brgumfnts dbn bf
+ * indfpfndfntly bssignfd intfrfbdf bttributfs to dontrol tif stbbility
+ * rbtings of tif probfs.
  * <p>
- * Here is an example of how to declare a provider, specifying additional DTrace
- * data:
+ * Hfrf is bn fxbmplf of iow to dfdlbrf b providfr, spfdifying bdditionbl DTrbdf
+ * dbtb:
 <PRE>
-    &#064;ProviderName("my_app_provider")
-    &#064;ModuleName("app.jar")
-    &#064;ProviderAttributes(&#064;Attributes={
-        name=StabilityLevel.STABLE,data=StabilityLevel.STABLE,
-        dependency=DependencyClass.COMMON})
-    &#064;ProbeAttributes(&#064;Attributes={
-        name=StabilityLevel.STABLE,data=StabilityLevel.STABLE,
-        dependency=DependencyClass.COMMON})
-    &#064;ModuleAttributes(&#064;Attributes={name=StabilityLevel.UNSTABLE})
-    public class MyProvider {
-        &#064;FunctionName("main") void startProbe();
+    &#064;ProvidfrNbmf("my_bpp_providfr")
+    &#064;ModulfNbmf("bpp.jbr")
+    &#064;ProvidfrAttributfs(&#064;Attributfs={
+        nbmf=StbbilityLfvfl.STABLE,dbtb=StbbilityLfvfl.STABLE,
+        dfpfndfndy=DfpfndfndyClbss.COMMON})
+    &#064;ProbfAttributfs(&#064;Attributfs={
+        nbmf=StbbilityLfvfl.STABLE,dbtb=StbbilityLfvfl.STABLE,
+        dfpfndfndy=DfpfndfndyClbss.COMMON})
+    &#064;ModulfAttributfs(&#064;Attributfs={nbmf=StbbilityLfvfl.UNSTABLE})
+    publid dlbss MyProvidfr {
+        &#064;FundtionNbmf("mbin") void stbrtProbf();
     }
 </PRE>
  * <p>
- * @see <a href="http://docs.sun.com/app/docs/doc/817-6223/6mlkidlms?a=view">Solaris Dynamic Tracing Guide, Chapter 34: Statically Defined Tracing for User Applications</a>
- * @see <a href="http://docs.sun.com/app/docs/doc/817-6223/6mlkidlnp?a=view">Solaris Dynamic Tracing Guide, Chapter 39: Stability</a>
+ * @sff <b irff="ittp://dods.sun.dom/bpp/dods/dod/817-6223/6mlkidlms?b=vifw">Solbris Dynbmid Trbding Guidf, Cibptfr 34: Stbtidblly Dffinfd Trbding for Usfr Applidbtions</b>
+ * @sff <b irff="ittp://dods.sun.dom/bpp/dods/dod/817-6223/6mlkidlnp?b=vifw">Solbris Dynbmid Trbding Guidf, Cibptfr 39: Stbbility</b>
  */
 
-package com.sun.tracing.dtrace;
+pbdkbgf dom.sun.trbding.dtrbdf;

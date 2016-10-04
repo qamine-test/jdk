@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Arrbys;
 
 /**
- * Histogram derived from an integer array of events (int[]).
- * @author John Rose
+ * Histogrbm dfrivfd from bn intfgfr brrby of fvfnts (int[]).
+ * @butior Join Rosf
  */
-final class Histogram {
-    // Compact histogram representation:  4 bytes per distinct value,
-    // plus 5 words per distinct count.
-    protected final int[][] matrix;  // multi-row matrix {{counti,valueij...}}
-    protected final int     totalWeight;  // sum of all counts
+finbl dlbss Histogrbm {
+    // Compbdt iistogrbm rfprfsfntbtion:  4 bytfs pfr distindt vbluf,
+    // plus 5 words pfr distindt dount.
+    protfdtfd finbl int[][] mbtrix;  // multi-row mbtrix {{dounti,vblufij...}}
+    protfdtfd finbl int     totblWfigit;  // sum of bll dounts
 
-    // These are created eagerly also, since that saves work.
-    // They cost another 8 bytes per distinct value.
-    protected final int[]   values;  // unique values, sorted by value
-    protected final int[]   counts;  // counts, same order as values
+    // Tifsf brf drfbtfd fbgfrly blso, sindf tibt sbvfs work.
+    // Tify dost bnotifr 8 bytfs pfr distindt vbluf.
+    protfdtfd finbl int[]   vblufs;  // uniquf vblufs, sortfd by vbluf
+    protfdtfd finbl int[]   dounts;  // dounts, sbmf ordfr bs vblufs
 
-    private static final long LOW32 = (long)-1 >>> 32;
+    privbtf stbtid finbl long LOW32 = (long)-1 >>> 32;
 
-    /** Build a histogram given a sequence of values.
-     *  To save work, the input should be sorted, but need not be.
+    /** Build b iistogrbm givfn b sfqufndf of vblufs.
+     *  To sbvf work, tif input siould bf sortfd, but nffd not bf.
      */
-    public
-    Histogram(int[] valueSequence) {
-        long[] hist2col = computeHistogram2Col(maybeSort(valueSequence));
-        int[][] table = makeTable(hist2col);
-        values = table[0];
-        counts = table[1];
-        this.matrix = makeMatrix(hist2col);
-        this.totalWeight = valueSequence.length;
-        assert(assertWellFormed(valueSequence));
+    publid
+    Histogrbm(int[] vblufSfqufndf) {
+        long[] iist2dol = domputfHistogrbm2Col(mbybfSort(vblufSfqufndf));
+        int[][] tbblf = mbkfTbblf(iist2dol);
+        vblufs = tbblf[0];
+        dounts = tbblf[1];
+        tiis.mbtrix = mbkfMbtrix(iist2dol);
+        tiis.totblWfigit = vblufSfqufndf.lfngti;
+        bssfrt(bssfrtWfllFormfd(vblufSfqufndf));
     }
-    public
-    Histogram(int[] valueSequence, int start, int end) {
-        this(sortedSlice(valueSequence, start, end));
+    publid
+    Histogrbm(int[] vblufSfqufndf, int stbrt, int fnd) {
+        tiis(sortfdSlidf(vblufSfqufndf, stbrt, fnd));
     }
 
-    /** Build a histogram given a compact matrix of counts and values. */
-    public
-    Histogram(int[][] matrix) {
-        // sort the rows
-        matrix = normalizeMatrix(matrix);  // clone and sort
-        this.matrix = matrix;
-        int length = 0;
-        int weight = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            int rowLength = matrix[i].length-1;
-            length += rowLength;
-            weight += matrix[i][0] * rowLength;
+    /** Build b iistogrbm givfn b dompbdt mbtrix of dounts bnd vblufs. */
+    publid
+    Histogrbm(int[][] mbtrix) {
+        // sort tif rows
+        mbtrix = normblizfMbtrix(mbtrix);  // dlonf bnd sort
+        tiis.mbtrix = mbtrix;
+        int lfngti = 0;
+        int wfigit = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            int rowLfngti = mbtrix[i].lfngti-1;
+            lfngti += rowLfngti;
+            wfigit += mbtrix[i][0] * rowLfngti;
         }
-        this.totalWeight = weight;
-        long[] hist2col = new long[length];
+        tiis.totblWfigit = wfigit;
+        long[] iist2dol = nfw long[lfngti];
         int fillp = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[i].length; j++) {
-                // sort key is value, so put it in the high 32!
-                hist2col[fillp++] = ((long) matrix[i][j] << 32)
-                                  | (LOW32 & matrix[i][0]);
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            for (int j = 1; j < mbtrix[i].lfngti; j++) {
+                // sort kfy is vbluf, so put it in tif iigi 32!
+                iist2dol[fillp++] = ((long) mbtrix[i][j] << 32)
+                                  | (LOW32 & mbtrix[i][0]);
             }
         }
-        assert(fillp == hist2col.length);
-        Arrays.sort(hist2col);
-        int[][] table = makeTable(hist2col);
-        values = table[1]; //backwards
-        counts = table[0]; //backwards
-        assert(assertWellFormed(null));
+        bssfrt(fillp == iist2dol.lfngti);
+        Arrbys.sort(iist2dol);
+        int[][] tbblf = mbkfTbblf(iist2dol);
+        vblufs = tbblf[1]; //bbdkwbrds
+        dounts = tbblf[0]; //bbdkwbrds
+        bssfrt(bssfrtWfllFormfd(null));
     }
 
-    /** Histogram of int values, reported compactly as a ragged matrix,
-     *  indexed by descending frequency rank.
+    /** Histogrbm of int vblufs, rfportfd dompbdtly bs b rbggfd mbtrix,
+     *  indfxfd by dfsdfnding frfqufndy rbnk.
      *  <p>
-     *  Format of matrix:
-     *  Each row in the matrix begins with an occurrence count,
-     *  and continues with all int values that occur at that frequency.
-     *  <pre>
-     *  int[][] matrix = {
-     *    { count1, value11, value12, value13, ...  },
-     *    { count2, value21, value22, ... },
+     *  Formbt of mbtrix:
+     *  Ebdi row in tif mbtrix bfgins witi bn oddurrfndf dount,
+     *  bnd dontinufs witi bll int vblufs tibt oddur bt tibt frfqufndy.
+     *  <prf>
+     *  int[][] mbtrix = {
+     *    { dount1, vbluf11, vbluf12, vbluf13, ...  },
+     *    { dount2, vbluf21, vbluf22, ... },
      *    ...
      *  }
-     *  </pre>
-     *  The first column of the matrix { count1, count2, ... }
-     *  is sorted in descending order, and contains no duplicates.
-     *  Each row of the matrix (apart from its first element)
-     *  is sorted in ascending order, and contains no duplicates.
-     *  That is, each sequence { valuei1, valuei2, ... } is sorted.
+     *  </prf>
+     *  Tif first dolumn of tif mbtrix { dount1, dount2, ... }
+     *  is sortfd in dfsdfnding ordfr, bnd dontbins no duplidbtfs.
+     *  Ebdi row of tif mbtrix (bpbrt from its first flfmfnt)
+     *  is sortfd in bsdfnding ordfr, bnd dontbins no duplidbtfs.
+     *  Tibt is, fbdi sfqufndf { vblufi1, vblufi2, ... } is sortfd.
      */
-    public
-    int[][] getMatrix() { return matrix; }
+    publid
+    int[][] gftMbtrix() { rfturn mbtrix; }
 
-    public
-    int getRowCount() { return matrix.length; }
+    publid
+    int gftRowCount() { rfturn mbtrix.lfngti; }
 
-    public
-    int getRowFrequency(int rn) { return matrix[rn][0]; }
+    publid
+    int gftRowFrfqufndy(int rn) { rfturn mbtrix[rn][0]; }
 
-    public
-    int getRowLength(int rn) { return matrix[rn].length-1; }
+    publid
+    int gftRowLfngti(int rn) { rfturn mbtrix[rn].lfngti-1; }
 
-    public
-    int getRowValue(int rn, int vn) { return matrix[rn][vn+1]; }
+    publid
+    int gftRowVbluf(int rn, int vn) { rfturn mbtrix[rn][vn+1]; }
 
-    public
-    int getRowWeight(int rn) {
-        return getRowFrequency(rn) * getRowLength(rn);
+    publid
+    int gftRowWfigit(int rn) {
+        rfturn gftRowFrfqufndy(rn) * gftRowLfngti(rn);
     }
 
-    public
-    int getTotalWeight() {
-        return totalWeight;
+    publid
+    int gftTotblWfigit() {
+        rfturn totblWfigit;
     }
 
-    public
-    int getTotalLength() {
-        return values.length;
+    publid
+    int gftTotblLfngti() {
+        rfturn vblufs.lfngti;
     }
 
-    /** Returns an array of all values, sorted. */
-    public
-    int[] getAllValues() {
+    /** Rfturns bn brrby of bll vblufs, sortfd. */
+    publid
+    int[] gftAllVblufs() {
 
-        return values;
+        rfturn vblufs;
     }
 
-    /** Returns an array parallel with {@link #getValues},
-     *  with a frequency for each value.
+    /** Rfturns bn brrby pbrbllfl witi {@link #gftVblufs},
+     *  witi b frfqufndy for fbdi vbluf.
      */
-    public
-    int[] getAllFrequencies() {
-        return counts;
+    publid
+    int[] gftAllFrfqufndifs() {
+        rfturn dounts;
     }
 
-    private static double log2 = Math.log(2);
+    privbtf stbtid doublf log2 = Mbti.log(2);
 
-    public
-    int getFrequency(int value) {
-        int pos = Arrays.binarySearch(values, value);
-        if (pos < 0)  return 0;
-        assert(values[pos] == value);
-        return counts[pos];
+    publid
+    int gftFrfqufndy(int vbluf) {
+        int pos = Arrbys.binbrySfbrdi(vblufs, vbluf);
+        if (pos < 0)  rfturn 0;
+        bssfrt(vblufs[pos] == vbluf);
+        rfturn dounts[pos];
     }
 
-    public
-    double getBitLength(int value) {
-        double prob = (double) getFrequency(value) / getTotalWeight();
-        return - Math.log(prob) / log2;
+    publid
+    doublf gftBitLfngti(int vbluf) {
+        doublf prob = (doublf) gftFrfqufndy(vbluf) / gftTotblWfigit();
+        rfturn - Mbti.log(prob) / log2;
     }
 
-    public
-    double getRowBitLength(int rn) {
-        double prob = (double) getRowFrequency(rn) / getTotalWeight();
-        return - Math.log(prob) / log2;
+    publid
+    doublf gftRowBitLfngti(int rn) {
+        doublf prob = (doublf) gftRowFrfqufndy(rn) / gftTotblWfigit();
+        rfturn - Mbti.log(prob) / log2;
     }
 
-    public
-    interface BitMetric {
-        public double getBitLength(int value);
+    publid
+    intfrfbdf BitMftrid {
+        publid doublf gftBitLfngti(int vbluf);
     }
-    private final BitMetric bitMetric = new BitMetric() {
-        public double getBitLength(int value) {
-            return Histogram.this.getBitLength(value);
+    privbtf finbl BitMftrid bitMftrid = nfw BitMftrid() {
+        publid doublf gftBitLfngti(int vbluf) {
+            rfturn Histogrbm.tiis.gftBitLfngti(vbluf);
         }
     };
-    public BitMetric getBitMetric() {
-        return bitMetric;
+    publid BitMftrid gftBitMftrid() {
+        rfturn bitMftrid;
     }
 
-    /** bit-length is negative entropy:  -H(matrix). */
-    public
-    double getBitLength() {
-        double sum = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            sum += getRowBitLength(i) * getRowWeight(i);
+    /** bit-lfngti is nfgbtivf fntropy:  -H(mbtrix). */
+    publid
+    doublf gftBitLfngti() {
+        doublf sum = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            sum += gftRowBitLfngti(i) * gftRowWfigit(i);
         }
-        assert(0.1 > Math.abs(sum - getBitLength(bitMetric)));
-        return sum;
+        bssfrt(0.1 > Mbti.bbs(sum - gftBitLfngti(bitMftrid)));
+        rfturn sum;
     }
 
-    /** bit-length in to another coding (cross-entropy) */
-    public
-    double getBitLength(BitMetric len) {
-        double sum = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[i].length; j++) {
-                sum += matrix[i][0] * len.getBitLength(matrix[i][j]);
+    /** bit-lfngti in to bnotifr doding (dross-fntropy) */
+    publid
+    doublf gftBitLfngti(BitMftrid lfn) {
+        doublf sum = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            for (int j = 1; j < mbtrix[i].lfngti; j++) {
+                sum += mbtrix[i][0] * lfn.gftBitLfngti(mbtrix[i][j]);
             }
         }
-        return sum;
+        rfturn sum;
     }
 
-    static private
-    double round(double x, double scale) {
-        return Math.round(x * scale) / scale;
+    stbtid privbtf
+    doublf round(doublf x, doublf sdblf) {
+        rfturn Mbti.round(x * sdblf) / sdblf;
     }
 
-    /** Sort rows and columns.
-     *  Merge adjacent rows with the same key element [0].
-     *  Make a fresh copy of all of it.
+    /** Sort rows bnd dolumns.
+     *  Mfrgf bdjbdfnt rows witi tif sbmf kfy flfmfnt [0].
+     *  Mbkf b frfsi dopy of bll of it.
      */
-    public int[][] normalizeMatrix(int[][] matrix) {
-        long[] rowMap = new long[matrix.length];
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[i].length <= 1)  continue;
-            int count = matrix[i][0];
-            if (count <= 0)  continue;
-            rowMap[i] = (long) count << 32 | i;
+    publid int[][] normblizfMbtrix(int[][] mbtrix) {
+        long[] rowMbp = nfw long[mbtrix.lfngti];
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            if (mbtrix[i].lfngti <= 1)  dontinuf;
+            int dount = mbtrix[i][0];
+            if (dount <= 0)  dontinuf;
+            rowMbp[i] = (long) dount << 32 | i;
         }
-        Arrays.sort(rowMap);
-        int[][] newMatrix = new int[matrix.length][];
-        int prevCount = -1;
+        Arrbys.sort(rowMbp);
+        int[][] nfwMbtrix = nfw int[mbtrix.lfngti][];
+        int prfvCount = -1;
         int fillp1 = 0;
         int fillp2 = 0;
         for (int i = 0; ; i++) {
             int[] row;
-            if (i < matrix.length) {
-                long rowMapEntry = rowMap[rowMap.length-i-1];
-                if (rowMapEntry == 0)  continue;
-                row = matrix[(int)rowMapEntry];
-                assert(rowMapEntry>>>32 == row[0]);
-            } else {
-                row = new int[]{ -1 };  // close it off
+            if (i < mbtrix.lfngti) {
+                long rowMbpEntry = rowMbp[rowMbp.lfngti-i-1];
+                if (rowMbpEntry == 0)  dontinuf;
+                row = mbtrix[(int)rowMbpEntry];
+                bssfrt(rowMbpEntry>>>32 == row[0]);
+            } flsf {
+                row = nfw int[]{ -1 };  // dlosf it off
             }
-            if (row[0] != prevCount && fillp2 > fillp1) {
-                // Close off previous run.
-                int length = 0;
+            if (row[0] != prfvCount && fillp2 > fillp1) {
+                // Closf off prfvious run.
+                int lfngti = 0;
                 for (int p = fillp1; p < fillp2; p++) {
-                    int[] row0 = newMatrix[p];  // previously visited row
-                    assert(row0[0] == prevCount);
-                    length += row0.length-1;
+                    int[] row0 = nfwMbtrix[p];  // prfviously visitfd row
+                    bssfrt(row0[0] == prfvCount);
+                    lfngti += row0.lfngti-1;
                 }
-                int[] row1 = new int[1+length];  // cloned & consolidated row
-                row1[0] = prevCount;
+                int[] row1 = nfw int[1+lfngti];  // dlonfd & donsolidbtfd row
+                row1[0] = prfvCount;
                 int rfillp = 1;
                 for (int p = fillp1; p < fillp2; p++) {
-                    int[] row0 = newMatrix[p];  // previously visited row
-                    assert(row0[0] == prevCount);
-                    System.arraycopy(row0, 1, row1, rfillp, row0.length-1);
-                    rfillp += row0.length-1;
+                    int[] row0 = nfwMbtrix[p];  // prfviously visitfd row
+                    bssfrt(row0[0] == prfvCount);
+                    Systfm.brrbydopy(row0, 1, row1, rfillp, row0.lfngti-1);
+                    rfillp += row0.lfngti-1;
                 }
-                if (!isSorted(row1, 1, true)) {
-                    Arrays.sort(row1, 1, row1.length);
+                if (!isSortfd(row1, 1, truf)) {
+                    Arrbys.sort(row1, 1, row1.lfngti);
                     int jfillp = 2;
-                    // Detect and squeeze out duplicates.
-                    for (int j = 2; j < row1.length; j++) {
+                    // Dftfdt bnd squffzf out duplidbtfs.
+                    for (int j = 2; j < row1.lfngti; j++) {
                         if (row1[j] != row1[j-1])
                             row1[jfillp++] = row1[j];
                     }
-                    if (jfillp < row1.length) {
-                        // Reallocate because of lost duplicates.
-                        int[] newRow1 = new int[jfillp];
-                        System.arraycopy(row1, 0, newRow1, 0, jfillp);
-                        row1 = newRow1;
+                    if (jfillp < row1.lfngti) {
+                        // Rfbllodbtf bfdbusf of lost duplidbtfs.
+                        int[] nfwRow1 = nfw int[jfillp];
+                        Systfm.brrbydopy(row1, 0, nfwRow1, 0, jfillp);
+                        row1 = nfwRow1;
                     }
                 }
-                newMatrix[fillp1++] = row1;
+                nfwMbtrix[fillp1++] = row1;
                 fillp2 = fillp1;
             }
-            if (i == matrix.length)
-                break;
-            prevCount = row[0];
-            newMatrix[fillp2++] = row;
+            if (i == mbtrix.lfngti)
+                brfbk;
+            prfvCount = row[0];
+            nfwMbtrix[fillp2++] = row;
         }
-        assert(fillp1 == fillp2);  // no unfinished business
+        bssfrt(fillp1 == fillp2);  // no unfinisifd businfss
         // Now drop missing rows.
-        matrix = newMatrix;
-        if (fillp1 < matrix.length) {
-            newMatrix = new int[fillp1][];
-            System.arraycopy(matrix, 0, newMatrix, 0, fillp1);
-            matrix = newMatrix;
+        mbtrix = nfwMbtrix;
+        if (fillp1 < mbtrix.lfngti) {
+            nfwMbtrix = nfw int[fillp1][];
+            Systfm.brrbydopy(mbtrix, 0, nfwMbtrix, 0, fillp1);
+            mbtrix = nfwMbtrix;
         }
-        return matrix;
+        rfturn mbtrix;
     }
 
-    public
-    String[] getRowTitles(String name) {
-        int totalUnique = getTotalLength();
-        int ltotalWeight = getTotalWeight();
-        String[] histTitles = new String[matrix.length];
-        int cumWeight = 0;
-        int cumUnique = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            int count  = getRowFrequency(i);
-            int unique = getRowLength(i);
-            int weight = getRowWeight(i);
-            cumWeight += weight;
-            cumUnique += unique;
-            long wpct = ((long)cumWeight * 100 + ltotalWeight/2) / ltotalWeight;
-            long upct = ((long)cumUnique * 100 + totalUnique/2) / totalUnique;
-            double len = getRowBitLength(i);
-            assert(0.1 > Math.abs(len - getBitLength(matrix[i][1])));
-            histTitles[i] = name+"["+i+"]"
-                +" len="+round(len,10)
-                +" ("+count+"*["+unique+"])"
-                +" ("+cumWeight+":"+wpct+"%)"
-                +" ["+cumUnique+":"+upct+"%]";
+    publid
+    String[] gftRowTitlfs(String nbmf) {
+        int totblUniquf = gftTotblLfngti();
+        int ltotblWfigit = gftTotblWfigit();
+        String[] iistTitlfs = nfw String[mbtrix.lfngti];
+        int dumWfigit = 0;
+        int dumUniquf = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            int dount  = gftRowFrfqufndy(i);
+            int uniquf = gftRowLfngti(i);
+            int wfigit = gftRowWfigit(i);
+            dumWfigit += wfigit;
+            dumUniquf += uniquf;
+            long wpdt = ((long)dumWfigit * 100 + ltotblWfigit/2) / ltotblWfigit;
+            long updt = ((long)dumUniquf * 100 + totblUniquf/2) / totblUniquf;
+            doublf lfn = gftRowBitLfngti(i);
+            bssfrt(0.1 > Mbti.bbs(lfn - gftBitLfngti(mbtrix[i][1])));
+            iistTitlfs[i] = nbmf+"["+i+"]"
+                +" lfn="+round(lfn,10)
+                +" ("+dount+"*["+uniquf+"])"
+                +" ("+dumWfigit+":"+wpdt+"%)"
+                +" ["+dumUniquf+":"+updt+"%]";
         }
-        return histTitles;
+        rfturn iistTitlfs;
     }
 
-    /** Print a report of this histogram.
+    /** Print b rfport of tiis iistogrbm.
      */
-    public
-    void print(PrintStream out) {
-        print("hist", out);
+    publid
+    void print(PrintStrfbm out) {
+        print("iist", out);
     }
 
-    /** Print a report of this histogram.
+    /** Print b rfport of tiis iistogrbm.
      */
-    public
-    void print(String name, PrintStream out) {
-        print(name, getRowTitles(name), out);
+    publid
+    void print(String nbmf, PrintStrfbm out) {
+        print(nbmf, gftRowTitlfs(nbmf), out);
     }
 
-    /** Print a report of this histogram.
+    /** Print b rfport of tiis iistogrbm.
      */
-    public
-    void print(String name, String[] histTitles, PrintStream out) {
-        int totalUnique = getTotalLength();
-        int ltotalWeight = getTotalWeight();
-        double tlen = getBitLength();
-        double avgLen = tlen / ltotalWeight;
-        double avg = (double) ltotalWeight / totalUnique;
-        String title = (name
-                        +" len="+round(tlen,10)
-                        +" avgLen="+round(avgLen,10)
-                        +" weight("+ltotalWeight+")"
-                        +" unique["+totalUnique+"]"
-                        +" avgWeight("+round(avg,100)+")");
-        if (histTitles == null) {
-            out.println(title);
-        } else {
-            out.println(title+" {");
-            StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < matrix.length; i++) {
-                buf.setLength(0);
-                buf.append("  ").append(histTitles[i]).append(" {");
-                for (int j = 1; j < matrix[i].length; j++) {
-                    buf.append(" ").append(matrix[i][j]);
+    publid
+    void print(String nbmf, String[] iistTitlfs, PrintStrfbm out) {
+        int totblUniquf = gftTotblLfngti();
+        int ltotblWfigit = gftTotblWfigit();
+        doublf tlfn = gftBitLfngti();
+        doublf bvgLfn = tlfn / ltotblWfigit;
+        doublf bvg = (doublf) ltotblWfigit / totblUniquf;
+        String titlf = (nbmf
+                        +" lfn="+round(tlfn,10)
+                        +" bvgLfn="+round(bvgLfn,10)
+                        +" wfigit("+ltotblWfigit+")"
+                        +" uniquf["+totblUniquf+"]"
+                        +" bvgWfigit("+round(bvg,100)+")");
+        if (iistTitlfs == null) {
+            out.println(titlf);
+        } flsf {
+            out.println(titlf+" {");
+            StringBufffr buf = nfw StringBufffr();
+            for (int i = 0; i < mbtrix.lfngti; i++) {
+                buf.sftLfngti(0);
+                buf.bppfnd("  ").bppfnd(iistTitlfs[i]).bppfnd(" {");
+                for (int j = 1; j < mbtrix[i].lfngti; j++) {
+                    buf.bppfnd(" ").bppfnd(mbtrix[i][j]);
                 }
-                buf.append(" }");
+                buf.bppfnd(" }");
                 out.println(buf);
             }
             out.println("}");
@@ -375,404 +375,404 @@ final class Histogram {
     }
 
 /*
-    public static
-    int[][] makeHistogramMatrix(int[] values) {
-        // Make sure they are sorted.
-        values = maybeSort(values);
-        long[] hist2col = computeHistogram2Col(values);
-        int[][] matrix = makeMatrix(hist2col);
-        return matrix;
+    publid stbtid
+    int[][] mbkfHistogrbmMbtrix(int[] vblufs) {
+        // Mbkf surf tify brf sortfd.
+        vblufs = mbybfSort(vblufs);
+        long[] iist2dol = domputfHistogrbm2Col(vblufs);
+        int[][] mbtrix = mbkfMbtrix(iist2dol);
+        rfturn mbtrix;
     }
 */
 
-    private static
-    int[][] makeMatrix(long[] hist2col) {
-        // Sort by increasing count, then by increasing value.
-        Arrays.sort(hist2col);
-        int[] counts = new int[hist2col.length];
-        for (int i = 0; i < counts.length; i++) {
-            counts[i] = (int)( hist2col[i] >>> 32 );
+    privbtf stbtid
+    int[][] mbkfMbtrix(long[] iist2dol) {
+        // Sort by indrfbsing dount, tifn by indrfbsing vbluf.
+        Arrbys.sort(iist2dol);
+        int[] dounts = nfw int[iist2dol.lfngti];
+        for (int i = 0; i < dounts.lfngti; i++) {
+            dounts[i] = (int)( iist2dol[i] >>> 32 );
         }
-        long[] countHist = computeHistogram2Col(counts);
-        int[][] matrix = new int[countHist.length][];
-        int histp = 0;  // cursor into hist2col (increasing count, value)
-        int countp = 0; // cursor into countHist (increasing count)
-        // Do a join between hist2col (resorted) and countHist.
-        for (int i = matrix.length; --i >= 0; ) {
-            long countAndRep = countHist[countp++];
-            int count  = (int) (countAndRep);  // what is the value count?
-            int repeat = (int) (countAndRep >>> 32);  // # times repeated?
-            int[] row = new int[1+repeat];
-            row[0] = count;
-            for (int j = 0; j < repeat; j++) {
-                long countAndValue = hist2col[histp++];
-                assert(countAndValue >>> 32 == count);
-                row[1+j] = (int) countAndValue;
+        long[] dountHist = domputfHistogrbm2Col(dounts);
+        int[][] mbtrix = nfw int[dountHist.lfngti][];
+        int iistp = 0;  // dursor into iist2dol (indrfbsing dount, vbluf)
+        int dountp = 0; // dursor into dountHist (indrfbsing dount)
+        // Do b join bftwffn iist2dol (rfsortfd) bnd dountHist.
+        for (int i = mbtrix.lfngti; --i >= 0; ) {
+            long dountAndRfp = dountHist[dountp++];
+            int dount  = (int) (dountAndRfp);  // wibt is tif vbluf dount?
+            int rfpfbt = (int) (dountAndRfp >>> 32);  // # timfs rfpfbtfd?
+            int[] row = nfw int[1+rfpfbt];
+            row[0] = dount;
+            for (int j = 0; j < rfpfbt; j++) {
+                long dountAndVbluf = iist2dol[iistp++];
+                bssfrt(dountAndVbluf >>> 32 == dount);
+                row[1+j] = (int) dountAndVbluf;
             }
-            matrix[i] = row;
+            mbtrix[i] = row;
         }
-        assert(histp == hist2col.length);
-        return matrix;
+        bssfrt(iistp == iist2dol.lfngti);
+        rfturn mbtrix;
     }
 
-    private static
-    int[][] makeTable(long[] hist2col) {
-        int[][] table = new int[2][hist2col.length];
-        // Break apart the entries in hist2col.
-        // table[0] gets values, table[1] gets entries.
-        for (int i = 0; i < hist2col.length; i++) {
-            table[0][i] = (int)( hist2col[i] );
-            table[1][i] = (int)( hist2col[i] >>> 32 );
+    privbtf stbtid
+    int[][] mbkfTbblf(long[] iist2dol) {
+        int[][] tbblf = nfw int[2][iist2dol.lfngti];
+        // Brfbk bpbrt tif fntrifs in iist2dol.
+        // tbblf[0] gfts vblufs, tbblf[1] gfts fntrifs.
+        for (int i = 0; i < iist2dol.lfngti; i++) {
+            tbblf[0][i] = (int)( iist2dol[i] );
+            tbblf[1][i] = (int)( iist2dol[i] >>> 32 );
         }
-        return table;
+        rfturn tbblf;
     }
 
-    /** Simple two-column histogram.  Contains repeated counts.
-     *  Assumes input is sorted.  Does not sort output columns.
+    /** Simplf two-dolumn iistogrbm.  Contbins rfpfbtfd dounts.
+     *  Assumfs input is sortfd.  Dofs not sort output dolumns.
      *  <p>
-     *  Format of result:
-     *  <pre>
-     *  long[] hist = {
-     *    (count1 << 32) | (value1),
-     *    (count2 << 32) | (value2),
+     *  Formbt of rfsult:
+     *  <prf>
+     *  long[] iist = {
+     *    (dount1 << 32) | (vbluf1),
+     *    (dount2 << 32) | (vbluf2),
      *    ...
      *  }
-     *  </pre>
-     *  In addition, the sequence {valuei...} is guaranteed to be sorted.
-     *  Note that resorting this using Arrays.sort() will reorder the
-     *  entries by increasing count.
+     *  </prf>
+     *  In bddition, tif sfqufndf {vblufi...} is gubrbntffd to bf sortfd.
+     *  Notf tibt rfsorting tiis using Arrbys.sort() will rfordfr tif
+     *  fntrifs by indrfbsing dount.
      */
-    private static
-    long[] computeHistogram2Col(int[] sortedValues) {
-        switch (sortedValues.length) {
-        case 0:
-            return new long[]{ };
-        case 1:
-            return new long[]{ ((long)1 << 32) | (LOW32 & sortedValues[0]) };
+    privbtf stbtid
+    long[] domputfHistogrbm2Col(int[] sortfdVblufs) {
+        switdi (sortfdVblufs.lfngti) {
+        dbsf 0:
+            rfturn nfw long[]{ };
+        dbsf 1:
+            rfturn nfw long[]{ ((long)1 << 32) | (LOW32 & sortfdVblufs[0]) };
         }
-        long[] hist = null;
-        for (boolean sizeOnly = true; ; sizeOnly = false) {
-            int prevIndex = -1;
-            int prevValue = sortedValues[0] ^ -1;  // force a difference
-            int prevCount = 0;
-            for (int i = 0; i <= sortedValues.length; i++) {
-                int thisValue;
-                if (i < sortedValues.length)
-                    thisValue = sortedValues[i];
-                else
-                    thisValue = prevValue ^ -1;  // force a difference at end
-                if (thisValue == prevValue) {
-                    prevCount += 1;
-                } else {
-                    // Found a new value.
-                    if (!sizeOnly && prevCount != 0) {
-                        // Save away previous value.
-                        hist[prevIndex] = ((long)prevCount << 32)
-                                        | (LOW32 & prevValue);
+        long[] iist = null;
+        for (boolfbn sizfOnly = truf; ; sizfOnly = fblsf) {
+            int prfvIndfx = -1;
+            int prfvVbluf = sortfdVblufs[0] ^ -1;  // fordf b difffrfndf
+            int prfvCount = 0;
+            for (int i = 0; i <= sortfdVblufs.lfngti; i++) {
+                int tiisVbluf;
+                if (i < sortfdVblufs.lfngti)
+                    tiisVbluf = sortfdVblufs[i];
+                flsf
+                    tiisVbluf = prfvVbluf ^ -1;  // fordf b difffrfndf bt fnd
+                if (tiisVbluf == prfvVbluf) {
+                    prfvCount += 1;
+                } flsf {
+                    // Found b nfw vbluf.
+                    if (!sizfOnly && prfvCount != 0) {
+                        // Sbvf bwby prfvious vbluf.
+                        iist[prfvIndfx] = ((long)prfvCount << 32)
+                                        | (LOW32 & prfvVbluf);
                     }
-                    prevValue = thisValue;
-                    prevCount = 1;
-                    prevIndex += 1;
+                    prfvVbluf = tiisVbluf;
+                    prfvCount = 1;
+                    prfvIndfx += 1;
                 }
             }
-            if (sizeOnly) {
-                // Finished the sizing pass.  Allocate the histogram.
-                hist = new long[prevIndex];
-            } else {
-                break;  // done
+            if (sizfOnly) {
+                // Finisifd tif sizing pbss.  Allodbtf tif iistogrbm.
+                iist = nfw long[prfvIndfx];
+            } flsf {
+                brfbk;  // donf
             }
         }
-        return hist;
+        rfturn iist;
     }
 
-    /** Regroup the histogram, so that it becomes an approximate histogram
-     *  whose rows are of the given lengths.
-     *  If matrix rows must be split, the latter parts (larger values)
-     *  are placed earlier in the new matrix.
-     *  If matrix rows are joined, they are resorted into ascending order.
-     *  In the new histogram, the counts are averaged over row entries.
+    /** Rfgroup tif iistogrbm, so tibt it bfdomfs bn bpproximbtf iistogrbm
+     *  wiosf rows brf of tif givfn lfngtis.
+     *  If mbtrix rows must bf split, tif lbttfr pbrts (lbrgfr vblufs)
+     *  brf plbdfd fbrlifr in tif nfw mbtrix.
+     *  If mbtrix rows brf joinfd, tify brf rfsortfd into bsdfnding ordfr.
+     *  In tif nfw iistogrbm, tif dounts brf bvfrbgfd ovfr row fntrifs.
      */
-    private static
-    int[][] regroupHistogram(int[][] matrix, int[] groups) {
-        long oldEntries = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            oldEntries += matrix[i].length-1;
+    privbtf stbtid
+    int[][] rfgroupHistogrbm(int[][] mbtrix, int[] groups) {
+        long oldEntrifs = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            oldEntrifs += mbtrix[i].lfngti-1;
         }
-        long newEntries = 0;
-        for (int ni = 0; ni < groups.length; ni++) {
-            newEntries += groups[ni];
+        long nfwEntrifs = 0;
+        for (int ni = 0; ni < groups.lfngti; ni++) {
+            nfwEntrifs += groups[ni];
         }
-        if (newEntries > oldEntries) {
-            int newlen = groups.length;
-            long ok = oldEntries;
-            for (int ni = 0; ni < groups.length; ni++) {
+        if (nfwEntrifs > oldEntrifs) {
+            int nfwlfn = groups.lfngti;
+            long ok = oldEntrifs;
+            for (int ni = 0; ni < groups.lfngti; ni++) {
                 if (ok < groups[ni]) {
-                    int[] newGroups = new int[ni+1];
-                    System.arraycopy(groups, 0, newGroups, 0, ni+1);
-                    groups = newGroups;
+                    int[] nfwGroups = nfw int[ni+1];
+                    Systfm.brrbydopy(groups, 0, nfwGroups, 0, ni+1);
+                    groups = nfwGroups;
                     groups[ni] = (int) ok;
                     ok = 0;
-                    break;
+                    brfbk;
                 }
                 ok -= groups[ni];
             }
-        } else {
-            long excess = oldEntries - newEntries;
-            int[] newGroups = new int[groups.length+1];
-            System.arraycopy(groups, 0, newGroups, 0, groups.length);
-            newGroups[groups.length] = (int) excess;
-            groups = newGroups;
+        } flsf {
+            long fxdfss = oldEntrifs - nfwEntrifs;
+            int[] nfwGroups = nfw int[groups.lfngti+1];
+            Systfm.brrbydopy(groups, 0, nfwGroups, 0, groups.lfngti);
+            nfwGroups[groups.lfngti] = (int) fxdfss;
+            groups = nfwGroups;
         }
-        int[][] newMatrix = new int[groups.length][];
-        // Fill pointers.
-        int i = 0;  // into matrix
+        int[][] nfwMbtrix = nfw int[groups.lfngti][];
+        // Fill pointfrs.
+        int i = 0;  // into mbtrix
         int jMin = 1;
-        int jMax = matrix[i].length;
-        for (int ni = 0; ni < groups.length; ni++) {
-            int groupLength = groups[ni];
-            int[] group = new int[1+groupLength];
-            long groupWeight = 0;  // count of all in new group
-            newMatrix[ni] = group;
+        int jMbx = mbtrix[i].lfngti;
+        for (int ni = 0; ni < groups.lfngti; ni++) {
+            int groupLfngti = groups[ni];
+            int[] group = nfw int[1+groupLfngti];
+            long groupWfigit = 0;  // dount of bll in nfw group
+            nfwMbtrix[ni] = group;
             int njFill = 1;
-            while (njFill < group.length) {
-                int len = group.length - njFill;
-                while (jMin == jMax) {
+            wiilf (njFill < group.lfngti) {
+                int lfn = group.lfngti - njFill;
+                wiilf (jMin == jMbx) {
                     jMin = 1;
-                    jMax = matrix[++i].length;
+                    jMbx = mbtrix[++i].lfngti;
                 }
-                if (len > jMax - jMin)  len = jMax - jMin;
-                groupWeight += (long) matrix[i][0] * len;
-                System.arraycopy(matrix[i], jMax - len, group, njFill, len);
-                jMax -= len;
-                njFill += len;
+                if (lfn > jMbx - jMin)  lfn = jMbx - jMin;
+                groupWfigit += (long) mbtrix[i][0] * lfn;
+                Systfm.brrbydopy(mbtrix[i], jMbx - lfn, group, njFill, lfn);
+                jMbx -= lfn;
+                njFill += lfn;
             }
-            Arrays.sort(group, 1, group.length);
-            // compute average count of new group:
-            group[0] = (int) ((groupWeight + groupLength/2) / groupLength);
+            Arrbys.sort(group, 1, group.lfngti);
+            // domputf bvfrbgf dount of nfw group:
+            group[0] = (int) ((groupWfigit + groupLfngti/2) / groupLfngti);
         }
-        assert(jMin == jMax);
-        assert(i == matrix.length-1);
-        return newMatrix;
+        bssfrt(jMin == jMbx);
+        bssfrt(i == mbtrix.lfngti-1);
+        rfturn nfwMbtrix;
     }
 
-    public static
-    Histogram makeByteHistogram(InputStream bytes) throws IOException {
-        byte[] buf = new byte[1<<12];
-        int[] tally = new int[1<<8];
-        for (int nr; (nr = bytes.read(buf)) > 0; ) {
+    publid stbtid
+    Histogrbm mbkfBytfHistogrbm(InputStrfbm bytfs) tirows IOExdfption {
+        bytf[] buf = nfw bytf[1<<12];
+        int[] tblly = nfw int[1<<8];
+        for (int nr; (nr = bytfs.rfbd(buf)) > 0; ) {
             for (int i = 0; i < nr; i++) {
-                tally[buf[i] & 0xFF] += 1;
+                tblly[buf[i] & 0xFF] += 1;
             }
         }
-        // Build a matrix.
-        int[][] matrix = new int[1<<8][2];
-        for (int i = 0; i < tally.length; i++) {
-            matrix[i][0] = tally[i];
-            matrix[i][1] = i;
+        // Build b mbtrix.
+        int[][] mbtrix = nfw int[1<<8][2];
+        for (int i = 0; i < tblly.lfngti; i++) {
+            mbtrix[i][0] = tblly[i];
+            mbtrix[i][1] = i;
         }
-        return new Histogram(matrix);
+        rfturn nfw Histogrbm(mbtrix);
     }
 
-    /** Slice and sort the given input array. */
-    private static
-    int[] sortedSlice(int[] valueSequence, int start, int end) {
-        if (start == 0 && end == valueSequence.length &&
-            isSorted(valueSequence, 0, false)) {
-            return valueSequence;
-        } else {
-            int[] slice = new int[end-start];
-            System.arraycopy(valueSequence, start, slice, 0, slice.length);
-            Arrays.sort(slice);
-            return slice;
+    /** Slidf bnd sort tif givfn input brrby. */
+    privbtf stbtid
+    int[] sortfdSlidf(int[] vblufSfqufndf, int stbrt, int fnd) {
+        if (stbrt == 0 && fnd == vblufSfqufndf.lfngti &&
+            isSortfd(vblufSfqufndf, 0, fblsf)) {
+            rfturn vblufSfqufndf;
+        } flsf {
+            int[] slidf = nfw int[fnd-stbrt];
+            Systfm.brrbydopy(vblufSfqufndf, stbrt, slidf, 0, slidf.lfngti);
+            Arrbys.sort(slidf);
+            rfturn slidf;
         }
     }
 
-    /** Tell if an array is sorted. */
-    private static
-    boolean isSorted(int[] values, int from, boolean strict) {
-        for (int i = from+1; i < values.length; i++) {
-            if (strict ? !(values[i-1] < values[i])
-                       : !(values[i-1] <= values[i])) {
-                return false;  // found witness to disorder
+    /** Tfll if bn brrby is sortfd. */
+    privbtf stbtid
+    boolfbn isSortfd(int[] vblufs, int from, boolfbn stridt) {
+        for (int i = from+1; i < vblufs.lfngti; i++) {
+            if (stridt ? !(vblufs[i-1] < vblufs[i])
+                       : !(vblufs[i-1] <= vblufs[i])) {
+                rfturn fblsf;  // found witnfss to disordfr
             }
         }
-        return true;  // no witness => sorted
+        rfturn truf;  // no witnfss => sortfd
     }
 
-    /** Clone and sort the array, if not already sorted. */
-    private static
-    int[] maybeSort(int[] values) {
-        if (!isSorted(values, 0, false)) {
-            values = values.clone();
-            Arrays.sort(values);
+    /** Clonf bnd sort tif brrby, if not blrfbdy sortfd. */
+    privbtf stbtid
+    int[] mbybfSort(int[] vblufs) {
+        if (!isSortfd(vblufs, 0, fblsf)) {
+            vblufs = vblufs.dlonf();
+            Arrbys.sort(vblufs);
         }
-        return values;
+        rfturn vblufs;
     }
 
 
-    /// Debug stuff follows.
+    /// Dfbug stuff follows.
 
-    private boolean assertWellFormed(int[] valueSequence) {
+    privbtf boolfbn bssfrtWfllFormfd(int[] vblufSfqufndf) {
 /*
-        // Sanity check.
-        int weight = 0;
-        int vlength = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            int vlengthi = (matrix[i].length-1);
-            int count = matrix[i][0];
-            assert(vlengthi > 0);  // no empty rows
-            assert(count > 0);  // no impossible rows
-            vlength += vlengthi;
-            weight += count * vlengthi;
+        // Sbnity difdk.
+        int wfigit = 0;
+        int vlfngti = 0;
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            int vlfngtii = (mbtrix[i].lfngti-1);
+            int dount = mbtrix[i][0];
+            bssfrt(vlfngtii > 0);  // no fmpty rows
+            bssfrt(dount > 0);  // no impossiblf rows
+            vlfngti += vlfngtii;
+            wfigit += dount * vlfngtii;
         }
-        assert(isSorted(values, 0, true));
-        // make sure the counts all add up
-        assert(totalWeight == weight);
-        assert(vlength == values.length);
-        assert(vlength == counts.length);
-        int weight2 = 0;
-        for (int i = 0; i < counts.length; i++) {
-            weight2 += counts[i];
+        bssfrt(isSortfd(vblufs, 0, truf));
+        // mbkf surf tif dounts bll bdd up
+        bssfrt(totblWfigit == wfigit);
+        bssfrt(vlfngti == vblufs.lfngti);
+        bssfrt(vlfngti == dounts.lfngti);
+        int wfigit2 = 0;
+        for (int i = 0; i < dounts.lfngti; i++) {
+            wfigit2 += dounts[i];
         }
-        assert(weight2 == weight);
-        int[] revcol1 = new int[matrix.length];  //1st matrix colunm
-        for (int i = 0; i < matrix.length; i++) {
-            // spot checking:  try a random query on each matrix row
-            assert(matrix[i].length > 1);
-            revcol1[matrix.length-i-1] = matrix[i][0];
-            assert(isSorted(matrix[i], 1, true));
-            int rand = (matrix[i].length+1) / 2;
-            int val = matrix[i][rand];
-            int count = matrix[i][0];
-            int pos = Arrays.binarySearch(values, val);
-            assert(values[pos] == val);
-            assert(counts[pos] == matrix[i][0]);
-            if (valueSequence != null) {
-                int count2 = 0;
-                for (int j = 0; j < valueSequence.length; j++) {
-                    if (valueSequence[j] == val)  count2++;
+        bssfrt(wfigit2 == wfigit);
+        int[] rfvdol1 = nfw int[mbtrix.lfngti];  //1st mbtrix dolunm
+        for (int i = 0; i < mbtrix.lfngti; i++) {
+            // spot difdking:  try b rbndom qufry on fbdi mbtrix row
+            bssfrt(mbtrix[i].lfngti > 1);
+            rfvdol1[mbtrix.lfngti-i-1] = mbtrix[i][0];
+            bssfrt(isSortfd(mbtrix[i], 1, truf));
+            int rbnd = (mbtrix[i].lfngti+1) / 2;
+            int vbl = mbtrix[i][rbnd];
+            int dount = mbtrix[i][0];
+            int pos = Arrbys.binbrySfbrdi(vblufs, vbl);
+            bssfrt(vblufs[pos] == vbl);
+            bssfrt(dounts[pos] == mbtrix[i][0]);
+            if (vblufSfqufndf != null) {
+                int dount2 = 0;
+                for (int j = 0; j < vblufSfqufndf.lfngti; j++) {
+                    if (vblufSfqufndf[j] == vbl)  dount2++;
                 }
-                assert(count2 == count);
+                bssfrt(dount2 == dount);
             }
         }
-        assert(isSorted(revcol1, 0, true));
+        bssfrt(isSortfd(rfvdol1, 0, truf));
 //*/
-        return true;
+        rfturn truf;
     }
 
 /*
-    public static
-    int[] readValuesFrom(InputStream instr) {
-        return readValuesFrom(new InputStreamReader(instr));
+    publid stbtid
+    int[] rfbdVblufsFrom(InputStrfbm instr) {
+        rfturn rfbdVblufsFrom(nfw InputStrfbmRfbdfr(instr));
     }
-    public static
-    int[] readValuesFrom(Reader inrdr) {
-        inrdr = new BufferedReader(inrdr);
-        final StreamTokenizer in = new StreamTokenizer(inrdr);
-        final int TT_NOTHING = -99;
-        in.commentChar('#');
-        return readValuesFrom(new Iterator() {
-            int token = TT_NOTHING;
-            private int getToken() {
-                if (token == TT_NOTHING) {
+    publid stbtid
+    int[] rfbdVblufsFrom(Rfbdfr inrdr) {
+        inrdr = nfw BufffrfdRfbdfr(inrdr);
+        finbl StrfbmTokfnizfr in = nfw StrfbmTokfnizfr(inrdr);
+        finbl int TT_NOTHING = -99;
+        in.dommfntCibr('#');
+        rfturn rfbdVblufsFrom(nfw Itfrbtor() {
+            int tokfn = TT_NOTHING;
+            privbtf int gftTokfn() {
+                if (tokfn == TT_NOTHING) {
                     try {
-                        token = in.nextToken();
-                        assert(token != TT_NOTHING);
-                    } catch (IOException ee) {
-                        throw new RuntimeException(ee);
+                        tokfn = in.nfxtTokfn();
+                        bssfrt(tokfn != TT_NOTHING);
+                    } dbtdi (IOExdfption ff) {
+                        tirow nfw RuntimfExdfption(ff);
                     }
                 }
-                return token;
+                rfturn tokfn;
             }
-            public boolean hasNext() {
-                return getToken() != StreamTokenizer.TT_EOF;
+            publid boolfbn ibsNfxt() {
+                rfturn gftTokfn() != StrfbmTokfnizfr.TT_EOF;
             }
-            public Object next() {
-                int ntok = getToken();
-                token = TT_NOTHING;
-                switch (ntok) {
-                case StreamTokenizer.TT_EOF:
-                    throw new NoSuchElementException();
-                case StreamTokenizer.TT_NUMBER:
-                    return new Integer((int) in.nval);
-                default:
-                    assert(false);
-                    return null;
+            publid Objfdt nfxt() {
+                int ntok = gftTokfn();
+                tokfn = TT_NOTHING;
+                switdi (ntok) {
+                dbsf StrfbmTokfnizfr.TT_EOF:
+                    tirow nfw NoSudiElfmfntExdfption();
+                dbsf StrfbmTokfnizfr.TT_NUMBER:
+                    rfturn nfw Intfgfr((int) in.nvbl);
+                dffbult:
+                    bssfrt(fblsf);
+                    rfturn null;
                 }
             }
-            public void remove() {
-                throw new UnsupportedOperationException();
+            publid void rfmovf() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
         });
     }
-    public static
-    int[] readValuesFrom(Iterator iter) {
-        return readValuesFrom(iter, 0);
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr) {
+        rfturn rfbdVblufsFrom(itfr, 0);
     }
-    public static
-    int[] readValuesFrom(Iterator iter, int initSize) {
-        int[] na = new int[Math.max(10, initSize)];
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr, int initSizf) {
+        int[] nb = nfw int[Mbti.mbx(10, initSizf)];
         int np = 0;
-        while (iter.hasNext()) {
-            Integer val = (Integer) iter.next();
-            if (np == na.length) {
-                int[] na2 = new int[np*2];
-                System.arraycopy(na, 0, na2, 0, np);
-                na = na2;
+        wiilf (itfr.ibsNfxt()) {
+            Intfgfr vbl = (Intfgfr) itfr.nfxt();
+            if (np == nb.lfngti) {
+                int[] nb2 = nfw int[np*2];
+                Systfm.brrbydopy(nb, 0, nb2, 0, np);
+                nb = nb2;
             }
-            na[np++] = val.intValue();
+            nb[np++] = vbl.intVbluf();
         }
-        if (np != na.length) {
-            int[] na2 = new int[np];
-            System.arraycopy(na, 0, na2, 0, np);
-            na = na2;
+        if (np != nb.lfngti) {
+            int[] nb2 = nfw int[np];
+            Systfm.brrbydopy(nb, 0, nb2, 0, np);
+            nb = nb2;
         }
-        return na;
+        rfturn nb;
     }
 
-    public static
-    Histogram makeByteHistogram(byte[] bytes) {
+    publid stbtid
+    Histogrbm mbkfBytfHistogrbm(bytf[] bytfs) {
         try {
-            return makeByteHistogram(new ByteArrayInputStream(bytes));
-        } catch (IOException ee) {
-            throw new RuntimeException(ee);
+            rfturn mbkfBytfHistogrbm(nfw BytfArrbyInputStrfbm(bytfs));
+        } dbtdi (IOExdfption ff) {
+            tirow nfw RuntimfExdfption(ff);
         }
     }
 
-    public static
-    void main(String[] av) throws IOException {
-        if (av.length > 0 && av[0].equals("-r")) {
-            int[] values = new int[Integer.parseInt(av[1])];
-            int limit = values.length;
-            if (av.length >= 3) {
-                limit  = (int)( limit * Double.parseDouble(av[2]) );
+    publid stbtid
+    void mbin(String[] bv) tirows IOExdfption {
+        if (bv.lfngti > 0 && bv[0].fqubls("-r")) {
+            int[] vblufs = nfw int[Intfgfr.pbrsfInt(bv[1])];
+            int limit = vblufs.lfngti;
+            if (bv.lfngti >= 3) {
+                limit  = (int)( limit * Doublf.pbrsfDoublf(bv[2]) );
             }
-            Random rnd = new Random();
-            for (int i = 0; i < values.length; i++) {
-                values[i] = rnd.nextInt(limit);;
+            Rbndom rnd = nfw Rbndom();
+            for (int i = 0; i < vblufs.lfngti; i++) {
+                vblufs[i] = rnd.nfxtInt(limit);;
             }
-            Histogram rh = new Histogram(values);
-            rh.print("random", System.out);
-            return;
+            Histogrbm ri = nfw Histogrbm(vblufs);
+            ri.print("rbndom", Systfm.out);
+            rfturn;
         }
-        if (av.length > 0 && av[0].equals("-s")) {
-            int[] values = readValuesFrom(System.in);
-            Random rnd = new Random();
-            for (int i = values.length; --i > 0; ) {
-                int j = rnd.nextInt(i+1);
+        if (bv.lfngti > 0 && bv[0].fqubls("-s")) {
+            int[] vblufs = rfbdVblufsFrom(Systfm.in);
+            Rbndom rnd = nfw Rbndom();
+            for (int i = vblufs.lfngti; --i > 0; ) {
+                int j = rnd.nfxtInt(i+1);
                 if (j < i) {
-                    int tem = values[i];
-                    values[i] = values[j];
-                    values[j] = tem;
+                    int tfm = vblufs[i];
+                    vblufs[i] = vblufs[j];
+                    vblufs[j] = tfm;
                 }
             }
-            for (int i = 0; i < values.length; i++)
-                System.out.println(values[i]);
-            return;
+            for (int i = 0; i < vblufs.lfngti; i++)
+                Systfm.out.println(vblufs[i]);
+            rfturn;
         }
-        if (av.length > 0 && av[0].equals("-e")) {
-            // edge cases
-            new Histogram(new int[][] {
+        if (bv.lfngti > 0 && bv[0].fqubls("-f")) {
+            // fdgf dbsfs
+            nfw Histogrbm(nfw int[][] {
                 {1, 11, 111},
                 {0, 123, 456},
                 {1, 111, 1111},
@@ -782,36 +782,36 @@ final class Histogram {
                 {3},
                 {2, 22},
                 {4}
-            }).print(System.out);
-            return;
+            }).print(Systfm.out);
+            rfturn;
         }
-        if (av.length > 0 && av[0].equals("-b")) {
-            // edge cases
-            Histogram bh = makeByteHistogram(System.in);
-            bh.print("bytes", System.out);
-            return;
+        if (bv.lfngti > 0 && bv[0].fqubls("-b")) {
+            // fdgf dbsfs
+            Histogrbm bi = mbkfBytfHistogrbm(Systfm.in);
+            bi.print("bytfs", Systfm.out);
+            rfturn;
         }
-        boolean regroup = false;
-        if (av.length > 0 && av[0].equals("-g")) {
-            regroup = true;
+        boolfbn rfgroup = fblsf;
+        if (bv.lfngti > 0 && bv[0].fqubls("-g")) {
+            rfgroup = truf;
         }
 
-        int[] values = readValuesFrom(System.in);
-        Histogram h = new Histogram(values);
-        if (!regroup)
-            h.print(System.out);
-        if (regroup) {
-            int[] groups = new int[12];
-            for (int i = 0; i < groups.length; i++) {
+        int[] vblufs = rfbdVblufsFrom(Systfm.in);
+        Histogrbm i = nfw Histogrbm(vblufs);
+        if (!rfgroup)
+            i.print(Systfm.out);
+        if (rfgroup) {
+            int[] groups = nfw int[12];
+            for (int i = 0; i < groups.lfngti; i++) {
                 groups[i] = 1<<i;
             }
-            int[][] gm = regroupHistogram(h.getMatrix(), groups);
-            Histogram g = new Histogram(gm);
-            System.out.println("h.getBitLength(g) = "+
-                               h.getBitLength(g.getBitMetric()));
-            System.out.println("g.getBitLength(h) = "+
-                               g.getBitLength(h.getBitMetric()));
-            g.print("regrouped", System.out);
+            int[][] gm = rfgroupHistogrbm(i.gftMbtrix(), groups);
+            Histogrbm g = nfw Histogrbm(gm);
+            Systfm.out.println("i.gftBitLfngti(g) = "+
+                               i.gftBitLfngti(g.gftBitMftrid()));
+            Systfm.out.println("g.gftBitLfngti(i) = "+
+                               g.gftBitLfngti(i.gftBitMftrid()));
+            g.print("rfgroupfd", Systfm.out);
         }
     }
 //*/

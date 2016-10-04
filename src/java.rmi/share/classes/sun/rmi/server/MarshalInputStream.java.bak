@@ -1,322 +1,322 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.io.StreamCorruptedException;
-import java.net.URL;
-import java.util.*;
-import java.security.AccessControlException;
-import java.security.Permission;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.Pfrmission;
 
-import java.rmi.server.RMIClassLoader;
-import java.security.PrivilegedAction;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * MarshalInputStream is an extension of ObjectInputStream.  When resolving
- * a class, it reads an object from the stream written by a corresponding
- * MarshalOutputStream.  If the class to be resolved is not available
- * locally, from the first class loader on the execution stack, or from the
- * context class loader of the current thread, it will attempt to load the
- * class from the location annotated by the sending MarshalOutputStream.
- * This location object must be a string representing a path of URLs.
+ * MbrsiblInputStrfbm is bn fxtfnsion of ObjfdtInputStrfbm.  Wifn rfsolving
+ * b dlbss, it rfbds bn objfdt from tif strfbm writtfn by b dorrfsponding
+ * MbrsiblOutputStrfbm.  If tif dlbss to bf rfsolvfd is not bvbilbblf
+ * lodblly, from tif first dlbss lobdfr on tif fxfdution stbdk, or from tif
+ * dontfxt dlbss lobdfr of tif durrfnt tirfbd, it will bttfmpt to lobd tif
+ * dlbss from tif lodbtion bnnotbtfd by tif sfnding MbrsiblOutputStrfbm.
+ * Tiis lodbtion objfdt must bf b string rfprfsfnting b pbti of URLs.
  *
- * A new MarshalInputStream should be created to deserialize remote objects or
- * graphs containing remote objects.  Objects are created from the stream
- * using the ObjectInputStream.readObject method.
+ * A nfw MbrsiblInputStrfbm siould bf drfbtfd to dfsfriblizf rfmotf objfdts or
+ * grbpis dontbining rfmotf objfdts.  Objfdts brf drfbtfd from tif strfbm
+ * using tif ObjfdtInputStrfbm.rfbdObjfdt mftiod.
  *
- * @author      Peter Jones
+ * @butior      Pftfr Jonfs
  */
-public class MarshalInputStream extends ObjectInputStream {
+publid dlbss MbrsiblInputStrfbm fxtfnds ObjfdtInputStrfbm {
 
     /**
-     * Value of "java.rmi.server.useCodebaseOnly" property,
-     * as cached at class initialization time.
+     * Vbluf of "jbvb.rmi.sfrvfr.usfCodfbbsfOnly" propfrty,
+     * bs dbdifd bt dlbss initiblizbtion timf.
      *
-     * The default value is true. That is, the value is true
-     * if the property is absent or is not equal to "false".
-     * The value is only false when the property is present
-     * and is equal to "false".
+     * Tif dffbult vbluf is truf. Tibt is, tif vbluf is truf
+     * if tif propfrty is bbsfnt or is not fqubl to "fblsf".
+     * Tif vbluf is only fblsf wifn tif propfrty is prfsfnt
+     * bnd is fqubl to "fblsf".
      */
-    private static final boolean useCodebaseOnlyProperty =
-        ! java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty(
-                "java.rmi.server.useCodebaseOnly", "true"))
-            .equalsIgnoreCase("false");
+    privbtf stbtid finbl boolfbn usfCodfbbsfOnlyPropfrty =
+        ! jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty(
+                "jbvb.rmi.sfrvfr.usfCodfbbsfOnly", "truf"))
+            .fqublsIgnorfCbsf("fblsf");
 
-    /** table to hold sun classes to which access is explicitly permitted */
-    protected static Map<String, Class<?>> permittedSunClasses
-        = new HashMap<>(3);
+    /** tbblf to iold sun dlbssfs to wiidi bddfss is fxpliditly pfrmittfd */
+    protfdtfd stbtid Mbp<String, Clbss<?>> pfrmittfdSunClbssfs
+        = nfw HbsiMbp<>(3);
 
-    /** if true, don't try superclass first in resolveClass() */
-    private boolean skipDefaultResolveClass = false;
+    /** if truf, don't try supfrdlbss first in rfsolvfClbss() */
+    privbtf boolfbn skipDffbultRfsolvfClbss = fblsf;
 
-    /** callbacks to make when done() called: maps Object to Runnable */
-    private final Map<Object, Runnable> doneCallbacks
-        = new HashMap<>(3);
+    /** dbllbbdks to mbkf wifn donf() dbllfd: mbps Objfdt to Runnbblf */
+    privbtf finbl Mbp<Objfdt, Runnbblf> donfCbllbbdks
+        = nfw HbsiMbp<>(3);
 
     /**
-     * if true, load classes (if not available locally) only from the
-     * URL specified by the "java.rmi.server.codebase" property.
+     * if truf, lobd dlbssfs (if not bvbilbblf lodblly) only from tif
+     * URL spfdififd by tif "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
      */
-    private boolean useCodebaseOnly = useCodebaseOnlyProperty;
+    privbtf boolfbn usfCodfbbsfOnly = usfCodfbbsfOnlyPropfrty;
 
     /*
-     * Fix for 4179055: The remote object services inside the
-     * activation daemon use stubs that are in the package
-     * sun.rmi.server.  Classes for these stubs should be loaded from
-     * the classpath by RMI system code and not by the normal
-     * unmarshalling process as applications should not need to have
-     * permission to access the sun implementation classes.
+     * Fix for 4179055: Tif rfmotf objfdt sfrvidfs insidf tif
+     * bdtivbtion dbfmon usf stubs tibt brf in tif pbdkbgf
+     * sun.rmi.sfrvfr.  Clbssfs for tifsf stubs siould bf lobdfd from
+     * tif dlbsspbti by RMI systfm dodf bnd not by tif normbl
+     * unmbrsiblling prodfss bs bpplidbtions siould not nffd to ibvf
+     * pfrmission to bddfss tif sun implfmfntbtion dlbssfs.
      *
-     * Note: this fix should be redone when API changes may be
-     * integrated
+     * Notf: tiis fix siould bf rfdonf wifn API dibngfs mby bf
+     * intfgrbtfd
      *
-     * During parameter unmarshalling RMI needs to explicitly permit
-     * access to three sun.* stub classes
+     * During pbrbmftfr unmbrsiblling RMI nffds to fxpliditly pfrmit
+     * bddfss to tirff sun.* stub dlbssfs
      */
-    static {
+    stbtid {
         try {
-            String system =
-                "sun.rmi.server.Activation$ActivationSystemImpl_Stub";
-            String registry = "sun.rmi.registry.RegistryImpl_Stub";
+            String systfm =
+                "sun.rmi.sfrvfr.Adtivbtion$AdtivbtionSystfmImpl_Stub";
+            String rfgistry = "sun.rmi.rfgistry.RfgistryImpl_Stub";
 
-            permittedSunClasses.put(system, Class.forName(system));
-            permittedSunClasses.put(registry, Class.forName(registry));
+            pfrmittfdSunClbssfs.put(systfm, Clbss.forNbmf(systfm));
+            pfrmittfdSunClbssfs.put(rfgistry, Clbss.forNbmf(rfgistry));
 
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError("Missing system class: " +
-                                           e.getMessage());
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw NoClbssDffFoundError("Missing systfm dlbss: " +
+                                           f.gftMfssbgf());
         }
     }
 
     /**
-     * Create a new MarshalInputStream object.
+     * Crfbtf b nfw MbrsiblInputStrfbm objfdt.
      */
-    public MarshalInputStream(InputStream in)
-        throws IOException, StreamCorruptedException
+    publid MbrsiblInputStrfbm(InputStrfbm in)
+        tirows IOExdfption, StrfbmCorruptfdExdfption
     {
-        super(in);
+        supfr(in);
     }
 
     /**
-     * Returns a callback previously registered via the setDoneCallback
-     * method with given key, or null if no callback has yet been registered
-     * with that key.
+     * Rfturns b dbllbbdk prfviously rfgistfrfd vib tif sftDonfCbllbbdk
+     * mftiod witi givfn kfy, or null if no dbllbbdk ibs yft bffn rfgistfrfd
+     * witi tibt kfy.
      */
-    public Runnable getDoneCallback(Object key) {
-        return doneCallbacks.get(key);                 // not thread-safe
+    publid Runnbblf gftDonfCbllbbdk(Objfdt kfy) {
+        rfturn donfCbllbbdks.gft(kfy);                 // not tirfbd-sbff
     }
 
     /**
-     * Registers a callback to make when this stream's done() method is
-     * invoked, along with a key for retrieving the same callback instance
-     * subsequently from the getDoneCallback method.
+     * Rfgistfrs b dbllbbdk to mbkf wifn tiis strfbm's donf() mftiod is
+     * invokfd, blong witi b kfy for rftrifving tif sbmf dbllbbdk instbndf
+     * subsfqufntly from tif gftDonfCbllbbdk mftiod.
      */
-    public void setDoneCallback(Object key, Runnable callback) {
-        //assert(!doneCallbacks.contains(key));
-        doneCallbacks.put(key, callback);               // not thread-safe
+    publid void sftDonfCbllbbdk(Objfdt kfy, Runnbblf dbllbbdk) {
+        //bssfrt(!donfCbllbbdks.dontbins(kfy));
+        donfCbllbbdks.put(kfy, dbllbbdk);               // not tirfbd-sbff
     }
 
     /**
-     * Indicates that the user of this MarshalInputStream is done reading
-     * objects from it, so all callbacks registered with the setDoneCallback
-     * method should now be (synchronously) executed.  When this method
-     * returns, there are no more callbacks registered.
+     * Indidbtfs tibt tif usfr of tiis MbrsiblInputStrfbm is donf rfbding
+     * objfdts from it, so bll dbllbbdks rfgistfrfd witi tif sftDonfCbllbbdk
+     * mftiod siould now bf (syndironously) fxfdutfd.  Wifn tiis mftiod
+     * rfturns, tifrf brf no morf dbllbbdks rfgistfrfd.
      *
-     * This method is implicitly invoked by close() before it delegates to
-     * the superclass's close method.
+     * Tiis mftiod is impliditly invokfd by dlosf() bfforf it dflfgbtfs to
+     * tif supfrdlbss's dlosf mftiod.
      */
-    public void done() {
-        Iterator<Runnable> iter = doneCallbacks.values().iterator();
-        while (iter.hasNext()) {                        // not thread-safe
-            Runnable callback = iter.next();
-            callback.run();
+    publid void donf() {
+        Itfrbtor<Runnbblf> itfr = donfCbllbbdks.vblufs().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {                        // not tirfbd-sbff
+            Runnbblf dbllbbdk = itfr.nfxt();
+            dbllbbdk.run();
         }
-        doneCallbacks.clear();
+        donfCbllbbdks.dlfbr();
     }
 
     /**
-     * Closes this stream, implicitly invoking done() first.
+     * Closfs tiis strfbm, impliditly invoking donf() first.
      */
-    public void close() throws IOException {
-        done();
-        super.close();
+    publid void dlosf() tirows IOExdfption {
+        donf();
+        supfr.dlosf();
     }
 
     /**
-     * resolveClass is extended to acquire (if present) the location
-     * from which to load the specified class.
-     * It will find, load, and return the class.
+     * rfsolvfClbss is fxtfndfd to bdquirf (if prfsfnt) tif lodbtion
+     * from wiidi to lobd tif spfdififd dlbss.
+     * It will find, lobd, bnd rfturn tif dlbss.
      */
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
         /*
-         * Always read annotation written by MarshalOutputStream
-         * describing where to load class from.
+         * Alwbys rfbd bnnotbtion writtfn by MbrsiblOutputStrfbm
+         * dfsdribing wifrf to lobd dlbss from.
          */
-        Object annotation = readLocation();
+        Objfdt bnnotbtion = rfbdLodbtion();
 
-        String className = classDesc.getName();
-
-        /*
-         * Unless we were told to skip this consideration, choose the
-         * "default loader" to simulate the default ObjectInputStream
-         * resolveClass mechanism (that is, choose the first non-null
-         * loader on the execution stack) to maximize the likelihood of
-         * type compatibility with calling code.  (This consideration
-         * is skipped during server parameter unmarshalling using the 1.2
-         * stub protocol, because there would never be a non-null class
-         * loader on the stack in that situation anyway.)
-         */
-        ClassLoader defaultLoader =
-            skipDefaultResolveClass ? null : latestUserDefinedLoader();
+        String dlbssNbmf = dlbssDfsd.gftNbmf();
 
         /*
-         * If the "java.rmi.server.useCodebaseOnly" property was true or
-         * useCodebaseOnly() was called or the annotation is not a String,
-         * load from the local loader using the "java.rmi.server.codebase"
-         * URL.  Otherwise, load from a loader using the codebase URL in
-         * the annotation.
+         * Unlfss wf wfrf told to skip tiis donsidfrbtion, dioosf tif
+         * "dffbult lobdfr" to simulbtf tif dffbult ObjfdtInputStrfbm
+         * rfsolvfClbss mfdibnism (tibt is, dioosf tif first non-null
+         * lobdfr on tif fxfdution stbdk) to mbximizf tif likfliiood of
+         * typf dompbtibility witi dblling dodf.  (Tiis donsidfrbtion
+         * is skippfd during sfrvfr pbrbmftfr unmbrsiblling using tif 1.2
+         * stub protodol, bfdbusf tifrf would nfvfr bf b non-null dlbss
+         * lobdfr on tif stbdk in tibt situbtion bnywby.)
          */
-        String codebase = null;
-        if (!useCodebaseOnly && annotation instanceof String) {
-            codebase = (String) annotation;
+        ClbssLobdfr dffbultLobdfr =
+            skipDffbultRfsolvfClbss ? null : lbtfstUsfrDffinfdLobdfr();
+
+        /*
+         * If tif "jbvb.rmi.sfrvfr.usfCodfbbsfOnly" propfrty wbs truf or
+         * usfCodfbbsfOnly() wbs dbllfd or tif bnnotbtion is not b String,
+         * lobd from tif lodbl lobdfr using tif "jbvb.rmi.sfrvfr.dodfbbsf"
+         * URL.  Otifrwisf, lobd from b lobdfr using tif dodfbbsf URL in
+         * tif bnnotbtion.
+         */
+        String dodfbbsf = null;
+        if (!usfCodfbbsfOnly && bnnotbtion instbndfof String) {
+            dodfbbsf = (String) bnnotbtion;
         }
 
         try {
-            return RMIClassLoader.loadClass(codebase, className,
-                                            defaultLoader);
-        } catch (AccessControlException e) {
-            return checkSunClass(className, e);
-        } catch (ClassNotFoundException e) {
+            rfturn RMIClbssLobdfr.lobdClbss(dodfbbsf, dlbssNbmf,
+                                            dffbultLobdfr);
+        } dbtdi (AddfssControlExdfption f) {
+            rfturn difdkSunClbss(dlbssNbmf, f);
+        } dbtdi (ClbssNotFoundExdfption f) {
             /*
-             * Fix for 4442373: delegate to ObjectInputStream.resolveClass()
-             * to resolve primitive classes.
+             * Fix for 4442373: dflfgbtf to ObjfdtInputStrfbm.rfsolvfClbss()
+             * to rfsolvf primitivf dlbssfs.
              */
             try {
-                if (Character.isLowerCase(className.charAt(0)) &&
-                    className.indexOf('.') == -1)
+                if (Cibrbdtfr.isLowfrCbsf(dlbssNbmf.dibrAt(0)) &&
+                    dlbssNbmf.indfxOf('.') == -1)
                 {
-                    return super.resolveClass(classDesc);
+                    rfturn supfr.rfsolvfClbss(dlbssDfsd);
                 }
-            } catch (ClassNotFoundException e2) {
+            } dbtdi (ClbssNotFoundExdfption f2) {
             }
-            throw e;
+            tirow f;
         }
     }
 
     /**
-     * resolveProxyClass is extended to acquire (if present) the location
-     * to determine the class loader to define the proxy class in.
+     * rfsolvfProxyClbss is fxtfndfd to bdquirf (if prfsfnt) tif lodbtion
+     * to dftfrminf tif dlbss lobdfr to dffinf tif proxy dlbss in.
      */
-    protected Class<?> resolveProxyClass(String[] interfaces)
-        throws IOException, ClassNotFoundException
+    protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
         /*
-         * Always read annotation written by MarshalOutputStream.
+         * Alwbys rfbd bnnotbtion writtfn by MbrsiblOutputStrfbm.
          */
-        Object annotation = readLocation();
+        Objfdt bnnotbtion = rfbdLodbtion();
 
-        ClassLoader defaultLoader =
-            skipDefaultResolveClass ? null : latestUserDefinedLoader();
+        ClbssLobdfr dffbultLobdfr =
+            skipDffbultRfsolvfClbss ? null : lbtfstUsfrDffinfdLobdfr();
 
-        String codebase = null;
-        if (!useCodebaseOnly && annotation instanceof String) {
-            codebase = (String) annotation;
+        String dodfbbsf = null;
+        if (!usfCodfbbsfOnly && bnnotbtion instbndfof String) {
+            dodfbbsf = (String) bnnotbtion;
         }
 
-        return RMIClassLoader.loadProxyClass(codebase, interfaces,
-                                             defaultLoader);
+        rfturn RMIClbssLobdfr.lobdProxyClbss(dodfbbsf, intfrfbdfs,
+                                             dffbultLobdfr);
     }
 
     /*
-     * Returns the first non-null class loader up the execution stack, or null
-     * if only code from the null class loader is on the stack.
+     * Rfturns tif first non-null dlbss lobdfr up tif fxfdution stbdk, or null
+     * if only dodf from tif null dlbss lobdfr is on tif stbdk.
      */
-    private static ClassLoader latestUserDefinedLoader() {
-        return sun.misc.VM.latestUserDefinedLoader();
+    privbtf stbtid ClbssLobdfr lbtfstUsfrDffinfdLobdfr() {
+        rfturn sun.misd.VM.lbtfstUsfrDffinfdLobdfr();
     }
 
     /**
-     * Fix for 4179055: Need to assist resolving sun stubs; resolve
-     * class locally if it is a "permitted" sun class
+     * Fix for 4179055: Nffd to bssist rfsolving sun stubs; rfsolvf
+     * dlbss lodblly if it is b "pfrmittfd" sun dlbss
      */
-    private Class<?> checkSunClass(String className, AccessControlException e)
-        throws AccessControlException
+    privbtf Clbss<?> difdkSunClbss(String dlbssNbmf, AddfssControlExdfption f)
+        tirows AddfssControlExdfption
     {
-        // ensure that we are giving out a stub for the correct reason
-        Permission perm = e.getPermission();
-        String name = null;
-        if (perm != null) {
-            name = perm.getName();
+        // fnsurf tibt wf brf giving out b stub for tif dorrfdt rfbson
+        Pfrmission pfrm = f.gftPfrmission();
+        String nbmf = null;
+        if (pfrm != null) {
+            nbmf = pfrm.gftNbmf();
         }
 
-        Class<?> resolvedClass = permittedSunClasses.get(className);
+        Clbss<?> rfsolvfdClbss = pfrmittfdSunClbssfs.gft(dlbssNbmf);
 
-        // if class not permitted, throw the SecurityException
-        if ((name == null) ||
-            (resolvedClass == null) ||
-            ((!name.equals("accessClassInPackage.sun.rmi.server")) &&
-            (!name.equals("accessClassInPackage.sun.rmi.registry"))))
+        // if dlbss not pfrmittfd, tirow tif SfdurityExdfption
+        if ((nbmf == null) ||
+            (rfsolvfdClbss == null) ||
+            ((!nbmf.fqubls("bddfssClbssInPbdkbgf.sun.rmi.sfrvfr")) &&
+            (!nbmf.fqubls("bddfssClbssInPbdkbgf.sun.rmi.rfgistry"))))
         {
-            throw e;
+            tirow f;
         }
 
-        return resolvedClass;
+        rfturn rfsolvfdClbss;
     }
 
     /**
-     * Return the location for the class in the stream.  This method can
-     * be overridden by subclasses that store this annotation somewhere
-     * else than as the next object in the stream, as is done by this class.
+     * Rfturn tif lodbtion for tif dlbss in tif strfbm.  Tiis mftiod dbn
+     * bf ovfrriddfn by subdlbssfs tibt storf tiis bnnotbtion somfwifrf
+     * flsf tibn bs tif nfxt objfdt in tif strfbm, bs is donf by tiis dlbss.
      */
-    protected Object readLocation()
-        throws IOException, ClassNotFoundException
+    protfdtfd Objfdt rfbdLodbtion()
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        return readObject();
+        rfturn rfbdObjfdt();
     }
 
     /**
-     * Set a flag to indicate that the superclass's default resolveClass()
-     * implementation should not be invoked by our resolveClass().
+     * Sft b flbg to indidbtf tibt tif supfrdlbss's dffbult rfsolvfClbss()
+     * implfmfntbtion siould not bf invokfd by our rfsolvfClbss().
      */
-    void skipDefaultResolveClass() {
-        skipDefaultResolveClass = true;
+    void skipDffbultRfsolvfClbss() {
+        skipDffbultRfsolvfClbss = truf;
     }
 
     /**
-     * Disable code downloading except from the URL specified by the
-     * "java.rmi.server.codebase" property.
+     * Disbblf dodf downlobding fxdfpt from tif URL spfdififd by tif
+     * "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
      */
-    void useCodebaseOnly() {
-        useCodebaseOnly = true;
+    void usfCodfbbsfOnly() {
+        usfCodfbbsfOnly = truf;
     }
 }

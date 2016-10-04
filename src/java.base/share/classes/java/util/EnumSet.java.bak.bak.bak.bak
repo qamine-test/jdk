@@ -1,0 +1,466 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * A spfdiblizfd {@link Sft} implfmfntbtion for usf with fnum typfs.  All of
+ * thf flfmfnts in bn fnum sft must domf from b singlf fnum typf thbt is
+ * spfdififd, fxpliditly or impliditly, whfn thf sft is drfbtfd.  Enum sfts
+ * brf rfprfsfntfd intfrnblly bs bit vfdtors.  This rfprfsfntbtion is
+ * fxtrfmfly dompbdt bnd fffidifnt. Thf spbdf bnd timf pfrformbndf of this
+ * dlbss should bf good fnough to bllow its usf bs b high-qublity, typfsbff
+ * bltfrnbtivf to trbditionbl <tt>int</tt>-bbsfd "bit flbgs."  Evfn bulk
+ * opfrbtions (sudh bs <tt>dontbinsAll</tt> bnd <tt>rftbinAll</tt>) should
+ * run vfry quidkly if thfir brgumfnt is blso bn fnum sft.
+ *
+ * <p>Thf itfrbtor rfturnfd by thf <tt>itfrbtor</tt> mfthod trbvfrsfs thf
+ * flfmfnts in thfir <i>nbturbl ordfr</i> (thf ordfr in whidh thf fnum
+ * donstbnts brf dfdlbrfd).  Thf rfturnfd itfrbtor is <i>wfbkly
+ * donsistfnt</i>: it will nfvfr throw {@link CondurrfntModifidbtionExdfption}
+ * bnd it mby or mby not show thf ffffdts of bny modifidbtions to thf sft thbt
+ * oddur whilf thf itfrbtion is in progrfss.
+ *
+ * <p>Null flfmfnts brf not pfrmittfd.  Attfmpts to insfrt b null flfmfnt
+ * will throw {@link NullPointfrExdfption}.  Attfmpts to tfst for thf
+ * prfsfndf of b null flfmfnt or to rfmovf onf will, howfvfr, fundtion
+ * propfrly.
+ *
+ * <P>Likf most dollfdtion implfmfntbtions, <tt>EnumSft</tt> is not
+ * syndhronizfd.  If multiplf thrfbds bddfss bn fnum sft dondurrfntly, bnd bt
+ * lfbst onf of thf thrfbds modififs thf sft, it should bf syndhronizfd
+ * fxtfrnblly.  This is typidblly bddomplishfd by syndhronizing on somf
+ * objfdt thbt nbturblly fndbpsulbtfs thf fnum sft.  If no sudh objfdt fxists,
+ * thf sft should bf "wrbppfd" using thf {@link Collfdtions#syndhronizfdSft}
+ * mfthod.  This is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndhronizfd bddfss:
+ *
+ * <prf>
+ * Sft&lt;MyEnum&gt; s = Collfdtions.syndhronizfdSft(EnumSft.nonfOf(MyEnum.dlbss));
+ * </prf>
+ *
+ * <p>Implfmfntbtion notf: All bbsid opfrbtions fxfdutf in donstbnt timf.
+ * Thfy brf likfly (though not gubrbntffd) to bf mudh fbstfr thbn thfir
+ * {@link HbshSft} dountfrpbrts.  Evfn bulk opfrbtions fxfdutf in
+ * donstbnt timf if thfir brgumfnt is blso bn fnum sft.
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor Josh Blodh
+ * @sindf 1.5
+ * @sff EnumMbp
+ * @sfribl fxdludf
+ */
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID duf to usbgf of
+                            // sfribl proxy pbttfrn
+publid bbstrbdt dlbss EnumSft<E fxtfnds Enum<E>> fxtfnds AbstrbdtSft<E>
+    implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf
+{
+    /**
+     * Thf dlbss of bll thf flfmfnts of this sft.
+     */
+    finbl Clbss<E> flfmfntTypf;
+
+    /**
+     * All of thf vblufs domprising T.  (Cbdhfd for pfrformbndf.)
+     */
+    finbl Enum<?>[] univfrsf;
+
+    privbtf stbtid Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = nfw Enum<?>[0];
+
+    EnumSft(Clbss<E>flfmfntTypf, Enum<?>[] univfrsf) {
+        this.flfmfntTypf = flfmfntTypf;
+        this.univfrsf    = univfrsf;
+    }
+
+    /**
+     * Crfbtfs bn fmpty fnum sft with thf spfdififd flfmfnt typf.
+     *
+     * @pbrbm <E> Thf dlbss of thf flfmfnts in thf sft
+     * @pbrbm flfmfntTypf thf dlbss objfdt of thf flfmfnt typf for this fnum
+     *     sft
+     * @rfturn An fmpty fnum sft of thf spfdififd typf.
+     * @throws NullPointfrExdfption if <tt>flfmfntTypf</tt> is null
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> nonfOf(Clbss<E> flfmfntTypf) {
+        Enum<?>[] univfrsf = gftUnivfrsf(flfmfntTypf);
+        if (univfrsf == null)
+            throw nfw ClbssCbstExdfption(flfmfntTypf + " not bn fnum");
+
+        if (univfrsf.lfngth <= 64)
+            rfturn nfw RfgulbrEnumSft<>(flfmfntTypf, univfrsf);
+        flsf
+            rfturn nfw JumboEnumSft<>(flfmfntTypf, univfrsf);
+    }
+
+    /**
+     * Crfbtfs bn fnum sft dontbining bll of thf flfmfnts in thf spfdififd
+     * flfmfnt typf.
+     *
+     * @pbrbm <E> Thf dlbss of thf flfmfnts in thf sft
+     * @pbrbm flfmfntTypf thf dlbss objfdt of thf flfmfnt typf for this fnum
+     *     sft
+     * @rfturn An fnum sft dontbining bll thf flfmfnts in thf spfdififd typf.
+     * @throws NullPointfrExdfption if <tt>flfmfntTypf</tt> is null
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> bllOf(Clbss<E> flfmfntTypf) {
+        EnumSft<E> rfsult = nonfOf(flfmfntTypf);
+        rfsult.bddAll();
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds bll of thf flfmfnts from thf bppropribtf fnum typf to this fnum
+     * sft, whidh is fmpty prior to thf dbll.
+     */
+    bbstrbdt void bddAll();
+
+    /**
+     * Crfbtfs bn fnum sft with thf sbmf flfmfnt typf bs thf spfdififd fnum
+     * sft, initiblly dontbining thf sbmf flfmfnts (if bny).
+     *
+     * @pbrbm <E> Thf dlbss of thf flfmfnts in thf sft
+     * @pbrbm s thf fnum sft from whidh to initiblizf this fnum sft
+     * @rfturn A dopy of thf spfdififd fnum sft.
+     * @throws NullPointfrExdfption if <tt>s</tt> is null
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> dopyOf(EnumSft<E> s) {
+        rfturn s.dlonf();
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblizfd from thf spfdififd dollfdtion.  If
+     * thf spfdififd dollfdtion is bn <tt>EnumSft</tt> instbndf, this stbtid
+     * fbdtory mfthod bfhbvfs idfntidblly to {@link #dopyOf(EnumSft)}.
+     * Othfrwisf, thf spfdififd dollfdtion must dontbin bt lfbst onf flfmfnt
+     * (in ordfr to dftfrminf thf nfw fnum sft's flfmfnt typf).
+     *
+     * @pbrbm <E> Thf dlbss of thf flfmfnts in thf dollfdtion
+     * @pbrbm d thf dollfdtion from whidh to initiblizf this fnum sft
+     * @rfturn An fnum sft initiblizfd from thf givfn dollfdtion.
+     * @throws IllfgblArgumfntExdfption if <tt>d</tt> is not bn
+     *     <tt>EnumSft</tt> instbndf bnd dontbins no flfmfnts
+     * @throws NullPointfrExdfption if <tt>d</tt> is null
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> dopyOf(Collfdtion<E> d) {
+        if (d instbndfof EnumSft) {
+            rfturn ((EnumSft<E>)d).dlonf();
+        } flsf {
+            if (d.isEmpty())
+                throw nfw IllfgblArgumfntExdfption("Collfdtion is fmpty");
+            Itfrbtor<E> i = d.itfrbtor();
+            E first = i.nfxt();
+            EnumSft<E> rfsult = EnumSft.of(first);
+            whilf (i.hbsNfxt())
+                rfsult.bdd(i.nfxt());
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Crfbtfs bn fnum sft with thf sbmf flfmfnt typf bs thf spfdififd fnum
+     * sft, initiblly dontbining bll thf flfmfnts of this typf thbt brf
+     * <i>not</i> dontbinfd in thf spfdififd sft.
+     *
+     * @pbrbm <E> Thf dlbss of thf flfmfnts in thf fnum sft
+     * @pbrbm s thf fnum sft from whosf domplfmfnt to initiblizf this fnum sft
+     * @rfturn Thf domplfmfnt of thf spfdififd sft in this sft
+     * @throws NullPointfrExdfption if <tt>s</tt> is null
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> domplfmfntOf(EnumSft<E> s) {
+        EnumSft<E> rfsult = dopyOf(s);
+        rfsult.domplfmfnt();
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnt.
+     *
+     * Ovfrlobdings of this mfthod fxist to initiblizf bn fnum sft with
+     * onf through fivf flfmfnts.  A sixth ovfrlobding is providfd thbt
+     * usfs thf vbrbrgs ffbturf.  This ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr thbn thf ovfrlobdings thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf spfdififd flfmfnt bnd of thf sft
+     * @pbrbm f thf flfmfnt thbt this sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if <tt>f</tt> is null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnt
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f) {
+        EnumSft<E> rfsult = nonfOf(f.gftDfdlbringClbss());
+        rfsult.bdd(f);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnts.
+     *
+     * Ovfrlobdings of this mfthod fxist to initiblizf bn fnum sft with
+     * onf through fivf flfmfnts.  A sixth ovfrlobding is providfd thbt
+     * usfs thf vbrbrgs ffbturf.  This ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr thbn thf ovfrlobdings thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm f1 bn flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f2 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnts
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnts.
+     *
+     * Ovfrlobdings of this mfthod fxist to initiblizf bn fnum sft with
+     * onf through fivf flfmfnts.  A sixth ovfrlobding is providfd thbt
+     * usfs thf vbrbrgs ffbturf.  This ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr thbn thf ovfrlobdings thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm f1 bn flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f2 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f3 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnts
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnts.
+     *
+     * Ovfrlobdings of this mfthod fxist to initiblizf bn fnum sft with
+     * onf through fivf flfmfnts.  A sixth ovfrlobding is providfd thbt
+     * usfs thf vbrbrgs ffbturf.  This ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr thbn thf ovfrlobdings thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm f1 bn flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f2 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f3 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f4 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnts
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3, E f4) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfsult.bdd(f4);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnts.
+     *
+     * Ovfrlobdings of this mfthod fxist to initiblizf bn fnum sft with
+     * onf through fivf flfmfnts.  A sixth ovfrlobding is providfd thbt
+     * usfs thf vbrbrgs ffbturf.  This ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr thbn thf ovfrlobdings thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm f1 bn flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f2 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f3 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f4 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @pbrbm f5 bnothfr flfmfnt thbt this sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnts
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3, E f4,
+                                                    E f5)
+    {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfsult.bdd(f4);
+        rfsult.bdd(f5);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining thf spfdififd flfmfnts.
+     * This fbdtory, whosf pbrbmftfr list usfs thf vbrbrgs ffbturf, mby
+     * bf usfd to drfbtf bn fnum sft initiblly dontbining bn brbitrbry
+     * numbfr of flfmfnts, but it is likfly to run slowfr thbn thf ovfrlobdings
+     * thbt do not usf vbrbrgs.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm first bn flfmfnt thbt thf sft is to dontbin initiblly
+     * @pbrbm rfst thf rfmbining flfmfnts thf sft is to dontbin initiblly
+     * @throws NullPointfrExdfption if bny of thf spfdififd flfmfnts brf null,
+     *     or if <tt>rfst</tt> is null
+     * @rfturn bn fnum sft initiblly dontbining thf spfdififd flfmfnts
+     */
+    @SbffVbrbrgs
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E first, E... rfst) {
+        EnumSft<E> rfsult = nonfOf(first.gftDfdlbringClbss());
+        rfsult.bdd(first);
+        for (E f : rfst)
+            rfsult.bdd(f);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn fnum sft initiblly dontbining bll of thf flfmfnts in thf
+     * rbngf dffinfd by thf two spfdififd fndpoints.  Thf rfturnfd sft will
+     * dontbin thf fndpoints thfmsflvfs, whidh mby bf idfntidbl but must not
+     * bf out of ordfr.
+     *
+     * @pbrbm <E> Thf dlbss of thf pbrbmftfr flfmfnts bnd of thf sft
+     * @pbrbm from thf first flfmfnt in thf rbngf
+     * @pbrbm to thf lbst flfmfnt in thf rbngf
+     * @throws NullPointfrExdfption if {@dodf from} or {@dodf to} brf null
+     * @throws IllfgblArgumfntExdfption if {@dodf from.dompbrfTo(to) > 0}
+     * @rfturn bn fnum sft initiblly dontbining bll of thf flfmfnts in thf
+     *         rbngf dffinfd by thf two spfdififd fndpoints
+     */
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> rbngf(E from, E to) {
+        if (from.dompbrfTo(to) > 0)
+            throw nfw IllfgblArgumfntExdfption(from + " > " + to);
+        EnumSft<E> rfsult = nonfOf(from.gftDfdlbringClbss());
+        rfsult.bddRbngf(from, to);
+        rfturn rfsult;
+    }
+
+    /**
+     * Adds thf spfdififd rbngf to this fnum sft, whidh is fmpty prior
+     * to thf dbll.
+     */
+    bbstrbdt void bddRbngf(E from, E to);
+
+    /**
+     * Rfturns b dopy of this sft.
+     *
+     * @rfturn b dopy of this sft
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid EnumSft<E> dlonf() {
+        try {
+            rfturn (EnumSft<E>) supfr.dlonf();
+        } dbtdh(ClonfNotSupportfdExdfption f) {
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    /**
+     * Complfmfnts thf dontfnts of this fnum sft.
+     */
+    bbstrbdt void domplfmfnt();
+
+    /**
+     * Throws bn fxdfption if f is not of thf dorrfdt typf for this fnum sft.
+     */
+    finbl void typfChfdk(E f) {
+        Clbss<?> fClbss = f.gftClbss();
+        if (fClbss != flfmfntTypf && fClbss.gftSupfrdlbss() != flfmfntTypf)
+            throw nfw ClbssCbstExdfption(fClbss + " != " + flfmfntTypf);
+    }
+
+    /**
+     * Rfturns bll of thf vblufs domprising E.
+     * Thf rfsult is undlonfd, dbdhfd, bnd shbrfd by bll dbllfrs.
+     */
+    privbtf stbtid <E fxtfnds Enum<E>> E[] gftUnivfrsf(Clbss<E> flfmfntTypf) {
+        rfturn ShbrfdSfdrfts.gftJbvbLbngAddfss()
+                                        .gftEnumConstbntsShbrfd(flfmfntTypf);
+    }
+
+    /**
+     * This dlbss is usfd to sfriblizf bll EnumSft instbndfs, rfgbrdlfss of
+     * implfmfntbtion typf.  It dbpturfs thfir "logidbl dontfnts" bnd thfy
+     * brf rfdonstrudtfd using publid stbtid fbdtorifs.  This is nfdfssbry
+     * to fnsurf thbt thf fxistfndf of b pbrtidulbr implfmfntbtion typf is
+     * bn implfmfntbtion dftbil.
+     *
+     * @sfribl indludf
+     */
+    privbtf stbtid dlbss SfriblizbtionProxy <E fxtfnds Enum<E>>
+        implfmfnts jbvb.io.Sfriblizbblf
+    {
+        /**
+         * Thf flfmfnt typf of this fnum sft.
+         *
+         * @sfribl
+         */
+        privbtf finbl Clbss<E> flfmfntTypf;
+
+        /**
+         * Thf flfmfnts dontbinfd in this fnum sft.
+         *
+         * @sfribl
+         */
+        privbtf finbl Enum<?>[] flfmfnts;
+
+        SfriblizbtionProxy(EnumSft<E> sft) {
+            flfmfntTypf = sft.flfmfntTypf;
+            flfmfnts = sft.toArrby(ZERO_LENGTH_ENUM_ARRAY);
+        }
+
+        // instfbd of dbst to E, wf should pfrhbps usf flfmfntTypf.dbst()
+        // to bvoid injfdtion of forgfd strfbm, but it will slow thf implfmfntbtion
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf Objfdt rfbdRfsolvf() {
+            EnumSft<E> rfsult = EnumSft.nonfOf(flfmfntTypf);
+            for (Enum<?> f : flfmfnts)
+                rfsult.bdd((E)f);
+            rfturn rfsult;
+        }
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 362491234563181265L;
+    }
+
+    Objfdt writfRfplbdf() {
+        rfturn nfw SfriblizbtionProxy<>(this);
+    }
+
+    // rfbdObjfdt mfthod for thf sfriblizbtion proxy pbttfrn
+    // Sff Efffdtivf Jbvb, Sfdond Ed., Itfm 78.
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm strfbm)
+        throws jbvb.io.InvblidObjfdtExdfption {
+        throw nfw jbvb.io.InvblidObjfdtExdfption("Proxy rfquirfd");
+    }
+}

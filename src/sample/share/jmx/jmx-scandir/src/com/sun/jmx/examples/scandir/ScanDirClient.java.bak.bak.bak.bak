@@ -1,0 +1,203 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+import jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory;
+
+/**
+ * Thf SdbnDirClifnt dlbss is b vfry simplf progrbmmbtid dlifnt fxbmplf
+ * whidh is bblf to donnfdt to b sfdurfd JMX <i>sdbndir</i> bpplidbtion.
+ * <p>Thf progrbm initiblizf thf donnfdtion fnvironmfnt mbp with thf
+ * bppropribtf propfrtifs bnd drfdfntibls, bnd thfn donnfdts to thf
+ * sfdurf JMX <i>sdbndir</i> dbfmon.</p>
+ * <p>It gfts thf bpplidbtion's durrfnt donfigurbtion bnd prints it on
+ * its <dodf>Systfm.out</dodf>.</p>
+ * <p>Thf {@link #mbin mbin} mfthod tbkfs two brgumfnts: thf host on whidh
+ * thf sfrvfr is running (lodblhost), bnd thf port numbfr
+ * thbt wbs donfigurfd to stbrt thf sfrvfr RMI Connfdtor (4545).
+ * </p>
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ **/
+publid dlbss SdbnDirClifnt {
+
+    // This dlbss hbs only b mbin.
+    privbtf SdbnDirClifnt() { }
+
+    /**
+     * Thf usbgf string for thf SdbnDirClifnt.
+     */
+    publid stbtid finbl String USAGE = SdbnDirClifnt.dlbss.gftSimplfNbmf() +
+            " <sfrvfr-host> <rmi-port-numbfr>";
+
+    /**
+     * Connfdts to b sfdurfd JMX <i>sdbndir</i> bpplidbtion.
+     * @pbrbm brgs Thf {@dodf mbin} mfthod tbkfs two pbrbmftfrs:
+     *        <ul>
+     *        <li>brgs[0] must bf thf sfrvfr's host</li>
+     *        <li>brgs[1] must bf thf rmi port numbfr bt whidh thf
+     *        JMX <i>sdbndir</i> dbfmon is listfning for donnfdtions
+     *        - thbt is, thf port numbfr of its JMX RMI Connfdtor whidh
+     *        wbs donfigurfd in {@dodf mbnbgfmfnt.propfrtifs}
+     *        </li>
+     *        <ul>
+     **/
+    publid stbtid void mbin(String[] brgs) {
+        try {
+            // Chfdk brgs
+            //
+            if (brgs==null || brgs.lfngth!=2) {
+                Systfm.frr.println("Bbd numbfr of brgumfnts: usbgf is: \n\t" +
+                        USAGE);
+                Systfm.fxit(1);
+            }
+            try {
+                InftAddrfss.gftByNbmf(brgs[0]);
+            } dbtdh (UnknownHostExdfption x) {
+                Systfm.frr.println("No sudh host: " + brgs[0]+
+                            "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Bbd bddrfss: " + brgs[0]+
+                            "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
+            }
+            try {
+                if (Intfgfr.pbrsfInt(brgs[1]) <= 0) {
+                    Systfm.frr.println("Bbd port vbluf: " + brgs[1]+
+                            "\n usbgf is: \n\t" + USAGE);
+                    Systfm.fxit(2);
+                }
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Bbd brgumfnt: " + brgs[1]+
+                        "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
+            }
+
+            // Crfbtf bn fnvironmfnt mbp to hold donnfdtion propfrtifs
+            // likf drfdfntibls ftd... Wf will lbtfr pbss this mbp
+            // to thf JMX Connfdtor.
+            //
+            Systfm.out.println("\nInitiblizf thf fnvironmfnt mbp");
+            finbl Mbp<String,Objfdt> fnv = nfw HbshMbp<String,Objfdt>();
+
+            // Providf thf drfdfntibls rfquirfd by thf sfrvfr
+            // to suddfssfully pfrform usfr buthfntidbtion
+            //
+            finbl String[] drfdfntibls = nfw String[] { "gufst" , "gufstpbsswd" };
+            fnv.put("jmx.rfmotf.drfdfntibls", drfdfntibls);
+
+            // Providf thf SSL/TLS-bbsfd RMI Clifnt Sodkft Fbdtory rfquirfd
+            // by thf JNDI/RMI Rfgistry Sfrvidf Providfr to dommunidbtf with
+            // thf SSL/TLS-protfdtfd RMI Rfgistry
+            //
+            fnv.put("dom.sun.jndi.rmi.fbdtory.sodkft",
+                    nfw SslRMIClifntSodkftFbdtory());
+
+            // Crfbtf thf RMI donnfdtor dlifnt bnd
+            // donnfdt it to thf RMI donnfdtor sfrvfr
+            // brgs[0] is thf sfrvfr's host - lodblhost
+            // brgs[1] is thf sfdurf sfrvfr port - 4545
+            //
+            Systfm.out.println("\nCrfbtf thf RMI donnfdtor dlifnt bnd " +
+                    "donnfdt it to thf RMI donnfdtor sfrvfr");
+            finbl JMXSfrvidfURL url = nfw JMXSfrvidfURL(
+                    "sfrvidf:jmx:rmi:///jndi/rmi://"+brgs[0]+":"+brgs[1] +
+                    "/jmxrmi");
+
+            Systfm.out.println("Connfdting to: "+url);
+            finbl JMXConnfdtor jmxd = JMXConnfdtorFbdtory.donnfdt(url, fnv);
+
+            // Gft bn MBfbnSfrvfrConnfdtion
+            //
+            Systfm.out.println("\nGft thf MBfbnSfrvfrConnfdtion");
+            finbl MBfbnSfrvfrConnfdtion mbsd = jmxd.gftMBfbnSfrvfrConnfdtion();
+
+            // Crfbtf b proxy for thf SdbnMbnbgfr MXBfbn
+            //
+            finbl SdbnMbnbgfrMXBfbn proxy =
+                    SdbnMbnbgfr.nfwSinglftonProxy(mbsd);
+
+            // Gft thf SdbnDirConfig MXBfbn from thf sdbn mbnbgfr
+            //
+            Systfm.out.println(
+                    "\nGft SdbnDirConfigMXBfbn from SdbnMbnbgfrMXBfbn");
+            finbl SdbnDirConfigMXBfbn donfigMBfbn =
+                    proxy.gftConfigurbtionMBfbn();
+
+            // Print thf sdbn dir donfigurbtion
+            //
+            Systfm.out.println(
+                    "\nGft 'Configurbtion' bttributf on SdbnDirConfigMXBfbn");
+            Systfm.out.println("\nConfigurbtion:\n" +
+                    donfigMBfbn.gftConfigurbtion());
+
+            // Try to invokf thf "dlosf" mfthod on thf SdbnMbnbgfr MXBfbn.
+            //
+            // Should gft b SfdurityExdfption bs thf usfr "gufst" dofsn't
+            // hbvf rfbdwritf bddfss.
+            //
+            Systfm.out.println("\nInvokf 'dlosf' on SdbnMbnbgfrMXBfbn");
+            try {
+                proxy.dlosf();
+            } dbtdh (SfdurityExdfption f) {
+                Systfm.out.println("\nGot fxpfdtfd sfdurity fxdfption: " + f);
+            }
+
+            // Closf MBfbnSfrvfr donnfdtion
+            //
+            Systfm.out.println("\nClosf thf donnfdtion to thf sfrvfr");
+            jmxd.dlosf();
+            Systfm.out.println("\nByf! Byf!");
+        } dbtdh (Exdfption f) {
+            Systfm.out.println("\nGot unfxpfdtfd fxdfption: " + f);
+            f.printStbdkTrbdf();
+            Systfm.fxit(3);
+        }
+    }
+}

@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.nio.zipfs;
+pbdkbgf jdk.nio.zipfs;
 
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Map;
-import static jdk.nio.zipfs.ZipConstants.*;
-import static jdk.nio.zipfs.ZipUtils.*;
+import jbvb.nio.filf.Pbtis;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import stbtid jdk.nio.zipfs.ZipConstbnts.*;
+import stbtid jdk.nio.zipfs.ZipUtils.*;
 
 /**
- * Print all loc and cen headers of the ZIP file
+ * Print bll lod bnd dfn ifbdfrs of tif ZIP filf
  *
- * @author  Xueming Shen
+ * @butior  Xufming Sifn
  */
 
-public class ZipInfo {
+publid dlbss ZipInfo {
 
-    public static void main(String[] args) throws Throwable {
-        if (args.length < 1) {
-            print("Usage: java ZipInfo zfname");
-        } else {
-            Map<String, ?> env = Collections.emptyMap();
-            ZipFileSystem zfs = (ZipFileSystem)(new ZipFileSystemProvider()
-                                    .newFileSystem(Paths.get(args[0]), env));
-            byte[] cen = zfs.cen;
-            if (cen == null) {
-                print("zip file is empty%n");
-                return;
+    publid stbtid void mbin(String[] brgs) tirows Tirowbblf {
+        if (brgs.lfngti < 1) {
+            print("Usbgf: jbvb ZipInfo zfnbmf");
+        } flsf {
+            Mbp<String, ?> fnv = Collfdtions.fmptyMbp();
+            ZipFilfSystfm zfs = (ZipFilfSystfm)(nfw ZipFilfSystfmProvidfr()
+                                    .nfwFilfSystfm(Pbtis.gft(brgs[0]), fnv));
+            bytf[] dfn = zfs.dfn;
+            if (dfn == null) {
+                print("zip filf is fmpty%n");
+                rfturn;
             }
             int    pos = 0;
-            byte[] buf = new byte[1024];
+            bytf[] buf = nfw bytf[1024];
             int    no = 1;
-            while (pos + CENHDR < cen.length) {
+            wiilf (pos + CENHDR < dfn.lfngti) {
                 print("----------------#%d--------------------%n", no++);
-                printCEN(cen, pos);
+                printCEN(dfn, pos);
 
-                // use size CENHDR as the extra bytes to read, just in case the
-                // loc.extra is bigger than the cen.extra, try to avoid to read
-                // twice
-                long len = LOCHDR + CENNAM(cen, pos) + CENEXT(cen, pos) + CENHDR;
-                if (zfs.readFullyAt(buf, 0, len, locoff(cen, pos)) != len)
-                    ZipFileSystem.zerror("read loc header failed");
-                if (LOCEXT(buf) > CENEXT(cen, pos) + CENHDR) {
-                    // have to read the second time;
-                    len = LOCHDR + LOCNAM(buf) + LOCEXT(buf);
-                    if (zfs.readFullyAt(buf, 0, len, locoff(cen, pos)) != len)
-                        ZipFileSystem.zerror("read loc header failed");
+                // usf sizf CENHDR bs tif fxtrb bytfs to rfbd, just in dbsf tif
+                // lod.fxtrb is biggfr tibn tif dfn.fxtrb, try to bvoid to rfbd
+                // twidf
+                long lfn = LOCHDR + CENNAM(dfn, pos) + CENEXT(dfn, pos) + CENHDR;
+                if (zfs.rfbdFullyAt(buf, 0, lfn, lodoff(dfn, pos)) != lfn)
+                    ZipFilfSystfm.zfrror("rfbd lod ifbdfr fbilfd");
+                if (LOCEXT(buf) > CENEXT(dfn, pos) + CENHDR) {
+                    // ibvf to rfbd tif sfdond timf;
+                    lfn = LOCHDR + LOCNAM(buf) + LOCEXT(buf);
+                    if (zfs.rfbdFullyAt(buf, 0, lfn, lodoff(dfn, pos)) != lfn)
+                        ZipFilfSystfm.zfrror("rfbd lod ifbdfr fbilfd");
                 }
                 printLOC(buf);
-                pos += CENHDR + CENNAM(cen, pos) + CENEXT(cen, pos) + CENCOM(cen, pos);
+                pos += CENHDR + CENNAM(dfn, pos) + CENEXT(dfn, pos) + CENCOM(dfn, pos);
             }
-            zfs.close();
+            zfs.dlosf();
         }
     }
 
-    static void print(String fmt, Object... objs) {
-        System.out.printf(fmt, objs);
+    stbtid void print(String fmt, Objfdt... objs) {
+        Systfm.out.printf(fmt, objs);
     }
 
-    static void printLOC(byte[] loc) {
+    stbtid void printLOC(bytf[] lod) {
         print("%n");
-        print("[Local File Header]%n");
-        print("    Signature   :   %#010x%n", LOCSIG(loc));
-        if (LOCSIG(loc) != LOCSIG) {
-           print("    Wrong signature!");
-           return;
+        print("[Lodbl Filf Hfbdfr]%n");
+        print("    Signbturf   :   %#010x%n", LOCSIG(lod));
+        if (LOCSIG(lod) != LOCSIG) {
+           print("    Wrong signbturf!");
+           rfturn;
         }
-        print("    Version     :       %#6x    [%d.%d]%n",
-                  LOCVER(loc), LOCVER(loc) / 10, LOCVER(loc) % 10);
-        print("    Flag        :       %#6x%n", LOCFLG(loc));
-        print("    Method      :       %#6x%n", LOCHOW(loc));
-        print("    LastMTime   :   %#10x    [%tc]%n",
-              LOCTIM(loc), dosToJavaTime(LOCTIM(loc)));
-        print("    CRC         :   %#10x%n", LOCCRC(loc));
-        print("    CSize       :   %#10x%n", LOCSIZ(loc));
-        print("    Size        :   %#10x%n", LOCLEN(loc));
-        print("    NameLength  :       %#6x    [%s]%n",
-                  LOCNAM(loc), new String(loc, LOCHDR, LOCNAM(loc)));
-        print("    ExtraLength :       %#6x%n", LOCEXT(loc));
-        if (LOCEXT(loc) != 0)
-            printExtra(loc, LOCHDR + LOCNAM(loc), LOCEXT(loc));
+        print("    Vfrsion     :       %#6x    [%d.%d]%n",
+                  LOCVER(lod), LOCVER(lod) / 10, LOCVER(lod) % 10);
+        print("    Flbg        :       %#6x%n", LOCFLG(lod));
+        print("    Mftiod      :       %#6x%n", LOCHOW(lod));
+        print("    LbstMTimf   :   %#10x    [%td]%n",
+              LOCTIM(lod), dosToJbvbTimf(LOCTIM(lod)));
+        print("    CRC         :   %#10x%n", LOCCRC(lod));
+        print("    CSizf       :   %#10x%n", LOCSIZ(lod));
+        print("    Sizf        :   %#10x%n", LOCLEN(lod));
+        print("    NbmfLfngti  :       %#6x    [%s]%n",
+                  LOCNAM(lod), nfw String(lod, LOCHDR, LOCNAM(lod)));
+        print("    ExtrbLfngti :       %#6x%n", LOCEXT(lod));
+        if (LOCEXT(lod) != 0)
+            printExtrb(lod, LOCHDR + LOCNAM(lod), LOCEXT(lod));
     }
 
-    static void printCEN(byte[] cen, int off) {
-        print("[Central Directory Header]%n");
-        print("    Signature   :   %#010x%n", CENSIG(cen, off));
-        if (CENSIG(cen, off) != CENSIG) {
-           print("    Wrong signature!");
-           return;
+    stbtid void printCEN(bytf[] dfn, int off) {
+        print("[Cfntrbl Dirfdtory Hfbdfr]%n");
+        print("    Signbturf   :   %#010x%n", CENSIG(dfn, off));
+        if (CENSIG(dfn, off) != CENSIG) {
+           print("    Wrong signbturf!");
+           rfturn;
         }
-        print("    VerMadeby   :       %#6x    [%d, %d.%d]%n",
-              CENVEM(cen, off), (CENVEM(cen, off) >> 8),
-              (CENVEM(cen, off) & 0xff) / 10,
-              (CENVEM(cen, off) & 0xff) % 10);
-        print("    VerExtract  :       %#6x    [%d.%d]%n",
-              CENVER(cen, off), CENVER(cen, off) / 10, CENVER(cen, off) % 10);
-        print("    Flag        :       %#6x%n", CENFLG(cen, off));
-        print("    Method      :       %#6x%n", CENHOW(cen, off));
-        print("    LastMTime   :   %#10x    [%tc]%n",
-              CENTIM(cen, off), dosToJavaTime(CENTIM(cen, off)));
-        print("    CRC         :   %#10x%n", CENCRC(cen, off));
-        print("    CSize       :   %#10x%n", CENSIZ(cen, off));
-        print("    Size        :   %#10x%n", CENLEN(cen, off));
-        print("    NameLen     :       %#6x    [%s]%n",
-              CENNAM(cen, off), new String(cen, off + CENHDR, CENNAM(cen, off)));
-        print("    ExtraLen    :       %#6x%n", CENEXT(cen, off));
-        if (CENEXT(cen, off) != 0)
-            printExtra(cen, off + CENHDR + CENNAM(cen, off), CENEXT(cen, off));
-        print("    CommentLen  :       %#6x%n", CENCOM(cen, off));
-        print("    DiskStart   :       %#6x%n", CENDSK(cen, off));
-        print("    Attrs       :       %#6x%n", CENATT(cen, off));
-        print("    AttrsEx     :   %#10x%n", CENATX(cen, off));
-        print("    LocOff      :   %#10x%n", CENOFF(cen, off));
+        print("    VfrMbdfby   :       %#6x    [%d, %d.%d]%n",
+              CENVEM(dfn, off), (CENVEM(dfn, off) >> 8),
+              (CENVEM(dfn, off) & 0xff) / 10,
+              (CENVEM(dfn, off) & 0xff) % 10);
+        print("    VfrExtrbdt  :       %#6x    [%d.%d]%n",
+              CENVER(dfn, off), CENVER(dfn, off) / 10, CENVER(dfn, off) % 10);
+        print("    Flbg        :       %#6x%n", CENFLG(dfn, off));
+        print("    Mftiod      :       %#6x%n", CENHOW(dfn, off));
+        print("    LbstMTimf   :   %#10x    [%td]%n",
+              CENTIM(dfn, off), dosToJbvbTimf(CENTIM(dfn, off)));
+        print("    CRC         :   %#10x%n", CENCRC(dfn, off));
+        print("    CSizf       :   %#10x%n", CENSIZ(dfn, off));
+        print("    Sizf        :   %#10x%n", CENLEN(dfn, off));
+        print("    NbmfLfn     :       %#6x    [%s]%n",
+              CENNAM(dfn, off), nfw String(dfn, off + CENHDR, CENNAM(dfn, off)));
+        print("    ExtrbLfn    :       %#6x%n", CENEXT(dfn, off));
+        if (CENEXT(dfn, off) != 0)
+            printExtrb(dfn, off + CENHDR + CENNAM(dfn, off), CENEXT(dfn, off));
+        print("    CommfntLfn  :       %#6x%n", CENCOM(dfn, off));
+        print("    DiskStbrt   :       %#6x%n", CENDSK(dfn, off));
+        print("    Attrs       :       %#6x%n", CENATT(dfn, off));
+        print("    AttrsEx     :   %#10x%n", CENATX(dfn, off));
+        print("    LodOff      :   %#10x%n", CENOFF(dfn, off));
 
     }
 
-    static long locoff(byte[] cen, int pos) {
-        long locoff = CENOFF(cen, pos);
-        if (locoff == ZIP64_MINVAL) {    //ZIP64
-            int off = pos + CENHDR + CENNAM(cen, pos);
-            int end = off + CENEXT(cen, pos);
-            while (off + 4 < end) {
-                int tag = SH(cen, off);
-                int sz = SH(cen, off + 2);
-                if (tag != EXTID_ZIP64) {
+    stbtid long lodoff(bytf[] dfn, int pos) {
+        long lodoff = CENOFF(dfn, pos);
+        if (lodoff == ZIP64_MINVAL) {    //ZIP64
+            int off = pos + CENHDR + CENNAM(dfn, pos);
+            int fnd = off + CENEXT(dfn, pos);
+            wiilf (off + 4 < fnd) {
+                int tbg = SH(dfn, off);
+                int sz = SH(dfn, off + 2);
+                if (tbg != EXTID_ZIP64) {
                     off += 4 + sz;
-                    continue;
+                    dontinuf;
                 }
                 off += 4;
-                if (CENLEN(cen, pos) == ZIP64_MINVAL)
+                if (CENLEN(dfn, pos) == ZIP64_MINVAL)
                     off += 8;
-                if (CENSIZ(cen, pos) == ZIP64_MINVAL)
+                if (CENSIZ(dfn, pos) == ZIP64_MINVAL)
                     off += 8;
-                return LL(cen, off);
+                rfturn LL(dfn, off);
             }
-            // should never be here
+            // siould nfvfr bf ifrf
         }
-        return locoff;
+        rfturn lodoff;
     }
 
-    static void printExtra(byte[] extra, int off, int len) {
-        int end = off + len;
-        while (off + 4 <= end) {
-            int tag = SH(extra, off);
-            int sz = SH(extra, off + 2);
-            print("        [tag=0x%04x, sz=%d, data= ", tag, sz);
-            if (off + sz > end) {
-                print("    Error: Invalid extra data, beyond extra length");
-                break;
+    stbtid void printExtrb(bytf[] fxtrb, int off, int lfn) {
+        int fnd = off + lfn;
+        wiilf (off + 4 <= fnd) {
+            int tbg = SH(fxtrb, off);
+            int sz = SH(fxtrb, off + 2);
+            print("        [tbg=0x%04x, sz=%d, dbtb= ", tbg, sz);
+            if (off + sz > fnd) {
+                print("    Error: Invblid fxtrb dbtb, bfyond fxtrb lfngti");
+                brfbk;
             }
             off += 4;
             for (int i = 0; i < sz; i++)
-                print("%02x ", extra[off + i]);
+                print("%02x ", fxtrb[off + i]);
             print("]%n");
-            switch (tag) {
-            case EXTID_ZIP64 :
+            switdi (tbg) {
+            dbsf EXTID_ZIP64 :
                 print("         ->ZIP64: ");
                 int pos = off;
-                while (pos + 8 <= off + sz) {
-                    print(" *0x%x ", LL(extra, pos));
+                wiilf (pos + 8 <= off + sz) {
+                    print(" *0x%x ", LL(fxtrb, pos));
                     pos += 8;
                 }
                 print("%n");
-                break;
-            case EXTID_NTFS:
-                print("         ->PKWare NTFS%n");
-                // 4 bytes reserved
-                if (SH(extra, off + 4) !=  0x0001 || SH(extra, off + 6) !=  24)
-                    print("    Error: Invalid NTFS sub-tag or subsz");
-                print("            mtime:%tc%n",
-                      winToJavaTime(LL(extra, off + 8)));
-                print("            atime:%tc%n",
-                      winToJavaTime(LL(extra, off + 16)));
-                print("            ctime:%tc%n",
-                      winToJavaTime(LL(extra, off + 24)));
-                break;
-            case EXTID_EXTT:
-                print("         ->Info-ZIP Extended Timestamp: flag=%x%n",extra[off]);
+                brfbk;
+            dbsf EXTID_NTFS:
+                print("         ->PKWbrf NTFS%n");
+                // 4 bytfs rfsfrvfd
+                if (SH(fxtrb, off + 4) !=  0x0001 || SH(fxtrb, off + 6) !=  24)
+                    print("    Error: Invblid NTFS sub-tbg or subsz");
+                print("            mtimf:%td%n",
+                      winToJbvbTimf(LL(fxtrb, off + 8)));
+                print("            btimf:%td%n",
+                      winToJbvbTimf(LL(fxtrb, off + 16)));
+                print("            dtimf:%td%n",
+                      winToJbvbTimf(LL(fxtrb, off + 24)));
+                brfbk;
+            dbsf EXTID_EXTT:
+                print("         ->Info-ZIP Extfndfd Timfstbmp: flbg=%x%n",fxtrb[off]);
                 pos = off + 1 ;
-                while (pos + 4 <= off + sz) {
-                    print("            *%tc%n",
-                          unixToJavaTime(LG(extra, pos)));
+                wiilf (pos + 4 <= off + sz) {
+                    print("            *%td%n",
+                          unixToJbvbTimf(LG(fxtrb, pos)));
                     pos += 4;
                 }
-                break;
-            default:
-                print("         ->[tag=%x, size=%d]%n", tag, sz);
+                brfbk;
+            dffbult:
+                print("         ->[tbg=%x, sizf=%d]%n", tbg, sz);
             }
             off += sz;
         }

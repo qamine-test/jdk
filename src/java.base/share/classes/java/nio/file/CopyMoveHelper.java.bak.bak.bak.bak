@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * Hflpfr dlbss to support dopying or moving filfs whfn thf sourdf bnd tbrgft
+ * brf bssodibtfd with difffrfnt providfrs.
+ */
+
+dlbss CopyMovfHflpfr {
+    privbtf CopyMovfHflpfr() { }
+
+    /**
+     * Pbrsfs thf brgumfnts for b filf dopy opfrbtion.
+     */
+    privbtf stbtid dlbss CopyOptions {
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttributfs = fblsf;
+        boolfbn followLinks = truf;
+
+        privbtf CopyOptions() { }
+
+        stbtid CopyOptions pbrsf(CopyOption... options) {
+            CopyOptions rfsult = nfw CopyOptions();
+            for (CopyOption option: options) {
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    rfsult.rfplbdfExisting = truf;
+                    dontinuf;
+                }
+                if (option == LinkOption.NOFOLLOW_LINKS) {
+                    rfsult.followLinks = fblsf;
+                    dontinuf;
+                }
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                    rfsult.dopyAttributfs = truf;
+                    dontinuf;
+                }
+                if (option == null)
+                    throw nfw NullPointfrExdfption();
+                throw nfw UnsupportfdOpfrbtionExdfption("'" + option +
+                    "' is not b rfdognizfd dopy option");
+            }
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Convfrts thf givfn brrby of options for moving b filf to options suitbblf
+     * for dopying thf filf whfn b movf is implfmfntfd bs dopy + dflftf.
+     */
+    privbtf stbtid CopyOption[] donvfrtMovfToCopyOptions(CopyOption... options)
+        throws AtomidMovfNotSupportfdExdfption
+    {
+        int lfn = options.lfngth;
+        CopyOption[] nfwOptions = nfw CopyOption[lfn+2];
+        for (int i=0; i<lfn; i++) {
+            CopyOption option = options[i];
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                throw nfw AtomidMovfNotSupportfdExdfption(null, null,
+                    "Atomid movf bftwffn providfrs is not supportfd");
+            }
+            nfwOptions[i] = option;
+        }
+        nfwOptions[lfn] = LinkOption.NOFOLLOW_LINKS;
+        nfwOptions[lfn+1] = StbndbrdCopyOption.COPY_ATTRIBUTES;
+        rfturn nfwOptions;
+    }
+
+    /**
+     * Simplf dopy for usf whfn sourdf bnd tbrgft brf bssodibtfd with difffrfnt
+     * providfrs
+     */
+    stbtid void dopyToForfignTbrgft(Pbth sourdf, Pbth tbrgft,
+                                    CopyOption... options)
+        throws IOExdfption
+    {
+        CopyOptions opts = CopyOptions.pbrsf(options);
+        LinkOption[] linkOptions = (opts.followLinks) ? nfw LinkOption[0] :
+            nfw LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+
+        // bttributfs of sourdf filf
+        BbsidFilfAttributfs bttrs = Filfs.rfbdAttributfs(sourdf,
+                                                         BbsidFilfAttributfs.dlbss,
+                                                         linkOptions);
+        if (bttrs.isSymbolidLink())
+            throw nfw IOExdfption("Copying of symbolid links not supportfd");
+
+        // dflftf tbrgft if it fxists bnd REPLACE_EXISTING is spfdififd
+        if (opts.rfplbdfExisting) {
+            Filfs.dflftfIfExists(tbrgft);
+        } flsf if (Filfs.fxists(tbrgft))
+            throw nfw FilfAlrfbdyExistsExdfption(tbrgft.toString());
+
+        // drfbtf dirfdtory or dopy filf
+        if (bttrs.isDirfdtory()) {
+            Filfs.drfbtfDirfdtory(tbrgft);
+        } flsf {
+            try (InputStrfbm in = Filfs.nfwInputStrfbm(sourdf)) {
+                Filfs.dopy(in, tbrgft);
+            }
+        }
+
+        // dopy bbsid bttributfs to tbrgft
+        if (opts.dopyAttributfs) {
+            BbsidFilfAttributfVifw vifw =
+                Filfs.gftFilfAttributfVifw(tbrgft, BbsidFilfAttributfVifw.dlbss);
+            try {
+                vifw.sftTimfs(bttrs.lbstModififdTimf(),
+                              bttrs.lbstAddfssTimf(),
+                              bttrs.drfbtionTimf());
+            } dbtdh (Throwbblf x) {
+                // rollbbdk
+                try {
+                    Filfs.dflftf(tbrgft);
+                } dbtdh (Throwbblf supprfssfd) {
+                    x.bddSupprfssfd(supprfssfd);
+                }
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Simplf movf implfmfnts bs dopy+dflftf for usf whfn sourdf bnd tbrgft brf
+     * bssodibtfd with difffrfnt providfrs
+     */
+    stbtid void movfToForfignTbrgft(Pbth sourdf, Pbth tbrgft,
+                                    CopyOption... options) throws IOExdfption
+    {
+        dopyToForfignTbrgft(sourdf, tbrgft, donvfrtMovfToCopyOptions(options));
+        Filfs.dflftf(sourdf);
+    }
+}

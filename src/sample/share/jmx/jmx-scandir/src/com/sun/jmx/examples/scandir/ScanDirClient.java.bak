@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,174 +30,174 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
-import javax.management.MBeanServerConnection;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+import jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory;
 
 /**
- * The ScanDirClient class is a very simple programmatic client example
- * which is able to connect to a secured JMX <i>scandir</i> application.
- * <p>The program initialize the connection environment map with the
- * appropriate properties and credentials, and then connects to the
- * secure JMX <i>scandir</i> daemon.</p>
- * <p>It gets the application's current configuration and prints it on
- * its <code>System.out</code>.</p>
- * <p>The {@link #main main} method takes two arguments: the host on which
- * the server is running (localhost), and the port number
- * that was configured to start the server RMI Connector (4545).
+ * Tif SdbnDirClifnt dlbss is b vfry simplf progrbmmbtid dlifnt fxbmplf
+ * wiidi is bblf to donnfdt to b sfdurfd JMX <i>sdbndir</i> bpplidbtion.
+ * <p>Tif progrbm initiblizf tif donnfdtion fnvironmfnt mbp witi tif
+ * bppropribtf propfrtifs bnd drfdfntibls, bnd tifn donnfdts to tif
+ * sfdurf JMX <i>sdbndir</i> dbfmon.</p>
+ * <p>It gfts tif bpplidbtion's durrfnt donfigurbtion bnd prints it on
+ * its <dodf>Systfm.out</dodf>.</p>
+ * <p>Tif {@link #mbin mbin} mftiod tbkfs two brgumfnts: tif iost on wiidi
+ * tif sfrvfr is running (lodbliost), bnd tif port numbfr
+ * tibt wbs donfigurfd to stbrt tif sfrvfr RMI Connfdtor (4545).
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  **/
-public class ScanDirClient {
+publid dlbss SdbnDirClifnt {
 
-    // This class has only a main.
-    private ScanDirClient() { }
+    // Tiis dlbss ibs only b mbin.
+    privbtf SdbnDirClifnt() { }
 
     /**
-     * The usage string for the ScanDirClient.
+     * Tif usbgf string for tif SdbnDirClifnt.
      */
-    public static final String USAGE = ScanDirClient.class.getSimpleName() +
-            " <server-host> <rmi-port-number>";
+    publid stbtid finbl String USAGE = SdbnDirClifnt.dlbss.gftSimplfNbmf() +
+            " <sfrvfr-iost> <rmi-port-numbfr>";
 
     /**
-     * Connects to a secured JMX <i>scandir</i> application.
-     * @param args The {@code main} method takes two parameters:
+     * Connfdts to b sfdurfd JMX <i>sdbndir</i> bpplidbtion.
+     * @pbrbm brgs Tif {@dodf mbin} mftiod tbkfs two pbrbmftfrs:
      *        <ul>
-     *        <li>args[0] must be the server's host</li>
-     *        <li>args[1] must be the rmi port number at which the
-     *        JMX <i>scandir</i> daemon is listening for connections
-     *        - that is, the port number of its JMX RMI Connector which
-     *        was configured in {@code management.properties}
+     *        <li>brgs[0] must bf tif sfrvfr's iost</li>
+     *        <li>brgs[1] must bf tif rmi port numbfr bt wiidi tif
+     *        JMX <i>sdbndir</i> dbfmon is listfning for donnfdtions
+     *        - tibt is, tif port numbfr of its JMX RMI Connfdtor wiidi
+     *        wbs donfigurfd in {@dodf mbnbgfmfnt.propfrtifs}
      *        </li>
      *        <ul>
      **/
-    public static void main(String[] args) {
+    publid stbtid void mbin(String[] brgs) {
         try {
-            // Check args
+            // Cifdk brgs
             //
-            if (args==null || args.length!=2) {
-                System.err.println("Bad number of arguments: usage is: \n\t" +
+            if (brgs==null || brgs.lfngti!=2) {
+                Systfm.frr.println("Bbd numbfr of brgumfnts: usbgf is: \n\t" +
                         USAGE);
-                System.exit(1);
+                Systfm.fxit(1);
             }
             try {
-                InetAddress.getByName(args[0]);
-            } catch (UnknownHostException x) {
-                System.err.println("No such host: " + args[0]+
-                            "\n usage is: \n\t" + USAGE);
-                System.exit(2);
-            } catch (Exception x) {
-                System.err.println("Bad address: " + args[0]+
-                            "\n usage is: \n\t" + USAGE);
-                System.exit(2);
+                InftAddrfss.gftByNbmf(brgs[0]);
+            } dbtdi (UnknownHostExdfption x) {
+                Systfm.frr.println("No sudi iost: " + brgs[0]+
+                            "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Bbd bddrfss: " + brgs[0]+
+                            "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
             }
             try {
-                if (Integer.parseInt(args[1]) <= 0) {
-                    System.err.println("Bad port value: " + args[1]+
-                            "\n usage is: \n\t" + USAGE);
-                    System.exit(2);
+                if (Intfgfr.pbrsfInt(brgs[1]) <= 0) {
+                    Systfm.frr.println("Bbd port vbluf: " + brgs[1]+
+                            "\n usbgf is: \n\t" + USAGE);
+                    Systfm.fxit(2);
                 }
-            } catch (Exception x) {
-                System.err.println("Bad argument: " + args[1]+
-                        "\n usage is: \n\t" + USAGE);
-                System.exit(2);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Bbd brgumfnt: " + brgs[1]+
+                        "\n usbgf is: \n\t" + USAGE);
+                Systfm.fxit(2);
             }
 
-            // Create an environment map to hold connection properties
-            // like credentials etc... We will later pass this map
-            // to the JMX Connector.
+            // Crfbtf bn fnvironmfnt mbp to iold donnfdtion propfrtifs
+            // likf drfdfntibls ftd... Wf will lbtfr pbss tiis mbp
+            // to tif JMX Connfdtor.
             //
-            System.out.println("\nInitialize the environment map");
-            final Map<String,Object> env = new HashMap<String,Object>();
+            Systfm.out.println("\nInitiblizf tif fnvironmfnt mbp");
+            finbl Mbp<String,Objfdt> fnv = nfw HbsiMbp<String,Objfdt>();
 
-            // Provide the credentials required by the server
-            // to successfully perform user authentication
+            // Providf tif drfdfntibls rfquirfd by tif sfrvfr
+            // to suddfssfully pfrform usfr butifntidbtion
             //
-            final String[] credentials = new String[] { "guest" , "guestpasswd" };
-            env.put("jmx.remote.credentials", credentials);
+            finbl String[] drfdfntibls = nfw String[] { "gufst" , "gufstpbsswd" };
+            fnv.put("jmx.rfmotf.drfdfntibls", drfdfntibls);
 
-            // Provide the SSL/TLS-based RMI Client Socket Factory required
-            // by the JNDI/RMI Registry Service Provider to communicate with
-            // the SSL/TLS-protected RMI Registry
+            // Providf tif SSL/TLS-bbsfd RMI Clifnt Sodkft Fbdtory rfquirfd
+            // by tif JNDI/RMI Rfgistry Sfrvidf Providfr to dommunidbtf witi
+            // tif SSL/TLS-protfdtfd RMI Rfgistry
             //
-            env.put("com.sun.jndi.rmi.factory.socket",
-                    new SslRMIClientSocketFactory());
+            fnv.put("dom.sun.jndi.rmi.fbdtory.sodkft",
+                    nfw SslRMIClifntSodkftFbdtory());
 
-            // Create the RMI connector client and
-            // connect it to the RMI connector server
-            // args[0] is the server's host - localhost
-            // args[1] is the secure server port - 4545
+            // Crfbtf tif RMI donnfdtor dlifnt bnd
+            // donnfdt it to tif RMI donnfdtor sfrvfr
+            // brgs[0] is tif sfrvfr's iost - lodbliost
+            // brgs[1] is tif sfdurf sfrvfr port - 4545
             //
-            System.out.println("\nCreate the RMI connector client and " +
-                    "connect it to the RMI connector server");
-            final JMXServiceURL url = new JMXServiceURL(
-                    "service:jmx:rmi:///jndi/rmi://"+args[0]+":"+args[1] +
+            Systfm.out.println("\nCrfbtf tif RMI donnfdtor dlifnt bnd " +
+                    "donnfdt it to tif RMI donnfdtor sfrvfr");
+            finbl JMXSfrvidfURL url = nfw JMXSfrvidfURL(
+                    "sfrvidf:jmx:rmi:///jndi/rmi://"+brgs[0]+":"+brgs[1] +
                     "/jmxrmi");
 
-            System.out.println("Connecting to: "+url);
-            final JMXConnector jmxc = JMXConnectorFactory.connect(url, env);
+            Systfm.out.println("Connfdting to: "+url);
+            finbl JMXConnfdtor jmxd = JMXConnfdtorFbdtory.donnfdt(url, fnv);
 
-            // Get an MBeanServerConnection
+            // Gft bn MBfbnSfrvfrConnfdtion
             //
-            System.out.println("\nGet the MBeanServerConnection");
-            final MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+            Systfm.out.println("\nGft tif MBfbnSfrvfrConnfdtion");
+            finbl MBfbnSfrvfrConnfdtion mbsd = jmxd.gftMBfbnSfrvfrConnfdtion();
 
-            // Create a proxy for the ScanManager MXBean
+            // Crfbtf b proxy for tif SdbnMbnbgfr MXBfbn
             //
-            final ScanManagerMXBean proxy =
-                    ScanManager.newSingletonProxy(mbsc);
+            finbl SdbnMbnbgfrMXBfbn proxy =
+                    SdbnMbnbgfr.nfwSinglftonProxy(mbsd);
 
-            // Get the ScanDirConfig MXBean from the scan manager
+            // Gft tif SdbnDirConfig MXBfbn from tif sdbn mbnbgfr
             //
-            System.out.println(
-                    "\nGet ScanDirConfigMXBean from ScanManagerMXBean");
-            final ScanDirConfigMXBean configMBean =
-                    proxy.getConfigurationMBean();
+            Systfm.out.println(
+                    "\nGft SdbnDirConfigMXBfbn from SdbnMbnbgfrMXBfbn");
+            finbl SdbnDirConfigMXBfbn donfigMBfbn =
+                    proxy.gftConfigurbtionMBfbn();
 
-            // Print the scan dir configuration
+            // Print tif sdbn dir donfigurbtion
             //
-            System.out.println(
-                    "\nGet 'Configuration' attribute on ScanDirConfigMXBean");
-            System.out.println("\nConfiguration:\n" +
-                    configMBean.getConfiguration());
+            Systfm.out.println(
+                    "\nGft 'Configurbtion' bttributf on SdbnDirConfigMXBfbn");
+            Systfm.out.println("\nConfigurbtion:\n" +
+                    donfigMBfbn.gftConfigurbtion());
 
-            // Try to invoke the "close" method on the ScanManager MXBean.
+            // Try to invokf tif "dlosf" mftiod on tif SdbnMbnbgfr MXBfbn.
             //
-            // Should get a SecurityException as the user "guest" doesn't
-            // have readwrite access.
+            // Siould gft b SfdurityExdfption bs tif usfr "gufst" dofsn't
+            // ibvf rfbdwritf bddfss.
             //
-            System.out.println("\nInvoke 'close' on ScanManagerMXBean");
+            Systfm.out.println("\nInvokf 'dlosf' on SdbnMbnbgfrMXBfbn");
             try {
-                proxy.close();
-            } catch (SecurityException e) {
-                System.out.println("\nGot expected security exception: " + e);
+                proxy.dlosf();
+            } dbtdi (SfdurityExdfption f) {
+                Systfm.out.println("\nGot fxpfdtfd sfdurity fxdfption: " + f);
             }
 
-            // Close MBeanServer connection
+            // Closf MBfbnSfrvfr donnfdtion
             //
-            System.out.println("\nClose the connection to the server");
-            jmxc.close();
-            System.out.println("\nBye! Bye!");
-        } catch (Exception e) {
-            System.out.println("\nGot unexpected exception: " + e);
-            e.printStackTrace();
-            System.exit(3);
+            Systfm.out.println("\nClosf tif donnfdtion to tif sfrvfr");
+            jmxd.dlosf();
+            Systfm.out.println("\nByf! Byf!");
+        } dbtdi (Exdfption f) {
+            Systfm.out.println("\nGot unfxpfdtfd fxdfption: " + f);
+            f.printStbdkTrbdf();
+            Systfm.fxit(3);
         }
     }
 }

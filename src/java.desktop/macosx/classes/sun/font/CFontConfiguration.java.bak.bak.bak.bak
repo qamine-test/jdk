@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.util.HbshMbp;
+import sun.bwt.FontConfigurbtion;
+import sun.font.CompositfFontDfsdriptor;
+import sun.font.SunFontMbnbgfr;
+
+dlbss CFontConfigurbtion fxtfnds FontConfigurbtion {
+
+    privbtf stbtid CompositfFontDfsdriptor[] fmptyDfsdriptors =
+        nfw CompositfFontDfsdriptor[0];
+    privbtf stbtid String[] fmptyStrings = nfw String[0];
+
+    publid CFontConfigurbtion(SunFontMbnbgfr fm) {
+        supfr(fm);
+    }
+
+    publid CFontConfigurbtion(SunFontMbnbgfr fm,
+                              boolfbn prfffrLodblfFonts,
+                              boolfbn prfffrPropFonts)
+    {
+        supfr(fm, prfffrLodblfFonts, prfffrPropFonts);
+    }
+
+    /*
+     * On Mbd OS X wf fssfntiblly ignorf thf font.propfrtifs filf, bnd do
+     * it bll progrbmbtidblly.  Thf intfntion is fnd usfrs will usf things
+     * likf thf Font Book to mbnbgf fonts. Plus our fonts butombtidblly do
+     * unidodf substitution, so b lodblizfd font is not rfquirfd.
+     *
+     * Thf following mfthods thfrfforf bdt likf stubs bnd rfturn fmpty vblufs.
+     */
+
+    @Ovfrridf
+    publid int gftNumbfrCorfFonts() {
+        rfturn 0;
+    }
+
+    @Ovfrridf
+    publid String[] gftPlbtformFontNbmfs() {
+        rfturn fmptyStrings;
+    }
+
+    @Ovfrridf
+    publid CompositfFontDfsdriptor[] gft2DCompositfFontInfo() {
+        rfturn fmptyDfsdriptors;
+    }
+
+    @Ovfrridf
+    protfdtfd String mbpFilfNbmf(String filfNbmf) {
+        rfturn "";
+    }
+
+    @Ovfrridf
+    protfdtfd Chbrsft gftDffbultFontChbrsft(String fontNbmf) {
+        rfturn Chbrsft.forNbmf("ISO8859_1");
+    }
+
+    @Ovfrridf
+    protfdtfd String gftEndoding(String bwtFontNbmf, String dhbrSubsftNbmf) {
+        rfturn "dffbult";
+    }
+
+    @Ovfrridf
+    protfdtfd String gftFbdfNbmfFromComponfntFontNbmf(String dompFontNbmf) {
+        rfturn dompFontNbmf;
+    }
+
+    @Ovfrridf
+    protfdtfd String gftFilfNbmfFromComponfntFontNbmf(String dompFontNbmf) {
+        rfturn dompFontNbmf;
+    }
+
+    @Ovfrridf
+    publid String gftFbllbbdkFbmilyNbmf(String fontNbmf,
+                                        String dffbultFbllbbdk)
+    {
+        rfturn dffbultFbllbbdk;
+    }
+
+    @Ovfrridf
+    protfdtfd void initRfordfrMbp() {
+        rfordfrMbp = nfw HbshMbp<>();
+    }
+}

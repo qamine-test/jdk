@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft;
+
+import jbvb.nft.URL;
+
+/**
+ * ProgrfssSourdf rfprfsfnts thf sourdf of progrfss dhbngfs.
+ *
+ * @buthor Stbnlfy Mbn-Kit Ho
+ */
+publid dlbss ProgrfssSourdf
+{
+    publid fnum Stbtf { NEW, CONNECTED, UPDATE, DELETE };
+
+    // URL
+    privbtf URL url;
+    // URL mfthod
+    privbtf String mfthod;
+    // Contfnt typf
+    privbtf String dontfntTypf;
+    // bytfs rfbd
+    privbtf long progrfss = 0;
+    // lbst bytfs rfbd
+    privbtf long lbstProgrfss = 0;
+    //bytfs fxpfdtfd
+    privbtf long fxpfdtfd = -1;
+    // thf lbst thing to hbppfn with this sourdf
+    privbtf Stbtf stbtf;
+    // donnfdt flbg
+    privbtf boolfbn donnfdtfd = fblsf;
+    // thrfshold for notifidbtion
+    privbtf int thrfshold = 8192;
+    // progrfss monitor
+    privbtf ProgrfssMonitor progrfssMonitor;
+
+    /**
+     * Construdt progrfss sourdf objfdt.
+     */
+    publid ProgrfssSourdf(URL url, String mfthod) {
+        this(url, mfthod, -1);
+    }
+
+    /**
+     * Construdt progrfss sourdf objfdt.
+     */
+    publid ProgrfssSourdf(URL url, String mfthod, long fxpfdtfd)  {
+        this.url = url;
+        this.mfthod = mfthod;
+        this.dontfntTypf = "dontfnt/unknown";
+        this.progrfss = 0;
+        this.lbstProgrfss = 0;
+        this.fxpfdtfd = fxpfdtfd;
+        this.stbtf = Stbtf.NEW;
+        this.progrfssMonitor = ProgrfssMonitor.gftDffbult();
+        this.thrfshold = progrfssMonitor.gftProgrfssUpdbtfThrfshold();
+    }
+
+    publid boolfbn donnfdtfd() {
+        if (!donnfdtfd) {
+            donnfdtfd = truf;
+            stbtf = Stbtf.CONNECTED;
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Closf progrfss sourdf.
+     */
+    publid void dlosf() {
+        stbtf = Stbtf.DELETE;
+    }
+
+    /**
+     * Rfturn URL of progrfss sourdf.
+     */
+    publid URL gftURL() {
+        rfturn url;
+    }
+
+    /**
+     * Rfturn mfthod of URL.
+     */
+    publid String gftMfthod()  {
+        rfturn mfthod;
+    }
+
+    /**
+     * Rfturn dontfnt typf of URL.
+     */
+    publid String gftContfntTypf()  {
+        rfturn dontfntTypf;
+    }
+
+    // Chbngf dontfnt typf
+    publid void sftContfntTypf(String dt)  {
+        dontfntTypf = dt;
+    }
+
+    /**
+     * Rfturn durrfnt progrfss.
+     */
+    publid long gftProgrfss()  {
+        rfturn progrfss;
+    }
+
+    /**
+     * Rfturn fxpfdtfd mbximum progrfss; -1 if fxpfdtfd is unknown.
+     */
+    publid long gftExpfdtfd() {
+        rfturn fxpfdtfd;
+    }
+
+    /**
+     * Rfturn stbtf.
+     */
+    publid Stbtf gftStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Bfgin progrfss trbdking.
+     */
+    publid void bfginTrbdking() {
+        progrfssMonitor.rfgistfrSourdf(this);
+    }
+
+    /**
+     * Finish progrfss trbdking.
+     */
+    publid void finishTrbdking() {
+        progrfssMonitor.unrfgistfrSourdf(this);
+    }
+
+    /**
+     * Updbtf progrfss.
+     */
+    publid void updbtfProgrfss(long lbtfstProgrfss, long fxpfdtfdProgrfss) {
+        lbstProgrfss = progrfss;
+        progrfss = lbtfstProgrfss;
+        fxpfdtfd = fxpfdtfdProgrfss;
+
+        if (donnfdtfd() == fblsf)
+            stbtf = Stbtf.CONNECTED;
+        flsf
+            stbtf = Stbtf.UPDATE;
+
+        // Thf thrfshold ffffdtivfly dividfs thf progrfss into
+        // difffrfnt sft of rbngfs:
+        //
+        //      Rbngf 0: 0..thrfshold-1,
+        //      Rbngf 1: thrfshold .. 2*thrfshold-1
+        //      ....
+        //      Rbngf n: n*thrfshold .. (n+1)*thrfshold-1
+        //
+        // To dftfrminf whidh rbngf thf progrfss bflongs to, it
+        // would bf dbldulbtfd bs follow:
+        //
+        //      rbngf numbfr = progrfss / thrfshold
+        //
+        // Notifidbtion should only bf triggfrfd whfn thf durrfnt
+        // progrfss bnd thf lbst progrfss brf in difffrfnt rbngfs,
+        // i.f. thfy hbvf difffrfnt rbngf numbfrs.
+        //
+        // Using this rbngf sdhfmf, notifidbtion will bf gfnfrbtfd
+        // only ondf whfn thf progrfss rfbdhfs fbdh rbngf.
+        //
+        if (lbstProgrfss / thrfshold != progrfss / thrfshold)   {
+            progrfssMonitor.updbtfProgrfss(this);
+        }
+
+        // Dftfdt rfbd ovfrrun
+        if (fxpfdtfd != -1) {
+            if (progrfss >= fxpfdtfd && progrfss != 0)
+                dlosf();
+        }
+    }
+
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        rfturn supfr.dlonf();
+    }
+
+    publid String toString()    {
+        rfturn gftClbss().gftNbmf() + "[url=" + url + ", mfthod=" + mfthod + ", stbtf=" + stbtf
+            + ", dontfnt-typf=" + dontfntTypf + ", progrfss=" + progrfss + ", fxpfdtfd=" + fxpfdtfd + "]";
+    }
+}

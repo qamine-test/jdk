@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import java.util.*;
+import dom.sun.jdi.*;
+import jbvb.util.*;
 
-public class ClassLoaderReferenceImpl extends ObjectReferenceImpl
-                  implements ClassLoaderReference, VMListener  {
+publid dlbss ClbssLobdfrRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+                  implfmfnts ClbssLobdfrRfffrfndf, VMListfnfr  {
 
-    // This is cached only while the VM is suspended
-    private static class Cache extends ObjectReferenceImpl.Cache {
-        List<ReferenceType> visibleClasses = null;
+    // Tiis is dbdifd only wiilf tif VM is suspfndfd
+    privbtf stbtid dlbss Cbdif fxtfnds ObjfdtRfffrfndfImpl.Cbdif {
+        List<RfffrfndfTypf> visiblfClbssfs = null;
     }
 
-    protected ObjectReferenceImpl.Cache newCache() {
-        return new Cache();
+    protfdtfd ObjfdtRfffrfndfImpl.Cbdif nfwCbdif() {
+        rfturn nfw Cbdif();
     }
 
-    ClassLoaderReferenceImpl(VirtualMachine aVm, long ref) {
-        super(aVm, ref);
-        vm.state().addListener(this);
+    ClbssLobdfrRfffrfndfImpl(VirtublMbdiinf bVm, long rff) {
+        supfr(bVm, rff);
+        vm.stbtf().bddListfnfr(tiis);
     }
 
-    protected String description() {
-        return "ClassLoaderReference " + uniqueID();
+    protfdtfd String dfsdription() {
+        rfturn "ClbssLobdfrRfffrfndf " + uniqufID();
     }
 
-    public List<ReferenceType> definedClasses() {
-        ArrayList<ReferenceType> definedClasses = new ArrayList<ReferenceType>();
-        for (ReferenceType type :  vm.allClasses()) {
-            if (type.isPrepared() &&
-                equals(type.classLoader())) {
-                definedClasses.add(type);
+    publid List<RfffrfndfTypf> dffinfdClbssfs() {
+        ArrbyList<RfffrfndfTypf> dffinfdClbssfs = nfw ArrbyList<RfffrfndfTypf>();
+        for (RfffrfndfTypf typf :  vm.bllClbssfs()) {
+            if (typf.isPrfpbrfd() &&
+                fqubls(typf.dlbssLobdfr())) {
+                dffinfdClbssfs.bdd(typf);
             }
         }
-        return definedClasses;
+        rfturn dffinfdClbssfs;
     }
 
-    public List<ReferenceType> visibleClasses() {
-        List<ReferenceType> classes = null;
+    publid List<RfffrfndfTypf> visiblfClbssfs() {
+        List<RfffrfndfTypf> dlbssfs = null;
         try {
-            Cache local = (Cache)getCache();
+            Cbdif lodbl = (Cbdif)gftCbdif();
 
-            if (local != null) {
-                classes = local.visibleClasses;
+            if (lodbl != null) {
+                dlbssfs = lodbl.visiblfClbssfs;
             }
-            if (classes == null) {
-                JDWP.ClassLoaderReference.VisibleClasses.ClassInfo[]
-                  jdwpClasses = JDWP.ClassLoaderReference.VisibleClasses.
-                                            process(vm, this).classes;
-                classes = new ArrayList<ReferenceType>(jdwpClasses.length);
-                for (int i = 0; i < jdwpClasses.length; ++i) {
-                    classes.add(vm.referenceType(jdwpClasses[i].typeID,
-                                                 jdwpClasses[i].refTypeTag));
+            if (dlbssfs == null) {
+                JDWP.ClbssLobdfrRfffrfndf.VisiblfClbssfs.ClbssInfo[]
+                  jdwpClbssfs = JDWP.ClbssLobdfrRfffrfndf.VisiblfClbssfs.
+                                            prodfss(vm, tiis).dlbssfs;
+                dlbssfs = nfw ArrbyList<RfffrfndfTypf>(jdwpClbssfs.lfngti);
+                for (int i = 0; i < jdwpClbssfs.lfngti; ++i) {
+                    dlbssfs.bdd(vm.rfffrfndfTypf(jdwpClbssfs[i].typfID,
+                                                 jdwpClbssfs[i].rffTypfTbg));
                 }
-                classes = Collections.unmodifiableList(classes);
-                if (local != null) {
-                    local.visibleClasses = classes;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace(description() +
-                           " temporarily caching visible classes (count = " +
-                                      classes.size() + ")");
+                dlbssfs = Collfdtions.unmodifibblfList(dlbssfs);
+                if (lodbl != null) {
+                    lodbl.visiblfClbssfs = dlbssfs;
+                    if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf(dfsdription() +
+                           " tfmporbrily dbdiing visiblf dlbssfs (dount = " +
+                                      dlbssfs.sizf() + ")");
                     }
                 }
             }
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return classes;
+        rfturn dlbssfs;
     }
 
-    Type findType(String signature) throws ClassNotLoadedException {
-        List<ReferenceType> types = visibleClasses();
-        Iterator<ReferenceType> iter = types.iterator();
-        while (iter.hasNext()) {
-            ReferenceType type = iter.next();
-            if (type.signature().equals(signature)) {
-                return type;
+    Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        List<RfffrfndfTypf> typfs = visiblfClbssfs();
+        Itfrbtor<RfffrfndfTypf> itfr = typfs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            RfffrfndfTypf typf = itfr.nfxt();
+            if (typf.signbturf().fqubls(signbturf)) {
+                rfturn typf;
             }
         }
-        JNITypeParser parser = new JNITypeParser(signature);
-        throw new ClassNotLoadedException(parser.typeName(),
-                                         "Class " + parser.typeName() + " not loaded");
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf);
+        tirow nfw ClbssNotLobdfdExdfption(pbrsfr.typfNbmf(),
+                                         "Clbss " + pbrsfr.typfNbmf() + " not lobdfd");
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.CLASS_LOADER;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.CLASS_LOADER;
     }
 }

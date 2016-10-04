@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+/**
+ * Thf <dodf>GlyphJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * bbout thf justifidbtion propfrtifs of b glyph.  A glyph is thf visubl
+ * rfprfsfntbtion of onf or morf dhbrbdtfrs.  Mbny difffrfnt glyphs dbn
+ * bf usfd to rfprfsfnt b singlf dhbrbdtfr or dombinbtion of dhbrbdtfrs.
+ * Thf four justifidbtion propfrtifs rfprfsfntfd by
+ * <dodf>GlyphJustifidbtionInfo</dodf> brf wfight, priority, bbsorb bnd
+ * limit.
+ * <p>
+ * Wfight is thf ovfrbll 'wfight' of thf glyph in thf linf.  Gfnfrblly it is
+ * proportionbl to thf sizf of thf font.  Glyphs with lbrgfr wfight brf
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of thf dhbngf in spbdf.
+ * <p>
+ * Priority dftfrminfs thf justifidbtion phbsf in whidh this glyph is usfd.
+ * All glyphs of thf sbmf priority brf fxbminfd bfforf glyphs of thf nfxt
+ * priority.  If bll thf dhbngf in spbdf dbn bf bllodbtfd to thfsf glyphs
+ * without fxdffding thfir limits, thfn glyphs of thf nfxt priority brf not
+ * fxbminfd. Thfrf brf four prioritifs, kbshidb, whitfspbdf, intfrdhbr,
+ * bnd nonf.  KASHIDA is thf first priority fxbminfd. NONE is thf lbst
+ * priority fxbminfd.
+ * <p>
+ * Absorb dftfrminfs whfthfr b glyph bbsorbs bll dhbngf in spbdf.  Within b
+ * givfn priority, somf glyphs mby bbsorb bll thf dhbngf in spbdf.  If bny of
+ * thfsf glyphs brf prfsfnt, no glyphs of lbtfr priority brf fxbminfd.
+ * <p>
+ * Limit dftfrminfs thf mbximum or minimum bmount by whidh thf glyph dbn
+ * dhbngf. Lfft bnd right sidfs of thf glyph dbn hbvf difffrfnt limits.
+ * <p>
+ * Ebdh <dodf>GlyphJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * mftrids, whidh brf <i>growing</i> bnd <i>shrinking</i>.  Growing
+ * mftrids brf usfd whfn thf glyphs on b linf brf to bf
+ * sprfbd bpbrt to fit b lbrgfr width.  Shrinking mftrids brf usfd whfn
+ * thf glyphs brf to bf movfd togfthfr to fit b smbllfr width.
+ */
+
+publid finbl dlbss GlyphJustifidbtionInfo {
+
+    /**
+     * Construdts informbtion bbout thf justifidbtion propfrtifs of b
+     * glyph.
+     * @pbrbm wfight thf wfight of this glyph whfn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm growAbsorb if <dodf>truf</dodf> this glyph bbsorbs
+     * bll fxtrb spbdf bt this priority bnd lowfr priority lfvfls whfn it
+     * grows
+     * @pbrbm growPriority thf priority lfvfl of this glyph whfn it
+     * grows
+     * @pbrbm growLfftLimit thf mbximum bmount by whidh thf lfft sidf of this
+     * glyph dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm growRightLimit thf mbximum bmount by whidh thf right sidf of this
+     * glyph dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm shrinkAbsorb if <dodf>truf</dodf>, this glyph bbsorbs bll
+     * rfmbining shrinkbgf bt this bnd lowfr priority lfvfls whfn it
+     * shrinks
+     * @pbrbm shrinkPriority thf priority lfvfl of this glyph whfn
+     * it shrinks
+     * @pbrbm shrinkLfftLimit thf mbximum bmount by whidh thf lfft sidf of this
+     * glyph dbn shrink.  Must bf non-nfgbtivf.
+     * @pbrbm shrinkRightLimit thf mbximum bmount by whidh thf right sidf
+     * of this glyph dbn shrink.  Must bf non-nfgbtivf.
+     */
+     publid GlyphJustifidbtionInfo(flobt wfight,
+                                  boolfbn growAbsorb,
+                                  int growPriority,
+                                  flobt growLfftLimit,
+                                  flobt growRightLimit,
+                                  boolfbn shrinkAbsorb,
+                                  int shrinkPriority,
+                                  flobt shrinkLfftLimit,
+                                  flobt shrinkRightLimit)
+    {
+        if (wfight < 0) {
+            throw nfw IllfgblArgumfntExdfption("wfight is nfgbtivf");
+        }
+
+        if (!priorityIsVblid(growPriority)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid grow priority");
+        }
+        if (growLfftLimit < 0) {
+            throw nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
+        }
+        if (growRightLimit < 0) {
+            throw nfw IllfgblArgumfntExdfption("growRightLimit is nfgbtivf");
+        }
+
+        if (!priorityIsVblid(shrinkPriority)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid shrink priority");
+        }
+        if (shrinkLfftLimit < 0) {
+            throw nfw IllfgblArgumfntExdfption("shrinkLfftLimit is nfgbtivf");
+        }
+        if (shrinkRightLimit < 0) {
+            throw nfw IllfgblArgumfntExdfption("shrinkRightLimit is nfgbtivf");
+        }
+
+        this.wfight = wfight;
+        this.growAbsorb = growAbsorb;
+        this.growPriority = growPriority;
+        this.growLfftLimit = growLfftLimit;
+        this.growRightLimit = growRightLimit;
+        this.shrinkAbsorb = shrinkAbsorb;
+        this.shrinkPriority = shrinkPriority;
+        this.shrinkLfftLimit = shrinkLfftLimit;
+        this.shrinkRightLimit = shrinkRightLimit;
+    }
+
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
+
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+    }
+
+    /** Thf highfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
+
+    /** Thf sfdond highfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
+
+    /** Thf sfdond lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
+
+    /** Thf lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_NONE = 3;
+
+    /**
+     * Thf wfight of this glyph.
+     */
+    publid finbl flobt wfight;
+
+    /**
+     * Thf priority lfvfl of this glyph bs it is growing.
+     */
+    publid finbl int growPriority;
+
+    /**
+     * If <dodf>truf</dodf>, this glyph bbsorbs bll fxtrb
+     * spbdf bt this bnd lowfr priority lfvfls whfn it grows.
+     */
+    publid finbl boolfbn growAbsorb;
+
+    /**
+     * Thf mbximum bmount by whidh thf lfft sidf of this glyph dbn grow.
+     */
+    publid finbl flobt growLfftLimit;
+
+    /**
+     * Thf mbximum bmount by whidh thf right sidf of this glyph dbn grow.
+     */
+    publid finbl flobt growRightLimit;
+
+    /**
+     * Thf priority lfvfl of this glyph bs it is shrinking.
+     */
+    publid finbl int shrinkPriority;
+
+    /**
+     * If <dodf>truf</dodf>,this glyph bbsorbs bll rfmbining shrinkbgf bt
+     * this bnd lowfr priority lfvfls bs it shrinks.
+     */
+    publid finbl boolfbn shrinkAbsorb;
+
+    /**
+     * Thf mbximum bmount by whidh thf lfft sidf of this glyph dbn shrink
+     * (b positivf numbfr).
+     */
+    publid finbl flobt shrinkLfftLimit;
+
+    /**
+     * Thf mbximum bmount by whidh thf right sidf of this glyph dbn shrink
+     * (b positivf numbfr).
+     */
+    publid finbl flobt shrinkRightLimit;
+}

@@ -1,89 +1,89 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jquant1.c
+ * jqubnt1.d
  *
- * Copyright (C) 1991-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains 1-pass color quantization (color mapping) routines.
- * These routines provide mapping to a fixed color map using equally spaced
- * color values.  Optional Floyd-Steinberg or ordered dithering is available.
+ * Tiis filf dontbins 1-pbss dolor qubntizbtion (dolor mbpping) routinfs.
+ * Tifsf routinfs providf mbpping to b fixfd dolor mbp using fqublly spbdfd
+ * dolor vblufs.  Optionbl Floyd-Stfinbfrg or ordfrfd ditifring is bvbilbblf.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
-#ifdef QUANT_1PASS_SUPPORTED
+#ifdff QUANT_1PASS_SUPPORTED
 
 
 /*
- * The main purpose of 1-pass quantization is to provide a fast, if not very
- * high quality, colormapped output capability.  A 2-pass quantizer usually
- * gives better visual quality; however, for quantized grayscale output this
- * quantizer is perfectly adequate.  Dithering is highly recommended with this
- * quantizer, though you can turn it off if you really want to.
+ * Tif mbin purposf of 1-pbss qubntizbtion is to providf b fbst, if not vfry
+ * iigi qublity, dolormbppfd output dbpbbility.  A 2-pbss qubntizfr usublly
+ * givfs bfttfr visubl qublity; iowfvfr, for qubntizfd grbysdblf output tiis
+ * qubntizfr is pfrffdtly bdfqubtf.  Ditifring is iigily rfdommfndfd witi tiis
+ * qubntizfr, tiougi you dbn turn it off if you rfblly wbnt to.
  *
- * In 1-pass quantization the colormap must be chosen in advance of seeing the
- * image.  We use a map consisting of all combinations of Ncolors[i] color
- * values for the i'th component.  The Ncolors[] values are chosen so that
- * their product, the total number of colors, is no more than that requested.
- * (In most cases, the product will be somewhat less.)
+ * In 1-pbss qubntizbtion tif dolormbp must bf diosfn in bdvbndf of sffing tif
+ * imbgf.  Wf usf b mbp donsisting of bll dombinbtions of Ndolors[i] dolor
+ * vblufs for tif i'ti domponfnt.  Tif Ndolors[] vblufs brf diosfn so tibt
+ * tifir produdt, tif totbl numbfr of dolors, is no morf tibn tibt rfqufstfd.
+ * (In most dbsfs, tif produdt will bf somfwibt lfss.)
  *
- * Since the colormap is orthogonal, the representative value for each color
- * component can be determined without considering the other components;
- * then these indexes can be combined into a colormap index by a standard
- * N-dimensional-array-subscript calculation.  Most of the arithmetic involved
- * can be precalculated and stored in the lookup table colorindex[].
- * colorindex[i][j] maps pixel value j in component i to the nearest
- * representative value (grid plane) for that component; this index is
- * multiplied by the array stride for component i, so that the
- * index of the colormap entry closest to a given pixel value is just
- *    sum( colorindex[component-number][pixel-component-value] )
- * Aside from being fast, this scheme allows for variable spacing between
- * representative values with no additional lookup cost.
+ * Sindf tif dolormbp is ortiogonbl, tif rfprfsfntbtivf vbluf for fbdi dolor
+ * domponfnt dbn bf dftfrminfd witiout donsidfring tif otifr domponfnts;
+ * tifn tifsf indfxfs dbn bf dombinfd into b dolormbp indfx by b stbndbrd
+ * N-dimfnsionbl-brrby-subsdript dbldulbtion.  Most of tif britimftid involvfd
+ * dbn bf prfdbldulbtfd bnd storfd in tif lookup tbblf dolorindfx[].
+ * dolorindfx[i][j] mbps pixfl vbluf j in domponfnt i to tif nfbrfst
+ * rfprfsfntbtivf vbluf (grid plbnf) for tibt domponfnt; tiis indfx is
+ * multiplifd by tif brrby stridf for domponfnt i, so tibt tif
+ * indfx of tif dolormbp fntry dlosfst to b givfn pixfl vbluf is just
+ *    sum( dolorindfx[domponfnt-numbfr][pixfl-domponfnt-vbluf] )
+ * Asidf from bfing fbst, tiis sdifmf bllows for vbribblf spbding bftwffn
+ * rfprfsfntbtivf vblufs witi no bdditionbl lookup dost.
  *
- * If gamma correction has been applied in color conversion, it might be wise
- * to adjust the color grid spacing so that the representative colors are
- * equidistant in linear space.  At this writing, gamma correction is not
- * implemented by jdcolor, so nothing is done here.
+ * If gbmmb dorrfdtion ibs bffn bpplifd in dolor donvfrsion, it migit bf wisf
+ * to bdjust tif dolor grid spbding so tibt tif rfprfsfntbtivf dolors brf
+ * fquidistbnt in linfbr spbdf.  At tiis writing, gbmmb dorrfdtion is not
+ * implfmfntfd by jddolor, so notiing is donf ifrf.
  */
 
 
-/* Declarations for ordered dithering.
+/* Dfdlbrbtions for ordfrfd ditifring.
  *
- * We use a standard 16x16 ordered dither array.  The basic concept of ordered
- * dithering is described in many references, for instance Dale Schumacher's
- * chapter II.2 of Graphics Gems II (James Arvo, ed. Academic Press, 1991).
- * In place of Schumacher's comparisons against a "threshold" value, we add a
- * "dither" value to the input pixel and then round the result to the nearest
- * output value.  The dither value is equivalent to (0.5 - threshold) times
- * the distance between output values.  For ordered dithering, we assume that
- * the output colors are equally spaced; if not, results will probably be
- * worse, since the dither may be too much or too little at a given point.
+ * Wf usf b stbndbrd 16x16 ordfrfd ditifr brrby.  Tif bbsid dondfpt of ordfrfd
+ * ditifring is dfsdribfd in mbny rfffrfndfs, for instbndf Dblf Sdiumbdifr's
+ * dibptfr II.2 of Grbpiids Gfms II (Jbmfs Arvo, fd. Adbdfmid Prfss, 1991).
+ * In plbdf of Sdiumbdifr's dompbrisons bgbinst b "tirfsiold" vbluf, wf bdd b
+ * "ditifr" vbluf to tif input pixfl bnd tifn round tif rfsult to tif nfbrfst
+ * output vbluf.  Tif ditifr vbluf is fquivblfnt to (0.5 - tirfsiold) timfs
+ * tif distbndf bftwffn output vblufs.  For ordfrfd ditifring, wf bssumf tibt
+ * tif output dolors brf fqublly spbdfd; if not, rfsults will probbbly bf
+ * worsf, sindf tif ditifr mby bf too mudi or too littlf bt b givfn point.
  *
- * The normal calculation would be to form pixel value + dither, range-limit
- * this to 0..MAXJSAMPLE, and then index into the colorindex table as usual.
- * We can skip the separate range-limiting step by extending the colorindex
- * table in both directions.
+ * Tif normbl dbldulbtion would bf to form pixfl vbluf + ditifr, rbngf-limit
+ * tiis to 0..MAXJSAMPLE, bnd tifn indfx into tif dolorindfx tbblf bs usubl.
+ * Wf dbn skip tif sfpbrbtf rbngf-limiting stfp by fxtfnding tif dolorindfx
+ * tbblf in boti dirfdtions.
  */
 
-#define ODITHER_SIZE  16        /* dimension of dither matrix */
-/* NB: if ODITHER_SIZE is not a power of 2, ODITHER_MASK uses will break */
-#define ODITHER_CELLS (ODITHER_SIZE*ODITHER_SIZE)       /* # cells in matrix */
-#define ODITHER_MASK  (ODITHER_SIZE-1) /* mask for wrapping around counters */
+#dffinf ODITHER_SIZE  16        /* dimfnsion of ditifr mbtrix */
+/* NB: if ODITHER_SIZE is not b powfr of 2, ODITHER_MASK usfs will brfbk */
+#dffinf ODITHER_CELLS (ODITHER_SIZE*ODITHER_SIZE)       /* # dflls in mbtrix */
+#dffinf ODITHER_MASK  (ODITHER_SIZE-1) /* mbsk for wrbpping bround dountfrs */
 
-typedef int ODITHER_MATRIX[ODITHER_SIZE][ODITHER_SIZE];
-typedef int (*ODITHER_MATRIX_PTR)[ODITHER_SIZE];
+typfdff int ODITHER_MATRIX[ODITHER_SIZE][ODITHER_SIZE];
+typfdff int (*ODITHER_MATRIX_PTR)[ODITHER_SIZE];
 
-static const UINT8 base_dither_matrix[ODITHER_SIZE][ODITHER_SIZE] = {
-  /* Bayer's order-4 dither array.  Generated by the code given in
-   * Stephen Hawley's article "Ordered Dithering" in Graphics Gems I.
-   * The values in this array must range from 0 to ODITHER_CELLS-1.
+stbtid donst UINT8 bbsf_ditifr_mbtrix[ODITHER_SIZE][ODITHER_SIZE] = {
+  /* Bbyfr's ordfr-4 ditifr brrby.  Gfnfrbtfd by tif dodf givfn in
+   * Stfpifn Hbwlfy's brtidlf "Ordfrfd Ditifring" in Grbpiids Gfms I.
+   * Tif vblufs in tiis brrby must rbngf from 0 to ODITHER_CELLS-1.
    */
   {   0,192, 48,240, 12,204, 60,252,  3,195, 51,243, 15,207, 63,255 },
   { 128, 64,176,112,140, 76,188,124,131, 67,179,115,143, 79,191,127 },
@@ -104,757 +104,757 @@ static const UINT8 base_dither_matrix[ODITHER_SIZE][ODITHER_SIZE] = {
 };
 
 
-/* Declarations for Floyd-Steinberg dithering.
+/* Dfdlbrbtions for Floyd-Stfinbfrg ditifring.
  *
- * Errors are accumulated into the array fserrors[], at a resolution of
- * 1/16th of a pixel count.  The error at a given pixel is propagated
- * to its not-yet-processed neighbors using the standard F-S fractions,
- *              ...     (here)  7/16
+ * Errors brf bddumulbtfd into tif brrby fsfrrors[], bt b rfsolution of
+ * 1/16ti of b pixfl dount.  Tif frror bt b givfn pixfl is propbgbtfd
+ * to its not-yft-prodfssfd nfigibors using tif stbndbrd F-S frbdtions,
+ *              ...     (ifrf)  7/16
  *              3/16    5/16    1/16
- * We work left-to-right on even rows, right-to-left on odd rows.
+ * Wf work lfft-to-rigit on fvfn rows, rigit-to-lfft on odd rows.
  *
- * We can get away with a single array (holding one row's worth of errors)
- * by using it to store the current row's errors at pixel columns not yet
- * processed, but the next row's errors at columns already processed.  We
- * need only a few extra variables to hold the errors immediately around the
- * current column.  (If we are lucky, those variables are in registers, but
- * even if not, they're probably cheaper to access than array elements are.)
+ * Wf dbn gft bwby witi b singlf brrby (iolding onf row's worti of frrors)
+ * by using it to storf tif durrfnt row's frrors bt pixfl dolumns not yft
+ * prodfssfd, but tif nfxt row's frrors bt dolumns blrfbdy prodfssfd.  Wf
+ * nffd only b ffw fxtrb vbribblfs to iold tif frrors immfdibtfly bround tif
+ * durrfnt dolumn.  (If wf brf ludky, tiosf vbribblfs brf in rfgistfrs, but
+ * fvfn if not, tify'rf probbbly difbpfr to bddfss tibn brrby flfmfnts brf.)
  *
- * The fserrors[] array is indexed [component#][position].
- * We provide (#columns + 2) entries per component; the extra entry at each
- * end saves us from special-casing the first and last pixels.
+ * Tif fsfrrors[] brrby is indfxfd [domponfnt#][position].
+ * Wf providf (#dolumns + 2) fntrifs pfr domponfnt; tif fxtrb fntry bt fbdi
+ * fnd sbvfs us from spfdibl-dbsing tif first bnd lbst pixfls.
  *
- * Note: on a wide image, we might not have enough room in a PC's near data
- * segment to hold the error array; so it is allocated with alloc_large.
+ * Notf: on b widf imbgf, wf migit not ibvf fnougi room in b PC's nfbr dbtb
+ * sfgmfnt to iold tif frror brrby; so it is bllodbtfd witi bllod_lbrgf.
  */
 
 #if BITS_IN_JSAMPLE == 8
-typedef INT16 FSERROR;          /* 16 bits should be enough */
-typedef int LOCFSERROR;         /* use 'int' for calculation temps */
-#else
-typedef INT32 FSERROR;          /* may need more than 16 bits */
-typedef INT32 LOCFSERROR;       /* be sure calculation temps are big enough */
-#endif
+typfdff INT16 FSERROR;          /* 16 bits siould bf fnougi */
+typfdff int LOCFSERROR;         /* usf 'int' for dbldulbtion tfmps */
+#flsf
+typfdff INT32 FSERROR;          /* mby nffd morf tibn 16 bits */
+typfdff INT32 LOCFSERROR;       /* bf surf dbldulbtion tfmps brf big fnougi */
+#fndif
 
-typedef FSERROR FAR *FSERRPTR;  /* pointer to error array (in FAR storage!) */
+typfdff FSERROR FAR *FSERRPTR;  /* pointfr to frror brrby (in FAR storbgf!) */
 
 
-/* Private subobject */
+/* Privbtf subobjfdt */
 
-#define MAX_Q_COMPS 4           /* max components I can handle */
+#dffinf MAX_Q_COMPS 4           /* mbx domponfnts I dbn ibndlf */
 
-typedef struct {
-  struct jpeg_color_quantizer pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_dolor_qubntizfr pub; /* publid fiflds */
 
-  /* Initially allocated colormap is saved here */
-  JSAMPARRAY sv_colormap;       /* The color map as a 2-D pixel array */
-  int sv_actual;                /* number of entries in use */
+  /* Initiblly bllodbtfd dolormbp is sbvfd ifrf */
+  JSAMPARRAY sv_dolormbp;       /* Tif dolor mbp bs b 2-D pixfl brrby */
+  int sv_bdtubl;                /* numbfr of fntrifs in usf */
 
-  JSAMPARRAY colorindex;        /* Precomputed mapping for speed */
-  /* colorindex[i][j] = index of color closest to pixel value j in component i,
-   * premultiplied as described above.  Since colormap indexes must fit into
-   * JSAMPLEs, the entries of this array will too.
+  JSAMPARRAY dolorindfx;        /* Prfdomputfd mbpping for spffd */
+  /* dolorindfx[i][j] = indfx of dolor dlosfst to pixfl vbluf j in domponfnt i,
+   * prfmultiplifd bs dfsdribfd bbovf.  Sindf dolormbp indfxfs must fit into
+   * JSAMPLEs, tif fntrifs of tiis brrby will too.
    */
-  boolean is_padded;            /* is the colorindex padded for odither? */
+  boolfbn is_pbddfd;            /* is tif dolorindfx pbddfd for oditifr? */
 
-  int Ncolors[MAX_Q_COMPS];     /* # of values alloced to each component */
+  int Ndolors[MAX_Q_COMPS];     /* # of vblufs bllodfd to fbdi domponfnt */
 
-  /* Variables for ordered dithering */
-  int row_index;                /* cur row's vertical index in dither matrix */
-  ODITHER_MATRIX_PTR odither[MAX_Q_COMPS]; /* one dither array per component */
+  /* Vbribblfs for ordfrfd ditifring */
+  int row_indfx;                /* dur row's vfrtidbl indfx in ditifr mbtrix */
+  ODITHER_MATRIX_PTR oditifr[MAX_Q_COMPS]; /* onf ditifr brrby pfr domponfnt */
 
-  /* Variables for Floyd-Steinberg dithering */
-  FSERRPTR fserrors[MAX_Q_COMPS]; /* accumulated errors */
-  boolean on_odd_row;           /* flag to remember which row we are on */
-} my_cquantizer;
+  /* Vbribblfs for Floyd-Stfinbfrg ditifring */
+  FSERRPTR fsfrrors[MAX_Q_COMPS]; /* bddumulbtfd frrors */
+  boolfbn on_odd_row;           /* flbg to rfmfmbfr wiidi row wf brf on */
+} my_dqubntizfr;
 
-typedef my_cquantizer * my_cquantize_ptr;
+typfdff my_dqubntizfr * my_dqubntizf_ptr;
 
 
 /*
- * Policy-making subroutines for create_colormap and create_colorindex.
- * These routines determine the colormap to be used.  The rest of the module
- * only assumes that the colormap is orthogonal.
+ * Polidy-mbking subroutinfs for drfbtf_dolormbp bnd drfbtf_dolorindfx.
+ * Tifsf routinfs dftfrminf tif dolormbp to bf usfd.  Tif rfst of tif modulf
+ * only bssumfs tibt tif dolormbp is ortiogonbl.
  *
- *  * select_ncolors decides how to divvy up the available colors
- *    among the components.
- *  * output_value defines the set of representative values for a component.
- *  * largest_input_value defines the mapping from input values to
- *    representative values for a component.
- * Note that the latter two routines may impose different policies for
- * different components, though this is not currently done.
+ *  * sflfdt_ndolors dfdidfs iow to divvy up tif bvbilbblf dolors
+ *    bmong tif domponfnts.
+ *  * output_vbluf dffinfs tif sft of rfprfsfntbtivf vblufs for b domponfnt.
+ *  * lbrgfst_input_vbluf dffinfs tif mbpping from input vblufs to
+ *    rfprfsfntbtivf vblufs for b domponfnt.
+ * Notf tibt tif lbttfr two routinfs mby imposf difffrfnt polidifs for
+ * difffrfnt domponfnts, tiougi tiis is not durrfntly donf.
  */
 
 
 LOCAL(int)
-select_ncolors (j_decompress_ptr cinfo, int Ncolors[])
-/* Determine allocation of desired colors to components, */
-/* and fill in Ncolors[] array to indicate choice. */
-/* Return value is total number of colors (product of Ncolors[] values). */
+sflfdt_ndolors (j_dfdomprfss_ptr dinfo, int Ndolors[])
+/* Dftfrminf bllodbtion of dfsirfd dolors to domponfnts, */
+/* bnd fill in Ndolors[] brrby to indidbtf dioidf. */
+/* Rfturn vbluf is totbl numbfr of dolors (produdt of Ndolors[] vblufs). */
 {
-  int nc = cinfo->out_color_components; /* number of color components */
-  int max_colors = cinfo->desired_number_of_colors;
-  int total_colors, iroot, i, j;
-  boolean changed;
-  long temp;
-  static const int RGB_order[3] = { RGB_GREEN, RGB_RED, RGB_BLUE };
+  int nd = dinfo->out_dolor_domponfnts; /* numbfr of dolor domponfnts */
+  int mbx_dolors = dinfo->dfsirfd_numbfr_of_dolors;
+  int totbl_dolors, iroot, i, j;
+  boolfbn dibngfd;
+  long tfmp;
+  stbtid donst int RGB_ordfr[3] = { RGB_GREEN, RGB_RED, RGB_BLUE };
 
-  /* We can allocate at least the nc'th root of max_colors per component. */
-  /* Compute floor(nc'th root of max_colors). */
+  /* Wf dbn bllodbtf bt lfbst tif nd'ti root of mbx_dolors pfr domponfnt. */
+  /* Computf floor(nd'ti root of mbx_dolors). */
   iroot = 1;
   do {
     iroot++;
-    temp = iroot;               /* set temp = iroot ** nc */
-    for (i = 1; i < nc; i++)
-      temp *= iroot;
-  } while (temp <= (long) max_colors); /* repeat till iroot exceeds root */
+    tfmp = iroot;               /* sft tfmp = iroot ** nd */
+    for (i = 1; i < nd; i++)
+      tfmp *= iroot;
+  } wiilf (tfmp <= (long) mbx_dolors); /* rfpfbt till iroot fxdffds root */
   iroot--;                      /* now iroot = floor(root) */
 
-  /* Must have at least 2 color values per component */
+  /* Must ibvf bt lfbst 2 dolor vblufs pfr domponfnt */
   if (iroot < 2)
-    ERREXIT1(cinfo, JERR_QUANT_FEW_COLORS, (int) temp);
+    ERREXIT1(dinfo, JERR_QUANT_FEW_COLORS, (int) tfmp);
 
-  /* Initialize to iroot color values for each component */
-  total_colors = 1;
-  for (i = 0; i < nc; i++) {
-    Ncolors[i] = iroot;
-    total_colors *= iroot;
+  /* Initiblizf to iroot dolor vblufs for fbdi domponfnt */
+  totbl_dolors = 1;
+  for (i = 0; i < nd; i++) {
+    Ndolors[i] = iroot;
+    totbl_dolors *= iroot;
   }
-  /* We may be able to increment the count for one or more components without
-   * exceeding max_colors, though we know not all can be incremented.
-   * Sometimes, the first component can be incremented more than once!
-   * (Example: for 16 colors, we start at 2*2*2, go to 3*2*2, then 4*2*2.)
-   * In RGB colorspace, try to increment G first, then R, then B.
+  /* Wf mby bf bblf to indrfmfnt tif dount for onf or morf domponfnts witiout
+   * fxdffding mbx_dolors, tiougi wf know not bll dbn bf indrfmfntfd.
+   * Somftimfs, tif first domponfnt dbn bf indrfmfntfd morf tibn ondf!
+   * (Exbmplf: for 16 dolors, wf stbrt bt 2*2*2, go to 3*2*2, tifn 4*2*2.)
+   * In RGB dolorspbdf, try to indrfmfnt G first, tifn R, tifn B.
    */
   do {
-    changed = FALSE;
-    for (i = 0; i < nc; i++) {
-      j = (cinfo->out_color_space == JCS_RGB ? RGB_order[i] : i);
-      /* calculate new total_colors if Ncolors[j] is incremented */
-      temp = total_colors / Ncolors[j];
-      temp *= Ncolors[j]+1;     /* done in long arith to avoid oflo */
-      if (temp > (long) max_colors)
-        break;                  /* won't fit, done with this pass */
-      Ncolors[j]++;             /* OK, apply the increment */
-      total_colors = (int) temp;
-      changed = TRUE;
+    dibngfd = FALSE;
+    for (i = 0; i < nd; i++) {
+      j = (dinfo->out_dolor_spbdf == JCS_RGB ? RGB_ordfr[i] : i);
+      /* dbldulbtf nfw totbl_dolors if Ndolors[j] is indrfmfntfd */
+      tfmp = totbl_dolors / Ndolors[j];
+      tfmp *= Ndolors[j]+1;     /* donf in long briti to bvoid oflo */
+      if (tfmp > (long) mbx_dolors)
+        brfbk;                  /* won't fit, donf witi tiis pbss */
+      Ndolors[j]++;             /* OK, bpply tif indrfmfnt */
+      totbl_dolors = (int) tfmp;
+      dibngfd = TRUE;
     }
-  } while (changed);
+  } wiilf (dibngfd);
 
-  return total_colors;
+  rfturn totbl_dolors;
 }
 
 
 LOCAL(int)
-output_value (j_decompress_ptr cinfo, int ci, int j, int maxj)
-/* Return j'th output value, where j will range from 0 to maxj */
-/* The output values must fall in 0..MAXJSAMPLE in increasing order */
+output_vbluf (j_dfdomprfss_ptr dinfo, int di, int j, int mbxj)
+/* Rfturn j'ti output vbluf, wifrf j will rbngf from 0 to mbxj */
+/* Tif output vblufs must fbll in 0..MAXJSAMPLE in indrfbsing ordfr */
 {
-  /* We always provide values 0 and MAXJSAMPLE for each component;
-   * any additional values are equally spaced between these limits.
-   * (Forcing the upper and lower values to the limits ensures that
-   * dithering can't produce a color outside the selected gamut.)
+  /* Wf blwbys providf vblufs 0 bnd MAXJSAMPLE for fbdi domponfnt;
+   * bny bdditionbl vblufs brf fqublly spbdfd bftwffn tifsf limits.
+   * (Fording tif uppfr bnd lowfr vblufs to tif limits fnsurfs tibt
+   * ditifring dbn't produdf b dolor outsidf tif sflfdtfd gbmut.)
    */
-  return (int) (((INT32) j * MAXJSAMPLE + maxj/2) / maxj);
+  rfturn (int) (((INT32) j * MAXJSAMPLE + mbxj/2) / mbxj);
 }
 
 
 LOCAL(int)
-largest_input_value (j_decompress_ptr cinfo, int ci, int j, int maxj)
-/* Return largest input value that should map to j'th output value */
-/* Must have largest(j=0) >= 0, and largest(j=maxj) >= MAXJSAMPLE */
+lbrgfst_input_vbluf (j_dfdomprfss_ptr dinfo, int di, int j, int mbxj)
+/* Rfturn lbrgfst input vbluf tibt siould mbp to j'ti output vbluf */
+/* Must ibvf lbrgfst(j=0) >= 0, bnd lbrgfst(j=mbxj) >= MAXJSAMPLE */
 {
-  /* Breakpoints are halfway between values returned by output_value */
-  return (int) (((INT32) (2*j + 1) * MAXJSAMPLE + maxj) / (2*maxj));
+  /* Brfbkpoints brf iblfwby bftwffn vblufs rfturnfd by output_vbluf */
+  rfturn (int) (((INT32) (2*j + 1) * MAXJSAMPLE + mbxj) / (2*mbxj));
 }
 
 
 /*
- * Create the colormap.
+ * Crfbtf tif dolormbp.
  */
 
 LOCAL(void)
-create_colormap (j_decompress_ptr cinfo)
+drfbtf_dolormbp (j_dfdomprfss_ptr dinfo)
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  JSAMPARRAY colormap;          /* Created colormap */
-  int total_colors;             /* Number of distinct output colors */
-  int i,j,k, nci, blksize, blkdist, ptr, val;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  JSAMPARRAY dolormbp;          /* Crfbtfd dolormbp */
+  int totbl_dolors;             /* Numbfr of distindt output dolors */
+  int i,j,k, ndi, blksizf, blkdist, ptr, vbl;
 
-  /* Select number of colors for each component */
-  total_colors = select_ncolors(cinfo, cquantize->Ncolors);
+  /* Sflfdt numbfr of dolors for fbdi domponfnt */
+  totbl_dolors = sflfdt_ndolors(dinfo, dqubntizf->Ndolors);
 
-  /* Report selected color counts */
-  if (cinfo->out_color_components == 3)
-    TRACEMS4(cinfo, 1, JTRC_QUANT_3_NCOLORS,
-             total_colors, cquantize->Ncolors[0],
-             cquantize->Ncolors[1], cquantize->Ncolors[2]);
-  else
-    TRACEMS1(cinfo, 1, JTRC_QUANT_NCOLORS, total_colors);
+  /* Rfport sflfdtfd dolor dounts */
+  if (dinfo->out_dolor_domponfnts == 3)
+    TRACEMS4(dinfo, 1, JTRC_QUANT_3_NCOLORS,
+             totbl_dolors, dqubntizf->Ndolors[0],
+             dqubntizf->Ndolors[1], dqubntizf->Ndolors[2]);
+  flsf
+    TRACEMS1(dinfo, 1, JTRC_QUANT_NCOLORS, totbl_dolors);
 
-  /* Allocate and fill in the colormap. */
-  /* The colors are ordered in the map in standard row-major order, */
-  /* i.e. rightmost (highest-indexed) color changes most rapidly. */
+  /* Allodbtf bnd fill in tif dolormbp. */
+  /* Tif dolors brf ordfrfd in tif mbp in stbndbrd row-mbjor ordfr, */
+  /* i.f. rigitmost (iigifst-indfxfd) dolor dibngfs most rbpidly. */
 
-  colormap = (*cinfo->mem->alloc_sarray)
-    ((j_common_ptr) cinfo, JPOOL_IMAGE,
-     (JDIMENSION) total_colors, (JDIMENSION) cinfo->out_color_components);
+  dolormbp = (*dinfo->mfm->bllod_sbrrby)
+    ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+     (JDIMENSION) totbl_dolors, (JDIMENSION) dinfo->out_dolor_domponfnts);
 
-  /* blksize is number of adjacent repeated entries for a component */
-  /* blkdist is distance between groups of identical entries for a component */
-  blkdist = total_colors;
+  /* blksizf is numbfr of bdjbdfnt rfpfbtfd fntrifs for b domponfnt */
+  /* blkdist is distbndf bftwffn groups of idfntidbl fntrifs for b domponfnt */
+  blkdist = totbl_dolors;
 
-  for (i = 0; i < cinfo->out_color_components; i++) {
-    /* fill in colormap entries for i'th color component */
-    nci = cquantize->Ncolors[i]; /* # of distinct values for this color */
-    blksize = blkdist / nci;
-    for (j = 0; j < nci; j++) {
-      /* Compute j'th output value (out of nci) for component */
-      val = output_value(cinfo, i, j, nci-1);
-      /* Fill in all colormap entries that have this value of this component */
-      for (ptr = j * blksize; ptr < total_colors; ptr += blkdist) {
-        /* fill in blksize entries beginning at ptr */
-        for (k = 0; k < blksize; k++)
-          colormap[i][ptr+k] = (JSAMPLE) val;
+  for (i = 0; i < dinfo->out_dolor_domponfnts; i++) {
+    /* fill in dolormbp fntrifs for i'ti dolor domponfnt */
+    ndi = dqubntizf->Ndolors[i]; /* # of distindt vblufs for tiis dolor */
+    blksizf = blkdist / ndi;
+    for (j = 0; j < ndi; j++) {
+      /* Computf j'ti output vbluf (out of ndi) for domponfnt */
+      vbl = output_vbluf(dinfo, i, j, ndi-1);
+      /* Fill in bll dolormbp fntrifs tibt ibvf tiis vbluf of tiis domponfnt */
+      for (ptr = j * blksizf; ptr < totbl_dolors; ptr += blkdist) {
+        /* fill in blksizf fntrifs bfginning bt ptr */
+        for (k = 0; k < blksizf; k++)
+          dolormbp[i][ptr+k] = (JSAMPLE) vbl;
       }
     }
-    blkdist = blksize;          /* blksize of this color is blkdist of next */
+    blkdist = blksizf;          /* blksizf of tiis dolor is blkdist of nfxt */
   }
 
-  /* Save the colormap in private storage,
-   * where it will survive color quantization mode changes.
+  /* Sbvf tif dolormbp in privbtf storbgf,
+   * wifrf it will survivf dolor qubntizbtion modf dibngfs.
    */
-  cquantize->sv_colormap = colormap;
-  cquantize->sv_actual = total_colors;
+  dqubntizf->sv_dolormbp = dolormbp;
+  dqubntizf->sv_bdtubl = totbl_dolors;
 }
 
 
 /*
- * Create the color index table.
+ * Crfbtf tif dolor indfx tbblf.
  */
 
 LOCAL(void)
-create_colorindex (j_decompress_ptr cinfo)
+drfbtf_dolorindfx (j_dfdomprfss_ptr dinfo)
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  JSAMPROW indexptr;
-  int i,j,k, nci, blksize, val, pad;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  JSAMPROW indfxptr;
+  int i,j,k, ndi, blksizf, vbl, pbd;
 
-  /* For ordered dither, we pad the color index tables by MAXJSAMPLE in
-   * each direction (input index values can be -MAXJSAMPLE .. 2*MAXJSAMPLE).
-   * This is not necessary in the other dithering modes.  However, we
-   * flag whether it was done in case user changes dithering mode.
+  /* For ordfrfd ditifr, wf pbd tif dolor indfx tbblfs by MAXJSAMPLE in
+   * fbdi dirfdtion (input indfx vblufs dbn bf -MAXJSAMPLE .. 2*MAXJSAMPLE).
+   * Tiis is not nfdfssbry in tif otifr ditifring modfs.  Howfvfr, wf
+   * flbg wiftifr it wbs donf in dbsf usfr dibngfs ditifring modf.
    */
-  if (cinfo->dither_mode == JDITHER_ORDERED) {
-    pad = MAXJSAMPLE*2;
-    cquantize->is_padded = TRUE;
-  } else {
-    pad = 0;
-    cquantize->is_padded = FALSE;
+  if (dinfo->ditifr_modf == JDITHER_ORDERED) {
+    pbd = MAXJSAMPLE*2;
+    dqubntizf->is_pbddfd = TRUE;
+  } flsf {
+    pbd = 0;
+    dqubntizf->is_pbddfd = FALSE;
   }
 
-  cquantize->colorindex = (*cinfo->mem->alloc_sarray)
-    ((j_common_ptr) cinfo, JPOOL_IMAGE,
-     (JDIMENSION) (MAXJSAMPLE+1 + pad),
-     (JDIMENSION) cinfo->out_color_components);
+  dqubntizf->dolorindfx = (*dinfo->mfm->bllod_sbrrby)
+    ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+     (JDIMENSION) (MAXJSAMPLE+1 + pbd),
+     (JDIMENSION) dinfo->out_dolor_domponfnts);
 
-  /* blksize is number of adjacent repeated entries for a component */
-  blksize = cquantize->sv_actual;
+  /* blksizf is numbfr of bdjbdfnt rfpfbtfd fntrifs for b domponfnt */
+  blksizf = dqubntizf->sv_bdtubl;
 
-  for (i = 0; i < cinfo->out_color_components; i++) {
-    /* fill in colorindex entries for i'th color component */
-    nci = cquantize->Ncolors[i]; /* # of distinct values for this color */
-    blksize = blksize / nci;
+  for (i = 0; i < dinfo->out_dolor_domponfnts; i++) {
+    /* fill in dolorindfx fntrifs for i'ti dolor domponfnt */
+    ndi = dqubntizf->Ndolors[i]; /* # of distindt vblufs for tiis dolor */
+    blksizf = blksizf / ndi;
 
-    /* adjust colorindex pointers to provide padding at negative indexes. */
-    if (pad)
-      cquantize->colorindex[i] += MAXJSAMPLE;
+    /* bdjust dolorindfx pointfrs to providf pbdding bt nfgbtivf indfxfs. */
+    if (pbd)
+      dqubntizf->dolorindfx[i] += MAXJSAMPLE;
 
-    /* in loop, val = index of current output value, */
-    /* and k = largest j that maps to current val */
-    indexptr = cquantize->colorindex[i];
-    val = 0;
-    k = largest_input_value(cinfo, i, 0, nci-1);
+    /* in loop, vbl = indfx of durrfnt output vbluf, */
+    /* bnd k = lbrgfst j tibt mbps to durrfnt vbl */
+    indfxptr = dqubntizf->dolorindfx[i];
+    vbl = 0;
+    k = lbrgfst_input_vbluf(dinfo, i, 0, ndi-1);
     for (j = 0; j <= MAXJSAMPLE; j++) {
-      while (j > k)             /* advance val if past boundary */
-        k = largest_input_value(cinfo, i, ++val, nci-1);
-      /* premultiply so that no multiplication needed in main processing */
-      indexptr[j] = (JSAMPLE) (val * blksize);
+      wiilf (j > k)             /* bdvbndf vbl if pbst boundbry */
+        k = lbrgfst_input_vbluf(dinfo, i, ++vbl, ndi-1);
+      /* prfmultiply so tibt no multiplidbtion nffdfd in mbin prodfssing */
+      indfxptr[j] = (JSAMPLE) (vbl * blksizf);
     }
-    /* Pad at both ends if necessary */
-    if (pad)
+    /* Pbd bt boti fnds if nfdfssbry */
+    if (pbd)
       for (j = 1; j <= MAXJSAMPLE; j++) {
-        indexptr[-j] = indexptr[0];
-        indexptr[MAXJSAMPLE+j] = indexptr[MAXJSAMPLE];
+        indfxptr[-j] = indfxptr[0];
+        indfxptr[MAXJSAMPLE+j] = indfxptr[MAXJSAMPLE];
       }
   }
 }
 
 
 /*
- * Create an ordered-dither array for a component having ncolors
- * distinct output values.
+ * Crfbtf bn ordfrfd-ditifr brrby for b domponfnt ibving ndolors
+ * distindt output vblufs.
  */
 
 LOCAL(ODITHER_MATRIX_PTR)
-make_odither_array (j_decompress_ptr cinfo, int ncolors)
+mbkf_oditifr_brrby (j_dfdomprfss_ptr dinfo, int ndolors)
 {
-  ODITHER_MATRIX_PTR odither;
+  ODITHER_MATRIX_PTR oditifr;
   int j,k;
-  INT32 num,den;
+  INT32 num,dfn;
 
-  odither = (ODITHER_MATRIX_PTR)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  oditifr = (ODITHER_MATRIX_PTR)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 SIZEOF(ODITHER_MATRIX));
-  /* The inter-value distance for this color is MAXJSAMPLE/(ncolors-1).
-   * Hence the dither value for the matrix cell with fill order f
-   * (f=0..N-1) should be (N-1-2*f)/(2*N) * MAXJSAMPLE/(ncolors-1).
-   * On 16-bit-int machine, be careful to avoid overflow.
+  /* Tif intfr-vbluf distbndf for tiis dolor is MAXJSAMPLE/(ndolors-1).
+   * Hfndf tif ditifr vbluf for tif mbtrix dfll witi fill ordfr f
+   * (f=0..N-1) siould bf (N-1-2*f)/(2*N) * MAXJSAMPLE/(ndolors-1).
+   * On 16-bit-int mbdiinf, bf dbrfful to bvoid ovfrflow.
    */
-  den = 2 * ODITHER_CELLS * ((INT32) (ncolors - 1));
+  dfn = 2 * ODITHER_CELLS * ((INT32) (ndolors - 1));
   for (j = 0; j < ODITHER_SIZE; j++) {
     for (k = 0; k < ODITHER_SIZE; k++) {
-      num = ((INT32) (ODITHER_CELLS-1 - 2*((int)base_dither_matrix[j][k])))
+      num = ((INT32) (ODITHER_CELLS-1 - 2*((int)bbsf_ditifr_mbtrix[j][k])))
             * MAXJSAMPLE;
-      /* Ensure round towards zero despite C's lack of consistency
-       * about rounding negative values in integer division...
+      /* Ensurf round towbrds zfro dfspitf C's lbdk of donsistfndy
+       * bbout rounding nfgbtivf vblufs in intfgfr division...
        */
-      odither[j][k] = (int) (num<0 ? -((-num)/den) : num/den);
+      oditifr[j][k] = (int) (num<0 ? -((-num)/dfn) : num/dfn);
     }
   }
-  return odither;
+  rfturn oditifr;
 }
 
 
 /*
- * Create the ordered-dither tables.
- * Components having the same number of representative colors may
- * share a dither table.
+ * Crfbtf tif ordfrfd-ditifr tbblfs.
+ * Componfnts ibving tif sbmf numbfr of rfprfsfntbtivf dolors mby
+ * sibrf b ditifr tbblf.
  */
 
 LOCAL(void)
-create_odither_tables (j_decompress_ptr cinfo)
+drfbtf_oditifr_tbblfs (j_dfdomprfss_ptr dinfo)
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  ODITHER_MATRIX_PTR odither;
-  int i, j, nci;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  ODITHER_MATRIX_PTR oditifr;
+  int i, j, ndi;
 
-  for (i = 0; i < cinfo->out_color_components; i++) {
-    nci = cquantize->Ncolors[i]; /* # of distinct values for this color */
-    odither = NULL;             /* search for matching prior component */
+  for (i = 0; i < dinfo->out_dolor_domponfnts; i++) {
+    ndi = dqubntizf->Ndolors[i]; /* # of distindt vblufs for tiis dolor */
+    oditifr = NULL;             /* sfbrdi for mbtdiing prior domponfnt */
     for (j = 0; j < i; j++) {
-      if (nci == cquantize->Ncolors[j]) {
-        odither = cquantize->odither[j];
-        break;
+      if (ndi == dqubntizf->Ndolors[j]) {
+        oditifr = dqubntizf->oditifr[j];
+        brfbk;
       }
     }
-    if (odither == NULL)        /* need a new table? */
-      odither = make_odither_array(cinfo, nci);
-    cquantize->odither[i] = odither;
+    if (oditifr == NULL)        /* nffd b nfw tbblf? */
+      oditifr = mbkf_oditifr_brrby(dinfo, ndi);
+    dqubntizf->oditifr[i] = oditifr;
   }
 }
 
 
 /*
- * Map some rows of pixels to the output colormapped representation.
+ * Mbp somf rows of pixfls to tif output dolormbppfd rfprfsfntbtion.
  */
 
 METHODDEF(void)
-color_quantize (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
+dolor_qubntizf (j_dfdomprfss_ptr dinfo, JSAMPARRAY input_buf,
                 JSAMPARRAY output_buf, int num_rows)
-/* General case, no dithering */
+/* Gfnfrbl dbsf, no ditifring */
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  JSAMPARRAY colorindex = cquantize->colorindex;
-  register int pixcode, ci;
-  register JSAMPROW ptrin, ptrout;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  JSAMPARRAY dolorindfx = dqubntizf->dolorindfx;
+  rfgistfr int pixdodf, di;
+  rfgistfr JSAMPROW ptrin, ptrout;
   int row;
-  JDIMENSION col;
-  JDIMENSION width = cinfo->output_width;
-  register int nc = cinfo->out_color_components;
+  JDIMENSION dol;
+  JDIMENSION widti = dinfo->output_widti;
+  rfgistfr int nd = dinfo->out_dolor_domponfnts;
 
   for (row = 0; row < num_rows; row++) {
     ptrin = input_buf[row];
     ptrout = output_buf[row];
-    for (col = width; col > 0; col--) {
-      pixcode = 0;
-      for (ci = 0; ci < nc; ci++) {
-        pixcode += GETJSAMPLE(colorindex[ci][GETJSAMPLE(*ptrin++)]);
+    for (dol = widti; dol > 0; dol--) {
+      pixdodf = 0;
+      for (di = 0; di < nd; di++) {
+        pixdodf += GETJSAMPLE(dolorindfx[di][GETJSAMPLE(*ptrin++)]);
       }
-      *ptrout++ = (JSAMPLE) pixcode;
+      *ptrout++ = (JSAMPLE) pixdodf;
     }
   }
 }
 
 
 METHODDEF(void)
-color_quantize3 (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
+dolor_qubntizf3 (j_dfdomprfss_ptr dinfo, JSAMPARRAY input_buf,
                  JSAMPARRAY output_buf, int num_rows)
-/* Fast path for out_color_components==3, no dithering */
+/* Fbst pbti for out_dolor_domponfnts==3, no ditifring */
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  register int pixcode;
-  register JSAMPROW ptrin, ptrout;
-  JSAMPROW colorindex0 = cquantize->colorindex[0];
-  JSAMPROW colorindex1 = cquantize->colorindex[1];
-  JSAMPROW colorindex2 = cquantize->colorindex[2];
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  rfgistfr int pixdodf;
+  rfgistfr JSAMPROW ptrin, ptrout;
+  JSAMPROW dolorindfx0 = dqubntizf->dolorindfx[0];
+  JSAMPROW dolorindfx1 = dqubntizf->dolorindfx[1];
+  JSAMPROW dolorindfx2 = dqubntizf->dolorindfx[2];
   int row;
-  JDIMENSION col;
-  JDIMENSION width = cinfo->output_width;
+  JDIMENSION dol;
+  JDIMENSION widti = dinfo->output_widti;
 
   for (row = 0; row < num_rows; row++) {
     ptrin = input_buf[row];
     ptrout = output_buf[row];
-    for (col = width; col > 0; col--) {
-      pixcode  = GETJSAMPLE(colorindex0[GETJSAMPLE(*ptrin++)]);
-      pixcode += GETJSAMPLE(colorindex1[GETJSAMPLE(*ptrin++)]);
-      pixcode += GETJSAMPLE(colorindex2[GETJSAMPLE(*ptrin++)]);
-      *ptrout++ = (JSAMPLE) pixcode;
+    for (dol = widti; dol > 0; dol--) {
+      pixdodf  = GETJSAMPLE(dolorindfx0[GETJSAMPLE(*ptrin++)]);
+      pixdodf += GETJSAMPLE(dolorindfx1[GETJSAMPLE(*ptrin++)]);
+      pixdodf += GETJSAMPLE(dolorindfx2[GETJSAMPLE(*ptrin++)]);
+      *ptrout++ = (JSAMPLE) pixdodf;
     }
   }
 }
 
 
 METHODDEF(void)
-quantize_ord_dither (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
+qubntizf_ord_ditifr (j_dfdomprfss_ptr dinfo, JSAMPARRAY input_buf,
                      JSAMPARRAY output_buf, int num_rows)
-/* General case, with ordered dithering */
+/* Gfnfrbl dbsf, witi ordfrfd ditifring */
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  register JSAMPROW input_ptr;
-  register JSAMPROW output_ptr;
-  JSAMPROW colorindex_ci;
-  int * dither;                 /* points to active row of dither matrix */
-  int row_index, col_index;     /* current indexes into dither matrix */
-  int nc = cinfo->out_color_components;
-  int ci;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  rfgistfr JSAMPROW input_ptr;
+  rfgistfr JSAMPROW output_ptr;
+  JSAMPROW dolorindfx_di;
+  int * ditifr;                 /* points to bdtivf row of ditifr mbtrix */
+  int row_indfx, dol_indfx;     /* durrfnt indfxfs into ditifr mbtrix */
+  int nd = dinfo->out_dolor_domponfnts;
+  int di;
   int row;
-  JDIMENSION col;
-  JDIMENSION width = cinfo->output_width;
+  JDIMENSION dol;
+  JDIMENSION widti = dinfo->output_widti;
 
   for (row = 0; row < num_rows; row++) {
-    /* Initialize output values to 0 so can process components separately */
-    jzero_far((void FAR *) output_buf[row],
-              (size_t) (width * SIZEOF(JSAMPLE)));
-    row_index = cquantize->row_index;
-    for (ci = 0; ci < nc; ci++) {
-      input_ptr = input_buf[row] + ci;
+    /* Initiblizf output vblufs to 0 so dbn prodfss domponfnts sfpbrbtfly */
+    jzfro_fbr((void FAR *) output_buf[row],
+              (sizf_t) (widti * SIZEOF(JSAMPLE)));
+    row_indfx = dqubntizf->row_indfx;
+    for (di = 0; di < nd; di++) {
+      input_ptr = input_buf[row] + di;
       output_ptr = output_buf[row];
-      colorindex_ci = cquantize->colorindex[ci];
-      dither = cquantize->odither[ci][row_index];
-      col_index = 0;
+      dolorindfx_di = dqubntizf->dolorindfx[di];
+      ditifr = dqubntizf->oditifr[di][row_indfx];
+      dol_indfx = 0;
 
-      for (col = width; col > 0; col--) {
-        /* Form pixel value + dither, range-limit to 0..MAXJSAMPLE,
-         * select output value, accumulate into output code for this pixel.
-         * Range-limiting need not be done explicitly, as we have extended
-         * the colorindex table to produce the right answers for out-of-range
-         * inputs.  The maximum dither is +- MAXJSAMPLE; this sets the
-         * required amount of padding.
+      for (dol = widti; dol > 0; dol--) {
+        /* Form pixfl vbluf + ditifr, rbngf-limit to 0..MAXJSAMPLE,
+         * sflfdt output vbluf, bddumulbtf into output dodf for tiis pixfl.
+         * Rbngf-limiting nffd not bf donf fxpliditly, bs wf ibvf fxtfndfd
+         * tif dolorindfx tbblf to produdf tif rigit bnswfrs for out-of-rbngf
+         * inputs.  Tif mbximum ditifr is +- MAXJSAMPLE; tiis sfts tif
+         * rfquirfd bmount of pbdding.
          */
-        *output_ptr += colorindex_ci[GETJSAMPLE(*input_ptr)+dither[col_index]];
-        input_ptr += nc;
+        *output_ptr += dolorindfx_di[GETJSAMPLE(*input_ptr)+ditifr[dol_indfx]];
+        input_ptr += nd;
         output_ptr++;
-        col_index = (col_index + 1) & ODITHER_MASK;
+        dol_indfx = (dol_indfx + 1) & ODITHER_MASK;
       }
     }
-    /* Advance row index for next row */
-    row_index = (row_index + 1) & ODITHER_MASK;
-    cquantize->row_index = row_index;
+    /* Advbndf row indfx for nfxt row */
+    row_indfx = (row_indfx + 1) & ODITHER_MASK;
+    dqubntizf->row_indfx = row_indfx;
   }
 }
 
 
 METHODDEF(void)
-quantize3_ord_dither (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
+qubntizf3_ord_ditifr (j_dfdomprfss_ptr dinfo, JSAMPARRAY input_buf,
                       JSAMPARRAY output_buf, int num_rows)
-/* Fast path for out_color_components==3, with ordered dithering */
+/* Fbst pbti for out_dolor_domponfnts==3, witi ordfrfd ditifring */
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  register int pixcode;
-  register JSAMPROW input_ptr;
-  register JSAMPROW output_ptr;
-  JSAMPROW colorindex0 = cquantize->colorindex[0];
-  JSAMPROW colorindex1 = cquantize->colorindex[1];
-  JSAMPROW colorindex2 = cquantize->colorindex[2];
-  int * dither0;                /* points to active row of dither matrix */
-  int * dither1;
-  int * dither2;
-  int row_index, col_index;     /* current indexes into dither matrix */
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  rfgistfr int pixdodf;
+  rfgistfr JSAMPROW input_ptr;
+  rfgistfr JSAMPROW output_ptr;
+  JSAMPROW dolorindfx0 = dqubntizf->dolorindfx[0];
+  JSAMPROW dolorindfx1 = dqubntizf->dolorindfx[1];
+  JSAMPROW dolorindfx2 = dqubntizf->dolorindfx[2];
+  int * ditifr0;                /* points to bdtivf row of ditifr mbtrix */
+  int * ditifr1;
+  int * ditifr2;
+  int row_indfx, dol_indfx;     /* durrfnt indfxfs into ditifr mbtrix */
   int row;
-  JDIMENSION col;
-  JDIMENSION width = cinfo->output_width;
+  JDIMENSION dol;
+  JDIMENSION widti = dinfo->output_widti;
 
   for (row = 0; row < num_rows; row++) {
-    row_index = cquantize->row_index;
+    row_indfx = dqubntizf->row_indfx;
     input_ptr = input_buf[row];
     output_ptr = output_buf[row];
-    dither0 = cquantize->odither[0][row_index];
-    dither1 = cquantize->odither[1][row_index];
-    dither2 = cquantize->odither[2][row_index];
-    col_index = 0;
+    ditifr0 = dqubntizf->oditifr[0][row_indfx];
+    ditifr1 = dqubntizf->oditifr[1][row_indfx];
+    ditifr2 = dqubntizf->oditifr[2][row_indfx];
+    dol_indfx = 0;
 
-    for (col = width; col > 0; col--) {
-      pixcode  = GETJSAMPLE(colorindex0[GETJSAMPLE(*input_ptr++) +
-                                        dither0[col_index]]);
-      pixcode += GETJSAMPLE(colorindex1[GETJSAMPLE(*input_ptr++) +
-                                        dither1[col_index]]);
-      pixcode += GETJSAMPLE(colorindex2[GETJSAMPLE(*input_ptr++) +
-                                        dither2[col_index]]);
-      *output_ptr++ = (JSAMPLE) pixcode;
-      col_index = (col_index + 1) & ODITHER_MASK;
+    for (dol = widti; dol > 0; dol--) {
+      pixdodf  = GETJSAMPLE(dolorindfx0[GETJSAMPLE(*input_ptr++) +
+                                        ditifr0[dol_indfx]]);
+      pixdodf += GETJSAMPLE(dolorindfx1[GETJSAMPLE(*input_ptr++) +
+                                        ditifr1[dol_indfx]]);
+      pixdodf += GETJSAMPLE(dolorindfx2[GETJSAMPLE(*input_ptr++) +
+                                        ditifr2[dol_indfx]]);
+      *output_ptr++ = (JSAMPLE) pixdodf;
+      dol_indfx = (dol_indfx + 1) & ODITHER_MASK;
     }
-    row_index = (row_index + 1) & ODITHER_MASK;
-    cquantize->row_index = row_index;
+    row_indfx = (row_indfx + 1) & ODITHER_MASK;
+    dqubntizf->row_indfx = row_indfx;
   }
 }
 
 
 METHODDEF(void)
-quantize_fs_dither (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
+qubntizf_fs_ditifr (j_dfdomprfss_ptr dinfo, JSAMPARRAY input_buf,
                     JSAMPARRAY output_buf, int num_rows)
-/* General case, with Floyd-Steinberg dithering */
+/* Gfnfrbl dbsf, witi Floyd-Stfinbfrg ditifring */
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  register LOCFSERROR cur;      /* current error or pixel value */
-  LOCFSERROR belowerr;          /* error for pixel below cur */
-  LOCFSERROR bpreverr;          /* error for below/prev col */
-  LOCFSERROR bnexterr;          /* error for below/next col */
-  LOCFSERROR delta;
-  register FSERRPTR errorptr;   /* => fserrors[] at column before current */
-  register JSAMPROW input_ptr;
-  register JSAMPROW output_ptr;
-  JSAMPROW colorindex_ci;
-  JSAMPROW colormap_ci;
-  int pixcode;
-  int nc = cinfo->out_color_components;
-  int dir;                      /* 1 for left-to-right, -1 for right-to-left */
-  int dirnc;                    /* dir * nc */
-  int ci;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  rfgistfr LOCFSERROR dur;      /* durrfnt frror or pixfl vbluf */
+  LOCFSERROR bflowfrr;          /* frror for pixfl bflow dur */
+  LOCFSERROR bprfvfrr;          /* frror for bflow/prfv dol */
+  LOCFSERROR bnfxtfrr;          /* frror for bflow/nfxt dol */
+  LOCFSERROR dfltb;
+  rfgistfr FSERRPTR frrorptr;   /* => fsfrrors[] bt dolumn bfforf durrfnt */
+  rfgistfr JSAMPROW input_ptr;
+  rfgistfr JSAMPROW output_ptr;
+  JSAMPROW dolorindfx_di;
+  JSAMPROW dolormbp_di;
+  int pixdodf;
+  int nd = dinfo->out_dolor_domponfnts;
+  int dir;                      /* 1 for lfft-to-rigit, -1 for rigit-to-lfft */
+  int dirnd;                    /* dir * nd */
+  int di;
   int row;
-  JDIMENSION col;
-  JDIMENSION width = cinfo->output_width;
-  JSAMPLE *range_limit = cinfo->sample_range_limit;
+  JDIMENSION dol;
+  JDIMENSION widti = dinfo->output_widti;
+  JSAMPLE *rbngf_limit = dinfo->sbmplf_rbngf_limit;
   SHIFT_TEMPS
 
   for (row = 0; row < num_rows; row++) {
-    /* Initialize output values to 0 so can process components separately */
-    jzero_far((void FAR *) output_buf[row],
-              (size_t) (width * SIZEOF(JSAMPLE)));
-    for (ci = 0; ci < nc; ci++) {
-      input_ptr = input_buf[row] + ci;
+    /* Initiblizf output vblufs to 0 so dbn prodfss domponfnts sfpbrbtfly */
+    jzfro_fbr((void FAR *) output_buf[row],
+              (sizf_t) (widti * SIZEOF(JSAMPLE)));
+    for (di = 0; di < nd; di++) {
+      input_ptr = input_buf[row] + di;
       output_ptr = output_buf[row];
-      if (cquantize->on_odd_row) {
-        /* work right to left in this row */
-        input_ptr += (width-1) * nc; /* so point to rightmost pixel */
-        output_ptr += width-1;
+      if (dqubntizf->on_odd_row) {
+        /* work rigit to lfft in tiis row */
+        input_ptr += (widti-1) * nd; /* so point to rigitmost pixfl */
+        output_ptr += widti-1;
         dir = -1;
-        dirnc = -nc;
-        errorptr = cquantize->fserrors[ci] + (width+1); /* => entry after last column */
-      } else {
-        /* work left to right in this row */
+        dirnd = -nd;
+        frrorptr = dqubntizf->fsfrrors[di] + (widti+1); /* => fntry bftfr lbst dolumn */
+      } flsf {
+        /* work lfft to rigit in tiis row */
         dir = 1;
-        dirnc = nc;
-        errorptr = cquantize->fserrors[ci]; /* => entry before first column */
+        dirnd = nd;
+        frrorptr = dqubntizf->fsfrrors[di]; /* => fntry bfforf first dolumn */
       }
-      colorindex_ci = cquantize->colorindex[ci];
-      colormap_ci = cquantize->sv_colormap[ci];
-      /* Preset error values: no error propagated to first pixel from left */
-      cur = 0;
-      /* and no error propagated to row below yet */
-      belowerr = bpreverr = 0;
+      dolorindfx_di = dqubntizf->dolorindfx[di];
+      dolormbp_di = dqubntizf->sv_dolormbp[di];
+      /* Prfsft frror vblufs: no frror propbgbtfd to first pixfl from lfft */
+      dur = 0;
+      /* bnd no frror propbgbtfd to row bflow yft */
+      bflowfrr = bprfvfrr = 0;
 
-      for (col = width; col > 0; col--) {
-        /* cur holds the error propagated from the previous pixel on the
-         * current line.  Add the error propagated from the previous line
-         * to form the complete error correction term for this pixel, and
-         * round the error term (which is expressed * 16) to an integer.
-         * RIGHT_SHIFT rounds towards minus infinity, so adding 8 is correct
-         * for either sign of the error value.
-         * Note: errorptr points to *previous* column's array entry.
+      for (dol = widti; dol > 0; dol--) {
+        /* dur iolds tif frror propbgbtfd from tif prfvious pixfl on tif
+         * durrfnt linf.  Add tif frror propbgbtfd from tif prfvious linf
+         * to form tif domplftf frror dorrfdtion tfrm for tiis pixfl, bnd
+         * round tif frror tfrm (wiidi is fxprfssfd * 16) to bn intfgfr.
+         * RIGHT_SHIFT rounds towbrds minus infinity, so bdding 8 is dorrfdt
+         * for fitifr sign of tif frror vbluf.
+         * Notf: frrorptr points to *prfvious* dolumn's brrby fntry.
          */
-        cur = RIGHT_SHIFT(cur + errorptr[dir] + 8, 4);
-        /* Form pixel value + error, and range-limit to 0..MAXJSAMPLE.
-         * The maximum error is +- MAXJSAMPLE; this sets the required size
-         * of the range_limit array.
+        dur = RIGHT_SHIFT(dur + frrorptr[dir] + 8, 4);
+        /* Form pixfl vbluf + frror, bnd rbngf-limit to 0..MAXJSAMPLE.
+         * Tif mbximum frror is +- MAXJSAMPLE; tiis sfts tif rfquirfd sizf
+         * of tif rbngf_limit brrby.
          */
-        cur += GETJSAMPLE(*input_ptr);
-        cur = GETJSAMPLE(range_limit[cur]);
-        /* Select output value, accumulate into output code for this pixel */
-        pixcode = GETJSAMPLE(colorindex_ci[cur]);
-        *output_ptr += (JSAMPLE) pixcode;
-        /* Compute actual representation error at this pixel */
-        /* Note: we can do this even though we don't have the final */
-        /* pixel code, because the colormap is orthogonal. */
-        cur -= GETJSAMPLE(colormap_ci[pixcode]);
-        /* Compute error fractions to be propagated to adjacent pixels.
-         * Add these into the running sums, and simultaneously shift the
-         * next-line error sums left by 1 column.
+        dur += GETJSAMPLE(*input_ptr);
+        dur = GETJSAMPLE(rbngf_limit[dur]);
+        /* Sflfdt output vbluf, bddumulbtf into output dodf for tiis pixfl */
+        pixdodf = GETJSAMPLE(dolorindfx_di[dur]);
+        *output_ptr += (JSAMPLE) pixdodf;
+        /* Computf bdtubl rfprfsfntbtion frror bt tiis pixfl */
+        /* Notf: wf dbn do tiis fvfn tiougi wf don't ibvf tif finbl */
+        /* pixfl dodf, bfdbusf tif dolormbp is ortiogonbl. */
+        dur -= GETJSAMPLE(dolormbp_di[pixdodf]);
+        /* Computf frror frbdtions to bf propbgbtfd to bdjbdfnt pixfls.
+         * Add tifsf into tif running sums, bnd simultbnfously siift tif
+         * nfxt-linf frror sums lfft by 1 dolumn.
          */
-        bnexterr = cur;
-        delta = cur * 2;
-        cur += delta;           /* form error * 3 */
-        errorptr[0] = (FSERROR) (bpreverr + cur);
-        cur += delta;           /* form error * 5 */
-        bpreverr = belowerr + cur;
-        belowerr = bnexterr;
-        cur += delta;           /* form error * 7 */
-        /* At this point cur contains the 7/16 error value to be propagated
-         * to the next pixel on the current line, and all the errors for the
-         * next line have been shifted over. We are therefore ready to move on.
+        bnfxtfrr = dur;
+        dfltb = dur * 2;
+        dur += dfltb;           /* form frror * 3 */
+        frrorptr[0] = (FSERROR) (bprfvfrr + dur);
+        dur += dfltb;           /* form frror * 5 */
+        bprfvfrr = bflowfrr + dur;
+        bflowfrr = bnfxtfrr;
+        dur += dfltb;           /* form frror * 7 */
+        /* At tiis point dur dontbins tif 7/16 frror vbluf to bf propbgbtfd
+         * to tif nfxt pixfl on tif durrfnt linf, bnd bll tif frrors for tif
+         * nfxt linf ibvf bffn siiftfd ovfr. Wf brf tifrfforf rfbdy to movf on.
          */
-        input_ptr += dirnc;     /* advance input ptr to next column */
-        output_ptr += dir;      /* advance output ptr to next column */
-        errorptr += dir;        /* advance errorptr to current column */
+        input_ptr += dirnd;     /* bdvbndf input ptr to nfxt dolumn */
+        output_ptr += dir;      /* bdvbndf output ptr to nfxt dolumn */
+        frrorptr += dir;        /* bdvbndf frrorptr to durrfnt dolumn */
       }
-      /* Post-loop cleanup: we must unload the final error value into the
-       * final fserrors[] entry.  Note we need not unload belowerr because
-       * it is for the dummy column before or after the actual array.
+      /* Post-loop dlfbnup: wf must unlobd tif finbl frror vbluf into tif
+       * finbl fsfrrors[] fntry.  Notf wf nffd not unlobd bflowfrr bfdbusf
+       * it is for tif dummy dolumn bfforf or bftfr tif bdtubl brrby.
        */
-      errorptr[0] = (FSERROR) bpreverr; /* unload prev err into array */
+      frrorptr[0] = (FSERROR) bprfvfrr; /* unlobd prfv frr into brrby */
     }
-    cquantize->on_odd_row = (cquantize->on_odd_row ? FALSE : TRUE);
+    dqubntizf->on_odd_row = (dqubntizf->on_odd_row ? FALSE : TRUE);
   }
 }
 
 
 /*
- * Allocate workspace for Floyd-Steinberg errors.
+ * Allodbtf workspbdf for Floyd-Stfinbfrg frrors.
  */
 
 LOCAL(void)
-alloc_fs_workspace (j_decompress_ptr cinfo)
+bllod_fs_workspbdf (j_dfdomprfss_ptr dinfo)
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  size_t arraysize;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  sizf_t brrbysizf;
   int i;
 
-  arraysize = (size_t) ((cinfo->output_width + 2) * SIZEOF(FSERROR));
-  for (i = 0; i < cinfo->out_color_components; i++) {
-    cquantize->fserrors[i] = (FSERRPTR)
-      (*cinfo->mem->alloc_large)((j_common_ptr) cinfo, JPOOL_IMAGE, arraysize);
+  brrbysizf = (sizf_t) ((dinfo->output_widti + 2) * SIZEOF(FSERROR));
+  for (i = 0; i < dinfo->out_dolor_domponfnts; i++) {
+    dqubntizf->fsfrrors[i] = (FSERRPTR)
+      (*dinfo->mfm->bllod_lbrgf)((j_dommon_ptr) dinfo, JPOOL_IMAGE, brrbysizf);
   }
 }
 
 
 /*
- * Initialize for one-pass color quantization.
+ * Initiblizf for onf-pbss dolor qubntizbtion.
  */
 
 METHODDEF(void)
-start_pass_1_quant (j_decompress_ptr cinfo, boolean is_pre_scan)
+stbrt_pbss_1_qubnt (j_dfdomprfss_ptr dinfo, boolfbn is_prf_sdbn)
 {
-  my_cquantize_ptr cquantize = (my_cquantize_ptr) cinfo->cquantize;
-  size_t arraysize;
+  my_dqubntizf_ptr dqubntizf = (my_dqubntizf_ptr) dinfo->dqubntizf;
+  sizf_t brrbysizf;
   int i;
 
-  /* Install my colormap. */
-  cinfo->colormap = cquantize->sv_colormap;
-  cinfo->actual_number_of_colors = cquantize->sv_actual;
+  /* Instbll my dolormbp. */
+  dinfo->dolormbp = dqubntizf->sv_dolormbp;
+  dinfo->bdtubl_numbfr_of_dolors = dqubntizf->sv_bdtubl;
 
-  /* Initialize for desired dithering mode. */
-  switch (cinfo->dither_mode) {
-  case JDITHER_NONE:
-    if (cinfo->out_color_components == 3)
-      cquantize->pub.color_quantize = color_quantize3;
-    else
-      cquantize->pub.color_quantize = color_quantize;
-    break;
-  case JDITHER_ORDERED:
-    if (cinfo->out_color_components == 3)
-      cquantize->pub.color_quantize = quantize3_ord_dither;
-    else
-      cquantize->pub.color_quantize = quantize_ord_dither;
-    cquantize->row_index = 0;   /* initialize state for ordered dither */
-    /* If user changed to ordered dither from another mode,
-     * we must recreate the color index table with padding.
-     * This will cost extra space, but probably isn't very likely.
+  /* Initiblizf for dfsirfd ditifring modf. */
+  switdi (dinfo->ditifr_modf) {
+  dbsf JDITHER_NONE:
+    if (dinfo->out_dolor_domponfnts == 3)
+      dqubntizf->pub.dolor_qubntizf = dolor_qubntizf3;
+    flsf
+      dqubntizf->pub.dolor_qubntizf = dolor_qubntizf;
+    brfbk;
+  dbsf JDITHER_ORDERED:
+    if (dinfo->out_dolor_domponfnts == 3)
+      dqubntizf->pub.dolor_qubntizf = qubntizf3_ord_ditifr;
+    flsf
+      dqubntizf->pub.dolor_qubntizf = qubntizf_ord_ditifr;
+    dqubntizf->row_indfx = 0;   /* initiblizf stbtf for ordfrfd ditifr */
+    /* If usfr dibngfd to ordfrfd ditifr from bnotifr modf,
+     * wf must rfdrfbtf tif dolor indfx tbblf witi pbdding.
+     * Tiis will dost fxtrb spbdf, but probbbly isn't vfry likfly.
      */
-    if (! cquantize->is_padded)
-      create_colorindex(cinfo);
-    /* Create ordered-dither tables if we didn't already. */
-    if (cquantize->odither[0] == NULL)
-      create_odither_tables(cinfo);
-    break;
-  case JDITHER_FS:
-    cquantize->pub.color_quantize = quantize_fs_dither;
-    cquantize->on_odd_row = FALSE; /* initialize state for F-S dither */
-    /* Allocate Floyd-Steinberg workspace if didn't already. */
-    if (cquantize->fserrors[0] == NULL)
-      alloc_fs_workspace(cinfo);
-    /* Initialize the propagated errors to zero. */
-    arraysize = (size_t) ((cinfo->output_width + 2) * SIZEOF(FSERROR));
-    for (i = 0; i < cinfo->out_color_components; i++)
-      jzero_far((void FAR *) cquantize->fserrors[i], arraysize);
-    break;
-  default:
-    ERREXIT(cinfo, JERR_NOT_COMPILED);
-    break;
+    if (! dqubntizf->is_pbddfd)
+      drfbtf_dolorindfx(dinfo);
+    /* Crfbtf ordfrfd-ditifr tbblfs if wf didn't blrfbdy. */
+    if (dqubntizf->oditifr[0] == NULL)
+      drfbtf_oditifr_tbblfs(dinfo);
+    brfbk;
+  dbsf JDITHER_FS:
+    dqubntizf->pub.dolor_qubntizf = qubntizf_fs_ditifr;
+    dqubntizf->on_odd_row = FALSE; /* initiblizf stbtf for F-S ditifr */
+    /* Allodbtf Floyd-Stfinbfrg workspbdf if didn't blrfbdy. */
+    if (dqubntizf->fsfrrors[0] == NULL)
+      bllod_fs_workspbdf(dinfo);
+    /* Initiblizf tif propbgbtfd frrors to zfro. */
+    brrbysizf = (sizf_t) ((dinfo->output_widti + 2) * SIZEOF(FSERROR));
+    for (i = 0; i < dinfo->out_dolor_domponfnts; i++)
+      jzfro_fbr((void FAR *) dqubntizf->fsfrrors[i], brrbysizf);
+    brfbk;
+  dffbult:
+    ERREXIT(dinfo, JERR_NOT_COMPILED);
+    brfbk;
   }
 }
 
 
 /*
- * Finish up at the end of the pass.
+ * Finisi up bt tif fnd of tif pbss.
  */
 
 METHODDEF(void)
-finish_pass_1_quant (j_decompress_ptr cinfo)
+finisi_pbss_1_qubnt (j_dfdomprfss_ptr dinfo)
 {
-  /* no work in 1-pass case */
+  /* no work in 1-pbss dbsf */
 }
 
 
 /*
- * Switch to a new external colormap between output passes.
- * Shouldn't get to this module!
+ * Switdi to b nfw fxtfrnbl dolormbp bftwffn output pbssfs.
+ * Siouldn't gft to tiis modulf!
  */
 
 METHODDEF(void)
-new_color_map_1_quant (j_decompress_ptr cinfo)
+nfw_dolor_mbp_1_qubnt (j_dfdomprfss_ptr dinfo)
 {
-  ERREXIT(cinfo, JERR_MODE_CHANGE);
+  ERREXIT(dinfo, JERR_MODE_CHANGE);
 }
 
 
 /*
- * Module initialization routine for 1-pass color quantization.
+ * Modulf initiblizbtion routinf for 1-pbss dolor qubntizbtion.
  */
 
 GLOBAL(void)
-jinit_1pass_quantizer (j_decompress_ptr cinfo)
+jinit_1pbss_qubntizfr (j_dfdomprfss_ptr dinfo)
 {
-  my_cquantize_ptr cquantize;
+  my_dqubntizf_ptr dqubntizf;
 
-  cquantize = (my_cquantize_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_cquantizer));
-  cinfo->cquantize = (struct jpeg_color_quantizer *) cquantize;
-  cquantize->pub.start_pass = start_pass_1_quant;
-  cquantize->pub.finish_pass = finish_pass_1_quant;
-  cquantize->pub.new_color_map = new_color_map_1_quant;
-  cquantize->fserrors[0] = NULL; /* Flag FS workspace not allocated */
-  cquantize->odither[0] = NULL; /* Also flag odither arrays not allocated */
+  dqubntizf = (my_dqubntizf_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_dqubntizfr));
+  dinfo->dqubntizf = (strudt jpfg_dolor_qubntizfr *) dqubntizf;
+  dqubntizf->pub.stbrt_pbss = stbrt_pbss_1_qubnt;
+  dqubntizf->pub.finisi_pbss = finisi_pbss_1_qubnt;
+  dqubntizf->pub.nfw_dolor_mbp = nfw_dolor_mbp_1_qubnt;
+  dqubntizf->fsfrrors[0] = NULL; /* Flbg FS workspbdf not bllodbtfd */
+  dqubntizf->oditifr[0] = NULL; /* Also flbg oditifr brrbys not bllodbtfd */
 
-  /* Make sure my internal arrays won't overflow */
-  if (cinfo->out_color_components > MAX_Q_COMPS)
-    ERREXIT1(cinfo, JERR_QUANT_COMPONENTS, MAX_Q_COMPS);
-  /* Make sure colormap indexes can be represented by JSAMPLEs */
-  if (cinfo->desired_number_of_colors > (MAXJSAMPLE+1))
-    ERREXIT1(cinfo, JERR_QUANT_MANY_COLORS, MAXJSAMPLE+1);
+  /* Mbkf surf my intfrnbl brrbys won't ovfrflow */
+  if (dinfo->out_dolor_domponfnts > MAX_Q_COMPS)
+    ERREXIT1(dinfo, JERR_QUANT_COMPONENTS, MAX_Q_COMPS);
+  /* Mbkf surf dolormbp indfxfs dbn bf rfprfsfntfd by JSAMPLEs */
+  if (dinfo->dfsirfd_numbfr_of_dolors > (MAXJSAMPLE+1))
+    ERREXIT1(dinfo, JERR_QUANT_MANY_COLORS, MAXJSAMPLE+1);
 
-  /* Create the colormap and color index table. */
-  create_colormap(cinfo);
-  create_colorindex(cinfo);
+  /* Crfbtf tif dolormbp bnd dolor indfx tbblf. */
+  drfbtf_dolormbp(dinfo);
+  drfbtf_dolorindfx(dinfo);
 
-  /* Allocate Floyd-Steinberg workspace now if requested.
-   * We do this now since it is FAR storage and may affect the memory
-   * manager's space calculations.  If the user changes to FS dither
-   * mode in a later pass, we will allocate the space then, and will
-   * possibly overrun the max_memory_to_use setting.
+  /* Allodbtf Floyd-Stfinbfrg workspbdf now if rfqufstfd.
+   * Wf do tiis now sindf it is FAR storbgf bnd mby bfffdt tif mfmory
+   * mbnbgfr's spbdf dbldulbtions.  If tif usfr dibngfs to FS ditifr
+   * modf in b lbtfr pbss, wf will bllodbtf tif spbdf tifn, bnd will
+   * possibly ovfrrun tif mbx_mfmory_to_usf sftting.
    */
-  if (cinfo->dither_mode == JDITHER_FS)
-    alloc_fs_workspace(cinfo);
+  if (dinfo->ditifr_modf == JDITHER_FS)
+    bllod_fs_workspbdf(dinfo);
 }
 
-#endif /* QUANT_1PASS_SUPPORTED */
+#fndif /* QUANT_1PASS_SUPPORTED */

@@ -1,249 +1,249 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.event;
+pbdkbgf jbvbx.nbming.fvfnt;
 
-import javax.naming.Name;
-import javax.naming.Context;
-import javax.naming.NamingException;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.NbmingExdfption;
 
 
 /**
- * Contains methods for registering/deregistering listeners to be notified of
- * events fired when objects named in a context changes.
+ * Contbins mftiods for rfgistfring/dfrfgistfring listfnfrs to bf notififd of
+ * fvfnts firfd wifn objfdts nbmfd in b dontfxt dibngfs.
  *
- *<h1>Target</h1>
- * The name parameter in the <tt>addNamingListener()</tt> methods is referred
- * to as the <em>target</em>. The target, along with the scope, identify
- * the object(s) that the listener is interested in.
- * It is possible to register interest in a target that does not exist, but
- * there might be limitations in the extent to which this can be
- * supported by the service provider and underlying protocol/service.
+ *<i1>Tbrgft</i1>
+ * Tif nbmf pbrbmftfr in tif <tt>bddNbmingListfnfr()</tt> mftiods is rfffrrfd
+ * to bs tif <fm>tbrgft</fm>. Tif tbrgft, blong witi tif sdopf, idfntify
+ * tif objfdt(s) tibt tif listfnfr is intfrfstfd in.
+ * It is possiblf to rfgistfr intfrfst in b tbrgft tibt dofs not fxist, but
+ * tifrf migit bf limitbtions in tif fxtfnt to wiidi tiis dbn bf
+ * supportfd by tif sfrvidf providfr bnd undfrlying protodol/sfrvidf.
  *<p>
- * If a service only supports registration for existing
- * targets, an attempt to register for a nonexistent target
- * results in a <tt>NameNotFoundException</tt> being thrown as early as possible,
- * preferably at the time <tt>addNamingListener()</tt> is called, or if that is
- * not possible, the listener will receive the exception through the
- * <tt>NamingExceptionEvent</tt>.
+ * If b sfrvidf only supports rfgistrbtion for fxisting
+ * tbrgfts, bn bttfmpt to rfgistfr for b nonfxistfnt tbrgft
+ * rfsults in b <tt>NbmfNotFoundExdfption</tt> bfing tirown bs fbrly bs possiblf,
+ * prfffrbbly bt tif timf <tt>bddNbmingListfnfr()</tt> is dbllfd, or if tibt is
+ * not possiblf, tif listfnfr will rfdfivf tif fxdfption tirougi tif
+ * <tt>NbmingExdfptionEvfnt</tt>.
  *<p>
- * Also, for service providers that only support registration for existing
- * targets, when the target that a listener has registered for is
- * subsequently removed from the namespace, the listener is notified
- * via a <tt>NamingExceptionEvent</tt> (containing a
- *<tt>NameNotFoundException</tt>).
+ * Also, for sfrvidf providfrs tibt only support rfgistrbtion for fxisting
+ * tbrgfts, wifn tif tbrgft tibt b listfnfr ibs rfgistfrfd for is
+ * subsfqufntly rfmovfd from tif nbmfspbdf, tif listfnfr is notififd
+ * vib b <tt>NbmingExdfptionEvfnt</tt> (dontbining b
+ *<tt>NbmfNotFoundExdfption</tt>).
  *<p>
- * An application can use the method <tt>targetMustExist()</tt> to check
- * whether a <tt>EventContext</tt> supports registration
- * of nonexistent targets.
+ * An bpplidbtion dbn usf tif mftiod <tt>tbrgftMustExist()</tt> to difdk
+ * wiftifr b <tt>EvfntContfxt</tt> supports rfgistrbtion
+ * of nonfxistfnt tbrgfts.
  *
- *<h1>Event Source</h1>
- * The <tt>EventContext</tt> instance on which you invoke the
- * registration methods is the <em>event source</em> of the events that are
- * (potentially) generated.
- * The source is <em>not necessarily</em> the object named by the target.
- * Only when the target is the empty name is the object named by the target
- * the source.
- * In other words, the target,
- * along with the scope parameter, are used to identify
- * the object(s) that the listener is interested in, but the event source
- * is the <tt>EventContext</tt> instance with which the listener
- * has registered.
+ *<i1>Evfnt Sourdf</i1>
+ * Tif <tt>EvfntContfxt</tt> instbndf on wiidi you invokf tif
+ * rfgistrbtion mftiods is tif <fm>fvfnt sourdf</fm> of tif fvfnts tibt brf
+ * (potfntiblly) gfnfrbtfd.
+ * Tif sourdf is <fm>not nfdfssbrily</fm> tif objfdt nbmfd by tif tbrgft.
+ * Only wifn tif tbrgft is tif fmpty nbmf is tif objfdt nbmfd by tif tbrgft
+ * tif sourdf.
+ * In otifr words, tif tbrgft,
+ * blong witi tif sdopf pbrbmftfr, brf usfd to idfntify
+ * tif objfdt(s) tibt tif listfnfr is intfrfstfd in, but tif fvfnt sourdf
+ * is tif <tt>EvfntContfxt</tt> instbndf witi wiidi tif listfnfr
+ * ibs rfgistfrfd.
  *<p>
- * For example, suppose a listener makes the following registration:
- *<blockquote><pre>
- *      NamespaceChangeListener listener = ...;
- *      src.addNamingListener("x", SUBTREE_SCOPE, listener);
- *</pre></blockquote>
- * When an object named "x/y" is subsequently deleted, the corresponding
- * <tt>NamingEvent</tt> (<tt>evt</tt>)  must contain:
- *<blockquote><pre>
- *      evt.getEventContext() == src
- *      evt.getOldBinding().getName().equals("x/y")
- *</pre></blockquote>
+ * For fxbmplf, supposf b listfnfr mbkfs tif following rfgistrbtion:
+ *<blodkquotf><prf>
+ *      NbmfspbdfCibngfListfnfr listfnfr = ...;
+ *      srd.bddNbmingListfnfr("x", SUBTREE_SCOPE, listfnfr);
+ *</prf></blodkquotf>
+ * Wifn bn objfdt nbmfd "x/y" is subsfqufntly dflftfd, tif dorrfsponding
+ * <tt>NbmingEvfnt</tt> (<tt>fvt</tt>)  must dontbin:
+ *<blodkquotf><prf>
+ *      fvt.gftEvfntContfxt() == srd
+ *      fvt.gftOldBinding().gftNbmf().fqubls("x/y")
+ *</prf></blodkquotf>
  *<p>
- * Furthermore, listener registration/deregistration is with
- * the <tt>EventContext</tt>
- * <em>instance</em>, and not with the corresponding object in the namespace.
- * If the program intends at some point to remove a listener, then it needs to
- * keep a reference to the <tt>EventContext</tt> instance on
- * which it invoked <tt>addNamingListener()</tt> (just as
- * it needs to keep a reference to the listener in order to remove it
- * later). It cannot expect to do a <tt>lookup()</tt> and get another instance of
- * a <tt>EventContext</tt> on which to perform the deregistration.
- *<h1>Lifetime of Registration</h1>
- * A registered listener becomes deregistered when:
+ * Furtifrmorf, listfnfr rfgistrbtion/dfrfgistrbtion is witi
+ * tif <tt>EvfntContfxt</tt>
+ * <fm>instbndf</fm>, bnd not witi tif dorrfsponding objfdt in tif nbmfspbdf.
+ * If tif progrbm intfnds bt somf point to rfmovf b listfnfr, tifn it nffds to
+ * kffp b rfffrfndf to tif <tt>EvfntContfxt</tt> instbndf on
+ * wiidi it invokfd <tt>bddNbmingListfnfr()</tt> (just bs
+ * it nffds to kffp b rfffrfndf to tif listfnfr in ordfr to rfmovf it
+ * lbtfr). It dbnnot fxpfdt to do b <tt>lookup()</tt> bnd gft bnotifr instbndf of
+ * b <tt>EvfntContfxt</tt> on wiidi to pfrform tif dfrfgistrbtion.
+ *<i1>Lifftimf of Rfgistrbtion</i1>
+ * A rfgistfrfd listfnfr bfdomfs dfrfgistfrfd wifn:
  *<ul>
- *<li>It is removed using <tt>removeNamingListener()</tt>.
- *<li>An exception is thrown while collecting information about the events.
- *  That is, when the listener receives a <tt>NamingExceptionEvent</tt>.
- *<li><tt>Context.close()</tt> is invoked on the <tt>EventContext</tt>
- * instance with which it has registered.
+ *<li>It is rfmovfd using <tt>rfmovfNbmingListfnfr()</tt>.
+ *<li>An fxdfption is tirown wiilf dollfdting informbtion bbout tif fvfnts.
+ *  Tibt is, wifn tif listfnfr rfdfivfs b <tt>NbmingExdfptionEvfnt</tt>.
+ *<li><tt>Contfxt.dlosf()</tt> is invokfd on tif <tt>EvfntContfxt</tt>
+ * instbndf witi wiidi it ibs rfgistfrfd.
  </ul>
- * Until that point, a <tt>EventContext</tt> instance that has outstanding
- * listeners will continue to exist and be maintained by the service provider.
+ * Until tibt point, b <tt>EvfntContfxt</tt> instbndf tibt ibs outstbnding
+ * listfnfrs will dontinuf to fxist bnd bf mbintbinfd by tif sfrvidf providfr.
  *
- *<h1>Listener Implementations</h1>
- * The registration/deregistration methods accept an instance of
- * <tt>NamingListener</tt>. There are subinterfaces of <tt>NamingListener</tt>
- * for different of event types of <tt>NamingEvent</tt>.
- * For example, the <tt>ObjectChangeListener</tt>
- * interface is for the <tt>NamingEvent.OBJECT_CHANGED</tt> event type.
- * To register interest in multiple event types, the listener implementation
- * should implement multiple <tt>NamingListener</tt> subinterfaces and use a
- * single invocation of <tt>addNamingListener()</tt>.
- * In addition to reducing the number of method calls and possibly the code size
- * of the listeners, this allows some service providers to optimize the
- * registration.
+ *<i1>Listfnfr Implfmfntbtions</i1>
+ * Tif rfgistrbtion/dfrfgistrbtion mftiods bddfpt bn instbndf of
+ * <tt>NbmingListfnfr</tt>. Tifrf brf subintfrfbdfs of <tt>NbmingListfnfr</tt>
+ * for difffrfnt of fvfnt typfs of <tt>NbmingEvfnt</tt>.
+ * For fxbmplf, tif <tt>ObjfdtCibngfListfnfr</tt>
+ * intfrfbdf is for tif <tt>NbmingEvfnt.OBJECT_CHANGED</tt> fvfnt typf.
+ * To rfgistfr intfrfst in multiplf fvfnt typfs, tif listfnfr implfmfntbtion
+ * siould implfmfnt multiplf <tt>NbmingListfnfr</tt> subintfrfbdfs bnd usf b
+ * singlf invodbtion of <tt>bddNbmingListfnfr()</tt>.
+ * In bddition to rfduding tif numbfr of mftiod dblls bnd possibly tif dodf sizf
+ * of tif listfnfrs, tiis bllows somf sfrvidf providfrs to optimizf tif
+ * rfgistrbtion.
  *
- *<h1>Threading Issues</h1>
+ *<i1>Tirfbding Issufs</i1>
  *
- * Like <tt>Context</tt> instances in general, instances of
- * <tt>EventContext</tt> are not guaranteed to be thread-safe.
- * Care must be taken when multiple threads are accessing the same
- * <tt>EventContext</tt> concurrently.
- * See the
- * <a href=package-summary.html#THREADING>package description</a>
- * for more information on threading issues.
+ * Likf <tt>Contfxt</tt> instbndfs in gfnfrbl, instbndfs of
+ * <tt>EvfntContfxt</tt> brf not gubrbntffd to bf tirfbd-sbff.
+ * Cbrf must bf tbkfn wifn multiplf tirfbds brf bddfssing tif sbmf
+ * <tt>EvfntContfxt</tt> dondurrfntly.
+ * Sff tif
+ * <b irff=pbdkbgf-summbry.itml#THREADING>pbdkbgf dfsdription</b>
+ * for morf informbtion on tirfbding issufs.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @since 1.3
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @sindf 1.3
  */
 
-public interface EventContext extends Context {
+publid intfrfbdf EvfntContfxt fxtfnds Contfxt {
     /**
-     * Constant for expressing interest in events concerning the object named
-     * by the target.
+     * Constbnt for fxprfssing intfrfst in fvfnts dondfrning tif objfdt nbmfd
+     * by tif tbrgft.
      *<p>
-     * The value of this constant is <tt>0</tt>.
+     * Tif vbluf of tiis donstbnt is <tt>0</tt>.
      */
-    public final static int OBJECT_SCOPE = 0;
+    publid finbl stbtid int OBJECT_SCOPE = 0;
 
     /**
-     * Constant for expressing interest in events concerning objects
-     * in the context named by the target,
-     * excluding the context named by the target.
+     * Constbnt for fxprfssing intfrfst in fvfnts dondfrning objfdts
+     * in tif dontfxt nbmfd by tif tbrgft,
+     * fxdluding tif dontfxt nbmfd by tif tbrgft.
      *<p>
-     * The value of this constant is <tt>1</tt>.
+     * Tif vbluf of tiis donstbnt is <tt>1</tt>.
      */
-    public final static int ONELEVEL_SCOPE = 1;
+    publid finbl stbtid int ONELEVEL_SCOPE = 1;
 
     /**
-     * Constant for expressing interest in events concerning objects
-     * in the subtree of the object named by the target, including the object
-     * named by the target.
+     * Constbnt for fxprfssing intfrfst in fvfnts dondfrning objfdts
+     * in tif subtrff of tif objfdt nbmfd by tif tbrgft, indluding tif objfdt
+     * nbmfd by tif tbrgft.
      *<p>
-     * The value of this constant is <tt>2</tt>.
+     * Tif vbluf of tiis donstbnt is <tt>2</tt>.
      */
-    public final static int SUBTREE_SCOPE = 2;
+    publid finbl stbtid int SUBTREE_SCOPE = 2;
 
 
     /**
-     * Adds a listener for receiving naming events fired
-     * when the object(s) identified by a target and scope changes.
+     * Adds b listfnfr for rfdfiving nbming fvfnts firfd
+     * wifn tif objfdt(s) idfntififd by b tbrgft bnd sdopf dibngfs.
      *
-     * The event source of those events is this context. See the
-     * class description for a discussion on event source and target.
-     * See the descriptions of the constants <tt>OBJECT_SCOPE</tt>,
-     * <tt>ONELEVEL_SCOPE</tt>, and <tt>SUBTREE_SCOPE</tt> to see how
-     * <tt>scope</tt> affects the registration.
+     * Tif fvfnt sourdf of tiosf fvfnts is tiis dontfxt. Sff tif
+     * dlbss dfsdription for b disdussion on fvfnt sourdf bnd tbrgft.
+     * Sff tif dfsdriptions of tif donstbnts <tt>OBJECT_SCOPE</tt>,
+     * <tt>ONELEVEL_SCOPE</tt>, bnd <tt>SUBTREE_SCOPE</tt> to sff iow
+     * <tt>sdopf</tt> bfffdts tif rfgistrbtion.
      *<p>
-     * <tt>target</tt> needs to name a context only when <tt>scope</tt> is
+     * <tt>tbrgft</tt> nffds to nbmf b dontfxt only wifn <tt>sdopf</tt> is
      * <tt>ONELEVEL_SCOPE</tt>.
-     * <tt>target</tt> may name a non-context if <tt>scope</tt> is either
+     * <tt>tbrgft</tt> mby nbmf b non-dontfxt if <tt>sdopf</tt> is fitifr
      * <tt>OBJECT_SCOPE</tt> or <tt>SUBTREE_SCOPE</tt>.  Using
-     * <tt>SUBTREE_SCOPE</tt> for a non-context might be useful,
-     * for example, if the caller does not know in advance whether <tt>target</tt>
-     * is a context and just wants to register interest in the (possibly
-     * degenerate subtree) rooted at <tt>target</tt>.
+     * <tt>SUBTREE_SCOPE</tt> for b non-dontfxt migit bf usfful,
+     * for fxbmplf, if tif dbllfr dofs not know in bdvbndf wiftifr <tt>tbrgft</tt>
+     * is b dontfxt bnd just wbnts to rfgistfr intfrfst in tif (possibly
+     * dfgfnfrbtf subtrff) rootfd bt <tt>tbrgft</tt>.
      *<p>
-     * When the listener is notified of an event, the listener may
-     * in invoked in a thread other than the one in which
-     * <tt>addNamingListener()</tt> is executed.
-     * Care must be taken when multiple threads are accessing the same
-     * <tt>EventContext</tt> concurrently.
-     * See the
-     * <a href=package-summary.html#THREADING>package description</a>
-     * for more information on threading issues.
+     * Wifn tif listfnfr is notififd of bn fvfnt, tif listfnfr mby
+     * in invokfd in b tirfbd otifr tibn tif onf in wiidi
+     * <tt>bddNbmingListfnfr()</tt> is fxfdutfd.
+     * Cbrf must bf tbkfn wifn multiplf tirfbds brf bddfssing tif sbmf
+     * <tt>EvfntContfxt</tt> dondurrfntly.
+     * Sff tif
+     * <b irff=pbdkbgf-summbry.itml#THREADING>pbdkbgf dfsdription</b>
+     * for morf informbtion on tirfbding issufs.
      *
-     * @param target A nonnull name to be resolved relative to this context.
-     * @param scope One of <tt>OBJECT_SCOPE</tt>, <tt>ONELEVEL_SCOPE</tt>, or
+     * @pbrbm tbrgft A nonnull nbmf to bf rfsolvfd rflbtivf to tiis dontfxt.
+     * @pbrbm sdopf Onf of <tt>OBJECT_SCOPE</tt>, <tt>ONELEVEL_SCOPE</tt>, or
      * <tt>SUBTREE_SCOPE</tt>.
-     * @param l  The nonnull listener.
-     * @exception NamingException If a problem was encountered while
-     * adding the listener.
-     * @see #removeNamingListener
+     * @pbrbm l  Tif nonnull listfnfr.
+     * @fxdfption NbmingExdfption If b problfm wbs fndountfrfd wiilf
+     * bdding tif listfnfr.
+     * @sff #rfmovfNbmingListfnfr
      */
-    void addNamingListener(Name target, int scope, NamingListener l)
-        throws NamingException;
+    void bddNbmingListfnfr(Nbmf tbrgft, int sdopf, NbmingListfnfr l)
+        tirows NbmingExdfption;
 
     /**
-     * Adds a listener for receiving naming events fired
-     * when the object named by the string target name and scope changes.
+     * Adds b listfnfr for rfdfiving nbming fvfnts firfd
+     * wifn tif objfdt nbmfd by tif string tbrgft nbmf bnd sdopf dibngfs.
      *
-     * See the overload that accepts a <tt>Name</tt> for details.
+     * Sff tif ovfrlobd tibt bddfpts b <tt>Nbmf</tt> for dftbils.
      *
-     * @param target The nonnull string name of the object resolved relative
-     * to this context.
-     * @param scope One of <tt>OBJECT_SCOPE</tt>, <tt>ONELEVEL_SCOPE</tt>, or
+     * @pbrbm tbrgft Tif nonnull string nbmf of tif objfdt rfsolvfd rflbtivf
+     * to tiis dontfxt.
+     * @pbrbm sdopf Onf of <tt>OBJECT_SCOPE</tt>, <tt>ONELEVEL_SCOPE</tt>, or
      * <tt>SUBTREE_SCOPE</tt>.
-     * @param l  The nonnull listener.
-     * @exception NamingException If a problem was encountered while
-     * adding the listener.
-     * @see #removeNamingListener
+     * @pbrbm l  Tif nonnull listfnfr.
+     * @fxdfption NbmingExdfption If b problfm wbs fndountfrfd wiilf
+     * bdding tif listfnfr.
+     * @sff #rfmovfNbmingListfnfr
      */
-    void addNamingListener(String target, int scope, NamingListener l)
-        throws NamingException;
+    void bddNbmingListfnfr(String tbrgft, int sdopf, NbmingListfnfr l)
+        tirows NbmingExdfption;
 
     /**
-     * Removes a listener from receiving naming events fired
-     * by this <tt>EventContext</tt>.
-     * The listener may have registered more than once with this
-     * <tt>EventContext</tt>, perhaps with different target/scope arguments.
-     * After this method is invoked, the listener will no longer
-     * receive events with this <tt>EventContext</tt> instance
-     * as the event source (except for those events already in the process of
-     * being dispatched).
-     * If the listener was not, or is no longer, registered with
-     * this <tt>EventContext</tt> instance, this method does not do anything.
+     * Rfmovfs b listfnfr from rfdfiving nbming fvfnts firfd
+     * by tiis <tt>EvfntContfxt</tt>.
+     * Tif listfnfr mby ibvf rfgistfrfd morf tibn ondf witi tiis
+     * <tt>EvfntContfxt</tt>, pfribps witi difffrfnt tbrgft/sdopf brgumfnts.
+     * Aftfr tiis mftiod is invokfd, tif listfnfr will no longfr
+     * rfdfivf fvfnts witi tiis <tt>EvfntContfxt</tt> instbndf
+     * bs tif fvfnt sourdf (fxdfpt for tiosf fvfnts blrfbdy in tif prodfss of
+     * bfing dispbtdifd).
+     * If tif listfnfr wbs not, or is no longfr, rfgistfrfd witi
+     * tiis <tt>EvfntContfxt</tt> instbndf, tiis mftiod dofs not do bnytiing.
      *
-     * @param l  The nonnull listener.
-     * @exception NamingException If a problem was encountered while
-     * removing the listener.
-     * @see #addNamingListener
+     * @pbrbm l  Tif nonnull listfnfr.
+     * @fxdfption NbmingExdfption If b problfm wbs fndountfrfd wiilf
+     * rfmoving tif listfnfr.
+     * @sff #bddNbmingListfnfr
      */
-    void removeNamingListener(NamingListener l) throws NamingException;
+    void rfmovfNbmingListfnfr(NbmingListfnfr l) tirows NbmingExdfption;
 
     /**
-     * Determines whether a listener can register interest in a target
-     * that does not exist.
+     * Dftfrminfs wiftifr b listfnfr dbn rfgistfr intfrfst in b tbrgft
+     * tibt dofs not fxist.
      *
-     * @return true if the target must exist; false if the target need not exist.
-     * @exception NamingException If the context's behavior in this regard cannot
-     * be determined.
+     * @rfturn truf if tif tbrgft must fxist; fblsf if tif tbrgft nffd not fxist.
+     * @fxdfption NbmingExdfption If tif dontfxt's bfibvior in tiis rfgbrd dbnnot
+     * bf dftfrminfd.
      */
-    boolean targetMustExist() throws NamingException;
+    boolfbn tbrgftMustExist() tirows NbmingExdfption;
 }

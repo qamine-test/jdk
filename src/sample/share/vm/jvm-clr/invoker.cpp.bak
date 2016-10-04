@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,144 +30,144 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#define _WIN32_WINNT 0x0400
-#include "windows.h"
-#include "Oleauto.h"
-#include "stdio.h"
-#include "mscoree.h"
-#include "corerror.h"
-#include "jni.h"
-#include "invokerExp.h"
-#include "invoker.h"
+#dffinf _WIN32_WINNT 0x0400
+#indludf "windows.i"
+#indludf "Olfbuto.i"
+#indludf "stdio.i"
+#indludf "msdorff.i"
+#indludf "dorfrror.i"
+#indludf "jni.i"
+#indludf "invokfrExp.i"
+#indludf "invokfr.i"
 
-#import  <mscorlib.tlb> raw_interfaces_only
+#import  <msdorlib.tlb> rbw_intfrfbdfs_only
 
-using namespace mscorlib;
+using nbmfspbdf msdorlib;
 
-// The CLR assembly invocation function
+// Tif CLR bssfmbly invodbtion fundtion
 
-int __stdcall invokeCLR( WCHAR* wszApplication){
+int __stddbll invokfCLR( WCHAR* wszApplidbtion){
 
-    //Initializes the COM library
+    //Initiblizfs tif COM librbry
 
-    CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    CoInitiblizfEx(NULL, COINIT_APARTMENTTHREADED);
 
-    ICorRuntimeHost* pHost           = NULL;
-    IUnknown*        pAppDomainThunk = NULL;
-    _AppDomain*      pAppDomain      = NULL;
-    long             lReturn         = 0;
+    ICorRuntimfHost* pHost           = NULL;
+    IUnknown*        pAppDombinTiunk = NULL;
+    _AppDombin*      pAppDombin      = NULL;
+    long             lRfturn         = 0;
 
-    // Load CLR into the process
+    // Lobd CLR into tif prodfss
 
-    HRESULT hr = CorBindToRuntimeEx(NULL,NULL,0,CLSID_CorRuntimeHost,IID_ICorRuntimeHost,(VOID**)&pHost);
+    HRESULT ir = CorBindToRuntimfEx(NULL,NULL,0,CLSID_CorRuntimfHost,IID_ICorRuntimfHost,(VOID**)&pHost);
 
-    if(!FAILED(hr)) {
+    if(!FAILED(ir)) {
 
-        // Start the CLR
+        // Stbrt tif CLR
 
-        hr = pHost->Start();
-        if(!FAILED(hr)) {
+        ir = pHost->Stbrt();
+        if(!FAILED(ir)) {
 
-            // Get the _AppDomain interface
+            // Gft tif _AppDombin intfrfbdf
 
-            hr = pHost->GetDefaultDomain(&pAppDomainThunk);
-            if(!FAILED(hr)) {
+            ir = pHost->GftDffbultDombin(&pAppDombinTiunk);
+            if(!FAILED(ir)) {
 
-                hr = pAppDomainThunk->QueryInterface(__uuidof(_AppDomain), (void**)&pAppDomain);
-                if(!FAILED(hr)) {
+                ir = pAppDombinTiunk->QufryIntfrfbdf(__uuidof(_AppDombin), (void**)&pAppDombin);
+                if(!FAILED(ir)) {
 
-                    // Execute assembly
+                    // Exfdutf bssfmbly
 
-                    hr = pAppDomain->ExecuteAssembly_2(_bstr_t(wszApplication), &lReturn);
-                    if (FAILED(hr)) {
+                    ir = pAppDombin->ExfdutfAssfmbly_2(_bstr_t(wszApplidbtion), &lRfturn);
+                    if (FAILED(ir)) {
 
-                        printf("_AppDomain::ExecuteAssembly_2 failed with hr=0x%x.\n", hr);
-                        lReturn = -1;
+                        printf("_AppDombin::ExfdutfAssfmbly_2 fbilfd witi ir=0x%x.\n", ir);
+                        lRfturn = -1;
                     }
 
-                }else{
-                    printf("Can't get System::_AppDomain interface\n");
-                    lReturn = -2;
+                }flsf{
+                    printf("Cbn't gft Systfm::_AppDombin intfrfbdf\n");
+                    lRfturn = -2;
                 }
 
-            }else{
-                printf("ICorRuntimeHost->GetDefaultDomain failed with hr=0x%x.\n", hr);
-                lReturn = -3;
+            }flsf{
+                printf("ICorRuntimfHost->GftDffbultDombin fbilfd witi ir=0x%x.\n", ir);
+                lRfturn = -3;
             }
-        }else{
-            printf("ICorRuntimeHost->Start failed with hr=0x%x.\n", hr);
-            lReturn = -4;
+        }flsf{
+            printf("ICorRuntimfHost->Stbrt fbilfd witi ir=0x%x.\n", ir);
+            lRfturn = -4;
         }
 
-    }else{
-        printf("CorBindToRuntimeHost failed with hr=0x%x.\n", hr);
-        lReturn = -5;
+    }flsf{
+        printf("CorBindToRuntimfHost fbilfd witi ir=0x%x.\n", ir);
+        lRfturn = -5;
     }
 
-    // print the error message description if needed
+    // print tif frror mfssbgf dfsdription if nffdfd
 
-    if(FAILED(hr)){
+    if(FAILED(ir)){
         LPVOID lpMsgBuf = NULL;
 
-        FormatMessage(
+        FormbtMfssbgf(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER |
                 FORMAT_MESSAGE_FROM_SYSTEM |
                 FORMAT_MESSAGE_IGNORE_INSERTS,
                 NULL,
-                hr,
+                ir,
                 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                 (LPTSTR) &lpMsgBuf,
                 0,
                 NULL );
         if(lpMsgBuf != NULL)
-            printf("Message:%s\n",lpMsgBuf);
-        else
-            printf("No translation of 0x%x\n",hr);
+            printf("Mfssbgf:%s\n",lpMsgBuf);
+        flsf
+            printf("No trbnslbtion of 0x%x\n",ir);
     }
 
-    // close COM library
+    // dlosf COM librbry
 
-    CoUninitialize();
+    CoUninitiblizf();
 
-    return lReturn;
+    rfturn lRfturn;
 }
 
-// Wrapper function that allows to ASCIZ string to provide the assemble path
+// Wrbppfr fundtion tibt bllows to ASCIZ string to providf tif bssfmblf pbti
 
-int __stdcall invokeCLR( const char* szApplication){
+int __stddbll invokfCLR( donst dibr* szApplidbtion){
 
-    int    nLength = strlen(szApplication)+1;
+    int    nLfngti = strlfn(szApplidbtion)+1;
 
-    WCHAR* wszApplication = new WCHAR[nLength];
+    WCHAR* wszApplidbtion = nfw WCHAR[nLfngti];
 
-    mbstowcs(wszApplication, szApplication, nLength);
+    mbstowds(wszApplidbtion, szApplidbtion, nLfngti);
 
-    int nReturn = invokeCLR( wszApplication);
+    int nRfturn = invokfCLR( wszApplidbtion);
 
-    delete wszApplication;
+    dflftf wszApplidbtion;
 
-    return nReturn;
+    rfturn nRfturn;
 }
 
-// native method enter-point
+// nbtivf mftiod fntfr-point
 
-JNIEXPORT jint JNICALL Java_invoker_invokeCLR( JNIEnv* pEnv,
-                                               jclass  pClass,
-                                               jstring jsApplication) {
+JNIEXPORT jint JNICALL Jbvb_invokfr_invokfCLR( JNIEnv* pEnv,
+                                               jdlbss  pClbss,
+                                               jstring jsApplidbtion) {
 
-    const char* szApplication = pEnv->GetStringUTFChars(jsApplication, NULL);
+    donst dibr* szApplidbtion = pEnv->GftStringUTFCibrs(jsApplidbtion, NULL);
 
-    int nResult = invokeCLR( szApplication);
+    int nRfsult = invokfCLR( szApplidbtion);
 
-    pEnv->ReleaseStringUTFChars(jsApplication,szApplication);
+    pEnv->RflfbsfStringUTFCibrs(jsApplidbtion,szApplidbtion);
 
-    return nResult;
+    rfturn nRfsult;
 }

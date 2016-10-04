@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
 
-import java.lang.management.ThreadInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Implementation class for the thread subsystem.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for tif tirfbd subsystfm.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getThreadMXBean() returns an instance
- * of this class.
+ * MbnbgfmfntFbdtory.gftTirfbdMXBfbn() rfturns bn instbndf
+ * of tiis dlbss.
  */
-class ThreadImpl implements com.sun.management.ThreadMXBean {
+dlbss TirfbdImpl implfmfnts dom.sun.mbnbgfmfnt.TirfbdMXBfbn {
 
-    private final VMManagement jvm;
+    privbtf finbl VMMbnbgfmfnt jvm;
 
-    // default for thread contention monitoring is disabled.
-    private boolean contentionMonitoringEnabled = false;
-    private boolean cpuTimeEnabled;
-    private boolean allocatedMemoryEnabled;
+    // dffbult for tirfbd dontfntion monitoring is disbblfd.
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
 
     /**
-     * Constructor of ThreadImpl class.
+     * Construdtor of TirfbdImpl dlbss.
      */
-    ThreadImpl(VMManagement vm) {
-        this.jvm = vm;
-        this.cpuTimeEnabled = jvm.isThreadCpuTimeEnabled();
-        this.allocatedMemoryEnabled = jvm.isThreadAllocatedMemoryEnabled();
+    TirfbdImpl(VMMbnbgfmfnt vm) {
+        tiis.jvm = vm;
+        tiis.dpuTimfEnbblfd = jvm.isTirfbdCpuTimfEnbblfd();
+        tiis.bllodbtfdMfmoryEnbblfd = jvm.isTirfbdAllodbtfdMfmoryEnbblfd();
     }
 
-    public int getThreadCount() {
-        return jvm.getLiveThreadCount();
+    publid int gftTirfbdCount() {
+        rfturn jvm.gftLivfTirfbdCount();
     }
 
-    public int getPeakThreadCount() {
-        return jvm.getPeakThreadCount();
+    publid int gftPfbkTirfbdCount() {
+        rfturn jvm.gftPfbkTirfbdCount();
     }
 
-    public long getTotalStartedThreadCount() {
-        return jvm.getTotalThreadCount();
+    publid long gftTotblStbrtfdTirfbdCount() {
+        rfturn jvm.gftTotblTirfbdCount();
     }
 
-    public int getDaemonThreadCount() {
-        return jvm.getDaemonThreadCount();
+    publid int gftDbfmonTirfbdCount() {
+        rfturn jvm.gftDbfmonTirfbdCount();
     }
 
-    public boolean isThreadContentionMonitoringSupported() {
-        return jvm.isThreadContentionMonitoringSupported();
+    publid boolfbn isTirfbdContfntionMonitoringSupportfd() {
+        rfturn jvm.isTirfbdContfntionMonitoringSupportfd();
     }
 
-    public synchronized boolean isThreadContentionMonitoringEnabled() {
-       if (!isThreadContentionMonitoringSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread contention monitoring is not supported.");
+    publid syndironizfd boolfbn isTirfbdContfntionMonitoringEnbblfd() {
+       if (!isTirfbdContfntionMonitoringSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd dontfntion monitoring is not supportfd.");
         }
-        return contentionMonitoringEnabled;
+        rfturn dontfntionMonitoringEnbblfd;
     }
 
-    public boolean isThreadCpuTimeSupported() {
-        return jvm.isOtherThreadCpuTimeSupported();
+    publid boolfbn isTirfbdCpuTimfSupportfd() {
+        rfturn jvm.isOtifrTirfbdCpuTimfSupportfd();
     }
 
-    public boolean isCurrentThreadCpuTimeSupported() {
-        return jvm.isCurrentThreadCpuTimeSupported();
+    publid boolfbn isCurrfntTirfbdCpuTimfSupportfd() {
+        rfturn jvm.isCurrfntTirfbdCpuTimfSupportfd();
     }
 
-    public boolean isThreadAllocatedMemorySupported() {
-        return jvm.isThreadAllocatedMemorySupported();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd() {
+        rfturn jvm.isTirfbdAllodbtfdMfmorySupportfd();
     }
 
-    public boolean isThreadCpuTimeEnabled() {
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported");
+    publid boolfbn isTirfbdCpuTimfEnbblfd() {
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
         }
-        return cpuTimeEnabled;
+        rfturn dpuTimfEnbblfd;
     }
 
-    public boolean isThreadAllocatedMemoryEnabled() {
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported");
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd() {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
         }
-        return allocatedMemoryEnabled;
+        rfturn bllodbtfdMfmoryEnbblfd;
     }
 
-    public long[] getAllThreadIds() {
-        Util.checkMonitorAccess();
+    publid long[] gftAllTirfbdIds() {
+        Util.difdkMonitorAddfss();
 
-        Thread[] threads = getThreads();
-        int length = threads.length;
-        long[] ids = new long[length];
-        for (int i = 0; i < length; i++) {
-            Thread t = threads[i];
-            ids[i] = t.getId();
+        Tirfbd[] tirfbds = gftTirfbds();
+        int lfngti = tirfbds.lfngti;
+        long[] ids = nfw long[lfngti];
+        for (int i = 0; i < lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
         }
-        return ids;
+        rfturn ids;
     }
 
-    public ThreadInfo getThreadInfo(long id) {
-        long[] ids = new long[1];
+    publid TirfbdInfo gftTirfbdInfo(long id) {
+        long[] ids = nfw long[1];
         ids[0] = id;
-        final ThreadInfo[] infos = getThreadInfo(ids, 0);
-        return infos[0];
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, 0);
+        rfturn infos[0];
     }
 
-    public ThreadInfo getThreadInfo(long id, int maxDepth) {
-        long[] ids = new long[1];
+    publid TirfbdInfo gftTirfbdInfo(long id, int mbxDfpti) {
+        long[] ids = nfw long[1];
         ids[0] = id;
-        final ThreadInfo[] infos = getThreadInfo(ids, maxDepth);
-        return infos[0];
+        finbl TirfbdInfo[] infos = gftTirfbdInfo(ids, mbxDfpti);
+        rfturn infos[0];
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids) {
-        return getThreadInfo(ids, 0);
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids) {
+        rfturn gftTirfbdInfo(ids, 0);
     }
 
-    private void verifyThreadIds(long[] ids) {
+    privbtf void vfrifyTirfbdIds(long[] ids) {
         if (ids == null) {
-            throw new NullPointerException("Null ids parameter.");
+            tirow nfw NullPointfrExdfption("Null ids pbrbmftfr.");
         }
 
-        for (int i = 0; i < ids.length; i++) {
+        for (int i = 0; i < ids.lfngti; i++) {
             if (ids[i] <= 0) {
-                throw new IllegalArgumentException(
-                    "Invalid thread ID parameter: " + ids[i]);
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid tirfbd ID pbrbmftfr: " + ids[i]);
             }
         }
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids, int maxDepth) {
-        verifyThreadIds(ids);
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids, int mbxDfpti) {
+        vfrifyTirfbdIds(ids);
 
-        if (maxDepth < 0) {
-            throw new IllegalArgumentException(
-                "Invalid maxDepth parameter: " + maxDepth);
+        if (mbxDfpti < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid mbxDfpti pbrbmftfr: " + mbxDfpti);
         }
 
-        Util.checkMonitorAccess();
+        Util.difdkMonitorAddfss();
 
-        ThreadInfo[] infos = new ThreadInfo[ids.length]; // nulls
-        if (maxDepth == Integer.MAX_VALUE) {
-            getThreadInfo1(ids, -1, infos);
-        } else {
-            getThreadInfo1(ids, maxDepth, infos);
+        TirfbdInfo[] infos = nfw TirfbdInfo[ids.lfngti]; // nulls
+        if (mbxDfpti == Intfgfr.MAX_VALUE) {
+            gftTirfbdInfo1(ids, -1, infos);
+        } flsf {
+            gftTirfbdInfo1(ids, mbxDfpti, infos);
         }
-        return infos;
+        rfturn infos;
     }
 
-    public void setThreadContentionMonitoringEnabled(boolean enable) {
-        if (!isThreadContentionMonitoringSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread contention monitoring is not supported");
+    publid void sftTirfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdContfntionMonitoringSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd dontfntion monitoring is not supportfd");
         }
 
-        Util.checkControlAccess();
+        Util.difdkControlAddfss();
 
-        synchronized (this) {
-            if (contentionMonitoringEnabled != enable) {
-                if (enable) {
-                    // if reeabled, reset contention time statistics
-                    // for all threads
-                    resetContentionTimes0(0);
+        syndironizfd (tiis) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
+                if (fnbblf) {
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // for bll tirfbds
+                    rfsftContfntionTimfs0(0);
                 }
 
-                // update the VM of the state change
-                setThreadContentionMonitoringEnabled0(enable);
+                // updbtf tif VM of tif stbtf dibngf
+                sftTirfbdContfntionMonitoringEnbblfd0(fnbblf);
 
-                contentionMonitoringEnabled = enable;
+                dontfntionMonitoringEnbblfd = fnbblf;
             }
         }
     }
 
-    private boolean verifyCurrentThreadCpuTime() {
-        // check if Thread CPU time measurement is supported.
-        if (!isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Current thread CPU time measurement is not supported.");
+    privbtf boolfbn vfrifyCurrfntTirfbdCpuTimf() {
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Currfnt tirfbd CPU timf mfbsurfmfnt is not supportfd.");
         }
-        return isThreadCpuTimeEnabled();
+        rfturn isTirfbdCpuTimfEnbblfd();
     }
 
-    public long getCurrentThreadCpuTime() {
-        if (verifyCurrentThreadCpuTime()) {
-            return getThreadTotalCpuTime0(0);
+    publid long gftCurrfntTirfbdCpuTimf() {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+            rfturn gftTirfbdTotblCpuTimf0(0);
         }
-        return -1;
+        rfturn -1;
     }
 
-    public long getThreadCpuTime(long id) {
-        long[] ids = new long[1];
+    publid long gftTirfbdCpuTimf(long id) {
+        long[] ids = nfw long[1];
         ids[0] = id;
-        final long[] times = getThreadCpuTime(ids);
-        return times[0];
+        finbl long[] timfs = gftTirfbdCpuTimf(ids);
+        rfturn timfs[0];
     }
 
-    private boolean verifyThreadCpuTime(long[] ids) {
-        verifyThreadIds(ids);
+    privbtf boolfbn vfrifyTirfbdCpuTimf(long[] ids) {
+        vfrifyTirfbdIds(ids);
 
-        // check if Thread CPU time measurement is supported.
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported.");
+        // difdk if Tirfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd.");
         }
 
-        if (!isThreadCpuTimeSupported()) {
-            // support current thread only
-            for (int i = 0; i < ids.length; i++) {
-                if (ids[i] != Thread.currentThread().getId()) {
-                    throw new UnsupportedOperationException(
-                        "Thread CPU time measurement is only supported" +
-                        " for the current thread.");
+        if (!isTirfbdCpuTimfSupportfd()) {
+            // support durrfnt tirfbd only
+            for (int i = 0; i < ids.lfngti; i++) {
+                if (ids[i] != Tirfbd.durrfntTirfbd().gftId()) {
+                    tirow nfw UnsupportfdOpfrbtionExdfption(
+                        "Tirfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        " for tif durrfnt tirfbd.");
                 }
             }
         }
 
-        return isThreadCpuTimeEnabled();
+        rfturn isTirfbdCpuTimfEnbblfd();
     }
 
-    public long[] getThreadCpuTime(long[] ids) {
-        boolean verified = verifyThreadCpuTime(ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
 
-        int length = ids.length;
-        long[] times = new long[length];
-        java.util.Arrays.fill(times, -1);
+        int lfngti = ids.lfngti;
+        long[] timfs = nfw long[lfngti];
+        jbvb.util.Arrbys.fill(timfs, -1);
 
-        if (verified) {
-            if (length == 1) {
+        if (vfrififd) {
+            if (lfngti == 1) {
                 long id = ids[0];
-                if (id == Thread.currentThread().getId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
                     id = 0;
                 }
-                times[0] = getThreadTotalCpuTime0(id);
-            } else {
-                getThreadTotalCpuTime1(ids, times);
+                timfs[0] = gftTirfbdTotblCpuTimf0(id);
+            } flsf {
+                gftTirfbdTotblCpuTimf1(ids, timfs);
             }
         }
-        return times;
+        rfturn timfs;
     }
 
-    public long getCurrentThreadUserTime() {
-        if (verifyCurrentThreadCpuTime()) {
-            return getThreadUserCpuTime0(0);
+    publid long gftCurrfntTirfbdUsfrTimf() {
+        if (vfrifyCurrfntTirfbdCpuTimf()) {
+            rfturn gftTirfbdUsfrCpuTimf0(0);
         }
-        return -1;
+        rfturn -1;
     }
 
-    public long getThreadUserTime(long id) {
-        long[] ids = new long[1];
+    publid long gftTirfbdUsfrTimf(long id) {
+        long[] ids = nfw long[1];
         ids[0] = id;
-        final long[] times = getThreadUserTime(ids);
-        return times[0];
+        finbl long[] timfs = gftTirfbdUsfrTimf(ids);
+        rfturn timfs[0];
     }
 
-    public long[] getThreadUserTime(long[] ids) {
-        boolean verified = verifyThreadCpuTime(ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdCpuTimf(ids);
 
-        int length = ids.length;
-        long[] times = new long[length];
-        java.util.Arrays.fill(times, -1);
+        int lfngti = ids.lfngti;
+        long[] timfs = nfw long[lfngti];
+        jbvb.util.Arrbys.fill(timfs, -1);
 
-        if (verified) {
-            if (length == 1) {
+        if (vfrififd) {
+            if (lfngti == 1) {
                 long id = ids[0];
-                if (id == Thread.currentThread().getId()) {
+                if (id == Tirfbd.durrfntTirfbd().gftId()) {
                     id = 0;
                 }
-                times[0] = getThreadUserCpuTime0(id);
-            } else {
-                getThreadUserCpuTime1(ids, times);
+                timfs[0] = gftTirfbdUsfrCpuTimf0(id);
+            } flsf {
+                gftTirfbdUsfrCpuTimf1(ids, timfs);
             }
         }
-        return times;
+        rfturn timfs;
     }
 
-    public void setThreadCpuTimeEnabled(boolean enable) {
-        if (!isThreadCpuTimeSupported() &&
-            !isCurrentThreadCpuTimeSupported()) {
-            throw new UnsupportedOperationException(
-                "Thread CPU time measurement is not supported");
+    publid void sftTirfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdCpuTimfSupportfd() &&
+            !isCurrfntTirfbdCpuTimfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd CPU timf mfbsurfmfnt is not supportfd");
         }
 
-        Util.checkControlAccess();
-        synchronized (this) {
-            if (cpuTimeEnabled != enable) {
-                // notify VM of the state change
-                setThreadCpuTimeEnabled0(enable);
-                cpuTimeEnabled = enable;
+        Util.difdkControlAddfss();
+        syndironizfd (tiis) {
+            if (dpuTimfEnbblfd != fnbblf) {
+                // notify VM of tif stbtf dibngf
+                sftTirfbdCpuTimfEnbblfd0(fnbblf);
+                dpuTimfEnbblfd = fnbblf;
             }
         }
     }
 
-    public long getThreadAllocatedBytes(long id) {
-        long[] ids = new long[1];
+    publid long gftTirfbdAllodbtfdBytfs(long id) {
+        long[] ids = nfw long[1];
         ids[0] = id;
-        final long[] sizes = getThreadAllocatedBytes(ids);
-        return sizes[0];
+        finbl long[] sizfs = gftTirfbdAllodbtfdBytfs(ids);
+        rfturn sizfs[0];
     }
 
-    private boolean verifyThreadAllocatedMemory(long[] ids) {
-        verifyThreadIds(ids);
+    privbtf boolfbn vfrifyTirfbdAllodbtfdMfmory(long[] ids) {
+        vfrifyTirfbdIds(ids);
 
-        // check if Thread allocated memory measurement is supported.
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported.");
+        // difdk if Tirfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
         }
 
-        return isThreadAllocatedMemoryEnabled();
+        rfturn isTirfbdAllodbtfdMfmoryEnbblfd();
     }
 
-    public long[] getThreadAllocatedBytes(long[] ids) {
-        boolean verified = verifyThreadAllocatedMemory(ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids) {
+        boolfbn vfrififd = vfrifyTirfbdAllodbtfdMfmory(ids);
 
-        long[] sizes = new long[ids.length];
-        java.util.Arrays.fill(sizes, -1);
+        long[] sizfs = nfw long[ids.lfngti];
+        jbvb.util.Arrbys.fill(sizfs, -1);
 
-        if (verified) {
-            getThreadAllocatedMemory1(ids, sizes);
+        if (vfrififd) {
+            gftTirfbdAllodbtfdMfmory1(ids, sizfs);
         }
-        return sizes;
+        rfturn sizfs;
     }
 
-    public void setThreadAllocatedMemoryEnabled(boolean enable) {
-        if (!isThreadAllocatedMemorySupported()) {
-            throw new UnsupportedOperationException(
-                "Thread allocated memory measurement is not supported.");
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+        if (!isTirfbdAllodbtfdMfmorySupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tirfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
         }
 
-        Util.checkControlAccess();
-        synchronized (this) {
-            if (allocatedMemoryEnabled != enable) {
-                // notify VM of the state change
-                setThreadAllocatedMemoryEnabled0(enable);
-                allocatedMemoryEnabled = enable;
+        Util.difdkControlAddfss();
+        syndironizfd (tiis) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+                // notify VM of tif stbtf dibngf
+                sftTirfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                bllodbtfdMfmoryEnbblfd = fnbblf;
             }
         }
     }
 
-    public long[] findMonitorDeadlockedThreads() {
-        Util.checkMonitorAccess();
+    publid long[] findMonitorDfbdlodkfdTirfbds() {
+        Util.difdkMonitorAddfss();
 
-        Thread[] threads = findMonitorDeadlockedThreads0();
-        if (threads == null) {
-            return null;
+        Tirfbd[] tirfbds = findMonitorDfbdlodkfdTirfbds0();
+        if (tirfbds == null) {
+            rfturn null;
         }
 
-        long[] ids = new long[threads.length];
-        for (int i = 0; i < threads.length; i++) {
-            Thread t = threads[i];
-            ids[i] = t.getId();
+        long[] ids = nfw long[tirfbds.lfngti];
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
         }
-        return ids;
+        rfturn ids;
     }
 
-    public long[] findDeadlockedThreads() {
-        if (!isSynchronizerUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Synchronizer Usage is not supported.");
-        }
-
-        Util.checkMonitorAccess();
-
-        Thread[] threads = findDeadlockedThreads0();
-        if (threads == null) {
-            return null;
+    publid long[] findDfbdlodkfdTirfbds() {
+        if (!isSyndironizfrUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
         }
 
-        long[] ids = new long[threads.length];
-        for (int i = 0; i < threads.length; i++) {
-            Thread t = threads[i];
-            ids[i] = t.getId();
-        }
-        return ids;
-    }
+        Util.difdkMonitorAddfss();
 
-    public void resetPeakThreadCount() {
-        Util.checkControlAccess();
-        resetPeakThreadCount0();
-    }
-
-    public boolean isObjectMonitorUsageSupported() {
-        return jvm.isObjectMonitorUsageSupported();
-    }
-
-    public boolean isSynchronizerUsageSupported() {
-        return jvm.isSynchronizerUsageSupported();
-    }
-
-    private void verifyDumpThreads(boolean lockedMonitors,
-                                   boolean lockedSynchronizers) {
-        if (lockedMonitors && !isObjectMonitorUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Object Monitor Usage is not supported.");
+        Tirfbd[] tirfbds = findDfbdlodkfdTirfbds0();
+        if (tirfbds == null) {
+            rfturn null;
         }
 
-        if (lockedSynchronizers && !isSynchronizerUsageSupported()) {
-            throw new UnsupportedOperationException(
-                "Monitoring of Synchronizer Usage is not supported.");
+        long[] ids = nfw long[tirfbds.lfngti];
+        for (int i = 0; i < tirfbds.lfngti; i++) {
+            Tirfbd t = tirfbds[i];
+            ids[i] = t.gftId();
+        }
+        rfturn ids;
+    }
+
+    publid void rfsftPfbkTirfbdCount() {
+        Util.difdkControlAddfss();
+        rfsftPfbkTirfbdCount0();
+    }
+
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
+    }
+
+    publid boolfbn isSyndironizfrUsbgfSupportfd() {
+        rfturn jvm.isSyndironizfrUsbgfSupportfd();
+    }
+
+    privbtf void vfrifyDumpTirfbds(boolfbn lodkfdMonitors,
+                                   boolfbn lodkfdSyndironizfrs) {
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
         }
 
-        Util.checkMonitorAccess();
+        if (lodkfdSyndironizfrs && !isSyndironizfrUsbgfSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndironizfr Usbgf is not supportfd.");
+        }
+
+        Util.difdkMonitorAddfss();
     }
 
-    public ThreadInfo[] getThreadInfo(long[] ids,
-                                      boolean lockedMonitors,
-                                      boolean lockedSynchronizers) {
-        verifyThreadIds(ids);
-        verifyDumpThreads(lockedMonitors, lockedSynchronizers);
-        return dumpThreads0(ids, lockedMonitors, lockedSynchronizers);
+    publid TirfbdInfo[] gftTirfbdInfo(long[] ids,
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdSyndironizfrs) {
+        vfrifyTirfbdIds(ids);
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(ids, lodkfdMonitors, lodkfdSyndironizfrs);
     }
 
-    public ThreadInfo[] dumpAllThreads(boolean lockedMonitors,
-                                       boolean lockedSynchronizers) {
-        verifyDumpThreads(lockedMonitors, lockedSynchronizers);
-        return dumpThreads0(null, lockedMonitors, lockedSynchronizers);
+    publid TirfbdInfo[] dumpAllTirfbds(boolfbn lodkfdMonitors,
+                                       boolfbn lodkfdSyndironizfrs) {
+        vfrifyDumpTirfbds(lodkfdMonitors, lodkfdSyndironizfrs);
+        rfturn dumpTirfbds0(null, lodkfdMonitors, lodkfdSyndironizfrs);
     }
 
-    // VM support where maxDepth == -1 to request entire stack dump
-    private static native Thread[] getThreads();
-    private static native void getThreadInfo1(long[] ids,
-                                              int maxDepth,
-                                              ThreadInfo[] result);
-    private static native long getThreadTotalCpuTime0(long id);
-    private static native void getThreadTotalCpuTime1(long[] ids, long[] result);
-    private static native long getThreadUserCpuTime0(long id);
-    private static native void getThreadUserCpuTime1(long[] ids, long[] result);
-    private static native void getThreadAllocatedMemory1(long[] ids, long[] result);
-    private static native void setThreadCpuTimeEnabled0(boolean enable);
-    private static native void setThreadAllocatedMemoryEnabled0(boolean enable);
-    private static native void setThreadContentionMonitoringEnabled0(boolean enable);
-    private static native Thread[] findMonitorDeadlockedThreads0();
-    private static native Thread[] findDeadlockedThreads0();
-    private static native void resetPeakThreadCount0();
-    private static native ThreadInfo[] dumpThreads0(long[] ids,
-                                                    boolean lockedMonitors,
-                                                    boolean lockedSynchronizers);
+    // VM support wifrf mbxDfpti == -1 to rfqufst fntirf stbdk dump
+    privbtf stbtid nbtivf Tirfbd[] gftTirfbds();
+    privbtf stbtid nbtivf void gftTirfbdInfo1(long[] ids,
+                                              int mbxDfpti,
+                                              TirfbdInfo[] rfsult);
+    privbtf stbtid nbtivf long gftTirfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftTirfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf long gftTirfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftTirfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftTirfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void sftTirfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftTirfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf Tirfbd[] findMonitorDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf Tirfbd[] findDfbdlodkfdTirfbds0();
+    privbtf stbtid nbtivf void rfsftPfbkTirfbdCount0();
+    privbtf stbtid nbtivf TirfbdInfo[] dumpTirfbds0(long[] ids,
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdSyndironizfrs);
 
-    // tid == 0 to reset contention times for all threads
-    private static native void resetContentionTimes0(long tid);
+    // tid == 0 to rfsft dontfntion timfs for bll tirfbds
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.THREAD_MXBEAN_NAME);
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
     }
 
 }

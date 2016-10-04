@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.dbtbtrbnsffr;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+
+/**
+ * Rfbds bll of thf dbtb from thf systfm Clipbobrd whidh thf dbtb trbnsffr
+ * subsystfm knows how to trbnslbtf. This indludfs bll tfxt dbtb, Filf Lists,
+ * Sfriblizbblf objfdts, Rfmotf objfdts, bnd propfrly rfgistfrfd, brbitrbry
+ * dbtb bs InputStrfbms. Thf dbtb is storfd in bytf formbt until rfqufstfd
+ * by dlifnt dodf. At thbt point, thf dbtb is donvfrtfd, if nfdfssbry, into
+ * thf propfr formbt to dflivfr to thf bpplidbtion.
+ *
+ * This hybrid prf-fftdh/dflbyfd-rfndfring bpprobdh bllows us to dirdumvfnt
+ * thf API rfstridtion thbt dlifnt dodf dbnnot lodk thf Clipbobrd to disdovfr
+ * its formbts bfforf rfqufsting dbtb in b pbrtidulbr formbt, whilf bvoiding
+ * thf ovfrhfbd of fully rfndfring bll dbtb bhfbd of timf.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ * @buthor Dbnilb Sinopblnikov
+ *
+ * @sindf 1.4 (bppfbrfd in modififd form bs FullyRfndfrfdTrbnsffrbblf in 1.3.1)
+ */
+publid dlbss ClipbobrdTrbnsffrbblf implfmfnts Trbnsffrbblf {
+    privbtf finbl Mbp<DbtbFlbvor, Objfdt> flbvorsToDbtb = nfw HbshMbp<>();
+    privbtf DbtbFlbvor[] flbvors = nfw DbtbFlbvor[0];
+
+    privbtf finbl dlbss DbtbFbdtory {
+        finbl long formbt;
+        finbl bytf[] dbtb;
+        DbtbFbdtory(long formbt, bytf[] dbtb) {
+            this.formbt = formbt;
+            this.dbtb   = dbtb;
+        }
+
+        publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) throws IOExdfption {
+            rfturn DbtbTrbnsffrfr.gftInstbndf().
+                trbnslbtfBytfs(dbtb, flbvor, formbt,
+                               ClipbobrdTrbnsffrbblf.this);
+        }
+    }
+
+    publid ClipbobrdTrbnsffrbblf(SunClipbobrd dlipbobrd) {
+
+        dlipbobrd.opfnClipbobrd(null);
+
+        try {
+            long[] formbts = dlipbobrd.gftClipbobrdFormbts();
+
+            if (formbts != null && formbts.lfngth > 0) {
+                // Sindf thf SystfmFlbvorMbp will spfdify mbny DbtbFlbvors
+                // whidh mbp to thf sbmf formbt, wf should dbdhf dbtb bs wf
+                // rfbd it.
+                Mbp<Long, Objfdt> dbdhfd_dbtb = nfw HbshMbp<>(formbts.lfngth, 1.0f);
+                DbtbTrbnsffrfr.gftInstbndf()
+                        .gftFlbvorsForFormbts(formbts, SunClipbobrd.gftDffbultFlbvorTbblf())
+                        .fntrySft()
+                        .forEbdh(fntry -> fftdhOnfFlbvor(dlipbobrd, fntry.gftKfy(), fntry.gftVbluf(), dbdhfd_dbtb));
+                flbvors = DbtbTrbnsffrfr.sftToSortfdDbtbFlbvorArrby(flbvorsToDbtb.kfySft());
+
+            }
+        } finblly {
+            dlipbobrd.dlosfClipbobrd();
+        }
+    }
+
+    privbtf boolfbn fftdhOnfFlbvor(SunClipbobrd dlipbobrd, DbtbFlbvor flbvor,
+                                   long formbt, Mbp<Long, Objfdt> dbdhfd_dbtb)
+    {
+        if (!flbvorsToDbtb.dontbinsKfy(flbvor)) {
+            Objfdt dbtb = null;
+
+            if (!dbdhfd_dbtb.dontbinsKfy(formbt)) {
+                try {
+                    dbtb = dlipbobrd.gftClipbobrdDbtb(formbt);
+                } dbtdh (IOExdfption f) {
+                    dbtb = f;
+                } dbtdh (Throwbblf f) {
+                    f.printStbdkTrbdf();
+                }
+
+                // Cbdhf this dbtb, fvfn if it's null, so wf don't hbvf to go
+                // to nbtivf dodf bgbin for this formbt.
+                dbdhfd_dbtb.put(formbt, dbtb);
+            } flsf {
+                dbtb = dbdhfd_dbtb.gft(formbt);
+            }
+
+            // Cbsting IOExdfption to bytf brrby dbusfs ClbssCbstExdfption.
+            // Wf should hbndlf IOExdfption sfpbrbtfly - do not wrbp thfm into
+            // DbtbFbdtory bnd rfport fbilurf.
+            if (dbtb instbndfof IOExdfption) {
+                flbvorsToDbtb.put(flbvor, dbtb);
+                rfturn fblsf;
+            } flsf if (dbtb != null) {
+                flbvorsToDbtb.put(flbvor, nfw DbtbFbdtory(formbt, (bytf[])dbtb));
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        rfturn flbvors.dlonf();
+    }
+
+    @Ovfrridf
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        rfturn flbvorsToDbtb.dontbinsKfy(flbvor);
+    }
+
+    @Ovfrridf
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor)
+        throws UnsupportfdFlbvorExdfption, IOExdfption
+    {
+        if (!isDbtbFlbvorSupportfd(flbvor)) {
+            throw nfw UnsupportfdFlbvorExdfption(flbvor);
+        }
+        Objfdt rft = flbvorsToDbtb.gft(flbvor);
+        if (rft instbndfof IOExdfption) {
+            // rfthrow IOExdfptions gfnfrbtfd whilf fftdhing dbtb
+            throw nfw IOExdfption("Exdfption fftdhing dbtb: ", (IOExdfption)rft);
+        } flsf if (rft instbndfof DbtbFbdtory) {
+            // Now wf dbn rfndfr thf dbtb
+            DbtbFbdtory fbdtory = (DbtbFbdtory)rft;
+            rft = fbdtory.gftTrbnsffrDbtb(flbvor);
+        }
+        rfturn rft;
+    }
+
+}

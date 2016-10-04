@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.metadata.IIOInvalidTreeException;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
-import org.w3c.dom.Node;
+import org.w3d.dom.Nodf;
 
 /**
- * A Comment marker segment.  Retains an array of bytes representing the
- * comment data as it is read from the stream.  If the marker segment is
- * constructed from a String, then local default encoding is assumed
- * when creating the byte array.  If the marker segment is created from
- * an <code>IIOMetadataNode</code>, the user object, if present is
- * assumed to be a byte array containing the comment data.  If there is
- * no user object then the comment attribute is used to create the
- * byte array, again assuming the default local encoding.
+ * A Commfnt mbrkfr sfgmfnt.  Rftbins bn brrby of bytfs rfprfsfnting tif
+ * dommfnt dbtb bs it is rfbd from tif strfbm.  If tif mbrkfr sfgmfnt is
+ * donstrudtfd from b String, tifn lodbl dffbult fndoding is bssumfd
+ * wifn drfbting tif bytf brrby.  If tif mbrkfr sfgmfnt is drfbtfd from
+ * bn <dodf>IIOMftbdbtbNodf</dodf>, tif usfr objfdt, if prfsfnt is
+ * bssumfd to bf b bytf brrby dontbining tif dommfnt dbtb.  If tifrf is
+ * no usfr objfdt tifn tif dommfnt bttributf is usfd to drfbtf tif
+ * bytf brrby, bgbin bssuming tif dffbult lodbl fndoding.
  */
-class COMMarkerSegment extends MarkerSegment {
-    private static final String ENCODING = "ISO-8859-1";
+dlbss COMMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    privbtf stbtid finbl String ENCODING = "ISO-8859-1";
 
     /**
-     * Constructs a marker segment from the given buffer, which contains
-     * data from an <code>ImageInputStream</code>.  This is used when
-     * reading metadata from a stream.
+     * Construdts b mbrkfr sfgmfnt from tif givfn bufffr, wiidi dontbins
+     * dbtb from bn <dodf>ImbgfInputStrfbm</dodf>.  Tiis is usfd wifn
+     * rfbding mftbdbtb from b strfbm.
      */
-    COMMarkerSegment(JPEGBuffer buffer) throws IOException {
-        super(buffer);
-        loadData(buffer);
+    COMMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        lobdDbtb(bufffr);
     }
 
     /**
-     * Constructs a marker segment from a String.  This is used when
-     * modifying metadata from a non-native tree and when transcoding.
-     * The default encoding is used to construct the byte array.
+     * Construdts b mbrkfr sfgmfnt from b String.  Tiis is usfd wifn
+     * modifying mftbdbtb from b non-nbtivf trff bnd wifn trbnsdoding.
+     * Tif dffbult fndoding is usfd to donstrudt tif bytf brrby.
      */
-    COMMarkerSegment(String comment) {
-        super(JPEG.COM);
-        data = comment.getBytes(); // Default encoding
+    COMMbrkfrSfgmfnt(String dommfnt) {
+        supfr(JPEG.COM);
+        dbtb = dommfnt.gftBytfs(); // Dffbult fndoding
     }
 
     /**
-     * Constructs a marker segment from a native tree node.  If the node
-     * is an <code>IIOMetadataNode</code> and contains a user object,
-     * that object is used rather than the string attribute.  If the
-     * string attribute is used, the default encoding is used.
+     * Construdts b mbrkfr sfgmfnt from b nbtivf trff nodf.  If tif nodf
+     * is bn <dodf>IIOMftbdbtbNodf</dodf> bnd dontbins b usfr objfdt,
+     * tibt objfdt is usfd rbtifr tibn tif string bttributf.  If tif
+     * string bttributf is usfd, tif dffbult fndoding is usfd.
      */
-    COMMarkerSegment(Node node) throws IIOInvalidTreeException{
-        super(JPEG.COM);
-        if (node instanceof IIOMetadataNode) {
-            IIOMetadataNode ourNode = (IIOMetadataNode) node;
-            data = (byte []) ourNode.getUserObject();
+    COMMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption{
+        supfr(JPEG.COM);
+        if (nodf instbndfof IIOMftbdbtbNodf) {
+            IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+            dbtb = (bytf []) ourNodf.gftUsfrObjfdt();
         }
-        if (data == null) {
-            String comment =
-                node.getAttributes().getNamedItem("comment").getNodeValue();
-            if (comment != null) {
-                data = comment.getBytes(); // Default encoding
-            } else {
-                throw new IIOInvalidTreeException("Empty comment node!", node);
+        if (dbtb == null) {
+            String dommfnt =
+                nodf.gftAttributfs().gftNbmfdItfm("dommfnt").gftNodfVbluf();
+            if (dommfnt != null) {
+                dbtb = dommfnt.gftBytfs(); // Dffbult fndoding
+            } flsf {
+                tirow nfw IIOInvblidTrffExdfption("Empty dommfnt nodf!", nodf);
             }
         }
     }
 
     /**
-     * Returns the array encoded as a String, using ISO-Latin-1 encoding.
-     * If an application needs another encoding, the data array must be
-     * consulted directly.
+     * Rfturns tif brrby fndodfd bs b String, using ISO-Lbtin-1 fndoding.
+     * If bn bpplidbtion nffds bnotifr fndoding, tif dbtb brrby must bf
+     * donsultfd dirfdtly.
      */
-    String getComment() {
+    String gftCommfnt() {
         try {
-            return new String (data, ENCODING);
-        } catch (UnsupportedEncodingException e) {}  // Won't happen
-        return null;
+            rfturn nfw String (dbtb, ENCODING);
+        } dbtdi (UnsupportfdEndodingExdfption f) {}  // Won't ibppfn
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> containing the data array
-     * as a user object and a string encoded using ISO-8895-1, as an
-     * attribute.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> dontbining tif dbtb brrby
+     * bs b usfr objfdt bnd b string fndodfd using ISO-8895-1, bs bn
+     * bttributf.
      */
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("com");
-        node.setAttribute("comment", getComment());
-        if (data != null) {
-            node.setUserObject(data.clone());
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dom");
+        nodf.sftAttributf("dommfnt", gftCommfnt());
+        if (dbtb != null) {
+            nodf.sftUsfrObjfdt(dbtb.dlonf());
         }
-        return node;
+        rfturn nodf;
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format, directly from the data array.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt, dirfdtly from tif dbtb brrby.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        length = 2 + data.length;
-        writeTag(ios);
-        ios.write(data);
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        lfngti = 2 + dbtb.lfngti;
+        writfTbg(ios);
+        ios.writf(dbtb);
     }
 
     void print() {
-        printTag("COM");
-        System.out.println("<" + getComment() + ">");
+        printTbg("COM");
+        Systfm.out.println("<" + gftCommfnt() + ">");
     }
 }

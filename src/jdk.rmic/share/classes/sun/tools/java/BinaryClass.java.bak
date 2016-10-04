@@ -1,534 +1,534 @@
 /*
- * Copyright (c) 1994, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.OutputStream;
-import java.io.DataOutputStream;
-import java.io.ByteArrayInputStream;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public final
-class BinaryClass extends ClassDefinition implements Constants {
-    BinaryConstantPool cpool;
-    BinaryAttribute atts;
-    Vector<ClassDeclaration> dependencies;
-    private boolean haveLoadedNested = false;
+publid finbl
+dlbss BinbryClbss fxtfnds ClbssDffinition implfmfnts Constbnts {
+    BinbryConstbntPool dpool;
+    BinbryAttributf btts;
+    Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs;
+    privbtf boolfbn ibvfLobdfdNfstfd = fblsf;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public BinaryClass(Object source, ClassDeclaration declaration, int modifiers,
-                           ClassDeclaration superClass, ClassDeclaration interfaces[],
-                           Vector<ClassDeclaration> dependencies) {
-        super(source, 0, declaration, modifiers, null, null);
-        this.dependencies = dependencies;
-        this.superClass = superClass;
-        this.interfaces = interfaces;
+    publid BinbryClbss(Objfdt sourdf, ClbssDfdlbrbtion dfdlbrbtion, int modififrs,
+                           ClbssDfdlbrbtion supfrClbss, ClbssDfdlbrbtion intfrfbdfs[],
+                           Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs) {
+        supfr(sourdf, 0, dfdlbrbtion, modififrs, null, null);
+        tiis.dfpfndfndifs = dfpfndfndifs;
+        tiis.supfrClbss = supfrClbss;
+        tiis.intfrfbdfs = intfrfbdfs;
     }
 
     /**
-     * Flags used by basicCheck() to avoid duplicate calls.
-     * (Part of fix for 4105911)
+     * Flbgs usfd by bbsidCifdk() to bvoid duplidbtf dblls.
+     * (Pbrt of fix for 4105911)
      */
-    private boolean basicCheckDone = false;
-    private boolean basicChecking = false;
+    privbtf boolfbn bbsidCifdkDonf = fblsf;
+    privbtf boolfbn bbsidCifdking = fblsf;
 
     /**
-     * Ready a BinaryClass for further checking.  Note that, until recently,
-     * BinaryClass relied on the default basicCheck() provided by
-     * ClassDefinition.  The definition here has been added to ensure that
-     * the information generated by collectInheritedMethods is available
-     * for BinaryClasses.
+     * Rfbdy b BinbryClbss for furtifr difdking.  Notf tibt, until rfdfntly,
+     * BinbryClbss rflifd on tif dffbult bbsidCifdk() providfd by
+     * ClbssDffinition.  Tif dffinition ifrf ibs bffn bddfd to fnsurf tibt
+     * tif informbtion gfnfrbtfd by dollfdtInifritfdMftiods is bvbilbblf
+     * for BinbryClbssfs.
      */
-    protected void basicCheck(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("BinaryClass.basicCheck: " + getName());
+    protfdtfd void bbsidCifdk(Environmfnt fnv) tirows ClbssNotFound {
+        if (trbding) fnv.dtEntfr("BinbryClbss.bbsidCifdk: " + gftNbmf());
 
-        // We need to guard against duplicate calls to basicCheck().  They
-        // can lead to calling collectInheritedMethods() for this class
-        // from within a previous call to collectInheritedMethods() for
-        // this class.  That is not allowed.
-        // (Part of fix for 4105911)
-        if (basicChecking || basicCheckDone) {
-            if (tracing) env.dtExit("BinaryClass.basicCheck: OK " + getName());
-            return;
+        // Wf nffd to gubrd bgbinst duplidbtf dblls to bbsidCifdk().  Tify
+        // dbn lfbd to dblling dollfdtInifritfdMftiods() for tiis dlbss
+        // from witiin b prfvious dbll to dollfdtInifritfdMftiods() for
+        // tiis dlbss.  Tibt is not bllowfd.
+        // (Pbrt of fix for 4105911)
+        if (bbsidCifdking || bbsidCifdkDonf) {
+            if (trbding) fnv.dtExit("BinbryClbss.bbsidCifdk: OK " + gftNbmf());
+            rfturn;
         }
 
-        if (tracing) env.dtEvent("BinaryClass.basicCheck: CHECKING " + getName());
-        basicChecking = true;
+        if (trbding) fnv.dtEvfnt("BinbryClbss.bbsidCifdk: CHECKING " + gftNbmf());
+        bbsidCifdking = truf;
 
-        super.basicCheck(env);
+        supfr.bbsidCifdk(fnv);
 
-        // Collect inheritance information.
-        if (doInheritanceChecks) {
-            collectInheritedMethods(env);
+        // Collfdt inifritbndf informbtion.
+        if (doInifritbndfCifdks) {
+            dollfdtInifritfdMftiods(fnv);
         }
 
-        basicCheckDone = true;
-        basicChecking = false;
-        if (tracing) env.dtExit("BinaryClass.basicCheck: " + getName());
-    }
-
-    /**
-     * Load a binary class
-     */
-    public static BinaryClass load(Environment env, DataInputStream in) throws IOException {
-        return load(env, in, ~(ATT_CODE|ATT_ALLCLASSES));
-    }
-
-    public static BinaryClass load(Environment env,
-                                   DataInputStream in, int mask) throws IOException {
-        // Read the header
-        int magic = in.readInt();                    // JVM 4.1 ClassFile.magic
-        if (magic != JAVA_MAGIC) {
-            throw new ClassFormatError("wrong magic: " + magic + ", expected " + JAVA_MAGIC);
-        }
-        int minor_version = in.readUnsignedShort();  // JVM 4.1 ClassFile.minor_version
-        int version = in.readUnsignedShort();        // JVM 4.1 ClassFile.major_version
-        if (version < JAVA_MIN_SUPPORTED_VERSION) {
-            throw new ClassFormatError(
-                           sun.tools.javac.Main.getText(
-                               "javac.err.version.too.old",
-                               String.valueOf(version)));
-        } else if ((version > JAVA_MAX_SUPPORTED_VERSION)
-                     || (version == JAVA_MAX_SUPPORTED_VERSION
-                  && minor_version > JAVA_MAX_SUPPORTED_MINOR_VERSION)) {
-            throw new ClassFormatError(
-                           sun.tools.javac.Main.getText(
-                               "javac.err.version.too.recent",
-                               version+"."+minor_version));
-        }
-
-        // Read the constant pool
-        BinaryConstantPool cpool = new BinaryConstantPool(in);
-
-        // The dependencies of this class
-        Vector<ClassDeclaration> dependencies = cpool.getDependencies(env);
-
-        // Read modifiers
-        int classMod = in.readUnsignedShort() & ACCM_CLASS;  // JVM 4.1 ClassFile.access_flags
-
-        // Read the class name - from JVM 4.1 ClassFile.this_class
-        ClassDeclaration classDecl = cpool.getDeclaration(env, in.readUnsignedShort());
-
-        // Read the super class name (may be null) - from JVM 4.1 ClassFile.super_class
-        ClassDeclaration superClassDecl = cpool.getDeclaration(env, in.readUnsignedShort());
-
-        // Read the interface names - from JVM 4.1 ClassFile.interfaces_count
-        ClassDeclaration interfaces[] = new ClassDeclaration[in.readUnsignedShort()];
-        for (int i = 0 ; i < interfaces.length ; i++) {
-            // JVM 4.1 ClassFile.interfaces[]
-            interfaces[i] = cpool.getDeclaration(env, in.readUnsignedShort());
-        }
-
-        // Allocate the class
-        BinaryClass c = new BinaryClass(null, classDecl, classMod, superClassDecl,
-                                        interfaces, dependencies);
-        c.cpool = cpool;
-
-        // Add any additional dependencies
-        c.addDependency(superClassDecl);
-
-        // Read the fields
-        int nfields = in.readUnsignedShort();  // JVM 4.1 ClassFile.fields_count
-        for (int i = 0 ; i < nfields ; i++) {
-            // JVM 4.5 field_info.access_flags
-            int fieldMod = in.readUnsignedShort() & ACCM_FIELD;
-            // JVM 4.5 field_info.name_index
-            Identifier fieldName = cpool.getIdentifier(in.readUnsignedShort());
-            // JVM 4.5 field_info.descriptor_index
-            Type fieldType = cpool.getType(in.readUnsignedShort());
-            BinaryAttribute atts = BinaryAttribute.load(in, cpool, mask);
-            c.addMember(new BinaryMember(c, fieldMod, fieldType, fieldName, atts));
-        }
-
-        // Read the methods
-        int nmethods = in.readUnsignedShort();  // JVM 4.1 ClassFile.methods_count
-        for (int i = 0 ; i < nmethods ; i++) {
-            // JVM 4.6 method_info.access_flags
-            int methMod = in.readUnsignedShort() & ACCM_METHOD;
-            // JVM 4.6 method_info.name_index
-            Identifier methName = cpool.getIdentifier(in.readUnsignedShort());
-            // JVM 4.6 method_info.descriptor_index
-            Type methType = cpool.getType(in.readUnsignedShort());
-            BinaryAttribute atts = BinaryAttribute.load(in, cpool, mask);
-            c.addMember(new BinaryMember(c, methMod, methType, methName, atts));
-        }
-
-        // Read the class attributes
-        c.atts = BinaryAttribute.load(in, cpool, mask);
-
-        // See if the SourceFile is known
-        byte data[] = c.getAttribute(idSourceFile);
-        if (data != null) {
-            DataInputStream dataStream = new DataInputStream(new ByteArrayInputStream(data));
-            // JVM 4.7.2 SourceFile_attribute.sourcefile_index
-            c.source = cpool.getString(dataStream.readUnsignedShort());
-        }
-
-        // See if the Documentation is know
-        data = c.getAttribute(idDocumentation);
-        if (data != null) {
-            c.documentation = new DataInputStream(new ByteArrayInputStream(data)).readUTF();
-        }
-
-        // Was it compiled as deprecated?
-        if (c.getAttribute(idDeprecated) != null) {
-            c.modifiers |= M_DEPRECATED;
-        }
-
-        // Was it synthesized by the compiler?
-        if (c.getAttribute(idSynthetic) != null) {
-            c.modifiers |= M_SYNTHETIC;
-        }
-
-        return c;
+        bbsidCifdkDonf = truf;
+        bbsidCifdking = fblsf;
+        if (trbding) fnv.dtExit("BinbryClbss.bbsidCifdk: " + gftNbmf());
     }
 
     /**
-     * Called when an environment ties a binary definition to a declaration.
-     * At this point, auxiliary definitions may be loaded.
+     * Lobd b binbry dlbss
      */
-
-    public void loadNested(Environment env) {
-        loadNested(env, 0);
+    publid stbtid BinbryClbss lobd(Environmfnt fnv, DbtbInputStrfbm in) tirows IOExdfption {
+        rfturn lobd(fnv, in, ~(ATT_CODE|ATT_ALLCLASSES));
     }
 
-    public void loadNested(Environment env, int flags) {
-        // Sanity check.
-        if (haveLoadedNested) {
-            // Duplicate calls most likely should not occur, but they do
-            // in javap.  Be tolerant of them for the time being.
-            // throw new CompilerError("multiple loadNested");
-            if (tracing) env.dtEvent("loadNested: DUPLICATE CALL SKIPPED");
-            return;
+    publid stbtid BinbryClbss lobd(Environmfnt fnv,
+                                   DbtbInputStrfbm in, int mbsk) tirows IOExdfption {
+        // Rfbd tif ifbdfr
+        int mbgid = in.rfbdInt();                    // JVM 4.1 ClbssFilf.mbgid
+        if (mbgid != JAVA_MAGIC) {
+            tirow nfw ClbssFormbtError("wrong mbgid: " + mbgid + ", fxpfdtfd " + JAVA_MAGIC);
         }
-        haveLoadedNested = true;
-        // Read class-nesting information.
+        int minor_vfrsion = in.rfbdUnsignfdSiort();  // JVM 4.1 ClbssFilf.minor_vfrsion
+        int vfrsion = in.rfbdUnsignfdSiort();        // JVM 4.1 ClbssFilf.mbjor_vfrsion
+        if (vfrsion < JAVA_MIN_SUPPORTED_VERSION) {
+            tirow nfw ClbssFormbtError(
+                           sun.tools.jbvbd.Mbin.gftTfxt(
+                               "jbvbd.frr.vfrsion.too.old",
+                               String.vblufOf(vfrsion)));
+        } flsf if ((vfrsion > JAVA_MAX_SUPPORTED_VERSION)
+                     || (vfrsion == JAVA_MAX_SUPPORTED_VERSION
+                  && minor_vfrsion > JAVA_MAX_SUPPORTED_MINOR_VERSION)) {
+            tirow nfw ClbssFormbtError(
+                           sun.tools.jbvbd.Mbin.gftTfxt(
+                               "jbvbd.frr.vfrsion.too.rfdfnt",
+                               vfrsion+"."+minor_vfrsion));
+        }
+
+        // Rfbd tif donstbnt pool
+        BinbryConstbntPool dpool = nfw BinbryConstbntPool(in);
+
+        // Tif dfpfndfndifs of tiis dlbss
+        Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs = dpool.gftDfpfndfndifs(fnv);
+
+        // Rfbd modififrs
+        int dlbssMod = in.rfbdUnsignfdSiort() & ACCM_CLASS;  // JVM 4.1 ClbssFilf.bddfss_flbgs
+
+        // Rfbd tif dlbss nbmf - from JVM 4.1 ClbssFilf.tiis_dlbss
+        ClbssDfdlbrbtion dlbssDfdl = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdSiort());
+
+        // Rfbd tif supfr dlbss nbmf (mby bf null) - from JVM 4.1 ClbssFilf.supfr_dlbss
+        ClbssDfdlbrbtion supfrClbssDfdl = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdSiort());
+
+        // Rfbd tif intfrfbdf nbmfs - from JVM 4.1 ClbssFilf.intfrfbdfs_dount
+        ClbssDfdlbrbtion intfrfbdfs[] = nfw ClbssDfdlbrbtion[in.rfbdUnsignfdSiort()];
+        for (int i = 0 ; i < intfrfbdfs.lfngti ; i++) {
+            // JVM 4.1 ClbssFilf.intfrfbdfs[]
+            intfrfbdfs[i] = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdSiort());
+        }
+
+        // Allodbtf tif dlbss
+        BinbryClbss d = nfw BinbryClbss(null, dlbssDfdl, dlbssMod, supfrClbssDfdl,
+                                        intfrfbdfs, dfpfndfndifs);
+        d.dpool = dpool;
+
+        // Add bny bdditionbl dfpfndfndifs
+        d.bddDfpfndfndy(supfrClbssDfdl);
+
+        // Rfbd tif fiflds
+        int nfiflds = in.rfbdUnsignfdSiort();  // JVM 4.1 ClbssFilf.fiflds_dount
+        for (int i = 0 ; i < nfiflds ; i++) {
+            // JVM 4.5 fifld_info.bddfss_flbgs
+            int fifldMod = in.rfbdUnsignfdSiort() & ACCM_FIELD;
+            // JVM 4.5 fifld_info.nbmf_indfx
+            Idfntififr fifldNbmf = dpool.gftIdfntififr(in.rfbdUnsignfdSiort());
+            // JVM 4.5 fifld_info.dfsdriptor_indfx
+            Typf fifldTypf = dpool.gftTypf(in.rfbdUnsignfdSiort());
+            BinbryAttributf btts = BinbryAttributf.lobd(in, dpool, mbsk);
+            d.bddMfmbfr(nfw BinbryMfmbfr(d, fifldMod, fifldTypf, fifldNbmf, btts));
+        }
+
+        // Rfbd tif mftiods
+        int nmftiods = in.rfbdUnsignfdSiort();  // JVM 4.1 ClbssFilf.mftiods_dount
+        for (int i = 0 ; i < nmftiods ; i++) {
+            // JVM 4.6 mftiod_info.bddfss_flbgs
+            int mftiMod = in.rfbdUnsignfdSiort() & ACCM_METHOD;
+            // JVM 4.6 mftiod_info.nbmf_indfx
+            Idfntififr mftiNbmf = dpool.gftIdfntififr(in.rfbdUnsignfdSiort());
+            // JVM 4.6 mftiod_info.dfsdriptor_indfx
+            Typf mftiTypf = dpool.gftTypf(in.rfbdUnsignfdSiort());
+            BinbryAttributf btts = BinbryAttributf.lobd(in, dpool, mbsk);
+            d.bddMfmbfr(nfw BinbryMfmbfr(d, mftiMod, mftiTypf, mftiNbmf, btts));
+        }
+
+        // Rfbd tif dlbss bttributfs
+        d.btts = BinbryAttributf.lobd(in, dpool, mbsk);
+
+        // Sff if tif SourdfFilf is known
+        bytf dbtb[] = d.gftAttributf(idSourdfFilf);
+        if (dbtb != null) {
+            DbtbInputStrfbm dbtbStrfbm = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb));
+            // JVM 4.7.2 SourdfFilf_bttributf.sourdffilf_indfx
+            d.sourdf = dpool.gftString(dbtbStrfbm.rfbdUnsignfdSiort());
+        }
+
+        // Sff if tif Dodumfntbtion is know
+        dbtb = d.gftAttributf(idDodumfntbtion);
+        if (dbtb != null) {
+            d.dodumfntbtion = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb)).rfbdUTF();
+        }
+
+        // Wbs it dompilfd bs dfprfdbtfd?
+        if (d.gftAttributf(idDfprfdbtfd) != null) {
+            d.modififrs |= M_DEPRECATED;
+        }
+
+        // Wbs it syntifsizfd by tif dompilfr?
+        if (d.gftAttributf(idSyntiftid) != null) {
+            d.modififrs |= M_SYNTHETIC;
+        }
+
+        rfturn d;
+    }
+
+    /**
+     * Cbllfd wifn bn fnvironmfnt tifs b binbry dffinition to b dfdlbrbtion.
+     * At tiis point, buxilibry dffinitions mby bf lobdfd.
+     */
+
+    publid void lobdNfstfd(Environmfnt fnv) {
+        lobdNfstfd(fnv, 0);
+    }
+
+    publid void lobdNfstfd(Environmfnt fnv, int flbgs) {
+        // Sbnity difdk.
+        if (ibvfLobdfdNfstfd) {
+            // Duplidbtf dblls most likfly siould not oddur, but tify do
+            // in jbvbp.  Bf tolfrbnt of tifm for tif timf bfing.
+            // tirow nfw CompilfrError("multiplf lobdNfstfd");
+            if (trbding) fnv.dtEvfnt("lobdNfstfd: DUPLICATE CALL SKIPPED");
+            rfturn;
+        }
+        ibvfLobdfdNfstfd = truf;
+        // Rfbd dlbss-nfsting informbtion.
         try {
-            byte data[];
-            data = getAttribute(idInnerClasses);
-            if (data != null) {
-                initInnerClasses(env, data, flags);
+            bytf dbtb[];
+            dbtb = gftAttributf(idInnfrClbssfs);
+            if (dbtb != null) {
+                initInnfrClbssfs(fnv, dbtb, flbgs);
             }
-        } catch (IOException ee) {
-            // The inner classes attribute is not well-formed.
-            // It may, for example, contain no data.  Report this.
-            // We used to throw a CompilerError here (bug 4095108).
-            env.error(0, "malformed.attribute", getClassDeclaration(),
-                      idInnerClasses);
-            if (tracing)
-                env.dtEvent("loadNested: MALFORMED ATTRIBUTE (InnerClasses)");
+        } dbtdi (IOExdfption ff) {
+            // Tif innfr dlbssfs bttributf is not wfll-formfd.
+            // It mby, for fxbmplf, dontbin no dbtb.  Rfport tiis.
+            // Wf usfd to tirow b CompilfrError ifrf (bug 4095108).
+            fnv.frror(0, "mblformfd.bttributf", gftClbssDfdlbrbtion(),
+                      idInnfrClbssfs);
+            if (trbding)
+                fnv.dtEvfnt("lobdNfstfd: MALFORMED ATTRIBUTE (InnfrClbssfs)");
         }
     }
 
-    private void initInnerClasses(Environment env,
-                                  byte data[],
-                                  int flags) throws IOException {
-        DataInputStream ds = new DataInputStream(new ByteArrayInputStream(data));
-        int nrec = ds.readUnsignedShort();  // InnerClasses_attribute.number_of_classes
-        for (int i = 0; i < nrec; i++) {
-            // For each inner class name transformation, we have a record
-            // with the following fields:
+    privbtf void initInnfrClbssfs(Environmfnt fnv,
+                                  bytf dbtb[],
+                                  int flbgs) tirows IOExdfption {
+        DbtbInputStrfbm ds = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb));
+        int nrfd = ds.rfbdUnsignfdSiort();  // InnfrClbssfs_bttributf.numbfr_of_dlbssfs
+        for (int i = 0; i < nrfd; i++) {
+            // For fbdi innfr dlbss nbmf trbnsformbtion, wf ibvf b rfdord
+            // witi tif following fiflds:
             //
-            //    u2 inner_class_info_index;   // CONSTANT_Class_info index
-            //    u2 outer_class_info_index;   // CONSTANT_Class_info index
-            //    u2 inner_name_index;         // CONSTANT_Utf8_info index
-            //    u2 inner_class_access_flags; // access_flags bitmask
+            //    u2 innfr_dlbss_info_indfx;   // CONSTANT_Clbss_info indfx
+            //    u2 outfr_dlbss_info_indfx;   // CONSTANT_Clbss_info indfx
+            //    u2 innfr_nbmf_indfx;         // CONSTANT_Utf8_info indfx
+            //    u2 innfr_dlbss_bddfss_flbgs; // bddfss_flbgs bitmbsk
             //
-            // The spec states that outer_class_info_index is 0 iff
-            // the inner class is not a member of its enclosing class (i.e.
-            // it is a local or anonymous class).  The spec also states
-            // that if a class is anonymous then inner_name_index should
-            // be 0.
+            // Tif spfd stbtfs tibt outfr_dlbss_info_indfx is 0 iff
+            // tif innfr dlbss is not b mfmbfr of its fndlosing dlbss (i.f.
+            // it is b lodbl or bnonymous dlbss).  Tif spfd blso stbtfs
+            // tibt if b dlbss is bnonymous tifn innfr_nbmf_indfx siould
+            // bf 0.
             //
-            // Prior to jdk1.2, javac did not implement the spec.  Instead
-            // it <em>always</em> set outer_class_info_index to the
-            // enclosing outer class and if the class was anonymous,
-            // it set inner_name_index to be the index of a CONSTANT_Utf8
-            // entry containing the null string "" (idNull).  This code is
-            // designed to handle either kind of class file.
+            // Prior to jdk1.2, jbvbd did not implfmfnt tif spfd.  Instfbd
+            // it <fm>blwbys</fm> sft outfr_dlbss_info_indfx to tif
+            // fndlosing outfr dlbss bnd if tif dlbss wbs bnonymous,
+            // it sft innfr_nbmf_indfx to bf tif indfx of b CONSTANT_Utf8
+            // fntry dontbining tif null string "" (idNull).  Tiis dodf is
+            // dfsignfd to ibndlf fitifr kind of dlbss filf.
             //
-            // See also the compileClass() method in SourceClass.java.
+            // Sff blso tif dompilfClbss() mftiod in SourdfClbss.jbvb.
 
-            // Read in the inner_class_info
-            // InnerClasses_attribute.classes.inner_class_info_index
-            int inner_index = ds.readUnsignedShort();
-            // could check for zero.
-            ClassDeclaration inner = cpool.getDeclaration(env, inner_index);
+            // Rfbd in tif innfr_dlbss_info
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_dlbss_info_indfx
+            int innfr_indfx = ds.rfbdUnsignfdSiort();
+            // dould difdk for zfro.
+            ClbssDfdlbrbtion innfr = dpool.gftDfdlbrbtion(fnv, innfr_indfx);
 
-            // Read in the outer_class_info.  Note that the index will be
-            // zero if the class is "not a member".
-            ClassDeclaration outer = null;
-            // InnerClasses_attribute.classes.outer_class_info_index
-            int outer_index = ds.readUnsignedShort();
-            if (outer_index != 0) {
-                outer = cpool.getDeclaration(env, outer_index);
+            // Rfbd in tif outfr_dlbss_info.  Notf tibt tif indfx will bf
+            // zfro if tif dlbss is "not b mfmbfr".
+            ClbssDfdlbrbtion outfr = null;
+            // InnfrClbssfs_bttributf.dlbssfs.outfr_dlbss_info_indfx
+            int outfr_indfx = ds.rfbdUnsignfdSiort();
+            if (outfr_indfx != 0) {
+                outfr = dpool.gftDfdlbrbtion(fnv, outfr_indfx);
             }
 
-            // Read in the inner_name_index.  This may be zero.  An anonymous
-            // class will either have an inner_nm_index of zero (as the spec
-            // dictates) or it will have an inner_nm of idNull (for classes
-            // generated by pre-1.2 compilers).  Handle both.
-            Identifier inner_nm = idNull;
-            // InnerClasses_attribute.classes.inner_name_index
-            int inner_nm_index = ds.readUnsignedShort();
-            if (inner_nm_index != 0) {
-                inner_nm = Identifier.lookup(cpool.getString(inner_nm_index));
+            // Rfbd in tif innfr_nbmf_indfx.  Tiis mby bf zfro.  An bnonymous
+            // dlbss will fitifr ibvf bn innfr_nm_indfx of zfro (bs tif spfd
+            // didtbtfs) or it will ibvf bn innfr_nm of idNull (for dlbssfs
+            // gfnfrbtfd by prf-1.2 dompilfrs).  Hbndlf boti.
+            Idfntififr innfr_nm = idNull;
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_nbmf_indfx
+            int innfr_nm_indfx = ds.rfbdUnsignfdSiort();
+            if (innfr_nm_indfx != 0) {
+                innfr_nm = Idfntififr.lookup(dpool.gftString(innfr_nm_indfx));
             }
 
-            // Read in the modifiers for the inner class.
-            // InnerClasses_attribute.classes.inner_name_index
-            int mods = ds.readUnsignedShort();
+            // Rfbd in tif modififrs for tif innfr dlbss.
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_nbmf_indfx
+            int mods = ds.rfbdUnsignfdSiort();
 
-            // Is the class accessible?
-            // The old code checked for
+            // Is tif dlbss bddfssiblf?
+            // Tif old dodf difdkfd for
             //
-            //    (!inner_nm.equals(idNull) && (mods & M_PRIVATE) == 0)
+            //    (!innfr_nm.fqubls(idNull) && (mods & M_PRIVATE) == 0)
             //
-            // which we will preserve to keep it working for class files
-            // generated by 1.1 compilers.  In addition we check for
+            // wiidi wf will prfsfrvf to kffp it working for dlbss filfs
+            // gfnfrbtfd by 1.1 dompilfrs.  In bddition wf difdk for
             //
-            //    (outer != null)
+            //    (outfr != null)
             //
-            // as an additional check that only makes sense with 1.2
-            // generated files.  Note that it is entirely possible that
-            // the M_PRIVATE bit is always enough.  We are being
-            // conservative here.
+            // bs bn bdditionbl difdk tibt only mbkfs sfnsf witi 1.2
+            // gfnfrbtfd filfs.  Notf tibt it is fntirfly possiblf tibt
+            // tif M_PRIVATE bit is blwbys fnougi.  Wf brf bfing
+            // donsfrvbtivf ifrf.
             //
-            // The ATT_ALLCLASSES flag causes the M_PRIVATE modifier
-            // to be ignored, and is used by tools such as 'javap' that
-            // wish to examine all classes regardless of the normal access
-            // controls that apply during compilation.  Note that anonymous
-            // and local classes are still not considered accessible, though
-            // named local classes in jdk1.1 may slip through.  Note that
-            // this accessibility test is an optimization, and it is safe to
-            // err on the side of greater accessibility.
-            boolean accessible =
-                (outer != null) &&
-                (!inner_nm.equals(idNull)) &&
+            // Tif ATT_ALLCLASSES flbg dbusfs tif M_PRIVATE modififr
+            // to bf ignorfd, bnd is usfd by tools sudi bs 'jbvbp' tibt
+            // wisi to fxbminf bll dlbssfs rfgbrdlfss of tif normbl bddfss
+            // dontrols tibt bpply during dompilbtion.  Notf tibt bnonymous
+            // bnd lodbl dlbssfs brf still not donsidfrfd bddfssiblf, tiougi
+            // nbmfd lodbl dlbssfs in jdk1.1 mby slip tirougi.  Notf tibt
+            // tiis bddfssibility tfst is bn optimizbtion, bnd it is sbff to
+            // frr on tif sidf of grfbtfr bddfssibility.
+            boolfbn bddfssiblf =
+                (outfr != null) &&
+                (!innfr_nm.fqubls(idNull)) &&
                 ((mods & M_PRIVATE) == 0 ||
-                 (flags & ATT_ALLCLASSES) != 0);
+                 (flbgs & ATT_ALLCLASSES) != 0);
 
-            // The reader should note that there has been a significant change
-            // in the way that the InnerClasses attribute is being handled.
-            // In particular, previously the compiler called initInner() for
-            // <em>every</em> inner class.  Now the compiler does not call
-            // initInner() if the inner class is inaccessible.  This means
-            // that inaccessible inner classes don't have any of the processing
-            // from initInner() done for them: fixing the access flags,
-            // setting outerClass, setting outerMember in their outerClass,
-            // etc.  We believe this is fine: if the class is inaccessible
-            // and binary, then everyone who needs to see its internals
-            // has already been compiled.  Hopefully.
+            // Tif rfbdfr siould notf tibt tifrf ibs bffn b signifidbnt dibngf
+            // in tif wby tibt tif InnfrClbssfs bttributf is bfing ibndlfd.
+            // In pbrtidulbr, prfviously tif dompilfr dbllfd initInnfr() for
+            // <fm>fvfry</fm> innfr dlbss.  Now tif dompilfr dofs not dbll
+            // initInnfr() if tif innfr dlbss is inbddfssiblf.  Tiis mfbns
+            // tibt inbddfssiblf innfr dlbssfs don't ibvf bny of tif prodfssing
+            // from initInnfr() donf for tifm: fixing tif bddfss flbgs,
+            // sftting outfrClbss, sftting outfrMfmbfr in tifir outfrClbss,
+            // ftd.  Wf bflifvf tiis is finf: if tif dlbss is inbddfssiblf
+            // bnd binbry, tifn fvfryonf wio nffds to sff its intfrnbls
+            // ibs blrfbdy bffn dompilfd.  Hopffully.
 
-            if (accessible) {
-                Identifier nm =
-                    Identifier.lookupInner(outer.getName(), inner_nm);
+            if (bddfssiblf) {
+                Idfntififr nm =
+                    Idfntififr.lookupInnfr(outfr.gftNbmf(), innfr_nm);
 
-                // Tell the type module about the nesting relation:
-                Type.tClass(nm);
+                // Tfll tif typf modulf bbout tif nfsting rflbtion:
+                Typf.tClbss(nm);
 
-                if (inner.equals(getClassDeclaration())) {
-                    // The inner class in the record is this class.
+                if (innfr.fqubls(gftClbssDfdlbrbtion())) {
+                    // Tif innfr dlbss in tif rfdord is tiis dlbss.
                     try {
-                        ClassDefinition outerClass = outer.getClassDefinition(env);
-                        initInner(outerClass, mods);
-                    } catch (ClassNotFound e) {
-                        // report the error elsewhere
+                        ClbssDffinition outfrClbss = outfr.gftClbssDffinition(fnv);
+                        initInnfr(outfrClbss, mods);
+                    } dbtdi (ClbssNotFound f) {
+                        // rfport tif frror flsfwifrf
                     }
-                } else if (outer.equals(getClassDeclaration())) {
-                    // The outer class in the record is this class.
+                } flsf if (outfr.fqubls(gftClbssDfdlbrbtion())) {
+                    // Tif outfr dlbss in tif rfdord is tiis dlbss.
                     try {
-                        ClassDefinition innerClass =
-                            inner.getClassDefinition(env);
-                        initOuter(innerClass, mods);
-                    } catch (ClassNotFound e) {
-                        // report the error elsewhere
+                        ClbssDffinition innfrClbss =
+                            innfr.gftClbssDffinition(fnv);
+                        initOutfr(innfrClbss, mods);
+                    } dbtdi (ClbssNotFound f) {
+                        // rfport tif frror flsfwifrf
                     }
                 }
             }
         }
     }
 
-    private void initInner(ClassDefinition outerClass, int mods) {
-        if (getOuterClass() != null)
-            return;             // already done
+    privbtf void initInnfr(ClbssDffinition outfrClbss, int mods) {
+        if (gftOutfrClbss() != null)
+            rfturn;             // blrfbdy donf
         /******
-        // Maybe set static, protected, or private.
-        if ((modifiers & M_PUBLIC) != 0)
+        // Mbybf sft stbtid, protfdtfd, or privbtf.
+        if ((modififrs & M_PUBLIC) != 0)
             mods &= M_STATIC;
-        else
+        flsf
             mods &= M_PRIVATE | M_PROTECTED | M_STATIC;
-        modifiers |= mods;
+        modififrs |= mods;
         ******/
-        // For an inner class, the class access may have been weakened
-        // from that originally declared the source.  We must take the
-        // actual access permissions against which we check any source
-        // we are currently compiling from the InnerClasses attribute.
-        // We attempt to guard here against bogus combinations of modifiers.
+        // For bn innfr dlbss, tif dlbss bddfss mby ibvf bffn wfbkfnfd
+        // from tibt originblly dfdlbrfd tif sourdf.  Wf must tbkf tif
+        // bdtubl bddfss pfrmissions bgbinst wiidi wf difdk bny sourdf
+        // wf brf durrfntly dompiling from tif InnfrClbssfs bttributf.
+        // Wf bttfmpt to gubrd ifrf bgbinst bogus dombinbtions of modififrs.
         if ((mods & M_PRIVATE) != 0) {
-            // Private cannot be combined with public or protected.
+            // Privbtf dbnnot bf dombinfd witi publid or protfdtfd.
             mods &= ~(M_PUBLIC | M_PROTECTED);
-        } else if ((mods & M_PROTECTED) != 0) {
-            // Protected cannot be combined with public.
+        } flsf if ((mods & M_PROTECTED) != 0) {
+            // Protfdtfd dbnnot bf dombinfd witi publid.
             mods &= ~M_PUBLIC;
         }
         if ((mods & M_INTERFACE) != 0) {
-            // All interfaces are implicitly abstract.
-            // All interfaces that are members of a type are implicitly static.
+            // All intfrfbdfs brf impliditly bbstrbdt.
+            // All intfrfbdfs tibt brf mfmbfrs of b typf brf impliditly stbtid.
             mods |= (M_ABSTRACT | M_STATIC);
         }
-        if (outerClass.isInterface()) {
-            // All types that are members of interfaces are implicitly
-            // public and static.
+        if (outfrClbss.isIntfrfbdf()) {
+            // All typfs tibt brf mfmbfrs of intfrfbdfs brf impliditly
+            // publid bnd stbtid.
             mods |= (M_PUBLIC | M_STATIC);
             mods &= ~(M_PRIVATE | M_PROTECTED);
         }
-        modifiers = mods;
+        modififrs = mods;
 
-        setOuterClass(outerClass);
+        sftOutfrClbss(outfrClbss);
 
-        for (MemberDefinition field = getFirstMember();
-             field != null;
-             field = field.getNextMember()) {
-            if (field.isUplevelValue()
-                    && outerClass.getType().equals(field.getType())
-                    && field.getName().toString().startsWith(prefixThis)) {
-                setOuterMember(field);
+        for (MfmbfrDffinition fifld = gftFirstMfmbfr();
+             fifld != null;
+             fifld = fifld.gftNfxtMfmbfr()) {
+            if (fifld.isUplfvflVbluf()
+                    && outfrClbss.gftTypf().fqubls(fifld.gftTypf())
+                    && fifld.gftNbmf().toString().stbrtsWiti(prffixTiis)) {
+                sftOutfrMfmbfr(fifld);
             }
         }
     }
 
-    private void initOuter(ClassDefinition innerClass, int mods) {
-        if (innerClass instanceof BinaryClass)
-            ((BinaryClass)innerClass).initInner(this, mods);
-        addMember(new BinaryMember(innerClass));
+    privbtf void initOutfr(ClbssDffinition innfrClbss, int mods) {
+        if (innfrClbss instbndfof BinbryClbss)
+            ((BinbryClbss)innfrClbss).initInnfr(tiis, mods);
+        bddMfmbfr(nfw BinbryMfmbfr(innfrClbss));
     }
 
     /**
-     * Write the class out to a given stream.  This function mirrors the loader.
+     * Writf tif dlbss out to b givfn strfbm.  Tiis fundtion mirrors tif lobdfr.
      */
-    public void write(Environment env, OutputStream out) throws IOException {
-        DataOutputStream data = new DataOutputStream(out);
+    publid void writf(Environmfnt fnv, OutputStrfbm out) tirows IOExdfption {
+        DbtbOutputStrfbm dbtb = nfw DbtbOutputStrfbm(out);
 
-        // write out the header
-        data.writeInt(JAVA_MAGIC);
-        data.writeShort(env.getMinorVersion());
-        data.writeShort(env.getMajorVersion());
+        // writf out tif ifbdfr
+        dbtb.writfInt(JAVA_MAGIC);
+        dbtb.writfSiort(fnv.gftMinorVfrsion());
+        dbtb.writfSiort(fnv.gftMbjorVfrsion());
 
-        // Write out the constant pool
-        cpool.write(data, env);
+        // Writf out tif donstbnt pool
+        dpool.writf(dbtb, fnv);
 
-        // Write class information
-        data.writeShort(getModifiers() & ACCM_CLASS);
-        data.writeShort(cpool.indexObject(getClassDeclaration(), env));
-        data.writeShort((getSuperClass() != null)
-                        ? cpool.indexObject(getSuperClass(), env) : 0);
-        data.writeShort(interfaces.length);
-        for (int i = 0 ; i < interfaces.length ; i++) {
-            data.writeShort(cpool.indexObject(interfaces[i], env));
+        // Writf dlbss informbtion
+        dbtb.writfSiort(gftModififrs() & ACCM_CLASS);
+        dbtb.writfSiort(dpool.indfxObjfdt(gftClbssDfdlbrbtion(), fnv));
+        dbtb.writfSiort((gftSupfrClbss() != null)
+                        ? dpool.indfxObjfdt(gftSupfrClbss(), fnv) : 0);
+        dbtb.writfSiort(intfrfbdfs.lfngti);
+        for (int i = 0 ; i < intfrfbdfs.lfngti ; i++) {
+            dbtb.writfSiort(dpool.indfxObjfdt(intfrfbdfs[i], fnv));
         }
 
-        // count the fields and the methods
-        int fieldCount = 0, methodCount = 0;
-        for (MemberDefinition f = firstMember; f != null; f = f.getNextMember())
-            if (f.isMethod()) methodCount++; else fieldCount++;
+        // dount tif fiflds bnd tif mftiods
+        int fifldCount = 0, mftiodCount = 0;
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr())
+            if (f.isMftiod()) mftiodCount++; flsf fifldCount++;
 
-        // write out each the field count, and then each field
-        data.writeShort(fieldCount);
-        for (MemberDefinition f = firstMember; f != null; f = f.getNextMember()) {
-            if (!f.isMethod()) {
-                data.writeShort(f.getModifiers() & ACCM_FIELD);
-                String name = f.getName().toString();
-                String signature = f.getType().getTypeSignature();
-                data.writeShort(cpool.indexString(name, env));
-                data.writeShort(cpool.indexString(signature, env));
-                BinaryAttribute.write(((BinaryMember)f).atts, data, cpool, env);
+        // writf out fbdi tif fifld dount, bnd tifn fbdi fifld
+        dbtb.writfSiort(fifldCount);
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr()) {
+            if (!f.isMftiod()) {
+                dbtb.writfSiort(f.gftModififrs() & ACCM_FIELD);
+                String nbmf = f.gftNbmf().toString();
+                String signbturf = f.gftTypf().gftTypfSignbturf();
+                dbtb.writfSiort(dpool.indfxString(nbmf, fnv));
+                dbtb.writfSiort(dpool.indfxString(signbturf, fnv));
+                BinbryAttributf.writf(((BinbryMfmbfr)f).btts, dbtb, dpool, fnv);
             }
         }
 
-        // write out each method count, and then each method
-        data.writeShort(methodCount);
-        for (MemberDefinition f = firstMember; f != null; f = f.getNextMember()) {
-            if (f.isMethod()) {
-                data.writeShort(f.getModifiers() & ACCM_METHOD);
-                String name = f.getName().toString();
-                String signature = f.getType().getTypeSignature();
-                data.writeShort(cpool.indexString(name, env));
-                data.writeShort(cpool.indexString(signature, env));
-                BinaryAttribute.write(((BinaryMember)f).atts, data, cpool, env);
+        // writf out fbdi mftiod dount, bnd tifn fbdi mftiod
+        dbtb.writfSiort(mftiodCount);
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr()) {
+            if (f.isMftiod()) {
+                dbtb.writfSiort(f.gftModififrs() & ACCM_METHOD);
+                String nbmf = f.gftNbmf().toString();
+                String signbturf = f.gftTypf().gftTypfSignbturf();
+                dbtb.writfSiort(dpool.indfxString(nbmf, fnv));
+                dbtb.writfSiort(dpool.indfxString(signbturf, fnv));
+                BinbryAttributf.writf(((BinbryMfmbfr)f).btts, dbtb, dpool, fnv);
             }
         }
 
-        // write out the class attributes
-        BinaryAttribute.write(atts, data, cpool, env);
-        data.flush();
+        // writf out tif dlbss bttributfs
+        BinbryAttributf.writf(btts, dbtb, dpool, fnv);
+        dbtb.flusi();
     }
 
     /**
-     * Get the dependencies
+     * Gft tif dfpfndfndifs
      */
-    public Enumeration<ClassDeclaration> getDependencies() {
-        return dependencies.elements();
+    publid Enumfrbtion<ClbssDfdlbrbtion> gftDfpfndfndifs() {
+        rfturn dfpfndfndifs.flfmfnts();
     }
 
     /**
-     * Add a dependency
+     * Add b dfpfndfndy
      */
-    public void addDependency(ClassDeclaration c) {
-        if ((c != null) && !dependencies.contains(c)) {
-            dependencies.addElement(c);
+    publid void bddDfpfndfndy(ClbssDfdlbrbtion d) {
+        if ((d != null) && !dfpfndfndifs.dontbins(d)) {
+            dfpfndfndifs.bddElfmfnt(d);
         }
     }
 
     /**
-     * Get the constant pool
+     * Gft tif donstbnt pool
      */
-    public BinaryConstantPool getConstants() {
-        return cpool;
+    publid BinbryConstbntPool gftConstbnts() {
+        rfturn dpool;
     }
 
     /**
-     * Get a class attribute
+     * Gft b dlbss bttributf
      */
-    public byte getAttribute(Identifier name)[] {
-        for (BinaryAttribute att = atts ; att != null ; att = att.next) {
-            if (att.name.equals(name)) {
-                return att.data;
+    publid bytf gftAttributf(Idfntififr nbmf)[] {
+        for (BinbryAttributf btt = btts ; btt != null ; btt = btt.nfxt) {
+            if (btt.nbmf.fqubls(nbmf)) {
+                rfturn btt.dbtb;
             }
         }
-        return null;
+        rfturn null;
     }
 }

@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpEnginf;
+
+/**
+ * This intfrfbdf modfls thf pbrt of b SNMP rfqufst thbt involvfs
+ * b spfdifid MIB. Onf objfdt implfmfnting this intfrfbdf will bf drfbtfd
+ * for fvfry MIB involvfd in b SNMP rfqufst, bnd thbt objfdt will bf pbssfd
+ * to thf SnmpMibAgfnt in dhbrgf of hbndling thbt MIB.
+ *
+ * Objfdts implfmfnting this intfrfbdf will bf bllodbtfd by thf SNMP fnginf.
+ * You will nfvfr nffd to implfmfnt this intfrfbdf. You will only usf it.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+publid intfrfbdf SnmpMibRfqufst {
+    /**
+     * Rfturns thf list of vbrbind to bf hbndlfd by thf SNMP mib nodf.
+     *
+     * @rfturn Thf flfmfnt of thf fnumfrbtion brf instbndfs of
+     *         {@link dom.sun.jmx.snmp.SnmpVbrBind}
+     */
+    publid Enumfrbtion<SnmpVbrBind> gftElfmfnts();
+
+    /**
+     * Rfturns thf vfdtor of vbrbind to bf hbndlfd by thf SNMP mib nodf.
+     * Thf dbllfr shbll not modify this vfdtor.
+     *
+     * @rfturn Thf flfmfnt of thf vfdtor brf instbndfs of
+     *         {@link dom.sun.jmx.snmp.SnmpVbrBind}
+     */
+    publid Vfdtor<SnmpVbrBind> gftSubList();
+
+    /**
+     * Rfturns thf SNMP protodol vfrsion of thf originbl rfqufst. If SNMP V1 rfqufst brf rfdfivfd, thf vfrsion is upgrbdfd to SNMP V2.
+     *
+     * @rfturn Thf SNMP protodol vfrsion of thf originbl rfqufst.
+     */
+    publid int gftVfrsion();
+
+    /**
+     * Rfturns thf SNMP protodol vfrsion of thf originbl rfqufst. No trbnslbtion is donf on thf vfrsion. Thf bdtubl rfdfivfd rfqufst SNMP vfrsion is rfturnfd.
+     *
+     * @rfturn Thf SNMP protodol vfrsion of thf originbl rfqufst.
+     *
+     * @sindf 1.5
+     */
+    publid int gftRfqufstPduVfrsion();
+
+    /**
+     * Rfturns thf lodbl fnginf. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf null is rfturnfd.
+     * @rfturn thf lodbl fnginf.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpEnginf gftEnginf();
+    /**
+     * Gfts thf indoming rfqufst prindipbl. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf null is rfturnfd.
+     * @rfturn Thf rfqufst prindipbl.
+     *
+     * @sindf 1.5
+     **/
+    publid String gftPrindipbl();
+    /**
+     * Gfts thf indoming rfqufst sfdurity lfvfl. This lfvfl is dffinfd in {@link dom.sun.jmx.snmp.SnmpEnginf SnmpEnginf}. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf -1 is rfturnfd.
+     * @rfturn Thf sfdurity lfvfl.
+     *
+     * @sindf 1.5
+     */
+    publid int gftSfdurityLfvfl();
+    /**
+     * Gfts thf indoming rfqufst sfdurity modfl. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf -1 is rfturnfd.
+     * @rfturn Thf sfdurity modfl.
+     *
+     * @sindf 1.5
+     */
+    publid int gftSfdurityModfl();
+    /**
+     * Gfts thf indoming rfqufst dontfxt nbmf. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf null is rfturnfd.
+     * @rfturn Thf dontfxt nbmf.
+     *
+     * @sindf 1.5
+     */
+    publid bytf[] gftContfxtNbmf();
+    /**
+     * Gfts thf indoming rfqufst dontfxt nbmf usfd by Addfss Control Modfl in ordfr to bllow or dfny thf bddfss to OIDs. This pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is thf bdbptor rfdfiving this rfqufst. Othfrwisf null is rfturnfd.
+     * @rfturn Thf dhfdkfd dontfxt nbmf.
+     *
+     * @sindf 1.5
+     */
+    publid bytf[] gftAddfssContfxtNbmf();
+
+    /**
+     * Rfturns b hbndlf on b usfr bllodbtfd dontfxtubl objfdt.
+     * This dontfxtubl objfdt is bllodbtfd through thf SnmpUsfrDbtbFbdtory
+     * on b pfr SNMP rfqufst bbsis, bnd is hbndfd bbdk to thf usfr vib
+     * SnmpMibRfqufst (bnd dfrivbtivf) objfdts. It is nfvfr bddfssfd by
+     * thf systfm, but might bf hbndfd bbdk in multiplf thrfbds. It is thus
+     * thf usfr rfsponsibility to mbkf surf hf hbndlfs this objfdt in b
+     * thrfbd sbff mbnnfr.
+     */
+    publid Objfdt gftUsfrDbtb();
+
+    /**
+     * Rfturns thf vbrbind indfx thbt should bf fmbfddfd in bn
+     * SnmpStbtusExdfption for this pbrtidulbr vbrbind.
+     * This dofs not nfdfssbrily dorrfspond to thf "rfbl"
+     * indfx vbluf thbt will bf rfturnfd in thf rfsult PDU.
+     *
+     * @pbrbm vbrbind Thf vbrbind for whidh thf indfx vbluf is
+     *        qufrrifd. Notf thbt this vbrbind <b>must</b> hbvf
+     *        bffn obtbinfd from thf fnumfrbtion rfturnfd by
+     *        <CODE>gftElfmfnts()</CODE>, or from thf vfdtor
+     *        rfturnfd by <CODE>gftSublist()</CODE>.
+     *
+     * @rfturn Thf vbrbind indfx thbt should bf fmbfddfd in bn
+     *         SnmpStbtusExdfption for this pbrtidulbr vbrbind.
+     */
+    publid int gftVbrIndfx(SnmpVbrBind vbrbind);
+
+    /**
+     * Adds b vbrbind to this rfqufst sublist. This mfthod is usfd for
+     * intfrnbl purposfs bnd you should nfvfr nffd to dbll it dirfdtly.
+     *
+     * @pbrbm vbrbind Thf vbrbind to bf bddfd in thf sublist.
+     *
+     */
+    publid void bddVbrBind(SnmpVbrBind vbrbind);
+
+
+    /**
+     * Rfturns thf numbfr of flfmfnts (vbrbinds) in this rfqufst sublist.
+     *
+     * @rfturn Thf numbfr of flfmfnts in thf sublist.
+     *
+     **/
+    publid int gftSizf();
+    /**
+     * Rfturns thf SNMP PDU bttbdhfd to thf rfqufst.
+     * @rfturn Thf SNMP PDU.
+     *
+     * @sindf 1.5
+     **/
+    publid SnmpPdu gftPdu();
+}

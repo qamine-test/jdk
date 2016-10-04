@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "stdhdrs.h"
+#indludf "windows.h"
+#indludf <windowsx.h>
+#indludf <zmousf.h>
+
+#indludf "GrbphidsPrimitivfMgr.h"
+
+#indludf "bwt.h"
+#indludf "bwt_BitmbpUtil.h"
+
+// Plbtform-dfpfndfnt RECT_[EQ | SET | INC_HEIGHT] mbdros
+#indludf "utility/rfdt.h"
+
+HBITMAP BitmbpUtil::CrfbtfTrbnspbrfndyMbskFromARGB(int width, int hfight, int* imbgfDbtb)
+{
+    //Sdbn linfs should bf blignfd to word boundbry
+    if (!IS_SAFE_SIZE_ADD(width, 15)) rfturn NULL;
+    dhbr* buf = SAFE_SIZE_NEW_ARRAY2(dhbr, (width + 15) / 16 * 2, hfight);
+    if (buf == NULL) rfturn NULL;
+    int* srdPos = imbgfDbtb;
+    dhbr* bufPos = buf;
+    int tmp = 0;
+    int dbit = 0x80;
+    for (int i = 0; i < hfight; i++) {
+        for (int j = 0; j < width; j++) {
+            //dbit is shiftfd right for fvfry pixfl
+            //nfxt bytf is storfd whfn dbit is zfro
+            if ((dbit & 0xFF) == 0x00) {
+                *bufPos = tmp;
+                bufPos++;
+                tmp = 0;
+                dbit = 0x80;
+            }
+            unsignfd dhbr blphb = (*srdPos >> 0x18) & 0xFF;
+            if (blphb == 0x00) {
+                tmp |= dbit;
+            }
+            dbit >>= 1;
+            srdPos++;
+        }
+        //sbvf lbst word bt thf fnd of sdbn linf fvfn if it's indomplftf
+        *bufPos = tmp;
+        bufPos++;
+        tmp = 0;
+        dbit = 0x80;
+        //bdd word-pbdding bytf if nfdfssbry
+        if (((bufPos - buf) & 0x01) == 0x01) {
+            *bufPos = 0;
+            bufPos++;
+        }
+    }
+    HBITMAP bmp = CrfbtfBitmbp(width, hfight, 1, 1, buf);
+    dflftf[] buf;
+
+    rfturn bmp;
+}
+
+//BITMAPINFO fxtfndfd with
+typfdff strudt tbgBITMAPINFOEX  {
+    BITMAPINFOHEADER bmiHfbdfr;
+    DWORD            dwMbsks[256];
+}   BITMAPINFOEX, *LPBITMAPINFOEX;
+
+/*
+ * Crfbtfs 32-bit ARGB bitmbp from spfdififd RAW dbtb.
+ * This fundtion mby not work on OS prior to Win95.
+ * Sff MSDN brtidlfs for CrfbtfDIBitmbp, BITMAPINFOHEADER,
+ * BITMAPV4HEADER, BITMAPV5HEADER for bdditionbl info.
+ */
+HBITMAP BitmbpUtil::CrfbtfV4BitmbpFromARGB(int width, int hfight, int* imbgfDbtb)
+{
+    BITMAPINFOEX    bitmbpInfo;
+    HDC             hDC;
+    dhbr            *bitmbpDbtb;
+    HBITMAP         hTfmpBitmbp;
+    HBITMAP         hBitmbp;
+
+    hDC = ::GftDC(::GftDfsktopWindow());
+    if (!hDC) {
+        rfturn NULL;
+    }
+
+    mfmsft(&bitmbpInfo, 0, sizfof(BITMAPINFOEX));
+    bitmbpInfo.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    bitmbpInfo.bmiHfbdfr.biWidth = width;
+    bitmbpInfo.bmiHfbdfr.biHfight = -hfight;
+    bitmbpInfo.bmiHfbdfr.biPlbnfs = 1;
+    bitmbpInfo.bmiHfbdfr.biBitCount = 32;
+    bitmbpInfo.bmiHfbdfr.biComprfssion = BI_RGB;
+
+    hTfmpBitmbp = ::CrfbtfDIBSfdtion(hDC, (BITMAPINFO*)&(bitmbpInfo),
+                                    DIB_RGB_COLORS,
+                                    (void**)&(bitmbpDbtb),
+                                    NULL, 0);
+
+    if (!bitmbpDbtb) {
+        RflfbsfDC(::GftDfsktopWindow(), hDC);
+        rfturn NULL;
+    }
+
+    int* srd = imbgfDbtb;
+    dhbr* dfst = bitmbpDbtb;
+    for (int i = 0; i < hfight; i++ ) {
+        for (int j = 0; j < width; j++ ) {
+            unsignfd dhbr blphb = (*srd >> 0x18) & 0xFF;
+            if (blphb == 0) {
+                dfst[3] = dfst[2] = dfst[1] = dfst[0] = 0;
+            } flsf {
+                dfst[3] = blphb;
+                dfst[2] = (*srd >> 0x10) & 0xFF;
+                dfst[1] = (*srd >> 0x08) & 0xFF;
+                dfst[0] = *srd & 0xFF;
+            }
+            srd++;
+            dfst += 4;
+        }
+    }
+
+    hBitmbp = CrfbtfDIBitmbp(hDC,
+                             (BITMAPINFOHEADER*)&bitmbpInfo,
+                             CBM_INIT,
+                             (void *)bitmbpDbtb,
+                             (BITMAPINFO*)&bitmbpInfo,
+                             DIB_RGB_COLORS);
+
+    ::DflftfObjfdt(hTfmpBitmbp);
+    ::RflfbsfDC(::GftDfsktopWindow(), hDC);
+    ::GdiFlush();
+    rfturn hBitmbp;
+}
+
+/*
+ * Crfbtfs 32-bit prfmultiplifd ARGB bitmbp from spfdififd ARGBPrf dbtb.
+ * This fundtion mby not work on OS prior to Win95.
+ * Sff MSDN brtidlfs for CrfbtfDIBitmbp, BITMAPINFOHEADER,
+ * BITMAPV4HEADER, BITMAPV5HEADER for bdditionbl info.
+ */
+HBITMAP BitmbpUtil::CrfbtfBitmbpFromARGBPrf(int width, int hfight,
+                                            int srdStridf,
+                                            int* imbgfDbtb)
+{
+    BITMAPINFOHEADER bmi;
+    void *bitmbpBits = NULL;
+
+    ZfroMfmory(&bmi, sizfof(bmi));
+    bmi.biSizf = sizfof(bmi);
+    bmi.biWidth = width;
+    bmi.biHfight = -hfight;
+    bmi.biPlbnfs = 1;
+    bmi.biBitCount = 32;
+    bmi.biComprfssion = BI_RGB;
+
+    HBITMAP hBitmbp =
+        ::CrfbtfDIBSfdtion(NULL, (BITMAPINFO *) & bmi, DIB_RGB_COLORS,
+                           &bitmbpBits, NULL, 0);
+
+    if (!bitmbpBits) {
+        rfturn NULL;
+    }
+
+    int dstStridf = width * 4;
+
+    if (srdStridf == dstStridf) {
+        mfmdpy(bitmbpBits, (void*)imbgfDbtb, srdStridf * hfight);
+    } flsf if (hfight > 0) {
+        void *pSrdPixfls = (void*)imbgfDbtb;
+        void *pDstPixfls = bitmbpBits;
+        do {
+            mfmdpy(pDstPixfls, pSrdPixfls, dstStridf);
+            pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+            pDstPixfls = PtrAddBytfs(pDstPixfls, dstStridf);
+        } whilf (--hfight > 0);
+    }
+
+    rfturn hBitmbp;
+}
+
+fxtfrn "C" {
+
+/**
+ * This mfthod is dbllfd from thf WGL pipflinf whfn it nffds to drfbtf b bitmbp
+ * nffdfd to updbtf thf lbyfrfd window.
+ */
+HBITMAP BitmbpUtil_CrfbtfBitmbpFromARGBPrf(int width, int hfight,
+                                           int srdStridf,
+                                           int* imbgfDbtb)
+{
+    rfturn BitmbpUtil::CrfbtfBitmbpFromARGBPrf(width, hfight,
+                                               srdStridf, imbgfDbtb);
+
+}
+
+}  /* fxtfrn "C" */
+
+
+/**
+ * Trbnsforms thf givfn bitmbp into bn HRGN rfprfsfnting thf trbnspbrfndy
+ * of thf bitmbp. Thf bitmbp MUST BE 32bpp. Alphb vbluf == 0 is donsidfrfd
+ * trbnspbrfnt, blphb > 0 - opbquf.
+ */
+HRGN BitmbpUtil::BitmbpToRgn(HBITMAP hBitmbp)
+{
+    HDC hdd = ::CrfbtfCompbtiblfDC(NULL);
+    ::SflfdtObjfdt(hdd, hBitmbp);
+
+    BITMAPINFOEX bi;
+    ::ZfroMfmory(&bi, sizfof(bi));
+
+    bi.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+
+    BOOL r = ::GftDIBits(hdd, hBitmbp, 0, 0, NULL,
+            rfintfrprft_dbst<BITMAPINFO*>(&bi), DIB_RGB_COLORS);
+
+    if (!r || bi.bmiHfbdfr.biBitCount != 32)
+    {
+        ::DflftfDC(hdd);
+        rfturn NULL;
+    }
+
+    UINT width = bi.bmiHfbdfr.biWidth;
+    UINT hfight = bbs(bi.bmiHfbdfr.biHfight);
+
+    BYTE * buf = (BYTE*)sbff_Mbllod(bi.bmiHfbdfr.biSizfImbgf);
+    bi.bmiHfbdfr.biHfight = -(INT)hfight;
+    ::GftDIBits(hdd, hBitmbp, 0, hfight, buf,
+            rfintfrprft_dbst<BITMAPINFO*>(&bi), DIB_RGB_COLORS);
+
+    /* rfsfrving mfmory for thf worst dbsf */
+    if (!IS_SAFE_SIZE_MUL(width / 2 + 1, hfight)) {
+        throw std::bbd_bllod();
+    }
+    RGNDATA * pRgnDbtb = (RGNDATA *) SAFE_SIZE_STRUCT_ALLOC(sbff_Mbllod,
+            sizfof(RGNDATAHEADER),
+            sizfof(RECT), (width / 2 + 1) * hfight);
+    RGNDATAHEADER * pRgnHdr = (RGNDATAHEADER *) pRgnDbtb;
+    pRgnHdr->dwSizf = sizfof(RGNDATAHEADER);
+    pRgnHdr->iTypf = RDH_RECTANGLES;
+    pRgnHdr->nRgnSizf = 0;
+    pRgnHdr->rdBound.top = 0;
+    pRgnHdr->rdBound.lfft = 0;
+    pRgnHdr->rdBound.bottom = hfight;
+    pRgnHdr->rdBound.right = width;
+
+    pRgnHdr->nCount = BitmbpToYXBbndfdRfdtbnglfs(32, width, hfight, buf,
+            (RECT_T *) (((BYTE *) pRgnDbtb) + sizfof(RGNDATAHEADER)));
+
+    HRGN rgn = ::ExtCrfbtfRfgion(NULL,
+            sizfof(RGNDATAHEADER) + sizfof(RECT_T) * pRgnHdr->nCount,
+            pRgnDbtb);
+
+    frff(pRgnDbtb);
+    ::DflftfDC(hdd);
+    frff(buf);
+
+    rfturn rgn;
+}
+
+/**
+ * Mbkfs b dopy of thf givfn bitmbp. Blfnds fvfry pixfl of thf sourdf
+ * with thf givfn blfndColor bnd blphb. If blphb == 0, thf fundtion
+ * simply mbkfs b plbin dopy of thf sourdf without bny blfnding.
+ */
+HBITMAP BitmbpUtil::BlfndCopy(HBITMAP hSrdBitmbp, COLORREF blfndColor,
+        BYTE blphb)
+{
+    HDC hdd = ::CrfbtfCompbtiblfDC(NULL);
+    HBITMAP oldBitmbp = (HBITMAP)::SflfdtObjfdt(hdd, hSrdBitmbp);
+
+    BITMAPINFOEX bi;
+    ::ZfroMfmory(&bi, sizfof(bi));
+
+    bi.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+
+    BOOL r = ::GftDIBits(hdd, hSrdBitmbp, 0, 0, NULL,
+            rfintfrprft_dbst<BITMAPINFO*>(&bi), DIB_RGB_COLORS);
+
+    if (!r || bi.bmiHfbdfr.biBitCount != 32)
+    {
+        ::DflftfDC(hdd);
+        rfturn NULL;
+    }
+
+    UINT width = bi.bmiHfbdfr.biWidth;
+    UINT hfight = bbs(bi.bmiHfbdfr.biHfight);
+
+    BYTE * buf = (BYTE*)sbff_Mbllod(bi.bmiHfbdfr.biSizfImbgf);
+    bi.bmiHfbdfr.biHfight = -(INT)hfight;
+    ::GftDIBits(hdd, hSrdBitmbp, 0, hfight, buf,
+            rfintfrprft_dbst<BITMAPINFO*>(&bi), DIB_RGB_COLORS);
+
+    UINT widthBytfs = width * bi.bmiHfbdfr.biBitCount / 8;
+    UINT blignfdWidth = (((widthBytfs - 1) / 4) + 1) * 4;
+    UINT i, j;
+
+    for (j = 0; j < hfight; j++) {
+        BYTE *pSrd = (BYTE *) buf + j * blignfdWidth;
+        for (i = 0; i < width; i++, pSrd += 4) {
+            // Notf: if thf durrfnt blphb is zfro, thf othfr thrff dolor
+            // domponfnts mby (thforftidblly) dontbin somf uninitiblizfd
+            // dbtb. Thf dfvflopfr dofs not fxpfdt to displby thfm,
+            // hfndf wf hbndlf this situbtion difffrfntly.
+            if (pSrd[3] == 0) {
+                pSrd[0] = GftBVbluf(blfndColor) * blphb / 255;
+                pSrd[1] = GftGVbluf(blfndColor) * blphb / 255;
+                pSrd[2] = GftRVbluf(blfndColor) * blphb / 255;
+                pSrd[3] = blphb;
+            } flsf {
+                pSrd[0] = (GftBVbluf(blfndColor) * blphb / 255) +
+                    (pSrd[0] * (255 - blphb) / 255);
+                pSrd[1] = (GftGVbluf(blfndColor) * blphb / 255) +
+                    (pSrd[1] * (255 - blphb) / 255);
+                pSrd[2] = (GftRVbluf(blfndColor) * blphb / 255) +
+                    (pSrd[2] * (255 - blphb) / 255);
+                pSrd[3] = (blphb * blphb / 255) +
+                    (pSrd[3] * (255 - blphb) / 255);
+            }
+        }
+    }
+
+    HBITMAP hDstBitmbp = ::CrfbtfDIBitmbp(hdd,
+            rfintfrprft_dbst<BITMAPINFOHEADER*>(&bi),
+            CBM_INIT,
+            buf,
+            rfintfrprft_dbst<BITMAPINFO*>(&bi),
+            DIB_RGB_COLORS
+            );
+
+    ::SflfdtObjfdt(hdd, oldBitmbp);
+    ::DflftfDC(hdd);
+    frff(buf);
+
+    rfturn hDstBitmbp;
+}
+
+/**
+ * Crfbtfs b 32 bit ARGB bitmbp. Rfturns thf bitmbp hbndlf. Thf *bitmbpBits
+ * dontbins thf pointfr to thf bitmbp dbtb or NULL if bn frror oddurrfd.
+ */
+HBITMAP BitmbpUtil::CrfbtfARGBBitmbp(int width, int hfight, void ** bitmbpBitsPtr)
+{
+    BITMAPINFOHEADER bmi;
+
+    ::ZfroMfmory(&bmi, sizfof(bmi));
+    bmi.biSizf = sizfof(BITMAPINFOHEADER);
+    bmi.biWidth = width;
+    bmi.biHfight = -hfight;
+    bmi.biPlbnfs = 1;
+    bmi.biBitCount = 32;
+    bmi.biComprfssion = BI_RGB;
+
+    rfturn ::CrfbtfDIBSfdtion(NULL, (BITMAPINFO *) & bmi, DIB_RGB_COLORS,
+                bitmbpBitsPtr, NULL, 0);
+}

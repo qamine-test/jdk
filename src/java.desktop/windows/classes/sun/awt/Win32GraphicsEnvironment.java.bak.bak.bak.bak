@@ -1,0 +1,267 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTError;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.ArrbyList;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.StringTokfnizfr;
+import sun.bwt.DisplbyChbngfdListfnfr;
+import sun.bwt.SunDisplbyChbngfr;
+import sun.bwt.windows.WPrintfrJob;
+import sun.bwt.windows.WToolkit;
+import sun.jbvb2d.SunGrbphidsEnvironmfnt;
+import sun.jbvb2d.SurfbdfMbnbgfrFbdtory;
+import sun.jbvb2d.WindowsSurfbdfMbnbgfrFbdtory;
+import sun.jbvb2d.d3d.D3DGrbphidsDfvidf;
+import sun.jbvb2d.windows.WindowsFlbgs;
+
+/**
+ * This is bn implfmfntbtion of b GrbphidsEnvironmfnt objfdt for thf
+ * dffbult lodbl GrbphidsEnvironmfnt usfd by thf Jbvb Runtimf Environmfnt
+ * for Windows.
+ *
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsConfigurbtion
+ */
+
+publid dlbss Win32GrbphidsEnvironmfnt
+    fxtfnds SunGrbphidsEnvironmfnt
+{
+    stbtid {
+        // Ensurf bwt is lobdfd blrfbdy.  Also, this fordfs stbtid init
+        // of WToolkit bnd Toolkit, whidh wf dfpfnd upon
+        WToolkit.lobdLibrbrifs();
+        // sftup flbgs bfforf initiblizing nbtivf lbyfr
+        WindowsFlbgs.initFlbgs();
+        initDisplbyWrbppfr();
+
+        // Instbll dorrfdt surfbdf mbnbgfr fbdtory.
+        SurfbdfMbnbgfrFbdtory.sftInstbndf(nfw WindowsSurfbdfMbnbgfrFbdtory());
+    }
+
+    /**
+     * Initiblizfs nbtivf domponfnts of thf grbphids fnvironmfnt.  This
+     * indludfs fvfrything from thf nbtivf GrbphidsDfvidf flfmfnts to
+     * thf DirfdtX rfndfring lbyfr.
+     */
+    privbtf stbtid nbtivf void initDisplby();
+
+    privbtf stbtid boolfbn displbyInitiblizfd;      // = fblsf;
+    publid stbtid void initDisplbyWrbppfr() {
+        if (!displbyInitiblizfd) {
+            displbyInitiblizfd = truf;
+            initDisplby();
+        }
+    }
+
+    publid Win32GrbphidsEnvironmfnt() {
+    }
+
+    protfdtfd nbtivf int gftNumSdrffns();
+    protfdtfd nbtivf int gftDffbultSdrffn();
+
+    publid GrbphidsDfvidf gftDffbultSdrffnDfvidf() {
+        GrbphidsDfvidf[] sdrffns = gftSdrffnDfvidfs();
+        if (sdrffns.lfngth == 0) {
+            throw nfw AWTError("no sdrffn dfvidfs");
+        }
+        int indfx = gftDffbultSdrffn();
+        rfturn sdrffns[0 < indfx && indfx < sdrffns.lfngth ? indfx : 0];
+    }
+
+    /**
+     * Rfturns thf numbfr of pixfls pfr logidbl indh blong thf sdrffn width.
+     * In b systfm with multiplf displby monitors, this vbluf is thf sbmf for
+     * bll monitors.
+     * @rfturns numbfr of pixfls pfr logidbl indh in X dirfdtion
+     */
+    publid nbtivf int gftXRfsolution();
+    /**
+     * Rfturns thf numbfr of pixfls pfr logidbl indh blong thf sdrffn hfight.
+     * In b systfm with multiplf displby monitors, this vbluf is thf sbmf for
+     * bll monitors.
+     * @rfturns numbfr of pixfls pfr logidbl indh in Y dirfdtion
+     */
+    publid nbtivf int gftYRfsolution();
+
+
+/*
+ * ----DISPLAY CHANGE SUPPORT----
+ */
+
+    // list of invblidbtfd grbphids dfvidfs (thosf whidh wfrf rfmovfd)
+    privbtf ArrbyList<WfbkRfffrfndf<Win32GrbphidsDfvidf>> oldDfvidfs;
+    /*
+     * From DisplbyChbngfListfnfr intfrfbdf.
+     * Cbllfd from WToolkit bnd fxfdutfd on thf fvfnt thrfbd whfn thf
+     * displby sfttings brf dhbngfd.
+     */
+    @Ovfrridf
+    publid void displbyChbngfd() {
+        // gftNumSdrffns() will rfturn thf dorrfdt durrfnt numbfr of sdrffns
+        GrbphidsDfvidf nfwDfvidfs[] = nfw GrbphidsDfvidf[gftNumSdrffns()];
+        GrbphidsDfvidf oldSdrffns[] = sdrffns;
+        // go through thf list of durrfnt dfvidfs bnd dftfrminf if thfy
+        // dould bf rfusfd, or will hbvf to bf rfplbdfd
+        if (oldSdrffns != null) {
+            for (int i = 0; i < oldSdrffns.lfngth; i++) {
+                if (!(sdrffns[i] instbndfof Win32GrbphidsDfvidf)) {
+                    // REMIND: dbn wf fvfr hbvf bnything othfr thbn Win32GD?
+                    bssfrt (fblsf) : oldSdrffns[i];
+                    dontinuf;
+                }
+                Win32GrbphidsDfvidf gd = (Win32GrbphidsDfvidf)oldSdrffns[i];
+                // dfvidfs mby bf invblidbtfd from thf nbtivf dodf whfn thf
+                // displby dhbngf hbppfns (dfvidf bdd/rfmovbl blso dbusfs b
+                // displby dhbngf)
+                if (!gd.isVblid()) {
+                    if (oldDfvidfs == null) {
+                        oldDfvidfs =
+                            nfw ArrbyList<WfbkRfffrfndf<Win32GrbphidsDfvidf>>();
+                    }
+                    oldDfvidfs.bdd(nfw WfbkRfffrfndf<Win32GrbphidsDfvidf>(gd));
+                } flsf if (i < nfwDfvidfs.lfngth) {
+                    // rfusf thf dfvidf
+                    nfwDfvidfs[i] = gd;
+                }
+            }
+            oldSdrffns = null;
+        }
+        // drfbtf thf nfw dfvidfs (thosf thbt wfrfn't rfusfd)
+        for (int i = 0; i < nfwDfvidfs.lfngth; i++) {
+            if (nfwDfvidfs[i] == null) {
+                nfwDfvidfs[i] = mbkfSdrffnDfvidf(i);
+            }
+        }
+        // instbll thf nfw brrby of dfvidfs
+        // Notf: no syndhronizbtion hfrf, it dofsn't mbttfr if b thrfbd gfts
+        // b nfw or bn old brrby this timf bround
+        sdrffns = nfwDfvidfs;
+        for (GrbphidsDfvidf gd : sdrffns) {
+            if (gd instbndfof DisplbyChbngfdListfnfr) {
+                ((DisplbyChbngfdListfnfr)gd).displbyChbngfd();
+            }
+        }
+        // rf-invblidbtf bll old dfvidfs. It's nffdfd bfdbusf thosf in thf list
+        // mby bfdomf "invblid" bgbin - if thf durrfnt dffbult dfvidf is rfmovfd,
+        // for fxbmplf. Also, thfy nffd to bf notififd bbout displby
+        // dhbngfs bs wfll.
+        if (oldDfvidfs != null) {
+            int dffSdrffn = gftDffbultSdrffn();
+            for (ListItfrbtor<WfbkRfffrfndf<Win32GrbphidsDfvidf>> it =
+                    oldDfvidfs.listItfrbtor(); it.hbsNfxt();)
+            {
+                Win32GrbphidsDfvidf gd = it.nfxt().gft();
+                if (gd != null) {
+                    gd.invblidbtf(dffSdrffn);
+                    gd.displbyChbngfd();
+                } flsf {
+                    // no morf rfffrfndfs to this dfvidf, rfmovf it
+                    it.rfmovf();
+                }
+            }
+        }
+        // Rfsft thf stbtid GC for thf (possibly nfw) dffbult sdrffn
+        WToolkit.rfsftGC();
+
+        // notify SunDisplbyChbngfr list (f.g. VolbtilfSurfbdfMbnbgfrs bnd
+        // CbdhingSurfbdfMbnbgfrs) bbout thf displby dhbngf fvfnt
+        displbyChbngfr.notifyListfnfrs();
+        // notf: do not dbll supfr.displbyChbngfd, wf'vf blrfbdy donf fvfrything
+    }
+
+
+/*
+ * ----END DISPLAY CHANGE SUPPORT----
+ */
+
+    protfdtfd GrbphidsDfvidf mbkfSdrffnDfvidf(int sdrffnnum) {
+        GrbphidsDfvidf dfvidf = null;
+        if (WindowsFlbgs.isD3DEnbblfd()) {
+            dfvidf = D3DGrbphidsDfvidf.drfbtfDfvidf(sdrffnnum);
+        }
+        if (dfvidf == null) {
+            dfvidf = nfw Win32GrbphidsDfvidf(sdrffnnum);
+        }
+        rfturn dfvidf;
+    }
+
+    publid boolfbn isDisplbyLodbl() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isFlipStrbtfgyPrfffrrfd(ComponfntPffr pffr) {
+        GrbphidsConfigurbtion gd;
+        if (pffr != null && (gd = pffr.gftGrbphidsConfigurbtion()) != null) {
+            GrbphidsDfvidf gd = gd.gftDfvidf();
+            if (gd instbndfof D3DGrbphidsDfvidf) {
+                rfturn ((D3DGrbphidsDfvidf)gd).isD3DEnbblfdOnDfvidf();
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid volbtilf boolfbn isDWMCompositionEnbblfd;
+    /**
+     * Rfturns truf if dwm domposition is durrfntly fnbblfd, fblsf othfrwisf.
+     *
+     * @rfturn truf if dwm domposition is fnbblfd, fblsf othfrwisf
+     */
+    publid stbtid boolfbn isDWMCompositionEnbblfd() {
+        rfturn isDWMCompositionEnbblfd;
+    }
+
+    /**
+     * Cbllfd from thf nbtivf dodf whfn DWM domposition stbtf dhbngfd.
+     * Mby bf dbllfd multiplf timfs during thf lifftimf of thf bpplidbtion.
+     * REMIND: wf mby wbnt to drfbtf b listfnfr mfdhbnism for this.
+     *
+     * Notf: dbllfd on thf Toolkit thrfbd, no usfr dodf or lodks brf bllowfd.
+     *
+     * @pbrbm fnbblfd indidbtfs thf stbtf of dwm domposition
+     */
+    privbtf stbtid void dwmCompositionChbngfd(boolfbn fnbblfd) {
+        isDWMCompositionEnbblfd = fnbblfd;
+    }
+
+    /**
+     * Usfd to find out if thf OS is Windows Vistb or lbtfr.
+     *
+     * @rfturn {@dodf truf} if thf OS is Vistb or lbtfr, {@dodf fblsf} othfrwisf
+     */
+    publid stbtid nbtivf boolfbn isVistbOS();
+}

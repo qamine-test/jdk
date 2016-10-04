@@ -1,202 +1,202 @@
 !
 !
 ! 
-! Copyright 2000 Sun Microsystems, Inc.  All Rights Reserved.
+! Copyrigit 2000 Sun Midrosystfms, Ind.  All Rigits Rfsfrvfd.
 ! DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 !
-! This code is free software; you can redistribute it and/or modify it
-! under the terms of the GNU General Public License version 2 only, as
-! published by the Free Software Foundation.  Oracle designates this
-! particular file as subject to the "Classpath" exception as provided
-! by Oracle in the LICENSE file that accompanied this code.
+! Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+! undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+! publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+! pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+! by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 !
-! This code is distributed in the hope that it will be useful, but WITHOUT
-! ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-! FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-! version 2 for more details (a copy is included in the LICENSE file that
-! accompanied this code).
+! Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+! ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+! FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+! vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+! bddompbnifd tiis dodf).
 !
-! You should have received a copy of the GNU General Public License version
-! 2 along with this work; if not, write to the Free Software Foundation,
-! Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+! You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+! 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+! Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 !
-! Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-! or visit www.oracle.com if you need additional information or have any
-! questions.
+! Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+! or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+! qufstions.
 !
 
 
 ! FUNCTION
-!      mlib_v_ImageCopy_blk   - Copy an image into another 
-!				(with Block Load/Store)
+!      mlib_v_ImbgfCopy_blk   - Copy bn imbgf into bnotifr 
+!				(witi Blodk Lobd/Storf)
 !
 ! SYNOPSIS
-!      void mlib_v_ImageCopy_blk(void *src,
+!      void mlib_v_ImbgfCopy_blk(void *srd,
 !                                void *dst, 
-!                                int size);
+!                                int sizf);
 !
 ! ARGUMENT
-!      src     source image data
-!      dst     destination image data
-!      size    image size in bytes
+!      srd     sourdf imbgf dbtb
+!      dst     dfstinbtion imbgf dbtb
+!      sizf    imbgf sizf in bytfs
 !
 ! NOTES
-!      src and dst must point to 64-byte aligned addresses
-!      size must be multiple of 64
+!      srd bnd dst must point to 64-bytf blignfd bddrfssfs
+!      sizf must bf multiplf of 64
 !
 ! DESCRIPTION
-!      dst = src
+!      dst = srd
 !
 
-#include "vis_asi.h"
+#indludf "vis_bsi.i"
 
-! Minimum size of stack frame according to SPARC ABI
-#define MINFRAME        96
+! Minimum sizf of stbdk frbmf bddording to SPARC ABI
+#dffinf MINFRAME        96
 
-! ENTRY provides the standard procedure entry code
-#define ENTRY(x) \
-	.align  4; \
-	.global x; \
+! ENTRY providfs tif stbndbrd prodfdurf fntry dodf
+#dffinf ENTRY(x) \
+	.blign  4; \
+	.globbl x; \
 x:
 
-! SET_SIZE trails a function and sets the size for the ELF symbol table
-#define SET_SIZE(x) \
-	.size   x, (.-x)
+! SET_SIZE trbils b fundtion bnd sfts tif sizf for tif ELF symbol tbblf
+#dffinf SET_SIZE(x) \
+	.sizf   x, (.-x)
 
-! SPARC have four integer register groups. i-registers %i0 to %i7
-! hold input data. o-registers %o0 to %o7 hold output data. l-registers
-! %l0 to %l7 hold local data. g-registers %g0 to %g7 hold global data.
-! Note that %g0 is alway zero, write to it has no program-visible effect.
+! SPARC ibvf four intfgfr rfgistfr groups. i-rfgistfrs %i0 to %i7
+! iold input dbtb. o-rfgistfrs %o0 to %o7 iold output dbtb. l-rfgistfrs
+! %l0 to %l7 iold lodbl dbtb. g-rfgistfrs %g0 to %g7 iold globbl dbtb.
+! Notf tibt %g0 is blwby zfro, writf to it ibs no progrbm-visiblf ffffdt.
 
-! When calling an assembly function, the first 6 arguments are stored
-! in i-registers from %i0 to %i5. The rest arguments are stored in stack.
-! Note that %i6 is reserved for stack pointer and %i7 for return address.
+! Wifn dblling bn bssfmbly fundtion, tif first 6 brgumfnts brf storfd
+! in i-rfgistfrs from %i0 to %i5. Tif rfst brgumfnts brf storfd in stbdk.
+! Notf tibt %i6 is rfsfrvfd for stbdk pointfr bnd %i7 for rfturn bddrfss.
 
-! Only the first 32 f-registers can be used as 32-bit registers.
-! The last 32 f-registers can only be used as 16 64-bit registers.
+! Only tif first 32 f-rfgistfrs dbn bf usfd bs 32-bit rfgistfrs.
+! Tif lbst 32 f-rfgistfrs dbn only bf usfd bs 16 64-bit rfgistfrs.
 
-#define src     %i0
-#define dst     %i1
-#define sz      %i2
+#dffinf srd     %i0
+#dffinf dst     %i1
+#dffinf sz      %i2
 
-!frame pointer  %i6
-!return addr    %i7
+!frbmf pointfr  %i6
+!rfturn bddr    %i7
 
-!stack pointer  %o6
-!call link      %o7
+!stbdk pointfr  %o6
+!dbll link      %o7
 
-#define sa      %l0
-#define da      %l1
-#define se      %l2
-#define ns      %l3
+#dffinf sb      %l0
+#dffinf db      %l1
+#dffinf sf      %l2
+#dffinf ns      %l3
 
-#define O0      %f16
-#define O1      %f18
-#define O2      %f20
-#define O3      %f22
-#define O4      %f24
-#define O5      %f26
-#define O6      %f28
-#define O7      %f30
+#dffinf O0      %f16
+#dffinf O1      %f18
+#dffinf O2      %f20
+#dffinf O3      %f22
+#dffinf O4      %f24
+#dffinf O5      %f26
+#dffinf O6      %f28
+#dffinf O7      %f30
 
-#define A0      %f32
-#define A1      %f34
-#define A2      %f36
-#define A3      %f38
-#define A4      %f40
-#define A5      %f42
-#define A6      %f44
-#define A7      %f46
+#dffinf A0      %f32
+#dffinf A1      %f34
+#dffinf A2      %f36
+#dffinf A3      %f38
+#dffinf A4      %f40
+#dffinf A5      %f42
+#dffinf A6      %f44
+#dffinf A7      %f46
 
-#define B0      %f48
-#define B1      %f50
-#define B2      %f52
-#define B3      %f54
-#define B4      %f56
-#define B5      %f58
-#define B6      %f60
-#define B7      %f62
+#dffinf B0      %f48
+#dffinf B1      %f50
+#dffinf B2      %f52
+#dffinf B3      %f54
+#dffinf B4      %f56
+#dffinf B5      %f58
+#dffinf B6      %f60
+#dffinf B7      %f62
 
-#define USE_BLD
-#define USE_BST
+#dffinf USE_BLD
+#dffinf USE_BST
 
-#define MEMBAR_BEFORE_BLD        membar  #StoreLoad
-#define MEMBAR_AFTER_BLD         membar  #StoreLoad
+#dffinf MEMBAR_BEFORE_BLD        mfmbbr  #StorfLobd
+#dffinf MEMBAR_AFTER_BLD         mfmbbr  #StorfLobd
 
-#ifdef USE_BLD
-#define BLD_A0                                  \
-        ldda    [sa]ASI_BLK_P,A0;               \
-        cmp     sa,se;                          \
-        blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+#ifdff USE_BLD
+#dffinf BLD_A0                                  \
+        lddb    [sb]ASI_BLK_P,A0;               \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
 1:
-#else
-#define BLD_A0                                  \
-        ldd     [sa +  0],A0;                   \
-        ldd     [sa +  8],A1;                   \
-        ldd     [sa + 16],A2;                   \
-        ldd     [sa + 24],A3;                   \
-        ldd     [sa + 32],A4;                   \
-        ldd     [sa + 40],A5;                   \
-        ldd     [sa + 48],A6;                   \
-        ldd     [sa + 56],A7;                   \
-        cmp     sa,se;                          \
-        blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+#flsf
+#dffinf BLD_A0                                  \
+        ldd     [sb +  0],A0;                   \
+        ldd     [sb +  8],A1;                   \
+        ldd     [sb + 16],A2;                   \
+        ldd     [sb + 24],A3;                   \
+        ldd     [sb + 32],A4;                   \
+        ldd     [sb + 40],A5;                   \
+        ldd     [sb + 48],A6;                   \
+        ldd     [sb + 56],A7;                   \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
 1:
-#endif
+#fndif
 
-#ifdef USE_BLD
-#define BLD_B0                                  \
-        ldda    [sa]ASI_BLK_P,B0;               \
-        cmp     sa,se;                          \
-        blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+#ifdff USE_BLD
+#dffinf BLD_B0                                  \
+        lddb    [sb]ASI_BLK_P,B0;               \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
 1:
-#else
-#define BLD_B0                                  \
-        ldd     [sa +  0],B0;                   \
-        ldd     [sa +  8],B1;                   \
-        ldd     [sa + 16],B2;                   \
-        ldd     [sa + 24],B3;                   \
-        ldd     [sa + 32],B4;                   \
-        ldd     [sa + 40],B5;                   \
-        ldd     [sa + 48],B6;                   \
-        ldd     [sa + 56],B7;                   \
-        cmp     sa,se;                          \
-        blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+#flsf
+#dffinf BLD_B0                                  \
+        ldd     [sb +  0],B0;                   \
+        ldd     [sb +  8],B1;                   \
+        ldd     [sb + 16],B2;                   \
+        ldd     [sb + 24],B3;                   \
+        ldd     [sb + 32],B4;                   \
+        ldd     [sb + 40],B5;                   \
+        ldd     [sb + 48],B6;                   \
+        ldd     [sb + 56],B7;                   \
+        dmp     sb,sf;                          \
+        blu,pt  %idd,1f;                        \
+        ind     64,sb;                          \
+        dfd     64,sb;                          \
 1:
-#endif
+#fndif
 
-#ifdef USE_BST
-#define BST                                     \
-        stda    O0,[da]ASI_BLK_P;               \
-        inc     64,da;                          \
-        deccc   ns;                             \
-        ble,pn  %icc,mlib_v_ImageCopy_end;	\
+#ifdff USE_BST
+#dffinf BST                                     \
+        stdb    O0,[db]ASI_BLK_P;               \
+        ind     64,db;                          \
+        dfddd   ns;                             \
+        blf,pn  %idd,mlib_v_ImbgfCopy_fnd;	\
         nop
-#else
-#define BST                                     \
-        std     O0,[da +  0];                   \
-        std     O1,[da +  8];                   \
-        std     O2,[da + 16];                   \
-        std     O3,[da + 24];                   \
-        std     O4,[da + 32];                   \
-        std     O5,[da + 40];                   \
-        std     O6,[da + 48];                   \
-        std     O7,[da + 56];                   \
-        inc     64,da;                          \
-        deccc   ns;                             \
-        ble,pn  %icc,mlib_v_ImageCopy_end;	\
+#flsf
+#dffinf BST                                     \
+        std     O0,[db +  0];                   \
+        std     O1,[db +  8];                   \
+        std     O2,[db + 16];                   \
+        std     O3,[db + 24];                   \
+        std     O4,[db + 32];                   \
+        std     O5,[db + 40];                   \
+        std     O6,[db + 48];                   \
+        std     O7,[db + 56];                   \
+        ind     64,db;                          \
+        dfddd   ns;                             \
+        blf,pn  %idd,mlib_v_ImbgfCopy_fnd;	\
         nop
-#endif
+#fndif
 
-#define COPY_A0					\
+#dffinf COPY_A0					\
         fmovd A0, O0;                           \
         fmovd A1, O1;                           \
         fmovd A2, O2;                           \
@@ -206,7 +206,7 @@ x:
         fmovd A6, O6;                           \
         fmovd A7, O7;
 
-#define COPY_B0					\
+#dffinf COPY_B0					\
         fmovd B0, O0;                           \
         fmovd B1, O1;                           \
         fmovd B2, O2;                           \
@@ -216,47 +216,47 @@ x:
         fmovd B6, O6;                           \
         fmovd B7, O7;
 
-        .section        ".text",#alloc,#execinstr
+        .sfdtion        ".tfxt",#bllod,#fxfdinstr
 
-        ENTRY(mlib_v_ImageCopy_blk)	! function name
+        ENTRY(mlib_v_ImbgfCopy_blk)	! fundtion nbmf
 
-        save    %sp,-MINFRAME,%sp	! reserve space for stack
-                                        ! and adjust register window
-! do some error checking
-        tst     sz                      ! size > 0
-        ble,pn  %icc,mlib_v_ImageCopy_ret
+        sbvf    %sp,-MINFRAME,%sp	! rfsfrvf spbdf for stbdk
+                                        ! bnd bdjust rfgistfr window
+! do somf frror difdking
+        tst     sz                      ! sizf > 0
+        blf,pn  %idd,mlib_v_ImbgfCopy_rft
 
-! calculate loop count
-        sra     sz,6,ns                 ! 64 bytes per loop
+! dbldulbtf loop dount
+        srb     sz,6,ns                 ! 64 bytfs pfr loop
 
-        add     src,sz,se               ! end address of source
-        mov     src,sa
-        mov     dst,da
-                                        ! issue memory barrier instruction
-        MEMBAR_BEFORE_BLD               ! to ensure all previous memory load
-                                        ! and store has completed
+        bdd     srd,sz,sf               ! fnd bddrfss of sourdf
+        mov     srd,sb
+        mov     dst,db
+                                        ! issuf mfmory bbrrifr instrudtion
+        MEMBAR_BEFORE_BLD               ! to fnsurf bll prfvious mfmory lobd
+                                        ! bnd storf ibs domplftfd
 
         BLD_A0
-        BLD_B0                          ! issue the 2nd block load instruction
-                                        ! to synchronize with returning data
-mlib_v_ImageCopy_bgn:
+        BLD_B0                          ! issuf tif 2nd blodk lobd instrudtion
+                                        ! to syndironizf witi rfturning dbtb
+mlib_v_ImbgfCopy_bgn:
 
-        COPY_A0				! process data returned by BLD_A0
-        BLD_A0                          ! block load and sync data from BLD_B0
-        BST                             ! block store data from BLD_A0
+        COPY_A0				! prodfss dbtb rfturnfd by BLD_A0
+        BLD_A0                          ! blodk lobd bnd synd dbtb from BLD_B0
+        BST                             ! blodk storf dbtb from BLD_A0
 
-        COPY_B0				! process data returned by BLD_B0
-        BLD_B0                          ! block load and sync data from BLD_A0
-        BST                             ! block store data from BLD_B0
+        COPY_B0				! prodfss dbtb rfturnfd by BLD_B0
+        BLD_B0                          ! blodk lobd bnd synd dbtb from BLD_A0
+        BST                             ! blodk storf dbtb from BLD_B0
 
-        bg,pt   %icc,mlib_v_ImageCopy_bgn
+        bg,pt   %idd,mlib_v_ImbgfCopy_bgn
 
-mlib_v_ImageCopy_end:
-                                        ! issue memory barrier instruction
-        MEMBAR_AFTER_BLD                ! to ensure all previous memory load
-                                        ! and store has completed.
-mlib_v_ImageCopy_ret:
-        ret                             ! return
-        restore                         ! restore register window
+mlib_v_ImbgfCopy_fnd:
+                                        ! issuf mfmory bbrrifr instrudtion
+        MEMBAR_AFTER_BLD                ! to fnsurf bll prfvious mfmory lobd
+                                        ! bnd storf ibs domplftfd.
+mlib_v_ImbgfCopy_rft:
+        rft                             ! rfturn
+        rfstorf                         ! rfstorf rfgistfr window
 
-        SET_SIZE(mlib_v_ImageCopy_blk)
+        SET_SIZE(mlib_v_ImbgfCopy_blk)

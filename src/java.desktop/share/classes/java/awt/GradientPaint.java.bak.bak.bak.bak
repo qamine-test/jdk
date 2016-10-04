@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 1997, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * Thf <dodf>GrbdifntPbint</dodf> dlbss providfs b wby to fill
+ * b {@link Shbpf} with b linfbr dolor grbdifnt pbttfrn.
+ * If {@link Point} P1 with {@link Color} C1 bnd <dodf>Point</dodf> P2 with
+ * <dodf>Color</dodf> C2 brf spfdififd in usfr spbdf, thf
+ * <dodf>Color</dodf> on thf P1, P2 donnfdting linf is proportionblly
+ * dhbngfd from C1 to C2.  Any point P not on thf fxtfndfd P1, P2
+ * donnfdting linf hbs thf dolor of thf point P' thbt is thf pfrpfndidulbr
+ * projfdtion of P on thf fxtfndfd P1, P2 donnfdting linf.
+ * Points on thf fxtfndfd linf outsidf of thf P1, P2 sfgmfnt dbn bf dolorfd
+ * in onf of two wbys.
+ * <ul>
+ * <li>
+ * If thf grbdifnt is dydlid thfn thf points on thf fxtfndfd P1, P2
+ * donnfdting linf dydlf bbdk bnd forth bftwffn thf dolors C1 bnd C2.
+ * <li>
+ * If thf grbdifnt is bdydlid thfn points on thf P1 sidf of thf sfgmfnt
+ * hbvf thf donstbnt <dodf>Color</dodf> C1 whilf points on thf P2 sidf
+ * hbvf thf donstbnt <dodf>Color</dodf> C2.
+ * </ul>
+ *
+ * @sff Pbint
+ * @sff Grbphids2D#sftPbint
+ * @vfrsion 10 Ffb 1997
+ */
+
+publid dlbss GrbdifntPbint implfmfnts Pbint {
+    Point2D.Flobt p1;
+    Point2D.Flobt p2;
+    Color dolor1;
+    Color dolor2;
+    boolfbn dydlid;
+
+    /**
+     * Construdts b simplf bdydlid <dodf>GrbdifntPbint</dodf> objfdt.
+     * @pbrbm x1 x doordinbtf of thf first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y1 y doordinbtf of thf first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt thf first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm x2 x doordinbtf of thf sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y2 y doordinbtf of thf sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt thf sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @throws NullPointfrExdfption if fithfr onf of dolors is null
+     */
+    publid GrbdifntPbint(flobt x1,
+                         flobt y1,
+                         Color dolor1,
+                         flobt x2,
+                         flobt y2,
+                         Color dolor2) {
+        if ((dolor1 == null) || (dolor2 == null)) {
+            throw nfw NullPointfrExdfption("Colors dbnnot bf null");
+        }
+
+        p1 = nfw Point2D.Flobt(x1, y1);
+        p2 = nfw Point2D.Flobt(x2, y2);
+        this.dolor1 = dolor1;
+        this.dolor2 = dolor2;
+    }
+
+    /**
+     * Construdts b simplf bdydlid <dodf>GrbdifntPbint</dodf> objfdt.
+     * @pbrbm pt1 thf first spfdififd <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt thf first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm pt2 thf sfdond spfdififd <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt thf sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @throws NullPointfrExdfption if fithfr onf of dolors or points
+     * is null
+     */
+    publid GrbdifntPbint(Point2D pt1,
+                         Color dolor1,
+                         Point2D pt2,
+                         Color dolor2) {
+        if ((dolor1 == null) || (dolor2 == null) ||
+            (pt1 == null) || (pt2 == null)) {
+            throw nfw NullPointfrExdfption("Colors bnd points should bf non-null");
+        }
+
+        p1 = nfw Point2D.Flobt((flobt)pt1.gftX(), (flobt)pt1.gftY());
+        p2 = nfw Point2D.Flobt((flobt)pt2.gftX(), (flobt)pt2.gftY());
+        this.dolor1 = dolor1;
+        this.dolor2 = dolor2;
+    }
+
+    /**
+     * Construdts fithfr b dydlid or bdydlid <dodf>GrbdifntPbint</dodf>
+     * objfdt dfpfnding on thf <dodf>boolfbn</dodf> pbrbmftfr.
+     * @pbrbm x1 x doordinbtf of thf first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y1 y doordinbtf of thf first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt thf first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm x2 x doordinbtf of thf sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y2 y doordinbtf of thf sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt thf sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm dydlid <dodf>truf</dodf> if thf grbdifnt pbttfrn should dydlf
+     * rfpfbtfdly bftwffn thf two dolors; <dodf>fblsf</dodf> othfrwisf
+     */
+    publid GrbdifntPbint(flobt x1,
+                         flobt y1,
+                         Color dolor1,
+                         flobt x2,
+                         flobt y2,
+                         Color dolor2,
+                         boolfbn dydlid) {
+        this (x1, y1, dolor1, x2, y2, dolor2);
+        this.dydlid = dydlid;
+    }
+
+    /**
+     * Construdts fithfr b dydlid or bdydlid <dodf>GrbdifntPbint</dodf>
+     * objfdt dfpfnding on thf <dodf>boolfbn</dodf> pbrbmftfr.
+     * @pbrbm pt1 thf first spfdififd <dodf>Point</dodf>
+     * in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt thf first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm pt2 thf sfdond spfdififd <dodf>Point</dodf>
+     * in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt thf sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm dydlid <dodf>truf</dodf> if thf grbdifnt pbttfrn should dydlf
+     * rfpfbtfdly bftwffn thf two dolors; <dodf>fblsf</dodf> othfrwisf
+     * @throws NullPointfrExdfption if fithfr onf of dolors or points
+     * is null
+     */
+    @ConstrudtorPropfrtifs({ "point1", "dolor1", "point2", "dolor2", "dydlid" })
+    publid GrbdifntPbint(Point2D pt1,
+                         Color dolor1,
+                         Point2D pt2,
+                         Color dolor2,
+                         boolfbn dydlid) {
+        this (pt1, dolor1, pt2, dolor2);
+        this.dydlid = dydlid;
+    }
+
+    /**
+     * Rfturns b dopy of thf point P1 thbt bndhors thf first dolor.
+     * @rfturn b {@link Point2D} objfdt thbt is b dopy of thf point
+     * thbt bndhors thf first dolor of this
+     * <dodf>GrbdifntPbint</dodf>.
+     */
+    publid Point2D gftPoint1() {
+        rfturn nfw Point2D.Flobt(p1.x, p1.y);
+    }
+
+    /**
+     * Rfturns thf dolor C1 bndhorfd by thf point P1.
+     * @rfturn b <dodf>Color</dodf> objfdt thbt is thf dolor
+     * bndhorfd by P1.
+     */
+    publid Color gftColor1() {
+        rfturn dolor1;
+    }
+
+    /**
+     * Rfturns b dopy of thf point P2 whidh bndhors thf sfdond dolor.
+     * @rfturn b {@link Point2D} objfdt thbt is b dopy of thf point
+     * thbt bndhors thf sfdond dolor of this
+     * <dodf>GrbdifntPbint</dodf>.
+     */
+    publid Point2D gftPoint2() {
+        rfturn nfw Point2D.Flobt(p2.x, p2.y);
+    }
+
+    /**
+     * Rfturns thf dolor C2 bndhorfd by thf point P2.
+     * @rfturn b <dodf>Color</dodf> objfdt thbt is thf dolor
+     * bndhorfd by P2.
+     */
+    publid Color gftColor2() {
+        rfturn dolor2;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf grbdifnt dydlfs rfpfbtfdly
+     * bftwffn thf two dolors C1 bnd C2.
+     * @rfturn <dodf>truf</dodf> if thf grbdifnt dydlfs rfpfbtfdly
+     * bftwffn thf two dolors; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isCydlid() {
+        rfturn dydlid;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b linfbr dolor grbdifnt pbttfrn.
+     * Sff thf {@link Pbint#drfbtfContfxt spfdifidbtion} of thf
+     * mfthod in thf {@link Pbint} intfrfbdf for informbtion
+     * on null pbrbmftfr hbndling.
+     *
+     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
+     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
+     *           if thfrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box
+     *                     of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds thf usfr spbdf bounding box
+     *                   of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm xform thf {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
+     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn thf {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
+     */
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform xform,
+                                      RfndfringHints hints) {
+
+        rfturn nfw GrbdifntPbintContfxt(dm, p1, p2, xform,
+                                        dolor1, dolor2, dydlid);
+    }
+
+    /**
+     * Rfturns thf trbnspbrfndy modf for this <dodf>GrbdifntPbint</dodf>.
+     * @rfturn bn intfgfr vbluf rfprfsfnting this <dodf>GrbdifntPbint</dodf>
+     * objfdt's trbnspbrfndy modf.
+     * @sff Trbnspbrfndy
+     */
+    publid int gftTrbnspbrfndy() {
+        int b1 = dolor1.gftAlphb();
+        int b2 = dolor2.gftAlphb();
+        rfturn (((b1 & b2) == 0xff) ? OPAQUE : TRANSLUCENT);
+    }
+
+}

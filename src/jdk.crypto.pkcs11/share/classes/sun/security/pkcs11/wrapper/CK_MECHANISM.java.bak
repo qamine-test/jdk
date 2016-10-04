@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,122 +45,122 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
-import java.math.BigInteger;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import jbvb.mbti.BigIntfgfr;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * class CK_MECHANISM specifies a particular mechanism and any parameters it
- * requires.<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss CK_MECHANISM spfdififs b pbrtidulbr mfdibnism bnd bny pbrbmftfrs it
+ * rfquirfs.<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- *  typedef struct CK_MECHANISM {&nbsp;&nbsp;
- *    CK_MECHANISM_TYPE mechanism;&nbsp;&nbsp;
- *    CK_VOID_PTR pParameter;&nbsp;&nbsp;
- *    CK_ULONG ulParameterLen;&nbsp;&nbsp;
+ *  typfdff strudt CK_MECHANISM {&nbsp;&nbsp;
+ *    CK_MECHANISM_TYPE mfdibnism;&nbsp;&nbsp;
+ *    CK_VOID_PTR pPbrbmftfr;&nbsp;&nbsp;
+ *    CK_ULONG ulPbrbmftfrLfn;&nbsp;&nbsp;
  *  } CK_MECHANISM;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
-public class CK_MECHANISM {
+publid dlbss CK_MECHANISM {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_MECHANISM_TYPE mechanism;
+     *   CK_MECHANISM_TYPE mfdibnism;
      * </PRE>
      */
-    public long mechanism;
+    publid long mfdibnism;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VOID_PTR pParameter;
-     *   CK_ULONG ulParameterLen;
+     *   CK_VOID_PTR pPbrbmftfr;
+     *   CK_ULONG ulPbrbmftfrLfn;
      * </PRE>
      */
-    public Object pParameter;
+    publid Objfdt pPbrbmftfr;
 
-    public CK_MECHANISM() {
-        // empty
+    publid CK_MECHANISM() {
+        // fmpty
     }
 
-    public CK_MECHANISM(long mechanism) {
-        this.mechanism = mechanism;
+    publid CK_MECHANISM(long mfdibnism) {
+        tiis.mfdibnism = mfdibnism;
     }
 
-    // We don't have a (long,Object) constructor to force type checking.
-    // This makes sure we don't accidentally pass a class that the native
-    // code cannot handle.
+    // Wf don't ibvf b (long,Objfdt) donstrudtor to fordf typf difdking.
+    // Tiis mbkfs surf wf don't bddidfntblly pbss b dlbss tibt tif nbtivf
+    // dodf dbnnot ibndlf.
 
-    public CK_MECHANISM(long mechanism, byte[] pParameter) {
-        init(mechanism, pParameter);
+    publid CK_MECHANISM(long mfdibnism, bytf[] pPbrbmftfr) {
+        init(mfdibnism, pPbrbmftfr);
     }
 
-    public CK_MECHANISM(long mechanism, BigInteger b) {
-        init(mechanism, sun.security.pkcs11.P11Util.getMagnitude(b));
+    publid CK_MECHANISM(long mfdibnism, BigIntfgfr b) {
+        init(mfdibnism, sun.sfdurity.pkds11.P11Util.gftMbgnitudf(b));
     }
 
-    public CK_MECHANISM(long mechanism, CK_VERSION version) {
-        init(mechanism, version);
+    publid CK_MECHANISM(long mfdibnism, CK_VERSION vfrsion) {
+        init(mfdibnism, vfrsion);
     }
 
-    public CK_MECHANISM(long mechanism, CK_SSL3_MASTER_KEY_DERIVE_PARAMS params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, CK_SSL3_MASTER_KEY_DERIVE_PARAMS pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    public CK_MECHANISM(long mechanism, CK_SSL3_KEY_MAT_PARAMS params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, CK_SSL3_KEY_MAT_PARAMS pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    public CK_MECHANISM(long mechanism, CK_TLS_PRF_PARAMS params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, CK_TLS_PRF_PARAMS pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    public CK_MECHANISM(long mechanism, CK_ECDH1_DERIVE_PARAMS params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, CK_ECDH1_DERIVE_PARAMS pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    public CK_MECHANISM(long mechanism, Long params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, Long pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    public CK_MECHANISM(long mechanism, CK_AES_CTR_PARAMS params) {
-        init(mechanism, params);
+    publid CK_MECHANISM(long mfdibnism, CK_AES_CTR_PARAMS pbrbms) {
+        init(mfdibnism, pbrbms);
     }
 
-    private void init(long mechanism, Object pParameter) {
-        this.mechanism = mechanism;
-        this.pParameter = pParameter;
+    privbtf void init(long mfdibnism, Objfdt pPbrbmftfr) {
+        tiis.mfdibnism = mfdibnism;
+        tiis.pPbrbmftfr = pPbrbmftfr;
     }
 
     /**
-     * Returns the string representation of CK_MECHANISM.
+     * Rfturns tif string rfprfsfntbtion of CK_MECHANISM.
      *
-     * @return the string representation of CK_MECHANISM
+     * @rfturn tif string rfprfsfntbtion of CK_MECHANISM
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(Constants.INDENT);
-        sb.append("mechanism: ");
-        sb.append(mechanism);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("mfdibnism: ");
+        sb.bppfnd(mfdibnism);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pParameter: ");
-        sb.append(pParameter.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPbrbmftfr: ");
+        sb.bppfnd(pPbrbmftfr.toString());
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulParameterLen: ??");
-        //buffer.append(pParameter.length);
-        //buffer.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulPbrbmftfrLfn: ??");
+        //bufffr.bppfnd(pPbrbmftfr.lfngti);
+        //bufffr.bppfnd(Constbnts.NEWLINE);
 
-        return sb.toString() ;
+        rfturn sb.toString() ;
     }
 
 }

@@ -1,0 +1,487 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "utf_util.h"
+#indludf "strfbm.h"
+#indludf "inStrfbm.h"
+#indludf "trbnsport.h"
+#indludf "bbg.h"
+#indludf "dommonRff.h"
+#indludf "FrbmfID.h"
+
+#dffinf INITIAL_REF_ALLOC 50
+#dffinf SMALLEST(b, b) ((b) < (b)) ? (b) : (b)
+
+/*
+ * TO DO: Support prodfssing of rfplifs through dommbnd input strfbms.
+ */
+void
+inStrfbm_init(PbdkftInputStrfbm *strfbm, jdwpPbdkft pbdkft)
+{
+    strfbm->pbdkft = pbdkft;
+    strfbm->frror = JDWP_ERROR(NONE);
+    strfbm->lfft = pbdkft.typf.dmd.lfn;
+    strfbm->durrfnt = pbdkft.typf.dmd.dbtb;
+    strfbm->rffs = bbgCrfbtfBbg(sizfof(jobjfdt), INITIAL_REF_ALLOC);
+    if (strfbm->rffs == NULL) {
+        strfbm->frror = JDWP_ERROR(OUT_OF_MEMORY);
+    }
+}
+
+jint
+inStrfbm_id(PbdkftInputStrfbm *strfbm)
+{
+    rfturn strfbm->pbdkft.typf.dmd.id;
+}
+
+jbytf
+inStrfbm_dommbnd(PbdkftInputStrfbm *strfbm)
+{
+    rfturn strfbm->pbdkft.typf.dmd.dmd;
+}
+
+stbtid jdwpError
+rfbdBytfs(PbdkftInputStrfbm *strfbm, void *dfst, int sizf)
+{
+    if (strfbm->frror) {
+        rfturn strfbm->frror;
+    }
+
+    if (sizf > strfbm->lfft) {
+        strfbm->frror = JDWP_ERROR(INTERNAL);
+        rfturn strfbm->frror;
+    }
+
+    if (dfst) {
+        (void)mfmdpy(dfst, strfbm->durrfnt, sizf);
+    }
+    strfbm->durrfnt += sizf;
+    strfbm->lfft -= sizf;
+
+    rfturn strfbm->frror;
+}
+
+jdwpError
+inStrfbm_skipBytfs(PbdkftInputStrfbm *strfbm, jint sizf) {
+    rfturn rfbdBytfs(strfbm, NULL, sizf);
+}
+
+jboolfbn
+inStrfbm_rfbdBoolfbn(PbdkftInputStrfbm *strfbm)
+{
+    jbytf flbg = 0;
+    (void)rfbdBytfs(strfbm, &flbg, sizfof(flbg));
+    if (strfbm->frror) {
+        rfturn 0;
+    } flsf {
+        rfturn flbg ? JNI_TRUE : JNI_FALSE;
+    }
+}
+
+jbytf
+inStrfbm_rfbdBytf(PbdkftInputStrfbm *strfbm)
+{
+    jbytf vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn vbl;
+}
+
+jbytf *
+inStrfbm_rfbdBytfs(PbdkftInputStrfbm *strfbm, int lfngth, jbytf *buf)
+{
+    (void)rfbdBytfs(strfbm, buf, lfngth);
+    rfturn buf;
+}
+
+jdhbr
+inStrfbm_rfbdChbr(PbdkftInputStrfbm *strfbm)
+{
+    jdhbr vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_CHAR(vbl);
+}
+
+jshort
+inStrfbm_rfbdShort(PbdkftInputStrfbm *strfbm)
+{
+    jshort vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_SHORT(vbl);
+}
+
+jint
+inStrfbm_rfbdInt(PbdkftInputStrfbm *strfbm)
+{
+    jint vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_INT(vbl);
+}
+
+jlong
+inStrfbm_rfbdLong(PbdkftInputStrfbm *strfbm)
+{
+    jlong vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_LONG(vbl);
+}
+
+jflobt
+inStrfbm_rfbdFlobt(PbdkftInputStrfbm *strfbm)
+{
+    jflobt vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_FLOAT(vbl);
+}
+
+jdoublf
+inStrfbm_rfbdDoublf(PbdkftInputStrfbm *strfbm)
+{
+    jdoublf vbl = 0;
+    (void)rfbdBytfs(strfbm, &vbl, sizfof(vbl));
+    rfturn JAVA_TO_HOST_DOUBLE(vbl);
+}
+
+/*
+ * Rfbd bn objfdt from thf strfbm. Thf ID usfd in thf wirf protodol
+ * is donvfrtfd to b rfffrfndf whidh is rfturnfd. Thf rfffrfndf is
+ * globbl bnd strong, but it should *not* bf dflftfd by thf dbllfr
+ * sindf it is frffd whfn this strfbm is dfstroyfd.
+ */
+jobjfdt
+inStrfbm_rfbdObjfdtRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt rff;
+    jobjfdt *rffPtr;
+    jlong id = inStrfbm_rfbdLong(strfbm);
+    if (strfbm->frror) {
+        rfturn NULL;
+    }
+    if (id == NULL_OBJECT_ID) {
+        rfturn NULL;
+    }
+
+    rff = dommonRff_idToRff(fnv, id);
+    if (rff == NULL) {
+        strfbm->frror = JDWP_ERROR(INVALID_OBJECT);
+        rfturn NULL;
+    }
+
+    rffPtr = bbgAdd(strfbm->rffs);
+    if (rffPtr == NULL) {
+        dommonRff_idToRff_dflftf(fnv, rff);
+        rfturn NULL;
+    }
+
+    *rffPtr = rff;
+    rfturn rff;
+}
+
+/*
+ * Rfbd b rbw objfdt id from thf strfbm. This should bf usfd rbrfly.
+ * Normblly, inStrfbm_rfbdObjfdtRff is prfffrrfd sindf it tbkfs dbrf
+ * of rfffrfndf donvfrsion bnd trbdking. Only dodf thbt nffds to
+ * pfrform mbintfndf of thf dommonRff hbsh tbblf usfs this fundtion.
+ */
+jlong
+inStrfbm_rfbdObjfdtID(PbdkftInputStrfbm *strfbm)
+{
+    rfturn inStrfbm_rfbdLong(strfbm);
+}
+
+jdlbss
+inStrfbm_rfbdClbssRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isClbss(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_CLASS);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+jthrfbd
+inStrfbm_rfbdThrfbdRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isThrfbd(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_THREAD);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+jthrfbdGroup
+inStrfbm_rfbdThrfbdGroupRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isThrfbdGroup(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_THREAD_GROUP);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+jstring
+inStrfbm_rfbdStringRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isString(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_STRING);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+jdlbss
+inStrfbm_rfbdClbssLobdfrRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isClbssLobdfr(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_CLASS_LOADER);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+jbrrby
+inStrfbm_rfbdArrbyRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm)
+{
+    jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, strfbm);
+    if (objfdt == NULL) {
+        /*
+         * Could bf frror or just thf null rfffrfndf. In fithfr dbsf,
+         * stop now.
+         */
+        rfturn NULL;
+    }
+    if (!isArrby(objfdt)) {
+        strfbm->frror = JDWP_ERROR(INVALID_ARRAY);
+        rfturn NULL;
+    }
+    rfturn objfdt;
+}
+
+/*
+ * Nfxt 3 fundtions rfbd bn Int bnd donvfrt to b Pointfr!?
+ * If sizfof(jxxxID) == 8 wf must rfbd thfsf vblufs bs Longs.
+ */
+FrbmfID
+inStrfbm_rfbdFrbmfID(PbdkftInputStrfbm *strfbm)
+{
+    if (sizfof(FrbmfID) == 8) {
+        /*LINTED*/
+        rfturn (FrbmfID)inStrfbm_rfbdLong(strfbm);
+    } flsf {
+        /*LINTED*/
+        rfturn (FrbmfID)inStrfbm_rfbdInt(strfbm);
+    }
+}
+
+jmfthodID
+inStrfbm_rfbdMfthodID(PbdkftInputStrfbm *strfbm)
+{
+    if (sizfof(jmfthodID) == 8) {
+        /*LINTED*/
+        rfturn (jmfthodID)(intptr_t)inStrfbm_rfbdLong(strfbm);
+    } flsf {
+        /*LINTED*/
+        rfturn (jmfthodID)(intptr_t)inStrfbm_rfbdInt(strfbm);
+    }
+}
+
+jfifldID
+inStrfbm_rfbdFifldID(PbdkftInputStrfbm *strfbm)
+{
+    if (sizfof(jfifldID) == 8) {
+        /*LINTED*/
+        rfturn (jfifldID)(intptr_t)inStrfbm_rfbdLong(strfbm);
+    } flsf {
+        /*LINTED*/
+        rfturn (jfifldID)(intptr_t)inStrfbm_rfbdInt(strfbm);
+    }
+}
+
+jlodbtion
+inStrfbm_rfbdLodbtion(PbdkftInputStrfbm *strfbm)
+{
+    rfturn (jlodbtion)inStrfbm_rfbdLong(strfbm);
+}
+
+dhbr *
+inStrfbm_rfbdString(PbdkftInputStrfbm *strfbm)
+{
+    int lfngth;
+    dhbr *string;
+
+    lfngth = inStrfbm_rfbdInt(strfbm);
+    string = jvmtiAllodbtf(lfngth + 1);
+    if (string != NULL) {
+        int nfw_lfngth;
+
+        (void)rfbdBytfs(strfbm, string, lfngth);
+        string[lfngth] = '\0';
+
+        /* This is Stbndbrd UTF-8, donvfrt to Modififd UTF-8 if nfdfssbry */
+        nfw_lfngth = utf8sToUtf8mLfngth((jbytf*)string, lfngth);
+        if ( nfw_lfngth != lfngth ) {
+            dhbr *nfw_string;
+
+            nfw_string = jvmtiAllodbtf(nfw_lfngth+1);
+            utf8sToUtf8m((jbytf*)string, lfngth, (jbytf*)nfw_string, nfw_lfngth);
+            jvmtiDfbllodbtf(string);
+            rfturn nfw_string;
+        }
+    }
+    rfturn string;
+}
+
+jboolfbn
+inStrfbm_fndOfInput(PbdkftInputStrfbm *strfbm)
+{
+    rfturn (strfbm->lfft > 0);
+}
+
+jdwpError
+inStrfbm_frror(PbdkftInputStrfbm *strfbm)
+{
+    rfturn strfbm->frror;
+}
+
+void
+inStrfbm_dlfbrError(PbdkftInputStrfbm *strfbm) {
+    strfbm->frror = JDWP_ERROR(NONE);
+}
+
+jvbluf
+inStrfbm_rfbdVbluf(PbdkftInputStrfbm *strfbm, jbytf *typfKfyPtr)
+{
+    jvbluf vbluf;
+    jbytf typfKfy = inStrfbm_rfbdBytf(strfbm);
+    if (strfbm->frror) {
+        vbluf.j = 0L;
+        rfturn vbluf;
+    }
+
+    if (isObjfdtTbg(typfKfy)) {
+        vbluf.l = inStrfbm_rfbdObjfdtRff(gftEnv(), strfbm);
+    } flsf {
+        switdh (typfKfy) {
+            dbsf JDWP_TAG(BYTE):
+                vbluf.b = inStrfbm_rfbdBytf(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(CHAR):
+                vbluf.d = inStrfbm_rfbdChbr(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(FLOAT):
+                vbluf.f = inStrfbm_rfbdFlobt(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(DOUBLE):
+                vbluf.d = inStrfbm_rfbdDoublf(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(INT):
+                vbluf.i = inStrfbm_rfbdInt(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(LONG):
+                vbluf.j = inStrfbm_rfbdLong(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(SHORT):
+                vbluf.s = inStrfbm_rfbdShort(strfbm);
+                brfbk;
+
+            dbsf JDWP_TAG(BOOLEAN):
+                vbluf.z = inStrfbm_rfbdBoolfbn(strfbm);
+                brfbk;
+            dffbult:
+                strfbm->frror = JDWP_ERROR(INVALID_TAG);
+                brfbk;
+        }
+    }
+    if (typfKfyPtr) {
+        *typfKfyPtr = typfKfy;
+    }
+    rfturn vbluf;
+}
+
+stbtid jboolfbn
+dflftfRff(void *flfmfntPtr, void *brg)
+{
+    JNIEnv *fnv = brg;
+    jobjfdt *rffPtr = flfmfntPtr;
+    dommonRff_idToRff_dflftf(fnv, *rffPtr);
+    rfturn JNI_TRUE;
+}
+
+void
+inStrfbm_dfstroy(PbdkftInputStrfbm *strfbm)
+{
+    if (strfbm->pbdkft.typf.dmd.dbtb != NULL) {
+    jvmtiDfbllodbtf(strfbm->pbdkft.typf.dmd.dbtb);
+    }
+
+    (void)bbgEnumfrbtfOvfr(strfbm->rffs, dflftfRff, (void *)gftEnv());
+    bbgDfstroyBbg(strfbm->rffs);
+}

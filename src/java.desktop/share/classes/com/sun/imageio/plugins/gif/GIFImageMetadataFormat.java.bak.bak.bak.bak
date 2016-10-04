@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvb.util.Arrbys;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+
+publid dlbss GIFImbgfMftbdbtbFormbt fxtfnds IIOMftbdbtbFormbtImpl {
+
+    privbtf stbtid IIOMftbdbtbFormbt instbndf = null;
+
+    privbtf GIFImbgfMftbdbtbFormbt() {
+        supfr(GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+              CHILD_POLICY_SOME);
+
+        // root -> ImbgfDfsdriptor
+        bddElfmfnt("ImbgfDfsdriptor",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("ImbgfDfsdriptor", "imbgfLfftPosition",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfTopPosition",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfWidth",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("ImbgfDfsdriptor", "imbgfHfight",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddBoolfbnAttributf("ImbgfDfsdriptor", "intfrlbdfFlbg",
+                            fblsf, fblsf);
+
+        // root -> LodblColorTbblf
+        bddElfmfnt("LodblColorTbblf",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   2, 256);
+        bddAttributf("LodblColorTbblf", "sizfOfLodblColorTbblf",
+                     DATATYPE_INTEGER, truf, null,
+                     Arrbys.bsList(GIFStrfbmMftbdbtb.dolorTbblfSizfs));
+        bddBoolfbnAttributf("LodblColorTbblf", "sortFlbg",
+                            fblsf, fblsf);
+
+        // root -> LodblColorTbblf -> ColorTbblfEntry
+        bddElfmfnt("ColorTbblfEntry", "LodblColorTbblf",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("ColorTbblfEntry", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("ColorTbblfEntry", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+
+        // root -> GrbphidControlExtfnsion
+        bddElfmfnt("GrbphidControlExtfnsion",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("GrbphidControlExtfnsion", "disposblMfthod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(GIFImbgfMftbdbtb.disposblMfthodNbmfs));
+        bddBoolfbnAttributf("GrbphidControlExtfnsion", "usfrInputFlbg",
+                            fblsf, fblsf);
+        bddBoolfbnAttributf("GrbphidControlExtfnsion", "trbnspbrfntColorFlbg",
+                            fblsf, fblsf);
+        bddAttributf("GrbphidControlExtfnsion", "dflbyTimf",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("GrbphidControlExtfnsion", "trbnspbrfntColorIndfx",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+
+        // root -> PlbinTfxtExtfnsion
+        bddElfmfnt("PlbinTfxtExtfnsion",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridLfft",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridTop",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridWidth",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtGridHfight",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "dhbrbdtfrCfllWidth",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "dhbrbdtfrCfllHfight",
+                     DATATYPE_INTEGER, truf, null,
+                     "1", "65535", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtForfgroundColor",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+        bddAttributf("PlbinTfxtExtfnsion", "tfxtBbdkgroundColor",
+                     DATATYPE_INTEGER, truf, null,
+                     "0", "255", truf, truf);
+
+        // root -> ApplidbtionExtfnsions
+        bddElfmfnt("ApplidbtionExtfnsions",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
+
+        // root -> ApplidbtionExtfnsions -> ApplidbtionExtfnsion
+        bddElfmfnt("ApplidbtionExtfnsion", "ApplidbtionExtfnsions",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("ApplidbtionExtfnsion", "bpplidbtionID",
+                     DATATYPE_STRING, truf, null);
+        bddAttributf("ApplidbtionExtfnsion", "buthfntidbtionCodf",
+                     DATATYPE_STRING, truf, null);
+        bddObjfdtVbluf("ApplidbtionExtfnsion", bytf.dlbss,
+                       0, Intfgfr.MAX_VALUE);
+
+        // root -> CommfntExtfnsions
+        bddElfmfnt("CommfntExtfnsions",
+                   GIFImbgfMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
+
+        // root -> CommfntExtfnsions -> CommfntExtfnsion
+        bddElfmfnt("CommfntExtfnsion", "CommfntExtfnsions",
+                   CHILD_POLICY_EMPTY);
+        bddAttributf("CommfntExtfnsion", "vbluf",
+                     DATATYPE_STRING, truf, null);
+    }
+
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+        rfturn truf;
+    }
+
+    publid stbtid syndhronizfd IIOMftbdbtbFormbt gftInstbndf() {
+        if (instbndf == null) {
+            instbndf = nfw GIFImbgfMftbdbtbFormbt();
+        }
+        rfturn instbndf;
+    }
+}

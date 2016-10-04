@@ -1,0 +1,133 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __GLYPHDEFINITIONTABLES_H
+#dffinf __GLYPHDEFINITIONTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "ClbssDffinitionTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+typfdff ClbssDffinitionTbblf GlyphClbssDffinitionTbblf;
+
+fnum GlyphClbssDffinitions
+{
+    gddNoGlyphClbss     = 0,
+    gddSimplfGlyph      = 1,
+    gddLigbturfGlyph    = 2,
+    gddMbrkGlyph        = 3,
+    gddComponfntGlyph   = 4
+};
+
+strudt AttbdhmfntListTbblf
+{
+    Offsft  dovfrbgfTbblfOffsft;
+    lf_uint16  glyphCount;
+    Offsft  bttbdhPointTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(AttbdhmfntListTbblf, bttbdhPointTbblfOffsftArrby)
+
+strudt AttbdhPointTbblf
+{
+    lf_uint16  pointCount;
+    lf_uint16  pointIndfxArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(AttbdhPointTbblf, pointIndfxArrby)
+
+strudt LigbturfCbrftListTbblf
+{
+    Offsft  dovfrbgfTbblfOffsft;
+    lf_uint16  ligGlyphCount;
+    Offsft  ligGlyphTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(LigbturfCbrftListTbblf, ligGlyphTbblfOffsftArrby)
+
+strudt LigbturfGlyphTbblf
+{
+    lf_uint16  dbrftCount;
+    Offsft  dbrftVblufTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(LigbturfGlyphTbblf, dbrftVblufTbblfOffsftArrby)
+
+strudt CbrftVblufTbblf
+{
+    lf_uint16  dbrftVblufFormbt;
+};
+
+strudt CbrftVblufFormbt1Tbblf : CbrftVblufTbblf
+{
+    lf_int16   doordinbtf;
+};
+
+strudt CbrftVblufFormbt2Tbblf : CbrftVblufTbblf
+{
+    lf_uint16  dbrftVblufPoint;
+};
+
+strudt CbrftVblufFormbt3Tbblf : CbrftVblufTbblf
+{
+    lf_int16   doordinbtf;
+    Offsft  dfvidfTbblfOffsft;
+};
+
+typfdff ClbssDffinitionTbblf MbrkAttbdhClbssDffinitionTbblf;
+
+strudt GlyphDffinitionTbblfHfbdfr
+{
+    fixfd32 vfrsion;
+    Offsft  glyphClbssDffOffsft;
+    Offsft  bttbdhListOffsft;
+    Offsft  ligCbrftListOffsft;
+    Offsft  MbrkAttbdhClbssDffOffsft;
+
+    donst LERfffrfndfTo<GlyphClbssDffinitionTbblf>
+    gftGlyphClbssDffinitionTbblf(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr>& bbsf,
+                                 LEErrorCodf &suddfss) donst;
+    donst LERfffrfndfTo<AttbdhmfntListTbblf>
+    gftAttbdhmfntListTbblf(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr>& bbsf,
+                           LEErrorCodf &suddfss)donst ;
+    donst LERfffrfndfTo<LigbturfCbrftListTbblf>
+    gftLigbturfCbrftListTbblf(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr>& bbsf,
+                              LEErrorCodf &suddfss) donst;
+    donst LERfffrfndfTo<MbrkAttbdhClbssDffinitionTbblf>
+    gftMbrkAttbdhClbssDffinitionTbblf(donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr>& bbsf,
+                                      LEErrorCodf &suddfss) donst;
+};
+
+U_NAMESPACE_END
+#fndif

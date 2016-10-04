@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * The mapping in the Java programming language of an SQL <code>REF</code>
- * value, which is a reference to an SQL structured type value in the database.
+ * Tif mbpping in tif Jbvb progrbmming lbngubgf of bn SQL <dodf>REF</dodf>
+ * vbluf, wiidi is b rfffrfndf to bn SQL strudturfd typf vbluf in tif dbtbbbsf.
  * <P>
- * SQL <code>REF</code> values are stored in a table that contains
- * instances of a referenceable SQL structured type, and each <code>REF</code>
- * value is a unique identifier for one instance in that table.
- * An SQL <code>REF</code> value may be used in place of the
- * SQL structured type it references, either as a column value in a
- * table or an attribute value in a structured type.
+ * SQL <dodf>REF</dodf> vblufs brf storfd in b tbblf tibt dontbins
+ * instbndfs of b rfffrfndfbblf SQL strudturfd typf, bnd fbdi <dodf>REF</dodf>
+ * vbluf is b uniquf idfntififr for onf instbndf in tibt tbblf.
+ * An SQL <dodf>REF</dodf> vbluf mby bf usfd in plbdf of tif
+ * SQL strudturfd typf it rfffrfndfs, fitifr bs b dolumn vbluf in b
+ * tbblf or bn bttributf vbluf in b strudturfd typf.
  * <P>
- * Because an SQL <code>REF</code> value is a logical pointer to an
- * SQL structured type, a <code>Ref</code> object is by default also a logical
- * pointer. Thus, retrieving an SQL <code>REF</code> value as
- * a <code>Ref</code> object does not materialize
- * the attributes of the structured type on the client.
+ * Bfdbusf bn SQL <dodf>REF</dodf> vbluf is b logidbl pointfr to bn
+ * SQL strudturfd typf, b <dodf>Rff</dodf> objfdt is by dffbult blso b logidbl
+ * pointfr. Tius, rftrifving bn SQL <dodf>REF</dodf> vbluf bs
+ * b <dodf>Rff</dodf> objfdt dofs not mbtfriblizf
+ * tif bttributfs of tif strudturfd typf on tif dlifnt.
  * <P>
- * A <code>Ref</code> object can be stored in the database using the
- * <code>PreparedStatement.setRef</code> method.
+ * A <dodf>Rff</dodf> objfdt dbn bf storfd in tif dbtbbbsf using tif
+ * <dodf>PrfpbrfdStbtfmfnt.sftRff</dodf> mftiod.
   * <p>
- * All methods on the <code>Ref</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All mftiods on tif <dodf>Rff</dodf> intfrfbdf must bf fully implfmfntfd if tif
+ * JDBC drivfr supports tif dbtb typf.
  *
- * @see Struct
- * @since 1.2
+ * @sff Strudt
+ * @sindf 1.2
  */
-public interface Ref {
+publid intfrfbdf Rff {
 
     /**
-     * Retrieves the fully-qualified SQL name of the SQL structured type that
-     * this <code>Ref</code> object references.
+     * Rftrifvfs tif fully-qublififd SQL nbmf of tif SQL strudturfd typf tibt
+     * tiis <dodf>Rff</dodf> objfdt rfffrfndfs.
      *
-     * @return the fully-qualified SQL name of the referenced SQL structured type
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif fully-qublififd SQL nbmf of tif rfffrfndfd SQL strudturfd typf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    String getBaseTypeName() throws SQLException;
+    String gftBbsfTypfNbmf() tirows SQLExdfption;
 
     /**
-     * Retrieves the referenced object and maps it to a Java type
-     * using the given type map.
+     * Rftrifvfs tif rfffrfndfd objfdt bnd mbps it to b Jbvb typf
+     * using tif givfn typf mbp.
      *
-     * @param map a <code>java.util.Map</code> object that contains
-     *        the mapping to use (the fully-qualified name of the SQL
-     *        structured type being referenced and the class object for
-     *        <code>SQLData</code> implementation to which the SQL
-     *        structured type will be mapped)
-     * @return  a Java <code>Object</code> that is the custom mapping for
-     *          the SQL structured type to which this <code>Ref</code>
-     *          object refers
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
-     * @see #setObject
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt tibt dontbins
+     *        tif mbpping to usf (tif fully-qublififd nbmf of tif SQL
+     *        strudturfd typf bfing rfffrfndfd bnd tif dlbss objfdt for
+     *        <dodf>SQLDbtb</dodf> implfmfntbtion to wiidi tif SQL
+     *        strudturfd typf will bf mbppfd)
+     * @rfturn  b Jbvb <dodf>Objfdt</dodf> tibt is tif dustom mbpping for
+     *          tif SQL strudturfd typf to wiidi tiis <dodf>Rff</dodf>
+     *          objfdt rfffrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     * @sff #sftObjfdt
      */
-    Object getObject(java.util.Map<String,Class<?>> map) throws SQLException;
+    Objfdt gftObjfdt(jbvb.util.Mbp<String,Clbss<?>> mbp) tirows SQLExdfption;
 
 
     /**
-     * Retrieves the SQL structured type instance referenced by
-     * this <code>Ref</code> object.  If the connection's type map has an entry
-     * for the structured type, the instance will be custom mapped to
-     * the Java class indicated in the type map.  Otherwise, the
-     * structured type instance will be mapped to a <code>Struct</code> object.
+     * Rftrifvfs tif SQL strudturfd typf instbndf rfffrfndfd by
+     * tiis <dodf>Rff</dodf> objfdt.  If tif donnfdtion's typf mbp ibs bn fntry
+     * for tif strudturfd typf, tif instbndf will bf dustom mbppfd to
+     * tif Jbvb dlbss indidbtfd in tif typf mbp.  Otifrwisf, tif
+     * strudturfd typf instbndf will bf mbppfd to b <dodf>Strudt</dodf> objfdt.
      *
-     * @return  a Java <code>Object</code> that is the mapping for
-     *          the SQL structured type to which this <code>Ref</code>
-     *          object refers
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
-     * @see #setObject
+     * @rfturn  b Jbvb <dodf>Objfdt</dodf> tibt is tif mbpping for
+     *          tif SQL strudturfd typf to wiidi tiis <dodf>Rff</dodf>
+     *          objfdt rfffrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     * @sff #sftObjfdt
      */
-    Object getObject() throws SQLException;
+    Objfdt gftObjfdt() tirows SQLExdfption;
 
     /**
-     * Sets the structured type value that this <code>Ref</code>
-     * object references to the given instance of <code>Object</code>.
-     * The driver converts this to an SQL structured type when it
-     * sends it to the database.
+     * Sfts tif strudturfd typf vbluf tibt tiis <dodf>Rff</dodf>
+     * objfdt rfffrfndfs to tif givfn instbndf of <dodf>Objfdt</dodf>.
+     * Tif drivfr donvfrts tiis to bn SQL strudturfd typf wifn it
+     * sfnds it to tif dbtbbbsf.
      *
-     * @param value an <code>Object</code> representing the SQL
-     *        structured type instance that this
-     *        <code>Ref</code> object will reference
-     * @exception SQLException if a database access error occurs
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
-     * @see #getObject()
-     * @see #getObject(Map)
-     * @see PreparedStatement#setObject(int, Object)
-     * @see CallableStatement#setObject(String, Object)
+     * @pbrbm vbluf bn <dodf>Objfdt</dodf> rfprfsfnting tif SQL
+     *        strudturfd typf instbndf tibt tiis
+     *        <dodf>Rff</dodf> objfdt will rfffrfndf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
+     * @sff #gftObjfdt()
+     * @sff #gftObjfdt(Mbp)
+     * @sff PrfpbrfdStbtfmfnt#sftObjfdt(int, Objfdt)
+     * @sff CbllbblfStbtfmfnt#sftObjfdt(String, Objfdt)
      */
-    void setObject(Object value) throws SQLException;
+    void sftObjfdt(Objfdt vbluf) tirows SQLExdfption;
 
 }

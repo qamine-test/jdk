@@ -1,627 +1,627 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "ReferenceTypeImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "RfffrfndfTypfImpl.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
 
 
-static jboolean
-signature(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+signbturf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    char *signature = NULL;
-    jclass clazz;
-    jvmtiError error;
+    dibr *signbturf = NULL;
+    jdlbss dlbzz;
+    jvmtiError frror;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = classSignature(clazz, &signature, NULL);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = dlbssSignbturf(dlbzz, &signbturf, NULL);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeString(out, signature);
-    jvmtiDeallocate(signature);
+    (void)outStrfbm_writfString(out, signbturf);
+    jvmtiDfbllodbtf(signbturf);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-signatureWithGeneric(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+signbturfWitiGfnfrid(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-  /* Returns both the signature and the generic signature */
-    char *signature = NULL;
-    char *genericSignature = NULL;
-    jclass clazz;
-    jvmtiError error;
+  /* Rfturns boti tif signbturf bnd tif gfnfrid signbturf */
+    dibr *signbturf = NULL;
+    dibr *gfnfridSignbturf = NULL;
+    jdlbss dlbzz;
+    jvmtiError frror;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    error = classSignature(clazz, &signature, &genericSignature);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
-    }
-
-    (void)outStream_writeString(out, signature);
-    writeGenericSignature(out, genericSignature);
-    jvmtiDeallocate(signature);
-    if (genericSignature != NULL) {
-      jvmtiDeallocate(genericSignature);
+    frror = dlbssSignbturf(dlbzz, &signbturf, &gfnfridSignbturf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
+    (void)outStrfbm_writfString(out, signbturf);
+    writfGfnfridSignbturf(out, gfnfridSignbturf);
+    jvmtiDfbllodbtf(signbturf);
+    if (gfnfridSignbturf != NULL) {
+      jvmtiDfbllodbtf(gfnfridSignbturf);
+    }
 
-    return JNI_TRUE;
+
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-getClassLoader(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftClbssLobdfr(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jclass clazz;
-    jobject loader;
-    jvmtiError error;
-    JNIEnv *env;
+    jdlbss dlbzz;
+    jobjfdt lobdfr;
+    jvmtiError frror;
+    JNIEnv *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = classLoader(clazz, &loader);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = dlbssLobdfr(dlbzz, &lobdfr);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeObjectRef(env, out, loader);
-    return JNI_TRUE;
+    (void)outStrfbm_writfObjfdtRff(fnv, out, lobdfr);
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-modifiers(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+modififrs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jint modifiers;
-    jclass clazz;
-    jvmtiError error;
+    jint modififrs;
+    jdlbss dlbzz;
+    jvmtiError frror;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassModifiers)
-                (gdata->jvmti, clazz, &modifiers);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssModififrs)
+                (gdbtb->jvmti, dlbzz, &modififrs);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, modifiers);
+    (void)outStrfbm_writfInt(out, modififrs);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static void
-writeMethodInfo(PacketOutputStream *out, jclass clazz, jmethodID method,
-                int outputGenerics)
+stbtid void
+writfMftiodInfo(PbdkftOutputStrfbm *out, jdlbss dlbzz, jmftiodID mftiod,
+                int outputGfnfrids)
 {
-    char *name = NULL;
-    char *signature = NULL;
-    char *genericSignature = NULL;
-    jint modifiers;
-    jvmtiError error;
-    jboolean isSynthetic;
+    dibr *nbmf = NULL;
+    dibr *signbturf = NULL;
+    dibr *gfnfridSignbturf = NULL;
+    jint modififrs;
+    jvmtiError frror;
+    jboolfbn isSyntiftid;
 
-    error = isMethodSynthetic(method, &isSynthetic);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
-    }
-
-    error = methodModifiers(method, &modifiers);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
+    frror = isMftiodSyntiftid(mftiod, &isSyntiftid);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
 
-    error = methodSignature(method, &name, &signature, &genericSignature);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
+    frror = mftiodModififrs(mftiod, &modififrs);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
 
-    if (isSynthetic) {
-        modifiers |= MOD_SYNTHETIC;
+    frror = mftiodSignbturf(mftiod, &nbmf, &signbturf, &gfnfridSignbturf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
-    (void)outStream_writeMethodID(out, method);
-    (void)outStream_writeString(out, name);
-    (void)outStream_writeString(out, signature);
-    if (outputGenerics == 1) {
-        writeGenericSignature(out, genericSignature);
+
+    if (isSyntiftid) {
+        modififrs |= MOD_SYNTHETIC;
     }
-    (void)outStream_writeInt(out, modifiers);
-    jvmtiDeallocate(name);
-    jvmtiDeallocate(signature);
-    if (genericSignature != NULL) {
-      jvmtiDeallocate(genericSignature);
+    (void)outStrfbm_writfMftiodID(out, mftiod);
+    (void)outStrfbm_writfString(out, nbmf);
+    (void)outStrfbm_writfString(out, signbturf);
+    if (outputGfnfrids == 1) {
+        writfGfnfridSignbturf(out, gfnfridSignbturf);
+    }
+    (void)outStrfbm_writfInt(out, modififrs);
+    jvmtiDfbllodbtf(nbmf);
+    jvmtiDfbllodbtf(signbturf);
+    if (gfnfridSignbturf != NULL) {
+      jvmtiDfbllodbtf(gfnfridSignbturf);
     }
 }
 
-static jboolean
-methods1(PacketInputStream *in, PacketOutputStream *out,
-         int outputGenerics)
+stbtid jboolfbn
+mftiods1(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out,
+         int outputGfnfrids)
 {
     int i;
-    jclass clazz;
-    jint methodCount = 0;
-    jmethodID *methods = NULL;
-    jvmtiError error;
+    jdlbss dlbzz;
+    jint mftiodCount = 0;
+    jmftiodID *mftiods = NULL;
+    jvmtiError frror;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassMethods)
-                (gdata->jvmti, clazz, &methodCount, &methods);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssMftiods)
+                (gdbtb->jvmti, dlbzz, &mftiodCount, &mftiods);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, methodCount);
-    for (i = 0; (i < methodCount) && !outStream_error(out); i++) {
-        writeMethodInfo(out, clazz, methods[i], outputGenerics);
+    (void)outStrfbm_writfInt(out, mftiodCount);
+    for (i = 0; (i < mftiodCount) && !outStrfbm_frror(out); i++) {
+        writfMftiodInfo(out, dlbzz, mftiods[i], outputGfnfrids);
     }
 
-    /* Free methods array */
-    if ( methods != NULL ) {
-        jvmtiDeallocate(methods);
+    /* Frff mftiods brrby */
+    if ( mftiods != NULL ) {
+        jvmtiDfbllodbtf(mftiods);
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-methods(PacketInputStream *in, PacketOutputStream *out,
-         int outputGenerics)
+stbtid jboolfbn
+mftiods(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out,
+         int outputGfnfrids)
 {
-    return methods1(in, out, 0);
+    rfturn mftiods1(in, out, 0);
 }
 
-static jboolean
-methodsWithGeneric(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+mftiodsWitiGfnfrid(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    return methods1(in, out, 1);
+    rfturn mftiods1(in, out, 1);
 }
 
 
 
-static jboolean
-instances(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+instbndfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jint maxInstances;
-    jclass clazz;
-    JNIEnv *env;
+    jint mbxInstbndfs;
+    jdlbss dlbzz;
+    JNIEnv *fnv;
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
-        return JNI_TRUE;
+    if (gdbtb->vmDfbd) {
+        outStrfbm_sftError(out, JDWP_ERROR(VM_DEAD));
+        rfturn JNI_TRUE;
     }
 
-    env = getEnv();
-    clazz = inStream_readClassRef(env, in);
-    maxInstances = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    fnv = gftEnv();
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    mbxInstbndfs = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
-        jvmtiError   error;
-        ObjectBatch  batch;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jvmtiError   frror;
+        ObjfdtBbtdi  bbtdi;
 
-        error = classInstances(clazz, &batch, maxInstances);
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
-        } else {
+        frror = dlbssInstbndfs(dlbzz, &bbtdi, mbxInstbndfs);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
             int kk;
-            jbyte typeKey;
+            jbytf typfKfy;
 
-            (void)outStream_writeInt(out, batch.count);
-            if (batch.count > 0) {
+            (void)outStrfbm_writfInt(out, bbtdi.dount);
+            if (bbtdi.dount > 0) {
                 /*
-                 * They are all instances of this class and will all have
-                 * the same typeKey, so just compute it once.
+                 * Tify brf bll instbndfs of tiis dlbss bnd will bll ibvf
+                 * tif sbmf typfKfy, so just domputf it ondf.
                  */
-                typeKey = specificTypeKey(env, batch.objects[0]);
+                typfKfy = spfdifidTypfKfy(fnv, bbtdi.objfdts[0]);
 
-                for (kk = 0; kk < batch.count; kk++) {
-                  jobject inst;
+                for (kk = 0; kk < bbtdi.dount; kk++) {
+                  jobjfdt inst;
 
-                  inst = batch.objects[kk];
-                  (void)outStream_writeByte(out, typeKey);
-                  (void)outStream_writeObjectRef(env, out, inst);
+                  inst = bbtdi.objfdts[kk];
+                  (void)outStrfbm_writfBytf(out, typfKfy);
+                  (void)outStrfbm_writfObjfdtRff(fnv, out, inst);
                 }
             }
-            jvmtiDeallocate(batch.objects);
+            jvmtiDfbllodbtf(bbtdi.objfdts);
         }
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-getClassVersion(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftClbssVfrsion(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jclass clazz;
-    jvmtiError error;
-    jint majorVersion;
-    jint minorVersion;
+    jdlbss dlbzz;
+    jvmtiError frror;
+    jint mbjorVfrsion;
+    jint minorVfrsion;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti, GetClassVersionNumbers)
-                (gdata->jvmti, clazz, &minorVersion, &majorVersion);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti, GftClbssVfrsionNumbfrs)
+                (gdbtb->jvmti, dlbzz, &minorVfrsion, &mbjorVfrsion);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, majorVersion);
-    (void)outStream_writeInt(out, minorVersion);
+    (void)outStrfbm_writfInt(out, mbjorVfrsion);
+    (void)outStrfbm_writfInt(out, minorVfrsion);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-getConstantPool(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftConstbntPool(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
 
-    jclass clazz;
-    jvmtiError error;
-    jint cpCount;
-    jint cpByteCount;
-    unsigned char* cpBytesPtr;
+    jdlbss dlbzz;
+    jvmtiError frror;
+    jint dpCount;
+    jint dpBytfCount;
+    unsignfd dibr* dpBytfsPtr;
 
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    /* Initialize assuming no bytecodes and no error */
-    error         = JVMTI_ERROR_NONE;
-    cpCount       = 0;
-    cpByteCount   = 0;
-    cpBytesPtr    = NULL;
+    /* Initiblizf bssuming no bytfdodfs bnd no frror */
+    frror         = JVMTI_ERROR_NONE;
+    dpCount       = 0;
+    dpBytfCount   = 0;
+    dpBytfsPtr    = NULL;
 
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetConstantPool)
-                (gdata->jvmti, clazz, &cpCount, &cpByteCount, &cpBytesPtr);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-    } else {
-        (void)outStream_writeInt(out, cpCount);
-        (void)outStream_writeByteArray(out, cpByteCount, (jbyte *)cpBytesPtr);
-        jvmtiDeallocate(cpBytesPtr);
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftConstbntPool)
+                (gdbtb->jvmti, dlbzz, &dpCount, &dpBytfCount, &dpBytfsPtr);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    } flsf {
+        (void)outStrfbm_writfInt(out, dpCount);
+        (void)outStrfbm_writfBytfArrby(out, dpBytfCount, (jbytf *)dpBytfsPtr);
+        jvmtiDfbllodbtf(dpBytfsPtr);
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static void
-writeFieldInfo(PacketOutputStream *out, jclass clazz, jfieldID fieldID,
-               int outputGenerics)
+stbtid void
+writfFifldInfo(PbdkftOutputStrfbm *out, jdlbss dlbzz, jfifldID fifldID,
+               int outputGfnfrids)
 {
-    char *name;
-    char *signature = NULL;
-    char *genericSignature = NULL;
-    jint modifiers;
-    jboolean isSynthetic;
-    jvmtiError error;
+    dibr *nbmf;
+    dibr *signbturf = NULL;
+    dibr *gfnfridSignbturf = NULL;
+    jint modififrs;
+    jboolfbn isSyntiftid;
+    jvmtiError frror;
 
-    error = isFieldSynthetic(clazz, fieldID, &isSynthetic);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
-    }
-
-    error = fieldModifiers(clazz, fieldID, &modifiers);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
+    frror = isFifldSyntiftid(dlbzz, fifldID, &isSyntiftid);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
 
-    error = fieldSignature(clazz, fieldID, &name, &signature, &genericSignature);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return;
+    frror = fifldModififrs(dlbzz, fifldID, &modififrs);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
-    if (isSynthetic) {
-        modifiers |= MOD_SYNTHETIC;
+
+    frror = fifldSignbturf(dlbzz, fifldID, &nbmf, &signbturf, &gfnfridSignbturf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn;
     }
-    (void)outStream_writeFieldID(out, fieldID);
-    (void)outStream_writeString(out, name);
-    (void)outStream_writeString(out, signature);
-    if (outputGenerics == 1) {
-        writeGenericSignature(out, genericSignature);
+    if (isSyntiftid) {
+        modififrs |= MOD_SYNTHETIC;
     }
-    (void)outStream_writeInt(out, modifiers);
-    jvmtiDeallocate(name);
-    jvmtiDeallocate(signature);
-    if (genericSignature != NULL) {
-      jvmtiDeallocate(genericSignature);
+    (void)outStrfbm_writfFifldID(out, fifldID);
+    (void)outStrfbm_writfString(out, nbmf);
+    (void)outStrfbm_writfString(out, signbturf);
+    if (outputGfnfrids == 1) {
+        writfGfnfridSignbturf(out, gfnfridSignbturf);
+    }
+    (void)outStrfbm_writfInt(out, modififrs);
+    jvmtiDfbllodbtf(nbmf);
+    jvmtiDfbllodbtf(signbturf);
+    if (gfnfridSignbturf != NULL) {
+      jvmtiDfbllodbtf(gfnfridSignbturf);
     }
 }
 
-static jboolean
-fields1(PacketInputStream *in, PacketOutputStream *out, int outputGenerics)
+stbtid jboolfbn
+fiflds1(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out, int outputGfnfrids)
 {
     int i;
-    jclass clazz;
-    jint fieldCount = 0;
-    jfieldID *fields = NULL;
-    jvmtiError error;
+    jdlbss dlbzz;
+    jint fifldCount = 0;
+    jfifldID *fiflds = NULL;
+    jvmtiError frror;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetClassFields)
-                (gdata->jvmti, clazz, &fieldCount, &fields);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftClbssFiflds)
+                (gdbtb->jvmti, dlbzz, &fifldCount, &fiflds);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeInt(out, fieldCount);
-    for (i = 0; (i < fieldCount) && !outStream_error(out); i++) {
-        writeFieldInfo(out, clazz, fields[i], outputGenerics);
+    (void)outStrfbm_writfInt(out, fifldCount);
+    for (i = 0; (i < fifldCount) && !outStrfbm_frror(out); i++) {
+        writfFifldInfo(out, dlbzz, fiflds[i], outputGfnfrids);
     }
 
-    /* Free fields array */
-    if ( fields != NULL ) {
-        jvmtiDeallocate(fields);
+    /* Frff fiflds brrby */
+    if ( fiflds != NULL ) {
+        jvmtiDfbllodbtf(fiflds);
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
-static jboolean
-fields(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+fiflds(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    return fields1(in, out, 0);
+    rfturn fiflds1(in, out, 0);
 }
 
-static jboolean
-fieldsWithGeneric(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+fifldsWitiGfnfrid(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    return fields1(in, out, 1);
+    rfturn fiflds1(in, out, 1);
 
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    sharedGetFieldValues(in, out, JNI_TRUE);
-    return JNI_TRUE;
+    sibrfdGftFifldVblufs(in, out, JNI_TRUE);
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-sourceFile(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+sourdfFilf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    char *fileName;
-    jvmtiError error;
-    jclass clazz;
+    dibr *filfNbmf;
+    jvmtiError frror;
+    jdlbss dlbzz;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetSourceFileName)
-                (gdata->jvmti, clazz, &fileName);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftSourdfFilfNbmf)
+                (gdbtb->jvmti, dlbzz, &filfNbmf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeString(out, fileName);
-    jvmtiDeallocate(fileName);
-    return JNI_TRUE;
+    (void)outStrfbm_writfString(out, filfNbmf);
+    jvmtiDfbllodbtf(filfNbmf);
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-sourceDebugExtension(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+sourdfDfbugExtfnsion(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    char *extension;
-    jvmtiError error;
-    jclass clazz;
+    dibr *fxtfnsion;
+    jvmtiError frror;
+    jdlbss dlbzz;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = getSourceDebugExtension(clazz, &extension);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
-        return JNI_TRUE;
+    frror = gftSourdfDfbugExtfnsion(dlbzz, &fxtfnsion);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
     }
 
-    (void)outStream_writeString(out, extension);
-    jvmtiDeallocate(extension);
-    return JNI_TRUE;
+    (void)outStrfbm_writfString(out, fxtfnsion);
+    jvmtiDfbllodbtf(fxtfnsion);
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-nestedTypes(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+nfstfdTypfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jclass clazz;
+    JNIEnv *fnv;
+    jdlbss dlbzz;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jvmtiError error;
-        jint count;
-        jclass *nested;
+        jvmtiError frror;
+        jint dount;
+        jdlbss *nfstfd;
 
-        error = allNestedClasses(clazz, &nested, &count);
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
-        } else {
+        frror = bllNfstfdClbssfs(dlbzz, &nfstfd, &dount);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
             int i;
-            (void)outStream_writeInt(out, count);
-            for (i = 0; i < count; i++) {
-                (void)outStream_writeByte(out, referenceTypeTag(nested[i]));
-                (void)outStream_writeObjectRef(env, out, nested[i]);
+            (void)outStrfbm_writfInt(out, dount);
+            for (i = 0; i < dount; i++) {
+                (void)outStrfbm_writfBytf(out, rfffrfndfTypfTbg(nfstfd[i]));
+                (void)outStrfbm_writfObjfdtRff(fnv, out, nfstfd[i]);
             }
-            if ( nested != NULL ) {
-                jvmtiDeallocate(nested);
+            if ( nfstfd != NULL ) {
+                jvmtiDfbllodbtf(nfstfd);
             }
         }
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-getClassStatus(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftClbssStbtus(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jint status;
-    jclass clazz;
+    jint stbtus;
+    jdlbss dlbzz;
 
-    clazz = inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    status = classStatus(clazz);
-    (void)outStream_writeInt(out, map2jdwpClassStatus(status));
-    return JNI_TRUE;
+    stbtus = dlbssStbtus(dlbzz);
+    (void)outStrfbm_writfInt(out, mbp2jdwpClbssStbtus(stbtus));
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-interfaces(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+intfrfbdfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jclass clazz;
+    JNIEnv *fnv;
+    jdlbss dlbzz;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jvmtiError error;
-        jint interfaceCount;
-        jclass *interfaces;
+        jvmtiError frror;
+        jint intfrfbdfCount;
+        jdlbss *intfrfbdfs;
 
-        error = allInterfaces(clazz, &interfaces, &interfaceCount);
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
-        } else {
+        frror = bllIntfrfbdfs(dlbzz, &intfrfbdfs, &intfrfbdfCount);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
             int i;
 
-            (void)outStream_writeInt(out, interfaceCount);
-            for (i = 0; i < interfaceCount; i++) {
-                (void)outStream_writeObjectRef(env, out, interfaces[i]);
+            (void)outStrfbm_writfInt(out, intfrfbdfCount);
+            for (i = 0; i < intfrfbdfCount; i++) {
+                (void)outStrfbm_writfObjfdtRff(fnv, out, intfrfbdfs[i]);
             }
-            if ( interfaces != NULL ) {
-                jvmtiDeallocate(interfaces);
+            if ( intfrfbdfs != NULL ) {
+                jvmtiDfbllodbtf(intfrfbdfs);
             }
         }
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-classObject(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+dlbssObjfdt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jclass clazz;
-    JNIEnv *env;
+    jdlbss dlbzz;
+    JNIEnv *fnv;
 
-    env = getEnv();
-    clazz = inStream_readClassRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    fnv = gftEnv();
+    dlbzz = inStrfbm_rfbdClbssRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * In our implementation, the reference type id is the same as the
-     * class object id, so we bounce it right back.
+     * In our implfmfntbtion, tif rfffrfndf typf id is tif sbmf bs tif
+     * dlbss objfdt id, so wf boundf it rigit bbdk.
      *
      */
 
-    (void)outStream_writeObjectRef(env, out, clazz);
+    (void)outStrfbm_writfObjfdtRff(fnv, out, dlbzz);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-void *ReferenceType_Cmds[] = { (void *)18
-    ,(void *)signature
-    ,(void *)getClassLoader
-    ,(void *)modifiers
-    ,(void *)fields
-    ,(void *)methods
-    ,(void *)getValues
-    ,(void *)sourceFile
-    ,(void *)nestedTypes
-    ,(void *)getClassStatus
-    ,(void *)interfaces
-    ,(void *)classObject
-    ,(void *)sourceDebugExtension
-    ,(void *)signatureWithGeneric
-    ,(void *)fieldsWithGeneric
-    ,(void *)methodsWithGeneric
-    ,(void *)instances
-    ,(void *)getClassVersion
-    ,(void *)getConstantPool
+void *RfffrfndfTypf_Cmds[] = { (void *)18
+    ,(void *)signbturf
+    ,(void *)gftClbssLobdfr
+    ,(void *)modififrs
+    ,(void *)fiflds
+    ,(void *)mftiods
+    ,(void *)gftVblufs
+    ,(void *)sourdfFilf
+    ,(void *)nfstfdTypfs
+    ,(void *)gftClbssStbtus
+    ,(void *)intfrfbdfs
+    ,(void *)dlbssObjfdt
+    ,(void *)sourdfDfbugExtfnsion
+    ,(void *)signbturfWitiGfnfrid
+    ,(void *)fifldsWitiGfnfrid
+    ,(void *)mftiodsWitiGfnfrid
+    ,(void *)instbndfs
+    ,(void *)gftClbssVfrsion
+    ,(void *)gftConstbntPool
 };

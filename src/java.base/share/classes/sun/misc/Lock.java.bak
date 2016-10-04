@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1994, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
 /**
- * The Lock class provides a simple, useful interface to a lock.
- * Unlike monitors which synchronize access to an object, locks
- * synchronize access to an arbitrary set of resources (objects,
- * methods, variables, etc.). <p>
+ * Tif Lodk dlbss providfs b simplf, usfful intfrfbdf to b lodk.
+ * Unlikf monitors wiidi syndironizf bddfss to bn objfdt, lodks
+ * syndironizf bddfss to bn brbitrbry sft of rfsourdfs (objfdts,
+ * mftiods, vbribblfs, ftd.). <p>
  *
- * The programmer using locks must be responsible for clearly defining
- * the semantics of their use and should handle deadlock avoidance in
- * the face of exceptions. <p>
+ * Tif progrbmmfr using lodks must bf rfsponsiblf for dlfbrly dffining
+ * tif sfmbntids of tifir usf bnd siould ibndlf dfbdlodk bvoidbndf in
+ * tif fbdf of fxdfptions. <p>
  *
- * For example, if you want to protect a set of method invocations with
- * a lock, and one of the methods may throw an exception, you must be
- * prepared to release the lock similarly to the following example:
- * <pre>
- *      class SomeClass {
- *          Lock myLock = new Lock();
+ * For fxbmplf, if you wbnt to protfdt b sft of mftiod invodbtions witi
+ * b lodk, bnd onf of tif mftiods mby tirow bn fxdfption, you must bf
+ * prfpbrfd to rflfbsf tif lodk similbrly to tif following fxbmplf:
+ * <prf>
+ *      dlbss SomfClbss {
+ *          Lodk myLodk = nfw Lodk();
 
- *          void someMethod() {
- *              myLock.lock();
+ *          void somfMftiod() {
+ *              myLodk.lodk();
  *              try {
- *                  StartOperation();
- *                  ContinueOperation();
- *                  EndOperation();
- *              } finally {
- *                  myLock.unlock();
+ *                  StbrtOpfrbtion();
+ *                  ContinufOpfrbtion();
+ *                  EndOpfrbtion();
+ *              } finblly {
+ *                  myLodk.unlodk();
  *              }
  *          }
  *      }
- * </pre>
+ * </prf>
  *
- * @author      Peter King
+ * @butior      Pftfr King
  */
-public
-class Lock {
-    private boolean locked = false;
+publid
+dlbss Lodk {
+    privbtf boolfbn lodkfd = fblsf;
 
     /**
-     * Create a lock, which is initially not locked.
+     * Crfbtf b lodk, wiidi is initiblly not lodkfd.
      */
-    public Lock () {
+    publid Lodk () {
     }
 
     /**
-     * Acquire the lock.  If someone else has the lock, wait until it
-     * has been freed, and then try to acquire it again.  This method
-     * will not return until the lock has been acquired.
+     * Adquirf tif lodk.  If somfonf flsf ibs tif lodk, wbit until it
+     * ibs bffn frffd, bnd tifn try to bdquirf it bgbin.  Tiis mftiod
+     * will not rfturn until tif lodk ibs bffn bdquirfd.
      *
-     * @exception  java.lang.InterruptedException if any thread has
-     *               interrupted this thread.
+     * @fxdfption  jbvb.lbng.IntfrruptfdExdfption if bny tirfbd ibs
+     *               intfrruptfd tiis tirfbd.
      */
-    public final synchronized void lock() throws InterruptedException {
-        while (locked) {
-            wait();
+    publid finbl syndironizfd void lodk() tirows IntfrruptfdExdfption {
+        wiilf (lodkfd) {
+            wbit();
         }
-        locked = true;
+        lodkfd = truf;
     }
 
     /**
-     * Release the lock.  If someone else is waiting for the lock, the
-     * will be notitified so they can try to acquire the lock again.
+     * Rflfbsf tif lodk.  If somfonf flsf is wbiting for tif lodk, tif
+     * will bf notitififd so tify dbn try to bdquirf tif lodk bgbin.
      */
-    public final synchronized void unlock() {
-        locked = false;
+    publid finbl syndironizfd void unlodk() {
+        lodkfd = fblsf;
         notifyAll();
     }
 }

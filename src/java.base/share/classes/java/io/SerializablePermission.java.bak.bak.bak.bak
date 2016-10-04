@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * This dlbss is for Sfriblizbblf pfrmissions. A SfriblizbblfPfrmission
+ * dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fithfr hbvf thf nbmfd pfrmission
+ * or you don't.
+ *
+ * <P>
+ * Thf tbrgft nbmf is thf nbmf of thf Sfriblizbblf pfrmission (sff bflow).
+ *
+ * <P>
+ * Thf following tbblf lists bll thf possiblf SfriblizbblfPfrmission tbrgft nbmfs,
+ * bnd for fbdh providfs b dfsdription of whbt thf pfrmission bllows
+ * bnd b disdussion of thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>fnbblfSubdlbssImplfmfntbtion</td>
+ *   <td>Subdlbss implfmfntbtion of ObjfdtOutputStrfbm or ObjfdtInputStrfbm
+ * to ovfrridf thf dffbult sfriblizbtion or dfsfriblizbtion, rfspfdtivfly,
+ * of objfdts</td>
+ *   <td>Codf dbn usf this to sfriblizf or
+ * dfsfriblizf dlbssfs in b purposffully mblffbsbnt mbnnfr. For fxbmplf,
+ * during sfriblizbtion, mblidious dodf dbn usf this to
+ * purposffully storf donfidfntibl privbtf fifld dbtb in b wby fbsily bddfssiblf
+ * to bttbdkfrs. Or, during dfsfriblizbtion it dould, for fxbmplf, dfsfriblizf
+ * b dlbss with bll its privbtf fiflds zfrofd out.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>fnbblfSubstitution</td>
+ *   <td>Substitution of onf objfdt for bnothfr during
+ * sfriblizbtion or dfsfriblizbtion</td>
+ *   <td>This is dbngfrous bfdbusf mblidious dodf
+ * dbn rfplbdf thf bdtubl objfdt with onf whidh hbs indorrfdt or
+ * mblignbnt dbtb.</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ *
+ * @buthor Jof Fiblli
+ * @sindf 1.2
+ */
+
+/* dodf wbs borrowfd originblly from jbvb.lbng.RuntimfPfrmission. */
+
+publid finbl dlbss SfriblizbblfPfrmission fxtfnds BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8537212141160296410L;
+
+    /**
+     * @sfribl
+     */
+    privbtf String bdtions;
+
+    /**
+     * Crfbtfs b nfw SfriblizbblfPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf SfriblizbblfPfrmission, sudh bs
+     * "fnbblfSubstitution", ftd.
+     *
+     * @pbrbm nbmf thf nbmf of thf SfriblizbblfPfrmission.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+    publid SfriblizbblfPfrmission(String nbmf)
+    {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw SfriblizbblfPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf SfriblizbblfPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd bnd should bf null.
+     *
+     * @pbrbm nbmf thf nbmf of thf SfriblizbblfPfrmission.
+     * @pbrbm bdtions durrfntly unusfd bnd must bf sft to null
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+
+    publid SfriblizbblfPfrmission(String nbmf, String bdtions)
+    {
+        supfr(nbmf, bdtions);
+    }
+}

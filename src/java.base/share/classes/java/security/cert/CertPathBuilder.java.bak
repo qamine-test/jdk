@@ -1,331 +1,331 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.security.AccessController;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivilegedAction;
-import java.security.Provider;
-import java.security.Security;
-import sun.security.util.Debug;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import sun.sfdurity.util.Dfbug;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * A class for building certification paths (also known as certificate chains).
+ * A dlbss for building dfrtifidbtion pbtis (blso known bs dfrtifidbtf dibins).
  * <p>
- * This class uses a provider-based architecture.
- * To create a {@code CertPathBuilder}, call
- * one of the static {@code getInstance} methods, passing in the
- * algorithm name of the {@code CertPathBuilder} desired and optionally
- * the name of the provider desired.
+ * Tiis dlbss usfs b providfr-bbsfd brdiitfdturf.
+ * To drfbtf b {@dodf CfrtPbtiBuildfr}, dbll
+ * onf of tif stbtid {@dodf gftInstbndf} mftiods, pbssing in tif
+ * blgoritim nbmf of tif {@dodf CfrtPbtiBuildfr} dfsirfd bnd optionblly
+ * tif nbmf of tif providfr dfsirfd.
  *
- * <p>Once a {@code CertPathBuilder} object has been created, certification
- * paths can be constructed by calling the {@link #build build} method and
- * passing it an algorithm-specific set of parameters. If successful, the
- * result (including the {@code CertPath} that was built) is returned
- * in an object that implements the {@code CertPathBuilderResult}
- * interface.
+ * <p>Ondf b {@dodf CfrtPbtiBuildfr} objfdt ibs bffn drfbtfd, dfrtifidbtion
+ * pbtis dbn bf donstrudtfd by dblling tif {@link #build build} mftiod bnd
+ * pbssing it bn blgoritim-spfdifid sft of pbrbmftfrs. If suddfssful, tif
+ * rfsult (indluding tif {@dodf CfrtPbti} tibt wbs built) is rfturnfd
+ * in bn objfdt tibt implfmfnts tif {@dodf CfrtPbtiBuildfrRfsult}
+ * intfrfbdf.
  *
- * <p>The {@link #getRevocationChecker} method allows an application to specify
- * additional algorithm-specific parameters and options used by the
- * {@code CertPathBuilder} when checking the revocation status of certificates.
- * Here is an example demonstrating how it is used with the PKIX algorithm:
+ * <p>Tif {@link #gftRfvodbtionCifdkfr} mftiod bllows bn bpplidbtion to spfdify
+ * bdditionbl blgoritim-spfdifid pbrbmftfrs bnd options usfd by tif
+ * {@dodf CfrtPbtiBuildfr} wifn difdking tif rfvodbtion stbtus of dfrtifidbtfs.
+ * Hfrf is bn fxbmplf dfmonstrbting iow it is usfd witi tif PKIX blgoritim:
  *
- * <pre>
- * CertPathBuilder cpb = CertPathBuilder.getInstance("PKIX");
- * PKIXRevocationChecker rc = (PKIXRevocationChecker)cpb.getRevocationChecker();
- * rc.setOptions(EnumSet.of(Option.PREFER_CRLS));
- * params.addCertPathChecker(rc);
- * CertPathBuilderResult cpbr = cpb.build(params);
- * </pre>
+ * <prf>
+ * CfrtPbtiBuildfr dpb = CfrtPbtiBuildfr.gftInstbndf("PKIX");
+ * PKIXRfvodbtionCifdkfr rd = (PKIXRfvodbtionCifdkfr)dpb.gftRfvodbtionCifdkfr();
+ * rd.sftOptions(EnumSft.of(Option.PREFER_CRLS));
+ * pbrbms.bddCfrtPbtiCifdkfr(rd);
+ * CfrtPbtiBuildfrRfsult dpbr = dpb.build(pbrbms);
+ * </prf>
  *
- * <p>Every implementation of the Java platform is required to support the
- * following standard {@code CertPathBuilder} algorithm:
+ * <p>Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to support tif
+ * following stbndbrd {@dodf CfrtPbtiBuildfr} blgoritim:
  * <ul>
- * <li>{@code PKIX}</li>
+ * <li>{@dodf PKIX}</li>
  * </ul>
- * This algorithm is described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathBuilder">
- * CertPathBuilder section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * Tiis blgoritim is dfsdribfd in tif <b irff=
+ * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#CfrtPbtiBuildfr">
+ * CfrtPbtiBuildfr sfdtion</b> of tif
+ * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion.
+ * Consult tif rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * otifr blgoritims brf supportfd.
  *
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * The static methods of this class are guaranteed to be thread-safe.
- * Multiple threads may concurrently invoke the static methods defined in
- * this class with no ill effects.
+ * Tif stbtid mftiods of tiis dlbss brf gubrbntffd to bf tirfbd-sbff.
+ * Multiplf tirfbds mby dondurrfntly invokf tif stbtid mftiods dffinfd in
+ * tiis dlbss witi no ill ffffdts.
  * <p>
- * However, this is not true for the non-static methods defined by this class.
- * Unless otherwise documented by a specific provider, threads that need to
- * access a single {@code CertPathBuilder} instance concurrently should
- * synchronize amongst themselves and provide the necessary locking. Multiple
- * threads each manipulating a different {@code CertPathBuilder} instance
- * need not synchronize.
+ * Howfvfr, tiis is not truf for tif non-stbtid mftiods dffinfd by tiis dlbss.
+ * Unlfss otifrwisf dodumfntfd by b spfdifid providfr, tirfbds tibt nffd to
+ * bddfss b singlf {@dodf CfrtPbtiBuildfr} instbndf dondurrfntly siould
+ * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking. Multiplf
+ * tirfbds fbdi mbnipulbting b difffrfnt {@dodf CfrtPbtiBuildfr} instbndf
+ * nffd not syndironizf.
  *
- * @see CertPath
+ * @sff CfrtPbti
  *
- * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
+ * @butior      Ybssir Ellfy
  */
-public class CertPathBuilder {
+publid dlbss CfrtPbtiBuildfr {
 
     /*
-     * Constant to lookup in the Security properties file to determine
-     * the default certpathbuilder type. In the Security properties file,
-     * the default certpathbuilder type is given as:
-     * <pre>
-     * certpathbuilder.type=PKIX
-     * </pre>
+     * Constbnt to lookup in tif Sfdurity propfrtifs filf to dftfrminf
+     * tif dffbult dfrtpbtibuildfr typf. In tif Sfdurity propfrtifs filf,
+     * tif dffbult dfrtpbtibuildfr typf is givfn bs:
+     * <prf>
+     * dfrtpbtibuildfr.typf=PKIX
+     * </prf>
      */
-    private static final String CPB_TYPE = "certpathbuilder.type";
-    private final CertPathBuilderSpi builderSpi;
-    private final Provider provider;
-    private final String algorithm;
+    privbtf stbtid finbl String CPB_TYPE = "dfrtpbtibuildfr.typf";
+    privbtf finbl CfrtPbtiBuildfrSpi buildfrSpi;
+    privbtf finbl Providfr providfr;
+    privbtf finbl String blgoritim;
 
     /**
-     * Creates a {@code CertPathBuilder} object of the given algorithm,
-     * and encapsulates the given provider implementation (SPI object) in it.
+     * Crfbtfs b {@dodf CfrtPbtiBuildfr} objfdt of tif givfn blgoritim,
+     * bnd fndbpsulbtfs tif givfn providfr implfmfntbtion (SPI objfdt) in it.
      *
-     * @param builderSpi the provider implementation
-     * @param provider the provider
-     * @param algorithm the algorithm name
+     * @pbrbm buildfrSpi tif providfr implfmfntbtion
+     * @pbrbm providfr tif providfr
+     * @pbrbm blgoritim tif blgoritim nbmf
      */
-    protected CertPathBuilder(CertPathBuilderSpi builderSpi, Provider provider,
-        String algorithm)
+    protfdtfd CfrtPbtiBuildfr(CfrtPbtiBuildfrSpi buildfrSpi, Providfr providfr,
+        String blgoritim)
     {
-        this.builderSpi = builderSpi;
-        this.provider = provider;
-        this.algorithm = algorithm;
+        tiis.buildfrSpi = buildfrSpi;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Returns a {@code CertPathBuilder} object that implements the
-     * specified algorithm.
+     * Rfturns b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     * spfdififd blgoritim.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new CertPathBuilder object encapsulating the
-     * CertPathBuilderSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw CfrtPbtiBuildfr objfdt fndbpsulbting tif
+     * CfrtPbtiBuildfrSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the name of the requested {@code CertPathBuilder}
-     *  algorithm.  See the CertPathBuilder section in the <a href=
-     *  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathBuilder">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif rfqufstfd {@dodf CfrtPbtiBuildfr}
+     *  blgoritim.  Sff tif CfrtPbtiBuildfr sfdtion in tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#CfrtPbtiBuildfr">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return a {@code CertPathBuilder} object that implements the
-     *          specified algorithm.
+     * @rfturn b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     *          spfdififd blgoritim.
      *
-     * @throws NoSuchAlgorithmException if no Provider supports a
-     *          CertPathBuilderSpi implementation for the
-     *          specified algorithm.
+     * @tirows NoSudiAlgoritimExdfption if no Providfr supports b
+     *          CfrtPbtiBuildfrSpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
      *
-     * @see java.security.Provider
+     * @sff jbvb.sfdurity.Providfr
      */
-    public static CertPathBuilder getInstance(String algorithm)
-            throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("CertPathBuilder",
-            CertPathBuilderSpi.class, algorithm);
-        return new CertPathBuilder((CertPathBuilderSpi)instance.impl,
-            instance.provider, algorithm);
+    publid stbtid CfrtPbtiBuildfr gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbtiBuildfr",
+            CfrtPbtiBuildfrSpi.dlbss, blgoritim);
+        rfturn nfw CfrtPbtiBuildfr((CfrtPbtiBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns a {@code CertPathBuilder} object that implements the
-     * specified algorithm.
+     * Rfturns b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     * spfdififd blgoritim.
      *
-     * <p> A new CertPathBuilder object encapsulating the
-     * CertPathBuilderSpi implementation from the specified provider
-     * is returned.  The specified provider must be registered
-     * in the security provider list.
+     * <p> A nfw CfrtPbtiBuildfr objfdt fndbpsulbting tif
+     * CfrtPbtiBuildfrSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the name of the requested {@code CertPathBuilder}
-     *  algorithm.  See the CertPathBuilder section in the <a href=
-     *  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathBuilder">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif rfqufstfd {@dodf CfrtPbtiBuildfr}
+     *  blgoritim.  Sff tif CfrtPbtiBuildfr sfdtion in tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#CfrtPbtiBuildfr">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the name of the provider.
+     * @pbrbm providfr tif nbmf of tif providfr.
      *
-     * @return a {@code CertPathBuilder} object that implements the
-     *          specified algorithm.
+     * @rfturn b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     *          spfdififd blgoritim.
      *
-     * @throws NoSuchAlgorithmException if a CertPathBuilderSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @tirows NoSudiAlgoritimExdfption if b CfrtPbtiBuildfrSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
      *
-     * @throws NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @exception IllegalArgumentException if the {@code provider} is
-     *          null or empty.
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf providfr} is
+     *          null or fmpty.
      *
-     * @see java.security.Provider
+     * @sff jbvb.sfdurity.Providfr
      */
-    public static CertPathBuilder getInstance(String algorithm, String provider)
-           throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = GetInstance.getInstance("CertPathBuilder",
-            CertPathBuilderSpi.class, algorithm, provider);
-        return new CertPathBuilder((CertPathBuilderSpi)instance.impl,
-            instance.provider, algorithm);
+    publid stbtid CfrtPbtiBuildfr gftInstbndf(String blgoritim, String providfr)
+           tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbtiBuildfr",
+            CfrtPbtiBuildfrSpi.dlbss, blgoritim, providfr);
+        rfturn nfw CfrtPbtiBuildfr((CfrtPbtiBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns a {@code CertPathBuilder} object that implements the
-     * specified algorithm.
+     * Rfturns b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     * spfdififd blgoritim.
      *
-     * <p> A new CertPathBuilder object encapsulating the
-     * CertPathBuilderSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw CfrtPbtiBuildfr objfdt fndbpsulbting tif
+     * CfrtPbtiBuildfrSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param algorithm the name of the requested {@code CertPathBuilder}
-     *  algorithm.  See the CertPathBuilder section in the <a href=
-     *  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathBuilder">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif rfqufstfd {@dodf CfrtPbtiBuildfr}
+     *  blgoritim.  Sff tif CfrtPbtiBuildfr sfdtion in tif <b irff=
+     *  "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#CfrtPbtiBuildfr">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the provider.
+     * @pbrbm providfr tif providfr.
      *
-     * @return a {@code CertPathBuilder} object that implements the
-     *          specified algorithm.
+     * @rfturn b {@dodf CfrtPbtiBuildfr} objfdt tibt implfmfnts tif
+     *          spfdififd blgoritim.
      *
-     * @exception NoSuchAlgorithmException if a CertPathBuilderSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
+     * @fxdfption NoSudiAlgoritimExdfption if b CfrtPbtiBuildfrSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
      *
-     * @exception IllegalArgumentException if the {@code provider} is
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf providfr} is
      *          null.
      *
-     * @see java.security.Provider
+     * @sff jbvb.sfdurity.Providfr
      */
-    public static CertPathBuilder getInstance(String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("CertPathBuilder",
-            CertPathBuilderSpi.class, algorithm, provider);
-        return new CertPathBuilder((CertPathBuilderSpi)instance.impl,
-            instance.provider, algorithm);
+    publid stbtid CfrtPbtiBuildfr gftInstbndf(String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbtiBuildfr",
+            CfrtPbtiBuildfrSpi.dlbss, blgoritim, providfr);
+        rfturn nfw CfrtPbtiBuildfr((CfrtPbtiBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns the provider of this {@code CertPathBuilder}.
+     * Rfturns tif providfr of tiis {@dodf CfrtPbtiBuildfr}.
      *
-     * @return the provider of this {@code CertPathBuilder}
+     * @rfturn tif providfr of tiis {@dodf CfrtPbtiBuildfr}
      */
-    public final Provider getProvider() {
-        return this.provider;
+    publid finbl Providfr gftProvidfr() {
+        rfturn tiis.providfr;
     }
 
     /**
-     * Returns the name of the algorithm of this {@code CertPathBuilder}.
+     * Rfturns tif nbmf of tif blgoritim of tiis {@dodf CfrtPbtiBuildfr}.
      *
-     * @return the name of the algorithm of this {@code CertPathBuilder}
+     * @rfturn tif nbmf of tif blgoritim of tiis {@dodf CfrtPbtiBuildfr}
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    publid finbl String gftAlgoritim() {
+        rfturn tiis.blgoritim;
     }
 
     /**
-     * Attempts to build a certification path using the specified algorithm
-     * parameter set.
+     * Attfmpts to build b dfrtifidbtion pbti using tif spfdififd blgoritim
+     * pbrbmftfr sft.
      *
-     * @param params the algorithm parameters
-     * @return the result of the build algorithm
-     * @throws CertPathBuilderException if the builder is unable to construct
-     *  a certification path that satisfies the specified parameters
-     * @throws InvalidAlgorithmParameterException if the specified parameters
-     * are inappropriate for this {@code CertPathBuilder}
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs
+     * @rfturn tif rfsult of tif build blgoritim
+     * @tirows CfrtPbtiBuildfrExdfption if tif buildfr is unbblf to donstrudt
+     *  b dfrtifidbtion pbti tibt sbtisfifs tif spfdififd pbrbmftfrs
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd pbrbmftfrs
+     * brf inbppropribtf for tiis {@dodf CfrtPbtiBuildfr}
      */
-    public final CertPathBuilderResult build(CertPathParameters params)
-        throws CertPathBuilderException, InvalidAlgorithmParameterException
+    publid finbl CfrtPbtiBuildfrRfsult build(CfrtPbtiPbrbmftfrs pbrbms)
+        tirows CfrtPbtiBuildfrExdfption, InvblidAlgoritimPbrbmftfrExdfption
     {
-        return builderSpi.engineBuild(params);
+        rfturn buildfrSpi.fnginfBuild(pbrbms);
     }
 
     /**
-     * Returns the default {@code CertPathBuilder} type as specified by
-     * the {@code certpathbuilder.type} security property, or the string
-     * {@literal "PKIX"} if no such property exists.
+     * Rfturns tif dffbult {@dodf CfrtPbtiBuildfr} typf bs spfdififd by
+     * tif {@dodf dfrtpbtibuildfr.typf} sfdurity propfrty, or tif string
+     * {@litfrbl "PKIX"} if no sudi propfrty fxists.
      *
-     * <p>The default {@code CertPathBuilder} type can be used by
-     * applications that do not want to use a hard-coded type when calling one
-     * of the {@code getInstance} methods, and want to provide a default
-     * type in case a user does not specify its own.
+     * <p>Tif dffbult {@dodf CfrtPbtiBuildfr} typf dbn bf usfd by
+     * bpplidbtions tibt do not wbnt to usf b ibrd-dodfd typf wifn dblling onf
+     * of tif {@dodf gftInstbndf} mftiods, bnd wbnt to providf b dffbult
+     * typf in dbsf b usfr dofs not spfdify its own.
      *
-     * <p>The default {@code CertPathBuilder} type can be changed by
-     * setting the value of the {@code certpathbuilder.type} security property
-     * to the desired type.
+     * <p>Tif dffbult {@dodf CfrtPbtiBuildfr} typf dbn bf dibngfd by
+     * sftting tif vbluf of tif {@dodf dfrtpbtibuildfr.typf} sfdurity propfrty
+     * to tif dfsirfd typf.
      *
-     * @see java.security.Security security properties
-     * @return the default {@code CertPathBuilder} type as specified
-     * by the {@code certpathbuilder.type} security property, or the string
-     * {@literal "PKIX"} if no such property exists.
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @rfturn tif dffbult {@dodf CfrtPbtiBuildfr} typf bs spfdififd
+     * by tif {@dodf dfrtpbtibuildfr.typf} sfdurity propfrty, or tif string
+     * {@litfrbl "PKIX"} if no sudi propfrty fxists.
      */
-    public final static String getDefaultType() {
-        String cpbtype =
-            AccessController.doPrivileged(new PrivilegedAction<String>() {
-                public String run() {
-                    return Security.getProperty(CPB_TYPE);
+    publid finbl stbtid String gftDffbultTypf() {
+        String dpbtypf =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(CPB_TYPE);
                 }
             });
-        return (cpbtype == null) ? "PKIX" : cpbtype;
+        rfturn (dpbtypf == null) ? "PKIX" : dpbtypf;
     }
 
     /**
-     * Returns a {@code CertPathChecker} that the encapsulated
-     * {@code CertPathBuilderSpi} implementation uses to check the revocation
-     * status of certificates. A PKIX implementation returns objects of
-     * type {@code PKIXRevocationChecker}. Each invocation of this method
-     * returns a new instance of {@code CertPathChecker}.
+     * Rfturns b {@dodf CfrtPbtiCifdkfr} tibt tif fndbpsulbtfd
+     * {@dodf CfrtPbtiBuildfrSpi} implfmfntbtion usfs to difdk tif rfvodbtion
+     * stbtus of dfrtifidbtfs. A PKIX implfmfntbtion rfturns objfdts of
+     * typf {@dodf PKIXRfvodbtionCifdkfr}. Ebdi invodbtion of tiis mftiod
+     * rfturns b nfw instbndf of {@dodf CfrtPbtiCifdkfr}.
      *
-     * <p>The primary purpose of this method is to allow callers to specify
-     * additional input parameters and options specific to revocation checking.
-     * See the class description for an example.
+     * <p>Tif primbry purposf of tiis mftiod is to bllow dbllfrs to spfdify
+     * bdditionbl input pbrbmftfrs bnd options spfdifid to rfvodbtion difdking.
+     * Sff tif dlbss dfsdription for bn fxbmplf.
      *
-     * @return a {@code CertPathChecker}
-     * @throws UnsupportedOperationException if the service provider does not
-     *         support this method
-     * @since 1.8
+     * @rfturn b {@dodf CfrtPbtiCifdkfr}
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sfrvidf providfr dofs not
+     *         support tiis mftiod
+     * @sindf 1.8
      */
-    public final CertPathChecker getRevocationChecker() {
-        return builderSpi.engineGetRevocationChecker();
+    publid finbl CfrtPbtiCifdkfr gftRfvodbtionCifdkfr() {
+        rfturn buildfrSpi.fnginfGftRfvodbtionCifdkfr();
     }
 }

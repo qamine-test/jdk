@@ -1,586 +1,586 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 
 /**
- * A simple service-provider loading facility.
+ * A simplf sfrvidf-providfr lobding fbdility.
  *
- * <p> A <i>service</i> is a well-known set of interfaces and (usually
- * abstract) classes.  A <i>service provider</i> is a specific implementation
- * of a service.  The classes in a provider typically implement the interfaces
- * and subclass the classes defined in the service itself.  Service providers
- * can be installed in an implementation of the Java platform in the form of
- * extensions, that is, jar files placed into any of the usual extension
- * directories.  Providers can also be made available by adding them to the
- * application's class path or by some other platform-specific means.
+ * <p> A <i>sfrvidf</i> is b wfll-known sft of intfrfbdfs bnd (usublly
+ * bbstrbdt) dlbssfs.  A <i>sfrvidf providfr</i> is b spfdifid implfmfntbtion
+ * of b sfrvidf.  Tif dlbssfs in b providfr typidblly implfmfnt tif intfrfbdfs
+ * bnd subdlbss tif dlbssfs dffinfd in tif sfrvidf itsflf.  Sfrvidf providfrs
+ * dbn bf instbllfd in bn implfmfntbtion of tif Jbvb plbtform in tif form of
+ * fxtfnsions, tibt is, jbr filfs plbdfd into bny of tif usubl fxtfnsion
+ * dirfdtorifs.  Providfrs dbn blso bf mbdf bvbilbblf by bdding tifm to tif
+ * bpplidbtion's dlbss pbti or by somf otifr plbtform-spfdifid mfbns.
  *
- * <p> For the purpose of loading, a service is represented by a single type,
- * that is, a single interface or abstract class.  (A concrete class can be
- * used, but this is not recommended.)  A provider of a given service contains
- * one or more concrete classes that extend this <i>service type</i> with data
- * and code specific to the provider.  The <i>provider class</i> is typically
- * not the entire provider itself but rather a proxy which contains enough
- * information to decide whether the provider is able to satisfy a particular
- * request together with code that can create the actual provider on demand.
- * The details of provider classes tend to be highly service-specific; no
- * single class or interface could possibly unify them, so no such type is
- * defined here.  The only requirement enforced by this facility is that
- * provider classes must have a zero-argument constructor so that they can be
- * instantiated during loading.
+ * <p> For tif purposf of lobding, b sfrvidf is rfprfsfntfd by b singlf typf,
+ * tibt is, b singlf intfrfbdf or bbstrbdt dlbss.  (A dondrftf dlbss dbn bf
+ * usfd, but tiis is not rfdommfndfd.)  A providfr of b givfn sfrvidf dontbins
+ * onf or morf dondrftf dlbssfs tibt fxtfnd tiis <i>sfrvidf typf</i> witi dbtb
+ * bnd dodf spfdifid to tif providfr.  Tif <i>providfr dlbss</i> is typidblly
+ * not tif fntirf providfr itsflf but rbtifr b proxy wiidi dontbins fnougi
+ * informbtion to dfdidf wiftifr tif providfr is bblf to sbtisfy b pbrtidulbr
+ * rfqufst togftifr witi dodf tibt dbn drfbtf tif bdtubl providfr on dfmbnd.
+ * Tif dftbils of providfr dlbssfs tfnd to bf iigily sfrvidf-spfdifid; no
+ * singlf dlbss or intfrfbdf dould possibly unify tifm, so no sudi typf is
+ * dffinfd ifrf.  Tif only rfquirfmfnt fnfordfd by tiis fbdility is tibt
+ * providfr dlbssfs must ibvf b zfro-brgumfnt donstrudtor so tibt tify dbn bf
+ * instbntibtfd during lobding.
  *
- * <p><a name="format"> A service provider is identified by placing a
- * <i>provider-configuration file</i> in the resource directory
- * <tt>META-INF/services</tt>.</a>  The file's name is the fully-qualified <a
- * href="../lang/ClassLoader.html#name">binary name</a> of the service's type.
- * The file contains a list of fully-qualified binary names of concrete
- * provider classes, one per line.  Space and tab characters surrounding each
- * name, as well as blank lines, are ignored.  The comment character is
+ * <p><b nbmf="formbt"> A sfrvidf providfr is idfntififd by plbding b
+ * <i>providfr-donfigurbtion filf</i> in tif rfsourdf dirfdtory
+ * <tt>META-INF/sfrvidfs</tt>.</b>  Tif filf's nbmf is tif fully-qublififd <b
+ * irff="../lbng/ClbssLobdfr.itml#nbmf">binbry nbmf</b> of tif sfrvidf's typf.
+ * Tif filf dontbins b list of fully-qublififd binbry nbmfs of dondrftf
+ * providfr dlbssfs, onf pfr linf.  Spbdf bnd tbb dibrbdtfrs surrounding fbdi
+ * nbmf, bs wfll bs blbnk linfs, brf ignorfd.  Tif dommfnt dibrbdtfr is
  * <tt>'#'</tt> (<tt>'&#92;u0023'</tt>,
- * <font style="font-size:smaller;">NUMBER SIGN</font>); on
- * each line all characters following the first comment character are ignored.
- * The file must be encoded in UTF-8.
+ * <font stylf="font-sizf:smbllfr;">NUMBER SIGN</font>); on
+ * fbdi linf bll dibrbdtfrs following tif first dommfnt dibrbdtfr brf ignorfd.
+ * Tif filf must bf fndodfd in UTF-8.
  *
- * <p> If a particular concrete provider class is named in more than one
- * configuration file, or is named in the same configuration file more than
- * once, then the duplicates are ignored.  The configuration file naming a
- * particular provider need not be in the same jar file or other distribution
- * unit as the provider itself.  The provider must be accessible from the same
- * class loader that was initially queried to locate the configuration file;
- * note that this is not necessarily the class loader from which the file was
- * actually loaded.
+ * <p> If b pbrtidulbr dondrftf providfr dlbss is nbmfd in morf tibn onf
+ * donfigurbtion filf, or is nbmfd in tif sbmf donfigurbtion filf morf tibn
+ * ondf, tifn tif duplidbtfs brf ignorfd.  Tif donfigurbtion filf nbming b
+ * pbrtidulbr providfr nffd not bf in tif sbmf jbr filf or otifr distribution
+ * unit bs tif providfr itsflf.  Tif providfr must bf bddfssiblf from tif sbmf
+ * dlbss lobdfr tibt wbs initiblly qufrifd to lodbtf tif donfigurbtion filf;
+ * notf tibt tiis is not nfdfssbrily tif dlbss lobdfr from wiidi tif filf wbs
+ * bdtublly lobdfd.
  *
- * <p> Providers are located and instantiated lazily, that is, on demand.  A
- * service loader maintains a cache of the providers that have been loaded so
- * far.  Each invocation of the {@link #iterator iterator} method returns an
- * iterator that first yields all of the elements of the cache, in
- * instantiation order, and then lazily locates and instantiates any remaining
- * providers, adding each one to the cache in turn.  The cache can be cleared
- * via the {@link #reload reload} method.
+ * <p> Providfrs brf lodbtfd bnd instbntibtfd lbzily, tibt is, on dfmbnd.  A
+ * sfrvidf lobdfr mbintbins b dbdif of tif providfrs tibt ibvf bffn lobdfd so
+ * fbr.  Ebdi invodbtion of tif {@link #itfrbtor itfrbtor} mftiod rfturns bn
+ * itfrbtor tibt first yiflds bll of tif flfmfnts of tif dbdif, in
+ * instbntibtion ordfr, bnd tifn lbzily lodbtfs bnd instbntibtfs bny rfmbining
+ * providfrs, bdding fbdi onf to tif dbdif in turn.  Tif dbdif dbn bf dlfbrfd
+ * vib tif {@link #rflobd rflobd} mftiod.
  *
- * <p> Service loaders always execute in the security context of the caller.
- * Trusted system code should typically invoke the methods in this class, and
- * the methods of the iterators which they return, from within a privileged
- * security context.
+ * <p> Sfrvidf lobdfrs blwbys fxfdutf in tif sfdurity dontfxt of tif dbllfr.
+ * Trustfd systfm dodf siould typidblly invokf tif mftiods in tiis dlbss, bnd
+ * tif mftiods of tif itfrbtors wiidi tify rfturn, from witiin b privilfgfd
+ * sfdurity dontfxt.
  *
- * <p> Instances of this class are not safe for use by multiple concurrent
- * threads.
+ * <p> Instbndfs of tiis dlbss brf not sbff for usf by multiplf dondurrfnt
+ * tirfbds.
  *
- * <p> Unless otherwise specified, passing a <tt>null</tt> argument to any
- * method in this class will cause a {@link NullPointerException} to be thrown.
+ * <p> Unlfss otifrwisf spfdififd, pbssing b <tt>null</tt> brgumfnt to bny
+ * mftiod in tiis dlbss will dbusf b {@link NullPointfrExdfption} to bf tirown.
  *
  *
- * <p><span style="font-weight: bold; padding-right: 1em">Example</span>
- * Suppose we have a service type <tt>com.example.CodecSet</tt> which is
- * intended to represent sets of encoder/decoder pairs for some protocol.  In
- * this case it is an abstract class with two abstract methods:
+ * <p><spbn stylf="font-wfigit: bold; pbdding-rigit: 1fm">Exbmplf</spbn>
+ * Supposf wf ibvf b sfrvidf typf <tt>dom.fxbmplf.CodfdSft</tt> wiidi is
+ * intfndfd to rfprfsfnt sfts of fndodfr/dfdodfr pbirs for somf protodol.  In
+ * tiis dbsf it is bn bbstrbdt dlbss witi two bbstrbdt mftiods:
  *
- * <blockquote><pre>
- * public abstract Encoder getEncoder(String encodingName);
- * public abstract Decoder getDecoder(String encodingName);</pre></blockquote>
+ * <blodkquotf><prf>
+ * publid bbstrbdt Endodfr gftEndodfr(String fndodingNbmf);
+ * publid bbstrbdt Dfdodfr gftDfdodfr(String fndodingNbmf);</prf></blodkquotf>
  *
- * Each method returns an appropriate object or <tt>null</tt> if the provider
- * does not support the given encoding.  Typical providers support more than
- * one encoding.
+ * Ebdi mftiod rfturns bn bppropribtf objfdt or <tt>null</tt> if tif providfr
+ * dofs not support tif givfn fndoding.  Typidbl providfrs support morf tibn
+ * onf fndoding.
  *
- * <p> If <tt>com.example.impl.StandardCodecs</tt> is an implementation of the
- * <tt>CodecSet</tt> service then its jar file also contains a file named
+ * <p> If <tt>dom.fxbmplf.impl.StbndbrdCodfds</tt> is bn implfmfntbtion of tif
+ * <tt>CodfdSft</tt> sfrvidf tifn its jbr filf blso dontbins b filf nbmfd
  *
- * <blockquote><pre>
- * META-INF/services/com.example.CodecSet</pre></blockquote>
+ * <blodkquotf><prf>
+ * META-INF/sfrvidfs/dom.fxbmplf.CodfdSft</prf></blodkquotf>
  *
- * <p> This file contains the single line:
+ * <p> Tiis filf dontbins tif singlf linf:
  *
- * <blockquote><pre>
- * com.example.impl.StandardCodecs    # Standard codecs</pre></blockquote>
+ * <blodkquotf><prf>
+ * dom.fxbmplf.impl.StbndbrdCodfds    # Stbndbrd dodfds</prf></blodkquotf>
  *
- * <p> The <tt>CodecSet</tt> class creates and saves a single service instance
- * at initialization:
+ * <p> Tif <tt>CodfdSft</tt> dlbss drfbtfs bnd sbvfs b singlf sfrvidf instbndf
+ * bt initiblizbtion:
  *
- * <blockquote><pre>
- * private static ServiceLoader&lt;CodecSet&gt; codecSetLoader
- *     = ServiceLoader.load(CodecSet.class);</pre></blockquote>
+ * <blodkquotf><prf>
+ * privbtf stbtid SfrvidfLobdfr&lt;CodfdSft&gt; dodfdSftLobdfr
+ *     = SfrvidfLobdfr.lobd(CodfdSft.dlbss);</prf></blodkquotf>
  *
- * <p> To locate an encoder for a given encoding name it defines a static
- * factory method which iterates through the known and available providers,
- * returning only when it has located a suitable encoder or has run out of
- * providers.
+ * <p> To lodbtf bn fndodfr for b givfn fndoding nbmf it dffinfs b stbtid
+ * fbdtory mftiod wiidi itfrbtfs tirougi tif known bnd bvbilbblf providfrs,
+ * rfturning only wifn it ibs lodbtfd b suitbblf fndodfr or ibs run out of
+ * providfrs.
  *
- * <blockquote><pre>
- * public static Encoder getEncoder(String encodingName) {
- *     for (CodecSet cp : codecSetLoader) {
- *         Encoder enc = cp.getEncoder(encodingName);
- *         if (enc != null)
- *             return enc;
+ * <blodkquotf><prf>
+ * publid stbtid Endodfr gftEndodfr(String fndodingNbmf) {
+ *     for (CodfdSft dp : dodfdSftLobdfr) {
+ *         Endodfr fnd = dp.gftEndodfr(fndodingNbmf);
+ *         if (fnd != null)
+ *             rfturn fnd;
  *     }
- *     return null;
- * }</pre></blockquote>
+ *     rfturn null;
+ * }</prf></blodkquotf>
  *
- * <p> A <tt>getDecoder</tt> method is defined similarly.
+ * <p> A <tt>gftDfdodfr</tt> mftiod is dffinfd similbrly.
  *
  *
- * <p><span style="font-weight: bold; padding-right: 1em">Usage Note</span> If
- * the class path of a class loader that is used for provider loading includes
- * remote network URLs then those URLs will be dereferenced in the process of
- * searching for provider-configuration files.
+ * <p><spbn stylf="font-wfigit: bold; pbdding-rigit: 1fm">Usbgf Notf</spbn> If
+ * tif dlbss pbti of b dlbss lobdfr tibt is usfd for providfr lobding indludfs
+ * rfmotf nftwork URLs tifn tiosf URLs will bf dfrfffrfndfd in tif prodfss of
+ * sfbrdiing for providfr-donfigurbtion filfs.
  *
- * <p> This activity is normal, although it may cause puzzling entries to be
- * created in web-server logs.  If a web server is not configured correctly,
- * however, then this activity may cause the provider-loading algorithm to fail
+ * <p> Tiis bdtivity is normbl, bltiougi it mby dbusf puzzling fntrifs to bf
+ * drfbtfd in wfb-sfrvfr logs.  If b wfb sfrvfr is not donfigurfd dorrfdtly,
+ * iowfvfr, tifn tiis bdtivity mby dbusf tif providfr-lobding blgoritim to fbil
  * spuriously.
  *
- * <p> A web server should return an HTTP 404 (Not Found) response when a
- * requested resource does not exist.  Sometimes, however, web servers are
- * erroneously configured to return an HTTP 200 (OK) response along with a
- * helpful HTML error page in such cases.  This will cause a {@link
- * ServiceConfigurationError} to be thrown when this class attempts to parse
- * the HTML page as a provider-configuration file.  The best solution to this
- * problem is to fix the misconfigured web server to return the correct
- * response code (HTTP 404) along with the HTML error page.
+ * <p> A wfb sfrvfr siould rfturn bn HTTP 404 (Not Found) rfsponsf wifn b
+ * rfqufstfd rfsourdf dofs not fxist.  Somftimfs, iowfvfr, wfb sfrvfrs brf
+ * frronfously donfigurfd to rfturn bn HTTP 200 (OK) rfsponsf blong witi b
+ * iflpful HTML frror pbgf in sudi dbsfs.  Tiis will dbusf b {@link
+ * SfrvidfConfigurbtionError} to bf tirown wifn tiis dlbss bttfmpts to pbrsf
+ * tif HTML pbgf bs b providfr-donfigurbtion filf.  Tif bfst solution to tiis
+ * problfm is to fix tif misdonfigurfd wfb sfrvfr to rfturn tif dorrfdt
+ * rfsponsf dodf (HTTP 404) blong witi tif HTML frror pbgf.
  *
- * @param  <S>
- *         The type of the service to be loaded by this loader
+ * @pbrbm  <S>
+ *         Tif typf of tif sfrvidf to bf lobdfd by tiis lobdfr
  *
- * @author Mark Reinhold
- * @since 1.6
+ * @butior Mbrk Rfiniold
+ * @sindf 1.6
  */
 
-public final class ServiceLoader<S>
-    implements Iterable<S>
+publid finbl dlbss SfrvidfLobdfr<S>
+    implfmfnts Itfrbblf<S>
 {
 
-    private static final String PREFIX = "META-INF/services/";
+    privbtf stbtid finbl String PREFIX = "META-INF/sfrvidfs/";
 
-    // The class or interface representing the service being loaded
-    private final Class<S> service;
+    // Tif dlbss or intfrfbdf rfprfsfnting tif sfrvidf bfing lobdfd
+    privbtf finbl Clbss<S> sfrvidf;
 
-    // The class loader used to locate, load, and instantiate providers
-    private final ClassLoader loader;
+    // Tif dlbss lobdfr usfd to lodbtf, lobd, bnd instbntibtf providfrs
+    privbtf finbl ClbssLobdfr lobdfr;
 
-    // The access control context taken when the ServiceLoader is created
-    private final AccessControlContext acc;
+    // Tif bddfss dontrol dontfxt tbkfn wifn tif SfrvidfLobdfr is drfbtfd
+    privbtf finbl AddfssControlContfxt bdd;
 
-    // Cached providers, in instantiation order
-    private LinkedHashMap<String,S> providers = new LinkedHashMap<>();
+    // Cbdifd providfrs, in instbntibtion ordfr
+    privbtf LinkfdHbsiMbp<String,S> providfrs = nfw LinkfdHbsiMbp<>();
 
-    // The current lazy-lookup iterator
-    private LazyIterator lookupIterator;
+    // Tif durrfnt lbzy-lookup itfrbtor
+    privbtf LbzyItfrbtor lookupItfrbtor;
 
     /**
-     * Clear this loader's provider cache so that all providers will be
-     * reloaded.
+     * Clfbr tiis lobdfr's providfr dbdif so tibt bll providfrs will bf
+     * rflobdfd.
      *
-     * <p> After invoking this method, subsequent invocations of the {@link
-     * #iterator() iterator} method will lazily look up and instantiate
-     * providers from scratch, just as is done by a newly-created loader.
+     * <p> Aftfr invoking tiis mftiod, subsfqufnt invodbtions of tif {@link
+     * #itfrbtor() itfrbtor} mftiod will lbzily look up bnd instbntibtf
+     * providfrs from sdrbtdi, just bs is donf by b nfwly-drfbtfd lobdfr.
      *
-     * <p> This method is intended for use in situations in which new providers
-     * can be installed into a running Java virtual machine.
+     * <p> Tiis mftiod is intfndfd for usf in situbtions in wiidi nfw providfrs
+     * dbn bf instbllfd into b running Jbvb virtubl mbdiinf.
      */
-    public void reload() {
-        providers.clear();
-        lookupIterator = new LazyIterator(service, loader);
+    publid void rflobd() {
+        providfrs.dlfbr();
+        lookupItfrbtor = nfw LbzyItfrbtor(sfrvidf, lobdfr);
     }
 
-    private ServiceLoader(Class<S> svc, ClassLoader cl) {
-        service = Objects.requireNonNull(svc, "Service interface cannot be null");
-        loader = (cl == null) ? ClassLoader.getSystemClassLoader() : cl;
-        acc = (System.getSecurityManager() != null) ? AccessController.getContext() : null;
-        reload();
+    privbtf SfrvidfLobdfr(Clbss<S> svd, ClbssLobdfr dl) {
+        sfrvidf = Objfdts.rfquirfNonNull(svd, "Sfrvidf intfrfbdf dbnnot bf null");
+        lobdfr = (dl == null) ? ClbssLobdfr.gftSystfmClbssLobdfr() : dl;
+        bdd = (Systfm.gftSfdurityMbnbgfr() != null) ? AddfssControllfr.gftContfxt() : null;
+        rflobd();
     }
 
-    private static void fail(Class<?> service, String msg, Throwable cause)
-        throws ServiceConfigurationError
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, String msg, Tirowbblf dbusf)
+        tirows SfrvidfConfigurbtionError
     {
-        throw new ServiceConfigurationError(service.getName() + ": " + msg,
-                                            cause);
+        tirow nfw SfrvidfConfigurbtionError(sfrvidf.gftNbmf() + ": " + msg,
+                                            dbusf);
     }
 
-    private static void fail(Class<?> service, String msg)
-        throws ServiceConfigurationError
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, String msg)
+        tirows SfrvidfConfigurbtionError
     {
-        throw new ServiceConfigurationError(service.getName() + ": " + msg);
+        tirow nfw SfrvidfConfigurbtionError(sfrvidf.gftNbmf() + ": " + msg);
     }
 
-    private static void fail(Class<?> service, URL u, int line, String msg)
-        throws ServiceConfigurationError
+    privbtf stbtid void fbil(Clbss<?> sfrvidf, URL u, int linf, String msg)
+        tirows SfrvidfConfigurbtionError
     {
-        fail(service, u + ":" + line + ": " + msg);
+        fbil(sfrvidf, u + ":" + linf + ": " + msg);
     }
 
-    // Parse a single line from the given configuration file, adding the name
-    // on the line to the names list.
+    // Pbrsf b singlf linf from tif givfn donfigurbtion filf, bdding tif nbmf
+    // on tif linf to tif nbmfs list.
     //
-    private int parseLine(Class<?> service, URL u, BufferedReader r, int lc,
-                          List<String> names)
-        throws IOException, ServiceConfigurationError
+    privbtf int pbrsfLinf(Clbss<?> sfrvidf, URL u, BufffrfdRfbdfr r, int ld,
+                          List<String> nbmfs)
+        tirows IOExdfption, SfrvidfConfigurbtionError
     {
-        String ln = r.readLine();
+        String ln = r.rfbdLinf();
         if (ln == null) {
-            return -1;
+            rfturn -1;
         }
-        int ci = ln.indexOf('#');
-        if (ci >= 0) ln = ln.substring(0, ci);
+        int di = ln.indfxOf('#');
+        if (di >= 0) ln = ln.substring(0, di);
         ln = ln.trim();
-        int n = ln.length();
+        int n = ln.lfngti();
         if (n != 0) {
-            if ((ln.indexOf(' ') >= 0) || (ln.indexOf('\t') >= 0))
-                fail(service, u, lc, "Illegal configuration-file syntax");
-            int cp = ln.codePointAt(0);
-            if (!Character.isJavaIdentifierStart(cp))
-                fail(service, u, lc, "Illegal provider-class name: " + ln);
-            for (int i = Character.charCount(cp); i < n; i += Character.charCount(cp)) {
-                cp = ln.codePointAt(i);
-                if (!Character.isJavaIdentifierPart(cp) && (cp != '.'))
-                    fail(service, u, lc, "Illegal provider-class name: " + ln);
+            if ((ln.indfxOf(' ') >= 0) || (ln.indfxOf('\t') >= 0))
+                fbil(sfrvidf, u, ld, "Illfgbl donfigurbtion-filf syntbx");
+            int dp = ln.dodfPointAt(0);
+            if (!Cibrbdtfr.isJbvbIdfntififrStbrt(dp))
+                fbil(sfrvidf, u, ld, "Illfgbl providfr-dlbss nbmf: " + ln);
+            for (int i = Cibrbdtfr.dibrCount(dp); i < n; i += Cibrbdtfr.dibrCount(dp)) {
+                dp = ln.dodfPointAt(i);
+                if (!Cibrbdtfr.isJbvbIdfntififrPbrt(dp) && (dp != '.'))
+                    fbil(sfrvidf, u, ld, "Illfgbl providfr-dlbss nbmf: " + ln);
             }
-            if (!providers.containsKey(ln) && !names.contains(ln))
-                names.add(ln);
+            if (!providfrs.dontbinsKfy(ln) && !nbmfs.dontbins(ln))
+                nbmfs.bdd(ln);
         }
-        return lc + 1;
+        rfturn ld + 1;
     }
 
-    // Parse the content of the given URL as a provider-configuration file.
+    // Pbrsf tif dontfnt of tif givfn URL bs b providfr-donfigurbtion filf.
     //
-    // @param  service
-    //         The service type for which providers are being sought;
-    //         used to construct error detail strings
+    // @pbrbm  sfrvidf
+    //         Tif sfrvidf typf for wiidi providfrs brf bfing sougit;
+    //         usfd to donstrudt frror dftbil strings
     //
-    // @param  u
-    //         The URL naming the configuration file to be parsed
+    // @pbrbm  u
+    //         Tif URL nbming tif donfigurbtion filf to bf pbrsfd
     //
-    // @return A (possibly empty) iterator that will yield the provider-class
-    //         names in the given configuration file that are not yet members
-    //         of the returned set
+    // @rfturn A (possibly fmpty) itfrbtor tibt will yifld tif providfr-dlbss
+    //         nbmfs in tif givfn donfigurbtion filf tibt brf not yft mfmbfrs
+    //         of tif rfturnfd sft
     //
-    // @throws ServiceConfigurationError
-    //         If an I/O error occurs while reading from the given URL, or
-    //         if a configuration-file format error is detected
+    // @tirows SfrvidfConfigurbtionError
+    //         If bn I/O frror oddurs wiilf rfbding from tif givfn URL, or
+    //         if b donfigurbtion-filf formbt frror is dftfdtfd
     //
-    private Iterator<String> parse(Class<?> service, URL u)
-        throws ServiceConfigurationError
+    privbtf Itfrbtor<String> pbrsf(Clbss<?> sfrvidf, URL u)
+        tirows SfrvidfConfigurbtionError
     {
-        InputStream in = null;
-        BufferedReader r = null;
-        ArrayList<String> names = new ArrayList<>();
+        InputStrfbm in = null;
+        BufffrfdRfbdfr r = null;
+        ArrbyList<String> nbmfs = nfw ArrbyList<>();
         try {
-            in = u.openStream();
-            r = new BufferedReader(new InputStreamReader(in, "utf-8"));
-            int lc = 1;
-            while ((lc = parseLine(service, u, r, lc, names)) >= 0);
-        } catch (IOException x) {
-            fail(service, "Error reading configuration file", x);
-        } finally {
+            in = u.opfnStrfbm();
+            r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in, "utf-8"));
+            int ld = 1;
+            wiilf ((ld = pbrsfLinf(sfrvidf, u, r, ld, nbmfs)) >= 0);
+        } dbtdi (IOExdfption x) {
+            fbil(sfrvidf, "Error rfbding donfigurbtion filf", x);
+        } finblly {
             try {
-                if (r != null) r.close();
-                if (in != null) in.close();
-            } catch (IOException y) {
-                fail(service, "Error closing configuration file", y);
+                if (r != null) r.dlosf();
+                if (in != null) in.dlosf();
+            } dbtdi (IOExdfption y) {
+                fbil(sfrvidf, "Error dlosing donfigurbtion filf", y);
             }
         }
-        return names.iterator();
+        rfturn nbmfs.itfrbtor();
     }
 
-    // Private inner class implementing fully-lazy provider lookup
+    // Privbtf innfr dlbss implfmfnting fully-lbzy providfr lookup
     //
-    private class LazyIterator
-        implements Iterator<S>
+    privbtf dlbss LbzyItfrbtor
+        implfmfnts Itfrbtor<S>
     {
 
-        Class<S> service;
-        ClassLoader loader;
-        Enumeration<URL> configs = null;
-        Iterator<String> pending = null;
-        String nextName = null;
+        Clbss<S> sfrvidf;
+        ClbssLobdfr lobdfr;
+        Enumfrbtion<URL> donfigs = null;
+        Itfrbtor<String> pfnding = null;
+        String nfxtNbmf = null;
 
-        private LazyIterator(Class<S> service, ClassLoader loader) {
-            this.service = service;
-            this.loader = loader;
+        privbtf LbzyItfrbtor(Clbss<S> sfrvidf, ClbssLobdfr lobdfr) {
+            tiis.sfrvidf = sfrvidf;
+            tiis.lobdfr = lobdfr;
         }
 
-        private boolean hasNextService() {
-            if (nextName != null) {
-                return true;
+        privbtf boolfbn ibsNfxtSfrvidf() {
+            if (nfxtNbmf != null) {
+                rfturn truf;
             }
-            if (configs == null) {
+            if (donfigs == null) {
                 try {
-                    String fullName = PREFIX + service.getName();
-                    if (loader == null)
-                        configs = ClassLoader.getSystemResources(fullName);
-                    else
-                        configs = loader.getResources(fullName);
-                } catch (IOException x) {
-                    fail(service, "Error locating configuration files", x);
+                    String fullNbmf = PREFIX + sfrvidf.gftNbmf();
+                    if (lobdfr == null)
+                        donfigs = ClbssLobdfr.gftSystfmRfsourdfs(fullNbmf);
+                    flsf
+                        donfigs = lobdfr.gftRfsourdfs(fullNbmf);
+                } dbtdi (IOExdfption x) {
+                    fbil(sfrvidf, "Error lodbting donfigurbtion filfs", x);
                 }
             }
-            while ((pending == null) || !pending.hasNext()) {
-                if (!configs.hasMoreElements()) {
-                    return false;
+            wiilf ((pfnding == null) || !pfnding.ibsNfxt()) {
+                if (!donfigs.ibsMorfElfmfnts()) {
+                    rfturn fblsf;
                 }
-                pending = parse(service, configs.nextElement());
+                pfnding = pbrsf(sfrvidf, donfigs.nfxtElfmfnt());
             }
-            nextName = pending.next();
-            return true;
+            nfxtNbmf = pfnding.nfxt();
+            rfturn truf;
         }
 
-        private S nextService() {
-            if (!hasNextService())
-                throw new NoSuchElementException();
-            String cn = nextName;
-            nextName = null;
-            Class<?> c = null;
+        privbtf S nfxtSfrvidf() {
+            if (!ibsNfxtSfrvidf())
+                tirow nfw NoSudiElfmfntExdfption();
+            String dn = nfxtNbmf;
+            nfxtNbmf = null;
+            Clbss<?> d = null;
             try {
-                c = Class.forName(cn, false, loader);
-            } catch (ClassNotFoundException x) {
-                fail(service,
-                     "Provider " + cn + " not found");
+                d = Clbss.forNbmf(dn, fblsf, lobdfr);
+            } dbtdi (ClbssNotFoundExdfption x) {
+                fbil(sfrvidf,
+                     "Providfr " + dn + " not found");
             }
-            if (!service.isAssignableFrom(c)) {
-                fail(service,
-                     "Provider " + cn  + " not a subtype");
+            if (!sfrvidf.isAssignbblfFrom(d)) {
+                fbil(sfrvidf,
+                     "Providfr " + dn  + " not b subtypf");
             }
             try {
-                S p = service.cast(c.newInstance());
-                providers.put(cn, p);
-                return p;
-            } catch (Throwable x) {
-                fail(service,
-                     "Provider " + cn + " could not be instantiated",
+                S p = sfrvidf.dbst(d.nfwInstbndf());
+                providfrs.put(dn, p);
+                rfturn p;
+            } dbtdi (Tirowbblf x) {
+                fbil(sfrvidf,
+                     "Providfr " + dn + " dould not bf instbntibtfd",
                      x);
             }
-            throw new Error();          // This cannot happen
+            tirow nfw Error();          // Tiis dbnnot ibppfn
         }
 
-        public boolean hasNext() {
-            if (acc == null) {
-                return hasNextService();
-            } else {
-                PrivilegedAction<Boolean> action = new PrivilegedAction<Boolean>() {
-                    public Boolean run() { return hasNextService(); }
+        publid boolfbn ibsNfxt() {
+            if (bdd == null) {
+                rfturn ibsNfxtSfrvidf();
+            } flsf {
+                PrivilfgfdAdtion<Boolfbn> bdtion = nfw PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() { rfturn ibsNfxtSfrvidf(); }
                 };
-                return AccessController.doPrivileged(action, acc);
+                rfturn AddfssControllfr.doPrivilfgfd(bdtion, bdd);
             }
         }
 
-        public S next() {
-            if (acc == null) {
-                return nextService();
-            } else {
-                PrivilegedAction<S> action = new PrivilegedAction<S>() {
-                    public S run() { return nextService(); }
+        publid S nfxt() {
+            if (bdd == null) {
+                rfturn nfxtSfrvidf();
+            } flsf {
+                PrivilfgfdAdtion<S> bdtion = nfw PrivilfgfdAdtion<S>() {
+                    publid S run() { rfturn nfxtSfrvidf(); }
                 };
-                return AccessController.doPrivileged(action, acc);
+                rfturn AddfssControllfr.doPrivilfgfd(bdtion, bdd);
             }
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
     }
 
     /**
-     * Lazily loads the available providers of this loader's service.
+     * Lbzily lobds tif bvbilbblf providfrs of tiis lobdfr's sfrvidf.
      *
-     * <p> The iterator returned by this method first yields all of the
-     * elements of the provider cache, in instantiation order.  It then lazily
-     * loads and instantiates any remaining providers, adding each one to the
-     * cache in turn.
+     * <p> Tif itfrbtor rfturnfd by tiis mftiod first yiflds bll of tif
+     * flfmfnts of tif providfr dbdif, in instbntibtion ordfr.  It tifn lbzily
+     * lobds bnd instbntibtfs bny rfmbining providfrs, bdding fbdi onf to tif
+     * dbdif in turn.
      *
-     * <p> To achieve laziness the actual work of parsing the available
-     * provider-configuration files and instantiating providers must be done by
-     * the iterator itself.  Its {@link java.util.Iterator#hasNext hasNext} and
-     * {@link java.util.Iterator#next next} methods can therefore throw a
-     * {@link ServiceConfigurationError} if a provider-configuration file
-     * violates the specified format, or if it names a provider class that
-     * cannot be found and instantiated, or if the result of instantiating the
-     * class is not assignable to the service type, or if any other kind of
-     * exception or error is thrown as the next provider is located and
-     * instantiated.  To write robust code it is only necessary to catch {@link
-     * ServiceConfigurationError} when using a service iterator.
+     * <p> To bdiifvf lbzinfss tif bdtubl work of pbrsing tif bvbilbblf
+     * providfr-donfigurbtion filfs bnd instbntibting providfrs must bf donf by
+     * tif itfrbtor itsflf.  Its {@link jbvb.util.Itfrbtor#ibsNfxt ibsNfxt} bnd
+     * {@link jbvb.util.Itfrbtor#nfxt nfxt} mftiods dbn tifrfforf tirow b
+     * {@link SfrvidfConfigurbtionError} if b providfr-donfigurbtion filf
+     * violbtfs tif spfdififd formbt, or if it nbmfs b providfr dlbss tibt
+     * dbnnot bf found bnd instbntibtfd, or if tif rfsult of instbntibting tif
+     * dlbss is not bssignbblf to tif sfrvidf typf, or if bny otifr kind of
+     * fxdfption or frror is tirown bs tif nfxt providfr is lodbtfd bnd
+     * instbntibtfd.  To writf robust dodf it is only nfdfssbry to dbtdi {@link
+     * SfrvidfConfigurbtionError} wifn using b sfrvidf itfrbtor.
      *
-     * <p> If such an error is thrown then subsequent invocations of the
-     * iterator will make a best effort to locate and instantiate the next
-     * available provider, but in general such recovery cannot be guaranteed.
+     * <p> If sudi bn frror is tirown tifn subsfqufnt invodbtions of tif
+     * itfrbtor will mbkf b bfst fffort to lodbtf bnd instbntibtf tif nfxt
+     * bvbilbblf providfr, but in gfnfrbl sudi rfdovfry dbnnot bf gubrbntffd.
      *
-     * <blockquote style="font-size: smaller; line-height: 1.2"><span
-     * style="padding-right: 1em; font-weight: bold">Design Note</span>
-     * Throwing an error in these cases may seem extreme.  The rationale for
-     * this behavior is that a malformed provider-configuration file, like a
-     * malformed class file, indicates a serious problem with the way the Java
-     * virtual machine is configured or is being used.  As such it is
-     * preferable to throw an error rather than try to recover or, even worse,
-     * fail silently.</blockquote>
+     * <blodkquotf stylf="font-sizf: smbllfr; linf-ifigit: 1.2"><spbn
+     * stylf="pbdding-rigit: 1fm; font-wfigit: bold">Dfsign Notf</spbn>
+     * Tirowing bn frror in tifsf dbsfs mby sffm fxtrfmf.  Tif rbtionblf for
+     * tiis bfibvior is tibt b mblformfd providfr-donfigurbtion filf, likf b
+     * mblformfd dlbss filf, indidbtfs b sfrious problfm witi tif wby tif Jbvb
+     * virtubl mbdiinf is donfigurfd or is bfing usfd.  As sudi it is
+     * prfffrbblf to tirow bn frror rbtifr tibn try to rfdovfr or, fvfn worsf,
+     * fbil silfntly.</blodkquotf>
      *
-     * <p> The iterator returned by this method does not support removal.
-     * Invoking its {@link java.util.Iterator#remove() remove} method will
-     * cause an {@link UnsupportedOperationException} to be thrown.
+     * <p> Tif itfrbtor rfturnfd by tiis mftiod dofs not support rfmovbl.
+     * Invoking its {@link jbvb.util.Itfrbtor#rfmovf() rfmovf} mftiod will
+     * dbusf bn {@link UnsupportfdOpfrbtionExdfption} to bf tirown.
      *
-     * @implNote When adding providers to the cache, the {@link #iterator
-     * Iterator} processes resources in the order that the {@link
-     * java.lang.ClassLoader#getResources(java.lang.String)
-     * ClassLoader.getResources(String)} method finds the service configuration
-     * files.
+     * @implNotf Wifn bdding providfrs to tif dbdif, tif {@link #itfrbtor
+     * Itfrbtor} prodfssfs rfsourdfs in tif ordfr tibt tif {@link
+     * jbvb.lbng.ClbssLobdfr#gftRfsourdfs(jbvb.lbng.String)
+     * ClbssLobdfr.gftRfsourdfs(String)} mftiod finds tif sfrvidf donfigurbtion
+     * filfs.
      *
-     * @return  An iterator that lazily loads providers for this loader's
-     *          service
+     * @rfturn  An itfrbtor tibt lbzily lobds providfrs for tiis lobdfr's
+     *          sfrvidf
      */
-    public Iterator<S> iterator() {
-        return new Iterator<S>() {
+    publid Itfrbtor<S> itfrbtor() {
+        rfturn nfw Itfrbtor<S>() {
 
-            Iterator<Map.Entry<String,S>> knownProviders
-                = providers.entrySet().iterator();
+            Itfrbtor<Mbp.Entry<String,S>> knownProvidfrs
+                = providfrs.fntrySft().itfrbtor();
 
-            public boolean hasNext() {
-                if (knownProviders.hasNext())
-                    return true;
-                return lookupIterator.hasNext();
+            publid boolfbn ibsNfxt() {
+                if (knownProvidfrs.ibsNfxt())
+                    rfturn truf;
+                rfturn lookupItfrbtor.ibsNfxt();
             }
 
-            public S next() {
-                if (knownProviders.hasNext())
-                    return knownProviders.next().getValue();
-                return lookupIterator.next();
+            publid S nfxt() {
+                if (knownProvidfrs.ibsNfxt())
+                    rfturn knownProvidfrs.nfxt().gftVbluf();
+                rfturn lookupItfrbtor.nfxt();
             }
 
-            public void remove() {
-                throw new UnsupportedOperationException();
+            publid void rfmovf() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
 
         };
     }
 
     /**
-     * Creates a new service loader for the given service type and class
-     * loader.
+     * Crfbtfs b nfw sfrvidf lobdfr for tif givfn sfrvidf typf bnd dlbss
+     * lobdfr.
      *
-     * @param  <S> the class of the service type
+     * @pbrbm  <S> tif dlbss of tif sfrvidf typf
      *
-     * @param  service
-     *         The interface or abstract class representing the service
+     * @pbrbm  sfrvidf
+     *         Tif intfrfbdf or bbstrbdt dlbss rfprfsfnting tif sfrvidf
      *
-     * @param  loader
-     *         The class loader to be used to load provider-configuration files
-     *         and provider classes, or <tt>null</tt> if the system class
-     *         loader (or, failing that, the bootstrap class loader) is to be
-     *         used
+     * @pbrbm  lobdfr
+     *         Tif dlbss lobdfr to bf usfd to lobd providfr-donfigurbtion filfs
+     *         bnd providfr dlbssfs, or <tt>null</tt> if tif systfm dlbss
+     *         lobdfr (or, fbiling tibt, tif bootstrbp dlbss lobdfr) is to bf
+     *         usfd
      *
-     * @return A new service loader
+     * @rfturn A nfw sfrvidf lobdfr
      */
-    public static <S> ServiceLoader<S> load(Class<S> service,
-                                            ClassLoader loader)
+    publid stbtid <S> SfrvidfLobdfr<S> lobd(Clbss<S> sfrvidf,
+                                            ClbssLobdfr lobdfr)
     {
-        return new ServiceLoader<>(service, loader);
+        rfturn nfw SfrvidfLobdfr<>(sfrvidf, lobdfr);
     }
 
     /**
-     * Creates a new service loader for the given service type, using the
-     * current thread's {@linkplain java.lang.Thread#getContextClassLoader
-     * context class loader}.
+     * Crfbtfs b nfw sfrvidf lobdfr for tif givfn sfrvidf typf, using tif
+     * durrfnt tirfbd's {@linkplbin jbvb.lbng.Tirfbd#gftContfxtClbssLobdfr
+     * dontfxt dlbss lobdfr}.
      *
-     * <p> An invocation of this convenience method of the form
+     * <p> An invodbtion of tiis donvfnifndf mftiod of tif form
      *
-     * <blockquote><pre>
-     * ServiceLoader.load(<i>service</i>)</pre></blockquote>
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>)</prf></blodkquotf>
      *
-     * is equivalent to
+     * is fquivblfnt to
      *
-     * <blockquote><pre>
-     * ServiceLoader.load(<i>service</i>,
-     *                    Thread.currentThread().getContextClassLoader())</pre></blockquote>
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>,
+     *                    Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr())</prf></blodkquotf>
      *
-     * @param  <S> the class of the service type
+     * @pbrbm  <S> tif dlbss of tif sfrvidf typf
      *
-     * @param  service
-     *         The interface or abstract class representing the service
+     * @pbrbm  sfrvidf
+     *         Tif intfrfbdf or bbstrbdt dlbss rfprfsfnting tif sfrvidf
      *
-     * @return A new service loader
+     * @rfturn A nfw sfrvidf lobdfr
      */
-    public static <S> ServiceLoader<S> load(Class<S> service) {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        return ServiceLoader.load(service, cl);
+    publid stbtid <S> SfrvidfLobdfr<S> lobd(Clbss<S> sfrvidf) {
+        ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        rfturn SfrvidfLobdfr.lobd(sfrvidf, dl);
     }
 
     /**
-     * Creates a new service loader for the given service type, using the
-     * extension class loader.
+     * Crfbtfs b nfw sfrvidf lobdfr for tif givfn sfrvidf typf, using tif
+     * fxtfnsion dlbss lobdfr.
      *
-     * <p> This convenience method simply locates the extension class loader,
-     * call it <tt><i>extClassLoader</i></tt>, and then returns
+     * <p> Tiis donvfnifndf mftiod simply lodbtfs tif fxtfnsion dlbss lobdfr,
+     * dbll it <tt><i>fxtClbssLobdfr</i></tt>, bnd tifn rfturns
      *
-     * <blockquote><pre>
-     * ServiceLoader.load(<i>service</i>, <i>extClassLoader</i>)</pre></blockquote>
+     * <blodkquotf><prf>
+     * SfrvidfLobdfr.lobd(<i>sfrvidf</i>, <i>fxtClbssLobdfr</i>)</prf></blodkquotf>
      *
-     * <p> If the extension class loader cannot be found then the system class
-     * loader is used; if there is no system class loader then the bootstrap
-     * class loader is used.
+     * <p> If tif fxtfnsion dlbss lobdfr dbnnot bf found tifn tif systfm dlbss
+     * lobdfr is usfd; if tifrf is no systfm dlbss lobdfr tifn tif bootstrbp
+     * dlbss lobdfr is usfd.
      *
-     * <p> This method is intended for use when only installed providers are
-     * desired.  The resulting service will only find and load providers that
-     * have been installed into the current Java virtual machine; providers on
-     * the application's class path will be ignored.
+     * <p> Tiis mftiod is intfndfd for usf wifn only instbllfd providfrs brf
+     * dfsirfd.  Tif rfsulting sfrvidf will only find bnd lobd providfrs tibt
+     * ibvf bffn instbllfd into tif durrfnt Jbvb virtubl mbdiinf; providfrs on
+     * tif bpplidbtion's dlbss pbti will bf ignorfd.
      *
-     * @param  <S> the class of the service type
+     * @pbrbm  <S> tif dlbss of tif sfrvidf typf
      *
-     * @param  service
-     *         The interface or abstract class representing the service
+     * @pbrbm  sfrvidf
+     *         Tif intfrfbdf or bbstrbdt dlbss rfprfsfnting tif sfrvidf
      *
-     * @return A new service loader
+     * @rfturn A nfw sfrvidf lobdfr
      */
-    public static <S> ServiceLoader<S> loadInstalled(Class<S> service) {
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-        ClassLoader prev = null;
-        while (cl != null) {
-            prev = cl;
-            cl = cl.getParent();
+    publid stbtid <S> SfrvidfLobdfr<S> lobdInstbllfd(Clbss<S> sfrvidf) {
+        ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+        ClbssLobdfr prfv = null;
+        wiilf (dl != null) {
+            prfv = dl;
+            dl = dl.gftPbrfnt();
         }
-        return ServiceLoader.load(service, prev);
+        rfturn SfrvidfLobdfr.lobd(sfrvidf, prfv);
     }
 
     /**
-     * Returns a string describing this service.
+     * Rfturns b string dfsdribing tiis sfrvidf.
      *
-     * @return  A descriptive string
+     * @rfturn  A dfsdriptivf string
      */
-    public String toString() {
-        return "java.util.ServiceLoader[" + service.getName() + "]";
+    publid String toString() {
+        rfturn "jbvb.util.SfrvidfLobdfr[" + sfrvidf.gftNbmf() + "]";
     }
 
 }

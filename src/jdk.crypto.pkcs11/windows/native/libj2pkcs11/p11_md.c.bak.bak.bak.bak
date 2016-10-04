@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+/*
+ * pkds11wrbppfr.d
+ * 18.05.2001
+ *
+ * This modulf dontbins thf nbtivf fundtions of thf Jbvb to PKCS#11 intfrfbdf
+ * whidh brf plbtform dfpfndfnt. This indludfs lobding b dynbmid link libbry,
+ * rftrifving thf fundtion list bnd unlobding thf dynbmid link librbry.
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ */
+
+#indludf "pkds11wrbppfr.h"
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <bssfrt.h>
+
+#indludf <windows.h>
+
+#indludf <jni.h>
+
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.h"
+
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    donnfdt
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_donnfdt
+    (JNIEnv *fnv, jobjfdt obj, jstring jPkds11ModulfPbth, jstring jGftFundtionList)
+{
+    HINSTANCE hModulf;
+    CK_C_GftFundtionList C_GftFundtionList;
+    CK_RV rv;
+    ModulfDbtb *modulfDbtb;
+    jobjfdt globblPKCS11ImplfmfntbtionRfffrfndf;
+    LPVOID lpMsgBuf;
+    dhbr *fxdfptionMfssbgf;
+    donst dhbr *gftFundtionListStr;
+
+    donst dhbr *librbryNbmfStr = (*fnv)->GftStringUTFChbrs(fnv, jPkds11ModulfPbth, 0);
+    TRACE1("DEBUG: donnfdt to PKCS#11 modulf: %s ... ", librbryNbmfStr);
+
+
+  /*
+   * Lobd thf PKCS #11 DLL
+   */
+    hModulf = LobdLibrbry(librbryNbmfStr);
+    if (hModulf == NULL) {
+        FormbtMfssbgf(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM |
+            FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            GftLbstError(),
+            0, /* Dffbult lbngubgf */
+            (LPTSTR) &lpMsgBuf,
+            0,
+            NULL
+        );
+        fxdfptionMfssbgf = (dhbr *) mbllod(sizfof(dhbr) * (strlfn((LPTSTR) lpMsgBuf) + strlfn(librbryNbmfStr) + 1));
+        strdpy(fxdfptionMfssbgf, (LPTSTR) lpMsgBuf);
+        strdbt(fxdfptionMfssbgf, librbryNbmfStr);
+        throwIOExdfption(fnv, (LPTSTR) fxdfptionMfssbgf);
+        /* Frff thf bufffr. */
+        frff(fxdfptionMfssbgf);
+        LodblFrff(lpMsgBuf);
+        rfturn;
+    }
+
+    /*
+     * Gft fundtion pointfr to C_GftFundtionList
+     */
+    gftFundtionListStr = (*fnv)->GftStringUTFChbrs(fnv, jGftFundtionList, 0);
+    C_GftFundtionList = (CK_C_GftFundtionList) GftProdAddrfss(hModulf, gftFundtionListStr);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, jGftFundtionList, gftFundtionListStr);
+    if (C_GftFundtionList == NULL) {
+        FormbtMfssbgf(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM |
+            FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            GftLbstError(),
+            0, /* Dffbult lbngubgf */
+            (LPTSTR) &lpMsgBuf,
+            0,
+            NULL
+        );
+        throwIOExdfption(fnv, (LPTSTR) lpMsgBuf);
+        /* Frff thf bufffr. */
+        LodblFrff( lpMsgBuf );
+        rfturn;
+    }
+
+    /*
+     * Gft fundtion pointfrs to bll PKCS #11 fundtions
+     */
+    modulfDbtb = (ModulfDbtb *) mbllod(sizfof(ModulfDbtb));
+    modulfDbtb->hModulf = hModulf;
+    modulfDbtb->bpplidbtionMutfxHbndlfr = NULL;
+    rv = (C_GftFundtionList)(&(modulfDbtb->dkFundtionListPtr));
+    globblPKCS11ImplfmfntbtionRfffrfndf = (*fnv)->NfwGlobblRff(fnv, obj);
+    putModulfEntry(fnv, globblPKCS11ImplfmfntbtionRfffrfndf, modulfDbtb);
+
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, jPkds11ModulfPbth, librbryNbmfStr);
+    TRACE0("FINISHED\n");
+
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    disdonnfdt
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_disdonnfdt
+    (JNIEnv *fnv, jobjfdt obj)
+{
+    ModulfDbtb *modulfDbtb;
+    TRACE0("DEBUG: disdonnfdting modulf...");
+    modulfDbtb = rfmovfModulfEntry(fnv, obj);
+
+    if (modulfDbtb != NULL) {
+        FrffLibrbry(modulfDbtb->hModulf);
+    }
+
+    frff(modulfDbtb);
+    TRACE0("FINISHED\n");
+}

@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "SurfaceData.h"
+#indludf "SurfbdfDbtb.i"
 
-#include "jni_util.h"
-#include "Disposer.h"
+#indludf "jni_util.i"
+#indludf "Disposfr.i"
 
-#include "stdlib.h"
-#include "string.h"
+#indludf "stdlib.i"
+#indludf "string.i"
 
 /**
- * This include file contains information on how to use a SurfaceData
- * object from native code.
+ * Tiis indludf filf dontbins informbtion on iow to usf b SurfbdfDbtb
+ * objfdt from nbtivf dodf.
  */
 
-static jclass pInvalidPipeClass;
-static jclass pNullSurfaceDataClass;
-static jfieldID pDataID;
-static jfieldID allGrayID;
+stbtid jdlbss pInvblidPipfClbss;
+stbtid jdlbss pNullSurfbdfDbtbClbss;
+stbtid jfifldID pDbtbID;
+stbtid jfifldID bllGrbyID;
 
-jfieldID validID;
-GeneralDisposeFunc SurfaceData_DisposeOps;
+jfifldID vblidID;
+GfnfrblDisposfFund SurfbdfDbtb_DisposfOps;
 
-#define InitClass(var, env, name) \
+#dffinf InitClbss(vbr, fnv, nbmf) \
 do { \
-    var = (*env)->FindClass(env, name); \
-    if (var == NULL) { \
-        return; \
+    vbr = (*fnv)->FindClbss(fnv, nbmf); \
+    if (vbr == NULL) { \
+        rfturn; \
     } \
-} while (0)
+} wiilf (0)
 
-#define InitField(var, env, jcl, name, type) \
+#dffinf InitFifld(vbr, fnv, jdl, nbmf, typf) \
 do { \
-    var = (*env)->GetFieldID(env, jcl, name, type); \
-    if (var == NULL) { \
-        return; \
+    vbr = (*fnv)->GftFifldID(fnv, jdl, nbmf, typf); \
+    if (vbr == NULL) { \
+        rfturn; \
     } \
-} while (0)
+} wiilf (0)
 
-#define InitGlobalClassRef(var, env, name) \
+#dffinf InitGlobblClbssRff(vbr, fnv, nbmf) \
 do { \
-    jobject jtmp; \
-    InitClass(jtmp, env, name); \
-    var = (*env)->NewGlobalRef(env, jtmp); \
-    if (var == NULL) { \
-        return; \
+    jobjfdt jtmp; \
+    InitClbss(jtmp, fnv, nbmf); \
+    vbr = (*fnv)->NfwGlobblRff(fnv, jtmp); \
+    if (vbr == NULL) { \
+        rfturn; \
     } \
-} while (0)
+} wiilf (0)
 
 /*
- * Class:     sun_java2d_SurfaceData
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_SurfbdfDbtb
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_SurfaceData_initIDs(JNIEnv *env, jclass sd)
+Jbvb_sun_jbvb2d_SurfbdfDbtb_initIDs(JNIEnv *fnv, jdlbss sd)
 {
-    jclass pICMClass;
+    jdlbss pICMClbss;
 
-    InitGlobalClassRef(pInvalidPipeClass, env,
-                       "sun/java2d/InvalidPipeException");
+    InitGlobblClbssRff(pInvblidPipfClbss, fnv,
+                       "sun/jbvb2d/InvblidPipfExdfption");
 
-    InitGlobalClassRef(pNullSurfaceDataClass, env,
-                       "sun/java2d/NullSurfaceData");
+    InitGlobblClbssRff(pNullSurfbdfDbtbClbss, fnv,
+                       "sun/jbvb2d/NullSurfbdfDbtb");
 
-    InitField(pDataID, env, sd, "pData", "J");
-    InitField(validID, env, sd, "valid", "Z");
+    InitFifld(pDbtbID, fnv, sd, "pDbtb", "J");
+    InitFifld(vblidID, fnv, sd, "vblid", "Z");
 
-    InitClass(pICMClass, env, "java/awt/image/IndexColorModel");
-    InitField(allGrayID, env, pICMClass, "allgrayopaque", "Z");
+    InitClbss(pICMClbss, fnv, "jbvb/bwt/imbgf/IndfxColorModfl");
+    InitFifld(bllGrbyID, fnv, pICMClbss, "bllgrbyopbquf", "Z");
 }
 
 /*
- * Class:     sun_java2d_SurfaceData
- * Method:    isOpaqueGray
- * Signature: ()Z
+ * Clbss:     sun_jbvb2d_SurfbdfDbtb
+ * Mftiod:    isOpbqufGrby
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_SurfaceData_isOpaqueGray(JNIEnv *env, jclass sdClass,
-                                         jobject icm)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_SurfbdfDbtb_isOpbqufGrby(JNIEnv *fnv, jdlbss sdClbss,
+                                         jobjfdt idm)
 {
-    if (icm == NULL) {
-        return JNI_FALSE;
+    if (idm == NULL) {
+        rfturn JNI_FALSE;
     }
-    return (*env)->GetBooleanField(env, icm, allGrayID);
+    rfturn (*fnv)->GftBoolfbnFifld(fnv, idm, bllGrbyID);
 }
 
-static SurfaceDataOps *
-GetSDOps(JNIEnv *env, jobject sData, jboolean callSetup)
+stbtid SurfbdfDbtbOps *
+GftSDOps(JNIEnv *fnv, jobjfdt sDbtb, jboolfbn dbllSftup)
 {
-    SurfaceDataOps *ops;
-    if (JNU_IsNull(env, sData)) {
-        JNU_ThrowNullPointerException(env, "surfaceData");
-        return NULL;
+    SurfbdfDbtbOps *ops;
+    if (JNU_IsNull(fnv, sDbtb)) {
+        JNU_TirowNullPointfrExdfption(fnv, "surfbdfDbtb");
+        rfturn NULL;
     }
-    ops = (SurfaceDataOps *)JNU_GetLongFieldAsPtr(env, sData, pDataID);
+    ops = (SurfbdfDbtbOps *)JNU_GftLongFifldAsPtr(fnv, sDbtb, pDbtbID);
     if (ops == NULL) {
-        if (!(*env)->ExceptionOccurred(env) &&
-            !(*env)->IsInstanceOf(env, sData, pNullSurfaceDataClass))
+        if (!(*fnv)->ExdfptionOddurrfd(fnv) &&
+            !(*fnv)->IsInstbndfOf(fnv, sDbtb, pNullSurfbdfDbtbClbss))
         {
-            if (!(*env)->GetBooleanField(env, sData, validID)) {
-                SurfaceData_ThrowInvalidPipeException(env, "invalid data");
-            } else {
-                JNU_ThrowNullPointerException(env, "native ops missing");
+            if (!(*fnv)->GftBoolfbnFifld(fnv, sDbtb, vblidID)) {
+                SurfbdfDbtb_TirowInvblidPipfExdfption(fnv, "invblid dbtb");
+            } flsf {
+                JNU_TirowNullPointfrExdfption(fnv, "nbtivf ops missing");
             }
         }
-    } else if (callSetup) {
-        SurfaceData_InvokeSetup(env, ops);
+    } flsf if (dbllSftup) {
+        SurfbdfDbtb_InvokfSftup(fnv, ops);
     }
-    return ops;
+    rfturn ops;
 }
 
-JNIEXPORT SurfaceDataOps * JNICALL
-SurfaceData_GetOps(JNIEnv *env, jobject sData)
+JNIEXPORT SurfbdfDbtbOps * JNICALL
+SurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb)
 {
-    return GetSDOps(env, sData, JNI_TRUE);
+    rfturn GftSDOps(fnv, sDbtb, JNI_TRUE);
 }
 
-JNIEXPORT SurfaceDataOps * JNICALL
-SurfaceData_GetOpsNoSetup(JNIEnv *env, jobject sData)
+JNIEXPORT SurfbdfDbtbOps * JNICALL
+SurfbdfDbtb_GftOpsNoSftup(JNIEnv *fnv, jobjfdt sDbtb)
 {
-    return GetSDOps(env, sData, JNI_FALSE);
+    rfturn GftSDOps(fnv, sDbtb, JNI_FALSE);
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_SetOps(JNIEnv *env, jobject sData, SurfaceDataOps *ops)
+SurfbdfDbtb_SftOps(JNIEnv *fnv, jobjfdt sDbtb, SurfbdfDbtbOps *ops)
 {
-    if (JNU_GetLongFieldAsPtr(env, sData, pDataID) == NULL) {
-        JNU_SetLongFieldFromPtr(env, sData, pDataID, ops);
-        /* Register the data for disposal */
-        Disposer_AddRecord(env, sData,
-                           SurfaceData_DisposeOps,
+    if (JNU_GftLongFifldAsPtr(fnv, sDbtb, pDbtbID) == NULL) {
+        JNU_SftLongFifldFromPtr(fnv, sDbtb, pDbtbID, ops);
+        /* Rfgistfr tif dbtb for disposbl */
+        Disposfr_AddRfdord(fnv, sDbtb,
+                           SurfbdfDbtb_DisposfOps,
                            ptr_to_jlong(ops));
-    } else {
-        JNU_ThrowInternalError(env, "Attempting to set SurfaceData ops twice");
+    } flsf {
+        JNU_TirowIntfrnblError(fnv, "Attfmpting to sft SurfbdfDbtb ops twidf");
     }
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_ThrowInvalidPipeException(JNIEnv *env, const char *msg)
+SurfbdfDbtb_TirowInvblidPipfExdfption(JNIEnv *fnv, donst dibr *msg)
 {
-    (*env)->ThrowNew(env, pInvalidPipeClass, msg);
+    (*fnv)->TirowNfw(fnv, pInvblidPipfClbss, msg);
 }
 
-#define GETMIN(v1, v2)          (((v1) > (t=(v2))) && ((v1) = t))
-#define GETMAX(v1, v2)          (((v1) < (t=(v2))) && ((v1) = t))
+#dffinf GETMIN(v1, v2)          (((v1) > (t=(v2))) && ((v1) = t))
+#dffinf GETMAX(v1, v2)          (((v1) < (t=(v2))) && ((v1) = t))
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBounds(SurfaceDataBounds *dst, SurfaceDataBounds *src)
+SurfbdfDbtb_IntfrsfdtBounds(SurfbdfDbtbBounds *dst, SurfbdfDbtbBounds *srd)
 {
     int t;
-    GETMAX(dst->x1, src->x1);
-    GETMAX(dst->y1, src->y1);
-    GETMIN(dst->x2, src->x2);
-    GETMIN(dst->y2, src->y2);
+    GETMAX(dst->x1, srd->x1);
+    GETMAX(dst->y1, srd->y1);
+    GETMIN(dst->x2, srd->x2);
+    GETMIN(dst->y2, srd->y2);
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
+SurfbdfDbtb_IntfrsfdtBoundsXYXY(SurfbdfDbtbBounds *bounds,
                                 jint x1, jint y1, jint x2, jint y2)
 {
     int t;
@@ -190,8 +190,8 @@ SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
-                                jint x, jint y, jint w, jint h)
+SurfbdfDbtb_IntfrsfdtBoundsXYWH(SurfbdfDbtbBounds *bounds,
+                                jint x, jint y, jint w, jint i)
 {
     w = (w <= 0) ? x : x+w;
     if (w < x) {
@@ -203,54 +203,54 @@ SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
     if (bounds->x2 > w) {
         bounds->x2 = w;
     }
-    h = (h <= 0) ? y : y+h;
-    if (h < y) {
-        h = 0x7fffffff;
+    i = (i <= 0) ? y : y+i;
+    if (i < y) {
+        i = 0x7fffffff;
     }
     if (bounds->y1 < y) {
         bounds->y1 = y;
     }
-    if (bounds->y2 > h) {
-        bounds->y2 = h;
+    if (bounds->y2 > i) {
+        bounds->y2 = i;
     }
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBlitBounds(SurfaceDataBounds *src,
-                                SurfaceDataBounds *dst,
+SurfbdfDbtb_IntfrsfdtBlitBounds(SurfbdfDbtbBounds *srd,
+                                SurfbdfDbtbBounds *dst,
                                 jint dx, jint dy)
 {
     int t;
-    GETMAX(dst->x1, src->x1 + dx);
-    GETMAX(dst->y1, src->y1 + dy);
-    GETMIN(dst->x2, src->x2 + dx);
-    GETMIN(dst->y2, src->y2 + dy);
-    GETMAX(src->x1, dst->x1 - dx);
-    GETMAX(src->y1, dst->y1 - dy);
-    GETMIN(src->x2, dst->x2 - dx);
-    GETMIN(src->y2, dst->y2 - dy);
+    GETMAX(dst->x1, srd->x1 + dx);
+    GETMAX(dst->y1, srd->y1 + dy);
+    GETMIN(dst->x2, srd->x2 + dx);
+    GETMIN(dst->y2, srd->y2 + dy);
+    GETMAX(srd->x1, dst->x1 - dx);
+    GETMAX(srd->y1, dst->y1 - dy);
+    GETMIN(srd->x2, dst->x2 - dx);
+    GETMIN(srd->y2, dst->y2 - dy);
 }
 
-SurfaceDataOps *SurfaceData_InitOps(JNIEnv *env, jobject sData, int opsSize)
+SurfbdfDbtbOps *SurfbdfDbtb_InitOps(JNIEnv *fnv, jobjfdt sDbtb, int opsSizf)
 {
-    SurfaceDataOps *ops = malloc(opsSize);
-    SurfaceData_SetOps(env, sData, ops);
+    SurfbdfDbtbOps *ops = mbllod(opsSizf);
+    SurfbdfDbtb_SftOps(fnv, sDbtb, ops);
     if (ops != NULL) {
-        memset(ops, 0, opsSize);
-        if (!(*env)->ExceptionCheck(env)) {
-            ops->sdObject = (*env)->NewWeakGlobalRef(env, sData);
+        mfmsft(ops, 0, opsSizf);
+        if (!(*fnv)->ExdfptionCifdk(fnv)) {
+            ops->sdObjfdt = (*fnv)->NfwWfbkGlobblRff(fnv, sDbtb);
         }
     }
-    return ops;
+    rfturn ops;
 }
 
-void SurfaceData_DisposeOps(JNIEnv *env, jlong ops)
+void SurfbdfDbtb_DisposfOps(JNIEnv *fnv, jlong ops)
 {
     if (ops != 0) {
-        SurfaceDataOps *sdops = (SurfaceDataOps*)jlong_to_ptr(ops);
-        /* Invoke the ops-specific disposal function */
-        SurfaceData_InvokeDispose(env, sdops);
-        (*env)->DeleteWeakGlobalRef(env, sdops->sdObject);
-        free(sdops);
+        SurfbdfDbtbOps *sdops = (SurfbdfDbtbOps*)jlong_to_ptr(ops);
+        /* Invokf tif ops-spfdifid disposbl fundtion */
+        SurfbdfDbtb_InvokfDisposf(fnv, sdops);
+        (*fnv)->DflftfWfbkGlobblRff(fnv, sdops->sdObjfdt);
+        frff(sdops);
     }
 }

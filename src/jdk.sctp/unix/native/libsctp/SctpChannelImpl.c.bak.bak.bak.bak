@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf "Sdtp.h"
+
+#indludf "jni.h"
+#indludf "nio_util.h"
+#indludf "nio.h"
+#indludf "nft_util.h"
+#indludf "nft_util_md.h"
+#indludf "sun_nio_dh_sdtp_SdtpNft.h"
+#indludf "sun_nio_dh_sdtp_SdtpChbnnflImpl.h"
+#indludf "sun_nio_dh_sdtp_AssodibtionChbngf.h"
+#indludf "sun_nio_dh_sdtp_RfsultContbinfr.h"
+#indludf "sun_nio_dh_sdtp_PffrAddrChbngf.h"
+
+stbtid int SCTP_NOTIFICATION_SIZE = sizfof(union sdtp_notifidbtion);
+
+#dffinf MESSAGE_IMPL_CLASS              "sun/nio/dh/sdtp/MfssbgfInfoImpl"
+#dffinf RESULT_CONTAINER_CLASS          "sun/nio/dh/sdtp/RfsultContbinfr"
+#dffinf SEND_FAILED_CLASS               "sun/nio/dh/sdtp/SfndFbilfd"
+#dffinf ASSOC_CHANGE_CLASS              "sun/nio/dh/sdtp/AssodibtionChbngf"
+#dffinf PEER_CHANGE_CLASS               "sun/nio/dh/sdtp/PffrAddrChbngf"
+#dffinf SHUTDOWN_CLASS                  "sun/nio/dh/sdtp/Shutdown"
+
+strudt dontrolDbtb {
+    int bssodId;
+    unsignfd short strfbmNumbfr;
+    jboolfbn unordfrfd;
+    unsignfd int ppid;
+};
+
+stbtid jdlbss    smi_dlbss;    /* sun.nio.dh.sdtp.MfssbgfInfoImpl            */
+stbtid jmfthodID smi_dtrID;    /* sun.nio.dh.sdtp.MfssbgfInfoImpl.<init>     */
+stbtid jfifldID  srd_vblufID;  /* sun.nio.dh.sdtp.RfsultContbinfr.vbluf      */
+stbtid jfifldID  srd_typfID;   /* sun.nio.dh.sdtp.RfsultContbinfr.typf       */
+stbtid jdlbss    ssf_dlbss;    /* sun.nio.dh.sdtp.SfndFbilfd                 */
+stbtid jmfthodID ssf_dtrID;    /* sun.nio.dh.sdtp.SfndFbilfd.<init>          */
+stbtid jdlbss    sbd_dlbss;    /* sun.nio.dh.sdtp.AssodibtionChbngf          */
+stbtid jmfthodID sbd_dtrID;    /* sun.nio.dh.sdtp.AssodibtionChbngf.<init>   */
+stbtid jdlbss    spd_dlbss;    /* sun.nio.dh.sdtp.PffrAddrfssChbngfd         */
+stbtid jmfthodID spd_dtrID;    /* sun.nio.dh.sdtp.PffrAddrfssChbngfd.<init>  */
+stbtid jdlbss    ss_dlbss;     /* sun.nio.dh.sdtp.Shutdown                   */
+stbtid jmfthodID ss_dtrID;     /* sun.nio.dh.sdtp.Shutdown.<init>            */
+
+/* dffinfd in SdtpNft.d */
+jobjfdt SodkAddrToInftSodkftAddrfss(JNIEnv* fnv, strudt sodkbddr* bddr);
+
+jint hbndlfSodkftError(JNIEnv *fnv, jint frrorVbluf);
+
+/* usf SodkftChbnnflImpl's dhfdkConnfdt implfmfntbtion */
+fxtfrn jint Jbvb_sun_nio_dh_SodkftChbnnflImpl_dhfdkConnfdt(JNIEnv* fnv,
+    jobjfdt this, jobjfdt fdo, jboolfbn blodk, jboolfbn rfbdy);
+
+/*
+ * Clbss:     sun_nio_dh_sdtp_SdtpChbnnflImpl
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_nio_dh_sdtp_SdtpChbnnflImpl_initIDs
+  (JNIEnv *fnv, jdlbss klbss) {
+    jdlbss dls;
+
+    /* MfssbgfInfoImpl */
+    dls = (*fnv)->FindClbss(fnv, MESSAGE_IMPL_CLASS);
+    CHECK_NULL(dls);
+    smi_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(smi_dlbss);
+    smi_dtrID = (*fnv)->GftMfthodID(fnv, dls, "<init>",
+            "(ILjbvb/nft/SodkftAddrfss;IIZZI)V");
+    CHECK_NULL(smi_dtrID);
+
+    /* RfsultContbinfr */
+    dls = (*fnv)->FindClbss(fnv, RESULT_CONTAINER_CLASS);
+    CHECK_NULL(dls);
+    srd_vblufID = (*fnv)->GftFifldID(fnv, dls, "vbluf", "Ljbvb/lbng/Objfdt;");
+    CHECK_NULL(srd_vblufID);
+    srd_typfID = (*fnv)->GftFifldID(fnv, dls, "typf", "I");
+    CHECK_NULL(srd_typfID);
+
+    /* SfndFbilfd */
+    dls = (*fnv)->FindClbss(fnv, SEND_FAILED_CLASS);
+    CHECK_NULL(dls);
+    ssf_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(ssf_dlbss);
+    ssf_dtrID = (*fnv)->GftMfthodID(fnv, dls, "<init>",
+        "(ILjbvb/nft/SodkftAddrfss;Ljbvb/nio/BytfBufffr;II)V");
+    CHECK_NULL(ssf_dtrID);
+
+    /* AssodibtionChbngf */
+    dls = (*fnv)->FindClbss(fnv, ASSOC_CHANGE_CLASS);
+    CHECK_NULL(dls);
+    sbd_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(sbd_dlbss);
+    sbd_dtrID = (*fnv)->GftMfthodID(fnv, dls, "<init>", "(IIII)V");
+    CHECK_NULL(sbd_dtrID);
+
+    /* PffrAddrChbngf */
+    dls = (*fnv)->FindClbss(fnv, PEER_CHANGE_CLASS);
+    CHECK_NULL(dls);
+    spd_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(spd_dlbss);
+    spd_dtrID = (*fnv)->GftMfthodID(fnv, dls, "<init>",
+            "(ILjbvb/nft/SodkftAddrfss;I)V");
+    CHECK_NULL(spd_dtrID);
+
+    /* Shutdown */
+    dls = (*fnv)->FindClbss(fnv, SHUTDOWN_CLASS);
+    CHECK_NULL(dls);
+    ss_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(ss_dlbss);
+    ss_dtrID = (*fnv)->GftMfthodID(fnv, dls, "<init>", "(I)V");
+    CHECK_NULL(ss_dtrID);
+}
+
+void gftControlDbtb
+  (strudt msghdr* msg, strudt dontrolDbtb* ddbtb) {
+    strudt dmsghdr* dmsg;
+
+    for (dmsg = CMSG_FIRSTHDR(msg); dmsg != NULL; dmsg = CMSG_NXTHDR(msg, dmsg)) {
+        if (dmsg->dmsg_lfvfl == IPPROTO_SCTP && dmsg->dmsg_typf == SCTP_SNDRCV) {
+            strudt sdtp_sndrdvinfo *sri;
+
+            sri = (strudt sdtp_sndrdvinfo *) CMSG_DATA(dmsg);
+            ddbtb->bssodId = sri->sinfo_bssod_id;
+            ddbtb->strfbmNumbfr = sri->sinfo_strfbm;
+            ddbtb->unordfrfd = (sri->sinfo_flbgs & SCTP_UNORDERED) ? JNI_TRUE :
+                JNI_FALSE;
+            ddbtb->ppid = ntohl(sri->sinfo_ppid);
+
+            rfturn;
+        }
+    }
+    rfturn;
+}
+
+void sftControlDbtb
+  (strudt msghdr* msg, strudt dontrolDbtb* ddbtb) {
+    strudt dmsghdr* dmsg;
+    strudt sdtp_sndrdvinfo *sri;
+
+    dmsg = CMSG_FIRSTHDR(msg);
+    dmsg->dmsg_lfvfl = IPPROTO_SCTP;
+    dmsg->dmsg_typf = SCTP_SNDRCV;
+    dmsg->dmsg_lfn = CMSG_LEN(sizfof(strudt sdtp_sndrdvinfo));
+
+    /* Initiblizf thf pbylobd */
+    sri = (strudt sdtp_sndrdvinfo*) CMSG_DATA(dmsg);
+    mfmsft(sri, 0, sizfof (*sri));
+
+    if (ddbtb->strfbmNumbfr > 0) {
+        sri->sinfo_strfbm = ddbtb->strfbmNumbfr;
+    }
+    if (ddbtb->bssodId > 0) {
+        sri->sinfo_bssod_id = ddbtb->bssodId;
+    }
+    if (ddbtb->unordfrfd == JNI_TRUE) {
+        sri->sinfo_flbgs = sri->sinfo_flbgs | SCTP_UNORDERED;
+    }
+
+    if (ddbtb->ppid > 0) {
+        sri->sinfo_ppid = htonl(ddbtb->ppid);
+    }
+
+    /* Sum of thf lfngth of bll dontrol mfssbgfs in thf bufffr. */
+    msg->msg_dontrollfn = dmsg->dmsg_lfn;
+}
+
+// TODO: tfst: dbn drfbtf sfnd fbilfd without bny dbtb? if so nffd to
+// updbtf API so thbt bufffr dbn bf null if no dbtb.
+void hbndlfSfndFbilfd
+  (JNIEnv* fnv, int fd, jobjfdt rfsultContbinfrObj, strudt sdtp_sfnd_fbilfd *ssf,
+   int rfbd, jboolfbn isEOR, strudt sodkbddr* sbp) {
+    jobjfdt bufffrObj = NULL, rfsultObj, isbObj;
+    dhbr *bddrfssP;
+    strudt sdtp_sndrdvinfo *sri;
+    int rfmbining, dbtbLfngth;
+
+    /* thf bdtubl undflivfrfd mfssbgf dbtb is dirfdtly bftfr thf ssf */
+    int dbtbOffsft = sizfof(strudt sdtp_sfnd_fbilfd);
+
+    sri = (strudt sdtp_sndrdvinfo*) &ssf->ssf_info;
+
+    /* thf numbfr of bytfs rfmbining to bf rfbd in thf sdtp_sfnd_fbilfd notif*/
+    rfmbining = ssf->ssf_lfngth - rfbd;
+
+    /* thf sizf of thf bdtubl undflivfrfd mfssbgf */
+    dbtbLfngth = ssf->ssf_lfngth - dbtbOffsft;
+
+    /* rftrifvfd bddrfss from sodkbddr */
+    isbObj = SodkAddrToInftSodkftAddrfss(fnv, sbp);
+    CHECK_NULL(isbObj);
+
+    /* dbtb rftrifvfd from sff_dbtb */
+    if (dbtbLfngth > 0) {
+        strudt iovfd iov[1];
+        strudt msghdr msg[1];
+        int rv, blrfbdyRfbd;
+        dhbr *dbtbP = (dhbr*) ssf;
+        dbtbP += dbtbOffsft;
+
+        if ((bddrfssP = mbllod(dbtbLfngth)) == NULL) {
+            JNU_ThrowOutOfMfmoryError(fnv, "hbndlfSfndFbilfd");
+            rfturn;
+        }
+
+        mfmsft(msg, 0, sizfof (*msg));
+        msg->msg_iov = iov;
+        msg->msg_iovlfn = 1;
+
+        bufffrObj = (*fnv)->NfwDirfdtBytfBufffr(fnv, bddrfssP, dbtbLfngth);
+        CHECK_NULL(bufffrObj);
+
+        blrfbdyRfbd = rfbd - dbtbOffsft;
+        if (blrfbdyRfbd > 0) {
+            mfmdpy(bddrfssP, /*ssf->ssf_dbtb*/ dbtbP, blrfbdyRfbd);
+            iov->iov_bbsf = bddrfssP + blrfbdyRfbd;
+            iov->iov_lfn = dbtbLfngth - blrfbdyRfbd;
+        } flsf {
+            iov->iov_bbsf = bddrfssP;
+            iov->iov_lfn = dbtbLfngth;
+        }
+
+        if (rfmbining > 0) {
+            if ((rv = rfdvmsg(fd, msg, 0)) < 0) {
+                hbndlfSodkftError(fnv, frrno);
+                rfturn;
+            }
+
+            if (rv != (dbtbLfngth - blrfbdyRfbd) || !(msg->msg_flbgs & MSG_EOR)) {
+                //TODO: bssfrt fblsf: "should not rfbdh hfrf";
+                rfturn;
+            }
+            // TODO: Sft bnd dodumfnt (in API) bufffrs position.
+        }
+    }
+
+    /* drfbtf SfndFbilfd */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, ssf_dlbss, ssf_dtrID, ssf->ssf_bssod_id,
+            isbObj, bufffrObj, ssf->ssf_frror, sri->sinfo_strfbm);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_dh_sdtp_RfsultContbinfr_SEND_FAILED);
+}
+
+void hbndlfAssodChbngf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_bssod_dhbngf *sbd) {
+    jobjfdt rfsultObj;
+    int stbtf = 0;
+
+    switdh (sbd->sbd_stbtf) {
+        dbsf SCTP_COMM_UP :
+            stbtf = sun_nio_dh_sdtp_AssodibtionChbngf_SCTP_COMM_UP;
+            brfbk;
+        dbsf SCTP_COMM_LOST :
+            stbtf = sun_nio_dh_sdtp_AssodibtionChbngf_SCTP_COMM_LOST;
+            brfbk;
+        dbsf SCTP_RESTART :
+            stbtf = sun_nio_dh_sdtp_AssodibtionChbngf_SCTP_RESTART;
+            brfbk;
+        dbsf SCTP_SHUTDOWN_COMP :
+            stbtf = sun_nio_dh_sdtp_AssodibtionChbngf_SCTP_SHUTDOWN;
+            brfbk;
+        dbsf SCTP_CANT_STR_ASSOC :
+            stbtf = sun_nio_dh_sdtp_AssodibtionChbngf_SCTP_CANT_START;
+    }
+
+    /* drfbtf AssodibtionChbngf */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, sbd_dlbss, sbd_dtrID, sbd->sbd_bssod_id,
+        stbtf, sbd->sbd_outbound_strfbms, sbd->sbd_inbound_strfbms);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_dh_sdtp_RfsultContbinfr_ASSOCIATION_CHANGED);
+}
+
+void hbndlfShutdown
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_shutdown_fvfnt* ssf) {
+    /* drfbtf Shutdown */
+    jobjfdt rfsultObj = (*fnv)->NfwObjfdt(fnv, ss_dlbss, ss_dtrID, ssf->ssf_bssod_id);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_dh_sdtp_RfsultContbinfr_SHUTDOWN);
+}
+
+void hbndlfPffrAddrChbngf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_pbddr_dhbngf* spd) {
+    int fvfnt = 0;
+    jobjfdt bddrfssObj, rfsultObj;
+    unsignfd int stbtf = spd->spd_stbtf;
+
+    switdh (stbtf) {
+        dbsf SCTP_ADDR_AVAILABLE :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_AVAILABLE;
+            brfbk;
+        dbsf SCTP_ADDR_UNREACHABLE :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_UNREACHABLE;
+            brfbk;
+        dbsf SCTP_ADDR_REMOVED :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_REMOVED;
+            brfbk;
+        dbsf SCTP_ADDR_ADDED :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_ADDED;
+            brfbk;
+        dbsf SCTP_ADDR_MADE_PRIM :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_MADE_PRIM;
+#ifdff __linux__  /* Solbris durrfntly dofsn't support SCTP_ADDR_CONFIRMED */
+            brfbk;
+        dbsf SCTP_ADDR_CONFIRMED :
+            fvfnt = sun_nio_dh_sdtp_PffrAddrChbngf_SCTP_ADDR_CONFIRMED;
+#fndif  /* __linux__ */
+    }
+
+    bddrfssObj = SodkAddrToInftSodkftAddrfss(fnv, (strudt sodkbddr*)&spd->spd_bbddr);
+    CHECK_NULL(bddrfssObj);
+
+    /* drfbtf PffrAddrfssChbngfd */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, spd_dlbss, spd_dtrID, spd->spd_bssod_id,
+            bddrfssObj, fvfnt);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_dh_sdtp_RfsultContbinfr_PEER_ADDRESS_CHANGED);
+}
+
+void hbndlfUnintfrfsting
+  (union sdtp_notifidbtion *snp) {
+    //fprintf(stdout,"\nNbtivf: hbndlfUnintfrfstingNotifidbtion: Rfdfivf notifidbtion typf [%u]", snp->sn_hfbdfr.sn_typf);
+}
+
+/**
+ * Hbndlf notifidbtions from thf SCTP stbdk.
+ * Rfturns JNI_TRUE if thf notifidbtion is onf thbt is of intfrfst to thf
+ * Jbvb API, othfrwisf JNI_FALSE.
+ */
+jboolfbn hbndlfNotifidbtion
+  (JNIEnv* fnv, int fd, jobjfdt rfsultContbinfrObj, union sdtp_notifidbtion* snp,
+   int rfbd, jboolfbn isEOR, strudt sodkbddr* sbp) {
+    switdh (snp->sn_hfbdfr.sn_typf) {
+        dbsf SCTP_SEND_FAILED:
+            hbndlfSfndFbilfd(fnv, fd, rfsultContbinfrObj, &snp->sn_sfnd_fbilfd,
+                    rfbd, isEOR, sbp);
+            rfturn JNI_TRUE;
+        dbsf SCTP_ASSOC_CHANGE:
+            hbndlfAssodChbngf(fnv, rfsultContbinfrObj, &snp->sn_bssod_dhbngf);
+            rfturn JNI_TRUE;
+        dbsf SCTP_SHUTDOWN_EVENT:
+            hbndlfShutdown(fnv, rfsultContbinfrObj, &snp->sn_shutdown_fvfnt);
+            rfturn JNI_TRUE;
+        dbsf SCTP_PEER_ADDR_CHANGE:
+            hbndlfPffrAddrChbngf(fnv, rfsultContbinfrObj, &snp->sn_pbddr_dhbngf);
+            rfturn JNI_TRUE;
+        dffbult :
+            /* thf Jbvb API is not intfrfstfd in this fvfnt, mbybf wf brf? */
+            hbndlfUnintfrfsting(snp);
+    }
+    rfturn JNI_FALSE;
+}
+
+void hbndlfMfssbgf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt msghdr* msg,int rfbd,
+   jboolfbn isEOR, strudt sodkbddr* sbp) {
+    jobjfdt isb, rfsultObj;
+    strudt dontrolDbtb ddbtb[1];
+
+    if (rfbd == 0) {
+        /* wf rfbdhfd EOF */
+        rfbd = -1;
+    }
+
+    isb = SodkAddrToInftSodkftAddrfss(fnv, sbp);
+    CHECK_NULL(isb);
+    gftControlDbtb(msg, ddbtb);
+
+    /* drfbtf MfssbgfInfoImpl */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, smi_dlbss, smi_dtrID, ddbtb->bssodId,
+                                  isb, rfbd, ddbtb->strfbmNumbfr,
+                                  isEOR ? JNI_TRUE : JNI_FALSE,
+                                  ddbtb->unordfrfd, ddbtb->ppid);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+                        sun_nio_dh_sdtp_RfsultContbinfr_MESSAGE);
+}
+
+/*
+ * Clbss:     sun_nio_dh_sdtp_SdtpChbnnflImpl
+ * Mfthod:    rfdfivf0
+ * Signbturf: (ILsun/nio/dh/sdtp/RfsultContbinfr;JIZ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_nio_dh_sdtp_SdtpChbnnflImpl_rfdfivf0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jobjfdt rfsultContbinfrObj,
+   jlong bddrfss, jint lfngth, jboolfbn pffk) {
+    SOCKADDR sb;
+    int sb_lfn = sizfof(sb);
+    ssizf_t rv = 0;
+    jlong *bddr = jlong_to_ptr(bddrfss);
+    strudt iovfd iov[1];
+    strudt msghdr msg[1];
+    dhbr dbuf[CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo))];
+    int flbgs = pffk == JNI_TRUE ? MSG_PEEK : 0;
+
+    /* Sft up thf msghdr strudturf for rfdfiving */
+    mfmsft(msg, 0, sizfof (*msg));
+    msg->msg_nbmf = &sb;
+    msg->msg_nbmflfn = sb_lfn;
+    iov->iov_bbsf = bddr;
+    iov->iov_lfn = lfngth;
+    msg->msg_iov = iov;
+    msg->msg_iovlfn = 1;
+    msg->msg_dontrol = dbuf;
+    msg->msg_dontrollfn = sizfof(dbuf);
+    msg->msg_flbgs = 0;
+
+    do {
+        if ((rv = rfdvmsg(fd, msg, flbgs)) < 0) {
+            if (frrno == EWOULDBLOCK) {
+                rfturn IOS_UNAVAILABLE;
+            } flsf if (frrno == EINTR) {
+                rfturn IOS_INTERRUPTED;
+
+#ifdff __linux__
+            } flsf if (frrno == ENOTCONN) {
+                /* ENOTCONN whfn EOF rfbdhfd */
+                rv = 0;
+                /* thfrf will bf no dontrol dbtb */
+                msg->msg_dontrollfn = 0;
+#fndif /* __linux__ */
+
+            } flsf {
+                hbndlfSodkftError(fnv, frrno);
+                rfturn 0;
+            }
+        }
+
+        if (msg->msg_flbgs & MSG_NOTIFICATION) {
+            dhbr *bufp = (dhbr*)bddr;
+            union sdtp_notifidbtion *snp;
+            jboolfbn bllodbtfd = JNI_FALSE;
+
+            if (rv > SCTP_NOTIFICATION_SIZE) {
+                JNU_ThrowIntfrnblError(fnv, "should not rfbdh hfrf");
+                rfturn -1;
+            }
+
+            if (!(msg->msg_flbgs & MSG_EOR) && lfngth < SCTP_NOTIFICATION_SIZE) {
+                dhbr* nfwBuf;
+                int rvSAVE = rv;
+
+                if ((nfwBuf = mbllod(SCTP_NOTIFICATION_SIZE)) == NULL) {
+                    JNU_ThrowOutOfMfmoryError(fnv, "Out of nbtivf hfbp spbdf.");
+                    rfturn -1;
+                }
+                bllodbtfd = JNI_TRUE;
+
+                mfmdpy(nfwBuf, bddr, rv);
+                iov->iov_bbsf = nfwBuf + rv;
+                iov->iov_lfn = SCTP_NOTIFICATION_SIZE - rv;
+                if ((rv = rfdvmsg(fd, msg, flbgs)) < 0) {
+                    hbndlfSodkftError(fnv, frrno);
+                    rfturn 0;
+                }
+                bufp = nfwBuf;
+                rv += rvSAVE;
+            }
+#ifdff __spbrd
+              flsf if ((intptr_t)bddr & 0x3) {
+                /* thf givfn bufffr is not 4 bytf blignfd */
+                dhbr* nfwBuf;
+                if ((nfwBuf = mbllod(SCTP_NOTIFICATION_SIZE)) == NULL) {
+                    JNU_ThrowOutOfMfmoryError(fnv, "Out of nbtivf hfbp spbdf.");
+                    rfturn -1;
+                }
+                bllodbtfd = JNI_TRUE;
+
+                mfmdpy(nfwBuf, bddr, rv);
+                bufp = nfwBuf;
+            }
+#fndif
+            snp = (union sdtp_notifidbtion *) bufp;
+            if (hbndlfNotifidbtion(fnv, fd, rfsultContbinfrObj, snp, rv,
+                                   (msg->msg_flbgs & MSG_EOR),
+                                   (strudt sodkbddr*)&sb ) == JNI_TRUE) {
+                /* Wf hbvf rfdfivfd b notifidbtion thbt is of intfrfst to
+                   to thf Jbvb API. Thf bppropribtf notifidbtion will bf
+                   sft in thf rfsult dontbinfr. */
+                if (bllodbtfd == JNI_TRUE) {
+                    frff(bufp);
+                }
+                rfturn 0;
+            }
+
+            if (bllodbtfd == JNI_TRUE) {
+                frff(bufp);
+            }
+
+            // sft iov bbdk to bddr, bnd rfsft msg_dontrollfn
+            iov->iov_bbsf = bddr;
+            iov->iov_lfn = lfngth;
+            msg->msg_dontrol = dbuf;
+            msg->msg_dontrollfn = sizfof(dbuf);
+        }
+    } whilf (msg->msg_flbgs & MSG_NOTIFICATION);
+
+    hbndlfMfssbgf(fnv, rfsultContbinfrObj, msg, rv,
+            (msg->msg_flbgs & MSG_EOR), (strudt sodkbddr*)&sb);
+    rfturn rv;
+}
+
+/*
+ * Clbss:     sun_nio_dh_sdtp_SdtpChbnnflImpl
+ * Mfthod:    sfnd0
+ * Signbturf: (IJILjbvb/nft/InftAddrfss;IIIZI)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_nio_dh_sdtp_SdtpChbnnflImpl_sfnd0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jlong bddrfss, jint lfngth,
+   jobjfdt tbrgftAddrfss, jint tbrgftPort, jint bssodId, jint strfbmNumbfr,
+   jboolfbn unordfrfd, jint ppid) {
+    SOCKADDR sb;
+    int sb_lfn = sizfof(sb);
+    ssizf_t rv = 0;
+    jlong *bddr = jlong_to_ptr(bddrfss);
+    strudt iovfd iov[1];
+    strudt msghdr msg[1];
+    int dbuf_sizf = CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo));
+    dhbr dbuf[CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo))];
+    strudt dontrolDbtb ddbtb[1];
+
+    /* SdtpChbnnfl:
+     *    tbrgftAddrfss mby dontbin thf prfffrrfd bddrfss or NULL to usf primbry,
+     *    bssodId will blwbys bf -1
+     * SdtpMultiChbnnfll:
+     *    Sftup nfw bssodibtion, tbrgftAddrfss will dontbin bddrfss, bssodId = -1
+     *    Assodibtion blrfbdy fxisting, bssodId != -1, tbrgftAddrfss = prfffrrfd bddr
+     */
+    if (tbrgftAddrfss != NULL /*&& bssodId <= 0*/) {
+        if (NET_InftAddrfssToSodkbddr(fnv, tbrgftAddrfss, tbrgftPort,
+                                      (strudt sodkbddr *)&sb,
+                                      &sb_lfn, JNI_TRUE) != 0) {
+            rfturn IOS_THROWN;
+        }
+    } flsf {
+        mfmsft(&sb, '\x0', sb_lfn);
+        sb_lfn = 0;
+    }
+
+    /* Sft up thf msghdr strudturf for sfnding */
+    mfmsft(msg, 0, sizfof (*msg));
+    mfmsft(dbuf, 0, dbuf_sizf);
+    msg->msg_nbmf = &sb;
+    msg->msg_nbmflfn = sb_lfn;
+    iov->iov_bbsf = bddr;
+    iov->iov_lfn = lfngth;
+    msg->msg_iov = iov;
+    msg->msg_iovlfn = 1;
+    msg->msg_dontrol = dbuf;
+    msg->msg_dontrollfn = dbuf_sizf;
+    msg->msg_flbgs = 0;
+
+    ddbtb->strfbmNumbfr = strfbmNumbfr;
+    ddbtb->bssodId = bssodId;
+    ddbtb->unordfrfd = unordfrfd;
+    ddbtb->ppid = ppid;
+    sftControlDbtb(msg, ddbtb);
+
+    if ((rv = sfndmsg(fd, msg, 0)) < 0) {
+        if (frrno == EWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        } flsf if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
+        } flsf if (frrno == EPIPE) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                            "Sodkft is shutdown for writing");
+        } flsf {
+            hbndlfSodkftError(fnv, frrno);
+            rfturn 0;
+        }
+    }
+
+    rfturn rv;
+}
+
+/*
+ * Clbss:     sun_nio_dh_sdtp_SdtpChbnnflImpl
+ * Mfthod:    dhfdkConnfdt
+ * Signbturf: (Ljbvb/io/FilfDfsdriptor;ZZ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_nio_dh_sdtp_SdtpChbnnflImpl_dhfdkConnfdt
+  (JNIEnv* fnv, jobjfdt this, jobjfdt fdo, jboolfbn blodk, jboolfbn rfbdy) {
+    rfturn Jbvb_sun_nio_dh_SodkftChbnnflImpl_dhfdkConnfdt(fnv, this,
+                                                          fdo, blodk, rfbdy);
+}

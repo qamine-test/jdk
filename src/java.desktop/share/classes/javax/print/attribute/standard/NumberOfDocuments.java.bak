@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class NumberOfDocuments is an integer valued printing attribute that
- * indicates the number of individual docs the printer has accepted for this
- * job, regardless of whether the docs' print data has reached the printer or
+ * Clbss NumbfrOfDodumfnts is bn intfgfr vblufd printing bttributf tibt
+ * indidbtfs tif numbfr of individubl dods tif printfr ibs bddfptfd for tiis
+ * job, rfgbrdlfss of wiftifr tif dods' print dbtb ibs rfbdifd tif printfr or
  * not.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class NumberOfDocuments extends IntegerSyntax
-    implements PrintJobAttribute {
+publid finbl dlbss NumbfrOfDodumfnts fxtfnds IntfgfrSyntbx
+    implfmfnts PrintJobAttributf {
 
-    private static final long serialVersionUID = 7891881310684461097L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7891881310684461097L;
 
 
     /**
-     * Construct a new number of documents attribute with the given integer
-     * value.
+     * Construdt b nfw numbfr of dodumfnts bttributf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 0.
      */
-    public NumberOfDocuments(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    publid NumbfrOfDodumfnts(int vbluf) {
+        supfr (vbluf, 0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this number of documents attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
-     * must be true:
+     * Rfturns wiftifr tiis numbfr of dodumfnts bttributf is fquivblfnt to tif
+     * pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions
+     * must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class NumberOfDocuments.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss NumbfrOfDodumfnts.
      * <LI>
-     * This number of documents attribute's value and <CODE>object</CODE>'s
-     * value are equal.
+     * Tiis numbfr of dodumfnts bttributf's vbluf bnd <CODE>objfdt</CODE>'s
+     * vbluf brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this number of
-     *          documents attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis numbfr of
+     *          dodumfnts bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof NumberOfDocuments);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) &&
+                objfdt instbndfof NumbfrOfDodumfnts);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class NumberOfDocuments, the
-     * category is class NumberOfDocuments itself.
+     * For dlbss NumbfrOfDodumfnts, tif
+     * dbtfgory is dlbss NumbfrOfDodumfnts itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return NumberOfDocuments.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn NumbfrOfDodumfnts.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class NumberOfDocuments, the
-     * category name is <CODE>"number-of-documents"</CODE>.
+     * For dlbss NumbfrOfDodumfnts, tif
+     * dbtfgory nbmf is <CODE>"numbfr-of-dodumfnts"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "number-of-documents";
+    publid finbl String gftNbmf() {
+        rfturn "numbfr-of-dodumfnts";
     }
 
 }

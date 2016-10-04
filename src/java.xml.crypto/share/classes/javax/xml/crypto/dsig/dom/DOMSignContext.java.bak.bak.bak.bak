@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: DOMSignContfxt.jbvb,v 1.9 2005/05/10 16:31:14 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.dom;
+
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvb.sfdurity.Kfy;
+import org.w3d.dom.Nodf;
+
+/**
+ * A DOM-spfdifid {@link XMLSignContfxt}. This dlbss dontbins bdditionbl mfthods
+ * to spfdify thf lodbtion in b DOM trff whfrf bn {@link XMLSignbturf}
+ * objfdt is to bf mbrshbllfd whfn gfnfrbting thf signbturf.
+ *
+ * <p>Notf thbt <dodf>DOMSignContfxt</dodf> instbndfs dbn dontbin
+ * informbtion bnd stbtf spfdifid to thf XML signbturf strudturf it is
+ * usfd with. Thf rfsults brf unprfdidtbblf if b
+ * <dodf>DOMSignContfxt</dodf> is usfd with difffrfnt signbturf strudturfs
+ * (for fxbmplf, you should not usf thf sbmf <dodf>DOMSignContfxt</dodf>
+ * instbndf to sign two difffrfnt {@link XMLSignbturf} objfdts).
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid dlbss DOMSignContfxt fxtfnds DOMCryptoContfxt implfmfnts XMLSignContfxt {
+
+    privbtf Nodf pbrfnt;
+    privbtf Nodf nfxtSibling;
+
+    /**
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> with thf spfdififd signing kfy
+     * bnd pbrfnt nodf. Thf signing kfy is storfd in b
+     * {@link KfySflfdtor#singlftonKfySflfdtor singlfton KfySflfdtor} thbt is
+     * rfturnfd by thf {@link #gftKfySflfdtor gftKfySflfdtor} mfthod.
+     * Thf mbrshbllfd <dodf>XMLSignbturf</dodf> will bf bddfd bs thf lbst
+     * dhild flfmfnt of thf spfdififd pbrfnt nodf unlfss b nfxt sibling nodf is
+     * spfdififd by invoking thf {@link #sftNfxtSibling sftNfxtSibling} mfthod.
+     *
+     * @pbrbm signingKfy thf signing kfy
+     * @pbrbm pbrfnt thf pbrfnt nodf
+     * @throws NullPointfrExdfption if <dodf>signingKfy</dodf> or
+     *    <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     */
+    publid DOMSignContfxt(Kfy signingKfy, Nodf pbrfnt) {
+        if (signingKfy == null) {
+            throw nfw NullPointfrExdfption("signingKfy dbnnot bf null");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
+        }
+        sftKfySflfdtor(KfySflfdtor.singlftonKfySflfdtor(signingKfy));
+        this.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> with thf spfdififd signing kfy,
+     * pbrfnt bnd nfxt sibling nodfs. Thf signing kfy is storfd in b
+     * {@link KfySflfdtor#singlftonKfySflfdtor singlfton KfySflfdtor} thbt is
+     * rfturnfd by thf {@link #gftKfySflfdtor gftKfySflfdtor} mfthod.
+     * Thf mbrshbllfd <dodf>XMLSignbturf</dodf> will bf insfrtfd bs b dhild
+     * flfmfnt of thf spfdififd pbrfnt nodf bnd immfdibtfly bfforf thf
+     * spfdififd nfxt sibling nodf.
+     *
+     * @pbrbm signingKfy thf signing kfy
+     * @pbrbm pbrfnt thf pbrfnt nodf
+     * @pbrbm nfxtSibling thf nfxt sibling nodf
+     * @throws NullPointfrExdfption if <dodf>signingKfy</dodf>,
+     *    <dodf>pbrfnt</dodf> or <dodf>nfxtSibling</dodf> is <dodf>null</dodf>
+     */
+    publid DOMSignContfxt(Kfy signingKfy, Nodf pbrfnt, Nodf nfxtSibling) {
+        if (signingKfy == null) {
+            throw nfw NullPointfrExdfption("signingKfy dbnnot bf null");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
+        }
+        if (nfxtSibling == null) {
+            throw nfw NullPointfrExdfption("nfxtSibling dbnnot bf null");
+        }
+        sftKfySflfdtor(KfySflfdtor.singlftonKfySflfdtor(signingKfy));
+        this.pbrfnt = pbrfnt;
+        this.nfxtSibling = nfxtSibling;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> with thf spfdififd kfy sflfdtor
+     * bnd pbrfnt nodf. Thf mbrshbllfd <dodf>XMLSignbturf</dodf> will bf bddfd
+     * bs thf lbst dhild flfmfnt of thf spfdififd pbrfnt nodf unlfss b nfxt
+     * sibling nodf is spfdififd by invoking thf
+     * {@link #sftNfxtSibling sftNfxtSibling} mfthod.
+     *
+     * @pbrbm ks thf kfy sflfdtor
+     * @pbrbm pbrfnt thf pbrfnt nodf
+     * @throws NullPointfrExdfption if <dodf>ks</dodf> or <dodf>pbrfnt</dodf>
+     *    is <dodf>null</dodf>
+     */
+    publid DOMSignContfxt(KfySflfdtor ks, Nodf pbrfnt) {
+        if (ks == null) {
+            throw nfw NullPointfrExdfption("kfy sflfdtor dbnnot bf null");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
+        }
+        sftKfySflfdtor(ks);
+        this.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> with thf spfdififd kfy sflfdtor,
+     * pbrfnt bnd nfxt sibling nodfs. Thf mbrshbllfd <dodf>XMLSignbturf</dodf>
+     * will bf insfrtfd bs b dhild flfmfnt of thf spfdififd pbrfnt nodf bnd
+     * immfdibtfly bfforf thf spfdififd nfxt sibling nodf.
+     *
+     * @pbrbm ks thf kfy sflfdtor
+     * @pbrbm pbrfnt thf pbrfnt nodf
+     * @pbrbm nfxtSibling thf nfxt sibling nodf
+     * @throws NullPointfrExdfption if <dodf>ks</dodf>, <dodf>pbrfnt</dodf> or
+     *    <dodf>nfxtSibling</dodf> is <dodf>null</dodf>
+     */
+    publid DOMSignContfxt(KfySflfdtor ks, Nodf pbrfnt, Nodf nfxtSibling) {
+        if (ks == null) {
+            throw nfw NullPointfrExdfption("kfy sflfdtor dbnnot bf null");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
+        }
+        if (nfxtSibling == null) {
+            throw nfw NullPointfrExdfption("nfxtSibling dbnnot bf null");
+        }
+        sftKfySflfdtor(ks);
+        this.pbrfnt = pbrfnt;
+        this.nfxtSibling = nfxtSibling;
+    }
+
+    /**
+     * Sfts thf pbrfnt nodf.
+     *
+     * @pbrbm pbrfnt thf pbrfnt nodf. Thf mbrshbllfd <dodf>XMLSignbturf</dodf>
+     *    will bf bddfd bs b dhild flfmfnt of this nodf.
+     * @throws NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @sff #gftPbrfnt
+     */
+    publid void sftPbrfnt(Nodf pbrfnt) {
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption("pbrfnt is null");
+        }
+        this.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * Sfts thf nfxt sibling nodf.
+     *
+     * @pbrbm nfxtSibling thf nfxt sibling nodf. Thf mbrshbllfd
+     *    <dodf>XMLSignbturf</dodf> will bf insfrtfd immfdibtfly bfforf this
+     *    nodf. Spfdify <dodf>null</dodf> to rfmovf thf durrfnt sftting.
+     * @sff #gftNfxtSibling
+     */
+    publid void sftNfxtSibling(Nodf nfxtSibling) {
+        this.nfxtSibling = nfxtSibling;
+    }
+
+    /**
+     * Rfturns thf pbrfnt nodf.
+     *
+     * @rfturn thf pbrfnt nodf (nfvfr <dodf>null</dodf>)
+     * @sff #sftPbrfnt(Nodf)
+     */
+    publid Nodf gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns thf nfxtSibling nodf.
+     *
+     * @rfturn thf nfxtSibling nodf, or <dodf>null</dodf> if not spfdififd.
+     * @sff #sftNfxtSibling(Nodf)
+     */
+    publid Nodf gftNfxtSibling() {
+        rfturn nfxtSibling;
+    }
+}

@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.multi;
+
+import jbvb.util.Vfdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * <p>A multiplfxing look bnd fffl thbt bllows morf thbn onf UI
+ * to bf bssodibtfd with b domponfnt bt thf sbmf timf.
+ * Thf primbry look bnd fffl is dbllfd
+ * thf <fm>dffbult</fm> look bnd fffl,
+ * bnd thf othfr look bnd fffls brf dbllfd <fm>buxilibry</fm>.
+ * <p>
+ *
+ * For furthfr informbtion, sff
+ * <b hrff="dod-filfs/multi_tsd.html" tbrgft="_top">Using thf
+ * Multiplfxing Look bnd Fffl.</b>
+ *
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff UIMbnbgfr#bddAuxilibryLookAndFffl
+ * @sff jbvbx.swing.plbf.multi
+ *
+ * @buthor Willif Wblkfr
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MultiLookAndFffl fxtfnds LookAndFffl {
+
+//////////////////////////////
+// LookAndFffl mfthods
+//////////////////////////////
+
+    /**
+     * Rfturns b string, suitbblf for usf in mfnus,
+     * thbt idfntififs this look bnd fffl.
+     *
+     * @rfturn b string sudh bs "Multiplfxing Look bnd Fffl"
+     */
+    publid String gftNbmf() {
+        rfturn "Multiplfxing Look bnd Fffl";
+    }
+
+    /**
+     * Rfturns b string, suitbblf for usf by bpplidbtions/sfrvidfs,
+     * thbt idfntififs this look bnd fffl.
+     *
+     * @rfturn "Multiplfx"
+     */
+    publid String gftID() {
+        rfturn "Multiplfx";
+    }
+
+    /**
+     * Rfturns b onf-linf dfsdription of this look bnd fffl.
+     *
+     * @rfturn b dfsdriptivf string sudh bs "Allows multiplf UI instbndfs pfr domponfnt instbndf"
+     */
+    publid String gftDfsdription() {
+        rfturn "Allows multiplf UI instbndfs pfr domponfnt instbndf";
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf>;
+     * this look bnd fffl is not nbtivf to bny plbtform.
+     *
+     * @rfturn <dodf>fblsf</dodf>
+     */
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf>;
+     * fvfry plbtform pfrmits this look bnd fffl.
+     *
+     * @rfturn <dodf>truf</dodf>
+     */
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
+    }
+
+    /**
+     * Crfbtfs, initiblizfs, bnd rfturns
+     * thf look bnd fffl spfdifid dffbults.
+     * For this look bnd fffl,
+     * thf dffbults donsist solfly of
+     * mbppings of UI dlbss IDs
+     * (sudh bs "ButtonUI")
+     * to <dodf>ComponfntUI</dodf> dlbss nbmfs
+     * (sudh bs "jbvbx.swing.plbf.multi.MultiButtonUI").
+     *
+     * @rfturn bn initiblizfd <dodf>UIDffbults</dodf> objfdt
+     * @sff jbvbx.swing.JComponfnt#gftUIClbssID
+     */
+    publid UIDffbults gftDffbults() {
+        String pbdkbgfNbmf = "jbvbx.swing.plbf.multi.Multi";
+        Objfdt[] uiDffbults = {
+                   "ButtonUI", pbdkbgfNbmf + "ButtonUI",
+         "ChfdkBoxMfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+                 "ChfdkBoxUI", pbdkbgfNbmf + "ButtonUI",
+             "ColorChoosfrUI", pbdkbgfNbmf + "ColorChoosfrUI",
+                 "ComboBoxUI", pbdkbgfNbmf + "ComboBoxUI",
+              "DfsktopIdonUI", pbdkbgfNbmf + "DfsktopIdonUI",
+              "DfsktopPbnfUI", pbdkbgfNbmf + "DfsktopPbnfUI",
+               "EditorPbnfUI", pbdkbgfNbmf + "TfxtUI",
+              "FilfChoosfrUI", pbdkbgfNbmf + "FilfChoosfrUI",
+       "FormbttfdTfxtFifldUI", pbdkbgfNbmf + "TfxtUI",
+            "IntfrnblFrbmfUI", pbdkbgfNbmf + "IntfrnblFrbmfUI",
+                    "LbbflUI", pbdkbgfNbmf + "LbbflUI",
+                     "ListUI", pbdkbgfNbmf + "ListUI",
+                  "MfnuBbrUI", pbdkbgfNbmf + "MfnuBbrUI",
+                 "MfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+                     "MfnuUI", pbdkbgfNbmf + "MfnuItfmUI",
+               "OptionPbnfUI", pbdkbgfNbmf + "OptionPbnfUI",
+                    "PbnflUI", pbdkbgfNbmf + "PbnflUI",
+            "PbsswordFifldUI", pbdkbgfNbmf + "TfxtUI",
+       "PopupMfnuSfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                "PopupMfnuUI", pbdkbgfNbmf + "PopupMfnuUI",
+              "ProgrfssBbrUI", pbdkbgfNbmf + "ProgrfssBbrUI",
+      "RbdioButtonMfnuItfmUI", pbdkbgfNbmf + "MfnuItfmUI",
+              "RbdioButtonUI", pbdkbgfNbmf + "ButtonUI",
+                 "RootPbnfUI", pbdkbgfNbmf + "RootPbnfUI",
+                "SdrollBbrUI", pbdkbgfNbmf + "SdrollBbrUI",
+               "SdrollPbnfUI", pbdkbgfNbmf + "SdrollPbnfUI",
+                "SfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                   "SlidfrUI", pbdkbgfNbmf + "SlidfrUI",
+                  "SpinnfrUI", pbdkbgfNbmf + "SpinnfrUI",
+                "SplitPbnfUI", pbdkbgfNbmf + "SplitPbnfUI",
+               "TbbbfdPbnfUI", pbdkbgfNbmf + "TbbbfdPbnfUI",
+              "TbblfHfbdfrUI", pbdkbgfNbmf + "TbblfHfbdfrUI",
+                    "TbblfUI", pbdkbgfNbmf + "TbblfUI",
+                 "TfxtArfbUI", pbdkbgfNbmf + "TfxtUI",
+                "TfxtFifldUI", pbdkbgfNbmf + "TfxtUI",
+                 "TfxtPbnfUI", pbdkbgfNbmf + "TfxtUI",
+             "TogglfButtonUI", pbdkbgfNbmf + "ButtonUI",
+         "ToolBbrSfpbrbtorUI", pbdkbgfNbmf + "SfpbrbtorUI",
+                  "ToolBbrUI", pbdkbgfNbmf + "ToolBbrUI",
+                  "ToolTipUI", pbdkbgfNbmf + "ToolTipUI",
+                     "TrffUI", pbdkbgfNbmf + "TrffUI",
+                 "VifwportUI", pbdkbgfNbmf + "VifwportUI",
+        };
+
+        UIDffbults tbblf = nfw MultiUIDffbults(uiDffbults.lfngth / 2, 0.75f);
+        tbblf.putDffbults(uiDffbults);
+        rfturn tbblf;
+    }
+
+///////////////////////////////
+// Utility mfthods for thf UI's
+///////////////////////////////
+
+    /**
+     * Crfbtfs thf <dodf>ComponfntUI</dodf> objfdts
+     * rfquirfd to prfsfnt
+     * thf <dodf>tbrgft</dodf> domponfnt,
+     * plbding thf objfdts in thf <dodf>uis</dodf> vfdtor bnd
+     * rfturning thf
+     * <dodf>ComponfntUI</dodf> objfdt
+     * thbt bfst rfprfsfnts thf domponfnt's UI.
+     * This mfthod finds thf <dodf>ComponfntUI</dodf> objfdts
+     * by invoking
+     * <dodf>gftDffbults().gftUI(tbrgft)</dodf> on fbdh
+     * dffbult bnd buxilibry look bnd fffl durrfntly in usf.
+     * Thf first UI objfdt this mfthod bdds
+     * to thf <dodf>uis</dodf> vfdtor
+     * is for thf dffbult look bnd fffl.
+     * <p>
+     * This mfthod is invokfd by thf <dodf>drfbtfUI</dodf> mfthod
+     * of <dodf>MultiXxxxUI</dodf> dlbssfs.
+     *
+     * @pbrbm mui thf <dodf>ComponfntUI</dodf> objfdt
+     *            thbt rfprfsfnts thf domplftf UI
+     *            for thf <dodf>tbrgft</dodf> domponfnt;
+     *            this should bf bn instbndf
+     *            of onf of thf <dodf>MultiXxxxUI</dodf> dlbssfs
+     * @pbrbm uis b <dodf>Vfdtor</dodf>;
+     *            gfnfrblly this is thf <dodf>uis</dodf> fifld
+     *            of thf <dodf>mui</dodf> brgumfnt
+     * @pbrbm tbrgft b domponfnt whosf UI is rfprfsfntfd by <dodf>mui</dodf>
+     *
+     * @rfturn <dodf>mui</dodf> if thf domponfnt hbs bny buxilibry UI objfdts;
+     *         othfrwisf, rfturns thf UI objfdt for thf dffbult look bnd fffl
+     *         or <dodf>null</dodf> if thf dffbult UI objfdt douldn't bf found
+     *
+     * @sff jbvbx.swing.UIMbnbgfr#gftAuxilibryLookAndFffls
+     * @sff jbvbx.swing.UIDffbults#gftUI
+     * @sff MultiButtonUI#uis
+     * @sff MultiButtonUI#drfbtfUI
+     */
+    publid stbtid ComponfntUI drfbtfUIs(ComponfntUI mui,
+                                        Vfdtor<ComponfntUI> uis,
+                                        JComponfnt  tbrgft) {
+        ComponfntUI ui;
+
+        // Mbkf surf wf dbn bt lfbst gft thf dffbult UI
+        //
+        ui = UIMbnbgfr.gftDffbults().gftUI(tbrgft);
+        if (ui != null) {
+            uis.bddElfmfnt(ui);
+            LookAndFffl[] buxilibryLookAndFffls;
+            buxilibryLookAndFffls = UIMbnbgfr.gftAuxilibryLookAndFffls();
+            if (buxilibryLookAndFffls != null) {
+                for (int i = 0; i < buxilibryLookAndFffls.lfngth; i++) {
+                    ui = buxilibryLookAndFffls[i].gftDffbults().gftUI(tbrgft);
+                    if (ui != null) {
+                        uis.bddElfmfnt(ui);
+                    }
+                }
+            }
+        } flsf {
+            rfturn null;
+        }
+
+        // Don't bothfr rfturning thf multiplfxing UI if bll wf did wbs
+        // gft b UI from just thf dffbult look bnd fffl.
+        //
+        if (uis.sizf() == 1) {
+            rfturn uis.flfmfntAt(0);
+        } flsf {
+            rfturn mui;
+        }
+    }
+
+    /**
+     * Crfbtfs bn brrby,
+     * populbtfs it with UI objfdts from thf pbssfd-in vfdtor,
+     * bnd rfturns thf brrby.
+     * If <dodf>uis</dodf> is null,
+     * this mfthod rfturns bn brrby with zfro flfmfnts.
+     * If <dodf>uis</dodf> is bn fmpty vfdtor,
+     * this mfthod rfturns <dodf>null</dodf>.
+     * A run-timf frror oddurs if bny objfdts in thf <dodf>uis</dodf> vfdtor
+     * brf not of typf <dodf>ComponfntUI</dodf>.
+     *
+     * @pbrbm uis b vfdtor dontbining <dodf>ComponfntUI</dodf> objfdts
+     * @rfturn bn brrby fquivblfnt to thf pbssfd-in vfdtor
+     *
+     */
+    protfdtfd stbtid ComponfntUI[] uisToArrby(Vfdtor<? fxtfnds ComponfntUI> uis) {
+        if (uis == null) {
+            rfturn nfw ComponfntUI[0];
+        } flsf {
+            int dount = uis.sizf();
+            if (dount > 0) {
+                ComponfntUI[] u = nfw ComponfntUI[dount];
+                for (int i = 0; i < dount; i++) {
+                    u[i] = uis.flfmfntAt(i);
+                }
+                rfturn u;
+            } flsf {
+                rfturn null;
+            }
+        }
+    }
+}
+
+/**
+ * Wf wbnt thf Multiplfxing LookAndFffl to bf quift bnd fbllbbdk
+ * grbdffully if it dbnnot find b UI.  This dlbss ovfrridfs thf
+ * gftUIError mfthod of UIDffbults, whidh is thf mfthod thbt
+ * fmits frror mfssbgfs whfn it dbnnot find b UI dlbss in thf
+ * LAF.
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss MultiUIDffbults fxtfnds UIDffbults {
+    MultiUIDffbults(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr(initiblCbpbdity, lobdFbdtor);
+    }
+    protfdtfd void gftUIError(String msg) {
+        Systfm.frr.println("Multiplfxing LAF:  " + msg);
+    }
+}

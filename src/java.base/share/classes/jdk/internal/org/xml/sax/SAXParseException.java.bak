@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// SAX exception class.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: SAXParseException.java,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+// SAX fxdfption dlbss.
+// ittp://www.sbxprojfdt.org
+// No wbrrbnty; no dopyrigit -- usf tiis bs you will.
+// $Id: SAXPbrsfExdfption.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
 /**
- * Encapsulate an XML parse error or warning.
+ * Endbpsulbtf bn XML pbrsf frror or wbrning.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>This exception may include information for locating the error
- * in the original XML document, as if it came from a {@link Locator}
- * object.  Note that although the application
- * will receive a SAXParseException as the argument to the handlers
- * in the {@link org.xml.sax.ErrorHandler ErrorHandler} interface,
- * the application is not actually required to throw the exception;
- * instead, it can simply read the information in it and take a
- * different action.</p>
+ * <p>Tiis fxdfption mby indludf informbtion for lodbting tif frror
+ * in tif originbl XML dodumfnt, bs if it dbmf from b {@link Lodbtor}
+ * objfdt.  Notf tibt bltiougi tif bpplidbtion
+ * will rfdfivf b SAXPbrsfExdfption bs tif brgumfnt to tif ibndlfrs
+ * in tif {@link org.xml.sbx.ErrorHbndlfr ErrorHbndlfr} intfrfbdf,
+ * tif bpplidbtion is not bdtublly rfquirfd to tirow tif fxdfption;
+ * instfbd, it dbn simply rfbd tif informbtion in it bnd tbkf b
+ * difffrfnt bdtion.</p>
  *
- * <p>Since this exception is a subclass of {@link org.xml.sax.SAXException
- * SAXException}, it inherits the ability to wrap another exception.</p>
+ * <p>Sindf tiis fxdfption is b subdlbss of {@link org.xml.sbx.SAXExdfption
+ * SAXExdfption}, it inifrits tif bbility to wrbp bnotifr fxdfption.</p>
  *
- * @since SAX 1.0
- * @author David Megginson
- * @version 2.0.1 (sax2r2)
- * @see org.xml.sax.SAXException
- * @see org.xml.sax.Locator
- * @see org.xml.sax.ErrorHandler
+ * @sindf SAX 1.0
+ * @butior Dbvid Mfgginson
+ * @vfrsion 2.0.1 (sbx2r2)
+ * @sff org.xml.sbx.SAXExdfption
+ * @sff org.xml.sbx.Lodbtor
+ * @sff org.xml.sbx.ErrorHbndlfr
  */
-public class SAXParseException extends SAXException {
+publid dlbss SAXPbrsfExdfption fxtfnds SAXExdfption {
 
 
     //////////////////////////////////////////////////////////////////////
-    // Constructors.
+    // Construdtors.
     //////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Create a new SAXParseException from a message and a Locator.
+     * Crfbtf b nfw SAXPbrsfExdfption from b mfssbgf bnd b Lodbtor.
      *
-     * <p>This constructor is especially useful when an application is
-     * creating its own exception from within a {@link org.xml.sax.ContentHandler
-     * ContentHandler} callback.</p>
+     * <p>Tiis donstrudtor is fspfdiblly usfful wifn bn bpplidbtion is
+     * drfbting its own fxdfption from witiin b {@link org.xml.sbx.ContfntHbndlfr
+     * ContfntHbndlfr} dbllbbdk.</p>
      *
-     * @param message The error or warning message.
-     * @param locator The locator object for the error or warning (may be
+     * @pbrbm mfssbgf Tif frror or wbrning mfssbgf.
+     * @pbrbm lodbtor Tif lodbtor objfdt for tif frror or wbrning (mby bf
      *        null).
-     * @see org.xml.sax.Locator
+     * @sff org.xml.sbx.Lodbtor
      */
-    public SAXParseException (String message, Locator locator) {
-        super(message);
-        if (locator != null) {
-            init(locator.getPublicId(), locator.getSystemId(),
-                 locator.getLineNumber(), locator.getColumnNumber());
-        } else {
+    publid SAXPbrsfExdfption (String mfssbgf, Lodbtor lodbtor) {
+        supfr(mfssbgf);
+        if (lodbtor != null) {
+            init(lodbtor.gftPublidId(), lodbtor.gftSystfmId(),
+                 lodbtor.gftLinfNumbfr(), lodbtor.gftColumnNumbfr());
+        } flsf {
             init(null, null, -1, -1);
         }
     }
 
 
     /**
-     * Wrap an existing exception in a SAXParseException.
+     * Wrbp bn fxisting fxdfption in b SAXPbrsfExdfption.
      *
-     * <p>This constructor is especially useful when an application is
-     * creating its own exception from within a {@link org.xml.sax.ContentHandler
-     * ContentHandler} callback, and needs to wrap an existing exception that is not a
-     * subclass of {@link org.xml.sax.SAXException SAXException}.</p>
+     * <p>Tiis donstrudtor is fspfdiblly usfful wifn bn bpplidbtion is
+     * drfbting its own fxdfption from witiin b {@link org.xml.sbx.ContfntHbndlfr
+     * ContfntHbndlfr} dbllbbdk, bnd nffds to wrbp bn fxisting fxdfption tibt is not b
+     * subdlbss of {@link org.xml.sbx.SAXExdfption SAXExdfption}.</p>
      *
-     * @param message The error or warning message, or null to
-     *                use the message from the embedded exception.
-     * @param locator The locator object for the error or warning (may be
+     * @pbrbm mfssbgf Tif frror or wbrning mfssbgf, or null to
+     *                usf tif mfssbgf from tif fmbfddfd fxdfption.
+     * @pbrbm lodbtor Tif lodbtor objfdt for tif frror or wbrning (mby bf
      *        null).
-     * @param e Any exception.
-     * @see org.xml.sax.Locator
+     * @pbrbm f Any fxdfption.
+     * @sff org.xml.sbx.Lodbtor
      */
-    public SAXParseException (String message, Locator locator,
-                              Exception e) {
-        super(message, e);
-        if (locator != null) {
-            init(locator.getPublicId(), locator.getSystemId(),
-                 locator.getLineNumber(), locator.getColumnNumber());
-        } else {
+    publid SAXPbrsfExdfption (String mfssbgf, Lodbtor lodbtor,
+                              Exdfption f) {
+        supfr(mfssbgf, f);
+        if (lodbtor != null) {
+            init(lodbtor.gftPublidId(), lodbtor.gftSystfmId(),
+                 lodbtor.gftLinfNumbfr(), lodbtor.gftColumnNumbfr());
+        } flsf {
             init(null, null, -1, -1);
         }
     }
 
 
     /**
-     * Create a new SAXParseException.
+     * Crfbtf b nfw SAXPbrsfExdfption.
      *
-     * <p>This constructor is most useful for parser writers.</p>
+     * <p>Tiis donstrudtor is most usfful for pbrsfr writfrs.</p>
      *
-     * <p>All parameters except the message are as if
-     * they were provided by a {@link Locator}.  For example, if the
-     * system identifier is a URL (including relative filename), the
-     * caller must resolve it fully before creating the exception.</p>
+     * <p>All pbrbmftfrs fxdfpt tif mfssbgf brf bs if
+     * tify wfrf providfd by b {@link Lodbtor}.  For fxbmplf, if tif
+     * systfm idfntififr is b URL (indluding rflbtivf filfnbmf), tif
+     * dbllfr must rfsolvf it fully bfforf drfbting tif fxdfption.</p>
      *
      *
-     * @param message The error or warning message.
-     * @param publicId The public identifier of the entity that generated
-     *                 the error or warning.
-     * @param systemId The system identifier of the entity that generated
-     *                 the error or warning.
-     * @param lineNumber The line number of the end of the text that
-     *                   caused the error or warning.
-     * @param columnNumber The column number of the end of the text that
-     *                     cause the error or warning.
+     * @pbrbm mfssbgf Tif frror or wbrning mfssbgf.
+     * @pbrbm publidId Tif publid idfntififr of tif fntity tibt gfnfrbtfd
+     *                 tif frror or wbrning.
+     * @pbrbm systfmId Tif systfm idfntififr of tif fntity tibt gfnfrbtfd
+     *                 tif frror or wbrning.
+     * @pbrbm linfNumbfr Tif linf numbfr of tif fnd of tif tfxt tibt
+     *                   dbusfd tif frror or wbrning.
+     * @pbrbm dolumnNumbfr Tif dolumn numbfr of tif fnd of tif tfxt tibt
+     *                     dbusf tif frror or wbrning.
      */
-    public SAXParseException (String message, String publicId, String systemId,
-                              int lineNumber, int columnNumber)
+    publid SAXPbrsfExdfption (String mfssbgf, String publidId, String systfmId,
+                              int linfNumbfr, int dolumnNumbfr)
     {
-        super(message);
-        init(publicId, systemId, lineNumber, columnNumber);
+        supfr(mfssbgf);
+        init(publidId, systfmId, linfNumbfr, dolumnNumbfr);
     }
 
 
     /**
-     * Create a new SAXParseException with an embedded exception.
+     * Crfbtf b nfw SAXPbrsfExdfption witi bn fmbfddfd fxdfption.
      *
-     * <p>This constructor is most useful for parser writers who
-     * need to wrap an exception that is not a subclass of
-     * {@link org.xml.sax.SAXException SAXException}.</p>
+     * <p>Tiis donstrudtor is most usfful for pbrsfr writfrs wio
+     * nffd to wrbp bn fxdfption tibt is not b subdlbss of
+     * {@link org.xml.sbx.SAXExdfption SAXExdfption}.</p>
      *
-     * <p>All parameters except the message and exception are as if
-     * they were provided by a {@link Locator}.  For example, if the
-     * system identifier is a URL (including relative filename), the
-     * caller must resolve it fully before creating the exception.</p>
+     * <p>All pbrbmftfrs fxdfpt tif mfssbgf bnd fxdfption brf bs if
+     * tify wfrf providfd by b {@link Lodbtor}.  For fxbmplf, if tif
+     * systfm idfntififr is b URL (indluding rflbtivf filfnbmf), tif
+     * dbllfr must rfsolvf it fully bfforf drfbting tif fxdfption.</p>
      *
-     * @param message The error or warning message, or null to use
-     *                the message from the embedded exception.
-     * @param publicId The public identifier of the entity that generated
-     *                 the error or warning.
-     * @param systemId The system identifier of the entity that generated
-     *                 the error or warning.
-     * @param lineNumber The line number of the end of the text that
-     *                   caused the error or warning.
-     * @param columnNumber The column number of the end of the text that
-     *                     cause the error or warning.
-     * @param e Another exception to embed in this one.
+     * @pbrbm mfssbgf Tif frror or wbrning mfssbgf, or null to usf
+     *                tif mfssbgf from tif fmbfddfd fxdfption.
+     * @pbrbm publidId Tif publid idfntififr of tif fntity tibt gfnfrbtfd
+     *                 tif frror or wbrning.
+     * @pbrbm systfmId Tif systfm idfntififr of tif fntity tibt gfnfrbtfd
+     *                 tif frror or wbrning.
+     * @pbrbm linfNumbfr Tif linf numbfr of tif fnd of tif tfxt tibt
+     *                   dbusfd tif frror or wbrning.
+     * @pbrbm dolumnNumbfr Tif dolumn numbfr of tif fnd of tif tfxt tibt
+     *                     dbusf tif frror or wbrning.
+     * @pbrbm f Anotifr fxdfption to fmbfd in tiis onf.
      */
-    public SAXParseException (String message, String publicId, String systemId,
-                              int lineNumber, int columnNumber, Exception e)
+    publid SAXPbrsfExdfption (String mfssbgf, String publidId, String systfmId,
+                              int linfNumbfr, int dolumnNumbfr, Exdfption f)
     {
-        super(message, e);
-        init(publicId, systemId, lineNumber, columnNumber);
+        supfr(mfssbgf, f);
+        init(publidId, systfmId, linfNumbfr, dolumnNumbfr);
     }
 
 
     /**
-     * Internal initialization method.
+     * Intfrnbl initiblizbtion mftiod.
      *
-     * @param publicId The public identifier of the entity which generated the exception,
+     * @pbrbm publidId Tif publid idfntififr of tif fntity wiidi gfnfrbtfd tif fxdfption,
      *        or null.
-     * @param systemId The system identifier of the entity which generated the exception,
+     * @pbrbm systfmId Tif systfm idfntififr of tif fntity wiidi gfnfrbtfd tif fxdfption,
      *        or null.
-     * @param lineNumber The line number of the error, or -1.
-     * @param columnNumber The column number of the error, or -1.
+     * @pbrbm linfNumbfr Tif linf numbfr of tif frror, or -1.
+     * @pbrbm dolumnNumbfr Tif dolumn numbfr of tif frror, or -1.
      */
-    private void init (String publicId, String systemId,
-                       int lineNumber, int columnNumber)
+    privbtf void init (String publidId, String systfmId,
+                       int linfNumbfr, int dolumnNumbfr)
     {
-        this.publicId = publicId;
-        this.systemId = systemId;
-        this.lineNumber = lineNumber;
-        this.columnNumber = columnNumber;
+        tiis.publidId = publidId;
+        tiis.systfmId = systfmId;
+        tiis.linfNumbfr = linfNumbfr;
+        tiis.dolumnNumbfr = dolumnNumbfr;
     }
 
 
     /**
-     * Get the public identifier of the entity where the exception occurred.
+     * Gft tif publid idfntififr of tif fntity wifrf tif fxdfption oddurrfd.
      *
-     * @return A string containing the public identifier, or null
-     *         if none is available.
-     * @see org.xml.sax.Locator#getPublicId
+     * @rfturn A string dontbining tif publid idfntififr, or null
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftPublidId
      */
-    public String getPublicId ()
+    publid String gftPublidId ()
     {
-        return this.publicId;
+        rfturn tiis.publidId;
     }
 
 
     /**
-     * Get the system identifier of the entity where the exception occurred.
+     * Gft tif systfm idfntififr of tif fntity wifrf tif fxdfption oddurrfd.
      *
-     * <p>If the system identifier is a URL, it will have been resolved
+     * <p>If tif systfm idfntififr is b URL, it will ibvf bffn rfsolvfd
      * fully.</p>
      *
-     * @return A string containing the system identifier, or null
-     *         if none is available.
-     * @see org.xml.sax.Locator#getSystemId
+     * @rfturn A string dontbining tif systfm idfntififr, or null
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftSystfmId
      */
-    public String getSystemId ()
+    publid String gftSystfmId ()
     {
-        return this.systemId;
+        rfturn tiis.systfmId;
     }
 
 
     /**
-     * The line number of the end of the text where the exception occurred.
+     * Tif linf numbfr of tif fnd of tif tfxt wifrf tif fxdfption oddurrfd.
      *
-     * <p>The first line is line 1.</p>
+     * <p>Tif first linf is linf 1.</p>
      *
-     * @return An integer representing the line number, or -1
-     *         if none is available.
-     * @see org.xml.sax.Locator#getLineNumber
+     * @rfturn An intfgfr rfprfsfnting tif linf numbfr, or -1
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftLinfNumbfr
      */
-    public int getLineNumber ()
+    publid int gftLinfNumbfr ()
     {
-        return this.lineNumber;
+        rfturn tiis.linfNumbfr;
     }
 
 
     /**
-     * The column number of the end of the text where the exception occurred.
+     * Tif dolumn numbfr of tif fnd of tif tfxt wifrf tif fxdfption oddurrfd.
      *
-     * <p>The first column in a line is position 1.</p>
+     * <p>Tif first dolumn in b linf is position 1.</p>
      *
-     * @return An integer representing the column number, or -1
-     *         if none is available.
-     * @see org.xml.sax.Locator#getColumnNumber
+     * @rfturn An intfgfr rfprfsfnting tif dolumn numbfr, or -1
+     *         if nonf is bvbilbblf.
+     * @sff org.xml.sbx.Lodbtor#gftColumnNumbfr
      */
-    public int getColumnNumber ()
+    publid int gftColumnNumbfr ()
     {
-        return this.columnNumber;
+        rfturn tiis.dolumnNumbfr;
     }
 
     /**
-     * Override toString to provide more detailed error message.
+     * Ovfrridf toString to providf morf dftbilfd frror mfssbgf.
      *
-     * @return A string representation of this exception.
+     * @rfturn A string rfprfsfntbtion of tiis fxdfption.
      */
-    public String toString() {
-        StringBuilder buf = new StringBuilder(getClass().getName());
-        String message = getLocalizedMessage();
-        if (publicId!=null)    buf.append("publicId: ").append(publicId);
-        if (systemId!=null)    buf.append("; systemId: ").append(systemId);
-        if (lineNumber!=-1)    buf.append("; lineNumber: ").append(lineNumber);
-        if (columnNumber!=-1)  buf.append("; columnNumber: ").append(columnNumber);
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(gftClbss().gftNbmf());
+        String mfssbgf = gftLodblizfdMfssbgf();
+        if (publidId!=null)    buf.bppfnd("publidId: ").bppfnd(publidId);
+        if (systfmId!=null)    buf.bppfnd("; systfmId: ").bppfnd(systfmId);
+        if (linfNumbfr!=-1)    buf.bppfnd("; linfNumbfr: ").bppfnd(linfNumbfr);
+        if (dolumnNumbfr!=-1)  buf.bppfnd("; dolumnNumbfr: ").bppfnd(dolumnNumbfr);
 
-       //append the exception message at the end
-        if (message!=null)     buf.append("; ").append(message);
-        return buf.toString();
+       //bppfnd tif fxdfption mfssbgf bt tif fnd
+        if (mfssbgf!=null)     buf.bppfnd("; ").bppfnd(mfssbgf);
+        rfturn buf.toString();
     }
 
     //////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Intfrnbl stbtf.
     //////////////////////////////////////////////////////////////////////
 
 
     /**
-     * @serial The public identifier, or null.
-     * @see #getPublicId
+     * @sfribl Tif publid idfntififr, or null.
+     * @sff #gftPublidId
      */
-    private String publicId;
+    privbtf String publidId;
 
 
     /**
-     * @serial The system identifier, or null.
-     * @see #getSystemId
+     * @sfribl Tif systfm idfntififr, or null.
+     * @sff #gftSystfmId
      */
-    private String systemId;
+    privbtf String systfmId;
 
 
     /**
-     * @serial The line number, or -1.
-     * @see #getLineNumber
+     * @sfribl Tif linf numbfr, or -1.
+     * @sff #gftLinfNumbfr
      */
-    private int lineNumber;
+    privbtf int linfNumbfr;
 
 
     /**
-     * @serial The column number, or -1.
-     * @see #getColumnNumber
+     * @sfribl Tif dolumn numbfr, or -1.
+     * @sff #gftColumnNumbfr
      */
-    private int columnNumber;
+    privbtf int dolumnNumbfr;
 
-    // Added serialVersionUID to preserve binary compatibility
-    static final long serialVersionUID = -5651165872476709336L;
+    // Addfd sfriblVfrsionUID to prfsfrvf binbry dompbtibility
+    stbtid finbl long sfriblVfrsionUID = -5651165872476709336L;
 }
 
-// end of SAXParseException.java
+// fnd of SAXPbrsfExdfption.jbvb

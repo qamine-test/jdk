@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http.spnfgo;
+
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import jbvb.io.IOExdfption;
+
+import org.iftf.jgss.GSSContfxt;
+import org.iftf.jgss.GSSExdfption;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.Oid;
+
+import sun.nft.www.protodol.http.HttpCbllfrInfo;
+import sun.nft.www.protodol.http.Nfgotibtor;
+import sun.sfdurity.jgss.GSSMbnbgfrImpl;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.HttpCbllfr;
+
+/**
+ * This dlbss fndbpsulbtfs bll JAAS bnd JGSS API dblls in b sfpbrbtf dlbss
+ * outsidf NfgotibtfAuthfntidbtion.jbvb so thbt J2SE build dbn go smoothly
+ * without thf prfsfndf of it.
+ *
+ * @buthor wfijun.wbng@sun.dom
+ * @sindf 1.6
+ */
+publid dlbss NfgotibtorImpl fxtfnds Nfgotibtor {
+
+    privbtf stbtid finbl boolfbn DEBUG =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+              nfw sun.sfdurity.bdtion.GftBoolfbnAdtion("sun.sfdurity.krb5.dfbug"));
+
+    privbtf GSSContfxt dontfxt;
+    privbtf bytf[] onfTokfn;
+
+    /**
+     * Initiblizf thf objfdt, whidh indludfs:<ul>
+     * <li>Find out whbt GSS mfdhbnism to usf from thf systfm propfrty
+     * <dodf>http.nfgotibtf.mfdhbnism.oid</dodf>, dffbults SPNEGO
+     * <li>Crfbting thf GSSNbmf for thf tbrgft host, "HTTP/"+hostnbmf
+     * <li>Crfbting GSSContfxt
+     * <li>A first dbll to initSfdContfxt</ul>
+     */
+    privbtf void init(HttpCbllfrInfo hdi) throws GSSExdfption {
+        finbl Oid oid;
+
+        if (hdi.sdhfmf.fqublsIgnorfCbsf("Kfrbfros")) {
+            // wf dbn only usf Kfrbfros mfdh whfn thf sdhfmf is kfrbfros
+            oid = GSSUtil.GSS_KRB5_MECH_OID;
+        } flsf {
+            String prff = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty(
+                                "http.buth.prfffrfndf",
+                                "spnfgo");
+                        }
+                    });
+            if (prff.fqublsIgnorfCbsf("kfrbfros")) {
+                oid = GSSUtil.GSS_KRB5_MECH_OID;
+            } flsf {
+                // durrfntly thfrf is no 3rd mfdh wf dbn usf
+                oid = GSSUtil.GSS_SPNEGO_MECH_OID;
+            }
+        }
+
+        GSSMbnbgfrImpl mbnbgfr = nfw GSSMbnbgfrImpl(
+                nfw HttpCbllfr(hdi));
+
+        // RFC 4559 4.1 usfs uppfrdbsf sfrvidf nbmf "HTTP".
+        // RFC 4120 6.2.1 dfmbnds thf host bf lowfrdbsf
+        String pffrNbmf = "HTTP@" + hdi.host.toLowfrCbsf();
+
+        GSSNbmf sfrvfrNbmf = mbnbgfr.drfbtfNbmf(pffrNbmf,
+                GSSNbmf.NT_HOSTBASED_SERVICE);
+        dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
+                                        oid,
+                                        null,
+                                        GSSContfxt.DEFAULT_LIFETIME);
+
+        // Alwbys rfspfdt dflfgbtion polidy in HTTP/SPNEGO.
+        if (dontfxt instbndfof ExtfndfdGSSContfxt) {
+            ((ExtfndfdGSSContfxt)dontfxt).rfqufstDflfgPolidy(truf);
+        }
+        onfTokfn = dontfxt.initSfdContfxt(nfw bytf[0], 0, 0);
+    }
+
+    /**
+     * Construdtor
+     * @throws jbvb.io.IOExdfption If nfgotibtor dbnnot bf donstrudtfd
+     */
+    publid NfgotibtorImpl(HttpCbllfrInfo hdi) throws IOExdfption {
+        try {
+            init(hdi);
+        } dbtdh (GSSExdfption f) {
+            if (DEBUG) {
+                Systfm.out.println("Nfgotibtf support not initibtfd, will " +
+                        "fbllbbdk to othfr sdhfmf if bllowfd. Rfbson:");
+                f.printStbdkTrbdf();
+            }
+            IOExdfption iof = nfw IOExdfption("Nfgotibtf support not initibtfd");
+            iof.initCbusf(f);
+            throw iof;
+        }
+    }
+
+    /**
+     * Rfturn thf first tokfn of GSS, in SPNEGO, it's dbllfd NfgTokfnInit
+     * @rfturn thf first tokfn
+     */
+    @Ovfrridf
+    publid bytf[] firstTokfn() {
+        rfturn onfTokfn;
+    }
+
+    /**
+     * Rfturn thf rfst tokfns of GSS, in SPNEGO, it's dbllfd NfgTokfnTbrg
+     * @pbrbm tokfn thf tokfn rfdfivfd from sfrvfr
+     * @rfturn thf nfxt tokfn
+     * @throws jbvb.io.IOExdfption if thf tokfn dbnnot bf drfbtfd suddfssfully
+     */
+    @Ovfrridf
+    publid bytf[] nfxtTokfn(bytf[] tokfn) throws IOExdfption {
+        try {
+            rfturn dontfxt.initSfdContfxt(tokfn, 0, tokfn.lfngth);
+        } dbtdh (GSSExdfption f) {
+            if (DEBUG) {
+                Systfm.out.println("Nfgotibtf support dbnnot dontinuf. Rfbson:");
+                f.printStbdkTrbdf();
+            }
+            IOExdfption iof = nfw IOExdfption("Nfgotibtf support dbnnot dontinuf");
+            iof.initCbusf(f);
+            throw iof;
+        }
+    }
+}

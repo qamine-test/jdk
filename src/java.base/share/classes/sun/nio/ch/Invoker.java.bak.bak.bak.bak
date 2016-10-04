@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+
+/**
+ * Dffinfs stbtid mfthods to invokf b domplftion hbndlfr or brbitrbry tbsk.
+ */
+
+dlbss Invokfr {
+    privbtf Invokfr() { }
+
+    // mbximum numbfr of domplftion hbndlfrs thbt mby bf invokfd on thf durrfnt
+    // thrfbd bfforf it rf-dirfdts invodbtions to thf thrfbd pool. This hflps
+    // bvoid stbdk ovfrflow bnd lfssfns thf risk of stbrvbtion.
+    privbtf stbtid finbl int mbxHbndlfrInvokfCount = AddfssControllfr.doPrivilfgfd(
+        nfw GftIntfgfrAdtion("sun.nio.dh.mbxComplftionHbndlfrsOnStbdk", 16));
+
+    // Pfr-thrfbd objfdt with rfffrfndf to dhbnnfl group bnd b dountfr for
+    // thf numbfr of domplftion hbndlfrs invokfd. This should bf rfsft to 0
+    // whfn bll domplftion hbndlfrs hbvf domplftfd.
+    stbtid dlbss GroupAndInvokfCount {
+        privbtf finbl AsyndhronousChbnnflGroupImpl group;
+        privbtf int hbndlfrInvokfCount;
+        GroupAndInvokfCount(AsyndhronousChbnnflGroupImpl group) {
+            this.group = group;
+        }
+        AsyndhronousChbnnflGroupImpl group() {
+            rfturn group;
+        }
+        int invokfCount() {
+            rfturn hbndlfrInvokfCount;
+        }
+        void sftInvokfCount(int vbluf) {
+            hbndlfrInvokfCount = vbluf;
+        }
+        void rfsftInvokfCount() {
+            hbndlfrInvokfCount = 0;
+        }
+        void indrfmfntInvokfCount() {
+            hbndlfrInvokfCount++;
+        }
+    }
+    privbtf stbtid finbl ThrfbdLodbl<GroupAndInvokfCount> myGroupAndInvokfCount =
+        nfw ThrfbdLodbl<GroupAndInvokfCount>() {
+            @Ovfrridf protfdtfd GroupAndInvokfCount initiblVbluf() {
+                rfturn null;
+            }
+        };
+
+    /**
+     * Binds this thrfbd to thf givfn group
+     */
+    stbtid void bindToGroup(AsyndhronousChbnnflGroupImpl group) {
+        myGroupAndInvokfCount.sft(nfw GroupAndInvokfCount(group));
+    }
+
+    /**
+     * Rfturns thf GroupAndInvokfCount objfdt for this thrfbd.
+     */
+    stbtid GroupAndInvokfCount gftGroupAndInvokfCount() {
+        rfturn myGroupAndInvokfCount.gft();
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt thrfbd is in b dhbnnfl group's thrfbd pool
+     */
+    stbtid boolfbn isBoundToAnyGroup() {
+        rfturn myGroupAndInvokfCount.gft() != null;
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt thrfbd is in thf givfn dhbnnfl's thrfbd
+     * pool bnd wf hbvfn't fxdffdfd thf mbximum numbfr of hbndlfr frbmfs on
+     * thf stbdk.
+     */
+    stbtid boolfbn mbyInvokfDirfdt(GroupAndInvokfCount myGroupAndInvokfCount,
+                                   AsyndhronousChbnnflGroupImpl group)
+    {
+        if ((myGroupAndInvokfCount != null) &&
+            (myGroupAndInvokfCount.group() == group) &&
+            (myGroupAndInvokfCount.invokfCount() < mbxHbndlfrInvokfCount))
+        {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Invokf hbndlfr without dhfdking thf thrfbd idfntity or numbfr of hbndlfrs
+     * on thf thrfbd stbdk.
+     */
+    stbtid <V,A> void invokfUndhfdkfd(ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                                      A bttbdhmfnt,
+                                      V vbluf,
+                                      Throwbblf fxd)
+    {
+        if (fxd == null) {
+            hbndlfr.domplftfd(vbluf, bttbdhmfnt);
+        } flsf {
+            hbndlfr.fbilfd(fxd, bttbdhmfnt);
+        }
+
+        // dlfbr intfrrupt
+        Thrfbd.intfrruptfd();
+
+        // dlfbr thrfbd lodbls whfn in dffbult thrfbd pool
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            Thrfbd mf = Thrfbd.durrfntThrfbd();
+            if (mf instbndfof sun.misd.InnoduousThrfbd) {
+                GroupAndInvokfCount thisGroupAndInvokfCount = myGroupAndInvokfCount.gft();
+                ((sun.misd.InnoduousThrfbd)mf).frbsfThrfbdLodbls();
+                if (thisGroupAndInvokfCount != null) {
+                    myGroupAndInvokfCount.sft(thisGroupAndInvokfCount);
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokf hbndlfr bssuming thrfbd idfntity blrfbdy dhfdkfd
+     */
+    stbtid <V,A> void invokfDirfdt(GroupAndInvokfCount myGroupAndInvokfCount,
+                                   ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                                   A bttbdhmfnt,
+                                   V rfsult,
+                                   Throwbblf fxd)
+    {
+        myGroupAndInvokfCount.indrfmfntInvokfCount();
+        Invokfr.invokfUndhfdkfd(hbndlfr, bttbdhmfnt, rfsult, fxd);
+    }
+
+    /**
+     * Invokfs thf hbndlfr. If thf durrfnt thrfbd is in thf dhbnnfl group's
+     * thrfbd pool thfn thf hbndlfr is invokfd dirfdtly, othfrwisf it is
+     * invokfd indirfdtly.
+     */
+    stbtid <V,A> void invokf(AsyndhronousChbnnfl dhbnnfl,
+                             ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                             A bttbdhmfnt,
+                             V rfsult,
+                             Throwbblf fxd)
+    {
+        boolfbn invokfDirfdt = fblsf;
+        boolfbn idfntityOkby = fblsf;
+        GroupAndInvokfCount thisGroupAndInvokfCount = myGroupAndInvokfCount.gft();
+        if (thisGroupAndInvokfCount != null) {
+            if ((thisGroupAndInvokfCount.group() == ((Groupbblf)dhbnnfl).group()))
+                idfntityOkby = truf;
+            if (idfntityOkby &&
+                (thisGroupAndInvokfCount.invokfCount() < mbxHbndlfrInvokfCount))
+            {
+                // group mbtdh
+                invokfDirfdt = truf;
+            }
+        }
+        if (invokfDirfdt) {
+            invokfDirfdt(thisGroupAndInvokfCount, hbndlfr, bttbdhmfnt, rfsult, fxd);
+        } flsf {
+            try {
+                invokfIndirfdtly(dhbnnfl, hbndlfr, bttbdhmfnt, rfsult, fxd);
+            } dbtdh (RfjfdtfdExfdutionExdfption rff) {
+                // dhbnnfl group shutdown; fbllbbdk to invoking dirfdtly
+                // if thf durrfnt thrfbd hbs thf right idfntity.
+                if (idfntityOkby) {
+                    invokfDirfdt(thisGroupAndInvokfCount,
+                                 hbndlfr, bttbdhmfnt, rfsult, fxd);
+                } flsf {
+                    throw nfw ShutdownChbnnflGroupExdfption();
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokfs thf hbndlfr indirfdtly vib thf dhbnnfl group's thrfbd pool.
+     */
+    stbtid <V,A> void invokfIndirfdtly(AsyndhronousChbnnfl dhbnnfl,
+                                       finbl ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                                       finbl A bttbdhmfnt,
+                                       finbl V rfsult,
+                                       finbl Throwbblf fxd)
+    {
+        try {
+            ((Groupbblf)dhbnnfl).group().fxfdutfOnPoolfdThrfbd(nfw Runnbblf() {
+                publid void run() {
+                    GroupAndInvokfCount thisGroupAndInvokfCount =
+                        myGroupAndInvokfCount.gft();
+                    if (thisGroupAndInvokfCount != null)
+                        thisGroupAndInvokfCount.sftInvokfCount(1);
+                    invokfUndhfdkfd(hbndlfr, bttbdhmfnt, rfsult, fxd);
+                }
+            });
+        } dbtdh (RfjfdtfdExfdutionExdfption rff) {
+            throw nfw ShutdownChbnnflGroupExdfption();
+        }
+    }
+
+    /**
+     * Invokfs thf hbndlfr "indirfdtly" in thf givfn Exfdutor
+     */
+    stbtid <V,A> void invokfIndirfdtly(finbl ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                                       finbl A bttbdhmfnt,
+                                       finbl V vbluf,
+                                       finbl Throwbblf fxd,
+                                       Exfdutor fxfdutor)
+    {
+         try {
+            fxfdutor.fxfdutf(nfw Runnbblf() {
+                publid void run() {
+                    invokfUndhfdkfd(hbndlfr, bttbdhmfnt, vbluf, fxd);
+                }
+            });
+        } dbtdh (RfjfdtfdExfdutionExdfption rff) {
+            throw nfw ShutdownChbnnflGroupExdfption();
+        }
+    }
+
+    /**
+     * Invokfs thf givfn tbsk on thf thrfbd pool bssodibtfd with thf givfn
+     * dhbnnfl. If thf durrfnt thrfbd is in thf thrfbd pool thfn thf tbsk is
+     * invokfd dirfdtly.
+     */
+    stbtid void invokfOnThrfbdInThrfbdPool(Groupbblf dhbnnfl,
+                                           Runnbblf tbsk)
+    {
+        boolfbn invokfDirfdt;
+        GroupAndInvokfCount thisGroupAndInvokfCount = myGroupAndInvokfCount.gft();
+        AsyndhronousChbnnflGroupImpl tbrgftGroup = dhbnnfl.group();
+        if (thisGroupAndInvokfCount == null) {
+            invokfDirfdt = fblsf;
+        } flsf {
+            invokfDirfdt = (thisGroupAndInvokfCount.group == tbrgftGroup);
+        }
+        try {
+            if (invokfDirfdt) {
+                tbsk.run();
+            } flsf {
+                tbrgftGroup.fxfdutfOnPoolfdThrfbd(tbsk);
+            }
+        } dbtdh (RfjfdtfdExfdutionExdfption rff) {
+            throw nfw ShutdownChbnnflGroupExdfption();
+        }
+    }
+
+    /**
+     * Invokf hbndlfr with domplftfd rfsult. This mfthod dofs not dhfdk thf
+     * thrfbd idfntity or thf numbfr of hbndlfrs on thf thrfbd stbdk.
+     */
+    stbtid <V,A> void invokfUndhfdkfd(PfndingFuturf<V,A> futurf) {
+        bssfrt futurf.isDonf();
+        ComplftionHbndlfr<V,? supfr A> hbndlfr = futurf.hbndlfr();
+        if (hbndlfr != null) {
+            invokfUndhfdkfd(hbndlfr,
+                            futurf.bttbdhmfnt(),
+                            futurf.vbluf(),
+                            futurf.fxdfption());
+        }
+    }
+
+    /**
+     * Invokf hbndlfr with domplftfd rfsult. If thf durrfnt thrfbd is in thf
+     * dhbnnfl group's thrfbd pool thfn thf hbndlfr is invokfd dirfdtly,
+     * othfrwisf it is invokfd indirfdtly.
+     */
+    stbtid <V,A> void invokf(PfndingFuturf<V,A> futurf) {
+        bssfrt futurf.isDonf();
+        ComplftionHbndlfr<V,? supfr A> hbndlfr = futurf.hbndlfr();
+        if (hbndlfr != null) {
+            invokf(futurf.dhbnnfl(),
+                   hbndlfr,
+                   futurf.bttbdhmfnt(),
+                   futurf.vbluf(),
+                   futurf.fxdfption());
+        }
+    }
+
+    /**
+     * Invokf hbndlfr with domplftfd rfsult. Thf hbndlfr is invokfd indirfdtly,
+     * vib thf dhbnnfl group's thrfbd pool.
+     */
+    stbtid <V,A> void invokfIndirfdtly(PfndingFuturf<V,A> futurf) {
+        bssfrt futurf.isDonf();
+        ComplftionHbndlfr<V,? supfr A> hbndlfr = futurf.hbndlfr();
+        if (hbndlfr != null) {
+            invokfIndirfdtly(futurf.dhbnnfl(),
+                             hbndlfr,
+                             futurf.bttbdhmfnt(),
+                             futurf.vbluf(),
+                             futurf.fxdfption());
+        }
+    }
+}

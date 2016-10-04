@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_MENUITEM_H
-#define AWT_MENUITEM_H
+#ifndff AWT_MENUITEM_H
+#dffinf AWT_MENUITEM_H
 
-#include "awt_Object.h"
-#include "awt_Component.h"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Componfnt.i"
 
-#include <java_awt_MenuItem.h>
-#include <sun_awt_windows_WMenuItemPeer.h>
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
-#include <java_awt_MenuComponent.h>
-#include <java_awt_FontMetrics.h>
+#indludf <jbvb_bwt_MfnuItfm.i>
+#indludf <sun_bwt_windows_WMfnuItfmPffr.i>
+#indludf <jbvb_bwt_Mfnu.i>
+#indludf <sun_bwt_windows_WMfnuPffr.i>
+#indludf <jbvb_bwt_MfnuComponfnt.i>
+#indludf <jbvb_bwt_FontMftrids.i>
 
-class AwtMenu;
+dlbss AwtMfnu;
 
 
 /************************************************************************
- * MenuItem class
+ * MfnuItfm dlbss
  */
 
-class AwtMenuItem : public AwtObject {
-public:
-    // id's for methods executed on toolkit thread
-    enum {
+dlbss AwtMfnuItfm : publid AwtObjfdt {
+publid:
+    // id's for mftiods fxfdutfd on toolkit tirfbd
+    fnum {
         MENUITEM_ENABLE,
         MENUITEM_SETSTATE,
         MENUITEM_LAST
     };
 
-    /* java.awt.MenuComponent fields */
-    static jfieldID fontID;
-    static jfieldID appContextID;
+    /* jbvb.bwt.MfnuComponfnt fiflds */
+    stbtid jfifldID fontID;
+    stbtid jfifldID bppContfxtID;
 
-    /* java.awt.MenuItem fields */
-    static jfieldID labelID;
-    static jfieldID enabledID;
+    /* jbvb.bwt.MfnuItfm fiflds */
+    stbtid jfifldID lbbflID;
+    stbtid jfifldID fnbblfdID;
 
-    /* java.awt.CheckboxMenuItem fields */
-    static jfieldID stateID;
+    /* jbvb.bwt.CifdkboxMfnuItfm fiflds */
+    stbtid jfifldID stbtfID;
 
-    /* sun.awt.windows.WMenuItemPeer fields */
-    static jfieldID isCheckboxID;
-    static jfieldID shortcutLabelID;
+    /* sun.bwt.windows.WMfnuItfmPffr fiflds */
+    stbtid jfifldID isCifdkboxID;
+    stbtid jfifldID siortdutLbbflID;
 
-    static jmethodID getDefaultFontMID;
+    stbtid jmftiodID gftDffbultFontMID;
 
-    AwtMenuItem();
-    virtual ~AwtMenuItem();
+    AwtMfnuItfm();
+    virtubl ~AwtMfnuItfm();
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GftClbssNbmf();
 
-    static AwtMenuItem* Create(jobject self, jobject menu);
+    stbtid AwtMfnuItfm* Crfbtf(jobjfdt sflf, jobjfdt mfnu);
 
-    INLINE AwtMenu* GetMenuContainer() { return m_menuContainer; }
-    INLINE void SetMenuContainer(AwtMenu* menu) { m_menuContainer = menu; }
-    INLINE UINT GetID() { return m_Id; }
-    INLINE void SetID(UINT id) { m_Id = id; }
-    INLINE void SetNewID() {
-        DASSERT(!m_freeId);
-        m_Id = AwtToolkit::GetInstance().CreateCmdID(this);
-        m_freeId = TRUE;
+    INLINE AwtMfnu* GftMfnuContbinfr() { rfturn m_mfnuContbinfr; }
+    INLINE void SftMfnuContbinfr(AwtMfnu* mfnu) { m_mfnuContbinfr = mfnu; }
+    INLINE UINT GftID() { rfturn m_Id; }
+    INLINE void SftID(UINT id) { m_Id = id; }
+    INLINE void SftNfwID() {
+        DASSERT(!m_frffId);
+        m_Id = AwtToolkit::GftInstbndf().CrfbtfCmdID(tiis);
+        m_frffId = TRUE;
     }
 
-    // Convert Language ID to CodePage
-    static UINT LangToCodePage(LANGID idLang);
-    /* Execute the command associated with this item. */
-    virtual void DoCommand();
+    // Convfrt Lbngubgf ID to CodfPbgf
+    stbtid UINT LbngToCodfPbgf(LANGID idLbng);
+    /* Exfdutf tif dommbnd bssodibtfd witi tiis itfm. */
+    virtubl void DoCommbnd();
 
-    void LinkObjects(JNIEnv *env, jobject peer);
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
 
-    /* for multifont menuitem */
-    INLINE jstring GetJavaString(JNIEnv *env) {
-        if (env->EnsureLocalCapacity(2) < 0) {
-            return NULL;
+    /* for multifont mfnuitfm */
+    INLINE jstring GftJbvbString(JNIEnv *fnv) {
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
         }
-        jobject target = GetTarget(env);
-        jstring res = (jstring)env->GetObjectField(target,
-                                                   AwtMenuItem::labelID);
-        env->DeleteLocalRef(target);
-        return res;
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        jstring rfs = (jstring)fnv->GftObjfdtFifld(tbrgft,
+                                                   AwtMfnuItfm::lbbflID);
+        fnv->DflftfLodblRff(tbrgft);
+        rfturn rfs;
     }
-// Added by waleed for BIDI Support
-    // returns the right to left status
-    INLINE static BOOL GetRTLReadingOrder() {
-        return sm_rtlReadingOrder;
+// Addfd by wblffd for BIDI Support
+    // rfturns tif rigit to lfft stbtus
+    INLINE stbtid BOOL GftRTLRfbdingOrdfr() {
+        rfturn sm_rtlRfbdingOrdfr;
     }
-    // returns the right to left status
-    INLINE static BOOL GetRTL() {
-        return sm_rtl;
+    // rfturns tif rigit to lfft stbtus
+    INLINE stbtid BOOL GftRTL() {
+        rfturn sm_rtl;
     }
-    INLINE static LANGID GetSubLanguage() {
-        return SUBLANGID(m_idLang);
+    INLINE stbtid LANGID GftSubLbngubgf() {
+        rfturn SUBLANGID(m_idLbng);
     }
-    // returns the current code page that should be used in
-    // all MultiByteToWideChar and WideCharToMultiByte calls.
-    // This code page should also be use in IsDBCSLeadByteEx.
-    INLINE static UINT GetCodePage() {
-        return m_CodePage;
+    // rfturns tif durrfnt dodf pbgf tibt siould bf usfd in
+    // bll MultiBytfToWidfCibr bnd WidfCibrToMultiBytf dblls.
+    // Tiis dodf pbgf siould blso bf usf in IsDBCSLfbdBytfEx.
+    INLINE stbtid UINT GftCodfPbgf() {
+        rfturn m_CodfPbgf;
     }
-    INLINE static LANGID GetInputLanguage() {
-        return m_idLang;
+    INLINE stbtid LANGID GftInputLbngubgf() {
+        rfturn m_idLbng;
     }
-// end waleed
+// fnd wblffd
 
-    virtual void DrawItem(DRAWITEMSTRUCT& drawInfo);
-    void DrawSelf(DRAWITEMSTRUCT& drawInfo);
-    static void AdjustCheckWidth(int& checkWidth);
+    virtubl void DrbwItfm(DRAWITEMSTRUCT& drbwInfo);
+    void DrbwSflf(DRAWITEMSTRUCT& drbwInfo);
+    stbtid void AdjustCifdkWidti(int& difdkWidti);
 
-    virtual void MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
-    void MeasureSelf(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
+    virtubl void MfbsurfItfm(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo);
+    void MfbsurfSflf(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo);
 
-    jobject GetFont(JNIEnv *env);
-    jobject GetFontMetrics(JNIEnv *env, jobject font);
-    jobject GetDefaultFont(JNIEnv *env);
+    jobjfdt GftFont(JNIEnv *fnv);
+    jobjfdt GftFontMftrids(JNIEnv *fnv, jobjfdt font);
+    jobjfdt GftDffbultFont(JNIEnv *fnv);
 
-    virtual BOOL IsTopMenu();
-    void DrawCheck(HDC hDC, RECT rect);
+    virtubl BOOL IsTopMfnu();
+    void DrbwCifdk(HDC iDC, RECT rfdt);
 
-    void SetLabel(LPCTSTR sb);
-    virtual void Enable(BOOL isEnabled);
-    virtual void UpdateContainerLayout();
-    virtual void RedrawMenuBar();
-    void SetState(BOOL isChecked);
+    void SftLbbfl(LPCTSTR sb);
+    virtubl void Enbblf(BOOL isEnbblfd);
+    virtubl void UpdbtfContbinfrLbyout();
+    virtubl void RfdrbwMfnuBbr();
+    void SftStbtf(BOOL isCifdkfd);
 
     /*
-     * Windows message handler functions
+     * Windows mfssbgf ibndlfr fundtions
      */
-    MsgRouting WmNotify(UINT notifyCode);
+    MsgRouting WmNotify(UINT notifyCodf);
 
-    virtual LRESULT WinThreadExecProc(ExecuteArgs * args);
-    virtual BOOL IsDisabledAndPopup() {
-        return FALSE;
+    virtubl LRESULT WinTirfbdExfdProd(ExfdutfArgs * brgs);
+    virtubl BOOL IsDisbblfdAndPopup() {
+        rfturn FALSE;
     }
-    virtual BOOL IsSeparator();
+    virtubl BOOL IsSfpbrbtor();
 
-    // invoked on Toolkit thread
-    static void _SetLabel(void *param);
-    static void _UpdateLayout(void *param);
+    // invokfd on Toolkit tirfbd
+    stbtid void _SftLbbfl(void *pbrbm);
+    stbtid void _UpdbtfLbyout(void *pbrbm);
 
-protected:
-    AwtMenu* m_menuContainer;  /* The menu object containing this item */
-    UINT m_Id;                 /* The id of this item */
+protfdtfd:
+    AwtMfnu* m_mfnuContbinfr;  /* Tif mfnu objfdt dontbining tiis itfm */
+    UINT m_Id;                 /* Tif id of tiis itfm */
 
-    static BOOL CheckMenuCreation(JNIEnv *env, jobject self, HMENU hMenu);
-    virtual void RemoveCmdID();
+    stbtid BOOL CifdkMfnuCrfbtion(JNIEnv *fnv, jobjfdt sflf, HMENU iMfnu);
+    virtubl void RfmovfCmdID();
 
-private:
-    INLINE BOOL IsCheckbox() { return m_isCheckbox; }
-    INLINE void SetCheckbox() { m_isCheckbox = TRUE; }
-    BOOL m_isCheckbox;
-    BOOL m_freeId;
+privbtf:
+    INLINE BOOL IsCifdkbox() { rfturn m_isCifdkbox; }
+    INLINE void SftCifdkbox() { m_isCifdkbox = TRUE; }
+    BOOL m_isCifdkbox;
+    BOOL m_frffId;
 
-    // Added for bi-di support By Waleed
-    static UINT m_CodePage;
-    // Current input language (=low word of keyboardlayout handle)
-    // m_idLang is shared by all instance of AwtComponent because
-    // keyboardlayout is shared.
-    static LANGID m_idLang;
-    static BOOL m_isWin95;
+    // Addfd for bi-di support By Wblffd
+    stbtid UINT m_CodfPbgf;
+    // Currfnt input lbngubgf (=low word of kfybobrdlbyout ibndlf)
+    // m_idLbng is sibrfd by bll instbndf of AwtComponfnt bfdbusf
+    // kfybobrdlbyout is sibrfd.
+    stbtid LANGID m_idLbng;
+    stbtid BOOL m_isWin95;
 
-    static BOOL sm_rtl;
-    static BOOL sm_rtlReadingOrder;
+    stbtid BOOL sm_rtl;
+    stbtid BOOL sm_rtlRfbdingOrdfr;
 
-public:
-    static HBITMAP bmpCheck;
-    static jobject systemFont;
+publid:
+    stbtid HBITMAP bmpCifdk;
+    stbtid jobjfdt systfmFont;
 };
 
-#endif /* AWT_MENUITEM_H */
+#fndif /* AWT_MENUITEM_H */

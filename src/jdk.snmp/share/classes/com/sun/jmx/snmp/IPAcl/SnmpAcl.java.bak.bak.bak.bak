@@ -1,0 +1,486 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+// jbvb import
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshSft;
+import jbvb.sfdurity.bdl.AdlEntry;
+import jbvb.sfdurity.bdl.NotOwnfrExdfption;
+
+// SNMP Runtimf import
+//
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+
+/**
+ * Dffinfs bn implfmfntbtion of thf {@link dom.sun.jmx.snmp.InftAddrfssAdl InftAddrfssAdl} intfrfbdf.
+ * <p>
+ * In this implfmfntbtion thf ACL informbtion is storfd on b flbt filf bnd
+ * its dffbult lodbtion is "$JRE/lib/snmp.bdl" - Sff
+ * {@link #gftDffbultAdlFilfNbmf()}
+ * <p>
+ * <OL>
+  *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpAdl implfmfnts InftAddrfssAdl, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6702287103824397063L;
+
+    stbtid finbl PfrmissionImpl READ  = nfw PfrmissionImpl("READ");
+    stbtid finbl PfrmissionImpl WRITE = nfw PfrmissionImpl("WRITE");
+
+    /**
+     * Construdts thf Jbvb Dynbmid Mbnbgfmfnt(TM) Addfss Control List
+     * bbsfd on IP bddrfssfs. Thf ACL will tbkf thf givfn ownfr nbmf.
+     * Thf durrfnt IP bddrfss will bf thf ownfr of thf ACL.
+     *
+     * @pbrbm Ownfr Thf nbmf of thf ACL Ownfr.
+     *
+     * @fxdfption UnknownHostExdfption If thf lodbl host is unknown.
+     * @fxdfption IllfgblArgumfntExdfption If thf ACL filf dofsn't fxist.
+     */
+    publid SnmpAdl(String Ownfr)
+        throws UnknownHostExdfption, IllfgblArgumfntExdfption {
+        this(Ownfr,null);
+    }
+
+    /**
+     * Construdts thf Jbvb Dynbmid Mbnbgfmfnt(TM) Addfss Control List
+     * bbsfd on IP bddrfssfs. Thf ACL will tbkf thf givfn ownfr nbmf.
+     * Thf durrfnt IP bddrfss will bf thf ownfr of thf ACL.
+     *
+     * @pbrbm Ownfr Thf nbmf of thf ACL Ownfr.
+     * @pbrbm bdlFilfNbmf Thf nbmf of thf ACL Filf.
+     *
+     * @fxdfption UnknownHostExdfption If thf lodbl host is unknown.
+     * @fxdfption IllfgblArgumfntExdfption If thf ACL filf dofsn't fxist.
+     */
+    publid SnmpAdl(String Ownfr, String bdlFilfNbmf)
+        throws UnknownHostExdfption, IllfgblArgumfntExdfption {
+        trbpDfstList= nfw Hbshtbblf<InftAddrfss, Vfdtor<String>>();
+        informDfstList= nfw Hbshtbblf<InftAddrfss, Vfdtor<String>>();
+
+        // PrindipblImpl() tbkf thf durrfnt host bs fntry
+        ownfr = nfw PrindipblImpl();
+        try {
+            bdl = nfw AdlImpl(ownfr,Ownfr);
+            AdlEntry ownEntry = nfw AdlEntryImpl(ownfr);
+            ownEntry.bddPfrmission(READ);
+            ownEntry.bddPfrmission(WRITE);
+            bdl.bddEntry(ownfr,ownEntry);
+        } dbtdh (NotOwnfrExdfption fx) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                    "SnmpAdl(String,String)",
+                    "Should nfvfr gft NotOwnfrExdfption bs thf ownfr " +
+                    "is built in this donstrudtor");
+            }
+        }
+        if (bdlFilfNbmf == null) sftDffbultFilfNbmf();
+        flsf sftAuthorizfdListFilf(bdlFilfNbmf);
+        rfbdAuthorizfdListFilf();
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of thf fntrifs in this ACL. Ebdh flfmfnt in thf
+     * fnumfrbtion is of typf <CODE>jbvb.sfdurity.bdl.AdlEntry</CODE>.
+     *
+     * @rfturn An fnumfrbtion of thf fntrifs in this ACL.
+     */
+    publid Enumfrbtion<AdlEntry> fntrifs() {
+        rfturn bdl.fntrifs();
+    }
+
+    /**
+     * Rfturns bnn fnumfrbtion of dommunity strings. Community strings brf rfturnfd bs String.
+     * @rfturn Thf fnumfrbtion of dommunity strings.
+     */
+    publid Enumfrbtion<String> dommunitifs() {
+        HbshSft<String> sft = nfw HbshSft<String>();
+        Vfdtor<String> rfs = nfw Vfdtor<String>();
+        for (Enumfrbtion<AdlEntry> f = bdl.fntrifs() ; f.hbsMorfElfmfnts() ;) {
+            AdlEntryImpl fntry = (AdlEntryImpl) f.nfxtElfmfnt();
+            for (Enumfrbtion<String> ds = fntry.dommunitifs();
+                 ds.hbsMorfElfmfnts() ;) {
+                sft.bdd(ds.nfxtElfmfnt());
+            }
+        }
+        String[] objs = sft.toArrby(nfw String[0]);
+        for(int i = 0; i < objs.lfngth; i++)
+            rfs.bddElfmfnt(objs[i]);
+
+        rfturn rfs.flfmfnts();
+    }
+
+    /**
+     * Rfturns thf nbmf of thf ACL.
+     *
+     * @rfturn Thf nbmf of thf ACL.
+     */
+    publid String gftNbmf() {
+        rfturn bdl.gftNbmf();
+    }
+
+    /**
+     * Rfturns thf rfbd pfrmission instbndf usfd.
+     *
+     * @rfturn Thf rfbd pfrmission instbndf.
+     */
+    stbtid publid PfrmissionImpl gftREAD() {
+        rfturn READ;
+    }
+
+    /**
+     * Rfturns thf writf pfrmission instbndf usfd.
+     *
+     * @rfturn  Thf writf pfrmission instbndf.
+     */
+    stbtid publid PfrmissionImpl gftWRITE() {
+        rfturn WRITE;
+    }
+
+    /**
+     * Gft thf dffbult nbmf for thf ACL filf.
+     * In this implfmfntbtion this is "$JRE/lib/snmp.bdl"
+     * @rfturn Thf dffbult nbmf for thf ACL filf.
+     **/
+    publid stbtid String gftDffbultAdlFilfNbmf() {
+        finbl String filfSfpbrbtor =
+            Systfm.gftPropfrty("filf.sfpbrbtor");
+        finbl StringBuildfr dffbultAdlNbmf =
+            nfw StringBuildfr(Systfm.gftPropfrty("jbvb.homf")).
+            bppfnd(filfSfpbrbtor).bppfnd("lib").bppfnd(filfSfpbrbtor).
+            bppfnd("snmp.bdl");
+        rfturn dffbultAdlNbmf.toString();
+    }
+
+    /**
+     * Sfts thf full pbth of thf filf dontbining thf ACL informbtion.
+     *
+     * @pbrbm filfnbmf Thf full pbth of thf filf dontbining thf ACL informbtion.
+     * @throws IllfgblArgumfntExdfption If thf pbssfd ACL filf dofsn't fxist.
+     */
+    publid void sftAuthorizfdListFilf(String filfnbmf)
+        throws IllfgblArgumfntExdfption {
+        Filf filf = nfw Filf(filfnbmf);
+        if (!filf.isFilf() ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                    "sftAuthorizfdListFilf", "ACL filf not found: " + filfnbmf);
+            }
+            throw nfw
+                IllfgblArgumfntExdfption("Thf spfdififd filf ["+filf+"] "+
+                                         "dofsn't fxist or is not b filf, "+
+                                         "no donfigurbtion lobdfd");
+        }
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                "sftAuthorizfdListFilf", "Dffbult filf sft to " + filfnbmf);
+        }
+        buthorizfdListFilf = filfnbmf;
+    }
+
+    /**
+     * Rfsfts this ACL to thf vblufs dontbinfd in thf donfigurbtion filf.
+     *
+     * @fxdfption NotOwnfrExdfption If thf prindipbl bttfmpting thf rfsft is not bn ownfr of this ACL.
+     * @fxdfption UnknownHostExdfption If IP bddrfssfs for hosts dontbinfd in thf ACL filf douldn't bf found.
+     */
+    publid void rfrfbdThfFilf() throws NotOwnfrExdfption, UnknownHostExdfption {
+        blwbysAuthorizfd = fblsf;
+        bdl.rfmovfAll(ownfr);
+        trbpDfstList.dlfbr();
+        informDfstList.dlfbr();
+        AdlEntry ownEntry = nfw AdlEntryImpl(ownfr);
+        ownEntry.bddPfrmission(READ);
+        ownEntry.bddPfrmission(WRITE);
+        bdl.bddEntry(ownfr,ownEntry);
+        rfbdAuthorizfdListFilf();
+    }
+
+    /**
+     * Rfturns thf full pbth of thf filf usfd to gft ACL informbtion.
+     *
+     * @rfturn Thf full pbth of thf filf usfd to gft ACL informbtion.
+     */
+    publid String gftAuthorizfdListFilf() {
+        rfturn buthorizfdListFilf;
+    }
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host hbs <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf host hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(InftAddrfss bddrfss) {
+        if (blwbysAuthorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.dhfdkPfrmission(p, READ);
+    }
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host bnd dommunity hbvf <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     * @pbrbm dommunity Thf dommunity bssodibtfd with thf host.
+     *
+     * @rfturn <CODE>truf</CODE> if thf pbir (host, dommunity) hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(InftAddrfss bddrfss, String dommunity) {
+        if (blwbysAuthorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.dhfdkPfrmission(p, dommunity, READ);
+    }
+
+    /**
+     * Chfdks whfthfr or not b dommunity string is dffinfd.
+     *
+     * @pbrbm dommunity Thf dommunity to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf dommunity is known, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkCommunity(String dommunity) {
+        rfturn bdl.dhfdkCommunity(dommunity);
+    }
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host hbs <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf host hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(InftAddrfss bddrfss) {
+        if (blwbysAuthorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.dhfdkPfrmission(p, WRITE);
+    }
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host bnd dommunity hbvf <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     * @pbrbm dommunity Thf dommunity bssodibtfd with thf host.
+     *
+     * @rfturn <CODE>truf</CODE> if thf pbir (host, dommunity) hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(InftAddrfss bddrfss, String dommunity) {
+        if (blwbysAuthorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.dhfdkPfrmission(p, dommunity, WRITE);
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of trbp dfstinbtions.
+     *
+     * @rfturn An fnumfrbtion of thf trbp dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
+     */
+    publid Enumfrbtion<InftAddrfss> gftTrbpDfstinbtions() {
+        rfturn trbpDfstList.kfys();
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of trbp dommunitifs for b givfn host.
+     *
+     * @pbrbm i Thf bddrfss of thf host.
+     *
+     * @rfturn An fnumfrbtion of trbp dommunitifs for b givfn host (fnumfrbtion of <CODE>String</CODE>).
+     */
+    publid Enumfrbtion<String> gftTrbpCommunitifs(InftAddrfss i) {
+        Vfdtor<String> list = null;
+        if ((list = trbpDfstList.gft(i)) != null ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftTrbpCommunitifs", "["+i.toString()+"] is in list");
+            }
+            rfturn list.flfmfnts();
+        } flsf {
+            list = nfw Vfdtor<>();
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftTrbpCommunitifs", "["+i.toString()+"] is not in list");
+            }
+            rfturn list.flfmfnts();
+        }
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of inform dfstinbtions.
+     *
+     * @rfturn An fnumfrbtion of thf inform dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
+     */
+    publid Enumfrbtion<InftAddrfss> gftInformDfstinbtions() {
+        rfturn informDfstList.kfys();
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of inform dommunitifs for b givfn host.
+     *
+     * @pbrbm i Thf bddrfss of thf host.
+     *
+     * @rfturn An fnumfrbtion of inform dommunitifs for b givfn host (fnumfrbtion of <CODE>String</CODE>).
+     */
+    publid Enumfrbtion<String> gftInformCommunitifs(InftAddrfss i) {
+        Vfdtor<String> list = null;
+        if ((list = informDfstList.gft(i)) != null ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftInformCommunitifs", "["+i.toString()+"] is in list");
+            }
+            rfturn list.flfmfnts();
+        } flsf {
+            list = nfw Vfdtor<>();
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftInformCommunitifs", "["+i.toString()+"] is not in list");
+            }
+            rfturn list.flfmfnts();
+        }
+    }
+
+    /**
+     * Convfrts thf input donfigurbtion filf into ACL.
+     */
+    privbtf void rfbdAuthorizfdListFilf() {
+
+        blwbysAuthorizfd = fblsf;
+
+        if (buthorizfdListFilf == null) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "rfbdAuthorizfdListFilf", "blwbysAuthorizfd sft to truf");
+            }
+            blwbysAuthorizfd = truf ;
+        } flsf {
+            // Rfbd thf filf dontfnt
+            Pbrsfr pbrsfr = null;
+            try {
+                pbrsfr= nfw Pbrsfr(nfw FilfInputStrfbm(gftAuthorizfdListFilf()));
+            } dbtdh (FilfNotFoundExdfption f) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                            "rfbdAuthorizfdListFilf",
+                            "Thf spfdififd filf wbs not found, buthorizf fvfrybody");
+                }
+                blwbysAuthorizfd = truf ;
+                rfturn;
+            }
+
+            try {
+                JDMSfdurityDffs n = pbrsfr.SfdurityDffs();
+                n.buildAdlEntrifs(ownfr, bdl);
+                n.buildTrbpEntrifs(trbpDfstList);
+                n.buildInformEntrifs(informDfstList);
+            } dbtdh (PbrsfExdfption f) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                        "rfbdAuthorizfdListFilf", "Got pbrsing fxdfption", f);
+                }
+                throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+            } dbtdh (Error frr) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                        "rfbdAuthorizfdListFilf", "Got unfxpfdtfd frror", frr);
+                }
+                throw nfw IllfgblArgumfntExdfption(frr.gftMfssbgf());
+            }
+
+            for(Enumfrbtion<AdlEntry> f = bdl.fntrifs(); f.hbsMorfElfmfnts();) {
+                AdlEntryImpl bb = (AdlEntryImpl) f.nfxtElfmfnt();
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                            "rfbdAuthorizfdListFilf",
+                            "===> " + bb.gftPrindipbl().toString());
+                }
+                for (Enumfrbtion<jbvb.sfdurity.bdl.Pfrmission> fff = bb.pfrmissions();fff.hbsMorfElfmfnts();) {
+                    jbvb.sfdurity.bdl.Pfrmission pfrm = fff.nfxtElfmfnt();
+                    if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                                "rfbdAuthorizfdListFilf", "pfrm = " + pfrm);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sft thf dffbult full pbth for "snmp.bdl" input filf.
+     * Do not domplbin if thf filf dofs not fxists.
+     */
+    privbtf void sftDffbultFilfNbmf() {
+        try {
+            sftAuthorizfdListFilf(gftDffbultAdlFilfNbmf());
+        } dbtdh (IllfgblArgumfntExdfption x) {
+            // OK...
+        }
+    }
+
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Rfprfsfnts thf Addfss Control List.
+     */
+    privbtf AdlImpl bdl = null;
+    /**
+     * Flbg indidbting whfthfr thf bddfss is blwbys buthorizfd.
+     * <BR>This is thf dbsf if thfrf is no flbt filf dffinfd.
+     */
+    privbtf boolfbn blwbysAuthorizfd = fblsf;
+    /**
+     * Rfprfsfnts thf Addfss Control List flbt filf.
+     */
+    privbtf String buthorizfdListFilf = null;
+    /**
+     * Contbins thf hosts list for trbp dfstinbtion.
+     */
+    privbtf Hbshtbblf<InftAddrfss, Vfdtor<String>> trbpDfstList = null;
+    /**
+     * Contbins thf hosts list for inform dfstinbtion.
+     */
+    privbtf Hbshtbblf<InftAddrfss, Vfdtor<String>> informDfstList = null;
+
+    privbtf PrindipblImpl ownfr = null;
+}

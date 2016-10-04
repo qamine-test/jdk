@@ -1,0 +1,197 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spnfgo;
+
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.jgss.krb5.Krb5MfdhFbdtory;
+import sun.sfdurity.jgss.krb5.Krb5InitCrfdfntibl;
+import sun.sfdurity.jgss.krb5.Krb5AddfptCrfdfntibl;
+import sun.sfdurity.jgss.krb5.Krb5NbmfElfmfnt;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Vfdtor;
+
+/**
+ * SpNfgo Mfdhbnism plug in for JGSS
+ * This is thf propfrtifs objfdt rfquirfd by thf JGSS frbmfwork.
+ * All mfdhbnism spfdifid informbtion is dffinfd hfrf.
+ *
+ * @buthor Sffmb Mblkbni
+ * @sindf 1.6
+ */
+
+publid finbl dlbss SpNfgoMfdhFbdtory implfmfnts MfdhbnismFbdtory {
+
+    stbtid finbl Providfr PROVIDER =
+        nfw sun.sfdurity.jgss.SunProvidfr();
+
+    stbtid finbl Oid GSS_SPNEGO_MECH_OID =
+        GSSUtil.drfbtfOid("1.3.6.1.5.5.2");
+
+    privbtf stbtid Oid[] nbmfTypfs =
+        nfw Oid[] { GSSNbmf.NT_USER_NAME,
+                        GSSNbmf.NT_HOSTBASED_SERVICE,
+                        GSSNbmf.NT_EXPORT_NAME};
+
+    // Thf dffbult undfrlying mfdh of SPNEGO, must not bf SPNEGO itsflf.
+    privbtf stbtid finbl Oid DEFAULT_SPNEGO_MECH_OID =
+            ProvidfrList.DEFAULT_MECH_OID.fqubls(GSS_SPNEGO_MECH_OID)?
+                GSSUtil.GSS_KRB5_MECH_OID:
+                ProvidfrList.DEFAULT_MECH_OID;
+
+    // Usf bn instbndf of b GSSMbnbgfr whosf providfr list
+    // dofs not indludf nbtivf providfr
+    finbl GSSMbnbgfrImpl mbnbgfr;
+    finbl Oid[] bvbilbblfMfdhs;
+
+    privbtf stbtid SpNfgoCrfdElfmfnt gftCrfdFromSubjfdt(GSSNbmfSpi nbmf,
+                                                        boolfbn initibtf)
+        throws GSSExdfption {
+        Vfdtor<SpNfgoCrfdElfmfnt> drfds =
+            GSSUtil.sfbrdhSubjfdt(nbmf, GSS_SPNEGO_MECH_OID,
+                initibtf, SpNfgoCrfdElfmfnt.dlbss);
+
+        SpNfgoCrfdElfmfnt rfsult = ((drfds == null || drfds.isEmpty()) ?
+                                    null : drfds.firstElfmfnt());
+
+        // Fordf pfrmission dhfdk bfforf rfturning thf drfd to dbllfr
+        if (rfsult != null) {
+            GSSCrfdfntiblSpi drfd = rfsult.gftIntfrnblCrfd();
+            if (GSSUtil.isKfrbfrosMfdh(drfd.gftMfdhbnism())) {
+                if (initibtf) {
+                    Krb5InitCrfdfntibl krbCrfd = (Krb5InitCrfdfntibl) drfd;
+                    Krb5MfdhFbdtory.dhfdkInitCrfdPfrmission
+                        ((Krb5NbmfElfmfnt) krbCrfd.gftNbmf());
+                } flsf {
+                    Krb5AddfptCrfdfntibl krbCrfd = (Krb5AddfptCrfdfntibl) drfd;
+                    Krb5MfdhFbdtory.dhfdkAddfptCrfdPfrmission
+                        ((Krb5NbmfElfmfnt) krbCrfd.gftNbmf(), nbmf);
+                }
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid SpNfgoMfdhFbdtory() {
+        this(GSSCbllfr.CALLER_UNKNOWN);
+    }
+
+    publid SpNfgoMfdhFbdtory(GSSCbllfr dbllfr) {
+        mbnbgfr = nfw GSSMbnbgfrImpl(dbllfr, fblsf);
+        Oid[] mfdhs = mbnbgfr.gftMfdhs();
+        bvbilbblfMfdhs = nfw Oid[mfdhs.lfngth-1];
+        for (int i = 0, j = 0; i < mfdhs.lfngth; i++) {
+            // Skip SpNfgo mfdhbnism
+            if (!mfdhs[i].fqubls(GSS_SPNEGO_MECH_OID)) {
+                bvbilbblfMfdhs[j++] = mfdhs[i];
+            }
+        }
+        // Movf thf prfffrrfd mfdh to first plbdf
+        for (int i=0; i<bvbilbblfMfdhs.lfngth; i++) {
+            if (bvbilbblfMfdhs[i].fqubls(DEFAULT_SPNEGO_MECH_OID)) {
+                if (i != 0) {
+                    bvbilbblfMfdhs[i] = bvbilbblfMfdhs[0];
+                    bvbilbblfMfdhs[0] = DEFAULT_SPNEGO_MECH_OID;
+                }
+                brfbk;
+            }
+        }
+    }
+
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+            throws GSSExdfption {
+        rfturn mbnbgfr.gftNbmfElfmfnt(
+                nbmfStr, nbmfTypf, DEFAULT_SPNEGO_MECH_OID);
+    }
+
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+            throws GSSExdfption {
+        rfturn mbnbgfr.gftNbmfElfmfnt(nbmf, nbmfTypf, DEFAULT_SPNEGO_MECH_OID);
+    }
+
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+           int initLifftimf, int bddfptLifftimf,
+           int usbgf) throws GSSExdfption {
+
+        SpNfgoCrfdElfmfnt drfdElfmfnt = gftCrfdFromSubjfdt
+            (nbmf, (usbgf != GSSCrfdfntibl.ACCEPT_ONLY));
+
+        if (drfdElfmfnt == null) {
+            // gft CrfdElfmfnt for thf dffbult Mfdhbnism
+            drfdElfmfnt = nfw SpNfgoCrfdElfmfnt
+                (mbnbgfr.gftCrfdfntiblElfmfnt(nbmf, initLifftimf,
+                bddfptLifftimf, null, usbgf));
+        }
+        rfturn drfdElfmfnt;
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSNbmfSpi pffr,
+                             GSSCrfdfntiblSpi myInitibtorCrfd, int lifftimf)
+        throws GSSExdfption {
+        // gft SpNfgo mfdhbnism dontfxt
+        if (myInitibtorCrfd == null) {
+            myInitibtorCrfd = gftCrfdFromSubjfdt(null, truf);
+        } flsf if (!(myInitibtorCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            // donvfrt to SpNfgoCrfdElfmfnt
+            SpNfgoCrfdElfmfnt drfd = nfw SpNfgoCrfdElfmfnt(myInitibtorCrfd);
+            rfturn nfw SpNfgoContfxt(this, pffr, drfd, lifftimf);
+        }
+        rfturn nfw SpNfgoContfxt(this, pffr, myInitibtorCrfd, lifftimf);
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+        throws GSSExdfption {
+        // gft SpNfgo mfdhbnism dontfxt
+        if (myAddfptorCrfd == null) {
+            myAddfptorCrfd = gftCrfdFromSubjfdt(null, fblsf);
+        } flsf if (!(myAddfptorCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            // donvfrt to SpNfgoCrfdElfmfnt
+            SpNfgoCrfdElfmfnt drfd = nfw SpNfgoCrfdElfmfnt(myAddfptorCrfd);
+            rfturn nfw SpNfgoContfxt(this, drfd);
+        }
+        rfturn nfw SpNfgoContfxt(this, myAddfptorCrfd);
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(bytf[] fxportfdContfxt)
+        throws GSSExdfption {
+        // gft SpNfgo mfdhbnism dontfxt
+        rfturn nfw SpNfgoContfxt(this, fxportfdContfxt);
+    }
+
+    publid finbl Oid gftMfdhbnismOid() {
+        rfturn GSS_SPNEGO_MECH_OID;
+    }
+
+    publid Providfr gftProvidfr() {
+        rfturn PROVIDER;
+    }
+
+    publid Oid[] gftNbmfTypfs() {
+        // nbmfTypfs is dlonfd in GSSMbnbgfr.gftNbmfsForMfdh
+        rfturn nbmfTypfs;
+    }
+}

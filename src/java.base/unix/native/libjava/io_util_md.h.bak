@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni_util.h"
+#indludf "jni_util.i"
 
 /*
- * Macros to use the right data type for file descriptors
+ * Mbdros to usf tif rigit dbtb typf for filf dfsdriptors
  */
-#define FD jint
+#dffinf FD jint
 
 /*
- * Prototypes for functions in io_util_md.c called from io_util.c,
- * FileDescriptor.c, FileInputStream.c, FileOutputStream.c,
- * UnixFileSystem_md.c
+ * Prototypfs for fundtions in io_util_md.d dbllfd from io_util.d,
+ * FilfDfsdriptor.d, FilfInputStrfbm.d, FilfOutputStrfbm.d,
+ * UnixFilfSystfm_md.d
  */
-ssize_t handleWrite(FD fd, const void *buf, jint len);
-ssize_t handleRead(FD fd, void *buf, jint len);
-jint handleAvailable(FD fd, jlong *pbytes);
-jint handleSetLength(FD fd, jlong length);
+ssizf_t ibndlfWritf(FD fd, donst void *buf, jint lfn);
+ssizf_t ibndlfRfbd(FD fd, void *buf, jint lfn);
+jint ibndlfAvbilbblf(FD fd, jlong *pbytfs);
+jint ibndlfSftLfngti(FD fd, jlong lfngti);
 
-FD handleOpen(const char *path, int oflag, int mode);
+FD ibndlfOpfn(donst dibr *pbti, int oflbg, int modf);
 
 /*
- * Macros to set/get fd from the java.io.FileDescriptor.  These
- * macros rely on having an appropriately defined 'this' object
- * within the scope in which they're used.
- * If GetObjectField returns null, SET_FD will stop and GET_FD
- * will simply return -1 to avoid crashing VM.
+ * Mbdros to sft/gft fd from tif jbvb.io.FilfDfsdriptor.  Tifsf
+ * mbdros rfly on ibving bn bppropribtfly dffinfd 'tiis' objfdt
+ * witiin tif sdopf in wiidi tify'rf usfd.
+ * If GftObjfdtFifld rfturns null, SET_FD will stop bnd GET_FD
+ * will simply rfturn -1 to bvoid drbsiing VM.
  */
 
-#define SET_FD(this, fd, fid) \
-    if ((*env)->GetObjectField(env, (this), (fid)) != NULL) \
-        (*env)->SetIntField(env, (*env)->GetObjectField(env, (this), (fid)),IO_fd_fdID, (fd))
+#dffinf SET_FD(tiis, fd, fid) \
+    if ((*fnv)->GftObjfdtFifld(fnv, (tiis), (fid)) != NULL) \
+        (*fnv)->SftIntFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (tiis), (fid)),IO_fd_fdID, (fd))
 
-#define GET_FD(this, fid) \
-    (*env)->GetObjectField(env, (this), (fid)) == NULL ? \
-        -1 : (*env)->GetIntField(env, (*env)->GetObjectField(env, (this), (fid)), IO_fd_fdID)
+#dffinf GET_FD(tiis, fid) \
+    (*fnv)->GftObjfdtFifld(fnv, (tiis), (fid)) == NULL ? \
+        -1 : (*fnv)->GftIntFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (tiis), (fid)), IO_fd_fdID)
 
 /*
- * Macros to set/get fd when inside java.io.FileDescriptor
+ * Mbdros to sft/gft fd wifn insidf jbvb.io.FilfDfsdriptor
  */
-#define THIS_FD(obj) (*env)->GetIntField(env, obj, IO_fd_fdID)
+#dffinf THIS_FD(obj) (*fnv)->GftIntFifld(fnv, obj, IO_fd_fdID)
 
 /*
- * Route the routines
+ * Routf tif routinfs
  */
-#define IO_Sync fsync
-#define IO_Read handleRead
-#define IO_Write handleWrite
-#define IO_Append handleWrite
-#define IO_Available handleAvailable
-#define IO_SetLength handleSetLength
+#dffinf IO_Synd fsynd
+#dffinf IO_Rfbd ibndlfRfbd
+#dffinf IO_Writf ibndlfWritf
+#dffinf IO_Appfnd ibndlfWritf
+#dffinf IO_Avbilbblf ibndlfAvbilbblf
+#dffinf IO_SftLfngti ibndlfSftLfngti
 
-#ifdef _ALLBSD_SOURCE
-#define open64 open
-#define fstat64 fstat
-#define stat64 stat
-#define lseek64 lseek
-#define ftruncate64 ftruncate
-#define IO_Lseek lseek
-#else
-#define IO_Lseek lseek64
-#endif
-
-/*
- * On Solaris, the handle field is unused
- */
-#define SET_HANDLE(fd) return (jlong)-1
+#ifdff _ALLBSD_SOURCE
+#dffinf opfn64 opfn
+#dffinf fstbt64 fstbt
+#dffinf stbt64 stbt
+#dffinf lsffk64 lsffk
+#dffinf ftrundbtf64 ftrundbtf
+#dffinf IO_Lsffk lsffk
+#flsf
+#dffinf IO_Lsffk lsffk64
+#fndif
 
 /*
- * Retry the operation if it is interrupted
+ * On Solbris, tif ibndlf fifld is unusfd
  */
-#define RESTARTABLE(_cmd, _result) do { \
+#dffinf SET_HANDLE(fd) rfturn (jlong)-1
+
+/*
+ * Rftry tif opfrbtion if it is intfrruptfd
+ */
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
     do { \
-        _result = _cmd; \
-    } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+        _rfsult = _dmd; \
+    } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
 /*
- * IO helper function(s)
+ * IO iflpfr fundtion(s)
  */
-void fileClose(JNIEnv *env, jobject this, jfieldID fid);
+void filfClosf(JNIEnv *fnv, jobjfdt tiis, jfifldID fid);
 
-#ifdef MACOSX
-jstring newStringPlatform(JNIEnv *env, const char* str);
-#endif
+#ifdff MACOSX
+jstring nfwStringPlbtform(JNIEnv *fnv, donst dibr* str);
+#fndif

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * A listener interface for receiving mouse motion events during a drag
- * operation.
+ * A listfnfr intfrfbdf for rfdfiving mousf motion fvfnts during b drbg
+ * opfrbtion.
  * <p>
- * The class that is interested in processing mouse motion events during
- * a drag operation either implements this interface or extends the abstract
- * <code>DragSourceAdapter</code> class (overriding only the methods of
- * interest).
+ * Tif dlbss tibt is intfrfstfd in prodfssing mousf motion fvfnts during
+ * b drbg opfrbtion fitifr implfmfnts tiis intfrfbdf or fxtfnds tif bbstrbdt
+ * <dodf>DrbgSourdfAdbptfr</dodf> dlbss (ovfrriding only tif mftiods of
+ * intfrfst).
  * <p>
- * Create a listener object using that class and then register it with
- * a <code>DragSource</code>. Whenever the mouse moves during a drag
- * operation initiated with this <code>DragSource</code>, that object's
- * <code>dragMouseMoved</code> method is invoked, and the
- * <code>DragSourceDragEvent</code> is passed to it.
+ * Crfbtf b listfnfr objfdt using tibt dlbss bnd tifn rfgistfr it witi
+ * b <dodf>DrbgSourdf</dodf>. Wifnfvfr tif mousf movfs during b drbg
+ * opfrbtion initibtfd witi tiis <dodf>DrbgSourdf</dodf>, tibt objfdt's
+ * <dodf>drbgMousfMovfd</dodf> mftiod is invokfd, bnd tif
+ * <dodf>DrbgSourdfDrbgEvfnt</dodf> is pbssfd to it.
  *
- * @see DragSourceDragEvent
- * @see DragSource
- * @see DragSourceListener
- * @see DragSourceAdapter
+ * @sff DrbgSourdfDrbgEvfnt
+ * @sff DrbgSourdf
+ * @sff DrbgSourdfListfnfr
+ * @sff DrbgSourdfAdbptfr
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface DragSourceMotionListener extends EventListener {
+publid intfrfbdf DrbgSourdfMotionListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Called whenever the mouse is moved during a drag operation.
+     * Cbllfd wifnfvfr tif mousf is movfd during b drbg opfrbtion.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    void dragMouseMoved(DragSourceDragEvent dsde);
+    void drbgMousfMovfd(DrbgSourdfDrbgEvfnt dsdf);
 }

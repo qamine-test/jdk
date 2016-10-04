@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.event.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
 /**
- * This class exists only as a hack to work around a Sun bug which parks the
- * insertion caret at the begining of a text field when it gets clicked on.
+ * Tiis dlbss fxists only bs b ibdk to work bround b Sun bug wiidi pbrks tif
+ * insfrtion dbrft bt tif bfgining of b tfxt fifld wifn it gfts dlidkfd on.
  */
-public class AquaTextFieldFormattedUI extends AquaTextFieldUI implements MouseListener {
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTextFieldFormattedUI();
+publid dlbss AqubTfxtFifldFormbttfdUI fxtfnds AqubTfxtFifldUI implfmfnts MousfListfnfr {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubTfxtFifldFormbttfdUI();
     }
 
-    @Override
-    protected String getPropertyPrefix() {
-        return "FormattedTextField";
+    @Ovfrridf
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "FormbttfdTfxtFifld";
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        getComponent().addMouseListener(this);
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        gftComponfnt().bddMousfListfnfr(tiis);
     }
 
-    protected void uninstallListeners() {
-        getComponent().removeMouseListener(this);
-        super.uninstallListeners();
+    protfdtfd void uninstbllListfnfrs() {
+        gftComponfnt().rfmovfMousfListfnfr(tiis);
+        supfr.uninstbllListfnfrs();
     }
 
-    public void mouseClicked(final MouseEvent e) {
-        if (e.getClickCount() != 1) return;
+    publid void mousfClidkfd(finbl MousfEvfnt f) {
+        if (f.gftClidkCount() != 1) rfturn;
 
-        final JTextComponent c = getComponent();
-        // apparently, focus has already been granted by the time this mouse listener fires
-    //    if (c.hasFocus()) return;
+        finbl JTfxtComponfnt d = gftComponfnt();
+        // bppbrfntly, fodus ibs blrfbdy bffn grbntfd by tif timf tiis mousf listfnfr firfs
+    //    if (d.ibsFodus()) rfturn;
 
-        c.setCaretPosition(viewToModel(c, e.getPoint()));
+        d.sftCbrftPosition(vifwToModfl(d, f.gftPoint()));
     }
 
-    public void mouseEntered(final MouseEvent e) { }
-    public void mouseExited(final MouseEvent e) { }
-    public void mousePressed(final MouseEvent e) { }
-    public void mouseReleased(final MouseEvent e) { }
+    publid void mousfEntfrfd(finbl MousfEvfnt f) { }
+    publid void mousfExitfd(finbl MousfEvfnt f) { }
+    publid void mousfPrfssfd(finbl MousfEvfnt f) { }
+    publid void mousfRflfbsfd(finbl MousfEvfnt f) { }
 }

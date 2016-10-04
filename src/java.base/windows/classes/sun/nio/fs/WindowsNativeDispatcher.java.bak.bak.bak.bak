@@ -1,0 +1,1134 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
+
+/**
+ * Win32 bnd librbry dblls.
+ */
+
+dlbss WindowsNbtivfDispbtdhfr {
+    privbtf WindowsNbtivfDispbtdhfr() { }
+
+    /**
+     * HANDLE CrfbtfFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD dwDfsirfdAddfss,
+     *   DWORD dwShbrfModf,
+     *   LPSECURITY_ATTRIBUTES lpSfdurityAttributfs,
+     *   DWORD dwCrfbtionDisposition,
+     *   DWORD dwFlbgsAndAttributfs,
+     *   HANDLE hTfmplbtfFilf
+     * )
+     */
+    stbtid long CrfbtfFilf(String pbth,
+                           int dwDfsirfdAddfss,
+                           int dwShbrfModf,
+                           long lpSfdurityAttributfs,
+                           int dwCrfbtionDisposition,
+                           int dwFlbgsAndAttributfs)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn CrfbtfFilf0(bufffr.bddrfss(),
+                               dwDfsirfdAddfss,
+                               dwShbrfModf,
+                               lpSfdurityAttributfs,
+                               dwCrfbtionDisposition,
+                               dwFlbgsAndAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid long CrfbtfFilf(String pbth,
+                           int dwDfsirfdAddfss,
+                           int dwShbrfModf,
+                           int dwCrfbtionDisposition,
+                           int dwFlbgsAndAttributfs)
+        throws WindowsExdfption
+    {
+        rfturn CrfbtfFilf(pbth, dwDfsirfdAddfss, dwShbrfModf, 0L,
+                          dwCrfbtionDisposition, dwFlbgsAndAttributfs);
+    }
+    privbtf stbtid nbtivf long CrfbtfFilf0(long lpFilfNbmf,
+                                           int dwDfsirfdAddfss,
+                                           int dwShbrfModf,
+                                           long lpSfdurityAttributfs,
+                                           int dwCrfbtionDisposition,
+                                           int dwFlbgsAndAttributfs)
+        throws WindowsExdfption;
+
+    /**
+     * ClosfHbndlf(
+     *   HANDLE hObjfdt
+     * )
+     */
+    stbtid nbtivf void ClosfHbndlf(long hbndlf);
+
+    /**
+     * DflftfFilf(
+     *   LPCTSTR lpFilfNbmf
+     * )
+     */
+    stbtid void DflftfFilf(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            DflftfFilf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void DflftfFilf0(long lpFilfNbmf)
+        throws WindowsExdfption;
+
+    /**
+     * CrfbtfDirfdtory(
+     *   LPCTSTR lpPbthNbmf,
+     *   LPSECURITY_ATTRIBUTES lpSfdurityAttributfs
+     * )
+     */
+    stbtid void CrfbtfDirfdtory(String pbth, long lpSfdurityAttributfs) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            CrfbtfDirfdtory0(bufffr.bddrfss(), lpSfdurityAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void CrfbtfDirfdtory0(long lpFilfNbmf, long lpSfdurityAttributfs)
+        throws WindowsExdfption;
+
+    /**
+     * RfmovfDirfdtory(
+     *   LPCTSTR lpPbthNbmf
+     * )
+     */
+    stbtid void RfmovfDirfdtory(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            RfmovfDirfdtory0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void RfmovfDirfdtory0(long lpFilfNbmf)
+        throws WindowsExdfption;
+
+    /**
+     * Mbrks b filf bs b spbrsf filf.
+     *
+     * DfvidfIoControl(
+     *   FSCTL_SET_SPARSE
+     * )
+     */
+    stbtid nbtivf void DfvidfIoControlSftSpbrsf(long hbndlf)
+        throws WindowsExdfption;
+
+    /**
+     * Rftrifvfs thf rfpbrsf point dbtb bssodibtfd with thf filf or dirfdtory.
+     *
+     * DfvidfIoControl(
+     *   FSCTL_GET_REPARSE_POINT
+     * )
+     */
+    stbtid nbtivf void DfvidfIoControlGftRfpbrsfPoint(long hbndlf,
+        long bufffrAddrfss, int bufffrSizf) throws WindowsExdfption;
+
+    /**
+     * HANDLE FindFirstFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
+     * )
+     */
+    stbtid FirstFilf FindFirstFilf(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            FirstFilf dbtb = nfw FirstFilf();
+            FindFirstFilf0(bufffr.bddrfss(), dbtb);
+            rfturn dbtb;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid dlbss FirstFilf {
+        privbtf long hbndlf;
+        privbtf String nbmf;
+        privbtf int bttributfs;
+
+        privbtf FirstFilf() { }
+        publid long hbndlf()    { rfturn hbndlf; }
+        publid String nbmf()    { rfturn nbmf; }
+        publid int bttributfs() { rfturn bttributfs; }
+    }
+    privbtf stbtid nbtivf void FindFirstFilf0(long lpFilfNbmf, FirstFilf obj)
+        throws WindowsExdfption;
+
+    /**
+     * HANDLE FindFirstFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
+     * )
+     */
+    stbtid long FindFirstFilf(String pbth, long bddrfss) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn FindFirstFilf1(bufffr.bddrfss(), bddrfss);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long FindFirstFilf1(long lpFilfNbmf, long bddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * FindNfxtFilf(
+     *   HANDLE hFindFilf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
+     * )
+     *
+     * @rfturn  lpFindFilfDbtb->dFilfNbmf or null
+     */
+    stbtid nbtivf String FindNfxtFilf(long hbndlf, long bddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * HANDLE FindFirstStrfbmW(
+     *   LPCWSTR lpFilfNbmf,
+     *   STREAM_INFO_LEVELS InfoLfvfl,
+     *   LPVOID lpFindStrfbmDbtb,
+     *   DWORD dwFlbgs
+     * )
+     */
+    stbtid FirstStrfbm FindFirstStrfbm(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            FirstStrfbm dbtb = nfw FirstStrfbm();
+            FindFirstStrfbm0(bufffr.bddrfss(), dbtb);
+            if (dbtb.hbndlf() == WindowsConstbnts.INVALID_HANDLE_VALUE)
+                rfturn null;
+            rfturn dbtb;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid dlbss FirstStrfbm {
+        privbtf long hbndlf;
+        privbtf String nbmf;
+
+        privbtf FirstStrfbm() { }
+        publid long hbndlf()    { rfturn hbndlf; }
+        publid String nbmf()    { rfturn nbmf; }
+    }
+    privbtf stbtid nbtivf void FindFirstStrfbm0(long lpFilfNbmf, FirstStrfbm obj)
+        throws WindowsExdfption;
+
+    /*
+     * FindNfxtStrfbmW(
+     *   HANDLE hFindStrfbm,
+     *   LPVOID lpFindStrfbmDbtb
+     * )
+     */
+    stbtid nbtivf String FindNfxtStrfbm(long hbndlf) throws WindowsExdfption;
+
+    /**
+     * FindClosf(
+     *   HANDLE hFindFilf
+     * )
+     */
+    stbtid nbtivf void FindClosf(long hbndlf) throws WindowsExdfption;
+
+    /**
+     * GftFilfInformbtionByHbndlf(
+     *   HANDLE hFilf,
+     *   LPBY_HANDLE_FILE_INFORMATION lpFilfInformbtion
+     * )
+     */
+    stbtid nbtivf void GftFilfInformbtionByHbndlf(long hbndlf, long bddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * CopyFilfEx(
+     *   LPCWSTR lpExistingFilfNbmf
+     *   LPCWSTR lpNfwFilfNbmf,
+     *   LPPROGRESS_ROUTINE lpProgrfssRoutinf
+     *   LPVOID lpDbtb,
+     *   LPBOOL pbCbndfl,
+     *   DWORD dwCopyFlbgs
+     * )
+     */
+    stbtid void CopyFilfEx(String sourdf, String tbrgft, int flbgs,
+                           long bddrfssToPollForCbndfl)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr sourdfBufffr = bsNbtivfBufffr(sourdf);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
+        try {
+            CopyFilfEx0(sourdfBufffr.bddrfss(), tbrgftBufffr.bddrfss(), flbgs,
+                        bddrfssToPollForCbndfl);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            sourdfBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void CopyFilfEx0(long fxistingAddrfss, long nfwAddrfss,
+        int flbgs, long bddrfssToPollForCbndfl) throws WindowsExdfption;
+
+    /**
+     * MovfFilfEx(
+     *   LPCTSTR lpExistingFilfNbmf,
+     *   LPCTSTR lpNfwFilfNbmf,
+     *   DWORD dwFlbgs
+     * )
+     */
+    stbtid void MovfFilfEx(String sourdf, String tbrgft, int flbgs)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr sourdfBufffr = bsNbtivfBufffr(sourdf);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
+        try {
+            MovfFilfEx0(sourdfBufffr.bddrfss(), tbrgftBufffr.bddrfss(), flbgs);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            sourdfBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void MovfFilfEx0(long fxistingAddrfss, long nfwAddrfss,
+        int flbgs) throws WindowsExdfption;
+
+    /**
+     * DWORD GftFilfAttributfs(
+     *   LPCTSTR lpFilfNbmf
+     * )
+     */
+    stbtid int GftFilfAttributfs(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn GftFilfAttributfs0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int GftFilfAttributfs0(long lpFilfNbmf)
+        throws WindowsExdfption;
+
+    /**
+     * SftFilfAttributfs(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD dwFilfAttributfs
+     */
+    stbtid void SftFilfAttributfs(String pbth, int dwFilfAttributfs)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            SftFilfAttributfs0(bufffr.bddrfss(), dwFilfAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void SftFilfAttributfs0(long lpFilfNbmf,
+        int dwFilfAttributfs) throws WindowsExdfption;
+
+    /**
+     * GftFilfAttributfsEx(
+     *   LPCTSTR lpFilfNbmf,
+     *   GET_FILEEX_INFO_LEVELS fInfoLfvflId,
+     *   LPVOID lpFilfInformbtion
+     * );
+     */
+    stbtid void GftFilfAttributfsEx(String pbth, long bddrfss) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            GftFilfAttributfsEx0(bufffr.bddrfss(), bddrfss);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void GftFilfAttributfsEx0(long lpFilfNbmf, long bddrfss)
+        throws WindowsExdfption;
+    /**
+     * SftFilfTimf(
+     *   HANDLE hFilf,
+     *   CONST FILETIME *lpCrfbtionTimf,
+     *   CONST FILETIME *lpLbstAddfssTimf,
+     *   CONST FILETIME *lpLbstWritfTimf
+     * )
+     */
+    stbtid nbtivf void SftFilfTimf(long hbndlf,
+                                   long drfbtfTimf,
+                                   long lbstAddfssTimf,
+                                   long lbstWritfTimf)
+        throws WindowsExdfption;
+
+    /**
+     * SftEndOfFilf(
+     *   HANDLE hFilf
+     * )
+     */
+    stbtid nbtivf void SftEndOfFilf(long hbndlf) throws WindowsExdfption;
+
+    /**
+     * DWORD GftLogidblDrivfs(VOID)
+     */
+    stbtid nbtivf int GftLogidblDrivfs() throws WindowsExdfption;
+
+    /**
+     * GftVolumfInformbtion(
+     *   LPCTSTR lpRootPbthNbmf,
+     *   LPTSTR lpVolumfNbmfBufffr,
+     *   DWORD nVolumfNbmfSizf,
+     *   LPDWORD lpVolumfSfriblNumbfr,
+     *   LPDWORD lpMbximumComponfntLfngth,
+     *   LPDWORD lpFilfSystfmFlbgs,
+     *   LPTSTR lpFilfSystfmNbmfBufffr,
+     *   DWORD nFilfSystfmNbmfSizf
+     * )
+     */
+    stbtid VolumfInformbtion GftVolumfInformbtion(String root)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(root);
+        try {
+            VolumfInformbtion info = nfw VolumfInformbtion();
+            GftVolumfInformbtion0(bufffr.bddrfss(), info);
+            rfturn info;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid dlbss VolumfInformbtion {
+        privbtf String filfSystfmNbmf;
+        privbtf String volumfNbmf;
+        privbtf int volumfSfriblNumbfr;
+        privbtf int flbgs;
+        privbtf VolumfInformbtion() { }
+
+        publid String filfSystfmNbmf()      { rfturn filfSystfmNbmf; }
+        publid String volumfNbmf()          { rfturn volumfNbmf; }
+        publid int volumfSfriblNumbfr()     { rfturn volumfSfriblNumbfr; }
+        publid int flbgs()                  { rfturn flbgs; }
+    }
+    privbtf stbtid nbtivf void GftVolumfInformbtion0(long lpRoot,
+                                                     VolumfInformbtion obj)
+        throws WindowsExdfption;
+
+    /**
+     * UINT GftDrivfTypf(
+     *   LPCTSTR lpRootPbthNbmf
+     * )
+     */
+    stbtid int GftDrivfTypf(String root) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(root);
+        try {
+            rfturn GftDrivfTypf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int GftDrivfTypf0(long lpRoot) throws WindowsExdfption;
+
+    /**
+     * GftDiskFrffSpbdfEx(
+     *   LPCTSTR lpDirfdtoryNbmf,
+     *   PULARGE_INTEGER lpFrffBytfsAvbilbblfToCbllfr,
+     *   PULARGE_INTEGER lpTotblNumbfrOfBytfs,
+     *   PULARGE_INTEGER lpTotblNumbfrOfFrffBytfs
+     * )
+     */
+    stbtid DiskFrffSpbdf GftDiskFrffSpbdfEx(String pbth)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            DiskFrffSpbdf spbdf = nfw DiskFrffSpbdf();
+            GftDiskFrffSpbdfEx0(bufffr.bddrfss(), spbdf);
+            rfturn spbdf;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid dlbss DiskFrffSpbdf {
+        privbtf long frffBytfsAvbilbblf;
+        privbtf long totblNumbfrOfBytfs;
+        privbtf long totblNumbfrOfFrffBytfs;
+        privbtf DiskFrffSpbdf() { }
+
+        publid long frffBytfsAvbilbblf()      { rfturn frffBytfsAvbilbblf; }
+        publid long totblNumbfrOfBytfs()      { rfturn totblNumbfrOfBytfs; }
+        publid long totblNumbfrOfFrffBytfs()  { rfturn totblNumbfrOfFrffBytfs; }
+    }
+    privbtf stbtid nbtivf void GftDiskFrffSpbdfEx0(long lpDirfdtoryNbmf,
+                                                   DiskFrffSpbdf obj)
+        throws WindowsExdfption;
+
+
+    /**
+     * GftVolumfPbthNbmf(
+     *   LPCTSTR lpszFilfNbmf,
+     *   LPTSTR lpszVolumfPbthNbmf,
+     *   DWORD ddhBufffrLfngth
+     * )
+     *
+     * @rfturn  lpFilfNbmf
+     */
+    stbtid String GftVolumfPbthNbmf(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn GftVolumfPbthNbmf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf String GftVolumfPbthNbmf0(long lpFilfNbmf)
+        throws WindowsExdfption;
+
+
+    /**
+     * InitiblizfSfdurityDfsdriptor(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   DWORD dwRfvision
+     * )
+     */
+    stbtid nbtivf void InitiblizfSfdurityDfsdriptor(long sdAddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * InitiblizfAdl(
+     *   PACL pAdl,
+     *   DWORD nAdlLfngth,
+     *   DWORD dwAdlRfvision
+     * )
+     */
+    stbtid nbtivf void InitiblizfAdl(long bdlAddrfss, int sizf)
+         throws WindowsExdfption;
+
+    /**
+     * GftFilfSfdurity(
+     *   LPCTSTR lpFilfNbmf,
+     *   SECURITY_INFORMATION RfqufstfdInformbtion,
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   DWORD nLfngth,
+     *   LPDWORD lpnLfngthNffdfd
+     * )
+     */
+    stbtid int GftFilfSfdurity(String pbth,
+                               int rfqufstfdInformbtion,
+                               long pSfdurityDfsdriptor,
+                               int nLfngth) throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn GftFilfSfdurity0(bufffr.bddrfss(), rfqufstfdInformbtion,
+                pSfdurityDfsdriptor, nLfngth);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int GftFilfSfdurity0(long lpFilfNbmf,
+                                               int rfqufstfdInformbtion,
+                                               long pSfdurityDfsdriptor,
+                                               int nLfngth) throws WindowsExdfption;
+
+    /**
+     * SftFilfSfdurity(
+     *   LPCTSTR lpFilfNbmf,
+     *   SECURITY_INFORMATION SfdurityInformbtion,
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor
+     * )
+     */
+    stbtid void SftFilfSfdurity(String pbth,
+                                int sfdurityInformbtion,
+                                long pSfdurityDfsdriptor)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            SftFilfSfdurity0(bufffr.bddrfss(), sfdurityInformbtion,
+                pSfdurityDfsdriptor);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    stbtid nbtivf void SftFilfSfdurity0(long lpFilfNbmf, int sfdurityInformbtion,
+        long pSfdurityDfsdriptor) throws WindowsExdfption;
+
+    /**
+     * GftSfdurityDfsdriptorOwnfr(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor
+     *   PSID *pOwnfr,
+     *   LPBOOL lpbOwnfrDffbultfd
+     * )
+     *
+     * @rfturn  pOwnfr
+     */
+    stbtid nbtivf long GftSfdurityDfsdriptorOwnfr(long pSfdurityDfsdriptor)
+        throws WindowsExdfption;
+
+    /**
+     * SftSfdurityDfsdriptorOwnfr(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   PSID pOwnfr,
+     *   BOOL bOwnfrDffbultfd
+     * )
+     */
+    stbtid nbtivf void SftSfdurityDfsdriptorOwnfr(long pSfdurityDfsdriptor,
+                                                  long pOwnfr)
+        throws WindowsExdfption;
+
+    /**
+     * GftSfdurityDfsdriptorDbdl(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   LPBOOL lpbDbdlPrfsfnt,
+     *   PACL *pDbdl,
+     *   LPBOOL lpbDbdlDffbultfd
+     * )
+     */
+    stbtid nbtivf long GftSfdurityDfsdriptorDbdl(long pSfdurityDfsdriptor);
+
+    /**
+     * SftSfdurityDfsdriptorDbdl(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   BOOL bDbdlPrfsfnt,
+     *   PACL pDbdl,
+     *   BOOL bDbdlDffbultfd
+     * )
+     */
+    stbtid nbtivf void SftSfdurityDfsdriptorDbdl(long pSfdurityDfsdriptor, long pAdl)
+        throws WindowsExdfption;
+
+
+    /**
+     * GftAdlInformbtion(
+     *   PACL pAdl,
+     *   LPVOID pAdlInformbtion,
+     *   DWORD nAdlInformbtionLfngth,
+     *   ACL_INFORMATION_CLASS dwAdlInformbtionClbss
+     * )
+     */
+    stbtid AdlInformbtion GftAdlInformbtion(long bdlAddrfss) {
+        AdlInformbtion info = nfw AdlInformbtion();
+        GftAdlInformbtion0(bdlAddrfss, info);
+        rfturn info;
+    }
+    stbtid dlbss AdlInformbtion {
+        privbtf int bdfCount;
+        privbtf AdlInformbtion() { }
+
+        publid int bdfCount()   { rfturn bdfCount; }
+    }
+    privbtf stbtid nbtivf void GftAdlInformbtion0(long bdlAddrfss,
+        AdlInformbtion obj);
+
+    /**
+     * GftAdf(
+     *   PACL pAdl,
+     *   DWORD dwAdfIndfx,
+     *   LPVOID *pAdf
+     * )
+     */
+    stbtid nbtivf long GftAdf(long bdlAddrfss, int bdfIndfx);
+
+    /**
+     * AddAddfssAllowfdAdfEx(
+     *   PACL pAdl,
+     *   DWORD dwAdfRfvision,
+     *   DWORD AdfFlbgs,
+     *   DWORD AddfssMbsk,
+     *   PSID pSid
+     * )
+     */
+    stbtid nbtivf void AddAddfssAllowfdAdfEx(long bdlAddrfss, int flbgs,
+        int mbsk, long sidAddrfss) throws WindowsExdfption;
+
+    /**
+     * AddAddfssDfnifdAdfEx(
+     *   PACL pAdl,
+     *   DWORD dwAdfRfvision,
+     *   DWORD AdfFlbgs,
+     *   DWORD AddfssMbsk,
+     *   PSID pSid
+     * )
+     */
+    stbtid nbtivf void AddAddfssDfnifdAdfEx(long bdlAddrfss, int flbgs,
+        int mbsk, long sidAddrfss) throws WindowsExdfption;
+
+    /**
+     * LookupAddountSid(
+     *   LPCTSTR lpSystfmNbmf,
+     *   PSID Sid,
+     *   LPTSTR Nbmf,
+     *   LPDWORD dbNbmf,
+     *   LPTSTR RfffrfndfdDombinNbmf,
+     *   LPDWORD dbRfffrfndfdDombinNbmf,
+     *   PSID_NAME_USE pfUsf
+     * )
+     */
+    stbtid Addount LookupAddountSid(long sidAddrfss) throws WindowsExdfption {
+        Addount bdd = nfw Addount();
+        LookupAddountSid0(sidAddrfss, bdd);
+        rfturn bdd;
+    }
+    stbtid dlbss Addount {
+        privbtf String dombin;
+        privbtf String nbmf;
+        privbtf int usf;
+        privbtf Addount() { }
+
+        publid String dombin()  { rfturn dombin; }
+        publid String nbmf()    { rfturn nbmf; }
+        publid int usf()        { rfturn usf; }
+    }
+    privbtf stbtid nbtivf void LookupAddountSid0(long sidAddrfss, Addount obj)
+        throws WindowsExdfption;
+
+    /**
+     * LookupAddountNbmf(
+     *   LPCTSTR lpSystfmNbmf,
+     *   LPCTSTR lpAddountNbmf,
+     *   PSID Sid,
+     *   LPDWORD dbSid,
+     *   LPTSTR RfffrfndfdDombinNbmf,
+     *   LPDWORD dbRfffrfndfdDombinNbmf,
+     *   PSID_NAME_USE pfUsf
+     * )
+     *
+     * @rfturn  dbSid
+     */
+    stbtid int LookupAddountNbmf(String bddountNbmf,
+                                 long pSid,
+                                 int dbSid) throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(bddountNbmf);
+        try {
+            rfturn LookupAddountNbmf0(bufffr.bddrfss(), pSid, dbSid);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int LookupAddountNbmf0(long lpAddountNbmf, long pSid,
+        int dbSid) throws WindowsExdfption;
+
+    /**
+     * DWORD GftLfngthSid(
+     *   PSID pSid
+     * )
+     */
+    stbtid nbtivf int GftLfngthSid(long sidAddrfss);
+
+    /**
+     * ConvfrtSidToStringSid(
+     *   PSID Sid,
+     *   LPTSTR* StringSid
+     * )
+     *
+     * @rfturn  StringSid
+     */
+    stbtid nbtivf String ConvfrtSidToStringSid(long sidAddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * ConvfrtStringSidToSid(
+     *   LPCTSTR StringSid,
+     *   PSID* pSid
+     * )
+     *
+     * @rfturn  pSid
+     */
+    stbtid long ConvfrtStringSidToSid(String sidString)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(sidString);
+        try {
+            rfturn ConvfrtStringSidToSid0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long ConvfrtStringSidToSid0(long lpStringSid)
+        throws WindowsExdfption;
+
+    /**
+     * HANDLE GftCurrfntProdfss(VOID)
+     */
+    stbtid nbtivf long GftCurrfntProdfss();
+
+    /**
+     * HANDLE GftCurrfntThrfbd(VOID)
+     */
+    stbtid nbtivf long GftCurrfntThrfbd();
+
+    /**
+     * OpfnProdfssTokfn(
+     *   HANDLE ProdfssHbndlf,
+     *   DWORD DfsirfdAddfss,
+     *   PHANDLE TokfnHbndlf
+     * )
+     */
+    stbtid nbtivf long OpfnProdfssTokfn(long hProdfss, int dfsirfdAddfss)
+        throws WindowsExdfption;
+
+    /**
+     * OpfnThrfbdTokfn(
+     *   HANDLE ThrfbdHbndlf,
+     *   DWORD DfsirfdAddfss,
+     *   BOOL OpfnAsSflf,
+     *   PHANDLE TokfnHbndlf
+     * )
+     */
+    stbtid nbtivf long OpfnThrfbdTokfn(long hThrfbd, int dfsirfdAddfss,
+        boolfbn opfnAsSflf) throws WindowsExdfption;
+
+    /**
+     */
+    stbtid nbtivf long DuplidbtfTokfnEx(long hThrfbd, int dfsirfdAddfss)
+        throws WindowsExdfption;
+
+    /**
+     * SftThrfbdTokfn(
+     *   PHANDLE Thrfbd,
+     *   HANDLE Tokfn
+     * )
+     */
+    stbtid nbtivf void SftThrfbdTokfn(long thrfbd, long hTokfn)
+        throws WindowsExdfption;
+
+    /**
+     * GftTokfnInformbtion(
+     *   HANDLE TokfnHbndlf,
+     *   TOKEN_INFORMATION_CLASS TokfnInformbtionClbss,
+     *   LPVOID TokfnInformbtion,
+     *   DWORD TokfnInformbtionLfngth,
+     *   PDWORD RfturnLfngth
+     * )
+     */
+    stbtid nbtivf int GftTokfnInformbtion(long tokfn, int tokfnInfoClbss,
+        long pTokfnInfo, int tokfnInfoLfngth) throws WindowsExdfption;
+
+    /**
+     * AdjustTokfnPrivilfgfs(
+     *   HANDLE TokfnHbndlf,
+     *   BOOL DisbblfAllPrivilfgfs
+     *   PTOKEN_PRIVILEGES NfwStbtf
+     *   DWORD BufffrLfngth
+     *   PTOKEN_PRIVILEGES
+     *   PDWORD RfturnLfngth
+     * )
+     */
+    stbtid nbtivf void AdjustTokfnPrivilfgfs(long tokfn, long luid, int bttributfs)
+        throws WindowsExdfption;
+
+
+    /**
+     * AddfssChfdk(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   HANDLE ClifntTokfn,
+     *   DWORD DfsirfdAddfss,
+     *   PGENERIC_MAPPING GfnfridMbpping,
+     *   PPRIVILEGE_SET PrivilfgfSft,
+     *   LPDWORD PrivilfgfSftLfngth,
+     *   LPDWORD GrbntfdAddfss,
+     *   LPBOOL AddfssStbtus
+     * )
+     */
+    stbtid nbtivf boolfbn AddfssChfdk(long tokfn, long sfdurityInfo, int bddfssMbsk,
+        int gfnfridRfbd, int gfnfridWritf, int gfnfridExfdutf, int gfnfridAll)
+        throws WindowsExdfption;
+
+    /**
+     */
+    stbtid long LookupPrivilfgfVbluf(String nbmf) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(nbmf);
+        try {
+            rfturn LookupPrivilfgfVbluf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long LookupPrivilfgfVbluf0(long lpNbmf)
+        throws WindowsExdfption;
+
+    /**
+     * CrfbtfSymbolidLink(
+     *   LPCWSTR lpSymlinkFilfNbmf,
+     *   LPCWSTR lpTbrgftFilfNbmf,
+     *   DWORD dwFlbgs
+     * )
+     */
+    stbtid void CrfbtfSymbolidLink(String link, String tbrgft, int flbgs)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr linkBufffr = bsNbtivfBufffr(link);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
+        try {
+            CrfbtfSymbolidLink0(linkBufffr.bddrfss(), tbrgftBufffr.bddrfss(),
+                                flbgs);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            linkBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void CrfbtfSymbolidLink0(long linkAddrfss,
+        long tbrgftAddrfss, int flbgs) throws WindowsExdfption;
+
+    /**
+     * CrfbtfHbrdLink(
+     *    LPCTSTR lpFilfNbmf,
+     *    LPCTSTR lpExistingFilfNbmf,
+     *    LPSECURITY_ATTRIBUTES lpSfdurityAttributfs
+     * )
+     */
+    stbtid void CrfbtfHbrdLink(String nfwFilf, String fxistingFilf)
+        throws WindowsExdfption
+    {
+        NbtivfBufffr nfwFilfBufffr = bsNbtivfBufffr(nfwFilf);
+        NbtivfBufffr fxistingFilfBufffr = bsNbtivfBufffr(fxistingFilf);
+        try {
+            CrfbtfHbrdLink0(nfwFilfBufffr.bddrfss(), fxistingFilfBufffr.bddrfss());
+        } finblly {
+            fxistingFilfBufffr.rflfbsf();
+            nfwFilfBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void CrfbtfHbrdLink0(long nfwFilfBufffr,
+        long fxistingFilfBufffr) throws WindowsExdfption;
+
+    /**
+     * GftFullPbthNbmf(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD nBufffrLfngth,
+     *   LPTSTR lpBufffr,
+     *   LPTSTR *lpFilfPbrt
+     * )
+     */
+    stbtid String GftFullPbthNbmf(String pbth) throws WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbth);
+        try {
+            rfturn GftFullPbthNbmf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf String GftFullPbthNbmf0(long pbthAddrfss)
+        throws WindowsExdfption;
+
+    /**
+     * GftFinblPbthNbmfByHbndlf(
+     *   HANDLE hFilf,
+     *   LPTSTR lpszFilfPbth,
+     *   DWORD ddhFilfPbth,
+     *   DWORD dwFlbgs
+     * )
+     */
+    stbtid nbtivf String GftFinblPbthNbmfByHbndlf(long hbndlf)
+        throws WindowsExdfption;
+
+    /**
+     * FormbtMfssbgf(
+     *   DWORD dwFlbgs,
+     *   LPCVOID lpSourdf,
+     *   DWORD dwMfssbgfId,
+     *   DWORD dwLbngubgfId,
+     *   LPTSTR lpBufffr,
+     *   DWORD nSizf,
+     *   vb_list *Argumfnts
+     * )
+     */
+    stbtid nbtivf String FormbtMfssbgf(int frrorCodf);
+
+    /**
+     * LodblFrff(
+     *   HLOCAL hMfm
+     * )
+     */
+    stbtid nbtivf void LodblFrff(long bddrfss);
+
+    /**
+     * HANDLE CrfbtfIoComplftionPort (
+     *   HANDLE FilfHbndlf,
+     *   HANDLE ExistingComplftionPort,
+     *   ULONG_PTR ComplftionKfy,
+     *   DWORD NumbfrOfCondurrfntThrfbds
+     * )
+     */
+    stbtid nbtivf long CrfbtfIoComplftionPort(long filfHbndlf, long fxistingPort,
+        long domplftionKfy) throws WindowsExdfption;
+
+
+    /**
+     * GftQufufdComplftionStbtus(
+     *   HANDLE ComplftionPort,
+     *   LPDWORD lpNumbfrOfBytfsTrbnsffrrfd,
+     *   PULONG_PTR lpComplftionKfy,
+     *   LPOVERLAPPED *lpOvfrlbppfd,
+     *   DWORD dwMillisfdonds
+     */
+    stbtid ComplftionStbtus GftQufufdComplftionStbtus(long domplftionPort)
+        throws WindowsExdfption
+    {
+        ComplftionStbtus stbtus = nfw ComplftionStbtus();
+        GftQufufdComplftionStbtus0(domplftionPort, stbtus);
+        rfturn stbtus;
+    }
+    stbtid dlbss ComplftionStbtus {
+        privbtf int frror;
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf long domplftionKfy;
+        privbtf ComplftionStbtus() { }
+
+        int frror() { rfturn frror; }
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        long domplftionKfy() { rfturn domplftionKfy; }
+    }
+    privbtf stbtid nbtivf void GftQufufdComplftionStbtus0(long domplftionPort,
+        ComplftionStbtus stbtus) throws WindowsExdfption;
+
+    /**
+     * PostQufufdComplftionStbtus(
+     *   HANDLE ComplftionPort,
+     *   DWORD dwNumbfrOfBytfsTrbnsffrrfd,
+     *   ULONG_PTR dwComplftionKfy,
+     *   LPOVERLAPPED lpOvfrlbppfd
+     * )
+     */
+    stbtid nbtivf void PostQufufdComplftionStbtus(long domplftionPort,
+        long domplftionKfy) throws WindowsExdfption;
+
+    /**
+     * RfbdDirfdtoryChbngfsW(
+     *   HANDLE hDirfdtory,
+     *   LPVOID lpBufffr,
+     *   DWORD nBufffrLfngth,
+     *   BOOL bWbtdhSubtrff,
+     *   DWORD dwNotifyFiltfr,
+     *   LPDWORD lpBytfsRfturnfd,
+     *   LPOVERLAPPED lpOvfrlbppfd,
+     *   LPOVERLAPPED_COMPLETION_ROUTINE lpComplftionRoutinf
+     * )
+     */
+    stbtid nbtivf void RfbdDirfdtoryChbngfsW(long hDirfdtory,
+                                             long bufffrAddrfss,
+                                             int bufffrLfngth,
+                                             boolfbn wbtdhSubTrff,
+                                             int filtfr,
+                                             long bytfsRfturnfdAddrfss,
+                                             long pOvfrlbppfd)
+        throws WindowsExdfption;
+
+    /**
+     * BbdkupRfbd(
+     *   HANDLE hFilf,
+     *   LPBYTE lpBufffr,
+     *   DWORD nNumbfrOfBytfsToRfbd,
+     *   LPDWORD lpNumbfrOfBytfsRfbd,
+     *   BOOL bAbort,
+     *   BOOL bProdfssSfdurity,
+     *   LPVOID* lpContfxt
+     * )
+     */
+    stbtid BbdkupRfsult BbdkupRfbd(long hFilf,
+                                   long bufffrAddrfss,
+                                   int bufffrSizf,
+                                   boolfbn bbort,
+                                   long dontfxt)
+        throws WindowsExdfption
+    {
+        BbdkupRfsult rfsult = nfw BbdkupRfsult();
+        BbdkupRfbd0(hFilf, bufffrAddrfss, bufffrSizf, bbort, dontfxt, rfsult);
+        rfturn rfsult;
+    }
+    stbtid dlbss BbdkupRfsult {
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf long dontfxt;
+        privbtf BbdkupRfsult() { }
+
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        long dontfxt() { rfturn dontfxt; }
+    }
+    privbtf stbtid nbtivf void BbdkupRfbd0(long hFilf, long bufffrAddrfss,
+        int bufffrSizf, boolfbn bbort, long dontfxt, BbdkupRfsult rfsult)
+        throws WindowsExdfption;
+
+    /**
+     * BbdkupSffk(
+     *   HANDLE hFilf,
+     *   DWORD dwLowBytfsToSffk,
+     *   DWORD dwHighBytfsToSffk,
+     *   LPDWORD lpdwLowBytfSffkfd,
+     *   LPDWORD lpdwHighBytfSffkfd,
+     *   LPVOID* lpContfxt
+     * )
+     */
+    stbtid nbtivf void BbdkupSffk(long hFilf, long bytfsToSffk, long dontfxt)
+        throws WindowsExdfption;
+
+
+    // -- support for dopying String with b NbtivfBufffr --
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    stbtid NbtivfBufffr bsNbtivfBufffr(String s) {
+        int stringLfngthInBytfs = s.lfngth() << 1;
+        int sizfInBytfs = stringLfngthInBytfs + 2;  // dhbr tfrminbtor
+
+        // gft b nbtivf bufffr of suffidifnt sizf
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffrFromCbdhf(sizfInBytfs);
+        if (bufffr == null) {
+            bufffr = NbtivfBufffrs.bllodNbtivfBufffr(sizfInBytfs);
+        } flsf {
+            // bufffr blrfbdy dontbins thf string dontfnts
+            if (bufffr.ownfr() == s)
+                rfturn bufffr;
+        }
+
+        // dopy into bufffr bnd zfro tfrminbtf
+        dhbr[] dhbrs = s.toChbrArrby();
+        unsbff.dopyMfmory(dhbrs, Unsbff.ARRAY_CHAR_BASE_OFFSET, null,
+            bufffr.bddrfss(), (long)stringLfngthInBytfs);
+        unsbff.putChbr(bufffr.bddrfss() + stringLfngthInBytfs, (dhbr)0);
+        bufffr.sftOwnfr(s);
+        rfturn bufffr;
+    }
+
+    // -- nbtivf librbry initiblizbtion --
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                // nio.dll hbs dfpfndfndy on nft.dll
+                Systfm.lobdLibrbry("nft");
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+        }});
+        initIDs();
+    }
+
+}

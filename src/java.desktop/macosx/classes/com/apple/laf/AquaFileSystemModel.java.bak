@@ -1,478 +1,478 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.beans.*;
-import java.io.File;
-import java.util.*;
+import jbvb.bfbns.*;
+import jbvb.io.Filf;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.table.AbstractTableModel;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.ListDbtbEvfnt;
+import jbvbx.swing.filfdioosfr.FilfSystfmVifw;
+import jbvbx.swing.tbblf.AbstrbdtTbblfModfl;
 
 /**
- * NavServices-like implementation of a file Table
+ * NbvSfrvidfs-likf implfmfntbtion of b filf Tbblf
  *
- * Some of it came from BasicDirectoryModel
+ * Somf of it dbmf from BbsidDirfdtoryModfl
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaFileSystemModel extends AbstractTableModel implements PropertyChangeListener {
-    private final JTable fFileList;
-    private LoadFilesThread loadThread = null;
-    private Vector<File> files = null;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss AqubFilfSystfmModfl fxtfnds AbstrbdtTbblfModfl implfmfnts PropfrtyCibngfListfnfr {
+    privbtf finbl JTbblf fFilfList;
+    privbtf LobdFilfsTirfbd lobdTirfbd = null;
+    privbtf Vfdtor<Filf> filfs = null;
 
-    JFileChooser filechooser = null;
-    Vector<SortableFile> fileCache = null;
-    Object fileCacheLock;
+    JFilfCioosfr filfdioosfr = null;
+    Vfdtor<SortbblfFilf> filfCbdif = null;
+    Objfdt filfCbdifLodk;
 
-    Vector<File> directories = null;
-    int fetchID = 0;
+    Vfdtor<Filf> dirfdtorifs = null;
+    int fftdiID = 0;
 
-    private final boolean fSortAscending[] = {true, true};
-    // private boolean fSortAscending = true;
-    private boolean fSortNames = true;
-    private final String[] fColumnNames;
-    public final static String SORT_BY_CHANGED = "sortByChanged";
-    public final static String SORT_ASCENDING_CHANGED = "sortAscendingChanged";
+    privbtf finbl boolfbn fSortAsdfnding[] = {truf, truf};
+    // privbtf boolfbn fSortAsdfnding = truf;
+    privbtf boolfbn fSortNbmfs = truf;
+    privbtf finbl String[] fColumnNbmfs;
+    publid finbl stbtid String SORT_BY_CHANGED = "sortByCibngfd";
+    publid finbl stbtid String SORT_ASCENDING_CHANGED = "sortAsdfndingCibngfd";
 
-    public AquaFileSystemModel(final JFileChooser filechooser, final JTable filelist, final String[] colNames) {
-        fileCacheLock = new Object();
-        this.filechooser = filechooser;
-        fFileList = filelist;
-        fColumnNames = colNames;
-        validateFileCache();
-        updateSelectionMode();
+    publid AqubFilfSystfmModfl(finbl JFilfCioosfr filfdioosfr, finbl JTbblf filflist, finbl String[] dolNbmfs) {
+        filfCbdifLodk = nfw Objfdt();
+        tiis.filfdioosfr = filfdioosfr;
+        fFilfList = filflist;
+        fColumnNbmfs = dolNbmfs;
+        vblidbtfFilfCbdif();
+        updbtfSflfdtionModf();
     }
 
-    void updateSelectionMode() {
-        // Save dialog lists can't be multi select, because all we're selecting is the next folder to open
-        final boolean b = filechooser.isMultiSelectionEnabled() && filechooser.getDialogType() != JFileChooser.SAVE_DIALOG;
-        fFileList.setSelectionMode(b ? ListSelectionModel.MULTIPLE_INTERVAL_SELECTION : ListSelectionModel.SINGLE_SELECTION);
+    void updbtfSflfdtionModf() {
+        // Sbvf diblog lists dbn't bf multi sflfdt, bfdbusf bll wf'rf sflfdting is tif nfxt foldfr to opfn
+        finbl boolfbn b = filfdioosfr.isMultiSflfdtionEnbblfd() && filfdioosfr.gftDiblogTypf() != JFilfCioosfr.SAVE_DIALOG;
+        fFilfList.sftSflfdtionModf(b ? ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION : ListSflfdtionModfl.SINGLE_SELECTION);
     }
 
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String prop = e.getPropertyName();
-        if (prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY || prop == JFileChooser.FILE_VIEW_CHANGED_PROPERTY || prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY || prop == JFileChooser.FILE_HIDING_CHANGED_PROPERTY) {
-            invalidateFileCache();
-            validateFileCache();
-        } else if (prop.equals(JFileChooser.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
-            updateSelectionMode();
-        } else if (prop == JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
-            invalidateFileCache();
-            validateFileCache();
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+        finbl String prop = f.gftPropfrtyNbmf();
+        if (prop == JFilfCioosfr.DIRECTORY_CHANGED_PROPERTY || prop == JFilfCioosfr.FILE_VIEW_CHANGED_PROPERTY || prop == JFilfCioosfr.FILE_FILTER_CHANGED_PROPERTY || prop == JFilfCioosfr.FILE_HIDING_CHANGED_PROPERTY) {
+            invblidbtfFilfCbdif();
+            vblidbtfFilfCbdif();
+        } flsf if (prop.fqubls(JFilfCioosfr.MULTI_SELECTION_ENABLED_CHANGED_PROPERTY)) {
+            updbtfSflfdtionModf();
+        } flsf if (prop == JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
+            invblidbtfFilfCbdif();
+            vblidbtfFilfCbdif();
         }
-        if (prop == SORT_BY_CHANGED) {// $ Ought to just resort
-            fSortNames = (((Integer)e.getNewValue()).intValue() == 0);
-            invalidateFileCache();
-            validateFileCache();
-            fFileList.repaint();
+        if (prop == SORT_BY_CHANGED) {// $ Ougit to just rfsort
+            fSortNbmfs = (((Intfgfr)f.gftNfwVbluf()).intVbluf() == 0);
+            invblidbtfFilfCbdif();
+            vblidbtfFilfCbdif();
+            fFilfList.rfpbint();
         }
         if (prop == SORT_ASCENDING_CHANGED) {
-            final int sortColumn = (fSortNames ? 0 : 1);
-            fSortAscending[sortColumn] = ((Boolean)e.getNewValue()).booleanValue();
-            invalidateFileCache();
-            validateFileCache();
-            fFileList.repaint();
+            finbl int sortColumn = (fSortNbmfs ? 0 : 1);
+            fSortAsdfnding[sortColumn] = ((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf();
+            invblidbtfFilfCbdif();
+            vblidbtfFilfCbdif();
+            fFilfList.rfpbint();
         }
     }
 
-    public void invalidateFileCache() {
-        files = null;
-        directories = null;
+    publid void invblidbtfFilfCbdif() {
+        filfs = null;
+        dirfdtorifs = null;
 
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                final int lastRow = fileCache.size();
-                fileCache = null;
-                fireTableRowsDeleted(0, lastRow);
+        syndironizfd(filfCbdifLodk) {
+            if (filfCbdif != null) {
+                finbl int lbstRow = filfCbdif.sizf();
+                filfCbdif = null;
+                firfTbblfRowsDflftfd(0, lbstRow);
             }
         }
     }
 
-    public Vector<File> getDirectories() {
-        if (directories != null) { return directories; }
-        return directories;
+    publid Vfdtor<Filf> gftDirfdtorifs() {
+        if (dirfdtorifs != null) { rfturn dirfdtorifs; }
+        rfturn dirfdtorifs;
     }
 
-    public Vector<File> getFiles() {
-        if (files != null) { return files; }
-        files = new Vector<File>();
-        directories = new Vector<File>();
-        directories.addElement(filechooser.getFileSystemView().createFileObject(filechooser.getCurrentDirectory(), ".."));
+    publid Vfdtor<Filf> gftFilfs() {
+        if (filfs != null) { rfturn filfs; }
+        filfs = nfw Vfdtor<Filf>();
+        dirfdtorifs = nfw Vfdtor<Filf>();
+        dirfdtorifs.bddElfmfnt(filfdioosfr.gftFilfSystfmVifw().drfbtfFilfObjfdt(filfdioosfr.gftCurrfntDirfdtory(), ".."));
 
-        synchronized(fileCacheLock) {
-            for (int i = 0; i < fileCache.size(); i++) {
-                final SortableFile sf = fileCache.elementAt(i);
-                final File f = sf.fFile;
-                if (filechooser.isTraversable(f)) {
-                    directories.addElement(f);
-                } else {
-                    files.addElement(f);
+        syndironizfd(filfCbdifLodk) {
+            for (int i = 0; i < filfCbdif.sizf(); i++) {
+                finbl SortbblfFilf sf = filfCbdif.flfmfntAt(i);
+                finbl Filf f = sf.fFilf;
+                if (filfdioosfr.isTrbvfrsbblf(f)) {
+                    dirfdtorifs.bddElfmfnt(f);
+                } flsf {
+                    filfs.bddElfmfnt(f);
                 }
             }
         }
 
-        return files;
+        rfturn filfs;
     }
 
-    public void runWhenDone(final Runnable runnable){
-         synchronized (fileCacheLock) {
-             if (loadThread != null) {
-                 if (loadThread.isAlive()) {
-                     loadThread.queuedTasks.add(runnable);
-                     return;
+    publid void runWifnDonf(finbl Runnbblf runnbblf){
+         syndironizfd (filfCbdifLodk) {
+             if (lobdTirfbd != null) {
+                 if (lobdTirfbd.isAlivf()) {
+                     lobdTirfbd.qufufdTbsks.bdd(runnbblf);
+                     rfturn;
                  }
              }
 
-             SwingUtilities.invokeLater(runnable);
+             SwingUtilitifs.invokfLbtfr(runnbblf);
          }
      }
 
-    public void validateFileCache() {
-        final File currentDirectory = filechooser.getCurrentDirectory();
+    publid void vblidbtfFilfCbdif() {
+        finbl Filf durrfntDirfdtory = filfdioosfr.gftCurrfntDirfdtory();
 
-        if (currentDirectory == null) {
-            invalidateFileCache();
-            return;
+        if (durrfntDirfdtory == null) {
+            invblidbtfFilfCbdif();
+            rfturn;
         }
 
-        if (loadThread != null) {
-            // interrupt
-            loadThread.interrupt();
+        if (lobdTirfbd != null) {
+            // intfrrupt
+            lobdTirfbd.intfrrupt();
         }
 
-        fetchID++;
+        fftdiID++;
 
-        // PENDING(jeff) pick the size more sensibly
-        invalidateFileCache();
-        synchronized(fileCacheLock) {
-            fileCache = new Vector<SortableFile>(50);
+        // PENDING(jfff) pidk tif sizf morf sfnsibly
+        invblidbtfFilfCbdif();
+        syndironizfd(filfCbdifLodk) {
+            filfCbdif = nfw Vfdtor<SortbblfFilf>(50);
         }
 
-        loadThread = new LoadFilesThread(currentDirectory, fetchID);
-        loadThread.start();
+        lobdTirfbd = nfw LobdFilfsTirfbd(durrfntDirfdtory, fftdiID);
+        lobdTirfbd.stbrt();
     }
 
-    public int getColumnCount() {
-        return 2;
+    publid int gftColumnCount() {
+        rfturn 2;
     }
 
-    public String getColumnName(final int col) {
-        return fColumnNames[col];
+    publid String gftColumnNbmf(finbl int dol) {
+        rfturn fColumnNbmfs[dol];
     }
 
-    public Class<? extends Object> getColumnClass(final int col) {
-        if (col == 0) return File.class;
-        return Date.class;
+    publid Clbss<? fxtfnds Objfdt> gftColumnClbss(finbl int dol) {
+        if (dol == 0) rfturn Filf.dlbss;
+        rfturn Dbtf.dlbss;
     }
 
-    public int getRowCount() {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                return fileCache.size();
+    publid int gftRowCount() {
+        syndironizfd(filfCbdifLodk) {
+            if (filfCbdif != null) {
+                rfturn filfCbdif.sizf();
             }
-            return 0;
+            rfturn 0;
         }
     }
 
-    // SAK: Part of fix for 3168263. The fileCache contains
-    // SortableFiles, so when finding a file in the list we need to
-    // first create a sortable file.
-    public boolean contains(final File o) {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                return fileCache.contains(new SortableFile(o));
+    // SAK: Pbrt of fix for 3168263. Tif filfCbdif dontbins
+    // SortbblfFilfs, so wifn finding b filf in tif list wf nffd to
+    // first drfbtf b sortbblf filf.
+    publid boolfbn dontbins(finbl Filf o) {
+        syndironizfd(filfCbdifLodk) {
+            if (filfCbdif != null) {
+                rfturn filfCbdif.dontbins(nfw SortbblfFilf(o));
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
-    public int indexOf(final File o) {
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                final boolean isAscending = fSortNames ? fSortAscending[0] : fSortAscending[1];
-                final int row = fileCache.indexOf(new SortableFile(o));
-                return isAscending ? row : fileCache.size() - row - 1;
+    publid int indfxOf(finbl Filf o) {
+        syndironizfd(filfCbdifLodk) {
+            if (filfCbdif != null) {
+                finbl boolfbn isAsdfnding = fSortNbmfs ? fSortAsdfnding[0] : fSortAsdfnding[1];
+                finbl int row = filfCbdif.indfxOf(nfw SortbblfFilf(o));
+                rfturn isAsdfnding ? row : filfCbdif.sizf() - row - 1;
             }
-            return 0;
+            rfturn 0;
         }
     }
 
-    // AbstractListModel interface
-    public Object getElementAt(final int row) {
-        return getValueAt(row, 0);
+    // AbstrbdtListModfl intfrfbdf
+    publid Objfdt gftElfmfntAt(finbl int row) {
+        rfturn gftVblufAt(row, 0);
     }
 
-    // AbstractTableModel interface
+    // AbstrbdtTbblfModfl intfrfbdf
 
-    public Object getValueAt(int row, final int col) {
-        if (row < 0 || col < 0) return null;
-        final boolean isAscending = fSortNames ? fSortAscending[0] : fSortAscending[1];
-        synchronized(fileCacheLock) {
-            if (fileCache != null) {
-                if (!isAscending) row = fileCache.size() - row - 1;
-                return fileCache.elementAt(row).getValueAt(col);
+    publid Objfdt gftVblufAt(int row, finbl int dol) {
+        if (row < 0 || dol < 0) rfturn null;
+        finbl boolfbn isAsdfnding = fSortNbmfs ? fSortAsdfnding[0] : fSortAsdfnding[1];
+        syndironizfd(filfCbdifLodk) {
+            if (filfCbdif != null) {
+                if (!isAsdfnding) row = filfCbdif.sizf() - row - 1;
+                rfturn filfCbdif.flfmfntAt(row).gftVblufAt(dol);
             }
-            return null;
+            rfturn null;
         }
     }
 
-    // PENDING(jeff) - implement
-    public void intervalAdded(final ListDataEvent e) {
+    // PENDING(jfff) - implfmfnt
+    publid void intfrvblAddfd(finbl ListDbtbEvfnt f) {
     }
 
-    // PENDING(jeff) - implement
-    public void intervalRemoved(final ListDataEvent e) {
+    // PENDING(jfff) - implfmfnt
+    publid void intfrvblRfmovfd(finbl ListDbtbEvfnt f) {
     }
 
-    protected void sort(final Vector<Object> v) {
-        if (fSortNames) sSortNames.quickSort(v, 0, v.size() - 1);
-        else sSortDates.quickSort(v, 0, v.size() - 1);
+    protfdtfd void sort(finbl Vfdtor<Objfdt> v) {
+        if (fSortNbmfs) sSortNbmfs.quidkSort(v, 0, v.sizf() - 1);
+        flsf sSortDbtfs.quidkSort(v, 0, v.sizf() - 1);
     }
 
-    // Liberated from the 1.1 SortDemo
+    // Libfrbtfd from tif 1.1 SortDfmo
     //
-    // This is a generic version of C.A.R Hoare's Quick Sort
-    // algorithm. This will handle arrays that are already
-    // sorted, and arrays with duplicate keys.<BR>
+    // Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+    // blgoritim. Tiis will ibndlf brrbys tibt brf blrfbdy
+    // sortfd, bnd brrbys witi duplidbtf kfys.<BR>
     //
-    // If you think of a one dimensional array as going from
-    // the lowest index on the left to the highest index on the right
-    // then the parameters to this function are lowest index or
-    // left and highest index or right. The first time you call
-    // this function it will be with the parameters 0, a.length - 1.
+    // If you tiink of b onf dimfnsionbl brrby bs going from
+    // tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+    // tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+    // lfft bnd iigifst indfx or rigit. Tif first timf you dbll
+    // tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
     //
-    // @param a an integer array
-    // @param lo0 left boundary of array partition
-    // @param hi0 right boundary of array partition
-    abstract class QuickSort {
-        final void quickSort(final Vector<Object> v, final int lo0, final int hi0) {
+    // @pbrbm b bn intfgfr brrby
+    // @pbrbm lo0 lfft boundbry of brrby pbrtition
+    // @pbrbm ii0 rigit boundbry of brrby pbrtition
+    bbstrbdt dlbss QuidkSort {
+        finbl void quidkSort(finbl Vfdtor<Objfdt> v, finbl int lo0, finbl int ii0) {
             int lo = lo0;
-            int hi = hi0;
-            SortableFile mid;
+            int ii = ii0;
+            SortbblfFilf mid;
 
-            if (hi0 > lo0) {
-                // Arbitrarily establishing partition element as the midpoint of
-                // the array.
-                mid = (SortableFile)v.elementAt((lo0 + hi0) / 2);
+            if (ii0 > lo0) {
+                // Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+                // tif brrby.
+                mid = (SortbblfFilf)v.flfmfntAt((lo0 + ii0) / 2);
 
-                // loop through the array until indices cross
-                while (lo <= hi) {
-                    // find the first element that is greater than or equal to
-                    // the partition element starting from the left Index.
+                // loop tirougi tif brrby until indidfs dross
+                wiilf (lo <= ii) {
+                    // find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                    // tif pbrtition flfmfnt stbrting from tif lfft Indfx.
                     //
-                    // Nasty to have to cast here. Would it be quicker
-                    // to copy the vectors into arrays and sort the arrays?
-                    while ((lo < hi0) && lt((SortableFile)v.elementAt(lo), mid)) {
+                    // Nbsty to ibvf to dbst ifrf. Would it bf quidkfr
+                    // to dopy tif vfdtors into brrbys bnd sort tif brrbys?
+                    wiilf ((lo < ii0) && lt((SortbblfFilf)v.flfmfntAt(lo), mid)) {
                         ++lo;
                     }
 
-                    // find an element that is smaller than or equal to
-                    // the partition element starting from the right Index.
-                    while ((hi > lo0) && lt(mid, (SortableFile)v.elementAt(hi))) {
-                        --hi;
+                    // find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                    // tif pbrtition flfmfnt stbrting from tif rigit Indfx.
+                    wiilf ((ii > lo0) && lt(mid, (SortbblfFilf)v.flfmfntAt(ii))) {
+                        --ii;
                     }
 
-                    // if the indexes have not crossed, swap
-                    if (lo <= hi) {
-                        swap(v, lo, hi);
+                    // if tif indfxfs ibvf not drossfd, swbp
+                    if (lo <= ii) {
+                        swbp(v, lo, ii);
                         ++lo;
-                        --hi;
+                        --ii;
                     }
                 }
 
-                // If the right index has not reached the left side of array
-                // must now sort the left partition.
-                if (lo0 < hi) {
-                    quickSort(v, lo0, hi);
+                // If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+                // must now sort tif lfft pbrtition.
+                if (lo0 < ii) {
+                    quidkSort(v, lo0, ii);
                 }
 
-                // If the left index has not reached the right side of array
-                // must now sort the right partition.
-                if (lo < hi0) {
-                    quickSort(v, lo, hi0);
+                // If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+                // must now sort tif rigit pbrtition.
+                if (lo < ii0) {
+                    quidkSort(v, lo, ii0);
                 }
 
             }
         }
 
-        private final void swap(final Vector<Object> a, final int i, final int j) {
-            final Object T = a.elementAt(i);
-            a.setElementAt(a.elementAt(j), i);
-            a.setElementAt(T, j);
+        privbtf finbl void swbp(finbl Vfdtor<Objfdt> b, finbl int i, finbl int j) {
+            finbl Objfdt T = b.flfmfntAt(i);
+            b.sftElfmfntAt(b.flfmfntAt(j), i);
+            b.sftElfmfntAt(T, j);
         }
 
-        protected abstract boolean lt(SortableFile a, SortableFile b);
+        protfdtfd bbstrbdt boolfbn lt(SortbblfFilf b, SortbblfFilf b);
     }
 
-    class QuickSortNames extends QuickSort {
-        protected boolean lt(final SortableFile a, final SortableFile b) {
-            final String aLower = a.fName.toLowerCase();
-            final String bLower = b.fName.toLowerCase();
-            return aLower.compareTo(bLower) < 0;
-        }
-    }
-
-    class QuickSortDates extends QuickSort {
-        protected boolean lt(final SortableFile a, final SortableFile b) {
-            return a.fDateValue < b.fDateValue;
+    dlbss QuidkSortNbmfs fxtfnds QuidkSort {
+        protfdtfd boolfbn lt(finbl SortbblfFilf b, finbl SortbblfFilf b) {
+            finbl String bLowfr = b.fNbmf.toLowfrCbsf();
+            finbl String bLowfr = b.fNbmf.toLowfrCbsf();
+            rfturn bLowfr.dompbrfTo(bLowfr) < 0;
         }
     }
 
-    // for speed in sorting, displaying
-    class SortableFile /* extends FileView */{
-        File fFile;
-        String fName;
-        long fDateValue;
-        Date fDate;
-
-        SortableFile(final File f) {
-            fFile = f;
-            fName = fFile.getName();
-            fDateValue = fFile.lastModified();
-            fDate = new Date(fDateValue);
-        }
-
-        public Object getValueAt(final int col) {
-            if (col == 0) return fFile;
-            return fDate;
-        }
-
-        public boolean equals(final Object other) {
-            final SortableFile otherFile = (SortableFile)other;
-            return otherFile.fFile.equals(fFile);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(fFile);
+    dlbss QuidkSortDbtfs fxtfnds QuidkSort {
+        protfdtfd boolfbn lt(finbl SortbblfFilf b, finbl SortbblfFilf b) {
+            rfturn b.fDbtfVbluf < b.fDbtfVbluf;
         }
     }
 
-    class LoadFilesThread extends Thread {
-        Vector<Runnable> queuedTasks = new Vector<Runnable>();
-        File currentDirectory = null;
+    // for spffd in sorting, displbying
+    dlbss SortbblfFilf /* fxtfnds FilfVifw */{
+        Filf fFilf;
+        String fNbmf;
+        long fDbtfVbluf;
+        Dbtf fDbtf;
+
+        SortbblfFilf(finbl Filf f) {
+            fFilf = f;
+            fNbmf = fFilf.gftNbmf();
+            fDbtfVbluf = fFilf.lbstModififd();
+            fDbtf = nfw Dbtf(fDbtfVbluf);
+        }
+
+        publid Objfdt gftVblufAt(finbl int dol) {
+            if (dol == 0) rfturn fFilf;
+            rfturn fDbtf;
+        }
+
+        publid boolfbn fqubls(finbl Objfdt otifr) {
+            finbl SortbblfFilf otifrFilf = (SortbblfFilf)otifr;
+            rfturn otifrFilf.fFilf.fqubls(fFilf);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn Objfdts.ibsiCodf(fFilf);
+        }
+    }
+
+    dlbss LobdFilfsTirfbd fxtfnds Tirfbd {
+        Vfdtor<Runnbblf> qufufdTbsks = nfw Vfdtor<Runnbblf>();
+        Filf durrfntDirfdtory = null;
         int fid;
 
-        public LoadFilesThread(final File currentDirectory, final int fid) {
-            super("Aqua L&F File Loading Thread");
-            this.currentDirectory = currentDirectory;
-            this.fid = fid;
+        publid LobdFilfsTirfbd(finbl Filf durrfntDirfdtory, finbl int fid) {
+            supfr("Aqub L&F Filf Lobding Tirfbd");
+            tiis.durrfntDirfdtory = durrfntDirfdtory;
+            tiis.fid = fid;
         }
 
-        public void run() {
-            final Vector<DoChangeContents> runnables = new Vector<DoChangeContents>(10);
-            final FileSystemView fileSystem = filechooser.getFileSystemView();
+        publid void run() {
+            finbl Vfdtor<DoCibngfContfnts> runnbblfs = nfw Vfdtor<DoCibngfContfnts>(10);
+            finbl FilfSystfmVifw filfSystfm = filfdioosfr.gftFilfSystfmVifw();
 
-            final File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnabled());
+            finbl Filf[] list = filfSystfm.gftFilfs(durrfntDirfdtory, filfdioosfr.isFilfHidingEnbblfd());
 
-            final Vector<Object> acceptsList = new Vector<Object>();
+            finbl Vfdtor<Objfdt> bddfptsList = nfw Vfdtor<Objfdt>();
 
-            for (final File element : list) {
-                // Return all files to the file chooser. The UI will disable or enable
-                // the file name if the current filter approves.
-                acceptsList.addElement(new SortableFile(element));
+            for (finbl Filf flfmfnt : list) {
+                // Rfturn bll filfs to tif filf dioosfr. Tif UI will disbblf or fnbblf
+                // tif filf nbmf if tif durrfnt filtfr bpprovfs.
+                bddfptsList.bddElfmfnt(nfw SortbblfFilf(flfmfnt));
             }
 
-            // Sort based on settings.
-            sort(acceptsList);
+            // Sort bbsfd on sfttings.
+            sort(bddfptsList);
 
-            // Don't separate directories from files
-            Vector<SortableFile> chunk = new Vector<SortableFile>(10);
-            final int listSize = acceptsList.size();
-            // run through list grabbing file/dirs in chunks of ten
-            for (int i = 0; i < listSize;) {
-                SortableFile f;
-                for (int j = 0; j < 10 && i < listSize; j++, i++) {
-                    f = (SortableFile)acceptsList.elementAt(i);
-                    chunk.addElement(f);
+            // Don't sfpbrbtf dirfdtorifs from filfs
+            Vfdtor<SortbblfFilf> diunk = nfw Vfdtor<SortbblfFilf>(10);
+            finbl int listSizf = bddfptsList.sizf();
+            // run tirougi list grbbbing filf/dirs in diunks of tfn
+            for (int i = 0; i < listSizf;) {
+                SortbblfFilf f;
+                for (int j = 0; j < 10 && i < listSizf; j++, i++) {
+                    f = (SortbblfFilf)bddfptsList.flfmfntAt(i);
+                    diunk.bddElfmfnt(f);
                 }
-                final DoChangeContents runnable = new DoChangeContents(chunk, fid);
-                runnables.addElement(runnable);
-                SwingUtilities.invokeLater(runnable);
-                chunk = new Vector<SortableFile>(10);
-                if (isInterrupted()) {
-                    // interrupted, cancel all runnables
-                    cancelRunnables(runnables);
-                    return;
+                finbl DoCibngfContfnts runnbblf = nfw DoCibngfContfnts(diunk, fid);
+                runnbblfs.bddElfmfnt(runnbblf);
+                SwingUtilitifs.invokfLbtfr(runnbblf);
+                diunk = nfw Vfdtor<SortbblfFilf>(10);
+                if (isIntfrruptfd()) {
+                    // intfrruptfd, dbndfl bll runnbblfs
+                    dbndflRunnbblfs(runnbblfs);
+                    rfturn;
                 }
             }
 
-            synchronized (fileCacheLock) {
-                for (final Runnable r : queuedTasks) {
-                    SwingUtilities.invokeLater(r);
+            syndironizfd (filfCbdifLodk) {
+                for (finbl Runnbblf r : qufufdTbsks) {
+                    SwingUtilitifs.invokfLbtfr(r);
                 }
             }
         }
 
-        public void cancelRunnables(final Vector<DoChangeContents> runnables) {
-            for (int i = 0; i < runnables.size(); i++) {
-                runnables.elementAt(i).cancel();
+        publid void dbndflRunnbblfs(finbl Vfdtor<DoCibngfContfnts> runnbblfs) {
+            for (int i = 0; i < runnbblfs.sizf(); i++) {
+                runnbblfs.flfmfntAt(i).dbndfl();
             }
         }
     }
 
-    class DoChangeContents implements Runnable {
-        private Vector<SortableFile> contentFiles;
-        private boolean doFire = true;
-        private final Object lock = new Object();
-        private final int fid;
+    dlbss DoCibngfContfnts implfmfnts Runnbblf {
+        privbtf Vfdtor<SortbblfFilf> dontfntFilfs;
+        privbtf boolfbn doFirf = truf;
+        privbtf finbl Objfdt lodk = nfw Objfdt();
+        privbtf finbl int fid;
 
-        public DoChangeContents(final Vector<SortableFile> files, final int fid) {
-            this.contentFiles = files;
-            this.fid = fid;
+        publid DoCibngfContfnts(finbl Vfdtor<SortbblfFilf> filfs, finbl int fid) {
+            tiis.dontfntFilfs = filfs;
+            tiis.fid = fid;
         }
 
-        synchronized void cancel() {
-            synchronized(lock) {
-                doFire = false;
+        syndironizfd void dbndfl() {
+            syndironizfd(lodk) {
+                doFirf = fblsf;
             }
         }
 
-        public void run() {
-            if (fetchID == fid) {
-                synchronized(lock) {
-                    if (doFire) {
-                        synchronized(fileCacheLock) {
-                            if (fileCache != null) {
-                                for (int i = 0; i < contentFiles.size(); i++) {
-                                    fileCache.addElement(contentFiles.elementAt(i));
-                                    fireTableRowsInserted(i, i);
+        publid void run() {
+            if (fftdiID == fid) {
+                syndironizfd(lodk) {
+                    if (doFirf) {
+                        syndironizfd(filfCbdifLodk) {
+                            if (filfCbdif != null) {
+                                for (int i = 0; i < dontfntFilfs.sizf(); i++) {
+                                    filfCbdif.bddElfmfnt(dontfntFilfs.flfmfntAt(i));
+                                    firfTbblfRowsInsfrtfd(i, i);
                                 }
                             }
                         }
                     }
-                    contentFiles = null;
-                    directories = null;
+                    dontfntFilfs = null;
+                    dirfdtorifs = null;
                 }
             }
         }
     }
 
-    final QuickSortNames sSortNames = new QuickSortNames();
-    final QuickSortDates sSortDates = new QuickSortDates();
+    finbl QuidkSortNbmfs sSortNbmfs = nfw QuidkSortNbmfs();
+    finbl QuidkSortDbtfs sSortDbtfs = nfw QuidkSortDbtfs();
 }

@@ -1,0 +1,217 @@
+'\" t
+.\"  Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: wsimport.1
+.\"
+.if n .pl 99999
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts thbt dbn bf pbdkbgfd in b wfb bpplidbtion brdhivf (WAR) filf bnd providfs bn Ant tbsk\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIwsdl\fR
+Thf filf thbt dontbins thf mbdhinf-rfbdbblf dfsdription of how thf wfb sfrvidf dbn bf dbllfd, whbt pbrbmftfrs it fxpfdts, bnd whbt dbtb strudturfs it rfturns\&.
+.SH DESCRIPTION    
+Thf \f3wsimport\fR dommbnd gfnfrbtfs thf following JAX-WS portbblf brtifbdts\&. Thfsf brtifbdts dbn bf pbdkbgfd in b WAR filf with thf WSDL bnd sdhfmb dodumfnts bnd thf fndpoint implfmfntbtion to bf dfployfd\&. Thf \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff thf Tools tbb of thf Wsimport Ant Tbsk pbgf bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.TP 0.2i    
+\(bu
+Sfrvidf Endpoint Intfrfbdf (SEI)
+.TP 0.2i    
+\(bu
+Sfrvidf
+.TP 0.2i    
+\(bu
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
+.TP 0.2i    
+\(bu
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
+.TP 0.2i    
+\(bu
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdhfmb typfs)
+.PP
+To stbrt thf \f3wsgfn\fR dommbnd, do thf following:
+.PP
+\fIOrbdlf Solbris/Linux\fR:
+.sp     
+.nf     
+\f3/bin/wsimport\&.sh \-hflp\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\fIWindows\fR:
+.sp     
+.nf     
+\f3\fbin\fwsimport\&.bbt \-hflp\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH OPTIONS    
+.TP
+-d \fIdirfdtory\fR
+.br
+Spfdififs whfrf to plbdf gfnfrbtfd output filfs\&.
+.TP
+-b \fIpbth\fR
+.br
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd with thf \f3-b\fR option\&. You dbn usf thfsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff thf \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.TP
+-B \fIjbxbOption\fR
+.br
+Pbssfs thf \f3jbxbOption\fR option to thf JAXB sdhfmb dompilfr\&.
+.TP
+-dbtblog
+.br
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Thf \f3-dbtblog\fR option supports thf TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff thf \fIUsfrs Guidf\fR tbb of thf Cbtblog Support pbgf bt http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.html
+.TP
+-fxtfnsion
+.br
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions thbt brf not portbblf or thbt do not work with othfr implfmfntbtions\&.
+.TP
+-hflp
+.br
+Displbys b hflp mfssbgf for thf \f3wsimport\fR dommbnd\&.
+.TP
+-httpproxy: \fIhost\fR:\fIport\fR
+.br
+Spfdififs bn HTTP proxy sfrvfr\&. Thf dffbult is 8080\&.
+.TP
+-kffp
+.br
+Kffps gfnfrbtfd filfs\&.
+.TP
+-p \fInbmf\fR
+.br
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf thf WSDL bnd sdhfmb binding dustomizbtions, bnd thf dffbult blgorithm dffinfd in thf spfdifidbtion\&.
+.TP
+-s \fIdirfdtory\fR
+.br
+Spfdififs whfrf to plbdf gfnfrbtfd sourdf filfs\&.
+.TP
+-vfrbosf
+.br
+Displbys dompilfr mfssbgfs\&.
+.TP
+-vfrsion
+.br
+Prints rflfbsf informbtion\&.
+.TP
+-wsdllodbtion \fIlodbtion\fR
+.br
+Spfdififs thf \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
+.TP
+-tbrgft
+.br
+Gfnfrbtfs dodf bddording to thf spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for thf JAX-WS 2\&.0 spfdifidbtion\&.
+.TP
+-quift
+.br
+Supprfssfs thf \f3wsimport\fR dommbnd output\&.
+.PP
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using thf \f3-b\fR option, bnd thfy dbn bf usfd to dustomizf vbrious things sudh bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in thf dustomizbtion dodumfntbtion bt https://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.html
+.SH NONSTANDARD\ OPTIONS    
+.TP
+-XbdditionblHfbdfrs
+.br
+Mbps hfbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mfthod pbrbmftfrs\&.
+.TP
+-Xbuthfilf \fIfilf\fR
+.br
+Thf WSDL URI thbt spfdififs thf filf thbt dontbins buthorizbtion informbtion\&. This URI is in thf following formbt:
+
+http://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIhost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
+.TP
+-Xdfbug
+.br
+Prints dfbugging informbtion\&.
+.TP
+-Xno-bddrfssing-dbtbbinding
+.br
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
+.TP
+-Xnodompilf
+.br
+Dofs not dompilf thf gfnfrbtfd Jbvb filfs\&.
+.SH EXAMPLE    
+Thf following fxbmplf gfnfrbtfs thf Jbvb brtifbdts bnd dompilfs thf brtifbdts by importing \f3http://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
+.sp     
+.nf     
+\f3wsimport \-p stodkquotf http://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+wsgfn(1)
+.TP 0.2i    
+\(bu
+Thf Tools tbb of Wsimport Ant Tbsk pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.TP 0.2i    
+\(bu
+Thf \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.html
+.TP 0.2i    
+\(bu
+Thf \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf http://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.html
+.RE
+.br
+'pl 8.5i
+'bp

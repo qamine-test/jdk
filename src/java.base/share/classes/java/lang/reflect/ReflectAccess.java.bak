@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import sun.reflect.MethodAccessor;
-import sun.reflect.ConstructorAccessor;
+import sun.rfflfdt.MftiodAddfssor;
+import sun.rfflfdt.ConstrudtorAddfssor;
 
-/** Package-private class implementing the
-    sun.reflect.LangReflectAccess interface, allowing the java.lang
-    package to instantiate objects in this package. */
+/** Pbdkbgf-privbtf dlbss implfmfnting tif
+    sun.rfflfdt.LbngRfflfdtAddfss intfrfbdf, bllowing tif jbvb.lbng
+    pbdkbgf to instbntibtf objfdts in tiis pbdkbgf. */
 
-class ReflectAccess implements sun.reflect.LangReflectAccess {
-    public Field newField(Class<?> declaringClass,
-                          String name,
-                          Class<?> type,
-                          int modifiers,
+dlbss RfflfdtAddfss implfmfnts sun.rfflfdt.LbngRfflfdtAddfss {
+    publid Fifld nfwFifld(Clbss<?> dfdlbringClbss,
+                          String nbmf,
+                          Clbss<?> typf,
+                          int modififrs,
                           int slot,
-                          String signature,
-                          byte[] annotations)
+                          String signbturf,
+                          bytf[] bnnotbtions)
     {
-        return new Field(declaringClass,
-                         name,
-                         type,
-                         modifiers,
+        rfturn nfw Fifld(dfdlbringClbss,
+                         nbmf,
+                         typf,
+                         modififrs,
                          slot,
-                         signature,
-                         annotations);
+                         signbturf,
+                         bnnotbtions);
     }
 
-    public Method newMethod(Class<?> declaringClass,
-                            String name,
-                            Class<?>[] parameterTypes,
-                            Class<?> returnType,
-                            Class<?>[] checkedExceptions,
-                            int modifiers,
+    publid Mftiod nfwMftiod(Clbss<?> dfdlbringClbss,
+                            String nbmf,
+                            Clbss<?>[] pbrbmftfrTypfs,
+                            Clbss<?> rfturnTypf,
+                            Clbss<?>[] difdkfdExdfptions,
+                            int modififrs,
                             int slot,
-                            String signature,
-                            byte[] annotations,
-                            byte[] parameterAnnotations,
-                            byte[] annotationDefault)
+                            String signbturf,
+                            bytf[] bnnotbtions,
+                            bytf[] pbrbmftfrAnnotbtions,
+                            bytf[] bnnotbtionDffbult)
     {
-        return new Method(declaringClass,
-                          name,
-                          parameterTypes,
-                          returnType,
-                          checkedExceptions,
-                          modifiers,
+        rfturn nfw Mftiod(dfdlbringClbss,
+                          nbmf,
+                          pbrbmftfrTypfs,
+                          rfturnTypf,
+                          difdkfdExdfptions,
+                          modififrs,
                           slot,
-                          signature,
-                          annotations,
-                          parameterAnnotations,
-                          annotationDefault);
+                          signbturf,
+                          bnnotbtions,
+                          pbrbmftfrAnnotbtions,
+                          bnnotbtionDffbult);
     }
 
-    public <T> Constructor<T> newConstructor(Class<T> declaringClass,
-                                             Class<?>[] parameterTypes,
-                                             Class<?>[] checkedExceptions,
-                                             int modifiers,
+    publid <T> Construdtor<T> nfwConstrudtor(Clbss<T> dfdlbringClbss,
+                                             Clbss<?>[] pbrbmftfrTypfs,
+                                             Clbss<?>[] difdkfdExdfptions,
+                                             int modififrs,
                                              int slot,
-                                             String signature,
-                                             byte[] annotations,
-                                             byte[] parameterAnnotations)
+                                             String signbturf,
+                                             bytf[] bnnotbtions,
+                                             bytf[] pbrbmftfrAnnotbtions)
     {
-        return new Constructor<>(declaringClass,
-                                  parameterTypes,
-                                  checkedExceptions,
-                                  modifiers,
+        rfturn nfw Construdtor<>(dfdlbringClbss,
+                                  pbrbmftfrTypfs,
+                                  difdkfdExdfptions,
+                                  modififrs,
                                   slot,
-                                  signature,
-                                  annotations,
-                                  parameterAnnotations);
+                                  signbturf,
+                                  bnnotbtions,
+                                  pbrbmftfrAnnotbtions);
     }
 
-    public MethodAccessor getMethodAccessor(Method m) {
-        return m.getMethodAccessor();
+    publid MftiodAddfssor gftMftiodAddfssor(Mftiod m) {
+        rfturn m.gftMftiodAddfssor();
     }
 
-    public void setMethodAccessor(Method m, MethodAccessor accessor) {
-        m.setMethodAccessor(accessor);
+    publid void sftMftiodAddfssor(Mftiod m, MftiodAddfssor bddfssor) {
+        m.sftMftiodAddfssor(bddfssor);
     }
 
-    public ConstructorAccessor getConstructorAccessor(Constructor<?> c) {
-        return c.getConstructorAccessor();
+    publid ConstrudtorAddfssor gftConstrudtorAddfssor(Construdtor<?> d) {
+        rfturn d.gftConstrudtorAddfssor();
     }
 
-    public void setConstructorAccessor(Constructor<?> c,
-                                       ConstructorAccessor accessor)
+    publid void sftConstrudtorAddfssor(Construdtor<?> d,
+                                       ConstrudtorAddfssor bddfssor)
     {
-        c.setConstructorAccessor(accessor);
+        d.sftConstrudtorAddfssor(bddfssor);
     }
 
-    public int getConstructorSlot(Constructor<?> c) {
-        return c.getSlot();
+    publid int gftConstrudtorSlot(Construdtor<?> d) {
+        rfturn d.gftSlot();
     }
 
-    public String getConstructorSignature(Constructor<?> c) {
-        return c.getSignature();
+    publid String gftConstrudtorSignbturf(Construdtor<?> d) {
+        rfturn d.gftSignbturf();
     }
 
-    public byte[] getConstructorAnnotations(Constructor<?> c) {
-        return c.getRawAnnotations();
+    publid bytf[] gftConstrudtorAnnotbtions(Construdtor<?> d) {
+        rfturn d.gftRbwAnnotbtions();
     }
 
-    public byte[] getConstructorParameterAnnotations(Constructor<?> c) {
-        return c.getRawParameterAnnotations();
+    publid bytf[] gftConstrudtorPbrbmftfrAnnotbtions(Construdtor<?> d) {
+        rfturn d.gftRbwPbrbmftfrAnnotbtions();
     }
 
-    public byte[] getExecutableTypeAnnotationBytes(Executable ex) {
-        return ex.getTypeAnnotationBytes();
+    publid bytf[] gftExfdutbblfTypfAnnotbtionBytfs(Exfdutbblf fx) {
+        rfturn fx.gftTypfAnnotbtionBytfs();
     }
 
     //
-    // Copying routines, needed to quickly fabricate new Field,
-    // Method, and Constructor objects from templates
+    // Copying routinfs, nffdfd to quidkly fbbridbtf nfw Fifld,
+    // Mftiod, bnd Construdtor objfdts from tfmplbtfs
     //
-    public Method      copyMethod(Method arg) {
-        return arg.copy();
+    publid Mftiod      dopyMftiod(Mftiod brg) {
+        rfturn brg.dopy();
     }
 
-    public Field       copyField(Field arg) {
-        return arg.copy();
+    publid Fifld       dopyFifld(Fifld brg) {
+        rfturn brg.dopy();
     }
 
-    public <T> Constructor<T> copyConstructor(Constructor<T> arg) {
-        return arg.copy();
+    publid <T> Construdtor<T> dopyConstrudtor(Construdtor<T> brg) {
+        rfturn brg.dopy();
     }
 }

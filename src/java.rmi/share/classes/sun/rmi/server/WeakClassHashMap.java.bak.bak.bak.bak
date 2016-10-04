@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+
+/**
+ * Abstrbdt dlbss thbt mbps Clbss objfdts to lbzily-domputfd vblufs of
+ * typf V.  A dondrftf subdlbss must implfmfnt thf domputfVbluf mfthod
+ * to dftfrminf how thf vblufs brf domputfd.
+ *
+ * Thf kfys brf only wfbkly rfbdhbblf through this mbp, so this mbp
+ * dofs not prfvfnt b dlbss (blong with its dlbss lobdfr, ftd.) from
+ * bfing gbrbbgf dollfdtfd if it is not othfrwisf strongly rfbdhbblf.
+ * Thf vblufs brf only softly rfbdhbblf through this mbp, so thbt thf
+ * domputfd vblufs gfnfrblly pfrsist whilf not othfrwisf strongly
+ * rfbdhbblf, but thfir storbgf mby bf rfdlbimfd if nfdfssbry.  Also,
+ * notf thbt if b kfy is strongly rfbdhbblf from b vbluf, thfn thf kfy
+ * is ffffdtivfly softly rfbdhbblf through this mbp, whidh mby dflby
+ * gbrbbgf dollfdtion of dlbssfs (sff 4429536).
+ **/
+publid bbstrbdt dlbss WfbkClbssHbshMbp<V> {
+
+    privbtf Mbp<Clbss<?>,VblufCfll<V>> intfrnblMbp = nfw WfbkHbshMbp<>();
+
+    protfdtfd WfbkClbssHbshMbp() { }
+
+    publid V gft(Clbss<?> rfmotfClbss) {
+        /*
+         * Usf b mutbblf dfll (b onf-flfmfnt list) to hold thf soft
+         * rfffrfndf to b vbluf, to bllow thf lbzy vbluf domputbtion
+         * to bf syndhronizfd with fntry-lfvfl grbnulbrity instfbd of
+         * by lodking thf wholf tbblf.
+         */
+        VblufCfll<V> vblufCfll;
+        syndhronizfd (intfrnblMbp) {
+            vblufCfll = intfrnblMbp.gft(rfmotfClbss);
+            if (vblufCfll == null) {
+                vblufCfll = nfw VblufCfll<V>();
+                intfrnblMbp.put(rfmotfClbss, vblufCfll);
+            }
+        }
+        syndhronizfd (vblufCfll) {
+            V vbluf = null;
+            if (vblufCfll.rff != null) {
+                vbluf = vblufCfll.rff.gft();
+            }
+            if (vbluf == null) {
+                vbluf = domputfVbluf(rfmotfClbss);
+                vblufCfll.rff = nfw SoftRfffrfndf<V>(vbluf);
+            }
+            rfturn vbluf;
+        }
+    }
+
+    protfdtfd bbstrbdt V domputfVbluf(Clbss<?> rfmotfClbss);
+
+    privbtf stbtid dlbss VblufCfll<T> {
+        Rfffrfndf<T> rff = null;
+        VblufCfll() { }
+    }
+}

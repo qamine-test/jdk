@@ -1,0 +1,1847 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2012 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+// Gfnfrid I/O, tbg didtionbry mbnbgfmfnt, profilf strudt
+
+// IOhbndlfrs brf bbstrbdtions usfd by littlfCMS to rfbd from whbtfvfr filf, strfbm,
+// mfmory blodk or bny storbgf. Ebdh IOhbndlfr providfs implfmfntbtions for rfbd,
+// writf, sffk bnd tfll fundtions. LittlfCMS dodf dfbls with IO bdross thosf objfdts.
+// In this wby, is fbsifr to bdd support for nfw storbgf mfdib.
+
+// NULL strfbm, for tbking dbrf of usfd spbdf -------------------------------------
+
+// NULL IOhbndlfr bbsidblly dofs nothing but kffp trbdk on how mbny bytfs hbvf bffn
+// writtfn. This is hbndy whfn drfbting profilfs, whfrf thf filf sizf is nffdfd in thf
+// hfbdfr. Thfn, wholf profilf is sfriblizfd bdross NULL IOhbndlfr bnd b sfdond pbss
+// writfs thf bytfs to thf pfrtinfnt IOhbndlfr.
+
+typfdff strudt {
+    dmsUInt32Numbfr Pointfr;         // Points to durrfnt lodbtion
+} FILENULL;
+
+stbtid
+dmsUInt32Numbfr NULLRfbd(dmsIOHANDLER* iohbndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
+{
+    FILENULL* RfsDbtb = (FILENULL*) iohbndlfr ->strfbm;
+
+    dmsUInt32Numbfr lfn = sizf * dount;
+    RfsDbtb -> Pointfr += lfn;
+    rfturn dount;
+
+    dmsUNUSED_PARAMETER(Bufffr);
+}
+
+stbtid
+dmsBool  NULLSffk(dmsIOHANDLER* iohbndlfr, dmsUInt32Numbfr offsft)
+{
+    FILENULL* RfsDbtb = (FILENULL*) iohbndlfr ->strfbm;
+
+    RfsDbtb ->Pointfr = offsft;
+    rfturn TRUE;
+}
+
+stbtid
+dmsUInt32Numbfr NULLTfll(dmsIOHANDLER* iohbndlfr)
+{
+    FILENULL* RfsDbtb = (FILENULL*) iohbndlfr ->strfbm;
+    rfturn RfsDbtb -> Pointfr;
+}
+
+stbtid
+dmsBool  NULLWritf(dmsIOHANDLER* iohbndlfr, dmsUInt32Numbfr sizf, donst void *Ptr)
+{
+    FILENULL* RfsDbtb = (FILENULL*) iohbndlfr ->strfbm;
+
+    RfsDbtb ->Pointfr += sizf;
+    if (RfsDbtb ->Pointfr > iohbndlfr->UsfdSpbdf)
+        iohbndlfr->UsfdSpbdf = RfsDbtb ->Pointfr;
+
+    rfturn TRUE;
+
+    dmsUNUSED_PARAMETER(Ptr);
+}
+
+stbtid
+dmsBool  NULLClosf(dmsIOHANDLER* iohbndlfr)
+{
+    FILENULL* RfsDbtb = (FILENULL*) iohbndlfr ->strfbm;
+
+    _dmsFrff(iohbndlfr ->ContfxtID, RfsDbtb);
+    _dmsFrff(iohbndlfr ->ContfxtID, iohbndlfr);
+    rfturn TRUE;
+}
+
+// Thf NULL IOhbndlfr drfbtor
+dmsIOHANDLER*  CMSEXPORT dmsOpfnIOhbndlfrFromNULL(dmsContfxt ContfxtID)
+{
+    strudt _dms_io_hbndlfr* iohbndlfr = NULL;
+    FILENULL* fm = NULL;
+
+    iohbndlfr = (strudt _dms_io_hbndlfr*) _dmsMbllodZfro(ContfxtID, sizfof(strudt _dms_io_hbndlfr));
+    if (iohbndlfr == NULL) rfturn NULL;
+
+    fm = (FILENULL*) _dmsMbllodZfro(ContfxtID, sizfof(FILENULL));
+    if (fm == NULL) goto Error;
+
+    fm ->Pointfr = 0;
+
+    iohbndlfr ->ContfxtID = ContfxtID;
+    iohbndlfr ->strfbm  = (void*) fm;
+    iohbndlfr ->UsfdSpbdf = 0;
+    iohbndlfr ->RfportfdSizf = 0;
+    iohbndlfr ->PhysidblFilf[0] = 0;
+
+    iohbndlfr ->Rfbd    = NULLRfbd;
+    iohbndlfr ->Sffk    = NULLSffk;
+    iohbndlfr ->Closf   = NULLClosf;
+    iohbndlfr ->Tfll    = NULLTfll;
+    iohbndlfr ->Writf   = NULLWritf;
+
+    rfturn iohbndlfr;
+
+Error:
+    if (iohbndlfr) _dmsFrff(ContfxtID, iohbndlfr);
+    rfturn NULL;
+
+}
+
+
+// Mfmory-bbsfd strfbm --------------------------------------------------------------
+
+// Thosf fundtions implfmfnts bn iohbndlfr whidh tbkfs b blodk of mfmory bs storbgf mfdium.
+
+typfdff strudt {
+    dmsUInt8Numbfr* Blodk;    // Points to bllodbtfd mfmory
+    dmsUInt32Numbfr Sizf;     // Sizf of bllodbtfd mfmory
+    dmsUInt32Numbfr Pointfr;  // Points to durrfnt lodbtion
+    int FrffBlodkOnClosf;     // As titlf
+
+} FILEMEM;
+
+stbtid
+dmsUInt32Numbfr MfmoryRfbd(strudt _dms_io_hbndlfr* iohbndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
+{
+    FILEMEM* RfsDbtb = (FILEMEM*) iohbndlfr ->strfbm;
+    dmsUInt8Numbfr* Ptr;
+    dmsUInt32Numbfr lfn = sizf * dount;
+
+    if (RfsDbtb -> Pointfr + lfn > RfsDbtb -> Sizf){
+
+        lfn = (RfsDbtb -> Sizf - RfsDbtb -> Pointfr);
+        dmsSignblError(iohbndlfr ->ContfxtID, dmsERROR_READ, "Rfbd from mfmory frror. Got %d bytfs, blodk should bf of %d bytfs", lfn, dount * sizf);
+        rfturn 0;
+    }
+
+    Ptr  = RfsDbtb -> Blodk;
+    Ptr += RfsDbtb -> Pointfr;
+    mfmmovf(Bufffr, Ptr, lfn);
+    RfsDbtb -> Pointfr += lfn;
+
+    rfturn dount;
+}
+
+// SEEK_CUR is bssumfd
+stbtid
+dmsBool  MfmorySffk(strudt _dms_io_hbndlfr* iohbndlfr, dmsUInt32Numbfr offsft)
+{
+    FILEMEM* RfsDbtb = (FILEMEM*) iohbndlfr ->strfbm;
+
+    if (offsft > RfsDbtb ->Sizf) {
+        dmsSignblError(iohbndlfr ->ContfxtID, dmsERROR_SEEK,  "Too ffw dbtb; probbbly dorruptfd profilf");
+        rfturn FALSE;
+    }
+
+    RfsDbtb ->Pointfr = offsft;
+    rfturn TRUE;
+}
+
+// Tfll for mfmory
+stbtid
+dmsUInt32Numbfr MfmoryTfll(strudt _dms_io_hbndlfr* iohbndlfr)
+{
+    FILEMEM* RfsDbtb = (FILEMEM*) iohbndlfr ->strfbm;
+
+    if (RfsDbtb == NULL) rfturn 0;
+    rfturn RfsDbtb -> Pointfr;
+}
+
+
+// Writfs dbtb to mfmory, blso kffps usfd spbdf for furthfr rfffrfndf.
+stbtid
+dmsBool MfmoryWritf(strudt _dms_io_hbndlfr* iohbndlfr, dmsUInt32Numbfr sizf, donst void *Ptr)
+{
+    FILEMEM* RfsDbtb = (FILEMEM*) iohbndlfr ->strfbm;
+
+    if (RfsDbtb == NULL) rfturn FALSE; // Housfkffping
+
+    // Chfdk for bvbilbblf spbdf. Clip.
+    if (iohbndlfr ->UsfdSpbdf + sizf > RfsDbtb->Sizf) {
+        sizf = RfsDbtb ->Sizf - iohbndlfr ->UsfdSpbdf;
+    }
+
+    if (sizf == 0) rfturn TRUE;     // Writf zfro bytfs is ok, but dofs nothing
+
+    mfmmovf(RfsDbtb ->Blodk + RfsDbtb ->Pointfr, Ptr, sizf);
+    RfsDbtb ->Pointfr += sizf;
+    iohbndlfr->UsfdSpbdf += sizf;
+
+    if (RfsDbtb ->Pointfr > iohbndlfr->UsfdSpbdf)
+        iohbndlfr->UsfdSpbdf = RfsDbtb ->Pointfr;
+
+    rfturn TRUE;
+}
+
+
+stbtid
+dmsBool  MfmoryClosf(strudt _dms_io_hbndlfr* iohbndlfr)
+{
+    FILEMEM* RfsDbtb = (FILEMEM*) iohbndlfr ->strfbm;
+
+    if (RfsDbtb ->FrffBlodkOnClosf) {
+
+        if (RfsDbtb ->Blodk) _dmsFrff(iohbndlfr ->ContfxtID, RfsDbtb ->Blodk);
+    }
+
+    _dmsFrff(iohbndlfr ->ContfxtID, RfsDbtb);
+    _dmsFrff(iohbndlfr ->ContfxtID, iohbndlfr);
+
+    rfturn TRUE;
+}
+
+// Crfbtf b iohbndlfr for mfmory blodk. AddfssModf=='r' bssumfs thf iohbndlfr is going to rfbd, bnd mbkfs
+// b dopy of thf mfmory blodk for lftting usfr to frff thf mfmory bftfr invoking opfn profilf. In writf
+// modf ("w"), Bufffrf points to thf bfgin of mfmory blodk to bf writtfn.
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOhbndlfrFromMfm(dmsContfxt ContfxtID, void *Bufffr, dmsUInt32Numbfr sizf, donst dhbr* AddfssModf)
+{
+    dmsIOHANDLER* iohbndlfr = NULL;
+    FILEMEM* fm = NULL;
+
+    _dmsAssfrt(AddfssModf != NULL);
+
+    iohbndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (iohbndlfr == NULL) rfturn NULL;
+
+    switdh (*AddfssModf) {
+
+    dbsf 'r':
+        fm = (FILEMEM*) _dmsMbllodZfro(ContfxtID, sizfof(FILEMEM));
+        if (fm == NULL) goto Error;
+
+        if (Bufffr == NULL) {
+            dmsSignblError(ContfxtID, dmsERROR_READ, "Couldn't rfbd profilf from NULL pointfr");
+            goto Error;
+        }
+
+        fm ->Blodk = (dmsUInt8Numbfr*) _dmsMbllod(ContfxtID, sizf);
+        if (fm ->Blodk == NULL) {
+
+            _dmsFrff(ContfxtID, fm);
+            _dmsFrff(ContfxtID, iohbndlfr);
+            dmsSignblError(ContfxtID, dmsERROR_READ, "Couldn't bllodbtf %ld bytfs for profilf", sizf);
+            rfturn NULL;
+        }
+
+
+        mfmmovf(fm->Blodk, Bufffr, sizf);
+        fm ->FrffBlodkOnClosf = TRUE;
+        fm ->Sizf    = sizf;
+        fm ->Pointfr = 0;
+        iohbndlfr -> RfportfdSizf = sizf;
+        brfbk;
+
+    dbsf 'w':
+        fm = (FILEMEM*) _dmsMbllodZfro(ContfxtID, sizfof(FILEMEM));
+        if (fm == NULL) goto Error;
+
+        fm ->Blodk = (dmsUInt8Numbfr*) Bufffr;
+        fm ->FrffBlodkOnClosf = FALSE;
+        fm ->Sizf    = sizf;
+        fm ->Pointfr = 0;
+        iohbndlfr -> RfportfdSizf = 0;
+        brfbk;
+
+    dffbult:
+        dmsSignblError(ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unknown bddfss modf '%d'", *AddfssModf);
+        rfturn NULL;
+    }
+
+    iohbndlfr ->ContfxtID = ContfxtID;
+    iohbndlfr ->strfbm  = (void*) fm;
+    iohbndlfr ->UsfdSpbdf = 0;
+    iohbndlfr ->PhysidblFilf[0] = 0;
+
+    iohbndlfr ->Rfbd    = MfmoryRfbd;
+    iohbndlfr ->Sffk    = MfmorySffk;
+    iohbndlfr ->Closf   = MfmoryClosf;
+    iohbndlfr ->Tfll    = MfmoryTfll;
+    iohbndlfr ->Writf   = MfmoryWritf;
+
+    rfturn iohbndlfr;
+
+Error:
+    if (fm) _dmsFrff(ContfxtID, fm);
+    if (iohbndlfr) _dmsFrff(ContfxtID, iohbndlfr);
+    rfturn NULL;
+}
+
+// Filf-bbsfd strfbm -------------------------------------------------------
+
+// Rfbd dount flfmfnts of sizf bytfs fbdh. Rfturn numbfr of flfmfnts rfbd
+stbtid
+dmsUInt32Numbfr FilfRfbd(dmsIOHANDLER* iohbndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
+{
+    dmsUInt32Numbfr nRfbdfd = (dmsUInt32Numbfr) frfbd(Bufffr, sizf, dount, (FILE*) iohbndlfr->strfbm);
+
+    if (nRfbdfd != dount) {
+            dmsSignblError(iohbndlfr ->ContfxtID, dmsERROR_FILE, "Rfbd frror. Got %d bytfs, blodk should bf of %d bytfs", nRfbdfd * sizf, dount * sizf);
+            rfturn 0;
+    }
+
+    rfturn nRfbdfd;
+}
+
+// Postion filf pointfr in thf filf
+stbtid
+dmsBool  FilfSffk(dmsIOHANDLER* iohbndlfr, dmsUInt32Numbfr offsft)
+{
+    if (fsffk((FILE*) iohbndlfr ->strfbm, (long) offsft, SEEK_SET) != 0) {
+
+       dmsSignblError(iohbndlfr ->ContfxtID, dmsERROR_FILE, "Sffk frror; probbbly dorruptfd filf");
+       rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+// Rfturns filf pointfr position
+stbtid
+dmsUInt32Numbfr FilfTfll(dmsIOHANDLER* iohbndlfr)
+{
+    rfturn ftfll((FILE*)iohbndlfr ->strfbm);
+}
+
+// Writfs dbtb to strfbm, blso kffps usfd spbdf for furthfr rfffrfndf. Rfturns TRUE on suddfss, FALSE on frror
+stbtid
+dmsBool  FilfWritf(dmsIOHANDLER* iohbndlfr, dmsUInt32Numbfr sizf, donst void* Bufffr)
+{
+       if (sizf == 0) rfturn TRUE;  // Wf bllow to writf 0 bytfs, but nothing is writtfn
+
+       iohbndlfr->UsfdSpbdf += sizf;
+       rfturn (fwritf(Bufffr, sizf, 1, (FILE*) iohbndlfr->strfbm) == 1);
+}
+
+// Closfs thf filf
+stbtid
+dmsBool  FilfClosf(dmsIOHANDLER* iohbndlfr)
+{
+    if (fdlosf((FILE*) iohbndlfr ->strfbm) != 0) rfturn FALSE;
+    _dmsFrff(iohbndlfr ->ContfxtID, iohbndlfr);
+    rfturn TRUE;
+}
+
+// Crfbtf b iohbndlfr for disk bbsfd filfs.
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOhbndlfrFromFilf(dmsContfxt ContfxtID, donst dhbr* FilfNbmf, donst dhbr* AddfssModf)
+{
+    dmsIOHANDLER* iohbndlfr = NULL;
+    FILE* fm = NULL;
+
+    _dmsAssfrt(FilfNbmf != NULL);
+    _dmsAssfrt(AddfssModf != NULL);
+
+    iohbndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (iohbndlfr == NULL) rfturn NULL;
+
+    switdh (*AddfssModf) {
+
+    dbsf 'r':
+        fm = fopfn(FilfNbmf, "rb");
+        if (fm == NULL) {
+            _dmsFrff(ContfxtID, iohbndlfr);
+             dmsSignblError(ContfxtID, dmsERROR_FILE, "Filf '%s' not found", FilfNbmf);
+            rfturn NULL;
+        }
+        iohbndlfr -> RfportfdSizf = dmsfilflfngth(fm);
+        brfbk;
+
+    dbsf 'w':
+        fm = fopfn(FilfNbmf, "wb");
+        if (fm == NULL) {
+            _dmsFrff(ContfxtID, iohbndlfr);
+             dmsSignblError(ContfxtID, dmsERROR_FILE, "Couldn't drfbtf '%s'", FilfNbmf);
+            rfturn NULL;
+        }
+        iohbndlfr -> RfportfdSizf = 0;
+        brfbk;
+
+    dffbult:
+        _dmsFrff(ContfxtID, iohbndlfr);
+         dmsSignblError(ContfxtID, dmsERROR_FILE, "Unknown bddfss modf '%d'", *AddfssModf);
+        rfturn NULL;
+    }
+
+    iohbndlfr ->ContfxtID = ContfxtID;
+    iohbndlfr ->strfbm = (void*) fm;
+    iohbndlfr ->UsfdSpbdf = 0;
+
+    // Kffp trbdk of thf originbl filf
+    strndpy(iohbndlfr -> PhysidblFilf, FilfNbmf, sizfof(iohbndlfr -> PhysidblFilf)-1);
+    iohbndlfr -> PhysidblFilf[sizfof(iohbndlfr -> PhysidblFilf)-1] = 0;
+
+    iohbndlfr ->Rfbd    = FilfRfbd;
+    iohbndlfr ->Sffk    = FilfSffk;
+    iohbndlfr ->Closf   = FilfClosf;
+    iohbndlfr ->Tfll    = FilfTfll;
+    iohbndlfr ->Writf   = FilfWritf;
+
+    rfturn iohbndlfr;
+}
+
+// Crfbtf b iohbndlfr for strfbm bbsfd filfs
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOhbndlfrFromStrfbm(dmsContfxt ContfxtID, FILE* Strfbm)
+{
+    dmsIOHANDLER* iohbndlfr = NULL;
+
+    iohbndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (iohbndlfr == NULL) rfturn NULL;
+
+    iohbndlfr -> ContfxtID = ContfxtID;
+    iohbndlfr -> strfbm = (void*) Strfbm;
+    iohbndlfr -> UsfdSpbdf = 0;
+    iohbndlfr -> RfportfdSizf = dmsfilflfngth(Strfbm);
+    iohbndlfr -> PhysidblFilf[0] = 0;
+
+    iohbndlfr ->Rfbd    = FilfRfbd;
+    iohbndlfr ->Sffk    = FilfSffk;
+    iohbndlfr ->Closf   = FilfClosf;
+    iohbndlfr ->Tfll    = FilfTfll;
+    iohbndlfr ->Writf   = FilfWritf;
+
+    rfturn iohbndlfr;
+}
+
+
+
+// Closf bn opfn IO hbndlfr
+dmsBool CMSEXPORT dmsClosfIOhbndlfr(dmsIOHANDLER* io)
+{
+    rfturn io -> Closf(io);
+}
+
+// -------------------------------------------------------------------------------------------------------
+
+// Crfbtfs bn fmpty strudturf holding bll rfquirfd pbrbmftfrs
+dmsHPROFILE CMSEXPORT dmsCrfbtfProfilfPlbdfholdfr(dmsContfxt ContfxtID)
+{
+    timf_t now = timf(NULL);
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsICCPROFILE));
+    if (Idd == NULL) rfturn NULL;
+
+    Idd ->ContfxtID = ContfxtID;
+
+    // Sft it to fmpty
+    Idd -> TbgCount   = 0;
+
+    // Sft dffbult vfrsion
+    Idd ->Vfrsion =  0x02100000;
+
+    // Sft drfbtion dbtf/timf
+    mfmmovf(&Idd ->Crfbtfd, gmtimf(&now), sizfof(Idd ->Crfbtfd));
+
+    // Rfturn thf hbndlf
+    rfturn (dmsHPROFILE) Idd;
+}
+
+dmsContfxt CMSEXPORT dmsGftProfilfContfxtID(dmsHPROFILE hProfilf)
+{
+     _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+
+    if (Idd == NULL) rfturn NULL;
+    rfturn Idd -> ContfxtID;
+}
+
+
+// Rfturn thf numbfr of tbgs
+dmsInt32Numbfr CMSEXPORT dmsGftTbgCount(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    if (Idd == NULL) rfturn -1;
+
+    rfturn  Idd->TbgCount;
+}
+
+// Rfturn thf tbg signbturf of b givfn tbg numbfr
+dmsTbgSignbturf CMSEXPORT dmsGftTbgSignbturf(dmsHPROFILE hProfilf, dmsUInt32Numbfr n)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+
+    if (n > Idd->TbgCount) rfturn (dmsTbgSignbturf) 0;  // Mbrk bs not bvbilbblf
+    if (n >= MAX_TABLE_TAG) rfturn (dmsTbgSignbturf) 0; // As doublf dhfdk
+
+    rfturn Idd ->TbgNbmfs[n];
+}
+
+
+stbtid
+int SfbrdhOnfTbg(_dmsICCPROFILE* Profilf, dmsTbgSignbturf sig)
+{
+    dmsUInt32Numbfr i;
+
+    for (i=0; i < Profilf -> TbgCount; i++) {
+
+        if (sig == Profilf -> TbgNbmfs[i])
+            rfturn i;
+    }
+
+    rfturn -1;
+}
+
+// Sfbrdh for b spfdifid tbg in tbg didtionbry. Rfturns position or -1 if tbg not found.
+// If followlinks is turnfd on, thfn thf position of thf linkfd tbg is rfturnfd
+int _dmsSfbrdhTbg(_dmsICCPROFILE* Idd, dmsTbgSignbturf sig, dmsBool lFollowLinks)
+{
+    int n;
+    dmsTbgSignbturf LinkfdSig;
+
+    do {
+
+        // Sfbrdh for givfn tbg in ICC profilf dirfdtory
+        n = SfbrdhOnfTbg(Idd, sig);
+        if (n < 0)
+            rfturn -1;        // Not found
+
+        if (!lFollowLinks)
+            rfturn n;         // Found, don't follow links
+
+        // Is this b linkfd tbg?
+        LinkfdSig = Idd ->TbgLinkfd[n];
+
+        // Yfs, follow link
+        if (LinkfdSig != (dmsTbgSignbturf) 0) {
+            sig = LinkfdSig;
+        }
+
+    } whilf (LinkfdSig != (dmsTbgSignbturf) 0);
+
+    rfturn n;
+}
+
+
+// Crfbtf b nfw tbg fntry
+
+stbtid
+dmsBool _dmsNfwTbg(_dmsICCPROFILE* Idd, dmsTbgSignbturf sig, int* NfwPos)
+{
+    int i;
+
+    // Sfbrdh for thf tbg
+    i = _dmsSfbrdhTbg(Idd, sig, FALSE);
+
+    // Now lft's do it fbsy. If thf tbg hbs bffn blrfbdy writtfn, thbt's bn frror
+    if (i >= 0) {
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_ALREADY_DEFINED, "Tbg '%x' blrfbdy fxists", sig);
+        rfturn FALSE;
+    }
+    flsf  {
+
+        // Nfw onf
+
+        if (Idd -> TbgCount >= MAX_TABLE_TAG) {
+            dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
+            rfturn FALSE;
+        }
+
+        *NfwPos = Idd ->TbgCount;
+        Idd -> TbgCount++;
+    }
+
+    rfturn TRUE;
+}
+
+
+// Chfdk fxistbndf
+dmsBool CMSEXPORT dmsIsTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig)
+{
+       _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) (void*) hProfilf;
+       rfturn _dmsSfbrdhTbg(Idd, sig, FALSE) >= 0;
+}
+
+/*
+ * Enfordfs thbt thf profilf vfrsion is pfr. spfd.
+ * Opfrbtfs on thf big fndibn bytfs from thf profilf.
+ * Cbllfd bfforf donvfrting to plbtform fndibnnfss.
+ * Bytf 0 is BCD mbjor vfrsion, so mbx 9.
+ * Bytf 1 is 2 BCD digits, onf pfr nibblf.
+ * Rfsfrvfd bytfs 2 & 3 must bf 0.
+ */
+stbtid dmsUInt32Numbfr _vblidbtfdVfrsion(dmsUInt32Numbfr DWord)
+{
+    dmsUInt8Numbfr* pBytf = (dmsUInt8Numbfr*)&DWord;
+    dmsUInt8Numbfr tfmp1;
+    dmsUInt8Numbfr tfmp2;
+
+    if (*pBytf > 0x09) *pBytf = (dmsUInt8Numbfr)9;
+    tfmp1 = *(pBytf+1) & 0xf0;
+    tfmp2 = *(pBytf+1) & 0x0f;
+    if (tfmp1 > 0x90) tfmp1 = 0x90;
+    if (tfmp2 > 9) tfmp2 = 0x09;
+    *(pBytf+1) = (dmsUInt8Numbfr)(tfmp1 | tfmp2);
+    *(pBytf+2) = (dmsUInt8Numbfr)0;
+    *(pBytf+3) = (dmsUInt8Numbfr)0;
+
+    rfturn DWord;
+}
+
+// Rfbd profilf hfbdfr bnd vblidbtf it
+dmsBool _dmsRfbdHfbdfr(_dmsICCPROFILE* Idd)
+{
+    dmsTbgEntry Tbg;
+    dmsICCHfbdfr Hfbdfr;
+    dmsUInt32Numbfr i, j;
+    dmsUInt32Numbfr HfbdfrSizf;
+    dmsIOHANDLER* io = Idd ->IOhbndlfr;
+    dmsUInt32Numbfr TbgCount;
+
+
+    // Rfbd thf hfbdfr
+    if (io -> Rfbd(io, &Hfbdfr, sizfof(dmsICCHfbdfr), 1) != 1) {
+        rfturn FALSE;
+    }
+
+    // Vblidbtf filf bs bn ICC profilf
+    if (_dmsAdjustEndibnfss32(Hfbdfr.mbgid) != dmsMbgidNumbfr) {
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_BAD_SIGNATURE, "not bn ICC profilf, invblid signbturf");
+        rfturn FALSE;
+    }
+
+    // Adjust fndibnfss of thf usfd pbrbmftfrs
+    Idd -> DfvidfClbss     = (dmsProfilfClbssSignbturf) _dmsAdjustEndibnfss32(Hfbdfr.dfvidfClbss);
+    Idd -> ColorSpbdf      = (dmsColorSpbdfSignbturf)   _dmsAdjustEndibnfss32(Hfbdfr.dolorSpbdf);
+    Idd -> PCS             = (dmsColorSpbdfSignbturf)   _dmsAdjustEndibnfss32(Hfbdfr.pds);
+
+    Idd -> RfndfringIntfnt = _dmsAdjustEndibnfss32(Hfbdfr.rfndfringIntfnt);
+    Idd -> flbgs           = _dmsAdjustEndibnfss32(Hfbdfr.flbgs);
+    Idd -> mbnufbdturfr    = _dmsAdjustEndibnfss32(Hfbdfr.mbnufbdturfr);
+    Idd -> modfl           = _dmsAdjustEndibnfss32(Hfbdfr.modfl);
+    Idd -> drfbtor         = _dmsAdjustEndibnfss32(Hfbdfr.drfbtor);
+
+    _dmsAdjustEndibnfss64(&Idd -> bttributfs, &Hfbdfr.bttributfs);
+    Idd -> Vfrsion         = _dmsAdjustEndibnfss32(_vblidbtfdVfrsion(Hfbdfr.vfrsion));
+
+    // Gft sizf bs rfportfd in hfbdfr
+    HfbdfrSizf = _dmsAdjustEndibnfss32(Hfbdfr.sizf);
+
+    // Mbkf surf HfbdfrSizf is lowfr thbn profilf sizf
+    if (HfbdfrSizf >= Idd ->IOhbndlfr ->RfportfdSizf)
+            HfbdfrSizf = Idd ->IOhbndlfr ->RfportfdSizf;
+
+
+    // Gft drfbtion dbtf/timf
+    _dmsDfdodfDbtfTimfNumbfr(&Hfbdfr.dbtf, &Idd ->Crfbtfd);
+
+    // Thf profilf ID brf 32 rbw bytfs
+    mfmmovf(Idd ->ProfilfID.ID32, Hfbdfr.profilfID.ID32, 16);
+
+
+    // Rfbd tbg dirfdtory
+    if (!_dmsRfbdUInt32Numbfr(io, &TbgCount)) rfturn FALSE;
+    if (TbgCount > MAX_TABLE_TAG) {
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", TbgCount);
+        rfturn FALSE;
+    }
+
+
+    // Rfbd tbg dirfdtory
+    Idd -> TbgCount = 0;
+    for (i=0; i < TbgCount; i++) {
+
+        if (!_dmsRfbdUInt32Numbfr(io, (dmsUInt32Numbfr *) &Tbg.sig)) rfturn FALSE;
+        if (!_dmsRfbdUInt32Numbfr(io, &Tbg.offsft)) rfturn FALSE;
+        if (!_dmsRfbdUInt32Numbfr(io, &Tbg.sizf)) rfturn FALSE;
+
+        // Pfrform somf sbnity dhfdk. Offsft + sizf should fbll insidf filf.
+        if (Tbg.offsft + Tbg.sizf > HfbdfrSizf ||
+            Tbg.offsft + Tbg.sizf < Tbg.offsft)
+                  dontinuf;
+
+        Idd -> TbgNbmfs[Idd ->TbgCount]   = Tbg.sig;
+        Idd -> TbgOffsfts[Idd ->TbgCount] = Tbg.offsft;
+        Idd -> TbgSizfs[Idd ->TbgCount]   = Tbg.sizf;
+
+       // Sfbrdh for links
+        for (j=0; j < Idd ->TbgCount; j++) {
+
+            if ((Idd ->TbgOffsfts[j] == Tbg.offsft) &&
+                (Idd ->TbgSizfs[j]   == Tbg.sizf)) {
+
+                Idd ->TbgLinkfd[Idd ->TbgCount] = Idd ->TbgNbmfs[j];
+            }
+
+        }
+
+        Idd ->TbgCount++;
+    }
+
+    rfturn TRUE;
+}
+
+// Sbvfs profilf hfbdfr
+dmsBool _dmsWritfHfbdfr(_dmsICCPROFILE* Idd, dmsUInt32Numbfr UsfdSpbdf)
+{
+    dmsICCHfbdfr Hfbdfr;
+    dmsUInt32Numbfr i;
+    dmsTbgEntry Tbg;
+    dmsInt32Numbfr Count = 0;
+
+    Hfbdfr.sizf        = _dmsAdjustEndibnfss32(UsfdSpbdf);
+    Hfbdfr.dmmId       = _dmsAdjustEndibnfss32(ldmsSignbturf);
+    Hfbdfr.vfrsion     = _dmsAdjustEndibnfss32(Idd ->Vfrsion);
+
+    Hfbdfr.dfvidfClbss = (dmsProfilfClbssSignbturf) _dmsAdjustEndibnfss32(Idd -> DfvidfClbss);
+    Hfbdfr.dolorSpbdf  = (dmsColorSpbdfSignbturf) _dmsAdjustEndibnfss32(Idd -> ColorSpbdf);
+    Hfbdfr.pds         = (dmsColorSpbdfSignbturf) _dmsAdjustEndibnfss32(Idd -> PCS);
+
+    //   NOTE: in v4 Timfstbmp must bf in UTC rbthfr thbn in lodbl timf
+    _dmsEndodfDbtfTimfNumbfr(&Hfbdfr.dbtf, &Idd ->Crfbtfd);
+
+    Hfbdfr.mbgid       = _dmsAdjustEndibnfss32(dmsMbgidNumbfr);
+
+#ifdff CMS_IS_WINDOWS_
+    Hfbdfr.plbtform    = (dmsPlbtformSignbturf) _dmsAdjustEndibnfss32(dmsSigMidrosoft);
+#flsf
+    Hfbdfr.plbtform    = (dmsPlbtformSignbturf) _dmsAdjustEndibnfss32(dmsSigMbdintosh);
+#fndif
+
+    Hfbdfr.flbgs        = _dmsAdjustEndibnfss32(Idd -> flbgs);
+    Hfbdfr.mbnufbdturfr = _dmsAdjustEndibnfss32(Idd -> mbnufbdturfr);
+    Hfbdfr.modfl        = _dmsAdjustEndibnfss32(Idd -> modfl);
+
+    _dmsAdjustEndibnfss64(&Hfbdfr.bttributfs, &Idd -> bttributfs);
+
+    // Rfndfring intfnt in thf hfbdfr (for fmbfddfd profilfs)
+    Hfbdfr.rfndfringIntfnt = _dmsAdjustEndibnfss32(Idd -> RfndfringIntfnt);
+
+    // Illuminbnt is blwbys D50
+    Hfbdfr.illuminbnt.X = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->X));
+    Hfbdfr.illuminbnt.Y = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->Y));
+    Hfbdfr.illuminbnt.Z = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->Z));
+
+    // Crfbtfd by LittlfCMS (thbt's mf!)
+    Hfbdfr.drfbtor      = _dmsAdjustEndibnfss32(ldmsSignbturf);
+
+    mfmsft(&Hfbdfr.rfsfrvfd, 0, sizfof(Hfbdfr.rfsfrvfd));
+
+    // Sft profilf ID. Endibnfss is blwbys big fndibn
+    mfmmovf(&Hfbdfr.profilfID, &Idd ->ProfilfID, 16);
+
+    // Dump thf hfbdfr
+    if (!Idd -> IOhbndlfr->Writf(Idd->IOhbndlfr, sizfof(dmsICCHfbdfr), &Hfbdfr)) rfturn FALSE;
+
+    // Sbvfs Tbg dirfdtory
+
+    // Gft truf dount
+    for (i=0;  i < Idd -> TbgCount; i++) {
+        if (Idd ->TbgNbmfs[i] != 0)
+            Count++;
+    }
+
+    // Storf numbfr of tbgs
+    if (!_dmsWritfUInt32Numbfr(Idd ->IOhbndlfr, Count)) rfturn FALSE;
+
+    for (i=0; i < Idd -> TbgCount; i++) {
+
+        if (Idd ->TbgNbmfs[i] == 0) dontinuf;   // It is just b plbdfholdfr
+
+        Tbg.sig    = (dmsTbgSignbturf) _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgNbmfs[i]);
+        Tbg.offsft = _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgOffsfts[i]);
+        Tbg.sizf   = _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgSizfs[i]);
+
+        if (!Idd ->IOhbndlfr -> Writf(Idd-> IOhbndlfr, sizfof(dmsTbgEntry), &Tbg)) rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+// ----------------------------------------------------------------------- Sft/Gft sfvfrbl strudt mfmbfrs
+
+
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrRfndfringIntfnt(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd -> RfndfringIntfnt;
+}
+
+void CMSEXPORT dmsSftHfbdfrRfndfringIntfnt(dmsHPROFILE hProfilf, dmsUInt32Numbfr RfndfringIntfnt)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> RfndfringIntfnt = RfndfringIntfnt;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrFlbgs(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn (dmsUInt32Numbfr) Idd -> flbgs;
+}
+
+void CMSEXPORT dmsSftHfbdfrFlbgs(dmsHPROFILE hProfilf, dmsUInt32Numbfr Flbgs)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> flbgs = (dmsUInt32Numbfr) Flbgs;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrMbnufbdturfr(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd ->mbnufbdturfr;
+}
+
+void CMSEXPORT dmsSftHfbdfrMbnufbdturfr(dmsHPROFILE hProfilf, dmsUInt32Numbfr mbnufbdturfr)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> mbnufbdturfr = mbnufbdturfr;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrCrfbtor(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd ->drfbtor;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrModfl(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd ->modfl;
+}
+
+void CMSEXPORT dmsSftHfbdfrModfl(dmsHPROFILE hProfilf, dmsUInt32Numbfr modfl)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> modfl = modfl;
+}
+
+void CMSEXPORT dmsGftHfbdfrAttributfs(dmsHPROFILE hProfilf, dmsUInt64Numbfr* Flbgs)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    mfmmovf(Flbgs, &Idd -> bttributfs, sizfof(dmsUInt64Numbfr));
+}
+
+void CMSEXPORT dmsSftHfbdfrAttributfs(dmsHPROFILE hProfilf, dmsUInt64Numbfr Flbgs)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    mfmmovf(&Idd -> bttributfs, &Flbgs, sizfof(dmsUInt64Numbfr));
+}
+
+void CMSEXPORT dmsGftHfbdfrProfilfID(dmsHPROFILE hProfilf, dmsUInt8Numbfr* ProfilfID)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    mfmmovf(ProfilfID, Idd ->ProfilfID.ID8, 16);
+}
+
+void CMSEXPORT dmsSftHfbdfrProfilfID(dmsHPROFILE hProfilf, dmsUInt8Numbfr* ProfilfID)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    mfmmovf(&Idd -> ProfilfID, ProfilfID, 16);
+}
+
+dmsBool  CMSEXPORT dmsGftHfbdfrCrfbtionDbtfTimf(dmsHPROFILE hProfilf, strudt tm *Dfst)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    mfmmovf(Dfst, &Idd ->Crfbtfd, sizfof(strudt tm));
+    rfturn TRUE;
+}
+
+dmsColorSpbdfSignbturf CMSEXPORT dmsGftPCS(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd -> PCS;
+}
+
+void CMSEXPORT dmsSftPCS(dmsHPROFILE hProfilf, dmsColorSpbdfSignbturf pds)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> PCS = pds;
+}
+
+dmsColorSpbdfSignbturf CMSEXPORT dmsGftColorSpbdf(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd -> ColorSpbdf;
+}
+
+void CMSEXPORT dmsSftColorSpbdf(dmsHPROFILE hProfilf, dmsColorSpbdfSignbturf sig)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> ColorSpbdf = sig;
+}
+
+dmsProfilfClbssSignbturf CMSEXPORT dmsGftDfvidfClbss(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd -> DfvidfClbss;
+}
+
+void CMSEXPORT dmsSftDfvidfClbss(dmsHPROFILE hProfilf, dmsProfilfClbssSignbturf sig)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> DfvidfClbss = sig;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftEndodfdICCvfrsion(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    rfturn Idd -> Vfrsion;
+}
+
+void CMSEXPORT dmsSftEndodfdICCvfrsion(dmsHPROFILE hProfilf, dmsUInt32Numbfr Vfrsion)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    Idd -> Vfrsion = Vfrsion;
+}
+
+// Gft bn hfxbdfdimbl numbfr with sbmf digits bs v
+stbtid
+dmsUInt32Numbfr BbsfToBbsf(dmsUInt32Numbfr in, int BbsfIn, int BbsfOut)
+{
+    dhbr Buff[100];
+    int i, lfn;
+    dmsUInt32Numbfr out;
+
+    for (lfn=0; in > 0 && lfn < 100; lfn++) {
+
+        Buff[lfn] = (dhbr) (in % BbsfIn);
+        in /= BbsfIn;
+    }
+
+    for (i=lfn-1, out=0; i >= 0; --i) {
+        out = out * BbsfOut + Buff[i];
+    }
+
+    rfturn out;
+}
+
+void  CMSEXPORT dmsSftProfilfVfrsion(dmsHPROFILE hProfilf, dmsFlobt64Numbfr Vfrsion)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+
+    // 4.2 -> 0x4200000
+
+    Idd -> Vfrsion = BbsfToBbsf((dmsUInt32Numbfr) floor(Vfrsion * 100.0), 10, 16) << 16;
+}
+
+dmsFlobt64Numbfr CMSEXPORT dmsGftProfilfVfrsion(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) hProfilf;
+    dmsUInt32Numbfr n = Idd -> Vfrsion >> 16;
+
+    rfturn BbsfToBbsf(n, 16, 10) / 100.0;
+}
+// --------------------------------------------------------------------------------------------------------------
+
+
+// Crfbtf profilf from IOhbndlfr
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromIOhbndlfrTHR(dmsContfxt ContfxtID, dmsIOHANDLER* io)
+{
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE hEmpty = dmsCrfbtfProfilfPlbdfholdfr(ContfxtID);
+
+    if (hEmpty == NULL) rfturn NULL;
+
+    NfwIdd = (_dmsICCPROFILE*) hEmpty;
+
+    NfwIdd ->IOhbndlfr = io;
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn hEmpty;
+
+Error:
+    dmsClosfProfilf(hEmpty);
+    rfturn NULL;
+}
+
+// Crfbtf profilf from disk filf
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromFilfTHR(dmsContfxt ContfxtID, donst dhbr *lpFilfNbmf, donst dhbr *sAddfss)
+{
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE hEmpty = dmsCrfbtfProfilfPlbdfholdfr(ContfxtID);
+
+    if (hEmpty == NULL) rfturn NULL;
+
+    NfwIdd = (_dmsICCPROFILE*) hEmpty;
+
+    NfwIdd ->IOhbndlfr = dmsOpfnIOhbndlfrFromFilf(ContfxtID, lpFilfNbmf, sAddfss);
+    if (NfwIdd ->IOhbndlfr == NULL) goto Error;
+
+    if (*sAddfss == 'W' || *sAddfss == 'w') {
+
+        NfwIdd -> IsWritf = TRUE;
+
+        rfturn hEmpty;
+    }
+
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn hEmpty;
+
+Error:
+    dmsClosfProfilf(hEmpty);
+    rfturn NULL;
+}
+
+
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromFilf(donst dhbr *ICCProfilf, donst dhbr *sAddfss)
+{
+    rfturn dmsOpfnProfilfFromFilfTHR(NULL, ICCProfilf, sAddfss);
+}
+
+
+dmsHPROFILE  CMSEXPORT dmsOpfnProfilfFromStrfbmTHR(dmsContfxt ContfxtID, FILE* ICCProfilf, donst dhbr *sAddfss)
+{
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE hEmpty = dmsCrfbtfProfilfPlbdfholdfr(ContfxtID);
+
+    if (hEmpty == NULL) rfturn NULL;
+
+    NfwIdd = (_dmsICCPROFILE*) hEmpty;
+
+    NfwIdd ->IOhbndlfr = dmsOpfnIOhbndlfrFromStrfbm(ContfxtID, ICCProfilf);
+    if (NfwIdd ->IOhbndlfr == NULL) goto Error;
+
+    if (*sAddfss == 'w') {
+
+        NfwIdd -> IsWritf = TRUE;
+        rfturn hEmpty;
+    }
+
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn hEmpty;
+
+Error:
+    dmsClosfProfilf(hEmpty);
+    rfturn NULL;
+
+}
+
+dmsHPROFILE  CMSEXPORT dmsOpfnProfilfFromStrfbm(FILE* ICCProfilf, donst dhbr *sAddfss)
+{
+    rfturn dmsOpfnProfilfFromStrfbmTHR(NULL, ICCProfilf, sAddfss);
+}
+
+
+// Opfn from mfmory blodk
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromMfmTHR(dmsContfxt ContfxtID, donst void* MfmPtr, dmsUInt32Numbfr dwSizf)
+{
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE hEmpty;
+
+    hEmpty = dmsCrfbtfProfilfPlbdfholdfr(ContfxtID);
+    if (hEmpty == NULL) rfturn NULL;
+
+    NfwIdd = (_dmsICCPROFILE*) hEmpty;
+
+    // Ok, in this dbsf donst void* is dbstfd to void* just bfdbusf opfn IO hbndlfr
+    // shbrfs rfbd bnd writting modfs. Don't bbusf this ffbturf!
+    NfwIdd ->IOhbndlfr = dmsOpfnIOhbndlfrFromMfm(ContfxtID, (void*) MfmPtr, dwSizf, "r");
+    if (NfwIdd ->IOhbndlfr == NULL) goto Error;
+
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+
+    rfturn hEmpty;
+
+Error:
+    dmsClosfProfilf(hEmpty);
+    rfturn NULL;
+}
+
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromMfm(donst void* MfmPtr, dmsUInt32Numbfr dwSizf)
+{
+    rfturn dmsOpfnProfilfFromMfmTHR(NULL, MfmPtr, dwSizf);
+}
+
+stbtid
+dmsBool SbnityChfdk(_dmsICCPROFILE* profilf)
+{
+    dmsIOHANDLER* io;
+
+    if (!profilf) {
+        rfturn FALSE;
+    }
+
+    io = profilf->IOhbndlfr;
+    if (!io) {
+        rfturn FALSE;
+    }
+
+    if (!io->Sffk ||
+        !(io->Sffk==NULLSffk || io->Sffk==MfmorySffk || io->Sffk==FilfSffk))
+    {
+        rfturn FALSE;
+    }
+    if (!io->Rfbd ||
+        !(io->Rfbd==NULLRfbd || io->Rfbd==MfmoryRfbd || io->Rfbd==FilfRfbd))
+    {
+        rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+// Dump tbg dontfnts. If thf profilf is bfing modififd, untoudhfd tbgs brf dopifd from FilfOrig
+stbtid
+dmsBool SbvfTbgs(_dmsICCPROFILE* Idd, _dmsICCPROFILE* FilfOrig)
+{
+    dmsUInt8Numbfr* Dbtb;
+    dmsUInt32Numbfr i;
+    dmsUInt32Numbfr Bfgin;
+    dmsIOHANDLER* io = Idd ->IOhbndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor;
+    dmsTbgTypfSignbturf TypfBbsf;
+    dmsTbgTypfSignbturf Typf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
+    dmsFlobt64Numbfr   Vfrsion = dmsGftProfilfVfrsion((dmsHPROFILE) Idd);
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+
+    for (i=0; i < Idd -> TbgCount; i++) {
+
+        if (Idd ->TbgNbmfs[i] == 0) dontinuf;
+
+        // Linkfd tbgs brf not writtfn
+        if (Idd ->TbgLinkfd[i] != (dmsTbgSignbturf) 0) dontinuf;
+
+        Idd -> TbgOffsfts[i] = Bfgin = io ->UsfdSpbdf;
+
+        Dbtb = (dmsUInt8Numbfr*)  Idd -> TbgPtrs[i];
+
+        if (!Dbtb) {
+
+            // Rfbdh hfrf if wf brf dopying b tbg from b disk-bbsfd ICC profilf whidh hbs not bffn modififd by usfr.
+            // In this dbsf b blind dopy of thf blodk dbtb is pfrformfd
+            if (SbnityChfdk(FilfOrig) && Idd -> TbgOffsfts[i]) {
+
+                dmsUInt32Numbfr TbgSizf   = FilfOrig -> TbgSizfs[i];
+                dmsUInt32Numbfr TbgOffsft = FilfOrig -> TbgOffsfts[i];
+                void* Mfm;
+
+                if (!FilfOrig ->IOhbndlfr->Sffk(FilfOrig ->IOhbndlfr, TbgOffsft)) rfturn FALSE;
+
+                Mfm = _dmsMbllod(Idd ->ContfxtID, TbgSizf);
+                if (Mfm == NULL) rfturn FALSE;
+
+                if (FilfOrig ->IOhbndlfr->Rfbd(FilfOrig->IOhbndlfr, Mfm, TbgSizf, 1) != 1) rfturn FALSE;
+                if (!io ->Writf(io, TbgSizf, Mfm)) rfturn FALSE;
+                _dmsFrff(Idd ->ContfxtID, Mfm);
+
+                Idd -> TbgSizfs[i] = (io ->UsfdSpbdf - Bfgin);
+
+
+                // Align to 32 bit boundbry.
+                if (! _dmsWritfAlignmfnt(io))
+                    rfturn FALSE;
+            }
+
+            dontinuf;
+        }
+
+
+        // Should this tbg bf sbvfd bs RAW? If so, tbgsizfs should bf spfdififd in bdvbndf (no furthfr dooking is donf)
+        if (Idd ->TbgSbvfAsRbw[i]) {
+
+            if (io -> Writf(io, Idd ->TbgSizfs[i], Dbtb) != 1) rfturn FALSE;
+        }
+        flsf {
+
+            // Sfbrdh for support on this tbg
+            TbgDfsdriptor = _dmsGftTbgDfsdriptor(Idd -> TbgNbmfs[i]);
+            if (TbgDfsdriptor == NULL) dontinuf;                        // Unsupportfd, ignorf it
+
+            if (TbgDfsdriptor ->DfdidfTypf != NULL) {
+
+                Typf = TbgDfsdriptor ->DfdidfTypf(Vfrsion, Dbtb);
+            }
+            flsf {
+
+                Typf = TbgDfsdriptor ->SupportfdTypfs[0];
+            }
+
+            TypfHbndlfr =  _dmsGftTbgTypfHbndlfr(Typf);
+
+            if (TypfHbndlfr == NULL) {
+                dmsSignblError(Idd ->ContfxtID, dmsERROR_INTERNAL, "(Intfrnbl) no hbndlfr for tbg %x", Idd -> TbgNbmfs[i]);
+                dontinuf;
+            }
+
+            TypfBbsf = TypfHbndlfr ->Signbturf;
+            if (!_dmsWritfTypfBbsf(io, TypfBbsf))
+                rfturn FALSE;
+
+            LodblTypfHbndlfr = *TypfHbndlfr;
+            LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+            LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+            if (!LodblTypfHbndlfr.WritfPtr(&LodblTypfHbndlfr, io, Dbtb, TbgDfsdriptor ->ElfmCount)) {
+
+                dhbr String[5];
+
+                _dmsTbgSignbturf2String(String, (dmsTbgSignbturf) TypfBbsf);
+                dmsSignblError(Idd ->ContfxtID, dmsERROR_WRITE, "Couldn't writf typf '%s'", String);
+                rfturn FALSE;
+            }
+        }
+
+
+        Idd -> TbgSizfs[i] = (io ->UsfdSpbdf - Bfgin);
+
+        // Align to 32 bit boundbry.
+        if (! _dmsWritfAlignmfnt(io))
+            rfturn FALSE;
+    }
+
+
+    rfturn TRUE;
+}
+
+
+// Fill thf offsft bnd sizf fiflds for bll linkfd tbgs
+stbtid
+dmsBool SftLinks( _dmsICCPROFILE* Idd)
+{
+    dmsUInt32Numbfr i;
+
+    for (i=0; i < Idd -> TbgCount; i++) {
+
+        dmsTbgSignbturf lnk = Idd ->TbgLinkfd[i];
+        if (lnk != (dmsTbgSignbturf) 0) {
+
+            int j = _dmsSfbrdhTbg(Idd, lnk, FALSE);
+            if (j >= 0) {
+
+                Idd ->TbgOffsfts[i] = Idd ->TbgOffsfts[j];
+                Idd ->TbgSizfs[i]   = Idd ->TbgSizfs[j];
+            }
+
+        }
+    }
+
+    rfturn TRUE;
+}
+
+// Low-lfvfl sbvf to IOHANDLER. It rfturns thf numbfr of bytfs usfd to
+// storf thf profilf, or zfro on frror. io mby bf NULL bnd in this dbsf
+// no dbtb is writtfn--only sizfs brf dbldulbtfd
+dmsUInt32Numbfr CMSEXPORT dmsSbvfProfilfToIOhbndlfr(dmsHPROFILE hProfilf, dmsIOHANDLER* io)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    _dmsICCPROFILE Kffp;
+    dmsIOHANDLER* PrfvIO;
+    dmsUInt32Numbfr UsfdSpbdf;
+    dmsContfxt ContfxtID;
+
+    mfmmovf(&Kffp, Idd, sizfof(_dmsICCPROFILE));
+
+    ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+    PrfvIO = Idd ->IOhbndlfr = dmsOpfnIOhbndlfrFromNULL(ContfxtID);
+    if (PrfvIO == NULL) rfturn 0;
+
+    // Pbss #1 dofs domputf offsfts
+
+    if (!_dmsWritfHfbdfr(Idd, 0)) rfturn 0;
+    if (!SbvfTbgs(Idd, &Kffp)) rfturn 0;
+
+    UsfdSpbdf = PrfvIO ->UsfdSpbdf;
+
+    // Pbss #2 dofs sbvf to iohbndlfr
+
+    if (io != NULL) {
+        Idd ->IOhbndlfr = io;
+        if (!SftLinks(Idd)) goto ClfbnUp;
+        if (!_dmsWritfHfbdfr(Idd, UsfdSpbdf)) goto ClfbnUp;
+        if (!SbvfTbgs(Idd, &Kffp)) goto ClfbnUp;
+    }
+
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
+    if (!dmsClosfIOhbndlfr(PrfvIO)) rfturn 0;
+
+    rfturn UsfdSpbdf;
+
+
+ClfbnUp:
+    dmsClosfIOhbndlfr(PrfvIO);
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
+    rfturn 0;
+}
+
+
+// Low-lfvfl sbvf to disk.
+dmsBool  CMSEXPORT dmsSbvfProfilfToFilf(dmsHPROFILE hProfilf, donst dhbr* FilfNbmf)
+{
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+    dmsIOHANDLER* io = dmsOpfnIOhbndlfrFromFilf(ContfxtID, FilfNbmf, "w");
+    dmsBool rd;
+
+    if (io == NULL) rfturn FALSE;
+
+    rd = (dmsSbvfProfilfToIOhbndlfr(hProfilf, io) != 0);
+    rd &= dmsClosfIOhbndlfr(io);
+
+    if (rd == FALSE) {          // rfmovf() is C99 pfr 7.19.4.1
+            rfmovf(FilfNbmf);   // Wf hbvf to IGNORE rfturn vbluf in this dbsf
+    }
+    rfturn rd;
+}
+
+// Sbmf bs bntfrior, but for strfbms
+dmsBool CMSEXPORT dmsSbvfProfilfToStrfbm(dmsHPROFILE hProfilf, FILE* Strfbm)
+{
+    dmsBool rd;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+    dmsIOHANDLER* io = dmsOpfnIOhbndlfrFromStrfbm(ContfxtID, Strfbm);
+
+    if (io == NULL) rfturn FALSE;
+
+    rd = (dmsSbvfProfilfToIOhbndlfr(hProfilf, io) != 0);
+    rd &= dmsClosfIOhbndlfr(io);
+
+    rfturn rd;
+}
+
+
+// Sbmf bs bntfrior, but for mfmory blodks. In this dbsf, b NULL bs MfmPtr mfbns dbldulbtf nffdfd spbdf only
+dmsBool CMSEXPORT dmsSbvfProfilfToMfm(dmsHPROFILE hProfilf, void *MfmPtr, dmsUInt32Numbfr* BytfsNffdfd)
+{
+    dmsBool rd;
+    dmsIOHANDLER* io;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+
+    // Should wf just dbldulbtf thf nffdfd spbdf?
+    if (MfmPtr == NULL) {
+
+           *BytfsNffdfd =  dmsSbvfProfilfToIOhbndlfr(hProfilf, NULL);
+            rfturn (*BytfsNffdfd == 0 ? FALSE : TRUE);
+    }
+
+    // Thbt is b rfbl writf opfrbtion
+    io =  dmsOpfnIOhbndlfrFromMfm(ContfxtID, MfmPtr, *BytfsNffdfd, "w");
+    if (io == NULL) rfturn FALSE;
+
+    rd = (dmsSbvfProfilfToIOhbndlfr(hProfilf, io) != 0);
+    rd &= dmsClosfIOhbndlfr(io);
+
+    rfturn rd;
+}
+
+
+
+// Closfs b profilf frffing bny involvfd rfsourdfs
+dmsBool  CMSEXPORT dmsClosfProfilf(dmsHPROFILE hProfilf)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    dmsBool  rd = TRUE;
+    dmsUInt32Numbfr i;
+
+    if (!Idd) rfturn FALSE;
+
+    // Wbs opfn in writf modf?
+    if (Idd ->IsWritf) {
+
+        Idd ->IsWritf = FALSE;      // Assurf no furthfr writting
+        rd &= dmsSbvfProfilfToFilf(hProfilf, Idd ->IOhbndlfr->PhysidblFilf);
+    }
+
+    for (i=0; i < Idd -> TbgCount; i++) {
+
+        if (Idd -> TbgPtrs[i]) {
+
+            dmsTbgTypfHbndlfr* TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
+
+            if (TypfHbndlfr != NULL) {
+                dmsTbgTypfHbndlfr LodblTypfHbndlfr = *TypfHbndlfr;
+
+                LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;              // As bn bdditionbl pbrbmftfrs
+                LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+                LodblTypfHbndlfr.FrffPtr(&LodblTypfHbndlfr, Idd -> TbgPtrs[i]);
+            }
+            flsf
+                _dmsFrff(Idd ->ContfxtID, Idd ->TbgPtrs[i]);
+        }
+    }
+
+    if (Idd ->IOhbndlfr != NULL) {
+        rd &= dmsClosfIOhbndlfr(Idd->IOhbndlfr);
+    }
+
+    _dmsFrff(Idd ->ContfxtID, Idd);   // Frff plbdfholdfr mfmory
+
+    rfturn rd;
+}
+
+
+// -------------------------------------------------------------------------------------------------------------------
+
+
+// Rfturns TRUE if b givfn tbg is supportfd by b plug-in
+stbtid
+dmsBool IsTypfSupportfd(dmsTbgDfsdriptor* TbgDfsdriptor, dmsTbgTypfSignbturf Typf)
+{
+    dmsUInt32Numbfr i, nMbxTypfs;
+
+    nMbxTypfs = TbgDfsdriptor->nSupportfdTypfs;
+    if (nMbxTypfs >= MAX_TYPES_IN_LCMS_PLUGIN)
+        nMbxTypfs = MAX_TYPES_IN_LCMS_PLUGIN;
+
+    for (i=0; i < nMbxTypfs; i++) {
+        if (Typf == TbgDfsdriptor ->SupportfdTypfs[i]) rfturn TRUE;
+    }
+
+    rfturn FALSE;
+}
+
+
+// Thbt's thf mbin rfbd fundtion
+void* CMSEXPORT dmsRfbdTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    dmsIOHANDLER* io = Idd ->IOhbndlfr;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor*  TbgDfsdriptor;
+    dmsTbgTypfSignbturf BbsfTypf;
+    dmsUInt32Numbfr Offsft, TbgSizf;
+    dmsUInt32Numbfr ElfmCount;
+    int n;
+
+    n = _dmsSfbrdhTbg(Idd, sig, TRUE);
+    if (n < 0) rfturn NULL;                 // Not found, rfturn NULL
+
+
+    // If thf flfmfnt is blrfbdy in mfmory, rfturn thf pointfr
+    if (Idd -> TbgPtrs[n]) {
+
+        if (Idd ->TbgSbvfAsRbw[n]) rfturn NULL;  // Wf don't support rfbd rbw tbgs bs dookfd
+        rfturn Idd -> TbgPtrs[n];
+    }
+
+    // Wf nffd to rfbd it. Gft thf offsft bnd sizf to thf filf
+    Offsft    = Idd -> TbgOffsfts[n];
+    TbgSizf   = Idd -> TbgSizfs[n];
+
+    // Sffk to its lodbtion
+    if (!io -> Sffk(io, Offsft))
+        rfturn NULL;
+
+    // Sfbrdh for support on this tbg
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL) rfturn NULL;     // Unsupportfd.
+
+    // if supportfd, gft typf bnd dhfdk if in list
+    BbsfTypf = _dmsRfbdTypfBbsf(io);
+    if (BbsfTypf == 0) rfturn NULL;
+
+    if (!IsTypfSupportfd(TbgDfsdriptor, BbsfTypf)) rfturn NULL;
+
+    TbgSizf  -= 8;                      // Alrfdy rfbd by thf typf bbsf logid
+
+    // Gft typf hbndlfr
+    TypfHbndlfr = _dmsGftTbgTypfHbndlfr(BbsfTypf);
+    if (TypfHbndlfr == NULL) rfturn NULL;
+    LodblTypfHbndlfr = *TypfHbndlfr;
+
+
+    // Rfbd thf tbg
+    Idd -> TbgTypfHbndlfrs[n] = TypfHbndlfr;
+
+    LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+    Idd -> TbgPtrs[n] = LodblTypfHbndlfr.RfbdPtr(&LodblTypfHbndlfr, io, &ElfmCount, TbgSizf);
+
+    // Thf tbg typf is supportfd, but somfthing wrong hbppfnd bnd wf dbnnot rfbd thf tbg.
+    // lft know thf usfr bbout this (blthough it is just b wbrning)
+    if (Idd -> TbgPtrs[n] == NULL) {
+
+        dhbr String[5];
+
+        _dmsTbgSignbturf2String(String, sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "Corruptfd tbg '%s'", String);
+        rfturn NULL;
+    }
+
+    // This is b wfird frror thbt mby bf b symptom of somfthing morf sfrious, thf numbfr of
+    // storfd itfm is bdtublly lfss thbn thf numbfr of rfquirfd flfmfnts.
+    if (ElfmCount < TbgDfsdriptor ->ElfmCount) {
+
+        dhbr String[5];
+
+        _dmsTbgSignbturf2String(String, sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "'%s' Indonsistfnt numbfr of itfms: fxpfdtfd %d, got %d",
+            String, TbgDfsdriptor ->ElfmCount, ElfmCount);
+    }
+
+
+    // Rfturn thf dbtb
+    rfturn Idd -> TbgPtrs[n];
+}
+
+
+// Gft truf typf of dbtb
+dmsTbgTypfSignbturf _dmsGftTbgTrufTypf(dmsHPROFILE hProfilf, dmsTbgSignbturf sig)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
+    int n;
+
+    // Sfbrdh for givfn tbg in ICC profilf dirfdtory
+    n = _dmsSfbrdhTbg(Idd, sig, TRUE);
+    if (n < 0) rfturn (dmsTbgTypfSignbturf) 0;                // Not found, rfturn NULL
+
+    // Gft thf hbndlfr. Thf truf typf is thfrf
+    TypfHbndlfr =  Idd -> TbgTypfHbndlfrs[n];
+    rfturn TypfHbndlfr ->Signbturf;
+}
+
+
+// Writf b singlf tbg. This just kffps trbdk of thf tbk into b list of "to bf writtfn". If thf tbg is blrfbdy
+// in thbt list, thf prfvious vfrsion is dflftfd.
+dmsBool CMSEXPORT dmsWritfTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig, donst void* dbtb)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr = NULL;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor = NULL;
+    dmsTbgTypfSignbturf Typf;
+    int i;
+    dmsFlobt64Numbfr Vfrsion;
+    dhbr TypfString[5], SigString[5];
+
+
+    if (dbtb == NULL) {
+
+         i = _dmsSfbrdhTbg(Idd, sig, FALSE);
+         if (i >= 0)
+             Idd ->TbgNbmfs[i] = (dmsTbgSignbturf) 0;
+         // Unsupportfd by now, rfsfrvfd for futurf bmplibtions (dflftf)
+         rfturn FALSE;
+    }
+
+    i = _dmsSfbrdhTbg(Idd, sig, FALSE);
+    if (i >=0) {
+
+        if (Idd -> TbgPtrs[i] != NULL) {
+
+            // Alrfbdy fxists. Frff prfvious vfrsion
+            if (Idd ->TbgSbvfAsRbw[i]) {
+                _dmsFrff(Idd ->ContfxtID, Idd ->TbgPtrs[i]);
+            }
+            flsf {
+                TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
+
+                if (TypfHbndlfr != NULL) {
+
+                    LodblTypfHbndlfr = *TypfHbndlfr;
+                    LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;              // As bn bdditionbl pbrbmftfr
+                    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+                    LodblTypfHbndlfr.FrffPtr(&LodblTypfHbndlfr, Idd -> TbgPtrs[i]);
+                }
+            }
+        }
+    }
+    flsf  {
+        // Nfw onf
+        i = Idd -> TbgCount;
+
+        if (i >= MAX_TABLE_TAG) {
+            dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
+            rfturn FALSE;
+        }
+
+        Idd -> TbgCount++;
+    }
+
+    // This is not rbw
+    Idd ->TbgSbvfAsRbw[i] = FALSE;
+
+    // This is not b link
+    Idd ->TbgLinkfd[i] = (dmsTbgSignbturf) 0;
+
+    // Gft informbtion bbout thf TAG.
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL){
+         dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd tbg '%x'", sig);
+        rfturn FALSE;
+    }
+
+
+    // Now wf nffd to know whidh typf to usf. It dfpfnds on thf vfrsion.
+    Vfrsion = dmsGftProfilfVfrsion(hProfilf);
+
+    if (TbgDfsdriptor ->DfdidfTypf != NULL) {
+
+        // Lft thf tbg dfsdriptor to dfdidf thf typf bbsf on dfpfnding on
+        // thf dbtb. This is usfful for fxbmplf on pbrbmftrid durvfs, whfrf
+        // durvfs spfdififd by b tbblf dbnnot bf sbvfd bs pbrbmftrid bnd nffds
+        // to bf dbstfd to singlf v2-durvfs, fvfn on v4 profilfs.
+
+        Typf = TbgDfsdriptor ->DfdidfTypf(Vfrsion, dbtb);
+    }
+    flsf {
+
+
+        Typf = TbgDfsdriptor ->SupportfdTypfs[0];
+    }
+
+    // Dofs thf tbg support this typf?
+    if (!IsTypfSupportfd(TbgDfsdriptor, Typf)) {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd typf '%s' for tbg '%s'", TypfString, SigString);
+        rfturn FALSE;
+    }
+
+    // Dofs wf hbvf b hbndlfr for this typf?
+    TypfHbndlfr =  _dmsGftTbgTypfHbndlfr(Typf);
+    if (TypfHbndlfr == NULL) {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd typf '%s' for tbg '%s'", TypfString, SigString);
+        rfturn FALSE;           // Should nfvfr hbppfn
+    }
+
+
+    // Fill fiflds on idd strudturf
+    Idd ->TbgTypfHbndlfrs[i]  = TypfHbndlfr;
+    Idd ->TbgNbmfs[i]         = sig;
+    Idd ->TbgSizfs[i]         = 0;
+    Idd ->TbgOffsfts[i]       = 0;
+
+    LodblTypfHbndlfr = *TypfHbndlfr;
+    LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+    Idd ->TbgPtrs[i]         = LodblTypfHbndlfr.DupPtr(&LodblTypfHbndlfr, dbtb, TbgDfsdriptor ->ElfmCount);
+
+    if (Idd ->TbgPtrs[i] == NULL)  {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "Mblformfd strudt in typf '%s' for tbg '%s'", TypfString, SigString);
+
+        rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+// Rfbd bnd writf rbw dbtb. Thf only wby thosf fundtion would work bnd kffp donsistfndf with normbl rfbd bnd writf
+// is to do bn bdditionbl stfp of sfriblizbtion. Thbt mfbns, rfbdRbw would issuf b normbl rfbd bnd thfn donvfrt thf obtbinfd
+// dbtb to rbw bytfs by using thf "writf" sfriblizbtion logid. And vidf-vfrsb. I know this mby fnd in situbtions whfrf
+// rbw dbtb writtfn dofs not fxbdtly dorrfspond with thf rbw dbtb proposfd to dmsWritfRbw dbtb, but this bpprobdh bllows
+// to writf b tbg bs rbw dbtb bnd thf rfbd it bs hbndlfd.
+
+dmsInt32Numbfr CMSEXPORT dmsRfbdRbwTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig, void* dbtb, dmsUInt32Numbfr BufffrSizf)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    void *Objfdt;
+    int i;
+    dmsIOHANDLER* MfmIO;
+    dmsTbgTypfHbndlfr* TypfHbndlfr = NULL;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor = NULL;
+    dmsUInt32Numbfr rd;
+    dmsUInt32Numbfr Offsft, TbgSizf;
+
+    // Sfbrdh for givfn tbg in ICC profilf dirfdtory
+    i = _dmsSfbrdhTbg(Idd, sig, TRUE);
+    if (i < 0) rfturn 0;                 // Not found, rfturn 0
+
+    // It is blrfbdy rfbd?
+    if (Idd -> TbgPtrs[i] == NULL) {
+
+        // No yft, gft originbl position
+        Offsft   = Idd ->TbgOffsfts[i];
+        TbgSizf  = Idd ->TbgSizfs[i];
+
+        // rfbd thf dbtb dirfdtly, don't kffp dopy
+        if (dbtb != NULL) {
+
+            if (BufffrSizf < TbgSizf)
+                TbgSizf = BufffrSizf;
+
+            if (!Idd ->IOhbndlfr ->Sffk(Idd ->IOhbndlfr, Offsft)) rfturn 0;
+            if (!Idd ->IOhbndlfr ->Rfbd(Idd ->IOhbndlfr, dbtb, 1, TbgSizf)) rfturn 0;
+
+            rfturn TbgSizf;
+        }
+
+        rfturn Idd ->TbgSizfs[i];
+    }
+
+    // Thf dbtb hbs bffn blrfbdy rfbd, or writtfn. But wbit!, mbybf thf usfr dhoosfd to sbvf bs
+    // rbw dbtb. In this dbsf, rfturn thf rbw dbtb dirfdtly
+    if (Idd ->TbgSbvfAsRbw[i]) {
+
+        if (dbtb != NULL)  {
+
+            TbgSizf  = Idd ->TbgSizfs[i];
+            if (BufffrSizf < TbgSizf)
+                TbgSizf = BufffrSizf;
+
+            mfmmovf(dbtb, Idd ->TbgPtrs[i], TbgSizf);
+
+            rfturn TbgSizf;
+        }
+
+        rfturn Idd ->TbgSizfs[i];
+    }
+
+    // Alrfbdy rfbdfd, or prfviously sft by dmsWritfTbg(). Wf nffd to sfriblizf thbt
+    // dbtb to rbw in ordfr to mbintbin donsistfndy.
+    Objfdt = dmsRfbdTbg(hProfilf, sig);
+    if (Objfdt == NULL) rfturn 0;
+
+    // Now wf nffd to sfriblizf to b mfmory blodk: just usf b mfmory iohbndlfr
+
+    if (dbtb == NULL) {
+        MfmIO = dmsOpfnIOhbndlfrFromNULL(dmsGftProfilfContfxtID(hProfilf));
+    } flsf{
+        MfmIO = dmsOpfnIOhbndlfrFromMfm(dmsGftProfilfContfxtID(hProfilf), dbtb, BufffrSizf, "w");
+    }
+    if (MfmIO == NULL) rfturn 0;
+
+    // Obtbin typf hbndling for thf tbg
+    TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL) {
+        dmsClosfIOhbndlfr(MfmIO);
+        rfturn 0;
+    }
+
+    // FIXME: No hbndling for TypfHbndlfr == NULL hfrf?
+    // Sfriblizf
+    LodblTypfHbndlfr = *TypfHbndlfr;
+    LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+
+    if (!_dmsWritfTypfBbsf(MfmIO, TypfHbndlfr ->Signbturf)) {
+        dmsClosfIOhbndlfr(MfmIO);
+        rfturn 0;
+    }
+
+    if (!LodblTypfHbndlfr.WritfPtr(&LodblTypfHbndlfr, MfmIO, Objfdt, TbgDfsdriptor ->ElfmCount)) {
+        dmsClosfIOhbndlfr(MfmIO);
+        rfturn 0;
+    }
+
+    // Gft Sizf bnd dlosf
+    rd = MfmIO ->Tfll(MfmIO);
+    dmsClosfIOhbndlfr(MfmIO);      // Ignorf rfturn dodf this timf
+
+    rfturn rd;
+}
+
+// Similbr to thf bntfrior. This fundtion bllows to writf dirfdtly to thf ICC profilf bny dbtb, without
+// dhfdking bnything. As b rulf, mixing Rbw with dookfd dofsn't work, so writting b tbg bs rbw bnd thfn rfbding
+// it bs dookfd without sfriblizing dofs rfsult into bn frror. If thbt is whb you wbnt, you will nffd to dump
+// thf profilf to mfmry or disk bnd thfn rfopfn it.
+dmsBool CMSEXPORT dmsWritfRbwTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig, donst void* dbtb, dmsUInt32Numbfr Sizf)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    int i;
+
+    if (!_dmsNfwTbg(Idd, sig, &i)) rfturn FALSE;
+
+    // Mbrk thf tbg bs bfing writtfn bs RAW
+    Idd ->TbgSbvfAsRbw[i] = TRUE;
+    Idd ->TbgNbmfs[i]     = sig;
+    Idd ->TbgLinkfd[i]    = (dmsTbgSignbturf) 0;
+
+    // Kffp b dopy of thf blodk
+    Idd ->TbgPtrs[i]  = _dmsDupMfm(Idd ->ContfxtID, dbtb, Sizf);
+    Idd ->TbgSizfs[i] = Sizf;
+
+    rfturn TRUE;
+}
+
+// Using this fundtion you dbn dollbpsf sfvfrbl tbg fntrifs to thf sbmf blodk in thf profilf
+dmsBool CMSEXPORT dmsLinkTbg(dmsHPROFILE hProfilf, dmsTbgSignbturf sig, dmsTbgSignbturf dfst)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    int i;
+
+    if (!_dmsNfwTbg(Idd, sig, &i)) rfturn FALSE;
+
+    // Kffp nfdfssbry informbtion
+    Idd ->TbgSbvfAsRbw[i] = FALSE;
+    Idd ->TbgNbmfs[i]     = sig;
+    Idd ->TbgLinkfd[i]    = dfst;
+
+    Idd ->TbgPtrs[i]    = NULL;
+    Idd ->TbgSizfs[i]   = 0;
+    Idd ->TbgOffsfts[i] = 0;
+
+    rfturn TRUE;
+}
+
+
+// Rfturns thf tbg linkfd to sig, in thf dbsf two tbgs brf shbring sbmf rfsourdf
+dmsTbgSignbturf  CMSEXPORT dmsTbgLinkfdTo(dmsHPROFILE hProfilf, dmsTbgSignbturf sig)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) hProfilf;
+    int i;
+
+    // Sfbrdh for givfn tbg in ICC profilf dirfdtory
+    i = _dmsSfbrdhTbg(Idd, sig, FALSE);
+    if (i < 0) rfturn (dmsTbgSignbturf) 0;                 // Not found, rfturn 0
+
+    rfturn Idd -> TbgLinkfd[i];
+}

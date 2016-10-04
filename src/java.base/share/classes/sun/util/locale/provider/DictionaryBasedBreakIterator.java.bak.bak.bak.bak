@@ -1,0 +1,525 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Stbdk;
+
+/**
+ * A subdlbss of RulfBbsfdBrfbkItfrbtor thbt bdds thf bbility to usf b didtionbry
+ * to furthfr subdividf rbngfs of tfxt bfyond whbt is possiblf using just thf
+ * stbtf-tbblf-bbsfd blgorithm.  This is nfdfssbry, for fxbmplf, to hbndlf
+ * word bnd linf brfbking in Thbi, whidh dofsn't usf spbdfs bftwffn words.  Thf
+ * stbtf-tbblf-bbsfd blgorithm usfd by RulfBbsfdBrfbkItfrbtor is usfd to dividf
+ * up tfxt bs fbr bs possiblf, bnd thfn dontiguous rbngfs of lfttfrs brf
+ * rfpfbtfdly dompbrfd bgbinst b list of known words (i.f., thf didtionbry)
+ * to dividf thfm up into words.
+ *
+ * DidtionbryBbsfdBrfbkItfrbtor usfs thf sbmf rulf lbngubgf bs RulfBbsfdBrfbkItfrbtor,
+ * but bdds onf morf spfdibl substitution nbmf: &lt;didtionbry&gt;.  This substitution
+ * nbmf is usfd to idfntify dhbrbdtfrs in words in thf didtionbry.  Thf idfb is thbt
+ * if thf itfrbtor pbssfs ovfr b dhunk of tfxt thbt indludfs two or morf dhbrbdtfrs
+ * in b row thbt brf indludfd in &lt;didtionbry&gt;, it gofs bbdk through thbt rbngf bnd
+ * dfrivfs bdditionbl brfbk positions (if possiblf) using thf didtionbry.
+ *
+ * DidtionbryBbsfdBrfbkItfrbtor is blso donstrudtfd with thf filfnbmf of b didtionbry
+ * filf.  It follows b prfsdribfd sfbrdh pbth to lodbtf thf didtionbry (right now,
+ * it looks for it in /dom/ibm/tfxt/rfsourdfs in fbdh dirfdtory in thf dlbsspbth,
+ * bnd won't find it in JAR filfs, but this lodbtion is likfly to dhbngf).  Thf
+ * didtionbry filf is in b sfriblizfd binbry formbt.  Wf hbvf b vfry primitivf (bnd
+ * slow) BuildDidtionbryFilf utility for drfbting didtionbry filfs, but brfn't
+ * durrfntly mbking it publid.  Contbdt us for hflp.
+ */
+dlbss DidtionbryBbsfdBrfbkItfrbtor fxtfnds RulfBbsfdBrfbkItfrbtor {
+
+    /**
+     * b list of known words thbt is usfd to dividf up dontiguous rbngfs of lfttfrs,
+     * storfd in b domprfssfd, indfxfd, formbt thbt offfrs fbst bddfss
+     */
+    privbtf BrfbkDidtionbry didtionbry;
+
+    /**
+     * b list of flbgs indidbting whidh dhbrbdtfr dbtfgorifs brf dontbinfd in
+     * thf didtionbry filf (this is usfd to dftfrminf whidh rbngfs of dhbrbdtfrs
+     * to bpply thf didtionbry to)
+     */
+    privbtf boolfbn[] dbtfgoryFlbgs;
+
+    /**
+     * b tfmporbry hiding plbdf for thf numbfr of didtionbry dhbrbdtfrs in thf
+     * lbst rbngf pbssfd ovfr by nfxt()
+     */
+    privbtf int didtionbryChbrCount;
+
+    /**
+     * whfn b rbngf of dhbrbdtfrs is dividfd up using thf didtionbry, thf brfbk
+     * positions thbt brf disdovfrfd brf storfd hfrf, prfvfnting us from hbving
+     * to usf fithfr thf didtionbry or thf stbtf tbblf bgbin until thf itfrbtor
+     * lfbvfs this rbngf of tfxt
+     */
+    privbtf int[] dbdhfdBrfbkPositions;
+
+    /**
+     * if dbdhfdBrfbkPositions is not null, this indidbtfs whidh itfm in thf
+     * dbdhf thf durrfnt itfrbtion position rfffrs to
+     */
+    privbtf int positionInCbdhf;
+
+    /**
+     * Construdts b DidtionbryBbsfdBrfbkItfrbtor.
+     * @pbrbm dfsdription Sbmf bs thf dfsdription pbrbmftfr on RulfBbsfdBrfbkItfrbtor,
+     * fxdfpt for thf spfdibl mfbning of "<didtionbry>".  This pbrbmftfr is just
+     * pbssfd through to RulfBbsfdBrfbkItfrbtor's donstrudtor.
+     * @pbrbm didtionbryFilfnbmf Thf filfnbmf of thf didtionbry filf to usf
+     */
+    DidtionbryBbsfdBrfbkItfrbtor(String dbtbFilf, String didtionbryFilf)
+                                        throws IOExdfption {
+        supfr(dbtbFilf);
+        bytf[] tmp = supfr.gftAdditionblDbtb();
+        if (tmp != null) {
+            prfpbrfCbtfgoryFlbgs(tmp);
+            supfr.sftAdditionblDbtb(null);
+        }
+        didtionbry = nfw BrfbkDidtionbry(didtionbryFilf);
+    }
+
+    privbtf void prfpbrfCbtfgoryFlbgs(bytf[] dbtb) {
+        dbtfgoryFlbgs = nfw boolfbn[dbtb.lfngth];
+        for (int i = 0; i < dbtb.lfngth; i++) {
+            dbtfgoryFlbgs[i] = (dbtb[i] == (bytf)1) ? truf : fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid void sftTfxt(ChbrbdtfrItfrbtor nfwTfxt) {
+        supfr.sftTfxt(nfwTfxt);
+        dbdhfdBrfbkPositions = null;
+        didtionbryChbrCount = 0;
+        positionInCbdhf = 0;
+    }
+
+    /**
+     * Sfts thf durrfnt itfrbtion position to thf bfginning of thf tfxt.
+     * (i.f., thf ChbrbdtfrItfrbtor's stbrting offsft).
+     * @rfturn Thf offsft of thf bfginning of thf tfxt.
+     */
+    @Ovfrridf
+    publid int first() {
+        dbdhfdBrfbkPositions = null;
+        didtionbryChbrCount = 0;
+        positionInCbdhf = 0;
+        rfturn supfr.first();
+    }
+
+    /**
+     * Sfts thf durrfnt itfrbtion position to thf fnd of thf tfxt.
+     * (i.f., thf ChbrbdtfrItfrbtor's fnding offsft).
+     * @rfturn Thf tfxt's pbst-thf-fnd offsft.
+     */
+    @Ovfrridf
+    publid int lbst() {
+        dbdhfdBrfbkPositions = null;
+        didtionbryChbrCount = 0;
+        positionInCbdhf = 0;
+        rfturn supfr.lbst();
+    }
+
+    /**
+     * Advbndfs thf itfrbtor onf stfp bbdkwbrds.
+     * @rfturn Thf position of thf lbst boundbry position bfforf thf
+     * durrfnt itfrbtion position
+     */
+    @Ovfrridf
+    publid int prfvious() {
+        ChbrbdtfrItfrbtor tfxt = gftTfxt();
+
+        // if wf hbvf dbdhfd brfbk positions bnd wf'rf still in thf rbngf
+        // dovfrfd by thfm, just movf onf stfp bbdkwbrd in thf dbdhf
+        if (dbdhfdBrfbkPositions != null && positionInCbdhf > 0) {
+            --positionInCbdhf;
+            tfxt.sftIndfx(dbdhfdBrfbkPositions[positionInCbdhf]);
+            rfturn dbdhfdBrfbkPositions[positionInCbdhf];
+        }
+
+        // othfrwisf, dump thf dbdhf bnd usf thf inhfritfd prfvious() mfthod to movf
+        // bbdkwbrd.  This mby fill up thf dbdhf with nfw brfbk positions, in whidh
+        // dbsf wf hbvf to mbrk our position in thf dbdhf
+        flsf {
+            dbdhfdBrfbkPositions = null;
+            int rfsult = supfr.prfvious();
+            if (dbdhfdBrfbkPositions != null) {
+                positionInCbdhf = dbdhfdBrfbkPositions.lfngth - 2;
+            }
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt itfrbtion position to thf lbst boundbry position
+     * bfforf thf spfdififd position.
+     * @pbrbm offsft Thf position to bfgin sfbrdhing from
+     * @rfturn Thf position of thf lbst boundbry bfforf "offsft"
+     */
+    @Ovfrridf
+    publid int prfdfding(int offsft) {
+        ChbrbdtfrItfrbtor tfxt = gftTfxt();
+        dhfdkOffsft(offsft, tfxt);
+
+        // if wf hbvf no dbdhfd brfbk positions, or "offsft" is outsidf thf
+        // rbngf dovfrfd by thf dbdhf, wf dbn just dbll thf inhfritfd routinf
+        // (whidh will fvfntublly dbll othfr routinfs in this dlbss thbt mby
+        // rffrfsh thf dbdhf)
+        if (dbdhfdBrfbkPositions == null || offsft <= dbdhfdBrfbkPositions[0] ||
+                offsft > dbdhfdBrfbkPositions[dbdhfdBrfbkPositions.lfngth - 1]) {
+            dbdhfdBrfbkPositions = null;
+            rfturn supfr.prfdfding(offsft);
+        }
+
+        // on thf othfr hbnd, if "offsft" is within thf rbngf dovfrfd by thf dbdhf,
+        // thfn bll wf hbvf to do is sfbrdh thf dbdhf for thf lbst brfbk position
+        // bfforf "offsft"
+        flsf {
+            positionInCbdhf = 0;
+            whilf (positionInCbdhf < dbdhfdBrfbkPositions.lfngth
+                   && offsft > dbdhfdBrfbkPositions[positionInCbdhf]) {
+                ++positionInCbdhf;
+            }
+            --positionInCbdhf;
+            tfxt.sftIndfx(dbdhfdBrfbkPositions[positionInCbdhf]);
+            rfturn tfxt.gftIndfx();
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt itfrbtion position to thf first boundbry position bftfr
+     * thf spfdififd position.
+     * @pbrbm offsft Thf position to bfgin sfbrdhing forwbrd from
+     * @rfturn Thf position of thf first boundbry bftfr "offsft"
+     */
+    @Ovfrridf
+    publid int following(int offsft) {
+        ChbrbdtfrItfrbtor tfxt = gftTfxt();
+        dhfdkOffsft(offsft, tfxt);
+
+        // if wf hbvf no dbdhfd brfbk positions, or if "offsft" is outsidf thf
+        // rbngf dovfrfd by thf dbdhf, thfn dump thf dbdhf bnd dbll our
+        // inhfritfd following() mfthod.  This will dbll othfr mfthods in this
+        // dlbss thbt mby rffrfsh thf dbdhf.
+        if (dbdhfdBrfbkPositions == null || offsft < dbdhfdBrfbkPositions[0] ||
+                offsft >= dbdhfdBrfbkPositions[dbdhfdBrfbkPositions.lfngth - 1]) {
+            dbdhfdBrfbkPositions = null;
+            rfturn supfr.following(offsft);
+        }
+
+        // on thf othfr hbnd, if "offsft" is within thf rbngf dovfrfd by thf
+        // dbdhf, thfn just sfbrdh thf dbdhf for thf first brfbk position
+        // bftfr "offsft"
+        flsf {
+            positionInCbdhf = 0;
+            whilf (positionInCbdhf < dbdhfdBrfbkPositions.lfngth
+                   && offsft >= dbdhfdBrfbkPositions[positionInCbdhf]) {
+                ++positionInCbdhf;
+            }
+            tfxt.sftIndfx(dbdhfdBrfbkPositions[positionInCbdhf]);
+            rfturn tfxt.gftIndfx();
+        }
+    }
+
+    /**
+     * This is thf implfmfntbtion fundtion for nfxt().
+     */
+    @Ovfrridf
+    protfdtfd int hbndlfNfxt() {
+        ChbrbdtfrItfrbtor tfxt = gftTfxt();
+
+        // if thfrf brf no dbdhfd brfbk positions, or if wf'vf just movfd
+        // off thf fnd of thf rbngf dovfrfd by thf dbdhf, wf hbvf to dump
+        // bnd possibly rfgfnfrbtf thf dbdhf
+        if (dbdhfdBrfbkPositions == null ||
+            positionInCbdhf == dbdhfdBrfbkPositions.lfngth - 1) {
+
+            // stbrt by using thf inhfritfd hbndlfNfxt() to find b tfntbtivf rfturn
+            // vbluf.   didtionbryChbrCount tflls us how mbny didtionbry dhbrbdtfrs
+            // wf pbssfd ovfr on our wby to thf tfntbtivf rfturn vbluf
+            int stbrtPos = tfxt.gftIndfx();
+            didtionbryChbrCount = 0;
+            int rfsult = supfr.hbndlfNfxt();
+
+            // if wf pbssfd ovfr morf thbn onf didtionbry dhbrbdtfr, thfn wf usf
+            // dividfUpDidtionbryRbngf() to rfgfnfrbtf thf dbdhfd brfbk positions
+            // for thf nfw rbngf
+            if (didtionbryChbrCount > 1 && rfsult - stbrtPos > 1) {
+                dividfUpDidtionbryRbngf(stbrtPos, rfsult);
+            }
+
+            // othfrwisf, thf vbluf wf got bbdk from thf inhfritfd fudtion
+            // is our rfturn vbluf, bnd wf dbn dump thf dbdhf
+            flsf {
+                dbdhfdBrfbkPositions = null;
+                rfturn rfsult;
+            }
+        }
+
+        // if thf dbdhf of brfbk positions hbs bffn rfgfnfrbtfd (or fxistfd bll
+        // blong), thfn just bdvbndf to thf nfxt brfbk position in thf dbdhf
+        // bnd rfturn it
+        if (dbdhfdBrfbkPositions != null) {
+            ++positionInCbdhf;
+            tfxt.sftIndfx(dbdhfdBrfbkPositions[positionInCbdhf]);
+            rfturn dbdhfdBrfbkPositions[positionInCbdhf];
+        }
+        rfturn -9999;   // SHOULD NEVER GET HERE!
+    }
+
+    /**
+     * Looks up b dhbrbdtfr dbtfgory for b dhbrbdtfr.
+     */
+    @Ovfrridf
+    protfdtfd int lookupCbtfgory(int d) {
+        // this ovfrridf of lookupCbtfgory() fxists only to kffp trbdk of whfthfr wf'vf
+        // pbssfd ovfr bny didtionbry dhbrbdtfrs.  It dblls thf inhfritfd lookupCbtfgory()
+        // to do thf rfbl work, bnd thfn dhfdks whfthfr its rfturn vbluf is onf of thf
+        // dbtfgorifs rfprfsfntfd in thf didtionbry.  If it is, bump thf didtionbry-
+        // dhbrbdtfr dount.
+        int rfsult = supfr.lookupCbtfgory(d);
+        if (rfsult != RulfBbsfdBrfbkItfrbtor.IGNORE && dbtfgoryFlbgs[rfsult]) {
+            ++didtionbryChbrCount;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * This is thf fundtion thbt bdtublly implfmfnts thf didtionbry-bbsfd
+     * blgorithm.  Givfn thf fndpoints of b rbngf of tfxt, it usfs thf
+     * didtionbry to dftfrminf thf positions of bny boundbrifs in this
+     * rbngf.  It storfs bll thf boundbry positions it disdovfrs in
+     * dbdhfdBrfbkPositions so thbt wf only hbvf to do this work ondf
+     * for fbdh timf wf fntfr thf rbngf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void dividfUpDidtionbryRbngf(int stbrtPos, int fndPos) {
+        ChbrbdtfrItfrbtor tfxt = gftTfxt();
+
+        // thf rbngf wf'rf dividing mby bfgin or fnd with non-didtionbry dhbrbdtfrs
+        // (i.f., for linf brfbking, wf mby hbvf lfbding or trbiling pundtubtion
+        // thbt nffds to bf kfpt with thf word).  Sffk from thf bfginning of thf
+        // rbngf to thf first didtionbry dhbrbdtfr
+        tfxt.sftIndfx(stbrtPos);
+        int d = gftCurrfnt();
+        int dbtfgory = lookupCbtfgory(d);
+        whilf (dbtfgory == IGNORE || !dbtfgoryFlbgs[dbtfgory]) {
+            d = gftNfxt();
+            dbtfgory = lookupCbtfgory(d);
+        }
+
+        // initiblizf.  Wf mbintbin two stbdks: durrfntBrfbkPositions dontbins
+        // thf list of brfbk positions thbt will bf rfturnfd if wf suddfssfully
+        // finish trbvfrsing thf wholf rbngf now.  possiblfBrfbkPositions lists
+        // bll othfr possiblf word fnds wf'vf pbssfd blong thf wby.  (Whfnfvfr
+        // wf rfbdh bn frror [b sfqufndf of dhbrbdtfrs thbt dbn't bfgin bny word
+        // in thf didtionbry], wf bbdk up, possibly dflftf somf brfbks from
+        // durrfntBrfbkPositions, movf b brfbk from possiblfBrfbkPositions
+        // to durrfntBrfbkPositions, bnd stbrt ovfr from thfrf.  This prodfss
+        // dontinufs in this wby until wf fithfr suddfssfully mbkf it bll thf wby
+        // bdross thf rbngf, or fxhbust bll of our dombinbtions of brfbk
+        // positions.)
+        Stbdk<Intfgfr> durrfntBrfbkPositions = nfw Stbdk<>();
+        Stbdk<Intfgfr> possiblfBrfbkPositions = nfw Stbdk<>();
+        List<Intfgfr> wrongBrfbkPositions = nfw ArrbyList<>();
+
+        // thf didtionbry is implfmfntfd bs b trif, whidh is trfbtfd bs b stbtf
+        // mbdhinf.  -1 rfprfsfnts thf fnd of b lfgbl word.  Evfry word in thf
+        // didtionbry is rfprfsfntfd by b pbth from thf root nodf to -1.  A pbth
+        // thbt fnds in stbtf 0 is bn illfgbl dombinbtion of dhbrbdtfrs.
+        int stbtf = 0;
+
+        // thfsf two vbribblfs brf usfd for frror hbndling.  Wf kffp trbdk of thf
+        // fbrthfst wf'vf gottfn through thf rbngf bfing dividfd, bnd thf dombinbtion
+        // of brfbks thbt got us thbt fbr.  If wf usf up bll possiblf brfbk
+        // dombinbtions, thf tfxt dontbins bn frror or b word thbt's not in thf
+        // didtionbry.  In this dbsf, wf "blfss" thf brfbk positions thbt got us thf
+        // fbrthfst bs rfbl brfbk positions, bnd thfn stbrt ovfr from sdrbtdh with
+        // thf dhbrbdtfr whfrf thf frror oddurrfd.
+        int fbrthfstEndPoint = tfxt.gftIndfx();
+        Stbdk<Intfgfr> bfstBrfbkPositions = null;
+
+        // initiblizf (wf blwbys fxit thf loop with b brfbk stbtfmfnt)
+        d = gftCurrfnt();
+        whilf (truf) {
+
+            // if wf dbn trbnsition to stbtf "-1" from our durrfnt stbtf, wf'rf
+            // on thf lbst dhbrbdtfr of b lfgbl word.  Push thbt position onto
+            // thf possiblf-brfbk-positions stbdk
+            if (didtionbry.gftNfxtStbtf(stbtf, 0) == -1) {
+                possiblfBrfbkPositions.push(tfxt.gftIndfx());
+            }
+
+            // look up thf nfw stbtf to trbnsition to in thf didtionbry
+            stbtf = didtionbry.gftNfxtStbtfFromChbrbdtfr(stbtf, d);
+
+            // if thf dhbrbdtfr wf'rf sitting on dbusfs us to trbnsition to
+            // thf "fnd of word" stbtf, thfn it wbs b non-didtionbry dhbrbdtfr
+            // bnd wf'vf suddfssfully trbvfrsfd thf wholf rbngf.  Drop out
+            // of thf loop.
+            if (stbtf == -1) {
+                durrfntBrfbkPositions.push(tfxt.gftIndfx());
+                brfbk;
+            }
+
+            // if thf dhbrbdtfr wf'rf sitting on dbusfs us to trbnsition to
+            // thf frror stbtf, or if wf'vf gonf off thf fnd of thf rbngf
+            // without trbnsitioning to thf "fnd of word" stbtf, wf'vf hit
+            // bn frror...
+            flsf if (stbtf == 0 || tfxt.gftIndfx() >= fndPos) {
+
+                // if this is thf fbrthfst wf'vf gottfn, tbkf notf of it in
+                // dbsf thfrf's bn frror in thf tfxt
+                if (tfxt.gftIndfx() > fbrthfstEndPoint) {
+                    fbrthfstEndPoint = tfxt.gftIndfx();
+
+                    @SupprfssWbrnings("undhfdkfd")
+                    Stbdk<Intfgfr> durrfntBrfbkPositionsCopy = (Stbdk<Intfgfr>) durrfntBrfbkPositions.dlonf();
+
+                    bfstBrfbkPositions = durrfntBrfbkPositionsCopy;
+                }
+
+                // wrongBrfbkPositions is b list of bll brfbk positions
+                // wf'vf trifd stbrting thbt didn't bllow us to trbvfrsf
+                // bll thf wby through thf tfxt.  Evfry timf wf pop b
+                // brfbk position off of durrfntBrfbkPositions, wf put it
+                // into wrongBrfbkPositions to bvoid trying it bgbin lbtfr.
+                // If wf mbkf it to this spot, wf'rf fithfr going to bbdk
+                // up to b brfbk in possiblfBrfbkPositions bnd try stbrting
+                // ovfr from thfrf, or wf'vf fxhbustfd bll possiblf brfbk
+                // positions bnd brf going to do thf fbllbbdk prodfdurf.
+                // This loop prfvfnts us from mfssing with bnything in
+                // possiblfBrfbkPositions thbt didn't work bs b stbrting
+                // point thf lbst timf wf trifd it (this is to prfvfnt b bundh of
+                // rfpftitivf dhfdks from slowing down somf fxtrfmf dbsfs)
+                whilf (!possiblfBrfbkPositions.isEmpty()
+                        && wrongBrfbkPositions.dontbins(possiblfBrfbkPositions.pffk())) {
+                    possiblfBrfbkPositions.pop();
+                }
+
+                // if wf'vf usfd up bll possiblf brfbk-position dombinbtions, thfrf's
+                // bn frror or bn unknown word in thf tfxt.  In this dbsf, wf stbrt
+                // ovfr, trfbting thf fbrthfst dhbrbdtfr wf'vf rfbdhfd bs thf bfginning
+                // of thf rbngf, bnd "blfssing" thf brfbk positions thbt got us thbt
+                // fbr bs rfbl brfbk positions
+                if (possiblfBrfbkPositions.isEmpty()) {
+                    if (bfstBrfbkPositions != null) {
+                        durrfntBrfbkPositions = bfstBrfbkPositions;
+                        if (fbrthfstEndPoint < fndPos) {
+                            tfxt.sftIndfx(fbrthfstEndPoint + 1);
+                        }
+                        flsf {
+                            brfbk;
+                        }
+                    }
+                    flsf {
+                        if ((durrfntBrfbkPositions.sizf() == 0 ||
+                             durrfntBrfbkPositions.pffk().intVbluf() != tfxt.gftIndfx())
+                            && tfxt.gftIndfx() != stbrtPos) {
+                            durrfntBrfbkPositions.push(tfxt.gftIndfx());
+                        }
+                        gftNfxt();
+                        durrfntBrfbkPositions.push(tfxt.gftIndfx());
+                    }
+                }
+
+                // if wf still hbvf morf brfbk positions wf dbn try, thfn promotf thf
+                // lbst brfbk in possiblfBrfbkPositions into durrfntBrfbkPositions,
+                // bnd gft rid of bll fntrifs in durrfntBrfbkPositions thbt domf bftfr
+                // it.  Thfn bbdk up to thbt position bnd stbrt ovfr from thfrf (i.f.,
+                // trfbt thbt position bs thf bfginning of b nfw word)
+                flsf {
+                    Intfgfr tfmp = possiblfBrfbkPositions.pop();
+                    Intfgfr tfmp2 = null;
+                    whilf (!durrfntBrfbkPositions.isEmpty() && tfmp.intVbluf() <
+                           durrfntBrfbkPositions.pffk().intVbluf()) {
+                        tfmp2 = durrfntBrfbkPositions.pop();
+                        wrongBrfbkPositions.bdd(tfmp2);
+                    }
+                    durrfntBrfbkPositions.push(tfmp);
+                    tfxt.sftIndfx(durrfntBrfbkPositions.pffk().intVbluf());
+                }
+
+                // rf-synd "d" for thf nfxt go-round, bnd drop out of thf loop if
+                // wf'vf mbdf it off thf fnd of thf rbngf
+                d = gftCurrfnt();
+                if (tfxt.gftIndfx() >= fndPos) {
+                    brfbk;
+                }
+            }
+
+            // if wf didn't hit bny fxdfptionbl donditions on this lbst itfrbtion,
+            // just bdvbndf to thf nfxt dhbrbdtfr bnd loop
+            flsf {
+                d = gftNfxt();
+            }
+        }
+
+        // dump thf lbst brfbk position in thf list, bnd rfplbdf it with thf bdtubl
+        // fnd of thf rbngf (whidh mby bf thf sbmf dhbrbdtfr, or mby bf furthfr on
+        // bfdbusf thf rbngf bdtublly fndfd with non-didtionbry dhbrbdtfrs wf wbnt to
+        // kffp with thf word)
+        if (!durrfntBrfbkPositions.isEmpty()) {
+            durrfntBrfbkPositions.pop();
+        }
+        durrfntBrfbkPositions.push(fndPos);
+
+        // drfbtf b rfgulbr brrby to hold thf brfbk positions bnd dopy
+        // thf brfbk positions from thf stbdk to thf brrby (in bddition,
+        // our stbrting position gofs into this brrby bs b brfbk position).
+        // This brrby bfdomfs thf dbdhf of brfbk positions usfd by nfxt()
+        // bnd prfvious(), so this is whfrf wf bdtublly rffrfsh thf dbdhf.
+        dbdhfdBrfbkPositions = nfw int[durrfntBrfbkPositions.sizf() + 1];
+        dbdhfdBrfbkPositions[0] = stbrtPos;
+
+        for (int i = 0; i < durrfntBrfbkPositions.sizf(); i++) {
+            dbdhfdBrfbkPositions[i + 1] = durrfntBrfbkPositions.flfmfntAt(i).intVbluf();
+        }
+        positionInCbdhf = 0;
+    }
+}

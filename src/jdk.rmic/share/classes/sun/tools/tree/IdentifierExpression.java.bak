@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.LodblVbribblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class IdentifierExpression extends Expression {
-    Identifier id;
-    MemberDefinition field;
-    Expression implementation;
+publid
+dlbss IdfntififrExprfssion fxtfnds Exprfssion {
+    Idfntififr id;
+    MfmbfrDffinition fifld;
+    Exprfssion implfmfntbtion;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public IdentifierExpression(long where, Identifier id) {
-        super(IDENT, where, Type.tError);
-        this.id = id;
+    publid IdfntififrExprfssion(long wifrf, Idfntififr id) {
+        supfr(IDENT, wifrf, Typf.tError);
+        tiis.id = id;
     }
-    public IdentifierExpression(IdentifierToken id) {
-        this(id.getWhere(), id.getName());
+    publid IdfntififrExprfssion(IdfntififrTokfn id) {
+        tiis(id.gftWifrf(), id.gftNbmf());
     }
-    public IdentifierExpression(long where, MemberDefinition field) {
-        super(IDENT, where, field.getType());
-        this.id = field.getName();
-        this.field = field;
+    publid IdfntififrExprfssion(long wifrf, MfmbfrDffinition fifld) {
+        supfr(IDENT, wifrf, fifld.gftTypf());
+        tiis.id = fifld.gftNbmf();
+        tiis.fifld = fifld;
     }
 
-    public Expression getImplementation() {
-        if (implementation != null)
-            return implementation;
-        return this;
+    publid Exprfssion gftImplfmfntbtion() {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion;
+        rfturn tiis;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Cifdk if tif fxprfssion is fqubl to b vbluf
      */
-    public boolean equals(Identifier id) {
-        return this.id.equals(id);
+    publid boolfbn fqubls(Idfntififr id) {
+        rfturn tiis.id.fqubls(id);
     }
 
 
     /**
-     * Assign a value to this identifier.  [It must already be "bound"]
+     * Assign b vbluf to tiis idfntififr.  [It must blrfbdy bf "bound"]
      */
-    private Vset assign(Environment env, Context ctx, Vset vset) {
-        if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
-            if (local.scopeNumber < ctx.frameNumber) {
-                env.error(where, "assign.to.uplevel", id);
+    privbtf Vsft bssign(Environmfnt fnv, Contfxt dtx, Vsft vsft) {
+        if (fifld.isLodbl()) {
+            LodblMfmbfr lodbl = (LodblMfmbfr)fifld;
+            if (lodbl.sdopfNumbfr < dtx.frbmfNumbfr) {
+                fnv.frror(wifrf, "bssign.to.uplfvfl", id);
             }
-            if (local.isFinal()) {
-                // allow definite single assignment of blank finals
-                if (!local.isBlankFinal()) {
-                    env.error(where, "assign.to.final", id);
-                } else if (!vset.testVarUnassigned(local.number)) {
-                    env.error(where, "assign.to.blank.final", id);
+            if (lodbl.isFinbl()) {
+                // bllow dffinitf singlf bssignmfnt of blbnk finbls
+                if (!lodbl.isBlbnkFinbl()) {
+                    fnv.frror(wifrf, "bssign.to.finbl", id);
+                } flsf if (!vsft.tfstVbrUnbssignfd(lodbl.numbfr)) {
+                    fnv.frror(wifrf, "bssign.to.blbnk.finbl", id);
                 }
             }
-            vset.addVar(local.number);
-            local.writecount++;
-        } else if (field.isFinal()) {
-            vset = FieldExpression.checkFinalAssign(env, ctx, vset,
-                                                    where, field);
+            vsft.bddVbr(lodbl.numbfr);
+            lodbl.writfdount++;
+        } flsf if (fifld.isFinbl()) {
+            vsft = FifldExprfssion.difdkFinblAssign(fnv, dtx, vsft,
+                                                    wifrf, fifld);
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Get the value of this identifier.  [ It must already be "bound"]
+     * Gft tif vbluf of tiis idfntififr.  [ It must blrfbdy bf "bound"]
      */
-    private Vset get(Environment env, Context ctx, Vset vset) {
-        if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
-            if (local.scopeNumber < ctx.frameNumber && !local.isFinal()) {
-                env.error(where, "invalid.uplevel", id);
+    privbtf Vsft gft(Environmfnt fnv, Contfxt dtx, Vsft vsft) {
+        if (fifld.isLodbl()) {
+            LodblMfmbfr lodbl = (LodblMfmbfr)fifld;
+            if (lodbl.sdopfNumbfr < dtx.frbmfNumbfr && !lodbl.isFinbl()) {
+                fnv.frror(wifrf, "invblid.uplfvfl", id);
             }
-            if (!vset.testVar(local.number)) {
-                env.error(where, "var.not.initialized", id);
-                vset.addVar(local.number);
+            if (!vsft.tfstVbr(lodbl.numbfr)) {
+                fnv.frror(wifrf, "vbr.not.initiblizfd", id);
+                vsft.bddVbr(lodbl.numbfr);
             }
-            local.readcount++;
-        } else {
-            if (!field.isStatic()) {
-                if (!vset.testVar(ctx.getThisNumber())) {
-                    env.error(where, "access.inst.before.super", id);
-                    implementation = null;
+            lodbl.rfbddount++;
+        } flsf {
+            if (!fifld.isStbtid()) {
+                if (!vsft.tfstVbr(dtx.gftTiisNumbfr())) {
+                    fnv.frror(wifrf, "bddfss.inst.bfforf.supfr", id);
+                    implfmfntbtion = null;
                 }
             }
-            if (field.isBlankFinal()) {
-                int number = ctx.getFieldNumber(field);
-                if (number >= 0 && !vset.testVar(number)) {
-                    env.error(where, "var.not.initialized", id);
+            if (fifld.isBlbnkFinbl()) {
+                int numbfr = dtx.gftFifldNumbfr(fifld);
+                if (numbfr >= 0 && !vsft.tfstVbr(numbfr)) {
+                    fnv.frror(wifrf, "vbr.not.initiblizfd", id);
                 }
             }
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Bind to a field
+     * Bind to b fifld
      */
-    boolean bind(Environment env, Context ctx) {
+    boolfbn bind(Environmfnt fnv, Contfxt dtx) {
         try {
-            field = ctx.getField(env, id);
-            if (field == null) {
-                for (ClassDefinition cdef = ctx.field.getClassDefinition();
-                     cdef != null; cdef = cdef.getOuterClass()) {
-                    if (cdef.findAnyMethod(env, id) != null) {
-                        env.error(where, "invalid.var", id,
-                                  ctx.field.getClassDeclaration());
-                        return false;
+            fifld = dtx.gftFifld(fnv, id);
+            if (fifld == null) {
+                for (ClbssDffinition ddff = dtx.fifld.gftClbssDffinition();
+                     ddff != null; ddff = ddff.gftOutfrClbss()) {
+                    if (ddff.findAnyMftiod(fnv, id) != null) {
+                        fnv.frror(wifrf, "invblid.vbr", id,
+                                  dtx.fifld.gftClbssDfdlbrbtion());
+                        rfturn fblsf;
                     }
                 }
-                env.error(where, "undef.var", id);
-                return false;
+                fnv.frror(wifrf, "undff.vbr", id);
+                rfturn fblsf;
             }
 
-            type = field.getType();
+            typf = fifld.gftTypf();
 
-            // Check access permission
-            if (!ctx.field.getClassDefinition().canAccess(env, field)) {
-                env.error(where, "no.field.access",
-                          id, field.getClassDeclaration(),
-                          ctx.field.getClassDeclaration());
-                return false;
+            // Cifdk bddfss pfrmission
+            if (!dtx.fifld.gftClbssDffinition().dbnAddfss(fnv, fifld)) {
+                fnv.frror(wifrf, "no.fifld.bddfss",
+                          id, fifld.gftClbssDfdlbrbtion(),
+                          dtx.fifld.gftClbssDfdlbrbtion());
+                rfturn fblsf;
             }
 
-            // Find out how to access this variable.
-            if (field.isLocal()) {
-                LocalMember local = (LocalMember)field;
-                if (local.scopeNumber < ctx.frameNumber) {
-                    // get a "val$x" copy via the current object
-                    implementation = ctx.makeReference(env, local);
+            // Find out iow to bddfss tiis vbribblf.
+            if (fifld.isLodbl()) {
+                LodblMfmbfr lodbl = (LodblMfmbfr)fifld;
+                if (lodbl.sdopfNumbfr < dtx.frbmfNumbfr) {
+                    // gft b "vbl$x" dopy vib tif durrfnt objfdt
+                    implfmfntbtion = dtx.mbkfRfffrfndf(fnv, lodbl);
                 }
-            } else {
-                MemberDefinition f = field;
+            } flsf {
+                MfmbfrDffinition f = fifld;
 
-                if (f.reportDeprecated(env)) {
-                    env.error(where, "warn.field.is.deprecated",
-                              id, f.getClassDefinition());
+                if (f.rfportDfprfdbtfd(fnv)) {
+                    fnv.frror(wifrf, "wbrn.fifld.is.dfprfdbtfd",
+                              id, f.gftClbssDffinition());
                 }
 
-                ClassDefinition fclass = f.getClassDefinition();
-                if (fclass != ctx.field.getClassDefinition()) {
-                    // Maybe an inherited field hides an apparent variable.
-                    MemberDefinition f2 = ctx.getApparentField(env, id);
+                ClbssDffinition fdlbss = f.gftClbssDffinition();
+                if (fdlbss != dtx.fifld.gftClbssDffinition()) {
+                    // Mbybf bn inifritfd fifld iidfs bn bppbrfnt vbribblf.
+                    MfmbfrDffinition f2 = dtx.gftAppbrfntFifld(fnv, id);
                     if (f2 != null && f2 != f) {
-                        ClassDefinition c = ctx.findScope(env, fclass);
-                        if (c == null)  c = f.getClassDefinition();
-                        if (f2.isLocal()) {
-                            env.error(where, "inherited.hides.local",
-                                      id, c.getClassDeclaration());
-                        } else {
-                            env.error(where, "inherited.hides.field",
-                                      id, c.getClassDeclaration(),
-                                      f2.getClassDeclaration());
+                        ClbssDffinition d = dtx.findSdopf(fnv, fdlbss);
+                        if (d == null)  d = f.gftClbssDffinition();
+                        if (f2.isLodbl()) {
+                            fnv.frror(wifrf, "inifritfd.iidfs.lodbl",
+                                      id, d.gftClbssDfdlbrbtion());
+                        } flsf {
+                            fnv.frror(wifrf, "inifritfd.iidfs.fifld",
+                                      id, d.gftClbssDfdlbrbtion(),
+                                      f2.gftClbssDfdlbrbtion());
                         }
                     }
                 }
 
-                // Rewrite as a FieldExpression.
-                // Access methods for private fields, if needed, will be added
-                // during subsequent processing of the FieldExpression.  See
-                // method 'FieldExpression.checkCommon'. This division of labor
-                // is somewhat awkward, as most further processing of a
-                // FieldExpression during the checking phase is suppressed when
-                // the referenced field is pre-set as it is here.
+                // Rfwritf bs b FifldExprfssion.
+                // Addfss mftiods for privbtf fiflds, if nffdfd, will bf bddfd
+                // during subsfqufnt prodfssing of tif FifldExprfssion.  Sff
+                // mftiod 'FifldExprfssion.difdkCommon'. Tiis division of lbbor
+                // is somfwibt bwkwbrd, bs most furtifr prodfssing of b
+                // FifldExprfssion during tif difdking pibsf is supprfssfd wifn
+                // tif rfffrfndfd fifld is prf-sft bs it is ifrf.
 
-                if (f.isStatic()) {
-                    Expression base = new TypeExpression(where,
-                                        f.getClassDeclaration().getType());
-                    implementation = new FieldExpression(where, null, f);
-                } else {
-                    Expression base = ctx.findOuterLink(env, where, f);
-                    if (base != null) {
-                        implementation = new FieldExpression(where, base, f);
+                if (f.isStbtid()) {
+                    Exprfssion bbsf = nfw TypfExprfssion(wifrf,
+                                        f.gftClbssDfdlbrbtion().gftTypf());
+                    implfmfntbtion = nfw FifldExprfssion(wifrf, null, f);
+                } flsf {
+                    Exprfssion bbsf = dtx.findOutfrLink(fnv, wifrf, f);
+                    if (bbsf != null) {
+                        implfmfntbtion = nfw FifldExprfssion(wifrf, bbsf, f);
                     }
                 }
             }
 
-            // Check forward reference
-            if (!ctx.canReach(env, field)) {
-                env.error(where, "forward.ref",
-                          id, field.getClassDeclaration());
-                return false;
+            // Cifdk forwbrd rfffrfndf
+            if (!dtx.dbnRfbdi(fnv, fifld)) {
+                fnv.frror(wifrf, "forwbrd.rff",
+                          id, fifld.gftClbssDfdlbrbtion());
+                rfturn fblsf;
             }
-            return true;
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, ctx.field);
-        } catch (AmbiguousMember e) {
-            env.error(where, "ambig.field", id,
-                      e.field1.getClassDeclaration(),
-                      e.field2.getClassDeclaration());
+            rfturn truf;
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(wifrf, "dlbss.not.found", f.nbmf, dtx.fifld);
+        } dbtdi (AmbiguousMfmbfr f) {
+            fnv.frror(wifrf, "bmbig.fifld", id,
+                      f.fifld1.gftClbssDfdlbrbtion(),
+                      f.fifld2.gftClbssDfdlbrbtion());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Check expression
+     * Cifdk fxprfssion
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        if (field != null) {
-            // An internally pre-set field, such as an argument copying
-            // an uplevel value.  Do not re-check it.
-            return vset;
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (fifld != null) {
+            // An intfrnblly prf-sft fifld, sudi bs bn brgumfnt dopying
+            // bn uplfvfl vbluf.  Do not rf-difdk it.
+            rfturn vsft;
         }
-        if (bind(env, ctx)) {
-            vset = get(env, ctx, vset);
-            ctx.field.getClassDefinition().addDependency(field.getClassDeclaration());
-            if (implementation != null)
-                vset = implementation.checkValue(env, ctx, vset, exp);
+        if (bind(fnv, dtx)) {
+            vsft = gft(fnv, dtx, vsft);
+            dtx.fifld.gftClbssDffinition().bddDfpfndfndy(fifld.gftClbssDfdlbrbtion());
+            if (implfmfntbtion != null)
+                vsft = implfmfntbtion.difdkVbluf(fnv, dtx, vsft, fxp);
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an assignment
+     * Cifdk tif fxprfssion if it bppfbrs on tif LHS of bn bssignmfnt
      */
-    public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
-        if (!bind(env, ctx))
-            return vset;
-        vset = assign(env, ctx, vset);
-        if (implementation != null)
-            vset = implementation.checkValue(env, ctx, vset, exp);
-        return vset;
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+                         Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (!bind(fnv, dtx))
+            rfturn vsft;
+        vsft = bssign(fnv, dtx, vsft);
+        if (implfmfntbtion != null)
+            vsft = implfmfntbtion.difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn vsft;
     }
 
     /**
-     * Check the expression if it appears on the LHS of an op= expression
+     * Cifdk tif fxprfssion if it bppfbrs on tif LHS of bn op= fxprfssion
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        if (!bind(env, ctx))
-            return vset;
-        vset = assign(env, ctx, get(env, ctx, vset));
-        if (implementation != null)
-            vset = implementation.checkValue(env, ctx, vset, exp);
-        return vset;
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+        if (!bind(fnv, dtx))
+            rfturn vsft;
+        vsft = bssign(fnv, dtx, gft(fnv, dtx, vsft));
+        if (implfmfntbtion != null)
+            vsft = implfmfntbtion.difdkVbluf(fnv, dtx, vsft, fxp);
+        rfturn vsft;
     }
 
     /**
-     * Return an accessor if one is needed for assignments to this expression.
+     * Rfturn bn bddfssor if onf is nffdfd for bssignmfnts to tiis fxprfssion.
      */
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.getAssigner(env, ctx);
-        return null;
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.gftAssignfr(fnv, dtx);
+        rfturn null;
     }
 
     /**
-     * Return an updater if one is needed for assignments to this expression.
+     * Rfturn bn updbtfr if onf is nffdfd for bssignmfnts to tiis fxprfssion.
      */
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.getUpdater(env, ctx);
-        return null;
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.gftUpdbtfr(fnv, dtx);
+        rfturn null;
     }
 
     /**
-     * Check if the present name is part of a scoping prefix.
+     * Cifdk if tif prfsfnt nbmf is pbrt of b sdoping prffix.
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+                               UnbryExprfssion lod) {
         try {
-            if (ctx.getField(env, id) != null) {
-                // if this is a local field, there's nothing more to do.
-                return checkValue(env, ctx, vset, exp);
+            if (dtx.gftFifld(fnv, id) != null) {
+                // if tiis is b lodbl fifld, tifrf's notiing morf to do.
+                rfturn difdkVbluf(fnv, dtx, vsft, fxp);
             }
-        } catch (ClassNotFound ee) {
-        } catch (AmbiguousMember ee) {
+        } dbtdi (ClbssNotFound ff) {
+        } dbtdi (AmbiguousMfmbfr ff) {
         }
-        // Can this be interpreted as a type?
-        ClassDefinition c = toResolvedType(env, ctx, true);
-        // Is it a real type??
-        if (c != null) {
-            loc.right = new TypeExpression(where, c.getType());
-            return vset;
+        // Cbn tiis bf intfrprftfd bs b typf?
+        ClbssDffinition d = toRfsolvfdTypf(fnv, dtx, truf);
+        // Is it b rfbl typf??
+        if (d != null) {
+            lod.rigit = nfw TypfExprfssion(wifrf, d.gftTypf());
+            rfturn vsft;
         }
-        // We hope it is a package prefix.  Let the caller decide.
-        type = Type.tPackage;
-        return vset;
+        // Wf iopf it is b pbdkbgf prffix.  Lft tif dbllfr dfdidf.
+        typf = Typf.tPbdkbgf;
+        rfturn vsft;
     }
 
     /**
-     * Convert an identifier to a known type, or null.
+     * Convfrt bn idfntififr to b known typf, or null.
      */
-    private ClassDefinition toResolvedType(Environment env, Context ctx,
-                                           boolean pkgOK) {
-        Identifier rid = ctx.resolveName(env, id);
-        Type t = Type.tClass(rid);
-        if (pkgOK && !env.classExists(t)) {
-            return null;
+    privbtf ClbssDffinition toRfsolvfdTypf(Environmfnt fnv, Contfxt dtx,
+                                           boolfbn pkgOK) {
+        Idfntififr rid = dtx.rfsolvfNbmf(fnv, id);
+        Typf t = Typf.tClbss(rid);
+        if (pkgOK && !fnv.dlbssExists(t)) {
+            rfturn null;
         }
-        if (env.resolve(where, ctx.field.getClassDefinition(), t)) {
+        if (fnv.rfsolvf(wifrf, dtx.fifld.gftClbssDffinition(), t)) {
             try {
-                ClassDefinition c = env.getClassDefinition(t);
+                ClbssDffinition d = fnv.gftClbssDffinition(t);
 
-                // Maybe an inherited class hides an apparent class.
-                if (c.isMember()) {
-                    ClassDefinition sc = ctx.findScope(env, c.getOuterClass());
-                    if (sc != c.getOuterClass()) {
-                        Identifier rid2 = ctx.getApparentClassName(env, id);
-                        if (!rid2.equals(idNull) && !rid2.equals(rid)) {
-                            env.error(where, "inherited.hides.type",
-                                      id, sc.getClassDeclaration());
+                // Mbybf bn inifritfd dlbss iidfs bn bppbrfnt dlbss.
+                if (d.isMfmbfr()) {
+                    ClbssDffinition sd = dtx.findSdopf(fnv, d.gftOutfrClbss());
+                    if (sd != d.gftOutfrClbss()) {
+                        Idfntififr rid2 = dtx.gftAppbrfntClbssNbmf(fnv, id);
+                        if (!rid2.fqubls(idNull) && !rid2.fqubls(rid)) {
+                            fnv.frror(wifrf, "inifritfd.iidfs.typf",
+                                      id, sd.gftClbssDfdlbrbtion());
                         }
                     }
                 }
 
-                if (!c.getLocalName().equals(id.getFlatName().getName())) {
-                    env.error(where, "illegal.mangled.name", id, c);
+                if (!d.gftLodblNbmf().fqubls(id.gftFlbtNbmf().gftNbmf())) {
+                    fnv.frror(wifrf, "illfgbl.mbnglfd.nbmf", id, d);
                 }
 
-                return c;
-            } catch (ClassNotFound ee) {
+                rfturn d;
+            } dbtdi (ClbssNotFound ff) {
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Convert an identifier to a type.
-     * If one is not known, use the current package as a qualifier.
+     * Convfrt bn idfntififr to b typf.
+     * If onf is not known, usf tif durrfnt pbdkbgf bs b qublififr.
      */
-    Type toType(Environment env, Context ctx) {
-        ClassDefinition c = toResolvedType(env, ctx, false);
-        if (c != null) {
-            return c.getType();
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+        ClbssDffinition d = toRfsolvfdTypf(fnv, dtx, fblsf);
+        if (d != null) {
+            rfturn d.gftTypf();
         }
-        return Type.tError;
+        rfturn Typf.tError;
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name. We do not necessarily know where the package prefix ends,
-     * so we operate similarly to 'checkAmbiguousName'.  This is the
-     * base case -- the first component of the qualified name.
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * nbmf. Wf do not nfdfssbrily know wifrf tif pbdkbgf prffix fnds,
+     * so wf opfrbtf similbrly to 'difdkAmbiguousNbmf'.  Tiis is tif
+     * bbsf dbsf -- tif first domponfnt of tif qublififd nbmf.
      */
     /*-------------------------------------------------------*
-    Type toQualifiedType(Environment env, Context ctx) {
-        // We do not look for non-type fields.  Is this correct?
-        ClassDefinition c = toResolvedType(env, ctx, true);
-        // Is it a real type?
-        if (c != null) {
-            return c.getType();
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+        // Wf do not look for non-typf fiflds.  Is tiis dorrfdt?
+        ClbssDffinition d = toRfsolvfdTypf(fnv, dtx, truf);
+        // Is it b rfbl typf?
+        if (d != null) {
+            rfturn d.gftTypf();
         }
-        // We hope it is a package prefix.  Let the caller decide.
-        return Type.tPackage;
+        // Wf iopf it is b pbdkbgf prffix.  Lft tif dbllfr dfdidf.
+        rfturn Typf.tPbdkbgf;
     }
     *-------------------------------------------------------*/
 
     /**
-     * Check if constant:  Will it inline away?
+     * Cifdk if donstbnt:  Will it inlinf bwby?
      */
-    public boolean isConstant() {
-        if (implementation != null)
-            return implementation.isConstant();
-        if (field != null) {
-            return field.isConstant();
+    publid boolfbn isConstbnt() {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.isConstbnt();
+        if (fifld != null) {
+            rfturn fifld.isConstbnt();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        return null;
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineValue(env, ctx);
-        if (field == null) {
-            return this;
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.inlinfVbluf(fnv, dtx);
+        if (fifld == null) {
+            rfturn tiis;
         }
         try {
-            if (field.isLocal()) {
-                if (field.isInlineable(env, false)) {
-                    Expression e = (Expression)field.getValue(env);
-                    return (e == null) ? this : e.inlineValue(env, ctx);
+            if (fifld.isLodbl()) {
+                if (fifld.isInlinfbblf(fnv, fblsf)) {
+                    Exprfssion f = (Exprfssion)fifld.gftVbluf(fnv);
+                    rfturn (f == null) ? tiis : f.inlinfVbluf(fnv, dtx);
                 }
-                return this;
+                rfturn tiis;
             }
-            return this;
-        } catch (ClassNotFound e) {
-            throw new CompilerError(e);
+            rfturn tiis;
+        } dbtdi (ClbssNotFound f) {
+            tirow nfw CompilfrError(f);
         }
     }
-    public Expression inlineLHS(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineLHS(env, ctx);
-        return this;
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.inlinfLHS(fnv, dtx);
+        rfturn tiis;
     }
 
-    public Expression copyInline(Context ctx) {
-        if (implementation != null)
-            return implementation.copyInline(ctx);
-        IdentifierExpression e =
-            (IdentifierExpression)super.copyInline(ctx);
-        if (field != null && field.isLocal()) {
-            e.field = ((LocalMember)field).getCurrentInlineCopy(ctx);
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.dopyInlinf(dtx);
+        IdfntififrExprfssion f =
+            (IdfntififrExprfssion)supfr.dopyInlinf(dtx);
+        if (fifld != null && fifld.isLodbl()) {
+            f.fifld = ((LodblMfmbfr)fifld).gftCurrfntInlinfCopy(dtx);
         }
-        return e;
+        rfturn f;
     }
 
-    public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.costInline(thresh, env, ctx);
-        return super.costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.dostInlinf(tirfsi, fnv, dtx);
+        rfturn supfr.dostInlinf(tirfsi, fnv, dtx);
     }
 
     /**
-     * Code local vars (object fields have been inlined away)
+     * Codf lodbl vbrs (objfdt fiflds ibvf bffn inlinfd bwby)
      */
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
-        return 0;
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        rfturn 0;
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_iload + type.getTypeCodeOffset(),
-                ((LocalMember)field).number);
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(wifrf, opd_ilobd + typf.gftTypfCodfOffsft(),
+                ((LodblMfmbfr)fifld).numbfr);
     }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        LocalMember local = (LocalMember)field;
-        asm.add(where, opc_istore + type.getTypeCodeOffset(),
-                new LocalVariable(local, local.number));
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        LodblMfmbfr lodbl = (LodblMfmbfr)fifld;
+        bsm.bdd(wifrf, opd_istorf + typf.gftTypfCodfOffsft(),
+                nfw LodblVbribblf(lodbl, lodbl.numbfr));
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        codeLValue(env, ctx, asm);
-        codeLoad(env, ctx, asm);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodfLVbluf(fnv, dtx, bsm);
+        dodfLobd(fnv, dtx, bsm);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print(id + "#" + ((field != null) ? field.hashCode() : 0));
-        if (implementation != null) {
+    publid void print(PrintStrfbm out) {
+        out.print(id + "#" + ((fifld != null) ? fifld.ibsiCodf() : 0));
+        if (implfmfntbtion != null) {
             out.print("/IMPL=");
-            implementation.print(out);
+            implfmfntbtion.print(out);
         }
     }
 }

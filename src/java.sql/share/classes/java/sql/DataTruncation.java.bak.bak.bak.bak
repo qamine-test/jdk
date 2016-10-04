@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * An fxdfption  thrown bs b <dodf>DbtbTrundbtion</dodf> fxdfption
+ * (on writfs) or rfportfd bs b
+ * <dodf>DbtbTrundbtion</dodf> wbrning (on rfbds)
+ *  whfn b dbtb vblufs is unfxpfdtfdly trundbtfd for rfbsons othfr thbn its hbving
+ *  fxdffdfd <dodf>MbxFifldSizf</dodf>.
+ *
+ * <P>Thf SQLstbtf for b <dodf>DbtbTrundbtion</dodf> during rfbd is <dodf>01004</dodf>.
+ * <P>Thf SQLstbtf for b <dodf>DbtbTrundbtion</dodf> during writf is <dodf>22001</dodf>.
+ */
+
+publid dlbss DbtbTrundbtion fxtfnds SQLWbrning {
+
+    /**
+     * Crfbtfs b <dodf>DbtbTrundbtion</dodf> objfdt
+     * with thf SQLStbtf initiblizfd
+     * to 01004 whfn <dodf>rfbd</dodf> is sft to <dodf>truf</dodf> bnd 22001
+     * whfn <dodf>rfbd</dodf> is sft to <dodf>fblsf</dodf>,
+     * thf rfbson sft to "Dbtb trundbtion", thf
+     * vfndor dodf sft to 0, bnd
+     * thf othfr fiflds sft to thf givfn vblufs.
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm indfx Thf indfx of thf pbrbmftfr or dolumn vbluf
+     * @pbrbm pbrbmftfr truf if b pbrbmftfr vbluf wbs trundbtfd
+     * @pbrbm rfbd truf if b rfbd wbs trundbtfd
+     * @pbrbm dbtbSizf thf originbl sizf of thf dbtb
+     * @pbrbm trbnsffrSizf thf sizf bftfr trundbtion
+     */
+    publid DbtbTrundbtion(int indfx, boolfbn pbrbmftfr,
+                          boolfbn rfbd, int dbtbSizf,
+                          int trbnsffrSizf) {
+        supfr("Dbtb trundbtion", rfbd == truf?"01004":"22001");
+        this.indfx = indfx;
+        this.pbrbmftfr = pbrbmftfr;
+        this.rfbd = rfbd;
+        this.dbtbSizf = dbtbSizf;
+        this.trbnsffrSizf = trbnsffrSizf;
+
+    }
+
+    /**
+     * Crfbtfs b <dodf>DbtbTrundbtion</dodf> objfdt
+     * with thf SQLStbtf initiblizfd
+     * to 01004 whfn <dodf>rfbd</dodf> is sft to <dodf>truf</dodf> bnd 22001
+     * whfn <dodf>rfbd</dodf> is sft to <dodf>fblsf</dodf>,
+     * thf rfbson sft to "Dbtb trundbtion", thf
+     * vfndor dodf sft to 0, bnd
+     * thf othfr fiflds sft to thf givfn vblufs.
+     *
+     * @pbrbm indfx Thf indfx of thf pbrbmftfr or dolumn vbluf
+     * @pbrbm pbrbmftfr truf if b pbrbmftfr vbluf wbs trundbtfd
+     * @pbrbm rfbd truf if b rfbd wbs trundbtfd
+     * @pbrbm dbtbSizf thf originbl sizf of thf dbtb
+     * @pbrbm trbnsffrSizf thf sizf bftfr trundbtion
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>DbtbTrundbtion</dodf>
+     * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+     * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+     *
+     * @sindf 1.6
+     */
+    publid DbtbTrundbtion(int indfx, boolfbn pbrbmftfr,
+                          boolfbn rfbd, int dbtbSizf,
+                          int trbnsffrSizf, Throwbblf dbusf) {
+        supfr("Dbtb trundbtion", rfbd == truf?"01004":"22001",dbusf);
+        this.indfx = indfx;
+        this.pbrbmftfr = pbrbmftfr;
+        this.rfbd = rfbd;
+        this.dbtbSizf = dbtbSizf;
+        this.trbnsffrSizf = trbnsffrSizf;
+    }
+
+    /**
+     * Rftrifvfs thf indfx of thf dolumn or pbrbmftfr thbt wbs trundbtfd.
+     *
+     * <P>This mby bf -1 if thf dolumn or pbrbmftfr indfx is unknown, in
+     * whidh dbsf thf <dodf>pbrbmftfr</dodf> bnd <dodf>rfbd</dodf> fiflds should bf ignorfd.
+     *
+     * @rfturn thf indfx of thf trundbtfd pbrbmftfr or dolumn vbluf
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf vbluf trundbtfd wbs b pbrbmftfr vbluf or
+         * b dolumn vbluf.
+     *
+     * @rfturn <dodf>truf</dodf> if thf vbluf trundbtfd wbs b pbrbmftfr;
+         *         <dodf>fblsf</dodf> if it wbs b dolumn vbluf
+     */
+    publid boolfbn gftPbrbmftfr() {
+        rfturn pbrbmftfr;
+    }
+
+    /**
+     * Indidbtfs whfthfr or not thf vbluf wbs trundbtfd on b rfbd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf vbluf wbs trundbtfd whfn rfbd from
+         *         thf dbtbbbsf; <dodf>fblsf</dodf> if thf dbtb wbs trundbtfd on b writf
+     */
+    publid boolfbn gftRfbd() {
+        rfturn rfbd;
+    }
+
+    /**
+     * Gfts thf numbfr of bytfs of dbtb thbt should hbvf bffn trbnsffrrfd.
+     * This numbfr mby bf bpproximbtf if dbtb donvfrsions wfrf bfing
+     * pfrformfd.  Thf vbluf mby bf <dodf>-1</dodf> if thf sizf is unknown.
+     *
+     * @rfturn thf numbfr of bytfs of dbtb thbt should hbvf bffn trbnsffrrfd
+     */
+    publid int gftDbtbSizf() {
+        rfturn dbtbSizf;
+    }
+
+    /**
+     * Gfts thf numbfr of bytfs of dbtb bdtublly trbnsffrrfd.
+     * Thf vbluf mby bf <dodf>-1</dodf> if thf sizf is unknown.
+     *
+     * @rfturn thf numbfr of bytfs of dbtb bdtublly trbnsffrrfd
+     */
+    publid int gftTrbnsffrSizf() {
+        rfturn trbnsffrSizf;
+    }
+
+        /**
+        * @sfribl
+        */
+    privbtf int indfx;
+
+        /**
+        * @sfribl
+        */
+    privbtf boolfbn pbrbmftfr;
+
+        /**
+        * @sfribl
+        */
+    privbtf boolfbn rfbd;
+
+        /**
+        * @sfribl
+        */
+    privbtf int dbtbSizf;
+
+        /**
+        * @sfribl
+        */
+    privbtf int trbnsffrSizf;
+
+    /**
+     * @sfribl
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6464298989504059473L;
+
+}

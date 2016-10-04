@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+
+
+/**
+ * Thf RfsourdfRfdords dlbss rfprfsfnts thf rfsourdf rfdords in thf
+ * four sfdtions of b DNS mfssbgf.
+ *
+ * Thf bdditionbl rfdords sfdtion is durrfntly ignorfd.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+dlbss RfsourdfRfdords {
+
+    // Four sfdtions:  qufstion, bnswfr, buthority, bdditionbl.
+    // Thf qufstion sfdtion is trfbtfd bs bfing mbdf up of (shortfnfd)
+    // rfsourdf rfdords, blthough this isn't tfdhnidblly how it's dffinfd.
+    Vfdtor<RfsourdfRfdord> qufstion = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> bnswfr = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> buthority = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> bdditionbl = nfw Vfdtor<>();
+
+    /*
+     * Truf if thfsf rfsourdf rfdords brf from b zonf trbnsffr.  In
+     * thbt dbsf only bnswfr rfdords brf rfbd (bs pfr
+     * drbft-iftf-dnsfxt-bxfr-dlbrify-02.txt).  Also, thf rdbtb of
+     * thosf bnswfr rfdords is not dfdodfd (for fffidifndy) fxdfpt
+     * for SOA rfdords.
+     */
+    boolfbn zonfXffr;
+
+    /*
+     * Rfturns b rfprfsfntbtion of thf rfsourdf rfdords in b DNS mfssbgf.
+     * Dofs not modify or storf b rfffrfndf to thf msg brrby.
+     */
+    RfsourdfRfdords(bytf[] msg, int msgLfn, Hfbdfr hdr, boolfbn zonfXffr)
+            throws NbmingExdfption {
+        if (zonfXffr) {
+            bnswfr.fnsurfCbpbdity(8192);        // bn brbitrbry "lbrgf" numbfr
+        }
+        this.zonfXffr = zonfXffr;
+        bdd(msg, msgLfn, hdr);
+    }
+
+    /*
+     * Rfturns thf typf fifld of thf first bnswfr rfdord, or -1 if
+     * thfrf brf no bnswfr rfdords.
+     */
+    int gftFirstAnsTypf() {
+        if (bnswfr.sizf() == 0) {
+            rfturn -1;
+        }
+        rfturn bnswfr.firstElfmfnt().gftTypf();
+    }
+
+    /*
+     * Rfturns thf typf fifld of thf lbst bnswfr rfdord, or -1 if
+     * thfrf brf no bnswfr rfdords.
+     */
+    int gftLbstAnsTypf() {
+        if (bnswfr.sizf() == 0) {
+            rfturn -1;
+        }
+        rfturn bnswfr.lbstElfmfnt().gftTypf();
+    }
+
+    /*
+     * Dfdodfs thf rfsourdf rfdords in b DNS mfssbgf bnd bdds
+     * thfm to this objfdt.
+     * Dofs not modify or storf b rfffrfndf to thf msg brrby.
+     */
+    void bdd(bytf[] msg, int msgLfn, Hfbdfr hdr) throws NbmingExdfption {
+
+        RfsourdfRfdord rr;
+        int pos = Hfbdfr.HEADER_SIZE;   // durrfnt offsft into msg
+
+        try {
+            for (int i = 0; i < hdr.numQufstions; i++) {
+                rr = nfw RfsourdfRfdord(msg, msgLfn, pos, truf, fblsf);
+                if (!zonfXffr) {
+                    qufstion.bddElfmfnt(rr);
+                }
+                pos += rr.sizf();
+            }
+
+            for (int i = 0; i < hdr.numAnswfrs; i++) {
+                rr = nfw RfsourdfRfdord(
+                        msg, msgLfn, pos, fblsf, !zonfXffr);
+                bnswfr.bddElfmfnt(rr);
+                pos += rr.sizf();
+            }
+
+            if (zonfXffr) {
+                rfturn;
+            }
+
+            for (int i = 0; i < hdr.numAuthoritifs; i++) {
+                rr = nfw RfsourdfRfdord(msg, msgLfn, pos, fblsf, truf);
+                buthority.bddElfmfnt(rr);
+                pos += rr.sizf();
+            }
+
+            // Thf bdditionbl rfdords sfdtion is durrfntly ignorfd.
+
+        } dbtdh (IndfxOutOfBoundsExdfption f) {
+            throw nfw CommunidbtionExdfption(
+                    "DNS frror: dorruptfd mfssbgf");
+        }
+    }
+}

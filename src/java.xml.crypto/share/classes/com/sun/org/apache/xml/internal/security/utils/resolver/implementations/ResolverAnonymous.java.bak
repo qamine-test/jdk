@@ -1,84 +1,84 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 
-package com.sun.org.apache.xml.internal.security.utils.resolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverContext;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
 
 /**
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class ResolverAnonymous extends ResourceResolverSpi {
+publid dlbss RfsolvfrAnonymous fxtfnds RfsourdfRfsolvfrSpi {
 
-    private InputStream inStream = null;
+    privbtf InputStrfbm inStrfbm = null;
 
-    @Override
-    public boolean engineIsThreadSafe() {
-        return true;
+    @Ovfrridf
+    publid boolfbn fnginfIsTirfbdSbff() {
+        rfturn truf;
     }
 
     /**
-     * @param filename
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @pbrbm filfnbmf
+     * @tirows FilfNotFoundExdfption
+     * @tirows IOExdfption
      */
-    public ResolverAnonymous(String filename) throws FileNotFoundException, IOException {
-        inStream = new FileInputStream(filename);
+    publid RfsolvfrAnonymous(String filfnbmf) tirows FilfNotFoundExdfption, IOExdfption {
+        inStrfbm = nfw FilfInputStrfbm(filfnbmf);
     }
 
     /**
-     * @param is
+     * @pbrbm is
      */
-    public ResolverAnonymous(InputStream is) {
-        inStream = is;
+    publid RfsolvfrAnonymous(InputStrfbm is) {
+        inStrfbm = is;
     }
 
-    /** @inheritDoc */
-    @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context) {
-        return new XMLSignatureInput(inStream);
+    /** @inifritDod */
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        rfturn nfw XMLSignbturfInput(inStrfbm);
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    @Override
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        if (context.uriToResolve == null) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    /** @inheritDoc */
-    public String[] engineGetPropertyKeys() {
-        return new String[0];
+    /** @inifritDod */
+    publid String[] fnginfGftPropfrtyKfys() {
+        rfturn nfw String[0];
     }
 }

@@ -1,468 +1,468 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.security.AlgorithmConstraints;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.HbsiMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.LinkfdHbsiMbp;
 
 /**
- * Encapsulates parameters for an SSL/TLS connection. The parameters
- * are the list of ciphersuites to be accepted in an SSL/TLS handshake,
- * the list of protocols to be allowed, the endpoint identification
- * algorithm during SSL/TLS handshaking, the Server Name Indication (SNI),
- * the algorithm constraints and whether SSL/TLS servers should request
- * or require client authentication, etc.
+ * Endbpsulbtfs pbrbmftfrs for bn SSL/TLS donnfdtion. Tif pbrbmftfrs
+ * brf tif list of dipifrsuitfs to bf bddfptfd in bn SSL/TLS ibndsibkf,
+ * tif list of protodols to bf bllowfd, tif fndpoint idfntifidbtion
+ * blgoritim during SSL/TLS ibndsibking, tif Sfrvfr Nbmf Indidbtion (SNI),
+ * tif blgoritim donstrbints bnd wiftifr SSL/TLS sfrvfrs siould rfqufst
+ * or rfquirf dlifnt butifntidbtion, ftd.
  * <p>
- * SSLParameters can be created via the constructors in this class.
- * Objects can also be obtained using the <code>getSSLParameters()</code>
- * methods in
- * {@link SSLSocket#getSSLParameters SSLSocket} and
- * {@link SSLServerSocket#getSSLParameters SSLServerSocket} and
- * {@link SSLEngine#getSSLParameters SSLEngine} or the
- * {@link SSLContext#getDefaultSSLParameters getDefaultSSLParameters()} and
- * {@link SSLContext#getSupportedSSLParameters getSupportedSSLParameters()}
- * methods in <code>SSLContext</code>.
+ * SSLPbrbmftfrs dbn bf drfbtfd vib tif donstrudtors in tiis dlbss.
+ * Objfdts dbn blso bf obtbinfd using tif <dodf>gftSSLPbrbmftfrs()</dodf>
+ * mftiods in
+ * {@link SSLSodkft#gftSSLPbrbmftfrs SSLSodkft} bnd
+ * {@link SSLSfrvfrSodkft#gftSSLPbrbmftfrs SSLSfrvfrSodkft} bnd
+ * {@link SSLEnginf#gftSSLPbrbmftfrs SSLEnginf} or tif
+ * {@link SSLContfxt#gftDffbultSSLPbrbmftfrs gftDffbultSSLPbrbmftfrs()} bnd
+ * {@link SSLContfxt#gftSupportfdSSLPbrbmftfrs gftSupportfdSSLPbrbmftfrs()}
+ * mftiods in <dodf>SSLContfxt</dodf>.
  * <p>
- * SSLParameters can be applied to a connection via the methods
- * {@link SSLSocket#setSSLParameters SSLSocket.setSSLParameters()} and
- * {@link SSLServerSocket#setSSLParameters SSLServerSocket.setSSLParameters()}
- * and {@link SSLEngine#setSSLParameters SSLEngine.setSSLParameters()}.
+ * SSLPbrbmftfrs dbn bf bpplifd to b donnfdtion vib tif mftiods
+ * {@link SSLSodkft#sftSSLPbrbmftfrs SSLSodkft.sftSSLPbrbmftfrs()} bnd
+ * {@link SSLSfrvfrSodkft#sftSSLPbrbmftfrs SSLSfrvfrSodkft.sftSSLPbrbmftfrs()}
+ * bnd {@link SSLEnginf#sftSSLPbrbmftfrs SSLEnginf.sftSSLPbrbmftfrs()}.
  *
- * @see SSLSocket
- * @see SSLEngine
- * @see SSLContext
+ * @sff SSLSodkft
+ * @sff SSLEnginf
+ * @sff SSLContfxt
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class SSLParameters {
+publid dlbss SSLPbrbmftfrs {
 
-    private String[] cipherSuites;
-    private String[] protocols;
-    private boolean wantClientAuth;
-    private boolean needClientAuth;
-    private String identificationAlgorithm;
-    private AlgorithmConstraints algorithmConstraints;
-    private Map<Integer, SNIServerName> sniNames = null;
-    private Map<Integer, SNIMatcher> sniMatchers = null;
-    private boolean preferLocalCipherSuites;
+    privbtf String[] dipifrSuitfs;
+    privbtf String[] protodols;
+    privbtf boolfbn wbntClifntAuti;
+    privbtf boolfbn nffdClifntAuti;
+    privbtf String idfntifidbtionAlgoritim;
+    privbtf AlgoritimConstrbints blgoritimConstrbints;
+    privbtf Mbp<Intfgfr, SNISfrvfrNbmf> sniNbmfs = null;
+    privbtf Mbp<Intfgfr, SNIMbtdifr> sniMbtdifrs = null;
+    privbtf boolfbn prfffrLodblCipifrSuitfs;
 
     /**
-     * Constructs SSLParameters.
+     * Construdts SSLPbrbmftfrs.
      * <p>
-     * The values of cipherSuites, protocols, cryptographic algorithm
-     * constraints, endpoint identification algorithm, server names and
-     * server name matchers are set to <code>null</code>, useCipherSuitesOrder,
-     * wantClientAuth and needClientAuth are set to <code>false</code>.
+     * Tif vblufs of dipifrSuitfs, protodols, dryptogrbpiid blgoritim
+     * donstrbints, fndpoint idfntifidbtion blgoritim, sfrvfr nbmfs bnd
+     * sfrvfr nbmf mbtdifrs brf sft to <dodf>null</dodf>, usfCipifrSuitfsOrdfr,
+     * wbntClifntAuti bnd nffdClifntAuti brf sft to <dodf>fblsf</dodf>.
      */
-    public SSLParameters() {
-        // empty
+    publid SSLPbrbmftfrs() {
+        // fmpty
     }
 
     /**
-     * Constructs SSLParameters from the specified array of ciphersuites.
+     * Construdts SSLPbrbmftfrs from tif spfdififd brrby of dipifrsuitfs.
      * <p>
-     * Calling this constructor is equivalent to calling the no-args
-     * constructor followed by
-     * <code>setCipherSuites(cipherSuites);</code>.
+     * Cblling tiis donstrudtor is fquivblfnt to dblling tif no-brgs
+     * donstrudtor followfd by
+     * <dodf>sftCipifrSuitfs(dipifrSuitfs);</dodf>.
      *
-     * @param cipherSuites the array of ciphersuites (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
      */
-    public SSLParameters(String[] cipherSuites) {
-        setCipherSuites(cipherSuites);
+    publid SSLPbrbmftfrs(String[] dipifrSuitfs) {
+        sftCipifrSuitfs(dipifrSuitfs);
     }
 
     /**
-     * Constructs SSLParameters from the specified array of ciphersuites
-     * and protocols.
+     * Construdts SSLPbrbmftfrs from tif spfdififd brrby of dipifrsuitfs
+     * bnd protodols.
      * <p>
-     * Calling this constructor is equivalent to calling the no-args
-     * constructor followed by
-     * <code>setCipherSuites(cipherSuites); setProtocols(protocols);</code>.
+     * Cblling tiis donstrudtor is fquivblfnt to dblling tif no-brgs
+     * donstrudtor followfd by
+     * <dodf>sftCipifrSuitfs(dipifrSuitfs); sftProtodols(protodols);</dodf>.
      *
-     * @param cipherSuites the array of ciphersuites (or null)
-     * @param protocols the array of protocols (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
      */
-    public SSLParameters(String[] cipherSuites, String[] protocols) {
-        setCipherSuites(cipherSuites);
-        setProtocols(protocols);
+    publid SSLPbrbmftfrs(String[] dipifrSuitfs, String[] protodols) {
+        sftCipifrSuitfs(dipifrSuitfs);
+        sftProtodols(protodols);
     }
 
-    private static String[] clone(String[] s) {
-        return (s == null) ? null : s.clone();
+    privbtf stbtid String[] dlonf(String[] s) {
+        rfturn (s == null) ? null : s.dlonf();
     }
 
     /**
-     * Returns a copy of the array of ciphersuites or null if none
-     * have been set.
+     * Rfturns b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * ibvf bffn sft.
      *
-     * @return a copy of the array of ciphersuites or null if none
-     * have been set.
+     * @rfturn b dopy of tif brrby of dipifrsuitfs or null if nonf
+     * ibvf bffn sft.
      */
-    public String[] getCipherSuites() {
-        return clone(cipherSuites);
+    publid String[] gftCipifrSuitfs() {
+        rfturn dlonf(dipifrSuitfs);
     }
 
     /**
-     * Sets the array of ciphersuites.
+     * Sfts tif brrby of dipifrsuitfs.
      *
-     * @param cipherSuites the array of ciphersuites (or null)
+     * @pbrbm dipifrSuitfs tif brrby of dipifrsuitfs (or null)
      */
-    public void setCipherSuites(String[] cipherSuites) {
-        this.cipherSuites = clone(cipherSuites);
+    publid void sftCipifrSuitfs(String[] dipifrSuitfs) {
+        tiis.dipifrSuitfs = dlonf(dipifrSuitfs);
     }
 
     /**
-     * Returns a copy of the array of protocols or null if none
-     * have been set.
+     * Rfturns b dopy of tif brrby of protodols or null if nonf
+     * ibvf bffn sft.
      *
-     * @return a copy of the array of protocols or null if none
-     * have been set.
+     * @rfturn b dopy of tif brrby of protodols or null if nonf
+     * ibvf bffn sft.
      */
-    public String[] getProtocols() {
-        return clone(protocols);
+    publid String[] gftProtodols() {
+        rfturn dlonf(protodols);
     }
 
     /**
-     * Sets the array of protocols.
+     * Sfts tif brrby of protodols.
      *
-     * @param protocols the array of protocols (or null)
+     * @pbrbm protodols tif brrby of protodols (or null)
      */
-    public void setProtocols(String[] protocols) {
-        this.protocols = clone(protocols);
+    publid void sftProtodols(String[] protodols) {
+        tiis.protodols = dlonf(protodols);
     }
 
     /**
-     * Returns whether client authentication should be requested.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
      *
-     * @return whether client authentication should be requested.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfqufstfd.
      */
-    public boolean getWantClientAuth() {
-        return wantClientAuth;
+    publid boolfbn gftWbntClifntAuti() {
+        rfturn wbntClifntAuti;
     }
 
     /**
-     * Sets whether client authentication should be requested. Calling
-     * this method clears the <code>needClientAuth</code> flag.
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfqufstfd. Cblling
+     * tiis mftiod dlfbrs tif <dodf>nffdClifntAuti</dodf> flbg.
      *
-     * @param wantClientAuth whether client authentication should be requested
+     * @pbrbm wbntClifntAuti wiftifr dlifnt butifntidbtion siould bf rfqufstfd
      */
-    public void setWantClientAuth(boolean wantClientAuth) {
-        this.wantClientAuth = wantClientAuth;
-        this.needClientAuth = false;
+    publid void sftWbntClifntAuti(boolfbn wbntClifntAuti) {
+        tiis.wbntClifntAuti = wbntClifntAuti;
+        tiis.nffdClifntAuti = fblsf;
     }
 
     /**
-     * Returns whether client authentication should be required.
+     * Rfturns wiftifr dlifnt butifntidbtion siould bf rfquirfd.
      *
-     * @return whether client authentication should be required.
+     * @rfturn wiftifr dlifnt butifntidbtion siould bf rfquirfd.
      */
-    public boolean getNeedClientAuth() {
-        return needClientAuth;
+    publid boolfbn gftNffdClifntAuti() {
+        rfturn nffdClifntAuti;
     }
 
     /**
-     * Sets whether client authentication should be required. Calling
-     * this method clears the <code>wantClientAuth</code> flag.
+     * Sfts wiftifr dlifnt butifntidbtion siould bf rfquirfd. Cblling
+     * tiis mftiod dlfbrs tif <dodf>wbntClifntAuti</dodf> flbg.
      *
-     * @param needClientAuth whether client authentication should be required
+     * @pbrbm nffdClifntAuti wiftifr dlifnt butifntidbtion siould bf rfquirfd
      */
-    public void setNeedClientAuth(boolean needClientAuth) {
-        this.wantClientAuth = false;
-        this.needClientAuth = needClientAuth;
+    publid void sftNffdClifntAuti(boolfbn nffdClifntAuti) {
+        tiis.wbntClifntAuti = fblsf;
+        tiis.nffdClifntAuti = nffdClifntAuti;
     }
 
     /**
-     * Returns the cryptographic algorithm constraints.
+     * Rfturns tif dryptogrbpiid blgoritim donstrbints.
      *
-     * @return the cryptographic algorithm constraints, or null if the
-     *     constraints have not been set
+     * @rfturn tif dryptogrbpiid blgoritim donstrbints, or null if tif
+     *     donstrbints ibvf not bffn sft
      *
-     * @see #setAlgorithmConstraints(AlgorithmConstraints)
+     * @sff #sftAlgoritimConstrbints(AlgoritimConstrbints)
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public AlgorithmConstraints getAlgorithmConstraints() {
-        return algorithmConstraints;
+    publid AlgoritimConstrbints gftAlgoritimConstrbints() {
+        rfturn blgoritimConstrbints;
     }
 
     /**
-     * Sets the cryptographic algorithm constraints, which will be used
-     * in addition to any configured by the runtime environment.
+     * Sfts tif dryptogrbpiid blgoritim donstrbints, wiidi will bf usfd
+     * in bddition to bny donfigurfd by tif runtimf fnvironmfnt.
      * <p>
-     * If the <code>constraints</code> parameter is non-null, every
-     * cryptographic algorithm, key and algorithm parameters used in the
-     * SSL/TLS handshake must be permitted by the constraints.
+     * If tif <dodf>donstrbints</dodf> pbrbmftfr is non-null, fvfry
+     * dryptogrbpiid blgoritim, kfy bnd blgoritim pbrbmftfrs usfd in tif
+     * SSL/TLS ibndsibkf must bf pfrmittfd by tif donstrbints.
      *
-     * @param constraints the algorithm constraints (or null)
+     * @pbrbm donstrbints tif blgoritim donstrbints (or null)
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public void setAlgorithmConstraints(AlgorithmConstraints constraints) {
-        // the constraints object is immutable
-        this.algorithmConstraints = constraints;
+    publid void sftAlgoritimConstrbints(AlgoritimConstrbints donstrbints) {
+        // tif donstrbints objfdt is immutbblf
+        tiis.blgoritimConstrbints = donstrbints;
     }
 
     /**
-     * Gets the endpoint identification algorithm.
+     * Gfts tif fndpoint idfntifidbtion blgoritim.
      *
-     * @return the endpoint identification algorithm, or null if none
-     * has been set.
+     * @rfturn tif fndpoint idfntifidbtion blgoritim, or null if nonf
+     * ibs bffn sft.
      *
-     * @see X509ExtendedTrustManager
-     * @see #setEndpointIdentificationAlgorithm(String)
+     * @sff X509ExtfndfdTrustMbnbgfr
+     * @sff #sftEndpointIdfntifidbtionAlgoritim(String)
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public String getEndpointIdentificationAlgorithm() {
-        return identificationAlgorithm;
+    publid String gftEndpointIdfntifidbtionAlgoritim() {
+        rfturn idfntifidbtionAlgoritim;
     }
 
     /**
-     * Sets the endpoint identification algorithm.
+     * Sfts tif fndpoint idfntifidbtion blgoritim.
      * <p>
-     * If the <code>algorithm</code> parameter is non-null or non-empty, the
-     * endpoint identification/verification procedures must be handled during
-     * SSL/TLS handshaking.  This is to prevent man-in-the-middle attacks.
+     * If tif <dodf>blgoritim</dodf> pbrbmftfr is non-null or non-fmpty, tif
+     * fndpoint idfntifidbtion/vfrifidbtion prodfdurfs must bf ibndlfd during
+     * SSL/TLS ibndsibking.  Tiis is to prfvfnt mbn-in-tif-middlf bttbdks.
      *
-     * @param algorithm The standard string name of the endpoint
-     *     identification algorithm (or null).  See Appendix A in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#AppA">
-     *     Java Cryptography Architecture API Specification &amp; Reference </a>
-     *     for information about standard algorithm names.
+     * @pbrbm blgoritim Tif stbndbrd string nbmf of tif fndpoint
+     *     idfntifidbtion blgoritim (or null).  Sff Appfndix A in tif <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#AppA">
+     *     Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     *     for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @see X509ExtendedTrustManager
+     * @sff X509ExtfndfdTrustMbnbgfr
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public void setEndpointIdentificationAlgorithm(String algorithm) {
-        this.identificationAlgorithm = algorithm;
+    publid void sftEndpointIdfntifidbtionAlgoritim(String blgoritim) {
+        tiis.idfntifidbtionAlgoritim = blgoritim;
     }
 
     /**
-     * Sets the desired {@link SNIServerName}s of the Server Name
-     * Indication (SNI) parameter.
+     * Sfts tif dfsirfd {@link SNISfrvfrNbmf}s of tif Sfrvfr Nbmf
+     * Indidbtion (SNI) pbrbmftfr.
      * <P>
-     * This method is only useful to {@link SSLSocket}s or {@link SSLEngine}s
-     * operating in client mode.
+     * Tiis mftiod is only usfful to {@link SSLSodkft}s or {@link SSLEnginf}s
+     * opfrbting in dlifnt modf.
      * <P>
-     * Note that the {@code serverNames} list is cloned
-     * to protect against subsequent modification.
+     * Notf tibt tif {@dodf sfrvfrNbmfs} list is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
      *
-     * @param  serverNames
-     *         the list of desired {@link SNIServerName}s (or null)
+     * @pbrbm  sfrvfrNbmfs
+     *         tif list of dfsirfd {@link SNISfrvfrNbmf}s (or null)
      *
-     * @throws NullPointerException if the {@code serverNames}
-     *         contains {@code null} element
-     * @throws IllegalArgumentException if the {@code serverNames}
-     *         contains more than one name of the same name type
+     * @tirows NullPointfrExdfption if tif {@dodf sfrvfrNbmfs}
+     *         dontbins {@dodf null} flfmfnt
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf sfrvfrNbmfs}
+     *         dontbins morf tibn onf nbmf of tif sbmf nbmf typf
      *
-     * @see SNIServerName
-     * @see #getServerNames()
+     * @sff SNISfrvfrNbmf
+     * @sff #gftSfrvfrNbmfs()
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final void setServerNames(List<SNIServerName> serverNames) {
-        if (serverNames != null) {
-            if (!serverNames.isEmpty()) {
-                sniNames = new LinkedHashMap<>(serverNames.size());
-                for (SNIServerName serverName : serverNames) {
-                    if (sniNames.put(serverName.getType(),
-                                                serverName) != null) {
-                        throw new IllegalArgumentException(
-                                    "Duplicated server name of type " +
-                                    serverName.getType());
+    publid finbl void sftSfrvfrNbmfs(List<SNISfrvfrNbmf> sfrvfrNbmfs) {
+        if (sfrvfrNbmfs != null) {
+            if (!sfrvfrNbmfs.isEmpty()) {
+                sniNbmfs = nfw LinkfdHbsiMbp<>(sfrvfrNbmfs.sizf());
+                for (SNISfrvfrNbmf sfrvfrNbmf : sfrvfrNbmfs) {
+                    if (sniNbmfs.put(sfrvfrNbmf.gftTypf(),
+                                                sfrvfrNbmf) != null) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                    "Duplidbtfd sfrvfr nbmf of typf " +
+                                    sfrvfrNbmf.gftTypf());
                     }
                 }
-            } else {
-                sniNames = Collections.<Integer, SNIServerName>emptyMap();
+            } flsf {
+                sniNbmfs = Collfdtions.<Intfgfr, SNISfrvfrNbmf>fmptyMbp();
             }
-        } else {
-            sniNames = null;
+        } flsf {
+            sniNbmfs = null;
         }
     }
 
     /**
-     * Returns a {@link List} containing all {@link SNIServerName}s of the
-     * Server Name Indication (SNI) parameter, or null if none has been set.
+     * Rfturns b {@link List} dontbining bll {@link SNISfrvfrNbmf}s of tif
+     * Sfrvfr Nbmf Indidbtion (SNI) pbrbmftfr, or null if nonf ibs bffn sft.
      * <P>
-     * This method is only useful to {@link SSLSocket}s or {@link SSLEngine}s
-     * operating in client mode.
+     * Tiis mftiod is only usfful to {@link SSLSodkft}s or {@link SSLEnginf}s
+     * opfrbting in dlifnt modf.
      * <P>
-     * For SSL/TLS connections, the underlying SSL/TLS provider
-     * may specify a default value for a certain server name type.  In
-     * client mode, it is recommended that, by default, providers should
-     * include the server name indication whenever the server can be located
-     * by a supported server name type.
+     * For SSL/TLS donnfdtions, tif undfrlying SSL/TLS providfr
+     * mby spfdify b dffbult vbluf for b dfrtbin sfrvfr nbmf typf.  In
+     * dlifnt modf, it is rfdommfndfd tibt, by dffbult, providfrs siould
+     * indludf tif sfrvfr nbmf indidbtion wifnfvfr tif sfrvfr dbn bf lodbtfd
+     * by b supportfd sfrvfr nbmf typf.
      * <P>
-     * It is recommended that providers initialize default Server Name
-     * Indications when creating {@code SSLSocket}/{@code SSLEngine}s.
-     * In the following examples, the server name could be represented by an
-     * instance of {@link SNIHostName} which has been initialized with the
-     * hostname "www.example.com" and type
-     * {@link StandardConstants#SNI_HOST_NAME}.
+     * It is rfdommfndfd tibt providfrs initiblizf dffbult Sfrvfr Nbmf
+     * Indidbtions wifn drfbting {@dodf SSLSodkft}/{@dodf SSLEnginf}s.
+     * In tif following fxbmplfs, tif sfrvfr nbmf dould bf rfprfsfntfd by bn
+     * instbndf of {@link SNIHostNbmf} wiidi ibs bffn initiblizfd witi tif
+     * iostnbmf "www.fxbmplf.dom" bnd typf
+     * {@link StbndbrdConstbnts#SNI_HOST_NAME}.
      *
-     * <pre>
-     *     Socket socket =
-     *         sslSocketFactory.createSocket("www.example.com", 443);
-     * </pre>
+     * <prf>
+     *     Sodkft sodkft =
+     *         sslSodkftFbdtory.drfbtfSodkft("www.fxbmplf.dom", 443);
+     * </prf>
      * or
-     * <pre>
-     *     SSLEngine engine =
-     *         sslContext.createSSLEngine("www.example.com", 443);
-     * </pre>
+     * <prf>
+     *     SSLEnginf fnginf =
+     *         sslContfxt.drfbtfSSLEnginf("www.fxbmplf.dom", 443);
+     * </prf>
      * <P>
      *
-     * @return null or an immutable list of non-null {@link SNIServerName}s
+     * @rfturn null or bn immutbblf list of non-null {@link SNISfrvfrNbmf}s
      *
-     * @see List
-     * @see #setServerNames(List)
+     * @sff List
+     * @sff #sftSfrvfrNbmfs(List)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final List<SNIServerName> getServerNames() {
-        if (sniNames != null) {
-            if (!sniNames.isEmpty()) {
-                return Collections.<SNIServerName>unmodifiableList(
-                                        new ArrayList<>(sniNames.values()));
-            } else {
-                return Collections.<SNIServerName>emptyList();
+    publid finbl List<SNISfrvfrNbmf> gftSfrvfrNbmfs() {
+        if (sniNbmfs != null) {
+            if (!sniNbmfs.isEmpty()) {
+                rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(
+                                        nfw ArrbyList<>(sniNbmfs.vblufs()));
+            } flsf {
+                rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Sets the {@link SNIMatcher}s of the Server Name Indication (SNI)
-     * parameter.
+     * Sfts tif {@link SNIMbtdifr}s of tif Sfrvfr Nbmf Indidbtion (SNI)
+     * pbrbmftfr.
      * <P>
-     * This method is only useful to {@link SSLSocket}s or {@link SSLEngine}s
-     * operating in server mode.
+     * Tiis mftiod is only usfful to {@link SSLSodkft}s or {@link SSLEnginf}s
+     * opfrbting in sfrvfr modf.
      * <P>
-     * Note that the {@code matchers} collection is cloned to protect
-     * against subsequent modification.
+     * Notf tibt tif {@dodf mbtdifrs} dollfdtion is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtion.
      *
-     * @param  matchers
-     *         the collection of {@link SNIMatcher}s (or null)
+     * @pbrbm  mbtdifrs
+     *         tif dollfdtion of {@link SNIMbtdifr}s (or null)
      *
-     * @throws NullPointerException if the {@code matchers}
-     *         contains {@code null} element
-     * @throws IllegalArgumentException if the {@code matchers}
-     *         contains more than one name of the same name type
+     * @tirows NullPointfrExdfption if tif {@dodf mbtdifrs}
+     *         dontbins {@dodf null} flfmfnt
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf mbtdifrs}
+     *         dontbins morf tibn onf nbmf of tif sbmf nbmf typf
      *
-     * @see Collection
-     * @see SNIMatcher
-     * @see #getSNIMatchers()
+     * @sff Collfdtion
+     * @sff SNIMbtdifr
+     * @sff #gftSNIMbtdifrs()
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final void setSNIMatchers(Collection<SNIMatcher> matchers) {
-        if (matchers != null) {
-            if (!matchers.isEmpty()) {
-                sniMatchers = new HashMap<>(matchers.size());
-                for (SNIMatcher matcher : matchers) {
-                    if (sniMatchers.put(matcher.getType(),
-                                                matcher) != null) {
-                        throw new IllegalArgumentException(
-                                    "Duplicated server name of type " +
-                                    matcher.getType());
+    publid finbl void sftSNIMbtdifrs(Collfdtion<SNIMbtdifr> mbtdifrs) {
+        if (mbtdifrs != null) {
+            if (!mbtdifrs.isEmpty()) {
+                sniMbtdifrs = nfw HbsiMbp<>(mbtdifrs.sizf());
+                for (SNIMbtdifr mbtdifr : mbtdifrs) {
+                    if (sniMbtdifrs.put(mbtdifr.gftTypf(),
+                                                mbtdifr) != null) {
+                        tirow nfw IllfgblArgumfntExdfption(
+                                    "Duplidbtfd sfrvfr nbmf of typf " +
+                                    mbtdifr.gftTypf());
                     }
                 }
-            } else {
-                sniMatchers = Collections.<Integer, SNIMatcher>emptyMap();
+            } flsf {
+                sniMbtdifrs = Collfdtions.<Intfgfr, SNIMbtdifr>fmptyMbp();
             }
-        } else {
-            sniMatchers = null;
+        } flsf {
+            sniMbtdifrs = null;
         }
     }
 
     /**
-     * Returns a {@link Collection} containing all {@link SNIMatcher}s of the
-     * Server Name Indication (SNI) parameter, or null if none has been set.
+     * Rfturns b {@link Collfdtion} dontbining bll {@link SNIMbtdifr}s of tif
+     * Sfrvfr Nbmf Indidbtion (SNI) pbrbmftfr, or null if nonf ibs bffn sft.
      * <P>
-     * This method is only useful to {@link SSLSocket}s or {@link SSLEngine}s
-     * operating in server mode.
+     * Tiis mftiod is only usfful to {@link SSLSodkft}s or {@link SSLEnginf}s
+     * opfrbting in sfrvfr modf.
      * <P>
-     * For better interoperability, providers generally will not define
-     * default matchers so that by default servers will ignore the SNI
-     * extension and continue the handshake.
+     * For bfttfr intfropfrbbility, providfrs gfnfrblly will not dffinf
+     * dffbult mbtdifrs so tibt by dffbult sfrvfrs will ignorf tif SNI
+     * fxtfnsion bnd dontinuf tif ibndsibkf.
      *
-     * @return null or an immutable collection of non-null {@link SNIMatcher}s
+     * @rfturn null or bn immutbblf dollfdtion of non-null {@link SNIMbtdifr}s
      *
-     * @see SNIMatcher
-     * @see #setSNIMatchers(Collection)
+     * @sff SNIMbtdifr
+     * @sff #sftSNIMbtdifrs(Collfdtion)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final Collection<SNIMatcher> getSNIMatchers() {
-        if (sniMatchers != null) {
-            if (!sniMatchers.isEmpty()) {
-                return Collections.<SNIMatcher>unmodifiableList(
-                                        new ArrayList<>(sniMatchers.values()));
-            } else {
-                return Collections.<SNIMatcher>emptyList();
+    publid finbl Collfdtion<SNIMbtdifr> gftSNIMbtdifrs() {
+        if (sniMbtdifrs != null) {
+            if (!sniMbtdifrs.isEmpty()) {
+                rfturn Collfdtions.<SNIMbtdifr>unmodifibblfList(
+                                        nfw ArrbyList<>(sniMbtdifrs.vblufs()));
+            } flsf {
+                rfturn Collfdtions.<SNIMbtdifr>fmptyList();
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Sets whether the local cipher suites preference should be honored.
+     * Sfts wiftifr tif lodbl dipifr suitfs prfffrfndf siould bf ionorfd.
      *
-     * @param honorOrder whether local cipher suites order in
-     *        {@code #getCipherSuites} should be honored during
-     *        SSL/TLS handshaking.
+     * @pbrbm ionorOrdfr wiftifr lodbl dipifr suitfs ordfr in
+     *        {@dodf #gftCipifrSuitfs} siould bf ionorfd during
+     *        SSL/TLS ibndsibking.
      *
-     * @see #getUseCipherSuitesOrder()
+     * @sff #gftUsfCipifrSuitfsOrdfr()
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final void setUseCipherSuitesOrder(boolean honorOrder) {
-        this.preferLocalCipherSuites = honorOrder;
+    publid finbl void sftUsfCipifrSuitfsOrdfr(boolfbn ionorOrdfr) {
+        tiis.prfffrLodblCipifrSuitfs = ionorOrdfr;
     }
 
     /**
-     * Returns whether the local cipher suites preference should be honored.
+     * Rfturns wiftifr tif lodbl dipifr suitfs prfffrfndf siould bf ionorfd.
      *
-     * @return whether local cipher suites order in {@code #getCipherSuites}
-     *         should be honored during SSL/TLS handshaking.
+     * @rfturn wiftifr lodbl dipifr suitfs ordfr in {@dodf #gftCipifrSuitfs}
+     *         siould bf ionorfd during SSL/TLS ibndsibking.
      *
-     * @see #setUseCipherSuitesOrder(boolean)
+     * @sff #sftUsfCipifrSuitfsOrdfr(boolfbn)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public final boolean getUseCipherSuitesOrder() {
-        return preferLocalCipherSuites;
+    publid finbl boolfbn gftUsfCipifrSuitfsOrdfr() {
+        rfturn prfffrLodblCipifrSuitfs;
     }
 }
 

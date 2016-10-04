@@ -1,329 +1,329 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef OGLFuncs_h_Included
-#define OGLFuncs_h_Included
+#ifndff OGLFunds_i_Indludfd
+#dffinf OGLFunds_i_Indludfd
 
-#ifdef MACOSX
-#include <dlfcn.h>
-#endif
-#include "jni.h"
-#include "J2D_GL/gl.h"
-#include "J2D_GL/glext.h"
-#include "OGLFuncMacros.h"
-#include "OGLFuncs_md.h"
-#include "Trace.h"
+#ifdff MACOSX
+#indludf <dlfdn.i>
+#fndif
+#indludf "jni.i"
+#indludf "J2D_GL/gl.i"
+#indludf "J2D_GL/glfxt.i"
+#indludf "OGLFundMbdros.i"
+#indludf "OGLFunds_md.i"
+#indludf "Trbdf.i"
 
-jboolean OGLFuncs_OpenLibrary();
-void     OGLFuncs_CloseLibrary();
-jboolean OGLFuncs_InitPlatformFuncs();
-jboolean OGLFuncs_InitBaseFuncs();
-jboolean OGLFuncs_InitExtFuncs();
+jboolfbn OGLFunds_OpfnLibrbry();
+void     OGLFunds_ClosfLibrbry();
+jboolfbn OGLFunds_InitPlbtformFunds();
+jboolfbn OGLFunds_InitBbsfFunds();
+jboolfbn OGLFunds_InitExtFunds();
 
 /**
- * Core OpenGL 1.1 function typedefs
+ * Corf OpfnGL 1.1 fundtion typfdffs
  */
-typedef void (GLAPIENTRY *glAlphaFuncType)(GLenum func, GLclampf ref);
-typedef GLboolean (GLAPIENTRY *glAreTexturesResidentType)(GLsizei n, const GLuint *textures, GLboolean *residences);
-typedef void (GLAPIENTRY *glBeginType)(GLenum mode);
-typedef void (GLAPIENTRY *glBindTextureType)(GLenum target, GLuint texture);
-typedef void (GLAPIENTRY *glBitmapType)(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap);
-typedef void (GLAPIENTRY *glBlendFuncType)(GLenum sfactor, GLenum dfactor);
-typedef void (GLAPIENTRY *glClearType)(GLbitfield mask);
-typedef void (GLAPIENTRY *glClearColorType)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-typedef void (GLAPIENTRY *glClearDepthType)(GLclampd depth);
-typedef void (GLAPIENTRY *glColor3ubType)(GLubyte red, GLubyte green, GLubyte blue);
-typedef void (GLAPIENTRY *glColor4fType)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-typedef void (GLAPIENTRY *glColor4ubType)(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha);
-typedef void (GLAPIENTRY *glColorMaskType)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-typedef void (GLAPIENTRY *glColorPointerType)(GLint size, GLenum type, GLsizei stride, const GLvoid *ptr);
-typedef void (GLAPIENTRY *glCopyPixelsType)(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);
-typedef void (GLAPIENTRY *glCopyTexSubImage2DType)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GLAPIENTRY *glDeleteTexturesType)(GLsizei n, const GLuint *textures);
-typedef void (GLAPIENTRY *glDepthFuncType)(GLenum func);
-typedef void (GLAPIENTRY *glDisableType)(GLenum cap);
-typedef void (GLAPIENTRY *glDisableClientStateType)(GLenum array);
-typedef void (GLAPIENTRY *glDrawArraysType)(GLenum mode, GLint first, GLsizei count);
-typedef void (GLAPIENTRY *glDrawBufferType)(GLenum mode);
-typedef void (GLAPIENTRY *glDrawPixelsType)(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
-typedef void (GLAPIENTRY *glEnableType)(GLenum cap);
-typedef void (GLAPIENTRY *glEnableClientStateType)(GLenum array);
-typedef void (GLAPIENTRY *glEndType)(void);
-typedef void (GLAPIENTRY *glFinishType)(void);
-typedef void (GLAPIENTRY *glFlushType)(void);
-typedef void (GLAPIENTRY *glGenTexturesType)(GLsizei n, GLuint *textures);
-typedef void (GLAPIENTRY *glGetBooleanvType)(GLenum pname, GLboolean *params);
-typedef void (GLAPIENTRY *glGetDoublevType)(GLenum pname, GLdouble *params);
-typedef GLenum (GLAPIENTRY *glGetErrorType)(void);
-typedef void (GLAPIENTRY *glGetFloatvType)(GLenum pname, GLfloat *params);
-typedef void (GLAPIENTRY *glGetIntegervType)(GLenum pname, GLint *params);
-typedef const GLubyte * (GLAPIENTRY *glGetStringType)(GLenum name);
-typedef void (GLAPIENTRY *glGetTexLevelParameterivType)(GLenum target, GLint level, GLenum pname, GLint *params);
-typedef void (GLAPIENTRY *glHintType)(GLenum target, GLenum mode);
-typedef void (GLAPIENTRY *glInterleavedArraysType)(GLenum format, GLsizei stride, const GLvoid *pointer);
-typedef GLboolean (GLAPIENTRY *glIsEnabledType)(GLenum cap);
-typedef GLboolean (GLAPIENTRY *glIsTextureType)(GLuint texture);
-typedef void (GLAPIENTRY *glLoadIdentityType)(void);
-typedef void (GLAPIENTRY *glLoadMatrixdType)(const GLdouble *m);
-typedef void (GLAPIENTRY *glLogicOpType)(GLenum opcode);
-typedef void (GLAPIENTRY *glMatrixModeType)(GLenum mode);
-typedef void (GLAPIENTRY *glOrthoType)(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar);
-typedef void (GLAPIENTRY *glPixelStoreiType)(GLenum pname, GLint param);
-typedef void (GLAPIENTRY *glPixelTransferfType)(GLenum pname, GLfloat param);
-typedef void (GLAPIENTRY *glPixelZoomType)(GLfloat xfactor, GLfloat yfactor);
-typedef void (GLAPIENTRY *glPolygonOffsetType)(GLfloat factor, GLfloat units);
-typedef void (GLAPIENTRY *glPopAttribType)(void);
-typedef void (GLAPIENTRY *glPopClientAttribType)(void);
-typedef void (GLAPIENTRY *glPopMatrixType)(void);
-typedef void (GLAPIENTRY *glPrioritizeTexturesType)(GLsizei n, const GLuint *textures, const GLclampf *priorities);
-typedef void (GLAPIENTRY *glPushAttribType)(GLbitfield);
-typedef void (GLAPIENTRY *glPushClientAttribType)(GLbitfield);
-typedef void (GLAPIENTRY *glPushMatrixType)(void);
-typedef void (GLAPIENTRY *glRasterPos2iType)(GLint x, GLint y);
-typedef void (GLAPIENTRY *glReadBufferType)(GLenum mode);
-typedef void (GLAPIENTRY *glReadPixelsType)(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
-typedef void (GLAPIENTRY *glRectiType)(GLint x1, GLint y1, GLint x2, GLint y2);
-typedef void (GLAPIENTRY *glScalefType)(GLfloat x, GLfloat y, GLfloat z);
-typedef void (GLAPIENTRY *glScissorType)(GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GLAPIENTRY *glTexCoord2dType)(GLdouble s, GLdouble t);
-typedef void (GLAPIENTRY *glTexCoord2fType)(GLfloat s, GLfloat t);
-typedef void (GLAPIENTRY *glTexCoordPointerType)(GLint size, GLenum type, GLsizei stride, const GLvoid *ptr);
-typedef void (GLAPIENTRY *glTexEnviType)(GLenum target, GLenum pname, GLint param);
-typedef void (GLAPIENTRY *glTexGeniType)(GLenum coord, GLenum pname, GLint param);
-typedef void (GLAPIENTRY *glTexGendvType)(GLenum coord, GLenum pname, const GLdouble *params);
-typedef void (GLAPIENTRY *glTexImage1DType)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-typedef void (GLAPIENTRY *glTexImage2DType)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-typedef void (GLAPIENTRY *glTexParameteriType)(GLenum target, GLenum pname, GLint param);
-typedef void (GLAPIENTRY *glTexSubImage1DType)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *pixels);
-typedef void (GLAPIENTRY *glTexSubImage2DType)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
-typedef void (GLAPIENTRY *glTranslatefType)(GLfloat x, GLfloat y, GLfloat z);
-typedef void (GLAPIENTRY *glVertex2dType)(GLdouble x, GLdouble y);
-typedef void (GLAPIENTRY *glVertex2fType)(GLfloat x, GLfloat y);
-typedef void (GLAPIENTRY *glVertex2iType)(GLint x, GLint y);
-typedef void (GLAPIENTRY *glVertexPointerType)(GLint size, GLenum type, GLsizei stride, const GLvoid *ptr);
-typedef void (GLAPIENTRY *glViewportType)(GLint x, GLint y, GLsizei width, GLsizei height);
+typfdff void (GLAPIENTRY *glAlpibFundTypf)(GLfnum fund, GLdlbmpf rff);
+typfdff GLboolfbn (GLAPIENTRY *glArfTfxturfsRfsidfntTypf)(GLsizfi n, donst GLuint *tfxturfs, GLboolfbn *rfsidfndfs);
+typfdff void (GLAPIENTRY *glBfginTypf)(GLfnum modf);
+typfdff void (GLAPIENTRY *glBindTfxturfTypf)(GLfnum tbrgft, GLuint tfxturf);
+typfdff void (GLAPIENTRY *glBitmbpTypf)(GLsizfi widti, GLsizfi ifigit, GLflobt xorig, GLflobt yorig, GLflobt xmovf, GLflobt ymovf, donst GLubytf *bitmbp);
+typfdff void (GLAPIENTRY *glBlfndFundTypf)(GLfnum sfbdtor, GLfnum dfbdtor);
+typfdff void (GLAPIENTRY *glClfbrTypf)(GLbitfifld mbsk);
+typfdff void (GLAPIENTRY *glClfbrColorTypf)(GLdlbmpf rfd, GLdlbmpf grffn, GLdlbmpf bluf, GLdlbmpf blpib);
+typfdff void (GLAPIENTRY *glClfbrDfptiTypf)(GLdlbmpd dfpti);
+typfdff void (GLAPIENTRY *glColor3ubTypf)(GLubytf rfd, GLubytf grffn, GLubytf bluf);
+typfdff void (GLAPIENTRY *glColor4fTypf)(GLflobt rfd, GLflobt grffn, GLflobt bluf, GLflobt blpib);
+typfdff void (GLAPIENTRY *glColor4ubTypf)(GLubytf rfd, GLubytf grffn, GLubytf bluf, GLubytf blpib);
+typfdff void (GLAPIENTRY *glColorMbskTypf)(GLboolfbn rfd, GLboolfbn grffn, GLboolfbn bluf, GLboolfbn blpib);
+typfdff void (GLAPIENTRY *glColorPointfrTypf)(GLint sizf, GLfnum typf, GLsizfi stridf, donst GLvoid *ptr);
+typfdff void (GLAPIENTRY *glCopyPixflsTypf)(GLint x, GLint y, GLsizfi widti, GLsizfi ifigit, GLfnum typf);
+typfdff void (GLAPIENTRY *glCopyTfxSubImbgf2DTypf)(GLfnum tbrgft, GLint lfvfl, GLint xoffsft, GLint yoffsft, GLint x, GLint y, GLsizfi widti, GLsizfi ifigit);
+typfdff void (GLAPIENTRY *glDflftfTfxturfsTypf)(GLsizfi n, donst GLuint *tfxturfs);
+typfdff void (GLAPIENTRY *glDfptiFundTypf)(GLfnum fund);
+typfdff void (GLAPIENTRY *glDisbblfTypf)(GLfnum dbp);
+typfdff void (GLAPIENTRY *glDisbblfClifntStbtfTypf)(GLfnum brrby);
+typfdff void (GLAPIENTRY *glDrbwArrbysTypf)(GLfnum modf, GLint first, GLsizfi dount);
+typfdff void (GLAPIENTRY *glDrbwBufffrTypf)(GLfnum modf);
+typfdff void (GLAPIENTRY *glDrbwPixflsTypf)(GLsizfi widti, GLsizfi ifigit, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glEnbblfTypf)(GLfnum dbp);
+typfdff void (GLAPIENTRY *glEnbblfClifntStbtfTypf)(GLfnum brrby);
+typfdff void (GLAPIENTRY *glEndTypf)(void);
+typfdff void (GLAPIENTRY *glFinisiTypf)(void);
+typfdff void (GLAPIENTRY *glFlusiTypf)(void);
+typfdff void (GLAPIENTRY *glGfnTfxturfsTypf)(GLsizfi n, GLuint *tfxturfs);
+typfdff void (GLAPIENTRY *glGftBoolfbnvTypf)(GLfnum pnbmf, GLboolfbn *pbrbms);
+typfdff void (GLAPIENTRY *glGftDoublfvTypf)(GLfnum pnbmf, GLdoublf *pbrbms);
+typfdff GLfnum (GLAPIENTRY *glGftErrorTypf)(void);
+typfdff void (GLAPIENTRY *glGftFlobtvTypf)(GLfnum pnbmf, GLflobt *pbrbms);
+typfdff void (GLAPIENTRY *glGftIntfgfrvTypf)(GLfnum pnbmf, GLint *pbrbms);
+typfdff donst GLubytf * (GLAPIENTRY *glGftStringTypf)(GLfnum nbmf);
+typfdff void (GLAPIENTRY *glGftTfxLfvflPbrbmftfrivTypf)(GLfnum tbrgft, GLint lfvfl, GLfnum pnbmf, GLint *pbrbms);
+typfdff void (GLAPIENTRY *glHintTypf)(GLfnum tbrgft, GLfnum modf);
+typfdff void (GLAPIENTRY *glIntfrlfbvfdArrbysTypf)(GLfnum formbt, GLsizfi stridf, donst GLvoid *pointfr);
+typfdff GLboolfbn (GLAPIENTRY *glIsEnbblfdTypf)(GLfnum dbp);
+typfdff GLboolfbn (GLAPIENTRY *glIsTfxturfTypf)(GLuint tfxturf);
+typfdff void (GLAPIENTRY *glLobdIdfntityTypf)(void);
+typfdff void (GLAPIENTRY *glLobdMbtrixdTypf)(donst GLdoublf *m);
+typfdff void (GLAPIENTRY *glLogidOpTypf)(GLfnum opdodf);
+typfdff void (GLAPIENTRY *glMbtrixModfTypf)(GLfnum modf);
+typfdff void (GLAPIENTRY *glOrtioTypf)(GLdoublf lfft, GLdoublf rigit, GLdoublf bottom, GLdoublf top, GLdoublf zNfbr, GLdoublf zFbr);
+typfdff void (GLAPIENTRY *glPixflStorfiTypf)(GLfnum pnbmf, GLint pbrbm);
+typfdff void (GLAPIENTRY *glPixflTrbnsffrfTypf)(GLfnum pnbmf, GLflobt pbrbm);
+typfdff void (GLAPIENTRY *glPixflZoomTypf)(GLflobt xfbdtor, GLflobt yfbdtor);
+typfdff void (GLAPIENTRY *glPolygonOffsftTypf)(GLflobt fbdtor, GLflobt units);
+typfdff void (GLAPIENTRY *glPopAttribTypf)(void);
+typfdff void (GLAPIENTRY *glPopClifntAttribTypf)(void);
+typfdff void (GLAPIENTRY *glPopMbtrixTypf)(void);
+typfdff void (GLAPIENTRY *glPrioritizfTfxturfsTypf)(GLsizfi n, donst GLuint *tfxturfs, donst GLdlbmpf *prioritifs);
+typfdff void (GLAPIENTRY *glPusiAttribTypf)(GLbitfifld);
+typfdff void (GLAPIENTRY *glPusiClifntAttribTypf)(GLbitfifld);
+typfdff void (GLAPIENTRY *glPusiMbtrixTypf)(void);
+typfdff void (GLAPIENTRY *glRbstfrPos2iTypf)(GLint x, GLint y);
+typfdff void (GLAPIENTRY *glRfbdBufffrTypf)(GLfnum modf);
+typfdff void (GLAPIENTRY *glRfbdPixflsTypf)(GLint x, GLint y, GLsizfi widti, GLsizfi ifigit, GLfnum formbt, GLfnum typf, GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glRfdtiTypf)(GLint x1, GLint y1, GLint x2, GLint y2);
+typfdff void (GLAPIENTRY *glSdblffTypf)(GLflobt x, GLflobt y, GLflobt z);
+typfdff void (GLAPIENTRY *glSdissorTypf)(GLint x, GLint y, GLsizfi widti, GLsizfi ifigit);
+typfdff void (GLAPIENTRY *glTfxCoord2dTypf)(GLdoublf s, GLdoublf t);
+typfdff void (GLAPIENTRY *glTfxCoord2fTypf)(GLflobt s, GLflobt t);
+typfdff void (GLAPIENTRY *glTfxCoordPointfrTypf)(GLint sizf, GLfnum typf, GLsizfi stridf, donst GLvoid *ptr);
+typfdff void (GLAPIENTRY *glTfxEnviTypf)(GLfnum tbrgft, GLfnum pnbmf, GLint pbrbm);
+typfdff void (GLAPIENTRY *glTfxGfniTypf)(GLfnum doord, GLfnum pnbmf, GLint pbrbm);
+typfdff void (GLAPIENTRY *glTfxGfndvTypf)(GLfnum doord, GLfnum pnbmf, donst GLdoublf *pbrbms);
+typfdff void (GLAPIENTRY *glTfxImbgf1DTypf)(GLfnum tbrgft, GLint lfvfl, GLfnum intfrnblformbt, GLsizfi widti, GLint bordfr, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glTfxImbgf2DTypf)(GLfnum tbrgft, GLint lfvfl, GLfnum intfrnblformbt, GLsizfi widti, GLsizfi ifigit, GLint bordfr, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glTfxPbrbmftfriTypf)(GLfnum tbrgft, GLfnum pnbmf, GLint pbrbm);
+typfdff void (GLAPIENTRY *glTfxSubImbgf1DTypf)(GLfnum tbrgft, GLint lfvfl, GLint xoffsft, GLsizfi widti, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glTfxSubImbgf2DTypf)(GLfnum tbrgft, GLint lfvfl, GLint xoffsft, GLint yoffsft, GLsizfi widti, GLsizfi ifigit, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
+typfdff void (GLAPIENTRY *glTrbnslbtffTypf)(GLflobt x, GLflobt y, GLflobt z);
+typfdff void (GLAPIENTRY *glVfrtfx2dTypf)(GLdoublf x, GLdoublf y);
+typfdff void (GLAPIENTRY *glVfrtfx2fTypf)(GLflobt x, GLflobt y);
+typfdff void (GLAPIENTRY *glVfrtfx2iTypf)(GLint x, GLint y);
+typfdff void (GLAPIENTRY *glVfrtfxPointfrTypf)(GLint sizf, GLfnum typf, GLsizfi stridf, donst GLvoid *ptr);
+typfdff void (GLAPIENTRY *glVifwportTypf)(GLint x, GLint y, GLsizfi widti, GLsizfi ifigit);
 
 /**
- * OpenGL 1.2 and extension function typedefs (functions that were added in
- * the 1.2 spec and later need to be loaded on Windows as if they were
- * extensions, which is why they are called out separately here)
+ * OpfnGL 1.2 bnd fxtfnsion fundtion typfdffs (fundtions tibt wfrf bddfd in
+ * tif 1.2 spfd bnd lbtfr nffd to bf lobdfd on Windows bs if tify wfrf
+ * fxtfnsions, wiidi is wiy tify brf dbllfd out sfpbrbtfly ifrf)
  */
-typedef void (GLAPIENTRY *glActiveTextureARBType)(GLenum texture);
-typedef void (GLAPIENTRY *glMultiTexCoord2fARBType)(GLenum texture, GLfloat s, GLfloat t);
-typedef void (GLAPIENTRY *glTexImage3DType)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
+typfdff void (GLAPIENTRY *glAdtivfTfxturfARBTypf)(GLfnum tfxturf);
+typfdff void (GLAPIENTRY *glMultiTfxCoord2fARBTypf)(GLfnum tfxturf, GLflobt s, GLflobt t);
+typfdff void (GLAPIENTRY *glTfxImbgf3DTypf)(GLfnum tbrgft, GLint lfvfl, GLfnum intfrnblformbt, GLsizfi widti, GLsizfi ifigit, GLsizfi dfpti, GLint bordfr, GLfnum formbt, GLfnum typf, donst GLvoid *pixfls);
 
 /**
- * GL_EXT_framebuffer_object function typedefs
+ * GL_EXT_frbmfbufffr_objfdt fundtion typfdffs
  */
-typedef void (GLAPIENTRY *glBindRenderbufferEXTType)(GLenum, GLuint);
-typedef void (GLAPIENTRY *glDeleteRenderbuffersEXTType)(GLsizei, const GLuint *);
-typedef void (GLAPIENTRY *glGenRenderbuffersEXTType)(GLsizei, GLuint *);
-typedef void (GLAPIENTRY *glRenderbufferStorageEXTType)(GLenum, GLenum, GLsizei, GLsizei);
-typedef void (GLAPIENTRY *glBindFramebufferEXTType)(GLenum, GLuint);
-typedef void (GLAPIENTRY *glDeleteFramebuffersEXTType)(GLsizei, const GLuint *);
-typedef void (GLAPIENTRY *glGenFramebuffersEXTType)(GLsizei, GLuint *);
-typedef GLenum (GLAPIENTRY *glCheckFramebufferStatusEXTType)(GLenum);
-typedef void (GLAPIENTRY *glFramebufferTexture2DEXTType)(GLenum, GLenum, GLenum, GLuint, GLint);
-typedef void (GLAPIENTRY *glFramebufferRenderbufferEXTType)(GLenum, GLenum, GLenum, GLuint);
+typfdff void (GLAPIENTRY *glBindRfndfrbufffrEXTTypf)(GLfnum, GLuint);
+typfdff void (GLAPIENTRY *glDflftfRfndfrbufffrsEXTTypf)(GLsizfi, donst GLuint *);
+typfdff void (GLAPIENTRY *glGfnRfndfrbufffrsEXTTypf)(GLsizfi, GLuint *);
+typfdff void (GLAPIENTRY *glRfndfrbufffrStorbgfEXTTypf)(GLfnum, GLfnum, GLsizfi, GLsizfi);
+typfdff void (GLAPIENTRY *glBindFrbmfbufffrEXTTypf)(GLfnum, GLuint);
+typfdff void (GLAPIENTRY *glDflftfFrbmfbufffrsEXTTypf)(GLsizfi, donst GLuint *);
+typfdff void (GLAPIENTRY *glGfnFrbmfbufffrsEXTTypf)(GLsizfi, GLuint *);
+typfdff GLfnum (GLAPIENTRY *glCifdkFrbmfbufffrStbtusEXTTypf)(GLfnum);
+typfdff void (GLAPIENTRY *glFrbmfbufffrTfxturf2DEXTTypf)(GLfnum, GLfnum, GLfnum, GLuint, GLint);
+typfdff void (GLAPIENTRY *glFrbmfbufffrRfndfrbufffrEXTTypf)(GLfnum, GLfnum, GLfnum, GLuint);
 
 /**
- * GL_ARB_fragment_shader extension function typedefs
+ * GL_ARB_frbgmfnt_sibdfr fxtfnsion fundtion typfdffs
  */
-typedef GLhandleARB (GLAPIENTRY *glCreateShaderObjectARBType)(GLenum);
-typedef void (GLAPIENTRY *glShaderSourceARBType)(GLhandleARB, GLsizei, const GLcharARB* *, const GLint *);
-typedef void (GLAPIENTRY *glCompileShaderARBType)(GLhandleARB);
-typedef void (GLAPIENTRY *glUseProgramObjectARBType)(GLhandleARB);
-typedef void (GLAPIENTRY *glUniform1iARBType)(GLint, GLint);
-typedef void (GLAPIENTRY *glUniform1fARBType)(GLint, GLfloat);
-typedef void (GLAPIENTRY *glUniform1fvARBType)(GLint, GLsizei, const GLfloat *);
-typedef void (GLAPIENTRY *glUniform2fARBType)(GLint, GLfloat, GLfloat);
-typedef void (GLAPIENTRY *glUniform3fARBType)(GLint, GLfloat, GLfloat, GLfloat);
-typedef void (GLAPIENTRY *glUniform3fvARBType)(GLint, GLsizei, const GLfloat *);
-typedef void (GLAPIENTRY *glUniform4fARBType)(GLint, GLfloat, GLfloat, GLfloat, GLfloat);
-typedef void (GLAPIENTRY *glUniform4fvARBType)(GLint, GLsizei, const GLfloat *);
-typedef GLint (GLAPIENTRY *glGetUniformLocationARBType)(GLhandleARB, const GLcharARB *);
-typedef void (GLAPIENTRY *glGetInfoLogARBType)(GLhandleARB, GLsizei, GLsizei *, GLcharARB *);
-typedef void (GLAPIENTRY *glGetProgramivARBType)(GLenum, GLenum, GLint *);
-typedef void (GLAPIENTRY *glGetObjectParameterivARBType)(GLhandleARB, GLenum, GLint *);
-typedef GLhandleARB (GLAPIENTRY *glCreateProgramObjectARBType)(void);
-typedef void (GLAPIENTRY *glAttachObjectARBType)(GLhandleARB, GLhandleARB);
-typedef void (GLAPIENTRY *glLinkProgramARBType)(GLhandleARB);
-typedef void (GLAPIENTRY *glDeleteObjectARBType)(GLhandleARB);
+typfdff GLibndlfARB (GLAPIENTRY *glCrfbtfSibdfrObjfdtARBTypf)(GLfnum);
+typfdff void (GLAPIENTRY *glSibdfrSourdfARBTypf)(GLibndlfARB, GLsizfi, donst GLdibrARB* *, donst GLint *);
+typfdff void (GLAPIENTRY *glCompilfSibdfrARBTypf)(GLibndlfARB);
+typfdff void (GLAPIENTRY *glUsfProgrbmObjfdtARBTypf)(GLibndlfARB);
+typfdff void (GLAPIENTRY *glUniform1iARBTypf)(GLint, GLint);
+typfdff void (GLAPIENTRY *glUniform1fARBTypf)(GLint, GLflobt);
+typfdff void (GLAPIENTRY *glUniform1fvARBTypf)(GLint, GLsizfi, donst GLflobt *);
+typfdff void (GLAPIENTRY *glUniform2fARBTypf)(GLint, GLflobt, GLflobt);
+typfdff void (GLAPIENTRY *glUniform3fARBTypf)(GLint, GLflobt, GLflobt, GLflobt);
+typfdff void (GLAPIENTRY *glUniform3fvARBTypf)(GLint, GLsizfi, donst GLflobt *);
+typfdff void (GLAPIENTRY *glUniform4fARBTypf)(GLint, GLflobt, GLflobt, GLflobt, GLflobt);
+typfdff void (GLAPIENTRY *glUniform4fvARBTypf)(GLint, GLsizfi, donst GLflobt *);
+typfdff GLint (GLAPIENTRY *glGftUniformLodbtionARBTypf)(GLibndlfARB, donst GLdibrARB *);
+typfdff void (GLAPIENTRY *glGftInfoLogARBTypf)(GLibndlfARB, GLsizfi, GLsizfi *, GLdibrARB *);
+typfdff void (GLAPIENTRY *glGftProgrbmivARBTypf)(GLfnum, GLfnum, GLint *);
+typfdff void (GLAPIENTRY *glGftObjfdtPbrbmftfrivARBTypf)(GLibndlfARB, GLfnum, GLint *);
+typfdff GLibndlfARB (GLAPIENTRY *glCrfbtfProgrbmObjfdtARBTypf)(void);
+typfdff void (GLAPIENTRY *glAttbdiObjfdtARBTypf)(GLibndlfARB, GLibndlfARB);
+typfdff void (GLAPIENTRY *glLinkProgrbmARBTypf)(GLibndlfARB);
+typfdff void (GLAPIENTRY *glDflftfObjfdtARBTypf)(GLibndlfARB);
 
 /**
- * REMIND: this caused an internal error in the MS compiler!?!?
+ * REMIND: tiis dbusfd bn intfrnbl frror in tif MS dompilfr!?!?
  *
- *#define OGL_CHECK_FUNC_ERR(f) \
- *    J2dTrace1(J2D_TRACE_ERROR, "could not load function: %s", #f)
+ *#dffinf OGL_CHECK_FUNC_ERR(f) \
+ *    J2dTrbdf1(J2D_TRACE_ERROR, "dould not lobd fundtion: %s", #f)
  */
 
-#define OGL_CHECK_FUNC_ERR(f) \
-    J2dRlsTraceLn(J2D_TRACE_ERROR, #f)
+#dffinf OGL_CHECK_FUNC_ERR(f) \
+    J2dRlsTrbdfLn(J2D_TRACE_ERROR, #f)
 
-#define OGL_INIT_FUNC(f) \
+#dffinf OGL_INIT_FUNC(f) \
     OGL_J2D_MANGLE(f) = (OGL_FUNC_TYPE(f)) OGL_GET_PROC_ADDRESS(f)
 
-#define OGL_INIT_AND_CHECK_FUNC(f) \
+#dffinf OGL_INIT_AND_CHECK_FUNC(f) \
     OGL_INIT_FUNC(f); \
     if (OGL_J2D_MANGLE(f) == NULL) { \
         OGL_CHECK_FUNC_ERR(f); \
-        return JNI_FALSE; \
+        rfturn JNI_FALSE; \
     }
 
-#define OGL_INIT_EXT_FUNC(f) \
+#dffinf OGL_INIT_EXT_FUNC(f) \
     OGL_J2D_MANGLE(f) = (OGL_FUNC_TYPE(f)) OGL_GET_EXT_PROC_ADDRESS(f)
 
-#define OGL_INIT_AND_CHECK_EXT_FUNC(f) \
+#dffinf OGL_INIT_AND_CHECK_EXT_FUNC(f) \
     OGL_INIT_EXT_FUNC(f); \
     if (OGL_J2D_MANGLE(f) == NULL) { \
         OGL_CHECK_FUNC_ERR(f); \
-        return JNI_FALSE; \
+        rfturn JNI_FALSE; \
     }
 
-#define OGL_EXPRESS_BASE_FUNCS(action) \
-    OGL_##action##_FUNC(glAlphaFunc); \
-    OGL_##action##_FUNC(glAreTexturesResident); \
-    OGL_##action##_FUNC(glBegin); \
-    OGL_##action##_FUNC(glBindTexture); \
-    OGL_##action##_FUNC(glBitmap); \
-    OGL_##action##_FUNC(glBlendFunc); \
-    OGL_##action##_FUNC(glClear); \
-    OGL_##action##_FUNC(glClearColor); \
-    OGL_##action##_FUNC(glClearDepth); \
-    OGL_##action##_FUNC(glColor3ub); \
-    OGL_##action##_FUNC(glColor4f); \
-    OGL_##action##_FUNC(glColor4ub); \
-    OGL_##action##_FUNC(glColorMask); \
-    OGL_##action##_FUNC(glColorPointer); \
-    OGL_##action##_FUNC(glCopyPixels); \
-    OGL_##action##_FUNC(glCopyTexSubImage2D); \
-    OGL_##action##_FUNC(glDeleteTextures); \
-    OGL_##action##_FUNC(glDepthFunc); \
-    OGL_##action##_FUNC(glDisable); \
-    OGL_##action##_FUNC(glDisableClientState); \
-    OGL_##action##_FUNC(glDrawArrays); \
-    OGL_##action##_FUNC(glDrawBuffer); \
-    OGL_##action##_FUNC(glDrawPixels); \
-    OGL_##action##_FUNC(glEnable); \
-    OGL_##action##_FUNC(glEnableClientState); \
-    OGL_##action##_FUNC(glEnd); \
-    OGL_##action##_FUNC(glFinish); \
-    OGL_##action##_FUNC(glFlush); \
-    OGL_##action##_FUNC(glGenTextures); \
-    OGL_##action##_FUNC(glGetBooleanv); \
-    OGL_##action##_FUNC(glGetDoublev); \
-    OGL_##action##_FUNC(glGetError); \
-    OGL_##action##_FUNC(glGetFloatv); \
-    OGL_##action##_FUNC(glGetIntegerv); \
-    OGL_##action##_FUNC(glGetString); \
-    OGL_##action##_FUNC(glGetTexLevelParameteriv); \
-    OGL_##action##_FUNC(glHint); \
-    OGL_##action##_FUNC(glInterleavedArrays); \
-    OGL_##action##_FUNC(glIsEnabled); \
-    OGL_##action##_FUNC(glIsTexture); \
-    OGL_##action##_FUNC(glLoadIdentity); \
-    OGL_##action##_FUNC(glLoadMatrixd); \
-    OGL_##action##_FUNC(glLogicOp); \
-    OGL_##action##_FUNC(glMatrixMode); \
-    OGL_##action##_FUNC(glOrtho); \
-    OGL_##action##_FUNC(glPixelStorei); \
-    OGL_##action##_FUNC(glPixelTransferf); \
-    OGL_##action##_FUNC(glPixelZoom); \
-    OGL_##action##_FUNC(glPolygonOffset); \
-    OGL_##action##_FUNC(glPopAttrib); \
-    OGL_##action##_FUNC(glPopClientAttrib); \
-    OGL_##action##_FUNC(glPopMatrix); \
-    OGL_##action##_FUNC(glPrioritizeTextures); \
-    OGL_##action##_FUNC(glPushAttrib); \
-    OGL_##action##_FUNC(glPushClientAttrib); \
-    OGL_##action##_FUNC(glPushMatrix); \
-    OGL_##action##_FUNC(glRasterPos2i); \
-    OGL_##action##_FUNC(glReadBuffer); \
-    OGL_##action##_FUNC(glReadPixels); \
-    OGL_##action##_FUNC(glRecti); \
-    OGL_##action##_FUNC(glScalef); \
-    OGL_##action##_FUNC(glScissor); \
-    OGL_##action##_FUNC(glTexCoord2d); \
-    OGL_##action##_FUNC(glTexCoord2f); \
-    OGL_##action##_FUNC(glTexCoordPointer); \
-    OGL_##action##_FUNC(glTexEnvi); \
-    OGL_##action##_FUNC(glTexGeni); \
-    OGL_##action##_FUNC(glTexGendv); \
-    OGL_##action##_FUNC(glTexImage1D); \
-    OGL_##action##_FUNC(glTexImage2D); \
-    OGL_##action##_FUNC(glTexParameteri); \
-    OGL_##action##_FUNC(glTexSubImage1D); \
-    OGL_##action##_FUNC(glTexSubImage2D); \
-    OGL_##action##_FUNC(glTranslatef); \
-    OGL_##action##_FUNC(glVertex2d); \
-    OGL_##action##_FUNC(glVertex2f); \
-    OGL_##action##_FUNC(glVertex2i); \
-    OGL_##action##_FUNC(glVertexPointer); \
-    OGL_##action##_FUNC(glViewport);
+#dffinf OGL_EXPRESS_BASE_FUNCS(bdtion) \
+    OGL_##bdtion##_FUNC(glAlpibFund); \
+    OGL_##bdtion##_FUNC(glArfTfxturfsRfsidfnt); \
+    OGL_##bdtion##_FUNC(glBfgin); \
+    OGL_##bdtion##_FUNC(glBindTfxturf); \
+    OGL_##bdtion##_FUNC(glBitmbp); \
+    OGL_##bdtion##_FUNC(glBlfndFund); \
+    OGL_##bdtion##_FUNC(glClfbr); \
+    OGL_##bdtion##_FUNC(glClfbrColor); \
+    OGL_##bdtion##_FUNC(glClfbrDfpti); \
+    OGL_##bdtion##_FUNC(glColor3ub); \
+    OGL_##bdtion##_FUNC(glColor4f); \
+    OGL_##bdtion##_FUNC(glColor4ub); \
+    OGL_##bdtion##_FUNC(glColorMbsk); \
+    OGL_##bdtion##_FUNC(glColorPointfr); \
+    OGL_##bdtion##_FUNC(glCopyPixfls); \
+    OGL_##bdtion##_FUNC(glCopyTfxSubImbgf2D); \
+    OGL_##bdtion##_FUNC(glDflftfTfxturfs); \
+    OGL_##bdtion##_FUNC(glDfptiFund); \
+    OGL_##bdtion##_FUNC(glDisbblf); \
+    OGL_##bdtion##_FUNC(glDisbblfClifntStbtf); \
+    OGL_##bdtion##_FUNC(glDrbwArrbys); \
+    OGL_##bdtion##_FUNC(glDrbwBufffr); \
+    OGL_##bdtion##_FUNC(glDrbwPixfls); \
+    OGL_##bdtion##_FUNC(glEnbblf); \
+    OGL_##bdtion##_FUNC(glEnbblfClifntStbtf); \
+    OGL_##bdtion##_FUNC(glEnd); \
+    OGL_##bdtion##_FUNC(glFinisi); \
+    OGL_##bdtion##_FUNC(glFlusi); \
+    OGL_##bdtion##_FUNC(glGfnTfxturfs); \
+    OGL_##bdtion##_FUNC(glGftBoolfbnv); \
+    OGL_##bdtion##_FUNC(glGftDoublfv); \
+    OGL_##bdtion##_FUNC(glGftError); \
+    OGL_##bdtion##_FUNC(glGftFlobtv); \
+    OGL_##bdtion##_FUNC(glGftIntfgfrv); \
+    OGL_##bdtion##_FUNC(glGftString); \
+    OGL_##bdtion##_FUNC(glGftTfxLfvflPbrbmftfriv); \
+    OGL_##bdtion##_FUNC(glHint); \
+    OGL_##bdtion##_FUNC(glIntfrlfbvfdArrbys); \
+    OGL_##bdtion##_FUNC(glIsEnbblfd); \
+    OGL_##bdtion##_FUNC(glIsTfxturf); \
+    OGL_##bdtion##_FUNC(glLobdIdfntity); \
+    OGL_##bdtion##_FUNC(glLobdMbtrixd); \
+    OGL_##bdtion##_FUNC(glLogidOp); \
+    OGL_##bdtion##_FUNC(glMbtrixModf); \
+    OGL_##bdtion##_FUNC(glOrtio); \
+    OGL_##bdtion##_FUNC(glPixflStorfi); \
+    OGL_##bdtion##_FUNC(glPixflTrbnsffrf); \
+    OGL_##bdtion##_FUNC(glPixflZoom); \
+    OGL_##bdtion##_FUNC(glPolygonOffsft); \
+    OGL_##bdtion##_FUNC(glPopAttrib); \
+    OGL_##bdtion##_FUNC(glPopClifntAttrib); \
+    OGL_##bdtion##_FUNC(glPopMbtrix); \
+    OGL_##bdtion##_FUNC(glPrioritizfTfxturfs); \
+    OGL_##bdtion##_FUNC(glPusiAttrib); \
+    OGL_##bdtion##_FUNC(glPusiClifntAttrib); \
+    OGL_##bdtion##_FUNC(glPusiMbtrix); \
+    OGL_##bdtion##_FUNC(glRbstfrPos2i); \
+    OGL_##bdtion##_FUNC(glRfbdBufffr); \
+    OGL_##bdtion##_FUNC(glRfbdPixfls); \
+    OGL_##bdtion##_FUNC(glRfdti); \
+    OGL_##bdtion##_FUNC(glSdblff); \
+    OGL_##bdtion##_FUNC(glSdissor); \
+    OGL_##bdtion##_FUNC(glTfxCoord2d); \
+    OGL_##bdtion##_FUNC(glTfxCoord2f); \
+    OGL_##bdtion##_FUNC(glTfxCoordPointfr); \
+    OGL_##bdtion##_FUNC(glTfxEnvi); \
+    OGL_##bdtion##_FUNC(glTfxGfni); \
+    OGL_##bdtion##_FUNC(glTfxGfndv); \
+    OGL_##bdtion##_FUNC(glTfxImbgf1D); \
+    OGL_##bdtion##_FUNC(glTfxImbgf2D); \
+    OGL_##bdtion##_FUNC(glTfxPbrbmftfri); \
+    OGL_##bdtion##_FUNC(glTfxSubImbgf1D); \
+    OGL_##bdtion##_FUNC(glTfxSubImbgf2D); \
+    OGL_##bdtion##_FUNC(glTrbnslbtff); \
+    OGL_##bdtion##_FUNC(glVfrtfx2d); \
+    OGL_##bdtion##_FUNC(glVfrtfx2f); \
+    OGL_##bdtion##_FUNC(glVfrtfx2i); \
+    OGL_##bdtion##_FUNC(glVfrtfxPointfr); \
+    OGL_##bdtion##_FUNC(glVifwport);
 
-#define OGL_EXPRESS_EXT_FUNCS(action) \
-    OGL_##action##_EXT_FUNC(glActiveTextureARB); \
-    OGL_##action##_EXT_FUNC(glMultiTexCoord2fARB); \
-    OGL_##action##_EXT_FUNC(glTexImage3D); \
-    OGL_##action##_EXT_FUNC(glBindRenderbufferEXT); \
-    OGL_##action##_EXT_FUNC(glDeleteRenderbuffersEXT); \
-    OGL_##action##_EXT_FUNC(glGenRenderbuffersEXT); \
-    OGL_##action##_EXT_FUNC(glRenderbufferStorageEXT); \
-    OGL_##action##_EXT_FUNC(glBindFramebufferEXT); \
-    OGL_##action##_EXT_FUNC(glDeleteFramebuffersEXT); \
-    OGL_##action##_EXT_FUNC(glGenFramebuffersEXT); \
-    OGL_##action##_EXT_FUNC(glCheckFramebufferStatusEXT); \
-    OGL_##action##_EXT_FUNC(glFramebufferTexture2DEXT); \
-    OGL_##action##_EXT_FUNC(glFramebufferRenderbufferEXT); \
-    OGL_##action##_EXT_FUNC(glCreateProgramObjectARB); \
-    OGL_##action##_EXT_FUNC(glAttachObjectARB); \
-    OGL_##action##_EXT_FUNC(glLinkProgramARB); \
-    OGL_##action##_EXT_FUNC(glCreateShaderObjectARB); \
-    OGL_##action##_EXT_FUNC(glShaderSourceARB); \
-    OGL_##action##_EXT_FUNC(glCompileShaderARB); \
-    OGL_##action##_EXT_FUNC(glUseProgramObjectARB); \
-    OGL_##action##_EXT_FUNC(glUniform1iARB); \
-    OGL_##action##_EXT_FUNC(glUniform1fARB); \
-    OGL_##action##_EXT_FUNC(glUniform1fvARB); \
-    OGL_##action##_EXT_FUNC(glUniform2fARB); \
-    OGL_##action##_EXT_FUNC(glUniform3fARB); \
-    OGL_##action##_EXT_FUNC(glUniform3fvARB); \
-    OGL_##action##_EXT_FUNC(glUniform4fARB); \
-    OGL_##action##_EXT_FUNC(glUniform4fvARB); \
-    OGL_##action##_EXT_FUNC(glGetUniformLocationARB); \
-    OGL_##action##_EXT_FUNC(glGetProgramivARB); \
-    OGL_##action##_EXT_FUNC(glGetInfoLogARB); \
-    OGL_##action##_EXT_FUNC(glGetObjectParameterivARB); \
-    OGL_##action##_EXT_FUNC(glDeleteObjectARB);
+#dffinf OGL_EXPRESS_EXT_FUNCS(bdtion) \
+    OGL_##bdtion##_EXT_FUNC(glAdtivfTfxturfARB); \
+    OGL_##bdtion##_EXT_FUNC(glMultiTfxCoord2fARB); \
+    OGL_##bdtion##_EXT_FUNC(glTfxImbgf3D); \
+    OGL_##bdtion##_EXT_FUNC(glBindRfndfrbufffrEXT); \
+    OGL_##bdtion##_EXT_FUNC(glDflftfRfndfrbufffrsEXT); \
+    OGL_##bdtion##_EXT_FUNC(glGfnRfndfrbufffrsEXT); \
+    OGL_##bdtion##_EXT_FUNC(glRfndfrbufffrStorbgfEXT); \
+    OGL_##bdtion##_EXT_FUNC(glBindFrbmfbufffrEXT); \
+    OGL_##bdtion##_EXT_FUNC(glDflftfFrbmfbufffrsEXT); \
+    OGL_##bdtion##_EXT_FUNC(glGfnFrbmfbufffrsEXT); \
+    OGL_##bdtion##_EXT_FUNC(glCifdkFrbmfbufffrStbtusEXT); \
+    OGL_##bdtion##_EXT_FUNC(glFrbmfbufffrTfxturf2DEXT); \
+    OGL_##bdtion##_EXT_FUNC(glFrbmfbufffrRfndfrbufffrEXT); \
+    OGL_##bdtion##_EXT_FUNC(glCrfbtfProgrbmObjfdtARB); \
+    OGL_##bdtion##_EXT_FUNC(glAttbdiObjfdtARB); \
+    OGL_##bdtion##_EXT_FUNC(glLinkProgrbmARB); \
+    OGL_##bdtion##_EXT_FUNC(glCrfbtfSibdfrObjfdtARB); \
+    OGL_##bdtion##_EXT_FUNC(glSibdfrSourdfARB); \
+    OGL_##bdtion##_EXT_FUNC(glCompilfSibdfrARB); \
+    OGL_##bdtion##_EXT_FUNC(glUsfProgrbmObjfdtARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform1iARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform1fARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform1fvARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform2fARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform3fARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform3fvARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform4fARB); \
+    OGL_##bdtion##_EXT_FUNC(glUniform4fvARB); \
+    OGL_##bdtion##_EXT_FUNC(glGftUniformLodbtionARB); \
+    OGL_##bdtion##_EXT_FUNC(glGftProgrbmivARB); \
+    OGL_##bdtion##_EXT_FUNC(glGftInfoLogARB); \
+    OGL_##bdtion##_EXT_FUNC(glGftObjfdtPbrbmftfrivARB); \
+    OGL_##bdtion##_EXT_FUNC(glDflftfObjfdtARB);
 
-#define OGL_EXPRESS_ALL_FUNCS(action) \
-    OGL_EXPRESS_BASE_FUNCS(action) \
-    OGL_EXPRESS_EXT_FUNCS(action) \
-    OGL_EXPRESS_PLATFORM_FUNCS(action) \
-    OGL_EXPRESS_PLATFORM_EXT_FUNCS(action)
+#dffinf OGL_EXPRESS_ALL_FUNCS(bdtion) \
+    OGL_EXPRESS_BASE_FUNCS(bdtion) \
+    OGL_EXPRESS_EXT_FUNCS(bdtion) \
+    OGL_EXPRESS_PLATFORM_FUNCS(bdtion) \
+    OGL_EXPRESS_PLATFORM_EXT_FUNCS(bdtion)
 
 OGL_EXPRESS_ALL_FUNCS(EXTERN)
 
-#endif /* OGLFuncs_h_Included */
+#fndif /* OGLFunds_i_Indludfd */

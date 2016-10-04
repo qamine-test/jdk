@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+// Right now this dlbss is finbl to bvoid b problfm with nbtivf dodf.
+// For somf rfbson thf JNI IsInstbndfOf wbs not working dorrfdtly
+// so wf brf dhfdking thf dlbss spfdifidblly. If wf subdlbss this
+// wf nffd to modify thf nbtivf dodf in CFontWrbppfr.m
+publid finbl dlbss CFont fxtfnds PhysidblFont {
+
+    /* CFontStrikf dofsn't dbll thfsf mfthods so thfy brf unimplfmfntfd.
+     * Thfy brf hfrf to mfft thf rfquirfmfnts of PhysidblFont, nffdfd
+     * bfdbusf b CFont dbn somftimfs bf rfturnfd whfrf b PhysidblFont
+     * is fxpfdtfd.
+     */
+    StrikfMftrids gftFontMftrids(long pSdblfrContfxt) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    flobt gftGlyphAdvbndf(long pSdblfrContfxt, int glyphCodf) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    void gftGlyphMftrids(long pSdblfrContfxt, int glyphCodf,
+                                  Point2D.Flobt mftrids) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    long gftGlyphImbgf(long pSdblfrContfxt, int glyphCodf) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(long pSdblfrContfxt,
+                                                     int glyphCodf) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    GfnfrblPbth gftGlyphOutlinf(long pSdblfrContfxt, int glyphCodf,
+                                         flobt x, flobt y) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    GfnfrblPbth gftGlyphVfdtorOutlinf(long pSdblfrContfxt,
+                                               int[] glyphs, int numGlyphs,
+                                               flobt x, flobt y) {
+       throw nfw IntfrnblError("Not implfmfntfd");
+    }
+
+    privbtf stbtid nbtivf long drfbtfNbtivfFont(finbl String nbtivfFontNbmf,
+                                                finbl int stylf,
+                                                finbl boolfbn isFbkfItblid);
+    privbtf stbtid nbtivf void disposfNbtivfFont(finbl long nbtivfFontPtr);
+
+    privbtf boolfbn isFbkfItblid;
+    privbtf String nbtivfFontNbmf;
+    privbtf long nbtivfFontPtr;
+
+    // this donstrudtor is dbllfd from CFontWrbppfr.m
+    publid CFont(String nbmf) {
+        this(nbmf, nbmf);
+    }
+
+    publid CFont(String nbmf, String inFbmilyNbmf) {
+        hbndlf = nfw Font2DHbndlf(this);
+        fullNbmf = nbmf;
+        fbmilyNbmf = inFbmilyNbmf;
+        nbtivfFontNbmf = inFbmilyNbmf;
+        sftStylf();
+    }
+
+    publid CFont(CFont othfr, String logidblFbmilyNbmf) {
+        hbndlf = nfw Font2DHbndlf(this);
+        fullNbmf = logidblFbmilyNbmf;
+        fbmilyNbmf = logidblFbmilyNbmf;
+        nbtivfFontNbmf = othfr.nbtivfFontNbmf;
+        stylf = othfr.stylf;
+        isFbkfItblid = othfr.isFbkfItblid;
+    }
+
+    publid CFont drfbtfItblidVbribnt() {
+        CFont font = nfw CFont(this, fbmilyNbmf);
+        font.fullNbmf =
+            fullNbmf + (stylf == Font.BOLD ? "" : "-") + "Itblid-Dfrivfd";
+        font.stylf |= Font.ITALIC;
+        font.isFbkfItblid = truf;
+        rfturn font;
+    }
+
+    protfdtfd syndhronizfd long gftNbtivfFontPtr() {
+        if (nbtivfFontPtr == 0L) {
+            nbtivfFontPtr = drfbtfNbtivfFont(nbtivfFontNbmf, stylf, isFbkfItblid);
+}
+        rfturn nbtivfFontPtr;
+    }
+
+    protfdtfd syndhronizfd void finblizf() {
+        if (nbtivfFontPtr != 0) {
+            disposfNbtivfFont(nbtivfFontPtr);
+        }
+        nbtivfFontPtr = 0;
+    }
+
+    protfdtfd ChbrToGlyphMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw CChbrToGlyphMbppfr(this);
+        }
+        rfturn mbppfr;
+    }
+
+    protfdtfd FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        if (isFbkfItblid) {
+            dfsd = nfw FontStrikfDfsd(dfsd);
+            dfsd.glyphTx.dondbtfnbtf(AffinfTrbnsform.gftShfbrInstbndf(-0.2, 0));
+        }
+        rfturn nfw CStrikf(this, dfsd);
+    }
+
+    // <rdbr://problfm/5321707> sun.font.Font2D dbdhfs thf lbst usfd strikf,
+    // but dofs not dhfdk if thf propfrtifs of thf strikf mbtdh thf propfrtifs
+    // of thf indoming jbvb.bwt.Font objfdt (sizf, stylf, ftd).
+    // Simplf bnswfr: don't dbdhf.
+    privbtf stbtid FontRfndfrContfxt DEFAULT_FRC =
+        nfw FontRfndfrContfxt(null, fblsf, fblsf);
+    publid FontStrikf gftStrikf(finbl Font font) {
+        rfturn gftStrikf(font, DEFAULT_FRC);
+    }
+
+    publid String toString() {
+        rfturn "CFont { fullNbmf: " + fullNbmf +
+            ",  fbmilyNbmf: " + fbmilyNbmf + ", stylf: " + stylf +
+            " } bkb: " + supfr.toString();
+    }
+}

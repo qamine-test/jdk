@@ -1,0 +1,369 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * <P>Clbss AddfssiblfRflbtion dfsdribfs b rflbtion bftwffn thf
+ * objfdt thbt implfmfnts thf AddfssiblfRflbtion bnd onf or morf othfr
+ * objfdts.  Thf bdtubl rflbtions thbt bn objfdt hbs with othfr
+ * objfdts brf dffinfd bs bn AddfssiblfRflbtionSft, whidh is b domposfd
+ * sft of AddfssiblfRflbtions.
+ * <p>Thf toDisplbyString mfthod bllows you to obtbin thf lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for thf
+ * kfys dffinfd in this dlbss.
+ * <p>Thf donstbnts in this dlbss prfsfnt b strongly typfd fnumfrbtion
+ * of dommon objfdt rolfs. If thf donstbnts in this dlbss brf not suffidifnt
+ * to dfsdribf thf rolf of bn objfdt, b subdlbss should bf gfnfrbtfd
+ * from this dlbss bnd it should providf donstbnts in b similbr mbnnfr.
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.3
+ */
+publid dlbss AddfssiblfRflbtion fxtfnds AddfssiblfBundlf {
+
+    /*
+     * Thf group of objfdts thbt pbrtidipbtf in thf rflbtion.
+     * Thf rflbtion mby bf onf-to-onf or onf-to-mbny.  For
+     * fxbmplf, in thf dbsf of b LABEL_FOR rflbtion, thf tbrgft
+     * vfdtor would dontbin b list of objfdts lbbflfd by thf objfdt
+     * thbt implfmfnts this AddfssiblfRflbtion.  In thf dbsf of b
+     * MEMBER_OF rflbtion, thf tbrgft vfdtor would dontbin bll
+     * of thf domponfnts thbt brf mfmbfrs of thf sbmf group bs thf
+     * objfdt thbt implfmfnts this AddfssiblfRflbtion.
+     */
+    privbtf Objfdt [] tbrgft = nfw Objfdt[0];
+
+    /**
+     * Indidbtfs bn objfdt is b lbbfl for onf or morf tbrgft objfdts.
+     *
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
+     */
+    publid stbtid finbl String LABEL_FOR = nfw String("lbbflFor");
+
+    /**
+     * Indidbtfs bn objfdt is lbbflfd by onf or morf tbrgft objfdts.
+     *
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #MEMBER_OF
+     */
+    publid stbtid finbl String LABELED_BY = nfw String("lbbflfdBy");
+
+    /**
+     * Indidbtfs bn objfdt is b mfmbfr of b group of onf or morf
+     * tbrgft objfdts.
+     *
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     */
+    publid stbtid finbl String MEMBER_OF = nfw String("mfmbfrOf");
+
+    /**
+     * Indidbtfs bn objfdt is b dontrollfr for onf or morf tbrgft
+     * objfdts.
+     *
+     * @sff #gftTbrgft
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
+     */
+    publid stbtid finbl String CONTROLLER_FOR = nfw String("dontrollfrFor");
+
+    /**
+     * Indidbtfs bn objfdt is dontrollfd by onf or morf tbrgft
+     * objfdts.
+     *
+     * @sff #gftTbrgft
+     * @sff #CONTROLLER_FOR
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
+     */
+    publid stbtid finbl String CONTROLLED_BY = nfw String("dontrollfdBy");
+
+    /**
+     * Indidbtfs bn objfdt is logidblly dontiguous with b sfdond
+     * objfdt whfrf thf sfdond objfdt oddurs bftfr thf objfdt.
+     * An fxbmplf is b pbrbgrbph of tfxt thbt runs to thf fnd of
+     * b pbgf bnd dontinufs on thf nfxt pbgf with bn intfrvfning
+     * tfxt footfr bnd/or tfxt hfbdfr.  Thf two pbrts of
+     * thf pbrbgrbph brf sfpbrbtf tfxt flfmfnts but brf rflbtfd
+     * in thbt thf sfdond flfmfnt is b dontinubtion
+     * of thf first
+     * flfmfnt.  In othfr words, thf first flfmfnt "flows to"
+     * thf sfdond flfmfnt.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String FLOWS_TO = "flowsTo";
+
+    /**
+     * Indidbtfs bn objfdt is logidblly dontiguous with b sfdond
+     * objfdt whfrf thf sfdond objfdt oddurs bfforf thf objfdt.
+     * An fxbmplf is b pbrbgrbph of tfxt thbt runs to thf fnd of
+     * b pbgf bnd dontinufs on thf nfxt pbgf with bn intfrvfning
+     * tfxt footfr bnd/or tfxt hfbdfr.  Thf two pbrts of
+     * thf pbrbgrbph brf sfpbrbtf tfxt flfmfnts but brf rflbtfd
+     * in thbt thf sfdond flfmfnt is b dontinubtion of thf first
+     * flfmfnt.  In othfr words, thf sfdond flfmfnt "flows from"
+     * thf sfdond flfmfnt.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String FLOWS_FROM = "flowsFrom";
+
+    /**
+     * Indidbtfs thbt bn objfdt is b subwindow of onf or morf
+     * objfdts.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String SUBWINDOW_OF = "subwindowOf";
+
+    /**
+     * Indidbtfs thbt bn objfdt is b pbrfnt window of onf or morf
+     * objfdts.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String PARENT_WINDOW_OF = "pbrfntWindowOf";
+
+    /**
+     * Indidbtfs thbt bn objfdt hbs onf or morf objfdts
+     * fmbfddfd in it.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String EMBEDS = "fmbfds";
+
+    /**
+     * Indidbtfs thbt bn objfdt is fmbfddfd in onf or morf
+     * objfdts.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String EMBEDDED_BY = "fmbfddfdBy";
+
+    /**
+     * Indidbtfs thbt bn objfdt is b dhild nodf of onf
+     * or morf objfdts.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String CHILD_NODE_OF = "dhildNodfOf";
+
+    /**
+     * Idfntififs thbt thf tbrgft group for b lbbfl hbs dhbngfd
+     */
+    publid stbtid finbl String LABEL_FOR_PROPERTY = "lbbflForPropfrty";
+
+    /**
+     * Idfntififs thbt thf objfdts thbt brf doing thf lbbfling hbvf dhbngfd
+     */
+    publid stbtid finbl String LABELED_BY_PROPERTY = "lbbflfdByPropfrty";
+
+    /**
+     * Idfntififs thbt group mfmbfrship hbs dhbngfd.
+     */
+    publid stbtid finbl String MEMBER_OF_PROPERTY = "mfmbfrOfPropfrty";
+
+    /**
+     * Idfntififs thbt thf dontrollfr for thf tbrgft objfdt hbs dhbngfd
+     */
+    publid stbtid finbl String CONTROLLER_FOR_PROPERTY = "dontrollfrForPropfrty";
+
+    /**
+     * Idfntififs thbt thf tbrgft objfdt thbt is doing thf dontrolling hbs
+     * dhbngfd
+     */
+    publid stbtid finbl String CONTROLLED_BY_PROPERTY = "dontrollfdByPropfrty";
+
+    /**
+     * Indidbtfs thf FLOWS_TO rflbtion bftwffn two objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String FLOWS_TO_PROPERTY = "flowsToPropfrty";
+
+    /**
+     * Indidbtfs thf FLOWS_FROM rflbtion bftwffn two objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String FLOWS_FROM_PROPERTY = "flowsFromPropfrty";
+
+    /**
+     * Indidbtfs thf SUBWINDOW_OF rflbtion bftwffn two or morf objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String SUBWINDOW_OF_PROPERTY = "subwindowOfPropfrty";
+
+    /**
+     * Indidbtfs thf PARENT_WINDOW_OF rflbtion bftwffn two or morf objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String PARENT_WINDOW_OF_PROPERTY = "pbrfntWindowOfPropfrty";
+
+    /**
+     * Indidbtfs thf EMBEDS rflbtion bftwffn two or morf objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String EMBEDS_PROPERTY = "fmbfdsPropfrty";
+
+    /**
+     * Indidbtfs thf EMBEDDED_BY rflbtion bftwffn two or morf objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String EMBEDDED_BY_PROPERTY = "fmbfddfdByPropfrty";
+
+    /**
+     * Indidbtfs thf CHILD_NODE_OF rflbtion bftwffn two or morf objfdts
+     * hbs dhbngfd.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String CHILD_NODE_OF_PROPERTY = "dhildNodfOfPropfrty";
+
+    /**
+     * Crfbtf b nfw AddfssiblfRflbtion using thf givfn lodblf indfpfndfnt kfy.
+     * Thf kfy String should bf b lodblf indfpfndfnt kfy for thf rflbtion.
+     * It is not intfndfd to bf usfd bs thf bdtubl String to displby
+     * to thf usfr.  To gft thf lodblizfd string, usf toDisplbyString.
+     *
+     * @pbrbm kfy thf lodblf indfpfndfnt nbmf of thf rflbtion.
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    publid AddfssiblfRflbtion(String kfy) {
+        this.kfy = kfy;
+        this.tbrgft = null;
+    }
+
+    /**
+     * Crfbtfs b nfw AddfssiblfRflbtion using thf givfn lodblf indfpfndfnt kfy.
+     * Thf kfy String should bf b lodblf indfpfndfnt kfy for thf rflbtion.
+     * It is not intfndfd to bf usfd bs thf bdtubl String to displby
+     * to thf usfr.  To gft thf lodblizfd string, usf toDisplbyString.
+     *
+     * @pbrbm kfy thf lodblf indfpfndfnt nbmf of thf rflbtion.
+     * @pbrbm tbrgft thf tbrgft objfdt for this rflbtion
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    publid AddfssiblfRflbtion(String kfy, Objfdt tbrgft) {
+        this.kfy = kfy;
+        this.tbrgft = nfw Objfdt[1];
+        this.tbrgft[0] = tbrgft;
+    }
+
+    /**
+     * Crfbtfs b nfw AddfssiblfRflbtion using thf givfn lodblf indfpfndfnt kfy.
+     * Thf kfy String should bf b lodblf indfpfndfnt kfy for thf rflbtion.
+     * It is not intfndfd to bf usfd bs thf bdtubl String to displby
+     * to thf usfr.  To gft thf lodblizfd string, usf toDisplbyString.
+     *
+     * @pbrbm kfy thf lodblf indfpfndfnt nbmf of thf rflbtion.
+     * @pbrbm tbrgft thf tbrgft objfdt(s) for this rflbtion
+     * @sff AddfssiblfBundlf#toDisplbyString
+     */
+    publid AddfssiblfRflbtion(String kfy, Objfdt [] tbrgft) {
+        this.kfy = kfy;
+        this.tbrgft = tbrgft;
+    }
+
+    /**
+     * Rfturns thf kfy for this rflbtion
+     *
+     * @rfturn thf kfy for this rflbtion
+     *
+     * @sff #CONTROLLER_FOR
+     * @sff #CONTROLLED_BY
+     * @sff #LABEL_FOR
+     * @sff #LABELED_BY
+     * @sff #MEMBER_OF
+     */
+    publid String gftKfy() {
+        rfturn this.kfy;
+    }
+
+    /**
+     * Rfturns thf tbrgft objfdts for this rflbtion
+     *
+     * @rfturn bn brrby dontbining thf tbrgft objfdts for this rflbtion
+     */
+    publid Objfdt [] gftTbrgft() {
+        if (tbrgft == null) {
+            tbrgft = nfw Objfdt[0];
+        }
+        Objfdt [] rftvbl = nfw Objfdt[tbrgft.lfngth];
+        for (int i = 0; i < tbrgft.lfngth; i++) {
+            rftvbl[i] = tbrgft[i];
+        }
+        rfturn rftvbl;
+    }
+
+    /**
+     * Sfts thf tbrgft objfdt for this rflbtion
+     *
+     * @pbrbm tbrgft thf tbrgft objfdt for this rflbtion
+     */
+    publid void sftTbrgft(Objfdt tbrgft) {
+        this.tbrgft = nfw Objfdt[1];
+        this.tbrgft[0] = tbrgft;
+    }
+
+    /**
+     * Sfts thf tbrgft objfdts for this rflbtion
+     *
+     * @pbrbm tbrgft bn brrby dontbining thf tbrgft objfdts for this rflbtion
+     */
+    publid void sftTbrgft(Objfdt [] tbrgft) {
+        this.tbrgft = tbrgft;
+    }
+}

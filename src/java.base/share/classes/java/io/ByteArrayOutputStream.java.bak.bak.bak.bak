@@ -1,0 +1,270 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss implfmfnts bn output strfbm in whidh thf dbtb is
+ * writtfn into b bytf brrby. Thf bufffr butombtidblly grows bs dbtb
+ * is writtfn to it.
+ * Thf dbtb dbn bf rftrifvfd using <dodf>toBytfArrby()</dodf> bnd
+ * <dodf>toString()</dodf>.
+ * <p>
+ * Closing b <tt>BytfArrbyOutputStrfbm</tt> hbs no ffffdt. Thf mfthods in
+ * this dlbss dbn bf dbllfd bftfr thf strfbm hbs bffn dlosfd without
+ * gfnfrbting bn <tt>IOExdfption</tt>.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sindf   1.0
+ */
+
+publid dlbss BytfArrbyOutputStrfbm fxtfnds OutputStrfbm {
+
+    /**
+     * Thf bufffr whfrf dbtb is storfd.
+     */
+    protfdtfd bytf buf[];
+
+    /**
+     * Thf numbfr of vblid bytfs in thf bufffr.
+     */
+    protfdtfd int dount;
+
+    /**
+     * Crfbtfs b nfw bytf brrby output strfbm. Thf bufffr dbpbdity is
+     * initiblly 32 bytfs, though its sizf indrfbsfs if nfdfssbry.
+     */
+    publid BytfArrbyOutputStrfbm() {
+        this(32);
+    }
+
+    /**
+     * Crfbtfs b nfw bytf brrby output strfbm, with b bufffr dbpbdity of
+     * thf spfdififd sizf, in bytfs.
+     *
+     * @pbrbm   sizf   thf initibl sizf.
+     * @fxdfption  IllfgblArgumfntExdfption if sizf is nfgbtivf.
+     */
+    publid BytfArrbyOutputStrfbm(int sizf) {
+        if (sizf < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf initibl sizf: "
+                                               + sizf);
+        }
+        buf = nfw bytf[sizf];
+    }
+
+    /**
+     * Indrfbsfs thf dbpbdity if nfdfssbry to fnsurf thbt it dbn hold
+     * bt lfbst thf numbfr of flfmfnts spfdififd by thf minimum
+     * dbpbdity brgumfnt.
+     *
+     * @pbrbm minCbpbdity thf dfsirfd minimum dbpbdity
+     * @throws OutOfMfmoryError if {@dodf minCbpbdity < 0}.  This is
+     * intfrprftfd bs b rfqufst for thf unsbtisfibbly lbrgf dbpbdity
+     * {@dodf (long) Intfgfr.MAX_VALUE + (minCbpbdity - Intfgfr.MAX_VALUE)}.
+     */
+    privbtf void fnsurfCbpbdity(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minCbpbdity - buf.lfngth > 0)
+            grow(minCbpbdity);
+    }
+
+    /**
+     * Indrfbsfs thf dbpbdity to fnsurf thbt it dbn hold bt lfbst thf
+     * numbfr of flfmfnts spfdififd by thf minimum dbpbdity brgumfnt.
+     *
+     * @pbrbm minCbpbdity thf dfsirfd minimum dbpbdity
+     */
+    privbtf void grow(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        int oldCbpbdity = buf.lfngth;
+        int nfwCbpbdity = oldCbpbdity << 1;
+        if (nfwCbpbdity - minCbpbdity < 0)
+            nfwCbpbdity = minCbpbdity;
+        if (nfwCbpbdity < 0) {
+            if (minCbpbdity < 0) // ovfrflow
+                throw nfw OutOfMfmoryError();
+            nfwCbpbdity = Intfgfr.MAX_VALUE;
+        }
+        buf = Arrbys.dopyOf(buf, nfwCbpbdity);
+    }
+
+    /**
+     * Writfs thf spfdififd bytf to this bytf brrby output strfbm.
+     *
+     * @pbrbm   b   thf bytf to bf writtfn.
+     */
+    publid syndhronizfd void writf(int b) {
+        fnsurfCbpbdity(dount + 1);
+        buf[dount] = (bytf) b;
+        dount += 1;
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to this bytf brrby output strfbm.
+     *
+     * @pbrbm   b     thf dbtb.
+     * @pbrbm   off   thf stbrt offsft in thf dbtb.
+     * @pbrbm   lfn   thf numbfr of bytfs to writf.
+     */
+    publid syndhronizfd void writf(bytf b[], int off, int lfn) {
+        if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+            ((off + lfn) - b.lfngth > 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        fnsurfCbpbdity(dount + lfn);
+        Systfm.brrbydopy(b, off, buf, dount, lfn);
+        dount += lfn;
+    }
+
+    /**
+     * Writfs thf domplftf dontfnts of this bytf brrby output strfbm to
+     * thf spfdififd output strfbm brgumfnt, bs if by dblling thf output
+     * strfbm's writf mfthod using <dodf>out.writf(buf, 0, dount)</dodf>.
+     *
+     * @pbrbm      out   thf output strfbm to whidh to writf thf dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void writfTo(OutputStrfbm out) throws IOExdfption {
+        out.writf(buf, 0, dount);
+    }
+
+    /**
+     * Rfsfts thf <dodf>dount</dodf> fifld of this bytf brrby output
+     * strfbm to zfro, so thbt bll durrfntly bddumulbtfd output in thf
+     * output strfbm is disdbrdfd. Thf output strfbm dbn bf usfd bgbin,
+     * rfusing thf blrfbdy bllodbtfd bufffr spbdf.
+     *
+     * @sff     jbvb.io.BytfArrbyInputStrfbm#dount
+     */
+    publid syndhronizfd void rfsft() {
+        dount = 0;
+    }
+
+    /**
+     * Crfbtfs b nfwly bllodbtfd bytf brrby. Its sizf is thf durrfnt
+     * sizf of this output strfbm bnd thf vblid dontfnts of thf bufffr
+     * hbvf bffn dopifd into it.
+     *
+     * @rfturn  thf durrfnt dontfnts of this output strfbm, bs b bytf brrby.
+     * @sff     jbvb.io.BytfArrbyOutputStrfbm#sizf()
+     */
+    publid syndhronizfd bytf toBytfArrby()[] {
+        rfturn Arrbys.dopyOf(buf, dount);
+    }
+
+    /**
+     * Rfturns thf durrfnt sizf of thf bufffr.
+     *
+     * @rfturn  thf vbluf of thf <dodf>dount</dodf> fifld, whidh is thf numbfr
+     *          of vblid bytfs in this output strfbm.
+     * @sff     jbvb.io.BytfArrbyOutputStrfbm#dount
+     */
+    publid syndhronizfd int sizf() {
+        rfturn dount;
+    }
+
+    /**
+     * Convfrts thf bufffr's dontfnts into b string dfdoding bytfs using thf
+     * plbtform's dffbult dhbrbdtfr sft. Thf lfngth of thf nfw <tt>String</tt>
+     * is b fundtion of thf dhbrbdtfr sft, bnd hfndf mby not bf fqubl to thf
+     * sizf of thf bufffr.
+     *
+     * <p> This mfthod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dhbrbdtfr
+     * sfqufndfs with thf dffbult rfplbdfmfnt string for thf plbtform's
+     * dffbult dhbrbdtfr sft. Thf {@linkplbin jbvb.nio.dhbrsft.ChbrsftDfdodfr}
+     * dlbss should bf usfd whfn morf dontrol ovfr thf dfdoding prodfss is
+     * rfquirfd.
+     *
+     * @rfturn String dfdodfd from thf bufffr's dontfnts.
+     * @sindf  1.1
+     */
+    publid syndhronizfd String toString() {
+        rfturn nfw String(buf, 0, dount);
+    }
+
+    /**
+     * Convfrts thf bufffr's dontfnts into b string by dfdoding thf bytfs using
+     * thf nbmfd {@link jbvb.nio.dhbrsft.Chbrsft dhbrsft}. Thf lfngth of thf nfw
+     * <tt>String</tt> is b fundtion of thf dhbrsft, bnd hfndf mby not bf fqubl
+     * to thf lfngth of thf bytf brrby.
+     *
+     * <p> This mfthod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dhbrbdtfr
+     * sfqufndfs with this dhbrsft's dffbult rfplbdfmfnt string. Thf {@link
+     * jbvb.nio.dhbrsft.ChbrsftDfdodfr} dlbss should bf usfd whfn morf dontrol
+     * ovfr thf dfdoding prodfss is rfquirfd.
+     *
+     * @pbrbm      dhbrsftNbmf  thf nbmf of b supportfd
+     *             {@link jbvb.nio.dhbrsft.Chbrsft dhbrsft}
+     * @rfturn     String dfdodfd from thf bufffr's dontfnts.
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If thf nbmfd dhbrsft is not supportfd
+     * @sindf      1.1
+     */
+    publid syndhronizfd String toString(String dhbrsftNbmf)
+        throws UnsupportfdEndodingExdfption
+    {
+        rfturn nfw String(buf, 0, dount, dhbrsftNbmf);
+    }
+
+    /**
+     * Crfbtfs b nfwly bllodbtfd string. Its sizf is thf durrfnt sizf of
+     * thf output strfbm bnd thf vblid dontfnts of thf bufffr hbvf bffn
+     * dopifd into it. Ebdh dhbrbdtfr <i>d</i> in thf rfsulting string is
+     * donstrudtfd from thf dorrfsponding flfmfnt <i>b</i> in thf bytf
+     * brrby sudh thbt:
+     * <blodkquotf><prf>
+     *     d == (dhbr)(((hibytf &bmp; 0xff) &lt;&lt; 8) | (b &bmp; 0xff))
+     * </prf></blodkquotf>
+     *
+     * @dfprfdbtfd This mfthod dofs not propfrly donvfrt bytfs into dhbrbdtfrs.
+     * As of JDK&nbsp;1.1, thf prfffrrfd wby to do this is vib thf
+     * <dodf>toString(String fnd)</dodf> mfthod, whidh tbkfs bn fndoding-nbmf
+     * brgumfnt, or thf <dodf>toString()</dodf> mfthod, whidh usfs thf
+     * plbtform's dffbult dhbrbdtfr fndoding.
+     *
+     * @pbrbm      hibytf    thf high bytf of fbdh rfsulting Unidodf dhbrbdtfr.
+     * @rfturn     thf durrfnt dontfnts of thf output strfbm, bs b string.
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#sizf()
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#toString(String)
+     * @sff        jbvb.io.BytfArrbyOutputStrfbm#toString()
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd String toString(int hibytf) {
+        rfturn nfw String(buf, hibytf, 0, dount);
+    }
+
+    /**
+     * Closing b <tt>BytfArrbyOutputStrfbm</tt> hbs no ffffdt. Thf mfthods in
+     * this dlbss dbn bf dbllfd bftfr thf strfbm hbs bffn dlosfd without
+     * gfnfrbting bn <tt>IOExdfption</tt>.
+     */
+    publid void dlosf() throws IOExdfption {
+    }
+
+}

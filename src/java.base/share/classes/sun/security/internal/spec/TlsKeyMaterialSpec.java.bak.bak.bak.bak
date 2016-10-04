@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
+
+import jbvb.sfdurity.spfd.KfySpfd;
+
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+
+/**
+ * KfySpfd dlbss for SSL/TLS kfy mbtfribl.
+ *
+ * <p>Instbndfs of this dlbss brf rfturnfd by thf <dodf>gfnfrbtfKfy()</dodf>
+ * mfthod of KfyGfnfrbtors of thf typf "TlsKfyMbtfribl".
+ * Instbndfs of this dlbss brf immutbblf.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
+ */
+@Dfprfdbtfd
+publid dlbss TlsKfyMbtfriblSpfd implfmfnts KfySpfd, SfdrftKfy {
+
+    stbtid finbl long sfriblVfrsionUID = 812912859129525028L;
+
+    privbtf finbl SfdrftKfy dlifntMbdKfy, sfrvfrMbdKfy;
+    privbtf finbl SfdrftKfy dlifntCiphfrKfy, sfrvfrCiphfrKfy;
+    privbtf finbl IvPbrbmftfrSpfd dlifntIv, sfrvfrIv;
+
+    /**
+     * Construdts b nfw TlsKfymbtfriblSpfd from thf dlifnt bnd sfrvfr MAC
+     * kfys.
+     * This dbll is fquivblfnt to
+     * <dodf>nfw TlsKfymbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+     * null, null, null, null)</dodf>.
+     *
+     * @pbrbm dlifntMbdKfy thf dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy thf sfrvfr MAC kfy (or null)
+     */
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy) {
+        this(dlifntMbdKfy, sfrvfrMbdKfy, null, null, null, null);
+    }
+
+    /**
+     * Construdts b nfw TlsKfymbtfriblSpfd from thf dlifnt bnd sfrvfr MAC
+     * kfys bnd dlifnt bnd sfrvfr diphfr kfys.
+     * This dbll is fquivblfnt to
+     * <dodf>nfw TlsKfymbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+     * dlifntCiphfrKfy, sfrvfrCiphfrKfy, null, null)</dodf>.
+     *
+     * @pbrbm dlifntMbdKfy thf dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy thf sfrvfr MAC kfy (or null)
+     * @pbrbm dlifntCiphfrKfy thf dlifnt diphfr kfy (or null)
+     * @pbrbm sfrvfrCiphfrKfy thf sfrvfr diphfr kfy (or null)
+     */
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy,
+            SfdrftKfy dlifntCiphfrKfy, SfdrftKfy sfrvfrCiphfrKfy) {
+        this(dlifntMbdKfy, sfrvfrMbdKfy, dlifntCiphfrKfy, null,
+            sfrvfrCiphfrKfy, null);
+    }
+
+    /**
+     * Construdts b nfw TlsKfymbtfriblSpfd from thf dlifnt bnd sfrvfr MAC
+     * kfys, dlifnt bnd sfrvfr diphfr kfys, bnd dlifnt bnd sfrvfr
+     * initiblizbtion vfdtors.
+     *
+     * @pbrbm dlifntMbdKfy thf dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy thf sfrvfr MAC kfy (or null)
+     * @pbrbm dlifntCiphfrKfy thf dlifnt diphfr kfy (or null)
+     * @pbrbm dlifntIv thf dlifnt initiblizbtion vfdtor (or null)
+     * @pbrbm sfrvfrCiphfrKfy thf sfrvfr diphfr kfy (or null)
+     * @pbrbm sfrvfrIv thf sfrvfr initiblizbtion vfdtor (or null)
+     */
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy,
+            SfdrftKfy dlifntCiphfrKfy, IvPbrbmftfrSpfd dlifntIv,
+            SfdrftKfy sfrvfrCiphfrKfy, IvPbrbmftfrSpfd sfrvfrIv) {
+
+        this.dlifntMbdKfy = dlifntMbdKfy;
+        this.sfrvfrMbdKfy = sfrvfrMbdKfy;
+        this.dlifntCiphfrKfy = dlifntCiphfrKfy;
+        this.sfrvfrCiphfrKfy = sfrvfrCiphfrKfy;
+        this.dlifntIv = dlifntIv;
+        this.sfrvfrIv = sfrvfrIv;
+    }
+
+    /**
+     * Rfturns <dodf>TlsKfyMbtfribl</dodf>.
+     *
+     * @rfturn <dodf>TlsKfyMbtfribl</dodf>.
+     */
+    publid String gftAlgorithm() {
+        rfturn "TlsKfyMbtfribl";
+    }
+
+    /**
+     * Rfturns <dodf>null</dodf> bfdbusf kfys of this typf hbvf no fndoding.
+     *
+     * @rfturn <dodf>null</dodf> bfdbusf kfys of this typf hbvf no fndoding.
+     */
+    publid String gftFormbt() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns <dodf>null</dodf> bfdbusf kfys of this typf hbvf no fndoding.
+     *
+     * @rfturn <dodf>null</dodf> bfdbusf kfys of this typf hbvf no fndoding.
+     */
+    publid bytf[] gftEndodfd() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf dlifnt MAC kfy.
+     *
+     * @rfturn thf dlifnt MAC kfy (or null).
+     */
+    publid SfdrftKfy gftClifntMbdKfy() {
+        rfturn dlifntMbdKfy;
+    }
+
+    /**
+     * Rfturn thf sfrvfr MAC kfy.
+     *
+     * @rfturn thf sfrvfr MAC kfy (or null).
+     */
+    publid SfdrftKfy gftSfrvfrMbdKfy() {
+        rfturn sfrvfrMbdKfy;
+    }
+
+    /**
+     * Rfturn thf dlifnt diphfr kfy (or null).
+     *
+     * @rfturn thf dlifnt diphfr kfy (or null).
+     */
+    publid SfdrftKfy gftClifntCiphfrKfy() {
+        rfturn dlifntCiphfrKfy;
+    }
+
+    /**
+     * Rfturn thf dlifnt initiblizbtion vfdtor (or null).
+     *
+     * @rfturn thf dlifnt initiblizbtion vfdtor (or null).
+     */
+    publid IvPbrbmftfrSpfd gftClifntIv() {
+        rfturn dlifntIv;
+    }
+
+    /**
+     * Rfturn thf sfrvfr diphfr kfy (or null).
+     *
+     * @rfturn thf sfrvfr diphfr kfy (or null).
+     */
+    publid SfdrftKfy gftSfrvfrCiphfrKfy() {
+        rfturn sfrvfrCiphfrKfy;
+    }
+
+    /**
+     * Rfturn thf sfrvfr initiblizbtion vfdtor (or null).
+     *
+     * @rfturn thf sfrvfr initiblizbtion vfdtor (or null).
+     */
+    publid IvPbrbmftfrSpfd gftSfrvfrIv() {
+        rfturn sfrvfrIv;
+    }
+
+}

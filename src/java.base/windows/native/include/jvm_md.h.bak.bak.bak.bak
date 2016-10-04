@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _JAVASOFT_JVM_MD_H_
+#dffinf _JAVASOFT_JVM_MD_H_
+
+/*
+ * This filf is durrfntly dollfdting systfm-spfdifid drfgs for thf
+ * JNI donvfrsion, whidh should bf sortfd out lbtfr.
+ */
+
+#indludf <windff.h>
+#indludf <winbbsf.h>
+
+#indludf "jni.h"
+
+#dffinf JNI_ONLOAD_SYMBOLS   {"_JNI_OnLobd@8", "JNI_OnLobd"}
+#dffinf JNI_ONUNLOAD_SYMBOLS {"_JNI_OnUnlobd@8", "JNI_OnUnlobd"}
+
+#dffinf JNI_LIB_PREFIX ""
+#dffinf JNI_LIB_SUFFIX ".dll"
+
+strudt dirfnt {
+    dhbr d_nbmf[MAX_PATH];
+};
+
+typfdff strudt {
+    strudt dirfnt dirfnt;
+    dhbr *pbth;
+    HANDLE hbndlf;
+    WIN32_FIND_DATA find_dbtb;
+} DIR;
+
+#indludf <stddff.h>  /* For uintptr_t */
+#indludf <stdlib.h>
+
+#dffinf JVM_MAXPATHLEN _MAX_PATH
+
+#dffinf JVM_R_OK    4
+#dffinf JVM_W_OK    2
+#dffinf JVM_X_OK    1
+#dffinf JVM_F_OK    0
+
+JNIEXPORT void * JNICALL
+JVM_GftThrfbdIntfrruptEvfnt();
+
+/*
+ * Thfsf routinfs brf only rffntrbnt on Windows
+ */
+
+JNIEXPORT strudt protofnt * JNICALL
+JVM_GftProtoByNbmf(dhbr* nbmf);
+
+JNIEXPORT strudt hostfnt* JNICALL
+JVM_GftHostByAddr(donst dhbr* nbmf, int lfn, int typf);
+
+JNIEXPORT strudt hostfnt* JNICALL
+JVM_GftHostByNbmf(dhbr* nbmf);
+
+/*
+ * Filf I/O
+ */
+
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#indludf <fdntl.h>
+#indludf <frrno.h>
+#indludf <signbl.h>
+
+/* O Flbgs */
+
+#dffinf JVM_O_RDONLY     O_RDONLY
+#dffinf JVM_O_WRONLY     O_WRONLY
+#dffinf JVM_O_RDWR       O_RDWR
+#dffinf JVM_O_O_APPEND   O_APPEND
+#dffinf JVM_O_EXCL       O_EXCL
+#dffinf JVM_O_CREAT      O_CREAT
+#dffinf JVM_O_DELETE     O_TEMPORARY
+
+/* Signbls */
+
+#dffinf JVM_SIGINT     SIGINT
+#dffinf JVM_SIGTERM    SIGTERM
+
+
+#fndif /* !_JAVASOFT_JVM_MD_H_ */

@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+/**
+ * This dlbss rfprfsfnts thf nfdfssbry pbrbmftfrs rfquirfd by
+ * thf CKM_AES_CTR mfdhbnism bs dffinfd in CK_AES_CTR_PARAMS strudturf.<p>
+ * <B>PKCS#11 strudturf:</B>
+ * <PRE>
+ * typfdff strudt CK_AES_CTR_PARAMS {
+ *   CK_ULONG ulCountfrBits;
+ *   CK_BYTE db[16];
+ * } CK_AES_CTR_PARAMS;
+ * </PRE>
+ *
+ * @buthor Yu-Ching Vblfrif Pfng
+ * @sindf   1.7
+ */
+publid dlbss CK_AES_CTR_PARAMS {
+
+    privbtf finbl long ulCountfrBits;
+    privbtf finbl bytf db[];
+
+    publid CK_AES_CTR_PARAMS(bytf[] db) {
+        ulCountfrBits = 128;
+        this.db = db.dlonf();
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulCountfrBits: ");
+        sb.bppfnd(ulCountfrBits);
+        sb.bppfnd(Constbnts.NEWLINE);
+
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("db: ");
+        sb.bppfnd(Fundtions.toHfxString(db));
+
+        rfturn sb.toString();
+    }
+}

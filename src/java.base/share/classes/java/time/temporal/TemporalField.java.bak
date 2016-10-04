@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,335 +59,335 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import java.time.DateTimeException;
-import java.time.chrono.Chronology;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.dirono.Cironology;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
 
 /**
- * A field of date-time, such as month-of-year or hour-of-minute.
+ * A fifld of dbtf-timf, sudi bs monti-of-yfbr or iour-of-minutf.
  * <p>
- * Date and time is expressed using fields which partition the time-line into something
- * meaningful for humans. Implementations of this interface represent those fields.
+ * Dbtf bnd timf is fxprfssfd using fiflds wiidi pbrtition tif timf-linf into somftiing
+ * mfbningful for iumbns. Implfmfntbtions of tiis intfrfbdf rfprfsfnt tiosf fiflds.
  * <p>
- * The most commonly used units are defined in {@link ChronoField}.
- * Further fields are supplied in {@link IsoFields}, {@link WeekFields} and {@link JulianFields}.
- * Fields can also be written by application code by implementing this interface.
+ * Tif most dommonly usfd units brf dffinfd in {@link CironoFifld}.
+ * Furtifr fiflds brf supplifd in {@link IsoFiflds}, {@link WffkFiflds} bnd {@link JulibnFiflds}.
+ * Fiflds dbn blso bf writtfn by bpplidbtion dodf by implfmfnting tiis intfrfbdf.
  * <p>
- * The field works using double dispatch. Client code calls methods on a date-time like
- * {@code LocalDateTime} which check if the field is a {@code ChronoField}.
- * If it is, then the date-time must handle it.
- * Otherwise, the method call is re-dispatched to the matching method in this interface.
+ * Tif fifld works using doublf dispbtdi. Clifnt dodf dblls mftiods on b dbtf-timf likf
+ * {@dodf LodblDbtfTimf} wiidi difdk if tif fifld is b {@dodf CironoFifld}.
+ * If it is, tifn tif dbtf-timf must ibndlf it.
+ * Otifrwisf, tif mftiod dbll is rf-dispbtdifd to tif mbtdiing mftiod in tiis intfrfbdf.
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Implementations should be {@code Serializable} where possible.
- * An enum is as effective implementation choice.
+ * @implSpfd
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * Implfmfntbtions siould bf {@dodf Sfriblizbblf} wifrf possiblf.
+ * An fnum is bs ffffdtivf implfmfntbtion dioidf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface TemporalField {
+publid intfrfbdf TfmporblFifld {
 
     /**
-     * Gets the display name for the field in the requested locale.
+     * Gfts tif displby nbmf for tif fifld in tif rfqufstfd lodblf.
      * <p>
-     * If there is no display name for the locale then a suitable default must be returned.
+     * If tifrf is no displby nbmf for tif lodblf tifn b suitbblf dffbult must bf rfturnfd.
      * <p>
-     * The default implementation must check the locale is not null
-     * and return {@code toString()}.
+     * Tif dffbult implfmfntbtion must difdk tif lodblf is not null
+     * bnd rfturn {@dodf toString()}.
      *
-     * @param locale  the locale to use, not null
-     * @return the display name for the locale or a suitable default, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif displby nbmf for tif lodblf or b suitbblf dffbult, not null
      */
-    default String getDisplayName(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        return toString();
+    dffbult String gftDisplbyNbmf(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        rfturn toString();
     }
 
     /**
-     * Gets the unit that the field is measured in.
+     * Gfts tif unit tibt tif fifld is mfbsurfd in.
      * <p>
-     * The unit of the field is the period that varies within the range.
-     * For example, in the field 'MonthOfYear', the unit is 'Months'.
-     * See also {@link #getRangeUnit()}.
+     * Tif unit of tif fifld is tif pfriod tibt vbrifs witiin tif rbngf.
+     * For fxbmplf, in tif fifld 'MontiOfYfbr', tif unit is 'Montis'.
+     * Sff blso {@link #gftRbngfUnit()}.
      *
-     * @return the unit defining the base unit of the field, not null
+     * @rfturn tif unit dffining tif bbsf unit of tif fifld, not null
      */
-    TemporalUnit getBaseUnit();
+    TfmporblUnit gftBbsfUnit();
 
     /**
-     * Gets the range that the field is bound by.
+     * Gfts tif rbngf tibt tif fifld is bound by.
      * <p>
-     * The range of the field is the period that the field varies within.
-     * For example, in the field 'MonthOfYear', the range is 'Years'.
-     * See also {@link #getBaseUnit()}.
+     * Tif rbngf of tif fifld is tif pfriod tibt tif fifld vbrifs witiin.
+     * For fxbmplf, in tif fifld 'MontiOfYfbr', tif rbngf is 'Yfbrs'.
+     * Sff blso {@link #gftBbsfUnit()}.
      * <p>
-     * The range is never null. For example, the 'Year' field is shorthand for
-     * 'YearOfForever'. It therefore has a unit of 'Years' and a range of 'Forever'.
+     * Tif rbngf is nfvfr null. For fxbmplf, tif 'Yfbr' fifld is siortibnd for
+     * 'YfbrOfForfvfr'. It tifrfforf ibs b unit of 'Yfbrs' bnd b rbngf of 'Forfvfr'.
      *
-     * @return the unit defining the range of the field, not null
+     * @rfturn tif unit dffining tif rbngf of tif fifld, not null
      */
-    TemporalUnit getRangeUnit();
+    TfmporblUnit gftRbngfUnit();
 
     /**
-     * Gets the range of valid values for the field.
+     * Gfts tif rbngf of vblid vblufs for tif fifld.
      * <p>
-     * All fields can be expressed as a {@code long} integer.
-     * This method returns an object that describes the valid range for that value.
-     * This method is generally only applicable to the ISO-8601 calendar system.
+     * All fiflds dbn bf fxprfssfd bs b {@dodf long} intfgfr.
+     * Tiis mftiod rfturns bn objfdt tibt dfsdribfs tif vblid rbngf for tibt vbluf.
+     * Tiis mftiod is gfnfrblly only bpplidbblf to tif ISO-8601 dblfndbr systfm.
      * <p>
-     * Note that the result only describes the minimum and maximum valid values
-     * and it is important not to read too much into them. For example, there
-     * could be values within the range that are invalid for the field.
+     * Notf tibt tif rfsult only dfsdribfs tif minimum bnd mbximum vblid vblufs
+     * bnd it is importbnt not to rfbd too mudi into tifm. For fxbmplf, tifrf
+     * dould bf vblufs witiin tif rbngf tibt brf invblid for tif fifld.
      *
-     * @return the range of valid values for the field, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
      */
-    ValueRange range();
-
-    //-----------------------------------------------------------------------
-    /**
-     * Checks if this field represents a component of a date.
-     * <p>
-     * A field is date-based if it can be derived from
-     * {@link ChronoField#EPOCH_DAY EPOCH_DAY}.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a field like minute-of-week.
-     *
-     * @return true if this field is a component of a date
-     */
-    boolean isDateBased();
-
-    /**
-     * Checks if this field represents a component of a time.
-     * <p>
-     * A field is time-based if it can be derived from
-     * {@link ChronoField#NANO_OF_DAY NANO_OF_DAY}.
-     * Note that it is valid for both {@code isDateBased()} and {@code isTimeBased()}
-     * to return false, such as when representing a field like minute-of-week.
-     *
-     * @return true if this field is a component of a time
-     */
-    boolean isTimeBased();
+    VblufRbngf rbngf();
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this field is supported by the temporal object.
+     * Cifdks if tiis fifld rfprfsfnts b domponfnt of b dbtf.
      * <p>
-     * This determines whether the temporal accessor supports this field.
-     * If this returns false, then the temporal cannot be queried for this field.
-     * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#isSupported(TemporalField)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.isSupportedBy(temporal);
-     *   temporal = temporal.isSupported(thisField);
-     * </pre>
-     * It is recommended to use the second approach, {@code isSupported(TemporalField)},
-     * as it is a lot clearer to read in code.
-     * <p>
-     * Implementations should determine whether they are supported using the fields
-     * available in {@link ChronoField}.
+     * A fifld is dbtf-bbsfd if it dbn bf dfrivfd from
+     * {@link CironoFifld#EPOCH_DAY EPOCH_DAY}.
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b fifld likf minutf-of-wffk.
      *
-     * @param temporal  the temporal object to query, not null
-     * @return true if the date-time can be queried for this field, false if not
+     * @rfturn truf if tiis fifld is b domponfnt of b dbtf
      */
-    boolean isSupportedBy(TemporalAccessor temporal);
+    boolfbn isDbtfBbsfd();
 
     /**
-     * Get the range of valid values for this field using the temporal object to
-     * refine the result.
+     * Cifdks if tiis fifld rfprfsfnts b domponfnt of b timf.
      * <p>
-     * This uses the temporal object to find the range of valid values for the field.
-     * This is similar to {@link #range()}, however this method refines the result
-     * using the temporal. For example, if the field is {@code DAY_OF_MONTH} the
-     * {@code range} method is not accurate as there are four possible month lengths,
-     * 28, 29, 30 and 31 days. Using this method with a date allows the range to be
-     * accurate, returning just one of those four options.
-     * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#range(TemporalField)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.rangeRefinedBy(temporal);
-     *   temporal = temporal.range(thisField);
-     * </pre>
-     * It is recommended to use the second approach, {@code range(TemporalField)},
-     * as it is a lot clearer to read in code.
-     * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * A fifld is timf-bbsfd if it dbn bf dfrivfd from
+     * {@link CironoFifld#NANO_OF_DAY NANO_OF_DAY}.
+     * Notf tibt it is vblid for boti {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudi bs wifn rfprfsfnting b fifld likf minutf-of-wffk.
      *
-     * @param temporal  the temporal object used to refine the result, not null
-     * @return the range of valid values for this field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
+     * @rfturn truf if tiis fifld is b domponfnt of b timf
      */
-    ValueRange rangeRefinedBy(TemporalAccessor temporal);
+    boolfbn isTimfBbsfd();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tiis fifld is supportfd by tif tfmporbl objfdt.
+     * <p>
+     * Tiis dftfrminfs wiftifr tif tfmporbl bddfssor supports tiis fifld.
+     * If tiis rfturns fblsf, tifn tif tfmporbl dbnnot bf qufrifd for tiis fifld.
+     * <p>
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link TfmporblAddfssor#isSupportfd(TfmporblFifld)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisFifld.isSupportfdBy(tfmporbl);
+     *   tfmporbl = tfmporbl.isSupportfd(tiisFifld);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf isSupportfd(TfmporblFifld)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * <p>
+     * Implfmfntbtions siould dftfrminf wiftifr tify brf supportfd using tif fiflds
+     * bvbilbblf in {@link CironoFifld}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to qufry, not null
+     * @rfturn truf if tif dbtf-timf dbn bf qufrifd for tiis fifld, fblsf if not
+     */
+    boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl);
 
     /**
-     * Gets the value of this field from the specified temporal object.
+     * Gft tif rbngf of vblid vblufs for tiis fifld using tif tfmporbl objfdt to
+     * rffinf tif rfsult.
      * <p>
-     * This queries the temporal object for the value of this field.
+     * Tiis usfs tif tfmporbl objfdt to find tif rbngf of vblid vblufs for tif fifld.
+     * Tiis is similbr to {@link #rbngf()}, iowfvfr tiis mftiod rffinfs tif rfsult
+     * using tif tfmporbl. For fxbmplf, if tif fifld is {@dodf DAY_OF_MONTH} tif
+     * {@dodf rbngf} mftiod is not bddurbtf bs tifrf brf four possiblf monti lfngtis,
+     * 28, 29, 30 bnd 31 dbys. Using tiis mftiod witi b dbtf bllows tif rbngf to bf
+     * bddurbtf, rfturning just onf of tiosf four options.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#getLong(TemporalField)}
-     * (or {@link TemporalAccessor#get(TemporalField)}):
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.getFrom(temporal);
-     *   temporal = temporal.getLong(thisField);
-     * </pre>
-     * It is recommended to use the second approach, {@code getLong(TemporalField)},
-     * as it is a lot clearer to read in code.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link TfmporblAddfssor#rbngf(TfmporblFifld)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisFifld.rbngfRffinfdBy(tfmporbl);
+     *   tfmporbl = tfmporbl.rbngf(tiisFifld);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf rbngf(TfmporblFifld)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif fiflds
+     * bvbilbblf in {@link CironoFifld}.
+     * If tif fifld is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
      *
-     * @param temporal  the temporal object to query, not null
-     * @return the value of this field, not null
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tfmporbl objfdt usfd to rffinf tif rfsult, not null
+     * @rfturn tif rbngf of vblid vblufs for tiis fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd by tif tfmporbl
      */
-    long getFrom(TemporalAccessor temporal);
+    VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl);
 
     /**
-     * Returns a copy of the specified temporal object with the value of this field set.
+     * Gfts tif vbluf of tiis fifld from tif spfdififd tfmporbl objfdt.
      * <p>
-     * This returns a new temporal object based on the specified one with the value for
-     * this field changed. For example, on a {@code LocalDate}, this could be used to
-     * set the year, month or day-of-month.
-     * The returned object has the same observable type as the specified object.
+     * Tiis qufrifs tif tfmporbl objfdt for tif vbluf of tiis fifld.
      * <p>
-     * In some cases, changing a field is not fully defined. For example, if the target object is
-     * a date representing the 31st January, then changing the month to February would be unclear.
-     * In cases like this, the implementation is responsible for resolving the result.
-     * Typically it will choose the previous valid date, which would be the last valid
-     * day of February in this example.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link TfmporblAddfssor#gftLong(TfmporblFifld)}
+     * (or {@link TfmporblAddfssor#gft(TfmporblFifld)}):
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisFifld.gftFrom(tfmporbl);
+     *   tfmporbl = tfmporbl.gftLong(tiisFifld);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf gftLong(TfmporblFifld)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#with(TemporalField, long)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisField.adjustInto(temporal);
-     *   temporal = temporal.with(thisField);
-     * </pre>
-     * It is recommended to use the second approach, {@code with(TemporalField)},
-     * as it is a lot clearer to read in code.
-     * <p>
-     * Implementations should perform any queries or calculations using the fields
-     * available in {@link ChronoField}.
-     * If the field is not supported an {@code UnsupportedTemporalTypeException} must be thrown.
-     * <p>
-     * Implementations must not alter the specified temporal object.
-     * Instead, an adjusted copy of the original must be returned.
-     * This provides equivalent, safe behavior for immutable and mutable implementations.
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif fiflds
+     * bvbilbblf in {@link CironoFifld}.
+     * If tif fifld is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
      *
-     * @param <R>  the type of the Temporal object
-     * @param temporal the temporal object to adjust, not null
-     * @param newValue the new value of the field
-     * @return the adjusted temporal object, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to qufry, not null
+     * @rfturn tif vbluf of tiis fifld, not null
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd by tif tfmporbl
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    <R extends Temporal> R adjustInto(R temporal, long newValue);
+    long gftFrom(TfmporblAddfssor tfmporbl);
 
     /**
-     * Resolves this field to provide a simpler alternative or a date.
+     * Rfturns b dopy of tif spfdififd tfmporbl objfdt witi tif vbluf of tiis fifld sft.
      * <p>
-     * This method is invoked during the resolve phase of parsing.
-     * It is designed to allow application defined fields to be simplified into
-     * more standard fields, such as those on {@code ChronoField}, or into a date.
+     * Tiis rfturns b nfw tfmporbl objfdt bbsfd on tif spfdififd onf witi tif vbluf for
+     * tiis fifld dibngfd. For fxbmplf, on b {@dodf LodblDbtf}, tiis dould bf usfd to
+     * sft tif yfbr, monti or dby-of-monti.
+     * Tif rfturnfd objfdt ibs tif sbmf obsfrvbblf typf bs tif spfdififd objfdt.
      * <p>
-     * Applications should not normally invoke this method directly.
+     * In somf dbsfs, dibnging b fifld is not fully dffinfd. For fxbmplf, if tif tbrgft objfdt is
+     * b dbtf rfprfsfnting tif 31st Jbnubry, tifn dibnging tif monti to Ffbrubry would bf undlfbr.
+     * In dbsfs likf tiis, tif implfmfntbtion is rfsponsiblf for rfsolving tif rfsult.
+     * Typidblly it will dioosf tif prfvious vblid dbtf, wiidi would bf tif lbst vblid
+     * dby of Ffbrubry in tiis fxbmplf.
+     * <p>
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link Tfmporbl#witi(TfmporblFifld, long)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisFifld.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisFifld);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf witi(TfmporblFifld)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * <p>
+     * Implfmfntbtions siould pfrform bny qufrifs or dbldulbtions using tif fiflds
+     * bvbilbblf in {@link CironoFifld}.
+     * If tif fifld is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf tirown.
+     * <p>
+     * Implfmfntbtions must not bltfr tif spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of tif originbl must bf rfturnfd.
+     * Tiis providfs fquivblfnt, sbff bfibvior for immutbblf bnd mutbblf implfmfntbtions.
      *
-     * @implSpec
-     * If an implementation represents a field that can be simplified, or
-     * combined with others, then this method must be implemented.
-     * <p>
-     * The specified map contains the current state of the parse.
-     * The map is mutable and must be mutated to resolve the field and
-     * any related fields. This method will only be invoked during parsing
-     * if the map contains this field, and implementations should therefore
-     * assume this field is present.
-     * <p>
-     * Resolving a field will consist of looking at the value of this field,
-     * and potentially other fields, and either updating the map with a
-     * simpler value, such as a {@code ChronoField}, or returning a
-     * complete {@code ChronoLocalDate}. If a resolve is successful,
-     * the code must remove all the fields that were resolved from the map,
-     * including this field.
-     * <p>
-     * For example, the {@code IsoFields} class contains the quarter-of-year
-     * and day-of-quarter fields. The implementation of this method in that class
-     * resolves the two fields plus the {@link ChronoField#YEAR YEAR} into a
-     * complete {@code LocalDate}. The resolve method will remove all three
-     * fields from the map before returning the {@code LocalDate}.
-     * <p>
-     * A partially complete temporal is used to allow the chronology and zone
-     * to be queried. In general, only the chronology will be needed.
-     * Querying items other than the zone or chronology is undefined and
-     * must not be relied on.
-     * The behavior of other methods such as {@code get}, {@code getLong},
-     * {@code range} and {@code isSupported} is unpredictable and the results undefined.
-     * <p>
-     * If resolution should be possible, but the data is invalid, the resolver
-     * style should be used to determine an appropriate level of leniency, which
-     * may require throwing a {@code DateTimeException} or {@code ArithmeticException}.
-     * If no resolution is possible, the resolve method must return null.
-     * <p>
-     * When resolving time fields, the map will be altered and null returned.
-     * When resolving date fields, the date is normally returned from the method,
-     * with the map altered to remove the resolved fields. However, it would also
-     * be acceptable for the date fields to be resolved into other {@code ChronoField}
-     * instances that can produce a date, such as {@code EPOCH_DAY}.
-     * <p>
-     * Not all {@code TemporalAccessor} implementations are accepted as return values.
-     * Implementations that call this method must accept {@code ChronoLocalDate},
-     * {@code ChronoLocalDateTime}, {@code ChronoZonedDateTime} and {@code LocalTime}.
-     * <p>
-     * The default implementation must return null.
-     *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param partialTemporal  the partially complete temporal to query for zone and
-     *  chronology; querying for other things is undefined and not recommended, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved temporal object; null if resolving only
-     *  changed the map, or no resolve occurred
-     * @throws ArithmeticException if numeric overflow occurs
-     * @throws DateTimeException if resolving results in an error. This must not be thrown
-     *  by querying a field on the temporal without first checking if it is supported
+     * @pbrbm <R>  tif typf of tif Tfmporbl objfdt
+     * @pbrbm tfmporbl tif tfmporbl objfdt to bdjust, not null
+     * @pbrbm nfwVbluf tif nfw vbluf of tif fifld
+     * @rfturn tif bdjustfd tfmporbl objfdt, not null
+     * @tirows DbtfTimfExdfption if tif fifld dbnnot bf sft
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd by tif tfmporbl
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    default TemporalAccessor resolve(
-            Map<TemporalField, Long> fieldValues,
-            TemporalAccessor partialTemporal,
-            ResolverStyle resolverStyle) {
-        return null;
+    <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf);
+
+    /**
+     * Rfsolvfs tiis fifld to providf b simplfr bltfrnbtivf or b dbtf.
+     * <p>
+     * Tiis mftiod is invokfd during tif rfsolvf pibsf of pbrsing.
+     * It is dfsignfd to bllow bpplidbtion dffinfd fiflds to bf simplififd into
+     * morf stbndbrd fiflds, sudi bs tiosf on {@dodf CironoFifld}, or into b dbtf.
+     * <p>
+     * Applidbtions siould not normblly invokf tiis mftiod dirfdtly.
+     *
+     * @implSpfd
+     * If bn implfmfntbtion rfprfsfnts b fifld tibt dbn bf simplififd, or
+     * dombinfd witi otifrs, tifn tiis mftiod must bf implfmfntfd.
+     * <p>
+     * Tif spfdififd mbp dontbins tif durrfnt stbtf of tif pbrsf.
+     * Tif mbp is mutbblf bnd must bf mutbtfd to rfsolvf tif fifld bnd
+     * bny rflbtfd fiflds. Tiis mftiod will only bf invokfd during pbrsing
+     * if tif mbp dontbins tiis fifld, bnd implfmfntbtions siould tifrfforf
+     * bssumf tiis fifld is prfsfnt.
+     * <p>
+     * Rfsolving b fifld will donsist of looking bt tif vbluf of tiis fifld,
+     * bnd potfntiblly otifr fiflds, bnd fitifr updbting tif mbp witi b
+     * simplfr vbluf, sudi bs b {@dodf CironoFifld}, or rfturning b
+     * domplftf {@dodf CironoLodblDbtf}. If b rfsolvf is suddfssful,
+     * tif dodf must rfmovf bll tif fiflds tibt wfrf rfsolvfd from tif mbp,
+     * indluding tiis fifld.
+     * <p>
+     * For fxbmplf, tif {@dodf IsoFiflds} dlbss dontbins tif qubrtfr-of-yfbr
+     * bnd dby-of-qubrtfr fiflds. Tif implfmfntbtion of tiis mftiod in tibt dlbss
+     * rfsolvfs tif two fiflds plus tif {@link CironoFifld#YEAR YEAR} into b
+     * domplftf {@dodf LodblDbtf}. Tif rfsolvf mftiod will rfmovf bll tirff
+     * fiflds from tif mbp bfforf rfturning tif {@dodf LodblDbtf}.
+     * <p>
+     * A pbrtiblly domplftf tfmporbl is usfd to bllow tif dironology bnd zonf
+     * to bf qufrifd. In gfnfrbl, only tif dironology will bf nffdfd.
+     * Qufrying itfms otifr tibn tif zonf or dironology is undffinfd bnd
+     * must not bf rflifd on.
+     * Tif bfibvior of otifr mftiods sudi bs {@dodf gft}, {@dodf gftLong},
+     * {@dodf rbngf} bnd {@dodf isSupportfd} is unprfdidtbblf bnd tif rfsults undffinfd.
+     * <p>
+     * If rfsolution siould bf possiblf, but tif dbtb is invblid, tif rfsolvfr
+     * stylf siould bf usfd to dftfrminf bn bppropribtf lfvfl of lfnifndy, wiidi
+     * mby rfquirf tirowing b {@dodf DbtfTimfExdfption} or {@dodf AritimftidExdfption}.
+     * If no rfsolution is possiblf, tif rfsolvf mftiod must rfturn null.
+     * <p>
+     * Wifn rfsolving timf fiflds, tif mbp will bf bltfrfd bnd null rfturnfd.
+     * Wifn rfsolving dbtf fiflds, tif dbtf is normblly rfturnfd from tif mftiod,
+     * witi tif mbp bltfrfd to rfmovf tif rfsolvfd fiflds. Howfvfr, it would blso
+     * bf bddfptbblf for tif dbtf fiflds to bf rfsolvfd into otifr {@dodf CironoFifld}
+     * instbndfs tibt dbn produdf b dbtf, sudi bs {@dodf EPOCH_DAY}.
+     * <p>
+     * Not bll {@dodf TfmporblAddfssor} implfmfntbtions brf bddfptfd bs rfturn vblufs.
+     * Implfmfntbtions tibt dbll tiis mftiod must bddfpt {@dodf CironoLodblDbtf},
+     * {@dodf CironoLodblDbtfTimf}, {@dodf CironoZonfdDbtfTimf} bnd {@dodf LodblTimf}.
+     * <p>
+     * Tif dffbult implfmfntbtion must rfturn null.
+     *
+     * @pbrbm fifldVblufs  tif mbp of fiflds to vblufs, wiidi dbn bf updbtfd, not null
+     * @pbrbm pbrtiblTfmporbl  tif pbrtiblly domplftf tfmporbl to qufry for zonf bnd
+     *  dironology; qufrying for otifr tiings is undffinfd bnd not rfdommfndfd, not null
+     * @pbrbm rfsolvfrStylf  tif rfqufstfd typf of rfsolvf, not null
+     * @rfturn tif rfsolvfd tfmporbl objfdt; null if rfsolving only
+     *  dibngfd tif mbp, or no rfsolvf oddurrfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     * @tirows DbtfTimfExdfption if rfsolving rfsults in bn frror. Tiis must not bf tirown
+     *  by qufrying b fifld on tif tfmporbl witiout first difdking if it is supportfd
+     */
+    dffbult TfmporblAddfssor rfsolvf(
+            Mbp<TfmporblFifld, Long> fifldVblufs,
+            TfmporblAddfssor pbrtiblTfmporbl,
+            RfsolvfrStylf rfsolvfrStylf) {
+        rfturn null;
     }
 
     /**
-     * Gets a descriptive name for the field.
+     * Gfts b dfsdriptivf nbmf for tif fifld.
      * <p>
-     * The should be of the format 'BaseOfRange', such as 'MonthOfYear',
-     * unless the field has a range of {@code FOREVER}, when only
-     * the base unit is mentioned, such as 'Year' or 'Era'.
+     * Tif siould bf of tif formbt 'BbsfOfRbngf', sudi bs 'MontiOfYfbr',
+     * unlfss tif fifld ibs b rbngf of {@dodf FOREVER}, wifn only
+     * tif bbsf unit is mfntionfd, sudi bs 'Yfbr' or 'Erb'.
      *
-     * @return the name of the field, not null
+     * @rfturn tif nbmf of tif fifld, not null
      */
-    @Override
+    @Ovfrridf
     String toString();
 
 

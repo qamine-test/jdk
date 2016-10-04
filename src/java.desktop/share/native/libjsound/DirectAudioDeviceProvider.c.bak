@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define USE_TRACE
-//#define USE_ERROR
+//#dffinf USE_TRACE
+//#dffinf USE_ERROR
 
 
-#include <jni.h>
-#include <jni_util.h>
-#include "SoundDefs.h"
-#include "DirectAudio.h"
-#include "Utilities.h"
-#include "com_sun_media_sound_DirectAudioDeviceProvider.h"
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf "SoundDffs.i"
+#indludf "DirfdtAudio.i"
+#indludf "Utilitifs.i"
+#indludf "dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr.i"
 
 
-//////////////////////////////////////////// DirectAudioDeviceProvider ////////////////////////////////////////////
+//////////////////////////////////////////// DirfdtAudioDfvidfProvidfr ////////////////////////////////////////////
 
-int getDirectAudioDeviceDescription(int mixerIndex, DirectAudioDeviceDescription* desc) {
-    desc->deviceID = 0;
-    desc->maxSimulLines = 0;
-    strcpy(desc->name, "Unknown Name");
-    strcpy(desc->vendor, "Unknown Vendor");
-    strcpy(desc->description, "Unknown Description");
-    strcpy(desc->version, "Unknown Version");
+int gftDirfdtAudioDfvidfDfsdription(int mixfrIndfx, DirfdtAudioDfvidfDfsdription* dfsd) {
+    dfsd->dfvidfID = 0;
+    dfsd->mbxSimulLinfs = 0;
+    strdpy(dfsd->nbmf, "Unknown Nbmf");
+    strdpy(dfsd->vfndor, "Unknown Vfndor");
+    strdpy(dfsd->dfsdription, "Unknown Dfsdription");
+    strdpy(dfsd->vfrsion, "Unknown Vfrsion");
 #if USE_DAUDIO == TRUE
-    DAUDIO_GetDirectAudioDeviceDescription(mixerIndex, desc);
-#endif // USE_DAUDIO
-    return TRUE;
+    DAUDIO_GftDirfdtAudioDfvidfDfsdription(mixfrIndfx, dfsd);
+#fndif // USE_DAUDIO
+    rfturn TRUE;
 }
 
-JNIEXPORT jint JNICALL Java_com_sun_media_sound_DirectAudioDeviceProvider_nGetNumDevices(JNIEnv *env, jclass cls) {
-    INT32 numDevices = 0;
+JNIEXPORT jint JNICALL Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs(JNIEnv *fnv, jdlbss dls) {
+    INT32 numDfvidfs = 0;
 
-    TRACE0("Java_com_sun_media_sound_DirectAudioDeviceProvider_nGetNumDevices.\n");
+    TRACE0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs.\n");
 
 #if USE_DAUDIO == TRUE
-    numDevices = DAUDIO_GetDirectAudioDeviceCount();
-#endif // USE_DAUDIO
+    numDfvidfs = DAUDIO_GftDirfdtAudioDfvidfCount();
+#fndif // USE_DAUDIO
 
-    TRACE1("Java_com_sun_media_sound_DirectAudioDeviceProvider_nGetNumDevices returning %d.\n", (int) numDevices);
+    TRACE1("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs rfturning %d.\n", (int) numDfvidfs);
 
-    return (jint)numDevices;
+    rfturn (jint)numDfvidfs;
 }
 
-JNIEXPORT jobject JNICALL Java_com_sun_media_sound_DirectAudioDeviceProvider_nNewDirectAudioDeviceInfo
-    (JNIEnv *env, jclass cls, jint mixerIndex) {
+JNIEXPORT jobjfdt JNICALL Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo
+    (JNIEnv *fnv, jdlbss dls, jint mixfrIndfx) {
 
-    jclass directAudioDeviceInfoClass;
-    jmethodID directAudioDeviceInfoConstructor;
-    DirectAudioDeviceDescription desc;
-    jobject info = NULL;
-    jstring name;
-    jstring vendor;
-    jstring description;
-    jstring version;
+    jdlbss dirfdtAudioDfvidfInfoClbss;
+    jmftiodID dirfdtAudioDfvidfInfoConstrudtor;
+    DirfdtAudioDfvidfDfsdription dfsd;
+    jobjfdt info = NULL;
+    jstring nbmf;
+    jstring vfndor;
+    jstring dfsdription;
+    jstring vfrsion;
 
-    TRACE1("Java_com_sun_media_sound_DirectAudioDeviceProvider_nNewDirectAudioDeviceInfo(%d).\n", mixerIndex);
+    TRACE1("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo(%d).\n", mixfrIndfx);
 
-    // retrieve class and constructor of DirectAudioDeviceProvider.DirectAudioDeviceInfo
-    directAudioDeviceInfoClass = (*env)->FindClass(env, IMPLEMENTATION_PACKAGE_NAME"/DirectAudioDeviceProvider$DirectAudioDeviceInfo");
-    if (directAudioDeviceInfoClass == NULL) {
-        ERROR0("Java_com_sun_media_sound_DirectAudioDeviceProvider_nNewDirectAudioDeviceInfo: directAudioDeviceInfoClass is NULL\n");
-        return NULL;
+    // rftrifvf dlbss bnd donstrudtor of DirfdtAudioDfvidfProvidfr.DirfdtAudioDfvidfInfo
+    dirfdtAudioDfvidfInfoClbss = (*fnv)->FindClbss(fnv, IMPLEMENTATION_PACKAGE_NAME"/DirfdtAudioDfvidfProvidfr$DirfdtAudioDfvidfInfo");
+    if (dirfdtAudioDfvidfInfoClbss == NULL) {
+        ERROR0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo: dirfdtAudioDfvidfInfoClbss is NULL\n");
+        rfturn NULL;
     }
-    directAudioDeviceInfoConstructor = (*env)->GetMethodID(env, directAudioDeviceInfoClass, "<init>",
-                  "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-    if (directAudioDeviceInfoConstructor == NULL) {
-        ERROR0("Java_com_sun_media_sound_DirectAudioDeviceProvider_nNewDirectAudioDeviceInfo: directAudioDeviceInfoConstructor is NULL\n");
-        return NULL;
-    }
-
-    TRACE1("Get description for device %d\n", mixerIndex);
-
-    if (getDirectAudioDeviceDescription(mixerIndex, &desc)) {
-        // create a new DirectAudioDeviceInfo object and return it
-        name = (*env)->NewStringUTF(env, desc.name);
-        CHECK_NULL_RETURN(name, info);
-        vendor = (*env)->NewStringUTF(env, desc.vendor);
-        CHECK_NULL_RETURN(vendor, info);
-        description = (*env)->NewStringUTF(env, desc.description);
-        CHECK_NULL_RETURN(description, info);
-        version = (*env)->NewStringUTF(env, desc.version);
-        CHECK_NULL_RETURN(version, info);
-        info = (*env)->NewObject(env, directAudioDeviceInfoClass,
-                                 directAudioDeviceInfoConstructor, mixerIndex,
-                                 desc.deviceID, desc.maxSimulLines,
-                                 name, vendor, description, version);
-    } else {
-        ERROR1("ERROR: getDirectAudioDeviceDescription(%d, desc) returned FALSE!\n", mixerIndex);
+    dirfdtAudioDfvidfInfoConstrudtor = (*fnv)->GftMftiodID(fnv, dirfdtAudioDfvidfInfoClbss, "<init>",
+                  "(IIILjbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+    if (dirfdtAudioDfvidfInfoConstrudtor == NULL) {
+        ERROR0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo: dirfdtAudioDfvidfInfoConstrudtor is NULL\n");
+        rfturn NULL;
     }
 
-    TRACE0("Java_com_sun_media_sound_DirectAudioDeviceProvider_nNewDirectAudioDeviceInfo succeeded.\n");
-    return info;
+    TRACE1("Gft dfsdription for dfvidf %d\n", mixfrIndfx);
+
+    if (gftDirfdtAudioDfvidfDfsdription(mixfrIndfx, &dfsd)) {
+        // drfbtf b nfw DirfdtAudioDfvidfInfo objfdt bnd rfturn it
+        nbmf = (*fnv)->NfwStringUTF(fnv, dfsd.nbmf);
+        CHECK_NULL_RETURN(nbmf, info);
+        vfndor = (*fnv)->NfwStringUTF(fnv, dfsd.vfndor);
+        CHECK_NULL_RETURN(vfndor, info);
+        dfsdription = (*fnv)->NfwStringUTF(fnv, dfsd.dfsdription);
+        CHECK_NULL_RETURN(dfsdription, info);
+        vfrsion = (*fnv)->NfwStringUTF(fnv, dfsd.vfrsion);
+        CHECK_NULL_RETURN(vfrsion, info);
+        info = (*fnv)->NfwObjfdt(fnv, dirfdtAudioDfvidfInfoClbss,
+                                 dirfdtAudioDfvidfInfoConstrudtor, mixfrIndfx,
+                                 dfsd.dfvidfID, dfsd.mbxSimulLinfs,
+                                 nbmf, vfndor, dfsdription, vfrsion);
+    } flsf {
+        ERROR1("ERROR: gftDirfdtAudioDfvidfDfsdription(%d, dfsd) rfturnfd FALSE!\n", mixfrIndfx);
+    }
+
+    TRACE0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo suddffdfd.\n");
+    rfturn info;
 }

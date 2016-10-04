@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+  * This intfrfbdf rfprfsfnts bn LDAPv3 fxtfndfd opfrbtion rfqufst bs dffinfd in
+  * <A HREF="http://www.iftf.org/rfd/rfd2251.txt">RFC 2251</A>.
+  * <prf>
+  *     ExtfndfdRfqufst ::= [APPLICATION 23] SEQUENCE {
+  *              rfqufstNbmf      [0] LDAPOID,
+  *              rfqufstVbluf     [1] OCTET STRING OPTIONAL }
+  * </prf>
+  * It domprisfs bn objfdt idfntififr string bnd bn optionbl ASN.1 BER
+  * fndodfd vbluf.
+  *<p>
+  * Thf mfthods in this dlbss brf usfd by thf sfrvidf providfr to donstrudt
+  * thf bits to sfnd to thf LDAP sfrvfr. Applidbtions typidblly only dfbl with
+  * thf dlbssfs thbt implfmfnt this intfrfbdf, supplying thfm with
+  * bny informbtion rfquirfd for b pbrtidulbr fxtfndfd opfrbtion rfqufst.
+  * It would thfn pbss sudh b dlbss bs bn brgumfnt to thf
+  * <tt>LdbpContfxt.fxtfndfdOpfrbtion()</tt> mfthod for pfrforming thf
+  * LDAPv3 fxtfndfd opfrbtion.
+  *<p>
+  * For fxbmplf, supposf thf LDAP sfrvfr supportfd b 'gft timf' fxtfndfd opfrbtion.
+  * It would supply GftTimfRfqufst bnd GftTimfRfsponsf dlbssfs:
+  *<blodkquotf><prf>
+  * publid dlbss GftTimfRfqufst implfmfnts ExtfndfdRfqufst {
+  *     publid GftTimfRfqufst() {... };
+  *     publid ExtfndfdRfsponsf drfbtfExtfndfdRfsponsf(String id,
+  *         bytf[] bfrVbluf, int offsft, int lfngth)
+  *         throws NbmingExdfption {
+  *         rfturn nfw GftTimfRfsponsf(id, bfrVbluf, offsft, lfngth);
+  *     }
+  *     ...
+  * }
+  * publid dlbss GftTimfRfsponsf implfmfnts ExtfndfdRfsponsf {
+  *     long timf;
+  *     publid GftTimfRfsponsf(String id, bytf[] bfrVbluf, int offsft,
+  *         int lfngth) throws NbmingExdfption {
+  *         timf =      ... // dfdodf bfrVbluf to gft timf
+  *     }
+  *     publid jbvb.util.Dbtf gftDbtf() { rfturn nfw jbvb.util.Dbtf(timf) };
+  *     publid long gftTimf() { rfturn timf };
+  *     ...
+  * }
+  *</prf></blodkquotf>
+  * A progrbm would usf thfn thfsf dlbssfs bs follows:
+  *<blodkquotf><prf>
+  * GftTimfRfsponsf rfsp =
+  *     (GftTimfRfsponsf) fdtx.fxtfndfdOpfrbtion(nfw GftTimfRfqufst());
+  * long timf = rfsp.gftTimf();
+  *</prf></blodkquotf>
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @buthor Vindfnt Rybn
+  *
+  * @sff ExtfndfdRfsponsf
+  * @sff LdbpContfxt#fxtfndfdOpfrbtion
+  * @sindf 1.3
+  */
+publid intfrfbdf ExtfndfdRfqufst fxtfnds jbvb.io.Sfriblizbblf {
+
+    /**
+      * Rftrifvfs thf objfdt idfntififr of thf rfqufst.
+      *
+      * @rfturn Thf non-null objfdt idfntififr string rfprfsfnting thf LDAP
+      *         <tt>ExtfndfdRfqufst.rfqufstNbmf</tt> domponfnt.
+      */
+    publid String gftID();
+
+    /**
+      * Rftrifvfs thf ASN.1 BER fndodfd vbluf of thf LDAP fxtfndfd opfrbtion
+      * rfqufst. Null is rfturnfd if thf vbluf is bbsfnt.
+      *
+      * Thf rfsult is thf rbw BER bytfs indluding thf tbg bnd lfngth of
+      * thf rfqufst vbluf. It dofs not indludf thf rfqufst OID.
+      * This mfthod is dbllfd by thf sfrvidf providfr to gft thf bits to
+      * put into thf fxtfndfd opfrbtion to bf sfnt to thf LDAP sfrvfr.
+      *
+      * @rfturn A possibly null bytf brrby rfprfsfnting thf ASN.1 BER fndodfd
+      *         dontfnts of thf LDAP <tt>ExtfndfdRfqufst.rfqufstVbluf</tt>
+      *         domponfnt.
+      * @fxdfption IllfgblStbtfExdfption If thf fndodfd vbluf dbnnot bf rftrifvfd
+      * bfdbusf thf rfqufst dontbins insuffidifnt or invblid dbtb/stbtf.
+      */
+    publid bytf[] gftEndodfdVbluf();
+
+    /**
+      * Crfbtfs thf rfsponsf objfdt thbt dorrfsponds to this rfqufst.
+      *<p>
+      * Aftfr thf sfrvidf providfr hbs sfnt thf fxtfndfd opfrbtion rfqufst
+      * to thf LDAP sfrvfr, it will rfdfivf b rfsponsf from thf sfrvfr.
+      * If thf opfrbtion fbilfd, thf providfr will throw b NbmingExdfption.
+      * If thf opfrbtion suddffdfd, thf providfr will invokf this mfthod
+      * using thf dbtb thbt it got bbdk in thf rfsponsf.
+      * It is thf job of this mfthod to rfturn b dlbss thbt implfmfnts
+      * thf ExtfndfdRfsponsf intfrfbdf thbt is bppropribtf for thf
+      * fxtfndfd opfrbtion rfqufst.
+      *<p>
+      * For fxbmplf, b Stbrt TLS fxtfndfd rfqufst dlbss would nffd to know
+      * how to prodfss b Stbrt TLS fxtfndfd rfsponsf. It dofs this by drfbting
+      * b dlbss thbt implfmfnts ExtfndfdRfsponsf.
+      *
+      * @pbrbm id       Thf possibly null objfdt idfntififr of thf rfsponsf
+      *                 dontrol.
+      * @pbrbm bfrVbluf Thf possibly null ASN.1 BER fndodfd vbluf of thf
+      *                 rfsponsf dontrol.
+      * This is thf rbw BER bytfs indluding thf tbg bnd lfngth of
+      * thf rfsponsf vbluf. It dofs not indludf thf rfsponsf OID.
+      * @pbrbm offsft   Thf stbrting position in bfrVbluf of thf bytfs to usf.
+      * @pbrbm lfngth   Thf numbfr of bytfs in bfrVbluf to usf.
+      *
+      * @rfturn A non-null objfdt.
+      * @fxdfption NbmingExdfption if dbnnot drfbtf fxtfndfd rfsponsf
+      *     duf to bn frror.
+      * @sff ExtfndfdRfsponsf
+      */
+    publid ExtfndfdRfsponsf drfbtfExtfndfdRfsponsf(String id,
+                bytf[] bfrVbluf, int offsft, int lfngth) throws NbmingExdfption;
+
+    // stbtid finbl long sfriblVfrsionUID = -7560110759229059814L;
+}

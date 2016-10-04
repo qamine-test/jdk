@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+/**
+ * This dlbss rfprfsfnts thf nfw formbt of GSS MIC tokfns, bs spfdififd
+ * in RFC 4121
+ *
+ * MIC tokfns = { 16-bytf tokfn-hfbdfr |  HMAC }
+ * whfrf HMAC is on { plbintfxt | 16-bytf tokfn-hfbdfr }
+ *
+ * @buthor Sffmb Mblkbni
+ */
+
+dlbss MidTokfn_v2 fxtfnds MfssbgfTokfn_v2 {
+
+    publid MidTokfn_v2(Krb5Contfxt dontfxt,
+                  bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                  MfssbgfProp prop)  throws GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt,
+                tokfnBytfs, tokfnOffsft, tokfnLfn, prop);
+    }
+
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, InputStrfbm is, MfssbgfProp prop)
+            throws GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt, is, prop);
+    }
+
+    publid void vfrify(bytf[] dbtb, int offsft, int lfn) throws GSSExdfption {
+        if (!vfrifySign(dbtb, offsft, lfn))
+            throw nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt dhfdksum or sfqufndf numbfr in MIC tokfn");
+    }
+
+    publid void vfrify(InputStrfbm dbtb) throws GSSExdfption {
+        bytf[] dbtbBytfs = null;
+        try {
+            dbtbBytfs = nfw bytf[dbtb.bvbilbblf()];
+            dbtb.rfbd(dbtbBytfs);
+        } dbtdh (IOExdfption f) {
+            // Error rfbding bpplidbtion dbtb
+            throw nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                "Corrupt dhfdksum or sfqufndf numbfr in MIC tokfn");
+        }
+        vfrify(dbtbBytfs, 0, dbtbBytfs.lfngth);
+    }
+
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, MfssbgfProp prop,
+                  bytf[] dbtb, int pos, int lfn)
+            throws GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt);
+
+        //      dfbug("Applidbtion dbtb to MidTokfn vfrify is [" +
+        //            gftHfxBytfs(dbtb, pos, lfn) + "]\n");
+        if (prop == null) prop = nfw MfssbgfProp(0, fblsf);
+        gfnSignAndSfqNumbfr(prop, dbtb, pos, lfn);
+    }
+
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, MfssbgfProp prop, InputStrfbm dbtb)
+            throws GSSExdfption, IOExdfption {
+
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt);
+        bytf[] dbtbBytfs = nfw bytf[dbtb.bvbilbblf()];
+        dbtb.rfbd(dbtbBytfs);
+
+        // dfbug("Applidbtion dbtb to MidTokfn dons is [" +
+        //     gftHfxBytfs(dbtbBytfs) + "]\n");
+        if (prop == null) prop = nfw MfssbgfProp(0, fblsf);
+        gfnSignAndSfqNumbfr(prop, dbtbBytfs, 0, dbtbBytfs.lfngth);
+    }
+
+    publid bytf[] fndodf() throws IOExdfption {
+        // XXX Finf tunf this initibl sizf
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm(50);
+        fndodf(bos);
+        rfturn bos.toBytfArrby();
+    }
+
+    publid int fndodf(bytf[] outTokfn, int offsft) throws IOExdfption {
+        bytf[] tokfn = fndodf();
+        Systfm.brrbydopy(tokfn, 0, outTokfn, offsft, tokfn.lfngth);
+        rfturn tokfn.lfngth;
+    }
+
+    publid void fndodf(OutputStrfbm os) throws IOExdfption {
+        fndodfHfbdfr(os);
+        os.writf(dhfdksum);
+    }
+}

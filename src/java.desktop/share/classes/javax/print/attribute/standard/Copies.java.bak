@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class Copies is an integer valued printing attribute class that specifies the
- * number of copies to be printed.
+ * Clbss Copifs is bn intfgfr vblufd printing bttributf dlbss tibt spfdififs tif
+ * numbfr of dopifs to bf printfd.
  * <P>
- * On many devices the supported number of collated copies will be limited by
- * the number of physical output bins on the device, and may be different from
- * the number of uncollated copies which can be supported.
+ * On mbny dfvidfs tif supportfd numbfr of dollbtfd dopifs will bf limitfd by
+ * tif numbfr of piysidbl output bins on tif dfvidf, bnd mby bf difffrfnt from
+ * tif numbfr of undollbtfd dopifs wiidi dbn bf supportfd.
  * <P>
- * The effect of a Copies attribute with a value of <I>n</I> on a multidoc print
- * job (a job with multiple documents) depends on the (perhaps defaulted) value
- * of the {@link MultipleDocumentHandling MultipleDocumentHandling} attribute:
+ * Tif ffffdt of b Copifs bttributf witi b vbluf of <I>n</I> on b multidod print
+ * job (b job witi multiplf dodumfnts) dfpfnds on tif (pfribps dffbultfd) vbluf
+ * of tif {@link MultiplfDodumfntHbndling MultiplfDodumfntHbndling} bttributf:
  * <UL>
  * <LI>
- * SINGLE_DOCUMENT -- The result will be <I>n</I> copies of a single output
- * document comprising all the input docs.
+ * SINGLE_DOCUMENT -- Tif rfsult will bf <I>n</I> dopifs of b singlf output
+ * dodumfnt domprising bll tif input dods.
  *
  * <LI>
- * SINGLE_DOCUMENT_NEW_SHEET -- The result will be <I>n</I> copies of a single
- * output document comprising all the input docs, and the first impression of
- * each input doc will always start on a new media sheet.
+ * SINGLE_DOCUMENT_NEW_SHEET -- Tif rfsult will bf <I>n</I> dopifs of b singlf
+ * output dodumfnt domprising bll tif input dods, bnd tif first imprfssion of
+ * fbdi input dod will blwbys stbrt on b nfw mfdib sifft.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- The result will be <I>n</I> copies of
- * the first input document, followed by <I>n</I> copies of the second input
- * document, . . . followed by <I>n</I> copies of the last input document.
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Tif rfsult will bf <I>n</I> dopifs of
+ * tif first input dodumfnt, followfd by <I>n</I> dopifs of tif sfdond input
+ * dodumfnt, . . . followfd by <I>n</I> dopifs of tif lbst input dodumfnt.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_COLLATED_COPIES -- The result will be the first input
- * document, the second input document, . . . the last input document, the group
- * of documents being repeated <I>n</I> times.
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Tif rfsult will bf tif first input
+ * dodumfnt, tif sfdond input dodumfnt, . . . tif lbst input dodumfnt, tif group
+ * of dodumfnts bfing rfpfbtfd <I>n</I> timfs.
  * </UL>
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @author  David Mendenhall
- * @author  Alan Kamihensky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbmiifnsky
  */
-public final class Copies extends IntegerSyntax
-        implements PrintRequestAttribute, PrintJobAttribute {
+publid finbl dlbss Copifs fxtfnds IntfgfrSyntbx
+        implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
 
-    private static final long serialVersionUID = -6426631521680023833L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6426631521680023833L;
 
     /**
-     * Construct a new copies attribute with the given integer value.
+     * Construdt b nfw dopifs bttributf witi tif givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 1.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 1.
      */
-    public Copies(int value) {
-        super (value, 1, Integer.MAX_VALUE);
+    publid Copifs(int vbluf) {
+        supfr (vbluf, 1, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this copies attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis dopifs bttributf is fquivblfnt to tif pbssfd in
+     * objfdt. To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class Copies.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss Copifs.
      * <LI>
-     * This copies attribute's value and <CODE>object</CODE>'s value are
-     * equal.
+     * Tiis dopifs bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf brf
+     * fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this copies
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis dopifs
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return super.equals (object) && object instanceof Copies;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn supfr.fqubls (objfdt) && objfdt instbndfof Copifs;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class Copies, the category is class Copies itself.
+     * For dlbss Copifs, tif dbtfgory is dlbss Copifs itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Copies.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Copifs.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class Copies, the category name is <CODE>"copies"</CODE>.
+     * For dlbss Copifs, tif dbtfgory nbmf is <CODE>"dopifs"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "copies";
+    publid finbl String gftNbmf() {
+        rfturn "dopifs";
     }
 
 }

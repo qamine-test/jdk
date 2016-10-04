@@ -1,436 +1,436 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.PrivateKey;
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.PrivbtfKfy;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.EnumSet;
-import java.util.TreeMap;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ArrayList;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.EnumSft;
+import jbvb.util.TrffMbp;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.ArrbyList;
 
-import sun.security.util.KeyUtil;
+import sun.sfdurity.util.KfyUtil;
 
 /**
- * Signature and hash algorithm.
+ * Signbturf bnd ibsi blgoritim.
  *
- * [RFC5246] The client uses the "signature_algorithms" extension to
- * indicate to the server which signature/hash algorithm pairs may be
- * used in digital signatures.  The "extension_data" field of this
- * extension contains a "supported_signature_algorithms" value.
+ * [RFC5246] Tif dlifnt usfs tif "signbturf_blgoritims" fxtfnsion to
+ * indidbtf to tif sfrvfr wiidi signbturf/ibsi blgoritim pbirs mby bf
+ * usfd in digitbl signbturfs.  Tif "fxtfnsion_dbtb" fifld of tiis
+ * fxtfnsion dontbins b "supportfd_signbturf_blgoritims" vbluf.
  *
- *     enum {
- *         none(0), md5(1), sha1(2), sha224(3), sha256(4), sha384(5),
- *         sha512(6), (255)
- *     } HashAlgorithm;
+ *     fnum {
+ *         nonf(0), md5(1), sib1(2), sib224(3), sib256(4), sib384(5),
+ *         sib512(6), (255)
+ *     } HbsiAlgoritim;
  *
- *     enum { anonymous(0), rsa(1), dsa(2), ecdsa(3), (255) }
- *       SignatureAlgorithm;
+ *     fnum { bnonymous(0), rsb(1), dsb(2), fddsb(3), (255) }
+ *       SignbturfAlgoritim;
  *
- *     struct {
- *           HashAlgorithm hash;
- *           SignatureAlgorithm signature;
- *     } SignatureAndHashAlgorithm;
+ *     strudt {
+ *           HbsiAlgoritim ibsi;
+ *           SignbturfAlgoritim signbturf;
+ *     } SignbturfAndHbsiAlgoritim;
  */
-final class SignatureAndHashAlgorithm {
+finbl dlbss SignbturfAndHbsiAlgoritim {
 
-    // minimum priority for default enabled algorithms
-    final static int SUPPORTED_ALG_PRIORITY_MAX_NUM = 0x00F0;
+    // minimum priority for dffbult fnbblfd blgoritims
+    finbl stbtid int SUPPORTED_ALG_PRIORITY_MAX_NUM = 0x00F0;
 
-    // performance optimization
-    private final static Set<CryptoPrimitive> SIGNATURE_PRIMITIVE_SET =
-        Collections.unmodifiableSet(EnumSet.of(CryptoPrimitive.SIGNATURE));
+    // pfrformbndf optimizbtion
+    privbtf finbl stbtid Sft<CryptoPrimitivf> SIGNATURE_PRIMITIVE_SET =
+        Collfdtions.unmodifibblfSft(EnumSft.of(CryptoPrimitivf.SIGNATURE));
 
-    // supported pairs of signature and hash algorithm
-    private final static Map<Integer, SignatureAndHashAlgorithm> supportedMap;
-    private final static Map<Integer, SignatureAndHashAlgorithm> priorityMap;
+    // supportfd pbirs of signbturf bnd ibsi blgoritim
+    privbtf finbl stbtid Mbp<Intfgfr, SignbturfAndHbsiAlgoritim> supportfdMbp;
+    privbtf finbl stbtid Mbp<Intfgfr, SignbturfAndHbsiAlgoritim> priorityMbp;
 
-    // the hash algorithm
-    private HashAlgorithm hash;
+    // tif ibsi blgoritim
+    privbtf HbsiAlgoritim ibsi;
 
-    // id in 16 bit MSB format, i.e. 0x0603 for SHA512withECDSA
-    private int id;
+    // id in 16 bit MSB formbt, i.f. 0x0603 for SHA512witiECDSA
+    privbtf int id;
 
-    // the standard algorithm name, for example "SHA512withECDSA"
-    private String algorithm;
+    // tif stbndbrd blgoritim nbmf, for fxbmplf "SHA512witiECDSA"
+    privbtf String blgoritim;
 
-    // Priority for the preference order. The lower the better.
+    // Priority for tif prfffrfndf ordfr. Tif lowfr tif bfttfr.
     //
-    // If the algorithm is unsupported, its priority should be bigger
-    // than SUPPORTED_ALG_PRIORITY_MAX_NUM.
-    private int priority;
+    // If tif blgoritim is unsupportfd, its priority siould bf biggfr
+    // tibn SUPPORTED_ALG_PRIORITY_MAX_NUM.
+    privbtf int priority;
 
-    // constructor for supported algorithm
-    private SignatureAndHashAlgorithm(HashAlgorithm hash,
-            SignatureAlgorithm signature, String algorithm, int priority) {
-        this.hash = hash;
-        this.algorithm = algorithm;
-        this.id = ((hash.value & 0xFF) << 8) | (signature.value & 0xFF);
-        this.priority = priority;
+    // donstrudtor for supportfd blgoritim
+    privbtf SignbturfAndHbsiAlgoritim(HbsiAlgoritim ibsi,
+            SignbturfAlgoritim signbturf, String blgoritim, int priority) {
+        tiis.ibsi = ibsi;
+        tiis.blgoritim = blgoritim;
+        tiis.id = ((ibsi.vbluf & 0xFF) << 8) | (signbturf.vbluf & 0xFF);
+        tiis.priority = priority;
     }
 
-    // constructor for unsupported algorithm
-    private SignatureAndHashAlgorithm(String algorithm, int id, int sequence) {
-        this.hash = HashAlgorithm.valueOf((id >> 8) & 0xFF);
-        this.algorithm = algorithm;
-        this.id = id;
+    // donstrudtor for unsupportfd blgoritim
+    privbtf SignbturfAndHbsiAlgoritim(String blgoritim, int id, int sfqufndf) {
+        tiis.ibsi = HbsiAlgoritim.vblufOf((id >> 8) & 0xFF);
+        tiis.blgoritim = blgoritim;
+        tiis.id = id;
 
-        // add one more to the sequence number, in case that the number is zero
-        this.priority = SUPPORTED_ALG_PRIORITY_MAX_NUM + sequence + 1;
+        // bdd onf morf to tif sfqufndf numbfr, in dbsf tibt tif numbfr is zfro
+        tiis.priority = SUPPORTED_ALG_PRIORITY_MAX_NUM + sfqufndf + 1;
     }
 
-    // Note that we do not use the sequence argument for supported algorithms,
-    // so please don't sort by comparing the objects read from handshake
-    // messages.
-    static SignatureAndHashAlgorithm valueOf(int hash,
-            int signature, int sequence) {
-        hash &= 0xFF;
-        signature &= 0xFF;
+    // Notf tibt wf do not usf tif sfqufndf brgumfnt for supportfd blgoritims,
+    // so plfbsf don't sort by dompbring tif objfdts rfbd from ibndsibkf
+    // mfssbgfs.
+    stbtid SignbturfAndHbsiAlgoritim vblufOf(int ibsi,
+            int signbturf, int sfqufndf) {
+        ibsi &= 0xFF;
+        signbturf &= 0xFF;
 
-        int id = (hash << 8) | signature;
-        SignatureAndHashAlgorithm signAlg = supportedMap.get(id);
+        int id = (ibsi << 8) | signbturf;
+        SignbturfAndHbsiAlgoritim signAlg = supportfdMbp.gft(id);
         if (signAlg == null) {
-            // unsupported algorithm
-            signAlg = new SignatureAndHashAlgorithm(
-                "Unknown (hash:0x" + Integer.toString(hash, 16) +
-                ", signature:0x" + Integer.toString(signature, 16) + ")",
-                id, sequence);
+            // unsupportfd blgoritim
+            signAlg = nfw SignbturfAndHbsiAlgoritim(
+                "Unknown (ibsi:0x" + Intfgfr.toString(ibsi, 16) +
+                ", signbturf:0x" + Intfgfr.toString(signbturf, 16) + ")",
+                id, sfqufndf);
         }
 
-        return signAlg;
+        rfturn signAlg;
     }
 
-    int getHashValue() {
-        return (id >> 8) & 0xFF;
+    int gftHbsiVbluf() {
+        rfturn (id >> 8) & 0xFF;
     }
 
-    int getSignatureValue() {
-        return id & 0xFF;
+    int gftSignbturfVbluf() {
+        rfturn id & 0xFF;
     }
 
-    String getAlgorithmName() {
-        return algorithm;
+    String gftAlgoritimNbmf() {
+        rfturn blgoritim;
     }
 
-    // return the size of a SignatureAndHashAlgorithm structure in TLS record
-    static int sizeInRecord() {
-        return 2;
+    // rfturn tif sizf of b SignbturfAndHbsiAlgoritim strudturf in TLS rfdord
+    stbtid int sizfInRfdord() {
+        rfturn 2;
     }
 
-    // Get local supported algorithm collection complying to
-    // algorithm constraints
-    static Collection<SignatureAndHashAlgorithm>
-            getSupportedAlgorithms(AlgorithmConstraints constraints) {
+    // Gft lodbl supportfd blgoritim dollfdtion domplying to
+    // blgoritim donstrbints
+    stbtid Collfdtion<SignbturfAndHbsiAlgoritim>
+            gftSupportfdAlgoritims(AlgoritimConstrbints donstrbints) {
 
-        Collection<SignatureAndHashAlgorithm> supported = new ArrayList<>();
-        synchronized (priorityMap) {
-            for (SignatureAndHashAlgorithm sigAlg : priorityMap.values()) {
+        Collfdtion<SignbturfAndHbsiAlgoritim> supportfd = nfw ArrbyList<>();
+        syndironizfd (priorityMbp) {
+            for (SignbturfAndHbsiAlgoritim sigAlg : priorityMbp.vblufs()) {
                 if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM &&
-                        constraints.permits(SIGNATURE_PRIMITIVE_SET,
-                                sigAlg.algorithm, null)) {
-                    supported.add(sigAlg);
+                        donstrbints.pfrmits(SIGNATURE_PRIMITIVE_SET,
+                                sigAlg.blgoritim, null)) {
+                    supportfd.bdd(sigAlg);
                 }
             }
         }
 
-        return supported;
+        rfturn supportfd;
     }
 
-    // Get supported algorithm collection from an untrusted collection
-    static Collection<SignatureAndHashAlgorithm> getSupportedAlgorithms(
-            Collection<SignatureAndHashAlgorithm> algorithms ) {
-        Collection<SignatureAndHashAlgorithm> supported = new ArrayList<>();
-        for (SignatureAndHashAlgorithm sigAlg : algorithms) {
+    // Gft supportfd blgoritim dollfdtion from bn untrustfd dollfdtion
+    stbtid Collfdtion<SignbturfAndHbsiAlgoritim> gftSupportfdAlgoritims(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims ) {
+        Collfdtion<SignbturfAndHbsiAlgoritim> supportfd = nfw ArrbyList<>();
+        for (SignbturfAndHbsiAlgoritim sigAlg : blgoritims) {
             if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
-                supported.add(sigAlg);
+                supportfd.bdd(sigAlg);
             }
         }
 
-        return supported;
+        rfturn supportfd;
     }
 
-    static String[] getAlgorithmNames(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        ArrayList<String> algorithmNames = new ArrayList<>();
-        if (algorithms != null) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
-                algorithmNames.add(sigAlg.algorithm);
+    stbtid String[] gftAlgoritimNbmfs(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims) {
+        ArrbyList<String> blgoritimNbmfs = nfw ArrbyList<>();
+        if (blgoritims != null) {
+            for (SignbturfAndHbsiAlgoritim sigAlg : blgoritims) {
+                blgoritimNbmfs.bdd(sigAlg.blgoritim);
             }
         }
 
-        String[] array = new String[algorithmNames.size()];
-        return algorithmNames.toArray(array);
+        String[] brrby = nfw String[blgoritimNbmfs.sizf()];
+        rfturn blgoritimNbmfs.toArrby(brrby);
     }
 
-    static Set<String> getHashAlgorithmNames(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        Set<String> algorithmNames = new HashSet<>();
-        if (algorithms != null) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
-                if (sigAlg.hash.value > 0) {
-                    algorithmNames.add(sigAlg.hash.standardName);
+    stbtid Sft<String> gftHbsiAlgoritimNbmfs(
+            Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims) {
+        Sft<String> blgoritimNbmfs = nfw HbsiSft<>();
+        if (blgoritims != null) {
+            for (SignbturfAndHbsiAlgoritim sigAlg : blgoritims) {
+                if (sigAlg.ibsi.vbluf > 0) {
+                    blgoritimNbmfs.bdd(sigAlg.ibsi.stbndbrdNbmf);
                 }
             }
         }
 
-        return algorithmNames;
+        rfturn blgoritimNbmfs;
     }
 
-    static String getHashAlgorithmName(SignatureAndHashAlgorithm algorithm) {
-        return algorithm.hash.standardName;
+    stbtid String gftHbsiAlgoritimNbmf(SignbturfAndHbsiAlgoritim blgoritim) {
+        rfturn blgoritim.ibsi.stbndbrdNbmf;
     }
 
-    private static void supports(HashAlgorithm hash,
-            SignatureAlgorithm signature, String algorithm, int priority) {
+    privbtf stbtid void supports(HbsiAlgoritim ibsi,
+            SignbturfAlgoritim signbturf, String blgoritim, int priority) {
 
-        SignatureAndHashAlgorithm pair =
-            new SignatureAndHashAlgorithm(hash, signature, algorithm, priority);
-        if (supportedMap.put(pair.id, pair) != null) {
-            throw new RuntimeException(
-                "Duplicate SignatureAndHashAlgorithm definition, id: " +
-                pair.id);
+        SignbturfAndHbsiAlgoritim pbir =
+            nfw SignbturfAndHbsiAlgoritim(ibsi, signbturf, blgoritim, priority);
+        if (supportfdMbp.put(pbir.id, pbir) != null) {
+            tirow nfw RuntimfExdfption(
+                "Duplidbtf SignbturfAndHbsiAlgoritim dffinition, id: " +
+                pbir.id);
         }
-        if (priorityMap.put(pair.priority, pair) != null) {
-            throw new RuntimeException(
-                "Duplicate SignatureAndHashAlgorithm definition, priority: " +
-                pair.priority);
+        if (priorityMbp.put(pbir.priority, pbir) != null) {
+            tirow nfw RuntimfExdfption(
+                "Duplidbtf SignbturfAndHbsiAlgoritim dffinition, priority: " +
+                pbir.priority);
         }
     }
 
-    static SignatureAndHashAlgorithm getPreferableAlgorithm(
-        Collection<SignatureAndHashAlgorithm> algorithms, String expected) {
+    stbtid SignbturfAndHbsiAlgoritim gftPrfffrbblfAlgoritim(
+        Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims, String fxpfdtfd) {
 
-        return SignatureAndHashAlgorithm.getPreferableAlgorithm(
-                algorithms, expected, null);
+        rfturn SignbturfAndHbsiAlgoritim.gftPrfffrbblfAlgoritim(
+                blgoritims, fxpfdtfd, null);
     }
 
-    static SignatureAndHashAlgorithm getPreferableAlgorithm(
-        Collection<SignatureAndHashAlgorithm> algorithms,
-        String expected, PrivateKey signingKey) {
+    stbtid SignbturfAndHbsiAlgoritim gftPrfffrbblfAlgoritim(
+        Collfdtion<SignbturfAndHbsiAlgoritim> blgoritims,
+        String fxpfdtfd, PrivbtfKfy signingKfy) {
 
-        if (expected == null && !algorithms.isEmpty()) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
+        if (fxpfdtfd == null && !blgoritims.isEmpty()) {
+            for (SignbturfAndHbsiAlgoritim sigAlg : blgoritims) {
                 if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
-                    return sigAlg;
+                    rfturn sigAlg;
                 }
             }
 
-            return null;  // no supported algorithm
+            rfturn null;  // no supportfd blgoritim
         }
 
-        if (expected == null ) {
-            return null;  // no expected algorithm, no supported algorithm
+        if (fxpfdtfd == null ) {
+            rfturn null;  // no fxpfdtfd blgoritim, no supportfd blgoritim
         }
 
         /*
-         * Need to check RSA key length to match the length of hash value
+         * Nffd to difdk RSA kfy lfngti to mbtdi tif lfngti of ibsi vbluf
          */
-        int maxDigestLength = Integer.MAX_VALUE;
-        if (signingKey != null &&
-                "rsa".equalsIgnoreCase(signingKey.getAlgorithm()) &&
-                expected.equalsIgnoreCase("rsa")) {
+        int mbxDigfstLfngti = Intfgfr.MAX_VALUE;
+        if (signingKfy != null &&
+                "rsb".fqublsIgnorfCbsf(signingKfy.gftAlgoritim()) &&
+                fxpfdtfd.fqublsIgnorfCbsf("rsb")) {
             /*
-             * RSA keys of 512 bits have been shown to be practically
-             * breakable, it does not make much sense to use the strong
-             * hash algorithm for keys whose key size less than 512 bits.
-             * So it is not necessary to caculate the required max digest
-             * length exactly.
+             * RSA kfys of 512 bits ibvf bffn siown to bf prbdtidblly
+             * brfbkbblf, it dofs not mbkf mudi sfnsf to usf tif strong
+             * ibsi blgoritim for kfys wiosf kfy sizf lfss tibn 512 bits.
+             * So it is not nfdfssbry to dbdulbtf tif rfquirfd mbx digfst
+             * lfngti fxbdtly.
              *
-             * If key size is greater than or equals to 768, there is no max
-             * digest length limitation in currect implementation.
+             * If kfy sizf is grfbtfr tibn or fqubls to 768, tifrf is no mbx
+             * digfst lfngti limitbtion in durrfdt implfmfntbtion.
              *
-             * If key size is greater than or equals to 512, but less than
-             * 768, the digest length should be less than or equal to 32 bytes.
+             * If kfy sizf is grfbtfr tibn or fqubls to 512, but lfss tibn
+             * 768, tif digfst lfngti siould bf lfss tibn or fqubl to 32 bytfs.
              *
-             * If key size is less than 512, the  digest length should be
-             * less than or equal to 20 bytes.
+             * If kfy sizf is lfss tibn 512, tif  digfst lfngti siould bf
+             * lfss tibn or fqubl to 20 bytfs.
              */
-            int keySize = KeyUtil.getKeySize(signingKey);
-            if (keySize >= 768) {
-                maxDigestLength = HashAlgorithm.SHA512.length;
-            } else if ((keySize >= 512) && (keySize < 768)) {
-                maxDigestLength = HashAlgorithm.SHA256.length;
-            } else if ((keySize > 0) && (keySize < 512)) {
-                maxDigestLength = HashAlgorithm.SHA1.length;
-            }   // Otherwise, cannot determine the key size, prefer the most
-                // preferable hash algorithm.
+            int kfySizf = KfyUtil.gftKfySizf(signingKfy);
+            if (kfySizf >= 768) {
+                mbxDigfstLfngti = HbsiAlgoritim.SHA512.lfngti;
+            } flsf if ((kfySizf >= 512) && (kfySizf < 768)) {
+                mbxDigfstLfngti = HbsiAlgoritim.SHA256.lfngti;
+            } flsf if ((kfySizf > 0) && (kfySizf < 512)) {
+                mbxDigfstLfngti = HbsiAlgoritim.SHA1.lfngti;
+            }   // Otifrwisf, dbnnot dftfrminf tif kfy sizf, prfffr tif most
+                // prfffrbblf ibsi blgoritim.
         }
 
-        for (SignatureAndHashAlgorithm algorithm : algorithms) {
-            int signValue = algorithm.id & 0xFF;
-            if (expected.equalsIgnoreCase("rsa") &&
-                    signValue == SignatureAlgorithm.RSA.value) {
-                if (algorithm.hash.length <= maxDigestLength) {
-                    return algorithm;
+        for (SignbturfAndHbsiAlgoritim blgoritim : blgoritims) {
+            int signVbluf = blgoritim.id & 0xFF;
+            if (fxpfdtfd.fqublsIgnorfCbsf("rsb") &&
+                    signVbluf == SignbturfAlgoritim.RSA.vbluf) {
+                if (blgoritim.ibsi.lfngti <= mbxDigfstLfngti) {
+                    rfturn blgoritim;
                 }
-            } else if (
-                    (expected.equalsIgnoreCase("dsa") &&
-                        signValue == SignatureAlgorithm.DSA.value) ||
-                    (expected.equalsIgnoreCase("ecdsa") &&
-                        signValue == SignatureAlgorithm.ECDSA.value) ||
-                    (expected.equalsIgnoreCase("ec") &&
-                        signValue == SignatureAlgorithm.ECDSA.value)) {
-                return algorithm;
+            } flsf if (
+                    (fxpfdtfd.fqublsIgnorfCbsf("dsb") &&
+                        signVbluf == SignbturfAlgoritim.DSA.vbluf) ||
+                    (fxpfdtfd.fqublsIgnorfCbsf("fddsb") &&
+                        signVbluf == SignbturfAlgoritim.ECDSA.vbluf) ||
+                    (fxpfdtfd.fqublsIgnorfCbsf("fd") &&
+                        signVbluf == SignbturfAlgoritim.ECDSA.vbluf)) {
+                rfturn blgoritim;
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    static enum HashAlgorithm {
-        UNDEFINED("undefined",        "", -1, -1),
-        NONE(          "none",    "NONE",  0, -1),
+    stbtid fnum HbsiAlgoritim {
+        UNDEFINED("undffinfd",        "", -1, -1),
+        NONE(          "nonf",    "NONE",  0, -1),
         MD5(            "md5",     "MD5",  1, 16),
-        SHA1(          "sha1",   "SHA-1",  2, 20),
-        SHA224(      "sha224", "SHA-224",  3, 28),
-        SHA256(      "sha256", "SHA-256",  4, 32),
-        SHA384(      "sha384", "SHA-384",  5, 48),
-        SHA512(      "sha512", "SHA-512",  6, 64);
+        SHA1(          "sib1",   "SHA-1",  2, 20),
+        SHA224(      "sib224", "SHA-224",  3, 28),
+        SHA256(      "sib256", "SHA-256",  4, 32),
+        SHA384(      "sib384", "SHA-384",  5, 48),
+        SHA512(      "sib512", "SHA-512",  6, 64);
 
-        final String name;  // not the standard signature algorithm name
-                            // except the UNDEFINED, other names are defined
-                            // by TLS 1.2 protocol
-        final String standardName; // the standard MessageDigest algorithm name
-        final int value;
-        final int length;   // digest length in bytes, -1 means not applicable
+        finbl String nbmf;  // not tif stbndbrd signbturf blgoritim nbmf
+                            // fxdfpt tif UNDEFINED, otifr nbmfs brf dffinfd
+                            // by TLS 1.2 protodol
+        finbl String stbndbrdNbmf; // tif stbndbrd MfssbgfDigfst blgoritim nbmf
+        finbl int vbluf;
+        finbl int lfngti;   // digfst lfngti in bytfs, -1 mfbns not bpplidbblf
 
-        private HashAlgorithm(String name, String standardName,
-                int value, int length) {
-            this.name = name;
-            this.standardName = standardName;
-            this.value = value;
-            this.length = length;
+        privbtf HbsiAlgoritim(String nbmf, String stbndbrdNbmf,
+                int vbluf, int lfngti) {
+            tiis.nbmf = nbmf;
+            tiis.stbndbrdNbmf = stbndbrdNbmf;
+            tiis.vbluf = vbluf;
+            tiis.lfngti = lfngti;
         }
 
-        static HashAlgorithm valueOf(int value) {
-            HashAlgorithm algorithm = UNDEFINED;
-            switch (value) {
-                case 0:
-                    algorithm = NONE;
-                    break;
-                case 1:
-                    algorithm = MD5;
-                    break;
-                case 2:
-                    algorithm = SHA1;
-                    break;
-                case 3:
-                    algorithm = SHA224;
-                    break;
-                case 4:
-                    algorithm = SHA256;
-                    break;
-                case 5:
-                    algorithm = SHA384;
-                    break;
-                case 6:
-                    algorithm = SHA512;
-                    break;
+        stbtid HbsiAlgoritim vblufOf(int vbluf) {
+            HbsiAlgoritim blgoritim = UNDEFINED;
+            switdi (vbluf) {
+                dbsf 0:
+                    blgoritim = NONE;
+                    brfbk;
+                dbsf 1:
+                    blgoritim = MD5;
+                    brfbk;
+                dbsf 2:
+                    blgoritim = SHA1;
+                    brfbk;
+                dbsf 3:
+                    blgoritim = SHA224;
+                    brfbk;
+                dbsf 4:
+                    blgoritim = SHA256;
+                    brfbk;
+                dbsf 5:
+                    blgoritim = SHA384;
+                    brfbk;
+                dbsf 6:
+                    blgoritim = SHA512;
+                    brfbk;
             }
 
-            return algorithm;
+            rfturn blgoritim;
         }
     }
 
-    static enum SignatureAlgorithm {
-        UNDEFINED("undefined", -1),
-        ANONYMOUS("anonymous",  0),
-        RSA(            "rsa",  1),
-        DSA(            "dsa",  2),
-        ECDSA(        "ecdsa",  3);
+    stbtid fnum SignbturfAlgoritim {
+        UNDEFINED("undffinfd", -1),
+        ANONYMOUS("bnonymous",  0),
+        RSA(            "rsb",  1),
+        DSA(            "dsb",  2),
+        ECDSA(        "fddsb",  3);
 
-        final String name;  // not the standard signature algorithm name
-                            // except the UNDEFINED, other names are defined
-                            // by TLS 1.2 protocol
-        final int value;
+        finbl String nbmf;  // not tif stbndbrd signbturf blgoritim nbmf
+                            // fxdfpt tif UNDEFINED, otifr nbmfs brf dffinfd
+                            // by TLS 1.2 protodol
+        finbl int vbluf;
 
-        private SignatureAlgorithm(String name, int value) {
-            this.name = name;
-            this.value = value;
+        privbtf SignbturfAlgoritim(String nbmf, int vbluf) {
+            tiis.nbmf = nbmf;
+            tiis.vbluf = vbluf;
         }
 
-        static SignatureAlgorithm valueOf(int value) {
-            SignatureAlgorithm algorithm = UNDEFINED;
-            switch (value) {
-                case 0:
-                    algorithm = ANONYMOUS;
-                    break;
-                case 1:
-                    algorithm = RSA;
-                    break;
-                case 2:
-                    algorithm = DSA;
-                    break;
-                case 3:
-                    algorithm = ECDSA;
-                    break;
+        stbtid SignbturfAlgoritim vblufOf(int vbluf) {
+            SignbturfAlgoritim blgoritim = UNDEFINED;
+            switdi (vbluf) {
+                dbsf 0:
+                    blgoritim = ANONYMOUS;
+                    brfbk;
+                dbsf 1:
+                    blgoritim = RSA;
+                    brfbk;
+                dbsf 2:
+                    blgoritim = DSA;
+                    brfbk;
+                dbsf 3:
+                    blgoritim = ECDSA;
+                    brfbk;
             }
 
-            return algorithm;
+            rfturn blgoritim;
         }
     }
 
-    static {
-        supportedMap = Collections.synchronizedSortedMap(
-            new TreeMap<Integer, SignatureAndHashAlgorithm>());
-        priorityMap = Collections.synchronizedSortedMap(
-            new TreeMap<Integer, SignatureAndHashAlgorithm>());
+    stbtid {
+        supportfdMbp = Collfdtions.syndironizfdSortfdMbp(
+            nfw TrffMbp<Intfgfr, SignbturfAndHbsiAlgoritim>());
+        priorityMbp = Collfdtions.syndironizfdSortfdMbp(
+            nfw TrffMbp<Intfgfr, SignbturfAndHbsiAlgoritim>());
 
-        synchronized (supportedMap) {
+        syndironizfd (supportfdMbp) {
             int p = SUPPORTED_ALG_PRIORITY_MAX_NUM;
-            supports(HashAlgorithm.MD5,         SignatureAlgorithm.RSA,
-                    "MD5withRSA",           --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.DSA,
-                    "SHA1withDSA",          --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.RSA,
-                    "SHA1withRSA",          --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.ECDSA,
-                    "SHA1withECDSA",        --p);
-            supports(HashAlgorithm.SHA224,      SignatureAlgorithm.RSA,
-                    "SHA224withRSA",        --p);
-            supports(HashAlgorithm.SHA224,      SignatureAlgorithm.ECDSA,
-                    "SHA224withECDSA",      --p);
-            supports(HashAlgorithm.SHA256,      SignatureAlgorithm.RSA,
-                    "SHA256withRSA",        --p);
-            supports(HashAlgorithm.SHA256,      SignatureAlgorithm.ECDSA,
-                    "SHA256withECDSA",      --p);
-            supports(HashAlgorithm.SHA384,      SignatureAlgorithm.RSA,
-                    "SHA384withRSA",        --p);
-            supports(HashAlgorithm.SHA384,      SignatureAlgorithm.ECDSA,
-                    "SHA384withECDSA",      --p);
-            supports(HashAlgorithm.SHA512,      SignatureAlgorithm.RSA,
-                    "SHA512withRSA",        --p);
-            supports(HashAlgorithm.SHA512,      SignatureAlgorithm.ECDSA,
-                    "SHA512withECDSA",      --p);
+            supports(HbsiAlgoritim.MD5,         SignbturfAlgoritim.RSA,
+                    "MD5witiRSA",           --p);
+            supports(HbsiAlgoritim.SHA1,        SignbturfAlgoritim.DSA,
+                    "SHA1witiDSA",          --p);
+            supports(HbsiAlgoritim.SHA1,        SignbturfAlgoritim.RSA,
+                    "SHA1witiRSA",          --p);
+            supports(HbsiAlgoritim.SHA1,        SignbturfAlgoritim.ECDSA,
+                    "SHA1witiECDSA",        --p);
+            supports(HbsiAlgoritim.SHA224,      SignbturfAlgoritim.RSA,
+                    "SHA224witiRSA",        --p);
+            supports(HbsiAlgoritim.SHA224,      SignbturfAlgoritim.ECDSA,
+                    "SHA224witiECDSA",      --p);
+            supports(HbsiAlgoritim.SHA256,      SignbturfAlgoritim.RSA,
+                    "SHA256witiRSA",        --p);
+            supports(HbsiAlgoritim.SHA256,      SignbturfAlgoritim.ECDSA,
+                    "SHA256witiECDSA",      --p);
+            supports(HbsiAlgoritim.SHA384,      SignbturfAlgoritim.RSA,
+                    "SHA384witiRSA",        --p);
+            supports(HbsiAlgoritim.SHA384,      SignbturfAlgoritim.ECDSA,
+                    "SHA384witiECDSA",      --p);
+            supports(HbsiAlgoritim.SHA512,      SignbturfAlgoritim.RSA,
+                    "SHA512witiRSA",        --p);
+            supports(HbsiAlgoritim.SHA512,      SignbturfAlgoritim.ECDSA,
+                    "SHA512witiECDSA",      --p);
         }
     }
 }

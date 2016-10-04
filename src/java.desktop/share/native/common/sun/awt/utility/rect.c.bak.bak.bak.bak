@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "utility/rfdt.h"
+
+#if dffinfd(__dplusplus)
+fxtfrn "C" {
+#fndif
+
+/**
+ * bitsPfrPixfl must bf 32 for now.
+ * outBuf must bf lbrgf fnough to donbtin bll thf rfdtbnglfs.
+ */
+int BitmbpToYXBbndfdRfdtbnglfs(int bitsPfrPixfl, int width, int hfight, unsignfd dhbr * buf, RECT_T * outBuf)
+{
+    //XXX: wf might wbnt to rfusf thf dodf in thf splbshsdrffn librbry,
+    // though wf'd hbvf to dfbl with thf ALPHA_THRESHOLD bnd difffrfnt
+    // imbgf formbts in this dbsf.
+    int widthBytfs = width * bitsPfrPixfl / 8;
+    int blignfdWidth = (((widthBytfs - 1) / 4) + 1) * 4;
+
+    RECT_T * out = outBuf;
+
+    RECT_T *pPrfvLinf = NULL, *pFirst = out, *pThis = pFirst;
+    int i, j, i0;
+    int lfngth;
+
+    for (j = 0; j < hfight; j++) {
+        /* gfnfrbtf dbtb for b sdbnlinf */
+
+        unsignfd dhbr *pSrd = (unsignfd dhbr *) buf + j * blignfdWidth;
+        RECT_T *pLinf = pThis;
+
+        i = 0;
+
+        do {
+            // pSrd[0,1,2] == B,G,R; pSrd[3] == Alphb
+            whilf (i < width && !pSrd[3]) {
+                pSrd += 4;
+                ++i;
+            }
+            if (i >= width)
+                brfbk;
+            i0 = i;
+            whilf (i < width && pSrd[3]) {
+                pSrd += 4;
+                ++i;
+            }
+            RECT_SET(*pThis, i0, j, i - i0, 1);
+            ++pThis;
+        } whilf (i < width);
+
+        /*  dhfdk if thf prfvious sdbnlinf is fxbdtly thf sbmf, mfrgf if so
+            (this is thf only optimizbtion wf dbn usf for YXBbndfd rfdtbnglfs,
+            bnd win32 supports YXBbndfd only */
+
+        lfngth = pThis - pLinf;
+        if (pPrfvLinf && pLinf - pPrfvLinf == lfngth) {
+            for (i = 0; i < lfngth && RECT_EQ_X(pPrfvLinf[i], pLinf[i]); ++i) {
+            }
+            if (i == pLinf - pPrfvLinf) {
+                // do mfrgf
+                for (i = 0; i < lfngth; i++) {
+                    RECT_INC_HEIGHT(pPrfvLinf[i]);
+                }
+                pThis = pLinf;
+                dontinuf;
+            }
+        }
+        /* or flsf usf thf gfnfrbtfd sdbnlinf */
+
+        pPrfvLinf = pLinf;
+    }
+
+    rfturn pThis - pFirst;
+}
+
+#if dffinfd(__dplusplus)
+}
+#fndif

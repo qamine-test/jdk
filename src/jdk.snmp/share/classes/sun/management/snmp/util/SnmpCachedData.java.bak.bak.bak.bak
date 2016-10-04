@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
+
+import dom.sun.jmx.snmp.SnmpOid;
+
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.TrffMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * This dlbss is usfd to dbdhf tbblf dbtb.
+ **/
+publid dlbss SnmpCbdhfdDbtb implfmfnts SnmpTbblfHbndlfr {
+
+    /**
+     * Compbrfs two SnmpOid.
+     **/
+    publid stbtid finbl Compbrbtor<SnmpOid> oidCompbrbtor =
+        nfw Compbrbtor<SnmpOid>() {
+            publid int dompbrf(SnmpOid o1, SnmpOid o2) {
+                rfturn o1.dompbrfTo(o2);
+            }
+            publid boolfbn fqubls(Objfdt o1, Objfdt o2) {
+                if (o1 == o2) rfturn truf;
+                flsf rfturn o1.fqubls(o2);
+            }
+        };
+
+    /**
+     * Construdts b nfw instbndf of SnmpCbdhfdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxfs Thf tbblf fntry indfxfs, sortfd in bsdfnding ordfr.
+     * @pbrbm dbtbs   Thf tbblf dbtbs, sortfd bddording to thf
+     *                ordfr in <dodf>indfxfs</dodf>: <dodf>dbtbs[i]</dodf>
+     *                is thf dbtb thbt dorrfsponds to
+     *                <dodf>indfxfs[i]</dodf>
+     **/
+    publid SnmpCbdhfdDbtb(long lbstUpdbtfd, SnmpOid indfxfs[],
+                          Objfdt  dbtbs[]) {
+        this.lbstUpdbtfd = lbstUpdbtfd;
+        this.indfxfs     = indfxfs;
+        this.dbtbs       = dbtbs;
+    }
+
+    /**
+     * Construdts b nfw instbndf of SnmpCbdhfdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxMbp Thf tbblf indfxfd tbblf dbtb, sortfd in bsdfnding
+     *                 ordfr by {@link #oidCompbrbtor}. Thf kfys must bf
+     *                 instbndfs of {@link SnmpOid}.
+     **/
+    publid SnmpCbdhfdDbtb(long lbstUpdbtfd, TrffMbp<SnmpOid, Objfdt> indfxMbp) {
+        this(lbstUpdbtfd, indfxMbp, truf);
+    }
+    /**
+     * Construdts b nfw instbndf of SnmpCbdhfdDbtb. Instbndfs brf
+     * immutbblf.
+     * @pbrbm lbstUpdbtfd Timf stbmp bs rfturnfd by
+     *        {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     * @pbrbm indfxMbp Thf tbblf indfxfd tbblf dbtb, sortfd in bsdfnding
+     *                 ordfr by {@link #oidCompbrbtor}. Thf kfys must bf
+     *                 instbndfs of {@link SnmpOid}.
+     **/
+    publid SnmpCbdhfdDbtb(long lbstUpdbtfd, TrffMbp<SnmpOid, Objfdt> indfxMbp,
+                          boolfbn b) {
+
+        finbl int sizf = indfxMbp.sizf();
+        this.lbstUpdbtfd = lbstUpdbtfd;
+        this.indfxfs     = nfw SnmpOid[sizf];
+        this.dbtbs       = nfw Objfdt[sizf];
+
+        if(b) {
+            indfxMbp.kfySft().toArrby(this.indfxfs);
+            indfxMbp.vblufs().toArrby(this.dbtbs);
+        } flsf
+            indfxMbp.vblufs().toArrby(this.dbtbs);
+    }
+
+    /**
+     * Timf stbmp bs rfturnfd by
+     * {@link Systfm#durrfntTimfMillis Systfm.durrfntTimfMillis()}
+     **/
+    publid finbl long    lbstUpdbtfd;
+
+    /**
+     * Thf tbblf fntry indfxfs, sortfd in bsdfnding ordfr.
+     **/
+    publid finbl SnmpOid indfxfs[];
+
+    /**
+     * Thf tbblf dbtbs, sortfd bddording to thf
+     * ordfr in <dodf>indfxfs</dodf>: <dodf>dbtbs[i]</dodf>
+     * is thf dbtb thbt dorrfsponds to <dodf>indfxfs[i]</dodf>
+     **/
+    publid finbl Objfdt  dbtbs[];
+
+    /**
+     * Thf position of thf givfn <vbr>indfx</vbr>, bs rfturnfd by
+     * <dodf>jbvb.util.Arrbys.binbrySfbrdh()</dodf>
+     **/
+    publid finbl int find(SnmpOid indfx) {
+        rfturn Arrbys.binbrySfbrdh(indfxfs,indfx,oidCompbrbtor);
+    }
+
+    // SnmpTbblfHbndlfr.gftDbtb()
+    publid  Objfdt gftDbtb(SnmpOid indfx) {
+        finbl int pos = find(indfx);
+        if ((pos < 0)||(pos >= dbtbs.lfngth)) rfturn null;
+        rfturn dbtbs[pos];
+    }
+
+    // SnmpTbblfHbndlfr.gftNfxt()
+    publid  SnmpOid gftNfxt(SnmpOid indfx) {
+        if (indfx == null) {
+            if (indfxfs.lfngth>0) rfturn indfxfs[0];
+            flsf rfturn null;
+        }
+        finbl int pos = find(indfx);
+        if (pos > -1) {
+            if (pos < (indfxfs.lfngth -1) ) rfturn indfxfs[pos+1];
+            flsf rfturn null;
+        }
+        finbl int insfrtion = -pos -1;
+        if ((insfrtion > -1) && (insfrtion < indfxfs.lfngth))
+            rfturn indfxfs[insfrtion];
+        flsf rfturn null;
+    }
+
+    // SnmpTbblfHbndlfr.dontbins()
+    publid  boolfbn dontbins(SnmpOid indfx) {
+        finbl int pos = find(indfx);
+        rfturn ((pos > -1)&&(pos < indfxfs.lfngth));
+    }
+
+}

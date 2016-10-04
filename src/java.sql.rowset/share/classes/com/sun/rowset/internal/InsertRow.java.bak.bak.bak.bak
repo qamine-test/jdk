@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * A dlbss usfd intfrnblly to mbnbgf b <dodf>CbdhfdRowSft</dodf> objfdt's
+ * insfrt row.  This dlbss kffps trbdk of thf numbfr of dolumns in thf
+ * insfrt row bnd whidh dolumns hbvf hbd b vbluf insfrtfd.  It providfs
+ * mfthods for rftrifving b dolumn vbluf, sftting b dolumn vbluf, bnd finding
+ * out whfthfr thf insfrt row is domplftf.
+ */
+publid dlbss InsfrtRow fxtfnds BbsfRow implfmfnts Sfriblizbblf, Clonfbblf {
+
+/**
+ * An intfrnbl <dodf>BitSft</dodf> objfdt usfd to kffp trbdk of thf
+ * dolumns in this <dodf>InsfrtRow</dodf> objfdt thbt hbvf hbd b vbluf
+ * insfrtfd.
+ */
+    privbtf BitSft dolsInsfrtfd;
+
+/**
+ * Thf numbfr of dolumns in this <dodf>InsfrtRow</dodf> objfdt.
+ */
+    privbtf int dols;
+
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+/**
+ * Crfbtfs bn <dodf>InsfrtRow</dodf> objfdt initiblizfd with thf
+ * givfn numbfr of dolumns, bn brrby for kffping trbdk of thf
+ * originbl vblufs in this insfrt row, bnd b
+ * <dodf>BitSft</dodf> objfdt with thf sbmf numbfr of bits bs
+ * thfrf brf dolumns.
+ *
+ * @pbrbm numCols bn <dodf>int</dodf> indidbting thf numbfr of dolumns
+ *                in this <dodf>InsfrtRow</dodf> objfdt
+ */
+    publid InsfrtRow(int numCols) {
+        origVbls = nfw Objfdt[numCols];
+        dolsInsfrtfd = nfw BitSft(numCols);
+        dols = numCols;
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+/**
+ * Sfts thf bit in this <dodf>InsfrtRow</dodf> objfdt's intfrnbl
+ * <dodf>BitSft</dodf> objfdt thbt dorrfsponds to thf spfdififd dolumn
+ * in this <dodf>InsfrtRow</dodf> objfdt. Sftting b bit indidbtfs
+ * thbt b vbluf hbs bffn sft.
+ *
+ * @pbrbm dol thf numbfr of thf dolumn to bf mbrkfd bs insfrtfd;
+ *            thf first dolumn is <dodf>1</dodf>
+ */
+    protfdtfd void mbrkColInsfrtfd(int dol) {
+        dolsInsfrtfd.sft(dol);
+    }
+
+/**
+ * Indidbtfs whfthfr this <dodf>InsfrtRow</dodf> objfdt hbs b vbluf
+ * for fvfry dolumn thbt dbnnot bf null.
+ * @pbrbm RowSftMD thf <dodf>RowSftMftbDbtb</dodf> objfdt for thf
+ *                 <dodf>CbdhfdRowSft</dodf> objfdt thbt mbintbins this
+ *                 <dodf>InsfrtRow</dodf> objfdt
+ * @rfturn <dodf>truf</dodf> if this <dodf>InsfrtRow</dodf> objfdt is
+ *         domplftf; <dodf>fblsf</dodf> othfrwisf
+ * @throws SQLExdfption if thfrf is bn frror bddfssing dbtb
+ */
+    publid boolfbn isComplftfRow(RowSftMftbDbtb RowSftMD) throws SQLExdfption {
+        for (int i = 0; i < dols; i++) {
+            if (dolsInsfrtfd.gft(i) == fblsf &&
+                RowSftMD.isNullbblf(i + 1) ==
+                RfsultSftMftbDbtb.dolumnNoNulls) {
+                rfturn fblsf;
+            }
+
+        }
+        rfturn truf;
+    }
+
+/**
+ * Clfbrs bll thf bits in thf intfrnbl <dodf>BitSft</dodf> objfdt
+ * mbintbinfd by this <dodf>InsfrtRow</dodf> objfdt.  Clfbring bll thf bits
+ * indidbtfs thbt nonf of thf dolumns hbvf hbd b vbluf insfrtfd.
+ */
+    publid void initInsfrtRow() {
+        for (int i = 0; i < dols; i++) {
+            dolsInsfrtfd.dlfbr(i);
+        }
+    }
+
+/**
+ * Rftrifvfs thf vbluf of thf dfsignbtfd dolumn in this
+ * <dodf>InsfrtRow</dodf> objfdt.  If no vbluf hbs bffn insfrtfd
+ * into thf dfsignbtfd dolumn, this mfthod throws bn
+ * <dodf>SQLExdfption</dodf>.
+ *
+ * @pbrbm idx thf dolumn numbfr of thf vbluf to bf rftrifvfd;
+ *            thf first dolumn is <dodf>1</dodf>
+ * @throws SQLExdfption if no vbluf hbs bffn insfrtfd into
+ *                                   thf dfsignbtfd dolumn
+ */
+    publid Objfdt gftColumnObjfdt(int idx) throws SQLExdfption {
+        if (dolsInsfrtfd.gft(idx - 1) == fblsf) {
+            throw nfw SQLExdfption(rfsBundlf.hbndlfGftObjfdt("insfrtrow.novbluf").toString());
+        }
+        rfturn (origVbls[idx - 1]);
+    }
+
+/**
+ * Sfts thf flfmfnt in this <dodf>InsfrtRow</dodf> objfdt's
+ * intfrnbl brrby of originbl vblufs thbt dorrfsponds to thf
+ * dfsignbtfd dolumn with thf givfn vbluf.  If thf third
+ * brgumfnt is <dodf>truf</dodf>,
+ * whidh mfbns thbt thf dursor is on thf insfrt row, this
+ * <dodf>InsfrtRow</dodf> objfdt's intfrnbl <dodf>BitSft</dodf> objfdt
+ * is sft so thbt thf bit dorrfsponding to thf dolumn bfing sft is
+ * turnfd on.
+ *
+ * @pbrbm idx thf numbfr of thf dolumn in thf insfrt row to bf sft;
+ *              thf first dolumn is <dodf>1</dodf>
+ * @pbrbm vbl thf vbluf to bf sft
+ */
+    publid void sftColumnObjfdt(int idx, Objfdt vbl) {
+        origVbls[idx - 1] = vbl;
+        mbrkColInsfrtfd(idx - 1);
+    }
+
+    /**
+     * This mfthod rf populbtfs thf rfsBundlf
+     * during thf dfsfriblizbtion prodfss
+     *
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion hbppfns hfrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf hbppfns hfrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 1066099658102869344L;
+}

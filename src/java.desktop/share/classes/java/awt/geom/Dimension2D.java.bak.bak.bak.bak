@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+/**
+ * Thf <dodf>Dimfnsion2D</dodf> dlbss is to fndbpsulbtf b width
+ * bnd b hfight dimfnsion.
+ * <p>
+ * This dlbss is only thf bbstrbdt supfrdlbss for bll objfdts thbt
+ * storf b 2D dimfnsion.
+ * Thf bdtubl storbgf rfprfsfntbtion of thf sizfs is lfft to
+ * thf subdlbss.
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss Dimfnsion2D implfmfnts Clonfbblf {
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     *
+     * @sff jbvb.bwt.Dimfnsion
+     * @sindf 1.2
+     */
+    protfdtfd Dimfnsion2D() {
+    }
+
+    /**
+     * Rfturns thf width of this <dodf>Dimfnsion</dodf> in doublf
+     * prfdision.
+     * @rfturn thf width of this <dodf>Dimfnsion</dodf>.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftWidth();
+
+    /**
+     * Rfturns thf hfight of this <dodf>Dimfnsion</dodf> in doublf
+     * prfdision.
+     * @rfturn thf hfight of this <dodf>Dimfnsion</dodf>.
+     * @sindf 1.2
+     */
+    publid bbstrbdt doublf gftHfight();
+
+    /**
+     * Sfts thf sizf of this <dodf>Dimfnsion</dodf> objfdt to thf
+     * spfdififd width bnd hfight.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * {@link jbvb.bwt.Componfnt#gftSizf gftSizf} mfthod of
+     * {@link jbvb.bwt.Componfnt}.
+     * @pbrbm width  thf nfw width for thf <dodf>Dimfnsion</dodf>
+     * objfdt
+     * @pbrbm hfight  thf nfw hfight for thf <dodf>Dimfnsion</dodf>
+     * objfdt
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftSizf(doublf width, doublf hfight);
+
+    /**
+     * Sfts thf sizf of this <dodf>Dimfnsion2D</dodf> objfdt to
+     * mbtdh thf spfdififd sizf.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftSizf</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm d  thf nfw sizf for thf <dodf>Dimfnsion2D</dodf>
+     * objfdt
+     * @sindf 1.2
+     */
+    publid void sftSizf(Dimfnsion2D d) {
+        sftSizf(d.gftWidth(), d.gftHfight());
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt of thf sbmf dlbss bs this objfdt.
+     *
+     * @rfturn     b dlonf of this instbndf.
+     * @fxdfption  OutOfMfmoryError            if thfrf is not fnough mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.2
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
 
 /**
- * <p>Represents attributes used as arguments to relational constraints.
- * Instances of this class are usually obtained using {@link Query#attr(String)
- * Query.attr}.</p>
+ * <p>Rfprfsfnts bttributfs usfd bs brgumfnts to rflbtionbl donstrbints.
+ * Instbndfs of tiis dlbss brf usublly obtbinfd using {@link Qufry#bttr(String)
+ * Qufry.bttr}.</p>
  *
- * <p>An <CODE>AttributeValueExp</CODE> may be used anywhere a
- * <CODE>ValueExp</CODE> is required.
+ * <p>An <CODE>AttributfVblufExp</CODE> mby bf usfd bnywifrf b
+ * <CODE>VblufExp</CODE> is rfquirfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class AttributeValueExp implements ValueExp  {
+publid dlbss AttributfVblufExp implfmfnts VblufExp  {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = -7768025046539163385L;
-
-    /**
-     * @serial The name of the attribute
-     */
-    private String attr;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7768025046539163385L;
 
     /**
-     * An <code>AttributeValueExp</code> with a null attribute.
-     * @deprecated An instance created with this constructor cannot be
-     * used in a query.
+     * @sfribl Tif nbmf of tif bttributf
      */
-    @Deprecated
-    public AttributeValueExp() {
+    privbtf String bttr;
+
+    /**
+     * An <dodf>AttributfVblufExp</dodf> witi b null bttributf.
+     * @dfprfdbtfd An instbndf drfbtfd witi tiis donstrudtor dbnnot bf
+     * usfd in b qufry.
+     */
+    @Dfprfdbtfd
+    publid AttributfVblufExp() {
     }
 
     /**
-     * Creates a new <CODE>AttributeValueExp</CODE> representing the
-     * specified object attribute, named attr.
+     * Crfbtfs b nfw <CODE>AttributfVblufExp</CODE> rfprfsfnting tif
+     * spfdififd objfdt bttributf, nbmfd bttr.
      *
-     * @param attr the name of the attribute whose value is the value
-     * of this {@link ValueExp}.
+     * @pbrbm bttr tif nbmf of tif bttributf wiosf vbluf is tif vbluf
+     * of tiis {@link VblufExp}.
      */
-    public AttributeValueExp(String attr) {
-        this.attr = attr;
+    publid AttributfVblufExp(String bttr) {
+        tiis.bttr = bttr;
     }
 
     /**
-     * Returns a string representation of the name of the attribute.
+     * Rfturns b string rfprfsfntbtion of tif nbmf of tif bttributf.
      *
-     * @return the attribute name.
+     * @rfturn tif bttributf nbmf.
      */
-    public String getAttributeName()  {
-        return attr;
+    publid String gftAttributfNbmf()  {
+        rfturn bttr;
     }
 
     /**
-     * <p>Applies the <CODE>AttributeValueExp</CODE> on an MBean.
-     * This method calls {@link #getAttribute getAttribute(name)} and wraps
-     * the result as a {@code ValueExp}.  The value returned by
-     * {@code getAttribute} must be a {@code Number}, {@code String},
-     * or {@code Boolean}; otherwise this method throws a
-     * {@code BadAttributeValueExpException}, which will cause
-     * the containing query to be false for this {@code name}.</p>
+     * <p>Applifs tif <CODE>AttributfVblufExp</CODE> on bn MBfbn.
+     * Tiis mftiod dblls {@link #gftAttributf gftAttributf(nbmf)} bnd wrbps
+     * tif rfsult bs b {@dodf VblufExp}.  Tif vbluf rfturnfd by
+     * {@dodf gftAttributf} must bf b {@dodf Numbfr}, {@dodf String},
+     * or {@dodf Boolfbn}; otifrwisf tiis mftiod tirows b
+     * {@dodf BbdAttributfVblufExpExdfption}, wiidi will dbusf
+     * tif dontbining qufry to bf fblsf for tiis {@dodf nbmf}.</p>
      *
-     * @param name The name of the MBean on which the <CODE>AttributeValueExp</CODE> will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif <CODE>AttributfVblufExp</CODE> will bf bpplifd.
      *
-     * @return  The <CODE>ValueExp</CODE>.
+     * @rfturn  Tif <CODE>VblufExp</CODE>.
      *
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
      *
      */
-    @Override
-    public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException {
-        Object result = getAttribute(name);
+    @Ovfrridf
+    publid VblufExp bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        Objfdt rfsult = gftAttributf(nbmf);
 
-        if (result instanceof Number) {
-            return new NumericValueExp((Number)result);
-        } else if (result instanceof String) {
-            return new StringValueExp((String)result);
-        } else if (result instanceof Boolean) {
-            return new BooleanValueExp((Boolean)result);
-        } else {
-            throw new BadAttributeValueExpException(result);
+        if (rfsult instbndfof Numbfr) {
+            rfturn nfw NumfridVblufExp((Numbfr)rfsult);
+        } flsf if (rfsult instbndfof String) {
+            rfturn nfw StringVblufExp((String)rfsult);
+        } flsf if (rfsult instbndfof Boolfbn) {
+            rfturn nfw BoolfbnVblufExp((Boolfbn)rfsult);
+        } flsf {
+            tirow nfw BbdAttributfVblufExpExdfption(rfsult);
         }
     }
 
     /**
-     * Returns the string representing its value.
+     * Rfturns tif string rfprfsfnting its vbluf.
      */
-    @Override
-    public String toString()  {
-        return attr;
+    @Ovfrridf
+    publid String toString()  {
+        rfturn bttr;
     }
 
 
     /**
-     * Sets the MBean server on which the query is to be performed.
+     * Sfts tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
      *
-     * @param s The MBean server on which the query is to be performed.
+     * @pbrbm s Tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
      *
-     * @deprecated This method has no effect.  The MBean Server used to
-     * obtain an attribute value is {@link QueryEval#getMBeanServer()}.
+     * @dfprfdbtfd Tiis mftiod ibs no ffffdt.  Tif MBfbn Sfrvfr usfd to
+     * obtbin bn bttributf vbluf is {@link QufryEvbl#gftMBfbnSfrvfr()}.
      */
-    /* There is no need for this method, because if a query is being
-       evaluted an AttributeValueExp can only appear inside a QueryExp,
-       and that QueryExp will itself have done setMBeanServer.  */
-    @Deprecated
-    @Override
-    public void setMBeanServer(MBeanServer s)  {
+    /* Tifrf is no nffd for tiis mftiod, bfdbusf if b qufry is bfing
+       fvblutfd bn AttributfVblufExp dbn only bppfbr insidf b QufryExp,
+       bnd tibt QufryExp will itsflf ibvf donf sftMBfbnSfrvfr.  */
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s)  {
     }
 
 
     /**
-     * <p>Return the value of the given attribute in the named MBean.
-     * If the attempt to access the attribute generates an exception,
-     * return null.</p>
+     * <p>Rfturn tif vbluf of tif givfn bttributf in tif nbmfd MBfbn.
+     * If tif bttfmpt to bddfss tif bttributf gfnfrbtfs bn fxdfption,
+     * rfturn null.</p>
      *
-     * <p>The MBean Server used is the one returned by {@link
-     * QueryEval#getMBeanServer()}.</p>
+     * <p>Tif MBfbn Sfrvfr usfd is tif onf rfturnfd by {@link
+     * QufryEvbl#gftMBfbnSfrvfr()}.</p>
      *
-     * @param name the name of the MBean whose attribute is to be returned.
+     * @pbrbm nbmf tif nbmf of tif MBfbn wiosf bttributf is to bf rfturnfd.
      *
-     * @return the value of the attribute, or null if it could not be
-     * obtained.
+     * @rfturn tif vbluf of tif bttributf, or null if it dould not bf
+     * obtbinfd.
      */
-    protected Object getAttribute(ObjectName name) {
+    protfdtfd Objfdt gftAttributf(ObjfdtNbmf nbmf) {
         try {
-            // Get the value from the MBeanServer
+            // Gft tif vbluf from tif MBfbnSfrvfr
 
-            MBeanServer server = QueryEval.getMBeanServer();
+            MBfbnSfrvfr sfrvfr = QufryEvbl.gftMBfbnSfrvfr();
 
-            return server.getAttribute(name, attr);
-        } catch (Exception re) {
-            return null;
+            rfturn sfrvfr.gftAttributf(nbmf, bttr);
+        } dbtdi (Exdfption rf) {
+            rfturn null;
         }
     }
 }

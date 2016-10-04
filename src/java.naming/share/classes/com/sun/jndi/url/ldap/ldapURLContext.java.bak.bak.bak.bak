@@ -1,0 +1,633 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.url.ldbp;
+
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+import dom.sun.jndi.ldbp.LdbpURL;
+
+/**
+ * An LDAP URL dontfxt.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ */
+
+finbl publid dlbss ldbpURLContfxt
+        fxtfnds dom.sun.jndi.toolkit.url.GfnfridURLDirContfxt {
+
+    ldbpURLContfxt(Hbshtbblf<?,?> fnv) {
+        supfr(fnv);
+    }
+
+    /**
+      * Rfsolvfs 'nbmf' into b tbrgft dontfxt with rfmbining nbmf.
+      * It only rfsolvfs thf hostnbmf/port numbfr. Thf rfmbining nbmf
+      * dontbins thf root DN.
+      *
+      * For fxbmplf, with b LDAP URL "ldbp://lodblhost:389/o=widgft,d=us",
+      * this mfthod rfsolvfs "ldbp://lodblhost:389/" to thf root LDAP
+      * dontfxt on thf sfrvfr 'lodblhost' on port 389,
+      * bnd rfturns bs thf rfmbining nbmf "o=widgft, d=us".
+      */
+    protfdtfd RfsolvfRfsult gftRootURLContfxt(String nbmf, Hbshtbblf<?,?> fnv)
+    throws NbmingExdfption {
+        rfturn ldbpURLContfxtFbdtory.gftUsingURLIgnorfRootDN(nbmf, fnv);
+    }
+
+    /**
+     * Rfturn thf suffix of bn ldbp url.
+     * prffix pbrbmftfr is ignorfd.
+     */
+    protfdtfd Nbmf gftURLSuffix(String prffix, String url)
+        throws NbmingExdfption {
+
+        LdbpURL ldbpUrl = nfw LdbpURL(url);
+        String dn = (ldbpUrl.gftDN() != null? ldbpUrl.gftDN() : "");
+
+        // Rfprfsfnt DN bs fmpty or singlf-domponfnt dompositf nbmf.
+        CompositfNbmf rfmbining = nfw CompositfNbmf();
+        if (!"".fqubls(dn)) {
+            // if nonfmpty, bdd domponfnt
+            rfmbining.bdd(dn);
+        }
+        rfturn rfmbining;
+    }
+
+    /*
+     * Ovfrridf dontfxt opfrbtions.
+     * Tfst for prfsfndf of LDAP URL qufry domponfnts in thf nbmf brgumfnt.
+     * Qufry domponfnts brf pfrmittfd only for sfbrdh opfrbtions bnd only
+     * whfn thf nbmf hbs b singlf domponfnt.
+     */
+
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.lookup(nbmf);
+        }
+    }
+
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.lookup(nbmf);
+        }
+    }
+
+    publid void bind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.bind(nbmf, obj);
+        }
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.bind(nbmf, obj);
+        }
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.rfbind(nbmf, obj);
+        }
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.rfbind(nbmf, obj);
+        }
+    }
+
+    publid void unbind(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.unbind(nbmf);
+        }
+    }
+
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.unbind(nbmf);
+        }
+    }
+
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(oldNbmf)) {
+            throw nfw InvblidNbmfExdfption(oldNbmf);
+        } flsf if (LdbpURL.hbsQufryComponfnts(nfwNbmf)) {
+            throw nfw InvblidNbmfExdfption(nfwNbmf);
+        } flsf {
+            supfr.rfnbmf(oldNbmf, nfwNbmf);
+        }
+    }
+
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(oldNbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(oldNbmf.toString());
+        } flsf if (LdbpURL.hbsQufryComponfnts(nfwNbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nfwNbmf.toString());
+        } flsf {
+            supfr.rfnbmf(oldNbmf, nfwNbmf);
+        }
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+            throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.list(nbmf);
+        }
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+            throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.list(nbmf);
+        }
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+            throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.listBindings(nbmf);
+        }
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+            throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.listBindings(nbmf);
+        }
+    }
+
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.dfstroySubdontfxt(nbmf);
+        }
+    }
+
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.dfstroySubdontfxt(nbmf);
+        }
+    }
+
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf);
+        }
+    }
+
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf);
+        }
+    }
+
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.lookupLink(nbmf);
+        }
+    }
+
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.lookupLink(nbmf);
+        }
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftNbmfPbrsfr(nbmf);
+        }
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftNbmfPbrsfr(nbmf);
+        }
+    }
+
+    publid String domposfNbmf(String nbmf, String prffix)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf if (LdbpURL.hbsQufryComponfnts(prffix)) {
+            throw nfw InvblidNbmfExdfption(prffix);
+        } flsf {
+            rfturn supfr.domposfNbmf(nbmf, prffix);
+        }
+    }
+
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf if (LdbpURL.hbsQufryComponfnts(prffix.gft(0))) {
+            throw nfw InvblidNbmfExdfption(prffix.toString());
+        } flsf {
+            rfturn supfr.domposfNbmf(nbmf, prffix);
+        }
+    }
+
+    publid Attributfs gftAttributfs(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf);
+        }
+    }
+
+    publid Attributfs gftAttributfs(Nbmf nbmf) throws NbmingExdfption  {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf);
+        }
+    }
+
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf, bttrIds);
+        }
+    }
+
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftAttributfs(nbmf, bttrIds);
+        }
+    }
+
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mod_op, bttrs);
+        }
+    }
+
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mod_op, bttrs);
+        }
+    }
+
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mods);
+        }
+    }
+
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+        throws NbmingExdfption  {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.modifyAttributfs(nbmf, mods);
+        }
+    }
+
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.bind(nbmf, obj, bttrs);
+        }
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.bind(nbmf, obj, bttrs);
+        }
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            supfr.rfbind(nbmf, obj, bttrs);
+        }
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            supfr.rfbind(nbmf, obj, bttrs);
+        }
+    }
+
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf, bttrs);
+        }
+    }
+
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.drfbtfSubdontfxt(nbmf, bttrs);
+        }
+    }
+
+    publid DirContfxt gftSdhfmb(String nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftSdhfmb(nbmf);
+        }
+    }
+
+    publid DirContfxt gftSdhfmb(Nbmf nbmf) throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftSdhfmb(nbmf);
+        }
+    }
+
+    publid DirContfxt gftSdhfmbClbssDffinition(String nbmf)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            throw nfw InvblidNbmfExdfption(nbmf);
+        } flsf {
+            rfturn supfr.gftSdhfmbClbssDffinition(nbmf);
+        }
+    }
+
+    publid DirContfxt gftSdhfmbClbssDffinition(Nbmf nbmf)
+        throws NbmingExdfption {
+        if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.gftSdhfmbClbssDffinition(nbmf);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn thf LDAP URL hbs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(String nbmf,
+        Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption {
+
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            rfturn sfbrdhUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, mbtdhingAttributfs);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn nbmf hbs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(Nbmf nbmf,
+        Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdh(nbmf.gft(0), mbtdhingAttributfs);
+        } flsf if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, mbtdhingAttributfs);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn thf LDAP URL hbs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(String nbmf,
+        Attributfs mbtdhingAttributfs,
+        String[] bttributfsToRfturn)
+        throws NbmingExdfption {
+
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            rfturn sfbrdhUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, mbtdhingAttributfs, bttributfsToRfturn);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn nbmf hbs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(Nbmf nbmf,
+        Attributfs mbtdhingAttributfs,
+        String[] bttributfsToRfturn)
+        throws NbmingExdfption {
+
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdh(nbmf.gft(0), mbtdhingAttributfs, bttributfsToRfturn);
+        } flsf if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, mbtdhingAttributfs, bttributfsToRfturn);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn thf LDAP URL hbs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(String nbmf,
+        String filtfr,
+        SfbrdhControls dons)
+        throws NbmingExdfption {
+
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            rfturn sfbrdhUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, filtfr, dons);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn nbmf hbs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(Nbmf nbmf,
+        String filtfr,
+        SfbrdhControls dons)
+        throws NbmingExdfption {
+
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdh(nbmf.gft(0), filtfr, dons);
+        } flsf if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, filtfr, dons);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn thf LDAP URL hbs qufry domponfnts
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(String nbmf,
+        String filtfrExpr,
+        Objfdt[] filtfrArgs,
+        SfbrdhControls dons)
+        throws NbmingExdfption {
+
+        if (LdbpURL.hbsQufryComponfnts(nbmf)) {
+            rfturn sfbrdhUsingURL(nbmf);
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, filtfrExpr, filtfrArgs, dons);
+        }
+    }
+
+    // divfrt thf sfbrdh opfrbtion whfn nbmf hbs b singlf domponfnt
+    publid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(Nbmf nbmf,
+        String filtfrExpr,
+        Objfdt[] filtfrArgs,
+        SfbrdhControls dons)
+        throws NbmingExdfption {
+
+        if (nbmf.sizf() == 1) {
+            rfturn sfbrdh(nbmf.gft(0), filtfrExpr, filtfrArgs, dons);
+        } flsf if (LdbpURL.hbsQufryComponfnts(nbmf.gft(0))) {
+            throw nfw InvblidNbmfExdfption(nbmf.toString());
+        } flsf {
+            rfturn supfr.sfbrdh(nbmf, filtfrExpr, filtfrArgs, dons);
+        }
+    }
+
+    // Sfbrdh using thf LDAP URL in nbmf.
+    // LDAP URL qufry domponfnts ovfrridf thf sfbrdh brgumfnts.
+    privbtf NbmingEnumfrbtion<SfbrdhRfsult> sfbrdhUsingURL(String nbmf)
+        throws NbmingExdfption {
+
+        LdbpURL url = nfw LdbpURL(nbmf);
+
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        DirContfxt dtx = (DirContfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.sfbrdh(rfs.gftRfmbiningNbmf(),
+                              sftFiltfrUsingURL(url),
+                              sftSfbrdhControlsUsingURL(url));
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    /*
+     * Initiblizf b String filtfr using thf LDAP URL filtfr domponfnt.
+     * If filtfr is not prfsfnt in thf URL it is initiblizfd to its dffbult
+     * vbluf bs spfdififd in RFC-2255.
+     */
+    privbtf stbtid String sftFiltfrUsingURL(LdbpURL url) {
+
+        String filtfr = url.gftFiltfr();
+
+        if (filtfr == null) {
+            filtfr = "(objfdtClbss=*)"; //dffbult vbluf
+        }
+        rfturn filtfr;
+    }
+
+    /*
+     * Initiblizf b SfbrdhControls objfdt using LDAP URL qufry domponfnts.
+     * Componfnts not prfsfnt in thf URL brf initiblizfd to thfir dffbult
+     * vblufs bs spfdififd in RFC-2255.
+     */
+    privbtf stbtid SfbrdhControls sftSfbrdhControlsUsingURL(LdbpURL url) {
+
+        SfbrdhControls dons = nfw SfbrdhControls();
+        String sdopf = url.gftSdopf();
+        String bttributfs = url.gftAttributfs();
+
+        if (sdopf == null) {
+            dons.sftSfbrdhSdopf(SfbrdhControls.OBJECT_SCOPE); //dffbult vbluf
+        } flsf {
+            if (sdopf.fqubls("sub")) {
+                dons.sftSfbrdhSdopf(SfbrdhControls.SUBTREE_SCOPE);
+            } flsf if (sdopf.fqubls("onf")) {
+                dons.sftSfbrdhSdopf(SfbrdhControls.ONELEVEL_SCOPE);
+            } flsf if (sdopf.fqubls("bbsf")) {
+                dons.sftSfbrdhSdopf(SfbrdhControls.OBJECT_SCOPE);
+            }
+        }
+
+        if (bttributfs == null) {
+            dons.sftRfturningAttributfs(null); //dffbult vbluf
+        } flsf {
+            StringTokfnizfr tokfns = nfw StringTokfnizfr(bttributfs, ",");
+            int dount = tokfns.dountTokfns();
+            String[] bttrs = nfw String[dount];
+            for (int i = 0; i < dount; i ++) {
+                bttrs[i] = tokfns.nfxtTokfn();
+            }
+            dons.sftRfturningAttributfs(bttrs);
+        }
+        rfturn dons;
+    }
+}

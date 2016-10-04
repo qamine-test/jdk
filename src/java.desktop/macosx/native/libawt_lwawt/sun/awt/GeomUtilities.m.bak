@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "GeomUtilities.h"
+#import "GfomUtilitifs.i"
 
-static JNF_CLASS_CACHE(sjc_Point2D, "java/awt/geom/Point2D");
-static JNF_MEMBER_CACHE(jm_pt_getX, sjc_Point2D, "getX", "()D");
-static JNF_MEMBER_CACHE(jm_pt_getY, sjc_Point2D, "getY", "()D");
+stbtid JNF_CLASS_CACHE(sjd_Point2D, "jbvb/bwt/gfom/Point2D");
+stbtid JNF_MEMBER_CACHE(jm_pt_gftX, sjd_Point2D, "gftX", "()D");
+stbtid JNF_MEMBER_CACHE(jm_pt_gftY, sjd_Point2D, "gftY", "()D");
 
-static JNF_CLASS_CACHE(sjc_Dimension2D, "java/awt/geom/Dimension2D");
-static JNF_MEMBER_CACHE(jm_sz_getWidth, sjc_Dimension2D, "getWidth", "()D");
-static JNF_MEMBER_CACHE(jm_sz_getHeight, sjc_Dimension2D, "getHeight", "()D");
+stbtid JNF_CLASS_CACHE(sjd_Dimfnsion2D, "jbvb/bwt/gfom/Dimfnsion2D");
+stbtid JNF_MEMBER_CACHE(jm_sz_gftWidti, sjd_Dimfnsion2D, "gftWidti", "()D");
+stbtid JNF_MEMBER_CACHE(jm_sz_gftHfigit, sjd_Dimfnsion2D, "gftHfigit", "()D");
 
-static JNF_CLASS_CACHE(sjc_Rectangle2D, "java/awt/geom/Rectangle2D");
-static JNF_MEMBER_CACHE(jm_rect_getX, sjc_Rectangle2D, "getX", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getY, sjc_Rectangle2D, "getY", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getWidth, sjc_Rectangle2D, "getWidth", "()D");
-static JNF_MEMBER_CACHE(jm_rect_getHeight, sjc_Rectangle2D, "getHeight", "()D");
+stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2D, "jbvb/bwt/gfom/Rfdtbnglf2D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftX, sjd_Rfdtbnglf2D, "gftX", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftY, sjd_Rfdtbnglf2D, "gftY", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftWidti, sjd_Rfdtbnglf2D, "gftWidti", "()D");
+stbtid JNF_MEMBER_CACHE(jm_rfdt_gftHfigit, sjd_Rfdtbnglf2D, "gftHfigit", "()D");
 
 
-static jobject NewJavaRect(JNIEnv *env, jdouble x, jdouble y, jdouble w, jdouble h) {
-    static JNF_CLASS_CACHE(sjc_Rectangle2DDouble, "java/awt/geom/Rectangle2D$Double");
-    static JNF_CTOR_CACHE(ctor_Rectangle2DDouble, sjc_Rectangle2DDouble, "(DDDD)V");
-    return JNFNewObject(env, ctor_Rectangle2DDouble, x, y, w, h);
+stbtid jobjfdt NfwJbvbRfdt(JNIEnv *fnv, jdoublf x, jdoublf y, jdoublf w, jdoublf i) {
+    stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2DDoublf, "jbvb/bwt/gfom/Rfdtbnglf2D$Doublf");
+    stbtid JNF_CTOR_CACHE(dtor_Rfdtbnglf2DDoublf, sjd_Rfdtbnglf2DDoublf, "(DDDD)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Rfdtbnglf2DDoublf, x, y, w, i);
 }
 
-jobject CGToJavaRect(JNIEnv *env, CGRect rect) {
-   return NewJavaRect(env,
-                      rect.origin.x,
-                      rect.origin.y,
-                      rect.size.width,
-                      rect.size.height);
+jobjfdt CGToJbvbRfdt(JNIEnv *fnv, CGRfdt rfdt) {
+   rfturn NfwJbvbRfdt(fnv,
+                      rfdt.origin.x,
+                      rfdt.origin.y,
+                      rfdt.sizf.widti,
+                      rfdt.sizf.ifigit);
 }
 
-jobject NSToJavaRect(JNIEnv *env, NSRect rect) {
-    return NewJavaRect(env,
-                       rect.origin.x,
-                       rect.origin.y,
-                       rect.size.width,
-                       rect.size.height);
+jobjfdt NSToJbvbRfdt(JNIEnv *fnv, NSRfdt rfdt) {
+    rfturn NfwJbvbRfdt(fnv,
+                       rfdt.origin.x,
+                       rfdt.origin.y,
+                       rfdt.sizf.widti,
+                       rfdt.sizf.ifigit);
 }
 
-CGRect JavaToCGRect(JNIEnv *env, jobject rect) {
-    return CGRectMake(JNFCallDoubleMethod(env, rect, jm_rect_getX),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getY),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getWidth),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getHeight));
+CGRfdt JbvbToCGRfdt(JNIEnv *fnv, jobjfdt rfdt) {
+    rfturn CGRfdtMbkf(JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftX),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftY),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftWidti),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftHfigit));
 }
 
-NSRect JavaToNSRect(JNIEnv *env, jobject rect) {
-    return NSMakeRect(JNFCallDoubleMethod(env, rect, jm_rect_getX),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getY),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getWidth),
-                      JNFCallDoubleMethod(env, rect, jm_rect_getHeight));
+NSRfdt JbvbToNSRfdt(JNIEnv *fnv, jobjfdt rfdt) {
+    rfturn NSMbkfRfdt(JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftX),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftY),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftWidti),
+                      JNFCbllDoublfMftiod(fnv, rfdt, jm_rfdt_gftHfigit));
 }
 
-jobject NSToJavaPoint(JNIEnv *env, NSPoint point) {
-    static JNF_CLASS_CACHE(sjc_Point2DDouble, "java/awt/geom/Point2D$Double");
-    static JNF_CTOR_CACHE(ctor_Point2DDouble, sjc_Point2DDouble, "(DD)V");
-    return JNFNewObject(env, ctor_Point2DDouble, (jdouble)point.x, (jdouble)point.y);
+jobjfdt NSToJbvbPoint(JNIEnv *fnv, NSPoint point) {
+    stbtid JNF_CLASS_CACHE(sjd_Point2DDoublf, "jbvb/bwt/gfom/Point2D$Doublf");
+    stbtid JNF_CTOR_CACHE(dtor_Point2DDoublf, sjd_Point2DDoublf, "(DD)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Point2DDoublf, (jdoublf)point.x, (jdoublf)point.y);
 }
 
-NSPoint JavaToNSPoint(JNIEnv *env, jobject point) {
-    return NSMakePoint(JNFCallDoubleMethod(env, point, jm_pt_getX),
-                       JNFCallDoubleMethod(env, point, jm_pt_getY));
+NSPoint JbvbToNSPoint(JNIEnv *fnv, jobjfdt point) {
+    rfturn NSMbkfPoint(JNFCbllDoublfMftiod(fnv, point, jm_pt_gftX),
+                       JNFCbllDoublfMftiod(fnv, point, jm_pt_gftY));
 }
 
-jobject NSToJavaSize(JNIEnv *env, NSSize size) {
-    static JNF_CLASS_CACHE(sjc_Dimension2DDouble, "java/awt/Dimension"); // No Dimension2D$Double :-(
-    static JNF_CTOR_CACHE(ctor_Dimension2DDouble, sjc_Dimension2DDouble, "(II)V");
-    return JNFNewObject(env, ctor_Dimension2DDouble, (jint)size.width, (jint)size.height);
+jobjfdt NSToJbvbSizf(JNIEnv *fnv, NSSizf sizf) {
+    stbtid JNF_CLASS_CACHE(sjd_Dimfnsion2DDoublf, "jbvb/bwt/Dimfnsion"); // No Dimfnsion2D$Doublf :-(
+    stbtid JNF_CTOR_CACHE(dtor_Dimfnsion2DDoublf, sjd_Dimfnsion2DDoublf, "(II)V");
+    rfturn JNFNfwObjfdt(fnv, dtor_Dimfnsion2DDoublf, (jint)sizf.widti, (jint)sizf.ifigit);
 }
 
-NSSize JavaToNSSize(JNIEnv *env, jobject dimension) {
-    return NSMakeSize(JNFCallDoubleMethod(env, dimension, jm_sz_getWidth),
-                      JNFCallDoubleMethod(env, dimension, jm_sz_getHeight));
+NSSizf JbvbToNSSizf(JNIEnv *fnv, jobjfdt dimfnsion) {
+    rfturn NSMbkfSizf(JNFCbllDoublfMftiod(fnv, dimfnsion, jm_sz_gftWidti),
+                      JNFCbllDoublfMftiod(fnv, dimfnsion, jm_sz_gftHfigit));
 }
 
-static NSScreen *primaryScreen(JNIEnv *env) {
-    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
-    if (primaryScreen != nil) return primaryScreen;
-    if (env != NULL) [JNFException raise:env as:kRuntimeException reason:"Failed to convert, no screen."];
-    return nil;
+stbtid NSSdrffn *primbrySdrffn(JNIEnv *fnv) {
+    NSSdrffn *primbrySdrffn = [[NSSdrffn sdrffns] objfdtAtIndfx:0];
+    if (primbrySdrffn != nil) rfturn primbrySdrffn;
+    if (fnv != NULL) [JNFExdfption rbisf:fnv bs:kRuntimfExdfption rfbson:"Fbilfd to donvfrt, no sdrffn."];
+    rfturn nil;
 }
 
-NSPoint ConvertNSScreenPoint(JNIEnv *env, NSPoint point) {
-    point.y = [primaryScreen(env) frame].size.height - point.y;
-    return point;
+NSPoint ConvfrtNSSdrffnPoint(JNIEnv *fnv, NSPoint point) {
+    point.y = [primbrySdrffn(fnv) frbmf].sizf.ifigit - point.y;
+    rfturn point;
 }
 
-NSRect ConvertNSScreenRect(JNIEnv *env, NSRect rect) {
-    rect.origin.y = [primaryScreen(env) frame].size.height - rect.origin.y - rect.size.height;
-    return rect;
+NSRfdt ConvfrtNSSdrffnRfdt(JNIEnv *fnv, NSRfdt rfdt) {
+    rfdt.origin.y = [primbrySdrffn(fnv) frbmf].sizf.ifigit - rfdt.origin.y - rfdt.sizf.ifigit;
+    rfturn rfdt;
 }

@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+
+/**
+ * This dlbss rfprfsfnt fodus holdfr window implfmfntbtion. Whfn toplfvfl rfqufsts or rfdfivfs fodus
+ * it instfbd sfts fodus to this proxy. This proxy is mbppfd but invisiblf(it is kfpt bt (-1,-1))
+ * bnd thfrfforf X dofsn't dontrol fodus bftfr wf hbvf sft it to proxy.
+ */
+publid dlbss XFodusProxyWindow fxtfnds XBbsfWindow {
+    XWindowPffr ownfr;
+
+    publid XFodusProxyWindow(XWindowPffr ownfr) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            BOUNDS, nfw Rfdtbnglf(-1, -1, 1, 1),
+            PARENT_WINDOW, Long.vblufOf(ownfr.gftWindow()),
+            EVENT_MASK, Long.vblufOf(XConstbnts.FodusChbngfMbsk | XConstbnts
+                .KfyPrfssMbsk | XConstbnts.KfyRflfbsfMbsk)
+        }));
+        this.ownfr = ownfr;
+    }
+
+    publid void postInit(XCrfbtfWindowPbrbms pbrbms){
+        supfr.postInit(pbrbms);
+        sftWMClbss(gftWMClbss());
+        xSftVisiblf(truf);
+    }
+
+    protfdtfd String gftWMNbmf() {
+        rfturn "FodusProxy";
+    }
+    protfdtfd String[] gftWMClbss() {
+        rfturn nfw String[] {"Fodus-Proxy-Window", "FodusProxy"};
+    }
+
+    publid XWindowPffr gftOwnfr() {
+        rfturn ownfr;
+    }
+
+    publid void dispbtdhEvfnt(XEvfnt fv) {
+        int typf = fv.gft_typf();
+        switdh (typf)
+        {
+          dbsf XConstbnts.FodusIn:
+          dbsf XConstbnts.FodusOut:
+              hbndlfFodusEvfnt(fv);
+              brfbk;
+        }
+        supfr.dispbtdhEvfnt(fv);
+    }
+
+    publid void hbndlfFodusEvfnt(XEvfnt xfv) {
+        ownfr.hbndlfFodusEvfnt(xfv);
+    }
+
+    publid void hbndlfKfyPrfss(XEvfnt xfv) {
+        ownfr.hbndlfKfyPrfss(xfv);
+    }
+
+    publid void hbndlfKfyRflfbsf(XEvfnt xfv) {
+        ownfr.hbndlfKfyRflfbsf(xfv);
+    }
+}

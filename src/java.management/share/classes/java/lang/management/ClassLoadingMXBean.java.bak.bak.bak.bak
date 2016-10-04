@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for thf dlbss lobding systfm of
+ * thf Jbvb virtubl mbdhinf.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
+ * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftClbssLobdingMXBfbn} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>}.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * thf dlbss lobding systfm within bn <tt>MBfbnSfrvfr</tt> is:
+ * <blodkquotf>
+ * {@link MbnbgfmfntFbdtory#CLASS_LOADING_MXBEAN_NAME
+ *        <tt>jbvb.lbng:typf=ClbssLobding</tt>}
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid intfrfbdf ClbssLobdingMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+
+    /**
+     * Rfturns thf totbl numbfr of dlbssfs thbt hbvf bffn lobdfd sindf
+     * thf Jbvb virtubl mbdhinf hbs stbrtfd fxfdution.
+     *
+     * @rfturn thf totbl numbfr of dlbssfs lobdfd.
+     *
+     */
+    publid long gftTotblLobdfdClbssCount();
+
+    /**
+     * Rfturns thf numbfr of dlbssfs thbt brf durrfntly lobdfd in thf
+     * Jbvb virtubl mbdhinf.
+     *
+     * @rfturn thf numbfr of durrfntly lobdfd dlbssfs.
+     */
+    publid int gftLobdfdClbssCount();
+
+    /**
+     * Rfturns thf totbl numbfr of dlbssfs unlobdfd sindf thf Jbvb virtubl mbdhinf
+     * hbs stbrtfd fxfdution.
+     *
+     * @rfturn thf totbl numbfr of unlobdfd dlbssfs.
+     */
+    publid long gftUnlobdfdClbssCount();
+
+    /**
+     * Tfsts if thf vfrbosf output for thf dlbss lobding systfm is fnbblfd.
+     *
+     * @rfturn <tt>truf</tt> if thf vfrbosf output for thf dlbss lobding
+     * systfm is fnbblfd; <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isVfrbosf();
+
+    /**
+     * Enbblfs or disbblfs thf vfrbosf output for thf dlbss lobding
+     * systfm.  Thf vfrbosf output informbtion bnd thf output strfbm
+     * to whidh thf vfrbosf informbtion is fmittfd brf implfmfntbtion
+     * dfpfndfnt.  Typidblly, b Jbvb virtubl mbdhinf implfmfntbtion
+     * prints b mfssbgf fbdh timf b dlbss filf is lobdfd.
+     *
+     * <p>This mfthod dbn bf dbllfd by multiplf thrfbds dondurrfntly.
+     * Ebdh invodbtion of this mfthod fnbblfs or disbblfs thf vfrbosf
+     * output globblly.
+     *
+     * @pbrbm vbluf <tt>truf</tt> to fnbblf thf vfrbosf output;
+     *              <tt>fblsf</tt> to disbblf.
+     *
+     * @fxdfption  jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *             fxists bnd thf dbllfr dofs not hbvf
+     *             MbnbgfmfntPfrmission("dontrol").
+     */
+    publid void sftVfrbosf(boolfbn vbluf);
+
+}

@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import java.lang.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import sun.reflect.annotation.AnnotationSupport;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
 
 /**
- * Information about method parameters.
+ * Informbtion bbout mftiod pbrbmftfrs.
  *
- * A {@code Parameter} provides information about method parameters,
- * including its name and modifiers.  It also provides an alternate
- * means of obtaining attributes for the parameter.
+ * A {@dodf Pbrbmftfr} providfs informbtion bbout mftiod pbrbmftfrs,
+ * indluding its nbmf bnd modififrs.  It blso providfs bn bltfrnbtf
+ * mfbns of obtbining bttributfs for tif pbrbmftfr.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class Parameter implements AnnotatedElement {
+publid finbl dlbss Pbrbmftfr implfmfnts AnnotbtfdElfmfnt {
 
-    private final String name;
-    private final int modifiers;
-    private final Executable executable;
-    private final int index;
+    privbtf finbl String nbmf;
+    privbtf finbl int modififrs;
+    privbtf finbl Exfdutbblf fxfdutbblf;
+    privbtf finbl int indfx;
 
     /**
-     * Package-private constructor for {@code Parameter}.
+     * Pbdkbgf-privbtf donstrudtor for {@dodf Pbrbmftfr}.
      *
-     * If method parameter data is present in the classfile, then the
-     * JVM creates {@code Parameter} objects directly.  If it is
-     * absent, however, then {@code Executable} uses this constructor
-     * to synthesize them.
+     * If mftiod pbrbmftfr dbtb is prfsfnt in tif dlbssfilf, tifn tif
+     * JVM drfbtfs {@dodf Pbrbmftfr} objfdts dirfdtly.  If it is
+     * bbsfnt, iowfvfr, tifn {@dodf Exfdutbblf} usfs tiis donstrudtor
+     * to syntifsizf tifm.
      *
-     * @param name The name of the parameter.
-     * @param modifiers The modifier flags for the parameter.
-     * @param executable The executable which defines this parameter.
-     * @param index The index of the parameter.
+     * @pbrbm nbmf Tif nbmf of tif pbrbmftfr.
+     * @pbrbm modififrs Tif modififr flbgs for tif pbrbmftfr.
+     * @pbrbm fxfdutbblf Tif fxfdutbblf wiidi dffinfs tiis pbrbmftfr.
+     * @pbrbm indfx Tif indfx of tif pbrbmftfr.
      */
-    Parameter(String name,
-              int modifiers,
-              Executable executable,
-              int index) {
-        this.name = name;
-        this.modifiers = modifiers;
-        this.executable = executable;
-        this.index = index;
+    Pbrbmftfr(String nbmf,
+              int modififrs,
+              Exfdutbblf fxfdutbblf,
+              int indfx) {
+        tiis.nbmf = nbmf;
+        tiis.modififrs = modififrs;
+        tiis.fxfdutbblf = fxfdutbblf;
+        tiis.indfx = indfx;
     }
 
     /**
-     * Compares based on the executable and the index.
+     * Compbrfs bbsfd on tif fxfdutbblf bnd tif indfx.
      *
-     * @param obj The object to compare.
-     * @return Whether or not this is equal to the argument.
+     * @pbrbm obj Tif objfdt to dompbrf.
+     * @rfturn Wiftifr or not tiis is fqubl to tif brgumfnt.
      */
-    public boolean equals(Object obj) {
-        if(obj instanceof Parameter) {
-            Parameter other = (Parameter)obj;
-            return (other.executable.equals(executable) &&
-                    other.index == index);
+    publid boolfbn fqubls(Objfdt obj) {
+        if(obj instbndfof Pbrbmftfr) {
+            Pbrbmftfr otifr = (Pbrbmftfr)obj;
+            rfturn (otifr.fxfdutbblf.fqubls(fxfdutbblf) &&
+                    otifr.indfx == indfx);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code based on the executable's hash code and the
-     * index.
+     * Rfturns b ibsi dodf bbsfd on tif fxfdutbblf's ibsi dodf bnd tif
+     * indfx.
      *
-     * @return A hash code based on the executable's hash code.
+     * @rfturn A ibsi dodf bbsfd on tif fxfdutbblf's ibsi dodf.
      */
-    public int hashCode() {
-        return executable.hashCode() ^ index;
+    publid int ibsiCodf() {
+        rfturn fxfdutbblf.ibsiCodf() ^ indfx;
     }
 
     /**
-     * Returns true if the parameter has a name according to the class
-     * file; returns false otherwise. Whether a parameter has a name
-     * is determined by the {@literal MethodParameters} attribute of
-     * the method which declares the parameter.
+     * Rfturns truf if tif pbrbmftfr ibs b nbmf bddording to tif dlbss
+     * filf; rfturns fblsf otifrwisf. Wiftifr b pbrbmftfr ibs b nbmf
+     * is dftfrminfd by tif {@litfrbl MftiodPbrbmftfrs} bttributf of
+     * tif mftiod wiidi dfdlbrfs tif pbrbmftfr.
      *
-     * @return true if and only if the parameter has a name according
-     * to the class file.
+     * @rfturn truf if bnd only if tif pbrbmftfr ibs b nbmf bddording
+     * to tif dlbss filf.
      */
-    public boolean isNamePresent() {
-        return executable.hasRealParameterData() && name != null;
+    publid boolfbn isNbmfPrfsfnt() {
+        rfturn fxfdutbblf.ibsRfblPbrbmftfrDbtb() && nbmf != null;
     }
 
     /**
-     * Returns a string describing this parameter.  The format is the
-     * modifiers for the parameter, if any, in canonical order as
-     * recommended by <cite>The Java&trade; Language
-     * Specification</cite>, followed by the fully- qualified type of
-     * the parameter (excluding the last [] if the parameter is
-     * variable arity), followed by "..." if the parameter is variable
-     * arity, followed by a space, followed by the name of the
-     * parameter.
+     * Rfturns b string dfsdribing tiis pbrbmftfr.  Tif formbt is tif
+     * modififrs for tif pbrbmftfr, if bny, in dbnonidbl ordfr bs
+     * rfdommfndfd by <ditf>Tif Jbvb&trbdf; Lbngubgf
+     * Spfdifidbtion</ditf>, followfd by tif fully- qublififd typf of
+     * tif pbrbmftfr (fxdluding tif lbst [] if tif pbrbmftfr is
+     * vbribblf brity), followfd by "..." if tif pbrbmftfr is vbribblf
+     * brity, followfd by b spbdf, followfd by tif nbmf of tif
+     * pbrbmftfr.
      *
-     * @return A string representation of the parameter and associated
-     * information.
+     * @rfturn A string rfprfsfntbtion of tif pbrbmftfr bnd bssodibtfd
+     * informbtion.
      */
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        final Type type = getParameterizedType();
-        final String typename = type.getTypeName();
+    publid String toString() {
+        finbl StringBuildfr sb = nfw StringBuildfr();
+        finbl Typf typf = gftPbrbmftfrizfdTypf();
+        finbl String typfnbmf = typf.gftTypfNbmf();
 
-        sb.append(Modifier.toString(getModifiers()));
+        sb.bppfnd(Modififr.toString(gftModififrs()));
 
-        if(0 != modifiers)
-            sb.append(' ');
+        if(0 != modififrs)
+            sb.bppfnd(' ');
 
-        if(isVarArgs())
-            sb.append(typename.replaceFirst("\\[\\]$", "..."));
-        else
-            sb.append(typename);
+        if(isVbrArgs())
+            sb.bppfnd(typfnbmf.rfplbdfFirst("\\[\\]$", "..."));
+        flsf
+            sb.bppfnd(typfnbmf);
 
-        sb.append(' ');
-        sb.append(getName());
+        sb.bppfnd(' ');
+        sb.bppfnd(gftNbmf());
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Return the {@code Executable} which declares this parameter.
+     * Rfturn tif {@dodf Exfdutbblf} wiidi dfdlbrfs tiis pbrbmftfr.
      *
-     * @return The {@code Executable} declaring this parameter.
+     * @rfturn Tif {@dodf Exfdutbblf} dfdlbring tiis pbrbmftfr.
      */
-    public Executable getDeclaringExecutable() {
-        return executable;
+    publid Exfdutbblf gftDfdlbringExfdutbblf() {
+        rfturn fxfdutbblf;
     }
 
     /**
-     * Get the modifier flags for this the parameter represented by
-     * this {@code Parameter} object.
+     * Gft tif modififr flbgs for tiis tif pbrbmftfr rfprfsfntfd by
+     * tiis {@dodf Pbrbmftfr} objfdt.
      *
-     * @return The modifier flags for this parameter.
+     * @rfturn Tif modififr flbgs for tiis pbrbmftfr.
      */
-    public int getModifiers() {
-        return modifiers;
+    publid int gftModififrs() {
+        rfturn modififrs;
     }
 
     /**
-     * Returns the name of the parameter.  If the parameter's name is
-     * {@linkplain #isNamePresent() present}, then this method returns
-     * the name provided by the class file. Otherwise, this method
-     * synthesizes a name of the form argN, where N is the index of
-     * the parameter in the descriptor of the method which declares
-     * the parameter.
+     * Rfturns tif nbmf of tif pbrbmftfr.  If tif pbrbmftfr's nbmf is
+     * {@linkplbin #isNbmfPrfsfnt() prfsfnt}, tifn tiis mftiod rfturns
+     * tif nbmf providfd by tif dlbss filf. Otifrwisf, tiis mftiod
+     * syntifsizfs b nbmf of tif form brgN, wifrf N is tif indfx of
+     * tif pbrbmftfr in tif dfsdriptor of tif mftiod wiidi dfdlbrfs
+     * tif pbrbmftfr.
      *
-     * @return The name of the parameter, either provided by the class
-     *         file or synthesized if the class file does not provide
-     *         a name.
+     * @rfturn Tif nbmf of tif pbrbmftfr, fitifr providfd by tif dlbss
+     *         filf or syntifsizfd if tif dlbss filf dofs not providf
+     *         b nbmf.
      */
-    public String getName() {
-        // Note: empty strings as paramete names are now outlawed.
-        // The .equals("") is for compatibility with current JVM
-        // behavior.  It may be removed at some point.
-        if(name == null || name.equals(""))
-            return "arg" + index;
-        else
-            return name;
+    publid String gftNbmf() {
+        // Notf: fmpty strings bs pbrbmftf nbmfs brf now outlbwfd.
+        // Tif .fqubls("") is for dompbtibility witi durrfnt JVM
+        // bfibvior.  It mby bf rfmovfd bt somf point.
+        if(nbmf == null || nbmf.fqubls(""))
+            rfturn "brg" + indfx;
+        flsf
+            rfturn nbmf;
     }
 
-    // Package-private accessor to the real name field.
-    String getRealName() {
-        return name;
+    // Pbdkbgf-privbtf bddfssor to tif rfbl nbmf fifld.
+    String gftRfblNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns a {@code Type} object that identifies the parameterized
-     * type for the parameter represented by this {@code Parameter}
-     * object.
+     * Rfturns b {@dodf Typf} objfdt tibt idfntififs tif pbrbmftfrizfd
+     * typf for tif pbrbmftfr rfprfsfntfd by tiis {@dodf Pbrbmftfr}
+     * objfdt.
      *
-     * @return a {@code Type} object identifying the parameterized
-     * type of the parameter represented by this object
+     * @rfturn b {@dodf Typf} objfdt idfntifying tif pbrbmftfrizfd
+     * typf of tif pbrbmftfr rfprfsfntfd by tiis objfdt
      */
-    public Type getParameterizedType() {
-        Type tmp = parameterTypeCache;
+    publid Typf gftPbrbmftfrizfdTypf() {
+        Typf tmp = pbrbmftfrTypfCbdif;
         if (null == tmp) {
-            tmp = executable.getGenericParameterTypes()[index];
-            parameterTypeCache = tmp;
+            tmp = fxfdutbblf.gftGfnfridPbrbmftfrTypfs()[indfx];
+            pbrbmftfrTypfCbdif = tmp;
         }
 
-        return tmp;
+        rfturn tmp;
     }
 
-    private transient volatile Type parameterTypeCache = null;
+    privbtf trbnsifnt volbtilf Typf pbrbmftfrTypfCbdif = null;
 
     /**
-     * Returns a {@code Class} object that identifies the
-     * declared type for the parameter represented by this
-     * {@code Parameter} object.
+     * Rfturns b {@dodf Clbss} objfdt tibt idfntififs tif
+     * dfdlbrfd typf for tif pbrbmftfr rfprfsfntfd by tiis
+     * {@dodf Pbrbmftfr} objfdt.
      *
-     * @return a {@code Class} object identifying the declared
-     * type of the parameter represented by this object
+     * @rfturn b {@dodf Clbss} objfdt idfntifying tif dfdlbrfd
+     * typf of tif pbrbmftfr rfprfsfntfd by tiis objfdt
      */
-    public Class<?> getType() {
-        Class<?> tmp = parameterClassCache;
+    publid Clbss<?> gftTypf() {
+        Clbss<?> tmp = pbrbmftfrClbssCbdif;
         if (null == tmp) {
-            tmp = executable.getParameterTypes()[index];
-            parameterClassCache = tmp;
+            tmp = fxfdutbblf.gftPbrbmftfrTypfs()[indfx];
+            pbrbmftfrClbssCbdif = tmp;
         }
-        return tmp;
+        rfturn tmp;
     }
 
     /**
-     * Returns an AnnotatedType object that represents the use of a type to
-     * specify the type of the formal parameter represented by this Parameter.
+     * Rfturns bn AnnotbtfdTypf objfdt tibt rfprfsfnts tif usf of b typf to
+     * spfdify tif typf of tif formbl pbrbmftfr rfprfsfntfd by tiis Pbrbmftfr.
      *
-     * @return an {@code AnnotatedType} object representing the use of a type
-     *         to specify the type of the formal parameter represented by this
-     *         Parameter
+     * @rfturn bn {@dodf AnnotbtfdTypf} objfdt rfprfsfnting tif usf of b typf
+     *         to spfdify tif typf of tif formbl pbrbmftfr rfprfsfntfd by tiis
+     *         Pbrbmftfr
      */
-    public AnnotatedType getAnnotatedType() {
-        // no caching for now
-        return executable.getAnnotatedParameterTypes()[index];
+    publid AnnotbtfdTypf gftAnnotbtfdTypf() {
+        // no dbdiing for now
+        rfturn fxfdutbblf.gftAnnotbtfdPbrbmftfrTypfs()[indfx];
     }
 
-    private transient volatile Class<?> parameterClassCache = null;
+    privbtf trbnsifnt volbtilf Clbss<?> pbrbmftfrClbssCbdif = null;
 
     /**
-     * Returns {@code true} if this parameter is implicitly declared
-     * in source code; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis pbrbmftfr is impliditly dfdlbrfd
+     * in sourdf dodf; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return true if and only if this parameter is implicitly
-     * declared as defined by <cite>The Java&trade; Language
-     * Specification</cite>.
+     * @rfturn truf if bnd only if tiis pbrbmftfr is impliditly
+     * dfdlbrfd bs dffinfd by <ditf>Tif Jbvb&trbdf; Lbngubgf
+     * Spfdifidbtion</ditf>.
      */
-    public boolean isImplicit() {
-        return Modifier.isMandated(getModifiers());
+    publid boolfbn isImplidit() {
+        rfturn Modififr.isMbndbtfd(gftModififrs());
     }
 
     /**
-     * Returns {@code true} if this parameter is neither implicitly
-     * nor explicitly declared in source code; returns {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis pbrbmftfr is nfitifr impliditly
+     * nor fxpliditly dfdlbrfd in sourdf dodf; rfturns {@dodf fblsf}
+     * otifrwisf.
      *
-     * @jls 13.1 The Form of a Binary
-     * @return true if and only if this parameter is a synthetic
-     * construct as defined by
-     * <cite>The Java&trade; Language Specification</cite>.
+     * @jls 13.1 Tif Form of b Binbry
+     * @rfturn truf if bnd only if tiis pbrbmftfr is b syntiftid
+     * donstrudt bs dffinfd by
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
      */
-    public boolean isSynthetic() {
-        return Modifier.isSynthetic(getModifiers());
+    publid boolfbn isSyntiftid() {
+        rfturn Modififr.isSyntiftid(gftModififrs());
     }
 
     /**
-     * Returns {@code true} if this parameter represents a variable
-     * argument list; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis pbrbmftfr rfprfsfnts b vbribblf
+     * brgumfnt list; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return {@code true} if an only if this parameter represents a
-     * variable argument list.
+     * @rfturn {@dodf truf} if bn only if tiis pbrbmftfr rfprfsfnts b
+     * vbribblf brgumfnt list.
      */
-    public boolean isVarArgs() {
-        return executable.isVarArgs() &&
-            index == executable.getParameterCount() - 1;
+    publid boolfbn isVbrArgs() {
+        rfturn fxfdutbblf.isVbrArgs() &&
+            indfx == fxfdutbblf.gftPbrbmftfrCount() - 1;
     }
 
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return annotationClass.cast(declaredAnnotations().get(annotationClass));
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn bnnotbtionClbss.dbst(dfdlbrfdAnnotbtions().gft(bnnotbtionClbss));
     }
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
 
-        return AnnotationSupport.getDirectlyAndIndirectlyPresent(declaredAnnotations(), annotationClass);
+        rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(dfdlbrfdAnnotbtions(), bnnotbtionClbss);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public Annotation[] getDeclaredAnnotations() {
-        return executable.getParameterAnnotations()[index];
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions() {
+        rfturn fxfdutbblf.gftPbrbmftfrAnnotbtions()[indfx];
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotation is the same as
-        // getAnnotation.
-        return getAnnotation(annotationClass);
+    publid <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inifritfd, for bll otifr
+        // objfdts gftDfdlbrfdAnnotbtion is tif sbmf bs
+        // gftAnnotbtion.
+        rfturn gftAnnotbtion(bnnotbtionClbss);
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotations is the same as
-        // getAnnotations.
-        return getAnnotationsByType(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inifritfd, for bll otifr
+        // objfdts gftDfdlbrfdAnnotbtions is tif sbmf bs
+        // gftAnnotbtions.
+        rfturn gftAnnotbtionsByTypf(bnnotbtionClbss);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public Annotation[] getAnnotations() {
-        return getDeclaredAnnotations();
+    publid Annotbtion[] gftAnnotbtions() {
+        rfturn gftDfdlbrfdAnnotbtions();
     }
 
-    private transient Map<Class<? extends Annotation>, Annotation> declaredAnnotations;
+    privbtf trbnsifnt Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions;
 
-    private synchronized Map<Class<? extends Annotation>, Annotation> declaredAnnotations() {
-        if(null == declaredAnnotations) {
-            declaredAnnotations = new HashMap<>();
-            for (Annotation a : getDeclaredAnnotations())
-                declaredAnnotations.put(a.annotationType(), a);
+    privbtf syndironizfd Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions() {
+        if(null == dfdlbrfdAnnotbtions) {
+            dfdlbrfdAnnotbtions = nfw HbsiMbp<>();
+            for (Annotbtion b : gftDfdlbrfdAnnotbtions())
+                dfdlbrfdAnnotbtions.put(b.bnnotbtionTypf(), b);
         }
-        return declaredAnnotations;
+        rfturn dfdlbrfdAnnotbtions;
    }
 
 }

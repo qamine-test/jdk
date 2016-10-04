@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * (C) Copyright IBM Corp. 2005, All Rights Rfsfrvfd.
+ */
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.gfom.Point2D;
+
+/**
+ * LbyoutPbth providfs b mbpping bftwffn lodbtions rflbtivf to thf
+ * bbsflinf bnd points in usfr spbdf.  Lodbtions donsist of bn bdvbndf
+ * blong thf bbsflinf, bnd bn offsft pfrpfndidulbr to thf bbsflinf bt
+ * thf bdvbndf.  Positivf vblufs blong thf pfrpfndidulbr brf in thf
+ * dirfdtion thbt is 90 dfgrffs dlodkwisf from thf bbsflinf vfdtor.
+ * Lodbtions brf rfprfsfntfd bs b <dodf>Point2D</dodf>, whfrf x is thf bdvbndf bnd
+ * y is thf offsft.
+ *
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss LbyoutPbth {
+    /**
+     * Convfrt b point in usfr spbdf to b lodbtion rflbtivf to thf
+     * pbth. Thf lodbtion is dhosfn so bs to minimizf thf distbndf
+     * from thf point to thf pbth (f.g., thf mbgnitudf of thf offsft
+     * will bf smbllfst).  If thfrf is morf thbn onf sudh lodbtion,
+     * thf lodbtion with thf smbllfst bdvbndf is dhosfn.
+     * @pbrbm point thf point to donvfrt.  If it is not thf sbmf
+     * objfdt bs lodbtion, point will rfmbin unmodififd by this dbll.
+     * @pbrbm lodbtion b <dodf>Point2D</dodf> to hold thf rfturnfd lodbtion.
+     * It dbn bf thf sbmf objfdt bs point.
+     * @rfturn truf if thf point is bssodibtfd with thf portion of thf
+     * pbth prfdfding thf lodbtion, fblsf if it is bssodibtfd with
+     * thf portion following.  Thf dffbult, if thf lodbtion is not bt
+     * b brfbk or shbrp bfnd in thf pbth, is to rfturn truf.
+     * @throws NullPointfrExdfption if point or lodbtion is null
+     * @sindf 1.6
+     */
+    publid bbstrbdt boolfbn pointToPbth(Point2D point, Point2D lodbtion);
+
+    /**
+     * Convfrt b lodbtion rflbtivf to thf pbth to b point in usfr
+     * doordinbtfs.  Thf pbth might bfnd bbruptly or bf disjoint bt
+     * thf lodbtion's bdvbndf.  If this is thf dbsf, thf vbluf of
+     * 'prfdfding' is usfd to disbmbigubtf thf portion of thf pbth
+     * whosf lodbtion bnd slopf is to bf usfd to intfrprft thf offsft.
+     * @pbrbm lodbtion b <dodf>Point2D</dodf> rfprfsfnting thf bdvbndf (in x) bnd
+     * offsft (in y) of b lodbtion rflbtivf to thf pbth.  If lodbtion
+     * is not thf sbmf objfdt bs point, lodbtion will rfmbin
+     * unmodififd by this dbll.
+     * @pbrbm prfdfding if truf, thf portion prfdfding thf bdvbndf
+     * should bf usfd, if fblsf thf portion bftfr should bf usfd.
+     * This hbs no ffffdt if thf pbth dofs not brfbk or bfnd shbrply
+     * bt thf bdvbndf.
+     * @pbrbm point b <dodf>Point2D</dodf> to hold thf rfturnfd point.  It dbn bf
+     * thf sbmf objfdt bs lodbtion.
+     * @throws NullPointfrExdfption if lodbtion or point is null
+     * @sindf 1.6
+     */
+    publid bbstrbdt void pbthToPoint(Point2D lodbtion, boolfbn prfdfding,
+                                     Point2D point);
+}

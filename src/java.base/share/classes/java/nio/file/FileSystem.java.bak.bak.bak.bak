@@ -1,0 +1,468 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.util.Sft;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+
+/**
+ * Providfs bn intfrfbdf to b filf systfm bnd is thf fbdtory for objfdts to
+ * bddfss filfs bnd othfr objfdts in thf filf systfm.
+ *
+ * <p> Thf dffbult filf systfm, obtbinfd by invoking thf {@link FilfSystfms#gftDffbult
+ * FilfSystfms.gftDffbult} mfthod, providfs bddfss to thf filf systfm thbt is
+ * bddfssiblf to thf Jbvb virtubl mbdhinf. Thf {@link FilfSystfms} dlbss dffinfs
+ * mfthods to drfbtf filf systfms thbt providf bddfss to othfr typfs of (dustom)
+ * filf systfms.
+ *
+ * <p> A filf systfm is thf fbdtory for sfvfrbl typfs of objfdts:
+ *
+ * <ul>
+ *   <li><p> Thf {@link #gftPbth gftPbth} mfthod donvfrts b systfm dfpfndfnt
+ *     <fm>pbth string</fm>, rfturning b {@link Pbth} objfdt thbt mby bf usfd
+ *     to lodbtf bnd bddfss b filf. </p></li>
+ *   <li><p> Thf {@link #gftPbthMbtdhfr  gftPbthMbtdhfr} mfthod is usfd
+ *     to drfbtf b {@link PbthMbtdhfr} thbt pfrforms mbtdh opfrbtions on
+ *     pbths. </p></li>
+ *   <li><p> Thf {@link #gftFilfStorfs gftFilfStorfs} mfthod rfturns bn itfrbtor
+ *     ovfr thf undfrlying {@link FilfStorf filf-storfs}. </p></li>
+ *   <li><p> Thf {@link #gftUsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf}
+ *     mfthod rfturns thf {@link UsfrPrindipblLookupSfrvidf} to lookup usfrs or
+ *     groups by nbmf. </p></li>
+ *   <li><p> Thf {@link #nfwWbtdhSfrvidf nfwWbtdhSfrvidf} mfthod drfbtfs b
+ *     {@link WbtdhSfrvidf} thbt mby bf usfd to wbtdh objfdts for dhbngfs bnd
+ *     fvfnts. </p></li>
+ * </ul>
+ *
+ * <p> Filf systfms vbry grfbtly. In somf dbsfs thf filf systfm is b singlf
+ * hifrbrdhy of filfs with onf top-lfvfl root dirfdtory. In othfr dbsfs it mby
+ * hbvf sfvfrbl distindt filf hifrbrdhifs, fbdh with its own top-lfvfl root
+ * dirfdtory. Thf {@link #gftRootDirfdtorifs gftRootDirfdtorifs} mfthod mby bf
+ * usfd to itfrbtf ovfr thf root dirfdtorifs in thf filf systfm. A filf systfm
+ * is typidblly domposfd of onf or morf undfrlying {@link FilfStorf filf-storfs}
+ * thbt providf thf storbgf for thf filfs. Thfsfs filf storfs dbn blso vbry in
+ * thf ffbturfs thfy support, bnd thf filf bttributfs or <fm>mftb-dbtb</fm> thbt
+ * thfy bssodibtf with filfs.
+ *
+ * <p> A filf systfm is opfn upon drfbtion bnd dbn bf dlosfd by invoking its
+ * {@link #dlosf() dlosf} mfthod. Ondf dlosfd, bny furthfr bttfmpt to bddfss
+ * objfdts in thf filf systfm dbusf {@link ClosfdFilfSystfmExdfption} to bf
+ * thrown. Filf systfms drfbtfd by thf dffbult {@link FilfSystfmProvidfr providfr}
+ * dbnnot bf dlosfd.
+ *
+ * <p> A {@dodf FilfSystfm} dbn providf rfbd-only or rfbd-writf bddfss to thf
+ * filf systfm. Whfthfr or not b filf systfm providfs rfbd-only bddfss is
+ * fstbblishfd whfn thf {@dodf FilfSystfm} is drfbtfd bnd dbn bf tfstfd by invoking
+ * its {@link #isRfbdOnly() isRfbdOnly} mfthod. Attfmpts to writf to filf storfs
+ * by mfbns of bn objfdt bssodibtfd with b rfbd-only filf systfm throws {@link
+ * RfbdOnlyFilfSystfmExdfption}.
+ *
+ * <p> Filf systfms brf sbff for usf by multiplf dondurrfnt thrfbds. Thf {@link
+ * #dlosf dlosf} mfthod mby bf invokfd bt bny timf to dlosf b filf systfm but
+ * whfthfr b filf systfm is <i>bsyndhronously dlosfbblf</i> is providfr spfdifid
+ * bnd thfrfforf unspfdififd. In othfr words, if b thrfbd is bddfssing bn
+ * objfdt in b filf systfm, bnd bnothfr thrfbd invokfs thf {@dodf dlosf} mfthod
+ * thfn it mby rfquirf to blodk until thf first opfrbtion is domplftf. Closing
+ * b filf systfm dbusfs bll opfn dhbnnfls, wbtdh sfrvidfs, bnd othfr {@link
+ * Closfbblf dlosfbblf} objfdts bssodibtfd with thf filf systfm to bf dlosfd.
+ *
+ * @sindf 1.7
+ */
+
+publid bbstrbdt dlbss FilfSystfm
+    implfmfnts Closfbblf
+{
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd FilfSystfm() {
+    }
+
+    /**
+     * Rfturns thf providfr thbt drfbtfd this filf systfm.
+     *
+     * @rfturn  Thf providfr thbt drfbtfd this filf systfm.
+     */
+    publid bbstrbdt FilfSystfmProvidfr providfr();
+
+    /**
+     * Closfs this filf systfm.
+     *
+     * <p> Aftfr b filf systfm is dlosfd thfn bll subsfqufnt bddfss to thf filf
+     * systfm, fithfr by mfthods dffinfd by this dlbss or on objfdts bssodibtfd
+     * with this filf systfm, throw {@link ClosfdFilfSystfmExdfption}. If thf
+     * filf systfm is blrfbdy dlosfd thfn invoking this mfthod hbs no ffffdt.
+     *
+     * <p> Closing b filf systfm will dlosf bll opfn {@link
+     * jbvb.nio.dhbnnfls.Chbnnfl dhbnnfls}, {@link DirfdtoryStrfbm dirfdtory-strfbms},
+     * {@link WbtdhSfrvidf wbtdh-sfrvidf}, bnd othfr dlosfbblf objfdts bssodibtfd
+     * with this filf systfm. Thf {@link FilfSystfms#gftDffbult dffbult} filf
+     * systfm dbnnot bf dlosfd.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          Thrown in thf dbsf of thf dffbult filf systfm
+     */
+    @Ovfrridf
+    publid bbstrbdt void dlosf() throws IOExdfption;
+
+    /**
+     * Tflls whfthfr or not this filf systfm is opfn.
+     *
+     * <p> Filf systfms drfbtfd by thf dffbult providfr brf blwbys opfn.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this filf systfm is opfn
+     */
+    publid bbstrbdt boolfbn isOpfn();
+
+    /**
+     * Tflls whfthfr or not this filf systfm bllows only rfbd-only bddfss to
+     * its filf storfs.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this filf systfm providfs
+     *          rfbd-only bddfss
+     */
+    publid bbstrbdt boolfbn isRfbdOnly();
+
+    /**
+     * Rfturns thf nbmf sfpbrbtor, rfprfsfntfd bs b string.
+     *
+     * <p> Thf nbmf sfpbrbtor is usfd to sfpbrbtf nbmfs in b pbth string. An
+     * implfmfntbtion mby support multiplf nbmf sfpbrbtors in whidh dbsf this
+     * mfthod rfturns bn implfmfntbtion spfdifid <fm>dffbult</fm> nbmf sfpbrbtor.
+     * This sfpbrbtor is usfd whfn drfbting pbth strings by invoking thf {@link
+     * Pbth#toString() toString()} mfthod.
+     *
+     * <p> In thf dbsf of thf dffbult providfr, this mfthod rfturns thf sbmf
+     * sfpbrbtor bs {@link jbvb.io.Filf#sfpbrbtor}.
+     *
+     * @rfturn  Thf nbmf sfpbrbtor
+     */
+    publid bbstrbdt String gftSfpbrbtor();
+
+    /**
+     * Rfturns bn objfdt to itfrbtf ovfr thf pbths of thf root dirfdtorifs.
+     *
+     * <p> A filf systfm providfs bddfss to b filf storf thbt mby bf domposfd
+     * of b numbfr of distindt filf hifrbrdhifs, fbdh with its own top-lfvfl
+     * root dirfdtory. Unlfss dfnifd by thf sfdurity mbnbgfr, fbdh flfmfnt in
+     * thf rfturnfd itfrbtor dorrfsponds to thf root dirfdtory of b distindt
+     * filf hifrbrdhy. Thf ordfr of thf flfmfnts is not dffinfd. Thf filf
+     * hifrbrdhifs mby dhbngf during thf lifftimf of thf Jbvb virtubl mbdhinf.
+     * For fxbmplf, in somf implfmfntbtions, thf insfrtion of rfmovbblf mfdib
+     * mby rfsult in thf drfbtion of b nfw filf hifrbrdhy with its own
+     * top-lfvfl dirfdtory.
+     *
+     * <p> Whfn b sfdurity mbnbgfr is instbllfd, it is invokfd to dhfdk bddfss
+     * to thf fbdh root dirfdtory. If dfnifd, thf root dirfdtory is not rfturnfd
+     * by thf itfrbtor. In thf dbsf of thf dffbult providfr, thf {@link
+     * SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to dhfdk rfbd bddfss
+     * to fbdh root dirfdtory. It is systfm dfpfndfnt if thf pfrmission dhfdks
+     * brf donf whfn thf itfrbtor is obtbinfd or during itfrbtion.
+     *
+     * @rfturn  An objfdt to itfrbtf ovfr thf root dirfdtorifs
+     */
+    publid bbstrbdt Itfrbblf<Pbth> gftRootDirfdtorifs();
+
+    /**
+     * Rfturns bn objfdt to itfrbtf ovfr thf undfrlying filf storfs.
+     *
+     * <p> Thf flfmfnts of thf rfturnfd itfrbtor brf thf {@link
+     * FilfStorf FilfStorfs} for this filf systfm. Thf ordfr of thf flfmfnts is
+     * not dffinfd bnd thf filf storfs mby dhbngf during thf lifftimf of thf
+     * Jbvb virtubl mbdhinf. Whfn bn I/O frror oddurs, pfrhbps bfdbusf b filf
+     * storf is not bddfssiblf, thfn it is not rfturnfd by thf itfrbtor.
+     *
+     * <p> In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     * instbllfd, thf sfdurity mbnbgfr is invokfd to dhfdk {@link
+     * RuntimfPfrmission}<tt>("gftFilfStorfAttributfs")</tt>. If dfnifd, thfn
+     * no filf storfs brf rfturnfd by thf itfrbtor. In bddition, thf sfdurity
+     * mbnbgfr's {@link SfdurityMbnbgfr#dhfdkRfbd(String)} mfthod is invokfd to
+     * dhfdk rfbd bddfss to thf filf storf's <fm>top-most</fm> dirfdtory. If
+     * dfnifd, thf filf storf is not rfturnfd by thf itfrbtor. It is systfm
+     * dfpfndfnt if thf pfrmission dhfdks brf donf whfn thf itfrbtor is obtbinfd
+     * or during itfrbtion.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to print thf spbdf usbgf for bll filf storfs:
+     * <prf>
+     *     for (FilfStorf storf: FilfSystfms.gftDffbult().gftFilfStorfs()) {
+     *         long totbl = storf.gftTotblSpbdf() / 1024;
+     *         long usfd = (storf.gftTotblSpbdf() - storf.gftUnbllodbtfdSpbdf()) / 1024;
+     *         long bvbil = storf.gftUsbblfSpbdf() / 1024;
+     *         Systfm.out.formbt("%-20s %12d %12d %12d%n", storf, totbl, usfd, bvbil);
+     *     }
+     * </prf>
+     *
+     * @rfturn  An objfdt to itfrbtf ovfr thf bbdking filf storfs
+     */
+    publid bbstrbdt Itfrbblf<FilfStorf> gftFilfStorfs();
+
+    /**
+     * Rfturns thf sft of thf {@link FilfAttributfVifw#nbmf nbmfs} of thf filf
+     * bttributf vifws supportfd by this {@dodf FilfSystfm}.
+     *
+     * <p> Thf {@link BbsidFilfAttributfVifw} is rfquirfd to bf supportfd bnd
+     * thfrfforf thf sft dontbins bt lfbst onf flfmfnt, "bbsid".
+     *
+     * <p> Thf {@link FilfStorf#supportsFilfAttributfVifw(String)
+     * supportsFilfAttributfVifw(String)} mfthod mby bf usfd to tfst if bn
+     * undfrlying {@link FilfStorf} supports thf filf bttributfs idfntififd by b
+     * filf bttributf vifw.
+     *
+     * @rfturn  An unmodifibblf sft of thf nbmfs of thf supportfd filf bttributf
+     *          vifws
+     */
+    publid bbstrbdt Sft<String> supportfdFilfAttributfVifws();
+
+    /**
+     * Convfrts b pbth string, or b sfqufndf of strings thbt whfn joinfd form
+     * b pbth string, to b {@dodf Pbth}. If {@dodf morf} dofs not spfdify bny
+     * flfmfnts thfn thf vbluf of thf {@dodf first} pbrbmftfr is thf pbth string
+     * to donvfrt. If {@dodf morf} spfdififs onf or morf flfmfnts thfn fbdh
+     * non-fmpty string, indluding {@dodf first}, is donsidfrfd to bf b sfqufndf
+     * of nbmf flfmfnts (sff {@link Pbth}) bnd is joinfd to form b pbth string.
+     * Thf dftbils bs to how thf Strings brf joinfd is providfr spfdifid but
+     * typidblly thfy will bf joinfd using thf {@link #gftSfpbrbtor
+     * nbmf-sfpbrbtor} bs thf sfpbrbtor. For fxbmplf, if thf nbmf sfpbrbtor is
+     * "{@dodf /}" bnd {@dodf gftPbth("/foo","bbr","gus")} is invokfd, thfn thf
+     * pbth string {@dodf "/foo/bbr/gus"} is donvfrtfd to b {@dodf Pbth}.
+     * A {@dodf Pbth} rfprfsfnting bn fmpty pbth is rfturnfd if {@dodf first}
+     * is thf fmpty string bnd {@dodf morf} dofs not dontbin bny non-fmpty
+     * strings.
+     *
+     * <p> Thf pbrsing bnd donvfrsion to b pbth objfdt is inhfrfntly
+     * implfmfntbtion dfpfndfnt. In thf simplfst dbsf, thf pbth string is rfjfdtfd,
+     * bnd {@link InvblidPbthExdfption} thrown, if thf pbth string dontbins
+     * dhbrbdtfrs thbt dbnnot bf donvfrtfd to dhbrbdtfrs thbt brf <fm>lfgbl</fm>
+     * to thf filf storf. For fxbmplf, on UNIX systfms, thf NUL (&#92;u0000)
+     * dhbrbdtfr is not bllowfd to bf prfsfnt in b pbth. An implfmfntbtion mby
+     * dhoosf to rfjfdt pbth strings thbt dontbin nbmfs thbt brf longfr thbn thosf
+     * bllowfd by bny filf storf, bnd whfrf bn implfmfntbtion supports b domplfx
+     * pbth syntbx, it mby dhoosf to rfjfdt pbth strings thbt brf <fm>bbdly
+     * formfd</fm>.
+     *
+     * <p> In thf dbsf of thf dffbult providfr, pbth strings brf pbrsfd bbsfd
+     * on thf dffinition of pbths bt thf plbtform or virtubl filf systfm lfvfl.
+     * For fxbmplf, bn opfrbting systfm mby not bllow spfdifid dhbrbdtfrs to bf
+     * prfsfnt in b filf nbmf, but b spfdifid undfrlying filf storf mby imposf
+     * difffrfnt or bdditionbl rfstridtions on thf sft of lfgbl
+     * dhbrbdtfrs.
+     *
+     * <p> This mfthod throws {@link InvblidPbthExdfption} whfn thf pbth string
+     * dbnnot bf donvfrtfd to b pbth. Whfrf possiblf, bnd whfrf bpplidbblf,
+     * thf fxdfption is drfbtfd with bn {@link InvblidPbthExdfption#gftIndfx
+     * indfx} vbluf indidbting thf first position in thf {@dodf pbth} pbrbmftfr
+     * thbt dbusfd thf pbth string to bf rfjfdtfd.
+     *
+     * @pbrbm   first
+     *          thf pbth string or initibl pbrt of thf pbth string
+     * @pbrbm   morf
+     *          bdditionbl strings to bf joinfd to form thf pbth string
+     *
+     * @rfturn  thf rfsulting {@dodf Pbth}
+     *
+     * @throws  InvblidPbthExdfption
+     *          If thf pbth string dbnnot bf donvfrtfd
+     */
+    publid bbstrbdt Pbth gftPbth(String first, String... morf);
+
+    /**
+     * Rfturns b {@dodf PbthMbtdhfr} thbt pfrforms mbtdh opfrbtions on thf
+     * {@dodf String} rfprfsfntbtion of {@link Pbth} objfdts by intfrprfting b
+     * givfn pbttfrn.
+     *
+     * Thf {@dodf syntbxAndPbttfrn} pbrbmftfr idfntififs thf syntbx bnd thf
+     * pbttfrn bnd tbkfs thf form:
+     * <blodkquotf><prf>
+     * <i>syntbx</i><b>:</b><i>pbttfrn</i>
+     * </prf></blodkquotf>
+     * whfrf {@dodf ':'} stbnds for itsflf.
+     *
+     * <p> A {@dodf FilfSystfm} implfmfntbtion supports thf "{@dodf glob}" bnd
+     * "{@dodf rfgfx}" syntbxfs, bnd mby support othfrs. Thf vbluf of thf syntbx
+     * domponfnt is dompbrfd without rfgbrd to dbsf.
+     *
+     * <p> Whfn thf syntbx is "{@dodf glob}" thfn thf {@dodf String}
+     * rfprfsfntbtion of thf pbth is mbtdhfd using b limitfd pbttfrn lbngubgf
+     * thbt rfsfmblfs rfgulbr fxprfssions but with b simplfr syntbx. For fxbmplf:
+     *
+     * <blodkquotf>
+     * <tbblf bordfr="0" summbry="Pbttfrn Lbngubgf">
+     * <tr>
+     *   <td>{@dodf *.jbvb}</td>
+     *   <td>Mbtdhfs b pbth thbt rfprfsfnts b filf nbmf fnding in {@dodf .jbvb}</td>
+     * </tr>
+     * <tr>
+     *   <td>{@dodf *.*}</td>
+     *   <td>Mbtdhfs filf nbmfs dontbining b dot</td>
+     * </tr>
+     * <tr>
+     *   <td>{@dodf *.{jbvb,dlbss}}</td>
+     *   <td>Mbtdhfs filf nbmfs fnding with {@dodf .jbvb} or {@dodf .dlbss}</td>
+     * </tr>
+     * <tr>
+     *   <td>{@dodf foo.?}</td>
+     *   <td>Mbtdhfs filf nbmfs stbrting with {@dodf foo.} bnd b singlf
+     *   dhbrbdtfr fxtfnsion</td>
+     * </tr>
+     * <tr>
+     *   <td><tt>&#47;homf&#47;*&#47;*</tt>
+     *   <td>Mbtdhfs <tt>&#47;homf&#47;gus&#47;dbtb</tt> on UNIX plbtforms</td>
+     * </tr>
+     * <tr>
+     *   <td><tt>&#47;homf&#47;**</tt>
+     *   <td>Mbtdhfs <tt>&#47;homf&#47;gus</tt> bnd
+     *   <tt>&#47;homf&#47;gus&#47;dbtb</tt> on UNIX plbtforms</td>
+     * </tr>
+     * <tr>
+     *   <td><tt>C:&#92;&#92;*</tt>
+     *   <td>Mbtdhfs <tt>C:&#92;foo</tt> bnd <tt>C:&#92;bbr</tt> on thf Windows
+     *   plbtform (notf thbt thf bbdkslbsh is fsdbpfd; bs b string litfrbl in thf
+     *   Jbvb Lbngubgf thf pbttfrn would bf <tt>"C:&#92;&#92;&#92;&#92;*"</tt>) </td>
+     * </tr>
+     *
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * <p> Thf following rulfs brf usfd to intfrprft glob pbttfrns:
+     *
+     * <ul>
+     *   <li><p> Thf {@dodf *} dhbrbdtfr mbtdhfs zfro or morf {@link Chbrbdtfr
+     *   dhbrbdtfrs} of b {@link Pbth#gftNbmf(int) nbmf} domponfnt without
+     *   drossing dirfdtory boundbrifs. </p></li>
+     *
+     *   <li><p> Thf {@dodf **} dhbrbdtfrs mbtdhfs zfro or morf {@link Chbrbdtfr
+     *   dhbrbdtfrs} drossing dirfdtory boundbrifs. </p></li>
+     *
+     *   <li><p> Thf {@dodf ?} dhbrbdtfr mbtdhfs fxbdtly onf dhbrbdtfr of b
+     *   nbmf domponfnt.</p></li>
+     *
+     *   <li><p> Thf bbdkslbsh dhbrbdtfr ({@dodf \}) is usfd to fsdbpf dhbrbdtfrs
+     *   thbt would othfrwisf bf intfrprftfd bs spfdibl dhbrbdtfrs. Thf fxprfssion
+     *   {@dodf \\} mbtdhfs b singlf bbdkslbsh bnd "\{" mbtdhfs b lfft brbdf
+     *   for fxbmplf.  </p></li>
+     *
+     *   <li><p> Thf {@dodf [ ]} dhbrbdtfrs brf b <i>brbdkft fxprfssion</i> thbt
+     *   mbtdh b singlf dhbrbdtfr of b nbmf domponfnt out of b sft of dhbrbdtfrs.
+     *   For fxbmplf, {@dodf [bbd]} mbtdhfs {@dodf "b"}, {@dodf "b"}, or {@dodf "d"}.
+     *   Thf hyphfn ({@dodf -}) mby bf usfd to spfdify b rbngf so {@dodf [b-z]}
+     *   spfdififs b rbngf thbt mbtdhfs from {@dodf "b"} to {@dodf "z"} (indlusivf).
+     *   Thfsf forms dbn bf mixfd so [bbdf-g] mbtdhfs {@dodf "b"}, {@dodf "b"},
+     *   {@dodf "d"}, {@dodf "f"}, {@dodf "f"} or {@dodf "g"}. If thf dhbrbdtfr
+     *   bftfr thf {@dodf [} is b {@dodf !} thfn it is usfd for nfgbtion so {@dodf
+     *   [!b-d]} mbtdhfs bny dhbrbdtfr fxdfpt {@dodf "b"}, {@dodf "b"}, or {@dodf
+     *   "d"}.
+     *   <p> Within b brbdkft fxprfssion thf {@dodf *}, {@dodf ?} bnd {@dodf \}
+     *   dhbrbdtfrs mbtdh thfmsflvfs. Thf ({@dodf -}) dhbrbdtfr mbtdhfs itsflf if
+     *   it is thf first dhbrbdtfr within thf brbdkfts, or thf first dhbrbdtfr
+     *   bftfr thf {@dodf !} if nfgbting.</p></li>
+     *
+     *   <li><p> Thf {@dodf { }} dhbrbdtfrs brf b group of subpbttfrns, whfrf
+     *   thf group mbtdhfs if bny subpbttfrn in thf group mbtdhfs. Thf {@dodf ","}
+     *   dhbrbdtfr is usfd to sfpbrbtf thf subpbttfrns. Groups dbnnot bf nfstfd.
+     *   </p></li>
+     *
+     *   <li><p> Lfbding pfriod<tt>&#47;</tt>dot dhbrbdtfrs in filf nbmf brf
+     *   trfbtfd bs rfgulbr dhbrbdtfrs in mbtdh opfrbtions. For fxbmplf,
+     *   thf {@dodf "*"} glob pbttfrn mbtdhfs filf nbmf {@dodf ".login"}.
+     *   Thf {@link Filfs#isHiddfn} mfthod mby bf usfd to tfst whfthfr b filf
+     *   is donsidfrfd hiddfn.
+     *   </p></li>
+     *
+     *   <li><p> All othfr dhbrbdtfrs mbtdh thfmsflvfs in bn implfmfntbtion
+     *   dfpfndfnt mbnnfr. This indludfs dhbrbdtfrs rfprfsfnting bny {@link
+     *   FilfSystfm#gftSfpbrbtor nbmf-sfpbrbtors}. </p></li>
+     *
+     *   <li><p> Thf mbtdhing of {@link Pbth#gftRoot root} domponfnts is highly
+     *   implfmfntbtion-dfpfndfnt bnd is not spfdififd. </p></li>
+     *
+     * </ul>
+     *
+     * <p> Whfn thf syntbx is "{@dodf rfgfx}" thfn thf pbttfrn domponfnt is b
+     * rfgulbr fxprfssion bs dffinfd by thf {@link jbvb.util.rfgfx.Pbttfrn}
+     * dlbss.
+     *
+     * <p>  For both thf glob bnd rfgfx syntbxfs, thf mbtdhing dftbils, sudh bs
+     * whfthfr thf mbtdhing is dbsf sfnsitivf, brf implfmfntbtion-dfpfndfnt
+     * bnd thfrfforf not spfdififd.
+     *
+     * @pbrbm   syntbxAndPbttfrn
+     *          Thf syntbx bnd pbttfrn
+     *
+     * @rfturn  A pbth mbtdhfr thbt mby bf usfd to mbtdh pbths bgbinst thf pbttfrn
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf pbrbmftfr dofs not tbkf thf form: {@dodf syntbx:pbttfrn}
+     * @throws  jbvb.util.rfgfx.PbttfrnSyntbxExdfption
+     *          If thf pbttfrn is invblid
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf pbttfrn syntbx is not known to thf implfmfntbtion
+     *
+     * @sff Filfs#nfwDirfdtoryStrfbm(Pbth,String)
+     */
+    publid bbstrbdt PbthMbtdhfr gftPbthMbtdhfr(String syntbxAndPbttfrn);
+
+    /**
+     * Rfturns thf {@dodf UsfrPrindipblLookupSfrvidf} for this filf systfm
+     * <i>(optionbl opfrbtion)</i>. Thf rfsulting lookup sfrvidf mby bf usfd to
+     * lookup usfr or group nbmfs.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to mbkf "jof" thf ownfr of b filf:
+     * <prf>
+     *     UsfrPrindipblLookupSfrvidf lookupSfrvidf = FilfSystfms.gftDffbult().gftUsfrPrindipblLookupSfrvidf();
+     *     Filfs.sftOwnfr(pbth, lookupSfrvidf.lookupPrindipblByNbmf("jof"));
+     * </prf>
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this {@dodf FilfSystfm} dofs not dofs hbvf b lookup sfrvidf
+     *
+     * @rfturn  Thf {@dodf UsfrPrindipblLookupSfrvidf} for this filf systfm
+     */
+    publid bbstrbdt UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf();
+
+    /**
+     * Construdts b nfw {@link WbtdhSfrvidf} <i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod donstrudts b nfw wbtdh sfrvidf thbt mby bf usfd to wbtdh
+     * rfgistfrfd objfdts for dhbngfs bnd fvfnts.
+     *
+     * @rfturn  b nfw wbtdh sfrvidf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this {@dodf FilfSystfm} dofs not support wbtdhing filf systfm
+     *          objfdts for dhbngfs bnd fvfnts. This fxdfption is not thrown
+     *          by {@dodf FilfSystfms} drfbtfd by thf dffbult providfr.
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt WbtdhSfrvidf nfwWbtdhSfrvidf() throws IOExdfption;
+}

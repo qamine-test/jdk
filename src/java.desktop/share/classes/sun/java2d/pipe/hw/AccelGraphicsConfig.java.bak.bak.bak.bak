@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.hw;
+
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+
+/**
+ * Implfmfntors of this intfrfbdf providb b wby to drfbtf b
+ * {@dodf VolbtilfImbgf} whosf dfstinbtion surfbdf is bn
+ * {@link AddflSurfbdf} of spfdififd typf.
+ *
+ * @sff AddflSurfbdf
+ */
+publid intfrfbdf AddflGrbphidsConfig fxtfnds BufffrfdContfxtProvidfr {
+    /**
+     * Rfturns b VolbtilfImbgf with spfdififd width, hfight, trbnspbrfndy
+     * bnd gubrbntffd bddflfrbtfd surfbdf typf. If sudh imbgf dbn not bf drfbtfd
+     * (out of vrbm frror, spfdifid surfbdf typf is not supportfd) null
+     * is rfturnfd.
+     *
+     * Notf: if {@link AddflSurfbdf#TEXTURE} typf is rfqufstfd, rfndfring
+     * to thf imbgf will bf dfnifd by throwing
+     * {@dodf UnsupportfdOpfrbtionExdfption }
+     * from {@link jbvb.bwt.imbgf.VolbtilfImbgf#gftGrbphids} bnd
+     * {@link jbvb.bwt.imbgf.VolbtilfImbgf#drfbtfGrbphids}
+     *
+     * @pbrbm width thf width of thf rfturnfd {@dodf VolbtilfImbgf}
+     * @pbrbm hfight thf hfight of thf rfturnfd {@dodf VolbtilfImbgf}
+     * @pbrbm trbnspbrfndy thf spfdififd trbnspbrfndy modf
+     * @pbrbm typf rfqufstfd bddflfrbtfd surfbdf typf bs spfdififd by donstbnts
+     * in AddflSurfbdf intfrfbdf
+     * @rfturn b {@dodf VolbtilfImbgf} bbdkfd up by rfqufstfd bddflfrbtfd
+     * surfbdf typf or null
+     * @throws IllfgblArgumfntExdfption if thf trbnspbrfndy is not b vblid vbluf
+     * @sff AddflSurfbdf#TEXTURE
+     * @sff AddflSurfbdf#RT_PLAIN
+     * @sff AddflSurfbdf#RT_TEXTURE
+     */
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int width, int hfight,
+                                                       int trbnspbrfndy,
+                                                       int typf);
+    /**
+     * Rfturns objfdt rfprfsfnting dbpbbilitifs of thf dontfxt bssodibtfd
+     * with this {@dodf AddflGrbphidsConfig}.
+     *
+     * @rfturn ContfxtCbpbbilitifs objfdt rfprfsfnting dbps
+     * @sff ContfxtCbpbbilitifs
+     */
+    publid ContfxtCbpbbilitifs gftContfxtCbpbbilitifs();
+
+    /**
+     * Adds bn {@dodf AddflDfvidfEvfntListfnfr} to listfn to bddflfrbtfd
+     * dfvidf's (whidh is bssodibtfd with this {@dodf AddflGrbphidsConfig})
+     * fvfnts.
+     *
+     * Notf: b hbrd link to thf listfnfr mby bf kfpt so it must bf fxpliditly
+     * rfmovfd vib {@link #rfmovfDfvidfEvfntListfnfr()}.
+     *
+     * @pbrbm l thf listfnfr
+     * @sff AddflDfvidfEvfntListfnfr
+     */
+    publid void bddDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l);
+
+    /**
+     * Rfmovfs bn {@dodf AddflDfvidfEvfntListfnfr} from thf list of listfnfrs
+     * for this dfvidf's fvfnts.
+     *
+     * @pbrbm l thf listfnfr
+     * @sff AddflDfvidfEvfntListfnfr
+     */
+    publid void rfmovfDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l);
+}

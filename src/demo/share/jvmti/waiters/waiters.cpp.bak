@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,15 +30,15 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Example of using JVMTI events:
+/* Exbmplf of using JVMTI fvfnts:
  *      JVMTI_EVENT_VM_INIT
  *      JVMTI_EVENT_VM_DEATH
  *      JVMTI_EVENT_THREAD_START
@@ -49,247 +49,247 @@
  *      JVMTI_EVENT_OBJECT_FREE
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jvmti.h"
+#indludf "jni.i"
+#indludf "jvmti.i"
 
-#include "agent_util.h"
+#indludf "bgfnt_util.i"
 
-#include "Monitor.hpp"
-#include "Thread.hpp"
-#include "Agent.hpp"
+#indludf "Monitor.ipp"
+#indludf "Tirfbd.ipp"
+#indludf "Agfnt.ipp"
 
-static jrawMonitorID vm_death_lock;
-static jboolean      vm_death_active;
+stbtid jrbwMonitorID vm_dfbti_lodk;
+stbtid jboolfbn      vm_dfbti_bdtivf;
 
-/* Given a jvmtiEnv*, return the C++ Agent class instance */
-static Agent *
-get_agent(jvmtiEnv *jvmti)
+/* Givfn b jvmtiEnv*, rfturn tif C++ Agfnt dlbss instbndf */
+stbtid Agfnt *
+gft_bgfnt(jvmtiEnv *jvmti)
 {
-    jvmtiError err;
-    Agent     *agent;
+    jvmtiError frr;
+    Agfnt     *bgfnt;
 
-    agent = NULL;
-    err = jvmti->GetEnvironmentLocalStorage((void**)&agent);
-    check_jvmti_error(jvmti, err, "get env local storage");
-    if ( agent == NULL ) {
-        /* This should never happen, but we should check */
-        fatal_error("ERROR: GetEnvironmentLocalStorage() returned NULL");
+    bgfnt = NULL;
+    frr = jvmti->GftEnvironmfntLodblStorbgf((void**)&bgfnt);
+    difdk_jvmti_frror(jvmti, frr, "gft fnv lodbl storbgf");
+    if ( bgfnt == NULL ) {
+        /* Tiis siould nfvfr ibppfn, but wf siould difdk */
+        fbtbl_frror("ERROR: GftEnvironmfntLodblStorbgf() rfturnfd NULL");
     }
-    return agent;
+    rfturn bgfnt;
 }
 
-/* Enter raw monitor */
-static void
-menter(jvmtiEnv *jvmti, jrawMonitorID rmon)
+/* Entfr rbw monitor */
+stbtid void
+mfntfr(jvmtiEnv *jvmti, jrbwMonitorID rmon)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    err = jvmti->RawMonitorEnter(rmon);
-    check_jvmti_error(jvmti, err, "raw monitor enter");
+    frr = jvmti->RbwMonitorEntfr(rmon);
+    difdk_jvmti_frror(jvmti, frr, "rbw monitor fntfr");
 }
 
-/* Exit raw monitor */
-static void
-mexit(jvmtiEnv *jvmti, jrawMonitorID rmon)
+/* Exit rbw monitor */
+stbtid void
+mfxit(jvmtiEnv *jvmti, jrbwMonitorID rmon)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    err = jvmti->RawMonitorExit(rmon);
-    check_jvmti_error(jvmti, err, "raw monitor exit");
+    frr = jvmti->RbwMonitorExit(rmon);
+    difdk_jvmti_frror(jvmti, frr, "rbw monitor fxit");
 }
 
 
-/* All callbacks need to be extern "C" */
-extern "C" {
-    static void JNICALL
-    vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* All dbllbbdks nffd to bf fxtfrn "C" */
+fxtfrn "C" {
+    stbtid void JNICALL
+    vm_init(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
     {
-        jvmtiError err;
-        Agent     *agent;
+        jvmtiError frr;
+        Agfnt     *bgfnt;
 
-        /* Create raw monitor to protect against threads running after death */
-        err = jvmti->CreateRawMonitor("Waiters vm_death lock", &vm_death_lock);
-        check_jvmti_error(jvmti, err, "create raw monitor");
-        vm_death_active = JNI_FALSE;
+        /* Crfbtf rbw monitor to protfdt bgbinst tirfbds running bftfr dfbti */
+        frr = jvmti->CrfbtfRbwMonitor("Wbitfrs vm_dfbti lodk", &vm_dfbti_lodk);
+        difdk_jvmti_frror(jvmti, frr, "drfbtf rbw monitor");
+        vm_dfbti_bdtivf = JNI_FALSE;
 
-        /* Create an Agent instance, set JVMTI Local Storage */
-        agent = new Agent(jvmti, env, thread);
-        err = jvmti->SetEnvironmentLocalStorage((const void*)agent);
-        check_jvmti_error(jvmti, err, "set env local storage");
+        /* Crfbtf bn Agfnt instbndf, sft JVMTI Lodbl Storbgf */
+        bgfnt = nfw Agfnt(jvmti, fnv, tirfbd);
+        frr = jvmti->SftEnvironmfntLodblStorbgf((donst void*)bgfnt);
+        difdk_jvmti_frror(jvmti, frr, "sft fnv lodbl storbgf");
 
-        /* Enable all other events we want */
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        /* Enbblf bll otifr fvfnts wf wbnt */
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_VM_DEATH, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_THREAD_START, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_THREAD_END, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTER, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTERED, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_MONITOR_WAIT, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_MONITOR_WAITED, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_OBJECT_FREE, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
     }
-    static void JNICALL
-    vm_death(jvmtiEnv *jvmti, JNIEnv *env)
+    stbtid void JNICALL
+    vm_dfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
     {
-        jvmtiError err;
-        Agent     *agent;
+        jvmtiError frr;
+        Agfnt     *bgfnt;
 
-        /* Block all callbacks */
-        menter(jvmti, vm_death_lock); {
-            /* Set flag for other callbacks */
-            vm_death_active = JNI_TRUE;
+        /* Blodk bll dbllbbdks */
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            /* Sft flbg for otifr dbllbbdks */
+            vm_dfbti_bdtivf = JNI_TRUE;
 
-            /* Inform Agent instance of VM_DEATH */
-            agent = get_agent(jvmti);
-            agent->vm_death(jvmti, env);
+            /* Inform Agfnt instbndf of VM_DEATH */
+            bgfnt = gft_bgfnt(jvmti);
+            bgfnt->vm_dfbti(jvmti, fnv);
 
-            /* Reclaim space of Agent */
-            err = jvmti->SetEnvironmentLocalStorage((const void*)NULL);
-            check_jvmti_error(jvmti, err, "set env local storage");
-            delete agent;
-        } mexit(jvmti, vm_death_lock);
+            /* Rfdlbim spbdf of Agfnt */
+            frr = jvmti->SftEnvironmfntLodblStorbgf((donst void*)NULL);
+            difdk_jvmti_frror(jvmti, frr, "sft fnv lodbl storbgf");
+            dflftf bgfnt;
+        } mfxit(jvmti, vm_dfbti_lodk);
 
     }
-    static void JNICALL
-    thread_start(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+    stbtid void JNICALL
+    tirfbd_stbrt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->thread_start(jvmti, env, thread);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->tirfbd_stbrt(jvmti, fnv, tirfbd);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    thread_end(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+    stbtid void JNICALL
+    tirfbd_fnd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->thread_end(jvmti, env, thread);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->tirfbd_fnd(jvmti, fnv, tirfbd);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
-                 jthread thread, jobject object)
+    stbtid void JNICALL
+    monitor_dontfndfd_fntfr(jvmtiEnv* jvmti, JNIEnv *fnv,
+                 jtirfbd tirfbd, jobjfdt objfdt)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->monitor_contended_enter(jvmti, env,
-                                                          thread, object);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->monitor_dontfndfd_fntfr(jvmti, fnv,
+                                                          tirfbd, objfdt);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    monitor_contended_entered(jvmtiEnv* jvmti, JNIEnv *env,
-                   jthread thread, jobject object)
+    stbtid void JNICALL
+    monitor_dontfndfd_fntfrfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+                   jtirfbd tirfbd, jobjfdt objfdt)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->monitor_contended_entered(jvmti, env,
-                                                            thread, object);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->monitor_dontfndfd_fntfrfd(jvmti, fnv,
+                                                            tirfbd, objfdt);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    monitor_wait(jvmtiEnv* jvmti, JNIEnv *env,
-                 jthread thread, jobject object, jlong timeout)
+    stbtid void JNICALL
+    monitor_wbit(jvmtiEnv* jvmti, JNIEnv *fnv,
+                 jtirfbd tirfbd, jobjfdt objfdt, jlong timfout)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->monitor_wait(jvmti, env, thread,
-                                               object, timeout);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->monitor_wbit(jvmti, fnv, tirfbd,
+                                               objfdt, timfout);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    monitor_waited(jvmtiEnv* jvmti, JNIEnv *env,
-                   jthread thread, jobject object, jboolean timed_out)
+    stbtid void JNICALL
+    monitor_wbitfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+                   jtirfbd tirfbd, jobjfdt objfdt, jboolfbn timfd_out)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->monitor_waited(jvmti, env, thread,
-                                                 object, timed_out);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->monitor_wbitfd(jvmti, fnv, tirfbd,
+                                                 objfdt, timfd_out);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
-    static void JNICALL
-    object_free(jvmtiEnv* jvmti, jlong tag)
+    stbtid void JNICALL
+    objfdt_frff(jvmtiEnv* jvmti, jlong tbg)
     {
-        menter(jvmti, vm_death_lock); {
-            if ( !vm_death_active ) {
-                get_agent(jvmti)->object_free(jvmti, tag);
+        mfntfr(jvmti, vm_dfbti_lodk); {
+            if ( !vm_dfbti_bdtivf ) {
+                gft_bgfnt(jvmti)->objfdt_frff(jvmti, tbg);
             }
-        } mexit(jvmti, vm_death_lock);
+        } mfxit(jvmti, vm_dfbti_lodk);
     }
 
-    /* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+    /* Agfnt_OnLobd() is dbllfd first, wf prfpbrf for b VM_INIT fvfnt ifrf. */
     JNIEXPORT jint JNICALL
-    Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+    Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd)
     {
         jvmtiEnv           *jvmti;
-        jint                rc;
-        jvmtiError          err;
-        jvmtiCapabilities   capabilities;
-        jvmtiEventCallbacks callbacks;
+        jint                rd;
+        jvmtiError          frr;
+        jvmtiCbpbbilitifs   dbpbbilitifs;
+        jvmtiEvfntCbllbbdks dbllbbdks;
 
-        /* Get JVMTI environment */
-        rc = vm->GetEnv((void **)&jvmti, JVMTI_VERSION);
-        if (rc != JNI_OK) {
-            fatal_error("ERROR: Unable to create jvmtiEnv, GetEnv failed, error=%d\n", rc);
-            return -1;
+        /* Gft JVMTI fnvironmfnt */
+        rd = vm->GftEnv((void **)&jvmti, JVMTI_VERSION);
+        if (rd != JNI_OK) {
+            fbtbl_frror("ERROR: Unbblf to drfbtf jvmtiEnv, GftEnv fbilfd, frror=%d\n", rd);
+            rfturn -1;
         }
 
-        /* Get/Add JVMTI capabilities */
-        (void)memset(&capabilities, 0, sizeof(capabilities));
-        capabilities.can_generate_monitor_events        = 1;
-        capabilities.can_get_monitor_info               = 1;
-        capabilities.can_tag_objects                    = 1;
-        capabilities.can_generate_object_free_events    = 1;
-        err = jvmti->AddCapabilities(&capabilities);
-        check_jvmti_error(jvmti, err, "add capabilities");
+        /* Gft/Add JVMTI dbpbbilitifs */
+        (void)mfmsft(&dbpbbilitifs, 0, sizfof(dbpbbilitifs));
+        dbpbbilitifs.dbn_gfnfrbtf_monitor_fvfnts        = 1;
+        dbpbbilitifs.dbn_gft_monitor_info               = 1;
+        dbpbbilitifs.dbn_tbg_objfdts                    = 1;
+        dbpbbilitifs.dbn_gfnfrbtf_objfdt_frff_fvfnts    = 1;
+        frr = jvmti->AddCbpbbilitifs(&dbpbbilitifs);
+        difdk_jvmti_frror(jvmti, frr, "bdd dbpbbilitifs");
 
-        /* Set all callbacks and enable VM_INIT event notification */
-        memset(&callbacks, 0, sizeof(callbacks));
-        callbacks.VMInit                  = &vm_init;
-        callbacks.VMDeath                 = &vm_death;
-        callbacks.ThreadStart             = &thread_start;
-        callbacks.ThreadEnd               = &thread_end;
-        callbacks.MonitorContendedEnter   = &monitor_contended_enter;
-        callbacks.MonitorContendedEntered = &monitor_contended_entered;
-        callbacks.MonitorWait             = &monitor_wait;
-        callbacks.MonitorWaited           = &monitor_waited;
-        callbacks.ObjectFree              = &object_free;
-        err = jvmti->SetEventCallbacks(&callbacks, (jint)sizeof(callbacks));
-        check_jvmti_error(jvmti, err, "set event callbacks");
-        err = jvmti->SetEventNotificationMode(JVMTI_ENABLE,
+        /* Sft bll dbllbbdks bnd fnbblf VM_INIT fvfnt notifidbtion */
+        mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+        dbllbbdks.VMInit                  = &vm_init;
+        dbllbbdks.VMDfbti                 = &vm_dfbti;
+        dbllbbdks.TirfbdStbrt             = &tirfbd_stbrt;
+        dbllbbdks.TirfbdEnd               = &tirfbd_fnd;
+        dbllbbdks.MonitorContfndfdEntfr   = &monitor_dontfndfd_fntfr;
+        dbllbbdks.MonitorContfndfdEntfrfd = &monitor_dontfndfd_fntfrfd;
+        dbllbbdks.MonitorWbit             = &monitor_wbit;
+        dbllbbdks.MonitorWbitfd           = &monitor_wbitfd;
+        dbllbbdks.ObjfdtFrff              = &objfdt_frff;
+        frr = jvmti->SftEvfntCbllbbdks(&dbllbbdks, (jint)sizfof(dbllbbdks));
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt dbllbbdks");
+        frr = jvmti->SftEvfntNotifidbtionModf(JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
-        check_jvmti_error(jvmti, err, "set event notify");
-        return 0;
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+        rfturn 0;
     }
 
-    /* Agent_OnUnload() is called last */
+    /* Agfnt_OnUnlobd() is dbllfd lbst */
     JNIEXPORT void JNICALL
-    Agent_OnUnload(JavaVM *vm)
+    Agfnt_OnUnlobd(JbvbVM *vm)
     {
     }
 
-} /* of extern "C" */
+} /* of fxtfrn "C" */

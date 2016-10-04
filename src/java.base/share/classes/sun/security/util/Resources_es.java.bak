@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for javax.security.auth and sun.security.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for jbvbx.sfdurity.buti bnd sun.sfdurity.
  *
  */
-public class Resources_es extends java.util.ListResourceBundle {
+publid dlbss Rfsourdfs_fs fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
 
-        // javax.security.auth.PrivateCredentialPermission
-        {"invalid.null.input.s.", "entradas nulas no v\u00E1lidas"},
-        {"actions.can.only.be.read.", "las acciones s\u00F3lo pueden 'leerse'"},
-        {"permission.name.name.syntax.invalid.",
-                "sintaxis de nombre de permiso [{0}] no v\u00E1lida: "},
-        {"Credential.Class.not.followed.by.a.Principal.Class.and.Name",
-                "La clase de credencial no va seguida de una clase y nombre de principal"},
-        {"Principal.Class.not.followed.by.a.Principal.Name",
-                "La clase de principal no va seguida de un nombre de principal"},
-        {"Principal.Name.must.be.surrounded.by.quotes",
-                "El nombre de principal debe ir entre comillas"},
-        {"Principal.Name.missing.end.quote",
-                "Faltan las comillas finales en el nombre de principal"},
-        {"PrivateCredentialPermission.Principal.Class.can.not.be.a.wildcard.value.if.Principal.Name.is.not.a.wildcard.value",
-                "La clase de principal PrivateCredentialPermission no puede ser un valor comod\u00EDn (*) si el nombre de principal no lo es tambi\u00E9n"},
-        {"CredOwner.Principal.Class.class.Principal.Name.name",
-                "CredOwner:\n\tClase de Principal = {0}\n\tNombre de Principal = {1}"},
+        // jbvbx.sfdurity.buti.PrivbtfCrfdfntiblPfrmission
+        {"invblid.null.input.s.", "fntrbdbs nulbs no v\u00E1lidbs"},
+        {"bdtions.dbn.only.bf.rfbd.", "lbs bddionfs s\u00F3lo pufdfn 'lffrsf'"},
+        {"pfrmission.nbmf.nbmf.syntbx.invblid.",
+                "sintbxis df nombrf df pfrmiso [{0}] no v\u00E1lidb: "},
+        {"Crfdfntibl.Clbss.not.followfd.by.b.Prindipbl.Clbss.bnd.Nbmf",
+                "Lb dlbsf df drfdfndibl no vb sfguidb df unb dlbsf y nombrf df prindipbl"},
+        {"Prindipbl.Clbss.not.followfd.by.b.Prindipbl.Nbmf",
+                "Lb dlbsf df prindipbl no vb sfguidb df un nombrf df prindipbl"},
+        {"Prindipbl.Nbmf.must.bf.surroundfd.by.quotfs",
+                "El nombrf df prindipbl dfbf ir fntrf domillbs"},
+        {"Prindipbl.Nbmf.missing.fnd.quotf",
+                "Fbltbn lbs domillbs finblfs fn fl nombrf df prindipbl"},
+        {"PrivbtfCrfdfntiblPfrmission.Prindipbl.Clbss.dbn.not.bf.b.wilddbrd.vbluf.if.Prindipbl.Nbmf.is.not.b.wilddbrd.vbluf",
+                "Lb dlbsf df prindipbl PrivbtfCrfdfntiblPfrmission no pufdf sfr un vblor domod\u00EDn (*) si fl nombrf df prindipbl no lo fs tbmbi\u00E9n"},
+        {"CrfdOwnfr.Prindipbl.Clbss.dlbss.Prindipbl.Nbmf.nbmf",
+                "CrfdOwnfr:\n\tClbsf df Prindipbl = {0}\n\tNombrf df Prindipbl = {1}"},
 
-        // javax.security.auth.x500
-        {"provided.null.name", "se ha proporcionado un nombre nulo"},
-        {"provided.null.keyword.map", "mapa de palabras clave proporcionado nulo"},
-        {"provided.null.OID.map", "mapa de OID proporcionado nulo"},
+        // jbvbx.sfdurity.buti.x500
+        {"providfd.null.nbmf", "sf ib propordionbdo un nombrf nulo"},
+        {"providfd.null.kfyword.mbp", "mbpb df pblbbrbs dlbvf propordionbdo nulo"},
+        {"providfd.null.OID.mbp", "mbpb df OID propordionbdo nulo"},
 
-        // javax.security.auth.Subject
+        // jbvbx.sfdurity.buti.Subjfdt
         {"NEWLINE", "\n"},
-        {"invalid.null.AccessControlContext.provided",
-                "se ha proporcionado un AccessControlContext nulo no v\u00E1lido"},
-        {"invalid.null.action.provided", "se ha proporcionado una acci\u00F3n nula no v\u00E1lida"},
-        {"invalid.null.Class.provided", "se ha proporcionado una clase nula no v\u00E1lida"},
-        {"Subject.", "Asunto:\n"},
-        {".Principal.", "\tPrincipal: "},
-        {".Public.Credential.", "\tCredencial P\u00FAblica: "},
-        {".Private.Credentials.inaccessible.",
-                "\tCredenciales Privadas Inaccesibles\n"},
-        {".Private.Credential.", "\tCredencial Privada: "},
-        {".Private.Credential.inaccessible.",
-                "\tCredencial Privada Inaccesible\n"},
-        {"Subject.is.read.only", "El asunto es de s\u00F3lo lectura"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.java.security.Principal.to.a.Subject.s.Principal.Set",
-                "intentando agregar un objeto que no es una instancia de java.security.Principal al juego principal de un asunto"},
-        {"attempting.to.add.an.object.which.is.not.an.instance.of.class",
-                "intentando agregar un objeto que no es una instancia de {0}"},
+        {"invblid.null.AddfssControlContfxt.providfd",
+                "sf ib propordionbdo un AddfssControlContfxt nulo no v\u00E1lido"},
+        {"invblid.null.bdtion.providfd", "sf ib propordionbdo unb bddi\u00F3n nulb no v\u00E1lidb"},
+        {"invblid.null.Clbss.providfd", "sf ib propordionbdo unb dlbsf nulb no v\u00E1lidb"},
+        {"Subjfdt.", "Asunto:\n"},
+        {".Prindipbl.", "\tPrindipbl: "},
+        {".Publid.Crfdfntibl.", "\tCrfdfndibl P\u00FAblidb: "},
+        {".Privbtf.Crfdfntibls.inbddfssiblf.",
+                "\tCrfdfndiblfs Privbdbs Inbddfsiblfs\n"},
+        {".Privbtf.Crfdfntibl.", "\tCrfdfndibl Privbdb: "},
+        {".Privbtf.Crfdfntibl.inbddfssiblf.",
+                "\tCrfdfndibl Privbdb Inbddfsiblf\n"},
+        {"Subjfdt.is.rfbd.only", "El bsunto fs df s\u00F3lo lfdturb"},
+        {"bttfmpting.to.bdd.bn.objfdt.wiidi.is.not.bn.instbndf.of.jbvb.sfdurity.Prindipbl.to.b.Subjfdt.s.Prindipbl.Sft",
+                "intfntbndo bgrfgbr un objfto quf no fs unb instbndib df jbvb.sfdurity.Prindipbl bl jufgo prindipbl df un bsunto"},
+        {"bttfmpting.to.bdd.bn.objfdt.wiidi.is.not.bn.instbndf.of.dlbss",
+                "intfntbndo bgrfgbr un objfto quf no fs unb instbndib df {0}"},
 
-        // javax.security.auth.login.AppConfigurationEntry
-        {"LoginModuleControlFlag.", "LoginModuleControlFlag: "},
+        // jbvbx.sfdurity.buti.login.AppConfigurbtionEntry
+        {"LoginModulfControlFlbg.", "LoginModulfControlFlbg: "},
 
-        // javax.security.auth.login.LoginContext
-        {"Invalid.null.input.name", "Entrada nula no v\u00E1lida: nombre"},
-        {"No.LoginModules.configured.for.name",
-         "No se han configurado LoginModules para {0}"},
-        {"invalid.null.Subject.provided", "se ha proporcionado un asunto nulo no v\u00E1lido"},
-        {"invalid.null.CallbackHandler.provided",
-                "se ha proporcionado CallbackHandler nulo no v\u00E1lido"},
-        {"null.subject.logout.called.before.login",
-                "asunto nulo - se ha llamado al cierre de sesi\u00F3n antes del inicio de sesi\u00F3n"},
-        {"unable.to.instantiate.LoginModule.module.because.it.does.not.provide.a.no.argument.constructor",
-                "no se ha podido instanciar LoginModule, {0}, porque no incluye un constructor sin argumentos"},
-        {"unable.to.instantiate.LoginModule",
-                "no se ha podido instanciar LoginModule"},
-        {"unable.to.instantiate.LoginModule.",
-                "no se ha podido instanciar LoginModule: "},
-        {"unable.to.find.LoginModule.class.",
-                "no se ha encontrado la clase LoginModule: "},
-        {"unable.to.access.LoginModule.",
-                "no se ha podido acceder a LoginModule: "},
-        {"Login.Failure.all.modules.ignored",
-                "Fallo en inicio de sesi\u00F3n: se han ignorado todos los m\u00F3dulos"},
+        // jbvbx.sfdurity.buti.login.LoginContfxt
+        {"Invblid.null.input.nbmf", "Entrbdb nulb no v\u00E1lidb: nombrf"},
+        {"No.LoginModulfs.donfigurfd.for.nbmf",
+         "No sf ibn donfigurbdo LoginModulfs pbrb {0}"},
+        {"invblid.null.Subjfdt.providfd", "sf ib propordionbdo un bsunto nulo no v\u00E1lido"},
+        {"invblid.null.CbllbbdkHbndlfr.providfd",
+                "sf ib propordionbdo CbllbbdkHbndlfr nulo no v\u00E1lido"},
+        {"null.subjfdt.logout.dbllfd.bfforf.login",
+                "bsunto nulo - sf ib llbmbdo bl difrrf df sfsi\u00F3n bntfs dfl inidio df sfsi\u00F3n"},
+        {"unbblf.to.instbntibtf.LoginModulf.modulf.bfdbusf.it.dofs.not.providf.b.no.brgumfnt.donstrudtor",
+                "no sf ib podido instbndibr LoginModulf, {0}, porquf no indluyf un donstrudtor sin brgumfntos"},
+        {"unbblf.to.instbntibtf.LoginModulf",
+                "no sf ib podido instbndibr LoginModulf"},
+        {"unbblf.to.instbntibtf.LoginModulf.",
+                "no sf ib podido instbndibr LoginModulf: "},
+        {"unbblf.to.find.LoginModulf.dlbss.",
+                "no sf ib fndontrbdo lb dlbsf LoginModulf: "},
+        {"unbblf.to.bddfss.LoginModulf.",
+                "no sf ib podido bddfdfr b LoginModulf: "},
+        {"Login.Fbilurf.bll.modulfs.ignorfd",
+                "Fbllo fn inidio df sfsi\u00F3n: sf ibn ignorbdo todos los m\u00F3dulos"},
 
-        // sun.security.provider.PolicyFile
+        // sun.sfdurity.providfr.PolidyFilf
 
-        {"java.security.policy.error.parsing.policy.message",
-                "java.security.policy: error de an\u00E1lisis de {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Permission.perm.message",
-                "java.security.policy: error al agregar un permiso, {0}:\n\t{1}"},
-        {"java.security.policy.error.adding.Entry.message",
-                "java.security.policy: error al agregar una entrada:\n\t{0}"},
-        {"alias.name.not.provided.pe.name.", "no se ha proporcionado el nombre de alias ({0})"},
-        {"unable.to.perform.substitution.on.alias.suffix",
-                "no se puede realizar la sustituci\u00F3n en el alias, {0}"},
-        {"substitution.value.prefix.unsupported",
-                "valor de sustituci\u00F3n, {0}, no soportado"},
+        {"jbvb.sfdurity.polidy.frror.pbrsing.polidy.mfssbgf",
+                "jbvb.sfdurity.polidy: frror df bn\u00E1lisis df {0}:\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Pfrmission.pfrm.mfssbgf",
+                "jbvb.sfdurity.polidy: frror bl bgrfgbr un pfrmiso, {0}:\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Entry.mfssbgf",
+                "jbvb.sfdurity.polidy: frror bl bgrfgbr unb fntrbdb:\n\t{0}"},
+        {"blibs.nbmf.not.providfd.pf.nbmf.", "no sf ib propordionbdo fl nombrf df blibs ({0})"},
+        {"unbblf.to.pfrform.substitution.on.blibs.suffix",
+                "no sf pufdf rfblizbr lb sustitudi\u00F3n fn fl blibs, {0}"},
+        {"substitution.vbluf.prffix.unsupportfd",
+                "vblor df sustitudi\u00F3n, {0}, no soportbdo"},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"type.can.t.be.null","el tipo no puede ser nulo"},
+        {"typf.dbn.t.bf.null","fl tipo no pufdf sfr nulo"},
 
-        // sun.security.provider.PolicyParser
-        {"keystorePasswordURL.can.not.be.specified.without.also.specifying.keystore",
-                "keystorePasswordURL no puede especificarse sin especificar tambi\u00E9n el almac\u00E9n de claves"},
-        {"expected.keystore.type", "se esperaba un tipo de almac\u00E9n de claves"},
-        {"expected.keystore.provider", "se esperaba un proveedor de almac\u00E9n de claves"},
-        {"multiple.Codebase.expressions",
-                "expresiones m\u00FAltiples de CodeBase"},
-        {"multiple.SignedBy.expressions","expresiones m\u00FAltiples de SignedBy"},
-        {"duplicate.keystore.domain.name","nombre de dominio de almac\u00E9n de claves duplicado: {0}"},
-        {"duplicate.keystore.name","nombre de almac\u00E9n de claves duplicado: {0}"},
-        {"SignedBy.has.empty.alias","SignedBy tiene un alias vac\u00EDo"},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
-                "no se puede especificar Principal con una clase de comod\u00EDn sin un nombre de comod\u00EDn"},
-        {"expected.codeBase.or.SignedBy.or.Principal",
-                "se esperaba codeBase o SignedBy o Principal"},
-        {"expected.permission.entry", "se esperaba una entrada de permiso"},
-        {"number.", "n\u00FAmero "},
-        {"expected.expect.read.end.of.file.",
-                "se esperaba [{0}], se ha le\u00EDdo [final de archivo]"},
-        {"expected.read.end.of.file.",
-                "se esperaba [;], se ha le\u00EDdo [final de archivo]"},
-        {"line.number.msg", "l\u00EDnea {0}: {1}"},
-        {"line.number.expected.expect.found.actual.",
-                "l\u00EDnea {0}: se esperaba [{1}], se ha encontrado [{2}]"},
-        {"null.principalClass.or.principalName",
-                "principalClass o principalName nulos"},
+        // sun.sfdurity.providfr.PolidyPbrsfr
+        {"kfystorfPbsswordURL.dbn.not.bf.spfdififd.witiout.blso.spfdifying.kfystorf",
+                "kfystorfPbsswordURL no pufdf fspfdifidbrsf sin fspfdifidbr tbmbi\u00E9n fl blmbd\u00E9n df dlbvfs"},
+        {"fxpfdtfd.kfystorf.typf", "sf fspfrbbb un tipo df blmbd\u00E9n df dlbvfs"},
+        {"fxpfdtfd.kfystorf.providfr", "sf fspfrbbb un provffdor df blmbd\u00E9n df dlbvfs"},
+        {"multiplf.Codfbbsf.fxprfssions",
+                "fxprfsionfs m\u00FAltiplfs df CodfBbsf"},
+        {"multiplf.SignfdBy.fxprfssions","fxprfsionfs m\u00FAltiplfs df SignfdBy"},
+        {"duplidbtf.kfystorf.dombin.nbmf","nombrf df dominio df blmbd\u00E9n df dlbvfs duplidbdo: {0}"},
+        {"duplidbtf.kfystorf.nbmf","nombrf df blmbd\u00E9n df dlbvfs duplidbdo: {0}"},
+        {"SignfdBy.ibs.fmpty.blibs","SignfdBy tifnf un blibs vbd\u00EDo"},
+        {"dbn.not.spfdify.Prindipbl.witi.b.wilddbrd.dlbss.witiout.b.wilddbrd.nbmf",
+                "no sf pufdf fspfdifidbr Prindipbl don unb dlbsf df domod\u00EDn sin un nombrf df domod\u00EDn"},
+        {"fxpfdtfd.dodfBbsf.or.SignfdBy.or.Prindipbl",
+                "sf fspfrbbb dodfBbsf o SignfdBy o Prindipbl"},
+        {"fxpfdtfd.pfrmission.fntry", "sf fspfrbbb unb fntrbdb df pfrmiso"},
+        {"numbfr.", "n\u00FAmfro "},
+        {"fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "sf fspfrbbb [{0}], sf ib lf\u00EDdo [finbl df brdiivo]"},
+        {"fxpfdtfd.rfbd.fnd.of.filf.",
+                "sf fspfrbbb [;], sf ib lf\u00EDdo [finbl df brdiivo]"},
+        {"linf.numbfr.msg", "l\u00EDnfb {0}: {1}"},
+        {"linf.numbfr.fxpfdtfd.fxpfdt.found.bdtubl.",
+                "l\u00EDnfb {0}: sf fspfrbbb [{1}], sf ib fndontrbdo [{2}]"},
+        {"null.prindipblClbss.or.prindipblNbmf",
+                "prindipblClbss o prindipblNbmf nulos"},
 
-        // sun.security.pkcs11.SunPKCS11
-        {"PKCS11.Token.providerName.Password.",
-                "Contrase\u00F1a del Token PKCS11 [{0}]: "},
+        // sun.sfdurity.pkds11.SunPKCS11
+        {"PKCS11.Tokfn.providfrNbmf.Pbssword.",
+                "Contrbsf\u00F1b dfl Tokfn PKCS11 [{0}]: "},
 
         /* --- DEPRECATED --- */
-        // javax.security.auth.Policy
-        {"unable.to.instantiate.Subject.based.policy",
-                "no se ha podido instanciar una pol\u00EDtica basada en asunto"}
+        // jbvbx.sfdurity.buti.Polidy
+        {"unbblf.to.instbntibtf.Subjfdt.bbsfd.polidy",
+                "no sf ib podido instbndibr unb pol\u00EDtidb bbsbdb fn bsunto"}
     };
 
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    @Override
-    public Object[][] getContents() {
-        return contents;
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }
 

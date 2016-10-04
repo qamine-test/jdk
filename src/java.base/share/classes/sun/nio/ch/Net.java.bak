@@ -1,637 +1,637 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
-import java.net.*;
-import jdk.net.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import sun.net.ExtendedOptionsImpl;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jdk.nft.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import sun.nft.ExtfndfdOptionsImpl;
 
 
-public class Net {
+publid dlbss Nft {
 
-    private Net() { }
+    privbtf Nft() { }
 
-    // unspecified protocol family
-    static final ProtocolFamily UNSPEC = new ProtocolFamily() {
-        public String name() {
-            return "UNSPEC";
+    // unspfdififd protodol fbmily
+    stbtid finbl ProtodolFbmily UNSPEC = nfw ProtodolFbmily() {
+        publid String nbmf() {
+            rfturn "UNSPEC";
         }
     };
 
-    // set to true if exclusive binding is on for Windows
-    private static final boolean exclusiveBind;
+    // sft to truf if fxdlusivf binding is on for Windows
+    privbtf stbtid finbl boolfbn fxdlusivfBind;
 
-    static {
-        int availLevel = isExclusiveBindAvailable();
-        if (availLevel >= 0) {
-            String exclBindProp =
-                java.security.AccessController.doPrivileged(
-                    new PrivilegedAction<String>() {
-                        @Override
-                        public String run() {
-                            return System.getProperty(
-                                    "sun.net.useExclusiveBind");
+    stbtid {
+        int bvbilLfvfl = isExdlusivfBindAvbilbblf();
+        if (bvbilLfvfl >= 0) {
+            String fxdlBindProp =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<String>() {
+                        @Ovfrridf
+                        publid String run() {
+                            rfturn Systfm.gftPropfrty(
+                                    "sun.nft.usfExdlusivfBind");
                         }
                     });
-            if (exclBindProp != null) {
-                exclusiveBind = exclBindProp.length() == 0 ?
-                        true : Boolean.parseBoolean(exclBindProp);
-            } else if (availLevel == 1) {
-                exclusiveBind = true;
-            } else {
-                exclusiveBind = false;
+            if (fxdlBindProp != null) {
+                fxdlusivfBind = fxdlBindProp.lfngti() == 0 ?
+                        truf : Boolfbn.pbrsfBoolfbn(fxdlBindProp);
+            } flsf if (bvbilLfvfl == 1) {
+                fxdlusivfBind = truf;
+            } flsf {
+                fxdlusivfBind = fblsf;
             }
-        } else {
-            exclusiveBind = false;
+        } flsf {
+            fxdlusivfBind = fblsf;
         }
     }
 
-    // -- Miscellaneous utilities --
+    // -- Misdfllbnfous utilitifs --
 
-    private static volatile boolean checkedIPv6 = false;
-    private static volatile boolean isIPv6Available;
+    privbtf stbtid volbtilf boolfbn difdkfdIPv6 = fblsf;
+    privbtf stbtid volbtilf boolfbn isIPv6Avbilbblf;
 
     /**
-     * Tells whether dual-IPv4/IPv6 sockets should be used.
+     * Tflls wiftifr dubl-IPv4/IPv6 sodkfts siould bf usfd.
      */
-    static boolean isIPv6Available() {
-        if (!checkedIPv6) {
-            isIPv6Available = isIPv6Available0();
-            checkedIPv6 = true;
+    stbtid boolfbn isIPv6Avbilbblf() {
+        if (!difdkfdIPv6) {
+            isIPv6Avbilbblf = isIPv6Avbilbblf0();
+            difdkfdIPv6 = truf;
         }
-        return isIPv6Available;
+        rfturn isIPv6Avbilbblf;
     }
 
     /**
-     * Returns true if exclusive binding is on
+     * Rfturns truf if fxdlusivf binding is on
      */
-    static boolean useExclusiveBind() {
-        return exclusiveBind;
+    stbtid boolfbn usfExdlusivfBind() {
+        rfturn fxdlusivfBind;
     }
 
     /**
-     * Tells whether IPv6 sockets can join IPv4 multicast groups
+     * Tflls wiftifr IPv6 sodkfts dbn join IPv4 multidbst groups
      */
-    static boolean canIPv6SocketJoinIPv4Group() {
-        return canIPv6SocketJoinIPv4Group0();
+    stbtid boolfbn dbnIPv6SodkftJoinIPv4Group() {
+        rfturn dbnIPv6SodkftJoinIPv4Group0();
     }
 
     /**
-     * Tells whether {@link #join6} can be used to join an IPv4
-     * multicast group (IPv4 group as IPv4-mapped IPv6 address)
+     * Tflls wiftifr {@link #join6} dbn bf usfd to join bn IPv4
+     * multidbst group (IPv4 group bs IPv4-mbppfd IPv6 bddrfss)
      */
-    static boolean canJoin6WithIPv4Group() {
-        return canJoin6WithIPv4Group0();
+    stbtid boolfbn dbnJoin6WitiIPv4Group() {
+        rfturn dbnJoin6WitiIPv4Group0();
     }
 
-    public static InetSocketAddress checkAddress(SocketAddress sa) {
-        if (sa == null)
-            throw new NullPointerException();
-        if (!(sa instanceof InetSocketAddress))
-            throw new UnsupportedAddressTypeException(); // ## needs arg
-        InetSocketAddress isa = (InetSocketAddress)sa;
-        if (isa.isUnresolved())
-            throw new UnresolvedAddressException(); // ## needs arg
-        InetAddress addr = isa.getAddress();
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address))
-            throw new IllegalArgumentException("Invalid address type");
-        return isa;
+    publid stbtid InftSodkftAddrfss difdkAddrfss(SodkftAddrfss sb) {
+        if (sb == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(sb instbndfof InftSodkftAddrfss))
+            tirow nfw UnsupportfdAddrfssTypfExdfption(); // ## nffds brg
+        InftSodkftAddrfss isb = (InftSodkftAddrfss)sb;
+        if (isb.isUnrfsolvfd())
+            tirow nfw UnrfsolvfdAddrfssExdfption(); // ## nffds brg
+        InftAddrfss bddr = isb.gftAddrfss();
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss))
+            tirow nfw IllfgblArgumfntExdfption("Invblid bddrfss typf");
+        rfturn isb;
     }
 
-    static InetSocketAddress asInetSocketAddress(SocketAddress sa) {
-        if (!(sa instanceof InetSocketAddress))
-            throw new UnsupportedAddressTypeException();
-        return (InetSocketAddress)sa;
+    stbtid InftSodkftAddrfss bsInftSodkftAddrfss(SodkftAddrfss sb) {
+        if (!(sb instbndfof InftSodkftAddrfss))
+            tirow nfw UnsupportfdAddrfssTypfExdfption();
+        rfturn (InftSodkftAddrfss)sb;
     }
 
-    static void translateToSocketException(Exception x)
-        throws SocketException
+    stbtid void trbnslbtfToSodkftExdfption(Exdfption x)
+        tirows SodkftExdfption
     {
-        if (x instanceof SocketException)
-            throw (SocketException)x;
-        Exception nx = x;
-        if (x instanceof ClosedChannelException)
-            nx = new SocketException("Socket is closed");
-        else if (x instanceof NotYetConnectedException)
-            nx = new SocketException("Socket is not connected");
-        else if (x instanceof AlreadyBoundException)
-            nx = new SocketException("Already bound");
-        else if (x instanceof NotYetBoundException)
-            nx = new SocketException("Socket is not bound yet");
-        else if (x instanceof UnsupportedAddressTypeException)
-            nx = new SocketException("Unsupported address type");
-        else if (x instanceof UnresolvedAddressException) {
-            nx = new SocketException("Unresolved address");
+        if (x instbndfof SodkftExdfption)
+            tirow (SodkftExdfption)x;
+        Exdfption nx = x;
+        if (x instbndfof ClosfdCibnnflExdfption)
+            nx = nfw SodkftExdfption("Sodkft is dlosfd");
+        flsf if (x instbndfof NotYftConnfdtfdExdfption)
+            nx = nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        flsf if (x instbndfof AlrfbdyBoundExdfption)
+            nx = nfw SodkftExdfption("Alrfbdy bound");
+        flsf if (x instbndfof NotYftBoundExdfption)
+            nx = nfw SodkftExdfption("Sodkft is not bound yft");
+        flsf if (x instbndfof UnsupportfdAddrfssTypfExdfption)
+            nx = nfw SodkftExdfption("Unsupportfd bddrfss typf");
+        flsf if (x instbndfof UnrfsolvfdAddrfssExdfption) {
+            nx = nfw SodkftExdfption("Unrfsolvfd bddrfss");
         }
         if (nx != x)
-            nx.initCause(x);
+            nx.initCbusf(x);
 
-        if (nx instanceof SocketException)
-            throw (SocketException)nx;
-        else if (nx instanceof RuntimeException)
-            throw (RuntimeException)nx;
-        else
-            throw new Error("Untranslated exception", nx);
+        if (nx instbndfof SodkftExdfption)
+            tirow (SodkftExdfption)nx;
+        flsf if (nx instbndfof RuntimfExdfption)
+            tirow (RuntimfExdfption)nx;
+        flsf
+            tirow nfw Error("Untrbnslbtfd fxdfption", nx);
     }
 
-    static void translateException(Exception x,
-                                   boolean unknownHostForUnresolved)
-        throws IOException
+    stbtid void trbnslbtfExdfption(Exdfption x,
+                                   boolfbn unknownHostForUnrfsolvfd)
+        tirows IOExdfption
     {
-        if (x instanceof IOException)
-            throw (IOException)x;
-        // Throw UnknownHostException from here since it cannot
-        // be thrown as a SocketException
-        if (unknownHostForUnresolved &&
-            (x instanceof UnresolvedAddressException))
+        if (x instbndfof IOExdfption)
+            tirow (IOExdfption)x;
+        // Tirow UnknownHostExdfption from ifrf sindf it dbnnot
+        // bf tirown bs b SodkftExdfption
+        if (unknownHostForUnrfsolvfd &&
+            (x instbndfof UnrfsolvfdAddrfssExdfption))
         {
-             throw new UnknownHostException();
+             tirow nfw UnknownHostExdfption();
         }
-        translateToSocketException(x);
+        trbnslbtfToSodkftExdfption(x);
     }
 
-    static void translateException(Exception x)
-        throws IOException
+    stbtid void trbnslbtfExdfption(Exdfption x)
+        tirows IOExdfption
     {
-        translateException(x, false);
+        trbnslbtfExdfption(x, fblsf);
     }
 
     /**
-     * Returns the local address after performing a SecurityManager#checkConnect.
+     * Rfturns tif lodbl bddrfss bftfr pfrforming b SfdurityMbnbgfr#difdkConnfdt.
      */
-    static InetSocketAddress getRevealedLocalAddress(InetSocketAddress addr) {
-        SecurityManager sm = System.getSecurityManager();
-        if (addr == null || sm == null)
-            return addr;
+    stbtid InftSodkftAddrfss gftRfvfblfdLodblAddrfss(InftSodkftAddrfss bddr) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (bddr == null || sm == null)
+            rfturn bddr;
 
         try{
-            sm.checkConnect(addr.getAddress().getHostAddress(), -1);
-            // Security check passed
-        } catch (SecurityException e) {
-            // Return loopback address only if security check fails
-            addr = getLoopbackAddress(addr.getPort());
+            sm.difdkConnfdt(bddr.gftAddrfss().gftHostAddrfss(), -1);
+            // Sfdurity difdk pbssfd
+        } dbtdi (SfdurityExdfption f) {
+            // Rfturn loopbbdk bddrfss only if sfdurity difdk fbils
+            bddr = gftLoopbbdkAddrfss(bddr.gftPort());
         }
-        return addr;
+        rfturn bddr;
     }
 
-    static String getRevealedLocalAddressAsString(InetSocketAddress addr) {
-        return System.getSecurityManager() == null ? addr.toString() :
-                getLoopbackAddress(addr.getPort()).toString();
+    stbtid String gftRfvfblfdLodblAddrfssAsString(InftSodkftAddrfss bddr) {
+        rfturn Systfm.gftSfdurityMbnbgfr() == null ? bddr.toString() :
+                gftLoopbbdkAddrfss(bddr.gftPort()).toString();
     }
 
-    private static InetSocketAddress getLoopbackAddress(int port) {
-        return new InetSocketAddress(InetAddress.getLoopbackAddress(),
+    privbtf stbtid InftSodkftAddrfss gftLoopbbdkAddrfss(int port) {
+        rfturn nfw InftSodkftAddrfss(InftAddrfss.gftLoopbbdkAddrfss(),
                                      port);
     }
 
     /**
-     * Returns any IPv4 address of the given network interface, or
-     * null if the interface does not have any IPv4 addresses.
+     * Rfturns bny IPv4 bddrfss of tif givfn nftwork intfrfbdf, or
+     * null if tif intfrfbdf dofs not ibvf bny IPv4 bddrfssfs.
      */
-    static Inet4Address anyInet4Address(final NetworkInterface interf) {
-        return AccessController.doPrivileged(new PrivilegedAction<Inet4Address>() {
-            public Inet4Address run() {
-                Enumeration<InetAddress> addrs = interf.getInetAddresses();
-                while (addrs.hasMoreElements()) {
-                    InetAddress addr = addrs.nextElement();
-                    if (addr instanceof Inet4Address) {
-                        return (Inet4Address)addr;
+    stbtid Inft4Addrfss bnyInft4Addrfss(finbl NftworkIntfrfbdf intfrf) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Inft4Addrfss>() {
+            publid Inft4Addrfss run() {
+                Enumfrbtion<InftAddrfss> bddrs = intfrf.gftInftAddrfssfs();
+                wiilf (bddrs.ibsMorfElfmfnts()) {
+                    InftAddrfss bddr = bddrs.nfxtElfmfnt();
+                    if (bddr instbndfof Inft4Addrfss) {
+                        rfturn (Inft4Addrfss)bddr;
                     }
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
     /**
-     * Returns an IPv4 address as an int.
+     * Rfturns bn IPv4 bddrfss bs bn int.
      */
-    static int inet4AsInt(InetAddress ia) {
-        if (ia instanceof Inet4Address) {
-            byte[] addr = ia.getAddress();
-            int address  = addr[3] & 0xFF;
-            address |= ((addr[2] << 8) & 0xFF00);
-            address |= ((addr[1] << 16) & 0xFF0000);
-            address |= ((addr[0] << 24) & 0xFF000000);
-            return address;
+    stbtid int inft4AsInt(InftAddrfss ib) {
+        if (ib instbndfof Inft4Addrfss) {
+            bytf[] bddr = ib.gftAddrfss();
+            int bddrfss  = bddr[3] & 0xFF;
+            bddrfss |= ((bddr[2] << 8) & 0xFF00);
+            bddrfss |= ((bddr[1] << 16) & 0xFF0000);
+            bddrfss |= ((bddr[0] << 24) & 0xFF000000);
+            rfturn bddrfss;
         }
-        throw new AssertionError("Should not reach here");
+        tirow nfw AssfrtionError("Siould not rfbdi ifrf");
     }
 
     /**
-     * Returns an InetAddress from the given IPv4 address
-     * represented as an int.
+     * Rfturns bn InftAddrfss from tif givfn IPv4 bddrfss
+     * rfprfsfntfd bs bn int.
      */
-    static InetAddress inet4FromInt(int address) {
-        byte[] addr = new byte[4];
-        addr[0] = (byte) ((address >>> 24) & 0xFF);
-        addr[1] = (byte) ((address >>> 16) & 0xFF);
-        addr[2] = (byte) ((address >>> 8) & 0xFF);
-        addr[3] = (byte) (address & 0xFF);
+    stbtid InftAddrfss inft4FromInt(int bddrfss) {
+        bytf[] bddr = nfw bytf[4];
+        bddr[0] = (bytf) ((bddrfss >>> 24) & 0xFF);
+        bddr[1] = (bytf) ((bddrfss >>> 16) & 0xFF);
+        bddr[2] = (bytf) ((bddrfss >>> 8) & 0xFF);
+        bddr[3] = (bytf) (bddrfss & 0xFF);
         try {
-            return InetAddress.getByAddress(addr);
-        } catch (UnknownHostException uhe) {
-            throw new AssertionError("Should not reach here");
+            rfturn InftAddrfss.gftByAddrfss(bddr);
+        } dbtdi (UnknownHostExdfption uif) {
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
         }
     }
 
     /**
-     * Returns an IPv6 address as a byte array
+     * Rfturns bn IPv6 bddrfss bs b bytf brrby
      */
-    static byte[] inet6AsByteArray(InetAddress ia) {
-        if (ia instanceof Inet6Address) {
-            return ia.getAddress();
+    stbtid bytf[] inft6AsBytfArrby(InftAddrfss ib) {
+        if (ib instbndfof Inft6Addrfss) {
+            rfturn ib.gftAddrfss();
         }
 
-        // need to construct IPv4-mapped address
-        if (ia instanceof Inet4Address) {
-            byte[] ip4address = ia.getAddress();
-            byte[] address = new byte[16];
-            address[10] = (byte)0xff;
-            address[11] = (byte)0xff;
-            address[12] = ip4address[0];
-            address[13] = ip4address[1];
-            address[14] = ip4address[2];
-            address[15] = ip4address[3];
-            return address;
+        // nffd to donstrudt IPv4-mbppfd bddrfss
+        if (ib instbndfof Inft4Addrfss) {
+            bytf[] ip4bddrfss = ib.gftAddrfss();
+            bytf[] bddrfss = nfw bytf[16];
+            bddrfss[10] = (bytf)0xff;
+            bddrfss[11] = (bytf)0xff;
+            bddrfss[12] = ip4bddrfss[0];
+            bddrfss[13] = ip4bddrfss[1];
+            bddrfss[14] = ip4bddrfss[2];
+            bddrfss[15] = ip4bddrfss[3];
+            rfturn bddrfss;
         }
 
-        throw new AssertionError("Should not reach here");
+        tirow nfw AssfrtionError("Siould not rfbdi ifrf");
     }
 
-    // -- Socket options
+    // -- Sodkft options
 
-    static void setSocketOption(FileDescriptor fd, ProtocolFamily family,
-                                SocketOption<?> name, Object value)
-        throws IOException
+    stbtid void sftSodkftOption(FilfDfsdriptor fd, ProtodolFbmily fbmily,
+                                SodkftOption<?> nbmf, Objfdt vbluf)
+        tirows IOExdfption
     {
-        if (value == null)
-            throw new IllegalArgumentException("Invalid option value");
+        if (vbluf == null)
+            tirow nfw IllfgblArgumfntExdfption("Invblid option vbluf");
 
-        // only simple values supported by this method
-        Class<?> type = name.type();
+        // only simplf vblufs supportfd by tiis mftiod
+        Clbss<?> typf = nbmf.typf();
 
-        if (type == SocketFlow.class) {
-            SecurityManager sm = System.getSecurityManager();
+        if (typf == SodkftFlow.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkPermission(new NetworkPermission("setOption.SO_FLOW_SLA"));
+                sm.difdkPfrmission(nfw NftworkPfrmission("sftOption.SO_FLOW_SLA"));
             }
-            ExtendedOptionsImpl.setFlowOption(fd, (SocketFlow)value);
-            return;
+            ExtfndfdOptionsImpl.sftFlowOption(fd, (SodkftFlow)vbluf);
+            rfturn;
         }
 
-        if (type != Integer.class && type != Boolean.class)
-            throw new AssertionError("Should not reach here");
+        if (typf != Intfgfr.dlbss && typf != Boolfbn.dlbss)
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
 
-        // special handling
-        if (name == StandardSocketOptions.SO_RCVBUF ||
-            name == StandardSocketOptions.SO_SNDBUF)
+        // spfdibl ibndling
+        if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF ||
+            nbmf == StbndbrdSodkftOptions.SO_SNDBUF)
         {
-            int i = ((Integer)value).intValue();
+            int i = ((Intfgfr)vbluf).intVbluf();
             if (i < 0)
-                throw new IllegalArgumentException("Invalid send/receive buffer size");
+                tirow nfw IllfgblArgumfntExdfption("Invblid sfnd/rfdfivf bufffr sizf");
         }
-        if (name == StandardSocketOptions.SO_LINGER) {
-            int i = ((Integer)value).intValue();
+        if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            int i = ((Intfgfr)vbluf).intVbluf();
             if (i < 0)
-                value = Integer.valueOf(-1);
+                vbluf = Intfgfr.vblufOf(-1);
             if (i > 65535)
-                value = Integer.valueOf(65535);
+                vbluf = Intfgfr.vblufOf(65535);
         }
-        if (name == StandardSocketOptions.IP_TOS) {
-            int i = ((Integer)value).intValue();
+        if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            int i = ((Intfgfr)vbluf).intVbluf();
             if (i < 0 || i > 255)
-                throw new IllegalArgumentException("Invalid IP_TOS value");
+                tirow nfw IllfgblArgumfntExdfption("Invblid IP_TOS vbluf");
         }
-        if (name == StandardSocketOptions.IP_MULTICAST_TTL) {
-            int i = ((Integer)value).intValue();
+        if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_TTL) {
+            int i = ((Intfgfr)vbluf).intVbluf();
             if (i < 0 || i > 255)
-                throw new IllegalArgumentException("Invalid TTL/hop value");
+                tirow nfw IllfgblArgumfntExdfption("Invblid TTL/iop vbluf");
         }
 
-        // map option name to platform level/name
-        OptionKey key = SocketOptionRegistry.findOption(name, family);
-        if (key == null)
-            throw new AssertionError("Option not found");
+        // mbp option nbmf to plbtform lfvfl/nbmf
+        OptionKfy kfy = SodkftOptionRfgistry.findOption(nbmf, fbmily);
+        if (kfy == null)
+            tirow nfw AssfrtionError("Option not found");
 
-        int arg;
-        if (type == Integer.class) {
-            arg = ((Integer)value).intValue();
-        } else {
-            boolean b = ((Boolean)value).booleanValue();
-            arg = (b) ? 1 : 0;
+        int brg;
+        if (typf == Intfgfr.dlbss) {
+            brg = ((Intfgfr)vbluf).intVbluf();
+        } flsf {
+            boolfbn b = ((Boolfbn)vbluf).boolfbnVbluf();
+            brg = (b) ? 1 : 0;
         }
 
-        boolean mayNeedConversion = (family == UNSPEC);
-        boolean isIPv6 = (family == StandardProtocolFamily.INET6);
-        setIntOption0(fd, mayNeedConversion, key.level(), key.name(), arg, isIPv6);
+        boolfbn mbyNffdConvfrsion = (fbmily == UNSPEC);
+        boolfbn isIPv6 = (fbmily == StbndbrdProtodolFbmily.INET6);
+        sftIntOption0(fd, mbyNffdConvfrsion, kfy.lfvfl(), kfy.nbmf(), brg, isIPv6);
     }
 
-    static Object getSocketOption(FileDescriptor fd, ProtocolFamily family,
-                                  SocketOption<?> name)
-        throws IOException
+    stbtid Objfdt gftSodkftOption(FilfDfsdriptor fd, ProtodolFbmily fbmily,
+                                  SodkftOption<?> nbmf)
+        tirows IOExdfption
     {
-        Class<?> type = name.type();
+        Clbss<?> typf = nbmf.typf();
 
-        if (type == SocketFlow.class) {
-            SecurityManager sm = System.getSecurityManager();
+        if (typf == SodkftFlow.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkPermission(new NetworkPermission("getOption.SO_FLOW_SLA"));
+                sm.difdkPfrmission(nfw NftworkPfrmission("gftOption.SO_FLOW_SLA"));
             }
-            SocketFlow flow = SocketFlow.create();
-            ExtendedOptionsImpl.getFlowOption(fd, flow);
-            return flow;
+            SodkftFlow flow = SodkftFlow.drfbtf();
+            ExtfndfdOptionsImpl.gftFlowOption(fd, flow);
+            rfturn flow;
         }
 
-        // only simple values supported by this method
-        if (type != Integer.class && type != Boolean.class)
-            throw new AssertionError("Should not reach here");
+        // only simplf vblufs supportfd by tiis mftiod
+        if (typf != Intfgfr.dlbss && typf != Boolfbn.dlbss)
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
 
-        // map option name to platform level/name
-        OptionKey key = SocketOptionRegistry.findOption(name, family);
-        if (key == null)
-            throw new AssertionError("Option not found");
+        // mbp option nbmf to plbtform lfvfl/nbmf
+        OptionKfy kfy = SodkftOptionRfgistry.findOption(nbmf, fbmily);
+        if (kfy == null)
+            tirow nfw AssfrtionError("Option not found");
 
-        boolean mayNeedConversion = (family == UNSPEC);
-        int value = getIntOption0(fd, mayNeedConversion, key.level(), key.name());
+        boolfbn mbyNffdConvfrsion = (fbmily == UNSPEC);
+        int vbluf = gftIntOption0(fd, mbyNffdConvfrsion, kfy.lfvfl(), kfy.nbmf());
 
-        if (type == Integer.class) {
-            return Integer.valueOf(value);
-        } else {
-            return (value == 0) ? Boolean.FALSE : Boolean.TRUE;
+        if (typf == Intfgfr.dlbss) {
+            rfturn Intfgfr.vblufOf(vbluf);
+        } flsf {
+            rfturn (vbluf == 0) ? Boolfbn.FALSE : Boolfbn.TRUE;
         }
     }
 
-    // -- Socket operations --
+    // -- Sodkft opfrbtions --
 
-    private static native boolean isIPv6Available0();
+    privbtf stbtid nbtivf boolfbn isIPv6Avbilbblf0();
 
     /*
-     * Returns 1 for Windows versions that support exclusive binding by default, 0
-     * for those that do not, and -1 for Solaris/Linux/Mac OS
+     * Rfturns 1 for Windows vfrsions tibt support fxdlusivf binding by dffbult, 0
+     * for tiosf tibt do not, bnd -1 for Solbris/Linux/Mbd OS
      */
-    private static native int isExclusiveBindAvailable();
+    privbtf stbtid nbtivf int isExdlusivfBindAvbilbblf();
 
-    private static native boolean canIPv6SocketJoinIPv4Group0();
+    privbtf stbtid nbtivf boolfbn dbnIPv6SodkftJoinIPv4Group0();
 
-    private static native boolean canJoin6WithIPv4Group0();
+    privbtf stbtid nbtivf boolfbn dbnJoin6WitiIPv4Group0();
 
-    static FileDescriptor socket(boolean stream) throws IOException {
-        return socket(UNSPEC, stream);
+    stbtid FilfDfsdriptor sodkft(boolfbn strfbm) tirows IOExdfption {
+        rfturn sodkft(UNSPEC, strfbm);
     }
 
-    static FileDescriptor socket(ProtocolFamily family, boolean stream)
-        throws IOException {
-        boolean preferIPv6 = isIPv6Available() &&
-            (family != StandardProtocolFamily.INET);
-        return IOUtil.newFD(socket0(preferIPv6, stream, false));
+    stbtid FilfDfsdriptor sodkft(ProtodolFbmily fbmily, boolfbn strfbm)
+        tirows IOExdfption {
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        rfturn IOUtil.nfwFD(sodkft0(prfffrIPv6, strfbm, fblsf));
     }
 
-    static FileDescriptor serverSocket(boolean stream) {
-        return IOUtil.newFD(socket0(isIPv6Available(), stream, true));
+    stbtid FilfDfsdriptor sfrvfrSodkft(boolfbn strfbm) {
+        rfturn IOUtil.nfwFD(sodkft0(isIPv6Avbilbblf(), strfbm, truf));
     }
 
-    // Due to oddities SO_REUSEADDR on windows reuse is ignored
-    private static native int socket0(boolean preferIPv6, boolean stream, boolean reuse);
+    // Duf to odditifs SO_REUSEADDR on windows rfusf is ignorfd
+    privbtf stbtid nbtivf int sodkft0(boolfbn prfffrIPv6, boolfbn strfbm, boolfbn rfusf);
 
-    public static void bind(FileDescriptor fd, InetAddress addr, int port)
-        throws IOException
+    publid stbtid void bind(FilfDfsdriptor fd, InftAddrfss bddr, int port)
+        tirows IOExdfption
     {
-        bind(UNSPEC, fd, addr, port);
+        bind(UNSPEC, fd, bddr, port);
     }
 
-    static void bind(ProtocolFamily family, FileDescriptor fd,
-                     InetAddress addr, int port) throws IOException
+    stbtid void bind(ProtodolFbmily fbmily, FilfDfsdriptor fd,
+                     InftAddrfss bddr, int port) tirows IOExdfption
     {
-        boolean preferIPv6 = isIPv6Available() &&
-            (family != StandardProtocolFamily.INET);
-        bind0(fd, preferIPv6, exclusiveBind, addr, port);
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        bind0(fd, prfffrIPv6, fxdlusivfBind, bddr, port);
     }
 
-    private static native void bind0(FileDescriptor fd, boolean preferIPv6,
-                                     boolean useExclBind, InetAddress addr,
+    privbtf stbtid nbtivf void bind0(FilfDfsdriptor fd, boolfbn prfffrIPv6,
+                                     boolfbn usfExdlBind, InftAddrfss bddr,
                                      int port)
-        throws IOException;
+        tirows IOExdfption;
 
-    static native void listen(FileDescriptor fd, int backlog) throws IOException;
+    stbtid nbtivf void listfn(FilfDfsdriptor fd, int bbdklog) tirows IOExdfption;
 
-    static int connect(FileDescriptor fd, InetAddress remote, int remotePort)
-        throws IOException
+    stbtid int donnfdt(FilfDfsdriptor fd, InftAddrfss rfmotf, int rfmotfPort)
+        tirows IOExdfption
     {
-        return connect(UNSPEC, fd, remote, remotePort);
+        rfturn donnfdt(UNSPEC, fd, rfmotf, rfmotfPort);
     }
 
-    static int connect(ProtocolFamily family, FileDescriptor fd, InetAddress remote, int remotePort)
-        throws IOException
+    stbtid int donnfdt(ProtodolFbmily fbmily, FilfDfsdriptor fd, InftAddrfss rfmotf, int rfmotfPort)
+        tirows IOExdfption
     {
-        boolean preferIPv6 = isIPv6Available() &&
-            (family != StandardProtocolFamily.INET);
-        return connect0(preferIPv6, fd, remote, remotePort);
+        boolfbn prfffrIPv6 = isIPv6Avbilbblf() &&
+            (fbmily != StbndbrdProtodolFbmily.INET);
+        rfturn donnfdt0(prfffrIPv6, fd, rfmotf, rfmotfPort);
     }
 
-    private static native int connect0(boolean preferIPv6,
-                                       FileDescriptor fd,
-                                       InetAddress remote,
-                                       int remotePort)
-        throws IOException;
+    privbtf stbtid nbtivf int donnfdt0(boolfbn prfffrIPv6,
+                                       FilfDfsdriptor fd,
+                                       InftAddrfss rfmotf,
+                                       int rfmotfPort)
+        tirows IOExdfption;
 
 
-    public final static int SHUT_RD = 0;
-    public final static int SHUT_WR = 1;
-    public final static int SHUT_RDWR = 2;
+    publid finbl stbtid int SHUT_RD = 0;
+    publid finbl stbtid int SHUT_WR = 1;
+    publid finbl stbtid int SHUT_RDWR = 2;
 
-    static native void shutdown(FileDescriptor fd, int how) throws IOException;
+    stbtid nbtivf void siutdown(FilfDfsdriptor fd, int iow) tirows IOExdfption;
 
-    private static native int localPort(FileDescriptor fd)
-        throws IOException;
+    privbtf stbtid nbtivf int lodblPort(FilfDfsdriptor fd)
+        tirows IOExdfption;
 
-    private static native InetAddress localInetAddress(FileDescriptor fd)
-        throws IOException;
+    privbtf stbtid nbtivf InftAddrfss lodblInftAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption;
 
-    public static InetSocketAddress localAddress(FileDescriptor fd)
-        throws IOException
+    publid stbtid InftSodkftAddrfss lodblAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption
     {
-        return new InetSocketAddress(localInetAddress(fd), localPort(fd));
+        rfturn nfw InftSodkftAddrfss(lodblInftAddrfss(fd), lodblPort(fd));
     }
 
-    private static native int remotePort(FileDescriptor fd)
-        throws IOException;
+    privbtf stbtid nbtivf int rfmotfPort(FilfDfsdriptor fd)
+        tirows IOExdfption;
 
-    private static native InetAddress remoteInetAddress(FileDescriptor fd)
-        throws IOException;
+    privbtf stbtid nbtivf InftAddrfss rfmotfInftAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption;
 
-    static InetSocketAddress remoteAddress(FileDescriptor fd)
-        throws IOException
+    stbtid InftSodkftAddrfss rfmotfAddrfss(FilfDfsdriptor fd)
+        tirows IOExdfption
     {
-        return new InetSocketAddress(remoteInetAddress(fd), remotePort(fd));
+        rfturn nfw InftSodkftAddrfss(rfmotfInftAddrfss(fd), rfmotfPort(fd));
     }
 
-    private static native int getIntOption0(FileDescriptor fd, boolean mayNeedConversion,
-                                            int level, int opt)
-        throws IOException;
+    privbtf stbtid nbtivf int gftIntOption0(FilfDfsdriptor fd, boolfbn mbyNffdConvfrsion,
+                                            int lfvfl, int opt)
+        tirows IOExdfption;
 
-    private static native void setIntOption0(FileDescriptor fd, boolean mayNeedConversion,
-                                             int level, int opt, int arg, boolean isIPv6)
-        throws IOException;
+    privbtf stbtid nbtivf void sftIntOption0(FilfDfsdriptor fd, boolfbn mbyNffdConvfrsion,
+                                             int lfvfl, int opt, int brg, boolfbn isIPv6)
+        tirows IOExdfption;
 
-    static native int poll(FileDescriptor fd, int events, long timeout)
-        throws IOException;
+    stbtid nbtivf int poll(FilfDfsdriptor fd, int fvfnts, long timfout)
+        tirows IOExdfption;
 
-    // -- Multicast support --
+    // -- Multidbst support --
 
 
     /**
-     * Join IPv4 multicast group
+     * Join IPv4 multidbst group
      */
-    static int join4(FileDescriptor fd, int group, int interf, int source)
-        throws IOException
+    stbtid int join4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
     {
-        return joinOrDrop4(true, fd, group, interf, source);
+        rfturn joinOrDrop4(truf, fd, group, intfrf, sourdf);
     }
 
     /**
-     * Drop membership of IPv4 multicast group
+     * Drop mfmbfrsiip of IPv4 multidbst group
      */
-    static void drop4(FileDescriptor fd, int group, int interf, int source)
-        throws IOException
+    stbtid void drop4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
     {
-        joinOrDrop4(false, fd, group, interf, source);
+        joinOrDrop4(fblsf, fd, group, intfrf, sourdf);
     }
 
-    private static native int joinOrDrop4(boolean join, FileDescriptor fd, int group, int interf, int source)
-        throws IOException;
+    privbtf stbtid nbtivf int joinOrDrop4(boolfbn join, FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption;
 
     /**
-     * Block IPv4 source
+     * Blodk IPv4 sourdf
      */
-    static int block4(FileDescriptor fd, int group, int interf, int source)
-        throws IOException
+    stbtid int blodk4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
     {
-        return blockOrUnblock4(true, fd, group, interf, source);
-    }
-
-    /**
-     * Unblock IPv6 source
-     */
-    static void unblock4(FileDescriptor fd, int group, int interf, int source)
-        throws IOException
-    {
-        blockOrUnblock4(false, fd, group, interf, source);
-    }
-
-    private static native int blockOrUnblock4(boolean block, FileDescriptor fd, int group,
-                                              int interf, int source)
-        throws IOException;
-
-    /**
-     * Join IPv6 multicast group
-     */
-    static int join6(FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException
-    {
-        return joinOrDrop6(true, fd, group, index, source);
+        rfturn blodkOrUnblodk4(truf, fd, group, intfrf, sourdf);
     }
 
     /**
-     * Drop membership of IPv6 multicast group
+     * Unblodk IPv6 sourdf
      */
-    static void drop6(FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException
+    stbtid void unblodk4(FilfDfsdriptor fd, int group, int intfrf, int sourdf)
+        tirows IOExdfption
     {
-        joinOrDrop6(false, fd, group, index, source);
+        blodkOrUnblodk4(fblsf, fd, group, intfrf, sourdf);
     }
 
-    private static native int joinOrDrop6(boolean join, FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException;
+    privbtf stbtid nbtivf int blodkOrUnblodk4(boolfbn blodk, FilfDfsdriptor fd, int group,
+                                              int intfrf, int sourdf)
+        tirows IOExdfption;
 
     /**
-     * Block IPv6 source
+     * Join IPv6 multidbst group
      */
-    static int block6(FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException
+    stbtid int join6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
     {
-        return blockOrUnblock6(true, fd, group, index, source);
+        rfturn joinOrDrop6(truf, fd, group, indfx, sourdf);
     }
 
     /**
-     * Unblock IPv6 source
+     * Drop mfmbfrsiip of IPv6 multidbst group
      */
-    static void unblock6(FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException
+    stbtid void drop6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
     {
-        blockOrUnblock6(false, fd, group, index, source);
+        joinOrDrop6(fblsf, fd, group, indfx, sourdf);
     }
 
-    static native int blockOrUnblock6(boolean block, FileDescriptor fd, byte[] group, int index, byte[] source)
-        throws IOException;
-
-    static native void setInterface4(FileDescriptor fd, int interf) throws IOException;
-
-    static native int getInterface4(FileDescriptor fd) throws IOException;
-
-    static native void setInterface6(FileDescriptor fd, int index) throws IOException;
-
-    static native int getInterface6(FileDescriptor fd) throws IOException;
-
-    private static native void initIDs();
+    privbtf stbtid nbtivf int joinOrDrop6(boolfbn join, FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption;
 
     /**
-     * Event masks for the various poll system calls.
-     * They will be set platform dependant in the static initializer below.
+     * Blodk IPv6 sourdf
      */
-    public static final short POLLIN;
-    public static final short POLLOUT;
-    public static final short POLLERR;
-    public static final short POLLHUP;
-    public static final short POLLNVAL;
-    public static final short POLLCONN;
+    stbtid int blodk6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        rfturn blodkOrUnblodk6(truf, fd, group, indfx, sourdf);
+    }
 
-    static native short pollinValue();
-    static native short polloutValue();
-    static native short pollerrValue();
-    static native short pollhupValue();
-    static native short pollnvalValue();
-    static native short pollconnValue();
+    /**
+     * Unblodk IPv6 sourdf
+     */
+    stbtid void unblodk6(FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption
+    {
+        blodkOrUnblodk6(fblsf, fd, group, indfx, sourdf);
+    }
 
-    static {
-        IOUtil.load();
+    stbtid nbtivf int blodkOrUnblodk6(boolfbn blodk, FilfDfsdriptor fd, bytf[] group, int indfx, bytf[] sourdf)
+        tirows IOExdfption;
+
+    stbtid nbtivf void sftIntfrfbdf4(FilfDfsdriptor fd, int intfrf) tirows IOExdfption;
+
+    stbtid nbtivf int gftIntfrfbdf4(FilfDfsdriptor fd) tirows IOExdfption;
+
+    stbtid nbtivf void sftIntfrfbdf6(FilfDfsdriptor fd, int indfx) tirows IOExdfption;
+
+    stbtid nbtivf int gftIntfrfbdf6(FilfDfsdriptor fd) tirows IOExdfption;
+
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Evfnt mbsks for tif vbrious poll systfm dblls.
+     * Tify will bf sft plbtform dfpfndbnt in tif stbtid initiblizfr bflow.
+     */
+    publid stbtid finbl siort POLLIN;
+    publid stbtid finbl siort POLLOUT;
+    publid stbtid finbl siort POLLERR;
+    publid stbtid finbl siort POLLHUP;
+    publid stbtid finbl siort POLLNVAL;
+    publid stbtid finbl siort POLLCONN;
+
+    stbtid nbtivf siort pollinVbluf();
+    stbtid nbtivf siort polloutVbluf();
+    stbtid nbtivf siort pollfrrVbluf();
+    stbtid nbtivf siort polliupVbluf();
+    stbtid nbtivf siort pollnvblVbluf();
+    stbtid nbtivf siort polldonnVbluf();
+
+    stbtid {
+        IOUtil.lobd();
         initIDs();
 
-        POLLIN     = pollinValue();
-        POLLOUT    = polloutValue();
-        POLLERR    = pollerrValue();
-        POLLHUP    = pollhupValue();
-        POLLNVAL   = pollnvalValue();
-        POLLCONN   = pollconnValue();
+        POLLIN     = pollinVbluf();
+        POLLOUT    = polloutVbluf();
+        POLLERR    = pollfrrVbluf();
+        POLLHUP    = polliupVbluf();
+        POLLNVAL   = pollnvblVbluf();
+        POLLCONN   = polldonnVbluf();
     }
 
 }

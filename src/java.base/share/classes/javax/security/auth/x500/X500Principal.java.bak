@@ -1,513 +1,513 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.x500;
+pbdkbgf jbvbx.sfdurity.buti.x500;
 
-import java.io.*;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Map;
-import sun.security.x509.X500Name;
-import sun.security.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.util.*;
 
 /**
- * <p> This class represents an X.500 {@code Principal}.
- * {@code X500Principal}s are represented by distinguished names such as
- * "CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US".
+ * <p> Tiis dlbss rfprfsfnts bn X.500 {@dodf Prindipbl}.
+ * {@dodf X500Prindipbl}s brf rfprfsfntfd by distinguisifd nbmfs sudi bs
+ * "CN=Dukf, OU=JbvbSoft, O=Sun Midrosystfms, C=US".
  *
- * <p> This class can be instantiated by using a string representation
- * of the distinguished name, or by using the ASN.1 DER encoded byte
- * representation of the distinguished name.  The current specification
- * for the string representation of a distinguished name is defined in
- * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253: Lightweight
- * Directory Access Protocol (v3): UTF-8 String Representation of
- * Distinguished Names</a>. This class, however, accepts string formats from
- * both RFC 2253 and <a href="http://www.ietf.org/rfc/rfc1779.txt">RFC 1779:
- * A String Representation of Distinguished Names</a>, and also recognizes
- * attribute type keywords whose OIDs (Object Identifiers) are defined in
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280: Internet X.509
- * Public Key Infrastructure Certificate and CRL Profile</a>.
+ * <p> Tiis dlbss dbn bf instbntibtfd by using b string rfprfsfntbtion
+ * of tif distinguisifd nbmf, or by using tif ASN.1 DER fndodfd bytf
+ * rfprfsfntbtion of tif distinguisifd nbmf.  Tif durrfnt spfdifidbtion
+ * for tif string rfprfsfntbtion of b distinguisifd nbmf is dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253: Ligitwfigit
+ * Dirfdtory Addfss Protodol (v3): UTF-8 String Rfprfsfntbtion of
+ * Distinguisifd Nbmfs</b>. Tiis dlbss, iowfvfr, bddfpts string formbts from
+ * boti RFC 2253 bnd <b irff="ittp://www.iftf.org/rfd/rfd1779.txt">RFC 1779:
+ * A String Rfprfsfntbtion of Distinguisifd Nbmfs</b>, bnd blso rfdognizfs
+ * bttributf typf kfywords wiosf OIDs (Objfdt Idfntififrs) brf dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280: Intfrnft X.509
+ * Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>.
  *
- * <p> The string representation for this {@code X500Principal}
- * can be obtained by calling the {@code getName} methods.
+ * <p> Tif string rfprfsfntbtion for tiis {@dodf X500Prindipbl}
+ * dbn bf obtbinfd by dblling tif {@dodf gftNbmf} mftiods.
  *
- * <p> Note that the {@code getSubjectX500Principal} and
- * {@code getIssuerX500Principal} methods of
- * {@code X509Certificate} return X500Principals representing the
- * issuer and subject fields of the certificate.
+ * <p> Notf tibt tif {@dodf gftSubjfdtX500Prindipbl} bnd
+ * {@dodf gftIssufrX500Prindipbl} mftiods of
+ * {@dodf X509Cfrtifidbtf} rfturn X500Prindipbls rfprfsfnting tif
+ * issufr bnd subjfdt fiflds of tif dfrtifidbtf.
  *
- * @see java.security.cert.X509Certificate
- * @since 1.4
+ * @sff jbvb.sfdurity.dfrt.X509Cfrtifidbtf
+ * @sindf 1.4
  */
-public final class X500Principal implements Principal, java.io.Serializable {
+publid finbl dlbss X500Prindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -500463348111345721L;
-
-    /**
-     * RFC 1779 String format of Distinguished Names.
-     */
-    public static final String RFC1779 = "RFC1779";
-    /**
-     * RFC 2253 String format of Distinguished Names.
-     */
-    public static final String RFC2253 = "RFC2253";
-    /**
-     * Canonical String format of Distinguished Names.
-     */
-    public static final String CANONICAL = "CANONICAL";
+    privbtf stbtid finbl long sfriblVfrsionUID = -500463348111345721L;
 
     /**
-     * The X500Name representing this principal.
+     * RFC 1779 String formbt of Distinguisifd Nbmfs.
+     */
+    publid stbtid finbl String RFC1779 = "RFC1779";
+    /**
+     * RFC 2253 String formbt of Distinguisifd Nbmfs.
+     */
+    publid stbtid finbl String RFC2253 = "RFC2253";
+    /**
+     * Cbnonidbl String formbt of Distinguisifd Nbmfs.
+     */
+    publid stbtid finbl String CANONICAL = "CANONICAL";
+
+    /**
+     * Tif X500Nbmf rfprfsfnting tiis prindipbl.
      *
-     * NOTE: this field is reflectively accessed from within X500Name.
+     * NOTE: tiis fifld is rfflfdtivfly bddfssfd from witiin X500Nbmf.
      */
-    private transient X500Name thisX500Name;
+    privbtf trbnsifnt X500Nbmf tiisX500Nbmf;
 
     /**
-     * Creates an X500Principal by wrapping an X500Name.
+     * Crfbtfs bn X500Prindipbl by wrbpping bn X500Nbmf.
      *
-     * NOTE: The constructor is package private. It is intended to be accessed
-     * using privileged reflection from classes in sun.security.*.
-     * Currently referenced from sun.security.x509.X500Name.asX500Principal().
+     * NOTE: Tif donstrudtor is pbdkbgf privbtf. It is intfndfd to bf bddfssfd
+     * using privilfgfd rfflfdtion from dlbssfs in sun.sfdurity.*.
+     * Currfntly rfffrfndfd from sun.sfdurity.x509.X500Nbmf.bsX500Prindipbl().
      */
-    X500Principal(X500Name x500Name) {
-        thisX500Name = x500Name;
+    X500Prindipbl(X500Nbmf x500Nbmf) {
+        tiisX500Nbmf = x500Nbmf;
     }
 
     /**
-     * Creates an {@code X500Principal} from a string representation of
-     * an X.500 distinguished name (ex:
-     * "CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US").
-     * The distinguished name must be specified using the grammar defined in
-     * RFC 1779 or RFC 2253 (either format is acceptable).
+     * Crfbtfs bn {@dodf X500Prindipbl} from b string rfprfsfntbtion of
+     * bn X.500 distinguisifd nbmf (fx:
+     * "CN=Dukf, OU=JbvbSoft, O=Sun Midrosystfms, C=US").
+     * Tif distinguisifd nbmf must bf spfdififd using tif grbmmbr dffinfd in
+     * RFC 1779 or RFC 2253 (fitifr formbt is bddfptbblf).
      *
-     * <p>This constructor recognizes the attribute type keywords
-     * defined in RFC 1779 and RFC 2253
-     * (and listed in {@link #getName(String format) getName(String format)}),
-     * as well as the T, DNQ or DNQUALIFIER, SURNAME, GIVENNAME, INITIALS,
-     * GENERATION, EMAILADDRESS, and SERIALNUMBER keywords whose Object
-     * Identifiers (OIDs) are defined in RFC 3280 and its successor.
-     * Any other attribute type must be specified as an OID.
+     * <p>Tiis donstrudtor rfdognizfs tif bttributf typf kfywords
+     * dffinfd in RFC 1779 bnd RFC 2253
+     * (bnd listfd in {@link #gftNbmf(String formbt) gftNbmf(String formbt)}),
+     * bs wfll bs tif T, DNQ or DNQUALIFIER, SURNAME, GIVENNAME, INITIALS,
+     * GENERATION, EMAILADDRESS, bnd SERIALNUMBER kfywords wiosf Objfdt
+     * Idfntififrs (OIDs) brf dffinfd in RFC 3280 bnd its suddfssor.
+     * Any otifr bttributf typf must bf spfdififd bs bn OID.
      *
-     * <p>This implementation enforces a more restrictive OID syntax than
-     * defined in RFC 1779 and 2253. It uses the more correct syntax defined in
-     * <a href="http://www.ietf.org/rfc/rfc4512.txt">RFC 4512</a>, which
-     * specifies that OIDs contain at least 2 digits:
+     * <p>Tiis implfmfntbtion fnfordfs b morf rfstridtivf OID syntbx tibn
+     * dffinfd in RFC 1779 bnd 2253. It usfs tif morf dorrfdt syntbx dffinfd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd4512.txt">RFC 4512</b>, wiidi
+     * spfdififs tibt OIDs dontbin bt lfbst 2 digits:
      *
-     * <p>{@code numericoid = number 1*( DOT number ) }
+     * <p>{@dodf numfridoid = numbfr 1*( DOT numbfr ) }
      *
-     * @param name an X.500 distinguished name in RFC 1779 or RFC 2253 format
-     * @exception NullPointerException if the {@code name}
-     *                  is {@code null}
-     * @exception IllegalArgumentException if the {@code name}
-     *                  is improperly specified
+     * @pbrbm nbmf bn X.500 distinguisifd nbmf in RFC 1779 or RFC 2253 formbt
+     * @fxdfption NullPointfrExdfption if tif {@dodf nbmf}
+     *                  is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf nbmf}
+     *                  is impropfrly spfdififd
      */
-    public X500Principal(String name) {
-        this(name, Collections.<String, String>emptyMap());
+    publid X500Prindipbl(String nbmf) {
+        tiis(nbmf, Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Creates an {@code X500Principal} from a string representation of
-     * an X.500 distinguished name (ex:
-     * "CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US").
-     * The distinguished name must be specified using the grammar defined in
-     * RFC 1779 or RFC 2253 (either format is acceptable).
+     * Crfbtfs bn {@dodf X500Prindipbl} from b string rfprfsfntbtion of
+     * bn X.500 distinguisifd nbmf (fx:
+     * "CN=Dukf, OU=JbvbSoft, O=Sun Midrosystfms, C=US").
+     * Tif distinguisifd nbmf must bf spfdififd using tif grbmmbr dffinfd in
+     * RFC 1779 or RFC 2253 (fitifr formbt is bddfptbblf).
      *
-     * <p> This constructor recognizes the attribute type keywords specified
-     * in {@link #X500Principal(String)} and also recognizes additional
-     * keywords that have entries in the {@code keywordMap} parameter.
-     * Keyword entries in the keywordMap take precedence over the default
-     * keywords recognized by {@code X500Principal(String)}. Keywords
-     * MUST be specified in all upper-case, otherwise they will be ignored.
-     * Improperly specified keywords are ignored; however if a keyword in the
-     * name maps to an improperly specified Object Identifier (OID), an
-     * {@code IllegalArgumentException} is thrown. It is permissible to
-     * have 2 different keywords that map to the same OID.
+     * <p> Tiis donstrudtor rfdognizfs tif bttributf typf kfywords spfdififd
+     * in {@link #X500Prindipbl(String)} bnd blso rfdognizfs bdditionbl
+     * kfywords tibt ibvf fntrifs in tif {@dodf kfywordMbp} pbrbmftfr.
+     * Kfyword fntrifs in tif kfywordMbp tbkf prfdfdfndf ovfr tif dffbult
+     * kfywords rfdognizfd by {@dodf X500Prindipbl(String)}. Kfywords
+     * MUST bf spfdififd in bll uppfr-dbsf, otifrwisf tify will bf ignorfd.
+     * Impropfrly spfdififd kfywords brf ignorfd; iowfvfr if b kfyword in tif
+     * nbmf mbps to bn impropfrly spfdififd Objfdt Idfntififr (OID), bn
+     * {@dodf IllfgblArgumfntExdfption} is tirown. It is pfrmissiblf to
+     * ibvf 2 difffrfnt kfywords tibt mbp to tif sbmf OID.
      *
-     * <p>This implementation enforces a more restrictive OID syntax than
-     * defined in RFC 1779 and 2253. It uses the more correct syntax defined in
-     * <a href="http://www.ietf.org/rfc/rfc4512.txt">RFC 4512</a>, which
-     * specifies that OIDs contain at least 2 digits:
+     * <p>Tiis implfmfntbtion fnfordfs b morf rfstridtivf OID syntbx tibn
+     * dffinfd in RFC 1779 bnd 2253. It usfs tif morf dorrfdt syntbx dffinfd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd4512.txt">RFC 4512</b>, wiidi
+     * spfdififs tibt OIDs dontbin bt lfbst 2 digits:
      *
-     * <p>{@code numericoid = number 1*( DOT number ) }
+     * <p>{@dodf numfridoid = numbfr 1*( DOT numbfr ) }
      *
-     * @param name an X.500 distinguished name in RFC 1779 or RFC 2253 format
-     * @param keywordMap an attribute type keyword map, where each key is a
-     *   keyword String that maps to a corresponding object identifier in String
-     *   form (a sequence of nonnegative integers separated by periods). The map
-     *   may be empty but never {@code null}.
-     * @exception NullPointerException if {@code name} or
-     *   {@code keywordMap} is {@code null}
-     * @exception IllegalArgumentException if the {@code name} is
-     *   improperly specified or a keyword in the {@code name} maps to an
-     *   OID that is not in the correct form
-     * @since 1.6
+     * @pbrbm nbmf bn X.500 distinguisifd nbmf in RFC 1779 or RFC 2253 formbt
+     * @pbrbm kfywordMbp bn bttributf typf kfyword mbp, wifrf fbdi kfy is b
+     *   kfyword String tibt mbps to b dorrfsponding objfdt idfntififr in String
+     *   form (b sfqufndf of nonnfgbtivf intfgfrs sfpbrbtfd by pfriods). Tif mbp
+     *   mby bf fmpty but nfvfr {@dodf null}.
+     * @fxdfption NullPointfrExdfption if {@dodf nbmf} or
+     *   {@dodf kfywordMbp} is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf nbmf} is
+     *   impropfrly spfdififd or b kfyword in tif {@dodf nbmf} mbps to bn
+     *   OID tibt is not in tif dorrfdt form
+     * @sindf 1.6
      */
-    public X500Principal(String name, Map<String, String> keywordMap) {
-        if (name == null) {
-            throw new NullPointerException
-                (sun.security.util.ResourcesMgr.getString
-                ("provided.null.name"));
+    publid X500Prindipbl(String nbmf, Mbp<String, String> kfywordMbp) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                ("providfd.null.nbmf"));
         }
-        if (keywordMap == null) {
-            throw new NullPointerException
-                (sun.security.util.ResourcesMgr.getString
-                ("provided.null.keyword.map"));
+        if (kfywordMbp == null) {
+            tirow nfw NullPointfrExdfption
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                ("providfd.null.kfyword.mbp"));
         }
 
         try {
-            thisX500Name = new X500Name(name, keywordMap);
-        } catch (Exception e) {
-            IllegalArgumentException iae = new IllegalArgumentException
-                        ("improperly specified input name: " + name);
-            iae.initCause(e);
-            throw iae;
+            tiisX500Nbmf = nfw X500Nbmf(nbmf, kfywordMbp);
+        } dbtdi (Exdfption f) {
+            IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption
+                        ("impropfrly spfdififd input nbmf: " + nbmf);
+            ibf.initCbusf(f);
+            tirow ibf;
         }
     }
 
     /**
-     * Creates an {@code X500Principal} from a distinguished name in
-     * ASN.1 DER encoded form. The ASN.1 notation for this structure is as
+     * Crfbtfs bn {@dodf X500Prindipbl} from b distinguisifd nbmf in
+     * ASN.1 DER fndodfd form. Tif ASN.1 notbtion for tiis strudturf is bs
      * follows.
-     * <pre>{@code
-     * Name ::= CHOICE {
-     *   RDNSequence }
+     * <prf>{@dodf
+     * Nbmf ::= CHOICE {
+     *   RDNSfqufndf }
      *
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguisifdNbmf
      *
-     * RelativeDistinguishedName ::=
-     *   SET SIZE (1 .. MAX) OF AttributeTypeAndValue
+     * RflbtivfDistinguisifdNbmf ::=
+     *   SET SIZE (1 .. MAX) OF AttributfTypfAndVbluf
      *
-     * AttributeTypeAndValue ::= SEQUENCE {
-     *   type     AttributeType,
-     *   value    AttributeValue }
+     * AttributfTypfAndVbluf ::= SEQUENCE {
+     *   typf     AttributfTypf,
+     *   vbluf    AttributfVbluf }
      *
-     * AttributeType ::= OBJECT IDENTIFIER
+     * AttributfTypf ::= OBJECT IDENTIFIER
      *
-     * AttributeValue ::= ANY DEFINED BY AttributeType
+     * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
      * ....
-     * DirectoryString ::= CHOICE {
-     *       teletexString           TeletexString (SIZE (1..MAX)),
-     *       printableString         PrintableString (SIZE (1..MAX)),
-     *       universalString         UniversalString (SIZE (1..MAX)),
+     * DirfdtoryString ::= CHOICE {
+     *       tflftfxString           TflftfxString (SIZE (1..MAX)),
+     *       printbblfString         PrintbblfString (SIZE (1..MAX)),
+     *       univfrsblString         UnivfrsblString (SIZE (1..MAX)),
      *       utf8String              UTF8String (SIZE (1.. MAX)),
      *       bmpString               BMPString (SIZE (1..MAX)) }
-     * }</pre>
+     * }</prf>
      *
-     * @param name a byte array containing the distinguished name in ASN.1
-     * DER encoded form
-     * @throws IllegalArgumentException if an encoding error occurs
-     *          (incorrect form for DN)
+     * @pbrbm nbmf b bytf brrby dontbining tif distinguisifd nbmf in ASN.1
+     * DER fndodfd form
+     * @tirows IllfgblArgumfntExdfption if bn fndoding frror oddurs
+     *          (indorrfdt form for DN)
      */
-    public X500Principal(byte[] name) {
+    publid X500Prindipbl(bytf[] nbmf) {
         try {
-            thisX500Name = new X500Name(name);
-        } catch (Exception e) {
-            IllegalArgumentException iae = new IllegalArgumentException
-                        ("improperly specified input name");
-            iae.initCause(e);
-            throw iae;
+            tiisX500Nbmf = nfw X500Nbmf(nbmf);
+        } dbtdi (Exdfption f) {
+            IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption
+                        ("impropfrly spfdififd input nbmf");
+            ibf.initCbusf(f);
+            tirow ibf;
         }
     }
 
     /**
-     * Creates an {@code X500Principal} from an {@code InputStream}
-     * containing the distinguished name in ASN.1 DER encoded form.
-     * The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #X500Principal(byte[] name) X500Principal(byte[] name)}.
+     * Crfbtfs bn {@dodf X500Prindipbl} from bn {@dodf InputStrfbm}
+     * dontbining tif distinguisifd nbmf in ASN.1 DER fndodfd form.
+     * Tif ASN.1 notbtion for tiis strudturf is supplifd in tif
+     * dodumfntbtion for
+     * {@link #X500Prindipbl(bytf[] nbmf) X500Prindipbl(bytf[] nbmf)}.
      *
-     * <p> The read position of the input stream is positioned
-     * to the next available byte after the encoded distinguished name.
+     * <p> Tif rfbd position of tif input strfbm is positionfd
+     * to tif nfxt bvbilbblf bytf bftfr tif fndodfd distinguisifd nbmf.
      *
-     * @param is an {@code InputStream} containing the distinguished
-     *          name in ASN.1 DER encoded form
+     * @pbrbm is bn {@dodf InputStrfbm} dontbining tif distinguisifd
+     *          nbmf in ASN.1 DER fndodfd form
      *
-     * @exception NullPointerException if the {@code InputStream}
-     *          is {@code null}
-     * @exception IllegalArgumentException if an encoding error occurs
-     *          (incorrect form for DN)
+     * @fxdfption NullPointfrExdfption if tif {@dodf InputStrfbm}
+     *          is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if bn fndoding frror oddurs
+     *          (indorrfdt form for DN)
      */
-    public X500Principal(InputStream is) {
+    publid X500Prindipbl(InputStrfbm is) {
         if (is == null) {
-            throw new NullPointerException("provided null input stream");
+            tirow nfw NullPointfrExdfption("providfd null input strfbm");
         }
 
         try {
-            if (is.markSupported())
-                is.mark(is.available() + 1);
-            DerValue der = new DerValue(is);
-            thisX500Name = new X500Name(der.data);
-        } catch (Exception e) {
-            if (is.markSupported()) {
+            if (is.mbrkSupportfd())
+                is.mbrk(is.bvbilbblf() + 1);
+            DfrVbluf dfr = nfw DfrVbluf(is);
+            tiisX500Nbmf = nfw X500Nbmf(dfr.dbtb);
+        } dbtdi (Exdfption f) {
+            if (is.mbrkSupportfd()) {
                 try {
-                    is.reset();
-                } catch (IOException ioe) {
-                    IllegalArgumentException iae = new IllegalArgumentException
-                        ("improperly specified input stream " +
-                        ("and unable to reset input stream"));
-                    iae.initCause(e);
-                    throw iae;
+                    is.rfsft();
+                } dbtdi (IOExdfption iof) {
+                    IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption
+                        ("impropfrly spfdififd input strfbm " +
+                        ("bnd unbblf to rfsft input strfbm"));
+                    ibf.initCbusf(f);
+                    tirow ibf;
                 }
             }
-            IllegalArgumentException iae = new IllegalArgumentException
-                        ("improperly specified input stream");
-            iae.initCause(e);
-            throw iae;
+            IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption
+                        ("impropfrly spfdififd input strfbm");
+            ibf.initCbusf(f);
+            tirow ibf;
         }
     }
 
     /**
-     * Returns a string representation of the X.500 distinguished name using
-     * the format defined in RFC 2253.
+     * Rfturns b string rfprfsfntbtion of tif X.500 distinguisifd nbmf using
+     * tif formbt dffinfd in RFC 2253.
      *
-     * <p>This method is equivalent to calling
-     * {@code getName(X500Principal.RFC2253)}.
+     * <p>Tiis mftiod is fquivblfnt to dblling
+     * {@dodf gftNbmf(X500Prindipbl.RFC2253)}.
      *
-     * @return the distinguished name of this {@code X500Principal}
+     * @rfturn tif distinguisifd nbmf of tiis {@dodf X500Prindipbl}
      */
-    public String getName() {
-        return getName(X500Principal.RFC2253);
+    publid String gftNbmf() {
+        rfturn gftNbmf(X500Prindipbl.RFC2253);
     }
 
     /**
-     * Returns a string representation of the X.500 distinguished name
-     * using the specified format. Valid values for the format are
-     * "RFC1779", "RFC2253", and "CANONICAL" (case insensitive).
+     * Rfturns b string rfprfsfntbtion of tif X.500 distinguisifd nbmf
+     * using tif spfdififd formbt. Vblid vblufs for tif formbt brf
+     * "RFC1779", "RFC2253", bnd "CANONICAL" (dbsf insfnsitivf).
      *
-     * <p> If "RFC1779" is specified as the format,
-     * this method emits the attribute type keywords defined in
+     * <p> If "RFC1779" is spfdififd bs tif formbt,
+     * tiis mftiod fmits tif bttributf typf kfywords dffinfd in
      * RFC 1779 (CN, L, ST, O, OU, C, STREET).
-     * Any other attribute type is emitted as an OID.
+     * Any otifr bttributf typf is fmittfd bs bn OID.
      *
-     * <p> If "RFC2253" is specified as the format,
-     * this method emits the attribute type keywords defined in
+     * <p> If "RFC2253" is spfdififd bs tif formbt,
+     * tiis mftiod fmits tif bttributf typf kfywords dffinfd in
      * RFC 2253 (CN, L, ST, O, OU, C, STREET, DC, UID).
-     * Any other attribute type is emitted as an OID.
-     * Under a strict reading, RFC 2253 only specifies a UTF-8 string
-     * representation. The String returned by this method is the
-     * Unicode string achieved by decoding this UTF-8 representation.
+     * Any otifr bttributf typf is fmittfd bs bn OID.
+     * Undfr b stridt rfbding, RFC 2253 only spfdififs b UTF-8 string
+     * rfprfsfntbtion. Tif String rfturnfd by tiis mftiod is tif
+     * Unidodf string bdiifvfd by dfdoding tiis UTF-8 rfprfsfntbtion.
      *
-     * <p> If "CANONICAL" is specified as the format,
-     * this method returns an RFC 2253 conformant string representation
-     * with the following additional canonicalizations:
+     * <p> If "CANONICAL" is spfdififd bs tif formbt,
+     * tiis mftiod rfturns bn RFC 2253 donformbnt string rfprfsfntbtion
+     * witi tif following bdditionbl dbnonidblizbtions:
      *
      * <ol>
-     * <li> Leading zeros are removed from attribute types
-     *          that are encoded as dotted decimal OIDs
-     * <li> DirectoryString attribute values of type
-     *          PrintableString and UTF8String are not
-     *          output in hexadecimal format
-     * <li> DirectoryString attribute values of types
-     *          other than PrintableString and UTF8String
-     *          are output in hexadecimal format
-     * <li> Leading and trailing white space characters
-     *          are removed from non-hexadecimal attribute values
-     *          (unless the value consists entirely of white space characters)
-     * <li> Internal substrings of one or more white space characters are
-     *          converted to a single space in non-hexadecimal
-     *          attribute values
-     * <li> Relative Distinguished Names containing more than one
-     *          Attribute Value Assertion (AVA) are output in the
-     *          following order: an alphabetical ordering of AVAs
-     *          containing standard keywords, followed by a numeric
-     *          ordering of AVAs containing OID keywords.
-     * <li> The only characters in attribute values that are escaped are
-     *          those which section 2.4 of RFC 2253 states must be escaped
-     *          (they are escaped using a preceding backslash character)
-     * <li> The entire name is converted to upper case
-     *          using {@code String.toUpperCase(Locale.US)}
-     * <li> The entire name is converted to lower case
-     *          using {@code String.toLowerCase(Locale.US)}
-     * <li> The name is finally normalized using normalization form KD,
-     *          as described in the Unicode Standard and UAX #15
+     * <li> Lfbding zfros brf rfmovfd from bttributf typfs
+     *          tibt brf fndodfd bs dottfd dfdimbl OIDs
+     * <li> DirfdtoryString bttributf vblufs of typf
+     *          PrintbblfString bnd UTF8String brf not
+     *          output in ifxbdfdimbl formbt
+     * <li> DirfdtoryString bttributf vblufs of typfs
+     *          otifr tibn PrintbblfString bnd UTF8String
+     *          brf output in ifxbdfdimbl formbt
+     * <li> Lfbding bnd trbiling wiitf spbdf dibrbdtfrs
+     *          brf rfmovfd from non-ifxbdfdimbl bttributf vblufs
+     *          (unlfss tif vbluf donsists fntirfly of wiitf spbdf dibrbdtfrs)
+     * <li> Intfrnbl substrings of onf or morf wiitf spbdf dibrbdtfrs brf
+     *          donvfrtfd to b singlf spbdf in non-ifxbdfdimbl
+     *          bttributf vblufs
+     * <li> Rflbtivf Distinguisifd Nbmfs dontbining morf tibn onf
+     *          Attributf Vbluf Assfrtion (AVA) brf output in tif
+     *          following ordfr: bn blpibbftidbl ordfring of AVAs
+     *          dontbining stbndbrd kfywords, followfd by b numfrid
+     *          ordfring of AVAs dontbining OID kfywords.
+     * <li> Tif only dibrbdtfrs in bttributf vblufs tibt brf fsdbpfd brf
+     *          tiosf wiidi sfdtion 2.4 of RFC 2253 stbtfs must bf fsdbpfd
+     *          (tify brf fsdbpfd using b prfdfding bbdkslbsi dibrbdtfr)
+     * <li> Tif fntirf nbmf is donvfrtfd to uppfr dbsf
+     *          using {@dodf String.toUppfrCbsf(Lodblf.US)}
+     * <li> Tif fntirf nbmf is donvfrtfd to lowfr dbsf
+     *          using {@dodf String.toLowfrCbsf(Lodblf.US)}
+     * <li> Tif nbmf is finblly normblizfd using normblizbtion form KD,
+     *          bs dfsdribfd in tif Unidodf Stbndbrd bnd UAX #15
      * </ol>
      *
-     * <p> Additional standard formats may be introduced in the future.
+     * <p> Additionbl stbndbrd formbts mby bf introdudfd in tif futurf.
      *
-     * @param format the format to use
+     * @pbrbm formbt tif formbt to usf
      *
-     * @return a string representation of this {@code X500Principal}
-     *          using the specified format
-     * @throws IllegalArgumentException if the specified format is invalid
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf X500Prindipbl}
+     *          using tif spfdififd formbt
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd formbt is invblid
      *          or null
      */
-    public String getName(String format) {
-        if (format != null) {
-            if (format.equalsIgnoreCase(RFC1779)) {
-                return thisX500Name.getRFC1779Name();
-            } else if (format.equalsIgnoreCase(RFC2253)) {
-                return thisX500Name.getRFC2253Name();
-            } else if (format.equalsIgnoreCase(CANONICAL)) {
-                return thisX500Name.getRFC2253CanonicalName();
+    publid String gftNbmf(String formbt) {
+        if (formbt != null) {
+            if (formbt.fqublsIgnorfCbsf(RFC1779)) {
+                rfturn tiisX500Nbmf.gftRFC1779Nbmf();
+            } flsf if (formbt.fqublsIgnorfCbsf(RFC2253)) {
+                rfturn tiisX500Nbmf.gftRFC2253Nbmf();
+            } flsf if (formbt.fqublsIgnorfCbsf(CANONICAL)) {
+                rfturn tiisX500Nbmf.gftRFC2253CbnonidblNbmf();
             }
         }
-        throw new IllegalArgumentException("invalid format specified");
+        tirow nfw IllfgblArgumfntExdfption("invblid formbt spfdififd");
     }
 
     /**
-     * Returns a string representation of the X.500 distinguished name
-     * using the specified format. Valid values for the format are
-     * "RFC1779" and "RFC2253" (case insensitive). "CANONICAL" is not
-     * permitted and an {@code IllegalArgumentException} will be thrown.
+     * Rfturns b string rfprfsfntbtion of tif X.500 distinguisifd nbmf
+     * using tif spfdififd formbt. Vblid vblufs for tif formbt brf
+     * "RFC1779" bnd "RFC2253" (dbsf insfnsitivf). "CANONICAL" is not
+     * pfrmittfd bnd bn {@dodf IllfgblArgumfntExdfption} will bf tirown.
      *
-     * <p>This method returns Strings in the format as specified in
-     * {@link #getName(String)} and also emits additional attribute type
-     * keywords for OIDs that have entries in the {@code oidMap}
-     * parameter. OID entries in the oidMap take precedence over the default
-     * OIDs recognized by {@code getName(String)}.
-     * Improperly specified OIDs are ignored; however if an OID
-     * in the name maps to an improperly specified keyword, an
-     * {@code IllegalArgumentException} is thrown.
+     * <p>Tiis mftiod rfturns Strings in tif formbt bs spfdififd in
+     * {@link #gftNbmf(String)} bnd blso fmits bdditionbl bttributf typf
+     * kfywords for OIDs tibt ibvf fntrifs in tif {@dodf oidMbp}
+     * pbrbmftfr. OID fntrifs in tif oidMbp tbkf prfdfdfndf ovfr tif dffbult
+     * OIDs rfdognizfd by {@dodf gftNbmf(String)}.
+     * Impropfrly spfdififd OIDs brf ignorfd; iowfvfr if bn OID
+     * in tif nbmf mbps to bn impropfrly spfdififd kfyword, bn
+     * {@dodf IllfgblArgumfntExdfption} is tirown.
      *
-     * <p> Additional standard formats may be introduced in the future.
+     * <p> Additionbl stbndbrd formbts mby bf introdudfd in tif futurf.
      *
-     * <p> Warning: additional attribute type keywords may not be recognized
-     * by other implementations; therefore do not use this method if
-     * you are unsure if these keywords will be recognized by other
-     * implementations.
+     * <p> Wbrning: bdditionbl bttributf typf kfywords mby not bf rfdognizfd
+     * by otifr implfmfntbtions; tifrfforf do not usf tiis mftiod if
+     * you brf unsurf if tifsf kfywords will bf rfdognizfd by otifr
+     * implfmfntbtions.
      *
-     * @param format the format to use
-     * @param oidMap an OID map, where each key is an object identifier in
-     *  String form (a sequence of nonnegative integers separated by periods)
-     *  that maps to a corresponding attribute type keyword String.
-     *  The map may be empty but never {@code null}.
-     * @return a string representation of this {@code X500Principal}
-     *          using the specified format
-     * @throws IllegalArgumentException if the specified format is invalid,
-     *  null, or an OID in the name maps to an improperly specified keyword
-     * @throws NullPointerException if {@code oidMap} is {@code null}
-     * @since 1.6
+     * @pbrbm formbt tif formbt to usf
+     * @pbrbm oidMbp bn OID mbp, wifrf fbdi kfy is bn objfdt idfntififr in
+     *  String form (b sfqufndf of nonnfgbtivf intfgfrs sfpbrbtfd by pfriods)
+     *  tibt mbps to b dorrfsponding bttributf typf kfyword String.
+     *  Tif mbp mby bf fmpty but nfvfr {@dodf null}.
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf X500Prindipbl}
+     *          using tif spfdififd formbt
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd formbt is invblid,
+     *  null, or bn OID in tif nbmf mbps to bn impropfrly spfdififd kfyword
+     * @tirows NullPointfrExdfption if {@dodf oidMbp} is {@dodf null}
+     * @sindf 1.6
      */
-    public String getName(String format, Map<String, String> oidMap) {
-        if (oidMap == null) {
-            throw new NullPointerException
-                (sun.security.util.ResourcesMgr.getString
-                ("provided.null.OID.map"));
+    publid String gftNbmf(String formbt, Mbp<String, String> oidMbp) {
+        if (oidMbp == null) {
+            tirow nfw NullPointfrExdfption
+                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                ("providfd.null.OID.mbp"));
         }
-        if (format != null) {
-            if (format.equalsIgnoreCase(RFC1779)) {
-                return thisX500Name.getRFC1779Name(oidMap);
-            } else if (format.equalsIgnoreCase(RFC2253)) {
-                return thisX500Name.getRFC2253Name(oidMap);
+        if (formbt != null) {
+            if (formbt.fqublsIgnorfCbsf(RFC1779)) {
+                rfturn tiisX500Nbmf.gftRFC1779Nbmf(oidMbp);
+            } flsf if (formbt.fqublsIgnorfCbsf(RFC2253)) {
+                rfturn tiisX500Nbmf.gftRFC2253Nbmf(oidMbp);
             }
         }
-        throw new IllegalArgumentException("invalid format specified");
+        tirow nfw IllfgblArgumfntExdfption("invblid formbt spfdififd");
     }
 
     /**
-     * Returns the distinguished name in ASN.1 DER encoded form. The ASN.1
-     * notation for this structure is supplied in the documentation for
-     * {@link #X500Principal(byte[] name) X500Principal(byte[] name)}.
+     * Rfturns tif distinguisifd nbmf in ASN.1 DER fndodfd form. Tif ASN.1
+     * notbtion for tiis strudturf is supplifd in tif dodumfntbtion for
+     * {@link #X500Prindipbl(bytf[] nbmf) X500Prindipbl(bytf[] nbmf)}.
      *
-     * <p>Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * <p>Notf tibt tif bytf brrby rfturnfd is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @return a byte array containing the distinguished name in ASN.1 DER
-     * encoded form
+     * @rfturn b bytf brrby dontbining tif distinguisifd nbmf in ASN.1 DER
+     * fndodfd form
      */
-    public byte[] getEncoded() {
+    publid bytf[] gftEndodfd() {
         try {
-            return thisX500Name.getEncoded();
-        } catch (IOException e) {
-            throw new RuntimeException("unable to get encoding", e);
+            rfturn tiisX500Nbmf.gftEndodfd();
+        } dbtdi (IOExdfption f) {
+            tirow nfw RuntimfExdfption("unbblf to gft fndoding", f);
         }
     }
 
     /**
-     * Return a user-friendly string representation of this
-     * {@code X500Principal}.
+     * Rfturn b usfr-frifndly string rfprfsfntbtion of tiis
+     * {@dodf X500Prindipbl}.
      *
-     * @return a string representation of this {@code X500Principal}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf X500Prindipbl}
      */
-    public String toString() {
-        return thisX500Name.toString();
+    publid String toString() {
+        rfturn tiisX500Nbmf.toString();
     }
 
     /**
-     * Compares the specified {@code Object} with this
-     * {@code X500Principal} for equality.
+     * Compbrfs tif spfdififd {@dodf Objfdt} witi tiis
+     * {@dodf X500Prindipbl} for fqublity.
      *
-     * <p> Specifically, this method returns {@code true} if
-     * the {@code Object} <i>o</i> is an {@code X500Principal}
-     * and if the respective canonical string representations
-     * (obtained via the {@code getName(X500Principal.CANONICAL)} method)
-     * of this object and <i>o</i> are equal.
+     * <p> Spfdifidblly, tiis mftiod rfturns {@dodf truf} if
+     * tif {@dodf Objfdt} <i>o</i> is bn {@dodf X500Prindipbl}
+     * bnd if tif rfspfdtivf dbnonidbl string rfprfsfntbtions
+     * (obtbinfd vib tif {@dodf gftNbmf(X500Prindipbl.CANONICAL)} mftiod)
+     * of tiis objfdt bnd <i>o</i> brf fqubl.
      *
-     * <p> This implementation is compliant with the requirements of RFC 3280.
+     * <p> Tiis implfmfntbtion is domplibnt witi tif rfquirfmfnts of RFC 3280.
      *
-     * @param o Object to be compared for equality with this
-     *          {@code X500Principal}
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          {@dodf X500Prindipbl}
      *
-     * @return {@code true} if the specified {@code Object} is equal
-     *          to this {@code X500Principal}, {@code false} otherwise
+     * @rfturn {@dodf truf} if tif spfdififd {@dodf Objfdt} is fqubl
+     *          to tiis {@dodf X500Prindipbl}, {@dodf fblsf} otifrwisf
      */
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
-        if (o instanceof X500Principal == false) {
-            return false;
+        if (o instbndfof X500Prindipbl == fblsf) {
+            rfturn fblsf;
         }
-        X500Principal other = (X500Principal)o;
-        return this.thisX500Name.equals(other.thisX500Name);
+        X500Prindipbl otifr = (X500Prindipbl)o;
+        rfturn tiis.tiisX500Nbmf.fqubls(otifr.tiisX500Nbmf);
     }
 
     /**
-     * Return a hash code for this {@code X500Principal}.
+     * Rfturn b ibsi dodf for tiis {@dodf X500Prindipbl}.
      *
-     * <p> The hash code is calculated via:
-     * {@code getName(X500Principal.CANONICAL).hashCode()}
+     * <p> Tif ibsi dodf is dbldulbtfd vib:
+     * {@dodf gftNbmf(X500Prindipbl.CANONICAL).ibsiCodf()}
      *
-     * @return a hash code for this {@code X500Principal}
+     * @rfturn b ibsi dodf for tiis {@dodf X500Prindipbl}
      */
-    public int hashCode() {
-        return thisX500Name.hashCode();
+    publid int ibsiCodf() {
+        rfturn tiisX500Nbmf.ibsiCodf();
     }
 
     /**
-     * Save the X500Principal object to a stream.
+     * Sbvf tif X500Prindipbl objfdt to b strfbm.
      *
-     * @serialData this {@code X500Principal} is serialized
-     *          by writing out its DER-encoded form
-     *          (the value of {@code getEncoded} is serialized).
+     * @sfriblDbtb tiis {@dodf X500Prindipbl} is sfriblizfd
+     *          by writing out its DER-fndodfd form
+     *          (tif vbluf of {@dodf gftEndodfd} is sfriblizfd).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws IOException {
-        s.writeObject(thisX500Name.getEncodedInternal());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption {
+        s.writfObjfdt(tiisX500Nbmf.gftEndodfdIntfrnbl());
     }
 
     /**
-     * Reads this object from a stream (i.e., deserializes it).
+     * Rfbds tiis objfdt from b strfbm (i.f., dfsfriblizfs it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException,
-               java.io.NotActiveException,
-               ClassNotFoundException {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption,
+               jbvb.io.NotAdtivfExdfption,
+               ClbssNotFoundExdfption {
 
-        // re-create thisX500Name
-        thisX500Name = new X500Name((byte[])s.readObject());
+        // rf-drfbtf tiisX500Nbmf
+        tiisX500Nbmf = nfw X500Nbmf((bytf[])s.rfbdObjfdt());
     }
 }

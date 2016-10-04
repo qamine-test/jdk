@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
-import java.security.cert.CertPath;
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.CfrtPbti;
 
 /**
- * This class encapsulates information about a code signer.
- * It is immutable.
+ * Tiis dlbss fndbpsulbtfs informbtion bbout b dodf signfr.
+ * It is immutbblf.
  *
- * @since 1.5
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
  */
 
-public final class CodeSigner implements Serializable {
+publid finbl dlbss CodfSignfr implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = 6819288105193937581L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6819288105193937581L;
 
     /**
-     * The signer's certificate path.
+     * Tif signfr's dfrtifidbtf pbti.
      *
-     * @serial
+     * @sfribl
      */
-    private CertPath signerCertPath;
+    privbtf CfrtPbti signfrCfrtPbti;
 
     /*
-     * The signature timestamp.
+     * Tif signbturf timfstbmp.
      *
-     * @serial
+     * @sfribl
      */
-    private Timestamp timestamp;
+    privbtf Timfstbmp timfstbmp;
 
     /*
-     * Hash code for this code signer.
+     * Hbsi dodf for tiis dodf signfr.
      */
-    private transient int myhash = -1;
+    privbtf trbnsifnt int myibsi = -1;
 
     /**
-     * Constructs a CodeSigner object.
+     * Construdts b CodfSignfr objfdt.
      *
-     * @param signerCertPath The signer's certificate path.
-     *                       It must not be {@code null}.
-     * @param timestamp A signature timestamp.
-     *                  If {@code null} then no timestamp was generated
-     *                  for the signature.
-     * @throws NullPointerException if {@code signerCertPath} is
-     *                              {@code null}.
+     * @pbrbm signfrCfrtPbti Tif signfr's dfrtifidbtf pbti.
+     *                       It must not bf {@dodf null}.
+     * @pbrbm timfstbmp A signbturf timfstbmp.
+     *                  If {@dodf null} tifn no timfstbmp wbs gfnfrbtfd
+     *                  for tif signbturf.
+     * @tirows NullPointfrExdfption if {@dodf signfrCfrtPbti} is
+     *                              {@dodf null}.
      */
-    public CodeSigner(CertPath signerCertPath, Timestamp timestamp) {
-        if (signerCertPath == null) {
-            throw new NullPointerException();
+    publid CodfSignfr(CfrtPbti signfrCfrtPbti, Timfstbmp timfstbmp) {
+        if (signfrCfrtPbti == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.signerCertPath = signerCertPath;
-        this.timestamp = timestamp;
+        tiis.signfrCfrtPbti = signfrCfrtPbti;
+        tiis.timfstbmp = timfstbmp;
     }
 
     /**
-     * Returns the signer's certificate path.
+     * Rfturns tif signfr's dfrtifidbtf pbti.
      *
-     * @return A certificate path.
+     * @rfturn A dfrtifidbtf pbti.
      */
-    public CertPath getSignerCertPath() {
-        return signerCertPath;
+    publid CfrtPbti gftSignfrCfrtPbti() {
+        rfturn signfrCfrtPbti;
     }
 
     /**
-     * Returns the signature timestamp.
+     * Rfturns tif signbturf timfstbmp.
      *
-     * @return The timestamp or {@code null} if none is present.
+     * @rfturn Tif timfstbmp or {@dodf null} if nonf is prfsfnt.
      */
-    public Timestamp getTimestamp() {
-        return timestamp;
+    publid Timfstbmp gftTimfstbmp() {
+        rfturn timfstbmp;
     }
 
     /**
-     * Returns the hash code value for this code signer.
-     * The hash code is generated using the signer's certificate path and the
-     * timestamp, if present.
+     * Rfturns tif ibsi dodf vbluf for tiis dodf signfr.
+     * Tif ibsi dodf is gfnfrbtfd using tif signfr's dfrtifidbtf pbti bnd tif
+     * timfstbmp, if prfsfnt.
      *
-     * @return a hash code value for this code signer.
+     * @rfturn b ibsi dodf vbluf for tiis dodf signfr.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            if (timestamp == null) {
-                myhash = signerCertPath.hashCode();
-            } else {
-                myhash = signerCertPath.hashCode() + timestamp.hashCode();
+    publid int ibsiCodf() {
+        if (myibsi == -1) {
+            if (timfstbmp == null) {
+                myibsi = signfrCfrtPbti.ibsiCodf();
+            } flsf {
+                myibsi = signfrCfrtPbti.ibsiCodf() + timfstbmp.ibsiCodf();
             }
         }
-        return myhash;
+        rfturn myibsi;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * code signer. Two code signers are considered equal if their
-     * signer certificate paths are equal and if their timestamps are equal,
-     * if present in both.
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * dodf signfr. Two dodf signfrs brf donsidfrfd fqubl if tifir
+     * signfr dfrtifidbtf pbtis brf fqubl bnd if tifir timfstbmps brf fqubl,
+     * if prfsfnt in boti.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == null || (!(obj instanceof CodeSigner))) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || (!(obj instbndfof CodfSignfr))) {
+            rfturn fblsf;
         }
-        CodeSigner that = (CodeSigner)obj;
+        CodfSignfr tibt = (CodfSignfr)obj;
 
-        if (this == that) {
-            return true;
+        if (tiis == tibt) {
+            rfturn truf;
         }
-        Timestamp thatTimestamp = that.getTimestamp();
-        if (timestamp == null) {
-            if (thatTimestamp != null) {
-                return false;
+        Timfstbmp tibtTimfstbmp = tibt.gftTimfstbmp();
+        if (timfstbmp == null) {
+            if (tibtTimfstbmp != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (thatTimestamp == null ||
-                (! timestamp.equals(thatTimestamp))) {
-                return false;
+        } flsf {
+            if (tibtTimfstbmp == null ||
+                (! timfstbmp.fqubls(tibtTimfstbmp))) {
+                rfturn fblsf;
             }
         }
-        return signerCertPath.equals(that.getSignerCertPath());
+        rfturn signfrCfrtPbti.fqubls(tibt.gftSignfrCfrtPbti());
     }
 
     /**
-     * Returns a string describing this code signer.
+     * Rfturns b string dfsdribing tiis dodf signfr.
      *
-     * @return A string comprising the signer's certificate and a timestamp,
-     *         if present.
+     * @rfturn A string domprising tif signfr's dfrtifidbtf bnd b timfstbmp,
+     *         if prfsfnt.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append("Signer: " + signerCertPath.getCertificates().get(0));
-        if (timestamp != null) {
-            sb.append("timestamp: " + timestamp);
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd("Signfr: " + signfrCfrtPbti.gftCfrtifidbtfs().gft(0));
+        if (timfstbmp != null) {
+            sb.bppfnd("timfstbmp: " + timfstbmp);
         }
-        sb.append(")");
-        return sb.toString();
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 
-    // Explicitly reset hash code value to -1
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException {
-     ois.defaultReadObject();
-     myhash = -1;
+    // Expliditly rfsft ibsi dodf vbluf to -1
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+     ois.dffbultRfbdObjfdt();
+     myibsi = -1;
     }
 }

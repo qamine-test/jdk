@@ -1,0 +1,347 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.rmi.MbrshbllfdObjfdt;
+
+/**
+ * An bdtivbtion dfsdriptor dontbins thf informbtion nfdfssbry to
+ * bdtivbtf bn objfdt: <ul>
+ * <li> thf objfdt's group idfntififr,
+ * <li> thf objfdt's fully-qublififd dlbss nbmf,
+ * <li> thf objfdt's dodf lodbtion (thf lodbtion of thf dlbss), b dodfbbsf URL
+ * pbth,
+ * <li> thf objfdt's rfstbrt "modf", bnd,
+ * <li> b "mbrshbllfd" objfdt thbt dbn dontbin objfdt spfdifid
+ * initiblizbtion dbtb. </ul>
+ *
+ * <p>A dfsdriptor rfgistfrfd with thf bdtivbtion systfm dbn bf usfd to
+ * rfdrfbtf/bdtivbtf thf objfdt spfdififd by thf dfsdriptor. Thf
+ * <dodf>MbrshbllfdObjfdt</dodf> in thf objfdt's dfsdriptor is pbssfd
+ * bs thf sfdond brgumfnt to thf rfmotf objfdt's donstrudtor for
+ * objfdt to usf during rfinitiblizbtion/bdtivbtion.
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ * @sff         jbvb.rmi.bdtivbtion.Adtivbtbblf
+ */
+publid finbl dlbss AdtivbtionDfsd implfmfnts Sfriblizbblf {
+
+    /**
+     * @sfribl thf group's idfntififr
+     */
+    privbtf AdtivbtionGroupID groupID;
+
+    /**
+     * @sfribl thf objfdt's dlbss nbmf
+     */
+    privbtf String dlbssNbmf;
+
+    /**
+     * @sfribl thf objfdt's dodf lodbtion
+     */
+    privbtf String lodbtion;
+
+    /**
+     * @sfribl thf objfdt's initiblizbtion dbtb
+     */
+    privbtf MbrshbllfdObjfdt<?> dbtb;
+
+    /**
+     * @sfribl indidbtfs whfthfr thf objfdt should bf rfstbrtfd
+     */
+    privbtf boolfbn rfstbrt;
+
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7455834104417690957L;
+
+    /**
+     * Construdts bn objfdt dfsdriptor for bn objfdt whosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf>, thbt dbn bf lobdfd from thf
+     * dodf <dodf>lodbtion</dodf> bnd whosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. If this form of thf donstrudtor
+     * is usfd, thf <dodf>groupID</dodf> dffbults to thf durrfnt id for
+     * <dodf>AdtivbtionGroup</dodf> for this VM. All objfdts with thf
+     * sbmf <dodf>AdtivbtionGroupID</dodf> brf bdtivbtfd in thf sbmf VM.
+     *
+     * <p>Notf thbt objfdts spfdififd by b dfsdriptor drfbtfd with this
+     * donstrudtor will only bf bdtivbtfd on dfmbnd (by dffbult, thf rfstbrt
+     * modf is <dodf>fblsf</dodf>).  If bn bdtivbtbblf objfdt rfquirfs rfstbrt
+     * sfrvidfs, usf onf of thf <dodf>AdtivbtionDfsd</dodf> donstrudtors thbt
+     * tbkfs b boolfbn pbrbmftfr, <dodf>rfstbrt</dodf>.
+     *
+     * <p> This donstrudtor will throw <dodf>AdtivbtionExdfption</dodf> if
+     * thfrf is no durrfnt bdtivbtion group for this VM.  To drfbtf bn
+     * <dodf>AdtivbtionGroup</dodf> usf thf
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mfthod.
+     *
+     * @pbrbm dlbssNbmf thf objfdt's fully pbdkbgf qublififd dlbss nbmf
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion (from whfrf thf dlbss is
+     * lobdfd)
+     * @pbrbm dbtb thf objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrshbllfd form.
+     * @fxdfption AdtivbtionExdfption if thf durrfnt group is nonfxistfnt
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd(String dlbssNbmf,
+                          String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb)
+        throws AdtivbtionExdfption
+    {
+        this(AdtivbtionGroup.intfrnblCurrfntGroupID(),
+             dlbssNbmf, lodbtion, dbtb, fblsf);
+    }
+
+    /**
+     * Construdts bn objfdt dfsdriptor for bn objfdt whosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf>, thbt dbn bf lobdfd from thf
+     * dodf <dodf>lodbtion</dodf> bnd whosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. If this form of thf donstrudtor
+     * is usfd, thf <dodf>groupID</dodf> dffbults to thf durrfnt id for
+     * <dodf>AdtivbtionGroup</dodf> for this VM. All objfdts with thf
+     * sbmf <dodf>AdtivbtionGroupID</dodf> brf bdtivbtfd in thf sbmf VM.
+     *
+     * <p>This donstrudtor will throw <dodf>AdtivbtionExdfption</dodf> if
+     * thfrf is no durrfnt bdtivbtion group for this VM.  To drfbtf bn
+     * <dodf>AdtivbtionGroup</dodf> usf thf
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mfthod.
+     *
+     * @pbrbm dlbssNbmf thf objfdt's fully pbdkbgf qublififd dlbss nbmf
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion (from whfrf thf dlbss is
+     * lobdfd)
+     * @pbrbm dbtb thf objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrshbllfd form.
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption AdtivbtionExdfption if thf durrfnt group is nonfxistfnt
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd(String dlbssNbmf,
+                          String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt)
+        throws AdtivbtionExdfption
+    {
+        this(AdtivbtionGroup.intfrnblCurrfntGroupID(),
+             dlbssNbmf, lodbtion, dbtb, rfstbrt);
+    }
+
+    /**
+     * Construdts bn objfdt dfsdriptor for bn objfdt whosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf> thbt dbn bf lobdfd from thf
+     * dodf <dodf>lodbtion</dodf> bnd whosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. All objfdts with thf sbmf
+     * <dodf>groupID</dodf> brf bdtivbtfd in thf sbmf Jbvb VM.
+     *
+     * <p>Notf thbt objfdts spfdififd by b dfsdriptor drfbtfd with this
+     * donstrudtor will only bf bdtivbtfd on dfmbnd (by dffbult, thf rfstbrt
+     * modf is <dodf>fblsf</dodf>).  If bn bdtivbtbblf objfdt rfquirfs rfstbrt
+     * sfrvidfs, usf onf of thf <dodf>AdtivbtionDfsd</dodf> donstrudtors thbt
+     * tbkfs b boolfbn pbrbmftfr, <dodf>rfstbrt</dodf>.
+     *
+     * @pbrbm groupID thf group's idfntififr (obtbinfd from rfgistfring
+     * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> mfthod). Thf group
+     * indidbtfs thf VM in whidh thf objfdt should bf bdtivbtfd.
+     * @pbrbm dlbssNbmf thf objfdt's fully pbdkbgf-qublififd dlbss nbmf
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion (from whfrf thf dlbss is
+     * lobdfd)
+     * @pbrbm dbtb  thf objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrshbllfd form.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>groupID</dodf> is null
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd(AdtivbtionGroupID groupID,
+                          String dlbssNbmf,
+                          String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb)
+    {
+        this(groupID, dlbssNbmf, lodbtion, dbtb, fblsf);
+    }
+
+    /**
+     * Construdts bn objfdt dfsdriptor for bn objfdt whosf dlbss nbmf
+     * is <dodf>dlbssNbmf</dodf> thbt dbn bf lobdfd from thf
+     * dodf <dodf>lodbtion</dodf> bnd whosf initiblizbtion
+     * informbtion is <dodf>dbtb</dodf>. All objfdts with thf sbmf
+     * <dodf>groupID</dodf> brf bdtivbtfd in thf sbmf Jbvb VM.
+     *
+     * @pbrbm groupID thf group's idfntififr (obtbinfd from rfgistfring
+     * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> mfthod). Thf group
+     * indidbtfs thf VM in whidh thf objfdt should bf bdtivbtfd.
+     * @pbrbm dlbssNbmf thf objfdt's fully pbdkbgf-qublififd dlbss nbmf
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion (from whfrf thf dlbss is
+     * lobdfd)
+     * @pbrbm dbtb  thf objfdt's initiblizbtion (bdtivbtion) dbtb dontbinfd
+     * in mbrshbllfd form.
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>groupID</dodf> is null
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd(AdtivbtionGroupID groupID,
+                          String dlbssNbmf,
+                          String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt)
+    {
+        if (groupID == null)
+            throw nfw IllfgblArgumfntExdfption("groupID dbn't bf null");
+        this.groupID = groupID;
+        this.dlbssNbmf = dlbssNbmf;
+        this.lodbtion = lodbtion;
+        this.dbtb = dbtb;
+        this.rfstbrt = rfstbrt;
+    }
+
+    /**
+     * Rfturns thf group idfntififr for thf objfdt spfdififd by this
+     * dfsdriptor. A group providfs b wby to bggrfgbtf objfdts into b
+     * singlf Jbvb virtubl mbdhinf. RMI drfbtfs/bdtivbtfs objfdts with
+     * thf sbmf <dodf>groupID</dodf> in thf sbmf virtubl mbdhinf.
+     *
+     * @rfturn thf group idfntififr
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupID gftGroupID() {
+        rfturn groupID;
+    }
+
+    /**
+     * Rfturns thf dlbss nbmf for thf objfdt spfdififd by this
+     * dfsdriptor.
+     * @rfturn thf dlbss nbmf
+     * @sindf 1.2
+     */
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Rfturns thf dodf lodbtion for thf objfdt spfdififd by
+     * this dfsdriptor.
+     * @rfturn thf dodf lodbtion
+     * @sindf 1.2
+     */
+    publid String gftLodbtion() {
+        rfturn lodbtion;
+    }
+
+    /**
+     * Rfturns b "mbrshbllfd objfdt" dontbining intiblizbtion/bdtivbtion
+     * dbtb for thf objfdt spfdififd by this dfsdriptor.
+     * @rfturn thf objfdt spfdifid "initiblizbtion" dbtb
+     * @sindf 1.2
+     */
+    publid MbrshbllfdObjfdt<?> gftDbtb() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf "rfstbrt" modf of thf objfdt bssodibtfd with
+     * this bdtivbtion dfsdriptor.
+     *
+     * @rfturn truf if thf bdtivbtbblf objfdt bssodibtfd with this
+     * bdtivbtion dfsdriptor is rfstbrtfd vib thf bdtivbtion
+     * dbfmon whfn fithfr thf dbfmon domfs up or thf objfdt's group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; othfrwisf it rfturns fblsf,
+     * mfbning thbt thf objfdt is only bdtivbtfd on dfmbnd vib b
+     * mfthod dbll.  Notf thbt if thf rfstbrt modf is <dodf>truf</dodf>, thf
+     * bdtivbtor dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @sindf 1.2
+     */
+    publid boolfbn gftRfstbrtModf() {
+        rfturn rfstbrt;
+    }
+
+    /**
+     * Compbrfs two bdtivbtion dfsdriptors for dontfnt fqublity.
+     *
+     * @pbrbm   obj     thf Objfdt to dompbrf with
+     * @rfturn  truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+     * @sff             jbvb.util.Hbshtbblf
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        if (obj instbndfof AdtivbtionDfsd) {
+            AdtivbtionDfsd dfsd = (AdtivbtionDfsd) obj;
+            rfturn
+                ((groupID == null ? dfsd.groupID == null :
+                  groupID.fqubls(dfsd.groupID)) &&
+                 (dlbssNbmf == null ? dfsd.dlbssNbmf == null :
+                  dlbssNbmf.fqubls(dfsd.dlbssNbmf)) &&
+                 (lodbtion == null ? dfsd.lodbtion == null:
+                  lodbtion.fqubls(dfsd.lodbtion)) &&
+                 (dbtb == null ? dfsd.dbtb == null :
+                  dbtb.fqubls(dfsd.dbtb)) &&
+                 (rfstbrt == dfsd.rfstbrt));
+
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturn thf sbmf hbshCodf for similbr <dodf>AdtivbtionDfsd</dodf>s.
+     * @rfturn bn intfgfr
+     * @sff jbvb.util.Hbshtbblf
+     */
+    publid int hbshCodf() {
+        rfturn ((lodbtion == null
+                    ? 0
+                    : lodbtion.hbshCodf() << 24) ^
+                (groupID == null
+                    ? 0
+                    : groupID.hbshCodf() << 16) ^
+                (dlbssNbmf == null
+                    ? 0
+                    : dlbssNbmf.hbshCodf() << 9) ^
+                (dbtb == null
+                    ? 0
+                    : dbtb.hbshCodf() << 1) ^
+                (rfstbrt
+                    ? 1
+                    : 0));
+    }
+}

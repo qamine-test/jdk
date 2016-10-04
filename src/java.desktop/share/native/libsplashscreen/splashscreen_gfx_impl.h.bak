@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef SPLASHSCREEN_GFX_IMPL_H
-#define SPLASHSCREEN_GFX_IMPL_H
+#ifndff SPLASHSCREEN_GFX_IMPL_H
+#dffinf SPLASHSCREEN_GFX_IMPL_H
 
-#include "splashscreen_gfx.h"
+#indludf "splbsisdrffn_gfx.i"
 
-/* here come some very simple macros */
+/* ifrf domf somf vfry simplf mbdros */
 
-/* advance a pointer p by sizeof(type)*n bytes */
-#define INCPN(type,p,n) ((p) = (type*)(p)+(n))
+/* bdvbndf b pointfr p by sizfof(typf)*n bytfs */
+#dffinf INCPN(typf,p,n) ((p) = (typf*)(p)+(n))
 
-/* advance a pointer by sizeof(type) */
-#define INCP(type,p) INCPN(type,(p),1)
+/* bdvbndf b pointfr by sizfof(typf) */
+#dffinf INCP(typf,p) INCPN(typf,(p),1)
 
-/* store a typed value to pointed location */
-#define PUT(type,p,v) (*(type*)(p) = (type)(v))
+/* storf b typfd vbluf to pointfd lodbtion */
+#dffinf PUT(typf,p,v) (*(typf*)(p) = (typf)(v))
 
-/* load a typed value from pointed location */
-#define GET(type,p) (*(type*)p)
+/* lobd b typfd vbluf from pointfd lodbtion */
+#dffinf GET(typf,p) (*(typf*)p)
 
-/* same as cond<0?-1:0 */
-enum
+/* sbmf bs dond<0?-1:0 */
+fnum
 {
-    IFNEG_SHIFT_BITS = sizeof(int) * 8 - 1
+    IFNEG_SHIFT_BITS = sizfof(int) * 8 - 1
 };
 
-#define IFNEG(cond) ((int)(cond)>>IFNEG_SHIFT_BITS)
+#dffinf IFNEG(dond) ((int)(dond)>>IFNEG_SHIFT_BITS)
 
-/* same as cond<0?n1:n2 */
-#define IFNEGPOS(cond,n1,n2) ((IFNEG(cond)&(n1))|((~IFNEG(cond))&(n2)))
+/* sbmf bs dond<0?n1:n2 */
+#dffinf IFNEGPOS(dond,n1,n2) ((IFNEG(dond)&(n1))|((~IFNEG(dond))&(n2)))
 
-/* value shifted left by n bits, negative n is allowed */
-#define LSHIFT(value,n) IFNEGPOS((n),(value)>>-(n),(value)<<(n))
+/* vbluf siiftfd lfft by n bits, nfgbtivf n is bllowfd */
+#dffinf LSHIFT(vbluf,n) IFNEGPOS((n),(vbluf)>>-(n),(vbluf)<<(n))
 
-/* value shifted right by n bits, negative n is allowed */
-#define RSHIFT(value,n) IFNEGPOS(n,(value)<<-(n),(value)>>(n))
+/* vbluf siiftfd rigit by n bits, nfgbtivf n is bllowfd */
+#dffinf RSHIFT(vbluf,n) IFNEGPOS(n,(vbluf)<<-(n),(vbluf)>>(n))
 
-/* converts a single i'th component to the specific format defined by format->shift[i] and format->mask[i] */
-#define CONVCOMP(quad,format,i) \
-    (LSHIFT((quad),(format)->shift[i])&(format)->mask[i])
+/* donvfrts b singlf i'ti domponfnt to tif spfdifid formbt dffinfd by formbt->siift[i] bnd formbt->mbsk[i] */
+#dffinf CONVCOMP(qubd,formbt,i) \
+    (LSHIFT((qubd),(formbt)->siift[i])&(formbt)->mbsk[i])
 
-/* extracts the component defined by format->shift[i] and format->mask[i] from a specific-format value */
-#define UNCONVCOMP(value,format,i) \
-    (RSHIFT((value)&(format)->mask[i],(format)->shift[i]))
+/* fxtrbdts tif domponfnt dffinfd by formbt->siift[i] bnd formbt->mbsk[i] from b spfdifid-formbt vbluf */
+#dffinf UNCONVCOMP(vbluf,formbt,i) \
+    (RSHIFT((vbluf)&(formbt)->mbsk[i],(formbt)->siift[i]))
 
-/*  dithers the color using the dither matrices and colormap from format
-    indices to dither matrices are passed as arguments */
-INLINE unsigned
-ditherColor(rgbquad_t value, ImageFormat * format, int row, int col)
+/*  ditifrs tif dolor using tif ditifr mbtridfs bnd dolormbp from formbt
+    indidfs to ditifr mbtridfs brf pbssfd bs brgumfnts */
+INLINE unsignfd
+ditifrColor(rgbqubd_t vbluf, ImbgfFormbt * formbt, int row, int dol)
 {
-    int blue = QUAD_BLUE(value);
-    int green = QUAD_GREEN(value);
-    int red = QUAD_RED(value);
+    int bluf = QUAD_BLUE(vbluf);
+    int grffn = QUAD_GREEN(vbluf);
+    int rfd = QUAD_RED(vbluf);
 
-    blue = format->dithers[0].colorTable[blue +
-        format->dithers[0].matrix[col & DITHER_MASK][row & DITHER_MASK]];
-    green = format->dithers[1].colorTable[green +
-        format->dithers[1].matrix[col & DITHER_MASK][row & DITHER_MASK]];
-    red = format->dithers[2].colorTable[red +
-        format->dithers[2].matrix[col & DITHER_MASK][row & DITHER_MASK]];
-    return red + green + blue;
+    bluf = formbt->ditifrs[0].dolorTbblf[bluf +
+        formbt->ditifrs[0].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    grffn = formbt->ditifrs[1].dolorTbblf[grffn +
+        formbt->ditifrs[1].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    rfd = formbt->ditifrs[2].dolorTbblf[rfd +
+        formbt->ditifrs[2].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    rfturn rfd + grffn + bluf;
 }
 
-/*      blend (lerp between) two rgb quads
-        src and dst alpha is ignored
-        the algorithm: src*alpha+dst*(1-alpha)=(src-dst)*alpha+dst, rb and g are done separately
+/*      blfnd (lfrp bftwffn) two rgb qubds
+        srd bnd dst blpib is ignorfd
+        tif blgoritim: srd*blpib+dst*(1-blpib)=(srd-dst)*blpib+dst, rb bnd g brf donf sfpbrbtfly
 */
-INLINE rgbquad_t
-blendRGB(rgbquad_t dst, rgbquad_t src, rgbquad_t alpha)
+INLINE rgbqubd_t
+blfndRGB(rgbqubd_t dst, rgbqubd_t srd, rgbqubd_t blpib)
 {
-    const rgbquad_t a = alpha;
-    const rgbquad_t a1 = 0xFF - alpha;
+    donst rgbqubd_t b = blpib;
+    donst rgbqubd_t b1 = 0xFF - blpib;
 
-    return MAKE_QUAD(
-        (rgbquad_t)((QUAD_RED(src) * a + QUAD_RED(dst) * a1) / 0xFF),
-        (rgbquad_t)((QUAD_GREEN(src) * a + QUAD_GREEN(dst) * a1) / 0xFF),
-        (rgbquad_t)((QUAD_BLUE(src) * a + QUAD_BLUE(dst) * a1) / 0xFF),
+    rfturn MAKE_QUAD(
+        (rgbqubd_t)((QUAD_RED(srd) * b + QUAD_RED(dst) * b1) / 0xFF),
+        (rgbqubd_t)((QUAD_GREEN(srd) * b + QUAD_GREEN(dst) * b1) / 0xFF),
+        (rgbqubd_t)((QUAD_BLUE(srd) * b + QUAD_BLUE(dst) * b1) / 0xFF),
         0);
 }
 
-/*      scales rgb quad by alpha. basically similar to what's above. src alpha is retained.
-        used for premultiplying alpha
+/*      sdblfs rgb qubd by blpib. bbsidblly similbr to wibt's bbovf. srd blpib is rftbinfd.
+        usfd for prfmultiplying blpib
 
-        btw: braindead MSVC6 generates _three_ mul instructions for this function */
+        btw: brbindfbd MSVC6 gfnfrbtfs _tirff_ mul instrudtions for tiis fundtion */
 
-INLINE rgbquad_t
-premultiplyRGBA(rgbquad_t src)
+INLINE rgbqubd_t
+prfmultiplyRGBA(rgbqubd_t srd)
 {
-    rgbquad_t srb = src & 0xFF00FF;
-    rgbquad_t sg = src & 0xFF00;
-    rgbquad_t alpha = src >> QUAD_ALPHA_SHIFT;
+    rgbqubd_t srb = srd & 0xFF00FF;
+    rgbqubd_t sg = srd & 0xFF00;
+    rgbqubd_t blpib = srd >> QUAD_ALPHA_SHIFT;
 
-    alpha += 1;
+    blpib += 1;
 
-    srb *= alpha;
-    sg *= alpha;
+    srb *= blpib;
+    sg *= blpib;
     srb >>= 8;
     sg >>= 8;
 
-    return (src & 0xFF000000) | (srb & 0xFF00FF) | (sg & 0xFF00);
+    rfturn (srd & 0xFF000000) | (srb & 0xFF00FF) | (sg & 0xFF00);
 }
 
-/*      The functions below are inherently ineffective, but the performance seems to be
-        more or less adequate for the case of splash screens. They can be optimized later
-        if needed. The idea of optimization is to provide inlineable form of putRGBADither and
-        getRGBA at least for certain most frequently used visuals. Something like this is
-        done in Java 2D ("loops"). This would be possible with C++ templates, but making it
-        clean for C would require ugly preprocessor tricks. Leaving it out for later.
+/*      Tif fundtions bflow brf inifrfntly inffffdtivf, but tif pfrformbndf sffms to bf
+        morf or lfss bdfqubtf for tif dbsf of splbsi sdrffns. Tify dbn bf optimizfd lbtfr
+        if nffdfd. Tif idfb of optimizbtion is to providf inlinfbblf form of putRGBADitifr bnd
+        gftRGBA bt lfbst for dfrtbin most frfqufntly usfd visubls. Somftiing likf tiis is
+        donf in Jbvb 2D ("loops"). Tiis would bf possiblf witi C++ tfmplbtfs, but mbking it
+        dlfbn for C would rfquirf ugly prfprodfssor tridks. Lfbving it out for lbtfr.
 */
 
-/*      convert a single pixel color value from rgbquad according to visual format
-        and place it to pointed location
-        ordered dithering used when necessary */
+/*      donvfrt b singlf pixfl dolor vbluf from rgbqubd bddording to visubl formbt
+        bnd plbdf it to pointfd lodbtion
+        ordfrfd ditifring usfd wifn nfdfssbry */
 INLINE void
-putRGBADither(rgbquad_t value, void *ptr, ImageFormat * format,
-        int row, int col)
+putRGBADitifr(rgbqubd_t vbluf, void *ptr, ImbgfFormbt * formbt,
+        int row, int dol)
 {
-    if (format->premultiplied) {
-        value = premultiplyRGBA(value);
+    if (formbt->prfmultiplifd) {
+        vbluf = prfmultiplyRGBA(vbluf);
     }
-    if (format->dithers) {
-        value = format->colorIndex[ditherColor(value, format, row, col)];
+    if (formbt->ditifrs) {
+        vbluf = formbt->dolorIndfx[ditifrColor(vbluf, formbt, row, dol)];
     }
-    else {
-        value = CONVCOMP(value, format, 0) | CONVCOMP(value, format, 1) |
-            CONVCOMP(value, format, 2) | CONVCOMP(value, format, 3);
+    flsf {
+        vbluf = CONVCOMP(vbluf, formbt, 0) | CONVCOMP(vbluf, formbt, 1) |
+            CONVCOMP(vbluf, formbt, 2) | CONVCOMP(vbluf, formbt, 3);
     }
-    switch (format->byteOrder) {
-    case BYTE_ORDER_LSBFIRST:
-        switch (format->depthBytes) {   /* lack of *break*'s is intentional */
-        case 4:
-            PUT(byte_t, ptr, value & 0xff);
-            value >>= 8;
-            INCP(byte_t, ptr);
-        case 3:
-            PUT(byte_t, ptr, value & 0xff);
-            value >>= 8;
-            INCP(byte_t, ptr);
-        case 2:
-            PUT(byte_t, ptr, value & 0xff);
-            value >>= 8;
-            INCP(byte_t, ptr);
-        case 1:
-            PUT(byte_t, ptr, value & 0xff);
+    switdi (formbt->bytfOrdfr) {
+    dbsf BYTE_ORDER_LSBFIRST:
+        switdi (formbt->dfptiBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf & 0xff);
         }
-        break;
-    case BYTE_ORDER_MSBFIRST:
-        switch (format->depthBytes) {   /* lack of *break*'s is intentional */
-        case 4:
-            PUT(byte_t, ptr, (value >> 24) & 0xff);
-            INCP(byte_t, ptr);
-        case 3:
-            PUT(byte_t, ptr, (value >> 16) & 0xff);
-            INCP(byte_t, ptr);
-        case 2:
-            PUT(byte_t, ptr, (value >> 8) & 0xff);
-            INCP(byte_t, ptr);
-        case 1:
-            PUT(byte_t, ptr, value & 0xff);
+        brfbk;
+    dbsf BYTE_ORDER_MSBFIRST:
+        switdi (formbt->dfptiBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            PUT(bytf_t, ptr, (vbluf >> 24) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            PUT(bytf_t, ptr, (vbluf >> 16) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            PUT(bytf_t, ptr, (vbluf >> 8) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf & 0xff);
         }
-        break;
-    case BYTE_ORDER_NATIVE:
-        switch (format->depthBytes) {
-        case 4:
-            PUT(rgbquad_t, ptr, value);
-            break;
-        case 3:                /* not supported, LSB or MSB should always be specified */
-            PUT(byte_t, ptr, 0xff); /* Put a stub value */
-            INCP(byte_t, ptr);
-            PUT(byte_t, ptr, 0xff);
-            INCP(byte_t, ptr);
-            PUT(byte_t, ptr, 0xff);
-            break;
-        case 2:
-            PUT(word_t, ptr, value);
-            break;
-        case 1:
-            PUT(byte_t, ptr, value);
-            break;
+        brfbk;
+    dbsf BYTE_ORDER_NATIVE:
+        switdi (formbt->dfptiBytfs) {
+        dbsf 4:
+            PUT(rgbqubd_t, ptr, vbluf);
+            brfbk;
+        dbsf 3:                /* not supportfd, LSB or MSB siould blwbys bf spfdififd */
+            PUT(bytf_t, ptr, 0xff); /* Put b stub vbluf */
+            INCP(bytf_t, ptr);
+            PUT(bytf_t, ptr, 0xff);
+            INCP(bytf_t, ptr);
+            PUT(bytf_t, ptr, 0xff);
+            brfbk;
+        dbsf 2:
+            PUT(word_t, ptr, vbluf);
+            brfbk;
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf);
+            brfbk;
         }
     }
 }
 
-/* load a single pixel color value and un-convert it to rgbquad according to visual format */
-INLINE rgbquad_t
-getRGBA(void *ptr, ImageFormat * format)
+/* lobd b singlf pixfl dolor vbluf bnd un-donvfrt it to rgbqubd bddording to visubl formbt */
+INLINE rgbqubd_t
+gftRGBA(void *ptr, ImbgfFormbt * formbt)
 {
     /*
-       FIXME: color is not un-alpha-premultiplied on get
-       this is not required by current code, but it makes the implementation inconsistent
-       i.e. put(get) will not work right for alpha-premultiplied images */
+       FIXME: dolor is not un-blpib-prfmultiplifd on gft
+       tiis is not rfquirfd by durrfnt dodf, but it mbkfs tif implfmfntbtion indonsistfnt
+       i.f. put(gft) will not work rigit for blpib-prfmultiplifd imbgfs */
 
-    /* get the value basing on depth and byte order */
-    rgbquad_t value = 0;
+    /* gft tif vbluf bbsing on dfpti bnd bytf ordfr */
+    rgbqubd_t vbluf = 0;
 
-    switch (format->byteOrder) {
-    case BYTE_ORDER_LSBFIRST:
-        switch (format->depthBytes) {
-        case 4:
-            value |= GET(byte_t, ptr);
-            value <<= 8;
-            INCP(byte_t, ptr);
-        case 3:
-            value |= GET(byte_t, ptr);
-            value <<= 8;
-            INCP(byte_t, ptr);
-        case 2:
-            value |= GET(byte_t, ptr);
-            value <<= 8;
-            INCP(byte_t, ptr);
-        case 1:
-            value |= GET(byte_t, ptr);
+    switdi (formbt->bytfOrdfr) {
+    dbsf BYTE_ORDER_LSBFIRST:
+        switdi (formbt->dfptiBytfs) {
+        dbsf 4:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            vbluf |= GET(bytf_t, ptr);
         }
-        break;
-    case BYTE_ORDER_MSBFIRST:
-        switch (format->depthBytes) {   /* lack of *break*'s is intentional */
-        case 4:
-            value |= (GET(byte_t, ptr) << 24);
-            INCP(byte_t, ptr);
-        case 3:
-            value |= (GET(byte_t, ptr) << 16);
-            INCP(byte_t, ptr);
-        case 2:
-            value |= (GET(byte_t, ptr) << 8);
-            INCP(byte_t, ptr);
-        case 1:
-            value |= GET(byte_t, ptr);
+        brfbk;
+    dbsf BYTE_ORDER_MSBFIRST:
+        switdi (formbt->dfptiBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            vbluf |= (GET(bytf_t, ptr) << 24);
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            vbluf |= (GET(bytf_t, ptr) << 16);
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            vbluf |= (GET(bytf_t, ptr) << 8);
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            vbluf |= GET(bytf_t, ptr);
         }
-        break;
-    case BYTE_ORDER_NATIVE:
-        switch (format->depthBytes) {
-        case 4:
-            value = GET(rgbquad_t, ptr);
-            break;
-        case 3:                /* not supported, LSB or MSB should always be specified */
-            value = 0xFFFFFFFF; /*return a stub value */
-            break;
-        case 2:
-            value = (rgbquad_t) GET(word_t, ptr);
-            break;
-        case 1:
-            value = (rgbquad_t) GET(byte_t, ptr);
-            break;
+        brfbk;
+    dbsf BYTE_ORDER_NATIVE:
+        switdi (formbt->dfptiBytfs) {
+        dbsf 4:
+            vbluf = GET(rgbqubd_t, ptr);
+            brfbk;
+        dbsf 3:                /* not supportfd, LSB or MSB siould blwbys bf spfdififd */
+            vbluf = 0xFFFFFFFF; /*rfturn b stub vbluf */
+            brfbk;
+        dbsf 2:
+            vbluf = (rgbqubd_t) GET(word_t, ptr);
+            brfbk;
+        dbsf 1:
+            vbluf = (rgbqubd_t) GET(bytf_t, ptr);
+            brfbk;
         }
-        break;
+        brfbk;
     }
-    /* now un-convert the value */
-    if (format->colorMap) {
-        if (value == format->transparentColor)
-            return 0;
-        else
-            return format->colorMap[value];
+    /* now un-donvfrt tif vbluf */
+    if (formbt->dolorMbp) {
+        if (vbluf == formbt->trbnspbrfntColor)
+            rfturn 0;
+        flsf
+            rfturn formbt->dolorMbp[vbluf];
     }
-    else {
-        return UNCONVCOMP(value, format, 0) | UNCONVCOMP(value, format, 1) |
-            UNCONVCOMP(value, format, 2) | UNCONVCOMP(value, format, 3) |
-            format->fixedBits;
+    flsf {
+        rfturn UNCONVCOMP(vbluf, formbt, 0) | UNCONVCOMP(vbluf, formbt, 1) |
+            UNCONVCOMP(vbluf, formbt, 2) | UNCONVCOMP(vbluf, formbt, 3) |
+            formbt->fixfdBits;
     }
 }
 
-/* fill the line with the specified color according to visual format */
+/* fill tif linf witi tif spfdififd dolor bddording to visubl formbt */
 INLINE void
-fillLine(rgbquad_t color, void *pDst, int incDst, int n,
-        ImageFormat * dstFormat, int row, int col)
+fillLinf(rgbqubd_t dolor, void *pDst, int indDst, int n,
+        ImbgfFormbt * dstFormbt, int row, int dol)
 {
     int i;
 
     for (i = 0; i < n; ++i) {
-        putRGBADither(color, pDst, dstFormat, row, col++);
-        INCPN(byte_t, pDst, incDst);
+        putRGBADitifr(dolor, pDst, dstFormbt, row, dol++);
+        INCPN(bytf_t, pDst, indDst);
     }
 }
 
-/* find the shift for specified mask, also verify the mask is valid */
+/* find tif siift for spfdififd mbsk, blso vfrify tif mbsk is vblid */
 INLINE int
-getMaskShift(rgbquad_t mask, int *pShift, int *pnumBits)
+gftMbskSiift(rgbqubd_t mbsk, int *pSiift, int *pnumBits)
 {
-    int shift = 0, numBits = 0;
+    int siift = 0, numBits = 0;
 
-    /* check the mask is not empty */
-    if (!mask)
-        return 0;
-    /* calculate the shift */
-    while ((mask & 1) == 0) {
-        ++shift;
-        mask >>= 1;
+    /* difdk tif mbsk is not fmpty */
+    if (!mbsk)
+        rfturn 0;
+    /* dbldulbtf tif siift */
+    wiilf ((mbsk & 1) == 0) {
+        ++siift;
+        mbsk >>= 1;
     }
-    /* check the mask is contigious */
-    if ((mask & (mask + 1)) != 0)
-        return 0;
-    /* calculate the number of bits */
+    /* difdk tif mbsk is dontigious */
+    if ((mbsk & (mbsk + 1)) != 0)
+        rfturn 0;
+    /* dbldulbtf tif numbfr of bits */
     do {
         ++numBits;
-        mask >>= 1;
-    } while ((mask & 1) != 0);
-    *pShift = shift;
+        mbsk >>= 1;
+    } wiilf ((mbsk & 1) != 0);
+    *pSiift = siift;
     *pnumBits = numBits;
-    return 1;
+    rfturn 1;
 }
 
-#endif
+#fndif

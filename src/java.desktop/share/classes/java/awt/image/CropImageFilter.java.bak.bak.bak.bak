@@ -1,0 +1,194 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbshtbblf;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * An ImbgfFiltfr dlbss for dropping imbgfs.
+ * This dlbss fxtfnds thf bbsid ImbgfFiltfr Clbss to fxtrbdt b givfn
+ * rfdtbngulbr rfgion of bn fxisting Imbgf bnd providf b sourdf for b
+ * nfw imbgf dontbining just thf fxtrbdtfd rfgion.  It is mfbnt to
+ * bf usfd in donjundtion with b FiltfrfdImbgfSourdf objfdt to produdf
+ * droppfd vfrsions of fxisting imbgfs.
+ *
+ * @sff FiltfrfdImbgfSourdf
+ * @sff ImbgfFiltfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid dlbss CropImbgfFiltfr fxtfnds ImbgfFiltfr {
+    int dropX;
+    int dropY;
+    int dropW;
+    int dropH;
+
+    /**
+     * Construdts b CropImbgfFiltfr thbt fxtrbdts thf bbsolutf rfdtbngulbr
+     * rfgion of pixfls from its sourdf Imbgf bs spfdififd by thf x, y,
+     * w, bnd h pbrbmftfrs.
+     * @pbrbm x thf x lodbtion of thf top of thf rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm y thf y lodbtion of thf top of thf rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm w thf width of thf rfdtbnglf to bf fxtrbdtfd
+     * @pbrbm h thf hfight of thf rfdtbnglf to bf fxtrbdtfd
+     */
+    publid CropImbgfFiltfr(int x, int y, int w, int h) {
+        dropX = x;
+        dropY = y;
+        dropW = w;
+        dropH = h;
+    }
+
+    /**
+     * Pbssfs blong  thf propfrtifs from thf sourdf objfdt bftfr bdding b
+     * propfrty indidbting thf droppfd rfgion.
+     * This mfthod invokfs <dodf>supfr.sftPropfrtifs</dodf>,
+     * whidh might rfsult in bdditionbl propfrtifs bfing bddfd.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPropfrtifs(Hbshtbblf<?,?> props) {
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<Objfdt,Objfdt> p = (Hbshtbblf<Objfdt,Objfdt>)props.dlonf();
+        p.put("droprfdt", nfw Rfdtbnglf(dropX, dropY, dropW, dropH));
+        supfr.sftPropfrtifs(p);
+    }
+
+    /**
+     * Ovfrridf thf sourdf imbgf's dimfnsions bnd pbss thf dimfnsions
+     * of thf rfdtbngulbr droppfd rfgion to thf ImbgfConsumfr.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     * @sff ImbgfConsumfr
+     */
+    publid void sftDimfnsions(int w, int h) {
+        donsumfr.sftDimfnsions(dropW, dropH);
+    }
+
+    /**
+     * Dftfrminf whfthfr thf dflivfrfd bytf pixfls intfrsfdt thf rfgion to
+     * bf fxtrbdtfd bnd pbssfs through only thbt subsft of pixfls thbt
+     * bppfbr in thf output rfgion.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        int x1 = x;
+        if (x1 < dropX) {
+            x1 = dropX;
+        }
+    int x2 = bddWithoutOvfrflow(x, w);
+        if (x2 > dropX + dropW) {
+            x2 = dropX + dropW;
+        }
+        int y1 = y;
+        if (y1 < dropY) {
+            y1 = dropY;
+        }
+
+    int y2 = bddWithoutOvfrflow(y, h);
+        if (y2 > dropY + dropH) {
+            y2 = dropY + dropH;
+        }
+        if (x1 >= x2 || y1 >= y2) {
+            rfturn;
+        }
+        donsumfr.sftPixfls(x1 - dropX, y1 - dropY, (x2 - x1), (y2 - y1),
+                           modfl, pixfls,
+                           off + (y1 - y) * sdbnsizf + (x1 - x), sdbnsizf);
+    }
+
+    /**
+     * Dftfrminf if thf dflivfrfd int pixfls intfrsfdt thf rfgion to
+     * bf fxtrbdtfd bnd pbss through only thbt subsft of pixfls thbt
+     * bppfbr in thf output rfgion.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf
+     * pixfls brf bfing filtfrfd. Dfvflopfrs using
+     * this dlbss to filtfr pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould intfrffrf
+     * with thf filtfring opfrbtion.
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        int x1 = x;
+        if (x1 < dropX) {
+            x1 = dropX;
+        }
+    int x2 = bddWithoutOvfrflow(x, w);
+        if (x2 > dropX + dropW) {
+            x2 = dropX + dropW;
+        }
+        int y1 = y;
+        if (y1 < dropY) {
+            y1 = dropY;
+        }
+
+    int y2 = bddWithoutOvfrflow(y, h);
+        if (y2 > dropY + dropH) {
+            y2 = dropY + dropH;
+        }
+        if (x1 >= x2 || y1 >= y2) {
+            rfturn;
+        }
+        donsumfr.sftPixfls(x1 - dropX, y1 - dropY, (x2 - x1), (y2 - y1),
+                           modfl, pixfls,
+                           off + (y1 - y) * sdbnsizf + (x1 - x), sdbnsizf);
+    }
+
+    //dhfdk for potfntibl ovfrflow (sff bug 4801285)
+    privbtf int bddWithoutOvfrflow(int x, int w) {
+        int x2 = x + w;
+        if ( x > 0 && w > 0 && x2 < 0 ) {
+            x2 = Intfgfr.MAX_VALUE;
+        } flsf if( x < 0 && w < 0 && x2 > 0 ) {
+            x2 = Intfgfr.MIN_VALUE;
+        }
+        rfturn x2;
+    }
+}

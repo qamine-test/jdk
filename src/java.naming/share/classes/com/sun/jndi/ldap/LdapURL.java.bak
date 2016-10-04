@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.UnsupportedEncodingException;
-import java.util.StringTokenizer;
-import com.sun.jndi.toolkit.url.Uri;
-import com.sun.jndi.toolkit.url.UrlUtil;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.StringTokfnizfr;
+import dom.sun.jndi.toolkit.url.Uri;
+import dom.sun.jndi.toolkit.url.UrlUtil;
 
 /*
- * Extract components of an LDAP URL.
+ * Extrbdt domponfnts of bn LDAP URL.
  *
- * The format of an LDAP URL is defined in RFC 2255 as follows:
+ * Tif formbt of bn LDAP URL is dffinfd in RFC 2255 bs follows:
  *
- *     ldapurl    = scheme "://" [hostport] ["/"
- *                  [dn ["?" [attributes] ["?" [scope]
- *                  ["?" [filter] ["?" extensions]]]]]]
- *     scheme     = "ldap"
- *     attributes = attrdesc *("," attrdesc)
- *     scope      = "base" / "one" / "sub"
- *     dn         = distinguishedName from Section 3 of [1]
- *     hostport   = hostport from Section 5 of RFC 1738 [5]
- *     attrdesc   = AttributeDescription from Section 4.1.5 of [2]
- *     filter     = filter from Section 4 of [4]
- *     extensions = extension *("," extension)
- *     extension  = ["!"] extype ["=" exvalue]
- *     extype     = token / xtoken
- *     exvalue    = LDAPString from section 4.1.2 of [2]
- *     token      = oid from section 4.1 of [3]
- *     xtoken     = ("X-" / "x-") token
+ *     ldbpurl    = sdifmf "://" [iostport] ["/"
+ *                  [dn ["?" [bttributfs] ["?" [sdopf]
+ *                  ["?" [filtfr] ["?" fxtfnsions]]]]]]
+ *     sdifmf     = "ldbp"
+ *     bttributfs = bttrdfsd *("," bttrdfsd)
+ *     sdopf      = "bbsf" / "onf" / "sub"
+ *     dn         = distinguisifdNbmf from Sfdtion 3 of [1]
+ *     iostport   = iostport from Sfdtion 5 of RFC 1738 [5]
+ *     bttrdfsd   = AttributfDfsdription from Sfdtion 4.1.5 of [2]
+ *     filtfr     = filtfr from Sfdtion 4 of [4]
+ *     fxtfnsions = fxtfnsion *("," fxtfnsion)
+ *     fxtfnsion  = ["!"] fxtypf ["=" fxvbluf]
+ *     fxtypf     = tokfn / xtokfn
+ *     fxvbluf    = LDAPString from sfdtion 4.1.2 of [2]
+ *     tokfn      = oid from sfdtion 4.1 of [3]
+ *     xtokfn     = ("X-" / "x-") tokfn
  *
- * For example,
+ * For fxbmplf,
  *
- *     ldap://ldap.itd.umich.edu/o=University%20of%20Michigan,c=US
- *     ldap://host.com:6666/o=IMC,c=US??sub?(cn=Babs%20Jensen)
+ *     ldbp://ldbp.itd.umidi.fdu/o=Univfrsity%20of%20Midiigbn,d=US
+ *     ldbp://iost.dom:6666/o=IMC,d=US??sub?(dn=Bbbs%20Jfnsfn)
  *
- * This class also supports ldaps URLs.
+ * Tiis dlbss blso supports ldbps URLs.
  */
 
-final public class LdapURL extends Uri {
+finbl publid dlbss LdbpURL fxtfnds Uri {
 
-    private boolean useSsl = false;
-    private String DN = null;
-    private String attributes = null;
-    private String scope = null;
-    private String filter = null;
-    private String extensions = null;
+    privbtf boolfbn usfSsl = fblsf;
+    privbtf String DN = null;
+    privbtf String bttributfs = null;
+    privbtf String sdopf = null;
+    privbtf String filtfr = null;
+    privbtf String fxtfnsions = null;
 
     /**
-     * Creates an LdapURL object from an LDAP URL string.
+     * Crfbtfs bn LdbpURL objfdt from bn LDAP URL string.
      */
-    public LdapURL(String url) throws NamingException {
+    publid LdbpURL(String url) tirows NbmingExdfption {
 
-        super();
+        supfr();
 
         try {
-            init(url); // scheme, host, port, path, query
-            useSsl = scheme.equalsIgnoreCase("ldaps");
+            init(url); // sdifmf, iost, port, pbti, qufry
+            usfSsl = sdifmf.fqublsIgnorfCbsf("ldbps");
 
-            if (! (scheme.equalsIgnoreCase("ldap") || useSsl)) {
-                throw new MalformedURLException("Not an LDAP URL: " + url);
+            if (! (sdifmf.fqublsIgnorfCbsf("ldbp") || usfSsl)) {
+                tirow nfw MblformfdURLExdfption("Not bn LDAP URL: " + url);
             }
 
-            parsePathAndQuery(); // DN, attributes, scope, filter, extensions
+            pbrsfPbtiAndQufry(); // DN, bttributfs, sdopf, filtfr, fxtfnsions
 
-        } catch (MalformedURLException e) {
-            NamingException ne = new NamingException("Cannot parse url: " + url);
-            ne.setRootCause(e);
-            throw ne;
-        } catch (UnsupportedEncodingException e) {
-            NamingException ne = new NamingException("Cannot parse url: " + url);
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (MblformfdURLExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption("Cbnnot pbrsf url: " + url);
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption("Cbnnot pbrsf url: " + url);
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
     /**
-     * Returns true if the URL is an LDAPS URL.
+     * Rfturns truf if tif URL is bn LDAPS URL.
      */
-    public boolean useSsl() {
-        return useSsl;
+    publid boolfbn usfSsl() {
+        rfturn usfSsl;
     }
 
     /**
-     * Returns the LDAP URL's distinguished name.
+     * Rfturns tif LDAP URL's distinguisifd nbmf.
      */
-    public String getDN() {
-        return DN;
+    publid String gftDN() {
+        rfturn DN;
     }
 
     /**
-     * Returns the LDAP URL's attributes.
+     * Rfturns tif LDAP URL's bttributfs.
      */
-    public String getAttributes() {
-        return attributes;
+    publid String gftAttributfs() {
+        rfturn bttributfs;
     }
 
     /**
-     * Returns the LDAP URL's scope.
+     * Rfturns tif LDAP URL's sdopf.
      */
-    public String getScope() {
-        return scope;
+    publid String gftSdopf() {
+        rfturn sdopf;
     }
 
     /**
-     * Returns the LDAP URL's filter.
+     * Rfturns tif LDAP URL's filtfr.
      */
-    public String getFilter() {
-        return filter;
+    publid String gftFiltfr() {
+        rfturn filtfr;
     }
 
     /**
-     * Returns the LDAP URL's extensions.
+     * Rfturns tif LDAP URL's fxtfnsions.
      */
-    public String getExtensions() {
-        return extensions;
+    publid String gftExtfnsions() {
+        rfturn fxtfnsions;
     }
 
     /**
-     * Given a space-separated list of LDAP URLs, returns an array of strings.
+     * Givfn b spbdf-sfpbrbtfd list of LDAP URLs, rfturns bn brrby of strings.
      */
-    public static String[] fromList(String urlList) throws NamingException {
+    publid stbtid String[] fromList(String urlList) tirows NbmingExdfption {
 
-        String[] urls = new String[(urlList.length() + 1) / 2];
-        int i = 0;              // next available index in urls
-        StringTokenizer st = new StringTokenizer(urlList, " ");
+        String[] urls = nfw String[(urlList.lfngti() + 1) / 2];
+        int i = 0;              // nfxt bvbilbblf indfx in urls
+        StringTokfnizfr st = nfw StringTokfnizfr(urlList, " ");
 
-        while (st.hasMoreTokens()) {
-            urls[i++] = st.nextToken();
+        wiilf (st.ibsMorfTokfns()) {
+            urls[i++] = st.nfxtTokfn();
         }
-        String[] trimmed = new String[i];
-        System.arraycopy(urls, 0, trimmed, 0, i);
-        return trimmed;
+        String[] trimmfd = nfw String[i];
+        Systfm.brrbydopy(urls, 0, trimmfd, 0, i);
+        rfturn trimmfd;
     }
 
     /**
-     * Determines whether an LDAP URL has query components.
+     * Dftfrminfs wiftifr bn LDAP URL ibs qufry domponfnts.
      */
-    public static boolean hasQueryComponents(String url) {
-        return (url.lastIndexOf('?') != -1);
+    publid stbtid boolfbn ibsQufryComponfnts(String url) {
+        rfturn (url.lbstIndfxOf('?') != -1);
     }
 
     /*
-     * Assembles an LDAP or LDAPS URL string from its components.
-     * If "host" is an IPv6 literal, it may optionally include delimiting
-     * brackets.
+     * Assfmblfs bn LDAP or LDAPS URL string from its domponfnts.
+     * If "iost" is bn IPv6 litfrbl, it mby optionblly indludf dflimiting
+     * brbdkfts.
      */
-    static String toUrlString(String host, int port, String dn, boolean useSsl)
+    stbtid String toUrlString(String iost, int port, String dn, boolfbn usfSsl)
         {
 
         try {
-            String h = (host != null) ? host : "";
-            if ((h.indexOf(':') != -1) && (h.charAt(0) != '[')) {
-                h = "[" + h + "]";          // IPv6 literal
+            String i = (iost != null) ? iost : "";
+            if ((i.indfxOf(':') != -1) && (i.dibrAt(0) != '[')) {
+                i = "[" + i + "]";          // IPv6 litfrbl
             }
             String p = (port != -1) ? (":" + port) : "";
-            String d = (dn != null) ? ("/" + UrlUtil.encode(dn, "UTF8")) : "";
+            String d = (dn != null) ? ("/" + UrlUtil.fndodf(dn, "UTF8")) : "";
 
-            return useSsl ? "ldaps://" + h + p + d : "ldap://" + h + p + d;
-        } catch (UnsupportedEncodingException e) {
-            // UTF8 should always be supported
-            throw new IllegalStateException("UTF-8 encoding unavailable");
+            rfturn usfSsl ? "ldbps://" + i + p + d : "ldbp://" + i + p + d;
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            // UTF8 siould blwbys bf supportfd
+            tirow nfw IllfgblStbtfExdfption("UTF-8 fndoding unbvbilbblf");
         }
     }
 
     /*
-     * Parses the path and query components of an URL and sets this
-     * object's fields accordingly.
+     * Pbrsfs tif pbti bnd qufry domponfnts of bn URL bnd sfts tiis
+     * objfdt's fiflds bddordingly.
      */
-    private void parsePathAndQuery() throws MalformedURLException,
-        UnsupportedEncodingException {
+    privbtf void pbrsfPbtiAndQufry() tirows MblformfdURLExdfption,
+        UnsupportfdEndodingExdfption {
 
-        // path begins with a '/' or is empty
+        // pbti bfgins witi b '/' or is fmpty
 
-        if (path.equals("")) {
-            return;
+        if (pbti.fqubls("")) {
+            rfturn;
         }
 
-        DN = path.startsWith("/") ? path.substring(1) : path;
-        if (DN.length() > 0) {
-            DN = UrlUtil.decode(DN, "UTF8");
+        DN = pbti.stbrtsWiti("/") ? pbti.substring(1) : pbti;
+        if (DN.lfngti() > 0) {
+            DN = UrlUtil.dfdodf(DN, "UTF8");
         }
 
-        // query begins with a '?' or is null
+        // qufry bfgins witi b '?' or is null
 
-        if (query == null) {
-            return;
+        if (qufry == null) {
+            rfturn;
         }
 
-        int qmark2 = query.indexOf('?', 1);
+        int qmbrk2 = qufry.indfxOf('?', 1);
 
-        if (qmark2 < 0) {
-            attributes = query.substring(1);
-            return;
-        } else if (qmark2 != 1) {
-            attributes = query.substring(1, qmark2);
+        if (qmbrk2 < 0) {
+            bttributfs = qufry.substring(1);
+            rfturn;
+        } flsf if (qmbrk2 != 1) {
+            bttributfs = qufry.substring(1, qmbrk2);
         }
 
-        int qmark3 = query.indexOf('?', qmark2 + 1);
+        int qmbrk3 = qufry.indfxOf('?', qmbrk2 + 1);
 
-        if (qmark3 < 0) {
-            scope = query.substring(qmark2 + 1);
-            return;
-        } else if (qmark3 != qmark2 + 1) {
-            scope = query.substring(qmark2 + 1, qmark3);
+        if (qmbrk3 < 0) {
+            sdopf = qufry.substring(qmbrk2 + 1);
+            rfturn;
+        } flsf if (qmbrk3 != qmbrk2 + 1) {
+            sdopf = qufry.substring(qmbrk2 + 1, qmbrk3);
         }
 
-        int qmark4 = query.indexOf('?', qmark3 + 1);
+        int qmbrk4 = qufry.indfxOf('?', qmbrk3 + 1);
 
-        if (qmark4 < 0) {
-            filter = query.substring(qmark3 + 1);
-        } else {
-            if (qmark4 != qmark3 + 1) {
-                filter = query.substring(qmark3 + 1, qmark4);
+        if (qmbrk4 < 0) {
+            filtfr = qufry.substring(qmbrk3 + 1);
+        } flsf {
+            if (qmbrk4 != qmbrk3 + 1) {
+                filtfr = qufry.substring(qmbrk3 + 1, qmbrk4);
             }
-            extensions = query.substring(qmark4 + 1);
-            if (extensions.length() > 0) {
-                extensions = UrlUtil.decode(extensions, "UTF8");
+            fxtfnsions = qufry.substring(qmbrk4 + 1);
+            if (fxtfnsions.lfngti() > 0) {
+                fxtfnsions = UrlUtil.dfdodf(fxtfnsions, "UTF8");
             }
         }
-        if (filter != null && filter.length() > 0) {
-            filter = UrlUtil.decode(filter, "UTF8");
+        if (filtfr != null && filtfr.lfngti() > 0) {
+            filtfr = UrlUtil.dfdodf(filtfr, "UTF8");
         }
     }
 
 /*
-    public static void main(String[] args) throws Exception {
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
 
-        LdapURL url = new LdapURL(args[0]);
+        LdbpURL url = nfw LdbpURL(brgs[0]);
 
-        System.out.println("Example LDAP URL: " + url.toString());
-        System.out.println("  scheme: " + url.getScheme());
-        System.out.println("    host: " + url.getHost());
-        System.out.println("    port: " + url.getPort());
-        System.out.println("      DN: " + url.getDN());
-        System.out.println("   attrs: " + url.getAttributes());
-        System.out.println("   scope: " + url.getScope());
-        System.out.println("  filter: " + url.getFilter());
-        System.out.println("  extens: " + url.getExtensions());
-        System.out.println("");
+        Systfm.out.println("Exbmplf LDAP URL: " + url.toString());
+        Systfm.out.println("  sdifmf: " + url.gftSdifmf());
+        Systfm.out.println("    iost: " + url.gftHost());
+        Systfm.out.println("    port: " + url.gftPort());
+        Systfm.out.println("      DN: " + url.gftDN());
+        Systfm.out.println("   bttrs: " + url.gftAttributfs());
+        Systfm.out.println("   sdopf: " + url.gftSdopf());
+        Systfm.out.println("  filtfr: " + url.gftFiltfr());
+        Systfm.out.println("  fxtfns: " + url.gftExtfnsions());
+        Systfm.out.println("");
     }
 */
 }

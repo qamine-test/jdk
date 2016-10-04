@@ -1,0 +1,1274 @@
+/*
+ * Copyright (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.util.Propfrtifs;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AllPfrmission;
+import jbvb.nio.dhbnnfls.Chbnnfl;
+import jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr;
+import sun.nio.dh.Intfrruptiblf;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
+
+/**
+ * Thf <dodf>Systfm</dodf> dlbss dontbins sfvfrbl usfful dlbss fiflds
+ * bnd mfthods. It dbnnot bf instbntibtfd.
+ *
+ * <p>Among thf fbdilitifs providfd by thf <dodf>Systfm</dodf> dlbss
+ * brf stbndbrd input, stbndbrd output, bnd frror output strfbms;
+ * bddfss to fxtfrnblly dffinfd propfrtifs bnd fnvironmfnt
+ * vbribblfs; b mfbns of lobding filfs bnd librbrifs; bnd b utility
+ * mfthod for quidkly dopying b portion of bn brrby.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+publid finbl dlbss Systfm {
+
+    /* rfgistfr thf nbtivfs vib thf stbtid initiblizfr.
+     *
+     * VM will invokf thf initiblizfSystfmClbss mfthod to domplftf
+     * thf initiblizbtion for this dlbss sfpbrbtfd from dlinit.
+     * Notf thbt to usf propfrtifs sft by thf VM, sff thf donstrbints
+     * dfsdribfd in thf initiblizfSystfmClbss mfthod.
+     */
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
+    }
+
+    /** Don't lft bnyonf instbntibtf this dlbss */
+    privbtf Systfm() {
+    }
+
+    /**
+     * Thf "stbndbrd" input strfbm. This strfbm is blrfbdy
+     * opfn bnd rfbdy to supply input dbtb. Typidblly this strfbm
+     * dorrfsponds to kfybobrd input or bnothfr input sourdf spfdififd by
+     * thf host fnvironmfnt or usfr.
+     */
+    publid finbl stbtid InputStrfbm in = null;
+
+    /**
+     * Thf "stbndbrd" output strfbm. This strfbm is blrfbdy
+     * opfn bnd rfbdy to bddfpt output dbtb. Typidblly this strfbm
+     * dorrfsponds to displby output or bnothfr output dfstinbtion
+     * spfdififd by thf host fnvironmfnt or usfr.
+     * <p>
+     * For simplf stbnd-blonf Jbvb bpplidbtions, b typidbl wby to writf
+     * b linf of output dbtb is:
+     * <blodkquotf><prf>
+     *     Systfm.out.println(dbtb)
+     * </prf></blodkquotf>
+     * <p>
+     * Sff thf <dodf>println</dodf> mfthods in dlbss <dodf>PrintStrfbm</dodf>.
+     *
+     * @sff     jbvb.io.PrintStrfbm#println()
+     * @sff     jbvb.io.PrintStrfbm#println(boolfbn)
+     * @sff     jbvb.io.PrintStrfbm#println(dhbr)
+     * @sff     jbvb.io.PrintStrfbm#println(dhbr[])
+     * @sff     jbvb.io.PrintStrfbm#println(doublf)
+     * @sff     jbvb.io.PrintStrfbm#println(flobt)
+     * @sff     jbvb.io.PrintStrfbm#println(int)
+     * @sff     jbvb.io.PrintStrfbm#println(long)
+     * @sff     jbvb.io.PrintStrfbm#println(jbvb.lbng.Objfdt)
+     * @sff     jbvb.io.PrintStrfbm#println(jbvb.lbng.String)
+     */
+    publid finbl stbtid PrintStrfbm out = null;
+
+    /**
+     * Thf "stbndbrd" frror output strfbm. This strfbm is blrfbdy
+     * opfn bnd rfbdy to bddfpt output dbtb.
+     * <p>
+     * Typidblly this strfbm dorrfsponds to displby output or bnothfr
+     * output dfstinbtion spfdififd by thf host fnvironmfnt or usfr. By
+     * donvfntion, this output strfbm is usfd to displby frror mfssbgfs
+     * or othfr informbtion thbt should domf to thf immfdibtf bttfntion
+     * of b usfr fvfn if thf prindipbl output strfbm, thf vbluf of thf
+     * vbribblf <dodf>out</dodf>, hbs bffn rfdirfdtfd to b filf or othfr
+     * dfstinbtion thbt is typidblly not dontinuously monitorfd.
+     */
+    publid finbl stbtid PrintStrfbm frr = null;
+
+    /* Thf sfdurity mbnbgfr for thf systfm.
+     */
+    privbtf stbtid volbtilf SfdurityMbnbgfr sfdurity = null;
+
+    /**
+     * Rfbssigns thf "stbndbrd" input strfbm.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign thf "stbndbrd" input strfbm.
+     *
+     * @pbrbm in thf nfw stbndbrd input strfbm.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow
+     *        rfbssigning of thf stbndbrd input strfbm.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     *
+     * @sindf   1.1
+     */
+    publid stbtid void sftIn(InputStrfbm in) {
+        dhfdkIO();
+        sftIn0(in);
+    }
+
+    /**
+     * Rfbssigns thf "stbndbrd" output strfbm.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign thf "stbndbrd" output strfbm.
+     *
+     * @pbrbm out thf nfw stbndbrd output strfbm
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow
+     *        rfbssigning of thf stbndbrd output strfbm.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     *
+     * @sindf   1.1
+     */
+    publid stbtid void sftOut(PrintStrfbm out) {
+        dhfdkIO();
+        sftOut0(out);
+    }
+
+    /**
+     * Rfbssigns thf "stbndbrd" frror output strfbm.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign thf "stbndbrd" frror output strfbm.
+     *
+     * @pbrbm frr thf nfw stbndbrd frror output strfbm.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow
+     *        rfbssigning of thf stbndbrd frror output strfbm.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     *
+     * @sindf   1.1
+     */
+    publid stbtid void sftErr(PrintStrfbm frr) {
+        dhfdkIO();
+        sftErr0(frr);
+    }
+
+    privbtf stbtid volbtilf Consolf dons = null;
+    /**
+     * Rfturns thf uniquf {@link jbvb.io.Consolf Consolf} objfdt bssodibtfd
+     * with thf durrfnt Jbvb virtubl mbdhinf, if bny.
+     *
+     * @rfturn  Thf systfm donsolf, if bny, othfrwisf <tt>null</tt>.
+     *
+     * @sindf   1.6
+     */
+     publid stbtid Consolf donsolf() {
+         if (dons == null) {
+             syndhronizfd (Systfm.dlbss) {
+                 dons = sun.misd.ShbrfdSfdrfts.gftJbvbIOAddfss().donsolf();
+             }
+         }
+         rfturn dons;
+     }
+
+    /**
+     * Rfturns thf dhbnnfl inhfritfd from thf fntity thbt drfbtfd this
+     * Jbvb virtubl mbdhinf.
+     *
+     * <p> This mfthod rfturns thf dhbnnfl obtbinfd by invoking thf
+     * {@link jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr#inhfritfdChbnnfl
+     * inhfritfdChbnnfl} mfthod of thf systfm-widf dffbult
+     * {@link jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr} objfdt. </p>
+     *
+     * <p> In bddition to thf nftwork-orifntfd dhbnnfls dfsdribfd in
+     * {@link jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr#inhfritfdChbnnfl
+     * inhfritfdChbnnfl}, this mfthod mby rfturn othfr kinds of
+     * dhbnnfls in thf futurf.
+     *
+     * @rfturn  Thf inhfritfd dhbnnfl, if bny, othfrwisf <tt>null</tt>.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd it dofs not
+     *          pfrmit bddfss to thf dhbnnfl.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid Chbnnfl inhfritfdChbnnfl() throws IOExdfption {
+        rfturn SflfdtorProvidfr.providfr().inhfritfdChbnnfl();
+    }
+
+    privbtf stbtid void dhfdkIO() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("sftIO"));
+        }
+    }
+
+    privbtf stbtid nbtivf void sftIn0(InputStrfbm in);
+    privbtf stbtid nbtivf void sftOut0(PrintStrfbm out);
+    privbtf stbtid nbtivf void sftErr0(PrintStrfbm frr);
+
+    /**
+     * Sfts thf Systfm sfdurity.
+     *
+     * <p> If thfrf is b sfdurity mbnbgfr blrfbdy instbllfd, this mfthod first
+     * dblls thf sfdurity mbnbgfr's <dodf>dhfdkPfrmission</dodf> mfthod
+     * with b <dodf>RuntimfPfrmission("sftSfdurityMbnbgfr")</dodf>
+     * pfrmission to fnsurf it's ok to rfplbdf thf fxisting
+     * sfdurity mbnbgfr.
+     * This mby rfsult in throwing b <dodf>SfdurityExdfption</dodf>.
+     *
+     * <p> Othfrwisf, thf brgumfnt is fstbblishfd bs thf durrfnt
+     * sfdurity mbnbgfr. If thf brgumfnt is <dodf>null</dodf> bnd no
+     * sfdurity mbnbgfr hbs bffn fstbblishfd, thfn no bdtion is tbkfn bnd
+     * thf mfthod simply rfturns.
+     *
+     * @pbrbm      s   thf sfdurity mbnbgfr.
+     * @fxdfption  SfdurityExdfption  if thf sfdurity mbnbgfr hbs blrfbdy
+     *             bffn sft bnd its <dodf>dhfdkPfrmission</dodf> mfthod
+     *             dofsn't bllow it to bf rfplbdfd.
+     * @sff #gftSfdurityMbnbgfr
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     */
+    publid stbtid
+    void sftSfdurityMbnbgfr(finbl SfdurityMbnbgfr s) {
+        try {
+            s.dhfdkPbdkbgfAddfss("jbvb.lbng");
+        } dbtdh (Exdfption f) {
+            // no-op
+        }
+        sftSfdurityMbnbgfr0(s);
+    }
+
+    privbtf stbtid syndhronizfd
+    void sftSfdurityMbnbgfr0(finbl SfdurityMbnbgfr s) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            // bsk thf durrfntly instbllfd sfdurity mbnbgfr if wf
+            // dbn rfplbdf it.
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission
+                                     ("sftSfdurityMbnbgfr"));
+        }
+
+        if ((s != null) && (s.gftClbss().gftClbssLobdfr() != null)) {
+            // Nfw sfdurity mbnbgfr dlbss is not on bootstrbp dlbsspbth.
+            // Cbusf polidy to gft initiblizfd bfforf wf instbll thf nfw
+            // sfdurity mbnbgfr, in ordfr to prfvfnt infinitf loops whfn
+            // trying to initiblizf thf polidy (whidh usublly involvfs
+            // bddfssing somf sfdurity bnd/or systfm propfrtifs, whidh in turn
+            // dblls thf instbllfd sfdurity mbnbgfr's dhfdkPfrmission mfthod
+            // whidh will loop infinitfly if thfrf is b non-systfm dlbss
+            // (in this dbsf: thf nfw sfdurity mbnbgfr dlbss) on thf stbdk).
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    s.gftClbss().gftProtfdtionDombin().implifs
+                        (SfdurityConstbnts.ALL_PERMISSION);
+                    rfturn null;
+                }
+            });
+        }
+
+        sfdurity = s;
+    }
+
+    /**
+     * Gfts thf systfm sfdurity intfrfbdf.
+     *
+     * @rfturn  if b sfdurity mbnbgfr hbs blrfbdy bffn fstbblishfd for thf
+     *          durrfnt bpplidbtion, thfn thbt sfdurity mbnbgfr is rfturnfd;
+     *          othfrwisf, <dodf>null</dodf> is rfturnfd.
+     * @sff     #sftSfdurityMbnbgfr
+     */
+    publid stbtid SfdurityMbnbgfr gftSfdurityMbnbgfr() {
+        rfturn sfdurity;
+    }
+
+    /**
+     * Rfturns thf durrfnt timf in millisfdonds.  Notf thbt
+     * whilf thf unit of timf of thf rfturn vbluf is b millisfdond,
+     * thf grbnulbrity of thf vbluf dfpfnds on thf undfrlying
+     * opfrbting systfm bnd mby bf lbrgfr.  For fxbmplf, mbny
+     * opfrbting systfms mfbsurf timf in units of tfns of
+     * millisfdonds.
+     *
+     * <p> Sff thf dfsdription of thf dlbss <dodf>Dbtf</dodf> for
+     * b disdussion of slight disdrfpbndifs thbt mby brisf bftwffn
+     * "domputfr timf" bnd doordinbtfd univfrsbl timf (UTC).
+     *
+     * @rfturn  thf difffrfndf, mfbsurfd in millisfdonds, bftwffn
+     *          thf durrfnt timf bnd midnight, Jbnubry 1, 1970 UTC.
+     * @sff     jbvb.util.Dbtf
+     */
+    publid stbtid nbtivf long durrfntTimfMillis();
+
+    /**
+     * Rfturns thf durrfnt vbluf of thf running Jbvb Virtubl Mbdhinf's
+     * high-rfsolution timf sourdf, in nbnosfdonds.
+     *
+     * <p>This mfthod dbn only bf usfd to mfbsurf flbpsfd timf bnd is
+     * not rflbtfd to bny othfr notion of systfm or wbll-dlodk timf.
+     * Thf vbluf rfturnfd rfprfsfnts nbnosfdonds sindf somf fixfd but
+     * brbitrbry <i>origin</i> timf (pfrhbps in thf futurf, so vblufs
+     * mby bf nfgbtivf).  Thf sbmf origin is usfd by bll invodbtions of
+     * this mfthod in bn instbndf of b Jbvb virtubl mbdhinf; othfr
+     * virtubl mbdhinf instbndfs brf likfly to usf b difffrfnt origin.
+     *
+     * <p>This mfthod providfs nbnosfdond prfdision, but not nfdfssbrily
+     * nbnosfdond rfsolution (thbt is, how frfqufntly thf vbluf dhbngfs)
+     * - no gubrbntffs brf mbdf fxdfpt thbt thf rfsolution is bt lfbst bs
+     * good bs thbt of {@link #durrfntTimfMillis()}.
+     *
+     * <p>Difffrfndfs in suddfssivf dblls thbt spbn grfbtfr thbn
+     * bpproximbtfly 292 yfbrs (2<sup>63</sup> nbnosfdonds) will not
+     * dorrfdtly domputf flbpsfd timf duf to numfridbl ovfrflow.
+     *
+     * <p>Thf vblufs rfturnfd by this mfthod bfdomf mfbningful only whfn
+     * thf difffrfndf bftwffn two sudh vblufs, obtbinfd within thf sbmf
+     * instbndf of b Jbvb virtubl mbdhinf, is domputfd.
+     *
+     * <p> For fxbmplf, to mfbsurf how long somf dodf tbkfs to fxfdutf:
+     *  <prf> {@dodf
+     * long stbrtTimf = Systfm.nbnoTimf();
+     * // ... thf dodf bfing mfbsurfd ...
+     * long fstimbtfdTimf = Systfm.nbnoTimf() - stbrtTimf;}</prf>
+     *
+     * <p>To dompbrf two nbnoTimf vblufs
+     *  <prf> {@dodf
+     * long t0 = Systfm.nbnoTimf();
+     * ...
+     * long t1 = Systfm.nbnoTimf();}</prf>
+     *
+     * onf should usf {@dodf t1 - t0 < 0}, not {@dodf t1 < t0},
+     * bfdbusf of thf possibility of numfridbl ovfrflow.
+     *
+     * @rfturn thf durrfnt vbluf of thf running Jbvb Virtubl Mbdhinf's
+     *         high-rfsolution timf sourdf, in nbnosfdonds
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf long nbnoTimf();
+
+    /**
+     * Copifs bn brrby from thf spfdififd sourdf brrby, bfginning bt thf
+     * spfdififd position, to thf spfdififd position of thf dfstinbtion brrby.
+     * A subsfqufndf of brrby domponfnts brf dopifd from thf sourdf
+     * brrby rfffrfndfd by <dodf>srd</dodf> to thf dfstinbtion brrby
+     * rfffrfndfd by <dodf>dfst</dodf>. Thf numbfr of domponfnts dopifd is
+     * fqubl to thf <dodf>lfngth</dodf> brgumfnt. Thf domponfnts bt
+     * positions <dodf>srdPos</dodf> through
+     * <dodf>srdPos+lfngth-1</dodf> in thf sourdf brrby brf dopifd into
+     * positions <dodf>dfstPos</dodf> through
+     * <dodf>dfstPos+lfngth-1</dodf>, rfspfdtivfly, of thf dfstinbtion
+     * brrby.
+     * <p>
+     * If thf <dodf>srd</dodf> bnd <dodf>dfst</dodf> brgumfnts rfffr to thf
+     * sbmf brrby objfdt, thfn thf dopying is pfrformfd bs if thf
+     * domponfnts bt positions <dodf>srdPos</dodf> through
+     * <dodf>srdPos+lfngth-1</dodf> wfrf first dopifd to b tfmporbry
+     * brrby with <dodf>lfngth</dodf> domponfnts bnd thfn thf dontfnts of
+     * thf tfmporbry brrby wfrf dopifd into positions
+     * <dodf>dfstPos</dodf> through <dodf>dfstPos+lfngth-1</dodf> of thf
+     * dfstinbtion brrby.
+     * <p>
+     * If <dodf>dfst</dodf> is <dodf>null</dodf>, thfn b
+     * <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <p>
+     * If <dodf>srd</dodf> is <dodf>null</dodf>, thfn b
+     * <dodf>NullPointfrExdfption</dodf> is thrown bnd thf dfstinbtion
+     * brrby is not modififd.
+     * <p>
+     * Othfrwisf, if bny of thf following is truf, bn
+     * <dodf>ArrbyStorfExdfption</dodf> is thrown bnd thf dfstinbtion is
+     * not modififd:
+     * <ul>
+     * <li>Thf <dodf>srd</dodf> brgumfnt rfffrs to bn objfdt thbt is not bn
+     *     brrby.
+     * <li>Thf <dodf>dfst</dodf> brgumfnt rfffrs to bn objfdt thbt is not bn
+     *     brrby.
+     * <li>Thf <dodf>srd</dodf> brgumfnt bnd <dodf>dfst</dodf> brgumfnt rfffr
+     *     to brrbys whosf domponfnt typfs brf difffrfnt primitivf typfs.
+     * <li>Thf <dodf>srd</dodf> brgumfnt rfffrs to bn brrby with b primitivf
+     *    domponfnt typf bnd thf <dodf>dfst</dodf> brgumfnt rfffrs to bn brrby
+     *     with b rfffrfndf domponfnt typf.
+     * <li>Thf <dodf>srd</dodf> brgumfnt rfffrs to bn brrby with b rfffrfndf
+     *    domponfnt typf bnd thf <dodf>dfst</dodf> brgumfnt rfffrs to bn brrby
+     *     with b primitivf domponfnt typf.
+     * </ul>
+     * <p>
+     * Othfrwisf, if bny of thf following is truf, bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf> is
+     * thrown bnd thf dfstinbtion is not modififd:
+     * <ul>
+     * <li>Thf <dodf>srdPos</dodf> brgumfnt is nfgbtivf.
+     * <li>Thf <dodf>dfstPos</dodf> brgumfnt is nfgbtivf.
+     * <li>Thf <dodf>lfngth</dodf> brgumfnt is nfgbtivf.
+     * <li><dodf>srdPos+lfngth</dodf> is grfbtfr thbn
+     *     <dodf>srd.lfngth</dodf>, thf lfngth of thf sourdf brrby.
+     * <li><dodf>dfstPos+lfngth</dodf> is grfbtfr thbn
+     *     <dodf>dfst.lfngth</dodf>, thf lfngth of thf dfstinbtion brrby.
+     * </ul>
+     * <p>
+     * Othfrwisf, if bny bdtubl domponfnt of thf sourdf brrby from
+     * position <dodf>srdPos</dodf> through
+     * <dodf>srdPos+lfngth-1</dodf> dbnnot bf donvfrtfd to thf domponfnt
+     * typf of thf dfstinbtion brrby by bssignmfnt donvfrsion, bn
+     * <dodf>ArrbyStorfExdfption</dodf> is thrown. In this dbsf, lft
+     * <b><i>k</i></b> bf thf smbllfst nonnfgbtivf intfgfr lfss thbn
+     * lfngth sudh thbt <dodf>srd[srdPos+</dodf><i>k</i><dodf>]</dodf>
+     * dbnnot bf donvfrtfd to thf domponfnt typf of thf dfstinbtion
+     * brrby; whfn thf fxdfption is thrown, sourdf brrby domponfnts from
+     * positions <dodf>srdPos</dodf> through
+     * <dodf>srdPos+</dodf><i>k</i><dodf>-1</dodf>
+     * will blrfbdy hbvf bffn dopifd to dfstinbtion brrby positions
+     * <dodf>dfstPos</dodf> through
+     * <dodf>dfstPos+</dodf><i>k</I><dodf>-1</dodf> bnd no othfr
+     * positions of thf dfstinbtion brrby will hbvf bffn modififd.
+     * (Bfdbusf of thf rfstridtions blrfbdy itfmizfd, this
+     * pbrbgrbph ffffdtivfly bpplifs only to thf situbtion whfrf both
+     * brrbys hbvf domponfnt typfs thbt brf rfffrfndf typfs.)
+     *
+     * @pbrbm      srd      thf sourdf brrby.
+     * @pbrbm      srdPos   stbrting position in thf sourdf brrby.
+     * @pbrbm      dfst     thf dfstinbtion brrby.
+     * @pbrbm      dfstPos  stbrting position in thf dfstinbtion dbtb.
+     * @pbrbm      lfngth   thf numbfr of brrby flfmfnts to bf dopifd.
+     * @fxdfption  IndfxOutOfBoundsExdfption  if dopying would dbusf
+     *               bddfss of dbtb outsidf brrby bounds.
+     * @fxdfption  ArrbyStorfExdfption  if bn flfmfnt in thf <dodf>srd</dodf>
+     *               brrby dould not bf storfd into thf <dodf>dfst</dodf> brrby
+     *               bfdbusf of b typf mismbtdh.
+     * @fxdfption  NullPointfrExdfption if fithfr <dodf>srd</dodf> or
+     *               <dodf>dfst</dodf> is <dodf>null</dodf>.
+     */
+    publid stbtid nbtivf void brrbydopy(Objfdt srd,  int  srdPos,
+                                        Objfdt dfst, int dfstPos,
+                                        int lfngth);
+
+    /**
+     * Rfturns thf sbmf hbsh dodf for thf givfn objfdt bs
+     * would bf rfturnfd by thf dffbult mfthod hbshCodf(),
+     * whfthfr or not thf givfn objfdt's dlbss ovfrridfs
+     * hbshCodf().
+     * Thf hbsh dodf for thf null rfffrfndf is zfro.
+     *
+     * @pbrbm x objfdt for whidh thf hbshCodf is to bf dbldulbtfd
+     * @rfturn  thf hbshCodf
+     * @sindf   1.1
+     */
+    publid stbtid nbtivf int idfntityHbshCodf(Objfdt x);
+
+    /**
+     * Systfm propfrtifs. Thf following propfrtifs brf gubrbntffd to bf dffinfd:
+     * <dl>
+     * <dt>jbvb.vfrsion         <dd>Jbvb vfrsion numbfr
+     * <dt>jbvb.vfndor          <dd>Jbvb vfndor spfdifid string
+     * <dt>jbvb.vfndor.url      <dd>Jbvb vfndor URL
+     * <dt>jbvb.homf            <dd>Jbvb instbllbtion dirfdtory
+     * <dt>jbvb.dlbss.vfrsion   <dd>Jbvb dlbss vfrsion numbfr
+     * <dt>jbvb.dlbss.pbth      <dd>Jbvb dlbsspbth
+     * <dt>os.nbmf              <dd>Opfrbting Systfm Nbmf
+     * <dt>os.brdh              <dd>Opfrbting Systfm Ardhitfdturf
+     * <dt>os.vfrsion           <dd>Opfrbting Systfm Vfrsion
+     * <dt>filf.sfpbrbtor       <dd>Filf sfpbrbtor ("/" on Unix)
+     * <dt>pbth.sfpbrbtor       <dd>Pbth sfpbrbtor (":" on Unix)
+     * <dt>linf.sfpbrbtor       <dd>Linf sfpbrbtor ("\n" on Unix)
+     * <dt>usfr.nbmf            <dd>Usfr bddount nbmf
+     * <dt>usfr.homf            <dd>Usfr homf dirfdtory
+     * <dt>usfr.dir             <dd>Usfr's durrfnt working dirfdtory
+     * </dl>
+     */
+
+    privbtf stbtid Propfrtifs props;
+    privbtf stbtid nbtivf Propfrtifs initPropfrtifs(Propfrtifs props);
+
+    /**
+     * Dftfrminfs thf durrfnt systfm propfrtifs.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its
+     * <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod is dbllfd with no
+     * brgumfnts. This mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * Thf durrfnt sft of systfm propfrtifs for usf by thf
+     * {@link #gftPropfrty(String)} mfthod is rfturnfd bs b
+     * <dodf>Propfrtifs</dodf> objfdt. If thfrf is no durrfnt sft of
+     * systfm propfrtifs, b sft of systfm propfrtifs is first drfbtfd bnd
+     * initiblizfd. This sft of systfm propfrtifs blwbys indludfs vblufs
+     * for thf following kfys:
+     * <tbblf summbry="Shows propfrty kfys bnd bssodibtfd vblufs">
+     * <tr><th>Kfy</th>
+     *     <th>Dfsdription of Assodibtfd Vbluf</th></tr>
+     * <tr><td><dodf>jbvb.vfrsion</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vfndor</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vfndor.url</dodf></td>
+     *     <td>Jbvb vfndor URL</td></tr>
+     * <tr><td><dodf>jbvb.homf</dodf></td>
+     *     <td>Jbvb instbllbtion dirfdtory</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.vfrsion</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf spfdifidbtion vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.vfndor</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf spfdifidbtion vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.nbmf</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf spfdifidbtion nbmf</td></tr>
+     * <tr><td><dodf>jbvb.vm.vfrsion</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf implfmfntbtion vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vm.vfndor</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf implfmfntbtion vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vm.nbmf</dodf></td>
+     *     <td>Jbvb Virtubl Mbdhinf implfmfntbtion nbmf</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.vfrsion</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.vfndor</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  vfndor</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.nbmf</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  nbmf</td></tr>
+     * <tr><td><dodf>jbvb.dlbss.vfrsion</dodf></td>
+     *     <td>Jbvb dlbss formbt vfrsion numbfr</td></tr>
+     * <tr><td><dodf>jbvb.dlbss.pbth</dodf></td>
+     *     <td>Jbvb dlbss pbth</td></tr>
+     * <tr><td><dodf>jbvb.librbry.pbth</dodf></td>
+     *     <td>List of pbths to sfbrdh whfn lobding librbrifs</td></tr>
+     * <tr><td><dodf>jbvb.io.tmpdir</dodf></td>
+     *     <td>Dffbult tfmp filf pbth</td></tr>
+     * <tr><td><dodf>jbvb.dompilfr</dodf></td>
+     *     <td>Nbmf of JIT dompilfr to usf</td></tr>
+     * <tr><td><dodf>jbvb.fxt.dirs</dodf></td>
+     *     <td>Pbth of fxtfnsion dirfdtory or dirfdtorifs</td></tr>
+     * <tr><td><dodf>os.nbmf</dodf></td>
+     *     <td>Opfrbting systfm nbmf</td></tr>
+     * <tr><td><dodf>os.brdh</dodf></td>
+     *     <td>Opfrbting systfm brdhitfdturf</td></tr>
+     * <tr><td><dodf>os.vfrsion</dodf></td>
+     *     <td>Opfrbting systfm vfrsion</td></tr>
+     * <tr><td><dodf>filf.sfpbrbtor</dodf></td>
+     *     <td>Filf sfpbrbtor ("/" on UNIX)</td></tr>
+     * <tr><td><dodf>pbth.sfpbrbtor</dodf></td>
+     *     <td>Pbth sfpbrbtor (":" on UNIX)</td></tr>
+     * <tr><td><dodf>linf.sfpbrbtor</dodf></td>
+     *     <td>Linf sfpbrbtor ("\n" on UNIX)</td></tr>
+     * <tr><td><dodf>usfr.nbmf</dodf></td>
+     *     <td>Usfr's bddount nbmf</td></tr>
+     * <tr><td><dodf>usfr.homf</dodf></td>
+     *     <td>Usfr's homf dirfdtory</td></tr>
+     * <tr><td><dodf>usfr.dir</dodf></td>
+     *     <td>Usfr's durrfnt working dirfdtory</td></tr>
+     * </tbblf>
+     * <p>
+     * Multiplf pbths in b systfm propfrty vbluf brf sfpbrbtfd by thf pbth
+     * sfpbrbtor dhbrbdtfr of thf plbtform.
+     * <p>
+     * Notf thbt fvfn if thf sfdurity mbnbgfr dofs not pfrmit thf
+     * <dodf>gftPropfrtifs</dodf> opfrbtion, it mby dhoosf to pfrmit thf
+     * {@link #gftPropfrty(String)} opfrbtion.
+     *
+     * @rfturn     thf systfm propfrtifs
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *              to thf systfm propfrtifs.
+     * @sff        #sftPropfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtifsAddfss()
+     * @sff        jbvb.util.Propfrtifs
+     */
+    publid stbtid Propfrtifs gftPropfrtifs() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtifsAddfss();
+        }
+
+        rfturn props;
+    }
+
+    /**
+     * Rfturns thf systfm-dfpfndfnt linf sfpbrbtor string.  It blwbys
+     * rfturns thf sbmf vbluf - thf initibl vbluf of thf {@linkplbin
+     * #gftPropfrty(String) systfm propfrty} {@dodf linf.sfpbrbtor}.
+     *
+     * <p>On UNIX systfms, it rfturns {@dodf "\n"}; on Midrosoft
+     * Windows systfms it rfturns {@dodf "\r\n"}.
+     *
+     * @rfturn thf systfm-dfpfndfnt linf sfpbrbtor string
+     * @sindf 1.7
+     */
+    publid stbtid String linfSfpbrbtor() {
+        rfturn linfSfpbrbtor;
+    }
+
+    privbtf stbtid String linfSfpbrbtor;
+
+    /**
+     * Sfts thf systfm propfrtifs to thf <dodf>Propfrtifs</dodf>
+     * brgumfnt.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its
+     * <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod is dbllfd with no
+     * brgumfnts. This mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * Thf brgumfnt bfdomfs thf durrfnt sft of systfm propfrtifs for usf
+     * by thf {@link #gftPropfrty(String)} mfthod. If thf brgumfnt is
+     * <dodf>null</dodf>, thfn thf durrfnt sft of systfm propfrtifs is
+     * forgottfn.
+     *
+     * @pbrbm      props   thf nfw systfm propfrtifs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *              to thf systfm propfrtifs.
+     * @sff        #gftPropfrtifs
+     * @sff        jbvb.util.Propfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtifsAddfss()
+     */
+    publid stbtid void sftPropfrtifs(Propfrtifs props) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtifsAddfss();
+        }
+        if (props == null) {
+            props = nfw Propfrtifs();
+            initPropfrtifs(props);
+        }
+        Systfm.props = props;
+    }
+
+    /**
+     * Gfts thf systfm propfrty indidbtfd by thf spfdififd kfy.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its
+     * <dodf>dhfdkPropfrtyAddfss</dodf> mfthod is dbllfd with thf kfy bs
+     * its brgumfnt. This mby rfsult in b SfdurityExdfption.
+     * <p>
+     * If thfrf is no durrfnt sft of systfm propfrtifs, b sft of systfm
+     * propfrtifs is first drfbtfd bnd initiblizfd in thf sbmf mbnnfr bs
+     * for thf <dodf>gftPropfrtifs</dodf> mfthod.
+     *
+     * @pbrbm      kfy   thf nbmf of thf systfm propfrty.
+     * @rfturn     thf string vbluf of thf systfm propfrty,
+     *             or <dodf>null</dodf> if thfrf is no propfrty with thbt kfy.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtyAddfss</dodf> mfthod dofsn't bllow
+     *              bddfss to thf spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #sftPropfrty
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
+     */
+    publid stbtid String gftPropfrty(String kfy) {
+        dhfdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtyAddfss(kfy);
+        }
+
+        rfturn props.gftPropfrty(kfy);
+    }
+
+    /**
+     * Gfts thf systfm propfrty indidbtfd by thf spfdififd kfy.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its
+     * <dodf>dhfdkPropfrtyAddfss</dodf> mfthod is dbllfd with thf
+     * <dodf>kfy</dodf> bs its brgumfnt.
+     * <p>
+     * If thfrf is no durrfnt sft of systfm propfrtifs, b sft of systfm
+     * propfrtifs is first drfbtfd bnd initiblizfd in thf sbmf mbnnfr bs
+     * for thf <dodf>gftPropfrtifs</dodf> mfthod.
+     *
+     * @pbrbm      kfy   thf nbmf of thf systfm propfrty.
+     * @pbrbm      dff   b dffbult vbluf.
+     * @rfturn     thf string vbluf of thf systfm propfrty,
+     *             or thf dffbult vbluf if thfrf is no propfrty with thbt kfy.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtyAddfss</dodf> mfthod dofsn't bllow
+     *             bddfss to thf spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #sftPropfrty
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
+     */
+    publid stbtid String gftPropfrty(String kfy, String dff) {
+        dhfdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtyAddfss(kfy);
+        }
+
+        rfturn props.gftPropfrty(kfy, dff);
+    }
+
+    /**
+     * Sfts thf systfm propfrty indidbtfd by thf spfdififd kfy.
+     * <p>
+     * First, if b sfdurity mbnbgfr fxists, its
+     * <dodf>SfdurityMbnbgfr.dhfdkPfrmission</dodf> mfthod
+     * is dbllfd with b <dodf>PropfrtyPfrmission(kfy, "writf")</dodf>
+     * pfrmission. This mby rfsult in b SfdurityExdfption bfing thrown.
+     * If no fxdfption is thrown, thf spfdififd propfrty is sft to thf givfn
+     * vbluf.
+     *
+     * @pbrbm      kfy   thf nbmf of thf systfm propfrty.
+     * @pbrbm      vbluf thf vbluf of thf systfm propfrty.
+     * @rfturn     thf prfvious vbluf of thf systfm propfrty,
+     *             or <dodf>null</dodf> if it did not hbvf onf.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPfrmission</dodf> mfthod dofsn't bllow
+     *             sftting of thf spfdififd propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> or
+     *             <dodf>vbluf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #gftPropfrty
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+     * @sff        jbvb.util.PropfrtyPfrmission
+     * @sff        SfdurityMbnbgfr#dhfdkPfrmission
+     * @sindf      1.2
+     */
+    publid stbtid String sftPropfrty(String kfy, String vbluf) {
+        dhfdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw PropfrtyPfrmission(kfy,
+                SfdurityConstbnts.PROPERTY_WRITE_ACTION));
+        }
+
+        rfturn (String) props.sftPropfrty(kfy, vbluf);
+    }
+
+    /**
+     * Rfmovfs thf systfm propfrty indidbtfd by thf spfdififd kfy.
+     * <p>
+     * First, if b sfdurity mbnbgfr fxists, its
+     * <dodf>SfdurityMbnbgfr.dhfdkPfrmission</dodf> mfthod
+     * is dbllfd with b <dodf>PropfrtyPfrmission(kfy, "writf")</dodf>
+     * pfrmission. This mby rfsult in b SfdurityExdfption bfing thrown.
+     * If no fxdfption is thrown, thf spfdififd propfrty is rfmovfd.
+     *
+     * @pbrbm      kfy   thf nbmf of thf systfm propfrty to bf rfmovfd.
+     * @rfturn     thf prfvious string vbluf of thf systfm propfrty,
+     *             or <dodf>null</dodf> if thfrf wbs no propfrty with thbt kfy.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtyAddfss</dodf> mfthod dofsn't bllow
+     *              bddfss to thf spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #gftPropfrty
+     * @sff        #sftPropfrty
+     * @sff        jbvb.util.Propfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtifsAddfss()
+     * @sindf 1.5
+     */
+    publid stbtid String dlfbrPropfrty(String kfy) {
+        dhfdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw PropfrtyPfrmission(kfy, "writf"));
+        }
+
+        rfturn (String) props.rfmovf(kfy);
+    }
+
+    privbtf stbtid void dhfdkKfy(String kfy) {
+        if (kfy == null) {
+            throw nfw NullPointfrExdfption("kfy dbn't bf null");
+        }
+        if (kfy.fqubls("")) {
+            throw nfw IllfgblArgumfntExdfption("kfy dbn't bf fmpty");
+        }
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fnvironmfnt vbribblf. An
+     * fnvironmfnt vbribblf is b systfm-dfpfndfnt fxtfrnbl nbmfd
+     * vbluf.
+     *
+     * <p>If b sfdurity mbnbgfr fxists, its
+     * {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * <dodf>{@link RuntimfPfrmission}("gftfnv."+nbmf)</dodf>
+     * pfrmission.  This mby rfsult in b {@link SfdurityExdfption}
+     * bfing thrown.  If no fxdfption is thrown thf vbluf of thf
+     * vbribblf <dodf>nbmf</dodf> is rfturnfd.
+     *
+     * <p><b nbmf="EnvironmfntVSSystfmPropfrtifs"><i>Systfm
+     * propfrtifs</i> bnd <i>fnvironmfnt vbribblfs</i></b> brf both
+     * dondfptublly mbppings bftwffn nbmfs bnd vblufs.  Both
+     * mfdhbnisms dbn bf usfd to pbss usfr-dffinfd informbtion to b
+     * Jbvb prodfss.  Environmfnt vbribblfs hbvf b morf globbl ffffdt,
+     * bfdbusf thfy brf visiblf to bll dfsdfndbnts of thf prodfss
+     * whidh dffinfs thfm, not just thf immfdibtf Jbvb subprodfss.
+     * Thfy dbn hbvf subtly difffrfnt sfmbntids, sudh bs dbsf
+     * insfnsitivity, on difffrfnt opfrbting systfms.  For thfsf
+     * rfbsons, fnvironmfnt vbribblfs brf morf likfly to hbvf
+     * unintfndfd sidf ffffdts.  It is bfst to usf systfm propfrtifs
+     * whfrf possiblf.  Environmfnt vbribblfs should bf usfd whfn b
+     * globbl ffffdt is dfsirfd, or whfn bn fxtfrnbl systfm intfrfbdf
+     * rfquirfs bn fnvironmfnt vbribblf (sudh bs <dodf>PATH</dodf>).
+     *
+     * <p>On UNIX systfms thf blphbbftid dbsf of <dodf>nbmf</dodf> is
+     * typidblly signifidbnt, whilf on Midrosoft Windows systfms it is
+     * typidblly not.  For fxbmplf, thf fxprfssion
+     * <dodf>Systfm.gftfnv("FOO").fqubls(Systfm.gftfnv("foo"))</dodf>
+     * is likfly to bf truf on Midrosoft Windows.
+     *
+     * @pbrbm  nbmf thf nbmf of thf fnvironmfnt vbribblf
+     * @rfturn thf string vbluf of thf vbribblf, or <dodf>null</dodf>
+     *         if thf vbribblf is not dffinfd in thf systfm fnvironmfnt
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @throws SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission}
+     *         mfthod dofsn't bllow bddfss to thf fnvironmfnt vbribblf
+     *         <dodf>nbmf</dodf>
+     * @sff    #gftfnv()
+     * @sff    ProdfssBuildfr#fnvironmfnt()
+     */
+    publid stbtid String gftfnv(String nbmf) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("gftfnv."+nbmf));
+        }
+
+        rfturn ProdfssEnvironmfnt.gftfnv(nbmf);
+    }
+
+
+    /**
+     * Rfturns bn unmodifibblf string mbp vifw of thf durrfnt systfm fnvironmfnt.
+     * Thf fnvironmfnt is b systfm-dfpfndfnt mbpping from nbmfs to
+     * vblufs whidh is pbssfd from pbrfnt to dhild prodfssfs.
+     *
+     * <p>If thf systfm dofs not support fnvironmfnt vbribblfs, bn
+     * fmpty mbp is rfturnfd.
+     *
+     * <p>Thf rfturnfd mbp will nfvfr dontbin null kfys or vblufs.
+     * Attfmpting to qufry thf prfsfndf of b null kfy or vbluf will
+     * throw b {@link NullPointfrExdfption}.  Attfmpting to qufry
+     * thf prfsfndf of b kfy or vbluf whidh is not of typf
+     * {@link String} will throw b {@link ClbssCbstExdfption}.
+     *
+     * <p>Thf rfturnfd mbp bnd its dollfdtion vifws mby not obfy thf
+     * gfnfrbl dontrbdt of thf {@link Objfdt#fqubls} bnd
+     * {@link Objfdt#hbshCodf} mfthods.
+     *
+     * <p>Thf rfturnfd mbp is typidblly dbsf-sfnsitivf on bll plbtforms.
+     *
+     * <p>If b sfdurity mbnbgfr fxists, its
+     * {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * <dodf>{@link RuntimfPfrmission}("gftfnv.*")</dodf>
+     * pfrmission.  This mby rfsult in b {@link SfdurityExdfption} bfing
+     * thrown.
+     *
+     * <p>Whfn pbssing informbtion to b Jbvb subprodfss,
+     * <b hrff=#EnvironmfntVSSystfmPropfrtifs>systfm propfrtifs</b>
+     * brf gfnfrblly prfffrrfd ovfr fnvironmfnt vbribblfs.
+     *
+     * @rfturn thf fnvironmfnt bs b mbp of vbribblf nbmfs to vblufs
+     * @throws SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission}
+     *         mfthod dofsn't bllow bddfss to thf prodfss fnvironmfnt
+     * @sff    #gftfnv(String)
+     * @sff    ProdfssBuildfr#fnvironmfnt()
+     * @sindf  1.5
+     */
+    publid stbtid jbvb.util.Mbp<String,String> gftfnv() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("gftfnv.*"));
+        }
+
+        rfturn ProdfssEnvironmfnt.gftfnv();
+    }
+
+    /**
+     * Tfrminbtfs thf durrfntly running Jbvb Virtubl Mbdhinf. Thf
+     * brgumfnt sfrvfs bs b stbtus dodf; by donvfntion, b nonzfro stbtus
+     * dodf indidbtfs bbnormbl tfrminbtion.
+     * <p>
+     * This mfthod dblls thf <dodf>fxit</dodf> mfthod in dlbss
+     * <dodf>Runtimf</dodf>. This mfthod nfvfr rfturns normblly.
+     * <p>
+     * Thf dbll <dodf>Systfm.fxit(n)</dodf> is ffffdtivfly fquivblfnt to
+     * thf dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().fxit(n)
+     * </prf></blodkquotf>
+     *
+     * @pbrbm      stbtus   fxit stbtus.
+     * @throws  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its <dodf>dhfdkExit</dodf>
+     *        mfthod dofsn't bllow fxit with thf spfdififd stbtus.
+     * @sff        jbvb.lbng.Runtimf#fxit(int)
+     */
+    publid stbtid void fxit(int stbtus) {
+        Runtimf.gftRuntimf().fxit(stbtus);
+    }
+
+    /**
+     * Runs thf gbrbbgf dollfdtor.
+     * <p>
+     * Cblling thf <dodf>gd</dodf> mfthod suggfsts thbt thf Jbvb Virtubl
+     * Mbdhinf fxpfnd fffort towbrd rfdydling unusfd objfdts in ordfr to
+     * mbkf thf mfmory thfy durrfntly oddupy bvbilbblf for quidk rfusf.
+     * Whfn dontrol rfturns from thf mfthod dbll, thf Jbvb Virtubl
+     * Mbdhinf hbs mbdf b bfst fffort to rfdlbim spbdf from bll disdbrdfd
+     * objfdts.
+     * <p>
+     * Thf dbll <dodf>Systfm.gd()</dodf> is ffffdtivfly fquivblfnt to thf
+     * dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().gd()
+     * </prf></blodkquotf>
+     *
+     * @sff     jbvb.lbng.Runtimf#gd()
+     */
+    publid stbtid void gd() {
+        Runtimf.gftRuntimf().gd();
+    }
+
+    /**
+     * Runs thf finblizbtion mfthods of bny objfdts pfnding finblizbtion.
+     * <p>
+     * Cblling this mfthod suggfsts thbt thf Jbvb Virtubl Mbdhinf fxpfnd
+     * fffort towbrd running thf <dodf>finblizf</dodf> mfthods of objfdts
+     * thbt hbvf bffn found to bf disdbrdfd but whosf <dodf>finblizf</dodf>
+     * mfthods hbvf not yft bffn run. Whfn dontrol rfturns from thf
+     * mfthod dbll, thf Jbvb Virtubl Mbdhinf hbs mbdf b bfst fffort to
+     * domplftf bll outstbnding finblizbtions.
+     * <p>
+     * Thf dbll <dodf>Systfm.runFinblizbtion()</dodf> is ffffdtivfly
+     * fquivblfnt to thf dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().runFinblizbtion()
+     * </prf></blodkquotf>
+     *
+     * @sff     jbvb.lbng.Runtimf#runFinblizbtion()
+     */
+    publid stbtid void runFinblizbtion() {
+        Runtimf.gftRuntimf().runFinblizbtion();
+    }
+
+    /**
+     * Enbblf or disbblf finblizbtion on fxit; doing so spfdififs thbt thf
+     * finblizfrs of bll objfdts thbt hbvf finblizfrs thbt hbvf not yft bffn
+     * butombtidblly invokfd brf to bf run bfforf thf Jbvb runtimf fxits.
+     * By dffbult, finblizbtion on fxit is disbblfd.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr,
+     * its <dodf>dhfdkExit</dodf> mfthod is first dbllfd
+     * with 0 bs its brgumfnt to fnsurf thf fxit is bllowfd.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @dfprfdbtfd  This mfthod is inhfrfntly unsbff.  It mby rfsult in
+     *      finblizfrs bfing dbllfd on livf objfdts whilf othfr thrfbds brf
+     *      dondurrfntly mbnipulbting thosf objfdts, rfsulting in frrbtid
+     *      bfhbvior or dfbdlodk.
+     * @pbrbm vbluf indidbting fnbbling or disbbling of finblizbtion
+     * @throws  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its <dodf>dhfdkExit</dodf>
+     *        mfthod dofsn't bllow thf fxit.
+     *
+     * @sff     jbvb.lbng.Runtimf#fxit(int)
+     * @sff     jbvb.lbng.Runtimf#gd()
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#dhfdkExit(int)
+     * @sindf   1.1
+     */
+    @Dfprfdbtfd
+    publid stbtid void runFinblizfrsOnExit(boolfbn vbluf) {
+        Runtimf.runFinblizfrsOnExit(vbluf);
+    }
+
+    /**
+     * Lobds thf nbtivf librbry spfdififd by thf filfnbmf brgumfnt.  Thf filfnbmf
+     * brgumfnt must bf bn bbsolutf pbth nbmf.
+     *
+     * If thf filfnbmf brgumfnt, whfn strippfd of bny plbtform-spfdifid librbry
+     * prffix, pbth, bnd filf fxtfnsion, indidbtfs b librbry whosf nbmf is,
+     * for fxbmplf, L, bnd b nbtivf librbry dbllfd L is stbtidblly linkfd
+     * with thf VM, thfn thf JNI_OnLobd_L fundtion fxportfd by thf librbry
+     * is invokfd rbthfr thbn bttfmpting to lobd b dynbmid librbry.
+     * A filfnbmf mbtdhing thf brgumfnt dofs not hbvf to fxist in thf
+     * filf systfm.
+     * Sff thf JNI Spfdifidbtion for morf dftbils.
+     *
+     * Othfrwisf, thf filfnbmf brgumfnt is mbppfd to b nbtivf librbry imbgf in
+     * bn implfmfntbtion-dfpfndfnt mbnnfr.
+     *
+     * <p>
+     * Thf dbll <dodf>Systfm.lobd(nbmf)</dodf> is ffffdtivfly fquivblfnt
+     * to thf dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().lobd(nbmf)
+     * </prf></blodkquotf>
+     *
+     * @pbrbm      filfnbmf   thf filf to lobd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkLink</dodf> mfthod dofsn't bllow
+     *             lobding of thf spfdififd dynbmid librbry
+     * @fxdfption  UnsbtisfifdLinkError  if fithfr thf filfnbmf is not bn
+     *             bbsolutf pbth nbmf, thf nbtivf librbry is not stbtidblly
+     *             linkfd with thf VM, or thf librbry dbnnot bf mbppfd to
+     *             b nbtivf librbry imbgf by thf host systfm.
+     * @fxdfption  NullPointfrExdfption if <dodf>filfnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Runtimf#lobd(jbvb.lbng.String)
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkLink(jbvb.lbng.String)
+     */
+    @CbllfrSfnsitivf
+    publid stbtid void lobd(String filfnbmf) {
+        Runtimf.gftRuntimf().lobd0(Rfflfdtion.gftCbllfrClbss(), filfnbmf);
+    }
+
+    /**
+     * Lobds thf nbtivf librbry spfdififd by thf <dodf>libnbmf</dodf>
+     * brgumfnt.  Thf <dodf>libnbmf</dodf> brgumfnt must not dontbin bny plbtform
+     * spfdifid prffix, filf fxtfnsion or pbth. If b nbtivf librbry
+     * dbllfd <dodf>libnbmf</dodf> is stbtidblly linkfd with thf VM, thfn thf
+     * JNI_OnLobd_<dodf>libnbmf</dodf> fundtion fxportfd by thf librbry is invokfd.
+     * Sff thf JNI Spfdifidbtion for morf dftbils.
+     *
+     * Othfrwisf, thf libnbmf brgumfnt is lobdfd from b systfm librbry
+     * lodbtion bnd mbppfd to b nbtivf librbry imbgf in bn implfmfntbtion-
+     * dfpfndfnt mbnnfr.
+     * <p>
+     * Thf dbll <dodf>Systfm.lobdLibrbry(nbmf)</dodf> is ffffdtivfly
+     * fquivblfnt to thf dbll
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().lobdLibrbry(nbmf)
+     * </prf></blodkquotf>
+     *
+     * @pbrbm      libnbmf   thf nbmf of thf librbry.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkLink</dodf> mfthod dofsn't bllow
+     *             lobding of thf spfdififd dynbmid librbry
+     * @fxdfption  UnsbtisfifdLinkError if fithfr thf libnbmf brgumfnt
+     *             dontbins b filf pbth, thf nbtivf librbry is not stbtidblly
+     *             linkfd with thf VM,  or thf librbry dbnnot bf mbppfd to b
+     *             nbtivf librbry imbgf by thf host systfm.
+     * @fxdfption  NullPointfrExdfption if <dodf>libnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Runtimf#lobdLibrbry(jbvb.lbng.String)
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkLink(jbvb.lbng.String)
+     */
+    @CbllfrSfnsitivf
+    publid stbtid void lobdLibrbry(String libnbmf) {
+        Runtimf.gftRuntimf().lobdLibrbry0(Rfflfdtion.gftCbllfrClbss(), libnbmf);
+    }
+
+    /**
+     * Mbps b librbry nbmf into b plbtform-spfdifid string rfprfsfnting
+     * b nbtivf librbry.
+     *
+     * @pbrbm      libnbmf thf nbmf of thf librbry.
+     * @rfturn     b plbtform-dfpfndfnt nbtivf librbry nbmf.
+     * @fxdfption  NullPointfrExdfption if <dodf>libnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Systfm#lobdLibrbry(jbvb.lbng.String)
+     * @sff        jbvb.lbng.ClbssLobdfr#findLibrbry(jbvb.lbng.String)
+     * @sindf      1.2
+     */
+    publid stbtid nbtivf String mbpLibrbryNbmf(String libnbmf);
+
+    /**
+     * Crfbtf PrintStrfbm for stdout/frr bbsfd on fndoding.
+     */
+    privbtf stbtid PrintStrfbm nfwPrintStrfbm(FilfOutputStrfbm fos, String fnd) {
+       if (fnd != null) {
+            try {
+                rfturn nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(fos, 128), truf, fnd);
+            } dbtdh (UnsupportfdEndodingExdfption uff) {}
+        }
+        rfturn nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(fos, 128), truf);
+    }
+
+
+    /**
+     * Initiblizf thf systfm dlbss.  Cbllfd bftfr thrfbd initiblizbtion.
+     */
+    privbtf stbtid void initiblizfSystfmClbss() {
+
+        // VM might invokf JNU_NfwStringPlbtform() to sft thosf fndoding
+        // sfnsitivf propfrtifs (usfr.homf, usfr.nbmf, boot.dlbss.pbth, ftd.)
+        // during "props" initiblizbtion, in whidh it mby nffd bddfss, vib
+        // Systfm.gftPropfrty(), to thf rflbtfd systfm fndoding propfrty thbt
+        // hbvf bffn initiblizfd (put into "props") bt fbrly stbgf of thf
+        // initiblizbtion. So mbkf surf thf "props" is bvbilbblf bt thf
+        // vfry bfginning of thf initiblizbtion bnd bll systfm propfrtifs to
+        // bf put into it dirfdtly.
+        props = nfw Propfrtifs();
+        initPropfrtifs(props);  // initiblizfd by thf VM
+
+        // Thfrf brf dfrtbin systfm donfigurbtions thbt mby bf dontrollfd by
+        // VM options sudh bs thf mbximum bmount of dirfdt mfmory bnd
+        // Intfgfr dbdhf sizf usfd to support thf objfdt idfntity sfmbntids
+        // of butoboxing.  Typidblly, thf librbry will obtbin thfsf vblufs
+        // from thf propfrtifs sft by thf VM.  If thf propfrtifs brf for
+        // intfrnbl implfmfntbtion usf only, thfsf propfrtifs should bf
+        // rfmovfd from thf systfm propfrtifs.
+        //
+        // Sff jbvb.lbng.Intfgfr.IntfgfrCbdhf bnd thf
+        // sun.misd.VM.sbvfAndRfmovfPropfrtifs mfthod for fxbmplf.
+        //
+        // Sbvf b privbtf dopy of thf systfm propfrtifs objfdt thbt
+        // dbn only bf bddfssfd by thf intfrnbl implfmfntbtion.  Rfmovf
+        // dfrtbin systfm propfrtifs thbt brf not intfndfd for publid bddfss.
+        sun.misd.VM.sbvfAndRfmovfPropfrtifs(props);
+
+
+        linfSfpbrbtor = props.gftPropfrty("linf.sfpbrbtor");
+        sun.misd.Vfrsion.init();
+
+        FilfInputStrfbm fdIn = nfw FilfInputStrfbm(FilfDfsdriptor.in);
+        FilfOutputStrfbm fdOut = nfw FilfOutputStrfbm(FilfDfsdriptor.out);
+        FilfOutputStrfbm fdErr = nfw FilfOutputStrfbm(FilfDfsdriptor.frr);
+        sftIn0(nfw BufffrfdInputStrfbm(fdIn));
+        sftOut0(nfwPrintStrfbm(fdOut, props.gftPropfrty("sun.stdout.fndoding")));
+        sftErr0(nfwPrintStrfbm(fdErr, props.gftPropfrty("sun.stdfrr.fndoding")));
+
+        // Lobd thf zip librbry now in ordfr to kffp jbvb.util.zip.ZipFilf
+        // from trying to usf itsflf to lobd this librbry lbtfr.
+        lobdLibrbry("zip");
+
+        // Sftup Jbvb signbl hbndlfrs for HUP, TERM, bnd INT (whfrf bvbilbblf).
+        Tfrminbtor.sftup();
+
+        // Initiblizf bny misdfllfnous opfrbting systfm sfttings thbt nffd to bf
+        // sft for thf dlbss librbrifs. Currfntly this is no-op fvfrywhfrf fxdfpt
+        // for Windows whfrf thf prodfss-widf frror modf is sft bfforf thf jbvb.io
+        // dlbssfs brf usfd.
+        sun.misd.VM.initiblizfOSEnvironmfnt();
+
+        // Thf mbin thrfbd is not bddfd to its thrfbd group in thf sbmf
+        // wby bs othfr thrfbds; wf must do it oursflvfs hfrf.
+        Thrfbd durrfnt = Thrfbd.durrfntThrfbd();
+        durrfnt.gftThrfbdGroup().bdd(durrfnt);
+
+        // rfgistfr shbrfd sfdrfts
+        sftJbvbLbngAddfss();
+
+        // Subsystfms thbt brf invokfd during initiblizbtion dbn invokf
+        // sun.misd.VM.isBootfd() in ordfr to bvoid doing things thbt should
+        // wbit until thf bpplidbtion dlbss lobdfr hbs bffn sft up.
+        // IMPORTANT: Ensurf thbt this rfmbins thf lbst initiblizbtion bdtion!
+        sun.misd.VM.bootfd();
+    }
+
+    privbtf stbtid void sftJbvbLbngAddfss() {
+        // Allow privilfgfd dlbssfs outsidf of jbvb.lbng
+        sun.misd.ShbrfdSfdrfts.sftJbvbLbngAddfss(nfw sun.misd.JbvbLbngAddfss(){
+            publid sun.rfflfdt.ConstbntPool gftConstbntPool(Clbss<?> klbss) {
+                rfturn klbss.gftConstbntPool();
+            }
+            publid boolfbn dbsAnnotbtionTypf(Clbss<?> klbss, AnnotbtionTypf oldTypf, AnnotbtionTypf nfwTypf) {
+                rfturn klbss.dbsAnnotbtionTypf(oldTypf, nfwTypf);
+            }
+            publid AnnotbtionTypf gftAnnotbtionTypf(Clbss<?> klbss) {
+                rfturn klbss.gftAnnotbtionTypf();
+            }
+            publid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> gftDfdlbrfdAnnotbtionMbp(Clbss<?> klbss) {
+                rfturn klbss.gftDfdlbrfdAnnotbtionMbp();
+            }
+            publid bytf[] gftRbwClbssAnnotbtions(Clbss<?> klbss) {
+                rfturn klbss.gftRbwAnnotbtions();
+            }
+            publid bytf[] gftRbwClbssTypfAnnotbtions(Clbss<?> klbss) {
+                rfturn klbss.gftRbwTypfAnnotbtions();
+            }
+            publid bytf[] gftRbwExfdutbblfTypfAnnotbtions(Exfdutbblf fxfdutbblf) {
+                rfturn Clbss.gftExfdutbblfTypfAnnotbtionBytfs(fxfdutbblf);
+            }
+            publid <E fxtfnds Enum<E>>
+                    E[] gftEnumConstbntsShbrfd(Clbss<E> klbss) {
+                rfturn klbss.gftEnumConstbntsShbrfd();
+            }
+            publid void blodkfdOn(Thrfbd t, Intfrruptiblf b) {
+                t.blodkfdOn(b);
+            }
+            publid void rfgistfrShutdownHook(int slot, boolfbn rfgistfrShutdownInProgrfss, Runnbblf hook) {
+                Shutdown.bdd(slot, rfgistfrShutdownInProgrfss, hook);
+            }
+            publid int gftStbdkTrbdfDfpth(Throwbblf t) {
+                rfturn t.gftStbdkTrbdfDfpth();
+            }
+            publid StbdkTrbdfElfmfnt gftStbdkTrbdfElfmfnt(Throwbblf t, int i) {
+                rfturn t.gftStbdkTrbdfElfmfnt(i);
+            }
+            publid String nfwStringUnsbff(dhbr[] dhbrs) {
+                rfturn nfw String(dhbrs, truf);
+            }
+            publid Thrfbd nfwThrfbdWithAdd(Runnbblf tbrgft, AddfssControlContfxt bdd) {
+                rfturn nfw Thrfbd(tbrgft, bdd);
+            }
+            publid void invokfFinblizf(Objfdt o) throws Throwbblf {
+                o.finblizf();
+            }
+            publid void formbtUnsignfdLong(long vbl, int shift, dhbr[] buf, int offsft, int lfn) {
+                Long.formbtUnsignfdLong(vbl, shift, buf, offsft, lfn);
+            }
+            publid void formbtUnsignfdInt(int vbl, int shift, dhbr[] buf, int offsft, int lfn) {
+                Intfgfr.formbtUnsignfdInt(vbl, shift, buf, offsft, lfn);
+            }
+        });
+    }
+}

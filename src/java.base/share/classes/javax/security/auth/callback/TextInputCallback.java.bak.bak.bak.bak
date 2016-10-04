@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.dbllbbdk;
+
+/**
+ * <p> Undfrlying sfdurity sfrvidfs instbntibtf bnd pbss b
+ * {@dodf TfxtInputCbllbbdk} to thf {@dodf hbndlf}
+ * mfthod of b {@dodf CbllbbdkHbndlfr} to rftrifvf gfnfrid tfxt
+ * informbtion.
+ *
+ * @sff jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr
+ */
+publid dlbss TfxtInputCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8064222478852811804L;
+
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String prompt;
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String dffbultTfxt;
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String inputTfxt;
+
+    /**
+     * Construdt b {@dodf TfxtInputCbllbbdk} with b prompt.
+     *
+     * <p>
+     *
+     * @pbrbm prompt thf prompt usfd to rfqufst thf informbtion.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null
+     *                  or if {@dodf prompt} hbs b lfngth of 0.
+     */
+    publid TfxtInputCbllbbdk(String prompt) {
+        if (prompt == null || prompt.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption();
+        this.prompt = prompt;
+    }
+
+    /**
+     * Construdt b {@dodf TfxtInputCbllbbdk} with b prompt
+     * bnd dffbult input vbluf.
+     *
+     * <p>
+     *
+     * @pbrbm prompt thf prompt usfd to rfqufst thf informbtion. <p>
+     *
+     * @pbrbm dffbultTfxt thf tfxt to bf usfd bs thf dffbult tfxt displbyfd
+     *                  with thf prompt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null,
+     *                  if {@dodf prompt} hbs b lfngth of 0,
+     *                  if {@dodf dffbultTfxt} is null
+     *                  or if {@dodf dffbultTfxt} hbs b lfngth of 0.
+     */
+    publid TfxtInputCbllbbdk(String prompt, String dffbultTfxt) {
+        if (prompt == null || prompt.lfngth() == 0 ||
+            dffbultTfxt == null || dffbultTfxt.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption();
+
+        this.prompt = prompt;
+        this.dffbultTfxt = dffbultTfxt;
+    }
+
+    /**
+     * Gft thf prompt.
+     *
+     * <p>
+     *
+     * @rfturn thf prompt.
+     */
+    publid String gftPrompt() {
+        rfturn prompt;
+    }
+
+    /**
+     * Gft thf dffbult tfxt.
+     *
+     * <p>
+     *
+     * @rfturn thf dffbult tfxt, or null if this {@dodf TfxtInputCbllbbdk}
+     *          wbs not instbntibtfd with {@dodf dffbultTfxt}.
+     */
+    publid String gftDffbultTfxt() {
+        rfturn dffbultTfxt;
+    }
+
+    /**
+     * Sft thf rftrifvfd tfxt.
+     *
+     * <p>
+     *
+     * @pbrbm tfxt thf rftrifvfd tfxt, whidh mby bf null.
+     *
+     * @sff #gftTfxt
+     */
+    publid void sftTfxt(String tfxt) {
+        this.inputTfxt = tfxt;
+    }
+
+    /**
+     * Gft thf rftrifvfd tfxt.
+     *
+     * <p>
+     *
+     * @rfturn thf rftrifvfd tfxt, whidh mby bf null.
+     *
+     * @sff #sftTfxt
+     */
+    publid String gftTfxt() {
+        rfturn inputTfxt;
+    }
+}

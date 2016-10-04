@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.LightwfightPffr;
+import sun.bwt.SunGrbphidsCbllbbdk;
+
+
+bbstrbdt dlbss GrbphidsCbllbbdk fxtfnds SunGrbphidsCbllbbdk {
+
+    stbtid finbl dlbss PbintCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PbintCbllbbdk instbndf = nfw PbintCbllbbdk();
+
+        privbtf PbintCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.pbint(dg);
+        }
+        stbtid PbintCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PrintCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PrintCbllbbdk instbndf = nfw PrintCbllbbdk();
+
+        privbtf PrintCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.print(dg);
+        }
+        stbtid PrintCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PbintAllCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PbintAllCbllbbdk instbndf = nfw PbintAllCbllbbdk();
+
+        privbtf PbintAllCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.pbintAll(dg);
+        }
+        stbtid PbintAllCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PrintAllCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PrintAllCbllbbdk instbndf = nfw PrintAllCbllbbdk();
+
+        privbtf PrintAllCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.printAll(dg);
+        }
+        stbtid PrintAllCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PffrPbintCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PffrPbintCbllbbdk instbndf = nfw PffrPbintCbllbbdk();
+
+        privbtf PffrPbintCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.vblidbtf();
+            if (domp.pffr instbndfof LightwfightPffr) {
+                domp.lightwfightPbint(dg);
+            } flsf {
+                domp.pffr.pbint(dg);
+            }
+        }
+        stbtid PffrPbintCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PffrPrintCbllbbdk fxtfnds GrbphidsCbllbbdk {
+        privbtf stbtid PffrPrintCbllbbdk instbndf = nfw PffrPrintCbllbbdk();
+
+        privbtf PffrPrintCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            domp.vblidbtf();
+            if (domp.pffr instbndfof LightwfightPffr) {
+                domp.lightwfightPrint(dg);
+            } flsf {
+                domp.pffr.print(dg);
+            }
+        }
+        stbtid PffrPrintCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PbintHfbvywfightComponfntsCbllbbdk
+        fxtfnds GrbphidsCbllbbdk
+    {
+        privbtf stbtid PbintHfbvywfightComponfntsCbllbbdk instbndf =
+            nfw PbintHfbvywfightComponfntsCbllbbdk();
+
+        privbtf PbintHfbvywfightComponfntsCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            if (domp.pffr instbndfof LightwfightPffr) {
+                domp.pbintHfbvywfightComponfnts(dg);
+            } flsf {
+                domp.pbintAll(dg);
+            }
+        }
+        stbtid PbintHfbvywfightComponfntsCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+    stbtid finbl dlbss PrintHfbvywfightComponfntsCbllbbdk
+        fxtfnds GrbphidsCbllbbdk
+    {
+        privbtf stbtid PrintHfbvywfightComponfntsCbllbbdk instbndf =
+            nfw PrintHfbvywfightComponfntsCbllbbdk();
+
+        privbtf PrintHfbvywfightComponfntsCbllbbdk() {}
+        publid void run(Componfnt domp, Grbphids dg) {
+            if (domp.pffr instbndfof LightwfightPffr) {
+                domp.printHfbvywfightComponfnts(dg);
+            } flsf {
+                domp.printAll(dg);
+            }
+        }
+        stbtid PrintHfbvywfightComponfntsCbllbbdk gftInstbndf() {
+            rfturn instbndf;
+        }
+    }
+}

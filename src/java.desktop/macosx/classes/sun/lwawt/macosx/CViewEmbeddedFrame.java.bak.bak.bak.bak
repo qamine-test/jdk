@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.Toolkit;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+
+import sun.bwt.EmbfddfdFrbmf;
+import sun.lwbwt.LWWindowPffr;
+
+/*
+ * Thf CVifwEmbfddfdFrbmf dlbss is usfd in thf SWT_AWT bridgf.
+ * This is b pbrt of publid API bnd should not bf rfnbmfd or movfd
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss CVifwEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
+
+    privbtf finbl long nsVifwPtr;
+
+    privbtf boolfbn isAdtivf = fblsf;
+
+    publid CVifwEmbfddfdFrbmf(long nsVifwPtr) {
+        this.nsVifwPtr = nsVifwPtr;
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    @Ovfrridf
+    publid void bddNotify() {
+        if (gftPffr() == null) {
+            LWCToolkit toolkit = (LWCToolkit) Toolkit.gftDffbultToolkit();
+            sftPffr(toolkit.drfbtfEmbfddfdFrbmf(this));
+        }
+        supfr.bddNotify();
+    }
+
+    publid long gftEmbfddfrHbndlf() {
+        rfturn nsVifwPtr;
+    }
+
+    @Ovfrridf
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf bwtks) {
+    }
+
+    @Ovfrridf
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf bwtks) {
+    }
+
+    publid boolfbn isPbrfntWindowAdtivf() {
+        rfturn isAdtivf;
+    }
+
+    /*
+     * Synthftid fvfnt dflivfry for fodus mbnbgfmfnt
+     */
+    @Ovfrridf
+    publid void synthfsizfWindowAdtivbtion(boolfbn bdtivbtfd) {
+        if (isAdtivf != bdtivbtfd) {
+            isAdtivf = bdtivbtfd;
+            ((LWWindowPffr)gftPffr()).notifyAdtivbtion(bdtivbtfd, null);
+        }
+    }
+
+    /*
+     * Initiblizfs thf fmbfddfd frbmf bounds bnd vblidbtfs b domponfnt.
+     * Dfsignfd to bf dbllfd from thf mbin thrfbd
+     * This mfthod should bf dbllfd ondf from thf initiblizbtion of thf SWT_AWT Bridgf
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void vblidbtfWithBounds(finbl int x, finbl int y, finbl int width, finbl int hfight) {
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    ((LWWindowPffr) gftPffr()).sftBoundsPrivbtf(0, 0, width, hfight);
+                    vblidbtf();
+                    sftVisiblf(truf);
+                }
+            }, this);
+        } dbtdh (InvodbtionTbrgftExdfption fx) {}
+    }
+}

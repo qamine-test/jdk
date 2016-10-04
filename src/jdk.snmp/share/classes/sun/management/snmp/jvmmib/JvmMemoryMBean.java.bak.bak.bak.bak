@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This intfrfbdf is usfd for rfprfsfnting thf rfmotf mbnbgfmfnt intfrfbdf for thf "JvmMfmory" MBfbn.
+ */
+publid intfrfbdf JvmMfmoryMBfbn {
+
+    /**
+     * Gfttfr for thf "JvmMfmoryNonHfbpMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmoryNonHfbpMbxSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryNonHfbpCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmoryNonHfbpCommittfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryNonHfbpUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmoryNonHfbpUsfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryNonHfbpInitSizf" vbribblf.
+     */
+    publid Long gftJvmMfmoryNonHfbpInitSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryHfbpMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmoryHfbpMbxSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryHfbpCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmoryHfbpCommittfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryGCCbll" vbribblf.
+     */
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmMfmoryGCCbll" vbribblf.
+     */
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmMfmoryGCCbll" vbribblf.
+     */
+    publid void dhfdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryHfbpUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmoryHfbpUsfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     */
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     */
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
+     */
+    publid void dhfdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryHfbpInitSizf" vbribblf.
+     */
+    publid Long gftJvmMfmoryHfbpInitSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmoryPfndingFinblCount" vbribblf.
+     */
+    publid Long gftJvmMfmoryPfndingFinblCount() throws SnmpStbtusExdfption;
+
+}

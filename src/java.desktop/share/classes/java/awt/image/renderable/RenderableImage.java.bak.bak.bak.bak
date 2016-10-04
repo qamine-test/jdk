@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * A RfndfrbblfImbgf is b dommon intfrfbdf for rfndfring-indfpfndfnt
+ * imbgfs (b notion whidh subsumfs rfsolution indfpfndfndf).  Thbt is,
+ * imbgfs whidh brf dfsdribfd bnd hbvf opfrbtions bpplifd to thfm
+ * indfpfndfnt of bny spfdifid rfndfring of thf imbgf.  For fxbmplf, b
+ * RfndfrbblfImbgf dbn bf rotbtfd bnd droppfd in
+ * rfsolution-indfpfndfnt tfrms.  Thfn, it dbn bf rfndfrfd for vbrious
+ * spfdifid dontfxts, sudh bs b drbft prfvifw, b high-qublity sdrffn
+ * displby, or b printfr, fbdh in bn optimbl fbshion.
+ *
+ * <p> A RfndfrfdImbgf is rfturnfd from b RfndfrbblfImbgf vib thf
+ * drfbtfRfndfring() mfthod, whidh tbkfs b RfndfrContfxt.  Thf
+ * RfndfrContfxt spfdififs how thf RfndfrfdImbgf should bf
+ * donstrudtfd.  Notf thbt it is not possiblf to fxtrbdt pixfls
+ * dirfdtly from b RfndfrbblfImbgf.
+ *
+ * <p> Thf drfbtfDffbultRfndfring() bnd drfbtfSdblfdRfndfring() mfthods brf
+ * donvfnifndf mfthods thbt donstrudt bn bppropribtf RfndfrContfxt
+ * intfrnblly.  All of thf rfndfring mfthods mby rfturn b rfffrfndf to b
+ * prfviously produdfd rfndfring.
+ */
+publid intfrfbdf RfndfrbblfImbgf {
+
+    /**
+     * String donstbnt thbt dbn bf usfd to idfntify b propfrty on
+     * b RfndfrfdImbgf obtbinfd vib thf drfbtfRfndfring or
+     * drfbtfSdblfdRfndfring mfthods.  If sudh b propfrty fxists,
+     * thf vbluf of thf propfrty will bf b RfndfringHints objfdt
+     * spfdifying whidh hints wfrf obsfrvfd in drfbting thf rfndfring.
+     */
+     stbtid finbl String HINTS_OBSERVED = "HINTS_OBSERVED";
+
+    /**
+     * Rfturns b vfdtor of RfndfrbblfImbgfs thbt brf thf sourdfs of
+     * imbgf dbtb for this RfndfrbblfImbgf. Notf thbt this mfthod mby
+     * rfturn bn fmpty vfdtor, to indidbtf thbt thf imbgf hbs no sourdfs,
+     * or null, to indidbtf thbt no informbtion is bvbilbblf.
+     *
+     * @rfturn b (possibly fmpty) Vfdtor of RfndfrbblfImbgfs, or null.
+     */
+    Vfdtor<RfndfrbblfImbgf> gftSourdfs();
+
+    /**
+     * Gfts b propfrty from thf propfrty sft of this imbgf.
+     * If thf propfrty nbmf is not rfdognizfd, jbvb.bwt.Imbgf.UndffinfdPropfrty
+     * will bf rfturnfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf propfrty to gft, bs b String.
+     * @rfturn b rfffrfndf to thf propfrty Objfdt, or thf vbluf
+     *         jbvb.bwt.Imbgf.UndffinfdPropfrty.
+     */
+    Objfdt gftPropfrty(String nbmf);
+
+    /**
+     * Rfturns b list of nbmfs rfdognizfd by gftPropfrty.
+     * @rfturn b list of propfrty nbmfs.
+     */
+    String[] gftPropfrtyNbmfs();
+
+    /**
+     * Rfturns truf if suddfssivf rfndfrings (thbt is, dblls to
+     * drfbtfRfndfring() or drfbtfSdblfdRfndfring()) with thf sbmf brgumfnts
+     * mby produdf difffrfnt rfsults.  This mfthod mby bf usfd to
+     * dftfrminf whfthfr bn fxisting rfndfring mby bf dbdhfd bnd
+     * rfusfd.  It is blwbys sbff to rfturn truf.
+     * @rfturn <dodf>truf</dodf> if suddfssivf rfndfrings with thf
+     *         sbmf brgumfnts might produdf difffrfnt rfsults;
+     *         <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isDynbmid();
+
+    /**
+     * Gfts thf width in usfr doordinbtf spbdf.  By donvfntion, thf
+     * usubl width of b RfndfrbblfImbgf is fqubl to thf imbgf's bspfdt
+     * rbtio (width dividfd by hfight).
+     *
+     * @rfturn thf width of thf imbgf in usfr doordinbtfs.
+     */
+    flobt gftWidth();
+
+    /**
+     * Gfts thf hfight in usfr doordinbtf spbdf.  By donvfntion, thf
+     * usubl hfight of b RfndfrfdImbgf is fqubl to 1.0F.
+     *
+     * @rfturn thf hfight of thf imbgf in usfr doordinbtfs.
+     */
+    flobt gftHfight();
+
+    /**
+     * Gfts thf minimum X doordinbtf of thf rfndfring-indfpfndfnt imbgf dbtb.
+     * @rfturn thf minimum X doordinbtf of thf rfndfring-indfpfndfnt imbgf
+     * dbtb.
+     */
+    flobt gftMinX();
+
+    /**
+     * Gfts thf minimum Y doordinbtf of thf rfndfring-indfpfndfnt imbgf dbtb.
+     * @rfturn thf minimum Y doordinbtf of thf rfndfring-indfpfndfnt imbgf
+     * dbtb.
+     */
+    flobt gftMinY();
+
+    /**
+     * Crfbtfs b RfndfrfdImbgf instbndf of this imbgf with width w, bnd
+     * hfight h in pixfls.  Thf RfndfrContfxt is built butombtidblly
+     * with bn bppropribtf usr2dfv trbnsform bnd bn brfb of intfrfst
+     * of thf full imbgf.  All thf rfndfring hints domf from hints
+     * pbssfd in.
+     *
+     * <p> If w == 0, it will bf tbkfn to fqubl
+     * Mbth.round(h*(gftWidth()/gftHfight())).
+     * Similbrly, if h == 0, it will bf tbkfn to fqubl
+     * Mbth.round(w*(gftHfight()/gftWidth())).  Onf of
+     * w or h must bf non-zfro or flsf bn IllfgblArgumfntExdfption
+     * will bf thrown.
+     *
+     * <p> Thf drfbtfd RfndfrfdImbgf mby hbvf b propfrty idfntififd
+     * by thf String HINTS_OBSERVED to indidbtf whidh RfndfringHints
+     * wfrf usfd to drfbtf thf imbgf.  In bddition bny RfndfrfdImbgfs
+     * thbt brf obtbinfd vib thf gftSourdfs() mfthod on thf drfbtfd
+     * RfndfrfdImbgf mby hbvf sudh b propfrty.
+     *
+     * @pbrbm w thf width of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm h thf hfight of rfndfrfd imbgf in pixfls, or 0.
+     * @pbrbm hints b RfndfringHints objfdt dontbining hints.
+     * @rfturn b RfndfrfdImbgf dontbining thf rfndfrfd dbtb.
+     */
+    RfndfrfdImbgf drfbtfSdblfdRfndfring(int w, int h, RfndfringHints hints);
+
+    /**
+     * Rfturnd b RfndfrfdImbgf instbndf of this imbgf with b dffbult
+     * width bnd hfight in pixfls.  Thf RfndfrContfxt is built
+     * butombtidblly with bn bppropribtf usr2dfv trbnsform bnd bn brfb
+     * of intfrfst of thf full imbgf.  Thf rfndfring hints brf
+     * fmpty.  drfbtfDffbultRfndfring mby mbkf usf of b storfd
+     * rfndfring for spffd.
+     *
+     * @rfturn b RfndfrfdImbgf dontbining thf rfndfrfd dbtb.
+     */
+    RfndfrfdImbgf drfbtfDffbultRfndfring();
+
+    /**
+     * Crfbtfs b RfndfrfdImbgf thbt rfprfsfntfd b rfndfring of this imbgf
+     * using b givfn RfndfrContfxt.  This is thf most gfnfrbl wby to obtbin b
+     * rfndfring of b RfndfrbblfImbgf.
+     *
+     * <p> Thf drfbtfd RfndfrfdImbgf mby hbvf b propfrty idfntififd
+     * by thf String HINTS_OBSERVED to indidbtf whidh RfndfringHints
+     * (from thf RfndfrContfxt) wfrf usfd to drfbtf thf imbgf.
+     * In bddition bny RfndfrfdImbgfs
+     * thbt brf obtbinfd vib thf gftSourdfs() mfthod on thf drfbtfd
+     * RfndfrfdImbgf mby hbvf sudh b propfrty.
+     *
+     * @pbrbm rfndfrContfxt thf RfndfrContfxt to usf to produdf thf rfndfring.
+     * @rfturn b RfndfrfdImbgf dontbining thf rfndfrfd dbtb.
+     */
+    RfndfrfdImbgf drfbtfRfndfring(RfndfrContfxt rfndfrContfxt);
+}

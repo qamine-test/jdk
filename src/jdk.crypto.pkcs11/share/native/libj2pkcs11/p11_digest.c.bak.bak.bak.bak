@@ -1,0 +1,348 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+#indludf "pkds11wrbppfr.h"
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <bssfrt.h>
+#indludf "jlong.h"
+
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.h"
+
+#ifdff P11_ENABLE_C_DIGESTINIT
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DigfstInit
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jobjfdt jMfdhbnism          CK_MECHANISM_PTR pMfdhbnism
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstInit
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdhbnism)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdhbnism;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdhbnismToCKMfdhbnism(fnv, jMfdhbnism, &dkMfdhbnism);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn; }
+
+    rv = (*dkpFundtions->C_DigfstInit)(dkSfssionHbndlf, &dkMfdhbnism);
+
+    if (dkMfdhbnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdhbnism.pPbrbmftfr);
+    }
+
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DIGEST
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_Digfst
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLfn
+ * @rfturn  jbytfArrby jDigfst          CK_BYTE_PTR pDigfst
+ *                                      CK_ULONG_PTR pulDigfstLfn
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstSinglf
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdhbnism, jbytfArrby jIn, jint jInOfs, jint jInLfn, jbytfArrby jDigfst, jint jDigfstOfs, jint jDigfstLfn)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_RV rv;
+    CK_BYTE_PTR bufP;
+    CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
+    CK_BYTE DIGESTBUF[MAX_DIGEST_LEN];
+    CK_ULONG dkDigfstLfngth = min(MAX_DIGEST_LEN, jDigfstLfn);
+    CK_MECHANISM dkMfdhbnism;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdhbnismToCKMfdhbnism(fnv, jMfdhbnism, &dkMfdhbnism);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn 0; }
+
+    rv = (*dkpFundtions->C_DigfstInit)(dkSfssionHbndlf, &dkMfdhbnism);
+
+    if (dkMfdhbnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdhbnism.pPbrbmftfr);
+    }
+
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0; }
+
+    if (jInLfn <= MAX_STACK_BUFFER_LEN) {
+        bufP = BUF;
+    } flsf {
+        /* blwbys usf singlf pbrt op, fvfn for lbrgf dbtb */
+        bufP = (CK_BYTE_PTR) mbllod((sizf_t)jInLfn);
+        if (bufP == NULL) {
+            throwOutOfMfmoryError(fnv, 0);
+            rfturn 0;
+        }
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, jIn, jInOfs, jInLfn, (jbytf *)bufP);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+        if (bufP != BUF) { frff(bufP); }
+        rfturn 0;
+    }
+
+    rv = (*dkpFundtions->C_Digfst)(dkSfssionHbndlf, bufP, jInLfn, DIGESTBUF, &dkDigfstLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, jDigfst, jDigfstOfs, dkDigfstLfngth, (jbytf *)DIGESTBUF);
+    }
+
+    if (bufP != BUF) { frff(bufP); }
+
+    rfturn dkDigfstLfngth;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DIGESTUPDATE
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DigfstUpdbtf
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLfn
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstUpdbtf
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong dirfdtIn, jbytfArrby jIn, jint jInOfs, jint jInLfn)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_RV rv;
+    CK_BYTE_PTR bufP;
+    CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
+    jsizf bufLfn;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+
+    if (dirfdtIn != 0) {
+        rv = (*dkpFundtions->C_DigfstUpdbtf)(dkSfssionHbndlf, (CK_BYTE_PTR)jlong_to_ptr(dirfdtIn), jInLfn);
+        dkAssfrtRfturnVblufOK(fnv, rv);
+        rfturn;
+    }
+
+    if (jInLfn <= MAX_STACK_BUFFER_LEN) {
+        bufLfn = MAX_STACK_BUFFER_LEN;
+        bufP = BUF;
+    } flsf {
+        bufLfn = min(MAX_HEAP_BUFFER_LEN, jInLfn);
+        bufP = (CK_BYTE_PTR) mbllod((sizf_t)bufLfn);
+        if (bufP == NULL) {
+            throwOutOfMfmoryError(fnv, 0);
+            rfturn;
+        }
+    }
+
+    whilf (jInLfn > 0) {
+        jsizf dhunkLfn = min(bufLfn, jInLfn);
+        (*fnv)->GftBytfArrbyRfgion(fnv, jIn, jInOfs, dhunkLfn, (jbytf *)bufP);
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            if (bufP != BUF) { frff(bufP); }
+            rfturn;
+        }
+        rv = (*dkpFundtions->C_DigfstUpdbtf)(dkSfssionHbndlf, bufP, dhunkLfn);
+        if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+            if (bufP != BUF) { frff(bufP); }
+            rfturn;
+        }
+        jInOfs += dhunkLfn;
+        jInLfn -= dhunkLfn;
+    }
+
+    if (bufP != BUF) {
+        frff(bufP);
+    }
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DIGESTKEY
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DigfstKfy
+ * Signbturf: (JJ)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jlong jKfyHbndlf            CK_OBJECT_HANDLE hKfy
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jKfyHbndlf)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_ULONG dkKfyHbndlf;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkKfyHbndlf = jLongToCKULong(jKfyHbndlf);
+
+    rv = (*dkpFundtions->C_DigfstKfy)(dkSfssionHbndlf, dkKfyHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DIGESTFINAL
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DigfstFinbl
+ * Signbturf: (J[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @rfturn  jbytfArrby jDigfst          CK_BYTE_PTR pDigfst
+ *                                      CK_ULONG_PTR pulDigfstLfn
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstFinbl
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jDigfst, jint jDigfstOfs, jint jDigfstLfn)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_RV rv;
+    CK_BYTE BUF[MAX_DIGEST_LEN];
+    CK_ULONG dkDigfstLfngth = min(MAX_DIGEST_LEN, jDigfstLfn);
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+
+    rv = (*dkpFundtions->C_DigfstFinbl)(dkSfssionHbndlf, BUF, &dkDigfstLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, jDigfst, jDigfstOfs, dkDigfstLfngth, (jbytf *)BUF);
+    }
+    rfturn dkDigfstLfngth;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_SEEDRANDOM
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_SffdRbndom
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jSffd            CK_BYTE_PTR pSffd
+ *                                      CK_ULONG ulSffdLfn
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SffdRbndom
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jSffd)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpSffd = NULL_PTR;
+    CK_ULONG dkSffdLfngth;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jSffd, &dkpSffd, &dkSffdLfngth);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn; }
+
+    rv = (*dkpFundtions->C_SffdRbndom)(dkSfssionHbndlf, dkpSffd, dkSffdLfngth);
+
+    frff(dkpSffd);
+
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif
+
+#ifdff P11_ENABLE_C_GENERATERANDOM
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_GfnfrbtfRbndom
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jRbndomDbtb      CK_BYTE_PTR pRbndomDbtb
+ *                                      CK_ULONG ulRbndomDbtbLfn
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GfnfrbtfRbndom
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jRbndomDbtb)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    jbytf *jRbndomBufffr;
+    jlong jRbndomBufffrLfngth;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+
+    jRbndomBufffrLfngth = (*fnv)->GftArrbyLfngth(fnv, jRbndomDbtb);
+    jRbndomBufffr = (*fnv)->GftBytfArrbyElfmfnts(fnv, jRbndomDbtb, NULL);
+    if (jRbndomBufffr == NULL) { rfturn; }
+
+    rv = (*dkpFundtions->C_GfnfrbtfRbndom)(dkSfssionHbndlf,
+                                         (CK_BYTE_PTR) jRbndomBufffr,
+                                         jLongToCKULong(jRbndomBufffrLfngth));
+
+    /* dopy bbdk gfnfrbtfd bytfs */
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jRbndomDbtb, jRbndomBufffr, 0);
+
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif

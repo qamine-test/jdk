@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss AndExprfssion fxtfnds BinbryLogidblExprfssion {
+    /**
+     * donstrudtor
+     */
+    publid AndExprfssion(long whfrf, Exprfssion lfft, Exprfssion right) {
+        supfr(AND, whfrf, lfft, right);
+    }
+
+    /*
+     * Chfdk bn "bnd" fxprfssion.
+     *
+     * dvbrs is modififd so thbt
+     *    dvbr.vsTruf indidbtfs vbribblfs with b known vbluf if
+     *        both thf lfft bnd right hbnd sidf brf truf
+     *    dvbrs.vsFblsf indidbtfs vbribblfs with b known vbluf
+     *        fithfr thf lfft or right hbnd sidf is fblsf
+     */
+    publid void dhfdkCondition(Environmfnt fnv, Contfxt dtx, Vsft vsft,
+                               Hbshtbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        // Find out whfn thf lfft sidf is truf/fblsf
+        lfft.dhfdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        lfft = donvfrt(fnv, dtx, Typf.tBoolfbn, lfft);
+        Vsft vsTruf = dvbrs.vsTruf.dopy();
+        Vsft vsFblsf = dvbrs.vsFblsf.dopy();
+
+        // Only look bt thf right sidf if thf lfft sidf is truf
+        right.dhfdkCondition(fnv, dtx, vsTruf, fxp, dvbrs);
+        right = donvfrt(fnv, dtx, Typf.tBoolfbn, right);
+
+        // dvbrs.vsTruf blrfbdy rfports whfn both rfturnfd truf
+        // dvbrs.vsFblsf must bf sft to fithfr thf lfft or right sidf
+        //    rfturning fblsf
+        dvbrs.vsFblsf = dvbrs.vsFblsf.join(vsFblsf);
+    }
+
+    /**
+     * Evblubtf
+     */
+    Exprfssion fvbl(boolfbn b, boolfbn b) {
+        rfturn nfw BoolfbnExprfssion(whfrf, b && b);
+    }
+
+    /**
+     * Simplify
+     */
+    Exprfssion simplify() {
+        if (lfft.fqubls(truf)) {
+            rfturn right;
+        }
+        if (right.fqubls(fblsf)) {
+            // Prfsfrvf ffffdts of lfft brgumfnt.
+            rfturn nfw CommbExprfssion(whfrf, lfft, right).simplify();
+        }
+        if (right.fqubls(truf)) {
+            rfturn lfft;
+        }
+        if (lfft.fqubls(fblsf)) {
+            rfturn lfft;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Codf
+     */
+    void dodfBrbndh(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn whfnTruf) {
+        if (whfnTruf) {
+            Lbbfl lbl2 = nfw Lbbfl();
+            lfft.dodfBrbndh(fnv, dtx, bsm, lbl2, fblsf);
+            right.dodfBrbndh(fnv, dtx, bsm, lbl, truf);
+            bsm.bdd(lbl2);
+        } flsf {
+            lfft.dodfBrbndh(fnv, dtx, bsm, lbl, fblsf);
+            right.dodfBrbndh(fnv, dtx, bsm, lbl, fblsf);
+        }
+    }
+}

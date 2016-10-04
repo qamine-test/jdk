@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
-// Constants for reporting I/O status
+// Constbnts for rfporting I/O stbtus
 
-public final class IOStatus {
+publid finbl dlbss IOStbtus {
 
-    private IOStatus() { }
+    privbtf IOStbtus() { }
 
-    @Native public static final int EOF = -1;              // End of file
-    @Native public static final int UNAVAILABLE = -2;      // Nothing available (non-blocking)
-    @Native public static final int INTERRUPTED = -3;      // System call interrupted
-    @Native public static final int UNSUPPORTED = -4;      // Operation not supported
-    @Native public static final int THROWN = -5;           // Exception thrown in JNI code
-    @Native public static final int UNSUPPORTED_CASE = -6; // This case not supported
+    @Nbtivf publid stbtid finbl int EOF = -1;              // End of filf
+    @Nbtivf publid stbtid finbl int UNAVAILABLE = -2;      // Notiing bvbilbblf (non-blodking)
+    @Nbtivf publid stbtid finbl int INTERRUPTED = -3;      // Systfm dbll intfrruptfd
+    @Nbtivf publid stbtid finbl int UNSUPPORTED = -4;      // Opfrbtion not supportfd
+    @Nbtivf publid stbtid finbl int THROWN = -5;           // Exdfption tirown in JNI dodf
+    @Nbtivf publid stbtid finbl int UNSUPPORTED_CASE = -6; // Tiis dbsf not supportfd
 
-    // The following two methods are for use in try/finally blocks where a
-    // status value needs to be normalized before being returned to the invoker
-    // but also checked for illegal negative values before the return
-    // completes, like so:
+    // Tif following two mftiods brf for usf in try/finblly blodks wifrf b
+    // stbtus vbluf nffds to bf normblizfd bfforf bfing rfturnfd to tif invokfr
+    // but blso difdkfd for illfgbl nfgbtivf vblufs bfforf tif rfturn
+    // domplftfs, likf so:
     //
     //     int n = 0;
     //     try {
-    //         begin();
+    //         bfgin();
     //         n = op(fd, buf, ...);
-    //         return IOStatus.normalize(n);    // Converts UNAVAILABLE to zero
-    //     } finally {
-    //         end(n > 0);
-    //         assert IOStatus.check(n);        // Checks other negative values
+    //         rfturn IOStbtus.normblizf(n);    // Convfrts UNAVAILABLE to zfro
+    //     } finblly {
+    //         fnd(n > 0);
+    //         bssfrt IOStbtus.difdk(n);        // Cifdks otifr nfgbtivf vblufs
     //     }
     //
 
-    public static int normalize(int n) {
+    publid stbtid int normblizf(int n) {
         if (n == UNAVAILABLE)
-            return 0;
-        return n;
+            rfturn 0;
+        rfturn n;
     }
 
-    public static boolean check(int n) {
-        return (n >= UNAVAILABLE);
+    publid stbtid boolfbn difdk(int n) {
+        rfturn (n >= UNAVAILABLE);
     }
 
-    public static long normalize(long n) {
+    publid stbtid long normblizf(long n) {
         if (n == UNAVAILABLE)
-            return 0;
-        return n;
+            rfturn 0;
+        rfturn n;
     }
 
-    public static boolean check(long n) {
-        return (n >= UNAVAILABLE);
+    publid stbtid boolfbn difdk(long n) {
+        rfturn (n >= UNAVAILABLE);
     }
 
-    // Return true iff n is not one of the IOStatus values
-    public static boolean checkAll(long n) {
-        return ((n > EOF) || (n < UNSUPPORTED_CASE));
+    // Rfturn truf iff n is not onf of tif IOStbtus vblufs
+    publid stbtid boolfbn difdkAll(long n) {
+        rfturn ((n > EOF) || (n < UNSUPPORTED_CASE));
     }
 
 }

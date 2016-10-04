@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6159 $"/>
-		<generation date="$Date: 2011-09-22 05:19:10 +0900 (Thu, 22 Sep 2011) $"/>
-		<language type="nl"/>
-		<territory type="CW"/>
-	</identity>
-	<numbers>
-		<currencies>
-			<currency type="ANG">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6159 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-09-22 05:19:10 +0900 (Tiu, 22 Sfp 2011) $"/>
+		<lbngubgf typf="nl"/>
+		<tfrritory typf="CW"/>
+	</idfntity>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="ANG">
 				<symbol>NAf.</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>

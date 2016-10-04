@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Propfrtifs;
+import jbvb.util.SfrvidfLobdfr;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import jbvbx.sound.sbmplfd.AudioPfrmission;
+
+/** Mbnbging sfdurity in thf Jbvb Sound implfmfntbtion.
+ * This dlbss dontbins bll dodf thbt usfs bnd is usfd by
+ * SfdurityMbnbgfr.doPrivilfgfd().
+ *
+ * @buthor Mbtthibs Pfistfrfr
+ */
+finbl dlbss JSSfdurityMbnbgfr {
+
+    /** Prfvfnt instbntibtion.
+     */
+    privbtf JSSfdurityMbnbgfr() {
+    }
+
+    /** Chfdks if thf VM durrfntly hbs b SfdurityMbnbgfr instbllfd.
+     * Notf thbt this mby dhbngf ovfr timf. So thf rfsult of this mfthod
+     * should not bf dbdhfd.
+     *
+     * @rfturn truf if b SfdurityMbngfr is instbllfd, fblsf othfrwisf.
+     */
+    privbtf stbtid boolfbn hbsSfdurityMbnbgfr() {
+        rfturn (Systfm.gftSfdurityMbnbgfr() != null);
+    }
+
+
+    stbtid void dhfdkRfdordPfrmission() throws SfdurityExdfption {
+        if(Printfr.trbdf) Printfr.trbdf("JSSfdurityMbnbgfr.dhfdkRfdordPfrmission()");
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw AudioPfrmission("rfdord"));
+        }
+    }
+
+    stbtid String gftPropfrty(finbl String propfrtyNbmf) {
+        String propfrtyVbluf;
+        if (hbsSfdurityMbnbgfr()) {
+            if(Printfr.dfbug) Printfr.dfbug("using JDK 1.2 sfdurity to gft propfrty");
+            try{
+                PrivilfgfdAdtion<String> bdtion = nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            try {
+                                rfturn Systfm.gftPropfrty(propfrtyNbmf);
+                            } dbtdh (Throwbblf t) {
+                                rfturn null;
+                            }
+                        }
+                    };
+                propfrtyVbluf = AddfssControllfr.doPrivilfgfd(bdtion);
+            } dbtdh( Exdfption f ) {
+                if(Printfr.dfbug) Printfr.dfbug("not using JDK 1.2 sfdurity to gft propfrtifs");
+                propfrtyVbluf = Systfm.gftPropfrty(propfrtyNbmf);
+            }
+        } flsf {
+            if(Printfr.dfbug) Printfr.dfbug("not using JDK 1.2 sfdurity to gft propfrtifs");
+            propfrtyVbluf = Systfm.gftPropfrty(propfrtyNbmf);
+        }
+        rfturn propfrtyVbluf;
+    }
+
+
+    /** Lobd propfrtifs from b filf.
+        This mfthod trifs to lobd propfrtifs from thf filfnbmf givf into
+        thf pbssfd propfrtifs objfdt.
+        If thf filf dbnnot bf found or somfthing flsf gofs wrong,
+        thf mfthod silfntly fbils.
+        @pbrbm propfrtifs Thf propfrtifs bundlf to storf thf vblufs of thf
+        propfrtifs filf.
+        @pbrbm filfnbmf Thf filfnbmf of thf propfrtifs filf to lobd. This
+        filfnbmf is intfrprftfd bs rflbtivf to thf subdirfdtory "lib" in
+        thf JRE dirfdtory.
+     */
+    stbtid void lobdPropfrtifs(finbl Propfrtifs propfrtifs,
+                               finbl String filfnbmf) {
+        if(hbsSfdurityMbnbgfr()) {
+            try {
+                // invokf thf privilfgfd bdtion using 1.2 sfdurity
+                PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            lobdPropfrtifsImpl(propfrtifs, filfnbmf);
+                            rfturn null;
+                        }
+                    };
+                AddfssControllfr.doPrivilfgfd(bdtion);
+                if(Printfr.dfbug)Printfr.dfbug("Lobdfd propfrtifs with JDK 1.2 sfdurity");
+            } dbtdh (Exdfption f) {
+                if(Printfr.dfbug)Printfr.dfbug("Exdfption lobding propfrtifs with JDK 1.2 sfdurity");
+                // try without using JDK 1.2 sfdurity
+                lobdPropfrtifsImpl(propfrtifs, filfnbmf);
+            }
+        } flsf {
+            // not JDK 1.2 sfdurity, bssumf wf blrfbdy hbvf pfrmission
+            lobdPropfrtifsImpl(propfrtifs, filfnbmf);
+        }
+    }
+
+
+    privbtf stbtid void lobdPropfrtifsImpl(Propfrtifs propfrtifs,
+                                           String filfnbmf) {
+        if(Printfr.trbdf)Printfr.trbdf(">> JSSfdurityMbnbgfr: lobdPropfrtifsImpl()");
+        String fnbmf = Systfm.gftPropfrty("jbvb.homf");
+        try {
+            if (fnbmf == null) {
+                throw nfw Error("Cbn't find jbvb.homf ??");
+            }
+            Filf f = nfw Filf(fnbmf, "lib");
+            f = nfw Filf(f, filfnbmf);
+            fnbmf = f.gftCbnonidblPbth();
+            InputStrfbm in = nfw FilfInputStrfbm(fnbmf);
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+            try {
+                propfrtifs.lobd(bin);
+            } finblly {
+                if (in != null) {
+                    in.dlosf();
+                }
+            }
+        } dbtdh (Throwbblf t) {
+            if (Printfr.trbdf) {
+                Systfm.frr.println("Could not lobd propfrtifs filf \"" + fnbmf + "\"");
+                t.printStbdkTrbdf();
+            }
+        }
+        if(Printfr.trbdf)Printfr.trbdf("<< JSSfdurityMbnbgfr: lobdPropfrtifsImpl() domplftfd");
+    }
+
+    /** Crfbtf b Thrfbd in thf durrfnt ThrfbdGroup.
+     */
+    stbtid Thrfbd drfbtfThrfbd(finbl Runnbblf runnbblf,
+                               finbl String thrfbdNbmf,
+                               finbl boolfbn isDbfmon, finbl int priority,
+                               finbl boolfbn doStbrt) {
+        Thrfbd thrfbd = nfw Thrfbd(runnbblf);
+        if (thrfbdNbmf != null) {
+            thrfbd.sftNbmf(thrfbdNbmf);
+        }
+        thrfbd.sftDbfmon(isDbfmon);
+        if (priority >= 0) {
+            thrfbd.sftPriority(priority);
+        }
+        if (doStbrt) {
+            thrfbd.stbrt();
+        }
+        rfturn thrfbd;
+    }
+
+    stbtid syndhronizfd <T> List<T> gftProvidfrs(finbl Clbss<T> providfrClbss) {
+        List<T> p = nfw ArrbyList<>(7);
+        // SfrvidfLobdfr drfbtfs "lbzy" itfrbtor instbndf, but it fnsurfs thbt
+        // nfxt/hbsNfxt run with pfrmissions thbt brf rfstridtfd by whbtfvfr
+        // drfbtfs thf SfrvidfLobdfr instbndf, so it rfquirfs to bf dbllfd from
+        // privilfgfd sfdtion
+        finbl PrivilfgfdAdtion<Itfrbtor<T>> psAdtion =
+                nfw PrivilfgfdAdtion<Itfrbtor<T>>() {
+                    @Ovfrridf
+                    publid Itfrbtor<T> run() {
+                        rfturn SfrvidfLobdfr.lobd(providfrClbss).itfrbtor();
+                    }
+                };
+        finbl Itfrbtor<T> ps = AddfssControllfr.doPrivilfgfd(psAdtion);
+
+        // thf itfrbtor's hbsNfxt() mfthod looks through dlbsspbth for
+        // thf providfr dlbss nbmfs, so it rfquirfs rfbd pfrmissions
+        PrivilfgfdAdtion<Boolfbn> hbsNfxtAdtion = nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn ps.hbsNfxt();
+            }
+        };
+
+        whilf (AddfssControllfr.doPrivilfgfd(hbsNfxtAdtion)) {
+            try {
+                // thf itfrbtor's nfxt() mfthod drfbtfs instbndfs of thf
+                // providfrs bnd it should bf dbllfd in thf durrfnt sfdurity
+                // dontfxt
+                T providfr = ps.nfxt();
+                if (providfrClbss.isInstbndf(providfr)) {
+                    // $$mp 2003-08-22
+                    // Alwbys bdding bt thf bfginning rfvfrsfs thf
+                    // ordfr of thf providfrs. So wf no longfr hbvf
+                    // to do this in AudioSystfm bnd MidiSystfm.
+                    p.bdd(0, providfr);
+                }
+            } dbtdh (Throwbblf t) {
+                //$$fb 2002-11-07: do not fbil on SPI not found
+                if (Printfr.frr) t.printStbdkTrbdf();
+            }
+        }
+        rfturn p;
+    }
+}

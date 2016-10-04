@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Intfrfbdf for bn obsfrvfr to rfgistfr to rfdfivf notifidbtions
+ * of dhbngfs to b tfxt dodumfnt.
+ * <p>
+ * Thf dffbult implfmfntbtion of
+ * thf Dodumfnt intfrfbdf (AbstrbdtDodumfnt) supports bsyndhronous
+ * mutbtions.  If this ffbturf is usfd (i.f. mutbtions brf mbdf
+ * from b thrfbd othfr thbn thf Swing fvfnt thrfbd), thf listfnfrs
+ * will bf notififd vib thf mutbting thrfbd.  <fm>This mfbns thbt
+ * if bsyndhronous updbtfs brf mbdf, thf implfmfntbtion of this
+ * intfrfbdf must bf thrfbdsbff</fm>!
+ * <p>
+ * Thf DodumfntEvfnt notifidbtion is bbsfd upon thf JbvbBfbns
+ * fvfnt modfl.  Thfrf is no gubrbntff bbout thf ordfr of dflivfry
+ * to listfnfrs, bnd bll listfnfrs must bf notififd prior to mbking
+ * furthfr mutbtions to thf Dodumfnt.  <fm>This mfbns implfmfntbtions
+ * of thf DodumfntListfnfr mby not mutbtf thf sourdf of thf fvfnt
+ * (i.f. thf bssodibtfd Dodumfnt)</fm>.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.StylfdDodumfnt
+ * @sff DodumfntEvfnt
+ */
+publid intfrfbdf DodumfntListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Givfs notifidbtion thbt thfrf wbs bn insfrt into thf dodumfnt.  Thf
+     * rbngf givfn by thf DodumfntEvfnt bounds thf frfshly insfrtfd rfgion.
+     *
+     * @pbrbm f thf dodumfnt fvfnt
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt f);
+
+    /**
+     * Givfs notifidbtion thbt b portion of thf dodumfnt hbs bffn
+     * rfmovfd.  Thf rbngf is givfn in tfrms of whbt thf vifw lbst
+     * sbw (thbt is, bfforf updbting stidky positions).
+     *
+     * @pbrbm f thf dodumfnt fvfnt
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt f);
+
+    /**
+     * Givfs notifidbtion thbt bn bttributf or sft of bttributfs dhbngfd.
+     *
+     * @pbrbm f thf dodumfnt fvfnt
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f);
+}

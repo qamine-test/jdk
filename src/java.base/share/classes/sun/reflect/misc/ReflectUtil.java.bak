@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.reflect.misc;
+pbdkbgf sun.rfflfdt.misd;
 
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import sun.reflect.Reflection;
-import sun.security.util.SecurityConstants;
+import jbvb.lbng.rfflfdt.Mfmbfr;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.util.Arrbys;
+import sun.rfflfdt.Rfflfdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
 
-public final class ReflectUtil {
+publid finbl dlbss RfflfdtUtil {
 
-    private ReflectUtil() {
+    privbtf RfflfdtUtil() {
     }
 
-    public static Class<?> forName(String name)
-        throws ClassNotFoundException {
-        checkPackageAccess(name);
-        return Class.forName(name);
+    publid stbtid Clbss<?> forNbmf(String nbmf)
+        tirows ClbssNotFoundExdfption {
+        difdkPbdkbgfAddfss(nbmf);
+        rfturn Clbss.forNbmf(nbmf);
     }
 
-    public static Object newInstance(Class<?> cls)
-        throws InstantiationException, IllegalAccessException {
-        checkPackageAccess(cls);
-        return cls.newInstance();
+    publid stbtid Objfdt nfwInstbndf(Clbss<?> dls)
+        tirows InstbntibtionExdfption, IllfgblAddfssExdfption {
+        difdkPbdkbgfAddfss(dls);
+        rfturn dls.nfwInstbndf();
     }
 
     /*
-     * Reflection.ensureMemberAccess is overly-restrictive
-     * due to a bug. We awkwardly work around it for now.
+     * Rfflfdtion.fnsurfMfmbfrAddfss is ovfrly-rfstridtivf
+     * duf to b bug. Wf bwkwbrdly work bround it for now.
      */
-    public static void ensureMemberAccess(Class<?> currentClass,
-                                          Class<?> memberClass,
-                                          Object target,
-                                          int modifiers)
-        throws IllegalAccessException
+    publid stbtid void fnsurfMfmbfrAddfss(Clbss<?> durrfntClbss,
+                                          Clbss<?> mfmbfrClbss,
+                                          Objfdt tbrgft,
+                                          int modififrs)
+        tirows IllfgblAddfssExdfption
     {
-        if (target == null && Modifier.isProtected(modifiers)) {
-            int mods = modifiers;
-            mods = mods & (~Modifier.PROTECTED);
-            mods = mods | Modifier.PUBLIC;
+        if (tbrgft == null && Modififr.isProtfdtfd(modififrs)) {
+            int mods = modififrs;
+            mods = mods & (~Modififr.PROTECTED);
+            mods = mods | Modififr.PUBLIC;
 
             /*
-             * See if we fail because of class modifiers
+             * Sff if wf fbil bfdbusf of dlbss modififrs
              */
-            Reflection.ensureMemberAccess(currentClass,
-                                          memberClass,
-                                          target,
+            Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                          mfmbfrClbss,
+                                          tbrgft,
                                           mods);
             try {
                 /*
-                 * We're still here so class access was ok.
-                 * Now try with default field access.
+                 * Wf'rf still ifrf so dlbss bddfss wbs ok.
+                 * Now try witi dffbult fifld bddfss.
                  */
-                mods = mods & (~Modifier.PUBLIC);
-                Reflection.ensureMemberAccess(currentClass,
-                                              memberClass,
-                                              target,
+                mods = mods & (~Modififr.PUBLIC);
+                Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                              mfmbfrClbss,
+                                              tbrgft,
                                               mods);
                 /*
-                 * We're still here so access is ok without
-                 * checking for protected.
+                 * Wf'rf still ifrf so bddfss is ok witiout
+                 * difdking for protfdtfd.
                  */
-                return;
-            } catch (IllegalAccessException e) {
+                rfturn;
+            } dbtdi (IllfgblAddfssExdfption f) {
                 /*
-                 * Access failed but we're 'protected' so
-                 * if the test below succeeds then we're ok.
+                 * Addfss fbilfd but wf'rf 'protfdtfd' so
+                 * if tif tfst bflow suddffds tifn wf'rf ok.
                  */
-                if (isSubclassOf(currentClass, memberClass)) {
-                    return;
-                } else {
-                    throw e;
+                if (isSubdlbssOf(durrfntClbss, mfmbfrClbss)) {
+                    rfturn;
+                } flsf {
+                    tirow f;
                 }
             }
-        } else {
-            Reflection.ensureMemberAccess(currentClass,
-                                          memberClass,
-                                          target,
-                                          modifiers);
+        } flsf {
+            Rfflfdtion.fnsurfMfmbfrAddfss(durrfntClbss,
+                                          mfmbfrClbss,
+                                          tbrgft,
+                                          modififrs);
         }
     }
 
-    private static boolean isSubclassOf(Class<?> queryClass,
-                                        Class<?> ofClass)
+    privbtf stbtid boolfbn isSubdlbssOf(Clbss<?> qufryClbss,
+                                        Clbss<?> ofClbss)
     {
-        while (queryClass != null) {
-            if (queryClass == ofClass) {
-                return true;
+        wiilf (qufryClbss != null) {
+            if (qufryClbss == ofClbss) {
+                rfturn truf;
             }
-            queryClass = queryClass.getSuperclass();
+            qufryClbss = qufryClbss.gftSupfrdlbss();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Does a conservative approximation of member access check. Use this if
-     * you don't have an actual 'userland' caller Class/ClassLoader available.
-     * This might be more restrictive than a precise member access check where
-     * you have a caller, but should never allow a member access that is
-     * forbidden.
+     * Dofs b donsfrvbtivf bpproximbtion of mfmbfr bddfss difdk. Usf tiis if
+     * you don't ibvf bn bdtubl 'usfrlbnd' dbllfr Clbss/ClbssLobdfr bvbilbblf.
+     * Tiis migit bf morf rfstridtivf tibn b prfdisf mfmbfr bddfss difdk wifrf
+     * you ibvf b dbllfr, but siould nfvfr bllow b mfmbfr bddfss tibt is
+     * forbiddfn.
      *
-     * @param m the {@code Member} about to be accessed
+     * @pbrbm m tif {@dodf Mfmbfr} bbout to bf bddfssfd
      */
-    public static void conservativeCheckMemberAccess(Member m) throws SecurityException{
-        final SecurityManager sm = System.getSecurityManager();
+    publid stbtid void donsfrvbtivfCifdkMfmbfrAddfss(Mfmbfr m) tirows SfdurityExdfption{
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null)
-            return;
+            rfturn;
 
-        // Check for package access on the declaring class.
+        // Cifdk for pbdkbgf bddfss on tif dfdlbring dlbss.
         //
-        // In addition, unless the member and the declaring class are both
-        // public check for access declared member permissions.
+        // In bddition, unlfss tif mfmbfr bnd tif dfdlbring dlbss brf boti
+        // publid difdk for bddfss dfdlbrfd mfmbfr pfrmissions.
         //
-        // This is done regardless of ClassLoader relations between the {@code
-        // Member m} and any potential caller.
+        // Tiis is donf rfgbrdlfss of ClbssLobdfr rflbtions bftwffn tif {@dodf
+        // Mfmbfr m} bnd bny potfntibl dbllfr.
 
-        final Class<?> declaringClass = m.getDeclaringClass();
+        finbl Clbss<?> dfdlbringClbss = m.gftDfdlbringClbss();
 
-        checkPackageAccess(declaringClass);
+        difdkPbdkbgfAddfss(dfdlbringClbss);
 
-        if (Modifier.isPublic(m.getModifiers()) &&
-                Modifier.isPublic(declaringClass.getModifiers()))
-            return;
+        if (Modififr.isPublid(m.gftModififrs()) &&
+                Modififr.isPublid(dfdlbringClbss.gftModififrs()))
+            rfturn;
 
-        // Check for declared member access.
-        sm.checkPermission(SecurityConstants.CHECK_MEMBER_ACCESS_PERMISSION);
+        // Cifdk for dfdlbrfd mfmbfr bddfss.
+        sm.difdkPfrmission(SfdurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
     }
 
     /**
-     * Checks package access on the given class.
+     * Cifdks pbdkbgf bddfss on tif givfn dlbss.
      *
-     * If it is a {@link Proxy#isProxyClass(java.lang.Class)} that implements
-     * a non-public interface (i.e. may be in a non-restricted package),
-     * also check the package access on the proxy interfaces.
+     * If it is b {@link Proxy#isProxyClbss(jbvb.lbng.Clbss)} tibt implfmfnts
+     * b non-publid intfrfbdf (i.f. mby bf in b non-rfstridtfd pbdkbgf),
+     * blso difdk tif pbdkbgf bddfss on tif proxy intfrfbdfs.
      */
-    public static void checkPackageAccess(Class<?> clazz) {
-        checkPackageAccess(clazz.getName());
-        if (isNonPublicProxyClass(clazz)) {
-            checkProxyPackageAccess(clazz);
+    publid stbtid void difdkPbdkbgfAddfss(Clbss<?> dlbzz) {
+        difdkPbdkbgfAddfss(dlbzz.gftNbmf());
+        if (isNonPublidProxyClbss(dlbzz)) {
+            difdkProxyPbdkbgfAddfss(dlbzz);
         }
     }
 
     /**
-     * Checks package access on the given classname.
-     * This method is typically called when the Class instance is not
-     * available and the caller attempts to load a class on behalf
-     * the true caller (application).
+     * Cifdks pbdkbgf bddfss on tif givfn dlbssnbmf.
+     * Tiis mftiod is typidblly dbllfd wifn tif Clbss instbndf is not
+     * bvbilbblf bnd tif dbllfr bttfmpts to lobd b dlbss on bfiblf
+     * tif truf dbllfr (bpplidbtion).
      */
-    public static void checkPackageAccess(String name) {
-        SecurityManager s = System.getSecurityManager();
+    publid stbtid void difdkPbdkbgfAddfss(String nbmf) {
+        SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
         if (s != null) {
-            String cname = name.replace('/', '.');
-            if (cname.startsWith("[")) {
-                int b = cname.lastIndexOf('[') + 2;
-                if (b > 1 && b < cname.length()) {
-                    cname = cname.substring(b);
+            String dnbmf = nbmf.rfplbdf('/', '.');
+            if (dnbmf.stbrtsWiti("[")) {
+                int b = dnbmf.lbstIndfxOf('[') + 2;
+                if (b > 1 && b < dnbmf.lfngti()) {
+                    dnbmf = dnbmf.substring(b);
                 }
             }
-            int i = cname.lastIndexOf('.');
+            int i = dnbmf.lbstIndfxOf('.');
             if (i != -1) {
-                s.checkPackageAccess(cname.substring(0, i));
+                s.difdkPbdkbgfAddfss(dnbmf.substring(0, i));
             }
         }
     }
 
-    public static boolean isPackageAccessible(Class<?> clazz) {
+    publid stbtid boolfbn isPbdkbgfAddfssiblf(Clbss<?> dlbzz) {
         try {
-            checkPackageAccess(clazz);
-        } catch (SecurityException e) {
-            return false;
+            difdkPbdkbgfAddfss(dlbzz);
+        } dbtdi (SfdurityExdfption f) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    // Returns true if p is an ancestor of cl i.e. class loader 'p' can
-    // be found in the cl's delegation chain
-    private static boolean isAncestor(ClassLoader p, ClassLoader cl) {
-        ClassLoader acl = cl;
+    // Rfturns truf if p is bn bndfstor of dl i.f. dlbss lobdfr 'p' dbn
+    // bf found in tif dl's dflfgbtion dibin
+    privbtf stbtid boolfbn isAndfstor(ClbssLobdfr p, ClbssLobdfr dl) {
+        ClbssLobdfr bdl = dl;
         do {
-            acl = acl.getParent();
-            if (p == acl) {
-                return true;
+            bdl = bdl.gftPbrfnt();
+            if (p == bdl) {
+                rfturn truf;
             }
-        } while (acl != null);
-        return false;
+        } wiilf (bdl != null);
+        rfturn fblsf;
     }
 
     /**
-     * Returns true if package access check is needed for reflective
-     * access from a class loader 'from' to classes or members in
-     * a class defined by class loader 'to'.  This method returns true
-     * if 'from' is not the same as or an ancestor of 'to'.  All code
-     * in a system domain are granted with all permission and so this
-     * method returns false if 'from' class loader is a class loader
-     * loading system classes.  On the other hand, if a class loader
-     * attempts to access system domain classes, it requires package
-     * access check and this method will return true.
+     * Rfturns truf if pbdkbgf bddfss difdk is nffdfd for rfflfdtivf
+     * bddfss from b dlbss lobdfr 'from' to dlbssfs or mfmbfrs in
+     * b dlbss dffinfd by dlbss lobdfr 'to'.  Tiis mftiod rfturns truf
+     * if 'from' is not tif sbmf bs or bn bndfstor of 'to'.  All dodf
+     * in b systfm dombin brf grbntfd witi bll pfrmission bnd so tiis
+     * mftiod rfturns fblsf if 'from' dlbss lobdfr is b dlbss lobdfr
+     * lobding systfm dlbssfs.  On tif otifr ibnd, if b dlbss lobdfr
+     * bttfmpts to bddfss systfm dombin dlbssfs, it rfquirfs pbdkbgf
+     * bddfss difdk bnd tiis mftiod will rfturn truf.
      */
-    public static boolean needsPackageAccessCheck(ClassLoader from, ClassLoader to) {
+    publid stbtid boolfbn nffdsPbdkbgfAddfssCifdk(ClbssLobdfr from, ClbssLobdfr to) {
         if (from == null || from == to)
-            return false;
+            rfturn fblsf;
 
         if (to == null)
-            return true;
+            rfturn truf;
 
-        return !isAncestor(from, to);
+        rfturn !isAndfstor(from, to);
     }
 
     /**
-     * Check package access on the proxy interfaces that the given proxy class
-     * implements.
+     * Cifdk pbdkbgf bddfss on tif proxy intfrfbdfs tibt tif givfn proxy dlbss
+     * implfmfnts.
      *
-     * @param clazz Proxy class object
+     * @pbrbm dlbzz Proxy dlbss objfdt
      */
-    public static void checkProxyPackageAccess(Class<?> clazz) {
-        SecurityManager s = System.getSecurityManager();
+    publid stbtid void difdkProxyPbdkbgfAddfss(Clbss<?> dlbzz) {
+        SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
         if (s != null) {
-            // check proxy interfaces if the given class is a proxy class
-            if (Proxy.isProxyClass(clazz)) {
-                for (Class<?> intf : clazz.getInterfaces()) {
-                    checkPackageAccess(intf);
+            // difdk proxy intfrfbdfs if tif givfn dlbss is b proxy dlbss
+            if (Proxy.isProxyClbss(dlbzz)) {
+                for (Clbss<?> intf : dlbzz.gftIntfrfbdfs()) {
+                    difdkPbdkbgfAddfss(intf);
                 }
             }
         }
     }
 
     /**
-     * Access check on the interfaces that a proxy class implements and throw
-     * {@code SecurityException} if it accesses a restricted package from
-     * the caller's class loader.
+     * Addfss difdk on tif intfrfbdfs tibt b proxy dlbss implfmfnts bnd tirow
+     * {@dodf SfdurityExdfption} if it bddfssfs b rfstridtfd pbdkbgf from
+     * tif dbllfr's dlbss lobdfr.
      *
-     * @param ccl the caller's class loader
-     * @param interfaces the list of interfaces that a proxy class implements
+     * @pbrbm ddl tif dbllfr's dlbss lobdfr
+     * @pbrbm intfrfbdfs tif list of intfrfbdfs tibt b proxy dlbss implfmfnts
      */
-    public static void checkProxyPackageAccess(ClassLoader ccl,
-                                               Class<?>... interfaces)
+    publid stbtid void difdkProxyPbdkbgfAddfss(ClbssLobdfr ddl,
+                                               Clbss<?>... intfrfbdfs)
     {
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            for (Class<?> intf : interfaces) {
-                ClassLoader cl = intf.getClassLoader();
-                if (needsPackageAccessCheck(ccl, cl)) {
-                    checkPackageAccess(intf);
+            for (Clbss<?> intf : intfrfbdfs) {
+                ClbssLobdfr dl = intf.gftClbssLobdfr();
+                if (nffdsPbdkbgfAddfssCifdk(ddl, dl)) {
+                    difdkPbdkbgfAddfss(intf);
                 }
             }
         }
     }
 
-    // Note that bytecode instrumentation tools may exclude 'sun.*'
-    // classes but not generated proxy classes and so keep it in com.sun.*
-    public static final String PROXY_PACKAGE = "com.sun.proxy";
+    // Notf tibt bytfdodf instrumfntbtion tools mby fxdludf 'sun.*'
+    // dlbssfs but not gfnfrbtfd proxy dlbssfs bnd so kffp it in dom.sun.*
+    publid stbtid finbl String PROXY_PACKAGE = "dom.sun.proxy";
 
     /**
-     * Test if the given class is a proxy class that implements
-     * non-public interface.  Such proxy class may be in a non-restricted
-     * package that bypasses checkPackageAccess.
+     * Tfst if tif givfn dlbss is b proxy dlbss tibt implfmfnts
+     * non-publid intfrfbdf.  Sudi proxy dlbss mby bf in b non-rfstridtfd
+     * pbdkbgf tibt bypbssfs difdkPbdkbgfAddfss.
      */
-    public static boolean isNonPublicProxyClass(Class<?> cls) {
-        String name = cls.getName();
-        int i = name.lastIndexOf('.');
-        String pkg = (i != -1) ? name.substring(0, i) : "";
-        return Proxy.isProxyClass(cls) && !pkg.equals(PROXY_PACKAGE);
+    publid stbtid boolfbn isNonPublidProxyClbss(Clbss<?> dls) {
+        String nbmf = dls.gftNbmf();
+        int i = nbmf.lbstIndfxOf('.');
+        String pkg = (i != -1) ? nbmf.substring(0, i) : "";
+        rfturn Proxy.isProxyClbss(dls) && !pkg.fqubls(PROXY_PACKAGE);
     }
 
     /**
-     * Check if the given method is a method declared in the proxy interface
-     * implemented by the given proxy instance.
+     * Cifdk if tif givfn mftiod is b mftiod dfdlbrfd in tif proxy intfrfbdf
+     * implfmfntfd by tif givfn proxy instbndf.
      *
-     * @param proxy a proxy instance
-     * @param method an interface method dispatched to a InvocationHandler
+     * @pbrbm proxy b proxy instbndf
+     * @pbrbm mftiod bn intfrfbdf mftiod dispbtdifd to b InvodbtionHbndlfr
      *
-     * @throws IllegalArgumentException if the given proxy or method is invalid.
+     * @tirows IllfgblArgumfntExdfption if tif givfn proxy or mftiod is invblid.
      */
-    public static void checkProxyMethod(Object proxy, Method method) {
-        // check if it is a valid proxy instance
-        if (proxy == null || !Proxy.isProxyClass(proxy.getClass())) {
-            throw new IllegalArgumentException("Not a Proxy instance");
+    publid stbtid void difdkProxyMftiod(Objfdt proxy, Mftiod mftiod) {
+        // difdk if it is b vblid proxy instbndf
+        if (proxy == null || !Proxy.isProxyClbss(proxy.gftClbss())) {
+            tirow nfw IllfgblArgumfntExdfption("Not b Proxy instbndf");
 }
-        if (Modifier.isStatic(method.getModifiers())) {
-            throw new IllegalArgumentException("Can't handle static method");
+        if (Modififr.isStbtid(mftiod.gftModififrs())) {
+            tirow nfw IllfgblArgumfntExdfption("Cbn't ibndlf stbtid mftiod");
         }
 
-        Class<?> c = method.getDeclaringClass();
-        if (c == Object.class) {
-            String name = method.getName();
-            if (name.equals("hashCode") || name.equals("equals") || name.equals("toString")) {
-                return;
+        Clbss<?> d = mftiod.gftDfdlbringClbss();
+        if (d == Objfdt.dlbss) {
+            String nbmf = mftiod.gftNbmf();
+            if (nbmf.fqubls("ibsiCodf") || nbmf.fqubls("fqubls") || nbmf.fqubls("toString")) {
+                rfturn;
             }
         }
 
-        if (isSuperInterface(proxy.getClass(), c)) {
-            return;
+        if (isSupfrIntfrfbdf(proxy.gftClbss(), d)) {
+            rfturn;
         }
 
-        // disallow any method not declared in one of the proxy intefaces
-        throw new IllegalArgumentException("Can't handle: " + method);
+        // disbllow bny mftiod not dfdlbrfd in onf of tif proxy intffbdfs
+        tirow nfw IllfgblArgumfntExdfption("Cbn't ibndlf: " + mftiod);
     }
 
-    private static boolean isSuperInterface(Class<?> c, Class<?> intf) {
-        for (Class<?> i : c.getInterfaces()) {
+    privbtf stbtid boolfbn isSupfrIntfrfbdf(Clbss<?> d, Clbss<?> intf) {
+        for (Clbss<?> i : d.gftIntfrfbdfs()) {
             if (i == intf) {
-                return true;
+                rfturn truf;
             }
-            if (isSuperInterface(i, intf)) {
-                return true;
+            if (isSupfrIntfrfbdf(i, intf)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Checks if {@code Class cls} is a VM-anonymous class
-     * as defined by {@link sun.misc.Unsafe#defineAnonymousClass}
-     * (not to be confused with a Java Language anonymous inner class).
+     * Cifdks if {@dodf Clbss dls} is b VM-bnonymous dlbss
+     * bs dffinfd by {@link sun.misd.Unsbff#dffinfAnonymousClbss}
+     * (not to bf donfusfd witi b Jbvb Lbngubgf bnonymous innfr dlbss).
      */
-    public static boolean isVMAnonymousClass(Class<?> cls) {
-        return cls.getName().indexOf('/') > -1;
+    publid stbtid boolfbn isVMAnonymousClbss(Clbss<?> dls) {
+        rfturn dls.gftNbmf().indfxOf('/') > -1;
     }
 }

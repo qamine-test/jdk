@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.SolarisConstants.*;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.SolbrisConstbnts.*;
 
 /**
- * Solaris implementation of FileStore
+ * Solbris implfmfntbtion of FilfStorf
  */
 
-class SolarisFileStore
-    extends UnixFileStore
+dlbss SolbrisFilfStorf
+    fxtfnds UnixFilfStorf
 {
-    private final boolean xattrEnabled;
+    privbtf finbl boolfbn xbttrEnbblfd;
 
-    SolarisFileStore(UnixPath file) throws IOException {
-        super(file);
-        this.xattrEnabled = xattrEnabled();
+    SolbrisFilfStorf(UnixPbti filf) tirows IOExdfption {
+        supfr(filf);
+        tiis.xbttrEnbblfd = xbttrEnbblfd();
     }
 
-    SolarisFileStore(UnixFileSystem fs, UnixMountEntry entry) throws IOException {
-        super(fs, entry);
-        this.xattrEnabled = xattrEnabled();
+    SolbrisFilfStorf(UnixFilfSystfm fs, UnixMountEntry fntry) tirows IOExdfption {
+        supfr(fs, fntry);
+        tiis.xbttrEnbblfd = xbttrEnbblfd();
     }
 
-    // returns true if extended attributes enabled
-    private boolean xattrEnabled() {
-        long res = 0L;
+    // rfturns truf if fxtfndfd bttributfs fnbblfd
+    privbtf boolfbn xbttrEnbblfd() {
+        long rfs = 0L;
         try {
-            res = pathconf(file(), _PC_XATTR_ENABLED);
-        } catch (UnixException x) {
-            // ignore
+            rfs = pbtidonf(filf(), _PC_XATTR_ENABLED);
+        } dbtdi (UnixExdfption x) {
+            // ignorf
         }
-        return (res != 0L);
+        rfturn (rfs != 0L);
     }
 
-    @Override
-    UnixMountEntry findMountEntry() throws IOException {
-        // On Solaris iterate over the entries in the mount table to find device
-        for (UnixMountEntry entry: file().getFileSystem().getMountEntries()) {
-            if (entry.dev() == dev()) {
-                return entry;
+    @Ovfrridf
+    UnixMountEntry findMountEntry() tirows IOExdfption {
+        // On Solbris itfrbtf ovfr tif fntrifs in tif mount tbblf to find dfvidf
+        for (UnixMountEntry fntry: filf().gftFilfSystfm().gftMountEntrifs()) {
+            if (fntry.dfv() == dfv()) {
+                rfturn fntry;
             }
         }
-        throw new IOException("Device not found in mnttab");
+        tirow nfw IOExdfption("Dfvidf not found in mnttbb");
     }
 
-    @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        if (type == AclFileAttributeView.class) {
-            // lookup fstypes.properties
-            FeatureStatus status = checkIfFeaturePresent("nfsv4acl");
-            switch (status) {
-                case PRESENT     : return true;
-                case NOT_PRESENT : return false;
-                default :
-                    // AclFileAttributeView available on ZFS
-                    return (type().equals("zfs"));
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        if (typf == AdlFilfAttributfVifw.dlbss) {
+            // lookup fstypfs.propfrtifs
+            FfbturfStbtus stbtus = difdkIfFfbturfPrfsfnt("nfsv4bdl");
+            switdi (stbtus) {
+                dbsf PRESENT     : rfturn truf;
+                dbsf NOT_PRESENT : rfturn fblsf;
+                dffbult :
+                    // AdlFilfAttributfVifw bvbilbblf on ZFS
+                    rfturn (typf().fqubls("zfs"));
             }
         }
-        if (type == UserDefinedFileAttributeView.class) {
-            // lookup fstypes.properties
-            FeatureStatus status = checkIfFeaturePresent("xattr");
-            switch (status) {
-                case PRESENT     : return true;
-                case NOT_PRESENT : return false;
-                default :
-                    // UserDefinedFileAttributeView available if extended
-                    // attributes supported
-                    return xattrEnabled;
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss) {
+            // lookup fstypfs.propfrtifs
+            FfbturfStbtus stbtus = difdkIfFfbturfPrfsfnt("xbttr");
+            switdi (stbtus) {
+                dbsf PRESENT     : rfturn truf;
+                dbsf NOT_PRESENT : rfturn fblsf;
+                dffbult :
+                    // UsfrDffinfdFilfAttributfVifw bvbilbblf if fxtfndfd
+                    // bttributfs supportfd
+                    rfturn xbttrEnbblfd;
             }
         }
-        return super.supportsFileAttributeView(type);
+        rfturn supfr.supportsFilfAttributfVifw(typf);
     }
 
-    @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("acl"))
-            return supportsFileAttributeView(AclFileAttributeView.class);
-        if (name.equals("user"))
-            return supportsFileAttributeView(UserDefinedFileAttributeView.class);
-        return super.supportsFileAttributeView(name);
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        if (nbmf.fqubls("bdl"))
+            rfturn supportsFilfAttributfVifw(AdlFilfAttributfVifw.dlbss);
+        if (nbmf.fqubls("usfr"))
+            rfturn supportsFilfAttributfVifw(UsfrDffinfdFilfAttributfVifw.dlbss);
+        rfturn supfr.supportsFilfAttributfVifw(nbmf);
     }
 }

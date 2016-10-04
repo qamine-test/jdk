@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-public abstract class PrimitiveValueImpl extends ValueImpl
-                                         implements PrimitiveValue {
+publid bbstrbdt dlbss PrimitivfVblufImpl fxtfnds VblufImpl
+                                         implfmfnts PrimitivfVbluf {
 
-    PrimitiveValueImpl(VirtualMachine aVm) {
-        super(aVm);
+    PrimitivfVblufImpl(VirtublMbdiinf bVm) {
+        supfr(bVm);
     }
 
-    abstract public boolean booleanValue();
-    abstract public byte byteValue();
-    abstract public char charValue();
-    abstract public short shortValue();
-    abstract public int intValue();
-    abstract public long longValue();
-    abstract public float floatValue();
-    abstract public double doubleValue();
+    bbstrbdt publid boolfbn boolfbnVbluf();
+    bbstrbdt publid bytf bytfVbluf();
+    bbstrbdt publid dibr dibrVbluf();
+    bbstrbdt publid siort siortVbluf();
+    bbstrbdt publid int intVbluf();
+    bbstrbdt publid long longVbluf();
+    bbstrbdt publid flobt flobtVbluf();
+    bbstrbdt publid doublf doublfVbluf();
 
     /*
-     * The checked versions of the value accessors throw
-     * InvalidTypeException if the required conversion is
-     * narrowing and would result in the loss of information
-     * (either magnitude or precision).
+     * Tif difdkfd vfrsions of tif vbluf bddfssors tirow
+     * InvblidTypfExdfption if tif rfquirfd donvfrsion is
+     * nbrrowing bnd would rfsult in tif loss of informbtion
+     * (fitifr mbgnitudf or prfdision).
      *
-     * Default implementations here do no checking; subclasses
-     * override as necessary to do the proper checking.
+     * Dffbult implfmfntbtions ifrf do no difdking; subdlbssfs
+     * ovfrridf bs nfdfssbry to do tif propfr difdking.
      */
-    byte checkedByteValue() throws InvalidTypeException {
-        return byteValue();
+    bytf difdkfdBytfVbluf() tirows InvblidTypfExdfption {
+        rfturn bytfVbluf();
     }
-    char checkedCharValue() throws InvalidTypeException {
-        return charValue();
+    dibr difdkfdCibrVbluf() tirows InvblidTypfExdfption {
+        rfturn dibrVbluf();
     }
-    short checkedShortValue() throws InvalidTypeException {
-        return shortValue();
+    siort difdkfdSiortVbluf() tirows InvblidTypfExdfption {
+        rfturn siortVbluf();
     }
-    int checkedIntValue() throws InvalidTypeException {
-        return intValue();
+    int difdkfdIntVbluf() tirows InvblidTypfExdfption {
+        rfturn intVbluf();
     }
-    long checkedLongValue() throws InvalidTypeException {
-        return longValue();
+    long difdkfdLongVbluf() tirows InvblidTypfExdfption {
+        rfturn longVbluf();
     }
-    float checkedFloatValue() throws InvalidTypeException {
-        return floatValue();
+    flobt difdkfdFlobtVbluf() tirows InvblidTypfExdfption {
+        rfturn flobtVbluf();
     }
 
-    final boolean checkedBooleanValue() throws InvalidTypeException {
+    finbl boolfbn difdkfdBoolfbnVbluf() tirows InvblidTypfExdfption {
         /*
-         * Always disallow a conversion to boolean from any other
-         * primitive
+         * Alwbys disbllow b donvfrsion to boolfbn from bny otifr
+         * primitivf
          */
-        if (this instanceof BooleanValue) {
-            return booleanValue();
-        } else {
-            throw new InvalidTypeException("Can't convert non-boolean value to boolean");
+        if (tiis instbndfof BoolfbnVbluf) {
+            rfturn boolfbnVbluf();
+        } flsf {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt non-boolfbn vbluf to boolfbn");
         }
     }
 
-    final double checkedDoubleValue() throws InvalidTypeException {
+    finbl doublf difdkfdDoublfVbluf() tirows InvblidTypfExdfption {
         /*
-         * Can't overflow by converting to double, so this method
-         * is never overridden
+         * Cbn't ovfrflow by donvfrting to doublf, so tiis mftiod
+         * is nfvfr ovfrriddfn
          */
-        return doubleValue();
+        rfturn doublfVbluf();
     }
 
-    ValueImpl prepareForAssignmentTo(ValueContainer destination)
-                    throws InvalidTypeException {
+    VblufImpl prfpbrfForAssignmfntTo(VblufContbinfr dfstinbtion)
+                    tirows InvblidTypfExdfption {
 
-        return convertForAssignmentTo(destination);
+        rfturn donvfrtForAssignmfntTo(dfstinbtion);
     }
 
-    ValueImpl convertForAssignmentTo(ValueContainer destination)
-                 throws InvalidTypeException {
+    VblufImpl donvfrtForAssignmfntTo(VblufContbinfr dfstinbtion)
+                 tirows InvblidTypfExdfption {
 
         /*
-         * TO DO: Centralize JNI signature knowledge
+         * TO DO: Cfntrblizf JNI signbturf knowlfdgf
          */
-        if (destination.signature().length() > 1) {
-            throw new InvalidTypeException("Can't assign primitive value to object");
+        if (dfstinbtion.signbturf().lfngti() > 1) {
+            tirow nfw InvblidTypfExdfption("Cbn't bssign primitivf vbluf to objfdt");
         }
 
-        if ((destination.signature().charAt(0) == 'Z') &&
-            (type().signature().charAt(0) != 'Z')) {
-            throw new InvalidTypeException("Can't assign non-boolean value to a boolean");
+        if ((dfstinbtion.signbturf().dibrAt(0) == 'Z') &&
+            (typf().signbturf().dibrAt(0) != 'Z')) {
+            tirow nfw InvblidTypfExdfption("Cbn't bssign non-boolfbn vbluf to b boolfbn");
         }
 
-        if ((destination.signature().charAt(0) != 'Z') &&
-            (type().signature().charAt(0) == 'Z')) {
-            throw new InvalidTypeException("Can't assign boolean value to an non-boolean");
+        if ((dfstinbtion.signbturf().dibrAt(0) != 'Z') &&
+            (typf().signbturf().dibrAt(0) == 'Z')) {
+            tirow nfw InvblidTypfExdfption("Cbn't bssign boolfbn vbluf to bn non-boolfbn");
         }
 
-        if ("void".equals(destination.typeName())) {
-            throw new InvalidTypeException("Can't assign primitive value to a void");
+        if ("void".fqubls(dfstinbtion.typfNbmf())) {
+            tirow nfw InvblidTypfExdfption("Cbn't bssign primitivf vbluf to b void");
         }
 
         try {
-            PrimitiveTypeImpl primitiveType = (PrimitiveTypeImpl)destination.type();
-            return (ValueImpl)(primitiveType.convert(this));
-        } catch (ClassNotLoadedException e) {
-            throw new InternalException("Signature and type inconsistent for: " +
-                                        destination.typeName());
+            PrimitivfTypfImpl primitivfTypf = (PrimitivfTypfImpl)dfstinbtion.typf();
+            rfturn (VblufImpl)(primitivfTypf.donvfrt(tiis));
+        } dbtdi (ClbssNotLobdfdExdfption f) {
+            tirow nfw IntfrnblExdfption("Signbturf bnd typf indonsistfnt for: " +
+                                        dfstinbtion.typfNbmf());
         }
     }
 }

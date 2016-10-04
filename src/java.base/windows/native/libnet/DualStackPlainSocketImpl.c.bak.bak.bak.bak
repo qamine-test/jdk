@@ -1,0 +1,479 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <windows.h>
+#indludf <winsodk2.h>
+#indludf "jni.h"
+#indludf "nft_util.h"
+#indludf "jbvb_nft_DublStbdkPlbinSodkftImpl.h"
+
+#dffinf SET_BLOCKING 0
+#dffinf SET_NONBLOCKING 1
+
+stbtid jdlbss isb_dlbss;        /* jbvb.nft.InftSodkftAddrfss */
+stbtid jmfthodID isb_dtorID;    /* InftSodkftAddrfss(InftAddrfss, int) */
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz) {
+
+    jdlbss dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+    CHECK_NULL(dls);
+    isb_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    isb_dtorID = (*fnv)->GftMfthodID(fnv, dls, "<init>",
+                                     "(Ljbvb/nft/InftAddrfss;I)V");
+
+    // implfmfnt rfbd timfout with sflfdt.
+    isRdvTimfoutSupportfd = 0;
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    sodkft0
+ * Signbturf: (ZZ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_sodkft0
+  (JNIEnv *fnv, jdlbss dlbzz, jboolfbn strfbm, jboolfbn v6Only /*unusfd*/) {
+    int fd, rv, opt=0;
+
+    fd = NET_Sodkft(AF_INET6, (strfbm ? SOCK_STREAM : SOCK_DGRAM), 0);
+    if (fd == INVALID_SOCKET) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "drfbtf");
+        rfturn -1;
+    }
+
+    rv = sftsodkopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (dhbr *) &opt, sizfof(opt));
+    if (rv == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "drfbtf");
+    }
+
+    SftHbndlfInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+
+    rfturn fd;
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    bind0
+ * Signbturf: (ILjbvb/nft/InftAddrfss;I)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_bind0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jobjfdt ibObj, jint port,
+   jboolfbn fxdlBind)
+{
+    SOCKETADDRESS sb;
+    int rv;
+    int sb_lfn = sizfof(sb);
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, port, (strudt sodkbddr *)&sb,
+                                 &sb_lfn, JNI_TRUE) != 0) {
+      rfturn;
+    }
+
+    rv = NET_WinBind(fd, (strudt sodkbddr *)&sb, sb_lfn, fxdlBind);
+
+    if (rv == SOCKET_ERROR)
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "NET_Bind");
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    donnfdt0
+ * Signbturf: (ILjbvb/nft/InftAddrfss;I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_donnfdt0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jobjfdt ibObj, jint port) {
+    SOCKETADDRESS sb;
+    int rv;
+    int sb_lfn = sizfof(sb);
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, port, (strudt sodkbddr *)&sb,
+                                 &sb_lfn, JNI_TRUE) != 0) {
+      rfturn -1;
+    }
+
+    rv = donnfdt(fd, (strudt sodkbddr *)&sb, sb_lfn);
+    if (rv == SOCKET_ERROR) {
+        int frr = WSAGftLbstError();
+        if (frr == WSAEWOULDBLOCK) {
+            rfturn jbvb_nft_DublStbdkPlbinSodkftImpl_WOULDBLOCK;
+        } flsf if (frr == WSAEADDRNOTAVAIL) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                "donnfdt: Addrfss is invblid on lodbl mbdhinf, or port is not vblid on rfmotf mbdhinf");
+        } flsf {
+            NET_ThrowNfw(fnv, frr, "donnfdt");
+        }
+        rfturn -1;  // rfturn vbluf not importbnt.
+    }
+    rfturn rv;
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    wbitForConnfdt
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_wbitForConnfdt
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint timfout) {
+    int rv, rftry;
+    int optlfn = sizfof(rv);
+    fd_sft wr, fx;
+    strudt timfvbl t;
+
+    FD_ZERO(&wr);
+    FD_ZERO(&fx);
+    FD_SET(fd, &wr);
+    FD_SET(fd, &fx);
+    t.tv_sfd = timfout / 1000;
+    t.tv_usfd = (timfout % 1000) * 1000;
+
+    /*
+     * Wbit for timfout, donnfdtion fstbblishfd or
+     * donnfdtion fbilfd.
+     */
+    rv = sflfdt(fd+1, 0, &wr, &fx, &t);
+
+    /*
+     * Timfout bfforf donnfdtion is fstbblishfd/fbilfd so
+     * wf throw fxdfption bnd shutdown input/output to prfvfnt
+     * sodkft from bfing usfd.
+     * Thf sodkft should bf dlosfd immfdibtfly by thf dbllfr.
+     */
+    if (rv == 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                        "donnfdt timfd out");
+        shutdown( fd, SD_BOTH );
+        rfturn;
+    }
+
+    /*
+     * Sodkft is writbblf or frror oddurrfd. On somf Windows fditions
+     * thf sodkft will bppfbr writbblf whfn thf donnfdt fbils so wf
+     * dhfdk for frror rbthfr thbn writbblf.
+     */
+    if (!FD_ISSET(fd, &fx)) {
+        rfturn;         /* donnfdtion fstbblishfd */
+    }
+
+    /*
+     * Connfdtion fbilfd. Thf logid hfrf is dfsignfd to work bround
+     * bug on Windows NT whfrfby using gftsodkopt to obtbin thf
+     * lbst frror (SO_ERROR) indidbtfs thfrf is no frror. Thf workbround
+     * on NT is to bllow winsodk to bf sdhfdulfd bnd this is donf by
+     * yiflding bnd rftrying. As yiflding is problfmbtid in hfbvy
+     * lobd donditions wf bttfmpt up to 3 timfs to gft thf frror rfbson.
+     */
+    for (rftry=0; rftry<3; rftry++) {
+        NET_GftSodkOpt(fd, SOL_SOCKET, SO_ERROR,
+                       (dhbr*)&rv, &optlfn);
+        if (rv) {
+            brfbk;
+        }
+        Slffp(0);
+    }
+
+    if (rv == 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Unbblf to fstbblish donnfdtion");
+    } flsf {
+        NET_ThrowNfw(fnv, rv, "donnfdt");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    lodblPort0
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_lodblPort0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd) {
+    SOCKETADDRESS sb;
+    int lfn = sizfof(sb);
+
+    if (gftsodknbmf(fd, (strudt sodkbddr *)&sb, &lfn) == SOCKET_ERROR) {
+        if (WSAGftLbstError() == WSAENOTSOCK) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                    "Sodkft dlosfd");
+        } flsf {
+            NET_ThrowNfw(fnv, WSAGftLbstError(), "gftsodknbmf fbilfd");
+        }
+        rfturn -1;
+    }
+    rfturn (int) ntohs((u_short)GET_PORT(&sb));
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    lodblAddrfss
+ * Signbturf: (ILjbvb/nft/InftAddrfssContbinfr;)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_lodblAddrfss
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jobjfdt ibContbinfrObj) {
+    int port;
+    SOCKETADDRESS sb;
+    int lfn = sizfof(sb);
+    jobjfdt ibObj;
+    jdlbss ibContbinfrClbss;
+    jfifldID ibFifldID;
+
+    if (gftsodknbmf(fd, (strudt sodkbddr *)&sb, &lfn) == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "Error gftting sodkft nbmf");
+        rfturn;
+    }
+    ibObj = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
+    CHECK_NULL(ibObj);
+
+    ibContbinfrClbss = (*fnv)->GftObjfdtClbss(fnv, ibContbinfrObj);
+    ibFifldID = (*fnv)->GftFifldID(fnv, ibContbinfrClbss, "bddr", "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ibFifldID);
+    (*fnv)->SftObjfdtFifld(fnv, ibContbinfrObj, ibFifldID, ibObj);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    listfn0
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_listfn0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint bbdklog) {
+    if (listfn(fd, bbdklog) == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "listfn fbilfd");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    bddfpt0
+ * Signbturf: (I[Ljbvb/nft/InftSodkftAddrfss;)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_bddfpt0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jobjfdtArrby isbb) {
+    int nfwfd, port=0;
+    jobjfdt isb;
+    jobjfdt ib;
+    SOCKETADDRESS sb;
+    int lfn = sizfof(sb);
+
+    mfmsft((dhbr *)&sb, 0, lfn);
+    nfwfd = bddfpt(fd, (strudt sodkbddr *)&sb, &lfn);
+
+    if (nfwfd == INVALID_SOCKET) {
+        if (WSAGftLbstError() == -2) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption",
+                            "opfrbtion intfrruptfd");
+        } flsf {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                            "sodkft dlosfd");
+        }
+        rfturn -1;
+    }
+
+    ib = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
+    isb = (*fnv)->NfwObjfdt(fnv, isb_dlbss, isb_dtorID, ib, port);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, isbb, 0, isb);
+
+    rfturn nfwfd;
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    wbitForNfwConnfdtion
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_wbitForNfwConnfdtion
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint timfout) {
+    int rv;
+
+    rv = NET_Timfout(fd, timfout);
+    if (rv == 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                        "Addfpt timfd out");
+    } flsf if (rv == -1) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "sodkft dlosfd");
+    } flsf if (rv == -2) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption",
+                        "opfrbtion intfrruptfd");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    bvbilbblf0
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_bvbilbblf0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd) {
+    jint bvbilbblf = -1;
+
+    if ((iodtlsodkft(fd, FIONREAD, &bvbilbblf)) == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "sodkft bvbilbblf");
+    }
+
+    rfturn bvbilbblf;
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    dlosf0
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_dlosf0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd) {
+     NET_SodkftClosf(fd);
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    shutdown0
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_shutdown0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint howto) {
+    shutdown(fd, howto);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    sftIntOption
+ * Signbturf: (III)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_sftIntOption
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint dmd, jint vbluf) {
+
+    int lfvfl = 0, opt = 0;
+    strudt lingfr lingfr = {0, 0};
+    dhbr *pbrg;
+    int brglfn;
+
+    if (NET_MbpSodkftOption(dmd, &lfvfl, &opt) < 0) {
+        JNU_ThrowByNbmfWithLbstError(fnv,
+                                     JNU_JAVANETPKG "SodkftExdfption",
+                                     "Invblid option");
+        rfturn;
+    }
+
+    if (opt == jbvb_nft_SodkftOptions_SO_LINGER) {
+        pbrg = (dhbr *)&lingfr;
+        brglfn = sizfof(lingfr);
+        if (vbluf >= 0) {
+            lingfr.l_onoff = 1;
+            lingfr.l_lingfr = (unsignfd short)vbluf;
+        } flsf {
+            lingfr.l_onoff = 0;
+            lingfr.l_lingfr = 0;
+        }
+    } flsf {
+        pbrg = (dhbr *)&vbluf;
+        brglfn = sizfof(vbluf);
+    }
+
+    if (NET_SftSodkOpt(fd, lfvfl, opt, pbrg, brglfn) < 0) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "sftsodkopt");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    gftIntOption
+ * Signbturf: (II)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_gftIntOption
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint dmd) {
+
+    int lfvfl = 0, opt = 0;
+    int rfsult=0;
+    strudt lingfr lingfr = {0, 0};
+    dhbr *brg;
+    int brglfn;
+
+    if (NET_MbpSodkftOption(dmd, &lfvfl, &opt) < 0) {
+        JNU_ThrowByNbmfWithLbstError(fnv,
+                                     JNU_JAVANETPKG "SodkftExdfption",
+                                     "Unsupportfd sodkft option");
+        rfturn -1;
+    }
+
+    if (opt == jbvb_nft_SodkftOptions_SO_LINGER) {
+        brg = (dhbr *)&lingfr;
+        brglfn = sizfof(lingfr);
+    } flsf {
+        brg = (dhbr *)&rfsult;
+        brglfn = sizfof(rfsult);
+    }
+
+    if (NET_GftSodkOpt(fd, lfvfl, opt, brg, &brglfn) < 0) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "gftsodkopt");
+        rfturn -1;
+    }
+
+    if (opt == jbvb_nft_SodkftOptions_SO_LINGER)
+        rfturn lingfr.l_onoff ? lingfr.l_lingfr : -1;
+    flsf
+        rfturn rfsult;
+}
+
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    sfndOOB
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_sfndOOB
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jint dbtb) {
+    jint n;
+    unsignfd dhbr d = (unsignfd dhbr) dbtb & 0xff;
+
+    n = sfnd(fd, (dhbr *)&dbtb, 1, MSG_OOB);
+    if (n == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "sfnd");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_DublStbdkPlbinSodkftImpl
+ * Mfthod:    donfigurfBlodking
+ * Signbturf: (IZ)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_DublStbdkPlbinSodkftImpl_donfigurfBlodking
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd, jboolfbn blodking) {
+    u_long brg;
+    int rfsult;
+
+    if (blodking == JNI_TRUE) {
+        brg = SET_BLOCKING;    // 0
+    } flsf {
+        brg = SET_NONBLOCKING;   // 1
+    }
+
+    rfsult = iodtlsodkft(fd, FIONBIO, &brg);
+    if (rfsult == SOCKET_ERROR) {
+        NET_ThrowNfw(fnv, WSAGftLbstError(), "donfigurfBlodking");
+    }
+}

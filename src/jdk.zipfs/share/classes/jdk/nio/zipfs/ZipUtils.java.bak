@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.nio.zipfs;
+pbdkbgf jdk.nio.zipfs;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.regex.PatternSyntaxException;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.rfgfx.PbttfrnSyntbxExdfption;
+import jbvb.util.dondurrfnt.TimfUnit;
 
 /**
  *
- * @author Xueming Shen
+ * @butior Xufming Sifn
  */
 
-class ZipUtils {
+dlbss ZipUtils {
 
     /*
-     * Writes a 16-bit short to the output stream in little-endian byte order.
+     * Writfs b 16-bit siort to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    public static void writeShort(OutputStream os, int v) throws IOException {
-        os.write(v & 0xff);
-        os.write((v >>> 8) & 0xff);
+    publid stbtid void writfSiort(OutputStrfbm os, int v) tirows IOExdfption {
+        os.writf(v & 0xff);
+        os.writf((v >>> 8) & 0xff);
     }
 
     /*
-     * Writes a 32-bit int to the output stream in little-endian byte order.
+     * Writfs b 32-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    public static void writeInt(OutputStream os, long v) throws IOException {
-        os.write((int)(v & 0xff));
-        os.write((int)((v >>>  8) & 0xff));
-        os.write((int)((v >>> 16) & 0xff));
-        os.write((int)((v >>> 24) & 0xff));
+    publid stbtid void writfInt(OutputStrfbm os, long v) tirows IOExdfption {
+        os.writf((int)(v & 0xff));
+        os.writf((int)((v >>>  8) & 0xff));
+        os.writf((int)((v >>> 16) & 0xff));
+        os.writf((int)((v >>> 24) & 0xff));
     }
 
     /*
-     * Writes a 64-bit int to the output stream in little-endian byte order.
+     * Writfs b 64-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    public static void writeLong(OutputStream os, long v) throws IOException {
-        os.write((int)(v & 0xff));
-        os.write((int)((v >>>  8) & 0xff));
-        os.write((int)((v >>> 16) & 0xff));
-        os.write((int)((v >>> 24) & 0xff));
-        os.write((int)((v >>> 32) & 0xff));
-        os.write((int)((v >>> 40) & 0xff));
-        os.write((int)((v >>> 48) & 0xff));
-        os.write((int)((v >>> 56) & 0xff));
+    publid stbtid void writfLong(OutputStrfbm os, long v) tirows IOExdfption {
+        os.writf((int)(v & 0xff));
+        os.writf((int)((v >>>  8) & 0xff));
+        os.writf((int)((v >>> 16) & 0xff));
+        os.writf((int)((v >>> 24) & 0xff));
+        os.writf((int)((v >>> 32) & 0xff));
+        os.writf((int)((v >>> 40) & 0xff));
+        os.writf((int)((v >>> 48) & 0xff));
+        os.writf((int)((v >>> 56) & 0xff));
     }
 
     /*
-     * Writes an array of bytes to the output stream.
+     * Writfs bn brrby of bytfs to tif output strfbm.
      */
-    public static void writeBytes(OutputStream os, byte[] b)
-        throws IOException
+    publid stbtid void writfBytfs(OutputStrfbm os, bytf[] b)
+        tirows IOExdfption
     {
-        os.write(b, 0, b.length);
+        os.writf(b, 0, b.lfngti);
     }
 
     /*
-     * Writes an array of bytes to the output stream.
+     * Writfs bn brrby of bytfs to tif output strfbm.
      */
-    public static void writeBytes(OutputStream os, byte[] b, int off, int len)
-        throws IOException
+    publid stbtid void writfBytfs(OutputStrfbm os, bytf[] b, int off, int lfn)
+        tirows IOExdfption
     {
-        os.write(b, off, len);
+        os.writf(b, off, lfn);
     }
 
     /*
-     * Append a slash at the end, if it does not have one yet
+     * Appfnd b slbsi bt tif fnd, if it dofs not ibvf onf yft
      */
-    public static byte[] toDirectoryPath(byte[] dir) {
-        if (dir.length != 0 && dir[dir.length - 1] != '/') {
-            dir = Arrays.copyOf(dir, dir.length + 1);
-            dir[dir.length - 1] = '/';
+    publid stbtid bytf[] toDirfdtoryPbti(bytf[] dir) {
+        if (dir.lfngti != 0 && dir[dir.lfngti - 1] != '/') {
+            dir = Arrbys.dopyOf(dir, dir.lfngti + 1);
+            dir[dir.lfngti - 1] = '/';
         }
-        return dir;
+        rfturn dir;
     }
 
     /*
-     * Converts DOS time to Java time (number of milliseconds since epoch).
+     * Convfrts DOS timf to Jbvb timf (numbfr of millisfdonds sindf fpodi).
      */
-    public static long dosToJavaTime(long dtime) {
-        Date d = new Date((int)(((dtime >> 25) & 0x7f) + 80),
-                          (int)(((dtime >> 21) & 0x0f) - 1),
-                          (int)((dtime >> 16) & 0x1f),
-                          (int)((dtime >> 11) & 0x1f),
-                          (int)((dtime >> 5) & 0x3f),
-                          (int)((dtime << 1) & 0x3e));
-        return d.getTime();
+    publid stbtid long dosToJbvbTimf(long dtimf) {
+        Dbtf d = nfw Dbtf((int)(((dtimf >> 25) & 0x7f) + 80),
+                          (int)(((dtimf >> 21) & 0x0f) - 1),
+                          (int)((dtimf >> 16) & 0x1f),
+                          (int)((dtimf >> 11) & 0x1f),
+                          (int)((dtimf >> 5) & 0x3f),
+                          (int)((dtimf << 1) & 0x3f));
+        rfturn d.gftTimf();
     }
 
     /*
-     * Converts Java time to DOS time.
+     * Convfrts Jbvb timf to DOS timf.
      */
-    public static long javaToDosTime(long time) {
-        Date d = new Date(time);
-        int year = d.getYear() + 1900;
-        if (year < 1980) {
-            return (1 << 21) | (1 << 16);
+    publid stbtid long jbvbToDosTimf(long timf) {
+        Dbtf d = nfw Dbtf(timf);
+        int yfbr = d.gftYfbr() + 1900;
+        if (yfbr < 1980) {
+            rfturn (1 << 21) | (1 << 16);
         }
-        return (year - 1980) << 25 | (d.getMonth() + 1) << 21 |
-               d.getDate() << 16 | d.getHours() << 11 | d.getMinutes() << 5 |
-               d.getSeconds() >> 1;
+        rfturn (yfbr - 1980) << 25 | (d.gftMonti() + 1) << 21 |
+               d.gftDbtf() << 16 | d.gftHours() << 11 | d.gftMinutfs() << 5 |
+               d.gftSfdonds() >> 1;
     }
 
 
-    // used to adjust values between Windows and java epoch
-    private static final long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
-    public static final long winToJavaTime(long wtime) {
-        return TimeUnit.MILLISECONDS.convert(
-               wtime / 10 + WINDOWS_EPOCH_IN_MICROSECONDS, TimeUnit.MICROSECONDS);
+    // usfd to bdjust vblufs bftwffn Windows bnd jbvb fpodi
+    privbtf stbtid finbl long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
+    publid stbtid finbl long winToJbvbTimf(long wtimf) {
+        rfturn TimfUnit.MILLISECONDS.donvfrt(
+               wtimf / 10 + WINDOWS_EPOCH_IN_MICROSECONDS, TimfUnit.MICROSECONDS);
     }
 
-    public static final long javaToWinTime(long time) {
-        return (TimeUnit.MICROSECONDS.convert(time, TimeUnit.MILLISECONDS)
+    publid stbtid finbl long jbvbToWinTimf(long timf) {
+        rfturn (TimfUnit.MICROSECONDS.donvfrt(timf, TimfUnit.MILLISECONDS)
                - WINDOWS_EPOCH_IN_MICROSECONDS) * 10;
     }
 
-    public static final long unixToJavaTime(long utime) {
-        return TimeUnit.MILLISECONDS.convert(utime, TimeUnit.SECONDS);
+    publid stbtid finbl long unixToJbvbTimf(long utimf) {
+        rfturn TimfUnit.MILLISECONDS.donvfrt(utimf, TimfUnit.SECONDS);
     }
 
-    public static final long javaToUnixTime(long time) {
-        return TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
+    publid stbtid finbl long jbvbToUnixTimf(long timf) {
+        rfturn TimfUnit.SECONDS.donvfrt(timf, TimfUnit.MILLISECONDS);
     }
 
-    private static final String regexMetaChars = ".^$+{[]|()";
-    private static final String globMetaChars = "\\*?[{";
-    private static boolean isRegexMeta(char c) {
-        return regexMetaChars.indexOf(c) != -1;
+    privbtf stbtid finbl String rfgfxMftbCibrs = ".^$+{[]|()";
+    privbtf stbtid finbl String globMftbCibrs = "\\*?[{";
+    privbtf stbtid boolfbn isRfgfxMftb(dibr d) {
+        rfturn rfgfxMftbCibrs.indfxOf(d) != -1;
     }
-    private static boolean isGlobMeta(char c) {
-        return globMetaChars.indexOf(c) != -1;
+    privbtf stbtid boolfbn isGlobMftb(dibr d) {
+        rfturn globMftbCibrs.indfxOf(d) != -1;
     }
-    private static char EOL = 0;  //TBD
-    private static char next(String glob, int i) {
-        if (i < glob.length()) {
-            return glob.charAt(i);
+    privbtf stbtid dibr EOL = 0;  //TBD
+    privbtf stbtid dibr nfxt(String glob, int i) {
+        if (i < glob.lfngti()) {
+            rfturn glob.dibrAt(i);
         }
-        return EOL;
+        rfturn EOL;
     }
 
     /*
-     * Creates a regex pattern from the given glob expression.
+     * Crfbtfs b rfgfx pbttfrn from tif givfn glob fxprfssion.
      *
-     * @throws  PatternSyntaxException
+     * @tirows  PbttfrnSyntbxExdfption
      */
-    public static String toRegexPattern(String globPattern) {
-        boolean inGroup = false;
-        StringBuilder regex = new StringBuilder("^");
+    publid stbtid String toRfgfxPbttfrn(String globPbttfrn) {
+        boolfbn inGroup = fblsf;
+        StringBuildfr rfgfx = nfw StringBuildfr("^");
 
         int i = 0;
-        while (i < globPattern.length()) {
-            char c = globPattern.charAt(i++);
-            switch (c) {
-                case '\\':
-                    // escape special characters
-                    if (i == globPattern.length()) {
-                        throw new PatternSyntaxException("No character to escape",
-                                globPattern, i - 1);
+        wiilf (i < globPbttfrn.lfngti()) {
+            dibr d = globPbttfrn.dibrAt(i++);
+            switdi (d) {
+                dbsf '\\':
+                    // fsdbpf spfdibl dibrbdtfrs
+                    if (i == globPbttfrn.lfngti()) {
+                        tirow nfw PbttfrnSyntbxExdfption("No dibrbdtfr to fsdbpf",
+                                globPbttfrn, i - 1);
                     }
-                    char next = globPattern.charAt(i++);
-                    if (isGlobMeta(next) || isRegexMeta(next)) {
-                        regex.append('\\');
+                    dibr nfxt = globPbttfrn.dibrAt(i++);
+                    if (isGlobMftb(nfxt) || isRfgfxMftb(nfxt)) {
+                        rfgfx.bppfnd('\\');
                     }
-                    regex.append(next);
-                    break;
-                case '/':
-                    regex.append(c);
-                    break;
-                case '[':
-                    // don't match name separator in class
-                    regex.append("[[^/]&&[");
-                    if (next(globPattern, i) == '^') {
-                        // escape the regex negation char if it appears
-                        regex.append("\\^");
+                    rfgfx.bppfnd(nfxt);
+                    brfbk;
+                dbsf '/':
+                    rfgfx.bppfnd(d);
+                    brfbk;
+                dbsf '[':
+                    // don't mbtdi nbmf sfpbrbtor in dlbss
+                    rfgfx.bppfnd("[[^/]&&[");
+                    if (nfxt(globPbttfrn, i) == '^') {
+                        // fsdbpf tif rfgfx nfgbtion dibr if it bppfbrs
+                        rfgfx.bppfnd("\\^");
                         i++;
-                    } else {
-                        // negation
-                        if (next(globPattern, i) == '!') {
-                            regex.append('^');
+                    } flsf {
+                        // nfgbtion
+                        if (nfxt(globPbttfrn, i) == '!') {
+                            rfgfx.bppfnd('^');
                             i++;
                         }
-                        // hyphen allowed at start
-                        if (next(globPattern, i) == '-') {
-                            regex.append('-');
+                        // iypifn bllowfd bt stbrt
+                        if (nfxt(globPbttfrn, i) == '-') {
+                            rfgfx.bppfnd('-');
                             i++;
                         }
                     }
-                    boolean hasRangeStart = false;
-                    char last = 0;
-                    while (i < globPattern.length()) {
-                        c = globPattern.charAt(i++);
-                        if (c == ']') {
-                            break;
+                    boolfbn ibsRbngfStbrt = fblsf;
+                    dibr lbst = 0;
+                    wiilf (i < globPbttfrn.lfngti()) {
+                        d = globPbttfrn.dibrAt(i++);
+                        if (d == ']') {
+                            brfbk;
                         }
-                        if (c == '/') {
-                            throw new PatternSyntaxException("Explicit 'name separator' in class",
-                                    globPattern, i - 1);
+                        if (d == '/') {
+                            tirow nfw PbttfrnSyntbxExdfption("Explidit 'nbmf sfpbrbtor' in dlbss",
+                                    globPbttfrn, i - 1);
                         }
-                        // TBD: how to specify ']' in a class?
-                        if (c == '\\' || c == '[' ||
-                                c == '&' && next(globPattern, i) == '&') {
-                            // escape '\', '[' or "&&" for regex class
-                            regex.append('\\');
+                        // TBD: iow to spfdify ']' in b dlbss?
+                        if (d == '\\' || d == '[' ||
+                                d == '&' && nfxt(globPbttfrn, i) == '&') {
+                            // fsdbpf '\', '[' or "&&" for rfgfx dlbss
+                            rfgfx.bppfnd('\\');
                         }
-                        regex.append(c);
+                        rfgfx.bppfnd(d);
 
-                        if (c == '-') {
-                            if (!hasRangeStart) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 1);
+                        if (d == '-') {
+                            if (!ibsRbngfStbrt) {
+                                tirow nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 1);
                             }
-                            if ((c = next(globPattern, i++)) == EOL || c == ']') {
-                                break;
+                            if ((d = nfxt(globPbttfrn, i++)) == EOL || d == ']') {
+                                brfbk;
                             }
-                            if (c < last) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 3);
+                            if (d < lbst) {
+                                tirow nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 3);
                             }
-                            regex.append(c);
-                            hasRangeStart = false;
-                        } else {
-                            hasRangeStart = true;
-                            last = c;
+                            rfgfx.bppfnd(d);
+                            ibsRbngfStbrt = fblsf;
+                        } flsf {
+                            ibsRbngfStbrt = truf;
+                            lbst = d;
                         }
                     }
-                    if (c != ']') {
-                        throw new PatternSyntaxException("Missing ']", globPattern, i - 1);
+                    if (d != ']') {
+                        tirow nfw PbttfrnSyntbxExdfption("Missing ']", globPbttfrn, i - 1);
                     }
-                    regex.append("]]");
-                    break;
-                case '{':
+                    rfgfx.bppfnd("]]");
+                    brfbk;
+                dbsf '{':
                     if (inGroup) {
-                        throw new PatternSyntaxException("Cannot nest groups",
-                                globPattern, i - 1);
+                        tirow nfw PbttfrnSyntbxExdfption("Cbnnot nfst groups",
+                                globPbttfrn, i - 1);
                     }
-                    regex.append("(?:(?:");
-                    inGroup = true;
-                    break;
-                case '}':
+                    rfgfx.bppfnd("(?:(?:");
+                    inGroup = truf;
+                    brfbk;
+                dbsf '}':
                     if (inGroup) {
-                        regex.append("))");
-                        inGroup = false;
-                    } else {
-                        regex.append('}');
+                        rfgfx.bppfnd("))");
+                        inGroup = fblsf;
+                    } flsf {
+                        rfgfx.bppfnd('}');
                     }
-                    break;
-                case ',':
+                    brfbk;
+                dbsf ',':
                     if (inGroup) {
-                        regex.append(")|(?:");
-                    } else {
-                        regex.append(',');
+                        rfgfx.bppfnd(")|(?:");
+                    } flsf {
+                        rfgfx.bppfnd(',');
                     }
-                    break;
-                case '*':
-                    if (next(globPattern, i) == '*') {
-                        // crosses directory boundaries
-                        regex.append(".*");
+                    brfbk;
+                dbsf '*':
+                    if (nfxt(globPbttfrn, i) == '*') {
+                        // drossfs dirfdtory boundbrifs
+                        rfgfx.bppfnd(".*");
                         i++;
-                    } else {
-                        // within directory boundary
-                        regex.append("[^/]*");
+                    } flsf {
+                        // witiin dirfdtory boundbry
+                        rfgfx.bppfnd("[^/]*");
                     }
-                    break;
-                case '?':
-                   regex.append("[^/]");
-                   break;
-                default:
-                    if (isRegexMeta(c)) {
-                        regex.append('\\');
+                    brfbk;
+                dbsf '?':
+                   rfgfx.bppfnd("[^/]");
+                   brfbk;
+                dffbult:
+                    if (isRfgfxMftb(d)) {
+                        rfgfx.bppfnd('\\');
                     }
-                    regex.append(c);
+                    rfgfx.bppfnd(d);
             }
         }
         if (inGroup) {
-            throw new PatternSyntaxException("Missing '}", globPattern, i - 1);
+            tirow nfw PbttfrnSyntbxExdfption("Missing '}", globPbttfrn, i - 1);
         }
-        return regex.append('$').toString();
+        rfturn rfgfx.bppfnd('$').toString();
     }
 }

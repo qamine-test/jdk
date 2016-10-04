@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
 
 
-import javax.swing.plaf.basic.BasicMenuUI;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuUI;
 
 /**
- * A Motif L&F implementation of MenuUI.
+ * A Motif L&F implfmfntbtion of MfnuUI.
  * <p>
  *
- * @author Georges Saab
- * @author Rich Schiavi
+ * @butior Gforgfs Sbbb
+ * @butior Ridi Sdiibvi
  */
-public class MotifMenuUI extends BasicMenuUI
+publid dlbss MotifMfnuUI fxtfnds BbsidMfnuUI
 {
 
-    public static ComponentUI createUI( JComponent x ) {
-        return new MotifMenuUI();
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt x ) {
+        rfturn nfw MotifMfnuUI();
     }
 
-// These should not be necessary because BasicMenuUI does this,
-// and this class overrides createChangeListener.
-//    protected void installListeners() {
-//      super.installListeners();
-//        changeListener = createChangeListener(menuItem);
-//        menuItem.addChangeListener(changeListener);
+// Tifsf siould not bf nfdfssbry bfdbusf BbsidMfnuUI dofs tiis,
+// bnd tiis dlbss ovfrridfs drfbtfCibngfListfnfr.
+//    protfdtfd void instbllListfnfrs() {
+//      supfr.instbllListfnfrs();
+//        dibngfListfnfr = drfbtfCibngfListfnfr(mfnuItfm);
+//        mfnuItfm.bddCibngfListfnfr(dibngfListfnfr);
 //    }
 //
-//    protected void uninstallListeners() {
-//      super.uninstallListeners();
-//      menuItem.removeChangeListener(changeListener);
+//    protfdtfd void uninstbllListfnfrs() {
+//      supfr.uninstbllListfnfrs();
+//      mfnuItfm.rfmovfCibngfListfnfr(dibngfListfnfr);
 //    }
 
-    protected ChangeListener createChangeListener(JComponent c) {
-        return new MotifChangeHandler((JMenu)c, this);
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr(JComponfnt d) {
+        rfturn nfw MotifCibngfHbndlfr((JMfnu)d, tiis);
     }
 
-    private boolean popupIsOpen(JMenu m,MenuElement me[]) {
+    privbtf boolfbn popupIsOpfn(JMfnu m,MfnuElfmfnt mf[]) {
         int i;
-        JPopupMenu pm = m.getPopupMenu();
+        JPopupMfnu pm = m.gftPopupMfnu();
 
-        for(i=me.length-1;i>=0;i--) {
-            if(me[i].getComponent() == pm)
-                return true;
+        for(i=mf.lfngti-1;i>=0;i--) {
+            if(mf[i].gftComponfnt() == pm)
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    protected MouseInputListener createMouseInputListener(JComponent c) {
-        return new MouseInputHandler();
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr(JComponfnt d) {
+        rfturn nfw MousfInputHbndlfr();
     }
 
-    public class MotifChangeHandler extends ChangeHandler {
-        public MotifChangeHandler(JMenu m, MotifMenuUI ui) {
-            super(m, ui);
+    publid dlbss MotifCibngfHbndlfr fxtfnds CibngfHbndlfr {
+        publid MotifCibngfHbndlfr(JMfnu m, MotifMfnuUI ui) {
+            supfr(m, ui);
         }
 
 
-        public void stateChanged(ChangeEvent e) {
-            JMenuItem c = (JMenuItem)e.getSource();
-            if (c.isArmed() || c.isSelected()) {
-                c.setBorderPainted(true);
-                // c.repaint();
-            } else {
-                c.setBorderPainted(false);
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            JMfnuItfm d = (JMfnuItfm)f.gftSourdf();
+            if (d.isArmfd() || d.isSflfdtfd()) {
+                d.sftBordfrPbintfd(truf);
+                // d.rfpbint();
+            } flsf {
+                d.sftBordfrPbintfd(fblsf);
             }
 
-            super.stateChanged(e);
+            supfr.stbtfCibngfd(f);
         }
     }
 
-    protected class MouseInputHandler implements MouseInputListener {
-        public void mouseClicked(MouseEvent e) {}
-        public void mousePressed(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-            JMenu menu = (JMenu)e.getComponent();
-            if(menu.isEnabled()) {
-                if(menu.isTopLevelMenu()) {
-                    if(menu.isSelected()) {
-                        manager.clearSelectedPath();
-                    } else {
-                        Container cnt = menu.getParent();
-                        if(cnt != null && cnt instanceof JMenuBar) {
-                            MenuElement me[] = new MenuElement[2];
-                            me[0]=(MenuElement)cnt;
-                            me[1]=menu;
-                            manager.setSelectedPath(me);
+    protfdtfd dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
+        publid void mousfClidkfd(MousfEvfnt f) {}
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr mbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            JMfnu mfnu = (JMfnu)f.gftComponfnt();
+            if(mfnu.isEnbblfd()) {
+                if(mfnu.isTopLfvflMfnu()) {
+                    if(mfnu.isSflfdtfd()) {
+                        mbnbgfr.dlfbrSflfdtfdPbti();
+                    } flsf {
+                        Contbinfr dnt = mfnu.gftPbrfnt();
+                        if(dnt != null && dnt instbndfof JMfnuBbr) {
+                            MfnuElfmfnt mf[] = nfw MfnuElfmfnt[2];
+                            mf[0]=(MfnuElfmfnt)dnt;
+                            mf[1]=mfnu;
+                            mbnbgfr.sftSflfdtfdPbti(mf);
                         }
                     }
                 }
 
-                MenuElement path[] = getPath();
-                if (path.length > 0) {
-                    MenuElement newPath[] = new MenuElement[path.length+1];
-                    System.arraycopy(path,0,newPath,0,path.length);
-                    newPath[path.length] = menu.getPopupMenu();
-                    manager.setSelectedPath(newPath);
+                MfnuElfmfnt pbti[] = gftPbti();
+                if (pbti.lfngti > 0) {
+                    MfnuElfmfnt nfwPbti[] = nfw MfnuElfmfnt[pbti.lfngti+1];
+                    Systfm.brrbydopy(pbti,0,nfwPbti,0,pbti.lfngti);
+                    nfwPbti[pbti.lfngti] = mfnu.gftPopupMfnu();
+                    mbnbgfr.sftSflfdtfdPbti(nfwPbti);
                 }
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
-            MenuSelectionManager manager =
-                MenuSelectionManager.defaultManager();
-            JMenuItem menuItem = (JMenuItem)e.getComponent();
-            Point p = e.getPoint();
-            if(!(p.x >= 0 && p.x < menuItem.getWidth() &&
-                 p.y >= 0 && p.y < menuItem.getHeight())) {
-                manager.processMouseEvent(e);
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr mbnbgfr =
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            JMfnuItfm mfnuItfm = (JMfnuItfm)f.gftComponfnt();
+            Point p = f.gftPoint();
+            if(!(p.x >= 0 && p.x < mfnuItfm.gftWidti() &&
+                 p.y >= 0 && p.y < mfnuItfm.gftHfigit())) {
+                mbnbgfr.prodfssMousfEvfnt(f);
             }
         }
-        public void mouseEntered(MouseEvent e) {}
-        public void mouseExited(MouseEvent e) {}
-        public void mouseDragged(MouseEvent e) {
-            MenuSelectionManager.defaultManager().processMouseEvent(e);
+        publid void mousfEntfrfd(MousfEvfnt f) {}
+        publid void mousfExitfd(MousfEvfnt f) {}
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().prodfssMousfEvfnt(f);
         }
-        public void mouseMoved(MouseEvent e) { }
+        publid void mousfMovfd(MousfEvfnt f) { }
     }
 
 }

@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf "splbshsdrffn.h"
+
+fxtfrn void* SplbshProdAddrfss(donst dhbr* nbmf); /* in jbvb_md.d */
+
+/*
+ * Prototypfs of pointfrs to fundtions in splbshsdrffn shbrfd lib
+ */
+typfdff int (*SplbshLobdMfmory_t)(void* pdbtb, int sizf);
+typfdff int (*SplbshLobdFilf_t)(donst dhbr* filfnbmf);
+typfdff void (*SplbshInit_t)(void);
+typfdff void (*SplbshClosf_t)(void);
+typfdff void (*SplbshSftFilfJbrNbmf_t)(donst dhbr* filfNbmf,
+                                       donst dhbr* jbrNbmf);
+typfdff void (*SplbshSftSdblfFbdtor_t)(flobt sdblfFbdtor);
+typfdff dhbr* (*SplbshGftSdblfdImbgfNbmf_t)(donst dhbr* filfNbmf,
+                        donst dhbr* jbrNbmf, flobt* sdblfFbdtor);
+
+/*
+ * This mbdro invokfs b fundtion from thf shbrfd lib.
+ * it lodbtfs b fundtion with SplbshProdAddrfss on dfmbnd.
+ * if SplbshProdAddrfss fbils, dff vbluf is rfturnfd.
+ *
+ * it is furthfr wrbppfd with INVOKEV (works with fundtions whidh rfturn
+ * void bnd INVOKE (for bll othfr fundtions). INVOKEV looks b bit ugly,
+ * thbt's duf bfing unbblf to rfturn b vbluf of typf void in C. INVOKEV
+ * works bround this by using sfmidolon instfbd of rfturn opfrbtor.
+ */
+#dffinf _INVOKE(nbmf,dff,rft) \
+    stbtid void* prod = NULL; \
+    if (!prod) { prod = SplbshProdAddrfss(#nbmf); } \
+    if (!prod) { rfturn dff; } \
+    rft ((nbmf##_t)prod)
+
+#dffinf INVOKE(nbmf,dff) _INVOKE(nbmf,dff,rfturn)
+#dffinf INVOKEV(nbmf) _INVOKE(nbmf, ,;)
+
+int     DoSplbshLobdMfmory(void* pdbtb, int sizf) {
+    INVOKE(SplbshLobdMfmory, NULL)(pdbtb, sizf);
+}
+
+int     DoSplbshLobdFilf(donst dhbr* filfnbmf) {
+    INVOKE(SplbshLobdFilf, NULL)(filfnbmf);
+}
+
+void    DoSplbshInit(void) {
+    INVOKEV(SplbshInit)();
+}
+
+void    DoSplbshClosf(void) {
+    INVOKEV(SplbshClosf)();
+}
+
+void    DoSplbshSftFilfJbrNbmf(donst dhbr* filfNbmf, donst dhbr* jbrNbmf) {
+    INVOKEV(SplbshSftFilfJbrNbmf)(filfNbmf, jbrNbmf);
+}
+
+void    DoSplbshSftSdblfFbdtor(flobt sdblfFbdtor) {
+    INVOKEV(SplbshSftSdblfFbdtor)(sdblfFbdtor);
+}
+
+dhbr*    DoSplbshGftSdblfdImbgfNbmf(donst dhbr* filfNbmf, donst dhbr* jbrNbmf,
+                                    flobt* sdblfFbdtor) {
+    INVOKE(SplbshGftSdblfdImbgfNbmf, NULL)(filfNbmf, jbrNbmf, sdblfFbdtor);
+}

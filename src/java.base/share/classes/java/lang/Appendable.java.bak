@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * An object to which <tt>char</tt> sequences and values can be appended.  The
- * <tt>Appendable</tt> interface must be implemented by any class whose
- * instances are intended to receive formatted output from a {@link
- * java.util.Formatter}.
+ * An objfdt to wiidi <tt>dibr</tt> sfqufndfs bnd vblufs dbn bf bppfndfd.  Tif
+ * <tt>Appfndbblf</tt> intfrfbdf must bf implfmfntfd by bny dlbss wiosf
+ * instbndfs brf intfndfd to rfdfivf formbttfd output from b {@link
+ * jbvb.util.Formbttfr}.
  *
- * <p> The characters to be appended should be valid Unicode characters as
- * described in <a href="Character.html#unicode">Unicode Character
- * Representation</a>.  Note that supplementary characters may be composed of
- * multiple 16-bit <tt>char</tt> values.
+ * <p> Tif dibrbdtfrs to bf bppfndfd siould bf vblid Unidodf dibrbdtfrs bs
+ * dfsdribfd in <b irff="Cibrbdtfr.itml#unidodf">Unidodf Cibrbdtfr
+ * Rfprfsfntbtion</b>.  Notf tibt supplfmfntbry dibrbdtfrs mby bf domposfd of
+ * multiplf 16-bit <tt>dibr</tt> vblufs.
  *
- * <p> Appendables are not necessarily safe for multithreaded access.  Thread
- * safety is the responsibility of classes that extend and implement this
- * interface.
+ * <p> Appfndbblfs brf not nfdfssbrily sbff for multitirfbdfd bddfss.  Tirfbd
+ * sbffty is tif rfsponsibility of dlbssfs tibt fxtfnd bnd implfmfnt tiis
+ * intfrfbdf.
  *
- * <p> Since this interface may be implemented by existing classes
- * with different styles of error handling there is no guarantee that
- * errors will be propagated to the invoker.
+ * <p> Sindf tiis intfrfbdf mby bf implfmfntfd by fxisting dlbssfs
+ * witi difffrfnt stylfs of frror ibndling tifrf is no gubrbntff tibt
+ * frrors will bf propbgbtfd to tif invokfr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface Appendable {
+publid intfrfbdf Appfndbblf {
 
     /**
-     * Appends the specified character sequence to this <tt>Appendable</tt>.
+     * Appfnds tif spfdififd dibrbdtfr sfqufndf to tiis <tt>Appfndbblf</tt>.
      *
-     * <p> Depending on which class implements the character sequence
-     * <tt>csq</tt>, the entire sequence may not be appended.  For
-     * instance, if <tt>csq</tt> is a {@link java.nio.CharBuffer} then
-     * the subsequence to append is defined by the buffer's position and limit.
+     * <p> Dfpfnding on wiidi dlbss implfmfnts tif dibrbdtfr sfqufndf
+     * <tt>dsq</tt>, tif fntirf sfqufndf mby not bf bppfndfd.  For
+     * instbndf, if <tt>dsq</tt> is b {@link jbvb.nio.CibrBufffr} tifn
+     * tif subsfqufndf to bppfnd is dffinfd by tif bufffr's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this Appendable.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, tifn tif four dibrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to tiis Appfndbblf.
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @rfturn  A rfffrfndf to tiis <tt>Appfndbblf</tt>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    Appendable append(CharSequence csq) throws IOException;
+    Appfndbblf bppfnd(CibrSfqufndf dsq) tirows IOExdfption;
 
     /**
-     * Appends a subsequence of the specified character sequence to this
-     * <tt>Appendable</tt>.
+     * Appfnds b subsfqufndf of tif spfdififd dibrbdtfr sfqufndf to tiis
+     * <tt>Appfndbblf</tt>.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> wifn <tt>dsq</tt> is not <tt>null</tt>, bfibvfs in
+     * fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.append(csq.subSequence(start, end)) </pre>
+     * <prf>
+     *     out.bppfnd(dsq.subSfqufndf(stbrt, fnd)) </prf>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, tifn dibrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd tif four
+     *         dibrbdtfrs <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         Tif indfx of tif first dibrbdtfr in tif subsfqufndf
      *
-     * @param  end
-     *         The index of the character following the last character in the
-     *         subsequence
+     * @pbrbm  fnd
+     *         Tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr in tif
+     *         subsfqufndf
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @rfturn  A rfffrfndf to tiis <tt>Appfndbblf</tt>
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
-     *          <tt>csq.length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr tibn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr tibn
+     *          <tt>dsq.lfngti()</tt>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    Appendable append(CharSequence csq, int start, int end) throws IOException;
+    Appfndbblf bppfnd(CibrSfqufndf dsq, int stbrt, int fnd) tirows IOExdfption;
 
     /**
-     * Appends the specified character to this <tt>Appendable</tt>.
+     * Appfnds tif spfdififd dibrbdtfr to tiis <tt>Appfndbblf</tt>.
      *
-     * @param  c
-     *         The character to append
+     * @pbrbm  d
+     *         Tif dibrbdtfr to bppfnd
      *
-     * @return  A reference to this <tt>Appendable</tt>
+     * @rfturn  A rfffrfndf to tiis <tt>Appfndbblf</tt>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    Appendable append(char c) throws IOException;
+    Appfndbblf bppfnd(dibr d) tirows IOExdfption;
 }

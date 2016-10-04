@@ -1,507 +1,507 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.awt.im.InputContext;
-import java.beans.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.synth.SynthUI;
-import sun.swing.DefaultLookup;
-import sun.awt.AppContext;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bwt.im.InputContfxt;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.synti.SyntiUI;
+import sun.swing.DffbultLookup;
+import sun.bwt.AppContfxt;
+import jbvbx.swing.plbf.bbsid.DrbgRfdognitionSupport.BfforfDrbg;
 
 /**
  * <p>
- * Basis of a text components look-and-feel.  This provides the
- * basic editor view and controller services that may be useful
- * when creating a look-and-feel for an extension of
- * <code>JTextComponent</code>.
+ * Bbsis of b tfxt domponfnts look-bnd-fffl.  Tiis providfs tif
+ * bbsid fditor vifw bnd dontrollfr sfrvidfs tibt mby bf usfful
+ * wifn drfbting b look-bnd-fffl for bn fxtfnsion of
+ * <dodf>JTfxtComponfnt</dodf>.
  * <p>
- * Most state is held in the associated <code>JTextComponent</code>
- * as bound properties, and the UI installs default values for the
- * various properties.  This default will install something for
- * all of the properties.  Typically, a LAF implementation will
- * do more however.  At a minimum, a LAF would generally install
- * key bindings.
+ * Most stbtf is ifld in tif bssodibtfd <dodf>JTfxtComponfnt</dodf>
+ * bs bound propfrtifs, bnd tif UI instblls dffbult vblufs for tif
+ * vbrious propfrtifs.  Tiis dffbult will instbll somftiing for
+ * bll of tif propfrtifs.  Typidblly, b LAF implfmfntbtion will
+ * do morf iowfvfr.  At b minimum, b LAF would gfnfrblly instbll
+ * kfy bindings.
  * <p>
- * This class also provides some concurrency support if the
- * <code>Document</code> associated with the JTextComponent is a subclass of
- * <code>AbstractDocument</code>.  Access to the View (or View hierarchy) is
- * serialized between any thread mutating the model and the Swing
- * event thread (which is expected to render, do model/view coordinate
- * translation, etc).  <em>Any access to the root view should first
- * acquire a read-lock on the AbstractDocument and release that lock
- * in a finally block.</em>
+ * Tiis dlbss blso providfs somf dondurrfndy support if tif
+ * <dodf>Dodumfnt</dodf> bssodibtfd witi tif JTfxtComponfnt is b subdlbss of
+ * <dodf>AbstrbdtDodumfnt</dodf>.  Addfss to tif Vifw (or Vifw iifrbrdiy) is
+ * sfriblizfd bftwffn bny tirfbd mutbting tif modfl bnd tif Swing
+ * fvfnt tirfbd (wiidi is fxpfdtfd to rfndfr, do modfl/vifw doordinbtf
+ * trbnslbtion, ftd).  <fm>Any bddfss to tif root vifw siould first
+ * bdquirf b rfbd-lodk on tif AbstrbdtDodumfnt bnd rflfbsf tibt lodk
+ * in b finblly blodk.</fm>
  * <p>
- * An important method to define is the {@link #getPropertyPrefix} method
- * which is used as the basis of the keys used to fetch defaults
- * from the UIManager.  The string should reflect the type of
- * TextUI (eg. TextField, TextArea, etc) without the particular
- * LAF part of the name (eg Metal, Motif, etc).
+ * An importbnt mftiod to dffinf is tif {@link #gftPropfrtyPrffix} mftiod
+ * wiidi is usfd bs tif bbsis of tif kfys usfd to fftdi dffbults
+ * from tif UIMbnbgfr.  Tif string siould rfflfdt tif typf of
+ * TfxtUI (fg. TfxtFifld, TfxtArfb, ftd) witiout tif pbrtidulbr
+ * LAF pbrt of tif nbmf (fg Mftbl, Motif, ftd).
  * <p>
- * To build a view of the model, one of the following strategies
- * can be employed.
+ * To build b vifw of tif modfl, onf of tif following strbtfgifs
+ * dbn bf fmployfd.
  * <ol>
  * <li>
- * One strategy is to simply redefine the
- * ViewFactory interface in the UI.  By default, this UI itself acts
- * as the factory for View implementations.  This is useful
- * for simple factories.  To do this reimplement the
- * {@link #create} method.
+ * Onf strbtfgy is to simply rfdffinf tif
+ * VifwFbdtory intfrfbdf in tif UI.  By dffbult, tiis UI itsflf bdts
+ * bs tif fbdtory for Vifw implfmfntbtions.  Tiis is usfful
+ * for simplf fbdtorifs.  To do tiis rfimplfmfnt tif
+ * {@link #drfbtf} mftiod.
  * <li>
- * A common strategy for creating more complex types of documents
- * is to have the EditorKit implementation return a factory.  Since
- * the EditorKit ties all of the pieces necessary to maintain a type
- * of document, the factory is typically an important part of that
- * and should be produced by the EditorKit implementation.
+ * A dommon strbtfgy for drfbting morf domplfx typfs of dodumfnts
+ * is to ibvf tif EditorKit implfmfntbtion rfturn b fbdtory.  Sindf
+ * tif EditorKit tifs bll of tif pifdfs nfdfssbry to mbintbin b typf
+ * of dodumfnt, tif fbdtory is typidblly bn importbnt pbrt of tibt
+ * bnd siould bf produdfd by tif EditorKit implfmfntbtion.
  * </ol>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Timothy Prinzing
- * @author Shannon Hickey (drag and drop)
+ * @butior Timotiy Prinzing
+ * @butior Sibnnon Hidkfy (drbg bnd drop)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class BasicTextUI extends TextUI implements ViewFactory {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss BbsidTfxtUI fxtfnds TfxtUI implfmfnts VifwFbdtory {
 
     /**
-     * Creates a new UI.
+     * Crfbtfs b nfw UI.
      */
-    public BasicTextUI() {
-        painted = false;
+    publid BbsidTfxtUI() {
+        pbintfd = fblsf;
     }
 
     /**
-     * Creates the object to use for a caret.  By default an
-     * instance of BasicCaret is created.  This method
-     * can be redefined to provide something else that implements
-     * the InputPosition interface or a subclass of JCaret.
+     * Crfbtfs tif objfdt to usf for b dbrft.  By dffbult bn
+     * instbndf of BbsidCbrft is drfbtfd.  Tiis mftiod
+     * dbn bf rfdffinfd to providf somftiing flsf tibt implfmfnts
+     * tif InputPosition intfrfbdf or b subdlbss of JCbrft.
      *
-     * @return the caret object
+     * @rfturn tif dbrft objfdt
      */
-    protected Caret createCaret() {
-        return new BasicCaret();
+    protfdtfd Cbrft drfbtfCbrft() {
+        rfturn nfw BbsidCbrft();
     }
 
     /**
-     * Creates the object to use for adding highlights.  By default
-     * an instance of BasicHighlighter is created.  This method
-     * can be redefined to provide something else that implements
-     * the Highlighter interface or a subclass of DefaultHighlighter.
+     * Crfbtfs tif objfdt to usf for bdding iigiligits.  By dffbult
+     * bn instbndf of BbsidHigiligitfr is drfbtfd.  Tiis mftiod
+     * dbn bf rfdffinfd to providf somftiing flsf tibt implfmfnts
+     * tif Higiligitfr intfrfbdf or b subdlbss of DffbultHigiligitfr.
      *
-     * @return the highlighter
+     * @rfturn tif iigiligitfr
      */
-    protected Highlighter createHighlighter() {
-        return new BasicHighlighter();
+    protfdtfd Higiligitfr drfbtfHigiligitfr() {
+        rfturn nfw BbsidHigiligitfr();
     }
 
     /**
-     * Fetches the name of the keymap that will be installed/used
-     * by default for this UI. This is implemented to create a
-     * name based upon the classname.  The name is the the name
-     * of the class with the package prefix removed.
+     * Fftdifs tif nbmf of tif kfymbp tibt will bf instbllfd/usfd
+     * by dffbult for tiis UI. Tiis is implfmfntfd to drfbtf b
+     * nbmf bbsfd upon tif dlbssnbmf.  Tif nbmf is tif tif nbmf
+     * of tif dlbss witi tif pbdkbgf prffix rfmovfd.
      *
-     * @return the name
+     * @rfturn tif nbmf
      */
-    protected String getKeymapName() {
-        String nm = getClass().getName();
-        int index = nm.lastIndexOf('.');
-        if (index >= 0) {
-            nm = nm.substring(index+1, nm.length());
+    protfdtfd String gftKfymbpNbmf() {
+        String nm = gftClbss().gftNbmf();
+        int indfx = nm.lbstIndfxOf('.');
+        if (indfx >= 0) {
+            nm = nm.substring(indfx+1, nm.lfngti());
         }
-        return nm;
+        rfturn nm;
     }
 
     /**
-     * Creates the keymap to use for the text component, and installs
-     * any necessary bindings into it.  By default, the keymap is
-     * shared between all instances of this type of TextUI. The
-     * keymap has the name defined by the getKeymapName method.  If the
-     * keymap is not found, then DEFAULT_KEYMAP from JTextComponent is used.
+     * Crfbtfs tif kfymbp to usf for tif tfxt domponfnt, bnd instblls
+     * bny nfdfssbry bindings into it.  By dffbult, tif kfymbp is
+     * sibrfd bftwffn bll instbndfs of tiis typf of TfxtUI. Tif
+     * kfymbp ibs tif nbmf dffinfd by tif gftKfymbpNbmf mftiod.  If tif
+     * kfymbp is not found, tifn DEFAULT_KEYMAP from JTfxtComponfnt is usfd.
      * <p>
-     * The set of bindings used to create the keymap is fetched
-     * from the UIManager using a key formed by combining the
-     * {@link #getPropertyPrefix} method
-     * and the string <code>.keyBindings</code>.  The type is expected
-     * to be <code>JTextComponent.KeyBinding[]</code>.
+     * Tif sft of bindings usfd to drfbtf tif kfymbp is fftdifd
+     * from tif UIMbnbgfr using b kfy formfd by dombining tif
+     * {@link #gftPropfrtyPrffix} mftiod
+     * bnd tif string <dodf>.kfyBindings</dodf>.  Tif typf is fxpfdtfd
+     * to bf <dodf>JTfxtComponfnt.KfyBinding[]</dodf>.
      *
-     * @return the keymap
-     * @see #getKeymapName
-     * @see javax.swing.text.JTextComponent
+     * @rfturn tif kfymbp
+     * @sff #gftKfymbpNbmf
+     * @sff jbvbx.swing.tfxt.JTfxtComponfnt
      */
-    protected Keymap createKeymap() {
-        String nm = getKeymapName();
-        Keymap map = JTextComponent.getKeymap(nm);
-        if (map == null) {
-            Keymap parent = JTextComponent.getKeymap(JTextComponent.DEFAULT_KEYMAP);
-            map = JTextComponent.addKeymap(nm, parent);
-            String prefix = getPropertyPrefix();
-            Object o = DefaultLookup.get(editor, this,
-                prefix + ".keyBindings");
-            if ((o != null) && (o instanceof JTextComponent.KeyBinding[])) {
-                JTextComponent.KeyBinding[] bindings = (JTextComponent.KeyBinding[]) o;
-                JTextComponent.loadKeymap(map, bindings, getComponent().getActions());
+    protfdtfd Kfymbp drfbtfKfymbp() {
+        String nm = gftKfymbpNbmf();
+        Kfymbp mbp = JTfxtComponfnt.gftKfymbp(nm);
+        if (mbp == null) {
+            Kfymbp pbrfnt = JTfxtComponfnt.gftKfymbp(JTfxtComponfnt.DEFAULT_KEYMAP);
+            mbp = JTfxtComponfnt.bddKfymbp(nm, pbrfnt);
+            String prffix = gftPropfrtyPrffix();
+            Objfdt o = DffbultLookup.gft(fditor, tiis,
+                prffix + ".kfyBindings");
+            if ((o != null) && (o instbndfof JTfxtComponfnt.KfyBinding[])) {
+                JTfxtComponfnt.KfyBinding[] bindings = (JTfxtComponfnt.KfyBinding[]) o;
+                JTfxtComponfnt.lobdKfymbp(mbp, bindings, gftComponfnt().gftAdtions());
             }
         }
-        return map;
+        rfturn mbp;
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * This is implemented to do nothing (i.e. the response to
-     * properties in JTextComponent itself are handled prior
-     * to calling this method).
+     * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd
+     * on tif bssodibtfd JTfxtComponfnt.  Tiis is b iook
+     * wiidi UI implfmfntbtions mby dibngf to rfflfdt iow tif
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * Tiis is implfmfntfd to do notiing (i.f. tif rfsponsf to
+     * propfrtifs in JTfxtComponfnt itsflf brf ibndlfd prior
+     * to dblling tiis mftiod).
      *
-     * This implementation updates the background of the text
-     * component if the editable and/or enabled state changes.
+     * Tiis implfmfntbtion updbtfs tif bbdkground of tif tfxt
+     * domponfnt if tif fditbblf bnd/or fnbblfd stbtf dibngfs.
      *
-     * @param evt the property change event
+     * @pbrbm fvt tif propfrty dibngf fvfnt
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("editable") ||
-                evt.getPropertyName().equals("enabled")) {
+    protfdtfd void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (fvt.gftPropfrtyNbmf().fqubls("fditbblf") ||
+                fvt.gftPropfrtyNbmf().fqubls("fnbblfd")) {
 
-            updateBackground((JTextComponent)evt.getSource());
+            updbtfBbdkground((JTfxtComponfnt)fvt.gftSourdf());
         }
     }
 
     /**
-     * Updates the background of the text component based on whether the
-     * text component is editable and/or enabled.
+     * Updbtfs tif bbdkground of tif tfxt domponfnt bbsfd on wiftifr tif
+     * tfxt domponfnt is fditbblf bnd/or fnbblfd.
      *
-     * @param c the JTextComponent that needs its background color updated
+     * @pbrbm d tif JTfxtComponfnt tibt nffds its bbdkground dolor updbtfd
      */
-    private void updateBackground(JTextComponent c) {
-        // This is a temporary workaround.
-        // This code does not correctly deal with Synth (Synth doesn't use
-        // properties like this), nor does it deal with the situation where
-        // the developer grabs the color from a JLabel and sets it as
-        // the background for a JTextArea in all look and feels. The problem
-        // scenario results if the Color obtained for the Label and TextArea
-        // is ==, which is the case for the windows look and feel.
-        // Until an appropriate solution is found, the code is being
-        // reverted to what it was before the original fix.
-        if (this instanceof SynthUI || (c instanceof JTextArea)) {
-            return;
+    privbtf void updbtfBbdkground(JTfxtComponfnt d) {
+        // Tiis is b tfmporbry workbround.
+        // Tiis dodf dofs not dorrfdtly dfbl witi Synti (Synti dofsn't usf
+        // propfrtifs likf tiis), nor dofs it dfbl witi tif situbtion wifrf
+        // tif dfvflopfr grbbs tif dolor from b JLbbfl bnd sfts it bs
+        // tif bbdkground for b JTfxtArfb in bll look bnd fffls. Tif problfm
+        // sdfnbrio rfsults if tif Color obtbinfd for tif Lbbfl bnd TfxtArfb
+        // is ==, wiidi is tif dbsf for tif windows look bnd fffl.
+        // Until bn bppropribtf solution is found, tif dodf is bfing
+        // rfvfrtfd to wibt it wbs bfforf tif originbl fix.
+        if (tiis instbndfof SyntiUI || (d instbndfof JTfxtArfb)) {
+            rfturn;
         }
-        Color background = c.getBackground();
-        if (background instanceof UIResource) {
-            String prefix = getPropertyPrefix();
+        Color bbdkground = d.gftBbdkground();
+        if (bbdkground instbndfof UIRfsourdf) {
+            String prffix = gftPropfrtyPrffix();
 
-            Color disabledBG =
-                DefaultLookup.getColor(c, this, prefix + ".disabledBackground", null);
-            Color inactiveBG =
-                DefaultLookup.getColor(c, this, prefix + ".inactiveBackground", null);
+            Color disbblfdBG =
+                DffbultLookup.gftColor(d, tiis, prffix + ".disbblfdBbdkground", null);
+            Color inbdtivfBG =
+                DffbultLookup.gftColor(d, tiis, prffix + ".inbdtivfBbdkground", null);
             Color bg =
-                DefaultLookup.getColor(c, this, prefix + ".background", null);
+                DffbultLookup.gftColor(d, tiis, prffix + ".bbdkground", null);
 
-            /* In an ideal situation, the following check would not be necessary
-             * and we would replace the color any time the previous color was a
-             * UIResouce. However, it turns out that there is existing code that
-             * uses the following inadvisable pattern to turn a text area into
-             * what appears to be a multi-line label:
+            /* In bn idfbl situbtion, tif following difdk would not bf nfdfssbry
+             * bnd wf would rfplbdf tif dolor bny timf tif prfvious dolor wbs b
+             * UIRfsoudf. Howfvfr, it turns out tibt tifrf is fxisting dodf tibt
+             * usfs tif following inbdvisbblf pbttfrn to turn b tfxt brfb into
+             * wibt bppfbrs to bf b multi-linf lbbfl:
              *
-             * JLabel label = new JLabel();
-             * JTextArea area = new JTextArea();
-             * area.setBackground(label.getBackground());
-             * area.setEditable(false);
+             * JLbbfl lbbfl = nfw JLbbfl();
+             * JTfxtArfb brfb = nfw JTfxtArfb();
+             * brfb.sftBbdkground(lbbfl.gftBbdkground());
+             * brfb.sftEditbblf(fblsf);
              *
-             * JLabel's default background is a UIResource. As such, just
-             * checking for UIResource would have us always changing the
-             * background away from what the developer wanted.
+             * JLbbfl's dffbult bbdkground is b UIRfsourdf. As sudi, just
+             * difdking for UIRfsourdf would ibvf us blwbys dibnging tif
+             * bbdkground bwby from wibt tif dfvflopfr wbntfd.
              *
-             * Therefore, for JTextArea/JEditorPane, we'll additionally check
-             * that the color we're about to replace matches one that was
-             * installed by us from the UIDefaults.
+             * Tifrfforf, for JTfxtArfb/JEditorPbnf, wf'll bdditionblly difdk
+             * tibt tif dolor wf'rf bbout to rfplbdf mbtdifs onf tibt wbs
+             * instbllfd by us from tif UIDffbults.
              */
-            if ((c instanceof JTextArea || c instanceof JEditorPane)
-                    && background != disabledBG
-                    && background != inactiveBG
-                    && background != bg) {
+            if ((d instbndfof JTfxtArfb || d instbndfof JEditorPbnf)
+                    && bbdkground != disbblfdBG
+                    && bbdkground != inbdtivfBG
+                    && bbdkground != bg) {
 
-                return;
+                rfturn;
             }
 
-            Color newColor = null;
-            if (!c.isEnabled()) {
-                newColor = disabledBG;
+            Color nfwColor = null;
+            if (!d.isEnbblfd()) {
+                nfwColor = disbblfdBG;
             }
-            if (newColor == null && !c.isEditable()) {
-                newColor = inactiveBG;
+            if (nfwColor == null && !d.isEditbblf()) {
+                nfwColor = inbdtivfBG;
             }
-            if (newColor == null) {
-                newColor = bg;
+            if (nfwColor == null) {
+                nfwColor = bg;
             }
-            if (newColor != null && newColor != background) {
-                c.setBackground(newColor);
+            if (nfwColor != null && nfwColor != bbdkground) {
+                d.sftBbdkground(nfwColor);
             }
         }
     }
 
     /**
-     * Gets the name used as a key to look up properties through the
-     * UIManager.  This is used as a prefix to all the standard
-     * text properties.
+     * Gfts tif nbmf usfd bs b kfy to look up propfrtifs tirougi tif
+     * UIMbnbgfr.  Tiis is usfd bs b prffix to bll tif stbndbrd
+     * tfxt propfrtifs.
      *
-     * @return the name
+     * @rfturn tif nbmf
      */
-    protected abstract String getPropertyPrefix();
+    protfdtfd bbstrbdt String gftPropfrtyPrffix();
 
     /**
-     * Initializes component properties, such as font, foreground,
-     * background, caret color, selection color, selected text color,
-     * disabled text color, and border color.  The font, foreground, and
-     * background properties are only set if their current value is either null
-     * or a UIResource, other properties are set if the current
-     * value is null.
+     * Initiblizfs domponfnt propfrtifs, sudi bs font, forfground,
+     * bbdkground, dbrft dolor, sflfdtion dolor, sflfdtfd tfxt dolor,
+     * disbblfd tfxt dolor, bnd bordfr dolor.  Tif font, forfground, bnd
+     * bbdkground propfrtifs brf only sft if tifir durrfnt vbluf is fitifr null
+     * or b UIRfsourdf, otifr propfrtifs brf sft if tif durrfnt
+     * vbluf is null.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
+     * @sff #uninstbllDffbults
+     * @sff #instbllUI
      */
-    protected void installDefaults()
+    protfdtfd void instbllDffbults()
     {
-        String prefix = getPropertyPrefix();
-        Font f = editor.getFont();
-        if ((f == null) || (f instanceof UIResource)) {
-            editor.setFont(UIManager.getFont(prefix + ".font"));
+        String prffix = gftPropfrtyPrffix();
+        Font f = fditor.gftFont();
+        if ((f == null) || (f instbndfof UIRfsourdf)) {
+            fditor.sftFont(UIMbnbgfr.gftFont(prffix + ".font"));
         }
 
-        Color bg = editor.getBackground();
-        if ((bg == null) || (bg instanceof UIResource)) {
-            editor.setBackground(UIManager.getColor(prefix + ".background"));
+        Color bg = fditor.gftBbdkground();
+        if ((bg == null) || (bg instbndfof UIRfsourdf)) {
+            fditor.sftBbdkground(UIMbnbgfr.gftColor(prffix + ".bbdkground"));
         }
 
-        Color fg = editor.getForeground();
-        if ((fg == null) || (fg instanceof UIResource)) {
-            editor.setForeground(UIManager.getColor(prefix + ".foreground"));
+        Color fg = fditor.gftForfground();
+        if ((fg == null) || (fg instbndfof UIRfsourdf)) {
+            fditor.sftForfground(UIMbnbgfr.gftColor(prffix + ".forfground"));
         }
 
-        Color color = editor.getCaretColor();
-        if ((color == null) || (color instanceof UIResource)) {
-            editor.setCaretColor(UIManager.getColor(prefix + ".caretForeground"));
+        Color dolor = fditor.gftCbrftColor();
+        if ((dolor == null) || (dolor instbndfof UIRfsourdf)) {
+            fditor.sftCbrftColor(UIMbnbgfr.gftColor(prffix + ".dbrftForfground"));
         }
 
-        Color s = editor.getSelectionColor();
-        if ((s == null) || (s instanceof UIResource)) {
-            editor.setSelectionColor(UIManager.getColor(prefix + ".selectionBackground"));
+        Color s = fditor.gftSflfdtionColor();
+        if ((s == null) || (s instbndfof UIRfsourdf)) {
+            fditor.sftSflfdtionColor(UIMbnbgfr.gftColor(prffix + ".sflfdtionBbdkground"));
         }
 
-        Color sfg = editor.getSelectedTextColor();
-        if ((sfg == null) || (sfg instanceof UIResource)) {
-            editor.setSelectedTextColor(UIManager.getColor(prefix + ".selectionForeground"));
+        Color sfg = fditor.gftSflfdtfdTfxtColor();
+        if ((sfg == null) || (sfg instbndfof UIRfsourdf)) {
+            fditor.sftSflfdtfdTfxtColor(UIMbnbgfr.gftColor(prffix + ".sflfdtionForfground"));
         }
 
-        Color dfg = editor.getDisabledTextColor();
-        if ((dfg == null) || (dfg instanceof UIResource)) {
-            editor.setDisabledTextColor(UIManager.getColor(prefix + ".inactiveForeground"));
+        Color dfg = fditor.gftDisbblfdTfxtColor();
+        if ((dfg == null) || (dfg instbndfof UIRfsourdf)) {
+            fditor.sftDisbblfdTfxtColor(UIMbnbgfr.gftColor(prffix + ".inbdtivfForfground"));
         }
 
-        Border b = editor.getBorder();
-        if ((b == null) || (b instanceof UIResource)) {
-            editor.setBorder(UIManager.getBorder(prefix + ".border"));
+        Bordfr b = fditor.gftBordfr();
+        if ((b == null) || (b instbndfof UIRfsourdf)) {
+            fditor.sftBordfr(UIMbnbgfr.gftBordfr(prffix + ".bordfr"));
         }
 
-        Insets margin = editor.getMargin();
-        if (margin == null || margin instanceof UIResource) {
-            editor.setMargin(UIManager.getInsets(prefix + ".margin"));
+        Insfts mbrgin = fditor.gftMbrgin();
+        if (mbrgin == null || mbrgin instbndfof UIRfsourdf) {
+            fditor.sftMbrgin(UIMbnbgfr.gftInsfts(prffix + ".mbrgin"));
         }
 
-        updateCursor();
+        updbtfCursor();
     }
 
-    private void installDefaults2() {
-        editor.addMouseListener(dragListener);
-        editor.addMouseMotionListener(dragListener);
+    privbtf void instbllDffbults2() {
+        fditor.bddMousfListfnfr(drbgListfnfr);
+        fditor.bddMousfMotionListfnfr(drbgListfnfr);
 
-        String prefix = getPropertyPrefix();
+        String prffix = gftPropfrtyPrffix();
 
-        Caret caret = editor.getCaret();
-        if (caret == null || caret instanceof UIResource) {
-            caret = createCaret();
-            editor.setCaret(caret);
+        Cbrft dbrft = fditor.gftCbrft();
+        if (dbrft == null || dbrft instbndfof UIRfsourdf) {
+            dbrft = drfbtfCbrft();
+            fditor.sftCbrft(dbrft);
 
-            int rate = DefaultLookup.getInt(getComponent(), this, prefix + ".caretBlinkRate", 500);
-            caret.setBlinkRate(rate);
+            int rbtf = DffbultLookup.gftInt(gftComponfnt(), tiis, prffix + ".dbrftBlinkRbtf", 500);
+            dbrft.sftBlinkRbtf(rbtf);
         }
 
-        Highlighter highlighter = editor.getHighlighter();
-        if (highlighter == null || highlighter instanceof UIResource) {
-            editor.setHighlighter(createHighlighter());
+        Higiligitfr iigiligitfr = fditor.gftHigiligitfr();
+        if (iigiligitfr == null || iigiligitfr instbndfof UIRfsourdf) {
+            fditor.sftHigiligitfr(drfbtfHigiligitfr());
         }
 
-        TransferHandler th = editor.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            editor.setTransferHandler(getTransferHandler());
+        TrbnsffrHbndlfr ti = fditor.gftTrbnsffrHbndlfr();
+        if (ti == null || ti instbndfof UIRfsourdf) {
+            fditor.sftTrbnsffrHbndlfr(gftTrbnsffrHbndlfr());
         }
     }
 
     /**
-     * Sets the component properties that have not been explicitly overridden
-     * to {@code null}.  A property is considered overridden if its current
-     * value is not a {@code UIResource}.
+     * Sfts tif domponfnt propfrtifs tibt ibvf not bffn fxpliditly ovfrriddfn
+     * to {@dodf null}.  A propfrty is donsidfrfd ovfrriddfn if its durrfnt
+     * vbluf is not b {@dodf UIRfsourdf}.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
+     * @sff #instbllDffbults
+     * @sff #uninstbllUI
      */
-    protected void uninstallDefaults()
+    protfdtfd void uninstbllDffbults()
     {
-        editor.removeMouseListener(dragListener);
-        editor.removeMouseMotionListener(dragListener);
+        fditor.rfmovfMousfListfnfr(drbgListfnfr);
+        fditor.rfmovfMousfMotionListfnfr(drbgListfnfr);
 
-        if (editor.getCaretColor() instanceof UIResource) {
-            editor.setCaretColor(null);
+        if (fditor.gftCbrftColor() instbndfof UIRfsourdf) {
+            fditor.sftCbrftColor(null);
         }
 
-        if (editor.getSelectionColor() instanceof UIResource) {
-            editor.setSelectionColor(null);
+        if (fditor.gftSflfdtionColor() instbndfof UIRfsourdf) {
+            fditor.sftSflfdtionColor(null);
         }
 
-        if (editor.getDisabledTextColor() instanceof UIResource) {
-            editor.setDisabledTextColor(null);
+        if (fditor.gftDisbblfdTfxtColor() instbndfof UIRfsourdf) {
+            fditor.sftDisbblfdTfxtColor(null);
         }
 
-        if (editor.getSelectedTextColor() instanceof UIResource) {
-            editor.setSelectedTextColor(null);
+        if (fditor.gftSflfdtfdTfxtColor() instbndfof UIRfsourdf) {
+            fditor.sftSflfdtfdTfxtColor(null);
         }
 
-        if (editor.getBorder() instanceof UIResource) {
-            editor.setBorder(null);
+        if (fditor.gftBordfr() instbndfof UIRfsourdf) {
+            fditor.sftBordfr(null);
         }
 
-        if (editor.getMargin() instanceof UIResource) {
-            editor.setMargin(null);
+        if (fditor.gftMbrgin() instbndfof UIRfsourdf) {
+            fditor.sftMbrgin(null);
         }
 
-        if (editor.getCaret() instanceof UIResource) {
-            editor.setCaret(null);
+        if (fditor.gftCbrft() instbndfof UIRfsourdf) {
+            fditor.sftCbrft(null);
         }
 
-        if (editor.getHighlighter() instanceof UIResource) {
-            editor.setHighlighter(null);
+        if (fditor.gftHigiligitfr() instbndfof UIRfsourdf) {
+            fditor.sftHigiligitfr(null);
         }
 
-        if (editor.getTransferHandler() instanceof UIResource) {
-            editor.setTransferHandler(null);
+        if (fditor.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            fditor.sftTrbnsffrHbndlfr(null);
         }
 
-        if (editor.getCursor() instanceof UIResource) {
-            editor.setCursor(null);
+        if (fditor.gftCursor() instbndfof UIRfsourdf) {
+            fditor.sftCursor(null);
         }
     }
 
     /**
-     * Installs listeners for the UI.
+     * Instblls listfnfrs for tif UI.
      */
-    protected void installListeners() {
+    protfdtfd void instbllListfnfrs() {
     }
 
     /**
-     * Uninstalls listeners for the UI.
+     * Uninstblls listfnfrs for tif UI.
      */
-    protected void uninstallListeners() {
+    protfdtfd void uninstbllListfnfrs() {
     }
 
     /**
-     * Registers keyboard actions.
+     * Rfgistfrs kfybobrd bdtions.
      */
-    protected void installKeyboardActions() {
-        // backward compatibility support... keymaps for the UI
-        // are now installed in the more friendly input map.
-        editor.setKeymap(createKeymap());
+    protfdtfd void instbllKfybobrdAdtions() {
+        // bbdkwbrd dompbtibility support... kfymbps for tif UI
+        // brf now instbllfd in tif morf frifndly input mbp.
+        fditor.sftKfymbp(drfbtfKfymbp());
 
-        InputMap km = getInputMap();
+        InputMbp km = gftInputMbp();
         if (km != null) {
-            SwingUtilities.replaceUIInputMap(editor, JComponent.WHEN_FOCUSED,
+            SwingUtilitifs.rfplbdfUIInputMbp(fditor, JComponfnt.WHEN_FOCUSED,
                                              km);
         }
 
-        ActionMap map = getActionMap();
-        if (map != null) {
-            SwingUtilities.replaceUIActionMap(editor, map);
+        AdtionMbp mbp = gftAdtionMbp();
+        if (mbp != null) {
+            SwingUtilitifs.rfplbdfUIAdtionMbp(fditor, mbp);
         }
 
-        updateFocusAcceleratorBinding(false);
+        updbtfFodusAddflfrbtorBinding(fblsf);
     }
 
     /**
-     * Get the InputMap to use for the UI.
+     * Gft tif InputMbp to usf for tif UI.
      */
-    InputMap getInputMap() {
-        InputMap map = new InputMapUIResource();
+    InputMbp gftInputMbp() {
+        InputMbp mbp = nfw InputMbpUIRfsourdf();
 
-        InputMap shared =
-            (InputMap)DefaultLookup.get(editor, this,
-            getPropertyPrefix() + ".focusInputMap");
-        if (shared != null) {
-            map.setParent(shared);
+        InputMbp sibrfd =
+            (InputMbp)DffbultLookup.gft(fditor, tiis,
+            gftPropfrtyPrffix() + ".fodusInputMbp");
+        if (sibrfd != null) {
+            mbp.sftPbrfnt(sibrfd);
         }
-        return map;
+        rfturn mbp;
     }
 
     /**
-     * Invoked when the focus accelerator changes, this will update the
-     * key bindings as necessary.
+     * Invokfd wifn tif fodus bddflfrbtor dibngfs, tiis will updbtf tif
+     * kfy bindings bs nfdfssbry.
      */
-    void updateFocusAcceleratorBinding(boolean changed) {
-        char accelerator = editor.getFocusAccelerator();
+    void updbtfFodusAddflfrbtorBinding(boolfbn dibngfd) {
+        dibr bddflfrbtor = fditor.gftFodusAddflfrbtor();
 
-        if (changed || accelerator != '\0') {
-            InputMap km = SwingUtilities.getUIInputMap
-                        (editor, JComponent.WHEN_IN_FOCUSED_WINDOW);
+        if (dibngfd || bddflfrbtor != '\0') {
+            InputMbp km = SwingUtilitifs.gftUIInputMbp
+                        (fditor, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
 
-            if (km == null && accelerator != '\0') {
-                km = new ComponentInputMapUIResource(editor);
-                SwingUtilities.replaceUIInputMap(editor, JComponent.
+            if (km == null && bddflfrbtor != '\0') {
+                km = nfw ComponfntInputMbpUIRfsourdf(fditor);
+                SwingUtilitifs.rfplbdfUIInputMbp(fditor, JComponfnt.
                                                  WHEN_IN_FOCUSED_WINDOW, km);
-                ActionMap am = getActionMap();
-                SwingUtilities.replaceUIActionMap(editor, am);
+                AdtionMbp bm = gftAdtionMbp();
+                SwingUtilitifs.rfplbdfUIAdtionMbp(fditor, bm);
             }
             if (km != null) {
-                km.clear();
-                if (accelerator != '\0') {
-                    km.put(KeyStroke.getKeyStroke(accelerator, BasicLookAndFeel.getFocusAcceleratorKeyMask()), "requestFocus");
+                km.dlfbr();
+                if (bddflfrbtor != '\0') {
+                    km.put(KfyStrokf.gftKfyStrokf(bddflfrbtor, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk()), "rfqufstFodus");
                 }
             }
         }
@@ -509,680 +509,680 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
 
 
     /**
-     * Invoked when editable property is changed.
+     * Invokfd wifn fditbblf propfrty is dibngfd.
      *
-     * removing 'TAB' and 'SHIFT-TAB' from traversalKeysSet in case
-     * editor is editable
-     * adding 'TAB' and 'SHIFT-TAB' to traversalKeysSet in case
-     * editor is non editable
+     * rfmoving 'TAB' bnd 'SHIFT-TAB' from trbvfrsblKfysSft in dbsf
+     * fditor is fditbblf
+     * bdding 'TAB' bnd 'SHIFT-TAB' to trbvfrsblKfysSft in dbsf
+     * fditor is non fditbblf
      */
 
-    void updateFocusTraversalKeys() {
+    void updbtfFodusTrbvfrsblKfys() {
         /*
-         * Fix for 4514331 Non-editable JTextArea and similar
-         * should allow Tab to keyboard - accessibility
+         * Fix for 4514331 Non-fditbblf JTfxtArfb bnd similbr
+         * siould bllow Tbb to kfybobrd - bddfssibility
          */
-        EditorKit editorKit = getEditorKit(editor);
-        if ( editorKit != null
-             && editorKit instanceof DefaultEditorKit) {
-            Set<AWTKeyStroke> storedForwardTraversalKeys = editor.
-                getFocusTraversalKeys(KeyboardFocusManager.
+        EditorKit fditorKit = gftEditorKit(fditor);
+        if ( fditorKit != null
+             && fditorKit instbndfof DffbultEditorKit) {
+            Sft<AWTKfyStrokf> storfdForwbrdTrbvfrsblKfys = fditor.
+                gftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.
                                       FORWARD_TRAVERSAL_KEYS);
-            Set<AWTKeyStroke> storedBackwardTraversalKeys = editor.
-                getFocusTraversalKeys(KeyboardFocusManager.
+            Sft<AWTKfyStrokf> storfdBbdkwbrdTrbvfrsblKfys = fditor.
+                gftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.
                                       BACKWARD_TRAVERSAL_KEYS);
-            Set<AWTKeyStroke> forwardTraversalKeys =
-                new HashSet<AWTKeyStroke>(storedForwardTraversalKeys);
-            Set<AWTKeyStroke> backwardTraversalKeys =
-                new HashSet<AWTKeyStroke>(storedBackwardTraversalKeys);
-            if (editor.isEditable()) {
-                forwardTraversalKeys.
-                    remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
-                backwardTraversalKeys.
-                    remove(KeyStroke.getKeyStroke(KeyEvent.VK_TAB,
-                                                  InputEvent.SHIFT_MASK));
-            } else {
-                forwardTraversalKeys.add(KeyStroke.
-                                         getKeyStroke(KeyEvent.VK_TAB, 0));
-                backwardTraversalKeys.
-                    add(KeyStroke.
-                        getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
+            Sft<AWTKfyStrokf> forwbrdTrbvfrsblKfys =
+                nfw HbsiSft<AWTKfyStrokf>(storfdForwbrdTrbvfrsblKfys);
+            Sft<AWTKfyStrokf> bbdkwbrdTrbvfrsblKfys =
+                nfw HbsiSft<AWTKfyStrokf>(storfdBbdkwbrdTrbvfrsblKfys);
+            if (fditor.isEditbblf()) {
+                forwbrdTrbvfrsblKfys.
+                    rfmovf(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
+                bbdkwbrdTrbvfrsblKfys.
+                    rfmovf(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB,
+                                                  InputEvfnt.SHIFT_MASK));
+            } flsf {
+                forwbrdTrbvfrsblKfys.bdd(KfyStrokf.
+                                         gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
+                bbdkwbrdTrbvfrsblKfys.
+                    bdd(KfyStrokf.
+                        gftKfyStrokf(KfyEvfnt.VK_TAB, InputEvfnt.SHIFT_MASK));
             }
-            LookAndFeel.installProperty(editor,
-                                        "focusTraversalKeysForward",
-                                         forwardTraversalKeys);
-            LookAndFeel.installProperty(editor,
-                                        "focusTraversalKeysBackward",
-                                         backwardTraversalKeys);
+            LookAndFffl.instbllPropfrty(fditor,
+                                        "fodusTrbvfrsblKfysForwbrd",
+                                         forwbrdTrbvfrsblKfys);
+            LookAndFffl.instbllPropfrty(fditor,
+                                        "fodusTrbvfrsblKfysBbdkwbrd",
+                                         bbdkwbrdTrbvfrsblKfys);
         }
 
     }
 
     /**
-     * As needed updates cursor for the target editor.
+     * As nffdfd updbtfs dursor for tif tbrgft fditor.
      */
-    private void updateCursor() {
-        if ((! editor.isCursorSet())
-               || editor.getCursor() instanceof UIResource) {
-            Cursor cursor = (editor.isEditable()) ? textCursor : null;
-            editor.setCursor(cursor);
+    privbtf void updbtfCursor() {
+        if ((! fditor.isCursorSft())
+               || fditor.gftCursor() instbndfof UIRfsourdf) {
+            Cursor dursor = (fditor.isEditbblf()) ? tfxtCursor : null;
+            fditor.sftCursor(dursor);
         }
     }
 
     /**
-     * Returns the <code>TransferHandler</code> that will be installed if
-     * their isn't one installed on the <code>JTextComponent</code>.
+     * Rfturns tif <dodf>TrbnsffrHbndlfr</dodf> tibt will bf instbllfd if
+     * tifir isn't onf instbllfd on tif <dodf>JTfxtComponfnt</dodf>.
      */
-    TransferHandler getTransferHandler() {
-        return defaultTransferHandler;
+    TrbnsffrHbndlfr gftTrbnsffrHbndlfr() {
+        rfturn dffbultTrbnsffrHbndlfr;
     }
 
     /**
-     * Fetch an action map to use.
+     * Fftdi bn bdtion mbp to usf.
      */
-    ActionMap getActionMap() {
-        String mapName = getPropertyPrefix() + ".actionMap";
-        ActionMap map = (ActionMap)UIManager.get(mapName);
+    AdtionMbp gftAdtionMbp() {
+        String mbpNbmf = gftPropfrtyPrffix() + ".bdtionMbp";
+        AdtionMbp mbp = (AdtionMbp)UIMbnbgfr.gft(mbpNbmf);
 
-        if (map == null) {
-            map = createActionMap();
-            if (map != null) {
-                UIManager.getLookAndFeelDefaults().put(mapName, map);
+        if (mbp == null) {
+            mbp = drfbtfAdtionMbp();
+            if (mbp != null) {
+                UIMbnbgfr.gftLookAndFfflDffbults().put(mbpNbmf, mbp);
             }
         }
-        ActionMap componentMap = new ActionMapUIResource();
-        componentMap.put("requestFocus", new FocusAction());
+        AdtionMbp domponfntMbp = nfw AdtionMbpUIRfsourdf();
+        domponfntMbp.put("rfqufstFodus", nfw FodusAdtion());
         /*
          * fix for bug 4515750
-         * JTextField & non-editable JTextArea bind return key - default btn not accessible
+         * JTfxtFifld & non-fditbblf JTfxtArfb bind rfturn kfy - dffbult btn not bddfssiblf
          *
-         * Wrap the return action so that it is only enabled when the
-         * component is editable. This allows the default button to be
-         * processed when the text component has focus and isn't editable.
+         * Wrbp tif rfturn bdtion so tibt it is only fnbblfd wifn tif
+         * domponfnt is fditbblf. Tiis bllows tif dffbult button to bf
+         * prodfssfd wifn tif tfxt domponfnt ibs fodus bnd isn't fditbblf.
          *
          */
-        if (getEditorKit(editor) instanceof DefaultEditorKit) {
-            if (map != null) {
-                Object obj = map.get(DefaultEditorKit.insertBreakAction);
+        if (gftEditorKit(fditor) instbndfof DffbultEditorKit) {
+            if (mbp != null) {
+                Objfdt obj = mbp.gft(DffbultEditorKit.insfrtBrfbkAdtion);
                 if (obj != null
-                    && obj instanceof DefaultEditorKit.InsertBreakAction) {
-                    Action action =  new TextActionWrapper((TextAction)obj);
-                    componentMap.put(action.getValue(Action.NAME),action);
+                    && obj instbndfof DffbultEditorKit.InsfrtBrfbkAdtion) {
+                    Adtion bdtion =  nfw TfxtAdtionWrbppfr((TfxtAdtion)obj);
+                    domponfntMbp.put(bdtion.gftVbluf(Adtion.NAME),bdtion);
                 }
             }
         }
-        if (map != null) {
-            componentMap.setParent(map);
+        if (mbp != null) {
+            domponfntMbp.sftPbrfnt(mbp);
         }
-        return componentMap;
+        rfturn domponfntMbp;
     }
 
     /**
-     * Create a default action map.  This is basically the
-     * set of actions found exported by the component.
+     * Crfbtf b dffbult bdtion mbp.  Tiis is bbsidblly tif
+     * sft of bdtions found fxportfd by tif domponfnt.
      */
-    ActionMap createActionMap() {
-        ActionMap map = new ActionMapUIResource();
-        Action[] actions = editor.getActions();
-        //System.out.println("building map for UI: " + getPropertyPrefix());
-        int n = actions.length;
+    AdtionMbp drfbtfAdtionMbp() {
+        AdtionMbp mbp = nfw AdtionMbpUIRfsourdf();
+        Adtion[] bdtions = fditor.gftAdtions();
+        //Systfm.out.println("building mbp for UI: " + gftPropfrtyPrffix());
+        int n = bdtions.lfngti;
         for (int i = 0; i < n; i++) {
-            Action a = actions[i];
-            map.put(a.getValue(Action.NAME), a);
-            //System.out.println("  " + a.getValue(Action.NAME));
+            Adtion b = bdtions[i];
+            mbp.put(b.gftVbluf(Adtion.NAME), b);
+            //Systfm.out.println("  " + b.gftVbluf(Adtion.NAME));
         }
-        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
-        return map;
+        mbp.put(TrbnsffrHbndlfr.gftCutAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCutAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftCopyAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCopyAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftPbstfAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftPbstfAdtion());
+        rfturn mbp;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      */
-    protected void uninstallKeyboardActions() {
-        editor.setKeymap(null);
-        SwingUtilities.replaceUIInputMap(editor, JComponent.
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        fditor.sftKfymbp(null);
+        SwingUtilitifs.rfplbdfUIInputMbp(fditor, JComponfnt.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(editor, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(fditor, null);
     }
 
     /**
-     * Paints a background for the view.  This will only be
-     * called if isOpaque() on the associated component is
-     * true.  The default is to paint the background color
-     * of the component.
+     * Pbints b bbdkground for tif vifw.  Tiis will only bf
+     * dbllfd if isOpbquf() on tif bssodibtfd domponfnt is
+     * truf.  Tif dffbult is to pbint tif bbdkground dolor
+     * of tif domponfnt.
      *
-     * @param g the graphics context
+     * @pbrbm g tif grbpiids dontfxt
      */
-    protected void paintBackground(Graphics g) {
-        g.setColor(editor.getBackground());
-        g.fillRect(0, 0, editor.getWidth(), editor.getHeight());
+    protfdtfd void pbintBbdkground(Grbpiids g) {
+        g.sftColor(fditor.gftBbdkground());
+        g.fillRfdt(0, 0, fditor.gftWidti(), fditor.gftHfigit());
     }
 
     /**
-     * Fetches the text component associated with this
-     * UI implementation.  This will be null until
-     * the ui has been installed.
+     * Fftdifs tif tfxt domponfnt bssodibtfd witi tiis
+     * UI implfmfntbtion.  Tiis will bf null until
+     * tif ui ibs bffn instbllfd.
      *
-     * @return the editor component
+     * @rfturn tif fditor domponfnt
      */
-    protected final JTextComponent getComponent() {
-        return editor;
+    protfdtfd finbl JTfxtComponfnt gftComponfnt() {
+        rfturn fditor;
     }
 
     /**
-     * Flags model changes.
-     * This is called whenever the model has changed.
-     * It is implemented to rebuild the view hierarchy
-     * to represent the default root element of the
-     * associated model.
+     * Flbgs modfl dibngfs.
+     * Tiis is dbllfd wifnfvfr tif modfl ibs dibngfd.
+     * It is implfmfntfd to rfbuild tif vifw iifrbrdiy
+     * to rfprfsfnt tif dffbult root flfmfnt of tif
+     * bssodibtfd modfl.
      */
-    protected void modelChanged() {
-        // create a view hierarchy
-        ViewFactory f = rootView.getViewFactory();
-        Document doc = editor.getDocument();
-        Element elem = doc.getDefaultRootElement();
-        setView(f.create(elem));
+    protfdtfd void modflCibngfd() {
+        // drfbtf b vifw iifrbrdiy
+        VifwFbdtory f = rootVifw.gftVifwFbdtory();
+        Dodumfnt dod = fditor.gftDodumfnt();
+        Elfmfnt flfm = dod.gftDffbultRootElfmfnt();
+        sftVifw(f.drfbtf(flfm));
     }
 
     /**
-     * Sets the current root of the view hierarchy and calls invalidate().
-     * If there were any child components, they will be removed (i.e.
-     * there are assumed to have come from components embedded in views).
+     * Sfts tif durrfnt root of tif vifw iifrbrdiy bnd dblls invblidbtf().
+     * If tifrf wfrf bny diild domponfnts, tify will bf rfmovfd (i.f.
+     * tifrf brf bssumfd to ibvf domf from domponfnts fmbfddfd in vifws).
      *
-     * @param v the root view
+     * @pbrbm v tif root vifw
      */
-    protected final void setView(View v) {
-        rootView.setView(v);
-        painted = false;
-        editor.revalidate();
-        editor.repaint();
+    protfdtfd finbl void sftVifw(Vifw v) {
+        rootVifw.sftVifw(v);
+        pbintfd = fblsf;
+        fditor.rfvblidbtf();
+        fditor.rfpbint();
     }
 
     /**
-     * Paints the interface safely with a guarantee that
-     * the model won't change from the view of this thread.
-     * This does the following things, rendering from
-     * back to front.
+     * Pbints tif intfrfbdf sbffly witi b gubrbntff tibt
+     * tif modfl won't dibngf from tif vifw of tiis tirfbd.
+     * Tiis dofs tif following tiings, rfndfring from
+     * bbdk to front.
      * <ol>
      * <li>
-     * If the component is marked as opaque, the background
-     * is painted in the current background color of the
-     * component.
+     * If tif domponfnt is mbrkfd bs opbquf, tif bbdkground
+     * is pbintfd in tif durrfnt bbdkground dolor of tif
+     * domponfnt.
      * <li>
-     * The highlights (if any) are painted.
+     * Tif iigiligits (if bny) brf pbintfd.
      * <li>
-     * The view hierarchy is painted.
+     * Tif vifw iifrbrdiy is pbintfd.
      * <li>
-     * The caret is painted.
+     * Tif dbrft is pbintfd.
      * </ol>
      *
-     * @param g the graphics context
+     * @pbrbm g tif grbpiids dontfxt
      */
-    protected void paintSafely(Graphics g) {
-        painted = true;
-        Highlighter highlighter = editor.getHighlighter();
-        Caret caret = editor.getCaret();
+    protfdtfd void pbintSbffly(Grbpiids g) {
+        pbintfd = truf;
+        Higiligitfr iigiligitfr = fditor.gftHigiligitfr();
+        Cbrft dbrft = fditor.gftCbrft();
 
-        // paint the background
-        if (editor.isOpaque()) {
-            paintBackground(g);
+        // pbint tif bbdkground
+        if (fditor.isOpbquf()) {
+            pbintBbdkground(g);
         }
 
-        // paint the highlights
-        if (highlighter != null) {
-            highlighter.paint(g);
+        // pbint tif iigiligits
+        if (iigiligitfr != null) {
+            iigiligitfr.pbint(g);
         }
 
-        // paint the view hierarchy
-        Rectangle alloc = getVisibleEditorRect();
-        if (alloc != null) {
-            rootView.paint(g, alloc);
+        // pbint tif vifw iifrbrdiy
+        Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+        if (bllod != null) {
+            rootVifw.pbint(g, bllod);
         }
 
-        // paint the caret
-        if (caret != null) {
-            caret.paint(g);
+        // pbint tif dbrft
+        if (dbrft != null) {
+            dbrft.pbint(g);
         }
 
-        if (dropCaret != null) {
-            dropCaret.paint(g);
+        if (dropCbrft != null) {
+            dropCbrft.pbint(g);
         }
     }
 
-    // --- ComponentUI methods --------------------------------------------
+    // --- ComponfntUI mftiods --------------------------------------------
 
     /**
-     * Installs the UI for a component.  This does the following
-     * things.
+     * Instblls tif UI for b domponfnt.  Tiis dofs tif following
+     * tiings.
      * <ol>
      * <li>
-     * Sets the associated component to opaque if the opaque property
-     * has not already been set by the client program. This will cause the
-     * component's background color to be painted.
+     * Sfts tif bssodibtfd domponfnt to opbquf if tif opbquf propfrty
+     * ibs not blrfbdy bffn sft by tif dlifnt progrbm. Tiis will dbusf tif
+     * domponfnt's bbdkground dolor to bf pbintfd.
      * <li>
-     * Installs the default caret and highlighter into the
-     * associated component. These properties are only set if their
-     * current value is either {@code null} or an instance of
-     * {@link UIResource}.
+     * Instblls tif dffbult dbrft bnd iigiligitfr into tif
+     * bssodibtfd domponfnt. Tifsf propfrtifs brf only sft if tifir
+     * durrfnt vbluf is fitifr {@dodf null} or bn instbndf of
+     * {@link UIRfsourdf}.
      * <li>
-     * Attaches to the editor and model.  If there is no
-     * model, a default one is created.
+     * Attbdifs to tif fditor bnd modfl.  If tifrf is no
+     * modfl, b dffbult onf is drfbtfd.
      * <li>
-     * Creates the view factory and the view hierarchy used
-     * to represent the model.
+     * Crfbtfs tif vifw fbdtory bnd tif vifw iifrbrdiy usfd
+     * to rfprfsfnt tif modfl.
      * </ol>
      *
-     * @param c the editor component
-     * @see ComponentUI#installUI
+     * @pbrbm d tif fditor domponfnt
+     * @sff ComponfntUI#instbllUI
      */
-    public void installUI(JComponent c) {
-        if (c instanceof JTextComponent) {
-            editor = (JTextComponent) c;
+    publid void instbllUI(JComponfnt d) {
+        if (d instbndfof JTfxtComponfnt) {
+            fditor = (JTfxtComponfnt) d;
 
-            // common case is background painted... this can
-            // easily be changed by subclasses or from outside
-            // of the component.
-            LookAndFeel.installProperty(editor, "opaque", Boolean.TRUE);
-            LookAndFeel.installProperty(editor, "autoscrolls", Boolean.TRUE);
+            // dommon dbsf is bbdkground pbintfd... tiis dbn
+            // fbsily bf dibngfd by subdlbssfs or from outsidf
+            // of tif domponfnt.
+            LookAndFffl.instbllPropfrty(fditor, "opbquf", Boolfbn.TRUE);
+            LookAndFffl.instbllPropfrty(fditor, "butosdrolls", Boolfbn.TRUE);
 
-            // install defaults
-            installDefaults();
-            installDefaults2();
+            // instbll dffbults
+            instbllDffbults();
+            instbllDffbults2();
 
-            // attach to the model and editor
-            editor.addPropertyChangeListener(updateHandler);
-            Document doc = editor.getDocument();
-            if (doc == null) {
-                // no model, create a default one.  This will
-                // fire a notification to the updateHandler
-                // which takes care of the rest.
-                editor.setDocument(getEditorKit(editor).createDefaultDocument());
-            } else {
-                doc.addDocumentListener(updateHandler);
-                modelChanged();
+            // bttbdi to tif modfl bnd fditor
+            fditor.bddPropfrtyCibngfListfnfr(updbtfHbndlfr);
+            Dodumfnt dod = fditor.gftDodumfnt();
+            if (dod == null) {
+                // no modfl, drfbtf b dffbult onf.  Tiis will
+                // firf b notifidbtion to tif updbtfHbndlfr
+                // wiidi tbkfs dbrf of tif rfst.
+                fditor.sftDodumfnt(gftEditorKit(fditor).drfbtfDffbultDodumfnt());
+            } flsf {
+                dod.bddDodumfntListfnfr(updbtfHbndlfr);
+                modflCibngfd();
             }
 
-            // install keymap
-            installListeners();
-            installKeyboardActions();
+            // instbll kfymbp
+            instbllListfnfrs();
+            instbllKfybobrdAdtions();
 
-            LayoutManager oldLayout = editor.getLayout();
-            if ((oldLayout == null) || (oldLayout instanceof UIResource)) {
-                // by default, use default LayoutManger implementation that
-                // will position the components associated with a View object.
-                editor.setLayout(updateHandler);
+            LbyoutMbnbgfr oldLbyout = fditor.gftLbyout();
+            if ((oldLbyout == null) || (oldLbyout instbndfof UIRfsourdf)) {
+                // by dffbult, usf dffbult LbyoutMbngfr implfmfntbtion tibt
+                // will position tif domponfnts bssodibtfd witi b Vifw objfdt.
+                fditor.sftLbyout(updbtfHbndlfr);
             }
 
-            updateBackground(editor);
-        } else {
-            throw new Error("TextUI needs JTextComponent");
+            updbtfBbdkground(fditor);
+        } flsf {
+            tirow nfw Error("TfxtUI nffds JTfxtComponfnt");
         }
     }
 
     /**
-     * Deinstalls the UI for a component.  This removes the listeners,
-     * uninstalls the highlighter, removes views, and nulls out the keymap.
+     * Dfinstblls tif UI for b domponfnt.  Tiis rfmovfs tif listfnfrs,
+     * uninstblls tif iigiligitfr, rfmovfs vifws, bnd nulls out tif kfymbp.
      *
-     * @param c the editor component
-     * @see ComponentUI#uninstallUI
+     * @pbrbm d tif fditor domponfnt
+     * @sff ComponfntUI#uninstbllUI
      */
-    public void uninstallUI(JComponent c) {
-        // detach from the model
-        editor.removePropertyChangeListener(updateHandler);
-        editor.getDocument().removeDocumentListener(updateHandler);
+    publid void uninstbllUI(JComponfnt d) {
+        // dftbdi from tif modfl
+        fditor.rfmovfPropfrtyCibngfListfnfr(updbtfHbndlfr);
+        fditor.gftDodumfnt().rfmovfDodumfntListfnfr(updbtfHbndlfr);
 
-        // view part
-        painted = false;
-        uninstallDefaults();
-        rootView.setView(null);
-        c.removeAll();
-        LayoutManager lm = c.getLayout();
-        if (lm instanceof UIResource) {
-            c.setLayout(null);
+        // vifw pbrt
+        pbintfd = fblsf;
+        uninstbllDffbults();
+        rootVifw.sftVifw(null);
+        d.rfmovfAll();
+        LbyoutMbnbgfr lm = d.gftLbyout();
+        if (lm instbndfof UIRfsourdf) {
+            d.sftLbyout(null);
         }
 
-        // controller part
-        uninstallKeyboardActions();
-        uninstallListeners();
+        // dontrollfr pbrt
+        uninstbllKfybobrdAdtions();
+        uninstbllListfnfrs();
 
-        editor = null;
+        fditor = null;
     }
 
     /**
-     * Superclass paints background in an uncontrollable way
-     * (i.e. one might want an image tiled into the background).
-     * To prevent this from happening twice, this method is
-     * reimplemented to simply paint.
+     * Supfrdlbss pbints bbdkground in bn undontrollbblf wby
+     * (i.f. onf migit wbnt bn imbgf tilfd into tif bbdkground).
+     * To prfvfnt tiis from ibppfning twidf, tiis mftiod is
+     * rfimplfmfntfd to simply pbint.
      * <p>
-     * <em>NOTE:</em> NOTE: Superclass is also not thread-safe in its
-     * rendering of the background, although that is not an issue with the
-     * default rendering.
+     * <fm>NOTE:</fm> NOTE: Supfrdlbss is blso not tirfbd-sbff in its
+     * rfndfring of tif bbdkground, bltiougi tibt is not bn issuf witi tif
+     * dffbult rfndfring.
      */
-    public void update(Graphics g, JComponent c) {
-        paint(g, c);
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        pbint(g, d);
     }
 
     /**
-     * Paints the interface.  This is routed to the
-     * paintSafely method under the guarantee that
-     * the model won't change from the view of this thread
-     * while it's rendering (if the associated model is
-     * derived from AbstractDocument).  This enables the
-     * model to potentially be updated asynchronously.
+     * Pbints tif intfrfbdf.  Tiis is routfd to tif
+     * pbintSbffly mftiod undfr tif gubrbntff tibt
+     * tif modfl won't dibngf from tif vifw of tiis tirfbd
+     * wiilf it's rfndfring (if tif bssodibtfd modfl is
+     * dfrivfd from AbstrbdtDodumfnt).  Tiis fnbblfs tif
+     * modfl to potfntiblly bf updbtfd bsyndironously.
      *
-     * @param g the graphics context
-     * @param c the editor component
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm d tif fditor domponfnt
      */
-    public final void paint(Graphics g, JComponent c) {
-        if ((rootView.getViewCount() > 0) && (rootView.getView(0) != null)) {
-            Document doc = editor.getDocument();
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+    publid finbl void pbint(Grbpiids g, JComponfnt d) {
+        if ((rootVifw.gftVifwCount() > 0) && (rootVifw.gftVifw(0) != null)) {
+            Dodumfnt dod = fditor.gftDodumfnt();
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdLodk();
             }
             try {
-                paintSafely(g);
-            } finally {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readUnlock();
+                pbintSbffly(g);
+            } finblly {
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
                 }
             }
         }
     }
 
     /**
-     * Gets the preferred size for the editor component.  If the component
-     * has been given a size prior to receiving this request, it will
-     * set the size of the view hierarchy to reflect the size of the component
-     * before requesting the preferred size of the view hierarchy.  This
-     * allows formatted views to format to the current component size before
-     * answering the request.  Other views don't care about currently formatted
-     * size and give the same answer either way.
+     * Gfts tif prfffrrfd sizf for tif fditor domponfnt.  If tif domponfnt
+     * ibs bffn givfn b sizf prior to rfdfiving tiis rfqufst, it will
+     * sft tif sizf of tif vifw iifrbrdiy to rfflfdt tif sizf of tif domponfnt
+     * bfforf rfqufsting tif prfffrrfd sizf of tif vifw iifrbrdiy.  Tiis
+     * bllows formbttfd vifws to formbt to tif durrfnt domponfnt sizf bfforf
+     * bnswfring tif rfqufst.  Otifr vifws don't dbrf bbout durrfntly formbttfd
+     * sizf bnd givf tif sbmf bnswfr fitifr wby.
      *
-     * @param c the editor component
-     * @return the size
+     * @pbrbm d tif fditor domponfnt
+     * @rfturn tif sizf
      */
-    public Dimension getPreferredSize(JComponent c) {
-        Document doc = editor.getDocument();
-        Insets i = c.getInsets();
-        Dimension d = c.getSize();
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dodumfnt dod = fditor.gftDodumfnt();
+        Insfts i = d.gftInsfts();
+        Dimfnsion d = d.gftSizf();
 
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            if ((d.width > (i.left + i.right)) && (d.height > (i.top + i.bottom))) {
-                rootView.setSize(d.width - i.left - i.right, d.height - i.top - i.bottom);
+            if ((d.widti > (i.lfft + i.rigit)) && (d.ifigit > (i.top + i.bottom))) {
+                rootVifw.sftSizf(d.widti - i.lfft - i.rigit, d.ifigit - i.top - i.bottom);
             }
-            else if (d.width == 0 && d.height == 0) {
-                // Probably haven't been layed out yet, force some sort of
-                // initial sizing.
-                rootView.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
+            flsf if (d.widti == 0 && d.ifigit == 0) {
+                // Probbbly ibvfn't bffn lbyfd out yft, fordf somf sort of
+                // initibl sizing.
+                rootVifw.sftSizf(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
             }
-            d.width = (int) Math.min((long) rootView.getPreferredSpan(View.X_AXIS) +
-                                     (long) i.left + (long) i.right, Integer.MAX_VALUE);
-            d.height = (int) Math.min((long) rootView.getPreferredSpan(View.Y_AXIS) +
-                                      (long) i.top + (long) i.bottom, Integer.MAX_VALUE);
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+            d.widti = (int) Mbti.min((long) rootVifw.gftPrfffrrfdSpbn(Vifw.X_AXIS) +
+                                     (long) i.lfft + (long) i.rigit, Intfgfr.MAX_VALUE);
+            d.ifigit = (int) Mbti.min((long) rootVifw.gftPrfffrrfdSpbn(Vifw.Y_AXIS) +
+                                      (long) i.top + (long) i.bottom, Intfgfr.MAX_VALUE);
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return d;
+        rfturn d;
     }
 
     /**
-     * Gets the minimum size for the editor component.
+     * Gfts tif minimum sizf for tif fditor domponfnt.
      *
-     * @param c the editor component
-     * @return the size
+     * @pbrbm d tif fditor domponfnt
+     * @rfturn tif sizf
      */
-    public Dimension getMinimumSize(JComponent c) {
-        Document doc = editor.getDocument();
-        Insets i = c.getInsets();
-        Dimension d = new Dimension();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dodumfnt dod = fditor.gftDodumfnt();
+        Insfts i = d.gftInsfts();
+        Dimfnsion d = nfw Dimfnsion();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            d.width = (int) rootView.getMinimumSpan(View.X_AXIS) + i.left + i.right;
-            d.height = (int)  rootView.getMinimumSpan(View.Y_AXIS) + i.top + i.bottom;
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+            d.widti = (int) rootVifw.gftMinimumSpbn(Vifw.X_AXIS) + i.lfft + i.rigit;
+            d.ifigit = (int)  rootVifw.gftMinimumSpbn(Vifw.Y_AXIS) + i.top + i.bottom;
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return d;
+        rfturn d;
     }
 
     /**
-     * Gets the maximum size for the editor component.
+     * Gfts tif mbximum sizf for tif fditor domponfnt.
      *
-     * @param c the editor component
-     * @return the size
+     * @pbrbm d tif fditor domponfnt
+     * @rfturn tif sizf
      */
-    public Dimension getMaximumSize(JComponent c) {
-        Document doc = editor.getDocument();
-        Insets i = c.getInsets();
-        Dimension d = new Dimension();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        Dodumfnt dod = fditor.gftDodumfnt();
+        Insfts i = d.gftInsfts();
+        Dimfnsion d = nfw Dimfnsion();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            d.width = (int) Math.min((long) rootView.getMaximumSpan(View.X_AXIS) +
-                                     (long) i.left + (long) i.right, Integer.MAX_VALUE);
-            d.height = (int) Math.min((long) rootView.getMaximumSpan(View.Y_AXIS) +
-                                      (long) i.top + (long) i.bottom, Integer.MAX_VALUE);
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+            d.widti = (int) Mbti.min((long) rootVifw.gftMbximumSpbn(Vifw.X_AXIS) +
+                                     (long) i.lfft + (long) i.rigit, Intfgfr.MAX_VALUE);
+            d.ifigit = (int) Mbti.min((long) rootVifw.gftMbximumSpbn(Vifw.Y_AXIS) +
+                                      (long) i.top + (long) i.bottom, Intfgfr.MAX_VALUE);
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return d;
+        rfturn d;
     }
 
-    // ---- TextUI methods -------------------------------------------
+    // ---- TfxtUI mftiods -------------------------------------------
 
 
     /**
-     * Gets the allocation to give the root View.  Due
-     * to an unfortunate set of historical events this
-     * method is inappropriately named.  The Rectangle
-     * returned has nothing to do with visibility.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Gfts tif bllodbtion to givf tif root Vifw.  Duf
+     * to bn unfortunbtf sft of iistoridbl fvfnts tiis
+     * mftiod is inbppropribtfly nbmfd.  Tif Rfdtbnglf
+     * rfturnfd ibs notiing to do witi visibility.
+     * Tif domponfnt must ibvf b non-zfro positivf sizf for
+     * tiis trbnslbtion to bf domputfd.
      *
-     * @return the bounding box for the root view
+     * @rfturn tif bounding box for tif root vifw
      */
-    protected Rectangle getVisibleEditorRect() {
-        Rectangle alloc = editor.getBounds();
-        if ((alloc.width > 0) && (alloc.height > 0)) {
-            alloc.x = alloc.y = 0;
-            Insets insets = editor.getInsets();
-            alloc.x += insets.left;
-            alloc.y += insets.top;
-            alloc.width -= insets.left + insets.right;
-            alloc.height -= insets.top + insets.bottom;
-            return alloc;
+    protfdtfd Rfdtbnglf gftVisiblfEditorRfdt() {
+        Rfdtbnglf bllod = fditor.gftBounds();
+        if ((bllod.widti > 0) && (bllod.ifigit > 0)) {
+            bllod.x = bllod.y = 0;
+            Insfts insfts = fditor.gftInsfts();
+            bllod.x += insfts.lfft;
+            bllod.y += insfts.top;
+            bllod.widti -= insfts.lfft + insfts.rigit;
+            bllod.ifigit -= insfts.top + insfts.bottom;
+            rfturn bllod;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Convfrts tif givfn lodbtion in tif modfl to b plbdf in
+     * tif vifw doordinbtf systfm.
+     * Tif domponfnt must ibvf b non-zfro positivf sizf for
+     * tiis trbnslbtion to bf domputfd.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pos the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle, null if the model is not painted
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
-     * @see TextUI#modelToView
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @pbrbm pos tif lodbl lodbtion in tif modfl to trbnslbtf &gt;= 0
+     * @rfturn tif doordinbtfs bs b rfdtbnglf, null if tif modfl is not pbintfd
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff TfxtUI#modflToVifw
      */
-    public Rectangle modelToView(JTextComponent tc, int pos) throws BadLocationException {
-        return modelToView(tc, pos, Position.Bias.Forward);
+    publid Rfdtbnglf modflToVifw(JTfxtComponfnt td, int pos) tirows BbdLodbtionExdfption {
+        rfturn modflToVifw(td, pos, Position.Bibs.Forwbrd);
     }
 
     /**
-     * Converts the given location in the model to a place in
-     * the view coordinate system.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Convfrts tif givfn lodbtion in tif modfl to b plbdf in
+     * tif vifw doordinbtf systfm.
+     * Tif domponfnt must ibvf b non-zfro positivf sizf for
+     * tiis trbnslbtion to bf domputfd.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pos the local location in the model to translate &gt;= 0
-     * @return the coordinates as a rectangle, null if the model is not painted
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
-     * @see TextUI#modelToView
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @pbrbm pos tif lodbl lodbtion in tif modfl to trbnslbtf &gt;= 0
+     * @rfturn tif doordinbtfs bs b rfdtbnglf, null if tif modfl is not pbintfd
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff TfxtUI#modflToVifw
      */
-    public Rectangle modelToView(JTextComponent tc, int pos, Position.Bias bias) throws BadLocationException {
-        Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+    publid Rfdtbnglf modflToVifw(JTfxtComponfnt td, int pos, Position.Bibs bibs) tirows BbdLodbtionExdfption {
+        Dodumfnt dod = fditor.gftDodumfnt();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
-                rootView.setSize(alloc.width, alloc.height);
-                Shape s = rootView.modelToView(pos, alloc, bias);
+            Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+            if (bllod != null) {
+                rootVifw.sftSizf(bllod.widti, bllod.ifigit);
+                Sibpf s = rootVifw.modflToVifw(pos, bllod, bibs);
                 if (s != null) {
-                  return s.getBounds();
+                  rfturn s.gftBounds();
                 }
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Convfrts tif givfn plbdf in tif vifw doordinbtf systfm
+     * to tif nfbrfst rfprfsfntbtivf lodbtion in tif modfl.
+     * Tif domponfnt must ibvf b non-zfro positivf sizf for
+     * tiis trbnslbtion to bf domputfd.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pt the location in the view to translate.  This
-     *  should be in the same coordinate system as the mouse events.
-     * @return the offset from the start of the document &gt;= 0,
-     *   -1 if not painted
-     * @see TextUI#viewToModel
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @pbrbm pt tif lodbtion in tif vifw to trbnslbtf.  Tiis
+     *  siould bf in tif sbmf doordinbtf systfm bs tif mousf fvfnts.
+     * @rfturn tif offsft from tif stbrt of tif dodumfnt &gt;= 0,
+     *   -1 if not pbintfd
+     * @sff TfxtUI#vifwToModfl
      */
-    public int viewToModel(JTextComponent tc, Point pt) {
-        return viewToModel(tc, pt, discardBias);
+    publid int vifwToModfl(JTfxtComponfnt td, Point pt) {
+        rfturn vifwToModfl(td, pt, disdbrdBibs);
     }
 
     /**
-     * Converts the given place in the view coordinate system
-     * to the nearest representative location in the model.
-     * The component must have a non-zero positive size for
-     * this translation to be computed.
+     * Convfrts tif givfn plbdf in tif vifw doordinbtf systfm
+     * to tif nfbrfst rfprfsfntbtivf lodbtion in tif modfl.
+     * Tif domponfnt must ibvf b non-zfro positivf sizf for
+     * tiis trbnslbtion to bf domputfd.
      *
-     * @param tc the text component for which this UI is installed
-     * @param pt the location in the view to translate.  This
-     *  should be in the same coordinate system as the mouse events.
-     * @return the offset from the start of the document &gt;= 0,
-     *   -1 if the component doesn't yet have a positive size.
-     * @see TextUI#viewToModel
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @pbrbm pt tif lodbtion in tif vifw to trbnslbtf.  Tiis
+     *  siould bf in tif sbmf doordinbtf systfm bs tif mousf fvfnts.
+     * @rfturn tif offsft from tif stbrt of tif dodumfnt &gt;= 0,
+     *   -1 if tif domponfnt dofsn't yft ibvf b positivf sizf.
+     * @sff TfxtUI#vifwToModfl
      */
-    public int viewToModel(JTextComponent tc, Point pt,
-                           Position.Bias[] biasReturn) {
+    publid int vifwToModfl(JTfxtComponfnt td, Point pt,
+                           Position.Bibs[] bibsRfturn) {
         int offs = -1;
-        Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+        Dodumfnt dod = fditor.gftDodumfnt();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
-                rootView.setSize(alloc.width, alloc.height);
-                offs = rootView.viewToModel(pt.x, pt.y, alloc, biasReturn);
+            Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+            if (bllod != null) {
+                rootVifw.sftSizf(bllod.widti, bllod.ifigit);
+                offs = rootVifw.vifwToModfl(pt.x, pt.y, bllod, bibsRfturn);
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return offs;
+        rfturn offs;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public int getNextVisualPositionFrom(JTextComponent t, int pos,
-                    Position.Bias b, int direction, Position.Bias[] biasRet)
-                    throws BadLocationException{
-        Document doc = editor.getDocument();
-        if (doc instanceof AbstractDocument) {
-            ((AbstractDocument)doc).readLock();
+    publid int gftNfxtVisublPositionFrom(JTfxtComponfnt t, int pos,
+                    Position.Bibs b, int dirfdtion, Position.Bibs[] bibsRft)
+                    tirows BbdLodbtionExdfption{
+        Dodumfnt dod = fditor.gftDodumfnt();
+        if (dod instbndfof AbstrbdtDodumfnt) {
+            ((AbstrbdtDodumfnt)dod).rfbdLodk();
         }
         try {
-            if (painted) {
-                Rectangle alloc = getVisibleEditorRect();
-                if (alloc != null) {
-                    rootView.setSize(alloc.width, alloc.height);
+            if (pbintfd) {
+                Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+                if (bllod != null) {
+                    rootVifw.sftSizf(bllod.widti, bllod.ifigit);
                 }
-                return rootView.getNextVisualPositionFrom(pos, b, alloc, direction,
-                                                          biasRet);
+                rfturn rootVifw.gftNfxtVisublPositionFrom(pos, b, bllod, dirfdtion,
+                                                          bibsRft);
             }
-        } finally {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+        } finblly {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.  Does nothing if
-     * the view is not currently painted.
+     * Cbusfs tif portion of tif vifw rfsponsiblf for tif
+     * givfn pbrt of tif modfl to bf rfpbintfd.  Dofs notiing if
+     * tif vifw is not durrfntly pbintfd.
      *
-     * @param tc the text component for which this UI is installed
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
-     * @see TextUI#damageRange
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
+     * @sff TfxtUI#dbmbgfRbngf
      */
-    public void damageRange(JTextComponent tc, int p0, int p1) {
-        damageRange(tc, p0, p1, Position.Bias.Forward, Position.Bias.Backward);
+    publid void dbmbgfRbngf(JTfxtComponfnt td, int p0, int p1) {
+        dbmbgfRbngf(td, p0, p1, Position.Bibs.Forwbrd, Position.Bibs.Bbdkwbrd);
     }
 
     /**
-     * Causes the portion of the view responsible for the
-     * given part of the model to be repainted.
+     * Cbusfs tif portion of tif vifw rfsponsiblf for tif
+     * givfn pbrt of tif modfl to bf rfpbintfd.
      *
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @pbrbm p0 tif bfginning of tif rbngf &gt;= 0
+     * @pbrbm p1 tif fnd of tif rbngf &gt;= p0
      */
-    public void damageRange(JTextComponent t, int p0, int p1,
-                            Position.Bias p0Bias, Position.Bias p1Bias) {
-        if (painted) {
-            Rectangle alloc = getVisibleEditorRect();
-            if (alloc != null) {
-                Document doc = t.getDocument();
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readLock();
+    publid void dbmbgfRbngf(JTfxtComponfnt t, int p0, int p1,
+                            Position.Bibs p0Bibs, Position.Bibs p1Bibs) {
+        if (pbintfd) {
+            Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+            if (bllod != null) {
+                Dodumfnt dod = t.gftDodumfnt();
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfbdLodk();
                 }
                 try {
-                    rootView.setSize(alloc.width, alloc.height);
-                    Shape toDamage = rootView.modelToView(p0, p0Bias,
-                            p1, p1Bias, alloc);
-                    Rectangle rect = (toDamage instanceof Rectangle) ?
-                            (Rectangle)toDamage : toDamage.getBounds();
-                    editor.repaint(rect.x, rect.y, rect.width, rect.height);
-                } catch (BadLocationException e) {
-                } finally {
-                    if (doc instanceof AbstractDocument) {
-                        ((AbstractDocument)doc).readUnlock();
+                    rootVifw.sftSizf(bllod.widti, bllod.ifigit);
+                    Sibpf toDbmbgf = rootVifw.modflToVifw(p0, p0Bibs,
+                            p1, p1Bibs, bllod);
+                    Rfdtbnglf rfdt = (toDbmbgf instbndfof Rfdtbnglf) ?
+                            (Rfdtbnglf)toDbmbgf : toDbmbgf.gftBounds();
+                    fditor.rfpbint(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
+                } dbtdi (BbdLodbtionExdfption f) {
+                } finblly {
+                    if (dod instbndfof AbstrbdtDodumfnt) {
+                        ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
                     }
                 }
             }
@@ -1190,811 +1190,811 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
     }
 
     /**
-     * Fetches the EditorKit for the UI.
+     * Fftdifs tif EditorKit for tif UI.
      *
-     * @param tc the text component for which this UI is installed
-     * @return the editor capabilities
-     * @see TextUI#getEditorKit
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @rfturn tif fditor dbpbbilitifs
+     * @sff TfxtUI#gftEditorKit
      */
-    public EditorKit getEditorKit(JTextComponent tc) {
-        return defaultKit;
+    publid EditorKit gftEditorKit(JTfxtComponfnt td) {
+        rfturn dffbultKit;
     }
 
     /**
-     * Fetches a View with the allocation of the associated
-     * text component (i.e. the root of the hierarchy) that
-     * can be traversed to determine how the model is being
-     * represented spatially.
+     * Fftdifs b Vifw witi tif bllodbtion of tif bssodibtfd
+     * tfxt domponfnt (i.f. tif root of tif iifrbrdiy) tibt
+     * dbn bf trbvfrsfd to dftfrminf iow tif modfl is bfing
+     * rfprfsfntfd spbtiblly.
      * <p>
-     * <font style="color: red;"><b>NOTE:</b>The View hierarchy can
-     * be traversed from the root view, and other things
-     * can be done as well.  Things done in this way cannot
-     * be protected like simple method calls through the TextUI.
-     * Therefore, proper operation in the presence of concurrency
-     * must be arranged by any logic that calls this method!
+     * <font stylf="dolor: rfd;"><b>NOTE:</b>Tif Vifw iifrbrdiy dbn
+     * bf trbvfrsfd from tif root vifw, bnd otifr tiings
+     * dbn bf donf bs wfll.  Tiings donf in tiis wby dbnnot
+     * bf protfdtfd likf simplf mftiod dblls tirougi tif TfxtUI.
+     * Tifrfforf, propfr opfrbtion in tif prfsfndf of dondurrfndy
+     * must bf brrbngfd by bny logid tibt dblls tiis mftiod!
      * </font>
      *
-     * @param tc the text component for which this UI is installed
-     * @return the view
-     * @see TextUI#getRootView
+     * @pbrbm td tif tfxt domponfnt for wiidi tiis UI is instbllfd
+     * @rfturn tif vifw
+     * @sff TfxtUI#gftRootVifw
      */
-    public View getRootView(JTextComponent tc) {
-        return rootView;
+    publid Vifw gftRootVifw(JTfxtComponfnt td) {
+        rfturn rootVifw;
     }
 
 
     /**
-     * Returns the string to be used as the tooltip at the passed in location.
-     * This forwards the method onto the root View.
+     * Rfturns tif string to bf usfd bs tif tooltip bt tif pbssfd in lodbtion.
+     * Tiis forwbrds tif mftiod onto tif root Vifw.
      *
-     * @see javax.swing.text.JTextComponent#getToolTipText
-     * @see javax.swing.text.View#getToolTipText
-     * @since 1.4
+     * @sff jbvbx.swing.tfxt.JTfxtComponfnt#gftToolTipTfxt
+     * @sff jbvbx.swing.tfxt.Vifw#gftToolTipTfxt
+     * @sindf 1.4
      */
-    public String getToolTipText(JTextComponent t, Point pt) {
-        if (!painted) {
-            return null;
+    publid String gftToolTipTfxt(JTfxtComponfnt t, Point pt) {
+        if (!pbintfd) {
+            rfturn null;
         }
-        Document doc = editor.getDocument();
+        Dodumfnt dod = fditor.gftDodumfnt();
         String tt = null;
-        Rectangle alloc = getVisibleEditorRect();
+        Rfdtbnglf bllod = gftVisiblfEditorRfdt();
 
-        if (alloc != null) {
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+        if (bllod != null) {
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdLodk();
             }
             try {
-                tt = rootView.getToolTipText(pt.x, pt.y, alloc);
-            } finally {
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).readUnlock();
+                tt = rootVifw.gftToolTipTfxt(pt.x, pt.y, bllod);
+            } finblly {
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
                 }
             }
         }
-        return tt;
+        rfturn tt;
     }
 
-    // --- ViewFactory methods ------------------------------
+    // --- VifwFbdtory mftiods ------------------------------
 
     /**
-     * Creates a view for an element.
-     * If a subclass wishes to directly implement the factory
-     * producing the view(s), it should reimplement this
-     * method.  By default it simply returns null indicating
-     * it is unable to represent the element.
+     * Crfbtfs b vifw for bn flfmfnt.
+     * If b subdlbss wisifs to dirfdtly implfmfnt tif fbdtory
+     * produding tif vifw(s), it siould rfimplfmfnt tiis
+     * mftiod.  By dffbult it simply rfturns null indidbting
+     * it is unbblf to rfprfsfnt tif flfmfnt.
      *
-     * @param elem the element
-     * @return the view
+     * @pbrbm flfm tif flfmfnt
+     * @rfturn tif vifw
      */
-    public View create(Element elem) {
-        return null;
+    publid Vifw drfbtf(Elfmfnt flfm) {
+        rfturn null;
     }
 
     /**
-     * Creates a view for an element.
-     * If a subclass wishes to directly implement the factory
-     * producing the view(s), it should reimplement this
-     * method.  By default it simply returns null indicating
-     * it is unable to represent the part of the element.
+     * Crfbtfs b vifw for bn flfmfnt.
+     * If b subdlbss wisifs to dirfdtly implfmfnt tif fbdtory
+     * produding tif vifw(s), it siould rfimplfmfnt tiis
+     * mftiod.  By dffbult it simply rfturns null indidbting
+     * it is unbblf to rfprfsfnt tif pbrt of tif flfmfnt.
      *
-     * @param elem the element
-     * @param p0 the starting offset &gt;= 0
-     * @param p1 the ending offset &gt;= p0
-     * @return the view
+     * @pbrbm flfm tif flfmfnt
+     * @pbrbm p0 tif stbrting offsft &gt;= 0
+     * @pbrbm p1 tif fnding offsft &gt;= p0
+     * @rfturn tif vifw
      */
-    public View create(Element elem, int p0, int p1) {
-        return null;
+    publid Vifw drfbtf(Elfmfnt flfm, int p0, int p1) {
+        rfturn null;
     }
 
     /**
-     * Default implementation of the interface {@code Caret}.
+     * Dffbult implfmfntbtion of tif intfrfbdf {@dodf Cbrft}.
      */
-    public static class BasicCaret extends DefaultCaret implements UIResource {}
+    publid stbtid dlbss BbsidCbrft fxtfnds DffbultCbrft implfmfnts UIRfsourdf {}
 
     /**
-     * Default implementation of the interface {@code Highlighter}.
+     * Dffbult implfmfntbtion of tif intfrfbdf {@dodf Higiligitfr}.
      */
-    public static class BasicHighlighter extends DefaultHighlighter implements UIResource {}
+    publid stbtid dlbss BbsidHigiligitfr fxtfnds DffbultHigiligitfr implfmfnts UIRfsourdf {}
 
-    static class BasicCursor extends Cursor implements UIResource {
-        BasicCursor(int type) {
-            super(type);
+    stbtid dlbss BbsidCursor fxtfnds Cursor implfmfnts UIRfsourdf {
+        BbsidCursor(int typf) {
+            supfr(typf);
         }
 
-        BasicCursor(String name) {
-            super(name);
+        BbsidCursor(String nbmf) {
+            supfr(nbmf);
         }
     }
 
-    private static BasicCursor textCursor = new BasicCursor(Cursor.TEXT_CURSOR);
-    // ----- member variables ---------------------------------------
+    privbtf stbtid BbsidCursor tfxtCursor = nfw BbsidCursor(Cursor.TEXT_CURSOR);
+    // ----- mfmbfr vbribblfs ---------------------------------------
 
-    private static final EditorKit defaultKit = new DefaultEditorKit();
-    transient JTextComponent editor;
-    transient boolean painted;
-    transient RootView rootView = new RootView();
-    transient UpdateHandler updateHandler = new UpdateHandler();
-    private static final TransferHandler defaultTransferHandler = new TextTransferHandler();
-    private final DragListener dragListener = getDragListener();
-    private static final Position.Bias[] discardBias = new Position.Bias[1];
-    private DefaultCaret dropCaret;
+    privbtf stbtid finbl EditorKit dffbultKit = nfw DffbultEditorKit();
+    trbnsifnt JTfxtComponfnt fditor;
+    trbnsifnt boolfbn pbintfd;
+    trbnsifnt RootVifw rootVifw = nfw RootVifw();
+    trbnsifnt UpdbtfHbndlfr updbtfHbndlfr = nfw UpdbtfHbndlfr();
+    privbtf stbtid finbl TrbnsffrHbndlfr dffbultTrbnsffrHbndlfr = nfw TfxtTrbnsffrHbndlfr();
+    privbtf finbl DrbgListfnfr drbgListfnfr = gftDrbgListfnfr();
+    privbtf stbtid finbl Position.Bibs[] disdbrdBibs = nfw Position.Bibs[1];
+    privbtf DffbultCbrft dropCbrft;
 
     /**
-     * Root view that acts as a gateway between the component
-     * and the View hierarchy.
+     * Root vifw tibt bdts bs b gbtfwby bftwffn tif domponfnt
+     * bnd tif Vifw iifrbrdiy.
      */
-    class RootView extends View {
+    dlbss RootVifw fxtfnds Vifw {
 
-        RootView() {
-            super(null);
+        RootVifw() {
+            supfr(null);
         }
 
-        void setView(View v) {
-            View oldView = view;
-            view = null;
-            if (oldView != null) {
-                // get rid of back reference so that the old
-                // hierarchy can be garbage collected.
-                oldView.setParent(null);
+        void sftVifw(Vifw v) {
+            Vifw oldVifw = vifw;
+            vifw = null;
+            if (oldVifw != null) {
+                // gft rid of bbdk rfffrfndf so tibt tif old
+                // iifrbrdiy dbn bf gbrbbgf dollfdtfd.
+                oldVifw.sftPbrfnt(null);
             }
             if (v != null) {
-                v.setParent(this);
+                v.sftPbrfnt(tiis);
             }
-            view = v;
+            vifw = v;
         }
 
         /**
-         * Fetches the attributes to use when rendering.  At the root
-         * level there are no attributes.  If an attribute is resolved
-         * up the view hierarchy this is the end of the line.
+         * Fftdifs tif bttributfs to usf wifn rfndfring.  At tif root
+         * lfvfl tifrf brf no bttributfs.  If bn bttributf is rfsolvfd
+         * up tif vifw iifrbrdiy tiis is tif fnd of tif linf.
          */
-        public AttributeSet getAttributes() {
-            return null;
+        publid AttributfSft gftAttributfs() {
+            rfturn null;
         }
 
         /**
-         * Determines the preferred span for this view along an axis.
+         * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getPreferredSpan(int axis) {
-            if (view != null) {
-                return view.getPreferredSpan(axis);
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            if (vifw != null) {
+                rfturn vifw.gftPrfffrrfdSpbn(bxis);
             }
-            return 10;
+            rfturn 10;
         }
 
         /**
-         * Determines the minimum span for this view along an axis.
+         * Dftfrminfs tif minimum spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getMinimumSpan(int axis) {
-            if (view != null) {
-                return view.getMinimumSpan(axis);
+        publid flobt gftMinimumSpbn(int bxis) {
+            if (vifw != null) {
+                rfturn vifw.gftMinimumSpbn(bxis);
             }
-            return 10;
+            rfturn 10;
         }
 
         /**
-         * Determines the maximum span for this view along an axis.
+         * Dftfrminfs tif mbximum spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getMaximumSpan(int axis) {
-            return Integer.MAX_VALUE;
+        publid flobt gftMbximumSpbn(int bxis) {
+            rfturn Intfgfr.MAX_VALUE;
         }
 
         /**
-         * Specifies that a preference has changed.
-         * Child views can call this on the parent to indicate that
-         * the preference has changed.  The root view routes this to
-         * invalidate on the hosting component.
+         * Spfdififs tibt b prfffrfndf ibs dibngfd.
+         * Ciild vifws dbn dbll tiis on tif pbrfnt to indidbtf tibt
+         * tif prfffrfndf ibs dibngfd.  Tif root vifw routfs tiis to
+         * invblidbtf on tif iosting domponfnt.
          * <p>
-         * This can be called on a different thread from the
-         * event dispatching thread and is basically unsafe to
-         * propagate into the component.  To make this safe,
-         * the operation is transferred over to the event dispatching
-         * thread for completion.  It is a design goal that all view
-         * methods be safe to call without concern for concurrency,
-         * and this behavior helps make that true.
+         * Tiis dbn bf dbllfd on b difffrfnt tirfbd from tif
+         * fvfnt dispbtdiing tirfbd bnd is bbsidblly unsbff to
+         * propbgbtf into tif domponfnt.  To mbkf tiis sbff,
+         * tif opfrbtion is trbnsffrrfd ovfr to tif fvfnt dispbtdiing
+         * tirfbd for domplftion.  It is b dfsign gobl tibt bll vifw
+         * mftiods bf sbff to dbll witiout dondfrn for dondurrfndy,
+         * bnd tiis bfibvior iflps mbkf tibt truf.
          *
-         * @param child the child view
-         * @param width true if the width preference has changed
-         * @param height true if the height preference has changed
+         * @pbrbm diild tif diild vifw
+         * @pbrbm widti truf if tif widti prfffrfndf ibs dibngfd
+         * @pbrbm ifigit truf if tif ifigit prfffrfndf ibs dibngfd
          */
-        public void preferenceChanged(View child, boolean width, boolean height) {
-            editor.revalidate();
+        publid void prfffrfndfCibngfd(Vifw diild, boolfbn widti, boolfbn ifigit) {
+            fditor.rfvblidbtf();
         }
 
         /**
-         * Determines the desired alignment for this view along an axis.
+         * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the desired alignment, where 0.0 indicates the origin
-         *     and 1.0 the full span away from the origin
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif dfsirfd blignmfnt, wifrf 0.0 indidbtfs tif origin
+         *     bnd 1.0 tif full spbn bwby from tif origin
          */
-        public float getAlignment(int axis) {
-            if (view != null) {
-                return view.getAlignment(axis);
+        publid flobt gftAlignmfnt(int bxis) {
+            if (vifw != null) {
+                rfturn vifw.gftAlignmfnt(bxis);
             }
-            return 0;
+            rfturn 0;
         }
 
         /**
-         * Renders the view.
+         * Rfndfrs tif vifw.
          *
-         * @param g the graphics context
-         * @param allocation the region to render into
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm bllodbtion tif rfgion to rfndfr into
          */
-        public void paint(Graphics g, Shape allocation) {
-            if (view != null) {
-                Rectangle alloc = (allocation instanceof Rectangle) ?
-                          (Rectangle)allocation : allocation.getBounds();
-                setSize(alloc.width, alloc.height);
-                view.paint(g, allocation);
+        publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+            if (vifw != null) {
+                Rfdtbnglf bllod = (bllodbtion instbndfof Rfdtbnglf) ?
+                          (Rfdtbnglf)bllodbtion : bllodbtion.gftBounds();
+                sftSizf(bllod.widti, bllod.ifigit);
+                vifw.pbint(g, bllodbtion);
             }
         }
 
         /**
-         * Sets the view parent.
+         * Sfts tif vifw pbrfnt.
          *
-         * @param parent the parent view
+         * @pbrbm pbrfnt tif pbrfnt vifw
          */
-        public void setParent(View parent) {
-            throw new Error("Can't set parent on root view");
+        publid void sftPbrfnt(Vifw pbrfnt) {
+            tirow nfw Error("Cbn't sft pbrfnt on root vifw");
         }
 
         /**
-         * Returns the number of views in this view.  Since
-         * this view simply wraps the root of the view hierarchy
-         * it has exactly one child.
+         * Rfturns tif numbfr of vifws in tiis vifw.  Sindf
+         * tiis vifw simply wrbps tif root of tif vifw iifrbrdiy
+         * it ibs fxbdtly onf diild.
          *
-         * @return the number of views
-         * @see #getView
+         * @rfturn tif numbfr of vifws
+         * @sff #gftVifw
          */
-        public int getViewCount() {
-            return 1;
+        publid int gftVifwCount() {
+            rfturn 1;
         }
 
         /**
-         * Gets the n-th view in this container.
+         * Gfts tif n-ti vifw in tiis dontbinfr.
          *
-         * @param n the number of the view to get
-         * @return the view
+         * @pbrbm n tif numbfr of tif vifw to gft
+         * @rfturn tif vifw
          */
-        public View getView(int n) {
-            return view;
+        publid Vifw gftVifw(int n) {
+            rfturn vifw;
         }
 
         /**
-         * Returns the child view index representing the given position in
-         * the model.  This is implemented to return the index of the only
-         * child.
+         * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+         * tif modfl.  Tiis is implfmfntfd to rfturn tif indfx of tif only
+         * diild.
          *
-         * @param pos the position &gt;= 0
-         * @return  index of the view representing the given position, or
-         *   -1 if no view represents that position
-         * @since 1.3
+         * @pbrbm pos tif position &gt;= 0
+         * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+         *   -1 if no vifw rfprfsfnts tibt position
+         * @sindf 1.3
          */
-        public int getViewIndex(int pos, Position.Bias b) {
-            return 0;
+        publid int gftVifwIndfx(int pos, Position.Bibs b) {
+            rfturn 0;
         }
 
         /**
-         * Fetches the allocation for the given child view.
-         * This enables finding out where various views
-         * are located, without assuming the views store
-         * their location.  This returns the given allocation
-         * since this view simply acts as a gateway between
-         * the view hierarchy and the associated component.
+         * Fftdifs tif bllodbtion for tif givfn diild vifw.
+         * Tiis fnbblfs finding out wifrf vbrious vifws
+         * brf lodbtfd, witiout bssuming tif vifws storf
+         * tifir lodbtion.  Tiis rfturns tif givfn bllodbtion
+         * sindf tiis vifw simply bdts bs b gbtfwby bftwffn
+         * tif vifw iifrbrdiy bnd tif bssodibtfd domponfnt.
          *
-         * @param index the index of the child
-         * @param a  the allocation to this view.
-         * @return the allocation to the child
+         * @pbrbm indfx tif indfx of tif diild
+         * @pbrbm b  tif bllodbtion to tiis vifw.
+         * @rfturn tif bllodbtion to tif diild
          */
-        public Shape getChildAllocation(int index, Shape a) {
-            return a;
+        publid Sibpf gftCiildAllodbtion(int indfx, Sibpf b) {
+            rfturn b;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position
+         * @pbrbm pos tif position to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            if (view != null) {
-                return view.modelToView(pos, a, b);
+        publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+            if (vifw != null) {
+                rfturn vifw.modflToVifw(pos, b, b);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param p0 the position to convert &gt;= 0
-         * @param b0 the bias toward the previous character or the
-         *  next character represented by p0, in case the
-         *  position is a boundary of two views.
-         * @param p1 the position to convert &gt;= 0
-         * @param b1 the bias toward the previous character or the
-         *  next character represented by p1, in case the
-         *  position is a boundary of two views.
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does
-         *   not represent a valid location in the associated document
-         * @exception IllegalArgumentException for an invalid bias argument
-         * @see View#viewToModel
+         * @pbrbm p0 tif position to donvfrt &gt;= 0
+         * @pbrbm b0 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p0, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm p1 tif position to donvfrt &gt;= 0
+         * @pbrbm b1 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p1, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position is rfturnfd
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+         *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+         * @sff Vifw#vifwToModfl
          */
-        public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
-            if (view != null) {
-                return view.modelToView(p0, b0, p1, b1, a);
+        publid Sibpf modflToVifw(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Sibpf b) tirows BbdLodbtionExdfption {
+            if (vifw != null) {
+                rfturn vifw.modflToVifw(p0, b0, p1, b1, b);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+         * doordinbtf spbdf of tif modfl.
          *
-         * @param x x coordinate of the view location to convert
-         * @param y y coordinate of the view location to convert
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
-         *    given point in the view
+         * @pbrbm x x doordinbtf of tif vifw lodbtion to donvfrt
+         * @pbrbm y y doordinbtf of tif vifw lodbtion to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+         *    givfn point in tif vifw
          */
-        public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-            if (view != null) {
-                int retValue = view.viewToModel(x, y, a, bias);
-                return retValue;
+        publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+            if (vifw != null) {
+                int rftVbluf = vifw.vifwToModfl(x, y, b, bibs);
+                rfturn rftVbluf;
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Provides a way to determine the next visually represented model
-         * location that one might place a caret.  Some views may not be visible,
-         * they might not be in the same order found in the model, or they just
-         * might not allow access to some of the locations in the model.
-         * This method enables specifying a position to convert
-         * within the range of &gt;=0.  If the value is -1, a position
-         * will be calculated automatically.  If the value &lt; -1,
-         * the {@code BadLocationException} will be thrown.
+         * Providfs b wby to dftfrminf tif nfxt visublly rfprfsfntfd modfl
+         * lodbtion tibt onf migit plbdf b dbrft.  Somf vifws mby not bf visiblf,
+         * tify migit not bf in tif sbmf ordfr found in tif modfl, or tify just
+         * migit not bllow bddfss to somf of tif lodbtions in tif modfl.
+         * Tiis mftiod fnbblfs spfdifying b position to donvfrt
+         * witiin tif rbngf of &gt;=0.  If tif vbluf is -1, b position
+         * will bf dbldulbtfd butombtidblly.  If tif vbluf &lt; -1,
+         * tif {@dodf BbdLodbtionExdfption} will bf tirown.
          *
-         * @param pos the position to convert &gt;= 0
-         * @param a the allocated region to render into
-         * @param direction the direction from the current position that can
-         *  be thought of as the arrow keys typically found on a keyboard.
-         *  This may be SwingConstants.WEST, SwingConstants.EAST,
-         *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-         * @return the location within the model that best represents the next
-         *  location visual position.
-         * @exception BadLocationException the given position is not a valid
-         *                                 position within the document
-         * @exception IllegalArgumentException for an invalid direction
+         * @pbrbm pos tif position to donvfrt &gt;= 0
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @pbrbm dirfdtion tif dirfdtion from tif durrfnt position tibt dbn
+         *  bf tiougit of bs tif brrow kfys typidblly found on b kfybobrd.
+         *  Tiis mby bf SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif nfxt
+         *  lodbtion visubl position.
+         * @fxdfption BbdLodbtionExdfption tif givfn position is not b vblid
+         *                                 position witiin tif dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid dirfdtion
          */
-        public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
-                                             int direction,
-                                             Position.Bias[] biasRet)
-            throws BadLocationException {
+        publid int gftNfxtVisublPositionFrom(int pos, Position.Bibs b, Sibpf b,
+                                             int dirfdtion,
+                                             Position.Bibs[] bibsRft)
+            tirows BbdLodbtionExdfption {
             if (pos < -1) {
-                throw new BadLocationException("invalid position", pos);
+                tirow nfw BbdLodbtionExdfption("invblid position", pos);
             }
-            if( view != null ) {
-                int nextPos = view.getNextVisualPositionFrom(pos, b, a,
-                                                     direction, biasRet);
-                if(nextPos != -1) {
-                    pos = nextPos;
+            if( vifw != null ) {
+                int nfxtPos = vifw.gftNfxtVisublPositionFrom(pos, b, b,
+                                                     dirfdtion, bibsRft);
+                if(nfxtPos != -1) {
+                    pos = nfxtPos;
                 }
-                else {
-                    biasRet[0] = b;
+                flsf {
+                    bibsRft[0] = b;
                 }
             }
-            return pos;
+            rfturn pos;
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
          */
-        public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (view != null) {
-                view.insertUpdate(e, a, f);
+        publid void insfrtUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (vifw != null) {
+                vifw.insfrtUpdbtf(f, b, f);
             }
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
          */
-        public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (view != null) {
-                view.removeUpdate(e, a, f);
+        publid void rfmovfUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (vifw != null) {
+                vifw.rfmovfUpdbtf(f, b, f);
             }
         }
 
         /**
-         * Gives notification from the document that attributes were changed
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
          */
-        public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            if (view != null) {
-                view.changedUpdate(e, a, f);
+        publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            if (vifw != null) {
+                vifw.dibngfdUpdbtf(f, b, f);
             }
         }
 
         /**
-         * Returns the document model underlying the view.
+         * Rfturns tif dodumfnt modfl undfrlying tif vifw.
          *
-         * @return the model
+         * @rfturn tif modfl
          */
-        public Document getDocument() {
-            return editor.getDocument();
+        publid Dodumfnt gftDodumfnt() {
+            rfturn fditor.gftDodumfnt();
         }
 
         /**
-         * Returns the starting offset into the model for this view.
+         * Rfturns tif stbrting offsft into tif modfl for tiis vifw.
          *
-         * @return the starting offset
+         * @rfturn tif stbrting offsft
          */
-        public int getStartOffset() {
-            if (view != null) {
-                return view.getStartOffset();
+        publid int gftStbrtOffsft() {
+            if (vifw != null) {
+                rfturn vifw.gftStbrtOffsft();
             }
-            return getElement().getStartOffset();
+            rfturn gftElfmfnt().gftStbrtOffsft();
         }
 
         /**
-         * Returns the ending offset into the model for this view.
+         * Rfturns tif fnding offsft into tif modfl for tiis vifw.
          *
-         * @return the ending offset
+         * @rfturn tif fnding offsft
          */
-        public int getEndOffset() {
-            if (view != null) {
-                return view.getEndOffset();
+        publid int gftEndOffsft() {
+            if (vifw != null) {
+                rfturn vifw.gftEndOffsft();
             }
-            return getElement().getEndOffset();
+            rfturn gftElfmfnt().gftEndOffsft();
         }
 
         /**
-         * Gets the element that this view is mapped to.
+         * Gfts tif flfmfnt tibt tiis vifw is mbppfd to.
          *
-         * @return the view
+         * @rfturn tif vifw
          */
-        public Element getElement() {
-            if (view != null) {
-                return view.getElement();
+        publid Elfmfnt gftElfmfnt() {
+            if (vifw != null) {
+                rfturn vifw.gftElfmfnt();
             }
-            return editor.getDocument().getDefaultRootElement();
+            rfturn fditor.gftDodumfnt().gftDffbultRootElfmfnt();
         }
 
         /**
-         * Breaks this view on the given axis at the given length.
+         * Brfbks tiis vifw on tif givfn bxis bt tif givfn lfngti.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @param len specifies where a break is desired in the span
-         * @param the current allocation of the view
-         * @return the fragment of the view that represents the given span
-         *   if the view can be broken, otherwise null
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @pbrbm lfn spfdififs wifrf b brfbk is dfsirfd in tif spbn
+         * @pbrbm tif durrfnt bllodbtion of tif vifw
+         * @rfturn tif frbgmfnt of tif vifw tibt rfprfsfnts tif givfn spbn
+         *   if tif vifw dbn bf brokfn, otifrwisf null
          */
-        public View breakView(int axis, float len, Shape a) {
-            throw new Error("Can't break root view");
+        publid Vifw brfbkVifw(int bxis, flobt lfn, Sibpf b) {
+            tirow nfw Error("Cbn't brfbk root vifw");
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+         * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the weight
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif wfigit
          */
-        public int getResizeWeight(int axis) {
-            if (view != null) {
-                return view.getResizeWeight(axis);
+        publid int gftRfsizfWfigit(int bxis) {
+            if (vifw != null) {
+                rfturn vifw.gftRfsizfWfigit(bxis);
             }
-            return 0;
+            rfturn 0;
         }
 
         /**
-         * Sets the view size.
+         * Sfts tif vifw sizf.
          *
-         * @param width the width
-         * @param height the height
+         * @pbrbm widti tif widti
+         * @pbrbm ifigit tif ifigit
          */
-        public void setSize(float width, float height) {
-            if (view != null) {
-                view.setSize(width, height);
+        publid void sftSizf(flobt widti, flobt ifigit) {
+            if (vifw != null) {
+                vifw.sftSizf(widti, ifigit);
             }
         }
 
         /**
-         * Fetches the container hosting the view.  This is useful for
-         * things like scheduling a repaint, finding out the host
-         * components font, etc.  The default implementation
-         * of this is to forward the query to the parent view.
+         * Fftdifs tif dontbinfr iosting tif vifw.  Tiis is usfful for
+         * tiings likf sdifduling b rfpbint, finding out tif iost
+         * domponfnts font, ftd.  Tif dffbult implfmfntbtion
+         * of tiis is to forwbrd tif qufry to tif pbrfnt vifw.
          *
-         * @return the container
+         * @rfturn tif dontbinfr
          */
-        public Container getContainer() {
-            return editor;
+        publid Contbinfr gftContbinfr() {
+            rfturn fditor;
         }
 
         /**
-         * Fetches the factory to be used for building the
-         * various view fragments that make up the view that
-         * represents the model.  This is what determines
-         * how the model will be represented.  This is implemented
-         * to fetch the factory provided by the associated
-         * EditorKit unless that is null, in which case this
-         * simply returns the BasicTextUI itself which allows
-         * subclasses to implement a simple factory directly without
-         * creating extra objects.
+         * Fftdifs tif fbdtory to bf usfd for building tif
+         * vbrious vifw frbgmfnts tibt mbkf up tif vifw tibt
+         * rfprfsfnts tif modfl.  Tiis is wibt dftfrminfs
+         * iow tif modfl will bf rfprfsfntfd.  Tiis is implfmfntfd
+         * to fftdi tif fbdtory providfd by tif bssodibtfd
+         * EditorKit unlfss tibt is null, in wiidi dbsf tiis
+         * simply rfturns tif BbsidTfxtUI itsflf wiidi bllows
+         * subdlbssfs to implfmfnt b simplf fbdtory dirfdtly witiout
+         * drfbting fxtrb objfdts.
          *
-         * @return the factory
+         * @rfturn tif fbdtory
          */
-        public ViewFactory getViewFactory() {
-            EditorKit kit = getEditorKit(editor);
-            ViewFactory f = kit.getViewFactory();
+        publid VifwFbdtory gftVifwFbdtory() {
+            EditorKit kit = gftEditorKit(fditor);
+            VifwFbdtory f = kit.gftVifwFbdtory();
             if (f != null) {
-                return f;
+                rfturn f;
             }
-            return BasicTextUI.this;
+            rfturn BbsidTfxtUI.tiis;
         }
 
-        private View view;
+        privbtf Vifw vifw;
 
     }
 
     /**
-     * Handles updates from various places.  If the model is changed,
-     * this class unregisters as a listener to the old model and
-     * registers with the new model.  If the document model changes,
-     * the change is forwarded to the root view.  If the focus
-     * accelerator changes, a new keystroke is registered to request
-     * focus.
+     * Hbndlfs updbtfs from vbrious plbdfs.  If tif modfl is dibngfd,
+     * tiis dlbss unrfgistfrs bs b listfnfr to tif old modfl bnd
+     * rfgistfrs witi tif nfw modfl.  If tif dodumfnt modfl dibngfs,
+     * tif dibngf is forwbrdfd to tif root vifw.  If tif fodus
+     * bddflfrbtor dibngfs, b nfw kfystrokf is rfgistfrfd to rfqufst
+     * fodus.
      */
-    class UpdateHandler implements PropertyChangeListener, DocumentListener, LayoutManager2, UIResource {
+    dlbss UpdbtfHbndlfr implfmfnts PropfrtyCibngfListfnfr, DodumfntListfnfr, LbyoutMbnbgfr2, UIRfsourdf {
 
-        // --- PropertyChangeListener methods -----------------------
+        // --- PropfrtyCibngfListfnfr mftiods -----------------------
 
         /**
-         * This method gets called when a bound property is changed.
-         * We are looking for document changes on the editor.
+         * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd.
+         * Wf brf looking for dodumfnt dibngfs on tif fditor.
          */
-        public final void propertyChange(PropertyChangeEvent evt) {
-            Object oldValue = evt.getOldValue();
-            Object newValue = evt.getNewValue();
-            String propertyName = evt.getPropertyName();
-            if ((oldValue instanceof Document) || (newValue instanceof Document)) {
-                if (oldValue != null) {
-                    ((Document)oldValue).removeDocumentListener(this);
-                    i18nView = false;
+        publid finbl void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            Objfdt oldVbluf = fvt.gftOldVbluf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+            if ((oldVbluf instbndfof Dodumfnt) || (nfwVbluf instbndfof Dodumfnt)) {
+                if (oldVbluf != null) {
+                    ((Dodumfnt)oldVbluf).rfmovfDodumfntListfnfr(tiis);
+                    i18nVifw = fblsf;
                 }
-                if (newValue != null) {
-                    ((Document)newValue).addDocumentListener(this);
-                    if ("document" == propertyName) {
-                        setView(null);
-                        BasicTextUI.this.propertyChange(evt);
-                        modelChanged();
-                        return;
+                if (nfwVbluf != null) {
+                    ((Dodumfnt)nfwVbluf).bddDodumfntListfnfr(tiis);
+                    if ("dodumfnt" == propfrtyNbmf) {
+                        sftVifw(null);
+                        BbsidTfxtUI.tiis.propfrtyCibngf(fvt);
+                        modflCibngfd();
+                        rfturn;
                     }
                 }
-                modelChanged();
+                modflCibngfd();
             }
-            if ("focusAccelerator" == propertyName) {
-                updateFocusAcceleratorBinding(true);
-            } else if ("componentOrientation" == propertyName) {
-                // Changes in ComponentOrientation require the views to be
-                // rebuilt.
-                modelChanged();
-            } else if ("font" == propertyName) {
-                modelChanged();
-            } else if ("dropLocation" == propertyName) {
-                dropIndexChanged();
-            } else if ("editable" == propertyName) {
-                updateCursor();
-                modelChanged();
+            if ("fodusAddflfrbtor" == propfrtyNbmf) {
+                updbtfFodusAddflfrbtorBinding(truf);
+            } flsf if ("domponfntOrifntbtion" == propfrtyNbmf) {
+                // Cibngfs in ComponfntOrifntbtion rfquirf tif vifws to bf
+                // rfbuilt.
+                modflCibngfd();
+            } flsf if ("font" == propfrtyNbmf) {
+                modflCibngfd();
+            } flsf if ("dropLodbtion" == propfrtyNbmf) {
+                dropIndfxCibngfd();
+            } flsf if ("fditbblf" == propfrtyNbmf) {
+                updbtfCursor();
+                modflCibngfd();
             }
-            BasicTextUI.this.propertyChange(evt);
+            BbsidTfxtUI.tiis.propfrtyCibngf(fvt);
         }
 
-        private void dropIndexChanged() {
-            if (editor.getDropMode() == DropMode.USE_SELECTION) {
-                return;
+        privbtf void dropIndfxCibngfd() {
+            if (fditor.gftDropModf() == DropModf.USE_SELECTION) {
+                rfturn;
             }
 
-            JTextComponent.DropLocation dropLocation = editor.getDropLocation();
+            JTfxtComponfnt.DropLodbtion dropLodbtion = fditor.gftDropLodbtion();
 
-            if (dropLocation == null) {
-                if (dropCaret != null) {
-                    dropCaret.deinstall(editor);
-                    editor.repaint(dropCaret);
-                    dropCaret = null;
+            if (dropLodbtion == null) {
+                if (dropCbrft != null) {
+                    dropCbrft.dfinstbll(fditor);
+                    fditor.rfpbint(dropCbrft);
+                    dropCbrft = null;
                 }
-            } else {
-                if (dropCaret == null) {
-                    dropCaret = new BasicCaret();
-                    dropCaret.install(editor);
-                    dropCaret.setVisible(true);
+            } flsf {
+                if (dropCbrft == null) {
+                    dropCbrft = nfw BbsidCbrft();
+                    dropCbrft.instbll(fditor);
+                    dropCbrft.sftVisiblf(truf);
                 }
 
-                dropCaret.setDot(dropLocation.getIndex(),
-                                 dropLocation.getBias());
+                dropCbrft.sftDot(dropLodbtion.gftIndfx(),
+                                 dropLodbtion.gftBibs());
             }
         }
 
-        // --- DocumentListener methods -----------------------
+        // --- DodumfntListfnfr mftiods -----------------------
 
         /**
-         * The insert notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * Tif insfrt notifidbtion.  Gfts sfnt to tif root of tif vifw strudturf
+         * tibt rfprfsfnts tif portion of tif modfl bfing rfprfsfntfd by tif
+         * fditor.  Tif fbdtory is bddfd bs bn brgumfnt to tif updbtf so tibt
+         * tif vifws dbn updbtf tifmsflvfs in b dynbmid (not ibrddodfd) wby.
          *
-         * @param e  The change notification from the currently associated
-         *  document.
-         * @see DocumentListener#insertUpdate
+         * @pbrbm f  Tif dibngf notifidbtion from tif durrfntly bssodibtfd
+         *  dodumfnt.
+         * @sff DodumfntListfnfr#insfrtUpdbtf
          */
-        public final void insertUpdate(DocumentEvent e) {
-            Document doc = e.getDocument();
-            Object o = doc.getProperty("i18n");
-            if (o instanceof Boolean) {
-                Boolean i18nFlag = (Boolean) o;
-                if (i18nFlag.booleanValue() != i18nView) {
-                    // i18n flag changed, rebuild the view
-                    i18nView = i18nFlag.booleanValue();
-                    modelChanged();
-                    return;
+        publid finbl void insfrtUpdbtf(DodumfntEvfnt f) {
+            Dodumfnt dod = f.gftDodumfnt();
+            Objfdt o = dod.gftPropfrty("i18n");
+            if (o instbndfof Boolfbn) {
+                Boolfbn i18nFlbg = (Boolfbn) o;
+                if (i18nFlbg.boolfbnVbluf() != i18nVifw) {
+                    // i18n flbg dibngfd, rfbuild tif vifw
+                    i18nVifw = i18nFlbg.boolfbnVbluf();
+                    modflCibngfd();
+                    rfturn;
                 }
             }
 
-            // normal insert update
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.insertUpdate(e, alloc, rootView.getViewFactory());
+            // normbl insfrt updbtf
+            Rfdtbnglf bllod = (pbintfd) ? gftVisiblfEditorRfdt() : null;
+            rootVifw.insfrtUpdbtf(f, bllod, rootVifw.gftVifwFbdtory());
         }
 
         /**
-         * The remove notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * Tif rfmovf notifidbtion.  Gfts sfnt to tif root of tif vifw strudturf
+         * tibt rfprfsfnts tif portion of tif modfl bfing rfprfsfntfd by tif
+         * fditor.  Tif fbdtory is bddfd bs bn brgumfnt to tif updbtf so tibt
+         * tif vifws dbn updbtf tifmsflvfs in b dynbmid (not ibrddodfd) wby.
          *
-         * @param e  The change notification from the currently associated
-         *  document.
-         * @see DocumentListener#removeUpdate
+         * @pbrbm f  Tif dibngf notifidbtion from tif durrfntly bssodibtfd
+         *  dodumfnt.
+         * @sff DodumfntListfnfr#rfmovfUpdbtf
          */
-        public final void removeUpdate(DocumentEvent e) {
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.removeUpdate(e, alloc, rootView.getViewFactory());
+        publid finbl void rfmovfUpdbtf(DodumfntEvfnt f) {
+            Rfdtbnglf bllod = (pbintfd) ? gftVisiblfEditorRfdt() : null;
+            rootVifw.rfmovfUpdbtf(f, bllod, rootVifw.gftVifwFbdtory());
         }
 
         /**
-         * The change notification.  Gets sent to the root of the view structure
-         * that represents the portion of the model being represented by the
-         * editor.  The factory is added as an argument to the update so that
-         * the views can update themselves in a dynamic (not hardcoded) way.
+         * Tif dibngf notifidbtion.  Gfts sfnt to tif root of tif vifw strudturf
+         * tibt rfprfsfnts tif portion of tif modfl bfing rfprfsfntfd by tif
+         * fditor.  Tif fbdtory is bddfd bs bn brgumfnt to tif updbtf so tibt
+         * tif vifws dbn updbtf tifmsflvfs in b dynbmid (not ibrddodfd) wby.
          *
-         * @param e  The change notification from the currently associated
-         *  document.
-         * @see DocumentListener#changedUpdate(DocumentEvent)
+         * @pbrbm f  Tif dibngf notifidbtion from tif durrfntly bssodibtfd
+         *  dodumfnt.
+         * @sff DodumfntListfnfr#dibngfdUpdbtf(DodumfntEvfnt)
          */
-        public final void changedUpdate(DocumentEvent e) {
-            Rectangle alloc = (painted) ? getVisibleEditorRect() : null;
-            rootView.changedUpdate(e, alloc, rootView.getViewFactory());
+        publid finbl void dibngfdUpdbtf(DodumfntEvfnt f) {
+            Rfdtbnglf bllod = (pbintfd) ? gftVisiblfEditorRfdt() : null;
+            rootVifw.dibngfdUpdbtf(f, bllod, rootVifw.gftVifwFbdtory());
         }
 
-        // --- LayoutManager2 methods --------------------------------
+        // --- LbyoutMbnbgfr2 mftiods --------------------------------
 
         /**
-         * Adds the specified component with the specified name to
-         * the layout.
-         * @param name the component name
-         * @param comp the component to be added
+         * Adds tif spfdififd domponfnt witi tif spfdififd nbmf to
+         * tif lbyout.
+         * @pbrbm nbmf tif domponfnt nbmf
+         * @pbrbm domp tif domponfnt to bf bddfd
          */
-        public void addLayoutComponent(String name, Component comp) {
-            // not supported
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+            // not supportfd
         }
 
         /**
-         * Removes the specified component from the layout.
-         * @param comp the component to be removed
+         * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+         * @pbrbm domp tif domponfnt to bf rfmovfd
          */
-        public void removeLayoutComponent(Component comp) {
-            if (constraints != null) {
-                // remove the constraint record
-                constraints.remove(comp);
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+            if (donstrbints != null) {
+                // rfmovf tif donstrbint rfdord
+                donstrbints.rfmovf(domp);
             }
         }
 
         /**
-         * Calculates the preferred size dimensions for the specified
-         * panel given the components in the specified parent container.
-         * @param parent the component to be laid out
+         * Cbldulbtfs tif prfffrrfd sizf dimfnsions for tif spfdififd
+         * pbnfl givfn tif domponfnts in tif spfdififd pbrfnt dontbinfr.
+         * @pbrbm pbrfnt tif domponfnt to bf lbid out
          *
-         * @see #minimumLayoutSize
+         * @sff #minimumLbyoutSizf
          */
-        public Dimension preferredLayoutSize(Container parent) {
-            // should not be called (JComponent uses UI instead)
-            return null;
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            // siould not bf dbllfd (JComponfnt usfs UI instfbd)
+            rfturn null;
         }
 
         /**
-         * Calculates the minimum size dimensions for the specified
-         * panel given the components in the specified parent container.
-         * @param parent the component to be laid out
-         * @see #preferredLayoutSize
+         * Cbldulbtfs tif minimum sizf dimfnsions for tif spfdififd
+         * pbnfl givfn tif domponfnts in tif spfdififd pbrfnt dontbinfr.
+         * @pbrbm pbrfnt tif domponfnt to bf lbid out
+         * @sff #prfffrrfdLbyoutSizf
          */
-        public Dimension minimumLayoutSize(Container parent) {
-            // should not be called (JComponent uses UI instead)
-            return null;
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            // siould not bf dbllfd (JComponfnt usfs UI instfbd)
+            rfturn null;
         }
 
         /**
-         * Lays out the container in the specified panel.  This is
-         * implemented to position all components that were added
-         * with a View object as a constraint.  The current allocation
-         * of the associated View is used as the location of the
-         * component.
+         * Lbys out tif dontbinfr in tif spfdififd pbnfl.  Tiis is
+         * implfmfntfd to position bll domponfnts tibt wfrf bddfd
+         * witi b Vifw objfdt bs b donstrbint.  Tif durrfnt bllodbtion
+         * of tif bssodibtfd Vifw is usfd bs tif lodbtion of tif
+         * domponfnt.
          * <p>
-         * A read-lock is acquired on the document to prevent the
-         * view tree from being modified while the layout process
-         * is active.
+         * A rfbd-lodk is bdquirfd on tif dodumfnt to prfvfnt tif
+         * vifw trff from bfing modififd wiilf tif lbyout prodfss
+         * is bdtivf.
          *
-         * @param parent the component which needs to be laid out
+         * @pbrbm pbrfnt tif domponfnt wiidi nffds to bf lbid out
          */
-        public void layoutContainer(Container parent) {
-            if ((constraints != null) && (! constraints.isEmpty())) {
-                Rectangle alloc = getVisibleEditorRect();
-                if (alloc != null) {
-                    Document doc = editor.getDocument();
-                    if (doc instanceof AbstractDocument) {
-                        ((AbstractDocument)doc).readLock();
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            if ((donstrbints != null) && (! donstrbints.isEmpty())) {
+                Rfdtbnglf bllod = gftVisiblfEditorRfdt();
+                if (bllod != null) {
+                    Dodumfnt dod = fditor.gftDodumfnt();
+                    if (dod instbndfof AbstrbdtDodumfnt) {
+                        ((AbstrbdtDodumfnt)dod).rfbdLodk();
                     }
                     try {
-                        rootView.setSize(alloc.width, alloc.height);
-                        Enumeration<Component> components = constraints.keys();
-                        while (components.hasMoreElements()) {
-                            Component comp = components.nextElement();
-                            View v = (View) constraints.get(comp);
-                            Shape ca = calculateViewPosition(alloc, v);
-                            if (ca != null) {
-                                Rectangle compAlloc = (ca instanceof Rectangle) ?
-                                    (Rectangle) ca : ca.getBounds();
-                                comp.setBounds(compAlloc);
+                        rootVifw.sftSizf(bllod.widti, bllod.ifigit);
+                        Enumfrbtion<Componfnt> domponfnts = donstrbints.kfys();
+                        wiilf (domponfnts.ibsMorfElfmfnts()) {
+                            Componfnt domp = domponfnts.nfxtElfmfnt();
+                            Vifw v = (Vifw) donstrbints.gft(domp);
+                            Sibpf db = dbldulbtfVifwPosition(bllod, v);
+                            if (db != null) {
+                                Rfdtbnglf dompAllod = (db instbndfof Rfdtbnglf) ?
+                                    (Rfdtbnglf) db : db.gftBounds();
+                                domp.sftBounds(dompAllod);
                             }
                         }
-                    } finally {
-                        if (doc instanceof AbstractDocument) {
-                            ((AbstractDocument)doc).readUnlock();
+                    } finblly {
+                        if (dod instbndfof AbstrbdtDodumfnt) {
+                            ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
                         }
                     }
                 }
@@ -2002,663 +2002,663 @@ public abstract class BasicTextUI extends TextUI implements ViewFactory {
         }
 
         /**
-         * Find the Shape representing the given view.
+         * Find tif Sibpf rfprfsfnting tif givfn vifw.
          */
-        Shape calculateViewPosition(Shape alloc, View v) {
-            int pos = v.getStartOffset();
-            View child = null;
-            for (View parent = rootView; (parent != null) && (parent != v); parent = child) {
-                int index = parent.getViewIndex(pos, Position.Bias.Forward);
-                alloc = parent.getChildAllocation(index, alloc);
-                child = parent.getView(index);
+        Sibpf dbldulbtfVifwPosition(Sibpf bllod, Vifw v) {
+            int pos = v.gftStbrtOffsft();
+            Vifw diild = null;
+            for (Vifw pbrfnt = rootVifw; (pbrfnt != null) && (pbrfnt != v); pbrfnt = diild) {
+                int indfx = pbrfnt.gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+                bllod = pbrfnt.gftCiildAllodbtion(indfx, bllod);
+                diild = pbrfnt.gftVifw(indfx);
             }
-            return (child != null) ? alloc : null;
+            rfturn (diild != null) ? bllod : null;
         }
 
         /**
-         * Adds the specified component to the layout, using the specified
-         * constraint object.  We only store those components that were added
-         * with a constraint that is of type View.
+         * Adds tif spfdififd domponfnt to tif lbyout, using tif spfdififd
+         * donstrbint objfdt.  Wf only storf tiosf domponfnts tibt wfrf bddfd
+         * witi b donstrbint tibt is of typf Vifw.
          *
-         * @param comp the component to be added
-         * @param constraint  where/how the component is added to the layout.
+         * @pbrbm domp tif domponfnt to bf bddfd
+         * @pbrbm donstrbint  wifrf/iow tif domponfnt is bddfd to tif lbyout.
          */
-        public void addLayoutComponent(Component comp, Object constraint) {
-            if (constraint instanceof View) {
-                if (constraints == null) {
-                    constraints = new Hashtable<Component, Object>(7);
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbint) {
+            if (donstrbint instbndfof Vifw) {
+                if (donstrbints == null) {
+                    donstrbints = nfw Hbsitbblf<Componfnt, Objfdt>(7);
                 }
-                constraints.put(comp, constraint);
+                donstrbints.put(domp, donstrbint);
             }
         }
 
         /**
-         * Returns the maximum size of this component.
-         * @see java.awt.Component#getMinimumSize()
-         * @see java.awt.Component#getPreferredSize()
-         * @see LayoutManager
+         * Rfturns tif mbximum sizf of tiis domponfnt.
+         * @sff jbvb.bwt.Componfnt#gftMinimumSizf()
+         * @sff jbvb.bwt.Componfnt#gftPrfffrrfdSizf()
+         * @sff LbyoutMbnbgfr
          */
-        public Dimension maximumLayoutSize(Container target) {
-            // should not be called (JComponent uses UI instead)
-            return null;
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            // siould not bf dbllfd (JComponfnt usfs UI instfbd)
+            rfturn null;
         }
 
         /**
-         * Returns the alignment along the x axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Rfturns tif blignmfnt blong tif x bxis.  Tiis spfdififs iow
+         * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+         * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+         * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+         * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
          */
-        public float getLayoutAlignmentX(Container target) {
-            return 0.5f;
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+            rfturn 0.5f;
         }
 
         /**
-         * Returns the alignment along the y axis.  This specifies how
-         * the component would like to be aligned relative to other
-         * components.  The value should be a number between 0 and 1
-         * where 0 represents alignment along the origin, 1 is aligned
-         * the furthest away from the origin, 0.5 is centered, etc.
+         * Rfturns tif blignmfnt blong tif y bxis.  Tiis spfdififs iow
+         * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+         * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+         * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+         * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
          */
-        public float getLayoutAlignmentY(Container target) {
-            return 0.5f;
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+            rfturn 0.5f;
         }
 
         /**
-         * Invalidates the layout, indicating that if the layout manager
-         * has cached information it should be discarded.
+         * Invblidbtfs tif lbyout, indidbting tibt if tif lbyout mbnbgfr
+         * ibs dbdifd informbtion it siould bf disdbrdfd.
          */
-        public void invalidateLayout(Container target) {
+        publid void invblidbtfLbyout(Contbinfr tbrgft) {
         }
 
         /**
-         * The "layout constraints" for the LayoutManager2 implementation.
-         * These are View objects for those components that are represented
-         * by a View in the View tree.
+         * Tif "lbyout donstrbints" for tif LbyoutMbnbgfr2 implfmfntbtion.
+         * Tifsf brf Vifw objfdts for tiosf domponfnts tibt brf rfprfsfntfd
+         * by b Vifw in tif Vifw trff.
          */
-        private Hashtable<Component, Object> constraints;
+        privbtf Hbsitbblf<Componfnt, Objfdt> donstrbints;
 
-        private boolean i18nView = false;
+        privbtf boolfbn i18nVifw = fblsf;
     }
 
     /**
-     * Wrapper for text actions to return isEnabled false in case editor is non editable
+     * Wrbppfr for tfxt bdtions to rfturn isEnbblfd fblsf in dbsf fditor is non fditbblf
      */
-    class TextActionWrapper extends TextAction {
-        public TextActionWrapper(TextAction action) {
-            super((String)action.getValue(Action.NAME));
-            this.action = action;
+    dlbss TfxtAdtionWrbppfr fxtfnds TfxtAdtion {
+        publid TfxtAdtionWrbppfr(TfxtAdtion bdtion) {
+            supfr((String)bdtion.gftVbluf(Adtion.NAME));
+            tiis.bdtion = bdtion;
         }
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            action.actionPerformed(e);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            bdtion.bdtionPfrformfd(f);
         }
-        public boolean isEnabled() {
-            return (editor == null || editor.isEditable()) ? action.isEnabled() : false;
+        publid boolfbn isEnbblfd() {
+            rfturn (fditor == null || fditor.isEditbblf()) ? bdtion.isEnbblfd() : fblsf;
         }
-        TextAction action = null;
+        TfxtAdtion bdtion = null;
     }
 
 
     /**
-     * Registered in the ActionMap.
+     * Rfgistfrfd in tif AdtionMbp.
      */
-    class FocusAction extends AbstractAction {
+    dlbss FodusAdtion fxtfnds AbstrbdtAdtion {
 
-        public void actionPerformed(ActionEvent e) {
-            editor.requestFocus();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            fditor.rfqufstFodus();
         }
 
-        public boolean isEnabled() {
-            return editor.isEditable();
+        publid boolfbn isEnbblfd() {
+            rfturn fditor.isEditbblf();
         }
     }
 
-    private static DragListener getDragListener() {
-        synchronized(DragListener.class) {
-            DragListener listener =
-                (DragListener)AppContext.getAppContext().
-                    get(DragListener.class);
+    privbtf stbtid DrbgListfnfr gftDrbgListfnfr() {
+        syndironizfd(DrbgListfnfr.dlbss) {
+            DrbgListfnfr listfnfr =
+                (DrbgListfnfr)AppContfxt.gftAppContfxt().
+                    gft(DrbgListfnfr.dlbss);
 
-            if (listener == null) {
-                listener = new DragListener();
-                AppContext.getAppContext().put(DragListener.class, listener);
+            if (listfnfr == null) {
+                listfnfr = nfw DrbgListfnfr();
+                AppContfxt.gftAppContfxt().put(DrbgListfnfr.dlbss, listfnfr);
             }
 
-            return listener;
+            rfturn listfnfr;
         }
     }
 
     /**
-     * Listens for mouse events for the purposes of detecting drag gestures.
-     * BasicTextUI will maintain one of these per AppContext.
+     * Listfns for mousf fvfnts for tif purposfs of dftfdting drbg gfsturfs.
+     * BbsidTfxtUI will mbintbin onf of tifsf pfr AppContfxt.
      */
-    static class DragListener extends MouseInputAdapter
-                              implements BeforeDrag {
+    stbtid dlbss DrbgListfnfr fxtfnds MousfInputAdbptfr
+                              implfmfnts BfforfDrbg {
 
-        private boolean dragStarted;
+        privbtf boolfbn drbgStbrtfd;
 
-        public void dragStarting(MouseEvent me) {
-            dragStarted = true;
+        publid void drbgStbrting(MousfEvfnt mf) {
+            drbgStbrtfd = truf;
         }
 
-        public void mousePressed(MouseEvent e) {
-            JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                dragStarted = false;
-                if (isDragPossible(e) && DragRecognitionSupport.mousePressed(e)) {
-                    e.consume();
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            JTfxtComponfnt d = (JTfxtComponfnt)f.gftSourdf();
+            if (d.gftDrbgEnbblfd()) {
+                drbgStbrtfd = fblsf;
+                if (isDrbgPossiblf(f) && DrbgRfdognitionSupport.mousfPrfssfd(f)) {
+                    f.donsumf();
                 }
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
-            JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                if (dragStarted) {
-                    e.consume();
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            JTfxtComponfnt d = (JTfxtComponfnt)f.gftSourdf();
+            if (d.gftDrbgEnbblfd()) {
+                if (drbgStbrtfd) {
+                    f.donsumf();
                 }
 
-                DragRecognitionSupport.mouseReleased(e);
+                DrbgRfdognitionSupport.mousfRflfbsfd(f);
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
-            JTextComponent c = (JTextComponent)e.getSource();
-            if (c.getDragEnabled()) {
-                if (dragStarted || DragRecognitionSupport.mouseDragged(e, this)) {
-                    e.consume();
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            JTfxtComponfnt d = (JTfxtComponfnt)f.gftSourdf();
+            if (d.gftDrbgEnbblfd()) {
+                if (drbgStbrtfd || DrbgRfdognitionSupport.mousfDrbggfd(f, tiis)) {
+                    f.donsumf();
                 }
             }
         }
 
         /**
-         * Determines if the following are true:
+         * Dftfrminfs if tif following brf truf:
          * <ul>
-         * <li>the component is enabled
-         * <li>the press event is located over a selection
+         * <li>tif domponfnt is fnbblfd
+         * <li>tif prfss fvfnt is lodbtfd ovfr b sflfdtion
          * </ul>
          */
-        protected boolean isDragPossible(MouseEvent e) {
-            JTextComponent c = (JTextComponent)e.getSource();
-            if (c.isEnabled()) {
-                Caret caret = c.getCaret();
-                int dot = caret.getDot();
-                int mark = caret.getMark();
-                if (dot != mark) {
-                    Point p = new Point(e.getX(), e.getY());
-                    int pos = c.viewToModel(p);
+        protfdtfd boolfbn isDrbgPossiblf(MousfEvfnt f) {
+            JTfxtComponfnt d = (JTfxtComponfnt)f.gftSourdf();
+            if (d.isEnbblfd()) {
+                Cbrft dbrft = d.gftCbrft();
+                int dot = dbrft.gftDot();
+                int mbrk = dbrft.gftMbrk();
+                if (dot != mbrk) {
+                    Point p = nfw Point(f.gftX(), f.gftY());
+                    int pos = d.vifwToModfl(p);
 
-                    int p0 = Math.min(dot, mark);
-                    int p1 = Math.max(dot, mark);
+                    int p0 = Mbti.min(dot, mbrk);
+                    int p1 = Mbti.mbx(dot, mbrk);
                     if ((pos >= p0) && (pos < p1)) {
-                        return true;
+                        rfturn truf;
                     }
                 }
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
-    static class TextTransferHandler extends TransferHandler implements UIResource {
+    stbtid dlbss TfxtTrbnsffrHbndlfr fxtfnds TrbnsffrHbndlfr implfmfnts UIRfsourdf {
 
-        private JTextComponent exportComp;
-        private boolean shouldRemove;
-        private int p0;
-        private int p1;
+        privbtf JTfxtComponfnt fxportComp;
+        privbtf boolfbn siouldRfmovf;
+        privbtf int p0;
+        privbtf int p1;
 
         /**
-         * Whether or not this is a drop using
-         * <code>DropMode.INSERT</code>.
+         * Wiftifr or not tiis is b drop using
+         * <dodf>DropModf.INSERT</dodf>.
          */
-        private boolean modeBetween = false;
+        privbtf boolfbn modfBftwffn = fblsf;
 
         /**
-         * Whether or not this is a drop.
+         * Wiftifr or not tiis is b drop.
          */
-        private boolean isDrop = false;
+        privbtf boolfbn isDrop = fblsf;
 
         /**
-         * The drop action.
+         * Tif drop bdtion.
          */
-        private int dropAction = MOVE;
+        privbtf int dropAdtion = MOVE;
 
         /**
-         * The drop bias.
+         * Tif drop bibs.
          */
-        private Position.Bias dropBias;
+        privbtf Position.Bibs dropBibs;
 
         /**
-         * Try to find a flavor that can be used to import a Transferable.
-         * The set of usable flavors are tried in the following order:
+         * Try to find b flbvor tibt dbn bf usfd to import b Trbnsffrbblf.
+         * Tif sft of usbblf flbvors brf trifd in tif following ordfr:
          * <ol>
-         *     <li>First, an attempt is made to find a flavor matching the content type
-         *         of the EditorKit for the component.
-         *     <li>Second, an attempt to find a text/plain flavor is made.
-         *     <li>Third, an attempt to find a flavor representing a String reference
-         *         in the same VM is made.
-         *     <li>Lastly, DataFlavor.stringFlavor is searched for.
+         *     <li>First, bn bttfmpt is mbdf to find b flbvor mbtdiing tif dontfnt typf
+         *         of tif EditorKit for tif domponfnt.
+         *     <li>Sfdond, bn bttfmpt to find b tfxt/plbin flbvor is mbdf.
+         *     <li>Tiird, bn bttfmpt to find b flbvor rfprfsfnting b String rfffrfndf
+         *         in tif sbmf VM is mbdf.
+         *     <li>Lbstly, DbtbFlbvor.stringFlbvor is sfbrdifd for.
          * </ol>
          */
-        protected DataFlavor getImportFlavor(DataFlavor[] flavors, JTextComponent c) {
-            DataFlavor plainFlavor = null;
-            DataFlavor refFlavor = null;
-            DataFlavor stringFlavor = null;
+        protfdtfd DbtbFlbvor gftImportFlbvor(DbtbFlbvor[] flbvors, JTfxtComponfnt d) {
+            DbtbFlbvor plbinFlbvor = null;
+            DbtbFlbvor rffFlbvor = null;
+            DbtbFlbvor stringFlbvor = null;
 
-            if (c instanceof JEditorPane) {
-                for (int i = 0; i < flavors.length; i++) {
-                    String mime = flavors[i].getMimeType();
-                    if (mime.startsWith(((JEditorPane)c).getEditorKit().getContentType())) {
-                        return flavors[i];
-                    } else if (plainFlavor == null && mime.startsWith("text/plain")) {
-                        plainFlavor = flavors[i];
-                    } else if (refFlavor == null && mime.startsWith("application/x-java-jvm-local-objectref")
-                                                 && flavors[i].getRepresentationClass() == java.lang.String.class) {
-                        refFlavor = flavors[i];
-                    } else if (stringFlavor == null && flavors[i].equals(DataFlavor.stringFlavor)) {
-                        stringFlavor = flavors[i];
+            if (d instbndfof JEditorPbnf) {
+                for (int i = 0; i < flbvors.lfngti; i++) {
+                    String mimf = flbvors[i].gftMimfTypf();
+                    if (mimf.stbrtsWiti(((JEditorPbnf)d).gftEditorKit().gftContfntTypf())) {
+                        rfturn flbvors[i];
+                    } flsf if (plbinFlbvor == null && mimf.stbrtsWiti("tfxt/plbin")) {
+                        plbinFlbvor = flbvors[i];
+                    } flsf if (rffFlbvor == null && mimf.stbrtsWiti("bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff")
+                                                 && flbvors[i].gftRfprfsfntbtionClbss() == jbvb.lbng.String.dlbss) {
+                        rffFlbvor = flbvors[i];
+                    } flsf if (stringFlbvor == null && flbvors[i].fqubls(DbtbFlbvor.stringFlbvor)) {
+                        stringFlbvor = flbvors[i];
                     }
                 }
-                if (plainFlavor != null) {
-                    return plainFlavor;
-                } else if (refFlavor != null) {
-                    return refFlavor;
-                } else if (stringFlavor != null) {
-                    return stringFlavor;
+                if (plbinFlbvor != null) {
+                    rfturn plbinFlbvor;
+                } flsf if (rffFlbvor != null) {
+                    rfturn rffFlbvor;
+                } flsf if (stringFlbvor != null) {
+                    rfturn stringFlbvor;
                 }
-                return null;
+                rfturn null;
             }
 
 
-            for (int i = 0; i < flavors.length; i++) {
-                String mime = flavors[i].getMimeType();
-                if (mime.startsWith("text/plain")) {
-                    return flavors[i];
-                } else if (refFlavor == null && mime.startsWith("application/x-java-jvm-local-objectref")
-                                             && flavors[i].getRepresentationClass() == java.lang.String.class) {
-                    refFlavor = flavors[i];
-                } else if (stringFlavor == null && flavors[i].equals(DataFlavor.stringFlavor)) {
-                    stringFlavor = flavors[i];
+            for (int i = 0; i < flbvors.lfngti; i++) {
+                String mimf = flbvors[i].gftMimfTypf();
+                if (mimf.stbrtsWiti("tfxt/plbin")) {
+                    rfturn flbvors[i];
+                } flsf if (rffFlbvor == null && mimf.stbrtsWiti("bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff")
+                                             && flbvors[i].gftRfprfsfntbtionClbss() == jbvb.lbng.String.dlbss) {
+                    rffFlbvor = flbvors[i];
+                } flsf if (stringFlbvor == null && flbvors[i].fqubls(DbtbFlbvor.stringFlbvor)) {
+                    stringFlbvor = flbvors[i];
                 }
             }
-            if (refFlavor != null) {
-                return refFlavor;
-            } else if (stringFlavor != null) {
-                return stringFlavor;
+            if (rffFlbvor != null) {
+                rfturn rffFlbvor;
+            } flsf if (stringFlbvor != null) {
+                rfturn stringFlbvor;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Import the given stream data into the text component.
+         * Import tif givfn strfbm dbtb into tif tfxt domponfnt.
          */
-        protected void handleReaderImport(Reader in, JTextComponent c, boolean useRead)
-                                               throws BadLocationException, IOException {
-            if (useRead) {
-                int startPosition = c.getSelectionStart();
-                int endPosition = c.getSelectionEnd();
-                int length = endPosition - startPosition;
-                EditorKit kit = c.getUI().getEditorKit(c);
-                Document doc = c.getDocument();
-                if (length > 0) {
-                    doc.remove(startPosition, length);
+        protfdtfd void ibndlfRfbdfrImport(Rfbdfr in, JTfxtComponfnt d, boolfbn usfRfbd)
+                                               tirows BbdLodbtionExdfption, IOExdfption {
+            if (usfRfbd) {
+                int stbrtPosition = d.gftSflfdtionStbrt();
+                int fndPosition = d.gftSflfdtionEnd();
+                int lfngti = fndPosition - stbrtPosition;
+                EditorKit kit = d.gftUI().gftEditorKit(d);
+                Dodumfnt dod = d.gftDodumfnt();
+                if (lfngti > 0) {
+                    dod.rfmovf(stbrtPosition, lfngti);
                 }
-                kit.read(in, doc, startPosition);
-            } else {
-                char[] buff = new char[1024];
-                int nch;
-                boolean lastWasCR = false;
-                int last;
-                StringBuffer sbuff = null;
+                kit.rfbd(in, dod, stbrtPosition);
+            } flsf {
+                dibr[] buff = nfw dibr[1024];
+                int ndi;
+                boolfbn lbstWbsCR = fblsf;
+                int lbst;
+                StringBufffr sbuff = null;
 
-                // Read in a block at a time, mapping \r\n to \n, as well as single
+                // Rfbd in b blodk bt b timf, mbpping \r\n to \n, bs wfll bs singlf
                 // \r to \n.
-                while ((nch = in.read(buff, 0, buff.length)) != -1) {
+                wiilf ((ndi = in.rfbd(buff, 0, buff.lfngti)) != -1) {
                     if (sbuff == null) {
-                        sbuff = new StringBuffer(nch);
+                        sbuff = nfw StringBufffr(ndi);
                     }
-                    last = 0;
-                    for(int counter = 0; counter < nch; counter++) {
-                        switch(buff[counter]) {
-                        case '\r':
-                            if (lastWasCR) {
-                                if (counter == 0) {
-                                    sbuff.append('\n');
-                                } else {
-                                    buff[counter - 1] = '\n';
+                    lbst = 0;
+                    for(int dountfr = 0; dountfr < ndi; dountfr++) {
+                        switdi(buff[dountfr]) {
+                        dbsf '\r':
+                            if (lbstWbsCR) {
+                                if (dountfr == 0) {
+                                    sbuff.bppfnd('\n');
+                                } flsf {
+                                    buff[dountfr - 1] = '\n';
                                 }
-                            } else {
-                                lastWasCR = true;
+                            } flsf {
+                                lbstWbsCR = truf;
                             }
-                            break;
-                        case '\n':
-                            if (lastWasCR) {
-                                if (counter > (last + 1)) {
-                                    sbuff.append(buff, last, counter - last - 1);
+                            brfbk;
+                        dbsf '\n':
+                            if (lbstWbsCR) {
+                                if (dountfr > (lbst + 1)) {
+                                    sbuff.bppfnd(buff, lbst, dountfr - lbst - 1);
                                 }
-                                // else nothing to do, can skip \r, next write will
-                                // write \n
-                                lastWasCR = false;
-                                last = counter;
+                                // flsf notiing to do, dbn skip \r, nfxt writf will
+                                // writf \n
+                                lbstWbsCR = fblsf;
+                                lbst = dountfr;
                             }
-                            break;
-                        default:
-                            if (lastWasCR) {
-                                if (counter == 0) {
-                                    sbuff.append('\n');
-                                } else {
-                                    buff[counter - 1] = '\n';
+                            brfbk;
+                        dffbult:
+                            if (lbstWbsCR) {
+                                if (dountfr == 0) {
+                                    sbuff.bppfnd('\n');
+                                } flsf {
+                                    buff[dountfr - 1] = '\n';
                                 }
-                                lastWasCR = false;
+                                lbstWbsCR = fblsf;
                             }
-                            break;
+                            brfbk;
                         }
                     }
-                    if (last < nch) {
-                        if (lastWasCR) {
-                            if (last < (nch - 1)) {
-                                sbuff.append(buff, last, nch - last - 1);
+                    if (lbst < ndi) {
+                        if (lbstWbsCR) {
+                            if (lbst < (ndi - 1)) {
+                                sbuff.bppfnd(buff, lbst, ndi - lbst - 1);
                             }
-                        } else {
-                            sbuff.append(buff, last, nch - last);
+                        } flsf {
+                            sbuff.bppfnd(buff, lbst, ndi - lbst);
                         }
                     }
                 }
-                if (lastWasCR) {
-                    sbuff.append('\n');
+                if (lbstWbsCR) {
+                    sbuff.bppfnd('\n');
                 }
-                c.replaceSelection(sbuff != null ? sbuff.toString() : "");
+                d.rfplbdfSflfdtion(sbuff != null ? sbuff.toString() : "");
             }
         }
 
-        // --- TransferHandler methods ------------------------------------
+        // --- TrbnsffrHbndlfr mftiods ------------------------------------
 
         /**
-         * This is the type of transfer actions supported by the source.  Some models are
-         * not mutable, so a transfer operation of COPY only should
-         * be advertised in that case.
+         * Tiis is tif typf of trbnsffr bdtions supportfd by tif sourdf.  Somf modfls brf
+         * not mutbblf, so b trbnsffr opfrbtion of COPY only siould
+         * bf bdvfrtisfd in tibt dbsf.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
-         *  multiple components.
-         * @return  This is implemented to return NONE if the component is a JPasswordField
-         *  since exporting data via user gestures is not allowed.  If the text component is
-         *  editable, COPY_OR_MOVE is returned, otherwise just COPY is allowed.
+         * @pbrbm d  Tif domponfnt iolding tif dbtb to bf trbnsffrfd.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @rfturn  Tiis is implfmfntfd to rfturn NONE if tif domponfnt is b JPbsswordFifld
+         *  sindf fxporting dbtb vib usfr gfsturfs is not bllowfd.  If tif tfxt domponfnt is
+         *  fditbblf, COPY_OR_MOVE is rfturnfd, otifrwisf just COPY is bllowfd.
          */
-        public int getSourceActions(JComponent c) {
-            if (c instanceof JPasswordField &&
-                c.getClientProperty("JPasswordField.cutCopyAllowed") !=
-                Boolean.TRUE) {
-                return NONE;
+        publid int gftSourdfAdtions(JComponfnt d) {
+            if (d instbndfof JPbsswordFifld &&
+                d.gftClifntPropfrty("JPbsswordFifld.dutCopyAllowfd") !=
+                Boolfbn.TRUE) {
+                rfturn NONE;
             }
 
-            return ((JTextComponent)c).isEditable() ? COPY_OR_MOVE : COPY;
+            rfturn ((JTfxtComponfnt)d).isEditbblf() ? COPY_OR_MOVE : COPY;
         }
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crfbtf b Trbnsffrbblf to usf bs tif sourdf for b dbtb trbnsffr.
          *
-         * @param comp  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
-         *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @pbrbm domp  Tif domponfnt iolding tif dbtb to bf trbnsffrfd.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @rfturn  Tif rfprfsfntbtion of tif dbtb to bf trbnsffrfd.
          *
          */
-        protected Transferable createTransferable(JComponent comp) {
-            exportComp = (JTextComponent)comp;
-            shouldRemove = true;
-            p0 = exportComp.getSelectionStart();
-            p1 = exportComp.getSelectionEnd();
-            return (p0 != p1) ? (new TextTransferable(exportComp, p0, p1)) : null;
+        protfdtfd Trbnsffrbblf drfbtfTrbnsffrbblf(JComponfnt domp) {
+            fxportComp = (JTfxtComponfnt)domp;
+            siouldRfmovf = truf;
+            p0 = fxportComp.gftSflfdtionStbrt();
+            p1 = fxportComp.gftSflfdtionEnd();
+            rfturn (p0 != p1) ? (nfw TfxtTrbnsffrbblf(fxportComp, p0, p1)) : null;
         }
 
         /**
-         * This method is called after data has been exported.  This method should remove
-         * the data that was transfered if the action was MOVE.
+         * Tiis mftiod is dbllfd bftfr dbtb ibs bffn fxportfd.  Tiis mftiod siould rfmovf
+         * tif dbtb tibt wbs trbnsffrfd if tif bdtion wbs MOVE.
          *
-         * @param source The component that was the source of the data.
-         * @param data   The data that was transferred or possibly null
-         *               if the action is <code>NONE</code>.
-         * @param action The actual action that was performed.
+         * @pbrbm sourdf Tif domponfnt tibt wbs tif sourdf of tif dbtb.
+         * @pbrbm dbtb   Tif dbtb tibt wbs trbnsffrrfd or possibly null
+         *               if tif bdtion is <dodf>NONE</dodf>.
+         * @pbrbm bdtion Tif bdtubl bdtion tibt wbs pfrformfd.
          */
-        protected void exportDone(JComponent source, Transferable data, int action) {
-            // only remove the text if shouldRemove has not been set to
-            // false by importData and only if the action is a move
-            if (shouldRemove && action == MOVE) {
-                TextTransferable t = (TextTransferable)data;
-                t.removeText();
+        protfdtfd void fxportDonf(JComponfnt sourdf, Trbnsffrbblf dbtb, int bdtion) {
+            // only rfmovf tif tfxt if siouldRfmovf ibs not bffn sft to
+            // fblsf by importDbtb bnd only if tif bdtion is b movf
+            if (siouldRfmovf && bdtion == MOVE) {
+                TfxtTrbnsffrbblf t = (TfxtTrbnsffrbblf)dbtb;
+                t.rfmovfTfxt();
             }
 
-            exportComp = null;
+            fxportComp = null;
         }
 
-        public boolean importData(TransferSupport support) {
+        publid boolfbn importDbtb(TrbnsffrSupport support) {
             isDrop = support.isDrop();
 
             if (isDrop) {
-                modeBetween =
-                    ((JTextComponent)support.getComponent()).getDropMode() == DropMode.INSERT;
+                modfBftwffn =
+                    ((JTfxtComponfnt)support.gftComponfnt()).gftDropModf() == DropModf.INSERT;
 
-                dropBias = ((JTextComponent.DropLocation)support.getDropLocation()).getBias();
+                dropBibs = ((JTfxtComponfnt.DropLodbtion)support.gftDropLodbtion()).gftBibs();
 
-                dropAction = support.getDropAction();
+                dropAdtion = support.gftDropAdtion();
             }
 
             try {
-                return super.importData(support);
-            } finally {
-                isDrop = false;
-                modeBetween = false;
-                dropBias = null;
-                dropAction = MOVE;
+                rfturn supfr.importDbtb(support);
+            } finblly {
+                isDrop = fblsf;
+                modfBftwffn = fblsf;
+                dropBibs = null;
+                dropAdtion = MOVE;
             }
         }
 
         /**
-         * This method causes a transfer to a component from a clipboard or a
-         * DND drop operation.  The Transferable represents the data to be
-         * imported into the component.
+         * Tiis mftiod dbusfs b trbnsffr to b domponfnt from b dlipbobrd or b
+         * DND drop opfrbtion.  Tif Trbnsffrbblf rfprfsfnts tif dbtb to bf
+         * importfd into tif domponfnt.
          *
-         * @param comp  The component to receive the transfer.  This
-         *  argument is provided to enable sharing of TransferHandlers by
-         *  multiple components.
-         * @param t     The data to import
-         * @return  true if the data was inserted into the component, false otherwise.
+         * @pbrbm domp  Tif domponfnt to rfdfivf tif trbnsffr.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @pbrbm t     Tif dbtb to import
+         * @rfturn  truf if tif dbtb wbs insfrtfd into tif domponfnt, fblsf otifrwisf.
          */
-        public boolean importData(JComponent comp, Transferable t) {
-            JTextComponent c = (JTextComponent)comp;
+        publid boolfbn importDbtb(JComponfnt domp, Trbnsffrbblf t) {
+            JTfxtComponfnt d = (JTfxtComponfnt)domp;
 
-            int pos = modeBetween
-                      ? c.getDropLocation().getIndex() : c.getCaretPosition();
+            int pos = modfBftwffn
+                      ? d.gftDropLodbtion().gftIndfx() : d.gftCbrftPosition();
 
-            // if we are importing to the same component that we exported from
-            // then don't actually do anything if the drop location is inside
-            // the drag location and set shouldRemove to false so that exportDone
-            // knows not to remove any data
-            if (dropAction == MOVE && c == exportComp && pos >= p0 && pos <= p1) {
-                shouldRemove = false;
-                return true;
+            // if wf brf importing to tif sbmf domponfnt tibt wf fxportfd from
+            // tifn don't bdtublly do bnytiing if tif drop lodbtion is insidf
+            // tif drbg lodbtion bnd sft siouldRfmovf to fblsf so tibt fxportDonf
+            // knows not to rfmovf bny dbtb
+            if (dropAdtion == MOVE && d == fxportComp && pos >= p0 && pos <= p1) {
+                siouldRfmovf = fblsf;
+                rfturn truf;
             }
 
-            boolean imported = false;
-            DataFlavor importFlavor = getImportFlavor(t.getTransferDataFlavors(), c);
-            if (importFlavor != null) {
+            boolfbn importfd = fblsf;
+            DbtbFlbvor importFlbvor = gftImportFlbvor(t.gftTrbnsffrDbtbFlbvors(), d);
+            if (importFlbvor != null) {
                 try {
-                    boolean useRead = false;
-                    if (comp instanceof JEditorPane) {
-                        JEditorPane ep = (JEditorPane)comp;
-                        if (!ep.getContentType().startsWith("text/plain") &&
-                                importFlavor.getMimeType().startsWith(ep.getContentType())) {
-                            useRead = true;
+                    boolfbn usfRfbd = fblsf;
+                    if (domp instbndfof JEditorPbnf) {
+                        JEditorPbnf fp = (JEditorPbnf)domp;
+                        if (!fp.gftContfntTypf().stbrtsWiti("tfxt/plbin") &&
+                                importFlbvor.gftMimfTypf().stbrtsWiti(fp.gftContfntTypf())) {
+                            usfRfbd = truf;
                         }
                     }
-                    InputContext ic = c.getInputContext();
-                    if (ic != null) {
-                        ic.endComposition();
+                    InputContfxt id = d.gftInputContfxt();
+                    if (id != null) {
+                        id.fndComposition();
                     }
-                    Reader r = importFlavor.getReaderForText(t);
+                    Rfbdfr r = importFlbvor.gftRfbdfrForTfxt(t);
 
-                    if (modeBetween) {
-                        Caret caret = c.getCaret();
-                        if (caret instanceof DefaultCaret) {
-                            ((DefaultCaret)caret).setDot(pos, dropBias);
-                        } else {
-                            c.setCaretPosition(pos);
+                    if (modfBftwffn) {
+                        Cbrft dbrft = d.gftCbrft();
+                        if (dbrft instbndfof DffbultCbrft) {
+                            ((DffbultCbrft)dbrft).sftDot(pos, dropBibs);
+                        } flsf {
+                            d.sftCbrftPosition(pos);
                         }
                     }
 
-                    handleReaderImport(r, c, useRead);
+                    ibndlfRfbdfrImport(r, d, usfRfbd);
 
                     if (isDrop) {
-                        c.requestFocus();
-                        Caret caret = c.getCaret();
-                        if (caret instanceof DefaultCaret) {
-                            int newPos = caret.getDot();
-                            Position.Bias newBias = ((DefaultCaret)caret).getDotBias();
+                        d.rfqufstFodus();
+                        Cbrft dbrft = d.gftCbrft();
+                        if (dbrft instbndfof DffbultCbrft) {
+                            int nfwPos = dbrft.gftDot();
+                            Position.Bibs nfwBibs = ((DffbultCbrft)dbrft).gftDotBibs();
 
-                            ((DefaultCaret)caret).setDot(pos, dropBias);
-                            ((DefaultCaret)caret).moveDot(newPos, newBias);
-                        } else {
-                            c.select(pos, c.getCaretPosition());
+                            ((DffbultCbrft)dbrft).sftDot(pos, dropBibs);
+                            ((DffbultCbrft)dbrft).movfDot(nfwPos, nfwBibs);
+                        } flsf {
+                            d.sflfdt(pos, d.gftCbrftPosition());
                         }
                     }
 
-                    imported = true;
-                } catch (UnsupportedFlavorException ufe) {
-                } catch (BadLocationException ble) {
-                } catch (IOException ioe) {
+                    importfd = truf;
+                } dbtdi (UnsupportfdFlbvorExdfption uff) {
+                } dbtdi (BbdLodbtionExdfption blf) {
+                } dbtdi (IOExdfption iof) {
                 }
             }
-            return imported;
+            rfturn importfd;
         }
 
         /**
-         * This method indicates if a component would accept an import of the given
-         * set of data flavors prior to actually attempting to import it.
+         * Tiis mftiod indidbtfs if b domponfnt would bddfpt bn import of tif givfn
+         * sft of dbtb flbvors prior to bdtublly bttfmpting to import it.
          *
-         * @param comp  The component to receive the transfer.  This
-         *  argument is provided to enable sharing of TransferHandlers by
-         *  multiple components.
-         * @param flavors  The data formats available
-         * @return  true if the data can be inserted into the component, false otherwise.
+         * @pbrbm domp  Tif domponfnt to rfdfivf tif trbnsffr.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @pbrbm flbvors  Tif dbtb formbts bvbilbblf
+         * @rfturn  truf if tif dbtb dbn bf insfrtfd into tif domponfnt, fblsf otifrwisf.
          */
-        public boolean canImport(JComponent comp, DataFlavor[] flavors) {
-            JTextComponent c = (JTextComponent)comp;
-            if (!(c.isEditable() && c.isEnabled())) {
-                return false;
+        publid boolfbn dbnImport(JComponfnt domp, DbtbFlbvor[] flbvors) {
+            JTfxtComponfnt d = (JTfxtComponfnt)domp;
+            if (!(d.isEditbblf() && d.isEnbblfd())) {
+                rfturn fblsf;
             }
-            return (getImportFlavor(flavors, c) != null);
+            rfturn (gftImportFlbvor(flbvors, d) != null);
         }
 
         /**
-         * A possible implementation of the Transferable interface
-         * for text components.  For a JEditorPane with a rich set
-         * of EditorKit implementations, conversions could be made
-         * giving a wider set of formats.  This is implemented to
-         * offer up only the active content type and text/plain
-         * (if that is not the active format) since that can be
-         * extracted from other formats.
+         * A possiblf implfmfntbtion of tif Trbnsffrbblf intfrfbdf
+         * for tfxt domponfnts.  For b JEditorPbnf witi b ridi sft
+         * of EditorKit implfmfntbtions, donvfrsions dould bf mbdf
+         * giving b widfr sft of formbts.  Tiis is implfmfntfd to
+         * offfr up only tif bdtivf dontfnt typf bnd tfxt/plbin
+         * (if tibt is not tif bdtivf formbt) sindf tibt dbn bf
+         * fxtrbdtfd from otifr formbts.
          */
-        static class TextTransferable extends BasicTransferable {
+        stbtid dlbss TfxtTrbnsffrbblf fxtfnds BbsidTrbnsffrbblf {
 
-            TextTransferable(JTextComponent c, int start, int end) {
-                super(null, null);
+            TfxtTrbnsffrbblf(JTfxtComponfnt d, int stbrt, int fnd) {
+                supfr(null, null);
 
-                this.c = c;
+                tiis.d = d;
 
-                Document doc = c.getDocument();
+                Dodumfnt dod = d.gftDodumfnt();
 
                 try {
-                    p0 = doc.createPosition(start);
-                    p1 = doc.createPosition(end);
+                    p0 = dod.drfbtfPosition(stbrt);
+                    p1 = dod.drfbtfPosition(fnd);
 
-                    plainData = c.getSelectedText();
+                    plbinDbtb = d.gftSflfdtfdTfxt();
 
-                    if (c instanceof JEditorPane) {
-                        JEditorPane ep = (JEditorPane)c;
+                    if (d instbndfof JEditorPbnf) {
+                        JEditorPbnf fp = (JEditorPbnf)d;
 
-                        mimeType = ep.getContentType();
+                        mimfTypf = fp.gftContfntTypf();
 
-                        if (mimeType.startsWith("text/plain")) {
-                            return;
+                        if (mimfTypf.stbrtsWiti("tfxt/plbin")) {
+                            rfturn;
                         }
 
-                        StringWriter sw = new StringWriter(p1.getOffset() - p0.getOffset());
-                        ep.getEditorKit().write(sw, doc, p0.getOffset(), p1.getOffset() - p0.getOffset());
+                        StringWritfr sw = nfw StringWritfr(p1.gftOffsft() - p0.gftOffsft());
+                        fp.gftEditorKit().writf(sw, dod, p0.gftOffsft(), p1.gftOffsft() - p0.gftOffsft());
 
-                        if (mimeType.startsWith("text/html")) {
-                            htmlData = sw.toString();
-                        } else {
-                            richText = sw.toString();
+                        if (mimfTypf.stbrtsWiti("tfxt/itml")) {
+                            itmlDbtb = sw.toString();
+                        } flsf {
+                            ridiTfxt = sw.toString();
                         }
                     }
-                } catch (BadLocationException ble) {
-                } catch (IOException ioe) {
+                } dbtdi (BbdLodbtionExdfption blf) {
+                } dbtdi (IOExdfption iof) {
                 }
             }
 
-            void removeText() {
-                if ((p0 != null) && (p1 != null) && (p0.getOffset() != p1.getOffset())) {
+            void rfmovfTfxt() {
+                if ((p0 != null) && (p1 != null) && (p0.gftOffsft() != p1.gftOffsft())) {
                     try {
-                        Document doc = c.getDocument();
-                        doc.remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
-                    } catch (BadLocationException e) {
+                        Dodumfnt dod = d.gftDodumfnt();
+                        dod.rfmovf(p0.gftOffsft(), p1.gftOffsft() - p0.gftOffsft());
+                    } dbtdi (BbdLodbtionExdfption f) {
                     }
                 }
             }
 
-            // ---- EditorKit other than plain or HTML text -----------------------
+            // ---- EditorKit otifr tibn plbin or HTML tfxt -----------------------
 
             /**
-             * If the EditorKit is not for text/plain or text/html, that format
-             * is supported through the "richer flavors" part of BasicTransferable.
+             * If tif EditorKit is not for tfxt/plbin or tfxt/itml, tibt formbt
+             * is supportfd tirougi tif "ridifr flbvors" pbrt of BbsidTrbnsffrbblf.
              */
-            protected DataFlavor[] getRicherFlavors() {
-                if (richText == null) {
-                    return null;
+            protfdtfd DbtbFlbvor[] gftRidifrFlbvors() {
+                if (ridiTfxt == null) {
+                    rfturn null;
                 }
 
                 try {
-                    DataFlavor[] flavors = new DataFlavor[3];
-                    flavors[0] = new DataFlavor(mimeType + ";class=java.lang.String");
-                    flavors[1] = new DataFlavor(mimeType + ";class=java.io.Reader");
-                    flavors[2] = new DataFlavor(mimeType + ";class=java.io.InputStream;charset=unicode");
-                    return flavors;
-                } catch (ClassNotFoundException cle) {
-                    // fall through to unsupported (should not happen)
+                    DbtbFlbvor[] flbvors = nfw DbtbFlbvor[3];
+                    flbvors[0] = nfw DbtbFlbvor(mimfTypf + ";dlbss=jbvb.lbng.String");
+                    flbvors[1] = nfw DbtbFlbvor(mimfTypf + ";dlbss=jbvb.io.Rfbdfr");
+                    flbvors[2] = nfw DbtbFlbvor(mimfTypf + ";dlbss=jbvb.io.InputStrfbm;dibrsft=unidodf");
+                    rfturn flbvors;
+                } dbtdi (ClbssNotFoundExdfption dlf) {
+                    // fbll tirougi to unsupportfd (siould not ibppfn)
                 }
 
-                return null;
+                rfturn null;
             }
 
             /**
-             * The only richer format supported is the file list flavor
+             * Tif only ridifr formbt supportfd is tif filf list flbvor
              */
-            protected Object getRicherData(DataFlavor flavor) throws UnsupportedFlavorException {
-                if (richText == null) {
-                    return null;
+            protfdtfd Objfdt gftRidifrDbtb(DbtbFlbvor flbvor) tirows UnsupportfdFlbvorExdfption {
+                if (ridiTfxt == null) {
+                    rfturn null;
                 }
 
-                if (String.class.equals(flavor.getRepresentationClass())) {
-                    return richText;
-                } else if (Reader.class.equals(flavor.getRepresentationClass())) {
-                    return new StringReader(richText);
-                } else if (InputStream.class.equals(flavor.getRepresentationClass())) {
-                    return new StringBufferInputStream(richText);
+                if (String.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                    rfturn ridiTfxt;
+                } flsf if (Rfbdfr.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                    rfturn nfw StringRfbdfr(ridiTfxt);
+                } flsf if (InputStrfbm.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss())) {
+                    rfturn nfw StringBufffrInputStrfbm(ridiTfxt);
                 }
-                throw new UnsupportedFlavorException(flavor);
+                tirow nfw UnsupportfdFlbvorExdfption(flbvor);
             }
 
             Position p0;
             Position p1;
-            String mimeType;
-            String richText;
-            JTextComponent c;
+            String mimfTypf;
+            String ridiTfxt;
+            JTfxtComponfnt d;
         }
 
     }

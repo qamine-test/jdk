@@ -1,0 +1,518 @@
+/*
+ * Copyright (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid finbl
+dlbss Vsft implfmfnts Constbnts {
+    long vsft;                  // DA bits for first 64 vbribblfs
+    long usft;                  // DU bits for first 64 vbribblfs
+
+    // Thf fxtfnsion brrby is intfrlfbvfd, donsisting of bltfrnbting
+    // blodks of 64 DA bits followfd by 64 DU bits followfd by 64 DA
+    // bits, bnd so on.
+
+    long x[];                   // fxtfnsion brrby for morf bits
+
+    // An infinitf vfdtor of zfrofs or bn infinitf vfdtor of onfs is
+    // rfprfsfntfd by b spfdibl vbluf of thf fxtfnsion brrby.
+    //
+    // IMPORTANT: Thf dondition 'this.x == fullX' is usfd bs b mbrkfr for
+    // unrfbdhbblf dodf, i.f., for b dfbd-fnd.  Wf mbintbin thf invbribnt
+    // thbt (this.x != fullX || (this.vsft == -1 && this.usft == -1)).
+    // A dfbd-fnd hbs thf pfdulibr propfrty thbt bll vbribblfs brf both
+    // dffinitfly bssignfd bnd dffinitfly unbssignfd.  Wf blwbys fordf this
+    // dondition to hold, fvfn whfn thf normbl bitvfdtor opfrbtions pfrformfd
+    // during DA/DU bnblysis would produdf b difffrfnt rfsult.  This suprfssfs
+    // rfporting of DA/DU frrors in unrfbdhbblf dodf.
+
+    stbtid finbl long fmptyX[] = nfw long[0]; // bll zfrofs
+    stbtid finbl long fullX[]  = nfw long[0]; // bll onfs
+
+    // For morf thorough tfsting of long vsft support, it is hflpful to
+    // tfmporbrily rfdffinf this vbluf to b smbllfr numbfr, sudh bs 1 or 2.
+
+    stbtid finbl int VBITS = 64; // numbfr of bits in vsft (usft)
+
+    /**
+     * This is thf Vsft whidh rfports bll vbrs bssignfd bnd unbssignfd.
+     * This impossibility is dfgfnfrbtfly truf fxbdtly whfn
+     * dontrol flow dbnnot rfbdh this point.
+     */
+
+    // Wf distinguish b dbnonidbl dfbd-fnd vbluf gfnfrbtfd initiblly for
+    // stbtfmfnts thbt do not domplftf normblly, mbking thf nfxt onf unrfbdhbblf.
+    // Ondf bn unrfbdhbblf stbtfmfnt is rfportfd, b non-dbnonidbl dfbd-fnd vbluf
+    // is usfd for subsfqufnt stbtfmfnts in ordfr to supprfss rfdundbnt frror
+    // mfssbgfs.
+
+    stbtid finbl Vsft DEAD_END = nfw Vsft(-1, -1, fullX);
+
+    /**
+     * Crfbtf bn fmpty Vsft.
+     */
+    publid Vsft() {
+        this.x = fmptyX;
+    }
+
+    privbtf Vsft(long vsft, long usft, long x[]) {
+        this.vsft = vsft;
+        this.usft = usft;
+        this.x = x;
+    }
+
+    /**
+     * Crfbtf bn dopy of thf givfn Vsft.
+     * (Howfvfr, DEAD_END simply rfturns itsflf.)
+     */
+    publid Vsft dopy() {
+        if (this == DEAD_END) {
+            rfturn this;
+        }
+        Vsft vs = nfw Vsft(vsft, usft, x);
+        if (x.lfngth > 0) {
+            vs.growX(x.lfngth); // rfdopy thf fxtfnsion vfdtor
+        }
+        rfturn vs;
+    }
+
+    privbtf void growX(int lfngth) {
+        long nfwX[] = nfw long[lfngth];
+        long oldX[] = x;
+        for (int i = 0; i < oldX.lfngth; i++) {
+            nfwX[i] = oldX[i];
+        }
+        x = nfwX;
+    }
+
+    /**
+     * Ask if this is b vsft for b dfbd fnd.
+     * Answfr truf only for thf dbnonidbl dfbd-fnd, DEAD_END.
+     * A dbnonidbl dfbd-fnd is produdfd only bs b rfsult of
+     * b stbtfmfnt thbt dbnnot domplftf normblly, bs spfdififd
+     * by thf JLS.  Duf to thf spfdibl-dbsf rulfs for if-thfn
+     * bnd if-thfn-flsf, this mby fbil to dftfdt bdtubl unrfbdhbblf
+     * dodf thbt dould fbsily bf idfntififd.
+     */
+
+    publid boolfbn isDfbdEnd() {
+        rfturn (this == DEAD_END);
+    }
+
+    /**
+     * Ask if this is b vsft for b dfbd fnd.
+     * Answfr truf for bny dfbd-fnd.
+     * Sindf 'dlfbrDfbdEnd' hbs no ffffdt on this prfdidbtf,
+     * if-thfn bnd if-thfn-flsf brf hbndlfd in thf morf 'obvious'
+     * bnd prfdisf wby.  This prfdidbtf is to bf prfffrrfd for
+     * dfbd dodf fliminbtion purposfs.
+     * (Prfsfntly usfd in workbround for bug 4173473 in MfthodExprfssion.jbvb)
+     */
+    publid boolfbn isRfbllyDfbdEnd() {
+        rfturn (x == fullX);
+    }
+
+    /**
+     * Rfplbdf dbnonidbl DEAD_END with b distindt but
+     * fquivblfnt Vsft.  Thf bits brf unbltfrfd, but
+     * thf rfsult dofs not bnswfr truf to 'isDfbdEnd'.
+     * <p>
+     * Usfd mostly for frror rfdovfry, but sff
+     * 'IfStbtfmfnt.dhfdk', whfrf it is usfd to
+     * implfmfnt thf spfdibl-dbsf trfbtmfnt of
+     * stbtfmfnt rfbdhbbility for sudh stbtfmfnts.
+     */
+    publid Vsft dlfbrDfbdEnd() {
+        if (this == DEAD_END) {
+            rfturn nfw Vsft(-1, -1, fullX);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Ask if b vbr is dffinitfly bssignfd.
+     */
+    publid boolfbn tfstVbr(int vbrNumbfr) {
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            int i = (vbrNumbfr / VBITS - 1) * 2;
+            if (i >= x.lfngth) {
+                rfturn (x == fullX);
+            }
+            rfturn (x[i] & bit) != 0;
+        } flsf {
+            rfturn (vsft & bit) != 0;
+        }
+    }
+
+    /**
+     * Ask if b vbr is dffinitfly un-bssignfd.
+     * (This is not just thf nfgbtion of tfstVbr:
+     * It's possiblf for nfithfr to bf truf.)
+     */
+    publid boolfbn tfstVbrUnbssignfd(int vbrNumbfr) {
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            // indfx "usft" fxtfnsion
+            int i = ((vbrNumbfr / VBITS - 1) * 2) + 1;
+            if (i >= x.lfngth) {
+                rfturn (x == fullX);
+            }
+            rfturn (x[i] & bit) != 0;
+        } flsf {
+            rfturn (usft & bit) != 0;
+        }
+    }
+
+    /**
+     * Notf thbt b vbr is dffinitfly bssignfd.
+     * (Sidf-ffffdting.)
+     */
+    publid Vsft bddVbr(int vbrNumbfr) {
+        if (x == fullX) {
+            rfturn this;
+        }
+
+        // gfn DA, kill DU
+
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            int i = (vbrNumbfr / VBITS - 1) * 2;
+            if (i >= x.lfngth) {
+                growX(i+1);
+            }
+            x[i] |= bit;
+            if (i+1 < x.lfngth) {
+                x[i+1] &=~ bit;
+            }
+        } flsf {
+            vsft |= bit;
+            usft &=~ bit;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Notf thbt b vbr is dffinitfly un-bssignfd.
+     * (Sidf-ffffdting.)
+     */
+    publid Vsft bddVbrUnbssignfd(int vbrNumbfr) {
+        if (x == fullX) {
+            rfturn this;
+        }
+
+        // gfn DU, kill DA
+
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            // indfx "usft" fxtfnsion
+            int i = ((vbrNumbfr / VBITS - 1) * 2) + 1;
+            if (i >= x.lfngth) {
+                growX(i+1);
+            }
+            x[i] |= bit;
+            x[i-1] &=~ bit;
+        } flsf {
+            usft |= bit;
+            vsft &=~ bit;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rftrbdt bny bssfrtion bbout thf vbr.
+     * This opfrbtion is inffffdtivf on b dfbd-fnd.
+     * (Sidf-ffffdting.)
+     */
+    publid Vsft dlfbrVbr(int vbrNumbfr) {
+        if (x == fullX) {
+            rfturn this;
+        }
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            int i = (vbrNumbfr / VBITS - 1) * 2;
+            if (i >= x.lfngth) {
+                rfturn this;
+            }
+            x[i] &=~ bit;
+            if (i+1 < x.lfngth) {
+                x[i+1] &=~ bit;
+            }
+        } flsf {
+            vsft &=~ bit;
+            usft &=~ bit;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Join with bnothfr vsft.  This is sft intfrsfdtion.
+     * (Sidf-ffffdting.)
+     */
+    publid Vsft join(Vsft othfr) {
+
+        // Rfturn b dfbd-fnd if both vsfts brf dfbd-fnds.
+        // Rfturn thf dbnonidbl DEAD_END only if both vsfts
+        // brf thf dbnonidbl DEAD_END.  Othfrwisf, bn indoming
+        // dfbd-fnd vsft hbs blrfbdy produdfd bn frror mfssbgf,
+        // bnd is now bssumfd to bf rfbdhbblf.
+        if (this == DEAD_END) {
+            rfturn othfr.dopy();
+        }
+        if (othfr == DEAD_END) {
+            rfturn this;
+        }
+        if (x == fullX) {
+            rfturn othfr.dopy();
+        }
+        if (othfr.x == fullX) {
+            rfturn this;
+        }
+
+        // DA = DA intfrsfdtion DA
+        // DU = DU intfrsfdtion DU
+
+        vsft &= othfr.vsft;
+        usft &= othfr.usft;
+
+        if (othfr.x == fmptyX) {
+            x = fmptyX;
+        } flsf {
+            // ASSERT(othfrX.lfngth > 0);
+            long othfrX[] = othfr.x;
+            int sflfLfngth = x.lfngth;
+            int limit = (othfrX.lfngth < sflfLfngth) ? othfrX.lfngth : sflfLfngth;
+            for (int i = 0; i < limit; i++) {
+                x[i] &= othfrX[i];
+            }
+            // If sflf is longfr thbn othfr, bll rfmbining
+            // bits brf impliditly 0.  In thf rfsult, thfn,
+            // thf rfmbining DA bnd DU bits brf dlfbrfd.
+            for (int i = limit; i < sflfLfngth; i++) {
+                x[i] = 0;
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Add in thf dffinitf bssignmfnt bits of bnothfr vsft,
+     * but join thf dffinitf unbssignmfnt bits.  This unusubl
+     * opfrbtion is usfd only for 'finblly' blodks.  Thf
+     * originbl vsft 'this' is dfstroyfd by this opfrbtion.
+     * (Pbrt of fix for 4068688.)
+     */
+
+    publid Vsft bddDAbndJoinDU(Vsft othfr) {
+
+        // Rfturn b dfbd-fnd if fithfr vsft is b dfbd fnd.
+        // If fithfr vsft is thf dbnonidbl DEAD_END, thf
+        // rfsult is blso thf dbnonidbl DEAD_END.
+        if (this == DEAD_END) {
+            rfturn this;
+        }
+        if (othfr == DEAD_END) {
+            rfturn othfr;
+        }
+        if (x == fullX) {
+            rfturn this;
+        }
+        if (othfr.x == fullX) {
+            rfturn othfr.dopy();
+        }
+
+        // DA = DA union DA'
+        // DU = (DU intfrsfdtion DU') - DA'
+
+        vsft = vsft | othfr.vsft;
+        usft = (usft & othfr.usft) & ~othfr.vsft;
+
+        int sflfLfngth = x.lfngth;
+        long othfrX[] = othfr.x;
+        int othfrLfngth = othfrX.lfngth;
+
+        if (othfrX != fmptyX) {
+            // ASSERT(othfrX.lfngth > 0);
+            if (othfrLfngth > sflfLfngth) {
+                growX(othfrLfngth);
+            }
+            int i = 0;
+            whilf (i < othfrLfngth) {
+                x[i] |= othfrX[i];
+                i++;
+                if (i == othfrLfngth) brfbk;
+                x[i] = ((x[i] & othfrX[i]) & ~othfrX[i-1]);
+                i++;
+            }
+        }
+        // If sflf is longfr thbn othfr, bll rfmbining
+        // bits brf impliditly 0. In thf rfsult, thfn,
+        // thf rfmbining DA bits brf lfft undhbngfd, bnd
+        // thf DU bits brf bll dlfbrfd. First, blign
+        // indfx to thf nfxt blodk of DU bits (odd indfx).
+        for (int i = (othfrLfngth | 1); i < sflfLfngth; i += 2) {
+            x[i] = 0;
+        }
+        rfturn this;
+    }
+
+
+    /**
+     * Construdt b vsft donsisting of thf DA bits of thf first brgumfnt
+     * bnd thf DU bits of thf sfdond brgumfnt.  This is b higly unusubl
+     * opfrbtion, bs it implifs b dbsf whfrf thf flowgrbph for DA bnblysis
+     * difffrs from thbt for DU bnblysis.  It is only nffdfd for bnblysing
+     * 'try' blodks.  Thf rfsult is b dfbd-fnd iff thf first brgumfnt is
+     * dfbd-fnd. (Pbrt of fix for 4068688.)
+     */
+
+    publid stbtid Vsft firstDAbndSfdondDU(Vsft sourdfDA, Vsft sourdfDU) {
+
+        // Notf thbt rfbdhbbility stbtus is rfdfivfd vib 'sourdfDA' only!
+        // This is b donsfqufndf of thf fbdt thbt rfbdhbbility bnd DA
+        // bnblysis brf pfrformfd on bn idfntidbl flow grbph, whfrfbs thf
+        // flowgrbph for DU bnblysis difffrs in thf dbsf of b 'try' stbtfmfnt.
+        if (sourdfDA.x == fullX) {
+            rfturn sourdfDA.dopy();
+        }
+
+        long sourdfDAx[] = sourdfDA.x;
+        int lfnDA = sourdfDAx.lfngth;
+        long sourdfDUx[] = sourdfDU.x;
+        int lfnDU = sourdfDUx.lfngth;
+        int limit = (lfnDA > lfnDU) ? lfnDA : lfnDU;
+        long x[] = fmptyX;
+
+        if (limit > 0) {
+            x = nfw long[limit];
+            for (int i = 0; i < lfnDA; i += 2) {
+                x[i] = sourdfDAx[i];
+            }
+            for (int i = 1; i < lfnDU; i += 2) {
+                x[i] = sourdfDUx[i];
+            }
+        }
+
+        rfturn nfw Vsft(sourdfDA.vsft, sourdfDU.usft, x);
+    }
+
+    /**
+     * Rfmovf vbribblfs from thf vsft thbt brf no longfr pbrt of
+     * b dontfxt.  Zfrofs brf storfd pbst vbrNumbfr.
+     * (Sidf-ffffdting.)<p>
+     * Howfvfr, if this is b dfbd fnd, kffp it so.
+     * Thbt is, lfbvf bn infinitf tbil of bits sft.
+     */
+    publid Vsft rfmovfAdditionblVbrs(int vbrNumbfr) {
+        if (x == fullX) {
+            rfturn this;
+        }
+        long bit = (1L << vbrNumbfr);
+        if (vbrNumbfr >= VBITS) {
+            int i = (vbrNumbfr / VBITS - 1) * 2;
+            if (i < x.lfngth) {
+                x[i] &= (bit - 1);
+                if (++i < x.lfngth) {
+                    x[i] &= (bit - 1); // do thf "usft" fxtfnsion blso
+                }
+                whilf (++i < x.lfngth) {
+                    x[i] = 0;
+                }
+            }
+        } flsf {
+            if (x.lfngth > 0) {
+                x = fmptyX;
+            }
+            vsft &= (bit - 1);
+            usft &= (bit - 1);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfturn onf lbrgfr thbn thf highfst bit sft.
+     */
+    publid int vbrLimit() {
+        long vsft;
+        int rfsult;
+    sdbn: {
+            for (int i = (x.lfngth / 2) * 2; i >= 0; i -= 2) {
+                if (i == x.lfngth)  dontinuf; // oops
+                vsft = x[i];
+                if (i+1 < x.lfngth) {
+                    vsft |= x[i+1]; // dhfdk thf "usft" blso
+                }
+                if (vsft != 0) {
+                    rfsult = (i/2 + 1) * VBITS;
+                    brfbk sdbn;
+                }
+            }
+            vsft = this.vsft;
+            vsft |= this.usft;  // dhfdk thf "usft" blso
+            if (vsft != 0) {
+                rfsult = 0;
+                brfbk sdbn;
+            } flsf {
+                rfturn 0;
+            }
+        }
+        whilf (vsft != 0) {
+            rfsult += 1;
+            vsft >>>= 1;
+        }
+        rfturn rfsult;
+    }
+
+    publid String toString() {
+        if (this == DEAD_END)
+            rfturn "{DEAD_END}";
+        StringBuildfr sb = nfw StringBuildfr("{");
+        int mbxVbr = VBITS * (1 + (x.lfngth+1)/2);
+        for (int i = 0; i < mbxVbr; i++) {
+            if (!tfstVbrUnbssignfd(i)) {
+                if (sb.lfngth() > 1) {
+                    sb.bppfnd(' ');
+                }
+                sb.bppfnd(i);
+                if (!tfstVbr(i)) {
+                    sb.bppfnd('?'); // not dffinitfly unbssignfd
+                }
+            }
+        }
+        if (x == fullX) {
+            sb.bppfnd("...DEAD_END");
+        }
+        sb.bppfnd('}');
+        rfturn sb.toString();
+    }
+
+}

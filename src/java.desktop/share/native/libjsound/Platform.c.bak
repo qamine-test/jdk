@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#include "Utilities.h"
-// Platform.java includes
-#include "com_sun_media_sound_Platform.h"
+#indludf "Utilitifs.i"
+// Plbtform.jbvb indludfs
+#indludf "dom_sun_mfdib_sound_Plbtform.i"
 
 
 /*
- * Class:     com_sun_media_sound_Platform
- * Method:    nIsBigEndian
- * Signature: ()Z
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mftiod:    nIsBigEndibn
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_com_sun_media_sound_Platform_nIsBigEndian(JNIEnv *env, jclass clss) {
-    return UTIL_IsBigEndianPlatform();
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nIsBigEndibn(JNIEnv *fnv, jdlbss dlss) {
+    rfturn UTIL_IsBigEndibnPlbtform();
 }
 
 /*
- * Class:     com_sun_media_sound_Platform
- * Method:    nIsSigned8
- * Signature: ()Z
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mftiod:    nIsSignfd8
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_com_sun_media_sound_Platform_nIsSigned8(JNIEnv *env, jclass clss) {
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nIsSignfd8(JNIEnv *fnv, jdlbss dlss) {
 #if ((X_ARCH == X_SPARC) || (X_ARCH == X_SPARCV9))
-    return 1;
-#else
-    return 0;
-#endif
+    rfturn 1;
+#flsf
+    rfturn 0;
+#fndif
 }
 
 /*
- * Class:     com_sun_media_sound_Platform
- * Method:    nGetExtraLibraries
- * Signature: ()Ljava/lang/String;
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mftiod:    nGftExtrbLibrbrifs
+ * Signbturf: ()Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_sun_media_sound_Platform_nGetExtraLibraries(JNIEnv *env, jclass clss) {
-    return (*env)->NewStringUTF(env, EXTRA_SOUND_JNI_LIBS);
+JNIEXPORT jstring JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nGftExtrbLibrbrifs(JNIEnv *fnv, jdlbss dlss) {
+    rfturn (*fnv)->NfwStringUTF(fnv, EXTRA_SOUND_JNI_LIBS);
 }
 
 /*
- * Class:     com_sun_media_sound_Platform
- * Method:    nGetLibraryForFeature
- * Signature: (I)I
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mftiod:    nGftLibrbryForFfbturf
+ * Signbturf: (I)I
  */
-JNIEXPORT jint JNICALL Java_com_sun_media_sound_Platform_nGetLibraryForFeature
-  (JNIEnv *env, jclass clazz, jint feature) {
+JNIEXPORT jint JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nGftLibrbryForFfbturf
+  (JNIEnv *fnv, jdlbss dlbzz, jint ffbturf) {
 
-// for every OS
+// for fvfry OS
 #if X_PLATFORM == X_WINDOWS
-    switch (feature) {
-    case com_sun_media_sound_Platform_FEATURE_MIDIIO:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-        return com_sun_media_sound_Platform_LIB_DSOUND;
+    switdi (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_DSOUND;
     }
-#endif
+#fndif
 #if (X_PLATFORM == X_SOLARIS)
-    switch (feature) {
-    case com_sun_media_sound_Platform_FEATURE_MIDIIO:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-        return com_sun_media_sound_Platform_LIB_MAIN;
+    switdi (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
     }
-#endif
+#fndif
 #if (X_PLATFORM == X_LINUX)
-    switch (feature) {
-    case com_sun_media_sound_Platform_FEATURE_MIDIIO:
-        return com_sun_media_sound_Platform_LIB_ALSA;
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-        return com_sun_media_sound_Platform_LIB_ALSA;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-        return com_sun_media_sound_Platform_LIB_ALSA;
+    switdi (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
     }
-#endif
+#fndif
 #if (X_PLATFORM == X_MACOSX)
-    switch (feature) {
-    case com_sun_media_sound_Platform_FEATURE_MIDIIO:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-        return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-        return com_sun_media_sound_Platform_LIB_MAIN;
+    switdi (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
     }
-#endif
+#fndif
 #if (X_PLATFORM == X_BSD)
-    switch (feature) {
-    case com_sun_media_sound_Platform_FEATURE_MIDIIO:
-       return com_sun_media_sound_Platform_LIB_MAIN;
-#ifdef __FreeBSD__
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-       return com_sun_media_sound_Platform_LIB_ALSA;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-       return com_sun_media_sound_Platform_LIB_ALSA;
-#else
-    case com_sun_media_sound_Platform_FEATURE_PORTS:
-       return com_sun_media_sound_Platform_LIB_MAIN;
-    case com_sun_media_sound_Platform_FEATURE_DIRECT_AUDIO:
-       // XXXBSD: When native Direct Audio support is ported change
-       // this back to returning com_sun_media_sound_Platform_LIB_MAIN
-       return 0;
-#endif
+    switdi (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+#ifdff __FrffBSD__
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+#flsf
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+       // XXXBSD: Wifn nbtivf Dirfdt Audio support is portfd dibngf
+       // tiis bbdk to rfturning dom_sun_mfdib_sound_Plbtform_LIB_MAIN
+       rfturn 0;
+#fndif
     }
-#endif
-    return 0;
+#fndif
+    rfturn 0;
 }

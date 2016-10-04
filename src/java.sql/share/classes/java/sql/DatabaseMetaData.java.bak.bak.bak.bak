@@ -1,0 +1,3687 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Comprfhfnsivf informbtion bbout thf dbtbbbsf bs b wholf.
+ * <P>
+ * This intfrfbdf is implfmfntfd by drivfr vfndors to lft usfrs know thf dbpbbilitifs
+ * of b Dbtbbbsf Mbnbgfmfnt Systfm (DBMS) in dombinbtion with
+ * thf drivfr bbsfd on JDBC&trbdf; tfdhnology
+ * ("JDBC drivfr") thbt is usfd with it.  Difffrfnt rflbtionbl DBMSs oftfn support
+ * difffrfnt ffbturfs, implfmfnt ffbturfs in difffrfnt wbys, bnd usf difffrfnt
+ * dbtb typfs.  In bddition, b drivfr mby implfmfnt b ffbturf on top of whbt thf
+ * DBMS offfrs.  Informbtion rfturnfd by mfthods in this intfrfbdf bpplifs
+ * to thf dbpbbilitifs of b pbrtidulbr drivfr bnd b pbrtidulbr DBMS working
+ * togfthfr. Notf thbt bs usfd in this dodumfntbtion, thf tfrm "dbtbbbsf" is
+ * usfd gfnfridblly to rfffr to both thf drivfr bnd DBMS.
+ * <P>
+ * A usfr for this intfrfbdf is dommonly b tool thbt nffds to disdovfr how to
+ * dfbl with thf undfrlying DBMS.  This is fspfdiblly truf for bpplidbtions
+ * thbt brf intfndfd to bf usfd with morf thbn onf DBMS. For fxbmplf, b tool might usf thf mfthod
+ * <dodf>gftTypfInfo</dodf> to find out whbt dbtb typfs dbn bf usfd in b
+ * <dodf>CREATE TABLE</dodf> stbtfmfnt.  Or b usfr might dbll thf mfthod
+ * <dodf>supportsCorrflbtfdSubqufrifs</dodf> to sff if it is possiblf to usf
+ * b dorrflbtfd subqufry or <dodf>supportsBbtdhUpdbtfs</dodf> to sff if it is
+ * possiblf to usf bbtdh updbtfs.
+ * <P>
+ * Somf <dodf>DbtbbbsfMftbDbtb</dodf> mfthods rfturn lists of informbtion
+ * in thf form of <dodf>RfsultSft</dodf> objfdts.
+ * Rfgulbr <dodf>RfsultSft</dodf> mfthods, sudh bs
+ * <dodf>gftString</dodf> bnd <dodf>gftInt</dodf>, dbn bf usfd
+ * to rftrifvf thf dbtb from thfsf <dodf>RfsultSft</dodf> objfdts.  If
+ * b givfn form of mftbdbtb is not bvbilbblf, bn fmpty <dodf>RfsultSft</dodf>
+ * will bf rfturnfd. Additionbl dolumns bfyond thf dolumns dffinfd to bf
+ * rfturnfd by thf <dodf>RfsultSft</dodf> objfdt for b givfn mfthod
+ * dbn bf dffinfd by thf JDBC drivfr vfndor bnd must bf bddfssfd
+ * by thfir <B>dolumn lbbfl</B>.
+ * <P>
+ * Somf <dodf>DbtbbbsfMftbDbtb</dodf> mfthods tbkf brgumfnts thbt brf
+ * String pbttfrns.  Thfsf brgumfnts bll hbvf nbmfs sudh bs fooPbttfrn.
+ * Within b pbttfrn String, "%" mfbns mbtdh bny substring of 0 or morf
+ * dhbrbdtfrs, bnd "_" mfbns mbtdh bny onf dhbrbdtfr. Only mftbdbtb
+ * fntrifs mbtdhing thf sfbrdh pbttfrn brf rfturnfd. If b sfbrdh pbttfrn
+ * brgumfnt is sft to <dodf>null</dodf>, thbt brgumfnt's dritfrion will
+ * bf droppfd from thf sfbrdh.
+ *
+ */
+publid intfrfbdf DbtbbbsfMftbDbtb fxtfnds Wrbppfr {
+
+    //----------------------------------------------------------------------
+    // First, b vbrifty of minor informbtion bbout thf tbrgft dbtbbbsf.
+
+    /**
+     * Rftrifvfs whfthfr thf durrfnt usfr dbn dbll bll thf prodfdurfs
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfs</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn bllProdfdurfsArfCbllbblf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr thf durrfnt usfr dbn usf bll thf tbblfs rfturnfd
+     * by thf mfthod <dodf>gftTbblfs</dodf> in b <dodf>SELECT</dodf>
+     * stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn bllTbblfsArfSflfdtbblf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf URL for this DBMS.
+     *
+     * @rfturn thf URL for this DBMS or <dodf>null</dodf> if it dbnnot bf
+     *          gfnfrbtfd
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftURL() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf usfr nbmf bs known to this dbtbbbsf.
+     *
+     * @rfturn thf dbtbbbsf usfr nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftUsfrNbmf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf is in rfbd-only modf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isRfbdOnly() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr <dodf>NULL</dodf> vblufs brf sortfd high.
+     * Sortfd high mfbns thbt <dodf>NULL</dodf> vblufs
+     * sort highfr thbn bny othfr vbluf in b dombin.  In bn bsdfnding ordfr,
+     * if this mfthod rfturns <dodf>truf</dodf>,  <dodf>NULL</dodf> vblufs
+     * will bppfbr bt thf fnd. By dontrbst, thf mfthod
+     * <dodf>nullsArfSortfdAtEnd</dodf> indidbtfs whfthfr <dodf>NULL</dodf> vblufs
+     * brf sortfd bt thf fnd rfgbrdlfss of sort ordfr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn nullsArfSortfdHigh() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr <dodf>NULL</dodf> vblufs brf sortfd low.
+     * Sortfd low mfbns thbt <dodf>NULL</dodf> vblufs
+     * sort lowfr thbn bny othfr vbluf in b dombin.  In bn bsdfnding ordfr,
+     * if this mfthod rfturns <dodf>truf</dodf>,  <dodf>NULL</dodf> vblufs
+     * will bppfbr bt thf bfginning. By dontrbst, thf mfthod
+     * <dodf>nullsArfSortfdAtStbrt</dodf> indidbtfs whfthfr <dodf>NULL</dodf> vblufs
+     * brf sortfd bt thf bfginning rfgbrdlfss of sort ordfr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn nullsArfSortfdLow() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr <dodf>NULL</dodf> vblufs brf sortfd bt thf stbrt rfgbrdlfss
+     * of sort ordfr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn nullsArfSortfdAtStbrt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr <dodf>NULL</dodf> vblufs brf sortfd bt thf fnd rfgbrdlfss of
+     * sort ordfr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn nullsArfSortfdAtEnd() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf nbmf of this dbtbbbsf produdt.
+     *
+     * @rfturn dbtbbbsf produdt nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftDbtbbbsfProdudtNbmf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf vfrsion numbfr of this dbtbbbsf produdt.
+     *
+     * @rfturn dbtbbbsf vfrsion numbfr
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftDbtbbbsfProdudtVfrsion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf nbmf of this JDBC drivfr.
+     *
+     * @rfturn JDBC drivfr nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftDrivfrNbmf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf vfrsion numbfr of this JDBC drivfr bs b <dodf>String</dodf>.
+     *
+     * @rfturn JDBC drivfr vfrsion
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftDrivfrVfrsion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs this JDBC drivfr's mbjor vfrsion numbfr.
+     *
+     * @rfturn JDBC drivfr mbjor vfrsion
+     */
+    int gftDrivfrMbjorVfrsion();
+
+    /**
+     * Rftrifvfs this JDBC drivfr's minor vfrsion numbfr.
+     *
+     * @rfturn JDBC drivfr minor vfrsion numbfr
+     */
+    int gftDrivfrMinorVfrsion();
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf storfs tbblfs in b lodbl filf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn usfsLodblFilfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf usfs b filf for fbdh tbblf.
+     *
+     * @rfturn <dodf>truf</dodf> if this dbtbbbsf usfs b lodbl filf for fbdh tbblf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn usfsLodblFilfPfrTbblf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf unquotfd SQL idfntififrs bs
+     * dbsf sfnsitivf bnd bs b rfsult storfs thfm in mixfd dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsMixfdCbsfIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf unquotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in uppfr dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsUppfrCbsfIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf unquotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in lowfr dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsLowfrCbsfIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf unquotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in mixfd dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsMixfdCbsfIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf quotfd SQL idfntififrs bs
+     * dbsf sfnsitivf bnd bs b rfsult storfs thfm in mixfd dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsMixfdCbsfQuotfdIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf quotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in uppfr dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsUppfrCbsfQuotfdIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf quotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in lowfr dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsLowfrCbsfQuotfdIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf trfbts mixfd dbsf quotfd SQL idfntififrs bs
+     * dbsf insfnsitivf bnd storfs thfm in mixfd dbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn storfsMixfdCbsfQuotfdIdfntififrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf string usfd to quotf SQL idfntififrs.
+     * This mfthod rfturns b spbdf " " if idfntififr quoting is not supportfd.
+     *
+     * @rfturn thf quoting string or b spbdf if quoting is not supportfd
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftIdfntififrQuotfString() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dommb-sfpbrbtfd list of bll of this dbtbbbsf's SQL kfywords
+     * thbt brf NOT blso SQL:2003 kfywords.
+     *
+     * @rfturn thf list of this dbtbbbsf's kfywords thbt brf not blso
+     *         SQL:2003 kfywords
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftSQLKfywords() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dommb-sfpbrbtfd list of mbth fundtions bvbilbblf with
+     * this dbtbbbsf.  Thfsf brf thf Opfn /Opfn CLI mbth fundtion nbmfs usfd in
+     * thf JDBC fundtion fsdbpf dlbusf.
+     *
+     * @rfturn thf list of mbth fundtions supportfd by this dbtbbbsf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftNumfridFundtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dommb-sfpbrbtfd list of string fundtions bvbilbblf with
+     * this dbtbbbsf.  Thfsf brf thf  Opfn Group CLI string fundtion nbmfs usfd
+     * in thf JDBC fundtion fsdbpf dlbusf.
+     *
+     * @rfturn thf list of string fundtions supportfd by this dbtbbbsf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftStringFundtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dommb-sfpbrbtfd list of systfm fundtions bvbilbblf with
+     * this dbtbbbsf.  Thfsf brf thf  Opfn Group CLI systfm fundtion nbmfs usfd
+     * in thf JDBC fundtion fsdbpf dlbusf.
+     *
+     * @rfturn b list of systfm fundtions supportfd by this dbtbbbsf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftSystfmFundtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dommb-sfpbrbtfd list of thf timf bnd dbtf fundtions bvbilbblf
+     * with this dbtbbbsf.
+     *
+     * @rfturn thf list of timf bnd dbtf fundtions supportfd by this dbtbbbsf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftTimfDbtfFundtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf string thbt dbn bf usfd to fsdbpf wilddbrd dhbrbdtfrs.
+     * This is thf string thbt dbn bf usfd to fsdbpf '_' or '%' in
+     * thf dbtblog sfbrdh pbrbmftfrs thbt brf b pbttfrn (bnd thfrfforf usf onf
+     * of thf wilddbrd dhbrbdtfrs).
+     *
+     * <P>Thf '_' dhbrbdtfr rfprfsfnts bny singlf dhbrbdtfr;
+     * thf '%' dhbrbdtfr rfprfsfnts bny sfqufndf of zfro or
+     * morf dhbrbdtfrs.
+     *
+     * @rfturn thf string usfd to fsdbpf wilddbrd dhbrbdtfrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftSfbrdhStringEsdbpf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs bll thf "fxtrb" dhbrbdtfrs thbt dbn bf usfd in unquotfd
+     * idfntififr nbmfs (thosf bfyond b-z, A-Z, 0-9 bnd _).
+     *
+     * @rfturn thf string dontbining thf fxtrb dhbrbdtfrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftExtrbNbmfChbrbdtfrs() throws SQLExdfption;
+
+    //--------------------------------------------------------------------
+    // Fundtions dfsdribing whidh ffbturfs brf supportfd.
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports <dodf>ALTER TABLE</dodf>
+     * with bdd dolumn.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsAltfrTbblfWithAddColumn() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports <dodf>ALTER TABLE</dodf>
+     * with drop dolumn.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsAltfrTbblfWithDropColumn() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports dolumn blibsing.
+     *
+     * <P>If so, thf SQL AS dlbusf dbn bf usfd to providf nbmfs for
+     * domputfd dolumns or to providf blibs nbmfs for dolumns bs
+     * rfquirfd.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsColumnAlibsing() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports dondbtfnbtions bftwffn
+     * <dodf>NULL</dodf> bnd non-<dodf>NULL</dodf> vblufs bfing
+     * <dodf>NULL</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn nullPlusNonNullIsNull() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf JDBC sdblbr fundtion
+     * <dodf>CONVERT</dodf> for thf donvfrsion of onf JDBC typf to bnothfr.
+     * Thf JDBC typfs brf thf gfnfrid SQL dbtb typfs dffinfd
+     * in <dodf>jbvb.sql.Typfs</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsConvfrt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf JDBC sdblbr fundtion
+     * <dodf>CONVERT</dodf> for donvfrsions bftwffn thf JDBC typfs <i>fromTypf</i>
+     * bnd <i>toTypf</i>.  Thf JDBC typfs brf thf gfnfrid SQL dbtb typfs dffinfd
+     * in <dodf>jbvb.sql.Typfs</dodf>.
+     *
+     * @pbrbm fromTypf thf typf to donvfrt from; onf of thf typf dodfs from
+     *        thf dlbss <dodf>jbvb.sql.Typfs</dodf>
+     * @pbrbm toTypf thf typf to donvfrt to; onf of thf typf dodfs from
+     *        thf dlbss <dodf>jbvb.sql.Typfs</dodf>
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Typfs
+     */
+    boolfbn supportsConvfrt(int fromTypf, int toTypf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports tbblf dorrflbtion nbmfs.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsTbblfCorrflbtionNbmfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr, whfn tbblf dorrflbtion nbmfs brf supportfd, thfy
+     * brf rfstridtfd to bfing difffrfnt from thf nbmfs of thf tbblfs.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsDifffrfntTbblfCorrflbtionNbmfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports fxprfssions in
+     * <dodf>ORDER BY</dodf> lists.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsExprfssionsInOrdfrBy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports using b dolumn thbt is
+     * not in thf <dodf>SELECT</dodf> stbtfmfnt in bn
+     * <dodf>ORDER BY</dodf> dlbusf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOrdfrByUnrflbtfd() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports somf form of
+     * <dodf>GROUP BY</dodf> dlbusf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsGroupBy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports using b dolumn thbt is
+     * not in thf <dodf>SELECT</dodf> stbtfmfnt in b
+     * <dodf>GROUP BY</dodf> dlbusf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsGroupByUnrflbtfd() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports using dolumns not indludfd in
+     * thf <dodf>SELECT</dodf> stbtfmfnt in b <dodf>GROUP BY</dodf> dlbusf
+     * providfd thbt bll of thf dolumns in thf <dodf>SELECT</dodf> stbtfmfnt
+     * brf indludfd in thf <dodf>GROUP BY</dodf> dlbusf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsGroupByBfyondSflfdt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports spfdifying b
+     * <dodf>LIKE</dodf> fsdbpf dlbusf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsLikfEsdbpfClbusf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports gftting multiplf
+     * <dodf>RfsultSft</dodf> objfdts from b singlf dbll to thf
+     * mfthod <dodf>fxfdutf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsMultiplfRfsultSfts() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf bllows hbving multiplf
+     * trbnsbdtions opfn bt ondf (on difffrfnt donnfdtions).
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsMultiplfTrbnsbdtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr dolumns in this dbtbbbsf mby bf dffinfd bs non-nullbblf.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsNonNullbblfColumns() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ODBC Minimum SQL grbmmbr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsMinimumSQLGrbmmbr() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ODBC Corf SQL grbmmbr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCorfSQLGrbmmbr() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ODBC Extfndfd SQL grbmmbr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsExtfndfdSQLGrbmmbr() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ANSI92 fntry lfvfl SQL
+     * grbmmbr.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsANSI92EntryLfvflSQL() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ANSI92 intfrmfdibtf SQL grbmmbr supportfd.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsANSI92IntfrmfdibtfSQL() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf ANSI92 full SQL grbmmbr supportfd.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsANSI92FullSQL() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf SQL Intfgrity
+     * Enhbndfmfnt Fbdility.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsIntfgrityEnhbndfmfntFbdility() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports somf form of outfr join.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOutfrJoins() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports full nfstfd outfr joins.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsFullOutfrJoins() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf providfs limitfd support for outfr
+     * joins.  (This will bf <dodf>truf</dodf> if thf mfthod
+     * <dodf>supportsFullOutfrJoins</dodf> rfturns <dodf>truf</dodf>).
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsLimitfdOutfrJoins() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dbtbbbsf vfndor's prfffrrfd tfrm for "sdhfmb".
+     *
+     * @rfturn thf vfndor tfrm for "sdhfmb"
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftSdhfmbTfrm() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dbtbbbsf vfndor's prfffrrfd tfrm for "prodfdurf".
+     *
+     * @rfturn thf vfndor tfrm for "prodfdurf"
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftProdfdurfTfrm() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dbtbbbsf vfndor's prfffrrfd tfrm for "dbtblog".
+     *
+     * @rfturn thf vfndor tfrm for "dbtblog"
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftCbtblogTfrm() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog bppfbrs bt thf stbrt of b fully qublififd
+     * tbblf nbmf.  If not, thf dbtblog bppfbrs bt thf fnd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dbtblog nbmf bppfbrs bt thf bfginning
+     *         of b fully qublififd tbblf nbmf; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isCbtblogAtStbrt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf <dodf>String</dodf> thbt this dbtbbbsf usfs bs thf
+     * sfpbrbtor bftwffn b dbtblog bnd tbblf nbmf.
+     *
+     * @rfturn thf sfpbrbtor string
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftCbtblogSfpbrbtor() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b sdhfmb nbmf dbn bf usfd in b dbtb mbnipulbtion stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSdhfmbsInDbtbMbnipulbtion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b sdhfmb nbmf dbn bf usfd in b prodfdurf dbll stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSdhfmbsInProdfdurfCblls() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b sdhfmb nbmf dbn bf usfd in b tbblf dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSdhfmbsInTbblfDffinitions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b sdhfmb nbmf dbn bf usfd in bn indfx dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSdhfmbsInIndfxDffinitions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b sdhfmb nbmf dbn bf usfd in b privilfgf dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSdhfmbsInPrivilfgfDffinitions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog nbmf dbn bf usfd in b dbtb mbnipulbtion stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCbtblogsInDbtbMbnipulbtion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog nbmf dbn bf usfd in b prodfdurf dbll stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCbtblogsInProdfdurfCblls() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog nbmf dbn bf usfd in b tbblf dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCbtblogsInTbblfDffinitions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog nbmf dbn bf usfd in bn indfx dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCbtblogsInIndfxDffinitions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtblog nbmf dbn bf usfd in b privilfgf dffinition stbtfmfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCbtblogsInPrivilfgfDffinitions() throws SQLExdfption;
+
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports positionfd <dodf>DELETE</dodf>
+     * stbtfmfnts.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsPositionfdDflftf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports positionfd <dodf>UPDATE</dodf>
+     * stbtfmfnts.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsPositionfdUpdbtf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports <dodf>SELECT FOR UPDATE</dodf>
+     * stbtfmfnts.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSflfdtForUpdbtf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports storfd prodfdurf dblls
+     * thbt usf thf storfd prodfdurf fsdbpf syntbx.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsStorfdProdfdurfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports subqufrifs in dompbrison
+     * fxprfssions.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSubqufrifsInCompbrisons() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports subqufrifs in
+     * <dodf>EXISTS</dodf> fxprfssions.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSubqufrifsInExists() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports subqufrifs in
+     * <dodf>IN</dodf> fxprfssions.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSubqufrifsInIns() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports subqufrifs in qubntififd
+     * fxprfssions.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsSubqufrifsInQubntififds() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports dorrflbtfd subqufrifs.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsCorrflbtfdSubqufrifs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports SQL <dodf>UNION</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsUnion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports SQL <dodf>UNION ALL</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsUnionAll() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports kffping dursors opfn
+     * bdross dommits.
+     *
+     * @rfturn <dodf>truf</dodf> if dursors blwbys rfmbin opfn;
+     *       <dodf>fblsf</dodf> if thfy might not rfmbin opfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOpfnCursorsAdrossCommit() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports kffping dursors opfn
+     * bdross rollbbdks.
+     *
+     * @rfturn <dodf>truf</dodf> if dursors blwbys rfmbin opfn;
+     *       <dodf>fblsf</dodf> if thfy might not rfmbin opfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOpfnCursorsAdrossRollbbdk() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports kffping stbtfmfnts opfn
+     * bdross dommits.
+     *
+     * @rfturn <dodf>truf</dodf> if stbtfmfnts blwbys rfmbin opfn;
+     *       <dodf>fblsf</dodf> if thfy might not rfmbin opfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOpfnStbtfmfntsAdrossCommit() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports kffping stbtfmfnts opfn
+     * bdross rollbbdks.
+     *
+     * @rfturn <dodf>truf</dodf> if stbtfmfnts blwbys rfmbin opfn;
+     *       <dodf>fblsf</dodf> if thfy might not rfmbin opfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsOpfnStbtfmfntsAdrossRollbbdk() throws SQLExdfption;
+
+
+
+    //----------------------------------------------------------------------
+    // Thf following group of mfthods fxposfs vbrious limitbtions
+    // bbsfd on thf tbrgft dbtbbbsf with thf durrfnt drivfr.
+    // Unlfss othfrwisf spfdififd, b rfsult of zfro mfbns thfrf is no
+    // limit, or thf limit is not known.
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of hfx dhbrbdtfrs this dbtbbbsf bllows in bn
+     * inlinf binbry litfrbl.
+     *
+     * @rfturn mbx thf mbximum lfngth (in hfx dhbrbdtfrs) for b binbry litfrbl;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxBinbryLitfrblLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs this dbtbbbsf bllows
+     * for b dhbrbdtfr litfrbl.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd for b dhbrbdtfr litfrbl;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit is
+     *      not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxChbrLitfrblLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs this dbtbbbsf bllows
+     * for b dolumn nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd for b dolumn nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dolumns this dbtbbbsf bllows in b
+     * <dodf>GROUP BY</dodf> dlbusf.
+     *
+     * @rfturn thf mbximum numbfr of dolumns bllowfd;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnsInGroupBy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dolumns this dbtbbbsf bllows in bn indfx.
+     *
+     * @rfturn thf mbximum numbfr of dolumns bllowfd;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnsInIndfx() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dolumns this dbtbbbsf bllows in bn
+     * <dodf>ORDER BY</dodf> dlbusf.
+     *
+     * @rfturn thf mbximum numbfr of dolumns bllowfd;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnsInOrdfrBy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dolumns this dbtbbbsf bllows in b
+     * <dodf>SELECT</dodf> list.
+     *
+     * @rfturn thf mbximum numbfr of dolumns bllowfd;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnsInSflfdt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dolumns this dbtbbbsf bllows in b tbblf.
+     *
+     * @rfturn thf mbximum numbfr of dolumns bllowfd;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxColumnsInTbblf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dondurrfnt donnfdtions to this
+     * dbtbbbsf thbt brf possiblf.
+     *
+     * @rfturn thf mbximum numbfr of bdtivf donnfdtions possiblf bt onf timf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxConnfdtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs thbt this dbtbbbsf bllows in b
+     * dursor nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd in b dursor nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxCursorNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of bytfs this dbtbbbsf bllows for bn
+     * indfx, indluding bll of thf pbrts of thf indfx.
+     *
+     * @rfturn thf mbximum numbfr of bytfs bllowfd; this limit indludfs thf
+     *      dompositf of bll thf donstitufnt pbrts of thf indfx;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxIndfxLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs thbt this dbtbbbsf bllows in b
+     * sdhfmb nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd in b sdhfmb nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxSdhfmbNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs thbt this dbtbbbsf bllows in b
+     * prodfdurf nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd in b prodfdurf nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxProdfdurfNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs thbt this dbtbbbsf bllows in b
+     * dbtblog nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd in b dbtblog nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxCbtblogNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of bytfs this dbtbbbsf bllows in
+     * b singlf row.
+     *
+     * @rfturn thf mbximum numbfr of bytfs bllowfd for b row; b rfsult of
+     *         zfro mfbns thbt thfrf is no limit or thf limit is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxRowSizf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr thf rfturn vbluf for thf mfthod
+     * <dodf>gftMbxRowSizf</dodf> indludfs thf SQL dbtb typfs
+     * <dodf>LONGVARCHAR</dodf> bnd <dodf>LONGVARBINARY</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn dofsMbxRowSizfIndludfBlobs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs this dbtbbbsf bllows in
+     * bn SQL stbtfmfnt.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd for bn SQL stbtfmfnt;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxStbtfmfntLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of bdtivf stbtfmfnts to this dbtbbbsf
+     * thbt dbn bf opfn bt thf sbmf timf.
+     *
+     * @rfturn thf mbximum numbfr of stbtfmfnts thbt dbn bf opfn bt onf timf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxStbtfmfnts() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs this dbtbbbsf bllows in
+     * b tbblf nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd for b tbblf nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxTbblfNbmfLfngth() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of tbblfs this dbtbbbsf bllows in b
+     * <dodf>SELECT</dodf> stbtfmfnt.
+     *
+     * @rfturn thf mbximum numbfr of tbblfs bllowfd in b <dodf>SELECT</dodf>
+     *         stbtfmfnt; b rfsult of zfro mfbns thbt thfrf is no limit or
+     *         thf limit is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxTbblfsInSflfdt() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbximum numbfr of dhbrbdtfrs this dbtbbbsf bllows in
+     * b usfr nbmf.
+     *
+     * @rfturn thf mbximum numbfr of dhbrbdtfrs bllowfd for b usfr nbmf;
+     *      b rfsult of zfro mfbns thbt thfrf is no limit or thf limit
+     *      is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftMbxUsfrNbmfLfngth() throws SQLExdfption;
+
+    //----------------------------------------------------------------------
+
+    /**
+     * Rftrifvfs this dbtbbbsf's dffbult trbnsbdtion isolbtion lfvfl.  Thf
+     * possiblf vblufs brf dffinfd in <dodf>jbvb.sql.Connfdtion</dodf>.
+     *
+     * @rfturn thf dffbult isolbtion lfvfl
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Connfdtion
+     */
+    int gftDffbultTrbnsbdtionIsolbtion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports trbnsbdtions. If not, invoking thf
+     * mfthod <dodf>dommit</dodf> is b noop, bnd thf isolbtion lfvfl is
+     * <dodf>TRANSACTION_NONE</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if trbnsbdtions brf supportfd;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsTrbnsbdtions() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf givfn trbnsbdtion isolbtion lfvfl.
+     *
+     * @pbrbm lfvfl onf of thf trbnsbdtion isolbtion lfvfls dffinfd in
+     *         <dodf>jbvb.sql.Connfdtion</dodf>
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Connfdtion
+     */
+    boolfbn supportsTrbnsbdtionIsolbtionLfvfl(int lfvfl)
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports both dbtb dffinition bnd
+     * dbtb mbnipulbtion stbtfmfnts within b trbnsbdtion.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsDbtbDffinitionAndDbtbMbnipulbtionTrbnsbdtions()
+        throws SQLExdfption;
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports only dbtb mbnipulbtion
+     * stbtfmfnts within b trbnsbdtion.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn supportsDbtbMbnipulbtionTrbnsbdtionsOnly()
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b dbtb dffinition stbtfmfnt within b trbnsbdtion fordfs
+     * thf trbnsbdtion to dommit.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn dbtbDffinitionCbusfsTrbnsbdtionCommit()
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf ignorfs b dbtb dffinition stbtfmfnt
+     * within b trbnsbdtion.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn dbtbDffinitionIgnorfdInTrbnsbdtions()
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf storfd prodfdurfs bvbilbblf in thf givfn
+     * dbtblog.
+     * <P>
+     * Only prodfdurf dfsdriptions mbtdhing thf sdhfmb bnd
+     * prodfdurf nbmf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>PROCEDURE_CAT</dodf>, <dodf>PROCEDURE_SCHEM</dodf>,
+     * <dodf>PROCEDURE_NAME</dodf> bnd <dodf>SPECIFIC_ NAME</dodf>.
+     *
+     * <P>Ebdh prodfdurf dfsdription hbs thf thf following dolumns:
+     *  <OL>
+     *  <LI><B>PROCEDURE_CAT</B> String {@dodf =>} prodfdurf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>PROCEDURE_SCHEM</B> String {@dodf =>} prodfdurf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>PROCEDURE_NAME</B> String {@dodf =>} prodfdurf nbmf
+     *  <LI> rfsfrvfd for futurf usf
+     *  <LI> rfsfrvfd for futurf usf
+     *  <LI> rfsfrvfd for futurf usf
+     *  <LI><B>REMARKS</B> String {@dodf =>} fxplbnbtory dommfnt on thf prodfdurf
+     *  <LI><B>PROCEDURE_TYPE</B> short {@dodf =>} kind of prodfdurf:
+     *      <UL>
+     *      <LI> prodfdurfRfsultUnknown - Cbnnot dftfrminf if  b rfturn vbluf
+     *       will bf rfturnfd
+     *      <LI> prodfdurfNoRfsult - Dofs not rfturn b rfturn vbluf
+     *      <LI> prodfdurfRfturnsRfsult - Rfturns b rfturn vbluf
+     *      </UL>
+     *  <LI><B>SPECIFIC_NAME</B> String  {@dodf =>} Thf nbmf whidh uniqufly idfntififs this
+     * prodfdurf within its sdhfmb.
+     *  </OL>
+     * <p>
+     * A usfr mby not hbvf pfrmissions to fxfdutf bny of thf prodfdurfs thbt brf
+     * rfturnfd by <dodf>gftProdfdurfs</dodf>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm prodfdurfNbmfPbttfrn b prodfdurf nbmf pbttfrn; must mbtdh thf
+     *        prodfdurf nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b prodfdurf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftProdfdurfs(String dbtblog, String sdhfmbPbttfrn,
+                            String prodfdurfNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt it is not known whfthfr thf prodfdurf rfturns
+     * b rfsult.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>PROCEDURE_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftProdfdurfs</dodf>.
+     */
+    int prodfdurfRfsultUnknown  = 0;
+
+    /**
+     * Indidbtfs thbt thf prodfdurf dofs not rfturn b rfsult.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>PROCEDURE_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftProdfdurfs</dodf>.
+     */
+    int prodfdurfNoRfsult               = 1;
+
+    /**
+     * Indidbtfs thbt thf prodfdurf rfturns b rfsult.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>PROCEDURE_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftProdfdurfs</dodf>.
+     */
+    int prodfdurfRfturnsRfsult  = 2;
+
+    /**
+     * Rftrifvfs b dfsdription of thf givfn dbtblog's storfd prodfdurf pbrbmftfr
+     * bnd rfsult dolumns.
+     *
+     * <P>Only dfsdriptions mbtdhing thf sdhfmb, prodfdurf bnd
+     * pbrbmftfr nbmf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * PROCEDURE_CAT, PROCEDURE_SCHEM, PROCEDURE_NAME bnd SPECIFIC_NAME. Within this, thf rfturn vbluf,
+     * if bny, is first. Nfxt brf thf pbrbmftfr dfsdriptions in dbll
+     * ordfr. Thf dolumn dfsdriptions follow in dolumn numbfr ordfr.
+     *
+     * <P>Ebdh row in thf <dodf>RfsultSft</dodf> is b pbrbmftfr dfsdription or
+     * dolumn dfsdription with thf following fiflds:
+     *  <OL>
+     *  <LI><B>PROCEDURE_CAT</B> String {@dodf =>} prodfdurf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>PROCEDURE_SCHEM</B> String {@dodf =>} prodfdurf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>PROCEDURE_NAME</B> String {@dodf =>} prodfdurf nbmf
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn/pbrbmftfr nbmf
+     *  <LI><B>COLUMN_TYPE</B> Short {@dodf =>} kind of dolumn/pbrbmftfr:
+     *      <UL>
+     *      <LI> prodfdurfColumnUnknown - nobody knows
+     *      <LI> prodfdurfColumnIn - IN pbrbmftfr
+     *      <LI> prodfdurfColumnInOut - INOUT pbrbmftfr
+     *      <LI> prodfdurfColumnOut - OUT pbrbmftfr
+     *      <LI> prodfdurfColumnRfturn - prodfdurf rfturn vbluf
+     *      <LI> prodfdurfColumnRfsult - rfsult dolumn in <dodf>RfsultSft</dodf>
+     *      </UL>
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL typf from jbvb.sql.Typfs
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} SQL typf nbmf, for b UDT typf thf
+     *  typf nbmf is fully qublififd
+     *  <LI><B>PRECISION</B> int {@dodf =>} prfdision
+     *  <LI><B>LENGTH</B> int {@dodf =>} lfngth in bytfs of dbtb
+     *  <LI><B>SCALE</B> short {@dodf =>} sdblf -  null is rfturnfd for dbtb typfs whfrf
+     * SCALE is not bpplidbblf.
+     *  <LI><B>RADIX</B> short {@dodf =>} rbdix
+     *  <LI><B>NULLABLE</B> short {@dodf =>} dbn it dontbin NULL.
+     *      <UL>
+     *      <LI> prodfdurfNoNulls - dofs not bllow NULL vblufs
+     *      <LI> prodfdurfNullbblf - bllows NULL vblufs
+     *      <LI> prodfdurfNullbblfUnknown - nullbbility unknown
+     *      </UL>
+     *  <LI><B>REMARKS</B> String {@dodf =>} dommfnt dfsdribing pbrbmftfr/dolumn
+     *  <LI><B>COLUMN_DEF</B> String {@dodf =>} dffbult vbluf for thf dolumn, whidh should bf intfrprftfd bs b string whfn thf vbluf is fndlosfd in singlf quotfs (mby bf <dodf>null</dodf>)
+     *      <UL>
+     *      <LI> Thf string NULL (not fndlosfd in quotfs) - if NULL wbs spfdififd bs thf dffbult vbluf
+     *      <LI> TRUNCATE (not fndlosfd in quotfs)        - if thf spfdififd dffbult vbluf dbnnot bf rfprfsfntfd without trundbtion
+     *      <LI> NULL                                     - if b dffbult vbluf wbs not spfdififd
+     *      </UL>
+     *  <LI><B>SQL_DATA_TYPE</B> int  {@dodf =>} rfsfrvfd for futurf usf
+     *  <LI><B>SQL_DATETIME_SUB</B> int  {@dodf =>} rfsfrvfd for futurf usf
+     *  <LI><B>CHAR_OCTET_LENGTH</B> int  {@dodf =>} thf mbximum lfngth of binbry bnd dhbrbdtfr bbsfd dolumns.  For bny othfr dbtbtypf thf rfturnfd vbluf is b
+     * NULL
+     *  <LI><B>ORDINAL_POSITION</B> int  {@dodf =>} thf ordinbl position, stbrting from 1, for thf input bnd output pbrbmftfrs for b prodfdurf. A vbluf of 0
+     *is rfturnfd if this row dfsdribfs thf prodfdurf's rfturn vbluf.  For rfsult sft dolumns, it is thf
+     *ordinbl position of thf dolumn in thf rfsult sft stbrting from 1.  If thfrf brf
+     *multiplf rfsult sfts, thf dolumn ordinbl positions brf implfmfntbtion
+     * dffinfd.
+     *  <LI><B>IS_NULLABLE</B> String  {@dodf =>} ISO rulfs brf usfd to dftfrminf thf nullbbility for b dolumn.
+     *       <UL>
+     *       <LI> YES           --- if thf dolumn dbn indludf NULLs
+     *       <LI> NO            --- if thf dolumn dbnnot indludf NULLs
+     *       <LI> fmpty string  --- if thf nullbbility for thf
+     * dolumn is unknown
+     *       </UL>
+     *  <LI><B>SPECIFIC_NAME</B> String  {@dodf =>} thf nbmf whidh uniqufly idfntififs this prodfdurf within its sdhfmb.
+     *  </OL>
+     *
+     * <P><B>Notf:</B> Somf dbtbbbsfs mby not rfturn thf dolumn
+     * dfsdriptions for b prodfdurf.
+     *
+     * <p>Thf PRECISION dolumn rfprfsfnts thf spfdififd dolumn sizf for thf givfn dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm prodfdurfNbmfPbttfrn b prodfdurf nbmf pbttfrn; must mbtdh thf
+     *        prodfdurf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm dolumnNbmfPbttfrn b dolumn nbmf pbttfrn; must mbtdh thf dolumn nbmf
+     *        bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row dfsdribfs b storfd prodfdurf pbrbmftfr or
+     *      dolumn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftProdfdurfColumns(String dbtblog,
+                                  String sdhfmbPbttfrn,
+                                  String prodfdurfNbmfPbttfrn,
+                                  String dolumnNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt typf of thf dolumn is unknown.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnUnknown = 0;
+
+    /**
+     * Indidbtfs thbt thf dolumn storfs IN pbrbmftfrs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnIn = 1;
+
+    /**
+     * Indidbtfs thbt thf dolumn storfs INOUT pbrbmftfrs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnInOut = 2;
+
+    /**
+     * Indidbtfs thbt thf dolumn storfs OUT pbrbmftfrs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnOut = 4;
+    /**
+     * Indidbtfs thbt thf dolumn storfs rfturn vblufs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnRfturn = 5;
+
+    /**
+     * Indidbtfs thbt thf dolumn storfs rfsults.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfColumnRfsult = 3;
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs brf not bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfNoNulls = 0;
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs brf bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfNullbblf = 1;
+
+    /**
+     * Indidbtfs thbt whfthfr <dodf>NULL</dodf> vblufs brf bllowfd
+     * is unknown.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftProdfdurfColumns</dodf>.
+     */
+    int prodfdurfNullbblfUnknown = 2;
+
+
+    /**
+     * Rftrifvfs b dfsdription of thf tbblfs bvbilbblf in thf givfn dbtblog.
+     * Only tbblf dfsdriptions mbtdhing thf dbtblog, sdhfmb, tbblf
+     * nbmf bnd typf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>TABLE_TYPE</dodf>, <dodf>TABLE_CAT</dodf>,
+     * <dodf>TABLE_SCHEM</dodf> bnd <dodf>TABLE_NAME</dodf>.
+     * <P>
+     * Ebdh tbblf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>TABLE_TYPE</B> String {@dodf =>} tbblf typf.  Typidbl typfs brf "TABLE",
+     *                  "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY",
+     *                  "LOCAL TEMPORARY", "ALIAS", "SYNONYM".
+     *  <LI><B>REMARKS</B> String {@dodf =>} fxplbnbtory dommfnt on thf tbblf
+     *  <LI><B>TYPE_CAT</B> String {@dodf =>} thf typfs dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_SCHEM</B> String {@dodf =>} thf typfs sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} typf nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>SELF_REFERENCING_COL_NAME</B> String {@dodf =>} nbmf of thf dfsignbtfd
+     *                  "idfntififr" dolumn of b typfd tbblf (mby bf <dodf>null</dodf>)
+     *  <LI><B>REF_GENERATION</B> String {@dodf =>} spfdififs how vblufs in
+     *                  SELF_REFERENCING_COL_NAME brf drfbtfd. Vblufs brf
+     *                  "SYSTEM", "USER", "DERIVED". (mby bf <dodf>null</dodf>)
+     *  </OL>
+     *
+     * <P><B>Notf:</B> Somf dbtbbbsfs mby not rfturn informbtion for
+     * bll tbblfs.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblfNbmfPbttfrn b tbblf nbmf pbttfrn; must mbtdh thf
+     *        tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm typfs b list of tbblf typfs, whidh must bf from thf list of tbblf typfs
+     *         rfturnfd from {@link #gftTbblfTypfs},to indludf; <dodf>null</dodf> rfturns
+     * bll typfs
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b tbblf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftTbblfs(String dbtblog, String sdhfmbPbttfrn,
+                        String tbblfNbmfPbttfrn, String typfs[]) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf sdhfmb nbmfs bvbilbblf in this dbtbbbsf.  Thf rfsults
+     * brf ordfrfd by <dodf>TABLE_CATALOG</dodf> bnd
+     * <dodf>TABLE_SCHEM</dodf>.
+     *
+     * <P>Thf sdhfmb dolumns brf:
+     *  <OL>
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} sdhfmb nbmf
+     *  <LI><B>TABLE_CATALOG</B> String {@dodf =>} dbtblog nbmf (mby bf <dodf>null</dodf>)
+     *  </OL>
+     *
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is b
+     *         sdhfmb dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     *
+     */
+    RfsultSft gftSdhfmbs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dbtblog nbmfs bvbilbblf in this dbtbbbsf.  Thf rfsults
+     * brf ordfrfd by dbtblog nbmf.
+     *
+     * <P>Thf dbtblog dolumn is:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} dbtblog nbmf
+     *  </OL>
+     *
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row hbs b
+     *         singlf <dodf>String</dodf> dolumn thbt is b dbtblog nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftCbtblogs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf tbblf typfs bvbilbblf in this dbtbbbsf.  Thf rfsults
+     * brf ordfrfd by tbblf typf.
+     *
+     * <P>Thf tbblf typf is:
+     *  <OL>
+     *  <LI><B>TABLE_TYPE</B> String {@dodf =>} tbblf typf.  Typidbl typfs brf "TABLE",
+     *                  "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY",
+     *                  "LOCAL TEMPORARY", "ALIAS", "SYNONYM".
+     *  </OL>
+     *
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row hbs b
+     *         singlf <dodf>String</dodf> dolumn thbt is b tbblf typf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftTbblfTypfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of tbblf dolumns bvbilbblf in
+     * thf spfdififd dbtblog.
+     *
+     * <P>Only dolumn dfsdriptions mbtdhing thf dbtblog, sdhfmb, tbblf
+     * bnd dolumn nbmf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>TABLE_CAT</dodf>,<dodf>TABLE_SCHEM</dodf>,
+     * <dodf>TABLE_NAME</dodf>, bnd <dodf>ORDINAL_POSITION</dodf>.
+     *
+     * <P>Ebdh dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL typf from jbvb.sql.Typfs
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} Dbtb sourdf dfpfndfnt typf nbmf,
+     *  for b UDT thf typf nbmf is fully qublififd
+     *  <LI><B>COLUMN_SIZE</B> int {@dodf =>} dolumn sizf.
+     *  <LI><B>BUFFER_LENGTH</B> is not usfd.
+     *  <LI><B>DECIMAL_DIGITS</B> int {@dodf =>} thf numbfr of frbdtionbl digits. Null is rfturnfd for dbtb typfs whfrf
+     * DECIMAL_DIGITS is not bpplidbblf.
+     *  <LI><B>NUM_PREC_RADIX</B> int {@dodf =>} Rbdix (typidblly fithfr 10 or 2)
+     *  <LI><B>NULLABLE</B> int {@dodf =>} is NULL bllowfd.
+     *      <UL>
+     *      <LI> dolumnNoNulls - might not bllow <dodf>NULL</dodf> vblufs
+     *      <LI> dolumnNullbblf - dffinitfly bllows <dodf>NULL</dodf> vblufs
+     *      <LI> dolumnNullbblfUnknown - nullbbility unknown
+     *      </UL>
+     *  <LI><B>REMARKS</B> String {@dodf =>} dommfnt dfsdribing dolumn (mby bf <dodf>null</dodf>)
+     *  <LI><B>COLUMN_DEF</B> String {@dodf =>} dffbult vbluf for thf dolumn, whidh should bf intfrprftfd bs b string whfn thf vbluf is fndlosfd in singlf quotfs (mby bf <dodf>null</dodf>)
+     *  <LI><B>SQL_DATA_TYPE</B> int {@dodf =>} unusfd
+     *  <LI><B>SQL_DATETIME_SUB</B> int {@dodf =>} unusfd
+     *  <LI><B>CHAR_OCTET_LENGTH</B> int {@dodf =>} for dhbr typfs thf
+     *       mbximum numbfr of bytfs in thf dolumn
+     *  <LI><B>ORDINAL_POSITION</B> int {@dodf =>} indfx of dolumn in tbblf
+     *      (stbrting bt 1)
+     *  <LI><B>IS_NULLABLE</B> String  {@dodf =>} ISO rulfs brf usfd to dftfrminf thf nullbbility for b dolumn.
+     *       <UL>
+     *       <LI> YES           --- if thf dolumn dbn indludf NULLs
+     *       <LI> NO            --- if thf dolumn dbnnot indludf NULLs
+     *       <LI> fmpty string  --- if thf nullbbility for thf
+     * dolumn is unknown
+     *       </UL>
+     *  <LI><B>SCOPE_CATALOG</B> String {@dodf =>} dbtblog of tbblf thbt is thf sdopf
+     *      of b rfffrfndf bttributf (<dodf>null</dodf> if DATA_TYPE isn't REF)
+     *  <LI><B>SCOPE_SCHEMA</B> String {@dodf =>} sdhfmb of tbblf thbt is thf sdopf
+     *      of b rfffrfndf bttributf (<dodf>null</dodf> if thf DATA_TYPE isn't REF)
+     *  <LI><B>SCOPE_TABLE</B> String {@dodf =>} tbblf nbmf thbt this thf sdopf
+     *      of b rfffrfndf bttributf (<dodf>null</dodf> if thf DATA_TYPE isn't REF)
+     *  <LI><B>SOURCE_DATA_TYPE</B> short {@dodf =>} sourdf typf of b distindt typf or usfr-gfnfrbtfd
+     *      Rff typf, SQL typf from jbvb.sql.Typfs (<dodf>null</dodf> if DATA_TYPE
+     *      isn't DISTINCT or usfr-gfnfrbtfd REF)
+     *   <LI><B>IS_AUTOINCREMENT</B> String  {@dodf =>} Indidbtfs whfthfr this dolumn is buto indrfmfntfd
+     *       <UL>
+     *       <LI> YES           --- if thf dolumn is buto indrfmfntfd
+     *       <LI> NO            --- if thf dolumn is not buto indrfmfntfd
+     *       <LI> fmpty string  --- if it dbnnot bf dftfrminfd whfthfr thf dolumn is buto indrfmfntfd
+     *       </UL>
+     *   <LI><B>IS_GENERATEDCOLUMN</B> String  {@dodf =>} Indidbtfs whfthfr this is b gfnfrbtfd dolumn
+     *       <UL>
+     *       <LI> YES           --- if this b gfnfrbtfd dolumn
+     *       <LI> NO            --- if this not b gfnfrbtfd dolumn
+     *       <LI> fmpty string  --- if it dbnnot bf dftfrminfd whfthfr this is b gfnfrbtfd dolumn
+     *       </UL>
+     *  </OL>
+     *
+     * <p>Thf COLUMN_SIZE dolumn spfdififs thf dolumn sizf for thf givfn dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblfNbmfPbttfrn b tbblf nbmf pbttfrn; must mbtdh thf
+     *        tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm dolumnNbmfPbttfrn b dolumn nbmf pbttfrn; must mbtdh thf dolumn
+     *        nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftColumns(String dbtblog, String sdhfmbPbttfrn,
+                         String tbblfNbmfPbttfrn, String dolumnNbmfPbttfrn)
+        throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt thf dolumn might not bllow <dodf>NULL</dodf> vblufs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> rfturnfd by thf mfthod
+     * <dodf>gftColumns</dodf>.
+     */
+    int dolumnNoNulls = 0;
+
+    /**
+     * Indidbtfs thbt thf dolumn dffinitfly bllows <dodf>NULL</dodf> vblufs.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> rfturnfd by thf mfthod
+     * <dodf>gftColumns</dodf>.
+     */
+    int dolumnNullbblf = 1;
+
+    /**
+     * Indidbtfs thbt thf nullbbility of dolumns is unknown.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> rfturnfd by thf mfthod
+     * <dodf>gftColumns</dodf>.
+     */
+    int dolumnNullbblfUnknown = 2;
+
+    /**
+     * Rftrifvfs b dfsdription of thf bddfss rights for b tbblf's dolumns.
+     *
+     * <P>Only privilfgfs mbtdhing thf dolumn nbmf dritfrib brf
+     * rfturnfd.  Thfy brf ordfrfd by COLUMN_NAME bnd PRIVILEGE.
+     *
+     * <P>Ebdh privilfgf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>GRANTOR</B> String {@dodf =>} grbntor of bddfss (mby bf <dodf>null</dodf>)
+     *  <LI><B>GRANTEE</B> String {@dodf =>} grbntff of bddfss
+     *  <LI><B>PRIVILEGE</B> String {@dodf =>} nbmf of bddfss (SELECT,
+     *      INSERT, UPDATE, REFRENCES, ...)
+     *  <LI><B>IS_GRANTABLE</B> String {@dodf =>} "YES" if grbntff is pfrmittfd
+     *      to grbnt to othfrs; "NO" if not; <dodf>null</dodf> if unknown
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf bs it is
+     *        storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is
+     *        storfd in thf dbtbbbsf
+     * @pbrbm dolumnNbmfPbttfrn b dolumn nbmf pbttfrn; must mbtdh thf dolumn
+     *        nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b dolumn privilfgf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftColumnPrivilfgfs(String dbtblog, String sdhfmb,
+                                  String tbblf, String dolumnNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf bddfss rights for fbdh tbblf bvbilbblf
+     * in b dbtblog. Notf thbt b tbblf privilfgf bpplifs to onf or
+     * morf dolumns in thf tbblf. It would bf wrong to bssumf thbt
+     * this privilfgf bpplifs to bll dolumns (this mby bf truf for
+     * somf systfms but is not truf for bll.)
+     *
+     * <P>Only privilfgfs mbtdhing thf sdhfmb bnd tbblf nbmf
+     * dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>TABLE_CAT</dodf>,
+     * <dodf>TABLE_SCHEM</dodf>, <dodf>TABLE_NAME</dodf>,
+     * bnd <dodf>PRIVILEGE</dodf>.
+     *
+     * <P>Ebdh privilfgf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>GRANTOR</B> String {@dodf =>} grbntor of bddfss (mby bf <dodf>null</dodf>)
+     *  <LI><B>GRANTEE</B> String {@dodf =>} grbntff of bddfss
+     *  <LI><B>PRIVILEGE</B> String {@dodf =>} nbmf of bddfss (SELECT,
+     *      INSERT, UPDATE, REFRENCES, ...)
+     *  <LI><B>IS_GRANTABLE</B> String {@dodf =>} "YES" if grbntff is pfrmittfd
+     *      to grbnt to othfrs; "NO" if not; <dodf>null</dodf> if unknown
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblfNbmfPbttfrn b tbblf nbmf pbttfrn; must mbtdh thf
+     *        tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b tbblf privilfgf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     */
+    RfsultSft gftTbblfPrivilfgfs(String dbtblog, String sdhfmbPbttfrn,
+                                 String tbblfNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of b tbblf's optimbl sft of dolumns thbt
+     * uniqufly idfntififs b row. Thfy brf ordfrfd by SCOPE.
+     *
+     * <P>Ebdh dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>SCOPE</B> short {@dodf =>} bdtubl sdopf of rfsult
+     *      <UL>
+     *      <LI> bfstRowTfmporbry - vfry tfmporbry, whilf using row
+     *      <LI> bfstRowTrbnsbdtion - vblid for rfmbindfr of durrfnt trbnsbdtion
+     *      <LI> bfstRowSfssion - vblid for rfmbindfr of durrfnt sfssion
+     *      </UL>
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL dbtb typf from jbvb.sql.Typfs
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} Dbtb sourdf dfpfndfnt typf nbmf,
+     *  for b UDT thf typf nbmf is fully qublififd
+     *  <LI><B>COLUMN_SIZE</B> int {@dodf =>} prfdision
+     *  <LI><B>BUFFER_LENGTH</B> int {@dodf =>} not usfd
+     *  <LI><B>DECIMAL_DIGITS</B> short  {@dodf =>} sdblf - Null is rfturnfd for dbtb typfs whfrf
+     * DECIMAL_DIGITS is not bpplidbblf.
+     *  <LI><B>PSEUDO_COLUMN</B> short {@dodf =>} is this b psfudo dolumn
+     *      likf bn Orbdlf ROWID
+     *      <UL>
+     *      <LI> bfstRowUnknown - mby or mby not bf psfudo dolumn
+     *      <LI> bfstRowNotPsfudo - is NOT b psfudo dolumn
+     *      <LI> bfstRowPsfudo - is b psfudo dolumn
+     *      </UL>
+     *  </OL>
+     *
+     * <p>Thf COLUMN_SIZE dolumn rfprfsfnts thf spfdififd dolumn sizf for thf givfn dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in thf dbtbbbsf
+     * @pbrbm sdopf thf sdopf of intfrfst; usf sbmf vblufs bs SCOPE
+     * @pbrbm nullbblf indludf dolumns thbt brf nullbblf.
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftBfstRowIdfntififr(String dbtblog, String sdhfmb,
+                                   String tbblf, int sdopf, boolfbn nullbblf) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt thf sdopf of thf bfst row idfntififr is
+     * vfry tfmporbry, lbsting only whilf thf
+     * row is bfing usfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>SCOPE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowTfmporbry   = 0;
+
+    /**
+     * Indidbtfs thbt thf sdopf of thf bfst row idfntififr is
+     * thf rfmbindfr of thf durrfnt trbnsbdtion.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>SCOPE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowTrbnsbdtion = 1;
+
+    /**
+     * Indidbtfs thbt thf sdopf of thf bfst row idfntififr is
+     * thf rfmbindfr of thf durrfnt sfssion.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>SCOPE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowSfssion     = 2;
+
+    /**
+     * Indidbtfs thbt thf bfst row idfntififr mby or mby not bf b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowUnknown  = 0;
+
+    /**
+     * Indidbtfs thbt thf bfst row idfntififr is NOT b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowNotPsfudo        = 1;
+
+    /**
+     * Indidbtfs thbt thf bfst row idfntififr is b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftBfstRowIdfntififr</dodf>.
+     */
+    int bfstRowPsfudo   = 2;
+
+    /**
+     * Rftrifvfs b dfsdription of b tbblf's dolumns thbt brf butombtidblly
+     * updbtfd whfn bny vbluf in b row is updbtfd.  Thfy brf
+     * unordfrfd.
+     *
+     * <P>Ebdh dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>SCOPE</B> short {@dodf =>} is not usfd
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL dbtb typf from <dodf>jbvb.sql.Typfs</dodf>
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} Dbtb sourdf-dfpfndfnt typf nbmf
+     *  <LI><B>COLUMN_SIZE</B> int {@dodf =>} prfdision
+     *  <LI><B>BUFFER_LENGTH</B> int {@dodf =>} lfngth of dolumn vbluf in bytfs
+     *  <LI><B>DECIMAL_DIGITS</B> short  {@dodf =>} sdblf - Null is rfturnfd for dbtb typfs whfrf
+     * DECIMAL_DIGITS is not bpplidbblf.
+     *  <LI><B>PSEUDO_COLUMN</B> short {@dodf =>} whfthfr this is psfudo dolumn
+     *      likf bn Orbdlf ROWID
+     *      <UL>
+     *      <LI> vfrsionColumnUnknown - mby or mby not bf psfudo dolumn
+     *      <LI> vfrsionColumnNotPsfudo - is NOT b psfudo dolumn
+     *      <LI> vfrsionColumnPsfudo - is b psfudo dolumn
+     *      </UL>
+     *  </OL>
+     *
+     * <p>Thf COLUMN_SIZE dolumn rfprfsfnts thf spfdififd dolumn sizf for thf givfn dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in thf dbtbbbsf
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is b
+     *         dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftVfrsionColumns(String dbtblog, String sdhfmb,
+                                String tbblf) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt this vfrsion dolumn mby or mby not bf b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftVfrsionColumns</dodf>.
+     */
+    int vfrsionColumnUnknown    = 0;
+
+    /**
+     * Indidbtfs thbt this vfrsion dolumn is NOT b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftVfrsionColumns</dodf>.
+     */
+    int vfrsionColumnNotPsfudo  = 1;
+
+    /**
+     * Indidbtfs thbt this vfrsion dolumn is b psfudo dolumn.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>PSEUDO_COLUMN</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftVfrsionColumns</dodf>.
+     */
+    int vfrsionColumnPsfudo     = 2;
+
+    /**
+     * Rftrifvfs b dfsdription of thf givfn tbblf's primbry kfy dolumns.  Thfy
+     * brf ordfrfd by COLUMN_NAME.
+     *
+     * <P>Ebdh primbry kfy dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>KEY_SEQ</B> short {@dodf =>} sfqufndf numbfr within primbry kfy( b vbluf
+     *  of 1 rfprfsfnts thf first dolumn of thf primbry kfy, b vbluf of 2 would
+     *  rfprfsfnt thf sfdond dolumn within thf primbry kfy).
+     *  <LI><B>PK_NAME</B> String {@dodf =>} primbry kfy nbmf (mby bf <dodf>null</dodf>)
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b primbry kfy dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftPrimbryKfys(String dbtblog, String sdhfmb,
+                             String tbblf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf primbry kfy dolumns thbt brf
+     * rfffrfndfd by thf givfn tbblf's forfign kfy dolumns (thf primbry kfys
+     * importfd by b tbblf).  Thfy brf ordfrfd by PKTABLE_CAT,
+     * PKTABLE_SCHEM, PKTABLE_NAME, bnd KEY_SEQ.
+     *
+     * <P>Ebdh primbry kfy dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>PKTABLE_CAT</B> String {@dodf =>} primbry kfy tbblf dbtblog
+     *      bfing importfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_SCHEM</B> String {@dodf =>} primbry kfy tbblf sdhfmb
+     *      bfing importfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_NAME</B> String {@dodf =>} primbry kfy tbblf nbmf
+     *      bfing importfd
+     *  <LI><B>PKCOLUMN_NAME</B> String {@dodf =>} primbry kfy dolumn nbmf
+     *      bfing importfd
+     *  <LI><B>FKTABLE_CAT</B> String {@dodf =>} forfign kfy tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_SCHEM</B> String {@dodf =>} forfign kfy tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_NAME</B> String {@dodf =>} forfign kfy tbblf nbmf
+     *  <LI><B>FKCOLUMN_NAME</B> String {@dodf =>} forfign kfy dolumn nbmf
+     *  <LI><B>KEY_SEQ</B> short {@dodf =>} sfqufndf numbfr within b forfign kfy( b vbluf
+     *  of 1 rfprfsfnts thf first dolumn of thf forfign kfy, b vbluf of 2 would
+     *  rfprfsfnt thf sfdond dolumn within thf forfign kfy).
+     *  <LI><B>UPDATE_RULE</B> short {@dodf =>} Whbt hbppfns to b
+     *       forfign kfy whfn thf primbry kfy is updbtfd:
+     *      <UL>
+     *      <LI> importfdNoAdtion - do not bllow updbtf of primbry
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dhbngf importfd kfy to bgrff
+     *               with primbry kfy updbtf
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to <dodf>NULL</dodf>
+     *               if its primbry kfy hbs bffn updbtfd
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult vblufs
+     *               if its primbry kfy hbs bffn updbtfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      </UL>
+     *  <LI><B>DELETE_RULE</B> short {@dodf =>} Whbt hbppfns to
+     *      thf forfign kfy whfn primbry is dflftfd.
+     *      <UL>
+     *      <LI> importfdKfyNoAdtion - do not bllow dflftf of primbry
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dflftf rows thbt import b dflftfd kfy
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to NULL if
+     *               its primbry kfy hbs bffn dflftfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult if
+     *               its primbry kfy hbs bffn dflftfd
+     *      </UL>
+     *  <LI><B>FK_NAME</B> String {@dodf =>} forfign kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>PK_NAME</B> String {@dodf =>} primbry kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>DEFERRABILITY</B> short {@dodf =>} dbn thf fvblubtion of forfign kfy
+     *      donstrbints bf dfffrrfd until dommit
+     *      <UL>
+     *      <LI> importfdKfyInitibllyDfffrrfd - sff SQL92 for dffinition
+     *      <LI> importfdKfyInitibllyImmfdibtf - sff SQL92 for dffinition
+     *      <LI> importfdKfyNotDfffrrbblf - sff SQL92 for dffinition
+     *      </UL>
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b primbry kfy dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftExportfdKfys
+     */
+    RfsultSft gftImportfdKfys(String dbtblog, String sdhfmb,
+                              String tbblf) throws SQLExdfption;
+
+    /**
+     * For thf dolumn <dodf>UPDATE_RULE</dodf>,
+     * indidbtfs thbt
+     * whfn thf primbry kfy is updbtfd, thf forfign kfy (importfd kfy)
+     * is dhbngfd to bgrff with it.
+     * For thf dolumn <dodf>DELETE_RULE</dodf>,
+     * it indidbtfs thbt
+     * whfn thf primbry kfy is dflftfd, rows thbt importfd thbt kfy
+     * brf dflftfd.
+     * <P>
+     * A possiblf vbluf for thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyCbsdbdf      = 0;
+
+    /**
+     * For thf dolumn <dodf>UPDATE_RULE</dodf>, indidbtfs thbt
+     * b primbry kfy mby not bf updbtfd if it hbs bffn importfd by
+     * bnothfr tbblf bs b forfign kfy.
+     * For thf dolumn <dodf>DELETE_RULE</dodf>, indidbtfs thbt
+     * b primbry kfy mby not bf dflftfd if it hbs bffn importfd by
+     * bnothfr tbblf bs b forfign kfy.
+     * <P>
+     * A possiblf vbluf for thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyRfstridt = 1;
+
+    /**
+     * For thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf>, indidbtfs thbt
+     * whfn thf primbry kfy is updbtfd or dflftfd, thf forfign kfy (importfd kfy)
+     * is dhbngfd to <dodf>NULL</dodf>.
+     * <P>
+     * A possiblf vbluf for thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfySftNull  = 2;
+
+    /**
+     * For thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf>, indidbtfs thbt
+     * if thf primbry kfy hbs bffn importfd, it dbnnot bf updbtfd or dflftfd.
+     * <P>
+     * A possiblf vbluf for thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyNoAdtion = 3;
+
+    /**
+     * For thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf>, indidbtfs thbt
+     * if thf primbry kfy is updbtfd or dflftfd, thf forfign kfy (importfd kfy)
+     * is sft to thf dffbult vbluf.
+     * <P>
+     * A possiblf vbluf for thf dolumns <dodf>UPDATE_RULE</dodf>
+     * bnd <dodf>DELETE_RULE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfySftDffbult  = 4;
+
+    /**
+     * Indidbtfs dfffrrbbility.  Sff SQL-92 for b dffinition.
+     * <P>
+     * A possiblf vbluf for thf dolumn <dodf>DEFERRABILITY</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyInitibllyDfffrrfd  = 5;
+
+    /**
+     * Indidbtfs dfffrrbbility.  Sff SQL-92 for b dffinition.
+     * <P>
+     * A possiblf vbluf for thf dolumn <dodf>DEFERRABILITY</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyInitibllyImmfdibtf  = 6;
+
+    /**
+     * Indidbtfs dfffrrbbility.  Sff SQL-92 for b dffinition.
+     * <P>
+     * A possiblf vbluf for thf dolumn <dodf>DEFERRABILITY</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdts rfturnfd by thf mfthods
+     * <dodf>gftImportfdKfys</dodf>,  <dodf>gftExportfdKfys</dodf>,
+     * bnd <dodf>gftCrossRfffrfndf</dodf>.
+     */
+    int importfdKfyNotDfffrrbblf  = 7;
+
+    /**
+     * Rftrifvfs b dfsdription of thf forfign kfy dolumns thbt rfffrfndf thf
+     * givfn tbblf's primbry kfy dolumns (thf forfign kfys fxportfd by b
+     * tbblf).  Thfy brf ordfrfd by FKTABLE_CAT, FKTABLE_SCHEM,
+     * FKTABLE_NAME, bnd KEY_SEQ.
+     *
+     * <P>Ebdh forfign kfy dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>PKTABLE_CAT</B> String {@dodf =>} primbry kfy tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_SCHEM</B> String {@dodf =>} primbry kfy tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_NAME</B> String {@dodf =>} primbry kfy tbblf nbmf
+     *  <LI><B>PKCOLUMN_NAME</B> String {@dodf =>} primbry kfy dolumn nbmf
+     *  <LI><B>FKTABLE_CAT</B> String {@dodf =>} forfign kfy tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *      bfing fxportfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_SCHEM</B> String {@dodf =>} forfign kfy tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *      bfing fxportfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_NAME</B> String {@dodf =>} forfign kfy tbblf nbmf
+     *      bfing fxportfd
+     *  <LI><B>FKCOLUMN_NAME</B> String {@dodf =>} forfign kfy dolumn nbmf
+     *      bfing fxportfd
+     *  <LI><B>KEY_SEQ</B> short {@dodf =>} sfqufndf numbfr within forfign kfy( b vbluf
+     *  of 1 rfprfsfnts thf first dolumn of thf forfign kfy, b vbluf of 2 would
+     *  rfprfsfnt thf sfdond dolumn within thf forfign kfy).
+     *  <LI><B>UPDATE_RULE</B> short {@dodf =>} Whbt hbppfns to
+     *       forfign kfy whfn primbry is updbtfd:
+     *      <UL>
+     *      <LI> importfdNoAdtion - do not bllow updbtf of primbry
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dhbngf importfd kfy to bgrff
+     *               with primbry kfy updbtf
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to <dodf>NULL</dodf> if
+     *               its primbry kfy hbs bffn updbtfd
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult vblufs
+     *               if its primbry kfy hbs bffn updbtfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      </UL>
+     *  <LI><B>DELETE_RULE</B> short {@dodf =>} Whbt hbppfns to
+     *      thf forfign kfy whfn primbry is dflftfd.
+     *      <UL>
+     *      <LI> importfdKfyNoAdtion - do not bllow dflftf of primbry
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dflftf rows thbt import b dflftfd kfy
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to <dodf>NULL</dodf> if
+     *               its primbry kfy hbs bffn dflftfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult if
+     *               its primbry kfy hbs bffn dflftfd
+     *      </UL>
+     *  <LI><B>FK_NAME</B> String {@dodf =>} forfign kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>PK_NAME</B> String {@dodf =>} primbry kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>DEFERRABILITY</B> short {@dodf =>} dbn thf fvblubtion of forfign kfy
+     *      donstrbints bf dfffrrfd until dommit
+     *      <UL>
+     *      <LI> importfdKfyInitibllyDfffrrfd - sff SQL92 for dffinition
+     *      <LI> importfdKfyInitibllyImmfdibtf - sff SQL92 for dffinition
+     *      <LI> importfdKfyNotDfffrrbblf - sff SQL92 for dffinition
+     *      </UL>
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in this dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in this dbtbbbsf
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is b
+     *         forfign kfy dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftImportfdKfys
+     */
+    RfsultSft gftExportfdKfys(String dbtblog, String sdhfmb,
+                              String tbblf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf forfign kfy dolumns in thf givfn forfign kfy
+     * tbblf thbt rfffrfndf thf primbry kfy or thf dolumns rfprfsfnting b uniquf donstrbint of thf  pbrfnt tbblf (dould bf thf sbmf or b difffrfnt tbblf).
+     * Thf numbfr of dolumns rfturnfd from thf pbrfnt tbblf must mbtdh thf numbfr of
+     * dolumns thbt mbkf up thf forfign kfy.  Thfy
+     * brf ordfrfd by FKTABLE_CAT, FKTABLE_SCHEM, FKTABLE_NAME, bnd
+     * KEY_SEQ.
+     *
+     * <P>Ebdh forfign kfy dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>PKTABLE_CAT</B> String {@dodf =>} pbrfnt kfy tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_SCHEM</B> String {@dodf =>} pbrfnt kfy tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>PKTABLE_NAME</B> String {@dodf =>} pbrfnt kfy tbblf nbmf
+     *  <LI><B>PKCOLUMN_NAME</B> String {@dodf =>} pbrfnt kfy dolumn nbmf
+     *  <LI><B>FKTABLE_CAT</B> String {@dodf =>} forfign kfy tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *      bfing fxportfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_SCHEM</B> String {@dodf =>} forfign kfy tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *      bfing fxportfd (mby bf <dodf>null</dodf>)
+     *  <LI><B>FKTABLE_NAME</B> String {@dodf =>} forfign kfy tbblf nbmf
+     *      bfing fxportfd
+     *  <LI><B>FKCOLUMN_NAME</B> String {@dodf =>} forfign kfy dolumn nbmf
+     *      bfing fxportfd
+     *  <LI><B>KEY_SEQ</B> short {@dodf =>} sfqufndf numbfr within forfign kfy( b vbluf
+     *  of 1 rfprfsfnts thf first dolumn of thf forfign kfy, b vbluf of 2 would
+     *  rfprfsfnt thf sfdond dolumn within thf forfign kfy).
+     *  <LI><B>UPDATE_RULE</B> short {@dodf =>} Whbt hbppfns to
+     *       forfign kfy whfn pbrfnt kfy is updbtfd:
+     *      <UL>
+     *      <LI> importfdNoAdtion - do not bllow updbtf of pbrfnt
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dhbngf importfd kfy to bgrff
+     *               with pbrfnt kfy updbtf
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to <dodf>NULL</dodf> if
+     *               its pbrfnt kfy hbs bffn updbtfd
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult vblufs
+     *               if its pbrfnt kfy hbs bffn updbtfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      </UL>
+     *  <LI><B>DELETE_RULE</B> short {@dodf =>} Whbt hbppfns to
+     *      thf forfign kfy whfn pbrfnt kfy is dflftfd.
+     *      <UL>
+     *      <LI> importfdKfyNoAdtion - do not bllow dflftf of pbrfnt
+     *               kfy if it hbs bffn importfd
+     *      <LI> importfdKfyCbsdbdf - dflftf rows thbt import b dflftfd kfy
+     *      <LI> importfdKfySftNull - dhbngf importfd kfy to <dodf>NULL</dodf> if
+     *               its primbry kfy hbs bffn dflftfd
+     *      <LI> importfdKfyRfstridt - sbmf bs importfdKfyNoAdtion
+     *                                 (for ODBC 2.x dompbtibility)
+     *      <LI> importfdKfySftDffbult - dhbngf importfd kfy to dffbult if
+     *               its pbrfnt kfy hbs bffn dflftfd
+     *      </UL>
+     *  <LI><B>FK_NAME</B> String {@dodf =>} forfign kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>PK_NAME</B> String {@dodf =>} pbrfnt kfy nbmf (mby bf <dodf>null</dodf>)
+     *  <LI><B>DEFERRABILITY</B> short {@dodf =>} dbn thf fvblubtion of forfign kfy
+     *      donstrbints bf dfffrrfd until dommit
+     *      <UL>
+     *      <LI> importfdKfyInitibllyDfffrrfd - sff SQL92 for dffinition
+     *      <LI> importfdKfyInitibllyImmfdibtf - sff SQL92 for dffinition
+     *      <LI> importfdKfyNotDfffrrbblf - sff SQL92 for dffinition
+     *      </UL>
+     *  </OL>
+     *
+     * @pbrbm pbrfntCbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf
+     * bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b
+     * dbtblog; <dodf>null</dodf> mfbns drop dbtblog nbmf from thf sflfdtion dritfrib
+     * @pbrbm pbrfntSdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf bs
+     * it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     * <dodf>null</dodf> mfbns drop sdhfmb nbmf from thf sflfdtion dritfrib
+     * @pbrbm pbrfntTbblf thf nbmf of thf tbblf thbt fxports thf kfy; must mbtdh
+     * thf tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm forfignCbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs
+     * it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b
+     * dbtblog; <dodf>null</dodf> mfbns drop dbtblog nbmf from thf sflfdtion dritfrib
+     * @pbrbm forfignSdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf bs it
+     * is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     * <dodf>null</dodf> mfbns drop sdhfmb nbmf from thf sflfdtion dritfrib
+     * @pbrbm forfignTbblf thf nbmf of thf tbblf thbt imports thf kfy; must mbtdh
+     * thf tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b forfign kfy dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftImportfdKfys
+     */
+    RfsultSft gftCrossRfffrfndf(
+                                String pbrfntCbtblog, String pbrfntSdhfmb, String pbrfntTbblf,
+                                String forfignCbtblog, String forfignSdhfmb, String forfignTbblf
+                                ) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of bll thf dbtb typfs supportfd by
+     * this dbtbbbsf. Thfy brf ordfrfd by DATA_TYPE bnd thfn by how
+     * dlosfly thf dbtb typf mbps to thf dorrfsponding JDBC SQL typf.
+     *
+     * <P>If thf dbtbbbsf supports SQL distindt typfs, thfn gftTypfInfo() will rfturn
+     * b singlf row with b TYPE_NAME of DISTINCT bnd b DATA_TYPE of Typfs.DISTINCT.
+     * If thf dbtbbbsf supports SQL strudturfd typfs, thfn gftTypfInfo() will rfturn
+     * b singlf row with b TYPE_NAME of STRUCT bnd b DATA_TYPE of Typfs.STRUCT.
+     *
+     * <P>If SQL distindt or strudturfd typfs brf supportfd, thfn informbtion on thf
+     * individubl typfs mby bf obtbinfd from thf gftUDTs() mfthod.
+     *
+     *
+     * <P>Ebdh typf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} Typf nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL dbtb typf from jbvb.sql.Typfs
+     *  <LI><B>PRECISION</B> int {@dodf =>} mbximum prfdision
+     *  <LI><B>LITERAL_PREFIX</B> String {@dodf =>} prffix usfd to quotf b litfrbl
+     *      (mby bf <dodf>null</dodf>)
+     *  <LI><B>LITERAL_SUFFIX</B> String {@dodf =>} suffix usfd to quotf b litfrbl
+     *  (mby bf <dodf>null</dodf>)
+     *  <LI><B>CREATE_PARAMS</B> String {@dodf =>} pbrbmftfrs usfd in drfbting
+     *      thf typf (mby bf <dodf>null</dodf>)
+     *  <LI><B>NULLABLE</B> short {@dodf =>} dbn you usf NULL for this typf.
+     *      <UL>
+     *      <LI> typfNoNulls - dofs not bllow NULL vblufs
+     *      <LI> typfNullbblf - bllows NULL vblufs
+     *      <LI> typfNullbblfUnknown - nullbbility unknown
+     *      </UL>
+     *  <LI><B>CASE_SENSITIVE</B> boolfbn{@dodf =>} is it dbsf sfnsitivf.
+     *  <LI><B>SEARCHABLE</B> short {@dodf =>} dbn you usf "WHERE" bbsfd on this typf:
+     *      <UL>
+     *      <LI> typfPrfdNonf - No support
+     *      <LI> typfPrfdChbr - Only supportfd with WHERE .. LIKE
+     *      <LI> typfPrfdBbsid - Supportfd fxdfpt for WHERE .. LIKE
+     *      <LI> typfSfbrdhbblf - Supportfd for bll WHERE ..
+     *      </UL>
+     *  <LI><B>UNSIGNED_ATTRIBUTE</B> boolfbn {@dodf =>} is it unsignfd.
+     *  <LI><B>FIXED_PREC_SCALE</B> boolfbn {@dodf =>} dbn it bf b monfy vbluf.
+     *  <LI><B>AUTO_INCREMENT</B> boolfbn {@dodf =>} dbn it bf usfd for bn
+     *      buto-indrfmfnt vbluf.
+     *  <LI><B>LOCAL_TYPE_NAME</B> String {@dodf =>} lodblizfd vfrsion of typf nbmf
+     *      (mby bf <dodf>null</dodf>)
+     *  <LI><B>MINIMUM_SCALE</B> short {@dodf =>} minimum sdblf supportfd
+     *  <LI><B>MAXIMUM_SCALE</B> short {@dodf =>} mbximum sdblf supportfd
+     *  <LI><B>SQL_DATA_TYPE</B> int {@dodf =>} unusfd
+     *  <LI><B>SQL_DATETIME_SUB</B> int {@dodf =>} unusfd
+     *  <LI><B>NUM_PREC_RADIX</B> int {@dodf =>} usublly 2 or 10
+     *  </OL>
+     *
+     * <p>Thf PRECISION dolumn rfprfsfnts thf mbximum dolumn sizf thbt thf sfrvfr supports for thf givfn dbtbtypf.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is bn SQL
+     *         typf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftTypfInfo() throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt b <dodf>NULL</dodf> vbluf is NOT bllowfd for this
+     * dbtb typf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>NULLABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfNoNulls = 0;
+
+    /**
+     * Indidbtfs thbt b <dodf>NULL</dodf> vbluf is bllowfd for this
+     * dbtb typf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>NULLABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfNullbblf = 1;
+
+    /**
+     * Indidbtfs thbt it is not known whfthfr b <dodf>NULL</dodf> vbluf
+     * is bllowfd for this dbtb typf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>NULLABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfNullbblfUnknown = 2;
+
+    /**
+     * Indidbtfs thbt <dodf>WHERE</dodf> sfbrdh dlbusfs brf not supportfd
+     * for this typf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>SEARCHABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfPrfdNonf = 0;
+
+    /**
+     * Indidbtfs thbt thf dbtb typf
+     * dbn bf only bf usfd in <dodf>WHERE</dodf> sfbrdh dlbusfs
+     * thbt  usf <dodf>LIKE</dodf> prfdidbtfs.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>SEARCHABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfPrfdChbr = 1;
+
+    /**
+     * Indidbtfs thbt thf dbtb typf dbn bf only bf usfd in <dodf>WHERE</dodf>
+     * sfbrdh dlbusfs
+     * thbt do not usf <dodf>LIKE</dodf> prfdidbtfs.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>SEARCHABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfPrfdBbsid = 2;
+
+    /**
+     * Indidbtfs thbt bll <dodf>WHERE</dodf> sfbrdh dlbusfs dbn bf
+     * bbsfd on this typf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>SEARCHABLE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftTypfInfo</dodf>.
+     */
+    int typfSfbrdhbblf  = 3;
+
+    /**
+     * Rftrifvfs b dfsdription of thf givfn tbblf's indidfs bnd stbtistids. Thfy brf
+     * ordfrfd by NON_UNIQUE, TYPE, INDEX_NAME, bnd ORDINAL_POSITION.
+     *
+     * <P>Ebdh indfx dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>NON_UNIQUE</B> boolfbn {@dodf =>} Cbn indfx vblufs bf non-uniquf.
+     *      fblsf whfn TYPE is tbblfIndfxStbtistid
+     *  <LI><B>INDEX_QUALIFIER</B> String {@dodf =>} indfx dbtblog (mby bf <dodf>null</dodf>);
+     *      <dodf>null</dodf> whfn TYPE is tbblfIndfxStbtistid
+     *  <LI><B>INDEX_NAME</B> String {@dodf =>} indfx nbmf; <dodf>null</dodf> whfn TYPE is
+     *      tbblfIndfxStbtistid
+     *  <LI><B>TYPE</B> short {@dodf =>} indfx typf:
+     *      <UL>
+     *      <LI> tbblfIndfxStbtistid - this idfntififs tbblf stbtistids thbt brf
+     *           rfturnfd in donjudtion with b tbblf's indfx dfsdriptions
+     *      <LI> tbblfIndfxClustfrfd - this is b dlustfrfd indfx
+     *      <LI> tbblfIndfxHbshfd - this is b hbshfd indfx
+     *      <LI> tbblfIndfxOthfr - this is somf othfr stylf of indfx
+     *      </UL>
+     *  <LI><B>ORDINAL_POSITION</B> short {@dodf =>} dolumn sfqufndf numbfr
+     *      within indfx; zfro whfn TYPE is tbblfIndfxStbtistid
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf; <dodf>null</dodf> whfn TYPE is
+     *      tbblfIndfxStbtistid
+     *  <LI><B>ASC_OR_DESC</B> String {@dodf =>} dolumn sort sfqufndf, "A" {@dodf =>} bsdfnding,
+     *      "D" {@dodf =>} dfsdfnding, mby bf <dodf>null</dodf> if sort sfqufndf is not supportfd;
+     *      <dodf>null</dodf> whfn TYPE is tbblfIndfxStbtistid
+     *  <LI><B>CARDINALITY</B> long {@dodf =>} Whfn TYPE is tbblfIndfxStbtistid, thfn
+     *      this is thf numbfr of rows in thf tbblf; othfrwisf, it is thf
+     *      numbfr of uniquf vblufs in thf indfx.
+     *  <LI><B>PAGES</B> long {@dodf =>} Whfn TYPE is  tbblfIndfxStbtisid thfn
+     *      this is thf numbfr of pbgfs usfd for thf tbblf, othfrwisf it
+     *      is thf numbfr of pbgfs usfd for thf durrfnt indfx.
+     *  <LI><B>FILTER_CONDITION</B> String {@dodf =>} Filtfr dondition, if bny.
+     *      (mby bf <dodf>null</dodf>)
+     *  </OL>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in this dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmb b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in this dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblf b tbblf nbmf; must mbtdh thf tbblf nbmf bs it is storfd
+     *        in this dbtbbbsf
+     * @pbrbm uniquf whfn truf, rfturn only indidfs for uniquf vblufs;
+     *     whfn fblsf, rfturn indidfs rfgbrdlfss of whfthfr uniquf or not
+     * @pbrbm bpproximbtf whfn truf, rfsult is bllowfd to rfflfdt bpproximbtf
+     *     or out of dbtb vblufs; whfn fblsf, rfsults brf rfqufstfd to bf
+     *     bddurbtf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is bn indfx dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    RfsultSft gftIndfxInfo(String dbtblog, String sdhfmb, String tbblf,
+                           boolfbn uniquf, boolfbn bpproximbtf)
+        throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt this dolumn dontbins tbblf stbtistids thbt
+     * brf rfturnfd in donjundtion with b tbblf's indfx dfsdriptions.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftIndfxInfo</dodf>.
+     */
+    short tbblfIndfxStbtistid = 0;
+
+    /**
+     * Indidbtfs thbt this tbblf indfx is b dlustfrfd indfx.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftIndfxInfo</dodf>.
+     */
+    short tbblfIndfxClustfrfd = 1;
+
+    /**
+     * Indidbtfs thbt this tbblf indfx is b hbshfd indfx.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftIndfxInfo</dodf>.
+     */
+    short tbblfIndfxHbshfd    = 2;
+
+    /**
+     * Indidbtfs thbt this tbblf indfx is not b dlustfrfd
+     * indfx, b hbshfd indfx, or tbblf stbtistids;
+     * it is somfthing othfr thbn thfsf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftIndfxInfo</dodf>.
+     */
+    short tbblfIndfxOthfr     = 3;
+
+    //--------------------------JDBC 2.0-----------------------------
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf givfn rfsult sft typf.
+     *
+     * @pbrbm typf dffinfd in <dodf>jbvb.sql.RfsultSft</dodf>
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Connfdtion
+     * @sindf 1.2
+     */
+    boolfbn supportsRfsultSftTypf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf givfn dondurrfndy typf
+     * in dombinbtion with thf givfn rfsult sft typf.
+     *
+     * @pbrbm typf dffinfd in <dodf>jbvb.sql.RfsultSft</dodf>
+     * @pbrbm dondurrfndy typf dffinfd in <dodf>jbvb.sql.RfsultSft</dodf>
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Connfdtion
+     * @sindf 1.2
+     */
+    boolfbn supportsRfsultSftCondurrfndy(int typf, int dondurrfndy)
+        throws SQLExdfption;
+
+    /**
+     *
+     * Rftrifvfs whfthfr for thf givfn typf of <dodf>RfsultSft</dodf> objfdt,
+     * thf rfsult sft's own updbtfs brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if updbtfs brf visiblf for thf givfn rfsult sft typf;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn ownUpdbtfsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b rfsult sft's own dflftfs brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if dflftfs brf visiblf for thf givfn rfsult sft typf;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn ownDflftfsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b rfsult sft's own insfrts brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if insfrts brf visiblf for thf givfn rfsult sft typf;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn ownInsfrtsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr updbtfs mbdf by othfrs brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if updbtfs mbdf by othfrs
+     *        brf visiblf for thf givfn rfsult sft typf;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn othfrsUpdbtfsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr dflftfs mbdf by othfrs brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if dflftfs mbdf by othfrs
+     *        brf visiblf for thf givfn rfsult sft typf;
+     *        <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn othfrsDflftfsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr insfrts mbdf by othfrs brf visiblf.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if insfrts mbdf by othfrs
+     *         brf visiblf for thf givfn rfsult sft typf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn othfrsInsfrtsArfVisiblf(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr or not b visiblf row updbtf dbn bf dftfdtfd by
+     * dblling thf mfthod <dodf>RfsultSft.rowUpdbtfd</dodf>.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if dhbngfs brf dftfdtfd by thf rfsult sft typf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn updbtfsArfDftfdtfd(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr or not b visiblf row dflftf dbn bf dftfdtfd by
+     * dblling thf mfthod <dodf>RfsultSft.rowDflftfd</dodf>.  If thf mfthod
+     * <dodf>dflftfsArfDftfdtfd</dodf> rfturns <dodf>fblsf</dodf>, it mfbns thbt
+     * dflftfd rows brf rfmovfd from thf rfsult sft.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if dflftfs brf dftfdtfd by thf givfn rfsult sft typf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn dflftfsArfDftfdtfd(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr or not b visiblf row insfrt dbn bf dftfdtfd
+     * by dblling thf mfthod <dodf>RfsultSft.rowInsfrtfd</dodf>.
+     *
+     * @pbrbm typf thf <dodf>RfsultSft</dodf> typf; onf of
+     *        <dodf>RfsultSft.TYPE_FORWARD_ONLY</dodf>,
+     *        <dodf>RfsultSft.TYPE_SCROLL_INSENSITIVE</dodf>, or
+     *        <dodf>RfsultSft.TYPE_SCROLL_SENSITIVE</dodf>
+     * @rfturn <dodf>truf</dodf> if dhbngfs brf dftfdtfd by thf spfdififd rfsult
+     *         sft typf; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn insfrtsArfDftfdtfd(int typf) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports bbtdh updbtfs.
+     *
+     * @rfturn <dodf>truf</dodf> if this dbtbbbsf supports bbtdh updbtfs;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    boolfbn supportsBbtdhUpdbtfs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf usfr-dffinfd typfs (UDTs) dffinfd
+     * in b pbrtidulbr sdhfmb.  Sdhfmb-spfdifid UDTs mby hbvf typf
+     * <dodf>JAVA_OBJECT</dodf>, <dodf>STRUCT</dodf>,
+     * or <dodf>DISTINCT</dodf>.
+     *
+     * <P>Only typfs mbtdhing thf dbtblog, sdhfmb, typf nbmf bnd typf
+     * dritfrib brf rfturnfd.  Thfy brf ordfrfd by <dodf>DATA_TYPE</dodf>,
+     * <dodf>TYPE_CAT</dodf>, <dodf>TYPE_SCHEM</dodf>  bnd
+     * <dodf>TYPE_NAME</dodf>.  Thf typf nbmf pbrbmftfr mby bf b fully-qublififd
+     * nbmf.  In this dbsf, thf dbtblog bnd sdhfmbPbttfrn pbrbmftfrs brf
+     * ignorfd.
+     *
+     * <P>Ebdh typf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TYPE_CAT</B> String {@dodf =>} thf typf's dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_SCHEM</B> String {@dodf =>} typf's sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} typf nbmf
+     *  <LI><B>CLASS_NAME</B> String {@dodf =>} Jbvb dlbss nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} typf vbluf dffinfd in jbvb.sql.Typfs.
+     *     Onf of JAVA_OBJECT, STRUCT, or DISTINCT
+     *  <LI><B>REMARKS</B> String {@dodf =>} fxplbnbtory dommfnt on thf typf
+     *  <LI><B>BASE_TYPE</B> short {@dodf =>} typf dodf of thf sourdf typf of b
+     *     DISTINCT typf or thf typf thbt implfmfnts thf usfr-gfnfrbtfd
+     *     rfffrfndf typf of thf SELF_REFERENCING_COLUMN of b strudturfd
+     *     typf bs dffinfd in jbvb.sql.Typfs (<dodf>null</dodf> if DATA_TYPE is not
+     *     DISTINCT or not STRUCT with REFERENCE_GENERATION = USER_DEFINED)
+     *  </OL>
+     *
+     * <P><B>Notf:</B> If thf drivfr dofs not support UDTs, bn fmpty
+     * rfsult sft is rfturnfd.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb pbttfrn nbmf; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm typfNbmfPbttfrn b typf nbmf pbttfrn; must mbtdh thf typf nbmf
+     *        bs it is storfd in thf dbtbbbsf; mby bf b fully qublififd nbmf
+     * @pbrbm typfs b list of usfr-dffinfd typfs (JAVA_OBJECT,
+     *        STRUCT, or DISTINCT) to indludf; <dodf>null</dodf> rfturns bll typfs
+     * @rfturn <dodf>RfsultSft</dodf> objfdt in whidh fbdh row dfsdribfs b UDT
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.2
+     */
+    RfsultSft gftUDTs(String dbtblog, String sdhfmbPbttfrn,
+                      String typfNbmfPbttfrn, int[] typfs)
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf donnfdtion thbt produdfd this mftbdbtb objfdt.
+     *
+     * @rfturn thf donnfdtion thbt produdfd this mftbdbtb objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    Connfdtion gftConnfdtion() throws SQLExdfption;
+
+    // ------------------- JDBC 3.0 -------------------------
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports sbvfpoints.
+     *
+     * @rfturn <dodf>truf</dodf> if sbvfpoints brf supportfd;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn supportsSbvfpoints() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports nbmfd pbrbmftfrs to dbllbblf
+     * stbtfmfnts.
+     *
+     * @rfturn <dodf>truf</dodf> if nbmfd pbrbmftfrs brf supportfd;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn supportsNbmfdPbrbmftfrs() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr it is possiblf to hbvf multiplf <dodf>RfsultSft</dodf> objfdts
+     * rfturnfd from b <dodf>CbllbblfStbtfmfnt</dodf> objfdt
+     * simultbnfously.
+     *
+     * @rfturn <dodf>truf</dodf> if b <dodf>CbllbblfStbtfmfnt</dodf> objfdt
+     *         dbn rfturn multiplf <dodf>RfsultSft</dodf> objfdts
+     *         simultbnfously; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbnbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn supportsMultiplfOpfnRfsults() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr buto-gfnfrbtfd kfys dbn bf rftrifvfd bftfr
+     * b stbtfmfnt hbs bffn fxfdutfd
+     *
+     * @rfturn <dodf>truf</dodf> if buto-gfnfrbtfd kfys dbn bf rftrifvfd
+     *         bftfr b stbtfmfnt hbs fxfdutfd; <dodf>fblsf</dodf> othfrwisf
+     * <p>If <dodf>truf</dodf> is rfturnfd, thf JDBC drivfr must support thf
+     * rfturning of buto-gfnfrbtfd kfys for bt lfbst SQL INSERT stbtfmfnts
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn supportsGftGfnfrbtfdKfys() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf usfr-dffinfd typf (UDT) hifrbrdhifs dffinfd in b
+     * pbrtidulbr sdhfmb in this dbtbbbsf. Only thf immfdibtf supfr typf/
+     * sub typf rflbtionship is modflfd.
+     * <P>
+     * Only supfrtypf informbtion for UDTs mbtdhing thf dbtblog,
+     * sdhfmb, bnd typf nbmf is rfturnfd. Thf typf nbmf pbrbmftfr
+     * mby bf b fully-qublififd nbmf. Whfn thf UDT nbmf supplifd is b
+     * fully-qublififd nbmf, thf dbtblog bnd sdhfmbPbttfrn pbrbmftfrs brf
+     * ignorfd.
+     * <P>
+     * If b UDT dofs not hbvf b dirfdt supfr typf, it is not listfd hfrf.
+     * A row of thf <dodf>RfsultSft</dodf> objfdt rfturnfd by this mfthod
+     * dfsdribfs thf dfsignbtfd UDT bnd b dirfdt supfrtypf. A row hbs thf following
+     * dolumns:
+     *  <OL>
+     *  <LI><B>TYPE_CAT</B> String {@dodf =>} thf UDT's dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_SCHEM</B> String {@dodf =>} UDT's sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} typf nbmf of thf UDT
+     *  <LI><B>SUPERTYPE_CAT</B> String {@dodf =>} thf dirfdt supfr typf's dbtblog
+     *                           (mby bf <dodf>null</dodf>)
+     *  <LI><B>SUPERTYPE_SCHEM</B> String {@dodf =>} thf dirfdt supfr typf's sdhfmb
+     *                             (mby bf <dodf>null</dodf>)
+     *  <LI><B>SUPERTYPE_NAME</B> String {@dodf =>} thf dirfdt supfr typf's nbmf
+     *  </OL>
+     *
+     * <P><B>Notf:</B> If thf drivfr dofs not support typf hifrbrdhifs, bn
+     * fmpty rfsult sft is rfturnfd.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns drop dbtblog nbmf from thf sflfdtion dritfrib
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; "" rftrifvfs thosf
+     *        without b sdhfmb
+     * @pbrbm typfNbmfPbttfrn b UDT nbmf pbttfrn; mby bf b fully-qublififd
+     *        nbmf
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh b row givfs informbtion
+     *         bbout thf dfsignbtfd UDT
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.4
+     */
+    RfsultSft gftSupfrTypfs(String dbtblog, String sdhfmbPbttfrn,
+                            String typfNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf tbblf hifrbrdhifs dffinfd in b pbrtidulbr
+     * sdhfmb in this dbtbbbsf.
+     *
+     * <P>Only supfrtbblf informbtion for tbblfs mbtdhing thf dbtblog, sdhfmb
+     * bnd tbblf nbmf brf rfturnfd. Thf tbblf nbmf pbrbmftfr mby bf b fully-
+     * qublififd nbmf, in whidh dbsf, thf dbtblog bnd sdhfmbPbttfrn pbrbmftfrs
+     * brf ignorfd. If b tbblf dofs not hbvf b supfr tbblf, it is not listfd hfrf.
+     * Supfrtbblfs hbvf to bf dffinfd in thf sbmf dbtblog bnd sdhfmb bs thf
+     * sub tbblfs. Thfrfforf, thf typf dfsdription dofs not nffd to indludf
+     * this informbtion for thf supfrtbblf.
+     *
+     * <P>Ebdh typf dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} thf typf's dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} typf's sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} typf nbmf
+     *  <LI><B>SUPERTABLE_NAME</B> String {@dodf =>} thf dirfdt supfr typf's nbmf
+     *  </OL>
+     *
+     * <P><B>Notf:</B> If thf drivfr dofs not support typf hifrbrdhifs, bn
+     * fmpty rfsult sft is rfturnfd.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns drop dbtblog nbmf from thf sflfdtion dritfrib
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; "" rftrifvfs thosf
+     *        without b sdhfmb
+     * @pbrbm tbblfNbmfPbttfrn b tbblf nbmf pbttfrn; mby bf b fully-qublififd
+     *        nbmf
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is b typf dfsdription
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.4
+     */
+    RfsultSft gftSupfrTbblfs(String dbtblog, String sdhfmbPbttfrn,
+                             String tbblfNbmfPbttfrn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs might not bf bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf> in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftAttributfs</dodf>.
+     */
+    short bttributfNoNulls = 0;
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs brf dffinitfly bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftAttributfs</dodf>.
+     */
+    short bttributfNullbblf = 1;
+
+    /**
+     * Indidbtfs thbt whfthfr <dodf>NULL</dodf> vblufs brf bllowfd is not
+     * known.
+     * <P>
+     * A possiblf vbluf for thf dolumn <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftAttributfs</dodf>.
+     */
+    short bttributfNullbblfUnknown = 2;
+
+    /**
+     * Rftrifvfs b dfsdription of thf givfn bttributf of thf givfn typf
+     * for b usfr-dffinfd typf (UDT) thbt is bvbilbblf in thf givfn sdhfmb
+     * bnd dbtblog.
+     * <P>
+     * Dfsdriptions brf rfturnfd only for bttributfs of UDTs mbtdhing thf
+     * dbtblog, sdhfmb, typf, bnd bttributf nbmf dritfrib. Thfy brf ordfrfd by
+     * <dodf>TYPE_CAT</dodf>, <dodf>TYPE_SCHEM</dodf>,
+     * <dodf>TYPE_NAME</dodf> bnd <dodf>ORDINAL_POSITION</dodf>. This dfsdription
+     * dofs not dontbin inhfritfd bttributfs.
+     * <P>
+     * Thf <dodf>RfsultSft</dodf> objfdt thbt is rfturnfd hbs thf following
+     * dolumns:
+     * <OL>
+     *  <LI><B>TYPE_CAT</B> String {@dodf =>} typf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_SCHEM</B> String {@dodf =>} typf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} typf nbmf
+     *  <LI><B>ATTR_NAME</B> String {@dodf =>} bttributf nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} bttributf typf SQL typf from jbvb.sql.Typfs
+     *  <LI><B>ATTR_TYPE_NAME</B> String {@dodf =>} Dbtb sourdf dfpfndfnt typf nbmf.
+     *  For b UDT, thf typf nbmf is fully qublififd. For b REF, thf typf nbmf is
+     *  fully qublififd bnd rfprfsfnts thf tbrgft typf of thf rfffrfndf typf.
+     *  <LI><B>ATTR_SIZE</B> int {@dodf =>} dolumn sizf.  For dhbr or dbtf
+     *      typfs this is thf mbximum numbfr of dhbrbdtfrs; for numfrid or
+     *      dfdimbl typfs this is prfdision.
+     *  <LI><B>DECIMAL_DIGITS</B> int {@dodf =>} thf numbfr of frbdtionbl digits. Null is rfturnfd for dbtb typfs whfrf
+     * DECIMAL_DIGITS is not bpplidbblf.
+     *  <LI><B>NUM_PREC_RADIX</B> int {@dodf =>} Rbdix (typidblly fithfr 10 or 2)
+     *  <LI><B>NULLABLE</B> int {@dodf =>} whfthfr NULL is bllowfd
+     *      <UL>
+     *      <LI> bttributfNoNulls - might not bllow NULL vblufs
+     *      <LI> bttributfNullbblf - dffinitfly bllows NULL vblufs
+     *      <LI> bttributfNullbblfUnknown - nullbbility unknown
+     *      </UL>
+     *  <LI><B>REMARKS</B> String {@dodf =>} dommfnt dfsdribing dolumn (mby bf <dodf>null</dodf>)
+     *  <LI><B>ATTR_DEF</B> String {@dodf =>} dffbult vbluf (mby bf <dodf>null</dodf>)
+     *  <LI><B>SQL_DATA_TYPE</B> int {@dodf =>} unusfd
+     *  <LI><B>SQL_DATETIME_SUB</B> int {@dodf =>} unusfd
+     *  <LI><B>CHAR_OCTET_LENGTH</B> int {@dodf =>} for dhbr typfs thf
+     *       mbximum numbfr of bytfs in thf dolumn
+     *  <LI><B>ORDINAL_POSITION</B> int {@dodf =>} indfx of thf bttributf in thf UDT
+     *      (stbrting bt 1)
+     *  <LI><B>IS_NULLABLE</B> String  {@dodf =>} ISO rulfs brf usfd to dftfrminf
+     * thf nullbbility for b bttributf.
+     *       <UL>
+     *       <LI> YES           --- if thf bttributf dbn indludf NULLs
+     *       <LI> NO            --- if thf bttributf dbnnot indludf NULLs
+     *       <LI> fmpty string  --- if thf nullbbility for thf
+     * bttributf is unknown
+     *       </UL>
+     *  <LI><B>SCOPE_CATALOG</B> String {@dodf =>} dbtblog of tbblf thbt is thf
+     *      sdopf of b rfffrfndf bttributf (<dodf>null</dodf> if DATA_TYPE isn't REF)
+     *  <LI><B>SCOPE_SCHEMA</B> String {@dodf =>} sdhfmb of tbblf thbt is thf
+     *      sdopf of b rfffrfndf bttributf (<dodf>null</dodf> if DATA_TYPE isn't REF)
+     *  <LI><B>SCOPE_TABLE</B> String {@dodf =>} tbblf nbmf thbt is thf sdopf of b
+     *      rfffrfndf bttributf (<dodf>null</dodf> if thf DATA_TYPE isn't REF)
+     * <LI><B>SOURCE_DATA_TYPE</B> short {@dodf =>} sourdf typf of b distindt typf or usfr-gfnfrbtfd
+     *      Rff typf,SQL typf from jbvb.sql.Typfs (<dodf>null</dodf> if DATA_TYPE
+     *      isn't DISTINCT or usfr-gfnfrbtfd REF)
+     *  </OL>
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm typfNbmfPbttfrn b typf nbmf pbttfrn; must mbtdh thf
+     *        typf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm bttributfNbmfPbttfrn bn bttributf nbmf pbttfrn; must mbtdh thf bttributf
+     *        nbmf bs it is dfdlbrfd in thf dbtbbbsf
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is bn
+     *         bttributf dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.4
+     */
+    RfsultSft gftAttributfs(String dbtblog, String sdhfmbPbttfrn,
+                            String typfNbmfPbttfrn, String bttributfNbmfPbttfrn)
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports thf givfn rfsult sft holdbbility.
+     *
+     * @pbrbm holdbbility onf of thf following donstbnts:
+     *          <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *          <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Connfdtion
+     * @sindf 1.4
+     */
+    boolfbn supportsRfsultSftHoldbbility(int holdbbility) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs this dbtbbbsf's dffbult holdbbility for <dodf>RfsultSft</dodf>
+     * objfdts.
+     *
+     * @rfturn thf dffbult holdbbility; fithfr
+     *         <dodf>RfsultSft.HOLD_CURSORS_OVER_COMMIT</dodf> or
+     *         <dodf>RfsultSft.CLOSE_CURSORS_AT_COMMIT</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftRfsultSftHoldbbility() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbjor vfrsion numbfr of thf undfrlying dbtbbbsf.
+     *
+     * @rfturn thf undfrlying dbtbbbsf's mbjor vfrsion
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftDbtbbbsfMbjorVfrsion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf minor vfrsion numbfr of thf undfrlying dbtbbbsf.
+     *
+     * @rfturn undfrlying dbtbbbsf's minor vfrsion
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftDbtbbbsfMinorVfrsion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf mbjor JDBC vfrsion numbfr for this
+     * drivfr.
+     *
+     * @rfturn JDBC vfrsion mbjor numbfr
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftJDBCMbjorVfrsion() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf minor JDBC vfrsion numbfr for this
+     * drivfr.
+     *
+     * @rfturn JDBC vfrsion minor numbfr
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftJDBCMinorVfrsion() throws SQLExdfption;
+
+    /**
+     *  A possiblf rfturn vbluf for thf mfthod
+     * <dodf>DbtbbbsfMftbDbtb.gftSQLStbtfTypf</dodf> whidh is usfd to indidbtf
+     * whfthfr thf vbluf rfturnfd by thf mfthod
+     * <dodf>SQLExdfption.gftSQLStbtf</dodf> is bn
+     * X/Opfn (now know bs Opfn Group) SQL CLI SQLSTATE vbluf.
+     *
+     * @sindf 1.4
+     */
+    int sqlStbtfXOpfn = 1;
+
+    /**
+     *  A possiblf rfturn vbluf for thf mfthod
+     * <dodf>DbtbbbsfMftbDbtb.gftSQLStbtfTypf</dodf> whidh is usfd to indidbtf
+     * whfthfr thf vbluf rfturnfd by thf mfthod
+     * <dodf>SQLExdfption.gftSQLStbtf</dodf> is bn SQLSTATE vbluf.
+     *
+     * @sindf 1.6
+     */
+    int sqlStbtfSQL = 2;
+
+     /**
+     *  A possiblf rfturn vbluf for thf mfthod
+     * <dodf>DbtbbbsfMftbDbtb.gftSQLStbtfTypf</dodf> whidh is usfd to indidbtf
+     * whfthfr thf vbluf rfturnfd by thf mfthod
+     * <dodf>SQLExdfption.gftSQLStbtf</dodf> is bn SQL99 SQLSTATE vbluf.
+     * <P>
+     * <b>Notf:</b>This donstbnt rfmbins only for dompbtibility rfbsons. Dfvflopfrs
+     * should usf thf donstbnt <dodf>sqlStbtfSQL</dodf> instfbd.
+     *
+     * @sindf 1.4
+     */
+    int sqlStbtfSQL99 = sqlStbtfSQL;
+
+    /**
+     * Indidbtfs whfthfr thf SQLSTATE rfturnfd by <dodf>SQLExdfption.gftSQLStbtf</dodf>
+     * is X/Opfn (now known bs Opfn Group) SQL CLI or SQL:2003.
+     * @rfturn thf typf of SQLSTATE; onf of:
+     *        sqlStbtfXOpfn or
+     *        sqlStbtfSQL
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftSQLStbtfTypf() throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr updbtfs mbdf to b LOB brf mbdf on b dopy or dirfdtly
+     * to thf LOB.
+     * @rfturn <dodf>truf</dodf> if updbtfs brf mbdf to b dopy of thf LOB;
+     *         <dodf>fblsf</dodf> if updbtfs brf mbdf dirfdtly to thf LOB
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn lodbtorsUpdbtfCopy() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports stbtfmfnt pooling.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn supportsStbtfmfntPooling() throws SQLExdfption;
+
+    //------------------------- JDBC 4.0 -----------------------------------
+
+    /**
+     * Indidbtfs whfthfr or not this dbtb sourdf supports thf SQL <dodf>ROWID</dodf> typf,
+     * bnd if so  thf lifftimf for whidh b <dodf>RowId</dodf> objfdt rfmbins vblid.
+     * <p>
+     * Thf rfturnfd int vblufs hbvf thf following rflbtionship:
+     * <prf>{@dodf
+     *     ROWID_UNSUPPORTED < ROWID_VALID_OTHER < ROWID_VALID_TRANSACTION
+     *         < ROWID_VALID_SESSION < ROWID_VALID_FOREVER
+     * }</prf>
+     * so donditionbl logid sudh bs
+     * <prf>{@dodf
+     *     if (mftbdbtb.gftRowIdLifftimf() > DbtbbbsfMftbDbtb.ROWID_VALID_TRANSACTION)
+     * }</prf>
+     * dbn bf usfd. Vblid Forfvfr mfbns vblid bdross bll Sfssions, bnd vblid for
+     * b Sfssion mfbns vblid bdross bll its dontbinfd Trbnsbdtions.
+     *
+     * @rfturn thf stbtus indidbting thf lifftimf of b <dodf>RowId</dodf>
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    RowIdLifftimf gftRowIdLifftimf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf sdhfmb nbmfs bvbilbblf in this dbtbbbsf.  Thf rfsults
+     * brf ordfrfd by <dodf>TABLE_CATALOG</dodf> bnd
+     * <dodf>TABLE_SCHEM</dodf>.
+     *
+     * <P>Thf sdhfmb dolumns brf:
+     *  <OL>
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} sdhfmb nbmf
+     *  <LI><B>TABLE_CATALOG</B> String {@dodf =>} dbtblog nbmf (mby bf <dodf>null</dodf>)
+     *  </OL>
+     *
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it is storfd
+     * in thf dbtbbbsf;"" rftrifvfs thosf without b dbtblog; null mfbns dbtblog
+     * nbmf should not bf usfd to nbrrow down thf sfbrdh.
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf; must mbtdh thf sdhfmb nbmf bs it is
+     * storfd in thf dbtbbbsf; null mfbns
+     * sdhfmb nbmf should not bf usfd to nbrrow down thf sfbrdh.
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt in whidh fbdh row is b
+     *         sdhfmb dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.6
+     */
+    RfsultSft gftSdhfmbs(String dbtblog, String sdhfmbPbttfrn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports invoking usfr-dffinfd or vfndor fundtions
+     * using thf storfd prodfdurf fsdbpf syntbx.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    boolfbn supportsStorfdFundtionsUsingCbllSyntbx() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b <dodf>SQLExdfption</dodf> whilf butoCommit is <dodf>truf</dodf> indidbtfs
+     * thbt bll opfn RfsultSfts brf dlosfd, fvfn onfs thbt brf holdbblf.  Whfn b <dodf>SQLExdfption</dodf> oddurs whilf
+     * butodommit is <dodf>truf</dodf>, it is vfndor spfdifid whfthfr thf JDBC drivfr rfsponds with b dommit opfrbtion, b
+     * rollbbdk opfrbtion, or by doing nfithfr b dommit nor b rollbbdk.  A potfntibl rfsult of this difffrfndf
+     * is in whfthfr or not holdbblf RfsultSfts brf dlosfd.
+     *
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    boolfbn butoCommitFbilurfClosfsAllRfsultSfts() throws SQLExdfption;
+        /**
+         * Rftrifvfs b list of thf dlifnt info propfrtifs
+         * thbt thf drivfr supports.  Thf rfsult sft dontbins thf following dolumns
+         *
+         * <ol>
+         * <li><b>NAME</b> String{@dodf =>} Thf nbmf of thf dlifnt info propfrty<br>
+         * <li><b>MAX_LEN</b> int{@dodf =>} Thf mbximum lfngth of thf vbluf for thf propfrty<br>
+         * <li><b>DEFAULT_VALUE</b> String{@dodf =>} Thf dffbult vbluf of thf propfrty<br>
+         * <li><b>DESCRIPTION</b> String{@dodf =>} A dfsdription of thf propfrty.  This will typidblly
+         *                                              dontbin informbtion bs to whfrf this propfrty is
+         *                                              storfd in thf dbtbbbsf.
+         * </ol>
+         * <p>
+         * Thf <dodf>RfsultSft</dodf> is sortfd by thf NAME dolumn
+         *
+         * @rfturn      A <dodf>RfsultSft</dodf> objfdt; fbdh row is b supportfd dlifnt info
+         * propfrty
+         *
+         *  @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+         *
+         * @sindf 1.6
+         */
+        RfsultSft gftClifntInfoPropfrtifs()
+                throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b dfsdription of thf  systfm bnd usfr fundtions bvbilbblf
+     * in thf givfn dbtblog.
+     * <P>
+     * Only systfm bnd usfr fundtion dfsdriptions mbtdhing thf sdhfmb bnd
+     * fundtion nbmf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>FUNCTION_CAT</dodf>, <dodf>FUNCTION_SCHEM</dodf>,
+     * <dodf>FUNCTION_NAME</dodf> bnd
+     * <dodf>SPECIFIC_ NAME</dodf>.
+     *
+     * <P>Ebdh fundtion dfsdription hbs thf thf following dolumns:
+     *  <OL>
+     *  <LI><B>FUNCTION_CAT</B> String {@dodf =>} fundtion dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>FUNCTION_SCHEM</B> String {@dodf =>} fundtion sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>FUNCTION_NAME</B> String {@dodf =>} fundtion nbmf.  This is thf nbmf
+     * usfd to invokf thf fundtion
+     *  <LI><B>REMARKS</B> String {@dodf =>} fxplbnbtory dommfnt on thf fundtion
+     * <LI><B>FUNCTION_TYPE</B> short {@dodf =>} kind of fundtion:
+     *      <UL>
+     *      <LI>fundtionRfsultUnknown - Cbnnot dftfrminf if b rfturn vbluf
+     *       or tbblf will bf rfturnfd
+     *      <LI> fundtionNoTbblf- Dofs not rfturn b tbblf
+     *      <LI> fundtionRfturnsTbblf - Rfturns b tbblf
+     *      </UL>
+     *  <LI><B>SPECIFIC_NAME</B> String  {@dodf =>} thf nbmf whidh uniqufly idfntififs
+     *  this fundtion within its sdhfmb.  This is b usfr spfdififd, or DBMS
+     * gfnfrbtfd, nbmf thbt mby bf difffrfnt thfn thf <dodf>FUNCTION_NAME</dodf>
+     * for fxbmplf with ovfrlobd fundtions
+     *  </OL>
+     * <p>
+     * A usfr mby not hbvf pfrmission to fxfdutf bny of thf fundtions thbt brf
+     * rfturnfd by <dodf>gftFundtions</dodf>
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm fundtionNbmfPbttfrn b fundtion nbmf pbttfrn; must mbtdh thf
+     *        fundtion nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b fundtion dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.6
+     */
+    RfsultSft gftFundtions(String dbtblog, String sdhfmbPbttfrn,
+                            String fundtionNbmfPbttfrn) throws SQLExdfption;
+    /**
+     * Rftrifvfs b dfsdription of thf givfn dbtblog's systfm or usfr
+     * fundtion pbrbmftfrs bnd rfturn typf.
+     *
+     * <P>Only dfsdriptions mbtdhing thf sdhfmb,  fundtion bnd
+     * pbrbmftfr nbmf dritfrib brf rfturnfd. Thfy brf ordfrfd by
+     * <dodf>FUNCTION_CAT</dodf>, <dodf>FUNCTION_SCHEM</dodf>,
+     * <dodf>FUNCTION_NAME</dodf> bnd
+     * <dodf>SPECIFIC_ NAME</dodf>. Within this, thf rfturn vbluf,
+     * if bny, is first. Nfxt brf thf pbrbmftfr dfsdriptions in dbll
+     * ordfr. Thf dolumn dfsdriptions follow in dolumn numbfr ordfr.
+     *
+     * <P>Ebdh row in thf <dodf>RfsultSft</dodf>
+     * is b pbrbmftfr dfsdription, dolumn dfsdription or
+     * rfturn typf dfsdription with thf following fiflds:
+     *  <OL>
+     *  <LI><B>FUNCTION_CAT</B> String {@dodf =>} fundtion dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>FUNCTION_SCHEM</B> String {@dodf =>} fundtion sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>FUNCTION_NAME</B> String {@dodf =>} fundtion nbmf.  This is thf nbmf
+     * usfd to invokf thf fundtion
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn/pbrbmftfr nbmf
+     *  <LI><B>COLUMN_TYPE</B> Short {@dodf =>} kind of dolumn/pbrbmftfr:
+     *      <UL>
+     *      <LI> fundtionColumnUnknown - nobody knows
+     *      <LI> fundtionColumnIn - IN pbrbmftfr
+     *      <LI> fundtionColumnInOut - INOUT pbrbmftfr
+     *      <LI> fundtionColumnOut - OUT pbrbmftfr
+     *      <LI> fundtionColumnRfturn - fundtion rfturn vbluf
+     *      <LI> fundtionColumnRfsult - Indidbtfs thbt thf pbrbmftfr or dolumn
+     *  is b dolumn in thf <dodf>RfsultSft</dodf>
+     *      </UL>
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL typf from jbvb.sql.Typfs
+     *  <LI><B>TYPE_NAME</B> String {@dodf =>} SQL typf nbmf, for b UDT typf thf
+     *  typf nbmf is fully qublififd
+     *  <LI><B>PRECISION</B> int {@dodf =>} prfdision
+     *  <LI><B>LENGTH</B> int {@dodf =>} lfngth in bytfs of dbtb
+     *  <LI><B>SCALE</B> short {@dodf =>} sdblf -  null is rfturnfd for dbtb typfs whfrf
+     * SCALE is not bpplidbblf.
+     *  <LI><B>RADIX</B> short {@dodf =>} rbdix
+     *  <LI><B>NULLABLE</B> short {@dodf =>} dbn it dontbin NULL.
+     *      <UL>
+     *      <LI> fundtionNoNulls - dofs not bllow NULL vblufs
+     *      <LI> fundtionNullbblf - bllows NULL vblufs
+     *      <LI> fundtionNullbblfUnknown - nullbbility unknown
+     *      </UL>
+     *  <LI><B>REMARKS</B> String {@dodf =>} dommfnt dfsdribing dolumn/pbrbmftfr
+     *  <LI><B>CHAR_OCTET_LENGTH</B> int  {@dodf =>} thf mbximum lfngth of binbry
+     * bnd dhbrbdtfr bbsfd pbrbmftfrs or dolumns.  For bny othfr dbtbtypf thf rfturnfd vbluf
+     * is b NULL
+     *  <LI><B>ORDINAL_POSITION</B> int  {@dodf =>} thf ordinbl position, stbrting
+     * from 1, for thf input bnd output pbrbmftfrs. A vbluf of 0
+     * is rfturnfd if this row dfsdribfs thf fundtion's rfturn vbluf.
+     * For rfsult sft dolumns, it is thf
+     * ordinbl position of thf dolumn in thf rfsult sft stbrting from 1.
+     *  <LI><B>IS_NULLABLE</B> String  {@dodf =>} ISO rulfs brf usfd to dftfrminf
+     * thf nullbbility for b pbrbmftfr or dolumn.
+     *       <UL>
+     *       <LI> YES           --- if thf pbrbmftfr or dolumn dbn indludf NULLs
+     *       <LI> NO            --- if thf pbrbmftfr or dolumn  dbnnot indludf NULLs
+     *       <LI> fmpty string  --- if thf nullbbility for thf
+     * pbrbmftfr  or dolumn is unknown
+     *       </UL>
+     *  <LI><B>SPECIFIC_NAME</B> String  {@dodf =>} thf nbmf whidh uniqufly idfntififs
+     * this fundtion within its sdhfmb.  This is b usfr spfdififd, or DBMS
+     * gfnfrbtfd, nbmf thbt mby bf difffrfnt thfn thf <dodf>FUNCTION_NAME</dodf>
+     * for fxbmplf with ovfrlobd fundtions
+     *  </OL>
+     *
+     * <p>Thf PRECISION dolumn rfprfsfnts thf spfdififd dolumn sizf for thf givfn
+     * pbrbmftfr or dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm fundtionNbmfPbttfrn b prodfdurf nbmf pbttfrn; must mbtdh thf
+     *        fundtion nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm dolumnNbmfPbttfrn b pbrbmftfr nbmf pbttfrn; must mbtdh thf
+     * pbrbmftfr or dolumn nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row dfsdribfs b
+     * usfr fundtion pbrbmftfr, dolumn  or rfturn typf
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff #gftSfbrdhStringEsdbpf
+     * @sindf 1.6
+     */
+    RfsultSft gftFundtionColumns(String dbtblog,
+                                  String sdhfmbPbttfrn,
+                                  String fundtionNbmfPbttfrn,
+                                  String dolumnNbmfPbttfrn) throws SQLExdfption;
+
+
+    /**
+     * Indidbtfs thbt typf of thf pbrbmftfr or dolumn is unknown.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     */
+    int fundtionColumnUnknown = 0;
+
+    /**
+     * Indidbtfs thbt thf pbrbmftfr or dolumn is bn IN pbrbmftfr.
+     * <P>
+     *  A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionColumnIn = 1;
+
+    /**
+     * Indidbtfs thbt thf pbrbmftfr or dolumn is bn INOUT pbrbmftfr.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionColumnInOut = 2;
+
+    /**
+     * Indidbtfs thbt thf pbrbmftfr or dolumn is bn OUT pbrbmftfr.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionColumnOut = 3;
+    /**
+     * Indidbtfs thbt thf pbrbmftfr or dolumn is b rfturn vbluf.
+     * <P>
+     *  A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionRfturn = 4;
+
+       /**
+     * Indidbtfs thbt thf pbrbmftfr or dolumn is b dolumn in b rfsult sft.
+     * <P>
+     *  A possiblf vbluf for thf dolumn
+     * <dodf>COLUMN_TYPE</dodf>
+     * in thf <dodf>RfsultSft</dodf>
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionColumnRfsult = 5;
+
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs brf not bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionNoNulls = 0;
+
+    /**
+     * Indidbtfs thbt <dodf>NULL</dodf> vblufs brf bllowfd.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionNullbblf = 1;
+
+    /**
+     * Indidbtfs thbt whfthfr <dodf>NULL</dodf> vblufs brf bllowfd
+     * is unknown.
+     * <P>
+     * A possiblf vbluf for thf dolumn
+     * <dodf>NULLABLE</dodf>
+     * in thf <dodf>RfsultSft</dodf> objfdt
+     * rfturnfd by thf mfthod <dodf>gftFundtionColumns</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionNullbblfUnknown = 2;
+
+    /**
+     * Indidbtfs thbt it is not known whfthfr thf fundtion rfturns
+     * b rfsult or b tbblf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>FUNCTION_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftFundtions</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionRfsultUnknown   = 0;
+
+    /**
+     * Indidbtfs thbt thf fundtion  dofs not rfturn b tbblf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>FUNCTION_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftFundtions</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionNoTbblf         = 1;
+
+    /**
+     * Indidbtfs thbt thf fundtion  rfturns b tbblf.
+     * <P>
+     * A possiblf vbluf for dolumn <dodf>FUNCTION_TYPE</dodf> in thf
+     * <dodf>RfsultSft</dodf> objfdt rfturnfd by thf mfthod
+     * <dodf>gftFundtions</dodf>.
+     * @sindf 1.6
+     */
+    int fundtionRfturnsTbblf    = 2;
+
+    //--------------------------JDBC 4.1 -----------------------------
+
+    /**
+     * Rftrifvfs b dfsdription of thf psfudo or hiddfn dolumns bvbilbblf
+     * in b givfn tbblf within thf spfdififd dbtblog bnd sdhfmb.
+     * Psfudo or hiddfn dolumns mby not blwbys bf storfd within
+     * b tbblf bnd brf not visiblf in b RfsultSft unlfss thfy brf
+     * spfdififd in thf qufry's outfrmost SELECT list. Psfudo or hiddfn
+     * dolumns mby not nfdfssbrily bf bblf to bf modififd. If thfrf brf
+     * no psfudo or hiddfn dolumns, bn fmpty RfsultSft is rfturnfd.
+     *
+     * <P>Only dolumn dfsdriptions mbtdhing thf dbtblog, sdhfmb, tbblf
+     * bnd dolumn nbmf dritfrib brf rfturnfd.  Thfy brf ordfrfd by
+     * <dodf>TABLE_CAT</dodf>,<dodf>TABLE_SCHEM</dodf>, <dodf>TABLE_NAME</dodf>
+     * bnd <dodf>COLUMN_NAME</dodf>.
+     *
+     * <P>Ebdh dolumn dfsdription hbs thf following dolumns:
+     *  <OL>
+     *  <LI><B>TABLE_CAT</B> String {@dodf =>} tbblf dbtblog (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_SCHEM</B> String {@dodf =>} tbblf sdhfmb (mby bf <dodf>null</dodf>)
+     *  <LI><B>TABLE_NAME</B> String {@dodf =>} tbblf nbmf
+     *  <LI><B>COLUMN_NAME</B> String {@dodf =>} dolumn nbmf
+     *  <LI><B>DATA_TYPE</B> int {@dodf =>} SQL typf from jbvb.sql.Typfs
+     *  <LI><B>COLUMN_SIZE</B> int {@dodf =>} dolumn sizf.
+     *  <LI><B>DECIMAL_DIGITS</B> int {@dodf =>} thf numbfr of frbdtionbl digits. Null is rfturnfd for dbtb typfs whfrf
+     * DECIMAL_DIGITS is not bpplidbblf.
+     *  <LI><B>NUM_PREC_RADIX</B> int {@dodf =>} Rbdix (typidblly fithfr 10 or 2)
+     *  <LI><B>COLUMN_USAGE</B> String {@dodf =>} Thf bllowfd usbgf for thf dolumn.  Thf
+     *  vbluf rfturnfd will dorrfspond to thf fnum nbmf rfturnfd by {@link PsfudoColumnUsbgf#nbmf PsfudoColumnUsbgf.nbmf()}
+     *  <LI><B>REMARKS</B> String {@dodf =>} dommfnt dfsdribing dolumn (mby bf <dodf>null</dodf>)
+     *  <LI><B>CHAR_OCTET_LENGTH</B> int {@dodf =>} for dhbr typfs thf
+     *       mbximum numbfr of bytfs in thf dolumn
+     *  <LI><B>IS_NULLABLE</B> String  {@dodf =>} ISO rulfs brf usfd to dftfrminf thf nullbbility for b dolumn.
+     *       <UL>
+     *       <LI> YES           --- if thf dolumn dbn indludf NULLs
+     *       <LI> NO            --- if thf dolumn dbnnot indludf NULLs
+     *       <LI> fmpty string  --- if thf nullbbility for thf dolumn is unknown
+     *       </UL>
+     *  </OL>
+     *
+     * <p>Thf COLUMN_SIZE dolumn spfdififs thf dolumn sizf for thf givfn dolumn.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. Null is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @pbrbm dbtblog b dbtblog nbmf; must mbtdh thf dbtblog nbmf bs it
+     *        is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b dbtblog;
+     *        <dodf>null</dodf> mfbns thbt thf dbtblog nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm sdhfmbPbttfrn b sdhfmb nbmf pbttfrn; must mbtdh thf sdhfmb nbmf
+     *        bs it is storfd in thf dbtbbbsf; "" rftrifvfs thosf without b sdhfmb;
+     *        <dodf>null</dodf> mfbns thbt thf sdhfmb nbmf should not bf usfd to nbrrow
+     *        thf sfbrdh
+     * @pbrbm tbblfNbmfPbttfrn b tbblf nbmf pbttfrn; must mbtdh thf
+     *        tbblf nbmf bs it is storfd in thf dbtbbbsf
+     * @pbrbm dolumnNbmfPbttfrn b dolumn nbmf pbttfrn; must mbtdh thf dolumn
+     *        nbmf bs it is storfd in thf dbtbbbsf
+     * @rfturn <dodf>RfsultSft</dodf> - fbdh row is b dolumn dfsdription
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff PsfudoColumnUsbgf
+     * @sindf 1.7
+     */
+    RfsultSft gftPsfudoColumns(String dbtblog, String sdhfmbPbttfrn,
+                         String tbblfNbmfPbttfrn, String dolumnNbmfPbttfrn)
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr b gfnfrbtfd kfy will blwbys bf rfturnfd if thf dolumn
+     * nbmf(s) or indfx(fs) spfdififd for thf buto gfnfrbtfd kfy dolumn(s)
+     * brf vblid bnd thf stbtfmfnt suddffds.  Thf kfy thbt is rfturnfd mby or
+     * mby not bf bbsfd on thf dolumn(s) for thf buto gfnfrbtfd kfy.
+     * Consult your JDBC drivfr dodumfntbtion for bdditionbl dftbils.
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.7
+     */
+    boolfbn  gfnfrbtfdKfyAlwbysRfturnfd() throws SQLExdfption;
+
+    //--------------------------JDBC 4.2 -----------------------------
+
+    /**
+     *
+     * Rftrifvfs thf mbximum numbfr of bytfs this dbtbbbsf bllows for
+     * thf logidbl sizf for b {@dodf LOB}.
+     *<p>
+     * Thf dffbult implfmfntbtion will rfturn {@dodf 0}
+     *
+     * @rfturn thf mbximum numbfr of bytfs bllowfd; b rfsult of zfro
+     * mfbns thbt thfrf is no limit or thf limit is not known
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.8
+     */
+    dffbult long gftMbxLogidblLobSizf() throws SQLExdfption {
+        rfturn 0;
+    }
+
+    /**
+     * Rftrifvfs whfthfr this dbtbbbsf supports REF CURSOR.
+     *<p>
+     * Thf dffbult implfmfntbtion will rfturn {@dodf fblsf}
+     *
+     * @rfturn {@dodf truf} if this dbtbbbsf supports REF CURSOR;
+     *         {@dodf fblsf} othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.8
+     */
+    dffbult boolfbn supportsRffCursors() throws SQLExdfption{
+        rfturn fblsf;
+    }
+
+}

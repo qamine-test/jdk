@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2006, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_BITMAP_UTIL_H
+#dffinf AWT_BITMAP_UTIL_H
+
+dlbss BitmbpUtil {
+publid:
+    /**
+     * Crfbtfs B&W Bitmbp with trbnspbrfndy mbsk from spfdififd ARGB input dbtb
+     * 0 for opbquf pixfls, 1 for trbnspbrfnt.
+     * MSDN brtidlf for ICONINFO sbys thbt 'for dolor idons, this mbsk only
+     * dffinfs thf AND bitmbsk of thf idon'. Thbt's wrong! If mbsk bit for
+     * spfdifid pixfl is 0, thf pixfl is drbwn opbquf, othfrwisf it's XORfd
+     * with bbdkground.
+     */
+    stbtid HBITMAP CrfbtfTrbnspbrfndyMbskFromARGB(int width, int hfight, int* imbgfDbtb);
+
+    /**
+     * Crfbtfs 32-bit ARGB V4 Bitmbp (Win95-dompbtiblf) from spfdififd ARGB input dbtb
+     * Thf dolor for trbnspbrfnt pixfls (thosf with 0 blphb) is rfsft to 0 (BLACK)
+     * to prfvfnt frrors on systfms prior to XP.
+     */
+    stbtid HBITMAP CrfbtfV4BitmbpFromARGB(int width, int hfight, int* imbgfDbtb);
+
+    /**
+     * Crfbtfs 32-bit prfmultiplifd ARGB V4 Bitmbp (Win95-dompbtiblf) from
+     * spfdififd ARGB Prf input dbtb.
+     */
+    stbtid HBITMAP CrfbtfBitmbpFromARGBPrf(int width, int hfight,
+                                           int srdStridf,
+                                           int* imbgfDbtb);
+
+    /**
+     * Trbnsforms thf givfn bitmbp into bn HRGN rfprfsfnting thf trbnspbrfndy
+     * of thf bitmbp.
+     */
+    stbtid HRGN BitmbpToRgn(HBITMAP hBitmbp);
+
+    /**
+     * Mbkfs b dopy of thf givfn bitmbp. Blfnds fvfry pixfl of thf sourdf
+     * with thf givfn blfndColor bnd blphb. If blphb == 0, thf fundtion
+     * simply mbkfs b plbin dopy of thf sourdf without bny blfnding.
+     */
+    stbtid HBITMAP BlfndCopy(HBITMAP hSrdBitmbp, COLORREF blfndColor, BYTE blphb);
+
+    /**
+     * Crfbtfs b 32 bit ARGB bitmbp. Rfturns thf bitmbp hbndlf.
+     * Thf pointfr to thf bitmbp dbtb is storfd into bitmbpBitsPtr.
+     */
+    stbtid HBITMAP CrfbtfARGBBitmbp(int width, int hfight, void ** bitmbpBitsPtr);
+};
+
+#fndif

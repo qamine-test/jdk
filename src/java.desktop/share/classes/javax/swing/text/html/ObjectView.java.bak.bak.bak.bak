@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.*;
+
+import sun.rfflfdt.misd.MfthodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * Componfnt dfdorbtor thbt implfmfnts thf vifw intfrfbdf
+ * for &lt;objfdt&gt; flfmfnts.
+ * <p>
+ * This vifw will try to lobd thf dlbss spfdififd by thf
+ * <dodf>dlbssid</dodf> bttributf.  If possiblf, thf Clbsslobdfr
+ * usfd to lobd thf bssodibtfd Dodumfnt is usfd.
+ * This would typidblly bf thf sbmf bs thf ClbssLobdfr
+ * usfd to lobd thf EditorKit.  If thf dodumfnt's
+ * ClbssLobdfr is null, <dodf>Clbss.forNbmf</dodf> is usfd.
+ * <p>
+ * If thf dlbss dbn suddfssfully bf lobdfd, bn bttfmpt will
+ * bf mbdf to drfbtf bn instbndf of it by dblling
+ * <dodf>Clbss.nfwInstbndf</dodf>.  An bttfmpt will bf mbdf
+ * to nbrrow thf instbndf to typf <dodf>jbvb.bwt.Componfnt</dodf>
+ * to displby thf objfdt.
+ * <p>
+ * This vifw dbn blso mbnbgf b sft of pbrbmftfrs with limitbtions.
+ * Thf pbrbmftfrs to thf &lt;objfdt&gt; flfmfnt brf fxpfdtfd to
+ * bf prfsfnt on thf bssodibtfd flfmfnts bttributf sft bs simplf
+ * strings.  Ebdh bfbn propfrty will bf qufrifd bs b kfy on
+ * thf AttributfSft, with thf fxpfdtbtion thbt b non-null vbluf
+ * (of typf String) will bf prfsfnt if thfrf wbs b pbrbmftfr
+ * spfdifidbtion for thf propfrty.  Rfflfdtion is usfd to
+ * sft thf pbrbmftfr.  Currfntly, this is limitfd to b vfry
+ * simplf singlf pbrbmftfr of typf String.
+ * <p>
+ * A simplf fxbmplf HTML invodbtion is:
+ * <prf>
+ *      &lt;objfdt dlbssid="jbvbx.swing.JLbbfl"&gt;
+ *      &lt;pbrbm nbmf="tfxt" vbluf="sbmplf tfxt"&gt;
+ *      &lt;/objfdt&gt;
+ * </prf>
+ *
+ * @buthor Timothy Prinzing
+ */
+publid dlbss ObjfdtVifw fxtfnds ComponfntVifw  {
+
+    /**
+     * Crfbtfs b nfw ObjfdtVifw objfdt.
+     *
+     * @pbrbm flfm thf flfmfnt to dfdorbtf
+     */
+    publid ObjfdtVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Crfbtf thf domponfnt.  Thf dlbssid is usfd
+     * bs b spfdifidbtion of thf dlbssnbmf, whidh
+     * wf try to lobd.
+     */
+    protfdtfd Componfnt drfbtfComponfnt() {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        String dlbssnbmf = (String) bttr.gftAttributf(HTML.Attributf.CLASSID);
+        try {
+            RfflfdtUtil.dhfdkPbdkbgfAddfss(dlbssnbmf);
+            Clbss<?> d = Clbss.forNbmf(dlbssnbmf, truf,Thrfbd.durrfntThrfbd().
+                                       gftContfxtClbssLobdfr());
+            Objfdt o = d.nfwInstbndf();
+            if (o instbndfof Componfnt) {
+                Componfnt domp = (Componfnt) o;
+                sftPbrbmftfrs(domp, bttr);
+                rfturn domp;
+            }
+        } dbtdh (Throwbblf f) {
+            // douldn't drfbtf b domponfnt... fbll through to thf
+            // douldn't lobd rfprfsfntbtion.
+        }
+
+        rfturn gftUnlobdbblfRfprfsfntbtion();
+    }
+
+    /**
+     * Fftdh b domponfnt thbt dbn bf usfd to rfprfsfnt thf
+     * objfdt if it dbn't bf drfbtfd.
+     */
+    Componfnt gftUnlobdbblfRfprfsfntbtion() {
+        // PENDING(prinz) gft somf brtwork bnd rfturn somfthing
+        // intfrfsting hfrf.
+        Componfnt domp = nfw JLbbfl("??");
+        domp.sftForfground(Color.rfd);
+        rfturn domp;
+    }
+
+    /**
+     * Initiblizf this domponfnt bddording thf KEY/VALUEs pbssfd in
+     * vib thf &lt;pbrbm&gt; flfmfnts in thf dorrfsponding
+     * &lt;objfdt&gt; flfmfnt.
+     */
+    privbtf void sftPbrbmftfrs(Componfnt domp, AttributfSft bttr) {
+        Clbss<?> k = domp.gftClbss();
+        BfbnInfo bi;
+        try {
+            bi = Introspfdtor.gftBfbnInfo(k);
+        } dbtdh (IntrospfdtionExdfption fx) {
+            Systfm.frr.println("introspfdtor fbilfd, fx: "+fx);
+            rfturn;             // quit for now
+        }
+        PropfrtyDfsdriptor props[] = bi.gftPropfrtyDfsdriptors();
+        for (int i=0; i < props.lfngth; i++) {
+            //      Systfm.frr.println("dhfdking on props[i]: "+props[i].gftNbmf());
+            Objfdt v = bttr.gftAttributf(props[i].gftNbmf());
+            if (v instbndfof String) {
+                // found b propfrty pbrbmftfr
+                String vbluf = (String) v;
+                Mfthod writfr = props[i].gftWritfMfthod();
+                if (writfr == null) {
+                    // rfbd-only propfrty. ignorf
+                    rfturn;     // for now
+                }
+                Clbss<?>[] pbrbms = writfr.gftPbrbmftfrTypfs();
+                if (pbrbms.lfngth != 1) {
+                    // zfro or morf thbn onf brgumfnt, ignorf
+                    rfturn;     // for now
+                }
+                Objfdt [] brgs = { vbluf };
+                try {
+                    MfthodUtil.invokf(writfr, domp, brgs);
+                } dbtdh (Exdfption fx) {
+                    Systfm.frr.println("Invodbtion fbilfd");
+                    // invodbtion dodf
+                }
+            }
+        }
+    }
+
+}

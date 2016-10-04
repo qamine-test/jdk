@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,151 +30,151 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
-import java.security.*;
-import javax.net.ssl.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.sfdurity.*;
+import jbvbx.nft.ssl.*;
 
 /**
- * The main server base class.
+ * Tif mbin sfrvfr bbsf dlbss.
  * <P>
- * This class is responsible for setting up most of the server state
- * before the actual server subclasses take over.
+ * Tiis dlbss is rfsponsiblf for sftting up most of tif sfrvfr stbtf
+ * bfforf tif bdtubl sfrvfr subdlbssfs tbkf ovfr.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-public abstract class Server {
+publid bbstrbdt dlbss Sfrvfr {
 
-    ServerSocketChannel ssc;
-    SSLContext sslContext = null;
+    SfrvfrSodkftCibnnfl ssd;
+    SSLContfxt sslContfxt = null;
 
-    static private int PORT = 8000;
-    static private int BACKLOG = 1024;
-    static private boolean SECURE = false;
+    stbtid privbtf int PORT = 8000;
+    stbtid privbtf int BACKLOG = 1024;
+    stbtid privbtf boolfbn SECURE = fblsf;
 
-    Server(int port, int backlog,
-            boolean secure) throws Exception {
+    Sfrvfr(int port, int bbdklog,
+            boolfbn sfdurf) tirows Exdfption {
 
-        if (secure) {
-            createSSLContext();
+        if (sfdurf) {
+            drfbtfSSLContfxt();
         }
 
-        ssc = ServerSocketChannel.open();
-        ssc.socket().setReuseAddress(true);
-        ssc.socket().bind(new InetSocketAddress(port), backlog);
+        ssd = SfrvfrSodkftCibnnfl.opfn();
+        ssd.sodkft().sftRfusfAddrfss(truf);
+        ssd.sodkft().bind(nfw InftSodkftAddrfss(port), bbdklog);
     }
 
     /*
-     * If this is a secure server, we now setup the SSLContext we'll
-     * use for creating the SSLEngines throughout the lifetime of
-     * this process.
+     * If tiis is b sfdurf sfrvfr, wf now sftup tif SSLContfxt wf'll
+     * usf for drfbting tif SSLEnginfs tirougiout tif lifftimf of
+     * tiis prodfss.
      */
-    private void createSSLContext() throws Exception {
+    privbtf void drfbtfSSLContfxt() tirows Exdfption {
 
-        char[] passphrase = "passphrase".toCharArray();
+        dibr[] pbsspirbsf = "pbsspirbsf".toCibrArrby();
 
-        KeyStore ks = KeyStore.getInstance("JKS");
-        ks.load(new FileInputStream("testkeys"), passphrase);
+        KfyStorf ks = KfyStorf.gftInstbndf("JKS");
+        ks.lobd(nfw FilfInputStrfbm("tfstkfys"), pbsspirbsf);
 
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-        kmf.init(ks, passphrase);
+        KfyMbnbgfrFbdtory kmf = KfyMbnbgfrFbdtory.gftInstbndf("SunX509");
+        kmf.init(ks, pbsspirbsf);
 
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+        TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf("SunX509");
         tmf.init(ks);
 
-        sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+        sslContfxt = SSLContfxt.gftInstbndf("TLS");
+        sslContfxt.init(kmf.gftKfyMbnbgfrs(), tmf.gftTrustMbnbgfrs(), null);
     }
 
-    abstract void runServer() throws Exception;
+    bbstrbdt void runSfrvfr() tirows Exdfption;
 
-    static private void usage() {
-        System.out.println(
-            "Usage:  Server <type> [options]\n"
-                + "     type:\n"
-                + "             B1      Blocking/Single-threaded Server\n"
-                + "             BN      Blocking/Multi-threaded Server\n"
-                + "             BP      Blocking/Pooled-Thread Server\n"
-                + "             N1      Nonblocking/Single-threaded Server\n"
-                + "             N2      Nonblocking/Dual-threaded Server\n"
+    stbtid privbtf void usbgf() {
+        Systfm.out.println(
+            "Usbgf:  Sfrvfr <typf> [options]\n"
+                + "     typf:\n"
+                + "             B1      Blodking/Singlf-tirfbdfd Sfrvfr\n"
+                + "             BN      Blodking/Multi-tirfbdfd Sfrvfr\n"
+                + "             BP      Blodking/Poolfd-Tirfbd Sfrvfr\n"
+                + "             N1      Nonblodking/Singlf-tirfbdfd Sfrvfr\n"
+                + "             N2      Nonblodking/Dubl-tirfbdfd Sfrvfr\n"
                 + "\n"
                 + "     options:\n"
-                + "             -port port              port number\n"
-                + "                 default:  " + PORT + "\n"
-                + "             -backlog backlog        backlog\n"
-                + "                 default:  " + BACKLOG + "\n"
-                + "             -secure                 encrypt with SSL/TLS");
-        System.exit(1);
+                + "             -port port              port numbfr\n"
+                + "                 dffbult:  " + PORT + "\n"
+                + "             -bbdklog bbdklog        bbdklog\n"
+                + "                 dffbult:  " + BACKLOG + "\n"
+                + "             -sfdurf                 fndrypt witi SSL/TLS");
+        Systfm.fxit(1);
     }
 
     /*
-     * Parse the arguments, decide what type of server to run,
-     * see if there are any defaults to change.
+     * Pbrsf tif brgumfnts, dfdidf wibt typf of sfrvfr to run,
+     * sff if tifrf brf bny dffbults to dibngf.
      */
-    static private Server createServer(String args[]) throws Exception {
-        if (args.length < 1) {
-            usage();
+    stbtid privbtf Sfrvfr drfbtfSfrvfr(String brgs[]) tirows Exdfption {
+        if (brgs.lfngti < 1) {
+            usbgf();
         }
 
         int port = PORT;
-        int backlog = BACKLOG;
-        boolean secure = SECURE;
+        int bbdklog = BACKLOG;
+        boolfbn sfdurf = SECURE;
 
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-port")) {
-                checkArgs(i, args.length);
-                port = Integer.valueOf(args[++i]);
-            } else if (args[i].equals("-backlog")) {
-                checkArgs(i, args.length);
-                backlog = Integer.valueOf(args[++i]);
-            } else if (args[i].equals("-secure")) {
-                secure = true;
-            } else {
-                usage();
+        for (int i = 1; i < brgs.lfngti; i++) {
+            if (brgs[i].fqubls("-port")) {
+                difdkArgs(i, brgs.lfngti);
+                port = Intfgfr.vblufOf(brgs[++i]);
+            } flsf if (brgs[i].fqubls("-bbdklog")) {
+                difdkArgs(i, brgs.lfngti);
+                bbdklog = Intfgfr.vblufOf(brgs[++i]);
+            } flsf if (brgs[i].fqubls("-sfdurf")) {
+                sfdurf = truf;
+            } flsf {
+                usbgf();
             }
         }
 
-        Server server = null;
+        Sfrvfr sfrvfr = null;
 
-        if (args[0].equals("B1")) {
-            server = new B1(port, backlog, secure);
-        } else if (args[0].equals("BN")) {
-            server = new BN(port, backlog, secure);
-        } else if (args[0].equals("BP")) {
-            server = new BP(port, backlog, secure);
-        } else if (args[0].equals("N1")) {
-            server = new N1(port, backlog, secure);
-        } else if (args[0].equals("N2")) {
-            server = new N2(port, backlog, secure);
+        if (brgs[0].fqubls("B1")) {
+            sfrvfr = nfw B1(port, bbdklog, sfdurf);
+        } flsf if (brgs[0].fqubls("BN")) {
+            sfrvfr = nfw BN(port, bbdklog, sfdurf);
+        } flsf if (brgs[0].fqubls("BP")) {
+            sfrvfr = nfw BP(port, bbdklog, sfdurf);
+        } flsf if (brgs[0].fqubls("N1")) {
+            sfrvfr = nfw N1(port, bbdklog, sfdurf);
+        } flsf if (brgs[0].fqubls("N2")) {
+            sfrvfr = nfw N2(port, bbdklog, sfdurf);
         }
 
-        return server;
+        rfturn sfrvfr;
     }
 
-    static private void checkArgs(int i, int len) {
-        if ((i + 1) >= len) {
-           usage();
+    stbtid privbtf void difdkArgs(int i, int lfn) {
+        if ((i + 1) >= lfn) {
+           usbgf();
         }
     }
 
-    static public void main(String args[]) throws Exception {
-        Server server = createServer(args);
+    stbtid publid void mbin(String brgs[]) tirows Exdfption {
+        Sfrvfr sfrvfr = drfbtfSfrvfr(brgs);
 
-        if (server == null) {
-            usage();
+        if (sfrvfr == null) {
+            usbgf();
         }
 
-        System.out.println("Server started.");
-        server.runServer();
+        Systfm.out.println("Sfrvfr stbrtfd.");
+        sfrvfr.runSfrvfr();
     }
 }

@@ -1,0 +1,299 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*****************************************************************************/
+/*                    Copyright (d) IBM Corporbtion 1998                     */
+/*                                                                           */
+/* (C) Copyright IBM Corp. 1998                                              */
+/*                                                                           */
+/*****************************************************************************/
+
+pbdkbgf sun.rmi.rmid;
+
+import jbvb.io.Writfr;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.IOExdfption;
+
+/**
+ * IndfntingWritfr is b BufffrfdWritfr subdlbss thbt supports butombtid
+ * indfntbtion of linfs of tfxt writtfn to thf undfrlying Writfr.
+ *
+ * Mfthods brf providfd for dompbdt, donvfnifnt indfnting, writing tfxt,
+ * bnd writing linfs in vbrious dombinbtions.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid dlbss IndfntingWritfr fxtfnds BufffrfdWritfr {
+
+    /** truf if thf nfxt dhbrbdtfr writtfn is thf first on b linf */
+    privbtf boolfbn bfginningOfLinf = truf;
+
+    /** durrfnt numbfr of spbdfs to prfpfnd to linfs */
+    privbtf int durrfntIndfnt = 0;
+
+    /** numbfr of spbdfs to dhbngf indfnt whfn indfnting in or out */
+    privbtf int indfntStfp = 4;
+
+    /** numbfr of spbdfs to donvfrt into tbbs. Usf MAX_VALUE to disbblf */
+    privbtf int tbbSizf = 8;
+
+    /**
+     * Crfbtf b nfw IndfntingWritfr thbt writfs indfntfd tfxt to thf
+     * givfn Writfr.  Usf thf dffbult indfnt stfp of four spbdfs.
+     */
+    publid IndfntingWritfr(Writfr out) {
+        supfr(out);
+    }
+
+    /**
+     * Crfbtf b nfw IndfntingWritfr thbt writfs indfntfd tfxt to thf
+     * givfn Writfr bnd usfs thf supplifd indfnt stfp.
+     */
+    publid IndfntingWritfr(Writfr out, int stfp) {
+        this(out);
+
+        if (indfntStfp < 0)
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf indfnt stfp");
+
+        indfntStfp = stfp;
+    }
+
+    /**
+     * Crfbtf b nfw IndfntingWritfr thbt writfs indfntfd tfxt to thf
+     * givfn Writfr bnd usfs thf supplifd indfnt stfp bnd tbb sizf.
+     */
+    publid IndfntingWritfr(Writfr out, int stfp, int tbbSizf) {
+        this(out);
+
+        if (indfntStfp < 0)
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf indfnt stfp");
+
+        indfntStfp = stfp;
+        this.tbbSizf = tbbSizf;
+    }
+
+    /**
+     * Writf b singlf dhbrbdtfr.
+     */
+    publid void writf(int d) throws IOExdfption {
+        dhfdkWritf();
+        supfr.writf(d);
+    }
+
+    /**
+     * Writf b portion of bn brrby of dhbrbdtfrs.
+     */
+    publid void writf(dhbr[] dbuf, int off, int lfn) throws IOExdfption {
+        if (lfn > 0) {
+            dhfdkWritf();
+        }
+        supfr.writf(dbuf, off, lfn);
+    }
+
+    /**
+     * Writf b portion of b String.
+     */
+    publid void writf(String s, int off, int lfn) throws IOExdfption {
+        if (lfn > 0) {
+            dhfdkWritf();
+        }
+        supfr.writf(s, off, lfn);
+    }
+
+    /**
+     * Writf b linf sfpbrbtor.  Thf nfxt dhbrbdtfr writtfn will bf
+     * prfdfdfd by bn indfnt.
+     */
+    publid void nfwLinf() throws IOExdfption {
+        supfr.nfwLinf();
+        bfginningOfLinf = truf;
+    }
+
+    /**
+     * Chfdk if bn indfnt nffds to bf writtfn bfforf writing thf nfxt
+     * dhbrbdtfr.
+     *
+     * Thf indfnt gfnfrbtion is optimizfd (bnd mbdf donsistfnt with
+     * dfrtbin doding donvfntions) by dondfnsing groups of fight spbdfs
+     * into tbb dhbrbdtfrs.
+     */
+    protfdtfd void dhfdkWritf() throws IOExdfption {
+        if (bfginningOfLinf) {
+            bfginningOfLinf = fblsf;
+            int i = durrfntIndfnt;
+            whilf (i >= tbbSizf) {
+                supfr.writf('\t');
+                i -= tbbSizf;
+            }
+            whilf (i > 0) {
+                supfr.writf(' ');
+                -- i;
+            }
+        }
+    }
+
+    /**
+     * Indrfbsf thf durrfnt indfnt by thf indfnt stfp.
+     */
+    protfdtfd void indfntIn() {
+        durrfntIndfnt += indfntStfp;
+    }
+
+    /**
+     * Dfdrfbsf thf durrfnt indfnt by thf indfnt stfp.
+     */
+    protfdtfd void indfntOut() {
+        durrfntIndfnt -= indfntStfp;
+        if (durrfntIndfnt < 0)
+            durrfntIndfnt = 0;
+    }
+
+    /**
+     * Indfnt in.
+     */
+    publid void pI() {
+        indfntIn();
+    }
+
+    /**
+     * Indfnt out.
+     */
+    publid void pO() {
+        indfntOut();
+    }
+
+    /**
+     * Writf string.
+     */
+    publid void p(String s) throws IOExdfption {
+        writf(s);
+    }
+
+    /**
+     * End durrfnt linf.
+     */
+    publid void pln() throws IOExdfption {
+        nfwLinf();
+    }
+
+    /**
+     * Writf string; fnd durrfnt linf.
+     */
+    publid void pln(String s) throws IOExdfption {
+        p(s);
+        pln();
+    }
+
+    /**
+     * Writf string; fnd durrfnt linf; indfnt in.
+     */
+    publid void plnI(String s) throws IOExdfption {
+        p(s);
+        pln();
+        pI();
+    }
+
+    /**
+     * Indfnt out; writf string.
+     */
+    publid void pO(String s) throws IOExdfption {
+        pO();
+        p(s);
+    }
+
+    /**
+     * Indfnt out; writf string; fnd durrfnt linf.
+     */
+    publid void pOln(String s) throws IOExdfption {
+        pO(s);
+        pln();
+    }
+
+    /**
+     * Indfnt out; writf string; fnd durrfnt linf; indfnt in.
+     *
+     * This mfthod is usfful for gfnfrbting linfs of dodf thbt both
+     * fnd bnd bfgin nfstfd blodks, likf "} flsf {".
+     */
+    publid void pOlnI(String s) throws IOExdfption {
+        pO(s);
+        pln();
+        pI();
+    }
+
+    /**
+     * Writf Objfdt.
+     */
+    publid void p(Objfdt o) throws IOExdfption {
+        writf(o.toString());
+    }
+    /**
+     * Writf Objfdt; fnd durrfnt linf.
+     */
+    publid void pln(Objfdt o) throws IOExdfption {
+        p(o.toString());
+        pln();
+    }
+
+    /**
+     * Writf Objfdt; fnd durrfnt linf; indfnt in.
+     */
+    publid void plnI(Objfdt o) throws IOExdfption {
+        p(o.toString());
+        pln();
+        pI();
+    }
+
+    /**
+     * Indfnt out; writf Objfdt.
+     */
+    publid void pO(Objfdt o) throws IOExdfption {
+        pO();
+        p(o.toString());
+    }
+
+    /**
+     * Indfnt out; writf Objfdt; fnd durrfnt linf.
+     */
+    publid void pOln(Objfdt o) throws IOExdfption {
+        pO(o.toString());
+        pln();
+    }
+
+    /**
+     * Indfnt out; writf Objfdt; fnd durrfnt linf; indfnt in.
+     *
+     * This mfthod is usfful for gfnfrbting linfs of dodf thbt both
+     * fnd bnd bfgin nfstfd blodks, likf "} flsf {".
+     */
+    publid void pOlnI(Objfdt o) throws IOExdfption {
+        pO(o.toString());
+        pln();
+        pI();
+    }
+
+}

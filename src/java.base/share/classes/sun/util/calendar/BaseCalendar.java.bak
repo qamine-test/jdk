@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.util.TimeZone;
+import jbvb.util.TimfZonf;
 
 /**
- * The <code>BaseCalendar</code> provides basic calendar calculation
- * functions to support the Julian, Gregorian, and Gregorian-based
- * calendar systems.
+ * Tif <dodf>BbsfCblfndbr</dodf> providfs bbsid dblfndbr dbldulbtion
+ * fundtions to support tif Julibn, Grfgoribn, bnd Grfgoribn-bbsfd
+ * dblfndbr systfms.
  *
- * @author Masayoshi Okutsu
- * @since 1.5
+ * @butior Mbsbyosii Okutsu
+ * @sindf 1.5
  */
 
-public abstract class BaseCalendar extends AbstractCalendar {
+publid bbstrbdt dlbss BbsfCblfndbr fxtfnds AbstrbdtCblfndbr {
 
-    public static final int JANUARY = 1;
-    public static final int FEBRUARY = 2;
-    public static final int MARCH = 3;
-    public static final int APRIL = 4;
-    public static final int MAY = 5;
-    public static final int JUNE = 6;
-    public static final int JULY = 7;
-    public static final int AUGUST = 8;
-    public static final int SEPTEMBER = 9;
-    public static final int OCTOBER = 10;
-    public static final int NOVEMBER = 11;
-    public static final int DECEMBER = 12;
+    publid stbtid finbl int JANUARY = 1;
+    publid stbtid finbl int FEBRUARY = 2;
+    publid stbtid finbl int MARCH = 3;
+    publid stbtid finbl int APRIL = 4;
+    publid stbtid finbl int MAY = 5;
+    publid stbtid finbl int JUNE = 6;
+    publid stbtid finbl int JULY = 7;
+    publid stbtid finbl int AUGUST = 8;
+    publid stbtid finbl int SEPTEMBER = 9;
+    publid stbtid finbl int OCTOBER = 10;
+    publid stbtid finbl int NOVEMBER = 11;
+    publid stbtid finbl int DECEMBER = 12;
 
-    // day of week constants
-    public static final int SUNDAY = 1;
-    public static final int MONDAY = 2;
-    public static final int TUESDAY = 3;
-    public static final int WEDNESDAY = 4;
-    public static final int THURSDAY = 5;
-    public static final int FRIDAY = 6;
-    public static final int SATURDAY = 7;
+    // dby of wffk donstbnts
+    publid stbtid finbl int SUNDAY = 1;
+    publid stbtid finbl int MONDAY = 2;
+    publid stbtid finbl int TUESDAY = 3;
+    publid stbtid finbl int WEDNESDAY = 4;
+    publid stbtid finbl int THURSDAY = 5;
+    publid stbtid finbl int FRIDAY = 6;
+    publid stbtid finbl int SATURDAY = 7;
 
-    // The base Gregorian year of FIXED_DATES[]
-    private static final int BASE_YEAR = 1970;
+    // Tif bbsf Grfgoribn yfbr of FIXED_DATES[]
+    privbtf stbtid finbl int BASE_YEAR = 1970;
 
-    // Pre-calculated fixed dates of January 1 from BASE_YEAR
-    // (Gregorian). This table covers all the years that can be
-    // supported by the POSIX time_t (32-bit) after the Epoch. Note
-    // that the data type is int[].
-    private static final int[] FIXED_DATES = {
+    // Prf-dbldulbtfd fixfd dbtfs of Jbnubry 1 from BASE_YEAR
+    // (Grfgoribn). Tiis tbblf dovfrs bll tif yfbrs tibt dbn bf
+    // supportfd by tif POSIX timf_t (32-bit) bftfr tif Epodi. Notf
+    // tibt tif dbtb typf is int[].
+    privbtf stbtid finbl int[] FIXED_DATES = {
         719163, // 1970
         719528, // 1971
         719893, // 1972
@@ -140,362 +140,362 @@ public abstract class BaseCalendar extends AbstractCalendar {
         744365, // 2039
     };
 
-    public abstract static class Date extends CalendarDate {
-        protected Date() {
-            super();
+    publid bbstrbdt stbtid dlbss Dbtf fxtfnds CblfndbrDbtf {
+        protfdtfd Dbtf() {
+            supfr();
         }
-        protected Date(TimeZone zone) {
-            super(zone);
-        }
-
-        public Date setNormalizedDate(int normalizedYear, int month, int dayOfMonth) {
-            setNormalizedYear(normalizedYear);
-            setMonth(month).setDayOfMonth(dayOfMonth);
-            return this;
+        protfdtfd Dbtf(TimfZonf zonf) {
+            supfr(zonf);
         }
 
-        public abstract int getNormalizedYear();
-
-        public abstract void setNormalizedYear(int normalizedYear);
-
-        // Cache for the fixed date of January 1 and year length of the
-        // cachedYear. A simple benchmark showed 7% performance
-        // improvement with >90% cache hit. The initial values are for Gregorian.
-        int cachedYear = 2004;
-        long cachedFixedDateJan1 = 731581L;
-        long cachedFixedDateNextJan1 = cachedFixedDateJan1 + 366;
-
-        protected final boolean hit(int year) {
-            return year == cachedYear;
+        publid Dbtf sftNormblizfdDbtf(int normblizfdYfbr, int monti, int dbyOfMonti) {
+            sftNormblizfdYfbr(normblizfdYfbr);
+            sftMonti(monti).sftDbyOfMonti(dbyOfMonti);
+            rfturn tiis;
         }
 
-        protected final boolean hit(long fixedDate) {
-            return (fixedDate >= cachedFixedDateJan1 &&
-                    fixedDate < cachedFixedDateNextJan1);
-        }
-        protected int getCachedYear() {
-            return cachedYear;
+        publid bbstrbdt int gftNormblizfdYfbr();
+
+        publid bbstrbdt void sftNormblizfdYfbr(int normblizfdYfbr);
+
+        // Cbdif for tif fixfd dbtf of Jbnubry 1 bnd yfbr lfngti of tif
+        // dbdifdYfbr. A simplf bfndimbrk siowfd 7% pfrformbndf
+        // improvfmfnt witi >90% dbdif iit. Tif initibl vblufs brf for Grfgoribn.
+        int dbdifdYfbr = 2004;
+        long dbdifdFixfdDbtfJbn1 = 731581L;
+        long dbdifdFixfdDbtfNfxtJbn1 = dbdifdFixfdDbtfJbn1 + 366;
+
+        protfdtfd finbl boolfbn iit(int yfbr) {
+            rfturn yfbr == dbdifdYfbr;
         }
 
-        protected long getCachedJan1() {
-            return cachedFixedDateJan1;
+        protfdtfd finbl boolfbn iit(long fixfdDbtf) {
+            rfturn (fixfdDbtf >= dbdifdFixfdDbtfJbn1 &&
+                    fixfdDbtf < dbdifdFixfdDbtfNfxtJbn1);
+        }
+        protfdtfd int gftCbdifdYfbr() {
+            rfturn dbdifdYfbr;
         }
 
-        protected void setCache(int year, long jan1, int len) {
-            cachedYear = year;
-            cachedFixedDateJan1 = jan1;
-            cachedFixedDateNextJan1 = jan1 + len;
+        protfdtfd long gftCbdifdJbn1() {
+            rfturn dbdifdFixfdDbtfJbn1;
+        }
+
+        protfdtfd void sftCbdif(int yfbr, long jbn1, int lfn) {
+            dbdifdYfbr = yfbr;
+            dbdifdFixfdDbtfJbn1 = jbn1;
+            dbdifdFixfdDbtfNfxtJbn1 = jbn1 + lfn;
         }
     }
 
-    public boolean validate(CalendarDate date) {
-        Date bdate = (Date) date;
-        if (bdate.isNormalized()) {
-            return true;
+    publid boolfbn vblidbtf(CblfndbrDbtf dbtf) {
+        Dbtf bdbtf = (Dbtf) dbtf;
+        if (bdbtf.isNormblizfd()) {
+            rfturn truf;
         }
-        int month = bdate.getMonth();
-        if (month < JANUARY || month > DECEMBER) {
-            return false;
+        int monti = bdbtf.gftMonti();
+        if (monti < JANUARY || monti > DECEMBER) {
+            rfturn fblsf;
         }
-        int d = bdate.getDayOfMonth();
-        if (d <= 0 || d > getMonthLength(bdate.getNormalizedYear(), month)) {
-            return false;
+        int d = bdbtf.gftDbyOfMonti();
+        if (d <= 0 || d > gftMontiLfngti(bdbtf.gftNormblizfdYfbr(), monti)) {
+            rfturn fblsf;
         }
-        int dow = bdate.getDayOfWeek();
-        if (dow != Date.FIELD_UNDEFINED && dow != getDayOfWeek(bdate)) {
-            return false;
-        }
-
-        if (!validateTime(date)) {
-            return false;
+        int dow = bdbtf.gftDbyOfWffk();
+        if (dow != Dbtf.FIELD_UNDEFINED && dow != gftDbyOfWffk(bdbtf)) {
+            rfturn fblsf;
         }
 
-        bdate.setNormalized(true);
-        return true;
+        if (!vblidbtfTimf(dbtf)) {
+            rfturn fblsf;
+        }
+
+        bdbtf.sftNormblizfd(truf);
+        rfturn truf;
     }
 
-    public boolean normalize(CalendarDate date) {
-        if (date.isNormalized()) {
-            return true;
+    publid boolfbn normblizf(CblfndbrDbtf dbtf) {
+        if (dbtf.isNormblizfd()) {
+            rfturn truf;
         }
 
-        Date bdate = (Date) date;
-        TimeZone zi = bdate.getZone();
+        Dbtf bdbtf = (Dbtf) dbtf;
+        TimfZonf zi = bdbtf.gftZonf();
 
-        // If the date has a time zone, then we need to recalculate
-        // the calendar fields. Let getTime() do it.
+        // If tif dbtf ibs b timf zonf, tifn wf nffd to rfdbldulbtf
+        // tif dblfndbr fiflds. Lft gftTimf() do it.
         if (zi != null) {
-            getTime(date);
-            return true;
+            gftTimf(dbtf);
+            rfturn truf;
         }
 
-        int days = normalizeTime(bdate);
-        normalizeMonth(bdate);
-        long d = (long)bdate.getDayOfMonth() + days;
-        int m = bdate.getMonth();
-        int y = bdate.getNormalizedYear();
-        int ml = getMonthLength(y, m);
+        int dbys = normblizfTimf(bdbtf);
+        normblizfMonti(bdbtf);
+        long d = (long)bdbtf.gftDbyOfMonti() + dbys;
+        int m = bdbtf.gftMonti();
+        int y = bdbtf.gftNormblizfdYfbr();
+        int ml = gftMontiLfngti(y, m);
 
         if (!(d > 0 && d <= ml)) {
             if (d <= 0 && d > -28) {
-                ml = getMonthLength(y, --m);
+                ml = gftMontiLfngti(y, --m);
                 d += ml;
-                bdate.setDayOfMonth((int) d);
+                bdbtf.sftDbyOfMonti((int) d);
                 if (m == 0) {
                     m = DECEMBER;
-                    bdate.setNormalizedYear(y - 1);
+                    bdbtf.sftNormblizfdYfbr(y - 1);
                 }
-                bdate.setMonth(m);
-            } else if (d > ml && d < (ml + 28)) {
+                bdbtf.sftMonti(m);
+            } flsf if (d > ml && d < (ml + 28)) {
                 d -= ml;
                 ++m;
-                bdate.setDayOfMonth((int)d);
+                bdbtf.sftDbyOfMonti((int)d);
                 if (m > DECEMBER) {
-                    bdate.setNormalizedYear(y + 1);
+                    bdbtf.sftNormblizfdYfbr(y + 1);
                     m = JANUARY;
                 }
-                bdate.setMonth(m);
-            } else {
-                long fixedDate = d + getFixedDate(y, m, 1, bdate) - 1L;
-                getCalendarDateFromFixedDate(bdate, fixedDate);
+                bdbtf.sftMonti(m);
+            } flsf {
+                long fixfdDbtf = d + gftFixfdDbtf(y, m, 1, bdbtf) - 1L;
+                gftCblfndbrDbtfFromFixfdDbtf(bdbtf, fixfdDbtf);
             }
-        } else {
-            bdate.setDayOfWeek(getDayOfWeek(bdate));
+        } flsf {
+            bdbtf.sftDbyOfWffk(gftDbyOfWffk(bdbtf));
         }
-        date.setLeapYear(isLeapYear(bdate.getNormalizedYear()));
-        date.setZoneOffset(0);
-        date.setDaylightSaving(0);
-        bdate.setNormalized(true);
-        return true;
+        dbtf.sftLfbpYfbr(isLfbpYfbr(bdbtf.gftNormblizfdYfbr()));
+        dbtf.sftZonfOffsft(0);
+        dbtf.sftDbyligitSbving(0);
+        bdbtf.sftNormblizfd(truf);
+        rfturn truf;
     }
 
-    void normalizeMonth(CalendarDate date) {
-        Date bdate = (Date) date;
-        int year = bdate.getNormalizedYear();
-        long month = bdate.getMonth();
-        if (month <= 0) {
-            long xm = 1L - month;
-            year -= (int)((xm / 12) + 1);
-            month = 13 - (xm % 12);
-            bdate.setNormalizedYear(year);
-            bdate.setMonth((int) month);
-        } else if (month > DECEMBER) {
-            year += (int)((month - 1) / 12);
-            month = ((month - 1)) % 12 + 1;
-            bdate.setNormalizedYear(year);
-            bdate.setMonth((int) month);
+    void normblizfMonti(CblfndbrDbtf dbtf) {
+        Dbtf bdbtf = (Dbtf) dbtf;
+        int yfbr = bdbtf.gftNormblizfdYfbr();
+        long monti = bdbtf.gftMonti();
+        if (monti <= 0) {
+            long xm = 1L - monti;
+            yfbr -= (int)((xm / 12) + 1);
+            monti = 13 - (xm % 12);
+            bdbtf.sftNormblizfdYfbr(yfbr);
+            bdbtf.sftMonti((int) monti);
+        } flsf if (monti > DECEMBER) {
+            yfbr += (int)((monti - 1) / 12);
+            monti = ((monti - 1)) % 12 + 1;
+            bdbtf.sftNormblizfdYfbr(yfbr);
+            bdbtf.sftMonti((int) monti);
         }
     }
 
     /**
-     * Returns 366 if the specified date is in a leap year, or 365
-     * otherwise This method does not perform the normalization with
-     * the specified <code>CalendarDate</code>. The
-     * <code>CalendarDate</code> must be normalized to get a correct
-     * value.
+     * Rfturns 366 if tif spfdififd dbtf is in b lfbp yfbr, or 365
+     * otifrwisf Tiis mftiod dofs not pfrform tif normblizbtion witi
+     * tif spfdififd <dodf>CblfndbrDbtf</dodf>. Tif
+     * <dodf>CblfndbrDbtf</dodf> must bf normblizfd to gft b dorrfdt
+     * vbluf.
      *
-     * @param a <code>CalendarDate</code>
-     * @return a year length in days
-     * @throws ClassCastException if the specified date is not a
-     * {@link BaseCalendar.Date}
+     * @pbrbm b <dodf>CblfndbrDbtf</dodf>
+     * @rfturn b yfbr lfngti in dbys
+     * @tirows ClbssCbstExdfption if tif spfdififd dbtf is not b
+     * {@link BbsfCblfndbr.Dbtf}
      */
-    public int getYearLength(CalendarDate date) {
-        return isLeapYear(((Date)date).getNormalizedYear()) ? 366 : 365;
+    publid int gftYfbrLfngti(CblfndbrDbtf dbtf) {
+        rfturn isLfbpYfbr(((Dbtf)dbtf).gftNormblizfdYfbr()) ? 366 : 365;
     }
 
-    public int getYearLengthInMonths(CalendarDate date) {
-        return 12;
+    publid int gftYfbrLfngtiInMontis(CblfndbrDbtf dbtf) {
+        rfturn 12;
     }
 
-    static final int[] DAYS_IN_MONTH
+    stbtid finbl int[] DAYS_IN_MONTH
         //  12   1   2   3   4   5   6   7   8   9  10  11  12
         = { 31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    static final int[] ACCUMULATED_DAYS_IN_MONTH
+    stbtid finbl int[] ACCUMULATED_DAYS_IN_MONTH
         //  12/1 1/1 2/1 3/1 4/1 5/1 6/1 7/1 8/1 9/1 10/1 11/1 12/1
         = {  -30,  0, 31, 59, 90,120,151,181,212,243, 273, 304, 334};
 
-    static final int[] ACCUMULATED_DAYS_IN_MONTH_LEAP
+    stbtid finbl int[] ACCUMULATED_DAYS_IN_MONTH_LEAP
         //  12/1 1/1 2/1   3/1   4/1   5/1   6/1   7/1   8/1   9/1   10/1   11/1   12/1
         = {  -30,  0, 31, 59+1, 90+1,120+1,151+1,181+1,212+1,243+1, 273+1, 304+1, 334+1};
 
-    public int getMonthLength(CalendarDate date) {
-        Date gdate = (Date) date;
-        int month = gdate.getMonth();
-        if (month < JANUARY || month > DECEMBER) {
-            throw new IllegalArgumentException("Illegal month value: " + month);
+    publid int gftMontiLfngti(CblfndbrDbtf dbtf) {
+        Dbtf gdbtf = (Dbtf) dbtf;
+        int monti = gdbtf.gftMonti();
+        if (monti < JANUARY || monti > DECEMBER) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl monti vbluf: " + monti);
         }
-        return getMonthLength(gdate.getNormalizedYear(), month);
+        rfturn gftMontiLfngti(gdbtf.gftNormblizfdYfbr(), monti);
     }
 
-    // accepts 0 (December in the previous year) to 12.
-    private int getMonthLength(int year, int month) {
-        int days = DAYS_IN_MONTH[month];
-        if (month == FEBRUARY && isLeapYear(year)) {
-            days++;
+    // bddfpts 0 (Dfdfmbfr in tif prfvious yfbr) to 12.
+    privbtf int gftMontiLfngti(int yfbr, int monti) {
+        int dbys = DAYS_IN_MONTH[monti];
+        if (monti == FEBRUARY && isLfbpYfbr(yfbr)) {
+            dbys++;
         }
-        return days;
+        rfturn dbys;
     }
 
-    public long getDayOfYear(CalendarDate date) {
-        return getDayOfYear(((Date)date).getNormalizedYear(),
-                            date.getMonth(),
-                            date.getDayOfMonth());
+    publid long gftDbyOfYfbr(CblfndbrDbtf dbtf) {
+        rfturn gftDbyOfYfbr(((Dbtf)dbtf).gftNormblizfdYfbr(),
+                            dbtf.gftMonti(),
+                            dbtf.gftDbyOfMonti());
     }
 
-    final long getDayOfYear(int year, int month, int dayOfMonth) {
-        return (long) dayOfMonth
-            + (isLeapYear(year) ?
-               ACCUMULATED_DAYS_IN_MONTH_LEAP[month] : ACCUMULATED_DAYS_IN_MONTH[month]);
+    finbl long gftDbyOfYfbr(int yfbr, int monti, int dbyOfMonti) {
+        rfturn (long) dbyOfMonti
+            + (isLfbpYfbr(yfbr) ?
+               ACCUMULATED_DAYS_IN_MONTH_LEAP[monti] : ACCUMULATED_DAYS_IN_MONTH[monti]);
     }
 
-    // protected
-    public long getFixedDate(CalendarDate date) {
-        if (!date.isNormalized()) {
-            normalizeMonth(date);
+    // protfdtfd
+    publid long gftFixfdDbtf(CblfndbrDbtf dbtf) {
+        if (!dbtf.isNormblizfd()) {
+            normblizfMonti(dbtf);
         }
-        return getFixedDate(((Date)date).getNormalizedYear(),
-                            date.getMonth(),
-                            date.getDayOfMonth(),
-                            (BaseCalendar.Date) date);
+        rfturn gftFixfdDbtf(((Dbtf)dbtf).gftNormblizfdYfbr(),
+                            dbtf.gftMonti(),
+                            dbtf.gftDbyOfMonti(),
+                            (BbsfCblfndbr.Dbtf) dbtf);
     }
 
-    // public for java.util.GregorianCalendar
-    public long getFixedDate(int year, int month, int dayOfMonth, BaseCalendar.Date cache) {
-        boolean isJan1 = month == JANUARY && dayOfMonth == 1;
+    // publid for jbvb.util.GrfgoribnCblfndbr
+    publid long gftFixfdDbtf(int yfbr, int monti, int dbyOfMonti, BbsfCblfndbr.Dbtf dbdif) {
+        boolfbn isJbn1 = monti == JANUARY && dbyOfMonti == 1;
 
-        // Look up the one year cache
-        if (cache != null && cache.hit(year)) {
-            if (isJan1) {
-                return cache.getCachedJan1();
+        // Look up tif onf yfbr dbdif
+        if (dbdif != null && dbdif.iit(yfbr)) {
+            if (isJbn1) {
+                rfturn dbdif.gftCbdifdJbn1();
             }
-            return cache.getCachedJan1() + getDayOfYear(year, month, dayOfMonth) - 1;
+            rfturn dbdif.gftCbdifdJbn1() + gftDbyOfYfbr(yfbr, monti, dbyOfMonti) - 1;
         }
 
-        // Look up the pre-calculated fixed date table
-        int n = year - BASE_YEAR;
-        if (n >= 0 && n < FIXED_DATES.length) {
-            long jan1 = FIXED_DATES[n];
-            if (cache != null) {
-                cache.setCache(year, jan1, isLeapYear(year) ? 366 : 365);
+        // Look up tif prf-dbldulbtfd fixfd dbtf tbblf
+        int n = yfbr - BASE_YEAR;
+        if (n >= 0 && n < FIXED_DATES.lfngti) {
+            long jbn1 = FIXED_DATES[n];
+            if (dbdif != null) {
+                dbdif.sftCbdif(yfbr, jbn1, isLfbpYfbr(yfbr) ? 366 : 365);
             }
-            return isJan1 ? jan1 : jan1 + getDayOfYear(year, month, dayOfMonth) - 1;
+            rfturn isJbn1 ? jbn1 : jbn1 + gftDbyOfYfbr(yfbr, monti, dbyOfMonti) - 1;
         }
 
-        long prevyear = (long)year - 1;
-        long days = dayOfMonth;
+        long prfvyfbr = (long)yfbr - 1;
+        long dbys = dbyOfMonti;
 
-        if (prevyear >= 0) {
-            days += (365 * prevyear)
-                   + (prevyear / 4)
-                   - (prevyear / 100)
-                   + (prevyear / 400)
-                   + ((367 * month - 362) / 12);
-        } else {
-            days += (365 * prevyear)
-                   + CalendarUtils.floorDivide(prevyear, 4)
-                   - CalendarUtils.floorDivide(prevyear, 100)
-                   + CalendarUtils.floorDivide(prevyear, 400)
-                   + CalendarUtils.floorDivide((367 * month - 362), 12);
+        if (prfvyfbr >= 0) {
+            dbys += (365 * prfvyfbr)
+                   + (prfvyfbr / 4)
+                   - (prfvyfbr / 100)
+                   + (prfvyfbr / 400)
+                   + ((367 * monti - 362) / 12);
+        } flsf {
+            dbys += (365 * prfvyfbr)
+                   + CblfndbrUtils.floorDividf(prfvyfbr, 4)
+                   - CblfndbrUtils.floorDividf(prfvyfbr, 100)
+                   + CblfndbrUtils.floorDividf(prfvyfbr, 400)
+                   + CblfndbrUtils.floorDividf((367 * monti - 362), 12);
         }
 
-        if (month > FEBRUARY) {
-            days -=  isLeapYear(year) ? 1 : 2;
+        if (monti > FEBRUARY) {
+            dbys -=  isLfbpYfbr(yfbr) ? 1 : 2;
         }
 
-        // If it's January 1, update the cache.
-        if (cache != null && isJan1) {
-            cache.setCache(year, days, isLeapYear(year) ? 366 : 365);
+        // If it's Jbnubry 1, updbtf tif dbdif.
+        if (dbdif != null && isJbn1) {
+            dbdif.sftCbdif(yfbr, dbys, isLfbpYfbr(yfbr) ? 366 : 365);
         }
 
-        return days;
+        rfturn dbys;
     }
 
     /**
-     * Calculates calendar fields and store them in the specified
-     * <code>CalendarDate</code>.
+     * Cbldulbtfs dblfndbr fiflds bnd storf tifm in tif spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
      */
-    // should be 'protected'
-    public void getCalendarDateFromFixedDate(CalendarDate date,
-                                             long fixedDate) {
-        Date gdate = (Date) date;
-        int year;
-        long jan1;
-        boolean isLeap;
-        if (gdate.hit(fixedDate)) {
-            year = gdate.getCachedYear();
-            jan1 = gdate.getCachedJan1();
-            isLeap = isLeapYear(year);
-        } else {
-            // Looking up FIXED_DATES[] here didn't improve performance
-            // much. So we calculate year and jan1. getFixedDate()
-            // will look up FIXED_DATES[] actually.
-            year = getGregorianYearFromFixedDate(fixedDate);
-            jan1 = getFixedDate(year, JANUARY, 1, null);
-            isLeap = isLeapYear(year);
-            // Update the cache data
-            gdate.setCache (year, jan1, isLeap ? 366 : 365);
+    // siould bf 'protfdtfd'
+    publid void gftCblfndbrDbtfFromFixfdDbtf(CblfndbrDbtf dbtf,
+                                             long fixfdDbtf) {
+        Dbtf gdbtf = (Dbtf) dbtf;
+        int yfbr;
+        long jbn1;
+        boolfbn isLfbp;
+        if (gdbtf.iit(fixfdDbtf)) {
+            yfbr = gdbtf.gftCbdifdYfbr();
+            jbn1 = gdbtf.gftCbdifdJbn1();
+            isLfbp = isLfbpYfbr(yfbr);
+        } flsf {
+            // Looking up FIXED_DATES[] ifrf didn't improvf pfrformbndf
+            // mudi. So wf dbldulbtf yfbr bnd jbn1. gftFixfdDbtf()
+            // will look up FIXED_DATES[] bdtublly.
+            yfbr = gftGrfgoribnYfbrFromFixfdDbtf(fixfdDbtf);
+            jbn1 = gftFixfdDbtf(yfbr, JANUARY, 1, null);
+            isLfbp = isLfbpYfbr(yfbr);
+            // Updbtf tif dbdif dbtb
+            gdbtf.sftCbdif (yfbr, jbn1, isLfbp ? 366 : 365);
         }
 
-        int priorDays = (int)(fixedDate - jan1);
-        long mar1 = jan1 + 31 + 28;
-        if (isLeap) {
-            ++mar1;
+        int priorDbys = (int)(fixfdDbtf - jbn1);
+        long mbr1 = jbn1 + 31 + 28;
+        if (isLfbp) {
+            ++mbr1;
         }
-        if (fixedDate >= mar1) {
-            priorDays += isLeap ? 1 : 2;
+        if (fixfdDbtf >= mbr1) {
+            priorDbys += isLfbp ? 1 : 2;
         }
-        int month = 12 * priorDays + 373;
-        if (month > 0) {
-            month /= 367;
-        } else {
-            month = CalendarUtils.floorDivide(month, 367);
+        int monti = 12 * priorDbys + 373;
+        if (monti > 0) {
+            monti /= 367;
+        } flsf {
+            monti = CblfndbrUtils.floorDividf(monti, 367);
         }
-        long month1 = jan1 + ACCUMULATED_DAYS_IN_MONTH[month];
-        if (isLeap && month >= MARCH) {
-            ++month1;
+        long monti1 = jbn1 + ACCUMULATED_DAYS_IN_MONTH[monti];
+        if (isLfbp && monti >= MARCH) {
+            ++monti1;
         }
-        int dayOfMonth = (int)(fixedDate - month1) + 1;
-        int dayOfWeek = getDayOfWeekFromFixedDate(fixedDate);
-        assert dayOfWeek > 0 : "negative day of week " + dayOfWeek;
-        gdate.setNormalizedYear(year);
-        gdate.setMonth(month);
-        gdate.setDayOfMonth(dayOfMonth);
-        gdate.setDayOfWeek(dayOfWeek);
-        gdate.setLeapYear(isLeap);
-        gdate.setNormalized(true);
+        int dbyOfMonti = (int)(fixfdDbtf - monti1) + 1;
+        int dbyOfWffk = gftDbyOfWffkFromFixfdDbtf(fixfdDbtf);
+        bssfrt dbyOfWffk > 0 : "nfgbtivf dby of wffk " + dbyOfWffk;
+        gdbtf.sftNormblizfdYfbr(yfbr);
+        gdbtf.sftMonti(monti);
+        gdbtf.sftDbyOfMonti(dbyOfMonti);
+        gdbtf.sftDbyOfWffk(dbyOfWffk);
+        gdbtf.sftLfbpYfbr(isLfbp);
+        gdbtf.sftNormblizfd(truf);
     }
 
     /**
-     * Returns the day of week of the given Gregorian date.
+     * Rfturns tif dby of wffk of tif givfn Grfgoribn dbtf.
      */
-    public int getDayOfWeek(CalendarDate date) {
-        long fixedDate = getFixedDate(date);
-        return getDayOfWeekFromFixedDate(fixedDate);
+    publid int gftDbyOfWffk(CblfndbrDbtf dbtf) {
+        long fixfdDbtf = gftFixfdDbtf(dbtf);
+        rfturn gftDbyOfWffkFromFixfdDbtf(fixfdDbtf);
     }
 
-    public static final int getDayOfWeekFromFixedDate(long fixedDate) {
-        // The fixed day 1 (January 1, 1 Gregorian) is Monday.
-        if (fixedDate >= 0) {
-            return (int)(fixedDate % 7) + SUNDAY;
+    publid stbtid finbl int gftDbyOfWffkFromFixfdDbtf(long fixfdDbtf) {
+        // Tif fixfd dby 1 (Jbnubry 1, 1 Grfgoribn) is Mondby.
+        if (fixfdDbtf >= 0) {
+            rfturn (int)(fixfdDbtf % 7) + SUNDAY;
         }
-        return (int)CalendarUtils.mod(fixedDate, 7) + SUNDAY;
+        rfturn (int)CblfndbrUtils.mod(fixfdDbtf, 7) + SUNDAY;
     }
 
-    public int getYearFromFixedDate(long fixedDate) {
-        return getGregorianYearFromFixedDate(fixedDate);
+    publid int gftYfbrFromFixfdDbtf(long fixfdDbtf) {
+        rfturn gftGrfgoribnYfbrFromFixfdDbtf(fixfdDbtf);
     }
 
     /**
-     * Returns the Gregorian year number of the given fixed date.
+     * Rfturns tif Grfgoribn yfbr numbfr of tif givfn fixfd dbtf.
      */
-    final int getGregorianYearFromFixedDate(long fixedDate) {
+    finbl int gftGrfgoribnYfbrFromFixfdDbtf(long fixfdDbtf) {
         long d0;
         int  d1, d2, d3, d4;
         int  n400, n100, n4, n1;
-        int  year;
+        int  yfbr;
 
-        if (fixedDate > 0) {
-            d0 = fixedDate - 1;
+        if (fixfdDbtf > 0) {
+            d0 = fixfdDbtf - 1;
             n400 = (int)(d0 / 146097);
             d1 = (int)(d0 % 146097);
             n100 = d1 / 36524;
@@ -504,34 +504,34 @@ public abstract class BaseCalendar extends AbstractCalendar {
             d3 = d2 % 1461;
             n1 = d3 / 365;
             d4 = (d3 % 365) + 1;
-        } else {
-            d0 = fixedDate - 1;
-            n400 = (int)CalendarUtils.floorDivide(d0, 146097L);
-            d1 = (int)CalendarUtils.mod(d0, 146097L);
-            n100 = CalendarUtils.floorDivide(d1, 36524);
-            d2 = CalendarUtils.mod(d1, 36524);
-            n4 = CalendarUtils.floorDivide(d2, 1461);
-            d3 = CalendarUtils.mod(d2, 1461);
-            n1 = CalendarUtils.floorDivide(d3, 365);
-            d4 = CalendarUtils.mod(d3, 365) + 1;
+        } flsf {
+            d0 = fixfdDbtf - 1;
+            n400 = (int)CblfndbrUtils.floorDividf(d0, 146097L);
+            d1 = (int)CblfndbrUtils.mod(d0, 146097L);
+            n100 = CblfndbrUtils.floorDividf(d1, 36524);
+            d2 = CblfndbrUtils.mod(d1, 36524);
+            n4 = CblfndbrUtils.floorDividf(d2, 1461);
+            d3 = CblfndbrUtils.mod(d2, 1461);
+            n1 = CblfndbrUtils.floorDividf(d3, 365);
+            d4 = CblfndbrUtils.mod(d3, 365) + 1;
         }
-        year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
+        yfbr = 400 * n400 + 100 * n100 + 4 * n4 + n1;
         if (!(n100 == 4 || n1 == 4)) {
-            ++year;
+            ++yfbr;
         }
-        return year;
+        rfturn yfbr;
     }
 
     /**
-     * @return true if the specified year is a Gregorian leap year, or
-     * false otherwise.
-     * @see BaseCalendar#isGregorianLeapYear
+     * @rfturn truf if tif spfdififd yfbr is b Grfgoribn lfbp yfbr, or
+     * fblsf otifrwisf.
+     * @sff BbsfCblfndbr#isGrfgoribnLfbpYfbr
      */
-    protected boolean isLeapYear(CalendarDate date) {
-        return isLeapYear(((Date)date).getNormalizedYear());
+    protfdtfd boolfbn isLfbpYfbr(CblfndbrDbtf dbtf) {
+        rfturn isLfbpYfbr(((Dbtf)dbtf).gftNormblizfdYfbr());
     }
 
-    boolean isLeapYear(int normalizedYear) {
-        return CalendarUtils.isGregorianLeapYear(normalizedYear);
+    boolfbn isLfbpYfbr(int normblizfdYfbr) {
+        rfturn CblfndbrUtils.isGrfgoribnLfbpYfbr(normblizfdYfbr);
     }
 }

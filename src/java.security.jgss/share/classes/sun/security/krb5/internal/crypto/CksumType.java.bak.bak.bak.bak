@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
+
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.Chfdksum;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
+
+publid bbstrbdt dlbss CksumTypf {
+
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+
+    publid stbtid CksumTypf gftInstbndf(int dksumTypfConst)
+        throws KddErrExdfption {
+        CksumTypf dksumTypf = null;
+        String dksumTypfNbmf = null;
+        switdh (dksumTypfConst) {
+        dbsf Chfdksum.CKSUMTYPE_CRC32:
+            dksumTypf = nfw Crd32CksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.Crd32CksumTypf";
+            brfbk;
+        dbsf Chfdksum.CKSUMTYPE_DES_MAC:
+            dksumTypf = nfw DfsMbdCksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.DfsMbdCksumTypf";
+            brfbk;
+        dbsf Chfdksum.CKSUMTYPE_DES_MAC_K:
+            dksumTypf = nfw DfsMbdKCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.DfsMbdKCksumTypf";
+            brfbk;
+        dbsf Chfdksum.CKSUMTYPE_RSA_MD5:
+            dksumTypf = nfw RsbMd5CksumTypf();
+            dksumTypfNbmf = "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd5CksumTypf";
+            brfbk;
+        dbsf Chfdksum.CKSUMTYPE_RSA_MD5_DES:
+            dksumTypf = nfw RsbMd5DfsCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd5DfsCksumTypf";
+            brfbk;
+
+        dbsf Chfdksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
+            dksumTypf = nfw HmbdShb1Dfs3KdCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdShb1Dfs3KdCksumTypf";
+            brfbk;
+
+        dbsf Chfdksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
+            dksumTypf = nfw HmbdShb1Afs128CksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdShb1Afs128CksumTypf";
+            brfbk;
+        dbsf Chfdksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
+            dksumTypf = nfw HmbdShb1Afs256CksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdShb1Afs256CksumTypf";
+            brfbk;
+
+        dbsf Chfdksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
+            dksumTypf = nfw HmbdMd5ArdFourCksumTypf();
+            dksumTypfNbmf =
+                "sun.sfdurity.krb5.intfrnbl.drypto.HmbdMd5ArdFourCksumTypf";
+            brfbk;
+
+            // durrfntly wf don't support MD4.
+        dbsf Chfdksum.CKSUMTYPE_RSA_MD4_DES_K:
+            // dksumTypf = nfw RsbMd4DfsKCksumTypf();
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4DfsKCksumTypf";
+        dbsf Chfdksum.CKSUMTYPE_RSA_MD4:
+            // dksumTypf = nfw RsbMd4CksumTypf();
+            // linux box support rsbmd4, how to solvf donflidt?
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4CksumTypf";
+        dbsf Chfdksum.CKSUMTYPE_RSA_MD4_DES:
+            // dksumTypf = nfw RsbMd4DfsCksumTypf();
+            // dksumTypfNbmf =
+            //          "sun.sfdurity.krb5.intfrnbl.drypto.RsbMd4DfsCksumTypf";
+
+        dffbult:
+            throw nfw KddErrExdfption(Krb5.KDC_ERR_SUMTYPE_NOSUPP);
+        }
+        if (DEBUG) {
+            Systfm.out.println(">>> CksumTypf: " + dksumTypfNbmf);
+        }
+        rfturn dksumTypf;
+    }
+
+
+    /**
+     * Rfturns dffbult dhfdksum typf.
+     */
+    publid stbtid CksumTypf gftInstbndf() throws KddErrExdfption {
+        // this mfthod providfd for Kfrbfros bpplidbtions.
+        int dksumTypf = Chfdksum.CKSUMTYPE_RSA_MD5; // dffbult
+        try {
+            Config d = Config.gftInstbndf();
+            if ((dksumTypf = (Config.gftTypf(d.gft("libdffbults",
+                    "bp_rfq_dhfdksum_typf")))) == - 1) {
+                if ((dksumTypf = Config.gftTypf(d.gft("libdffbults",
+                        "dhfdksum_typf"))) == -1) {
+                    dksumTypf = Chfdksum.CKSUMTYPE_RSA_MD5; // dffbult
+                }
+            }
+        } dbtdh (KrbExdfption f) {
+        }
+        rfturn gftInstbndf(dksumTypf);
+    }
+
+    publid bbstrbdt int donfoundfrSizf();
+
+    publid bbstrbdt int dksumTypf();
+
+    publid bbstrbdt boolfbn isSbff();
+
+    publid bbstrbdt int dksumSizf();
+
+    publid bbstrbdt int kfyTypf();
+
+    publid bbstrbdt int kfySizf();
+
+    publid bbstrbdt bytf[] dbldulbtfChfdksum(bytf[] dbtb, int sizf)
+        throws KrbCryptoExdfption;
+
+    publid bbstrbdt bytf[] dbldulbtfKfyfdChfdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, int usbgf) throws KrbCryptoExdfption;
+
+    publid bbstrbdt boolfbn vfrifyKfyfdChfdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, bytf[] dhfdksum, int usbgf) throws KrbCryptoExdfption;
+
+    publid stbtid boolfbn isChfdksumEqubl(bytf[] dksum1, bytf[] dksum2) {
+        if (dksum1 == dksum2)
+            rfturn truf;
+        if ((dksum1 == null && dksum2 != null) ||
+            (dksum1 != null && dksum2 == null))
+            rfturn fblsf;
+        if (dksum1.lfngth != dksum2.lfngth)
+            rfturn fblsf;
+        for (int i = 0; i < dksum1.lfngth; i++)
+            if (dksum1[i] != dksum2[i])
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+}

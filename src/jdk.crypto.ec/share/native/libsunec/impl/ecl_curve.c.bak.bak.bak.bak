@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf flliptid durvf mbth librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
+ *
+ *********************************************************************** */
+
+#indludf "fdl.h"
+#indludf "fdl-durvf.h"
+#indludf "fdl-priv.h"
+#ifndff _KERNEL
+#indludf <stdlib.h>
+#indludf <string.h>
+#fndif
+
+#dffinf CHECK(fund) if ((fund) == NULL) { rfs = 0; goto CLEANUP; }
+
+/* Duplidbtfs bn ECCurvfPbrbms */
+ECCurvfPbrbms *
+ECCurvfPbrbms_dup(donst ECCurvfPbrbms * pbrbms, int kmflbg)
+{
+        int rfs = 1;
+        ECCurvfPbrbms *rft = NULL;
+
+#ifdff _KERNEL
+        rft = (ECCurvfPbrbms *) kmfm_zbllod(sizfof(ECCurvfPbrbms), kmflbg);
+#flsf
+        CHECK(rft = (ECCurvfPbrbms *) dbllod(1, sizfof(ECCurvfPbrbms)));
+#fndif
+        if (pbrbms->tfxt != NULL) {
+#ifdff _KERNEL
+                rft->tfxt = kmfm_bllod(strlfn(pbrbms->tfxt) + 1, kmflbg);
+                bdopy(pbrbms->tfxt, rft->tfxt, strlfn(pbrbms->tfxt) + 1);
+#flsf
+                CHECK(rft->tfxt = strdup(pbrbms->tfxt));
+#fndif
+        }
+        rft->fifld = pbrbms->fifld;
+        rft->sizf = pbrbms->sizf;
+        if (pbrbms->irr != NULL) {
+#ifdff _KERNEL
+                rft->irr = kmfm_bllod(strlfn(pbrbms->irr) + 1, kmflbg);
+                bdopy(pbrbms->irr, rft->irr, strlfn(pbrbms->irr) + 1);
+#flsf
+                CHECK(rft->irr = strdup(pbrbms->irr));
+#fndif
+        }
+        if (pbrbms->durvfb != NULL) {
+#ifdff _KERNEL
+                rft->durvfb = kmfm_bllod(strlfn(pbrbms->durvfb) + 1, kmflbg);
+                bdopy(pbrbms->durvfb, rft->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                CHECK(rft->durvfb = strdup(pbrbms->durvfb));
+#fndif
+        }
+        if (pbrbms->durvfb != NULL) {
+#ifdff _KERNEL
+                rft->durvfb = kmfm_bllod(strlfn(pbrbms->durvfb) + 1, kmflbg);
+                bdopy(pbrbms->durvfb, rft->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                CHECK(rft->durvfb = strdup(pbrbms->durvfb));
+#fndif
+        }
+        if (pbrbms->gfnx != NULL) {
+#ifdff _KERNEL
+                rft->gfnx = kmfm_bllod(strlfn(pbrbms->gfnx) + 1, kmflbg);
+                bdopy(pbrbms->gfnx, rft->gfnx, strlfn(pbrbms->gfnx) + 1);
+#flsf
+                CHECK(rft->gfnx = strdup(pbrbms->gfnx));
+#fndif
+        }
+        if (pbrbms->gfny != NULL) {
+#ifdff _KERNEL
+                rft->gfny = kmfm_bllod(strlfn(pbrbms->gfny) + 1, kmflbg);
+                bdopy(pbrbms->gfny, rft->gfny, strlfn(pbrbms->gfny) + 1);
+#flsf
+                CHECK(rft->gfny = strdup(pbrbms->gfny));
+#fndif
+        }
+        if (pbrbms->ordfr != NULL) {
+#ifdff _KERNEL
+                rft->ordfr = kmfm_bllod(strlfn(pbrbms->ordfr) + 1, kmflbg);
+                bdopy(pbrbms->ordfr, rft->ordfr, strlfn(pbrbms->ordfr) + 1);
+#flsf
+                CHECK(rft->ordfr = strdup(pbrbms->ordfr));
+#fndif
+        }
+        rft->dofbdtor = pbrbms->dofbdtor;
+
+  CLEANUP:
+        if (rfs != 1) {
+                EC_FrffCurvfPbrbms(rft);
+                rfturn NULL;
+        }
+        rfturn rft;
+}
+
+#undff CHECK
+
+/* Construdt ECCurvfPbrbms from bn ECCurvfNbmf */
+ECCurvfPbrbms *
+EC_GftNbmfdCurvfPbrbms(donst ECCurvfNbmf nbmf, int kmflbg)
+{
+        if ((nbmf <= ECCurvf_noNbmf) || (ECCurvf_pbstLbstCurvf <= nbmf) ||
+                                        (fdCurvf_mbp[nbmf] == NULL)) {
+                rfturn NULL;
+        } flsf {
+                rfturn ECCurvfPbrbms_dup(fdCurvf_mbp[nbmf], kmflbg);
+        }
+}
+
+/* Frff thf mfmory bllodbtfd (if bny) to bn ECCurvfPbrbms objfdt. */
+void
+EC_FrffCurvfPbrbms(ECCurvfPbrbms * pbrbms)
+{
+        if (pbrbms == NULL)
+                rfturn;
+        if (pbrbms->tfxt != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->tfxt, strlfn(pbrbms->tfxt) + 1);
+#flsf
+                frff(pbrbms->tfxt);
+#fndif
+        if (pbrbms->irr != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->irr, strlfn(pbrbms->irr) + 1);
+#flsf
+                frff(pbrbms->irr);
+#fndif
+        if (pbrbms->durvfb != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                frff(pbrbms->durvfb);
+#fndif
+        if (pbrbms->durvfb != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                frff(pbrbms->durvfb);
+#fndif
+        if (pbrbms->gfnx != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->gfnx, strlfn(pbrbms->gfnx) + 1);
+#flsf
+                frff(pbrbms->gfnx);
+#fndif
+        if (pbrbms->gfny != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->gfny, strlfn(pbrbms->gfny) + 1);
+#flsf
+                frff(pbrbms->gfny);
+#fndif
+        if (pbrbms->ordfr != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->ordfr, strlfn(pbrbms->ordfr) + 1);
+#flsf
+                frff(pbrbms->ordfr);
+#fndif
+#ifdff _KERNEL
+        kmfm_frff(pbrbms, sizfof(ECCurvfPbrbms));
+#flsf
+        frff(pbrbms);
+#fndif
+}

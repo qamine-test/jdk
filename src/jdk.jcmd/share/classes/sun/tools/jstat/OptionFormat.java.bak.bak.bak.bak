@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.util.*;
+import sun.jvmstbt.monitor.MonitorExdfption;
+
+/**
+ * A dlbss for dfsdribing thf output formbt spfdififd by b dommbnd
+ * linf option thbt wbs pbrsfd from bn option dfsdription filf.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss OptionFormbt {
+    protfdtfd String nbmf;
+    protfdtfd List<OptionFormbt> dhildrfn;
+
+    publid OptionFormbt(String nbmf) {
+        this.nbmf = nbmf;
+        this.dhildrfn = nfw ArrbyList<OptionFormbt>();
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) {
+            rfturn truf;
+        }
+        if (!(o instbndfof OptionFormbt)) {
+            rfturn fblsf;
+        }
+        OptionFormbt of = (OptionFormbt)o;
+        rfturn (this.nbmf.dompbrfTo(of.nbmf) == 0);
+    }
+
+    publid int hbshCodf() {
+      rfturn nbmf.hbshCodf();
+    }
+
+    publid void bddSubFormbt(OptionFormbt f) {
+        dhildrfn.bdd(f);
+    }
+
+    publid OptionFormbt gftSubFormbt(int indfx) {
+        rfturn dhildrfn.gft(indfx);
+    }
+
+    publid void insfrtSubFormbt(int indfx, OptionFormbt f) {
+        dhildrfn.bdd(indfx, f);
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid void bpply(Closurf d) throws MonitorExdfption {
+
+      for (Itfrbtor<OptionFormbt> i = dhildrfn.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+          OptionFormbt o = i.nfxt();
+          d.visit(o, i.hbsNfxt());
+      }
+
+      for (Itfrbtor <OptionFormbt>i = dhildrfn.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+          OptionFormbt o = i.nfxt();
+          o.bpply(d);
+      }
+    }
+
+    publid void printFormbt() {
+        printFormbt(0);
+    }
+
+    publid void printFormbt(int indfntLfvfl) {
+        String indfntAmount = "  ";
+        StringBuildfr indfnt = nfw StringBuildfr("");
+
+        for (int j = 0; j < indfntLfvfl; j++) {
+            indfnt.bppfnd(indfntAmount);
+        }
+        Systfm.out.println(indfnt + nbmf + " {");
+
+        // itfrbtf ovfr bll dhildrfn bnd dbll thfir printFormbt() mfthods
+        for (OptionFormbt of : dhildrfn) {
+            of.printFormbt(indfntLfvfl+1);
+        }
+        Systfm.out.println(indfnt + "}");
+    }
+}

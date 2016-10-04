@@ -1,0 +1,1695 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.DiblogPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.bddfssibility.*;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.SunToolkit;
+import sun.bwt.PffrEvfnt;
+import sun.bwt.util.IdfntityArrbyList;
+import sun.bwt.util.IdfntityLinkfdList;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.util.fundtion.BoolfbnSupplifr;
+
+/**
+ * A Diblog is b top-lfvfl window with b titlf bnd b bordfr
+ * thbt is typidblly usfd to tbkf somf form of input from thf usfr.
+ *
+ * Thf sizf of thf diblog indludfs bny brfb dfsignbtfd for thf
+ * bordfr.  Thf dimfnsions of thf bordfr brfb dbn bf obtbinfd
+ * using thf <dodf>gftInsfts</dodf> mfthod, howfvfr, sindf
+ * thfsf dimfnsions brf plbtform-dfpfndfnt, b vblid insfts
+ * vbluf dbnnot bf obtbinfd until thf diblog is mbdf displbybblf
+ * by fithfr dblling <dodf>pbdk</dodf> or <dodf>show</dodf>.
+ * Sindf thf bordfr brfb is indludfd in thf ovfrbll sizf of thf
+ * diblog, thf bordfr ffffdtivfly obsdurfs b portion of thf diblog,
+ * donstrbining thf brfb bvbilbblf for rfndfring bnd/or displbying
+ * subdomponfnts to thf rfdtbnglf whidh hbs bn uppfr-lfft dornfr
+ * lodbtion of <dodf>(insfts.lfft, insfts.top)</dodf>, bnd hbs b sizf of
+ * <dodf>width - (insfts.lfft + insfts.right)</dodf> by
+ * <dodf>hfight - (insfts.top + insfts.bottom)</dodf>.
+ * <p>
+ * Thf dffbult lbyout for b diblog is <dodf>BordfrLbyout</dodf>.
+ * <p>
+ * A diblog mby hbvf its nbtivf dfdorbtions (i.f. Frbmf &bmp; Titlfbbr) turnfd off
+ * with <dodf>sftUndfdorbtfd</dodf>.  This dbn only bf donf whilf thf diblog
+ * is not {@link Componfnt#isDisplbybblf() displbybblf}.
+ * <p>
+ * A diblog mby hbvf bnothfr window bs its ownfr whfn it's donstrudtfd.  Whfn
+ * thf ownfr window of b visiblf diblog is minimizfd, thf diblog will
+ * butombtidblly bf hiddfn from thf usfr. Whfn thf ownfr window is subsfqufntly
+ * rfstorfd, thf diblog is mbdf visiblf to thf usfr bgbin.
+ * <p>
+ * In b multi-sdrffn fnvironmfnt, you dbn drfbtf b <dodf>Diblog</dodf>
+ * on b difffrfnt sdrffn dfvidf thbn its ownfr.  Sff {@link jbvb.bwt.Frbmf} for
+ * morf informbtion.
+ * <p>
+ * A diblog dbn bf fithfr modflfss (thf dffbult) or modbl.  A modbl
+ * diblog is onf whidh blodks input to somf othfr top-lfvfl windows
+ * in thf bpplidbtion, fxdfpt for bny windows drfbtfd with thf diblog
+ * bs thfir ownfr. Sff <b hrff="dod-filfs/Modblity.html">AWT Modblity</b>
+ * spfdifidbtion for dftbils.
+ * <p>
+ * Diblogs brf dbpbblf of gfnfrbting thf following
+ * <dodf>WindowEvfnts</dodf>:
+ * <dodf>WindowOpfnfd</dodf>, <dodf>WindowClosing</dodf>,
+ * <dodf>WindowClosfd</dodf>, <dodf>WindowAdtivbtfd</dodf>,
+ * <dodf>WindowDfbdtivbtfd</dodf>, <dodf>WindowGbinfdFodus</dodf>,
+ * <dodf>WindowLostFodus</dodf>.
+ *
+ * @sff WindowEvfnt
+ * @sff Window#bddWindowListfnfr
+ *
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @sindf       1.0
+ */
+publid dlbss Diblog fxtfnds Window {
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * A diblog's rfsizbblf propfrty. Will bf truf
+     * if thf Diblog is to bf rfsizbblf, othfrwisf
+     * it will bf fblsf.
+     *
+     * @sfribl
+     * @sff #sftRfsizbblf(boolfbn)
+     */
+    boolfbn rfsizbblf = truf;
+
+
+    /**
+     * This fifld indidbtfs whfthfr thf diblog is undfdorbtfd.
+     * This propfrty dbn only bf dhbngfd whilf thf diblog is not displbybblf.
+     * <dodf>undfdorbtfd</dodf> will bf truf if thf diblog is
+     * undfdorbtfd, othfrwisf it will bf fblsf.
+     *
+     * @sfribl
+     * @sff #sftUndfdorbtfd(boolfbn)
+     * @sff #isUndfdorbtfd()
+     * @sff Componfnt#isDisplbybblf()
+     * @sindf 1.4
+     */
+    boolfbn undfdorbtfd = fblsf;
+
+    privbtf trbnsifnt boolfbn initiblizfd = fblsf;
+
+    /**
+     * Modbl diblogs blodk bll input to somf top-lfvfl windows.
+     * Whfthfr b pbrtidulbr window is blodkfd dfpfnds on diblog's typf
+     * of modblity; this is dbllfd thf "sdopf of blodking". Thf
+     * <dodf>ModblityTypf</dodf> fnum spfdififs modbl typfs bnd thfir
+     * bssodibtfd sdopfs.
+     *
+     * @sff Diblog#gftModblityTypf
+     * @sff Diblog#sftModblityTypf
+     * @sff Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid stbtid fnum ModblityTypf {
+        /**
+         * <dodf>MODELESS</dodf> diblog dofsn't blodk bny top-lfvfl windows.
+         */
+        MODELESS,
+        /**
+         * A <dodf>DOCUMENT_MODAL</dodf> diblog blodks input to bll top-lfvfl windows
+         * from thf sbmf dodumfnt fxdfpt thosf from its own dhild hifrbrdhy.
+         * A dodumfnt is b top-lfvfl window without bn ownfr. It mby dontbin dhild
+         * windows thbt, togfthfr with thf top-lfvfl window brf trfbtfd bs b singlf
+         * solid dodumfnt. Sindf fvfry top-lfvfl window must bflong to somf
+         * dodumfnt, its root dbn bf found bs thf top-nfbrfst window without bn ownfr.
+         */
+        DOCUMENT_MODAL,
+        /**
+         * An <dodf>APPLICATION_MODAL</dodf> diblog blodks bll top-lfvfl windows
+         * from thf sbmf Jbvb bpplidbtion fxdfpt thosf from its own dhild hifrbrdhy.
+         * If thfrf brf sfvfrbl bpplfts lbundhfd in b browsfr, thfy dbn bf
+         * trfbtfd fithfr bs sfpbrbtf bpplidbtions or b singlf onf. This bfhbvior
+         * is implfmfntbtion-dfpfndfnt.
+         */
+        APPLICATION_MODAL,
+        /**
+         * A <dodf>TOOLKIT_MODAL</dodf> diblog blodks bll top-lfvfl windows run
+         * from thf sbmf toolkit fxdfpt thosf from its own dhild hifrbrdhy. If thfrf
+         * brf sfvfrbl bpplfts lbundhfd in b browsfr, bll of thfm run with thf sbmf
+         * toolkit; thus, b toolkit-modbl diblog displbyfd by bn bpplft mby bfffdt
+         * othfr bpplfts bnd bll windows of thf browsfr instbndf whidh fmbfds thf
+         * Jbvb runtimf fnvironmfnt for this toolkit.
+         * Spfdibl <dodf>AWTPfrmission</dodf> "toolkitModblity" must bf grbntfd to usf
+         * toolkit-modbl diblogs. If b <dodf>TOOLKIT_MODAL</dodf> diblog is bfing drfbtfd
+         * bnd this pfrmission is not grbntfd, b <dodf>SfdurityExdfption</dodf> will bf
+         * thrown, bnd no diblog will bf drfbtfd. If b modblity typf is bfing dhbngfd
+         * to <dodf>TOOLKIT_MODAL</dodf> bnd this pfrmission is not grbntfd, b
+         * <dodf>SfdurityExdfption</dodf> will bf thrown, bnd thf modblity typf will
+         * bf lfft undhbngfd.
+         */
+        TOOLKIT_MODAL
+    };
+
+    /**
+     * Dffbult modblity typf for modbl diblogs. Thf dffbult modblity typf is
+     * <dodf>APPLICATION_MODAL</dodf>. Cblling thf oldstylf <dodf>sftModbl(truf)</dodf>
+     * is fqubl to <dodf>sftModblityTypf(DEFAULT_MODALITY_TYPE)</dodf>.
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     *
+     * @sindf 1.6
+     */
+    publid finbl stbtid ModblityTypf DEFAULT_MODALITY_TYPE = ModblityTypf.APPLICATION_MODAL;
+
+    /**
+     * Truf if this diblog is modbl, fblsf is thf diblog is modflfss.
+     * A modbl diblog blodks usfr input to somf bpplidbtion top-lfvfl
+     * windows. This fifld is kfpt only for bbdkwbrds dompbtibility. Usf thf
+     * {@link Diblog.ModblityTypf ModblityTypf} fnum instfbd.
+     *
+     * @sfribl
+     *
+     * @sff #isModbl
+     * @sff #sftModbl
+     * @sff #gftModblityTypf
+     * @sff #sftModblityTypf
+     * @sff ModblityTypf
+     * @sff ModblityTypf#MODELESS
+     * @sff #DEFAULT_MODALITY_TYPE
+     */
+    boolfbn modbl;
+
+    /**
+     * Modblity typf of this diblog. If thf diblog's modblity typf is not
+     * {@link Diblog.ModblityTypf#MODELESS ModblityTypf.MODELESS}, it blodks bll
+     * usfr input to somf bpplidbtion top-lfvfl windows.
+     *
+     * @sfribl
+     *
+     * @sff ModblityTypf
+     * @sff #gftModblityTypf
+     * @sff #sftModblityTypf
+     *
+     * @sindf 1.6
+     */
+    ModblityTypf modblityTypf;
+
+    /**
+     * Any top-lfvfl window dbn bf mbrkfd not to bf blodkfd by modbl
+     * diblogs. This is dbllfd "modbl fxdlusion". This fnum spfdififs
+     * thf possiblf modbl fxdlusion typfs.
+     *
+     * @sff Window#gftModblExdlusionTypf
+     * @sff Window#sftModblExdlusionTypf
+     * @sff Toolkit#isModblExdlusionTypfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid stbtid fnum ModblExdlusionTypf {
+        /**
+         * No modbl fxdlusion.
+         */
+        NO_EXCLUDE,
+        /**
+         * <dodf>APPLICATION_EXCLUDE</dodf> indidbtfs thbt b top-lfvfl window
+         * won't bf blodkfd by bny bpplidbtion-modbl diblogs. Also, it isn't
+         * blodkfd by dodumfnt-modbl diblogs from outsidf of its dhild hifrbrdhy.
+         */
+        APPLICATION_EXCLUDE,
+        /**
+         * <dodf>TOOLKIT_EXCLUDE</dodf> indidbtfs thbt b top-lfvfl window
+         * won't bf blodkfd by  bpplidbtion-modbl or toolkit-modbl diblogs. Also,
+         * it isn't blodkfd by dodumfnt-modbl diblogs from outsidf of its
+         * dhild hifrbrdhy.
+         * Thf "toolkitModblity" <dodf>AWTPfrmission</dodf> must bf grbntfd
+         * for this fxdlusion. If bn fxdlusion propfrty is bfing dhbngfd to
+         * <dodf>TOOLKIT_EXCLUDE</dodf> bnd this pfrmission is not grbntfd, b
+         * <dodf>SfdurityEdxfption</dodf> will bf thrown, bnd thf fxdlusion
+         * propfrty will bf lfft undhbngfd.
+         */
+        TOOLKIT_EXCLUDE
+    };
+
+    /* opfrbtions with this list should bf syndhronizfd on trff lodk*/
+    trbnsifnt stbtid IdfntityArrbyList<Diblog> modblDiblogs = nfw IdfntityArrbyList<Diblog>();
+
+    trbnsifnt IdfntityArrbyList<Window> blodkfdWindows = nfw IdfntityArrbyList<Window>();
+
+    /**
+     * Spfdififs thf titlf of thf Diblog.
+     * This fifld dbn bf null.
+     *
+     * @sfribl
+     * @sff #gftTitlf()
+     * @sff #sftTitlf(String)
+     */
+    String titlf;
+
+    privbtf trbnsifnt ModblEvfntFiltfr modblFiltfr;
+    privbtf trbnsifnt volbtilf SfdondbryLoop sfdondbryLoop;
+
+    /*
+     * Indidbtfs thbt this diblog is bfing hiddfn. This flbg is sft to truf bt
+     * thf bfginning of hidf() bnd to fblsf bt thf fnd of hidf().
+     *
+     * @sff #hidf()
+     * @sff #hidfAndDisposfPrfHbndlfr()
+     * @sff #hidfAndDisposfHbndlfr()
+     * @sff #shouldBlodk()
+     */
+    trbnsifnt volbtilf boolfbn isInHidf = fblsf;
+
+    /*
+     * Indidbtfs thbt this diblog is bfing disposfd. This flbg is sft to truf bt
+     * thf bfginning of doDisposf() bnd to fblsf bt thf fnd of doDisposf().
+     *
+     * @sff #hidf()
+     * @sff #hidfAndDisposfPrfHbndlfr()
+     * @sff #hidfAndDisposfHbndlfr()
+     * @sff #doDisposf()
+     */
+    trbnsifnt volbtilf boolfbn isInDisposf = fblsf;
+
+    privbtf stbtid finbl String bbsf = "diblog";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 5920926903803293709L;
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> with
+     * thf spfdififd ownfr <dodf>Frbmf</dodf> bnd bn fmpty titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if
+     *     this diblog hbs no ownfr
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     */
+     publid Diblog(Frbmf ownfr) {
+         this(ownfr, "", fblsf);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf spfdififd
+     * ownfr <dodf>Frbmf</dodf> bnd modblity bnd bn fmpty titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if
+     *     this diblog hbs no ownfr
+     * @pbrbm modbl spfdififs whfthfr diblog blodks usfr input to othfr top-lfvfl
+     *     windows whfn shown. If <dodf>fblsf</dodf>, thf diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, thf modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+     publid Diblog(Frbmf ownfr, boolfbn modbl) {
+         this(ownfr, "", modbl);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> with
+     * thf spfdififd ownfr <dodf>Frbmf</dodf> bnd titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if
+     *     this diblog hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *     <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     */
+     publid Diblog(Frbmf ownfr, String titlf) {
+         this(ownfr, titlf, fblsf);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Frbmf</dodf>, titlf bnd modblity.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if
+     *     this diblog hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @pbrbm modbl spfdififs whfthfr diblog blodks usfr input to othfr top-lfvfl
+     *     windows whfn shown. If <dodf>fblsf</dodf>, thf diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, thf modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     */
+     publid Diblog(Frbmf ownfr, String titlf, boolfbn modbl) {
+         this(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf spfdififd ownfr
+     * <dodf>Frbmf</dodf>, titlf, modblity, bnd <dodf>GrbphidsConfigurbtion</dodf>.
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @pbrbm modbl spfdififs whfthfr diblog blodks usfr input to othfr top-lfvfl
+     *     windows whfn shown. If <dodf>fblsf</dodf>, thf diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, thf modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @pbrbm gd thf <dodf>GrbphidsConfigurbtion</dodf> of thf tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, thf dffbult systfm <dodf>GrbphidsConfigurbtion</dodf>
+     *     is bssumfd
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *     is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     * @sindf 1.4
+     */
+     publid Diblog(Frbmf ownfr, String titlf, boolfbn modbl,
+                   GrbphidsConfigurbtion gd) {
+         this(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS, gd);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> with
+     * thf spfdififd ownfr <dodf>Diblog</dodf> bnd bn fmpty titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if this
+     *     diblog hbs no ownfr
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *     <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.2
+     */
+     publid Diblog(Diblog ownfr) {
+         this(ownfr, "", fblsf);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf>
+     * with thf spfdififd ownfr <dodf>Diblog</dodf> bnd titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if this
+     *     hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *     <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.2
+     */
+     publid Diblog(Diblog ownfr, String titlf) {
+         this(ownfr, titlf, fblsf);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Diblog</dodf>, titlf, bnd modblity.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if this
+     *     diblog hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this
+     *     diblog hbs no titlf
+     * @pbrbm modbl spfdififs whfthfr diblog blodks usfr input to othfr top-lfvfl
+     *     windows whfn shown. If <dodf>fblsf</dodf>, thf diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, thf modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     *
+     * @sindf 1.2
+     */
+     publid Diblog(Diblog ownfr, String titlf, boolfbn modbl) {
+         this(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Diblog</dodf>, titlf, modblity bnd
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog or <dodf>null</dodf> if this
+     *     diblog hbs no ownfr
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this
+     *     diblog hbs no titlf
+     * @pbrbm modbl spfdififs whfthfr diblog blodks usfr input to othfr top-lfvfl
+     *     windows whfn shown. If <dodf>fblsf</dodf>, thf diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, thf modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @pbrbm gd thf <dodf>GrbphidsConfigurbtion</dodf> of thf tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, thf dffbult systfm <dodf>GrbphidsConfigurbtion</dodf>
+     *     is bssumfd
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *    is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     *
+     * @sindf 1.4
+     */
+     publid Diblog(Diblog ownfr, String titlf, boolfbn modbl,
+                   GrbphidsConfigurbtion gd) {
+         this(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS, gd);
+     }
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Window</dodf> bnd bn fmpty titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog. Thf ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of thfir dfsdfndfnts or <dodf>null</dodf>
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *     <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     *
+     * @sindf 1.6
+     */
+    publid Diblog(Window ownfr) {
+        this(ownfr, "", ModblityTypf.MODELESS);
+    }
+
+    /**
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> with
+     * thf spfdififd ownfr <dodf>Window</dodf> bnd titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog. Thf ownfr must bf bn instbndf of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *    of thfir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *    hbs no titlf
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>
+     *    is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     *
+     * @sindf 1.6
+     */
+    publid Diblog(Window ownfr, String titlf) {
+        this(ownfr, titlf, ModblityTypf.MODELESS);
+    }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Window</dodf> bnd modblity bnd bn fmpty titlf.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog. Thf ownfr must bf bn instbndf of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *    of thfir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm modblityTypf spfdififs whfthfr diblog blodks input to othfr
+     *    windows whfn shown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>
+     *    is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *    <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf pfrmission
+     *    to drfbtf modbl diblogs with thf givfn <dodf>modblityTypf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid Diblog(Window ownfr, ModblityTypf modblityTypf) {
+        this(ownfr, "", modblityTypf);
+    }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Window</dodf>, titlf bnd modblity.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog. Thf ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of thfir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @pbrbm modblityTypf spfdififs whfthfr diblog blodks input to othfr
+     *    windows whfn shown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>'s
+     *     <dodf>GrbphidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf pfrmission
+     *     to drfbtf modbl diblogs with thf givfn <dodf>modblityTypf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid Diblog(Window ownfr, String titlf, ModblityTypf modblityTypf) {
+        supfr(ownfr);
+
+        if ((ownfr != null) &&
+            !(ownfr instbndfof Frbmf) &&
+            !(ownfr instbndfof Diblog))
+        {
+            throw nfw IllfgblArgumfntExdfption("Wrong pbrfnt window");
+        }
+
+        this.titlf = titlf;
+        sftModblityTypf(modblityTypf);
+        SunToolkit.dhfdkAndSftPolidy(this);
+        initiblizfd = truf;
+    }
+
+    /**
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> with thf
+     * spfdififd ownfr <dodf>Window</dodf>, titlf, modblity bnd
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     *
+     * @pbrbm ownfr thf ownfr of thf diblog. Thf ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of thfir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf thf titlf of thf diblog or <dodf>null</dodf> if this diblog
+     *     hbs no titlf
+     * @pbrbm modblityTypf spfdififs whfthfr diblog blodks input to othfr
+     *    windows whfn shown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     * @pbrbm gd thf <dodf>GrbphidsConfigurbtion</dodf> of thf tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, thf dffbult systfm <dodf>GrbphidsConfigurbtion</dodf>
+     *     is bssumfd
+     *
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *     is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption whfn
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf pfrmission
+     *     to drfbtf modbl diblogs with thf givfn <dodf>modblityTypf</dodf>
+     *
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf 1.6
+     */
+    publid Diblog(Window ownfr, String titlf, ModblityTypf modblityTypf,
+                  GrbphidsConfigurbtion gd) {
+        supfr(ownfr, gd);
+
+        if ((ownfr != null) &&
+            !(ownfr instbndfof Frbmf) &&
+            !(ownfr instbndfof Diblog))
+        {
+            throw nfw IllfgblArgumfntExdfption("wrong ownfr window");
+        }
+
+        this.titlf = titlf;
+        sftModblityTypf(modblityTypf);
+        SunToolkit.dhfdkAndSftPolidy(this);
+        initiblizfd = truf;
+    }
+
+    /**
+     * Construdt b nbmf for this domponfnt.  Cbllfd by gftNbmf() whfn thf
+     * nbmf is null.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (Diblog.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Mbkfs this Diblog displbybblf by donnfdting it to
+     * b nbtivf sdrffn rfsourdf.  Mbking b diblog displbybblf will
+     * dbusf bny of its dhildrfn to bf mbdf displbybblf.
+     * This mfthod is dbllfd intfrnblly by thf toolkit bnd should
+     * not bf dbllfd dirfdtly by progrbms.
+     * @sff Componfnt#isDisplbybblf
+     * @sff #rfmovfNotify
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
+            }
+
+            if (pffr == null) {
+                pffr = gftToolkit().drfbtfDiblog(this);
+            }
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr thf diblog is modbl.
+     * <p>
+     * This mfthod is obsolftf bnd is kfpt for bbdkwbrds dompbtibility only.
+     * Usf {@link #gftModblityTypf gftModblityTypf()} instfbd.
+     *
+     * @rfturn    <dodf>truf</dodf> if this diblog window is modbl;
+     *            <dodf>fblsf</dodf> othfrwisf
+     *
+     * @sff       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff       jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff       jbvb.bwt.Diblog#sftModbl
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Diblog#sftModblityTypf
+     */
+    publid boolfbn isModbl() {
+        rfturn isModbl_NoClifntCodf();
+    }
+    finbl boolfbn isModbl_NoClifntCodf() {
+        rfturn modblityTypf != ModblityTypf.MODELESS;
+    }
+
+    /**
+     * Spfdififs whfthfr this diblog should bf modbl.
+     * <p>
+     * This mfthod is obsolftf bnd is kfpt for bbdkwbrds dompbtibility only.
+     * Usf {@link #sftModblityTypf sftModblityTypf()} instfbd.
+     * <p>
+     * Notf: dhbnging modblity of thf visiblf diblog mby hbvf no ffffdt
+     * until it is hiddfn bnd thfn shown bgbin.
+     *
+     * @pbrbm modbl spfdififs whfthfr diblog blodks input to othfr windows
+     *     whfn shown; dblling to <dodf>sftModbl(truf)</dodf> is fquivblfnt to
+     *     <dodf>sftModblityTypf(Diblog.DEFAULT_MODALITY_TYPE)</dodf>, bnd
+     *     dblling to <dodf>sftModbl(fblsf)</dodf> is fquvivblfnt to
+     *     <dodf>sftModblityTypf(Diblog.ModblityTypf.MODELESS)</dodf>
+     *
+     * @sff       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff       jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff       jbvb.bwt.Diblog#isModbl
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Diblog#sftModblityTypf
+     *
+     * @sindf     1.1
+     */
+    publid void sftModbl(boolfbn modbl) {
+        this.modbl = modbl;
+        sftModblityTypf(modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
+    }
+
+    /**
+     * Rfturns thf modblity typf of this diblog.
+     *
+     * @rfturn modblity typf of this diblog
+     *
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     *
+     * @sindf 1.6
+     */
+    publid ModblityTypf gftModblityTypf() {
+        rfturn modblityTypf;
+    }
+
+    /**
+     * Sfts thf modblity typf for this diblog. Sff {@link
+     * jbvb.bwt.Diblog.ModblityTypf ModblityTypf} for possiblf modblity typfs.
+     * <p>
+     * If thf givfn modblity typf is not supportfd, <dodf>MODELESS</dodf>
+     * is usfd. You mby wbnt to dbll <dodf>gftModblityTypf()</dodf> bftfr dblling
+     * this mfthod to fnsurf thbt thf modblity typf hbs bffn sft.
+     * <p>
+     * Notf: dhbnging modblity of thf visiblf diblog mby hbvf no ffffdt
+     * until it is hiddfn bnd thfn shown bgbin.
+     *
+     * @pbrbm typf spfdififs whfthfr diblog blodks input to othfr
+     *     windows whfn shown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *     typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf pfrmission
+     *     to drfbtf modbl diblogs with thf givfn <dodf>modblityTypf</dodf>
+     *
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf     1.6
+     */
+    publid void sftModblityTypf(ModblityTypf typf) {
+        if (typf == null) {
+            typf = Diblog.ModblityTypf.MODELESS;
+        }
+        if (!Toolkit.gftDffbultToolkit().isModblityTypfSupportfd(typf)) {
+            typf = Diblog.ModblityTypf.MODELESS;
+        }
+        if (modblityTypf == typf) {
+            rfturn;
+        }
+
+        dhfdkModblityPfrmission(typf);
+
+        modblityTypf = typf;
+        modbl = (modblityTypf != ModblityTypf.MODELESS);
+    }
+
+    /**
+     * Gfts thf titlf of thf diblog. Thf titlf is displbyfd in thf
+     * diblog's bordfr.
+     * @rfturn    thf titlf of this diblog window. Thf titlf mby bf
+     *            <dodf>null</dodf>.
+     * @sff       jbvb.bwt.Diblog#sftTitlf
+     */
+    publid String gftTitlf() {
+        rfturn titlf;
+    }
+
+    /**
+     * Sfts thf titlf of thf Diblog.
+     * @pbrbm titlf thf titlf displbyfd in thf diblog's bordfr;
+         * b null vbluf rfsults in bn fmpty titlf
+     * @sff #gftTitlf
+     */
+    publid void sftTitlf(String titlf) {
+        String oldTitlf = this.titlf;
+
+        syndhronizfd(this) {
+            this.titlf = titlf;
+            DiblogPffr pffr = (DiblogPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftTitlf(titlf);
+            }
+        }
+        firfPropfrtyChbngf("titlf", oldTitlf, titlf);
+    }
+
+    /**
+     * @rfturn truf if wf bdtublly showfd, fblsf if wf just dbllfd toFront()
+     */
+    privbtf boolfbn donditionblShow(Componfnt toFodus, AtomidLong timf) {
+        boolfbn rftvbl;
+
+        dlosfSplbshSdrffn();
+
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null) {
+                bddNotify();
+            }
+            vblidbtfUndonditionblly();
+            if (visiblf) {
+                toFront();
+                rftvbl = fblsf;
+            } flsf {
+                visiblf = rftvbl = truf;
+
+                // dhfdk if this diblog should bf modbl blodkfd BEFORE dblling pffr.show(),
+                // othfrwisf, b pbir of FOCUS_GAINED bnd FOCUS_LOST mby bf mistbkfnly
+                // gfnfrbtfd for thf diblog
+                if (!isModbl()) {
+                    dhfdkShouldBfBlodkfd(this);
+                } flsf {
+                    modblDiblogs.bdd(this);
+                    modblShow();
+                }
+
+                if (toFodus != null && timf != null && isFodusbblf() &&
+                    isEnbblfd() && !isModblBlodkfd()) {
+                    // kffp thf KfyEvfnts from bfing dispbtdhfd
+                    // until thf fodus hbs bffn trbnsffrfd
+                    timf.sft(Toolkit.gftEvfntQufuf().gftMostRfdfntKfyEvfntTimf());
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                        fnqufufKfyEvfnts(timf.gft(), toFodus);
+                }
+
+                // This dbll is rfquirfd bs thf show() mfthod of thf Diblog dlbss
+                // dofs not invokf thf supfr.show(). So wrifd... :(
+                mixOnShowing();
+
+                pffr.sftVisiblf(truf); // now gubrbntffd nfvfr to blodk
+                if (isModblBlodkfd()) {
+                    modblBlodkfr.toFront();
+                }
+
+                sftLodbtionByPlbtform(fblsf);
+                for (int i = 0; i < ownfdWindowList.sizf(); i++) {
+                    Window dhild = ownfdWindowList.flfmfntAt(i).gft();
+                    if ((dhild != null) && dhild.showWithPbrfnt) {
+                        dhild.show();
+                        dhild.showWithPbrfnt = fblsf;
+                    }       // fndif
+                }   // fndfor
+                Window.updbtfChildFodusbblfWindowStbtf(this);
+
+                drfbtfHifrbrdhyEvfnts(HifrbrdhyEvfnt.HIERARCHY_CHANGED,
+                                      this, pbrfnt,
+                                      HifrbrdhyEvfnt.SHOWING_CHANGED,
+                                      Toolkit.fnbblfdOnToolkit(AWTEvfnt.HIERARCHY_EVENT_MASK));
+                if (domponfntListfnfr != null ||
+                        (fvfntMbsk & AWTEvfnt.COMPONENT_EVENT_MASK) != 0 ||
+                        Toolkit.fnbblfdOnToolkit(AWTEvfnt.COMPONENT_EVENT_MASK)) {
+                    ComponfntEvfnt f =
+                        nfw ComponfntEvfnt(this, ComponfntEvfnt.COMPONENT_SHOWN);
+                    Toolkit.gftEvfntQufuf().postEvfnt(f);
+                }
+            }
+        }
+
+        if (rftvbl && (stbtf & OPENED) == 0) {
+            postWindowEvfnt(WindowEvfnt.WINDOW_OPENED);
+            stbtf |= OPENED;
+        }
+
+        rfturn rftvbl;
+    }
+
+    /**
+     * Shows or hidfs this {@dodf Diblog} dfpfnding on thf vbluf of pbrbmftfr
+     * {@dodf b}.
+     * @pbrbm b if {@dodf truf}, mbkfs thf {@dodf Diblog} visiblf,
+     * othfrwisf hidfs thf {@dodf Diblog}.
+     * If thf diblog bnd/or its ownfr
+     * brf not yft displbybblf, both brf mbdf displbybblf.  Thf
+     * diblog will bf vblidbtfd prior to bfing mbdf visiblf.
+     * If {@dodf fblsf}, hidfs thf {@dodf Diblog} bnd thfn dbusfs {@dodf sftVisiblf(truf)}
+     * to rfturn if it is durrfntly blodkfd.
+     * <p>
+     * <b>Notfs for modbl diblogs</b>.
+     * <ul>
+     * <li>{@dodf sftVisiblf(truf)}:  If thf diblog is not blrfbdy
+     * visiblf, this dbll will not rfturn until thf diblog is
+     * hiddfn by dblling {@dodf sftVisiblf(fblsf)} or
+     * {@dodf disposf}.
+     * <li>{@dodf sftVisiblf(fblsf)}:  Hidfs thf diblog bnd thfn
+     * rfturns on {@dodf sftVisiblf(truf)} if it is durrfntly blodkfd.
+     * <li>It is OK to dbll this mfthod from thf fvfnt dispbtdhing
+     * thrfbd bfdbusf thf toolkit fnsurfs thbt othfr fvfnts brf
+     * not blodkfd whilf this mfthod is blodkfd.
+     * </ul>
+     * @sff jbvb.bwt.Window#sftVisiblf
+     * @sff jbvb.bwt.Window#disposf
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf
+     * @sff jbvb.bwt.Componfnt#vblidbtf
+     * @sff jbvb.bwt.Diblog#isModbl
+     */
+    publid void sftVisiblf(boolfbn b) {
+        supfr.sftVisiblf(b);
+    }
+
+   /**
+     * Mbkfs thf {@dodf Diblog} visiblf. If thf diblog bnd/or its ownfr
+     * brf not yft displbybblf, both brf mbdf displbybblf.  Thf
+     * diblog will bf vblidbtfd prior to bfing mbdf visiblf.
+     * If thf diblog is blrfbdy visiblf, this will bring thf diblog
+     * to thf front.
+     * <p>
+     * If thf diblog is modbl bnd is not blrfbdy visiblf, this dbll
+     * will not rfturn until thf diblog is hiddfn by dblling hidf or
+     * disposf. It is pfrmissiblf to show modbl diblogs from thf fvfnt
+     * dispbtdhing thrfbd bfdbusf thf toolkit will fnsurf thbt bnothfr
+     * fvfnt pump runs whilf thf onf whidh invokfd this mfthod is blodkfd.
+     * @sff Componfnt#hidf
+     * @sff Componfnt#isDisplbybblf
+     * @sff Componfnt#vblidbtf
+     * @sff #isModbl
+     * @sff Window#sftVisiblf(boolfbn)
+     * @dfprfdbtfd As of JDK vfrsion 1.5, rfplbdfd by
+     * {@link #sftVisiblf(boolfbn) sftVisiblf(boolfbn)}.
+     */
+    @Dfprfdbtfd
+    publid void show() {
+        if (!initiblizfd) {
+            throw nfw IllfgblStbtfExdfption("Thf diblog domponfnt " +
+                "hbs not bffn initiblizfd propfrly");
+        }
+
+        bfforfFirstShow = fblsf;
+        if (!isModbl()) {
+            donditionblShow(null, null);
+        } flsf {
+            AppContfxt showAppContfxt = AppContfxt.gftAppContfxt();
+
+            AtomidLong timf = nfw AtomidLong();
+            Componfnt prfdidtfdFodusOwnfr = null;
+            try {
+                prfdidtfdFodusOwnfr = gftMostRfdfntFodusOwnfr();
+                if (donditionblShow(prfdidtfdFodusOwnfr, timf)) {
+                    modblFiltfr = ModblEvfntFiltfr.drfbtfFiltfrForDiblog(this);
+                    // if this diblog is toolkit-modbl, thf filtfr should bf bddfd
+                    // to bll EDTs (for bll AppContfxts)
+                    if (modblityTypf == ModblityTypf.TOOLKIT_MODAL) {
+                        Itfrbtor<AppContfxt> it = AppContfxt.gftAppContfxts().itfrbtor();
+                        whilf (it.hbsNfxt()) {
+                            AppContfxt bppContfxt = it.nfxt();
+                            if (bppContfxt == showAppContfxt) {
+                                dontinuf;
+                            }
+                            EvfntQufuf fvfntQufuf = (EvfntQufuf)bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY);
+                            // it mby oddur thbt EDT for bppContfxt hbsn't bffn stbrtfd yft, so
+                            // wf post bn fmpty invodbtion fvfnt to triggfr EDT initiblizbtion
+                            fvfntQufuf.postEvfnt(nfw InvodbtionEvfnt(this, () -> {}));
+                            EvfntDispbtdhThrfbd fdt = fvfntQufuf.gftDispbtdhThrfbd();
+                            fdt.bddEvfntFiltfr(modblFiltfr);
+                        }
+                    }
+
+                    modblityPushfd();
+                    try {
+                        finbl EvfntQufuf fvfntQufuf = AddfssControllfr.doPrivilfgfd(
+                                (PrivilfgfdAdtion<EvfntQufuf>) Toolkit.gftDffbultToolkit()::gftSystfmEvfntQufuf);
+                        sfdondbryLoop = fvfntQufuf.drfbtfSfdondbryLoop(() -> truf, modblFiltfr, 0);
+                        if (!sfdondbryLoop.fntfr()) {
+                            sfdondbryLoop = null;
+                        }
+                    } finblly {
+                        modblityPoppfd();
+                    }
+
+                    // if this diblog is toolkit-modbl, its filtfr must bf rfmovfd
+                    // from bll EDTs (for bll AppContfxts)
+                    if (modblityTypf == ModblityTypf.TOOLKIT_MODAL) {
+                        Itfrbtor<AppContfxt> it = AppContfxt.gftAppContfxts().itfrbtor();
+                        whilf (it.hbsNfxt()) {
+                            AppContfxt bppContfxt = it.nfxt();
+                            if (bppContfxt == showAppContfxt) {
+                                dontinuf;
+                            }
+                            EvfntQufuf fvfntQufuf = (EvfntQufuf)bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY);
+                            EvfntDispbtdhThrfbd fdt = fvfntQufuf.gftDispbtdhThrfbd();
+                            fdt.rfmovfEvfntFiltfr(modblFiltfr);
+                        }
+                    }
+                }
+            } finblly {
+                if (prfdidtfdFodusOwnfr != null) {
+                    // Rfstorf normbl kfy fvfnt dispbtdhing
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                        dfqufufKfyEvfnts(timf.gft(), prfdidtfdFodusOwnfr);
+                }
+            }
+        }
+    }
+
+    finbl void modblityPushfd() {
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        if (tk instbndfof SunToolkit) {
+            SunToolkit stk = (SunToolkit)tk;
+            stk.notifyModblityPushfd(this);
+        }
+    }
+
+    finbl void modblityPoppfd() {
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        if (tk instbndfof SunToolkit) {
+            SunToolkit stk = (SunToolkit)tk;
+            stk.notifyModblityPoppfd(this);
+        }
+    }
+
+    privbtf void hidfAndDisposfPrfHbndlfr() {
+        isInHidf = truf;
+        syndhronizfd (gftTrffLodk()) {
+            if (sfdondbryLoop != null) {
+                modblHidf();
+                // diblog dbn bf shown bnd thfn disposfd bfforf its
+                // modbl filtfr is drfbtfd
+                if (modblFiltfr != null) {
+                    modblFiltfr.disbblf();
+                }
+                modblDiblogs.rfmovf(this);
+            }
+        }
+    }
+    privbtf void hidfAndDisposfHbndlfr() {
+        if (sfdondbryLoop != null) {
+            sfdondbryLoop.fxit();
+            sfdondbryLoop = null;
+        }
+        isInHidf = fblsf;
+    }
+
+    /**
+     * Hidfs thf Diblog bnd thfn dbusfs {@dodf show} to rfturn if it is durrfntly
+     * blodkfd.
+     * @sff Window#show
+     * @sff Window#disposf
+     * @sff Window#sftVisiblf(boolfbn)
+     * @dfprfdbtfd As of JDK vfrsion 1.5, rfplbdfd by
+     * {@link #sftVisiblf(boolfbn) sftVisiblf(boolfbn)}.
+     */
+    @Dfprfdbtfd
+    publid void hidf() {
+        hidfAndDisposfPrfHbndlfr();
+        supfr.hidf();
+        // fix for 5048370: if hidf() is dbllfd from supfr.doDisposf(), thfn
+        // hidfAndDisposfHbndlfr() should not bf dbllfd hfrf bs it will bf dbllfd
+        // bt thf fnd of doDisposf()
+        if (!isInDisposf) {
+            hidfAndDisposfHbndlfr();
+        }
+    }
+
+    /**
+     * Disposfs thf Diblog bnd thfn dbusfs show() to rfturn if it is durrfntly
+     * blodkfd.
+     */
+    void doDisposf() {
+        // fix for 5048370: sft isInDisposf flbg to truf to prfvfnt dblling
+        // to hidfAndDisposfHbndlfr() from hidf()
+        isInDisposf = truf;
+        supfr.doDisposf();
+        hidfAndDisposfHbndlfr();
+        isInDisposf = fblsf;
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * If this diblog is modbl bnd blodks somf windows, thfn bll of thfm brf
+     * blso sfnt to thf bbdk to kffp thfm bflow thf blodking diblog.
+     *
+     * @sff jbvb.bwt.Window#toBbdk
+     */
+    publid void toBbdk() {
+        supfr.toBbdk();
+        if (visiblf) {
+            syndhronizfd (gftTrffLodk()) {
+                for (Window w : blodkfdWindows) {
+                    w.toBbdk_NoClifntCodf();
+                }
+            }
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr this diblog is rfsizbblf by thf usfr.
+     * By dffbult, bll diblogs brf initiblly rfsizbblf.
+     * @rfturn    <dodf>truf</dodf> if thf usfr dbn rfsizf thf diblog;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     * @sff       jbvb.bwt.Diblog#sftRfsizbblf
+     */
+    publid boolfbn isRfsizbblf() {
+        rfturn rfsizbblf;
+    }
+
+    /**
+     * Sfts whfthfr this diblog is rfsizbblf by thf usfr.
+     * @pbrbm     rfsizbblf <dodf>truf</dodf> if thf usfr dbn
+     *                 rfsizf this diblog; <dodf>fblsf</dodf> othfrwisf.
+     * @sff       jbvb.bwt.Diblog#isRfsizbblf
+     */
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        boolfbn tfstvblid = fblsf;
+
+        syndhronizfd (this) {
+            this.rfsizbblf = rfsizbblf;
+            DiblogPffr pffr = (DiblogPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftRfsizbblf(rfsizbblf);
+                tfstvblid = truf;
+            }
+        }
+
+        // On somf plbtforms, dhbnging thf rfsizbblf stbtf bfffdts
+        // thf insfts of thf Diblog. If wf dould, wf'd dbll invblidbtf()
+        // from thf pffr, but wf nffd to gubrbntff thbt wf'rf not holding
+        // thf Diblog lodk whfn wf dbll invblidbtf().
+        if (tfstvblid) {
+            invblidbtfIfVblid();
+        }
+    }
+
+
+    /**
+     * Disbblfs or fnbblfs dfdorbtions for this diblog.
+     * <p>
+     * This mfthod dbn only bf dbllfd whilf thf diblog is not displbybblf. To
+     * mbkf this diblog dfdorbtfd, it must bf opbquf bnd hbvf thf dffbult shbpf,
+     * othfrwisf thf {@dodf IllfgblComponfntStbtfExdfption} will bf thrown.
+     * Rfffr to {@link Window#sftShbpf}, {@link Window#sftOpbdity} bnd {@link
+     * Window#sftBbdkground} for dftbils
+     *
+     * @pbrbm  undfdorbtfd {@dodf truf} if no diblog dfdorbtions brf to bf
+     *         fnbblfd; {@dodf fblsf} if diblog dfdorbtions brf to bf fnbblfd
+     *
+     * @throws IllfgblComponfntStbtfExdfption if thf diblog is displbybblf
+     * @throws IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd this diblog dofs not hbvf thf dffbult shbpf
+     * @throws IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd this diblog opbdity is lfss thbn {@dodf 1.0f}
+     * @throws IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd thf blphb vbluf of this diblog bbdkground
+     *      dolor is lfss thbn {@dodf 1.0f}
+     *
+     * @sff    #isUndfdorbtfd
+     * @sff    Componfnt#isDisplbybblf
+     * @sff    Window#gftShbpf
+     * @sff    Window#gftOpbdity
+     * @sff    Window#gftBbdkground
+     *
+     * @sindf 1.4
+     */
+    publid void sftUndfdorbtfd(boolfbn undfdorbtfd) {
+        /* Mbkf surf wf don't run in thf middlf of pffr drfbtion.*/
+        syndhronizfd (gftTrffLodk()) {
+            if (isDisplbybblf()) {
+                throw nfw IllfgblComponfntStbtfExdfption("Thf diblog is displbybblf.");
+            }
+            if (!undfdorbtfd) {
+                if (gftOpbdity() < 1.0f) {
+                    throw nfw IllfgblComponfntStbtfExdfption("Thf diblog is not opbquf");
+                }
+                if (gftShbpf() != null) {
+                    throw nfw IllfgblComponfntStbtfExdfption("Thf diblog dofs not hbvf b dffbult shbpf");
+                }
+                Color bg = gftBbdkground();
+                if ((bg != null) && (bg.gftAlphb() < 255)) {
+                    throw nfw IllfgblComponfntStbtfExdfption("Thf diblog bbdkground dolor is not opbquf");
+                }
+            }
+            this.undfdorbtfd = undfdorbtfd;
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr this diblog is undfdorbtfd.
+     * By dffbult, bll diblogs brf initiblly dfdorbtfd.
+     * @rfturn    <dodf>truf</dodf> if diblog is undfdorbtfd;
+     *                        <dodf>fblsf</dodf> othfrwisf.
+     * @sff       jbvb.bwt.Diblog#sftUndfdorbtfd
+     * @sindf 1.4
+     */
+    publid boolfbn isUndfdorbtfd() {
+        rfturn undfdorbtfd;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        syndhronizfd (gftTrffLodk()) {
+            if ((opbdity < 1.0f) && !isUndfdorbtfd()) {
+                throw nfw IllfgblComponfntStbtfExdfption("Thf diblog is dfdorbtfd");
+            }
+            supfr.sftOpbdity(opbdity);
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void sftShbpf(Shbpf shbpf) {
+        syndhronizfd (gftTrffLodk()) {
+            if ((shbpf != null) && !isUndfdorbtfd()) {
+                throw nfw IllfgblComponfntStbtfExdfption("Thf diblog is dfdorbtfd");
+            }
+            supfr.sftShbpf(shbpf);
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void sftBbdkground(Color bgColor) {
+        syndhronizfd (gftTrffLodk()) {
+            if ((bgColor != null) && (bgColor.gftAlphb() < 255) && !isUndfdorbtfd()) {
+                throw nfw IllfgblComponfntStbtfExdfption("Thf diblog is dfdorbtfd");
+            }
+            supfr.sftBbdkground(bgColor);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this diblog. This
+     * mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn    thf pbrbmftfr string of this diblog window.
+     */
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString() + "," + modblityTypf;
+        if (titlf != null) {
+            str += ",titlf=" + titlf;
+        }
+        rfturn str;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /*
+     * --- Modblity support ---
+     *
+     */
+
+    /*
+     * This mfthod is dbllfd only for modbl diblogs.
+     *
+     * Gofs through thf list of bll visiblf top-lfvfl windows bnd
+     * dividf thfm into thrff distindt groups: blodkfrs of this diblog,
+     * blodkfd by this diblog bnd bll othfrs. Thfn blodks this diblog
+     * by first mft diblog from thf first group (if bny) bnd blodks bll
+     * thf windows from thf sfdond group.
+     */
+    void modblShow() {
+        // find bll thf diblogs thbt blodk this onf
+        IdfntityArrbyList<Diblog> blodkfrs = nfw IdfntityArrbyList<Diblog>();
+        for (Diblog d : modblDiblogs) {
+            if (d.shouldBlodk(this)) {
+                Window w = d;
+                whilf ((w != null) && (w != this)) {
+                    w = w.gftOwnfr_NoClifntCodf();
+                }
+                if ((w == this) || !shouldBlodk(d) || (modblityTypf.dompbrfTo(d.gftModblityTypf()) < 0)) {
+                    blodkfrs.bdd(d);
+                }
+            }
+        }
+
+        // bdd bll blodkfrs' blodkfrs to blodkfrs :)
+        for (int i = 0; i < blodkfrs.sizf(); i++) {
+            Diblog blodkfr = blodkfrs.gft(i);
+            if (blodkfr.isModblBlodkfd()) {
+                Diblog blodkfrBlodkfr = blodkfr.gftModblBlodkfr();
+                if (!blodkfrs.dontbins(blodkfrBlodkfr)) {
+                    blodkfrs.bdd(i + 1, blodkfrBlodkfr);
+                }
+            }
+        }
+
+        if (blodkfrs.sizf() > 0) {
+            blodkfrs.gft(0).blodkWindow(this);
+        }
+
+        // find bll windows from blodkfrs' hifrbrdhifs
+        IdfntityArrbyList<Window> blodkfrsHifrbrdhifs = nfw IdfntityArrbyList<Window>(blodkfrs);
+        int k = 0;
+        whilf (k < blodkfrsHifrbrdhifs.sizf()) {
+            Window w = blodkfrsHifrbrdhifs.gft(k);
+            Window[] ownfdWindows = w.gftOwnfdWindows_NoClifntCodf();
+            for (Window win : ownfdWindows) {
+                blodkfrsHifrbrdhifs.bdd(win);
+            }
+            k++;
+        }
+
+        jbvb.util.List<Window> toBlodk = nfw IdfntityLinkfdList<Window>();
+        // blodk bll windows from sdopf of blodking fxdfpt from blodkfrs' hifrbrdhifs
+        IdfntityArrbyList<Window> unblodkfdWindows = Window.gftAllUnblodkfdWindows();
+        for (Window w : unblodkfdWindows) {
+            if (shouldBlodk(w) && !blodkfrsHifrbrdhifs.dontbins(w)) {
+                if ((w instbndfof Diblog) && ((Diblog)w).isModbl_NoClifntCodf()) {
+                    Diblog wd = (Diblog)w;
+                    if (wd.shouldBlodk(this) && (modblDiblogs.indfxOf(wd) > modblDiblogs.indfxOf(this))) {
+                        dontinuf;
+                    }
+                }
+                toBlodk.bdd(w);
+            }
+        }
+        blodkWindows(toBlodk);
+
+        if (!isModblBlodkfd()) {
+            updbtfChildrfnBlodking();
+        }
+    }
+
+    /*
+     * This mfthod is dbllfd only for modbl diblogs.
+     *
+     * Unblodks bll thf windows blodkfd by this modbl diblog. Aftfr
+     * fbdh of thfm hbs bffn unblodkfd, it is dhfdkfd to bf blodkfd by
+     * bny othfr modbl diblogs.
+     */
+    void modblHidf() {
+        // wf should unblodk bll thf windows first...
+        IdfntityArrbyList<Window> sbvf = nfw IdfntityArrbyList<Window>();
+        int blodkfdWindowsCount = blodkfdWindows.sizf();
+        for (int i = 0; i < blodkfdWindowsCount; i++) {
+            Window w = blodkfdWindows.gft(0);
+            sbvf.bdd(w);
+            unblodkWindow(w); // blso rfmovfs w from blodkfdWindows
+        }
+        // ... bnd only bftfr thbt dhfdk if thfy should bf blodkfd
+        // by bnothfr diblogs
+        for (int i = 0; i < blodkfdWindowsCount; i++) {
+            Window w = sbvf.gft(i);
+            if ((w instbndfof Diblog) && ((Diblog)w).isModbl_NoClifntCodf()) {
+                Diblog d = (Diblog)w;
+                d.modblShow();
+            } flsf {
+                dhfdkShouldBfBlodkfd(w);
+            }
+        }
+    }
+
+    /*
+     * Rfturns whfthfr thf givfn top-lfvfl window should bf blodkfd by
+     * this diblog. Notf, thbt thf givfn window dbn bf blso b modbl diblog
+     * bnd it should blodk this diblog, but this mfthod do not tbkf sudh
+     * situbtions into donsidfrbtion (sudh dhfdks brf pfrformfd in thf
+     * modblShow() bnd modblHidf() mfthods).
+     *
+     * This mfthod should bf dbllfd on thf gftTrffLodk() lodk.
+     */
+    boolfbn shouldBlodk(Window w) {
+        if (!isVisiblf_NoClifntCodf() ||
+            (!w.isVisiblf_NoClifntCodf() && !w.isInShow) ||
+            isInHidf ||
+            (w == this) ||
+            !isModbl_NoClifntCodf())
+        {
+            rfturn fblsf;
+        }
+        if ((w instbndfof Diblog) && ((Diblog)w).isInHidf) {
+            rfturn fblsf;
+        }
+        // dhfdk if w is from dhildrfn hifrbrdhy
+        // fix for 6271546: wf should blso tbkf into donsidfrbtion dhild hifrbrdhifs
+        // of this diblog's blodkfrs
+        Window blodkfrToChfdk = this;
+        whilf (blodkfrToChfdk != null) {
+            Componfnt d = w;
+            whilf ((d != null) && (d != blodkfrToChfdk)) {
+                d = d.gftPbrfnt_NoClifntCodf();
+            }
+            if (d == blodkfrToChfdk) {
+                rfturn fblsf;
+            }
+            blodkfrToChfdk = blodkfrToChfdk.gftModblBlodkfr();
+        }
+        switdh (modblityTypf) {
+            dbsf MODELESS:
+                rfturn fblsf;
+            dbsf DOCUMENT_MODAL:
+                if (w.isModblExdludfd(ModblExdlusionTypf.APPLICATION_EXCLUDE)) {
+                    // bpplidbtion- bnd toolkit-fxdludfd windows brf not blodkfd by
+                    // dodumfnt-modbl diblogs from outsidf thfir dhildrfn hifrbrdhy
+                    Componfnt d = this;
+                    whilf ((d != null) && (d != w)) {
+                        d = d.gftPbrfnt_NoClifntCodf();
+                    }
+                    rfturn d == w;
+                } flsf {
+                    rfturn gftDodumfntRoot() == w.gftDodumfntRoot();
+                }
+            dbsf APPLICATION_MODAL:
+                rfturn !w.isModblExdludfd(ModblExdlusionTypf.APPLICATION_EXCLUDE) &&
+                    (bppContfxt == w.bppContfxt);
+            dbsf TOOLKIT_MODAL:
+                rfturn !w.isModblExdludfd(ModblExdlusionTypf.TOOLKIT_EXCLUDE);
+        }
+
+        rfturn fblsf;
+    }
+
+    /*
+     * Adds thf givfn top-lfvfl window to thf list of blodkfd
+     * windows for this diblog bnd mbrks it bs modbl blodkfd.
+     * If thf window is blrfbdy blodkfd by somf modbl diblog,
+     * dofs nothing.
+     */
+    void blodkWindow(Window w) {
+        if (!w.isModblBlodkfd()) {
+            w.sftModblBlodkfd(this, truf, truf);
+            blodkfdWindows.bdd(w);
+        }
+    }
+
+    void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        DiblogPffr dpffr = (DiblogPffr)pffr;
+        if (dpffr == null) {
+            rfturn;
+        }
+        Itfrbtor<Window> it = toBlodk.itfrbtor();
+        whilf (it.hbsNfxt()) {
+            Window w = it.nfxt();
+            if (!w.isModblBlodkfd()) {
+                w.sftModblBlodkfd(this, truf, fblsf);
+            } flsf {
+                it.rfmovf();
+            }
+        }
+        dpffr.blodkWindows(toBlodk);
+        blodkfdWindows.bddAll(toBlodk);
+    }
+
+    /*
+     * Rfmovfs thf givfn top-lfvfl window from thf list of blodkfd
+     * windows for this diblog bnd mbrks it bs unblodkfd. If thf
+     * window is not modbl blodkfd, dofs nothing.
+     */
+    void unblodkWindow(Window w) {
+        if (w.isModblBlodkfd() && blodkfdWindows.dontbins(w)) {
+            blodkfdWindows.rfmovf(w);
+            w.sftModblBlodkfd(this, fblsf, truf);
+        }
+    }
+
+    /*
+     * Chfdks if bny othfr modbl diblog D blodks thf givfn window.
+     * If sudh D fxists, mbrk thf window bs blodkfd by D.
+     */
+    stbtid void dhfdkShouldBfBlodkfd(Window w) {
+        syndhronizfd (w.gftTrffLodk()) {
+            for (int i = 0; i < modblDiblogs.sizf(); i++) {
+                Diblog modblDiblog = modblDiblogs.gft(i);
+                if (modblDiblog.shouldBlodk(w)) {
+                    modblDiblog.blodkWindow(w);
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    privbtf void dhfdkModblityPfrmission(ModblityTypf mt) {
+        if (mt == ModblityTypf.TOOLKIT_MODAL) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.dhfdkPfrmission(AWTPfrmissions.TOOLKIT_MODALITY_PERMISSION);
+            }
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+
+        jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds =
+            s.rfbdFiflds();
+
+        ModblityTypf lodblModblityTypf = (ModblityTypf)fiflds.gft("modblityTypf", null);
+
+        try {
+            dhfdkModblityPfrmission(lodblModblityTypf);
+        } dbtdh (AddfssControlExdfption bdf) {
+            lodblModblityTypf = DEFAULT_MODALITY_TYPE;
+        }
+
+        // in 1.5 or fbrlifr modblityTypf wbs bbsfnt, so usf "modbl" instfbd
+        if (lodblModblityTypf == null) {
+            this.modbl = fiflds.gft("modbl", fblsf);
+            sftModbl(modbl);
+        } flsf {
+            this.modblityTypf = lodblModblityTypf;
+        }
+
+        this.rfsizbblf = fiflds.gft("rfsizbblf", truf);
+        this.undfdorbtfd = fiflds.gft("undfdorbtfd", fblsf);
+        this.titlf = (String)fiflds.gft("titlf", "");
+
+        blodkfdWindows = nfw IdfntityArrbyList<>();
+
+        SunToolkit.dhfdkAndSftPolidy(this);
+
+        initiblizfd = truf;
+
+    }
+
+    /*
+     * --- Addfssibility Support ---
+     *
+     */
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this Diblog.
+     * For diblogs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfAWTDiblog.
+     * A nfw AddfssiblfAWTDiblog instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTDiblog thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this Diblog
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTDiblog();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Diblog</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to diblog usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTDiblog fxtfnds AddfssiblfAWTWindow
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 4837230331833941201L;
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.DIALOG;
+        }
+
+        /**
+         * Gft thf stbtf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining thf durrfnt
+         * stbtf sft of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftFodusOwnfr() != null) {
+                stbtfs.bdd(AddfssiblfStbtf.ACTIVE);
+            }
+            if (isModbl()) {
+                stbtfs.bdd(AddfssiblfStbtf.MODAL);
+            }
+            if (isRfsizbblf()) {
+                stbtfs.bdd(AddfssiblfStbtf.RESIZABLE);
+            }
+            rfturn stbtfs;
+        }
+
+    } // innfr dlbss AddfssiblfAWTDiblog
+}

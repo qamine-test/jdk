@@ -1,1157 +1,1157 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.io.*;
-import java.lang.ref.*;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rff.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import javax.crypto.*;
-import javax.crypto.interfaces.*;
-import javax.crypto.spec.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.intfrfbdfs.*;
+import jbvbx.drypto.spfd.*;
 
-import sun.security.rsa.RSAPublicKeyImpl;
+import sun.sfdurity.rsb.RSAPublidKfyImpl;
 
-import sun.security.internal.interfaces.TlsMasterSecret;
+import sun.sfdurity.intfrnbl.intfrfbdfs.TlsMbstfrSfdrft;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
-import sun.security.util.DerValue;
-import sun.security.util.Length;
-import sun.security.util.ECUtil;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.Lfngti;
+import sun.sfdurity.util.ECUtil;
 
 /**
- * Key implementation classes.
+ * Kfy implfmfntbtion dlbssfs.
  *
- * In PKCS#11, the components of private and secret keys may or may not
- * be accessible. If they are, we use the algorithm specific key classes
- * (e.g. DSAPrivateKey) for compatibility with existing applications.
- * If the components are not accessible, we use a generic class that
- * only implements PrivateKey (or SecretKey). Whether the components of a
- * key are extractable is automatically determined when the key object is
- * created.
+ * In PKCS#11, tif domponfnts of privbtf bnd sfdrft kfys mby or mby not
+ * bf bddfssiblf. If tify brf, wf usf tif blgoritim spfdifid kfy dlbssfs
+ * (f.g. DSAPrivbtfKfy) for dompbtibility witi fxisting bpplidbtions.
+ * If tif domponfnts brf not bddfssiblf, wf usf b gfnfrid dlbss tibt
+ * only implfmfnts PrivbtfKfy (or SfdrftKfy). Wiftifr tif domponfnts of b
+ * kfy brf fxtrbdtbblf is butombtidblly dftfrminfd wifn tif kfy objfdt is
+ * drfbtfd.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-abstract class P11Key implements Key, Length {
+bbstrbdt dlbss P11Kfy implfmfnts Kfy, Lfngti {
 
-    private static final long serialVersionUID = -2575874101938349339L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2575874101938349339L;
 
-    private final static String PUBLIC = "public";
-    private final static String PRIVATE = "private";
-    private final static String SECRET = "secret";
+    privbtf finbl stbtid String PUBLIC = "publid";
+    privbtf finbl stbtid String PRIVATE = "privbtf";
+    privbtf finbl stbtid String SECRET = "sfdrft";
 
-    // type of key, one of (PUBLIC, PRIVATE, SECRET)
-    final String type;
+    // typf of kfy, onf of (PUBLIC, PRIVATE, SECRET)
+    finbl String typf;
 
-    // token instance
-    final Token token;
+    // tokfn instbndf
+    finbl Tokfn tokfn;
 
-    // algorithm name, returned by getAlgorithm(), etc.
-    final String algorithm;
+    // blgoritim nbmf, rfturnfd by gftAlgoritim(), ftd.
+    finbl String blgoritim;
 
-    // key id
-    final long keyID;
+    // kfy id
+    finbl long kfyID;
 
-    // effective key length of the key, e.g. 56 for a DES key
-    final int keyLength;
+    // ffffdtivf kfy lfngti of tif kfy, f.g. 56 for b DES kfy
+    finbl int kfyLfngti;
 
-    // flags indicating whether the key is a token object, sensitive, extractable
-    final boolean tokenObject, sensitive, extractable;
+    // flbgs indidbting wiftifr tif kfy is b tokfn objfdt, sfnsitivf, fxtrbdtbblf
+    finbl boolfbn tokfnObjfdt, sfnsitivf, fxtrbdtbblf;
 
-    // phantom reference notification clean up for session keys
-    private final SessionKeyRef sessionKeyRef;
+    // pibntom rfffrfndf notifidbtion dlfbn up for sfssion kfys
+    privbtf finbl SfssionKfyRff sfssionKfyRff;
 
-    P11Key(String type, Session session, long keyID, String algorithm,
-            int keyLength, CK_ATTRIBUTE[] attributes) {
-        this.type = type;
-        this.token = session.token;
-        this.keyID = keyID;
-        this.algorithm = algorithm;
-        this.keyLength = keyLength;
-        boolean tokenObject = false;
-        boolean sensitive = false;
-        boolean extractable = true;
-        int n = (attributes == null) ? 0 : attributes.length;
+    P11Kfy(String typf, Sfssion sfssion, long kfyID, String blgoritim,
+            int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+        tiis.typf = typf;
+        tiis.tokfn = sfssion.tokfn;
+        tiis.kfyID = kfyID;
+        tiis.blgoritim = blgoritim;
+        tiis.kfyLfngti = kfyLfngti;
+        boolfbn tokfnObjfdt = fblsf;
+        boolfbn sfnsitivf = fblsf;
+        boolfbn fxtrbdtbblf = truf;
+        int n = (bttributfs == null) ? 0 : bttributfs.lfngti;
         for (int i = 0; i < n; i++) {
-            CK_ATTRIBUTE attr = attributes[i];
-            if (attr.type == CKA_TOKEN) {
-                tokenObject = attr.getBoolean();
-            } else if (attr.type == CKA_SENSITIVE) {
-                sensitive = attr.getBoolean();
-            } else if (attr.type == CKA_EXTRACTABLE) {
-                extractable = attr.getBoolean();
+            CK_ATTRIBUTE bttr = bttributfs[i];
+            if (bttr.typf == CKA_TOKEN) {
+                tokfnObjfdt = bttr.gftBoolfbn();
+            } flsf if (bttr.typf == CKA_SENSITIVE) {
+                sfnsitivf = bttr.gftBoolfbn();
+            } flsf if (bttr.typf == CKA_EXTRACTABLE) {
+                fxtrbdtbblf = bttr.gftBoolfbn();
             }
         }
-        this.tokenObject = tokenObject;
-        this.sensitive = sensitive;
-        this.extractable = extractable;
-        if (tokenObject == false) {
-            sessionKeyRef = new SessionKeyRef(this, keyID, session);
-        } else {
-            sessionKeyRef = null;
+        tiis.tokfnObjfdt = tokfnObjfdt;
+        tiis.sfnsitivf = sfnsitivf;
+        tiis.fxtrbdtbblf = fxtrbdtbblf;
+        if (tokfnObjfdt == fblsf) {
+            sfssionKfyRff = nfw SfssionKfyRff(tiis, kfyID, sfssion);
+        } flsf {
+            sfssionKfyRff = null;
         }
     }
 
-    // see JCA spec
-    public final String getAlgorithm() {
-        token.ensureValid();
-        return algorithm;
+    // sff JCA spfd
+    publid finbl String gftAlgoritim() {
+        tokfn.fnsurfVblid();
+        rfturn blgoritim;
     }
 
-    // see JCA spec
-    public final byte[] getEncoded() {
-        byte[] b = getEncodedInternal();
-        return (b == null) ? null : b.clone();
+    // sff JCA spfd
+    publid finbl bytf[] gftEndodfd() {
+        bytf[] b = gftEndodfdIntfrnbl();
+        rfturn (b == null) ? null : b.dlonf();
     }
 
-    abstract byte[] getEncodedInternal();
+    bbstrbdt bytf[] gftEndodfdIntfrnbl();
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        // equals() should never throw exceptions
-        if (token.isValid() == false) {
-            return false;
+        // fqubls() siould nfvfr tirow fxdfptions
+        if (tokfn.isVblid() == fblsf) {
+            rfturn fblsf;
         }
-        if (obj instanceof Key == false) {
-            return false;
+        if (obj instbndfof Kfy == fblsf) {
+            rfturn fblsf;
         }
-        String thisFormat = getFormat();
-        if (thisFormat == null) {
-            // no encoding, key only equal to itself
-            // XXX getEncoded() for unextractable keys will change that
-            return false;
+        String tiisFormbt = gftFormbt();
+        if (tiisFormbt == null) {
+            // no fndoding, kfy only fqubl to itsflf
+            // XXX gftEndodfd() for unfxtrbdtbblf kfys will dibngf tibt
+            rfturn fblsf;
         }
-        Key other = (Key)obj;
-        if (thisFormat.equals(other.getFormat()) == false) {
-            return false;
+        Kfy otifr = (Kfy)obj;
+        if (tiisFormbt.fqubls(otifr.gftFormbt()) == fblsf) {
+            rfturn fblsf;
         }
-        byte[] thisEnc = this.getEncodedInternal();
-        byte[] otherEnc;
-        if (obj instanceof P11Key) {
-            otherEnc = ((P11Key)other).getEncodedInternal();
-        } else {
-            otherEnc = other.getEncoded();
+        bytf[] tiisEnd = tiis.gftEndodfdIntfrnbl();
+        bytf[] otifrEnd;
+        if (obj instbndfof P11Kfy) {
+            otifrEnd = ((P11Kfy)otifr).gftEndodfdIntfrnbl();
+        } flsf {
+            otifrEnd = otifr.gftEndodfd();
         }
-        return Arrays.equals(thisEnc, otherEnc);
+        rfturn Arrbys.fqubls(tiisEnd, otifrEnd);
     }
 
-    public int hashCode() {
-        // hashCode() should never throw exceptions
-        if (token.isValid() == false) {
-            return 0;
+    publid int ibsiCodf() {
+        // ibsiCodf() siould nfvfr tirow fxdfptions
+        if (tokfn.isVblid() == fblsf) {
+            rfturn 0;
         }
-        byte[] b1 = getEncodedInternal();
+        bytf[] b1 = gftEndodfdIntfrnbl();
         if (b1 == null) {
-            return 0;
+            rfturn 0;
         }
-        int r = b1.length;
-        for (int i = 0; i < b1.length; i++) {
+        int r = b1.lfngti;
+        for (int i = 0; i < b1.lfngti; i++) {
             r += (b1[i] & 0xff) * 37;
         }
-        return r;
+        rfturn r;
     }
 
-    protected Object writeReplace() throws ObjectStreamException {
-        KeyRep.Type type;
-        String format = getFormat();
-        if (isPrivate() && "PKCS#8".equals(format)) {
-            type = KeyRep.Type.PRIVATE;
-        } else if (isPublic() && "X.509".equals(format)) {
-            type = KeyRep.Type.PUBLIC;
-        } else if (isSecret() && "RAW".equals(format)) {
-            type = KeyRep.Type.SECRET;
-        } else {
-            // XXX short term serialization for unextractable keys
-            throw new NotSerializableException
-                ("Cannot serialize sensitive and unextractable keys");
+    protfdtfd Objfdt writfRfplbdf() tirows ObjfdtStrfbmExdfption {
+        KfyRfp.Typf typf;
+        String formbt = gftFormbt();
+        if (isPrivbtf() && "PKCS#8".fqubls(formbt)) {
+            typf = KfyRfp.Typf.PRIVATE;
+        } flsf if (isPublid() && "X.509".fqubls(formbt)) {
+            typf = KfyRfp.Typf.PUBLIC;
+        } flsf if (isSfdrft() && "RAW".fqubls(formbt)) {
+            typf = KfyRfp.Typf.SECRET;
+        } flsf {
+            // XXX siort tfrm sfriblizbtion for unfxtrbdtbblf kfys
+            tirow nfw NotSfriblizbblfExdfption
+                ("Cbnnot sfriblizf sfnsitivf bnd unfxtrbdtbblf kfys");
         }
-        return new KeyRep(type, getAlgorithm(), format, getEncoded());
+        rfturn nfw KfyRfp(typf, gftAlgoritim(), formbt, gftEndodfd());
     }
 
-    public String toString() {
-        token.ensureValid();
-        String s1 = token.provider.getName() + " " + algorithm + " " + type
-                + " key, " + keyLength + " bits";
-        s1 += " (id " + keyID + ", "
-                + (tokenObject ? "token" : "session") + " object";
-        if (isPublic()) {
+    publid String toString() {
+        tokfn.fnsurfVblid();
+        String s1 = tokfn.providfr.gftNbmf() + " " + blgoritim + " " + typf
+                + " kfy, " + kfyLfngti + " bits";
+        s1 += " (id " + kfyID + ", "
+                + (tokfnObjfdt ? "tokfn" : "sfssion") + " objfdt";
+        if (isPublid()) {
             s1 += ")";
-        } else {
-            s1 += ", " + (sensitive ? "" : "not ") + "sensitive";
-            s1 += ", " + (extractable ? "" : "un") + "extractable)";
+        } flsf {
+            s1 += ", " + (sfnsitivf ? "" : "not ") + "sfnsitivf";
+            s1 += ", " + (fxtrbdtbblf ? "" : "un") + "fxtrbdtbblf)";
         }
-        return s1;
+        rfturn s1;
     }
 
     /**
-     * Return bit length of the key.
+     * Rfturn bit lfngti of tif kfy.
      */
-    @Override
-    public int length() {
-        return keyLength;
+    @Ovfrridf
+    publid int lfngti() {
+        rfturn kfyLfngti;
     }
 
-    boolean isPublic() {
-        return type == PUBLIC;
+    boolfbn isPublid() {
+        rfturn typf == PUBLIC;
     }
 
-    boolean isPrivate() {
-        return type == PRIVATE;
+    boolfbn isPrivbtf() {
+        rfturn typf == PRIVATE;
     }
 
-    boolean isSecret() {
-        return type == SECRET;
+    boolfbn isSfdrft() {
+        rfturn typf == SECRET;
     }
 
-    void fetchAttributes(CK_ATTRIBUTE[] attributes) {
-        Session tempSession = null;
+    void fftdiAttributfs(CK_ATTRIBUTE[] bttributfs) {
+        Sfssion tfmpSfssion = null;
         try {
-            tempSession = token.getOpSession();
-            token.p11.C_GetAttributeValue(tempSession.id(), keyID, attributes);
-        } catch (PKCS11Exception e) {
-            throw new ProviderException(e);
-        } finally {
-            token.releaseSession(tempSession);
+            tfmpSfssion = tokfn.gftOpSfssion();
+            tokfn.p11.C_GftAttributfVbluf(tfmpSfssion.id(), kfyID, bttributfs);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw ProvidfrExdfption(f);
+        } finblly {
+            tokfn.rflfbsfSfssion(tfmpSfssion);
         }
     }
 
-    private final static CK_ATTRIBUTE[] A0 = new CK_ATTRIBUTE[0];
+    privbtf finbl stbtid CK_ATTRIBUTE[] A0 = nfw CK_ATTRIBUTE[0];
 
-    private static CK_ATTRIBUTE[] getAttributes(Session session, long keyID,
-            CK_ATTRIBUTE[] knownAttributes, CK_ATTRIBUTE[] desiredAttributes) {
-        if (knownAttributes == null) {
-            knownAttributes = A0;
+    privbtf stbtid CK_ATTRIBUTE[] gftAttributfs(Sfssion sfssion, long kfyID,
+            CK_ATTRIBUTE[] knownAttributfs, CK_ATTRIBUTE[] dfsirfdAttributfs) {
+        if (knownAttributfs == null) {
+            knownAttributfs = A0;
         }
-        for (int i = 0; i < desiredAttributes.length; i++) {
-            // For each desired attribute, check to see if we have the value
-            // available already. If everything is here, we save a native call.
-            CK_ATTRIBUTE attr = desiredAttributes[i];
-            for (CK_ATTRIBUTE known : knownAttributes) {
-                if ((attr.type == known.type) && (known.pValue != null)) {
-                    attr.pValue = known.pValue;
-                    break; // break inner for loop
+        for (int i = 0; i < dfsirfdAttributfs.lfngti; i++) {
+            // For fbdi dfsirfd bttributf, difdk to sff if wf ibvf tif vbluf
+            // bvbilbblf blrfbdy. If fvfrytiing is ifrf, wf sbvf b nbtivf dbll.
+            CK_ATTRIBUTE bttr = dfsirfdAttributfs[i];
+            for (CK_ATTRIBUTE known : knownAttributfs) {
+                if ((bttr.typf == known.typf) && (known.pVbluf != null)) {
+                    bttr.pVbluf = known.pVbluf;
+                    brfbk; // brfbk innfr for loop
                 }
             }
-            if (attr.pValue == null) {
-                // nothing found, need to call C_GetAttributeValue()
+            if (bttr.pVbluf == null) {
+                // notiing found, nffd to dbll C_GftAttributfVbluf()
                 for (int j = 0; j < i; j++) {
-                    // clear values copied from knownAttributes
-                    desiredAttributes[j].pValue = null;
+                    // dlfbr vblufs dopifd from knownAttributfs
+                    dfsirfdAttributfs[j].pVbluf = null;
                 }
                 try {
-                    session.token.p11.C_GetAttributeValue
-                            (session.id(), keyID, desiredAttributes);
-                } catch (PKCS11Exception e) {
-                    throw new ProviderException(e);
+                    sfssion.tokfn.p11.C_GftAttributfVbluf
+                            (sfssion.id(), kfyID, dfsirfdAttributfs);
+                } dbtdi (PKCS11Exdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
-                break; // break loop, goto return
+                brfbk; // brfbk loop, goto rfturn
             }
         }
-        return desiredAttributes;
+        rfturn dfsirfdAttributfs;
     }
 
-    static SecretKey secretKey(Session session, long keyID, String algorithm,
-            int keyLength, CK_ATTRIBUTE[] attributes) {
-        attributes = getAttributes(session, keyID, attributes, new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_TOKEN),
-            new CK_ATTRIBUTE(CKA_SENSITIVE),
-            new CK_ATTRIBUTE(CKA_EXTRACTABLE),
+    stbtid SfdrftKfy sfdrftKfy(Sfssion sfssion, long kfyID, String blgoritim,
+            int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+        bttributfs = gftAttributfs(sfssion, kfyID, bttributfs, nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_TOKEN),
+            nfw CK_ATTRIBUTE(CKA_SENSITIVE),
+            nfw CK_ATTRIBUTE(CKA_EXTRACTABLE),
         });
-        return new P11SecretKey(session, keyID, algorithm, keyLength, attributes);
+        rfturn nfw P11SfdrftKfy(sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
     }
 
-    static SecretKey masterSecretKey(Session session, long keyID, String algorithm,
-            int keyLength, CK_ATTRIBUTE[] attributes, int major, int minor) {
-        attributes = getAttributes(session, keyID, attributes, new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_TOKEN),
-            new CK_ATTRIBUTE(CKA_SENSITIVE),
-            new CK_ATTRIBUTE(CKA_EXTRACTABLE),
+    stbtid SfdrftKfy mbstfrSfdrftKfy(Sfssion sfssion, long kfyID, String blgoritim,
+            int kfyLfngti, CK_ATTRIBUTE[] bttributfs, int mbjor, int minor) {
+        bttributfs = gftAttributfs(sfssion, kfyID, bttributfs, nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_TOKEN),
+            nfw CK_ATTRIBUTE(CKA_SENSITIVE),
+            nfw CK_ATTRIBUTE(CKA_EXTRACTABLE),
         });
-        return new P11TlsMasterSecretKey
-                (session, keyID, algorithm, keyLength, attributes, major, minor);
+        rfturn nfw P11TlsMbstfrSfdrftKfy
+                (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs, mbjor, minor);
     }
 
-    // we assume that all components of public keys are always accessible
-    static PublicKey publicKey(Session session, long keyID, String algorithm,
-            int keyLength, CK_ATTRIBUTE[] attributes) {
-        switch (algorithm) {
-            case "RSA":
-                return new P11RSAPublicKey
-                    (session, keyID, algorithm, keyLength, attributes);
-            case "DSA":
-                return new P11DSAPublicKey
-                    (session, keyID, algorithm, keyLength, attributes);
-            case "DH":
-                return new P11DHPublicKey
-                    (session, keyID, algorithm, keyLength, attributes);
-            case "EC":
-                return new P11ECPublicKey
-                    (session, keyID, algorithm, keyLength, attributes);
-            default:
-                throw new ProviderException
-                    ("Unknown public key algorithm " + algorithm);
+    // wf bssumf tibt bll domponfnts of publid kfys brf blwbys bddfssiblf
+    stbtid PublidKfy publidKfy(Sfssion sfssion, long kfyID, String blgoritim,
+            int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+        switdi (blgoritim) {
+            dbsf "RSA":
+                rfturn nfw P11RSAPublidKfy
+                    (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+            dbsf "DSA":
+                rfturn nfw P11DSAPublidKfy
+                    (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+            dbsf "DH":
+                rfturn nfw P11DHPublidKfy
+                    (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+            dbsf "EC":
+                rfturn nfw P11ECPublidKfy
+                    (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+            dffbult:
+                tirow nfw ProvidfrExdfption
+                    ("Unknown publid kfy blgoritim " + blgoritim);
         }
     }
 
-    static PrivateKey privateKey(Session session, long keyID, String algorithm,
-            int keyLength, CK_ATTRIBUTE[] attributes) {
-        attributes = getAttributes(session, keyID, attributes, new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_TOKEN),
-            new CK_ATTRIBUTE(CKA_SENSITIVE),
-            new CK_ATTRIBUTE(CKA_EXTRACTABLE),
+    stbtid PrivbtfKfy privbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+            int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+        bttributfs = gftAttributfs(sfssion, kfyID, bttributfs, nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_TOKEN),
+            nfw CK_ATTRIBUTE(CKA_SENSITIVE),
+            nfw CK_ATTRIBUTE(CKA_EXTRACTABLE),
         });
-        if (attributes[1].getBoolean() || (attributes[2].getBoolean() == false)) {
-            return new P11PrivateKey
-                (session, keyID, algorithm, keyLength, attributes);
-        } else {
-            switch (algorithm) {
-                case "RSA":
-                    // XXX better test for RSA CRT keys (single getAttributes() call)
-                    // we need to determine whether this is a CRT key
-                    // see if we can obtain the public exponent
-                    // this should also be readable for sensitive/extractable keys
-                    CK_ATTRIBUTE[] attrs2 = new CK_ATTRIBUTE[] {
-                        new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+        if (bttributfs[1].gftBoolfbn() || (bttributfs[2].gftBoolfbn() == fblsf)) {
+            rfturn nfw P11PrivbtfKfy
+                (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+        } flsf {
+            switdi (blgoritim) {
+                dbsf "RSA":
+                    // XXX bfttfr tfst for RSA CRT kfys (singlf gftAttributfs() dbll)
+                    // wf nffd to dftfrminf wiftifr tiis is b CRT kfy
+                    // sff if wf dbn obtbin tif publid fxponfnt
+                    // tiis siould blso bf rfbdbblf for sfnsitivf/fxtrbdtbblf kfys
+                    CK_ATTRIBUTE[] bttrs2 = nfw CK_ATTRIBUTE[] {
+                        nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
                     };
-                    boolean crtKey;
+                    boolfbn drtKfy;
                     try {
-                        session.token.p11.C_GetAttributeValue
-                            (session.id(), keyID, attrs2);
-                        crtKey = (attrs2[0].pValue instanceof byte[]);
-                    } catch (PKCS11Exception e) {
-                        // ignore, assume not available
-                        crtKey = false;
+                        sfssion.tokfn.p11.C_GftAttributfVbluf
+                            (sfssion.id(), kfyID, bttrs2);
+                        drtKfy = (bttrs2[0].pVbluf instbndfof bytf[]);
+                    } dbtdi (PKCS11Exdfption f) {
+                        // ignorf, bssumf not bvbilbblf
+                        drtKfy = fblsf;
                     }
-                    if (crtKey) {
-                        return new P11RSAPrivateKey
-                                (session, keyID, algorithm, keyLength, attributes);
-                    } else {
-                        return new P11RSAPrivateNonCRTKey
-                                (session, keyID, algorithm, keyLength, attributes);
+                    if (drtKfy) {
+                        rfturn nfw P11RSAPrivbtfKfy
+                                (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+                    } flsf {
+                        rfturn nfw P11RSAPrivbtfNonCRTKfy
+                                (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
                     }
-                case "DSA":
-                    return new P11DSAPrivateKey
-                            (session, keyID, algorithm, keyLength, attributes);
-                case "DH":
-                    return new P11DHPrivateKey
-                            (session, keyID, algorithm, keyLength, attributes);
-                case "EC":
-                    return new P11ECPrivateKey
-                            (session, keyID, algorithm, keyLength, attributes);
-                default:
-                    throw new ProviderException
-                            ("Unknown private key algorithm " + algorithm);
+                dbsf "DSA":
+                    rfturn nfw P11DSAPrivbtfKfy
+                            (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+                dbsf "DH":
+                    rfturn nfw P11DHPrivbtfKfy
+                            (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+                dbsf "EC":
+                    rfturn nfw P11ECPrivbtfKfy
+                            (sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+                dffbult:
+                    tirow nfw ProvidfrExdfption
+                            ("Unknown privbtf kfy blgoritim " + blgoritim);
             }
         }
     }
 
-    // class for sensitive and unextractable private keys
-    private static final class P11PrivateKey extends P11Key
-                                                implements PrivateKey {
-        private static final long serialVersionUID = -2138581185214187615L;
+    // dlbss for sfnsitivf bnd unfxtrbdtbblf privbtf kfys
+    privbtf stbtid finbl dlbss P11PrivbtfKfy fxtfnds P11Kfy
+                                                implfmfnts PrivbtfKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -2138581185214187615L;
 
-        P11PrivateKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        P11PrivbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        // XXX temporary encoding for serialization purposes
-        public String getFormat() {
-            token.ensureValid();
-            return null;
+        // XXX tfmporbry fndoding for sfriblizbtion purposfs
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn null;
         }
-        byte[] getEncodedInternal() {
-            token.ensureValid();
-            return null;
+        bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            rfturn null;
         }
     }
 
-    private static class P11SecretKey extends P11Key implements SecretKey {
-        private static final long serialVersionUID = -7828241727014329084L;
-        private volatile byte[] encoded;
-        P11SecretKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(SECRET, session, keyID, algorithm, keyLength, attributes);
+    privbtf stbtid dlbss P11SfdrftKfy fxtfnds P11Kfy implfmfnts SfdrftKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7828241727014329084L;
+        privbtf volbtilf bytf[] fndodfd;
+        P11SfdrftKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(SECRET, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        public String getFormat() {
-            token.ensureValid();
-            if (sensitive || (extractable == false)) {
-                return null;
-            } else {
-                return "RAW";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            if (sfnsitivf || (fxtrbdtbblf == fblsf)) {
+                rfturn null;
+            } flsf {
+                rfturn "RAW";
             }
         }
-        byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (getFormat() == null) {
-                return null;
+        bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (gftFormbt() == null) {
+                rfturn null;
             }
-            byte[] b = encoded;
+            bytf[] b = fndodfd;
             if (b == null) {
-                synchronized (this) {
-                    b = encoded;
+                syndironizfd (tiis) {
+                    b = fndodfd;
                     if (b == null) {
-                        Session tempSession = null;
+                        Sfssion tfmpSfssion = null;
                         try {
-                            tempSession = token.getOpSession();
-                            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                                new CK_ATTRIBUTE(CKA_VALUE),
+                            tfmpSfssion = tokfn.gftOpSfssion();
+                            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                                nfw CK_ATTRIBUTE(CKA_VALUE),
                             };
-                            token.p11.C_GetAttributeValue
-                                (tempSession.id(), keyID, attributes);
-                            b = attributes[0].getByteArray();
-                        } catch (PKCS11Exception e) {
-                            throw new ProviderException(e);
-                        } finally {
-                            token.releaseSession(tempSession);
+                            tokfn.p11.C_GftAttributfVbluf
+                                (tfmpSfssion.id(), kfyID, bttributfs);
+                            b = bttributfs[0].gftBytfArrby();
+                        } dbtdi (PKCS11Exdfption f) {
+                            tirow nfw ProvidfrExdfption(f);
+                        } finblly {
+                            tokfn.rflfbsfSfssion(tfmpSfssion);
                         }
-                        encoded = b;
+                        fndodfd = b;
                     }
                 }
             }
-            return b;
+            rfturn b;
         }
     }
 
-    private static class P11TlsMasterSecretKey extends P11SecretKey
-            implements TlsMasterSecret {
-        private static final long serialVersionUID = -1318560923770573441L;
+    privbtf stbtid dlbss P11TlsMbstfrSfdrftKfy fxtfnds P11SfdrftKfy
+            implfmfnts TlsMbstfrSfdrft {
+        privbtf stbtid finbl long sfriblVfrsionUID = -1318560923770573441L;
 
-        private final int majorVersion, minorVersion;
-        P11TlsMasterSecretKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes, int major, int minor) {
-            super(session, keyID, algorithm, keyLength, attributes);
-            this.majorVersion = major;
-            this.minorVersion = minor;
+        privbtf finbl int mbjorVfrsion, minorVfrsion;
+        P11TlsMbstfrSfdrftKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs, int mbjor, int minor) {
+            supfr(sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
+            tiis.mbjorVfrsion = mbjor;
+            tiis.minorVfrsion = minor;
         }
-        public int getMajorVersion() {
-            return majorVersion;
+        publid int gftMbjorVfrsion() {
+            rfturn mbjorVfrsion;
         }
 
-        public int getMinorVersion() {
-            return minorVersion;
+        publid int gftMinorVfrsion() {
+            rfturn minorVfrsion;
         }
     }
 
-    // RSA CRT private key
-    private static final class P11RSAPrivateKey extends P11Key
-                implements RSAPrivateCrtKey {
-        private static final long serialVersionUID = 9215872438913515220L;
+    // RSA CRT privbtf kfy
+    privbtf stbtid finbl dlbss P11RSAPrivbtfKfy fxtfnds P11Kfy
+                implfmfnts RSAPrivbtfCrtKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = 9215872438913515220L;
 
-        private BigInteger n, e, d, p, q, pe, qe, coeff;
-        private byte[] encoded;
-        P11RSAPrivateKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr n, f, d, p, q, pf, qf, dofff;
+        privbtf bytf[] fndodfd;
+        P11RSAPrivbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (n != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
-                new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
-                new CK_ATTRIBUTE(CKA_PRIME_1),
-                new CK_ATTRIBUTE(CKA_PRIME_2),
-                new CK_ATTRIBUTE(CKA_EXPONENT_1),
-                new CK_ATTRIBUTE(CKA_EXPONENT_2),
-                new CK_ATTRIBUTE(CKA_COEFFICIENT),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIME_1),
+                nfw CK_ATTRIBUTE(CKA_PRIME_2),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_1),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_2),
+                nfw CK_ATTRIBUTE(CKA_COEFFICIENT),
             };
-            fetchAttributes(attributes);
-            n = attributes[0].getBigInteger();
-            e = attributes[1].getBigInteger();
-            d = attributes[2].getBigInteger();
-            p = attributes[3].getBigInteger();
-            q = attributes[4].getBigInteger();
-            pe = attributes[5].getBigInteger();
-            qe = attributes[6].getBigInteger();
-            coeff = attributes[7].getBigInteger();
+            fftdiAttributfs(bttributfs);
+            n = bttributfs[0].gftBigIntfgfr();
+            f = bttributfs[1].gftBigIntfgfr();
+            d = bttributfs[2].gftBigIntfgfr();
+            p = bttributfs[3].gftBigIntfgfr();
+            q = bttributfs[4].gftBigIntfgfr();
+            pf = bttributfs[5].gftBigIntfgfr();
+            qf = bttributfs[6].gftBigIntfgfr();
+            dofff = bttributfs[7].gftBigIntfgfr();
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "PKCS#8";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "PKCS#8";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    // XXX make constructor in SunRsaSign provider public
-                    // and call it directly
-                    KeyFactory factory = KeyFactory.getInstance
-                        ("RSA", P11Util.getSunRsaSignProvider());
-                    Key newKey = factory.translateKey(this);
-                    encoded = newKey.getEncoded();
-                } catch (GeneralSecurityException e) {
-                    throw new ProviderException(e);
+                    // XXX mbkf donstrudtor in SunRsbSign providfr publid
+                    // bnd dbll it dirfdtly
+                    KfyFbdtory fbdtory = KfyFbdtory.gftInstbndf
+                        ("RSA", P11Util.gftSunRsbSignProvidfr());
+                    Kfy nfwKfy = fbdtory.trbnslbtfKfy(tiis);
+                    fndodfd = nfwKfy.gftEndodfd();
+                } dbtdi (GfnfrblSfdurityExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getModulus() {
-            fetchValues();
-            return n;
+        publid BigIntfgfr gftModulus() {
+            fftdiVblufs();
+            rfturn n;
         }
-        public BigInteger getPublicExponent() {
-            fetchValues();
-            return e;
+        publid BigIntfgfr gftPublidExponfnt() {
+            fftdiVblufs();
+            rfturn f;
         }
-        public BigInteger getPrivateExponent() {
-            fetchValues();
-            return d;
+        publid BigIntfgfr gftPrivbtfExponfnt() {
+            fftdiVblufs();
+            rfturn d;
         }
-        public BigInteger getPrimeP() {
-            fetchValues();
-            return p;
+        publid BigIntfgfr gftPrimfP() {
+            fftdiVblufs();
+            rfturn p;
         }
-        public BigInteger getPrimeQ() {
-            fetchValues();
-            return q;
+        publid BigIntfgfr gftPrimfQ() {
+            fftdiVblufs();
+            rfturn q;
         }
-        public BigInteger getPrimeExponentP() {
-            fetchValues();
-            return pe;
+        publid BigIntfgfr gftPrimfExponfntP() {
+            fftdiVblufs();
+            rfturn pf;
         }
-        public BigInteger getPrimeExponentQ() {
-            fetchValues();
-            return qe;
+        publid BigIntfgfr gftPrimfExponfntQ() {
+            fftdiVblufs();
+            rfturn qf;
         }
-        public BigInteger getCrtCoefficient() {
-            fetchValues();
-            return coeff;
+        publid BigIntfgfr gftCrtCofffidifnt() {
+            fftdiVblufs();
+            rfturn dofff;
         }
     }
 
-    // RSA non-CRT private key
-    private static final class P11RSAPrivateNonCRTKey extends P11Key
-                implements RSAPrivateKey {
-        private static final long serialVersionUID = 1137764983777411481L;
+    // RSA non-CRT privbtf kfy
+    privbtf stbtid finbl dlbss P11RSAPrivbtfNonCRTKfy fxtfnds P11Kfy
+                implfmfnts RSAPrivbtfKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1137764983777411481L;
 
-        private BigInteger n, d;
-        private byte[] encoded;
-        P11RSAPrivateNonCRTKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr n, d;
+        privbtf bytf[] fndodfd;
+        P11RSAPrivbtfNonCRTKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (n != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
             };
-            fetchAttributes(attributes);
-            n = attributes[0].getBigInteger();
-            d = attributes[1].getBigInteger();
+            fftdiAttributfs(bttributfs);
+            n = bttributfs[0].gftBigIntfgfr();
+            d = bttributfs[1].gftBigIntfgfr();
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "PKCS#8";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "PKCS#8";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    // XXX make constructor in SunRsaSign provider public
-                    // and call it directly
-                    KeyFactory factory = KeyFactory.getInstance
-                        ("RSA", P11Util.getSunRsaSignProvider());
-                    Key newKey = factory.translateKey(this);
-                    encoded = newKey.getEncoded();
-                } catch (GeneralSecurityException e) {
-                    throw new ProviderException(e);
+                    // XXX mbkf donstrudtor in SunRsbSign providfr publid
+                    // bnd dbll it dirfdtly
+                    KfyFbdtory fbdtory = KfyFbdtory.gftInstbndf
+                        ("RSA", P11Util.gftSunRsbSignProvidfr());
+                    Kfy nfwKfy = fbdtory.trbnslbtfKfy(tiis);
+                    fndodfd = nfwKfy.gftEndodfd();
+                } dbtdi (GfnfrblSfdurityExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getModulus() {
-            fetchValues();
-            return n;
+        publid BigIntfgfr gftModulus() {
+            fftdiVblufs();
+            rfturn n;
         }
-        public BigInteger getPrivateExponent() {
-            fetchValues();
-            return d;
+        publid BigIntfgfr gftPrivbtfExponfnt() {
+            fftdiVblufs();
+            rfturn d;
         }
     }
 
-    private static final class P11RSAPublicKey extends P11Key
-                                                implements RSAPublicKey {
-        private static final long serialVersionUID = -826726289023854455L;
+    privbtf stbtid finbl dlbss P11RSAPublidKfy fxtfnds P11Kfy
+                                                implfmfnts RSAPublidKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -826726289023854455L;
 
-        private BigInteger n, e;
-        private byte[] encoded;
-        P11RSAPublicKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PUBLIC, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr n, f;
+        privbtf bytf[] fndodfd;
+        P11RSAPublidKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PUBLIC, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (n != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
             };
-            fetchAttributes(attributes);
-            n = attributes[0].getBigInteger();
-            e = attributes[1].getBigInteger();
+            fftdiAttributfs(bttributfs);
+            n = bttributfs[0].gftBigIntfgfr();
+            f = bttributfs[1].gftBigIntfgfr();
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "X.509";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "X.509";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    encoded = new RSAPublicKeyImpl(n, e).getEncoded();
-                } catch (InvalidKeyException e) {
-                    throw new ProviderException(e);
+                    fndodfd = nfw RSAPublidKfyImpl(n, f).gftEndodfd();
+                } dbtdi (InvblidKfyExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getModulus() {
-            fetchValues();
-            return n;
+        publid BigIntfgfr gftModulus() {
+            fftdiVblufs();
+            rfturn n;
         }
-        public BigInteger getPublicExponent() {
-            fetchValues();
-            return e;
+        publid BigIntfgfr gftPublidExponfnt() {
+            fftdiVblufs();
+            rfturn f;
         }
-        public String toString() {
-            fetchValues();
-            return super.toString() +  "\n  modulus: " + n
-                + "\n  public exponent: " + e;
+        publid String toString() {
+            fftdiVblufs();
+            rfturn supfr.toString() +  "\n  modulus: " + n
+                + "\n  publid fxponfnt: " + f;
         }
     }
 
-    private static final class P11DSAPublicKey extends P11Key
-                                                implements DSAPublicKey {
-        private static final long serialVersionUID = 5989753793316396637L;
+    privbtf stbtid finbl dlbss P11DSAPublidKfy fxtfnds P11Kfy
+                                                implfmfnts DSAPublidKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = 5989753793316396637L;
 
-        private BigInteger y;
-        private DSAParams params;
-        private byte[] encoded;
-        P11DSAPublicKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PUBLIC, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr y;
+        privbtf DSAPbrbms pbrbms;
+        privbtf bytf[] fndodfd;
+        P11DSAPublidKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PUBLIC, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (y != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_PRIME),
-                new CK_ATTRIBUTE(CKA_SUBPRIME),
-                new CK_ATTRIBUTE(CKA_BASE),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_SUBPRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
             };
-            fetchAttributes(attributes);
-            y = attributes[0].getBigInteger();
-            params = new DSAParameterSpec(
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger()
+            fftdiAttributfs(bttributfs);
+            y = bttributfs[0].gftBigIntfgfr();
+            pbrbms = nfw DSAPbrbmftfrSpfd(
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr(),
+                bttributfs[3].gftBigIntfgfr()
             );
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "X.509";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "X.509";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    Key key = new sun.security.provider.DSAPublicKey
-                            (y, params.getP(), params.getQ(), params.getG());
-                    encoded = key.getEncoded();
-                } catch (InvalidKeyException e) {
-                    throw new ProviderException(e);
+                    Kfy kfy = nfw sun.sfdurity.providfr.DSAPublidKfy
+                            (y, pbrbms.gftP(), pbrbms.gftQ(), pbrbms.gftG());
+                    fndodfd = kfy.gftEndodfd();
+                } dbtdi (InvblidKfyExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getY() {
-            fetchValues();
-            return y;
+        publid BigIntfgfr gftY() {
+            fftdiVblufs();
+            rfturn y;
         }
-        public DSAParams getParams() {
-            fetchValues();
-            return params;
+        publid DSAPbrbms gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
-        public String toString() {
-            fetchValues();
-            return super.toString() +  "\n  y: " + y + "\n  p: " + params.getP()
-                + "\n  q: " + params.getQ() + "\n  g: " + params.getG();
+        publid String toString() {
+            fftdiVblufs();
+            rfturn supfr.toString() +  "\n  y: " + y + "\n  p: " + pbrbms.gftP()
+                + "\n  q: " + pbrbms.gftQ() + "\n  g: " + pbrbms.gftG();
         }
     }
 
-    private static final class P11DSAPrivateKey extends P11Key
-                                                implements DSAPrivateKey {
-        private static final long serialVersionUID = 3119629997181999389L;
+    privbtf stbtid finbl dlbss P11DSAPrivbtfKfy fxtfnds P11Kfy
+                                                implfmfnts DSAPrivbtfKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = 3119629997181999389L;
 
-        private BigInteger x;
-        private DSAParams params;
-        private byte[] encoded;
-        P11DSAPrivateKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr x;
+        privbtf DSAPbrbms pbrbms;
+        privbtf bytf[] fndodfd;
+        P11DSAPrivbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (x != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_PRIME),
-                new CK_ATTRIBUTE(CKA_SUBPRIME),
-                new CK_ATTRIBUTE(CKA_BASE),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_SUBPRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
             };
-            fetchAttributes(attributes);
-            x = attributes[0].getBigInteger();
-            params = new DSAParameterSpec(
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger()
+            fftdiAttributfs(bttributfs);
+            x = bttributfs[0].gftBigIntfgfr();
+            pbrbms = nfw DSAPbrbmftfrSpfd(
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr(),
+                bttributfs[3].gftBigIntfgfr()
             );
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "PKCS#8";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "PKCS#8";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    Key key = new sun.security.provider.DSAPrivateKey
-                            (x, params.getP(), params.getQ(), params.getG());
-                    encoded = key.getEncoded();
-                } catch (InvalidKeyException e) {
-                    throw new ProviderException(e);
+                    Kfy kfy = nfw sun.sfdurity.providfr.DSAPrivbtfKfy
+                            (x, pbrbms.gftP(), pbrbms.gftQ(), pbrbms.gftG());
+                    fndodfd = kfy.gftEndodfd();
+                } dbtdi (InvblidKfyExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getX() {
-            fetchValues();
-            return x;
+        publid BigIntfgfr gftX() {
+            fftdiVblufs();
+            rfturn x;
         }
-        public DSAParams getParams() {
-            fetchValues();
-            return params;
+        publid DSAPbrbms gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
     }
 
-    private static final class P11DHPrivateKey extends P11Key
-                                                implements DHPrivateKey {
-        private static final long serialVersionUID = -1698576167364928838L;
+    privbtf stbtid finbl dlbss P11DHPrivbtfKfy fxtfnds P11Kfy
+                                                implfmfnts DHPrivbtfKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -1698576167364928838L;
 
-        private BigInteger x;
-        private DHParameterSpec params;
-        private byte[] encoded;
-        P11DHPrivateKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr x;
+        privbtf DHPbrbmftfrSpfd pbrbms;
+        privbtf bytf[] fndodfd;
+        P11DHPrivbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (x != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_PRIME),
-                new CK_ATTRIBUTE(CKA_BASE),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
             };
-            fetchAttributes(attributes);
-            x = attributes[0].getBigInteger();
-            params = new DHParameterSpec(
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger()
+            fftdiAttributfs(bttributfs);
+            x = bttributfs[0].gftBigIntfgfr();
+            pbrbms = nfw DHPbrbmftfrSpfd(
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr()
             );
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "PKCS#8";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "PKCS#8";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    DHPrivateKeySpec spec = new DHPrivateKeySpec
-                        (x, params.getP(), params.getG());
-                    KeyFactory kf = KeyFactory.getInstance
-                        ("DH", P11Util.getSunJceProvider());
-                    Key key = kf.generatePrivate(spec);
-                    encoded = key.getEncoded();
-                } catch (GeneralSecurityException e) {
-                    throw new ProviderException(e);
+                    DHPrivbtfKfySpfd spfd = nfw DHPrivbtfKfySpfd
+                        (x, pbrbms.gftP(), pbrbms.gftG());
+                    KfyFbdtory kf = KfyFbdtory.gftInstbndf
+                        ("DH", P11Util.gftSunJdfProvidfr());
+                    Kfy kfy = kf.gfnfrbtfPrivbtf(spfd);
+                    fndodfd = kfy.gftEndodfd();
+                } dbtdi (GfnfrblSfdurityExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getX() {
-            fetchValues();
-            return x;
+        publid BigIntfgfr gftX() {
+            fftdiVblufs();
+            rfturn x;
         }
-        public DHParameterSpec getParams() {
-            fetchValues();
-            return params;
+        publid DHPbrbmftfrSpfd gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
-        public int hashCode() {
-            if (token.isValid() == false) {
-                return 0;
+        publid int ibsiCodf() {
+            if (tokfn.isVblid() == fblsf) {
+                rfturn 0;
             }
-            fetchValues();
-            return Objects.hash(x, params.getP(), params.getG());
+            fftdiVblufs();
+            rfturn Objfdts.ibsi(x, pbrbms.gftP(), pbrbms.gftG());
         }
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            // equals() should never throw exceptions
-            if (token.isValid() == false) {
-                return false;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) rfturn truf;
+            // fqubls() siould nfvfr tirow fxdfptions
+            if (tokfn.isVblid() == fblsf) {
+                rfturn fblsf;
             }
-            if (!(obj instanceof DHPrivateKey)) {
-                return false;
+            if (!(obj instbndfof DHPrivbtfKfy)) {
+                rfturn fblsf;
             }
-            fetchValues();
-            DHPrivateKey other = (DHPrivateKey) obj;
-            DHParameterSpec otherParams = other.getParams();
-            return ((this.x.compareTo(other.getX()) == 0) &&
-                    (this.params.getP().compareTo(otherParams.getP()) == 0) &&
-                    (this.params.getG().compareTo(otherParams.getG()) == 0));
+            fftdiVblufs();
+            DHPrivbtfKfy otifr = (DHPrivbtfKfy) obj;
+            DHPbrbmftfrSpfd otifrPbrbms = otifr.gftPbrbms();
+            rfturn ((tiis.x.dompbrfTo(otifr.gftX()) == 0) &&
+                    (tiis.pbrbms.gftP().dompbrfTo(otifrPbrbms.gftP()) == 0) &&
+                    (tiis.pbrbms.gftG().dompbrfTo(otifrPbrbms.gftG()) == 0));
         }
     }
 
-    private static final class P11DHPublicKey extends P11Key
-                                                implements DHPublicKey {
-        static final long serialVersionUID = -598383872153843657L;
+    privbtf stbtid finbl dlbss P11DHPublidKfy fxtfnds P11Kfy
+                                                implfmfnts DHPublidKfy {
+        stbtid finbl long sfriblVfrsionUID = -598383872153843657L;
 
-        private BigInteger y;
-        private DHParameterSpec params;
-        private byte[] encoded;
-        P11DHPublicKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PUBLIC, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr y;
+        privbtf DHPbrbmftfrSpfd pbrbms;
+        privbtf bytf[] fndodfd;
+        P11DHPublidKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PUBLIC, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (y != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_PRIME),
-                new CK_ATTRIBUTE(CKA_BASE),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
             };
-            fetchAttributes(attributes);
-            y = attributes[0].getBigInteger();
-            params = new DHParameterSpec(
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger()
+            fftdiAttributfs(bttributfs);
+            y = bttributfs[0].gftBigIntfgfr();
+            pbrbms = nfw DHPbrbmftfrSpfd(
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr()
             );
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "X.509";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "X.509";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    DHPublicKeySpec spec = new DHPublicKeySpec
-                        (y, params.getP(), params.getG());
-                    KeyFactory kf = KeyFactory.getInstance
-                        ("DH", P11Util.getSunJceProvider());
-                    Key key = kf.generatePublic(spec);
-                    encoded = key.getEncoded();
-                } catch (GeneralSecurityException e) {
-                    throw new ProviderException(e);
+                    DHPublidKfySpfd spfd = nfw DHPublidKfySpfd
+                        (y, pbrbms.gftP(), pbrbms.gftG());
+                    KfyFbdtory kf = KfyFbdtory.gftInstbndf
+                        ("DH", P11Util.gftSunJdfProvidfr());
+                    Kfy kfy = kf.gfnfrbtfPublid(spfd);
+                    fndodfd = kfy.gftEndodfd();
+                } dbtdi (GfnfrblSfdurityExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getY() {
-            fetchValues();
-            return y;
+        publid BigIntfgfr gftY() {
+            fftdiVblufs();
+            rfturn y;
         }
-        public DHParameterSpec getParams() {
-            fetchValues();
-            return params;
+        publid DHPbrbmftfrSpfd gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
-        public String toString() {
-            fetchValues();
-            return super.toString() +  "\n  y: " + y + "\n  p: " + params.getP()
-                + "\n  g: " + params.getG();
+        publid String toString() {
+            fftdiVblufs();
+            rfturn supfr.toString() +  "\n  y: " + y + "\n  p: " + pbrbms.gftP()
+                + "\n  g: " + pbrbms.gftG();
         }
-        public int hashCode() {
-            if (token.isValid() == false) {
-                return 0;
+        publid int ibsiCodf() {
+            if (tokfn.isVblid() == fblsf) {
+                rfturn 0;
             }
-            fetchValues();
-            return Objects.hash(y, params.getP(), params.getG());
+            fftdiVblufs();
+            rfturn Objfdts.ibsi(y, pbrbms.gftP(), pbrbms.gftG());
         }
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            // equals() should never throw exceptions
-            if (token.isValid() == false) {
-                return false;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) rfturn truf;
+            // fqubls() siould nfvfr tirow fxdfptions
+            if (tokfn.isVblid() == fblsf) {
+                rfturn fblsf;
             }
-            if (!(obj instanceof DHPublicKey)) {
-                return false;
+            if (!(obj instbndfof DHPublidKfy)) {
+                rfturn fblsf;
             }
-            fetchValues();
-            DHPublicKey other = (DHPublicKey) obj;
-            DHParameterSpec otherParams = other.getParams();
-            return ((this.y.compareTo(other.getY()) == 0) &&
-                    (this.params.getP().compareTo(otherParams.getP()) == 0) &&
-                    (this.params.getG().compareTo(otherParams.getG()) == 0));
+            fftdiVblufs();
+            DHPublidKfy otifr = (DHPublidKfy) obj;
+            DHPbrbmftfrSpfd otifrPbrbms = otifr.gftPbrbms();
+            rfturn ((tiis.y.dompbrfTo(otifr.gftY()) == 0) &&
+                    (tiis.pbrbms.gftP().dompbrfTo(otifrPbrbms.gftP()) == 0) &&
+                    (tiis.pbrbms.gftG().dompbrfTo(otifrPbrbms.gftG()) == 0));
         }
     }
 
-    private static final class P11ECPrivateKey extends P11Key
-                                                implements ECPrivateKey {
-        private static final long serialVersionUID = -7786054399510515515L;
+    privbtf stbtid finbl dlbss P11ECPrivbtfKfy fxtfnds P11Kfy
+                                                implfmfnts ECPrivbtfKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7786054399510515515L;
 
-        private BigInteger s;
-        private ECParameterSpec params;
-        private byte[] encoded;
-        P11ECPrivateKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PRIVATE, session, keyID, algorithm, keyLength, attributes);
+        privbtf BigIntfgfr s;
+        privbtf ECPbrbmftfrSpfd pbrbms;
+        privbtf bytf[] fndodfd;
+        P11ECPrivbtfKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PRIVATE, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (s != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_EC_PARAMS, params),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_EC_PARAMS, pbrbms),
             };
-            fetchAttributes(attributes);
-            s = attributes[0].getBigInteger();
+            fftdiAttributfs(bttributfs);
+            s = bttributfs[0].gftBigIntfgfr();
             try {
-                params = P11ECKeyFactory.decodeParameters
-                            (attributes[1].getByteArray());
-            } catch (Exception e) {
-                throw new RuntimeException("Could not parse key values", e);
+                pbrbms = P11ECKfyFbdtory.dfdodfPbrbmftfrs
+                            (bttributfs[1].gftBytfArrby());
+            } dbtdi (Exdfption f) {
+                tirow nfw RuntimfExdfption("Could not pbrsf kfy vblufs", f);
             }
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "PKCS#8";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "PKCS#8";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    Key key = ECUtil.generateECPrivateKey(s, params);
-                    encoded = key.getEncoded();
-                } catch (InvalidKeySpecException e) {
-                    throw new ProviderException(e);
+                    Kfy kfy = ECUtil.gfnfrbtfECPrivbtfKfy(s, pbrbms);
+                    fndodfd = kfy.gftEndodfd();
+                } dbtdi (InvblidKfySpfdExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public BigInteger getS() {
-            fetchValues();
-            return s;
+        publid BigIntfgfr gftS() {
+            fftdiVblufs();
+            rfturn s;
         }
-        public ECParameterSpec getParams() {
-            fetchValues();
-            return params;
+        publid ECPbrbmftfrSpfd gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
     }
 
-    private static final class P11ECPublicKey extends P11Key
-                                                implements ECPublicKey {
-        private static final long serialVersionUID = -6371481375154806089L;
+    privbtf stbtid finbl dlbss P11ECPublidKfy fxtfnds P11Kfy
+                                                implfmfnts ECPublidKfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6371481375154806089L;
 
-        private ECPoint w;
-        private ECParameterSpec params;
-        private byte[] encoded;
-        P11ECPublicKey(Session session, long keyID, String algorithm,
-                int keyLength, CK_ATTRIBUTE[] attributes) {
-            super(PUBLIC, session, keyID, algorithm, keyLength, attributes);
+        privbtf ECPoint w;
+        privbtf ECPbrbmftfrSpfd pbrbms;
+        privbtf bytf[] fndodfd;
+        P11ECPublidKfy(Sfssion sfssion, long kfyID, String blgoritim,
+                int kfyLfngti, CK_ATTRIBUTE[] bttributfs) {
+            supfr(PUBLIC, sfssion, kfyID, blgoritim, kfyLfngti, bttributfs);
         }
-        private synchronized void fetchValues() {
-            token.ensureValid();
+        privbtf syndironizfd void fftdiVblufs() {
+            tokfn.fnsurfVblid();
             if (w != null) {
-                return;
+                rfturn;
             }
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_EC_POINT),
-                new CK_ATTRIBUTE(CKA_EC_PARAMS),
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_EC_POINT),
+                nfw CK_ATTRIBUTE(CKA_EC_PARAMS),
             };
-            fetchAttributes(attributes);
+            fftdiAttributfs(bttributfs);
 
             try {
-                params = P11ECKeyFactory.decodeParameters
-                            (attributes[1].getByteArray());
-                byte[] ecKey = attributes[0].getByteArray();
+                pbrbms = P11ECKfyFbdtory.dfdodfPbrbmftfrs
+                            (bttributfs[1].gftBytfArrby());
+                bytf[] fdKfy = bttributfs[0].gftBytfArrby();
 
-                // Check whether the X9.63 encoding of an EC point is wrapped
-                // in an ASN.1 OCTET STRING
-                if (!token.config.getUseEcX963Encoding()) {
-                    DerValue wECPoint = new DerValue(ecKey);
+                // Cifdk wiftifr tif X9.63 fndoding of bn EC point is wrbppfd
+                // in bn ASN.1 OCTET STRING
+                if (!tokfn.donfig.gftUsfEdX963Endoding()) {
+                    DfrVbluf wECPoint = nfw DfrVbluf(fdKfy);
 
-                    if (wECPoint.getTag() != DerValue.tag_OctetString) {
-                        throw new IOException("Could not DER decode EC point." +
-                            " Unexpected tag: " + wECPoint.getTag());
+                    if (wECPoint.gftTbg() != DfrVbluf.tbg_OdtftString) {
+                        tirow nfw IOExdfption("Could not DER dfdodf EC point." +
+                            " Unfxpfdtfd tbg: " + wECPoint.gftTbg());
                     }
-                    w = P11ECKeyFactory.decodePoint
-                        (wECPoint.getDataBytes(), params.getCurve());
+                    w = P11ECKfyFbdtory.dfdodfPoint
+                        (wECPoint.gftDbtbBytfs(), pbrbms.gftCurvf());
 
-                } else {
-                    w = P11ECKeyFactory.decodePoint(ecKey, params.getCurve());
+                } flsf {
+                    w = P11ECKfyFbdtory.dfdodfPoint(fdKfy, pbrbms.gftCurvf());
                 }
 
-            } catch (Exception e) {
-                throw new RuntimeException("Could not parse key values", e);
+            } dbtdi (Exdfption f) {
+                tirow nfw RuntimfExdfption("Could not pbrsf kfy vblufs", f);
             }
         }
-        public String getFormat() {
-            token.ensureValid();
-            return "X.509";
+        publid String gftFormbt() {
+            tokfn.fnsurfVblid();
+            rfturn "X.509";
         }
-        synchronized byte[] getEncodedInternal() {
-            token.ensureValid();
-            if (encoded == null) {
-                fetchValues();
+        syndironizfd bytf[] gftEndodfdIntfrnbl() {
+            tokfn.fnsurfVblid();
+            if (fndodfd == null) {
+                fftdiVblufs();
                 try {
-                    return ECUtil.x509EncodeECPublicKey(w, params);
-                } catch (InvalidKeySpecException e) {
-                    throw new ProviderException(e);
+                    rfturn ECUtil.x509EndodfECPublidKfy(w, pbrbms);
+                } dbtdi (InvblidKfySpfdExdfption f) {
+                    tirow nfw ProvidfrExdfption(f);
                 }
             }
-            return encoded;
+            rfturn fndodfd;
         }
-        public ECPoint getW() {
-            fetchValues();
-            return w;
+        publid ECPoint gftW() {
+            fftdiVblufs();
+            rfturn w;
         }
-        public ECParameterSpec getParams() {
-            fetchValues();
-            return params;
+        publid ECPbrbmftfrSpfd gftPbrbms() {
+            fftdiVblufs();
+            rfturn pbrbms;
         }
-        public String toString() {
-            fetchValues();
-            return super.toString()
-                + "\n  public x coord: " + w.getAffineX()
-                + "\n  public y coord: " + w.getAffineY()
-                + "\n  parameters: " + params;
+        publid String toString() {
+            fftdiVblufs();
+            rfturn supfr.toString()
+                + "\n  publid x doord: " + w.gftAffinfX()
+                + "\n  publid y doord: " + w.gftAffinfY()
+                + "\n  pbrbmftfrs: " + pbrbms;
         }
     }
 }
 
 /*
- * NOTE: Must use PhantomReference here and not WeakReference
- * otherwise the key maybe cleared before other objects which
- * still use these keys during finalization such as SSLSocket.
+ * NOTE: Must usf PibntomRfffrfndf ifrf bnd not WfbkRfffrfndf
+ * otifrwisf tif kfy mbybf dlfbrfd bfforf otifr objfdts wiidi
+ * still usf tifsf kfys during finblizbtion sudi bs SSLSodkft.
  */
-final class SessionKeyRef extends PhantomReference<P11Key>
-    implements Comparable<SessionKeyRef> {
-    private static ReferenceQueue<P11Key> refQueue =
-        new ReferenceQueue<P11Key>();
-    private static Set<SessionKeyRef> refList =
-        Collections.synchronizedSortedSet(new TreeSet<SessionKeyRef>());
+finbl dlbss SfssionKfyRff fxtfnds PibntomRfffrfndf<P11Kfy>
+    implfmfnts Compbrbblf<SfssionKfyRff> {
+    privbtf stbtid RfffrfndfQufuf<P11Kfy> rffQufuf =
+        nfw RfffrfndfQufuf<P11Kfy>();
+    privbtf stbtid Sft<SfssionKfyRff> rffList =
+        Collfdtions.syndironizfdSortfdSft(nfw TrffSft<SfssionKfyRff>());
 
-    static ReferenceQueue<P11Key> referenceQueue() {
-        return refQueue;
+    stbtid RfffrfndfQufuf<P11Kfy> rfffrfndfQufuf() {
+        rfturn rffQufuf;
     }
 
-    private static void drainRefQueueBounded() {
-        while (true) {
-            SessionKeyRef next = (SessionKeyRef) refQueue.poll();
-            if (next == null) break;
-            next.dispose();
+    privbtf stbtid void drbinRffQufufBoundfd() {
+        wiilf (truf) {
+            SfssionKfyRff nfxt = (SfssionKfyRff) rffQufuf.poll();
+            if (nfxt == null) brfbk;
+            nfxt.disposf();
         }
     }
 
-    // handle to the native key
-    private long keyID;
-    private Session session;
+    // ibndlf to tif nbtivf kfy
+    privbtf long kfyID;
+    privbtf Sfssion sfssion;
 
-    SessionKeyRef(P11Key key , long keyID, Session session) {
-        super(key, refQueue);
-        this.keyID = keyID;
-        this.session = session;
-        this.session.addObject();
-        refList.add(this);
-        // TBD: run at some interval and not every time?
-        drainRefQueueBounded();
+    SfssionKfyRff(P11Kfy kfy , long kfyID, Sfssion sfssion) {
+        supfr(kfy, rffQufuf);
+        tiis.kfyID = kfyID;
+        tiis.sfssion = sfssion;
+        tiis.sfssion.bddObjfdt();
+        rffList.bdd(tiis);
+        // TBD: run bt somf intfrvbl bnd not fvfry timf?
+        drbinRffQufufBoundfd();
     }
 
-    private void dispose() {
-        refList.remove(this);
-        if (session.token.isValid()) {
-            Session newSession = null;
+    privbtf void disposf() {
+        rffList.rfmovf(tiis);
+        if (sfssion.tokfn.isVblid()) {
+            Sfssion nfwSfssion = null;
             try {
-                newSession = session.token.getOpSession();
-                session.token.p11.C_DestroyObject(newSession.id(), keyID);
-            } catch (PKCS11Exception e) {
-                // ignore
-            } finally {
-                this.clear();
-                session.token.releaseSession(newSession);
-                session.removeObject();
+                nfwSfssion = sfssion.tokfn.gftOpSfssion();
+                sfssion.tokfn.p11.C_DfstroyObjfdt(nfwSfssion.id(), kfyID);
+            } dbtdi (PKCS11Exdfption f) {
+                // ignorf
+            } finblly {
+                tiis.dlfbr();
+                sfssion.tokfn.rflfbsfSfssion(nfwSfssion);
+                sfssion.rfmovfObjfdt();
             }
         }
     }
 
-    public int compareTo(SessionKeyRef other) {
-        if (this.keyID == other.keyID) {
-            return 0;
-        } else {
-            return (this.keyID < other.keyID) ? -1 : 1;
+    publid int dompbrfTo(SfssionKfyRff otifr) {
+        if (tiis.kfyID == otifr.kfyID) {
+            rfturn 0;
+        } flsf {
+            rfturn (tiis.kfyID < otifr.kfyID) ? -1 : 1;
         }
     }
 }

@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrfbm;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
 
-import javax.print.DocFlavor;
+import jbvbx.print.DodFlbvor;
 
-import sun.awt.AppContext;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import sun.bwt.AppContfxt;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
 
 /**
- * A <code>StreamPrintServiceFactory</code> is the factory for
- * {@link StreamPrintService} instances,
- * which can print to an output stream in a particular
- * document format described as a mime type.
- * A typical output document format may be Postscript(TM).
+ * A <dodf>StrfbmPrintSfrvidfFbdtory</dodf> is tif fbdtory for
+ * {@link StrfbmPrintSfrvidf} instbndfs,
+ * wiidi dbn print to bn output strfbm in b pbrtidulbr
+ * dodumfnt formbt dfsdribfd bs b mimf typf.
+ * A typidbl output dodumfnt formbt mby bf Postsdript(TM).
  * <p>
- * This class is implemented by a service and located by the
- * implementation using the
- * <a href="../../../technotes/guides/jar/jar.html#Service%20Provider">
- * SPI JAR File specification</a>.
+ * Tiis dlbss is implfmfntfd by b sfrvidf bnd lodbtfd by tif
+ * implfmfntbtion using tif
+ * <b irff="../../../tfdinotfs/guidfs/jbr/jbr.itml#Sfrvidf%20Providfr">
+ * SPI JAR Filf spfdifidbtion</b>.
  * <p>
- * Applications locate instances of this class by calling the
- * {@link #lookupStreamPrintServiceFactories(DocFlavor, String)} method.
+ * Applidbtions lodbtf instbndfs of tiis dlbss by dblling tif
+ * {@link #lookupStrfbmPrintSfrvidfFbdtorifs(DodFlbvor, String)} mftiod.
  * <p>
- * Applications can use a <code>StreamPrintService</code> obtained from a
- * factory in place of a <code>PrintService</code> which represents a
- * physical printer device.
+ * Applidbtions dbn usf b <dodf>StrfbmPrintSfrvidf</dodf> obtbinfd from b
+ * fbdtory in plbdf of b <dodf>PrintSfrvidf</dodf> wiidi rfprfsfnts b
+ * piysidbl printfr dfvidf.
  */
 
-public abstract class StreamPrintServiceFactory {
+publid bbstrbdt dlbss StrfbmPrintSfrvidfFbdtory {
 
-    static class Services {
-        private ArrayList<StreamPrintServiceFactory> listOfFactories = null;
+    stbtid dlbss Sfrvidfs {
+        privbtf ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = null;
     }
 
-    private static Services getServices() {
-        Services services =
-            (Services)AppContext.getAppContext().get(Services.class);
-        if (services == null) {
-            services = new Services();
-            AppContext.getAppContext().put(Services.class, services);
+    privbtf stbtid Sfrvidfs gftSfrvidfs() {
+        Sfrvidfs sfrvidfs =
+            (Sfrvidfs)AppContfxt.gftAppContfxt().gft(Sfrvidfs.dlbss);
+        if (sfrvidfs == null) {
+            sfrvidfs = nfw Sfrvidfs();
+            AppContfxt.gftAppContfxt().put(Sfrvidfs.dlbss, sfrvidfs);
         }
-        return services;
+        rfturn sfrvidfs;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> getListOfFactories() {
-        return getServices().listOfFactories;
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftListOfFbdtorifs() {
+        rfturn gftSfrvidfs().listOfFbdtorifs;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> initListOfFactories() {
-        ArrayList<StreamPrintServiceFactory> listOfFactories = new ArrayList<>();
-        getServices().listOfFactories = listOfFactories;
-        return listOfFactories;
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> initListOfFbdtorifs() {
+        ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = nfw ArrbyList<>();
+        gftSfrvidfs().listOfFbdtorifs = listOfFbdtorifs;
+        rfturn listOfFbdtorifs;
     }
 
     /**
-     * Locates factories for print services that can be used with
-     * a print job to output a stream of data in the
-     * format specified by {@code outputMimeType}.
+     * Lodbtfs fbdtorifs for print sfrvidfs tibt dbn bf usfd witi
+     * b print job to output b strfbm of dbtb in tif
+     * formbt spfdififd by {@dodf outputMimfTypf}.
      * <p>
-     * The {@code outputMimeType} parameter describes the document type that
-     * you want to create, whereas the {@code flavor} parameter describes the
-     * format in which the input data will be provided by the application
-     * to the {@code StreamPrintService}.
+     * Tif {@dodf outputMimfTypf} pbrbmftfr dfsdribfs tif dodumfnt typf tibt
+     * you wbnt to drfbtf, wifrfbs tif {@dodf flbvor} pbrbmftfr dfsdribfs tif
+     * formbt in wiidi tif input dbtb will bf providfd by tif bpplidbtion
+     * to tif {@dodf StrfbmPrintSfrvidf}.
      * <p>
-     * Although null is an acceptable value to use in the lookup of stream
-     * printing services, it's typical to search for a particular
-     * desired format, such as Postscript(TM).
+     * Altiougi null is bn bddfptbblf vbluf to usf in tif lookup of strfbm
+     * printing sfrvidfs, it's typidbl to sfbrdi for b pbrtidulbr
+     * dfsirfd formbt, sudi bs Postsdript(TM).
      *
-     * @param flavor of the input document type - null means match all
-     * types.
-     * @param outputMimeType representing the required output format, used to
-     * identify suitable stream printer factories. A value of null means
-     * match all formats.
-     * @return - matching factories for stream print service instance,
-     *           empty if no suitable factories could be located.
+     * @pbrbm flbvor of tif input dodumfnt typf - null mfbns mbtdi bll
+     * typfs.
+     * @pbrbm outputMimfTypf rfprfsfnting tif rfquirfd output formbt, usfd to
+     * idfntify suitbblf strfbm printfr fbdtorifs. A vbluf of null mfbns
+     * mbtdi bll formbts.
+     * @rfturn - mbtdiing fbdtorifs for strfbm print sfrvidf instbndf,
+     *           fmpty if no suitbblf fbdtorifs dould bf lodbtfd.
      */
-     public static StreamPrintServiceFactory[]
-         lookupStreamPrintServiceFactories(DocFlavor flavor,
-                                           String outputMimeType) {
+     publid stbtid StrfbmPrintSfrvidfFbdtory[]
+         lookupStrfbmPrintSfrvidfFbdtorifs(DodFlbvor flbvor,
+                                           String outputMimfTypf) {
 
-         ArrayList<StreamPrintServiceFactory> list = getFactories(flavor, outputMimeType);
-         return list.toArray(new StreamPrintServiceFactory[list.size()]);
+         ArrbyList<StrfbmPrintSfrvidfFbdtory> list = gftFbdtorifs(flbvor, outputMimfTypf);
+         rfturn list.toArrby(nfw StrfbmPrintSfrvidfFbdtory[list.sizf()]);
      }
 
-    /** Queries the factory for the document format that is emitted
-     * by printers obtained from this factory.
+    /** Qufrifs tif fbdtory for tif dodumfnt formbt tibt is fmittfd
+     * by printfrs obtbinfd from tiis fbdtory.
      *
-     * @return the output format described as a mime type.
+     * @rfturn tif output formbt dfsdribfd bs b mimf typf.
      */
-    public abstract String getOutputFormat();
+    publid bbstrbdt String gftOutputFormbt();
 
     /**
-     * Queries the factory for the document flavors that can be accepted
-     * by printers obtained from this factory.
-     * @return array of supported doc flavors.
+     * Qufrifs tif fbdtory for tif dodumfnt flbvors tibt dbn bf bddfptfd
+     * by printfrs obtbinfd from tiis fbdtory.
+     * @rfturn brrby of supportfd dod flbvors.
      */
-    public abstract DocFlavor[] getSupportedDocFlavors();
+    publid bbstrbdt DodFlbvor[] gftSupportfdDodFlbvors();
 
     /**
-     * Returns a <code>StreamPrintService</code> that can print to
-     * the specified output stream.
-     * The output stream is created and managed by the application.
-     * It is the application's responsibility to close the stream and
-     * to ensure that this Printer is not reused.
-     * The application should not close this stream until any print job
-     * created from the printer is complete. Doing so earlier may generate
-     * a <code>PrinterException</code> and an event indicating that the
-     * job failed.
+     * Rfturns b <dodf>StrfbmPrintSfrvidf</dodf> tibt dbn print to
+     * tif spfdififd output strfbm.
+     * Tif output strfbm is drfbtfd bnd mbnbgfd by tif bpplidbtion.
+     * It is tif bpplidbtion's rfsponsibility to dlosf tif strfbm bnd
+     * to fnsurf tibt tiis Printfr is not rfusfd.
+     * Tif bpplidbtion siould not dlosf tiis strfbm until bny print job
+     * drfbtfd from tif printfr is domplftf. Doing so fbrlifr mby gfnfrbtf
+     * b <dodf>PrintfrExdfption</dodf> bnd bn fvfnt indidbting tibt tif
+     * job fbilfd.
      * <p>
-     * Whereas a <code>PrintService</code> connected to a physical printer
-     * can be reused,
-     * a <code>StreamPrintService</code> connected to a stream cannot.
-     * The underlying <code>StreamPrintService</code> may be disposed by
-     * the print system with
-     * the {@link StreamPrintService#dispose() dispose} method
-     * before returning from the
-     * {@link DocPrintJob#print(Doc, javax.print.attribute.PrintRequestAttributeSet) print}
-     * method of <code>DocPrintJob</code> so that the print system knows
-     * this printer is no longer usable.
-     * This is equivalent to a physical printer going offline - permanently.
-     * Applications may supply a null print stream to create a queryable
-     * service. It is not valid to create a PrintJob for such a stream.
-     * Implementations which allocate resources on construction should examine
-     * the stream and may wish to only allocate resources if the stream is
+     * Wifrfbs b <dodf>PrintSfrvidf</dodf> donnfdtfd to b piysidbl printfr
+     * dbn bf rfusfd,
+     * b <dodf>StrfbmPrintSfrvidf</dodf> donnfdtfd to b strfbm dbnnot.
+     * Tif undfrlying <dodf>StrfbmPrintSfrvidf</dodf> mby bf disposfd by
+     * tif print systfm witi
+     * tif {@link StrfbmPrintSfrvidf#disposf() disposf} mftiod
+     * bfforf rfturning from tif
+     * {@link DodPrintJob#print(Dod, jbvbx.print.bttributf.PrintRfqufstAttributfSft) print}
+     * mftiod of <dodf>DodPrintJob</dodf> so tibt tif print systfm knows
+     * tiis printfr is no longfr usbblf.
+     * Tiis is fquivblfnt to b piysidbl printfr going offlinf - pfrmbnfntly.
+     * Applidbtions mby supply b null print strfbm to drfbtf b qufrybblf
+     * sfrvidf. It is not vblid to drfbtf b PrintJob for sudi b strfbm.
+     * Implfmfntbtions wiidi bllodbtf rfsourdfs on donstrudtion siould fxbminf
+     * tif strfbm bnd mby wisi to only bllodbtf rfsourdfs if tif strfbm is
      * non-null.
      *
-     * @param out destination stream for generated output.
-     * @return a PrintService which will generate the format specified by the
-     * DocFlavor supported by this Factory.
+     * @pbrbm out dfstinbtion strfbm for gfnfrbtfd output.
+     * @rfturn b PrintSfrvidf wiidi will gfnfrbtf tif formbt spfdififd by tif
+     * DodFlbvor supportfd by tiis Fbdtory.
      */
-    public abstract StreamPrintService getPrintService(OutputStream out);
+    publid bbstrbdt StrfbmPrintSfrvidf gftPrintSfrvidf(OutputStrfbm out);
 
 
-    private static ArrayList<StreamPrintServiceFactory> getAllFactories() {
-        synchronized (StreamPrintServiceFactory.class) {
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftAllFbdtorifs() {
+        syndironizfd (StrfbmPrintSfrvidfFbdtory.dlbss) {
 
-          ArrayList<StreamPrintServiceFactory> listOfFactories = getListOfFactories();
-            if (listOfFactories != null) {
-                return listOfFactories;
-            } else {
-                listOfFactories = initListOfFactories();
+          ArrbyList<StrfbmPrintSfrvidfFbdtory> listOfFbdtorifs = gftListOfFbdtorifs();
+            if (listOfFbdtorifs != null) {
+                rfturn listOfFbdtorifs;
+            } flsf {
+                listOfFbdtorifs = initListOfFbdtorifs();
             }
 
             try {
-                java.security.AccessController.doPrivileged(
-                     new java.security.PrivilegedExceptionAction<Object>() {
-                        public Object run() {
-                            Iterator<StreamPrintServiceFactory> iterator =
-                                ServiceLoader.load
-                                (StreamPrintServiceFactory.class).iterator();
-                            ArrayList<StreamPrintServiceFactory> lof = getListOfFactories();
-                            while (iterator.hasNext()) {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                     nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            Itfrbtor<StrfbmPrintSfrvidfFbdtory> itfrbtor =
+                                SfrvidfLobdfr.lobd
+                                (StrfbmPrintSfrvidfFbdtory.dlbss).itfrbtor();
+                            ArrbyList<StrfbmPrintSfrvidfFbdtory> lof = gftListOfFbdtorifs();
+                            wiilf (itfrbtor.ibsNfxt()) {
                                 try {
-                                    lof.add(iterator.next());
-                                }  catch (ServiceConfigurationError err) {
-                                     /* In the applet case, we continue */
-                                    if (System.getSecurityManager() != null) {
-                                        err.printStackTrace();
-                                    } else {
-                                        throw err;
+                                    lof.bdd(itfrbtor.nfxt());
+                                }  dbtdi (SfrvidfConfigurbtionError frr) {
+                                     /* In tif bpplft dbsf, wf dontinuf */
+                                    if (Systfm.gftSfdurityMbnbgfr() != null) {
+                                        frr.printStbdkTrbdf();
+                                    } flsf {
+                                        tirow frr;
                                     }
                                 }
                             }
-                            return null;
+                            rfturn null;
                         }
                 });
-            } catch (java.security.PrivilegedActionException e) {
+            } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
             }
-            return listOfFactories;
+            rfturn listOfFbdtorifs;
         }
     }
 
-    private static boolean isMember(DocFlavor flavor, DocFlavor[] flavors) {
-        for (int f=0; f<flavors.length; f++ ) {
-            if (flavor.equals(flavors[f])) {
-                return true;
+    privbtf stbtid boolfbn isMfmbfr(DodFlbvor flbvor, DodFlbvor[] flbvors) {
+        for (int f=0; f<flbvors.lfngti; f++ ) {
+            if (flbvor.fqubls(flbvors[f])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static ArrayList<StreamPrintServiceFactory> getFactories(DocFlavor flavor, String outType) {
+    privbtf stbtid ArrbyList<StrfbmPrintSfrvidfFbdtory> gftFbdtorifs(DodFlbvor flbvor, String outTypf) {
 
-        if (flavor == null && outType == null) {
-            return getAllFactories();
+        if (flbvor == null && outTypf == null) {
+            rfturn gftAllFbdtorifs();
         }
 
-        ArrayList<StreamPrintServiceFactory> list = new ArrayList<>();
-        Iterator<StreamPrintServiceFactory> iterator = getAllFactories().iterator();
-        while (iterator.hasNext()) {
-            StreamPrintServiceFactory factory = iterator.next();
-            if ((outType == null ||
-                 outType.equalsIgnoreCase(factory.getOutputFormat())) &&
-                (flavor == null ||
-                 isMember(flavor, factory.getSupportedDocFlavors()))) {
-                list.add(factory);
+        ArrbyList<StrfbmPrintSfrvidfFbdtory> list = nfw ArrbyList<>();
+        Itfrbtor<StrfbmPrintSfrvidfFbdtory> itfrbtor = gftAllFbdtorifs().itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            StrfbmPrintSfrvidfFbdtory fbdtory = itfrbtor.nfxt();
+            if ((outTypf == null ||
+                 outTypf.fqublsIgnorfCbsf(fbdtory.gftOutputFormbt())) &&
+                (flbvor == null ||
+                 isMfmbfr(flbvor, fbdtory.gftSupportfdDodFlbvors()))) {
+                list.bdd(fbdtory);
             }
         }
 
-        return list;
+        rfturn list;
     }
 
 }

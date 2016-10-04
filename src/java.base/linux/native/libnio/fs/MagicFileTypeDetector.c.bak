@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include <dlfcn.h>
-#include <string.h>
+#indludf <dlfdn.i>
+#indludf <string.i>
 
-#define MAGIC_MIME_TYPE 0x000010 /* Return the MIME type */
+#dffinf MAGIC_MIME_TYPE 0x000010 /* Rfturn tif MIME typf */
 
-typedef struct magic_set magic_t;
+typfdff strudt mbgid_sft mbgid_t;
 
-typedef magic_t* (*magic_open_func)(int flags);
-typedef int (*magic_load_func)(magic_t* cookie, const char* filename);
-typedef const char* (*magic_file_func)(magic_t* cookie, const char* filename);
-typedef void (*magic_close_func)(magic_t* cookie);
+typfdff mbgid_t* (*mbgid_opfn_fund)(int flbgs);
+typfdff int (*mbgid_lobd_fund)(mbgid_t* dookif, donst dibr* filfnbmf);
+typfdff donst dibr* (*mbgid_filf_fund)(mbgid_t* dookif, donst dibr* filfnbmf);
+typfdff void (*mbgid_dlosf_fund)(mbgid_t* dookif);
 
-static void* magic_handle;
-static magic_open_func magic_open;
-static magic_load_func magic_load;
-static magic_file_func magic_file;
-static magic_close_func magic_close;
+stbtid void* mbgid_ibndlf;
+stbtid mbgid_opfn_fund mbgid_opfn;
+stbtid mbgid_lobd_fund mbgid_lobd;
+stbtid mbgid_filf_fund mbgid_filf;
+stbtid mbgid_dlosf_fund mbgid_dlosf;
 
-#include "sun_nio_fs_MagicFileTypeDetector.h"
+#indludf "sun_nio_fs_MbgidFilfTypfDftfdtor.i"
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_fs_MagicFileTypeDetector_initialize0
-    (JNIEnv* env, jclass this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_fs_MbgidFilfTypfDftfdtor_initiblizf0
+    (JNIEnv* fnv, jdlbss tiis)
 {
-    magic_handle = dlopen("libmagic.so", RTLD_LAZY);
-    if (magic_handle == NULL) {
-        magic_handle = dlopen("libmagic.so.1", RTLD_LAZY);
-        if (magic_handle == NULL) {
-            return JNI_FALSE;
+    mbgid_ibndlf = dlopfn("libmbgid.so", RTLD_LAZY);
+    if (mbgid_ibndlf == NULL) {
+        mbgid_ibndlf = dlopfn("libmbgid.so.1", RTLD_LAZY);
+        if (mbgid_ibndlf == NULL) {
+            rfturn JNI_FALSE;
         }
     }
 
-    magic_open = (magic_open_func)dlsym(magic_handle, "magic_open");
+    mbgid_opfn = (mbgid_opfn_fund)dlsym(mbgid_ibndlf, "mbgid_opfn");
 
-    magic_load = (magic_load_func)dlsym(magic_handle, "magic_load");
+    mbgid_lobd = (mbgid_lobd_fund)dlsym(mbgid_ibndlf, "mbgid_lobd");
 
-    magic_file = (magic_file_func)dlsym(magic_handle, "magic_file");
+    mbgid_filf = (mbgid_filf_fund)dlsym(mbgid_ibndlf, "mbgid_filf");
 
-    magic_close = (magic_close_func)dlsym(magic_handle, "magic_close");
+    mbgid_dlosf = (mbgid_dlosf_fund)dlsym(mbgid_ibndlf, "mbgid_dlosf");
 
-    if (magic_open == NULL ||
-        magic_load == NULL ||
-        magic_file == NULL ||
-        magic_close == NULL)
+    if (mbgid_opfn == NULL ||
+        mbgid_lobd == NULL ||
+        mbgid_filf == NULL ||
+        mbgid_dlosf == NULL)
     {
-        dlclose(magic_handle);
-        return JNI_FALSE;
+        dldlosf(mbgid_ibndlf);
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_MagicFileTypeDetector_probe0
-    (JNIEnv* env, jclass this, jlong pathAddress)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_MbgidFilfTypfDftfdtor_probf0
+    (JNIEnv* fnv, jdlbss tiis, jlong pbtiAddrfss)
 {
-    char* path = (char*)jlong_to_ptr(pathAddress);
-    magic_t* cookie;
-    jbyteArray result = NULL;
+    dibr* pbti = (dibr*)jlong_to_ptr(pbtiAddrfss);
+    mbgid_t* dookif;
+    jbytfArrby rfsult = NULL;
 
-    cookie = (*magic_open)(MAGIC_MIME_TYPE);
+    dookif = (*mbgid_opfn)(MAGIC_MIME_TYPE);
 
-    if (cookie != NULL) {
-        if ((*magic_load)(cookie, NULL) != -1) {
-            const char* type = (*magic_file)(cookie, path);
-            if (type != NULL) {
-                jsize len = strlen(type);
-                result = (*env)->NewByteArray(env, len);
-                if (result != NULL) {
-                    (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)type);
+    if (dookif != NULL) {
+        if ((*mbgid_lobd)(dookif, NULL) != -1) {
+            donst dibr* typf = (*mbgid_filf)(dookif, pbti);
+            if (typf != NULL) {
+                jsizf lfn = strlfn(typf);
+                rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+                if (rfsult != NULL) {
+                    (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)typf);
                 }
             }
         }
-        (*magic_close)(cookie);
+        (*mbgid_dlosf)(dookif);
     }
 
-    return result;
+    rfturn rfsult;
 }

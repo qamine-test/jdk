@@ -1,0 +1,314 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+/**
+ * <dodf>FifldPosition</dodf> is b simplf dlbss usfd by <dodf>Formbt</dodf>
+ * bnd its subdlbssfs to idfntify fiflds in formbttfd output. Fiflds dbn
+ * bf idfntififd in two wbys:
+ * <ul>
+ *  <li>By bn intfgfr donstbnt, whosf nbmfs typidblly fnd with
+ *      <dodf>_FIELD</dodf>. Thf donstbnts brf dffinfd in thf vbrious
+ *      subdlbssfs of <dodf>Formbt</dodf>.
+ *  <li>By b <dodf>Formbt.Fifld</dodf> donstbnt, sff <dodf>ERA_FIELD</dodf>
+ *      bnd its frifnds in <dodf>DbtfFormbt</dodf> for bn fxbmplf.
+ * </ul>
+ * <p>
+ * <dodf>FifldPosition</dodf> kffps trbdk of thf position of thf
+ * fifld within thf formbttfd output with two indidfs: thf indfx
+ * of thf first dhbrbdtfr of thf fifld bnd thf indfx of thf lbst
+ * dhbrbdtfr of thf fifld.
+ *
+ * <p>
+ * Onf vfrsion of thf <dodf>formbt</dodf> mfthod in thf vbrious
+ * <dodf>Formbt</dodf> dlbssfs rfquirfs b <dodf>FifldPosition</dodf>
+ * objfdt bs bn brgumfnt. You usf this <dodf>formbt</dodf> mfthod
+ * to pfrform pbrtibl formbtting or to gft informbtion bbout thf
+ * formbttfd output (sudh bs thf position of b fifld).
+ *
+ * <p>
+ * If you brf intfrfstfd in thf positions of bll bttributfs in thf
+ * formbttfd string usf thf <dodf>Formbt</dodf> mfthod
+ * <dodf>formbtToChbrbdtfrItfrbtor</dodf>.
+ *
+ * @buthor      Mbrk Dbvis
+ * @sff         jbvb.tfxt.Formbt
+ */
+publid dlbss FifldPosition {
+
+    /**
+     * Input: Dfsirfd fifld to dftfrminf stbrt bnd fnd offsfts for.
+     * Thf mfbning dfpfnds on thf subdlbss of Formbt.
+     */
+    int fifld = 0;
+
+    /**
+     * Output: End offsft of fifld in tfxt.
+     * If thf fifld dofs not oddur in thf tfxt, 0 is rfturnfd.
+     */
+    int fndIndfx = 0;
+
+    /**
+     * Output: Stbrt offsft of fifld in tfxt.
+     * If thf fifld dofs not oddur in thf tfxt, 0 is rfturnfd.
+     */
+    int bfginIndfx = 0;
+
+    /**
+     * Dfsirfd fifld this FifldPosition is for.
+     */
+    privbtf Formbt.Fifld bttributf;
+
+    /**
+     * Crfbtfs b FifldPosition objfdt for thf givfn fifld.  Fiflds brf
+     * idfntififd by donstbnts, whosf nbmfs typidblly fnd with _FIELD,
+     * in thf vbrious subdlbssfs of Formbt.
+     *
+     * @pbrbm fifld thf fifld idfntififr
+     * @sff jbvb.tfxt.NumbfrFormbt#INTEGER_FIELD
+     * @sff jbvb.tfxt.NumbfrFormbt#FRACTION_FIELD
+     * @sff jbvb.tfxt.DbtfFormbt#YEAR_FIELD
+     * @sff jbvb.tfxt.DbtfFormbt#MONTH_FIELD
+     */
+    publid FifldPosition(int fifld) {
+        this.fifld = fifld;
+    }
+
+    /**
+     * Crfbtfs b FifldPosition objfdt for thf givfn fifld donstbnt. Fiflds brf
+     * idfntififd by donstbnts dffinfd in thf vbrious <dodf>Formbt</dodf>
+     * subdlbssfs. This is fquivblfnt to dblling
+     * <dodf>nfw FifldPosition(bttributf, -1)</dodf>.
+     *
+     * @pbrbm bttributf Formbt.Fifld donstbnt idfntifying b fifld
+     * @sindf 1.4
+     */
+    publid FifldPosition(Formbt.Fifld bttributf) {
+        this(bttributf, -1);
+    }
+
+    /**
+     * Crfbtfs b <dodf>FifldPosition</dodf> objfdt for thf givfn fifld.
+     * Thf fifld is idfntififd by bn bttributf donstbnt from onf of thf
+     * <dodf>Fifld</dodf> subdlbssfs bs wfll bs bn intfgfr fifld ID
+     * dffinfd by thf <dodf>Formbt</dodf> subdlbssfs. <dodf>Formbt</dodf>
+     * subdlbssfs thbt brf bwbrf of <dodf>Fifld</dodf> should givf prfdfdfndf
+     * to <dodf>bttributf</dodf> bnd ignorf <dodf>fifldID</dodf> if
+     * <dodf>bttributf</dodf> is not null. Howfvfr, oldfr <dodf>Formbt</dodf>
+     * subdlbssfs mby not bf bwbrf of <dodf>Fifld</dodf> bnd rfly on
+     * <dodf>fifldID</dodf>. If thf fifld hbs no dorrfsponding intfgfr
+     * donstbnt, <dodf>fifldID</dodf> should bf -1.
+     *
+     * @pbrbm bttributf Formbt.Fifld donstbnt idfntifying b fifld
+     * @pbrbm fifldID intfgfr donstbnt idfntifying b fifld
+     * @sindf 1.4
+     */
+    publid FifldPosition(Formbt.Fifld bttributf, int fifldID) {
+        this.bttributf = bttributf;
+        this.fifld = fifldID;
+    }
+
+    /**
+     * Rfturns thf fifld idfntififr bs bn bttributf donstbnt
+     * from onf of thf <dodf>Fifld</dodf> subdlbssfs. Mby rfturn null if
+     * thf fifld is spfdififd only by bn intfgfr fifld ID.
+     *
+     * @rfturn Idfntififr for thf fifld
+     * @sindf 1.4
+     */
+    publid Formbt.Fifld gftFifldAttributf() {
+        rfturn bttributf;
+    }
+
+    /**
+     * Rftrifvfs thf fifld idfntififr.
+     *
+     * @rfturn thf fifld idfntififr
+     */
+    publid int gftFifld() {
+        rfturn fifld;
+    }
+
+    /**
+     * Rftrifvfs thf indfx of thf first dhbrbdtfr in thf rfqufstfd fifld.
+     *
+     * @rfturn thf bfgin indfx
+     */
+    publid int gftBfginIndfx() {
+        rfturn bfginIndfx;
+    }
+
+    /**
+     * Rftrifvfs thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr in thf
+     * rfqufstfd fifld.
+     *
+     * @rfturn thf fnd indfx
+     */
+    publid int gftEndIndfx() {
+        rfturn fndIndfx;
+    }
+
+    /**
+     * Sfts thf bfgin indfx.  For usf by subdlbssfs of Formbt.
+     *
+     * @pbrbm bi thf bfgin indfx
+     * @sindf 1.2
+     */
+    publid void sftBfginIndfx(int bi) {
+        bfginIndfx = bi;
+    }
+
+    /**
+     * Sfts thf fnd indfx.  For usf by subdlbssfs of Formbt.
+     *
+     * @pbrbm fi thf fnd indfx
+     * @sindf 1.2
+     */
+    publid void sftEndIndfx(int fi) {
+        fndIndfx = fi;
+    }
+
+    /**
+     * Rfturns b <dodf>Formbt.FifldDflfgbtf</dodf> instbndf thbt is bssodibtfd
+     * with thf FifldPosition. Whfn thf dflfgbtf is notififd of thf sbmf
+     * fifld thf FifldPosition is bssodibtfd with, thf bfgin/fnd will bf
+     * bdjustfd.
+     */
+    Formbt.FifldDflfgbtf gftFifldDflfgbtf() {
+        rfturn nfw Dflfgbtf();
+    }
+
+    /**
+     * Ovfrridfs fqubls
+     */
+    publid boolfbn fqubls(Objfdt obj)
+    {
+        if (obj == null) rfturn fblsf;
+        if (!(obj instbndfof FifldPosition))
+            rfturn fblsf;
+        FifldPosition othfr = (FifldPosition) obj;
+        if (bttributf == null) {
+            if (othfr.bttributf != null) {
+                rfturn fblsf;
+            }
+        }
+        flsf if (!bttributf.fqubls(othfr.bttributf)) {
+            rfturn fblsf;
+        }
+        rfturn (bfginIndfx == othfr.bfginIndfx
+            && fndIndfx == othfr.fndIndfx
+            && fifld == othfr.fifld);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this FifldPosition.
+     * @rfturn b hbsh dodf vbluf for this objfdt
+     */
+    publid int hbshCodf() {
+        rfturn (fifld << 24) | (bfginIndfx << 16) | fndIndfx;
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this FifldPosition.
+     * @rfturn  b string rfprfsfntbtion of this objfdt
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[fifld=" + fifld + ",bttributf=" + bttributf +
+            ",bfginIndfx=" + bfginIndfx +
+            ",fndIndfx=" + fndIndfx + ']';
+    }
+
+
+    /**
+     * Rfturn truf if thf rfdfivfr wbnts b <dodf>Formbt.Fifld</dodf> vbluf bnd
+     * <dodf>bttributf</dodf> is fqubl to it.
+     */
+    privbtf boolfbn mbtdhfsFifld(Formbt.Fifld bttributf) {
+        if (this.bttributf != null) {
+            rfturn this.bttributf.fqubls(bttributf);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn truf if thf rfdfivfr wbnts b <dodf>Formbt.Fifld</dodf> vbluf bnd
+     * <dodf>bttributf</dodf> is fqubl to it, or truf if thf rfdfivfr
+     * rfprfsfnts bn intftfr donstbnt bnd <dodf>fifld</dodf> fqubls it.
+     */
+    privbtf boolfbn mbtdhfsFifld(Formbt.Fifld bttributf, int fifld) {
+        if (this.bttributf != null) {
+            rfturn this.bttributf.fqubls(bttributf);
+        }
+        rfturn (fifld == this.fifld);
+    }
+
+
+    /**
+     * An implfmfntbtion of FifldDflfgbtf thbt will bdjust thf bfgin/fnd
+     * of thf FifldPosition if thf brgumfnts mbtdh thf fifld of
+     * thf FifldPosition.
+     */
+    privbtf dlbss Dflfgbtf implfmfnts Formbt.FifldDflfgbtf {
+        /**
+         * Indidbtfs whfthfr thf fifld hbs bffn  fndountfrfd bfforf. If this
+         * is truf, bnd <dodf>formbttfd</dodf> is invokfd, thf bfgin/fnd
+         * brf not updbtfd.
+         */
+        privbtf boolfbn fndountfrfdFifld;
+
+        publid void formbttfd(Formbt.Fifld bttr, Objfdt vbluf, int stbrt,
+                              int fnd, StringBufffr bufffr) {
+            if (!fndountfrfdFifld && mbtdhfsFifld(bttr)) {
+                sftBfginIndfx(stbrt);
+                sftEndIndfx(fnd);
+                fndountfrfdFifld = (stbrt != fnd);
+            }
+        }
+
+        publid void formbttfd(int fifldID, Formbt.Fifld bttr, Objfdt vbluf,
+                              int stbrt, int fnd, StringBufffr bufffr) {
+            if (!fndountfrfdFifld && mbtdhfsFifld(bttr, fifldID)) {
+                sftBfginIndfx(stbrt);
+                sftEndIndfx(fnd);
+                fndountfrfdFifld = (stbrt != fnd);
+            }
+        }
+    }
+}

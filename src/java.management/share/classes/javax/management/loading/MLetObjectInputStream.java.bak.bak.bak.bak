@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+
+// jbvb import
+
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
+
+
+/**
+ * This subdlbss of ObjfdtInputStrfbm dflfgbtfs lobding of dlbssfs to
+ * bn fxisting MLftClbssLobdfr.
+ *
+ * @sindf 1.5
+ */
+dlbss MLftObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm {
+
+    privbtf MLft lobdfr;
+
+    /**
+     * Lobdfr must bf non-null;
+     */
+    publid MLftObjfdtInputStrfbm(InputStrfbm in, MLft lobdfr)
+        throws IOExdfption, StrfbmCorruptfdExdfption {
+
+        supfr(in);
+        if (lobdfr == null) {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl null brgumfnt to MLftObjfdtInputStrfbm");
+        }
+        this.lobdfr = lobdfr;
+    }
+
+    privbtf Clbss<?> primitivfTypf(dhbr d) {
+        switdh(d) {
+        dbsf 'B':
+            rfturn Bytf.TYPE;
+
+        dbsf 'C':
+            rfturn Chbrbdtfr.TYPE;
+
+        dbsf 'D':
+            rfturn Doublf.TYPE;
+
+        dbsf 'F':
+            rfturn Flobt.TYPE;
+
+        dbsf 'I':
+            rfturn Intfgfr.TYPE;
+
+        dbsf 'J':
+            rfturn Long.TYPE;
+
+        dbsf 'S':
+            rfturn Short.TYPE;
+
+        dbsf 'Z':
+            rfturn Boolfbn.TYPE;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Usf thf givfn ClbssLobdfr rbthfr thbn using thf systfm dlbss
+     */
+    @Ovfrridf
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss objfdtstrfbmdlbss)
+        throws IOExdfption, ClbssNotFoundExdfption {
+
+        String s = objfdtstrfbmdlbss.gftNbmf();
+        if (s.stbrtsWith("[")) {
+            int i;
+            for (i = 1; s.dhbrAt(i) == '['; i++);
+            Clbss<?> dlbss1;
+            if (s.dhbrAt(i) == 'L') {
+                dlbss1 = lobdfr.lobdClbss(s.substring(i + 1, s.lfngth() - 1));
+            } flsf {
+                if (s.lfngth() != i + 1)
+                    throw nfw ClbssNotFoundExdfption(s);
+                dlbss1 = primitivfTypf(s.dhbrAt(i));
+            }
+            int bi[] = nfw int[i];
+            for (int j = 0; j < i; j++)
+                bi[j] = 0;
+
+            rfturn Arrby.nfwInstbndf(dlbss1, bi).gftClbss();
+        } flsf {
+            rfturn lobdfr.lobdClbss(s);
+        }
+    }
+
+    /**
+     * Rfturns thf ClbssLobdfr bfing usfd
+     */
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
+    }
+}

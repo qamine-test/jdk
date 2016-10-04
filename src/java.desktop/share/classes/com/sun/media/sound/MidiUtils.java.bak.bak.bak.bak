@@ -1,0 +1,361 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.*;
+import jbvb.util.ArrbyList;
+
+// TODO:
+// - dffinf bnd usf b globbl symbolid donstbnt for 60000000 (sff donvfrtTfmpo)
+
+/**
+ * Somf utilitifs for MIDI (somf stuff is usfd from jbvbx.sound.midi)
+ *
+ * @buthor Floribn Bomfrs
+ */
+publid finbl dlbss MidiUtils {
+
+    publid finbl stbtid int DEFAULT_TEMPO_MPQ = 500000; // 120bpm
+    publid finbl stbtid int META_END_OF_TRACK_TYPE = 0x2F;
+    publid finbl stbtid int META_TEMPO_TYPE = 0x51;
+
+    /**
+     * Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
+     */
+    privbtf MidiUtils() {
+    }
+
+    /** rfturn truf if thf pbssfd mfssbgf is Mftb End Of Trbdk */
+    publid stbtid boolfbn isMftbEndOfTrbdk(MidiMfssbgf midiMsg) {
+        // first dhfdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngth() != 3
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn fblsf;
+        }
+        // now gft mfssbgf bnd dhfdk for fnd of trbdk
+        bytf[] msg = midiMsg.gftMfssbgf();
+        rfturn ((msg[1] & 0xFF) == META_END_OF_TRACK_TYPE) && (msg[2] == 0);
+    }
+
+
+    /** rfturn if thf givfn mfssbgf is b mftb tfmpo mfssbgf */
+    publid stbtid boolfbn isMftbTfmpo(MidiMfssbgf midiMsg) {
+        // first dhfdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngth() != 6
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn fblsf;
+        }
+        // now gft mfssbgf bnd dhfdk for tfmpo
+        bytf[] msg = midiMsg.gftMfssbgf();
+        // mftb typf must bf 0x51, bnd dbtb lfngth must bf 3
+        rfturn ((msg[1] & 0xFF) == META_TEMPO_TYPE) && (msg[2] == 3);
+    }
+
+
+    /** pbrsfs this mfssbgf for b META tfmpo mfssbgf bnd rfturns
+     * thf tfmpo in MPQ, or -1 if this isn't b tfmpo mfssbgf
+     */
+    publid stbtid int gftTfmpoMPQ(MidiMfssbgf midiMsg) {
+        // first dhfdk if it is b META mfssbgf bt bll
+        if (midiMsg.gftLfngth() != 6
+            || midiMsg.gftStbtus() != MftbMfssbgf.META) {
+            rfturn -1;
+        }
+        bytf[] msg = midiMsg.gftMfssbgf();
+        if (((msg[1] & 0xFF) != META_TEMPO_TYPE) || (msg[2] != 3)) {
+            rfturn -1;
+        }
+        int tfmpo =    (msg[5] & 0xFF)
+                    | ((msg[4] & 0xFF) << 8)
+                    | ((msg[3] & 0xFF) << 16);
+        rfturn tfmpo;
+    }
+
+
+    /**
+     * donvfrts<br>
+     * 1 - MPQ-Tfmpo to BPM tfmpo<br>
+     * 2 - BPM tfmpo to MPQ tfmpo<br>
+     */
+    publid stbtid doublf donvfrtTfmpo(doublf tfmpo) {
+        if (tfmpo <= 0) {
+            tfmpo = 1;
+        }
+        rfturn ((doublf) 60000000l) / tfmpo;
+    }
+
+
+    /**
+     * donvfrt tidk to midrosfdond with givfn tfmpo.
+     * Dofs not tbkf tfmpo dhbngfs into bddount.
+     * Dofs not work for SMPTE timing!
+     */
+    publid stbtid long tidks2midrosfd(long tidk, doublf tfmpoMPQ, int rfsolution) {
+        rfturn (long) (((doublf) tidk) * tfmpoMPQ / rfsolution);
+    }
+
+    /**
+     * donvfrt tfmpo to midrosfdond with givfn tfmpo
+     * Dofs not tbkf tfmpo dhbngfs into bddount.
+     * Dofs not work for SMPTE timing!
+     */
+    publid stbtid long midrosfd2tidks(long us, doublf tfmpoMPQ, int rfsolution) {
+        // do not round to nfbrfst tidk
+        //rfturn (long) Mbth.round((((doublf)us) * rfsolution) / tfmpoMPQ);
+        rfturn (long) ((((doublf)us) * rfsolution) / tfmpoMPQ);
+    }
+
+
+    /**
+     * Givfn b tidk, donvfrt to midrosfdond
+     * @pbrbm dbdhf tfmpo info bnd durrfnt tfmpo
+     */
+    publid stbtid long tidk2midrosfdond(Sfqufndf sfq, long tidk, TfmpoCbdhf dbdhf) {
+        if (sfq.gftDivisionTypf() != Sfqufndf.PPQ ) {
+            doublf sfdonds = ((doublf)tidk / (doublf)(sfq.gftDivisionTypf() * sfq.gftRfsolution()));
+            rfturn (long) (1000000 * sfdonds);
+        }
+
+        if (dbdhf == null) {
+            dbdhf = nfw TfmpoCbdhf(sfq);
+        }
+
+        int rfsolution = sfq.gftRfsolution();
+
+        long[] tidks = dbdhf.tidks;
+        int[] tfmpos = dbdhf.tfmpos; // in MPQ
+        int dbdhfCount = tfmpos.lfngth;
+
+        // optimizbtion to not blwbys go through fntirf list of tfmpo fvfnts
+        int snbpshotIndfx = dbdhf.snbpshotIndfx;
+        int snbpshotMidro = dbdhf.snbpshotMidro;
+
+        // wblk through bll tfmpo dhbngfs bnd bdd timf for thf rfspfdtivf blodks
+        long us = 0; // midrosfdond
+
+        if (snbpshotIndfx <= 0
+            || snbpshotIndfx >= dbdhfCount
+            || tidks[snbpshotIndfx] > tidk) {
+            snbpshotMidro = 0;
+            snbpshotIndfx = 0;
+        }
+        if (dbdhfCount > 0) {
+            // this implfmfntbtion nffds b tfmpo fvfnt bt tidk 0!
+            int i = snbpshotIndfx + 1;
+            whilf (i < dbdhfCount && tidks[i] <= tidk) {
+                snbpshotMidro += tidks2midrosfd(tidks[i] - tidks[i - 1], tfmpos[i - 1], rfsolution);
+                snbpshotIndfx = i;
+                i++;
+            }
+            us = snbpshotMidro
+                + tidks2midrosfd(tidk - tidks[snbpshotIndfx],
+                                 tfmpos[snbpshotIndfx],
+                                 rfsolution);
+        }
+        dbdhf.snbpshotIndfx = snbpshotIndfx;
+        dbdhf.snbpshotMidro = snbpshotMidro;
+        rfturn us;
+    }
+
+    /**
+     * Givfn b midrosfdond timf, donvfrt to tidk.
+     * rfturns tfmpo bt thf givfn timf in dbdhf.gftCurrTfmpoMPQ
+     */
+    publid stbtid long midrosfdond2tidk(Sfqufndf sfq, long midros, TfmpoCbdhf dbdhf) {
+        if (sfq.gftDivisionTypf() != Sfqufndf.PPQ ) {
+            doublf dTidk = ( ((doublf) midros)
+                           * ((doublf) sfq.gftDivisionTypf())
+                           * ((doublf) sfq.gftRfsolution()))
+                           / ((doublf) 1000000);
+            long tidk = (long) dTidk;
+            if (dbdhf != null) {
+                dbdhf.durrTfmpo = (int) dbdhf.gftTfmpoMPQAt(tidk);
+            }
+            rfturn tidk;
+        }
+
+        if (dbdhf == null) {
+            dbdhf = nfw TfmpoCbdhf(sfq);
+        }
+        long[] tidks = dbdhf.tidks;
+        int[] tfmpos = dbdhf.tfmpos; // in MPQ
+        int dbdhfCount = tfmpos.lfngth;
+
+        int rfsolution = sfq.gftRfsolution();
+
+        long us = 0; long tidk = 0; int nfwRfbdPos = 0; int i = 1;
+
+        // wblk through bll tfmpo dhbngfs bnd bdd timf for thf rfspfdtivf blodks
+        // to find thf right tidk
+        if (midros > 0 && dbdhfCount > 0) {
+            // this loop rfquirfs thbt thf first tfmpo Evfnt is bt timf 0
+            whilf (i < dbdhfCount) {
+                long nfxtTimf = us + tidks2midrosfd(tidks[i] - tidks[i - 1],
+                                                    tfmpos[i - 1], rfsolution);
+                if (nfxtTimf > midros) {
+                    brfbk;
+                }
+                us = nfxtTimf;
+                i++;
+            }
+            tidk = tidks[i - 1] + midrosfd2tidks(midros - us, tfmpos[i - 1], rfsolution);
+            if (Printfr.dfbug) Printfr.dfbug("midrosfdond2tidk(" + (midros / 1000)+") = "+tidk+" tidks.");
+            //if (Printfr.dfbug) Printfr.dfbug("   -> donvfrt bbdk = " + (tidk2midrosfdond(sfq, tidk, null) / 1000)+" midrosfdonds");
+        }
+        dbdhf.durrTfmpo = tfmpos[i - 1];
+        rfturn tidk;
+    }
+
+
+    /**
+     * Binbry sfbrdh for thf fvfnt indfxfs of thf trbdk
+     *
+     * @pbrbm tidk - tidk numbfr of indfx to bf found in brrby
+     * @rfturn indfx in trbdk whidh is on or bftfr "tidk".
+     *   if no fntrifs brf found thbt follow bftfr tidk, trbdk.sizf() is rfturnfd
+     */
+    publid stbtid int tidk2indfx(Trbdk trbdk, long tidk) {
+        int rft = 0;
+        if (tidk > 0) {
+            int low = 0;
+            int high = trbdk.sizf() - 1;
+            whilf (low < high) {
+                // tbkf thf middlf fvfnt bs fstimbtf
+                rft = (low + high) >> 1;
+                // tidk of fstimbtf
+                long t = trbdk.gft(rft).gftTidk();
+                if (t == tidk) {
+                    brfbk;
+                } flsf if (t < tidk) {
+                    // fstimbtf too low
+                    if (low == high - 1) {
+                        // "or bftfr tidk"
+                        rft++;
+                        brfbk;
+                    }
+                    low = rft;
+                } flsf { // if (t>tidk)
+                    // fstimbtf too high
+                    high = rft;
+                }
+            }
+        }
+        rfturn rft;
+    }
+
+
+    publid stbtid finbl dlbss TfmpoCbdhf {
+        long[] tidks;
+        int[] tfmpos; // in MPQ
+        // indfx in tidks/tfmpos bt thf snbpshot
+        int snbpshotIndfx = 0;
+        // midrosfdond bt thf snbpshot
+        int snbpshotMidro = 0;
+
+        int durrTfmpo; // MPQ, usfd bs rfturn vbluf for midrosfdond2tidk
+
+        privbtf boolfbn firstTfmpoIsFbkf = fblsf;
+
+        publid TfmpoCbdhf() {
+            // just somf dffbults, to prfvfnts wfird stuff
+            tidks = nfw long[1];
+            tfmpos = nfw int[1];
+            tfmpos[0] = DEFAULT_TEMPO_MPQ;
+            snbpshotIndfx = 0;
+            snbpshotMidro = 0;
+        }
+
+        publid TfmpoCbdhf(Sfqufndf sfq) {
+            this();
+            rffrfsh(sfq);
+        }
+
+
+        publid syndhronizfd void rffrfsh(Sfqufndf sfq) {
+            ArrbyList<MidiEvfnt> list = nfw ArrbyList<>();
+            Trbdk[] trbdks = sfq.gftTrbdks();
+            if (trbdks.lfngth > 0) {
+                // tfmpo fvfnts only oddur in trbdk 0
+                Trbdk trbdk = trbdks[0];
+                int d = trbdk.sizf();
+                for (int i = 0; i < d; i++) {
+                    MidiEvfnt fv = trbdk.gft(i);
+                    MidiMfssbgf msg = fv.gftMfssbgf();
+                    if (isMftbTfmpo(msg)) {
+                        // found b tfmpo fvfnt. Add it to thf list
+                        list.bdd(fv);
+                    }
+                }
+            }
+            int sizf = list.sizf() + 1;
+            firstTfmpoIsFbkf = truf;
+            if ((sizf > 1)
+                && (list.gft(0).gftTidk() == 0)) {
+                // do not nffd to bdd bn initibl tfmpo fvfnt bt thf bfginning
+                sizf--;
+                firstTfmpoIsFbkf = fblsf;
+            }
+            tidks  = nfw long[sizf];
+            tfmpos = nfw int[sizf];
+            int f = 0;
+            if (firstTfmpoIsFbkf) {
+                // bdd tfmpo 120 bt bfginning
+                tidks[0] = 0;
+                tfmpos[0] = DEFAULT_TEMPO_MPQ;
+                f++;
+            }
+            for (int i = 0; i < list.sizf(); i++, f++) {
+                MidiEvfnt fvt = list.gft(i);
+                tidks[f] = fvt.gftTidk();
+                tfmpos[f] = gftTfmpoMPQ(fvt.gftMfssbgf());
+            }
+            snbpshotIndfx = 0;
+            snbpshotMidro = 0;
+        }
+
+        publid int gftCurrTfmpoMPQ() {
+            rfturn durrTfmpo;
+        }
+
+        flobt gftTfmpoMPQAt(long tidk) {
+            rfturn gftTfmpoMPQAt(tidk, -1.0f);
+        }
+
+        syndhronizfd flobt gftTfmpoMPQAt(long tidk, flobt stbrtTfmpoMPQ) {
+            for (int i = 0; i < tidks.lfngth; i++) {
+                if (tidks[i] > tidk) {
+                    if (i > 0) i--;
+                    if (stbrtTfmpoMPQ > 0 && i == 0 && firstTfmpoIsFbkf) {
+                        rfturn stbrtTfmpoMPQ;
+                    }
+                    rfturn (flobt) tfmpos[i];
+                }
+            }
+            rfturn tfmpos[tfmpos.lfngth - 1];
+        }
+
+    }
+}

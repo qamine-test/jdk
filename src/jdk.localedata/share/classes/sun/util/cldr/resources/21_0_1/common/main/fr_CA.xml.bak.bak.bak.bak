@@ -1,0 +1,381 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fr"/>
+		<tfrritory typf="CA"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">ps</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" blt="vbribnt" drbft="dontributfd">Pfrso-brbbf</sdript>
+		</sdripts>
+		<kfys>
+			<kfy typf="numbfrs" drbft="dontributfd">Chiffrfs</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Chiffrfs indo-brbbfs</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Chiffrfs indo-brbbfs étfndus</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Chiffrfs brménifns</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Chiffrfs minusdulfs brménifns</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Chiffrfs bfngbli</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Chiffrfs dfvbnbgbri</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Ordrf df tri du didtionnbirf</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Ordrf df tri Unidodf pbr défbut</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">Chiffrf éthiopifns</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Cblfndrifr éthiopifn df l'An df grâdf</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Chiffrf plfinf lbrgfur</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Chiffrfs géorgifns</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Chiffrfs grfds</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Chiffrfs minusdulfs grfds</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Chiffrfs gujbrbti</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Chiffrfs gurmukhī</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">Chiffrfs numériqufs dhinois</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">Chiffrfs dhinois simplifiés</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">Chiffrfs monétbirfs dhinois simplifiés</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">Chiffrfs dhinois trbditionnfls</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">Chiffrf hébrfux</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Chiffrfs monétbirfs jbponbis</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">Chiffrfs khmfr</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Chiffrfs dbnbrb</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Chiffrfs lbotifns</typf>
+			<typf typf="lbtn" kfy="numbfrs" drbft="dontributfd">Chiffrfs oddidfntbux</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Chiffrfs mblbyâlbm</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Chiffrfs mongols</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Chiffrfs birmbns</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Chiffrfs oriyb</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Cblfndrifr pfrsf</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ordrf df tri réformé</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Chiffrfs rombins</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Chiffrfs minusdulfs rombins</typf>
+			<typf typf="sfbrdh" kfy="dollbtion" drbft="dontributfd">Rfdhfrdhf générblf</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Chiffrfs tbmoul</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Chiffrfs tflugu</typf>
+			<typf typf="thbi" kfy="numbfrs" drbft="dontributfd">Chiffrfs thbïlbndbis</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Chiffrfs tibétbins</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">Ordrf df tri rbdidbl ft trbit</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Chiffrfs</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidth" drbft="dontributfd">Plfinf lbrgfur</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidth" drbft="dontributfd">Dfmif lbrgfur</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publishing" drbft="dontributfd">Édition</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="dontributfd">R-U</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<stopwords>
+			<stopwordList typf="dollbtion" drbft="provisionbl">lf lb lfs</stopwordList>
+		</stopwords>
+	</dhbrbdtfrs>
+    <dflimitfrs>
+        <quotbtionStbrt>«</quotbtionStbrt>
+        <quotbtionEnd>»</quotbtionEnd>
+        <bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+        <bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+    </dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>yy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>HH 'h' mm 'min' ss 's' zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMd">MM-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">yyyy-MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">yyyy-MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E yyyy-MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM">yy-MM</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d–d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="h">h–h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="H">HH–HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="h">h:mm–h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm–h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H">HH:mm–HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm–HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="h">h:mm–h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm–h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H">HH:mm–HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm–HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="h">h–h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="H">HH–HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">MM-dd – MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MM-dd – MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E MM-dd – E MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E MM-dd – E MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y–y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">yy-MM – yy-MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy-MM – yy-MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy-MM-dd – yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' E yy-MM-dd 'bu' E yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="y">'df' MMM y 'à' MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="M">'du' d MMM 'bu' d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' d MMM y 'bu' d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">'du' E d 'bu' E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">'du' E d MMM 'bu' E d MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">'du' E d MMM y 'bu' E d MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<rflbtivf typf="-1" drbft="dontributfd">L'bnnéf dfrnièrf</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cfttf bnnéf</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">L'bnnéf prodhbinf</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<rflbtivf typf="-1" drbft="dontributfd">Lf mois dfrnifr</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cf mois-di</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Lf mois prodhbin</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<rflbtivf typf="-1" drbft="dontributfd">Lb sfmbinf dfrnièrf</rflbtivf>
+						<rflbtivf typf="0" drbft="dontributfd">Cfttf sfmbinf</rflbtivf>
+						<rflbtivf typf="1" drbft="dontributfd">Lb sfmbinf prodhbinf</rflbtivf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<rfgionFormbt drbft="dontributfd">Hfurf df {0}</rfgionFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">Hfurf df {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Asib/Dhbkb">
+				<fxfmplbrCity drbft="dontributfd">Dbddb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Codos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Christmbs">
+				<fxfmplbrCity drbft="dontributfd">Îlf Christmbs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Féroé</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godthbb">
+				<fxfmplbrCity drbft="dontributfd">Nuuk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Chbgos">
+				<fxfmplbrCity drbft="dontributfd">Ardhipfl dfs Chbgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbghdbd">
+				<fxfmplbrCity drbft="dontributfd">Bbghdbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity drbft="dontributfd">Union dfs Comorfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="dontributfd">Sbint-Christophf-ft-Niévès</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Cbïmbns</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity drbft="dontributfd">Îlf Norfolk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="dontributfd">Îlf Pitdbirn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="dontributfd">Îlfs Kfrguflfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="dontributfd">Vbtidbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity drbft="dontributfd">Sbint Thombs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity drbft="dontributfd">Uvéb</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<short>
+					<gfnfrid>HC</gfnfrid>
+					<stbndbrd>HNC</stbndbrd>
+					<dbylight>HAC</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<short>
+					<gfnfrid>HE</gfnfrid>
+					<stbndbrd>HNE</stbndbrd>
+					<dbylight>HAE</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<short>
+					<gfnfrid>HR</gfnfrid>
+					<stbndbrd>HNR</stbndbrd>
+					<dbylight>HAR</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<short>
+					<gfnfrid>HP</gfnfrid>
+					<stbndbrd>HNP</stbndbrd>
+					<dbylight>HAP</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<short>
+					<gfnfrid>HT</gfnfrid>
+					<stbndbrd>HNT</stbndbrd>
+					<dbylight>HAT</dbylight>
+				</short>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0B</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00B</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000B</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤;(#,##0.00 ¤)</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="CAD">
+				<symbol>$</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} jour</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} jours</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} jour</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} jours</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} hfurf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} hfurfs</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} hfurf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} hfurfs</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} minutf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} minutfs</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} minutf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} minutfs</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} mois</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} mois</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} mois</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} mois</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Dbns 0 sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Dbns 1 sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} sfdondfs</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} sfdondf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} sfdondfs</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} sfmbinf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} sfmbinfs</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} sfmbinf</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} sfmbinfs</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Dbns {0} bn</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Dbns {0} bns</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="onf" drbft="dontributfd">Il y b {0} bn</unitPbttfrn>
+			<unitPbttfrn dount="othfr" drbft="dontributfd">Il y b {0} bns</unitPbttfrn>
+		</unit>
+	</units>
+</ldml>
+

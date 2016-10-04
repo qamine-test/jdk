@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
-// Right now this class is final to avoid a problem with native code.
-// For some reason the JNI IsInstanceOf was not working correctly
-// so we are checking the class specifically. If we subclass this
-// we need to modify the native code in CFontWrapper.m
-public final class CFont extends PhysicalFont {
+// Rigit now tiis dlbss is finbl to bvoid b problfm witi nbtivf dodf.
+// For somf rfbson tif JNI IsInstbndfOf wbs not working dorrfdtly
+// so wf brf difdking tif dlbss spfdifidblly. If wf subdlbss tiis
+// wf nffd to modify tif nbtivf dodf in CFontWrbppfr.m
+publid finbl dlbss CFont fxtfnds PiysidblFont {
 
-    /* CFontStrike doesn't call these methods so they are unimplemented.
-     * They are here to meet the requirements of PhysicalFont, needed
-     * because a CFont can sometimes be returned where a PhysicalFont
-     * is expected.
+    /* CFontStrikf dofsn't dbll tifsf mftiods so tify brf unimplfmfntfd.
+     * Tify brf ifrf to mfft tif rfquirfmfnts of PiysidblFont, nffdfd
+     * bfdbusf b CFont dbn somftimfs bf rfturnfd wifrf b PiysidblFont
+     * is fxpfdtfd.
      */
-    StrikeMetrics getFontMetrics(long pScalerContext) {
-       throw new InternalError("Not implemented");
+    StrikfMftrids gftFontMftrids(long pSdblfrContfxt) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    float getGlyphAdvance(long pScalerContext, int glyphCode) {
-       throw new InternalError("Not implemented");
+    flobt gftGlypiAdvbndf(long pSdblfrContfxt, int glypiCodf) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    void getGlyphMetrics(long pScalerContext, int glyphCode,
-                                  Point2D.Float metrics) {
-       throw new InternalError("Not implemented");
+    void gftGlypiMftrids(long pSdblfrContfxt, int glypiCodf,
+                                  Point2D.Flobt mftrids) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    long getGlyphImage(long pScalerContext, int glyphCode) {
-       throw new InternalError("Not implemented");
+    long gftGlypiImbgf(long pSdblfrContfxt, int glypiCodf) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(long pScalerContext,
-                                                     int glyphCode) {
-       throw new InternalError("Not implemented");
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(long pSdblfrContfxt,
+                                                     int glypiCodf) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    GeneralPath getGlyphOutline(long pScalerContext, int glyphCode,
-                                         float x, float y) {
-       throw new InternalError("Not implemented");
+    GfnfrblPbti gftGlypiOutlinf(long pSdblfrContfxt, int glypiCodf,
+                                         flobt x, flobt y) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    GeneralPath getGlyphVectorOutline(long pScalerContext,
-                                               int[] glyphs, int numGlyphs,
-                                               float x, float y) {
-       throw new InternalError("Not implemented");
+    GfnfrblPbti gftGlypiVfdtorOutlinf(long pSdblfrContfxt,
+                                               int[] glypis, int numGlypis,
+                                               flobt x, flobt y) {
+       tirow nfw IntfrnblError("Not implfmfntfd");
     }
 
-    private static native long createNativeFont(final String nativeFontName,
-                                                final int style,
-                                                final boolean isFakeItalic);
-    private static native void disposeNativeFont(final long nativeFontPtr);
+    privbtf stbtid nbtivf long drfbtfNbtivfFont(finbl String nbtivfFontNbmf,
+                                                finbl int stylf,
+                                                finbl boolfbn isFbkfItblid);
+    privbtf stbtid nbtivf void disposfNbtivfFont(finbl long nbtivfFontPtr);
 
-    private boolean isFakeItalic;
-    private String nativeFontName;
-    private long nativeFontPtr;
+    privbtf boolfbn isFbkfItblid;
+    privbtf String nbtivfFontNbmf;
+    privbtf long nbtivfFontPtr;
 
-    // this constructor is called from CFontWrapper.m
-    public CFont(String name) {
-        this(name, name);
+    // tiis donstrudtor is dbllfd from CFontWrbppfr.m
+    publid CFont(String nbmf) {
+        tiis(nbmf, nbmf);
     }
 
-    public CFont(String name, String inFamilyName) {
-        handle = new Font2DHandle(this);
-        fullName = name;
-        familyName = inFamilyName;
-        nativeFontName = inFamilyName;
-        setStyle();
+    publid CFont(String nbmf, String inFbmilyNbmf) {
+        ibndlf = nfw Font2DHbndlf(tiis);
+        fullNbmf = nbmf;
+        fbmilyNbmf = inFbmilyNbmf;
+        nbtivfFontNbmf = inFbmilyNbmf;
+        sftStylf();
     }
 
-    public CFont(CFont other, String logicalFamilyName) {
-        handle = new Font2DHandle(this);
-        fullName = logicalFamilyName;
-        familyName = logicalFamilyName;
-        nativeFontName = other.nativeFontName;
-        style = other.style;
-        isFakeItalic = other.isFakeItalic;
+    publid CFont(CFont otifr, String logidblFbmilyNbmf) {
+        ibndlf = nfw Font2DHbndlf(tiis);
+        fullNbmf = logidblFbmilyNbmf;
+        fbmilyNbmf = logidblFbmilyNbmf;
+        nbtivfFontNbmf = otifr.nbtivfFontNbmf;
+        stylf = otifr.stylf;
+        isFbkfItblid = otifr.isFbkfItblid;
     }
 
-    public CFont createItalicVariant() {
-        CFont font = new CFont(this, familyName);
-        font.fullName =
-            fullName + (style == Font.BOLD ? "" : "-") + "Italic-Derived";
-        font.style |= Font.ITALIC;
-        font.isFakeItalic = true;
-        return font;
+    publid CFont drfbtfItblidVbribnt() {
+        CFont font = nfw CFont(tiis, fbmilyNbmf);
+        font.fullNbmf =
+            fullNbmf + (stylf == Font.BOLD ? "" : "-") + "Itblid-Dfrivfd";
+        font.stylf |= Font.ITALIC;
+        font.isFbkfItblid = truf;
+        rfturn font;
     }
 
-    protected synchronized long getNativeFontPtr() {
-        if (nativeFontPtr == 0L) {
-            nativeFontPtr = createNativeFont(nativeFontName, style, isFakeItalic);
+    protfdtfd syndironizfd long gftNbtivfFontPtr() {
+        if (nbtivfFontPtr == 0L) {
+            nbtivfFontPtr = drfbtfNbtivfFont(nbtivfFontNbmf, stylf, isFbkfItblid);
 }
-        return nativeFontPtr;
+        rfturn nbtivfFontPtr;
     }
 
-    protected synchronized void finalize() {
-        if (nativeFontPtr != 0) {
-            disposeNativeFont(nativeFontPtr);
+    protfdtfd syndironizfd void finblizf() {
+        if (nbtivfFontPtr != 0) {
+            disposfNbtivfFont(nbtivfFontPtr);
         }
-        nativeFontPtr = 0;
+        nbtivfFontPtr = 0;
     }
 
-    protected CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            mapper = new CCharToGlyphMapper(this);
+    protfdtfd CibrToGlypiMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw CCibrToGlypiMbppfr(tiis);
         }
-        return mapper;
+        rfturn mbppfr;
     }
 
-    protected FontStrike createStrike(FontStrikeDesc desc) {
-        if (isFakeItalic) {
-            desc = new FontStrikeDesc(desc);
-            desc.glyphTx.concatenate(AffineTransform.getShearInstance(-0.2, 0));
+    protfdtfd FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        if (isFbkfItblid) {
+            dfsd = nfw FontStrikfDfsd(dfsd);
+            dfsd.glypiTx.dondbtfnbtf(AffinfTrbnsform.gftSifbrInstbndf(-0.2, 0));
         }
-        return new CStrike(this, desc);
+        rfturn nfw CStrikf(tiis, dfsd);
     }
 
-    // <rdar://problem/5321707> sun.font.Font2D caches the last used strike,
-    // but does not check if the properties of the strike match the properties
-    // of the incoming java.awt.Font object (size, style, etc).
-    // Simple answer: don't cache.
-    private static FontRenderContext DEFAULT_FRC =
-        new FontRenderContext(null, false, false);
-    public FontStrike getStrike(final Font font) {
-        return getStrike(font, DEFAULT_FRC);
+    // <rdbr://problfm/5321707> sun.font.Font2D dbdifs tif lbst usfd strikf,
+    // but dofs not difdk if tif propfrtifs of tif strikf mbtdi tif propfrtifs
+    // of tif indoming jbvb.bwt.Font objfdt (sizf, stylf, ftd).
+    // Simplf bnswfr: don't dbdif.
+    privbtf stbtid FontRfndfrContfxt DEFAULT_FRC =
+        nfw FontRfndfrContfxt(null, fblsf, fblsf);
+    publid FontStrikf gftStrikf(finbl Font font) {
+        rfturn gftStrikf(font, DEFAULT_FRC);
     }
 
-    public String toString() {
-        return "CFont { fullName: " + fullName +
-            ",  familyName: " + familyName + ", style: " + style +
-            " } aka: " + super.toString();
+    publid String toString() {
+        rfturn "CFont { fullNbmf: " + fullNbmf +
+            ",  fbmilyNbmf: " + fbmilyNbmf + ", stylf: " + stylf +
+            " } bkb: " + supfr.toString();
     }
 }

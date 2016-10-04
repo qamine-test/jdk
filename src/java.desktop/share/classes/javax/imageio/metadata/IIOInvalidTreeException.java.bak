@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.metadata;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
 
-import javax.imageio.IIOException;
-import org.w3c.dom.Node;
+import jbvbx.imbgfio.IIOExdfption;
+import org.w3d.dom.Nodf;
 
 /**
- * An <code>IIOInvalidTreeException</code> is thrown when an attempt
- * by an <code>IIOMetadata</code> object to parse a tree of
- * <code>IIOMetadataNode</code>s fails.  The node that led to the
- * parsing error may be stored.  As with any parsing error, the actual
- * error may occur at a different point that that where it is
- * detected.  The node returned by <code>getOffendingNode</code>
- * should merely be considered as a clue to the actual nature of the
- * problem.
+ * An <dodf>IIOInvblidTrffExdfption</dodf> is tirown wifn bn bttfmpt
+ * by bn <dodf>IIOMftbdbtb</dodf> objfdt to pbrsf b trff of
+ * <dodf>IIOMftbdbtbNodf</dodf>s fbils.  Tif nodf tibt lfd to tif
+ * pbrsing frror mby bf storfd.  As witi bny pbrsing frror, tif bdtubl
+ * frror mby oddur bt b difffrfnt point tibt tibt wifrf it is
+ * dftfdtfd.  Tif nodf rfturnfd by <dodf>gftOfffndingNodf</dodf>
+ * siould mfrfly bf donsidfrfd bs b dluf to tif bdtubl nbturf of tif
+ * problfm.
  *
- * @see IIOMetadata#setFromTree
- * @see IIOMetadata#mergeTree
- * @see IIOMetadataNode
+ * @sff IIOMftbdbtb#sftFromTrff
+ * @sff IIOMftbdbtb#mfrgfTrff
+ * @sff IIOMftbdbtbNodf
  *
  */
-public class IIOInvalidTreeException extends IIOException {
-    private static final long serialVersionUID = -1314083172544132777L;
+publid dlbss IIOInvblidTrffExdfption fxtfnds IIOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -1314083172544132777L;
 
     /**
-     * The <code>Node</code> that led to the parsing error, or
-     * <code>null</code>.
+     * Tif <dodf>Nodf</dodf> tibt lfd to tif pbrsing frror, or
+     * <dodf>null</dodf>.
      */
-    protected Node offendingNode = null;
+    protfdtfd Nodf offfndingNodf = null;
 
     /**
-     * Constructs an <code>IIOInvalidTreeException</code> with a
-     * message string and a reference to the <code>Node</code> that
-     * caused the parsing error.
+     * Construdts bn <dodf>IIOInvblidTrffExdfption</dodf> witi b
+     * mfssbgf string bnd b rfffrfndf to tif <dodf>Nodf</dodf> tibt
+     * dbusfd tif pbrsing frror.
      *
-     * @param message a <code>String</code> containing the reason for
-     * the parsing failure.
-     * @param offendingNode the DOM <code>Node</code> that caused the
-     * exception, or <code>null</code>.
+     * @pbrbm mfssbgf b <dodf>String</dodf> dontbining tif rfbson for
+     * tif pbrsing fbilurf.
+     * @pbrbm offfndingNodf tif DOM <dodf>Nodf</dodf> tibt dbusfd tif
+     * fxdfption, or <dodf>null</dodf>.
      */
-    public IIOInvalidTreeException(String message, Node offendingNode) {
-        super(message);
-        this.offendingNode = offendingNode;
+    publid IIOInvblidTrffExdfption(String mfssbgf, Nodf offfndingNodf) {
+        supfr(mfssbgf);
+        tiis.offfndingNodf = offfndingNodf;
     }
 
     /**
-     * Constructs an <code>IIOInvalidTreeException</code> with a
-     * message string, a reference to an exception that caused this
-     * exception, and a reference to the <code>Node</code> that caused
-     * the parsing error.
+     * Construdts bn <dodf>IIOInvblidTrffExdfption</dodf> witi b
+     * mfssbgf string, b rfffrfndf to bn fxdfption tibt dbusfd tiis
+     * fxdfption, bnd b rfffrfndf to tif <dodf>Nodf</dodf> tibt dbusfd
+     * tif pbrsing frror.
      *
-     * @param message a <code>String</code> containing the reason for
-     * the parsing failure.
-     * @param cause the <code>Throwable</code> (<code>Error</code> or
-     * <code>Exception</code>) that caused this exception to occur,
-     * or <code>null</code>.
-     * @param offendingNode the DOM <code>Node</code> that caused the
-     * exception, or <code>null</code>.
+     * @pbrbm mfssbgf b <dodf>String</dodf> dontbining tif rfbson for
+     * tif pbrsing fbilurf.
+     * @pbrbm dbusf tif <dodf>Tirowbblf</dodf> (<dodf>Error</dodf> or
+     * <dodf>Exdfption</dodf>) tibt dbusfd tiis fxdfption to oddur,
+     * or <dodf>null</dodf>.
+     * @pbrbm offfndingNodf tif DOM <dodf>Nodf</dodf> tibt dbusfd tif
+     * fxdfption, or <dodf>null</dodf>.
      */
-    public IIOInvalidTreeException(String message, Throwable cause,
-                                   Node offendingNode) {
-        super(message, cause);
-        this.offendingNode = offendingNode;
+    publid IIOInvblidTrffExdfption(String mfssbgf, Tirowbblf dbusf,
+                                   Nodf offfndingNodf) {
+        supfr(mfssbgf, dbusf);
+        tiis.offfndingNodf = offfndingNodf;
     }
 
     /**
-     * Returns the <code>Node</code> that caused the error in parsing.
+     * Rfturns tif <dodf>Nodf</dodf> tibt dbusfd tif frror in pbrsing.
      *
-     * @return the offending <code>Node</code>.
+     * @rfturn tif offfnding <dodf>Nodf</dodf>.
      */
-    public Node getOffendingNode() {
-        return offendingNode;
+    publid Nodf gftOfffndingNodf() {
+        rfturn offfndingNodf;
     }
 }

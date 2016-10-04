@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.Prindipbl;
+import sun.sfdurity.x509.X500Nbmf;
+
+/**
+ * <p> This dlbss rfprfsfnts bn X.500 <dodf>Prindipbl</dodf>.
+ * X500Prindipbls hbvf nbmfs sudh bs,
+ * "CN=Dukf, OU=JbvbSoft, O=Sun Midrosystfms, C=US"
+ * (RFC 1779 stylf).
+ *
+ * <p> Prindipbls sudh bs this <dodf>X500Prindipbl</dodf>
+ * mby bf bssodibtfd with b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl
+ * idfntity.  Rfffr to thf <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on how to bdhifvf this.  Authorizbtion dfdisions dbn thfn bf bbsfd upon
+ * thf Prindipbls bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ * @dfprfdbtfd A nfw X500Prindipbl dlbss is bvbilbblf in thf Jbvb plbtform.
+ *             This X500Prindipbl dlbsss is fntirfly dfprfdbtfd bnd
+ *             is hfrf to bllow for b smooth trbnsition to thf nfw
+ *             dlbss.
+ * @sff jbvbx.sfdurity.buth.x500.X500Prindipbl
+*/
+@jdk.Exportfd(fblsf)
+@Dfprfdbtfd
+publid dlbss X500Prindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8222422609431628648L;
+
+    privbtf stbtid finbl jbvb.util.RfsourdfBundlf rb =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+        (nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+              publid jbvb.util.RfsourdfBundlf run() {
+                  rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                                ("sun.sfdurity.util.AuthRfsourdfs"));
+              }
+        });
+
+    /**
+     * @sfribl
+     */
+    privbtf String nbmf;
+
+    trbnsifnt privbtf X500Nbmf thisX500Nbmf;
+
+    /**
+     * Crfbtf b X500Prindipbl with bn X.500 Nbmf,
+     * sudh bs "CN=Dukf, OU=JbvbSoft, O=Sun Midrosystfms, C=US"
+     * (RFC 1779 stylf).
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf X.500 nbmf
+     *
+     * @fxdfption NullPointfrExdfption if thf <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>. <p>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>nbmf</dodf>
+     *                  is impropfrly spfdififd.
+     */
+    publid X500Prindipbl(String nbmf) {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption(rb.gftString("providfd.null.nbmf"));
+
+        try {
+            thisX500Nbmf = nfw X500Nbmf(nbmf);
+        } dbtdh (Exdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.toString());
+        }
+
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturn thf Unix usfrnbmf for this <dodf>X500Prindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf Unix usfrnbmf for this <dodf>X500Prindipbl</dodf>
+     */
+    publid String gftNbmf() {
+        rfturn thisX500Nbmf.gftNbmf();
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this <dodf>X500Prindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>X500Prindipbl</dodf>.
+     */
+    publid String toString() {
+        rfturn thisX500Nbmf.toString();
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this <dodf>X500Prindipbl</dodf>
+     * for fqublity.
+     *
+     * <p>
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     *          <dodf>X500Prindipbl</dodf>.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl fqubl to this
+     *          <dodf>X500Prindipbl</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null)
+            rfturn fblsf;
+
+        if (this == o)
+            rfturn truf;
+
+        if (o instbndfof X500Prindipbl) {
+            X500Prindipbl thbt = (X500Prindipbl)o;
+            try {
+                X500Nbmf thbtX500Nbmf = nfw X500Nbmf(thbt.gftNbmf());
+                rfturn thisX500Nbmf.fqubls(thbtX500Nbmf);
+            } dbtdh (Exdfption f) {
+                // bny pbrsing fxdfptions, rfturn fblsf
+                rfturn fblsf;
+            }
+        } flsf if (o instbndfof Prindipbl) {
+            // this will rfturn 'truf' if 'o' is b sun.sfdurity.x509.X500Nbmf
+            // bnd thf X500Nbmfs brf fqubl
+            rfturn o.fqubls(thisX500Nbmf);
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn b hbsh dodf for this <dodf>X500Prindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn b hbsh dodf for this <dodf>X500Prindipbl</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn thisX500Nbmf.hbshCodf();
+    }
+
+    /**
+     * Rfbds this objfdt from b strfbm (i.f., dfsfriblizfs it)
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s) throws
+                                        jbvb.io.IOExdfption,
+                                        jbvb.io.NotAdtivfExdfption,
+                                        ClbssNotFoundExdfption {
+
+        s.dffbultRfbdObjfdt();
+
+        // rf-drfbtf thisX500Nbmf
+        thisX500Nbmf = nfw X500Nbmf(nbmf);
+    }
+}

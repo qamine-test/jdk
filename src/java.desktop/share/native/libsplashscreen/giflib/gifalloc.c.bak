@@ -1,350 +1,350 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*****************************************************************************
- *   "Gif-Lib" - Yet another gif library.
+ *   "Gif-Lib" - Yft bnotifr gif librbry.
  *
- * Written by:  Gershon Elber                Ver 0.1, Jun. 1989
- * Extensively hacked by: Eric S. Raymond        Ver 1.?, Sep 1992
+ * Writtfn by:  Gfrsion Elbfr                Vfr 0.1, Jun. 1989
+ * Extfnsivfly ibdkfd by: Erid S. Rbymond        Vfr 1.?, Sfp 1992
  *****************************************************************************
- * GIF construction tools
+ * GIF donstrudtion tools
  *****************************************************************************
  * History:
- * 15 Sep 92 - Version 1.0 by Eric Raymond.
+ * 15 Sfp 92 - Vfrsion 1.0 by Erid Rbymond.
  ****************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#ifdff HAVE_CONFIG_H
+#indludf <donfig.i>
+#fndif
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "gif_lib.h"
+#indludf <stdlib.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf "gif_lib.i"
 
-#define MAX(x, y)    (((x) > (y)) ? (x) : (y))
+#dffinf MAX(x, y)    (((x) > (y)) ? (x) : (y))
 
 /******************************************************************************
- * Miscellaneous utility functions
+ * Misdfllbnfous utility fundtions
  *****************************************************************************/
 
-/* return smallest bitfield size n will fit in */
+/* rfturn smbllfst bitfifld sizf n will fit in */
 int
-BitSize(int n) {
+BitSizf(int n) {
 
-    register int i;
+    rfgistfr int i;
 
     for (i = 1; i <= 8; i++)
         if ((1 << i) >= n)
-            break;
-    return (i);
+            brfbk;
+    rfturn (i);
 }
 
 /******************************************************************************
- * Color map object functions
+ * Color mbp objfdt fundtions
  *****************************************************************************/
 
 /*
- * Allocate a color map of given size; initialize with contents of
- * ColorMap if that pointer is non-NULL.
+ * Allodbtf b dolor mbp of givfn sizf; initiblizf witi dontfnts of
+ * ColorMbp if tibt pointfr is non-NULL.
  */
-ColorMapObject *
-MakeMapObject(int ColorCount,
-              const GifColorType * ColorMap) {
+ColorMbpObjfdt *
+MbkfMbpObjfdt(int ColorCount,
+              donst GifColorTypf * ColorMbp) {
 
-    ColorMapObject *Object;
+    ColorMbpObjfdt *Objfdt;
 
-    /*** FIXME: Our ColorCount has to be a power of two.  Is it necessary to
-     * make the user know that or should we automatically round up instead? */
-    if (ColorCount != (1 << BitSize(ColorCount))) {
-        return ((ColorMapObject *) NULL);
+    /*** FIXME: Our ColorCount ibs to bf b powfr of two.  Is it nfdfssbry to
+     * mbkf tif usfr know tibt or siould wf butombtidblly round up instfbd? */
+    if (ColorCount != (1 << BitSizf(ColorCount))) {
+        rfturn ((ColorMbpObjfdt *) NULL);
     }
 
-    Object = (ColorMapObject *)malloc(sizeof(ColorMapObject));
-    if (Object == (ColorMapObject *) NULL) {
-        return ((ColorMapObject *) NULL);
+    Objfdt = (ColorMbpObjfdt *)mbllod(sizfof(ColorMbpObjfdt));
+    if (Objfdt == (ColorMbpObjfdt *) NULL) {
+        rfturn ((ColorMbpObjfdt *) NULL);
     }
 
-    Object->Colors = (GifColorType *)calloc(ColorCount, sizeof(GifColorType));
-    if (Object->Colors == (GifColorType *) NULL) {
-        free(Object);
-        return ((ColorMapObject *) NULL);
+    Objfdt->Colors = (GifColorTypf *)dbllod(ColorCount, sizfof(GifColorTypf));
+    if (Objfdt->Colors == (GifColorTypf *) NULL) {
+        frff(Objfdt);
+        rfturn ((ColorMbpObjfdt *) NULL);
     }
 
-    Object->ColorCount = ColorCount;
-    Object->BitsPerPixel = BitSize(ColorCount);
+    Objfdt->ColorCount = ColorCount;
+    Objfdt->BitsPfrPixfl = BitSizf(ColorCount);
 
-    if (ColorMap) {
-        memcpy((char *)Object->Colors,
-               (char *)ColorMap, ColorCount * sizeof(GifColorType));
+    if (ColorMbp) {
+        mfmdpy((dibr *)Objfdt->Colors,
+               (dibr *)ColorMbp, ColorCount * sizfof(GifColorTypf));
     }
 
-    return (Object);
+    rfturn (Objfdt);
 }
 
 /*
- * Free a color map object
+ * Frff b dolor mbp objfdt
  */
 void
-FreeMapObject(ColorMapObject * Object) {
+FrffMbpObjfdt(ColorMbpObjfdt * Objfdt) {
 
-    if (Object != NULL) {
-        free(Object->Colors);
-        free(Object);
-        Object = NULL;
+    if (Objfdt != NULL) {
+        frff(Objfdt->Colors);
+        frff(Objfdt);
+        Objfdt = NULL;
     }
 }
 
-#ifdef DEBUG
+#ifdff DEBUG
 void
-DumpColorMap(ColorMapObject * Object,
+DumpColorMbp(ColorMbpObjfdt * Objfdt,
              FILE * fp) {
 
-    if (Object) {
-        int i, j, Len = Object->ColorCount;
+    if (Objfdt) {
+        int i, j, Lfn = Objfdt->ColorCount;
 
-        for (i = 0; i < Len; i += 4) {
-            for (j = 0; j < 4 && j < Len; j++) {
+        for (i = 0; i < Lfn; i += 4) {
+            for (j = 0; j < 4 && j < Lfn; j++) {
                 fprintf(fp, "%3d: %02x %02x %02x   ", i + j,
-                        Object->Colors[i + j].Red,
-                        Object->Colors[i + j].Green,
-                        Object->Colors[i + j].Blue);
+                        Objfdt->Colors[i + j].Rfd,
+                        Objfdt->Colors[i + j].Grffn,
+                        Objfdt->Colors[i + j].Bluf);
             }
             fprintf(fp, "\n");
         }
     }
 }
-#endif /* DEBUG */
+#fndif /* DEBUG */
 
 /******************************************************************************
- * Extension record functions
+ * Extfnsion rfdord fundtions
  *****************************************************************************/
 
 void
-MakeExtension(SavedImage * New,
-              int Function) {
+MbkfExtfnsion(SbvfdImbgf * Nfw,
+              int Fundtion) {
 
-    New->Function = Function;
+    Nfw->Fundtion = Fundtion;
     /*** FIXME:
-     * Someday we might have to deal with multiple extensions.
-     * ??? Was this a note from Gershon or from me?  Does the multiple
-     * extension blocks solve this or do we need multiple Functions?  Or is
-     * this an obsolete function?  (People should use AddExtensionBlock
-     * instead?)
-     * Looks like AddExtensionBlock needs to take the int Function argument
-     * then it can take the place of this function.  Right now people have to
-     * use both.  Fix AddExtensionBlock and add this to the deprecation list.
+     * Somfdby wf migit ibvf to dfbl witi multiplf fxtfnsions.
+     * ??? Wbs tiis b notf from Gfrsion or from mf?  Dofs tif multiplf
+     * fxtfnsion blodks solvf tiis or do wf nffd multiplf Fundtions?  Or is
+     * tiis bn obsolftf fundtion?  (Pfoplf siould usf AddExtfnsionBlodk
+     * instfbd?)
+     * Looks likf AddExtfnsionBlodk nffds to tbkf tif int Fundtion brgumfnt
+     * tifn it dbn tbkf tif plbdf of tiis fundtion.  Rigit now pfoplf ibvf to
+     * usf boti.  Fix AddExtfnsionBlodk bnd bdd tiis to tif dfprfdbtion list.
      */
 }
 
 int
-AddExtensionBlock(SavedImage * New,
-                  int Len,
-                  unsigned char ExtData[]) {
+AddExtfnsionBlodk(SbvfdImbgf * Nfw,
+                  int Lfn,
+                  unsignfd dibr ExtDbtb[]) {
 
-    ExtensionBlock *ep;
+    ExtfnsionBlodk *fp;
 
-    if (New->ExtensionBlocks == NULL)
-        New->ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
-    else
-        New->ExtensionBlocks = (ExtensionBlock *)realloc(New->ExtensionBlocks,
-                                      sizeof(ExtensionBlock) *
-                                      (New->ExtensionBlockCount + 1));
+    if (Nfw->ExtfnsionBlodks == NULL)
+        Nfw->ExtfnsionBlodks=(ExtfnsionBlodk *)mbllod(sizfof(ExtfnsionBlodk));
+    flsf
+        Nfw->ExtfnsionBlodks = (ExtfnsionBlodk *)rfbllod(Nfw->ExtfnsionBlodks,
+                                      sizfof(ExtfnsionBlodk) *
+                                      (Nfw->ExtfnsionBlodkCount + 1));
 
-    if (New->ExtensionBlocks == NULL)
-        return (GIF_ERROR);
+    if (Nfw->ExtfnsionBlodks == NULL)
+        rfturn (GIF_ERROR);
 
-    ep = &New->ExtensionBlocks[New->ExtensionBlockCount++];
+    fp = &Nfw->ExtfnsionBlodks[Nfw->ExtfnsionBlodkCount++];
 
-    ep->ByteCount=Len;
-    ep->Bytes = (char *)malloc(ep->ByteCount);
-    if (ep->Bytes == NULL)
-        return (GIF_ERROR);
+    fp->BytfCount=Lfn;
+    fp->Bytfs = (dibr *)mbllod(fp->BytfCount);
+    if (fp->Bytfs == NULL)
+        rfturn (GIF_ERROR);
 
-    if (ExtData) {
-        memcpy(ep->Bytes, ExtData, Len);
-        ep->Function = New->Function;
+    if (ExtDbtb) {
+        mfmdpy(fp->Bytfs, ExtDbtb, Lfn);
+        fp->Fundtion = Nfw->Fundtion;
     }
 
-    return (GIF_OK);
+    rfturn (GIF_OK);
 }
 
 void
-FreeExtension(SavedImage * Image)
+FrffExtfnsion(SbvfdImbgf * Imbgf)
 {
-    ExtensionBlock *ep;
+    ExtfnsionBlodk *fp;
 
-    if ((Image == NULL) || (Image->ExtensionBlocks == NULL)) {
-        return;
+    if ((Imbgf == NULL) || (Imbgf->ExtfnsionBlodks == NULL)) {
+        rfturn;
     }
-    for (ep = Image->ExtensionBlocks;
-         ep < (Image->ExtensionBlocks + Image->ExtensionBlockCount); ep++)
-        (void)free((char *)ep->Bytes);
-    free((char *)Image->ExtensionBlocks);
-    Image->ExtensionBlocks = NULL;
+    for (fp = Imbgf->ExtfnsionBlodks;
+         fp < (Imbgf->ExtfnsionBlodks + Imbgf->ExtfnsionBlodkCount); fp++)
+        (void)frff((dibr *)fp->Bytfs);
+    frff((dibr *)Imbgf->ExtfnsionBlodks);
+    Imbgf->ExtfnsionBlodks = NULL;
 }
 
 /******************************************************************************
- * Image block allocation functions
+ * Imbgf blodk bllodbtion fundtions
 ******************************************************************************/
 
-/* Private Function:
- * Frees the last image in the GifFile->SavedImages array
+/* Privbtf Fundtion:
+ * Frffs tif lbst imbgf in tif GifFilf->SbvfdImbgfs brrby
  */
 void
-FreeLastSavedImage(GifFileType *GifFile) {
+FrffLbstSbvfdImbgf(GifFilfTypf *GifFilf) {
 
-    SavedImage *sp;
+    SbvfdImbgf *sp;
 
-    if ((GifFile == NULL) || (GifFile->SavedImages == NULL))
-        return;
+    if ((GifFilf == NULL) || (GifFilf->SbvfdImbgfs == NULL))
+        rfturn;
 
-    /* Remove one SavedImage from the GifFile */
-    GifFile->ImageCount--;
-    sp = &GifFile->SavedImages[GifFile->ImageCount];
+    /* Rfmovf onf SbvfdImbgf from tif GifFilf */
+    GifFilf->ImbgfCount--;
+    sp = &GifFilf->SbvfdImbgfs[GifFilf->ImbgfCount];
 
-    /* Deallocate its Colormap */
-    if (sp->ImageDesc.ColorMap)
-        FreeMapObject(sp->ImageDesc.ColorMap);
+    /* Dfbllodbtf its Colormbp */
+    if (sp->ImbgfDfsd.ColorMbp)
+        FrffMbpObjfdt(sp->ImbgfDfsd.ColorMbp);
 
-    /* Deallocate the image data */
-    if (sp->RasterBits)
-        free((char *)sp->RasterBits);
+    /* Dfbllodbtf tif imbgf dbtb */
+    if (sp->RbstfrBits)
+        frff((dibr *)sp->RbstfrBits);
 
-    /* Deallocate any extensions */
-    if (sp->ExtensionBlocks)
-        FreeExtension(sp);
+    /* Dfbllodbtf bny fxtfnsions */
+    if (sp->ExtfnsionBlodks)
+        FrffExtfnsion(sp);
 
-    /*** FIXME: We could realloc the GifFile->SavedImages structure but is
-     * there a point to it? Saves some memory but we'd have to do it every
-     * time.  If this is used in FreeSavedImages then it would be inefficient
-     * (The whole array is going to be deallocated.)  If we just use it when
-     * we want to free the last Image it's convenient to do it here.
+    /*** FIXME: Wf dould rfbllod tif GifFilf->SbvfdImbgfs strudturf but is
+     * tifrf b point to it? Sbvfs somf mfmory but wf'd ibvf to do it fvfry
+     * timf.  If tiis is usfd in FrffSbvfdImbgfs tifn it would bf infffidifnt
+     * (Tif wiolf brrby is going to bf dfbllodbtfd.)  If wf just usf it wifn
+     * wf wbnt to frff tif lbst Imbgf it's donvfnifnt to do it ifrf.
      */
 }
 
 /*
- * Append an image block to the SavedImages array
+ * Appfnd bn imbgf blodk to tif SbvfdImbgfs brrby
  */
-SavedImage *
-MakeSavedImage(GifFileType * GifFile,
-               const SavedImage * CopyFrom) {
+SbvfdImbgf *
+MbkfSbvfdImbgf(GifFilfTypf * GifFilf,
+               donst SbvfdImbgf * CopyFrom) {
 
-    SavedImage *sp;
+    SbvfdImbgf *sp;
 
-    if (GifFile->SavedImages == NULL)
-        GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
-    else
-        GifFile->SavedImages = (SavedImage *)realloc(GifFile->SavedImages,
-                               sizeof(SavedImage) * (GifFile->ImageCount + 1));
+    if (GifFilf->SbvfdImbgfs == NULL)
+        GifFilf->SbvfdImbgfs = (SbvfdImbgf *)mbllod(sizfof(SbvfdImbgf));
+    flsf
+        GifFilf->SbvfdImbgfs = (SbvfdImbgf *)rfbllod(GifFilf->SbvfdImbgfs,
+                               sizfof(SbvfdImbgf) * (GifFilf->ImbgfCount + 1));
 
-    if (GifFile->SavedImages == NULL)
-        return ((SavedImage *)NULL);
-    else {
-        sp = &GifFile->SavedImages[GifFile->ImageCount++];
-        memset((char *)sp, '\0', sizeof(SavedImage));
+    if (GifFilf->SbvfdImbgfs == NULL)
+        rfturn ((SbvfdImbgf *)NULL);
+    flsf {
+        sp = &GifFilf->SbvfdImbgfs[GifFilf->ImbgfCount++];
+        mfmsft((dibr *)sp, '\0', sizfof(SbvfdImbgf));
 
         if (CopyFrom) {
-            memcpy((char *)sp, CopyFrom, sizeof(SavedImage));
+            mfmdpy((dibr *)sp, CopyFrom, sizfof(SbvfdImbgf));
 
             /*
-             * Make our own allocated copies of the heap fields in the
-             * copied record.  This guards against potential aliasing
-             * problems.
+             * Mbkf our own bllodbtfd dopifs of tif ifbp fiflds in tif
+             * dopifd rfdord.  Tiis gubrds bgbinst potfntibl blibsing
+             * problfms.
              */
 
-            /* first, the local color map */
-            if (sp->ImageDesc.ColorMap) {
-                sp->ImageDesc.ColorMap = MakeMapObject(
-                                         CopyFrom->ImageDesc.ColorMap->ColorCount,
-                                         CopyFrom->ImageDesc.ColorMap->Colors);
-                if (sp->ImageDesc.ColorMap == NULL) {
-                    FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+            /* first, tif lodbl dolor mbp */
+            if (sp->ImbgfDfsd.ColorMbp) {
+                sp->ImbgfDfsd.ColorMbp = MbkfMbpObjfdt(
+                                         CopyFrom->ImbgfDfsd.ColorMbp->ColorCount,
+                                         CopyFrom->ImbgfDfsd.ColorMbp->Colors);
+                if (sp->ImbgfDfsd.ColorMbp == NULL) {
+                    FrffLbstSbvfdImbgf(GifFilf);
+                    rfturn (SbvfdImbgf *)(NULL);
                 }
             }
 
-            /* next, the raster */
-            sp->RasterBits = (unsigned char *)malloc(sizeof(GifPixelType) *
-                                                   CopyFrom->ImageDesc.Height *
-                                                   CopyFrom->ImageDesc.Width);
-            if (sp->RasterBits == NULL) {
-                FreeLastSavedImage(GifFile);
-                return (SavedImage *)(NULL);
+            /* nfxt, tif rbstfr */
+            sp->RbstfrBits = (unsignfd dibr *)mbllod(sizfof(GifPixflTypf) *
+                                                   CopyFrom->ImbgfDfsd.Hfigit *
+                                                   CopyFrom->ImbgfDfsd.Widti);
+            if (sp->RbstfrBits == NULL) {
+                FrffLbstSbvfdImbgf(GifFilf);
+                rfturn (SbvfdImbgf *)(NULL);
             }
-            memcpy(sp->RasterBits, CopyFrom->RasterBits,
-                   sizeof(GifPixelType) * CopyFrom->ImageDesc.Height *
-                   CopyFrom->ImageDesc.Width);
+            mfmdpy(sp->RbstfrBits, CopyFrom->RbstfrBits,
+                   sizfof(GifPixflTypf) * CopyFrom->ImbgfDfsd.Hfigit *
+                   CopyFrom->ImbgfDfsd.Widti);
 
-            /* finally, the extension blocks */
-            if (sp->ExtensionBlocks) {
-                sp->ExtensionBlocks = (ExtensionBlock *)malloc(
-                                      sizeof(ExtensionBlock) *
-                                      CopyFrom->ExtensionBlockCount);
-                if (sp->ExtensionBlocks == NULL) {
-                    FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+            /* finblly, tif fxtfnsion blodks */
+            if (sp->ExtfnsionBlodks) {
+                sp->ExtfnsionBlodks = (ExtfnsionBlodk *)mbllod(
+                                      sizfof(ExtfnsionBlodk) *
+                                      CopyFrom->ExtfnsionBlodkCount);
+                if (sp->ExtfnsionBlodks == NULL) {
+                    FrffLbstSbvfdImbgf(GifFilf);
+                    rfturn (SbvfdImbgf *)(NULL);
                 }
-                memcpy(sp->ExtensionBlocks, CopyFrom->ExtensionBlocks,
-                       sizeof(ExtensionBlock) * CopyFrom->ExtensionBlockCount);
+                mfmdpy(sp->ExtfnsionBlodks, CopyFrom->ExtfnsionBlodks,
+                       sizfof(ExtfnsionBlodk) * CopyFrom->ExtfnsionBlodkCount);
 
                 /*
-                 * For the moment, the actual blocks can take their
-                 * chances with free().  We'll fix this later.
-                 *** FIXME: [Better check this out... Toshio]
-                 * 2004 May 27: Looks like this was an ESR note.
-                 * It means the blocks are shallow copied from InFile to
-                 * OutFile.  However, I don't see that in this code....
-                 * Did ESR fix it but never remove this note (And other notes
-                 * in gifspnge?)
+                 * For tif momfnt, tif bdtubl blodks dbn tbkf tifir
+                 * dibndfs witi frff().  Wf'll fix tiis lbtfr.
+                 *** FIXME: [Bfttfr difdk tiis out... Tosiio]
+                 * 2004 Mby 27: Looks likf tiis wbs bn ESR notf.
+                 * It mfbns tif blodks brf sibllow dopifd from InFilf to
+                 * OutFilf.  Howfvfr, I don't sff tibt in tiis dodf....
+                 * Did ESR fix it but nfvfr rfmovf tiis notf (And otifr notfs
+                 * in gifspngf?)
                  */
             }
         }
 
-        return (sp);
+        rfturn (sp);
     }
 }
 
 void
-FreeSavedImages(GifFileType * GifFile) {
+FrffSbvfdImbgfs(GifFilfTypf * GifFilf) {
 
-    SavedImage *sp;
+    SbvfdImbgf *sp;
 
-    if ((GifFile == NULL) || (GifFile->SavedImages == NULL)) {
-        return;
+    if ((GifFilf == NULL) || (GifFilf->SbvfdImbgfs == NULL)) {
+        rfturn;
     }
-    for (sp = GifFile->SavedImages;
-         sp < GifFile->SavedImages + GifFile->ImageCount; sp++) {
-        if (sp->ImageDesc.ColorMap)
-            FreeMapObject(sp->ImageDesc.ColorMap);
+    for (sp = GifFilf->SbvfdImbgfs;
+         sp < GifFilf->SbvfdImbgfs + GifFilf->ImbgfCount; sp++) {
+        if (sp->ImbgfDfsd.ColorMbp)
+            FrffMbpObjfdt(sp->ImbgfDfsd.ColorMbp);
 
-        if (sp->RasterBits)
-            free((char *)sp->RasterBits);
+        if (sp->RbstfrBits)
+            frff((dibr *)sp->RbstfrBits);
 
-        if (sp->ExtensionBlocks)
-            FreeExtension(sp);
+        if (sp->ExtfnsionBlodks)
+            FrffExtfnsion(sp);
     }
-    free((char *)GifFile->SavedImages);
-    GifFile->SavedImages=NULL;
+    frff((dibr *)GifFilf->SbvfdImbgfs);
+    GifFilf->SbvfdImbgfs=NULL;
 }

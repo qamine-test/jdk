@@ -1,172 +1,172 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import javax.crypto.SecretKey;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Element;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvbx.drypto.SfdrftKfy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Resolves a single Key based on the KeyName.
+ * Rfsolvfs b singlf Kfy bbsfd on tif KfyNbmf.
  */
-public class SingleKeyResolver extends KeyResolverSpi
+publid dlbss SinglfKfyRfsolvfr fxtfnds KfyRfsolvfrSpi
 {
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SingleKeyResolver.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(SinglfKfyRfsolvfr.dlbss.gftNbmf());
 
-    private String keyName;
-    private PublicKey publicKey;
-    private PrivateKey privateKey;
-    private SecretKey secretKey;
+    privbtf String kfyNbmf;
+    privbtf PublidKfy publidKfy;
+    privbtf PrivbtfKfy privbtfKfy;
+    privbtf SfdrftKfy sfdrftKfy;
 
     /**
-     * Constructor.
-     * @param keyName
-     * @param publicKey
+     * Construdtor.
+     * @pbrbm kfyNbmf
+     * @pbrbm publidKfy
      */
-    public SingleKeyResolver(String keyName, PublicKey publicKey) {
-        this.keyName = keyName;
-        this.publicKey = publicKey;
+    publid SinglfKfyRfsolvfr(String kfyNbmf, PublidKfy publidKfy) {
+        tiis.kfyNbmf = kfyNbmf;
+        tiis.publidKfy = publidKfy;
     }
 
     /**
-     * Constructor.
-     * @param keyName
-     * @param privateKey
+     * Construdtor.
+     * @pbrbm kfyNbmf
+     * @pbrbm privbtfKfy
      */
-    public SingleKeyResolver(String keyName, PrivateKey privateKey) {
-        this.keyName = keyName;
-        this.privateKey = privateKey;
+    publid SinglfKfyRfsolvfr(String kfyNbmf, PrivbtfKfy privbtfKfy) {
+        tiis.kfyNbmf = kfyNbmf;
+        tiis.privbtfKfy = privbtfKfy;
     }
 
     /**
-     * Constructor.
-     * @param keyName
-     * @param secretKey
+     * Construdtor.
+     * @pbrbm kfyNbmf
+     * @pbrbm sfdrftKfy
      */
-    public SingleKeyResolver(String keyName, SecretKey secretKey) {
-        this.keyName = keyName;
-        this.secretKey = secretKey;
+    publid SinglfKfyRfsolvfr(String kfyNbmf, SfdrftKfy sfdrftKfy) {
+        tiis.kfyNbmf = kfyNbmf;
+        tiis.sfdrftKfy = sfdrftKfy;
     }
 
     /**
-     * This method returns whether the KeyResolverSpi is able to perform the requested action.
+     * Tiis mftiod rfturns wiftifr tif KfyRfsolvfrSpi is bblf to pfrform tif rfqufstfd bdtion.
      *
-     * @param element
-     * @param BaseURI
-     * @param storage
-     * @return whether the KeyResolverSpi is able to perform the requested action.
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @pbrbm storbgf
+     * @rfturn wiftifr tif KfyRfsolvfrSpi is bblf to pfrform tif rfqufstfd bdtion.
      */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        return XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME);
+    publid boolfbn fnginfCbnRfsolvf(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf) {
+        rfturn XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYNAME);
     }
 
     /**
-     * Method engineLookupAndResolvePublicKey
+     * Mftiod fnginfLookupAndRfsolvfPublidKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return null if no {@link PublicKey} could be obtained
-     * @throws KeyResolverException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn null if no {@link PublidKfy} dould bf obtbinfd
+     * @tirows KfyRfsolvfrExdfption
      */
-    public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf() + "?");
         }
 
-        if (publicKey != null
-            && XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
-            String name = element.getFirstChild().getNodeValue();
-            if (keyName.equals(name)) {
-                return publicKey;
+        if (publidKfy != null
+            && XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYNAME)) {
+            String nbmf = flfmfnt.gftFirstCiild().gftNodfVbluf();
+            if (kfyNbmf.fqubls(nbmf)) {
+                rfturn publidKfy;
             }
         }
 
-        log.log(java.util.logging.Level.FINE, "I can't");
-        return null;
+        log.log(jbvb.util.logging.Lfvfl.FINE, "I dbn't");
+        rfturn null;
     }
 
     /**
-     * Method engineResolveX509Certificate
-     * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @throws KeyResolverException
+     * Mftiod fnginfRfsolvfX509Cfrtifidbtf
+     * @inifritDod
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @tirows KfyRfsolvfrExdfption
      */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        return null;
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        rfturn null;
     }
 
     /**
-     * Method engineResolveSecretKey
+     * Mftiod fnginfRfsolvfSfdrftKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved SecretKey key or null if no {@link SecretKey} could be obtained
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd SfdrftKfy kfy or null if no {@link SfdrftKfy} dould bf obtbinfd
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public SecretKey engineResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+    publid SfdrftKfy fnginfRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf() + "?");
         }
 
-        if (secretKey != null
-            && XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
-            String name = element.getFirstChild().getNodeValue();
-            if (keyName.equals(name)) {
-                return secretKey;
+        if (sfdrftKfy != null
+            && XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYNAME)) {
+            String nbmf = flfmfnt.gftFirstCiild().gftNodfVbluf();
+            if (kfyNbmf.fqubls(nbmf)) {
+                rfturn sfdrftKfy;
             }
         }
 
-        log.log(java.util.logging.Level.FINE, "I can't");
-        return null;
+        log.log(jbvb.util.logging.Lfvfl.FINE, "I dbn't");
+        rfturn null;
     }
 
     /**
-     * Method engineResolvePrivateKey
-     * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved PrivateKey key or null if no {@link PrivateKey} could be obtained
-     * @throws KeyResolverException
+     * Mftiod fnginfRfsolvfPrivbtfKfy
+     * @inifritDod
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd PrivbtfKfy kfy or null if no {@link PrivbtfKfy} dould bf obtbinfd
+     * @tirows KfyRfsolvfrExdfption
      */
-    public PrivateKey engineLookupAndResolvePrivateKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+    publid PrivbtfKfy fnginfLookupAndRfsolvfPrivbtfKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Cbn I rfsolvf " + flfmfnt.gftTbgNbmf() + "?");
         }
 
-        if (privateKey != null
-            && XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
-            String name = element.getFirstChild().getNodeValue();
-            if (keyName.equals(name)) {
-                return privateKey;
+        if (privbtfKfy != null
+            && XMLUtils.flfmfntIsInSignbturfSpbdf(flfmfnt, Constbnts._TAG_KEYNAME)) {
+            String nbmf = flfmfnt.gftFirstCiild().gftNodfVbluf();
+            if (kfyNbmf.fqubls(nbmf)) {
+                rfturn privbtfKfy;
             }
         }
 
-        log.log(java.util.logging.Level.FINE, "I can't");
-        return null;
+        log.log(jbvb.util.logging.Lfvfl.FINE, "I dbn't");
+        rfturn null;
     }
 }

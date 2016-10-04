@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.regex;
+pbdkbgf jbvb.util.rfgfx;
 
-import java.util.HashMap;
-import java.util.Locale;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
 
-enum UnicodeProp {
+fnum UnidodfProp {
 
     ALPHABETIC {
-        public boolean is(int ch) {
-            return Character.isAlphabetic(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isAlpibbftid(di);
         }
     },
 
     LETTER {
-        public boolean is(int ch) {
-            return Character.isLetter(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isLfttfr(di);
         }
     },
 
     IDEOGRAPHIC {
-        public boolean is(int ch) {
-            return Character.isIdeographic(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isIdfogrbpiid(di);
         }
     },
 
     LOWERCASE {
-        public boolean is(int ch) {
-            return Character.isLowerCase(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isLowfrCbsf(di);
         }
     },
 
     UPPERCASE {
-        public boolean is(int ch) {
-            return Character.isUpperCase(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isUppfrCbsf(di);
         }
     },
 
     TITLECASE {
-        public boolean is(int ch) {
-            return Character.isTitleCase(ch);
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isTitlfCbsf(di);
         }
     },
 
     WHITE_SPACE {
-        // \p{Whitespace}
-        public boolean is(int ch) {
-            return ((((1 << Character.SPACE_SEPARATOR) |
-                      (1 << Character.LINE_SEPARATOR) |
-                      (1 << Character.PARAGRAPH_SEPARATOR)) >> Character.getType(ch)) & 1)
-                   != 0 || (ch >= 0x9 && ch <= 0xd) || (ch == 0x85);
+        // \p{Wiitfspbdf}
+        publid boolfbn is(int di) {
+            rfturn ((((1 << Cibrbdtfr.SPACE_SEPARATOR) |
+                      (1 << Cibrbdtfr.LINE_SEPARATOR) |
+                      (1 << Cibrbdtfr.PARAGRAPH_SEPARATOR)) >> Cibrbdtfr.gftTypf(di)) & 1)
+                   != 0 || (di >= 0x9 && di <= 0xd) || (di == 0x85);
         }
     },
 
     CONTROL {
-        // \p{gc=Control}
-        public boolean is(int ch) {
-            return Character.getType(ch) == Character.CONTROL;
+        // \p{gd=Control}
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.gftTypf(di) == Cibrbdtfr.CONTROL;
         }
     },
 
     PUNCTUATION {
-        // \p{gc=Punctuation}
-        public boolean is(int ch) {
-            return ((((1 << Character.CONNECTOR_PUNCTUATION) |
-                      (1 << Character.DASH_PUNCTUATION) |
-                      (1 << Character.START_PUNCTUATION) |
-                      (1 << Character.END_PUNCTUATION) |
-                      (1 << Character.OTHER_PUNCTUATION) |
-                      (1 << Character.INITIAL_QUOTE_PUNCTUATION) |
-                      (1 << Character.FINAL_QUOTE_PUNCTUATION)) >> Character.getType(ch)) & 1)
+        // \p{gd=Pundtubtion}
+        publid boolfbn is(int di) {
+            rfturn ((((1 << Cibrbdtfr.CONNECTOR_PUNCTUATION) |
+                      (1 << Cibrbdtfr.DASH_PUNCTUATION) |
+                      (1 << Cibrbdtfr.START_PUNCTUATION) |
+                      (1 << Cibrbdtfr.END_PUNCTUATION) |
+                      (1 << Cibrbdtfr.OTHER_PUNCTUATION) |
+                      (1 << Cibrbdtfr.INITIAL_QUOTE_PUNCTUATION) |
+                      (1 << Cibrbdtfr.FINAL_QUOTE_PUNCTUATION)) >> Cibrbdtfr.gftTypf(di)) & 1)
                    != 0;
         }
     },
 
     HEX_DIGIT {
-        // \p{gc=Decimal_Number}
-        // \p{Hex_Digit}    -> PropList.txt: Hex_Digit
-        public boolean is(int ch) {
-            return DIGIT.is(ch) ||
-                   (ch >= 0x0030 && ch <= 0x0039) ||
-                   (ch >= 0x0041 && ch <= 0x0046) ||
-                   (ch >= 0x0061 && ch <= 0x0066) ||
-                   (ch >= 0xFF10 && ch <= 0xFF19) ||
-                   (ch >= 0xFF21 && ch <= 0xFF26) ||
-                   (ch >= 0xFF41 && ch <= 0xFF46);
+        // \p{gd=Dfdimbl_Numbfr}
+        // \p{Hfx_Digit}    -> PropList.txt: Hfx_Digit
+        publid boolfbn is(int di) {
+            rfturn DIGIT.is(di) ||
+                   (di >= 0x0030 && di <= 0x0039) ||
+                   (di >= 0x0041 && di <= 0x0046) ||
+                   (di >= 0x0061 && di <= 0x0066) ||
+                   (di >= 0xFF10 && di <= 0xFF19) ||
+                   (di >= 0xFF21 && di <= 0xFF26) ||
+                   (di >= 0xFF41 && di <= 0xFF46);
         }
     },
 
     ASSIGNED {
-        public boolean is(int ch) {
-            return Character.getType(ch) != Character.UNASSIGNED;
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.gftTypf(di) != Cibrbdtfr.UNASSIGNED;
         }
     },
 
     NONCHARACTER_CODE_POINT {
-        // PropList.txt:Noncharacter_Code_Point
-        public boolean is(int ch) {
-            return (ch & 0xfffe) == 0xfffe || (ch >= 0xfdd0 && ch <= 0xfdef);
+        // PropList.txt:Nondibrbdtfr_Codf_Point
+        publid boolfbn is(int di) {
+            rfturn (di & 0xffff) == 0xffff || (di >= 0xfdd0 && di <= 0xfdff);
         }
     },
 
     DIGIT {
-        // \p{gc=Decimal_Number}
-        public boolean is(int ch) {
-            return Character.isDigit(ch);
+        // \p{gd=Dfdimbl_Numbfr}
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.isDigit(di);
         }
     },
 
     ALNUM {
-        // \p{alpha}
+        // \p{blpib}
         // \p{digit}
-        public boolean is(int ch) {
-            return ALPHABETIC.is(ch) || DIGIT.is(ch);
+        publid boolfbn is(int di) {
+            rfturn ALPHABETIC.is(di) || DIGIT.is(di);
         }
     },
 
     BLANK {
-        // \p{Whitespace} --
-        // [\N{LF} \N{VT} \N{FF} \N{CR} \N{NEL}  -> 0xa, 0xb, 0xc, 0xd, 0x85
-        //  \p{gc=Line_Separator}
-        //  \p{gc=Paragraph_Separator}]
-        public boolean is(int ch) {
-            return Character.getType(ch) == Character.SPACE_SEPARATOR ||
-                   ch == 0x9; // \N{HT}
+        // \p{Wiitfspbdf} --
+        // [\N{LF} \N{VT} \N{FF} \N{CR} \N{NEL}  -> 0xb, 0xb, 0xd, 0xd, 0x85
+        //  \p{gd=Linf_Sfpbrbtor}
+        //  \p{gd=Pbrbgrbpi_Sfpbrbtor}]
+        publid boolfbn is(int di) {
+            rfturn Cibrbdtfr.gftTypf(di) == Cibrbdtfr.SPACE_SEPARATOR ||
+                   di == 0x9; // \N{HT}
         }
     },
 
     GRAPH {
         // [^
-        //  \p{space}
-        //  \p{gc=Control}
-        //  \p{gc=Surrogate}
-        //  \p{gc=Unassigned}]
-        public boolean is(int ch) {
-            return ((((1 << Character.SPACE_SEPARATOR) |
-                      (1 << Character.LINE_SEPARATOR) |
-                      (1 << Character.PARAGRAPH_SEPARATOR) |
-                      (1 << Character.CONTROL) |
-                      (1 << Character.SURROGATE) |
-                      (1 << Character.UNASSIGNED)) >> Character.getType(ch)) & 1)
+        //  \p{spbdf}
+        //  \p{gd=Control}
+        //  \p{gd=Surrogbtf}
+        //  \p{gd=Unbssignfd}]
+        publid boolfbn is(int di) {
+            rfturn ((((1 << Cibrbdtfr.SPACE_SEPARATOR) |
+                      (1 << Cibrbdtfr.LINE_SEPARATOR) |
+                      (1 << Cibrbdtfr.PARAGRAPH_SEPARATOR) |
+                      (1 << Cibrbdtfr.CONTROL) |
+                      (1 << Cibrbdtfr.SURROGATE) |
+                      (1 << Cibrbdtfr.UNASSIGNED)) >> Cibrbdtfr.gftTypf(di)) & 1)
                    == 0;
         }
     },
 
     PRINT {
-        // \p{graph}
-        // \p{blank}
-        // -- \p{cntrl}
-        public boolean is(int ch) {
-            return (GRAPH.is(ch) || BLANK.is(ch)) && !CONTROL.is(ch);
+        // \p{grbpi}
+        // \p{blbnk}
+        // -- \p{dntrl}
+        publid boolfbn is(int di) {
+            rfturn (GRAPH.is(di) || BLANK.is(di)) && !CONTROL.is(di);
         }
     },
 
     WORD {
-        //  \p{alpha}
-        //  \p{gc=Mark}
+        //  \p{blpib}
+        //  \p{gd=Mbrk}
         //  \p{digit}
-        //  \p{gc=Connector_Punctuation}
+        //  \p{gd=Connfdtor_Pundtubtion}
         //  \p{Join_Control}    200C..200D
 
-        public boolean is(int ch) {
-            return ALPHABETIC.is(ch) ||
-                   ((((1 << Character.NON_SPACING_MARK) |
-                      (1 << Character.ENCLOSING_MARK) |
-                      (1 << Character.COMBINING_SPACING_MARK) |
-                      (1 << Character.DECIMAL_DIGIT_NUMBER) |
-                      (1 << Character.CONNECTOR_PUNCTUATION)) >> Character.getType(ch)) & 1)
+        publid boolfbn is(int di) {
+            rfturn ALPHABETIC.is(di) ||
+                   ((((1 << Cibrbdtfr.NON_SPACING_MARK) |
+                      (1 << Cibrbdtfr.ENCLOSING_MARK) |
+                      (1 << Cibrbdtfr.COMBINING_SPACING_MARK) |
+                      (1 << Cibrbdtfr.DECIMAL_DIGIT_NUMBER) |
+                      (1 << Cibrbdtfr.CONNECTOR_PUNCTUATION)) >> Cibrbdtfr.gftTypf(di)) & 1)
                    != 0 ||
-                   JOIN_CONTROL.is(ch);
+                   JOIN_CONTROL.is(di);
         }
     },
 
     JOIN_CONTROL {
         //  200C..200D    PropList.txt:Join_Control
-        public boolean is(int ch) {
-           return (ch == 0x200C || ch == 0x200D);
+        publid boolfbn is(int di) {
+           rfturn (di == 0x200C || di == 0x200D);
         }
     };
 
-    private final static HashMap<String, String> posix = new HashMap<>();
-    private final static HashMap<String, String> aliases = new HashMap<>();
-    static {
+    privbtf finbl stbtid HbsiMbp<String, String> posix = nfw HbsiMbp<>();
+    privbtf finbl stbtid HbsiMbp<String, String> blibsfs = nfw HbsiMbp<>();
+    stbtid {
         posix.put("ALPHA", "ALPHABETIC");
         posix.put("LOWER", "LOWERCASE");
         posix.put("UPPER", "UPPERCASE");
@@ -218,29 +218,29 @@ enum UnicodeProp {
         posix.put("GRAPH", "GRAPH");
         posix.put("PRINT", "PRINT");
 
-        aliases.put("WHITESPACE", "WHITE_SPACE");
-        aliases.put("HEXDIGIT","HEX_DIGIT");
-        aliases.put("NONCHARACTERCODEPOINT", "NONCHARACTER_CODE_POINT");
-        aliases.put("JOINCONTROL", "JOIN_CONTROL");
+        blibsfs.put("WHITESPACE", "WHITE_SPACE");
+        blibsfs.put("HEXDIGIT","HEX_DIGIT");
+        blibsfs.put("NONCHARACTERCODEPOINT", "NONCHARACTER_CODE_POINT");
+        blibsfs.put("JOINCONTROL", "JOIN_CONTROL");
     }
 
-    public static UnicodeProp forName(String propName) {
-        propName = propName.toUpperCase(Locale.ENGLISH);
-        String alias = aliases.get(propName);
-        if (alias != null)
-            propName = alias;
+    publid stbtid UnidodfProp forNbmf(String propNbmf) {
+        propNbmf = propNbmf.toUppfrCbsf(Lodblf.ENGLISH);
+        String blibs = blibsfs.gft(propNbmf);
+        if (blibs != null)
+            propNbmf = blibs;
         try {
-            return valueOf (propName);
-        } catch (IllegalArgumentException x) {}
-        return null;
+            rfturn vblufOf (propNbmf);
+        } dbtdi (IllfgblArgumfntExdfption x) {}
+        rfturn null;
     }
 
-    public static UnicodeProp forPOSIXName(String propName) {
-        propName = posix.get(propName.toUpperCase(Locale.ENGLISH));
-        if (propName == null)
-            return null;
-        return valueOf (propName);
+    publid stbtid UnidodfProp forPOSIXNbmf(String propNbmf) {
+        propNbmf = posix.gft(propNbmf.toUppfrCbsf(Lodblf.ENGLISH));
+        if (propNbmf == null)
+            rfturn null;
+        rfturn vblufOf (propNbmf);
     }
 
-    public abstract boolean is(int ch);
+    publid bbstrbdt boolfbn is(int di);
 }

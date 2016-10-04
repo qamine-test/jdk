@@ -1,0 +1,1061 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.io.*;
+import jbvb.tfxt.*;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.*;
+import jbvbx.swing.*;
+
+/**
+ * <dodf>IntfrnbtionblFormbttfr</dodf> fxtfnds <dodf>DffbultFormbttfr</dodf>,
+ * using bn instbndf of <dodf>jbvb.tfxt.Formbt</dodf> to hbndlf thf
+ * donvfrsion to b String, bnd thf donvfrsion from b String.
+ * <p>
+ * If <dodf>gftAllowsInvblid()</dodf> is fblsf, this will bsk thf
+ * <dodf>Formbt</dodf> to formbt thf durrfnt tfxt on fvfry fdit.
+ * <p>
+ * You dbn spfdify b minimum bnd mbximum vbluf by wby of thf
+ * <dodf>sftMinimum</dodf> bnd <dodf>sftMbximum</dodf> mfthods. In ordfr
+ * for this to work thf vblufs rfturnfd from <dodf>stringToVbluf</dodf> must bf
+ * dompbrbblf to thf min/mbx vblufs by wby of thf <dodf>Compbrbblf</dodf>
+ * intfrfbdf.
+ * <p>
+ * Bf dbrfful how you donfigurf thf <dodf>Formbt</dodf> bnd thf
+ * <dodf>IntfrnbtionblFormbttfr</dodf>, bs it is possiblf to drfbtf b
+ * situbtion whfrf dfrtbin vblufs dbn not bf input. Considfr thf dbtf
+ * formbt 'M/d/yy', bn <dodf>IntfrnbtionblFormbttfr</dodf> thbt is blwbys
+ * vblid (<dodf>sftAllowsInvblid(fblsf)</dodf>), is in ovfrwritf modf
+ * (<dodf>sftOvfrwritfModf(truf)</dodf>) bnd thf dbtf 7/1/99. In this
+ * dbsf thf usfr will not bf bblf to fntfr b two digit month or dby of
+ * month. To bvoid this, thf formbt should bf 'MM/dd/yy'.
+ * <p>
+ * If <dodf>IntfrnbtionblFormbttfr</dodf> is donfigurfd to only bllow vblid
+ * vblufs (<dodf>sftAllowsInvblid(fblsf)</dodf>), fvfry vblid fdit will rfsult
+ * in thf tfxt of thf <dodf>JFormbttfdTfxtFifld</dodf> bfing domplftfly rfsft
+ * from thf <dodf>Formbt</dodf>.
+ * Thf dursor position will blso bf bdjustfd bs litfrbl dhbrbdtfrs brf
+ * bddfd/rfmovfd from thf rfsulting String.
+ * <p>
+ * <dodf>IntfrnbtionblFormbttfr</dodf>'s bfhbvior of
+ * <dodf>stringToVbluf</dodf> is  slightly difffrfnt thbn thbt of
+ * <dodf>DffbultTfxtFormbttfr</dodf>, it dofs thf following:
+ * <ol>
+ *   <li><dodf>pbrsfObjfdt</dodf> is invokfd on thf <dodf>Formbt</dodf>
+ *       spfdififd by <dodf>sftFormbt</dodf>
+ *   <li>If b Clbss hbs bffn sft for thf vblufs (<dodf>sftVblufClbss</dodf>),
+ *       supfrs implfmfntbtion is invokfd to donvfrt thf vbluf rfturnfd
+ *       from <dodf>pbrsfObjfdt</dodf> to thf bppropribtf dlbss.
+ *   <li>If b <dodf>PbrsfExdfption</dodf> hbs not bffn thrown, bnd thf vbluf
+ *       is outsidf thf min/mbx b <dodf>PbrsfExdfption</dodf> is thrown.
+ *   <li>Thf vbluf is rfturnfd.
+ * </ol>
+ * <dodf>IntfrnbtionblFormbttfr</dodf> implfmfnts <dodf>stringToVbluf</dodf>
+ * in this mbnnfr so thbt you dbn spfdify bn bltfrnbtf Clbss thbn
+ * <dodf>Formbt</dodf> mby rfturn.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvb.tfxt.Formbt
+ * @sff jbvb.lbng.Compbrbblf
+ *
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss IntfrnbtionblFormbttfr fxtfnds DffbultFormbttfr {
+    /**
+     * Usfd by <dodf>gftFiflds</dodf>.
+     */
+    privbtf stbtid finbl Formbt.Fifld[] EMPTY_FIELD_ARRAY =nfw Formbt.Fifld[0];
+
+    /**
+     * Objfdt usfd to hbndlf thf donvfrsion.
+     */
+    privbtf Formbt formbt;
+    /**
+     * Cbn bf usfd to imposf b mbximum vbluf.
+     */
+    privbtf Compbrbblf<?> mbx;
+    /**
+     * Cbn bf usfd to imposf b minimum vbluf.
+     */
+    privbtf Compbrbblf<?> min;
+
+    /**
+     * <dodf>IntfrnbtionblFormbttfr</dodf>'s bfhbvior is didbtbtfd by b
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> thbt is obtbinfd from
+     * thf <dodf>Formbt</dodf>. On fvfry fdit, bssuming
+     * bllows invblid is fblsf, thf <dodf>Formbt</dodf> instbndf is invokfd
+     * with <dodf>formbtToChbrbdtfrItfrbtor</dodf>. A <dodf>BitSft</dodf> is
+     * blso kfpt upto dbtf with thf non-litfrbl dhbrbdtfrs, thbt is
+     * for fvfry indfx in thf <dodf>AttributfdChbrbdtfrItfrbtor</dodf> bn
+     * fntry in thf bit sft is updbtfd bbsfd on thf rfturn vbluf from
+     * <dodf>isLitfrbl(Mbp)</dodf>. <dodf>isLitfrbl(int)</dodf> thfn usfs
+     * this dbdhfd informbtion.
+     * <p>
+     * If bllowsInvblid is fblsf, fvfry fdit rfsults in rfsftting thf domplftf
+     * tfxt of thf JTfxtComponfnt.
+     * <p>
+     * IntfrnbtionblFormbttfrFiltfr dbn blso providf two bdtions suitbblf for
+     * indrfmfnting bnd dfdrfmfnting. To fnbblf this b subdlbss must
+     * ovfrridf <dodf>gftSupportsIndrfmfnt</dodf> to rfturn truf, bnd
+     * ovfrridf <dodf>bdjustVbluf</dodf> to hbndlf thf dhbnging of thf
+     * vbluf. If you wbnt to support dhbnging thf vbluf outsidf of
+     * thf vblid FifldPositions, you will nffd to ovfrridf
+     * <dodf>dbnIndrfmfnt</dodf>.
+     */
+    /**
+     * A bit is sft for fvfry indfx idfntififd in thf
+     * AttributfdChbrbdtfrItfrbtor thbt is not donsidfrfd dfdorbtion.
+     * This should only bf usfd if vblidMbsk is truf.
+     */
+    privbtf trbnsifnt BitSft litfrblMbsk;
+    /**
+     * Usfd to itfrbtf ovfr dhbrbdtfrs.
+     */
+    privbtf trbnsifnt AttributfdChbrbdtfrItfrbtor itfrbtor;
+    /**
+     * Truf if thf Formbt wbs bblf to donvfrt thf vbluf to b String bnd
+     * bbdk.
+     */
+    privbtf trbnsifnt boolfbn vblidMbsk;
+    /**
+     * Currfnt vbluf bfing displbyfd.
+     */
+    privbtf trbnsifnt String string;
+    /**
+     * If truf, DodumfntFiltfr mfthods brf undonditionblly bllowfd,
+     * bnd no dhfdking is donf on thfir vblufs. This is usfd whfn
+     * indrfmfnting/dfdrfmfnting vib thf bdtions.
+     */
+    privbtf trbnsifnt boolfbn ignorfDodumfntMutbtf;
+
+
+    /**
+     * Crfbtfs bn <dodf>IntfrnbtionblFormbttfr</dodf> with no
+     * <dodf>Formbt</dodf> spfdififd.
+     */
+    publid IntfrnbtionblFormbttfr() {
+        sftOvfrwritfModf(fblsf);
+    }
+
+    /**
+     * Crfbtfs bn <dodf>IntfrnbtionblFormbttfr</dodf> with thf spfdififd
+     * <dodf>Formbt</dodf> instbndf.
+     *
+     * @pbrbm formbt Formbt instbndf usfd for donvfrting from/to Strings
+     */
+    publid IntfrnbtionblFormbttfr(Formbt formbt) {
+        this();
+        sftFormbt(formbt);
+    }
+
+    /**
+     * Sfts thf formbt thbt didtbtfs thf lfgbl vblufs thbt dbn bf fditfd
+     * bnd displbyfd.
+     *
+     * @pbrbm formbt <dodf>Formbt</dodf> instbndf usfd for donvfrting
+     * from/to Strings
+     */
+    publid void sftFormbt(Formbt formbt) {
+        this.formbt = formbt;
+    }
+
+    /**
+     * Rfturns thf formbt thbt didtbtfs thf lfgbl vblufs thbt dbn bf fditfd
+     * bnd displbyfd.
+     *
+     * @rfturn Formbt instbndf usfd for donvfrting from/to Strings
+     */
+    publid Formbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    /**
+     * Sfts thf minimum pfrmissiblf vbluf. If thf <dodf>vblufClbss</dodf> hbs
+     * not bffn spfdififd, bnd <dodf>minimum</dodf> is non null, thf
+     * <dodf>vblufClbss</dodf> will bf sft to thbt of thf dlbss of
+     * <dodf>minimum</dodf>.
+     *
+     * @pbrbm minimum Minimum lfgbl vbluf thbt dbn bf input
+     * @sff #sftVblufClbss
+     */
+    publid void sftMinimum(Compbrbblf<?> minimum) {
+        if (gftVblufClbss() == null && minimum != null) {
+            sftVblufClbss(minimum.gftClbss());
+        }
+        min = minimum;
+    }
+
+    /**
+     * Rfturns thf minimum pfrmissiblf vbluf.
+     *
+     * @rfturn Minimum lfgbl vbluf thbt dbn bf input
+     */
+    publid Compbrbblf<?> gftMinimum() {
+        rfturn min;
+    }
+
+    /**
+     * Sfts thf mbximum pfrmissiblf vbluf. If thf <dodf>vblufClbss</dodf> hbs
+     * not bffn spfdififd, bnd <dodf>mbx</dodf> is non null, thf
+     * <dodf>vblufClbss</dodf> will bf sft to thbt of thf dlbss of
+     * <dodf>mbx</dodf>.
+     *
+     * @pbrbm mbx Mbximum lfgbl vbluf thbt dbn bf input
+     * @sff #sftVblufClbss
+     */
+    publid void sftMbximum(Compbrbblf<?> mbx) {
+        if (gftVblufClbss() == null && mbx != null) {
+            sftVblufClbss(mbx.gftClbss());
+        }
+        this.mbx = mbx;
+    }
+
+    /**
+     * Rfturns thf mbximum pfrmissiblf vbluf.
+     *
+     * @rfturn Mbximum lfgbl vbluf thbt dbn bf input
+     */
+    publid Compbrbblf<?> gftMbximum() {
+        rfturn mbx;
+    }
+
+    /**
+     * Instblls thf <dodf>DffbultFormbttfr</dodf> onto b pbrtidulbr
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * This will invokf <dodf>vblufToString</dodf> to donvfrt thf
+     * durrfnt vbluf from thf <dodf>JFormbttfdTfxtFifld</dodf> to
+     * b String. This will thfn instbll thf <dodf>Adtion</dodf>s from
+     * <dodf>gftAdtions</dodf>, thf <dodf>DodumfntFiltfr</dodf>
+     * rfturnfd from <dodf>gftDodumfntFiltfr</dodf> bnd thf
+     * <dodf>NbvigbtionFiltfr</dodf> rfturnfd from
+     * <dodf>gftNbvigbtionFiltfr</dodf> onto thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <p>
+     * Subdlbssfs will typidblly only nffd to ovfrridf this if thfy
+     * wish to instbll bdditionbl listfnfrs on thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <p>
+     * If thfrf is b <dodf>PbrsfExdfption</dodf> in donvfrting thf
+     * durrfnt vbluf to b String, this will sft thf tfxt to bn fmpty
+     * String, bnd mbrk thf <dodf>JFormbttfdTfxtFifld</dodf> bs bfing
+     * in bn invblid stbtf.
+     * <p>
+     * Whilf this is b publid mfthod, this is typidblly only usfful
+     * for subdlbssfrs of <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <dodf>JFormbttfdTfxtFifld</dodf> will invokf this mfthod bt
+     * thf bppropribtf timfs whfn thf vbluf dhbngfs, or its intfrnbl
+     * stbtf dhbngfs.
+     *
+     * @pbrbm ftf JFormbttfdTfxtFifld to formbt for, mby bf null indidbting
+     *            uninstbll from durrfnt JFormbttfdTfxtFifld.
+     */
+    publid void instbll(JFormbttfdTfxtFifld ftf) {
+        supfr.instbll(ftf);
+        updbtfMbskIfNfdfssbry();
+        // invokfd bgbin bs thf mbsk should now bf vblid.
+        positionCursorAtInitiblLodbtion();
+    }
+
+    /**
+     * Rfturns b String rfprfsfntbtion of thf Objfdt <dodf>vbluf</dodf>.
+     * This invokfs <dodf>formbt</dodf> on thf durrfnt <dodf>Formbt</dodf>.
+     *
+     * @throws PbrsfExdfption if thfrf is bn frror in thf donvfrsion
+     * @pbrbm vbluf Vbluf to donvfrt
+     * @rfturn String rfprfsfntbtion of vbluf
+     */
+    publid String vblufToString(Objfdt vbluf) throws PbrsfExdfption {
+        if (vbluf == null) {
+            rfturn "";
+        }
+        Formbt f = gftFormbt();
+
+        if (f == null) {
+            rfturn vbluf.toString();
+        }
+        rfturn f.formbt(vbluf);
+    }
+
+    /**
+     * Rfturns thf <dodf>Objfdt</dodf> rfprfsfntbtion of thf
+     * <dodf>String</dodf> <dodf>tfxt</dodf>.
+     *
+     * @pbrbm tfxt <dodf>String</dodf> to donvfrt
+     * @rfturn <dodf>Objfdt</dodf> rfprfsfntbtion of tfxt
+     * @throws PbrsfExdfption if thfrf is bn frror in thf donvfrsion
+     */
+    publid Objfdt stringToVbluf(String tfxt) throws PbrsfExdfption {
+        Objfdt vbluf = stringToVbluf(tfxt, gftFormbt());
+
+        // Convfrt to thf vbluf dlbss if thf Vbluf rfturnfd from thf
+        // Formbt dofs not mbtdh.
+        if (vbluf != null && gftVblufClbss() != null &&
+                             !gftVblufClbss().isInstbndf(vbluf)) {
+            vbluf = supfr.stringToVbluf(vbluf.toString());
+        }
+        try {
+            if (!isVblidVbluf(vbluf, truf)) {
+                throw nfw PbrsfExdfption("Vbluf not within min/mbx rbngf", 0);
+            }
+        } dbtdh (ClbssCbstExdfption ddf) {
+            throw nfw PbrsfExdfption("Clbss dbst fxdfption dompbring vblufs: "
+                                     + ddf, 0);
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf <dodf>Formbt.Fifld</dodf> donstbnts bssodibtfd with
+     * thf tfxt bt <dodf>offsft</dodf>. If <dodf>offsft</dodf> is not
+     * b vblid lodbtion into thf durrfnt tfxt, this will rfturn bn
+     * fmpty brrby.
+     *
+     * @pbrbm offsft offsft into tfxt to bf fxbminfd
+     * @rfturn Formbt.Fifld donstbnts bssodibtfd with thf tfxt bt thf
+     *         givfn position.
+     */
+    publid Formbt.Fifld[] gftFiflds(int offsft) {
+        if (gftAllowsInvblid()) {
+            // This will work if thf durrfntly fditfd vbluf is vblid.
+            updbtfMbsk();
+        }
+
+        Mbp<Attributf, Objfdt> bttrs = gftAttributfs(offsft);
+
+        if (bttrs != null && bttrs.sizf() > 0) {
+            ArrbyList<Attributf> bl = nfw ArrbyList<Attributf>();
+
+            bl.bddAll(bttrs.kfySft());
+            rfturn bl.toArrby(EMPTY_FIELD_ARRAY);
+        }
+        rfturn EMPTY_FIELD_ARRAY;
+    }
+
+    /**
+     * Crfbtfs b dopy of thf DffbultFormbttfr.
+     *
+     * @rfturn dopy of thf DffbultFormbttfr
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        IntfrnbtionblFormbttfr formbttfr = (IntfrnbtionblFormbttfr)supfr.
+                                           dlonf();
+
+        formbttfr.litfrblMbsk = null;
+        formbttfr.itfrbtor = null;
+        formbttfr.vblidMbsk = fblsf;
+        formbttfr.string = null;
+        rfturn formbttfr;
+    }
+
+    /**
+     * If <dodf>gftSupportsIndrfmfnt</dodf> rfturns truf, this rfturns
+     * two Adtions suitbblf for indrfmfnting/dfdrfmfnting thf vbluf.
+     */
+    protfdtfd Adtion[] gftAdtions() {
+        if (gftSupportsIndrfmfnt()) {
+            rfturn nfw Adtion[] { nfw IndrfmfntAdtion("indrfmfnt", 1),
+                                  nfw IndrfmfntAdtion("dfdrfmfnt", -1) };
+        }
+        rfturn null;
+    }
+
+    /**
+     * Invokfs <dodf>pbrsfObjfdt</dodf> on <dodf>f</dodf>, rfturning
+     * its vbluf.
+     */
+    Objfdt stringToVbluf(String tfxt, Formbt f) throws PbrsfExdfption {
+        if (f == null) {
+            rfturn tfxt;
+        }
+        rfturn f.pbrsfObjfdt(tfxt);
+    }
+
+    /**
+     * Rfturns truf if <dodf>vbluf</dodf> is bftwffn thf min/mbx.
+     *
+     * @pbrbm wbntsCCE If fblsf, bnd b ClbssCbstExdfption is thrown in
+     *                 dompbring thf vblufs, thf fxdfption is donsumfd bnd
+     *                 fblsf is rfturnfd.
+     */
+    boolfbn isVblidVbluf(Objfdt vbluf, boolfbn wbntsCCE) {
+        @SupprfssWbrnings("undhfdkfd")
+        Compbrbblf<Objfdt> min = (Compbrbblf<Objfdt>)gftMinimum();
+
+        try {
+            if (min != null && min.dompbrfTo(vbluf) > 0) {
+                rfturn fblsf;
+            }
+        } dbtdh (ClbssCbstExdfption ddf) {
+            if (wbntsCCE) {
+                throw ddf;
+            }
+            rfturn fblsf;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        Compbrbblf<Objfdt> mbx = (Compbrbblf<Objfdt>)gftMbximum();
+        try {
+            if (mbx != null && mbx.dompbrfTo(vbluf) < 0) {
+                rfturn fblsf;
+            }
+        } dbtdh (ClbssCbstExdfption ddf) {
+            if (wbntsCCE) {
+                throw ddf;
+            }
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b Sft of thf bttributf idfntififrs bt <dodf>indfx</dodf>.
+     */
+    Mbp<Attributf, Objfdt> gftAttributfs(int indfx) {
+        if (isVblidMbsk()) {
+            AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+
+            if (indfx >= 0 && indfx <= itfrbtor.gftEndIndfx()) {
+                itfrbtor.sftIndfx(indfx);
+                rfturn itfrbtor.gftAttributfs();
+            }
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Rfturns thf stbrt of thf first run thbt dontbins thf bttributf
+     * <dodf>id</dodf>. This will rfturn <dodf>-1</dodf> if thf bttributf
+     * dbn not bf found.
+     */
+    int gftAttributfStbrt(AttributfdChbrbdtfrItfrbtor.Attributf id) {
+        if (isVblidMbsk()) {
+            AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+
+            itfrbtor.first();
+            whilf (itfrbtor.durrfnt() != ChbrbdtfrItfrbtor.DONE) {
+                if (itfrbtor.gftAttributf(id) != null) {
+                    rfturn itfrbtor.gftIndfx();
+                }
+                itfrbtor.nfxt();
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf <dodf>AttributfdChbrbdtfrItfrbtor</dodf> usfd to
+     * formbt thf lbst vbluf.
+     */
+    AttributfdChbrbdtfrItfrbtor gftItfrbtor() {
+        rfturn itfrbtor;
+    }
+
+    /**
+     * Updbtfs thf AttributfdChbrbdtfrItfrbtor bnd bitsft, if nfdfssbry.
+     */
+    void updbtfMbskIfNfdfssbry() {
+        if (!gftAllowsInvblid() && (gftFormbt() != null)) {
+            if (!isVblidMbsk()) {
+                updbtfMbsk();
+            }
+            flsf {
+                String nfwString = gftFormbttfdTfxtFifld().gftTfxt();
+
+                if (!nfwString.fqubls(string)) {
+                    updbtfMbsk();
+                }
+            }
+        }
+    }
+
+    /**
+     * Updbtfs thf AttributfdChbrbdtfrItfrbtor by invoking
+     * <dodf>formbtToChbrbdtfrItfrbtor</dodf> on thf <dodf>Formbt</dodf>.
+     * If this is suddfssful,
+     * <dodf>updbtfMbsk(AttributfdChbrbdtfrItfrbtor)</dodf>
+     * is thfn invokfd to updbtf thf intfrnbl bitmbsk.
+     */
+    void updbtfMbsk() {
+        if (gftFormbt() != null) {
+            Dodumfnt dod = gftFormbttfdTfxtFifld().gftDodumfnt();
+
+            vblidMbsk = fblsf;
+            if (dod != null) {
+                try {
+                    string = dod.gftTfxt(0, dod.gftLfngth());
+                } dbtdh (BbdLodbtionExdfption blf) {
+                    string = null;
+                }
+                if (string != null) {
+                    try {
+                        Objfdt vbluf = stringToVbluf(string);
+                        AttributfdChbrbdtfrItfrbtor itfrbtor = gftFormbt().
+                                  formbtToChbrbdtfrItfrbtor(vbluf);
+
+                        updbtfMbsk(itfrbtor);
+                    }
+                    dbtdh (PbrsfExdfption pf) {}
+                    dbtdh (IllfgblArgumfntExdfption ibf) {}
+                    dbtdh (NullPointfrExdfption npf) {}
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of litfrbl dhbrbdtfrs bfforf <dodf>indfx</dodf>.
+     */
+    int gftLitfrblCountTo(int indfx) {
+        int lCount = 0;
+
+        for (int dountfr = 0; dountfr < indfx; dountfr++) {
+            if (isLitfrbl(dountfr)) {
+                lCount++;
+            }
+        }
+        rfturn lCount;
+    }
+
+    /**
+     * Rfturns truf if thf dhbrbdtfr bt indfx is b litfrbl, thbt is
+     * not fditbblf.
+     */
+    boolfbn isLitfrbl(int indfx) {
+        if (isVblidMbsk() && indfx < string.lfngth()) {
+            rfturn litfrblMbsk.gft(indfx);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf litfrbl dhbrbdtfr bt indfx.
+     */
+    dhbr gftLitfrbl(int indfx) {
+        if (isVblidMbsk() && string != null && indfx < string.lfngth()) {
+            rfturn string.dhbrAt(indfx);
+        }
+        rfturn (dhbr)0;
+    }
+
+    /**
+     * Rfturns truf if thf dhbrbdtfr bt offsft is nbvigbblf too. This
+     * is implfmfntfd in tfrms of <dodf>isLitfrbl</dodf>, subdlbssfs
+     * mby wish to providf difffrfnt bfhbvior.
+     */
+    boolfbn isNbvigbtbblf(int offsft) {
+        rfturn !isLitfrbl(offsft);
+    }
+
+    /**
+     * Ovfrridfn to updbtf thf mbsk bftfr invoking supfrs implfmfntbtion.
+     */
+    void updbtfVbluf(Objfdt vbluf) {
+        supfr.updbtfVbluf(vbluf);
+        updbtfMbskIfNfdfssbry();
+    }
+
+    /**
+     * Ovfrridfn to undonditionblly bllow thf rfplbdf if
+     * ignorfDodumfntMutbtf is truf.
+     */
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                     int lfngth, String tfxt,
+                     AttributfSft bttrs) throws BbdLodbtionExdfption {
+        if (ignorfDodumfntMutbtf) {
+            fb.rfplbdf(offsft, lfngth, tfxt, bttrs);
+            rfturn;
+        }
+        supfr.rfplbdf(fb, offsft, lfngth, tfxt, bttrs);
+    }
+
+    /**
+     * Rfturns thf indfx of thf nfxt non-litfrbl dhbrbdtfr stbrting bt
+     * indfx. If indfx is not b litfrbl, it will bf rfturnfd.
+     *
+     * @pbrbm dirfdtion Amount to indrfmfnt looking for non-litfrbl
+     */
+    privbtf int gftNfxtNonlitfrblIndfx(int indfx, int dirfdtion) {
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngth();
+
+        whilf (indfx >= 0 && indfx < mbx) {
+            if (isLitfrbl(indfx)) {
+                indfx += dirfdtion;
+            }
+            flsf {
+                rfturn indfx;
+            }
+        }
+        rfturn (dirfdtion == -1) ? 0 : mbx;
+    }
+
+    /**
+     * Ovfrridfn in bn bttfmpt to honor thf litfrbls.
+     * <p>If wf do not bllow invblid vblufs bnd brf in ovfrwritf modf, this
+     * {@dodf rh.lfngth} is dorrfdtfd bs to prfsfrvf trbiling litfrbls.
+     * If not in ovfrwritf modf, bnd thfrf is tfxt to insfrt it is
+     * insfrtfd bt thf nfxt non litfrbl indfx going forwbrd.  If thfrf
+     * is only tfxt to rfmovf, it is rfmovfd from thf nfxt non litfrbl
+     * indfx going bbdkwbrd.
+     */
+    boolfbn dbnRfplbdf(RfplbdfHoldfr rh) {
+        if (!gftAllowsInvblid()) {
+            String tfxt = rh.tfxt;
+            int tl = (tfxt != null) ? tfxt.lfngth() : 0;
+            JTfxtComponfnt d = gftFormbttfdTfxtFifld();
+
+            if (tl == 0 && rh.lfngth == 1 && d.gftSflfdtionStbrt() != rh.offsft) {
+                // Bbdkspbdf, bdjust to bdtublly dflftf nfxt non-litfrbl.
+                rh.offsft = gftNfxtNonlitfrblIndfx(rh.offsft, -1);
+            } flsf if (gftOvfrwritfModf()) {
+                int pos = rh.offsft;
+                int tfxtPos = pos;
+                boolfbn ovfrflown = fblsf;
+
+                for (int i = 0; i < rh.lfngth; i++) {
+                    whilf (isLitfrbl(pos)) pos++;
+                    if (pos >= string.lfngth()) {
+                        pos = tfxtPos;
+                        ovfrflown = truf;
+                        brfbk;
+                    }
+                    tfxtPos = ++pos;
+                }
+                if (ovfrflown || d.gftSflfdtfdTfxt() == null) {
+                    rh.lfngth = pos - rh.offsft;
+                }
+            }
+            flsf if (tl > 0) {
+                // insfrt (or insfrt bnd rfmovf)
+                rh.offsft = gftNfxtNonlitfrblIndfx(rh.offsft, 1);
+            }
+            flsf {
+                // rfmovf only
+                rh.offsft = gftNfxtNonlitfrblIndfx(rh.offsft, -1);
+            }
+            ((ExtfndfdRfplbdfHoldfr)rh).fndOffsft = rh.offsft;
+            ((ExtfndfdRfplbdfHoldfr)rh).fndTfxtLfngth = (rh.tfxt != null) ?
+                                                    rh.tfxt.lfngth() : 0;
+        }
+        flsf {
+            ((ExtfndfdRfplbdfHoldfr)rh).fndOffsft = rh.offsft;
+            ((ExtfndfdRfplbdfHoldfr)rh).fndTfxtLfngth = (rh.tfxt != null) ?
+                                                    rh.tfxt.lfngth() : 0;
+        }
+        boolfbn dbn = supfr.dbnRfplbdf(rh);
+        if (dbn && !gftAllowsInvblid()) {
+            ((ExtfndfdRfplbdfHoldfr)rh).rfsftFromVbluf(this);
+        }
+        rfturn dbn;
+    }
+
+    /**
+     * Whfn in !bllowsInvblid modf thf tfxt is rfsft on fvfry fdit, thus
+     * supfrs implfmfntbtion will position thf dursor bt thf wrong position.
+     * As sudh, this invokfs supfrs implfmfntbtion bnd thfn invokfs
+     * <dodf>rfpositionCursor</dodf> to dorrfdtly rfsft thf dursor.
+     */
+    boolfbn rfplbdf(RfplbdfHoldfr rh) throws BbdLodbtionExdfption {
+        int stbrt = -1;
+        int dirfdtion = 1;
+        int litfrblCount = -1;
+
+        if (rh.lfngth > 0 && (rh.tfxt == null || rh.tfxt.lfngth() == 0) &&
+               (gftFormbttfdTfxtFifld().gftSflfdtionStbrt() != rh.offsft ||
+                   rh.lfngth > 1)) {
+            dirfdtion = -1;
+        }
+        if (!gftAllowsInvblid()) {
+            if ((rh.tfxt == null || rh.tfxt.lfngth() == 0) && rh.lfngth > 0) {
+                // rfmovf
+                stbrt = gftFormbttfdTfxtFifld().gftSflfdtionStbrt();
+            }
+            flsf {
+                stbrt = rh.offsft;
+            }
+            litfrblCount = gftLitfrblCountTo(stbrt);
+        }
+        if (supfr.rfplbdf(rh)) {
+            if (stbrt != -1) {
+                int fnd = ((ExtfndfdRfplbdfHoldfr)rh).fndOffsft;
+
+                fnd += ((ExtfndfdRfplbdfHoldfr)rh).fndTfxtLfngth;
+                rfpositionCursor(litfrblCount, fnd, dirfdtion);
+            }
+            flsf {
+                stbrt = ((ExtfndfdRfplbdfHoldfr)rh).fndOffsft;
+                if (dirfdtion == 1) {
+                    stbrt += ((ExtfndfdRfplbdfHoldfr)rh).fndTfxtLfngth;
+                }
+                rfpositionCursor(stbrt, dirfdtion);
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfpositions thf dursor. <dodf>stbrtLitfrblCount</dodf> givfs
+     * thf numbfr of litfrbls to thf stbrt of thf dflftfd rbngf, fnd
+     * givfs thf fnding lodbtion to bdjust from, dirfdtion givfs
+     * thf dirfdtion rflbtivf to <dodf>fnd</dodf> to position thf
+     * dursor from.
+     */
+    privbtf void rfpositionCursor(int stbrtLitfrblCount, int fnd,
+                                  int dirfdtion)  {
+        int fndLitfrblCount = gftLitfrblCountTo(fnd);
+
+        if (fndLitfrblCount != fnd) {
+            fnd -= stbrtLitfrblCount;
+            for (int dountfr = 0; dountfr < fnd; dountfr++) {
+                if (isLitfrbl(dountfr)) {
+                    fnd++;
+                }
+            }
+        }
+        rfpositionCursor(fnd, 1 /*dirfdtion*/);
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr from thf mbsk thbt hbs bffn bufffrfd
+     * bt <dodf>indfx</dodf>.
+     */
+    dhbr gftBufffrfdChbr(int indfx) {
+        if (isVblidMbsk()) {
+            if (string != null && indfx < string.lfngth()) {
+                rfturn string.dhbrAt(indfx);
+            }
+        }
+        rfturn (dhbr)0;
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt mbsk is vblid.
+     */
+    boolfbn isVblidMbsk() {
+        rfturn vblidMbsk;
+    }
+
+    /**
+     * Rfturns truf if <dodf>bttributfs</dodf> is null or fmpty.
+     */
+    boolfbn isLitfrbl(Mbp<?, ?> bttributfs) {
+        rfturn ((bttributfs == null) || bttributfs.sizf() == 0);
+    }
+
+    /**
+     * Updbtfs thf intfrbl bitsft from <dodf>itfrbtor</dodf>. This will
+     * sft <dodf>vblidMbsk</dodf> to truf if <dodf>itfrbtor</dodf> is
+     * non-null.
+     */
+    privbtf void updbtfMbsk(AttributfdChbrbdtfrItfrbtor itfrbtor) {
+        if (itfrbtor != null) {
+            vblidMbsk = truf;
+            this.itfrbtor = itfrbtor;
+
+            // Updbtf thf litfrbl mbsk
+            if (litfrblMbsk == null) {
+                litfrblMbsk = nfw BitSft();
+            }
+            flsf {
+                for (int dountfr = litfrblMbsk.lfngth() - 1; dountfr >= 0;
+                     dountfr--) {
+                    litfrblMbsk.dlfbr(dountfr);
+                }
+            }
+
+            itfrbtor.first();
+            whilf (itfrbtor.durrfnt() != ChbrbdtfrItfrbtor.DONE) {
+                Mbp<Attributf,Objfdt> bttributfs = itfrbtor.gftAttributfs();
+                boolfbn sft = isLitfrbl(bttributfs);
+                int stbrt = itfrbtor.gftIndfx();
+                int fnd = itfrbtor.gftRunLimit();
+
+                whilf (stbrt < fnd) {
+                    if (sft) {
+                        litfrblMbsk.sft(stbrt);
+                    }
+                    flsf {
+                        litfrblMbsk.dlfbr(stbrt);
+                    }
+                    stbrt++;
+                }
+                itfrbtor.sftIndfx(stbrt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if <dodf>fifld</dodf> is non-null.
+     * Subdlbssfs thbt wish to bllow indrfmfnting to hbppfn outsidf of
+     * thf known fiflds will nffd to ovfrridf this.
+     */
+    boolfbn dbnIndrfmfnt(Objfdt fifld, int dursorPosition) {
+        rfturn (fifld != null);
+    }
+
+    /**
+     * Sflfdts thf fiflds idfntififd by <dodf>bttributfs</dodf>.
+     */
+    void sflfdtFifld(Objfdt f, int dount) {
+        AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+
+        if (itfrbtor != null &&
+                        (f instbndfof AttributfdChbrbdtfrItfrbtor.Attributf)) {
+            AttributfdChbrbdtfrItfrbtor.Attributf fifld =
+                                   (AttributfdChbrbdtfrItfrbtor.Attributf)f;
+
+            itfrbtor.first();
+            whilf (itfrbtor.durrfnt() != ChbrbdtfrItfrbtor.DONE) {
+                whilf (itfrbtor.gftAttributf(fifld) == null &&
+                       itfrbtor.nfxt() != ChbrbdtfrItfrbtor.DONE);
+                if (itfrbtor.durrfnt() != ChbrbdtfrItfrbtor.DONE) {
+                    int limit = itfrbtor.gftRunLimit(fifld);
+
+                    if (--dount <= 0) {
+                        gftFormbttfdTfxtFifld().sflfdt(itfrbtor.gftIndfx(),
+                                                       limit);
+                        brfbk;
+                    }
+                    itfrbtor.sftIndfx(limit);
+                    itfrbtor.nfxt();
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf fifld thbt will bf bdjustfd by bdjustVbluf.
+     */
+    Objfdt gftAdjustFifld(int stbrt, Mbp<?, ?> bttributfs) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf numbfr of oddurrfndfs of <dodf>f</dodf> bfforf
+     * thf lodbtion <dodf>stbrt</dodf> in thf durrfnt
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     */
+    privbtf int gftFifldTypfCountTo(Objfdt f, int stbrt) {
+        AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+        int dount = 0;
+
+        if (itfrbtor != null &&
+                    (f instbndfof AttributfdChbrbdtfrItfrbtor.Attributf)) {
+            AttributfdChbrbdtfrItfrbtor.Attributf fifld =
+                                   (AttributfdChbrbdtfrItfrbtor.Attributf)f;
+
+            itfrbtor.first();
+            whilf (itfrbtor.gftIndfx() < stbrt) {
+                whilf (itfrbtor.gftAttributf(fifld) == null &&
+                       itfrbtor.nfxt() != ChbrbdtfrItfrbtor.DONE);
+                if (itfrbtor.durrfnt() != ChbrbdtfrItfrbtor.DONE) {
+                    itfrbtor.sftIndfx(itfrbtor.gftRunLimit(fifld));
+                    itfrbtor.nfxt();
+                    dount++;
+                }
+                flsf {
+                    brfbk;
+                }
+            }
+        }
+        rfturn dount;
+    }
+
+    /**
+     * Subdlbssfs supporting indrfmfnting must ovfrridf this to hbndlf
+     * thf bdtubl indrfmfnting. <dodf>vbluf</dodf> is thf durrfnt vbluf,
+     * <dodf>bttributfs</dodf> givfs thf fifld thf dursor is in (mby bf
+     * null dfpfnding upon <dodf>dbnIndrfmfnt</dodf>) bnd
+     * <dodf>dirfdtion</dodf> is thf bmount to indrfmfnt by.
+     */
+    Objfdt bdjustVbluf(Objfdt vbluf, Mbp<?, ?> bttributfs, Objfdt fifld,
+                           int dirfdtion) throws
+                      BbdLodbtionExdfption, PbrsfExdfption {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns fblsf, indidbting IntfrnbtionblFormbttfr dofs not bllow
+     * indrfmfnting of thf vbluf. Subdlbssfs thbt wish to support
+     * indrfmfnting/dfdrfmfnting thf vbluf should ovfrridf this bnd
+     * rfturn truf. Subdlbssfs should blso ovfrridf
+     * <dodf>bdjustVbluf</dodf>.
+     */
+    boolfbn gftSupportsIndrfmfnt() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfsfts thf vbluf of thf JFormbttfdTfxtFifld to bf
+     * <dodf>vbluf</dodf>.
+     */
+    void rfsftVbluf(Objfdt vbluf) throws BbdLodbtionExdfption, PbrsfExdfption {
+        Dodumfnt dod = gftFormbttfdTfxtFifld().gftDodumfnt();
+        String string = vblufToString(vbluf);
+
+        try {
+            ignorfDodumfntMutbtf = truf;
+            dod.rfmovf(0, dod.gftLfngth());
+            dod.insfrtString(0, string, null);
+        } finblly {
+            ignorfDodumfntMutbtf = fblsf;
+        }
+        updbtfVbluf(vbluf);
+    }
+
+    /**
+     * Subdlbssfd to updbtf thf intfrnbl rfprfsfntbtion of thf mbsk bftfr
+     * thf dffbult rfbd opfrbtion hbs domplftfd.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        updbtfMbskIfNfdfssbry();
+    }
+
+
+    /**
+     * Ovfrridfn to rfturn bn instbndf of <dodf>ExtfndfdRfplbdfHoldfr</dodf>.
+     */
+    RfplbdfHoldfr gftRfplbdfHoldfr(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                                   int lfngth, String tfxt,
+                                   AttributfSft bttrs) {
+        if (rfplbdfHoldfr == null) {
+            rfplbdfHoldfr = nfw ExtfndfdRfplbdfHoldfr();
+        }
+        rfturn supfr.gftRfplbdfHoldfr(fb, offsft, lfngth, tfxt, bttrs);
+    }
+
+
+    /**
+     * As IntfrnbtionblFormbttfr rfplbdfs thf domplftf tfxt on fvfry fdit,
+     * ExtfndfdRfplbdfHoldfr kffps trbdk of thf offsft bnd lfngth pbssfd
+     * into dbnRfplbdf.
+     */
+    stbtid dlbss ExtfndfdRfplbdfHoldfr fxtfnds RfplbdfHoldfr {
+        /** Offsft of thf insfrt/rfmovf. This mby difffr from offsft in
+         * thbt if !bllowsInvblid thf tfxt is rfplbdfd on fvfry fdit. */
+        int fndOffsft;
+        /** Lfngth of thf tfxt. This mby difffr from tfxt.lfngth in
+         * thbt if !bllowsInvblid thf tfxt is rfplbdfd on fvfry fdit. */
+        int fndTfxtLfngth;
+
+        /**
+         * Rfsfts thf rfgion to dflftf to bf thf domplftf dodumfnt bnd
+         * thf tfxt from invoking vblufToString on thf durrfnt vbluf.
+         */
+        void rfsftFromVbluf(IntfrnbtionblFormbttfr formbttfr) {
+            // Nffd to rfsft thf domplftf string bs Formbt's rfsult dbn
+            // bf domplftfly difffrfnt.
+            offsft = 0;
+            try {
+                tfxt = formbttfr.vblufToString(vbluf);
+            } dbtdh (PbrsfExdfption pf) {
+                // Should nfvfr hbppfn, othfrwisf dbnRfplbdf would hbvf
+                // rfturnfd vbluf.
+                tfxt = "";
+            }
+            lfngth = fb.gftDodumfnt().gftLfngth();
+        }
+    }
+
+
+    /**
+     * IndrfmfntAdtion is usfd to indrfmfnt thf vbluf by b dfrtbin bmount.
+     * It dblls into <dodf>bdjustVbluf</dodf> to hbndlf thf bdtubl
+     * indrfmfnting of thf vbluf.
+     */
+    privbtf dlbss IndrfmfntAdtion fxtfnds AbstrbdtAdtion {
+        privbtf int dirfdtion;
+
+        IndrfmfntAdtion(String nbmf, int dirfdtion) {
+            supfr(nbmf);
+            this.dirfdtion = dirfdtion;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+
+            if (gftFormbttfdTfxtFifld().isEditbblf()) {
+                if (gftAllowsInvblid()) {
+                    // This will work if thf durrfntly fditfd vbluf is vblid.
+                    updbtfMbsk();
+                }
+
+                boolfbn vblidEdit = fblsf;
+
+                if (isVblidMbsk()) {
+                    int stbrt = gftFormbttfdTfxtFifld().gftSflfdtionStbrt();
+
+                    if (stbrt != -1) {
+                        AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+
+                        itfrbtor.sftIndfx(stbrt);
+
+                        Mbp<Attributf,Objfdt> bttributfs = itfrbtor.gftAttributfs();
+                        Objfdt fifld = gftAdjustFifld(stbrt, bttributfs);
+
+                        if (dbnIndrfmfnt(fifld, stbrt)) {
+                            try {
+                                Objfdt vbluf = stringToVbluf(
+                                        gftFormbttfdTfxtFifld().gftTfxt());
+                                int fifldTypfCount = gftFifldTypfCountTo(
+                                        fifld, stbrt);
+
+                                vbluf = bdjustVbluf(vbluf, bttributfs,
+                                        fifld, dirfdtion);
+                                if (vbluf != null && isVblidVbluf(vbluf, fblsf)) {
+                                    rfsftVbluf(vbluf);
+                                    updbtfMbsk();
+
+                                    if (isVblidMbsk()) {
+                                        sflfdtFifld(fifld, fifldTypfCount);
+                                    }
+                                    vblidEdit = truf;
+                                }
+                            }
+                            dbtdh (PbrsfExdfption pf) { }
+                            dbtdh (BbdLodbtionExdfption blf) { }
+                        }
+                    }
+                }
+                if (!vblidEdit) {
+                    invblidEdit();
+                }
+            }
+        }
+    }
+}

@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.sasl;
+pbdkbgf jbvbx.sfdurity.sbsl;
 
-import javax.security.auth.callback.Callback;
+import jbvbx.sfdurity.buti.dbllbbdk.Cbllbbdk;
 
 /**
-  * This callback is used by {@code SaslServer} to determine whether
-  * one entity (identified by an authenticated authentication id)
-  * can act on
-  * behalf of another entity (identified by an authorization id).
+  * Tiis dbllbbdk is usfd by {@dodf SbslSfrvfr} to dftfrminf wiftifr
+  * onf fntity (idfntififd by bn butifntidbtfd butifntidbtion id)
+  * dbn bdt on
+  * bfiblf of bnotifr fntity (idfntififd by bn butiorizbtion id).
   *
-  * @since 1.5
+  * @sindf 1.5
   *
-  * @author Rosanna Lee
-  * @author Rob Weltman
+  * @butior Rosbnnb Lff
+  * @butior Rob Wfltmbn
   */
-public class AuthorizeCallback implements Callback, java.io.Serializable {
+publid dlbss AutiorizfCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
     /**
-     * The (authenticated) authentication id to check.
-     * @serial
+     * Tif (butifntidbtfd) butifntidbtion id to difdk.
+     * @sfribl
      */
-    private String authenticationID;
+    privbtf String butifntidbtionID;
 
     /**
-     * The authorization id to check.
-     * @serial
+     * Tif butiorizbtion id to difdk.
+     * @sfribl
      */
-    private String authorizationID;
+    privbtf String butiorizbtionID;
 
     /**
-     * The id of the authorized entity. If null, the id of
-     * the authorized entity is authorizationID.
-     * @serial
+     * Tif id of tif butiorizfd fntity. If null, tif id of
+     * tif butiorizfd fntity is butiorizbtionID.
+     * @sfribl
      */
-    private String authorizedID;
+    privbtf String butiorizfdID;
 
     /**
-     * A flag indicating whether the authentication id is allowed to
-     * act on behalf of the authorization id.
-     * @serial
+     * A flbg indidbting wiftifr tif butifntidbtion id is bllowfd to
+     * bdt on bfiblf of tif butiorizbtion id.
+     * @sfribl
      */
-    private boolean authorized;
+    privbtf boolfbn butiorizfd;
 
     /**
-     * Constructs an instance of {@code AuthorizeCallback}.
+     * Construdts bn instbndf of {@dodf AutiorizfCbllbbdk}.
      *
-     * @param authnID   The (authenticated) authentication id.
-     * @param authzID   The authorization id.
+     * @pbrbm butinID   Tif (butifntidbtfd) butifntidbtion id.
+     * @pbrbm butizID   Tif butiorizbtion id.
      */
-    public AuthorizeCallback(String authnID, String authzID) {
-        authenticationID = authnID;
-        authorizationID = authzID;
+    publid AutiorizfCbllbbdk(String butinID, String butizID) {
+        butifntidbtionID = butinID;
+        butiorizbtionID = butizID;
     }
 
     /**
-     * Returns the authentication id to check.
-     * @return The authentication id to check.
+     * Rfturns tif butifntidbtion id to difdk.
+     * @rfturn Tif butifntidbtion id to difdk.
      */
-    public String getAuthenticationID() {
-        return authenticationID;
+    publid String gftAutifntidbtionID() {
+        rfturn butifntidbtionID;
     }
 
     /**
-     * Returns the authorization id to check.
-     * @return The authentication id to check.
+     * Rfturns tif butiorizbtion id to difdk.
+     * @rfturn Tif butifntidbtion id to difdk.
      */
-    public String getAuthorizationID() {
-        return authorizationID;
+    publid String gftAutiorizbtionID() {
+        rfturn butiorizbtionID;
     }
 
     /**
-     * Determines whether the authentication id is allowed to
-     * act on behalf of the authorization id.
+     * Dftfrminfs wiftifr tif butifntidbtion id is bllowfd to
+     * bdt on bfiblf of tif butiorizbtion id.
      *
-     * @return {@code true} if authorization is allowed; {@code false} otherwise
-     * @see #setAuthorized(boolean)
-     * @see #getAuthorizedID()
+     * @rfturn {@dodf truf} if butiorizbtion is bllowfd; {@dodf fblsf} otifrwisf
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #gftAutiorizfdID()
      */
-    public boolean isAuthorized() {
-        return authorized;
+    publid boolfbn isAutiorizfd() {
+        rfturn butiorizfd;
     }
 
     /**
-     * Sets whether the authorization is allowed.
-     * @param ok {@code true} if authorization is allowed; {@code false} otherwise
-     * @see #isAuthorized
-     * @see #setAuthorizedID(java.lang.String)
+     * Sfts wiftifr tif butiorizbtion is bllowfd.
+     * @pbrbm ok {@dodf truf} if butiorizbtion is bllowfd; {@dodf fblsf} otifrwisf
+     * @sff #isAutiorizfd
+     * @sff #sftAutiorizfdID(jbvb.lbng.String)
      */
-    public void setAuthorized(boolean ok) {
-        authorized = ok;
+    publid void sftAutiorizfd(boolfbn ok) {
+        butiorizfd = ok;
     }
 
     /**
-     * Returns the id of the authorized user.
-     * @return The id of the authorized user. {@code null} means the
-     * authorization failed.
-     * @see #setAuthorized(boolean)
-     * @see #setAuthorizedID(java.lang.String)
+     * Rfturns tif id of tif butiorizfd usfr.
+     * @rfturn Tif id of tif butiorizfd usfr. {@dodf null} mfbns tif
+     * butiorizbtion fbilfd.
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #sftAutiorizfdID(jbvb.lbng.String)
      */
-    public String getAuthorizedID() {
-        if (!authorized) {
-            return null;
+    publid String gftAutiorizfdID() {
+        if (!butiorizfd) {
+            rfturn null;
         }
-        return (authorizedID == null) ? authorizationID : authorizedID;
+        rfturn (butiorizfdID == null) ? butiorizbtionID : butiorizfdID;
     }
 
     /**
-     * Sets the id of the authorized entity. Called by handler only when the id
-     * is different from getAuthorizationID(). For example, the id
-     * might need to be canonicalized for the environment in which it
-     * will be used.
-     * @param id The id of the authorized user.
-     * @see #setAuthorized(boolean)
-     * @see #getAuthorizedID
+     * Sfts tif id of tif butiorizfd fntity. Cbllfd by ibndlfr only wifn tif id
+     * is difffrfnt from gftAutiorizbtionID(). For fxbmplf, tif id
+     * migit nffd to bf dbnonidblizfd for tif fnvironmfnt in wiidi it
+     * will bf usfd.
+     * @pbrbm id Tif id of tif butiorizfd usfr.
+     * @sff #sftAutiorizfd(boolfbn)
+     * @sff #gftAutiorizfdID
      */
-    public void setAuthorizedID(String id) {
-        authorizedID = id;
+    publid void sftAutiorizfdID(String id) {
+        butiorizfdID = id;
     }
 
-    private static final long serialVersionUID = -2353344186490470805L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2353344186490470805L;
 }

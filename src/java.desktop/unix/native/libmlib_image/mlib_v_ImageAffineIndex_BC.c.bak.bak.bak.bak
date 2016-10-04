@@ -1,0 +1,1443 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+#indludf "vis_proto.h"
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfColormbp.h"
+#indludf "mlib_ImbgfAffinf.h"
+#indludf "mlib_v_ImbgfFiltfrs.h"
+
+/***************************************************************/
+#dffinf MLIB_LIMIT   512
+#dffinf MLIB_SHIFT    16
+
+/***************************************************************/
+#undff  DECLAREVAR
+#dffinf DECLAREVAR()                                            \
+  DECLAREVAR0();                                                \
+  mlib_s32  *wbrp_tbl   = pbrbm -> wbrp_tbl;                    \
+  mlib_s32  xSrd, ySrd;                                         \
+  mlib_s32  srdYStridf = pbrbm -> srdYStridf;                   \
+  mlib_s32  filtfr     = pbrbm -> filtfr;                       \
+  mlib_s32  mbx_xsizf  = pbrbm -> mbx_xsizf;                    \
+  MLIB_TYPE *srdIndfxPtr;                                       \
+  MLIB_TYPE *dstIndfxPtr;                                       \
+  mlib_d64  *dstPixflPtr;                                       \
+  mlib_s32  i
+
+/***************************************************************/
+#dffinf DECLAREVAR_U8()                                         \
+  mlib_s32  filtfrposx, filtfrposy;                             \
+  mlib_d64  sum0, sum1, sum2, sum3;                             \
+  mlib_f32  hi_row00, hi_row10, hi_row20, hi_row30;             \
+  mlib_f32  hi_row01, hi_row11, hi_row21, hi_row31;             \
+  mlib_f32  lo_row00, lo_row10, lo_row20, lo_row30;             \
+  mlib_f32  lo_row01, lo_row11, lo_row21, lo_row31;             \
+  mlib_d64  xFiltfr0, xFiltfr1, xFiltfr2, xFiltfr3, yFiltfr;    \
+  mlib_d64  v00, v10, v20, v30;                                 \
+  mlib_d64  v01, v11, v21, v31;                                 \
+  mlib_d64  v02, v12, v22, v32;                                 \
+  mlib_d64  v03, v13, v23, v33;                                 \
+  mlib_d64  d0, d1, d2, d3;                                     \
+  mlib_d64  d00, d10, d20, d30;                                 \
+  mlib_d64  d01, d11, d21, d31;                                 \
+  mlib_s32  dols;                                               \
+  mlib_d64  rfs, *xPtr
+
+/***************************************************************/
+#dffinf DECLAREVAR_S16()                                        \
+  mlib_s32  filtfrposx, filtfrposy;                             \
+  mlib_d64  sum0, sum1, sum2, sum3;                             \
+  mlib_d64  row00, row10, row20, row30;                         \
+  mlib_d64  row01, row11, row21, row31;                         \
+  mlib_d64  row02, row12, row22, row32;                         \
+  mlib_d64  row03, row13, row23, row33;                         \
+  mlib_d64  xFiltfr0, xFiltfr1, xFiltfr2, xFiltfr3;             \
+  mlib_d64  yFiltfr0, yFiltfr1, yFiltfr2, yFiltfr3;             \
+  mlib_d64  v00, v01, v02, v03, v10, v11, v12, v13;             \
+  mlib_d64  v20, v21, v22, v23, v30, v31, v32, v33;             \
+  mlib_d64  u00, u01, u10, u11, u20, u21, u30, u31;             \
+  mlib_d64  d0, d1, d2, d3;                                     \
+  mlib_d64  *yPtr, *xPtr;                                       \
+  mlib_s32  dols;                                               \
+  mlib_d64  rfs;                                                \
+  mlib_f32  f_x01000100 = vis_to_flobt(0x01000100)
+
+/***************************************************************/
+#undff  CLIP
+#dffinf CLIP()                                                  \
+  dstDbtb += dstYStridf;                                        \
+  xLfft = lfftEdgfs[j];                                         \
+  xRight = rightEdgfs[j];                                       \
+  X = xStbrts[j];                                               \
+  Y = yStbrts[j];                                               \
+  PREPARE_DELTAS                                                \
+  if (xLfft > xRight)                                           \
+    dontinuf;                                                   \
+  dstIndfxPtr = (MLIB_TYPE *)dstDbtb + xLfft;                   \
+  dstPixflPtr = dstRowPtr
+
+/***************************************************************/
+#dffinf FADD_4BC_U8()                                           \
+  d0 = vis_fpbdd16(d00, d10);                                   \
+  d1 = vis_fpbdd16(d20, d30);                                   \
+  d0 = vis_fpbdd16(d0, d1);                                     \
+  d2 = vis_fpbdd16(d01, d11);                                   \
+  d3 = vis_fpbdd16(d21, d31);                                   \
+  d2 = vis_fpbdd16(d2, d3);                                     \
+  rfs = vis_fpbdk16_pbir(d0, d2)
+
+/***************************************************************/
+#dffinf LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_u8, mlib_filtfrs_u8_4)      \
+  filtfrposy = (Y >> FILTER_SHIFT) & FILTER_MASK;                      \
+  yFiltfr = *((mlib_d64 *) ((mlib_u8 *)mlib_filtfrs_u8 + filtfrposy)); \
+  filtfrposx = (X >> FILTER_SHIFT) & FILTER_MASK;                      \
+  xPtr = ((mlib_d64 *)((mlib_u8 *)mlib_filtfrs_u8_4+4*filtfrposx));    \
+  xFiltfr0 = xPtr[0];                                                  \
+  xFiltfr1 = xPtr[1];                                                  \
+  xFiltfr2 = xPtr[2];                                                  \
+  xFiltfr3 = xPtr[3];                                                  \
+  X += dX;                                                             \
+  Y += dY;                                                             \
+  hi_row00 = flut[srdIndfxPtr[0]];                                     \
+  lo_row00 = flut[srdIndfxPtr[1]];                                     \
+  hi_row01 = flut[srdIndfxPtr[2]];                                     \
+  lo_row01 = flut[srdIndfxPtr[3]];                                     \
+  srdIndfxPtr += srdYStridf;                                           \
+  hi_row10 = flut[srdIndfxPtr[0]];                                     \
+  lo_row10 = flut[srdIndfxPtr[1]];                                     \
+  hi_row11 = flut[srdIndfxPtr[2]];                                     \
+  lo_row11 = flut[srdIndfxPtr[3]];                                     \
+  srdIndfxPtr += srdYStridf;                                           \
+  hi_row20 = flut[srdIndfxPtr[0]];                                     \
+  lo_row20 = flut[srdIndfxPtr[1]];                                     \
+  hi_row21 = flut[srdIndfxPtr[2]];                                     \
+  lo_row21 = flut[srdIndfxPtr[3]];                                     \
+  srdIndfxPtr += srdYStridf;                                           \
+  hi_row30 = flut[srdIndfxPtr[0]];                                     \
+  lo_row30 = flut[srdIndfxPtr[1]];                                     \
+  hi_row31 = flut[srdIndfxPtr[2]];                                     \
+  lo_row31 = flut[srdIndfxPtr[3]]
+
+/***************************************************************/
+#dffinf NEXT_PIXEL_4BC()                                        \
+  xSrd = (X >> MLIB_SHIFT)-1;                                   \
+  ySrd = (Y >> MLIB_SHIFT)-1;                                   \
+  srdIndfxPtr = (MLIB_TYPE *)linfAddr[ySrd] + xSrd
+
+/***************************************************************/
+#dffinf RESULT_4BC_U8_1PIXEL(ind)                               \
+  v00 = vis_fmul8x16bu(hi_row00, vis_rfbd_hi(yFiltfr));         \
+  v01 = vis_fmul8x16bu(lo_row00, vis_rfbd_hi(yFiltfr));         \
+  v02 = vis_fmul8x16bu(hi_row01, vis_rfbd_hi(yFiltfr));         \
+  v03 = vis_fmul8x16bu(lo_row01, vis_rfbd_hi(yFiltfr));         \
+  v10 = vis_fmul8x16bl(hi_row10, vis_rfbd_hi(yFiltfr));         \
+  v11 = vis_fmul8x16bl(lo_row10, vis_rfbd_hi(yFiltfr));         \
+  sum0 = vis_fpbdd16(v00, v10);                                 \
+  v12 = vis_fmul8x16bl(hi_row11, vis_rfbd_hi(yFiltfr));         \
+  sum1 = vis_fpbdd16(v01, v11);                                 \
+  v13 = vis_fmul8x16bl(lo_row11, vis_rfbd_hi(yFiltfr));         \
+  sum2 = vis_fpbdd16(v02, v12);                                 \
+  v20 = vis_fmul8x16bu(hi_row20, vis_rfbd_lo(yFiltfr));         \
+  sum3 = vis_fpbdd16(v03, v13);                                 \
+  v21 = vis_fmul8x16bu(lo_row20, vis_rfbd_lo(yFiltfr));         \
+  sum0 = vis_fpbdd16(sum0, v20);                                \
+  v22 = vis_fmul8x16bu(hi_row21, vis_rfbd_lo(yFiltfr));         \
+  sum1 = vis_fpbdd16(sum1, v21);                                \
+  v23 = vis_fmul8x16bu(lo_row21, vis_rfbd_lo(yFiltfr));         \
+  sum2 = vis_fpbdd16(sum2, v22);                                \
+  v30 = vis_fmul8x16bl(hi_row30, vis_rfbd_lo(yFiltfr));         \
+  sum3 = vis_fpbdd16(sum3, v23);                                \
+  v31 = vis_fmul8x16bl(lo_row30, vis_rfbd_lo(yFiltfr));         \
+  sum0 = vis_fpbdd16(sum0, v30);                                \
+  v32 = vis_fmul8x16bl(hi_row31, vis_rfbd_lo(yFiltfr));         \
+  sum1 = vis_fpbdd16(sum1, v31);                                \
+  v33 = vis_fmul8x16bl(lo_row31, vis_rfbd_lo(yFiltfr));         \
+  sum2 = vis_fpbdd16(sum2, v32);                                \
+  v00 = vis_fmul8sux16(sum0, xFiltfr0);                         \
+  sum3 = vis_fpbdd16(sum3, v33);                                \
+  v01 = vis_fmul8ulx16(sum0, xFiltfr0);                         \
+  v10 = vis_fmul8sux16(sum1, xFiltfr1);                         \
+  d0##ind = vis_fpbdd16(v00, v01);                              \
+  v11 = vis_fmul8ulx16(sum1, xFiltfr1);                         \
+  v20 = vis_fmul8sux16(sum2, xFiltfr2);                         \
+  d1##ind = vis_fpbdd16(v10, v11);                              \
+  v21 = vis_fmul8ulx16(sum2, xFiltfr2);                         \
+  v30 = vis_fmul8sux16(sum3, xFiltfr3);                         \
+  d2##ind = vis_fpbdd16(v20, v21);                              \
+  v31 = vis_fmul8ulx16(sum3, xFiltfr3);                         \
+  d3##ind = vis_fpbdd16(v30, v31)
+
+/***************************************************************/
+#dffinf BC_U8_4CH(ind, mlib_filtfrs_u8, mlib_filtfrs_u8_4)            \
+  v00 = vis_fmul8x16bu(hi_row00, vis_rfbd_hi(yFiltfr));               \
+  v01 = vis_fmul8x16bu(lo_row00, vis_rfbd_hi(yFiltfr));               \
+  v02 = vis_fmul8x16bu(hi_row01, vis_rfbd_hi(yFiltfr));               \
+  v03 = vis_fmul8x16bu(lo_row01, vis_rfbd_hi(yFiltfr));               \
+  hi_row00 = flut[srdIndfxPtr[0]];                                    \
+  filtfrposy = (Y >> FILTER_SHIFT);                                   \
+  v10 = vis_fmul8x16bl(hi_row10, vis_rfbd_hi(yFiltfr));               \
+  lo_row00 = flut[srdIndfxPtr[1]];                                    \
+  v11 = vis_fmul8x16bl(lo_row10, vis_rfbd_hi(yFiltfr));               \
+  sum0 = vis_fpbdd16(v00, v10);                                       \
+  hi_row01 = flut[srdIndfxPtr[2]];                                    \
+  v12 = vis_fmul8x16bl(hi_row11, vis_rfbd_hi(yFiltfr));               \
+  lo_row01 = flut[srdIndfxPtr[3]];                                    \
+  filtfrposx = (X >> FILTER_SHIFT);                                   \
+  v13 = vis_fmul8x16bl(lo_row11, vis_rfbd_hi(yFiltfr));               \
+  srdIndfxPtr += srdYStridf;                                          \
+  hi_row10 = flut[srdIndfxPtr[0]];                                    \
+  v20 = vis_fmul8x16bu(hi_row20, vis_rfbd_lo(yFiltfr));               \
+  sum1 = vis_fpbdd16(v01, v11);                                       \
+  lo_row10 = flut[srdIndfxPtr[1]];                                    \
+  X += dX;                                                            \
+  hi_row11 = flut[srdIndfxPtr[2]];                                    \
+  v21 = vis_fmul8x16bu(lo_row20, vis_rfbd_lo(yFiltfr));               \
+  sum2 = vis_fpbdd16(v02, v12);                                       \
+  lo_row11 = flut[srdIndfxPtr[3]];                                    \
+  v22 = vis_fmul8x16bu(hi_row21, vis_rfbd_lo(yFiltfr));               \
+  srdIndfxPtr += srdYStridf;                                          \
+  hi_row20 = flut[srdIndfxPtr[0]];                                    \
+  v23 = vis_fmul8x16bu(lo_row21, vis_rfbd_lo(yFiltfr));               \
+  sum3 = vis_fpbdd16(v03, v13);                                       \
+  Y += dY;                                                            \
+  xSrd = (X >> MLIB_SHIFT)-1;                                         \
+  v30 = vis_fmul8x16bl(hi_row30, vis_rfbd_lo(yFiltfr));               \
+  sum0 = vis_fpbdd16(sum0, v20);                                      \
+  lo_row20 = flut[srdIndfxPtr[1]];                                    \
+  ySrd = (Y >> MLIB_SHIFT)-1;                                         \
+  hi_row21 = flut[srdIndfxPtr[2]];                                    \
+  v31 = vis_fmul8x16bl(lo_row30, vis_rfbd_lo(yFiltfr));               \
+  sum1 = vis_fpbdd16(sum1, v21);                                      \
+  filtfrposy &= FILTER_MASK;                                          \
+  lo_row21 = flut[srdIndfxPtr[3]];                                    \
+  v32 = vis_fmul8x16bl(hi_row31, vis_rfbd_lo(yFiltfr));               \
+  srdIndfxPtr += srdYStridf;                                          \
+  filtfrposx &= FILTER_MASK;                                          \
+  v33 = vis_fmul8x16bl(lo_row31, vis_rfbd_lo(yFiltfr));               \
+  sum2 = vis_fpbdd16(sum2, v22);                                      \
+  hi_row30 = flut[srdIndfxPtr[0]];                                    \
+  sum3 = vis_fpbdd16(sum3, v23);                                      \
+  sum0 = vis_fpbdd16(sum0, v30);                                      \
+  lo_row30 = flut[srdIndfxPtr[1]];                                    \
+  sum1 = vis_fpbdd16(sum1, v31);                                      \
+  v00 = vis_fmul8sux16(sum0, xFiltfr0);                               \
+  hi_row31 = flut[srdIndfxPtr[2]];                                    \
+  sum2 = vis_fpbdd16(sum2, v32);                                      \
+  v01 = vis_fmul8ulx16(sum0, xFiltfr0);                               \
+  sum3 = vis_fpbdd16(sum3, v33);                                      \
+  lo_row31 = flut[srdIndfxPtr[3]];                                    \
+  v10 = vis_fmul8sux16(sum1, xFiltfr1);                               \
+  d0##ind = vis_fpbdd16(v00, v01);                                    \
+  yFiltfr = *((mlib_d64 *)((mlib_u8 *)mlib_filtfrs_u8 + filtfrposy)); \
+  v11 = vis_fmul8ulx16(sum1, xFiltfr1);                               \
+  xPtr = ((mlib_d64 *)((mlib_u8 *)mlib_filtfrs_u8_4+4*filtfrposx));   \
+  xFiltfr0 = xPtr[0];                                                 \
+  v20 = vis_fmul8sux16(sum2, xFiltfr2);                               \
+  d1##ind = vis_fpbdd16(v10, v11);                                    \
+  xFiltfr1 = xPtr[1];                                                 \
+  v21 = vis_fmul8ulx16(sum2, xFiltfr2);                               \
+  xFiltfr2 = xPtr[2];                                                 \
+  v30 = vis_fmul8sux16(sum3, xFiltfr3);                               \
+  d2##ind = vis_fpbdd16(v20, v21);                                    \
+  xFiltfr3 = xPtr[3];                                                 \
+  v31 = vis_fmul8ulx16(sum3, xFiltfr3);                               \
+  srdIndfxPtr = (MLIB_TYPE *)linfAddr[ySrd] + xSrd;                   \
+  d3##ind = vis_fpbdd16(v30, v31)
+
+/***************************************************************/
+#dffinf LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_s16_4)                      \
+  row00 = flut[srdIndfxPtr[0]];                                         \
+  row01 = flut[srdIndfxPtr[1]];                                         \
+  row02 = flut[srdIndfxPtr[2]];                                         \
+  row03 = flut[srdIndfxPtr[3]];                                         \
+  srdIndfxPtr += srdYStridf;                                            \
+  row10 = flut[srdIndfxPtr[0]];                                         \
+  row11 = flut[srdIndfxPtr[1]];                                         \
+  row12 = flut[srdIndfxPtr[2]];                                         \
+  row13 = flut[srdIndfxPtr[3]];                                         \
+  srdIndfxPtr += srdYStridf;                                            \
+  row20 = flut[srdIndfxPtr[0]];                                         \
+  row21 = flut[srdIndfxPtr[1]];                                         \
+  row22 = flut[srdIndfxPtr[2]];                                         \
+  row23 = flut[srdIndfxPtr[3]];                                         \
+  srdIndfxPtr += srdYStridf;                                            \
+  row30 = flut[srdIndfxPtr[0]];                                         \
+  row31 = flut[srdIndfxPtr[1]];                                         \
+  row32 = flut[srdIndfxPtr[2]];                                         \
+  row33 = flut[srdIndfxPtr[3]];                                         \
+  filtfrposy = (Y >> FILTER_SHIFT) & FILTER_MASK;                       \
+  yPtr = ((mlib_d64 *) ((mlib_u8 *)mlib_filtfrs_s16_4 + filtfrposy*4)); \
+  yFiltfr0 = yPtr[0];                                                   \
+  yFiltfr1 = yPtr[1];                                                   \
+  yFiltfr2 = yPtr[2];                                                   \
+  yFiltfr3 = yPtr[3];                                                   \
+  filtfrposx = (X >> FILTER_SHIFT) & FILTER_MASK;                       \
+  xPtr = ((mlib_d64 *)((mlib_u8 *)mlib_filtfrs_s16_4 + filtfrposx*4));  \
+  xFiltfr0 = xPtr[0];                                                   \
+  xFiltfr1 = xPtr[1];                                                   \
+  xFiltfr2 = xPtr[2];                                                   \
+  xFiltfr3 = xPtr[3];                                                   \
+  X += dX;                                                              \
+  Y += dY
+
+/***************************************************************/
+#dffinf RESULT_4BC_S16_1PIXEL()                                 \
+  u00 = vis_fmul8sux16(row00, yFiltfr0);                        \
+  u01 = vis_fmul8ulx16(row00, yFiltfr0);                        \
+  u10 = vis_fmul8sux16(row01, yFiltfr0);                        \
+  u11 = vis_fmul8ulx16(row01, yFiltfr0);                        \
+  v00 = vis_fpbdd16(u00, u01);                                  \
+  u20 = vis_fmul8sux16(row02, yFiltfr0);                        \
+  v01 = vis_fpbdd16(u10, u11);                                  \
+  u21 = vis_fmul8ulx16(row02, yFiltfr0);                        \
+  u30 = vis_fmul8sux16(row03, yFiltfr0);                        \
+  u31 = vis_fmul8ulx16(row03, yFiltfr0);                        \
+  v02 = vis_fpbdd16(u20, u21);                                  \
+  u00 = vis_fmul8sux16(row10, yFiltfr1);                        \
+  u01 = vis_fmul8ulx16(row10, yFiltfr1);                        \
+  v03 = vis_fpbdd16(u30, u31);                                  \
+  u10 = vis_fmul8sux16(row11, yFiltfr1);                        \
+  u11 = vis_fmul8ulx16(row11, yFiltfr1);                        \
+  v10 = vis_fpbdd16(u00, u01);                                  \
+  u20 = vis_fmul8sux16(row12, yFiltfr1);                        \
+  v11 = vis_fpbdd16(u10, u11);                                  \
+  u21 = vis_fmul8ulx16(row12, yFiltfr1);                        \
+  u30 = vis_fmul8sux16(row13, yFiltfr1);                        \
+  u31 = vis_fmul8ulx16(row13, yFiltfr1);                        \
+  u00 = vis_fmul8sux16(row20, yFiltfr2);                        \
+  v12 = vis_fpbdd16(u20, u21);                                  \
+  u01 = vis_fmul8ulx16(row20, yFiltfr2);                        \
+  v13 = vis_fpbdd16(u30, u31);                                  \
+  u10 = vis_fmul8sux16(row21, yFiltfr2);                        \
+  u11 = vis_fmul8ulx16(row21, yFiltfr2);                        \
+  v20 = vis_fpbdd16(u00, u01);                                  \
+  u20 = vis_fmul8sux16(row22, yFiltfr2);                        \
+  sum0 = vis_fpbdd16(v00, v10);                                 \
+  u21 = vis_fmul8ulx16(row22, yFiltfr2);                        \
+  u30 = vis_fmul8sux16(row23, yFiltfr2);                        \
+  u31 = vis_fmul8ulx16(row23, yFiltfr2);                        \
+  u00 = vis_fmul8sux16(row30, yFiltfr3);                        \
+  u01 = vis_fmul8ulx16(row30, yFiltfr3);                        \
+  v21 = vis_fpbdd16(u10, u11);                                  \
+  sum1 = vis_fpbdd16(v01, v11);                                 \
+  u10 = vis_fmul8sux16(row31, yFiltfr3);                        \
+  sum2 = vis_fpbdd16(v02, v12);                                 \
+  sum3 = vis_fpbdd16(v03, v13);                                 \
+  v22 = vis_fpbdd16(u20, u21);                                  \
+  u11 = vis_fmul8ulx16(row31, yFiltfr3);                        \
+  sum0 = vis_fpbdd16(sum0, v20);                                \
+  u20 = vis_fmul8sux16(row32, yFiltfr3);                        \
+  u21 = vis_fmul8ulx16(row32, yFiltfr3);                        \
+  v23 = vis_fpbdd16(u30, u31);                                  \
+  v30 = vis_fpbdd16(u00, u01);                                  \
+  sum1 = vis_fpbdd16(sum1, v21);                                \
+  u30 = vis_fmul8sux16(row33, yFiltfr3);                        \
+  u31 = vis_fmul8ulx16(row33, yFiltfr3);                        \
+  v31 = vis_fpbdd16(u10, u11);                                  \
+  sum2 = vis_fpbdd16(sum2, v22);                                \
+  sum3 = vis_fpbdd16(sum3, v23);                                \
+  v32 = vis_fpbdd16(u20, u21);                                  \
+  sum0 = vis_fpbdd16(sum0, v30);                                \
+  v33 = vis_fpbdd16(u30, u31);                                  \
+  v00 = vis_fmul8sux16(sum0, xFiltfr0);                         \
+  sum1 = vis_fpbdd16(sum1, v31);                                \
+  sum2 = vis_fpbdd16(sum2, v32);                                \
+  v01 = vis_fmul8ulx16(sum0, xFiltfr0);                         \
+  v10 = vis_fmul8sux16(sum1, xFiltfr1);                         \
+  sum3 = vis_fpbdd16(sum3, v33);                                \
+  v11 = vis_fmul8ulx16(sum1, xFiltfr1);                         \
+  d0 = vis_fpbdd16(v00, v01);                                   \
+  v20 = vis_fmul8sux16(sum2, xFiltfr2);                         \
+  v21 = vis_fmul8ulx16(sum2, xFiltfr2);                         \
+  d1 = vis_fpbdd16(v10, v11);                                   \
+  v30 = vis_fmul8sux16(sum3, xFiltfr3);                         \
+  v31 = vis_fmul8ulx16(sum3, xFiltfr3);                         \
+  d2 = vis_fpbdd16(v20, v21);                                   \
+  d3 = vis_fpbdd16(v30, v31);                                   \
+  d0 = vis_fpbdd16(d0, d1);                                     \
+  d2 = vis_fpbdd16(d2, d3);                                     \
+  d0 = vis_fpbdd16(d0, d2);                                     \
+  d2 = vis_fmuld8sux16(f_x01000100, vis_rfbd_hi(d0));           \
+  d3 = vis_fmuld8sux16(f_x01000100, vis_rfbd_lo(d0));           \
+  rfs = vis_fpbdkfix_pbir(d2, d3)
+
+/***************************************************************/
+#dffinf BC_S16_4CH(mlib_filtfrs_s16_4)                                  \
+  u00 = vis_fmul8sux16(row00, yFiltfr0);                                \
+  u01 = vis_fmul8ulx16(row00, yFiltfr0);                                \
+  u10 = vis_fmul8sux16(row01, yFiltfr0);                                \
+  u11 = vis_fmul8ulx16(row01, yFiltfr0);                                \
+  v00 = vis_fpbdd16(u00, u01);                                          \
+  u20 = vis_fmul8sux16(row02, yFiltfr0);                                \
+  v01 = vis_fpbdd16(u10, u11);                                          \
+  u21 = vis_fmul8ulx16(row02, yFiltfr0);                                \
+  u30 = vis_fmul8sux16(row03, yFiltfr0);                                \
+  u31 = vis_fmul8ulx16(row03, yFiltfr0);                                \
+  v02 = vis_fpbdd16(u20, u21);                                          \
+  row00 = flut[srdIndfxPtr[0]];                                         \
+  u00 = vis_fmul8sux16(row10, yFiltfr1);                                \
+  u01 = vis_fmul8ulx16(row10, yFiltfr1);                                \
+  filtfrposy = (Y >> FILTER_SHIFT);                                     \
+  v03 = vis_fpbdd16(u30, u31);                                          \
+  row01 = flut[srdIndfxPtr[1]];                                         \
+  u10 = vis_fmul8sux16(row11, yFiltfr1);                                \
+  u11 = vis_fmul8ulx16(row11, yFiltfr1);                                \
+  v10 = vis_fpbdd16(u00, u01);                                          \
+  row02 = flut[srdIndfxPtr[2]];                                         \
+  u20 = vis_fmul8sux16(row12, yFiltfr1);                                \
+  v11 = vis_fpbdd16(u10, u11);                                          \
+  u21 = vis_fmul8ulx16(row12, yFiltfr1);                                \
+  u30 = vis_fmul8sux16(row13, yFiltfr1);                                \
+  row03 = flut[srdIndfxPtr[3]];                                         \
+  u31 = vis_fmul8ulx16(row13, yFiltfr1);                                \
+  u00 = vis_fmul8sux16(row20, yFiltfr2);                                \
+  filtfrposx = (X >> FILTER_SHIFT);                                     \
+  srdIndfxPtr += srdYStridf;                                            \
+  v12 = vis_fpbdd16(u20, u21);                                          \
+  u01 = vis_fmul8ulx16(row20, yFiltfr2);                                \
+  v13 = vis_fpbdd16(u30, u31);                                          \
+  row10 = flut[srdIndfxPtr[0]];                                         \
+  u10 = vis_fmul8sux16(row21, yFiltfr2);                                \
+  X += dX;                                                              \
+  u11 = vis_fmul8ulx16(row21, yFiltfr2);                                \
+  v20 = vis_fpbdd16(u00, u01);                                          \
+  row11 = flut[srdIndfxPtr[1]];                                         \
+  u20 = vis_fmul8sux16(row22, yFiltfr2);                                \
+  sum0 = vis_fpbdd16(v00, v10);                                         \
+  u21 = vis_fmul8ulx16(row22, yFiltfr2);                                \
+  row12 = flut[srdIndfxPtr[2]];                                         \
+  u30 = vis_fmul8sux16(row23, yFiltfr2);                                \
+  u31 = vis_fmul8ulx16(row23, yFiltfr2);                                \
+  row13 = flut[srdIndfxPtr[3]];                                         \
+  u00 = vis_fmul8sux16(row30, yFiltfr3);                                \
+  srdIndfxPtr += srdYStridf;                                            \
+  u01 = vis_fmul8ulx16(row30, yFiltfr3);                                \
+  v21 = vis_fpbdd16(u10, u11);                                          \
+  Y += dY;                                                              \
+  xSrd = (X >> MLIB_SHIFT)-1;                                           \
+  sum1 = vis_fpbdd16(v01, v11);                                         \
+  row20 = flut[srdIndfxPtr[0]];                                         \
+  u10 = vis_fmul8sux16(row31, yFiltfr3);                                \
+  sum2 = vis_fpbdd16(v02, v12);                                         \
+  sum3 = vis_fpbdd16(v03, v13);                                         \
+  ySrd = (Y >> MLIB_SHIFT)-1;                                           \
+  row21 = flut[srdIndfxPtr[1]];                                         \
+  v22 = vis_fpbdd16(u20, u21);                                          \
+  u11 = vis_fmul8ulx16(row31, yFiltfr3);                                \
+  sum0 = vis_fpbdd16(sum0, v20);                                        \
+  u20 = vis_fmul8sux16(row32, yFiltfr3);                                \
+  row22 = flut[srdIndfxPtr[2]];                                         \
+  u21 = vis_fmul8ulx16(row32, yFiltfr3);                                \
+  v23 = vis_fpbdd16(u30, u31);                                          \
+  v30 = vis_fpbdd16(u00, u01);                                          \
+  filtfrposy &= FILTER_MASK;                                            \
+  sum1 = vis_fpbdd16(sum1, v21);                                        \
+  u30 = vis_fmul8sux16(row33, yFiltfr3);                                \
+  row23 = flut[srdIndfxPtr[3]];                                         \
+  u31 = vis_fmul8ulx16(row33, yFiltfr3);                                \
+  srdIndfxPtr += srdYStridf;                                            \
+  filtfrposx &= FILTER_MASK;                                            \
+  v31 = vis_fpbdd16(u10, u11);                                          \
+  row30 = flut[srdIndfxPtr[0]];                                         \
+  sum2 = vis_fpbdd16(sum2, v22);                                        \
+  sum3 = vis_fpbdd16(sum3, v23);                                        \
+  row31 = flut[srdIndfxPtr[1]];                                         \
+  v32 = vis_fpbdd16(u20, u21);                                          \
+  sum0 = vis_fpbdd16(sum0, v30);                                        \
+  row32 = flut[srdIndfxPtr[2]];                                         \
+  v33 = vis_fpbdd16(u30, u31);                                          \
+  row33 = flut[srdIndfxPtr[3]];                                         \
+  v00 = vis_fmul8sux16(sum0, xFiltfr0);                                 \
+  yPtr = ((mlib_d64 *) ((mlib_u8 *)mlib_filtfrs_s16_4 + filtfrposy*4)); \
+  sum1 = vis_fpbdd16(sum1, v31);                                        \
+  yFiltfr0 = yPtr[0];                                                   \
+  sum2 = vis_fpbdd16(sum2, v32);                                        \
+  v01 = vis_fmul8ulx16(sum0, xFiltfr0);                                 \
+  yFiltfr1 = yPtr[1];                                                   \
+  v10 = vis_fmul8sux16(sum1, xFiltfr1);                                 \
+  sum3 = vis_fpbdd16(sum3, v33);                                        \
+  yFiltfr2 = yPtr[2];                                                   \
+  v11 = vis_fmul8ulx16(sum1, xFiltfr1);                                 \
+  d0 = vis_fpbdd16(v00, v01);                                           \
+  yFiltfr3 = yPtr[3];                                                   \
+  xPtr = ((mlib_d64 *)((mlib_u8 *)mlib_filtfrs_s16_4 + filtfrposx*4));  \
+  v20 = vis_fmul8sux16(sum2, xFiltfr2);                                 \
+  xFiltfr0 = xPtr[0];                                                   \
+  v21 = vis_fmul8ulx16(sum2, xFiltfr2);                                 \
+  d1 = vis_fpbdd16(v10, v11);                                           \
+  xFiltfr1 = xPtr[1];                                                   \
+  v30 = vis_fmul8sux16(sum3, xFiltfr3);                                 \
+  v31 = vis_fmul8ulx16(sum3, xFiltfr3);                                 \
+  d2 = vis_fpbdd16(v20, v21);                                           \
+  xFiltfr2 = xPtr[2];                                                   \
+  d3 = vis_fpbdd16(v30, v31);                                           \
+  xFiltfr3 = xPtr[3];                                                   \
+  srdIndfxPtr = (MLIB_TYPE *)linfAddr[ySrd] + xSrd
+
+/***************************************************************/
+#dffinf FADD_4BC_S16()                                          \
+  d0 = vis_fpbdd16(d0, d1);                                     \
+  d2 = vis_fpbdd16(d2, d3);                                     \
+  d0 = vis_fpbdd16(d0, d2);                                     \
+  d2 = vis_fmuld8sux16(f_x01000100, vis_rfbd_hi(d0));           \
+  d3 = vis_fmuld8sux16(f_x01000100, vis_rfbd_lo(d0));           \
+  rfs = vis_fpbdkfix_pbir(d2, d3)
+
+/***************************************************************/
+#undff  MLIB_TYPE
+#dffinf MLIB_TYPE mlib_u8
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  5
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 8) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_U8_U8_3CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                               donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_U8();
+  mlib_f32  *flut   = (mlib_f32 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64  dstRowDbtb[MLIB_LIMIT/2];
+  mlib_d64  *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_u8, *mlib_filtfrs_tbblf_u8_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd2;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd2_4;
+  }
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * ((mbx_xsizf + 1) >> 1));
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  vis_writf_gsr(3 << 3);
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    dols = xRight - xLfft + 1;
+
+    i = 0;
+
+    if (i <= dols - 6) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+#prbgmb pipfloop(0)
+      for (; i <= dols-8; i += 2) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_U8();
+        BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+        BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 6;
+    }
+
+    if (i <= dols-4) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+    if (i <= dols-2) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 2;
+    }
+
+    if (i < dols) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      d0 = vis_fpbdd16(d00, d10);
+      d1 = vis_fpbdd16(d20, d30);
+      d0 = vis_fpbdd16(d0, d1);
+      rfs = vis_fpbdk16_pbir(d0, d0);
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_U8_U8_3_in_4((mlib_u8 *)dstRowPtr,
+                                               dstIndfxPtr,
+                                               xRight - xLfft + 1,
+                                               dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  4
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 9) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_U8_S16_3CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_S16();
+  mlib_d64 *flut   = (mlib_d64 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64 dstRowDbtb[MLIB_LIMIT];
+  mlib_d64 *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_s16_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd2_4;
+  }
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * mbx_xsizf);
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    vis_writf_gsr(10 << 3);
+
+    dols = xRight - xLfft + 1;
+    i = 0;
+
+    if (i <= dols - 4) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      FADD_4BC_S16();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+
+#prbgmb pipfloop(0)
+
+      for (; i < dols-4; i++) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_S16();
+        BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_S16();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+#prbgmb pipfloop(0)
+    for (; i < dols; i++) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_S16_U8_3_in_4((mlib_s16 *)dstRowPtr,
+                                                dstIndfxPtr,
+                                                xRight - xLfft + 1,
+                                                dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  5
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 8) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_U8_U8_4CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                               donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_U8();
+  mlib_f32  *flut   = (mlib_f32 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64  dstRowDbtb[MLIB_LIMIT/2];
+  mlib_d64  *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_u8, *mlib_filtfrs_tbblf_u8_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd2;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd2_4;
+  }
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * ((mbx_xsizf + 1) >> 1));
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  vis_writf_gsr(3 << 3);
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    dols = xRight - xLfft + 1;
+
+    i = 0;
+
+    if (i <= dols - 6) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+#prbgmb pipfloop(0)
+      for (; i <= dols-8; i += 2) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_U8();
+        BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+        BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 6;
+    }
+
+    if (i <= dols-4) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+    if (i <= dols-2) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 2;
+    }
+
+    if (i < dols) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      d0 = vis_fpbdd16(d00, d10);
+      d1 = vis_fpbdd16(d20, d30);
+      d0 = vis_fpbdd16(d0, d1);
+      rfs = vis_fpbdk16_pbir(d0, d0);
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_U8_U8_4((mlib_u8 *)dstRowPtr,
+                                          dstIndfxPtr,
+                                          xRight - xLfft + 1,
+                                          dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  4
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 9) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_U8_S16_4CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_S16();
+  mlib_d64 *flut   = (mlib_d64 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64 dstRowDbtb[MLIB_LIMIT];
+  mlib_d64 *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_s16_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd2_4;
+  }
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * mbx_xsizf);
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    vis_writf_gsr(10 << 3);
+
+    dols = xRight - xLfft + 1;
+    i = 0;
+
+    if (i <= dols - 4) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      FADD_4BC_S16();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+
+#prbgmb pipfloop(0)
+
+      for (; i < dols-4; i++) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_S16();
+        BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_S16();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+#prbgmb pipfloop(0)
+    for (; i < dols; i++) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_S16_U8_4((mlib_s16 *)dstRowPtr,
+                                           dstIndfxPtr,
+                                           xRight - xLfft + 1,
+                                           dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  MLIB_TYPE
+#dffinf MLIB_TYPE mlib_s16
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  5
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 8) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_S16_U8_3CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_U8();
+  mlib_f32  *flut   = (mlib_f32 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64  dstRowDbtb[MLIB_LIMIT/2];
+  mlib_d64  *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_u8, *mlib_filtfrs_tbblf_u8_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd2;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd2_4;
+  }
+
+  srdYStridf >>= 1;
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * ((mbx_xsizf + 1) >> 1));
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  vis_writf_gsr(3 << 3);
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    dols = xRight - xLfft + 1;
+
+    i = 0;
+
+    if (i <= dols - 6) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+#prbgmb pipfloop(0)
+      for (; i <= dols-8; i += 2) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_U8();
+        BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+        BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 6;
+    }
+
+    if (i <= dols-4) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+    if (i <= dols-2) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 2;
+    }
+
+    if (i < dols) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      d0 = vis_fpbdd16(d00, d10);
+      d1 = vis_fpbdd16(d20, d30);
+      d0 = vis_fpbdd16(d0, d1);
+      rfs = vis_fpbdk16_pbir(d0, d0);
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_U8_S16_3_in_4((mlib_u8 *)dstRowPtr,
+                                                dstIndfxPtr,
+                                                xRight - xLfft + 1,
+                                                dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  4
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 9) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_S16_S16_3CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                 donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_S16();
+  mlib_d64 *flut   = (mlib_d64 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64 dstRowDbtb[MLIB_LIMIT];
+  mlib_d64 *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_s16_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd2_4;
+  }
+
+  srdYStridf >>= 1;
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * mbx_xsizf);
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    vis_writf_gsr(10 << 3);
+
+    dols = xRight - xLfft + 1;
+    i = 0;
+
+    if (i <= dols - 4) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      FADD_4BC_S16();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+
+#prbgmb pipfloop(0)
+
+      for (; i < dols-4; i++) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_S16();
+        BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_S16();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+#prbgmb pipfloop(0)
+    for (; i < dols; i++) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_S16_S16_3_in_4((mlib_s16 *)dstRowPtr,
+                                                 dstIndfxPtr,
+                                                 xRight - xLfft + 1,
+                                                 dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  5
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 8) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_S16_U8_4CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_U8();
+  mlib_f32  *flut   = (mlib_f32 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64  dstRowDbtb[MLIB_LIMIT/2];
+  mlib_d64  *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_u8, *mlib_filtfrs_tbblf_u8_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_u8   = mlib_filtfrs_u8_bd2;
+    mlib_filtfrs_tbblf_u8_4 = mlib_filtfrs_u8_bd2_4;
+  }
+
+  srdYStridf >>= 1;
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * ((mbx_xsizf + 1) >> 1));
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  vis_writf_gsr(3 << 3);
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    dols = xRight - xLfft + 1;
+
+    i = 0;
+
+    if (i <= dols - 6) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+#prbgmb pipfloop(0)
+      for (; i <= dols-8; i += 2) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_U8();
+        BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+        BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 6;
+    }
+
+    if (i <= dols-4) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_U8_4CH(0, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      BC_U8_4CH(1, mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      FADD_4BC_U8();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_U8_1PIXEL(0);
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+    if (i <= dols-2) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(1);
+      FADD_4BC_U8();
+
+      *dstPixflPtr++ = rfs;
+      i += 2;
+    }
+
+    if (i < dols) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_U8_4CH_1PIXEL(mlib_filtfrs_tbblf_u8, mlib_filtfrs_tbblf_u8_4);
+      RESULT_4BC_U8_1PIXEL(0);
+
+      d0 = vis_fpbdd16(d00, d10);
+      d1 = vis_fpbdd16(d20, d30);
+      d0 = vis_fpbdd16(d0, d1);
+      rfs = vis_fpbdk16_pbir(d0, d0);
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_U8_S16_4((mlib_u8 *)dstRowPtr,
+                                           dstIndfxPtr,
+                                           xRight - xLfft + 1,
+                                           dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+#undff  FILTER_SHIFT
+#dffinf FILTER_SHIFT  4
+#undff  FILTER_MASK
+#dffinf FILTER_MASK   (((1 << 9) - 1) << 3)
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfAffinfIndfx_S16_S16_4CH_BC(mlib_bffinf_pbrbm *pbrbm,
+                                                 donst void        *dolormbp)
+{
+  DECLAREVAR();
+  DECLAREVAR_S16();
+  mlib_d64 *flut   = (mlib_d64 *)mlib_ImbgfGftLutNormblTbblf(dolormbp) -
+  mlib_ImbgfGftLutOffsft(dolormbp);
+  mlib_d64 dstRowDbtb[MLIB_LIMIT];
+  mlib_d64 *dstRowPtr = dstRowDbtb;
+  donst mlib_s16 *mlib_filtfrs_tbblf_s16_4;
+
+  if (filtfr == MLIB_BICUBIC) {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd_4;
+  } flsf {
+    mlib_filtfrs_tbblf_s16_4 = mlib_filtfrs_s16_bd2_4;
+  }
+
+  srdYStridf >>= 1;
+
+  if (mbx_xsizf > MLIB_LIMIT) {
+    dstRowPtr = mlib_mbllod(sizfof(mlib_d64) * mbx_xsizf);
+
+    if (dstRowPtr == NULL) rfturn MLIB_FAILURE;
+  }
+
+  for (j = yStbrt; j <= yFinish; j++) {
+
+    CLIP();
+
+    vis_writf_gsr(10 << 3);
+
+    dols = xRight - xLfft + 1;
+    i = 0;
+
+    if (i <= dols - 4) {
+
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+
+      NEXT_PIXEL_4BC();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      FADD_4BC_S16();
+
+      BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+
+#prbgmb pipfloop(0)
+
+      for (; i < dols-4; i++) {
+        *dstPixflPtr++ = rfs;
+
+        FADD_4BC_S16();
+        BC_S16_4CH(mlib_filtfrs_tbblf_s16_4);
+      }
+
+      *dstPixflPtr++ = rfs;
+
+      FADD_4BC_S16();
+      *dstPixflPtr++ = rfs;
+
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+      i += 4;
+    }
+
+#prbgmb pipfloop(0)
+    for (; i < dols; i++) {
+      NEXT_PIXEL_4BC();
+      LOAD_BC_S16_4CH_1PIXEL(mlib_filtfrs_tbblf_s16_4);
+      RESULT_4BC_S16_1PIXEL();
+      *dstPixflPtr++ = rfs;
+    }
+
+    mlib_ImbgfColorTruf2IndfxLinf_S16_S16_4((mlib_s16 *)dstRowPtr,
+                                            dstIndfxPtr,
+                                            xRight - xLfft + 1,
+                                            dolormbp);
+  }
+
+  if (dstRowPtr != dstRowDbtb) mlib_frff(dstRowPtr);
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/

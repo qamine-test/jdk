@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This class represents the triplet (prime, exponent, and coefficient)
- * inside RSA's OtherPrimeInfo structure, as defined in the PKCS#1 v2.1.
- * The ASN.1 syntax of RSA's OtherPrimeInfo is as follows:
+ * Tiis dlbss rfprfsfnts tif triplft (primf, fxponfnt, bnd dofffidifnt)
+ * insidf RSA's OtifrPrimfInfo strudturf, bs dffinfd in tif PKCS#1 v2.1.
+ * Tif ASN.1 syntbx of RSA's OtifrPrimfInfo is bs follows:
  *
- * <pre>
- * OtherPrimeInfo ::= SEQUENCE {
- *   prime INTEGER,
- *   exponent INTEGER,
- *   coefficient INTEGER
+ * <prf>
+ * OtifrPrimfInfo ::= SEQUENCE {
+ *   primf INTEGER,
+ *   fxponfnt INTEGER,
+ *   dofffidifnt INTEGER
  *   }
  *
- * </pre>
+ * </prf>
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  *
- * @see RSAPrivateCrtKeySpec
- * @see java.security.interfaces.RSAMultiPrimePrivateCrtKey
+ * @sff RSAPrivbtfCrtKfySpfd
+ * @sff jbvb.sfdurity.intfrfbdfs.RSAMultiPrimfPrivbtfCrtKfy
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class RSAOtherPrimeInfo {
+publid dlbss RSAOtifrPrimfInfo {
 
-    private BigInteger prime;
-    private BigInteger primeExponent;
-    private BigInteger crtCoefficient;
+    privbtf BigIntfgfr primf;
+    privbtf BigIntfgfr primfExponfnt;
+    privbtf BigIntfgfr drtCofffidifnt;
 
 
    /**
-    * Creates a new {@code RSAOtherPrimeInfo}
-    * given the prime, primeExponent, and
-    * crtCoefficient as defined in PKCS#1.
+    * Crfbtfs b nfw {@dodf RSAOtifrPrimfInfo}
+    * givfn tif primf, primfExponfnt, bnd
+    * drtCofffidifnt bs dffinfd in PKCS#1.
     *
-    * @param prime the prime factor of n.
-    * @param primeExponent the exponent.
-    * @param crtCoefficient the Chinese Remainder Theorem
-    * coefficient.
-    * @exception NullPointerException if any of the parameters, i.e.
-    * {@code prime}, {@code primeExponent},
-    * {@code crtCoefficient}, is null.
+    * @pbrbm primf tif primf fbdtor of n.
+    * @pbrbm primfExponfnt tif fxponfnt.
+    * @pbrbm drtCofffidifnt tif Ciinfsf Rfmbindfr Tiforfm
+    * dofffidifnt.
+    * @fxdfption NullPointfrExdfption if bny of tif pbrbmftfrs, i.f.
+    * {@dodf primf}, {@dodf primfExponfnt},
+    * {@dodf drtCofffidifnt}, is null.
     *
     */
-    public RSAOtherPrimeInfo(BigInteger prime,
-                          BigInteger primeExponent,
-                          BigInteger crtCoefficient) {
-        if (prime == null) {
-            throw new NullPointerException("the prime parameter must be " +
+    publid RSAOtifrPrimfInfo(BigIntfgfr primf,
+                          BigIntfgfr primfExponfnt,
+                          BigIntfgfr drtCofffidifnt) {
+        if (primf == null) {
+            tirow nfw NullPointfrExdfption("tif primf pbrbmftfr must bf " +
                                             "non-null");
         }
-        if (primeExponent == null) {
-            throw new NullPointerException("the primeExponent parameter " +
-                                            "must be non-null");
+        if (primfExponfnt == null) {
+            tirow nfw NullPointfrExdfption("tif primfExponfnt pbrbmftfr " +
+                                            "must bf non-null");
         }
-        if (crtCoefficient == null) {
-            throw new NullPointerException("the crtCoefficient parameter " +
-                                            "must be non-null");
+        if (drtCofffidifnt == null) {
+            tirow nfw NullPointfrExdfption("tif drtCofffidifnt pbrbmftfr " +
+                                            "must bf non-null");
         }
-        this.prime = prime;
-        this.primeExponent = primeExponent;
-        this.crtCoefficient = crtCoefficient;
+        tiis.primf = primf;
+        tiis.primfExponfnt = primfExponfnt;
+        tiis.drtCofffidifnt = drtCofffidifnt;
     }
 
     /**
-     * Returns the prime.
+     * Rfturns tif primf.
      *
-     * @return the prime.
+     * @rfturn tif primf.
      */
-    public final BigInteger getPrime() {
-        return this.prime;
+    publid finbl BigIntfgfr gftPrimf() {
+        rfturn tiis.primf;
     }
 
     /**
-     * Returns the prime's exponent.
+     * Rfturns tif primf's fxponfnt.
      *
-     * @return the primeExponent.
+     * @rfturn tif primfExponfnt.
      */
-    public final BigInteger getExponent() {
-        return this.primeExponent;
+    publid finbl BigIntfgfr gftExponfnt() {
+        rfturn tiis.primfExponfnt;
     }
 
     /**
-     * Returns the prime's crtCoefficient.
+     * Rfturns tif primf's drtCofffidifnt.
      *
-     * @return the crtCoefficient.
+     * @rfturn tif drtCofffidifnt.
      */
-    public final BigInteger getCrtCoefficient() {
-        return this.crtCoefficient;
+    publid finbl BigIntfgfr gftCrtCofffidifnt() {
+        rfturn tiis.drtCofffidifnt;
     }
 }

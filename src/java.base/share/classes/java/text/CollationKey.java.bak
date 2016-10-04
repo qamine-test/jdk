@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
 /**
- * A <code>CollationKey</code> represents a <code>String</code> under the
- * rules of a specific <code>Collator</code> object. Comparing two
- * <code>CollationKey</code>s returns the relative order of the
- * <code>String</code>s they represent. Using <code>CollationKey</code>s
- * to compare <code>String</code>s is generally faster than using
- * <code>Collator.compare</code>. Thus, when the <code>String</code>s
- * must be compared multiple times, for example when sorting a list
- * of <code>String</code>s. It's more efficient to use <code>CollationKey</code>s.
+ * A <dodf>CollbtionKfy</dodf> rfprfsfnts b <dodf>String</dodf> undfr tif
+ * rulfs of b spfdifid <dodf>Collbtor</dodf> objfdt. Compbring two
+ * <dodf>CollbtionKfy</dodf>s rfturns tif rflbtivf ordfr of tif
+ * <dodf>String</dodf>s tify rfprfsfnt. Using <dodf>CollbtionKfy</dodf>s
+ * to dompbrf <dodf>String</dodf>s is gfnfrblly fbstfr tibn using
+ * <dodf>Collbtor.dompbrf</dodf>. Tius, wifn tif <dodf>String</dodf>s
+ * must bf dompbrfd multiplf timfs, for fxbmplf wifn sorting b list
+ * of <dodf>String</dodf>s. It's morf fffidifnt to usf <dodf>CollbtionKfy</dodf>s.
  *
  * <p>
- * You can not create <code>CollationKey</code>s directly. Rather,
- * generate them by calling <code>Collator.getCollationKey</code>.
- * You can only compare <code>CollationKey</code>s generated from
- * the same <code>Collator</code> object.
+ * You dbn not drfbtf <dodf>CollbtionKfy</dodf>s dirfdtly. Rbtifr,
+ * gfnfrbtf tifm by dblling <dodf>Collbtor.gftCollbtionKfy</dodf>.
+ * You dbn only dompbrf <dodf>CollbtionKfy</dodf>s gfnfrbtfd from
+ * tif sbmf <dodf>Collbtor</dodf> objfdt.
  *
  * <p>
- * Generating a <code>CollationKey</code> for a <code>String</code>
- * involves examining the entire <code>String</code>
- * and converting it to series of bits that can be compared bitwise. This
- * allows fast comparisons once the keys are generated. The cost of generating
- * keys is recouped in faster comparisons when <code>String</code>s need
- * to be compared many times. On the other hand, the result of a comparison
- * is often determined by the first couple of characters of each <code>String</code>.
- * <code>Collator.compare</code> examines only as many characters as it needs which
- * allows it to be faster when doing single comparisons.
+ * Gfnfrbting b <dodf>CollbtionKfy</dodf> for b <dodf>String</dodf>
+ * involvfs fxbmining tif fntirf <dodf>String</dodf>
+ * bnd donvfrting it to sfrifs of bits tibt dbn bf dompbrfd bitwisf. Tiis
+ * bllows fbst dompbrisons ondf tif kfys brf gfnfrbtfd. Tif dost of gfnfrbting
+ * kfys is rfdoupfd in fbstfr dompbrisons wifn <dodf>String</dodf>s nffd
+ * to bf dompbrfd mbny timfs. On tif otifr ibnd, tif rfsult of b dompbrison
+ * is oftfn dftfrminfd by tif first douplf of dibrbdtfrs of fbdi <dodf>String</dodf>.
+ * <dodf>Collbtor.dompbrf</dodf> fxbminfs only bs mbny dibrbdtfrs bs it nffds wiidi
+ * bllows it to bf fbstfr wifn doing singlf dompbrisons.
  * <p>
- * The following example shows how <code>CollationKey</code>s might be used
- * to sort a list of <code>String</code>s.
- * <blockquote>
- * <pre>{@code
- * // Create an array of CollationKeys for the Strings to be sorted.
- * Collator myCollator = Collator.getInstance();
- * CollationKey[] keys = new CollationKey[3];
- * keys[0] = myCollator.getCollationKey("Tom");
- * keys[1] = myCollator.getCollationKey("Dick");
- * keys[2] = myCollator.getCollationKey("Harry");
- * sort(keys);
+ * Tif following fxbmplf siows iow <dodf>CollbtionKfy</dodf>s migit bf usfd
+ * to sort b list of <dodf>String</dodf>s.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * // Crfbtf bn brrby of CollbtionKfys for tif Strings to bf sortfd.
+ * Collbtor myCollbtor = Collbtor.gftInstbndf();
+ * CollbtionKfy[] kfys = nfw CollbtionKfy[3];
+ * kfys[0] = myCollbtor.gftCollbtionKfy("Tom");
+ * kfys[1] = myCollbtor.gftCollbtionKfy("Didk");
+ * kfys[2] = myCollbtor.gftCollbtionKfy("Hbrry");
+ * sort(kfys);
  *
  * //...
  *
- * // Inside body of sort routine, compare keys this way
- * if (keys[i].compareTo(keys[j]) > 0)
- *    // swap keys[i] and keys[j]
+ * // Insidf body of sort routinf, dompbrf kfys tiis wby
+ * if (kfys[i].dompbrfTo(kfys[j]) > 0)
+ *    // swbp kfys[i] bnd kfys[j]
  *
  * //...
  *
- * // Finally, when we've returned from sort.
- * System.out.println(keys[0].getSourceString());
- * System.out.println(keys[1].getSourceString());
- * System.out.println(keys[2].getSourceString());
- * }</pre>
- * </blockquote>
+ * // Finblly, wifn wf'vf rfturnfd from sort.
+ * Systfm.out.println(kfys[0].gftSourdfString());
+ * Systfm.out.println(kfys[1].gftSourdfString());
+ * Systfm.out.println(kfys[2].gftSourdfString());
+ * }</prf>
+ * </blodkquotf>
  *
- * @see          Collator
- * @see          RuleBasedCollator
- * @author       Helena Shih
+ * @sff          Collbtor
+ * @sff          RulfBbsfdCollbtor
+ * @butior       Hflfnb Siii
  */
 
-public abstract class CollationKey implements Comparable<CollationKey> {
+publid bbstrbdt dlbss CollbtionKfy implfmfnts Compbrbblf<CollbtionKfy> {
     /**
-     * Compare this CollationKey to the target CollationKey. The collation rules of the
-     * Collator object which created these keys are applied. <strong>Note:</strong>
-     * CollationKeys created by different Collators can not be compared.
-     * @param target target CollationKey
-     * @return Returns an integer value. Value is less than zero if this is less
-     * than target, value is zero if this and target are equal and value is greater than
-     * zero if this is greater than target.
-     * @see java.text.Collator#compare
+     * Compbrf tiis CollbtionKfy to tif tbrgft CollbtionKfy. Tif dollbtion rulfs of tif
+     * Collbtor objfdt wiidi drfbtfd tifsf kfys brf bpplifd. <strong>Notf:</strong>
+     * CollbtionKfys drfbtfd by difffrfnt Collbtors dbn not bf dompbrfd.
+     * @pbrbm tbrgft tbrgft CollbtionKfy
+     * @rfturn Rfturns bn intfgfr vbluf. Vbluf is lfss tibn zfro if tiis is lfss
+     * tibn tbrgft, vbluf is zfro if tiis bnd tbrgft brf fqubl bnd vbluf is grfbtfr tibn
+     * zfro if tiis is grfbtfr tibn tbrgft.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    abstract public int compareTo(CollationKey target);
+    bbstrbdt publid int dompbrfTo(CollbtionKfy tbrgft);
 
     /**
-     * Returns the String that this CollationKey represents.
+     * Rfturns tif String tibt tiis CollbtionKfy rfprfsfnts.
      *
-     * @return the source string of this CollationKey
+     * @rfturn tif sourdf string of tiis CollbtionKfy
      */
-    public String getSourceString() {
-        return source;
+    publid String gftSourdfString() {
+        rfturn sourdf;
     }
 
 
     /**
-     * Converts the CollationKey to a sequence of bits. If two CollationKeys
-     * could be legitimately compared, then one could compare the byte arrays
-     * for each of those keys to obtain the same result.  Byte arrays are
-     * organized most significant byte first.
+     * Convfrts tif CollbtionKfy to b sfqufndf of bits. If two CollbtionKfys
+     * dould bf lfgitimbtfly dompbrfd, tifn onf dould dompbrf tif bytf brrbys
+     * for fbdi of tiosf kfys to obtbin tif sbmf rfsult.  Bytf brrbys brf
+     * orgbnizfd most signifidbnt bytf first.
      *
-     * @return a byte array representation of the CollationKey
+     * @rfturn b bytf brrby rfprfsfntbtion of tif CollbtionKfy
      */
-    abstract public byte[] toByteArray();
+    bbstrbdt publid bytf[] toBytfArrby();
 
 
   /**
-   * CollationKey constructor.
+   * CollbtionKfy donstrudtor.
    *
-   * @param source the source string
-   * @exception NullPointerException if {@code source} is null
-   * @since 1.6
+   * @pbrbm sourdf tif sourdf string
+   * @fxdfption NullPointfrExdfption if {@dodf sourdf} is null
+   * @sindf 1.6
    */
-    protected CollationKey(String source) {
-        if (source==null){
-            throw new NullPointerException();
+    protfdtfd CollbtionKfy(String sourdf) {
+        if (sourdf==null){
+            tirow nfw NullPointfrExdfption();
         }
-        this.source = source;
+        tiis.sourdf = sourdf;
     }
 
-    final private String source;
+    finbl privbtf String sourdf;
 }

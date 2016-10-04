@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+/**
+ * A MfthodDfsdriptor dfsdribfs b pbrtidulbr mfthod thbt b Jbvb Bfbn
+ * supports for fxtfrnbl bddfss from othfr domponfnts.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss MfthodDfsdriptor fxtfnds FfbturfDfsdriptor {
+
+    privbtf finbl MfthodRff mfthodRff = nfw MfthodRff();
+
+    privbtf String[] pbrbmNbmfs;
+
+    privbtf List<WfbkRfffrfndf<Clbss<?>>> pbrbms;
+
+    privbtf PbrbmftfrDfsdriptor pbrbmftfrDfsdriptors[];
+
+    /**
+     * Construdts b <dodf>MfthodDfsdriptor</dodf> from b
+     * <dodf>Mfthod</dodf>.
+     *
+     * @pbrbm mfthod    Thf low-lfvfl mfthod informbtion.
+     */
+    publid MfthodDfsdriptor(Mfthod mfthod) {
+        this(mfthod, null);
+    }
+
+
+    /**
+     * Construdts b <dodf>MfthodDfsdriptor</dodf> from b
+     * <dodf>Mfthod</dodf> providing dfsdriptivf informbtion for fbdh
+     * of thf mfthod's pbrbmftfrs.
+     *
+     * @pbrbm mfthod    Thf low-lfvfl mfthod informbtion.
+     * @pbrbm pbrbmftfrDfsdriptors  Dfsdriptivf informbtion for fbdh of thf
+     *                          mfthod's pbrbmftfrs.
+     */
+    publid MfthodDfsdriptor(Mfthod mfthod,
+                PbrbmftfrDfsdriptor pbrbmftfrDfsdriptors[]) {
+        sftNbmf(mfthod.gftNbmf());
+        sftMfthod(mfthod);
+        this.pbrbmftfrDfsdriptors = (pbrbmftfrDfsdriptors != null)
+                ? pbrbmftfrDfsdriptors.dlonf()
+                : null;
+    }
+
+    /**
+     * Gfts thf mfthod thbt this MfthodDfsdriptor fndbpsulbtfs.
+     *
+     * @rfturn Thf low-lfvfl dfsdription of thf mfthod
+     */
+    publid syndhronizfd Mfthod gftMfthod() {
+        Mfthod mfthod = this.mfthodRff.gft();
+        if (mfthod == null) {
+            Clbss<?> dls = gftClbss0();
+            String nbmf = gftNbmf();
+            if ((dls != null) && (nbmf != null)) {
+                Clbss<?>[] pbrbms = gftPbrbms();
+                if (pbrbms == null) {
+                    for (int i = 0; i < 3; i++) {
+                        // Find mfthods for up to 2 pbrbms. Wf brf gufssing hfrf.
+                        // This blodk should nfvfr fxfdutf unlfss thf dlbsslobdfr
+                        // thbt lobdfd thf brgumfnt dlbssfs disbppfbrs.
+                        mfthod = Introspfdtor.findMfthod(dls, nbmf, i, null);
+                        if (mfthod != null) {
+                            brfbk;
+                        }
+                    }
+                } flsf {
+                    mfthod = Introspfdtor.findMfthod(dls, nbmf, pbrbms.lfngth, pbrbms);
+                }
+                sftMfthod(mfthod);
+            }
+        }
+        rfturn mfthod;
+    }
+
+    privbtf syndhronizfd void sftMfthod(Mfthod mfthod) {
+        if (mfthod == null) {
+            rfturn;
+        }
+        if (gftClbss0() == null) {
+            sftClbss0(mfthod.gftDfdlbringClbss());
+        }
+        sftPbrbms(gftPbrbmftfrTypfs(gftClbss0(), mfthod));
+        this.mfthodRff.sft(mfthod);
+    }
+
+    privbtf syndhronizfd void sftPbrbms(Clbss<?>[] pbrbm) {
+        if (pbrbm == null) {
+            rfturn;
+        }
+        pbrbmNbmfs = nfw String[pbrbm.lfngth];
+        pbrbms = nfw ArrbyList<>(pbrbm.lfngth);
+        for (int i = 0; i < pbrbm.lfngth; i++) {
+            pbrbmNbmfs[i] = pbrbm[i].gftNbmf();
+            pbrbms.bdd(nfw WfbkRfffrfndf<Clbss<?>>(pbrbm[i]));
+        }
+    }
+
+    // pp gftPbrbmNbmfs usfd bs bn optimizbtion to bvoid mfthod.gftPbrbmftfrTypfs.
+    String[] gftPbrbmNbmfs() {
+        rfturn pbrbmNbmfs;
+    }
+
+    privbtf syndhronizfd Clbss<?>[] gftPbrbms() {
+        Clbss<?>[] dlss = nfw Clbss<?>[pbrbms.sizf()];
+
+        for (int i = 0; i < pbrbms.sizf(); i++) {
+            Rfffrfndf<? fxtfnds Clbss<?>> rff = (Rfffrfndf<? fxtfnds Clbss<?>>)pbrbms.gft(i);
+            Clbss<?> dls = rff.gft();
+            if (dls == null) {
+                rfturn null;
+            } flsf {
+                dlss[i] = dls;
+            }
+        }
+        rfturn dlss;
+    }
+
+    /**
+     * Gfts thf PbrbmftfrDfsdriptor for fbdh of this MfthodDfsdriptor's
+     * mfthod's pbrbmftfrs.
+     *
+     * @rfturn Thf lodblf-indfpfndfnt nbmfs of thf pbrbmftfrs.  Mby rfturn
+     *          b null brrby if thf pbrbmftfr nbmfs brfn't known.
+     */
+    publid PbrbmftfrDfsdriptor[] gftPbrbmftfrDfsdriptors() {
+        rfturn (this.pbrbmftfrDfsdriptors != null)
+                ? this.pbrbmftfrDfsdriptors.dlonf()
+                : null;
+    }
+
+    privbtf stbtid Mfthod rfsolvf(Mfthod oldMfthod, Mfthod nfwMfthod) {
+        if (oldMfthod == null) {
+            rfturn nfwMfthod;
+        }
+        if (nfwMfthod == null) {
+            rfturn oldMfthod;
+        }
+        rfturn !oldMfthod.isSynthftid() && nfwMfthod.isSynthftid() ? oldMfthod : nfwMfthod;
+    }
+
+    /*
+     * Pbdkbgf-privbtf donstrudtor
+     * Mfrgf two mfthod dfsdriptors.  Whfrf thfy donflidt, givf thf
+     * sfdond brgumfnt (y) priority ovfr thf first brgumfnt (x).
+     * @pbrbm x  Thf first (lowfr priority) MfthodDfsdriptor
+     * @pbrbm y  Thf sfdond (highfr priority) MfthodDfsdriptor
+     */
+
+    MfthodDfsdriptor(MfthodDfsdriptor x, MfthodDfsdriptor y) {
+        supfr(x, y);
+
+        this.mfthodRff.sft(rfsolvf(x.mfthodRff.gft(), y.mfthodRff.gft()));
+        pbrbms = x.pbrbms;
+        if (y.pbrbms != null) {
+            pbrbms = y.pbrbms;
+        }
+        pbrbmNbmfs = x.pbrbmNbmfs;
+        if (y.pbrbmNbmfs != null) {
+            pbrbmNbmfs = y.pbrbmNbmfs;
+        }
+
+        pbrbmftfrDfsdriptors = x.pbrbmftfrDfsdriptors;
+        if (y.pbrbmftfrDfsdriptors != null) {
+            pbrbmftfrDfsdriptors = y.pbrbmftfrDfsdriptors;
+        }
+    }
+
+    /*
+     * Pbdkbgf-privbtf dup donstrudtor
+     * This must isolbtf thf nfw objfdt from bny dhbngfs to thf old objfdt.
+     */
+    MfthodDfsdriptor(MfthodDfsdriptor old) {
+        supfr(old);
+
+        this.mfthodRff.sft(old.gftMfthod());
+        pbrbms = old.pbrbms;
+        pbrbmNbmfs = old.pbrbmNbmfs;
+
+        if (old.pbrbmftfrDfsdriptors != null) {
+            int lfn = old.pbrbmftfrDfsdriptors.lfngth;
+            pbrbmftfrDfsdriptors = nfw PbrbmftfrDfsdriptor[lfn];
+            for (int i = 0; i < lfn ; i++) {
+                pbrbmftfrDfsdriptors[i] = nfw PbrbmftfrDfsdriptor(old.pbrbmftfrDfsdriptors[i]);
+            }
+        }
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+        bppfndTo(sb, "mfthod", this.mfthodRff.gft());
+        if (this.pbrbmftfrDfsdriptors != null) {
+            sb.bppfnd("; pbrbmftfrDfsdriptors={");
+            for (PbrbmftfrDfsdriptor pd : this.pbrbmftfrDfsdriptors) {
+                sb.bppfnd(pd).bppfnd(", ");
+            }
+            sb.sftLfngth(sb.lfngth() - 2);
+            sb.bppfnd("}");
+        }
+    }
+}

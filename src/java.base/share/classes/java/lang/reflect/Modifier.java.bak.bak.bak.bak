@@ -1,0 +1,494 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.StringJoinfr;
+import sun.rfflfdt.LbngRfflfdtAddfss;
+import sun.rfflfdt.RfflfdtionFbdtory;
+
+/**
+ * Thf Modififr dlbss providfs {@dodf stbtid} mfthods bnd
+ * donstbnts to dfdodf dlbss bnd mfmbfr bddfss modififrs.  Thf sfts of
+ * modififrs brf rfprfsfntfd bs intfgfrs with distindt bit positions
+ * rfprfsfnting difffrfnt modififrs.  Thf vblufs for thf donstbnts
+ * rfprfsfnting thf modififrs brf tbkfn from thf tbblfs in sfdtions 4.1, 4.4, 4.5, bnd 4.7 of
+ * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+ *
+ * @sff Clbss#gftModififrs()
+ * @sff Mfmbfr#gftModififrs()
+ *
+ * @buthor Nbkul Sbrbiyb
+ * @buthor Kfnnfth Russfll
+ */
+publid dlbss Modififr {
+
+    /*
+     * Bootstrbpping protodol bftwffn jbvb.lbng bnd jbvb.lbng.rfflfdt
+     *  pbdkbgfs
+     */
+    stbtid {
+        sun.rfflfdt.RfflfdtionFbdtory fbdtory =
+            AddfssControllfr.doPrivilfgfd(
+                nfw RfflfdtionFbdtory.GftRfflfdtionFbdtoryAdtion());
+        fbdtory.sftLbngRfflfdtAddfss(nfw jbvb.lbng.rfflfdt.RfflfdtAddfss());
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf publid} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf publid} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isPublid(int mod) {
+        rfturn (mod & PUBLIC) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf privbtf} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf privbtf} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isPrivbtf(int mod) {
+        rfturn (mod & PRIVATE) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf protfdtfd} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf protfdtfd} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isProtfdtfd(int mod) {
+        rfturn (mod & PROTECTED) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf stbtid} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf stbtid} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isStbtid(int mod) {
+        rfturn (mod & STATIC) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf finbl} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf finbl} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isFinbl(int mod) {
+        rfturn (mod & FINAL) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf syndhronizfd} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf syndhronizfd} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isSyndhronizfd(int mod) {
+        rfturn (mod & SYNCHRONIZED) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf volbtilf} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf volbtilf} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isVolbtilf(int mod) {
+        rfturn (mod & VOLATILE) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf trbnsifnt} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf trbnsifnt} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isTrbnsifnt(int mod) {
+        rfturn (mod & TRANSIENT) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf nbtivf} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf nbtivf} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isNbtivf(int mod) {
+        rfturn (mod & NATIVE) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf intfrfbdf} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf intfrfbdf} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isIntfrfbdf(int mod) {
+        rfturn (mod & INTERFACE) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf bbstrbdt} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf bbstrbdt} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isAbstrbdt(int mod) {
+        rfturn (mod & ABSTRACT) != 0;
+    }
+
+    /**
+     * Rfturn {@dodf truf} if thf intfgfr brgumfnt indludfs thf
+     * {@dodf stridtfp} modififr, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs thf
+     * {@dodf stridtfp} modififr; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isStridt(int mod) {
+        rfturn (mod & STRICT) != 0;
+    }
+
+    /**
+     * Rfturn b string dfsdribing thf bddfss modififr flbgs in
+     * thf spfdififd modififr. For fxbmplf:
+     * <blodkquotf><prf>
+     *    publid finbl syndhronizfd stridtfp
+     * </prf></blodkquotf>
+     * Thf modififr nbmfs brf rfturnfd in bn ordfr donsistfnt with thf
+     * suggfstfd modififr ordfrings givfn in sfdtions 8.1.1, 8.3.1, 8.4.3, 8.8.3, bnd 9.1.1 of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+     * Thf full modififr ordfring usfd by this mfthod is:
+     * <blodkquotf> {@dodf
+     * publid protfdtfd privbtf bbstrbdt stbtid finbl trbnsifnt
+     * volbtilf syndhronizfd nbtivf stridtfp
+     * intfrfbdf } </blodkquotf>
+     * Thf {@dodf intfrfbdf} modififr disdussfd in this dlbss is
+     * not b truf modififr in thf Jbvb lbngubgf bnd it bppfbrs bftfr
+     * bll othfr modififrs listfd by this mfthod.  This mfthod mby
+     * rfturn b string of modififrs thbt brf not vblid modififrs of b
+     * Jbvb fntity; in othfr words, no dhfdking is donf on thf
+     * possiblf vblidity of thf dombinbtion of modififrs rfprfsfntfd
+     * by thf input.
+     *
+     * Notf thbt to pfrform sudh dhfdking for b known kind of fntity,
+     * sudh bs b donstrudtor or mfthod, first AND thf brgumfnt of
+     * {@dodf toString} with thf bppropribtf mbsk from b mfthod likf
+     * {@link #donstrudtorModififrs} or {@link #mfthodModififrs}.
+     *
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn  b string rfprfsfntbtion of thf sft of modififrs
+     * rfprfsfntfd by {@dodf mod}
+     */
+    publid stbtid String toString(int mod) {
+        StringJoinfr sj = nfw StringJoinfr(" ");
+
+        if ((mod & PUBLIC) != 0)        sj.bdd("publid");
+        if ((mod & PROTECTED) != 0)     sj.bdd("protfdtfd");
+        if ((mod & PRIVATE) != 0)       sj.bdd("privbtf");
+
+        /* Cbnonidbl ordfr */
+        if ((mod & ABSTRACT) != 0)      sj.bdd("bbstrbdt");
+        if ((mod & STATIC) != 0)        sj.bdd("stbtid");
+        if ((mod & FINAL) != 0)         sj.bdd("finbl");
+        if ((mod & TRANSIENT) != 0)     sj.bdd("trbnsifnt");
+        if ((mod & VOLATILE) != 0)      sj.bdd("volbtilf");
+        if ((mod & SYNCHRONIZED) != 0)  sj.bdd("syndhronizfd");
+        if ((mod & NATIVE) != 0)        sj.bdd("nbtivf");
+        if ((mod & STRICT) != 0)        sj.bdd("stridtfp");
+        if ((mod & INTERFACE) != 0)     sj.bdd("intfrfbdf");
+
+        rfturn sj.toString();
+    }
+
+    /*
+     * Addfss modififr flbg donstbnts from tbblfs 4.1, 4.4, 4.5, bnd 4.7 of
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>
+     */
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf publid}
+     * modififr.
+     */
+    publid stbtid finbl int PUBLIC           = 0x00000001;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf privbtf}
+     * modififr.
+     */
+    publid stbtid finbl int PRIVATE          = 0x00000002;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf protfdtfd}
+     * modififr.
+     */
+    publid stbtid finbl int PROTECTED        = 0x00000004;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf stbtid}
+     * modififr.
+     */
+    publid stbtid finbl int STATIC           = 0x00000008;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf finbl}
+     * modififr.
+     */
+    publid stbtid finbl int FINAL            = 0x00000010;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf syndhronizfd}
+     * modififr.
+     */
+    publid stbtid finbl int SYNCHRONIZED     = 0x00000020;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf volbtilf}
+     * modififr.
+     */
+    publid stbtid finbl int VOLATILE         = 0x00000040;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf trbnsifnt}
+     * modififr.
+     */
+    publid stbtid finbl int TRANSIENT        = 0x00000080;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf nbtivf}
+     * modififr.
+     */
+    publid stbtid finbl int NATIVE           = 0x00000100;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf intfrfbdf}
+     * modififr.
+     */
+    publid stbtid finbl int INTERFACE        = 0x00000200;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf bbstrbdt}
+     * modififr.
+     */
+    publid stbtid finbl int ABSTRACT         = 0x00000400;
+
+    /**
+     * Thf {@dodf int} vbluf rfprfsfnting thf {@dodf stridtfp}
+     * modififr.
+     */
+    publid stbtid finbl int STRICT           = 0x00000800;
+
+    // Bits not (yft) fxposfd in thf publid API fithfr bfdbusf thfy
+    // hbvf difffrfnt mfbnings for fiflds bnd mfthods bnd thfrf is no
+    // wby to distinguish bftwffn thf two in this dlbss, or bfdbusf
+    // thfy brf not Jbvb progrbmming lbngubgf kfywords
+    stbtid finbl int BRIDGE    = 0x00000040;
+    stbtid finbl int VARARGS   = 0x00000080;
+    stbtid finbl int SYNTHETIC = 0x00001000;
+    stbtid finbl int ANNOTATION  = 0x00002000;
+    stbtid finbl int ENUM      = 0x00004000;
+    stbtid finbl int MANDATED  = 0x00008000;
+    stbtid boolfbn isSynthftid(int mod) {
+      rfturn (mod & SYNTHETIC) != 0;
+    }
+
+    stbtid boolfbn isMbndbtfd(int mod) {
+      rfturn (mod & MANDATED) != 0;
+    }
+
+    // Notf on thf FOO_MODIFIERS fiflds bnd fooModififrs() mfthods:
+    // thf sfts of modififrs brf not gubrbntffd to bf donstbnts
+    // bdross timf bnd Jbvb SE rflfbsfs. Thfrfforf, it would not bf
+    // bppropribtf to fxposf bn fxtfrnbl intfrfbdf to this informbtion
+    // thbt would bllow thf vblufs to bf trfbtfd bs Jbvb-lfvfl
+    // donstbnts sindf thf vblufs dould bf donstbnt foldfd bnd updbtfs
+    // to thf sfts of modififrs missfd. Thus, thf fooModififrs()
+    // mfthods rfturn bn undhbnging vblufs for b givfn rflfbsf, but b
+    // vbluf thbt dbn potfntiblly dhbngf ovfr timf.
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to b dlbss.
+     * @jls 8.1.1 Clbss Modififrs
+     */
+    privbtf stbtid finbl int CLASS_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.FINAL   |
+        Modififr.STRICT;
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to bn intfrfbdf.
+     * @jls 9.1.1 Intfrfbdf Modififrs
+     */
+    privbtf stbtid finbl int INTERFACE_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.STRICT;
+
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to b donstrudtor.
+     * @jls 8.8.3 Construdtor Modififrs
+     */
+    privbtf stbtid finbl int CONSTRUCTOR_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE;
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to b mfthod.
+     * @jls8.4.3  Mfthod Modififrs
+     */
+    privbtf stbtid finbl int METHOD_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.FINAL   |
+        Modififr.SYNCHRONIZED   | Modififr.NATIVE       | Modififr.STRICT;
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to b fifld.
+     * @jls 8.3.1  Fifld Modififrs
+     */
+    privbtf stbtid finbl int FIELD_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.STATIC         | Modififr.FINAL        | Modififr.TRANSIENT |
+        Modififr.VOLATILE;
+
+    /**
+     * Thf Jbvb sourdf modififrs thbt dbn bf bpplifd to b mfthod or donstrudtor pbrbmftfr.
+     * @jls 8.4.1 Formbl Pbrbmftfrs
+     */
+    privbtf stbtid finbl int PARAMETER_MODIFIERS =
+        Modififr.FINAL;
+
+    /**
+     *
+     */
+    stbtid finbl int ACCESS_MODIFIERS =
+        Modififr.PUBLIC | Modififr.PROTECTED | Modififr.PRIVATE;
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b dlbss.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b dlbss.
+     *
+     * @jls 8.1.1 Clbss Modififrs
+     * @sindf 1.7
+     */
+    publid stbtid int dlbssModififrs() {
+        rfturn CLASS_MODIFIERS;
+    }
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to bn intfrfbdf.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to bn intfrfbdf.
+     *
+     * @jls 9.1.1 Intfrfbdf Modififrs
+     * @sindf 1.7
+     */
+    publid stbtid int intfrfbdfModififrs() {
+        rfturn INTERFACE_MODIFIERS;
+    }
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b donstrudtor.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b donstrudtor.
+     *
+     * @jls 8.8.3 Construdtor Modififrs
+     * @sindf 1.7
+     */
+    publid stbtid int donstrudtorModififrs() {
+        rfturn CONSTRUCTOR_MODIFIERS;
+    }
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b mfthod.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b mfthod.
+     *
+     * @jls 8.4.3 Mfthod Modififrs
+     * @sindf 1.7
+     */
+    publid stbtid int mfthodModififrs() {
+        rfturn METHOD_MODIFIERS;
+    }
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b fifld.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b fifld.
+     *
+     * @jls 8.3.1 Fifld Modififrs
+     * @sindf 1.7
+     */
+    publid stbtid int fifldModififrs() {
+        rfturn FIELD_MODIFIERS;
+    }
+
+    /**
+     * Rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b pbrbmftfr.
+     * @rfturn bn {@dodf int} vbluf OR-ing togfthfr thf sourdf lbngubgf
+     * modififrs thbt dbn bf bpplifd to b pbrbmftfr.
+     *
+     * @jls 8.4.1 Formbl Pbrbmftfrs
+     * @sindf 1.8
+     */
+    publid stbtid int pbrbmftfrModififrs() {
+        rfturn PARAMETER_MODIFIERS;
+    }
+}

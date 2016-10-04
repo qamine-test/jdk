@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_OUTSTREAM_H
-#define JDWP_OUTSTREAM_H
+#ifndff JDWP_OUTSTREAM_H
+#dffinf JDWP_OUTSTREAM_H
 
-#include "transport.h"
-#include "FrameID.h"
+#indludf "trbnsport.i"
+#indludf "FrbmfID.i"
 
-struct bag;
+strudt bbg;
 
-#define INITIAL_SEGMENT_SIZE   300
-#define MAX_SEGMENT_SIZE     10000
+#dffinf INITIAL_SEGMENT_SIZE   300
+#dffinf MAX_SEGMENT_SIZE     10000
 
-typedef struct PacketData {
-    int length;
-    jbyte *data;
-    struct PacketData *next;
-} PacketData;
+typfdff strudt PbdkftDbtb {
+    int lfngti;
+    jbytf *dbtb;
+    strudt PbdkftDbtb *nfxt;
+} PbdkftDbtb;
 
-typedef struct PacketOutputStream {
-    jbyte *current;
-    jint left;
-    struct PacketData *segment;
-    struct PacketData firstSegment;
-    jvmtiError error;
-    jboolean sent;
-    jdwpPacket packet;
-    jbyte initialSegment[INITIAL_SEGMENT_SIZE];
-    struct bag *ids;
-} PacketOutputStream;
+typfdff strudt PbdkftOutputStrfbm {
+    jbytf *durrfnt;
+    jint lfft;
+    strudt PbdkftDbtb *sfgmfnt;
+    strudt PbdkftDbtb firstSfgmfnt;
+    jvmtiError frror;
+    jboolfbn sfnt;
+    jdwpPbdkft pbdkft;
+    jbytf initiblSfgmfnt[INITIAL_SEGMENT_SIZE];
+    strudt bbg *ids;
+} PbdkftOutputStrfbm;
 
-void outStream_initCommand(PacketOutputStream *stream, jint id,
-                           jbyte flags, jbyte commandSet, jbyte command);
-void outStream_initReply(PacketOutputStream *stream, jint id);
+void outStrfbm_initCommbnd(PbdkftOutputStrfbm *strfbm, jint id,
+                           jbytf flbgs, jbytf dommbndSft, jbytf dommbnd);
+void outStrfbm_initRfply(PbdkftOutputStrfbm *strfbm, jint id);
 
-jint outStream_id(PacketOutputStream *stream);
-jbyte outStream_command(PacketOutputStream *stream);
+jint outStrfbm_id(PbdkftOutputStrfbm *strfbm);
+jbytf outStrfbm_dommbnd(PbdkftOutputStrfbm *strfbm);
 
-jdwpError outStream_writeBoolean(PacketOutputStream *stream, jboolean val);
-jdwpError outStream_writeByte(PacketOutputStream *stream, jbyte val);
-jdwpError outStream_writeChar(PacketOutputStream *stream, jchar val);
-jdwpError outStream_writeShort(PacketOutputStream *stream, jshort val);
-jdwpError outStream_writeInt(PacketOutputStream *stream, jint val);
-jdwpError outStream_writeLong(PacketOutputStream *stream, jlong val);
-jdwpError outStream_writeFloat(PacketOutputStream *stream, jfloat val);
-jdwpError outStream_writeDouble(PacketOutputStream *stream, jdouble val);
-jdwpError outStream_writeObjectRef(JNIEnv *env, PacketOutputStream *stream, jobject val);
-jdwpError outStream_writeObjectTag(JNIEnv *env, PacketOutputStream *stream, jobject val);
-jdwpError outStream_writeFrameID(PacketOutputStream *stream, FrameID val);
-jdwpError outStream_writeMethodID(PacketOutputStream *stream, jmethodID val);
-jdwpError outStream_writeFieldID(PacketOutputStream *stream, jfieldID val);
-jdwpError outStream_writeLocation(PacketOutputStream *stream, jlocation val);
-jdwpError outStream_writeByteArray(PacketOutputStream*stream, jint length, jbyte *bytes);
-jdwpError outStream_writeString(PacketOutputStream *stream, char *string);
-jdwpError outStream_writeValue(JNIEnv *env, struct PacketOutputStream *out,
-                          jbyte typeKey, jvalue value);
-jdwpError outStream_skipBytes(PacketOutputStream *stream, jint count);
+jdwpError outStrfbm_writfBoolfbn(PbdkftOutputStrfbm *strfbm, jboolfbn vbl);
+jdwpError outStrfbm_writfBytf(PbdkftOutputStrfbm *strfbm, jbytf vbl);
+jdwpError outStrfbm_writfCibr(PbdkftOutputStrfbm *strfbm, jdibr vbl);
+jdwpError outStrfbm_writfSiort(PbdkftOutputStrfbm *strfbm, jsiort vbl);
+jdwpError outStrfbm_writfInt(PbdkftOutputStrfbm *strfbm, jint vbl);
+jdwpError outStrfbm_writfLong(PbdkftOutputStrfbm *strfbm, jlong vbl);
+jdwpError outStrfbm_writfFlobt(PbdkftOutputStrfbm *strfbm, jflobt vbl);
+jdwpError outStrfbm_writfDoublf(PbdkftOutputStrfbm *strfbm, jdoublf vbl);
+jdwpError outStrfbm_writfObjfdtRff(JNIEnv *fnv, PbdkftOutputStrfbm *strfbm, jobjfdt vbl);
+jdwpError outStrfbm_writfObjfdtTbg(JNIEnv *fnv, PbdkftOutputStrfbm *strfbm, jobjfdt vbl);
+jdwpError outStrfbm_writfFrbmfID(PbdkftOutputStrfbm *strfbm, FrbmfID vbl);
+jdwpError outStrfbm_writfMftiodID(PbdkftOutputStrfbm *strfbm, jmftiodID vbl);
+jdwpError outStrfbm_writfFifldID(PbdkftOutputStrfbm *strfbm, jfifldID vbl);
+jdwpError outStrfbm_writfLodbtion(PbdkftOutputStrfbm *strfbm, jlodbtion vbl);
+jdwpError outStrfbm_writfBytfArrby(PbdkftOutputStrfbm*strfbm, jint lfngti, jbytf *bytfs);
+jdwpError outStrfbm_writfString(PbdkftOutputStrfbm *strfbm, dibr *string);
+jdwpError outStrfbm_writfVbluf(JNIEnv *fnv, strudt PbdkftOutputStrfbm *out,
+                          jbytf typfKfy, jvbluf vbluf);
+jdwpError outStrfbm_skipBytfs(PbdkftOutputStrfbm *strfbm, jint dount);
 
-jdwpError outStream_error(PacketOutputStream *stream);
-void outStream_setError(PacketOutputStream *stream, jdwpError error);
+jdwpError outStrfbm_frror(PbdkftOutputStrfbm *strfbm);
+void outStrfbm_sftError(PbdkftOutputStrfbm *strfbm, jdwpError frror);
 
-void outStream_sendReply(PacketOutputStream *stream);
-void outStream_sendCommand(PacketOutputStream *stream);
+void outStrfbm_sfndRfply(PbdkftOutputStrfbm *strfbm);
+void outStrfbm_sfndCommbnd(PbdkftOutputStrfbm *strfbm);
 
-void outStream_destroy(PacketOutputStream *stream);
+void outStrfbm_dfstroy(PbdkftOutputStrfbm *strfbm);
 
-#endif
+#fndif

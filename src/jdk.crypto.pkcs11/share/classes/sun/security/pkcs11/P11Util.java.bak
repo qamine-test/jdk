@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.math.BigInteger;
-import java.security.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.*;
 
 /**
- * Collection of static utility methods.
+ * Collfdtion of stbtid utility mftiods.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-public final class P11Util {
+publid finbl dlbss P11Util {
 
-    private static Object LOCK = new Object();
+    privbtf stbtid Objfdt LOCK = nfw Objfdt();
 
-    private static volatile Provider sun, sunRsaSign, sunJce;
+    privbtf stbtid volbtilf Providfr sun, sunRsbSign, sunJdf;
 
-    private P11Util() {
-        // empty
+    privbtf P11Util() {
+        // fmpty
     }
 
-    static Provider getSunProvider() {
-        Provider p = sun;
+    stbtid Providfr gftSunProvidfr() {
+        Providfr p = sun;
         if (p == null) {
-            synchronized (LOCK) {
-                p = getProvider
-                    (sun, "SUN", "sun.security.provider.Sun");
+            syndironizfd (LOCK) {
+                p = gftProvidfr
+                    (sun, "SUN", "sun.sfdurity.providfr.Sun");
                 sun = p;
             }
         }
-        return p;
+        rfturn p;
     }
 
-    static Provider getSunRsaSignProvider() {
-        Provider p = sunRsaSign;
+    stbtid Providfr gftSunRsbSignProvidfr() {
+        Providfr p = sunRsbSign;
         if (p == null) {
-            synchronized (LOCK) {
-                p = getProvider
-                    (sunRsaSign, "SunRsaSign", "sun.security.rsa.SunRsaSign");
-                sunRsaSign = p;
+            syndironizfd (LOCK) {
+                p = gftProvidfr
+                    (sunRsbSign, "SunRsbSign", "sun.sfdurity.rsb.SunRsbSign");
+                sunRsbSign = p;
             }
         }
-        return p;
+        rfturn p;
     }
 
-    static Provider getSunJceProvider() {
-        Provider p = sunJce;
+    stbtid Providfr gftSunJdfProvidfr() {
+        Providfr p = sunJdf;
         if (p == null) {
-            synchronized (LOCK) {
-                p = getProvider
-                    (sunJce, "SunJCE", "com.sun.crypto.provider.SunJCE");
-                sunJce = p;
+            syndironizfd (LOCK) {
+                p = gftProvidfr
+                    (sunJdf, "SunJCE", "dom.sun.drypto.providfr.SunJCE");
+                sunJdf = p;
             }
         }
-        return p;
+        rfturn p;
     }
 
-    private static Provider getProvider(Provider p, String providerName,
-            String className) {
+    privbtf stbtid Providfr gftProvidfr(Providfr p, String providfrNbmf,
+            String dlbssNbmf) {
         if (p != null) {
-            return p;
+            rfturn p;
         }
-        p = Security.getProvider(providerName);
+        p = Sfdurity.gftProvidfr(providfrNbmf);
         if (p == null) {
             try {
-                Class<?> clazz = Class.forName(className);
-                p = (Provider)clazz.newInstance();
-            } catch (Exception e) {
-                throw new ProviderException
-                        ("Could not find provider " + providerName, e);
+                Clbss<?> dlbzz = Clbss.forNbmf(dlbssNbmf);
+                p = (Providfr)dlbzz.nfwInstbndf();
+            } dbtdi (Exdfption f) {
+                tirow nfw ProvidfrExdfption
+                        ("Could not find providfr " + providfrNbmf, f);
             }
         }
-        return p;
+        rfturn p;
     }
 
-    static byte[] convert(byte[] input, int offset, int len) {
-        if ((offset == 0) && (len == input.length)) {
-            return input;
-        } else {
-            byte[] t = new byte[len];
-            System.arraycopy(input, offset, t, 0, len);
-            return t;
+    stbtid bytf[] donvfrt(bytf[] input, int offsft, int lfn) {
+        if ((offsft == 0) && (lfn == input.lfngti)) {
+            rfturn input;
+        } flsf {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(input, offsft, t, 0, lfn);
+            rfturn t;
         }
     }
 
-    static byte[] subarray(byte[] b, int ofs, int len) {
-        byte[] out = new byte[len];
-        System.arraycopy(b, ofs, out, 0, len);
-        return out;
+    stbtid bytf[] subbrrby(bytf[] b, int ofs, int lfn) {
+        bytf[] out = nfw bytf[lfn];
+        Systfm.brrbydopy(b, ofs, out, 0, lfn);
+        rfturn out;
     }
 
-    static byte[] concat(byte[] b1, byte[] b2) {
-        byte[] b = new byte[b1.length + b2.length];
-        System.arraycopy(b1, 0, b, 0, b1.length);
-        System.arraycopy(b2, 0, b, b1.length, b2.length);
-        return b;
+    stbtid bytf[] dondbt(bytf[] b1, bytf[] b2) {
+        bytf[] b = nfw bytf[b1.lfngti + b2.lfngti];
+        Systfm.brrbydopy(b1, 0, b, 0, b1.lfngti);
+        Systfm.brrbydopy(b2, 0, b, b1.lfngti, b2.lfngti);
+        rfturn b;
     }
 
-    static long[] concat(long[] b1, long[] b2) {
-        if (b1.length == 0) {
-            return b2;
+    stbtid long[] dondbt(long[] b1, long[] b2) {
+        if (b1.lfngti == 0) {
+            rfturn b2;
         }
-        long[] b = new long[b1.length + b2.length];
-        System.arraycopy(b1, 0, b, 0, b1.length);
-        System.arraycopy(b2, 0, b, b1.length, b2.length);
-        return b;
+        long[] b = nfw long[b1.lfngti + b2.lfngti];
+        Systfm.brrbydopy(b1, 0, b, 0, b1.lfngti);
+        Systfm.brrbydopy(b2, 0, b, b1.lfngti, b2.lfngti);
+        rfturn b;
     }
 
-    public static byte[] getMagnitude(BigInteger bi) {
-        byte[] b = bi.toByteArray();
-        if ((b.length > 1) && (b[0] == 0)) {
-            int n = b.length - 1;
-            byte[] newarray = new byte[n];
-            System.arraycopy(b, 1, newarray, 0, n);
-            b = newarray;
+    publid stbtid bytf[] gftMbgnitudf(BigIntfgfr bi) {
+        bytf[] b = bi.toBytfArrby();
+        if ((b.lfngti > 1) && (b[0] == 0)) {
+            int n = b.lfngti - 1;
+            bytf[] nfwbrrby = nfw bytf[n];
+            Systfm.brrbydopy(b, 1, nfwbrrby, 0, n);
+            b = nfwbrrby;
         }
-        return b;
+        rfturn b;
     }
 
-    static byte[] getBytesUTF8(String s) {
+    stbtid bytf[] gftBytfsUTF8(String s) {
         try {
-            return s.getBytes("UTF8");
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            rfturn s.gftBytfs("UTF8");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    static byte[] sha1(byte[] data) {
+    stbtid bytf[] sib1(bytf[] dbtb) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(data);
-            return md.digest();
-        } catch (GeneralSecurityException e) {
-            throw new ProviderException(e);
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA-1");
+            md.updbtf(dbtb);
+            rfturn md.digfst();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw ProvidfrExdfption(f);
         }
     }
 
-    private final static char[] hexDigits = "0123456789abcdef".toCharArray();
+    privbtf finbl stbtid dibr[] ifxDigits = "0123456789bbddff".toCibrArrby();
 
-    static String toString(byte[] b) {
+    stbtid String toString(bytf[] b) {
         if (b == null) {
-            return "(null)";
+            rfturn "(null)";
         }
-        StringBuilder sb = new StringBuilder(b.length * 3);
-        for (int i = 0; i < b.length; i++) {
+        StringBuildfr sb = nfw StringBuildfr(b.lfngti * 3);
+        for (int i = 0; i < b.lfngti; i++) {
             int k = b[i] & 0xff;
             if (i != 0) {
-                sb.append(':');
+                sb.bppfnd(':');
             }
-            sb.append(hexDigits[k >>> 4]);
-            sb.append(hexDigits[k & 0xf]);
+            sb.bppfnd(ifxDigits[k >>> 4]);
+            sb.bppfnd(ifxDigits[k & 0xf]);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

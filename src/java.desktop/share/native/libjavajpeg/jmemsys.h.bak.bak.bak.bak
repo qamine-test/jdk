@@ -1,0 +1,202 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jmfmsys.h
+ *
+ * Copyright (C) 1992-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This indludf filf dffinfs thf intfrfbdf bftwffn thf systfm-indfpfndfnt
+ * bnd systfm-dfpfndfnt portions of thf JPEG mfmory mbnbgfr.  No othfr
+ * modulfs nffd indludf it.  (Thf systfm-indfpfndfnt portion is jmfmmgr.d;
+ * thfrf brf sfvfrbl difffrfnt vfrsions of thf systfm-dfpfndfnt portion.)
+ *
+ * This filf works bs-is for thf systfm-dfpfndfnt mfmory mbnbgfrs supplifd
+ * in thf IJG distribution.  You mby nffd to modify it if you writf b
+ * dustom mfmory mbnbgfr.  If systfm-dfpfndfnt dhbngfs brf nffdfd in
+ * this filf, thf bfst mfthod is to #ifdff thfm bbsfd on b donfigurbtion
+ * symbol supplifd in jdonfig.h, bs wf hbvf donf with USE_MSDOS_MEMMGR
+ * bnd USE_MAC_MEMMGR.
+ */
+
+
+/* Short forms of fxtfrnbl nbmfs for systfms with brbin-dbmbgfd linkfrs. */
+
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_gft_smbll          jGftSmbll
+#dffinf jpfg_frff_smbll         jFrffSmbll
+#dffinf jpfg_gft_lbrgf          jGftLbrgf
+#dffinf jpfg_frff_lbrgf         jFrffLbrgf
+#dffinf jpfg_mfm_bvbilbblf      jMfmAvbil
+#dffinf jpfg_opfn_bbdking_storf jOpfnBbdkStorf
+#dffinf jpfg_mfm_init           jMfmInit
+#dffinf jpfg_mfm_tfrm           jMfmTfrm
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
+
+
+/*
+ * Thfsf two fundtions brf usfd to bllodbtf bnd rflfbsf smbll dhunks of
+ * mfmory.  (Typidblly thf totbl bmount rfqufstfd through jpfg_gft_smbll is
+ * no morf thbn 20K or so; this will bf rfqufstfd in dhunks of b ffw K fbdh.)
+ * Bfhbvior should bf thf sbmf bs for thf stbndbrd librbry fundtions mbllod
+ * bnd frff; in pbrtidulbr, jpfg_gft_smbll must rfturn NULL on fbilurf.
+ * On most systfms, thfsf ARE mbllod bnd frff.  jpfg_frff_smbll is pbssfd thf
+ * sizf of thf objfdt bfing frffd, just in dbsf it's nffdfd.
+ * On bn 80x86 mbdhinf using smbll-dbtb mfmory modfl, thfsf mbnbgf nfbr hfbp.
+ */
+
+EXTERN(void *) jpfg_gft_smbll JPP((j_dommon_ptr dinfo, sizf_t sizfofobjfdt));
+EXTERN(void) jpfg_frff_smbll JPP((j_dommon_ptr dinfo, void * objfdt,
+                                  sizf_t sizfofobjfdt));
+
+/*
+ * Thfsf two fundtions brf usfd to bllodbtf bnd rflfbsf lbrgf dhunks of
+ * mfmory (up to thf totbl frff spbdf dfsignbtfd by jpfg_mfm_bvbilbblf).
+ * Thf intfrfbdf is thf sbmf bs bbovf, fxdfpt thbt on bn 80x86 mbdhinf,
+ * fbr pointfrs brf usfd.  On most othfr mbdhinfs thfsf brf idfntidbl to
+ * thf jpfg_gft/frff_smbll routinfs; but wf kffp thfm sfpbrbtf bnywby,
+ * in dbsf b difffrfnt bllodbtion strbtfgy is dfsirbblf for lbrgf dhunks.
+ */
+
+EXTERN(void FAR *) jpfg_gft_lbrgf JPP((j_dommon_ptr dinfo,
+                                       sizf_t sizfofobjfdt));
+EXTERN(void) jpfg_frff_lbrgf JPP((j_dommon_ptr dinfo, void FAR * objfdt,
+                                  sizf_t sizfofobjfdt));
+
+/*
+ * Thf mbdro MAX_ALLOC_CHUNK dfsignbtfs thf mbximum numbfr of bytfs thbt mby
+ * bf rfqufstfd in b singlf dbll to jpfg_gft_lbrgf (bnd jpfg_gft_smbll for thbt
+ * mbttfr, but thbt dbsf should nfvfr domf into plby).  This mbdro is nffdfd
+ * to modfl thf 64Kb-sfgmfnt-sizf limit of fbr bddrfssing on 80x86 mbdhinfs.
+ * On thosf mbdhinfs, wf fxpfdt thbt jdonfig.h will providf b propfr vbluf.
+ * On mbdhinfs with 32-bit flbt bddrfss spbdfs, bny lbrgf donstbnt mby bf usfd.
+ *
+ * NB: jmfmmgr.d fxpfdts thbt MAX_ALLOC_CHUNK will bf rfprfsfntbblf bs typf
+ * sizf_t bnd will bf b multiplf of sizfof(blign_typf).
+ */
+
+#ifndff MAX_ALLOC_CHUNK         /* mby bf ovfrriddfn in jdonfig.h */
+#dffinf MAX_ALLOC_CHUNK  1000000000L
+#fndif
+
+/*
+ * This routinf domputfs thf totbl spbdf still bvbilbblf for bllodbtion by
+ * jpfg_gft_lbrgf.  If morf spbdf thbn this is nffdfd, bbdking storf will bf
+ * usfd.  NOTE: bny mfmory blrfbdy bllodbtfd must not bf dountfd.
+ *
+ * Thfrf is b minimum spbdf rfquirfmfnt, dorrfsponding to thf minimum
+ * ffbsiblf bufffr sizfs; jmfmmgr.d will rfqufst thbt mudh spbdf fvfn if
+ * jpfg_mfm_bvbilbblf rfturns zfro.  Thf mbximum spbdf nffdfd, fnough to hold
+ * bll working storbgf in mfmory, is blso pbssfd in dbsf it is usfful.
+ * Finblly, thf totbl spbdf blrfbdy bllodbtfd is pbssfd.  If no bfttfr
+ * mfthod is bvbilbblf, dinfo->mfm->mbx_mfmory_to_usf - blrfbdy_bllodbtfd
+ * is oftfn b suitbblf dbldulbtion.
+ *
+ * It is OK for jpfg_mfm_bvbilbblf to undfrfstimbtf thf spbdf bvbilbblf
+ * (thbt'll just lfbd to morf bbdking-storf bddfss thbn is rfblly nfdfssbry).
+ * Howfvfr, bn ovfrfstimbtf will lfbd to fbilurf.  Hfndf it's wisf to subtrbdt
+ * b slop fbdtor from thf truf bvbilbblf spbdf.  5% should bf fnough.
+ *
+ * On mbdhinfs with lots of virtubl mfmory, bny lbrgf donstbnt mby bf rfturnfd.
+ * Convfrsfly, zfro mby bf rfturnfd to blwbys usf thf minimum bmount of mfmory.
+ */
+
+EXTERN(sizf_t) jpfg_mfm_bvbilbblf JPP((j_dommon_ptr dinfo,
+                                     sizf_t min_bytfs_nffdfd,
+                                     sizf_t mbx_bytfs_nffdfd,
+                                     sizf_t blrfbdy_bllodbtfd));
+
+
+/*
+ * This strudturf holds whbtfvfr stbtf is nffdfd to bddfss b singlf
+ * bbdking-storf objfdt.  Thf rfbd/writf/dlosf mfthod pointfrs brf dbllfd
+ * by jmfmmgr.d to mbnipulbtf thf bbdking-storf objfdt; bll othfr fiflds
+ * brf privbtf to thf systfm-dfpfndfnt bbdking storf routinfs.
+ */
+
+#dffinf TEMP_NAME_LENGTH   64   /* mbx lfngth of b tfmporbry filf's nbmf */
+
+
+#ifdff USE_MSDOS_MEMMGR         /* DOS-spfdifid junk */
+
+typfdff unsignfd short XMSH;    /* typf of fxtfndfd-mfmory hbndlfs */
+typfdff unsignfd short EMSH;    /* typf of fxpbndfd-mfmory hbndlfs */
+
+typfdff union {
+  short filf_hbndlf;            /* DOS filf hbndlf if it's b tfmp filf */
+  XMSH xms_hbndlf;              /* hbndlf if it's b dhunk of XMS */
+  EMSH fms_hbndlf;              /* hbndlf if it's b dhunk of EMS */
+} hbndlf_union;
+
+#fndif /* USE_MSDOS_MEMMGR */
+
+#ifdff USE_MAC_MEMMGR           /* Mbd-spfdifid junk */
+#indludf <Filfs.h>
+#fndif /* USE_MAC_MEMMGR */
+
+
+typfdff strudt bbdking_storf_strudt * bbdking_storf_ptr;
+
+typfdff strudt bbdking_storf_strudt {
+  /* Mfthods for rfbding/writing/dlosing this bbdking-storf objfdt */
+  JMETHOD(void, rfbd_bbdking_storf, (j_dommon_ptr dinfo,
+                                     bbdking_storf_ptr info,
+                                     void FAR * bufffr_bddrfss,
+                                     long filf_offsft, long bytf_dount));
+  JMETHOD(void, writf_bbdking_storf, (j_dommon_ptr dinfo,
+                                      bbdking_storf_ptr info,
+                                      void FAR * bufffr_bddrfss,
+                                      long filf_offsft, long bytf_dount));
+  JMETHOD(void, dlosf_bbdking_storf, (j_dommon_ptr dinfo,
+                                      bbdking_storf_ptr info));
+
+  /* Privbtf fiflds for systfm-dfpfndfnt bbdking-storf mbnbgfmfnt */
+#ifdff USE_MSDOS_MEMMGR
+  /* For thf MS-DOS mbnbgfr (jmfmdos.d), wf nffd: */
+  hbndlf_union hbndlf;          /* rfffrfndf to bbdking-storf storbgf objfdt */
+  dhbr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf if it's b filf */
+#flsf
+#ifdff USE_MAC_MEMMGR
+  /* For thf Mbd mbnbgfr (jmfmmbd.d), wf nffd: */
+  short tfmp_filf;              /* filf rfffrfndf numbfr to tfmp filf */
+  FSSpfd tfmpSpfd;              /* thf FSSpfd for thf tfmp filf */
+  dhbr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf if it's b filf */
+#flsf
+  /* For b typidbl implfmfntbtion with tfmp filfs, wf nffd: */
+  FILE * tfmp_filf;             /* stdio rfffrfndf to tfmp filf */
+  dhbr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf of tfmp filf */
+#fndif
+#fndif
+} bbdking_storf_info;
+
+
+/*
+ * Initibl opfning of b bbdking-storf objfdt.  This must fill in thf
+ * rfbd/writf/dlosf pointfrs in thf objfdt.  Thf rfbd/writf routinfs
+ * mby tbkf bn frror fxit if thf spfdififd mbximum filf sizf is fxdffdfd.
+ * (If jpfg_mfm_bvbilbblf blwbys rfturns b lbrgf vbluf, this routinf dbn
+ * just tbkf bn frror fxit.)
+ */
+
+EXTERN(void) jpfg_opfn_bbdking_storf JPP((j_dommon_ptr dinfo,
+                                          bbdking_storf_ptr info,
+                                          long totbl_bytfs_nffdfd));
+
+
+/*
+ * Thfsf routinfs tbkf dbrf of bny systfm-dfpfndfnt initiblizbtion bnd
+ * dlfbnup rfquirfd.  jpfg_mfm_init will bf dbllfd bfforf bnything is
+ * bllodbtfd (bnd, thfrfforf, nothing in dinfo is of usf fxdfpt thf frror
+ * mbnbgfr pointfr).  It should rfturn b suitbblf dffbult vbluf for
+ * mbx_mfmory_to_usf; this mby subsfqufntly bf ovfrriddfn by thf surrounding
+ * bpplidbtion.  (Notf thbt mbx_mfmory_to_usf is only importbnt if
+ * jpfg_mfm_bvbilbblf dhoosfs to donsult it ... no onf flsf will.)
+ * jpfg_mfm_tfrm mby bssumf thbt bll rfqufstfd mfmory hbs bffn frffd bnd thbt
+ * bll opfnfd bbdking-storf objfdts hbvf bffn dlosfd.
+ */
+
+EXTERN(sizf_t) jpfg_mfm_init JPP((j_dommon_ptr dinfo));
+EXTERN(void) jpfg_mfm_tfrm JPP((j_dommon_ptr dinfo));

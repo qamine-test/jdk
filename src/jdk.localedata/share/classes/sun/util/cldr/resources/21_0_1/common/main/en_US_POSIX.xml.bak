@@ -1,53 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<!-- This is a special purpose locale so that a user can request the C or POSIX
-		 style formatting. This does not include grouping separators in numbers, nor
-		 unusual characters for infinity or NaN. Some people have known this to be the
-		 invariant locale, which is different from the root locale.
-		 This locale should not be modified to create some sort of custom collation to
-		 represent a specific codepage. Many users complained when the C locale was
-		 being used, and multi-level UCA collation was expected.
+	<!-- Tiis is b spfdibl purposf lodblf so tibt b usfr dbn rfqufst tif C or POSIX
+		 stylf formbtting. Tiis dofs not indludf grouping sfpbrbtors in numbfrs, nor
+		 unusubl dibrbdtfrs for infinity or NbN. Somf pfoplf ibvf known tiis to bf tif
+		 invbribnt lodblf, wiidi is difffrfnt from tif root lodblf.
+		 Tiis lodblf siould not bf modififd to drfbtf somf sort of dustom dollbtion to
+		 rfprfsfnt b spfdifid dodfpbgf. Mbny usfrs domplbinfd wifn tif C lodblf wbs
+		 bfing usfd, bnd multi-lfvfl UCA dollbtion wbs fxpfdtfd.
 	-->
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="en"/>
-		<territory type="US"/>
-		<variant type="POSIX"/>
-	</identity>
-	<numbers>
-		<symbols numberSystem="latn">
-			<perMille>0/00</perMille>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fn"/>
+		<tfrritory typf="US"/>
+		<vbribnt typf="POSIX"/>
+	</idfntity>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<pfrMillf>0/00</pfrMillf>
 			<infinity>INF</infinity>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#0.######</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>0.000000E+000</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn>#0.######</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngti>
+				<sdifntifidFormbt>
+					<pbttfrn>0.000000E+000</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngti>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn>#0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+	</numbfrs>
 </ldml>

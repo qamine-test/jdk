@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
 /**
- * LambdaConversionException
+ * LbmbdbConvfrsionExdfption
  */
-public class LambdaConversionException extends Exception {
-    private static final long serialVersionUID = 292L + 8L;
+publid dlbss LbmbdbConvfrsionExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 292L + 8L;
 
     /**
-     * Constructs a {@code LambdaConversionException}.
+     * Construdts b {@dodf LbmbdbConvfrsionExdfption}.
      */
-    public LambdaConversionException() {
+    publid LbmbdbConvfrsionExdfption() {
     }
 
     /**
-     * Constructs a {@code LambdaConversionException} with a message.
-     * @param message the detail message
+     * Construdts b {@dodf LbmbdbConvfrsionExdfption} witi b mfssbgf.
+     * @pbrbm mfssbgf tif dftbil mfssbgf
      */
-    public LambdaConversionException(String message) {
-        super(message);
+    publid LbmbdbConvfrsionExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructs a {@code LambdaConversionException} with a message and cause.
-     * @param message the detail message
-     * @param cause the cause
+     * Construdts b {@dodf LbmbdbConvfrsionExdfption} witi b mfssbgf bnd dbusf.
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf
      */
-    public LambdaConversionException(String message, Throwable cause) {
-        super(message, cause);
+    publid LbmbdbConvfrsionExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
     }
 
     /**
-     * Constructs a {@code LambdaConversionException} with a cause.
-     * @param cause the cause
+     * Construdts b {@dodf LbmbdbConvfrsionExdfption} witi b dbusf.
+     * @pbrbm dbusf tif dbusf
      */
-    public LambdaConversionException(Throwable cause) {
-        super(cause);
+    publid LbmbdbConvfrsionExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 
     /**
-     * Constructs a {@code LambdaConversionException} with a message,
-     * cause, and other settings.
-     * @param message the detail message
-     * @param cause the cause
-     * @param enableSuppression whether or not suppressed exceptions are enabled
-     * @param writableStackTrace whether or not the stack trace is writable
+     * Construdts b {@dodf LbmbdbConvfrsionExdfption} witi b mfssbgf,
+     * dbusf, bnd otifr sfttings.
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf
+     * @pbrbm fnbblfSupprfssion wiftifr or not supprfssfd fxdfptions brf fnbblfd
+     * @pbrbm writbblfStbdkTrbdf wiftifr or not tif stbdk trbdf is writbblf
      */
-    public LambdaConversionException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    publid LbmbdbConvfrsionExdfption(String mfssbgf, Tirowbblf dbusf, boolfbn fnbblfSupprfssion, boolfbn writbblfStbdkTrbdf) {
+        supfr(mfssbgf, dbusf, fnbblfSupprfssion, writbblfStbdkTrbdf);
     }
 }

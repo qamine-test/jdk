@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVA_PROPS_H
-#define _JAVA_PROPS_H
+#ifndff _JAVA_PROPS_H
+#dffinf _JAVA_PROPS_H
 
-#include <jni_util.h>
+#indludf <jni_util.i>
 
-/* The preferred native type for storing text on the current OS */
-#ifdef WIN32
-#include <tchar.h>
-typedef WCHAR nchar;
-#else
-typedef char nchar;
-#endif
+/* Tif prfffrrfd nbtivf typf for storing tfxt on tif durrfnt OS */
+#ifdff WIN32
+#indludf <tdibr.i>
+typfdff WCHAR ndibr;
+#flsf
+typfdff dibr ndibr;
+#fndif
 
-typedef struct {
-    char *os_name;
-    char *os_version;
-    char *os_arch;
+typfdff strudt {
+    dibr *os_nbmf;
+    dibr *os_vfrsion;
+    dibr *os_brdi;
 
-#ifdef JDK_ARCH_ABI_PROP_NAME
-    char *sun_arch_abi;
-#endif
+#ifdff JDK_ARCH_ABI_PROP_NAME
+    dibr *sun_brdi_bbi;
+#fndif
 
-    nchar *tmp_dir;
-    nchar *font_dir;
-    nchar *user_dir;
+    ndibr *tmp_dir;
+    ndibr *font_dir;
+    ndibr *usfr_dir;
 
-    char *file_separator;
-    char *path_separator;
-    char *line_separator;
+    dibr *filf_sfpbrbtor;
+    dibr *pbti_sfpbrbtor;
+    dibr *linf_sfpbrbtor;
 
-    nchar *user_name;
-    nchar *user_home;
+    ndibr *usfr_nbmf;
+    ndibr *usfr_iomf;
 
-    char *language;
-    char *format_language;
-    char *display_language;
-    char *script;
-    char *format_script;
-    char *display_script;
-    char *country;
-    char *format_country;
-    char *display_country;
-    char *variant;
-    char *format_variant;
-    char *display_variant;
-    char *encoding;
-    char *sun_jnu_encoding;
-    char *sun_stdout_encoding;
-    char *sun_stderr_encoding;
-    char *timezone;
+    dibr *lbngubgf;
+    dibr *formbt_lbngubgf;
+    dibr *displby_lbngubgf;
+    dibr *sdript;
+    dibr *formbt_sdript;
+    dibr *displby_sdript;
+    dibr *dountry;
+    dibr *formbt_dountry;
+    dibr *displby_dountry;
+    dibr *vbribnt;
+    dibr *formbt_vbribnt;
+    dibr *displby_vbribnt;
+    dibr *fndoding;
+    dibr *sun_jnu_fndoding;
+    dibr *sun_stdout_fndoding;
+    dibr *sun_stdfrr_fndoding;
+    dibr *timfzonf;
 
-    char *printerJob;
-    char *graphics_env;
-    char *awt_toolkit;
+    dibr *printfrJob;
+    dibr *grbpiids_fnv;
+    dibr *bwt_toolkit;
 
-    char *unicode_encoding;     /* The default endianness of unicode
-                                    i.e. UnicodeBig or UnicodeLittle   */
+    dibr *unidodf_fndoding;     /* Tif dffbult fndibnnfss of unidodf
+                                    i.f. UnidodfBig or UnidodfLittlf   */
 
-    const char *cpu_isalist;    /* list of supported instruction sets */
+    donst dibr *dpu_isblist;    /* list of supportfd instrudtion sfts */
 
-    char *cpu_endian;           /* endianness of platform */
+    dibr *dpu_fndibn;           /* fndibnnfss of plbtform */
 
-    char *data_model;           /* 32 or 64 bit data model */
+    dibr *dbtb_modfl;           /* 32 or 64 bit dbtb modfl */
 
-    char *patch_level;          /* patches/service packs installed */
+    dibr *pbtdi_lfvfl;          /* pbtdifs/sfrvidf pbdks instbllfd */
 
-    char *desktop;              /* Desktop name. */
+    dibr *dfsktop;              /* Dfsktop nbmf. */
 
-#ifdef MACOSX
-    // These are for proxy-related information.
-    // Note that if these platform-specific extensions get out of hand we should make a new
-    // structure for them and #include it here.
-    int httpProxyEnabled;
-    char *httpHost;
-    char *httpPort;
+#ifdff MACOSX
+    // Tifsf brf for proxy-rflbtfd informbtion.
+    // Notf tibt if tifsf plbtform-spfdifid fxtfnsions gft out of ibnd wf siould mbkf b nfw
+    // strudturf for tifm bnd #indludf it ifrf.
+    int ittpProxyEnbblfd;
+    dibr *ittpHost;
+    dibr *ittpPort;
 
-    int httpsProxyEnabled;
-    char *httpsHost;
-    char *httpsPort;
+    int ittpsProxyEnbblfd;
+    dibr *ittpsHost;
+    dibr *ittpsPort;
 
-    int ftpProxyEnabled;
-    char *ftpHost;
-    char *ftpPort;
+    int ftpProxyEnbblfd;
+    dibr *ftpHost;
+    dibr *ftpPort;
 
-    int socksProxyEnabled;
-    char *socksHost;
-    char *socksPort;
+    int sodksProxyEnbblfd;
+    dibr *sodksHost;
+    dibr *sodksPort;
 
-    int gopherProxyEnabled;
-    char *gopherHost;
-    char *gopherPort;
+    int gopifrProxyEnbblfd;
+    dibr *gopifrHost;
+    dibr *gopifrPort;
 
-    char *exceptionList;
+    dibr *fxdfptionList;
 
-    char *awt_headless;  /* java.awt.headless setting, if NULL (default) will not be set */
-#endif
+    dibr *bwt_ifbdlfss;  /* jbvb.bwt.ifbdlfss sftting, if NULL (dffbult) will not bf sft */
+#fndif
 
-} java_props_t;
+} jbvb_props_t;
 
-java_props_t *GetJavaProperties(JNIEnv *env);
-jstring GetStringPlatform(JNIEnv *env, nchar* str);
+jbvb_props_t *GftJbvbPropfrtifs(JNIEnv *fnv);
+jstring GftStringPlbtform(JNIEnv *fnv, ndibr* str);
 
-#endif /* _JAVA_PROPS_H */
+#fndif /* _JAVA_PROPS_H */

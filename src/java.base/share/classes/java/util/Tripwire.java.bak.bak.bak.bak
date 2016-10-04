@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Utility dlbss for dftfdting inbdvfrtfnt usfs of boxing in
+ * {@dodf jbvb.util} dlbssfs.  Thf dftfdtion is turnfd on or off bbsfd on
+ * whfthfr thf systfm propfrty {@dodf org.opfnjdk.jbvb.util.strfbm.tripwirf} is
+ * donsidfrfd {@dodf truf} bddording to {@link Boolfbn#gftBoolfbn(String)}.
+ * This should normblly bf turnfd off for produdtion usf.
+ *
+ * @bpiNotf
+ * Typidbl usbgf would bf for boxing dodf to do:
+ * <prf>{@dodf
+ *     if (Tripwirf.ENABLED)
+ *         Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfInt.nfxtInt()");
+ * }</prf>
+ *
+ * @sindf 1.8
+ */
+finbl dlbss Tripwirf {
+    privbtf stbtid finbl String TRIPWIRE_PROPERTY = "org.opfnjdk.jbvb.util.strfbm.tripwirf";
+
+    /** Should dfbugging dhfdks bf fnbblfd? */
+    stbtid finbl boolfbn ENABLED = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn(TRIPWIRE_PROPERTY));
+
+    privbtf Tripwirf() { }
+
+    /**
+     * Produdfs b log wbrning, using {@dodf PlbtformLoggfr.gftLoggfr(dlbssNbmf)},
+     * using thf supplifd mfssbgf.  Thf dlbss nbmf of {@dodf trippingClbss} will
+     * bf usfd bs thf first pbrbmftfr to thf mfssbgf.
+     *
+     * @pbrbm trippingClbss Nbmf of thf dlbss gfnfrbting thf mfssbgf
+     * @pbrbm msg A mfssbgf formbt string of thf typf fxpfdtfd by
+     * {@link PlbtformLoggfr}
+     */
+    stbtid void trip(Clbss<?> trippingClbss, String msg) {
+        PlbtformLoggfr.gftLoggfr(trippingClbss.gftNbmf()).wbrning(msg, trippingClbss.gftNbmf());
+    }
+}

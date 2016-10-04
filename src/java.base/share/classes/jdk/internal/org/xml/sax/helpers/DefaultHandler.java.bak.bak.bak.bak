@@ -1,0 +1,491 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// DffbultHbndlfr.jbvb - dffbult implfmfntbtion of thf dorf hbndlfrs.
+// http://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  This dlbss is in thf publid dombin.
+// $Id: DffbultHbndlfr.jbvb,v 1.3 2006/04/13 02:06:32 jfffsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx.hflpfrs;
+
+import jbvb.io.IOExdfption;
+
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.Lodbtor;
+import jdk.intfrnbl.org.xml.sbx.Attributfs;
+import jdk.intfrnbl.org.xml.sbx.EntityRfsolvfr;
+import jdk.intfrnbl.org.xml.sbx.DTDHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.ContfntHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.ErrorHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXPbrsfExdfption;
+
+
+/**
+ * Dffbult bbsf dlbss for SAX2 fvfnt hbndlfrs.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>This dlbss is bvbilbblf bs b donvfnifndf bbsf dlbss for SAX2
+ * bpplidbtions: it providfs dffbult implfmfntbtions for bll of thf
+ * dbllbbdks in thf four dorf SAX2 hbndlfr dlbssfs:</p>
+ *
+ * <ul>
+ * <li>{@link org.xml.sbx.EntityRfsolvfr EntityRfsolvfr}</li>
+ * <li>{@link org.xml.sbx.DTDHbndlfr DTDHbndlfr}</li>
+ * <li>{@link org.xml.sbx.ContfntHbndlfr ContfntHbndlfr}</li>
+ * <li>{@link org.xml.sbx.ErrorHbndlfr ErrorHbndlfr}</li>
+ * </ul>
+ *
+ * <p>Applidbtion writfrs dbn fxtfnd this dlbss whfn thfy nffd to
+ * implfmfnt only pbrt of bn intfrfbdf; pbrsfr writfrs dbn
+ * instbntibtf this dlbss to providf dffbult hbndlfrs whfn thf
+ * bpplidbtion hbs not supplifd its own.</p>
+ *
+ * <p>This dlbss rfplbdfs thf dfprfdbtfd SAX1
+ * {@link org.xml.sbx.HbndlfrBbsf HbndlfrBbsf} dlbss.</p>
+ *
+ * @sindf SAX 2.0
+ * @buthor Dbvid Mfgginson,
+ * @sff org.xml.sbx.EntityRfsolvfr
+ * @sff org.xml.sbx.DTDHbndlfr
+ * @sff org.xml.sbx.ContfntHbndlfr
+ * @sff org.xml.sbx.ErrorHbndlfr
+ */
+publid dlbss DffbultHbndlfr
+    implfmfnts EntityRfsolvfr, DTDHbndlfr, ContfntHbndlfr, ErrorHbndlfr
+{
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Dffbult implfmfntbtion of thf EntityRfsolvfr intfrfbdf.
+    ////////////////////////////////////////////////////////////////////
+
+    /**
+     * Rfsolvf bn fxtfrnbl fntity.
+     *
+     * <p>Alwbys rfturn null, so thbt thf pbrsfr will usf thf systfm
+     * idfntififr providfd in thf XML dodumfnt.  This mfthod implfmfnts
+     * thf SAX dffbult bfhbviour: bpplidbtion writfrs dbn ovfrridf it
+     * in b subdlbss to do spfdibl trbnslbtions sudh bs dbtblog lookups
+     * or URI rfdirfdtion.</p>
+     *
+     * @pbrbm publidId Thf publid idfntififr, or null if nonf is
+     *                 bvbilbblf.
+     * @pbrbm systfmId Thf systfm idfntififr providfd in thf XML
+     *                 dodumfnt.
+     * @rfturn Thf nfw input sourdf, or null to rfquirf thf
+     *         dffbult bfhbviour.
+     * @fxdfption jbvb.io.IOExdfption If thfrf is bn frror sftting
+     *            up thf nfw input sourdf.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.EntityRfsolvfr#rfsolvfEntity
+     */
+    publid InputSourdf rfsolvfEntity (String publidId, String systfmId)
+        throws IOExdfption, SAXExdfption
+    {
+        rfturn null;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Dffbult implfmfntbtion of DTDHbndlfr intfrfbdf.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Rfdfivf notifidbtion of b notbtion dfdlbrbtion.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss if thfy wish to kffp trbdk of thf notbtions
+     * dfdlbrfd in b dodumfnt.</p>
+     *
+     * @pbrbm nbmf Thf notbtion nbmf.
+     * @pbrbm publidId Thf notbtion publid idfntififr, or null if not
+     *                 bvbilbblf.
+     * @pbrbm systfmId Thf notbtion systfm idfntififr.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.DTDHbndlfr#notbtionDfdl
+     */
+    publid void notbtionDfdl (String nbmf, String publidId, String systfmId)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of bn unpbrsfd fntity dfdlbrbtion.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to kffp trbdk of thf unpbrsfd fntitifs
+     * dfdlbrfd in b dodumfnt.</p>
+     *
+     * @pbrbm nbmf Thf fntity nbmf.
+     * @pbrbm publidId Thf fntity publid idfntififr, or null if not
+     *                 bvbilbblf.
+     * @pbrbm systfmId Thf fntity systfm idfntififr.
+     * @pbrbm notbtionNbmf Thf nbmf of thf bssodibtfd notbtion.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.DTDHbndlfr#unpbrsfdEntityDfdl
+     */
+    publid void unpbrsfdEntityDfdl (String nbmf, String publidId,
+                                    String systfmId, String notbtionNbmf)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Dffbult implfmfntbtion of ContfntHbndlfr intfrfbdf.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Rfdfivf b Lodbtor objfdt for dodumfnt fvfnts.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss if thfy wish to storf thf lodbtor for usf
+     * with othfr dodumfnt fvfnts.</p>
+     *
+     * @pbrbm lodbtor A lodbtor for bll SAX dodumfnt fvfnts.
+     * @sff org.xml.sbx.ContfntHbndlfr#sftDodumfntLodbtor
+     * @sff org.xml.sbx.Lodbtor
+     */
+    publid void sftDodumfntLodbtor (Lodbtor lodbtor)
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf bfginning of thf dodumfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf bfginning
+     * of b dodumfnt (sudh bs bllodbting thf root nodf of b trff or
+     * drfbting bn output filf).</p>
+     *
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtDodumfnt
+     */
+    publid void stbrtDodumfnt ()
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf fnd of thf dodumfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf fnd
+     * of b dodumfnt (sudh bs finblising b trff or dlosing bn output
+     * filf).</p>
+     *
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndDodumfnt
+     */
+    publid void fndDodumfnt ()
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf stbrt of b Nbmfspbdf mbpping.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf stbrt of
+     * fbdh Nbmfspbdf prffix sdopf (sudh bs storing thf prffix mbpping).</p>
+     *
+     * @pbrbm prffix Thf Nbmfspbdf prffix bfing dfdlbrfd.
+     * @pbrbm uri Thf Nbmfspbdf URI mbppfd to thf prffix.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtPrffixMbpping
+     */
+    publid void stbrtPrffixMbpping (String prffix, String uri)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf fnd of b Nbmfspbdf mbpping.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf fnd of
+     * fbdh prffix mbpping.</p>
+     *
+     * @pbrbm prffix Thf Nbmfspbdf prffix bfing dfdlbrfd.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndPrffixMbpping
+     */
+    publid void fndPrffixMbpping (String prffix)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf stbrt of bn flfmfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf stbrt of
+     * fbdh flfmfnt (sudh bs bllodbting b nfw trff nodf or writing
+     * output to b filf).</p>
+     *
+     * @pbrbm uri Thf Nbmfspbdf URI, or thf fmpty string if thf
+     *        flfmfnt hbs no Nbmfspbdf URI or if Nbmfspbdf
+     *        prodfssing is not bfing pfrformfd.
+     * @pbrbm lodblNbmf Thf lodbl nbmf (without prffix), or thf
+     *        fmpty string if Nbmfspbdf prodfssing is not bfing
+     *        pfrformfd.
+     * @pbrbm qNbmf Thf qublififd nbmf (with prffix), or thf
+     *        fmpty string if qublififd nbmfs brf not bvbilbblf.
+     * @pbrbm bttributfs Thf bttributfs bttbdhfd to thf flfmfnt.  If
+     *        thfrf brf no bttributfs, it shbll bf bn fmpty
+     *        Attributfs objfdt.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtElfmfnt
+     */
+    publid void stbrtElfmfnt (String uri, String lodblNbmf,
+                              String qNbmf, Attributfs bttributfs)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of thf fnd of bn flfmfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions bt thf fnd of
+     * fbdh flfmfnt (sudh bs finblising b trff nodf or writing
+     * output to b filf).</p>
+     *
+     * @pbrbm uri Thf Nbmfspbdf URI, or thf fmpty string if thf
+     *        flfmfnt hbs no Nbmfspbdf URI or if Nbmfspbdf
+     *        prodfssing is not bfing pfrformfd.
+     * @pbrbm lodblNbmf Thf lodbl nbmf (without prffix), or thf
+     *        fmpty string if Nbmfspbdf prodfssing is not bfing
+     *        pfrformfd.
+     * @pbrbm qNbmf Thf qublififd nbmf (with prffix), or thf
+     *        fmpty string if qublififd nbmfs brf not bvbilbblf.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndElfmfnt
+     */
+    publid void fndElfmfnt (String uri, String lodblNbmf, String qNbmf)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of dhbrbdtfr dbtb insidf bn flfmfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod to tbkf spfdifid bdtions for fbdh dhunk of dhbrbdtfr dbtb
+     * (sudh bs bdding thf dbtb to b nodf or bufffr, or printing it to
+     * b filf).</p>
+     *
+     * @pbrbm dh Thf dhbrbdtfrs.
+     * @pbrbm stbrt Thf stbrt position in thf dhbrbdtfr brrby.
+     * @pbrbm lfngth Thf numbfr of dhbrbdtfrs to usf from thf
+     *               dhbrbdtfr brrby.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#dhbrbdtfrs
+     */
+    publid void dhbrbdtfrs (dhbr dh[], int stbrt, int lfngth)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of ignorbblf whitfspbdf in flfmfnt dontfnt.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod to tbkf spfdifid bdtions for fbdh dhunk of ignorbblf
+     * whitfspbdf (sudh bs bdding dbtb to b nodf or bufffr, or printing
+     * it to b filf).</p>
+     *
+     * @pbrbm dh Thf whitfspbdf dhbrbdtfrs.
+     * @pbrbm stbrt Thf stbrt position in thf dhbrbdtfr brrby.
+     * @pbrbm lfngth Thf numbfr of dhbrbdtfrs to usf from thf
+     *               dhbrbdtfr brrby.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#ignorbblfWhitfspbdf
+     */
+    publid void ignorbblfWhitfspbdf (dhbr dh[], int stbrt, int lfngth)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b prodfssing instrudtion.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions for fbdh
+     * prodfssing instrudtion, sudh bs sftting stbtus vbribblfs or
+     * invoking othfr mfthods.</p>
+     *
+     * @pbrbm tbrgft Thf prodfssing instrudtion tbrgft.
+     * @pbrbm dbtb Thf prodfssing instrudtion dbtb, or null if
+     *             nonf is supplifd.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#prodfssingInstrudtion
+     */
+    publid void prodfssingInstrudtion (String tbrgft, String dbtb)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b skippfd fntity.
+     *
+     * <p>By dffbult, do nothing.  Applidbtion writfrs mby ovfrridf this
+     * mfthod in b subdlbss to tbkf spfdifid bdtions for fbdh
+     * prodfssing instrudtion, sudh bs sftting stbtus vbribblfs or
+     * invoking othfr mfthods.</p>
+     *
+     * @pbrbm nbmf Thf nbmf of thf skippfd fntity.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#prodfssingInstrudtion
+     */
+    publid void skippfdEntity (String nbmf)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Dffbult implfmfntbtion of thf ErrorHbndlfr intfrfbdf.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Rfdfivf notifidbtion of b pbrsfr wbrning.
+     *
+     * <p>Thf dffbult implfmfntbtion dofs nothing.  Applidbtion writfrs
+     * mby ovfrridf this mfthod in b subdlbss to tbkf spfdifid bdtions
+     * for fbdh wbrning, sudh bs insfrting thf mfssbgf in b log filf or
+     * printing it to thf donsolf.</p>
+     *
+     * @pbrbm f Thf wbrning informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#wbrning
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void wbrning (SAXPbrsfExdfption f)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b rfdovfrbblf pbrsfr frror.
+     *
+     * <p>Thf dffbult implfmfntbtion dofs nothing.  Applidbtion writfrs
+     * mby ovfrridf this mfthod in b subdlbss to tbkf spfdifid bdtions
+     * for fbdh frror, sudh bs insfrting thf mfssbgf in b log filf or
+     * printing it to thf donsolf.</p>
+     *
+     * @pbrbm f Thf frror informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#wbrning
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void frror (SAXPbrsfExdfption f)
+        throws SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfport b fbtbl XML pbrsing frror.
+     *
+     * <p>Thf dffbult implfmfntbtion throws b SAXPbrsfExdfption.
+     * Applidbtion writfrs mby ovfrridf this mfthod in b subdlbss if
+     * thfy nffd to tbkf spfdifid bdtions for fbdh fbtbl frror (sudh bs
+     * dollfdting bll of thf frrors into b singlf rfport): in bny dbsf,
+     * thf bpplidbtion must stop bll rfgulbr prodfssing whfn this
+     * mfthod is invokfd, sindf thf dodumfnt is no longfr rflibblf, bnd
+     * thf pbrsfr mby no longfr rfport pbrsing fvfnts.</p>
+     *
+     * @pbrbm f Thf frror informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#fbtblError
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void fbtblError (SAXPbrsfExdfption f)
+        throws SAXExdfption
+    {
+        throw f;
+    }
+
+}
+
+// fnd of DffbultHbndlfr.jbvb

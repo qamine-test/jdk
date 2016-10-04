@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.lang.invoke.MethodHandleNatives.Constants;
-import java.lang.invoke.MethodHandles.Lookup;
-import static java.lang.invoke.MethodHandleStatics.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts;
+import jbvb.lbng.invokf.MftiodHbndlfs.Lookup;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
 
 /**
- * A symbolic reference obtained by cracking a direct method handle
- * into its consitutent symbolic parts.
- * To crack a direct method handle, call {@link Lookup#revealDirect Lookup.revealDirect}.
- * <h1><a name="directmh"></a>Direct Method Handles</h1>
- * A <em>direct method handle</em> represents a method, constructor, or field without
- * any intervening argument bindings or other transformations.
- * The method, constructor, or field referred to by a direct method handle is called
- * its <em>underlying member</em>.
- * Direct method handles may be obtained in any of these ways:
+ * A symbolid rfffrfndf obtbinfd by drbdking b dirfdt mftiod ibndlf
+ * into its donsitutfnt symbolid pbrts.
+ * To drbdk b dirfdt mftiod ibndlf, dbll {@link Lookup#rfvfblDirfdt Lookup.rfvfblDirfdt}.
+ * <i1><b nbmf="dirfdtmi"></b>Dirfdt Mftiod Hbndlfs</i1>
+ * A <fm>dirfdt mftiod ibndlf</fm> rfprfsfnts b mftiod, donstrudtor, or fifld witiout
+ * bny intfrvfning brgumfnt bindings or otifr trbnsformbtions.
+ * Tif mftiod, donstrudtor, or fifld rfffrrfd to by b dirfdt mftiod ibndlf is dbllfd
+ * its <fm>undfrlying mfmbfr</fm>.
+ * Dirfdt mftiod ibndlfs mby bf obtbinfd in bny of tifsf wbys:
  * <ul>
- * <li>By executing an {@code ldc} instruction on a {@code CONSTANT_MethodHandle} constant.
- *     (See the Java Virtual Machine Specification, sections 4.4.8 and 5.4.3.)
- * <li>By calling one of the <a href="MethodHandles.Lookup.html#lookups">Lookup Factory Methods</a>,
- *     such as {@link Lookup#findVirtual Lookup.findVirtual},
- *     to resolve a symbolic reference into a method handle.
- *     A symbolic reference consists of a class, name string, and type.
- * <li>By calling the factory method {@link Lookup#unreflect Lookup.unreflect}
- *     or {@link Lookup#unreflectSpecial Lookup.unreflectSpecial}
- *     to convert a {@link Method} into a method handle.
- * <li>By calling the factory method {@link Lookup#unreflectConstructor Lookup.unreflectConstructor}
- *     to convert a {@link Constructor} into a method handle.
- * <li>By calling the factory method {@link Lookup#unreflectGetter Lookup.unreflectGetter}
- *     or {@link Lookup#unreflectSetter Lookup.unreflectSetter}
- *     to convert a {@link Field} into a method handle.
+ * <li>By fxfduting bn {@dodf ldd} instrudtion on b {@dodf CONSTANT_MftiodHbndlf} donstbnt.
+ *     (Sff tif Jbvb Virtubl Mbdiinf Spfdifidbtion, sfdtions 4.4.8 bnd 5.4.3.)
+ * <li>By dblling onf of tif <b irff="MftiodHbndlfs.Lookup.itml#lookups">Lookup Fbdtory Mftiods</b>,
+ *     sudi bs {@link Lookup#findVirtubl Lookup.findVirtubl},
+ *     to rfsolvf b symbolid rfffrfndf into b mftiod ibndlf.
+ *     A symbolid rfffrfndf donsists of b dlbss, nbmf string, bnd typf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdt Lookup.unrfflfdt}
+ *     or {@link Lookup#unrfflfdtSpfdibl Lookup.unrfflfdtSpfdibl}
+ *     to donvfrt b {@link Mftiod} into b mftiod ibndlf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdtConstrudtor Lookup.unrfflfdtConstrudtor}
+ *     to donvfrt b {@link Construdtor} into b mftiod ibndlf.
+ * <li>By dblling tif fbdtory mftiod {@link Lookup#unrfflfdtGfttfr Lookup.unrfflfdtGfttfr}
+ *     or {@link Lookup#unrfflfdtSfttfr Lookup.unrfflfdtSfttfr}
+ *     to donvfrt b {@link Fifld} into b mftiod ibndlf.
  * </ul>
  *
- * <h1>Restrictions on Cracking</h1>
- * Given a suitable {@code Lookup} object, it is possible to crack any direct method handle
- * to recover a symbolic reference for the underlying method, constructor, or field.
- * Cracking must be done via a {@code Lookup} object equivalent to that which created
- * the target method handle, or which has enough access permissions to recreate
- * an equivalent method handle.
+ * <i1>Rfstridtions on Crbdking</i1>
+ * Givfn b suitbblf {@dodf Lookup} objfdt, it is possiblf to drbdk bny dirfdt mftiod ibndlf
+ * to rfdovfr b symbolid rfffrfndf for tif undfrlying mftiod, donstrudtor, or fifld.
+ * Crbdking must bf donf vib b {@dodf Lookup} objfdt fquivblfnt to tibt wiidi drfbtfd
+ * tif tbrgft mftiod ibndlf, or wiidi ibs fnougi bddfss pfrmissions to rfdrfbtf
+ * bn fquivblfnt mftiod ibndlf.
  * <p>
- * If the underlying method is <a href="MethodHandles.Lookup.html#callsens">caller sensitive</a>,
- * the direct method handle will have been "bound" to a particular caller class, the
- * {@linkplain java.lang.invoke.MethodHandles.Lookup#lookupClass() lookup class}
- * of the lookup object used to create it.
- * Cracking this method handle with a different lookup class will fail
- * even if the underlying method is public (like {@code Class.forName}).
+ * If tif undfrlying mftiod is <b irff="MftiodHbndlfs.Lookup.itml#dbllsfns">dbllfr sfnsitivf</b>,
+ * tif dirfdt mftiod ibndlf will ibvf bffn "bound" to b pbrtidulbr dbllfr dlbss, tif
+ * {@linkplbin jbvb.lbng.invokf.MftiodHbndlfs.Lookup#lookupClbss() lookup dlbss}
+ * of tif lookup objfdt usfd to drfbtf it.
+ * Crbdking tiis mftiod ibndlf witi b difffrfnt lookup dlbss will fbil
+ * fvfn if tif undfrlying mftiod is publid (likf {@dodf Clbss.forNbmf}).
  * <p>
- * The requirement of lookup object matching provides a "fast fail" behavior
- * for programs which may otherwise trust erroneous revelation of a method
- * handle with symbolic information (or caller binding) from an unexpected scope.
- * Use {@link java.lang.invoke.MethodHandles#reflectAs} to override this limitation.
+ * Tif rfquirfmfnt of lookup objfdt mbtdiing providfs b "fbst fbil" bfibvior
+ * for progrbms wiidi mby otifrwisf trust frronfous rfvflbtion of b mftiod
+ * ibndlf witi symbolid informbtion (or dbllfr binding) from bn unfxpfdtfd sdopf.
+ * Usf {@link jbvb.lbng.invokf.MftiodHbndlfs#rfflfdtAs} to ovfrridf tiis limitbtion.
  *
- * <h1><a name="refkinds"></a>Reference kinds</h1>
- * The <a href="MethodHandles.Lookup.html#lookups">Lookup Factory Methods</a>
- * correspond to all major use cases for methods, constructors, and fields.
- * These use cases may be distinguished using small integers as follows:
- * <table border=1 cellpadding=5 summary="reference kinds">
- * <tr><th>reference kind</th><th>descriptive name</th><th>scope</th><th>member</th><th>behavior</th></tr>
+ * <i1><b nbmf="rffkinds"></b>Rfffrfndf kinds</i1>
+ * Tif <b irff="MftiodHbndlfs.Lookup.itml#lookups">Lookup Fbdtory Mftiods</b>
+ * dorrfspond to bll mbjor usf dbsfs for mftiods, donstrudtors, bnd fiflds.
+ * Tifsf usf dbsfs mby bf distinguisifd using smbll intfgfrs bs follows:
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="rfffrfndf kinds">
+ * <tr><ti>rfffrfndf kind</ti><ti>dfsdriptivf nbmf</ti><ti>sdopf</ti><ti>mfmbfr</ti><ti>bfibvior</ti></tr>
  * <tr>
- *     <td>{@code 1}</td><td>{@code REF_getField}</td><td>{@code class}</td>
- *     <td>{@code FT f;}</td><td>{@code (T) this.f;}</td>
+ *     <td>{@dodf 1}</td><td>{@dodf REF_gftFifld}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf FT f;}</td><td>{@dodf (T) tiis.f;}</td>
  * </tr>
  * <tr>
- *     <td>{@code 2}</td><td>{@code REF_getStatic}</td><td>{@code class} or {@code interface}</td>
- *     <td>{@code static}<br>{@code FT f;}</td><td>{@code (T) C.f;}</td>
+ *     <td>{@dodf 2}</td><td>{@dodf REF_gftStbtid}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf FT f;}</td><td>{@dodf (T) C.f;}</td>
  * </tr>
  * <tr>
- *     <td>{@code 3}</td><td>{@code REF_putField}</td><td>{@code class}</td>
- *     <td>{@code FT f;}</td><td>{@code this.f = x;}</td>
+ *     <td>{@dodf 3}</td><td>{@dodf REF_putFifld}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf FT f;}</td><td>{@dodf tiis.f = x;}</td>
  * </tr>
  * <tr>
- *     <td>{@code 4}</td><td>{@code REF_putStatic}</td><td>{@code class}</td>
- *     <td>{@code static}<br>{@code FT f;}</td><td>{@code C.f = arg;}</td>
+ *     <td>{@dodf 4}</td><td>{@dodf REF_putStbtid}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf FT f;}</td><td>{@dodf C.f = brg;}</td>
  * </tr>
  * <tr>
- *     <td>{@code 5}</td><td>{@code REF_invokeVirtual}</td><td>{@code class}</td>
- *     <td>{@code T m(A*);}</td><td>{@code (T) this.m(arg*);}</td>
+ *     <td>{@dodf 5}</td><td>{@dodf REF_invokfVirtubl}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) tiis.m(brg*);}</td>
  * </tr>
  * <tr>
- *     <td>{@code 6}</td><td>{@code REF_invokeStatic}</td><td>{@code class} or {@code interface}</td>
- *     <td>{@code static}<br>{@code T m(A*);}</td><td>{@code (T) C.m(arg*);}</td>
+ *     <td>{@dodf 6}</td><td>{@dodf REF_invokfStbtid}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf stbtid}<br>{@dodf T m(A*);}</td><td>{@dodf (T) C.m(brg*);}</td>
  * </tr>
  * <tr>
- *     <td>{@code 7}</td><td>{@code REF_invokeSpecial}</td><td>{@code class} or {@code interface}</td>
- *     <td>{@code T m(A*);}</td><td>{@code (T) super.m(arg*);}</td>
+ *     <td>{@dodf 7}</td><td>{@dodf REF_invokfSpfdibl}</td><td>{@dodf dlbss} or {@dodf intfrfbdf}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) supfr.m(brg*);}</td>
  * </tr>
  * <tr>
- *     <td>{@code 8}</td><td>{@code REF_newInvokeSpecial}</td><td>{@code class}</td>
- *     <td>{@code C(A*);}</td><td>{@code new C(arg*);}</td>
+ *     <td>{@dodf 8}</td><td>{@dodf REF_nfwInvokfSpfdibl}</td><td>{@dodf dlbss}</td>
+ *     <td>{@dodf C(A*);}</td><td>{@dodf nfw C(brg*);}</td>
  * </tr>
  * <tr>
- *     <td>{@code 9}</td><td>{@code REF_invokeInterface}</td><td>{@code interface}</td>
- *     <td>{@code T m(A*);}</td><td>{@code (T) this.m(arg*);}</td>
+ *     <td>{@dodf 9}</td><td>{@dodf REF_invokfIntfrfbdf}</td><td>{@dodf intfrfbdf}</td>
+ *     <td>{@dodf T m(A*);}</td><td>{@dodf (T) tiis.m(brg*);}</td>
  * </tr>
- * </table>
- * @since 1.8
+ * </tbblf>
+ * @sindf 1.8
  */
-public
-interface MethodHandleInfo {
+publid
+intfrfbdf MftiodHbndlfInfo {
     /**
-     * A direct method handle reference kind,
-     * as defined in the <a href="MethodHandleInfo.html#refkinds">table above</a>.
+     * A dirfdt mftiod ibndlf rfffrfndf kind,
+     * bs dffinfd in tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b>.
      */
-    public static final int
-        REF_getField                = Constants.REF_getField,
-        REF_getStatic               = Constants.REF_getStatic,
-        REF_putField                = Constants.REF_putField,
-        REF_putStatic               = Constants.REF_putStatic,
-        REF_invokeVirtual           = Constants.REF_invokeVirtual,
-        REF_invokeStatic            = Constants.REF_invokeStatic,
-        REF_invokeSpecial           = Constants.REF_invokeSpecial,
-        REF_newInvokeSpecial        = Constants.REF_newInvokeSpecial,
-        REF_invokeInterface         = Constants.REF_invokeInterface;
+    publid stbtid finbl int
+        REF_gftFifld                = Constbnts.REF_gftFifld,
+        REF_gftStbtid               = Constbnts.REF_gftStbtid,
+        REF_putFifld                = Constbnts.REF_putFifld,
+        REF_putStbtid               = Constbnts.REF_putStbtid,
+        REF_invokfVirtubl           = Constbnts.REF_invokfVirtubl,
+        REF_invokfStbtid            = Constbnts.REF_invokfStbtid,
+        REF_invokfSpfdibl           = Constbnts.REF_invokfSpfdibl,
+        REF_nfwInvokfSpfdibl        = Constbnts.REF_nfwInvokfSpfdibl,
+        REF_invokfIntfrfbdf         = Constbnts.REF_invokfIntfrfbdf;
 
     /**
-     * Returns the reference kind of the cracked method handle, which in turn
-     * determines whether the method handle's underlying member was a constructor, method, or field.
-     * See the <a href="MethodHandleInfo.html#refkinds">table above</a> for definitions.
-     * @return the integer code for the kind of reference used to access the underlying member
+     * Rfturns tif rfffrfndf kind of tif drbdkfd mftiod ibndlf, wiidi in turn
+     * dftfrminfs wiftifr tif mftiod ibndlf's undfrlying mfmbfr wbs b donstrudtor, mftiod, or fifld.
+     * Sff tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b> for dffinitions.
+     * @rfturn tif intfgfr dodf for tif kind of rfffrfndf usfd to bddfss tif undfrlying mfmbfr
      */
-    public int getReferenceKind();
+    publid int gftRfffrfndfKind();
 
     /**
-     * Returns the class in which the cracked method handle's underlying member was defined.
-     * @return the declaring class of the underlying member
+     * Rfturns tif dlbss in wiidi tif drbdkfd mftiod ibndlf's undfrlying mfmbfr wbs dffinfd.
+     * @rfturn tif dfdlbring dlbss of tif undfrlying mfmbfr
      */
-    public Class<?> getDeclaringClass();
+    publid Clbss<?> gftDfdlbringClbss();
 
     /**
-     * Returns the name of the cracked method handle's underlying member.
-     * This is {@code "&lt;init&gt;"} if the underlying member was a constructor,
-     * else it is a simple method name or field name.
-     * @return the simple name of the underlying member
+     * Rfturns tif nbmf of tif drbdkfd mftiod ibndlf's undfrlying mfmbfr.
+     * Tiis is {@dodf "&lt;init&gt;"} if tif undfrlying mfmbfr wbs b donstrudtor,
+     * flsf it is b simplf mftiod nbmf or fifld nbmf.
+     * @rfturn tif simplf nbmf of tif undfrlying mfmbfr
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Returns the nominal type of the cracked symbolic reference, expressed as a method type.
-     * If the reference is to a constructor, the return type will be {@code void}.
-     * If it is to a non-static method, the method type will not mention the {@code this} parameter.
-     * If it is to a field and the requested access is to read the field,
-     * the method type will have no parameters and return the field type.
-     * If it is to a field and the requested access is to write the field,
-     * the method type will have one parameter of the field type and return {@code void}.
+     * Rfturns tif nominbl typf of tif drbdkfd symbolid rfffrfndf, fxprfssfd bs b mftiod typf.
+     * If tif rfffrfndf is to b donstrudtor, tif rfturn typf will bf {@dodf void}.
+     * If it is to b non-stbtid mftiod, tif mftiod typf will not mfntion tif {@dodf tiis} pbrbmftfr.
+     * If it is to b fifld bnd tif rfqufstfd bddfss is to rfbd tif fifld,
+     * tif mftiod typf will ibvf no pbrbmftfrs bnd rfturn tif fifld typf.
+     * If it is to b fifld bnd tif rfqufstfd bddfss is to writf tif fifld,
+     * tif mftiod typf will ibvf onf pbrbmftfr of tif fifld typf bnd rfturn {@dodf void}.
      * <p>
-     * Note that original direct method handle may include a leading {@code this} parameter,
-     * or (in the case of a constructor) will replace the {@code void} return type
-     * with the constructed class.
-     * The nominal type does not include any {@code this} parameter,
-     * and (in the case of a constructor) will return {@code void}.
-     * @return the type of the underlying member, expressed as a method type
+     * Notf tibt originbl dirfdt mftiod ibndlf mby indludf b lfbding {@dodf tiis} pbrbmftfr,
+     * or (in tif dbsf of b donstrudtor) will rfplbdf tif {@dodf void} rfturn typf
+     * witi tif donstrudtfd dlbss.
+     * Tif nominbl typf dofs not indludf bny {@dodf tiis} pbrbmftfr,
+     * bnd (in tif dbsf of b donstrudtor) will rfturn {@dodf void}.
+     * @rfturn tif typf of tif undfrlying mfmbfr, fxprfssfd bs b mftiod typf
      */
-    public MethodType getMethodType();
+    publid MftiodTypf gftMftiodTypf();
 
-    // Utility methods.
-    // NOTE: class/name/type and reference kind constitute a symbolic reference
-    // member and modifiers are an add-on, derived from Core Reflection (or the equivalent)
+    // Utility mftiods.
+    // NOTE: dlbss/nbmf/typf bnd rfffrfndf kind donstitutf b symbolid rfffrfndf
+    // mfmbfr bnd modififrs brf bn bdd-on, dfrivfd from Corf Rfflfdtion (or tif fquivblfnt)
 
     /**
-     * Reflects the underlying member as a method, constructor, or field object.
-     * If the underlying member is public, it is reflected as if by
-     * {@code getMethod}, {@code getConstructor}, or {@code getField}.
-     * Otherwise, it is reflected as if by
-     * {@code getDeclaredMethod}, {@code getDeclaredConstructor}, or {@code getDeclaredField}.
-     * The underlying member must be accessible to the given lookup object.
-     * @param <T> the desired type of the result, either {@link Member} or a subtype
-     * @param expected a class object representing the desired result type {@code T}
-     * @param lookup the lookup object that created this MethodHandleInfo, or one with equivalent access privileges
-     * @return a reference to the method, constructor, or field object
-     * @exception ClassCastException if the member is not of the expected type
-     * @exception NullPointerException if either argument is {@code null}
-     * @exception IllegalArgumentException if the underlying member is not accessible to the given lookup object
+     * Rfflfdts tif undfrlying mfmbfr bs b mftiod, donstrudtor, or fifld objfdt.
+     * If tif undfrlying mfmbfr is publid, it is rfflfdtfd bs if by
+     * {@dodf gftMftiod}, {@dodf gftConstrudtor}, or {@dodf gftFifld}.
+     * Otifrwisf, it is rfflfdtfd bs if by
+     * {@dodf gftDfdlbrfdMftiod}, {@dodf gftDfdlbrfdConstrudtor}, or {@dodf gftDfdlbrfdFifld}.
+     * Tif undfrlying mfmbfr must bf bddfssiblf to tif givfn lookup objfdt.
+     * @pbrbm <T> tif dfsirfd typf of tif rfsult, fitifr {@link Mfmbfr} or b subtypf
+     * @pbrbm fxpfdtfd b dlbss objfdt rfprfsfnting tif dfsirfd rfsult typf {@dodf T}
+     * @pbrbm lookup tif lookup objfdt tibt drfbtfd tiis MftiodHbndlfInfo, or onf witi fquivblfnt bddfss privilfgfs
+     * @rfturn b rfffrfndf to tif mftiod, donstrudtor, or fifld objfdt
+     * @fxdfption ClbssCbstExdfption if tif mfmbfr is not of tif fxpfdtfd typf
+     * @fxdfption NullPointfrExdfption if fitifr brgumfnt is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if tif undfrlying mfmbfr is not bddfssiblf to tif givfn lookup objfdt
      */
-    public <T extends Member> T reflectAs(Class<T> expected, Lookup lookup);
+    publid <T fxtfnds Mfmbfr> T rfflfdtAs(Clbss<T> fxpfdtfd, Lookup lookup);
 
     /**
-     * Returns the access modifiers of the underlying member.
-     * @return the Java language modifiers for underlying member,
-     *         or -1 if the member cannot be accessed
-     * @see Modifier
-     * @see #reflectAs
+     * Rfturns tif bddfss modififrs of tif undfrlying mfmbfr.
+     * @rfturn tif Jbvb lbngubgf modififrs for undfrlying mfmbfr,
+     *         or -1 if tif mfmbfr dbnnot bf bddfssfd
+     * @sff Modififr
+     * @sff #rfflfdtAs
      */
-    public int getModifiers();
+    publid int gftModififrs();
 
     /**
-     * Determines if the underlying member was a variable arity method or constructor.
-     * Such members are represented by method handles that are varargs collectors.
-     * @implSpec
-     * This produces a result equivalent to:
-     * <pre>{@code
-     *     getReferenceKind() >= REF_invokeVirtual && Modifier.isTransient(getModifiers())
-     * }</pre>
+     * Dftfrminfs if tif undfrlying mfmbfr wbs b vbribblf brity mftiod or donstrudtor.
+     * Sudi mfmbfrs brf rfprfsfntfd by mftiod ibndlfs tibt brf vbrbrgs dollfdtors.
+     * @implSpfd
+     * Tiis produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     gftRfffrfndfKind() >= REF_invokfVirtubl && Modififr.isTrbnsifnt(gftModififrs())
+     * }</prf>
      *
      *
-     * @return {@code true} if and only if the underlying member was declared with variable arity.
+     * @rfturn {@dodf truf} if bnd only if tif undfrlying mfmbfr wbs dfdlbrfd witi vbribblf brity.
      */
-    // spelling derived from java.lang.reflect.Executable, not MethodHandle.isVarargsCollector
-    public default boolean isVarArgs()  {
-        // fields are never varargs:
-        if (MethodHandleNatives.refKindIsField((byte) getReferenceKind()))
-            return false;
-        // not in the public API: Modifier.VARARGS
-        final int ACC_VARARGS = 0x00000080;  // from JVMS 4.6 (Table 4.20)
-        assert(ACC_VARARGS == Modifier.TRANSIENT);
-        return Modifier.isTransient(getModifiers());
+    // spflling dfrivfd from jbvb.lbng.rfflfdt.Exfdutbblf, not MftiodHbndlf.isVbrbrgsCollfdtor
+    publid dffbult boolfbn isVbrArgs()  {
+        // fiflds brf nfvfr vbrbrgs:
+        if (MftiodHbndlfNbtivfs.rffKindIsFifld((bytf) gftRfffrfndfKind()))
+            rfturn fblsf;
+        // not in tif publid API: Modififr.VARARGS
+        finbl int ACC_VARARGS = 0x00000080;  // from JVMS 4.6 (Tbblf 4.20)
+        bssfrt(ACC_VARARGS == Modififr.TRANSIENT);
+        rfturn Modififr.isTrbnsifnt(gftModififrs());
     }
 
     /**
-     * Returns the descriptive name of the given reference kind,
-     * as defined in the <a href="MethodHandleInfo.html#refkinds">table above</a>.
-     * The conventional prefix "REF_" is omitted.
-     * @param referenceKind an integer code for a kind of reference used to access a class member
-     * @return a mixed-case string such as {@code "getField"}
-     * @exception IllegalArgumentException if the argument is not a valid
-     *            <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
+     * Rfturns tif dfsdriptivf nbmf of tif givfn rfffrfndf kind,
+     * bs dffinfd in tif <b irff="MftiodHbndlfInfo.itml#rffkinds">tbblf bbovf</b>.
+     * Tif donvfntionbl prffix "REF_" is omittfd.
+     * @pbrbm rfffrfndfKind bn intfgfr dodf for b kind of rfffrfndf usfd to bddfss b dlbss mfmbfr
+     * @rfturn b mixfd-dbsf string sudi bs {@dodf "gftFifld"}
+     * @fxdfption IllfgblArgumfntExdfption if tif brgumfnt is not b vblid
+     *            <b irff="MftiodHbndlfInfo.itml#rffkinds">rfffrfndf kind numbfr</b>
      */
-    public static String referenceKindToString(int referenceKind) {
-        if (!MethodHandleNatives.refKindIsValid(referenceKind))
-            throw newIllegalArgumentException("invalid reference kind", referenceKind);
-        return MethodHandleNatives.refKindName((byte)referenceKind);
+    publid stbtid String rfffrfndfKindToString(int rfffrfndfKind) {
+        if (!MftiodHbndlfNbtivfs.rffKindIsVblid(rfffrfndfKind))
+            tirow nfwIllfgblArgumfntExdfption("invblid rfffrfndf kind", rfffrfndfKind);
+        rfturn MftiodHbndlfNbtivfs.rffKindNbmf((bytf)rfffrfndfKind);
     }
 
     /**
-     * Returns a string representation for a {@code MethodHandleInfo},
-     * given the four parts of its symbolic reference.
-     * This is defined to be of the form {@code "RK C.N:MT"}, where {@code RK} is the
-     * {@linkplain #referenceKindToString reference kind string} for {@code kind},
-     * {@code C} is the {@linkplain java.lang.Class#getName name} of {@code defc}
-     * {@code N} is the {@code name}, and
-     * {@code MT} is the {@code type}.
-     * These four values may be obtained from the
-     * {@linkplain #getReferenceKind reference kind},
-     * {@linkplain #getDeclaringClass declaring class},
-     * {@linkplain #getName member name},
-     * and {@linkplain #getMethodType method type}
-     * of a {@code MethodHandleInfo} object.
+     * Rfturns b string rfprfsfntbtion for b {@dodf MftiodHbndlfInfo},
+     * givfn tif four pbrts of its symbolid rfffrfndf.
+     * Tiis is dffinfd to bf of tif form {@dodf "RK C.N:MT"}, wifrf {@dodf RK} is tif
+     * {@linkplbin #rfffrfndfKindToString rfffrfndf kind string} for {@dodf kind},
+     * {@dodf C} is tif {@linkplbin jbvb.lbng.Clbss#gftNbmf nbmf} of {@dodf dffd}
+     * {@dodf N} is tif {@dodf nbmf}, bnd
+     * {@dodf MT} is tif {@dodf typf}.
+     * Tifsf four vblufs mby bf obtbinfd from tif
+     * {@linkplbin #gftRfffrfndfKind rfffrfndf kind},
+     * {@linkplbin #gftDfdlbringClbss dfdlbring dlbss},
+     * {@linkplbin #gftNbmf mfmbfr nbmf},
+     * bnd {@linkplbin #gftMftiodTypf mftiod typf}
+     * of b {@dodf MftiodHbndlfInfo} objfdt.
      *
-     * @implSpec
-     * This produces a result equivalent to:
-     * <pre>{@code
-     *     String.format("%s %s.%s:%s", referenceKindToString(kind), defc.getName(), name, type)
-     * }</pre>
+     * @implSpfd
+     * Tiis produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     String.formbt("%s %s.%s:%s", rfffrfndfKindToString(kind), dffd.gftNbmf(), nbmf, typf)
+     * }</prf>
      *
-     * @param kind the {@linkplain #getReferenceKind reference kind} part of the symbolic reference
-     * @param defc the {@linkplain #getDeclaringClass declaring class} part of the symbolic reference
-     * @param name the {@linkplain #getName member name} part of the symbolic reference
-     * @param type the {@linkplain #getMethodType method type} part of the symbolic reference
-     * @return a string of the form {@code "RK C.N:MT"}
-     * @exception IllegalArgumentException if the first argument is not a valid
-     *            <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
-     * @exception NullPointerException if any reference argument is {@code null}
+     * @pbrbm kind tif {@linkplbin #gftRfffrfndfKind rfffrfndf kind} pbrt of tif symbolid rfffrfndf
+     * @pbrbm dffd tif {@linkplbin #gftDfdlbringClbss dfdlbring dlbss} pbrt of tif symbolid rfffrfndf
+     * @pbrbm nbmf tif {@linkplbin #gftNbmf mfmbfr nbmf} pbrt of tif symbolid rfffrfndf
+     * @pbrbm typf tif {@linkplbin #gftMftiodTypf mftiod typf} pbrt of tif symbolid rfffrfndf
+     * @rfturn b string of tif form {@dodf "RK C.N:MT"}
+     * @fxdfption IllfgblArgumfntExdfption if tif first brgumfnt is not b vblid
+     *            <b irff="MftiodHbndlfInfo.itml#rffkinds">rfffrfndf kind numbfr</b>
+     * @fxdfption NullPointfrExdfption if bny rfffrfndf brgumfnt is {@dodf null}
      */
-    public static String toString(int kind, Class<?> defc, String name, MethodType type) {
-        Objects.requireNonNull(name); Objects.requireNonNull(type);
-        return String.format("%s %s.%s:%s", referenceKindToString(kind), defc.getName(), name, type);
+    publid stbtid String toString(int kind, Clbss<?> dffd, String nbmf, MftiodTypf typf) {
+        Objfdts.rfquirfNonNull(nbmf); Objfdts.rfquirfNonNull(typf);
+        rfturn String.formbt("%s %s.%s:%s", rfffrfndfKindToString(kind), dffd.gftNbmf(), nbmf, typf);
     }
 }

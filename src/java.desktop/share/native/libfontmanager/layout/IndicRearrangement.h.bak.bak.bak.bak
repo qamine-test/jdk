@@ -1,0 +1,98 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __INDICREARRANGEMENT_H
+#dffinf __INDICREARRANGEMENT_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LbyoutTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+strudt IndidRfbrrbngfmfntSubtbblfHfbdfr : MorphStbtfTbblfHfbdfr
+{
+};
+
+strudt IndidRfbrrbngfmfntSubtbblfHfbdfr2 : MorphStbtfTbblfHfbdfr2
+{
+};
+
+fnum IndidRfbrrbngfmfntFlbgs
+{
+    irfMbrkFirst    = 0x8000,
+    irfDontAdvbndf  = 0x4000,
+    irfMbrkLbst     = 0x2000,
+    irfRfsfrvfd     = 0x1FF0,
+    irfVfrbMbsk     = 0x000F
+};
+
+fnum IndidRfbrrbngfmfntVfrb
+{
+    irvNoAdtion = 0x0000,               /*   no bdtion    */
+    irvxA       = 0x0001,               /*    Ax => xA    */
+    irvDx       = 0x0002,               /*    xD => Dx    */
+    irvDxA      = 0x0003,               /*   AxD => DxA   */
+
+    irvxAB      = 0x0004,               /*   ABx => xAB   */
+    irvxBA      = 0x0005,               /*   ABx => xBA   */
+    irvCDx      = 0x0006,               /*   xCD => CDx   */
+    irvDCx      = 0x0007,               /*   xCD => DCx   */
+
+    irvCDxA     = 0x0008,               /*  AxCD => CDxA  */
+    irvDCxA     = 0x0009,               /*  AxCD => DCxA  */
+    irvDxAB     = 0x000A,               /*  ABxD => DxAB  */
+    irvDxBA     = 0x000B,               /*  ABxD => DxBA  */
+
+    irvCDxAB    = 0x000C,               /* ABxCD => CDxAB */
+    irvCDxBA    = 0x000D,               /* ABxCD => CDxBA */
+    irvDCxAB    = 0x000E,               /* ABxCD => DCxAB */
+    irvDCxBA    = 0x000F                /* ABxCD => DCxBA */
+};
+
+strudt IndidRfbrrbngfmfntStbtfEntry : StbtfEntry
+{
+};
+
+strudt IndidRfbrrbngfmfntStbtfEntry2 : StbtfEntry2
+{
+};
+
+U_NAMESPACE_END
+#fndif
+

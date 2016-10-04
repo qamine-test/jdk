@@ -1,0 +1,667 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.timf.zonf.ZonfRulfsExdfption;
+import jbvb.timf.zonf.ZonfRulfsProvidfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.TimfZonf;
+
+/**
+ * A timf-zonf ID, sudh bs {@dodf Europf/Pbris}.
+ * <p>
+ * A {@dodf ZonfId} is usfd to idfntify thf rulfs usfd to donvfrt bftwffn
+ * bn {@link Instbnt} bnd b {@link LodblDbtfTimf}.
+ * Thfrf brf two distindt typfs of ID:
+ * <ul>
+ * <li>Fixfd offsfts - b fully rfsolvfd offsft from UTC/Grffnwidh, thbt usfs
+ *  thf sbmf offsft for bll lodbl dbtf-timfs
+ * <li>Gfogrbphidbl rfgions - bn brfb whfrf b spfdifid sft of rulfs for finding
+ *  thf offsft from UTC/Grffnwidh bpply
+ * </ul>
+ * Most fixfd offsfts brf rfprfsfntfd by {@link ZonfOffsft}.
+ * Cblling {@link #normblizfd()} on bny {@dodf ZonfId} will fnsurf thbt b
+ * fixfd offsft ID will bf rfprfsfntfd bs b {@dodf ZonfOffsft}.
+ * <p>
+ * Thf bdtubl rulfs, dfsdribing whfn bnd how thf offsft dhbngfs, brf dffinfd by {@link ZonfRulfs}.
+ * This dlbss is simply bn ID usfd to obtbin thf undfrlying rulfs.
+ * This bpprobdh is tbkfn bfdbusf rulfs brf dffinfd by govfrnmfnts bnd dhbngf
+ * frfqufntly, whfrfbs thf ID is stbblf.
+ * <p>
+ * Thf distindtion hbs othfr ffffdts. Sfriblizing thf {@dodf ZonfId} will only sfnd
+ * thf ID, whfrfbs sfriblizing thf rulfs sfnds thf fntirf dbtb sft.
+ * Similbrly, b dompbrison of two IDs only fxbminfs thf ID, whfrfbs
+ * b dompbrison of two rulfs fxbminfs thf fntirf dbtb sft.
+ *
+ * <h3>Timf-zonf IDs</h3>
+ * Thf ID is uniquf within thf systfm.
+ * Thfrf brf thrff typfs of ID.
+ * <p>
+ * Thf simplfst typf of ID is thbt from {@dodf ZonfOffsft}.
+ * This donsists of 'Z' bnd IDs stbrting with '+' or '-'.
+ * <p>
+ * Thf nfxt typf of ID brf offsft-stylf IDs with somf form of prffix,
+ * sudh bs 'GMT+2' or 'UTC+01:00'.
+ * Thf rfdognisfd prffixfs brf 'UTC', 'GMT' bnd 'UT'.
+ * Thf offsft is thf suffix bnd will bf normblizfd during drfbtion.
+ * Thfsf IDs dbn bf normblizfd to b {@dodf ZonfOffsft} using {@dodf normblizfd()}.
+ * <p>
+ * Thf third typf of ID brf rfgion-bbsfd IDs. A rfgion-bbsfd ID must bf of
+ * two or morf dhbrbdtfrs, bnd not stbrt with 'UTC', 'GMT', 'UT' '+' or '-'.
+ * Rfgion-bbsfd IDs brf dffinfd by donfigurbtion, sff {@link ZonfRulfsProvidfr}.
+ * Thf donfigurbtion fodusfs on providing thf lookup from thf ID to thf
+ * undfrlying {@dodf ZonfRulfs}.
+ * <p>
+ * Timf-zonf rulfs brf dffinfd by govfrnmfnts bnd dhbngf frfqufntly.
+ * Thfrf brf b numbfr of orgbnizbtions, known hfrf bs groups, thbt monitor
+ * timf-zonf dhbngfs bnd dollbtf thfm.
+ * Thf dffbult group is thf IANA Timf Zonf Dbtbbbsf (TZDB).
+ * Othfr orgbnizbtions indludf IATA (thf birlinf industry body) bnd Midrosoft.
+ * <p>
+ * Ebdh group dffinfs its own formbt for thf rfgion ID it providfs.
+ * Thf TZDB group dffinfs IDs sudh bs 'Europf/London' or 'Amfridb/Nfw_York'.
+ * TZDB IDs tbkf prfdfdfndf ovfr othfr groups.
+ * <p>
+ * It is strongly rfdommfndfd thbt thf group nbmf is indludfd in bll IDs supplifd by
+ * groups othfr thbn TZDB to bvoid donflidts. For fxbmplf, IATA birlinf timf-zonf
+ * rfgion IDs brf typidblly thf sbmf bs thf thrff lfttfr birport dodf.
+ * Howfvfr, thf birport of Utrfdht hbs thf dodf 'UTC', whidh is obviously b donflidt.
+ * Thf rfdommfndfd formbt for rfgion IDs from groups othfr thbn TZDB is 'group~rfgion'.
+ * Thus if IATA dbtb wfrf dffinfd, Utrfdht birport would bf 'IATA~UTC'.
+ *
+ * <h3>Sfriblizbtion</h3>
+ * This dlbss dbn bf sfriblizfd bnd storfs thf string zonf ID in thf fxtfrnbl form.
+ * Thf {@dodf ZonfOffsft} subdlbss usfs b dfdidbtfd formbt thbt only storfs thf
+ * offsft from UTC/Grffnwidh.
+ * <p>
+ * A {@dodf ZonfId} dbn bf dfsfriblizfd in b Jbvb Runtimf whfrf thf ID is unknown.
+ * For fxbmplf, if b sfrvfr-sidf Jbvb Runtimf hbs bffn updbtfd with b nfw zonf ID, but
+ * thf dlifnt-sidf Jbvb Runtimf hbs not bffn updbtfd. In this dbsf, thf {@dodf ZonfId}
+ * objfdt will fxist, bnd dbn bf qufrifd using {@dodf gftId}, {@dodf fqubls},
+ * {@dodf hbshCodf}, {@dodf toString}, {@dodf gftDisplbyNbmf} bnd {@dodf normblizfd}.
+ * Howfvfr, bny dbll to {@dodf gftRulfs} will fbil with {@dodf ZonfRulfsExdfption}.
+ * This bpprobdh is dfsignfd to bllow b {@link ZonfdDbtfTimf} to bf lobdfd bnd
+ * qufrifd, but not modififd, on b Jbvb Runtimf with indomplftf timf-zonf informbtion.
+ *
+ * <p>
+ * This is b <b hrff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.html">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity hbsh dodf, or syndhronizbtion) on instbndfs of
+ * {@dodf ZonfId} mby hbvf unprfdidtbblf rfsults bnd should bf bvoidfd.
+ * Thf {@dodf fqubls} mfthod should bf usfd for dompbrisons.
+ *
+ * @implSpfd
+ * This bbstrbdt dlbss hbs two implfmfntbtions, both of whidh brf immutbblf bnd thrfbd-sbff.
+ * Onf implfmfntbtion modfls rfgion-bbsfd IDs, thf othfr is {@dodf ZonfOffsft} modflling
+ * offsft-bbsfd IDs. This difffrfndf is visiblf in sfriblizbtion.
+ *
+ * @sindf 1.8
+ */
+publid bbstrbdt dlbss ZonfId implfmfnts Sfriblizbblf {
+
+    /**
+     * A mbp of zonf ovfrridfs to fnbblf thf short timf-zonf nbmfs to bf usfd.
+     * <p>
+     * Usf of short zonf IDs hbs bffn dfprfdbtfd in {@dodf jbvb.util.TimfZonf}.
+     * This mbp bllows thf IDs to dontinuf to bf usfd vib thf
+     * {@link #of(String, Mbp)} fbdtory mfthod.
+     * <p>
+     * This mbp dontbins b mbpping of thf IDs thbt is in linf with TZDB 2005r bnd
+     * lbtfr, whfrf 'EST', 'MST' bnd 'HST' mbp to IDs whidh do not indludf dbylight
+     * sbvings.
+     * <p>
+     * This mbps bs follows:
+     * <ul>
+     * <li>EST - -05:00</li>
+     * <li>HST - -10:00</li>
+     * <li>MST - -07:00</li>
+     * <li>ACT - Austrblib/Dbrwin</li>
+     * <li>AET - Austrblib/Sydnfy</li>
+     * <li>AGT - Amfridb/Argfntinb/Bufnos_Airfs</li>
+     * <li>ART - Afridb/Cbiro</li>
+     * <li>AST - Amfridb/Andhorbgf</li>
+     * <li>BET - Amfridb/Sbo_Pbulo</li>
+     * <li>BST - Asib/Dhbkb</li>
+     * <li>CAT - Afridb/Hbrbrf</li>
+     * <li>CNT - Amfridb/St_Johns</li>
+     * <li>CST - Amfridb/Chidbgo</li>
+     * <li>CTT - Asib/Shbnghbi</li>
+     * <li>EAT - Afridb/Addis_Abbbb</li>
+     * <li>ECT - Europf/Pbris</li>
+     * <li>IET - Amfridb/Indibnb/Indibnbpolis</li>
+     * <li>IST - Asib/Kolkbtb</li>
+     * <li>JST - Asib/Tokyo</li>
+     * <li>MIT - Pbdifid/Apib</li>
+     * <li>NET - Asib/Yfrfvbn</li>
+     * <li>NST - Pbdifid/Audklbnd</li>
+     * <li>PLT - Asib/Kbrbdhi</li>
+     * <li>PNT - Amfridb/Phofnix</li>
+     * <li>PRT - Amfridb/Pufrto_Rido</li>
+     * <li>PST - Amfridb/Los_Angflfs</li>
+     * <li>SST - Pbdifid/Gubdbldbnbl</li>
+     * <li>VST - Asib/Ho_Chi_Minh</li>
+     * </ul>
+     * Thf mbp is unmodifibblf.
+     */
+    publid stbtid finbl Mbp<String, String> SHORT_IDS;
+    stbtid {
+        Mbp<String, String> mbp = nfw HbshMbp<>(64);
+        mbp.put("ACT", "Austrblib/Dbrwin");
+        mbp.put("AET", "Austrblib/Sydnfy");
+        mbp.put("AGT", "Amfridb/Argfntinb/Bufnos_Airfs");
+        mbp.put("ART", "Afridb/Cbiro");
+        mbp.put("AST", "Amfridb/Andhorbgf");
+        mbp.put("BET", "Amfridb/Sbo_Pbulo");
+        mbp.put("BST", "Asib/Dhbkb");
+        mbp.put("CAT", "Afridb/Hbrbrf");
+        mbp.put("CNT", "Amfridb/St_Johns");
+        mbp.put("CST", "Amfridb/Chidbgo");
+        mbp.put("CTT", "Asib/Shbnghbi");
+        mbp.put("EAT", "Afridb/Addis_Abbbb");
+        mbp.put("ECT", "Europf/Pbris");
+        mbp.put("IET", "Amfridb/Indibnb/Indibnbpolis");
+        mbp.put("IST", "Asib/Kolkbtb");
+        mbp.put("JST", "Asib/Tokyo");
+        mbp.put("MIT", "Pbdifid/Apib");
+        mbp.put("NET", "Asib/Yfrfvbn");
+        mbp.put("NST", "Pbdifid/Audklbnd");
+        mbp.put("PLT", "Asib/Kbrbdhi");
+        mbp.put("PNT", "Amfridb/Phofnix");
+        mbp.put("PRT", "Amfridb/Pufrto_Rido");
+        mbp.put("PST", "Amfridb/Los_Angflfs");
+        mbp.put("SST", "Pbdifid/Gubdbldbnbl");
+        mbp.put("VST", "Asib/Ho_Chi_Minh");
+        mbp.put("EST", "-05:00");
+        mbp.put("MST", "-07:00");
+        mbp.put("HST", "-10:00");
+        SHORT_IDS = Collfdtions.unmodifibblfMbp(mbp);
+    }
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8352817235686L;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf systfm dffbult timf-zonf.
+     * <p>
+     * This qufrifs {@link TimfZonf#gftDffbult()} to find thf dffbult timf-zonf
+     * bnd donvfrts it to b {@dodf ZonfId}. If thf systfm dffbult timf-zonf is dhbngfd,
+     * thfn thf rfsult of this mfthod will blso dhbngf.
+     *
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf donvfrtfd zonf ID hbs bn invblid formbt
+     * @throws ZonfRulfsExdfption if thf donvfrtfd zonf rfgion ID dbnnot bf found
+     */
+    publid stbtid ZonfId systfmDffbult() {
+        rfturn TimfZonf.gftDffbult().toZonfId();
+    }
+
+    /**
+     * Gfts thf sft of bvbilbblf zonf IDs.
+     * <p>
+     * This sft indludfs thf string form of bll bvbilbblf rfgion-bbsfd IDs.
+     * Offsft-bbsfd zonf IDs brf not indludfd in thf rfturnfd sft.
+     * Thf ID dbn bf pbssfd to {@link #of(String)} to drfbtf b {@dodf ZonfId}.
+     * <p>
+     * Thf sft of zonf IDs dbn indrfbsf ovfr timf, blthough in b typidbl bpplidbtion
+     * thf sft of IDs is fixfd. Ebdh dbll to this mfthod is thrfbd-sbff.
+     *
+     * @rfturn b modifibblf dopy of thf sft of zonf IDs, not null
+     */
+    publid stbtid Sft<String> gftAvbilbblfZonfIds() {
+        rfturn ZonfRulfsProvidfr.gftAvbilbblfZonfIds();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf ZonfId} using its ID using b mbp
+     * of blibsfs to supplfmfnt thf stbndbrd zonf IDs.
+     * <p>
+     * Mbny usfrs of timf-zonfs usf short bbbrfvibtions, sudh bs PST for
+     * 'Pbdifid Stbndbrd Timf' bnd PDT for 'Pbdifid Dbylight Timf'.
+     * Thfsf bbbrfvibtions brf not uniquf, bnd so dbnnot bf usfd bs IDs.
+     * This mfthod bllows b mbp of string to timf-zonf to bf sftup bnd rfusfd
+     * within bn bpplidbtion.
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @pbrbm blibsMbp  b mbp of blibs zonf IDs (typidblly bbbrfvibtions) to rfbl zonf IDs, not null
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf zonf ID hbs bn invblid formbt
+     * @throws ZonfRulfsExdfption if thf zonf ID is b rfgion ID thbt dbnnot bf found
+     */
+    publid stbtid ZonfId of(String zonfId, Mbp<String, String> blibsMbp) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        Objfdts.rfquirfNonNull(blibsMbp, "blibsMbp");
+        String id = blibsMbp.gft(zonfId);
+        id = (id != null ? id : zonfId);
+        rfturn of(id);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf ZonfId} from bn ID fnsuring thbt thf
+     * ID is vblid bnd bvbilbblf for usf.
+     * <p>
+     * This mfthod pbrsfs thf ID produding b {@dodf ZonfId} or {@dodf ZonfOffsft}.
+     * A {@dodf ZonfOffsft} is rfturnfd if thf ID is 'Z', or stbrts with '+' or '-'.
+     * Thf rfsult will blwbys bf b vblid ID for whidh {@link ZonfRulfs} dbn bf obtbinfd.
+     * <p>
+     * Pbrsing mbtdhfs thf zonf ID stfp by stfp bs follows.
+     * <ul>
+     * <li>If thf zonf ID fqubls 'Z', thf rfsult is {@dodf ZonfOffsft.UTC}.
+     * <li>If thf zonf ID donsists of b singlf lfttfr, thf zonf ID is invblid
+     *  bnd {@dodf DbtfTimfExdfption} is thrown.
+     * <li>If thf zonf ID stbrts with '+' or '-', thf ID is pbrsfd bs b
+     *  {@dodf ZonfOffsft} using {@link ZonfOffsft#of(String)}.
+     * <li>If thf zonf ID fqubls 'GMT', 'UTC' or 'UT' thfn thf rfsult is b {@dodf ZonfId}
+     *  with thf sbmf ID bnd rulfs fquivblfnt to {@dodf ZonfOffsft.UTC}.
+     * <li>If thf zonf ID stbrts with 'UTC+', 'UTC-', 'GMT+', 'GMT-', 'UT+' or 'UT-'
+     *  thfn thf ID is b prffixfd offsft-bbsfd ID. Thf ID is split in two, with
+     *  b two or thrff lfttfr prffix bnd b suffix stbrting with thf sign.
+     *  Thf suffix is pbrsfd bs b {@link ZonfOffsft#of(String) ZonfOffsft}.
+     *  Thf rfsult will bf b {@dodf ZonfId} with thf spfdififd UTC/GMT/UT prffix
+     *  bnd thf normblizfd offsft ID bs pfr {@link ZonfOffsft#gftId()}.
+     *  Thf rulfs of thf rfturnfd {@dodf ZonfId} will bf fquivblfnt to thf
+     *  pbrsfd {@dodf ZonfOffsft}.
+     * <li>All othfr IDs brf pbrsfd bs rfgion-bbsfd zonf IDs. Rfgion IDs must
+     *  mbtdh thf rfgulbr fxprfssion <dodf>[A-Zb-z][A-Zb-z0-9~/._+-]+</dodf>
+     *  othfrwisf b {@dodf DbtfTimfExdfption} is thrown. If thf zonf ID is not
+     *  in thf donfigurfd sft of IDs, {@dodf ZonfRulfsExdfption} is thrown.
+     *  Thf dftbilfd formbt of thf rfgion ID dfpfnds on thf group supplying thf dbtb.
+     *  Thf dffbult sft of dbtb is supplifd by thf IANA Timf Zonf Dbtbbbsf (TZDB).
+     *  This hbs rfgion IDs of thf form '{brfb}/{dity}', sudh bs 'Europf/Pbris' or 'Amfridb/Nfw_York'.
+     *  This is dompbtiblf with most IDs from {@link jbvb.util.TimfZonf}.
+     * </ul>
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf zonf ID hbs bn invblid formbt
+     * @throws ZonfRulfsExdfption if thf zonf ID is b rfgion ID thbt dbnnot bf found
+     */
+    publid stbtid ZonfId of(String zonfId) {
+        rfturn of(zonfId, truf);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf ZonfId} wrbpping bn offsft.
+     * <p>
+     * If thf prffix is "GMT", "UTC", or "UT" b {@dodf ZonfId}
+     * with thf prffix bnd thf non-zfro offsft is rfturnfd.
+     * If thf prffix is fmpty {@dodf ""} thf {@dodf ZonfOffsft} is rfturnfd.
+     *
+     * @pbrbm prffix  thf timf-zonf ID, not null
+     * @pbrbm offsft  thf offsft, not null
+     * @rfturn thf zonf ID, not null
+     * @throws IllfgblArgumfntExdfption if thf prffix is not onf of
+     *     "GMT", "UTC", or "UT", or ""
+     */
+    publid stbtid ZonfId ofOffsft(String prffix, ZonfOffsft offsft) {
+        Objfdts.rfquirfNonNull(prffix, "prffix");
+        Objfdts.rfquirfNonNull(offsft, "offsft");
+        if (prffix.lfngth() == 0) {
+            rfturn offsft;
+        }
+
+        if (!prffix.fqubls("GMT") && !prffix.fqubls("UTC") && !prffix.fqubls("UT")) {
+             throw nfw IllfgblArgumfntExdfption("prffix should bf GMT, UTC or UT, is: " + prffix);
+        }
+
+        if (offsft.gftTotblSfdonds() != 0) {
+            prffix = prffix.dondbt(offsft.gftId());
+        }
+        rfturn nfw ZonfRfgion(prffix, offsft.gftRulfs());
+    }
+
+    /**
+     * Pbrsfs thf ID, tbking b flbg to indidbtf whfthfr {@dodf ZonfRulfsExdfption}
+     * should bf thrown or not, usfd in dfsfriblizbtion.
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @pbrbm dhfdkAvbilbblf  whfthfr to dhfdk if thf zonf ID is bvbilbblf
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf ID formbt is invblid
+     * @throws ZonfRulfsExdfption if dhfdking bvbilbbility bnd thf ID dbnnot bf found
+     */
+    stbtid ZonfId of(String zonfId, boolfbn dhfdkAvbilbblf) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        if (zonfId.lfngth() <= 1 || zonfId.stbrtsWith("+") || zonfId.stbrtsWith("-")) {
+            rfturn ZonfOffsft.of(zonfId);
+        } flsf if (zonfId.stbrtsWith("UTC") || zonfId.stbrtsWith("GMT")) {
+            rfturn ofWithPrffix(zonfId, 3, dhfdkAvbilbblf);
+        } flsf if (zonfId.stbrtsWith("UT")) {
+            rfturn ofWithPrffix(zonfId, 2, dhfdkAvbilbblf);
+        }
+        rfturn ZonfRfgion.ofId(zonfId, dhfdkAvbilbblf);
+    }
+
+    /**
+     * Pbrsf ondf b prffix is fstbblishfd.
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @pbrbm prffixLfngth  thf lfngth of thf prffix, 2 or 3
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf zonf ID hbs bn invblid formbt
+     */
+    privbtf stbtid ZonfId ofWithPrffix(String zonfId, int prffixLfngth, boolfbn dhfdkAvbilbblf) {
+        String prffix = zonfId.substring(0, prffixLfngth);
+        if (zonfId.lfngth() == prffixLfngth) {
+            rfturn ofOffsft(prffix, ZonfOffsft.UTC);
+        }
+        if (zonfId.dhbrAt(prffixLfngth) != '+' && zonfId.dhbrAt(prffixLfngth) != '-') {
+            rfturn ZonfRfgion.ofId(zonfId, dhfdkAvbilbblf);  // drop through to ZonfRulfsProvidfr
+        }
+        try {
+            ZonfOffsft offsft = ZonfOffsft.of(zonfId.substring(prffixLfngth));
+            if (offsft == ZonfOffsft.UTC) {
+                rfturn ofOffsft(prffix, offsft);
+            }
+            rfturn ofOffsft(prffix, offsft);
+        } dbtdh (DbtfTimfExdfption fx) {
+            throw nfw DbtfTimfExdfption("Invblid ID for offsft-bbsfd ZonfId: " + zonfId, fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf ZonfId} from b tfmporbl objfdt.
+     * <p>
+     * This obtbins b zonf bbsfd on thf spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * whidh this fbdtory donvfrts to bn instbndf of {@dodf ZonfId}.
+     * <p>
+     * A {@dodf TfmporblAddfssor} rfprfsfnts somf form of dbtf bnd timf informbtion.
+     * This fbdtory donvfrts thf brbitrbry tfmporbl objfdt to bn instbndf of {@dodf ZonfId}.
+     * <p>
+     * Thf donvfrsion will try to obtbin thf zonf in b wby thbt fbvours rfgion-bbsfd
+     * zonfs ovfr offsft-bbsfd zonfs using {@link TfmporblQufrifs#zonf()}.
+     * <p>
+     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf ZonfId::from}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if unbblf to donvfrt to b {@dodf ZonfId}
+     */
+    publid stbtid ZonfId from(TfmporblAddfssor tfmporbl) {
+        ZonfId obj = tfmporbl.qufry(TfmporblQufrifs.zonf());
+        if (obj == null) {
+            throw nfw DbtfTimfExdfption("Unbblf to obtbin ZonfId from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf());
+        }
+        rfturn obj;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Construdtor only bddfssiblf within thf pbdkbgf.
+     */
+    ZonfId() {
+        if (gftClbss() != ZonfOffsft.dlbss && gftClbss() != ZonfRfgion.dlbss) {
+            throw nfw AssfrtionError("Invblid subdlbss");
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf uniquf timf-zonf ID.
+     * <p>
+     * This ID uniqufly dffinfs this objfdt.
+     * Thf formbt of bn offsft bbsfd ID is dffinfd by {@link ZonfOffsft#gftId()}.
+     *
+     * @rfturn thf timf-zonf uniquf ID, not null
+     */
+    publid bbstrbdt String gftId();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf tfxtubl rfprfsfntbtion of thf zonf, sudh bs 'British Timf' or
+     * '+02:00'.
+     * <p>
+     * This rfturns thf tfxtubl nbmf usfd to idfntify thf timf-zonf ID,
+     * suitbblf for prfsfntbtion to thf usfr.
+     * Thf pbrbmftfrs dontrol thf stylf of thf rfturnfd tfxt bnd thf lodblf.
+     * <p>
+     * If no tfxtubl mbpping is found thfn thf {@link #gftId() full ID} is rfturnfd.
+     *
+     * @pbrbm stylf  thf lfngth of thf tfxt rfquirfd, not null
+     * @pbrbm lodblf  thf lodblf to usf, not null
+     * @rfturn thf tfxt vbluf of thf zonf, not null
+     */
+    publid String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndZonfTfxt(stylf).toFormbttfr(lodblf).formbt(toTfmporbl());
+    }
+
+    /**
+     * Convfrts this zonf to b {@dodf TfmporblAddfssor}.
+     * <p>
+     * A {@dodf ZonfId} dbn bf fully rfprfsfntfd bs b {@dodf TfmporblAddfssor}.
+     * Howfvfr, thf intfrfbdf is not implfmfntfd by this dlbss bs most of thf
+     * mfthods on thf intfrfbdf hbvf no mfbning to {@dodf ZonfId}.
+     * <p>
+     * Thf rfturnfd tfmporbl hbs no supportfd fiflds, with thf qufry mfthod
+     * supporting thf rfturn of thf zonf using {@link TfmporblQufrifs#zonfId()}.
+     *
+     * @rfturn b tfmporbl fquivblfnt to this zonf, not null
+     */
+    privbtf TfmporblAddfssor toTfmporbl() {
+        rfturn nfw TfmporblAddfssor() {
+            @Ovfrridf
+            publid boolfbn isSupportfd(TfmporblFifld fifld) {
+                rfturn fblsf;
+            }
+            @Ovfrridf
+            publid long gftLong(TfmporblFifld fifld) {
+                throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R> R qufry(TfmporblQufry<R> qufry) {
+                if (qufry == TfmporblQufrifs.zonfId()) {
+                    rfturn (R) ZonfId.this;
+                }
+                rfturn TfmporblAddfssor.supfr.qufry(qufry);
+            }
+        };
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf timf-zonf rulfs for this ID bllowing dbldulbtions to bf pfrformfd.
+     * <p>
+     * Thf rulfs providf thf fundtionblity bssodibtfd with b timf-zonf,
+     * sudh bs finding thf offsft for b givfn instbnt or lodbl dbtf-timf.
+     * <p>
+     * A timf-zonf dbn bf invblid if it is dfsfriblizfd in b Jbvb Runtimf whidh
+     * dofs not hbvf thf sbmf rulfs lobdfd bs thf Jbvb Runtimf thbt storfd it.
+     * In this dbsf, dblling this mfthod will throw b {@dodf ZonfRulfsExdfption}.
+     * <p>
+     * Thf rulfs brf supplifd by {@link ZonfRulfsProvidfr}. An bdvbndfd providfr mby
+     * support dynbmid updbtfs to thf rulfs without rfstbrting thf Jbvb Runtimf.
+     * If so, thfn thf rfsult of this mfthod mby dhbngf ovfr timf.
+     * Ebdh individubl dbll will bf still rfmbin thrfbd-sbff.
+     * <p>
+     * {@link ZonfOffsft} will blwbys rfturn b sft of rulfs whfrf thf offsft nfvfr dhbngfs.
+     *
+     * @rfturn thf rulfs, not null
+     * @throws ZonfRulfsExdfption if no rulfs brf bvbilbblf for this ID
+     */
+    publid bbstrbdt ZonfRulfs gftRulfs();
+
+    /**
+     * Normblizfs thf timf-zonf ID, rfturning b {@dodf ZonfOffsft} whfrf possiblf.
+     * <p>
+     * Thf rfturns b normblizfd {@dodf ZonfId} thbt dbn bf usfd in plbdf of this ID.
+     * Thf rfsult will hbvf {@dodf ZonfRulfs} fquivblfnt to thosf rfturnfd by this objfdt,
+     * howfvfr thf ID rfturnfd by {@dodf gftId()} mby bf difffrfnt.
+     * <p>
+     * Thf normblizbtion dhfdks if thf rulfs of this {@dodf ZonfId} hbvf b fixfd offsft.
+     * If thfy do, thfn thf {@dodf ZonfOffsft} fqubl to thbt offsft is rfturnfd.
+     * Othfrwisf {@dodf this} is rfturnfd.
+     *
+     * @rfturn thf timf-zonf uniquf ID, not null
+     */
+    publid ZonfId normblizfd() {
+        try {
+            ZonfRulfs rulfs = gftRulfs();
+            if (rulfs.isFixfdOffsft()) {
+                rfturn rulfs.gftOffsft(Instbnt.EPOCH);
+            }
+        } dbtdh (ZonfRulfsExdfption fx) {
+            // invblid ZonfRfgion is not importbnt to this mfthod
+        }
+        rfturn this;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this timf-zonf ID is fqubl to bnothfr timf-zonf ID.
+     * <p>
+     * Thf dompbrison is bbsfd on thf ID.
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr timf-zonf ID
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+           rfturn truf;
+        }
+        if (obj instbndfof ZonfId) {
+            ZonfId othfr = (ZonfId) obj;
+            rfturn gftId().fqubls(othfr.gftId());
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A hbsh dodf for this timf-zonf ID.
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn gftId().hbshCodf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    /**
+     * Outputs this zonf bs b {@dodf String}, using thf ID.
+     *
+     * @rfturn b string rfprfsfntbtion of this timf-zonf ID, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftId();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../sfriblizfd-form.html#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(7);  // idfntififs b ZonfId (not ZonfOffsft)
+     *  out.writfUTF(gftId());
+     * </prf>
+     * <p>
+     * Whfn rfbd bbdk in, thf {@dodf ZonfId} will bf drfbtfd bs though using
+     * {@link #of(String)}, but without bny fxdfption in thf dbsf whfrf thf
+     * ID hbs b vblid formbt, but is not in thf known sft of rfgion-bbsfd IDs.
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    // this is hfrf for sfriblizbtion Jbvbdod
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZONE_REGION_TYPE, this);
+    }
+
+    bbstrbdt void writf(DbtbOutput out) throws IOExdfption;
+
+}

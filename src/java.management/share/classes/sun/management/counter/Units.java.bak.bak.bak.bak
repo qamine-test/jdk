@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr;
+
+/**
+ * Providfs b typfsbff fnumfrbtion for dfsdribing units of mfbsurfmfnt
+ * bttributf for instrumfntbtion objfdts.
+ *
+ * @buthor   Bribn Dohfrty
+ */
+publid dlbss Units implfmfnts jbvb.io.Sfriblizbblf {
+
+    /* Thf fnumfrbtion vblufs for this typfsbff fnumfrbtion must bf
+     * kfpt in syndhronizbtion with thf Units fnum in thf pfrfDbtb.hpp filf
+     * in thf HotSpot sourdf bbsf.
+     */
+
+    privbtf stbtid finbl int NUNITS=8;
+
+    privbtf stbtid Units[] mbp = nfw Units[NUNITS];
+
+    privbtf finbl String nbmf;
+    privbtf finbl int vbluf;
+
+    /**
+     * An Invblid Units vbluf.
+     */
+    publid stbtid finbl Units INVALID = nfw Units("Invblid", 0);
+
+    /**
+     * Units bttributf rfprfsfnting unit-lfss qubntitifs.
+     */
+    publid stbtid finbl Units NONE = nfw Units("Nonf", 1);
+
+    /**
+     * Units bttributf rfprfsfnting Bytfs.
+     */
+    publid stbtid finbl Units BYTES = nfw Units("Bytfs", 2);
+
+    /**
+     * Units bttributf rfprfsfnting Tidks.
+     */
+    publid stbtid finbl Units TICKS = nfw Units("Tidks", 3);
+
+    /**
+     * Units bttributf rfprfsfnting b dount of fvfnts.
+     */
+    publid stbtid finbl Units EVENTS = nfw Units("Evfnts", 4);
+
+    /**
+     * Units bttributf rfprfsfnting String dbtb. Although not rfblly
+     * b unit of mfbsurf, this Units vbluf sfrvfs to distinguish String
+     * instrumfntbtion objfdts from instrumfntbtion objfdts of othfr typfs.
+     */
+    publid stbtid finbl Units STRING = nfw Units("String", 5);
+
+    /**
+     * Units bttributf rfprfsfnting Hfrtz (frfqufndy).
+     */
+    publid stbtid finbl Units HERTZ = nfw Units("Hfrtz", 6);
+
+    /**
+     * Rfturns b string dfsdribing this Unit of mfbsurfmfnt bttributf
+     *
+     * @rfturn String - b dfsdriptivf string for this fnum.
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf intfgfr rfprfsfntbtion of this Units bttributf
+     *
+     * @rfturn int - bn intfgfr rfprfsfntbtion of this Units bttributf.
+     */
+    publid int intVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Mbps bn intfgfr vbluf to its dorrfsponding Units bttributf.
+     * If thf intfgfr vbluf dofs not hbvf b dorrfsponding Units fnum
+     * vbluf, thfn {@link Units#INVALID} is rfturnfd.
+     *
+     * @pbrbm vbluf bn intfgfr rfprfsfntbtion of dountfr Units
+     * @rfturn Units - thf Units objfdt for thf givfn <dodf>vbluf</dodf>
+     *                 or {@link Units#INVALID} if out of rbngf.
+     */
+    publid stbtid Units toUnits(int vbluf) {
+
+        if (vbluf < 0 || vbluf >= mbp.lfngth || mbp[vbluf] == null) {
+            rfturn INVALID;
+        }
+
+        rfturn mbp[vbluf];
+    }
+
+    privbtf Units(String nbmf, int vbluf) {
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+        mbp[vbluf] = this;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6992337162326171013L;
+}

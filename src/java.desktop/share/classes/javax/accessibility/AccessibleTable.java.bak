@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 /**
- * Class AccessibleTable describes a user-interface component that
- * presents data in a two-dimensional table format.
+ * Clbss AddfssiblfTbblf dfsdribfs b usfr-intfrfbdf domponfnt tibt
+ * prfsfnts dbtb in b two-dimfnsionbl tbblf formbt.
  *
- * @author      Lynn Monsanto
- * @since 1.3
+ * @butior      Lynn Monsbnto
+ * @sindf 1.3
  */
-public interface AccessibleTable {
+publid intfrfbdf AddfssiblfTbblf {
 
     /**
-     * Returns the caption for the table.
+     * Rfturns tif dbption for tif tbblf.
      *
-     * @return the caption for the table
+     * @rfturn tif dbption for tif tbblf
      */
-    public Accessible getAccessibleCaption();
+    publid Addfssiblf gftAddfssiblfCbption();
 
     /**
-     * Sets the caption for the table.
+     * Sfts tif dbption for tif tbblf.
      *
-     * @param a the caption for the table
+     * @pbrbm b tif dbption for tif tbblf
      */
-    public void setAccessibleCaption(Accessible a);
+    publid void sftAddfssiblfCbption(Addfssiblf b);
 
     /**
-     * Returns the summary description of the table.
+     * Rfturns tif summbry dfsdription of tif tbblf.
      *
-     * @return the summary description of the table
+     * @rfturn tif summbry dfsdription of tif tbblf
      */
-    public Accessible getAccessibleSummary();
+    publid Addfssiblf gftAddfssiblfSummbry();
 
     /**
-     * Sets the summary description of the table
+     * Sfts tif summbry dfsdription of tif tbblf
      *
-     * @param a the summary description of the table
+     * @pbrbm b tif summbry dfsdription of tif tbblf
      */
-    public void setAccessibleSummary(Accessible a);
+    publid void sftAddfssiblfSummbry(Addfssiblf b);
 
     /**
-     * Returns the number of rows in the table.
+     * Rfturns tif numbfr of rows in tif tbblf.
      *
-     * @return the number of rows in the table
+     * @rfturn tif numbfr of rows in tif tbblf
      */
-    public int getAccessibleRowCount();
+    publid int gftAddfssiblfRowCount();
 
     /**
-     * Returns the number of columns in the table.
+     * Rfturns tif numbfr of dolumns in tif tbblf.
      *
-     * @return the number of columns in the table
+     * @rfturn tif numbfr of dolumns in tif tbblf
      */
-    public int getAccessibleColumnCount();
+    publid int gftAddfssiblfColumnCount();
 
     /**
-     * Returns the Accessible at a specified row and column
-     * in the table.
+     * Rfturns tif Addfssiblf bt b spfdififd row bnd dolumn
+     * in tif tbblf.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the Accessible at the specified row and column
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif Addfssiblf bt tif spfdififd row bnd dolumn
      */
-    public Accessible getAccessibleAt(int r, int c);
+    publid Addfssiblf gftAddfssiblfAt(int r, int d);
 
     /**
-     * Returns the number of rows occupied by the Accessible at
-     * a specified row and column in the table.
+     * Rfturns tif numbfr of rows oddupifd by tif Addfssiblf bt
+     * b spfdififd row bnd dolumn in tif tbblf.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the number of rows occupied by the Accessible at a
-     * given specified (row, column)
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif numbfr of rows oddupifd by tif Addfssiblf bt b
+     * givfn spfdififd (row, dolumn)
      */
-    public int getAccessibleRowExtentAt(int r, int c);
+    publid int gftAddfssiblfRowExtfntAt(int r, int d);
 
     /**
-     * Returns the number of columns occupied by the Accessible at
-     * a specified row and column in the table.
+     * Rfturns tif numbfr of dolumns oddupifd by tif Addfssiblf bt
+     * b spfdififd row bnd dolumn in tif tbblf.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the number of columns occupied by the Accessible at a
-     * given specified row and column
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif numbfr of dolumns oddupifd by tif Addfssiblf bt b
+     * givfn spfdififd row bnd dolumn
      */
-    public int getAccessibleColumnExtentAt(int r, int c);
+    publid int gftAddfssiblfColumnExtfntAt(int r, int d);
 
     /**
-     * Returns the row headers as an AccessibleTable.
+     * Rfturns tif row ifbdfrs bs bn AddfssiblfTbblf.
      *
-     * @return an AccessibleTable representing the row
-     * headers
+     * @rfturn bn AddfssiblfTbblf rfprfsfnting tif row
+     * ifbdfrs
      */
-    public AccessibleTable getAccessibleRowHeader();
+    publid AddfssiblfTbblf gftAddfssiblfRowHfbdfr();
 
     /**
-     * Sets the row headers.
+     * Sfts tif row ifbdfrs.
      *
-     * @param table an AccessibleTable representing the
-     * row headers
+     * @pbrbm tbblf bn AddfssiblfTbblf rfprfsfnting tif
+     * row ifbdfrs
      */
-    public void setAccessibleRowHeader(AccessibleTable table);
+    publid void sftAddfssiblfRowHfbdfr(AddfssiblfTbblf tbblf);
 
     /**
-     * Returns the column headers as an AccessibleTable.
+     * Rfturns tif dolumn ifbdfrs bs bn AddfssiblfTbblf.
      *
-     * @return an AccessibleTable representing the column
-     * headers
+     * @rfturn bn AddfssiblfTbblf rfprfsfnting tif dolumn
+     * ifbdfrs
      */
-    public AccessibleTable getAccessibleColumnHeader();
+    publid AddfssiblfTbblf gftAddfssiblfColumnHfbdfr();
 
     /**
-     * Sets the column headers.
+     * Sfts tif dolumn ifbdfrs.
      *
-     * @param table an AccessibleTable representing the
-     * column headers
+     * @pbrbm tbblf bn AddfssiblfTbblf rfprfsfnting tif
+     * dolumn ifbdfrs
      */
-    public void setAccessibleColumnHeader(AccessibleTable table);
+    publid void sftAddfssiblfColumnHfbdfr(AddfssiblfTbblf tbblf);
 
     /**
-     * Returns the description of the specified row in the table.
+     * Rfturns tif dfsdription of tif spfdififd row in tif tbblf.
      *
-     * @param r zero-based row of the table
-     * @return the description of the row
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @rfturn tif dfsdription of tif row
      */
-    public Accessible getAccessibleRowDescription(int r);
+    publid Addfssiblf gftAddfssiblfRowDfsdription(int r);
 
     /**
-     * Sets the description text of the specified row of the table.
+     * Sfts tif dfsdription tfxt of tif spfdififd row of tif tbblf.
      *
-     * @param r zero-based row of the table
-     * @param a the description of the row
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @pbrbm b tif dfsdription of tif row
      */
-    public void setAccessibleRowDescription(int r, Accessible a);
+    publid void sftAddfssiblfRowDfsdription(int r, Addfssiblf b);
 
     /**
-     * Returns the description text of the specified column in the table.
+     * Rfturns tif dfsdription tfxt of tif spfdififd dolumn in tif tbblf.
      *
-     * @param c zero-based column of the table
-     * @return the text description of the column
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif tfxt dfsdription of tif dolumn
      */
-    public Accessible getAccessibleColumnDescription(int c);
+    publid Addfssiblf gftAddfssiblfColumnDfsdription(int d);
 
     /**
-     * Sets the description text of the specified column in the table.
+     * Sfts tif dfsdription tfxt of tif spfdififd dolumn in tif tbblf.
      *
-     * @param c zero-based column of the table
-     * @param a the text description of the column
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @pbrbm b tif tfxt dfsdription of tif dolumn
      */
-    public void setAccessibleColumnDescription(int c, Accessible a);
+    publid void sftAddfssiblfColumnDfsdription(int d, Addfssiblf b);
 
     /**
-     * Returns a boolean value indicating whether the accessible at
-     * a specified row and column is selected.
+     * Rfturns b boolfbn vbluf indidbting wiftifr tif bddfssiblf bt
+     * b spfdififd row bnd dolumn is sflfdtfd.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the boolean value true if the accessible at the
-     * row and column is selected. Otherwise, the boolean value
-     * false
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif boolfbn vbluf truf if tif bddfssiblf bt tif
+     * row bnd dolumn is sflfdtfd. Otifrwisf, tif boolfbn vbluf
+     * fblsf
      */
-    public boolean isAccessibleSelected(int r, int c);
+    publid boolfbn isAddfssiblfSflfdtfd(int r, int d);
 
     /**
-     * Returns a boolean value indicating whether the specified row
-     * is selected.
+     * Rfturns b boolfbn vbluf indidbting wiftifr tif spfdififd row
+     * is sflfdtfd.
      *
-     * @param r zero-based row of the table
-     * @return the boolean value true if the specified row is selected.
-     * Otherwise, false.
+     * @pbrbm r zfro-bbsfd row of tif tbblf
+     * @rfturn tif boolfbn vbluf truf if tif spfdififd row is sflfdtfd.
+     * Otifrwisf, fblsf.
      */
-    public boolean isAccessibleRowSelected(int r);
+    publid boolfbn isAddfssiblfRowSflfdtfd(int r);
 
     /**
-     * Returns a boolean value indicating whether the specified column
-     * is selected.
+     * Rfturns b boolfbn vbluf indidbting wiftifr tif spfdififd dolumn
+     * is sflfdtfd.
      *
-     * @param c zero-based column of the table
-     * @return the boolean value true if the specified column is selected.
-     * Otherwise, false.
+     * @pbrbm d zfro-bbsfd dolumn of tif tbblf
+     * @rfturn tif boolfbn vbluf truf if tif spfdififd dolumn is sflfdtfd.
+     * Otifrwisf, fblsf.
      */
-    public boolean isAccessibleColumnSelected(int c);
+    publid boolfbn isAddfssiblfColumnSflfdtfd(int d);
 
     /**
-     * Returns the selected rows in a table.
+     * Rfturns tif sflfdtfd rows in b tbblf.
      *
-     * @return an array of selected rows where each element is a
-     * zero-based row of the table
+     * @rfturn bn brrby of sflfdtfd rows wifrf fbdi flfmfnt is b
+     * zfro-bbsfd row of tif tbblf
      */
-    public int [] getSelectedAccessibleRows();
+    publid int [] gftSflfdtfdAddfssiblfRows();
 
     /**
-     * Returns the selected columns in a table.
+     * Rfturns tif sflfdtfd dolumns in b tbblf.
      *
-     * @return an array of selected columns where each element is a
-     * zero-based column of the table
+     * @rfturn bn brrby of sflfdtfd dolumns wifrf fbdi flfmfnt is b
+     * zfro-bbsfd dolumn of tif tbblf
      */
-    public int [] getSelectedAccessibleColumns();
+    publid int [] gftSflfdtfdAddfssiblfColumns();
 }

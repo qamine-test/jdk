@@ -1,0 +1,1364 @@
+'\" t
+.\"  Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbd.1
+.\"
+.if n .pl 99999
+.TH jbvbd 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvbd \- Rfbds Jbvb dlbss bnd intfrfbdf dffinitions bnd dompilfs thfm into bytfdodf bnd dlbss filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvbd\fR [ \fIoptions\fR ] [ \fIsourdffilfs\fR ] [ \fIdlbssfs\fR] [ \fI@brgfilfs\fR ]
+.fi     
+.sp     
+Argumfnts dbn bf in bny ordfr:
+.TP     
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+.TP     
+\fIsourdffilfs\fR
+Onf or morf sourdf filfs to bf dompilfd (sudh bs \f3MyClbss\&.jbvb\fR)\&.
+.TP     
+\fIdlbssfs\fR
+Onf or morf dlbssfs to bf prodfssfd for bnnotbtions (sudh bs \f3MyPbdkbgf\&.MyClbss\fR)\&.
+.TP     
+\fI@brgfilfs\fR
+Onf or morf filfs thbt list options bnd sourdf filfs\&. Thf \f3-J\fR options brf not bllowfd in thfsf filfs\&. Sff Commbnd-Linf Argumfnt Filfs\&.
+.SH DESCRIPTION    
+Thf \f3jbvbd\fR dommbnd rfbds dlbss bnd intfrfbdf dffinitions, writtfn in thf Jbvb progrbmming lbngubgf, bnd dompilfs thfm into bytfdodf dlbss filfs\&. Thf \f3jbvbd\fR dommbnd dbn blso prodfss bnnotbtions in Jbvb sourdf filfs bnd dlbssfs\&.
+.PP
+Thfrf brf two wbys to pbss sourdf dodf filf nbmfs to \f3jbvbd\fR\&.
+.TP 0.2i    
+\(bu
+For b smbll numbfr of sourdf filfs, list thf filf nbmfs on thf dommbnd linf\&.
+.TP 0.2i    
+\(bu
+For b lbrgf numbfr of sourdf filfs, list thf filf nbmfs in b filf thbt is sfpbrbtfd by blbnks or linf brfbks\&. Usf thf list filf nbmf prfdfdfd by bn bt sign (@) with thf \f3jbvbd\fR dommbnd\&.
+.PP
+Sourdf dodf filf nbmfs must hbvf \&.jbvb suffixfs, dlbss filf nbmfs must hbvf \&.dlbss suffixfs, bnd both sourdf bnd dlbss filfs must hbvf root nbmfs thbt idfntify thf dlbss\&. For fxbmplf, b dlbss dbllfd \f3MyClbss\fR would bf writtfn in b sourdf filf dbllfd \f3MyClbss\&.jbvb\fR bnd dompilfd into b bytfdodf dlbss filf dbllfd \f3MyClbss\&.dlbss\fR\&.
+.PP
+Innfr dlbss dffinitions produdf bdditionbl dlbss filfs\&. Thfsf dlbss filfs hbvf nbmfs thbt dombinf thf innfr bnd outfr dlbss nbmfs, sudh bs \f3MyClbss$MyInnfrClbss\&.dlbss\fR\&.
+.PP
+Arrbngf sourdf filfs in b dirfdtory trff thbt rfflfdts thfir pbdkbgf trff\&. For fxbmplf, if bll of your sourdf filfs brf in \f3/workspbdf\fR, thfn put thf sourdf dodf for \f3dom\&.mysoft\&.mypbdk\&.MyClbss\fR in \f3/workspbdf/dom/mysoft/mypbdk/MyClbss\&.jbvb\fR\&.
+.PP
+By dffbult, thf dompilfr puts fbdh dlbss filf in thf sbmf dirfdtory bs its sourdf filf\&. You dbn spfdify b sfpbrbtf dfstinbtion dirfdtory with thf \f3-d\fR option\&.
+.SH OPTIONS    
+Thf dompilfr hbs b sft of stbndbrd options thbt brf supportfd on thf durrfnt dfvflopmfnt fnvironmfnt\&. An bdditionbl sft of nonstbndbrd options brf spfdifid to thf durrfnt virtubl mbdhinf bnd dompilfr implfmfntbtions bnd brf subjfdt to dhbngf in thf futurf\&. Nonstbndbrd options bfgin with thf \f3-X\fR option\&.
+.TP 0.2i    
+\(bu
+Sff blso Cross-Compilbtion Options
+.TP 0.2i    
+\(bu
+Sff blso Nonstbndbrd Options
+.SS STANDARD\ OPTIONS    
+.TP
+-A\fIkfy\fR[\fI=vbluf\fR]
+.br
+Spfdififs options to pbss to bnnotbtion prodfssors\&. Thfsf options brf not intfrprftfd by \f3jbvbd\fR dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors\&. Thf \f3kfy\fR vbluf should bf onf or morf idfntififrs sfpbrbtfd by b dot (\&.)\&.
+.TP
+-dp \fIpbth\fR or -dlbsspbth \fIpbth\fR
+.br
+Spfdififs whfrf to find usfr dlbss filfs, bnd (optionblly) bnnotbtion prodfssors bnd sourdf filfs\&. This dlbss pbth ovfrridfs thf usfr dlbss pbth in thf \f3CLASSPATH\fR fnvironmfnt vbribblf\&. If nfithfr \f3CLASSPATH\fR, \f3-dp\fR nor \f3-dlbsspbth\fR is spfdififd, thfn thf usfr \fIdlbss pbth\fR is thf durrfnt dirfdtory\&. Sff Sftting thf Clbss Pbth\&.
+
+If thf \f3-sourdfpbth\fR option is not spfdififd, thfn thf usfr dlbss pbth is blso sfbrdhfd for sourdf filfs\&.
+
+If thf \f3-prodfssorpbth\fR option is not spfdififd, thfn thf dlbss pbth is blso sfbrdhfd for bnnotbtion prodfssors\&.
+.TP
+-Djbvb\&.fxt\&.dirs=\fIdirfdtorifs\fR
+.br
+Ovfrridfs thf lodbtion of instbllfd fxtfnsions\&.
+.TP
+-Djbvb\&.fndorsfd\&.dirs=\fIdirfdtorifs\fR
+.br
+Ovfrridfs thf lodbtion of thf fndorsfd stbndbrds pbth\&.
+.TP
+-d \fIdirfdtory\fR
+.br
+Sfts thf dfstinbtion dirfdtory for dlbss filfs\&. Thf dirfdtory must blrfbdy fxist bfdbusf \f3jbvbd\fR dofs not drfbtf it\&. If b dlbss is pbrt of b pbdkbgf, thfn \f3jbvbd\fR puts thf dlbss filf in b subdirfdtory thbt rfflfdts thf pbdkbgf nbmf bnd drfbtfs dirfdtorifs bs nffdfd\&.
+
+If you spfdify \f3-d\fR\f3/homf/mydlbssfs\fR bnd thf dlbss is dbllfd \f3dom\&.mypbdkbgf\&.MyClbss\fR, thfn thf dlbss filf is \f3/homf/mydlbssfs/dom/mypbdkbgf/MyClbss\&.dlbss\fR\&.
+
+If thf \fI-d\fR option is not spfdififd, thfn \f3jbvbd\fR puts fbdh dlbss filf in thf sbmf dirfdtory bs thf sourdf filf from whidh it wbs gfnfrbtfd\&.
+
+\fINotf:\fR Thf dirfdtory spfdififd by thf \fI-d\fR option is not butombtidblly bddfd to your usfr dlbss pbth\&.
+.TP
+-dfprfdbtion
+.br
+Shows b dfsdription of fbdh usf or ovfrridf of b dfprfdbtfd mfmbfr or dlbss\&. Without thf \f3-dfprfdbtion\fR option, \f3jbvbd\fR shows b summbry of thf sourdf filfs thbt usf or ovfrridf dfprfdbtfd mfmbfrs or dlbssfs\&. Thf \f3-dfprfdbtion\fR option is shorthbnd for \f3-Xlint:dfprfdbtion\fR\&.
+.TP
+-fndoding \fIfndoding\fR
+.br
+Sfts thf sourdf filf fndoding nbmf, sudh bs EUC-JP bnd UTF-8\&. If thf \f3-fndoding\fR option is not spfdififd, thfn thf plbtform dffbult donvfrtfr is usfd\&.
+.TP
+-fndorsfddirs \fIdirfdtorifs\fR
+.br
+Ovfrridfs thf lodbtion of thf fndorsfd stbndbrds pbth\&.
+.TP
+-fxtdirs \fIdirfdtorifs\fR
+.br
+Ovfrridfs thf lodbtion of thf \f3fxt\fR dirfdtory\&. Thf dirfdtorifs vbribblf is b dolon-sfpbrbtfd list of dirfdtorifs\&. Ebdh JAR filf in thf spfdififd dirfdtorifs is sfbrdhfd for dlbss filfs\&. All JAR filfs found bfdomf pbrt of thf dlbss pbth\&.
+
+If you brf dross-dompiling (dompiling dlbssfs bgbinst bootstrbp bnd fxtfnsion dlbssfs of b difffrfnt Jbvb plbtform implfmfntbtion), thfn this option spfdififs thf dirfdtorifs thbt dontbin thf fxtfnsion dlbssfs\&. Sff Cross-Compilbtion Options for morf informbtion\&.
+.TP
+-g
+.br
+Gfnfrbtfs bll dfbugging informbtion, indluding lodbl vbribblfs\&. By dffbult, only linf numbfr bnd sourdf filf informbtion is gfnfrbtfd\&.
+.TP
+-g:nonf
+.br
+Dofs not gfnfrbtf bny dfbugging informbtion\&.
+.TP
+-g:[\fIkfyword list\fR]
+.br
+Gfnfrbtfs only somf kinds of dfbugging informbtion, spfdififd by b dommb sfpbrbtfd list of kfywords\&. Vblid kfywords brf:
+.RS     
+.TP     
+sourdf
+Sourdf filf dfbugging informbtion\&.
+.TP     
+linfs
+Linf numbfr dfbugging informbtion\&.
+.TP     
+vbrs
+Lodbl vbribblf dfbugging informbtion\&.
+.RE     
+
+.TP
+-hflp
+.br
+Prints b synopsis of stbndbrd options\&.
+.TP
+-implidit:[\fIdlbss, nonf\fR]
+.br
+Controls thf gfnfrbtion of dlbss filfs for impliditly lobdfd sourdf filfs\&. To butombtidblly gfnfrbtf dlbss filfs, usf \f3-implidit:dlbss\fR\&. To supprfss dlbss filf gfnfrbtion, usf \f3-implidit:nonf\fR\&. If this option is not spfdififd, thfn thf dffbult is to butombtidblly gfnfrbtf dlbss filfs\&. In this dbsf, thf dompilfr issufs b wbrning if bny sudh dlbss filfs brf gfnfrbtfd whfn blso doing bnnotbtion prodfssing\&. Thf wbrning is not issufd whfn thf \f3-implidit\fR option is sft fxpliditly\&. Sff Sfbrdhing for Typfs\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf (JVM), whfrf option is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+
+\fINotf:\fR Thf \fICLASSPATH\fR, \f3-dlbsspbth\fR, \f3-bootdlbsspbth\fR, bnd \f3-fxtdirs\fR options do not spfdify thf dlbssfs usfd to run \f3jbvbd\fR\&. Trying to dustomizf thf dompilfr implfmfntbtion with thfsf options bnd vbribblfs is risky bnd oftfn dofs not bddomplish whbt you wbnt\&. If you must dustomizf thf domplifr implfmfntbtion, thfn usf thf \f3-J\fR option to pbss options through to thf undfrlying \f3\fRJbvb lbundhfr\&.
+.TP
+-nowbrn
+.br
+Disbblfs wbrning mfssbgfs\&. This option opfrbtfs thf sbmf bs thf \f3-Xlint:nonf\fR option\&.
+.TP
+-pbrbmftfrs
+.br
+Storfs formbl pbrbmftfr nbmfs of donstrudtors bnd mfthods in thf gfnfrbtfd dlbss filf so thbt thf mfthod \f3jbvb\&.lbng\&.rfflfdt\&.Exfdutbblf\&.gftPbrbmftfrs\fR from thf Rfflfdtion API dbn rftrifvf thfm\&.
+.TP
+-prod: [\fInonf\fR, \fIonly\fR]
+.br
+Controls whfthfr bnnotbtion prodfssing bnd dompilbtion brf donf\&. \f3-prod:nonf\fR mfbns thbt dompilbtion tbkfs plbdf without bnnotbtion prodfssing\&. \f3-prod:only\fR mfbns thbt only bnnotbtion prodfssing is donf, without bny subsfqufnt dompilbtion\&.
+.TP
+-prodfssor \fIdlbss1\fR [,\fIdlbss2\fR,\fIdlbss3\fR\&.\&.\&.]
+.br
+Nbmfs of thf bnnotbtion prodfssors to run\&. This bypbssfs thf dffbult disdovfry prodfss\&.
+.TP
+-prodfssorpbth \fIpbth\fR
+.br
+Spfdififs whfrf to find bnnotbtion prodfssors\&. If this option is not usfd, thfn thf dlbss pbth is sfbrdhfd for prodfssors\&.
+.TP
+-s \fIdir\fR
+.br
+Spfdififs thf dirfdtory whfrf to plbdf thf gfnfrbtfd sourdf filfs\&. Thf dirfdtory must blrfbdy fxist bfdbusf \f3jbvbd\fR dofs not drfbtf it\&. If b dlbss is pbrt of b pbdkbgf, thfn thf dompilfr puts thf sourdf filf in b subdirfdtory thbt rfflfdts thf pbdkbgf nbmf bnd drfbtfs dirfdtorifs bs nffdfd\&.
+
+If you spfdify \f3-s /homf/mysrd\fR bnd thf dlbss is dbllfd \f3dom\&.mypbdkbgf\&.MyClbss\fR, thfn thf sourdf filf is put in \f3/homf/mysrd/dom/mypbdkbgf/MyClbss\&.jbvb\fR\&.
+.TP
+-sourdf \fIrflfbsf\fR
+.br
+Spfdififs thf vfrsion of sourdf dodf bddfptfd\&. Thf following vblufs for \f3rflfbsf\fR brf bllowfd:
+.RS     
+.TP     
+1\&.3
+Thf dompilfr dofs not support bssfrtions, gfnfrids, or othfr lbngubgf ffbturfs introdudfd bftfr Jbvb SE 1\&.3\&.
+.TP     
+1\&.4
+Thf dompilfr bddfpts dodf dontbining bssfrtions, whidh wfrf introdudfd in Jbvb SE 1\&.4\&.
+.TP     
+1\&.5
+Thf dompilfr bddfpts dodf dontbining gfnfrids bnd othfr lbngubgf ffbturfs introdudfd in Jbvb SE 5\&.
+.TP     
+5
+Synonym for 1\&.5\&.
+.TP     
+1\&.6
+No lbngubgf dhbngfs wfrf introdudfd in Jbvb SE 6\&. Howfvfr, fndoding frrors in sourdf filfs brf now rfportfd bs frrors instfbd of wbrnings bs in fbrlifr rflfbsfs of Jbvb Plbtform, Stbndbrd Edition\&.
+.TP     
+6
+Synonym for 1\&.6\&.
+.TP     
+1\&.7
+This is thf dffbult vbluf\&. Thf dompilfr bddfpts dodf with ffbturfs introdudfd in Jbvb SE 7\&.
+.TP     
+7
+Synonym for 1\&.7\&.
+.RE     
+
+.TP
+-sourdfpbth \fIsourdfpbth\fR
+.br
+Spfdififs thf sourdf dodf pbth to sfbrdh for dlbss or intfrfbdf dffinitions\&. As with thf usfr dlbss pbth, sourdf pbth fntrifs brf sfpbrbtfd by dolons (:) on Orbdlf Solbris bnd sfmidolons on Windows bnd dbn bf dirfdtorifs, JAR brdhivfs, or ZIP brdhivfs\&. If pbdkbgfs brf usfd, thfn thf lodbl pbth nbmf within thf dirfdtory or brdhivf must rfflfdt thf pbdkbgf nbmf\&.
+
+\fINotf:\fR Clbssfs found through thf dlbss pbth might bf rfdompilfd whfn thfir sourdf filfs brf blso found\&. Sff Sfbrdhing for Typfs\&.
+.TP
+-vfrbosf
+.br
+Usfs vfrbosf output, whidh indludfs informbtion bbout fbdh dlbss lobdfd bnd fbdh sourdf filf dompilfd\&.
+.TP
+-vfrsion
+.br
+Prints rflfbsf informbtion\&.
+.TP
+-wfrror
+.br
+Tfrminbtfs dompilbtion whfn wbrnings oddur\&.
+.TP
+-X
+.br
+Displbys informbtion bbout nonstbndbrd options bnd fxits\&.
+.SS CROSS-COMPILATION\ OPTIONS    
+By dffbult, dlbssfs brf dompilfd bgbinst thf bootstrbp bnd fxtfnsion dlbssfs of thf plbtform thbt \f3jbvbd\fR shippfd with\&. But \f3jbvbd\fR blso supports dross-dompiling, whfrf dlbssfs brf dompilfd bgbinst b bootstrbp bnd fxtfnsion dlbssfs of b difffrfnt Jbvb plbtform implfmfntbtion\&. It is importbnt to usf thf \f3-bootdlbsspbth\fR bnd \f3-fxtdirs\fR options whfn dross-dompiling\&.
+.TP
+-tbrgft \fIvfrsion\fR
+.br
+Gfnfrbtfs dlbss filfs thbt tbrgft b spfdififd rflfbsf of thf virtubl mbdhinf\&. Clbss filfs will run on thf spfdififd tbrgft bnd on lbtfr rflfbsfs, but not on fbrlifr rflfbsfs of thf JVM\&. Vblid tbrgfts brf 1\&.1, 1\&.2, 1\&.3, 1\&.4, 1\&.5 (blso 5), 1\&.6 (blso 6), bnd 1\&.7 (blso 7)\&.
+
+Thf dffbult for thf \f3-tbrgft\fR option dfpfnds on thf vbluf of thf \f3-sourdf\fR option:
+.RS     
+.TP 0.2i    
+\(bu
+If thf \f3-sourdf\fR option is not spfdififd, thfn thf vbluf of thf \f3-tbrgft\fR option is 1\&.7
+.TP 0.2i    
+\(bu
+If thf \f3-sourdf\fR option is 1\&.2, thfn thf vbluf of thf \f3-tbrgft\fR option is 1\&.4
+.TP 0.2i    
+\(bu
+If thf \f3-sourdf\fR option is 1\&.3, thfn thf vbluf of thf \f3-tbrgft\fR option is 1\&.4
+.TP 0.2i    
+\(bu
+If thf \f3-sourdf\fR option is 1\&.5, thfn thf vbluf of thf \f3-tbrgft\fR option is 1\&.7
+.TP 0.2i    
+\(bu
+If thf \f3-sourdf\fR option is 1\&.6, thfn thf vbluf of thf \f3-tbrgft\fR is option 1\&.7
+.TP 0.2i    
+\(bu
+For bll othfr vblufs of thf \f3-sourdf\fR option, thf vbluf of thf \f3-tbrgft\fR option is thf vbluf of thf \f3-sourdf\fR option\&.
+.RE     
+
+.TP
+-bootdlbsspbth \fIbootdlbsspbth\fR
+.br
+Cross-dompilfs bgbinst thf spfdififd sft of boot dlbssfs\&. As with thf usfr dlbss pbth, boot dlbss pbth fntrifs brf sfpbrbtfd by dolons (:) bnd dbn bf dirfdtorifs, JAR brdhivfs, or ZIP brdhivfs\&.
+.SS COMPACT\ PROFILE\ OPTION    
+Bfginning with JDK 8, thf \f3jbvbd\fR dompilfr supports dompbdt profilfs\&. With dompbdt profilfs, bpplidbtions thbt do not rfquirf thf fntirf Jbvb plbtform dbn bf dfployfd bnd run with b smbllfr footprint\&. Thf dompbdt profilfs ffbturf dould bf usfd to shortfn thf downlobd timf for bpplidbtions from bpp storfs\&. This ffbturf mbkfs for morf dompbdt dfploymfnt of Jbvb bpplidbtions thbt bundlf thf JRE\&. This ffbturf is blso usfful in smbll dfvidfs\&.
+.PP
+Thf supportfd profilf vblufs brf \f3dompbdt1\fR, \f3dompbdt2\fR, bnd \f3dompbdt3\fR\&. Thfsf brf bdditivf lbyfrs\&. Ebdh highfr-numbfrfd dompbdt profilf dontbins bll of thf APIs in profilfs with smbllfr numbfr nbmfs\&.
+.TP
+-profilf
+.br
+Whfn using dompbdt profilfs, this option spfdififs thf profilf nbmf whfn dompiling\&. For fxbmplf:
+.sp     
+.nf     
+\f3jbvbd \-profilf dompbdt1 Hfllo\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+jbvbd dofs not dompilf sourdf dodf thbt usfs bny Jbvb SE APIs thbt is not in thf spfdififd profilf\&. Hfrf is bn fxbmplf of thf frror mfssbgf thbt rfsults from bttfmpting to dompilf sudh sourdf dodf:
+.sp     
+.nf     
+\f3dd jdk1\&.8\&.0/bin\fP
+.fi     
+.nf     
+\f3\&./jbvbd \-profilf dompbdt1 Pbint\&.jbvb\fP
+.fi     
+.nf     
+\f3Pbint\&.jbvb:5: frror: Applft is not bvbilbblf in profilf \&'dompbdt1\&'\fP
+.fi     
+.nf     
+\f3import jbvb\&.bpplft\&.Applft;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+In this fxbmplf, you dbn dorrfdt thf frror by modifying thf sourdf to not usf thf \f3Applft\fR dlbss\&. You dould blso dorrfdt thf frror by dompiling without thf -profilf option\&. Thfn thf dompilbtion would bf run bgbinst thf full sft of Jbvb SE APIs\&. (Nonf of thf dompbdt profilfs indludf thf \f3Applft\fR dlbss\&.)
+
+An bltfrnbtivf wby to dompilf with dompbdt profilfs is to usf thf \f3-bootdlbsspbth\fR option to spfdify b pbth to bn \f3rt\&.jbr\fR filf thbt spfdififs b profilf\&'s imbgf\&. Using thf \f3-profilf\fR option instfbd dofs not rfquirf b profilf imbgf to bf prfsfnt on thf systfm bt dompilf timf\&. This is usfful whfn dross-dompiling\&.
+.SS NONSTANDARD\ OPTIONS    
+.TP
+-Xbootdlbsspbth/p:\fIpbth\fR
+.br
+Adds b suffix to thf bootstrbp dlbss pbth\&.
+.TP
+-Xbootdlbsspbth/b:\fIpbth\fR
+.br
+Adds b prffix to thf bootstrbp dlbss pbth\&.
+.TP
+-Xbootdlbsspbth/:\fIpbth\fR
+.br
+Ovfrridfs thf lodbtion of thf bootstrbp dlbss filfs\&.
+.TP
+-Xdodlint:[-]\fIgroup\fR [\fI/bddfss\fR]
+.br
+Enbblfs or disbblfs spfdifid groups of dhfdks, whfrf \fIgroup\fR is onf of thf following vblufs: \f3bddfssibility\fR, \f3syntbx\fR, \f3rfffrfndf\fR, \f3html\fR or \f3missing\fR\&. For morf informbtion bbout thfsf groups of dhfdks sff thf \f3-Xdodlint\fR option of thf \f3jbvbdod\fR dommbnd\&. Thf \f3-Xdodlint\fR option is disbblfd by dffbult in thf \f3jbvbd\fR dommbnd\&.
+
+Thf vbribblf \fIbddfss\fR spfdififs thf minimum visibility lfvfl of dlbssfs bnd mfmbfrs thbt thf \f3-Xdodlint\fR option dhfdks\&. It dbn hbvf onf of thf following vblufs (in ordfr of most to lfbst visiblf) : \f3publid\fR, \f3protfdtfd\fR, \f3pbdkbgf\fR bnd \f3privbtf\fR\&. For fxbmplf, thf following option dhfdks dlbssfs bnd mfmbfrs (with bll groups of dhfdks) thbt hbvf thf bddfss lfvfl protfdtfd bnd highfr (whidh indludfs protfdtfd, pbdkbgf bnd publid):
+.sp     
+.nf     
+\f3\-Xdodlint:bll/protfdtfd\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following option fnbblfs bll groups of dhfdks for bll bddfss lfvfls, fxdfpt it will not dhfdk for HTML frrors for dlbssfs bnd mfmbfrs thbt hbvf bddfss lfvfl pbdkbgf bnd highfr (whidh indludfs pbdkbgf bnd publid):
+.sp     
+.nf     
+\f3\-Xdodlint:bll,\-html/pbdkbgf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-Xdodlint:nonf
+.br
+Disbblfs bll groups of dhfdks\&.
+.TP
+-Xdodlint:bll[\fI/bddfss\fR]
+.br
+Enbblfs bll groups of dhfdks\&.
+.TP
+-Xlint
+.br
+\fI\fREnbblfs bll rfdommfndfd wbrnings\&. In this rflfbsf, fnbbling bll bvbilbblf wbrnings is rfdommfndfd\&.
+.TP
+-Xlint:bll
+.br
+\fI\fREnbblfs bll rfdommfndfd wbrnings\&. In this rflfbsf, fnbbling bll bvbilbblf wbrnings is rfdommfndfd\&.
+.TP
+-Xlint:nonf
+.br
+Disbblfs bll wbrnings\&.
+.TP
+-Xlint:\fInbmf\fR
+.br
+Disbblfs wbrning nbmf\&. Sff Enbblf or Disbblf Wbrnings with thf -Xlint Option for b list of wbrnings you dbn disbblf with this option\&.
+.TP
+-Xlint:\fI-nbmf\fR
+.br
+Disbblfs wbrning nbmf\&. Sff Enbblf or Disbblf Wbrnings with thf -Xlint Option with thf \f3-Xlint\fR option to gft b list of wbrnings thbt you dbn disbblf with this option\&.
+.TP
+-Xmbxfrrs \fInumbfr\fR
+.br
+Sfts thf mbximum numbfr of frrors to print\&.
+.TP
+-Xmbxwbrns \fInumbfr\fR
+.br
+Sfts thf mbximum numbfr of wbrnings to print\&.
+.TP
+-Xstdout \fIfilfnbmf\fR
+.br
+Sfnds dompilfr mfssbgfs to thf nbmfd filf\&. By dffbult, dompilfr mfssbgfs go to \f3Systfm\&.frr\fR\&.
+.TP
+-Xprfffr:[\fInfwfr,sourdf\fR]
+.br
+Spfdififs whidh filf to rfbd whfn both b sourdf filf bnd dlbss filf brf found for b typf\&. (Sff Sfbrdhing for Typfs)\&. If thf \f3-Xprfffr:nfwfr\fR option is usfd, thfn it rfbds thf nfwfr of thf sourdf or dlbss filf for b typf (dffbult)\&. If thf \f3-Xprfffr:sourdf\fR option is usfd, thfn it rfbds thf sourdf filf\&. Usf -\f3Xprfffr:sourdf\fR whfn you wbnt to bf surf thbt bny bnnotbtion prodfssors dbn bddfss bnnotbtions dfdlbrfd with b rftfntion polidy of \f3SOURCE\fR\&.
+.TP
+-Xpkginfo:[\fIblwbys\fR,\fIlfgbdy\fR,\fInonfmpty\fR]
+.br
+Control whfthfr jbvbd gfnfrbtfs \f3pbdkbgf-info\&.dlbss\fR filfs from pbdkbgf-info\&.jbvb filfs\&. Possiblf modf brgumfnts for this option indludf thf following\&.
+.RS     
+.TP     
+blwbys
+Alwbys gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf for fvfry \f3pbdkbgf-info\&.jbvb\fR filf\&. This option mby bf usfful if you usf b build systfm sudh bs Ant, whidh dhfdks thbt fbdh \f3\&.jbvb\fR filf hbs b dorrfsponding \f3\&.dlbss\fR filf\&.
+.TP     
+lfgbdy
+Gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf only if pbdkbgf-info\&.jbvb dontbins bnnotbtions\&. Don\&'t gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf if pbdkbgf-info\&.jbvb only dontbins dommfnts\&.
+
+\fINotf:\fR A \f3pbdkbgf-info\&.dlbss\fR filf might bf gfnfrbtfd but bf fmpty if bll thf bnnotbtions in thf pbdkbgf-info\&.jbvb filf hbvf \f3RftfntionPolidy\&.SOURCE\fR\&.
+.TP     
+nonfmpty
+Gfnfrbtf b \f3pbdkbgf-info\&.dlbss\fR filf only if pbdkbgf-info\&.jbvb dontbins bnnotbtions with \f3RftfntionPolidy\&.CLASS\fR or \f3RftfntionPolidy\&.RUNTIME\fR\&.
+.RE     
+
+.TP
+-Xprint
+.br
+Prints b tfxtubl rfprfsfntbtion of spfdififd typfs for dfbugging purposfs\&. Pfrform nfithfr bnnotbtion prodfssing nor dompilbtion\&. Thf formbt of thf output dould dhbngf\&.
+.TP
+-XprintProdfssorInfo
+.br
+Prints informbtion bbout whidh bnnotbtions b prodfssor is bskfd to prodfss\&.
+.TP
+-XprintRounds
+.br
+Prints informbtion bbout initibl bnd subsfqufnt bnnotbtion prodfssing rounds\&.
+.SH ENABLE\ OR\ DISABLE\ WARNINGS\ WITH\ THE\ -XLINT\ OPTION    
+Enbblf wbrning \fInbmf\fR with thf \f3-Xlint:nbmf\fR option, whfrf \f3nbmf\fR is onf of thf following wbrning nbmfs\&. Notf thbt you dbn disbblf b wbrning with thf \f3-Xlint:-nbmf:\fR option\&.
+.TP     
+dbst
+Wbrns bbout unnfdfssbry bnd rfdundbnt dbsts, for fxbmplf:
+.sp     
+.nf     
+\f3String s = (String) "Hfllo!"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+dlbssfilf
+Wbrns bbout issufs rflbtfd to dlbss filf dontfnts\&.
+.TP     
+dfprfdbtion
+Wbrns bbout thf usf of dfprfdbtfd itfms, for fxbmplf:
+.sp     
+.nf     
+\f3jbvb\&.util\&.Dbtf myDbtf = nfw jbvb\&.util\&.Dbtf();\fP
+.fi     
+.nf     
+\f3int durrfntDby = myDbtf\&.gftDby();\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf mfthod \f3jbvb\&.util\&.Dbtf\&.gftDby\fR hbs bffn dfprfdbtfd sindf JDK 1\&.1
+.TP     
+dfp-bnn
+Wbrns bbout itfms thbt brf dodumfntfd with bn \f3@dfprfdbtfd\fR Jbvbdod dommfnt, but do not hbvf b \f3@Dfprfdbtfd\fR bnnotbtion, for fxbmplf:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3  * @dfprfdbtfd As of Jbvb SE 7, rfplbdfd by {@link #nfwMfthod()}\fP
+.fi     
+.nf     
+\f3  */\fP
+.fi     
+.nf     
+\f3publid stbtid void dfprfdbtfdMfthood() { }\fP
+.fi     
+.nf     
+\f3publid stbtid void nfwMfthod() { }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+divzfro
+Wbrns bbout division by thf donstbnt intfgfr 0, for fxbmplf:
+.sp     
+.nf     
+\f3int dividfByZfro = 42 / 0;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+fmpty
+Wbrns bbout fmpty stbtfmfnts bftfr \f3if\fRstbtfmfnts, for fxbmplf:
+.sp     
+.nf     
+\f3dlbss E {\fP
+.fi     
+.nf     
+\f3    void m() {\fP
+.fi     
+.nf     
+\f3         if (truf) ;\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+fbllthrough
+Chfdks thf switdh blodks for fbll-through dbsfs bnd providfs b wbrning mfssbgf for bny thbt brf found\&. Fbll-through dbsfs brf dbsfs in b switdh blodk, othfr thbn thf lbst dbsf in thf blodk, whosf dodf dofs not indludf b brfbk stbtfmfnt, bllowing dodf fxfdution to fbll through from thbt dbsf to thf nfxt dbsf\&. For fxbmplf, thf dodf following thf dbsf 1 lbbfl in this switdh blodk dofs not fnd with b brfbk stbtfmfnt:
+.sp     
+.nf     
+\f3switdh (x) {\fP
+.fi     
+.nf     
+\f3dbsf 1:\fP
+.fi     
+.nf     
+\f3  Systfm\&.out\&.println("1");\fP
+.fi     
+.nf     
+\f3  // No brfbk stbtfmfnt hfrf\&.\fP
+.fi     
+.nf     
+\f3dbsf 2:\fP
+.fi     
+.nf     
+\f3  Systfm\&.out\&.println("2");\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If thf \f3-Xlint:fbllthrough\fR option wbs usfd whfn dompiling this dodf, thfn thf dompilfr fmits b wbrning bbout possiblf fbll-through into dbsf, with thf linf numbfr of thf dbsf in qufstion\&.
+.TP     
+finblly
+Wbrns bbout \f3finblly\fR dlbusfs thbt dbnnot domplftf normblly, for fxbmplf:
+.sp     
+.nf     
+\f3publid stbtid int m() {\fP
+.fi     
+.nf     
+\f3  try {\fP
+.fi     
+.nf     
+\f3     throw nfw NullPointfrExdfption();\fP
+.fi     
+.nf     
+\f3  }  dbtdh (NullPointfrExdfption(); {\fP
+.fi     
+.nf     
+\f3     Systfm\&.frr\&.println("Cbught NullPointfrExdfption\&.");\fP
+.fi     
+.nf     
+\f3     rfturn 1;\fP
+.fi     
+.nf     
+\f3   } finblly {\fP
+.fi     
+.nf     
+\f3     rfturn 0;\fP
+.fi     
+.nf     
+\f3   }\fP
+.fi     
+.nf     
+\f3  }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf dompilfr gfnfrbtfs b wbrning for thf \f3finblly\fR blodk in this fxbmplf\&. Whfn thf \f3int\fR mfthod is dbllfd, it rfturns b vbluf of 0\&. A \f3finblly\fR blodk fxfdutfs whfn thf \f3try\fR blodk fxits\&. In this fxbmplf, whfn dontrol is trbnsffrrfd to thf \f3dbtdh\fR blodk, thf \f3int\fR mfthod fxits\&. Howfvfr, thf \f3finblly\fR blodk must fxfdutf, so it is fxfdutfd, fvfn though dontrol wbs trbnsffrrfd outsidf thf mfthod\&.
+.TP     
+options
+Wbrns bbout issufs thbt rflbtfd to thf usf of dommbnd-linf options\&. Sff Cross-Compilbtion Options\&.
+.TP     
+ovfrridfs
+Wbrns bbout issufs rfgbrding mfthod ovfrridfs\&. For fxbmplf, donsidfr thf following two dlbssfs:
+.sp     
+.nf     
+\f3publid dlbss ClbssWithVbrbrgsMfthod {\fP
+.fi     
+.nf     
+\f3  void vbrbrgsMfthod(String\&.\&.\&. s) { }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3publid dlbss ClbssWithOvfrridingMfthod fxtfnds ClbssWithVbrbrgsMfthod {\fP
+.fi     
+.nf     
+\f3   @Ovfrridf\fP
+.fi     
+.nf     
+\f3   void vbrbrgsMfthod(String[] s) { }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf dompilfr gfnfrbtfs b wbrning similbr to thf following:\&.
+.sp     
+.nf     
+\f3wbrning: [ovfrridf] vbrbrgsMfthod(String[]) in ClbssWithOvfrridingMfthod \fP
+.fi     
+.nf     
+\f3ovfrridfs vbrbrgsMfthod(String\&.\&.\&.) in ClbssWithVbrbrgsMfthod; ovfrriding\fP
+.fi     
+.nf     
+\f3mfthod is missing \&'\&.\&.\&.\&'\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Whfn thf dompilfr fndountfrs b \f3vbrbrgs\fR mfthod, it trbnslbtfs thf \f3vbrbrgs\fR formbl pbrbmftfr into bn brrby\&. In thf mfthod \f3ClbssWithVbrbrgsMfthod\&.vbrbrgsMfthod\fR, thf dompilfr trbnslbtfs thf \f3vbrbrgs\fR formbl pbrbmftfr \f3String\&.\&.\&. s\fR to thf formbl pbrbmftfr \f3String[] s\fR, bn brrby, whidh mbtdhfs thf formbl pbrbmftfr of thf mfthod \f3ClbssWithOvfrridingMfthod\&.vbrbrgsMfthod\fR\&. Consfqufntly, this fxbmplf dompilfs\&.
+.TP     
+pbth
+Wbrns bbout invblid pbth flfmfnts bnd nonfxistfnt pbth dirfdtorifs on thf dommbnd linf (with rfgbrd to thf dlbss pbth, thf sourdf pbth, bnd othfr pbths)\&. Sudh wbrnings dbnnot bf supprfssfd with thf \f3@SupprfssWbrnings\fR bnnotbtion, for fxbmplf:
+.sp     
+.nf     
+\f3jbvbd \-Xlint:pbth \-dlbsspbth /nonfxistfntpbth Exbmplf\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+prodfssing
+Wbrn bbout issufs rfgbrding bnnotbtion prodfssing\&. Thf dompilfr gfnfrbtfs this wbrning whfn you hbvf b dlbss thbt hbs bn bnnotbtion, bnd you usf bn bnnotbtion prodfssor thbt dbnnot hbndlf thbt typf of fxdfption\&. For fxbmplf, thf following is b simplf bnnotbtion prodfssor:
+
+\fISourdf filf AnnodProd\&.jbvb\fR:
+.sp     
+.nf     
+\f3import jbvb\&.util\&.*;\fP
+.fi     
+.nf     
+\f3import jbvbx\&.bnnotbtion\&.prodfssing\&.*;\fP
+.fi     
+.nf     
+\f3import jbvbx\&.lbng\&.modfl\&.*;\fP
+.fi     
+.nf     
+\f3import\&.jbvbz\&.lbng\&.modfl\&.flfmfnt\&.*;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3@SupportfdAnnotbtionTypfs("NotAnno")\fP
+.fi     
+.nf     
+\f3publid dlbss AnnoProd fxtfnds AbstrbdtProdfssor {\fP
+.fi     
+.nf     
+\f3  publid boolfbn prodfss(Sft<? fxtfnds TypfElfmfnt> flfms, RoundEnvironmfnt rfnv){\fP
+.fi     
+.nf     
+\f3     rfturn truf;\fP
+.fi     
+.nf     
+\f3  }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3  publid SourdfVfrsion gftSupportfdSourdfVfrsion() {\fP
+.fi     
+.nf     
+\f3     rfturn SourdfVfrsion\&.lbtfst();\fP
+.fi     
+.nf     
+\f3   }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+\fISourdf filf AnnosWithoutProdfssors\&.jbvb\fR:
+.sp     
+.nf     
+\f3@intfrfbdf Anno { }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3@Anno\fP
+.fi     
+.nf     
+\f3dlbss AnnosWithoutProdfssors { }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following dommbnds dompilf thf bnnotbtion prodfssor \f3AnnoProd\fR, thfn run this bnnotbtion prodfssor bgbinst thf sourdf filf \f3AnnosWithoutProdfssors\&.jbvb\fR:
+.sp     
+.nf     
+\f3jbvbd AnnoProd\&.jbvb\fP
+.fi     
+.nf     
+\f3jbvbd \-dp \&. \-Xlint:prodfssing \-prodfssor AnnoProd \-prod:only AnnosWithoutProdfssors\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Whfn thf dompilfr runs thf bnnotbtion prodfssor bgbinst thf sourdf filf \f3AnnosWithoutProdfssors\&.jbvb\fR, it gfnfrbtfs thf following wbrning:
+.sp     
+.nf     
+\f3wbrning: [prodfssing] No prodfssor dlbimfd bny of thfsf bnnotbtions: Anno\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+To rfsolvf this issuf, you dbn rfnbmf thf bnnotbtion dffinfd bnd usfd in thf dlbss \f3AnnosWithoutProdfssors\fR from \f3Anno\fR to \f3NotAnno\fR\&.
+.TP     
+rbwtypfs
+Wbrns bbout undhfdkfd opfrbtions on rbw typfs\&. Thf following stbtfmfnt gfnfrbtfs b \f3rbwtypfs\fR wbrning:
+.sp     
+.nf     
+\f3void dountElfmfnts(List l) { \&.\&.\&. }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following fxbmplf dofs not gfnfrbtf b \f3rbwtypfs\fR wbrning
+.sp     
+.nf     
+\f3void dountElfmfnts(List<?> l) { \&.\&.\&. }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+\f3List\fR is b rbw typf\&. Howfvfr, \f3List<?>\fR is bn unboundfd wilddbrd pbrbmftfrizfd typf\&. Bfdbusf \f3List\fR is b pbrbmftfrizfd intfrfbdf, blwbys spfdify its typf brgumfnt\&. In this fxbmplf, thf \f3List\fR formbl brgumfnt is spfdififd with bn unboundfd wilddbrd (\f3?\fR) bs its formbl typf pbrbmftfr, whidh mfbns thbt thf \f3dountElfmfnts\fR mfthod dbn bddfpt bny instbntibtion of thf \f3List\fR intfrfbdf\&.
+.TP     
+Sfribl
+Wbrns bbout missing \f3sfriblVfrsionUID\fR dffinitions on sfriblizbblf dlbssfs, for fxbmplf:
+.sp     
+.nf     
+\f3publid dlbss PfrsistfntTimf implfmfnts Sfriblizbblf\fP
+.fi     
+.nf     
+\f3{\fP
+.fi     
+.nf     
+\f3  privbtf Dbtf timf;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3   publid PfrsistfntTimf() {\fP
+.fi     
+.nf     
+\f3     timf = Cblfndbr\&.gftInstbndf()\&.gftTimf();\fP
+.fi     
+.nf     
+\f3   }\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3   publid Dbtf gftTimf() {\fP
+.fi     
+.nf     
+\f3     rfturn timf;\fP
+.fi     
+.nf     
+\f3   }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf dompilfr gfnfrbtfs thf following wbrning:
+.sp     
+.nf     
+\f3wbrning: [sfribl] sfriblizbblf dlbss PfrsistfntTimf hbs no dffinition of\fP
+.fi     
+.nf     
+\f3sfriblVfrsionUID\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If b sfriblizbblf dlbss dofs not fxpliditly dfdlbrf b fifld nbmfd \f3sfriblVfrsionUID\fR, thfn thf sfriblizbtion runtimf fnvironmfnt dbldulbtfs b dffbult \f3sfriblVfrsionUID\fR vbluf for thbt dlbss bbsfd on vbrious bspfdts of thf dlbss, bs dfsdribfd in thf Jbvb Objfdt Sfriblizbtion Spfdifidbtion\&. Howfvfr, it is strongly rfdommfndfd thbt bll sfriblizbblf dlbssfs fxpliditly dfdlbrf \f3sfriblVfrsionUID\fR vblufs bfdbusf thf dffbult prodfss of domputing \f3sfriblVfrsionUID\fR vblfs is highly sfnsitivf to dlbss dftbils thbt dbn vbry dfpfnding on dompilfr implfmfntbtions, bnd bs b rfsult, might dbusf bn unfxpfdtfd \f3InvblidClbssExdfptions\fR during dfsfriblizbtion\&. To gubrbntff b donsistfnt \f3sfriblVfrsionUID\fR vbluf bdross difffrfnt Jbvb dompilfr implfmfntbtions, b sfriblizbblf dlbss must dfdlbrf bn fxplidit \f3sfriblVfrsionUID\fR vbluf\&.
+.TP     
+stbtid
+Wbrns bbout issufs rflbting to thf usf of stbtids, for fxbmplf:
+.sp     
+.nf     
+\f3dlbss XLintStbtid {\fP
+.fi     
+.nf     
+\f3    stbtid void m1() { }\fP
+.fi     
+.nf     
+\f3    void m2() { this\&.m1(); }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf dompilfr gfnfrbtfs thf following wbrning:
+.sp     
+.nf     
+\f3wbrning: [stbtid] stbtid mfthod should bf qublififd by typf nbmf, \fP
+.fi     
+.nf     
+\f3XLintStbtid, instfbd of by bn fxprfssion\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+To rfsolvf this issuf, you dbn dbll thf \f3stbtid\fR mfthod \f3m1\fR bs follows:
+.sp     
+.nf     
+\f3XLintStbtid\&.m1();\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Altfrnbtfly, you dbn rfmovf thf \f3stbtid\fR kfyword from thf dfdlbrbtion of thf mfthod \f3m1\fR\&.
+.TP     
+try
+Wbrns bbout issufs rflbting to usf of \f3try\fR blodks, indluding try-with-rfsourdfs stbtfmfnts\&. For fxbmplf, b wbrning is gfnfrbtfd for thf following stbtfmfnt bfdbusf thf rfsourdf \f3bd\fR dfdlbrfd in thf \f3try\fR blodk is not usfd:
+.sp     
+.nf     
+\f3try ( AutoClosfbblf bd = gftRfsourdf() ) {    // do nothing}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP     
+undhfdkfd
+Givfs morf dftbil for undhfdkfd donvfrsion wbrnings thbt brf mbndbtfd by thf Jbvb Lbngubgf Spfdifidbtion, for fxbmplf:
+.sp     
+.nf     
+\f3List l = nfw ArrbyList<Numbfr>();\fP
+.fi     
+.nf     
+\f3List<String> ls = l;       // undhfdkfd wbrning\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+During typf frbsurf, thf typfs \f3ArrbyList<Numbfr>\fR bnd \f3List<String>\fR bfdomf \f3ArrbyList\fR bnd \f3List\fR, rfspfdtivfly\&.
+
+Thf \f3ls\fR dommbnd hbs thf pbrbmftfrizfd typf \f3List<String>\fR\&. Whfn thf \f3List\fR rfffrfndfd by \f3l\fR is bssignfd to \f3ls\fR, thf dompilfr gfnfrbtfs bn undhfdkfd wbrning\&. At dompilf timf, thf dompilfr bnd JVM dbnnot dftfrminf whfthfr \f3l\fR rfffrs to b \f3List<String>\fR typf\&. In this dbsf, \f3l\fR dofs not rfffr to b \f3List<String>\fR typf\&. As b rfsult, hfbp pollution oddurs\&.
+
+A hfbp pollution situbtion oddurs whfn thf \f3List\fR objfdt \f3l\fR, whosf stbtid typf is \f3List<Numbfr>\fR, is bssignfd to bnothfr \f3List\fR objfdt, \f3ls\fR, thbt hbs b difffrfnt stbtid typf, \f3List<String>\fR\&. Howfvfr, thf dompilfr still bllows this bssignmfnt\&. It must bllow this bssignmfnt to prfsfrvf bbdkwbrd dompbtibility with rflfbsfs of Jbvb SE thbt do not support gfnfrids\&. Bfdbusf of typf frbsurf, \f3List<Numbfr>\fR bnd \f3List<String>\fR both bfdomf \f3List\fR\&. Consfqufntly, thf dompilfr bllows thf bssignmfnt of thf objfdt \f3l\fR\f3,\fR whidh hbs b rbw typf of \f3List\fR, to thf objfdt \f3ls\fR\&.
+.TP     
+vbrbrgs
+Wbrns bbout unsbff usbgfs of vbribblf brgumfnts (\f3vbrbrgs\fR) mfthods, in pbrtidulbr, thosf thbt dontbin non-rfifibblf brgumfnts, for fxbmplf:
+.sp     
+.nf     
+\f3publid dlbss ArrbyBuildfr {\fP
+.fi     
+.nf     
+\f3  publid stbtid <T> void bddToList (List<T> listArg, T\&.\&.\&. flfmfnts) {\fP
+.fi     
+.nf     
+\f3    for (T x : flfmfnts) {\fP
+.fi     
+.nf     
+\f3      listArg\&.bdd(x);\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3  }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+\fINotf:\fR A non-rfifibblf typf is b typf whosf typf informbtion is not fully bvbilbblf bt runtimf\&.
+
+Thf dompilfr gfnfrbtfs thf following wbrning for thf dffinition of thf mfthod \f3ArrbyBuildfr\&.bddToList\fR
+.sp     
+.nf     
+\f3wbrning: [vbrbrgs] Possiblf hfbp pollution from pbrbmftfrizfd vbrbrg typf T\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Whfn thf dompilfr fndountfrs b vbrbrgs mfthod, it trbnslbtfs thf \f3vbrbrgs\fR formbl pbrbmftfr into bn brrby\&. Howfvfr, thf Jbvb progrbmming lbngubgf dofs not pfrmit thf drfbtion of brrbys of pbrbmftfrizfd typfs\&. In thf mfthod \f3ArrbyBuildfr\&.bddToList\fR, thf dompilfr trbnslbtfs thf \f3vbrbrgs\fR formbl pbrbmftfr \f3T\&.\&.\&.\fR flfmfnts to thf formbl pbrbmftfr \f3T[]\fR flfmfnts, bn brrby\&. Howfvfr, bfdbusf of typf frbsurf, thf dompilfr donvfrts thf \f3vbrbrgs\fR formbl pbrbmftfr to \f3Objfdt[]\fR flfmfnts\&. Consfqufntly, thfrf is b possibility of hfbp pollution\&.
+.SH COMMAND-LINE\ ARGUMENT\ FILES    
+To shortfn or simplify thf \f3jbvbd\fR dommbnd, you dbn spfdify onf or morf filfs thbt dontbin brgumfnts to thf \f3jbvbd\fR dommbnd (fxdfpt \f3-J\fR options)\&. This fnbblfs you to drfbtf \f3jbvbd\fR dommbnds of bny lfngth on bny opfrbting systfm\&.
+.PP
+An brgumfnt filf dbn indludf \f3jbvbd\fR options bnd sourdf filf nbmfs in bny dombinbtion\&. Thf brgumfnts within b filf dbn bf sfpbrbtfd by spbdfs or nfw linf dhbrbdtfrs\&. If b filf nbmf dontbins fmbfddfd spbdfs, thfn put thf wholf filf nbmf in doublf quotbtion mbrks\&.
+.PP
+Filf Nbmfs within bn brgumfnt filf brf rflbtivf to thf durrfnt dirfdtory, not thf lodbtion of thf brgumfnt filf\&. Wild dbrds (*) brf not bllowfd in thfsf lists (sudh bs for spfdifying \f3*\&.jbvb\fR)\&. Usf of thf bt sign (@) to rfdursivfly intfrprft filfs is not supportfd\&. Thf \f3-J\fR options brf not supportfd bfdbusf thfy brf pbssfd to thf lbundhfr, whidh dofs not support brgumfnt filfs\&.
+.PP
+Whfn fxfduting thf \f3jbvbd\fR dommbnd, pbss in thf pbth bnd nbmf of fbdh brgumfnt filf with thf bt sign (@) lfbding dhbrbdtfr\&. Whfn thf \f3jbvbd\fR dommbnd fndountfrs bn brgumfnt bfginning with thf bt sign (@), it fxpbnds thf dontfnts of thbt filf into thf brgumfnt list\&.
+.PP
+\f3Exbmplf 1 Singlf Argumfnt Filf\fR
+.PP
+You dould usf b singlf brgumfnt filf nbmfd \f3brgfilf\fR to hold bll \f3jbvbd\fR brgumfnts:
+.sp     
+.nf     
+\f3jbvbd @brgfilf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This brgumfnt filf dould dontbin thf dontfnts of both filfs shown in Exbmplf 2
+.PP
+\f3Exbmplf 2 Two Argumfnt Filfs\fR
+.PP
+You dbn drfbtf two brgumfnt filfs: onf for thf \f3jbvbd\fR options bnd thf othfr for thf sourdf filf nbmfs\&. Notf thbt thf following lists hbvf no linf-dontinubtion dhbrbdtfrs\&.
+.PP
+Crfbtf b filf nbmfd options thbt dontbins thf following:
+.sp     
+.nf     
+\f3\-d dlbssfs\fP
+.fi     
+.nf     
+\f3\-g\fP
+.fi     
+.nf     
+\f3\-sourdfpbth /jbvb/pubs/ws/1\&.3/srd/shbrf/dlbssfs\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Crfbtf b filf nbmfd dlbssfs thbt dontbins thf following:
+.sp     
+.nf     
+\f3MyClbss1\&.jbvb\fP
+.fi     
+.nf     
+\f3MyClbss2\&.jbvb\fP
+.fi     
+.nf     
+\f3MyClbss3\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thfn, run thf \f3jbvbd\fR dommbnd bs follows:
+.sp     
+.nf     
+\f3jbvbd @options @dlbssfs\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 3 Argumfnt Filfs with Pbths\fR
+.PP
+Thf brgumfnt filfs dbn hbvf pbths, but bny filf nbmfs insidf thf filfs brf rflbtivf to thf durrfnt working dirfdtory (not \f3pbth1\fR or \f3pbth2\fR):
+.sp     
+.nf     
+\f3jbvbd @pbth1/options @pbth2/dlbssfs\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH ANNOTATION\ PROCESSING    
+Thf \f3jbvbd\fR dommbnd providfs dirfdt support for bnnotbtion prodfssing, supfrsfding thf nffd for thf sfpbrbtf bnnotbtion prodfssing dommbnd, \f3bpt\fR\&.
+.PP
+Thf API for bnnotbtion prodfssors is dffinfd in thf \f3jbvbx\&.bnnotbtion\&.prodfssing\fR bnd j\f3bvbx\&.lbng\&.modfl\fR pbdkbgfs bnd subpbdkbgfs\&.
+.SS HOW\ ANNOTATION\ PROCESSING\ WORKS    
+Unlfss bnnotbtion prodfssing is disbblfd with thf \f3-prod:nonf\fR option, thf dompilfr sfbrdhfs for bny bnnotbtion prodfssors thbt brf bvbilbblf\&. Thf sfbrdh pbth dbn bf spfdififd with thf \f3-prodfssorpbth\fR option\&. If no pbth is spfdififd, thfn thf usfr dlbss pbth is usfd\&. Prodfssors brf lodbtfd by mfbns of sfrvidf providfr-donfigurbtion filfs nbmfd \f3META-INF/sfrvidfs/jbvbx\&.bnnotbtion\&.prodfssing\fR\&.Prodfssor on thf sfbrdh pbth\&. Sudh filfs should dontbin thf nbmfs of bny bnnotbtion prodfssors to bf usfd, listfd onf pfr linf\&. Altfrnbtivfly, prodfssors dbn bf spfdififd fxpliditly, using thf \f3-prodfssor\fR option\&.
+.PP
+Aftfr sdbnning thf sourdf filfs bnd dlbssfs on thf dommbnd linf to dftfrminf whbt bnnotbtions brf prfsfnt, thf dompilfr qufrifs thf prodfssors to dftfrminf whbt bnnotbtions thfy prodfss\&. Whfn b mbtdh is found, thf prodfssor is dbllfd\&. A prodfssor dbn dlbim thf bnnotbtions it prodfssfs, in whidh dbsf no furthfr bttfmpt is mbdf to find bny prodfssors for thosf bnnotbtions\&. Aftfr bll of thf bnnotbtions brf dlbimfd, thf dompilfr dofs not sfbrdh for bdditionbl prodfssors\&.
+.PP
+If bny prodfssors gfnfrbtf nfw sourdf filfs, thfn bnothfr round of bnnotbtion prodfssing oddurs: Any nfwly gfnfrbtfd sourdf filfs brf sdbnnfd, bnd thf bnnotbtions prodfssfd bs bfforf\&. Any prodfssors dbllfd on prfvious rounds brf blso dbllfd on bll subsfqufnt rounds\&. This dontinufs until no nfw sourdf filfs brf gfnfrbtfd\&.
+.PP
+Aftfr b round oddurs whfrf no nfw sourdf filfs brf gfnfrbtfd, thf bnnotbtion prodfssors brf dbllfd onf lbst timf, to givf thfm b dhbndf to domplftf bny rfmbining work\&. Finblly, unlfss thf \f3-prod:only\fR option is usfd, thf dompilfr dompilfs thf originbl bnd bll gfnfrbtfd sourdf filfs\&.
+.SS IMPLICITLY\ LOADED\ SOURCE\ FILES    
+To dompilf b sft of sourdf filfs, thf dompilfr might nffd to impliditly lobd bdditionbl sourdf filfs\&. Sff Sfbrdhing for Typfs\&. Sudh filfs brf durrfntly not subjfdt to bnnotbtion prodfssing\&. By dffbult, thf dompilfr givfs b wbrning whfn bnnotbtion prodfssing oddurrfd bnd bny impliditly lobdfd sourdf filfs brf dompilfd\&. Thf \f3-implidit\fR option providfs b wby to supprfss thf wbrning\&.
+.SH SEARCHING\ FOR\ TYPES    
+To dompilf b sourdf filf, thf dompilfr oftfn nffds informbtion bbout b typf, but thf typf dffinition is not in thf sourdf filfs spfdififd on thf dommbnd linf\&. Thf dompilfr nffds typf informbtion for fvfry dlbss or intfrfbdf usfd, fxtfndfd, or implfmfntfd in thf sourdf filf\&. This indludfs dlbssfs bnd intfrfbdfs not fxpliditly mfntionfd in thf sourdf filf, but thbt providf informbtion through inhfritbndf\&.
+.PP
+For fxbmplf, whfn you drfbtf b subdlbss \f3jbvb\&.bpplft\&.Applft\fR, you brf blso using thf bndfstor dlbssfs of \f3Applft\fR: \f3jbvb\&.bwt\&.Pbnfl\fR, \f3jbvb\&.bwt\&.Contbinfr\fR, \f3jbvb\&.bwt\&.Componfnt\fR, bnd \f3jbvb\&.lbng\&.Objfdt\fR\&.
+.PP
+Whfn thf dompilfr nffds typf informbtion, it sfbrdhfs for b sourdf filf or dlbss filf thbt dffinfs thf typf\&. Thf dompilfr sfbrdhfs for dlbss filfs first in thf bootstrbp bnd fxtfnsion dlbssfs, thfn in thf usfr dlbss pbth (whidh by dffbult is thf durrfnt dirfdtory)\&. Thf usfr dlbss pbth is dffinfd by sftting thf \f3CLASSPATH\fR fnvironmfnt vbribblf or by using thf \f3-dlbsspbth\fR option\&.
+.PP
+If you sft thf \f3-sourdfpbth\fR option, thfn thf dompilfr sfbrdhfs thf indidbtfd pbth for sourdf filfs\&. Othfrwisf, thf dompilfr sfbrdhfs thf usfr dlbss pbth for both dlbss filfs bnd sourdf filfs\&.
+.PP
+You dbn spfdify difffrfnt bootstrbp or fxtfnsion dlbssfs with thf \f3-bootdlbsspbth\fR bnd thf \f3-fxtdirs\fR options\&. Sff Cross-Compilbtion Options\&.
+.PP
+A suddfssful typf sfbrdh mby produdf b dlbss filf, b sourdf filf, or both\&. If both brf found, thfn you dbn usf thf \f3-Xprfffr\fR option to instrudt thf dompilfr whidh to usf\&. If \f3nfwfr\fR is spfdififd, thfn thf dompilfr usfs thf nfwfr of thf two filfs\&. If \f3sourdf\fR is spfdififd, thf dompilfr usfs thf sourdf filf\&. Thf dffbult is \f3nfwfr\fR\&.
+.PP
+If b typf sfbrdh finds b sourdf filf for b rfquirfd typf, fithfr by itsflf, or bs b rfsult of thf sftting for thf \f3-Xprfffr\fR option, thfn thf dompilfr rfbds thf sourdf filf to gft thf informbtion it nffds\&. By dffbult thf dompilfr blso dompilfs thf sourdf filf\&. You dbn usf thf \f3-implidit\fR option to spfdify thf bfhbvior\&. If \f3nonf\fR is spfdififd, thfn no dlbss filfs brf gfnfrbtfd for thf sourdf filf\&. If \f3dlbss\fR is spfdififd, thfn dlbss filfs brf gfnfrbtfd for thf sourdf filf\&.
+.PP
+Thf dompilfr might not disdovfr thf nffd for somf typf informbtion until bftfr bnnotbtion prodfssing domplftfs\&. Whfn thf typf informbtion is found in b sourdf filf bnd no \f3-implidit\fR option is spfdififd, thf dompilfr givfs b wbrning thbt thf filf is bfing dompilfd without bfing subjfdt to bnnotbtion prodfssing\&. To disbblf thf wbrning, fithfr spfdify thf filf on thf dommbnd linf (so thbt it will bf subjfdt to bnnotbtion prodfssing) or usf thf \f3-implidit\fR option to spfdify whfthfr or not dlbss filfs should bf gfnfrbtfd for sudh sourdf filfs\&.
+.SH PROGRAMMATIC\ INTERFACE    
+Thf \f3jbvbd\fR dommbnd supports thf nfw Jbvb Compilfr API dffinfd by thf dlbssfs bnd intfrfbdfs in thf \f3jbvbx\&.tools\fR pbdkbgf\&.
+.SS EXAMPLE    
+To dompilf bs though providing dommbnd-linf brgumfnts, usf thf following syntbx:
+.sp     
+.nf     
+\f3JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();\fP
+.fi     
+.nf     
+\f3JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf fxbmplf writfs dibgnostids to thf stbndbrd output strfbm bnd rfturns thf fxit dodf thbt \f3jbvbd\fR would givf whfn dbllfd from thf dommbnd linf\&.
+.PP
+You dbn usf othfr mfthods in thf \f3jbvbx\&.tools\&.JbvbCompilfr\fR intfrfbdf to hbndlf dibgnostids, dontrol whfrf filfs brf rfbd from bnd writtfn to, bnd morf\&.
+.SS OLD\ INTERFACE    
+\fINotf:\fR This API is rftbinfd for bbdkwbrd dompbtibility only\&. All nfw dodf should usf thf nfwfr Jbvb Compilfr API\&.
+.PP
+Thf \f3dom\&.sun\&.tools\&.jbvbd\&.Mbin\fR dlbss providfs two stbtid mfthods to dbll thf dompilfr from b progrbm:
+.sp     
+.nf     
+\f3publid stbtid int dompilf(String[] brgs);\fP
+.fi     
+.nf     
+\f3publid stbtid int dompilf(String[] brgs, PrintWritfr out);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf \f3brgs\fR pbrbmftfr rfprfsfnts bny of thf dommbnd-linf brgumfnts thbt would typidblly bf pbssfd to thf dompilfr\&.
+.PP
+Thf \f3out\fR pbrbmftfr indidbtfs whfrf thf dompilfr dibgnostid output is dirfdtfd\&.
+.PP
+Thf \f3rfturn\fR vbluf is fquivblfnt to thf \f3fxit\fR vbluf from \f3jbvbd\fR\&.
+.PP
+\fINotf:\fR All othfr dlbssfs bnd mfthods found in b pbdkbgf with nbmfs thbt stbrt with \f3dom\&.sun\&.tools\&.jbvbd\fR (subpbdkbgfs of \f3dom\&.sun\&.tools\&.jbvbd\fR) brf stridtly intfrnbl bnd subjfdt to dhbngf bt bny timf\&.
+.SH EXAMPLES    
+\f3Exbmplf 1 Compilf b Simplf Progrbm\fR
+.PP
+This fxbmplf shows how to dompilf thf \f3Hfllo\&.jbvb\fR sourdf filf in thf grfftings dirfdtory\&. Thf dlbss dffinfd in \f3Hfllo\&.jbvb\fR is dbllfd \f3grfftings\&.Hfllo\fR\&. Thf grfftings dirfdtory is thf pbdkbgf dirfdtory both for thf sourdf filf bnd thf dlbss filf bnd is undfrnfbth thf durrfnt dirfdtory\&. This mbkfs it possiblf to usf thf dffbult usfr dlbss pbth\&. It blso mbkfs it unnfdfssbry to spfdify b sfpbrbtf dfstinbtion dirfdtory with thf \f3-d\fR option\&.
+.PP
+Thf sourdf dodf in \f3Hfllo\&.jbvb\fR:
+.sp     
+.nf     
+\f3pbdkbgf grfftings;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3publid dlbss Hfllo {\fP
+.fi     
+.nf     
+\f3    publid stbtid void mbin(String[] brgs) {\fP
+.fi     
+.nf     
+\f3        for (int i=0; i < brgs\&.lfngth; i++) {\fP
+.fi     
+.nf     
+\f3            Systfm\&.out\&.println("Hfllo " + brgs[i]);\fP
+.fi     
+.nf     
+\f3        }\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Compilf grfftings\&.Hfllo:
+.sp     
+.nf     
+\f3jbvbd grfftings/Hfllo\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Run \f3grfftings\&.Hfllo\fR:
+.sp     
+.nf     
+\f3jbvb grfftings\&.Hfllo World Univfrsf Evfryonf\fP
+.fi     
+.nf     
+\f3Hfllo World\fP
+.fi     
+.nf     
+\f3Hfllo Univfrsf\fP
+.fi     
+.nf     
+\f3Hfllo Evfryonf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 2 Compilf Multiplf Sourdf Filfs\fR
+.PP
+This fxbmplf dompilfs thf \f3Alohb\&.jbvb\fR, \f3GutfnTbg\&.jbvb\fR, \f3Hfllo\&.jbvb\fR, bnd \f3Hi\&.jbvb\fR sourdf filfs in thf \f3grfftings\fR pbdkbgf\&.
+.sp     
+.nf     
+\f3% jbvbd grfftings/*\&.jbvb\fP
+.fi     
+.nf     
+\f3% ls grfftings\fP
+.fi     
+.nf     
+\f3Alohb\&.dlbss         GutfnTbg\&.dlbss      Hfllo\&.dlbss         Hi\&.dlbss\fP
+.fi     
+.nf     
+\f3Alohb\&.jbvb          GutfnTbg\&.jbvb       Hfllo\&.jbvb          Hi\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 3 Spfdify b Usfr Clbss Pbth\fR
+.PP
+Aftfr dhbnging onf of thf sourdf filfs in thf prfvious fxbmplf, rfdompilf it:
+.sp     
+.nf     
+\f3pwd\fP
+.fi     
+.nf     
+\f3/fxbmplfs\fP
+.fi     
+.nf     
+\f3jbvbd grfftings/Hi\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Bfdbusf \f3grfftings\&.Hi\fR rfffrs to othfr dlbssfs in thf \f3grfftings\fR pbdkbgf, thf dompilfr nffds to find thfsf othfr dlbssfs\&. Thf prfvious fxbmplf works bfdbusf thf dffbult usfr dlbss pbth is thf dirfdtory thbt dontbins thf pbdkbgf dirfdtory\&. If you wbnt to rfdompilf this filf without dondfrn for whidh dirfdtory you brf in, thfn bdd thf fxbmplfs dirfdtory to thf usfr dlbss pbth by sftting \f3CLASSPATH\fR\&. This fxbmplf usfs thf \f3-dlbsspbth\fR option\&.
+.sp     
+.nf     
+\f3jbvbd \-dlbsspbth /fxbmplfs /fxbmplfs/grfftings/Hi\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If you dhbngf \f3grfftings\&.Hi\fR to usf b bbnnfr utility, thfn thbt utility blso nffds to bf bddfssiblf through thf usfr dlbss pbth\&.
+.sp     
+.nf     
+\f3jbvbd \-dlbsspbth /fxbmplfs:/lib/Bbnnfrs\&.jbr \f\fP
+.fi     
+.nf     
+\f3            /fxbmplfs/grfftings/Hi\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+To fxfdutf b dlbss in thf \f3grfftings\fR pbdkbgf, thf progrbm nffds bddfss to thf \f3grfftings\fR pbdkbgf, bnd to thf dlbssfs thbt thf \f3grfftings\fR dlbssfs usf\&.
+.sp     
+.nf     
+\f3jbvb \-dlbsspbth /fxbmplfs:/lib/Bbnnfrs\&.jbr grfftings\&.Hi\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 4 Sfpbrbtf Sourdf Filfs bnd Clbss Filfs\fR
+.PP
+Thf following fxbmplf usfs \f3jbvbd\fR to dompilf dodf thbt runs on JVM 1\&.6\&.
+.sp     
+.nf     
+\f3jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbth jdk1\&.6\&.0/lib/rt\&.jbr \f \fP
+.fi     
+.nf     
+\f3\-fxtdirs "" OldCodf\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf \f3-sourdf 1\&.6\fR option spfdififs thbt rflfbsf 1\&.6 (or 6) of thf Jbvb progrbmming lbngubgf bf usfd to dompilf \f3OldCodf\&.jbvb\fR\&. Thf option \f3-tbrgft 1\&.6\fR option fnsurfs thbt thf gfnfrbtfd dlbss filfs brf dompbtiblf with JVM 1\&.6\&. Notf thbt in most dbsfs, thf vbluf of thf \f3-tbrgft\fR option is thf vbluf of thf \f3-sourdf\fR option; in this fxbmplf, you dbn omit thf \f3-tbrgft\fR option\&.
+.PP
+You must spfdify thf \f3-bootdlbsspbth\fR option to spfdify thf dorrfdt vfrsion of thf bootstrbp dlbssfs (thf \f3rt\&.jbr\fR librbry)\&. If not, thfn thf dompilfr gfnfrbtfs b wbrning:
+.sp     
+.nf     
+\f3jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb\fP
+.fi     
+.nf     
+\f3wbrning: [options] bootstrbp dlbss pbth not sft in donjundtion with \fP
+.fi     
+.nf     
+\f3\-sourdf 1\&.6\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If you do not spfdify thf dorrfdt vfrsion of bootstrbp dlbssfs, thfn thf dompilfr usfs thf old lbngubgf rulfs (in this fxbmplf, it usfs vfrsion 1\&.6 of thf Jbvb progrbmming lbngubgf) dombinfd with thf nfw bootstrbp dlbssfs, whidh dbn rfsult in dlbss filfs thbt do not work on thf oldfr plbtform (in this dbsf, Jbvb SE 6) bfdbusf rfffrfndf to nonfxistfnt mfthods dbn gft indludfd\&.
+.PP
+\f3Exbmplf 5 Cross Compilf\fR
+.PP
+This fxbmplf usfs \f3jbvbd\fR to dompilf dodf thbt runs on JVM 1\&.6\&.
+.sp     
+.nf     
+\f3jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbth jdk1\&.6\&.0/lib/rt\&.jbr \f\fP
+.fi     
+.nf     
+\f3            \-fxtdirs "" OldCodf\&.jbvb\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf\f3-sourdf 1\&.6\fR option spfdififs thbt rflfbsf 1\&.6 (or 6) of thf Jbvb progrbmming lbngubgf to bf usfd to dompilf OldCodf\&.jbvb\&. Thf \f3-tbrgft 1\&.6\fR option fnsurfs thbt thf gfnfrbtfd dlbss filfs brf dompbtiblf with JVM 1\&.6\&. In most dbsfs, thf vbluf of thf \f3-tbrgft\fR is thf vbluf of \f3-sourdf\fR\&. In this fxbmplf, thf \f3-tbrgft\fR option is omittfd\&.
+.PP
+You must spfdify thf \f3-bootdlbsspbth\fR option to spfdify thf dorrfdt vfrsion of thf bootstrbp dlbssfs (thf \f3rt\&.jbr\fR librbry)\&. If not, thfn thf dompilfr gfnfrbtfs b wbrning:
+.sp     
+.nf     
+\f3jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb\fP
+.fi     
+.nf     
+\f3wbrning: [options] bootstrbp dlbss pbth not sft in donjundtion with \-sourdf 1\&.6\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If you do not spfdify thf dorrfdt vfrsion of bootstrbp dlbssfs, thfn thf dompilfr usfs thf old lbngubgf rulfs dombinfd with thf nfw bootstrbp dlbssfs\&. This dombinbtion dbn rfsult in dlbss filfs thbt do not work on thf oldfr plbtform (in this dbsf, Jbvb SE 6) bfdbusf rfffrfndf to nonfxistfnt mfthods dbn gft indludfd\&. In this fxbmplf, thf dompilfr usfs rflfbsf 1\&.6 of thf Jbvb progrbmming lbngubgf\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbh(1)
+.TP 0.2i    
+\(bu
+jbvbdod(1)
+.TP 0.2i    
+\(bu
+jbr(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.RE
+.br
+'pl 8.5i
+'bp

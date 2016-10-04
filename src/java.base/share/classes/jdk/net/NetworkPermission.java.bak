@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.net;
+pbdkbgf jdk.nft;
 
-import java.security.BasicPermission;
+import jbvb.sfdurity.BbsidPfrmission;
 
 /**
- * Represents permission to access the extended networking capabilities
- * defined in the jdk.net package. These permissions contain a target
- * name, but no actions list. Callers either possess the permission or not.
+ * Rfprfsfnts pfrmission to bddfss tif fxtfndfd nftworking dbpbbilitifs
+ * dffinfd in tif jdk.nft pbdkbgf. Tifsf pfrmissions dontbin b tbrgft
+ * nbmf, but no bdtions list. Cbllfrs fitifr possfss tif pfrmission or not.
  * <p>
- * The following targets are defined:
+ * Tif following tbrgfts brf dffinfd:
  * <p>
- * <table border=1 cellpadding=5 summary="permission target name,
- *  what the target allows,and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="pfrmission tbrgft nbmf,
+ *  wibt tif tbrgft bllows,bnd bssodibtfd risks">
  * <tr>
- *   <th>Permission Target Name</th>
- *   <th>What the Permission Allows</th>
- *   <th>Risks of Allowing this Permission</th>
+ *   <ti>Pfrmission Tbrgft Nbmf</ti>
+ *   <ti>Wibt tif Pfrmission Allows</ti>
+ *   <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  * <tr>
- *   <td>setOption.SO_FLOW_SLA</td>
- *   <td>set the {@link ExtendedSocketOptions#SO_FLOW_SLA SO_FLOW_SLA} option
- *       on any socket that supports it</td>
- *   <td>allows caller to set a higher priority or bandwidth allocation
- *       to sockets it creates, than they might otherwise be allowed.</td>
+ *   <td>sftOption.SO_FLOW_SLA</td>
+ *   <td>sft tif {@link ExtfndfdSodkftOptions#SO_FLOW_SLA SO_FLOW_SLA} option
+ *       on bny sodkft tibt supports it</td>
+ *   <td>bllows dbllfr to sft b iigifr priority or bbndwidti bllodbtion
+ *       to sodkfts it drfbtfs, tibn tify migit otifrwisf bf bllowfd.</td>
  * </tr>
  * <tr>
- *   <td>getOption.SO_FLOW_SLA</td>
- *   <td>retrieve the {@link ExtendedSocketOptions#SO_FLOW_SLA SO_FLOW_SLA}
- *       setting from any socket that supports the option</td>
- *   <td>allows caller access to SLA information that it might not
- *       otherwise have</td>
- * </tr></table>
+ *   <td>gftOption.SO_FLOW_SLA</td>
+ *   <td>rftrifvf tif {@link ExtfndfdSodkftOptions#SO_FLOW_SLA SO_FLOW_SLA}
+ *       sftting from bny sodkft tibt supports tif option</td>
+ *   <td>bllows dbllfr bddfss to SLA informbtion tibt it migit not
+ *       otifrwisf ibvf</td>
+ * </tr></tbblf>
  *
- * @see jdk.net.ExtendedSocketOptions
+ * @sff jdk.nft.ExtfndfdSodkftOptions
  *
- * @since 1.8
+ * @sindf 1.8
  */
 
-@jdk.Exported
-public final class NetworkPermission extends BasicPermission {
+@jdk.Exportfd
+publid finbl dlbss NftworkPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = -2012939586906722291L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2012939586906722291L;
 
     /**
-     * Creates a NetworkPermission with the given target name.
+     * Crfbtfs b NftworkPfrmission witi tif givfn tbrgft nbmf.
      *
-     * @param name the permission target name
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @pbrbm nbmf tif pfrmission tbrgft nbmf
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public NetworkPermission(String name)
+    publid NftworkPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a NetworkPermission with the given target name.
+     * Crfbtfs b NftworkPfrmission witi tif givfn tbrgft nbmf.
      *
-     * @param name the permission target name
-     * @param actions should be {@code null}. Is ignored if not.
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @pbrbm nbmf tif pfrmission tbrgft nbmf
+     * @pbrbm bdtions siould bf {@dodf null}. Is ignorfd if not.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public NetworkPermission(String name, String actions)
+    publid NftworkPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

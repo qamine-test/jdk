@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.cert.*;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.*;
 
-import sun.security.provider.certpath.PKIX.ValidatorParams;
-import sun.security.x509.X509CertImpl;
-import sun.security.util.Debug;
+import sun.sfdurity.providfr.dfrtpbti.PKIX.VblidbtorPbrbms;
+import sun.sfdurity.x509.X509CfrtImpl;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * This class implements the PKIX validation algorithm for certification
- * paths consisting exclusively of <code>X509Certificates</code>. It uses
- * the specified input parameter set (which must be a
- * <code>PKIXParameters</code> object).
+ * Tiis dlbss implfmfnts tif PKIX vblidbtion blgoritim for dfrtifidbtion
+ * pbtis donsisting fxdlusivfly of <dodf>X509Cfrtifidbtfs</dodf>. It usfs
+ * tif spfdififd input pbrbmftfr sft (wiidi must bf b
+ * <dodf>PKIXPbrbmftfrs</dodf> objfdt).
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-public final class PKIXCertPathValidator extends CertPathValidatorSpi {
+publid finbl dlbss PKIXCfrtPbtiVblidbtor fxtfnds CfrtPbtiVblidbtorSpi {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public PKIXCertPathValidator() {}
+    publid PKIXCfrtPbtiVblidbtor() {}
 
-    @Override
-    public CertPathChecker engineGetRevocationChecker() {
-        return new RevocationChecker();
+    @Ovfrridf
+    publid CfrtPbtiCifdkfr fnginfGftRfvodbtionCifdkfr() {
+        rfturn nfw RfvodbtionCifdkfr();
     }
 
     /**
-     * Validates a certification path consisting exclusively of
-     * <code>X509Certificate</code>s using the PKIX validation algorithm,
-     * which uses the specified input parameter set.
-     * The input parameter set must be a <code>PKIXParameters</code> object.
+     * Vblidbtfs b dfrtifidbtion pbti donsisting fxdlusivfly of
+     * <dodf>X509Cfrtifidbtf</dodf>s using tif PKIX vblidbtion blgoritim,
+     * wiidi usfs tif spfdififd input pbrbmftfr sft.
+     * Tif input pbrbmftfr sft must bf b <dodf>PKIXPbrbmftfrs</dodf> objfdt.
      *
-     * @param cp the X509 certification path
-     * @param params the input PKIX parameter set
-     * @return the result
-     * @throws CertPathValidatorException if cert path does not validate.
-     * @throws InvalidAlgorithmParameterException if the specified
-     *         parameters are inappropriate for this CertPathValidator
+     * @pbrbm dp tif X509 dfrtifidbtion pbti
+     * @pbrbm pbrbms tif input PKIX pbrbmftfr sft
+     * @rfturn tif rfsult
+     * @tirows CfrtPbtiVblidbtorExdfption if dfrt pbti dofs not vblidbtf.
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd
+     *         pbrbmftfrs brf inbppropribtf for tiis CfrtPbtiVblidbtor
      */
-    @Override
-    public CertPathValidatorResult engineValidate(CertPath cp,
-                                                  CertPathParameters params)
-        throws CertPathValidatorException, InvalidAlgorithmParameterException
+    @Ovfrridf
+    publid CfrtPbtiVblidbtorRfsult fnginfVblidbtf(CfrtPbti dp,
+                                                  CfrtPbtiPbrbmftfrs pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption, InvblidAlgoritimPbrbmftfrExdfption
     {
-        ValidatorParams valParams = PKIX.checkParams(cp, params);
-        return validate(valParams);
+        VblidbtorPbrbms vblPbrbms = PKIX.difdkPbrbms(dp, pbrbms);
+        rfturn vblidbtf(vblPbrbms);
     }
 
-    private static PKIXCertPathValidatorResult validate(ValidatorParams params)
-        throws CertPathValidatorException
+    privbtf stbtid PKIXCfrtPbtiVblidbtorRfsult vblidbtf(VblidbtorPbrbms pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        if (debug != null)
-            debug.println("PKIXCertPathValidator.engineValidate()...");
+        if (dfbug != null)
+            dfbug.println("PKIXCfrtPbtiVblidbtor.fnginfVblidbtf()...");
 
-        // Retrieve the first certificate in the certpath
-        // (to be used later in pre-screening)
-        AdaptableX509CertSelector selector = null;
-        List<X509Certificate> certList = params.certificates();
-        if (!certList.isEmpty()) {
-            selector = new AdaptableX509CertSelector();
-            X509Certificate firstCert = certList.get(0);
-            // check trusted certificate's subject
-            selector.setSubject(firstCert.getIssuerX500Principal());
+        // Rftrifvf tif first dfrtifidbtf in tif dfrtpbti
+        // (to bf usfd lbtfr in prf-sdrffning)
+        AdbptbblfX509CfrtSflfdtor sflfdtor = null;
+        List<X509Cfrtifidbtf> dfrtList = pbrbms.dfrtifidbtfs();
+        if (!dfrtList.isEmpty()) {
+            sflfdtor = nfw AdbptbblfX509CfrtSflfdtor();
+            X509Cfrtifidbtf firstCfrt = dfrtList.gft(0);
+            // difdk trustfd dfrtifidbtf's subjfdt
+            sflfdtor.sftSubjfdt(firstCfrt.gftIssufrX500Prindipbl());
             /*
-             * Facilitate certification path construction with authority
-             * key identifier and subject key identifier.
+             * Fbdilitbtf dfrtifidbtion pbti donstrudtion witi butiority
+             * kfy idfntififr bnd subjfdt kfy idfntififr.
              */
             try {
-                X509CertImpl firstCertImpl = X509CertImpl.toImpl(firstCert);
-                selector.setSkiAndSerialNumber(
-                            firstCertImpl.getAuthorityKeyIdentifierExtension());
-            } catch (CertificateException | IOException e) {
-                // ignore
+                X509CfrtImpl firstCfrtImpl = X509CfrtImpl.toImpl(firstCfrt);
+                sflfdtor.sftSkiAndSfriblNumbfr(
+                            firstCfrtImpl.gftAutiorityKfyIdfntififrExtfnsion());
+            } dbtdi (CfrtifidbtfExdfption | IOExdfption f) {
+                // ignorf
             }
         }
 
-        CertPathValidatorException lastException = null;
+        CfrtPbtiVblidbtorExdfption lbstExdfption = null;
 
-        // We iterate through the set of trust anchors until we find
-        // one that works at which time we stop iterating
-        for (TrustAnchor anchor : params.trustAnchors()) {
-            X509Certificate trustedCert = anchor.getTrustedCert();
-            if (trustedCert != null) {
-                // if this trust anchor is not worth trying,
-                // we move on to the next one
-                if (selector != null && !selector.match(trustedCert)) {
-                    if (debug != null) {
-                        debug.println("NO - don't try this trustedCert");
+        // Wf itfrbtf tirougi tif sft of trust bndiors until wf find
+        // onf tibt works bt wiidi timf wf stop itfrbting
+        for (TrustAndior bndior : pbrbms.trustAndiors()) {
+            X509Cfrtifidbtf trustfdCfrt = bndior.gftTrustfdCfrt();
+            if (trustfdCfrt != null) {
+                // if tiis trust bndior is not worti trying,
+                // wf movf on to tif nfxt onf
+                if (sflfdtor != null && !sflfdtor.mbtdi(trustfdCfrt)) {
+                    if (dfbug != null) {
+                        dfbug.println("NO - don't try tiis trustfdCfrt");
                     }
-                    continue;
+                    dontinuf;
                 }
 
-                if (debug != null) {
-                    debug.println("YES - try this trustedCert");
-                    debug.println("anchor.getTrustedCert()."
-                        + "getSubjectX500Principal() = "
-                        + trustedCert.getSubjectX500Principal());
+                if (dfbug != null) {
+                    dfbug.println("YES - try tiis trustfdCfrt");
+                    dfbug.println("bndior.gftTrustfdCfrt()."
+                        + "gftSubjfdtX500Prindipbl() = "
+                        + trustfdCfrt.gftSubjfdtX500Prindipbl());
                 }
-            } else {
-                if (debug != null) {
-                    debug.println("PKIXCertPathValidator.engineValidate(): "
-                        + "anchor.getTrustedCert() == null");
+            } flsf {
+                if (dfbug != null) {
+                    dfbug.println("PKIXCfrtPbtiVblidbtor.fnginfVblidbtf(): "
+                        + "bndior.gftTrustfdCfrt() == null");
                 }
             }
 
             try {
-                return validate(anchor, params);
-            } catch (CertPathValidatorException cpe) {
-                // remember this exception
-                lastException = cpe;
+                rfturn vblidbtf(bndior, pbrbms);
+            } dbtdi (CfrtPbtiVblidbtorExdfption dpf) {
+                // rfmfmbfr tiis fxdfption
+                lbstExdfption = dpf;
             }
         }
 
-        // could not find a trust anchor that verified
-        // (a) if we did a validation and it failed, use that exception
-        if (lastException != null) {
-            throw lastException;
+        // dould not find b trust bndior tibt vfrififd
+        // (b) if wf did b vblidbtion bnd it fbilfd, usf tibt fxdfption
+        if (lbstExdfption != null) {
+            tirow lbstExdfption;
         }
-        // (b) otherwise, generate new exception
-        throw new CertPathValidatorException
-            ("Path does not chain with any of the trust anchors",
-             null, null, -1, PKIXReason.NO_TRUST_ANCHOR);
+        // (b) otifrwisf, gfnfrbtf nfw fxdfption
+        tirow nfw CfrtPbtiVblidbtorExdfption
+            ("Pbti dofs not dibin witi bny of tif trust bndiors",
+             null, null, -1, PKIXRfbson.NO_TRUST_ANCHOR);
     }
 
-    private static PKIXCertPathValidatorResult validate(TrustAnchor anchor,
-                                                        ValidatorParams params)
-        throws CertPathValidatorException
+    privbtf stbtid PKIXCfrtPbtiVblidbtorRfsult vblidbtf(TrustAndior bndior,
+                                                        VblidbtorPbrbms pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        int certPathLen = params.certificates().size();
+        int dfrtPbtiLfn = pbrbms.dfrtifidbtfs().sizf();
 
-        // create PKIXCertPathCheckers
-        List<PKIXCertPathChecker> certPathCheckers = new ArrayList<>();
-        // add standard checkers that we will be using
-        certPathCheckers.add(new UntrustedChecker());
-        certPathCheckers.add(new AlgorithmChecker(anchor));
-        certPathCheckers.add(new KeyChecker(certPathLen,
-                                            params.targetCertConstraints()));
-        certPathCheckers.add(new ConstraintsChecker(certPathLen));
-        PolicyNodeImpl rootNode =
-            new PolicyNodeImpl(null, PolicyChecker.ANY_POLICY, null, false,
-                               Collections.singleton(PolicyChecker.ANY_POLICY),
-                               false);
-        PolicyChecker pc = new PolicyChecker(params.initialPolicies(),
-                                             certPathLen,
-                                             params.explicitPolicyRequired(),
-                                             params.policyMappingInhibited(),
-                                             params.anyPolicyInhibited(),
-                                             params.policyQualifiersRejected(),
-                                             rootNode);
-        certPathCheckers.add(pc);
-        // default value for date is current time
-        BasicChecker bc = new BasicChecker(anchor, params.date(),
-                                           params.sigProvider(), false);
-        certPathCheckers.add(bc);
+        // drfbtf PKIXCfrtPbtiCifdkfrs
+        List<PKIXCfrtPbtiCifdkfr> dfrtPbtiCifdkfrs = nfw ArrbyList<>();
+        // bdd stbndbrd difdkfrs tibt wf will bf using
+        dfrtPbtiCifdkfrs.bdd(nfw UntrustfdCifdkfr());
+        dfrtPbtiCifdkfrs.bdd(nfw AlgoritimCifdkfr(bndior));
+        dfrtPbtiCifdkfrs.bdd(nfw KfyCifdkfr(dfrtPbtiLfn,
+                                            pbrbms.tbrgftCfrtConstrbints()));
+        dfrtPbtiCifdkfrs.bdd(nfw ConstrbintsCifdkfr(dfrtPbtiLfn));
+        PolidyNodfImpl rootNodf =
+            nfw PolidyNodfImpl(null, PolidyCifdkfr.ANY_POLICY, null, fblsf,
+                               Collfdtions.singlfton(PolidyCifdkfr.ANY_POLICY),
+                               fblsf);
+        PolidyCifdkfr pd = nfw PolidyCifdkfr(pbrbms.initiblPolidifs(),
+                                             dfrtPbtiLfn,
+                                             pbrbms.fxpliditPolidyRfquirfd(),
+                                             pbrbms.polidyMbppingIniibitfd(),
+                                             pbrbms.bnyPolidyIniibitfd(),
+                                             pbrbms.polidyQublififrsRfjfdtfd(),
+                                             rootNodf);
+        dfrtPbtiCifdkfrs.bdd(pd);
+        // dffbult vbluf for dbtf is durrfnt timf
+        BbsidCifdkfr bd = nfw BbsidCifdkfr(bndior, pbrbms.dbtf(),
+                                           pbrbms.sigProvidfr(), fblsf);
+        dfrtPbtiCifdkfrs.bdd(bd);
 
-        boolean revCheckerAdded = false;
-        List<PKIXCertPathChecker> checkers = params.certPathCheckers();
-        for (PKIXCertPathChecker checker : checkers) {
-            if (checker instanceof PKIXRevocationChecker) {
-                if (revCheckerAdded) {
-                    throw new CertPathValidatorException(
-                        "Only one PKIXRevocationChecker can be specified");
+        boolfbn rfvCifdkfrAddfd = fblsf;
+        List<PKIXCfrtPbtiCifdkfr> difdkfrs = pbrbms.dfrtPbtiCifdkfrs();
+        for (PKIXCfrtPbtiCifdkfr difdkfr : difdkfrs) {
+            if (difdkfr instbndfof PKIXRfvodbtionCifdkfr) {
+                if (rfvCifdkfrAddfd) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        "Only onf PKIXRfvodbtionCifdkfr dbn bf spfdififd");
                 }
-                revCheckerAdded = true;
-                // if it's our own, initialize it
-                if (checker instanceof RevocationChecker) {
-                    ((RevocationChecker)checker).init(anchor, params);
+                rfvCifdkfrAddfd = truf;
+                // if it's our own, initiblizf it
+                if (difdkfr instbndfof RfvodbtionCifdkfr) {
+                    ((RfvodbtionCifdkfr)difdkfr).init(bndior, pbrbms);
                 }
             }
         }
-        // only add a RevocationChecker if revocation is enabled and
-        // a PKIXRevocationChecker has not already been added
-        if (params.revocationEnabled() && !revCheckerAdded) {
-            certPathCheckers.add(new RevocationChecker(anchor, params));
+        // only bdd b RfvodbtionCifdkfr if rfvodbtion is fnbblfd bnd
+        // b PKIXRfvodbtionCifdkfr ibs not blrfbdy bffn bddfd
+        if (pbrbms.rfvodbtionEnbblfd() && !rfvCifdkfrAddfd) {
+            dfrtPbtiCifdkfrs.bdd(nfw RfvodbtionCifdkfr(bndior, pbrbms));
         }
-        // add user-specified checkers
-        certPathCheckers.addAll(checkers);
+        // bdd usfr-spfdififd difdkfrs
+        dfrtPbtiCifdkfrs.bddAll(difdkfrs);
 
-        PKIXMasterCertPathValidator.validate(params.certPath(),
-                                             params.certificates(),
-                                             certPathCheckers);
+        PKIXMbstfrCfrtPbtiVblidbtor.vblidbtf(pbrbms.dfrtPbti(),
+                                             pbrbms.dfrtifidbtfs(),
+                                             dfrtPbtiCifdkfrs);
 
-        return new PKIXCertPathValidatorResult(anchor, pc.getPolicyTree(),
-                                               bc.getPublicKey());
+        rfturn nfw PKIXCfrtPbtiVblidbtorRfsult(bndior, pd.gftPolidyTrff(),
+                                               bd.gftPublidKfy());
     }
 }

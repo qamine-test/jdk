@@ -1,0 +1,1317 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfOrdfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import dom.sun.imbgfio.plugins.dommon.LZWComprfssor;
+import dom.sun.imbgfio.plugins.dommon.PblfttfBuildfr;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+
+publid dlbss GIFImbgfWritfr fxtfnds ImbgfWritfr {
+    privbtf stbtid finbl boolfbn DEBUG = fblsf; // XXX fblsf for rflfbsf!
+
+    stbtid finbl String STANDARD_METADATA_NAME =
+    IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf;
+
+    stbtid finbl String STREAM_METADATA_NAME =
+    GIFWritbblfStrfbmMftbdbtb.NATIVE_FORMAT_NAME;
+
+    stbtid finbl String IMAGE_METADATA_NAME =
+    GIFWritbblfImbgfMftbdbtb.NATIVE_FORMAT_NAME;
+
+    /**
+     * Thf <dodf>output</dodf> dbsf to bn <dodf>ImbgfOutputStrfbm</dodf>.
+     */
+    privbtf ImbgfOutputStrfbm strfbm = null;
+
+    /**
+     * Whfthfr b sfqufndf is bfing writtfn.
+     */
+    privbtf boolfbn isWritingSfqufndf = fblsf;
+
+    /**
+     * Whfthfr thf hfbdfr hbs bffn writtfn.
+     */
+    privbtf boolfbn wrotfSfqufndfHfbdfr = fblsf;
+
+    /**
+     * Thf strfbm mftbdbtb of b sfqufndf.
+     */
+    privbtf GIFWritbblfStrfbmMftbdbtb thfStrfbmMftbdbtb = null;
+
+    /**
+     * Thf indfx of thf imbgf bfing writtfn.
+     */
+    privbtf int imbgfIndfx = 0;
+
+    /**
+     * Thf numbfr of bits rfprfsfntfd by thf vbluf whidh should bf b
+     * lfgbl lfngth for b dolor tbblf.
+     */
+    privbtf stbtid int gftNumBits(int vbluf) throws IOExdfption {
+        int numBits;
+        switdh(vbluf) {
+        dbsf 2:
+            numBits = 1;
+            brfbk;
+        dbsf 4:
+            numBits = 2;
+            brfbk;
+        dbsf 8:
+            numBits = 3;
+            brfbk;
+        dbsf 16:
+            numBits = 4;
+            brfbk;
+        dbsf 32:
+            numBits = 5;
+            brfbk;
+        dbsf 64:
+            numBits = 6;
+            brfbk;
+        dbsf 128:
+            numBits = 7;
+            brfbk;
+        dbsf 256:
+            numBits = 8;
+            brfbk;
+        dffbult:
+            throw nfw IOExdfption("Bbd pblfttf lfngth: "+vbluf+"!");
+        }
+
+        rfturn numBits;
+    }
+
+    /**
+     * Computf thf sourdf rfgion bnd dfstinbtion dimfnsions tbking bny
+     * pbrbmftfr sfttings into bddount.
+     */
+    privbtf stbtid void domputfRfgions(Rfdtbnglf sourdfBounds,
+                                       Dimfnsion dfstSizf,
+                                       ImbgfWritfPbrbm p) {
+        ImbgfWritfPbrbm pbrbm;
+        int pfriodX = 1;
+        int pfriodY = 1;
+        if (p != null) {
+            int[] sourdfBbnds = p.gftSourdfBbnds();
+            if (sourdfBbnds != null &&
+                (sourdfBbnds.lfngth != 1 ||
+                 sourdfBbnds[0] != 0)) {
+                throw nfw IllfgblArgumfntExdfption("Cbnnot sub-bbnd imbgf!");
+            }
+
+            // Gft sourdf rfgion bnd subsbmpling fbdtors
+            Rfdtbnglf sourdfRfgion = p.gftSourdfRfgion();
+            if (sourdfRfgion != null) {
+                // Clip to bdtubl imbgf bounds
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(sourdfBounds);
+                sourdfBounds.sftBounds(sourdfRfgion);
+            }
+
+            // Adjust for subsbmpling offsfts
+            int gridX = p.gftSubsbmplingXOffsft();
+            int gridY = p.gftSubsbmplingYOffsft();
+            sourdfBounds.x += gridX;
+            sourdfBounds.y += gridY;
+            sourdfBounds.width -= gridX;
+            sourdfBounds.hfight -= gridY;
+
+            // Gft subsbmpling fbdtors
+            pfriodX = p.gftSourdfXSubsbmpling();
+            pfriodY = p.gftSourdfYSubsbmpling();
+        }
+
+        // Computf output dimfnsions
+        dfstSizf.sftSizf((sourdfBounds.width + pfriodX - 1)/pfriodX,
+                         (sourdfBounds.hfight + pfriodY - 1)/pfriodY);
+        if (dfstSizf.width <= 0 || dfstSizf.hfight <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Empty sourdf rfgion!");
+        }
+    }
+
+    /**
+     * Crfbtf b dolor tbblf from thf imbgf ColorModfl bnd SbmplfModfl.
+     */
+    privbtf stbtid bytf[] drfbtfColorTbblf(ColorModfl dolorModfl,
+                                           SbmplfModfl sbmplfModfl)
+    {
+        bytf[] dolorTbblf;
+        if (dolorModfl instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl)dolorModfl;
+            int mbpSizf = idm.gftMbpSizf();
+
+            /**
+             * Thf GIF imbgf formbt bssumfs thbt sizf of imbgf pblfttf
+             * is powfr of two. Wf will usf dlosfst lbrgfr powfr of two
+             * bs sizf of dolor tbblf.
+             */
+            int dtSizf = gftGifPblfttfSizf(mbpSizf);
+
+            bytf[] rfds = nfw bytf[dtSizf];
+            bytf[] grffns = nfw bytf[dtSizf];
+            bytf[] blufs = nfw bytf[dtSizf];
+            idm.gftRfds(rfds);
+            idm.gftGrffns(grffns);
+            idm.gftBlufs(blufs);
+
+            /**
+             * fill tbil of dolor domponfnt brrbys by rfplidb of first dolor
+             * in ordfr to bvoid bppfbrbndf of fxtrb dolors in thf dolor tbblf
+             */
+            for (int i = mbpSizf; i < dtSizf; i++) {
+                rfds[i] = rfds[0];
+                grffns[i] = grffns[0];
+                blufs[i] = blufs[0];
+            }
+
+            dolorTbblf = nfw bytf[3*dtSizf];
+            int idx = 0;
+            for (int i = 0; i < dtSizf; i++) {
+                dolorTbblf[idx++] = rfds[i];
+                dolorTbblf[idx++] = grffns[i];
+                dolorTbblf[idx++] = blufs[i];
+            }
+        } flsf if (sbmplfModfl.gftNumBbnds() == 1) {
+            // drfbtf grby-sdblfd dolor tbblf for singlf-bbndfd imbgfs
+            int numBits = sbmplfModfl.gftSbmplfSizf()[0];
+            if (numBits > 8) {
+                numBits = 8;
+            }
+            int dolorTbblfLfngth = 3*(1 << numBits);
+            dolorTbblf = nfw bytf[dolorTbblfLfngth];
+            for (int i = 0; i < dolorTbblfLfngth; i++) {
+                dolorTbblf[i] = (bytf)(i/3);
+            }
+        } flsf {
+            // Wf do not hbvf fnough informbtion hfrf
+            // to drfbtf wfll-fit dolor tbblf for RGB imbgf.
+            dolorTbblf = null;
+        }
+
+        rfturn dolorTbblf;
+    }
+
+    /**
+     * Addording do GIF spfdifidbtion sizf of dlor tbblf (pblfttf hfrf)
+     * must bf in rbngf from 2 to 256 bnd must bf powfr of 2.
+     */
+    privbtf stbtid int gftGifPblfttfSizf(int x) {
+        if (x <= 2) {
+            rfturn 2;
+        }
+        x = x - 1;
+        x = x | (x >> 1);
+        x = x | (x >> 2);
+        x = x | (x >> 4);
+        x = x | (x >> 8);
+        x = x | (x >> 16);
+        rfturn x + 1;
+    }
+
+
+
+    publid GIFImbgfWritfr(GIFImbgfWritfrSpi originbtingProvidfr) {
+        supfr(originbtingProvidfr);
+        if (DEBUG) {
+            Systfm.frr.println("GIF Writfr is drfbtfd");
+        }
+    }
+
+    publid boolfbn dbnWritfSfqufndf() {
+        rfturn truf;
+    }
+
+    /**
+     * Mfrgfs <dodf>inDbtb</dodf> into <dodf>outDbtb</dodf>. Thf supplifd
+     * mftbdbtb formbt nbmf is bttfmptfd first bnd fbiling thbt thf stbndbrd
+     * mftbdbtb formbt nbmf is bttfmptfd.
+     */
+    privbtf void donvfrtMftbdbtb(String mftbdbtbFormbtNbmf,
+                                 IIOMftbdbtb inDbtb,
+                                 IIOMftbdbtb outDbtb) {
+        String formbtNbmf = null;
+
+        String nbtivfFormbtNbmf = inDbtb.gftNbtivfMftbdbtbFormbtNbmf();
+        if (nbtivfFormbtNbmf != null &&
+            nbtivfFormbtNbmf.fqubls(mftbdbtbFormbtNbmf)) {
+            formbtNbmf = mftbdbtbFormbtNbmf;
+        } flsf {
+            String[] fxtrbFormbtNbmfs = inDbtb.gftExtrbMftbdbtbFormbtNbmfs();
+
+            if (fxtrbFormbtNbmfs != null) {
+                for (int i = 0; i < fxtrbFormbtNbmfs.lfngth; i++) {
+                    if (fxtrbFormbtNbmfs[i].fqubls(mftbdbtbFormbtNbmf)) {
+                        formbtNbmf = mftbdbtbFormbtNbmf;
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        if (formbtNbmf == null &&
+            inDbtb.isStbndbrdMftbdbtbFormbtSupportfd()) {
+            formbtNbmf = STANDARD_METADATA_NAME;
+        }
+
+        if (formbtNbmf != null) {
+            try {
+                Nodf root = inDbtb.gftAsTrff(formbtNbmf);
+                outDbtb.mfrgfTrff(formbtNbmf, root);
+            } dbtdh(IIOInvblidTrffExdfption f) {
+                // ignorf
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b dffbult strfbm mftbdbtb objfdt bnd mfrgfs in thf
+     * supplifd mftbdbtb.
+     */
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        if (inDbtb == null) {
+            throw nfw IllfgblArgumfntExdfption("inDbtb == null!");
+        }
+
+        IIOMftbdbtb sm = gftDffbultStrfbmMftbdbtb(pbrbm);
+
+        donvfrtMftbdbtb(STREAM_METADATA_NAME, inDbtb, sm);
+
+        rfturn sm;
+    }
+
+    /**
+     * Crfbtfs b dffbult imbgf mftbdbtb objfdt bnd mfrgfs in thf
+     * supplifd mftbdbtb.
+     */
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                            ImbgfTypfSpfdififr imbgfTypf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        if (inDbtb == null) {
+            throw nfw IllfgblArgumfntExdfption("inDbtb == null!");
+        }
+        if (imbgfTypf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgfTypf == null!");
+        }
+
+        GIFWritbblfImbgfMftbdbtb im =
+            (GIFWritbblfImbgfMftbdbtb)gftDffbultImbgfMftbdbtb(imbgfTypf,
+                                                              pbrbm);
+
+        // Sbvf intfrlbdf flbg stbtf.
+
+        boolfbn isProgrfssivf = im.intfrlbdfFlbg;
+
+        donvfrtMftbdbtb(IMAGE_METADATA_NAME, inDbtb, im);
+
+        // Undo dhbngf to intfrlbdf flbg if not MODE_COPY_FROM_METADATA.
+
+        if (pbrbm != null && pbrbm.dbnWritfProgrfssivf() &&
+            pbrbm.gftProgrfssivfModf() != ImbgfWritfPbrbm.MODE_COPY_FROM_METADATA) {
+            im.intfrlbdfFlbg = isProgrfssivf;
+        }
+
+        rfturn im;
+    }
+
+    publid void fndWritfSfqufndf() throws IOExdfption {
+        if (strfbm == null) {
+            throw nfw IllfgblStbtfExdfption("output == null!");
+        }
+        if (!isWritingSfqufndf) {
+            throw nfw IllfgblStbtfExdfption("prfpbrfWritfSfqufndf() wbs not invokfd!");
+        }
+        writfTrbilfr();
+        rfsftLodbl();
+    }
+
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb =
+            nfw GIFWritbblfImbgfMftbdbtb();
+
+        // Imbgf dimfnsions
+
+        SbmplfModfl sbmplfModfl = imbgfTypf.gftSbmplfModfl();
+
+        Rfdtbnglf sourdfBounds = nfw Rfdtbnglf(sbmplfModfl.gftWidth(),
+                                               sbmplfModfl.gftHfight());
+        Dimfnsion dfstSizf = nfw Dimfnsion();
+        domputfRfgions(sourdfBounds, dfstSizf, pbrbm);
+
+        imbgfMftbdbtb.imbgfWidth = dfstSizf.width;
+        imbgfMftbdbtb.imbgfHfight = dfstSizf.hfight;
+
+        // Intfrlbding
+
+        if (pbrbm != null && pbrbm.dbnWritfProgrfssivf() &&
+            pbrbm.gftProgrfssivfModf() == ImbgfWritfPbrbm.MODE_DISABLED) {
+            imbgfMftbdbtb.intfrlbdfFlbg = fblsf;
+        } flsf {
+            imbgfMftbdbtb.intfrlbdfFlbg = truf;
+        }
+
+        // Lodbl dolor tbblf
+
+        ColorModfl dolorModfl = imbgfTypf.gftColorModfl();
+
+        imbgfMftbdbtb.lodblColorTbblf =
+            drfbtfColorTbblf(dolorModfl, sbmplfModfl);
+
+        // Trbnspbrfndy
+
+        if (dolorModfl instbndfof IndfxColorModfl) {
+            int trbnspbrfntIndfx =
+                ((IndfxColorModfl)dolorModfl).gftTrbnspbrfntPixfl();
+            if (trbnspbrfntIndfx != -1) {
+                imbgfMftbdbtb.trbnspbrfntColorFlbg = truf;
+                imbgfMftbdbtb.trbnspbrfntColorIndfx = trbnspbrfntIndfx;
+            }
+        }
+
+        rfturn imbgfMftbdbtb;
+    }
+
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb =
+            nfw GIFWritbblfStrfbmMftbdbtb();
+        strfbmMftbdbtb.vfrsion = "89b";
+        rfturn strfbmMftbdbtb;
+    }
+
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw GIFImbgfWritfPbrbm(gftLodblf());
+    }
+
+    publid void prfpbrfWritfSfqufndf(IIOMftbdbtb strfbmMftbdbtb)
+      throws IOExdfption {
+
+        if (strfbm == null) {
+            throw nfw IllfgblStbtfExdfption("Output is not sft.");
+        }
+
+        rfsftLodbl();
+
+        // Sbvf thf possibly donvfrtfd strfbm mftbdbtb bs bn instbndf vbribblf.
+        if (strfbmMftbdbtb == null) {
+            this.thfStrfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)gftDffbultStrfbmMftbdbtb(null);
+        } flsf {
+            this.thfStrfbmMftbdbtb = nfw GIFWritbblfStrfbmMftbdbtb();
+            donvfrtMftbdbtb(STREAM_METADATA_NAME, strfbmMftbdbtb,
+                            thfStrfbmMftbdbtb);
+        }
+
+        this.isWritingSfqufndf = truf;
+    }
+
+    publid void rfsft() {
+        supfr.rfsft();
+        rfsftLodbl();
+    }
+
+    /**
+     * Rfsfts lodblly dffinfd instbndf vbribblfs.
+     */
+    privbtf void rfsftLodbl() {
+        this.isWritingSfqufndf = fblsf;
+        this.wrotfSfqufndfHfbdfr = fblsf;
+        this.thfStrfbmMftbdbtb = null;
+        this.imbgfIndfx = 0;
+    }
+
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output);
+        if (output != null) {
+            if (!(output instbndfof ImbgfOutputStrfbm)) {
+                throw nfw
+                    IllfgblArgumfntExdfption("output is not bn ImbgfOutputStrfbm");
+            }
+            this.strfbm = (ImbgfOutputStrfbm)output;
+            this.strfbm.sftBytfOrdfr(BytfOrdfr.LITTLE_ENDIAN);
+        } flsf {
+            this.strfbm = null;
+        }
+    }
+
+    publid void writf(IIOMftbdbtb sm,
+                      IIOImbgf iioimbgf,
+                      ImbgfWritfPbrbm p) throws IOExdfption {
+        if (strfbm == null) {
+            throw nfw IllfgblStbtfExdfption("output == null!");
+        }
+        if (iioimbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("iioimbgf == null!");
+        }
+        if (iioimbgf.hbsRbstfr()) {
+            throw nfw UnsupportfdOpfrbtionExdfption("dbnWritfRbstfrs() == fblsf!");
+        }
+
+        rfsftLodbl();
+
+        GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb;
+        if (sm == null) {
+            strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)gftDffbultStrfbmMftbdbtb(p);
+        } flsf {
+            strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)donvfrtStrfbmMftbdbtb(sm, p);
+        }
+
+        writf(truf, truf, strfbmMftbdbtb, iioimbgf, p);
+    }
+
+    publid void writfToSfqufndf(IIOImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+      throws IOExdfption {
+        if (strfbm == null) {
+            throw nfw IllfgblStbtfExdfption("output == null!");
+        }
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+        }
+        if (imbgf.hbsRbstfr()) {
+            throw nfw UnsupportfdOpfrbtionExdfption("dbnWritfRbstfrs() == fblsf!");
+        }
+        if (!isWritingSfqufndf) {
+            throw nfw IllfgblStbtfExdfption("prfpbrfWritfSfqufndf() wbs not invokfd!");
+        }
+
+        writf(!wrotfSfqufndfHfbdfr, fblsf, thfStrfbmMftbdbtb,
+              imbgf, pbrbm);
+
+        if (!wrotfSfqufndfHfbdfr) {
+            wrotfSfqufndfHfbdfr = truf;
+        }
+
+        this.imbgfIndfx++;
+    }
+
+
+    privbtf boolfbn nffdToCrfbtfIndfx(RfndfrfdImbgf imbgf) {
+
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
+
+        rfturn sbmplfModfl.gftNumBbnds() != 1 ||
+            sbmplfModfl.gftSbmplfSizf()[0] > 8 ||
+            dolorModfl.gftComponfntSizf()[0] > 8;
+    }
+
+    /**
+     * Writfs bny fxtfnsion blodks, thf Imbgf Dfsdriptor, thf imbgf dbtb,
+     * bnd optionblly thf hfbdfr (Signbturf bnd Logidbl Sdrffn Dfsdriptor)
+     * bnd trbilfr (Blodk Tfrminbtor).
+     *
+     * @pbrbm writfHfbdfr Whfthfr to writf thf hfbdfr.
+     * @pbrbm writfTrbilfr Whfthfr to writf thf trbilfr.
+     * @pbrbm sm Thf strfbm mftbdbtb or <dodf>null</dodf> if
+     * <dodf>writfHfbdfr</dodf> is <dodf>fblsf</dodf>.
+     * @pbrbm iioimbgf Thf imbgf bnd imbgf mftbdbtb.
+     * @pbrbm p Thf writf pbrbmftfrs.
+     *
+     * @throws IllfgblArgumfntExdfption if thf numbfr of bbnds is not 1.
+     * @throws IllfgblArgumfntExdfption if thf numbfr of bits pfr sbmplf is
+     * grfbtfr thbn 8.
+     * @throws IllfgblArgumfntExdfption if thf dolor domponfnt sizf is
+     * grfbtfr thbn 8.
+     * @throws IllfgblArgumfntExdfption if <dodf>writfHfbdfr</dodf> is
+     * <dodf>truf</dodf> bnd <dodf>sm</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>writfHfbdfr</dodf> is
+     * <dodf>fblsf</dodf> bnd b sfqufndf is not bfing writtfn.
+     */
+    privbtf void writf(boolfbn writfHfbdfr,
+                       boolfbn writfTrbilfr,
+                       IIOMftbdbtb sm,
+                       IIOImbgf iioimbgf,
+                       ImbgfWritfPbrbm p) throws IOExdfption {
+        dlfbrAbortRfqufst();
+
+        RfndfrfdImbgf imbgf = iioimbgf.gftRfndfrfdImbgf();
+
+        // Chfdk for bbility to fndodf imbgf.
+        if (nffdToCrfbtfIndfx(imbgf)) {
+            imbgf = PblfttfBuildfr.drfbtfIndfxfdImbgf(imbgf);
+            iioimbgf.sftRfndfrfdImbgf(imbgf);
+        }
+
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+
+        // Dftfrminf sourdf rfgion bnd dfstinbtion dimfnsions.
+        Rfdtbnglf sourdfBounds = nfw Rfdtbnglf(imbgf.gftMinX(),
+                                               imbgf.gftMinY(),
+                                               imbgf.gftWidth(),
+                                               imbgf.gftHfight());
+        Dimfnsion dfstSizf = nfw Dimfnsion();
+        domputfRfgions(sourdfBounds, dfstSizf, p);
+
+        // Convfrt bny providfd imbgf mftbdbtb.
+        GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb = null;
+        if (iioimbgf.gftMftbdbtb() != null) {
+            imbgfMftbdbtb = nfw GIFWritbblfImbgfMftbdbtb();
+            donvfrtMftbdbtb(IMAGE_METADATA_NAME, iioimbgf.gftMftbdbtb(),
+                            imbgfMftbdbtb);
+            // Convfrtfd rgb imbgf dbn usf pblfttf difffrfnt from globbl.
+            // In ordfr to bvoid dolor brtffbdts wf wbnt to bf surf wf usf
+            // bppropribtf pblfttf. For this wf initiblizf lodbl dolor tbblf
+            // from durrfnt dolor bnd sbmplf modfls.
+            // At this point wf dbn gubrbntff thbt lodbl dolor tbblf dbn bf
+            // build bfdbusf imbgf wbs blrfbdy donvfrtfd to indfxfd or
+            // grby-sdblf rfprfsfntbtions
+            if (imbgfMftbdbtb.lodblColorTbblf == null) {
+                imbgfMftbdbtb.lodblColorTbblf =
+                    drfbtfColorTbblf(dolorModfl, sbmplfModfl);
+
+                // in dbsf of indfxfd imbgf wf should tbkf dbrf of
+                // trbnspbrfnt pixfls
+                if (dolorModfl instbndfof IndfxColorModfl) {
+                    IndfxColorModfl idm =
+                        (IndfxColorModfl)dolorModfl;
+                    int indfx = idm.gftTrbnspbrfntPixfl();
+                    imbgfMftbdbtb.trbnspbrfntColorFlbg = (indfx != -1);
+                    if (imbgfMftbdbtb.trbnspbrfntColorFlbg) {
+                        imbgfMftbdbtb.trbnspbrfntColorIndfx = indfx;
+                    }
+                    /* NB: trbnspbrfntColorFlbg might hbvf not bffd rfsft for
+                       grfysdblf imbgfs but fxpliditly rfsfting it hfrf
+                       is potfntiblly not right thing to do until wf hbvf wby
+                       to find whfthfr durrfnt vbluf wbs fxpliditly sft by
+                       thf usfr.
+                    */
+                }
+            }
+        }
+
+        // Globbl dolor tbblf vblufs.
+        bytf[] globblColorTbblf = null;
+
+        // Writf thf hfbdfr (Signbturf+Logidbl Sdrffn Dfsdriptor+
+        // Globbl Color Tbblf).
+        if (writfHfbdfr) {
+            if (sm == null) {
+                throw nfw IllfgblArgumfntExdfption("Cbnnot writf null hfbdfr!");
+            }
+
+            GIFWritbblfStrfbmMftbdbtb strfbmMftbdbtb =
+                (GIFWritbblfStrfbmMftbdbtb)sm;
+
+            // Sft thf vfrsion if not sft.
+            if (strfbmMftbdbtb.vfrsion == null) {
+                strfbmMftbdbtb.vfrsion = "89b";
+            }
+
+            // Sft thf Logidbl Sdrffn Dfsriptor if not sft.
+            if (strfbmMftbdbtb.logidblSdrffnWidth ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
+            {
+                strfbmMftbdbtb.logidblSdrffnWidth = dfstSizf.width;
+            }
+
+            if (strfbmMftbdbtb.logidblSdrffnHfight ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
+            {
+                strfbmMftbdbtb.logidblSdrffnHfight = dfstSizf.hfight;
+            }
+
+            if (strfbmMftbdbtb.dolorRfsolution ==
+                GIFMftbdbtb.UNDEFINED_INTEGER_VALUE)
+            {
+                strfbmMftbdbtb.dolorRfsolution = dolorModfl != null ?
+                    dolorModfl.gftComponfntSizf()[0] :
+                    sbmplfModfl.gftSbmplfSizf()[0];
+            }
+
+            // Sft thf Globbl Color Tbblf if not sft, i.f., if not
+            // providfd in thf strfbm mftbdbtb.
+            if (strfbmMftbdbtb.globblColorTbblf == null) {
+                if (isWritingSfqufndf && imbgfMftbdbtb != null &&
+                    imbgfMftbdbtb.lodblColorTbblf != null) {
+                    // Writing b sfqufndf bnd b lodbl dolor tbblf wbs
+                    // providfd in thf mftbdbtb of thf first imbgf: usf it.
+                    strfbmMftbdbtb.globblColorTbblf =
+                        imbgfMftbdbtb.lodblColorTbblf;
+                } flsf if (imbgfMftbdbtb == null ||
+                           imbgfMftbdbtb.lodblColorTbblf == null) {
+                    // Crfbtf b dolor tbblf.
+                    strfbmMftbdbtb.globblColorTbblf =
+                        drfbtfColorTbblf(dolorModfl, sbmplfModfl);
+                }
+            }
+
+            // Sft thf Globbl Color Tbblf. At this point it should bf
+            // A) thf globbl dolor tbblf providfd in strfbm mftbdbtb, if bny;
+            // B) thf lodbl dolor tbblf of thf imbgf mftbdbtb, if bny, if
+            //    writing b sfqufndf;
+            // C) b tbblf drfbtfd on thf bbsis of thf first imbgf ColorModfl
+            //    bnd SbmplfModfl if no lodbl dolor tbblf is bvbilbblf; or
+            // D) null if nonf of thf forfgoing donditions obtbin (whidh
+            //    should only bf if b sfqufndf is not bfing writtfn bnd
+            //    b lodbl dolor tbblf is providfd in imbgf mftbdbtb).
+            globblColorTbblf = strfbmMftbdbtb.globblColorTbblf;
+
+            // Writf thf hfbdfr.
+            int bitsPfrPixfl;
+            if (globblColorTbblf != null) {
+                bitsPfrPixfl = gftNumBits(globblColorTbblf.lfngth/3);
+            } flsf if (imbgfMftbdbtb != null &&
+                       imbgfMftbdbtb.lodblColorTbblf != null) {
+                bitsPfrPixfl =
+                    gftNumBits(imbgfMftbdbtb.lodblColorTbblf.lfngth/3);
+            } flsf {
+                bitsPfrPixfl = sbmplfModfl.gftSbmplfSizf(0);
+            }
+            writfHfbdfr(strfbmMftbdbtb, bitsPfrPixfl);
+        } flsf if (isWritingSfqufndf) {
+            globblColorTbblf = thfStrfbmMftbdbtb.globblColorTbblf;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Must writf hfbdfr for singlf imbgf!");
+        }
+
+        // Writf fxtfnsion blodks, Imbgf Dfsdriptor, bnd imbgf dbtb.
+        writfImbgf(iioimbgf.gftRfndfrfdImbgf(), imbgfMftbdbtb, p,
+                   globblColorTbblf, sourdfBounds, dfstSizf);
+
+        // Writf thf trbilfr.
+        if (writfTrbilfr) {
+            writfTrbilfr();
+        }
+    }
+
+    /**
+     * Writfs bny fxtfnsion blodks, thf Imbgf Dfsdriptor, bnd thf imbgf dbtb
+     *
+     * @pbrbm iioimbgf Thf imbgf bnd imbgf mftbdbtb.
+     * @pbrbm pbrbm Thf writf pbrbmftfrs.
+     * @pbrbm globblColorTbblf Thf Globbl Color Tbblf.
+     * @pbrbm sourdfBounds Thf sourdf rfgion.
+     * @pbrbm dfstSizf Thf dfstinbtion dimfnsions.
+     */
+    privbtf void writfImbgf(RfndfrfdImbgf imbgf,
+                            GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb,
+                            ImbgfWritfPbrbm pbrbm, bytf[] globblColorTbblf,
+                            Rfdtbnglf sourdfBounds, Dimfnsion dfstSizf)
+      throws IOExdfption {
+        ColorModfl dolorModfl = imbgf.gftColorModfl();
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+
+        boolfbn writfGrbphidsControlExtfnsion;
+        if (imbgfMftbdbtb == null) {
+            // Crfbtf dffbult mftbdbtb.
+            imbgfMftbdbtb = (GIFWritbblfImbgfMftbdbtb)gftDffbultImbgfMftbdbtb(
+                nfw ImbgfTypfSpfdififr(imbgf), pbrbm);
+
+            // Sft GrbphidControlExtfnsion flbg only if thfrf is
+            // trbnspbrfndy.
+            writfGrbphidsControlExtfnsion = imbgfMftbdbtb.trbnspbrfntColorFlbg;
+        } flsf {
+            // Chfdk for GrbphidControlExtfnsion flfmfnt.
+            NodfList list = null;
+            try {
+                IIOMftbdbtbNodf root = (IIOMftbdbtbNodf)
+                    imbgfMftbdbtb.gftAsTrff(IMAGE_METADATA_NAME);
+                list = root.gftElfmfntsByTbgNbmf("GrbphidControlExtfnsion");
+            } dbtdh(IllfgblArgumfntExdfption ibf) {
+                // Should nfvfr hbppfn.
+            }
+
+            // Sft GrbphidControlExtfnsion flbg if flfmfnt prfsfnt.
+            writfGrbphidsControlExtfnsion =
+                list != null && list.gftLfngth() > 0;
+
+            // If progrfssivf modf is not MODE_COPY_FROM_METADATA, fnsurf
+            // thf intfrlbding is sft pfr thf ImbgfWritfPbrbm modf sftting.
+            if (pbrbm != null && pbrbm.dbnWritfProgrfssivf()) {
+                if (pbrbm.gftProgrfssivfModf() ==
+                    ImbgfWritfPbrbm.MODE_DISABLED) {
+                    imbgfMftbdbtb.intfrlbdfFlbg = fblsf;
+                } flsf if (pbrbm.gftProgrfssivfModf() ==
+                           ImbgfWritfPbrbm.MODE_DEFAULT) {
+                    imbgfMftbdbtb.intfrlbdfFlbg = truf;
+                }
+            }
+        }
+
+        // Unsft lodbl dolor tbblf if fqubl to globbl dolor tbblf.
+        if (Arrbys.fqubls(globblColorTbblf, imbgfMftbdbtb.lodblColorTbblf)) {
+            imbgfMftbdbtb.lodblColorTbblf = null;
+        }
+
+        // Ovfrridf dimfnsions
+        imbgfMftbdbtb.imbgfWidth = dfstSizf.width;
+        imbgfMftbdbtb.imbgfHfight = dfstSizf.hfight;
+
+        // Writf Grbphids Control Extfnsion.
+        if (writfGrbphidsControlExtfnsion) {
+            writfGrbphidControlExtfnsion(imbgfMftbdbtb);
+        }
+
+        // Writf fxtfnsion blodks.
+        writfPlbinTfxtExtfnsion(imbgfMftbdbtb);
+        writfApplidbtionExtfnsion(imbgfMftbdbtb);
+        writfCommfntExtfnsion(imbgfMftbdbtb);
+
+        // Writf Imbgf Dfsdriptor
+        int bitsPfrPixfl =
+            gftNumBits(imbgfMftbdbtb.lodblColorTbblf == null ?
+                       (globblColorTbblf == null ?
+                        sbmplfModfl.gftSbmplfSizf(0) :
+                        globblColorTbblf.lfngth/3) :
+                       imbgfMftbdbtb.lodblColorTbblf.lfngth/3);
+        writfImbgfDfsdriptor(imbgfMftbdbtb, bitsPfrPixfl);
+
+        // Writf imbgf dbtb
+        writfRbstfrDbtb(imbgf, sourdfBounds, dfstSizf,
+                        pbrbm, imbgfMftbdbtb.intfrlbdfFlbg);
+    }
+
+    privbtf void writfRows(RfndfrfdImbgf imbgf, LZWComprfssor domprfssor,
+                           int sx, int sdx, int sy, int sdy, int sw,
+                           int dy, int ddy, int dw, int dh,
+                           int numRowsWrittfn, int progrfssRfportRowPfriod)
+      throws IOExdfption {
+        if (DEBUG) Systfm.out.println("Writing unoptimizfd");
+
+        int[] sbuf = nfw int[sw];
+        bytf[] dbuf = nfw bytf[dw];
+
+        Rbstfr rbstfr =
+            imbgf.gftNumXTilfs() == 1 && imbgf.gftNumYTilfs() == 1 ?
+            imbgf.gftTilf(0, 0) : imbgf.gftDbtb();
+        for (int y = dy; y < dh; y += ddy) {
+            if (numRowsWrittfn % progrfssRfportRowPfriod == 0) {
+                if (bbortRfqufstfd()) {
+                    prodfssWritfAbortfd();
+                    rfturn;
+                }
+                prodfssImbgfProgrfss((numRowsWrittfn*100.0F)/dh);
+            }
+
+            rbstfr.gftSbmplfs(sx, sy, sw, 1, 0, sbuf);
+            for (int i = 0, j = 0; i < dw; i++, j += sdx) {
+                dbuf[i] = (bytf)sbuf[j];
+            }
+            domprfssor.domprfss(dbuf, 0, dw);
+            numRowsWrittfn++;
+            sy += sdy;
+        }
+    }
+
+    privbtf void writfRowsOpt(bytf[] dbtb, int offsft, int linfStridf,
+                              LZWComprfssor domprfssor,
+                              int dy, int ddy, int dw, int dh,
+                              int numRowsWrittfn, int progrfssRfportRowPfriod)
+      throws IOExdfption {
+        if (DEBUG) Systfm.out.println("Writing optimizfd");
+
+        offsft += dy*linfStridf;
+        linfStridf *= ddy;
+        for (int y = dy; y < dh; y += ddy) {
+            if (numRowsWrittfn % progrfssRfportRowPfriod == 0) {
+                if (bbortRfqufstfd()) {
+                    prodfssWritfAbortfd();
+                    rfturn;
+                }
+                prodfssImbgfProgrfss((numRowsWrittfn*100.0F)/dh);
+            }
+
+            domprfssor.domprfss(dbtb, offsft, dw);
+            numRowsWrittfn++;
+            offsft += linfStridf;
+        }
+    }
+
+    privbtf void writfRbstfrDbtb(RfndfrfdImbgf imbgf,
+                                 Rfdtbnglf sourdfBounds,
+                                 Dimfnsion dfstSizf,
+                                 ImbgfWritfPbrbm pbrbm,
+                                 boolfbn intfrlbdfFlbg) throws IOExdfption {
+
+        int sourdfXOffsft = sourdfBounds.x;
+        int sourdfYOffsft = sourdfBounds.y;
+        int sourdfWidth = sourdfBounds.width;
+        int sourdfHfight = sourdfBounds.hfight;
+
+        int dfstWidth = dfstSizf.width;
+        int dfstHfight = dfstSizf.hfight;
+
+        int pfriodX;
+        int pfriodY;
+        if (pbrbm == null) {
+            pfriodX = 1;
+            pfriodY = 1;
+        } flsf {
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
+        }
+
+        SbmplfModfl sbmplfModfl = imbgf.gftSbmplfModfl();
+        int bitsPfrPixfl = sbmplfModfl.gftSbmplfSizf()[0];
+
+        int initCodfSizf = bitsPfrPixfl;
+        if (initCodfSizf == 1) {
+            initCodfSizf++;
+        }
+        strfbm.writf(initCodfSizf);
+
+        LZWComprfssor domprfssor =
+            nfw LZWComprfssor(strfbm, initCodfSizf, fblsf);
+
+        /* At this momfnt wf know thbt input imbgf is indfxfd imbgf.
+         * Wf dbn dirfdtly dopy dbtb iff:
+         *   - no subsbmpling rfquirfd (pfriodX = 1, pfriodY = 0)
+         *   - wf dbn bddfss dbtb dirfdtly (imbgf is non-tilfd,
+         *     i.f. imbgf dbtb brf in singlf blodk)
+         *   - wf dbn dbldulbtf offsft in dbtb bufffr (nfxt 3 linfs)
+         */
+        boolfbn isOptimizfdCbsf =
+            pfriodX == 1 && pfriodY == 1 &&
+            imbgf.gftNumXTilfs() == 1 && imbgf.gftNumYTilfs() == 1 &&
+            sbmplfModfl instbndfof ComponfntSbmplfModfl &&
+            imbgf.gftTilf(0, 0) instbndfof BytfComponfntRbstfr &&
+            imbgf.gftTilf(0, 0).gftDbtbBufffr() instbndfof DbtbBufffrBytf;
+
+        int numRowsWrittfn = 0;
+
+        int progrfssRfportRowPfriod = Mbth.mbx(dfstHfight/20, 1);
+
+        prodfssImbgfStbrtfd(imbgfIndfx);
+
+        if (intfrlbdfFlbg) {
+            if (DEBUG) Systfm.out.println("Writing intfrlbdfd");
+
+            if (isOptimizfdCbsf) {
+                BytfComponfntRbstfr tilf =
+                    (BytfComponfntRbstfr)imbgf.gftTilf(0, 0);
+                bytf[] dbtb = ((DbtbBufffrBytf)tilf.gftDbtbBufffr()).gftDbtb();
+                ComponfntSbmplfModfl dsm =
+                    (ComponfntSbmplfModfl)tilf.gftSbmplfModfl();
+                int offsft = dsm.gftOffsft(sourdfXOffsft, sourdfYOffsft, 0);
+                // tbkf into bddount thf rbstfr dbtb offsft
+                offsft += tilf.gftDbtbOffsft(0);
+                int linfStridf = dsm.gftSdbnlinfStridf();
+
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             0, 8, dfstWidth, dfstHfight,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += dfstHfight/8;
+
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             4, 8, dfstWidth, dfstHfight,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += (dfstHfight - 4)/8;
+
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             2, 4, dfstWidth, dfstHfight,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += (dfstHfight - 2)/4;
+
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             1, 2, dfstWidth, dfstHfight,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+            } flsf {
+                writfRows(imbgf, domprfssor,
+                          sourdfXOffsft, pfriodX,
+                          sourdfYOffsft, 8*pfriodY,
+                          sourdfWidth,
+                          0, 8, dfstWidth, dfstHfight,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += dfstHfight/8;
+
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + 4*pfriodY, 8*pfriodY,
+                          sourdfWidth,
+                          4, 8, dfstWidth, dfstHfight,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += (dfstHfight - 4)/8;
+
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + 2*pfriodY, 4*pfriodY,
+                          sourdfWidth,
+                          2, 4, dfstWidth, dfstHfight,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
+
+                if (bbortRfqufstfd()) {
+                    rfturn;
+                }
+
+                numRowsWrittfn += (dfstHfight - 2)/4;
+
+                writfRows(imbgf, domprfssor, sourdfXOffsft, pfriodX,
+                          sourdfYOffsft + pfriodY, 2*pfriodY,
+                          sourdfWidth,
+                          1, 2, dfstWidth, dfstHfight,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
+            }
+        } flsf {
+            if (DEBUG) Systfm.out.println("Writing non-intfrlbdfd");
+
+            if (isOptimizfdCbsf) {
+                Rbstfr tilf = imbgf.gftTilf(0, 0);
+                bytf[] dbtb = ((DbtbBufffrBytf)tilf.gftDbtbBufffr()).gftDbtb();
+                ComponfntSbmplfModfl dsm =
+                    (ComponfntSbmplfModfl)tilf.gftSbmplfModfl();
+                int offsft = dsm.gftOffsft(sourdfXOffsft, sourdfYOffsft, 0);
+                int linfStridf = dsm.gftSdbnlinfStridf();
+
+                writfRowsOpt(dbtb, offsft, linfStridf, domprfssor,
+                             0, 1, dfstWidth, dfstHfight,
+                             numRowsWrittfn, progrfssRfportRowPfriod);
+            } flsf {
+                writfRows(imbgf, domprfssor,
+                          sourdfXOffsft, pfriodX,
+                          sourdfYOffsft, pfriodY,
+                          sourdfWidth,
+                          0, 1, dfstWidth, dfstHfight,
+                          numRowsWrittfn, progrfssRfportRowPfriod);
+            }
+        }
+
+        if (bbortRfqufstfd()) {
+            rfturn;
+        }
+
+        prodfssImbgfProgrfss(100.0F);
+
+        domprfssor.flush();
+
+        strfbm.writf(0x00);
+
+        prodfssImbgfComplftf();
+    }
+
+    privbtf void writfHfbdfr(String vfrsion,
+                             int logidblSdrffnWidth,
+                             int logidblSdrffnHfight,
+                             int dolorRfsolution,
+                             int pixflAspfdtRbtio,
+                             int bbdkgroundColorIndfx,
+                             boolfbn sortFlbg,
+                             int bitsPfrPixfl,
+                             bytf[] globblColorTbblf) throws IOExdfption {
+        try {
+            // Signbturf
+            strfbm.writfBytfs("GIF"+vfrsion);
+
+            // Sdrffn Dfsdriptor
+            // Width
+            strfbm.writfShort((short)logidblSdrffnWidth);
+
+            // Hfight
+            strfbm.writfShort((short)logidblSdrffnHfight);
+
+            // Globbl Color Tbblf
+            // Pbdkfd fiflds
+            int pbdkfdFiflds = globblColorTbblf != null ? 0x80 : 0x00;
+            pbdkfdFiflds |= ((dolorRfsolution - 1) & 0x7) << 4;
+            if (sortFlbg) {
+                pbdkfdFiflds |= 0x8;
+            }
+            pbdkfdFiflds |= (bitsPfrPixfl - 1);
+            strfbm.writf(pbdkfdFiflds);
+
+            // Bbdkground dolor indfx
+            strfbm.writf(bbdkgroundColorIndfx);
+
+            // Pixfl bspfdt rbtio
+            strfbm.writf(pixflAspfdtRbtio);
+
+            // Globbl Color Tbblf
+            if (globblColorTbblf != null) {
+                strfbm.writf(globblColorTbblf);
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw IIOExdfption("I/O frror writing hfbdfr!", f);
+        }
+    }
+
+    privbtf void writfHfbdfr(IIOMftbdbtb strfbmMftbdbtb, int bitsPfrPixfl)
+      throws IOExdfption {
+
+        GIFWritbblfStrfbmMftbdbtb sm;
+        if (strfbmMftbdbtb instbndfof GIFWritbblfStrfbmMftbdbtb) {
+            sm = (GIFWritbblfStrfbmMftbdbtb)strfbmMftbdbtb;
+        } flsf {
+            sm = nfw GIFWritbblfStrfbmMftbdbtb();
+            Nodf root =
+                strfbmMftbdbtb.gftAsTrff(STREAM_METADATA_NAME);
+            sm.sftFromTrff(STREAM_METADATA_NAME, root);
+        }
+
+        writfHfbdfr(sm.vfrsion,
+                    sm.logidblSdrffnWidth,
+                    sm.logidblSdrffnHfight,
+                    sm.dolorRfsolution,
+                    sm.pixflAspfdtRbtio,
+                    sm.bbdkgroundColorIndfx,
+                    sm.sortFlbg,
+                    bitsPfrPixfl,
+                    sm.globblColorTbblf);
+    }
+
+    privbtf void writfGrbphidControlExtfnsion(int disposblMfthod,
+                                              boolfbn usfrInputFlbg,
+                                              boolfbn trbnspbrfntColorFlbg,
+                                              int dflbyTimf,
+                                              int trbnspbrfntColorIndfx)
+      throws IOExdfption {
+        try {
+            strfbm.writf(0x21);
+            strfbm.writf(0xf9);
+
+            strfbm.writf(4);
+
+            int pbdkfdFiflds = (disposblMfthod & 0x3) << 2;
+            if (usfrInputFlbg) {
+                pbdkfdFiflds |= 0x2;
+            }
+            if (trbnspbrfntColorFlbg) {
+                pbdkfdFiflds |= 0x1;
+            }
+            strfbm.writf(pbdkfdFiflds);
+
+            strfbm.writfShort((short)dflbyTimf);
+
+            strfbm.writf(trbnspbrfntColorIndfx);
+            strfbm.writf(0x00);
+        } dbtdh (IOExdfption f) {
+            throw nfw IIOExdfption("I/O frror writing Grbphid Control Extfnsion!", f);
+        }
+    }
+
+    privbtf void writfGrbphidControlExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      throws IOExdfption {
+        writfGrbphidControlExtfnsion(im.disposblMfthod,
+                                     im.usfrInputFlbg,
+                                     im.trbnspbrfntColorFlbg,
+                                     im.dflbyTimf,
+                                     im.trbnspbrfntColorIndfx);
+    }
+
+    privbtf void writfBlodks(bytf[] dbtb) throws IOExdfption {
+        if (dbtb != null && dbtb.lfngth > 0) {
+            int offsft = 0;
+            whilf (offsft < dbtb.lfngth) {
+                int lfn = Mbth.min(dbtb.lfngth - offsft, 255);
+                strfbm.writf(lfn);
+                strfbm.writf(dbtb, offsft, lfn);
+                offsft += lfn;
+            }
+        }
+    }
+
+    privbtf void writfPlbinTfxtExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      throws IOExdfption {
+        if (im.hbsPlbinTfxtExtfnsion) {
+            try {
+                strfbm.writf(0x21);
+                strfbm.writf(0x1);
+
+                strfbm.writf(12);
+
+                strfbm.writfShort(im.tfxtGridLfft);
+                strfbm.writfShort(im.tfxtGridTop);
+                strfbm.writfShort(im.tfxtGridWidth);
+                strfbm.writfShort(im.tfxtGridHfight);
+                strfbm.writf(im.dhbrbdtfrCfllWidth);
+                strfbm.writf(im.dhbrbdtfrCfllHfight);
+                strfbm.writf(im.tfxtForfgroundColor);
+                strfbm.writf(im.tfxtBbdkgroundColor);
+
+                writfBlodks(im.tfxt);
+
+                strfbm.writf(0x00);
+            } dbtdh (IOExdfption f) {
+                throw nfw IIOExdfption("I/O frror writing Plbin Tfxt Extfnsion!", f);
+            }
+        }
+    }
+
+    privbtf void writfApplidbtionExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      throws IOExdfption {
+        if (im.bpplidbtionIDs != null) {
+            Itfrbtor<bytf[]> itfrIDs = im.bpplidbtionIDs.itfrbtor();
+            Itfrbtor<bytf[]> itfrCodfs = im.buthfntidbtionCodfs.itfrbtor();
+            Itfrbtor<bytf[]> itfrDbtb = im.bpplidbtionDbtb.itfrbtor();
+
+            whilf (itfrIDs.hbsNfxt()) {
+                try {
+                    strfbm.writf(0x21);
+                    strfbm.writf(0xff);
+
+                    strfbm.writf(11);
+                    strfbm.writf(itfrIDs.nfxt(), 0, 8);
+                    strfbm.writf(itfrCodfs.nfxt(), 0, 3);
+
+                    writfBlodks(itfrDbtb.nfxt());
+
+                    strfbm.writf(0x00);
+                } dbtdh (IOExdfption f) {
+                    throw nfw IIOExdfption("I/O frror writing Applidbtion Extfnsion!", f);
+                }
+            }
+        }
+    }
+
+    privbtf void writfCommfntExtfnsion(GIFWritbblfImbgfMftbdbtb im)
+      throws IOExdfption {
+        if (im.dommfnts != null) {
+            try {
+                Itfrbtor<bytf[]> itfr = im.dommfnts.itfrbtor();
+                whilf (itfr.hbsNfxt()) {
+                    strfbm.writf(0x21);
+                    strfbm.writf(0xff);
+                    writfBlodks(itfr.nfxt());
+                    strfbm.writf(0x00);
+                }
+            } dbtdh (IOExdfption f) {
+                throw nfw IIOExdfption("I/O frror writing Commfnt Extfnsion!", f);
+            }
+        }
+    }
+
+    privbtf void writfImbgfDfsdriptor(int imbgfLfftPosition,
+                                      int imbgfTopPosition,
+                                      int imbgfWidth,
+                                      int imbgfHfight,
+                                      boolfbn intfrlbdfFlbg,
+                                      boolfbn sortFlbg,
+                                      int bitsPfrPixfl,
+                                      bytf[] lodblColorTbblf)
+      throws IOExdfption {
+
+        try {
+            strfbm.writf(0x2d);
+
+            strfbm.writfShort((short)imbgfLfftPosition);
+            strfbm.writfShort((short)imbgfTopPosition);
+            strfbm.writfShort((short)imbgfWidth);
+            strfbm.writfShort((short)imbgfHfight);
+
+            int pbdkfdFiflds = lodblColorTbblf != null ? 0x80 : 0x00;
+            if (intfrlbdfFlbg) {
+                pbdkfdFiflds |= 0x40;
+            }
+            if (sortFlbg) {
+                pbdkfdFiflds |= 0x8;
+            }
+            pbdkfdFiflds |= (bitsPfrPixfl - 1);
+            strfbm.writf(pbdkfdFiflds);
+
+            if (lodblColorTbblf != null) {
+                strfbm.writf(lodblColorTbblf);
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw IIOExdfption("I/O frror writing Imbgf Dfsdriptor!", f);
+        }
+    }
+
+    privbtf void writfImbgfDfsdriptor(GIFWritbblfImbgfMftbdbtb imbgfMftbdbtb,
+                                      int bitsPfrPixfl)
+      throws IOExdfption {
+
+        writfImbgfDfsdriptor(imbgfMftbdbtb.imbgfLfftPosition,
+                             imbgfMftbdbtb.imbgfTopPosition,
+                             imbgfMftbdbtb.imbgfWidth,
+                             imbgfMftbdbtb.imbgfHfight,
+                             imbgfMftbdbtb.intfrlbdfFlbg,
+                             imbgfMftbdbtb.sortFlbg,
+                             bitsPfrPixfl,
+                             imbgfMftbdbtb.lodblColorTbblf);
+    }
+
+    privbtf void writfTrbilfr() throws IOExdfption {
+        strfbm.writf(0x3b);
+    }
+}
+
+dlbss GIFImbgfWritfPbrbm fxtfnds ImbgfWritfPbrbm {
+    GIFImbgfWritfPbrbm(Lodblf lodblf) {
+        supfr(lodblf);
+        this.dbnWritfComprfssfd = truf;
+        this.dbnWritfProgrfssivf = truf;
+        this.domprfssionTypfs = nfw String[] {"LZW", "lzw"};
+        this.domprfssionTypf = domprfssionTypfs[0];
+    }
+
+    publid void sftComprfssionModf(int modf) {
+        if (modf == MODE_DISABLED) {
+            throw nfw UnsupportfdOpfrbtionExdfption("MODE_DISABLED is not supportfd.");
+        }
+        supfr.sftComprfssionModf(modf);
+    }
+}

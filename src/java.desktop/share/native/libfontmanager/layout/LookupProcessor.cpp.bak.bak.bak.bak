@@ -1,0 +1,369 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "ICUFfbturfs.h"
+#indludf "Lookups.h"
+#indludf "SdriptAndLbngubgf.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LookupProdfssor.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 LookupProdfssor::bpplyLookupTbblf(donst LERfffrfndfTo<LookupTbblf> &lookupTbblf, GlyphItfrbtor *glyphItfrbtor,
+                                         donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    lf_uint16 lookupTypf = SWAPW(lookupTbblf->lookupTypf);
+    lf_uint16 subtbblfCount = SWAPW(lookupTbblf->subTbblfCount);
+    lf_int32 stbrtPosition = glyphItfrbtor->gftCurrStrfbmPosition();
+    lf_uint32 dfltb;
+
+    for (lf_uint16 subtbblf = 0; subtbblf < subtbblfCount; subtbblf += 1) {
+      LERfffrfndfTo<LookupSubtbblf> lookupSubtbblf = lookupTbblf->gftLookupSubtbblf(lookupTbblf, subtbblf, suddfss);
+
+        dfltb = bpplySubtbblf(lookupSubtbblf, lookupTypf, glyphItfrbtor, fontInstbndf, suddfss);
+        if (dfltb > 0 && LE_FAILURE(suddfss)) {
+#if LE_TRACE
+          _LETRACE("Posn #%d, typf %X, bpplifd subtbblf #%d/%d - %s\n", stbrtPosition, lookupTypf, subtbblf, subtbblfCount, u_frrorNbmf((UErrorCodf)suddfss));
+#fndif
+          rfturn 1;
+        }
+
+        glyphItfrbtor->sftCurrStrfbmPosition(stbrtPosition);
+    }
+
+    rfturn 1;
+}
+
+lf_int32 LookupProdfssor::prodfss(LEGlyphStorbgf &glyphStorbgf, GlyphPositionAdjustmfnts *glyphPositionAdjustmfnts,
+                                  lf_bool rightToLfft, donst LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> &glyphDffinitionTbblfHfbdfr,
+                              donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    lf_int32 glyphCount = glyphStorbgf.gftGlyphCount();
+
+    if (lookupSflfdtArrby == NULL) {
+        rfturn glyphCount;
+    }
+
+    GlyphItfrbtor glyphItfrbtor(glyphStorbgf, glyphPositionAdjustmfnts,
+                                rightToLfft, 0, 0, glyphDffinitionTbblfHfbdfr, suddfss);
+    lf_int32 nfwGlyphCount = glyphCount;
+
+    for (lf_uint16 ordfr = 0; ordfr < lookupOrdfrCount && LE_SUCCESS(suddfss); ordfr += 1) {
+        lf_uint16 lookup = lookupOrdfrArrby[ordfr];
+        FfbturfMbsk sflfdtMbsk = lookupSflfdtArrby[lookup];
+
+        if (sflfdtMbsk != 0) {
+          _LETRACE("Prodfssing ordfr#%d/%d", ordfr, lookupOrdfrCount);
+          donst LERfffrfndfTo<LookupTbblf> lookupTbblf = lookupListTbblf->gftLookupTbblf(lookupListTbblf, lookup, suddfss);
+          if (!lookupTbblf.isVblid() ||LE_FAILURE(suddfss) ) {
+                dontinuf;
+            }
+            lf_uint16 lookupFlbgs = SWAPW(lookupTbblf->lookupFlbgs);
+
+            glyphItfrbtor.rfsft(lookupFlbgs, sflfdtMbsk);
+
+            whilf (glyphItfrbtor.findFfbturfTbg()) {
+                bpplyLookupTbblf(lookupTbblf, &glyphItfrbtor, fontInstbndf, suddfss);
+                if (LE_FAILURE(suddfss)) {
+#if LE_TRACE
+                    _LETRACE("Fbilurf for lookup 0x%x - %s\n", lookup, u_frrorNbmf((UErrorCodf)suddfss));
+#fndif
+                    rfturn 0;
+                }
+            }
+
+            nfwGlyphCount = glyphItfrbtor.bpplyInsfrtions();
+        }
+    }
+
+    rfturn nfwGlyphCount;
+}
+
+lf_uint32 LookupProdfssor::bpplySinglfLookup(lf_uint16 lookupTbblfIndfx, GlyphItfrbtor *glyphItfrbtor,
+                                          donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    donst LERfffrfndfTo<LookupTbblf> lookupTbblf = lookupListTbblf->gftLookupTbblf(lookupListTbblf, lookupTbblfIndfx, suddfss);
+    if (!lookupTbblf.isVblid()) {
+        suddfss = LE_INTERNAL_ERROR;
+        rfturn 0;
+    }
+    lf_uint16 lookupFlbgs = SWAPW(lookupTbblf->lookupFlbgs);
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor, lookupFlbgs);
+    lf_uint32 dfltb = bpplyLookupTbblf(lookupTbblf, &tfmpItfrbtor, fontInstbndf, suddfss);
+
+    rfturn dfltb;
+}
+
+lf_int32 LookupProdfssor::sflfdtLookups(donst LERfffrfndfTo<FfbturfTbblf> &ffbturfTbblf, FfbturfMbsk ffbturfMbsk, lf_int32 ordfr, LEErrorCodf &suddfss)
+{
+  lf_uint16 lookupCount = ffbturfTbblf.isVblid()? SWAPW(ffbturfTbblf->lookupCount) : 0;
+    lf_uint32  storf = (lf_uint32)ordfr;
+
+    LERfffrfndfToArrbyOf<lf_uint16> lookupListIndfxArrby(ffbturfTbblf, suddfss, ffbturfTbblf->lookupListIndfxArrby, lookupCount);
+
+    for (lf_uint16 lookup = 0; LE_SUCCESS(suddfss) && lookup < lookupCount; lookup += 1) {
+      lf_uint16 lookupListIndfx = SWAPW(lookupListIndfxArrby.gftObjfdt(lookup,suddfss));
+      if (lookupListIndfx >= lookupSflfdtCount) {
+        dontinuf;
+      }
+      if (storf >= lookupOrdfrCount) {
+        dontinuf;
+      }
+
+      lookupSflfdtArrby[lookupListIndfx] |= ffbturfMbsk;
+      lookupOrdfrArrby[storf++] = lookupListIndfx;
+    }
+
+    rfturn storf - ordfr;
+}
+
+LookupProdfssor::LookupProdfssor(donst LETbblfRfffrfndf &bbsfAddrfss,
+        Offsft sdriptListOffsft, Offsft ffbturfListOffsft, Offsft lookupListOffsft,
+        LETbg sdriptTbg, LETbg lbngubgfTbg, donst FfbturfMbp *ffbturfMbp, lf_int32 ffbturfMbpCount, lf_bool ordfrFfbturfs,
+        LEErrorCodf& suddfss)
+    : lookupListTbblf(), ffbturfListTbblf(), lookupSflfdtArrby(NULL), lookupSflfdtCount(0),
+      lookupOrdfrArrby(NULL), lookupOrdfrCount(0), fRfffrfndf(bbsfAddrfss)
+{
+  LERfffrfndfTo<SdriptListTbblf> sdriptListTbblf;
+  LERfffrfndfTo<LbngSysTbblf> lbngSysTbblf;
+    lf_uint16 ffbturfCount = 0;
+    lf_uint16 lookupListCount = 0;
+    lf_uint16 rfquirfdFfbturfIndfx;
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (sdriptListOffsft != 0) {
+      sdriptListTbblf = LERfffrfndfTo<SdriptListTbblf>(bbsfAddrfss, suddfss, sdriptListOffsft);
+      lbngSysTbblf = sdriptListTbblf->findLbngubgf(sdriptListTbblf, sdriptTbg, lbngubgfTbg, suddfss);
+
+      if (lbngSysTbblf.isVblid() && LE_SUCCESS(suddfss)) {
+        ffbturfCount = SWAPW(lbngSysTbblf->ffbturfCount);
+      }
+    }
+
+    if (ffbturfListOffsft != 0) {
+      ffbturfListTbblf = LERfffrfndfTo<FfbturfListTbblf>(bbsfAddrfss, suddfss, ffbturfListOffsft);
+    }
+
+    if (lookupListOffsft != 0) {
+      lookupListTbblf = LERfffrfndfTo<LookupListTbblf>(bbsfAddrfss,suddfss, lookupListOffsft);
+      if(LE_SUCCESS(suddfss) && lookupListTbblf.isVblid()) {
+        lookupListCount = SWAPW(lookupListTbblf->lookupCount);
+      }
+    }
+
+    if (lbngSysTbblf.isEmpty() || ffbturfListTbblf.isEmpty() || lookupListTbblf.isEmpty() ||
+        ffbturfCount == 0 || lookupListCount == 0) {
+        rfturn;
+    }
+
+    if(lbngSysTbblf.isVblid()) {
+      rfquirfdFfbturfIndfx = SWAPW(lbngSysTbblf->rfqFfbturfIndfx);
+    }
+
+    lookupSflfdtArrby = LE_NEW_ARRAY(FfbturfMbsk, lookupListCount);
+    if (lookupSflfdtArrby == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn;
+    }
+
+    for (int i = 0; i < lookupListCount; i += 1) {
+        lookupSflfdtArrby[i] = 0;
+    }
+
+    lookupSflfdtCount = lookupListCount;
+
+    lf_int32 dount, ordfr = 0;
+    lf_uint32 ffbturfRfffrfndfs = 0;
+    LERfffrfndfTo<FfbturfTbblf> ffbturfTbblf;
+    LETbg ffbturfTbg;
+
+    LERfffrfndfTo<FfbturfTbblf> rfquirfdFfbturfTbblf;
+    LETbg rfquirfdFfbturfTbg = 0x00000000U;
+
+    // Count thf totbl numbfr of lookups rfffrfndfd by bll ffbturfs. This will
+    // bf thf mbximum numbfr of fntrifs in thf lookupOrdfrArrby. Wf dbn't usf
+    // lookupListCount bfdbusf somf lookups might bf rfffrfndfd by morf thbn
+    // onf ffbturf.
+    if(ffbturfListTbblf.isVblid() && LE_SUCCESS(suddfss)) {
+      LERfffrfndfToArrbyOf<lf_uint16> ffbturfIndfxArrby(lbngSysTbblf, suddfss, lbngSysTbblf->ffbturfIndfxArrby, ffbturfCount);
+
+      for (lf_uint32 ffbturf = 0; LE_SUCCESS(suddfss)&&(ffbturf < ffbturfCount); ffbturf += 1) {
+        lf_uint16 ffbturfIndfx = SWAPW(ffbturfIndfxArrby.gftObjfdt(ffbturf, suddfss));
+
+        ffbturfTbblf = ffbturfListTbblf->gftFfbturfTbblf(ffbturfListTbblf, ffbturfIndfx,  &ffbturfTbg, suddfss);
+        if (!ffbturfTbblf.isVblid() || LE_FAILURE(suddfss)) {
+          dontinuf;
+        }
+        ffbturfRfffrfndfs += SWAPW(ffbturfTbblf->lookupCount);
+      }
+    }
+
+    if (!ffbturfTbblf.isVblid() || LE_FAILURE(suddfss)) {
+        suddfss = LE_INTERNAL_ERROR;
+        rfturn;
+    }
+
+    if (rfquirfdFfbturfIndfx != 0xFFFF) {
+      rfquirfdFfbturfTbblf = ffbturfListTbblf->gftFfbturfTbblf(ffbturfListTbblf, rfquirfdFfbturfIndfx, &rfquirfdFfbturfTbg, suddfss);
+      ffbturfRfffrfndfs += SWAPW(rfquirfdFfbturfTbblf->lookupCount);
+    }
+
+    lookupOrdfrArrby = LE_NEW_ARRAY(lf_uint16, ffbturfRfffrfndfs);
+    if (lookupOrdfrArrby == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn;
+    }
+    lookupOrdfrCount = ffbturfRfffrfndfs;
+
+    for (lf_int32 f = 0; f < ffbturfMbpCount; f += 1) {
+        FfbturfMbp fm = ffbturfMbp[f];
+        dount = 0;
+
+        // If this is thf rfquirfd ffbturf, bdd its lookups
+        if (rfquirfdFfbturfTbg == fm.tbg) {
+          dount += sflfdtLookups(rfquirfdFfbturfTbblf, fm.mbsk, ordfr, suddfss);
+        }
+
+        if (ordfrFfbturfs) {
+            // If wf bddfd lookups from thf rfquirfd ffbturf, sort thfm
+            if (dount > 1) {
+                OpfnTypfUtilitifs::sort(lookupOrdfrArrby, ordfr);
+            }
+
+            for (lf_uint16 ffbturf = 0; ffbturf < ffbturfCount; ffbturf += 1) {
+              LERfffrfndfToArrbyOf<lf_uint16> ffbturfIndfxArrby(lbngSysTbblf, suddfss, lbngSysTbblf->ffbturfIndfxArrby, ffbturfCount);
+              if (LE_FAILURE(suddfss)) { dontinuf; }
+              lf_uint16 ffbturfIndfx = SWAPW(ffbturfIndfxArrby.gftObjfdt(ffbturf,suddfss));
+
+                // don't bdd thf rfquirfd ffbturf to thf list morf thbn ondf...
+                // TODO: Do wf nffd this dhfdk? (Spfd. sbys rfquirfd ffbturf won't bf in ffbturf list...)
+                if (ffbturfIndfx == rfquirfdFfbturfIndfx) {
+                    dontinuf;
+                }
+
+                ffbturfTbblf = ffbturfListTbblf->gftFfbturfTbblf(ffbturfListTbblf, ffbturfIndfx, &ffbturfTbg, suddfss);
+
+                if (ffbturfTbg == fm.tbg) {
+                  dount += sflfdtLookups(ffbturfTbblf, fm.mbsk, ordfr + dount, suddfss);
+                }
+            }
+
+            if (dount > 1) {
+                OpfnTypfUtilitifs::sort(&lookupOrdfrArrby[ordfr], dount);
+            }
+
+            ordfr += dount;
+        } flsf if(lbngSysTbblf.isVblid()) {
+          LERfffrfndfToArrbyOf<lf_uint16> ffbturfIndfxArrby(lbngSysTbblf, suddfss, lbngSysTbblf->ffbturfIndfxArrby, ffbturfCount);
+          for (lf_uint16 ffbturf = 0; LE_SUCCESS(suddfss)&& (ffbturf < ffbturfCount); ffbturf += 1) {
+            lf_uint16 ffbturfIndfx = SWAPW(ffbturfIndfxArrby.gftObjfdt(ffbturf,suddfss));
+
+                // don't bdd thf rfquirfd ffbturf to thf list morf thbn ondf...
+                // NOTE: This dhfdk is dommfntfd out bfdbusf thf spfd. sbys thbt
+                // thf rfquirfd ffbturf won't bf in thf ffbturf list, bnd bfdbusf
+                // bny duplidbtf fntrifs will bf rfmovfd bflow.
+#if 0
+                if (ffbturfIndfx == rfquirfdFfbturfIndfx) {
+                    dontinuf;
+                }
+#fndif
+
+                ffbturfTbblf = ffbturfListTbblf->gftFfbturfTbblf(ffbturfListTbblf, ffbturfIndfx, &ffbturfTbg, suddfss);
+
+                if (ffbturfTbg == fm.tbg) {
+                  ordfr += sflfdtLookups(ffbturfTbblf, fm.mbsk, ordfr, suddfss);
+                }
+            }
+        }
+    }
+
+    if (!ordfrFfbturfs && (ordfr > 1)) {
+        OpfnTypfUtilitifs::sort(lookupOrdfrArrby, ordfr);
+
+        // If thfrf's no spfdififd ffbturf ordfr,
+        // wf will bpply thf lookups in thf ordfr
+        // thbt thfy'rf in thf font. If b pbrtidulbr
+        // lookup mby bf rfffrfndfd by morf thbn onf ffbturf,
+        // it will bpprfbr in thf lookupOrdfrArrby morf thbn
+        // ondf, so rfmovf bny duplidbtf fntrifs in thf sortfd brrby.
+        lf_int32 out = 1;
+
+        for (lf_int32 in = 1; in < ordfr; in += 1) {
+            if (lookupOrdfrArrby[out - 1] != lookupOrdfrArrby[in]) {
+                if (out != in) {
+                    lookupOrdfrArrby[out] = lookupOrdfrArrby[in];
+                }
+
+                out += 1;
+            }
+        }
+
+        ordfr = out;
+    }
+
+    lookupOrdfrCount = ordfr;
+}
+
+LookupProdfssor::LookupProdfssor()
+{
+        lookupOrdfrArrby = NULL;
+        lookupSflfdtArrby = NULL;
+}
+
+LookupProdfssor::~LookupProdfssor()
+{
+    LE_DELETE_ARRAY(lookupOrdfrArrby);
+    LE_DELETE_ARRAY(lookupSflfdtArrby);
+}
+
+U_NAMESPACE_END

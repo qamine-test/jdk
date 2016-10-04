@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
 
-import javax.security.sasl.Sasl;
-import javax.security.sasl.SaslClient;
-import javax.security.sasl.SaslException;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.InputStream;
+import jbvbx.sfdurity.sbsl.Sbsl;
+import jbvbx.sfdurity.sbsl.SbslClifnt;
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.InputStrfbm;
 
 /**
- * This class is used by clients of Java SASL that need to create an input stream
- * that uses SaslClient's unwrap() method to decode the SASL buffers
- * sent by the SASL server.
+ * Tiis dlbss is usfd by dlifnts of Jbvb SASL tibt nffd to drfbtf bn input strfbm
+ * tibt usfs SbslClifnt's unwrbp() mftiod to dfdodf tif SASL bufffrs
+ * sfnt by tif SASL sfrvfr.
  *
- * Extend from InputStream instead of FilterInputStream because
- * we need to override less methods in InputStream. That is, the
- * behavior of the default implementations in InputStream matches
- * more closely with the behavior we want in SaslInputStream.
+ * Extfnd from InputStrfbm instfbd of FiltfrInputStrfbm bfdbusf
+ * wf nffd to ovfrridf lfss mftiods in InputStrfbm. Tibt is, tif
+ * bfibvior of tif dffbult implfmfntbtions in InputStrfbm mbtdifs
+ * morf dlosfly witi tif bfibvior wf wbnt in SbslInputStrfbm.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-public class SaslInputStream extends InputStream {
-    private static final boolean debug = false;
+publid dlbss SbslInputStrfbm fxtfnds InputStrfbm {
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    private byte[] saslBuffer;  // buffer for storing raw bytes
-    private byte[] lenBuf = new byte[4];  // buffer for storing length
+    privbtf bytf[] sbslBufffr;  // bufffr for storing rbw bytfs
+    privbtf bytf[] lfnBuf = nfw bytf[4];  // bufffr for storing lfngti
 
-    private byte[] buf = new byte[0];   // buffer for storing processed bytes
-                                        // Initialized to empty buffer
-    private int bufPos = 0;             // read position in buf
-    private InputStream in;             // underlying input stream
-    private SaslClient sc;
-    private int recvMaxBufSize = 65536;
+    privbtf bytf[] buf = nfw bytf[0];   // bufffr for storing prodfssfd bytfs
+                                        // Initiblizfd to fmpty bufffr
+    privbtf int bufPos = 0;             // rfbd position in buf
+    privbtf InputStrfbm in;             // undfrlying input strfbm
+    privbtf SbslClifnt sd;
+    privbtf int rfdvMbxBufSizf = 65536;
 
-    SaslInputStream(SaslClient sc, InputStream in) throws SaslException {
-        super();
-        this.in = in;
-        this.sc = sc;
+    SbslInputStrfbm(SbslClifnt sd, InputStrfbm in) tirows SbslExdfption {
+        supfr();
+        tiis.in = in;
+        tiis.sd = sd;
 
-        String str = (String) sc.getNegotiatedProperty(Sasl.MAX_BUFFER);
+        String str = (String) sd.gftNfgotibtfdPropfrty(Sbsl.MAX_BUFFER);
         if (str != null) {
             try {
-                recvMaxBufSize = Integer.parseInt(str);
-            } catch (NumberFormatException e) {
-                throw new SaslException(Sasl.MAX_BUFFER +
-                    " property must be numeric string: " + str);
+                rfdvMbxBufSizf = Intfgfr.pbrsfInt(str);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw SbslExdfption(Sbsl.MAX_BUFFER +
+                    " propfrty must bf numfrid string: " + str);
             }
         }
-        saslBuffer = new byte[recvMaxBufSize];
+        sbslBufffr = nfw bytf[rfdvMbxBufSizf];
     }
 
-    public int read() throws IOException {
-        byte[] inBuf = new byte[1];
-        int count = read(inBuf, 0, 1);
-        if (count > 0) {
-            return inBuf[0];
-        } else {
-            return -1;
+    publid int rfbd() tirows IOExdfption {
+        bytf[] inBuf = nfw bytf[1];
+        int dount = rfbd(inBuf, 0, 1);
+        if (dount > 0) {
+            rfturn inBuf[0];
+        } flsf {
+            rfturn -1;
         }
     }
 
-    public int read(byte[] inBuf, int start, int count) throws IOException {
+    publid int rfbd(bytf[] inBuf, int stbrt, int dount) tirows IOExdfption {
 
-        if (bufPos >= buf.length) {
-            int actual = fill();   // read and unwrap next SASL buffer
-            while (actual == 0) {  // ignore zero length content
-                actual = fill();
+        if (bufPos >= buf.lfngti) {
+            int bdtubl = fill();   // rfbd bnd unwrbp nfxt SASL bufffr
+            wiilf (bdtubl == 0) {  // ignorf zfro lfngti dontfnt
+                bdtubl = fill();
             }
-            if (actual == -1) {
-                return -1;    // EOF
+            if (bdtubl == -1) {
+                rfturn -1;    // EOF
             }
         }
 
-        int avail = buf.length - bufPos;
-        if (count > avail) {
-            // Requesting more that we have stored
-            // Return all that we have; next invocation of read() will
-            // trigger fill()
-            System.arraycopy(buf, bufPos, inBuf, start, avail);
-            bufPos = buf.length;
-            return avail;
-        } else {
-            // Requesting less than we have stored
-            // Return all that was requested
-            System.arraycopy(buf, bufPos, inBuf, start, count);
-            bufPos += count;
-            return count;
+        int bvbil = buf.lfngti - bufPos;
+        if (dount > bvbil) {
+            // Rfqufsting morf tibt wf ibvf storfd
+            // Rfturn bll tibt wf ibvf; nfxt invodbtion of rfbd() will
+            // triggfr fill()
+            Systfm.brrbydopy(buf, bufPos, inBuf, stbrt, bvbil);
+            bufPos = buf.lfngti;
+            rfturn bvbil;
+        } flsf {
+            // Rfqufsting lfss tibn wf ibvf storfd
+            // Rfturn bll tibt wbs rfqufstfd
+            Systfm.brrbydopy(buf, bufPos, inBuf, stbrt, dount);
+            bufPos += dount;
+            rfturn dount;
         }
     }
 
     /**
-     * Fills the buf with more data by reading a SASL buffer, unwrapping it,
-     * and leaving the bytes in buf for read() to return.
-     * @return The number of unwrapped bytes available
+     * Fills tif buf witi morf dbtb by rfbding b SASL bufffr, unwrbpping it,
+     * bnd lfbving tif bytfs in buf for rfbd() to rfturn.
+     * @rfturn Tif numbfr of unwrbppfd bytfs bvbilbblf
      */
-    private int fill() throws IOException {
-        // Read in length of buffer
-        int actual = readFully(lenBuf, 4);
-        if (actual != 4) {
-            return -1;
+    privbtf int fill() tirows IOExdfption {
+        // Rfbd in lfngti of bufffr
+        int bdtubl = rfbdFully(lfnBuf, 4);
+        if (bdtubl != 4) {
+            rfturn -1;
         }
-        int len = networkByteOrderToInt(lenBuf, 0, 4);
+        int lfn = nftworkBytfOrdfrToInt(lfnBuf, 0, 4);
 
-        if (len > recvMaxBufSize) {
-            throw new IOException(
-                len + "exceeds the negotiated receive buffer size limit:" +
-                recvMaxBufSize);
-        }
-
-        if (debug) {
-            System.err.println("reading " + len + " bytes from network");
+        if (lfn > rfdvMbxBufSizf) {
+            tirow nfw IOExdfption(
+                lfn + "fxdffds tif nfgotibtfd rfdfivf bufffr sizf limit:" +
+                rfdvMbxBufSizf);
         }
 
-        // Read SASL buffer
-        actual = readFully(saslBuffer, len);
-        if (actual != len) {
-            throw new EOFException("Expecting to read " + len +
-                " bytes but got " + actual + " bytes before EOF");
+        if (dfbug) {
+            Systfm.frr.println("rfbding " + lfn + " bytfs from nftwork");
         }
 
-        // Unwrap
-        buf = sc.unwrap(saslBuffer, 0, len);
+        // Rfbd SASL bufffr
+        bdtubl = rfbdFully(sbslBufffr, lfn);
+        if (bdtubl != lfn) {
+            tirow nfw EOFExdfption("Expfdting to rfbd " + lfn +
+                " bytfs but got " + bdtubl + " bytfs bfforf EOF");
+        }
+
+        // Unwrbp
+        buf = sd.unwrbp(sbslBufffr, 0, lfn);
 
         bufPos = 0;
 
-        return buf.length;
+        rfturn buf.lfngti;
     }
 
     /**
-     * Read requested number of bytes before returning.
-     * @return The number of bytes actually read; -1 if none read
+     * Rfbd rfqufstfd numbfr of bytfs bfforf rfturning.
+     * @rfturn Tif numbfr of bytfs bdtublly rfbd; -1 if nonf rfbd
      */
-    private int readFully(byte[] inBuf, int total) throws IOException {
-        int count, pos = 0;
+    privbtf int rfbdFully(bytf[] inBuf, int totbl) tirows IOExdfption {
+        int dount, pos = 0;
 
-        if (debug) {
-            System.err.println("readFully " + total + " from " + in);
+        if (dfbug) {
+            Systfm.frr.println("rfbdFully " + totbl + " from " + in);
         }
 
-        while (total > 0) {
-            count = in.read(inBuf, pos, total);
+        wiilf (totbl > 0) {
+            dount = in.rfbd(inBuf, pos, totbl);
 
-            if (debug) {
-                System.err.println("readFully read " + count);
+            if (dfbug) {
+                Systfm.frr.println("rfbdFully rfbd " + dount);
             }
 
-            if (count == -1 ) {
-                return (pos == 0? -1 : pos);
+            if (dount == -1 ) {
+                rfturn (pos == 0? -1 : pos);
             }
-            pos += count;
-            total -= count;
+            pos += dount;
+            totbl -= dount;
         }
-        return pos;
+        rfturn pos;
     }
 
-    public int available() throws IOException {
-        return buf.length - bufPos;
+    publid int bvbilbblf() tirows IOExdfption {
+        rfturn buf.lfngti - bufPos;
     }
 
-    public void close() throws IOException {
-        SaslException save = null;
+    publid void dlosf() tirows IOExdfption {
+        SbslExdfption sbvf = null;
         try {
-            sc.dispose(); // Dispose of SaslClient's state
-        } catch (SaslException e) {
-            // Save exception for throwing after closing 'in'
-            save = e;
+            sd.disposf(); // Disposf of SbslClifnt's stbtf
+        } dbtdi (SbslExdfption f) {
+            // Sbvf fxdfption for tirowing bftfr dlosing 'in'
+            sbvf = f;
         }
 
-        in.close();  // Close underlying input stream
+        in.dlosf();  // Closf undfrlying input strfbm
 
-        if (save != null) {
-            throw save;
+        if (sbvf != null) {
+            tirow sbvf;
         }
     }
 
     /**
-     * Returns the integer represented by  4 bytes in network byte order.
+     * Rfturns tif intfgfr rfprfsfntfd by  4 bytfs in nftwork bytf ordfr.
      */
-    // Copied from com.sun.security.sasl.util.SaslImpl.
-    private static int networkByteOrderToInt(byte[] buf, int start, int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+    // Copifd from dom.sun.sfdurity.sbsl.util.SbslImpl.
+    privbtf stbtid int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt, int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        int answer = 0;
+        int bnswfr = 0;
 
-        for (int i = 0; i < count; i++) {
-            answer <<= 8;
-            answer |= ((int)buf[start+i] & 0xff);
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
         }
-        return answer;
+        rfturn bnswfr;
     }
 }

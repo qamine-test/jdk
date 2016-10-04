@@ -1,25 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <title></title>
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+  <titlf></titlf>
+</ifbd>
 <body>
-Provides classes for implementing XML Encryption applications. There are two
-main families of classes in this package. The first group of classes is an
-XML Schema to Java mapping of &nbsp;the complex types and elements of the
-XML Encryption Schema as outllined at <a
- href="http://www.w3.org/Encryption/2001/Drafts/xmlenc-core/">XML Encrtypyion
-Specification</a>. The second group of classes are used to perform encryption
-operations, and to manipulate the first group of classes. The most important
-classes in this second group is <code><a
- href="file://./com/sun/org/apache/xml/internal/security/encryption/XMLCipher.html">XMLCipher</a></code>,
-<code><a
- href="file://./com/sun/org/apache/xml/internal/security/encryption/XMLEncryptionFactory.html">XMLEncryptionFactory</a></code>
-and <code>XMLSerializer</code>. <code>XMLCipher</code> was designed to resemble
-<code>javax.crypto.Cipher</code>. The aforementioned classes were desinged
-with ease-of-use and configurability in mind. Becuase of this, the programmer
-may at times be exposed to lower level programming tasks. This library strives
-to be as simple as possible to use, but no simpler.<br>
+Providfs dlbssfs for implfmfnting XML Endryption bpplidbtions. Tifrf brf two
+mbin fbmilifs of dlbssfs in tiis pbdkbgf. Tif first group of dlbssfs is bn
+XML Sdifmb to Jbvb mbpping of &nbsp;tif domplfx typfs bnd flfmfnts of tif
+XML Endryption Sdifmb bs outllinfd bt <b
+ irff="ittp://www.w3.org/Endryption/2001/Drbfts/xmlfnd-dorf/">XML Endrtypyion
+Spfdifidbtion</b>. Tif sfdond group of dlbssfs brf usfd to pfrform fndryption
+opfrbtions, bnd to mbnipulbtf tif first group of dlbssfs. Tif most importbnt
+dlbssfs in tiis sfdond group is <dodf><b
+ irff="filf://./dom/sun/org/bpbdif/xml/intfrnbl/sfdurity/fndryption/XMLCipifr.itml">XMLCipifr</b></dodf>,
+<dodf><b
+ irff="filf://./dom/sun/org/bpbdif/xml/intfrnbl/sfdurity/fndryption/XMLEndryptionFbdtory.itml">XMLEndryptionFbdtory</b></dodf>
+bnd <dodf>XMLSfriblizfr</dodf>. <dodf>XMLCipifr</dodf> wbs dfsignfd to rfsfmblf
+<dodf>jbvbx.drypto.Cipifr</dodf>. Tif bforfmfntionfd dlbssfs wfrf dfsingfd
+witi fbsf-of-usf bnd donfigurbbility in mind. Bfdubsf of tiis, tif progrbmmfr
+mby bt timfs bf fxposfd to lowfr lfvfl progrbmming tbsks. Tiis librbry strivfs
+to bf bs simplf bs possiblf to usf, but no simplfr.<br>
 <br>
 </body>
-</html>
+</itml>

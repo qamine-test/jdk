@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.AbstrbdtButton;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JTogglfButton;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.UIMbnbgfr;
+
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.CompoundBordfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+
+import jbvbx.swing.plbf.*;
+
+import jbvbx.swing.plbf.bbsid.BbsidBordfrs;
+import jbvbx.swing.plbf.bbsid.BbsidToolBbrUI;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Pbrt;
+
+
+publid dlbss WindowsToolBbrUI fxtfnds BbsidToolBbrUI {
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsToolBbrUI();
+    }
+
+    protfdtfd void instbllDffbults() {
+        if (XPStylf.gftXP() != null) {
+            sftRollovfrBordfrs(truf);
+        }
+        supfr.instbllDffbults();
+    }
+
+    protfdtfd Bordfr drfbtfRollovfrBordfr() {
+        if (XPStylf.gftXP() != null) {
+            rfturn nfw EmptyBordfr(3, 3, 3, 3);
+        } flsf {
+            rfturn supfr.drfbtfRollovfrBordfr();
+        }
+    }
+
+    protfdtfd Bordfr drfbtfNonRollovfrBordfr() {
+        if (XPStylf.gftXP() != null) {
+            rfturn nfw EmptyBordfr(3, 3, 3, 3);
+        } flsf {
+            rfturn supfr.drfbtfNonRollovfrBordfr();
+        }
+    }
+
+    publid void pbint(Grbphids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            xp.gftSkin(d, Pbrt.TP_TOOLBAR).pbintSkin(g, 0, 0,
+                        d.gftWidth(), d.gftHfight(), null, truf);
+        } flsf {
+            supfr.pbint(g, d);
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    protfdtfd Bordfr gftRollovfrBordfr(AbstrbdtButton b) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            rfturn xp.gftBordfr(b, WindowsButtonUI.gftXPButtonTypf(b));
+        } flsf {
+            rfturn supfr.gftRollovfrBordfr(b);
+        }
+    }
+}

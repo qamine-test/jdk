@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.util.*;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.*;
 
-import sun.security.pkcs.ContentInfo;
-import sun.security.pkcs.PKCS7;
-import sun.security.pkcs.SignerInfo;
-import sun.security.x509.AlgorithmId;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerInputStream;
+import sun.sfdurity.pkds.ContfntInfo;
+import sun.sfdurity.pkds.PKCS7;
+import sun.sfdurity.pkds.SignfrInfo;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrInputStrfbm;
 
 /**
- * A {@link java.security.cert.CertPath CertPath} (certification path)
- * consisting exclusively of
- * {@link java.security.cert.X509Certificate X509Certificate}s.
+ * A {@link jbvb.sfdurity.dfrt.CfrtPbti CfrtPbti} (dfrtifidbtion pbti)
+ * donsisting fxdlusivfly of
+ * {@link jbvb.sfdurity.dfrt.X509Cfrtifidbtf X509Cfrtifidbtf}s.
  * <p>
- * By convention, X.509 <code>CertPath</code>s are stored from target
- * to trust anchor.
- * That is, the issuer of one certificate is the subject of the following
- * one. However, unvalidated X.509 <code>CertPath</code>s may not follow
- * this convention. PKIX <code>CertPathValidator</code>s will detect any
- * departure from this convention and throw a
- * <code>CertPathValidatorException</code>.
+ * By donvfntion, X.509 <dodf>CfrtPbti</dodf>s brf storfd from tbrgft
+ * to trust bndior.
+ * Tibt is, tif issufr of onf dfrtifidbtf is tif subjfdt of tif following
+ * onf. Howfvfr, unvblidbtfd X.509 <dodf>CfrtPbti</dodf>s mby not follow
+ * tiis donvfntion. PKIX <dodf>CfrtPbtiVblidbtor</dodf>s will dftfdt bny
+ * dfpbrturf from tiis donvfntion bnd tirow b
+ * <dodf>CfrtPbtiVblidbtorExdfption</dodf>.
  *
- * @author      Yassir Elley
- * @since       1.4
+ * @butior      Ybssir Ellfy
+ * @sindf       1.4
  */
-public class X509CertPath extends CertPath {
+publid dlbss X509CfrtPbti fxtfnds CfrtPbti {
 
-    private static final long serialVersionUID = 4989800333263052980L;
-
-    /**
-     * List of certificates in this chain
-     */
-    private List<X509Certificate> certs;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4989800333263052980L;
 
     /**
-     * The names of our encodings.  PkiPath is the default.
+     * List of dfrtifidbtfs in tiis dibin
      */
-    private static final String COUNT_ENCODING = "count";
-    private static final String PKCS7_ENCODING = "PKCS7";
-    private static final String PKIPATH_ENCODING = "PkiPath";
+    privbtf List<X509Cfrtifidbtf> dfrts;
 
     /**
-     * List of supported encodings
+     * Tif nbmfs of our fndodings.  PkiPbti is tif dffbult.
      */
-    private static final Collection<String> encodingList;
+    privbtf stbtid finbl String COUNT_ENCODING = "dount";
+    privbtf stbtid finbl String PKCS7_ENCODING = "PKCS7";
+    privbtf stbtid finbl String PKIPATH_ENCODING = "PkiPbti";
 
-    static {
-        List<String> list = new ArrayList<>(2);
-        list.add(PKIPATH_ENCODING);
-        list.add(PKCS7_ENCODING);
-        encodingList = Collections.unmodifiableCollection(list);
+    /**
+     * List of supportfd fndodings
+     */
+    privbtf stbtid finbl Collfdtion<String> fndodingList;
+
+    stbtid {
+        List<String> list = nfw ArrbyList<>(2);
+        list.bdd(PKIPATH_ENCODING);
+        list.bdd(PKCS7_ENCODING);
+        fndodingList = Collfdtions.unmodifibblfCollfdtion(list);
     }
 
     /**
-     * Creates an <code>X509CertPath</code> from a <code>List</code> of
-     * <code>X509Certificate</code>s.
+     * Crfbtfs bn <dodf>X509CfrtPbti</dodf> from b <dodf>List</dodf> of
+     * <dodf>X509Cfrtifidbtf</dodf>s.
      * <p>
-     * The certificates are copied out of the supplied <code>List</code>
-     * object.
+     * Tif dfrtifidbtfs brf dopifd out of tif supplifd <dodf>List</dodf>
+     * objfdt.
      *
-     * @param certs a <code>List</code> of <code>X509Certificate</code>s
-     * @exception CertificateException if <code>certs</code> contains an element
-     *                      that is not an <code>X509Certificate</code>
+     * @pbrbm dfrts b <dodf>List</dodf> of <dodf>X509Cfrtifidbtf</dodf>s
+     * @fxdfption CfrtifidbtfExdfption if <dodf>dfrts</dodf> dontbins bn flfmfnt
+     *                      tibt is not bn <dodf>X509Cfrtifidbtf</dodf>
      */
-    @SuppressWarnings("unchecked")
-    public X509CertPath(List<? extends Certificate> certs) throws CertificateException {
-        super("X.509");
+    @SupprfssWbrnings("undifdkfd")
+    publid X509CfrtPbti(List<? fxtfnds Cfrtifidbtf> dfrts) tirows CfrtifidbtfExdfption {
+        supfr("X.509");
 
-        // Ensure that the List contains only X509Certificates
+        // Ensurf tibt tif List dontbins only X509Cfrtifidbtfs
         //
-        // Note; The certs parameter is not necessarily to be of Certificate
-        // for some old code. For compatibility, to make sure the exception
-        // is CertificateException, rather than ClassCastException, please
-        // don't use
-        //     for (Certificate obj : certs)
-        for (Object obj : certs) {
-            if (obj instanceof X509Certificate == false) {
-                throw new CertificateException
-                    ("List is not all X509Certificates: "
-                    + obj.getClass().getName());
+        // Notf; Tif dfrts pbrbmftfr is not nfdfssbrily to bf of Cfrtifidbtf
+        // for somf old dodf. For dompbtibility, to mbkf surf tif fxdfption
+        // is CfrtifidbtfExdfption, rbtifr tibn ClbssCbstExdfption, plfbsf
+        // don't usf
+        //     for (Cfrtifidbtf obj : dfrts)
+        for (Objfdt obj : dfrts) {
+            if (obj instbndfof X509Cfrtifidbtf == fblsf) {
+                tirow nfw CfrtifidbtfExdfption
+                    ("List is not bll X509Cfrtifidbtfs: "
+                    + obj.gftClbss().gftNbmf());
             }
         }
 
-        // Assumes that the resulting List is thread-safe. This is true
-        // because we ensure that it cannot be modified after construction
-        // and the methods in the Sun JDK 1.4 implementation of ArrayList that
-        // allow read-only access are thread-safe.
-        this.certs = Collections.unmodifiableList(
-                new ArrayList<X509Certificate>((List<X509Certificate>)certs));
+        // Assumfs tibt tif rfsulting List is tirfbd-sbff. Tiis is truf
+        // bfdbusf wf fnsurf tibt it dbnnot bf modififd bftfr donstrudtion
+        // bnd tif mftiods in tif Sun JDK 1.4 implfmfntbtion of ArrbyList tibt
+        // bllow rfbd-only bddfss brf tirfbd-sbff.
+        tiis.dfrts = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<X509Cfrtifidbtf>((List<X509Cfrtifidbtf>)dfrts));
     }
 
     /**
-     * Creates an <code>X509CertPath</code>, reading the encoded form
-     * from an <code>InputStream</code>. The data is assumed to be in
-     * the default encoding.
+     * Crfbtfs bn <dodf>X509CfrtPbti</dodf>, rfbding tif fndodfd form
+     * from bn <dodf>InputStrfbm</dodf>. Tif dbtb is bssumfd to bf in
+     * tif dffbult fndoding.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @exception CertificateException if an exception occurs while decoding
+     * @pbrbm is tif <dodf>InputStrfbm</dodf> to rfbd tif dbtb from
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs wiilf dfdoding
      */
-    public X509CertPath(InputStream is) throws CertificateException {
-        this(is, PKIPATH_ENCODING);
+    publid X509CfrtPbti(InputStrfbm is) tirows CfrtifidbtfExdfption {
+        tiis(is, PKIPATH_ENCODING);
     }
 
     /**
-     * Creates an <code>X509CertPath</code>, reading the encoded form
-     * from an InputStream. The data is assumed to be in the specified
-     * encoding.
+     * Crfbtfs bn <dodf>X509CfrtPbti</dodf>, rfbding tif fndodfd form
+     * from bn InputStrfbm. Tif dbtb is bssumfd to bf in tif spfdififd
+     * fndoding.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @param encoding the encoding used
-     * @exception CertificateException if an exception occurs while decoding or
-     *   the encoding requested is not supported
+     * @pbrbm is tif <dodf>InputStrfbm</dodf> to rfbd tif dbtb from
+     * @pbrbm fndoding tif fndoding usfd
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs wiilf dfdoding or
+     *   tif fndoding rfqufstfd is not supportfd
      */
-    public X509CertPath(InputStream is, String encoding)
-            throws CertificateException {
-        super("X.509");
+    publid X509CfrtPbti(InputStrfbm is, String fndoding)
+            tirows CfrtifidbtfExdfption {
+        supfr("X.509");
 
-        switch (encoding) {
-            case PKIPATH_ENCODING:
-                certs = parsePKIPATH(is);
-                break;
-            case PKCS7_ENCODING:
-                certs = parsePKCS7(is);
-                break;
-            default:
-                throw new CertificateException("unsupported encoding");
+        switdi (fndoding) {
+            dbsf PKIPATH_ENCODING:
+                dfrts = pbrsfPKIPATH(is);
+                brfbk;
+            dbsf PKCS7_ENCODING:
+                dfrts = pbrsfPKCS7(is);
+                brfbk;
+            dffbult:
+                tirow nfw CfrtifidbtfExdfption("unsupportfd fndoding");
         }
     }
 
     /**
-     * Parse a PKIPATH format CertPath from an InputStream. Return an
-     * unmodifiable List of the certificates.
+     * Pbrsf b PKIPATH formbt CfrtPbti from bn InputStrfbm. Rfturn bn
+     * unmodifibblf List of tif dfrtifidbtfs.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @return an unmodifiable List of the certificates
-     * @exception CertificateException if an exception occurs
+     * @pbrbm is tif <dodf>InputStrfbm</dodf> to rfbd tif dbtb from
+     * @rfturn bn unmodifibblf List of tif dfrtifidbtfs
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs
      */
-    private static List<X509Certificate> parsePKIPATH(InputStream is)
-            throws CertificateException {
-        List<X509Certificate> certList = null;
-        CertificateFactory certFac = null;
+    privbtf stbtid List<X509Cfrtifidbtf> pbrsfPKIPATH(InputStrfbm is)
+            tirows CfrtifidbtfExdfption {
+        List<X509Cfrtifidbtf> dfrtList = null;
+        CfrtifidbtfFbdtory dfrtFbd = null;
 
         if (is == null) {
-            throw new CertificateException("input stream is null");
+            tirow nfw CfrtifidbtfExdfption("input strfbm is null");
         }
 
         try {
-            DerInputStream dis = new DerInputStream(readAllBytes(is));
-            DerValue[] seq = dis.getSequence(3);
-            if (seq.length == 0) {
-                return Collections.<X509Certificate>emptyList();
+            DfrInputStrfbm dis = nfw DfrInputStrfbm(rfbdAllBytfs(is));
+            DfrVbluf[] sfq = dis.gftSfqufndf(3);
+            if (sfq.lfngti == 0) {
+                rfturn Collfdtions.<X509Cfrtifidbtf>fmptyList();
             }
 
-            certFac = CertificateFactory.getInstance("X.509");
-            certList = new ArrayList<X509Certificate>(seq.length);
+            dfrtFbd = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+            dfrtList = nfw ArrbyList<X509Cfrtifidbtf>(sfq.lfngti);
 
-            // append certs in reverse order (target to trust anchor)
-            for (int i = seq.length-1; i >= 0; i--) {
-                certList.add((X509Certificate)certFac.generateCertificate
-                    (new ByteArrayInputStream(seq[i].toByteArray())));
+            // bppfnd dfrts in rfvfrsf ordfr (tbrgft to trust bndior)
+            for (int i = sfq.lfngti-1; i >= 0; i--) {
+                dfrtList.bdd((X509Cfrtifidbtf)dfrtFbd.gfnfrbtfCfrtifidbtf
+                    (nfw BytfArrbyInputStrfbm(sfq[i].toBytfArrby())));
             }
 
-            return Collections.unmodifiableList(certList);
+            rfturn Collfdtions.unmodifibblfList(dfrtList);
 
-        } catch (IOException ioe) {
-            throw new CertificateException("IOException parsing PkiPath data: "
-                    + ioe, ioe);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw CfrtifidbtfExdfption("IOExdfption pbrsing PkiPbti dbtb: "
+                    + iof, iof);
         }
     }
 
     /**
-     * Parse a PKCS#7 format CertPath from an InputStream. Return an
-     * unmodifiable List of the certificates.
+     * Pbrsf b PKCS#7 formbt CfrtPbti from bn InputStrfbm. Rfturn bn
+     * unmodifibblf List of tif dfrtifidbtfs.
      *
-     * @param is the <code>InputStream</code> to read the data from
-     * @return an unmodifiable List of the certificates
-     * @exception CertificateException if an exception occurs
+     * @pbrbm is tif <dodf>InputStrfbm</dodf> to rfbd tif dbtb from
+     * @rfturn bn unmodifibblf List of tif dfrtifidbtfs
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs
      */
-    private static List<X509Certificate> parsePKCS7(InputStream is)
-            throws CertificateException {
-        List<X509Certificate> certList;
+    privbtf stbtid List<X509Cfrtifidbtf> pbrsfPKCS7(InputStrfbm is)
+            tirows CfrtifidbtfExdfption {
+        List<X509Cfrtifidbtf> dfrtList;
 
         if (is == null) {
-            throw new CertificateException("input stream is null");
+            tirow nfw CfrtifidbtfExdfption("input strfbm is null");
         }
 
         try {
-            if (is.markSupported() == false) {
-                // Copy the entire input stream into an InputStream that does
-                // support mark
-                is = new ByteArrayInputStream(readAllBytes(is));
+            if (is.mbrkSupportfd() == fblsf) {
+                // Copy tif fntirf input strfbm into bn InputStrfbm tibt dofs
+                // support mbrk
+                is = nfw BytfArrbyInputStrfbm(rfbdAllBytfs(is));
             }
-            PKCS7 pkcs7 = new PKCS7(is);
+            PKCS7 pkds7 = nfw PKCS7(is);
 
-            X509Certificate[] certArray = pkcs7.getCertificates();
-            // certs are optional in PKCS #7
-            if (certArray != null) {
-                certList = Arrays.asList(certArray);
-            } else {
-                // no certs provided
-                certList = new ArrayList<X509Certificate>(0);
+            X509Cfrtifidbtf[] dfrtArrby = pkds7.gftCfrtifidbtfs();
+            // dfrts brf optionbl in PKCS #7
+            if (dfrtArrby != null) {
+                dfrtList = Arrbys.bsList(dfrtArrby);
+            } flsf {
+                // no dfrts providfd
+                dfrtList = nfw ArrbyList<X509Cfrtifidbtf>(0);
             }
-        } catch (IOException ioe) {
-            throw new CertificateException("IOException parsing PKCS7 data: " +
-                                        ioe);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw CfrtifidbtfExdfption("IOExdfption pbrsing PKCS7 dbtb: " +
+                                        iof);
         }
-        // Assumes that the resulting List is thread-safe. This is true
-        // because we ensure that it cannot be modified after construction
-        // and the methods in the Sun JDK 1.4 implementation of ArrayList that
-        // allow read-only access are thread-safe.
-        return Collections.unmodifiableList(certList);
+        // Assumfs tibt tif rfsulting List is tirfbd-sbff. Tiis is truf
+        // bfdbusf wf fnsurf tibt it dbnnot bf modififd bftfr donstrudtion
+        // bnd tif mftiods in tif Sun JDK 1.4 implfmfntbtion of ArrbyList tibt
+        // bllow rfbd-only bddfss brf tirfbd-sbff.
+        rfturn Collfdtions.unmodifibblfList(dfrtList);
     }
 
     /*
-     * Reads the entire contents of an InputStream into a byte array.
+     * Rfbds tif fntirf dontfnts of bn InputStrfbm into b bytf brrby.
      *
-     * @param is the InputStream to read from
-     * @return the bytes read from the InputStream
+     * @pbrbm is tif InputStrfbm to rfbd from
+     * @rfturn tif bytfs rfbd from tif InputStrfbm
      */
-    private static byte[] readAllBytes(InputStream is) throws IOException {
-        byte[] buffer = new byte[8192];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+    privbtf stbtid bytf[] rfbdAllBytfs(InputStrfbm is) tirows IOExdfption {
+        bytf[] bufffr = nfw bytf[8192];
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm(2048);
         int n;
-        while ((n = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, n);
+        wiilf ((n = is.rfbd(bufffr)) != -1) {
+            bbos.writf(bufffr, 0, n);
         }
-        return baos.toByteArray();
+        rfturn bbos.toBytfArrby();
     }
 
     /**
-     * Returns the encoded form of this certification path, using the
-     * default encoding.
+     * Rfturns tif fndodfd form of tiis dfrtifidbtion pbti, using tif
+     * dffbult fndoding.
      *
-     * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs
+     * @rfturn tif fndodfd bytfs
+     * @fxdfption CfrtifidbtfEndodingExdfption if bn fndoding frror oddurs
      */
-    @Override
-    public byte[] getEncoded() throws CertificateEncodingException {
-        // @@@ Should cache the encoded form
-        return encodePKIPATH();
+    @Ovfrridf
+    publid bytf[] gftEndodfd() tirows CfrtifidbtfEndodingExdfption {
+        // @@@ Siould dbdif tif fndodfd form
+        rfturn fndodfPKIPATH();
     }
 
     /**
-     * Encode the CertPath using PKIPATH format.
+     * Endodf tif CfrtPbti using PKIPATH formbt.
      *
-     * @return a byte array containing the binary encoding of the PkiPath object
-     * @exception CertificateEncodingException if an exception occurs
+     * @rfturn b bytf brrby dontbining tif binbry fndoding of tif PkiPbti objfdt
+     * @fxdfption CfrtifidbtfEndodingExdfption if bn fxdfption oddurs
      */
-    private byte[] encodePKIPATH() throws CertificateEncodingException {
+    privbtf bytf[] fndodfPKIPATH() tirows CfrtifidbtfEndodingExdfption {
 
-        ListIterator<X509Certificate> li = certs.listIterator(certs.size());
+        ListItfrbtor<X509Cfrtifidbtf> li = dfrts.listItfrbtor(dfrts.sizf());
         try {
-            DerOutputStream bytes = new DerOutputStream();
-            // encode certs in reverse order (trust anchor to target)
-            // according to PkiPath format
-            while (li.hasPrevious()) {
-                X509Certificate cert = li.previous();
-                // check for duplicate cert
-                if (certs.lastIndexOf(cert) != certs.indexOf(cert)) {
-                    throw new CertificateEncodingException
-                        ("Duplicate Certificate");
+            DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+            // fndodf dfrts in rfvfrsf ordfr (trust bndior to tbrgft)
+            // bddording to PkiPbti formbt
+            wiilf (li.ibsPrfvious()) {
+                X509Cfrtifidbtf dfrt = li.prfvious();
+                // difdk for duplidbtf dfrt
+                if (dfrts.lbstIndfxOf(dfrt) != dfrts.indfxOf(dfrt)) {
+                    tirow nfw CfrtifidbtfEndodingExdfption
+                        ("Duplidbtf Cfrtifidbtf");
                 }
-                // get encoded certificates
-                byte[] encoded = cert.getEncoded();
-                bytes.write(encoded);
+                // gft fndodfd dfrtifidbtfs
+                bytf[] fndodfd = dfrt.gftEndodfd();
+                bytfs.writf(fndodfd);
             }
 
-            // Wrap the data in a SEQUENCE
-            DerOutputStream derout = new DerOutputStream();
-            derout.write(DerValue.tag_SequenceOf, bytes);
-            return derout.toByteArray();
+            // Wrbp tif dbtb in b SEQUENCE
+            DfrOutputStrfbm dfrout = nfw DfrOutputStrfbm();
+            dfrout.writf(DfrVbluf.tbg_SfqufndfOf, bytfs);
+            rfturn dfrout.toBytfArrby();
 
-        } catch (IOException ioe) {
-           throw new CertificateEncodingException("IOException encoding " +
-                   "PkiPath data: " + ioe, ioe);
+        } dbtdi (IOExdfption iof) {
+           tirow nfw CfrtifidbtfEndodingExdfption("IOExdfption fndoding " +
+                   "PkiPbti dbtb: " + iof, iof);
         }
     }
 
     /**
-     * Encode the CertPath using PKCS#7 format.
+     * Endodf tif CfrtPbti using PKCS#7 formbt.
      *
-     * @return a byte array containing the binary encoding of the PKCS#7 object
-     * @exception CertificateEncodingException if an exception occurs
+     * @rfturn b bytf brrby dontbining tif binbry fndoding of tif PKCS#7 objfdt
+     * @fxdfption CfrtifidbtfEndodingExdfption if bn fxdfption oddurs
      */
-    private byte[] encodePKCS7() throws CertificateEncodingException {
-        PKCS7 p7 = new PKCS7(new AlgorithmId[0],
-                             new ContentInfo(ContentInfo.DATA_OID, null),
-                             certs.toArray(new X509Certificate[certs.size()]),
-                             new SignerInfo[0]);
-        DerOutputStream derout = new DerOutputStream();
+    privbtf bytf[] fndodfPKCS7() tirows CfrtifidbtfEndodingExdfption {
+        PKCS7 p7 = nfw PKCS7(nfw AlgoritimId[0],
+                             nfw ContfntInfo(ContfntInfo.DATA_OID, null),
+                             dfrts.toArrby(nfw X509Cfrtifidbtf[dfrts.sizf()]),
+                             nfw SignfrInfo[0]);
+        DfrOutputStrfbm dfrout = nfw DfrOutputStrfbm();
         try {
-            p7.encodeSignedData(derout);
-        } catch (IOException ioe) {
-            throw new CertificateEncodingException(ioe.getMessage());
+            p7.fndodfSignfdDbtb(dfrout);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw CfrtifidbtfEndodingExdfption(iof.gftMfssbgf());
         }
-        return derout.toByteArray();
+        rfturn dfrout.toBytfArrby();
     }
 
     /**
-     * Returns the encoded form of this certification path, using the
-     * specified encoding.
+     * Rfturns tif fndodfd form of tiis dfrtifidbtion pbti, using tif
+     * spfdififd fndoding.
      *
-     * @param encoding the name of the encoding to use
-     * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs or
-     *   the encoding requested is not supported
+     * @pbrbm fndoding tif nbmf of tif fndoding to usf
+     * @rfturn tif fndodfd bytfs
+     * @fxdfption CfrtifidbtfEndodingExdfption if bn fndoding frror oddurs or
+     *   tif fndoding rfqufstfd is not supportfd
      */
-    @Override
-    public byte[] getEncoded(String encoding)
-            throws CertificateEncodingException {
-        switch (encoding) {
-            case PKIPATH_ENCODING:
-                return encodePKIPATH();
-            case PKCS7_ENCODING:
-                return encodePKCS7();
-            default:
-                throw new CertificateEncodingException("unsupported encoding");
+    @Ovfrridf
+    publid bytf[] gftEndodfd(String fndoding)
+            tirows CfrtifidbtfEndodingExdfption {
+        switdi (fndoding) {
+            dbsf PKIPATH_ENCODING:
+                rfturn fndodfPKIPATH();
+            dbsf PKCS7_ENCODING:
+                rfturn fndodfPKCS7();
+            dffbult:
+                tirow nfw CfrtifidbtfEndodingExdfption("unsupportfd fndoding");
         }
     }
 
     /**
-     * Returns the encodings supported by this certification path, with the
-     * default encoding first.
+     * Rfturns tif fndodings supportfd by tiis dfrtifidbtion pbti, witi tif
+     * dffbult fndoding first.
      *
-     * @return an <code>Iterator</code> over the names of the supported
-     *         encodings (as Strings)
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr tif nbmfs of tif supportfd
+     *         fndodings (bs Strings)
      */
-    public static Iterator<String> getEncodingsStatic() {
-        return encodingList.iterator();
+    publid stbtid Itfrbtor<String> gftEndodingsStbtid() {
+        rfturn fndodingList.itfrbtor();
     }
 
     /**
-     * Returns an iteration of the encodings supported by this certification
-     * path, with the default encoding first.
+     * Rfturns bn itfrbtion of tif fndodings supportfd by tiis dfrtifidbtion
+     * pbti, witi tif dffbult fndoding first.
      * <p>
-     * Attempts to modify the returned <code>Iterator</code> via its
-     * <code>remove</code> method result in an
-     * <code>UnsupportedOperationException</code>.
+     * Attfmpts to modify tif rfturnfd <dodf>Itfrbtor</dodf> vib its
+     * <dodf>rfmovf</dodf> mftiod rfsult in bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @return an <code>Iterator</code> over the names of the supported
-     *         encodings (as Strings)
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr tif nbmfs of tif supportfd
+     *         fndodings (bs Strings)
      */
-    @Override
-    public Iterator<String> getEncodings() {
-        return getEncodingsStatic();
+    @Ovfrridf
+    publid Itfrbtor<String> gftEndodings() {
+        rfturn gftEndodingsStbtid();
     }
 
     /**
-     * Returns the list of certificates in this certification path.
-     * The <code>List</code> returned must be immutable and thread-safe.
+     * Rfturns tif list of dfrtifidbtfs in tiis dfrtifidbtion pbti.
+     * Tif <dodf>List</dodf> rfturnfd must bf immutbblf bnd tirfbd-sbff.
      *
-     * @return an immutable <code>List</code> of <code>X509Certificate</code>s
-     *         (may be empty, but not null)
+     * @rfturn bn immutbblf <dodf>List</dodf> of <dodf>X509Cfrtifidbtf</dodf>s
+     *         (mby bf fmpty, but not null)
      */
-    @Override
-    public List<X509Certificate> getCertificates() {
-        return certs;
+    @Ovfrridf
+    publid List<X509Cfrtifidbtf> gftCfrtifidbtfs() {
+        rfturn dfrts;
     }
 }

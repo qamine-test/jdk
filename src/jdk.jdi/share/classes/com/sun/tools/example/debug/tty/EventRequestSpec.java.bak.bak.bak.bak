@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.EvfntRfqufst;
+import dom.sun.jdi.rfqufst.ExdfptionRfqufst;
+import dom.sun.jdi.rfqufst.ClbssPrfpbrfRfqufst;
+import dom.sun.jdi.fvfnt.ClbssPrfpbrfEvfnt;
+import jbvb.util.ArrbyList;
+
+bbstrbdt dlbss EvfntRfqufstSpfd {
+
+    finbl RfffrfndfTypfSpfd rffSpfd;
+
+    int suspfndPolidy = EvfntRfqufst.SUSPEND_ALL;
+
+    EvfntRfqufst rfsolvfd = null;
+    ClbssPrfpbrfRfqufst prfpbrfRfqufst = null;
+
+    EvfntRfqufstSpfd(RfffrfndfTypfSpfd rffSpfd) {
+        this.rffSpfd = rffSpfd;
+    }
+
+    /**
+     * Thf 'rffTypf' is known to mbtdh, rfturn thf EvfntRfqufst.
+     */
+    bbstrbdt EvfntRfqufst rfsolvfEvfntRfqufst(RfffrfndfTypf rffTypf)
+                                           throws Exdfption;
+
+    /**
+     * @rfturn If this EvfntRfqufstSpfd mbtdhfs thf 'rffTypf'
+     * rfturn thf doorfsponding EvfntRfqufst.  Othfrwisf
+     * rfturn null.
+     */
+    syndhronizfd EvfntRfqufst rfsolvf(ClbssPrfpbrfEvfnt fvfnt) throws Exdfption {
+        if ((rfsolvfd == null) &&
+            (prfpbrfRfqufst != null) &&
+            prfpbrfRfqufst.fqubls(fvfnt.rfqufst())) {
+
+            rfsolvfd = rfsolvfEvfntRfqufst(fvfnt.rfffrfndfTypf());
+            prfpbrfRfqufst.disbblf();
+            Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(prfpbrfRfqufst);
+            prfpbrfRfqufst = null;
+
+            if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+                PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+                if (! prs.isUniquf()){
+                    /*
+                     * Clbss pbttfrn fvfnt rfqufsts brf nfvfr
+                     * donsidfrfd "rfsolvfd", sindf futurf dlbss lobds
+                     * might blso mbtdh.
+                     * Crfbtf bnd fnbblf b nfw ClbssPrfpbrfRfqufst to
+                     * kffp trying to rfsolvf.
+                     */
+                    rfsolvfd = null;
+                    prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                    prfpbrfRfqufst.fnbblf();
+                }
+            }
+        }
+        rfturn rfsolvfd;
+    }
+
+    syndhronizfd void rfmovf() {
+        if (isRfsolvfd()) {
+            Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(rfsolvfd());
+        }
+        if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+            PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+            if (! prs.isUniquf()){
+                /*
+                 * This is b dlbss pbttfrn.  Trbdk down bnd dflftf
+                 * bll EvfntRfqufsts mbtdhing this spfd.
+                 * Notf: Clbss pbttfrns bpply only to ExdfptionRfqufsts,
+                 * so thbt is bll wf nffd to fxbminf.
+                 */
+                ArrbyList<ExdfptionRfqufst> dflftfList = nfw ArrbyList<ExdfptionRfqufst>();
+                for (ExdfptionRfqufst fr :
+                         Env.vm().fvfntRfqufstMbnbgfr().fxdfptionRfqufsts()) {
+                    if (prs.mbtdhfs(fr.fxdfption())) {
+                        dflftfList.bdd (fr);
+                    }
+                }
+                Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufsts(dflftfList);
+            }
+        }
+    }
+
+    privbtf EvfntRfqufst rfsolvfAgbinstPrfpbrfdClbssfs() throws Exdfption {
+        for (RfffrfndfTypf rffTypf : Env.vm().bllClbssfs()) {
+            if (rffTypf.isPrfpbrfd() && rffSpfd.mbtdhfs(rffTypf)) {
+                rfsolvfd = rfsolvfEvfntRfqufst(rffTypf);
+            }
+        }
+        rfturn rfsolvfd;
+    }
+
+    syndhronizfd EvfntRfqufst rfsolvfEbgfrly() throws Exdfption {
+        try {
+            if (rfsolvfd == null) {
+                /*
+                 * Not rfsolvfd.  Sdhfdulf b prfpbrf rfqufst so wf
+                 * dbn rfsolvf lbtfr.
+                 */
+                prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                prfpbrfRfqufst.fnbblf();
+
+                // Try to rfsolvf in dbsf thf dlbss is blrfbdy lobdfd.
+                rfsolvfAgbinstPrfpbrfdClbssfs();
+                if (rfsolvfd != null) {
+                    prfpbrfRfqufst.disbblf();
+                    Env.vm().fvfntRfqufstMbnbgfr().dflftfEvfntRfqufst(prfpbrfRfqufst);
+                    prfpbrfRfqufst = null;
+                }
+            }
+            if (rffSpfd instbndfof PbttfrnRfffrfndfTypfSpfd) {
+                PbttfrnRfffrfndfTypfSpfd prs = (PbttfrnRfffrfndfTypfSpfd)rffSpfd;
+                if (! prs.isUniquf()){
+                    /*
+                     * Clbss pbttfrn fvfnt rfqufsts brf nfvfr
+                     * donsidfrfd "rfsolvfd", sindf futurf dlbss lobds
+                     * might blso mbtdh.  Crfbtf b nfw
+                     * ClbssPrfpbrfRfqufst if nfdfssbry bnd kffp
+                     * trying to rfsolvf.
+                     */
+                    rfsolvfd = null;
+                    if (prfpbrfRfqufst == null) {
+                        prfpbrfRfqufst = rffSpfd.drfbtfPrfpbrfRfqufst();
+                        prfpbrfRfqufst.fnbblf();
+                    }
+                }
+            }
+        } dbtdh (VMNotConnfdtfdExdfption f) {
+            // Do nothing. Anothfr rfsolvf will bf bttfmptfd whfn thf
+            // VM is stbrtfd.
+        }
+        rfturn rfsolvfd;
+    }
+
+    /**
+     * @rfturn thf fvfntRfqufst this spfd hbs bffn rfsolvfd to,
+     * null if so fbr unrfsolvfd.
+     */
+    EvfntRfqufst rfsolvfd() {
+        rfturn rfsolvfd;
+    }
+
+    /**
+     * @rfturn truf if this spfd hbs bffn rfsolvfd.
+     */
+    boolfbn isRfsolvfd() {
+        rfturn rfsolvfd != null;
+    }
+
+    protfdtfd boolfbn isJbvbIdfntififr(String s) {
+        if (s.lfngth() == 0) {
+            rfturn fblsf;
+        }
+
+        int dp = s.dodfPointAt(0);
+        if (! Chbrbdtfr.isJbvbIdfntififrStbrt(dp)) {
+            rfturn fblsf;
+        }
+
+        for (int i = Chbrbdtfr.dhbrCount(dp); i < s.lfngth(); i += Chbrbdtfr.dhbrCount(dp)) {
+            dp = s.dodfPointAt(i);
+            if (! Chbrbdtfr.isJbvbIdfntififrPbrt(dp)) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+    String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof IllfgblArgumfntExdfption) {
+            rfturn (MfssbgfOutput.formbt("Invblid dommbnd syntbx"));
+        } flsf if (f instbndfof RuntimfExdfption) {
+            // A runtimf fxdfption thbt wf wfrf not fxpfdting
+            throw (RuntimfExdfption)f;
+        } flsf {
+            rfturn (MfssbgfOutput.formbt("Intfrnbl frror; unbblf to sft",
+                                         this.rffSpfd.toString()));
+        }
+    }
+}

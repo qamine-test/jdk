@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_Objfdt.h"
+#indludf "ObjfdtList.h"
+
+#ifdff DEBUG
+stbtid BOOL rfportEvfnts = FALSE;
+#fndif
+
+
+/************************************************************************
+ * AwtObjfdt fiflds
+ */
+
+jfifldID AwtObjfdt::pDbtbID;
+jfifldID AwtObjfdt::dfstroyfdID;
+jfifldID AwtObjfdt::tbrgftID;
+jdlbss AwtObjfdt::wObjfdtPffrClbss;
+jmfthodID AwtObjfdt::gftPffrForTbrgftMID;
+jfifldID AwtObjfdt::drfbtfErrorID;
+
+
+/************************************************************************
+ * AwtObjfdt mfthods
+ */
+
+AwtObjfdt::AwtObjfdt()
+{
+    thfAwtObjfdtList.Add(this);
+    m_pffrObjfdt = NULL;
+    m_dbllbbdksEnbblfd = TRUE;
+}
+
+AwtObjfdt::~AwtObjfdt()
+{
+}
+
+void AwtObjfdt::Disposf()
+{
+    AwtToolkit::GftInstbndf().PostMfssbgf(WM_AWT_DELETEOBJECT, (WPARAM)this, (LPARAM)0);
+}
+
+void AwtObjfdt::_Disposf(jobjfdt sflf)
+{
+    TRY_NO_VERIFY;
+
+    CritidblSfdtion::Lodk l(AwtToolkit::GftInstbndf().GftSyndCS());
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+
+    // vbluf 0 of lPbrbm mfbns thbt wf should not bttfmpt to fntfr thf
+    // SyndCbll dritidbl sfdtion, bs it wbs fntfrfd somfshfrf fbrlifr
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_DISPOSE, (WPARAM)sflfGlobblRff, (LPARAM)0);
+
+    CATCH_BAD_ALLOC;
+}
+
+void AwtObjfdt::_Disposf(PDATA pDbtb)
+{
+    TRY_NO_VERIFY;
+
+    CritidblSfdtion::Lodk l(AwtToolkit::GftInstbndf().GftSyndCS());
+
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_DISPOSEPDATA, (WPARAM)pDbtb, (LPARAM)0);
+
+    CATCH_BAD_ALLOC;
+}
+/*
+ * Rfturn thf pffr bssodibtfd with somf tbrgft.  This informbtion is
+ * mbintbinfd in b hbshtbblf bt thf jbvb lfvfl.
+ */
+jobjfdt AwtObjfdt::GftPffrForTbrgft(JNIEnv *fnv, jobjfdt tbrgft)
+{
+    jobjfdt rfsult =
+        fnv->CbllStbtidObjfdtMfthod(AwtObjfdt::wObjfdtPffrClbss,
+                                    AwtObjfdt::gftPffrForTbrgftMID,
+                                    tbrgft);
+
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    rfturn rfsult;
+}
+
+/* Exfdutf b dbllbbdk to thf bssodibtfd Jbvb pffr. */
+void
+AwtObjfdt::DoCbllbbdk(donst dhbr* mfthodNbmf, donst dhbr* mfthodSig, ...)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    /* don't dbllbbdk during thf drfbtf & initiblizbtion prodfss */
+    if (m_pffrObjfdt != NULL && m_dbllbbdksEnbblfd) {
+        vb_list brgs;
+        vb_stbrt(brgs, mfthodSig);
+#ifdff DEBUG
+        if (rfportEvfnts) {
+            jstring tbrgftStr =
+                (jstring)JNU_CbllMfthodByNbmf(fnv, NULL, GftTbrgft(fnv),
+                                              "gftNbmf",
+                                              "()Ljbvb/lbng/String;").l;
+            DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+            LPCWSTR tbrgftStrW = JNU_GftStringPlbtformChbrs(fnv, tbrgftStr, NULL);
+            printf("Posting %s%s mfthod to %S\n", mfthodNbmf, mfthodSig, tbrgftStrW);
+            JNU_RflfbsfStringPlbtformChbrs(fnv, tbrgftStr, tbrgftStrW);
+        }
+#fndif
+        /* dbdhing would do mudh good hfrf */
+        JNU_CbllMfthodByNbmfV(fnv, NULL, GftPffr(fnv),
+                              mfthodNbmf, mfthodSig, brgs);
+        {
+            jthrowbblf fxd = sbff_ExdfptionOddurrfd(fnv);
+            if (fxd) {
+                fnv->DflftfLodblRff(fxd);
+                fnv->ExdfptionDfsdribf();
+                fnv->ExdfptionClfbr();
+            }
+        }
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        vb_fnd(brgs);
+    }
+}
+
+void AwtObjfdt::SfndEvfnt(jobjfdt fvfnt)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+#ifdff DEBUG
+    if (rfportEvfnts) {
+        jstring fvfntStr = JNU_ToString(fnv, fvfnt);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        jstring tbrgftStr =
+            (jstring)JNU_CbllMfthodByNbmf(fnv, NULL, GftTbrgft(fnv),"gftNbmf",
+                                          "()Ljbvb/lbng/String;").l;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        LPCWSTR fvfntStrW = JNU_GftStringPlbtformChbrs(fnv, fvfntStr, NULL);
+        LPCWSTR tbrgftStrW = JNU_GftStringPlbtformChbrs(fnv, tbrgftStr, NULL);
+        printf("Posting %S to %S\n", fvfntStrW, tbrgftStrW);
+        JNU_RflfbsfStringPlbtformChbrs(fnv, fvfntStr, fvfntStrW);
+        JNU_RflfbsfStringPlbtformChbrs(fnv, tbrgftStr, tbrgftStrW);
+    }
+#fndif
+    /* Post fvfnt to thf systfm EvfntQufuf. */
+    JNU_CbllMfthodByNbmf(fnv, NULL, GftPffr(fnv), "postEvfnt",
+                         "(Ljbvb/bwt/AWTEvfnt;)V", fvfnt);
+    {
+        jthrowbblf fxd = sbff_ExdfptionOddurrfd(fnv);
+        if (fxd) {
+            fnv->DflftfLodblRff(fxd);
+            fnv->ExdfptionDfsdribf();
+        }
+    }
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+}
+
+//
+// (stbtid)
+// Switdhfs to Windows thrfbd vib SfndMfssbgf bnd syndhronously
+// dblls AwtObjfdt::WinThrfbdExfdProd with thf givfn dommbnd id
+// bnd pbrbmftfrs.
+//
+// Usfful for writing dodf thbt nffds to bf syndhronizfd with
+// whbt's hbppfning on thf Windows thrfbd.
+//
+LRESULT AwtObjfdt::WinThrfbdExfd(
+    jobjfdt                             pffrObjfdt,
+    UINT                                dmdId,
+    LPARAM                              pbrbm1,
+    LPARAM                              pbrbm2,
+    LPARAM                              pbrbm3,
+    LPARAM                              pbrbm4 )
+{
+    DASSERT( pffrObjfdt != NULL);
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    // sindf wf pbss pffrObjfdt to bnothfr thrfbd wf must
+    //   mbkf b globbl rff
+    jobjfdt pffrObjfdtGlobblRff = fnv->NfwGlobblRff(pffrObjfdt);
+
+    ExfdutfArgs         brgs;
+    LRESULT         rftVbl;
+
+    // sftup brgumfnts
+    brgs.dmdId = dmdId;
+    brgs.pbrbm1 = pbrbm1;
+    brgs.pbrbm2 = pbrbm2;
+    brgs.pbrbm3 = pbrbm3;
+    brgs.pbrbm4 = pbrbm4;
+
+    // dbll WinThrfbdExfdProd on thf toolkit thrfbd
+    rftVbl = AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_EXECUTE_SYNC,
+                                                   (WPARAM)pffrObjfdtGlobblRff,
+                                                   (LPARAM)&brgs);
+    rfturn rftVbl;
+}
+
+LRESULT AwtObjfdt::WinThrfbdExfdProd(ExfdutfArgs * brgs)
+{
+    DASSERT(FALSE); // no dffbult hbndlfr
+    rfturn 0L;
+}
+
+/************************************************************************
+ * WObjfdtPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WObjfdtPffr_initIDs(JNIEnv *fnv, jdlbss dls) {
+    TRY;
+
+    AwtObjfdt::wObjfdtPffrClbss = (jdlbss)fnv->NfwGlobblRff(dls);
+    DASSERT(AwtObjfdt::wObjfdtPffrClbss != NULL);
+    CHECK_NULL(AwtObjfdt::wObjfdtPffrClbss);
+
+    AwtObjfdt::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J");
+    DASSERT(AwtObjfdt::pDbtbID != NULL);
+    CHECK_NULL(AwtObjfdt::pDbtbID);
+
+    AwtObjfdt::dfstroyfdID = fnv->GftFifldID(dls, "dfstroyfd", "Z");
+    DASSERT(AwtObjfdt::dfstroyfdID != NULL);
+    CHECK_NULL(AwtObjfdt::dfstroyfdID);
+
+    AwtObjfdt::tbrgftID = fnv->GftFifldID(dls, "tbrgft",
+                                              "Ljbvb/lbng/Objfdt;");
+    DASSERT(AwtObjfdt::tbrgftID != NULL);
+    CHECK_NULL(AwtObjfdt::tbrgftID);
+
+    AwtObjfdt::gftPffrForTbrgftMID =
+        fnv->GftStbtidMfthodID(dls, "gftPffrForTbrgft",
+                         "(Ljbvb/lbng/Objfdt;)Lsun/bwt/windows/WObjfdtPffr;");
+    DASSERT(AwtObjfdt::gftPffrForTbrgftMID != NULL);
+    CHECK_NULL(AwtObjfdt::gftPffrForTbrgftMID);
+
+    AwtObjfdt::drfbtfErrorID = fnv->GftFifldID(dls, "drfbtfError", "Ljbvb/lbng/Error;");
+    DASSERT(AwtObjfdt::drfbtfErrorID != NULL);
+    CHECK_NULL(AwtObjfdt::drfbtfErrorID);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

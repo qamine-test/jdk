@@ -1,329 +1,329 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright IBM Corp. 1998-2001 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2001 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by IBM. Tifsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-#include "FontInstanceAdapter.h"
+#indludf "FontInstbndfAdbptfr.i"
 
-FontInstanceAdapter::FontInstanceAdapter(JNIEnv *theEnv,
-                                         jobject theFont2D,
-                                         jobject theFontStrike,
-                                         float *matrix,
-                                         le_int32 xRes, le_int32 yRes,
-                                         le_int32 theUPEM,
-                                         TTLayoutTableCache *ltables)
-    : env(theEnv), font2D(theFont2D), fontStrike(theFontStrike),
-      xppem(0), yppem(0),
-      xScaleUnitsToPoints(0), yScaleUnitsToPoints(0),
-      xScalePixelsToUnits(0), yScalePixelsToUnits(0),
-      upem(theUPEM), layoutTables(ltables)
+FontInstbndfAdbptfr::FontInstbndfAdbptfr(JNIEnv *tifEnv,
+                                         jobjfdt tifFont2D,
+                                         jobjfdt tifFontStrikf,
+                                         flobt *mbtrix,
+                                         lf_int32 xRfs, lf_int32 yRfs,
+                                         lf_int32 tifUPEM,
+                                         TTLbyoutTbblfCbdif *ltbblfs)
+    : fnv(tifEnv), font2D(tifFont2D), fontStrikf(tifFontStrikf),
+      xppfm(0), yppfm(0),
+      xSdblfUnitsToPoints(0), ySdblfUnitsToPoints(0),
+      xSdblfPixflsToUnits(0), ySdblfPixflsToUnits(0),
+      upfm(tifUPEM), lbyoutTbblfs(ltbblfs)
 {
-    xPointSize = euclidianDistance(matrix[0], matrix[1]);
-    yPointSize = euclidianDistance(matrix[2], matrix[3]);
+    xPointSizf = fudlidibnDistbndf(mbtrix[0], mbtrix[1]);
+    yPointSizf = fudlidibnDistbndf(mbtrix[2], mbtrix[3]);
 
-    txMat[0] = matrix[0]/xPointSize;
-    txMat[1] = matrix[1]/xPointSize;
-    txMat[2] = matrix[2]/yPointSize;
-    txMat[3] = matrix[3]/yPointSize;
+    txMbt[0] = mbtrix[0]/xPointSizf;
+    txMbt[1] = mbtrix[1]/xPointSizf;
+    txMbt[2] = mbtrix[2]/yPointSizf;
+    txMbt[3] = mbtrix[3]/yPointSizf;
 
-    xppem = ((float) xRes / 72) * xPointSize;
-    yppem = ((float) yRes / 72) * yPointSize;
+    xppfm = ((flobt) xRfs / 72) * xPointSizf;
+    yppfm = ((flobt) yRfs / 72) * yPointSizf;
 
-    xScaleUnitsToPoints = xPointSize / upem;
-    yScaleUnitsToPoints = yPointSize / upem;
+    xSdblfUnitsToPoints = xPointSizf / upfm;
+    ySdblfUnitsToPoints = yPointSizf / upfm;
 
-    xScalePixelsToUnits = upem / xppem;
-    yScalePixelsToUnits = upem / yppem;
+    xSdblfPixflsToUnits = upfm / xppfm;
+    ySdblfPixflsToUnits = upfm / yppfm;
 };
 
 
-const void *FontInstanceAdapter::getFontTable(LETag tableTag) const
+donst void *FontInstbndfAdbptfr::gftFontTbblf(LETbg tbblfTbg) donst
 {
-  size_t ignored = 0;
-  return getFontTable(tableTag, ignored);
+  sizf_t ignorfd = 0;
+  rfturn gftFontTbblf(tbblfTbg, ignorfd);
 }
 
-static const LETag cacheMap[LAYOUTCACHE_ENTRIES] = {
+stbtid donst LETbg dbdifMbp[LAYOUTCACHE_ENTRIES] = {
   GPOS_TAG, GDEF_TAG, GSUB_TAG, MORT_TAG, MORX_TAG, KERN_TAG
 };
 
-const void *FontInstanceAdapter::getFontTable(LETag tableTag, size_t &length) const
+donst void *FontInstbndfAdbptfr::gftFontTbblf(LETbg tbblfTbg, sizf_t &lfngti) donst
 {
-  length = 0;
+  lfngti = 0;
 
-  if (!layoutTables) { // t1 font
-    return 0;
+  if (!lbyoutTbblfs) { // t1 font
+    rfturn 0;
   }
 
-  // cache in font's pscaler object
-  // font disposer will handle for us
+  // dbdif in font's psdblfr objfdt
+  // font disposfr will ibndlf for us
 
-  int cacheIdx;
-  for (cacheIdx=0;cacheIdx<LAYOUTCACHE_ENTRIES;cacheIdx++) {
-    if (tableTag==cacheMap[cacheIdx]) break;
+  int dbdifIdx;
+  for (dbdifIdx=0;dbdifIdx<LAYOUTCACHE_ENTRIES;dbdifIdx++) {
+    if (tbblfTbg==dbdifMbp[dbdifIdx]) brfbk;
   }
 
-  if (cacheIdx<LAYOUTCACHE_ENTRIES) { // if found
-    if (layoutTables->entries[cacheIdx].len != -1) {
-      length = layoutTables->entries[cacheIdx].len;
-      return layoutTables->entries[cacheIdx].ptr;
+  if (dbdifIdx<LAYOUTCACHE_ENTRIES) { // if found
+    if (lbyoutTbblfs->fntrifs[dbdifIdx].lfn != -1) {
+      lfngti = lbyoutTbblfs->fntrifs[dbdifIdx].lfn;
+      rfturn lbyoutTbblfs->fntrifs[dbdifIdx].ptr;
     }
-  } else {
-    //fprintf(stderr, "unexpected table request from font instance adapter: %x\n", tableTag);
-    // (don't load any other tables)
-    return 0;
+  } flsf {
+    //fprintf(stdfrr, "unfxpfdtfd tbblf rfqufst from font instbndf bdbptfr: %x\n", tbblfTbg);
+    // (don't lobd bny otifr tbblfs)
+    rfturn 0;
   }
 
-  jbyte* result = 0;
-  jsize  len = 0;
-  jbyteArray tableBytes = (jbyteArray)
-    env->CallObjectMethod(font2D, sunFontIDs.getTableBytesMID, tableTag);
-  if (!IS_NULL(tableBytes)) {
-    len = env->GetArrayLength(tableBytes);
-    result = new jbyte[len];
-    env->GetByteArrayRegion(tableBytes, 0, len, result);
+  jbytf* rfsult = 0;
+  jsizf  lfn = 0;
+  jbytfArrby tbblfBytfs = (jbytfArrby)
+    fnv->CbllObjfdtMftiod(font2D, sunFontIDs.gftTbblfBytfsMID, tbblfTbg);
+  if (!IS_NULL(tbblfBytfs)) {
+    lfn = fnv->GftArrbyLfngti(tbblfBytfs);
+    rfsult = nfw jbytf[lfn];
+    fnv->GftBytfArrbyRfgion(tbblfBytfs, 0, lfn, rfsult);
   }
 
-  if (cacheIdx<LAYOUTCACHE_ENTRIES) { // if cacheable table
-    layoutTables->entries[cacheIdx].len = len;
-    layoutTables->entries[cacheIdx].ptr = (const void*)result;
+  if (dbdifIdx<LAYOUTCACHE_ENTRIES) { // if dbdifbblf tbblf
+    lbyoutTbblfs->fntrifs[dbdifIdx].lfn = lfn;
+    lbyoutTbblfs->fntrifs[dbdifIdx].ptr = (donst void*)rfsult;
   }
 
-  length = len;
-  return (const void*)result;
+  lfngti = lfn;
+  rfturn (donst void*)rfsult;
 };
 
-LEGlyphID FontInstanceAdapter::mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const
+LEGlypiID FontInstbndfAdbptfr::mbpCibrToGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst
 {
-    LEUnicode32 mappedChar = mapper->mapChar(ch);
+    LEUnidodf32 mbppfdCibr = mbppfr->mbpCibr(di);
 
-    if (mappedChar == 0xFFFF || mappedChar == 0xFFFE) {
-        return 0xFFFF;
+    if (mbppfdCibr == 0xFFFF || mbppfdCibr == 0xFFFE) {
+        rfturn 0xFFFF;
     }
 
-    if (mappedChar == 0x200C || mappedChar == 0x200D) {
-        return 1;
+    if (mbppfdCibr == 0x200C || mbppfdCibr == 0x200D) {
+        rfturn 1;
     }
 
-    LEGlyphID id = (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.f2dCharToGlyphMID, (jint)mappedChar);
-    return id;
+    LEGlypiID id = (LEGlypiID)fnv->CbllIntMftiod(font2D, sunFontIDs.f2dCibrToGlypiMID, (jint)mbppfdCibr);
+    rfturn id;
 }
 
-LEGlyphID FontInstanceAdapter::mapCharToGlyph(LEUnicode32 ch) const
+LEGlypiID FontInstbndfAdbptfr::mbpCibrToGlypi(LEUnidodf32 di) donst
 {
-    LEGlyphID id = (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.f2dCharToGlyphMID, ch);
-    return id;
+    LEGlypiID id = (LEGlypiID)fnv->CbllIntMftiod(font2D, sunFontIDs.f2dCibrToGlypiMID, di);
+    rfturn id;
 }
 
-void FontInstanceAdapter::mapCharsToWideGlyphs(const LEUnicode chars[],
-    le_int32 offset, le_int32 count, le_bool reverse,
-    const LECharMapper *mapper, le_uint32 glyphs[]) const
+void FontInstbndfAdbptfr::mbpCibrsToWidfGlypis(donst LEUnidodf dibrs[],
+    lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+    donst LECibrMbppfr *mbppfr, lf_uint32 glypis[]) donst
 {
-    le_int32 i, out = 0, dir = 1;
+    lf_int32 i, out = 0, dir = 1;
 
-    if (reverse) {
-        out = count - 1;
+    if (rfvfrsf) {
+        out = dount - 1;
         dir = -1;
     }
 
-    for (i = offset; i < offset + count; i += 1, out += dir) {
-                LEUnicode16 high = chars[i];
-                LEUnicode32 code = high;
+    for (i = offsft; i < offsft + dount; i += 1, out += dir) {
+                LEUnidodf16 iigi = dibrs[i];
+                LEUnidodf32 dodf = iigi;
 
-                if (i < offset + count - 1 && high >= 0xD800 && high <= 0xDBFF) {
-                        LEUnicode16 low = chars[i + 1];
+                if (i < offsft + dount - 1 && iigi >= 0xD800 && iigi <= 0xDBFF) {
+                        LEUnidodf16 low = dibrs[i + 1];
 
                         if (low >= 0xDC00 && low <= 0xDFFF) {
-                                code = (high - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
+                                dodf = (iigi - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
                         }
                 }
 
-        glyphs[out] = mapCharToWideGlyph(code, mapper);
+        glypis[out] = mbpCibrToWidfGlypi(dodf, mbppfr);
 
-                if (code >= 0x10000) {
+                if (dodf >= 0x10000) {
                         i += 1;
-                        glyphs[out += dir] = 0xFFFF;
+                        glypis[out += dir] = 0xFFFF;
                 }
     }
 }
 
-le_uint32 FontInstanceAdapter::mapCharToWideGlyph(LEUnicode32 ch, const LECharMapper *mapper) const
+lf_uint32 FontInstbndfAdbptfr::mbpCibrToWidfGlypi(LEUnidodf32 di, donst LECibrMbppfr *mbppfr) donst
 {
-    LEUnicode32 mappedChar = mapper->mapChar(ch);
+    LEUnidodf32 mbppfdCibr = mbppfr->mbpCibr(di);
 
-    if (mappedChar == 0xFFFF) {
-        return 0xFFFF;
+    if (mbppfdCibr == 0xFFFF) {
+        rfturn 0xFFFF;
     }
 
-    if (mappedChar == 0x200C || mappedChar == 0x200D) {
-        return 1;
+    if (mbppfdCibr == 0x200C || mbppfdCibr == 0x200D) {
+        rfturn 1;
     }
 
-    return (LEGlyphID)env->CallIntMethod(font2D, sunFontIDs.charToGlyphMID,
-                                         mappedChar);
+    rfturn (LEGlypiID)fnv->CbllIntMftiod(font2D, sunFontIDs.dibrToGlypiMID,
+                                         mbppfdCibr);
 }
 
-void FontInstanceAdapter::getGlyphAdvance(LEGlyphID glyph, LEPoint &advance) const
+void FontInstbndfAdbptfr::gftGlypiAdvbndf(LEGlypiID glypi, LEPoint &bdvbndf) donst
 {
-    getWideGlyphAdvance((le_uint32)glyph, advance);
+    gftWidfGlypiAdvbndf((lf_uint32)glypi, bdvbndf);
 }
 
-void FontInstanceAdapter::getKerningAdjustment(LEPoint &adjustment) const
+void FontInstbndfAdbptfr::gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst
 {
-    float xx, xy, yx, yy;
-    le_bool isIdentityMatrix;
+    flobt xx, xy, yx, yy;
+    lf_bool isIdfntityMbtrix;
 
-    isIdentityMatrix = (txMat[0] == 1 && txMat[1] == 0 &&
-                        txMat[2] == 0 && txMat[3] == 1);
+    isIdfntityMbtrix = (txMbt[0] == 1 && txMbt[1] == 0 &&
+                        txMbt[2] == 0 && txMbt[3] == 1);
 
-    if (!isIdentityMatrix) {
-      xx = adjustment.fX;
-      xy = xx * txMat[1];
-      xx = xx * txMat[0];
+    if (!isIdfntityMbtrix) {
+      xx = bdjustmfnt.fX;
+      xy = xx * txMbt[1];
+      xx = xx * txMbt[0];
 
-      yy = adjustment.fY;
-      yx = yy * txMat[2];
-      yy = yy * txMat[3];
+      yy = bdjustmfnt.fY;
+      yx = yy * txMbt[2];
+      yy = yy * txMbt[3];
 
-      adjustment.fX = xx + yx;
-      adjustment.fY = xy + yy;
+      bdjustmfnt.fX = xx + yx;
+      bdjustmfnt.fY = xy + yy;
     }
 
-    jobject pt = env->NewObject(sunFontIDs.pt2DFloatClass,
-                                sunFontIDs.pt2DFloatCtr,
-                                adjustment.fX, adjustment.fY);
+    jobjfdt pt = fnv->NfwObjfdt(sunFontIDs.pt2DFlobtClbss,
+                                sunFontIDs.pt2DFlobtCtr,
+                                bdjustmfnt.fX, bdjustmfnt.fY);
     if (pt == NULL) {
-        env->ExceptionClear();
-        adjustment.fX = 0.0f;
-        adjustment.fY = 0.0f;
-    } else {
-        env->CallObjectMethod(fontStrike, sunFontIDs.adjustPointMID, pt);
-        adjustment.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        adjustment.fY = env->GetFloatField(pt, sunFontIDs.yFID);
+        fnv->ExdfptionClfbr();
+        bdjustmfnt.fX = 0.0f;
+        bdjustmfnt.fY = 0.0f;
+    } flsf {
+        fnv->CbllObjfdtMftiod(fontStrikf, sunFontIDs.bdjustPointMID, pt);
+        bdjustmfnt.fX = fnv->GftFlobtFifld(pt, sunFontIDs.xFID);
+        bdjustmfnt.fY = fnv->GftFlobtFifld(pt, sunFontIDs.yFID);
     }
 }
 
-void FontInstanceAdapter::getWideGlyphAdvance(le_uint32 glyph, LEPoint &advance) const
+void FontInstbndfAdbptfr::gftWidfGlypiAdvbndf(lf_uint32 glypi, LEPoint &bdvbndf) donst
 {
-    if ((glyph & 0xfffe) == 0xfffe) {
-        advance.fX = 0;
-        advance.fY = 0;
-        return;
+    if ((glypi & 0xffff) == 0xffff) {
+        bdvbndf.fX = 0;
+        bdvbndf.fY = 0;
+        rfturn;
     }
-    jobject pt = env->CallObjectMethod(fontStrike,
-                                       sunFontIDs.getGlyphMetricsMID, glyph);
+    jobjfdt pt = fnv->CbllObjfdtMftiod(fontStrikf,
+                                       sunFontIDs.gftGlypiMftridsMID, glypi);
     if (pt != NULL) {
-        advance.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        advance.fY = env->GetFloatField(pt, sunFontIDs.yFID);
-        env->DeleteLocalRef(pt);
+        bdvbndf.fX = fnv->GftFlobtFifld(pt, sunFontIDs.xFID);
+        bdvbndf.fY = fnv->GftFlobtFifld(pt, sunFontIDs.yFID);
+        fnv->DflftfLodblRff(pt);
     }
 }
 
-le_bool FontInstanceAdapter::getGlyphPoint(LEGlyphID glyph,
-                                           le_int32 pointNumber,
-                                           LEPoint &point) const
+lf_bool FontInstbndfAdbptfr::gftGlypiPoint(LEGlypiID glypi,
+                                           lf_int32 pointNumbfr,
+                                           LEPoint &point) donst
 {
-  /* This upcall is not ideal, since it will make another down call.
-   * The intention is to move up some of this code into Java. But
-   * a HashMap has been added to the Java PhysicalStrike object to cache
-   * these points so that they don't need to be repeatedly recalculated
-   * which is expensive as it needs the font scaler to re-generate the
-   * hinted glyph outline. This turns out to be a huge win over 1.4.x
+  /* Tiis updbll is not idfbl, sindf it will mbkf bnotifr down dbll.
+   * Tif intfntion is to movf up somf of tiis dodf into Jbvb. But
+   * b HbsiMbp ibs bffn bddfd to tif Jbvb PiysidblStrikf objfdt to dbdif
+   * tifsf points so tibt tify don't nffd to bf rfpfbtfdly rfdbldulbtfd
+   * wiidi is fxpfnsivf bs it nffds tif font sdblfr to rf-gfnfrbtf tif
+   * iintfd glypi outlinf. Tiis turns out to bf b iugf win ovfr 1.4.x
    */
-     jobject pt = env->CallObjectMethod(fontStrike,
-                                        sunFontIDs.getGlyphPointMID,
-                                        glyph, pointNumber);
+     jobjfdt pt = fnv->CbllObjfdtMftiod(fontStrikf,
+                                        sunFontIDs.gftGlypiPointMID,
+                                        glypi, pointNumbfr);
      if (pt != NULL) {
-       /* point is a java.awt.geom.Point2D.Float */
-        point.fX = env->GetFloatField(pt, sunFontIDs.xFID);
-        /* convert from java coordinate system to internal '+y up' coordinate system */
-        point.fY = -env->GetFloatField(pt, sunFontIDs.yFID);
-        return true;
-     } else {
-        return false;
+       /* point is b jbvb.bwt.gfom.Point2D.Flobt */
+        point.fX = fnv->GftFlobtFifld(pt, sunFontIDs.xFID);
+        /* donvfrt from jbvb doordinbtf systfm to intfrnbl '+y up' doordinbtf systfm */
+        point.fY = -fnv->GftFlobtFifld(pt, sunFontIDs.yFID);
+        rfturn truf;
+     } flsf {
+        rfturn fblsf;
      }
 }
 
-void FontInstanceAdapter::transformFunits(float xFunits, float yFunits, LEPoint &pixels) const
+void FontInstbndfAdbptfr::trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst
 {
-    float xx, xy, yx, yy;
-    le_bool isIdentityMatrix;
+    flobt xx, xy, yx, yy;
+    lf_bool isIdfntityMbtrix;
 
-    isIdentityMatrix = (txMat[0] == 1 && txMat[1] == 0 &&
-                        txMat[2] == 0 && txMat[3] == 1);
+    isIdfntityMbtrix = (txMbt[0] == 1 && txMbt[1] == 0 &&
+                        txMbt[2] == 0 && txMbt[3] == 1);
 
-    xx = xFunits * xScaleUnitsToPoints;
+    xx = xFunits * xSdblfUnitsToPoints;
     xy = 0;
-    if (!isIdentityMatrix) {
-        xy = xx * txMat[1];
-        xx = xx * txMat[0];
+    if (!isIdfntityMbtrix) {
+        xy = xx * txMbt[1];
+        xx = xx * txMbt[0];
     };
 
     yx = 0;
-    yy = yFunits * yScaleUnitsToPoints;
-    if (!isIdentityMatrix) {
-        yx = yy * txMat[2];
-        yy = yy * txMat[3];
+    yy = yFunits * ySdblfUnitsToPoints;
+    if (!isIdfntityMbtrix) {
+        yx = yy * txMbt[2];
+        yy = yy * txMbt[3];
     };
-    pixels.fX = xx + yx;
-    pixels.fY = xy + yy;
+    pixfls.fX = xx + yx;
+    pixfls.fY = xy + yy;
 }
 
 
-float FontInstanceAdapter::euclidianDistance(float a, float b)
+flobt FontInstbndfAdbptfr::fudlidibnDistbndf(flobt b, flobt b)
 {
-    if (a < 0) {
-        a = -a;
+    if (b < 0) {
+        b = -b;
     }
 
     if (b < 0) {
         b = -b;
     }
 
-    if (a == 0) {
-        return b;
+    if (b == 0) {
+        rfturn b;
     }
 
     if (b == 0) {
-        return a;
+        rfturn b;
     }
 
-    float root = a > b ? a + (b / 2) : b + (a / 2); /* Do an initial approximation, in root */
+    flobt root = b > b ? b + (b / 2) : b + (b / 2); /* Do bn initibl bpproximbtion, in root */
 
-        /* An unrolled Newton-Raphson iteration sequence */
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
-    root = (root + (a * (a / root)) + (b * (b / root)) + 1) / 2;
+        /* An unrollfd Nfwton-Rbpison itfrbtion sfqufndf */
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
+    root = (root + (b * (b / root)) + (b * (b / root)) + 1) / 2;
 
-    return root;
+    rfturn root;
 }

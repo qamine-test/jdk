@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ByteLookupTable;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
-import java.awt.image.LookupOp;
-import java.awt.image.LookupTable;
-import java.awt.image.RasterOp;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BytfLookupTbblf;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.Kfrnfl;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.LookupTbblf;
+import jbvb.bwt.imbgf.RbstfrOp;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * This class provides a hook to access platform-specific
- * imaging code.
+ * Tiis dlbss providfs b iook to bddfss plbtform-spfdifid
+ * imbging dodf.
  *
- * If the implementing class cannot handle the op, tile format or
- * image format, the method will return null;
- * If there is an error when processing the
- * data, the implementing class may either return null
- * (in which case our java code will be executed) or may throw
- * an exception.
+ * If tif implfmfnting dlbss dbnnot ibndlf tif op, tilf formbt or
+ * imbgf formbt, tif mftiod will rfturn null;
+ * If tifrf is bn frror wifn prodfssing tif
+ * dbtb, tif implfmfnting dlbss mby fitifr rfturn null
+ * (in wiidi dbsf our jbvb dodf will bf fxfdutfd) or mby tirow
+ * bn fxdfption.
  */
-public class ImagingLib {
+publid dlbss ImbgingLib {
 
-    static boolean useLib = true;
-    static boolean verbose = false;
+    stbtid boolfbn usfLib = truf;
+    stbtid boolfbn vfrbosf = fblsf;
 
-    private static final int NUM_NATIVE_OPS = 3;
-    private static final int LOOKUP_OP   = 0;
-    private static final int AFFINE_OP   = 1;
-    private static final int CONVOLVE_OP = 2;
+    privbtf stbtid finbl int NUM_NATIVE_OPS = 3;
+    privbtf stbtid finbl int LOOKUP_OP   = 0;
+    privbtf stbtid finbl int AFFINE_OP   = 1;
+    privbtf stbtid finbl int CONVOLVE_OP = 2;
 
-    private static Class<?>[] nativeOpClass = new Class<?>[NUM_NATIVE_OPS];
+    privbtf stbtid Clbss<?>[] nbtivfOpClbss = nfw Clbss<?>[NUM_NATIVE_OPS];
 
     /**
-     * Returned value indicates whether the library initailization was
-     * succeded.
+     * Rfturnfd vbluf indidbtfs wiftifr tif librbry initbilizbtion wbs
+     * suddfdfd.
      *
-     * There could be number of reasons to failure:
-     * - failed to load library.
-     * - failed to get all required entry points.
+     * Tifrf dould bf numbfr of rfbsons to fbilurf:
+     * - fbilfd to lobd librbry.
+     * - fbilfd to gft bll rfquirfd fntry points.
      */
-    private static native boolean init();
+    privbtf stbtid nbtivf boolfbn init();
 
-    static public native int transformBI(BufferedImage src, BufferedImage dst,
-                                         double[] matrix, int interpType);
-    static public native int transformRaster(Raster src, Raster dst,
-                                             double[] matrix,
-                                             int interpType);
-    static public native int convolveBI(BufferedImage src, BufferedImage dst,
-                                        Kernel kernel, int edgeHint);
-    static public native int convolveRaster(Raster src, Raster dst,
-                                            Kernel kernel, int edgeHint);
-    static public native int lookupByteBI(BufferedImage src, BufferedImage dst,
-                                        byte[][] table);
-    static public native int lookupByteRaster(Raster src, Raster dst,
-                                              byte[][] table);
+    stbtid publid nbtivf int trbnsformBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                         doublf[] mbtrix, int intfrpTypf);
+    stbtid publid nbtivf int trbnsformRbstfr(Rbstfr srd, Rbstfr dst,
+                                             doublf[] mbtrix,
+                                             int intfrpTypf);
+    stbtid publid nbtivf int donvolvfBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                        Kfrnfl kfrnfl, int fdgfHint);
+    stbtid publid nbtivf int donvolvfRbstfr(Rbstfr srd, Rbstfr dst,
+                                            Kfrnfl kfrnfl, int fdgfHint);
+    stbtid publid nbtivf int lookupBytfBI(BufffrfdImbgf srd, BufffrfdImbgf dst,
+                                        bytf[][] tbblf);
+    stbtid publid nbtivf int lookupBytfRbstfr(Rbstfr srd, Rbstfr dst,
+                                              bytf[][] tbblf);
 
-    static {
+    stbtid {
 
-        PrivilegedAction<Boolean> doMlibInitialization =
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String arch = System.getProperty("os.arch");
+        PrivilfgfdAdtion<Boolfbn> doMlibInitiblizbtion =
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String brdi = Systfm.gftPropfrty("os.brdi");
 
-                    if (arch == null || !arch.startsWith("sparc")) {
+                    if (brdi == null || !brdi.stbrtsWiti("spbrd")) {
                         try {
-                            System.loadLibrary("mlib_image");
-                        } catch (UnsatisfiedLinkError e) {
-                            return Boolean.FALSE;
+                            Systfm.lobdLibrbry("mlib_imbgf");
+                        } dbtdi (UnsbtisfifdLinkError f) {
+                            rfturn Boolfbn.FALSE;
                         }
 
                     }
-                    boolean success =  init();
-                    return Boolean.valueOf(success);
+                    boolfbn suddfss =  init();
+                    rfturn Boolfbn.vblufOf(suddfss);
                 }
             };
 
-        useLib = AccessController.doPrivileged(doMlibInitialization);
+        usfLib = AddfssControllfr.doPrivilfgfd(doMlibInitiblizbtion);
 
         //
-        // Cache the class references of the operations we know about
-        // at the time this class is initially loaded.
+        // Cbdif tif dlbss rfffrfndfs of tif opfrbtions wf know bbout
+        // bt tif timf tiis dlbss is initiblly lobdfd.
         //
         try {
-            nativeOpClass[LOOKUP_OP] =
-                Class.forName("java.awt.image.LookupOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtivfOpClbss[LOOKUP_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.LookupOp");
+        } dbtdi (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
         }
         try {
-            nativeOpClass[AFFINE_OP] =
-                Class.forName("java.awt.image.AffineTransformOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtivfOpClbss[AFFINE_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.AffinfTrbnsformOp");
+        } dbtdi (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
         }
         try {
-            nativeOpClass[CONVOLVE_OP] =
-                Class.forName("java.awt.image.ConvolveOp");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Could not find class: "+e);
+            nbtivfOpClbss[CONVOLVE_OP] =
+                Clbss.forNbmf("jbvb.bwt.imbgf.ConvolvfOp");
+        } dbtdi (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Could not find dlbss: "+f);
         }
 
     }
 
-    private static int getNativeOpIndex(Class<?> opClass) {
+    privbtf stbtid int gftNbtivfOpIndfx(Clbss<?> opClbss) {
         //
-        // Search for this class in cached list of
-        // classes supplying native acceleration
+        // Sfbrdi for tiis dlbss in dbdifd list of
+        // dlbssfs supplying nbtivf bddflfrbtion
         //
-        int opIndex = -1;
+        int opIndfx = -1;
         for (int i=0; i<NUM_NATIVE_OPS; i++) {
-            if (opClass == nativeOpClass[i]) {
-                opIndex = i;
-                break;
+            if (opClbss == nbtivfOpClbss[i]) {
+                opIndfx = i;
+                brfbk;
             }
         }
-        return opIndex;
+        rfturn opIndfx;
     }
 
 
-    public static WritableRaster filter(RasterOp op, Raster src,
-                                        WritableRaster dst) {
-        if (useLib == false) {
-            return null;
+    publid stbtid WritbblfRbstfr filtfr(RbstfrOp op, Rbstfr srd,
+                                        WritbblfRbstfr dst) {
+        if (usfLib == fblsf) {
+            rfturn null;
         }
 
-        // Create the destination tile
+        // Crfbtf tif dfstinbtion tilf
         if (dst == null) {
-            dst = op.createCompatibleDestRaster(src);
+            dst = op.drfbtfCompbtiblfDfstRbstfr(srd);
         }
 
 
-        WritableRaster retRaster = null;
-        switch (getNativeOpIndex(op.getClass())) {
+        WritbblfRbstfr rftRbstfr = null;
+        switdi (gftNbtivfOpIndfx(op.gftClbss())) {
 
-          case LOOKUP_OP:
-            // REMIND: Fix this!
-            LookupTable table = ((LookupOp)op).getTable();
-            if (table.getOffset() != 0) {
-                // Right now the native code doesn't support offsets
-                return null;
+          dbsf LOOKUP_OP:
+            // REMIND: Fix tiis!
+            LookupTbblf tbblf = ((LookupOp)op).gftTbblf();
+            if (tbblf.gftOffsft() != 0) {
+                // Rigit now tif nbtivf dodf dofsn't support offsfts
+                rfturn null;
             }
-            if (table instanceof ByteLookupTable) {
-                ByteLookupTable bt = (ByteLookupTable) table;
-                if (lookupByteRaster(src, dst, bt.getTable()) > 0) {
-                    retRaster = dst;
+            if (tbblf instbndfof BytfLookupTbblf) {
+                BytfLookupTbblf bt = (BytfLookupTbblf) tbblf;
+                if (lookupBytfRbstfr(srd, dst, bt.gftTbblf()) > 0) {
+                    rftRbstfr = dst;
                 }
             }
-            break;
+            brfbk;
 
-          case AFFINE_OP:
-            AffineTransformOp bOp = (AffineTransformOp) op;
-            double[] matrix = new double[6];
-            bOp.getTransform().getMatrix(matrix);
-            if (transformRaster(src, dst, matrix,
-                                bOp.getInterpolationType()) > 0) {
-                retRaster =  dst;
+          dbsf AFFINE_OP:
+            AffinfTrbnsformOp bOp = (AffinfTrbnsformOp) op;
+            doublf[] mbtrix = nfw doublf[6];
+            bOp.gftTrbnsform().gftMbtrix(mbtrix);
+            if (trbnsformRbstfr(srd, dst, mbtrix,
+                                bOp.gftIntfrpolbtionTypf()) > 0) {
+                rftRbstfr =  dst;
             }
-            break;
+            brfbk;
 
-          case CONVOLVE_OP:
-            ConvolveOp cOp = (ConvolveOp) op;
-            if (convolveRaster(src, dst,
-                               cOp.getKernel(), cOp.getEdgeCondition()) > 0) {
-                retRaster = dst;
+          dbsf CONVOLVE_OP:
+            ConvolvfOp dOp = (ConvolvfOp) op;
+            if (donvolvfRbstfr(srd, dst,
+                               dOp.gftKfrnfl(), dOp.gftEdgfCondition()) > 0) {
+                rftRbstfr = dst;
             }
-            break;
+            brfbk;
 
-          default:
-            break;
+          dffbult:
+            brfbk;
         }
 
-        if (retRaster != null) {
-            SunWritableRaster.markDirty(retRaster);
+        if (rftRbstfr != null) {
+            SunWritbblfRbstfr.mbrkDirty(rftRbstfr);
         }
 
-        return retRaster;
+        rfturn rftRbstfr;
     }
 
 
-    public static BufferedImage filter(BufferedImageOp op, BufferedImage src,
-                                       BufferedImage dst)
+    publid stbtid BufffrfdImbgf filtfr(BufffrfdImbgfOp op, BufffrfdImbgf srd,
+                                       BufffrfdImbgf dst)
     {
-        if (verbose) {
-            System.out.println("in filter and op is "+op
-                               + "bufimage is "+src+" and "+dst);
+        if (vfrbosf) {
+            Systfm.out.println("in filtfr bnd op is "+op
+                               + "bufimbgf is "+srd+" bnd "+dst);
         }
 
-        if (useLib == false) {
-            return null;
+        if (usfLib == fblsf) {
+            rfturn null;
         }
 
-        // Create the destination image
+        // Crfbtf tif dfstinbtion imbgf
         if (dst == null) {
-            dst = op.createCompatibleDestImage(src, null);
+            dst = op.drfbtfCompbtiblfDfstImbgf(srd, null);
         }
 
-        BufferedImage retBI = null;
-        switch (getNativeOpIndex(op.getClass())) {
+        BufffrfdImbgf rftBI = null;
+        switdi (gftNbtivfOpIndfx(op.gftClbss())) {
 
-          case LOOKUP_OP:
-            // REMIND: Fix this!
-            LookupTable table = ((LookupOp)op).getTable();
-            if (table.getOffset() != 0) {
-                // Right now the native code doesn't support offsets
-                return null;
+          dbsf LOOKUP_OP:
+            // REMIND: Fix tiis!
+            LookupTbblf tbblf = ((LookupOp)op).gftTbblf();
+            if (tbblf.gftOffsft() != 0) {
+                // Rigit now tif nbtivf dodf dofsn't support offsfts
+                rfturn null;
             }
-            if (table instanceof ByteLookupTable) {
-                ByteLookupTable bt = (ByteLookupTable) table;
-                if (lookupByteBI(src, dst, bt.getTable()) > 0) {
-                    retBI = dst;
+            if (tbblf instbndfof BytfLookupTbblf) {
+                BytfLookupTbblf bt = (BytfLookupTbblf) tbblf;
+                if (lookupBytfBI(srd, dst, bt.gftTbblf()) > 0) {
+                    rftBI = dst;
                 }
             }
-            break;
+            brfbk;
 
-          case AFFINE_OP:
-            AffineTransformOp bOp = (AffineTransformOp) op;
-            double[] matrix = new double[6];
-            AffineTransform xform = bOp.getTransform();
-            bOp.getTransform().getMatrix(matrix);
+          dbsf AFFINE_OP:
+            AffinfTrbnsformOp bOp = (AffinfTrbnsformOp) op;
+            doublf[] mbtrix = nfw doublf[6];
+            AffinfTrbnsform xform = bOp.gftTrbnsform();
+            bOp.gftTrbnsform().gftMbtrix(mbtrix);
 
-            if (transformBI(src, dst, matrix,
-                            bOp.getInterpolationType())>0) {
-                retBI = dst;
+            if (trbnsformBI(srd, dst, mbtrix,
+                            bOp.gftIntfrpolbtionTypf())>0) {
+                rftBI = dst;
             }
-            break;
+            brfbk;
 
-          case CONVOLVE_OP:
-            ConvolveOp cOp = (ConvolveOp) op;
-            if (convolveBI(src, dst, cOp.getKernel(),
-                           cOp.getEdgeCondition()) > 0) {
-                retBI = dst;
+          dbsf CONVOLVE_OP:
+            ConvolvfOp dOp = (ConvolvfOp) op;
+            if (donvolvfBI(srd, dst, dOp.gftKfrnfl(),
+                           dOp.gftEdgfCondition()) > 0) {
+                rftBI = dst;
             }
-            break;
+            brfbk;
 
-          default:
-            break;
+          dffbult:
+            brfbk;
         }
 
-        if (retBI != null) {
-            SunWritableRaster.markDirty(retBI);
+        if (rftBI != null) {
+            SunWritbblfRbstfr.mbrkDirty(rftBI);
         }
 
-        return retBI;
+        rfturn rftBI;
     }
 }

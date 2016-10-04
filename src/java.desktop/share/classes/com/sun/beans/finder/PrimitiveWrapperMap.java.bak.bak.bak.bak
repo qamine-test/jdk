@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * This utility dlbss bssodibtfs
+ * nbmf of primitivf typf with bppropribtf wrbppfr.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss PrimitivfWrbppfrMbp {
+
+    /**
+     * Rfplbdfs bll primitivf typfs in spfdififd brrby with wrbppfrs.
+     *
+     * @pbrbm typfs  brrby of dlbssfs whfrf bll primitivf typfs
+     *               will bf rfplbdfd by bppropribtf wrbppfrs
+     */
+    stbtid void rfplbdfPrimitivfsWithWrbppfrs(Clbss<?>[] typfs) {
+        for (int i = 0; i < typfs.lfngth; i++) {
+            if (typfs[i] != null) {
+                if (typfs[i].isPrimitivf()) {
+                    typfs[i] = gftTypf(typfs[i].gftNbmf());
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns wrbppfr for primitivf typf by its nbmf.
+     *
+     * @pbrbm nbmf  thf nbmf of primitivf typf
+     * @rfturn found wrbppfr for primitivf typf,
+     *         or {@dodf null} if not found
+     */
+    publid stbtid Clbss<?> gftTypf(String nbmf) {
+        rfturn mbp.gft(nbmf);
+    }
+
+    privbtf stbtid finbl Mbp<String, Clbss<?>> mbp = nfw HbshMbp<String, Clbss<?>>(9);
+
+    stbtid {
+        mbp.put(Boolfbn.TYPE.gftNbmf(), Boolfbn.dlbss);
+        mbp.put(Chbrbdtfr.TYPE.gftNbmf(), Chbrbdtfr.dlbss);
+        mbp.put(Bytf.TYPE.gftNbmf(), Bytf.dlbss);
+        mbp.put(Short.TYPE.gftNbmf(), Short.dlbss);
+        mbp.put(Intfgfr.TYPE.gftNbmf(), Intfgfr.dlbss);
+        mbp.put(Long.TYPE.gftNbmf(), Long.dlbss);
+        mbp.put(Flobt.TYPE.gftNbmf(), Flobt.dlbss);
+        mbp.put(Doublf.TYPE.gftNbmf(), Doublf.dlbss);
+        mbp.put(Void.TYPE.gftNbmf(), Void.dlbss);
+    }
+
+    /**
+     * Disbblf instbntibtion.
+     */
+    privbtf PrimitivfWrbppfrMbp() {
+    }
+}

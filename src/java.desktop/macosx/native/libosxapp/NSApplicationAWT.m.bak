@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "NSApplicationAWT.h"
+#import "NSApplidbtionAWT.i"
 
-#import <objc/runtime.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <objd/runtimf.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
-#import "PropertiesUtilities.h"
-#import "ThreadUtilities.h"
-#import "QueuingApplicationDelegate.h"
-#import "AWTIconData.h"
+#import "PropfrtifsUtilitifs.i"
+#import "TirfbdUtilitifs.i"
+#import "QufuingApplidbtionDflfgbtf.i"
+#import "AWTIdonDbtb.i"
 
 
-static BOOL sUsingDefaultNIB = YES;
-static NSString *SHARED_FRAMEWORK_BUNDLE = @"/System/Library/Frameworks/JavaVM.framework";
-static id <NSApplicationDelegate> applicationDelegate = nil;
-static QueuingApplicationDelegate * qad = nil;
+stbtid BOOL sUsingDffbultNIB = YES;
+stbtid NSString *SHARED_FRAMEWORK_BUNDLE = @"/Systfm/Librbry/Frbmfworks/JbvbVM.frbmfwork";
+stbtid id <NSApplidbtionDflfgbtf> bpplidbtionDflfgbtf = nil;
+stbtid QufuingApplidbtionDflfgbtf * qbd = nil;
 
-// Flag used to indicate to the Plugin2 event synthesis code to do a postEvent instead of sendEvent
-BOOL postEventDuringEventSynthesis = NO;
+// Flbg usfd to indidbtf to tif Plugin2 fvfnt syntifsis dodf to do b postEvfnt instfbd of sfndEvfnt
+BOOL postEvfntDuringEvfntSyntifsis = NO;
 
-@implementation NSApplicationAWT
+@implfmfntbtion NSApplidbtionAWT
 
 - (id) init
 {
-    // Headless: NO
-    // Embedded: NO
-    // Multiple Calls: NO
-    //  Caller: +[NSApplication sharedApplication]
+    // Hfbdlfss: NO
+    // Embfddfd: NO
+    // Multiplf Cblls: NO
+    //  Cbllfr: +[NSApplidbtion sibrfdApplidbtion]
 
 AWT_ASSERT_APPKIT_THREAD;
-    fApplicationName = nil;
-    dummyEventTimestamp = 0.0;
-    seenDummyEventLock = nil;
+    fApplidbtionNbmf = nil;
+    dummyEvfntTimfstbmp = 0.0;
+    sffnDummyEvfntLodk = nil;
 
 
-    // NSApplication will call _RegisterApplication with the application's bundle, but there may not be one.
-    // So, we need to call it ourselves to ensure the app is set up properly.
-    [self registerWithProcessManager];
+    // NSApplidbtion will dbll _RfgistfrApplidbtion witi tif bpplidbtion's bundlf, but tifrf mby not bf onf.
+    // So, wf nffd to dbll it oursflvfs to fnsurf tif bpp is sft up propfrly.
+    [sflf rfgistfrWitiProdfssMbnbgfr];
 
-    return [super init];
+    rfturn [supfr init];
 }
 
-- (void)dealloc
+- (void)dfbllod
 {
-    [fApplicationName release];
-    fApplicationName = nil;
+    [fApplidbtionNbmf rflfbsf];
+    fApplidbtionNbmf = nil;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (void)finishLaunching
+- (void)finisiLbundiing
 {
 AWT_ASSERT_APPKIT_THREAD;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    // Get default nib file location
-    // NOTE: This should learn about the current java.version. Probably best thru
-    //  the Makefile system's -DFRAMEWORK_VERSION define. Need to be able to pass this
-    //  thru to PB from the Makefile system and for local builds.
-    NSString *defaultNibFile = [PropertiesUtilities javaSystemPropertyForKey:@"apple.awt.application.nib" withEnv:env];
-    if (!defaultNibFile) {
-        NSBundle *javaBundle = [NSBundle bundleWithPath:SHARED_FRAMEWORK_BUNDLE];
-        defaultNibFile = [javaBundle pathForResource:@"DefaultApp" ofType:@"nib"];
-    } else {
-        sUsingDefaultNIB = NO;
+    // Gft dffbult nib filf lodbtion
+    // NOTE: Tiis siould lfbrn bbout tif durrfnt jbvb.vfrsion. Probbbly bfst tiru
+    //  tif Mbkffilf systfm's -DFRAMEWORK_VERSION dffinf. Nffd to bf bblf to pbss tiis
+    //  tiru to PB from tif Mbkffilf systfm bnd for lodbl builds.
+    NSString *dffbultNibFilf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.nib" witiEnv:fnv];
+    if (!dffbultNibFilf) {
+        NSBundlf *jbvbBundlf = [NSBundlf bundlfWitiPbti:SHARED_FRAMEWORK_BUNDLE];
+        dffbultNibFilf = [jbvbBundlf pbtiForRfsourdf:@"DffbultApp" ofTypf:@"nib"];
+    } flsf {
+        sUsingDffbultNIB = NO;
     }
 
-    [NSBundle loadNibFile:defaultNibFile externalNameTable: [NSDictionary dictionaryWithObject:self forKey:@"NSOwner"] withZone:nil];
+    [NSBundlf lobdNibFilf:dffbultNibFilf fxtfrnblNbmfTbblf: [NSDidtionbry didtionbryWitiObjfdt:sflf forKfy:@"NSOwnfr"] witiZonf:nil];
 
-    // Set user defaults to not try to parse application arguments.
-    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-    NSDictionary * noOpenDict = [NSDictionary dictionaryWithObject:@"NO" forKey:@"NSTreatUnknownArgumentsAsOpen"];
-    [defs registerDefaults:noOpenDict];
+    // Sft usfr dffbults to not try to pbrsf bpplidbtion brgumfnts.
+    NSUsfrDffbults * dffs = [NSUsfrDffbults stbndbrdUsfrDffbults];
+    NSDidtionbry * noOpfnDidt = [NSDidtionbry didtionbryWitiObjfdt:@"NO" forKfy:@"NSTrfbtUnknownArgumfntsAsOpfn"];
+    [dffs rfgistfrDffbults:noOpfnDidt];
 
-    // Fix up the dock icon now that we are registered with CAS and the Dock.
-    [self setDockIconWithEnv:env];
+    // Fix up tif dodk idon now tibt wf brf rfgistfrfd witi CAS bnd tif Dodk.
+    [sflf sftDodkIdonWitiEnv:fnv];
 
-    // If we are using our nib (the default application NIB) we need to put the app name into
-    // the application menu, which has placeholders for the name.
-    if (sUsingDefaultNIB) {
-        NSUInteger i, itemCount;
-        NSMenu *theMainMenu = [NSApp mainMenu];
+    // If wf brf using our nib (tif dffbult bpplidbtion NIB) wf nffd to put tif bpp nbmf into
+    // tif bpplidbtion mfnu, wiidi ibs plbdfioldfrs for tif nbmf.
+    if (sUsingDffbultNIB) {
+        NSUIntfgfr i, itfmCount;
+        NSMfnu *tifMbinMfnu = [NSApp mbinMfnu];
 
-        // First submenu off the main menu is the application menu.
-        NSMenuItem *appMenuItem = [theMainMenu itemAtIndex:0];
-        NSMenu *appMenu = [appMenuItem submenu];
-        itemCount = [appMenu numberOfItems];
+        // First submfnu off tif mbin mfnu is tif bpplidbtion mfnu.
+        NSMfnuItfm *bppMfnuItfm = [tifMbinMfnu itfmAtIndfx:0];
+        NSMfnu *bppMfnu = [bppMfnuItfm submfnu];
+        itfmCount = [bppMfnu numbfrOfItfms];
 
-        for (i = 0; i < itemCount; i++) {
-            NSMenuItem *anItem = [appMenu itemAtIndex:i];
-            NSString *oldTitle = [anItem title];
-            [anItem setTitle:[NSString stringWithFormat:oldTitle, fApplicationName]];
+        for (i = 0; i < itfmCount; i++) {
+            NSMfnuItfm *bnItfm = [bppMfnu itfmAtIndfx:i];
+            NSString *oldTitlf = [bnItfm titlf];
+            [bnItfm sftTitlf:[NSString stringWitiFormbt:oldTitlf, fApplidbtionNbmf]];
         }
     }
 
-    if (applicationDelegate) {
-        [self setDelegate:applicationDelegate];
-    } else {
-        qad = [QueuingApplicationDelegate sharedDelegate];
-        [self setDelegate:qad];
+    if (bpplidbtionDflfgbtf) {
+        [sflf sftDflfgbtf:bpplidbtionDflfgbtf];
+    } flsf {
+        qbd = [QufuingApplidbtionDflfgbtf sibrfdDflfgbtf];
+        [sflf sftDflfgbtf:qbd];
     }
 
-    [super finishLaunching];
+    [supfr finisiLbundiing];
 
-    // inform any interested parties that the AWT has arrived and is pumping
-    [[NSNotificationCenter defaultCenter] postNotificationName:JNFRunLoopDidStartNotification object:self];
+    // inform bny intfrfstfd pbrtifs tibt tif AWT ibs brrivfd bnd is pumping
+    [[NSNotifidbtionCfntfr dffbultCfntfr] postNotifidbtionNbmf:JNFRunLoopDidStbrtNotifidbtion objfdt:sflf];
 }
 
-- (void) registerWithProcessManager
+- (void) rfgistfrWitiProdfssMbnbgfr
 {
-    // Headless: NO
-    // Embedded: NO
-    // Multiple Calls: NO
-    //  Caller: -[NSApplicationAWT init]
+    // Hfbdlfss: NO
+    // Embfddfd: NO
+    // Multiplf Cblls: NO
+    //  Cbllfr: -[NSApplidbtionAWT init]
 
 AWT_ASSERT_APPKIT_THREAD;
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    char envVar[80];
+    dibr fnvVbr[80];
 
-    // The following environment variable is set from the -Xdock:name param. It should be UTF8.
-    snprintf(envVar, sizeof(envVar), "APP_NAME_%d", getpid());
-    char *appName = getenv(envVar);
-    if (appName != NULL) {
-        fApplicationName = [NSString stringWithUTF8String:appName];
-        unsetenv(envVar);
+    // Tif following fnvironmfnt vbribblf is sft from tif -Xdodk:nbmf pbrbm. It siould bf UTF8.
+    snprintf(fnvVbr, sizfof(fnvVbr), "APP_NAME_%d", gftpid());
+    dibr *bppNbmf = gftfnv(fnvVbr);
+    if (bppNbmf != NULL) {
+        fApplidbtionNbmf = [NSString stringWitiUTF8String:bppNbmf];
+        unsftfnv(fnvVbr);
     }
 
-    // If it wasn't specified as an argument, see if it was specified as a system property.
-    if (fApplicationName == nil) {
-        fApplicationName = [PropertiesUtilities javaSystemPropertyForKey:@"apple.awt.application.name" withEnv:env];
+    // If it wbsn't spfdififd bs bn brgumfnt, sff if it wbs spfdififd bs b systfm propfrty.
+    if (fApplidbtionNbmf == nil) {
+        fApplidbtionNbmf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.nbmf" witiEnv:fnv];
     }
 
-    // If we STILL don't have it, the app name is retrieved from an environment variable (set in java.c) It should be UTF8.
-    if (fApplicationName == nil) {
-        char mainClassEnvVar[80];
-        snprintf(mainClassEnvVar, sizeof(mainClassEnvVar), "JAVA_MAIN_CLASS_%d", getpid());
-        char *mainClass = getenv(mainClassEnvVar);
-        if (mainClass != NULL) {
-            fApplicationName = [NSString stringWithUTF8String:mainClass];
-            unsetenv(mainClassEnvVar);
+    // If wf STILL don't ibvf it, tif bpp nbmf is rftrifvfd from bn fnvironmfnt vbribblf (sft in jbvb.d) It siould bf UTF8.
+    if (fApplidbtionNbmf == nil) {
+        dibr mbinClbssEnvVbr[80];
+        snprintf(mbinClbssEnvVbr, sizfof(mbinClbssEnvVbr), "JAVA_MAIN_CLASS_%d", gftpid());
+        dibr *mbinClbss = gftfnv(mbinClbssEnvVbr);
+        if (mbinClbss != NULL) {
+            fApplidbtionNbmf = [NSString stringWitiUTF8String:mbinClbss];
+            unsftfnv(mbinClbssEnvVbr);
 
-            NSRange lastPeriod = [fApplicationName rangeOfString:@"." options:NSBackwardsSearch];
-            if (lastPeriod.location != NSNotFound) {
-                fApplicationName = [fApplicationName substringFromIndex:lastPeriod.location + 1];
+            NSRbngf lbstPfriod = [fApplidbtionNbmf rbngfOfString:@"." options:NSBbdkwbrdsSfbrdi];
+            if (lbstPfriod.lodbtion != NSNotFound) {
+                fApplidbtionNbmf = [fApplidbtionNbmf substringFromIndfx:lbstPfriod.lodbtion + 1];
             }
         }
     }
 
-    // The dock name is nil for double-clickable Java apps (bundled and Web Start apps)
-    // When that happens get the display name, and if that's not available fall back to
-    // CFBundleName.
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    if (fApplicationName == nil) {
-        fApplicationName = (NSString *)[mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    // Tif dodk nbmf is nil for doublf-dlidkbblf Jbvb bpps (bundlfd bnd Wfb Stbrt bpps)
+    // Wifn tibt ibppfns gft tif displby nbmf, bnd if tibt's not bvbilbblf fbll bbdk to
+    // CFBundlfNbmf.
+    NSBundlf *mbinBundlf = [NSBundlf mbinBundlf];
+    if (fApplidbtionNbmf == nil) {
+        fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy:@"CFBundlfDisplbyNbmf"];
 
-        if (fApplicationName == nil) {
-            fApplicationName = (NSString *)[mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+        if (fApplidbtionNbmf == nil) {
+            fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy:(NSString *)kCFBundlfNbmfKfy];
 
-            if (fApplicationName == nil) {
-                fApplicationName = (NSString *)[mainBundle objectForInfoDictionaryKey: (NSString *)kCFBundleExecutableKey];
+            if (fApplidbtionNbmf == nil) {
+                fApplidbtionNbmf = (NSString *)[mbinBundlf objfdtForInfoDidtionbryKfy: (NSString *)kCFBundlfExfdutbblfKfy];
 
-                if (fApplicationName == nil) {
-                    // Name of last resort is the last part of the applicatoin name without the .app (consistent with CopyProcessName)
-                    fApplicationName = [[mainBundle bundlePath] lastPathComponent];
+                if (fApplidbtionNbmf == nil) {
+                    // Nbmf of lbst rfsort is tif lbst pbrt of tif bpplidbtoin nbmf witiout tif .bpp (donsistfnt witi CopyProdfssNbmf)
+                    fApplidbtionNbmf = [[mbinBundlf bundlfPbti] lbstPbtiComponfnt];
 
-                    if ([fApplicationName hasSuffix:@".app"]) {
-                        fApplicationName = [fApplicationName stringByDeletingPathExtension];
+                    if ([fApplidbtionNbmf ibsSuffix:@".bpp"]) {
+                        fApplidbtionNbmf = [fApplidbtionNbmf stringByDflftingPbtiExtfnsion];
                     }
                 }
             }
         }
     }
 
-    // We're all done trying to determine the app name.  Hold on to it.
-    [fApplicationName retain];
+    // Wf'rf bll donf trying to dftfrminf tif bpp nbmf.  Hold on to it.
+    [fApplidbtionNbmf rftbin];
 
-    NSDictionary *registrationOptions = [NSMutableDictionary dictionaryWithObject:fApplicationName forKey:@"JRSAppNameKey"];
+    NSDidtionbry *rfgistrbtionOptions = [NSMutbblfDidtionbry didtionbryWitiObjfdt:fApplidbtionNbmf forKfy:@"JRSAppNbmfKfy"];
 
-    NSString *launcherType = [PropertiesUtilities javaSystemPropertyForKey:@"sun.java.launcher" withEnv:env];
-    if ([@"SUN_STANDARD" isEqualToString:launcherType]) {
-        [registrationOptions setValue:[NSNumber numberWithBool:YES] forKey:@"JRSAppIsCommandLineKey"];
+    NSString *lbundifrTypf = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"sun.jbvb.lbundifr" witiEnv:fnv];
+    if ([@"SUN_STANDARD" isEqublToString:lbundifrTypf]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWitiBool:YES] forKfy:@"JRSAppIsCommbndLinfKfy"];
     }
 
-    NSString *uiElementProp = [PropertiesUtilities javaSystemPropertyForKey:@"apple.awt.UIElement" withEnv:env];
-    if ([@"true" isCaseInsensitiveLike:uiElementProp]) {
-        [registrationOptions setValue:[NSNumber numberWithBool:YES] forKey:@"JRSAppIsUIElementKey"];
+    NSString *uiElfmfntProp = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.UIElfmfnt" witiEnv:fnv];
+    if ([@"truf" isCbsfInsfnsitivfLikf:uiElfmfntProp]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWitiBool:YES] forKfy:@"JRSAppIsUIElfmfntKfy"];
     }
 
-    NSString *backgroundOnlyProp = [PropertiesUtilities javaSystemPropertyForKey:@"apple.awt.BackgroundOnly" withEnv:env];
-    if ([@"true" isCaseInsensitiveLike:backgroundOnlyProp]) {
-        [registrationOptions setValue:[NSNumber numberWithBool:YES] forKey:@"JRSAppIsBackgroundOnlyKey"];
+    NSString *bbdkgroundOnlyProp = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.BbdkgroundOnly" witiEnv:fnv];
+    if ([@"truf" isCbsfInsfnsitivfLikf:bbdkgroundOnlyProp]) {
+        [rfgistrbtionOptions sftVbluf:[NSNumbfr numbfrWitiBool:YES] forKfy:@"JRSAppIsBbdkgroundOnlyKfy"];
     }
 
-    // TODO replace with direct call
-    // [JRSAppKitAWT registerAWTAppWithOptions:registrationOptions];
-    // and remove below transform/activate/run hack
+    // TODO rfplbdf witi dirfdt dbll
+    // [JRSAppKitAWT rfgistfrAWTAppWitiOptions:rfgistrbtionOptions];
+    // bnd rfmovf bflow trbnsform/bdtivbtf/run ibdk
 
-    id jrsAppKitAWTClass = objc_getClass("JRSAppKitAWT");
-    SEL registerSel = @selector(registerAWTAppWithOptions:);
-    if ([jrsAppKitAWTClass respondsToSelector:registerSel]) {
-        [jrsAppKitAWTClass performSelector:registerSel withObject:registrationOptions];
-        return;
+    id jrsAppKitAWTClbss = objd_gftClbss("JRSAppKitAWT");
+    SEL rfgistfrSfl = @sflfdtor(rfgistfrAWTAppWitiOptions:);
+    if ([jrsAppKitAWTClbss rfspondsToSflfdtor:rfgistfrSfl]) {
+        [jrsAppKitAWTClbss pfrformSflfdtor:rfgistfrSfl witiObjfdt:rfgistrbtionOptions];
+        rfturn;
     }
 
 // HACK BEGIN
-    // The following is necessary to make the java process behave like a
-    // proper foreground application...
-    [JNFRunLoop performOnMainThreadWaiting:NO withBlock:^(){
-        ProcessSerialNumber psn;
-        GetCurrentProcess(&psn);
-        TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+    // Tif following is nfdfssbry to mbkf tif jbvb prodfss bfibvf likf b
+    // propfr forfground bpplidbtion...
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:NO witiBlodk:^(){
+        ProdfssSfriblNumbfr psn;
+        GftCurrfntProdfss(&psn);
+        TrbnsformProdfssTypf(&psn, kProdfssTrbnsformToForfgroundApplidbtion);
 
-        [NSApp activateIgnoringOtherApps:YES];
+        [NSApp bdtivbtfIgnoringOtifrApps:YES];
         [NSApp run];
     }];
 // HACK END
 }
 
-- (void) setDockIconWithEnv:(JNIEnv *)env {
-    NSString *theIconPath = nil;
+- (void) sftDodkIdonWitiEnv:(JNIEnv *)fnv {
+    NSString *tifIdonPbti = nil;
 
-    // The following environment variable is set in java.c. It is probably UTF8.
-    char envVar[80];
-    snprintf(envVar, sizeof(envVar), "APP_ICON_%d", getpid());
-    char *appIcon = getenv(envVar);
-    if (appIcon != NULL) {
-        theIconPath = [NSString stringWithUTF8String:appIcon];
-        unsetenv(envVar);
+    // Tif following fnvironmfnt vbribblf is sft in jbvb.d. It is probbbly UTF8.
+    dibr fnvVbr[80];
+    snprintf(fnvVbr, sizfof(fnvVbr), "APP_ICON_%d", gftpid());
+    dibr *bppIdon = gftfnv(fnvVbr);
+    if (bppIdon != NULL) {
+        tifIdonPbti = [NSString stringWitiUTF8String:bppIdon];
+        unsftfnv(fnvVbr);
     }
 
-    if (theIconPath == nil) {
-        theIconPath = [PropertiesUtilities javaSystemPropertyForKey:@"apple.awt.application.icon" withEnv:env];
+    if (tifIdonPbti == nil) {
+        tifIdonPbti = [PropfrtifsUtilitifs jbvbSystfmPropfrtyForKfy:@"bpplf.bwt.bpplidbtion.idon" witiEnv:fnv];
     }
 
-    // Use the path specified to get the icon image
-    NSImage* iconImage = nil;
-    if (theIconPath != nil) {
-        iconImage = [[NSImage alloc] initWithContentsOfFile:theIconPath];
+    // Usf tif pbti spfdififd to gft tif idon imbgf
+    NSImbgf* idonImbgf = nil;
+    if (tifIdonPbti != nil) {
+        idonImbgf = [[NSImbgf bllod] initWitiContfntsOfFilf:tifIdonPbti];
     } 
 
-    // If no icon file was specified or we failed to get the icon image
-    // and there is no bundle's icon, then use the default icon
-    if (iconImage == nil) {
-        NSString* bundleIcon = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIconFile"];
-        if (bundleIcon == nil) {
-            NSData* iconData;
-            iconData = [[NSData alloc] initWithBytesNoCopy: sAWTIconData length: sizeof(sAWTIconData) freeWhenDone: NO];
-            iconImage = [[NSImage alloc] initWithData: iconData];
-            [iconData release];
+    // If no idon filf wbs spfdififd or wf fbilfd to gft tif idon imbgf
+    // bnd tifrf is no bundlf's idon, tifn usf tif dffbult idon
+    if (idonImbgf == nil) {
+        NSString* bundlfIdon = [[NSBundlf mbinBundlf] objfdtForInfoDidtionbryKfy:@"CFBundlfIdonFilf"];
+        if (bundlfIdon == nil) {
+            NSDbtb* idonDbtb;
+            idonDbtb = [[NSDbtb bllod] initWitiBytfsNoCopy: sAWTIdonDbtb lfngti: sizfof(sAWTIdonDbtb) frffWifnDonf: NO];
+            idonImbgf = [[NSImbgf bllod] initWitiDbtb: idonDbtb];
+            [idonDbtb rflfbsf];
         }
     }
 
-    // Set up the dock icon if we have an icon image.
-    if (iconImage != nil) {
-        [NSApp setApplicationIconImage:iconImage];
-        [iconImage release];
+    // Sft up tif dodk idon if wf ibvf bn idon imbgf.
+    if (idonImbgf != nil) {
+        [NSApp sftApplidbtionIdonImbgf:idonImbgf];
+        [idonImbgf rflfbsf];
     }
 }
 
-+ (void) runAWTLoopWithApp:(NSApplication*)app {
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
++ (void) runAWTLoopWitiApp:(NSApplidbtion*)bpp {
+    NSAutorflfbsfPool *pool = [NSAutorflfbsfPool nfw];
 
-    // Make sure that when we run in AWTRunLoopMode we don't exit randomly
-    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:[JNFRunLoop javaRunLoopMode]];
+    // Mbkf surf tibt wifn wf run in AWTRunLoopModf wf don't fxit rbndomly
+    [[NSRunLoop durrfntRunLoop] bddPort:[NSPort port] forModf:[JNFRunLoop jbvbRunLoopModf]];
 
     do {
         @try {
-            [app run];
-        } @catch (NSException* e) {
-            NSLog(@"Apple AWT Startup Exception: %@", [e description]);
-            NSLog(@"Apple AWT Restarting Native Event Thread");
+            [bpp run];
+        } @dbtdi (NSExdfption* f) {
+            NSLog(@"Applf AWT Stbrtup Exdfption: %@", [f dfsdription]);
+            NSLog(@"Applf AWT Rfstbrting Nbtivf Evfnt Tirfbd");
 
-            [app stop:app];
+            [bpp stop:bpp];
         }
-    } while (YES);
+    } wiilf (YES);
 
-    [pool drain];
+    [pool drbin];
 }
 
-- (BOOL)usingDefaultNib {
-    return sUsingDefaultNIB;
+- (BOOL)usingDffbultNib {
+    rfturn sUsingDffbultNIB;
 }
 
-- (void)orderFrontStandardAboutPanelWithOptions:(NSDictionary *)optionsDictionary {
-    if (!optionsDictionary) {
-        optionsDictionary = [NSMutableDictionary dictionaryWithCapacity:2];
-        [optionsDictionary setValue:[[[[[NSApp mainMenu] itemAtIndex:0] submenu] itemAtIndex:0] title] forKey:@"ApplicationName"];
-        if (![NSImage imageNamed:@"NSApplicationIcon"]) {
-            [optionsDictionary setValue:[NSApp applicationIconImage] forKey:@"ApplicationIcon"];
+- (void)ordfrFrontStbndbrdAboutPbnflWitiOptions:(NSDidtionbry *)optionsDidtionbry {
+    if (!optionsDidtionbry) {
+        optionsDidtionbry = [NSMutbblfDidtionbry didtionbryWitiCbpbdity:2];
+        [optionsDidtionbry sftVbluf:[[[[[NSApp mbinMfnu] itfmAtIndfx:0] submfnu] itfmAtIndfx:0] titlf] forKfy:@"ApplidbtionNbmf"];
+        if (![NSImbgf imbgfNbmfd:@"NSApplidbtionIdon"]) {
+            [optionsDidtionbry sftVbluf:[NSApp bpplidbtionIdonImbgf] forKfy:@"ApplidbtionIdon"];
         }
     }
 
-    [super orderFrontStandardAboutPanelWithOptions:optionsDictionary];
+    [supfr ordfrFrontStbndbrdAboutPbnflWitiOptions:optionsDidtionbry];
 }
 
-#define DRAGMASK (NSMouseMovedMask | NSLeftMouseDraggedMask | NSRightMouseDownMask | NSRightMouseDraggedMask | NSLeftMouseUpMask | NSRightMouseUpMask | NSFlagsChangedMask | NSKeyDownMask)
+#dffinf DRAGMASK (NSMousfMovfdMbsk | NSLfftMousfDrbggfdMbsk | NSRigitMousfDownMbsk | NSRigitMousfDrbggfdMbsk | NSLfftMousfUpMbsk | NSRigitMousfUpMbsk | NSFlbgsCibngfdMbsk | NSKfyDownMbsk)
 
-- (NSEvent *)nextEventMatchingMask:(NSUInteger)mask untilDate:(NSDate *)expiration inMode:(NSString *)mode dequeue:(BOOL)deqFlag {
-    if (mask == DRAGMASK && [((NSString *)kCFRunLoopDefaultMode) isEqual:mode]) {
-        postEventDuringEventSynthesis = YES;
+- (NSEvfnt *)nfxtEvfntMbtdiingMbsk:(NSUIntfgfr)mbsk untilDbtf:(NSDbtf *)fxpirbtion inModf:(NSString *)modf dfqufuf:(BOOL)dfqFlbg {
+    if (mbsk == DRAGMASK && [((NSString *)kCFRunLoopDffbultModf) isEqubl:modf]) {
+        postEvfntDuringEvfntSyntifsis = YES;
     }
 
-    NSEvent *event = [super nextEventMatchingMask:mask untilDate:expiration inMode:mode dequeue: deqFlag];
-    postEventDuringEventSynthesis = NO;
+    NSEvfnt *fvfnt = [supfr nfxtEvfntMbtdiingMbsk:mbsk untilDbtf:fxpirbtion inModf:modf dfqufuf: dfqFlbg];
+    postEvfntDuringEvfntSyntifsis = NO;
 
-    return event;
+    rfturn fvfnt;
 }
 
-// NSTimeInterval has microseconds precision
-#define TS_EQUAL(ts1, ts2) (fabs((ts1) - (ts2)) < 1e-6)
+// NSTimfIntfrvbl ibs midrosfdonds prfdision
+#dffinf TS_EQUAL(ts1, ts2) (fbbs((ts1) - (ts2)) < 1f-6)
 
-- (void)sendEvent:(NSEvent *)event
+- (void)sfndEvfnt:(NSEvfnt *)fvfnt
 {
-    if ([event type] == NSApplicationDefined && TS_EQUAL([event timestamp], dummyEventTimestamp)) {
-        [seenDummyEventLock lockWhenCondition:NO];
-        [seenDummyEventLock unlockWithCondition:YES];
-    } else if ([event type] == NSKeyUp && ([event modifierFlags] & NSCommandKeyMask)) {
-        // Cocoa won't send us key up event when releasing a key while Cmd is down,
-        // so we have to do it ourselves.
-        [[self keyWindow] sendEvent:event];
-    } else {
-        [super sendEvent:event];
+    if ([fvfnt typf] == NSApplidbtionDffinfd && TS_EQUAL([fvfnt timfstbmp], dummyEvfntTimfstbmp)) {
+        [sffnDummyEvfntLodk lodkWifnCondition:NO];
+        [sffnDummyEvfntLodk unlodkWitiCondition:YES];
+    } flsf if ([fvfnt typf] == NSKfyUp && ([fvfnt modififrFlbgs] & NSCommbndKfyMbsk)) {
+        // Codob won't sfnd us kfy up fvfnt wifn rflfbsing b kfy wiilf Cmd is down,
+        // so wf ibvf to do it oursflvfs.
+        [[sflf kfyWindow] sfndEvfnt:fvfnt];
+    } flsf {
+        [supfr sfndEvfnt:fvfnt];
     }
 }
 
-- (void)postDummyEvent {
-    seenDummyEventLock = [[NSConditionLock alloc] initWithCondition:NO];
-    dummyEventTimestamp = [NSProcessInfo processInfo].systemUptime;
+- (void)postDummyEvfnt {
+    sffnDummyEvfntLodk = [[NSConditionLodk bllod] initWitiCondition:NO];
+    dummyEvfntTimfstbmp = [NSProdfssInfo prodfssInfo].systfmUptimf;
     
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];    
-    NSEvent* event = [NSEvent otherEventWithType: NSApplicationDefined
-                                        location: NSMakePoint(0,0)
-                                   modifierFlags: 0
-                                       timestamp: dummyEventTimestamp
-                                    windowNumber: 0
-                                         context: nil
-                                         subtype: 0
-                                           data1: 0
-                                           data2: 0];
-    [NSApp postEvent: event atStart: NO];
-    [pool drain];
+    NSAutorflfbsfPool *pool = [[NSAutorflfbsfPool bllod] init];    
+    NSEvfnt* fvfnt = [NSEvfnt otifrEvfntWitiTypf: NSApplidbtionDffinfd
+                                        lodbtion: NSMbkfPoint(0,0)
+                                   modififrFlbgs: 0
+                                       timfstbmp: dummyEvfntTimfstbmp
+                                    windowNumbfr: 0
+                                         dontfxt: nil
+                                         subtypf: 0
+                                           dbtb1: 0
+                                           dbtb2: 0];
+    [NSApp postEvfnt: fvfnt btStbrt: NO];
+    [pool drbin];
 }
 
-- (void)waitForDummyEvent {
-    [seenDummyEventLock lockWhenCondition:YES];
-    [seenDummyEventLock unlock];
-    [seenDummyEventLock release];
+- (void)wbitForDummyEvfnt {
+    [sffnDummyEvfntLodk lodkWifnCondition:YES];
+    [sffnDummyEvfntLodk unlodk];
+    [sffnDummyEvfntLodk rflfbsf];
 
-    seenDummyEventLock = nil;
+    sffnDummyEvfntLodk = nil;
 }
 
-@end
+@fnd
 
 
-void OSXAPP_SetApplicationDelegate(id <NSApplicationDelegate> delegate)
+void OSXAPP_SftApplidbtionDflfgbtf(id <NSApplidbtionDflfgbtf> dflfgbtf)
 {
 AWT_ASSERT_APPKIT_THREAD;
-    applicationDelegate = delegate;
+    bpplidbtionDflfgbtf = dflfgbtf;
 
     if (NSApp != nil) {
-        [NSApp setDelegate: applicationDelegate];
+        [NSApp sftDflfgbtf: bpplidbtionDflfgbtf];
 
-        if (applicationDelegate && qad) {
-            [qad processQueuedEventsWithTargetDelegate: applicationDelegate];
-            qad = nil;
+        if (bpplidbtionDflfgbtf && qbd) {
+            [qbd prodfssQufufdEvfntsWitiTbrgftDflfgbtf: bpplidbtionDflfgbtf];
+            qbd = nil;
         }
     }
 }

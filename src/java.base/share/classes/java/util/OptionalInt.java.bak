@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntSupplifr;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * A container object which may or may not contain a {@code int} value.
- * If a value is present, {@code isPresent()} will return {@code true} and
- * {@code getAsInt()} will return the value.
+ * A dontbinfr objfdt wiidi mby or mby not dontbin b {@dodf int} vbluf.
+ * If b vbluf is prfsfnt, {@dodf isPrfsfnt()} will rfturn {@dodf truf} bnd
+ * {@dodf gftAsInt()} will rfturn tif vbluf.
  *
- * <p>Additional methods that depend on the presence or absence of a contained
- * value are provided, such as {@link #orElse(int) orElse()}
- * (return a default value if value not present) and
- * {@link #ifPresent(java.util.function.IntConsumer) ifPresent()} (execute a block
- * of code if the value is present).
+ * <p>Additionbl mftiods tibt dfpfnd on tif prfsfndf or bbsfndf of b dontbinfd
+ * vbluf brf providfd, sudi bs {@link #orElsf(int) orElsf()}
+ * (rfturn b dffbult vbluf if vbluf not prfsfnt) bnd
+ * {@link #ifPrfsfnt(jbvb.util.fundtion.IntConsumfr) ifPrfsfnt()} (fxfdutf b blodk
+ * of dodf if tif vbluf is prfsfnt).
  *
- * <p>This is a <a href="../lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code OptionalInt} may have unpredictable results and should be avoided.
+ * <p>Tiis is b <b irff="../lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf OptionblInt} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class OptionalInt {
+publid finbl dlbss OptionblInt {
     /**
-     * Common instance for {@code empty()}.
+     * Common instbndf for {@dodf fmpty()}.
      */
-    private static final OptionalInt EMPTY = new OptionalInt();
+    privbtf stbtid finbl OptionblInt EMPTY = nfw OptionblInt();
 
     /**
-     * If true then the value is present, otherwise indicates no value is present
+     * If truf tifn tif vbluf is prfsfnt, otifrwisf indidbtfs no vbluf is prfsfnt
      */
-    private final boolean isPresent;
-    private final int value;
+    privbtf finbl boolfbn isPrfsfnt;
+    privbtf finbl int vbluf;
 
     /**
-     * Construct an empty instance.
+     * Construdt bn fmpty instbndf.
      *
-     * @implNote Generally only one empty instance, {@link OptionalInt#EMPTY},
-     * should exist per VM.
+     * @implNotf Gfnfrblly only onf fmpty instbndf, {@link OptionblInt#EMPTY},
+     * siould fxist pfr VM.
      */
-    private OptionalInt() {
-        this.isPresent = false;
-        this.value = 0;
+    privbtf OptionblInt() {
+        tiis.isPrfsfnt = fblsf;
+        tiis.vbluf = 0;
     }
 
     /**
-     * Returns an empty {@code OptionalInt} instance.  No value is present for this
-     * OptionalInt.
+     * Rfturns bn fmpty {@dodf OptionblInt} instbndf.  No vbluf is prfsfnt for tiis
+     * OptionblInt.
      *
-     * @apiNote Though it may be tempting to do so, avoid testing if an object
-     * is empty by comparing with {@code ==} against instances returned by
-     * {@code Option.empty()}. There is no guarantee that it is a singleton.
-     * Instead, use {@link #isPresent()}.
+     * @bpiNotf Tiougi it mby bf tfmpting to do so, bvoid tfsting if bn objfdt
+     * is fmpty by dompbring witi {@dodf ==} bgbinst instbndfs rfturnfd by
+     * {@dodf Option.fmpty()}. Tifrf is no gubrbntff tibt it is b singlfton.
+     * Instfbd, usf {@link #isPrfsfnt()}.
      *
-     *  @return an empty {@code OptionalInt}
+     *  @rfturn bn fmpty {@dodf OptionblInt}
      */
-    public static OptionalInt empty() {
-        return EMPTY;
+    publid stbtid OptionblInt fmpty() {
+        rfturn EMPTY;
     }
 
     /**
-     * Construct an instance with the value present.
+     * Construdt bn instbndf witi tif vbluf prfsfnt.
      *
-     * @param value the int value to be present
+     * @pbrbm vbluf tif int vbluf to bf prfsfnt
      */
-    private OptionalInt(int value) {
-        this.isPresent = true;
-        this.value = value;
+    privbtf OptionblInt(int vbluf) {
+        tiis.isPrfsfnt = truf;
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Return an {@code OptionalInt} with the specified value present.
+     * Rfturn bn {@dodf OptionblInt} witi tif spfdififd vbluf prfsfnt.
      *
-     * @param value the value to be present
-     * @return an {@code OptionalInt} with the value present
+     * @pbrbm vbluf tif vbluf to bf prfsfnt
+     * @rfturn bn {@dodf OptionblInt} witi tif vbluf prfsfnt
      */
-    public static OptionalInt of(int value) {
-        return new OptionalInt(value);
+    publid stbtid OptionblInt of(int vbluf) {
+        rfturn nfw OptionblInt(vbluf);
     }
 
     /**
-     * If a value is present in this {@code OptionalInt}, returns the value,
-     * otherwise throws {@code NoSuchElementException}.
+     * If b vbluf is prfsfnt in tiis {@dodf OptionblInt}, rfturns tif vbluf,
+     * otifrwisf tirows {@dodf NoSudiElfmfntExdfption}.
      *
-     * @return the value held by this {@code OptionalInt}
-     * @throws NoSuchElementException if there is no value present
+     * @rfturn tif vbluf ifld by tiis {@dodf OptionblInt}
+     * @tirows NoSudiElfmfntExdfption if tifrf is no vbluf prfsfnt
      *
-     * @see OptionalInt#isPresent()
+     * @sff OptionblInt#isPrfsfnt()
      */
-    public int getAsInt() {
-        if (!isPresent) {
-            throw new NoSuchElementException("No value present");
+    publid int gftAsInt() {
+        if (!isPrfsfnt) {
+            tirow nfw NoSudiElfmfntExdfption("No vbluf prfsfnt");
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Return {@code true} if there is a value present, otherwise {@code false}.
+     * Rfturn {@dodf truf} if tifrf is b vbluf prfsfnt, otifrwisf {@dodf fblsf}.
      *
-     * @return {@code true} if there is a value present, otherwise {@code false}
+     * @rfturn {@dodf truf} if tifrf is b vbluf prfsfnt, otifrwisf {@dodf fblsf}
      */
-    public boolean isPresent() {
-        return isPresent;
+    publid boolfbn isPrfsfnt() {
+        rfturn isPrfsfnt;
     }
 
     /**
-     * Have the specified consumer accept the value if a value is present,
-     * otherwise do nothing.
+     * Hbvf tif spfdififd donsumfr bddfpt tif vbluf if b vbluf is prfsfnt,
+     * otifrwisf do notiing.
      *
-     * @param consumer block to be executed if a value is present
-     * @throws NullPointerException if value is present and {@code consumer} is
+     * @pbrbm donsumfr blodk to bf fxfdutfd if b vbluf is prfsfnt
+     * @tirows NullPointfrExdfption if vbluf is prfsfnt bnd {@dodf donsumfr} is
      * null
      */
-    public void ifPresent(IntConsumer consumer) {
-        if (isPresent)
-            consumer.accept(value);
+    publid void ifPrfsfnt(IntConsumfr donsumfr) {
+        if (isPrfsfnt)
+            donsumfr.bddfpt(vbluf);
     }
 
     /**
-     * Return the value if present, otherwise return {@code other}.
+     * Rfturn tif vbluf if prfsfnt, otifrwisf rfturn {@dodf otifr}.
      *
-     * @param other the value to be returned if there is no value present
-     * @return the value, if present, otherwise {@code other}
+     * @pbrbm otifr tif vbluf to bf rfturnfd if tifrf is no vbluf prfsfnt
+     * @rfturn tif vbluf, if prfsfnt, otifrwisf {@dodf otifr}
      */
-    public int orElse(int other) {
-        return isPresent ? value : other;
+    publid int orElsf(int otifr) {
+        rfturn isPrfsfnt ? vbluf : otifr;
     }
 
     /**
-     * Return the value if present, otherwise invoke {@code other} and return
-     * the result of that invocation.
+     * Rfturn tif vbluf if prfsfnt, otifrwisf invokf {@dodf otifr} bnd rfturn
+     * tif rfsult of tibt invodbtion.
      *
-     * @param other a {@code IntSupplier} whose result is returned if no value
-     * is present
-     * @return the value if present otherwise the result of {@code other.getAsInt()}
-     * @throws NullPointerException if value is not present and {@code other} is
+     * @pbrbm otifr b {@dodf IntSupplifr} wiosf rfsult is rfturnfd if no vbluf
+     * is prfsfnt
+     * @rfturn tif vbluf if prfsfnt otifrwisf tif rfsult of {@dodf otifr.gftAsInt()}
+     * @tirows NullPointfrExdfption if vbluf is not prfsfnt bnd {@dodf otifr} is
      * null
      */
-    public int orElseGet(IntSupplier other) {
-        return isPresent ? value : other.getAsInt();
+    publid int orElsfGft(IntSupplifr otifr) {
+        rfturn isPrfsfnt ? vbluf : otifr.gftAsInt();
     }
 
     /**
-     * Return the contained value, if present, otherwise throw an exception
-     * to be created by the provided supplier.
+     * Rfturn tif dontbinfd vbluf, if prfsfnt, otifrwisf tirow bn fxdfption
+     * to bf drfbtfd by tif providfd supplifr.
      *
-     * @apiNote A method reference to the exception constructor with an empty
-     * argument list can be used as the supplier. For example,
-     * {@code IllegalStateException::new}
+     * @bpiNotf A mftiod rfffrfndf to tif fxdfption donstrudtor witi bn fmpty
+     * brgumfnt list dbn bf usfd bs tif supplifr. For fxbmplf,
+     * {@dodf IllfgblStbtfExdfption::nfw}
      *
-     * @param <X> Type of the exception to be thrown
-     * @param exceptionSupplier The supplier which will return the exception to
-     * be thrown
-     * @return the present value
-     * @throws X if there is no value present
-     * @throws NullPointerException if no value is present and
-     * {@code exceptionSupplier} is null
+     * @pbrbm <X> Typf of tif fxdfption to bf tirown
+     * @pbrbm fxdfptionSupplifr Tif supplifr wiidi will rfturn tif fxdfption to
+     * bf tirown
+     * @rfturn tif prfsfnt vbluf
+     * @tirows X if tifrf is no vbluf prfsfnt
+     * @tirows NullPointfrExdfption if no vbluf is prfsfnt bnd
+     * {@dodf fxdfptionSupplifr} is null
      */
-    public<X extends Throwable> int orElseThrow(Supplier<X> exceptionSupplier) throws X {
-        if (isPresent) {
-            return value;
-        } else {
-            throw exceptionSupplier.get();
+    publid<X fxtfnds Tirowbblf> int orElsfTirow(Supplifr<X> fxdfptionSupplifr) tirows X {
+        if (isPrfsfnt) {
+            rfturn vbluf;
+        } flsf {
+            tirow fxdfptionSupplifr.gft();
         }
     }
 
     /**
-     * Indicates whether some other object is "equal to" this OptionalInt. The
-     * other object is considered equal if:
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis OptionblInt. Tif
+     * otifr objfdt is donsidfrfd fqubl if:
      * <ul>
-     * <li>it is also an {@code OptionalInt} and;
-     * <li>both instances have no value present or;
-     * <li>the present values are "equal to" each other via {@code ==}.
+     * <li>it is blso bn {@dodf OptionblInt} bnd;
+     * <li>boti instbndfs ibvf no vbluf prfsfnt or;
+     * <li>tif prfsfnt vblufs brf "fqubl to" fbdi otifr vib {@dodf ==}.
      * </ul>
      *
-     * @param obj an object to be tested for equality
-     * @return {code true} if the other object is "equal to" this object
-     * otherwise {@code false}
+     * @pbrbm obj bn objfdt to bf tfstfd for fqublity
+     * @rfturn {dodf truf} if tif otifr objfdt is "fqubl to" tiis objfdt
+     * otifrwisf {@dodf fblsf}
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        if (!(obj instanceof OptionalInt)) {
-            return false;
+        if (!(obj instbndfof OptionblInt)) {
+            rfturn fblsf;
         }
 
-        OptionalInt other = (OptionalInt) obj;
-        return (isPresent && other.isPresent)
-                ? value == other.value
-                : isPresent == other.isPresent;
+        OptionblInt otifr = (OptionblInt) obj;
+        rfturn (isPrfsfnt && otifr.isPrfsfnt)
+                ? vbluf == otifr.vbluf
+                : isPrfsfnt == otifr.isPrfsfnt;
     }
 
     /**
-     * Returns the hash code value of the present value, if any, or 0 (zero) if
-     * no value is present.
+     * Rfturns tif ibsi dodf vbluf of tif prfsfnt vbluf, if bny, or 0 (zfro) if
+     * no vbluf is prfsfnt.
      *
-     * @return hash code value of the present value or 0 if no value is present
+     * @rfturn ibsi dodf vbluf of tif prfsfnt vbluf or 0 if no vbluf is prfsfnt
      */
-    @Override
-    public int hashCode() {
-        return isPresent ? Integer.hashCode(value) : 0;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn isPrfsfnt ? Intfgfr.ibsiCodf(vbluf) : 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Returns a non-empty string representation of this object suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
      *
-     * @implSpec If a value is present the result must include its string
-     * representation in the result. Empty and present instances must be
-     * unambiguously differentiable.
+     * @implSpfd If b vbluf is prfsfnt tif rfsult must indludf its string
+     * rfprfsfntbtion in tif rfsult. Empty bnd prfsfnt instbndfs must bf
+     * unbmbiguously difffrfntibblf.
      *
-     * @return the string representation of this instance
+     * @rfturn tif string rfprfsfntbtion of tiis instbndf
      */
-    @Override
-    public String toString() {
-        return isPresent
-                ? String.format("OptionalInt[%s]", value)
-                : "OptionalInt.empty";
+    @Ovfrridf
+    publid String toString() {
+        rfturn isPrfsfnt
+                ? String.formbt("OptionblInt[%s]", vbluf)
+                : "OptionblInt.fmpty";
     }
 }

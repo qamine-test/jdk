@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.MemoryUsage;
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Collections;
-import java.io.InvalidObjectException;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.OpenDataException;
-import com.sun.management.GcInfo;
-import com.sun.management.GarbageCollectionNotificationInfo;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import dom.sun.mbnbgfmfnt.GdInfo;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifidbtionInfo;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * A CompositeData for GcInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for GdInfo for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class GcInfoCompositeData extends LazyCompositeData {
-    private final GcInfo info;
-    private final GcInfoBuilder builder;
-    private final Object[] gcExtItemValues;
+publid dlbss GdInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl GdInfo info;
+    privbtf finbl GdInfoBuildfr buildfr;
+    privbtf finbl Objfdt[] gdExtItfmVblufs;
 
-    public GcInfoCompositeData(GcInfo info,
-                        GcInfoBuilder builder,
-                        Object[] gcExtItemValues) {
-        this.info = info;
-        this.builder = builder;
-        this.gcExtItemValues = gcExtItemValues;
+    publid GdInfoCompositfDbtb(GdInfo info,
+                        GdInfoBuildfr buildfr,
+                        Objfdt[] gdExtItfmVblufs) {
+        tiis.info = info;
+        tiis.buildfr = buildfr;
+        tiis.gdExtItfmVblufs = gdExtItfmVblufs;
     }
 
-    public GcInfo getGcInfo() {
-        return info;
+    publid GdInfo gftGdInfo() {
+        rfturn info;
     }
 
-    public static CompositeData toCompositeData(final GcInfo info) {
-        final GcInfoBuilder builder = AccessController.doPrivileged (new PrivilegedAction<GcInfoBuilder>() {
-                        public GcInfoBuilder run() {
+    publid stbtid CompositfDbtb toCompositfDbtb(finbl GdInfo info) {
+        finbl GdInfoBuildfr buildfr = AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<GdInfoBuildfr>() {
+                        publid GdInfoBuildfr run() {
                             try {
-                                Class<?> cl = Class.forName("com.sun.management.GcInfo");
-                                Field f = cl.getDeclaredField("builder");
-                                f.setAccessible(true);
-                                return (GcInfoBuilder)f.get(info);
-                            } catch(ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                                return null;
+                                Clbss<?> dl = Clbss.forNbmf("dom.sun.mbnbgfmfnt.GdInfo");
+                                Fifld f = dl.gftDfdlbrfdFifld("buildfr");
+                                f.sftAddfssiblf(truf);
+                                rfturn (GdInfoBuildfr)f.gft(info);
+                            } dbtdi(ClbssNotFoundExdfption | NoSudiFifldExdfption | IllfgblAddfssExdfption f) {
+                                rfturn null;
                             }
                         }
                     });
-        final Object[] extAttr = AccessController.doPrivileged (new PrivilegedAction<Object[]>() {
-                        public Object[] run() {
+        finbl Objfdt[] fxtAttr = AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<Objfdt[]>() {
+                        publid Objfdt[] run() {
                             try {
-                                Class<?> cl = Class.forName("com.sun.management.GcInfo");
-                                Field f = cl.getDeclaredField("extAttributes");
-                                f.setAccessible(true);
-                                return (Object[])f.get(info);
-                            } catch(ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-                                return null;
+                                Clbss<?> dl = Clbss.forNbmf("dom.sun.mbnbgfmfnt.GdInfo");
+                                Fifld f = dl.gftDfdlbrfdFifld("fxtAttributfs");
+                                f.sftAddfssiblf(truf);
+                                rfturn (Objfdt[])f.gft(info);
+                            } dbtdi(ClbssNotFoundExdfption | NoSudiFifldExdfption | IllfgblAddfssExdfption f) {
+                                rfturn null;
                             }
                         }
                     });
-        GcInfoCompositeData gcicd =
-            new GcInfoCompositeData(info,builder,extAttr);
-        return gcicd.getCompositeData();
+        GdInfoCompositfDbtb gdidd =
+            nfw GdInfoCompositfDbtb(info,buildfr,fxtAttr);
+        rfturn gdidd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // baseGcInfoItemNames!
-        final Object[] baseGcInfoItemValues;
+        // bbsfGdInfoItfmNbmfs!
+        finbl Objfdt[] bbsfGdInfoItfmVblufs;
 
         try {
-            baseGcInfoItemValues = new Object[] {
-                info.getId(),
-                info.getStartTime(),
-                info.getEndTime(),
-                info.getDuration(),
-                memoryUsageMapType.toOpenTypeData(info.getMemoryUsageBeforeGc()),
-                memoryUsageMapType.toOpenTypeData(info.getMemoryUsageAfterGc()),
+            bbsfGdInfoItfmVblufs = nfw Objfdt[] {
+                info.gftId(),
+                info.gftStbrtTimf(),
+                info.gftEndTimf(),
+                info.gftDurbtion(),
+                mfmoryUsbgfMbpTypf.toOpfnTypfDbtb(info.gftMfmoryUsbgfBfforfGd()),
+                mfmoryUsbgfMbpTypf.toOpfnTypfDbtb(info.gftMfmoryUsbgfAftfrGd()),
             };
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
 
-        // Get the item values for the extension attributes
-        final int gcExtItemCount = builder.getGcExtItemCount();
-        if (gcExtItemCount == 0 &&
-            gcExtItemValues != null && gcExtItemValues.length != 0) {
-            throw new AssertionError("Unexpected Gc Extension Item Values");
+        // Gft tif itfm vblufs for tif fxtfnsion bttributfs
+        finbl int gdExtItfmCount = buildfr.gftGdExtItfmCount();
+        if (gdExtItfmCount == 0 &&
+            gdExtItfmVblufs != null && gdExtItfmVblufs.lfngti != 0) {
+            tirow nfw AssfrtionError("Unfxpfdtfd Gd Extfnsion Itfm Vblufs");
         }
 
-        if (gcExtItemCount > 0 && (gcExtItemValues == null ||
-             gcExtItemCount != gcExtItemValues.length)) {
-            throw new AssertionError("Unmatched Gc Extension Item Values");
+        if (gdExtItfmCount > 0 && (gdExtItfmVblufs == null ||
+             gdExtItfmCount != gdExtItfmVblufs.lfngti)) {
+            tirow nfw AssfrtionError("Unmbtdifd Gd Extfnsion Itfm Vblufs");
         }
 
-        Object[] values = new Object[baseGcInfoItemValues.length +
-                                     gcExtItemCount];
-        System.arraycopy(baseGcInfoItemValues, 0, values, 0,
-                         baseGcInfoItemValues.length);
+        Objfdt[] vblufs = nfw Objfdt[bbsfGdInfoItfmVblufs.lfngti +
+                                     gdExtItfmCount];
+        Systfm.brrbydopy(bbsfGdInfoItfmVblufs, 0, vblufs, 0,
+                         bbsfGdInfoItfmVblufs.lfngti);
 
-        if (gcExtItemCount > 0) {
-            System.arraycopy(gcExtItemValues, 0, values,
-                             baseGcInfoItemValues.length, gcExtItemCount);
+        if (gdExtItfmCount > 0) {
+            Systfm.brrbydopy(gdExtItfmVblufs, 0, vblufs,
+                             bbsfGdInfoItfmVblufs.lfngti, gdExtItfmCount);
         }
 
         try {
-            return new CompositeDataSupport(builder.getGcInfoCompositeType(),
-                                            builder.getItemNames(),
-                                            values);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(buildfr.gftGdInfoCompositfTypf(),
+                                            buildfr.gftItfmNbmfs(),
+                                            vblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final String ID                     = "id";
-    private static final String START_TIME             = "startTime";
-    private static final String END_TIME               = "endTime";
-    private static final String DURATION               = "duration";
-    private static final String MEMORY_USAGE_BEFORE_GC = "memoryUsageBeforeGc";
-    private static final String MEMORY_USAGE_AFTER_GC  = "memoryUsageAfterGc";
+    privbtf stbtid finbl String ID                     = "id";
+    privbtf stbtid finbl String START_TIME             = "stbrtTimf";
+    privbtf stbtid finbl String END_TIME               = "fndTimf";
+    privbtf stbtid finbl String DURATION               = "durbtion";
+    privbtf stbtid finbl String MEMORY_USAGE_BEFORE_GC = "mfmoryUsbgfBfforfGd";
+    privbtf stbtid finbl String MEMORY_USAGE_AFTER_GC  = "mfmoryUsbgfAftfrGd";
 
-    private static final String[] baseGcInfoItemNames = {
+    privbtf stbtid finbl String[] bbsfGdInfoItfmNbmfs = {
         ID,
         START_TIME,
         END_TIME,
@@ -166,111 +166,111 @@ public class GcInfoCompositeData extends LazyCompositeData {
     };
 
 
-    private static MappedMXBeanType memoryUsageMapType;
-    static {
+    privbtf stbtid MbppfdMXBfbnTypf mfmoryUsbgfMbpTypf;
+    stbtid {
         try {
-            Method m = GcInfo.class.getMethod("getMemoryUsageBeforeGc");
-            memoryUsageMapType =
-                MappedMXBeanType.getMappedType(m.getGenericReturnType());
-        } catch (NoSuchMethodException | OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            Mftiod m = GdInfo.dlbss.gftMftiod("gftMfmoryUsbgfBfforfGd");
+            mfmoryUsbgfMbpTypf =
+                MbppfdMXBfbnTypf.gftMbppfdTypf(m.gftGfnfridRfturnTypf());
+        } dbtdi (NoSudiMftiodExdfption | OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    static String[] getBaseGcInfoItemNames() {
-        return baseGcInfoItemNames;
+    stbtid String[] gftBbsfGdInfoItfmNbmfs() {
+        rfturn bbsfGdInfoItfmNbmfs;
     }
 
-    private static OpenType<?>[] baseGcInfoItemTypes = null;
-    static synchronized OpenType<?>[] getBaseGcInfoItemTypes() {
-        if (baseGcInfoItemTypes == null) {
-            OpenType<?> memoryUsageOpenType = memoryUsageMapType.getOpenType();
-            baseGcInfoItemTypes = new OpenType<?>[] {
-                SimpleType.LONG,
-                SimpleType.LONG,
-                SimpleType.LONG,
-                SimpleType.LONG,
+    privbtf stbtid OpfnTypf<?>[] bbsfGdInfoItfmTypfs = null;
+    stbtid syndironizfd OpfnTypf<?>[] gftBbsfGdInfoItfmTypfs() {
+        if (bbsfGdInfoItfmTypfs == null) {
+            OpfnTypf<?> mfmoryUsbgfOpfnTypf = mfmoryUsbgfMbpTypf.gftOpfnTypf();
+            bbsfGdInfoItfmTypfs = nfw OpfnTypf<?>[] {
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
+                SimplfTypf.LONG,
 
-                memoryUsageOpenType,
-                memoryUsageOpenType,
+                mfmoryUsbgfOpfnTypf,
+                mfmoryUsbgfOpfnTypf,
             };
         }
-        return baseGcInfoItemTypes;
+        rfturn bbsfGdInfoItfmTypfs;
     }
 
-    public static long getId(CompositeData cd) {
-        return getLong(cd, ID);
+    publid stbtid long gftId(CompositfDbtb dd) {
+        rfturn gftLong(dd, ID);
     }
-    public static long getStartTime(CompositeData cd) {
-        return getLong(cd, START_TIME);
+    publid stbtid long gftStbrtTimf(CompositfDbtb dd) {
+        rfturn gftLong(dd, START_TIME);
     }
-    public static long getEndTime(CompositeData cd) {
-        return getLong(cd, END_TIME);
+    publid stbtid long gftEndTimf(CompositfDbtb dd) {
+        rfturn gftLong(dd, END_TIME);
     }
 
-    public static Map<String, MemoryUsage>
-            getMemoryUsageBeforeGc(CompositeData cd) {
+    publid stbtid Mbp<String, MfmoryUsbgf>
+            gftMfmoryUsbgfBfforfGd(CompositfDbtb dd) {
         try {
-            TabularData td = (TabularData) cd.get(MEMORY_USAGE_BEFORE_GC);
-            return cast(memoryUsageMapType.toJavaTypeData(td));
-        } catch (InvalidObjectException | OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            TbbulbrDbtb td = (TbbulbrDbtb) dd.gft(MEMORY_USAGE_BEFORE_GC);
+            rfturn dbst(mfmoryUsbgfMbpTypf.toJbvbTypfDbtb(td));
+        } dbtdi (InvblidObjfdtExdfption | OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, MemoryUsage> cast(Object x) {
-        return (Map<String, MemoryUsage>) x;
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid Mbp<String, MfmoryUsbgf> dbst(Objfdt x) {
+        rfturn (Mbp<String, MfmoryUsbgf>) x;
     }
-    public static Map<String, MemoryUsage>
-            getMemoryUsageAfterGc(CompositeData cd) {
+    publid stbtid Mbp<String, MfmoryUsbgf>
+            gftMfmoryUsbgfAftfrGd(CompositfDbtb dd) {
         try {
-            TabularData td = (TabularData) cd.get(MEMORY_USAGE_AFTER_GC);
-            //return (Map<String,MemoryUsage>)
-            return cast(memoryUsageMapType.toJavaTypeData(td));
-        } catch (InvalidObjectException | OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            TbbulbrDbtb td = (TbbulbrDbtb) dd.gft(MEMORY_USAGE_AFTER_GC);
+            //rfturn (Mbp<String,MfmoryUsbgf>)
+            rfturn dbst(mfmoryUsbgfMbpTypf.toJbvbTypfDbtb(td));
+        } dbtdi (InvblidObjfdtExdfption | OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Returns true if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).  Otherwise, return false.
+     * Rfturns truf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).  Otifrwisf, rfturn fblsf.
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(getBaseGcInfoCompositeType(),
-                           cd.getCompositeType())) {
-           throw new IllegalArgumentException(
-                "Unexpected composite type for GcInfo");
+        if (!isTypfMbtdifd(gftBbsfGdInfoCompositfTypf(),
+                           dd.gftCompositfTypf())) {
+           tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for GdInfo");
         }
     }
 
-    // This is only used for validation.
-    private static CompositeType baseGcInfoCompositeType = null;
-    static synchronized CompositeType getBaseGcInfoCompositeType() {
-        if (baseGcInfoCompositeType == null) {
+    // Tiis is only usfd for vblidbtion.
+    privbtf stbtid CompositfTypf bbsfGdInfoCompositfTypf = null;
+    stbtid syndironizfd CompositfTypf gftBbsfGdInfoCompositfTypf() {
+        if (bbsfGdInfoCompositfTypf == null) {
             try {
-                baseGcInfoCompositeType =
-                    new CompositeType("sun.management.BaseGcInfoCompositeType",
-                                      "CompositeType for Base GcInfo",
-                                      getBaseGcInfoItemNames(),
-                                      getBaseGcInfoItemNames(),
-                                      getBaseGcInfoItemTypes());
-            } catch (OpenDataException e) {
-                // shouldn't reach here
-                throw Util.newException(e);
+                bbsfGdInfoCompositfTypf =
+                    nfw CompositfTypf("sun.mbnbgfmfnt.BbsfGdInfoCompositfTypf",
+                                      "CompositfTypf for Bbsf GdInfo",
+                                      gftBbsfGdInfoItfmNbmfs(),
+                                      gftBbsfGdInfoItfmNbmfs(),
+                                      gftBbsfGdInfoItfmTypfs());
+            } dbtdi (OpfnDbtbExdfption f) {
+                // siouldn't rfbdi ifrf
+                tirow Util.nfwExdfption(f);
             }
         }
-        return baseGcInfoCompositeType;
+        rfturn bbsfGdInfoCompositfTypf;
     }
 
-    private static final long serialVersionUID = -5716428894085882742L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5716428894085882742L;
 }

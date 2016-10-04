@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.http;
+pbdkbgf sun.nft.www.ittp;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.regex.*;
-import sun.net.NetProperties;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.rfgfx.*;
+import sun.nft.NftPropfrtifs;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * Main class of the HTTP traffic capture tool.
- * Captures are triggered by the sun.net.http.captureRules system property.
- * If set, it should point to a file containing the capture rules.
- * Format for the file is simple:
- * - 1 rule per line
- * - Lines starting with a # are considered comments and ignored
- * - a rule is a pair of a regular expression and file pattern, separated by a comma
- * - The regular expression is applied to URLs, if it matches, the traffic for
- *   that URL will be captured in the associated file.
- * - if the file name contains a '%d', then that sequence will be replaced by a
- *   unique random number for each URL. This allow for multi-threaded captures
- *   of URLs matching the same pattern.
- * - Rules are checked in sequence, in the same order as in the file, until a
- *   match is found or the end of the list is reached.
+ * Mbin dlbss of tif HTTP trbffid dbpturf tool.
+ * Cbpturfs brf triggfrfd by tif sun.nft.ittp.dbpturfRulfs systfm propfrty.
+ * If sft, it siould point to b filf dontbining tif dbpturf rulfs.
+ * Formbt for tif filf is simplf:
+ * - 1 rulf pfr linf
+ * - Linfs stbrting witi b # brf donsidfrfd dommfnts bnd ignorfd
+ * - b rulf is b pbir of b rfgulbr fxprfssion bnd filf pbttfrn, sfpbrbtfd by b dommb
+ * - Tif rfgulbr fxprfssion is bpplifd to URLs, if it mbtdifs, tif trbffid for
+ *   tibt URL will bf dbpturfd in tif bssodibtfd filf.
+ * - if tif filf nbmf dontbins b '%d', tifn tibt sfqufndf will bf rfplbdfd by b
+ *   uniquf rbndom numbfr for fbdi URL. Tiis bllow for multi-tirfbdfd dbpturfs
+ *   of URLs mbtdiing tif sbmf pbttfrn.
+ * - Rulfs brf difdkfd in sfqufndf, in tif sbmf ordfr bs in tif filf, until b
+ *   mbtdi is found or tif fnd of tif list is rfbdifd.
  *
- * Examples of rules:
- * www\.sun\.com , sun%d.log
- * yahoo\.com\/.*asf , yahoo.log
+ * Exbmplfs of rulfs:
+ * www\.sun\.dom , sun%d.log
+ * ybioo\.dom\/.*bsf , ybioo.log
  *
- * @author jccollet
+ * @butior jddollft
  */
-public class HttpCapture {
-    private File file = null;
-    private boolean incoming = true;
-    private BufferedWriter out = null;
-    private static boolean initialized = false;
-    private static volatile ArrayList<Pattern> patterns = null;
-    private static volatile ArrayList<String> capFiles = null;
+publid dlbss HttpCbpturf {
+    privbtf Filf filf = null;
+    privbtf boolfbn indoming = truf;
+    privbtf BufffrfdWritfr out = null;
+    privbtf stbtid boolfbn initiblizfd = fblsf;
+    privbtf stbtid volbtilf ArrbyList<Pbttfrn> pbttfrns = null;
+    privbtf stbtid volbtilf ArrbyList<String> dbpFilfs = null;
 
-    private static synchronized void init() {
-        initialized = true;
-        String rulesFile = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<String>() {
-                public String run() {
-                    return NetProperties.get("sun.net.http.captureRules");
+    privbtf stbtid syndironizfd void init() {
+        initiblizfd = truf;
+        String rulfsFilf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn NftPropfrtifs.gft("sun.nft.ittp.dbpturfRulfs");
                 }
             });
-        if (rulesFile != null && !rulesFile.isEmpty()) {
-            BufferedReader in;
+        if (rulfsFilf != null && !rulfsFilf.isEmpty()) {
+            BufffrfdRfbdfr in;
             try {
-                in = new BufferedReader(new FileReader(rulesFile));
-            } catch (FileNotFoundException ex) {
-                return;
+                in = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(rulfsFilf));
+            } dbtdi (FilfNotFoundExdfption fx) {
+                rfturn;
             }
             try {
-                String line = in.readLine();
-                while (line != null) {
-                    line = line.trim();
-                    if (!line.startsWith("#")) {
-                        // skip line if it's a comment
-                        String[] s = line.split(",");
-                        if (s.length == 2) {
-                            if (patterns == null) {
-                                patterns = new ArrayList<Pattern>();
-                                capFiles = new ArrayList<String>();
+                String linf = in.rfbdLinf();
+                wiilf (linf != null) {
+                    linf = linf.trim();
+                    if (!linf.stbrtsWiti("#")) {
+                        // skip linf if it's b dommfnt
+                        String[] s = linf.split(",");
+                        if (s.lfngti == 2) {
+                            if (pbttfrns == null) {
+                                pbttfrns = nfw ArrbyList<Pbttfrn>();
+                                dbpFilfs = nfw ArrbyList<String>();
                             }
-                            patterns.add(Pattern.compile(s[0].trim()));
-                            capFiles.add(s[1].trim());
+                            pbttfrns.bdd(Pbttfrn.dompilf(s[0].trim()));
+                            dbpFilfs.bdd(s[1].trim());
                         }
                     }
-                    line = in.readLine();
+                    linf = in.rfbdLinf();
                 }
-            } catch (IOException ioe) {
+            } dbtdi (IOExdfption iof) {
 
-            } finally {
+            } finblly {
                 try {
-                    in.close();
-                } catch (IOException ex) {
+                    in.dlosf();
+                } dbtdi (IOExdfption fx) {
                 }
             }
         }
     }
 
-    private static synchronized boolean isInitialized() {
-        return initialized;
+    privbtf stbtid syndironizfd boolfbn isInitiblizfd() {
+        rfturn initiblizfd;
     }
 
-    private HttpCapture(File f, java.net.URL url) {
-        file = f;
+    privbtf HttpCbpturf(Filf f, jbvb.nft.URL url) {
+        filf = f;
         try {
-            out = new BufferedWriter(new FileWriter(file, true));
-            out.write("URL: " + url + "\n");
-        } catch (IOException ex) {
-            PlatformLogger.getLogger(HttpCapture.class.getName()).severe(null, ex);
+            out = nfw BufffrfdWritfr(nfw FilfWritfr(filf, truf));
+            out.writf("URL: " + url + "\n");
+        } dbtdi (IOExdfption fx) {
+            PlbtformLoggfr.gftLoggfr(HttpCbpturf.dlbss.gftNbmf()).sfvfrf(null, fx);
         }
     }
 
-    public synchronized void sent(int c) throws IOException {
-        if (incoming) {
-            out.write("\n------>\n");
-            incoming = false;
-            out.flush();
+    publid syndironizfd void sfnt(int d) tirows IOExdfption {
+        if (indoming) {
+            out.writf("\n------>\n");
+            indoming = fblsf;
+            out.flusi();
         }
-        out.write(c);
+        out.writf(d);
     }
 
-    public synchronized void received(int c) throws IOException {
-        if (!incoming) {
-            out.write("\n<------\n");
-            incoming = true;
-            out.flush();
+    publid syndironizfd void rfdfivfd(int d) tirows IOExdfption {
+        if (!indoming) {
+            out.writf("\n<------\n");
+            indoming = truf;
+            out.flusi();
         }
-        out.write(c);
+        out.writf(d);
     }
 
-    public synchronized void flush() throws IOException {
-        out.flush();
+    publid syndironizfd void flusi() tirows IOExdfption {
+        out.flusi();
     }
 
-    public static HttpCapture getCapture(java.net.URL url) {
-        if (!isInitialized()) {
+    publid stbtid HttpCbpturf gftCbpturf(jbvb.nft.URL url) {
+        if (!isInitiblizfd()) {
             init();
         }
-        if (patterns == null || patterns.isEmpty()) {
-            return null;
+        if (pbttfrns == null || pbttfrns.isEmpty()) {
+            rfturn null;
         }
         String s = url.toString();
-        for (int i = 0; i < patterns.size(); i++) {
-            Pattern p = patterns.get(i);
-            if (p.matcher(s).find()) {
-                String f = capFiles.get(i);
-                File fi;
-                if (f.indexOf("%d") >= 0) {
-                    java.util.Random rand = new java.util.Random();
+        for (int i = 0; i < pbttfrns.sizf(); i++) {
+            Pbttfrn p = pbttfrns.gft(i);
+            if (p.mbtdifr(s).find()) {
+                String f = dbpFilfs.gft(i);
+                Filf fi;
+                if (f.indfxOf("%d") >= 0) {
+                    jbvb.util.Rbndom rbnd = nfw jbvb.util.Rbndom();
                     do {
-                        String f2 = f.replace("%d", Integer.toString(rand.nextInt()));
-                        fi = new File(f2);
-                    } while (fi.exists());
-                } else {
-                    fi = new File(f);
+                        String f2 = f.rfplbdf("%d", Intfgfr.toString(rbnd.nfxtInt()));
+                        fi = nfw Filf(f2);
+                    } wiilf (fi.fxists());
+                } flsf {
+                    fi = nfw Filf(f);
                 }
-                return new HttpCapture(fi, url);
+                rfturn nfw HttpCbpturf(fi, url);
             }
         }
-        return null;
+        rfturn null;
     }
 }

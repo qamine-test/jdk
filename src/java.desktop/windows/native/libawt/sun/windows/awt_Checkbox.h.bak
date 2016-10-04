@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_CHECKBOX_H
-#define AWT_CHECKBOX_H
+#ifndff AWT_CHECKBOX_H
+#dffinf AWT_CHECKBOX_H
 
-#include "awt_Component.h"
+#indludf "bwt_Componfnt.i"
 
-#include "java_awt_Checkbox.h"
-#include "sun_awt_windows_WCheckboxPeer.h"
+#indludf "jbvb_bwt_Cifdkbox.i"
+#indludf "sun_bwt_windows_WCifdkboxPffr.i"
 
 
 /************************************************************************
- * Component class for system provided Checkboxes
+ * Componfnt dlbss for systfm providfd Cifdkboxfs
  */
 
-class AwtCheckbox : public AwtComponent {
-public:
+dlbss AwtCifdkbox : publid AwtComponfnt {
+publid:
 
-    /* check size in Windows is always the same */
-    static const int CHECK_SIZE;
+    /* difdk sizf in Windows is blwbys tif sbmf */
+    stbtid donst int CHECK_SIZE;
 
-    /* java.awt.Checkbox field ids */
-    static jfieldID labelID;
-    static jfieldID groupID;
-    static jfieldID stateID;
+    /* jbvb.bwt.Cifdkbox fifld ids */
+    stbtid jfifldID lbbflID;
+    stbtid jfifldID groupID;
+    stbtid jfifldID stbtfID;
 
-    AwtCheckbox();
+    AwtCifdkbox();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GftClbssNbmf();
 
-    /* Create a new AwtCheckbox object and window.       */
-    static AwtCheckbox* Create(jobject self, jobject hParent);
+    /* Crfbtf b nfw AwtCifdkbox objfdt bnd window.       */
+    stbtid AwtCifdkbox* Crfbtf(jobjfdt sflf, jobjfdt iPbrfnt);
 
-    /* get state of multifont checkbox */
-    BOOL GetState();
+    /* gft stbtf of multifont difdkbox */
+    BOOL GftStbtf();
 
-    /* get check mark size */
-    static int GetCheckSize();
+    /* gft difdk mbrk sizf */
+    stbtid int GftCifdkSizf();
 
-    /*  Windows message handler functions */
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    MsgRouting WmNotify(UINT notifyCode);
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting WmPaint(HDC hDC);
+    /*  Windows mfssbgf ibndlfr fundtions */
+    MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    MsgRouting WmNotify(UINT notifyCodf);
+    MsgRouting OwnfrDrbwItfm(UINT dtrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting WmPbint(HDC iDC);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndlfEvfnt(MSG *msg, BOOL syntiftid);
 
-    BOOL IsFocusingMouseMessage(MSG *pMsg);
-    BOOL IsFocusingKeyMessage(MSG *pMsg);
+    BOOL IsFodusingMousfMfssbgf(MSG *pMsg);
+    BOOL IsFodusingKfyMfssbgf(MSG *pMsg);
 
-    // called on Toolkit thread from JNI
-    static void _SetLabel(void *param);
-    static void _SetCheckboxGroup(void *param);
-    static void _SetState(void *param);
+    // dbllfd on Toolkit tirfbd from JNI
+    stbtid void _SftLbbfl(void *pbrbm);
+    stbtid void _SftCifdkboxGroup(void *pbrbm);
+    stbtid void _SftStbtf(void *pbrbm);
 
-#ifdef DEBUG
-    virtual void VerifyState(); /* verify checkbox and peer are in sync. */
-#endif
+#ifdff DEBUG
+    virtubl void VfrifyStbtf(); /* vfrify difdkbox bnd pffr brf in synd. */
+#fndif
 
-private:
-    /* for state of LButtonDown */
-    BOOL m_fLButtonDowned;
+privbtf:
+    /* for stbtf of LButtonDown */
+    BOOL m_fLButtonDownfd;
 };
 
-#endif /* AWT_CHECKBOX_H */
+#fndif /* AWT_CHECKBOX_H */

@@ -1,0 +1,161 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.RFC2253Pbrsfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+publid dlbss XMLX509IssufrSfribl fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLX509IssufrSfribl.dlbss.gftNbmf());
+
+    /**
+     * Construdtor XMLX509IssufrSfribl
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @throws XMLSfdurityExdfption
+     */
+    publid XMLX509IssufrSfribl(Elfmfnt flfmfnt, String bbsfURI) throws XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
+    }
+
+    /**
+     * Construdtor XMLX509IssufrSfribl
+     *
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
+     */
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, BigIntfgfr x509SfriblNumbfr) {
+        supfr(dod);
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+        bddTfxtElfmfnt(x509IssufrNbmf, Constbnts._TAG_X509ISSUERNAME);
+        bddTfxtElfmfnt(x509SfriblNumbfr.toString(), Constbnts._TAG_X509SERIALNUMBER);
+    }
+
+    /**
+     * Construdtor XMLX509IssufrSfribl
+     *
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
+     */
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, String x509SfriblNumbfr) {
+        this(dod, x509IssufrNbmf, nfw BigIntfgfr(x509SfriblNumbfr));
+    }
+
+    /**
+     * Construdtor XMLX509IssufrSfribl
+     *
+     * @pbrbm dod
+     * @pbrbm x509IssufrNbmf
+     * @pbrbm x509SfriblNumbfr
+     */
+    publid XMLX509IssufrSfribl(Dodumfnt dod, String x509IssufrNbmf, int x509SfriblNumbfr) {
+        this(dod, x509IssufrNbmf, nfw BigIntfgfr(Intfgfr.toString(x509SfriblNumbfr)));
+    }
+
+    /**
+     * Construdtor XMLX509IssufrSfribl
+     *
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     */
+    publid XMLX509IssufrSfribl(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf) {
+        this(
+            dod,
+            x509dfrtifidbtf.gftIssufrX500Prindipbl().gftNbmf(),
+            x509dfrtifidbtf.gftSfriblNumbfr()
+        );
+    }
+
+    /**
+     * Mfthod gftSfriblNumbfr
+     *
+     * @rfturn thf sfribl numbfr
+     */
+    publid BigIntfgfr gftSfriblNumbfr() {
+        String tfxt =
+            this.gftTfxtFromChildElfmfnt(Constbnts._TAG_X509SERIALNUMBER, Constbnts.SignbturfSpfdNS);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "X509SfriblNumbfr tfxt: " + tfxt);
+        }
+
+        rfturn nfw BigIntfgfr(tfxt);
+    }
+
+    /**
+     * Mfthod gftSfriblNumbfrIntfgfr
+     *
+     * @rfturn thf sfribl numbfr bs plbin int
+     */
+    publid int gftSfriblNumbfrIntfgfr() {
+        rfturn this.gftSfriblNumbfr().intVbluf();
+    }
+
+    /**
+     * Mfthod gftIssufrNbmf
+     *
+     * @rfturn thf issufr nbmf
+     */
+    publid String gftIssufrNbmf()  {
+        rfturn RFC2253Pbrsfr.normblizf(
+            this.gftTfxtFromChildElfmfnt(Constbnts._TAG_X509ISSUERNAME, Constbnts.SignbturfSpfdNS)
+        );
+    }
+
+    /** @inhfritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509IssufrSfribl)) {
+            rfturn fblsf;
+        }
+
+        XMLX509IssufrSfribl othfr = (XMLX509IssufrSfribl) obj;
+
+        rfturn this.gftSfriblNumbfr().fqubls(othfr.gftSfriblNumbfr())
+            && this.gftIssufrNbmf().fqubls(othfr.gftIssufrNbmf());
+    }
+
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftSfriblNumbfr().hbshCodf();
+        rfsult = 31 * rfsult + gftIssufrNbmf().hbshCodf();
+        rfturn rfsult;
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509ISSUERSERIAL;
+    }
+}

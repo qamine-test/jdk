@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import java.awt.*;
-import java.lang.reflect.*;
+import jbvb.bwt.*;
+import jbvb.lbng.rfflfdt.*;
 
-import sun.lwawt.macosx.*;
-import sun.lwawt.macosx.CImage.Creator;
+import sun.lwbwt.mbdosx.*;
+import sun.lwbwt.mbdosx.CImbgf.Crfbtor;
 
-class _AppDockIconHandler {
-    private static native void nativeSetDockMenu(final long cmenu);
-    private static native void nativeSetDockIconImage(final long image);
-    private static native long nativeGetDockIconImage();
-    private static native void nativeSetDockIconBadge(final String badge);
+dlbss _AppDodkIdonHbndlfr {
+    privbtf stbtid nbtivf void nbtivfSftDodkMfnu(finbl long dmfnu);
+    privbtf stbtid nbtivf void nbtivfSftDodkIdonImbgf(finbl long imbgf);
+    privbtf stbtid nbtivf long nbtivfGftDodkIdonImbgf();
+    privbtf stbtid nbtivf void nbtivfSftDodkIdonBbdgf(finbl String bbdgf);
 
-    PopupMenu fDockMenu = null;
+    PopupMfnu fDodkMfnu = null;
 
-    _AppDockIconHandler() { }
+    _AppDodkIdonHbndlfr() { }
 
-    @SuppressWarnings("deprecation")
-    public void setDockMenu(final PopupMenu menu) {
-        fDockMenu = menu;
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void sftDodkMfnu(finbl PopupMfnu mfnu) {
+        fDodkMfnu = mfnu;
 
-        // clear the menu if explicitly passed null
-        if (menu == null) {
-            nativeSetDockMenu(0);
-            return;
+        // dlfbr tif mfnu if fxpliditly pbssfd null
+        if (mfnu == null) {
+            nbtivfSftDodkMfnu(0);
+            rfturn;
         }
 
-        // check if the menu needs a parent (8343136)
-        final MenuContainer container = menu.getParent();
-        if (container == null) {
-            final MenuBar newParent = new MenuBar();
-            newParent.add(menu);
-            newParent.addNotify();
+        // difdk if tif mfnu nffds b pbrfnt (8343136)
+        finbl MfnuContbinfr dontbinfr = mfnu.gftPbrfnt();
+        if (dontbinfr == null) {
+            finbl MfnuBbr nfwPbrfnt = nfw MfnuBbr();
+            nfwPbrfnt.bdd(mfnu);
+            nfwPbrfnt.bddNotify();
         }
 
-        // instantiate the menu peer and set the native fDockMenu ivar
-        menu.addNotify();
-        final long nsMenuPtr = ((CMenu)fDockMenu.getPeer()).getNativeMenu();
-        nativeSetDockMenu(nsMenuPtr);
+        // instbntibtf tif mfnu pffr bnd sft tif nbtivf fDodkMfnu ivbr
+        mfnu.bddNotify();
+        finbl long nsMfnuPtr = ((CMfnu)fDodkMfnu.gftPffr()).gftNbtivfMfnu();
+        nbtivfSftDodkMfnu(nsMfnuPtr);
     }
 
-    public PopupMenu getDockMenu() {
-        return fDockMenu;
+    publid PopupMfnu gftDodkMfnu() {
+        rfturn fDodkMfnu;
     }
 
-    public void setDockIconImage(final Image image) {
+    publid void sftDodkIdonImbgf(finbl Imbgf imbgf) {
         try {
-            final CImage cImage = getCImageCreator().createFromImage(image);
-            final long nsImagePtr = getNSImagePtrFrom(cImage);
-            nativeSetDockIconImage(nsImagePtr);
-        } catch (final Throwable e) {
-            throw new RuntimeException(e);
+            finbl CImbgf dImbgf = gftCImbgfCrfbtor().drfbtfFromImbgf(imbgf);
+            finbl long nsImbgfPtr = gftNSImbgfPtrFrom(dImbgf);
+            nbtivfSftDodkIdonImbgf(nsImbgfPtr);
+        } dbtdi (finbl Tirowbblf f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    Image getDockIconImage() {
+    Imbgf gftDodkIdonImbgf() {
         try {
-            final long dockNSImage = nativeGetDockIconImage();
-            if (dockNSImage == 0) return null;
-            return getCImageCreator().createImageUsingNativeSize(dockNSImage);
-        } catch (final Throwable e) {
-            throw new RuntimeException(e);
+            finbl long dodkNSImbgf = nbtivfGftDodkIdonImbgf();
+            if (dodkNSImbgf == 0) rfturn null;
+            rfturn gftCImbgfCrfbtor().drfbtfImbgfUsingNbtivfSizf(dodkNSImbgf);
+        } dbtdi (finbl Tirowbblf f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    void setDockIconBadge(final String badge) {
-        nativeSetDockIconBadge(badge);
+    void sftDodkIdonBbdgf(finbl String bbdgf) {
+        nbtivfSftDodkIdonBbdgf(bbdgf);
     }
 
-    static Creator getCImageCreator() {
+    stbtid Crfbtor gftCImbgfCrfbtor() {
         try {
-            final Method getCreatorMethod = CImage.class.getDeclaredMethod("getCreator", new Class<?>[] {});
-            getCreatorMethod.setAccessible(true);
-            return (Creator)getCreatorMethod.invoke(null, new Object[] {});
-        } catch (final Throwable e) {
-            throw new RuntimeException(e);
+            finbl Mftiod gftCrfbtorMftiod = CImbgf.dlbss.gftDfdlbrfdMftiod("gftCrfbtor", nfw Clbss<?>[] {});
+            gftCrfbtorMftiod.sftAddfssiblf(truf);
+            rfturn (Crfbtor)gftCrfbtorMftiod.invokf(null, nfw Objfdt[] {});
+        } dbtdi (finbl Tirowbblf f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 
-    static long getNSImagePtrFrom(final CImage cImage) {
-        if (cImage == null) return 0;
+    stbtid long gftNSImbgfPtrFrom(finbl CImbgf dImbgf) {
+        if (dImbgf == null) rfturn 0;
 
         try {
-            final Field cImagePtrField = CFRetainedResource.class.getDeclaredField("ptr");
-            cImagePtrField.setAccessible(true);
-            return cImagePtrField.getLong(cImage);
-        } catch (final Throwable e) {
-            throw new RuntimeException(e);
+            finbl Fifld dImbgfPtrFifld = CFRftbinfdRfsourdf.dlbss.gftDfdlbrfdFifld("ptr");
+            dImbgfPtrFifld.sftAddfssiblf(truf);
+            rfturn dImbgfPtrFifld.gftLong(dImbgf);
+        } dbtdi (finbl Tirowbblf f) {
+            tirow nfw RuntimfExdfption(f);
         }
     }
 }

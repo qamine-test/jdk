@@ -1,85 +1,85 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: jjs.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jjs.1
 .\"
 .if n .pl 99999
-.TH jjs 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH jjs 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jjs \- Invokes the Nashorn engine\&.
+jjs \- Invokfs tif Nbsiorn fnginf\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
-\f3\fBjjs\fR [\fIoptions\fR] [\fIscript\-files\fR] [\-\- \fIarguments\fR]\fP
+\f3\fBjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]\fP
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-One or more options of the \f3jjs\fR command, separated by spaces\&. For more information, see Options\&.
+Onf or morf options of tif \f3jjs\fR dommbnd, sfpbrbtfd by spbdfs\&. For morf informbtion, sff Options\&.
 .TP     
-\fIscript-files\fR
-One or more script files which you want to interpret using Nashorn, separated by spaces\&. If no files are specified, an interactive shell is started\&.
+\fIsdript-filfs\fR
+Onf or morf sdript filfs wiidi you wbnt to intfrprft using Nbsiorn, sfpbrbtfd by spbdfs\&. If no filfs brf spfdififd, bn intfrbdtivf sifll is stbrtfd\&.
 .TP     
-\fIarguments\fR
-All values after the double hyphen marker (\f3--\fR) are passed through to the script or the interactive shell as arguments\&. These values can be accessed by using the \f3arguments\fR property (see )\&.
+\fIbrgumfnts\fR
+All vblufs bftfr tif doublf iypifn mbrkfr (\f3--\fR) brf pbssfd tirougi to tif sdript or tif intfrbdtivf sifll bs brgumfnts\&. Tifsf vblufs dbn bf bddfssfd by using tif \f3brgumfnts\fR propfrty (sff )\&.
 .SH DESCRIPTION    
-The \f3jjs\fR command-line tool is used to invoke the Nashorn engine\&. You can use it to interpret one or several script files, or to run an interactive shell\&.
+Tif \f3jjs\fR dommbnd-linf tool is usfd to invokf tif Nbsiorn fnginf\&. You dbn usf it to intfrprft onf or sfvfrbl sdript filfs, or to run bn intfrbdtivf sifll\&.
 .SH OPTIONS    
-The options of the \f3jjs\fR command control the conditions under which scripts are interpreted by Nashorn\&.
+Tif options of tif \f3jjs\fR dommbnd dontrol tif donditions undfr wiidi sdripts brf intfrprftfd by Nbsiorn\&.
 .TP
--ccs=\fIsize\fR , --class-cache-size=\fIsize\fR
+-dds=\fIsizf\fR , --dlbss-dbdif-sizf=\fIsizf\fR
 .br
-Sets the class cache size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to indicate kilobytes (KB), \f3m\fR or \f3M\fR to indicate megabytes (MB), \f3g\fR or \f3G\fR to indicate gigabytes (GB)\&. By default, the class cache size is set to 50 bytes\&. The following example shows how to set it to 1024 bytes (1 KB):
+Sfts tif dlbss dbdif sizf (in bytfs)\&. Appfnd tif lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs (KB), \f3m\fR or \f3M\fR to indidbtf mfgbbytfs (MB), \f3g\fR or \f3G\fR to indidbtf gigbbytfs (GB)\&. By dffbult, tif dlbss dbdif sizf is sft to 50 bytfs\&. Tif following fxbmplf siows iow to sft it to 1024 bytfs (1 KB):
 .sp     
 .nf     
-\f3\-css=100\fP
+\f3\-dss=100\fP
 .fi     
 .nf     
-\f3\-css=1k\fP
+\f3\-dss=1k\fP
 .fi     
 .nf     
 \f3\fR
@@ -87,26 +87,26 @@ Sets the class cache size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to 
 .sp     
 
 .TP
--co, --compile-only
+-do, --dompilf-only
 .br
-Compiles the script without running it\&.
+Compilfs tif sdript witiout running it\&.
 .TP
--cp \fIpath\fR , --classpath \fIpath\fR
+-dp \fIpbti\fR , --dlbsspbti \fIpbti\fR
 .br
-Specifies the path to the supporting class files To set multiple paths, the option can be repeated, or you can separate each path with a colon (:)\&.
+Spfdififs tif pbti to tif supporting dlbss filfs To sft multiplf pbtis, tif option dbn bf rfpfbtfd, or you dbn sfpbrbtf fbdi pbti witi b dolon (:)\&.
 .TP
--D\fIname\fR=\fIvalue\fR
+-D\fInbmf\fR=\fIvbluf\fR
 .br
-Sets a system property to be passed to the script by assigning a value to a property name\&. The following example shows how to invoke Nashorn in interactive mode and assign \f3myValue\fR to the property named \f3myKey\fR:
+Sfts b systfm propfrty to bf pbssfd to tif sdript by bssigning b vbluf to b propfrty nbmf\&. Tif following fxbmplf siows iow to invokf Nbsiorn in intfrbdtivf modf bnd bssign \f3myVbluf\fR to tif propfrty nbmfd \f3myKfy\fR:
 .sp     
 .nf     
-\f3>> \fIjjs \-DmyKey=myValue\fR\fP
+\f3>> \fIjjs \-DmyKfy=myVbluf\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjava\&.lang\&.System\&.getProperty("myKey")\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR\fP
 .fi     
 .nf     
-\f3myValue\fP
+\f3myVbluf\fP
 .fi     
 .nf     
 \f3jjs>\fP
@@ -117,61 +117,61 @@ Sets a system property to be passed to the script by assigning a value to a prop
 .sp     
 
 
-This option can be repeated to set multiple properties\&.
+Tiis option dbn bf rfpfbtfd to sft multiplf propfrtifs\&.
 .TP
--d=\fIpath\fR , --dump-debug-dir=\fIpath\fR
+-d=\fIpbti\fR , --dump-dfbug-dir=\fIpbti\fR
 .br
-Specifies the path to the directory where class files are dumped\&.
+Spfdififs tif pbti to tif dirfdtory wifrf dlbss filfs brf dumpfd\&.
 .TP
---debug-lines
+--dfbug-linfs
 .br
-Generates a line number table in the class file\&. By default, this option is enabled\&. To disable it, specify \f3--debug-lines=false\fR\&.
+Gfnfrbtfs b linf numbfr tbblf in tif dlbss filf\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--dfbug-linfs=fblsf\fR\&.
 .TP
---debug-locals
+--dfbug-lodbls
 .br
-Generates a local variable table in the class file\&.
+Gfnfrbtfs b lodbl vbribblf tbblf in tif dlbss filf\&.
 .TP
--doe, --dump-on-error
+-dof, --dump-on-frror
 .br
-Provides a full stack trace when an arror occurs\&. By default, only a brief error message is printed\&.
+Providfs b full stbdk trbdf wifn bn brror oddurs\&. By dffbult, only b briff frror mfssbgf is printfd\&.
 .TP
---early-lvalue-error
+--fbrly-lvbluf-frror
 .br
-Reports invalid lvalue expressions as early errors (that is, when the code is parsed)\&. By default, this option is enabled\&. To disable it, specify \f3--early-lvalue-error=false\fR\&. When disabled, invalid lvalue expressions will not be reported until the code is executed\&.
+Rfports invblid lvbluf fxprfssions bs fbrly frrors (tibt is, wifn tif dodf is pbrsfd)\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--fbrly-lvbluf-frror=fblsf\fR\&. Wifn disbblfd, invblid lvbluf fxprfssions will not bf rfportfd until tif dodf is fxfdutfd\&.
 .TP
---empty-statements
+--fmpty-stbtfmfnts
 .br
-Preserves empty statements in the Java abstract syntax tree\&.
+Prfsfrvfs fmpty stbtfmfnts in tif Jbvb bbstrbdt syntbx trff\&.
 .TP
--fv, --fullversion
+-fv, --fullvfrsion
 .br
-Prints the full Nashorn version string\&.
+Prints tif full Nbsiorn vfrsion string\&.
 .TP
---function-statement-error
+--fundtion-stbtfmfnt-frror
 .br
-Prints an error message when a function declaration is used as a statement\&.
+Prints bn frror mfssbgf wifn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
 .TP
---function-statement-warning
+--fundtion-stbtfmfnt-wbrning
 .br
-Prints a warning message when a function declaration is used as a statement\&.
+Prints b wbrning mfssbgf wifn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
 .TP
 -fx
 .br
-Launches the script as a JavaFX application\&.
+Lbundifs tif sdript bs b JbvbFX bpplidbtion\&.
 .TP
--h, -help
+-i, -iflp
 .br
-Prints the list of options and their descriptions\&.
+Prints tif list of options bnd tifir dfsdriptions\&.
 .TP
 -J\fIoption\fR
 .br
-Passes the specified \f3java\fR launcher option to the JVM\&. The following example shows how to invoke Nashorn in interactive mode and set the maximum memory used by the JVM to 4 GB:
+Pbssfs tif spfdififd \f3jbvb\fR lbundifr option to tif JVM\&. Tif following fxbmplf siows iow to invokf Nbsiorn in intfrbdtivf modf bnd sft tif mbximum mfmory usfd by tif JVM to 4 GB:
 .sp     
 .nf     
 \f3>> \fIjjs \-J\-Xmx4g\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjava\&.lang\&.Runtime\&.getRuntime()\&.maxMemory()\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR\fP
 .fi     
 .nf     
 \f33817799680\fP
@@ -185,22 +185,22 @@ Passes the specified \f3java\fR launcher option to the JVM\&. The following exam
 .sp     
 
 
-This option can be repeated to pass multiple \f3java\fR command options\&.
+Tiis option dbn bf rfpfbtfd to pbss multiplf \f3jbvb\fR dommbnd options\&.
 .TP
---lazy-compilation
+--lbzy-dompilbtion
 .br
-Enables lazy code generation strategies (that is, the entire script is not compiled at once)\&. This option is experimental\&.
+Enbblfs lbzy dodf gfnfrbtion strbtfgifs (tibt is, tif fntirf sdript is not dompilfd bt ondf)\&. Tiis option is fxpfrimfntbl\&.
 .TP
---loader-per-compile
+--lobdfr-pfr-dompilf
 .br
-Creates a new class loader per compile\&. By default, this option is enabled\&. To disable it, specify \f3--loader-per-compile=false\fR\&.
+Crfbtfs b nfw dlbss lobdfr pfr dompilf\&. By dffbult, tiis option is fnbblfd\&. To disbblf it, spfdify \f3--lobdfr-pfr-dompilf=fblsf\fR\&.
 .TP
---log=\fIsubsystem\fR:\fIlevel\fR
+--log=\fIsubsystfm\fR:\fIlfvfl\fR
 .br
-Performs logging at a given level for the specified subsystems\&. You can specify logging levels for multiple subsystems separating them with commas\&. For example:
+Pfrforms logging bt b givfn lfvfl for tif spfdififd subsystfms\&. You dbn spfdify logging lfvfls for multiplf subsystfms sfpbrbting tifm witi dommbs\&. For fxbmplf:
 .sp     
 .nf     
-\f3\-\-log=fields:finest,codegen:info\fP
+\f3\-\-log=fiflds:finfst,dodfgfn:info\fP
 .fi     
 .nf     
 \f3\fR
@@ -208,113 +208,113 @@ Performs logging at a given level for the specified subsystems\&. You can specif
 .sp     
 
 .TP
---package=\fIname\fR
+--pbdkbgf=\fInbmf\fR
 .br
-Specifies the package to which generated class files are added\&.
+Spfdififs tif pbdkbgf to wiidi gfnfrbtfd dlbss filfs brf bddfd\&.
 .TP
---parse-only
+--pbrsf-only
 .br
-Parses the code without compiling\&.
+Pbrsfs tif dodf witiout dompiling\&.
 .TP
---print-ast
+--print-bst
 .br
-Prints the abstract syntax tree\&.
+Prints tif bbstrbdt syntbx trff\&.
 .TP
---print-code
+--print-dodf
 .br
-Prints bytecode\&.
+Prints bytfdodf\&.
 .TP
---print-lower-ast
+--print-lowfr-bst
 .br
-Prints the lowered abstract syntax tree\&.
+Prints tif lowfrfd bbstrbdt syntbx trff\&.
 .TP
---print-lower-parse
+--print-lowfr-pbrsf
 .br
-Prints the lowered parse tree\&.
+Prints tif lowfrfd pbrsf trff\&.
 .TP
---print-no-newline
+--print-no-nfwlinf
 .br
-Forces other \f3--print*\fR options to print the output on one line\&.
+Fordfs otifr \f3--print*\fR options to print tif output on onf linf\&.
 .TP
---print-parse
+--print-pbrsf
 .br
-Prints the parse tree\&.
+Prints tif pbrsf trff\&.
 .TP
 --print-symbols
 .br
-Prints the symbol table\&.
+Prints tif symbol tbblf\&.
 .TP
--pcs, --profile-callsites
+-pds, --profilf-dbllsitfs
 .br
-Dumps callsite profile data\&.
+Dumps dbllsitf profilf dbtb\&.
 .TP
--scripting
+-sdripting
 .br
-Enables shell scripting features\&.
+Enbblfs sifll sdripting ffbturfs\&.
 .TP
---stderr=\fIfilename\fR|\fIstream\fR|\fItty\fR
+--stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
 .br
-Redirects the standard error stream to the specified file, stream (for example, to \f3stdout\fR), or text terminal\&.
+Rfdirfdts tif stbndbrd frror strfbm to tif spfdififd filf, strfbm (for fxbmplf, to \f3stdout\fR), or tfxt tfrminbl\&.
 .TP
---stdout=\fIfilename\fR|\fIstream\fR|\fItty\fR
+--stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
 .br
-Redirects the standard output stream to the specified file, stream (for example, to \f3stderr\fR), or text terminal\&.
+Rfdirfdts tif stbndbrd output strfbm to tif spfdififd filf, strfbm (for fxbmplf, to \f3stdfrr\fR), or tfxt tfrminbl\&.
 .TP
--strict
+-stridt
 .br
-Enables strict mode, which enforces stronger adherence to the standard (ECMAScript Edition 5\&.1), making it easier to detect common coding errors\&.
+Enbblfs stridt modf, wiidi fnfordfs strongfr bdifrfndf to tif stbndbrd (ECMASdript Edition 5\&.1), mbking it fbsifr to dftfdt dommon doding frrors\&.
 .TP
--t=\fIzone\fR , -timezone=\fIzone\fR
+-t=\fIzonf\fR , -timfzonf=\fIzonf\fR
 .br
-Sets the specified time zone for script execution\&. It overrides the time zone set in the OS and used by the \f3Date\fR object\&.
+Sfts tif spfdififd timf zonf for sdript fxfdution\&. It ovfrridfs tif timf zonf sft in tif OS bnd usfd by tif \f3Dbtf\fR objfdt\&.
 .TP
--tcs=\fIparameter\fR , --trace-callsites=\fIparameter\fR
+-tds=\fIpbrbmftfr\fR , --trbdf-dbllsitfs=\fIpbrbmftfr\fR
 .br
-Enables callsite trace mode\&. Possible parameters are the following:
+Enbblfs dbllsitf trbdf modf\&. Possiblf pbrbmftfrs brf tif following:
 .RS     
 .TP     
 miss
-Trace callsite misses\&.
+Trbdf dbllsitf missfs\&.
 .TP     
-enterexit
-Trace callsite enter/exit\&.
+fntfrfxit
+Trbdf dbllsitf fntfr/fxit\&.
 .TP     
-objects
-Print object properties\&.
+objfdts
+Print objfdt propfrtifs\&.
 .RE     
 
 .TP
---verify-code
+--vfrify-dodf
 .br
-Verifies bytecode before running\&.
+Vfrififs bytfdodf bfforf running\&.
 .TP
--v, -version
+-v, -vfrsion
 .br
-Prints the Nashorn version string\&.
+Prints tif Nbsiorn vfrsion string\&.
 .TP
--xhelp
+-xiflp
 .br
-Prints extended help for command-line options\&.
+Prints fxtfndfd iflp for dommbnd-linf options\&.
 .SH EXAMPLES    
-\f3Example 1 Running a Script with Nashorn\fR
+\f3Exbmplf 1 Running b Sdript witi Nbsiorn\fR
 .sp     
 .nf     
-\f3jjs script\&.js\fP
+\f3jjs sdript\&.js\fP
 .fi     
 .nf     
 \f3\fR
 .fi     
 .sp     
-\f3Example 2 Running Nashorn in Interactive Mode\fR
+\f3Exbmplf 2 Running Nbsiorn in Intfrbdtivf Modf\fR
 .sp     
 .nf     
 \f3>> \fIjjs\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIprintln("Hello, World!")\fR\fP
+\f3jjs> \fIprintln("Hfllo, World!")\fR\fP
 .fi     
 .nf     
-\f3Hello, World!\fP
+\f3Hfllo, World!\fP
 .fi     
 .nf     
 \f3jjs> \fIquit()\fR\fP
@@ -326,16 +326,16 @@ Prints extended help for command-line options\&.
 \f3\fR
 .fi     
 .sp     
-\f3Example 3 Passing Arguments to Nashorn\fR
+\f3Exbmplf 3 Pbssing Argumfnts to Nbsiorn\fR
 .sp     
 .nf     
-\f3>> \fIjjs \-\- a b c\fR\fP
+\f3>> \fIjjs \-\- b b d\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIarguments\&.join(", ")\fR\fP
+\f3jjs> \fIbrgumfnts\&.join(", ")\fR\fP
 .fi     
 .nf     
-\f3a, b, c\fP
+\f3b, b, d\fP
 .fi     
 .nf     
 \f3jjs>\fP
@@ -345,7 +345,7 @@ Prints extended help for command-line options\&.
 .fi     
 .sp     
 .SH SEE\ ALSO    
-\f3jrunscript\fR
+\f3jrunsdript\fR
 .RE
 .br
 'pl 8.5i

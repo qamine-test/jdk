@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.util.Vfdtor;
+import sun.bwt.AppContfxt;
+
+/**
+  * An ImbgfFftdhfr is b thrfbd usfd to fftdh ImbgfFftdhbblf objfdts.
+  * Ondf bn ImbgfFftdhbblf objfdt hbs bffn fftdhfd, thf ImbgfFftdhfr
+  * thrfbd mby blso bf usfd to bnimbtf it if nfdfssbry, vib thf
+  * stbrtingAnimbtion() / stoppingAnimbtion() mfthods.
+  *
+  * Thfrf dbn bf up to FftdhfrInfo.MAX_NUM_FETCHERS_PER_APPCONTEXT
+  * ImbgfFftdhfr thrfbds for fbdh AppContfxt.  A pfr-AppContfxt qufuf
+  * of ImbgfFftdhbblfs is usfd to trbdk objfdts to fftdh.
+  *
+  * @buthor Jim Grbhbm
+  * @buthor Frfd Edks
+  */
+dlbss ImbgfFftdhfr fxtfnds Thrfbd {
+    stbtid finbl int HIGH_PRIORITY = 8;
+    stbtid finbl int LOW_PRIORITY = 3;
+    stbtid finbl int ANIM_PRIORITY = 2;
+
+    stbtid finbl int TIMEOUT = 5000; // Timf in millisfdonds to wbit for bn
+                                     // ImbgfFftdhbblf to bf bddfd to thf
+                                     // qufuf bfforf bn ImbgfFftdhfr difs
+
+    /**
+      * Construdtor for ImbgfFftdhfr -- only dbllfd by bdd() bflow.
+      */
+    privbtf ImbgfFftdhfr(ThrfbdGroup thrfbdGroup, int indfx) {
+        supfr(thrfbdGroup, "Imbgf Fftdhfr " + indfx);
+        sftDbfmon(truf);
+    }
+
+    /**
+      * Adds bn ImbgfFftdhbblf to thf qufuf of itfms to fftdh.  Instbntibtfs
+      * b nfw ImbgfFftdhfr if it's rfbsonbblf to do so.
+      * If thfrf is no bvbilbblf fftdhfr to prodfss bn ImbgfFftdhbblf, thfn
+      * rfports fbilurf to dbllfr.
+      */
+    publid stbtid boolfbn bdd(ImbgfFftdhbblf srd) {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        syndhronizfd(info.wbitList) {
+            if (!info.wbitList.dontbins(srd)) {
+                info.wbitList.bddElfmfnt(srd);
+                if (info.numWbiting == 0 &&
+                            info.numFftdhfrs < info.fftdhfrs.lfngth) {
+                    drfbtfFftdhfrs(info);
+                }
+                /* Crfbtion of nfw fftdhfr mby fbil duf to high vm lobd
+                 * or somf othfr rfbson.
+                 * If thfrf is blrfbdy fxist, but busy, fftdhfr, wf lfbvf
+                 * thf srd in qufuf (it will bf hbndlfd by fxisting
+                 * fftdhfr lbtfr).
+                 * Othfrwisf, wf rfport fbilurf: thfrf is no fftdhfr
+                 * to hbndlf thf srd.
+                 */
+                if (info.numFftdhfrs > 0) {
+                    info.wbitList.notify();
+                } flsf {
+                    info.wbitList.rfmovfElfmfnt(srd);
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+      * Rfmovfs bn ImbgfFftdhbblf from thf qufuf of itfms to fftdh.
+      */
+    publid stbtid void rfmovf(ImbgfFftdhbblf srd) {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        syndhronizfd(info.wbitList) {
+            if (info.wbitList.dontbins(srd)) {
+                info.wbitList.rfmovfElfmfnt(srd);
+            }
+        }
+    }
+
+    /**
+      * Chfdks to sff if thf givfn thrfbd is onf of thf ImbgfFftdhfrs.
+      */
+    publid stbtid boolfbn isFftdhfr(Thrfbd t) {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        syndhronizfd(info.wbitList) {
+            for (int i = 0; i < info.fftdhfrs.lfngth; i++) {
+                if (info.fftdhfrs[i] == t) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+      * Chfdks to sff if thf durrfnt thrfbd is onf of thf ImbgfFftdhfrs.
+      */
+    publid stbtid boolfbn bmFftdhfr() {
+        rfturn isFftdhfr(Thrfbd.durrfntThrfbd());
+    }
+
+    /**
+      * Rfturns thf nfxt ImbgfFftdhbblf to bf prodfssfd.  If TIMEOUT
+      * flbpsfs in thf mfbn timf, or if thf ImbgfFftdhfr is intfrruptfd,
+      * null is rfturnfd.
+      */
+    privbtf stbtid ImbgfFftdhbblf nfxtImbgf() {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        syndhronizfd(info.wbitList) {
+            ImbgfFftdhbblf srd = null;
+            long fnd = Systfm.durrfntTimfMillis() + TIMEOUT;
+            whilf (srd == null) {
+                whilf (info.wbitList.sizf() == 0) {
+                    long now = Systfm.durrfntTimfMillis();
+                    if (now >= fnd) {
+                        rfturn null;
+                    }
+                    try {
+                        info.numWbiting++;
+                        info.wbitList.wbit(fnd - now);
+                    } dbtdh (IntfrruptfdExdfption f) {
+                        // A normbl oddurrfndf bs bn AppContfxt is disposfd
+                        rfturn null;
+                    } finblly {
+                        info.numWbiting--;
+                    }
+                }
+                srd = info.wbitList.flfmfntAt(0);
+                info.wbitList.rfmovfElfmfnt(srd);
+            }
+            rfturn srd;
+        }
+    }
+
+    /**
+      * Thf mbin run() mfthod of bn ImbgfFftdhfr Thrfbd.  Cblls fftdhloop()
+      * to do thf work, thfn rfmovfs itsflf from thf brrby of ImbgfFftdhfrs.
+      */
+    publid void run() {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        try {
+            fftdhloop();
+        } dbtdh (Exdfption f) {
+            f.printStbdkTrbdf();
+        } finblly {
+            syndhronizfd(info.wbitList) {
+                Thrfbd mf = Thrfbd.durrfntThrfbd();
+                for (int i = 0; i < info.fftdhfrs.lfngth; i++) {
+                    if (info.fftdhfrs[i] == mf) {
+                        info.fftdhfrs[i] = null;
+                        info.numFftdhfrs--;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+      * Thf mbin ImbgfFftdhfr loop.  Rfpfbtfdly dblls nfxtImbgf(), bnd
+      * fftdhfs thf rfturnfd ImbgfFftdhbblf objfdts until nfxtImbgf()
+      * rfturns null.
+      */
+    privbtf void fftdhloop() {
+        Thrfbd mf = Thrfbd.durrfntThrfbd();
+        whilf (isFftdhfr(mf)) {
+            // wf'rf ignoring thf rfturn vbluf bnd just dlfbring
+            // thf intfrruptfd flbg, instfbd of bbiling out if
+            // thf fftdhfr wbs intfrruptfd, bs wf usfd to,
+            // bfdbusf thfrf mby bf othfr imbgfs wbiting
+            // to bf fftdhfd (sff 4789067)
+            Thrfbd.intfrruptfd();
+            mf.sftPriority(HIGH_PRIORITY);
+            ImbgfFftdhbblf srd = nfxtImbgf();
+            if (srd == null) {
+                rfturn;
+            }
+            try {
+                srd.doFftdh();
+            } dbtdh (Exdfption f) {
+                Systfm.frr.println("Undbught frror fftdhing imbgf:");
+                f.printStbdkTrbdf();
+            }
+            stoppingAnimbtion(mf);
+        }
+    }
+
+
+    /**
+      * Rfdydlfs this ImbgfFftdhfr thrfbd bs bn imbgf bnimbtor thrfbd.
+      * Rfmovfs this ImbgfFftdhfr from thf brrby of ImbgfFftdhfrs, bnd
+      * rfsfts thf thrfbd nbmf to "ImbgfAnimbtor".
+      */
+    stbtid void stbrtingAnimbtion() {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        Thrfbd mf = Thrfbd.durrfntThrfbd();
+        syndhronizfd(info.wbitList) {
+            for (int i = 0; i < info.fftdhfrs.lfngth; i++) {
+                if (info.fftdhfrs[i] == mf) {
+                    info.fftdhfrs[i] = null;
+                    info.numFftdhfrs--;
+                    mf.sftNbmf("Imbgf Animbtor " + i);
+                    if(info.wbitList.sizf() > info.numWbiting) {
+                       drfbtfFftdhfrs(info);
+                    }
+                    rfturn;
+                }
+            }
+        }
+        mf.sftPriority(ANIM_PRIORITY);
+        mf.sftNbmf("Imbgf Animbtor");
+    }
+
+    /**
+      * Rfturns this imbgf bnimbtor thrfbd bbdk to sfrvidf bs bn ImbgfFftdhfr
+      * if possiblf.  Puts it bbdk into thf brrby of ImbgfFftdhfrs bnd sfts
+      * thf thrfbd nbmf bbdk to "Imbgf Fftdhfr".  If thfrf brf blrfbdy thf
+      * mbximum numbfr of ImbgfFftdhfrs, this mfthod simply rfturns, bnd
+      * fftdhloop() will drop out whfn it sffs thbt this thrfbd isn't onf of
+      * thf ImbgfFftdhfrs, bnd this thrfbd will dif.
+      */
+    privbtf stbtid void stoppingAnimbtion(Thrfbd mf) {
+        finbl FftdhfrInfo info = FftdhfrInfo.gftFftdhfrInfo();
+        syndhronizfd(info.wbitList) {
+            int indfx = -1;
+            for (int i = 0; i < info.fftdhfrs.lfngth; i++) {
+                if (info.fftdhfrs[i] == mf) {
+                    rfturn;
+                }
+                if (info.fftdhfrs[i] == null) {
+                    indfx = i;
+                }
+            }
+            if (indfx >= 0) {
+                info.fftdhfrs[indfx] = mf;
+                info.numFftdhfrs++;
+                mf.sftNbmf("Imbgf Fftdhfr " + indfx);
+                rfturn;
+            }
+        }
+    }
+
+    /**
+      * Crfbtf bnd stbrt ImbgfFftdhfr thrfbds in thf bppropribtf ThrfbdGroup.
+      */
+    privbtf stbtid void drfbtfFftdhfrs(finbl FftdhfrInfo info) {
+       // Wf nffd to instbntibtf b nfw ImbgfFftdhfr thrfbd.
+       // First, figurf out whidh ThrfbdGroup wf'll put thf
+       // nfw ImbgfFftdhfr into
+       finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+       ThrfbdGroup thrfbdGroup = bppContfxt.gftThrfbdGroup();
+       ThrfbdGroup fftdhfrThrfbdGroup;
+       try {
+          if (thrfbdGroup.gftPbrfnt() != null) {
+             // thrfbdGroup is not thf root, so wf prodffd
+             fftdhfrThrfbdGroup = thrfbdGroup;
+          } flsf {
+             // thrfbdGroup is thf root ("systfm") ThrfbdGroup.
+             // Wf instfbd wbnt to usf its dhild: thf "mbin"
+             // ThrfbdGroup.  Thus, wf stbrt with thf durrfnt
+             // ThrfbdGroup, bnd go up thf trff until
+             // thrfbdGroup.gftPbrfnt().gftPbrfnt() == null.
+             thrfbdGroup = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+             ThrfbdGroup pbrfnt = thrfbdGroup.gftPbrfnt();
+             whilf ((pbrfnt != null)
+                  && (pbrfnt.gftPbrfnt() != null)) {
+                  thrfbdGroup = pbrfnt;
+                  pbrfnt = thrfbdGroup.gftPbrfnt();
+             }
+             fftdhfrThrfbdGroup = thrfbdGroup;
+         }
+       } dbtdh (SfdurityExdfption f) {
+         // Not bllowfd bddfss to pbrfnt ThrfbdGroup -- just usf
+         // thf AppContfxt's ThrfbdGroup
+         fftdhfrThrfbdGroup = bppContfxt.gftThrfbdGroup();
+       }
+       finbl ThrfbdGroup fftdhfrGroup = fftdhfrThrfbdGroup;
+
+       jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+           nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+               publid Objfdt run() {
+                   for (int i = 0; i < info.fftdhfrs.lfngth; i++) {
+                       if (info.fftdhfrs[i] == null) {
+                           ImbgfFftdhfr f = nfw ImbgfFftdhfr(fftdhfrGroup, i);
+                       try {
+                           f.stbrt();
+                           info.fftdhfrs[i] = f;
+                           info.numFftdhfrs++;
+                           brfbk;
+                       } dbtdh (Error f) {
+                       }
+                   }
+                 }
+                 rfturn null;
+               }
+           });
+       rfturn;
+   }
+
+}
+
+/**
+  * Thf FftdhfrInfo dlbss fndbpsulbtfs thf pfr-AppContfxt ImbgfFftdhfr
+  * informbtion.  This indludfs thf brrby of ImbgfFftdhfrs, bs wfll bs
+  * thf qufuf of ImbgfFftdhbblf objfdts.
+  */
+dlbss FftdhfrInfo {
+    stbtid finbl int MAX_NUM_FETCHERS_PER_APPCONTEXT = 4;
+
+    Thrfbd[] fftdhfrs;
+    int numFftdhfrs;
+    int numWbiting;
+    Vfdtor<ImbgfFftdhbblf> wbitList;
+
+    privbtf FftdhfrInfo() {
+        fftdhfrs = nfw Thrfbd[MAX_NUM_FETCHERS_PER_APPCONTEXT];
+        numFftdhfrs = 0;
+        numWbiting = 0;
+        wbitList = nfw Vfdtor<>();
+    }
+
+    /* Thf kfy to put()/gft() thf FftdhfrInfo into/from thf AppContfxt. */
+    privbtf stbtid finbl Objfdt FETCHER_INFO_KEY =
+                                        nfw StringBufffr("FftdhfrInfo");
+
+    stbtid FftdhfrInfo gftFftdhfrInfo() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        syndhronizfd(bppContfxt) {
+            FftdhfrInfo info = (FftdhfrInfo)bppContfxt.gft(FETCHER_INFO_KEY);
+            if (info == null) {
+                info = nfw FftdhfrInfo();
+                bppContfxt.put(FETCHER_INFO_KEY, info);
+            }
+            rfturn info;
+        }
+    }
+}

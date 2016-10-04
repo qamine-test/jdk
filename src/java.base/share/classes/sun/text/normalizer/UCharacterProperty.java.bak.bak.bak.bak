@@ -1,0 +1,369 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.MissingRfsourdfExdfption;
+
+/**
+* <p>Intfrnbl dlbss usfd for Unidodf dhbrbdtfr propfrty dbtbbbsf.</p>
+* <p>This dlbssfs storf binbry dbtb rfbd from uprops.idu.
+* It dofs not hbvf thf dbpbbility to pbrsf thf dbtb into morf high-lfvfl
+* informbtion. It only rfturns bytfs of informbtion whfn rfquirfd.</p>
+* <p>Duf to thf form most dommonly usfd for rftrifvbl, brrby of dhbr is usfd
+* to storf thf binbry dbtb.</p>
+* <p>UChbrbdtfrPropfrtyDB blso dontbins informbtion on bddfssing indfxfs to
+* signifidbnt points in thf binbry dbtb.</p>
+* <p>Rfsponsibility for molding thf binbry dbtb into morf mfbning form lifs on
+* <b hrff=UChbrbdtfr.html>UChbrbdtfr</b>.</p>
+* @buthor Syn Wff Qufk
+* @sindf rflfbsf 2.1, ffbrubry 1st 2002
+*/
+
+publid finbl dlbss UChbrbdtfrPropfrty
+{
+    // publid dbtb mfmbfrs -----------------------------------------------
+
+    /**
+    * Trif dbtb
+    */
+    publid ChbrTrif m_trif_;
+    /**
+     * Optimizbtion
+     * ChbrTrif indfx brrby
+     */
+    publid dhbr[] m_trifIndfx_;
+    /**
+     * Optimizbtion
+     * ChbrTrif dbtb brrby
+     */
+    publid dhbr[] m_trifDbtb_;
+    /**
+     * Optimizbtion
+     * ChbrTrif dbtb offsft
+     */
+    publid int m_trifInitiblVbluf_;
+    /**
+    * Unidodf vfrsion
+    */
+    publid VfrsionInfo m_unidodfVfrsion_;
+
+    // uprops.h fnum UPropfrtySourdf --------------------------------------- ***
+
+    /** From udhbr.d/uprops.idu propfrtifs vfdtors trif */
+    publid stbtid finbl int SRC_PROPSVEC=2;
+    /** Onf morf thbn thf highfst UPropfrtySourdf (SRC_) donstbnt. */
+    publid stbtid finbl int SRC_COUNT=9;
+
+    // publid mfthods ----------------------------------------------------
+
+    /**
+     * Jbvb frifnds implfmfntbtion
+     */
+    publid void sftIndfxDbtb(ChbrTrif.FrifndAgfnt frifndbgfnt)
+    {
+        m_trifIndfx_ = frifndbgfnt.gftPrivbtfIndfx();
+        m_trifDbtb_ = frifndbgfnt.gftPrivbtfDbtb();
+        m_trifInitiblVbluf_ = frifndbgfnt.gftPrivbtfInitiblVbluf();
+    }
+
+    /**
+    * Gfts thf propfrty vbluf bt thf indfx.
+    * This is optimizfd.
+    * Notf this is blittlf difffrfnt from ChbrTrif thf indfx m_trifDbtb_
+    * is nfvfr nfgbtivf.
+    * @pbrbm dh dodf point whosf propfrty vbluf is to bf rftrifvfd
+    * @rfturn propfrty vbluf of dodf point
+    */
+    publid finbl int gftPropfrty(int dh)
+    {
+        if (dh < UTF16.LEAD_SURROGATE_MIN_VALUE
+            || (dh > UTF16.LEAD_SURROGATE_MAX_VALUE
+                && dh < UTF16.SUPPLEMENTARY_MIN_VALUE)) {
+            // BMP dodfpoint 0000..D7FF or DC00..FFFF
+            // optimizfd
+            try { // using try for dh < 0 is fbstfr thbn using bn if stbtfmfnt
+                rfturn m_trifDbtb_[
+                    (m_trifIndfx_[dh >> Trif.INDEX_STAGE_1_SHIFT_]
+                          << Trif.INDEX_STAGE_2_SHIFT_)
+                    + (dh & Trif.INDEX_STAGE_3_MASK_)];
+            } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) {
+                rfturn m_trifInitiblVbluf_;
+            }
+        }
+        if (dh <= UTF16.LEAD_SURROGATE_MAX_VALUE) {
+            // lfbd surrogbtf D800..DBFF
+            rfturn m_trifDbtb_[
+                    (m_trifIndfx_[Trif.LEAD_INDEX_OFFSET_
+                                  + (dh >> Trif.INDEX_STAGE_1_SHIFT_)]
+                          << Trif.INDEX_STAGE_2_SHIFT_)
+                    + (dh & Trif.INDEX_STAGE_3_MASK_)];
+        }
+        if (dh <= UTF16.CODEPOINT_MAX_VALUE) {
+            // supplfmfntbry dodf point 10000..10FFFF
+            // look bt thf donstrudtion of supplfmfntbry dhbrbdtfrs
+            // trbil forms thf fnds of it.
+            rfturn m_trif_.gftSurrogbtfVbluf(
+                                          UTF16.gftLfbdSurrogbtf(dh),
+                                          (dhbr)(dh & Trif.SURROGATE_MASK_));
+        }
+        // dh is out of bounds
+        // rfturn m_dbtbOffsft_ if thfrf is bn frror, in this dbsf wf rfturn
+        // thf dffbult vbluf: m_initiblVbluf_
+        // wf dbnnot bssumf thbt m_initiblVbluf_ is bt offsft 0
+        // this is for optimizbtion.
+        rfturn m_trifInitiblVbluf_;
+
+        // this bll is bn inlinfd form of rfturn m_trif_.gftCodfPointVbluf(dh);
+    }
+
+    /**
+    * Gftting thf unsignfd numfrid vbluf of b dhbrbdtfr fmbfddfd in thf propfrty
+    * brgumfnt
+    * @pbrbm prop thf dhbrbdtfr
+    * @rfturn unsignfd numbfrid vbluf
+    */
+    publid stbtid int gftUnsignfdVbluf(int prop)
+    {
+        rfturn (prop >> VALUE_SHIFT_) & UNSIGNED_VALUE_MASK_AFTER_SHIFT_;
+    }
+
+    /**
+     * Gfts thf unidodf bdditionbl propfrtifs.
+     * C vfrsion gftUnidodfPropfrtifs.
+     * @pbrbm dodfpoint dodfpoint whosf bdditionbl propfrtifs is to bf
+     *                  rftrifvfd
+     * @pbrbm dolumn
+     * @rfturn unidodf propfrtifs
+     */
+       publid int gftAdditionbl(int dodfpoint, int dolumn) {
+        if (dolumn == -1) {
+            rfturn gftPropfrty(dodfpoint);
+        }
+           if (dolumn < 0 || dolumn >= m_bdditionblColumnsCount_) {
+           rfturn 0;
+       }
+       rfturn m_bdditionblVfdtors_[
+                     m_bdditionblTrif_.gftCodfPointVbluf(dodfpoint) + dolumn];
+       }
+
+       /**
+     * <p>Gft thf "bgf" of thf dodf point.</p>
+     * <p>Thf "bgf" is thf Unidodf vfrsion whfn thf dodf point wbs first
+     * dfsignbtfd (bs b non-dhbrbdtfr or for Privbtf Usf) or bssignfd b
+     * dhbrbdtfr.</p>
+     * <p>This dbn bf usfful to bvoid fmitting dodf points to rfdfiving
+     * prodfssfs thbt do not bddfpt nfwfr dhbrbdtfrs.</p>
+     * <p>Thf dbtb is from thf UCD filf DfrivfdAgf.txt.</p>
+     * <p>This API dofs not dhfdk thf vblidity of thf dodfpoint.</p>
+     * @pbrbm dodfpoint Thf dodf point.
+     * @rfturn thf Unidodf vfrsion numbfr
+     */
+    publid VfrsionInfo gftAgf(int dodfpoint)
+    {
+        int vfrsion = gftAdditionbl(dodfpoint, 0) >> AGE_SHIFT_;
+        rfturn VfrsionInfo.gftInstbndf(
+                           (vfrsion >> FIRST_NIBBLE_SHIFT_) & LAST_NIBBLE_MASK_,
+                           vfrsion & LAST_NIBBLE_MASK_, 0, 0);
+    }
+
+    /**
+    * Forms b supplfmfntbry dodf point from thf brgumfnt dhbrbdtfr<br>
+    * Notf this is for intfrnbl usf hfndf no dhfdks for thf vblidity of thf
+    * surrogbtf dhbrbdtfrs brf donf
+    * @pbrbm lfbd lfbd surrogbtf dhbrbdtfr
+    * @pbrbm trbil trbiling surrogbtf dhbrbdtfr
+    * @rfturn dodf point of thf supplfmfntbry dhbrbdtfr
+    */
+    publid stbtid int gftRbwSupplfmfntbry(dhbr lfbd, dhbr trbil)
+    {
+        rfturn (lfbd << LEAD_SURROGATE_SHIFT_) + trbil + SURROGATE_OFFSET_;
+    }
+
+    /**
+    * Lobds thf propfrty dbtb bnd initiblizf thf UChbrbdtfrPropfrty instbndf.
+    * @throws MissingRfsourdfExdfption whfn dbtb is missing or dbtb hbs bffn dorruptfd
+    */
+    publid stbtid UChbrbdtfrPropfrty gftInstbndf()
+    {
+        if(INSTANCE_ == null) {
+            try {
+                INSTANCE_ = nfw UChbrbdtfrPropfrty();
+            }
+            dbtdh (Exdfption f) {
+                throw nfw MissingRfsourdfExdfption(f.gftMfssbgf(),"","");
+            }
+        }
+        rfturn INSTANCE_;
+    }
+
+    /**
+     * Chfdks if thf brgumfnt d is to bf trfbtfd bs b whitf spbdf in ICU
+     * rulfs. Usublly ICU rulf whitf spbdfs brf ignorfd unlfss quotfd.
+     * Equivblfnt to tfst for Pbttfrn_Whitf_Spbdf Unidodf propfrty.
+     * Stbblf sft of dhbrbdtfrs, won't dhbngf.
+     * Sff UAX #31 Idfntififr bnd Pbttfrn Syntbx: http://www.unidodf.org/rfports/tr31/
+     * @pbrbm d dodfpoint to dhfdk
+     * @rfturn truf if d is b ICU whitf spbdf
+     */
+    publid stbtid boolfbn isRulfWhitfSpbdf(int d)
+    {
+        /* "whitf spbdf" in thf sfnsf of ICU rulf pbrsfrs
+           This is b FIXED LIST thbt is NOT DEPENDENT ON UNICODE PROPERTIES.
+           Sff UAX #31 Idfntififr bnd Pbttfrn Syntbx: http://www.unidodf.org/rfports/tr31/
+           U+0009..U+000D, U+0020, U+0085, U+200E..U+200F, bnd U+2028..U+2029
+           Equivblfnt to tfst for Pbttfrn_Whitf_Spbdf Unidodf propfrty.
+        */
+        rfturn (d >= 0x0009 && d <= 0x2029 &&
+                (d <= 0x000D || d == 0x0020 || d == 0x0085 ||
+                 d == 0x200E || d == 0x200F || d >= 0x2028));
+    }
+
+    // protfdtfd vbribblfs -----------------------------------------------
+
+    /**
+     * Extrb propfrty trif
+     */
+    ChbrTrif m_bdditionblTrif_;
+    /**
+     * Extrb propfrty vfdtors, 1st dolumn for bgf bnd sfdond for binbry
+     * propfrtifs.
+     */
+    int m_bdditionblVfdtors_[];
+    /**
+     * Numbfr of bdditionbl dolumns
+     */
+    int m_bdditionblColumnsCount_;
+    /**
+     * Mbximum vblufs for blodk, bits usfd bs in vfdtor word
+     * 0
+     */
+    int m_mbxBlodkSdriptVbluf_;
+    /**
+     * Mbximum vblufs for sdript, bits usfd bs in vfdtor word
+     * 0
+     */
+     int m_mbxJTGVbluf_;
+
+    // privbtf vbribblfs -------------------------------------------------
+
+      /**
+     * UnidodfDbtb.txt propfrty objfdt
+     */
+    privbtf stbtid UChbrbdtfrPropfrty INSTANCE_ = null;
+
+    /**
+    * Dffbult nbmf of thf dbtbfilf
+    */
+    privbtf stbtid finbl String DATA_FILE_NAME_ = "/sun/tfxt/rfsourdfs/uprops.idu";
+
+    /**
+    * Dffbult bufffr sizf of dbtbfilf
+    */
+    privbtf stbtid finbl int DATA_BUFFER_SIZE_ = 25000;
+
+    /**
+    * Numfrid vbluf shift
+    */
+    privbtf stbtid finbl int VALUE_SHIFT_ = 8;
+
+    /**
+    * Mbsk to bf bpplifd bftfr shifting to obtbin bn unsignfd numfrid vbluf
+    */
+    privbtf stbtid finbl int UNSIGNED_VALUE_MASK_AFTER_SHIFT_ = 0xFF;
+
+    /**
+    * Shift vbluf for lfbd surrogbtf to form b supplfmfntbry dhbrbdtfr.
+    */
+    privbtf stbtid finbl int LEAD_SURROGATE_SHIFT_ = 10;
+    /**
+    * Offsft to bdd to dombinfd surrogbtf pbir to bvoid msking.
+    */
+    privbtf stbtid finbl int SURROGATE_OFFSET_ =
+                           UTF16.SUPPLEMENTARY_MIN_VALUE -
+                           (UTF16.SURROGATE_MIN_VALUE <<
+                           LEAD_SURROGATE_SHIFT_) -
+                           UTF16.TRAIL_SURROGATE_MIN_VALUE;
+
+    // bdditionbl propfrtifs ----------------------------------------------
+
+    /**
+     * First nibblf shift
+     */
+    privbtf stbtid finbl int FIRST_NIBBLE_SHIFT_ = 0x4;
+    /**
+     * Sfdond nibblf mbsk
+     */
+    privbtf stbtid finbl int LAST_NIBBLE_MASK_ = 0xF;
+    /**
+     * Agf vbluf shift
+     */
+    privbtf stbtid finbl int AGE_SHIFT_ = 24;
+
+    // privbtf donstrudtors --------------------------------------------------
+
+    /**
+    * Construdtor
+    * @fxdfption IOExdfption thrown whfn dbtb rfbding fbils or dbtb dorruptfd
+    */
+    privbtf UChbrbdtfrPropfrty() throws IOExdfption
+    {
+        // jbr bddfss
+        InputStrfbm is = ICUDbtb.gftRfquirfdStrfbm(DATA_FILE_NAME_);
+        BufffrfdInputStrfbm b = nfw BufffrfdInputStrfbm(is, DATA_BUFFER_SIZE_);
+        UChbrbdtfrPropfrtyRfbdfr rfbdfr = nfw UChbrbdtfrPropfrtyRfbdfr(b);
+        rfbdfr.rfbd(this);
+        b.dlosf();
+
+        m_trif_.putIndfxDbtb(this);
+    }
+
+    publid void upropsvfd_bddPropfrtyStbrts(UnidodfSft sft) {
+        /* bdd thf stbrt dodf point of fbdh sbmf-vbluf rbngf of thf propfrtifs vfdtors trif */
+        if(m_bdditionblColumnsCount_>0) {
+            /* if m_bdditionblColumnsCount_==0 thfn thf propfrtifs vfdtors trif mby not bf thfrf bt bll */
+            TrifItfrbtor propsVfdtorsItfr = nfw TrifItfrbtor(m_bdditionblTrif_);
+            RbngfVblufItfrbtor.Elfmfnt propsVfdtorsRfsult = nfw RbngfVblufItfrbtor.Elfmfnt();
+            whilf(propsVfdtorsItfr.nfxt(propsVfdtorsRfsult)){
+                sft.bdd(propsVfdtorsRfsult.stbrt);
+            }
+        }
+    }
+
+}

@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.TimfZonf;
 
 /**
  *
- * @author Masayoshi Okutsu
- * @since 1.6
+ * @butior Mbsbyosii Okutsu
+ * @sindf 1.6
  */
 
-public class LocalGregorianCalendar extends BaseCalendar {
-    private String name;
-    private Era[] eras;
+publid dlbss LodblGrfgoribnCblfndbr fxtfnds BbsfCblfndbr {
+    privbtf String nbmf;
+    privbtf Erb[] frbs;
 
-    public static class Date extends BaseCalendar.Date {
+    publid stbtid dlbss Dbtf fxtfnds BbsfCblfndbr.Dbtf {
 
-        protected Date() {
-            super();
+        protfdtfd Dbtf() {
+            supfr();
         }
 
-        protected Date(TimeZone zone) {
-            super(zone);
+        protfdtfd Dbtf(TimfZonf zonf) {
+            supfr(zonf);
         }
 
-        private int gregorianYear = FIELD_UNDEFINED;
+        privbtf int grfgoribnYfbr = FIELD_UNDEFINED;
 
-        @Override
-        public Date setEra(Era era) {
-            if (getEra() != era) {
-                super.setEra(era);
-                gregorianYear = FIELD_UNDEFINED;
+        @Ovfrridf
+        publid Dbtf sftErb(Erb frb) {
+            if (gftErb() != frb) {
+                supfr.sftErb(frb);
+                grfgoribnYfbr = FIELD_UNDEFINED;
             }
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public Date addYear(int localYear) {
-            super.addYear(localYear);
-            gregorianYear += localYear;
-            return this;
+        @Ovfrridf
+        publid Dbtf bddYfbr(int lodblYfbr) {
+            supfr.bddYfbr(lodblYfbr);
+            grfgoribnYfbr += lodblYfbr;
+            rfturn tiis;
         }
 
-        @Override
-        public Date setYear(int localYear) {
-            if (getYear() != localYear) {
-                super.setYear(localYear);
-                gregorianYear = FIELD_UNDEFINED;
+        @Ovfrridf
+        publid Dbtf sftYfbr(int lodblYfbr) {
+            if (gftYfbr() != lodblYfbr) {
+                supfr.sftYfbr(lodblYfbr);
+                grfgoribnYfbr = FIELD_UNDEFINED;
             }
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public int getNormalizedYear() {
-            return gregorianYear;
+        @Ovfrridf
+        publid int gftNormblizfdYfbr() {
+            rfturn grfgoribnYfbr;
         }
 
-        @Override
-        public void setNormalizedYear(int normalizedYear) {
-            this.gregorianYear = normalizedYear;
+        @Ovfrridf
+        publid void sftNormblizfdYfbr(int normblizfdYfbr) {
+            tiis.grfgoribnYfbr = normblizfdYfbr;
         }
 
-        void setLocalEra(Era era) {
-            super.setEra(era);
+        void sftLodblErb(Erb frb) {
+            supfr.sftErb(frb);
         }
 
-        void setLocalYear(int year) {
-            super.setYear(year);
+        void sftLodblYfbr(int yfbr) {
+            supfr.sftYfbr(yfbr);
         }
 
-        @Override
-        public String toString() {
-            String time = super.toString();
-            time = time.substring(time.indexOf('T'));
-            StringBuffer sb = new StringBuffer();
-            Era era = getEra();
-            if (era != null) {
-                String abbr = era.getAbbreviation();
-                if (abbr != null) {
-                    sb.append(abbr);
+        @Ovfrridf
+        publid String toString() {
+            String timf = supfr.toString();
+            timf = timf.substring(timf.indfxOf('T'));
+            StringBufffr sb = nfw StringBufffr();
+            Erb frb = gftErb();
+            if (frb != null) {
+                String bbbr = frb.gftAbbrfvibtion();
+                if (bbbr != null) {
+                    sb.bppfnd(bbbr);
                 }
             }
-            sb.append(getYear()).append('.');
-            CalendarUtils.sprintf0d(sb, getMonth(), 2).append('.');
-            CalendarUtils.sprintf0d(sb, getDayOfMonth(), 2);
-            sb.append(time);
-            return sb.toString();
+            sb.bppfnd(gftYfbr()).bppfnd('.');
+            CblfndbrUtils.sprintf0d(sb, gftMonti(), 2).bppfnd('.');
+            CblfndbrUtils.sprintf0d(sb, gftDbyOfMonti(), 2);
+            sb.bppfnd(timf);
+            rfturn sb.toString();
         }
     }
 
-    static LocalGregorianCalendar getLocalGregorianCalendar(String name) {
-        Properties calendarProps;
+    stbtid LodblGrfgoribnCblfndbr gftLodblGrfgoribnCblfndbr(String nbmf) {
+        Propfrtifs dblfndbrProps;
         try {
-            calendarProps = CalendarSystem.getCalendarProperties();
-        } catch (IOException | IllegalArgumentException e) {
-            throw new InternalError(e);
+            dblfndbrProps = CblfndbrSystfm.gftCblfndbrPropfrtifs();
+        } dbtdi (IOExdfption | IllfgblArgumfntExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
-        // Parse calendar.*.eras
-        String props = calendarProps.getProperty("calendar." + name + ".eras");
+        // Pbrsf dblfndbr.*.frbs
+        String props = dblfndbrProps.gftPropfrty("dblfndbr." + nbmf + ".frbs");
         if (props == null) {
-            return null;
+            rfturn null;
         }
-        List<Era> eras = new ArrayList<>();
-        StringTokenizer eraTokens = new StringTokenizer(props, ";");
-        while (eraTokens.hasMoreTokens()) {
-            String items = eraTokens.nextToken().trim();
-            StringTokenizer itemTokens = new StringTokenizer(items, ",");
-            String eraName = null;
-            boolean localTime = true;
-            long since = 0;
-            String abbr = null;
+        List<Erb> frbs = nfw ArrbyList<>();
+        StringTokfnizfr frbTokfns = nfw StringTokfnizfr(props, ";");
+        wiilf (frbTokfns.ibsMorfTokfns()) {
+            String itfms = frbTokfns.nfxtTokfn().trim();
+            StringTokfnizfr itfmTokfns = nfw StringTokfnizfr(itfms, ",");
+            String frbNbmf = null;
+            boolfbn lodblTimf = truf;
+            long sindf = 0;
+            String bbbr = null;
 
-            while (itemTokens.hasMoreTokens()) {
-                String item = itemTokens.nextToken();
-                int index = item.indexOf('=');
-                // it must be in the key=value form.
-                if (index == -1) {
-                    return null;
+            wiilf (itfmTokfns.ibsMorfTokfns()) {
+                String itfm = itfmTokfns.nfxtTokfn();
+                int indfx = itfm.indfxOf('=');
+                // it must bf in tif kfy=vbluf form.
+                if (indfx == -1) {
+                    rfturn null;
                 }
-                String key = item.substring(0, index);
-                String value = item.substring(index + 1);
-                if ("name".equals(key)) {
-                    eraName = value;
-                } else if ("since".equals(key)) {
-                    if (value.endsWith("u")) {
-                        localTime = false;
-                        since = Long.parseLong(value.substring(0, value.length() - 1));
-                    } else {
-                        since = Long.parseLong(value);
+                String kfy = itfm.substring(0, indfx);
+                String vbluf = itfm.substring(indfx + 1);
+                if ("nbmf".fqubls(kfy)) {
+                    frbNbmf = vbluf;
+                } flsf if ("sindf".fqubls(kfy)) {
+                    if (vbluf.fndsWiti("u")) {
+                        lodblTimf = fblsf;
+                        sindf = Long.pbrsfLong(vbluf.substring(0, vbluf.lfngti() - 1));
+                    } flsf {
+                        sindf = Long.pbrsfLong(vbluf);
                     }
-                } else if ("abbr".equals(key)) {
-                    abbr = value;
-                } else {
-                    throw new RuntimeException("Unknown key word: " + key);
+                } flsf if ("bbbr".fqubls(kfy)) {
+                    bbbr = vbluf;
+                } flsf {
+                    tirow nfw RuntimfExdfption("Unknown kfy word: " + kfy);
                 }
             }
-            Era era = new Era(eraName, abbr, since, localTime);
-            eras.add(era);
+            Erb frb = nfw Erb(frbNbmf, bbbr, sindf, lodblTimf);
+            frbs.bdd(frb);
         }
-        Era[] eraArray = new Era[eras.size()];
-        eras.toArray(eraArray);
+        Erb[] frbArrby = nfw Erb[frbs.sizf()];
+        frbs.toArrby(frbArrby);
 
-        return new LocalGregorianCalendar(name, eraArray);
+        rfturn nfw LodblGrfgoribnCblfndbr(nbmf, frbArrby);
     }
 
-    private LocalGregorianCalendar(String name, Era[] eras) {
-        this.name = name;
-        this.eras = eras;
-        setEras(eras);
+    privbtf LodblGrfgoribnCblfndbr(String nbmf, Erb[] frbs) {
+        tiis.nbmf = nbmf;
+        tiis.frbs = frbs;
+        sftErbs(frbs);
     }
 
-    @Override
-    public String getName() {
-        return name;
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    @Override
-    public Date getCalendarDate() {
-        return getCalendarDate(System.currentTimeMillis(), newCalendarDate());
+    @Ovfrridf
+    publid Dbtf gftCblfndbrDbtf() {
+        rfturn gftCblfndbrDbtf(Systfm.durrfntTimfMillis(), nfwCblfndbrDbtf());
     }
 
-    @Override
-    public Date getCalendarDate(long millis) {
-        return getCalendarDate(millis, newCalendarDate());
+    @Ovfrridf
+    publid Dbtf gftCblfndbrDbtf(long millis) {
+        rfturn gftCblfndbrDbtf(millis, nfwCblfndbrDbtf());
     }
 
-    @Override
-    public Date getCalendarDate(long millis, TimeZone zone) {
-        return getCalendarDate(millis, newCalendarDate(zone));
+    @Ovfrridf
+    publid Dbtf gftCblfndbrDbtf(long millis, TimfZonf zonf) {
+        rfturn gftCblfndbrDbtf(millis, nfwCblfndbrDbtf(zonf));
     }
 
-    @Override
-    public Date getCalendarDate(long millis, CalendarDate date) {
-        Date ldate = (Date) super.getCalendarDate(millis, date);
-        return adjustYear(ldate, millis, ldate.getZoneOffset());
+    @Ovfrridf
+    publid Dbtf gftCblfndbrDbtf(long millis, CblfndbrDbtf dbtf) {
+        Dbtf ldbtf = (Dbtf) supfr.gftCblfndbrDbtf(millis, dbtf);
+        rfturn bdjustYfbr(ldbtf, millis, ldbtf.gftZonfOffsft());
     }
 
-    private Date adjustYear(Date ldate, long millis, int zoneOffset) {
+    privbtf Dbtf bdjustYfbr(Dbtf ldbtf, long millis, int zonfOffsft) {
         int i;
-        for (i = eras.length - 1; i >= 0; --i) {
-            Era era = eras[i];
-            long since = era.getSince(null);
-            if (era.isLocalTime()) {
-                since -= zoneOffset;
+        for (i = frbs.lfngti - 1; i >= 0; --i) {
+            Erb frb = frbs[i];
+            long sindf = frb.gftSindf(null);
+            if (frb.isLodblTimf()) {
+                sindf -= zonfOffsft;
             }
-            if (millis >= since) {
-                ldate.setLocalEra(era);
-                int y = ldate.getNormalizedYear() - era.getSinceDate().getYear() + 1;
-                ldate.setLocalYear(y);
-                break;
+            if (millis >= sindf) {
+                ldbtf.sftLodblErb(frb);
+                int y = ldbtf.gftNormblizfdYfbr() - frb.gftSindfDbtf().gftYfbr() + 1;
+                ldbtf.sftLodblYfbr(y);
+                brfbk;
             }
         }
         if (i < 0) {
-            ldate.setLocalEra(null);
-            ldate.setLocalYear(ldate.getNormalizedYear());
+            ldbtf.sftLodblErb(null);
+            ldbtf.sftLodblYfbr(ldbtf.gftNormblizfdYfbr());
         }
-        ldate.setNormalized(true);
-        return ldate;
+        ldbtf.sftNormblizfd(truf);
+        rfturn ldbtf;
     }
 
-    @Override
-    public Date newCalendarDate() {
-        return new Date();
+    @Ovfrridf
+    publid Dbtf nfwCblfndbrDbtf() {
+        rfturn nfw Dbtf();
     }
 
-    @Override
-    public Date newCalendarDate(TimeZone zone) {
-        return new Date(zone);
+    @Ovfrridf
+    publid Dbtf nfwCblfndbrDbtf(TimfZonf zonf) {
+        rfturn nfw Dbtf(zonf);
     }
 
-    @Override
-    public boolean validate(CalendarDate date) {
-        Date ldate = (Date) date;
-        Era era = ldate.getEra();
-        if (era != null) {
-            if (!validateEra(era)) {
-                return false;
+    @Ovfrridf
+    publid boolfbn vblidbtf(CblfndbrDbtf dbtf) {
+        Dbtf ldbtf = (Dbtf) dbtf;
+        Erb frb = ldbtf.gftErb();
+        if (frb != null) {
+            if (!vblidbtfErb(frb)) {
+                rfturn fblsf;
             }
-            ldate.setNormalizedYear(era.getSinceDate().getYear() + ldate.getYear() - 1);
-            Date tmp = newCalendarDate(date.getZone());
-            tmp.setEra(era).setDate(date.getYear(), date.getMonth(), date.getDayOfMonth());
-            normalize(tmp);
-            if (tmp.getEra() != era) {
-                return false;
+            ldbtf.sftNormblizfdYfbr(frb.gftSindfDbtf().gftYfbr() + ldbtf.gftYfbr() - 1);
+            Dbtf tmp = nfwCblfndbrDbtf(dbtf.gftZonf());
+            tmp.sftErb(frb).sftDbtf(dbtf.gftYfbr(), dbtf.gftMonti(), dbtf.gftDbyOfMonti());
+            normblizf(tmp);
+            if (tmp.gftErb() != frb) {
+                rfturn fblsf;
             }
-        } else {
-            if (date.getYear() >= eras[0].getSinceDate().getYear()) {
-                return false;
+        } flsf {
+            if (dbtf.gftYfbr() >= frbs[0].gftSindfDbtf().gftYfbr()) {
+                rfturn fblsf;
             }
-            ldate.setNormalizedYear(ldate.getYear());
+            ldbtf.sftNormblizfdYfbr(ldbtf.gftYfbr());
         }
-        return super.validate(ldate);
+        rfturn supfr.vblidbtf(ldbtf);
     }
 
-    private boolean validateEra(Era era) {
-        // Validate the era
-        for (int i = 0; i < eras.length; i++) {
-            if (era == eras[i]) {
-                return true;
+    privbtf boolfbn vblidbtfErb(Erb frb) {
+        // Vblidbtf tif frb
+        for (int i = 0; i < frbs.lfngti; i++) {
+            if (frb == frbs[i]) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean normalize(CalendarDate date) {
-        if (date.isNormalized()) {
-            return true;
+    @Ovfrridf
+    publid boolfbn normblizf(CblfndbrDbtf dbtf) {
+        if (dbtf.isNormblizfd()) {
+            rfturn truf;
         }
 
-        normalizeYear(date);
-        Date ldate = (Date) date;
+        normblizfYfbr(dbtf);
+        Dbtf ldbtf = (Dbtf) dbtf;
 
-        // Normalize it as a Gregorian date and get its millisecond value
-        super.normalize(ldate);
+        // Normblizf it bs b Grfgoribn dbtf bnd gft its millisfdond vbluf
+        supfr.normblizf(ldbtf);
 
-        boolean hasMillis = false;
+        boolfbn ibsMillis = fblsf;
         long millis = 0;
-        int year = ldate.getNormalizedYear();
+        int yfbr = ldbtf.gftNormblizfdYfbr();
         int i;
-        Era era = null;
-        for (i = eras.length - 1; i >= 0; --i) {
-            era = eras[i];
-            if (era.isLocalTime()) {
-                CalendarDate sinceDate = era.getSinceDate();
-                int sinceYear = sinceDate.getYear();
-                if (year > sinceYear) {
-                    break;
+        Erb frb = null;
+        for (i = frbs.lfngti - 1; i >= 0; --i) {
+            frb = frbs[i];
+            if (frb.isLodblTimf()) {
+                CblfndbrDbtf sindfDbtf = frb.gftSindfDbtf();
+                int sindfYfbr = sindfDbtf.gftYfbr();
+                if (yfbr > sindfYfbr) {
+                    brfbk;
                 }
-                if (year == sinceYear) {
-                    int month = ldate.getMonth();
-                    int sinceMonth = sinceDate.getMonth();
-                    if (month > sinceMonth) {
-                        break;
+                if (yfbr == sindfYfbr) {
+                    int monti = ldbtf.gftMonti();
+                    int sindfMonti = sindfDbtf.gftMonti();
+                    if (monti > sindfMonti) {
+                        brfbk;
                     }
-                    if (month == sinceMonth) {
-                        int day = ldate.getDayOfMonth();
-                        int sinceDay = sinceDate.getDayOfMonth();
-                        if (day > sinceDay) {
-                            break;
+                    if (monti == sindfMonti) {
+                        int dby = ldbtf.gftDbyOfMonti();
+                        int sindfDby = sindfDbtf.gftDbyOfMonti();
+                        if (dby > sindfDby) {
+                            brfbk;
                         }
-                        if (day == sinceDay) {
-                            long timeOfDay = ldate.getTimeOfDay();
-                            long sinceTimeOfDay = sinceDate.getTimeOfDay();
-                            if (timeOfDay >= sinceTimeOfDay) {
-                                break;
+                        if (dby == sindfDby) {
+                            long timfOfDby = ldbtf.gftTimfOfDby();
+                            long sindfTimfOfDby = sindfDbtf.gftTimfOfDby();
+                            if (timfOfDby >= sindfTimfOfDby) {
+                                brfbk;
                             }
                             --i;
-                            break;
+                            brfbk;
                         }
                     }
                 }
-            } else {
-                if (!hasMillis) {
-                    millis  = super.getTime(date);
-                    hasMillis = true;
+            } flsf {
+                if (!ibsMillis) {
+                    millis  = supfr.gftTimf(dbtf);
+                    ibsMillis = truf;
                 }
 
-                long since = era.getSince(date.getZone());
-                if (millis >= since) {
-                    break;
+                long sindf = frb.gftSindf(dbtf.gftZonf());
+                if (millis >= sindf) {
+                    brfbk;
                 }
             }
         }
         if (i >= 0) {
-            ldate.setLocalEra(era);
-            int y = ldate.getNormalizedYear() - era.getSinceDate().getYear() + 1;
-            ldate.setLocalYear(y);
-        } else {
-            // Set Gregorian year with no era
-            ldate.setEra(null);
-            ldate.setLocalYear(year);
-            ldate.setNormalizedYear(year);
+            ldbtf.sftLodblErb(frb);
+            int y = ldbtf.gftNormblizfdYfbr() - frb.gftSindfDbtf().gftYfbr() + 1;
+            ldbtf.sftLodblYfbr(y);
+        } flsf {
+            // Sft Grfgoribn yfbr witi no frb
+            ldbtf.sftErb(null);
+            ldbtf.sftLodblYfbr(yfbr);
+            ldbtf.sftNormblizfdYfbr(yfbr);
         }
-        ldate.setNormalized(true);
-        return true;
+        ldbtf.sftNormblizfd(truf);
+        rfturn truf;
     }
 
-    @Override
-    void normalizeMonth(CalendarDate date) {
-        normalizeYear(date);
-        super.normalizeMonth(date);
+    @Ovfrridf
+    void normblizfMonti(CblfndbrDbtf dbtf) {
+        normblizfYfbr(dbtf);
+        supfr.normblizfMonti(dbtf);
     }
 
-    void normalizeYear(CalendarDate date) {
-        Date ldate = (Date) date;
-        // Set the supposed-to-be-correct Gregorian year first
-        // e.g., Showa 90 becomes 2015 (1926 + 90 - 1).
-        Era era = ldate.getEra();
-        if (era == null || !validateEra(era)) {
-            ldate.setNormalizedYear(ldate.getYear());
-        } else {
-            ldate.setNormalizedYear(era.getSinceDate().getYear() + ldate.getYear() - 1);
+    void normblizfYfbr(CblfndbrDbtf dbtf) {
+        Dbtf ldbtf = (Dbtf) dbtf;
+        // Sft tif supposfd-to-bf-dorrfdt Grfgoribn yfbr first
+        // f.g., Siowb 90 bfdomfs 2015 (1926 + 90 - 1).
+        Erb frb = ldbtf.gftErb();
+        if (frb == null || !vblidbtfErb(frb)) {
+            ldbtf.sftNormblizfdYfbr(ldbtf.gftYfbr());
+        } flsf {
+            ldbtf.sftNormblizfdYfbr(frb.gftSindfDbtf().gftYfbr() + ldbtf.gftYfbr() - 1);
         }
     }
 
     /**
-     * Returns whether the specified Gregorian year is a leap year.
-     * @see #isLeapYear(Era, int)
+     * Rfturns wiftifr tif spfdififd Grfgoribn yfbr is b lfbp yfbr.
+     * @sff #isLfbpYfbr(Erb, int)
      */
-    @Override
-    public boolean isLeapYear(int gregorianYear) {
-        return CalendarUtils.isGregorianLeapYear(gregorianYear);
+    @Ovfrridf
+    publid boolfbn isLfbpYfbr(int grfgoribnYfbr) {
+        rfturn CblfndbrUtils.isGrfgoribnLfbpYfbr(grfgoribnYfbr);
     }
 
-    public boolean isLeapYear(Era era, int year) {
-        if (era == null) {
-            return isLeapYear(year);
+    publid boolfbn isLfbpYfbr(Erb frb, int yfbr) {
+        if (frb == null) {
+            rfturn isLfbpYfbr(yfbr);
         }
-        int gyear = era.getSinceDate().getYear() + year - 1;
-        return isLeapYear(gyear);
+        int gyfbr = frb.gftSindfDbtf().gftYfbr() + yfbr - 1;
+        rfturn isLfbpYfbr(gyfbr);
     }
 
-    @Override
-    public void getCalendarDateFromFixedDate(CalendarDate date, long fixedDate) {
-        Date ldate = (Date) date;
-        super.getCalendarDateFromFixedDate(ldate, fixedDate);
-        adjustYear(ldate, (fixedDate - EPOCH_OFFSET) * DAY_IN_MILLIS, 0);
+    @Ovfrridf
+    publid void gftCblfndbrDbtfFromFixfdDbtf(CblfndbrDbtf dbtf, long fixfdDbtf) {
+        Dbtf ldbtf = (Dbtf) dbtf;
+        supfr.gftCblfndbrDbtfFromFixfdDbtf(ldbtf, fixfdDbtf);
+        bdjustYfbr(ldbtf, (fixfdDbtf - EPOCH_OFFSET) * DAY_IN_MILLIS, 0);
     }
 }

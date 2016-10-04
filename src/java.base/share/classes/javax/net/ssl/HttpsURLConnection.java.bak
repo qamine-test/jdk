@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * <code>HttpsURLConnection</code> extends <code>HttpURLConnection</code>
- * with support for https-specific features.
+ * <dodf>HttpsURLConnfdtion</dodf> fxtfnds <dodf>HttpURLConnfdtion</dodf>
+ * witi support for ittps-spfdifid ffbturfs.
  * <P>
- * See <A HREF="http://www.w3.org/pub/WWW/Protocols/">
- * http://www.w3.org/pub/WWW/Protocols/</A> and
- * <A HREF="http://www.ietf.org/"> RFC 2818 </A>
- * for more details on the
- * https specification.
+ * Sff <A HREF="ittp://www.w3.org/pub/WWW/Protodols/">
+ * ittp://www.w3.org/pub/WWW/Protodols/</A> bnd
+ * <A HREF="ittp://www.iftf.org/"> RFC 2818 </A>
+ * for morf dftbils on tif
+ * ittps spfdifidbtion.
  * <P>
- * This class uses <code>HostnameVerifier</code> and
- * <code>SSLSocketFactory</code>.
- * There are default implementations defined for both classes.
- * However, the implementations can be replaced on a per-class (static) or
- * per-instance basis.  All new <code>HttpsURLConnection</code>s instances
- * will be assigned
- * the "default" static values at instance creation, but they can be overriden
- * by calling the appropriate per-instance set method(s) before
- * <code>connect</code>ing.
+ * Tiis dlbss usfs <dodf>HostnbmfVfrififr</dodf> bnd
+ * <dodf>SSLSodkftFbdtory</dodf>.
+ * Tifrf brf dffbult implfmfntbtions dffinfd for boti dlbssfs.
+ * Howfvfr, tif implfmfntbtions dbn bf rfplbdfd on b pfr-dlbss (stbtid) or
+ * pfr-instbndf bbsis.  All nfw <dodf>HttpsURLConnfdtion</dodf>s instbndfs
+ * will bf bssignfd
+ * tif "dffbult" stbtid vblufs bt instbndf drfbtion, but tify dbn bf ovfrridfn
+ * by dblling tif bppropribtf pfr-instbndf sft mftiod(s) bfforf
+ * <dodf>donnfdt</dodf>ing.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-abstract public
-class HttpsURLConnection extends HttpURLConnection
+bbstrbdt publid
+dlbss HttpsURLConnfdtion fxtfnds HttpURLConnfdtion
 {
     /**
-     * Creates an <code>HttpsURLConnection</code> using the
-     * URL specified.
+     * Crfbtfs bn <dodf>HttpsURLConnfdtion</dodf> using tif
+     * URL spfdififd.
      *
-     * @param url the URL
+     * @pbrbm url tif URL
      */
-    protected HttpsURLConnection(URL url) {
-        super(url);
+    protfdtfd HttpsURLConnfdtion(URL url) {
+        supfr(url);
     }
 
     /**
-     * Returns the cipher suite in use on this connection.
+     * Rfturns tif dipifr suitf in usf on tiis donnfdtion.
      *
-     * @return the cipher suite
-     * @throws IllegalStateException if this method is called before
-     *          the connection has been established.
+     * @rfturn tif dipifr suitf
+     * @tirows IllfgblStbtfExdfption if tiis mftiod is dbllfd bfforf
+     *          tif donnfdtion ibs bffn fstbblisifd.
      */
-    public abstract String getCipherSuite();
+    publid bbstrbdt String gftCipifrSuitf();
 
     /**
-     * Returns the certificate(s) that were sent to the server during
-     * handshaking.
+     * Rfturns tif dfrtifidbtf(s) tibt wfrf sfnt to tif sfrvfr during
+     * ibndsibking.
      * <P>
-     * Note: This method is useful only when using certificate-based
-     * cipher suites.
+     * Notf: Tiis mftiod is usfful only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs.
      * <P>
-     * When multiple certificates are available for use in a
-     * handshake, the implementation chooses what it considers the
-     * "best" certificate chain available, and transmits that to
-     * the other side.  This method allows the caller to know
-     * which certificate chain was actually sent.
+     * Wifn multiplf dfrtifidbtfs brf bvbilbblf for usf in b
+     * ibndsibkf, tif implfmfntbtion dioosfs wibt it donsidfrs tif
+     * "bfst" dfrtifidbtf dibin bvbilbblf, bnd trbnsmits tibt to
+     * tif otifr sidf.  Tiis mftiod bllows tif dbllfr to know
+     * wiidi dfrtifidbtf dibin wbs bdtublly sfnt.
      *
-     * @return an ordered array of certificates,
-     *          with the client's own certificate first followed by any
-     *          certificate authorities.  If no certificates were sent,
-     *          then null is returned.
-     * @throws IllegalStateException if this method is called before
-     *          the connection has been established.
-     * @see #getLocalPrincipal()
+     * @rfturn bn ordfrfd brrby of dfrtifidbtfs,
+     *          witi tif dlifnt's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf butioritifs.  If no dfrtifidbtfs wfrf sfnt,
+     *          tifn null is rfturnfd.
+     * @tirows IllfgblStbtfExdfption if tiis mftiod is dbllfd bfforf
+     *          tif donnfdtion ibs bffn fstbblisifd.
+     * @sff #gftLodblPrindipbl()
      */
-    public abstract java.security.cert.Certificate [] getLocalCertificates();
+    publid bbstrbdt jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs();
 
     /**
-     * Returns the server's certificate chain which was established
-     * as part of defining the session.
+     * Rfturns tif sfrvfr's dfrtifidbtf dibin wiidi wbs fstbblisifd
+     * bs pbrt of dffining tif sfssion.
      * <P>
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return an ordered array of server certificates,
-     *          with the peer's own certificate first followed by
-     *          any certificate authorities.
-     * @throws SSLPeerUnverifiedException if the peer is not verified.
-     * @throws IllegalStateException if this method is called before
-     *          the connection has been established.
-     * @see #getPeerPrincipal()
+     * @rfturn bn ordfrfd brrby of sfrvfr dfrtifidbtfs,
+     *          witi tif pffr's own dfrtifidbtf first followfd by
+     *          bny dfrtifidbtf butioritifs.
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr is not vfrififd.
+     * @tirows IllfgblStbtfExdfption if tiis mftiod is dbllfd bfforf
+     *          tif donnfdtion ibs bffn fstbblisifd.
+     * @sff #gftPffrPrindipbl()
      */
-    public abstract java.security.cert.Certificate [] getServerCertificates()
-            throws SSLPeerUnverifiedException;
+    publid bbstrbdt jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftSfrvfrCfrtifidbtfs()
+            tirows SSLPffrUnvfrififdExdfption;
 
     /**
-     * Returns the server's principal which was established as part of
-     * defining the session.
+     * Rfturns tif sfrvfr's prindipbl wiidi wbs fstbblisifd bs pbrt of
+     * dffining tif sfssion.
      * <P>
-     * Note: Subclasses should override this method. If not overridden, it
-     * will default to returning the X500Principal of the server's end-entity
-     * certificate for certificate-based ciphersuites, or throw an
-     * SSLPeerUnverifiedException for non-certificate based ciphersuites,
-     * such as Kerberos.
+     * Notf: Subdlbssfs siould ovfrridf tiis mftiod. If not ovfrriddfn, it
+     * will dffbult to rfturning tif X500Prindipbl of tif sfrvfr's fnd-fntity
+     * dfrtifidbtf for dfrtifidbtf-bbsfd dipifrsuitfs, or tirow bn
+     * SSLPffrUnvfrififdExdfption for non-dfrtifidbtf bbsfd dipifrsuitfs,
+     * sudi bs Kfrbfros.
      *
-     * @return the server's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @rfturn tif sfrvfr's prindipbl. Rfturns bn X500Prindipbl of tif
+     * fnd-fntity dfrtitidbtf for X509-bbsfd dipifr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs.
      *
-     * @throws SSLPeerUnverifiedException if the peer was not verified
-     * @throws IllegalStateException if this method is called before
-     *          the connection has been established.
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr wbs not vfrififd
+     * @tirows IllfgblStbtfExdfption if tiis mftiod is dbllfd bfforf
+     *          tif donnfdtion ibs bffn fstbblisifd.
      *
-     * @see #getServerCertificates()
-     * @see #getLocalPrincipal()
+     * @sff #gftSfrvfrCfrtifidbtfs()
+     * @sff #gftLodblPrindipbl()
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Principal getPeerPrincipal()
-            throws SSLPeerUnverifiedException {
+    publid Prindipbl gftPffrPrindipbl()
+            tirows SSLPffrUnvfrififdExdfption {
 
-        java.security.cert.Certificate[] certs = getServerCertificates();
-        return ((X509Certificate)certs[0]).getSubjectX500Principal();
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts = gftSfrvfrCfrtifidbtfs();
+        rfturn ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
     }
 
     /**
-     * Returns the principal that was sent to the server during handshaking.
+     * Rfturns tif prindipbl tibt wbs sfnt to tif sfrvfr during ibndsibking.
      * <P>
-     * Note: Subclasses should override this method. If not overridden, it
-     * will default to returning the X500Principal of the end-entity certificate
-     * that was sent to the server for certificate-based ciphersuites or,
-     * return null for non-certificate based ciphersuites, such as Kerberos.
+     * Notf: Subdlbssfs siould ovfrridf tiis mftiod. If not ovfrriddfn, it
+     * will dffbult to rfturning tif X500Prindipbl of tif fnd-fntity dfrtifidbtf
+     * tibt wbs sfnt to tif sfrvfr for dfrtifidbtf-bbsfd dipifrsuitfs or,
+     * rfturn null for non-dfrtifidbtf bbsfd dipifrsuitfs, sudi bs Kfrbfros.
      *
-     * @return the principal sent to the server. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites. If no principal was
-     * sent, then null is returned.
+     * @rfturn tif prindipbl sfnt to tif sfrvfr. Rfturns bn X500Prindipbl
+     * of tif fnd-fntity dfrtifidbtf for X509-bbsfd dipifr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs. If no prindipbl wbs
+     * sfnt, tifn null is rfturnfd.
      *
-     * @throws IllegalStateException if this method is called before
-     *          the connection has been established.
+     * @tirows IllfgblStbtfExdfption if tiis mftiod is dbllfd bfforf
+     *          tif donnfdtion ibs bffn fstbblisifd.
      *
-     * @see #getLocalCertificates()
-     * @see #getPeerPrincipal()
+     * @sff #gftLodblCfrtifidbtfs()
+     * @sff #gftPffrPrindipbl()
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Principal getLocalPrincipal() {
+    publid Prindipbl gftLodblPrindipbl() {
 
-        java.security.cert.Certificate[] certs = getLocalCertificates();
-        if (certs != null) {
-            return ((X509Certificate)certs[0]).getSubjectX500Principal();
-        } else {
-            return null;
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts = gftLodblCfrtifidbtfs();
+        if (dfrts != null) {
+            rfturn ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * <code>HostnameVerifier</code> provides a callback mechanism so that
-     * implementers of this interface can supply a policy for
-     * handling the case where the host to connect to and
-     * the server name from the certificate mismatch.
+     * <dodf>HostnbmfVfrififr</dodf> providfs b dbllbbdk mfdibnism so tibt
+     * implfmfntfrs of tiis intfrfbdf dbn supply b polidy for
+     * ibndling tif dbsf wifrf tif iost to donnfdt to bnd
+     * tif sfrvfr nbmf from tif dfrtifidbtf mismbtdi.
      * <p>
-     * The default implementation will deny such connections.
+     * Tif dffbult implfmfntbtion will dfny sudi donnfdtions.
      */
-    private static HostnameVerifier defaultHostnameVerifier =
-                                        new DefaultHostnameVerifier();
+    privbtf stbtid HostnbmfVfrififr dffbultHostnbmfVfrififr =
+                                        nfw DffbultHostnbmfVfrififr();
 
     /*
-     * The initial default <code>HostnameVerifier</code>.  Should be
-     * updated for another other type of <code>HostnameVerifier</code>
-     * that are created.
+     * Tif initibl dffbult <dodf>HostnbmfVfrififr</dodf>.  Siould bf
+     * updbtfd for bnotifr otifr typf of <dodf>HostnbmfVfrififr</dodf>
+     * tibt brf drfbtfd.
      */
-    private static class DefaultHostnameVerifier
-            implements HostnameVerifier {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            return false;
+    privbtf stbtid dlbss DffbultHostnbmfVfrififr
+            implfmfnts HostnbmfVfrififr {
+        @Ovfrridf
+        publid boolfbn vfrify(String iostnbmf, SSLSfssion sfssion) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * The <code>hostnameVerifier</code> for this object.
+     * Tif <dodf>iostnbmfVfrififr</dodf> for tiis objfdt.
      */
-    protected HostnameVerifier hostnameVerifier = defaultHostnameVerifier;
+    protfdtfd HostnbmfVfrififr iostnbmfVfrififr = dffbultHostnbmfVfrififr;
 
     /**
-     * Sets the default <code>HostnameVerifier</code> inherited by a
-     * new instance of this class.
+     * Sfts tif dffbult <dodf>HostnbmfVfrififr</dodf> inifritfd by b
+     * nfw instbndf of tiis dlbss.
      * <P>
-     * If this method is not called, the default
-     * <code>HostnameVerifier</code> assumes the connection should not
-     * be permitted.
+     * If tiis mftiod is not dbllfd, tif dffbult
+     * <dodf>HostnbmfVfrififr</dodf> bssumfs tif donnfdtion siould not
+     * bf pfrmittfd.
      *
-     * @param v the default host name verifier
-     * @throws IllegalArgumentException if the <code>HostnameVerifier</code>
-     *          parameter is null.
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkPermission</code> method does not allow
-     *         <code>SSLPermission("setHostnameVerifier")</code>
-     * @see #getDefaultHostnameVerifier()
+     * @pbrbm v tif dffbult iost nbmf vfrififr
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>HostnbmfVfrififr</dodf>
+     *          pbrbmftfr is null.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkPfrmission</dodf> mftiod dofs not bllow
+     *         <dodf>SSLPfrmission("sftHostnbmfVfrififr")</dodf>
+     * @sff #gftDffbultHostnbmfVfrififr()
      */
-    public static void setDefaultHostnameVerifier(HostnameVerifier v) {
+    publid stbtid void sftDffbultHostnbmfVfrififr(HostnbmfVfrififr v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no default HostnameVerifier specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no dffbult HostnbmfVfrififr spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new SSLPermission("setHostnameVerifier"));
+            sm.difdkPfrmission(nfw SSLPfrmission("sftHostnbmfVfrififr"));
         }
-        defaultHostnameVerifier = v;
+        dffbultHostnbmfVfrififr = v;
     }
 
     /**
-     * Gets the default <code>HostnameVerifier</code> that is inherited
-     * by new instances of this class.
+     * Gfts tif dffbult <dodf>HostnbmfVfrififr</dodf> tibt is inifritfd
+     * by nfw instbndfs of tiis dlbss.
      *
-     * @return the default host name verifier
-     * @see #setDefaultHostnameVerifier(HostnameVerifier)
+     * @rfturn tif dffbult iost nbmf vfrififr
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
      */
-    public static HostnameVerifier getDefaultHostnameVerifier() {
-        return defaultHostnameVerifier;
+    publid stbtid HostnbmfVfrififr gftDffbultHostnbmfVfrififr() {
+        rfturn dffbultHostnbmfVfrififr;
     }
 
     /**
-     * Sets the <code>HostnameVerifier</code> for this instance.
+     * Sfts tif <dodf>HostnbmfVfrififr</dodf> for tiis instbndf.
      * <P>
-     * New instances of this class inherit the default static hostname
-     * verifier set by {@link #setDefaultHostnameVerifier(HostnameVerifier)
-     * setDefaultHostnameVerifier}.  Calls to this method replace
-     * this object's <code>HostnameVerifier</code>.
+     * Nfw instbndfs of tiis dlbss inifrit tif dffbult stbtid iostnbmf
+     * vfrififr sft by {@link #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
+     * sftDffbultHostnbmfVfrififr}.  Cblls to tiis mftiod rfplbdf
+     * tiis objfdt's <dodf>HostnbmfVfrififr</dodf>.
      *
-     * @param v the host name verifier
-     * @throws IllegalArgumentException if the <code>HostnameVerifier</code>
-     *  parameter is null.
-     * @see #getHostnameVerifier()
-     * @see #setDefaultHostnameVerifier(HostnameVerifier)
+     * @pbrbm v tif iost nbmf vfrififr
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>HostnbmfVfrififr</dodf>
+     *  pbrbmftfr is null.
+     * @sff #gftHostnbmfVfrififr()
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
      */
-    public void setHostnameVerifier(HostnameVerifier v) {
+    publid void sftHostnbmfVfrififr(HostnbmfVfrififr v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no HostnameVerifier specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no HostnbmfVfrififr spfdififd");
         }
 
-        hostnameVerifier = v;
+        iostnbmfVfrififr = v;
     }
 
     /**
-     * Gets the <code>HostnameVerifier</code> in place on this instance.
+     * Gfts tif <dodf>HostnbmfVfrififr</dodf> in plbdf on tiis instbndf.
      *
-     * @return the host name verifier
-     * @see #setHostnameVerifier(HostnameVerifier)
-     * @see #setDefaultHostnameVerifier(HostnameVerifier)
+     * @rfturn tif iost nbmf vfrififr
+     * @sff #sftHostnbmfVfrififr(HostnbmfVfrififr)
+     * @sff #sftDffbultHostnbmfVfrififr(HostnbmfVfrififr)
      */
-    public HostnameVerifier getHostnameVerifier() {
-        return hostnameVerifier;
+    publid HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn iostnbmfVfrififr;
     }
 
-    private static SSLSocketFactory defaultSSLSocketFactory = null;
+    privbtf stbtid SSLSodkftFbdtory dffbultSSLSodkftFbdtory = null;
 
     /**
-     * The <code>SSLSocketFactory</code> inherited when an instance
-     * of this class is created.
+     * Tif <dodf>SSLSodkftFbdtory</dodf> inifritfd wifn bn instbndf
+     * of tiis dlbss is drfbtfd.
      */
-    private SSLSocketFactory sslSocketFactory = getDefaultSSLSocketFactory();
+    privbtf SSLSodkftFbdtory sslSodkftFbdtory = gftDffbultSSLSodkftFbdtory();
 
     /**
-     * Sets the default <code>SSLSocketFactory</code> inherited by new
-     * instances of this class.
+     * Sfts tif dffbult <dodf>SSLSodkftFbdtory</dodf> inifritfd by nfw
+     * instbndfs of tiis dlbss.
      * <P>
-     * The socket factories are used when creating sockets for secure
-     * https URL connections.
+     * Tif sodkft fbdtorifs brf usfd wifn drfbting sodkfts for sfdurf
+     * ittps URL donnfdtions.
      *
-     * @param sf the default SSL socket factory
-     * @throws IllegalArgumentException if the SSLSocketFactory
-     *          parameter is null.
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkSetFactory</code> method does not allow
-     *         a socket factory to be specified.
-     * @see #getDefaultSSLSocketFactory()
+     * @pbrbm sf tif dffbult SSL sodkft fbdtory
+     * @tirows IllfgblArgumfntExdfption if tif SSLSodkftFbdtory
+     *          pbrbmftfr is null.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkSftFbdtory</dodf> mftiod dofs not bllow
+     *         b sodkft fbdtory to bf spfdififd.
+     * @sff #gftDffbultSSLSodkftFbdtory()
      */
-    public static void setDefaultSSLSocketFactory(SSLSocketFactory sf) {
+    publid stbtid void sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no default SSLSocketFactory specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no dffbult SSLSodkftFbdtory spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.difdkSftFbdtory();
         }
-        defaultSSLSocketFactory = sf;
+        dffbultSSLSodkftFbdtory = sf;
     }
 
     /**
-     * Gets the default static <code>SSLSocketFactory</code> that is
-     * inherited by new instances of this class.
+     * Gfts tif dffbult stbtid <dodf>SSLSodkftFbdtory</dodf> tibt is
+     * inifritfd by nfw instbndfs of tiis dlbss.
      * <P>
-     * The socket factories are used when creating sockets for secure
-     * https URL connections.
+     * Tif sodkft fbdtorifs brf usfd wifn drfbting sodkfts for sfdurf
+     * ittps URL donnfdtions.
      *
-     * @return the default <code>SSLSocketFactory</code>
-     * @see #setDefaultSSLSocketFactory(SSLSocketFactory)
+     * @rfturn tif dffbult <dodf>SSLSodkftFbdtory</dodf>
+     * @sff #sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory)
      */
-    public static SSLSocketFactory getDefaultSSLSocketFactory() {
-        if (defaultSSLSocketFactory == null) {
-            defaultSSLSocketFactory =
-                (SSLSocketFactory)SSLSocketFactory.getDefault();
+    publid stbtid SSLSodkftFbdtory gftDffbultSSLSodkftFbdtory() {
+        if (dffbultSSLSodkftFbdtory == null) {
+            dffbultSSLSodkftFbdtory =
+                (SSLSodkftFbdtory)SSLSodkftFbdtory.gftDffbult();
         }
-        return defaultSSLSocketFactory;
+        rfturn dffbultSSLSodkftFbdtory;
     }
 
     /**
-     * Sets the <code>SSLSocketFactory</code> to be used when this instance
-     * creates sockets for secure https URL connections.
+     * Sfts tif <dodf>SSLSodkftFbdtory</dodf> to bf usfd wifn tiis instbndf
+     * drfbtfs sodkfts for sfdurf ittps URL donnfdtions.
      * <P>
-     * New instances of this class inherit the default static
-     * <code>SSLSocketFactory</code> set by
-     * {@link #setDefaultSSLSocketFactory(SSLSocketFactory)
-     * setDefaultSSLSocketFactory}.  Calls to this method replace
-     * this object's <code>SSLSocketFactory</code>.
+     * Nfw instbndfs of tiis dlbss inifrit tif dffbult stbtid
+     * <dodf>SSLSodkftFbdtory</dodf> sft by
+     * {@link #sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory)
+     * sftDffbultSSLSodkftFbdtory}.  Cblls to tiis mftiod rfplbdf
+     * tiis objfdt's <dodf>SSLSodkftFbdtory</dodf>.
      *
-     * @param sf the SSL socket factory
-     * @throws IllegalArgumentException if the <code>SSLSocketFactory</code>
-     *          parameter is null.
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkSetFactory</code> method does not allow
-     *         a socket factory to be specified.
-     * @see #getSSLSocketFactory()
+     * @pbrbm sf tif SSL sodkft fbdtory
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>SSLSodkftFbdtory</dodf>
+     *          pbrbmftfr is null.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkSftFbdtory</dodf> mftiod dofs not bllow
+     *         b sodkft fbdtory to bf spfdififd.
+     * @sff #gftSSLSodkftFbdtory()
      */
-    public void setSSLSocketFactory(SSLSocketFactory sf) {
+    publid void sftSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no SSLSocketFactory specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no SSLSodkftFbdtory spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.difdkSftFbdtory();
         }
-        sslSocketFactory = sf;
+        sslSodkftFbdtory = sf;
     }
 
     /**
-     * Gets the SSL socket factory to be used when creating sockets
-     * for secure https URL connections.
+     * Gfts tif SSL sodkft fbdtory to bf usfd wifn drfbting sodkfts
+     * for sfdurf ittps URL donnfdtions.
      *
-     * @return the <code>SSLSocketFactory</code>
-     * @see #setSSLSocketFactory(SSLSocketFactory)
+     * @rfturn tif <dodf>SSLSodkftFbdtory</dodf>
+     * @sff #sftSSLSodkftFbdtory(SSLSodkftFbdtory)
      */
-    public SSLSocketFactory getSSLSocketFactory() {
-        return sslSocketFactory;
+    publid SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn sslSodkftFbdtory;
     }
 }

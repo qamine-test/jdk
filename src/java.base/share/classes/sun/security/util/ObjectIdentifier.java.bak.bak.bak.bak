@@ -1,0 +1,662 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Arrbys;
+
+/**
+ * Rfprfsfnt bn ISO Objfdt Idfntififr.
+ *
+ * <P>Objfdt Idfntififrs brf brbitrbry lfngth hifrbrdhidbl idfntififrs.
+ * Thf individubl domponfnts brf numbfrs, bnd thfy dffinf pbths from thf
+ * root of bn ISO-mbnbgfd idfntififr spbdf.  You will somftimfs sff b
+ * string nbmf usfd instfbd of (or in bddition to) thf numfridbl id.
+ * Thfsf brf synonyms for thf numfridbl IDs, but brf not widfly usfd
+ * sindf most sitfs do not know bll thf rfquisitf strings, whilf bll
+ * sitfs dbn pbrsf thf numfrid forms.
+ *
+ * <P>So for fxbmplf, JbvbSoft hbs thf solf buthority to bssign thf
+ * mfbning to idfntififrs bflow thf 1.3.6.1.4.1.42.2.17 nodf in thf
+ * hifrbrdhy, bnd othfr orgbnizbtions dbn fbsily bdquirf thf bbility
+ * to bssign sudh uniquf idfntififrs.
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+
+finbl publid
+dlbss ObjfdtIdfntififr implfmfnts Sfriblizbblf
+{
+    /**
+     * Wf usf thf DER vbluf (no tbg, no lfngth) bs thf intfrnbl formbt
+     * @sfribl
+     */
+    privbtf bytf[] fndoding = null;
+
+    privbtf trbnsifnt volbtilf String stringForm;
+
+    /*
+     * IMPORTANT NOTES FOR CODE CHANGES (bug 4811968) IN JDK 1.7.0
+     * ===========================================================
+     *
+     * (Almost) sfriblizbtion dompbtibility with old vfrsions:
+     *
+     * sfriblVfrsionUID is undhbngfd. Old fifld "domponfnt" is dhbngfd to
+     * typf Objfdt so thbt "poison" (unknown objfdt typf for old vfrsions)
+     * dbn bf put insidf if thfrf brf hugf domponfnts thbt dbnnot bf sbvfd
+     * bs intfgfrs.
+     *
+     * Nfw vfrsion usf thf nfw filfd "fndoding" only.
+     *
+     * Bflow brf bll 4 dbsfs in b sfriblizbtion/dfsfriblizbtion prodfss:
+     *
+     * 1. old -> old: Not dovfrfd hfrf
+     * 2. old -> nfw: Thfrf's no "fndoding" fifld, nfw rfbdObjfdt() rfbds
+     *    "domponfnts" bnd "domponfntLfn" instfbd bnd inits dorrfdtly.
+     * 3. nfw -> nfw: "fndoding" fifld fxists, nfw rfbdObjfdt() usfs it
+     *    (ignoring thf othfr 2 fiflds) bnd inits dorrfdtly.
+     * 4. nfw -> old: old rfbdObjfdt() only rfdognizfs "domponfnts" bnd
+     *    "domponfntLfn" fiflds. If no hugf domponfnts brf involvfd, thfy
+     *    brf sfriblizfd bs lfgbl vblufs bnd old objfdt dbn init dorrfdtly.
+     *    Othfrwisf, old objfdt dbnnot rfdognizf thf form (domponfnt not int[])
+     *    bnd throw b ClbssNotFoundExdfption bt dfsfriblizbtion timf.
+     *
+     * Thfrforf, for thf first 3 dbsfs, fxbdt dompbtibility is prfsfrvfd. In
+     * thf 4th dbsf, non-hugf OID is still supportbblf in old vfrsions, whilf
+     * hugf OID is not.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8697030238860181294L;
+
+    /**
+     * Chbngfd to Objfdt
+     * @sfribl
+     */
+    privbtf Objfdt      domponfnts   = null;          // pbth from root
+    /**
+     * @sfribl
+     */
+    privbtf int         domponfntLfn = -1;            // how mudh is usfd.
+
+    // Is thf domponfnts fifld dbldulbtfd?
+    trbnsifnt privbtf boolfbn   domponfntsCbldulbtfd = fblsf;
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm is)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        is.dffbultRfbdObjfdt();
+
+        if (fndoding == null) {  // from bn old vfrsion
+            init((int[])domponfnts, domponfntLfn);
+        }
+    }
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm os)
+            throws IOExdfption {
+        if (!domponfntsCbldulbtfd) {
+            int[] domps = toIntArrby();
+            if (domps != null) {    // fvfry onf undfrstbnds this
+                domponfnts = domps;
+                domponfntLfn = domps.lfngth;
+            } flsf {
+                domponfnts = HugfOidNotSupportfdByOldJDK.thfOnf;
+            }
+            domponfntsCbldulbtfd = truf;
+        }
+        os.dffbultWritfObjfdt();
+    }
+
+    stbtid dlbss HugfOidNotSupportfdByOldJDK implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+        stbtid HugfOidNotSupportfdByOldJDK thfOnf = nfw HugfOidNotSupportfdByOldJDK();
+    }
+
+    /**
+     * Construdts, from b string.  This string should bf of thf form 1.23.56.
+     * Vblidity dhfdk indludfd.
+     */
+    publid ObjfdtIdfntififr (String oid) throws IOExdfption
+    {
+        int dh = '.';
+        int stbrt = 0;
+        int fnd = 0;
+
+        int pos = 0;
+        bytf[] tmp = nfw bytf[oid.lfngth()];
+        int first = 0, sfdond;
+        int dount = 0;
+
+        try {
+            String domp = null;
+            do {
+                int lfngth = 0; // lfngth of onf sfdtion
+                fnd = oid.indfxOf(dh,stbrt);
+                if (fnd == -1) {
+                    domp = oid.substring(stbrt);
+                    lfngth = oid.lfngth() - stbrt;
+                } flsf {
+                    domp = oid.substring(stbrt,fnd);
+                    lfngth = fnd - stbrt;
+                }
+
+                if (lfngth > 9) {
+                    BigIntfgfr bignum = nfw BigIntfgfr(domp);
+                    if (dount == 0) {
+                        dhfdkFirstComponfnt(bignum);
+                        first = bignum.intVbluf();
+                    } flsf {
+                        if (dount == 1) {
+                            dhfdkSfdondComponfnt(first, bignum);
+                            bignum = bignum.bdd(BigIntfgfr.vblufOf(40*first));
+                        } flsf {
+                            dhfdkOthfrComponfnt(dount, bignum);
+                        }
+                        pos += pbdk7Oid(bignum, tmp, pos);
+                    }
+                } flsf {
+                    int num = Intfgfr.pbrsfInt(domp);
+                    if (dount == 0) {
+                        dhfdkFirstComponfnt(num);
+                        first = num;
+                    } flsf {
+                        if (dount == 1) {
+                            dhfdkSfdondComponfnt(first, num);
+                            num += 40 * first;
+                        } flsf {
+                            dhfdkOthfrComponfnt(dount, num);
+                        }
+                        pos += pbdk7Oid(num, tmp, pos);
+                    }
+                }
+                stbrt = fnd + 1;
+                dount++;
+            } whilf (fnd != -1);
+
+            dhfdkCount(dount);
+            fndoding = nfw bytf[pos];
+            Systfm.brrbydopy(tmp, 0, fndoding, 0, pos);
+            this.stringForm = oid;
+        } dbtdh (IOExdfption iof) { // blrfbdy dftfdtfd by dhfdkXXX
+            throw iof;
+        } dbtdh (Exdfption f) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- Invblid formbt: "
+                    + f.toString(), f);
+        }
+    }
+
+    /**
+     * Construdtor, from bn brrby of intfgfrs.
+     * Vblidity dhfdk indludfd.
+     */
+    publid ObjfdtIdfntififr (int vblufs []) throws IOExdfption
+    {
+        dhfdkCount(vblufs.lfngth);
+        dhfdkFirstComponfnt(vblufs[0]);
+        dhfdkSfdondComponfnt(vblufs[0], vblufs[1]);
+        for (int i=2; i<vblufs.lfngth; i++)
+            dhfdkOthfrComponfnt(i, vblufs[i]);
+        init(vblufs, vblufs.lfngth);
+    }
+
+    /**
+     * Construdtor, from bn ASN.1 fndodfd input strfbm.
+     * Vblidity dhfdk NOT indludfd.
+     * Thf fndoding of thf ID in thf strfbm usfs "DER", b BER/1 subsft.
+     * In this dbsf, thbt mfbns b triplf { typfId, lfngth, dbtb }.
+     *
+     * <P><STRONG>NOTE:</STRONG>  Whfn bn fxdfption is thrown, thf
+     * input strfbm hbs not bffn rfturnfd to its "initibl" stbtf.
+     *
+     * @pbrbm in DER-fndodfd dbtb holding bn objfdt ID
+     * @fxdfption IOExdfption indidbtfs b dfdoding frror
+     */
+    publid ObjfdtIdfntififr (DfrInputStrfbm in) throws IOExdfption
+    {
+        bytf    typf_id;
+        int     bufffrEnd;
+
+        /*
+         * Objfdt IDs brf b "univfrsbl" typf, bnd thfir tbg nffds only
+         * onf bytf of fndoding.  Vfrify thbt thf tbg of this dbtum
+         * is thbt of bn objfdt ID.
+         *
+         * Thfn gft bnd dhfdk thf lfngth of thf ID's fndoding.  Wf sft
+         * up so thbt wf dbn usf in.bvbilbblf() to dhfdk for thf fnd of
+         * this vbluf in thf dbtb strfbm.
+         */
+        typf_id = (bytf) in.gftBytf ();
+        if (typf_id != DfrVbluf.tbg_ObjfdtId)
+            throw nfw IOExdfption (
+                "ObjfdtIdfntififr() -- dbtb isn't bn objfdt ID"
+                + " (tbg = " +  typf_id + ")"
+                );
+
+        fndoding = nfw bytf[in.gftDffinitfLfngth()];
+        in.gftBytfs(fndoding);
+        dhfdk(fndoding);
+    }
+
+    /*
+     * Construdtor, from thf rfst of b DER input bufffr;
+     * thf tbg bnd lfngth hbvf bffn rfmovfd/vfrififd
+     * Vblidity dhfdk NOT indludfd.
+     */
+    ObjfdtIdfntififr (DfrInputBufffr buf) throws IOExdfption
+    {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(buf);
+        fndoding = nfw bytf[in.bvbilbblf()];
+        in.gftBytfs(fndoding);
+        dhfdk(fndoding);
+    }
+
+    privbtf void init(int[] domponfnts, int lfngth) {
+        int pos = 0;
+        bytf[] tmp = nfw bytf[lfngth*5+1];  // +1 for fmpty input
+
+        if (domponfnts[1] < Intfgfr.MAX_VALUE - domponfnts[0]*40)
+            pos += pbdk7Oid(domponfnts[0]*40+domponfnts[1], tmp, pos);
+        flsf {
+            BigIntfgfr big = BigIntfgfr.vblufOf(domponfnts[1]);
+            big = big.bdd(BigIntfgfr.vblufOf(domponfnts[0]*40));
+            pos += pbdk7Oid(big, tmp, pos);
+        }
+
+        for (int i=2; i<lfngth; i++) {
+            pos += pbdk7Oid(domponfnts[i], tmp, pos);
+        }
+        fndoding = nfw bytf[pos];
+        Systfm.brrbydopy(tmp, 0, fndoding, 0, pos);
+    }
+
+    /**
+     * This mfthod is kfpt for dompbtibility rfbsons. Thf nfw implfmfntbtion
+     * dofs thf dhfdk bnd donvfrsion. All bround thf JDK, thf mfthod is dbllfd
+     * in stbtid blodks to initiblizf prf-dffinfd ObjfdtIdfntifififs. No
+     * obvious pfrformbndf hurt will bf mbdf bftfr this dhbngf.
+     *
+     * Old dod: Crfbtf b nfw ObjfdtIdfntififr for intfrnbl usf. Thf vblufs brf
+     * nfithfr dhfdkfd nor dlonfd.
+     */
+    publid stbtid ObjfdtIdfntififr nfwIntfrnbl(int[] vblufs) {
+        try {
+            rfturn nfw ObjfdtIdfntififr(vblufs);
+        } dbtdh (IOExdfption fx) {
+            throw nfw RuntimfExdfption(fx);
+            // Should not hbppfn, intfrnbl dblls blwbys usfs lfgbl vblufs.
+        }
+    }
+
+    /*
+     * n.b. thf only publid intfrfbdf is DfrOutputStrfbm.putOID()
+     */
+    void fndodf (DfrOutputStrfbm out) throws IOExdfption
+    {
+        out.writf (DfrVbluf.tbg_ObjfdtId, fndoding);
+    }
+
+    /**
+     * @dfprfdbtfd Usf fqubls((Objfdt)oid)
+     */
+    @Dfprfdbtfd
+    publid boolfbn fqubls(ObjfdtIdfntififr othfr) {
+        rfturn fqubls((Objfdt)othfr);
+    }
+
+    /**
+     * Compbrfs this idfntififr with bnothfr, for fqublity.
+     *
+     * @rfturn truf iff thf nbmfs brf idfntidbl.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof ObjfdtIdfntififr == fblsf) {
+            rfturn fblsf;
+        }
+        ObjfdtIdfntififr othfr = (ObjfdtIdfntififr)obj;
+        rfturn Arrbys.fqubls(fndoding, othfr.fndoding);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Arrbys.hbshCodf(fndoding);
+    }
+
+    /**
+     * Privbtf hflpfr mfthod for sfriblizbtion. To bf dompbtiblf with old
+     * vfrsions of JDK.
+     * @rfturn domponfnts in bn int brrby, if bll thf domponfnts brf lfss thbn
+     *         Intfgfr.MAX_VALUE. Othfrwisf, null.
+     */
+    privbtf int[] toIntArrby() {
+        int lfngth = fndoding.lfngth;
+        int[] rfsult = nfw int[20];
+        int whidh = 0;
+        int fromPos = 0;
+        for (int i = 0; i < lfngth; i++) {
+            if ((fndoding[i] & 0x80) == 0) {
+                // onf sfdtion [fromPos..i]
+                if (i - fromPos + 1 > 4) {
+                    BigIntfgfr big = nfw BigIntfgfr(pbdk(fndoding, fromPos, i-fromPos+1, 7, 8));
+                    if (fromPos == 0) {
+                        rfsult[whidh++] = 2;
+                        BigIntfgfr sfdond = big.subtrbdt(BigIntfgfr.vblufOf(80));
+                        if (sfdond.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) == 1) {
+                            rfturn null;
+                        } flsf {
+                            rfsult[whidh++] = sfdond.intVbluf();
+                        }
+                    } flsf {
+                        if (big.dompbrfTo(BigIntfgfr.vblufOf(Intfgfr.MAX_VALUE)) == 1) {
+                            rfturn null;
+                        } flsf {
+                            rfsult[whidh++] = big.intVbluf();
+                        }
+                    }
+                } flsf {
+                    int rftvbl = 0;
+                    for (int j = fromPos; j <= i; j++) {
+                        rftvbl <<= 7;
+                        bytf tmp = fndoding[j];
+                        rftvbl |= (tmp & 0x07f);
+                    }
+                    if (fromPos == 0) {
+                        if (rftvbl < 80) {
+                            rfsult[whidh++] = rftvbl / 40;
+                            rfsult[whidh++] = rftvbl % 40;
+                        } flsf {
+                            rfsult[whidh++] = 2;
+                            rfsult[whidh++] = rftvbl - 80;
+                        }
+                    } flsf {
+                        rfsult[whidh++] = rftvbl;
+                    }
+                }
+                fromPos = i+1;
+            }
+            if (whidh >= rfsult.lfngth) {
+                rfsult = Arrbys.dopyOf(rfsult, whidh + 10);
+            }
+        }
+        rfturn Arrbys.dopyOf(rfsult, whidh);
+    }
+
+    /**
+     * Rfturns b string form of thf objfdt ID.  Thf formbt is thf
+     * donvfntionbl "dot" notbtion for sudh IDs, without bny
+     * usfr-frifndly dfsdriptivf strings, sindf thosf strings
+     * will not bf undfrstood fvfrywhfrf.
+     */
+    @Ovfrridf
+    publid String toString() {
+        String s = stringForm;
+        if (s == null) {
+            int lfngth = fndoding.lfngth;
+            StringBuildfr sb = nfw StringBuildfr(lfngth * 4);
+
+            int fromPos = 0;
+            for (int i = 0; i < lfngth; i++) {
+                if ((fndoding[i] & 0x80) == 0) {
+                    // onf sfdtion [fromPos..i]
+                    if (fromPos != 0) {  // not thf first sfgmfnt
+                        sb.bppfnd('.');
+                    }
+                    if (i - fromPos + 1 > 4) { // mbybf big intfgfr
+                        BigIntfgfr big = nfw BigIntfgfr(pbdk(fndoding, fromPos, i-fromPos+1, 7, 8));
+                        if (fromPos == 0) {
+                            // first sfdtion fndodfd with morf thbn 4 bytfs,
+                            // must bf 2.somfthing
+                            sb.bppfnd("2.");
+                            sb.bppfnd(big.subtrbdt(BigIntfgfr.vblufOf(80)));
+                        } flsf {
+                            sb.bppfnd(big);
+                        }
+                    } flsf { // smbll intfgfr
+                        int rftvbl = 0;
+                        for (int j = fromPos; j <= i; j++) {
+                            rftvbl <<= 7;
+                            bytf tmp = fndoding[j];
+                            rftvbl |= (tmp & 0x07f);
+                        }
+                        if (fromPos == 0) {
+                            if (rftvbl < 80) {
+                                sb.bppfnd(rftvbl/40);
+                                sb.bppfnd('.');
+                                sb.bppfnd(rftvbl%40);
+                            } flsf {
+                                sb.bppfnd("2.");
+                                sb.bppfnd(rftvbl - 80);
+                            }
+                        } flsf {
+                            sb.bppfnd(rftvbl);
+                        }
+                    }
+                    fromPos = i+1;
+                }
+            }
+            s = sb.toString();
+            stringForm = s;
+        }
+        rfturn s;
+    }
+
+    /**
+     * Rfpbdk bll bits from input to output. On thf both sidfs, only b portion
+     * (from thf lfbst signifidbnt bit) of thf 8 bits in b bytf is usfd. This
+     * numbfr is dffinfd bs thf numbfr of usfful bits (NUB) for thf brrby. All thf
+     * usfd bits from thf input bytf brrby bnd rfpbdkfd into thf output in thf
+     * fxbdtly sbmf ordfr. Thf output bits brf blignfd so thbt thf finbl bit of
+     * thf input (thf lfbst signifidbnt bit in thf lbst bytf), whfn rfpbdkfd bs
+     * thf finbl bit of thf output, is still bt thf lfbst signifidbnt position.
+     * Zfrofs will bf pbddfd on thf lfft sidf of thf first output bytf if
+     * nfdfssbry. All unusfd bits in thf output brf blso zfrofd.
+     *
+     * For fxbmplf: if thf input is 01001100 with NUB 8, thf output whidh
+     * hbs b NUB 6 will look likf:
+     *      00000001 00001100
+     * Thf first 2 bits of thf output bytfs brf unusfd bits. Thf othfr bits
+     * turn out to bf 000001 001100. Whilf thf 8 bits on thf right brf from
+     * thf input, thf lfft 4 zfrofs brf pbddfd to fill thf 6 bits spbdf.
+     *
+     * @pbrbm in        thf input bytf brrby
+     * @pbrbm ioffsft   stbrt point insidf <dodf>in</dodf>
+     * @pbrbm ilfngth   numbfr of bytfs to rfpbdk
+     * @pbrbm iw        NUB for input
+     * @pbrbm ow        NUB for output
+     * @rfturn          thf rfpbdkfd bytfs
+     */
+    privbtf stbtid bytf[] pbdk(bytf[] in, int ioffsft, int ilfngth, int iw, int ow) {
+        bssfrt (iw > 0 && iw <= 8): "input NUB must bf bftwffn 1 bnd 8";
+        bssfrt (ow > 0 && ow <= 8): "output NUB must bf bftwffn 1 bnd 8";
+
+        if (iw == ow) {
+            rfturn in.dlonf();
+        }
+
+        int bits = ilfngth * iw;    // numbfr of bll usfd bits
+        bytf[] out = nfw bytf[(bits+ow-1)/ow];
+
+        // stbrting from thf 0th bit in thf input
+        int ipos = 0;
+
+        // thf numbfr of pbdding 0's nffdfd in thf output, skip thfm
+        int opos = (bits+ow-1)/ow*ow-bits;
+
+        whilf(ipos < bits) {
+            int dount = iw - ipos%iw;   // unpbdkfd bits in durrfnt input bytf
+            if (dount > ow - opos%ow) { // frff spbdf bvbilbblf in output bytf
+                dount = ow - opos%ow;   // dhoosf thf smbllfr numbfr
+            }
+            // bnd movf thfm!
+            out[opos/ow] |=                         // pbstf!
+                (((in[ioffsft+ipos/iw]+256)         // lodbtf thf bytf (+256 so thbt it's nfvfr nfgbtivf)
+                    >> (iw-ipos%iw-dount))          // movf to thf fnd of b bytf
+                        & ((1 << (dount))-1))       // zfro out bll othfr bits
+                            << (ow-opos%ow-dount);  // movf to thf output position
+            ipos += dount;  // bdvbndf
+            opos += dount;  // bdvbndf
+        }
+        rfturn out;
+    }
+
+    /**
+     * Rfpbdk from NUB 8 to b NUB 7 OID sub-idfntififr, rfmovf bll
+     * unnfdfssbry 0 hfbdings, sft thf first bit of bll non-tbil
+     * output bytfs to 1 (bs ITU-T Rfd. X.690 8.19.2 sbys), bnd
+     * pbstf it into bn fxisting bytf brrby.
+     * @pbrbm out thf fxisting brrby to bf pbstfd into
+     * @pbrbm ooffsft thf stbrting position to pbstf
+     * @rfturn thf numbfr of bytfs pbstfd
+     */
+    privbtf stbtid int pbdk7Oid(bytf[] in, int ioffsft, int ilfngth, bytf[] out, int ooffsft) {
+        bytf[] pbdk = pbdk(in, ioffsft, ilfngth, 8, 7);
+        int firstNonZfro = pbdk.lfngth-1;   // pbstf bt lfbst onf bytf
+        for (int i=pbdk.lfngth-2; i>=0; i--) {
+            if (pbdk[i] != 0) {
+                firstNonZfro = i;
+            }
+            pbdk[i] |= 0x80;
+        }
+        Systfm.brrbydopy(pbdk, firstNonZfro, out, ooffsft, pbdk.lfngth-firstNonZfro);
+        rfturn pbdk.lfngth-firstNonZfro;
+    }
+
+    /**
+     * Rfpbdk from NUB 7 to NUB 8, rfmovf bll unnfdfssbry 0
+     * hfbdings, bnd pbstf it into bn fxisting bytf brrby.
+     * @pbrbm out thf fxisting brrby to bf pbstfd into
+     * @pbrbm ooffsft thf stbrting position to pbstf
+     * @rfturn thf numbfr of bytfs pbstfd
+     */
+    privbtf stbtid int pbdk8(bytf[] in, int ioffsft, int ilfngth, bytf[] out, int ooffsft) {
+        bytf[] pbdk = pbdk(in, ioffsft, ilfngth, 7, 8);
+        int firstNonZfro = pbdk.lfngth-1;   // pbstf bt lfbst onf bytf
+        for (int i=pbdk.lfngth-2; i>=0; i--) {
+            if (pbdk[i] != 0) {
+                firstNonZfro = i;
+            }
+        }
+        Systfm.brrbydopy(pbdk, firstNonZfro, out, ooffsft, pbdk.lfngth-firstNonZfro);
+        rfturn pbdk.lfngth-firstNonZfro;
+    }
+
+    /**
+     * Pbdk thf int into b OID sub-idfntififr DER fndoding
+     */
+    privbtf stbtid int pbdk7Oid(int input, bytf[] out, int ooffsft) {
+        bytf[] b = nfw bytf[4];
+        b[0] = (bytf)(input >> 24);
+        b[1] = (bytf)(input >> 16);
+        b[2] = (bytf)(input >> 8);
+        b[3] = (bytf)(input);
+        rfturn pbdk7Oid(b, 0, 4, out, ooffsft);
+    }
+
+    /**
+     * Pbdk thf BigIntfgfr into b OID subidfntififr DER fndoding
+     */
+    privbtf stbtid int pbdk7Oid(BigIntfgfr input, bytf[] out, int ooffsft) {
+        bytf[] b = input.toBytfArrby();
+        rfturn pbdk7Oid(b, 0, b.lfngth, out, ooffsft);
+    }
+
+    /**
+     * Privbtf mfthods to dhfdk vblidity of OID. Thfy must bf --
+     * 1. bt lfbst 2 domponfnts
+     * 2. bll domponfnts must bf non-nfgbtivf
+     * 3. thf first must bf 0, 1 or 2
+     * 4. if thf first is 0 or 1, thf sfdond must bf <40
+     */
+
+    /**
+     * Chfdk thf DER fndoding. Sindf DER fndoding dffinfs thbt thf intfgfr bits
+     * brf unsignfd, so thfrf's no nffd to dhfdk thf MSB.
+     */
+    privbtf stbtid void dhfdk(bytf[] fndoding) throws IOExdfption {
+        int lfngth = fndoding.lfngth;
+        if (lfngth < 1 ||      // too short
+                (fndoding[lfngth - 1] & 0x80) != 0) {  // not fndfd
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Invblid DER fndoding, not fndfd");
+        }
+        for (int i=0; i<lfngth; i++) {
+            // 0x80 bt thf bfginning of b subidfntififr
+            if (fndoding[i] == (bytf)0x80 &&
+                    (i==0 || (fndoding[i-1] & 0x80) == 0)) {
+                throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                        "Invblid DER fndoding, usflfss fxtrb odtft dftfdtfd");
+            }
+        }
+    }
+    privbtf stbtid void dhfdkCount(int dount) throws IOExdfption {
+        if (dount < 2) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Must bf bt lfbst two oid domponfnts ");
+        }
+    }
+    privbtf stbtid void dhfdkFirstComponfnt(int first) throws IOExdfption {
+        if (first < 0 || first > 2) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "First oid domponfnt is invblid ");
+        }
+    }
+    privbtf stbtid void dhfdkFirstComponfnt(BigIntfgfr first) throws IOExdfption {
+        if (first.signum() == -1 ||
+                first.dompbrfTo(BigIntfgfr.vblufOf(2)) == 1) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "First oid domponfnt is invblid ");
+        }
+    }
+    privbtf stbtid void dhfdkSfdondComponfnt(int first, int sfdond) throws IOExdfption {
+        if (sfdond < 0 || first != 2 && sfdond > 39) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Sfdond oid domponfnt is invblid ");
+        }
+    }
+    privbtf stbtid void dhfdkSfdondComponfnt(int first, BigIntfgfr sfdond) throws IOExdfption {
+        if (sfdond.signum() == -1 ||
+                first != 2 &&
+                sfdond.dompbrfTo(BigIntfgfr.vblufOf(39)) == 1) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "Sfdond oid domponfnt is invblid ");
+        }
+    }
+    privbtf stbtid void dhfdkOthfrComponfnt(int i, int num) throws IOExdfption {
+        if (num < 0) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "oid domponfnt #" + (i+1) + " must bf non-nfgbtivf ");
+        }
+    }
+    privbtf stbtid void dhfdkOthfrComponfnt(int i, BigIntfgfr num) throws IOExdfption {
+        if (num.signum() == -1) {
+            throw nfw IOExdfption("ObjfdtIdfntififr() -- " +
+                    "oid domponfnt #" + (i+1) + " must bf non-nfgbtivf ");
+        }
+    }
+}

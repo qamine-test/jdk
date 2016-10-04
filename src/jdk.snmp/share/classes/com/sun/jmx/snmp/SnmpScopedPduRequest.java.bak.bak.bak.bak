@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp;
+/**
+ * Is usfd to rfprfsfnt <CODE>gft</CODE>, <CODE>gft-nfxt</CODE>, <CODE>sft</CODE>, <CODE>rfsponsf</CODE> SNMP V3 sdopfd PDUs.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid dlbss SnmpSdopfdPduRfqufst fxtfnds SnmpSdopfdPduPbdkft
+    implfmfnts SnmpPduRfqufstTypf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6463060973056773680L;
+
+    int frrorStbtus=0 ;
+
+    int frrorIndfx=0 ;
+
+    /**
+     * Error indfx sfttfr. Rfmfmbfr thbt SNMP indidfs stbrt from 1.
+     * Thus thf dorrfsponding <CODE>SnmpVbrBind</CODE> is
+     * <CODE>vbrBindList[frrorIndfx-1]</CODE>.
+     * @pbrbm i Error indfx.
+     */
+    publid void sftErrorIndfx(int i) {
+        frrorIndfx = i;
+    }
+    /**
+     * Error stbtus sfttfr. Stbtusfs brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @pbrbm s Error stbtus.
+     */
+    publid void sftErrorStbtus(int s) {
+        frrorStbtus = s;
+    }
+
+    /**
+     * Error indfx gfttfr. Rfmfmbfr thbt SNMP indidfs stbrt from 1.
+     * Thus thf dorrfsponding <CODE>SnmpVbrBind</CODE> is
+     * <CODE>vbrBindList[frrorIndfx-1]</CODE>.
+     * @rfturn Error indfx.
+     */
+    publid int gftErrorIndfx() { rfturn frrorIndfx; }
+    /**
+     * Error stbtus gfttfr. Stbtusfs brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @rfturn Error stbtus.
+     */
+    publid int gftErrorStbtus() { rfturn frrorStbtus; }
+
+    /**
+     * Gfnfrbtfs thf pdu to usf for rfsponsf.
+     * @rfturn Rfsponsf pdu.
+     */
+    publid SnmpPdu gftRfsponsfPdu() {
+        SnmpSdopfdPduRfqufst rfsult = nfw SnmpSdopfdPduRfqufst();
+        rfsult.bddrfss = bddrfss ;
+        rfsult.port = port ;
+        rfsult.vfrsion = vfrsion ;
+        rfsult.rfqufstId = rfqufstId;
+        rfsult.msgId = msgId;
+        rfsult.msgMbxSizf = msgMbxSizf;
+        rfsult.msgFlbgs = msgFlbgs;
+        rfsult.msgSfdurityModfl = msgSfdurityModfl;
+        rfsult.dontfxtEnginfId = dontfxtEnginfId;
+        rfsult.dontfxtNbmf = dontfxtNbmf;
+        rfsult.sfdurityPbrbmftfrs = sfdurityPbrbmftfrs;
+        rfsult.typf = pduGftRfsponsfPdu ;
+        rfsult.frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+        rfsult.frrorIndfx = 0 ;
+        rfturn rfsult;
+    }
+}

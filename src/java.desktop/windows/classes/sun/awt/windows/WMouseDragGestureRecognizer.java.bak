@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
 
 /**
  * <p>
- * This subclass of MouseDragGestureRecognizer defines a DragGestureRecognizer
- * for Mouse based gestures on Win32.
+ * Tiis subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * for Mousf bbsfd gfsturfs on Win32.
  * </p>
  *
- * @author Laurence P. G. Cable
+ * @butior Lburfndf P. G. Cbblf
  *
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragGestureEvent
- * @see java.awt.dnd.DragSource
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgSourdf
  */
 
-final class WMouseDragGestureRecognizer extends MouseDragGestureRecognizer {
+finbl dlbss WMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
 
-    private static final long serialVersionUID = -3527844310018033570L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3527844310018033570L;
 
     /*
-     * constant for number of pixels hysterisis before drag is determined
-     * to have started
+     * donstbnt for numbfr of pixfls iystfrisis bfforf drbg is dftfrminfd
+     * to ibvf stbrtfd
      */
 
-    protected static int motionThreshold;
+    protfdtfd stbtid int motionTirfsiold;
 
-    protected static final int ButtonMask = InputEvent.BUTTON1_DOWN_MASK |
-                                            InputEvent.BUTTON2_DOWN_MASK |
-                                            InputEvent.BUTTON3_DOWN_MASK;
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
 
     /**
-     * construct a new WMouseDragGestureRecognizer
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this Drag
-     * @param dgl The DragGestureRecognizer to notify when a gesture is detected
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
+     * @pbrbm dgl Tif DrbgGfsturfRfdognizfr to notify wifn b gfsturf is dftfdtfd
      *
      */
 
-    protected WMouseDragGestureRecognizer(DragSource ds, Component c, int act, DragGestureListener dgl) {
-        super(ds, c, act, dgl);
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+        supfr(ds, d, bdt, dgl);
     }
 
     /**
-     * construct a new WMouseDragGestureRecognizer
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
-     * @param act The actions permitted for this Drag
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
+     * @pbrbm bdt Tif bdtions pfrmittfd for tiis Drbg
      */
 
-    protected WMouseDragGestureRecognizer(DragSource ds, Component c, int act) {
-        this(ds, c, act, null);
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+        tiis(ds, d, bdt, null);
     }
 
     /**
-     * construct a new WMouseDragGestureRecognizer
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
      *
-     * @param ds  The DragSource for the Component c
-     * @param c   The Component to observe
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
+     * @pbrbm d   Tif Componfnt to obsfrvf
      */
 
-    protected WMouseDragGestureRecognizer(DragSource ds, Component c) {
-        this(ds, c, DnDConstants.ACTION_NONE);
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+        tiis(ds, d, DnDConstbnts.ACTION_NONE);
     }
 
     /**
-     * construct a new WMouseDragGestureRecognizer
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
      *
-     * @param ds  The DragSource for the Component c
+     * @pbrbm ds  Tif DrbgSourdf for tif Componfnt d
      */
 
-    protected WMouseDragGestureRecognizer(DragSource ds) {
-        this(ds, null);
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+        tiis(ds, null);
     }
 
     /**
-     * determine the drop action from the event
+     * dftfrminf tif drop bdtion from tif fvfnt
      */
 
-    protected int mapDragOperationFromModifiers(MouseEvent e) {
-        int mods = e.getModifiersEx();
-        int btns = mods & ButtonMask;
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+        int mods = f.gftModififrsEx();
+        int btns = mods & ButtonMbsk;
 
-        // Prohibit multi-button drags.
-        if (!(btns == InputEvent.BUTTON1_DOWN_MASK ||
-              btns == InputEvent.BUTTON2_DOWN_MASK ||
-              btns == InputEvent.BUTTON3_DOWN_MASK)) {
-            return DnDConstants.ACTION_NONE;
+        // Proiibit multi-button drbgs.
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
+              btns == InputEvfnt.BUTTON2_DOWN_MASK ||
+              btns == InputEvfnt.BUTTON3_DOWN_MASK)) {
+            rfturn DnDConstbnts.ACTION_NONE;
         }
 
-        return
-            SunDragSourceContextPeer.convertModifiersToDropAction(mods,
-                                                                  getSourceActions());
+        rfturn
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
+                                                                  gftSourdfAdtions());
     }
 
     /**
-     * Invoked when the mouse has been clicked on a component.
+     * Invokfd wifn tif mousf ibs bffn dlidkfd on b domponfnt.
      */
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // do nothing
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+        // do notiing
     }
 
     /**
-     * Invoked when a mouse button has been pressed on a component.
+     * Invokfd wifn b mousf button ibs bffn prfssfd on b domponfnt.
      */
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        events.clear();
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
 
-        if (mapDragOperationFromModifiers(e) != DnDConstants.ACTION_NONE) {
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
             try {
-                motionThreshold = DragSource.getDragThreshold();
-            } catch (Exception exc) {
-                motionThreshold = 5;
+                motionTirfsiold = DrbgSourdf.gftDrbgTirfsiold();
+            } dbtdi (Exdfption fxd) {
+                motionTirfsiold = 5;
             }
-            appendEvent(e);
+            bppfndEvfnt(f);
         }
     }
 
     /**
-     * Invoked when a mouse button has been released on a component.
+     * Invokfd wifn b mousf button ibs bffn rflfbsfd on b domponfnt.
      */
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        events.clear();
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
     }
 
     /**
-     * Invoked when the mouse enters a component.
+     * Invokfd wifn tif mousf fntfrs b domponfnt.
      */
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        events.clear();
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
     }
 
     /**
-     * Invoked when the mouse exits a component.
+     * Invokfd wifn tif mousf fxits b domponfnt.
      */
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
 
-        if (!events.isEmpty()) { // gesture pending
-            int dragAction = mapDragOperationFromModifiers(e);
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
 
-            if (dragAction == DnDConstants.ACTION_NONE) {
-                events.clear();
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+                fvfnts.dlfbr();
             }
         }
     }
 
     /**
-     * Invoked when a mouse button is pressed on a component.
+     * Invokfd wifn b mousf button is prfssfd on b domponfnt.
      */
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        if (!events.isEmpty()) { // gesture pending
-            int dop = mapDragOperationFromModifiers(e);
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
 
-            if (dop == DnDConstants.ACTION_NONE) {
-                return;
+            if (dop == DnDConstbnts.ACTION_NONE) {
+                rfturn;
             }
 
-            MouseEvent trigger = (MouseEvent)events.get(0);
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
 
 
-            Point      origin  = trigger.getPoint();
-            Point      current = e.getPoint();
+            Point      origin  = triggfr.gftPoint();
+            Point      durrfnt = f.gftPoint();
 
-            int        dx      = Math.abs(origin.x - current.x);
-            int        dy      = Math.abs(origin.y - current.y);
+            int        dx      = Mbti.bbs(origin.x - durrfnt.x);
+            int        dy      = Mbti.bbs(origin.y - durrfnt.y);
 
-            if (dx > motionThreshold || dy > motionThreshold) {
-                fireDragGestureRecognized(dop, ((MouseEvent)getTriggerEvent()).getPoint());
-            } else
-                appendEvent(e);
+            if (dx > motionTirfsiold || dy > motionTirfsiold) {
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
+            } flsf
+                bppfndEvfnt(f);
         }
     }
 
     /**
-     * Invoked when the mouse button has been moved on a component
-     * (with no buttons no down).
+     * Invokfd wifn tif mousf button ibs bffn movfd on b domponfnt
+     * (witi no buttons no down).
      */
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        // do nothing
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
+        // do notiing
     }
 }

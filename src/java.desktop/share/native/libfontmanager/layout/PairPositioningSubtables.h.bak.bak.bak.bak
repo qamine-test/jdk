@@ -1,0 +1,113 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __PAIRPOSITIONINGSUBTABLES_H
+#dffinf __PAIRPOSITIONINGSUBTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "VblufRfdords.h"
+#indludf "GlyphItfrbtor.h"
+
+U_NAMESPACE_BEGIN
+
+// NOTE: VblufRfdord hbs b vbribblf sizf
+strudt PbirVblufRfdord
+{
+    TTGlyphID     sfdondGlyph;
+    VblufRfdord vblufRfdord1;
+//  VblufRfdord vblufRfdord2;
+};
+
+strudt PbirSftTbblf
+{
+    lf_uint16       pbirVblufCount;
+    PbirVblufRfdord pbirVblufRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(PbirSftTbblf, pbirVblufRfdordArrby)
+
+strudt PbirPositioningSubtbblf : GlyphPositioningSubtbblf
+{
+    VblufFormbt vblufFormbt1;
+    VblufFormbt vblufFormbt2;
+
+    lf_uint32  prodfss(donst LERfffrfndfTo<PbirPositioningSubtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
+};
+
+strudt PbirPositioningFormbt1Subtbblf : PbirPositioningSubtbblf
+{
+    lf_uint16   pbirSftCount;
+    Offsft      pbirSftTbblfOffsftArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LERfffrfndfTo<PbirPositioningFormbt1Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
+
+privbtf:
+    LERfffrfndfTo<PbirVblufRfdord> findPbirVblufRfdord(TTGlyphID glyphID, LERfffrfndfTo<PbirVblufRfdord> &rfdords,
+        lf_uint16 rfdordCount, lf_uint16 rfdordSizf, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(PbirPositioningFormbt1Subtbblf, pbirSftTbblfOffsftArrby)
+
+// NOTE: VblufRfdord hbs b vbribblf sizf
+strudt Clbss2Rfdord
+{
+    VblufRfdord vblufRfdord1;
+//  VblufRfdord vblurRfdord2;
+};
+
+strudt Clbss1Rfdord
+{
+    Clbss2Rfdord dlbss2RfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(Clbss1Rfdord, dlbss2RfdordArrby)
+
+strudt PbirPositioningFormbt2Subtbblf : PbirPositioningSubtbblf
+{
+    Offsft       dlbssDff1Offsft;
+    Offsft       dlbssDff2Offsft;
+    lf_uint16    dlbss1Count;
+    lf_uint16    dlbss2Count;
+    Clbss1Rfdord dlbss1RfdordArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(PbirPositioningFormbt2Subtbblf, dlbss1RfdordArrby)
+
+U_NAMESPACE_END
+#fndif
+
+

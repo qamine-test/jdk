@@ -1,124 +1,124 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * A service that decouples the production of new asynchronous tasks
- * from the consumption of the results of completed tasks.  Producers
- * {@code submit} tasks for execution. Consumers {@code take}
- * completed tasks and process their results in the order they
- * complete.  A {@code CompletionService} can for example be used to
- * manage asynchronous I/O, in which tasks that perform reads are
- * submitted in one part of a program or system, and then acted upon
- * in a different part of the program when the reads complete,
- * possibly in a different order than they were requested.
+ * A sfrvidf tibt dfdouplfs tif produdtion of nfw bsyndironous tbsks
+ * from tif donsumption of tif rfsults of domplftfd tbsks.  Produdfrs
+ * {@dodf submit} tbsks for fxfdution. Consumfrs {@dodf tbkf}
+ * domplftfd tbsks bnd prodfss tifir rfsults in tif ordfr tify
+ * domplftf.  A {@dodf ComplftionSfrvidf} dbn for fxbmplf bf usfd to
+ * mbnbgf bsyndironous I/O, in wiidi tbsks tibt pfrform rfbds brf
+ * submittfd in onf pbrt of b progrbm or systfm, bnd tifn bdtfd upon
+ * in b difffrfnt pbrt of tif progrbm wifn tif rfbds domplftf,
+ * possibly in b difffrfnt ordfr tibn tify wfrf rfqufstfd.
  *
- * <p>Typically, a {@code CompletionService} relies on a separate
- * {@link Executor} to actually execute the tasks, in which case the
- * {@code CompletionService} only manages an internal completion
- * queue. The {@link ExecutorCompletionService} class provides an
- * implementation of this approach.
+ * <p>Typidblly, b {@dodf ComplftionSfrvidf} rflifs on b sfpbrbtf
+ * {@link Exfdutor} to bdtublly fxfdutf tif tbsks, in wiidi dbsf tif
+ * {@dodf ComplftionSfrvidf} only mbnbgfs bn intfrnbl domplftion
+ * qufuf. Tif {@link ExfdutorComplftionSfrvidf} dlbss providfs bn
+ * implfmfntbtion of tiis bpprobdi.
  *
- * <p>Memory consistency effects: Actions in a thread prior to
- * submitting a task to a {@code CompletionService}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions taken by that task, which in turn <i>happen-before</i>
- * actions following a successful return from the corresponding {@code take()}.
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b tirfbd prior to
+ * submitting b tbsk to b {@dodf ComplftionSfrvidf}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions tbkfn by tibt tbsk, wiidi in turn <i>ibppfn-bfforf</i>
+ * bdtions following b suddfssful rfturn from tif dorrfsponding {@dodf tbkf()}.
  */
-public interface CompletionService<V> {
+publid intfrfbdf ComplftionSfrvidf<V> {
     /**
-     * Submits a value-returning task for execution and returns a Future
-     * representing the pending results of the task.  Upon completion,
-     * this task may be taken or polled.
+     * Submits b vbluf-rfturning tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting tif pfnding rfsults of tif tbsk.  Upon domplftion,
+     * tiis tbsk mby bf tbkfn or pollfd.
      *
-     * @param task the task to submit
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
-     *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk tif tbsk to submit
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of tif tbsk
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if tif tbsk is null
      */
-    Future<V> submit(Callable<V> task);
+    Futurf<V> submit(Cbllbblf<V> tbsk);
 
     /**
-     * Submits a Runnable task for execution and returns a Future
-     * representing that task.  Upon completion, this task may be
-     * taken or polled.
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting tibt tbsk.  Upon domplftion, tiis tbsk mby bf
+     * tbkfn or pollfd.
      *
-     * @param task the task to submit
-     * @param result the result to return upon successful completion
-     * @return a Future representing pending completion of the task,
-     *         and whose {@code get()} method will return the given
-     *         result value upon completion
-     * @throws RejectedExecutionException if the task cannot be
-     *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk tif tbsk to submit
+     * @pbrbm rfsult tif rfsult to rfturn upon suddfssful domplftion
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of tif tbsk,
+     *         bnd wiosf {@dodf gft()} mftiod will rfturn tif givfn
+     *         rfsult vbluf upon domplftion
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if tif tbsk is null
      */
-    Future<V> submit(Runnable task, V result);
+    Futurf<V> submit(Runnbblf tbsk, V rfsult);
 
     /**
-     * Retrieves and removes the Future representing the next
-     * completed task, waiting if none are yet present.
+     * Rftrifvfs bnd rfmovfs tif Futurf rfprfsfnting tif nfxt
+     * domplftfd tbsk, wbiting if nonf brf yft prfsfnt.
      *
-     * @return the Future representing the next completed task
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif Futurf rfprfsfnting tif nfxt domplftfd tbsk
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    Future<V> take() throws InterruptedException;
+    Futurf<V> tbkf() tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the Future representing the next
-     * completed task, or {@code null} if none are present.
+     * Rftrifvfs bnd rfmovfs tif Futurf rfprfsfnting tif nfxt
+     * domplftfd tbsk, or {@dodf null} if nonf brf prfsfnt.
      *
-     * @return the Future representing the next completed task, or
-     *         {@code null} if none are present
+     * @rfturn tif Futurf rfprfsfnting tif nfxt domplftfd tbsk, or
+     *         {@dodf null} if nonf brf prfsfnt
      */
-    Future<V> poll();
+    Futurf<V> poll();
 
     /**
-     * Retrieves and removes the Future representing the next
-     * completed task, waiting if necessary up to the specified wait
-     * time if none are yet present.
+     * Rftrifvfs bnd rfmovfs tif Futurf rfprfsfnting tif nfxt
+     * domplftfd tbsk, wbiting if nfdfssbry up to tif spfdififd wbit
+     * timf if nonf brf yft prfsfnt.
      *
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the Future representing the next completed task or
-     *         {@code null} if the specified waiting time elapses
-     *         before one is present
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif Futurf rfprfsfnting tif nfxt domplftfd tbsk or
+     *         {@dodf null} if tif spfdififd wbiting timf flbpsfs
+     *         bfforf onf is prfsfnt
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    Future<V> poll(long timeout, TimeUnit unit) throws InterruptedException;
+    Futurf<V> poll(long timfout, TimfUnit unit) tirows IntfrruptfdExdfption;
 }

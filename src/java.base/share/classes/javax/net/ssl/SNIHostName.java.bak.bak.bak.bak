@@ -1,0 +1,396 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.nft.IDN;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.rfgfx.Pbttfrn;
+
+/**
+ * Instbndfs of this dlbss rfprfsfnt b sfrvfr nbmf of typf
+ * {@link StbndbrdConstbnts#SNI_HOST_NAME host_nbmf} in b Sfrvfr Nbmf
+ * Indidbtion (SNI) fxtfnsion.
+ * <P>
+ * As dfsdribfd in sfdtion 3, "Sfrvfr Nbmf Indidbtion", of
+ * <A HREF="http://www.iftf.org/rfd/rfd6066.txt">TLS Extfnsions (RFC 6066)</A>,
+ * "HostNbmf" dontbins thf fully qublififd DNS hostnbmf of thf sfrvfr, bs
+ * undfrstood by thf dlifnt.  Thf fndodfd sfrvfr nbmf vbluf of b hostnbmf is
+ * rfprfsfntfd bs b bytf string using ASCII fndoding without b trbiling dot.
+ * This bllows thf support of Intfrnbtionblizfd Dombin Nbmfs (IDN) through
+ * thf usf of A-lbbfls (thf ASCII-Compbtiblf Endoding (ACE) form of b vblid
+ * string of Intfrnbtionblizfd Dombin Nbmfs for Applidbtions (IDNA)) dffinfd
+ * in <A HREF="http://www.iftf.org/rfd/rfd5890.txt">RFC 5890</A>.
+ * <P>
+ * Notf thbt {@dodf SNIHostNbmf} objfdts brf immutbblf.
+ *
+ * @sff SNISfrvfrNbmf
+ * @sff StbndbrdConstbnts#SNI_HOST_NAME
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss SNIHostNbmf fxtfnds SNISfrvfrNbmf {
+
+    // thf dfdodfd string vbluf of thf sfrvfr nbmf
+    privbtf finbl String hostnbmf;
+
+    /**
+     * Crfbtfs bn {@dodf SNIHostNbmf} using thf spfdififd hostnbmf.
+     * <P>
+     * Notf thbt pfr <A HREF="http://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * thf fndodfd sfrvfr nbmf vbluf of b hostnbmf is
+     * {@link StbndbrdChbrsfts#US_ASCII}-domplibnt.  In this mfthod,
+     * {@dodf hostnbmf} dbn bf b usfr-frifndly Intfrnbtionblizfd Dombin Nbmf
+     * (IDN).  {@link IDN#toASCII(String, int)} is usfd to fnfordf thf
+     * rfstridtions on ASCII dhbrbdtfrs in hostnbmfs (sff
+     * <A HREF="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</A>,
+     * <A HREF="http://www.iftf.org/rfd/rfd1122.txt">RFC 1122</A>,
+     * <A HREF="http://www.iftf.org/rfd/rfd1123.txt">RFC 1123</A>) bnd
+     * trbnslbtf thf {@dodf hostnbmf} into ASCII Compbtiblf Endoding (ACE), bs:
+     * <prf>
+     *     IDN.toASCII(hostnbmf, IDN.USE_STD3_ASCII_RULES);
+     * </prf>
+     * <P>
+     * Thf {@dodf hostnbmf} brgumfnt is illfgbl if it:
+     * <ul>
+     * <li> {@dodf hostnbmf} is fmpty,</li>
+     * <li> {@dodf hostnbmf} fnds with b trbiling dot,</li>
+     * <li> {@dodf hostnbmf} is not b vblid Intfrnbtionblizfd
+     *      Dombin Nbmf (IDN) domplibnt with thf RFC 3490 spfdifidbtion.</li>
+     * </ul>
+     * @pbrbm  hostnbmf
+     *         thf hostnbmf of this sfrvfr nbmf
+     *
+     * @throws NullPointfrExdfption if {@dodf hostnbmf} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if {@dodf hostnbmf} is illfgbl
+     */
+    publid SNIHostNbmf(String hostnbmf) {
+        // IllfgblArgumfntExdfption will bf thrown if {@dodf hostnbmf} is
+        // not b vblid IDN.
+        supfr(StbndbrdConstbnts.SNI_HOST_NAME,
+                (hostnbmf = IDN.toASCII(
+                    Objfdts.rfquirfNonNull(hostnbmf,
+                        "Sfrvfr nbmf vbluf of host_nbmf dbnnot bf null"),
+                    IDN.USE_STD3_ASCII_RULES))
+                .gftBytfs(StbndbrdChbrsfts.US_ASCII));
+
+        this.hostnbmf = hostnbmf;
+
+        // dhfdk thf vblidity of thf string hostnbmf
+        dhfdkHostNbmf();
+    }
+
+    /**
+     * Crfbtfs bn {@dodf SNIHostNbmf} using thf spfdififd fndodfd vbluf.
+     * <P>
+     * This mfthod is normblly usfd to pbrsf thf fndodfd nbmf vbluf in b
+     * rfqufstfd SNI fxtfnsion.
+     * <P>
+     * Pfr <A HREF="http://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * thf fndodfd nbmf vbluf of b hostnbmf is
+     * {@link StbndbrdChbrsfts#US_ASCII}-domplibnt.  Howfvfr, in thf prfvious
+     * vfrsion of thf SNI fxtfnsion (
+     * <A HREF="http://www.iftf.org/rfd/rfd4366.txt">RFC 4366</A>),
+     * thf fndodfd hostnbmf is rfprfsfntfd bs b bytf string using UTF-8
+     * fndoding.  For thf purposf of vfrsion tolfrbndf, this mfthod bllows
+     * thbt thf dhbrsft of {@dodf fndodfd} brgumfnt dbn bf
+     * {@link StbndbrdChbrsfts#UTF_8}, bs wfll bs
+     * {@link StbndbrdChbrsfts#US_ASCII}.  {@link IDN#toASCII(String)} is usfd
+     * to trbnslbtf thf {@dodf fndodfd} brgumfnt into ASCII Compbtiblf
+     * Endoding (ACE) hostnbmf.
+     * <P>
+     * It is strongly rfdommfndfd thbt this donstrudtor is only usfd to pbrsf
+     * thf fndodfd nbmf vbluf in b rfqufstfd SNI fxtfnsion.  Othfrwisf, to
+     * domply with <A HREF="http://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * plfbsf blwbys usf {@link StbndbrdChbrsfts#US_ASCII}-domplibnt dhbrsft
+     * bnd fnfordf thf rfstridtions on ASCII dhbrbdtfrs in hostnbmfs (sff
+     * <A HREF="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</A>,
+     * <A HREF="http://www.iftf.org/rfd/rfd1122.txt">RFC 1122</A>,
+     * <A HREF="http://www.iftf.org/rfd/rfd1123.txt">RFC 1123</A>)
+     * for {@dodf fndodfd} brgumfnt, or usf
+     * {@link SNIHostNbmf#SNIHostNbmf(String)} instfbd.
+     * <P>
+     * Thf {@dodf fndodfd} brgumfnt is illfgbl if it:
+     * <ul>
+     * <li> {@dodf fndodfd} is fmpty,</li>
+     * <li> {@dodf fndodfd} fnds with b trbiling dot,</li>
+     * <li> {@dodf fndodfd} is not fndodfd in
+     *      {@link StbndbrdChbrsfts#US_ASCII} or
+     *      {@link StbndbrdChbrsfts#UTF_8}-domplibnt dhbrsft,</li>
+     * <li> {@dodf fndodfd} is not b vblid Intfrnbtionblizfd
+     *      Dombin Nbmf (IDN) domplibnt with thf RFC 3490 spfdifidbtion.</li>
+     * </ul>
+     *
+     * <P>
+     * Notf thbt thf {@dodf fndodfd} bytf brrby is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
+     *
+     * @pbrbm  fndodfd
+     *         thf fndodfd hostnbmf of this sfrvfr nbmf
+     *
+     * @throws NullPointfrExdfption if {@dodf fndodfd} is {@dodf null}
+     * @throws IllfgblArgumfntExdfption if {@dodf fndodfd} is illfgbl
+     */
+    publid SNIHostNbmf(bytf[] fndodfd) {
+        // NullPointfrExdfption will bf thrown if {@dodf fndodfd} is null
+        supfr(StbndbrdConstbnts.SNI_HOST_NAME, fndodfd);
+
+        // Complibndf: RFC 4366 rfquirfs thbt thf hostnbmf is rfprfsfntfd
+        // bs b bytf string using UTF_8 fndoding [UTF8]
+        try {
+            // Plfbsf don't usf {@link String} donstrudtors bfdbusf thfy
+            // do not rfport doding frrors.
+            ChbrsftDfdodfr dfdodfr = StbndbrdChbrsfts.UTF_8.nfwDfdodfr()
+                    .onMblformfdInput(CodingErrorAdtion.REPORT)
+                    .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPORT);
+
+            this.hostnbmf = IDN.toASCII(
+                    dfdodfr.dfdodf(BytfBufffr.wrbp(fndodfd)).toString());
+        } dbtdh (RuntimfExdfption | ChbrbdtfrCodingExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(
+                        "Thf fndodfd sfrvfr nbmf vbluf is invblid", f);
+        }
+
+        // dhfdk thf vblidity of thf string hostnbmf
+        dhfdkHostNbmf();
+    }
+
+    /**
+     * Rfturns thf {@link StbndbrdChbrsfts#US_ASCII}-domplibnt hostnbmf of
+     * this {@dodf SNIHostNbmf} objfdt.
+     * <P>
+     * Notf thbt, pfr
+     * <A HREF="http://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>, thf
+     * rfturnfd hostnbmf mby bf bn intfrnbtionblizfd dombin nbmf thbt
+     * dontbins A-lbbfls. Sff
+     * <A HREF="http://www.iftf.org/rfd/rfd5890.txt">RFC 5890</A>
+     * for morf informbtion bbout thf dftbilfd A-lbbfl spfdifidbtion.
+     *
+     * @rfturn thf {@link StbndbrdChbrsfts#US_ASCII}-domplibnt hostnbmf
+     *         of this {@dodf SNIHostNbmf} objfdt
+     */
+    publid String gftAsdiiNbmf() {
+        rfturn hostnbmf;
+    }
+
+    /**
+     * Compbrfs this sfrvfr nbmf to thf spfdififd objfdt.
+     * <P>
+     * Pfr <A HREF="http://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>, DNS
+     * hostnbmfs brf dbsf-insfnsitivf.  Two sfrvfr hostnbmfs brf fqubl if,
+     * bnd only if, thfy hbvf thf sbmf nbmf typf, bnd thf hostnbmfs brf
+     * fqubl in b dbsf-indfpfndfnt dompbrison.
+     *
+     * @pbrbm  othfr
+     *         thf othfr sfrvfr nbmf objfdt to dompbrf with.
+     * @rfturn truf if, bnd only if, thf {@dodf othfr} is donsidfrfd
+     *         fqubl to this instbndf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+
+        if (othfr instbndfof SNIHostNbmf) {
+            rfturn hostnbmf.fqublsIgnorfCbsf(((SNIHostNbmf)othfr).hostnbmf);
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this {@dodf SNIHostNbmf}.
+     * <P>
+     * Thf hbsh dodf vbluf is gfnfrbtfd using thf dbsf-insfnsitivf hostnbmf
+     * of this {@dodf SNIHostNbmf}.
+     *
+     * @rfturn b hbsh dodf vbluf for this {@dodf SNIHostNbmf}.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;        // 17/31: primf numbfr to dfdrfbsf dollisions
+        rfsult = 31 * rfsult + hostnbmf.toUppfrCbsf(Lodblf.ENGLISH).hbshCodf();
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt, indluding thf DNS
+     * hostnbmf in this {@dodf SNIHostNbmf} objfdt.
+     * <P>
+     * Thf fxbdt dftbils of thf rfprfsfntbtion brf unspfdififd bnd subjfdt
+     * to dhbngf, but thf following mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *     "typf=host_nbmf (0), vbluf={@litfrbl <hostnbmf>}"
+     * </prf>
+     * Thf "{@litfrbl <hostnbmf>}" is bn ASCII rfprfsfntbtion of thf hostnbmf,
+     * whidh mby dontbins A-lbbfls.  For fxbmplf, b rfturnfd vbluf of bn psfudo
+     * hostnbmf mby look likf:
+     * <prf>
+     *     "typf=host_nbmf (0), vbluf=www.fxbmplf.dom"
+     * </prf>
+     * or
+     * <prf>
+     *     "typf=host_nbmf (0), vbluf=xn--fsqu00b.xn--0zwm56d"
+     * </prf>
+     * <P>
+     * Plfbsf NOTE thbt thf fxbdt dftbils of thf rfprfsfntbtion brf unspfdififd
+     * bnd subjfdt to dhbngf.
+     *
+     * @rfturn b string rfprfsfntbtion of thf objfdt.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "typf=host_nbmf (0), vbluf=" + hostnbmf;
+    }
+
+    /**
+     * Crfbtfs bn {@link SNIMbtdhfr} objfdt for {@dodf SNIHostNbmf}s.
+     * <P>
+     * This mfthod dbn bf usfd by b sfrvfr to vfrify thf bddfptbblf
+     * {@dodf SNIHostNbmf}s.  For fxbmplf,
+     * <prf>
+     *     SNIMbtdhfr mbtdhfr =
+     *         SNIHostNbmf.drfbtfSNIMbtdhfr("www\\.fxbmplf\\.dom");
+     * </prf>
+     * will bddfpt thf hostnbmf "www.fxbmplf.dom".
+     * <prf>
+     *     SNIMbtdhfr mbtdhfr =
+     *         SNIHostNbmf.drfbtfSNIMbtdhfr("www\\.fxbmplf\\.(dom|org)");
+     * </prf>
+     * will bddfpt hostnbmfs "www.fxbmplf.dom" bnd "www.fxbmplf.org".
+     *
+     * @pbrbm  rfgfx
+     *         thf <b hrff="{@dodRoot}/jbvb/util/rfgfx/Pbttfrn.html#sum">
+     *         rfgulbr fxprfssion pbttfrn</b>
+     *         rfprfsfnting thf hostnbmf(s) to mbtdh
+     * @rfturn b {@dodf SNIMbtdhfr} objfdt for {@dodf SNIHostNbmf}s
+     * @throws NullPointfrExdfption if {@dodf rfgfx} is
+     *         {@dodf null}
+     * @throws jbvb.util.rfgfx.PbttfrnSyntbxExdfption if thf rfgulbr fxprfssion's
+     *         syntbx is invblid
+     */
+    publid stbtid SNIMbtdhfr drfbtfSNIMbtdhfr(String rfgfx) {
+        if (rfgfx == null) {
+            throw nfw NullPointfrExdfption(
+                "Thf rfgulbr fxprfssion dbnnot bf null");
+        }
+
+        rfturn nfw SNIHostNbmfMbtdhfr(rfgfx);
+    }
+
+    // dhfdk thf vblidity of thf string hostnbmf
+    privbtf void dhfdkHostNbmf() {
+        if (hostnbmf.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf vbluf of host_nbmf dbnnot bf fmpty");
+        }
+
+        if (hostnbmf.fndsWith(".")) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf vbluf of host_nbmf dbnnot hbvf thf trbiling dot");
+        }
+    }
+
+    privbtf finbl stbtid dlbss SNIHostNbmfMbtdhfr fxtfnds SNIMbtdhfr {
+
+        // thf dompilfd rfprfsfntbtion of b rfgulbr fxprfssion.
+        privbtf finbl Pbttfrn pbttfrn;
+
+        /**
+         * Crfbtfs bn SNIHostNbmfMbtdhfr objfdt.
+         *
+         * @pbrbm  rfgfx
+         *         thf <b hrff="{@dodRoot}/jbvb/util/rfgfx/Pbttfrn.html#sum">
+         *         rfgulbr fxprfssion pbttfrn</b>
+         *         rfprfsfnting thf hostnbmf(s) to mbtdh
+         * @throws NullPointfrExdfption if {@dodf rfgfx} is
+         *         {@dodf null}
+         * @throws PbttfrnSyntbxExdfption if thf rfgulbr fxprfssion's syntbx
+         *         is invblid
+         */
+        SNIHostNbmfMbtdhfr(String rfgfx) {
+            supfr(StbndbrdConstbnts.SNI_HOST_NAME);
+            pbttfrn = Pbttfrn.dompilf(rfgfx, Pbttfrn.CASE_INSENSITIVE);
+        }
+
+        /**
+         * Attfmpts to mbtdh thf givfn {@link SNISfrvfrNbmf}.
+         *
+         * @pbrbm  sfrvfrNbmf
+         *         thf {@link SNISfrvfrNbmf} instbndf on whidh this mbtdhfr
+         *         pfrforms mbtdh opfrbtions
+         *
+         * @rfturn {@dodf truf} if, bnd only if, thf mbtdhfr mbtdhfs thf
+         *         givfn {@dodf sfrvfrNbmf}
+         *
+         * @throws NullPointfrExdfption if {@dodf sfrvfrNbmf} is {@dodf null}
+         * @throws IllfgblArgumfntExdfption if {@dodf sfrvfrNbmf} is
+         *         not of {@dodf StbndbrdConstbnts#SNI_HOST_NAME} typf
+         *
+         * @sff SNISfrvfrNbmf
+         */
+        @Ovfrridf
+        publid boolfbn mbtdhfs(SNISfrvfrNbmf sfrvfrNbmf) {
+            if (sfrvfrNbmf == null) {
+                throw nfw NullPointfrExdfption(
+                    "Thf SNISfrvfrNbmf brgumfnt dbnnot bf null");
+            }
+
+            SNIHostNbmf hostnbmf;
+            if (!(sfrvfrNbmf instbndfof SNIHostNbmf)) {
+                if (sfrvfrNbmf.gftTypf() != StbndbrdConstbnts.SNI_HOST_NAME) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Thf sfrvfr nbmf typf is not host_nbmf");
+                }
+
+                try {
+                    hostnbmf = nfw SNIHostNbmf(sfrvfrNbmf.gftEndodfd());
+                } dbtdh (NullPointfrExdfption | IllfgblArgumfntExdfption f) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                hostnbmf = (SNIHostNbmf)sfrvfrNbmf;
+            }
+
+            // Lft's first try thf bsdii nbmf mbtdhing
+            String bsdiiNbmf = hostnbmf.gftAsdiiNbmf();
+            if (pbttfrn.mbtdhfr(bsdiiNbmf).mbtdhfs()) {
+                rfturn truf;
+            }
+
+            // Mby bf bn intfrnbtionblizfd dombin nbmf, dhfdk thf Unidodf
+            // rfprfsfntbtions.
+            rfturn pbttfrn.mbtdhfr(IDN.toUnidodf(bsdiiNbmf)).mbtdhfs();
+        }
+    }
+}

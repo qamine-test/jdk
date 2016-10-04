@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
-#include    <jni.h>
-#include    <jvmti.h>
+#indludf    <jni.i>
+#indludf    <jvmti.i>
 
-#include    "JPLISAssert.h"
-#include    "Utilities.h"
-#include    "JavaExceptions.h"
+#indludf    "JPLISAssfrt.i"
+#indludf    "Utilitifs.i"
+#indludf    "JbvbExdfptions.i"
 
 /**
- * This module contains utility routines for manipulating Java throwables
- * and JNIEnv throwable state from native code.
+ * Tiis modulf dontbins utility routinfs for mbnipulbting Jbvb tirowbblfs
+ * bnd JNIEnv tirowbblf stbtf from nbtivf dodf.
  */
 
-static jthrowable   sFallbackInternalError  = NULL;
+stbtid jtirowbblf   sFbllbbdkIntfrnblError  = NULL;
 
 /*
- * Local forward declarations.
+ * Lodbl forwbrd dfdlbrbtions.
  */
 
-/* insist on having a throwable. If we already have one, return it.
- * If not, map to fallback
+/* insist on ibving b tirowbblf. If wf blrfbdy ibvf onf, rfturn it.
+ * If not, mbp to fbllbbdk
  */
-jthrowable
-forceFallback(jthrowable potentialException);
+jtirowbblf
+fordfFbllbbdk(jtirowbblf potfntiblExdfption);
 
 
-jthrowable
-forceFallback(jthrowable potentialException) {
-    if ( potentialException == NULL ) {
-        return sFallbackInternalError;
+jtirowbblf
+fordfFbllbbdk(jtirowbblf potfntiblExdfption) {
+    if ( potfntiblExdfption == NULL ) {
+        rfturn sFbllbbdkIntfrnblError;
     }
-    else {
-        return potentialException;
+    flsf {
+        rfturn potfntiblExdfption;
     }
 }
 
 /**
- *  Returns true if it properly sets up a fallback exception
+ *  Rfturns truf if it propfrly sfts up b fbllbbdk fxdfption
  */
-jboolean
-initializeFallbackError(JNIEnv* jnienv) {
-    jplis_assert(isSafeForJNICalls(jnienv));
-    sFallbackInternalError = createInternalError(jnienv, NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return (sFallbackInternalError != NULL);
+jboolfbn
+initiblizfFbllbbdkError(JNIEnv* jnifnv) {
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    sFbllbbdkIntfrnblError = drfbtfIntfrnblError(jnifnv, NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn (sFbllbbdkIntfrnblError != NULL);
 }
 
 
 /*
- *  Map everything to InternalError.
+ *  Mbp fvfrytiing to IntfrnblError.
  */
-jthrowable
-mapAllCheckedToInternalErrorMapper( JNIEnv *    jnienv,
-                                    jthrowable  throwableToMap) {
-    jthrowable  mappedThrowable = NULL;
-    jstring     message         = NULL;
+jtirowbblf
+mbpAllCifdkfdToIntfrnblErrorMbppfr( JNIEnv *    jnifnv,
+                                    jtirowbblf  tirowbblfToMbp) {
+    jtirowbblf  mbppfdTirowbblf = NULL;
+    jstring     mfssbgf         = NULL;
 
-    jplis_assert(throwableToMap != NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
-    jplis_assert(!isUnchecked(jnienv, throwableToMap));
+    jplis_bssfrt(tirowbblfToMbp != NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    jplis_bssfrt(!isUndifdkfd(jnifnv, tirowbblfToMbp));
 
-    message = getMessageFromThrowable(jnienv, throwableToMap);
-    mappedThrowable = createInternalError(jnienv, message);
+    mfssbgf = gftMfssbgfFromTirowbblf(jnifnv, tirowbblfToMbp);
+    mbppfdTirowbblf = drfbtfIntfrnblError(jnifnv, mfssbgf);
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return mappedThrowable;
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn mbppfdTirowbblf;
 }
 
 
-jboolean
-checkForThrowable(  JNIEnv*     jnienv) {
-    return (*jnienv)->ExceptionCheck(jnienv);
+jboolfbn
+difdkForTirowbblf(  JNIEnv*     jnifnv) {
+    rfturn (*jnifnv)->ExdfptionCifdk(jnifnv);
 }
 
-jboolean
-isSafeForJNICalls(  JNIEnv * jnienv) {
-    return !(*jnienv)->ExceptionCheck(jnienv);
+jboolfbn
+isSbffForJNICblls(  JNIEnv * jnifnv) {
+    rfturn !(*jnifnv)->ExdfptionCifdk(jnifnv);
 }
 
 
 void
-logThrowable(   JNIEnv * jnienv) {
-    if ( checkForThrowable(jnienv) ) {
-        (*jnienv)->ExceptionDescribe(jnienv);
+logTirowbblf(   JNIEnv * jnifnv) {
+    if ( difdkForTirowbblf(jnifnv) ) {
+        (*jnifnv)->ExdfptionDfsdribf(jnifnv);
     }
 }
 
 
 
 /**
- *  Creates an exception or error with the fully qualified classname (ie java/lang/Error)
- *  and message passed to its constructor
+ *  Crfbtfs bn fxdfption or frror witi tif fully qublififd dlbssnbmf (if jbvb/lbng/Error)
+ *  bnd mfssbgf pbssfd to its donstrudtor
  */
-jthrowable
-createThrowable(    JNIEnv *        jnienv,
-                    const char *    className,
-                    jstring         message) {
-    jthrowable  exception           = NULL;
-    jmethodID   constructor         = NULL;
-    jclass      exceptionClass      = NULL;
-    jboolean    errorOutstanding    = JNI_FALSE;
+jtirowbblf
+drfbtfTirowbblf(    JNIEnv *        jnifnv,
+                    donst dibr *    dlbssNbmf,
+                    jstring         mfssbgf) {
+    jtirowbblf  fxdfption           = NULL;
+    jmftiodID   donstrudtor         = NULL;
+    jdlbss      fxdfptionClbss      = NULL;
+    jboolfbn    frrorOutstbnding    = JNI_FALSE;
 
-    jplis_assert(className != NULL);
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssfrt(dlbssNbmf != NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
 
-    /* create new VMError with message from exception */
-    exceptionClass = (*jnienv)->FindClass(jnienv, className);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    jplis_assert(!errorOutstanding);
+    /* drfbtf nfw VMError witi mfssbgf from fxdfption */
+    fxdfptionClbss = (*jnifnv)->FindClbss(jnifnv, dlbssNbmf);
+    frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+    jplis_bssfrt(!frrorOutstbnding);
 
-    if (!errorOutstanding) {
-        constructor = (*jnienv)->GetMethodID(   jnienv,
-                                                exceptionClass,
+    if (!frrorOutstbnding) {
+        donstrudtor = (*jnifnv)->GftMftiodID(   jnifnv,
+                                                fxdfptionClbss,
                                                 "<init>",
-                                                "(Ljava/lang/String;)V");
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+                                                "(Ljbvb/lbng/String;)V");
+        frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
     }
 
-    if (!errorOutstanding) {
-        exception = (*jnienv)->NewObject(jnienv, exceptionClass, constructor, message);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+    if (!frrorOutstbnding) {
+        fxdfption = (*jnifnv)->NfwObjfdt(jnifnv, fxdfptionClbss, donstrudtor, mfssbgf);
+        frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
     }
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return exception;
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn fxdfption;
 }
 
-jthrowable
-createInternalError(JNIEnv * jnienv, jstring message) {
-    return createThrowable( jnienv,
-                            "java/lang/InternalError",
-                            message);
+jtirowbblf
+drfbtfIntfrnblError(JNIEnv * jnifnv, jstring mfssbgf) {
+    rfturn drfbtfTirowbblf( jnifnv,
+                            "jbvb/lbng/IntfrnblError",
+                            mfssbgf);
 }
 
-jthrowable
-createThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
-    const char * throwableClassName = NULL;
-    const char * message            = NULL;
-    jstring messageString           = NULL;
+jtirowbblf
+drfbtfTirowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf) {
+    donst dibr * tirowbblfClbssNbmf = NULL;
+    donst dibr * mfssbgf            = NULL;
+    jstring mfssbgfString           = NULL;
 
-    switch ( errorCode ) {
-        case JVMTI_ERROR_NULL_POINTER:
-                throwableClassName = "java/lang/NullPointerException";
-                break;
+    switdi ( frrorCodf ) {
+        dbsf JVMTI_ERROR_NULL_POINTER:
+                tirowbblfClbssNbmf = "jbvb/lbng/NullPointfrExdfption";
+                brfbk;
 
-        case JVMTI_ERROR_ILLEGAL_ARGUMENT:
-                throwableClassName = "java/lang/IllegalArgumentException";
-                break;
+        dbsf JVMTI_ERROR_ILLEGAL_ARGUMENT:
+                tirowbblfClbssNbmf = "jbvb/lbng/IllfgblArgumfntExdfption";
+                brfbk;
 
-        case JVMTI_ERROR_OUT_OF_MEMORY:
-                throwableClassName = "java/lang/OutOfMemoryError";
-                break;
+        dbsf JVMTI_ERROR_OUT_OF_MEMORY:
+                tirowbblfClbssNbmf = "jbvb/lbng/OutOfMfmoryError";
+                brfbk;
 
-        case JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
-                throwableClassName = "java/lang/ClassCircularityError";
-                break;
+        dbsf JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
+                tirowbblfClbssNbmf = "jbvb/lbng/ClbssCirdulbrityError";
+                brfbk;
 
-        case JVMTI_ERROR_FAILS_VERIFICATION:
-                throwableClassName = "java/lang/VerifyError";
-                break;
+        dbsf JVMTI_ERROR_FAILS_VERIFICATION:
+                tirowbblfClbssNbmf = "jbvb/lbng/VfrifyError";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to add a method";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to bdd b mftiod";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change the schema (add/remove fields)";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dibngf tif sdifmb (bdd/rfmovf fiflds)";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change superclass or interfaces";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dibngf supfrdlbss or intfrfbdfs";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to delete a method";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dflftf b mftiod";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change the class modifiers";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dibngf tif dlbss modififrs";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "class redefinition failed: attempted to change method modifiers";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dibngf mftiod modififrs";
+                brfbk;
 
-        case JVMTI_ERROR_UNSUPPORTED_VERSION:
-                throwableClassName = "java/lang/UnsupportedClassVersionError";
-                break;
+        dbsf JVMTI_ERROR_UNSUPPORTED_VERSION:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdClbssVfrsionError";
+                brfbk;
 
-        case JVMTI_ERROR_NAMES_DONT_MATCH:
-                throwableClassName = "java/lang/NoClassDefFoundError";
-                message = "class names don't match";
-                break;
+        dbsf JVMTI_ERROR_NAMES_DONT_MATCH:
+                tirowbblfClbssNbmf = "jbvb/lbng/NoClbssDffFoundError";
+                mfssbgf = "dlbss nbmfs don't mbtdi";
+                brfbk;
 
-        case JVMTI_ERROR_INVALID_CLASS_FORMAT:
-                throwableClassName = "java/lang/ClassFormatError";
-                break;
+        dbsf JVMTI_ERROR_INVALID_CLASS_FORMAT:
+                tirowbblfClbssNbmf = "jbvb/lbng/ClbssFormbtError";
+                brfbk;
 
-        case JVMTI_ERROR_UNMODIFIABLE_CLASS:
-                throwableClassName = "java/lang/instrument/UnmodifiableClassException";
-                break;
+        dbsf JVMTI_ERROR_UNMODIFIABLE_CLASS:
+                tirowbblfClbssNbmf = "jbvb/lbng/instrumfnt/UnmodifibblfClbssExdfption";
+                brfbk;
 
-        case JVMTI_ERROR_INVALID_CLASS:
-                throwableClassName = "java/lang/InternalError";
-                message = "class redefinition failed: invalid class";
-                break;
+        dbsf JVMTI_ERROR_INVALID_CLASS:
+                tirowbblfClbssNbmf = "jbvb/lbng/IntfrnblError";
+                mfssbgf = "dlbss rfdffinition fbilfd: invblid dlbss";
+                brfbk;
 
-        case JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED:
-                throwableClassName = "java/lang/UnsupportedOperationException";
-                message = "unsupported operation";
-                break;
+        dbsf JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED:
+                tirowbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "unsupportfd opfrbtion";
+                brfbk;
 
-        case JVMTI_ERROR_INTERNAL:
-        default:
-                throwableClassName = "java/lang/InternalError";
-                break;
+        dbsf JVMTI_ERROR_INTERNAL:
+        dffbult:
+                tirowbblfClbssNbmf = "jbvb/lbng/IntfrnblError";
+                brfbk;
         }
 
-    if ( message != NULL ) {
-        jboolean errorOutstanding;
+    if ( mfssbgf != NULL ) {
+        jboolfbn frrorOutstbnding;
 
-        messageString = (*jnienv)->NewStringUTF(jnienv, message);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert_msg(!errorOutstanding, "can't create exception java string");
+        mfssbgfString = (*jnifnv)->NfwStringUTF(jnifnv, mfssbgf);
+        frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf fxdfption jbvb string");
     }
-    return createThrowable( jnienv,
-                            throwableClassName,
-                            messageString);
+    rfturn drfbtfTirowbblf( jnifnv,
+                            tirowbblfClbssNbmf,
+                            mfssbgfString);
 
 }
 
 
 /**
- *  Calls toString() on the given message which is the same call made by
- *  Exception when passed a throwable to its constructor
+ *  Cblls toString() on tif givfn mfssbgf wiidi is tif sbmf dbll mbdf by
+ *  Exdfption wifn pbssfd b tirowbblf to its donstrudtor
  */
 jstring
-getMessageFromThrowable(    JNIEnv*     jnienv,
-                            jthrowable  exception) {
-    jclass      exceptionClass      = NULL;
-    jmethodID   method              = NULL;
-    jstring     message             = NULL;
-    jboolean    errorOutstanding    = JNI_FALSE;
+gftMfssbgfFromTirowbblf(    JNIEnv*     jnifnv,
+                            jtirowbblf  fxdfption) {
+    jdlbss      fxdfptionClbss      = NULL;
+    jmftiodID   mftiod              = NULL;
+    jstring     mfssbgf             = NULL;
+    jboolfbn    frrorOutstbnding    = JNI_FALSE;
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
 
-    /* call getMessage on exception */
-    exceptionClass = (*jnienv)->GetObjectClass(jnienv, exception);
-    errorOutstanding = checkForAndClearThrowable(jnienv);
-    jplis_assert(!errorOutstanding);
+    /* dbll gftMfssbgf on fxdfption */
+    fxdfptionClbss = (*jnifnv)->GftObjfdtClbss(jnifnv, fxdfption);
+    frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+    jplis_bssfrt(!frrorOutstbnding);
 
-    if (!errorOutstanding) {
-        method = (*jnienv)->GetMethodID(jnienv,
-                                        exceptionClass,
+    if (!frrorOutstbnding) {
+        mftiod = (*jnifnv)->GftMftiodID(jnifnv,
+                                        fxdfptionClbss,
                                         "toString",
-                                        "()Ljava/lang/String;");
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+                                        "()Ljbvb/lbng/String;");
+        frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
     }
 
-    if (!errorOutstanding) {
-        message = (*jnienv)->CallObjectMethod(jnienv, exception, method);
-        errorOutstanding = checkForAndClearThrowable(jnienv);
-        jplis_assert(!errorOutstanding);
+    if (!frrorOutstbnding) {
+        mfssbgf = (*jnifnv)->CbllObjfdtMftiod(jnifnv, fxdfption, mftiod);
+        frrorOutstbnding = difdkForAndClfbrTirowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
     }
 
-    jplis_assert(isSafeForJNICalls(jnienv));
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
 
-    return message;
+    rfturn mfssbgf;
 }
 
 
 /**
- *  Returns whether the exception given is an unchecked exception:
- *  a subclass of Error or RuntimeException
+ *  Rfturns wiftifr tif fxdfption givfn is bn undifdkfd fxdfption:
+ *  b subdlbss of Error or RuntimfExdfption
  */
-jboolean
-isUnchecked(    JNIEnv*     jnienv,
-                jthrowable  exception) {
-    jboolean result = JNI_FALSE;
+jboolfbn
+isUndifdkfd(    JNIEnv*     jnifnv,
+                jtirowbblf  fxdfption) {
+    jboolfbn rfsult = JNI_FALSE;
 
-    jplis_assert(isSafeForJNICalls(jnienv));
-    result =    (exception == NULL) ||
-                isInstanceofClassName(jnienv, exception, "java/lang/Error") ||
-                isInstanceofClassName(jnienv, exception, "java/lang/RuntimeException");
-    jplis_assert(isSafeForJNICalls(jnienv));
-    return result;
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfsult =    (fxdfption == NULL) ||
+                isInstbndfofClbssNbmf(jnifnv, fxdfption, "jbvb/lbng/Error") ||
+                isInstbndfofClbssNbmf(jnifnv, fxdfption, "jbvb/lbng/RuntimfExdfption");
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn rfsult;
 }
 
 /*
- *  Returns the current throwable, if any. Clears the throwable state.
- *  Clients can use this to preserve the current throwable state on the stack.
+ *  Rfturns tif durrfnt tirowbblf, if bny. Clfbrs tif tirowbblf stbtf.
+ *  Clifnts dbn usf tiis to prfsfrvf tif durrfnt tirowbblf stbtf on tif stbdk.
  */
-jthrowable
-preserveThrowable(JNIEnv * jnienv) {
-    jthrowable result = (*jnienv)->ExceptionOccurred(jnienv);
-    if ( result != NULL ) {
-        (*jnienv)->ExceptionClear(jnienv);
+jtirowbblf
+prfsfrvfTirowbblf(JNIEnv * jnifnv) {
+    jtirowbblf rfsult = (*jnifnv)->ExdfptionOddurrfd(jnifnv);
+    if ( rfsult != NULL ) {
+        (*jnifnv)->ExdfptionClfbr(jnifnv);
     }
-    return result;
+    rfturn rfsult;
 }
 
 /*
- *  Installs the supplied throwable into the JNIEnv if the throwable is not null.
- *  Clients can use this to preserve the current throwable state on the stack.
+ *  Instblls tif supplifd tirowbblf into tif JNIEnv if tif tirowbblf is not null.
+ *  Clifnts dbn usf tiis to prfsfrvf tif durrfnt tirowbblf stbtf on tif stbdk.
  */
 void
-restoreThrowable(   JNIEnv *    jnienv,
-                    jthrowable  preservedException) {
-    throwThrowable( jnienv,
-                    preservedException);
-    return;
+rfstorfTirowbblf(   JNIEnv *    jnifnv,
+                    jtirowbblf  prfsfrvfdExdfption) {
+    tirowTirowbblf( jnifnv,
+                    prfsfrvfdExdfption);
+    rfturn;
 }
 
 void
-throwThrowable(     JNIEnv *    jnienv,
-                    jthrowable  exception) {
-    if ( exception != NULL ) {
-        jint result = (*jnienv)->Throw(jnienv, exception);
-        jplis_assert_msg(result == JNI_OK, "throwThrowable failed to re-throw");
+tirowTirowbblf(     JNIEnv *    jnifnv,
+                    jtirowbblf  fxdfption) {
+    if ( fxdfption != NULL ) {
+        jint rfsult = (*jnifnv)->Tirow(jnifnv, fxdfption);
+        jplis_bssfrt_msg(rfsult == JNI_OK, "tirowTirowbblf fbilfd to rf-tirow");
     }
-    return;
+    rfturn;
 }
 
 
 /*
- *  Always clears the JNIEnv throwable state. Returns true if an exception was present
- *  before the clearing operation.
+ *  Alwbys dlfbrs tif JNIEnv tirowbblf stbtf. Rfturns truf if bn fxdfption wbs prfsfnt
+ *  bfforf tif dlfbring opfrbtion.
  */
-jboolean
-checkForAndClearThrowable(  JNIEnv *    jnienv) {
-    jboolean result = (*jnienv)->ExceptionCheck(jnienv);
-    if ( result ) {
-        (*jnienv)->ExceptionClear(jnienv);
+jboolfbn
+difdkForAndClfbrTirowbblf(  JNIEnv *    jnifnv) {
+    jboolfbn rfsult = (*jnifnv)->ExdfptionCifdk(jnifnv);
+    if ( rfsult ) {
+        (*jnifnv)->ExdfptionClfbr(jnifnv);
     }
-    return result;
+    rfturn rfsult;
 }
 
-/* creates a java.lang.InternalError and installs it into the JNIEnv */
+/* drfbtfs b jbvb.lbng.IntfrnblError bnd instblls it into tif JNIEnv */
 void
-createAndThrowInternalError(JNIEnv * jnienv) {
-    jthrowable internalError = createInternalError( jnienv, NULL);
-    throwThrowable(jnienv, forceFallback(internalError));
-}
-
-void
-createAndThrowThrowableFromJVMTIErrorCode(JNIEnv * jnienv, jvmtiError errorCode) {
-    jthrowable throwable = createThrowableFromJVMTIErrorCode(jnienv, errorCode);
-    throwThrowable(jnienv, forceFallback(throwable));
+drfbtfAndTirowIntfrnblError(JNIEnv * jnifnv) {
+    jtirowbblf intfrnblError = drfbtfIntfrnblError( jnifnv, NULL);
+    tirowTirowbblf(jnifnv, fordfFbllbbdk(intfrnblError));
 }
 
 void
-mapThrownThrowableIfNecessary(  JNIEnv *                jnienv,
-                                CheckedExceptionMapper  mapper) {
-    jthrowable  originalThrowable   = NULL;
-    jthrowable  resultThrowable     = NULL;
+drfbtfAndTirowTirowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf) {
+    jtirowbblf tirowbblf = drfbtfTirowbblfFromJVMTIErrorCodf(jnifnv, frrorCodf);
+    tirowTirowbblf(jnifnv, fordfFbllbbdk(tirowbblf));
+}
 
-    originalThrowable = preserveThrowable(jnienv);
+void
+mbpTirownTirowbblfIfNfdfssbry(  JNIEnv *                jnifnv,
+                                CifdkfdExdfptionMbppfr  mbppfr) {
+    jtirowbblf  originblTirowbblf   = NULL;
+    jtirowbblf  rfsultTirowbblf     = NULL;
 
-    /* the throwable is now cleared, so JNI calls are safe */
-    if ( originalThrowable != NULL ) {
-        /* if there is an exception: we can just throw it if it is unchecked. If checked,
-         * we need to map it (mapper is conditional, will vary by usage, hence the callback)
+    originblTirowbblf = prfsfrvfTirowbblf(jnifnv);
+
+    /* tif tirowbblf is now dlfbrfd, so JNI dblls brf sbff */
+    if ( originblTirowbblf != NULL ) {
+        /* if tifrf is bn fxdfption: wf dbn just tirow it if it is undifdkfd. If difdkfd,
+         * wf nffd to mbp it (mbppfr is donditionbl, will vbry by usbgf, ifndf tif dbllbbdk)
          */
-        if ( isUnchecked(jnienv, originalThrowable) ) {
-            resultThrowable = originalThrowable;
+        if ( isUndifdkfd(jnifnv, originblTirowbblf) ) {
+            rfsultTirowbblf = originblTirowbblf;
         }
-        else {
-            resultThrowable = (*mapper) (jnienv, originalThrowable);
+        flsf {
+            rfsultTirowbblf = (*mbppfr) (jnifnv, originblTirowbblf);
         }
     }
 
-    /* re-establish the correct throwable */
-    if ( resultThrowable != NULL ) {
-        throwThrowable(jnienv, forceFallback(resultThrowable));
+    /* rf-fstbblisi tif dorrfdt tirowbblf */
+    if ( rfsultTirowbblf != NULL ) {
+        tirowTirowbblf(jnifnv, fordfFbllbbdk(rfsultTirowbblf));
     }
 
 }

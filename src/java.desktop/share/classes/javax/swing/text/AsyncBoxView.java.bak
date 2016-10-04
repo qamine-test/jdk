@@ -1,1426 +1,1426 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.*;
-import java.util.List;
-import java.awt.*;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.bwt.*;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
 
 /**
- * A box that does layout asynchronously.  This
- * is useful to keep the GUI event thread moving by
- * not doing any layout on it.  The layout is done
- * on a granularity of operations on the child views.
- * After each child view is accessed for some part
- * of layout (a potentially time consuming operation)
- * the remaining tasks can be abandoned or a new higher
- * priority task (i.e. to service a synchronous request
- * or a visible area) can be taken on.
+ * A box tibt dofs lbyout bsyndironously.  Tiis
+ * is usfful to kffp tif GUI fvfnt tirfbd moving by
+ * not doing bny lbyout on it.  Tif lbyout is donf
+ * on b grbnulbrity of opfrbtions on tif diild vifws.
+ * Aftfr fbdi diild vifw is bddfssfd for somf pbrt
+ * of lbyout (b potfntiblly timf donsuming opfrbtion)
+ * tif rfmbining tbsks dbn bf bbbndonfd or b nfw iigifr
+ * priority tbsk (i.f. to sfrvidf b syndironous rfqufst
+ * or b visiblf brfb) dbn bf tbkfn on.
  * <p>
- * While the child view is being accessed
- * a read lock is acquired on the associated document
- * so that the model is stable while being accessed.
+ * Wiilf tif diild vifw is bfing bddfssfd
+ * b rfbd lodk is bdquirfd on tif bssodibtfd dodumfnt
+ * so tibt tif modfl is stbblf wiilf bfing bddfssfd.
  *
- * @author  Timothy Prinzing
- * @since   1.3
+ * @butior  Timotiy Prinzing
+ * @sindf   1.3
  */
-public class AsyncBoxView extends View {
+publid dlbss AsyndBoxVifw fxtfnds Vifw {
 
     /**
-     * Construct a box view that does asynchronous layout.
+     * Construdt b box vifw tibt dofs bsyndironous lbyout.
      *
-     * @param elem the element of the model to represent
-     * @param axis the axis to tile along.  This can be
-     *  either X_AXIS or Y_AXIS.
+     * @pbrbm flfm tif flfmfnt of tif modfl to rfprfsfnt
+     * @pbrbm bxis tif bxis to tilf blong.  Tiis dbn bf
+     *  fitifr X_AXIS or Y_AXIS.
      */
-    public AsyncBoxView(Element elem, int axis) {
-        super(elem);
-        stats = new ArrayList<ChildState>();
-        this.axis = axis;
-        locator = new ChildLocator();
-        flushTask = new FlushTask();
-        minorSpan = Short.MAX_VALUE;
-        estimatedMajorSpan = false;
+    publid AsyndBoxVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm);
+        stbts = nfw ArrbyList<CiildStbtf>();
+        tiis.bxis = bxis;
+        lodbtor = nfw CiildLodbtor();
+        flusiTbsk = nfw FlusiTbsk();
+        minorSpbn = Siort.MAX_VALUE;
+        fstimbtfdMbjorSpbn = fblsf;
     }
 
     /**
-     * Fetch the major axis (the axis the children
-     * are tiled along).  This will have a value of
-     * either X_AXIS or Y_AXIS.
+     * Fftdi tif mbjor bxis (tif bxis tif diildrfn
+     * brf tilfd blong).  Tiis will ibvf b vbluf of
+     * fitifr X_AXIS or Y_AXIS.
      */
-    public int getMajorAxis() {
-        return axis;
+    publid int gftMbjorAxis() {
+        rfturn bxis;
     }
 
     /**
-     * Fetch the minor axis (the axis orthogonal
-     * to the tiled axis).  This will have a value of
-     * either X_AXIS or Y_AXIS.
+     * Fftdi tif minor bxis (tif bxis ortiogonbl
+     * to tif tilfd bxis).  Tiis will ibvf b vbluf of
+     * fitifr X_AXIS or Y_AXIS.
      */
-    public int getMinorAxis() {
-        return (axis == X_AXIS) ? Y_AXIS : X_AXIS;
+    publid int gftMinorAxis() {
+        rfturn (bxis == X_AXIS) ? Y_AXIS : X_AXIS;
     }
 
     /**
-     * Get the top part of the margin around the view.
+     * Gft tif top pbrt of tif mbrgin bround tif vifw.
      */
-    public float getTopInset() {
-        return topInset;
+    publid flobt gftTopInsft() {
+        rfturn topInsft;
     }
 
     /**
-     * Set the top part of the margin around the view.
+     * Sft tif top pbrt of tif mbrgin bround tif vifw.
      *
-     * @param i the value of the inset
+     * @pbrbm i tif vbluf of tif insft
      */
-    public void setTopInset(float i) {
-        topInset = i;
+    publid void sftTopInsft(flobt i) {
+        topInsft = i;
     }
 
     /**
-     * Get the bottom part of the margin around the view.
+     * Gft tif bottom pbrt of tif mbrgin bround tif vifw.
      */
-    public float getBottomInset() {
-        return bottomInset;
+    publid flobt gftBottomInsft() {
+        rfturn bottomInsft;
     }
 
     /**
-     * Set the bottom part of the margin around the view.
+     * Sft tif bottom pbrt of tif mbrgin bround tif vifw.
      *
-     * @param i the value of the inset
+     * @pbrbm i tif vbluf of tif insft
      */
-    public void setBottomInset(float i) {
-        bottomInset = i;
+    publid void sftBottomInsft(flobt i) {
+        bottomInsft = i;
     }
 
     /**
-     * Get the left part of the margin around the view.
+     * Gft tif lfft pbrt of tif mbrgin bround tif vifw.
      */
-    public float getLeftInset() {
-        return leftInset;
+    publid flobt gftLfftInsft() {
+        rfturn lfftInsft;
     }
 
     /**
-     * Set the left part of the margin around the view.
+     * Sft tif lfft pbrt of tif mbrgin bround tif vifw.
      *
-     * @param i the value of the inset
+     * @pbrbm i tif vbluf of tif insft
      */
-    public void setLeftInset(float i) {
-        leftInset = i;
+    publid void sftLfftInsft(flobt i) {
+        lfftInsft = i;
     }
 
     /**
-     * Get the right part of the margin around the view.
+     * Gft tif rigit pbrt of tif mbrgin bround tif vifw.
      */
-    public float getRightInset() {
-        return rightInset;
+    publid flobt gftRigitInsft() {
+        rfturn rigitInsft;
     }
 
     /**
-     * Set the right part of the margin around the view.
+     * Sft tif rigit pbrt of tif mbrgin bround tif vifw.
      *
-     * @param i the value of the inset
+     * @pbrbm i tif vbluf of tif insft
      */
-    public void setRightInset(float i) {
-        rightInset = i;
+    publid void sftRigitInsft(flobt i) {
+        rigitInsft = i;
     }
 
     /**
-     * Fetch the span along an axis that is taken up by the insets.
+     * Fftdi tif spbn blong bn bxis tibt is tbkfn up by tif insfts.
      *
-     * @param axis the axis to determine the total insets along,
-     *  either X_AXIS or Y_AXIS.
-     * @since 1.4
+     * @pbrbm bxis tif bxis to dftfrminf tif totbl insfts blong,
+     *  fitifr X_AXIS or Y_AXIS.
+     * @sindf 1.4
      */
-    protected float getInsetSpan(int axis) {
-        float margin = (axis == X_AXIS) ?
-            getLeftInset() + getRightInset() : getTopInset() + getBottomInset();
-        return margin;
+    protfdtfd flobt gftInsftSpbn(int bxis) {
+        flobt mbrgin = (bxis == X_AXIS) ?
+            gftLfftInsft() + gftRigitInsft() : gftTopInsft() + gftBottomInsft();
+        rfturn mbrgin;
     }
 
     /**
-     * Set the estimatedMajorSpan property that determines if the
-     * major span should be treated as being estimated.  If this
-     * property is true, the value of setSize along the major axis
-     * will change the requirements along the major axis and incremental
-     * changes will be ignored until all of the children have been updated
-     * (which will cause the property to automatically be set to false).
-     * If the property is false the value of the majorSpan will be
-     * considered to be accurate and incremental changes will be
-     * added into the total as they are calculated.
+     * Sft tif fstimbtfdMbjorSpbn propfrty tibt dftfrminfs if tif
+     * mbjor spbn siould bf trfbtfd bs bfing fstimbtfd.  If tiis
+     * propfrty is truf, tif vbluf of sftSizf blong tif mbjor bxis
+     * will dibngf tif rfquirfmfnts blong tif mbjor bxis bnd indrfmfntbl
+     * dibngfs will bf ignorfd until bll of tif diildrfn ibvf bffn updbtfd
+     * (wiidi will dbusf tif propfrty to butombtidblly bf sft to fblsf).
+     * If tif propfrty is fblsf tif vbluf of tif mbjorSpbn will bf
+     * donsidfrfd to bf bddurbtf bnd indrfmfntbl dibngfs will bf
+     * bddfd into tif totbl bs tify brf dbldulbtfd.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    protected void setEstimatedMajorSpan(boolean isEstimated) {
-        estimatedMajorSpan = isEstimated;
+    protfdtfd void sftEstimbtfdMbjorSpbn(boolfbn isEstimbtfd) {
+        fstimbtfdMbjorSpbn = isEstimbtfd;
     }
 
     /**
-     * Is the major span currently estimated?
+     * Is tif mbjor spbn durrfntly fstimbtfd?
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    protected boolean getEstimatedMajorSpan() {
-        return estimatedMajorSpan;
+    protfdtfd boolfbn gftEstimbtfdMbjorSpbn() {
+        rfturn fstimbtfdMbjorSpbn;
     }
 
     /**
-     * Fetch the object representing the layout state of
-     * of the child at the given index.
+     * Fftdi tif objfdt rfprfsfnting tif lbyout stbtf of
+     * of tif diild bt tif givfn indfx.
      *
-     * @param index the child index.  This should be a
-     *   value &gt;= 0 and &lt; getViewCount().
+     * @pbrbm indfx tif diild indfx.  Tiis siould bf b
+     *   vbluf &gt;= 0 bnd &lt; gftVifwCount().
      */
-    protected ChildState getChildState(int index) {
-        synchronized(stats) {
-            if ((index >= 0) && (index < stats.size())) {
-                return stats.get(index);
+    protfdtfd CiildStbtf gftCiildStbtf(int indfx) {
+        syndironizfd(stbts) {
+            if ((indfx >= 0) && (indfx < stbts.sizf())) {
+                rfturn stbts.gft(indfx);
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Fetch the queue to use for layout.
+     * Fftdi tif qufuf to usf for lbyout.
      */
-    protected LayoutQueue getLayoutQueue() {
-        return LayoutQueue.getDefaultQueue();
+    protfdtfd LbyoutQufuf gftLbyoutQufuf() {
+        rfturn LbyoutQufuf.gftDffbultQufuf();
     }
 
     /**
-     * New ChildState records are created through
-     * this method to allow subclasses the extend
-     * the ChildState records to do/hold more
+     * Nfw CiildStbtf rfdords brf drfbtfd tirougi
+     * tiis mftiod to bllow subdlbssfs tif fxtfnd
+     * tif CiildStbtf rfdords to do/iold morf
      */
-    protected ChildState createChildState(View v) {
-        return new ChildState(v);
+    protfdtfd CiildStbtf drfbtfCiildStbtf(Vifw v) {
+        rfturn nfw CiildStbtf(v);
     }
 
     /**
-     * Requirements changed along the major axis.
-     * This is called by the thread doing layout for
-     * the given ChildState object when it has completed
-     * fetching the child views new preferences.
-     * Typically this would be the layout thread, but
-     * might be the event thread if it is trying to update
-     * something immediately (such as to perform a
-     * model/view translation).
+     * Rfquirfmfnts dibngfd blong tif mbjor bxis.
+     * Tiis is dbllfd by tif tirfbd doing lbyout for
+     * tif givfn CiildStbtf objfdt wifn it ibs domplftfd
+     * fftdiing tif diild vifws nfw prfffrfndfs.
+     * Typidblly tiis would bf tif lbyout tirfbd, but
+     * migit bf tif fvfnt tirfbd if it is trying to updbtf
+     * somftiing immfdibtfly (sudi bs to pfrform b
+     * modfl/vifw trbnslbtion).
      * <p>
-     * This is implemented to mark the major axis as having
-     * changed so that a future check to see if the requirements
-     * need to be published to the parent view will consider
-     * the major axis.  If the span along the major axis is
-     * not estimated, it is updated by the given delta to reflect
-     * the incremental change.  The delta is ignored if the
-     * major span is estimated.
+     * Tiis is implfmfntfd to mbrk tif mbjor bxis bs ibving
+     * dibngfd so tibt b futurf difdk to sff if tif rfquirfmfnts
+     * nffd to bf publisifd to tif pbrfnt vifw will donsidfr
+     * tif mbjor bxis.  If tif spbn blong tif mbjor bxis is
+     * not fstimbtfd, it is updbtfd by tif givfn dfltb to rfflfdt
+     * tif indrfmfntbl dibngf.  Tif dfltb is ignorfd if tif
+     * mbjor spbn is fstimbtfd.
      */
-    protected synchronized void majorRequirementChange(ChildState cs, float delta) {
-        if (estimatedMajorSpan == false) {
-            majorSpan += delta;
+    protfdtfd syndironizfd void mbjorRfquirfmfntCibngf(CiildStbtf ds, flobt dfltb) {
+        if (fstimbtfdMbjorSpbn == fblsf) {
+            mbjorSpbn += dfltb;
         }
-        majorChanged = true;
+        mbjorCibngfd = truf;
     }
 
     /**
-     * Requirements changed along the minor axis.
-     * This is called by the thread doing layout for
-     * the given ChildState object when it has completed
-     * fetching the child views new preferences.
-     * Typically this would be the layout thread, but
-     * might be the GUI thread if it is trying to update
-     * something immediately (such as to perform a
-     * model/view translation).
+     * Rfquirfmfnts dibngfd blong tif minor bxis.
+     * Tiis is dbllfd by tif tirfbd doing lbyout for
+     * tif givfn CiildStbtf objfdt wifn it ibs domplftfd
+     * fftdiing tif diild vifws nfw prfffrfndfs.
+     * Typidblly tiis would bf tif lbyout tirfbd, but
+     * migit bf tif GUI tirfbd if it is trying to updbtf
+     * somftiing immfdibtfly (sudi bs to pfrform b
+     * modfl/vifw trbnslbtion).
      */
-    protected synchronized void minorRequirementChange(ChildState cs) {
-        minorChanged = true;
+    protfdtfd syndironizfd void minorRfquirfmfntCibngf(CiildStbtf ds) {
+        minorCibngfd = truf;
     }
 
     /**
-     * Publish the changes in preferences upward to the parent
-     * view.  This is normally called by the layout thread.
+     * Publisi tif dibngfs in prfffrfndfs upwbrd to tif pbrfnt
+     * vifw.  Tiis is normblly dbllfd by tif lbyout tirfbd.
      */
-    protected void flushRequirementChanges() {
-        AbstractDocument doc = (AbstractDocument) getDocument();
+    protfdtfd void flusiRfquirfmfntCibngfs() {
+        AbstrbdtDodumfnt dod = (AbstrbdtDodumfnt) gftDodumfnt();
         try {
-            doc.readLock();
+            dod.rfbdLodk();
 
-            View parent = null;
-            boolean horizontal = false;
-            boolean vertical = false;
+            Vifw pbrfnt = null;
+            boolfbn iorizontbl = fblsf;
+            boolfbn vfrtidbl = fblsf;
 
-            synchronized(this) {
-                // perform tasks that iterate over the children while
-                // preventing the collection from changing.
-                synchronized(stats) {
-                    int n = getViewCount();
-                    if ((n > 0) && (minorChanged || estimatedMajorSpan)) {
-                        LayoutQueue q = getLayoutQueue();
-                        ChildState min = getChildState(0);
-                        ChildState pref = getChildState(0);
-                        float span = 0f;
+            syndironizfd(tiis) {
+                // pfrform tbsks tibt itfrbtf ovfr tif diildrfn wiilf
+                // prfvfnting tif dollfdtion from dibnging.
+                syndironizfd(stbts) {
+                    int n = gftVifwCount();
+                    if ((n > 0) && (minorCibngfd || fstimbtfdMbjorSpbn)) {
+                        LbyoutQufuf q = gftLbyoutQufuf();
+                        CiildStbtf min = gftCiildStbtf(0);
+                        CiildStbtf prff = gftCiildStbtf(0);
+                        flobt spbn = 0f;
                         for (int i = 1; i < n; i++) {
-                            ChildState cs = getChildState(i);
-                            if (minorChanged) {
-                                if (cs.min > min.min) {
-                                    min = cs;
+                            CiildStbtf ds = gftCiildStbtf(i);
+                            if (minorCibngfd) {
+                                if (ds.min > min.min) {
+                                    min = ds;
                                 }
-                                if (cs.pref > pref.pref) {
-                                    pref = cs;
+                                if (ds.prff > prff.prff) {
+                                    prff = ds;
                                 }
                             }
-                            if (estimatedMajorSpan) {
-                                span += cs.getMajorSpan();
+                            if (fstimbtfdMbjorSpbn) {
+                                spbn += ds.gftMbjorSpbn();
                             }
                         }
 
-                        if (minorChanged) {
-                            minRequest = min;
-                            prefRequest = pref;
+                        if (minorCibngfd) {
+                            minRfqufst = min;
+                            prffRfqufst = prff;
                         }
-                        if (estimatedMajorSpan) {
-                            majorSpan = span;
-                            estimatedMajorSpan = false;
-                            majorChanged = true;
+                        if (fstimbtfdMbjorSpbn) {
+                            mbjorSpbn = spbn;
+                            fstimbtfdMbjorSpbn = fblsf;
+                            mbjorCibngfd = truf;
                         }
                     }
                 }
 
-                // message preferenceChanged
-                if (majorChanged || minorChanged) {
-                    parent = getParent();
-                    if (parent != null) {
-                        if (axis == X_AXIS) {
-                            horizontal = majorChanged;
-                            vertical = minorChanged;
-                        } else {
-                            vertical = majorChanged;
-                            horizontal = minorChanged;
+                // mfssbgf prfffrfndfCibngfd
+                if (mbjorCibngfd || minorCibngfd) {
+                    pbrfnt = gftPbrfnt();
+                    if (pbrfnt != null) {
+                        if (bxis == X_AXIS) {
+                            iorizontbl = mbjorCibngfd;
+                            vfrtidbl = minorCibngfd;
+                        } flsf {
+                            vfrtidbl = mbjorCibngfd;
+                            iorizontbl = minorCibngfd;
                         }
                     }
-                    majorChanged = false;
-                    minorChanged = false;
+                    mbjorCibngfd = fblsf;
+                    minorCibngfd = fblsf;
                 }
             }
 
-            // propagate a preferenceChanged, using the
-            // layout thread.
-            if (parent != null) {
-                parent.preferenceChanged(this, horizontal, vertical);
+            // propbgbtf b prfffrfndfCibngfd, using tif
+            // lbyout tirfbd.
+            if (pbrfnt != null) {
+                pbrfnt.prfffrfndfCibngfd(tiis, iorizontbl, vfrtidbl);
 
-                // probably want to change this to be more exact.
-                Component c = getContainer();
-                if (c != null) {
-                    c.repaint();
+                // probbbly wbnt to dibngf tiis to bf morf fxbdt.
+                Componfnt d = gftContbinfr();
+                if (d != null) {
+                    d.rfpbint();
                 }
             }
-        } finally {
-            doc.readUnlock();
+        } finblly {
+            dod.rfbdUnlodk();
         }
     }
 
     /**
-     * Calls the superclass to update the child views, and
-     * updates the status records for the children.  This
-     * is expected to be called while a write lock is held
-     * on the model so that interaction with the layout
-     * thread will not happen (i.e. the layout thread
-     * acquires a read lock before doing anything).
+     * Cblls tif supfrdlbss to updbtf tif diild vifws, bnd
+     * updbtfs tif stbtus rfdords for tif diildrfn.  Tiis
+     * is fxpfdtfd to bf dbllfd wiilf b writf lodk is ifld
+     * on tif modfl so tibt intfrbdtion witi tif lbyout
+     * tirfbd will not ibppfn (i.f. tif lbyout tirfbd
+     * bdquirfs b rfbd lodk bfforf doing bnytiing).
      *
-     * @param offset the starting offset into the child views &gt;= 0
-     * @param length the number of existing views to replace &gt;= 0
-     * @param views the child views to insert
+     * @pbrbm offsft tif stbrting offsft into tif diild vifws &gt;= 0
+     * @pbrbm lfngti tif numbfr of fxisting vifws to rfplbdf &gt;= 0
+     * @pbrbm vifws tif diild vifws to insfrt
      */
-    public void replace(int offset, int length, View[] views) {
-        synchronized(stats) {
-            // remove the replaced state records
-            for (int i = 0; i < length; i++) {
-                ChildState cs = stats.remove(offset);
-                float csSpan = cs.getMajorSpan();
+    publid void rfplbdf(int offsft, int lfngti, Vifw[] vifws) {
+        syndironizfd(stbts) {
+            // rfmovf tif rfplbdfd stbtf rfdords
+            for (int i = 0; i < lfngti; i++) {
+                CiildStbtf ds = stbts.rfmovf(offsft);
+                flobt dsSpbn = ds.gftMbjorSpbn();
 
-                cs.getChildView().setParent(null);
-                if (csSpan != 0) {
-                    majorRequirementChange(cs, -csSpan);
+                ds.gftCiildVifw().sftPbrfnt(null);
+                if (dsSpbn != 0) {
+                    mbjorRfquirfmfntCibngf(ds, -dsSpbn);
                 }
             }
 
-            // insert the state records for the new children
-            LayoutQueue q = getLayoutQueue();
-            if (views != null) {
-                for (int i = 0; i < views.length; i++) {
-                    ChildState s = createChildState(views[i]);
-                    stats.add(offset + i, s);
-                    q.addTask(s);
+            // insfrt tif stbtf rfdords for tif nfw diildrfn
+            LbyoutQufuf q = gftLbyoutQufuf();
+            if (vifws != null) {
+                for (int i = 0; i < vifws.lfngti; i++) {
+                    CiildStbtf s = drfbtfCiildStbtf(vifws[i]);
+                    stbts.bdd(offsft + i, s);
+                    q.bddTbsk(s);
                 }
             }
 
-            // notify that the size changed
-            q.addTask(flushTask);
+            // notify tibt tif sizf dibngfd
+            q.bddTbsk(flusiTbsk);
         }
     }
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the {@link #setParent setParent}
-     * method.  Subclasses can reimplement this to initialize
-     * their child views in a different manner.  The default
-     * implementation creates a child view for each
-     * child element.
+     * Lobds bll of tif diildrfn to initiblizf tif vifw.
+     * Tiis is dbllfd by tif {@link #sftPbrfnt sftPbrfnt}
+     * mftiod.  Subdlbssfs dbn rfimplfmfnt tiis to initiblizf
+     * tifir diild vifws in b difffrfnt mbnnfr.  Tif dffbult
+     * implfmfntbtion drfbtfs b diild vifw for fbdi
+     * diild flfmfnt.
      * <p>
-     * Normally a write-lock is held on the Document while
-     * the children are being changed, which keeps the rendering
-     * and layout threads safe.  The exception to this is when
-     * the view is initialized to represent an existing element
-     * (via this method), so it is synchronized to exclude
-     * preferenceChanged while we are initializing.
+     * Normblly b writf-lodk is ifld on tif Dodumfnt wiilf
+     * tif diildrfn brf bfing dibngfd, wiidi kffps tif rfndfring
+     * bnd lbyout tirfbds sbff.  Tif fxdfption to tiis is wifn
+     * tif vifw is initiblizfd to rfprfsfnt bn fxisting flfmfnt
+     * (vib tiis mftiod), so it is syndironizfd to fxdludf
+     * prfffrfndfCibngfd wiilf wf brf initiblizing.
      *
-     * @param f the view factory
-     * @see #setParent
+     * @pbrbm f tif vifw fbdtory
+     * @sff #sftPbrfnt
      */
-    protected void loadChildren(ViewFactory f) {
-        Element e = getElement();
-        int n = e.getElementCount();
+    protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+        Elfmfnt f = gftElfmfnt();
+        int n = f.gftElfmfntCount();
         if (n > 0) {
-            View[] added = new View[n];
+            Vifw[] bddfd = nfw Vifw[n];
             for (int i = 0; i < n; i++) {
-                added[i] = f.create(e.getElement(i));
+                bddfd[i] = f.drfbtf(f.gftElfmfnt(i));
             }
-            replace(0, 0, added);
+            rfplbdf(0, 0, bddfd);
         }
     }
 
     /**
-     * Fetches the child view index representing the given position in
-     * the model.  This is implemented to fetch the view in the case
-     * where there is a child view for each child element.
+     * Fftdifs tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif modfl.  Tiis is implfmfntfd to fftdi tif vifw in tif dbsf
+     * wifrf tifrf is b diild vifw for fbdi diild flfmfnt.
      *
-     * @param pos the position &gt;= 0
-     * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     * @pbrbm pos tif position &gt;= 0
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+     *   -1 if no vifw rfprfsfnts tibt position
      */
-    protected synchronized int getViewIndexAtPosition(int pos, Position.Bias b) {
-        boolean isBackward = (b == Position.Bias.Backward);
-        pos = (isBackward) ? Math.max(0, pos - 1) : pos;
-        Element elem = getElement();
-        return elem.getElementIndex(pos);
+    protfdtfd syndironizfd int gftVifwIndfxAtPosition(int pos, Position.Bibs b) {
+        boolfbn isBbdkwbrd = (b == Position.Bibs.Bbdkwbrd);
+        pos = (isBbdkwbrd) ? Mbti.mbx(0, pos - 1) : pos;
+        Elfmfnt flfm = gftElfmfnt();
+        rfturn flfm.gftElfmfntIndfx(pos);
     }
 
     /**
-     * Update the layout in response to receiving notification of
-     * change from the model.  This is implemented to note the
-     * change on the ChildLocator so that offsets of the children
-     * will be correctly computed.
+     * Updbtf tif lbyout in rfsponsf to rfdfiving notifidbtion of
+     * dibngf from tif modfl.  Tiis is implfmfntfd to notf tif
+     * dibngf on tif CiildLodbtor so tibt offsfts of tif diildrfn
+     * will bf dorrfdtly domputfd.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be null if there were no changes).
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @pbrbm fd dibngfs to tif flfmfnt tiis vifw is rfsponsiblf
+     *  for (mby bf null if tifrf wfrf no dibngfs).
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @sff #insfrtUpdbtf
+     * @sff #rfmovfUpdbtf
+     * @sff #dibngfdUpdbtf
      */
-    protected void updateLayout(DocumentEvent.ElementChange ec,
-                                    DocumentEvent e, Shape a) {
-        if (ec != null) {
-            // the newly inserted children don't have a valid
-            // offset so the child locator needs to be messaged
-            // that the child prior to the new children has
-            // changed size.
-            int index = Math.max(ec.getIndex() - 1, 0);
-            ChildState cs = getChildState(index);
-            locator.childChanged(cs);
+    protfdtfd void updbtfLbyout(DodumfntEvfnt.ElfmfntCibngf fd,
+                                    DodumfntEvfnt f, Sibpf b) {
+        if (fd != null) {
+            // tif nfwly insfrtfd diildrfn don't ibvf b vblid
+            // offsft so tif diild lodbtor nffds to bf mfssbgfd
+            // tibt tif diild prior to tif nfw diildrfn ibs
+            // dibngfd sizf.
+            int indfx = Mbti.mbx(fd.gftIndfx() - 1, 0);
+            CiildStbtf ds = gftCiildStbtf(indfx);
+            lodbtor.diildCibngfd(ds);
         }
     }
 
-    // --- View methods ------------------------------------
+    // --- Vifw mftiods ------------------------------------
 
     /**
-     * Sets the parent of the view.
-     * This is reimplemented to provide the superclass
-     * behavior as well as calling the <code>loadChildren</code>
-     * method if this view does not already have children.
-     * The children should not be loaded in the
-     * constructor because the act of setting the parent
-     * may cause them to try to search up the hierarchy
-     * (to get the hosting Container for example).
-     * If this view has children (the view is being moved
-     * from one place in the view hierarchy to another),
-     * the <code>loadChildren</code> method will not be called.
+     * Sfts tif pbrfnt of tif vifw.
+     * Tiis is rfimplfmfntfd to providf tif supfrdlbss
+     * bfibvior bs wfll bs dblling tif <dodf>lobdCiildrfn</dodf>
+     * mftiod if tiis vifw dofs not blrfbdy ibvf diildrfn.
+     * Tif diildrfn siould not bf lobdfd in tif
+     * donstrudtor bfdbusf tif bdt of sftting tif pbrfnt
+     * mby dbusf tifm to try to sfbrdi up tif iifrbrdiy
+     * (to gft tif iosting Contbinfr for fxbmplf).
+     * If tiis vifw ibs diildrfn (tif vifw is bfing movfd
+     * from onf plbdf in tif vifw iifrbrdiy to bnotifr),
+     * tif <dodf>lobdCiildrfn</dodf> mftiod will not bf dbllfd.
      *
-     * @param parent the parent of the view, null if none
+     * @pbrbm pbrfnt tif pbrfnt of tif vifw, null if nonf
      */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if ((parent != null) && (getViewCount() == 0)) {
-            ViewFactory f = getViewFactory();
-            loadChildren(f);
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if ((pbrfnt != null) && (gftVifwCount() == 0)) {
+            VifwFbdtory f = gftVifwFbdtory();
+            lobdCiildrfn(f);
         }
     }
 
     /**
-     * Child views can call this on the parent to indicate that
-     * the preference has changed and should be reconsidered
-     * for layout.  This is reimplemented to queue new work
-     * on the layout thread.  This method gets messaged from
-     * multiple threads via the children.
+     * Ciild vifws dbn dbll tiis on tif pbrfnt to indidbtf tibt
+     * tif prfffrfndf ibs dibngfd bnd siould bf rfdonsidfrfd
+     * for lbyout.  Tiis is rfimplfmfntfd to qufuf nfw work
+     * on tif lbyout tirfbd.  Tiis mftiod gfts mfssbgfd from
+     * multiplf tirfbds vib tif diildrfn.
      *
-     * @param child the child view
-     * @param width true if the width preference has changed
-     * @param height true if the height preference has changed
-     * @see javax.swing.JComponent#revalidate
+     * @pbrbm diild tif diild vifw
+     * @pbrbm widti truf if tif widti prfffrfndf ibs dibngfd
+     * @pbrbm ifigit truf if tif ifigit prfffrfndf ibs dibngfd
+     * @sff jbvbx.swing.JComponfnt#rfvblidbtf
      */
-    public synchronized void preferenceChanged(View child, boolean width, boolean height) {
-        if (child == null) {
-            getParent().preferenceChanged(this, width, height);
-        } else {
-            if (changing != null) {
-                View cv = changing.getChildView();
-                if (cv == child) {
-                    // size was being changed on the child, no need to
-                    // queue work for it.
-                    changing.preferenceChanged(width, height);
-                    return;
+    publid syndironizfd void prfffrfndfCibngfd(Vifw diild, boolfbn widti, boolfbn ifigit) {
+        if (diild == null) {
+            gftPbrfnt().prfffrfndfCibngfd(tiis, widti, ifigit);
+        } flsf {
+            if (dibnging != null) {
+                Vifw dv = dibnging.gftCiildVifw();
+                if (dv == diild) {
+                    // sizf wbs bfing dibngfd on tif diild, no nffd to
+                    // qufuf work for it.
+                    dibnging.prfffrfndfCibngfd(widti, ifigit);
+                    rfturn;
                 }
             }
-            int index = getViewIndex(child.getStartOffset(),
-                                     Position.Bias.Forward);
-            ChildState cs = getChildState(index);
-            cs.preferenceChanged(width, height);
-            LayoutQueue q = getLayoutQueue();
-            q.addTask(cs);
-            q.addTask(flushTask);
+            int indfx = gftVifwIndfx(diild.gftStbrtOffsft(),
+                                     Position.Bibs.Forwbrd);
+            CiildStbtf ds = gftCiildStbtf(indfx);
+            ds.prfffrfndfCibngfd(widti, ifigit);
+            LbyoutQufuf q = gftLbyoutQufuf();
+            q.bddTbsk(ds);
+            q.bddTbsk(flusiTbsk);
         }
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view if the view caches any layout
-     * information.
+     * Sfts tif sizf of tif vifw.  Tiis siould dbusf
+     * lbyout of tif vifw if tif vifw dbdifs bny lbyout
+     * informbtion.
      * <p>
-     * Since the major axis is updated asynchronously and should be
-     * the sum of the tiled children the call is ignored for the major
-     * axis.  Since the minor axis is flexible, work is queued to resize
-     * the children if the minor span changes.
+     * Sindf tif mbjor bxis is updbtfd bsyndironously bnd siould bf
+     * tif sum of tif tilfd diildrfn tif dbll is ignorfd for tif mbjor
+     * bxis.  Sindf tif minor bxis is flfxiblf, work is qufufd to rfsizf
+     * tif diildrfn if tif minor spbn dibngfs.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm widti tif widti &gt;= 0
+     * @pbrbm ifigit tif ifigit &gt;= 0
      */
-    public void setSize(float width, float height) {
-        setSpanOnAxis(X_AXIS, width);
-        setSpanOnAxis(Y_AXIS, height);
+    publid void sftSizf(flobt widti, flobt ifigit) {
+        sftSpbnOnAxis(X_AXIS, widti);
+        sftSpbnOnAxis(Y_AXIS, ifigit);
     }
 
     /**
-     * Retrieves the size of the view along an axis.
+     * Rftrifvfs tif sizf of tif vifw blong bn bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return the current span of the view along the given axis, >= 0
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif durrfnt spbn of tif vifw blong tif givfn bxis, >= 0
      */
-    float getSpanOnAxis(int axis) {
-        if (axis == getMajorAxis()) {
-            return majorSpan;
+    flobt gftSpbnOnAxis(int bxis) {
+        if (bxis == gftMbjorAxis()) {
+            rfturn mbjorSpbn;
         }
-        return minorSpan;
+        rfturn minorSpbn;
     }
 
     /**
-     * Sets the size of the view along an axis.  Since the major
-     * axis is updated asynchronously and should be the sum of the
-     * tiled children the call is ignored for the major axis.  Since
-     * the minor axis is flexible, work is queued to resize the
-     * children if the minor span changes.
+     * Sfts tif sizf of tif vifw blong bn bxis.  Sindf tif mbjor
+     * bxis is updbtfd bsyndironously bnd siould bf tif sum of tif
+     * tilfd diildrfn tif dbll is ignorfd for tif mbjor bxis.  Sindf
+     * tif minor bxis is flfxiblf, work is qufufd to rfsizf tif
+     * diildrfn if tif minor spbn dibngfs.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @param span the span to layout to >= 0
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm spbn tif spbn to lbyout to >= 0
      */
-    void setSpanOnAxis(int axis, float span) {
-        float margin = getInsetSpan(axis);
-        if (axis == getMinorAxis()) {
-            float targetSpan = span - margin;
-            if (targetSpan != minorSpan) {
-                minorSpan = targetSpan;
+    void sftSpbnOnAxis(int bxis, flobt spbn) {
+        flobt mbrgin = gftInsftSpbn(bxis);
+        if (bxis == gftMinorAxis()) {
+            flobt tbrgftSpbn = spbn - mbrgin;
+            if (tbrgftSpbn != minorSpbn) {
+                minorSpbn = tbrgftSpbn;
 
-                // mark all of the ChildState instances as needing to
-                // resize the child, and queue up work to fix them.
-                int n = getViewCount();
+                // mbrk bll of tif CiildStbtf instbndfs bs nffding to
+                // rfsizf tif diild, bnd qufuf up work to fix tifm.
+                int n = gftVifwCount();
                 if (n != 0) {
-                    LayoutQueue q = getLayoutQueue();
+                    LbyoutQufuf q = gftLbyoutQufuf();
                     for (int i = 0; i < n; i++) {
-                        ChildState cs = getChildState(i);
-                        cs.childSizeValid = false;
-                        q.addTask(cs);
+                        CiildStbtf ds = gftCiildStbtf(i);
+                        ds.diildSizfVblid = fblsf;
+                        q.bddTbsk(ds);
                     }
-                    q.addTask(flushTask);
+                    q.bddTbsk(flusiTbsk);
                 }
             }
-        } else {
-            // along the major axis the value is ignored
-            // unless the estimatedMajorSpan property is
-            // true.
-            if (estimatedMajorSpan) {
-                majorSpan = span - margin;
+        } flsf {
+            // blong tif mbjor bxis tif vbluf is ignorfd
+            // unlfss tif fstimbtfdMbjorSpbn propfrty is
+            // truf.
+            if (fstimbtfdMbjorSpbn) {
+                mbjorSpbn = spbn - mbrgin;
             }
         }
     }
 
     /**
-     * Render the view using the given allocation and
-     * rendering surface.
+     * Rfndfr tif vifw using tif givfn bllodbtion bnd
+     * rfndfring surfbdf.
      * <p>
-     * This is implemented to determine whether or not the
-     * desired region to be rendered (i.e. the unclipped
-     * area) is up to date or not.  If up-to-date the children
-     * are rendered.  If not up-to-date, a task to build
-     * the desired area is placed on the layout queue as
-     * a high priority task.  This keeps by event thread
-     * moving by rendering if ready, and postponing until
-     * a later time if not ready (since paint requests
-     * can be rescheduled).
+     * Tiis is implfmfntfd to dftfrminf wiftifr or not tif
+     * dfsirfd rfgion to bf rfndfrfd (i.f. tif undlippfd
+     * brfb) is up to dbtf or not.  If up-to-dbtf tif diildrfn
+     * brf rfndfrfd.  If not up-to-dbtf, b tbsk to build
+     * tif dfsirfd brfb is plbdfd on tif lbyout qufuf bs
+     * b iigi priority tbsk.  Tiis kffps by fvfnt tirfbd
+     * moving by rfndfring if rfbdy, bnd postponing until
+     * b lbtfr timf if not rfbdy (sindf pbint rfqufsts
+     * dbn bf rfsdifdulfd).
      *
-     * @param g the rendering surface to use
-     * @param alloc the allocated region to render into
-     * @see View#paint
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm bllod tif bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape alloc) {
-        synchronized (locator) {
-            locator.setAllocation(alloc);
-            locator.paintChildren(g);
+    publid void pbint(Grbpiids g, Sibpf bllod) {
+        syndironizfd (lodbtor) {
+            lodbtor.sftAllodbtion(bllod);
+            lodbtor.pbintCiildrfn(g);
         }
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    public float getPreferredSpan(int axis) {
-        float margin = getInsetSpan(axis);
-        if (axis == this.axis) {
-            return majorSpan + margin;
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        flobt mbrgin = gftInsftSpbn(bxis);
+        if (bxis == tiis.bxis) {
+            rfturn mbjorSpbn + mbrgin;
         }
-        if (prefRequest != null) {
-            View child = prefRequest.getChildView();
-            return child.getPreferredSpan(axis) + margin;
+        if (prffRfqufst != null) {
+            Vifw diild = prffRfqufst.gftCiildVifw();
+            rfturn diild.gftPrfffrrfdSpbn(bxis) + mbrgin;
         }
 
-        // nothing is known about the children yet
-        return margin + 30;
+        // notiing is known bbout tif diildrfn yft
+        rfturn mbrgin + 30;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn  tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    public float getMinimumSpan(int axis) {
-        if (axis == this.axis) {
-            return getPreferredSpan(axis);
+    publid flobt gftMinimumSpbn(int bxis) {
+        if (bxis == tiis.bxis) {
+            rfturn gftPrfffrrfdSpbn(bxis);
         }
-        if (minRequest != null) {
-            View child = minRequest.getChildView();
-            return child.getMinimumSpan(axis);
+        if (minRfqufst != null) {
+            Vifw diild = minRfqufst.gftCiildVifw();
+            rfturn diild.gftMinimumSpbn(bxis);
         }
 
-        // nothing is known about the children yet
-        if (axis == X_AXIS) {
-            return getLeftInset() + getRightInset() + 5;
-        } else {
-            return getTopInset() + getBottomInset() + 5;
-        }
-    }
-
-    /**
-     * Determines the maximum span for this view along an
-     * axis.
-     *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
-     */
-    public float getMaximumSpan(int axis) {
-        if (axis == this.axis) {
-            return getPreferredSpan(axis);
-        }
-        return Integer.MAX_VALUE;
-    }
-
-
-    /**
-     * Returns the number of views in this view.  Since
-     * the default is to not be a composite view this
-     * returns 0.
-     *
-     * @return the number of views &gt;= 0
-     * @see View#getViewCount
-     */
-    public int getViewCount() {
-        synchronized(stats) {
-            return stats.size();
+        // notiing is known bbout tif diildrfn yft
+        if (bxis == X_AXIS) {
+            rfturn gftLfftInsft() + gftRigitInsft() + 5;
+        } flsf {
+            rfturn gftTopInsft() + gftBottomInsft() + 5;
         }
     }
 
     /**
-     * Gets the nth child view.  Since there are no
-     * children by default, this returns null.
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param n the number of the view to get, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @return the view
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis typf
      */
-    public View getView(int n) {
-        ChildState cs = getChildState(n);
-        if (cs != null) {
-            return cs.getChildView();
+    publid flobt gftMbximumSpbn(int bxis) {
+        if (bxis == tiis.bxis) {
+            rfturn gftPrfffrrfdSpbn(bxis);
         }
-        return null;
+        rfturn Intfgfr.MAX_VALUE;
     }
 
+
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located, without assuming the views store
-     * their location.  This returns null since the
-     * default is to not have any child views.
+     * Rfturns tif numbfr of vifws in tiis vifw.  Sindf
+     * tif dffbult is to not bf b dompositf vifw tiis
+     * rfturns 0.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param a  the allocation to this view.
-     * @return the allocation to the child
+     * @rfturn tif numbfr of vifws &gt;= 0
+     * @sff Vifw#gftVifwCount
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        Shape ca = locator.getChildAllocation(index, a);
-        return ca;
+    publid int gftVifwCount() {
+        syndironizfd(stbts) {
+            rfturn stbts.sizf();
+        }
     }
 
     /**
-     * Returns the child view index representing the given position in
-     * the model.  By default a view has no children so this is implemented
-     * to return -1 to indicate there is no valid child index for any
+     * Gfts tif nti diild vifw.  Sindf tifrf brf no
+     * diildrfn by dffbult, tiis rfturns null.
+     *
+     * @pbrbm n tif numbfr of tif vifw to gft, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @rfturn tif vifw
+     */
+    publid Vifw gftVifw(int n) {
+        CiildStbtf ds = gftCiildStbtf(n);
+        if (ds != null) {
+            rfturn ds.gftCiildVifw();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Fftdifs tif bllodbtion for tif givfn diild vifw.
+     * Tiis fnbblfs finding out wifrf vbrious vifws
+     * brf lodbtfd, witiout bssuming tif vifws storf
+     * tifir lodbtion.  Tiis rfturns null sindf tif
+     * dffbult is to not ibvf bny diild vifws.
+     *
+     * @pbrbm indfx tif indfx of tif diild, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @pbrbm b  tif bllodbtion to tiis vifw.
+     * @rfturn tif bllodbtion to tif diild
+     */
+    publid Sibpf gftCiildAllodbtion(int indfx, Sibpf b) {
+        Sibpf db = lodbtor.gftCiildAllodbtion(indfx, b);
+        rfturn db;
+    }
+
+    /**
+     * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif modfl.  By dffbult b vifw ibs no diildrfn so tiis is implfmfntfd
+     * to rfturn -1 to indidbtf tifrf is no vblid diild indfx for bny
      * position.
      *
-     * @param pos the position &gt;= 0
-     * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
-     * @since 1.3
+     * @pbrbm pos tif position &gt;= 0
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+     *   -1 if no vifw rfprfsfnts tibt position
+     * @sindf 1.3
      */
-    public int getViewIndex(int pos, Position.Bias b) {
-        return getViewIndexAtPosition(pos, b);
+    publid int gftVifwIndfx(int pos, Position.Bibs b) {
+        rfturn gftVifwIndfxAtPosition(pos, b);
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @param b the bias toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views.
-     * @return the bounding box of the given position is returned
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException for an invalid bias argument
-     * @see View#viewToModel
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm b tif bibs towbrd tif prfvious dibrbdtfr or tif
+     *  nfxt dibrbdtfr rfprfsfntfd by tif offsft, in dbsf tif
+     *  position is b boundbry of two vifws.
+     * @rfturn tif bounding box of tif givfn position is rfturnfd
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+     *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+     * @sff Vifw#vifwToModfl
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        int index = getViewIndex(pos, b);
-        Shape ca = locator.getChildAllocation(index, a);
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        int indfx = gftVifwIndfx(pos, b);
+        Sibpf db = lodbtor.gftCiildAllodbtion(indfx, b);
 
-        // forward to the child view, and make sure we don't
-        // interact with the layout thread by synchronizing
-        // on the child state.
-        ChildState cs = getChildState(index);
-        synchronized (cs) {
-            View cv = cs.getChildView();
-            Shape v = cv.modelToView(pos, ca, b);
-            return v;
+        // forwbrd to tif diild vifw, bnd mbkf surf wf don't
+        // intfrbdt witi tif lbyout tirfbd by syndironizing
+        // on tif diild stbtf.
+        CiildStbtf ds = gftCiildStbtf(indfx);
+        syndironizfd (ds) {
+            Vifw dv = ds.gftCiildVifw();
+            Sibpf v = dv.modflToVifw(pos, db, b);
+            rfturn v;
         }
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.  The biasReturn argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.  Tif bibsRfturn brgumfnt will bf
+     * fillfd in to indidbtf tibt tif point givfn is dlosfr to tif nfxt
+     * dibrbdtfr in tif modfl or tif prfvious dibrbdtfr in tif modfl.
      * <p>
-     * This is expected to be called by the GUI thread, holding a
-     * read-lock on the associated model.  It is implemented to
-     * locate the child view and determine it's allocation with a
-     * lock on the ChildLocator object, and to call viewToModel
-     * on the child view with a lock on the ChildState object
-     * to avoid interaction with the layout thread.
+     * Tiis is fxpfdtfd to bf dbllfd by tif GUI tirfbd, iolding b
+     * rfbd-lodk on tif bssodibtfd modfl.  It is implfmfntfd to
+     * lodbtf tif diild vifw bnd dftfrminf it's bllodbtion witi b
+     * lodk on tif CiildLodbtor objfdt, bnd to dbll vifwToModfl
+     * on tif diild vifw witi b lodk on tif CiildStbtf objfdt
+     * to bvoid intfrbdtion witi tif lbyout tirfbd.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0.  The biasReturn argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw &gt;= 0.  Tif bibsRfturn brgumfnt will bf
+     * fillfd in to indidbtf tibt tif point givfn is dlosfr to tif nfxt
+     * dibrbdtfr in tif modfl or tif prfvious dibrbdtfr in tif modfl.
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn) {
-        int pos;    // return position
-        int index;  // child index to forward to
-        Shape ca;   // child allocation
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibsRfturn) {
+        int pos;    // rfturn position
+        int indfx;  // diild indfx to forwbrd to
+        Sibpf db;   // diild bllodbtion
 
-        // locate the child view and it's allocation so that
-        // we can forward to it.  Make sure the layout thread
-        // doesn't change anything by trying to flush changes
-        // to the parent while the GUI thread is trying to
-        // find the child and it's allocation.
-        synchronized (locator) {
-            index = locator.getViewIndexAtPoint(x, y, a);
-            ca = locator.getChildAllocation(index, a);
+        // lodbtf tif diild vifw bnd it's bllodbtion so tibt
+        // wf dbn forwbrd to it.  Mbkf surf tif lbyout tirfbd
+        // dofsn't dibngf bnytiing by trying to flusi dibngfs
+        // to tif pbrfnt wiilf tif GUI tirfbd is trying to
+        // find tif diild bnd it's bllodbtion.
+        syndironizfd (lodbtor) {
+            indfx = lodbtor.gftVifwIndfxAtPoint(x, y, b);
+            db = lodbtor.gftCiildAllodbtion(indfx, b);
         }
 
-        // forward to the child view, and make sure we don't
-        // interact with the layout thread by synchronizing
-        // on the child state.
-        ChildState cs = getChildState(index);
-        synchronized (cs) {
-            View v = cs.getChildView();
-            pos = v.viewToModel(x, y, ca, biasReturn);
+        // forwbrd to tif diild vifw, bnd mbkf surf wf don't
+        // intfrbdt witi tif lbyout tirfbd by syndironizing
+        // on tif diild stbtf.
+        CiildStbtf ds = gftCiildStbtf(indfx);
+        syndironizfd (ds) {
+            Vifw v = ds.gftCiildVifw();
+            pos = v.vifwToModfl(x, y, db, bibsRfturn);
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * Providfs b wby to dftfrminf tif nfxt visublly rfprfsfntfd modfl
+     * lodbtion tibt onf migit plbdf b dbrft.  Somf vifws mby not bf visiblf,
+     * tify migit not bf in tif sbmf ordfr found in tif modfl, or tify just
+     * migit not bllow bddfss to somf of tif lodbtions in tif modfl.
+     * Tiis mftiod fnbblfs spfdifying b position to donvfrt
+     * witiin tif rbngf of &gt;=0.  If tif vbluf is -1, b position
+     * will bf dbldulbtfd butombtidblly.  If tif vbluf &lt; -1,
+     * tif {@dodf BbdLodbtionExdfption} will bf tirown.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
-     *  <ul style="list-style-type:none">
-     *  <li><code>SwingConstants.WEST</code></li>
-     *  <li><code>SwingConstants.EAST</code></li>
-     *  <li><code>SwingConstants.NORTH</code></li>
-     *  <li><code>SwingConstants.SOUTH</code></li>
+     * @pbrbm pos tif position to donvfrt
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion tif dirfdtion from tif durrfnt position tibt dbn
+     *  bf tiougit of bs tif brrow kfys typidblly found on b kfybobrd;
+     *  tiis mby bf onf of tif following:
+     *  <ul stylf="list-stylf-typf:nonf">
+     *  <li><dodf>SwingConstbnts.WEST</dodf></li>
+     *  <li><dodf>SwingConstbnts.EAST</dodf></li>
+     *  <li><dodf>SwingConstbnts.NORTH</dodf></li>
+     *  <li><dodf>SwingConstbnts.SOUTH</dodf></li>
      *  </ul>
-     * @param biasRet an array contain the bias that was checked
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException the given position is not a valid
-     *                                 position within the document
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
+     * @pbrbm bibsRft bn brrby dontbin tif bibs tibt wbs difdkfd
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif nfxt
+     *  lodbtion visubl position
+     * @fxdfption BbdLodbtionExdfption tif givfn position is not b vblid
+     *                                 position witiin tif dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf> is invblid
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
-                                         int direction,
-                                         Position.Bias[] biasRet)
-                                                  throws BadLocationException {
+    publid int gftNfxtVisublPositionFrom(int pos, Position.Bibs b, Sibpf b,
+                                         int dirfdtion,
+                                         Position.Bibs[] bibsRft)
+                                                  tirows BbdLodbtionExdfption {
         if (pos < -1) {
-            throw new BadLocationException("invalid position", pos);
+            tirow nfw BbdLodbtionExdfption("invblid position", pos);
         }
-        return Utilities.getNextVisualPositionFrom(
-                            this, pos, b, a, direction, biasRet);
+        rfturn Utilitifs.gftNfxtVisublPositionFrom(
+                            tiis, pos, b, b, dirfdtion, bibsRft);
     }
 
-    // --- variables -----------------------------------------
+    // --- vbribblfs -----------------------------------------
 
     /**
-     * The major axis against which the children are
-     * tiled.
+     * Tif mbjor bxis bgbinst wiidi tif diildrfn brf
+     * tilfd.
      */
-    int axis;
+    int bxis;
 
     /**
-     * The children and their layout statistics.
+     * Tif diildrfn bnd tifir lbyout stbtistids.
      */
-    List<ChildState> stats;
+    List<CiildStbtf> stbts;
 
     /**
-     * Current span along the major axis.  This
-     * is also the value returned by getMinimumSize,
-     * getPreferredSize, and getMaximumSize along
-     * the major axis.
+     * Currfnt spbn blong tif mbjor bxis.  Tiis
+     * is blso tif vbluf rfturnfd by gftMinimumSizf,
+     * gftPrfffrrfdSizf, bnd gftMbximumSizf blong
+     * tif mbjor bxis.
      */
-    float majorSpan;
+    flobt mbjorSpbn;
 
     /**
-     * Is the span along the major axis estimated?
+     * Is tif spbn blong tif mbjor bxis fstimbtfd?
      */
-    boolean estimatedMajorSpan;
+    boolfbn fstimbtfdMbjorSpbn;
 
     /**
-     * Current span along the minor axis.  This
-     * is what layout was done against (i.e. things
-     * are flexible in this direction).
+     * Currfnt spbn blong tif minor bxis.  Tiis
+     * is wibt lbyout wbs donf bgbinst (i.f. tiings
+     * brf flfxiblf in tiis dirfdtion).
      */
-    float minorSpan;
+    flobt minorSpbn;
 
     /**
-     * Object that manages the offsets of the
-     * children.  All locking for management of
-     * child locations is on this object.
+     * Objfdt tibt mbnbgfs tif offsfts of tif
+     * diildrfn.  All lodking for mbnbgfmfnt of
+     * diild lodbtions is on tiis objfdt.
      */
-    protected ChildLocator locator;
+    protfdtfd CiildLodbtor lodbtor;
 
-    float topInset;
-    float bottomInset;
-    float leftInset;
-    float rightInset;
+    flobt topInsft;
+    flobt bottomInsft;
+    flobt lfftInsft;
+    flobt rigitInsft;
 
-    ChildState minRequest;
-    ChildState prefRequest;
-    boolean majorChanged;
-    boolean minorChanged;
-    Runnable flushTask;
+    CiildStbtf minRfqufst;
+    CiildStbtf prffRfqufst;
+    boolfbn mbjorCibngfd;
+    boolfbn minorCibngfd;
+    Runnbblf flusiTbsk;
 
     /**
-     * Child that is actively changing size.  This often
-     * causes a preferenceChanged, so this is a cache to
-     * possibly speed up the marking the state.  It also
-     * helps flag an opportunity to avoid adding to flush
-     * task to the layout queue.
+     * Ciild tibt is bdtivfly dibnging sizf.  Tiis oftfn
+     * dbusfs b prfffrfndfCibngfd, so tiis is b dbdif to
+     * possibly spffd up tif mbrking tif stbtf.  It blso
+     * iflps flbg bn opportunity to bvoid bdding to flusi
+     * tbsk to tif lbyout qufuf.
      */
-    ChildState changing;
+    CiildStbtf dibnging;
 
     /**
-     * A class to manage the effective position of the
-     * child views in a localized area while changes are
-     * being made around the localized area.  The AsyncBoxView
-     * may be continuously changing, but the visible area
-     * needs to remain fairly stable until the layout thread
-     * decides to publish an update to the parent.
-     * @since 1.3
+     * A dlbss to mbnbgf tif ffffdtivf position of tif
+     * diild vifws in b lodblizfd brfb wiilf dibngfs brf
+     * bfing mbdf bround tif lodblizfd brfb.  Tif AsyndBoxVifw
+     * mby bf dontinuously dibnging, but tif visiblf brfb
+     * nffds to rfmbin fbirly stbblf until tif lbyout tirfbd
+     * dfdidfs to publisi bn updbtf to tif pbrfnt.
+     * @sindf 1.3
      */
-    public class ChildLocator {
+    publid dlbss CiildLodbtor {
 
         /**
-         * construct a child locator.
+         * donstrudt b diild lodbtor.
          */
-        public ChildLocator() {
-            lastAlloc = new Rectangle();
-            childAlloc = new Rectangle();
+        publid CiildLodbtor() {
+            lbstAllod = nfw Rfdtbnglf();
+            diildAllod = nfw Rfdtbnglf();
         }
 
         /**
-         * Notification that a child changed.  This can effect
-         * whether or not new offset calculations are needed.
-         * This is called by a ChildState object that has
-         * changed it's major span.  This can therefore be
-         * called by multiple threads.
+         * Notifidbtion tibt b diild dibngfd.  Tiis dbn ffffdt
+         * wiftifr or not nfw offsft dbldulbtions brf nffdfd.
+         * Tiis is dbllfd by b CiildStbtf objfdt tibt ibs
+         * dibngfd it's mbjor spbn.  Tiis dbn tifrfforf bf
+         * dbllfd by multiplf tirfbds.
          */
-        public synchronized void childChanged(ChildState cs) {
-            if (lastValidOffset == null) {
-                lastValidOffset = cs;
-            } else if (cs.getChildView().getStartOffset() <
-                       lastValidOffset.getChildView().getStartOffset()) {
-                lastValidOffset = cs;
+        publid syndironizfd void diildCibngfd(CiildStbtf ds) {
+            if (lbstVblidOffsft == null) {
+                lbstVblidOffsft = ds;
+            } flsf if (ds.gftCiildVifw().gftStbrtOffsft() <
+                       lbstVblidOffsft.gftCiildVifw().gftStbrtOffsft()) {
+                lbstVblidOffsft = ds;
             }
         }
 
         /**
-         * Paint the children that intersect the clip area.
+         * Pbint tif diildrfn tibt intfrsfdt tif dlip brfb.
          */
-        public synchronized void paintChildren(Graphics g) {
-            Rectangle clip = g.getClipBounds();
-            float targetOffset = (axis == X_AXIS) ?
-                clip.x - lastAlloc.x : clip.y - lastAlloc.y;
-            int index = getViewIndexAtVisualOffset(targetOffset);
-            int n = getViewCount();
-            float offs = getChildState(index).getMajorOffset();
-            for (int i = index; i < n; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(offs);
-                Shape ca = getChildAllocation(i);
-                if (intersectsClip(ca, clip)) {
-                    synchronized (cs) {
-                        View v = cs.getChildView();
-                        v.paint(g, ca);
+        publid syndironizfd void pbintCiildrfn(Grbpiids g) {
+            Rfdtbnglf dlip = g.gftClipBounds();
+            flobt tbrgftOffsft = (bxis == X_AXIS) ?
+                dlip.x - lbstAllod.x : dlip.y - lbstAllod.y;
+            int indfx = gftVifwIndfxAtVisublOffsft(tbrgftOffsft);
+            int n = gftVifwCount();
+            flobt offs = gftCiildStbtf(indfx).gftMbjorOffsft();
+            for (int i = indfx; i < n; i++) {
+                CiildStbtf ds = gftCiildStbtf(i);
+                ds.sftMbjorOffsft(offs);
+                Sibpf db = gftCiildAllodbtion(i);
+                if (intfrsfdtsClip(db, dlip)) {
+                    syndironizfd (ds) {
+                        Vifw v = ds.gftCiildVifw();
+                        v.pbint(g, db);
                     }
-                } else {
-                    // done painting intersection
-                    break;
+                } flsf {
+                    // donf pbinting intfrsfdtion
+                    brfbk;
                 }
-                offs += cs.getMajorSpan();
+                offs += ds.gftMbjorSpbn();
             }
         }
 
         /**
-         * Fetch the allocation to use for a child view.
-         * This will update the offsets for all children
-         * not yet updated before the given index.
+         * Fftdi tif bllodbtion to usf for b diild vifw.
+         * Tiis will updbtf tif offsfts for bll diildrfn
+         * not yft updbtfd bfforf tif givfn indfx.
          */
-        public synchronized Shape getChildAllocation(int index, Shape a) {
-            if (a == null) {
-                return null;
+        publid syndironizfd Sibpf gftCiildAllodbtion(int indfx, Sibpf b) {
+            if (b == null) {
+                rfturn null;
             }
-            setAllocation(a);
-            ChildState cs = getChildState(index);
-            if (lastValidOffset == null) {
-                lastValidOffset = getChildState(0);
+            sftAllodbtion(b);
+            CiildStbtf ds = gftCiildStbtf(indfx);
+            if (lbstVblidOffsft == null) {
+                lbstVblidOffsft = gftCiildStbtf(0);
             }
-            if (cs.getChildView().getStartOffset() >
-                lastValidOffset.getChildView().getStartOffset()) {
-                // offsets need to be updated
-                updateChildOffsetsToIndex(index);
+            if (ds.gftCiildVifw().gftStbrtOffsft() >
+                lbstVblidOffsft.gftCiildVifw().gftStbrtOffsft()) {
+                // offsfts nffd to bf updbtfd
+                updbtfCiildOffsftsToIndfx(indfx);
             }
-            Shape ca = getChildAllocation(index);
-            return ca;
+            Sibpf db = gftCiildAllodbtion(indfx);
+            rfturn db;
         }
 
         /**
-         * Fetches the child view index at the given point.
-         * This is called by the various View methods that
-         * need to calculate which child to forward a message
-         * to.  This should be called by a block synchronized
-         * on this object, and would typically be followed
-         * with one or more calls to getChildAllocation that
-         * should also be in the synchronized block.
+         * Fftdifs tif diild vifw indfx bt tif givfn point.
+         * Tiis is dbllfd by tif vbrious Vifw mftiods tibt
+         * nffd to dbldulbtf wiidi diild to forwbrd b mfssbgf
+         * to.  Tiis siould bf dbllfd by b blodk syndironizfd
+         * on tiis objfdt, bnd would typidblly bf followfd
+         * witi onf or morf dblls to gftCiildAllodbtion tibt
+         * siould blso bf in tif syndironizfd blodk.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param a the allocation to the View
-         * @return the nearest child index
+         * @pbrbm x tif X doordinbtf &gt;= 0
+         * @pbrbm y tif Y doordinbtf &gt;= 0
+         * @pbrbm b tif bllodbtion to tif Vifw
+         * @rfturn tif nfbrfst diild indfx
          */
-        public int getViewIndexAtPoint(float x, float y, Shape a) {
-            setAllocation(a);
-            float targetOffset = (axis == X_AXIS) ? x - lastAlloc.x : y - lastAlloc.y;
-            int index = getViewIndexAtVisualOffset(targetOffset);
-            return index;
+        publid int gftVifwIndfxAtPoint(flobt x, flobt y, Sibpf b) {
+            sftAllodbtion(b);
+            flobt tbrgftOffsft = (bxis == X_AXIS) ? x - lbstAllod.x : y - lbstAllod.y;
+            int indfx = gftVifwIndfxAtVisublOffsft(tbrgftOffsft);
+            rfturn indfx;
         }
 
         /**
-         * Fetch the allocation to use for a child view.
-         * <em>This does not update the offsets in the ChildState
-         * records.</em>
+         * Fftdi tif bllodbtion to usf for b diild vifw.
+         * <fm>Tiis dofs not updbtf tif offsfts in tif CiildStbtf
+         * rfdords.</fm>
          */
-        protected Shape getChildAllocation(int index) {
-            ChildState cs = getChildState(index);
-            if (! cs.isLayoutValid()) {
-                cs.run();
+        protfdtfd Sibpf gftCiildAllodbtion(int indfx) {
+            CiildStbtf ds = gftCiildStbtf(indfx);
+            if (! ds.isLbyoutVblid()) {
+                ds.run();
             }
-            if (axis == X_AXIS) {
-                childAlloc.x = lastAlloc.x + (int) cs.getMajorOffset();
-                childAlloc.y = lastAlloc.y + (int) cs.getMinorOffset();
-                childAlloc.width = (int) cs.getMajorSpan();
-                childAlloc.height = (int) cs.getMinorSpan();
-            } else {
-                childAlloc.y = lastAlloc.y + (int) cs.getMajorOffset();
-                childAlloc.x = lastAlloc.x + (int) cs.getMinorOffset();
-                childAlloc.height = (int) cs.getMajorSpan();
-                childAlloc.width = (int) cs.getMinorSpan();
+            if (bxis == X_AXIS) {
+                diildAllod.x = lbstAllod.x + (int) ds.gftMbjorOffsft();
+                diildAllod.y = lbstAllod.y + (int) ds.gftMinorOffsft();
+                diildAllod.widti = (int) ds.gftMbjorSpbn();
+                diildAllod.ifigit = (int) ds.gftMinorSpbn();
+            } flsf {
+                diildAllod.y = lbstAllod.y + (int) ds.gftMbjorOffsft();
+                diildAllod.x = lbstAllod.x + (int) ds.gftMinorOffsft();
+                diildAllod.ifigit = (int) ds.gftMbjorSpbn();
+                diildAllod.widti = (int) ds.gftMinorSpbn();
             }
-            childAlloc.x += (int)getLeftInset();
-            childAlloc.y += (int)getRightInset();
-            return childAlloc;
+            diildAllod.x += (int)gftLfftInsft();
+            diildAllod.y += (int)gftRigitInsft();
+            rfturn diildAllod;
         }
 
         /**
-         * Copy the currently allocated shape into the Rectangle
-         * used to store the current allocation.  This would be
-         * a floating point rectangle in a Java2D-specific implementation.
+         * Copy tif durrfntly bllodbtfd sibpf into tif Rfdtbnglf
+         * usfd to storf tif durrfnt bllodbtion.  Tiis would bf
+         * b flobting point rfdtbnglf in b Jbvb2D-spfdifid implfmfntbtion.
          */
-        protected void setAllocation(Shape a) {
-            if (a instanceof Rectangle) {
-                lastAlloc.setBounds((Rectangle) a);
-            } else {
-                lastAlloc.setBounds(a.getBounds());
+        protfdtfd void sftAllodbtion(Sibpf b) {
+            if (b instbndfof Rfdtbnglf) {
+                lbstAllod.sftBounds((Rfdtbnglf) b);
+            } flsf {
+                lbstAllod.sftBounds(b.gftBounds());
             }
-            setSize(lastAlloc.width, lastAlloc.height);
+            sftSizf(lbstAllod.widti, lbstAllod.ifigit);
         }
 
         /**
-         * Locate the view responsible for an offset into the box
-         * along the major axis.  Make sure that offsets are set
-         * on the ChildState objects up to the given target span
-         * past the desired offset.
+         * Lodbtf tif vifw rfsponsiblf for bn offsft into tif box
+         * blong tif mbjor bxis.  Mbkf surf tibt offsfts brf sft
+         * on tif CiildStbtf objfdts up to tif givfn tbrgft spbn
+         * pbst tif dfsirfd offsft.
          *
-         * @return   index of the view representing the given visual
-         *   location (targetOffset), or -1 if no view represents
-         *   that location
+         * @rfturn   indfx of tif vifw rfprfsfnting tif givfn visubl
+         *   lodbtion (tbrgftOffsft), or -1 if no vifw rfprfsfnts
+         *   tibt lodbtion
          */
-        protected int getViewIndexAtVisualOffset(float targetOffset) {
-            int n = getViewCount();
+        protfdtfd int gftVifwIndfxAtVisublOffsft(flobt tbrgftOffsft) {
+            int n = gftVifwCount();
             if (n > 0) {
-                boolean lastValid = (lastValidOffset != null);
+                boolfbn lbstVblid = (lbstVblidOffsft != null);
 
-                if (lastValidOffset == null) {
-                    lastValidOffset = getChildState(0);
+                if (lbstVblidOffsft == null) {
+                    lbstVblidOffsft = gftCiildStbtf(0);
                 }
-                if (targetOffset > majorSpan) {
-                    // should only get here on the first time display.
-                    if (!lastValid) {
-                        return 0;
+                if (tbrgftOffsft > mbjorSpbn) {
+                    // siould only gft ifrf on tif first timf displby.
+                    if (!lbstVblid) {
+                        rfturn 0;
                     }
-                    int pos = lastValidOffset.getChildView().getStartOffset();
-                    int index = getViewIndex(pos, Position.Bias.Forward);
-                    return index;
-                } else if (targetOffset > lastValidOffset.getMajorOffset()) {
-                    // roll offset calculations forward
-                    return updateChildOffsets(targetOffset);
-                } else {
-                    // no changes prior to the needed offset
-                    // this should be a binary search
-                    float offs = 0f;
+                    int pos = lbstVblidOffsft.gftCiildVifw().gftStbrtOffsft();
+                    int indfx = gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+                    rfturn indfx;
+                } flsf if (tbrgftOffsft > lbstVblidOffsft.gftMbjorOffsft()) {
+                    // roll offsft dbldulbtions forwbrd
+                    rfturn updbtfCiildOffsfts(tbrgftOffsft);
+                } flsf {
+                    // no dibngfs prior to tif nffdfd offsft
+                    // tiis siould bf b binbry sfbrdi
+                    flobt offs = 0f;
                     for (int i = 0; i < n; i++) {
-                        ChildState cs = getChildState(i);
-                        float nextOffs = offs + cs.getMajorSpan();
-                        if (targetOffset < nextOffs) {
-                            return i;
+                        CiildStbtf ds = gftCiildStbtf(i);
+                        flobt nfxtOffs = offs + ds.gftMbjorSpbn();
+                        if (tbrgftOffsft < nfxtOffs) {
+                            rfturn i;
                         }
-                        offs = nextOffs;
+                        offs = nfxtOffs;
                     }
                 }
             }
-            return n - 1;
+            rfturn n - 1;
         }
 
         /**
-         * Move the location of the last offset calculation forward
-         * to the desired offset.
+         * Movf tif lodbtion of tif lbst offsft dbldulbtion forwbrd
+         * to tif dfsirfd offsft.
          */
-        int updateChildOffsets(float targetOffset) {
-            int n = getViewCount();
-            int targetIndex = n - 1;
-            int pos = lastValidOffset.getChildView().getStartOffset();
-            int startIndex = getViewIndex(pos, Position.Bias.Forward);
-            float start = lastValidOffset.getMajorOffset();
-            float lastOffset = start;
-            for (int i = startIndex; i < n; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(lastOffset);
-                lastOffset += cs.getMajorSpan();
-                if (targetOffset < lastOffset) {
-                    targetIndex = i;
-                    lastValidOffset = cs;
-                    break;
+        int updbtfCiildOffsfts(flobt tbrgftOffsft) {
+            int n = gftVifwCount();
+            int tbrgftIndfx = n - 1;
+            int pos = lbstVblidOffsft.gftCiildVifw().gftStbrtOffsft();
+            int stbrtIndfx = gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+            flobt stbrt = lbstVblidOffsft.gftMbjorOffsft();
+            flobt lbstOffsft = stbrt;
+            for (int i = stbrtIndfx; i < n; i++) {
+                CiildStbtf ds = gftCiildStbtf(i);
+                ds.sftMbjorOffsft(lbstOffsft);
+                lbstOffsft += ds.gftMbjorSpbn();
+                if (tbrgftOffsft < lbstOffsft) {
+                    tbrgftIndfx = i;
+                    lbstVblidOffsft = ds;
+                    brfbk;
                 }
             }
 
-            return targetIndex;
+            rfturn tbrgftIndfx;
         }
 
         /**
-         * Move the location of the last offset calculation forward
-         * to the desired index.
+         * Movf tif lodbtion of tif lbst offsft dbldulbtion forwbrd
+         * to tif dfsirfd indfx.
          */
-        void updateChildOffsetsToIndex(int index) {
-            int pos = lastValidOffset.getChildView().getStartOffset();
-            int startIndex = getViewIndex(pos, Position.Bias.Forward);
-            float lastOffset = lastValidOffset.getMajorOffset();
-            for (int i = startIndex; i <= index; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(lastOffset);
-                lastOffset += cs.getMajorSpan();
+        void updbtfCiildOffsftsToIndfx(int indfx) {
+            int pos = lbstVblidOffsft.gftCiildVifw().gftStbrtOffsft();
+            int stbrtIndfx = gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+            flobt lbstOffsft = lbstVblidOffsft.gftMbjorOffsft();
+            for (int i = stbrtIndfx; i <= indfx; i++) {
+                CiildStbtf ds = gftCiildStbtf(i);
+                ds.sftMbjorOffsft(lbstOffsft);
+                lbstOffsft += ds.gftMbjorSpbn();
             }
         }
 
-        boolean intersectsClip(Shape childAlloc, Rectangle clip) {
-            Rectangle cs = (childAlloc instanceof Rectangle) ?
-                (Rectangle) childAlloc : childAlloc.getBounds();
-            if (cs.intersects(clip)) {
-                // Make sure that lastAlloc also contains childAlloc,
-                // this will be false if haven't yet flushed changes.
-                return lastAlloc.intersects(cs);
+        boolfbn intfrsfdtsClip(Sibpf diildAllod, Rfdtbnglf dlip) {
+            Rfdtbnglf ds = (diildAllod instbndfof Rfdtbnglf) ?
+                (Rfdtbnglf) diildAllod : diildAllod.gftBounds();
+            if (ds.intfrsfdts(dlip)) {
+                // Mbkf surf tibt lbstAllod blso dontbins diildAllod,
+                // tiis will bf fblsf if ibvfn't yft flusifd dibngfs.
+                rfturn lbstAllod.intfrsfdts(ds);
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * The location of the last offset calculation
-         * that is valid.
+         * Tif lodbtion of tif lbst offsft dbldulbtion
+         * tibt is vblid.
          */
-        protected ChildState lastValidOffset;
+        protfdtfd CiildStbtf lbstVblidOffsft;
 
         /**
-         * The last seen allocation (for repainting when changes
-         * are flushed upward).
+         * Tif lbst sffn bllodbtion (for rfpbinting wifn dibngfs
+         * brf flusifd upwbrd).
          */
-        protected Rectangle lastAlloc;
+        protfdtfd Rfdtbnglf lbstAllod;
 
         /**
-         * A shape to use for the child allocation to avoid
-         * creating a lot of garbage.
+         * A sibpf to usf for tif diild bllodbtion to bvoid
+         * drfbting b lot of gbrbbgf.
          */
-        protected Rectangle childAlloc;
+        protfdtfd Rfdtbnglf diildAllod;
     }
 
     /**
-     * A record representing the layout state of a
-     * child view.  It is runnable as a task on another
-     * thread.  All access to the child view that is
-     * based upon a read-lock on the model should synchronize
-     * on this object (i.e. The layout thread and the GUI
-     * thread can both have a read lock on the model at the
-     * same time and are not protected from each other).
-     * Access to a child view hierarchy is serialized via
-     * synchronization on the ChildState instance.
-     * @since 1.3
+     * A rfdord rfprfsfnting tif lbyout stbtf of b
+     * diild vifw.  It is runnbblf bs b tbsk on bnotifr
+     * tirfbd.  All bddfss to tif diild vifw tibt is
+     * bbsfd upon b rfbd-lodk on tif modfl siould syndironizf
+     * on tiis objfdt (i.f. Tif lbyout tirfbd bnd tif GUI
+     * tirfbd dbn boti ibvf b rfbd lodk on tif modfl bt tif
+     * sbmf timf bnd brf not protfdtfd from fbdi otifr).
+     * Addfss to b diild vifw iifrbrdiy is sfriblizfd vib
+     * syndironizbtion on tif CiildStbtf instbndf.
+     * @sindf 1.3
      */
-    public class ChildState implements Runnable {
+    publid dlbss CiildStbtf implfmfnts Runnbblf {
 
         /**
-         * Construct a child status.  This needs to start
-         * out as fairly large so we don't falsely begin with
-         * the idea that all of the children are visible.
-         * @since 1.4
+         * Construdt b diild stbtus.  Tiis nffds to stbrt
+         * out bs fbirly lbrgf so wf don't fblsfly bfgin witi
+         * tif idfb tibt bll of tif diildrfn brf visiblf.
+         * @sindf 1.4
          */
-        public ChildState(View v) {
-            child = v;
-            minorValid = false;
-            majorValid = false;
-            childSizeValid = false;
-            child.setParent(AsyncBoxView.this);
+        publid CiildStbtf(Vifw v) {
+            diild = v;
+            minorVblid = fblsf;
+            mbjorVblid = fblsf;
+            diildSizfVblid = fblsf;
+            diild.sftPbrfnt(AsyndBoxVifw.tiis);
         }
 
         /**
-         * Fetch the child view this record represents
+         * Fftdi tif diild vifw tiis rfdord rfprfsfnts
          */
-        public View getChildView() {
-            return child;
+        publid Vifw gftCiildVifw() {
+            rfturn diild;
         }
 
         /**
-         * Update the child state.  This should be
-         * called by the thread that desires to spend
-         * time updating the child state (intended to
-         * be the layout thread).
+         * Updbtf tif diild stbtf.  Tiis siould bf
+         * dbllfd by tif tirfbd tibt dfsirfs to spfnd
+         * timf updbting tif diild stbtf (intfndfd to
+         * bf tif lbyout tirfbd).
          * <p>
-         * This acquires a read lock on the associated
-         * document for the duration of the update to
-         * ensure the model is not changed while it is
-         * operating.  The first thing to do would be
-         * to see if any work actually needs to be done.
-         * The following could have conceivably happened
-         * while the state was waiting to be updated:
+         * Tiis bdquirfs b rfbd lodk on tif bssodibtfd
+         * dodumfnt for tif durbtion of tif updbtf to
+         * fnsurf tif modfl is not dibngfd wiilf it is
+         * opfrbting.  Tif first tiing to do would bf
+         * to sff if bny work bdtublly nffds to bf donf.
+         * Tif following dould ibvf dondfivbbly ibppfnfd
+         * wiilf tif stbtf wbs wbiting to bf updbtfd:
          * <ol>
-         * <li>The child may have been removed from the
-         * view hierarchy.
-         * <li>The child may have been updated by a
-         * higher priority operation (i.e. the child
-         * may have become visible).
+         * <li>Tif diild mby ibvf bffn rfmovfd from tif
+         * vifw iifrbrdiy.
+         * <li>Tif diild mby ibvf bffn updbtfd by b
+         * iigifr priority opfrbtion (i.f. tif diild
+         * mby ibvf bfdomf visiblf).
          * </ol>
          */
-        public void run () {
-            AbstractDocument doc = (AbstractDocument) getDocument();
+        publid void run () {
+            AbstrbdtDodumfnt dod = (AbstrbdtDodumfnt) gftDodumfnt();
             try {
-                doc.readLock();
-                if (minorValid && majorValid && childSizeValid) {
-                    // nothing to do
-                    return;
+                dod.rfbdLodk();
+                if (minorVblid && mbjorVblid && diildSizfVblid) {
+                    // notiing to do
+                    rfturn;
                 }
-                if (child.getParent() == AsyncBoxView.this) {
-                    // this may overwrite anothers threads cached
-                    // value for actively changing... but that just
-                    // means it won't use the cache if there is an
-                    // overwrite.
-                    synchronized(AsyncBoxView.this) {
-                        changing = this;
+                if (diild.gftPbrfnt() == AsyndBoxVifw.tiis) {
+                    // tiis mby ovfrwritf bnotifrs tirfbds dbdifd
+                    // vbluf for bdtivfly dibnging... but tibt just
+                    // mfbns it won't usf tif dbdif if tifrf is bn
+                    // ovfrwritf.
+                    syndironizfd(AsyndBoxVifw.tiis) {
+                        dibnging = tiis;
                     }
-                    updateChild();
-                    synchronized(AsyncBoxView.this) {
-                        changing = null;
+                    updbtfCiild();
+                    syndironizfd(AsyndBoxVifw.tiis) {
+                        dibnging = null;
                     }
 
-                    // setting the child size on the minor axis
-                    // may have caused it to change it's preference
-                    // along the major axis.
-                    updateChild();
+                    // sftting tif diild sizf on tif minor bxis
+                    // mby ibvf dbusfd it to dibngf it's prfffrfndf
+                    // blong tif mbjor bxis.
+                    updbtfCiild();
                 }
-            } finally {
-                doc.readUnlock();
+            } finblly {
+                dod.rfbdUnlodk();
             }
         }
 
-        void updateChild() {
-            boolean minorUpdated = false;
-            synchronized(this) {
-                if (! minorValid) {
-                    int minorAxis = getMinorAxis();
-                    min = child.getMinimumSpan(minorAxis);
-                    pref = child.getPreferredSpan(minorAxis);
-                    max = child.getMaximumSpan(minorAxis);
-                    minorValid = true;
-                    minorUpdated = true;
+        void updbtfCiild() {
+            boolfbn minorUpdbtfd = fblsf;
+            syndironizfd(tiis) {
+                if (! minorVblid) {
+                    int minorAxis = gftMinorAxis();
+                    min = diild.gftMinimumSpbn(minorAxis);
+                    prff = diild.gftPrfffrrfdSpbn(minorAxis);
+                    mbx = diild.gftMbximumSpbn(minorAxis);
+                    minorVblid = truf;
+                    minorUpdbtfd = truf;
                 }
             }
-            if (minorUpdated) {
-                minorRequirementChange(this);
+            if (minorUpdbtfd) {
+                minorRfquirfmfntCibngf(tiis);
             }
 
-            boolean majorUpdated = false;
-            float delta = 0.0f;
-            synchronized(this) {
-                if (! majorValid) {
-                    float old = span;
-                    span = child.getPreferredSpan(axis);
-                    delta = span - old;
-                    majorValid = true;
-                    majorUpdated = true;
+            boolfbn mbjorUpdbtfd = fblsf;
+            flobt dfltb = 0.0f;
+            syndironizfd(tiis) {
+                if (! mbjorVblid) {
+                    flobt old = spbn;
+                    spbn = diild.gftPrfffrrfdSpbn(bxis);
+                    dfltb = spbn - old;
+                    mbjorVblid = truf;
+                    mbjorUpdbtfd = truf;
                 }
             }
-            if (majorUpdated) {
-                majorRequirementChange(this, delta);
-                locator.childChanged(this);
+            if (mbjorUpdbtfd) {
+                mbjorRfquirfmfntCibngf(tiis, dfltb);
+                lodbtor.diildCibngfd(tiis);
             }
 
-            synchronized(this) {
-                if (! childSizeValid) {
-                    float w;
-                    float h;
-                    if (axis == X_AXIS) {
-                        w = span;
-                        h = getMinorSpan();
-                    } else {
-                        w = getMinorSpan();
-                        h = span;
+            syndironizfd(tiis) {
+                if (! diildSizfVblid) {
+                    flobt w;
+                    flobt i;
+                    if (bxis == X_AXIS) {
+                        w = spbn;
+                        i = gftMinorSpbn();
+                    } flsf {
+                        w = gftMinorSpbn();
+                        i = spbn;
                     }
-                    childSizeValid = true;
-                    child.setSize(w, h);
+                    diildSizfVblid = truf;
+                    diild.sftSizf(w, i);
                 }
             }
 
         }
 
         /**
-         * What is the span along the minor axis.
+         * Wibt is tif spbn blong tif minor bxis.
          */
-        public float getMinorSpan() {
-            if (max < minorSpan) {
-                return max;
+        publid flobt gftMinorSpbn() {
+            if (mbx < minorSpbn) {
+                rfturn mbx;
             }
-            // make it the target width, or as small as it can get.
-            return Math.max(min, minorSpan);
+            // mbkf it tif tbrgft widti, or bs smbll bs it dbn gft.
+            rfturn Mbti.mbx(min, minorSpbn);
         }
 
         /**
-         * What is the offset along the minor axis
+         * Wibt is tif offsft blong tif minor bxis
          */
-        public float getMinorOffset() {
-            if (max < minorSpan) {
-                // can't make the child this wide, align it
-                float align = child.getAlignment(getMinorAxis());
-                return ((minorSpan - max) * align);
+        publid flobt gftMinorOffsft() {
+            if (mbx < minorSpbn) {
+                // dbn't mbkf tif diild tiis widf, blign it
+                flobt blign = diild.gftAlignmfnt(gftMinorAxis());
+                rfturn ((minorSpbn - mbx) * blign);
             }
-            return 0f;
+            rfturn 0f;
         }
 
         /**
-         * What is the span along the major axis.
+         * Wibt is tif spbn blong tif mbjor bxis.
          */
-        public float getMajorSpan() {
-            return span;
+        publid flobt gftMbjorSpbn() {
+            rfturn spbn;
         }
 
         /**
-         * Get the offset along the major axis
+         * Gft tif offsft blong tif mbjor bxis
          */
-        public float getMajorOffset() {
-            return offset;
+        publid flobt gftMbjorOffsft() {
+            rfturn offsft;
         }
 
         /**
-         * This method should only be called by the ChildLocator,
-         * it is simply a convenient place to hold the cached
-         * location.
+         * Tiis mftiod siould only bf dbllfd by tif CiildLodbtor,
+         * it is simply b donvfnifnt plbdf to iold tif dbdifd
+         * lodbtion.
          */
-        public void setMajorOffset(float offs) {
-            offset = offs;
+        publid void sftMbjorOffsft(flobt offs) {
+            offsft = offs;
         }
 
         /**
-         * Mark preferences changed for this child.
+         * Mbrk prfffrfndfs dibngfd for tiis diild.
          *
-         * @param width true if the width preference has changed
-         * @param height true if the height preference has changed
-         * @see javax.swing.JComponent#revalidate
+         * @pbrbm widti truf if tif widti prfffrfndf ibs dibngfd
+         * @pbrbm ifigit truf if tif ifigit prfffrfndf ibs dibngfd
+         * @sff jbvbx.swing.JComponfnt#rfvblidbtf
          */
-        public void preferenceChanged(boolean width, boolean height) {
-            if (axis == X_AXIS) {
-                if (width) {
-                    majorValid = false;
+        publid void prfffrfndfCibngfd(boolfbn widti, boolfbn ifigit) {
+            if (bxis == X_AXIS) {
+                if (widti) {
+                    mbjorVblid = fblsf;
                 }
-                if (height) {
-                    minorValid = false;
+                if (ifigit) {
+                    minorVblid = fblsf;
                 }
-            } else {
-                if (width) {
-                    minorValid = false;
+            } flsf {
+                if (widti) {
+                    minorVblid = fblsf;
                 }
-                if (height) {
-                    majorValid = false;
+                if (ifigit) {
+                    mbjorVblid = fblsf;
                 }
             }
-            childSizeValid = false;
+            diildSizfVblid = fblsf;
         }
 
         /**
-         * Has the child view been laid out.
+         * Hbs tif diild vifw bffn lbid out.
          */
-        public boolean isLayoutValid() {
-            return (minorValid && majorValid && childSizeValid);
+        publid boolfbn isLbyoutVblid() {
+            rfturn (minorVblid && mbjorVblid && diildSizfVblid);
         }
 
-        // minor axis
-        private float min;
-        private float pref;
-        private float max;
-        private boolean minorValid;
+        // minor bxis
+        privbtf flobt min;
+        privbtf flobt prff;
+        privbtf flobt mbx;
+        privbtf boolfbn minorVblid;
 
-        // major axis
-        private float span;
-        private float offset;
-        private boolean majorValid;
+        // mbjor bxis
+        privbtf flobt spbn;
+        privbtf flobt offsft;
+        privbtf boolfbn mbjorVblid;
 
-        private View child;
-        private boolean childSizeValid;
+        privbtf Vifw diild;
+        privbtf boolfbn diildSizfVblid;
     }
 
     /**
-     * Task to flush requirement changes upward
+     * Tbsk to flusi rfquirfmfnt dibngfs upwbrd
      */
-    class FlushTask implements Runnable {
+    dlbss FlusiTbsk implfmfnts Runnbblf {
 
-        public void run() {
-            flushRequirementChanges();
+        publid void run() {
+            flusiRfquirfmfntCibngfs();
         }
 
     }

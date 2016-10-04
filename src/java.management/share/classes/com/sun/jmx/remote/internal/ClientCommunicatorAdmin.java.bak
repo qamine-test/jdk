@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
 
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
 
-public abstract class ClientCommunicatorAdmin {
-    private static volatile long threadNo = 1;
+publid bbstrbdt dlbss ClifntCommunidbtorAdmin {
+    privbtf stbtid volbtilf long tirfbdNo = 1;
 
-    public ClientCommunicatorAdmin(long period) {
-        this.period = period;
+    publid ClifntCommunidbtorAdmin(long pfriod) {
+        tiis.pfriod = pfriod;
 
-        if (period > 0) {
-            checker = new Checker();
+        if (pfriod > 0) {
+            difdkfr = nfw Cifdkfr();
 
-            Thread t = new Thread(checker, "JMX client heartbeat " + ++threadNo);
-            t.setDaemon(true);
-            t.start();
-        } else
-            checker = null;
+            Tirfbd t = nfw Tirfbd(difdkfr, "JMX dlifnt ifbrtbfbt " + ++tirfbdNo);
+            t.sftDbfmon(truf);
+            t.stbrt();
+        } flsf
+            difdkfr = null;
     }
 
     /**
-     * Called by a client to inform of getting an IOException.
+     * Cbllfd by b dlifnt to inform of gftting bn IOExdfption.
      */
-    public void gotIOException (IOException ioe) throws IOException {
-        restart(ioe);
+    publid void gotIOExdfption (IOExdfption iof) tirows IOExdfption {
+        rfstbrt(iof);
     }
 
     /**
-     * Called by this class to check a client connection.
+     * Cbllfd by tiis dlbss to difdk b dlifnt donnfdtion.
      */
-    protected abstract void checkConnection() throws IOException;
+    protfdtfd bbstrbdt void difdkConnfdtion() tirows IOExdfption;
 
     /**
-     * Tells a client to re-start again.
+     * Tflls b dlifnt to rf-stbrt bgbin.
      */
-    protected abstract void doStart() throws IOException;
+    protfdtfd bbstrbdt void doStbrt() tirows IOExdfption;
 
     /**
-     * Tells a client to stop because failing to call checkConnection.
+     * Tflls b dlifnt to stop bfdbusf fbiling to dbll difdkConnfdtion.
      */
-    protected abstract void doStop();
+    protfdtfd bbstrbdt void doStop();
 
     /**
-     * Terminates this object.
+     * Tfrminbtfs tiis objfdt.
      */
-    public void terminate() {
-        synchronized(lock) {
-            if (state == TERMINATED) {
-                return;
+    publid void tfrminbtf() {
+        syndironizfd(lodk) {
+            if (stbtf == TERMINATED) {
+                rfturn;
             }
 
-            state = TERMINATED;
+            stbtf = TERMINATED;
 
-            lock.notifyAll();
+            lodk.notifyAll();
 
-            if (checker != null)
-                checker.stop();
+            if (difdkfr != null)
+                difdkfr.stop();
         }
     }
 
-    private void restart(IOException ioe) throws IOException {
-        // check state
-        synchronized(lock) {
-            if (state == TERMINATED) {
-                throw new IOException("The client has been closed.");
-            } else if (state == FAILED) { // already failed to re-start by another thread
-                throw ioe;
-            } else if (state == RE_CONNECTING) {
-                // restart process has been called by another thread
-                // we need to wait
-                while(state == RE_CONNECTING) {
+    privbtf void rfstbrt(IOExdfption iof) tirows IOExdfption {
+        // difdk stbtf
+        syndironizfd(lodk) {
+            if (stbtf == TERMINATED) {
+                tirow nfw IOExdfption("Tif dlifnt ibs bffn dlosfd.");
+            } flsf if (stbtf == FAILED) { // blrfbdy fbilfd to rf-stbrt by bnotifr tirfbd
+                tirow iof;
+            } flsf if (stbtf == RE_CONNECTING) {
+                // rfstbrt prodfss ibs bffn dbllfd by bnotifr tirfbd
+                // wf nffd to wbit
+                wiilf(stbtf == RE_CONNECTING) {
                     try {
-                        lock.wait();
-                    } catch (InterruptedException ire) {
-                        // be asked to give up
-                        InterruptedIOException iioe = new InterruptedIOException(ire.toString());
-                        EnvHelp.initCause(iioe, ire);
+                        lodk.wbit();
+                    } dbtdi (IntfrruptfdExdfption irf) {
+                        // bf bskfd to givf up
+                        IntfrruptfdIOExdfption iiof = nfw IntfrruptfdIOExdfption(irf.toString());
+                        EnvHflp.initCbusf(iiof, irf);
 
-                        throw iioe;
+                        tirow iiof;
                     }
                 }
 
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
-                } else if (state != CONNECTED) {
-                    // restarted is failed by another thread
-                    throw ioe;
+                if (stbtf == TERMINATED) {
+                    tirow nfw IOExdfption("Tif dlifnt ibs bffn dlosfd.");
+                } flsf if (stbtf != CONNECTED) {
+                    // rfstbrtfd is fbilfd by bnotifr tirfbd
+                    tirow iof;
                 }
-                return;
-            } else {
-                state = RE_CONNECTING;
-                lock.notifyAll();
+                rfturn;
+            } flsf {
+                stbtf = RE_CONNECTING;
+                lodk.notifyAll();
             }
         }
 
-        // re-starting
+        // rf-stbrting
         try {
-            doStart();
-            synchronized(lock) {
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
+            doStbrt();
+            syndironizfd(lodk) {
+                if (stbtf == TERMINATED) {
+                    tirow nfw IOExdfption("Tif dlifnt ibs bffn dlosfd.");
                 }
 
-                state = CONNECTED;
+                stbtf = CONNECTED;
 
-                lock.notifyAll();
+                lodk.notifyAll();
             }
 
-            return;
-        } catch (Exception e) {
-            logger.warning("restart", "Failed to restart: " + e);
-            logger.debug("restart",e);
+            rfturn;
+        } dbtdi (Exdfption f) {
+            loggfr.wbrning("rfstbrt", "Fbilfd to rfstbrt: " + f);
+            loggfr.dfbug("rfstbrt",f);
 
-            synchronized(lock) {
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
+            syndironizfd(lodk) {
+                if (stbtf == TERMINATED) {
+                    tirow nfw IOExdfption("Tif dlifnt ibs bffn dlosfd.");
                 }
 
-                state = FAILED;
+                stbtf = FAILED;
 
-                lock.notifyAll();
+                lodk.notifyAll();
             }
 
             try {
                 doStop();
-            } catch (Exception eee) {
+            } dbtdi (Exdfption fff) {
                 // OK.
-                // We know there is a problem.
+                // Wf know tifrf is b problfm.
             }
 
-            terminate();
+            tfrminbtf();
 
-            throw ioe;
+            tirow iof;
         }
     }
 
 // --------------------------------------------------------------
-// private varaibles
+// privbtf vbrbiblfs
 // --------------------------------------------------------------
-    private class Checker implements Runnable {
-        public void run() {
-            myThread = Thread.currentThread();
+    privbtf dlbss Cifdkfr implfmfnts Runnbblf {
+        publid void run() {
+            myTirfbd = Tirfbd.durrfntTirfbd();
 
-            while (state != TERMINATED && !myThread.isInterrupted()) {
+            wiilf (stbtf != TERMINATED && !myTirfbd.isIntfrruptfd()) {
                 try {
-                    Thread.sleep(period);
-                } catch (InterruptedException ire) {
+                    Tirfbd.slffp(pfriod);
+                } dbtdi (IntfrruptfdExdfption irf) {
                     // OK.
-                    // We will check the state at the following steps
+                    // Wf will difdk tif stbtf bt tif following stfps
                 }
 
-                if (state == TERMINATED || myThread.isInterrupted()) {
-                    break;
+                if (stbtf == TERMINATED || myTirfbd.isIntfrruptfd()) {
+                    brfbk;
                 }
 
                 try {
-                    checkConnection();
-                } catch (Exception e) {
-                    synchronized(lock) {
-                        if (state == TERMINATED || myThread.isInterrupted()) {
-                            break;
+                    difdkConnfdtion();
+                } dbtdi (Exdfption f) {
+                    syndironizfd(lodk) {
+                        if (stbtf == TERMINATED || myTirfbd.isIntfrruptfd()) {
+                            brfbk;
                         }
                     }
 
-                    e = (Exception)EnvHelp.getCause(e);
+                    f = (Exdfption)EnvHflp.gftCbusf(f);
 
-                    if (e instanceof IOException &&
-                        !(e instanceof InterruptedIOException)) {
+                    if (f instbndfof IOExdfption &&
+                        !(f instbndfof IntfrruptfdIOExdfption)) {
                         try {
-                            gotIOException((IOException)e);
-                        } catch (Exception ee) {
-                            logger.warning("Checker-run",
-                                           "Failed to check connection: "+ e);
-                            logger.warning("Checker-run", "stopping");
-                            logger.debug("Checker-run",e);
+                            gotIOExdfption((IOExdfption)f);
+                        } dbtdi (Exdfption ff) {
+                            loggfr.wbrning("Cifdkfr-run",
+                                           "Fbilfd to difdk donnfdtion: "+ f);
+                            loggfr.wbrning("Cifdkfr-run", "stopping");
+                            loggfr.dfbug("Cifdkfr-run",f);
 
-                            break;
+                            brfbk;
                         }
-                    } else {
-                        logger.warning("Checker-run",
-                                     "Failed to check the connection: " + e);
-                        logger.debug("Checker-run",e);
+                    } flsf {
+                        loggfr.wbrning("Cifdkfr-run",
+                                     "Fbilfd to difdk tif donnfdtion: " + f);
+                        loggfr.dfbug("Cifdkfr-run",f);
 
-                        // XXX stop checking?
+                        // XXX stop difdking?
 
-                        break;
+                        brfbk;
                     }
                 }
             }
 
-            if (logger.traceOn()) {
-                logger.trace("Checker-run", "Finished.");
+            if (loggfr.trbdfOn()) {
+                loggfr.trbdf("Cifdkfr-run", "Finisifd.");
             }
         }
 
-        private void stop() {
-            if (myThread != null && myThread != Thread.currentThread()) {
-                myThread.interrupt();
+        privbtf void stop() {
+            if (myTirfbd != null && myTirfbd != Tirfbd.durrfntTirfbd()) {
+                myTirfbd.intfrrupt();
             }
         }
 
-        private Thread myThread;
+        privbtf Tirfbd myTirfbd;
     }
 
 // --------------------------------------------------------------
-// private variables
+// privbtf vbribblfs
 // --------------------------------------------------------------
-    private final Checker checker;
-    private long period;
+    privbtf finbl Cifdkfr difdkfr;
+    privbtf long pfriod;
 
-    // state
-    private final static int CONNECTED = 0;
-    private final static int RE_CONNECTING = 1;
-    private final static int FAILED = 2;
-    private final static int TERMINATED = 3;
+    // stbtf
+    privbtf finbl stbtid int CONNECTED = 0;
+    privbtf finbl stbtid int RE_CONNECTING = 1;
+    privbtf finbl stbtid int FAILED = 2;
+    privbtf finbl stbtid int TERMINATED = 3;
 
-    private int state = CONNECTED;
+    privbtf int stbtf = CONNECTED;
 
-    private final int[] lock = new int[0];
+    privbtf finbl int[] lodk = nfw int[0];
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ClientCommunicatorAdmin");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd",
+                        "ClifntCommunidbtorAdmin");
 }

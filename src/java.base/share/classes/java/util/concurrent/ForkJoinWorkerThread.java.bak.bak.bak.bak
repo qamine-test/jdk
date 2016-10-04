@@ -1,0 +1,277 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.ProtfdtionDombin;
+
+/**
+ * A thrfbd mbnbgfd by b {@link ForkJoinPool}, whidh fxfdutfs
+ * {@link ForkJoinTbsk}s.
+ * This dlbss is subdlbssbblf solfly for thf sbkf of bdding
+ * fundtionblity -- thfrf brf no ovfrridbblf mfthods dfbling with
+ * sdhfduling or fxfdution.  Howfvfr, you dbn ovfrridf initiblizbtion
+ * bnd tfrminbtion mfthods surrounding thf mbin tbsk prodfssing loop.
+ * If you do drfbtf sudh b subdlbss, you will blso nffd to supply b
+ * dustom {@link ForkJoinPool.ForkJoinWorkfrThrfbdFbdtory} to
+ * {@linkplbin ForkJoinPool#ForkJoinPool usf it} in b {@dodf ForkJoinPool}.
+ *
+ * @sindf 1.7
+ * @buthor Doug Lfb
+ */
+publid dlbss ForkJoinWorkfrThrfbd fxtfnds Thrfbd {
+    /*
+     * ForkJoinWorkfrThrfbds brf mbnbgfd by ForkJoinPools bnd pfrform
+     * ForkJoinTbsks. For fxplbnbtion, sff thf intfrnbl dodumfntbtion
+     * of dlbss ForkJoinPool.
+     *
+     * This dlbss just mbintbins links to its pool bnd WorkQufuf.  Thf
+     * pool fifld is sft immfdibtfly upon donstrudtion, but thf
+     * workQufuf fifld is not sft until b dbll to rfgistfrWorkfr
+     * domplftfs. This lfbds to b visibility rbdf, thbt is tolfrbtfd
+     * by rfquiring thbt thf workQufuf fifld is only bddfssfd by thf
+     * owning thrfbd.
+     *
+     * Support for (non-publid) subdlbss InnoduousForkJoinWorkfrThrfbd
+     * rfquirfs thbt wf brfbk quitf b lot of fndbpulbtion (vib Unsbff)
+     * both hfrf bnd in thf subdlbss to bddfss bnd sft Thrfbd fiflds.
+     */
+
+    finbl ForkJoinPool pool;                // thf pool this thrfbd works in
+    finbl ForkJoinPool.WorkQufuf workQufuf; // work-stfbling mfdhbnids
+
+    /**
+     * Crfbtfs b ForkJoinWorkfrThrfbd opfrbting in thf givfn pool.
+     *
+     * @pbrbm pool thf pool this thrfbd works in
+     * @throws NullPointfrExdfption if pool is null
+     */
+    protfdtfd ForkJoinWorkfrThrfbd(ForkJoinPool pool) {
+        // Usf b plbdfholdfr until b usfful nbmf dbn bf sft in rfgistfrWorkfr
+        supfr("bForkJoinWorkfrThrfbd");
+        this.pool = pool;
+        this.workQufuf = pool.rfgistfrWorkfr(this);
+    }
+
+    /**
+     * Vfrsion for InnoduousForkJoinWorkfrThrfbd
+     */
+    ForkJoinWorkfrThrfbd(ForkJoinPool pool, ThrfbdGroup thrfbdGroup,
+                         AddfssControlContfxt bdd) {
+        supfr(thrfbdGroup, null, "bForkJoinWorkfrThrfbd");
+        U.putOrdfrfdObjfdt(this, INHERITEDACCESSCONTROLCONTEXT, bdd);
+        frbsfThrfbdLodbls(); // dlfbr bfforf rfgistfring
+        this.pool = pool;
+        this.workQufuf = pool.rfgistfrWorkfr(this);
+    }
+
+    /**
+     * Rfturns thf pool hosting this thrfbd.
+     *
+     * @rfturn thf pool
+     */
+    publid ForkJoinPool gftPool() {
+        rfturn pool;
+    }
+
+    /**
+     * Rfturns thf uniquf indfx numbfr of this thrfbd in its pool.
+     * Thf rfturnfd vbluf rbngfs from zfro to thf mbximum numbfr of
+     * thrfbds (minus onf) thbt mby fxist in thf pool, bnd dofs not
+     * dhbngf during thf lifftimf of thf thrfbd.  This mfthod mby bf
+     * usfful for bpplidbtions thbt trbdk stbtus or dollfdt rfsults
+     * pfr-workfr-thrfbd rbthfr thbn pfr-tbsk.
+     *
+     * @rfturn thf indfx numbfr
+     */
+    publid int gftPoolIndfx() {
+        rfturn workQufuf.poolIndfx >>> 1; // ignorf odd/fvfn tbg bit
+    }
+
+    /**
+     * Initiblizfs intfrnbl stbtf bftfr donstrudtion but bfforf
+     * prodfssing bny tbsks. If you ovfrridf this mfthod, you must
+     * invokf {@dodf supfr.onStbrt()} bt thf bfginning of thf mfthod.
+     * Initiblizbtion rfquirfs dbrf: Most fiflds must hbvf lfgbl
+     * dffbult vblufs, to fnsurf thbt bttfmptfd bddfssfs from othfr
+     * thrfbds work dorrfdtly fvfn bfforf this thrfbd stbrts
+     * prodfssing tbsks.
+     */
+    protfdtfd void onStbrt() {
+    }
+
+    /**
+     * Pfrforms dlfbnup bssodibtfd with tfrminbtion of this workfr
+     * thrfbd.  If you ovfrridf this mfthod, you must invokf
+     * {@dodf supfr.onTfrminbtion} bt thf fnd of thf ovfrriddfn mfthod.
+     *
+     * @pbrbm fxdfption thf fxdfption dbusing this thrfbd to bbort duf
+     * to bn unrfdovfrbblf frror, or {@dodf null} if domplftfd normblly
+     */
+    protfdtfd void onTfrminbtion(Throwbblf fxdfption) {
+    }
+
+    /**
+     * This mfthod is rfquirfd to bf publid, but should nfvfr bf
+     * dbllfd fxpliditly. It pfrforms thf mbin run loop to fxfdutf
+     * {@link ForkJoinTbsk}s.
+     */
+    publid void run() {
+        if (workQufuf.brrby == null) { // only run ondf
+            Throwbblf fxdfption = null;
+            try {
+                onStbrt();
+                pool.runWorkfr(workQufuf);
+            } dbtdh (Throwbblf fx) {
+                fxdfption = fx;
+            } finblly {
+                try {
+                    onTfrminbtion(fxdfption);
+                } dbtdh (Throwbblf fx) {
+                    if (fxdfption == null)
+                        fxdfption = fx;
+                } finblly {
+                    pool.dfrfgistfrWorkfr(this, fxdfption);
+                }
+            }
+        }
+    }
+
+    /**
+     * Erbsfs ThrfbdLodbls by nulling out Thrfbd mbps
+     */
+    finbl void frbsfThrfbdLodbls() {
+        U.putObjfdt(this, THREADLOCALS, null);
+        U.putObjfdt(this, INHERITABLETHREADLOCALS, null);
+    }
+
+    /**
+     * Non-publid hook mfthod for InnoduousForkJoinWorkfrThrfbd
+     */
+    void bftfrTopLfvflExfd() {
+    }
+
+    // Sft up to bllow sftting thrfbd fiflds in donstrudtor
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
+    stbtid {
+        try {
+            U = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Thrfbd.dlbss;
+            THREADLOCALS = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodbls"));
+            INHERITABLETHREADLOCALS = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inhfritbblfThrfbdLodbls"));
+            INHERITEDACCESSCONTROLCONTEXT = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inhfritfdAddfssControlContfxt"));
+
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    /**
+     * A workfr thrfbd thbt hbs no pfrmissions, is not b mfmbfr of bny
+     * usfr-dffinfd ThrfbdGroup, bnd frbsfs bll ThrfbdLodbls bftfr
+     * running fbdh top-lfvfl tbsk.
+     */
+    stbtid finbl dlbss InnoduousForkJoinWorkfrThrfbd fxtfnds ForkJoinWorkfrThrfbd {
+        /** Thf ThrfbdGroup for bll InnoduousForkJoinWorkfrThrfbds */
+        privbtf stbtid finbl ThrfbdGroup innoduousThrfbdGroup =
+            drfbtfThrfbdGroup();
+
+        /** An AddfssControlContfxt supporting no privilfgfs */
+        privbtf stbtid finbl AddfssControlContfxt INNOCUOUS_ACC =
+            nfw AddfssControlContfxt(
+                nfw ProtfdtionDombin[] {
+                    nfw ProtfdtionDombin(null, null)
+                });
+
+        InnoduousForkJoinWorkfrThrfbd(ForkJoinPool pool) {
+            supfr(pool, innoduousThrfbdGroup, INNOCUOUS_ACC);
+        }
+
+        @Ovfrridf // to frbsf ThrfbdLodbls
+        void bftfrTopLfvflExfd() {
+            frbsfThrfbdLodbls();
+        }
+
+        @Ovfrridf // to blwbys rfport systfm lobdfr
+        publid ClbssLobdfr gftContfxtClbssLobdfr() {
+            rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
+        }
+
+        @Ovfrridf // to silfntly fbil
+        publid void sftUndbughtExdfptionHbndlfr(UndbughtExdfptionHbndlfr x) { }
+
+        @Ovfrridf // pbrbnoidblly
+        publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+            throw nfw SfdurityExdfption("sftContfxtClbssLobdfr");
+        }
+
+        /**
+         * Rfturns b nfw group with thf systfm ThrfbdGroup (thf
+         * topmost, pbrfntlfss group) bs pbrfnt.  Usfs Unsbff to
+         * trbvfrsf Thrfbd group bnd ThrfbdGroup pbrfnt fiflds.
+         */
+        privbtf stbtid ThrfbdGroup drfbtfThrfbdGroup() {
+            try {
+                sun.misd.Unsbff u = sun.misd.Unsbff.gftUnsbff();
+                Clbss<?> tk = Thrfbd.dlbss;
+                Clbss<?> gk = ThrfbdGroup.dlbss;
+                long tg = u.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
+                long gp = u.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+                ThrfbdGroup group = (ThrfbdGroup)
+                    u.gftObjfdt(Thrfbd.durrfntThrfbd(), tg);
+                whilf (group != null) {
+                    ThrfbdGroup pbrfnt = (ThrfbdGroup)u.gftObjfdt(group, gp);
+                    if (pbrfnt == null)
+                        rfturn nfw ThrfbdGroup(group,
+                                               "InnoduousForkJoinWorkfrThrfbdGroup");
+                    group = pbrfnt;
+                }
+            } dbtdh (Exdfption f) {
+                throw nfw Error(f);
+            }
+            // fbll through if null bs dbnnot-hbppfn sbffgubrd
+            throw nfw Error("Cbnnot drfbtf ThrfbdGroup");
+        }
+    }
+
+}
+

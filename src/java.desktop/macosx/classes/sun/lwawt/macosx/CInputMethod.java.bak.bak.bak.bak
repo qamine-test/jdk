@@ -1,0 +1,813 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.im.spi.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.im.*;
+import jbvb.bwt.font.*;
+import jbvb.lbng.Chbrbdtfr.Subsft;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+import sun.bwt.im.InputMfthodAdbptfr;
+import sun.lwbwt.*;
+
+publid dlbss CInputMfthod fxtfnds InputMfthodAdbptfr {
+    privbtf InputMfthodContfxt fIMContfxt;
+    privbtf Componfnt fAwtFodussfdComponfnt;
+    privbtf LWComponfntPffr<?, ?> fAwtFodussfdComponfntPffr;
+    privbtf boolfbn isAdtivf;
+
+    privbtf stbtid Mbp<TfxtAttributf, Intfgfr>[] sHighlightStylfs;
+
+    // Intitblizf highlight mbpping tbblf bnd its mbppfr.
+    stbtid {
+        @SupprfssWbrnings({"rbwtypfs", "undhfdkfd"})
+        Mbp<TfxtAttributf, Intfgfr> stylfs[] = nfw Mbp[4];
+        HbshMbp<TfxtAttributf, Intfgfr> mbp;
+
+        // UNSELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbshMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_GRAY);
+        stylfs[0] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_RAW_TEXT_HIGHLIGHT
+        mbp = nfw HbshMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_GRAY);
+        stylfs[1] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbshMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_ONE_PIXEL);
+        stylfs[2] = Collfdtions.unmodifibblfMbp(mbp);
+
+        // SELECTED_CONVERTED_TEXT_HIGHLIGHT
+        mbp = nfw HbshMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_TWO_PIXEL);
+        stylfs[3] = Collfdtions.unmodifibblfMbp(mbp);
+
+        sHighlightStylfs = stylfs;
+
+        nbtivfInit();
+
+    }
+
+    publid CInputMfthod() {
+    }
+
+
+    /**
+        * Sfts thf input mfthod dontfxt, whidh is usfd to dispbtdh input mfthod
+     * fvfnts to thf dlifnt domponfnt bnd to rfqufst informbtion from
+     * thf dlifnt domponfnt.
+     * <p>
+     * This mfthod is dbllfd ondf immfdibtfly bftfr instbntibting this input
+     * mfthod.
+     *
+     * @pbrbm dontfxt thf input mfthod dontfxt for this input mfthod
+     * @fxdfption NullPointfrExdfption if <dodf>dontfxt</dodf> is null
+     */
+    publid void sftInputMfthodContfxt(InputMfthodContfxt dontfxt) {
+        fIMContfxt = dontfxt;
+    }
+
+    /**
+        * Attfmpts to sft thf input lodblf. If thf input mfthod supports thf
+     * dfsirfd lodblf, it dhbngfs its bfhbvior to support input for thf lodblf
+     * bnd rfturns truf.
+     * Othfrwisf, it rfturns fblsf bnd dofs not dhbngf its bfhbvior.
+     * <p>
+     * This mfthod is dbllfd
+     * <ul>
+     * <li>by {@link jbvb.bwt.im.InputContfxt#sflfdtInputMfthod InputContfxt.sflfdtInputMfthod},
+     * <li>whfn switdhing to this input mfthod through thf usfr intfrfbdf if thf usfr
+     *     spfdififd b lodblf or if thf prfviously sflfdtfd input mfthod's
+     *     {@link jbvb.bwt.im.spi.InputMfthod#gftLodblf gftLodblf} mfthod
+     *     rfturns b non-null vbluf.
+     * </ul>
+     *
+     * @pbrbm lbng lodblf to input
+     * @rfturn whfthfr thf spfdififd lodblf is supportfd
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid boolfbn sftLodblf(Lodblf lbng) {
+        rfturn sftLodblf(lbng, fblsf);
+    }
+
+    privbtf boolfbn sftLodblf(Lodblf lbng, boolfbn onAdtivbtf) {
+        Objfdt[] bvbilbblf = CInputMfthodDfsdriptor.gftAvbilbblfLodblfsIntfrnbl();
+        for (int i = 0; i < bvbilbblf.lfngth; i++) {
+            Lodblf lodblf = (Lodblf)bvbilbblf[i];
+            if (lbng.fqubls(lodblf) ||
+                // spfdibl dompbtibility rulf for Jbpbnfsf bnd Korfbn
+                lodblf.fqubls(Lodblf.JAPAN) && lbng.fqubls(Lodblf.JAPANESE) ||
+                lodblf.fqubls(Lodblf.KOREA) && lbng.fqubls(Lodblf.KOREAN)) {
+                if (isAdtivf) {
+                    sftNbtivfLodblf(lodblf.toString(), onAdtivbtf);
+                }
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+        * Rfturns thf durrfnt input lodblf. Might rfturn null in fxdfptionbl dbsfs.
+     * <p>
+     * This mfthod is dbllfd
+     * <ul>
+     * <li>by {@link jbvb.bwt.im.InputContfxt#gftLodblf InputContfxt.gftLodblf} bnd
+     * <li>whfn switdhing from this input mfthod to b difffrfnt onf through thf
+     *     usfr intfrfbdf.
+     * </ul>
+     *
+     * @rfturn thf durrfnt input lodblf, or null
+     */
+    publid Lodblf gftLodblf() {
+        // On Mbd OS X wf'll bsk thf durrfntly bdtivf input mfthod whbt its lodblf is.
+        Lodblf rfturnVbluf = gftNbtivfLodblf();
+        if (rfturnVbluf == null) {
+            rfturnVbluf = Lodblf.gftDffbult();
+        }
+
+        rfturn rfturnVbluf;
+    }
+
+    /**
+        * Sfts thf subsfts of thf Unidodf dhbrbdtfr sft thbt this input mfthod
+     * is bllowfd to input. Null mby bf pbssfd in to indidbtf thbt bll
+     * dhbrbdtfrs brf bllowfd.
+     * <p>
+     * This mfthod is dbllfd
+     * <ul>
+     * <li>immfdibtfly bftfr instbntibting this input mfthod,
+     * <li>whfn switdhing to this input mfthod from b difffrfnt onf, bnd
+     * <li>by {@link jbvb.bwt.im.InputContfxt#sftChbrbdtfrSubsfts InputContfxt.sftChbrbdtfrSubsfts}.
+     * </ul>
+     *
+     * @pbrbm subsfts thf subsfts of thf Unidodf dhbrbdtfr sft from whidh
+     * dhbrbdtfrs mby bf input
+     */
+    publid void sftChbrbdtfrSubsfts(Subsft[] subsfts) {
+        // -- SAK: Dofs mbd OS X support this?
+    }
+
+    /**
+        * Composition dbnnot bf sft on Mbd OS X -- thf input mfthod rfmfmbfrs this
+     */
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Cbn't bdjust domposition modf on Mbd OS X.");
+    }
+
+    publid boolfbn isCompositionEnbblfd() {
+        throw nfw UnsupportfdOpfrbtionExdfption("Cbn't bdjust domposition modf on Mbd OS X.");
+    }
+
+    /**
+     * Dispbtdhfs thf fvfnt to thf input mfthod. If input mfthod support is
+     * fnbblfd for thf fodussfd domponfnt, indoming fvfnts of dfrtbin typfs
+     * brf dispbtdhfd to thf durrfnt input mfthod for this domponfnt bfforf
+     * thfy brf dispbtdhfd to thf domponfnt's mfthods or fvfnt listfnfrs.
+     * Thf input mfthod dfdidfs whfthfr it nffds to hbndlf thf fvfnt. If it
+     * dofs, it blso dblls thf fvfnt's <dodf>donsumf</dodf> mfthod; this
+     * dbusfs thf fvfnt to not gft dispbtdhfd to thf domponfnt's fvfnt
+     * prodfssing mfthods or fvfnt listfnfrs.
+     * <p>
+     * Evfnts brf dispbtdhfd if thfy brf instbndfs of InputEvfnt or its
+     * subdlbssfs.
+     * This indludfs instbndfs of thf AWT dlbssfs KfyEvfnt bnd MousfEvfnt.
+     * <p>
+     * This mfthod is dbllfd by {@link jbvb.bwt.im.InputContfxt#dispbtdhEvfnt InputContfxt.dispbtdhEvfnt}.
+     *
+     * @pbrbm fvfnt thf fvfnt bfing dispbtdhfd to thf input mfthod
+     * @fxdfption NullPointfrExdfption if <dodf>fvfnt</dodf> is null
+     */
+    publid void dispbtdhEvfnt(finbl AWTEvfnt fvfnt) {
+        // No-op for Mbd OS X.
+    }
+
+
+    /**
+     * Adtivbtf bnd dfbdtivbtf brf no-ops on Mbd OS X.
+     * A non-US kfybobrd lbyout is bn 'input mfthod' in thbt it gfnfrbtfs fvfnts thf sbmf wby bs
+     * b CJK input mfthod. A domponfnt thbt dofsn't wbnt input mfthod fvfnts still wbnts thf dfbd-kfy
+     * fvfnts.
+     *
+     *
+     */
+    publid void bdtivbtf() {
+        isAdtivf = truf;
+    }
+
+    publid void dfbdtivbtf(boolfbn isTfmporbry) {
+        isAdtivf = fblsf;
+    }
+
+    /**
+     * Closfs or hidfs bll windows opfnfd by this input mfthod instbndf or
+     * its dlbss.  Dfbdtivbtf hidfs windows for us on Mbd OS X.
+     */
+    publid void hidfWindows() {
+    }
+
+    long gftNbtivfVifwPtr(LWComponfntPffr<?, ?> pffr) {
+        if (pffr.gftPlbtformWindow() instbndfof CPlbtformWindow) {
+            CPlbtformWindow plbtformWindow = (CPlbtformWindow) pffr.gftPlbtformWindow();
+            CPlbtformVifw plbtformVifw = plbtformWindow.gftContfntVifw();
+            rfturn plbtformVifw.gftAWTVifw();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+        * Notififs thf input mfthod thbt b dlifnt domponfnt hbs bffn
+     * rfmovfd from its dontbinmfnt hifrbrdhy, or thbt input mfthod
+     * support hbs bffn disbblfd for thf domponfnt.
+     */
+    publid void rfmovfNotify() {
+        if (fAwtFodussfdComponfntPffr != null) {
+            nbtivfEndComposition(gftNbtivfVifwPtr(fAwtFodussfdComponfntPffr));
+        }
+
+        fAwtFodussfdComponfntPffr = null;
+    }
+
+    /**
+     * Informs thf input mfthod bdbptfr bbout thf domponfnt thbt hbs thf AWT
+     * fodus if it's using thf input dontfxt owning this bdbptfr instbndf.
+     * Wf blso tbkf thf opportunity to tfll thf nbtivf sidf thbt wf brf thf input mfthod
+     * to tblk to whfn rfsponding to kfy fvfnts.
+     */
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        LWComponfntPffr<?, ?> pffr = null;
+        long modflPtr = 0;
+        CInputMfthod imInstbndf = this;
+
+        // domponfnt will bf null whfn wf brf told thfrf's no fodusfd domponfnt.
+        // Whfn thbt hbppfns wf nffd to notify thf nbtivf brdhitfdturf to stop gfnfrbting IMEs
+        if (domponfnt == null) {
+            pffr = fAwtFodussfdComponfntPffr;
+            imInstbndf = null;
+        } flsf {
+            pffr = gftNfbrfstNbtivfPffr(domponfnt);
+
+            // If wf hbvf b pbssivf dlifnt, don't pbss input mfthod fvfnts to it.
+            if (domponfnt.gftInputMfthodRfqufsts() == null) {
+                imInstbndf = null;
+            }
+        }
+
+        if (pffr != null) {
+            modflPtr = gftNbtivfVifwPtr(pffr);
+
+            // modflPtr rfffrs to thf ControlModfl thbt fithfr got or lost fodus.
+            nbtivfNotifyPffr(modflPtr, imInstbndf);
+        }
+
+        // Trbdk thf fodusfd domponfnt bnd its nfbrfst pffr.
+        fAwtFodussfdComponfnt = domponfnt;
+        fAwtFodussfdComponfntPffr = gftNfbrfstNbtivfPffr(domponfnt);
+    }
+
+    /**
+        * @sff jbvb.bwt.Toolkit#mbpInputMfthodHighlight
+     */
+    publid stbtid Mbp<TfxtAttributf, ?> mbpInputMfthodHighlight(InputMfthodHighlight highlight) {
+        int indfx;
+        int stbtf = highlight.gftStbtf();
+        if (stbtf == InputMfthodHighlight.RAW_TEXT) {
+            indfx = 0;
+        } flsf if (stbtf == InputMfthodHighlight.CONVERTED_TEXT) {
+            indfx = 2;
+        } flsf {
+            rfturn null;
+        }
+        if (highlight.isSflfdtfd()) {
+            indfx += 1;
+        }
+        rfturn sHighlightStylfs[indfx];
+    }
+
+    /**
+        * Ends bny input domposition thbt mby durrfntly bf going on in this
+     * dontfxt. Dfpfnding on thf plbtform bnd possibly usfr prfffrfndfs,
+     * this mby dommit or dflftf undommittfd tfxt. Any dhbngfs to thf tfxt
+     * brf dommunidbtfd to thf bdtivf domponfnt using bn input mfthod fvfnt.
+     *
+     * <p>
+     * A tfxt fditing domponfnt mby dbll this in b vbrifty of situbtions,
+     * for fxbmplf, whfn thf usfr movfs thf insfrtion point within thf tfxt
+     * (but outsidf thf domposfd tfxt), or whfn thf domponfnt's tfxt is
+     * sbvfd to b filf or dopifd to thf dlipbobrd.
+     * <p>
+     * This mfthod is dbllfd
+     * <ul>
+     * <li>by {@link jbvb.bwt.im.InputContfxt#fndComposition InputContfxt.fndComposition},
+     * <li>by {@link jbvb.bwt.im.InputContfxt#dispbtdhEvfnt InputContfxt.dispbtdhEvfnt}
+     *     whfn switdhing to b difffrfnt dlifnt domponfnt
+     * <li>whfn switdhing from this input mfthod to b difffrfnt onf using thf
+     *     usfr intfrfbdf or
+     *     {@link jbvb.bwt.im.InputContfxt#sflfdtInputMfthod InputContfxt.sflfdtInputMfthod}.
+     * </ul>
+     */
+    publid void fndComposition() {
+        if (fAwtFodussfdComponfntPffr != null)
+            nbtivfEndComposition(gftNbtivfVifwPtr(fAwtFodussfdComponfntPffr));
+    }
+
+    /**
+        * Disposfs of thf input mfthod bnd rflfbsfs thf rfsourdfs usfd by it.
+     * In pbrtidulbr, thf input mfthod should disposf windows bnd dlosf filfs thbt brf no
+     * longfr nffdfd.
+     * <p>
+     * This mfthod is dbllfd by {@link jbvb.bwt.im.InputContfxt#disposf InputContfxt.disposf}.
+     * <p>
+     * Thf mfthod is only dbllfd whfn thf input mfthod is inbdtivf.
+     * No mfthod of this intfrfbdf is dbllfd on this instbndf bftfr disposf.
+     */
+    publid void disposf() {
+        fIMContfxt = null;
+        fAwtFodussfdComponfnt = null;
+        fAwtFodussfdComponfntPffr = null;
+    }
+
+    /**
+        * Rfturns b dontrol objfdt from this input mfthod, or null. A
+     * dontrol objfdt providfs mfthods thbt dontrol thf bfhbvior of thf
+     * input mfthod or obtbin informbtion from thf input mfthod. Thf typf
+     * of thf objfdt is bn input mfthod spfdifid dlbss. Clifnts hbvf to
+     * dompbrf thf rfsult bgbinst known input mfthod dontrol objfdt
+     * dlbssfs bnd dbst to thf bppropribtf dlbss to invokf thf mfthods
+     * providfd.
+     * <p>
+     * This mfthod is dbllfd by
+     * {@link jbvb.bwt.im.InputContfxt#gftInputMfthodControlObjfdt InputContfxt.gftInputMfthodControlObjfdt}.
+     *
+     * @rfturn b dontrol objfdt from this input mfthod, or null
+     */
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
+    }
+
+    // jbvb.bwt.Toolkit#gftNbtivfContbinfr() is not bvbilbblf
+    //    from this pbdkbgf
+    privbtf LWComponfntPffr<?, ?> gftNfbrfstNbtivfPffr(Componfnt domp) {
+        if (domp==null)
+            rfturn null;
+
+        ComponfntPffr pffr = domp.gftPffr();
+        if (pffr==null)
+            rfturn null;
+
+        whilf (pffr instbndfof jbvb.bwt.pffr.LightwfightPffr) {
+            domp = domp.gftPbrfnt();
+            if (domp==null)
+                rfturn null;
+            pffr = domp.gftPffr();
+            if (pffr==null)
+                rfturn null;
+        }
+
+        if (pffr instbndfof LWComponfntPffr)
+            rfturn (LWComponfntPffr)pffr;
+
+        rfturn null;
+    }
+
+    // =========================== NSTfxtInput dbllbbdks ===========================
+    // Thf 'mbrkfd tfxt' thbt wf gft from Codob.  Wf nffd to trbdk this sfpbrbtfly, sindf
+    // Jbvb dofsn't lft us bsk thf IM dontfxt for it.
+    privbtf AttributfdString fCurrfntTfxt = null;
+    privbtf String fCurrfntTfxtAsString = null;
+    privbtf int fCurrfntTfxtLfngth = 0;
+
+    /**
+     * Tfll thf domponfnt to dommit bll of thf dhbrbdtfrs in thf string to thf durrfnt
+     * tfxt vifw. This ffffdtivfly wipfs out bny tfxt in progrfss.
+     */
+    syndhronizfd privbtf void insfrtTfxt(String bString) {
+        AttributfdString bttribString = nfw AttributfdString(bString);
+
+        // Sft lodblf informbtion on thf nfw string.
+        bttribString.bddAttributf(Attributf.LANGUAGE, gftLodblf(), 0, bString.lfngth());
+
+        TfxtHitInfo thfCbrft = TfxtHitInfo.bftfrOffsft(bString.lfngth() - 1);
+        InputMfthodEvfnt fvfnt = nfw InputMfthodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      bttribString.gftItfrbtor(),
+                                                      bString.lfngth(),
+                                                      thfCbrft,
+                                                      thfCbrft);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
+        fCurrfntTfxt = null;
+        fCurrfntTfxtAsString = null;
+        fCurrfntTfxtLfngth = 0;
+    }
+
+    privbtf void stbrtIMUpdbtf (String rbwTfxt) {
+        fCurrfntTfxtAsString = nfw String(rbwTfxt);
+        fCurrfntTfxt = nfw AttributfdString(fCurrfntTfxtAsString);
+        fCurrfntTfxtLfngth = rbwTfxt.lfngth();
+    }
+
+    stbtid privbtf finbl int kCbrftPosition = 0;
+    stbtid privbtf finbl int kRbwTfxt = 1;
+    stbtid privbtf finbl int kSflfdtfdRbwTfxt = 2;
+    stbtid privbtf finbl int kConvfrtfdTfxt = 3;
+    stbtid privbtf finbl int kSflfdtfdConvfrtfdTfxt = 4;
+
+    /**
+     * Convfrt Codob tfxt highlight bttributfs into Jbvb input mfthod highlighting.
+     */
+    privbtf void bddAttributf (boolfbn isThidkUndfrlinf, boolfbn isGrby, int stbrt, int lfngth) {
+        int bfgin = stbrt;
+        int fnd = stbrt + lfngth;
+        int mbrkupTypf = kRbwTfxt;
+
+        if (isThidkUndfrlinf && isGrby) {
+            mbrkupTypf = kRbwTfxt;
+        } flsf if (!isThidkUndfrlinf && isGrby) {
+            mbrkupTypf = kRbwTfxt;
+        } flsf if (isThidkUndfrlinf && !isGrby) {
+            mbrkupTypf = kSflfdtfdConvfrtfdTfxt;
+        } flsf if (!isThidkUndfrlinf && !isGrby) {
+            mbrkupTypf = kConvfrtfdTfxt;
+        }
+
+        InputMfthodHighlight thfHighlight;
+
+        switdh (mbrkupTypf) {
+            dbsf kSflfdtfdRbwTfxt:
+                thfHighlight = InputMfthodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kConvfrtfdTfxt:
+                thfHighlight = InputMfthodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kSflfdtfdConvfrtfdTfxt:
+                thfHighlight = InputMfthodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kRbwTfxt:
+            dffbult:
+                thfHighlight = InputMfthodHighlight.UNSELECTED_RAW_TEXT_HIGHLIGHT;
+                brfbk;
+        }
+
+        fCurrfntTfxt.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT, thfHighlight, bfgin, fnd);
+    }
+
+   /* Cbllfd from JNI to sflfdt thf prfviously typfd glyph during prfss bnd hold */
+    privbtf void sflfdtPrfviousGlyph() {
+        if (fIMContfxt == null) rfturn; // ???
+        try {
+            LWCToolkit.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    finbl int offsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    if (offsft < 1) rfturn; // ???
+
+                    if (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt) {
+                        ((JTfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft - 1, offsft);
+                        rfturn;
+                    }
+
+                    if (fAwtFodussfdComponfnt instbndfof TfxtComponfnt) {
+                        ((TfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft - 1, offsft);
+                        rfturn;
+                    }
+                    // TODO: Idfblly wf wbnt to disbblf prfss-bnd-hold in this dbsf
+                }
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (Exdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+    privbtf void sflfdtNfxtGlyph() {
+        if (fIMContfxt == null || !(fAwtFodussfdComponfnt instbndfof JTfxtComponfnt)) rfturn;
+        try {
+            LWCToolkit.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    finbl int offsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    if (offsft < 0) rfturn;
+                    ((JTfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft, offsft + 1);
+                    rfturn;
+                }
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (Exdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+    privbtf void dispbtdhTfxt(int sflfdtStbrt, int sflfdtLfngth, boolfbn prfssAndHold) {
+        // Nothing to do if wf hbvf no tfxt.
+        if (fCurrfntTfxt == null)
+            rfturn;
+
+        TfxtHitInfo thfCbrft = (sflfdtLfngth == 0 ? TfxtHitInfo.bfforfOffsft(sflfdtStbrt) : null);
+        TfxtHitInfo visiblfPosition = TfxtHitInfo.bfforfOffsft(0);
+
+        InputMfthodEvfnt fvfnt = nfw InputMfthodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      fCurrfntTfxt.gftItfrbtor(),
+                                                      0,
+                                                      thfCbrft,
+                                                      visiblfPosition);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
+
+        if (prfssAndHold) sflfdtNfxtGlyph();
+    }
+
+    /**
+     * Frfqufnt dbllbbdks from NSTfxtInput.  I think wf'rf supposfd to dommit it hfrf?
+     */
+    syndhronizfd privbtf void unmbrkTfxt() {
+        if (fCurrfntTfxt == null)
+            rfturn;
+
+        TfxtHitInfo thfCbrft = TfxtHitInfo.bftfrOffsft(fCurrfntTfxtLfngth);
+        TfxtHitInfo visiblfPosition = thfCbrft;
+        InputMfthodEvfnt fvfnt = nfw InputMfthodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      fCurrfntTfxt.gftItfrbtor(),
+                                                      fCurrfntTfxtLfngth,
+                                                      thfCbrft,
+                                                      visiblfPosition);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
+        fCurrfntTfxt = null;
+        fCurrfntTfxtAsString = null;
+        fCurrfntTfxtLfngth = 0;
+    }
+
+    syndhronizfd privbtf boolfbn hbsMbrkfdTfxt() {
+        rfturn fCurrfntTfxt != null;
+    }
+
+    /**
+        * Codob bssumfs thf mbrkfd tfxt bnd dommittfd tfxt is bll storfd in thf sbmf storbgf, but
+     * Jbvb dofs not.  So, wf hbvf to sff whfrf thf rfqufst is bnd bbsfd on thbt rfturn thf right
+     * substring.
+     */
+    syndhronizfd privbtf String bttributfdSubstringFromRbngf(finbl int lodbtionIn, finbl int lfngthIn) {
+        finbl String[] rftString = nfw String[1];
+
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndhronizfd(rftString) {
+                    int lodbtion = lodbtionIn;
+                    int lfngth = lfngthIn;
+
+                    if ((lodbtion + lfngth) > (fIMContfxt.gftCommittfdTfxtLfngth() + fCurrfntTfxtLfngth)) {
+                        lfngth = fIMContfxt.gftCommittfdTfxtLfngth() - lodbtion;
+                    }
+
+                    AttributfdChbrbdtfrItfrbtor thfItfrbtor = null;
+
+                    if (fCurrfntTfxt == null) {
+                        thfItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion, lodbtion + lfngth, null);
+                    } flsf {
+                        int insfrtSpot = fIMContfxt.gftInsfrtPositionOffsft();
+
+                        if (lodbtion < insfrtSpot) {
+                            thfItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion, lodbtion + lfngth, null);
+                        } flsf if (lodbtion >= insfrtSpot && lodbtion < insfrtSpot + fCurrfntTfxtLfngth) {
+                            thfItfrbtor = fCurrfntTfxt.gftItfrbtor(null, lodbtion - insfrtSpot, lodbtion - insfrtSpot +lfngth);
+                        } flsf  {
+                            thfItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion - fCurrfntTfxtLfngth, lodbtion - fCurrfntTfxtLfngth + lfngth, null);
+                        }
+                    }
+
+                    // Gft thf dhbrbdtfrs from thf itfrbtor
+                    dhbr sflfdtfdTfxt[] = nfw dhbr[thfItfrbtor.gftEndIndfx() - thfItfrbtor.gftBfginIndfx()];
+                    dhbr durrfnt = thfItfrbtor.first();
+                    int indfx = 0;
+                    whilf (durrfnt != ChbrbdtfrItfrbtor.DONE) {
+                        sflfdtfdTfxt[indfx++] = durrfnt;
+                        durrfnt = thfItfrbtor.nfxt();
+                    }
+
+                    rftString[0] = nfw String(sflfdtfdTfxt);
+                }}
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
+
+        syndhronizfd(rftString) { rfturn rftString[0]; }
+    }
+
+    /**
+     * Codob wbnts thf rbngf of dhbrbdtfrs thbt brf durrfntly sflfdtfd.  Wf hbvf to synthfsizf this
+     * by gftting thf insfrt lodbtion bnd thf lfngth of thf sflfdtfd tfxt. NB:  This dofs NOT bllow
+     * for thf fbdt thbt thf insfrt point in Swing dbn domf AFTER thf sflfdtfd tfxt, mbking this
+     * potfntiblly indorrfdt.
+     */
+    syndhronizfd privbtf int[] sflfdtfdRbngf() {
+        finbl int[] rfturnVbluf = nfw int[2];
+
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndhronizfd(rfturnVbluf) {
+                    AttributfdChbrbdtfrItfrbtor thfItfrbtor = fIMContfxt.gftSflfdtfdTfxt(null);
+                    if (thfItfrbtor == null) {
+                        rfturnVbluf[0] = fIMContfxt.gftInsfrtPositionOffsft();
+                        rfturnVbluf[1] = 0;
+                        rfturn;
+                    }
+
+                    int stbrtLodbtion;
+
+                    if (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt) {
+                        JTfxtComponfnt thfComponfnt = (JTfxtComponfnt)fAwtFodussfdComponfnt;
+                        stbrtLodbtion = thfComponfnt.gftSflfdtionStbrt();
+                    } flsf if (fAwtFodussfdComponfnt instbndfof TfxtComponfnt) {
+                        TfxtComponfnt thfComponfnt = (TfxtComponfnt)fAwtFodussfdComponfnt;
+                        stbrtLodbtion = thfComponfnt.gftSflfdtionStbrt();
+                    } flsf {
+                        // If wf don't hbvf b Swing or AWT domponfnt, wf hbvf to gufss whfthfr thf sflfdtion is bfforf or bftfr thf input spot.
+                        stbrtLodbtion = fIMContfxt.gftInsfrtPositionOffsft() - (thfItfrbtor.gftEndIndfx() - thfItfrbtor.gftBfginIndfx());
+
+                        // If thf dbldulbtfd spot is nfgbtivf thf insfrt spot must bf bt thf bfginning of
+                        // thf sflfdtion.
+                        if (stbrtLodbtion <  0) {
+                            stbrtLodbtion = fIMContfxt.gftInsfrtPositionOffsft() + (thfItfrbtor.gftEndIndfx() - thfItfrbtor.gftBfginIndfx());
+                        }
+                    }
+
+                    rfturnVbluf[0] = stbrtLodbtion;
+                    rfturnVbluf[1] = thfItfrbtor.gftEndIndfx() - thfItfrbtor.gftBfginIndfx();
+
+                }}
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
+
+        syndhronizfd(rfturnVbluf) { rfturn rfturnVbluf; }
+    }
+
+    /**
+     * Codob wbnts thf rbngf of dhbrbdtfrs thbt brf durrfntly mbrkfd.  Sindf Jbvb dofsn't storf dommittfd bnd
+     * tfxt in progrfss (domposfd tfxt) togfthfr, wf hbvf to synthfsizf it.  Wf know whfrf thf tfxt will bf
+     * insfrtfd, so wf dbn rfturn thbt position, bnd thf lfngth of thf tfxt in progrfss.  If thfrf is no mbrkfd tfxt
+     * rfturn null.
+     */
+    syndhronizfd privbtf int[] mbrkfdRbngf() {
+        if (fCurrfntTfxt == null)
+            rfturn null;
+
+        finbl int[] rfturnVbluf = nfw int[2];
+
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndhronizfd(rfturnVbluf) {
+                    // Thf insfrt position is blwbys bftfr thf domposfd tfxt, so thf rbngf stbrt is thf
+                    // insfrt spot lfss thf lfngth of thf domposfd tfxt.
+                    rfturnVbluf[0] = fIMContfxt.gftInsfrtPositionOffsft();
+                }}
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
+
+        rfturnVbluf[1] = fCurrfntTfxtLfngth;
+        syndhronizfd(rfturnVbluf) { rfturn rfturnVbluf; }
+    }
+
+    /**
+     * Codob wbnts b rfdtbnglf thbt dfsdribfs whfrf b pbrtidulbr rbngf is on sdrffn, but only dbrfs bbout thf
+     * lodbtion of thbt rfdtbnglf.  Wf brf givfn thf indfx of thf dhbrbdtfr for whidh wf wbnt thf lodbtion on
+     * sdrffn, whidh will bf b dhbrbdtfr in thf in-progrfss tfxt.  By subtrbdting thf durrfnt insfrt position,
+     * whidh is blwbys in front of thf in-progrfss tfxt, wf gft thf offsft into thf domposfd tfxt, bnd wf gft
+     * thbt lodbtion from thf input mfthod dontfxt.
+     */
+    syndhronizfd privbtf int[] firstRfdtForChbrbdtfrRbngf(finbl int bbsolutfTfxtOffsft) {
+        finbl int[] rfdt = nfw int[4];
+
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndhronizfd(rfdt) {
+                    int insfrtOffsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    int domposfdTfxtOffsft = bbsolutfTfxtOffsft - insfrtOffsft;
+                    if (domposfdTfxtOffsft < 0) domposfdTfxtOffsft = 0;
+                    Rfdtbnglf r = fIMContfxt.gftTfxtLodbtion(TfxtHitInfo.bfforfOffsft(domposfdTfxtOffsft));
+                    rfdt[0] = r.x;
+                    rfdt[1] = r.y;
+                    rfdt[2] = r.width;
+                    rfdt[3] = r.hfight;
+
+                    // This nfxt if-blodk is b hbdk to work bround b bug in JTfxtComponfnt. gftTfxtLodbtion ignorfs
+                    // thf TfxtHitInfo pbssfd to it bnd blwbys rfturns thf lodbtion of thf insfrtion point, whidh is
+                    // bt thf stbrt of thf domposfd tfxt.  Wf'll do somf dbldulbtion so thf dbndidbtf window for Kotofri
+                    // follows thf rfqufstfd offsft into thf domposfd tfxt.
+                    if (domposfdTfxtOffsft > 0 && (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt)) {
+                        Rfdtbnglf r2 = fIMContfxt.gftTfxtLodbtion(TfxtHitInfo.bfforfOffsft(0));
+
+                        if (r.fqubls(r2)) {
+                            // FIXME: (SAK) If thf dbndidbtf tfxt wrbps ovfr two linfs, this dbldulbtion pushfs thf dbndidbtf
+                            // window off thf right fdgf of thf domponfnt.
+                            String inProgrfssSubstring = fCurrfntTfxtAsString.substring(0, domposfdTfxtOffsft);
+                            Grbphids g = fAwtFodussfdComponfnt.gftGrbphids();
+                            int xOffsft = g.gftFontMftrids().stringWidth(inProgrfssSubstring);
+                            rfdt[0] += xOffsft;
+                            g.disposf();
+                        }
+                    }
+                }}
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
+
+        syndhronizfd(rfdt) { rfturn rfdt; }
+    }
+
+    /* This mfthod rfturns thf indfx for thf dhbrbdtfr thbt is nfbrfst to thf point dfsdribfd by sdrffnX bnd sdrffnY.
+     * Thf doordinbtfs brf in Jbvb sdrffn doordinbtfs.  If no dhbrbdtfr in thf domposfd tfxt wbs hit, wf rfturn -1, indidbting
+     * not found.
+     */
+    syndhronizfd privbtf int dhbrbdtfrIndfxForPoint(finbl int sdrffnX, finbl int sdrffnY) {
+        finbl TfxtHitInfo[] offsftInfo = nfw TfxtHitInfo[1];
+        finbl int[] insfrtPositionOffsft = nfw int[1];
+
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndhronizfd(offsftInfo) {
+                    offsftInfo[0] = fIMContfxt.gftLodbtionOffsft(sdrffnX, sdrffnY);
+                    insfrtPositionOffsft[0] = fIMContfxt.gftInsfrtPositionOffsft();
+                }}
+            }, fAwtFodussfdComponfnt);
+        } dbtdh (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
+
+        // This bit of gymnbstids fnsurfs thbt thf rfturnfd lodbtion is within thf domposfd tfxt.
+        // If it fblls outsidf thbt rfgion, thf input mfthod will dommit thf tfxt, whidh is indonsistfnt with nbtivf
+        // Codob bpps (sff TfxtEdit, for fxbmplf.)  Clidking to thf lfft of or bbovf thf sflfdtfd tfxt movfs thf
+        // dursor to thf stbrt of thf domposfd tfxt, bnd to thf right or bflow movfs it to onf dhbrbdtfr bfforf thf fnd.
+        if (offsftInfo[0] == null) {
+            rfturn insfrtPositionOffsft[0];
+        }
+
+        int rfturnVbluf = offsftInfo[0].gftChbrIndfx() + insfrtPositionOffsft[0];
+
+        if (offsftInfo[0].gftChbrIndfx() == fCurrfntTfxtLfngth)
+            rfturnVbluf --;
+
+        rfturn rfturnVbluf;
+    }
+
+    // On Mbd OS X wf ffffdtivfly disbblfd thf input mfthod whfn fodus wbs lost, so
+    // this dbll dbn bf ignorfd.
+    publid void disbblfInputMfthod()
+    {
+        // Dflibfrbtfly ignorfd. Sff sftAWTFodussfdComponfnt bbovf.
+    }
+
+    publid String gftNbtivfInputMfthodInfo()
+    {
+        rfturn nbtivfGftCurrfntInputMfthodInfo();
+    }
+
+
+    // =========================== Nbtivf mfthods ===========================
+    // Notf thbt if nbtivfPffr isn't somfthing thbt normblly bddfpts kfystrokfs (i.f., b CPbnfl)
+    // thfsf dblls will bf ignorfd.
+    privbtf nbtivf void nbtivfNotifyPffr(long nbtivfPffr, CInputMfthod imInstbndf);
+    privbtf nbtivf void nbtivfEndComposition(long nbtivfPffr);
+    privbtf nbtivf void nbtivfHbndlfEvfnt(LWComponfntPffr<?, ?> pffr, AWTEvfnt fvfnt);
+
+    // Rfturns thf lodblf of thf bdtivf input mfthod.
+    stbtid nbtivf Lodblf gftNbtivfLodblf();
+
+    // Switdhfs to thf input mfthod with lbngubgf indidbtfd in lodblfNbmf
+    stbtid nbtivf boolfbn sftNbtivfLodblf(String lodblfNbmf, boolfbn onAdtivbtf);
+
+    // Rfturns informbtion bbout thf durrfntly sflfdtfd input mfthod.
+    stbtid nbtivf String nbtivfGftCurrfntInputMfthodInfo();
+
+    // Initiblizf toolbox routinfs
+    stbtid nbtivf void nbtivfInit();
+}

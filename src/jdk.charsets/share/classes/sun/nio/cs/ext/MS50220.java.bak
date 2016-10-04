@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
 
-public class MS50220 extends ISO2022_JP
+publid dlbss MS50220 fxtfnds ISO2022_JP
 {
-    public MS50220() {
-        super("x-windows-50220",
-              ExtendedCharsets.aliasesFor("x-windows-50220"));
+    publid MS50220() {
+        supfr("x-windows-50220",
+              ExtfndfdCibrsfts.blibsfsFor("x-windows-50220"));
     }
 
-    protected MS50220(String canonicalName, String[] aliases) {
-        super(canonicalName, aliases);
+    protfdtfd MS50220(String dbnonidblNbmf, String[] blibsfs) {
+        supfr(dbnonidblNbmf, blibsfs);
     }
 
-    public String historicalName() {
-        return "MS50220";
+    publid String iistoridblNbmf() {
+        rfturn "MS50220";
     }
 
-    public boolean contains(Charset cs) {
-      return super.contains(cs) ||
-             (cs instanceof JIS_X_0212) ||
-             (cs instanceof MS50220);
+    publid boolfbn dontbins(Cibrsft ds) {
+      rfturn supfr.dontbins(ds) ||
+             (ds instbndfof JIS_X_0212) ||
+             (ds instbndfof MS50220);
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this, DEC0208, DEC0212);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis, DEC0208, DEC0212);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this, ENC0208, ENC0212, doSBKANA());
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis, ENC0208, ENC0212, doSBKANA());
     }
 
-    private final static DoubleByte.Decoder DEC0208 =
-        (DoubleByte.Decoder)new JIS_X_0208_MS5022X().newDecoder();
+    privbtf finbl stbtid DoublfBytf.Dfdodfr DEC0208 =
+        (DoublfBytf.Dfdodfr)nfw JIS_X_0208_MS5022X().nfwDfdodfr();
 
-    private final static DoubleByte.Decoder DEC0212 =
-        (DoubleByte.Decoder)new JIS_X_0212_MS5022X().newDecoder();
+    privbtf finbl stbtid DoublfBytf.Dfdodfr DEC0212 =
+        (DoublfBytf.Dfdodfr)nfw JIS_X_0212_MS5022X().nfwDfdodfr();
 
-    private final static DoubleByte.Encoder ENC0208 =
-        (DoubleByte.Encoder)new JIS_X_0208_MS5022X().newEncoder();
+    privbtf finbl stbtid DoublfBytf.Endodfr ENC0208 =
+        (DoublfBytf.Endodfr)nfw JIS_X_0208_MS5022X().nfwEndodfr();
 
-    private final static DoubleByte.Encoder ENC0212 =
-        (DoubleByte.Encoder)new JIS_X_0212_MS5022X().newEncoder();
+    privbtf finbl stbtid DoublfBytf.Endodfr ENC0212 =
+        (DoublfBytf.Endodfr)nfw JIS_X_0212_MS5022X().nfwEndodfr();
 
-    protected boolean doSBKANA() {
-        return false;
+    protfdtfd boolfbn doSBKANA() {
+        rfturn fblsf;
     }
 }

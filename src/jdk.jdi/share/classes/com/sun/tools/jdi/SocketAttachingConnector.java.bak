@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import dom.sun.jdi.VirtublMbdiinf;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
 
 /*
- * An AttachingConnector that uses the SocketTransportService
+ * An AttbdiingConnfdtor tibt usfs tif SodkftTrbnsportSfrvidf
  */
-public class SocketAttachingConnector extends GenericAttachingConnector {
+publid dlbss SodkftAttbdiingConnfdtor fxtfnds GfnfridAttbdiingConnfdtor {
 
-    static final String ARG_PORT = "port";
-    static final String ARG_HOST = "hostname";
+    stbtid finbl String ARG_PORT = "port";
+    stbtid finbl String ARG_HOST = "iostnbmf";
 
-    public SocketAttachingConnector() {
-        super(new SocketTransportService());
+    publid SodkftAttbdiingConnfdtor() {
+        supfr(nfw SodkftTrbnsportSfrvidf());
 
-        String defaultHostName = "localhost";
+        String dffbultHostNbmf = "lodbliost";
 
-        addStringArgument(
+        bddStringArgumfnt(
             ARG_HOST,
-            getString("socket_attaching.host.label"),
-            getString("socket_attaching.host"),
-            defaultHostName,
-            false);
+            gftString("sodkft_bttbdiing.iost.lbbfl"),
+            gftString("sodkft_bttbdiing.iost"),
+            dffbultHostNbmf,
+            fblsf);
 
-        addIntegerArgument(
+        bddIntfgfrArgumfnt(
             ARG_PORT,
-            getString("socket_attaching.port.label"),
-            getString("socket_attaching.port"),
+            gftString("sodkft_bttbdiing.port.lbbfl"),
+            gftString("sodkft_bttbdiing.port"),
             "",
-            true,
-            0, Integer.MAX_VALUE);
+            truf,
+            0, Intfgfr.MAX_VALUE);
 
-        transport = new Transport() {
-            public String name() {
-                return "dt_socket";     // for compatibility reasons
+        trbnsport = nfw Trbnsport() {
+            publid String nbmf() {
+                rfturn "dt_sodkft";     // for dompbtibility rfbsons
             }
         };
 
     }
 
     /*
-     * Create an "address" from the hostname and port connector
-     * arguments and attach to the target VM.
+     * Crfbtf bn "bddrfss" from tif iostnbmf bnd port donnfdtor
+     * brgumfnts bnd bttbdi to tif tbrgft VM.
      */
-    public VirtualMachine
-        attach(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException
+    publid VirtublMbdiinf
+        bttbdi(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption
     {
-        String host = argument(ARG_HOST, arguments).value();
-        if (host.length() > 0) {
-            host = host + ":";
+        String iost = brgumfnt(ARG_HOST, brgumfnts).vbluf();
+        if (iost.lfngti() > 0) {
+            iost = iost + ":";
         }
-        String address = host + argument(ARG_PORT, arguments).value();
-        return super.attach(address, arguments);
+        String bddrfss = iost + brgumfnt(ARG_PORT, brgumfnts).vbluf();
+        rfturn supfr.bttbdi(bddrfss, brgumfnts);
     }
 
-    public String name() {
-       return "com.sun.jdi.SocketAttach";
+    publid String nbmf() {
+       rfturn "dom.sun.jdi.SodkftAttbdi";
     }
 
-    public String description() {
-       return getString("socket_attaching.description");
+    publid String dfsdription() {
+       rfturn gftString("sodkft_bttbdiing.dfsdription");
     }
 }

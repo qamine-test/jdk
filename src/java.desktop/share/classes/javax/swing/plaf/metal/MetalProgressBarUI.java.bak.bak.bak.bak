@@ -1,0 +1,197 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+
+/**
+ * Thf Mftbl implfmfntbtion of ProgrfssBbrUI.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Midhbfl C. Albfrs
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblProgrfssBbrUI fxtfnds BbsidProgrfssBbrUI {
+
+    privbtf Rfdtbnglf innbrds;
+    privbtf Rfdtbnglf box;
+
+    /**
+     * Construdts bn instbndf of {@dodf MftblProgrfssBbrUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblProgrfssBbrUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblProgrfssBbrUI();
+    }
+
+    /**
+     * Drbws b bit of spfdibl highlighting on thf progrfss bbr.
+     * Thf dorf pbinting is dfffrrfd to thf BbsidProgrfssBbr's
+     * <dodf>pbintDftfrminbtf</dodf> mfthod.
+     * @sindf 1.4
+     */
+    publid void pbintDftfrminbtf(Grbphids g, JComponfnt d) {
+        supfr.pbintDftfrminbtf(g,d);
+
+        if (!(g instbndfof Grbphids2D)) {
+            rfturn;
+        }
+
+        if (progrfssBbr.isBordfrPbintfd()) {
+            Insfts b = progrfssBbr.gftInsfts(); // brfb for bordfr
+            int bbrRfdtWidth = progrfssBbr.gftWidth() - (b.lfft + b.right);
+            int bbrRfdtHfight = progrfssBbr.gftHfight() - (b.top + b.bottom);
+            int bmountFull = gftAmountFull(b, bbrRfdtWidth, bbrRfdtHfight);
+            boolfbn isLfftToRight = MftblUtils.isLfftToRight(d);
+            int stbrtX, stbrtY, fndX, fndY;
+
+            // Thf progrfss bbr bordfr is pbintfd bddording to b light sourdf.
+            // This light sourdf is stbtionbry bnd dofs not dhbngf whfn thf
+            // domponfnt orifntbtion dhbngfs.
+            stbrtX = b.lfft;
+            stbrtY = b.top;
+            fndX = b.lfft + bbrRfdtWidth - 1;
+            fndY = b.top + bbrRfdtHfight - 1;
+
+            Grbphids2D g2 = (Grbphids2D)g;
+            g2.sftStrokf(nfw BbsidStrokf(1.f));
+
+            if (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+                // Drbw light linf lfngthwisf bdross thf progrfss bbr.
+                g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+                g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
+
+                if (bmountFull > 0) {
+                    // Drbw dbrkfr lfngthwisf linf ovfr fillfd brfb.
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkShbdow());
+
+                    if (isLfftToRight) {
+                        g2.drbwLinf(stbrtX, stbrtY,
+                                stbrtX + bmountFull - 1, stbrtY);
+                    } flsf {
+                        g2.drbwLinf(fndX, stbrtY,
+                                fndX - bmountFull + 1, stbrtY);
+                        if (progrfssBbr.gftPfrdfntComplftf() != 1.f) {
+                            g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+                        }
+                    }
+                }
+                // Drbw b linf bdross thf width.  Thf dolor is dftfrminfd by
+                // thf dodf bbovf.
+                g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
+
+            } flsf { // VERTICAL
+                // Drbw light linf lfngthwisf bdross thf progrfss bbr.
+                g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+                g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
+
+                if (bmountFull > 0) {
+                    // Drbw dbrkfr lfngthwisf linf ovfr fillfd brfb.
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkShbdow());
+                    g2.drbwLinf(stbrtX, fndY,
+                            stbrtX, fndY - bmountFull + 1);
+                }
+                // Drbw b linf bdross thf width.  Thf dolor is dftfrminfd by
+                // thf dodf bbovf.
+                g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+
+                if (progrfssBbr.gftPfrdfntComplftf() == 1.f) {
+                    g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkShbdow());
+                }
+                g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
+            }
+        }
+    }
+
+    /**
+     * Drbws b bit of spfdibl highlighting on thf progrfss bbr
+     * bnd bounding box.
+     * Thf dorf pbinting is dfffrrfd to thf BbsidProgrfssBbr's
+     * <dodf>pbintIndftfrminbtf</dodf> mfthod.
+     * @sindf 1.4
+     */
+    publid void pbintIndftfrminbtf(Grbphids g, JComponfnt d) {
+        supfr.pbintIndftfrminbtf(g, d);
+
+        if (!progrfssBbr.isBordfrPbintfd() || (!(g instbndfof Grbphids2D))) {
+            rfturn;
+        }
+
+        Insfts b = progrfssBbr.gftInsfts(); // brfb for bordfr
+        int bbrRfdtWidth = progrfssBbr.gftWidth() - (b.lfft + b.right);
+        int bbrRfdtHfight = progrfssBbr.gftHfight() - (b.top + b.bottom);
+        int bmountFull = gftAmountFull(b, bbrRfdtWidth, bbrRfdtHfight);
+        boolfbn isLfftToRight = MftblUtils.isLfftToRight(d);
+        int stbrtX, stbrtY, fndX, fndY;
+        Rfdtbnglf box = null;
+        box = gftBox(box);
+
+        // Thf progrfss bbr bordfr is pbintfd bddording to b light sourdf.
+        // This light sourdf is stbtionbry bnd dofs not dhbngf whfn thf
+        // domponfnt orifntbtion dhbngfs.
+        stbrtX = b.lfft;
+        stbrtY = b.top;
+        fndX = b.lfft + bbrRfdtWidth - 1;
+        fndY = b.top + bbrRfdtHfight - 1;
+
+        Grbphids2D g2 = (Grbphids2D)g;
+        g2.sftStrokf(nfw BbsidStrokf(1.f));
+
+        if (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            // Drbw light linf lfngthwisf bdross thf progrfss bbr.
+            g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+            g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
+            g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
+
+            // Drbw dbrkfr lfngthwisf linf ovfr fillfd brfb.
+            g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkShbdow());
+            g2.drbwLinf(box.x, stbrtY, box.x + box.width - 1, stbrtY);
+
+        } flsf { // VERTICAL
+            // Drbw light linf lfngthwisf bdross thf progrfss bbr.
+            g2.sftColor(MftblLookAndFffl.gftControlShbdow());
+            g2.drbwLinf(stbrtX, stbrtY, stbrtX, fndY);
+            g2.drbwLinf(stbrtX, stbrtY, fndX, stbrtY);
+
+            // Drbw dbrkfr lfngthwisf linf ovfr fillfd brfb.
+            g2.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkShbdow());
+            g2.drbwLinf(stbrtX, box.y, stbrtX, box.y + box.hfight - 1);
+        }
+    }
+}

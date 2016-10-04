@@ -1,592 +1,592 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FilePermission;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.MalformedURLException;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.HashSet;
-import java.util.StringTokenizer;
-import java.util.Set;
-import java.util.Vector;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.AccessControlContext;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Permission;
-import java.security.ProtectionDomain;
-import java.security.CodeSource;
-import sun.security.util.SecurityConstants;
-import sun.net.www.ParseUtil;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfPfrmission;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.nft.URLStrfbmHbndlfrFbdtory;
+import jbvb.util.HbsiSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.CodfSourdf;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.nft.www.PbrsfUtil;
 
 /**
- * This class is used by the system to launch the main application.
-Launcher */
-public class Launcher {
-    private static URLStreamHandlerFactory factory = new Factory();
-    private static Launcher launcher = new Launcher();
-    private static String bootClassPath =
-        System.getProperty("sun.boot.class.path");
+ * Tiis dlbss is usfd by tif systfm to lbundi tif mbin bpplidbtion.
+Lbundifr */
+publid dlbss Lbundifr {
+    privbtf stbtid URLStrfbmHbndlfrFbdtory fbdtory = nfw Fbdtory();
+    privbtf stbtid Lbundifr lbundifr = nfw Lbundifr();
+    privbtf stbtid String bootClbssPbti =
+        Systfm.gftPropfrty("sun.boot.dlbss.pbti");
 
-    public static Launcher getLauncher() {
-        return launcher;
+    publid stbtid Lbundifr gftLbundifr() {
+        rfturn lbundifr;
     }
 
-    private ClassLoader loader;
+    privbtf ClbssLobdfr lobdfr;
 
-    public Launcher() {
-        // Create the extension class loader
-        ClassLoader extcl;
+    publid Lbundifr() {
+        // Crfbtf tif fxtfnsion dlbss lobdfr
+        ClbssLobdfr fxtdl;
         try {
-            extcl = ExtClassLoader.getExtClassLoader();
-        } catch (IOException e) {
-            throw new InternalError(
-                "Could not create extension class loader", e);
+            fxtdl = ExtClbssLobdfr.gftExtClbssLobdfr();
+        } dbtdi (IOExdfption f) {
+            tirow nfw IntfrnblError(
+                "Could not drfbtf fxtfnsion dlbss lobdfr", f);
         }
 
-        // Now create the class loader to use to launch the application
+        // Now drfbtf tif dlbss lobdfr to usf to lbundi tif bpplidbtion
         try {
-            loader = AppClassLoader.getAppClassLoader(extcl);
-        } catch (IOException e) {
-            throw new InternalError(
-                "Could not create application class loader", e);
+            lobdfr = AppClbssLobdfr.gftAppClbssLobdfr(fxtdl);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IntfrnblError(
+                "Could not drfbtf bpplidbtion dlbss lobdfr", f);
         }
 
-        // Also set the context class loader for the primordial thread.
-        Thread.currentThread().setContextClassLoader(loader);
+        // Also sft tif dontfxt dlbss lobdfr for tif primordibl tirfbd.
+        Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(lobdfr);
 
-        // Finally, install a security manager if requested
-        String s = System.getProperty("java.security.manager");
+        // Finblly, instbll b sfdurity mbnbgfr if rfqufstfd
+        String s = Systfm.gftPropfrty("jbvb.sfdurity.mbnbgfr");
         if (s != null) {
-            SecurityManager sm = null;
-            if ("".equals(s) || "default".equals(s)) {
-                sm = new java.lang.SecurityManager();
-            } else {
+            SfdurityMbnbgfr sm = null;
+            if ("".fqubls(s) || "dffbult".fqubls(s)) {
+                sm = nfw jbvb.lbng.SfdurityMbnbgfr();
+            } flsf {
                 try {
-                    sm = (SecurityManager)loader.loadClass(s).newInstance();
-                } catch (IllegalAccessException e) {
-                } catch (InstantiationException e) {
-                } catch (ClassNotFoundException e) {
-                } catch (ClassCastException e) {
+                    sm = (SfdurityMbnbgfr)lobdfr.lobdClbss(s).nfwInstbndf();
+                } dbtdi (IllfgblAddfssExdfption f) {
+                } dbtdi (InstbntibtionExdfption f) {
+                } dbtdi (ClbssNotFoundExdfption f) {
+                } dbtdi (ClbssCbstExdfption f) {
                 }
             }
             if (sm != null) {
-                System.setSecurityManager(sm);
-            } else {
-                throw new InternalError(
-                    "Could not create SecurityManager: " + s);
+                Systfm.sftSfdurityMbnbgfr(sm);
+            } flsf {
+                tirow nfw IntfrnblError(
+                    "Could not drfbtf SfdurityMbnbgfr: " + s);
             }
         }
     }
 
     /*
-     * Returns the class loader used to launch the main application.
+     * Rfturns tif dlbss lobdfr usfd to lbundi tif mbin bpplidbtion.
      */
-    public ClassLoader getClassLoader() {
-        return loader;
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
     }
 
     /*
-     * The class loader used for loading installed extensions.
+     * Tif dlbss lobdfr usfd for lobding instbllfd fxtfnsions.
      */
-    static class ExtClassLoader extends URLClassLoader {
+    stbtid dlbss ExtClbssLobdfr fxtfnds URLClbssLobdfr {
 
-        static {
-            ClassLoader.registerAsParallelCapable();
+        stbtid {
+            ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
         }
 
         /**
-         * create an ExtClassLoader. The ExtClassLoader is created
-         * within a context that limits which files it can read
+         * drfbtf bn ExtClbssLobdfr. Tif ExtClbssLobdfr is drfbtfd
+         * witiin b dontfxt tibt limits wiidi filfs it dbn rfbd
          */
-        public static ExtClassLoader getExtClassLoader() throws IOException
+        publid stbtid ExtClbssLobdfr gftExtClbssLobdfr() tirows IOExdfption
         {
-            final File[] dirs = getExtDirs();
+            finbl Filf[] dirs = gftExtDirs();
 
             try {
-                // Prior implementations of this doPrivileged() block supplied
-                // aa synthesized ACC via a call to the private method
-                // ExtClassLoader.getContext().
+                // Prior implfmfntbtions of tiis doPrivilfgfd() blodk supplifd
+                // bb syntifsizfd ACC vib b dbll to tif privbtf mftiod
+                // ExtClbssLobdfr.gftContfxt().
 
-                return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<ExtClassLoader>() {
-                        public ExtClassLoader run() throws IOException {
-                            int len = dirs.length;
-                            for (int i = 0; i < len; i++) {
-                                MetaIndex.registerDirectory(dirs[i]);
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<ExtClbssLobdfr>() {
+                        publid ExtClbssLobdfr run() tirows IOExdfption {
+                            int lfn = dirs.lfngti;
+                            for (int i = 0; i < lfn; i++) {
+                                MftbIndfx.rfgistfrDirfdtory(dirs[i]);
                             }
-                            return new ExtClassLoader(dirs);
+                            rfturn nfw ExtClbssLobdfr(dirs);
                         }
                     });
-            } catch (java.security.PrivilegedActionException e) {
-                throw (IOException) e.getException();
+            } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+                tirow (IOExdfption) f.gftExdfption();
             }
         }
 
-        void addExtURL(URL url) {
-            super.addURL(url);
+        void bddExtURL(URL url) {
+            supfr.bddURL(url);
         }
 
         /*
-         * Creates a new ExtClassLoader for the specified directories.
+         * Crfbtfs b nfw ExtClbssLobdfr for tif spfdififd dirfdtorifs.
          */
-        public ExtClassLoader(File[] dirs) throws IOException {
-            super(getExtURLs(dirs), null, factory);
+        publid ExtClbssLobdfr(Filf[] dirs) tirows IOExdfption {
+            supfr(gftExtURLs(dirs), null, fbdtory);
         }
 
-        private static File[] getExtDirs() {
-            String s = System.getProperty("java.ext.dirs");
-            File[] dirs;
+        privbtf stbtid Filf[] gftExtDirs() {
+            String s = Systfm.gftPropfrty("jbvb.fxt.dirs");
+            Filf[] dirs;
             if (s != null) {
-                StringTokenizer st =
-                    new StringTokenizer(s, File.pathSeparator);
-                int count = st.countTokens();
-                dirs = new File[count];
-                for (int i = 0; i < count; i++) {
-                    dirs[i] = new File(st.nextToken());
+                StringTokfnizfr st =
+                    nfw StringTokfnizfr(s, Filf.pbtiSfpbrbtor);
+                int dount = st.dountTokfns();
+                dirs = nfw Filf[dount];
+                for (int i = 0; i < dount; i++) {
+                    dirs[i] = nfw Filf(st.nfxtTokfn());
                 }
-            } else {
-                dirs = new File[0];
+            } flsf {
+                dirs = nfw Filf[0];
             }
-            return dirs;
+            rfturn dirs;
         }
 
-        private static URL[] getExtURLs(File[] dirs) throws IOException {
-            Vector<URL> urls = new Vector<URL>();
-            for (int i = 0; i < dirs.length; i++) {
-                String[] files = dirs[i].list();
-                if (files != null) {
-                    for (int j = 0; j < files.length; j++) {
-                        if (!files[j].equals("meta-index")) {
-                            File f = new File(dirs[i], files[j]);
-                            urls.add(getFileURL(f));
+        privbtf stbtid URL[] gftExtURLs(Filf[] dirs) tirows IOExdfption {
+            Vfdtor<URL> urls = nfw Vfdtor<URL>();
+            for (int i = 0; i < dirs.lfngti; i++) {
+                String[] filfs = dirs[i].list();
+                if (filfs != null) {
+                    for (int j = 0; j < filfs.lfngti; j++) {
+                        if (!filfs[j].fqubls("mftb-indfx")) {
+                            Filf f = nfw Filf(dirs[i], filfs[j]);
+                            urls.bdd(gftFilfURL(f));
                         }
                     }
                 }
             }
-            URL[] ua = new URL[urls.size()];
-            urls.copyInto(ua);
-            return ua;
+            URL[] ub = nfw URL[urls.sizf()];
+            urls.dopyInto(ub);
+            rfturn ub;
         }
 
         /*
-         * Searches the installed extension directories for the specified
-         * library name. For each extension directory, we first look for
-         * the native library in the subdirectory whose name is the value
-         * of the system property <code>os.arch</code>. Failing that, we
-         * look in the extension directory itself.
+         * Sfbrdifs tif instbllfd fxtfnsion dirfdtorifs for tif spfdififd
+         * librbry nbmf. For fbdi fxtfnsion dirfdtory, wf first look for
+         * tif nbtivf librbry in tif subdirfdtory wiosf nbmf is tif vbluf
+         * of tif systfm propfrty <dodf>os.brdi</dodf>. Fbiling tibt, wf
+         * look in tif fxtfnsion dirfdtory itsflf.
          */
-        public String findLibrary(String name) {
-            final String libname = System.mapLibraryName(name);
-            URL[] urls = super.getURLs();
-            File prevDir = null;
-            for (int i = 0; i < urls.length; i++) {
-                // Get the ext directory from the URL
-                File dir = new File(urls[i].getPath()).getParentFile();
-                if (dir != null && !dir.equals(prevDir)) {
-                    // Look in architecture-specific subdirectory first
-                    // Read from the saved system properties to avoid deadlock
-                    final String arch = VM.getSavedProperty("os.arch");
-                    String pathname = AccessController.doPrivileged(
-                        new PrivilegedAction<String>() {
-                            public String run() {
-                                if (arch != null) {
-                                    File file = new File(new File(dir, arch), libname);
-                                    if (file.exists()) {
-                                        return file.getAbsolutePath();
+        publid String findLibrbry(String nbmf) {
+            finbl String libnbmf = Systfm.mbpLibrbryNbmf(nbmf);
+            URL[] urls = supfr.gftURLs();
+            Filf prfvDir = null;
+            for (int i = 0; i < urls.lfngti; i++) {
+                // Gft tif fxt dirfdtory from tif URL
+                Filf dir = nfw Filf(urls[i].gftPbti()).gftPbrfntFilf();
+                if (dir != null && !dir.fqubls(prfvDir)) {
+                    // Look in brdiitfdturf-spfdifid subdirfdtory first
+                    // Rfbd from tif sbvfd systfm propfrtifs to bvoid dfbdlodk
+                    finbl String brdi = VM.gftSbvfdPropfrty("os.brdi");
+                    String pbtinbmf = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                if (brdi != null) {
+                                    Filf filf = nfw Filf(nfw Filf(dir, brdi), libnbmf);
+                                    if (filf.fxists()) {
+                                        rfturn filf.gftAbsolutfPbti();
                                     }
                                 }
-                                // Then check the extension directory
-                                File file = new File(dir, libname);
-                                if (file.exists()) {
-                                    return file.getAbsolutePath();
+                                // Tifn difdk tif fxtfnsion dirfdtory
+                                Filf filf = nfw Filf(dir, libnbmf);
+                                if (filf.fxists()) {
+                                    rfturn filf.gftAbsolutfPbti();
                                 }
-                                return null;
+                                rfturn null;
                             }
                         });
-                    if (pathname != null) {
-                        return pathname;
+                    if (pbtinbmf != null) {
+                        rfturn pbtinbmf;
                     }
                 }
-                prevDir = dir;
+                prfvDir = dir;
             }
-            return null;
+            rfturn null;
         }
 
-        private static AccessControlContext getContext(File[] dirs)
-            throws IOException
+        privbtf stbtid AddfssControlContfxt gftContfxt(Filf[] dirs)
+            tirows IOExdfption
         {
-            PathPermissions perms =
-                new PathPermissions(dirs);
+            PbtiPfrmissions pfrms =
+                nfw PbtiPfrmissions(dirs);
 
-            ProtectionDomain domain = new ProtectionDomain(
-                new CodeSource(perms.getCodeBase(),
-                    (java.security.cert.Certificate[]) null),
-                perms);
+            ProtfdtionDombin dombin = nfw ProtfdtionDombin(
+                nfw CodfSourdf(pfrms.gftCodfBbsf(),
+                    (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null),
+                pfrms);
 
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { domain });
+            AddfssControlContfxt bdd =
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
 
-            return acc;
+            rfturn bdd;
         }
     }
 
     /**
-     * The class loader used for loading from java.class.path.
-     * runs in a restricted security context.
+     * Tif dlbss lobdfr usfd for lobding from jbvb.dlbss.pbti.
+     * runs in b rfstridtfd sfdurity dontfxt.
      */
-    static class AppClassLoader extends URLClassLoader {
+    stbtid dlbss AppClbssLobdfr fxtfnds URLClbssLobdfr {
 
-        static {
-            ClassLoader.registerAsParallelCapable();
+        stbtid {
+            ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
         }
 
-        public static ClassLoader getAppClassLoader(final ClassLoader extcl)
-            throws IOException
+        publid stbtid ClbssLobdfr gftAppClbssLobdfr(finbl ClbssLobdfr fxtdl)
+            tirows IOExdfption
         {
-            final String s = System.getProperty("java.class.path");
-            final File[] path = (s == null) ? new File[0] : getClassPath(s, true);
+            finbl String s = Systfm.gftPropfrty("jbvb.dlbss.pbti");
+            finbl Filf[] pbti = (s == null) ? nfw Filf[0] : gftClbssPbti(s, truf);
 
-            // Note: on bugid 4256530
-            // Prior implementations of this doPrivileged() block supplied
-            // a rather restrictive ACC via a call to the private method
-            // AppClassLoader.getContext(). This proved overly restrictive
-            // when loading  classes. Specifically it prevent
-            // accessClassInPackage.sun.* grants from being honored.
+            // Notf: on bugid 4256530
+            // Prior implfmfntbtions of tiis doPrivilfgfd() blodk supplifd
+            // b rbtifr rfstridtivf ACC vib b dbll to tif privbtf mftiod
+            // AppClbssLobdfr.gftContfxt(). Tiis provfd ovfrly rfstridtivf
+            // wifn lobding  dlbssfs. Spfdifidblly it prfvfnt
+            // bddfssClbssInPbdkbgf.sun.* grbnts from bfing ionorfd.
             //
-            return AccessController.doPrivileged(
-                new PrivilegedAction<AppClassLoader>() {
-                    public AppClassLoader run() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<AppClbssLobdfr>() {
+                    publid AppClbssLobdfr run() {
                     URL[] urls =
-                        (s == null) ? new URL[0] : pathToURLs(path);
-                    return new AppClassLoader(urls, extcl);
+                        (s == null) ? nfw URL[0] : pbtiToURLs(pbti);
+                    rfturn nfw AppClbssLobdfr(urls, fxtdl);
                 }
             });
         }
 
         /*
-         * Creates a new AppClassLoader
+         * Crfbtfs b nfw AppClbssLobdfr
          */
-        AppClassLoader(URL[] urls, ClassLoader parent) {
-            super(urls, parent, factory);
+        AppClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt) {
+            supfr(urls, pbrfnt, fbdtory);
         }
 
         /**
-         * Override loadClass so we can checkPackageAccess.
+         * Ovfrridf lobdClbss so wf dbn difdkPbdkbgfAddfss.
          */
-        public Class<?> loadClass(String name, boolean resolve)
-            throws ClassNotFoundException
+        publid Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+            tirows ClbssNotFoundExdfption
         {
-            int i = name.lastIndexOf('.');
+            int i = nbmf.lbstIndfxOf('.');
             if (i != -1) {
-                SecurityManager sm = System.getSecurityManager();
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
-                    sm.checkPackageAccess(name.substring(0, i));
+                    sm.difdkPbdkbgfAddfss(nbmf.substring(0, i));
                 }
             }
-            return (super.loadClass(name, resolve));
+            rfturn (supfr.lobdClbss(nbmf, rfsolvf));
         }
 
         /**
-         * allow any classes loaded from classpath to exit the VM.
+         * bllow bny dlbssfs lobdfd from dlbsspbti to fxit tif VM.
          */
-        protected PermissionCollection getPermissions(CodeSource codesource)
+        protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
         {
-            PermissionCollection perms = super.getPermissions(codesource);
-            perms.add(new RuntimePermission("exitVM"));
-            return perms;
+            PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+            pfrms.bdd(nfw RuntimfPfrmission("fxitVM"));
+            rfturn pfrms;
         }
 
         /**
-         * This class loader supports dynamic additions to the class path
-         * at runtime.
+         * Tiis dlbss lobdfr supports dynbmid bdditions to tif dlbss pbti
+         * bt runtimf.
          *
-         * @see java.lang.instrument.Instrumentation#appendToSystemClassLoaderSearch
+         * @sff jbvb.lbng.instrumfnt.Instrumfntbtion#bppfndToSystfmClbssLobdfrSfbrdi
          */
-        private void appendToClassPathForInstrumentation(String path) {
-            assert(Thread.holdsLock(this));
+        privbtf void bppfndToClbssPbtiForInstrumfntbtion(String pbti) {
+            bssfrt(Tirfbd.ioldsLodk(tiis));
 
-            // addURL is a no-op if path already contains the URL
-            super.addURL( getFileURL(new File(path)) );
+            // bddURL is b no-op if pbti blrfbdy dontbins tif URL
+            supfr.bddURL( gftFilfURL(nfw Filf(pbti)) );
         }
 
         /**
-         * create a context that can read any directories (recursively)
-         * mentioned in the class path. In the case of a jar, it has to
-         * be the directory containing the jar, not just the jar, as jar
-         * files might refer to other jar files.
+         * drfbtf b dontfxt tibt dbn rfbd bny dirfdtorifs (rfdursivfly)
+         * mfntionfd in tif dlbss pbti. In tif dbsf of b jbr, it ibs to
+         * bf tif dirfdtory dontbining tif jbr, not just tif jbr, bs jbr
+         * filfs migit rfffr to otifr jbr filfs.
          */
 
-        private static AccessControlContext getContext(File[] cp)
-            throws java.net.MalformedURLException
+        privbtf stbtid AddfssControlContfxt gftContfxt(Filf[] dp)
+            tirows jbvb.nft.MblformfdURLExdfption
         {
-            PathPermissions perms =
-                new PathPermissions(cp);
+            PbtiPfrmissions pfrms =
+                nfw PbtiPfrmissions(dp);
 
-            ProtectionDomain domain =
-                new ProtectionDomain(new CodeSource(perms.getCodeBase(),
-                    (java.security.cert.Certificate[]) null),
-                perms);
+            ProtfdtionDombin dombin =
+                nfw ProtfdtionDombin(nfw CodfSourdf(pfrms.gftCodfBbsf(),
+                    (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null),
+                pfrms);
 
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { domain });
+            AddfssControlContfxt bdd =
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
 
-            return acc;
+            rfturn bdd;
         }
     }
 
-    private static class BootClassPathHolder {
-        static final URLClassPath bcp;
-        static {
+    privbtf stbtid dlbss BootClbssPbtiHoldfr {
+        stbtid finbl URLClbssPbti bdp;
+        stbtid {
             URL[] urls;
-            if (bootClassPath != null) {
-                urls = AccessController.doPrivileged(
-                    new PrivilegedAction<URL[]>() {
-                        public URL[] run() {
-                            // Skip empty path in boot class path i.e. not default to use CWD
-                            File[] classPath = getClassPath(bootClassPath, false);
-                            int len = classPath.length;
-                            Set<File> seenDirs = new HashSet<File>();
-                            for (int i = 0; i < len; i++) {
-                                File curEntry = classPath[i];
-                                // Negative test used to properly handle
-                                // nonexistent jars on boot class path
-                                if (!curEntry.isDirectory()) {
-                                    curEntry = curEntry.getParentFile();
+            if (bootClbssPbti != null) {
+                urls = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<URL[]>() {
+                        publid URL[] run() {
+                            // Skip fmpty pbti in boot dlbss pbti i.f. not dffbult to usf CWD
+                            Filf[] dlbssPbti = gftClbssPbti(bootClbssPbti, fblsf);
+                            int lfn = dlbssPbti.lfngti;
+                            Sft<Filf> sffnDirs = nfw HbsiSft<Filf>();
+                            for (int i = 0; i < lfn; i++) {
+                                Filf durEntry = dlbssPbti[i];
+                                // Nfgbtivf tfst usfd to propfrly ibndlf
+                                // nonfxistfnt jbrs on boot dlbss pbti
+                                if (!durEntry.isDirfdtory()) {
+                                    durEntry = durEntry.gftPbrfntFilf();
                                 }
-                                if (curEntry != null && seenDirs.add(curEntry)) {
-                                    MetaIndex.registerDirectory(curEntry);
+                                if (durEntry != null && sffnDirs.bdd(durEntry)) {
+                                    MftbIndfx.rfgistfrDirfdtory(durEntry);
                                 }
                             }
-                            return pathToURLs(classPath);
+                            rfturn pbtiToURLs(dlbssPbti);
                         }
                     }
                 );
-            } else {
-                urls = new URL[0];
+            } flsf {
+                urls = nfw URL[0];
             }
-            bcp = new URLClassPath(urls, factory);
+            bdp = nfw URLClbssPbti(urls, fbdtory);
         }
     }
 
-    public static URLClassPath getBootstrapClassPath() {
-        return BootClassPathHolder.bcp;
+    publid stbtid URLClbssPbti gftBootstrbpClbssPbti() {
+        rfturn BootClbssPbtiHoldfr.bdp;
     }
 
-    private static URL[] pathToURLs(File[] path) {
-        URL[] urls = new URL[path.length];
-        for (int i = 0; i < path.length; i++) {
-            urls[i] = getFileURL(path[i]);
+    privbtf stbtid URL[] pbtiToURLs(Filf[] pbti) {
+        URL[] urls = nfw URL[pbti.lfngti];
+        for (int i = 0; i < pbti.lfngti; i++) {
+            urls[i] = gftFilfURL(pbti[i]);
         }
         // DEBUG
-        //for (int i = 0; i < urls.length; i++) {
-        //  System.out.println("urls[" + i + "] = " + '"' + urls[i] + '"');
+        //for (int i = 0; i < urls.lfngti; i++) {
+        //  Systfm.out.println("urls[" + i + "] = " + '"' + urls[i] + '"');
         //}
-        return urls;
+        rfturn urls;
     }
 
-    private static File[] getClassPath(String cp, boolean defaultToCwd) {
-        File[] path;
-        if (cp != null) {
-            int count = 0, maxCount = 1;
-            int pos = 0, lastPos = 0;
-            // Count the number of separators first
-            while ((pos = cp.indexOf(File.pathSeparator, lastPos)) != -1) {
-                maxCount++;
-                lastPos = pos + 1;
+    privbtf stbtid Filf[] gftClbssPbti(String dp, boolfbn dffbultToCwd) {
+        Filf[] pbti;
+        if (dp != null) {
+            int dount = 0, mbxCount = 1;
+            int pos = 0, lbstPos = 0;
+            // Count tif numbfr of sfpbrbtors first
+            wiilf ((pos = dp.indfxOf(Filf.pbtiSfpbrbtor, lbstPos)) != -1) {
+                mbxCount++;
+                lbstPos = pos + 1;
             }
-            path = new File[maxCount];
-            lastPos = pos = 0;
-            // Now scan for each path component
-            while ((pos = cp.indexOf(File.pathSeparator, lastPos)) != -1) {
-                if (pos > lastPos) {
-                    path[count++] = new File(cp.substring(lastPos, pos));
-                } else if (defaultToCwd) {
-                    // empty path component translates to "."
-                    path[count++] = new File(".");
+            pbti = nfw Filf[mbxCount];
+            lbstPos = pos = 0;
+            // Now sdbn for fbdi pbti domponfnt
+            wiilf ((pos = dp.indfxOf(Filf.pbtiSfpbrbtor, lbstPos)) != -1) {
+                if (pos > lbstPos) {
+                    pbti[dount++] = nfw Filf(dp.substring(lbstPos, pos));
+                } flsf if (dffbultToCwd) {
+                    // fmpty pbti domponfnt trbnslbtfs to "."
+                    pbti[dount++] = nfw Filf(".");
                 }
-                lastPos = pos + 1;
+                lbstPos = pos + 1;
             }
-            // Make sure we include the last path component
-            if (lastPos < cp.length()) {
-                path[count++] = new File(cp.substring(lastPos));
-            } else if (defaultToCwd) {
-                path[count++] = new File(".");
+            // Mbkf surf wf indludf tif lbst pbti domponfnt
+            if (lbstPos < dp.lfngti()) {
+                pbti[dount++] = nfw Filf(dp.substring(lbstPos));
+            } flsf if (dffbultToCwd) {
+                pbti[dount++] = nfw Filf(".");
             }
-            // Trim array to correct size
-            if (count != maxCount) {
-                File[] tmp = new File[count];
-                System.arraycopy(path, 0, tmp, 0, count);
-                path = tmp;
+            // Trim brrby to dorrfdt sizf
+            if (dount != mbxCount) {
+                Filf[] tmp = nfw Filf[dount];
+                Systfm.brrbydopy(pbti, 0, tmp, 0, dount);
+                pbti = tmp;
             }
-        } else {
-            path = new File[0];
+        } flsf {
+            pbti = nfw Filf[0];
         }
         // DEBUG
-        //for (int i = 0; i < path.length; i++) {
-        //  System.out.println("path[" + i + "] = " + '"' + path[i] + '"');
+        //for (int i = 0; i < pbti.lfngti; i++) {
+        //  Systfm.out.println("pbti[" + i + "] = " + '"' + pbti[i] + '"');
         //}
-        return path;
+        rfturn pbti;
     }
 
-    private static URLStreamHandler fileHandler;
+    privbtf stbtid URLStrfbmHbndlfr filfHbndlfr;
 
-    static URL getFileURL(File file) {
+    stbtid URL gftFilfURL(Filf filf) {
         try {
-            file = file.getCanonicalFile();
-        } catch (IOException e) {}
+            filf = filf.gftCbnonidblFilf();
+        } dbtdi (IOExdfption f) {}
 
         try {
-            return ParseUtil.fileToEncodedURL(file);
-        } catch (MalformedURLException e) {
-            // Should never happen since we specify the protocol...
-            throw new InternalError(e);
+            rfturn PbrsfUtil.filfToEndodfdURL(filf);
+        } dbtdi (MblformfdURLExdfption f) {
+            // Siould nfvfr ibppfn sindf wf spfdify tif protodol...
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /*
-     * The stream handler factory for loading system protocol handlers.
+     * Tif strfbm ibndlfr fbdtory for lobding systfm protodol ibndlfrs.
      */
-    private static class Factory implements URLStreamHandlerFactory {
-        private static String PREFIX = "sun.net.www.protocol";
+    privbtf stbtid dlbss Fbdtory implfmfnts URLStrfbmHbndlfrFbdtory {
+        privbtf stbtid String PREFIX = "sun.nft.www.protodol";
 
-        public URLStreamHandler createURLStreamHandler(String protocol) {
-            String name = PREFIX + "." + protocol + ".Handler";
+        publid URLStrfbmHbndlfr drfbtfURLStrfbmHbndlfr(String protodol) {
+            String nbmf = PREFIX + "." + protodol + ".Hbndlfr";
             try {
-                Class<?> c = Class.forName(name);
-                return (URLStreamHandler)c.newInstance();
-            } catch (ReflectiveOperationException e) {
-                throw new InternalError("could not load " + protocol +
-                                        "system protocol handler", e);
+                Clbss<?> d = Clbss.forNbmf(nbmf);
+                rfturn (URLStrfbmHbndlfr)d.nfwInstbndf();
+            } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+                tirow nfw IntfrnblError("dould not lobd " + protodol +
+                                        "systfm protodol ibndlfr", f);
             }
         }
     }
 }
 
-class PathPermissions extends PermissionCollection {
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = 8133287259134945693L;
+dlbss PbtiPfrmissions fxtfnds PfrmissionCollfdtion {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 8133287259134945693L;
 
-    private File path[];
-    private Permissions perms;
+    privbtf Filf pbti[];
+    privbtf Pfrmissions pfrms;
 
-    URL codeBase;
+    URL dodfBbsf;
 
-    PathPermissions(File path[])
+    PbtiPfrmissions(Filf pbti[])
     {
-        this.path = path;
-        this.perms = null;
-        this.codeBase = null;
+        tiis.pbti = pbti;
+        tiis.pfrms = null;
+        tiis.dodfBbsf = null;
     }
 
-    URL getCodeBase()
+    URL gftCodfBbsf()
     {
-        return codeBase;
+        rfturn dodfBbsf;
     }
 
-    public void add(java.security.Permission permission) {
-        throw new SecurityException("attempt to add a permission");
+    publid void bdd(jbvb.sfdurity.Pfrmission pfrmission) {
+        tirow nfw SfdurityExdfption("bttfmpt to bdd b pfrmission");
     }
 
-    private synchronized void init()
+    privbtf syndironizfd void init()
     {
-        if (perms != null)
-            return;
+        if (pfrms != null)
+            rfturn;
 
-        perms = new Permissions();
+        pfrms = nfw Pfrmissions();
 
-        // this is needed to be able to create the classloader itself!
-        perms.add(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+        // tiis is nffdfd to bf bblf to drfbtf tif dlbsslobdfr itsflf!
+        pfrms.bdd(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
 
-        // add permission to read any "java.*" property
-        perms.add(new java.util.PropertyPermission("java.*",
-            SecurityConstants.PROPERTY_READ_ACTION));
+        // bdd pfrmission to rfbd bny "jbvb.*" propfrty
+        pfrms.bdd(nfw jbvb.util.PropfrtyPfrmission("jbvb.*",
+            SfdurityConstbnts.PROPERTY_READ_ACTION));
 
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                for (int i=0; i < path.length; i++) {
-                    File f = path[i];
-                    String path;
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                for (int i=0; i < pbti.lfngti; i++) {
+                    Filf f = pbti[i];
+                    String pbti;
                     try {
-                        path = f.getCanonicalPath();
-                    } catch (IOException ioe) {
-                        path = f.getAbsolutePath();
+                        pbti = f.gftCbnonidblPbti();
+                    } dbtdi (IOExdfption iof) {
+                        pbti = f.gftAbsolutfPbti();
                     }
                     if (i == 0) {
-                        codeBase = Launcher.getFileURL(new File(path));
+                        dodfBbsf = Lbundifr.gftFilfURL(nfw Filf(pbti));
                     }
-                    if (f.isDirectory()) {
-                        if (path.endsWith(File.separator)) {
-                            perms.add(new FilePermission(path+"-",
-                                SecurityConstants.FILE_READ_ACTION));
-                        } else {
-                            perms.add(new FilePermission(
-                                path + File.separator+"-",
-                                SecurityConstants.FILE_READ_ACTION));
+                    if (f.isDirfdtory()) {
+                        if (pbti.fndsWiti(Filf.sfpbrbtor)) {
+                            pfrms.bdd(nfw FilfPfrmission(pbti+"-",
+                                SfdurityConstbnts.FILE_READ_ACTION));
+                        } flsf {
+                            pfrms.bdd(nfw FilfPfrmission(
+                                pbti + Filf.sfpbrbtor+"-",
+                                SfdurityConstbnts.FILE_READ_ACTION));
                         }
-                    } else {
-                        int endIndex = path.lastIndexOf(File.separatorChar);
-                        if (endIndex != -1) {
-                            path = path.substring(0, endIndex+1) + "-";
-                            perms.add(new FilePermission(path,
-                                SecurityConstants.FILE_READ_ACTION));
-                        } else {
+                    } flsf {
+                        int fndIndfx = pbti.lbstIndfxOf(Filf.sfpbrbtorCibr);
+                        if (fndIndfx != -1) {
+                            pbti = pbti.substring(0, fndIndfx+1) + "-";
+                            pfrms.bdd(nfw FilfPfrmission(pbti,
+                                SfdurityConstbnts.FILE_READ_ACTION));
+                        } flsf {
                             // XXX?
                         }
                     }
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
-    public boolean implies(java.security.Permission permission) {
-        if (perms == null)
+    publid boolfbn implifs(jbvb.sfdurity.Pfrmission pfrmission) {
+        if (pfrms == null)
             init();
-        return perms.implies(permission);
+        rfturn pfrms.implifs(pfrmission);
     }
 
-    public java.util.Enumeration<Permission> elements() {
-        if (perms == null)
+    publid jbvb.util.Enumfrbtion<Pfrmission> flfmfnts() {
+        if (pfrms == null)
             init();
-        synchronized (perms) {
-            return perms.elements();
+        syndironizfd (pfrms) {
+            rfturn pfrms.flfmfnts();
         }
     }
 
-    public String toString() {
-        if (perms == null)
+    publid String toString() {
+        if (pfrms == null)
             init();
-        return perms.toString();
+        rfturn pfrms.toString();
     }
 }

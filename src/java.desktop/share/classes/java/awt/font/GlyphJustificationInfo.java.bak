@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
 /**
- * The <code>GlyphJustificationInfo</code> class represents information
- * about the justification properties of a glyph.  A glyph is the visual
- * representation of one or more characters.  Many different glyphs can
- * be used to represent a single character or combination of characters.
- * The four justification properties represented by
- * <code>GlyphJustificationInfo</code> are weight, priority, absorb and
+ * Tif <dodf>GlypiJustifidbtionInfo</dodf> dlbss rfprfsfnts informbtion
+ * bbout tif justifidbtion propfrtifs of b glypi.  A glypi is tif visubl
+ * rfprfsfntbtion of onf or morf dibrbdtfrs.  Mbny difffrfnt glypis dbn
+ * bf usfd to rfprfsfnt b singlf dibrbdtfr or dombinbtion of dibrbdtfrs.
+ * Tif four justifidbtion propfrtifs rfprfsfntfd by
+ * <dodf>GlypiJustifidbtionInfo</dodf> brf wfigit, priority, bbsorb bnd
  * limit.
  * <p>
- * Weight is the overall 'weight' of the glyph in the line.  Generally it is
- * proportional to the size of the font.  Glyphs with larger weight are
- * allocated a correspondingly larger amount of the change in space.
+ * Wfigit is tif ovfrbll 'wfigit' of tif glypi in tif linf.  Gfnfrblly it is
+ * proportionbl to tif sizf of tif font.  Glypis witi lbrgfr wfigit brf
+ * bllodbtfd b dorrfspondingly lbrgfr bmount of tif dibngf in spbdf.
  * <p>
- * Priority determines the justification phase in which this glyph is used.
- * All glyphs of the same priority are examined before glyphs of the next
- * priority.  If all the change in space can be allocated to these glyphs
- * without exceeding their limits, then glyphs of the next priority are not
- * examined. There are four priorities, kashida, whitespace, interchar,
- * and none.  KASHIDA is the first priority examined. NONE is the last
- * priority examined.
+ * Priority dftfrminfs tif justifidbtion pibsf in wiidi tiis glypi is usfd.
+ * All glypis of tif sbmf priority brf fxbminfd bfforf glypis of tif nfxt
+ * priority.  If bll tif dibngf in spbdf dbn bf bllodbtfd to tifsf glypis
+ * witiout fxdffding tifir limits, tifn glypis of tif nfxt priority brf not
+ * fxbminfd. Tifrf brf four prioritifs, kbsiidb, wiitfspbdf, intfrdibr,
+ * bnd nonf.  KASHIDA is tif first priority fxbminfd. NONE is tif lbst
+ * priority fxbminfd.
  * <p>
- * Absorb determines whether a glyph absorbs all change in space.  Within a
- * given priority, some glyphs may absorb all the change in space.  If any of
- * these glyphs are present, no glyphs of later priority are examined.
+ * Absorb dftfrminfs wiftifr b glypi bbsorbs bll dibngf in spbdf.  Witiin b
+ * givfn priority, somf glypis mby bbsorb bll tif dibngf in spbdf.  If bny of
+ * tifsf glypis brf prfsfnt, no glypis of lbtfr priority brf fxbminfd.
  * <p>
- * Limit determines the maximum or minimum amount by which the glyph can
- * change. Left and right sides of the glyph can have different limits.
+ * Limit dftfrminfs tif mbximum or minimum bmount by wiidi tif glypi dbn
+ * dibngf. Lfft bnd rigit sidfs of tif glypi dbn ibvf difffrfnt limits.
  * <p>
- * Each <code>GlyphJustificationInfo</code> represents two sets of
- * metrics, which are <i>growing</i> and <i>shrinking</i>.  Growing
- * metrics are used when the glyphs on a line are to be
- * spread apart to fit a larger width.  Shrinking metrics are used when
- * the glyphs are to be moved together to fit a smaller width.
+ * Ebdi <dodf>GlypiJustifidbtionInfo</dodf> rfprfsfnts two sfts of
+ * mftrids, wiidi brf <i>growing</i> bnd <i>sirinking</i>.  Growing
+ * mftrids brf usfd wifn tif glypis on b linf brf to bf
+ * sprfbd bpbrt to fit b lbrgfr widti.  Sirinking mftrids brf usfd wifn
+ * tif glypis brf to bf movfd togftifr to fit b smbllfr widti.
  */
 
-public final class GlyphJustificationInfo {
+publid finbl dlbss GlypiJustifidbtionInfo {
 
     /**
-     * Constructs information about the justification properties of a
-     * glyph.
-     * @param weight the weight of this glyph when allocating space.  Must be non-negative.
-     * @param growAbsorb if <code>true</code> this glyph absorbs
-     * all extra space at this priority and lower priority levels when it
+     * Construdts informbtion bbout tif justifidbtion propfrtifs of b
+     * glypi.
+     * @pbrbm wfigit tif wfigit of tiis glypi wifn bllodbting spbdf.  Must bf non-nfgbtivf.
+     * @pbrbm growAbsorb if <dodf>truf</dodf> tiis glypi bbsorbs
+     * bll fxtrb spbdf bt tiis priority bnd lowfr priority lfvfls wifn it
      * grows
-     * @param growPriority the priority level of this glyph when it
+     * @pbrbm growPriority tif priority lfvfl of tiis glypi wifn it
      * grows
-     * @param growLeftLimit the maximum amount by which the left side of this
-     * glyph can grow.  Must be non-negative.
-     * @param growRightLimit the maximum amount by which the right side of this
-     * glyph can grow.  Must be non-negative.
-     * @param shrinkAbsorb if <code>true</code>, this glyph absorbs all
-     * remaining shrinkage at this and lower priority levels when it
-     * shrinks
-     * @param shrinkPriority the priority level of this glyph when
-     * it shrinks
-     * @param shrinkLeftLimit the maximum amount by which the left side of this
-     * glyph can shrink.  Must be non-negative.
-     * @param shrinkRightLimit the maximum amount by which the right side
-     * of this glyph can shrink.  Must be non-negative.
+     * @pbrbm growLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm growRigitLimit tif mbximum bmount by wiidi tif rigit sidf of tiis
+     * glypi dbn grow.  Must bf non-nfgbtivf.
+     * @pbrbm sirinkAbsorb if <dodf>truf</dodf>, tiis glypi bbsorbs bll
+     * rfmbining sirinkbgf bt tiis bnd lowfr priority lfvfls wifn it
+     * sirinks
+     * @pbrbm sirinkPriority tif priority lfvfl of tiis glypi wifn
+     * it sirinks
+     * @pbrbm sirinkLfftLimit tif mbximum bmount by wiidi tif lfft sidf of tiis
+     * glypi dbn sirink.  Must bf non-nfgbtivf.
+     * @pbrbm sirinkRigitLimit tif mbximum bmount by wiidi tif rigit sidf
+     * of tiis glypi dbn sirink.  Must bf non-nfgbtivf.
      */
-     public GlyphJustificationInfo(float weight,
-                                  boolean growAbsorb,
+     publid GlypiJustifidbtionInfo(flobt wfigit,
+                                  boolfbn growAbsorb,
                                   int growPriority,
-                                  float growLeftLimit,
-                                  float growRightLimit,
-                                  boolean shrinkAbsorb,
-                                  int shrinkPriority,
-                                  float shrinkLeftLimit,
-                                  float shrinkRightLimit)
+                                  flobt growLfftLimit,
+                                  flobt growRigitLimit,
+                                  boolfbn sirinkAbsorb,
+                                  int sirinkPriority,
+                                  flobt sirinkLfftLimit,
+                                  flobt sirinkRigitLimit)
     {
-        if (weight < 0) {
-            throw new IllegalArgumentException("weight is negative");
+        if (wfigit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("wfigit is nfgbtivf");
         }
 
-        if (!priorityIsValid(growPriority)) {
-            throw new IllegalArgumentException("Invalid grow priority");
+        if (!priorityIsVblid(growPriority)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid grow priority");
         }
-        if (growLeftLimit < 0) {
-            throw new IllegalArgumentException("growLeftLimit is negative");
+        if (growLfftLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("growLfftLimit is nfgbtivf");
         }
-        if (growRightLimit < 0) {
-            throw new IllegalArgumentException("growRightLimit is negative");
-        }
-
-        if (!priorityIsValid(shrinkPriority)) {
-            throw new IllegalArgumentException("Invalid shrink priority");
-        }
-        if (shrinkLeftLimit < 0) {
-            throw new IllegalArgumentException("shrinkLeftLimit is negative");
-        }
-        if (shrinkRightLimit < 0) {
-            throw new IllegalArgumentException("shrinkRightLimit is negative");
+        if (growRigitLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("growRigitLimit is nfgbtivf");
         }
 
-        this.weight = weight;
-        this.growAbsorb = growAbsorb;
-        this.growPriority = growPriority;
-        this.growLeftLimit = growLeftLimit;
-        this.growRightLimit = growRightLimit;
-        this.shrinkAbsorb = shrinkAbsorb;
-        this.shrinkPriority = shrinkPriority;
-        this.shrinkLeftLimit = shrinkLeftLimit;
-        this.shrinkRightLimit = shrinkRightLimit;
+        if (!priorityIsVblid(sirinkPriority)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid sirink priority");
+        }
+        if (sirinkLfftLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("sirinkLfftLimit is nfgbtivf");
+        }
+        if (sirinkRigitLimit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("sirinkRigitLimit is nfgbtivf");
+        }
+
+        tiis.wfigit = wfigit;
+        tiis.growAbsorb = growAbsorb;
+        tiis.growPriority = growPriority;
+        tiis.growLfftLimit = growLfftLimit;
+        tiis.growRigitLimit = growRigitLimit;
+        tiis.sirinkAbsorb = sirinkAbsorb;
+        tiis.sirinkPriority = sirinkPriority;
+        tiis.sirinkLfftLimit = sirinkLfftLimit;
+        tiis.sirinkRigitLimit = sirinkRigitLimit;
     }
 
-    private static boolean priorityIsValid(int priority) {
+    privbtf stbtid boolfbn priorityIsVblid(int priority) {
 
-        return priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
+        rfturn priority >= PRIORITY_KASHIDA && priority <= PRIORITY_NONE;
     }
 
-    /** The highest justification priority. */
-    public static final int PRIORITY_KASHIDA = 0;
+    /** Tif iigifst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_KASHIDA = 0;
 
-    /** The second highest justification priority. */
-    public static final int PRIORITY_WHITESPACE = 1;
+    /** Tif sfdond iigifst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_WHITESPACE = 1;
 
-    /** The second lowest justification priority. */
-    public static final int PRIORITY_INTERCHAR = 2;
+    /** Tif sfdond lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_INTERCHAR = 2;
 
-    /** The lowest justification priority. */
-    public static final int PRIORITY_NONE = 3;
-
-    /**
-     * The weight of this glyph.
-     */
-    public final float weight;
+    /** Tif lowfst justifidbtion priority. */
+    publid stbtid finbl int PRIORITY_NONE = 3;
 
     /**
-     * The priority level of this glyph as it is growing.
+     * Tif wfigit of tiis glypi.
      */
-    public final int growPriority;
+    publid finbl flobt wfigit;
 
     /**
-     * If <code>true</code>, this glyph absorbs all extra
-     * space at this and lower priority levels when it grows.
+     * Tif priority lfvfl of tiis glypi bs it is growing.
      */
-    public final boolean growAbsorb;
+    publid finbl int growPriority;
 
     /**
-     * The maximum amount by which the left side of this glyph can grow.
+     * If <dodf>truf</dodf>, tiis glypi bbsorbs bll fxtrb
+     * spbdf bt tiis bnd lowfr priority lfvfls wifn it grows.
      */
-    public final float growLeftLimit;
+    publid finbl boolfbn growAbsorb;
 
     /**
-     * The maximum amount by which the right side of this glyph can grow.
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn grow.
      */
-    public final float growRightLimit;
+    publid finbl flobt growLfftLimit;
 
     /**
-     * The priority level of this glyph as it is shrinking.
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn grow.
      */
-    public final int shrinkPriority;
+    publid finbl flobt growRigitLimit;
 
     /**
-     * If <code>true</code>,this glyph absorbs all remaining shrinkage at
-     * this and lower priority levels as it shrinks.
+     * Tif priority lfvfl of tiis glypi bs it is sirinking.
      */
-    public final boolean shrinkAbsorb;
+    publid finbl int sirinkPriority;
 
     /**
-     * The maximum amount by which the left side of this glyph can shrink
-     * (a positive number).
+     * If <dodf>truf</dodf>,tiis glypi bbsorbs bll rfmbining sirinkbgf bt
+     * tiis bnd lowfr priority lfvfls bs it sirinks.
      */
-    public final float shrinkLeftLimit;
+    publid finbl boolfbn sirinkAbsorb;
 
     /**
-     * The maximum amount by which the right side of this glyph can shrink
-     * (a positive number).
+     * Tif mbximum bmount by wiidi tif lfft sidf of tiis glypi dbn sirink
+     * (b positivf numbfr).
      */
-    public final float shrinkRightLimit;
+    publid finbl flobt sirinkLfftLimit;
+
+    /**
+     * Tif mbximum bmount by wiidi tif rigit sidf of tiis glypi dbn sirink
+     * (b positivf numbfr).
+     */
+    publid finbl flobt sirinkRigitLimit;
 }

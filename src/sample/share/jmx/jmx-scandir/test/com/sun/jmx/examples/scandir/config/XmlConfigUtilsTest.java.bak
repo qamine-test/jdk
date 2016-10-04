@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,87 +30,87 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
 
-import junit.framework.*;
-import java.io.File;
+import junit.frbmfwork.*;
+import jbvb.io.Filf;
 
 /**
- * Unit tests for {@code XmlConfigUtils}
+ * Unit tfsts for {@dodf XmlConfigUtils}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class XmlConfigUtilsTest extends TestCase {
+publid dlbss XmlConfigUtilsTfst fxtfnds TfstCbsf {
 
-    public XmlConfigUtilsTest(String testName) {
-        super(testName);
+    publid XmlConfigUtilsTfst(String tfstNbmf) {
+        supfr(tfstNbmf);
     }
 
-    protected void setUp() throws Exception {
+    protfdtfd void sftUp() tirows Exdfption {
     }
 
-    protected void tearDown() throws Exception {
+    protfdtfd void tfbrDown() tirows Exdfption {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(XmlConfigUtilsTest.class);
+    publid stbtid Tfst suitf() {
+        TfstSuitf suitf = nfw TfstSuitf(XmlConfigUtilsTfst.dlbss);
 
-        return suite;
+        rfturn suitf;
     }
 
 
     /**
-     * Test of writeToFile method, of class XmlConfigUtils.
+     * Tfst of writfToFilf mftiod, of dlbss XmlConfigUtils.
      */
-    public void testWriteToFile() throws Exception {
-        System.out.println("writeToFile");
+    publid void tfstWritfToFilf() tirows Exdfption {
+        Systfm.out.println("writfToFilf");
 
-        final File file = File.createTempFile("test",".xml");
-        file.deleteOnExit();
+        finbl Filf filf = Filf.drfbtfTfmpFilf("tfst",".xml");
+        filf.dflftfOnExit();
 
-        final String tmp = System.getProperty("java.io.tmpdir");
+        finbl String tmp = Systfm.gftPropfrty("jbvb.io.tmpdir");
 
-        DirectoryScannerConfig dir1 =
-                new DirectoryScannerConfig("scan2");
-        dir1.setRootDirectory(tmp);
-        ScanManagerConfig bean = new ScanManagerConfig("session2");
-        bean.putScan(dir1);
-        XmlConfigUtils instance = new XmlConfigUtils(file.getPath());
+        DirfdtorySdbnnfrConfig dir1 =
+                nfw DirfdtorySdbnnfrConfig("sdbn2");
+        dir1.sftRootDirfdtory(tmp);
+        SdbnMbnbgfrConfig bfbn = nfw SdbnMbnbgfrConfig("sfssion2");
+        bfbn.putSdbn(dir1);
+        XmlConfigUtils instbndf = nfw XmlConfigUtils(filf.gftPbti());
 
-        instance.writeToFile(bean);
+        instbndf.writfToFilf(bfbn);
     }
 
     /**
-     * Test of readFromFile method, of class com.sun.jmx.examples.scandir.config.XmlConfigUtils.
+     * Tfst of rfbdFromFilf mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils.
      */
-    public void testReadFromFile() throws Exception {
-        System.out.println("readFromFile");
+    publid void tfstRfbdFromFilf() tirows Exdfption {
+        Systfm.out.println("rfbdFromFilf");
 
-        final String tmp = System.getProperty("java.io.tmpdir");
-        final File file = File.createTempFile("test",".xml");
-        file.deleteOnExit();
+        finbl String tmp = Systfm.gftPropfrty("jbvb.io.tmpdir");
+        finbl Filf filf = Filf.drfbtfTfmpFilf("tfst",".xml");
+        filf.dflftfOnExit();
 
-        DirectoryScannerConfig dir1 =
-                new DirectoryScannerConfig("scan1");
-        dir1.setRootDirectory(tmp);
-        ScanManagerConfig bean = new ScanManagerConfig("session1");
-        bean.putScan(dir1);
-        XmlConfigUtils instance = new XmlConfigUtils(file.getPath());
+        DirfdtorySdbnnfrConfig dir1 =
+                nfw DirfdtorySdbnnfrConfig("sdbn1");
+        dir1.sftRootDirfdtory(tmp);
+        SdbnMbnbgfrConfig bfbn = nfw SdbnMbnbgfrConfig("sfssion1");
+        bfbn.putSdbn(dir1);
+        XmlConfigUtils instbndf = nfw XmlConfigUtils(filf.gftPbti());
 
-        instance.writeToFile(bean);
+        instbndf.writfToFilf(bfbn);
 
-        ScanManagerConfig expResult = bean;
-        ScanManagerConfig result = instance.readFromFile();
-        System.out.println(result);
-        assertEquals(expResult, result);
+        SdbnMbnbgfrConfig fxpRfsult = bfbn;
+        SdbnMbnbgfrConfig rfsult = instbndf.rfbdFromFilf();
+        Systfm.out.println(rfsult);
+        bssfrtEqubls(fxpRfsult, rfsult);
 
 
     }

@@ -1,0 +1,240 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.UnbryOpfrbtor;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import sun.misd.Unsbff;
+
+/**
+ * An objfdt rfffrfndf thbt mby bf updbtfd btomidblly. Sff thf {@link
+ * jbvb.util.dondurrfnt.btomid} pbdkbgf spfdifidbtion for dfsdription
+ * of thf propfrtifs of btomid vbribblfs.
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <V> Thf typf of objfdt rfffrrfd to by this rfffrfndf
+ */
+publid dlbss AtomidRfffrfndf<V> implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -1848883965231344442L;
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl long vblufOffsft;
+
+    stbtid {
+        try {
+            vblufOffsft = unsbff.objfdtFifldOffsft
+                (AtomidRfffrfndf.dlbss.gftDfdlbrfdFifld("vbluf"));
+        } dbtdh (Exdfption fx) { throw nfw Error(fx); }
+    }
+
+    privbtf volbtilf V vbluf;
+
+    /**
+     * Crfbtfs b nfw AtomidRfffrfndf with thf givfn initibl vbluf.
+     *
+     * @pbrbm initiblVbluf thf initibl vbluf
+     */
+    publid AtomidRfffrfndf(V initiblVbluf) {
+        vbluf = initiblVbluf;
+    }
+
+    /**
+     * Crfbtfs b nfw AtomidRfffrfndf with null initibl vbluf.
+     */
+    publid AtomidRfffrfndf() {
+    }
+
+    /**
+     * Gfts thf durrfnt vbluf.
+     *
+     * @rfturn thf durrfnt vbluf
+     */
+    publid finbl V gft() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts to thf givfn vbluf.
+     *
+     * @pbrbm nfwVbluf thf nfw vbluf
+     */
+    publid finbl void sft(V nfwVbluf) {
+        vbluf = nfwVbluf;
+    }
+
+    /**
+     * Evfntublly sfts to thf givfn vbluf.
+     *
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @sindf 1.6
+     */
+    publid finbl void lbzySft(V nfwVbluf) {
+        unsbff.putOrdfrfdObjfdt(this, vblufOffsft, nfwVbluf);
+    }
+
+    /**
+     * Atomidblly sfts thf vbluf to thf givfn updbtfd vbluf
+     * if thf durrfnt vbluf {@dodf ==} thf fxpfdtfd vbluf.
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs thbt
+     * thf bdtubl vbluf wbs not fqubl to thf fxpfdtfd vbluf.
+     */
+    publid finbl boolfbn dompbrfAndSft(V fxpfdt, V updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(this, vblufOffsft, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly sfts thf vbluf to thf givfn updbtfd vbluf
+     * if thf durrfnt vbluf {@dodf ==} thf fxpfdtfd vbluf.
+     *
+     * <p><b hrff="pbdkbgf-summbry.html#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm fxpfdt thf fxpfdtfd vbluf
+     * @pbrbm updbtf thf nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid finbl boolfbn wfbkCompbrfAndSft(V fxpfdt, V updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(this, vblufOffsft, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly sfts to thf givfn vbluf bnd rfturns thf old vbluf.
+     *
+     * @pbrbm nfwVbluf thf nfw vbluf
+     * @rfturn thf prfvious vbluf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl V gftAndSft(V nfwVbluf) {
+        rfturn (V)unsbff.gftAndSftObjfdt(this, vblufOffsft, nfwVbluf);
+    }
+
+    /**
+     * Atomidblly updbtfs thf durrfnt vbluf with thf rfsults of
+     * bpplying thf givfn fundtion, rfturning thf prfvious vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl V gftAndUpdbtf(UnbryOpfrbtor<V> updbtfFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft();
+            nfxt = updbtfFundtion.bpply(prfv);
+        } whilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf durrfnt vbluf with thf rfsults of
+     * bpplying thf givfn fundtion, rfturning thf updbtfd vbluf. Thf
+     * fundtion should bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * whfn bttfmptfd updbtfs fbil duf to dontfntion bmong thrfbds.
+     *
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl V updbtfAndGft(UnbryOpfrbtor<V> updbtfFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft();
+            nfxt = updbtfFundtion.bpply(prfv);
+        } whilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Atomidblly updbtfs thf durrfnt vbluf with thf rfsults of
+     * bpplying thf givfn fundtion to thf durrfnt bnd givfn vblufs,
+     * rfturning thf prfvious vbluf. Thf fundtion should bf
+     * sidf-ffffdt-frff, sindf it mby bf rf-bpplifd whfn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong thrfbds.  Thf fundtion
+     * is bpplifd with thf durrfnt vbluf bs its first brgumfnt,
+     * bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl V gftAndAddumulbtf(V x,
+                                    BinbryOpfrbtor<V> bddumulbtorFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft();
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } whilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn prfv;
+    }
+
+    /**
+     * Atomidblly updbtfs thf durrfnt vbluf with thf rfsults of
+     * bpplying thf givfn fundtion to thf durrfnt bnd givfn vblufs,
+     * rfturning thf updbtfd vbluf. Thf fundtion should bf
+     * sidf-ffffdt-frff, sindf it mby bf rf-bpplifd whfn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong thrfbds.  Thf fundtion
+     * is bpplifd with thf durrfnt vbluf bs its first brgumfnt,
+     * bnd thf givfn updbtf bs thf sfdond brgumfnt.
+     *
+     * @pbrbm x thf updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn thf updbtfd vbluf
+     * @sindf 1.8
+     */
+    publid finbl V bddumulbtfAndGft(V x,
+                                    BinbryOpfrbtor<V> bddumulbtorFundtion) {
+        V prfv, nfxt;
+        do {
+            prfv = gft();
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } whilf (!dompbrfAndSft(prfv, nfxt));
+        rfturn nfxt;
+    }
+
+    /**
+     * Rfturns thf String rfprfsfntbtion of thf durrfnt vbluf.
+     * @rfturn thf String rfprfsfntbtion of thf durrfnt vbluf
+     */
+    publid String toString() {
+        rfturn String.vblufOf(gft());
+    }
+
+}

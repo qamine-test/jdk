@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: XMLCryptoContext.java,v 1.6 2005/05/10 15:47:42 mullan Exp $
+ * $Id: XMLCryptoContfxt.jbvb,v 1.6 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbdkbgf jbvbx.xml.drypto;
 
 /**
- * Contains common context information for XML cryptographic operations.
+ * Contbins dommon dontfxt informbtion for XML dryptogrbpiid opfrbtions.
  *
- * <p>This interface contains methods for setting and retrieving properties
- * that affect the processing of XML signatures or XML encrypted structures.
+ * <p>Tiis intfrfbdf dontbins mftiods for sftting bnd rftrifving propfrtifs
+ * tibt bfffdt tif prodfssing of XML signbturfs or XML fndryptfd strudturfs.
  *
- * <p>Note that <code>XMLCryptoContext</code> instances can contain information
- * and state specific to the XML cryptographic structure it is used with.
- * The results are unpredictable if an <code>XMLCryptoContext</code> is
- * used with multiple structures (for example, you should not use the same
- * {@link javax.xml.crypto.dsig.XMLValidateContext} instance to validate two
- * different {@link javax.xml.crypto.dsig.XMLSignature} objects).
+ * <p>Notf tibt <dodf>XMLCryptoContfxt</dodf> instbndfs dbn dontbin informbtion
+ * bnd stbtf spfdifid to tif XML dryptogrbpiid strudturf it is usfd witi.
+ * Tif rfsults brf unprfdidtbblf if bn <dodf>XMLCryptoContfxt</dodf> is
+ * usfd witi multiplf strudturfs (for fxbmplf, you siould not usf tif sbmf
+ * {@link jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt} instbndf to vblidbtf two
+ * difffrfnt {@link jbvbx.xml.drypto.dsig.XMLSignbturf} objfdts).
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
  */
-public interface XMLCryptoContext {
+publid intfrfbdf XMLCryptoContfxt {
 
     /**
-     * Returns the base URI.
+     * Rfturns tif bbsf URI.
      *
-     * @return the base URI, or <code>null</code> if not specified
-     * @see #setBaseURI(String)
+     * @rfturn tif bbsf URI, or <dodf>null</dodf> if not spfdififd
+     * @sff #sftBbsfURI(String)
      */
-    String getBaseURI();
+    String gftBbsfURI();
 
     /**
-     * Sets the base URI.
+     * Sfts tif bbsf URI.
      *
-     * @param baseURI the base URI, or <code>null</code> to remove current
-     *    value
-     * @throws IllegalArgumentException if <code>baseURI</code> is not RFC
-     *    2396 compliant
-     * @see #getBaseURI
+     * @pbrbm bbsfURI tif bbsf URI, or <dodf>null</dodf> to rfmovf durrfnt
+     *    vbluf
+     * @tirows IllfgblArgumfntExdfption if <dodf>bbsfURI</dodf> is not RFC
+     *    2396 domplibnt
+     * @sff #gftBbsfURI
      */
-    void setBaseURI(String baseURI);
+    void sftBbsfURI(String bbsfURI);
 
     /**
-     * Returns the key selector for finding a key.
+     * Rfturns tif kfy sflfdtor for finding b kfy.
      *
-     * @return the key selector, or <code>null</code> if not specified
-     * @see #setKeySelector(KeySelector)
+     * @rfturn tif kfy sflfdtor, or <dodf>null</dodf> if not spfdififd
+     * @sff #sftKfySflfdtor(KfySflfdtor)
      */
-    KeySelector getKeySelector();
+    KfySflfdtor gftKfySflfdtor();
 
     /**
-     * Sets the key selector for finding a key.
+     * Sfts tif kfy sflfdtor for finding b kfy.
      *
-     * @param ks the key selector, or <code>null</code> to remove the current
-     *    setting
-     * @see #getKeySelector
+     * @pbrbm ks tif kfy sflfdtor, or <dodf>null</dodf> to rfmovf tif durrfnt
+     *    sftting
+     * @sff #gftKfySflfdtor
      */
-    void setKeySelector(KeySelector ks);
+    void sftKfySflfdtor(KfySflfdtor ks);
 
     /**
-     * Returns a <code>URIDereferencer</code> that is used to dereference
-     * {@link URIReference}s.
+     * Rfturns b <dodf>URIDfrfffrfndfr</dodf> tibt is usfd to dfrfffrfndf
+     * {@link URIRfffrfndf}s.
      *
-     * @return the <code>URIDereferencer</code>, or <code>null</code> if not
-     *    specified
-     * @see #setURIDereferencer(URIDereferencer)
+     * @rfturn tif <dodf>URIDfrfffrfndfr</dodf>, or <dodf>null</dodf> if not
+     *    spfdififd
+     * @sff #sftURIDfrfffrfndfr(URIDfrfffrfndfr)
      */
-    URIDereferencer getURIDereferencer();
+    URIDfrfffrfndfr gftURIDfrfffrfndfr();
 
     /**
-     * Sets a <code>URIDereferencer</code> that is used to dereference
-     * {@link URIReference}s. The specified <code>URIDereferencer</code>
-     * is used in place of an implementation's default
-     * <code>URIDereferencer</code>.
+     * Sfts b <dodf>URIDfrfffrfndfr</dodf> tibt is usfd to dfrfffrfndf
+     * {@link URIRfffrfndf}s. Tif spfdififd <dodf>URIDfrfffrfndfr</dodf>
+     * is usfd in plbdf of bn implfmfntbtion's dffbult
+     * <dodf>URIDfrfffrfndfr</dodf>.
      *
-     * @param dereferencer the <code>URIDereferencer</code>, or
-     *    <code>null</code> to remove any current setting
-     * @see #getURIDereferencer
+     * @pbrbm dfrfffrfndfr tif <dodf>URIDfrfffrfndfr</dodf>, or
+     *    <dodf>null</dodf> to rfmovf bny durrfnt sftting
+     * @sff #gftURIDfrfffrfndfr
      */
-    void setURIDereferencer(URIDereferencer dereferencer);
+    void sftURIDfrfffrfndfr(URIDfrfffrfndfr dfrfffrfndfr);
 
     /**
-     * Returns the namespace prefix that the specified namespace URI is
-     * associated with. Returns the specified default prefix if the specified
-     * namespace URI has not been bound to a prefix. To bind a namespace URI
-     * to a prefix, call the {@link #putNamespacePrefix putNamespacePrefix}
-     * method.
+     * Rfturns tif nbmfspbdf prffix tibt tif spfdififd nbmfspbdf URI is
+     * bssodibtfd witi. Rfturns tif spfdififd dffbult prffix if tif spfdififd
+     * nbmfspbdf URI ibs not bffn bound to b prffix. To bind b nbmfspbdf URI
+     * to b prffix, dbll tif {@link #putNbmfspbdfPrffix putNbmfspbdfPrffix}
+     * mftiod.
      *
-     * @param namespaceURI a namespace URI
-     * @param defaultPrefix the prefix to be returned in the event that the
-     *    the specified namespace URI has not been bound to a prefix.
-     * @return the prefix that is associated with the specified namespace URI,
-     *    or <code>defaultPrefix</code> if the URI is not registered. If
-     *    the namespace URI is registered but has no prefix, an empty string
-     *    (<code>""</code>) is returned.
-     * @throws NullPointerException if <code>namespaceURI</code> is
-     *    <code>null</code>
-     * @see #putNamespacePrefix(String, String)
+     * @pbrbm nbmfspbdfURI b nbmfspbdf URI
+     * @pbrbm dffbultPrffix tif prffix to bf rfturnfd in tif fvfnt tibt tif
+     *    tif spfdififd nbmfspbdf URI ibs not bffn bound to b prffix.
+     * @rfturn tif prffix tibt is bssodibtfd witi tif spfdififd nbmfspbdf URI,
+     *    or <dodf>dffbultPrffix</dodf> if tif URI is not rfgistfrfd. If
+     *    tif nbmfspbdf URI is rfgistfrfd but ibs no prffix, bn fmpty string
+     *    (<dodf>""</dodf>) is rfturnfd.
+     * @tirows NullPointfrExdfption if <dodf>nbmfspbdfURI</dodf> is
+     *    <dodf>null</dodf>
+     * @sff #putNbmfspbdfPrffix(String, String)
      */
-    String getNamespacePrefix(String namespaceURI, String defaultPrefix);
+    String gftNbmfspbdfPrffix(String nbmfspbdfURI, String dffbultPrffix);
 
     /**
-     * Maps the specified namespace URI to the specified prefix. If there is
-     * already a prefix associated with the specified namespace URI, the old
-     * prefix is replaced by the specified prefix.
+     * Mbps tif spfdififd nbmfspbdf URI to tif spfdififd prffix. If tifrf is
+     * blrfbdy b prffix bssodibtfd witi tif spfdififd nbmfspbdf URI, tif old
+     * prffix is rfplbdfd by tif spfdififd prffix.
      *
-     * @param namespaceURI a namespace URI
-     * @param prefix a namespace prefix (or <code>null</code> to remove any
-     *    existing mapping). Specifying the empty string (<code>""</code>)
-     *    binds no prefix to the namespace URI.
-     * @return the previous prefix associated with the specified namespace
-     *    URI, or <code>null</code> if there was none
-     * @throws NullPointerException if <code>namespaceURI</code> is
-     *    <code>null</code>
-     * @see #getNamespacePrefix(String, String)
+     * @pbrbm nbmfspbdfURI b nbmfspbdf URI
+     * @pbrbm prffix b nbmfspbdf prffix (or <dodf>null</dodf> to rfmovf bny
+     *    fxisting mbpping). Spfdifying tif fmpty string (<dodf>""</dodf>)
+     *    binds no prffix to tif nbmfspbdf URI.
+     * @rfturn tif prfvious prffix bssodibtfd witi tif spfdififd nbmfspbdf
+     *    URI, or <dodf>null</dodf> if tifrf wbs nonf
+     * @tirows NullPointfrExdfption if <dodf>nbmfspbdfURI</dodf> is
+     *    <dodf>null</dodf>
+     * @sff #gftNbmfspbdfPrffix(String, String)
      */
-    String putNamespacePrefix(String namespaceURI, String prefix);
+    String putNbmfspbdfPrffix(String nbmfspbdfURI, String prffix);
 
     /**
-     * Returns the default namespace prefix. The default namespace prefix
-     * is the prefix for all namespace URIs not explicitly set by the
-     * {@link #putNamespacePrefix putNamespacePrefix} method.
+     * Rfturns tif dffbult nbmfspbdf prffix. Tif dffbult nbmfspbdf prffix
+     * is tif prffix for bll nbmfspbdf URIs not fxpliditly sft by tif
+     * {@link #putNbmfspbdfPrffix putNbmfspbdfPrffix} mftiod.
      *
-     * @return the default namespace prefix, or <code>null</code> if none has
-     *    been set.
-     * @see #setDefaultNamespacePrefix(String)
+     * @rfturn tif dffbult nbmfspbdf prffix, or <dodf>null</dodf> if nonf ibs
+     *    bffn sft.
+     * @sff #sftDffbultNbmfspbdfPrffix(String)
      */
-    String getDefaultNamespacePrefix();
+    String gftDffbultNbmfspbdfPrffix();
 
     /**
-     * Sets the default namespace prefix. This sets the namespace prefix for
-     * all namespace URIs not explicitly set by the {@link #putNamespacePrefix
-     * putNamespacePrefix} method.
+     * Sfts tif dffbult nbmfspbdf prffix. Tiis sfts tif nbmfspbdf prffix for
+     * bll nbmfspbdf URIs not fxpliditly sft by tif {@link #putNbmfspbdfPrffix
+     * putNbmfspbdfPrffix} mftiod.
      *
-     * @param defaultPrefix the default namespace prefix, or <code>null</code>
-     *    to remove the current setting. Specify the empty string
-     *    (<code>""</code>) to bind no prefix.
-     * @see #getDefaultNamespacePrefix
+     * @pbrbm dffbultPrffix tif dffbult nbmfspbdf prffix, or <dodf>null</dodf>
+     *    to rfmovf tif durrfnt sftting. Spfdify tif fmpty string
+     *    (<dodf>""</dodf>) to bind no prffix.
+     * @sff #gftDffbultNbmfspbdfPrffix
      */
-    void setDefaultNamespacePrefix(String defaultPrefix);
+    void sftDffbultNbmfspbdfPrffix(String dffbultPrffix);
 
     /**
-     * Sets the specified property.
+     * Sfts tif spfdififd propfrty.
      *
-     * @param name the name of the property
-     * @param value the value of the property to be set
-     * @return the previous value of the specified property, or
-     *    <code>null</code> if it did not have a value
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
-     * @see #getProperty(String)
+     * @pbrbm nbmf tif nbmf of tif propfrty
+     * @pbrbm vbluf tif vbluf of tif propfrty to bf sft
+     * @rfturn tif prfvious vbluf of tif spfdififd propfrty, or
+     *    <dodf>null</dodf> if it did not ibvf b vbluf
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @sff #gftPropfrty(String)
      */
-    Object setProperty(String name, Object value);
+    Objfdt sftPropfrty(String nbmf, Objfdt vbluf);
 
     /**
-     * Returns the value of the specified property.
+     * Rfturns tif vbluf of tif spfdififd propfrty.
      *
-     * @param name the name of the property
-     * @return the current value of the specified property, or
-     *    <code>null</code> if it does not have a value
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
-     * @see #setProperty(String, Object)
+     * @pbrbm nbmf tif nbmf of tif propfrty
+     * @rfturn tif durrfnt vbluf of tif spfdififd propfrty, or
+     *    <dodf>null</dodf> if it dofs not ibvf b vbluf
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @sff #sftPropfrty(String, Objfdt)
      */
-    Object getProperty(String name);
+    Objfdt gftPropfrty(String nbmf);
 
     /**
-     * Returns the value to which this context maps the specified key.
+     * Rfturns tif vbluf to wiidi tiis dontfxt mbps tif spfdififd kfy.
      *
-     * <p>More formally, if this context contains a mapping from a key
-     * <code>k</code> to a value <code>v</code> such that
-     * <code>(key==null ? k==null : key.equals(k))</code>, then this method
-     * returns <code>v</code>; otherwise it returns <code>null</code>. (There
-     * can be at most one such mapping.)
+     * <p>Morf formblly, if tiis dontfxt dontbins b mbpping from b kfy
+     * <dodf>k</dodf> to b vbluf <dodf>v</dodf> sudi tibt
+     * <dodf>(kfy==null ? k==null : kfy.fqubls(k))</dodf>, tifn tiis mftiod
+     * rfturns <dodf>v</dodf>; otifrwisf it rfturns <dodf>null</dodf>. (Tifrf
+     * dbn bf bt most onf sudi mbpping.)
      *
-     * <p>This method is useful for retrieving arbitrary information that is
-     * specific to the cryptographic operation that this context is used for.
+     * <p>Tiis mftiod is usfful for rftrifving brbitrbry informbtion tibt is
+     * spfdifid to tif dryptogrbpiid opfrbtion tibt tiis dontfxt is usfd for.
      *
-     * @param key the key whose associated value is to be returned
-     * @return the value to which this context maps the specified key, or
-     *    <code>null</code> if there is no mapping for the key
-     * @see #put(Object, Object)
+     * @pbrbm kfy tif kfy wiosf bssodibtfd vbluf is to bf rfturnfd
+     * @rfturn tif vbluf to wiidi tiis dontfxt mbps tif spfdififd kfy, or
+     *    <dodf>null</dodf> if tifrf is no mbpping for tif kfy
+     * @sff #put(Objfdt, Objfdt)
      */
-    Object get(Object key);
+    Objfdt gft(Objfdt kfy);
 
     /**
-     * Associates the specified value with the specified key in this context.
-     * If the context previously contained a mapping for this key, the old
-     * value is replaced by the specified value.
+     * Assodibtfs tif spfdififd vbluf witi tif spfdififd kfy in tiis dontfxt.
+     * If tif dontfxt prfviously dontbinfd b mbpping for tiis kfy, tif old
+     * vbluf is rfplbdfd by tif spfdififd vbluf.
      *
-     * <p>This method is useful for storing arbitrary information that is
-     * specific to the cryptographic operation that this context is used for.
+     * <p>Tiis mftiod is usfful for storing brbitrbry informbtion tibt is
+     * spfdifid to tif dryptogrbpiid opfrbtion tibt tiis dontfxt is usfd for.
      *
-     * @param key key with which the specified value is to be associated with
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with the key, or <code>null</code>
-     *    if there was no mapping for the key
-     * @throws IllegalArgumentException if some aspect of this key or value
-     *    prevents it from being stored in this context
-     * @see #get(Object)
+     * @pbrbm kfy kfy witi wiidi tif spfdififd vbluf is to bf bssodibtfd witi
+     * @pbrbm vbluf vbluf to bf bssodibtfd witi tif spfdififd kfy
+     * @rfturn tif prfvious vbluf bssodibtfd witi tif kfy, or <dodf>null</dodf>
+     *    if tifrf wbs no mbpping for tif kfy
+     * @tirows IllfgblArgumfntExdfption if somf bspfdt of tiis kfy or vbluf
+     *    prfvfnts it from bfing storfd in tiis dontfxt
+     * @sff #gft(Objfdt)
      */
-    Object put(Object key, Object value);
+    Objfdt put(Objfdt kfy, Objfdt vbluf);
 }

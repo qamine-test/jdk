@@ -1,0 +1,1446 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "sunfontids.h"
+#indludf "sun_font_FrfftypfFontSdblfr.h"
+
+#indludf<stdlib.h>
+#indludf <mbth.h>
+#indludf "ft2build.h"
+#indludf FT_FREETYPE_H
+#indludf FT_GLYPH_H
+#indludf FT_BBOX_H
+#indludf FT_SIZES_H
+#indludf FT_OUTLINE_H
+#indludf FT_SYNTHESIS_H
+
+#indludf "fontsdblfr.h"
+
+#dffinf  ftFixfd1  (FT_Fixfd) (1 << 16)
+#dffinf  FlobtToFTFixfd(f) (FT_Fixfd)((f) * (flobt)(ftFixfd1))
+#dffinf  FTFixfdToFlobt(x) ((x) / (flobt)(ftFixfd1))
+#dffinf  FT26Dot6ToFlobt(x)  ((x) / ((flobt) (1<<6)))
+#dffinf  ROUND(x) ((int) (x+0.5))
+
+typfdff strudt {
+    /* Importbnt notf:
+         JNI forbids shbring sbmf fnv bftwffn difffrfnt thrfbds.
+         Wf brf sbff, bfdbusf pointfr is ovfrwrittfn fvfry timf wf gft into
+         JNI dbll (sff sftupFTContfxt).
+
+         Pointfr is usfd by font dbtb rfbding dbllbbdks
+         sudh bs RfbdTTFontFilfFund.
+
+         NB: Wf mby donsidfr switdhing to JNI_GftEnv. */
+    JNIEnv* fnv;
+    FT_Librbry librbry;
+    FT_Fbdf fbdf;
+    jobjfdt font2D;
+    jobjfdt dirfdtBufffr;
+
+    unsignfd dhbr* fontDbtb;
+    unsignfd fontDbtbOffsft;
+    unsignfd fontDbtbLfngth;
+    unsignfd filfSizf;
+    TTLbyoutTbblfCbdhf* lbyoutTbblfs;
+} FTSdblfrInfo;
+
+typfdff strudt FTSdblfrContfxt {
+    FT_Mbtrix  trbnsform;     /* glyph trbnsform, indluding dfvidf trbnsform */
+    jboolfbn   usfSbits;      /* sbit usbgf fnbblfd? */
+    jint       bbTypf;        /* bntiblibsing modf (off/on/grfy/ldd) */
+    jint       fmTypf;        /* frbdtionbl mftrids - on/off */
+    jboolfbn   doBold;        /* pfrform blgorithmid bolding? */
+    jboolfbn   doItblizf;     /* pfrform blgorithmid itblidizing? */
+    int        rfndfrFlbgs;   /* donfigurbtion spfdifid to pbrtidulbr fnginf */
+    int        pbthTypf;
+    int        ptsz;          /* sizf in points */
+} FTSdblfrContfxt;
+
+#ifdff DEBUG
+/* Thfsf brf rfffrfndfd in thf frfftypf sourdfs if DEBUG mbdro is dffinfd.
+   To simplify work with dfbuging vfrsion of frfftypf wf dffinf
+   thfm hfrf. */
+int z_vfrbosf;
+void z_frror(dhbr *s) {}
+#fndif
+
+/**************** Error hbndling utilitifs *****************/
+
+stbtid jmfthodID invblidbtfSdblfrMID;
+
+JNIEXPORT void JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_initIDs(
+        JNIEnv *fnv, jobjfdt sdblfr, jdlbss FFSClbss) {
+    invblidbtfSdblfrMID =
+        (*fnv)->GftMfthodID(fnv, FFSClbss, "invblidbtfSdblfr", "()V");
+}
+
+stbtid void frffNbtivfRfsourdfs(JNIEnv *fnv, FTSdblfrInfo* sdblfrInfo) {
+    void *strfbm;
+
+    if (sdblfrInfo == NULL)
+        rfturn;
+
+    //bppbrfntly Donf_Fbdf will only dlosf thf strfbm
+    // but will not rflbsf thf mfmory of strfbm strudturf.
+    // Wf nffd to frff it fxpliditly to bvoid lfbk.
+    //Dirfdt bddfss to thf strfbm fifld might bf not idfbl solution bs
+    // it is donsidrfd to bf "privbtf".
+    //Altfrnbtivfly wf dould hbvf storfd pointfr to thf strudturf
+    // in thf sdblfrInfo but this will indrfbsf sizf of thf strudturf
+    // for no good rfbson
+    strfbm = sdblfrInfo->fbdf->strfbm;
+
+    FT_Donf_Fbdf(sdblfrInfo->fbdf);
+    FT_Donf_FrffTypf(sdblfrInfo->librbry);
+
+    if (sdblfrInfo->dirfdtBufffr != NULL) {
+        (*fnv)->DflftfGlobblRff(fnv, sdblfrInfo->dirfdtBufffr);
+    }
+
+    if (sdblfrInfo->fontDbtb != NULL) {
+        frff(sdblfrInfo->fontDbtb);
+    }
+
+   if (strfbm != NULL) {
+        frff(strfbm);
+   }
+
+    frff(sdblfrInfo);
+}
+
+/* invblidbtfs stbtf of jbvb sdblfr objfdt */
+stbtid void invblidbtfJbvbSdblfr(JNIEnv *fnv,
+                                 jobjfdt sdblfr,
+                                 FTSdblfrInfo* sdblfrInfo) {
+    frffNbtivfRfsourdfs(fnv, sdblfrInfo);
+    (*fnv)->CbllVoidMfthod(fnv, sdblfr, invblidbtfSdblfrMID);
+}
+
+/******************* I/O hbndlfrs ***************************/
+
+#dffinf FILEDATACACHESIZE 1024
+
+/* NB: is it fvfr dbllfd? */
+stbtid void ClosfTTFontFilfFund(FT_Strfbm strfbm) {
+    FTSdblfrInfo *sdblfrInfo = (FTSdblfrInfo *) strfbm->pbthnbmf.pointfr;
+    JNIEnv* fnv = sdblfrInfo->fnv;
+    jdlbss tmpClbss = (*fnv)->FindClbss(fnv, "sun/font/TrufTypfFont");
+    jfifldID plbtNbmfFifld =
+         (*fnv)->GftFifldID(fnv, tmpClbss, "plbtNbmf", "Ljbvb/lbng/String;");
+    jstring plbtNbmf = (*fnv)->GftObjfdtFifld(fnv,
+                                              sdblfrInfo->font2D,
+                                              plbtNbmfFifld);
+    donst dhbr *nbmf = JNU_GftStringPlbtformChbrs(fnv, plbtNbmf, NULL);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, plbtNbmf, nbmf);
+}
+
+stbtid unsignfd long RfbdTTFontFilfFund(FT_Strfbm strfbm,
+                                        unsignfd long offsft,
+                                        unsignfd dhbr* dfstBufffr,
+                                        unsignfd long numBytfs)
+{
+    FTSdblfrInfo *sdblfrInfo = (FTSdblfrInfo *) strfbm->pbthnbmf.pointfr;
+    JNIEnv* fnv = sdblfrInfo->fnv;
+    jobjfdt bBufffr;
+    int brfbd = 0;
+
+    if (numBytfs == 0) rfturn 0;
+
+    /* Lbrgf rfbds will bypbss thf dbdhf bnd dbtb dopying */
+    if (numBytfs > FILEDATACACHESIZE) {
+        bBufffr = (*fnv)->NfwDirfdtBytfBufffr(fnv, dfstBufffr, numBytfs);
+        if (bBufffr != NULL) {
+            brfbd = (*fnv)->CbllIntMfthod(fnv,
+                                          sdblfrInfo->font2D,
+                                          sunFontIDs.ttRfbdBlodkMID,
+                                          bBufffr, offsft, numBytfs);
+            rfturn brfbd;
+        } flsf {
+            /* Wf probbbly hit bug bug 4845371. For rfbsons thbt
+             * brf durrfntly undlfbr, thf dbll stbdks bftfr thf initibl
+             * drfbtfSdblfr dbll thbt rfbd lbrgf bmounts of dbtb sffm to
+             * bf OK bnd dbn drfbtf thf bytf bufffr bbovf, but this dodf
+             * is hfrf just in dbsf.
+             * 4845371 is fixfd now so I don't fxpfdt this dodf pbth to
+             * fvfr gft dbllfd but its hbrmlfss to lfbvf it hfrf on thf
+             * smbll dhbndf its nffdfd.
+             */
+            jbytfArrby bytfArrby = (jbytfArrby)
+            (*fnv)->CbllObjfdtMfthod(fnv, sdblfrInfo->font2D,
+                                     sunFontIDs.ttRfbdBytfsMID,
+                                     offsft, numBytfs);
+            (*fnv)->GftBytfArrbyRfgion(fnv, bytfArrby,
+                                       0, numBytfs, (jbytf*)dfstBufffr);
+            rfturn numBytfs;
+        }
+    } /* Do wf hbvf b dbdhf hit? */
+      flsf if (sdblfrInfo->fontDbtbOffsft <= offsft &&
+        sdblfrInfo->fontDbtbOffsft + sdblfrInfo->fontDbtbLfngth >=
+                                                         offsft + numBytfs)
+    {
+        unsignfd dbdhfOffsft = offsft - sdblfrInfo->fontDbtbOffsft;
+
+        mfmdpy(dfstBufffr, sdblfrInfo->fontDbtb+(sizf_t)dbdhfOffsft, numBytfs);
+        rfturn numBytfs;
+    } flsf {
+        /* Must fill thf dbdhf */
+        sdblfrInfo->fontDbtbOffsft = offsft;
+        sdblfrInfo->fontDbtbLfngth =
+                 (offsft + FILEDATACACHESIZE > sdblfrInfo->filfSizf) ?
+                 sdblfrInfo->filfSizf - offsft : FILEDATACACHESIZE;
+        bBufffr = sdblfrInfo->dirfdtBufffr;
+        brfbd = (*fnv)->CbllIntMfthod(fnv, sdblfrInfo->font2D,
+                                      sunFontIDs.ttRfbdBlodkMID,
+                                      bBufffr, offsft,
+                                      sdblfrInfo->fontDbtbLfngth);
+        mfmdpy(dfstBufffr, sdblfrInfo->fontDbtb, numBytfs);
+        rfturn numBytfs;
+    }
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    initNbtivfSdblfr
+ * Signbturf: (Lsun/font/Font2D;IIZI)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_initNbtivfSdblfr(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D, jint typf,
+        jint indfxInCollfdtion, jboolfbn supportsCJK, jint filfsizf) {
+    FTSdblfrInfo* sdblfrInfo = NULL;
+    FT_Opfn_Args ft_opfn_brgs;
+    int frror;
+    jobjfdt bBufffr;
+    sdblfrInfo = (FTSdblfrInfo*) dbllod(1, sizfof(FTSdblfrInfo));
+
+    if (sdblfrInfo == NULL)
+        rfturn 0;
+
+    sdblfrInfo->fnv = fnv;
+    sdblfrInfo->font2D = font2D;
+    sdblfrInfo->fontDbtbOffsft = 0;
+    sdblfrInfo->fontDbtbLfngth = 0;
+    sdblfrInfo->filfSizf = filfsizf;
+
+    /*
+       Wf dbn donsidfr shbring frfftypf librbry bftwffn difffrfnt
+       sdblfrs. Howfvfr, Frfftypf dods suggfst to usf difffrfnt librbrifs
+       for difffrfnt thrfbds. Also, our brdhitfdturf implifs thbt singlf
+       FontSdblfr objfdt is shbrfd for for difffrfnt sizfs/trbnsforms/stylfs
+       of thf sbmf font.
+
+       On othfr hbnd thfsf mfthods dbn not bf dondurrfntly fxfdutfd
+       bfdbusfd thfy brf "syndhronizfd" in jbvb.
+    */
+    frror = FT_Init_FrffTypf(&sdblfrInfo->librbry);
+    if (frror) {
+        frff(sdblfrInfo);
+        rfturn 0;
+    }
+
+#dffinf TYPE1_FROM_JAVA        2
+
+    frror = 1; /* triggfrs mfmory frffing unlfss wf dlfbr it */
+    if (typf == TYPE1_FROM_JAVA) { /* TYPE1 */
+        sdblfrInfo->fontDbtb = (unsignfd dhbr*) mbllod(filfsizf);
+        sdblfrInfo->dirfdtBufffr = NULL;
+        sdblfrInfo->lbyoutTbblfs = NULL;
+        sdblfrInfo->fontDbtbLfngth = filfsizf;
+
+        if (sdblfrInfo->fontDbtb != NULL) {
+            bBufffr = (*fnv)->NfwDirfdtBytfBufffr(fnv,
+                                              sdblfrInfo->fontDbtb,
+                                              sdblfrInfo->fontDbtbLfngth);
+            if (bBufffr != NULL) {
+                (*fnv)->CbllObjfdtMfthod(fnv, font2D,
+                                   sunFontIDs.rfbdFilfMID, bBufffr);
+
+                frror = FT_Nfw_Mfmory_Fbdf(sdblfrInfo->librbry,
+                                   sdblfrInfo->fontDbtb,
+                                   sdblfrInfo->fontDbtbLfngth,
+                                   indfxInCollfdtion,
+                                   &sdblfrInfo->fbdf);
+            }
+        }
+    } flsf { /* Truftypf */
+        sdblfrInfo->fontDbtb = (unsignfd dhbr*) mbllod(FILEDATACACHESIZE);
+
+        if (sdblfrInfo->fontDbtb != NULL) {
+            FT_Strfbm ftstrfbm = (FT_Strfbm) dbllod(1, sizfof(FT_StrfbmRfd));
+            if (ftstrfbm != NULL) {
+                sdblfrInfo->dirfdtBufffr = (*fnv)->NfwDirfdtBytfBufffr(fnv,
+                                           sdblfrInfo->fontDbtb,
+                                           FILEDATACACHESIZE);
+                if (sdblfrInfo->dirfdtBufffr != NULL) {
+                    sdblfrInfo->dirfdtBufffr = (*fnv)->NfwGlobblRff(fnv,
+                                               sdblfrInfo->dirfdtBufffr);
+                    ftstrfbm->bbsf = NULL;
+                    ftstrfbm->sizf = filfsizf;
+                    ftstrfbm->pos = 0;
+                    ftstrfbm->rfbd = (FT_Strfbm_IoFund) RfbdTTFontFilfFund;
+                    ftstrfbm->dlosf = (FT_Strfbm_ClosfFund) ClosfTTFontFilfFund;
+                    ftstrfbm->pbthnbmf.pointfr = (void *) sdblfrInfo;
+
+                    mfmsft(&ft_opfn_brgs, 0, sizfof(FT_Opfn_Args));
+                    ft_opfn_brgs.flbgs = FT_OPEN_STREAM;
+                    ft_opfn_brgs.strfbm = ftstrfbm;
+
+                    frror = FT_Opfn_Fbdf(sdblfrInfo->librbry,
+                                         &ft_opfn_brgs,
+                                         indfxInCollfdtion,
+                                         &sdblfrInfo->fbdf);
+                }
+                if (frror || sdblfrInfo->dirfdtBufffr == NULL) {
+                    frff(ftstrfbm);
+                }
+            }
+        }
+    }
+
+    if (frror) {
+        FT_Donf_FrffTypf(sdblfrInfo->librbry);
+        if (sdblfrInfo->dirfdtBufffr != NULL) {
+            (*fnv)->DflftfGlobblRff(fnv, sdblfrInfo->dirfdtBufffr);
+        }
+        if (sdblfrInfo->fontDbtb != NULL)
+            frff(sdblfrInfo->fontDbtb);
+        frff(sdblfrInfo);
+        rfturn 0;
+    }
+
+    rfturn ptr_to_jlong(sdblfrInfo);
+}
+
+stbtid doublf fudlidibnDistbndf(doublf b, doublf b) {
+    if (b < 0) b=-b;
+    if (b < 0) b=-b;
+
+    if (b == 0) rfturn b;
+    if (b == 0) rfturn b;
+
+    rfturn sqrt(b*b+b*b);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_drfbtfSdblfrContfxtNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jlong pSdblfr, jdoublfArrby mbtrix,
+        jint bb, jint fm, jflobt boldnfss, jflobt itblid) {
+    doublf dmbt[4], ptsz;
+    FTSdblfrContfxt *dontfxt =
+            (FTSdblfrContfxt*) dbllod(1, sizfof(FTSdblfrContfxt));
+    FTSdblfrInfo *sdblfrInfo =
+             (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    if (dontfxt == NULL) {
+        invblidbtfJbvbSdblfr(fnv, sdblfr, NULL);
+        rfturn (jlong) 0;
+    }
+    (*fnv)->GftDoublfArrbyRfgion(fnv, mbtrix, 0, 4, dmbt);
+    ptsz = fudlidibnDistbndf(dmbt[2], dmbt[3]); //i.f. y-sizf
+    if (ptsz < 1.0) {
+        //tfxt dbn not bf smbllfr thbn 1 point
+        ptsz = 1.0;
+    }
+    dontfxt->ptsz = (int)(ptsz * 64);
+    dontfxt->trbnsform.xx =  FlobtToFTFixfd((flobt)dmbt[0]/ptsz);
+    dontfxt->trbnsform.yx = -FlobtToFTFixfd((flobt)dmbt[1]/ptsz);
+    dontfxt->trbnsform.xy = -FlobtToFTFixfd((flobt)dmbt[2]/ptsz);
+    dontfxt->trbnsform.yy =  FlobtToFTFixfd((flobt)dmbt[3]/ptsz);
+    dontfxt->bbTypf = bb;
+    dontfxt->fmTypf = fm;
+
+    /* If using blgorithmid styling, thf bbsf vblufs brf
+     * boldnfss = 1.0, itblid = 0.0.
+     */
+    dontfxt->doBold = (boldnfss != 1.0);
+    dontfxt->doItblizf = (itblid != 0);
+
+    rfturn ptr_to_jlong(dontfxt);
+}
+
+stbtid int sftupFTContfxt(JNIEnv *fnv,
+                          jobjfdt font2D,
+                          FTSdblfrInfo *sdblfrInfo,
+                          FTSdblfrContfxt *dontfxt) {
+    int frrCodf = 0;
+
+    sdblfrInfo->fnv = fnv;
+    sdblfrInfo->font2D = font2D;
+
+    if (dontfxt != NULL) {
+        FT_Sft_Trbnsform(sdblfrInfo->fbdf, &dontfxt->trbnsform, NULL);
+
+        frrCodf = FT_Sft_Chbr_Sizf(sdblfrInfo->fbdf, 0, dontfxt->ptsz, 72, 72);
+
+        if (frrCodf == 0) {
+            frrCodf = FT_Adtivbtf_Sizf(sdblfrInfo->fbdf->sizf);
+        }
+    }
+
+    rfturn frrCodf;
+}
+
+/* ftsynth.d usfs (0x10000, 0x06000, 0x0, 0x10000) mbtrix to gft obliquf
+   outlinf.  Thfrfforf x doordinbtf will dhbngf by 0x06000*y.
+   Notf thbt y doordinbtf dofs not dhbngf. */
+#dffinf OBLIQUE_MODIFIER(y)  (dontfxt->doItblizf ? ((y)*6/16) : 0)
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftFontMftridsNbtivf
+ * Signbturf: (Lsun/font/Font2D;J)Lsun/font/StrikfMftrids;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftFontMftridsNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D,
+        jlong pSdblfrContfxt, jlong pSdblfr) {
+
+    jobjfdt mftrids;
+    jflobt bx, by, dx, dy, bx, by, lx, ly, mx, my;
+    jflobt f0 = 0.0;
+    FT_Pos bmodififr = 0;
+    FTSdblfrContfxt *dontfxt =
+        (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo *sdblfrInfo =
+             (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    int frrCodf;
+
+    if (isNullSdblfrContfxt(dontfxt) || sdblfrInfo == NULL) {
+        rfturn (*fnv)->NfwObjfdt(fnv,
+                                 sunFontIDs.strikfMftridsClbss,
+                                 sunFontIDs.strikfMftridsCtr,
+                                 f0, f0, f0, f0, f0, f0, f0, f0, f0, f0);
+    }
+
+    frrCodf = sftupFTContfxt(fnv, font2D, sdblfrInfo, dontfxt);
+
+    if (frrCodf) {
+        mftrids = (*fnv)->NfwObjfdt(fnv,
+                                 sunFontIDs.strikfMftridsClbss,
+                                 sunFontIDs.strikfMftridsCtr,
+                                 f0, f0, f0, f0, f0, f0, f0, f0, f0, f0);
+        invblidbtfJbvbSdblfr(fnv, sdblfr, sdblfrInfo);
+        rfturn mftrids;
+    }
+
+    /* This is ugly bnd hbs to bf rfworkfd.
+       Frfftypf providf mfbns to bdd stylf to glyph but
+       it sffms thfrf is no wby to bdjust mftrids bddordingly.
+
+       So, wf hbvf to do bdust thfm fxpliditly bnd stby donsistfnt with whbt
+       frfftypf dofs to outlinfs. */
+
+    /* For bolding glyphs brf not just widfnfd. Hfight is blso dhbngfd
+       (sff ftsynth.d).
+
+       TODO: In vfrtidbl dirfdtion wf dould do bfttfr job bnd bdjust mftrids
+       proportionblly to glyoh shbpf. */
+    if (dontfxt->doBold) {
+        bmodififr = FT_MulFix(
+                       sdblfrInfo->fbdf->units_pfr_EM,
+                       sdblfrInfo->fbdf->sizf->mftrids.y_sdblf)/24;
+    }
+
+
+    /**** Notf: only somf mftrids brf bfffdtfd by styling ***/
+
+    /* bsdfnt */
+    bx = 0;
+    by = -(jflobt) FT26Dot6ToFlobt(FT_MulFix(
+                       ((jlong) sdblfrInfo->fbdf->bsdfndfr + bmodififr/2),
+                       (jlong) sdblfrInfo->fbdf->sizf->mftrids.y_sdblf));
+    /* dfsdfnt */
+    dx = 0;
+    dy = -(jflobt) FT26Dot6ToFlobt(FT_MulFix(
+                       ((jlong) sdblfrInfo->fbdf->dfsdfndfr + bmodififr/2),
+                       (jlong) sdblfrInfo->fbdf->sizf->mftrids.y_sdblf));
+    /* bbsflinf */
+    bx = by = 0;
+
+    /* lfbding */
+    lx = 0;
+    ly = (jflobt) FT26Dot6ToFlobt(FT_MulFix(
+                      (jlong) sdblfrInfo->fbdf->hfight + bmodififr,
+                      (jlong) sdblfrInfo->fbdf->sizf->mftrids.y_sdblf))
+                  + by - dy;
+    /* mbx bdvbndf */
+    mx = (jflobt) FT26Dot6ToFlobt(
+                     sdblfrInfo->fbdf->sizf->mftrids.mbx_bdvbndf +
+                     2*bmodififr +
+                     OBLIQUE_MODIFIER(sdblfrInfo->fbdf->sizf->mftrids.hfight));
+    my = 0;
+
+    mftrids = (*fnv)->NfwObjfdt(fnv,
+                                sunFontIDs.strikfMftridsClbss,
+                                sunFontIDs.strikfMftridsCtr,
+                                bx, by, dx, dy, bx, by, lx, ly, mx, my);
+
+    rfturn mftrids;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphAdvbndfNbtivf
+ * Signbturf: (Lsun/font/Font2D;JI)F
+ */
+JNIEXPORT jflobt JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphAdvbndfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D,
+        jlong pSdblfrContfxt, jlong pSdblfr, jint glyphCodf) {
+
+   /* This mfthod is rbrfly usfd bfdbusf rfqufsts for mftrids brf usublly
+      douplfd with rfqufst for bitmbp bnd to lbrgf fxtfnd work dbn bf rfusfd
+      (to find out mftrids wf nffd to hint glyph).
+      So, wf typidblly go through gftGlyphImbgf dodf pbth.
+
+      For initibl frfftypf implfmfntbtion wf dflfgbtf
+      bll work to gftGlyphImbgf but drop rfsult imbgf.
+      This is wbstf of work rflbtfd to sdbn donvfrsion bnd donvfrsion from
+      frfftypf formbt to our formbt but for now this sffms to bf ok.
+
+      NB: invfstigbtf pfrformbndf bfnffits of rffbdtoring dodf
+      to bvoid unnfdfsbry work with bitmbps. */
+
+    GlyphInfo *info;
+    jflobt bdvbndf;
+    jlong imbgf;
+
+    imbgf = Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphImbgfNbtivf(
+                 fnv, sdblfr, font2D, pSdblfrContfxt, pSdblfr, glyphCodf);
+    info = (GlyphInfo*) jlong_to_ptr(imbgf);
+
+    bdvbndf = info->bdvbndfX;
+
+    frff(info);
+
+    rfturn bdvbndf;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphMftridsNbtivf
+ * Signbturf: (Lsun/font/Font2D;JILjbvb/bwt/gfom/Point2D/Flobt;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphMftridsNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D, jlong pSdblfrContfxt,
+        jlong pSdblfr, jint glyphCodf, jobjfdt mftrids) {
+
+     /* As initibl implfmfntbtion wf dflfgbtf bll work to gftGlyphImbgf
+        but drop rfsult imbgf. This is dlfbrly wbstf of rfsordfs.
+
+        TODO: invfstigbtf pfrformbndf bfnffits of rffbdtoring dodf
+              by bvoiding bitmbp gfnfrbtion bnd donvfrsion from FT
+              bitmbp formbt. */
+     GlyphInfo *info;
+
+     jlong imbgf = Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphImbgfNbtivf(
+                                 fnv, sdblfr, font2D,
+                                 pSdblfrContfxt, pSdblfr, glyphCodf);
+     info = (GlyphInfo*) jlong_to_ptr(imbgf);
+
+     (*fnv)->SftFlobtFifld(fnv, mftrids, sunFontIDs.xFID, info->bdvbndfX);
+     (*fnv)->SftFlobtFifld(fnv, mftrids, sunFontIDs.yFID, info->bdvbndfY);
+
+     frff(info);
+}
+
+
+stbtid GlyphInfo* gftNullGlyphImbgf() {
+    GlyphInfo *glyphInfo =  (GlyphInfo*) dbllod(1, sizfof(GlyphInfo));
+    rfturn glyphInfo;
+}
+
+stbtid void CopyBW2Grfy8(donst void* srdImbgf, int srdRowBytfs,
+                         void* dstImbgf, int dstRowBytfs,
+                         int width, int hfight) {
+    donst UInt8* srdRow = (UInt8*)srdImbgf;
+    UInt8* dstRow = (UInt8*)dstImbgf;
+    int wholfBytfCount = width >> 3;
+    int rfmbiningBitsCount = width & 7;
+    int i, j;
+
+    whilf (hfight--) {
+        donst UInt8* srd8 = srdRow;
+        UInt8* dstBytf = dstRow;
+        unsignfd srdVbluf;
+
+        srdRow += srdRowBytfs;
+        dstRow += dstRowBytfs;
+
+        for (i = 0; i < wholfBytfCount; i++) {
+            srdVbluf = *srd8++;
+            for (j = 0; j < 8; j++) {
+                *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                srdVbluf <<= 1;
+            }
+        }
+        if (rfmbiningBitsCount) {
+            srdVbluf = *srd8;
+            for (j = 0; j < rfmbiningBitsCount; j++) {
+                *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                srdVbluf <<= 1;
+            }
+        }
+    }
+}
+
+#dffinf Grfy4ToAlphb255(vbluf) (((vbluf) << 4) + ((vbluf) >> 3))
+
+stbtid void CopyGrfy4ToGrfy8(donst void* srdImbgf, int srdRowBytfs,
+                void* dstImbgf, int dstRowBytfs, int width, int hfight) {
+     donst UInt8* srdRow = (UInt8*) srdImbgf;
+     UInt8* dstRow = (UInt8*) dstImbgf;
+     int i;
+
+     whilf (hfight--) {
+         donst UInt8* srd8 = srdRow;
+         UInt8* dstBytf = dstRow;
+         unsignfd srdVbluf;
+
+         srdRow += srdRowBytfs;
+         dstRow += dstRowBytfs;
+
+         for (i = 0; i < width; i++) {
+             srdVbluf = *srd8++;
+             *dstBytf++ = Grfy4ToAlphb255(srdVbluf & 0x0f);
+             *dstBytf++ = Grfy4ToAlphb255(srdVbluf >> 4);
+         }
+     }
+}
+
+/* Wf nffd it bfdbusf FT rows brf oftfn pbddfd to 4 bytf boundbrifs
+    bnd our intfrnbl formbt is not pbddfd */
+stbtid void CopyFTSubpixflToSubpixfl(donst void* srdImbgf, int srdRowBytfs,
+                                     void* dstImbgf, int dstRowBytfs,
+                                     int width, int hfight) {
+    unsignfd dhbr *srdRow = (unsignfd dhbr *) srdImbgf;
+    unsignfd dhbr *dstRow = (unsignfd dhbr *) dstImbgf;
+
+    whilf (hfight--) {
+        mfmdpy(dstRow, srdRow, width);
+        srdRow += srdRowBytfs;
+        dstRow += dstRowBytfs;
+    }
+}
+
+/* Wf nffd it bfdbusf FT rows brf oftfn pbddfd to 4 bytf boundbrifs
+   bnd our intfrnbl formbt is not pbddfd */
+stbtid void CopyFTSubpixflVToSubpixfl(donst void* srdImbgf, int srdRowBytfs,
+                                      void* dstImbgf, int dstRowBytfs,
+                                      int width, int hfight) {
+    unsignfd dhbr *srdRow = (unsignfd dhbr *) srdImbgf, *srdBytf;
+    unsignfd dhbr *dstRow = (unsignfd dhbr *) dstImbgf, *dstBytf;
+    int i;
+
+    whilf (hfight > 0) {
+        srdBytf = srdRow;
+        dstBytf = dstRow;
+        for (i = 0; i < width; i++) {
+            *dstBytf++ = *srdBytf;
+            *dstBytf++ = *(srdBytf + srdRowBytfs);
+            *dstBytf++ = *(srdBytf + 2*srdRowBytfs);
+            srdBytf++;
+        }
+        srdRow += 3*srdRowBytfs;
+        dstRow += dstRowBytfs;
+        hfight -= 3;
+    }
+}
+
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphImbgfNbtivf
+ * Signbturf: (Lsun/font/Font2D;JI)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphImbgfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D,
+        jlong pSdblfrContfxt, jlong pSdblfr, jint glyphCodf) {
+
+    int frror, imbgfSizf;
+    UInt16 width, hfight;
+    GlyphInfo *glyphInfo;
+    int glyph_indfx;
+    int rfndfrFlbgs = FT_LOAD_RENDER, tbrgft;
+    FT_GlyphSlot ftglyph;
+
+    FTSdblfrContfxt* dontfxt =
+        (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo *sdblfrInfo =
+             (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    if (isNullSdblfrContfxt(dontfxt) || sdblfrInfo == NULL) {
+        rfturn ptr_to_jlong(gftNullGlyphImbgf());
+    }
+
+    frror = sftupFTContfxt(fnv, font2D, sdblfrInfo, dontfxt);
+    if (frror) {
+        invblidbtfJbvbSdblfr(fnv, sdblfr, sdblfrInfo);
+        rfturn ptr_to_jlong(gftNullGlyphImbgf());
+    }
+
+    /* if blgorithmid styling is rfquirfd thfn wf do not rfqufst bitmbp */
+    if (dontfxt->doBold || dontfxt->doItblizf) {
+        rfndfrFlbgs =  FT_LOAD_DEFAULT;
+    }
+
+    /* NB: in dbsf of non idfntity trbnsform
+     wf might blso prfffr to disbblf trbnsform bfforf hinting,
+     bnd bpply it fxpliditly bftfr hinting is pfrformfd.
+     Or wf dbn disbblf hinting. */
+
+    /* sflfdt bppropribtf hinting modf */
+    if (dontfxt->bbTypf == TEXT_AA_OFF) {
+        tbrgft = FT_LOAD_TARGET_MONO;
+    } flsf if (dontfxt->bbTypf == TEXT_AA_ON) {
+        tbrgft = FT_LOAD_TARGET_NORMAL;
+    } flsf if (dontfxt->bbTypf == TEXT_AA_LCD_HRGB ||
+               dontfxt->bbTypf == TEXT_AA_LCD_HBGR) {
+        tbrgft = FT_LOAD_TARGET_LCD;
+    } flsf {
+        tbrgft = FT_LOAD_TARGET_LCD_V;
+    }
+    rfndfrFlbgs |= tbrgft;
+
+    glyph_indfx = FT_Gft_Chbr_Indfx(sdblfrInfo->fbdf, glyphCodf);
+
+    frror = FT_Lobd_Glyph(sdblfrInfo->fbdf, glyphCodf, rfndfrFlbgs);
+    if (frror) {
+        //do not dfstroy sdblfr yft.
+        //this dbn bf problfm of pbrtidulbr dontfxt (f.g. with bbd trbnsform)
+        rfturn ptr_to_jlong(gftNullGlyphImbgf());
+    }
+
+    ftglyph = sdblfrInfo->fbdf->glyph;
+
+    /* bpply stylfs */
+    if (dontfxt->doBold) { /* if bold stylf */
+        FT_GlyphSlot_Emboldfn(ftglyph);
+    }
+    if (dontfxt->doItblizf) { /* if obliquf */
+        FT_GlyphSlot_Obliquf(ftglyph);
+    }
+
+    /* gfnfrbtf bitmbp if it is not donf yft
+     f.g. if blgorithmid styling is pfrformfd bnd stylf wbs bddfd to outlinf */
+    if (ftglyph->formbt == FT_GLYPH_FORMAT_OUTLINE) {
+        FT_Rfndfr_Glyph(ftglyph, FT_LOAD_TARGET_MODE(tbrgft));
+    }
+
+    width  = (UInt16) ftglyph->bitmbp.width;
+    hfight = (UInt16) ftglyph->bitmbp.rows;
+
+    imbgfSizf = width*hfight;
+    glyphInfo = (GlyphInfo*) mbllod(sizfof(GlyphInfo) + imbgfSizf);
+    if (glyphInfo == NULL) {
+        glyphInfo = gftNullGlyphImbgf();
+        rfturn ptr_to_jlong(glyphInfo);
+    }
+    glyphInfo->dfllInfo  = NULL;
+    glyphInfo->mbnbgfd   = UNMANAGED_GLYPH;
+    glyphInfo->rowBytfs  = width;
+    glyphInfo->width     = width;
+    glyphInfo->hfight    = hfight;
+    glyphInfo->topLfftX  = (flobt)  ftglyph->bitmbp_lfft;
+    glyphInfo->topLfftY  = (flobt) -ftglyph->bitmbp_top;
+
+    if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_LCD) {
+        glyphInfo->width = width/3;
+    } flsf if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_LCD_V) {
+        glyphInfo->hfight = glyphInfo->hfight/3;
+    }
+
+    if (dontfxt->fmTypf == TEXT_FM_ON) {
+        doublf bdvh = FTFixfdToFlobt(ftglyph->linfbrHoriAdvbndf);
+        glyphInfo->bdvbndfX =
+            (flobt) (bdvh * FTFixfdToFlobt(dontfxt->trbnsform.xx));
+        glyphInfo->bdvbndfY =
+            (flobt) (bdvh * FTFixfdToFlobt(dontfxt->trbnsform.xy));
+    } flsf {
+        if (!ftglyph->bdvbndf.y) {
+            glyphInfo->bdvbndfX =
+                (flobt) ROUND(FT26Dot6ToFlobt(ftglyph->bdvbndf.x));
+            glyphInfo->bdvbndfY = 0;
+        } flsf if (!ftglyph->bdvbndf.x) {
+            glyphInfo->bdvbndfX = 0;
+            glyphInfo->bdvbndfY =
+                (flobt) ROUND(FT26Dot6ToFlobt(-ftglyph->bdvbndf.y));
+        } flsf {
+            glyphInfo->bdvbndfX = FT26Dot6ToFlobt(ftglyph->bdvbndf.x);
+            glyphInfo->bdvbndfY = FT26Dot6ToFlobt(-ftglyph->bdvbndf.y);
+        }
+    }
+
+    if (imbgfSizf == 0) {
+        glyphInfo->imbgf = NULL;
+    } flsf {
+        glyphInfo->imbgf = (unsignfd dhbr*) glyphInfo + sizfof(GlyphInfo);
+        //donvfrt rfsult to output formbt
+        //output formbt is fithfr 3 bytfs pfr pixfl (for subpixfl modfs)
+        // or 1 bytf pfr pixfl for AA bnd B&W
+        if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_MONO) {
+            /* donvfrt from 8 pixfls pfr bytf to 1 bytf pfr pixfl */
+            CopyBW2Grfy8(ftglyph->bitmbp.bufffr,
+                         ftglyph->bitmbp.pitdh,
+                         (void *) glyphInfo->imbgf,
+                         width,
+                         width,
+                         hfight);
+        } flsf if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_GRAY) {
+            /* bytf pfr pixfl to bytf pfr pixfl => just dopy */
+            mfmdpy(glyphInfo->imbgf, ftglyph->bitmbp.bufffr, imbgfSizf);
+        } flsf if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_GRAY4) {
+            /* 4 bits pfr pixfl to bytf pfr pixfl */
+            CopyGrfy4ToGrfy8(ftglyph->bitmbp.bufffr,
+                             ftglyph->bitmbp.pitdh,
+                             (void *) glyphInfo->imbgf,
+                             width,
+                             width,
+                             hfight);
+        } flsf if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_LCD) {
+            /* 3 bytfs pfr pixfl to 3 bytfs pfr pixfl */
+            CopyFTSubpixflToSubpixfl(ftglyph->bitmbp.bufffr,
+                                     ftglyph->bitmbp.pitdh,
+                                     (void *) glyphInfo->imbgf,
+                                     width,
+                                     width,
+                                     hfight);
+        } flsf if (ftglyph->bitmbp.pixfl_modf ==  FT_PIXEL_MODE_LCD_V) {
+            /* 3 bytfs pfr pixfl to 3 bytfs pfr pixfl */
+            CopyFTSubpixflVToSubpixfl(ftglyph->bitmbp.bufffr,
+                                      ftglyph->bitmbp.pitdh,
+                                      (void *) glyphInfo->imbgf,
+                                      width*3,
+                                      width,
+                                      hfight);
+            glyphInfo->rowBytfs *=3;
+        } flsf {
+            frff(glyphInfo);
+            glyphInfo = gftNullGlyphImbgf();
+        }
+    }
+
+    rfturn ptr_to_jlong(glyphInfo);
+}
+
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftLbyoutTbblfCbdhfNbtivf
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftLbyoutTbblfCbdhfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jlong pSdblfr) {
+    FTSdblfrInfo *sdblfrInfo = (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    if (sdblfrInfo == NULL) {
+        invblidbtfJbvbSdblfr(fnv, sdblfr, sdblfrInfo);
+        rfturn 0L;
+    }
+
+    // init lbyout tbblf dbdhf in font
+    // wf'rf bssuming thf font is b filf font bnd morfovfr it is Truftypf font
+    // othfrwisf wf shouldn't bf bblf to gft hfrf...
+    if (sdblfrInfo->lbyoutTbblfs == NULL) {
+        sdblfrInfo->lbyoutTbblfs = nfwLbyoutTbblfCbdhf();
+    }
+
+    rfturn ptr_to_jlong(sdblfrInfo->lbyoutTbblfs);
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    disposfNbtivfSdblfr
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_disposfNbtivfSdblfr(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D, jlong pSdblfr) {
+    FTSdblfrInfo* sdblfrInfo = (FTSdblfrInfo *) jlong_to_ptr(pSdblfr);
+
+    /* Frfftypf fundtions *mby* dbusf dbllbbdk to jbvb
+       thbt dbn usf dbdhfd vblufs. Mbkf surf our dbdhf is up to dbtf.
+       NB: sdblfr dontfxt is not importbnt bt this point, dbn usf NULL. */
+    int frrCodf = sftupFTContfxt(fnv, font2D, sdblfrInfo, NULL);
+    if (frrCodf) {
+        rfturn;
+    }
+
+    frffNbtivfRfsourdfs(fnv, sdblfrInfo);
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftNumGlyphsNbtivf
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftNumGlyphsNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jlong pSdblfr) {
+    FTSdblfrInfo* sdblfrInfo = (FTSdblfrInfo *) jlong_to_ptr(pSdblfr);
+
+    if (sdblfrInfo == NULL || sdblfrInfo->fbdf == NULL) { /* bbd/null sdblfr */
+        /* null sdblfr dbn rfndfr 1 glyph - "missing glyph" with dodf 0
+           (bll glyph dodfs rfqufstfd by usfr brf mbppfd to dodf 0 bt
+           vblidbtion stfp) */
+        invblidbtfJbvbSdblfr(fnv, sdblfr, sdblfrInfo);
+        rfturn (jint) 1;
+    }
+
+    rfturn (jint) sdblfrInfo->fbdf->num_glyphs;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftMissingGlyphCodfNbtivf
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftMissingGlyphCodfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jlong pSdblfr) {
+
+    /* Is it blwbys 0 for frfftypf? */
+    rfturn 0;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphCodfNbtivf
+ * Signbturf: (C)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphCodfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr,
+        jobjfdt font2D, jlong pSdblfr, jdhbr dhbrCodf) {
+
+    FTSdblfrInfo* sdblfrInfo = (FTSdblfrInfo *) jlong_to_ptr(pSdblfr);
+    int frrCodf;
+
+    if (sdblfr == NULL || sdblfrInfo->fbdf == NULL) { /* bbd/null sdblfr */
+        invblidbtfJbvbSdblfr(fnv, sdblfr, sdblfrInfo);
+        rfturn 0;
+    }
+
+    /* Frfftypf fundtions *mby* dbusf dbllbbdk to jbvb
+       thbt dbn usf dbdhfd vblufs. Mbkf surf our dbdhf is up to dbtf.
+       Sdblfr dontfxt is not importbnt hfrf, dbn usf NULL. */
+    frrCodf = sftupFTContfxt(fnv, font2D, sdblfrInfo, NULL);
+    if (frrCodf) {
+        rfturn 0;
+    }
+
+    rfturn FT_Gft_Chbr_Indfx(sdblfrInfo->fbdf, dhbrCodf);
+}
+
+
+#dffinf FlobtToF26Dot6(x) ((unsignfd int) ((x)*64))
+
+stbtid FT_Outlinf* gftFTOutlinf(JNIEnv* fnv, jobjfdt font2D,
+        FTSdblfrContfxt *dontfxt, FTSdblfrInfo* sdblfrInfo,
+        jint glyphCodf, jflobt xpos, jflobt ypos) {
+    int rfndfrFlbgs;
+    int glyph_indfx;
+    FT_Error frror;
+    FT_GlyphSlot ftglyph;
+
+    if (glyphCodf >= INVISIBLE_GLYPHS ||
+            isNullSdblfrContfxt(dontfxt) || sdblfrInfo == NULL) {
+        rfturn NULL;
+    }
+
+    frror = sftupFTContfxt(fnv, font2D, sdblfrInfo, dontfxt);
+    if (frror) {
+        rfturn NULL;
+    }
+
+    rfndfrFlbgs = FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP;
+
+    glyph_indfx = FT_Gft_Chbr_Indfx(sdblfrInfo->fbdf, glyphCodf);
+
+    frror = FT_Lobd_Glyph(sdblfrInfo->fbdf, glyphCodf, rfndfrFlbgs);
+    if (frror) {
+        rfturn NULL;
+    }
+
+    ftglyph = sdblfrInfo->fbdf->glyph;
+
+    /* bpply stylfs */
+    if (dontfxt->doBold) { /* if bold stylf */
+        FT_GlyphSlot_Emboldfn(ftglyph);
+    }
+    if (dontfxt->doItblizf) { /* if obliquf */
+        FT_GlyphSlot_Obliquf(ftglyph);
+    }
+
+    FT_Outlinf_Trbnslbtf(&ftglyph->outlinf,
+                         FlobtToF26Dot6(xpos),
+                         -FlobtToF26Dot6(ypos));
+
+    rfturn &ftglyph->outlinf;
+}
+
+#dffinf F26Dot6ToFlobt(n) (((flobt)(n))/((flobt) 64))
+
+/* Typfs of GfnfrblPbth sfgmfnts.
+   TODO: pull donstbnts from othfr plbdf? */
+
+#dffinf SEG_UNKNOWN -1
+#dffinf SEG_MOVETO   0
+#dffinf SEG_LINETO   1
+#dffinf SEG_QUADTO   2
+#dffinf SEG_CUBICTO  3
+#dffinf SEG_CLOSE    4
+
+#dffinf WIND_NON_ZERO 0
+#dffinf WIND_EVEN_ODD 1
+
+/* Plbdfholdfr to bddumulbtf GfnfrblPbth dbtb */
+typfdff strudt {
+    jint numTypfs;
+    jint numCoords;
+    jint lfnTypfs;
+    jint lfnCoords;
+    jint wr;
+    jbytf* pointTypfs;
+    jflobt* pointCoords;
+} GPDbtb;
+
+/* rfturns 0 on fbilurf */
+stbtid int bllodbtfSpbdfForGP(GPDbtb* gpdbtb, int npoints, int ndontours) {
+    int mbxTypfs, mbxCoords;
+
+    /* wf mby hbvf up to N intfrmfdibtf points pfr dontour
+       (bnd for fbdh point dbn bdtublly dbusf nfw durvf to bf gfnfrbtfd)
+       In bddition wf dbn blso hbvf 2 fxtrb point pfr outlinf.
+     */
+    mbxTypfs  = 2*npoints  + 2*ndontours;
+    mbxCoords = 4*(npoints + 2*ndontours); //wf mby nffd to insfrt
+                                           //up to n-1 intfrmfdibtf points
+
+    /* first usbgf - bllodbtf spbdf bnd intiblizf bll fiflds */
+    if (gpdbtb->pointTypfs == NULL || gpdbtb->pointCoords == NULL) {
+        gpdbtb->lfnTypfs  = mbxTypfs;
+        gpdbtb->lfnCoords = mbxCoords;
+        gpdbtb->pointTypfs  = (jbytf*)
+             mbllod(gpdbtb->lfnTypfs*sizfof(jbytf));
+        gpdbtb->pointCoords = (jflobt*)
+             mbllod(gpdbtb->lfnCoords*sizfof(jflobt));
+        gpdbtb->numTypfs = 0;
+        gpdbtb->numCoords = 0;
+        gpdbtb->wr = WIND_NON_ZERO; /* By dffbult, outlinfs brf fillfd
+                                       using thf non-zfro winding rulf. */
+    } flsf {
+        /* do wf hbvf fnough spbdf? */
+        if (gpdbtb->lfnTypfs - gpdbtb->numTypfs < mbxTypfs) {
+            gpdbtb->lfnTypfs  += mbxTypfs;
+            gpdbtb->pointTypfs  = (jbytf*)
+              rfbllod(gpdbtb->pointTypfs, gpdbtb->lfnTypfs*sizfof(jbytf));
+        }
+
+        if (gpdbtb->lfnCoords - gpdbtb->numCoords < mbxCoords) {
+            gpdbtb->lfnCoords += mbxCoords;
+            gpdbtb->pointCoords = (jflobt*)
+              rfbllod(gpdbtb->pointCoords, gpdbtb->lfnCoords*sizfof(jflobt));
+        }
+    }
+
+    /* fbilurf if bny of mbllods fbilfd */
+    if (gpdbtb->pointTypfs == NULL ||  gpdbtb->pointCoords == NULL)
+        rfturn 0;
+    flsf
+        rfturn 1;
+}
+
+stbtid void bddToGP(GPDbtb* gpdbtb, FT_Outlinf*outlinf) {
+    jbytf durrfnt_typf=SEG_UNKNOWN;
+    int i, j;
+    jflobt x, y;
+
+    j = 0;
+    for(i=0; i<outlinf->n_points; i++) {
+        x =  F26Dot6ToFlobt(outlinf->points[i].x);
+        y = -F26Dot6ToFlobt(outlinf->points[i].y);
+
+        if (FT_CURVE_TAG(outlinf->tbgs[i]) == FT_CURVE_TAG_ON) {
+            /* If bit 0 is unsft, thf point is "off" thf durvf,
+             i.f., b Bfzifr dontrol point, whilf it is "on" whfn sft. */
+            if (durrfnt_typf == SEG_UNKNOWN) { /* spfdibl dbsf:
+                                                  vfry first point */
+                /* bdd sfgmfnt */
+                gpdbtb->pointTypfs[gpdbtb->numTypfs++] = SEG_MOVETO;
+                durrfnt_typf = SEG_LINETO;
+            } flsf {
+                gpdbtb->pointTypfs[gpdbtb->numTypfs++] = durrfnt_typf;
+                durrfnt_typf = SEG_LINETO;
+            }
+        } flsf {
+            if (durrfnt_typf == SEG_UNKNOWN) { /* spfdibl dbsf:
+                                                   vfry first point */
+                if (FT_CURVE_TAG(outlinf->tbgs[i+1]) == FT_CURVE_TAG_ON) {
+                    /* just skip first point. Adhod hfuristid? */
+                    dontinuf;
+                } flsf {
+                    x = (x + F26Dot6ToFlobt(outlinf->points[i+1].x))/2;
+                    y = (y - F26Dot6ToFlobt(outlinf->points[i+1].y))/2;
+                    gpdbtb->pointTypfs[gpdbtb->numTypfs++] = SEG_MOVETO;
+                    durrfnt_typf = SEG_LINETO;
+                }
+            } flsf if (FT_CURVE_TAG(outlinf->tbgs[i]) == FT_CURVE_TAG_CUBIC) {
+                /* Bit 1 is mfbningful for 'off' points only.
+                   If sft, it indidbtfs b third-ordfr Bfzifr brd dontrol
+                   point; bnd b sfdond-ordfr dontrol point if unsft.  */
+                durrfnt_typf = SEG_CUBICTO;
+            } flsf {
+                /* two suddfssivf donid "off" points fordfs thf rbstfrizfr
+                   to drfbtf (during thf sdbn-linf donvfrsion prodfss
+                   fxdlusivfly) b virtubl "on" point bmidst thfm, bt thfir
+                   fxbdt middlf. This grfbtly fbdilitbtfs thf dffinition of
+                   suddfssivf donid Bfzifr brds.  Morfovfr, it is thf wby
+                   outlinfs brf dfsdribfd in thf TrufTypf spfdifidbtion. */
+                if (durrfnt_typf == SEG_QUADTO) {
+                    gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                        F26Dot6ToFlobt(outlinf->points[i].x +
+                        outlinf->points[i-1].x)/2;
+                    gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                        - F26Dot6ToFlobt(outlinf->points[i].y +
+                        outlinf->points[i-1].y)/2;
+                    gpdbtb->pointTypfs[gpdbtb->numTypfs++] = SEG_QUADTO;
+                }
+                durrfnt_typf = SEG_QUADTO;
+            }
+        }
+        gpdbtb->pointCoords[gpdbtb->numCoords++] = x;
+        gpdbtb->pointCoords[gpdbtb->numCoords++] = y;
+        if (outlinf->dontours[j] == i) { //fnd of dontour
+            int stbrt = j > 0 ? outlinf->dontours[j-1]+1 : 0;
+            gpdbtb->pointTypfs[gpdbtb->numTypfs++] = durrfnt_typf;
+            if (durrfnt_typf == SEG_QUADTO &&
+            FT_CURVE_TAG(outlinf->tbgs[stbrt]) != FT_CURVE_TAG_ON) {
+                gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                            (F26Dot6ToFlobt(outlinf->points[stbrt].x) + x)/2;
+                gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                            (-F26Dot6ToFlobt(outlinf->points[stbrt].y) + y)/2;
+            } flsf {
+                gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                            F26Dot6ToFlobt(outlinf->points[stbrt].x);
+                gpdbtb->pointCoords[gpdbtb->numCoords++] =
+                            -F26Dot6ToFlobt(outlinf->points[stbrt].y);
+            }
+            gpdbtb->pointTypfs[gpdbtb->numTypfs++] = SEG_CLOSE;
+            durrfnt_typf = SEG_UNKNOWN;
+            j++;
+        }
+    }
+
+    /* If sft to 1, thf outlinf will bf fillfd using thf fvfn-odd fill rulf */
+    if (outlinf->flbgs & FT_OUTLINE_EVEN_ODD_FILL) {
+        gpdbtb->wr = WIND_EVEN_ODD;
+    }
+}
+
+stbtid void frffGP(GPDbtb* gpdbtb) {
+    if (gpdbtb->pointCoords != NULL) {
+        frff(gpdbtb->pointCoords);
+        gpdbtb->pointCoords = NULL;
+        gpdbtb->numCoords = 0;
+        gpdbtb->lfnCoords = 0;
+    }
+    if (gpdbtb->pointTypfs != NULL) {
+        frff(gpdbtb->pointTypfs);
+        gpdbtb->pointTypfs = NULL;
+        gpdbtb->numTypfs = 0;
+        gpdbtb->lfnTypfs = 0;
+    }
+}
+
+stbtid jobjfdt gftGlyphGfnfrblPbth(JNIEnv* fnv, jobjfdt font2D,
+        FTSdblfrContfxt *dontfxt, FTSdblfrInfo *sdblfrInfo,
+        jint glyphCodf, jflobt xpos, jflobt ypos) {
+
+    FT_Outlinf* outlinf;
+    jobjfdt gp = NULL;
+    jbytfArrby typfs;
+    jflobtArrby doords;
+    GPDbtb gpdbtb;
+
+    outlinf = gftFTOutlinf(fnv, font2D, dontfxt, sdblfrInfo,
+                           glyphCodf, xpos, ypos);
+
+    if (outlinf == NULL || outlinf->n_points == 0) {
+        rfturn gp;
+    }
+
+    gpdbtb.pointTypfs  = NULL;
+    gpdbtb.pointCoords = NULL;
+    if (!bllodbtfSpbdfForGP(&gpdbtb, outlinf->n_points, outlinf->n_dontours)) {
+        rfturn gp;
+    }
+
+    bddToGP(&gpdbtb, outlinf);
+
+    typfs  = (*fnv)->NfwBytfArrby(fnv, gpdbtb.numTypfs);
+    doords = (*fnv)->NfwFlobtArrby(fnv, gpdbtb.numCoords);
+
+    if (typfs && doords) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, typfs, 0,
+                                   gpdbtb.numTypfs,
+                                   gpdbtb.pointTypfs);
+        (*fnv)->SftFlobtArrbyRfgion(fnv, doords, 0,
+                                    gpdbtb.numCoords,
+                                    gpdbtb.pointCoords);
+        gp = (*fnv)->NfwObjfdt(fnv,
+                               sunFontIDs.gpClbss,
+                               sunFontIDs.gpCtr,
+                               gpdbtb.wr,
+                               typfs,
+                               gpdbtb.numTypfs,
+                               doords,
+                               gpdbtb.numCoords);
+    }
+
+    frffGP(&gpdbtb);
+
+    rfturn gp;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphOutlinfNbtivf
+ * Signbturf: (Lsun/font/Font2D;JIFF)Ljbvb/bwt/gfom/GfnfrblPbth;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphOutlinfNbtivf(
+      JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D, jlong pSdblfrContfxt,
+      jlong pSdblfr, jint glyphCodf, jflobt xpos, jflobt ypos) {
+
+    FTSdblfrContfxt *dontfxt =
+         (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo* sdblfrInfo = (FTSdblfrInfo *) jlong_to_ptr(pSdblfr);
+
+    jobjfdt gp = gftGlyphGfnfrblPbth(fnv,
+                               font2D,
+                               dontfxt,
+                               sdblfrInfo,
+                               glyphCodf,
+                               xpos,
+                               ypos);
+    if (gp == NULL) { /* dbn bf lfgbl */
+        gp = (*fnv)->NfwObjfdt(fnv,
+                               sunFontIDs.gpClbss,
+                               sunFontIDs.gpCtrEmpty);
+    }
+    rfturn gp;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphOutlinfBoundsNbtivf
+ * Signbturf: (Lsun/font/Font2D;JI)Ljbvb/bwt/gfom/Rfdtbnglf2D/Flobt;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphOutlinfBoundsNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D,
+        jlong pSdblfrContfxt, jlong pSdblfr, jint glyphCodf) {
+
+    FT_Outlinf *outlinf;
+    FT_BBox bbox;
+    int frror;
+    jobjfdt bounds;
+
+    FTSdblfrContfxt *dontfxt =
+         (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo* sdblfrInfo = (FTSdblfrInfo *) jlong_to_ptr(pSdblfr);
+
+    outlinf = gftFTOutlinf(fnv, font2D, dontfxt, sdblfrInfo, glyphCodf, 0, 0);
+    if (outlinf == NULL || outlinf->n_points == 0) {
+        /* it is lfgbl dbsf, f.g. invisiblf glyph */
+        bounds = (*fnv)->NfwObjfdt(fnv,
+                                 sunFontIDs.rfdt2DFlobtClbss,
+                                 sunFontIDs.rfdt2DFlobtCtr);
+        rfturn bounds;
+    }
+
+    frror = FT_Outlinf_Gft_BBox(outlinf, &bbox);
+
+    //donvfrt bbox
+    if (frror || bbox.xMin >= bbox.xMbx || bbox.yMin >= bbox.yMbx) {
+        bounds = (*fnv)->NfwObjfdt(fnv,
+                                   sunFontIDs.rfdt2DFlobtClbss,
+                                   sunFontIDs.rfdt2DFlobtCtr);
+    } flsf {
+        bounds = (*fnv)->NfwObjfdt(fnv,
+                                   sunFontIDs.rfdt2DFlobtClbss,
+                                   sunFontIDs.rfdt2DFlobtCtr4,
+                                   F26Dot6ToFlobt(bbox.xMin),
+                                   F26Dot6ToFlobt(-bbox.yMbx),
+                                   F26Dot6ToFlobt(bbox.xMbx-bbox.xMin),
+                                   F26Dot6ToFlobt(bbox.yMbx-bbox.yMin));
+    }
+
+    rfturn bounds;
+}
+
+/*
+ * Clbss:     sun_font_FrfftypfFontSdblfr
+ * Mfthod:    gftGlyphVfdtorOutlinfNbtivf
+ * Signbturf: (Lsun/font/Font2D;J[IIFF)Ljbvb/bwt/gfom/GfnfrblPbth;
+ */
+JNIEXPORT jobjfdt
+JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphVfdtorOutlinfNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D,
+        jlong pSdblfrContfxt, jlong pSdblfr,
+        jintArrby glyphArrby, jint numGlyphs, jflobt xpos, jflobt ypos) {
+
+    FT_Outlinf* outlinf;
+    jobjfdt gp = NULL;
+    jbytfArrby typfs;
+    jflobtArrby doords;
+    GPDbtb gpdbtb;
+    int i;
+    jint *glyphs;
+
+    FTSdblfrContfxt *dontfxt =
+         (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo *sdblfrInfo =
+             (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    glyphs = NULL;
+    if (numGlyphs > 0 && 0xffffffffu / sizfof(jint) >= numGlyphs) {
+        glyphs = (jint*) mbllod(numGlyphs*sizfof(jint));
+    }
+    if (glyphs == NULL) {
+        // Wf rfbdh hfrf if:
+        // 1. numGlyphs <= 0,
+        // 2. ovfrflow dhfdk fbilfd, or
+        // 3. mbllod fbilfd.
+        gp = (*fnv)->NfwObjfdt(fnv, sunFontIDs.gpClbss, sunFontIDs.gpCtrEmpty);
+        rfturn gp;
+    }
+
+    (*fnv)->GftIntArrbyRfgion(fnv, glyphArrby, 0, numGlyphs, glyphs);
+
+    gpdbtb.numCoords = 0;
+    for (i=0; i<numGlyphs;i++) {
+        if (glyphs[i] >= INVISIBLE_GLYPHS) {
+            dontinuf;
+        }
+        outlinf = gftFTOutlinf(fnv,
+                               font2D,
+                               dontfxt,
+                               sdblfrInfo,
+                               glyphs[i],
+                               xpos, ypos);
+
+        if (outlinf == NULL || outlinf->n_points == 0) {
+            dontinuf;
+        }
+
+        gpdbtb.pointTypfs  = NULL;
+        gpdbtb.pointCoords = NULL;
+        if (!bllodbtfSpbdfForGP(&gpdbtb, outlinf->n_points,
+                                outlinf->n_dontours)) {
+            brfbk;
+        }
+
+        bddToGP(&gpdbtb, outlinf);
+    }
+    frff(glyphs);
+
+    if (gpdbtb.numCoords != 0) {
+      typfs = (*fnv)->NfwBytfArrby(fnv, gpdbtb.numTypfs);
+      doords = (*fnv)->NfwFlobtArrby(fnv, gpdbtb.numCoords);
+
+      if (typfs && doords) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, typfs, 0,
+                                   gpdbtb.numTypfs, gpdbtb.pointTypfs);
+        (*fnv)->SftFlobtArrbyRfgion(fnv, doords, 0,
+                                    gpdbtb.numCoords, gpdbtb.pointCoords);
+
+        gp=(*fnv)->NfwObjfdt(fnv,
+                             sunFontIDs.gpClbss,
+                             sunFontIDs.gpCtr,
+                             gpdbtb.wr,
+                             typfs,
+                             gpdbtb.numTypfs,
+                             doords,
+                             gpdbtb.numCoords);
+        rfturn gp;
+      }
+    }
+    rfturn (*fnv)->NfwObjfdt(fnv, sunFontIDs.gpClbss, sunFontIDs.gpCtrEmpty);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftUnitsPfrEMNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jlong pSdblfr) {
+
+    FTSdblfrInfo *s = (FTSdblfrInfo* ) jlong_to_ptr(pSdblfr);
+
+    /* Frfftypf dod sbys:
+     Thf numbfr of font units pfr EM squbrf for this fbdf.
+     This is typidblly 2048 for TrufTypf fonts, bnd 1000 for Typf 1 fonts.
+     Only rflfvbnt for sdblbblf formbts.
+     Howfvfr, lbyout fnginf might bf not tfstfd with bnything but 2048.
+
+     NB: tfst it! */
+    if (s != NULL) {
+        rfturn s->fbdf->units_pfr_EM;
+    }
+    rfturn 2048;
+}
+
+/* This nbtivf mfthod is dbllfd by thf OpfnTypf lbyout fnginf. */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_FrfftypfFontSdblfr_gftGlyphPointNbtivf(
+        JNIEnv *fnv, jobjfdt sdblfr, jobjfdt font2D, jlong pSdblfrContfxt,
+        jlong pSdblfr, jint glyphCodf, jint pointNumbfr) {
+
+    FT_Outlinf* outlinf;
+    jobjfdt point = NULL;
+    jflobt x=0, y=0;
+    FTSdblfrContfxt *dontfxt =
+         (FTSdblfrContfxt*) jlong_to_ptr(pSdblfrContfxt);
+    FTSdblfrInfo *sdblfrInfo = (FTSdblfrInfo*) jlong_to_ptr(pSdblfr);
+
+    outlinf = gftFTOutlinf(fnv, font2D, dontfxt, sdblfrInfo, glyphCodf, 0, 0);
+
+    if (outlinf != NULL && outlinf->n_points > pointNumbfr) {
+        x =  F26Dot6ToFlobt(outlinf->points[pointNumbfr].x);
+        y = -F26Dot6ToFlobt(outlinf->points[pointNumbfr].y);
+    }
+
+    rfturn (*fnv)->NfwObjfdt(fnv, sunFontIDs.pt2DFlobtClbss,
+                             sunFontIDs.pt2DFlobtCtr, x, y);
+}

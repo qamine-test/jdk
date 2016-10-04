@@ -1,220 +1,220 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.*;
-import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.*;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.*;
 
 /**
- * Implements the ASN.1 EncTicketPart type.
+ * Implfmfnts tif ASN.1 EndTidkftPbrt typf.
  *
  * <xmp>
- * EncTicketPart   ::= [APPLICATION 3] SEQUENCE {
- *         flags                   [0] TicketFlags,
- *         key                     [1] EncryptionKey,
- *         crealm                  [2] Realm,
- *         cname                   [3] PrincipalName,
- *         transited               [4] TransitedEncoding,
- *         authtime                [5] KerberosTime,
- *         starttime               [6] KerberosTime OPTIONAL,
- *         endtime                 [7] KerberosTime,
- *         renew-till              [8] KerberosTime OPTIONAL,
- *         caddr                   [9] HostAddresses OPTIONAL,
- *         authorization-data      [10] AuthorizationData OPTIONAL
+ * EndTidkftPbrt   ::= [APPLICATION 3] SEQUENCE {
+ *         flbgs                   [0] TidkftFlbgs,
+ *         kfy                     [1] EndryptionKfy,
+ *         drfblm                  [2] Rfblm,
+ *         dnbmf                   [3] PrindipblNbmf,
+ *         trbnsitfd               [4] TrbnsitfdEndoding,
+ *         butitimf                [5] KfrbfrosTimf,
+ *         stbrttimf               [6] KfrbfrosTimf OPTIONAL,
+ *         fndtimf                 [7] KfrbfrosTimf,
+ *         rfnfw-till              [8] KfrbfrosTimf OPTIONAL,
+ *         dbddr                   [9] HostAddrfssfs OPTIONAL,
+ *         butiorizbtion-dbtb      [10] AutiorizbtionDbtb OPTIONAL
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
-public class EncTicketPart {
+publid dlbss EndTidkftPbrt {
 
-    public TicketFlags flags;
-    public EncryptionKey key;
-    public PrincipalName cname;
-    public TransitedEncoding transited;
-    public KerberosTime authtime;
-    public KerberosTime starttime; //optional
-    public KerberosTime endtime;
-    public KerberosTime renewTill; //optional
-    public HostAddresses caddr; //optional
-    public AuthorizationData authorizationData; //optional
+    publid TidkftFlbgs flbgs;
+    publid EndryptionKfy kfy;
+    publid PrindipblNbmf dnbmf;
+    publid TrbnsitfdEndoding trbnsitfd;
+    publid KfrbfrosTimf butitimf;
+    publid KfrbfrosTimf stbrttimf; //optionbl
+    publid KfrbfrosTimf fndtimf;
+    publid KfrbfrosTimf rfnfwTill; //optionbl
+    publid HostAddrfssfs dbddr; //optionbl
+    publid AutiorizbtionDbtb butiorizbtionDbtb; //optionbl
 
-    public EncTicketPart(
-            TicketFlags new_flags,
-            EncryptionKey new_key,
-            PrincipalName new_cname,
-            TransitedEncoding new_transited,
-            KerberosTime new_authtime,
-            KerberosTime new_starttime,
-            KerberosTime new_endtime,
-            KerberosTime new_renewTill,
-            HostAddresses new_caddr,
-            AuthorizationData new_authorizationData) {
-        flags = new_flags;
-        key = new_key;
-        cname = new_cname;
-        transited = new_transited;
-        authtime = new_authtime;
-        starttime = new_starttime;
-        endtime = new_endtime;
-        renewTill = new_renewTill;
-        caddr = new_caddr;
-        authorizationData = new_authorizationData;
+    publid EndTidkftPbrt(
+            TidkftFlbgs nfw_flbgs,
+            EndryptionKfy nfw_kfy,
+            PrindipblNbmf nfw_dnbmf,
+            TrbnsitfdEndoding nfw_trbnsitfd,
+            KfrbfrosTimf nfw_butitimf,
+            KfrbfrosTimf nfw_stbrttimf,
+            KfrbfrosTimf nfw_fndtimf,
+            KfrbfrosTimf nfw_rfnfwTill,
+            HostAddrfssfs nfw_dbddr,
+            AutiorizbtionDbtb nfw_butiorizbtionDbtb) {
+        flbgs = nfw_flbgs;
+        kfy = nfw_kfy;
+        dnbmf = nfw_dnbmf;
+        trbnsitfd = nfw_trbnsitfd;
+        butitimf = nfw_butitimf;
+        stbrttimf = nfw_stbrttimf;
+        fndtimf = nfw_fndtimf;
+        rfnfwTill = nfw_rfnfwTill;
+        dbddr = nfw_dbddr;
+        butiorizbtionDbtb = nfw_butiorizbtionDbtb;
     }
 
-    public EncTicketPart(byte[] data)
-            throws Asn1Exception, KrbException, IOException {
-        init(new DerValue(data));
+    publid EndTidkftPbrt(bytf[] dbtb)
+            tirows Asn1Exdfption, KrbExdfption, IOExdfption {
+        init(nfw DfrVbluf(dbtb));
     }
 
-    public EncTicketPart(DerValue encoding)
-            throws Asn1Exception, KrbException, IOException {
-        init(encoding);
-    }
-
-    /**
-     * Initializes an EncTicketPart object.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while parsing a Realm object.
-     */
-    private static String getHexBytes(byte[] bytes, int len)
-            throws IOException {
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < len; i++) {
-
-            int b1 = (bytes[i] >> 4) & 0x0f;
-            int b2 = bytes[i] & 0x0f;
-
-            sb.append(Integer.toHexString(b1));
-            sb.append(Integer.toHexString(b2));
-            sb.append(' ');
-        }
-        return sb.toString();
-    }
-
-    private void init(DerValue encoding)
-            throws Asn1Exception, IOException, RealmException {
-        DerValue der, subDer;
-
-        renewTill = null;
-        caddr = null;
-        authorizationData = null;
-        if (((encoding.getTag() & (byte) 0x1F) != (byte) 0x03)
-                || (encoding.isApplication() != true)
-                || (encoding.isConstructed() != true)) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        }
-        flags = TicketFlags.parse(der.getData(), (byte) 0x00, false);
-        key = EncryptionKey.parse(der.getData(), (byte) 0x01, false);
-        Realm crealm = Realm.parse(der.getData(), (byte) 0x02, false);
-        cname = PrincipalName.parse(der.getData(), (byte) 0x03, false, crealm);
-        transited = TransitedEncoding.parse(der.getData(), (byte) 0x04, false);
-        authtime = KerberosTime.parse(der.getData(), (byte) 0x05, false);
-        starttime = KerberosTime.parse(der.getData(), (byte) 0x06, true);
-        endtime = KerberosTime.parse(der.getData(), (byte) 0x07, false);
-        if (der.getData().available() > 0) {
-            renewTill = KerberosTime.parse(der.getData(), (byte) 0x08, true);
-        }
-        if (der.getData().available() > 0) {
-            caddr = HostAddresses.parse(der.getData(), (byte) 0x09, true);
-        }
-        if (der.getData().available() > 0) {
-            authorizationData = AuthorizationData.parse(der.getData(), (byte) 0x0A, true);
-        }
-        if (der.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        }
-
+    publid EndTidkftPbrt(DfrVbluf fndoding)
+            tirows Asn1Exdfption, KrbExdfption, IOExdfption {
+        init(fndoding);
     }
 
     /**
-     * Encodes an EncTicketPart object.
-     * @return byte array of encoded EncTicketPart object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Initiblizfs bn EndTidkftPbrt objfdt.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption RfblmExdfption if bn frror oddurs wiilf pbrsing b Rfblm objfdt.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x00), flags.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x01), key.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x02), cname.getRealm().asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x03), cname.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), transited.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x05), authtime.asn1Encode());
-        if (starttime != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x06), starttime.asn1Encode());
-        }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x07), endtime.asn1Encode());
+    privbtf stbtid String gftHfxBytfs(bytf[] bytfs, int lfn)
+            tirows IOExdfption {
 
-        if (renewTill != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x08), renewTill.asn1Encode());
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
+
+            int b1 = (bytfs[i] >> 4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
+
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf void init(DfrVbluf fndoding)
+            tirows Asn1Exdfption, IOExdfption, RfblmExdfption {
+        DfrVbluf dfr, subDfr;
+
+        rfnfwTill = null;
+        dbddr = null;
+        butiorizbtionDbtb = null;
+        if (((fndoding.gftTbg() & (bytf) 0x1F) != (bytf) 0x03)
+                || (fndoding.isApplidbtion() != truf)
+                || (fndoding.isConstrudtfd() != truf)) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        flbgs = TidkftFlbgs.pbrsf(dfr.gftDbtb(), (bytf) 0x00, fblsf);
+        kfy = EndryptionKfy.pbrsf(dfr.gftDbtb(), (bytf) 0x01, fblsf);
+        Rfblm drfblm = Rfblm.pbrsf(dfr.gftDbtb(), (bytf) 0x02, fblsf);
+        dnbmf = PrindipblNbmf.pbrsf(dfr.gftDbtb(), (bytf) 0x03, fblsf, drfblm);
+        trbnsitfd = TrbnsitfdEndoding.pbrsf(dfr.gftDbtb(), (bytf) 0x04, fblsf);
+        butitimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x05, fblsf);
+        stbrttimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x06, truf);
+        fndtimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x07, fblsf);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            rfnfwTill = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x08, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            dbddr = HostAddrfssfs.pbrsf(dfr.gftDbtb(), (bytf) 0x09, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            butiorizbtionDbtb = AutiorizbtionDbtb.pbrsf(dfr.gftDbtb(), (bytf) 0x0A, truf);
+        }
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
 
-        if (caddr != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x09), caddr.asn1Encode());
+    }
+
+    /**
+     * Endodfs bn EndTidkftPbrt objfdt.
+     * @rfturn bytf brrby of fndodfd EndTidkftPbrt objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x00), flbgs.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x01), kfy.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x02), dnbmf.gftRfblm().bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x03), dnbmf.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x04), trbnsitfd.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x05), butitimf.bsn1Endodf());
+        if (stbrttimf != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x06), stbrttimf.bsn1Endodf());
+        }
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x07), fndtimf.bsn1Endodf());
+
+        if (rfnfwTill != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x08), rfnfwTill.bsn1Endodf());
         }
 
-        if (authorizationData != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x0A), authorizationData.asn1Encode());
+        if (dbddr != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x09), dbddr.bsn1Endodf());
         }
-        temp.write(DerValue.tag_Sequence, bytes);
-        bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_APPLICATION,
-                true, (byte) 0x03), temp);
-        return bytes.toByteArray();
+
+        if (butiorizbtionDbtb != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x0A), butiorizbtionDbtb.bsn1Endodf());
+        }
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION,
+                truf, (bytf) 0x03), tfmp);
+        rfturn bytfs.toBytfArrby();
     }
 }

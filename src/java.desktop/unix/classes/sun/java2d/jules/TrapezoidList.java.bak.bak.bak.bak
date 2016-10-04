@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.julfs;
+
+publid dlbss TrbpfzoidList {
+    publid stbtid finbl int TRAP_START_INDEX = 5;
+    publid stbtid finbl int TRAP_SIZE = 10;
+
+    int[] trbpArrby;
+
+    publid TrbpfzoidList(int[] trbpArrby) {
+        this.trbpArrby = trbpArrby;
+    }
+
+    publid finbl int[] gftTrbpArrby() {
+        rfturn trbpArrby;
+    }
+
+    publid finbl int gftSizf() {
+        rfturn trbpArrby[0];
+    }
+
+    publid finbl void sftSizf(int sizf) {
+        trbpArrby[0] = 0;
+    }
+
+    publid finbl int gftLfft() {
+        rfturn trbpArrby[1];
+    }
+
+    publid finbl int gftTop() {
+        rfturn trbpArrby[2];
+    }
+
+    publid finbl int gftRight() {
+        rfturn trbpArrby[3];
+    }
+
+    publid finbl int gftBottom() {
+        rfturn trbpArrby[4];
+    }
+
+
+    privbtf finbl int gftTrbpStbrtAddrfssf(int pos) {
+        rfturn TRAP_START_INDEX + TRAP_SIZE * pos;
+    }
+
+    publid finbl int gftTop(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 0];
+    }
+
+    publid finbl int gftBottom(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 1];
+    }
+
+    publid finbl int gftP1XLfft(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 2];
+    }
+
+    publid finbl int gftP1YLfft(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 3];
+    }
+
+    publid finbl int gftP2XLfft(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 4];
+    }
+
+    publid finbl int gftP2YLfft(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 5];
+    }
+
+    publid finbl int gftP1XRight(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 6];
+    }
+
+    publid finbl int gftP1YRight(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 7];
+    }
+
+    publid finbl int gftP2XRight(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 8];
+    }
+
+    publid finbl int gftP2YRight(int pos) {
+        rfturn trbpArrby[gftTrbpStbrtAddrfssf(pos) + 9];
+    }
+}

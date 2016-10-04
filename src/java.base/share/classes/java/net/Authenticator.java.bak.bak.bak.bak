@@ -1,0 +1,425 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * Thf dlbss Authfntidbtor rfprfsfnts bn objfdt thbt knows how to obtbin
+ * buthfntidbtion for b nftwork donnfdtion.  Usublly, it will do this
+ * by prompting thf usfr for informbtion.
+ * <p>
+ * Applidbtions usf this dlbss by ovfrriding {@link
+ * #gftPbsswordAuthfntidbtion()} in b sub-dlbss. This mfthod will
+ * typidblly usf thf vbrious gftXXX() bddfssor mfthods to gft informbtion
+ * bbout thf fntity rfqufsting buthfntidbtion. It must thfn bdquirf b
+ * usfrnbmf bnd pbssword fithfr by intfrbdting with thf usfr or through
+ * somf othfr non-intfrbdtivf mfbns. Thf drfdfntibls brf thfn rfturnfd
+ * bs b {@link PbsswordAuthfntidbtion} rfturn vbluf.
+ * <p>
+ * An instbndf of this dondrftf sub-dlbss is thfn rfgistfrfd
+ * with thf systfm by dblling {@link #sftDffbult(Authfntidbtor)}.
+ * Whfn buthfntidbtion is rfquirfd, thf systfm will invokf onf of thf
+ * rfqufstPbsswordAuthfntidbtion() mfthods whidh in turn will dbll thf
+ * gftPbsswordAuthfntidbtion() mfthod of thf rfgistfrfd objfdt.
+ * <p>
+ * All mfthods thbt rfqufst buthfntidbtion hbvf b dffbult implfmfntbtion
+ * thbt fbils.
+ *
+ * @sff jbvb.nft.Authfntidbtor#sftDffbult(jbvb.nft.Authfntidbtor)
+ * @sff jbvb.nft.Authfntidbtor#gftPbsswordAuthfntidbtion()
+ *
+ * @buthor  Bill Footf
+ * @sindf   1.2
+ */
+
+// Thfrf brf no bbstrbdt mfthods, but to bf usfful thf usfr must
+// subdlbss.
+publid bbstrbdt
+dlbss Authfntidbtor {
+
+    // Thf systfm-widf buthfntidbtor objfdt.  Sff sftDffbult().
+    privbtf stbtid Authfntidbtor thfAuthfntidbtor;
+
+    privbtf String rfqufstingHost;
+    privbtf InftAddrfss rfqufstingSitf;
+    privbtf int rfqufstingPort;
+    privbtf String rfqufstingProtodol;
+    privbtf String rfqufstingPrompt;
+    privbtf String rfqufstingSdhfmf;
+    privbtf URL rfqufstingURL;
+    privbtf RfqufstorTypf rfqufstingAuthTypf;
+
+    /**
+     * Thf typf of thf fntity rfqufsting buthfntidbtion.
+     *
+     * @sindf 1.5
+     */
+    publid fnum RfqufstorTypf {
+        /**
+         * Entity rfqufsting buthfntidbtion is b HTTP proxy sfrvfr.
+         */
+        PROXY,
+        /**
+         * Entity rfqufsting buthfntidbtion is b HTTP origin sfrvfr.
+         */
+        SERVER
+    }
+
+    privbtf void rfsft() {
+        rfqufstingHost = null;
+        rfqufstingSitf = null;
+        rfqufstingPort = -1;
+        rfqufstingProtodol = null;
+        rfqufstingPrompt = null;
+        rfqufstingSdhfmf = null;
+        rfqufstingURL = null;
+        rfqufstingAuthTypf = RfqufstorTypf.SERVER;
+    }
+
+
+    /**
+     * Sfts thf buthfntidbtor thbt will bf usfd by thf nftworking dodf
+     * whfn b proxy or bn HTTP sfrvfr bsks for buthfntidbtion.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * {@dodf NftPfrmission("sftDffbultAuthfntidbtor")} pfrmission.
+     * This mby rfsult in b jbvb.lbng.SfdurityExdfption.
+     *
+     * @pbrbm   b       Thf buthfntidbtor to bf sft. If b is {@dodf null} thfn
+     *                  bny prfviously sft buthfntidbtor is rfmovfd.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf dhfdkPfrmission} mfthod dofsn't bllow
+     *        sftting thf dffbult buthfntidbtor.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.nft.NftPfrmission
+     */
+    publid syndhronizfd stbtid void sftDffbult(Authfntidbtor b) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            NftPfrmission sftDffbultPfrmission
+                = nfw NftPfrmission("sftDffbultAuthfntidbtor");
+            sm.dhfdkPfrmission(sftDffbultPfrmission);
+        }
+
+        thfAuthfntidbtor = b;
+    }
+
+    /**
+     * Ask thf buthfntidbtor thbt hbs bffn rfgistfrfd with thf systfm
+     * for b pbssword.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * {@dodf NftPfrmission("rfqufstPbsswordAuthfntidbtion")} pfrmission.
+     * This mby rfsult in b jbvb.lbng.SfdurityExdfption.
+     *
+     * @pbrbm bddr Thf InftAddrfss of thf sitf rfqufsting buthorizbtion,
+     *             or null if not known.
+     * @pbrbm port thf port for thf rfqufstfd donnfdtion
+     * @pbrbm protodol Thf protodol thbt's rfqufsting thf donnfdtion
+     *          ({@link jbvb.nft.Authfntidbtor#gftRfqufstingProtodol()})
+     * @pbrbm prompt A prompt string for thf usfr
+     * @pbrbm sdhfmf Thf buthfntidbtion sdhfmf
+     *
+     * @rfturn Thf usfrnbmf/pbssword, or null if onf dbn't bf gottfn.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf dhfdkPfrmission} mfthod dofsn't bllow
+     *        thf pbssword buthfntidbtion rfqufst.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.nft.NftPfrmission
+     */
+    publid stbtid PbsswordAuthfntidbtion rfqufstPbsswordAuthfntidbtion(
+                                            InftAddrfss bddr,
+                                            int port,
+                                            String protodol,
+                                            String prompt,
+                                            String sdhfmf) {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            NftPfrmission rfqufstPfrmission
+                = nfw NftPfrmission("rfqufstPbsswordAuthfntidbtion");
+            sm.dhfdkPfrmission(rfqufstPfrmission);
+        }
+
+        Authfntidbtor b = thfAuthfntidbtor;
+        if (b == null) {
+            rfturn null;
+        } flsf {
+            syndhronizfd(b) {
+                b.rfsft();
+                b.rfqufstingSitf = bddr;
+                b.rfqufstingPort = port;
+                b.rfqufstingProtodol = protodol;
+                b.rfqufstingPrompt = prompt;
+                b.rfqufstingSdhfmf = sdhfmf;
+                rfturn b.gftPbsswordAuthfntidbtion();
+            }
+        }
+    }
+
+    /**
+     * Ask thf buthfntidbtor thbt hbs bffn rfgistfrfd with thf systfm
+     * for b pbssword. This is thf prfffrrfd mfthod for rfqufsting b pbssword
+     * bfdbusf thf hostnbmf dbn bf providfd in dbsfs whfrf thf InftAddrfss
+     * is not bvbilbblf.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * {@dodf NftPfrmission("rfqufstPbsswordAuthfntidbtion")} pfrmission.
+     * This mby rfsult in b jbvb.lbng.SfdurityExdfption.
+     *
+     * @pbrbm host Thf hostnbmf of thf sitf rfqufsting buthfntidbtion.
+     * @pbrbm bddr Thf InftAddrfss of thf sitf rfqufsting buthfntidbtion,
+     *             or null if not known.
+     * @pbrbm port thf port for thf rfqufstfd donnfdtion.
+     * @pbrbm protodol Thf protodol thbt's rfqufsting thf donnfdtion
+     *          ({@link jbvb.nft.Authfntidbtor#gftRfqufstingProtodol()})
+     * @pbrbm prompt A prompt string for thf usfr whidh idfntififs thf buthfntidbtion rfblm.
+     * @pbrbm sdhfmf Thf buthfntidbtion sdhfmf
+     *
+     * @rfturn Thf usfrnbmf/pbssword, or null if onf dbn't bf gottfn.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf dhfdkPfrmission} mfthod dofsn't bllow
+     *        thf pbssword buthfntidbtion rfqufst.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.nft.NftPfrmission
+     * @sindf 1.4
+     */
+    publid stbtid PbsswordAuthfntidbtion rfqufstPbsswordAuthfntidbtion(
+                                            String host,
+                                            InftAddrfss bddr,
+                                            int port,
+                                            String protodol,
+                                            String prompt,
+                                            String sdhfmf) {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            NftPfrmission rfqufstPfrmission
+                = nfw NftPfrmission("rfqufstPbsswordAuthfntidbtion");
+            sm.dhfdkPfrmission(rfqufstPfrmission);
+        }
+
+        Authfntidbtor b = thfAuthfntidbtor;
+        if (b == null) {
+            rfturn null;
+        } flsf {
+            syndhronizfd(b) {
+                b.rfsft();
+                b.rfqufstingHost = host;
+                b.rfqufstingSitf = bddr;
+                b.rfqufstingPort = port;
+                b.rfqufstingProtodol = protodol;
+                b.rfqufstingPrompt = prompt;
+                b.rfqufstingSdhfmf = sdhfmf;
+                rfturn b.gftPbsswordAuthfntidbtion();
+            }
+        }
+    }
+
+    /**
+     * Ask thf buthfntidbtor thbt hbs bffn rfgistfrfd with thf systfm
+     * for b pbssword.
+     * <p>
+     * First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPfrmission}
+     * mfthod is dbllfd with b
+     * {@dodf NftPfrmission("rfqufstPbsswordAuthfntidbtion")} pfrmission.
+     * This mby rfsult in b jbvb.lbng.SfdurityExdfption.
+     *
+     * @pbrbm host Thf hostnbmf of thf sitf rfqufsting buthfntidbtion.
+     * @pbrbm bddr Thf InftAddrfss of thf sitf rfqufsting buthorizbtion,
+     *             or null if not known.
+     * @pbrbm port thf port for thf rfqufstfd donnfdtion
+     * @pbrbm protodol Thf protodol thbt's rfqufsting thf donnfdtion
+     *          ({@link jbvb.nft.Authfntidbtor#gftRfqufstingProtodol()})
+     * @pbrbm prompt A prompt string for thf usfr
+     * @pbrbm sdhfmf Thf buthfntidbtion sdhfmf
+     * @pbrbm url Thf rfqufsting URL thbt dbusfd thf buthfntidbtion
+     * @pbrbm rfqTypf Thf typf (sfrvfr or proxy) of thf fntity rfqufsting
+     *              buthfntidbtion.
+     *
+     * @rfturn Thf usfrnbmf/pbssword, or null if onf dbn't bf gottfn.
+     *
+     * @throws SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf dhfdkPfrmission} mfthod dofsn't bllow
+     *        thf pbssword buthfntidbtion rfqufst.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.nft.NftPfrmission
+     *
+     * @sindf 1.5
+     */
+    publid stbtid PbsswordAuthfntidbtion rfqufstPbsswordAuthfntidbtion(
+                                    String host,
+                                    InftAddrfss bddr,
+                                    int port,
+                                    String protodol,
+                                    String prompt,
+                                    String sdhfmf,
+                                    URL url,
+                                    RfqufstorTypf rfqTypf) {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            NftPfrmission rfqufstPfrmission
+                = nfw NftPfrmission("rfqufstPbsswordAuthfntidbtion");
+            sm.dhfdkPfrmission(rfqufstPfrmission);
+        }
+
+        Authfntidbtor b = thfAuthfntidbtor;
+        if (b == null) {
+            rfturn null;
+        } flsf {
+            syndhronizfd(b) {
+                b.rfsft();
+                b.rfqufstingHost = host;
+                b.rfqufstingSitf = bddr;
+                b.rfqufstingPort = port;
+                b.rfqufstingProtodol = protodol;
+                b.rfqufstingPrompt = prompt;
+                b.rfqufstingSdhfmf = sdhfmf;
+                b.rfqufstingURL = url;
+                b.rfqufstingAuthTypf = rfqTypf;
+                rfturn b.gftPbsswordAuthfntidbtion();
+            }
+        }
+    }
+
+    /**
+     * Gfts thf {@dodf hostnbmf} of thf
+     * sitf or proxy rfqufsting buthfntidbtion, or {@dodf null}
+     * if not bvbilbblf.
+     *
+     * @rfturn thf hostnbmf of thf donnfdtion rfquiring buthfntidbtion, or null
+     *          if it's not bvbilbblf.
+     * @sindf 1.4
+     */
+    protfdtfd finbl String gftRfqufstingHost() {
+        rfturn rfqufstingHost;
+    }
+
+    /**
+     * Gfts thf {@dodf InftAddrfss} of thf
+     * sitf rfqufsting buthorizbtion, or {@dodf null}
+     * if not bvbilbblf.
+     *
+     * @rfturn thf InftAddrfss of thf sitf rfqufsting buthorizbtion, or null
+     *          if it's not bvbilbblf.
+     */
+    protfdtfd finbl InftAddrfss gftRfqufstingSitf() {
+        rfturn rfqufstingSitf;
+    }
+
+    /**
+     * Gfts thf port numbfr for thf rfqufstfd donnfdtion.
+     * @rfturn bn {@dodf int} indidbting thf
+     * port for thf rfqufstfd donnfdtion.
+     */
+    protfdtfd finbl int gftRfqufstingPort() {
+        rfturn rfqufstingPort;
+    }
+
+    /**
+     * Givf thf protodol thbt's rfqufsting thf donnfdtion.  Oftfn this
+     * will bf bbsfd on b URL, but in b futurf JDK it dould bf, for
+     * fxbmplf, "SOCKS" for b pbssword-protfdtfd SOCKS5 firfwbll.
+     *
+     * @rfturn thf protodol, optionblly followfd by "/vfrsion", whfrf
+     *          vfrsion is b vfrsion numbfr.
+     *
+     * @sff jbvb.nft.URL#gftProtodol()
+     */
+    protfdtfd finbl String gftRfqufstingProtodol() {
+        rfturn rfqufstingProtodol;
+    }
+
+    /**
+     * Gfts thf prompt string givfn by thf rfqufstor.
+     *
+     * @rfturn thf prompt string givfn by thf rfqufstor (rfblm for
+     *          http rfqufsts)
+     */
+    protfdtfd finbl String gftRfqufstingPrompt() {
+        rfturn rfqufstingPrompt;
+    }
+
+    /**
+     * Gfts thf sdhfmf of thf rfqufstor (thf HTTP sdhfmf
+     * for bn HTTP firfwbll, for fxbmplf).
+     *
+     * @rfturn thf sdhfmf of thf rfqufstor
+     *
+     */
+    protfdtfd finbl String gftRfqufstingSdhfmf() {
+        rfturn rfqufstingSdhfmf;
+    }
+
+    /**
+     * Cbllfd whfn pbssword buthorizbtion is nffdfd.  Subdlbssfs should
+     * ovfrridf thf dffbult implfmfntbtion, whidh rfturns null.
+     * @rfturn Thf PbsswordAuthfntidbtion dollfdtfd from thf
+     *          usfr, or null if nonf is providfd.
+     */
+    protfdtfd PbsswordAuthfntidbtion gftPbsswordAuthfntidbtion() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf URL thbt rfsultfd in this
+     * rfqufst for buthfntidbtion.
+     *
+     * @sindf 1.5
+     *
+     * @rfturn thf rfqufsting URL
+     *
+     */
+    protfdtfd URL gftRfqufstingURL () {
+        rfturn rfqufstingURL;
+    }
+
+    /**
+     * Rfturns whfthfr thf rfqufstor is b Proxy or b Sfrvfr.
+     *
+     * @sindf 1.5
+     *
+     * @rfturn thf buthfntidbtion typf of thf rfqufstor
+     *
+     */
+    protfdtfd RfqufstorTypf gftRfqufstorTypf () {
+        rfturn rfqufstingAuthTypf;
+    }
+}

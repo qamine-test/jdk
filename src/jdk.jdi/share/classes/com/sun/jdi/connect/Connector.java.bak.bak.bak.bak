@@ -1,0 +1,291 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.donnfdt;
+
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * A mfthod of donnfdtion bftwffn b dfbuggfr bnd b tbrgft VM.
+ * A donnfdtor fndbpsulbtfs fxbdtly onf {@link Trbnsport}. usfd
+ * to fstbblish thf donnfdtion. Ebdh donnfdtor hbs b sft of brgumfnts
+ * whidh dontrols its opfrbtion. Thf brgumfnts brf storfd bs b
+ * mbp, kfyfd by b string. Ebdh implfmfntbtion dffinfs thf string
+ * brgumfnt kfys it bddfpts.
+ *
+ * @sff LbundhingConnfdtor
+ * @sff AttbdhingConnfdtor
+ * @sff ListfningConnfdtor
+ * @sff Connfdtor.Argumfnt
+ *
+ * @buthor Gordon Hirsdh
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf Connfdtor {
+    /**
+     * Rfturns b short idfntififr for thf donnfdtor. Connfdtor implfmfntors
+     * should follow similbr nbming donvfntions bs brf usfd with pbdkbgfs
+     * to bvoid nbmf dollisions. For fxbmplf, thf Sun donnfdtor
+     * implfmfntbtions hbvf nbmfs prffixfd with "dom.sun.jdi.".
+     * Not intfndfd for fxposurf to fnd-usfr.
+     *
+     * @rfturn thf nbmf of this donnfdtor.
+     */
+    String nbmf();
+
+    /**
+     * Rfturns b humbn-rfbdbblf dfsdription of this donnfdtor
+     * bnd its purposf.
+     *
+     * @rfturn thf dfsdription of this donnfdtor
+     */
+    String dfsdription();
+
+    /**
+     * Rfturns thf trbnsport mfdhbnism usfd by this donnfdtor to fstbblish
+     * donnfdtions with b tbrgft VM.
+     *
+     * @rfturn thf {@link Trbnsport} usfd by this donnfdtor.
+     */
+    Trbnsport trbnsport();
+
+    /**
+     * Rfturns thf brgumfnts bddfptfd by this Connfdtor bnd thfir
+     * dffbult vblufs. Thf kfys of thf rfturnfd mbp brf string brgumfnt
+     * nbmfs. Thf vblufs brf {@link Connfdtor.Argumfnt} dontbining
+     * informbtion bbout thf brgumfnt bnd its dffbult vbluf.
+     *
+     * @rfturn thf mbp bssodibting brgumfnt nbmfs with brgumfnt
+     * informbtion bnd dffbult vbluf.
+     */
+    Mbp<String,Connfdtor.Argumfnt> dffbultArgumfnts();
+
+    /**
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt.
+     * Will blwbys implfmfnt b subintfrfbdf of Argumfnt:
+     * {@link Connfdtor.StringArgumfnt}, {@link Connfdtor.BoolfbnArgumfnt},
+     * {@link Connfdtor.IntfgfrArgumfnt},
+     * or {@link Connfdtor.SflfdtfdArgumfnt}.
+     */
+    @jdk.Exportfd
+    publid intfrfbdf Argumfnt fxtfnds Sfriblizbblf {
+        /**
+         * Rfturns b short, uniquf idfntififr for thf brgumfnt.
+         * Not intfndfd for fxposurf to fnd-usfr.
+         *
+         * @rfturn thf nbmf of this brgumfnt.
+         */
+        String nbmf();
+
+        /**
+         * Rfturns b short humbn-rfbdbblf lbbfl for this brgumfnt.
+         *
+         * @rfturn b lbbfl for this brgumfnt
+         */
+        String lbbfl();
+
+        /**
+         * Rfturns b humbn-rfbdbblf dfsdription of this brgumfnt
+         * bnd its purposf.
+         *
+         * @rfturn thf dfsdription of this brgumfnt
+         */
+        String dfsdription();
+
+        /**
+         * Rfturns thf durrfnt vbluf of thf brgumfnt. Initiblly, thf
+         * dffbult vbluf is rfturnfd. If thf vbluf is durrfntly unspfdififd,
+         * null is rfturnfd.
+         *
+         * @rfturn thf durrfnt vbluf of thf brgumfnt.
+         */
+        String vbluf();
+
+        /**
+         * Sfts thf vbluf of thf brgumfnt.
+         * Thf vbluf should bf dhfdkfd with {@link #isVblid(String)}
+         * bfforf sftting it; invblid vblufs will throw bn fxdfption
+         * whfn thf donnfdtion is fstbblishfd - for fxbmplf,
+         * on {@link LbundhingConnfdtor#lbundh}
+         */
+        void sftVbluf(String vbluf);
+
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if thf vbluf is vblid to bf
+         * usfd in {@link #sftVbluf(String)}
+         */
+        boolfbn isVblid(String vbluf);
+
+        /**
+         * Indidbtfs whfthfr thf brgumfnt must bf spfdififd. If truf,
+         * {@link #sftVbluf} must bf usfd to sft b non-null vbluf bfforf
+         * using this brgumfnt in fstbblishing b donnfdtion.
+         *
+         * @rfturn <dodf>truf</dodf> if thf brgumfnt must bf spfdififd;
+         * <dodf>fblsf</dodf> othfrwisf.
+         */
+        boolfbn mustSpfdify();
+    }
+
+    /**
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * whosf vbluf is Boolfbn.  Boolfbn vblufs brf rfprfsfntfd
+     * by thf lodblizfd vfrsions of thf strings "truf" bnd "fblsf".
+     */
+    @jdk.Exportfd
+    publid intfrfbdf BoolfbnArgumfnt fxtfnds Argumfnt {
+        /**
+         * Sfts thf vbluf of thf brgumfnt.
+         */
+        void sftVbluf(boolfbn vbluf);
+
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is b string
+         * rfprfsfntbtion of b boolfbn vbluf.
+         * @sff #stringVblufOf(boolfbn)
+         */
+        boolfbn isVblid(String vbluf);
+
+        /**
+         * Rfturn thf string rfprfsfntbtion of thf <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf thf durrfnt vbluf of <dodf>this</dodf>
+         * instbndf.
+         * @rfturn thf lodblizfd String rfprfsfntbtion of thf
+         * boolfbn vbluf.
+         */
+        String stringVblufOf(boolfbn vbluf);
+
+        /**
+         * Rfturn thf vbluf of thf brgumfnt bs b boolfbn.  Sindf
+         * thf brgumfnt mby not hbvf bffn sft or mby hbvf bn invblid
+         * vbluf {@link #isVblid(String)} should bf dbllfd on
+         * {@link #vbluf()} to dhfdk its vblidity.  If it is invblid
+         * thf boolfbn rfturnfd by this mfthod is undffinfd.
+         * @rfturn thf vbluf of thf brgumfnt bs b boolfbn.
+         */
+        boolfbn boolfbnVbluf();
+    }
+
+    /**
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * whosf vbluf is bn intfgfr.  Intfgfr vblufs brf rfprfsfntfd
+     * by thfir dorrfsponding strings.
+     */
+    @jdk.Exportfd
+    publid intfrfbdf IntfgfrArgumfnt fxtfnds Argumfnt {
+        /**
+         * Sfts thf vbluf of thf brgumfnt.
+         * Thf vbluf should bf dhfdkfd with {@link #isVblid(int)}
+         * bfforf sftting it; invblid vblufs will throw bn fxdfption
+         * whfn thf donnfdtion is fstbblishfd - for fxbmplf,
+         * on {@link LbundhingConnfdtor#lbundh}
+         */
+        void sftVbluf(int vbluf);
+
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf rfprfsfnts bn int thbt is
+         * <dodf>{@link #min()} &lt;= vbluf &lt;= {@link #mbx()}</dodf>
+         */
+        boolfbn isVblid(String vbluf);
+
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if
+         * <dodf>{@link #min()} &lt;= vbluf  &lt;= {@link #mbx()}</dodf>
+         */
+        boolfbn isVblid(int vbluf);
+
+        /**
+         * Rfturn thf string rfprfsfntbtion of thf <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf thf durrfnt vbluf of <dodf>this</dodf>
+         * instbndf.
+         * @rfturn thf String rfprfsfntbtion of thf
+         * int vbluf.
+         */
+        String stringVblufOf(int vbluf);
+
+        /**
+         * Rfturn thf vbluf of thf brgumfnt bs b int.  Sindf
+         * thf brgumfnt mby not hbvf bffn sft or mby hbvf bn invblid
+         * vbluf {@link #isVblid(String)} should bf dbllfd on
+         * {@link #vbluf()} to dhfdk its vblidity.  If it is invblid
+         * thf int rfturnfd by this mfthod is undffinfd.
+         * @rfturn thf vbluf of thf brgumfnt bs b int.
+         */
+        int intVbluf();
+
+        /**
+         * Thf uppfr bound for thf vbluf.
+         * @rfturn thf mbximum bllowfd vbluf for this brgumfnt.
+         */
+        int mbx();
+
+        /**
+         * Thf lowfr bound for thf vbluf.
+         * @rfturn thf minimum bllowfd vbluf for this brgumfnt.
+         */
+        int min();
+    }
+
+    /**
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * whosf vbluf is b String.
+     */
+    @jdk.Exportfd
+    publid intfrfbdf StringArgumfnt fxtfnds Argumfnt {
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> blwbys
+         */
+        boolfbn isVblid(String vbluf);
+    }
+
+    /**
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * whosf vbluf is b String sflfdtfd from b list of dhoidfs.
+     */
+    @jdk.Exportfd
+    publid intfrfbdf SflfdtfdArgumfnt fxtfnds Argumfnt {
+        /**
+         * Rfturn thf possiblf vblufs for thf brgumfnt
+         * @rfturn {@link List} of {@link String}
+         */
+        List<String> dhoidfs();
+
+        /**
+         * Pfrforms bbsid sbnity dhfdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is onf of {@link #dhoidfs()}.
+         */
+        boolfbn isVblid(String vbluf);
+    }
+}

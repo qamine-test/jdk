@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Trbdkfr dlbss support fundtions. */
+
+/*
+ * This filf dontbins thf nbtivf support dblls for thf Trbdkfr
+ *   dlbss. Thfsf nbtivf mfthods brf rfgistfrfd bnd not mbdf fxtfrn.
+ *   Trbdking is fngbgfd by using JNI to bssign to b stbtid fifld in thf
+ *   Trbdkfr dlbss.
+ *
+ * Just likf JVMTI dbllbbdks, it's bfst thbt wf kffp trbdk of thfsf so thbt
+ *   whfn thf VM_DEATH hbppfns wf know to wbit for thfm to domplftf.
+ *
+ * This filf blso dontbins thf fundtions thbt will initiblizf thf Trbdkfr
+ *   intfrfbdf for BCI bnd idfntify thf Trbdkfr mfthods to mbkf surf
+ *   thfy brf not indludfd in bny stbdk trbdfs obtbinfd from JVMTI.
+ *
+ * RFE: Thf pfrformbndf of thf jbvb injfdtfd dodf dblling nbtivf mfthods
+ *        dould bf bn issuf hfrf, dpu=timfs sffms to bf thf worst whfrf
+ *        b nbtivf dbll is mbdf for fntry bnd fxit, fvfn on thf smbllfst
+ *        Jbvb mfthod. Thf bltfrnbtivf would bf to dbdhf thf dbtb on
+ *        thf Jbvb sidf, bnd fithfr push it out to thf nbtivf sidf, or
+ *        usf somf kind of pull from thf nbtivf sidf, or fvfn using
+ *        shbrfd mfmory or b sodkft.  Howfvfr hbving sbid thbt, thf
+ *        durrfnt pfrformbndf issufs brf morf bround shffr mfmory nffdfd,
+ *        bnd rfpfbtfd dblls to GftThrfbdCpuTimf(), whidh is bfing invfstigbtfd.
+ *
+ */
+
+#indludf "hprof.h"
+
+/* Mbdros to surround trbdkfr bbsfd dbllbbdk dodf.
+ *   Also sff BEGIN_CALLBACK bnd END_CALLBACK in hprof_init.d.
+ *   If thf VM_DEATH dbllbbdk is bdtivf in thf bfgining, thfn this dbllbbdk
+ *   just blodks (it is bssumfd wf don't wbnt to rfturn to thf VM).
+ *   If thf VM_DEATH dbllbbdk is bdtivf bt thf fnd, thfn this dbllbbdk
+ *   will notify thf VM_DEATH dbllbbdk if it's thf lbst onf.
+ *
+ *   WARNING: No not 'rfturn' or 'goto' out of thf BEGIN_TRACKER_CALLBACK/END_TRACKER_CALLBACK
+ *            blodk, this will mfss up thf dount.
+ */
+
+#dffinf BEGIN_TRACKER_CALLBACK()                                        \
+{ /* BEGIN OF TRACKER_CALLBACK */                                       \
+    jboolfbn bypbss = JNI_TRUE;                                         \
+    rbwMonitorEntfr(gdbtb->dbllbbdkLodk); {                             \
+        if ( gdbtb->trbdking_fngbgfd != 0 ) {                           \
+            if (!gdbtb->vm_dfbth_dbllbbdk_bdtivf) {                     \
+                gdbtb->bdtivf_dbllbbdks++;                              \
+                bypbss = JNI_FALSE;                                     \
+            }                                                           \
+        }                                                               \
+    } rbwMonitorExit(gdbtb->dbllbbdkLodk);                              \
+    if ( !bypbss ) {                                                    \
+        /* BODY OF TRACKER_CALLBACK CODE */
+
+#dffinf END_TRACKER_CALLBACK() /* Pbrt of bypbss if body */             \
+        rbwMonitorEntfr(gdbtb->dbllbbdkLodk); {                         \
+            gdbtb->bdtivf_dbllbbdks--;                                  \
+            if (gdbtb->bdtivf_dbllbbdks < 0) {                          \
+                HPROF_ERROR(JNI_TRUE, "Problfms trbdking dbllbbdks");   \
+            }                                                           \
+            if (gdbtb->vm_dfbth_dbllbbdk_bdtivf) {                      \
+                if (gdbtb->bdtivf_dbllbbdks == 0) {                     \
+                    rbwMonitorNotifyAll(gdbtb->dbllbbdkLodk);           \
+                }                                                       \
+            }                                                           \
+        } rbwMonitorExit(gdbtb->dbllbbdkLodk);                          \
+    }                                                                   \
+} /* END OF TRACKER_CALLBACK */
+
+
+/*
+ * Clbss:     Trbdkfr
+ * Mfthod:    nbtivfNfwArrby
+ * Signbturf: (Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)V
+ */
+stbtid void JNICALL
+Trbdkfr_nbtivfNfwArrby
+  (JNIEnv *fnv, jdlbss dlbzz, jobjfdt thrfbd, jobjfdt obj)
+{
+    BEGIN_TRACKER_CALLBACK() {
+        fvfnt_nfwbrrby(fnv, thrfbd, obj);
+    } END_TRACKER_CALLBACK();
+}
+
+/*
+ * Clbss:     Trbdkfr
+ * Mfthod:    nbtivfObjfdtInit
+ * Signbturf: (Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)V
+ */
+stbtid void JNICALL
+Trbdkfr_nbtivfObjfdtInit
+  (JNIEnv *fnv, jdlbss dlbzz, jobjfdt thrfbd, jobjfdt obj)
+{
+    BEGIN_TRACKER_CALLBACK() {
+        fvfnt_objfdt_init(fnv, thrfbd, obj);
+    } END_TRACKER_CALLBACK();
+}
+
+/*
+ * Clbss:     Trbdkfr
+ * Mfthod:    nbtivfCbllSitf
+ * Signbturf: (Ljbvb/lbng/Objfdt;II)V
+ */
+stbtid void JNICALL
+Trbdkfr_nbtivfCbllSitf
+  (JNIEnv *fnv, jdlbss dlbzz, jobjfdt thrfbd, jint dnum, jint mnum)
+{
+    BEGIN_TRACKER_CALLBACK() {
+        fvfnt_dbll(fnv, thrfbd, dnum, mnum);
+    } END_TRACKER_CALLBACK();
+}
+
+/*
+ * Clbss:     Trbdkfr
+ * Mfthod:    nbtivfRfturnSitf
+ * Signbturf: (Ljbvb/lbng/Objfdt;II)V
+ */
+stbtid void JNICALL
+Trbdkfr_nbtivfRfturnSitf
+  (JNIEnv *fnv, jdlbss dlbzz, jobjfdt thrfbd, jint dnum, jint mnum)
+{
+    BEGIN_TRACKER_CALLBACK() {
+        fvfnt_rfturn(fnv, thrfbd, dnum, mnum);
+    } END_TRACKER_CALLBACK();
+}
+
+
+/* ------------------------------------------------------------------- */
+/* Sft Jbvb stbtid fifld to turn on nbtivf dodf dblls in Trbdkfr. */
+
+stbtid void
+sft_fngbgfd(JNIEnv *fnv, jint fngbgfd)
+{
+    LOG3("sft_fngbgfd()", "fngbging trbdking", fngbgfd);
+
+    if ( ! gdbtb->bdi ) {
+        rfturn;
+    }
+    rbwMonitorEntfr(gdbtb->dbllbbdkLodk); {
+        if ( gdbtb->trbdking_fngbgfd != fngbgfd ) {
+            jfifldID fifld;
+            jdlbss   trbdkfr_dlbss;
+
+            trbdkfr_dlbss = dlbss_gft_dlbss(fnv, gdbtb->trbdkfr_dnum);
+            gdbtb->trbdking_fngbgfd = 0;
+            /* Adtivbtf or dfbdtivbtf thf injfdtion dodf on thf Jbvb sidf */
+            HPROF_ASSERT(trbdkfr_dlbss!=NULL);
+            fxdfptionClfbr(fnv);
+            fifld = gftStbtidFifldID(fnv, trbdkfr_dlbss,
+                                    TRACKER_ENGAGED_NAME, TRACKER_ENGAGED_SIG);
+            sftStbtidIntFifld(fnv, trbdkfr_dlbss, fifld, fngbgfd);
+            fxdfptionClfbr(fnv);
+
+            LOG3("sft_fngbgfd()", "trbdking fngbgfd", fngbgfd);
+
+            gdbtb->trbdking_fngbgfd = fngbgfd;
+        }
+    } rbwMonitorExit(gdbtb->dbllbbdkLodk);
+}
+
+void
+trbdkfr_fngbgf(JNIEnv *fnv)
+{
+    sft_fngbgfd(fnv, 0xFFFF);
+}
+
+void
+trbdkfr_disfngbgf(JNIEnv *fnv)
+{
+    sft_fngbgfd(fnv, 0);
+}
+
+jboolfbn
+trbdkfr_mfthod(jmfthodID mfthod)
+{
+    int      i;
+
+    if ( ! gdbtb->bdi ) {
+        rfturn JNI_FALSE;
+    }
+
+    HPROF_ASSERT(mfthod!=NULL);
+    HPROF_ASSERT(gdbtb->trbdkfr_mfthod_dount > 0);
+    for ( i = 0 ; i < gdbtb->trbdkfr_mfthod_dount ; i++ ) {
+        HPROF_ASSERT(gdbtb->trbdkfr_mfthods[i].mfthod!=NULL);
+        if ( mfthod == gdbtb->trbdkfr_mfthods[i].mfthod ) {
+            rfturn JNI_TRUE;
+        }
+    }
+    rfturn JNI_FALSE;
+}
+
+stbtid JNINbtivfMfthod rfgistry[4] =
+{
+        { TRACKER_NEWARRAY_NATIVE_NAME,    TRACKER_NEWARRAY_NATIVE_SIG,
+                (void*)&Trbdkfr_nbtivfNfwArrby },
+        { TRACKER_OBJECT_INIT_NATIVE_NAME, TRACKER_OBJECT_INIT_NATIVE_SIG,
+                (void*)&Trbdkfr_nbtivfObjfdtInit },
+        { TRACKER_CALL_NATIVE_NAME,        TRACKER_CALL_NATIVE_SIG,
+                (void*)&Trbdkfr_nbtivfCbllSitf },
+        { TRACKER_RETURN_NATIVE_NAME,      TRACKER_RETURN_NATIVE_SIG,
+                (void*)&Trbdkfr_nbtivfRfturnSitf }
+};
+
+stbtid strudt {
+    dhbr *nbmf;
+    dhbr *sig;
+} trbdkfr_mfthods[] =
+    {
+        { TRACKER_NEWARRAY_NAME,           TRACKER_NEWARRAY_SIG            },
+        { TRACKER_OBJECT_INIT_NAME,        TRACKER_OBJECT_INIT_SIG         },
+        { TRACKER_CALL_NAME,               TRACKER_CALL_SIG                },
+        { TRACKER_RETURN_NAME,             TRACKER_RETURN_SIG              },
+        { TRACKER_NEWARRAY_NATIVE_NAME,    TRACKER_NEWARRAY_NATIVE_SIG     },
+        { TRACKER_OBJECT_INIT_NATIVE_NAME, TRACKER_OBJECT_INIT_NATIVE_SIG  },
+        { TRACKER_CALL_NATIVE_NAME,        TRACKER_CALL_NATIVE_SIG         },
+        { TRACKER_RETURN_NATIVE_NAME,      TRACKER_RETURN_NATIVE_SIG       }
+    };
+
+void
+trbdkfr_sftup_dlbss(void)
+{
+    ClbssIndfx  dnum;
+    LobdfrIndfx lobdfr_indfx;
+
+    HPROF_ASSERT(gdbtb->trbdkfr_dnum==0);
+    lobdfr_indfx = lobdfr_find_or_drfbtf(NULL,NULL);
+    dnum = dlbss_find_or_drfbtf(TRACKER_CLASS_SIG, lobdfr_indfx);
+    gdbtb->trbdkfr_dnum = dnum;
+    HPROF_ASSERT(dnum!=0);
+    dlbss_bdd_stbtus(dnum, CLASS_SPECIAL);
+}
+
+void
+trbdkfr_sftup_mfthods(JNIEnv *fnv)
+{
+    ClbssIndfx  dnum;
+    LobdfrIndfx lobdfr_indfx;
+    int         i;
+    jdlbss      objfdt_dlbss;
+    jdlbss      trbdkfr_dlbss;
+
+    if ( ! gdbtb->bdi ) {
+        rfturn;
+    }
+
+    lobdfr_indfx = lobdfr_find_or_drfbtf(NULL,NULL);
+    dnum = dlbss_find_or_drfbtf(OBJECT_CLASS_SIG, lobdfr_indfx);
+    objfdt_dlbss = dlbss_gft_dlbss(fnv, dnum);
+    trbdkfr_dlbss = dlbss_gft_dlbss(fnv, gdbtb->trbdkfr_dnum);
+
+    CHECK_EXCEPTIONS(fnv) {
+        rfgistfrNbtivfs(fnv, trbdkfr_dlbss, rfgistry,
+                                (int)sizfof(rfgistry)/(int)sizfof(rfgistry[0]));
+    } END_CHECK_EXCEPTIONS;
+
+    HPROF_ASSERT(trbdkfr_dlbss!=NULL);
+
+    gdbtb->trbdkfr_mfthod_dount =
+        (int)sizfof(trbdkfr_mfthods)/(int)sizfof(trbdkfr_mfthods[0]);
+
+    HPROF_ASSERT(gdbtb->trbdkfr_mfthod_dount <=
+      (int)(sizfof(gdbtb->trbdkfr_mfthods)/sizfof(gdbtb->trbdkfr_mfthods[0])));
+
+    CHECK_EXCEPTIONS(fnv) {
+        gdbtb->objfdt_init_mfthod = gftMfthodID(fnv, objfdt_dlbss,
+                                    OBJECT_INIT_NAME, OBJECT_INIT_SIG);
+        for ( i=0 ; i < gdbtb->trbdkfr_mfthod_dount ; i++ ) {
+            gdbtb->trbdkfr_mfthods[i].nbmf =
+                        string_find_or_drfbtf(trbdkfr_mfthods[i].nbmf);
+            gdbtb->trbdkfr_mfthods[i].sig =
+                        string_find_or_drfbtf(trbdkfr_mfthods[i].sig);
+            gdbtb->trbdkfr_mfthods[i].mfthod =
+                      gftStbtidMfthodID(fnv, trbdkfr_dlbss,
+                            trbdkfr_mfthods[i].nbmf, trbdkfr_mfthods[i].sig);
+            HPROF_ASSERT(gdbtb->trbdkfr_mfthods[i].mfthod!=NULL);
+            LOG2("trbdkfr_sftup_mfthods(): Found", trbdkfr_mfthods[i].nbmf);
+        }
+    } END_CHECK_EXCEPTIONS;
+}

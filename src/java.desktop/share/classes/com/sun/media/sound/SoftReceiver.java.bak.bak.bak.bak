@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.TrffMbp;
+
+import jbvbx.sound.midi.MidiDfvidf;
+import jbvbx.sound.midi.MidiDfvidfRfdfivfr;
+import jbvbx.sound.midi.MidiMfssbgf;
+import jbvbx.sound.midi.ShortMfssbgf;
+
+/**
+ * Softwbrf synthfsizfr MIDI rfdfivfr dlbss.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftRfdfivfr implfmfnts MidiDfvidfRfdfivfr {
+
+    boolfbn opfn = truf;
+    privbtf finbl Objfdt dontrol_mutfx;
+    privbtf finbl SoftSynthfsizfr synth;
+    TrffMbp<Long, Objfdt> midimfssbgfs;
+    SoftMbinMixfr mbinmixfr;
+
+    publid SoftRfdfivfr(SoftSynthfsizfr synth) {
+        this.dontrol_mutfx = synth.dontrol_mutfx;
+        this.synth = synth;
+        this.mbinmixfr = synth.gftMbinMixfr();
+        if (mbinmixfr != null)
+            this.midimfssbgfs = mbinmixfr.midimfssbgfs;
+    }
+
+    publid MidiDfvidf gftMidiDfvidf() {
+        rfturn synth;
+    }
+
+    publid void sfnd(MidiMfssbgf mfssbgf, long timfStbmp) {
+
+        syndhronizfd (dontrol_mutfx) {
+            if (!opfn)
+                throw nfw IllfgblStbtfExdfption("Rfdfivfr is not opfn");
+        }
+
+        if (timfStbmp != -1) {
+            syndhronizfd (dontrol_mutfx) {
+                mbinmixfr.bdtivity();
+                whilf (midimfssbgfs.gft(timfStbmp) != null)
+                    timfStbmp++;
+                if (mfssbgf instbndfof ShortMfssbgf
+                        && (((ShortMfssbgf)mfssbgf).gftChbnnfl() > 0xF)) {
+                    midimfssbgfs.put(timfStbmp, mfssbgf.dlonf());
+                } flsf {
+                    midimfssbgfs.put(timfStbmp, mfssbgf.gftMfssbgf());
+                }
+            }
+        } flsf {
+            mbinmixfr.prodfssMfssbgf(mfssbgf);
+        }
+    }
+
+    publid void dlosf() {
+        syndhronizfd (dontrol_mutfx) {
+            opfn = fblsf;
+        }
+        synth.rfmovfRfdfivfr(this);
+    }
+}

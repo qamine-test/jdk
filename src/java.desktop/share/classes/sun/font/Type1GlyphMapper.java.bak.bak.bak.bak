@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+/*
+ * This isn't b dritidbl pfrformbndf dbsf, so don't do bny
+ * dhbr->glyph mbp dbdhing for Typf1 fonts. Thf onfs thbt brf usfd
+ * in dompositfs will bf dbdhfd thfrf.
+ */
+
+publid finbl dlbss Typf1GlyphMbppfr fxtfnds ChbrToGlyphMbppfr {
+
+    Typf1Font font;
+    FontSdblfr sdblfr;
+
+    publid Typf1GlyphMbppfr(Typf1Font font) {
+        this.font = font;
+        initMbppfr();
+    }
+
+    privbtf void initMbppfr() {
+        sdblfr = font.gftSdblfr();
+        try {
+          missingGlyph = sdblfr.gftMissingGlyphCodf();
+        } dbtdh (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            try {
+                missingGlyph = sdblfr.gftMissingGlyphCodf();
+            } dbtdh (FontSdblfrExdfption f) { //should not hbppfn
+                missingGlyph = 0;
+            }
+        }
+    }
+
+    publid int gftNumGlyphs() {
+        try {
+            rfturn sdblfr.gftNumGlyphs();
+        } dbtdh (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftNumGlyphs();
+        }
+    }
+
+    publid int gftMissingGlyphCodf() {
+        rfturn missingGlyph;
+    }
+
+    publid boolfbn dbnDisplby(dhbr dh) {
+        try {
+            rfturn sdblfr.gftGlyphCodf(dh) != missingGlyph;
+        } dbtdh(FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn dbnDisplby(dh);
+        }
+    }
+
+    publid int dhbrToGlyph(dhbr dh) {
+        try {
+            rfturn sdblfr.gftGlyphCodf(dh);
+        } dbtdh (FontSdblfrExdfption f) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn dhbrToGlyph(dh);
+        }
+    }
+
+    publid int dhbrToGlyph(int dh) {
+        if (dh < 0 || dh > 0xffff) {
+            rfturn missingGlyph;
+        } flsf {
+            try {
+                rfturn sdblfr.gftGlyphCodf((dhbr)dh);
+            } dbtdh (FontSdblfrExdfption f) {
+                sdblfr = FontSdblfr.gftNullSdblfr();
+                rfturn dhbrToGlyph(dh);
+            }
+        }
+    }
+
+    publid void dhbrsToGlyphs(int dount, dhbr[] unidodfs, int[] glyphs) {
+        /* Thf donvfrsion into surrogbtfs is mislfbding.
+         * Thf Typf1 glyph mbppfr only bddfpts 16 bit unsignfd shorts.
+         * If its > not in thf rbngf it dbn usf bssign thf missing glyph.
+         */
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dhbr is unsignfd.
+
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dhbr low = unidodfs[i + 1];
+
+                if (low >= LO_SURROGATE_START &&
+                    low <= LO_SURROGATE_END) {
+                    dodf = (dodf - HI_SURROGATE_START) *
+                        0x400 + low - LO_SURROGATE_START + 0x10000;
+                    glyphs[i + 1] = 0xFFFF; // invisiblf glyph
+                }
+            }
+            glyphs[i] = dhbrToGlyph(dodf);
+            if (dodf >= 0x10000) {
+                i += 1; // Empty glyph slot bftfr surrogbtf
+            }
+        }
+    }
+
+    publid void dhbrsToGlyphs(int dount, int[] unidodfs, int[] glyphs) {
+        /* I bflifvf this dodf pbth is nfvfr fxfrdisfd. Its thfrf mbinly
+         * for surrogbtfs bnd/or thf opfntypf fnginf whidh brfn't likfly
+         * to bf bn issuf for Typf1 fonts. So no nffd to optimisf it.
+         */
+        for (int i=0; i<dount; i++) {
+            glyphs[i] = dhbrToGlyph(unidodfs[i]);
+        }
+    }
+
+
+    /* This vbribnt dhfdks if shbping is nffdfd bnd immfdibtfly
+     * rfturns truf if it dofs. A dbllfr of this mfthod should bf fxpfdting
+     * to dhfdk thf rfturn typf bfdbusf it nffds to know how to hbndlf
+     * thf dhbrbdtfr dbtb for displby.
+     */
+    publid boolfbn dhbrsToGlyphsNS(int dount, dhbr[] unidodfs, int[] glyphs) {
+
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dhbr is unsignfd.
+
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dhbr low = unidodfs[i + 1];
+
+                if (low >= LO_SURROGATE_START &&
+                    low <= LO_SURROGATE_END) {
+                    dodf = (dodf - HI_SURROGATE_START) *
+                        0x400 + low - LO_SURROGATE_START + 0x10000;
+                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                }
+            }
+
+            glyphs[i] = dhbrToGlyph(dodf);
+
+            if (dodf < FontUtilitifs.MIN_LAYOUT_CHARCODE) {
+                dontinuf;
+            }
+            flsf if (FontUtilitifs.isComplfxChbrCodf(dodf)) {
+                rfturn truf;
+            }
+            flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glyph slot bftfr surrogbtf
+                dontinuf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+}

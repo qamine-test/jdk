@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2013, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.YEARS;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.tfmporbl.ChronoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+
+/**
+ * A pfriod fxprfssfd in tfrms of b stbndbrd yfbr-month-dby dblfndbr systfm.
+ * <p>
+ * This dlbss is usfd by bpplidbtions sffking to hbndlf dbtfs in non-ISO dblfndbr systfms.
+ * For fxbmplf, thf Jbpbnfsf, Minguo, Thbi Buddhist bnd othfrs.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf nbd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss ChronoPfriodImpl
+        implfmfnts ChronoPfriod, Sfriblizbblf {
+    // this dlbss is only usfd by JDK dhronology implfmfntbtions bnd mbkfs bssumptions bbsfd on thbt fbdt
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 57387258289L;
+
+    /**
+     * Thf sft of supportfd units.
+     */
+    privbtf stbtid finbl List<TfmporblUnit> SUPPORTED_UNITS =
+            Collfdtions.unmodifibblfList(Arrbys.<TfmporblUnit>bsList(YEARS, MONTHS, DAYS));
+
+    /**
+     * Thf dhronology.
+     */
+    privbtf finbl Chronology dhrono;
+    /**
+     * Thf numbfr of yfbrs.
+     */
+    finbl int yfbrs;
+    /**
+     * Thf numbfr of months.
+     */
+    finbl int months;
+    /**
+     * Thf numbfr of dbys.
+     */
+    finbl int dbys;
+
+    /**
+     * Crfbtfs bn instbndf.
+     */
+    ChronoPfriodImpl(Chronology dhrono, int yfbrs, int months, int dbys) {
+        Objfdts.rfquirfNonNull(dhrono, "dhrono");
+        this.dhrono = dhrono;
+        this.yfbrs = yfbrs;
+        this.months = months;
+        this.dbys = dbys;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid long gft(TfmporblUnit unit) {
+        if (unit == ChronoUnit.YEARS) {
+            rfturn yfbrs;
+        } flsf if (unit == ChronoUnit.MONTHS) {
+            rfturn months;
+        } flsf if (unit == ChronoUnit.DAYS) {
+            rfturn dbys;
+        } flsf {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
+        }
+    }
+
+    @Ovfrridf
+    publid List<TfmporblUnit> gftUnits() {
+        rfturn ChronoPfriodImpl.SUPPORTED_UNITS;
+    }
+
+    @Ovfrridf
+    publid Chronology gftChronology() {
+        rfturn dhrono;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isZfro() {
+        rfturn yfbrs == 0 && months == 0 && dbys == 0;
+    }
+
+    @Ovfrridf
+    publid boolfbn isNfgbtivf() {
+        rfturn yfbrs < 0 || months < 0 || dbys < 0;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoPfriod plus(TfmporblAmount bmountToAdd) {
+        ChronoPfriodImpl bmount = vblidbtfAmount(bmountToAdd);
+        rfturn nfw ChronoPfriodImpl(
+                dhrono,
+                Mbth.bddExbdt(yfbrs, bmount.yfbrs),
+                Mbth.bddExbdt(months, bmount.months),
+                Mbth.bddExbdt(dbys, bmount.dbys));
+    }
+
+    @Ovfrridf
+    publid ChronoPfriod minus(TfmporblAmount bmountToSubtrbdt) {
+        ChronoPfriodImpl bmount = vblidbtfAmount(bmountToSubtrbdt);
+        rfturn nfw ChronoPfriodImpl(
+                dhrono,
+                Mbth.subtrbdtExbdt(yfbrs, bmount.yfbrs),
+                Mbth.subtrbdtExbdt(months, bmount.months),
+                Mbth.subtrbdtExbdt(dbys, bmount.dbys));
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf ChronoPfriodImpl} from b tfmporbl bmount.
+     *
+     * @pbrbm bmount  thf tfmporbl bmount to donvfrt, not null
+     * @rfturn thf pfriod, not null
+     */
+    privbtf ChronoPfriodImpl vblidbtfAmount(TfmporblAmount bmount) {
+        Objfdts.rfquirfNonNull(bmount, "bmount");
+        if (bmount instbndfof ChronoPfriodImpl == fblsf) {
+            throw nfw DbtfTimfExdfption("Unbblf to obtbin ChronoPfriod from TfmporblAmount: " + bmount.gftClbss());
+        }
+        ChronoPfriodImpl pfriod = (ChronoPfriodImpl) bmount;
+        if (dhrono.fqubls(pfriod.gftChronology()) == fblsf) {
+            throw nfw ClbssCbstExdfption("Chronology mismbtdh, fxpfdtfd: " + dhrono.gftId() + ", bdtubl: " + pfriod.gftChronology().gftId());
+        }
+        rfturn pfriod;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoPfriod multiplifdBy(int sdblbr) {
+        if (this.isZfro() || sdblbr == 1) {
+            rfturn this;
+        }
+        rfturn nfw ChronoPfriodImpl(
+                dhrono,
+                Mbth.multiplyExbdt(yfbrs, sdblbr),
+                Mbth.multiplyExbdt(months, sdblbr),
+                Mbth.multiplyExbdt(dbys, sdblbr));
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoPfriod normblizfd() {
+        long monthRbngf = monthRbngf();
+        if (monthRbngf > 0) {
+            long totblMonths = yfbrs * monthRbngf + months;
+            long splitYfbrs = totblMonths / monthRbngf;
+            int splitMonths = (int) (totblMonths % monthRbngf);  // no ovfrflow
+            if (splitYfbrs == yfbrs && splitMonths == months) {
+                rfturn this;
+            }
+            rfturn nfw ChronoPfriodImpl(dhrono, Mbth.toIntExbdt(splitYfbrs), splitMonths, dbys);
+
+        }
+        rfturn this;
+    }
+
+    /**
+     * Cbldulbtfs thf rbngf of months.
+     *
+     * @rfturn thf month rbngf, -1 if not fixfd rbngf
+     */
+    privbtf long monthRbngf() {
+        VblufRbngf stbrtRbngf = dhrono.rbngf(MONTH_OF_YEAR);
+        if (stbrtRbngf.isFixfd() && stbrtRbngf.isIntVbluf()) {
+            rfturn stbrtRbngf.gftMbximum() - stbrtRbngf.gftMinimum() + 1;
+        }
+        rfturn -1;
+    }
+
+    //-------------------------------------------------------------------------
+    @Ovfrridf
+    publid Tfmporbl bddTo(Tfmporbl tfmporbl) {
+        vblidbtfChrono(tfmporbl);
+        if (months == 0) {
+            if (yfbrs != 0) {
+                tfmporbl = tfmporbl.plus(yfbrs, YEARS);
+            }
+        } flsf {
+            long monthRbngf = monthRbngf();
+            if (monthRbngf > 0) {
+                tfmporbl = tfmporbl.plus(yfbrs * monthRbngf + months, MONTHS);
+            } flsf {
+                if (yfbrs != 0) {
+                    tfmporbl = tfmporbl.plus(yfbrs, YEARS);
+                }
+                tfmporbl = tfmporbl.plus(months, MONTHS);
+            }
+        }
+        if (dbys != 0) {
+            tfmporbl = tfmporbl.plus(dbys, DAYS);
+        }
+        rfturn tfmporbl;
+    }
+
+
+
+    @Ovfrridf
+    publid Tfmporbl subtrbdtFrom(Tfmporbl tfmporbl) {
+        vblidbtfChrono(tfmporbl);
+        if (months == 0) {
+            if (yfbrs != 0) {
+                tfmporbl = tfmporbl.minus(yfbrs, YEARS);
+            }
+        } flsf {
+            long monthRbngf = monthRbngf();
+            if (monthRbngf > 0) {
+                tfmporbl = tfmporbl.minus(yfbrs * monthRbngf + months, MONTHS);
+            } flsf {
+                if (yfbrs != 0) {
+                    tfmporbl = tfmporbl.minus(yfbrs, YEARS);
+                }
+                tfmporbl = tfmporbl.minus(months, MONTHS);
+            }
+        }
+        if (dbys != 0) {
+            tfmporbl = tfmporbl.minus(dbys, DAYS);
+        }
+        rfturn tfmporbl;
+    }
+
+    /**
+     * Vblidbtfs thbt thf tfmporbl hbs thf dorrfdt dhronology.
+     */
+    privbtf void vblidbtfChrono(TfmporblAddfssor tfmporbl) {
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Chronology tfmporblChrono = tfmporbl.qufry(TfmporblQufrifs.dhronology());
+        if (tfmporblChrono != null && dhrono.fqubls(tfmporblChrono) == fblsf) {
+            throw nfw DbtfTimfExdfption("Chronology mismbtdh, fxpfdtfd: " + dhrono.gftId() + ", bdtubl: " + tfmporblChrono.gftId());
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof ChronoPfriodImpl) {
+            ChronoPfriodImpl othfr = (ChronoPfriodImpl) obj;
+            rfturn yfbrs == othfr.yfbrs && months == othfr.months &&
+                    dbys == othfr.dbys && dhrono.fqubls(othfr.dhrono);
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn (yfbrs + Intfgfr.rotbtfLfft(months, 8) + Intfgfr.rotbtfLfft(dbys, 16)) ^ dhrono.hbshCodf();
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String toString() {
+        if (isZfro()) {
+            rfturn gftChronology().toString() + " P0D";
+        } flsf {
+            StringBuildfr buf = nfw StringBuildfr();
+            buf.bppfnd(gftChronology().toString()).bppfnd(' ').bppfnd('P');
+            if (yfbrs != 0) {
+                buf.bppfnd(yfbrs).bppfnd('Y');
+            }
+            if (months != 0) {
+                buf.bppfnd(months).bppfnd('M');
+            }
+            if (dbys != 0) {
+                buf.bppfnd(dbys).bppfnd('D');
+            }
+            rfturn buf.toString();
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs thf Chronology using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <prf>
+     *  out.writfBytf(12);  // idfntififs this bs b ChronoPfriodImpl
+     *  out.writfUTF(gftId());  // thf dhronology
+     *  out.writfInt(yfbrs);
+     *  out.writfInt(months);
+     *  out.writfInt(dbys);
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    protfdtfd Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_PERIOD_TYPE, this);
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws ObjfdtStrfbmExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        out.writfUTF(dhrono.gftId());
+        out.writfInt(yfbrs);
+        out.writfInt(months);
+        out.writfInt(dbys);
+    }
+
+    stbtid ChronoPfriodImpl rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        Chronology dhrono = Chronology.of(in.rfbdUTF());
+        int yfbrs = in.rfbdInt();
+        int months = in.rfbdInt();
+        int dbys = in.rfbdInt();
+        rfturn nfw ChronoPfriodImpl(dhrono, yfbrs, months, dbys);
+    }
+
+}

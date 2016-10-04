@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
+#if !dffinfd(JAVA2D_NO_MLIB) || dffinfd(MLIB_ADD_SUFF)
 
-#include "java2d_Mlib.h"
-#include "SurfaceData.h"
+#indludf "jbvb2d_Mlib.i"
+#indludf "SurfbdfDbtb.i"
 
-#include "mlib_ImageZoom.h"
+#indludf "mlib_ImbgfZoom.i"
 
 /***************************************************************/
 
-#define DEFINE_ISO_COPY(FUNC, ANYTYPE)               \
+#dffinf DEFINE_ISO_COPY(FUNC, ANYTYPE)               \
 void ADD_SUFF(ANYTYPE##FUNC)(BLIT_PARAMS)            \
 {                                                    \
-    mlib_s32 srcScan = pSrcInfo->scanStride;         \
-    mlib_s32 dstScan = pDstInfo->scanStride;         \
-    mlib_s32 xsize = width*ANYTYPE##PixelStride;     \
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;         \
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;         \
+    mlib_s32 xsizf = widti*ANYTYPE##PixflStridf;     \
     mlib_s32 i;                                      \
                                                      \
-    if (srcScan == xsize && dstScan == xsize) {      \
-        xsize *= height;                             \
-        height = 1;                                  \
+    if (srdSdbn == xsizf && dstSdbn == xsizf) {      \
+        xsizf *= ifigit;                             \
+        ifigit = 1;                                  \
     }                                                \
                                                      \
-    for (i = 0; i < height; i++) {                   \
-        mlib_ImageCopy_na(srcBase, dstBase, xsize);  \
-        srcBase = (mlib_u8*)srcBase + srcScan;       \
-        dstBase = (mlib_u8*)dstBase + dstScan;       \
+    for (i = 0; i < ifigit; i++) {                   \
+        mlib_ImbgfCopy_nb(srdBbsf, dstBbsf, xsizf);  \
+        srdBbsf = (mlib_u8*)srdBbsf + srdSdbn;       \
+        dstBbsf = (mlib_u8*)dstBbsf + dstSdbn;       \
     }                                                \
 }
 
-DEFINE_ISO_COPY(IsomorphicCopy, Any3Byte)
-DEFINE_ISO_COPY(IsomorphicCopy, Any4Byte)
-DEFINE_ISO_COPY(IsomorphicCopy, AnyByte)
-DEFINE_ISO_COPY(IsomorphicCopy, AnyInt)
-DEFINE_ISO_COPY(IsomorphicCopy, AnyShort)
+DEFINE_ISO_COPY(IsomorpiidCopy, Any3Bytf)
+DEFINE_ISO_COPY(IsomorpiidCopy, Any4Bytf)
+DEFINE_ISO_COPY(IsomorpiidCopy, AnyBytf)
+DEFINE_ISO_COPY(IsomorpiidCopy, AnyInt)
+DEFINE_ISO_COPY(IsomorpiidCopy, AnySiort)
 
 /***************************************************************/
 
-#define SET_PIX(index, chan)         \
-    dst_ptr[index] = pixel##chan
+#dffinf SET_PIX(indfx, dibn)         \
+    dst_ptr[indfx] = pixfl##dibn
 
-#define W_LEVEL_1   8
-#define W_LEVEL_3  16
-#define W_LEVEL_4   8
+#dffinf W_LEVEL_1   8
+#dffinf W_LEVEL_3  16
+#dffinf W_LEVEL_4   8
 
-#define DEFINE_SET_RECT(FUNC, ANYTYPE, NCHAN)                       \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo * pRasInfo,         \
-                             jint lox, jint loy, jint hix,          \
-                             jint hiy, jint pixel,                  \
-                             NativePrimitive * pPrim,               \
-                             CompositeInfo * pCompInfo)             \
+#dffinf DEFINE_SET_RECT(FUNC, ANYTYPE, NCHAN)                       \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbdfDbtbRbsInfo * pRbsInfo,         \
+                             jint lox, jint loy, jint iix,          \
+                             jint iiy, jint pixfl,                  \
+                             NbtivfPrimitivf * pPrim,               \
+                             CompositfInfo * pCompInfo)             \
 {                                                                   \
-    mlib_image dst[1];                                              \
-    mlib_s32 dstScan = pRasInfo->scanStride;                        \
-    mlib_s32 height = hiy - loy;                                    \
-    mlib_s32 width  = hix - lox;                                    \
-    mlib_u8  *dstBase = (mlib_u8*)(pRasInfo->rasBase);              \
-    mlib_s32 c_arr[4];                                              \
+    mlib_imbgf dst[1];                                              \
+    mlib_s32 dstSdbn = pRbsInfo->sdbnStridf;                        \
+    mlib_s32 ifigit = iiy - loy;                                    \
+    mlib_s32 widti  = iix - lox;                                    \
+    mlib_u8  *dstBbsf = (mlib_u8*)(pRbsInfo->rbsBbsf);              \
+    mlib_s32 d_brr[4];                                              \
                                                                     \
-    dstBase += loy*dstScan + lox*ANYTYPE##PixelStride;              \
+    dstBbsf += loy*dstSdbn + lox*ANYTYPE##PixflStridf;              \
                                                                     \
-    if (width <= W_LEVEL_##NCHAN) {                                 \
-        EXTRACT_CONST_##NCHAN(pixel);                               \
+    if (widti <= W_LEVEL_##NCHAN) {                                 \
+        EXTRACT_CONST_##NCHAN(pixfl);                               \
                                                                     \
-        LOOP_DST(ANYTYPE, NCHAN, dstBase, dstScan, SET_PIX);        \
-        return;                                                     \
+        LOOP_DST(ANYTYPE, NCHAN, dstBbsf, dstSdbn, SET_PIX);        \
+        rfturn;                                                     \
     }                                                               \
                                                                     \
-    STORE_CONST_##NCHAN(c_arr, pixel);                              \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                              \
                                                                     \
     MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN,                      \
-                   width, height, dstScan, dstBase);                \
+                   widti, ifigit, dstSdbn, dstBbsf);                \
                                                                     \
-    mlib_ImageClear(dst, c_arr);                                    \
+    mlib_ImbgfClfbr(dst, d_brr);                                    \
 }
 
-DEFINE_SET_RECT(SetRect, Any3Byte, 3)
-DEFINE_SET_RECT(SetRect, Any4Byte, 4)
-DEFINE_SET_RECT(SetRect, AnyByte,  1)
-DEFINE_SET_RECT(SetRect, AnyInt,   1)
-DEFINE_SET_RECT(SetRect, AnyShort, 1)
+DEFINE_SET_RECT(SftRfdt, Any3Bytf, 3)
+DEFINE_SET_RECT(SftRfdt, Any4Bytf, 4)
+DEFINE_SET_RECT(SftRfdt, AnyBytf,  1)
+DEFINE_SET_RECT(SftRfdt, AnyInt,   1)
+DEFINE_SET_RECT(SftRfdt, AnySiort, 1)
 
 /***************************************************************/
 
-#define XOR_PIX(index, chan)         \
-    dst_ptr[index] ^= pixel##chan
+#dffinf XOR_PIX(indfx, dibn)         \
+    dst_ptr[indfx] ^= pixfl##dibn
 
-#define DEFINE_XOR_RECT(FUNC, ANYTYPE, NCHAN)                       \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo * pRasInfo,         \
-                             jint lox, jint loy, jint hix,          \
-                             jint hiy, jint pixel,                  \
-                             NativePrimitive * pPrim,               \
-                             CompositeInfo * pCompInfo)             \
+#dffinf DEFINE_XOR_RECT(FUNC, ANYTYPE, NCHAN)                       \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbdfDbtbRbsInfo * pRbsInfo,         \
+                             jint lox, jint loy, jint iix,          \
+                             jint iiy, jint pixfl,                  \
+                             NbtivfPrimitivf * pPrim,               \
+                             CompositfInfo * pCompInfo)             \
 {                                                                   \
-    mlib_image dst[1];                                              \
-    mlib_s32 dstScan = pRasInfo->scanStride;                        \
-    mlib_s32 height = hiy - loy;                                    \
-    mlib_s32 width  = hix - lox;                                    \
-    mlib_u8  *dstBase = (mlib_u8*)(pRasInfo->rasBase);              \
-    mlib_s32 c_arr[4];                                              \
-    mlib_s32 xorpixel = pCompInfo->details.xorPixel;                \
-    mlib_s32 alphamask = pCompInfo->alphaMask;                      \
+    mlib_imbgf dst[1];                                              \
+    mlib_s32 dstSdbn = pRbsInfo->sdbnStridf;                        \
+    mlib_s32 ifigit = iiy - loy;                                    \
+    mlib_s32 widti  = iix - lox;                                    \
+    mlib_u8  *dstBbsf = (mlib_u8*)(pRbsInfo->rbsBbsf);              \
+    mlib_s32 d_brr[4];                                              \
+    mlib_s32 xorpixfl = pCompInfo->dftbils.xorPixfl;                \
+    mlib_s32 blpibmbsk = pCompInfo->blpibMbsk;                      \
                                                                     \
-    pixel = (pixel ^ xorpixel) &~ alphamask;                        \
+    pixfl = (pixfl ^ xorpixfl) &~ blpibmbsk;                        \
                                                                     \
-    dstBase += loy*dstScan + lox*ANYTYPE##PixelStride;              \
+    dstBbsf += loy*dstSdbn + lox*ANYTYPE##PixflStridf;              \
                                                                     \
-    if (width < 8) {                                                \
-        EXTRACT_CONST_##NCHAN(pixel);                               \
+    if (widti < 8) {                                                \
+        EXTRACT_CONST_##NCHAN(pixfl);                               \
                                                                     \
-        LOOP_DST(ANYTYPE, NCHAN, dstBase, dstScan, XOR_PIX);        \
-        return;                                                     \
+        LOOP_DST(ANYTYPE, NCHAN, dstBbsf, dstSdbn, XOR_PIX);        \
+        rfturn;                                                     \
     }                                                               \
                                                                     \
-    STORE_CONST_##NCHAN(c_arr, pixel);                              \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                              \
                                                                     \
     MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN,                      \
-                   width, height, dstScan, dstBase);                \
+                   widti, ifigit, dstSdbn, dstBbsf);                \
                                                                     \
-    mlib_ImageConstXor(dst, dst, c_arr);                            \
+    mlib_ImbgfConstXor(dst, dst, d_brr);                            \
 }
 
-DEFINE_XOR_RECT(XorRect, Any3Byte, 3)
-DEFINE_XOR_RECT(XorRect, Any4Byte, 4)
-DEFINE_XOR_RECT(XorRect, AnyByte,  1)
-DEFINE_XOR_RECT(XorRect, AnyInt,   1)
-DEFINE_XOR_RECT(XorRect, AnyShort, 1)
+DEFINE_XOR_RECT(XorRfdt, Any3Bytf, 3)
+DEFINE_XOR_RECT(XorRfdt, Any4Bytf, 4)
+DEFINE_XOR_RECT(XorRfdt, AnyBytf,  1)
+DEFINE_XOR_RECT(XorRfdt, AnyInt,   1)
+DEFINE_XOR_RECT(XorRfdt, AnySiort, 1)
 
 /***************************************************************/
 
-#define XOR_COPY(index, chan)         \
-    dst_ptr[index] = dst_ptr[index] ^ src_ptr[index] ^ pixel##chan
+#dffinf XOR_COPY(indfx, dibn)         \
+    dst_ptr[indfx] = dst_ptr[indfx] ^ srd_ptr[indfx] ^ pixfl##dibn
 
-#define DEFINE_XOR_COPY(FUNC, ANYTYPE, NCHAN)                  \
-void ADD_SUFF(ANYTYPE##FUNC)(void *srcBase,                    \
-                             void *dstBase,                    \
-                             juint width,                      \
-                             juint height,                     \
-                             SurfaceDataRasInfo *pSrcInfo,     \
-                             SurfaceDataRasInfo *pDstInfo,     \
-                             NativePrimitive *pPrim,           \
-                             CompositeInfo *pCompInfo)         \
+#dffinf DEFINE_XOR_COPY(FUNC, ANYTYPE, NCHAN)                  \
+void ADD_SUFF(ANYTYPE##FUNC)(void *srdBbsf,                    \
+                             void *dstBbsf,                    \
+                             juint widti,                      \
+                             juint ifigit,                     \
+                             SurfbdfDbtbRbsInfo *pSrdInfo,     \
+                             SurfbdfDbtbRbsInfo *pDstInfo,     \
+                             NbtivfPrimitivf *pPrim,           \
+                             CompositfInfo *pCompInfo)         \
 {                                                              \
-    mlib_image src[1], dst[1];                                 \
-    mlib_s32 srcScan = pSrcInfo->scanStride;                   \
-    mlib_s32 dstScan = pDstInfo->scanStride;                   \
-    mlib_s32 c_arr[4];                                         \
-    mlib_s32 pixel  = pCompInfo->details.xorPixel;             \
+    mlib_imbgf srd[1], dst[1];                                 \
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;                   \
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;                   \
+    mlib_s32 d_brr[4];                                         \
+    mlib_s32 pixfl  = pCompInfo->dftbils.xorPixfl;             \
                                                                \
-    if (width < 8*sizeof(ANYTYPE##DataType)) {                 \
-        EXTRACT_CONST_##NCHAN(pixel);                          \
+    if (widti < 8*sizfof(ANYTYPE##DbtbTypf)) {                 \
+        EXTRACT_CONST_##NCHAN(pixfl);                          \
                                                                \
-        LOOP_DST_SRC(ANYTYPE, NCHAN, dstBase, dstScan,         \
-                     srcBase, srcScan, XOR_COPY);              \
-        return;                                                \
+        LOOP_DST_SRC(ANYTYPE, NCHAN, dstBbsf, dstSdbn,         \
+                     srdBbsf, srdSdbn, XOR_COPY);              \
+        rfturn;                                                \
     }                                                          \
                                                                \
-    STORE_CONST_##NCHAN(c_arr, pixel);                         \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                         \
                                                                \
-    MLIB_IMAGE_SET(src, MLIB_##ANYTYPE, NCHAN,                 \
-                   width, height, srcScan, srcBase);           \
+    MLIB_IMAGE_SET(srd, MLIB_##ANYTYPE, NCHAN,                 \
+                   widti, ifigit, srdSdbn, srdBbsf);           \
     MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN,                 \
-                   width, height, dstScan, dstBase);           \
+                   widti, ifigit, dstSdbn, dstBbsf);           \
                                                                \
-    mlib_ImageXor(dst, dst, src);                              \
-    mlib_ImageConstXor(dst, dst, c_arr);                       \
+    mlib_ImbgfXor(dst, dst, srd);                              \
+    mlib_ImbgfConstXor(dst, dst, d_brr);                       \
 }
 
-DEFINE_XOR_COPY(IsomorphicXorCopy, Any3Byte, 3)
-DEFINE_XOR_COPY(IsomorphicXorCopy, Any4Byte, 4)
-DEFINE_XOR_COPY(IsomorphicXorCopy, AnyByte,  1)
-DEFINE_XOR_COPY(IsomorphicXorCopy, AnyInt,   1)
-DEFINE_XOR_COPY(IsomorphicXorCopy, AnyShort, 1)
+DEFINE_XOR_COPY(IsomorpiidXorCopy, Any3Bytf, 3)
+DEFINE_XOR_COPY(IsomorpiidXorCopy, Any4Bytf, 4)
+DEFINE_XOR_COPY(IsomorpiidXorCopy, AnyBytf,  1)
+DEFINE_XOR_COPY(IsomorpiidXorCopy, AnyInt,   1)
+DEFINE_XOR_COPY(IsomorpiidXorCopy, AnySiort, 1)
 
 /***************************************************************/
 
-#define DEFINE_SET_SPANS(FUNC, ANYTYPE, NCHAN)                      \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo * pRasInfo,         \
-                             SpanIteratorFuncs * pSpanFuncs,        \
-                             void *siData, jint pixel,              \
-                             NativePrimitive * pPrim,               \
-                             CompositeInfo * pCompInfo)             \
+#dffinf DEFINE_SET_SPANS(FUNC, ANYTYPE, NCHAN)                      \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbdfDbtbRbsInfo * pRbsInfo,         \
+                             SpbnItfrbtorFunds * pSpbnFunds,        \
+                             void *siDbtb, jint pixfl,              \
+                             NbtivfPrimitivf * pPrim,               \
+                             CompositfInfo * pCompInfo)             \
 {                                                                   \
-    mlib_image dst[1];                                              \
-    mlib_s32 dstScan = pRasInfo->scanStride;                        \
-    mlib_s32 height;                                                \
-    mlib_s32 width;                                                 \
-    mlib_u8  *dstBase = (mlib_u8*)(pRasInfo->rasBase), *pdst;       \
-    mlib_s32 c_arr[4];                                              \
+    mlib_imbgf dst[1];                                              \
+    mlib_s32 dstSdbn = pRbsInfo->sdbnStridf;                        \
+    mlib_s32 ifigit;                                                \
+    mlib_s32 widti;                                                 \
+    mlib_u8  *dstBbsf = (mlib_u8*)(pRbsInfo->rbsBbsf), *pdst;       \
+    mlib_s32 d_brr[4];                                              \
     jint     bbox[4];                                               \
                                                                     \
-    STORE_CONST_##NCHAN(c_arr, pixel);                              \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                              \
                                                                     \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) {                 \
+    wiilf ((*pSpbnFunds->nfxtSpbn)(siDbtb, bbox)) {                 \
         mlib_s32 lox = bbox[0];                                     \
         mlib_s32 loy = bbox[1];                                     \
-        mlib_s32 width  = bbox[2] - lox;                            \
-        mlib_s32 height = bbox[3] - loy;                            \
+        mlib_s32 widti  = bbox[2] - lox;                            \
+        mlib_s32 ifigit = bbox[3] - loy;                            \
                                                                     \
-        pdst = dstBase + loy*dstScan + lox*ANYTYPE##PixelStride;    \
+        pdst = dstBbsf + loy*dstSdbn + lox*ANYTYPE##PixflStridf;    \
                                                                     \
         MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN_##ANYTYPE,        \
-                       width, height, dstScan, pdst);               \
+                       widti, ifigit, dstSdbn, pdst);               \
                                                                     \
-        mlib_ImageClear(dst, c_arr);                                \
+        mlib_ImbgfClfbr(dst, d_brr);                                \
     }                                                               \
 }
 
-DEFINE_SET_SPANS(SetSpans, Any3Byte, 3)
-DEFINE_SET_SPANS(SetSpans, Any4Byte, 4)
-DEFINE_SET_SPANS(SetSpans, AnyByte,  1)
-DEFINE_SET_SPANS(SetSpans, AnyInt,   1)
-DEFINE_SET_SPANS(SetSpans, AnyShort, 1)
+DEFINE_SET_SPANS(SftSpbns, Any3Bytf, 3)
+DEFINE_SET_SPANS(SftSpbns, Any4Bytf, 4)
+DEFINE_SET_SPANS(SftSpbns, AnyBytf,  1)
+DEFINE_SET_SPANS(SftSpbns, AnyInt,   1)
+DEFINE_SET_SPANS(SftSpbns, AnySiort, 1)
 
 /***************************************************************/
 
-#define DEFINE_XOR_SPANS(FUNC, ANYTYPE, NCHAN)                      \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo * pRasInfo,         \
-                             SpanIteratorFuncs * pSpanFuncs,        \
-                             void *siData, jint pixel,              \
-                             NativePrimitive * pPrim,               \
-                             CompositeInfo * pCompInfo)             \
+#dffinf DEFINE_XOR_SPANS(FUNC, ANYTYPE, NCHAN)                      \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbdfDbtbRbsInfo * pRbsInfo,         \
+                             SpbnItfrbtorFunds * pSpbnFunds,        \
+                             void *siDbtb, jint pixfl,              \
+                             NbtivfPrimitivf * pPrim,               \
+                             CompositfInfo * pCompInfo)             \
 {                                                                   \
-    mlib_image dst[1];                                              \
-    mlib_s32 dstScan = pRasInfo->scanStride;                        \
-    mlib_s32 height;                                                \
-    mlib_s32 width;                                                 \
-    mlib_u8  *dstBase = (mlib_u8*)(pRasInfo->rasBase), *pdst;       \
-    mlib_s32 c_arr[4];                                              \
-    mlib_s32 xorpixel = pCompInfo->details.xorPixel;                \
-    mlib_s32 alphamask = pCompInfo->alphaMask;                      \
+    mlib_imbgf dst[1];                                              \
+    mlib_s32 dstSdbn = pRbsInfo->sdbnStridf;                        \
+    mlib_s32 ifigit;                                                \
+    mlib_s32 widti;                                                 \
+    mlib_u8  *dstBbsf = (mlib_u8*)(pRbsInfo->rbsBbsf), *pdst;       \
+    mlib_s32 d_brr[4];                                              \
+    mlib_s32 xorpixfl = pCompInfo->dftbils.xorPixfl;                \
+    mlib_s32 blpibmbsk = pCompInfo->blpibMbsk;                      \
     jint     bbox[4];                                               \
                                                                     \
-    pixel = (pixel ^ xorpixel) &~ alphamask;                        \
+    pixfl = (pixfl ^ xorpixfl) &~ blpibmbsk;                        \
                                                                     \
-    STORE_CONST_##NCHAN(c_arr, pixel);                              \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                              \
                                                                     \
-    while ((*pSpanFuncs->nextSpan)(siData, bbox)) {                 \
+    wiilf ((*pSpbnFunds->nfxtSpbn)(siDbtb, bbox)) {                 \
         mlib_s32 lox = bbox[0];                                     \
         mlib_s32 loy = bbox[1];                                     \
-        mlib_s32 width  = bbox[2] - lox;                            \
-        mlib_s32 height = bbox[3] - loy;                            \
+        mlib_s32 widti  = bbox[2] - lox;                            \
+        mlib_s32 ifigit = bbox[3] - loy;                            \
                                                                     \
-        pdst = dstBase + loy*dstScan + lox*ANYTYPE##PixelStride;    \
+        pdst = dstBbsf + loy*dstSdbn + lox*ANYTYPE##PixflStridf;    \
                                                                     \
         MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN_##ANYTYPE,        \
-                       width, height, dstScan, pdst);               \
+                       widti, ifigit, dstSdbn, pdst);               \
                                                                     \
-        mlib_ImageConstXor(dst, dst, c_arr);                        \
+        mlib_ImbgfConstXor(dst, dst, d_brr);                        \
     }                                                               \
 }
 
-DEFINE_XOR_SPANS(XorSpans, Any3Byte, 3)
-DEFINE_XOR_SPANS(XorSpans, Any4Byte, 4)
-DEFINE_XOR_SPANS(XorSpans, AnyByte,  1)
-DEFINE_XOR_SPANS(XorSpans, AnyInt,   1)
-DEFINE_XOR_SPANS(XorSpans, AnyShort, 1)
+DEFINE_XOR_SPANS(XorSpbns, Any3Bytf, 3)
+DEFINE_XOR_SPANS(XorSpbns, Any4Bytf, 4)
+DEFINE_XOR_SPANS(XorSpbns, AnyBytf,  1)
+DEFINE_XOR_SPANS(XorSpbns, AnyInt,   1)
+DEFINE_XOR_SPANS(XorSpbns, AnySiort, 1)
 
 /***************************************************************/
 
-#define DEFINE_SET_PGRAM(FUNC, ANYTYPE, NCHAN)                      \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo *pRasInfo,          \
+#dffinf DEFINE_SET_PGRAM(FUNC, ANYTYPE, NCHAN)                      \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbdfDbtbRbsInfo *pRbsInfo,          \
                              jint lox, jint loy,                    \
-                             jint hix, jint hiy,                    \
-                             jlong leftx, jlong dleftx,             \
-                             jlong rightx, jlong drightx,           \
-                             jint pixel, NativePrimitive * pPrim,   \
-                             CompositeInfo * pCompInfo)             \
+                             jint iix, jint iiy,                    \
+                             jlong lfftx, jlong dlfftx,             \
+                             jlong rigitx, jlong drigitx,           \
+                             jint pixfl, NbtivfPrimitivf * pPrim,   \
+                             CompositfInfo * pCompInfo)             \
 {                                                                   \
-    mlib_image dst[1];                                              \
-    mlib_s32 dstScan = pRasInfo->scanStride;                        \
-    mlib_u8  *dstBase = (mlib_u8*)(pRasInfo->rasBase), *pdst;       \
-    mlib_s32 c_arr[4];                                              \
+    mlib_imbgf dst[1];                                              \
+    mlib_s32 dstSdbn = pRbsInfo->sdbnStridf;                        \
+    mlib_u8  *dstBbsf = (mlib_u8*)(pRbsInfo->rbsBbsf), *pdst;       \
+    mlib_s32 d_brr[4];                                              \
                                                                     \
-    STORE_CONST_##NCHAN(c_arr, pixel);                              \
-    pdst = dstBase + loy*dstScan;                                   \
+    STORE_CONST_##NCHAN(d_brr, pixfl);                              \
+    pdst = dstBbsf + loy*dstSdbn;                                   \
                                                                     \
-    while (loy < hiy) {                                             \
-        jint lx = WholeOfLong(leftx);                               \
-        jint rx = WholeOfLong(rightx);                              \
+    wiilf (loy < iiy) {                                             \
+        jint lx = WiolfOfLong(lfftx);                               \
+        jint rx = WiolfOfLong(rigitx);                              \
         if (lx < lox) lx = lox;                                     \
-        if (rx > hix) rx = hix;                                     \
+        if (rx > iix) rx = iix;                                     \
                                                                     \
         MLIB_IMAGE_SET(dst, MLIB_##ANYTYPE, NCHAN_##ANYTYPE,        \
-                       rx-lx, 1, dstScan,                           \
-                       pdst + lx*ANYTYPE##PixelStride);             \
+                       rx-lx, 1, dstSdbn,                           \
+                       pdst + lx*ANYTYPE##PixflStridf);             \
                                                                     \
-        mlib_ImageClear(dst, c_arr);                                \
+        mlib_ImbgfClfbr(dst, d_brr);                                \
                                                                     \
-        pdst = PtrAddBytes(pdst, dstScan);                          \
-        leftx += dleftx;                                            \
-        rightx += drightx;                                          \
+        pdst = PtrAddBytfs(pdst, dstSdbn);                          \
+        lfftx += dlfftx;                                            \
+        rigitx += drigitx;                                          \
         loy++;                                                      \
     }                                                               \
 }
 
-DEFINE_SET_PGRAM(SetParallelogram, Any3Byte, 3)
-DEFINE_SET_PGRAM(SetParallelogram, Any4Byte, 4)
-DEFINE_SET_PGRAM(SetParallelogram, AnyByte,  1)
-DEFINE_SET_PGRAM(SetParallelogram, AnyInt,   1)
-DEFINE_SET_PGRAM(SetParallelogram, AnyShort, 1)
+DEFINE_SET_PGRAM(SftPbrbllflogrbm, Any3Bytf, 3)
+DEFINE_SET_PGRAM(SftPbrbllflogrbm, Any4Bytf, 4)
+DEFINE_SET_PGRAM(SftPbrbllflogrbm, AnyBytf,  1)
+DEFINE_SET_PGRAM(SftPbrbllflogrbm, AnyInt,   1)
+DEFINE_SET_PGRAM(SftPbrbllflogrbm, AnySiort, 1)
 
 /***************************************************************/
 
-#define SCALE_COPY(index, chan)         \
-    pDst[chan] = pSrc[index]
+#dffinf SCALE_COPY(indfx, dibn)         \
+    pDst[dibn] = pSrd[indfx]
 
-#define MLIB_ZOOM_NN_AnyByte  mlib_ImageZoom_U8_1_Nearest(param);
-#define MLIB_ZOOM_NN_Any3Byte mlib_ImageZoom_U8_3_Nearest(param);
-#define MLIB_ZOOM_NN_AnyShort mlib_ImageZoom_S16_1_Nearest(param);
-#define MLIB_ZOOM_NN_AnyInt   mlib_ImageZoom_S32_1_Nearest(param);
+#dffinf MLIB_ZOOM_NN_AnyBytf  mlib_ImbgfZoom_U8_1_Nfbrfst(pbrbm);
+#dffinf MLIB_ZOOM_NN_Any3Bytf mlib_ImbgfZoom_U8_3_Nfbrfst(pbrbm);
+#dffinf MLIB_ZOOM_NN_AnySiort mlib_ImbgfZoom_S16_1_Nfbrfst(pbrbm);
+#dffinf MLIB_ZOOM_NN_AnyInt   mlib_ImbgfZoom_S32_1_Nfbrfst(pbrbm);
 
-#define MLIB_ZOOM_NN_Any4Byte                                      \
+#dffinf MLIB_ZOOM_NN_Any4Bytf                                      \
 {                                                                  \
-    mlib_s32 b_align = (mlib_s32)srcBase | (mlib_s32)dstBase |     \
-                       srcScan | dstScan;                          \
+    mlib_s32 b_blign = (mlib_s32)srdBbsf | (mlib_s32)dstBbsf |     \
+                       srdSdbn | dstSdbn;                          \
                                                                    \
-    if (!(b_align & 3)) {                                          \
-        mlib_ImageZoom_S32_1_Nearest(param);                       \
-    } else if (!(b_align & 1)) {                                   \
-        mlib_ImageZoom_S16_2_Nearest(param);                       \
-    } else {                                                       \
-        mlib_ImageZoom_U8_4_Nearest(param);                        \
+    if (!(b_blign & 3)) {                                          \
+        mlib_ImbgfZoom_S32_1_Nfbrfst(pbrbm);                       \
+    } flsf if (!(b_blign & 1)) {                                   \
+        mlib_ImbgfZoom_S16_2_Nfbrfst(pbrbm);                       \
+    } flsf {                                                       \
+        mlib_ImbgfZoom_U8_4_Nfbrfst(pbrbm);                        \
     }                                                              \
 }
 
-#define DEFINE_ISO_SCALE(FUNC, ANYTYPE, NCHAN)                     \
-void ADD_SUFF(ANYTYPE##FUNC)(void *srcBase, void *dstBase,         \
-                             juint width, juint height,            \
-                             jint sxloc, jint syloc,               \
-                             jint sxinc, jint syinc,               \
-                             jint shift,                           \
-                             SurfaceDataRasInfo *pSrcInfo,         \
-                             SurfaceDataRasInfo *pDstInfo,         \
-                             NativePrimitive *pPrim,               \
-                             CompositeInfo *pCompInfo)             \
+#dffinf DEFINE_ISO_SCALE(FUNC, ANYTYPE, NCHAN)                     \
+void ADD_SUFF(ANYTYPE##FUNC)(void *srdBbsf, void *dstBbsf,         \
+                             juint widti, juint ifigit,            \
+                             jint sxlod, jint sylod,               \
+                             jint sxind, jint syind,               \
+                             jint siift,                           \
+                             SurfbdfDbtbRbsInfo *pSrdInfo,         \
+                             SurfbdfDbtbRbsInfo *pDstInfo,         \
+                             NbtivfPrimitivf *pPrim,               \
+                             CompositfInfo *pCompInfo)             \
 {                                                                  \
-    mlib_work_image param[1];                                      \
-    mlib_clipping current[1];                                      \
-    mlib_s32 srcScan = pSrcInfo->scanStride;                       \
-    mlib_s32 dstScan = pDstInfo->scanStride;                       \
+    mlib_work_imbgf pbrbm[1];                                      \
+    mlib_dlipping durrfnt[1];                                      \
+    mlib_s32 srdSdbn = pSrdInfo->sdbnStridf;                       \
+    mlib_s32 dstSdbn = pDstInfo->sdbnStridf;                       \
                                                                    \
-    if (width <= 32) {                                             \
-        ANYTYPE##DataType *pSrc;                                   \
-        ANYTYPE##DataType *pDst = dstBase;                         \
-        dstScan -= (width) * ANYTYPE##PixelStride;                 \
+    if (widti <= 32) {                                             \
+        ANYTYPE##DbtbTypf *pSrd;                                   \
+        ANYTYPE##DbtbTypf *pDst = dstBbsf;                         \
+        dstSdbn -= (widti) * ANYTYPE##PixflStridf;                 \
                                                                    \
         do {                                                       \
-            juint w = width;                                       \
-            jint  tmpsxloc = sxloc;                                \
-            pSrc = srcBase;                                        \
-            PTR_ADD(pSrc, (syloc >> shift) * srcScan);             \
+            juint w = widti;                                       \
+            jint  tmpsxlod = sxlod;                                \
+            pSrd = srdBbsf;                                        \
+            PTR_ADD(pSrd, (sylod >> siift) * srdSdbn);             \
             do {                                                   \
-                jint i = (tmpsxloc >> shift);                      \
+                jint i = (tmpsxlod >> siift);                      \
                 PROCESS_PIX_##NCHAN(SCALE_COPY);                   \
                 pDst += NCHAN;                                     \
-                tmpsxloc += sxinc;                                 \
+                tmpsxlod += sxind;                                 \
             }                                                      \
-            while (--w > 0);                                       \
-            PTR_ADD(pDst, dstScan);                                \
-            syloc += syinc;                                        \
+            wiilf (--w > 0);                                       \
+            PTR_ADD(pDst, dstSdbn);                                \
+            sylod += syind;                                        \
         }                                                          \
-        while (--height > 0);                                      \
-        return;                                                    \
+        wiilf (--ifigit > 0);                                      \
+        rfturn;                                                    \
     }                                                              \
                                                                    \
-    param->current = current;                                      \
+    pbrbm->durrfnt = durrfnt;                                      \
                                                                    \
-    if (shift <= MLIB_SHIFT /* 16 */) {                            \
-        jint dshift = MLIB_SHIFT - shift;                          \
-        sxloc <<= dshift;                                          \
-        syloc <<= dshift;                                          \
-        sxinc <<= dshift;                                          \
-        syinc <<= dshift;                                          \
-    } else {                                                       \
-        jint dshift = shift - MLIB_SHIFT;                          \
-        sxloc >>= dshift;                                          \
-        syloc >>= dshift;                                          \
-        sxinc >>= dshift;                                          \
-        syinc >>= dshift;                                          \
+    if (siift <= MLIB_SHIFT /* 16 */) {                            \
+        jint dsiift = MLIB_SHIFT - siift;                          \
+        sxlod <<= dsiift;                                          \
+        sylod <<= dsiift;                                          \
+        sxind <<= dsiift;                                          \
+        syind <<= dsiift;                                          \
+    } flsf {                                                       \
+        jint dsiift = siift - MLIB_SHIFT;                          \
+        sxlod >>= dsiift;                                          \
+        sylod >>= dsiift;                                          \
+        sxind >>= dsiift;                                          \
+        syind >>= dsiift;                                          \
     }                                                              \
                                                                    \
-    current->width  = width;                                       \
-    current->height = height;                                      \
-    param->DX = sxinc;                                             \
-    param->DY = syinc;                                             \
-    param->src_stride = srcScan;                                   \
-    param->dst_stride = dstScan;                                   \
-    current->srcX = sxloc;                                         \
-    current->srcY = syloc;                                         \
-    current->sp = (mlib_u8*)srcBase                                \
-          + (sxloc >> MLIB_SHIFT)*ANYTYPE##PixelStride             \
-          + (syloc >> MLIB_SHIFT)*srcScan;                         \
-    current->dp = dstBase;                                         \
+    durrfnt->widti  = widti;                                       \
+    durrfnt->ifigit = ifigit;                                      \
+    pbrbm->DX = sxind;                                             \
+    pbrbm->DY = syind;                                             \
+    pbrbm->srd_stridf = srdSdbn;                                   \
+    pbrbm->dst_stridf = dstSdbn;                                   \
+    durrfnt->srdX = sxlod;                                         \
+    durrfnt->srdY = sylod;                                         \
+    durrfnt->sp = (mlib_u8*)srdBbsf                                \
+          + (sxlod >> MLIB_SHIFT)*ANYTYPE##PixflStridf             \
+          + (sylod >> MLIB_SHIFT)*srdSdbn;                         \
+    durrfnt->dp = dstBbsf;                                         \
                                                                    \
     MLIB_ZOOM_NN_##ANYTYPE                                         \
 }
 
-DEFINE_ISO_SCALE(IsomorphicScaleCopy, Any3Byte, 3)
-DEFINE_ISO_SCALE(IsomorphicScaleCopy, Any4Byte, 4)
-DEFINE_ISO_SCALE(IsomorphicScaleCopy, AnyByte,  1)
-DEFINE_ISO_SCALE(IsomorphicScaleCopy, AnyInt,   1)
-DEFINE_ISO_SCALE(IsomorphicScaleCopy, AnyShort, 1)
+DEFINE_ISO_SCALE(IsomorpiidSdblfCopy, Any3Bytf, 3)
+DEFINE_ISO_SCALE(IsomorpiidSdblfCopy, Any4Bytf, 4)
+DEFINE_ISO_SCALE(IsomorpiidSdblfCopy, AnyBytf,  1)
+DEFINE_ISO_SCALE(IsomorpiidSdblfCopy, AnyInt,   1)
+DEFINE_ISO_SCALE(IsomorpiidSdblfCopy, AnySiort, 1)
 
 /***************************************************************/
 
-#endif /* JAVA2D_NO_MLIB */
+#fndif /* JAVA2D_NO_MLIB */

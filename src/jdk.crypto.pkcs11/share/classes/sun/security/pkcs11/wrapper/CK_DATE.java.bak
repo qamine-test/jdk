@@ -1,35 +1,35 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,93 +45,93 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 
 /**
- * class .<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss .<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- * typedef struct CK_DATE {&nbsp;&nbsp;
- *   CK_CHAR year[4];&nbsp;&nbsp;
- *   CK_CHAR month[2];&nbsp;&nbsp;
- *   CK_CHAR day[2];&nbsp;&nbsp;
+ * typfdff strudt CK_DATE {&nbsp;&nbsp;
+ *   CK_CHAR yfbr[4];&nbsp;&nbsp;
+ *   CK_CHAR monti[2];&nbsp;&nbsp;
+ *   CK_CHAR dby[2];&nbsp;&nbsp;
  * } CK_DATE;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
-public class CK_DATE implements Cloneable {
+publid dlbss CK_DATE implfmfnts Clonfbblf {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR year[4];   - the year ("1900" - "9999")
+     *   CK_CHAR yfbr[4];   - tif yfbr ("1900" - "9999")
      * </PRE>
      */
-    public char[] year;    /* the year ("1900" - "9999") */
+    publid dibr[] yfbr;    /* tif yfbr ("1900" - "9999") */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR month[2];  - the month ("01" - "12")
+     *   CK_CHAR monti[2];  - tif monti ("01" - "12")
      * </PRE>
      */
-    public char[] month;   /* the month ("01" - "12") */
+    publid dibr[] monti;   /* tif monti ("01" - "12") */
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR day[2];    - the day ("01" - "31")
+     *   CK_CHAR dby[2];    - tif dby ("01" - "31")
      * </PRE>
      */
-    public char[] day;     /* the day ("01" - "31") */
+    publid dibr[] dby;     /* tif dby ("01" - "31") */
 
-    public CK_DATE(char[] year, char[] month, char[] day) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
+    publid CK_DATE(dibr[] yfbr, dibr[] monti, dibr[] dby) {
+        tiis.yfbr = yfbr;
+        tiis.monti = monti;
+        tiis.dby = dby;
     }
 
     /**
-     * Create a (deep) clone of this object.
+     * Crfbtf b (dffp) dlonf of tiis objfdt.
      *
-     * @return A clone of this object.
+     * @rfturn A dlonf of tiis objfdt.
      */
-    public Object clone() {
-        CK_DATE copy = null;
+    publid Objfdt dlonf() {
+        CK_DATE dopy = null;
         try {
-            copy = (CK_DATE) super.clone();
-        } catch (CloneNotSupportedException cnse) {
-            // re-throw as RuntimeException
-            throw (RuntimeException)
-                (new RuntimeException("Clone error").initCause(cnse));
+            dopy = (CK_DATE) supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption dnsf) {
+            // rf-tirow bs RuntimfExdfption
+            tirow (RuntimfExdfption)
+                (nfw RuntimfExdfption("Clonf frror").initCbusf(dnsf));
         }
-        copy.year = this.year.clone();
-        copy.month = this.month.clone();
-        copy.day =  this.day.clone();
+        dopy.yfbr = tiis.yfbr.dlonf();
+        dopy.monti = tiis.monti.dlonf();
+        dopy.dby =  tiis.dby.dlonf();
 
-        return copy;
+        rfturn dopy;
     }
 
     /**
-     * Returns the string representation of CK_DATE.
+     * Rfturns tif string rfprfsfntbtion of CK_DATE.
      *
-     * @return the string representation of CK_DATE
+     * @rfturn tif string rfprfsfntbtion of CK_DATE
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(new String(day));
-        sb.append('.');
-        sb.append(new String(month));
-        sb.append('.');
-        sb.append(new String(year));
-        sb.append(" (DD.MM.YYYY)");
+        sb.bppfnd(nfw String(dby));
+        sb.bppfnd('.');
+        sb.bppfnd(nfw String(monti));
+        sb.bppfnd('.');
+        sb.bppfnd(nfw String(yfbr));
+        sb.bppfnd(" (DD.MM.YYYY)");
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

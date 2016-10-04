@@ -1,0 +1,206 @@
+<html>
+<hfbd>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
+<!--
+Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+      <p>Intfrfbdfs for rfmotf bddfss to
+	JMX MBfbn sfrvfrs.
+	This pbdkbgf dffinfs thf fssfntibl intfrfbdfs for mbking b JMX
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Thf spfdifidbtion of this 
+        fundtionblity is domplftfd by Pbrt III of thf 
+       <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
+
+      <p>Thf JMX spfdifidbtion dffinfs thf notion of <b>donnfdtors</b>.
+	A donnfdtor is bttbdhfd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	bddfssiblf to rfmotf Jbvb dlifnts. Thf dlifnt fnd of b
+	donnfdtor fxports fssfntiblly thf sbmf intfrfbdf bs thf MBfbn
+	sfrvfr, spfdifidblly thf {@link
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	intfrfbdf.</p>
+
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf through
+	b givfn protodol. Thf JMX Rfmotf API bllows thf usf of difffrfnt 
+        typf of donnfdtors:
+
+      <ul>
+       <li>Thf JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+	thf <b>RMI Connfdtor</b>, whidh providfs rfmotf bddfss to bn
+        MBfbnSfrvfr through RMI.
+
+       <li>Thf JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+        <b>JMXMP Connfdtor</b> implfmfnting thf JMX Mfssbgf Protodol 
+	(JMXMP). As it is optionbl, it is not pbrt of this bundlf (sff
+	notf bflow).
+
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using thf 
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory} bnd, optionblly, thf Gfnfrid Connfdtor
+	(not pbrt of this bundlf, sff notf bflow).
+      </ul>
+
+      <p><u>Notf</u>: thf optionbl pbdkbgfs implfmfnting
+        thf optionbl pbrt of thf <fm>JMX Rfmotf API</fm>
+        brf not indludfd in thf <fm>Jbvb SE Plbtform</fm> 
+        but brf bvbilbblf from thf <fm>JMX Rfmotf API 
+	<b hrff="http://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.html">
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
+
+
+      <h3>Connfdtor bddrfssfs</h3>
+
+      <p>Typidblly, b donnfdtor sfrvfr hbs bn bddrfss, rfprfsfntfd by thf
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	JMXSfrvidfURL}.  An bddrfss for thf RMI Connfdtor dbn look
+	likf this:</p>
+
+      <prf>
+      sfrvidf:jmx:rmi:///jndi/rmi://myhost:1099/mynbmf
+      </prf>
+
+      <p>In this <dodf>JMXSfrvidfURL</dodf>, thf first <dodf>rmi:</dodf>
+        spfdififs thf RMI donnfdtor, whilf thf sfdond <dodf>rmi:</dodf> 
+        spfdififs thf RMI rfgistry into whidh thf RMI donnfdtor sfrvfr 
+        hbs storfd its stub.
+
+      <p>Thf fxbmplf bbovf shows only onf form of bddrfss.
+        An bddrfss for thf RMI Connfdtor dbn tbkf sfvfrbl forms,
+	bs dftbilfd in thf dodumfntbtion for thf pbdkbgf
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
+
+      <h3>Crfbting b donnfdtor sfrvfr</h3>
+
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+	b subdlbss of {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	JMXConnfdtorSfrvfr}.  Usublly, this instbndf is drfbtfd
+        using thf mfthod {@link
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
+
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd with bn MBfbn
+	sfrvfr fithfr by rfgistfring it in thbt MBfbn sfrvfr, or by
+	supplying thf MBfbn sfrvfr bs b pbrbmftfr whfn drfbting thf
+	donnfdtor sfrvfr.</p>
+
+      <h3>Crfbting b donnfdtor dlifnt</h3>
+
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying thf
+	<dodf>JMXSfrvidfURL</dodf> of thf donnfdtor sfrvfr to donnfdt to 
+        to thf {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
+	JMXConnfdtorFbdtory.donnfdt} mfthod.</p>
+
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+	by dirfdtly instbntibting b dlbss thbt implfmfnts thf {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	for fxbmplf thf dlbss {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	RMIConnfdtor}.</p>
+
+      <h3>Additionbl dlifnt or sfrvfr pbrbmftfrs</h3>
+
+      <p>Whfn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} thbt dffinfs
+	bdditionbl pbrbmftfrs.  Ebdh fntry in this Mbp hbs b kfy thbt is
+	b string bnd bn bssodibtfd vbluf whosf typf is bppropribtf for
+	thbt kfy.  Thf stbndbrd kfys dffinfd by thf JMX Rfmotf API bll
+	bfgin with thf string "<dodf>jmx.rfmotf.</dodf>".  Thf dodumfnt
+	<fm>JMX Rfmotf API</fm> lists thfsf stbndbrd kfys.</p>
+
+      <h3>Connfdtion idfntififrs</h3>
+
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr hbs b string
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  This idfntififr
+	bppfbrs in thf {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by thf donnfdtor
+	sfrvfr, in thf list rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
+	gftConnfdtionIds()}, bnd in thf vbluf
+	rfturnfd by thf dlifnt's {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	gftConnfdtionId()} mfthod.</p>
+
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somfthing likf this:</p>
+
+      <prf>
+rmi://192.18.1.9 usfrnbmf 1
+      </prf>
+
+      <p>Thf formbl grbmmbr for donnfdtion ids thbt follow this
+         donvfntion is bs follows (using thf grbmmbr notbtion from sfdtion 2.4 of 
+         <fm>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+      <prf>
+<fm>ConnfdtionId:</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
+
+<fm>ClifntAddrfss:</fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
+
+<fm>ClifntPort</fm>
+    : <fm>HostPort</fm>
+      </prf>
+
+      <p>Thf <dodf><fm>Protodol</fm></dodf> is b protodol thbt would
+	bf rfdognizfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory}.</p>
+
+      <p>Thf <dodf><fm>ClifntAddrfss</fm></dodf> is thf
+	bddrfss bnd port of thf donnfdting dlifnt, if thfsf dbn bf
+	dftfrminfd, othfrwisf nothing.  Thf
+	<dodf><fm>HostAddrfss</fm></dodf> is thf Intfrnft bddrfss of
+	thf host thbt thf dlifnt is donnfdting from, in numfrid or DNS
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	<dodf>[]</dodf>.  Thf <dodf><fm>HostPort</fm></dodf> is thf
+	dfdimbl port numbfr thbt thf dlifnt is donnfdting from.</p>
+
+      <p>Thf <dodf><fm>ClifntId</fm></dodf> is thf idfntity of thf
+	dlifnt fntity, typidblly b string rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	JMXPrindipbl.gftNbmf()}.  This string must not dontbin
+	spbdfs.</p>
+
+      <p>Thf <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+	tfxt thbt thf donnfdtor sfrvfr bdds whfn drfbting thf dlifnt id.
+	At b minimum, it must bf fnough to distinguish this donnfdtion
+	ID from thf ID of bny othfr donnfdtion durrfntly opfnfd by this
+	donnfdtor sfrvfr.</p>
+
+
+    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdhnology</b>,
+    in pbrtidulbr thf 
+    <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
+    
+    @sindf 1.5
+
+    </body>
+</html>

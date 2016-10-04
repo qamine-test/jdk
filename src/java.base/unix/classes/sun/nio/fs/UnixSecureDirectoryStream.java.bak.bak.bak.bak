@@ -1,0 +1,557 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.UnixNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
+
+/**
+ * Unix implfmfntbtion of SfdurfDirfdtoryStrfbm.
+ */
+
+dlbss UnixSfdurfDirfdtoryStrfbm
+    implfmfnts SfdurfDirfdtoryStrfbm<Pbth>
+{
+    privbtf finbl UnixDirfdtoryStrfbm ds;
+    privbtf finbl int dfd;
+
+    UnixSfdurfDirfdtoryStrfbm(UnixPbth dir,
+                              long dp,
+                              int dfd,
+                              DirfdtoryStrfbm.Filtfr<? supfr Pbth> filtfr)
+    {
+        this.ds = nfw UnixDirfdtoryStrfbm(dir, dp, filtfr);
+        this.dfd = dfd;
+    }
+
+    @Ovfrridf
+    publid void dlosf()
+        throws IOExdfption
+    {
+        ds.writfLodk().lodk();
+        try {
+            if (ds.dlosfImpl()) {
+                UnixNbtivfDispbtdhfr.dlosf(dfd);
+            }
+        } finblly {
+            ds.writfLodk().unlodk();
+        }
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<Pbth> itfrbtor() {
+        rfturn ds.itfrbtor(this);
+    }
+
+    privbtf UnixPbth gftNbmf(Pbth obj) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption();
+        if (!(obj instbndfof UnixPbth))
+            throw nfw ProvidfrMismbtdhExdfption();
+        rfturn (UnixPbth)obj;
+    }
+
+    /**
+     * Opfns sub-dirfdtory in this dirfdtory
+     */
+    @Ovfrridf
+    publid SfdurfDirfdtoryStrfbm<Pbth> nfwDirfdtoryStrfbm(Pbth obj,
+                                                          LinkOption... options)
+        throws IOExdfption
+    {
+        UnixPbth filf = gftNbmf(obj);
+        UnixPbth dhild = ds.dirfdtory().rfsolvf(filf);
+        boolfbn followLinks = Util.followLinks(options);
+
+        // pfrmission dhfdk using nbmf rfsolvfd bgbinst originbl pbth of dirfdtory
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            dhild.dhfdkRfbd();
+        }
+
+        ds.rfbdLodk().lodk();
+        try {
+            if (!ds.isOpfn())
+                throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+            // opfn dirfdtory bnd drfbtf nfw sfdurf dirfdtory strfbm
+            int nfwdfd1 = -1;
+            int nfwdfd2 = -1;
+            long ptr = 0L;
+            try {
+                int flbgs = O_RDONLY;
+                if (!followLinks)
+                    flbgs |= O_NOFOLLOW;
+                nfwdfd1 = opfnbt(dfd, filf.bsBytfArrby(), flbgs , 0);
+                nfwdfd2 = dup(nfwdfd1);
+                ptr = fdopfndir(nfwdfd1);
+            } dbtdh (UnixExdfption x) {
+                if (nfwdfd1 != -1)
+                    UnixNbtivfDispbtdhfr.dlosf(nfwdfd1);
+                if (nfwdfd2 != -1)
+                    UnixNbtivfDispbtdhfr.dlosf(nfwdfd2);
+                if (x.frrno() == UnixConstbnts.ENOTDIR)
+                    throw nfw NotDirfdtoryExdfption(filf.toString());
+                x.rfthrowAsIOExdfption(filf);
+            }
+            rfturn nfw UnixSfdurfDirfdtoryStrfbm(dhild, ptr, nfwdfd2, null);
+        } finblly {
+            ds.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Opfns filf in this dirfdtory
+     */
+    @Ovfrridf
+    publid SffkbblfBytfChbnnfl nfwBytfChbnnfl(Pbth obj,
+                                              Sft<? fxtfnds OpfnOption> options,
+                                              FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        UnixPbth filf = gftNbmf(obj);
+
+        int modf = UnixFilfModfAttributf
+            .toUnixModf(UnixFilfModfAttributf.ALL_READWRITE, bttrs);
+
+        // pbth for pfrmission dhfdk
+        String pbthToChfdk = ds.dirfdtory().rfsolvf(filf).gftPbthForPfrmissionChfdk();
+
+        ds.rfbdLodk().lodk();
+        try {
+            if (!ds.isOpfn())
+                throw nfw ClosfdDirfdtoryStrfbmExdfption();
+            try {
+                rfturn UnixChbnnflFbdtory.nfwFilfChbnnfl(dfd, filf, pbthToChfdk, options, modf);
+            } dbtdh (UnixExdfption x) {
+                x.rfthrowAsIOExdfption(filf);
+                rfturn null; // kffp dompilfr hbppy
+            }
+        } finblly {
+            ds.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Dflftfs filf/dirfdtory in this dirfdtory. Works in b rbdf-frff mbnnfr
+     * whfn invokfd with flbgs.
+     */
+    privbtf void implDflftf(Pbth obj, boolfbn hbvfFlbgs, int flbgs)
+        throws IOExdfption
+    {
+        UnixPbth filf = gftNbmf(obj);
+
+        // pfrmission dhfdk using nbmf rfsolvfd bgbinst originbl pbth of dirfdtory
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            ds.dirfdtory().rfsolvf(filf).dhfdkDflftf();
+        }
+
+        ds.rfbdLodk().lodk();
+        try {
+            if (!ds.isOpfn())
+                throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+            if (!hbvfFlbgs) {
+                // nffd filf bttributf to know if filf is dirfdtory. This drfbtfs
+                // b rbdf in thbt thf filf mby bf rfplbdfd by b dirfdtory or b
+                // dirfdtory rfplbdfd by b filf bftwffn thf timf wf qufry thf
+                // filf typf bnd unlink it.
+                UnixFilfAttributfs bttrs = null;
+                try {
+                    bttrs = UnixFilfAttributfs.gft(dfd, filf, fblsf);
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(filf);
+                }
+                flbgs = (bttrs.isDirfdtory()) ? AT_REMOVEDIR : 0;
+            }
+
+            try {
+                unlinkbt(dfd, filf.bsBytfArrby(), flbgs);
+            } dbtdh (UnixExdfption x) {
+                if ((flbgs & AT_REMOVEDIR) != 0) {
+                    if (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY) {
+                        throw nfw DirfdtoryNotEmptyExdfption(null);
+                    }
+                }
+                x.rfthrowAsIOExdfption(filf);
+            }
+        } finblly {
+            ds.rfbdLodk().unlodk();
+        }
+    }
+
+    @Ovfrridf
+    publid void dflftfFilf(Pbth filf) throws IOExdfption {
+        implDflftf(filf, truf, 0);
+    }
+
+    @Ovfrridf
+    publid void dflftfDirfdtory(Pbth dir) throws IOExdfption {
+        implDflftf(dir, truf, AT_REMOVEDIR);
+    }
+
+    /**
+     * Rfnbmf/movf filf in this dirfdtory to bnothfr (opfn) dirfdtory
+     */
+    @Ovfrridf
+    publid void movf(Pbth fromObj, SfdurfDirfdtoryStrfbm<Pbth> dir, Pbth toObj)
+        throws IOExdfption
+    {
+        UnixPbth from = gftNbmf(fromObj);
+        UnixPbth to = gftNbmf(toObj);
+        if (dir == null)
+            throw nfw NullPointfrExdfption();
+        if (!(dir instbndfof UnixSfdurfDirfdtoryStrfbm))
+            throw nfw ProvidfrMismbtdhExdfption();
+        UnixSfdurfDirfdtoryStrfbm thbt = (UnixSfdurfDirfdtoryStrfbm)dir;
+
+        // pfrmission dhfdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            this.ds.dirfdtory().rfsolvf(from).dhfdkWritf();
+            thbt.ds.dirfdtory().rfsolvf(to).dhfdkWritf();
+        }
+
+        // lodk ordfring dofsn't mbttfr
+        this.ds.rfbdLodk().lodk();
+        try {
+            thbt.ds.rfbdLodk().lodk();
+            try {
+                if (!this.ds.isOpfn() || !thbt.ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+                try {
+                    rfnbmfbt(this.dfd, from.bsBytfArrby(), thbt.dfd, to.bsBytfArrby());
+                } dbtdh (UnixExdfption x) {
+                    if (x.frrno() == EXDEV) {
+                        throw nfw AtomidMovfNotSupportfdExdfption(
+                            from.toString(), to.toString(), x.frrorString());
+                    }
+                    x.rfthrowAsIOExdfption(from, to);
+                }
+            } finblly {
+                thbt.ds.rfbdLodk().unlodk();
+            }
+        } finblly {
+            this.ds.rfbdLodk().unlodk();
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifwImpl(UnixPbth filf,
+                                                                     Clbss<V> typf,
+                                                                     boolfbn followLinks)
+    {
+        if (typf == null)
+            throw nfw NullPointfrExdfption();
+        Clbss<?> d = typf;
+        if (d == BbsidFilfAttributfVifw.dlbss) {
+            rfturn (V) nfw BbsidFilfAttributfVifwImpl(filf, followLinks);
+        }
+        if (d == PosixFilfAttributfVifw.dlbss || d == FilfOwnfrAttributfVifw.dlbss) {
+            rfturn (V) nfw PosixFilfAttributfVifwImpl(filf, followLinks);
+        }
+        // TBD - should blso support AdlFilfAttributfVifw
+        rfturn (V) null;
+    }
+
+    /**
+     * Rfturns filf bttributf vifw bound to this dirfdtory
+     */
+    @Ovfrridf
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Clbss<V> typf) {
+        rfturn gftFilfAttributfVifwImpl(null, typf, fblsf);
+    }
+
+    /**
+     * Rfturns filf bttributf vifw bound to dfd/filfnbmf.
+     */
+    @Ovfrridf
+    publid <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Pbth obj,
+                                                                Clbss<V> typf,
+                                                                LinkOption... options)
+    {
+        UnixPbth filf = gftNbmf(obj);
+        boolfbn followLinks = Util.followLinks(options);
+        rfturn gftFilfAttributfVifwImpl(filf, typf, followLinks);
+    }
+
+    /**
+     * A BbsidFilfAttributfVifw implfmfntbtion thbt using b dfd/nbmf pbir.
+     */
+    privbtf dlbss BbsidFilfAttributfVifwImpl
+        implfmfnts BbsidFilfAttributfVifw
+    {
+        finbl UnixPbth filf;
+        finbl boolfbn followLinks;
+
+        BbsidFilfAttributfVifwImpl(UnixPbth filf, boolfbn followLinks)
+        {
+            this.filf = filf;
+            this.followLinks = followLinks;
+        }
+
+        int opfn() throws IOExdfption {
+            int oflbgs = O_RDONLY;
+            if (!followLinks)
+                oflbgs |= O_NOFOLLOW;
+            try {
+                rfturn opfnbt(dfd, filf.bsBytfArrby(), oflbgs, 0);
+            } dbtdh (UnixExdfption x) {
+                x.rfthrowAsIOExdfption(filf);
+                rfturn -1; // kffp dompilfr hbppy
+            }
+        }
+
+        privbtf void dhfdkWritfAddfss() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                if (filf == null) {
+                    ds.dirfdtory().dhfdkWritf();
+                } flsf {
+                    ds.dirfdtory().rfsolvf(filf).dhfdkWritf();
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "bbsid";
+        }
+
+        @Ovfrridf
+        publid BbsidFilfAttributfs rfbdAttributfs() throws IOExdfption {
+            ds.rfbdLodk().lodk();
+            try {
+                if (!ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    if (filf == null) {
+                        ds.dirfdtory().dhfdkRfbd();
+                    } flsf {
+                        ds.dirfdtory().rfsolvf(filf).dhfdkRfbd();
+                    }
+                }
+                try {
+                     UnixFilfAttributfs bttrs = (filf == null) ?
+                         UnixFilfAttributfs.gft(dfd) :
+                         UnixFilfAttributfs.gft(dfd, filf, followLinks);
+
+                     // SECURITY: must rfturn bs BbsidFilfAttributf
+                     rfturn bttrs.bsBbsidFilfAttributfs();
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(filf);
+                    rfturn null;    // kffp dompilfr hbppy
+                }
+            } finblly {
+                ds.rfbdLodk().unlodk();
+            }
+        }
+
+        @Ovfrridf
+        publid void sftTimfs(FilfTimf lbstModififdTimf,
+                             FilfTimf lbstAddfssTimf,
+                             FilfTimf drfbtfTimf) // ignorf
+            throws IOExdfption
+        {
+            dhfdkWritfAddfss();
+
+            ds.rfbdLodk().lodk();
+            try {
+                if (!ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+                int fd = (filf == null) ? dfd : opfn();
+                try {
+                    // if not dhbnging both bttributfs thfn nffd fxisting bttributfs
+                    if (lbstModififdTimf == null || lbstAddfssTimf == null) {
+                        try {
+                            UnixFilfAttributfs bttrs = UnixFilfAttributfs.gft(fd);
+                            if (lbstModififdTimf == null)
+                                lbstModififdTimf = bttrs.lbstModififdTimf();
+                            if (lbstAddfssTimf == null)
+                                lbstAddfssTimf = bttrs.lbstAddfssTimf();
+                        } dbtdh (UnixExdfption x) {
+                            x.rfthrowAsIOExdfption(filf);
+                        }
+                    }
+                    // updbtf timfs
+                    try {
+                        futimfs(fd,
+                                lbstAddfssTimf.to(TimfUnit.MICROSECONDS),
+                                lbstModififdTimf.to(TimfUnit.MICROSECONDS));
+                    } dbtdh (UnixExdfption x) {
+                        x.rfthrowAsIOExdfption(filf);
+                    }
+                } finblly {
+                    if (filf != null)
+                        UnixNbtivfDispbtdhfr.dlosf(fd);
+                }
+            } finblly {
+                ds.rfbdLodk().unlodk();
+            }
+        }
+    }
+
+    /**
+     * A PosixFilfAttributfVifw implfmfntbtion thbt using b dfd/nbmf pbir.
+     */
+    privbtf dlbss PosixFilfAttributfVifwImpl
+        fxtfnds BbsidFilfAttributfVifwImpl implfmfnts PosixFilfAttributfVifw
+    {
+        PosixFilfAttributfVifwImpl(UnixPbth filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
+        }
+
+        privbtf void dhfdkWritfAndUsfrAddfss() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                supfr.dhfdkWritfAddfss();
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
+            }
+        }
+
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "posix";
+        }
+
+        @Ovfrridf
+        publid PosixFilfAttributfs rfbdAttributfs() throws IOExdfption {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                if (filf == null)
+                    ds.dirfdtory().dhfdkRfbd();
+                flsf
+                    ds.dirfdtory().rfsolvf(filf).dhfdkRfbd();
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
+            }
+
+            ds.rfbdLodk().lodk();
+            try {
+                if (!ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+                try {
+                     UnixFilfAttributfs bttrs = (filf == null) ?
+                         UnixFilfAttributfs.gft(dfd) :
+                         UnixFilfAttributfs.gft(dfd, filf, followLinks);
+                     rfturn bttrs;
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(filf);
+                    rfturn null;    // kffp dompilfr hbppy
+                }
+            } finblly {
+                ds.rfbdLodk().unlodk();
+            }
+        }
+
+        @Ovfrridf
+        publid void sftPfrmissions(Sft<PosixFilfPfrmission> pfrms)
+            throws IOExdfption
+        {
+            // pfrmission dhfdk
+            dhfdkWritfAndUsfrAddfss();
+
+            ds.rfbdLodk().lodk();
+            try {
+                if (!ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+                int fd = (filf == null) ? dfd : opfn();
+                try {
+                    fdhmod(fd, UnixFilfModfAttributf.toUnixModf(pfrms));
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(filf);
+                } finblly {
+                    if (filf != null && fd >= 0)
+                        UnixNbtivfDispbtdhfr.dlosf(fd);
+                }
+            } finblly {
+                ds.rfbdLodk().unlodk();
+            }
+        }
+
+        privbtf void sftOwnfrs(int uid, int gid) throws IOExdfption {
+            // pfrmission dhfdk
+            dhfdkWritfAndUsfrAddfss();
+
+            ds.rfbdLodk().lodk();
+            try {
+                if (!ds.isOpfn())
+                    throw nfw ClosfdDirfdtoryStrfbmExdfption();
+
+                int fd = (filf == null) ? dfd : opfn();
+                try {
+                    fdhown(fd, uid, gid);
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(filf);
+                } finblly {
+                    if (filf != null && fd >= 0)
+                        UnixNbtivfDispbtdhfr.dlosf(fd);
+                }
+            } finblly {
+                ds.rfbdLodk().unlodk();
+            }
+        }
+
+        @Ovfrridf
+        publid UsfrPrindipbl gftOwnfr() throws IOExdfption {
+            rfturn rfbdAttributfs().ownfr();
+        }
+
+        @Ovfrridf
+        publid void sftOwnfr(UsfrPrindipbl ownfr)
+            throws IOExdfption
+        {
+            if (!(ownfr instbndfof UnixUsfrPrindipbls.Usfr))
+                throw nfw ProvidfrMismbtdhExdfption();
+            if (ownfr instbndfof UnixUsfrPrindipbls.Group)
+                throw nfw IOExdfption("'ownfr' pbrbmftfr dbn't bf b group");
+            int uid = ((UnixUsfrPrindipbls.Usfr)ownfr).uid();
+            sftOwnfrs(uid, -1);
+        }
+
+        @Ovfrridf
+        publid void sftGroup(GroupPrindipbl group)
+            throws IOExdfption
+        {
+            if (!(group instbndfof UnixUsfrPrindipbls.Group))
+                throw nfw ProvidfrMismbtdhExdfption();
+            int gid = ((UnixUsfrPrindipbls.Group)group).gid();
+            sftOwnfrs(-1, gid);
+        }
+    }
+}

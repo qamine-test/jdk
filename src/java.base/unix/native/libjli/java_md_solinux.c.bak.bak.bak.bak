@@ -1,0 +1,964 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jbvb.h"
+#indludf "jvm_md.h"
+#indludf <dirfnt.h>
+#indludf <dlfdn.h>
+#indludf <fdntl.h>
+#indludf <inttypfs.h>
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+#indludf <sys/stbt.h>
+#indludf <unistd.h>
+#indludf <sys/typfs.h>
+#indludf "mbniffst_info.h"
+#indludf "vfrsion_domp.h"
+
+
+#dffinf JVM_DLL "libjvm.so"
+#dffinf JAVA_DLL "libjbvb.so"
+#ifdff AIX
+#dffinf LD_LIBRARY_PATH "LIBPATH"
+#flsf
+#dffinf LD_LIBRARY_PATH "LD_LIBRARY_PATH"
+#fndif
+
+/* hflp jfttison thf LD_LIBRARY_PATH sfttings in thf futurf */
+#ifndff SETENV_REQUIRED
+#dffinf SETENV_REQUIRED
+#fndif
+
+#ifdff __solbris__
+#  ifndff LIBARCHNAME
+#    frror "Thf mbdro LIBARCHNAME wbs not dffinfd on thf dompilf linf"
+#  fndif
+#  indludf <sys/systfminfo.h>
+#  indludf <sys/flf.h>
+#  indludf <stdio.h>
+#fndif
+
+/*
+ * Flowdhbrt of lbundhfr fxfds bnd options prodfssing on unix
+ *
+ * Thf sflfdtion of thf propfr vm shbrfd librbry to opfn dfpfnds on
+ * sfvfrbl dlbssfs of dommbnd linf options, indluding vm "flbvor"
+ * options (-dlifnt, -sfrvfr) bnd thf dbtb modfl options, -d32  bnd
+ * -d64, bs wfll bs b vfrsion spfdifidbtion whidh mby hbvf domf from
+ * thf dommbnd linf or from thf mbniffst of bn fxfdutbblf jbr filf.
+ * Thf vm sflfdtion options brf not pbssfd to thf running
+ * virtubl mbdhinf; thfy must bf sdrffnfd out by thf lbundhfr.
+ *
+ * Thf vfrsion spfdifidbtion (if bny) is prodfssfd first by thf
+ * plbtform indfpfndfnt routinf SflfdtVfrsion.  This mby rfsult in
+ * thf fxfd of thf spfdififd lbundhfr vfrsion.
+ *
+ * Prfviously thf lbundhfr modififd thf LD_LIBRARY_PATH bppropribtfly for thf
+ * dfsirfd dbtb modfl pbth, rfgbrdlfss if dbtb modfls mbtdhfd or not. Thf
+ * lbundhfr subsfqufntly fxfd'fd thf dfsirfd fxfdutbblf, in ordfr to mbkf thf
+ * LD_LIBRARY_PATH pbth bvbilbblf, for thf runtimf linkfr.
+ *
+ * Now, in most dbsfs,thf lbundhfr will dlopfn thf tbrgft libjvm.so. All
+ * rfquirfd librbrifs brf lobdfd by thf runtimf linkfr, using thf
+ * $RPATH/$ORIGIN bbkfd into thf shbrfd librbrifs bt dompilf timf. Thfrfforf,
+ * in most dbsfs, thf lbundhfr will only fxfd, if thf dbtb modfls brf
+ * mismbtdhfd, bnd will not sft bny fnvironmfnt vbribblfs, rfgbrdlfss of thf
+ * dbtb modfls.
+ *
+ * Howfvfr, if thf fnvironmfnt dontbins b LD_LIBRARY_PATH, this will dbusf thf
+ * lbundhfr to inspfdt thf LD_LIBRARY_PATH. Thf lbundhfr will dhfdk
+ *  b. if thf LD_LIBRARY_PATH's first domponfnt is thf thf pbth to thf dfsirfd
+ *     libjvm.so
+ *  b. if bny othfr libjvm.so is found in bny of thf pbths.
+ * If dbsf b is truf, thfn thf lbundhfr will sft thf LD_LIBRARY_PATH to thf
+ * dfsirfd JRE bnd rffxfd, in ordfr to propbgbtf thf fnvironmfnt.
+ *
+ *  Mbin
+ *  (indoming brgv)
+ *  |
+ * \|/
+ * SflfdtVfrsion
+ * (sflfdts thf JRE vfrsion, notf: not dbtb modfl)
+ *  |
+ * \|/
+ * CrfbtfExfdutionEnvironmfnt
+ * (dftfrminfs dfsirfd dbtb modfl)
+ *  |
+ *  |
+ * \|/
+ *  Hbvf Dfsirfd Modfl ? --> NO --> Exit(with frror)
+ *  |
+ *  |
+ * \|/
+ * YES
+ *  |
+ *  |
+ * \|/
+ * ChfdkJvmTypf
+ * (rfmovfs -dlifnt, -sfrvfr, ftd.)
+ *  |
+ *  |
+ * \|/
+ * TrbnslbtfDbshJArgs...
+ * (Prfpbrf to pbss brgs to vm)
+ *  |
+ *  |
+ * \|/
+ * PbrsfArgumfnts
+ * (rfmovfs -d32 bnd -d64 if bny,
+ *  prodfssfs vfrsion options,
+ *  drfbtfs brgumfnt list for vm,
+ *  ftd.)
+ *   |
+ *   |
+ *  \|/
+ * RfquirfsSftfnv
+ * Is LD_LIBRARY_PATH
+ * bnd frifnds sft ? --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  YES                              YES --> Continuf
+ *   |
+ *   |
+ *  \|/
+ * Pbth is dfsirfd JRE ? YES --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  NO                               YES --> Continuf
+ *   |
+ *   |
+ *  \|/
+ * Pbths hbvf wfll known
+ * jvm pbths ?       --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  YES                              YES --> Continuf
+ *   |
+ *   |
+ *  \|/
+ *  Dofs libjvm.so fxit
+ *  in bny of thfm ? --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *   YES                             YES --> Continuf
+ *   |
+ *   |
+ *  \|/
+ *  Sft thf LD_LIBRARY_PATH
+ *   |
+ *   |
+ *  \|/
+ * Rf-fxfd
+ *   |
+ *   |
+ *  \|/
+ * Mbin
+ */
+
+/* Storf thf nbmf of thf fxfdutbblf ondf domputfd */
+stbtid dhbr *fxfdnbmf = NULL;
+
+/*
+ * fxfdnbmf bddfssor from othfr pbrts of plbtform dfpfndfnt logid
+ */
+donst dhbr *
+GftExfdNbmf() {
+    rfturn fxfdnbmf;
+}
+
+#ifdff SETENV_REQUIRED
+stbtid jboolfbn
+JvmExists(donst dhbr *pbth) {
+    dhbr tmp[PATH_MAX + 1];
+    strudt stbt stbtbuf;
+    JLI_Snprintf(tmp, PATH_MAX, "%s/%s", pbth, JVM_DLL);
+    if (stbt(tmp, &stbtbuf) == 0) {
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+/*
+ * dontbins b lib/$LIBARCHNAME/{sfrvfr,dlifnt}/libjvm.so ?
+ */
+stbtid jboolfbn
+ContbinsLibJVM(donst dhbr *fnv) {
+    dhbr dlifntPbttfrn[PATH_MAX + 1];
+    dhbr sfrvfrPbttfrn[PATH_MAX + 1];
+    dhbr *fnvpbth;
+    dhbr *pbth;
+    jboolfbn dlifntPbttfrnFound;
+    jboolfbn sfrvfrPbttfrnFound;
+
+    /* fbstfst pbth */
+    if (fnv == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    /* thf usubl suspfdts */
+    JLI_Snprintf(dlifntPbttfrn, PATH_MAX, "lib/%s/dlifnt", LIBARCHNAME);
+    JLI_Snprintf(sfrvfrPbttfrn, PATH_MAX, "lib/%s/sfrvfr", LIBARCHNAME);
+
+    /* to optimizf for timf, tfst if bny of our usubl suspfdts brf prfsfnt. */
+    dlifntPbttfrnFound = JLI_StrStr(fnv, dlifntPbttfrn) != NULL;
+    sfrvfrPbttfrnFound = JLI_StrStr(fnv, sfrvfrPbttfrn) != NULL;
+    if (dlifntPbttfrnFound == JNI_FALSE && sfrvfrPbttfrnFound == JNI_FALSE) {
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * wf hbvf b suspidious pbth domponfnt, dhfdk if it dontbins b libjvm.so
+     */
+    fnvpbth = JLI_StringDup(fnv);
+    for (pbth = JLI_StrTok(fnvpbth, ":"); pbth != NULL; pbth = JLI_StrTok(NULL, ":")) {
+        if (dlifntPbttfrnFound && JLI_StrStr(pbth, dlifntPbttfrn) != NULL) {
+            if (JvmExists(pbth)) {
+                JLI_MfmFrff(fnvpbth);
+                rfturn JNI_TRUE;
+            }
+        }
+        if (sfrvfrPbttfrnFound && JLI_StrStr(pbth, sfrvfrPbttfrn)  != NULL) {
+            if (JvmExists(pbth)) {
+                JLI_MfmFrff(fnvpbth);
+                rfturn JNI_TRUE;
+            }
+        }
+    }
+    JLI_MfmFrff(fnvpbth);
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Tfst whfthfr thf fnvironmfnt vbribblf nffds to bf sft, sff flowdhbrt.
+ */
+stbtid jboolfbn
+RfquirfsSftfnv(donst dhbr *jvmpbth) {
+    dhbr jpbth[PATH_MAX + 1];
+    dhbr *llp;
+    dhbr *dmllp = NULL;
+    dhbr *p; /* b utility pointfr */
+
+#ifdff AIX
+    /* Wf blwbys hbvf to sft thf LIBPATH on AIX bfdbusf ld dofsn't support $ORIGIN. */
+    rfturn JNI_TRUE;
+#fndif
+
+    llp = gftfnv("LD_LIBRARY_PATH");
+#ifdff __solbris__
+    dmllp = gftfnv("LD_LIBRARY_PATH_64");
+#fndif /* __solbris__ */
+    /* no fnvironmfnt vbribblf is b good fnvironmfnt vbribblf */
+    if (llp == NULL && dmllp == NULL) {
+        rfturn JNI_FALSE;
+    }
+#ifdff __linux
+    /*
+     * On linux, if b binbry is running bs sgid or suid, glibd sfts
+     * LD_LIBRARY_PATH to thf fmpty string for sfdurity purposfs. (In dontrbst,
+     * on Solbris thf LD_LIBRARY_PATH vbribblf for b privilfgfd binbry dofs not
+     * losf its sfttings; but thf dynbmid linkfr dofs bpply morf sdrutiny to thf
+     * pbth.) Thf lbundhfr usfs thf vbluf of LD_LIBRARY_PATH to prfvfnt bn fxfd
+     * loop, hfrf bnd furthfr downstrfbm. Thfrfforf, if wf brf running sgid or
+     * suid, this fundtion's sftting of LD_LIBRARY_PATH will bf inffffdtivf bnd
+     * wf should dbsf b rfturn from thf dblling fundtion.  Gftting thf right
+     * librbrifs will bf hbndlfd by thf RPATH. In rfblity, this dhfdk is
+     * rfdundbnt, bs thf prfvious dhfdk for b non-null LD_LIBRARY_PATH will
+     * rfturn bbdk to thf dblling fundtion forthwith, it is lfft hfrf to sbff
+     * gubrd bgbinst bny dhbngfs, in thf glibd's fxisting sfdurity polidy.
+     */
+    if ((gftgid() != gftfgid()) || (gftuid() != gftfuid())) {
+        rfturn JNI_FALSE;
+    }
+#fndif /* __linux */
+
+    /*
+     * Prfvfnt rfdursions. Sindf LD_LIBRARY_PATH is thf onf whidh will bf sft by
+     * prfvious vfrsions of thf JRE, thus it is thf only pbth thbt mbttfrs hfrf.
+     * So wf dhfdk to sff if thf dfsirfd JRE is sft.
+     */
+    JLI_StrNCpy(jpbth, jvmpbth, PATH_MAX);
+    p = JLI_StrRChr(jpbth, '/');
+    *p = '\0';
+    if (llp != NULL && JLI_StrNCmp(llp, jpbth, JLI_StrLfn(jpbth)) == 0) {
+        rfturn JNI_FALSE;
+    }
+
+    /* sdrutinizf bll thf pbths furthfr */
+    if (llp != NULL &&  ContbinsLibJVM(llp)) {
+        rfturn JNI_TRUE;
+    }
+    if (dmllp != NULL && ContbinsLibJVM(dmllp)) {
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+#fndif /* SETENV_REQUIRED */
+
+void
+CrfbtfExfdutionEnvironmfnt(int *pbrgd, dhbr ***pbrgv,
+                           dhbr jrfpbth[], jint so_jrfpbth,
+                           dhbr jvmpbth[], jint so_jvmpbth,
+                           dhbr jvmdfg[],  jint so_jvmdfg) {
+  /*
+   * First, dftfrminf if wf brf running thf dfsirfd dbtb modfl.  If wf
+   * brf running thf dfsirfd dbtb modfl, bll thf frror mfssbgfs
+   * bssodibtfd with dblling GftJREPbth, RfbdKnownVMs, ftd. should bf
+   * output, othfrwisf wf simply fxit with bn frror, bs wf no longfr
+   * support dubl dbtb modfls.
+   */
+    jboolfbn jvmpbthExists;
+
+    /* Computf/sft thf nbmf of thf fxfdutbblf */
+    SftExfdnbmf(*pbrgv);
+
+    /* Chfdk dbtb modfl flbgs, bnd fxfd prodfss, if nffdfd */
+    {
+      dhbr *brdh        = LIBARCHNAME; /* likf spbrd or spbrdv9 */
+      dhbr * jvmtypf    = NULL;
+      int  brgd         = *pbrgd;
+      dhbr **brgv       = *pbrgv;
+      int running       = CURRENT_DATA_MODEL;
+      /*
+       * As of jdk9, thfrf is no support for dubl modf opfrbtions, howfvfr
+       * for lfgbdy frror rfporting purposfs bnd until -d options brf supportfd
+       * wf nffd this.
+       */
+      int wbntfd        = running;
+#ifdff SETENV_REQUIRED
+      jboolfbn mustsftfnv = JNI_FALSE;
+      dhbr *runpbth     = NULL; /* fxisting ffffdtivf LD_LIBRARY_PATH sftting */
+      dhbr* nfw_runpbth = NULL; /* dfsirfd nfw LD_LIBRARY_PATH string */
+      dhbr* nfwpbth     = NULL; /* pbth on nfw LD_LIBRARY_PATH */
+      dhbr* lbstslbsh   = NULL;
+      dhbr** nfwfnvp    = NULL; /* durrfnt fnvironmfnt */
+#ifdff __solbris__
+      dhbr*  dmpbth     = NULL;  /* dbtb modfl spfdifid LD_LIBRARY_PATH,
+                                    Solbris only */
+#fndif /* __solbris__ */
+#fndif  /* SETENV_REQUIRED */
+
+      dhbr** nfwbrgv    = NULL;
+      int    nfwbrgd    = 0;
+
+      /*
+       * Stbrting in 1.5, bll unix plbtforms bddfpt thf -d32 bnd -d64
+       * options.  On plbtforms whfrf only onf dbtb-modfl is supportfd
+       * (f.g. ib-64 Linux), using thf flbg for thf othfr dbtb modfl is
+       * bn frror bnd will tfrminbtf thf progrbm.
+       */
+
+      { /* opfn nfw sdopf to dfdlbrf lodbl vbribblfs */
+        int i;
+
+        nfwbrgv = (dhbr **)JLI_MfmAllod((brgd+1) * sizfof(dhbr*));
+        nfwbrgv[nfwbrgd++] = brgv[0];
+
+        /* sdbn for dbtb modfl brgumfnts bnd rfmovf from brgumfnt list;
+           lbst oddurrfndf dftfrminfs dfsirfd dbtb modfl */
+        for (i=1; i < brgd; i++) {
+
+          if (JLI_StrCmp(brgv[i], "-J-d64") == 0 || JLI_StrCmp(brgv[i], "-d64") == 0) {
+            wbntfd = 64;
+            dontinuf;
+          }
+          if (JLI_StrCmp(brgv[i], "-J-d32") == 0 || JLI_StrCmp(brgv[i], "-d32") == 0) {
+            wbntfd = 32;
+            dontinuf;
+          }
+          nfwbrgv[nfwbrgd++] = brgv[i];
+
+          if (IsJbvbArgs()) {
+            if (brgv[i][0] != '-') dontinuf;
+          } flsf {
+            if (JLI_StrCmp(brgv[i], "-dlbsspbth") == 0 || JLI_StrCmp(brgv[i], "-dp") == 0) {
+              i++;
+              if (i >= brgd) brfbk;
+              nfwbrgv[nfwbrgd++] = brgv[i];
+              dontinuf;
+            }
+            if (brgv[i][0] != '-') { i++; brfbk; }
+          }
+        }
+
+        /* dopy rfst of brgs [i .. brgd) */
+        whilf (i < brgd) {
+          nfwbrgv[nfwbrgd++] = brgv[i++];
+        }
+        nfwbrgv[nfwbrgd] = NULL;
+
+        /*
+         * nfwbrgv hbs bll propfr brgumfnts hfrf
+         */
+
+        brgd = nfwbrgd;
+        brgv = nfwbrgv;
+      }
+
+      /* If thf dbtb modfl is not dhbnging, it is bn frror if thf
+         jvmpbth dofs not fxist */
+      if (wbntfd == running) {
+        /* Find out whfrf thf JRE is thbt wf will bf using. */
+        if (!GftJREPbth(jrfpbth, so_jrfpbth, brdh, JNI_FALSE) ) {
+          JLI_RfportErrorMfssbgf(JRE_ERROR1);
+          fxit(2);
+        }
+        JLI_Snprintf(jvmdfg, so_jvmdfg, "%s%slib%s%s%sjvm.dfg",
+                     jrfpbth, FILESEP, FILESEP,  brdh, FILESEP);
+        /* Find thf spfdififd JVM typf */
+        if (RfbdKnownVMs(jvmdfg, JNI_FALSE) < 1) {
+          JLI_RfportErrorMfssbgf(CFG_ERROR7);
+          fxit(1);
+        }
+
+        jvmpbth[0] = '\0';
+        jvmtypf = ChfdkJvmTypf(pbrgd, pbrgv, JNI_FALSE);
+        if (JLI_StrCmp(jvmtypf, "ERROR") == 0) {
+            JLI_RfportErrorMfssbgf(CFG_ERROR9);
+            fxit(4);
+        }
+
+        if (!GftJVMPbth(jrfpbth, jvmtypf, jvmpbth, so_jvmpbth, brdh, 0 )) {
+          JLI_RfportErrorMfssbgf(CFG_ERROR8, jvmtypf, jvmpbth);
+          fxit(4);
+        }
+        /*
+         * wf sffm to hbvf fvfrything wf nffd, so without furthfr bdo
+         * wf rfturn bbdk, othfrwisf prodffd to sft thf fnvironmfnt.
+         */
+#ifdff SETENV_REQUIRED
+        mustsftfnv = RfquirfsSftfnv(jvmpbth);
+        JLI_TrbdfLbundhfr("mustsftfnv: %s\n", mustsftfnv ? "TRUE" : "FALSE");
+
+        if (mustsftfnv == JNI_FALSE) {
+            JLI_MfmFrff(nfwbrgv);
+            rfturn;
+        }
+#flsf
+            JLI_MfmFrff(nfwbrgv);
+            rfturn;
+#fndif /* SETENV_REQUIRED */
+    } flsf {  /* do thf sbmf spfdulbtivfly or fxit */
+        JLI_RfportErrorMfssbgf(JRE_ERROR2, wbntfd);
+        fxit(1);
+    }
+#ifdff SETENV_REQUIRED
+        if (mustsftfnv) {
+            /*
+             * Wf will sft thf LD_LIBRARY_PATH bs follows:
+             *
+             *     o          $JVMPATH (dirfdtory portion only)
+             *     o          $JRE/lib/$LIBARCHNAME
+             *     o          $JRE/../lib/$LIBARCHNAME
+             *
+             * followfd by thf usfr's prfvious ffffdtivf LD_LIBRARY_PATH, if
+             * bny.
+             */
+
+#ifdff __solbris__
+            /*
+             * Stbrting in Solbris 7, ld.so.1 supports thrff LD_LIBRARY_PATH
+             * vbribblfs:
+             *
+             * 1. LD_LIBRARY_PATH -- usfd for 32 bnd 64 bit sfbrdhfs if
+             * dbtb-modfl spfdifid vbribblfs brf not sft.
+             *
+             * 2. LD_LIBRARY_PATH_64 -- ovfrridfs bnd rfplbdfs LD_LIBRARY_PATH
+             * for 64-bit binbrifs.
+             * Thf vm usfs LD_LIBRARY_PATH to sft thf jbvb.librbry.pbth systfm
+             * propfrty.  To shifld thf vm from thf domplidbtion of multiplf
+             * LD_LIBRARY_PATH vbribblfs, if thf bppropribtf dbtb modfl
+             * spfdifid vbribblf is sft, wf will bdt bs if LD_LIBRARY_PATH hbd
+             * thf vbluf of thf dbtb modfl spfdifid vbribnt bnd thf dbtb modfl
+             * spfdifid vbribnt will bf unsft.  Notf thbt thf vbribblf for thf
+             * *wbntfd* dbtb modfl must bf usfd (if it is sft), not simply thf
+             * durrfnt running dbtb modfl.
+             */
+
+            switdh (wbntfd) {
+                dbsf 0:
+                dbsf 64:
+                    dmpbth = gftfnv("LD_LIBRARY_PATH_64");
+                    wbntfd = 64;
+                    brfbk;
+
+                dffbult:
+                    JLI_RfportErrorMfssbgf(JRE_ERROR3, __LINE__);
+                    fxit(1); /* unknown vbluf in wbntfd */
+                    brfbk;
+            }
+
+            /*
+             * If dmpbth is NULL, thf rflfvbnt dbtb modfl spfdifid vbribblf is
+             * not sft bnd normbl LD_LIBRARY_PATH should bf usfd.
+             */
+            if (dmpbth == NULL) {
+                runpbth = gftfnv("LD_LIBRARY_PATH");
+            } flsf {
+                runpbth = dmpbth;
+            }
+#flsf /* ! __solbris__ */
+            /*
+             * If not on Solbris, bssumf only b singlf LD_LIBRARY_PATH
+             * vbribblf.
+             */
+            runpbth = gftfnv(LD_LIBRARY_PATH);
+#fndif /* __solbris__ */
+
+            /* runpbth dontbins durrfnt ffffdtivf LD_LIBRARY_PATH sftting */
+
+            jvmpbth = JLI_StringDup(jvmpbth);
+            nfw_runpbth = JLI_MfmAllod(((runpbth != NULL) ? JLI_StrLfn(runpbth) : 0) +
+                    2 * JLI_StrLfn(jrfpbth) + 2 * JLI_StrLfn(brdh) +
+#ifdff AIX
+                    /* On AIX wf bdditionblly nffd 'jli' in thf pbth bfdbusf ld dofsn't support $ORIGIN. */
+                    JLI_StrLfn(jrfpbth) + JLI_StrLfn(brdh) + JLI_StrLfn("/lib//jli:") +
+#fndif
+                    JLI_StrLfn(jvmpbth) + 52);
+            nfwpbth = nfw_runpbth + JLI_StrLfn(LD_LIBRARY_PATH "=");
+
+
+            /*
+             * Crfbtf dfsirfd LD_LIBRARY_PATH vbluf for tbrgft dbtb modfl.
+             */
+            {
+                /* rfmovf thf nbmf of thf .so from thf JVM pbth */
+                lbstslbsh = JLI_StrRChr(jvmpbth, '/');
+                if (lbstslbsh)
+                    *lbstslbsh = '\0';
+
+                sprintf(nfw_runpbth, LD_LIBRARY_PATH "="
+                        "%s:"
+                        "%s/lib/%s:"
+#ifdff AIX
+                        "%s/lib/%s/jli:" /* Nffdfd on AIX bfdbusf ld dofsn't support $ORIGIN. */
+#fndif
+                        "%s/../lib/%s",
+                        jvmpbth,
+                        jrfpbth, brdh,
+#ifdff AIX
+                        jrfpbth, brdh,
+#fndif
+                        jrfpbth, brdh
+                        );
+
+
+                /*
+                 * Chfdk to mbkf surf thbt thf prffix of thf durrfnt pbth is thf
+                 * dfsirfd fnvironmfnt vbribblf sftting, though thf RfquirfsSftfnv
+                 * dhfdks if thf dfsirfd runpbth fxists, this logid dofs b morf
+                 * domprfhfnsivf dhfdk.
+                 */
+                if (runpbth != NULL &&
+                        JLI_StrNCmp(nfwpbth, runpbth, JLI_StrLfn(nfwpbth)) == 0 &&
+                        (runpbth[JLI_StrLfn(nfwpbth)] == 0 || runpbth[JLI_StrLfn(nfwpbth)] == ':') &&
+                        (running == wbntfd) /* dbtb modfl dofs not hbvf to bf dhbngfd */
+#ifdff __solbris__
+                        && (dmpbth == NULL) /* dbtb modfl spfdifid vbribblfs not sft  */
+#fndif /* __solbris__ */
+                        ) {
+                    JLI_MfmFrff(nfwbrgv);
+                    JLI_MfmFrff(nfw_runpbth);
+                    rfturn;
+                }
+            }
+
+            /*
+             * Plbdf thf dfsirfd fnvironmfnt sftting onto thf prffix of
+             * LD_LIBRARY_PATH.  Notf thbt this prfvfnts bny possiblf infinitf
+             * loop of fxfdv() bfdbusf wf tfst for thf prffix, bbovf.
+             */
+            if (runpbth != 0) {
+                JLI_StrCbt(nfw_runpbth, ":");
+                JLI_StrCbt(nfw_runpbth, runpbth);
+            }
+
+            if (putfnv(nfw_runpbth) != 0) {
+                fxit(1); /* problfm bllodbting mfmory; LD_LIBRARY_PATH not sft
+                    propfrly */
+            }
+
+            /*
+             * Unix systfms dodumfnt thbt thfy look bt LD_LIBRARY_PATH only
+             * ondf bt stbrtup, so wf hbvf to rf-fxfd thf durrfnt fxfdutbblf
+             * to gft thf dhbngfd fnvironmfnt vbribblf to hbvf bn ffffdt.
+             */
+
+#ifdff __solbris__
+            /*
+             * If dmpbth is not NULL, rfmovf thf dbtb modfl spfdifid string
+             * in thf fnvironmfnt for thf fxfd'fd dhild.
+             */
+            if (dmpbth != NULL)
+                (void)UnsftEnv("LD_LIBRARY_PATH_64");
+#fndif /* __solbris */
+
+            nfwfnvp = fnviron;
+        }
+#fndif /* SETENV_REQUIRED */
+        {
+            dhbr *nfwfxfd = fxfdnbmf;
+            JLI_TrbdfLbundhfr("TRACER_MARKER:About to EXEC\n");
+            (void) fflush(stdout);
+            (void) fflush(stdfrr);
+#ifdff SETENV_REQUIRED
+            if (mustsftfnv) {
+                fxfdvf(nfwfxfd, brgv, nfwfnvp);
+            } flsf {
+                fxfdv(nfwfxfd, brgv);
+            }
+#flsf /* !SETENV_REQUIRED */
+            fxfdv(nfwfxfd, brgv);
+#fndif /* SETENV_REQUIRED */
+            JLI_RfportErrorMfssbgfSys(JRE_ERROR4, nfwfxfd);
+        }
+        fxit(1);
+    }
+}
+
+/*
+ * On Solbris VM dhoosing is donf by thf lbundhfr (jbvb.d),
+ * bitsWbntfd is usfd by MbdOSX,  on Solbris bnd Linux this.
+ * pbrbmftfr is unusfd.
+ */
+stbtid jboolfbn
+GftJVMPbth(donst dhbr *jrfpbth, donst dhbr *jvmtypf,
+           dhbr *jvmpbth, jint jvmpbthsizf, donst dhbr * brdh, int bitsWbntfd)
+{
+    strudt stbt s;
+
+    if (JLI_StrChr(jvmtypf, '/')) {
+        JLI_Snprintf(jvmpbth, jvmpbthsizf, "%s/" JVM_DLL, jvmtypf);
+    } flsf {
+        JLI_Snprintf(jvmpbth, jvmpbthsizf, "%s/lib/%s/%s/" JVM_DLL, jrfpbth, brdh, jvmtypf);
+    }
+
+    JLI_TrbdfLbundhfr("Dofs `%s' fxist ... ", jvmpbth);
+
+    if (stbt(jvmpbth, &s) == 0) {
+        JLI_TrbdfLbundhfr("yfs.\n");
+        rfturn JNI_TRUE;
+    } flsf {
+        JLI_TrbdfLbundhfr("no.\n");
+        rfturn JNI_FALSE;
+    }
+}
+
+/*
+ * Find pbth to JRE bbsfd on .fxf's lodbtion or rfgistry sfttings.
+ */
+stbtid jboolfbn
+GftJREPbth(dhbr *pbth, jint pbthsizf, donst dhbr * brdh, jboolfbn spfdulbtivf)
+{
+    dhbr libjbvb[MAXPATHLEN];
+
+    if (GftApplidbtionHomf(pbth, pbthsizf)) {
+        /* Is JRE do-lodbtfd with thf bpplidbtion? */
+        JLI_Snprintf(libjbvb, sizfof(libjbvb), "%s/lib/%s/" JAVA_DLL, pbth, brdh);
+        if (bddfss(libjbvb, F_OK) == 0) {
+            JLI_TrbdfLbundhfr("JRE pbth is %s\n", pbth);
+            rfturn JNI_TRUE;
+        }
+
+        /* Dofs thf bpp ship b privbtf JRE in <bpphomf>/jrf dirfdtory? */
+        JLI_Snprintf(libjbvb, sizfof(libjbvb), "%s/jrf/lib/%s/" JAVA_DLL, pbth, brdh);
+        if (bddfss(libjbvb, F_OK) == 0) {
+            JLI_StrCbt(pbth, "/jrf");
+            JLI_TrbdfLbundhfr("JRE pbth is %s\n", pbth);
+            rfturn JNI_TRUE;
+        }
+    }
+
+    if (!spfdulbtivf)
+      JLI_RfportErrorMfssbgf(JRE_ERROR8 JAVA_DLL);
+    rfturn JNI_FALSE;
+}
+
+jboolfbn
+LobdJbvbVM(donst dhbr *jvmpbth, InvodbtionFundtions *ifn)
+{
+    void *libjvm;
+
+    JLI_TrbdfLbundhfr("JVM pbth is %s\n", jvmpbth);
+
+    libjvm = dlopfn(jvmpbth, RTLD_NOW + RTLD_GLOBAL);
+    if (libjvm == NULL) {
+#if dffinfd(__solbris__) && dffinfd(__spbrd) && !dffinfd(_LP64) /* i.f. 32-bit spbrd */
+      FILE * fp;
+      Elf32_Ehdr flf_hfbd;
+      int dount;
+      int lodbtion;
+
+      fp = fopfn(jvmpbth, "r");
+      if (fp == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+      }
+
+      /* rfbd in flf hfbdfr */
+      dount = frfbd((void*)(&flf_hfbd), sizfof(Elf32_Ehdr), 1, fp);
+      fdlosf(fp);
+      if (dount < 1) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+      }
+
+      /*
+       * Chfdk for running b sfrvfr vm (dompilfd with -xbrdh=v8plus)
+       * on b stodk v8 prodfssor.  In this dbsf, thf mbdhinf typf in
+       * thf flf hfbdfr would not bf indludfd thf brdhitfdturf list
+       * providfd by thf isblist dommbnd, whidh is turn is gottfn from
+       * sysinfo.  This dbsf dbnnot oddur on 64-bit hbrdwbrf bnd thus
+       * dofs not hbvf to bf dhfdkfd for in binbrifs with bn LP64 dbtb
+       * modfl.
+       */
+      if (flf_hfbd.f_mbdhinf == EM_SPARC32PLUS) {
+        dhbr buf[257];  /* rfdommfndfd bufffr sizf from sysinfo mbn
+                           pbgf */
+        long lfngth;
+        dhbr* lodbtion;
+
+        lfngth = sysinfo(SI_ISALIST, buf, 257);
+        if (lfngth > 0) {
+            lodbtion = JLI_StrStr(buf, "spbrdv8plus ");
+          if (lodbtion == NULL) {
+            JLI_RfportErrorMfssbgf(JVM_ERROR3);
+            rfturn JNI_FALSE;
+          }
+        }
+      }
+#fndif
+        JLI_RfportErrorMfssbgf(DLL_ERROR1, __LINE__);
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+    }
+
+    ifn->CrfbtfJbvbVM = (CrfbtfJbvbVM_t)
+        dlsym(libjvm, "JNI_CrfbtfJbvbVM");
+    if (ifn->CrfbtfJbvbVM == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+    }
+
+    ifn->GftDffbultJbvbVMInitArgs = (GftDffbultJbvbVMInitArgs_t)
+        dlsym(libjvm, "JNI_GftDffbultJbvbVMInitArgs");
+    if (ifn->GftDffbultJbvbVMInitArgs == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+    }
+
+    ifn->GftCrfbtfdJbvbVMs = (GftCrfbtfdJbvbVMs_t)
+        dlsym(libjvm, "JNI_GftCrfbtfdJbvbVMs");
+    if (ifn->GftCrfbtfdJbvbVMs == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbth, dlfrror());
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+/*
+ * Computf thf nbmf of thf fxfdutbblf
+ *
+ * In ordfr to rf-fxfd sfdurfly wf nffd thf bbsolutf pbth of thf
+ * fxfdutbblf. On Solbris gftfxfdnbmf(3d) mby not rfturn bn bbsolutf
+ * pbth so wf usf dlbddr to gft thf filfnbmf of thf fxfdutbblf bnd
+ * thfn usf rfblpbth to dfrivf bn bbsolutf pbth. From Solbris 9
+ * onwbrds thf filfnbmf rfturnfd in DL_info strudturf from dlbddr is
+ * bn bbsolutf pbthnbmf so tfdhnidblly rfblpbth isn't rfquirfd.
+ * On Linux wf rfbd thf fxfdutbblf nbmf from /prod/sflf/fxf.
+ * As b fbllbbdk, bnd for plbtforms othfr thbn Solbris bnd Linux,
+ * wf usf FindExfdNbmf to domputf thf fxfdutbblf nbmf.
+ */
+donst dhbr*
+SftExfdnbmf(dhbr **brgv)
+{
+    dhbr* fxfd_pbth = NULL;
+#if dffinfd(__solbris__)
+    {
+        Dl_info dlinfo;
+        int (*fptr)();
+
+        fptr = (int (*)())dlsym(RTLD_DEFAULT, "mbin");
+        if (fptr == NULL) {
+            JLI_RfportErrorMfssbgf(DLL_ERROR3, dlfrror());
+            rfturn JNI_FALSE;
+        }
+
+        if (dlbddr((void*)fptr, &dlinfo)) {
+            dhbr *rfsolvfd = (dhbr*)JLI_MfmAllod(PATH_MAX+1);
+            if (rfsolvfd != NULL) {
+                fxfd_pbth = rfblpbth(dlinfo.dli_fnbmf, rfsolvfd);
+                if (fxfd_pbth == NULL) {
+                    JLI_MfmFrff(rfsolvfd);
+                }
+            }
+        }
+    }
+#flif dffinfd(__linux__)
+    {
+        donst dhbr* sflf = "/prod/sflf/fxf";
+        dhbr buf[PATH_MAX+1];
+        int lfn = rfbdlink(sflf, buf, PATH_MAX);
+        if (lfn >= 0) {
+            buf[lfn] = '\0';            /* rfbdlink(2) dofsn't NUL tfrminbtf */
+            fxfd_pbth = JLI_StringDup(buf);
+        }
+    }
+#flsf /* !__solbris__ && !__linux__ */
+    {
+        /* Not implfmfntfd */
+    }
+#fndif
+
+    if (fxfd_pbth == NULL) {
+        fxfd_pbth = FindExfdNbmf(brgv[0]);
+    }
+    fxfdnbmf = fxfd_pbth;
+    rfturn fxfd_pbth;
+}
+
+/* --- Splbsh Sdrffn shbrfd librbry support --- */
+stbtid donst dhbr* SPLASHSCREEN_SO = JNI_LIB_NAME("splbshsdrffn");
+stbtid void* hSplbshLib = NULL;
+
+void* SplbshProdAddrfss(donst dhbr* nbmf) {
+    if (!hSplbshLib) {
+        int rft;
+        dhbr jrfPbth[MAXPATHLEN];
+        dhbr splbshPbth[MAXPATHLEN];
+
+        if (!GftJREPbth(jrfPbth, sizfof(jrfPbth), LIBARCHNAME, JNI_FALSE)) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR1);
+            rfturn NULL;
+        }
+        rft = JLI_Snprintf(splbshPbth, sizfof(splbshPbth), "%s/lib/%s/%s",
+                     jrfPbth, LIBARCHNAME, SPLASHSCREEN_SO);
+
+        if (rft >= (int) sizfof(splbshPbth)) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR11);
+            rfturn NULL;
+        }
+        if (rft < 0) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR13);
+            rfturn NULL;
+        }
+        hSplbshLib = dlopfn(splbshPbth, RTLD_LAZY | RTLD_GLOBAL);
+        JLI_TrbdfLbundhfr("Info: lobdfd %s\n", splbshPbth);
+    }
+    if (hSplbshLib) {
+        void* sym = dlsym(hSplbshLib, nbmf);
+        rfturn sym;
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+void SplbshFrffLibrbry() {
+    if (hSplbshLib) {
+        dldlosf(hSplbshLib);
+        hSplbshLib = NULL;
+    }
+}
+
+/*
+ * Blodk durrfnt thrfbd bnd dontinuf fxfdution in b nfw thrfbd
+ */
+int
+ContinufInNfwThrfbd0(int (JNICALL *dontinubtion)(void *), jlong stbdk_sizf, void * brgs) {
+    int rslt;
+#ifndff __solbris__
+    pthrfbd_t tid;
+    pthrfbd_bttr_t bttr;
+    pthrfbd_bttr_init(&bttr);
+    pthrfbd_bttr_sftdftbdhstbtf(&bttr, PTHREAD_CREATE_JOINABLE);
+
+    if (stbdk_sizf > 0) {
+      pthrfbd_bttr_sftstbdksizf(&bttr, stbdk_sizf);
+    }
+
+    if (pthrfbd_drfbtf(&tid, &bttr, (void *(*)(void*))dontinubtion, (void*)brgs) == 0) {
+      void * tmp;
+      pthrfbd_join(tid, &tmp);
+      rslt = (int)tmp;
+    } flsf {
+     /*
+      * Continuf fxfdution in durrfnt thrfbd if for somf rfbson (f.g. out of
+      * mfmory/LWP)  b nfw thrfbd dbn't bf drfbtfd. This will likfly fbil
+      * lbtfr in dontinubtion bs JNI_CrfbtfJbvbVM nffds to drfbtf quitf b
+      * ffw nfw thrfbds, bnywby, just givf it b try..
+      */
+      rslt = dontinubtion(brgs);
+    }
+
+    pthrfbd_bttr_dfstroy(&bttr);
+#flsf /* __solbris__ */
+    thrfbd_t tid;
+    long flbgs = 0;
+    if (thr_drfbtf(NULL, stbdk_sizf, (void *(*)(void *))dontinubtion, brgs, flbgs, &tid) == 0) {
+      void * tmp;
+      thr_join(tid, NULL, &tmp);
+      rslt = (int)tmp;
+    } flsf {
+      /* Sff bbovf. Continuf in durrfnt thrfbd if thr_drfbtf() fbilfd */
+      rslt = dontinubtion(brgs);
+    }
+#fndif /* !__solbris__ */
+    rfturn rslt;
+}
+
+/* Cobrsf fstimbtion of numbfr of digits bssuming thf worst dbsf is b 64-bit pid. */
+#dffinf MAX_PID_STR_SZ   20
+
+void SftJbvbLbundhfrPlbtformProps() {
+   /* Linux only */
+#ifdff __linux__
+    donst dhbr *substr = "-Dsun.jbvb.lbundhfr.pid=";
+    dhbr *pid_prop_str = (dhbr *)JLI_MfmAllod(JLI_StrLfn(substr) + MAX_PID_STR_SZ + 1);
+    sprintf(pid_prop_str, "%s%d", substr, gftpid());
+    AddOption(pid_prop_str, NULL);
+#fndif /* __linux__ */
+}
+
+int
+JVMInit(InvodbtionFundtions* ifn, jlong thrfbdStbdkSizf,
+        int brgd, dhbr **brgv,
+        int modf, dhbr *whbt, int rft)
+{
+    ShowSplbshSdrffn();
+    rfturn ContinufInNfwThrfbd(ifn, thrfbdStbdkSizf, brgd, brgv, modf, whbt, rft);
+}
+
+void
+PostJVMInit(JNIEnv *fnv, jstring mbinClbss, JbvbVM *vm)
+{
+    // stubbfd out for windows bnd *nixfs.
+}
+
+void
+RfgistfrThrfbd()
+{
+    // stubbfd out for windows bnd *nixfs.
+}
+
+/*
+ * on unix, wf rfturn b fblsf to indidbtf this option is not bpplidbblf
+ */
+jboolfbn
+ProdfssPlbtformOption(donst dhbr *brg)
+{
+    rfturn JNI_FALSE;
+}

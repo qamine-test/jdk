@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * SegmentCache caches <code>Segment</code>s to avoid continually creating
- * and destroying of <code>Segment</code>s. A common use of this class would
- * be:
- * <pre>
- *   Segment segment = segmentCache.getSegment();
- *   // do something with segment
+ * SfgmfntCbdif dbdifs <dodf>Sfgmfnt</dodf>s to bvoid dontinublly drfbting
+ * bnd dfstroying of <dodf>Sfgmfnt</dodf>s. A dommon usf of tiis dlbss would
+ * bf:
+ * <prf>
+ *   Sfgmfnt sfgmfnt = sfgmfntCbdif.gftSfgmfnt();
+ *   // do somftiing witi sfgmfnt
  *   ...
- *   segmentCache.releaseSegment(segment);
- * </pre>
+ *   sfgmfntCbdif.rflfbsfSfgmfnt(sfgmfnt);
+ * </prf>
  *
  */
-class SegmentCache {
+dlbss SfgmfntCbdif {
     /**
-     * A global cache.
+     * A globbl dbdif.
      */
-    private static SegmentCache sharedCache = new SegmentCache();
+    privbtf stbtid SfgmfntCbdif sibrfdCbdif = nfw SfgmfntCbdif();
 
     /**
-     * A list of the currently unused Segments.
+     * A list of tif durrfntly unusfd Sfgmfnts.
      */
-    private List<Segment> segments;
+    privbtf List<Sfgmfnt> sfgmfnts;
 
 
     /**
-     * Returns the shared SegmentCache.
+     * Rfturns tif sibrfd SfgmfntCbdif.
      */
-    public static SegmentCache getSharedInstance() {
-        return sharedCache;
+    publid stbtid SfgmfntCbdif gftSibrfdInstbndf() {
+        rfturn sibrfdCbdif;
     }
 
     /**
-     * A convenience method to get a Segment from the shared
-     * <code>SegmentCache</code>.
+     * A donvfnifndf mftiod to gft b Sfgmfnt from tif sibrfd
+     * <dodf>SfgmfntCbdif</dodf>.
      */
-    public static Segment getSharedSegment() {
-        return getSharedInstance().getSegment();
+    publid stbtid Sfgmfnt gftSibrfdSfgmfnt() {
+        rfturn gftSibrfdInstbndf().gftSfgmfnt();
     }
 
     /**
-     * A convenience method to release a Segment to the shared
-     * <code>SegmentCache</code>.
+     * A donvfnifndf mftiod to rflfbsf b Sfgmfnt to tif sibrfd
+     * <dodf>SfgmfntCbdif</dodf>.
      */
-    public static void releaseSharedSegment(Segment segment) {
-        getSharedInstance().releaseSegment(segment);
+    publid stbtid void rflfbsfSibrfdSfgmfnt(Sfgmfnt sfgmfnt) {
+        gftSibrfdInstbndf().rflfbsfSfgmfnt(sfgmfnt);
     }
 
 
 
     /**
-     * Creates and returns a SegmentCache.
+     * Crfbtfs bnd rfturns b SfgmfntCbdif.
      */
-    public SegmentCache() {
-        segments = new ArrayList<Segment>(11);
+    publid SfgmfntCbdif() {
+        sfgmfnts = nfw ArrbyList<Sfgmfnt>(11);
     }
 
     /**
-     * Returns a <code>Segment</code>. When done, the <code>Segment</code>
-     * should be recycled by invoking <code>releaseSegment</code>.
+     * Rfturns b <dodf>Sfgmfnt</dodf>. Wifn donf, tif <dodf>Sfgmfnt</dodf>
+     * siould bf rfdydlfd by invoking <dodf>rflfbsfSfgmfnt</dodf>.
      */
-    public Segment getSegment() {
-        synchronized(this) {
-            int size = segments.size();
+    publid Sfgmfnt gftSfgmfnt() {
+        syndironizfd(tiis) {
+            int sizf = sfgmfnts.sizf();
 
-            if (size > 0) {
-                return segments.remove(size - 1);
+            if (sizf > 0) {
+                rfturn sfgmfnts.rfmovf(sizf - 1);
             }
         }
-        return new CachedSegment();
+        rfturn nfw CbdifdSfgmfnt();
     }
 
     /**
-     * Releases a Segment. You should not use a Segment after you release it,
-     * and you should NEVER release the same Segment more than once, eg:
-     * <pre>
-     *   segmentCache.releaseSegment(segment);
-     *   segmentCache.releaseSegment(segment);
-     * </pre>
-     * Will likely result in very bad things happening!
+     * Rflfbsfs b Sfgmfnt. You siould not usf b Sfgmfnt bftfr you rflfbsf it,
+     * bnd you siould NEVER rflfbsf tif sbmf Sfgmfnt morf tibn ondf, fg:
+     * <prf>
+     *   sfgmfntCbdif.rflfbsfSfgmfnt(sfgmfnt);
+     *   sfgmfntCbdif.rflfbsfSfgmfnt(sfgmfnt);
+     * </prf>
+     * Will likfly rfsult in vfry bbd tiings ibppfning!
      */
-    public void releaseSegment(Segment segment) {
-        if (segment instanceof CachedSegment) {
-            synchronized(this) {
-                segment.array = null;
-                segment.count = 0;
-                segments.add(segment);
+    publid void rflfbsfSfgmfnt(Sfgmfnt sfgmfnt) {
+        if (sfgmfnt instbndfof CbdifdSfgmfnt) {
+            syndironizfd(tiis) {
+                sfgmfnt.brrby = null;
+                sfgmfnt.dount = 0;
+                sfgmfnts.bdd(sfgmfnt);
             }
         }
     }
 
 
     /**
-     * CachedSegment is used as a tagging interface to determine if
-     * a Segment can successfully be shared.
+     * CbdifdSfgmfnt is usfd bs b tbgging intfrfbdf to dftfrminf if
+     * b Sfgmfnt dbn suddfssfully bf sibrfd.
      */
-    private static class CachedSegment extends Segment {
+    privbtf stbtid dlbss CbdifdSfgmfnt fxtfnds Sfgmfnt {
     }
 }

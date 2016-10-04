@@ -1,0 +1,50 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLFunds_md_h_Indludfd
+#dffinf OGLFunds_md_h_Indludfd
+
+#indludf <dlfdn.h>
+#indludf "J2D_GL/dglfxt.h"
+#indludf "OGLFundMbdros.h"
+
+#dffinf OGL_LIB_HANDLE pLibGL
+#dffinf OGL_DECLARE_LIB_HANDLE() \
+    stbtid void *OGL_LIB_HANDLE = NULL
+#dffinf OGL_LIB_IS_UNINITIALIZED() \
+    (OGL_LIB_HANDLE == NULL)
+#dffinf OGL_OPEN_LIB() \
+    OGL_LIB_HANDLE = dlopfn("/Systfm/Librbry/Frbmfworks/OpfnGL.frbmfwork/Vfrsions/Currfnt/Librbrifs/libGL.dylib", RTLD_LAZY | RTLD_GLOBAL)
+#dffinf OGL_CLOSE_LIB() \
+    dldlosf(OGL_LIB_HANDLE)
+#dffinf OGL_GET_PROC_ADDRESS(f) \
+    dlsym(OGL_LIB_HANDLE, #f)
+#dffinf OGL_GET_EXT_PROC_ADDRESS(f) \
+    OGL_GET_PROC_ADDRESS(f)
+
+#dffinf OGL_EXPRESS_PLATFORM_FUNCS(bdtion)
+#dffinf OGL_EXPRESS_PLATFORM_EXT_FUNCS(bdtion)
+
+#fndif /* OGLFunds_md_h_Indludfd */

@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * The <code>DragSourceListener</code> defines the
- * event interface for originators of
- * Drag and Drop operations to track the state of the user's gesture, and to
- * provide appropriate &quot;drag over&quot;
- * feedback to the user throughout the
- * Drag and Drop operation.
+ * Tif <dodf>DrbgSourdfListfnfr</dodf> dffinfs tif
+ * fvfnt intfrfbdf for originbtors of
+ * Drbg bnd Drop opfrbtions to trbdk tif stbtf of tif usfr's gfsturf, bnd to
+ * providf bppropribtf &quot;drbg ovfr&quot;
+ * fffdbbdk to tif usfr tirougiout tif
+ * Drbg bnd Drop opfrbtion.
  * <p>
- * The drop site is <i>associated with the previous <code>dragEnter()</code>
- * invocation</i> if the latest invocation of <code>dragEnter()</code> on this
- * listener:
+ * Tif drop sitf is <i>bssodibtfd witi tif prfvious <dodf>drbgEntfr()</dodf>
+ * invodbtion</i> if tif lbtfst invodbtion of <dodf>drbgEntfr()</dodf> on tiis
+ * listfnfr:
  * <ul>
- * <li>corresponds to that drop site and
- * <li> is not followed by a <code>dragExit()</code> invocation on this listener.
+ * <li>dorrfsponds to tibt drop sitf bnd
+ * <li> is not followfd by b <dodf>drbgExit()</dodf> invodbtion on tiis listfnfr.
  * </ul>
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public interface DragSourceListener extends EventListener {
+publid intfrfbdf DrbgSourdfListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Called as the cursor's hotspot enters a platform-dependent drop site.
-     * This method is invoked when all the following conditions are true:
+     * Cbllfd bs tif dursor's iotspot fntfrs b plbtform-dfpfndfnt drop sitf.
+     * Tiis mftiod is invokfd wifn bll tif following donditions brf truf:
      * <UL>
-     * <LI>The cursor's hotspot enters the operable part of a platform-
-     * dependent drop site.
-     * <LI>The drop site is active.
-     * <LI>The drop site accepts the drag.
+     * <LI>Tif dursor's iotspot fntfrs tif opfrbblf pbrt of b plbtform-
+     * dfpfndfnt drop sitf.
+     * <LI>Tif drop sitf is bdtivf.
+     * <LI>Tif drop sitf bddfpts tif drbg.
      * </UL>
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    void dragEnter(DragSourceDragEvent dsde);
+    void drbgEntfr(DrbgSourdfDrbgEvfnt dsdf);
 
     /**
-     * Called as the cursor's hotspot moves over a platform-dependent drop site.
-     * This method is invoked when all the following conditions are true:
+     * Cbllfd bs tif dursor's iotspot movfs ovfr b plbtform-dfpfndfnt drop sitf.
+     * Tiis mftiod is invokfd wifn bll tif following donditions brf truf:
      * <UL>
-     * <LI>The cursor's hotspot has moved, but still intersects the
-     * operable part of the drop site associated with the previous
-     * dragEnter() invocation.
-     * <LI>The drop site is still active.
-     * <LI>The drop site accepts the drag.
+     * <LI>Tif dursor's iotspot ibs movfd, but still intfrsfdts tif
+     * opfrbblf pbrt of tif drop sitf bssodibtfd witi tif prfvious
+     * drbgEntfr() invodbtion.
+     * <LI>Tif drop sitf is still bdtivf.
+     * <LI>Tif drop sitf bddfpts tif drbg.
      * </UL>
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    void dragOver(DragSourceDragEvent dsde);
+    void drbgOvfr(DrbgSourdfDrbgEvfnt dsdf);
 
     /**
-     * Called when the user has modified the drop gesture.
-     * This method is invoked when the state of the input
-     * device(s) that the user is interacting with changes.
-     * Such devices are typically the mouse buttons or keyboard
-     * modifiers that the user is interacting with.
+     * Cbllfd wifn tif usfr ibs modififd tif drop gfsturf.
+     * Tiis mftiod is invokfd wifn tif stbtf of tif input
+     * dfvidf(s) tibt tif usfr is intfrbdting witi dibngfs.
+     * Sudi dfvidfs brf typidblly tif mousf buttons or kfybobrd
+     * modififrs tibt tif usfr is intfrbdting witi.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    void dropActionChanged(DragSourceDragEvent dsde);
+    void dropAdtionCibngfd(DrbgSourdfDrbgEvfnt dsdf);
 
     /**
-     * Called as the cursor's hotspot exits a platform-dependent drop site.
-     * This method is invoked when any of the following conditions are true:
+     * Cbllfd bs tif dursor's iotspot fxits b plbtform-dfpfndfnt drop sitf.
+     * Tiis mftiod is invokfd wifn bny of tif following donditions brf truf:
      * <UL>
-     * <LI>The cursor's hotspot no longer intersects the operable part
-     * of the drop site associated with the previous dragEnter() invocation.
-     * </UL>
-     * OR
-     * <UL>
-     * <LI>The drop site associated with the previous dragEnter() invocation
-     * is no longer active.
+     * <LI>Tif dursor's iotspot no longfr intfrsfdts tif opfrbblf pbrt
+     * of tif drop sitf bssodibtfd witi tif prfvious drbgEntfr() invodbtion.
      * </UL>
      * OR
      * <UL>
-     * <LI> The drop site associated with the previous dragEnter() invocation
-     * has rejected the drag.
+     * <LI>Tif drop sitf bssodibtfd witi tif prfvious drbgEntfr() invodbtion
+     * is no longfr bdtivf.
+     * </UL>
+     * OR
+     * <UL>
+     * <LI> Tif drop sitf bssodibtfd witi tif prfvious drbgEntfr() invodbtion
+     * ibs rfjfdtfd tif drbg.
      * </UL>
      *
-     * @param dse the <code>DragSourceEvent</code>
+     * @pbrbm dsf tif <dodf>DrbgSourdfEvfnt</dodf>
      */
-    void dragExit(DragSourceEvent dse);
+    void drbgExit(DrbgSourdfEvfnt dsf);
 
     /**
-     * This method is invoked to signify that the Drag and Drop
-     * operation is complete. The getDropSuccess() method of
-     * the <code>DragSourceDropEvent</code> can be used to
-     * determine the termination state. The getDropAction() method
-     * returns the operation that the drop site selected
-     * to apply to the Drop operation. Once this method is complete, the
-     * current <code>DragSourceContext</code> and
-     * associated resources become invalid.
+     * Tiis mftiod is invokfd to signify tibt tif Drbg bnd Drop
+     * opfrbtion is domplftf. Tif gftDropSuddfss() mftiod of
+     * tif <dodf>DrbgSourdfDropEvfnt</dodf> dbn bf usfd to
+     * dftfrminf tif tfrminbtion stbtf. Tif gftDropAdtion() mftiod
+     * rfturns tif opfrbtion tibt tif drop sitf sflfdtfd
+     * to bpply to tif Drop opfrbtion. Ondf tiis mftiod is domplftf, tif
+     * durrfnt <dodf>DrbgSourdfContfxt</dodf> bnd
+     * bssodibtfd rfsourdfs bfdomf invblid.
      *
-     * @param dsde the <code>DragSourceDropEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDropEvfnt</dodf>
      */
-    void dragDropEnd(DragSourceDropEvent dsde);
+    void drbgDropEnd(DrbgSourdfDropEvfnt dsdf);
 }

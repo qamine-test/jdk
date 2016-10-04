@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Properties;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Propfrtifs;
+import jbvb.util.TimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
 
 /**
- * <code>CalendarSystem</code> is an abstract class that defines the
- * programming interface to deal with calendar date and time.
+ * <dodf>CblfndbrSystfm</dodf> is bn bbstrbdt dlbss tibt dffinfs tif
+ * progrbmming intfrfbdf to dfbl witi dblfndbr dbtf bnd timf.
  *
- * <p><code>CalendarSystem</code> instances are singletons. For
- * example, there exists only one Gregorian calendar instance in the
- * Java runtime environment. A singleton instance can be obtained
- * calling one of the static factory methods.
+ * <p><dodf>CblfndbrSystfm</dodf> instbndfs brf singlftons. For
+ * fxbmplf, tifrf fxists only onf Grfgoribn dblfndbr instbndf in tif
+ * Jbvb runtimf fnvironmfnt. A singlfton instbndf dbn bf obtbinfd
+ * dblling onf of tif stbtid fbdtory mftiods.
  *
- * <h4>CalendarDate</h4>
+ * <i4>CblfndbrDbtf</i4>
  *
- * <p>For the methods in a <code>CalendarSystem</code> that manipulate
- * a <code>CalendarDate</code>, <code>CalendarDate</code>s that have
- * been created by the <code>CalendarSystem</code> must be
- * specified. Otherwise, the methods throw an exception. This is
- * because, for example, a Chinese calendar date can't be understood
- * by the Hebrew calendar system.
+ * <p>For tif mftiods in b <dodf>CblfndbrSystfm</dodf> tibt mbnipulbtf
+ * b <dodf>CblfndbrDbtf</dodf>, <dodf>CblfndbrDbtf</dodf>s tibt ibvf
+ * bffn drfbtfd by tif <dodf>CblfndbrSystfm</dodf> must bf
+ * spfdififd. Otifrwisf, tif mftiods tirow bn fxdfption. Tiis is
+ * bfdbusf, for fxbmplf, b Ciinfsf dblfndbr dbtf dbn't bf undfrstood
+ * by tif Hfbrfw dblfndbr systfm.
  *
- * <h4>Calendar names</h4>
+ * <i4>Cblfndbr nbmfs</i4>
  *
- * Each calendar system has a unique name to be identified. The Java
- * runtime in this release supports the following calendar systems.
+ * Ebdi dblfndbr systfm ibs b uniquf nbmf to bf idfntififd. Tif Jbvb
+ * runtimf in tiis rflfbsf supports tif following dblfndbr systfms.
  *
- * <pre>
- *  Name          Calendar System
+ * <prf>
+ *  Nbmf          Cblfndbr Systfm
  *  ---------------------------------------
- *  gregorian     Gregorian Calendar
- *  julian        Julian Calendar
- *  japanese      Japanese Imperial Calendar
- * </pre>
+ *  grfgoribn     Grfgoribn Cblfndbr
+ *  julibn        Julibn Cblfndbr
+ *  jbpbnfsf      Jbpbnfsf Impfribl Cblfndbr
+ * </prf>
  *
- * @see CalendarDate
- * @author Masayoshi Okutsu
- * @since 1.5
+ * @sff CblfndbrDbtf
+ * @butior Mbsbyosii Okutsu
+ * @sindf 1.5
  */
 
-public abstract class CalendarSystem {
+publid bbstrbdt dlbss CblfndbrSystfm {
 
-    /////////////////////// Calendar Factory Methods /////////////////////////
+    /////////////////////// Cblfndbr Fbdtory Mftiods /////////////////////////
 
-    private volatile static boolean initialized = false;
+    privbtf volbtilf stbtid boolfbn initiblizfd = fblsf;
 
-    // Map of calendar names and calendar class names
-    private static ConcurrentMap<String, String> names;
+    // Mbp of dblfndbr nbmfs bnd dblfndbr dlbss nbmfs
+    privbtf stbtid CondurrfntMbp<String, String> nbmfs;
 
-    // Map of calendar names and CalendarSystem instances
-    private static ConcurrentMap<String,CalendarSystem> calendars;
+    // Mbp of dblfndbr nbmfs bnd CblfndbrSystfm instbndfs
+    privbtf stbtid CondurrfntMbp<String,CblfndbrSystfm> dblfndbrs;
 
-    private static final String PACKAGE_NAME = "sun.util.calendar.";
+    privbtf stbtid finbl String PACKAGE_NAME = "sun.util.dblfndbr.";
 
-    private static final String[] namePairs = {
-        "gregorian", "Gregorian",
-        "japanese", "LocalGregorianCalendar",
-        "julian", "JulianCalendar",
+    privbtf stbtid finbl String[] nbmfPbirs = {
+        "grfgoribn", "Grfgoribn",
+        "jbpbnfsf", "LodblGrfgoribnCblfndbr",
+        "julibn", "JulibnCblfndbr",
         /*
-        "hebrew", "HebrewCalendar",
-        "iso8601", "ISOCalendar",
-        "taiwanese", "LocalGregorianCalendar",
-        "thaibuddhist", "LocalGregorianCalendar",
+        "ifbrfw", "HfbrfwCblfndbr",
+        "iso8601", "ISOCblfndbr",
+        "tbiwbnfsf", "LodblGrfgoribnCblfndbr",
+        "tibibuddiist", "LodblGrfgoribnCblfndbr",
         */
     };
 
-    private static void initNames() {
-        ConcurrentMap<String,String> nameMap = new ConcurrentHashMap<>();
+    privbtf stbtid void initNbmfs() {
+        CondurrfntMbp<String,String> nbmfMbp = nfw CondurrfntHbsiMbp<>();
 
-        // Associate a calendar name with its class name and the
-        // calendar class name with its date class name.
-        StringBuilder clName = new StringBuilder();
-        for (int i = 0; i < namePairs.length; i += 2) {
-            clName.setLength(0);
-            String cl = clName.append(PACKAGE_NAME).append(namePairs[i+1]).toString();
-            nameMap.put(namePairs[i], cl);
+        // Assodibtf b dblfndbr nbmf witi its dlbss nbmf bnd tif
+        // dblfndbr dlbss nbmf witi its dbtf dlbss nbmf.
+        StringBuildfr dlNbmf = nfw StringBuildfr();
+        for (int i = 0; i < nbmfPbirs.lfngti; i += 2) {
+            dlNbmf.sftLfngti(0);
+            String dl = dlNbmf.bppfnd(PACKAGE_NAME).bppfnd(nbmfPbirs[i+1]).toString();
+            nbmfMbp.put(nbmfPbirs[i], dl);
         }
-        synchronized (CalendarSystem.class) {
-            if (!initialized) {
-                names = nameMap;
-                calendars = new ConcurrentHashMap<>();
-                initialized = true;
+        syndironizfd (CblfndbrSystfm.dlbss) {
+            if (!initiblizfd) {
+                nbmfs = nbmfMbp;
+                dblfndbrs = nfw CondurrfntHbsiMbp<>();
+                initiblizfd = truf;
             }
         }
     }
 
-    private final static Gregorian GREGORIAN_INSTANCE = new Gregorian();
+    privbtf finbl stbtid Grfgoribn GREGORIAN_INSTANCE = nfw Grfgoribn();
 
     /**
-     * Returns the singleton instance of the <code>Gregorian</code>
-     * calendar system.
+     * Rfturns tif singlfton instbndf of tif <dodf>Grfgoribn</dodf>
+     * dblfndbr systfm.
      *
-     * @return the <code>Gregorian</code> instance
+     * @rfturn tif <dodf>Grfgoribn</dodf> instbndf
      */
-    public static Gregorian getGregorianCalendar() {
-        return GREGORIAN_INSTANCE;
+    publid stbtid Grfgoribn gftGrfgoribnCblfndbr() {
+        rfturn GREGORIAN_INSTANCE;
     }
 
     /**
-     * Returns a <code>CalendarSystem</code> specified by the calendar
-     * name. The calendar name has to be one of the supported calendar
-     * names.
+     * Rfturns b <dodf>CblfndbrSystfm</dodf> spfdififd by tif dblfndbr
+     * nbmf. Tif dblfndbr nbmf ibs to bf onf of tif supportfd dblfndbr
+     * nbmfs.
      *
-     * @param calendarName the calendar name
-     * @return the <code>CalendarSystem</code> specified by
-     * <code>calendarName</code>, or null if there is no
-     * <code>CalendarSystem</code> associated with the given calendar name.
+     * @pbrbm dblfndbrNbmf tif dblfndbr nbmf
+     * @rfturn tif <dodf>CblfndbrSystfm</dodf> spfdififd by
+     * <dodf>dblfndbrNbmf</dodf>, or null if tifrf is no
+     * <dodf>CblfndbrSystfm</dodf> bssodibtfd witi tif givfn dblfndbr nbmf.
      */
-    public static CalendarSystem forName(String calendarName) {
-        if ("gregorian".equals(calendarName)) {
-            return GREGORIAN_INSTANCE;
+    publid stbtid CblfndbrSystfm forNbmf(String dblfndbrNbmf) {
+        if ("grfgoribn".fqubls(dblfndbrNbmf)) {
+            rfturn GREGORIAN_INSTANCE;
         }
 
-        if (!initialized) {
-            initNames();
+        if (!initiblizfd) {
+            initNbmfs();
         }
 
-        CalendarSystem cal = calendars.get(calendarName);
-        if (cal != null) {
-            return cal;
+        CblfndbrSystfm dbl = dblfndbrs.gft(dblfndbrNbmf);
+        if (dbl != null) {
+            rfturn dbl;
         }
 
-        String className = names.get(calendarName);
-        if (className == null) {
-            return null; // Unknown calendar name
+        String dlbssNbmf = nbmfs.gft(dblfndbrNbmf);
+        if (dlbssNbmf == null) {
+            rfturn null; // Unknown dblfndbr nbmf
         }
 
-        if (className.endsWith("LocalGregorianCalendar")) {
-            // Create the specific kind of local Gregorian calendar system
-            cal = LocalGregorianCalendar.getLocalGregorianCalendar(calendarName);
-        } else {
+        if (dlbssNbmf.fndsWiti("LodblGrfgoribnCblfndbr")) {
+            // Crfbtf tif spfdifid kind of lodbl Grfgoribn dblfndbr systfm
+            dbl = LodblGrfgoribnCblfndbr.gftLodblGrfgoribnCblfndbr(dblfndbrNbmf);
+        } flsf {
             try {
-                Class<?> cl = Class.forName(className);
-                cal = (CalendarSystem) cl.newInstance();
-            } catch (Exception e) {
-                throw new InternalError(e);
+                Clbss<?> dl = Clbss.forNbmf(dlbssNbmf);
+                dbl = (CblfndbrSystfm) dl.nfwInstbndf();
+            } dbtdi (Exdfption f) {
+                tirow nfw IntfrnblError(f);
             }
         }
-        if (cal == null) {
-            return null;
+        if (dbl == null) {
+            rfturn null;
         }
-        CalendarSystem cs =  calendars.putIfAbsent(calendarName, cal);
-        return (cs == null) ? cal : cs;
+        CblfndbrSystfm ds =  dblfndbrs.putIfAbsfnt(dblfndbrNbmf, dbl);
+        rfturn (ds == null) ? dbl : ds;
     }
 
     /**
-     * Returns a {@link Properties} loaded from lib/calendars.properties.
+     * Rfturns b {@link Propfrtifs} lobdfd from lib/dblfndbrs.propfrtifs.
      *
-     * @return a {@link Properties} loaded from lib/calendars.properties
-     * @throws IOException if an error occurred when reading from the input stream
-     * @throws IllegalArgumentException if the input stream contains any malformed
-     *                                  Unicode escape sequences
+     * @rfturn b {@link Propfrtifs} lobdfd from lib/dblfndbrs.propfrtifs
+     * @tirows IOExdfption if bn frror oddurrfd wifn rfbding from tif input strfbm
+     * @tirows IllfgblArgumfntExdfption if tif input strfbm dontbins bny mblformfd
+     *                                  Unidodf fsdbpf sfqufndfs
      */
-    public static Properties getCalendarProperties() throws IOException {
-        Properties calendarProps = null;
+    publid stbtid Propfrtifs gftCblfndbrPropfrtifs() tirows IOExdfption {
+        Propfrtifs dblfndbrProps = null;
         try {
-            String homeDir = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("java.home"));
-            final String fname = homeDir + File.separator + "lib" + File.separator
-                                 + "calendars.properties";
-            calendarProps = AccessController.doPrivileged(new PrivilegedExceptionAction<Properties>() {
-                @Override
-                public Properties run() throws IOException {
-                    Properties props = new Properties();
-                    try (FileInputStream fis = new FileInputStream(fname)) {
-                        props.load(fis);
+            String iomfDir = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.iomf"));
+            finbl String fnbmf = iomfDir + Filf.sfpbrbtor + "lib" + Filf.sfpbrbtor
+                                 + "dblfndbrs.propfrtifs";
+            dblfndbrProps = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Propfrtifs>() {
+                @Ovfrridf
+                publid Propfrtifs run() tirows IOExdfption {
+                    Propfrtifs props = nfw Propfrtifs();
+                    try (FilfInputStrfbm fis = nfw FilfInputStrfbm(fnbmf)) {
+                        props.lobd(fis);
                     }
-                    return props;
+                    rfturn props;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof IOException) {
-                throw (IOException) cause;
-            } else if (cause instanceof IllegalArgumentException) {
-                throw (IllegalArgumentException) cause;
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            Tirowbblf dbusf = f.gftCbusf();
+            if (dbusf instbndfof IOExdfption) {
+                tirow (IOExdfption) dbusf;
+            } flsf if (dbusf instbndfof IllfgblArgumfntExdfption) {
+                tirow (IllfgblArgumfntExdfption) dbusf;
             }
-            // Should not happen
-            throw new InternalError(cause);
+            // Siould not ibppfn
+            tirow nfw IntfrnblError(dbusf);
         }
-        return calendarProps;
+        rfturn dblfndbrProps;
     }
 
-    //////////////////////////////// Calendar API //////////////////////////////////
+    //////////////////////////////// Cblfndbr API //////////////////////////////////
 
     /**
-     * Returns the name of this calendar system.
+     * Rfturns tif nbmf of tiis dblfndbr systfm.
      */
-    public abstract String getName();
+    publid bbstrbdt String gftNbmf();
 
-    public abstract CalendarDate getCalendarDate();
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf();
 
     /**
-     * Calculates calendar fields from the specified number of
-     * milliseconds since the Epoch, January 1, 1970 00:00:00 UTC
-     * (Gregorian). This method doesn't check overflow or underflow
-     * when adjusting the millisecond value (representing UTC) with
-     * the time zone offsets (i.e., the GMT offset and amount of
-     * daylight saving).
+     * Cbldulbtfs dblfndbr fiflds from tif spfdififd numbfr of
+     * millisfdonds sindf tif Epodi, Jbnubry 1, 1970 00:00:00 UTC
+     * (Grfgoribn). Tiis mftiod dofsn't difdk ovfrflow or undfrflow
+     * wifn bdjusting tif millisfdond vbluf (rfprfsfnting UTC) witi
+     * tif timf zonf offsfts (i.f., tif GMT offsft bnd bmount of
+     * dbyligit sbving).
      *
-     * @param millis the offset value in milliseconds from January 1,
-     * 1970 00:00:00 UTC (Gregorian).
-     * @return a <code>CalendarDate</code> instance that contains the
-     * calculated calendar field values.
+     * @pbrbm millis tif offsft vbluf in millisfdonds from Jbnubry 1,
+     * 1970 00:00:00 UTC (Grfgoribn).
+     * @rfturn b <dodf>CblfndbrDbtf</dodf> instbndf tibt dontbins tif
+     * dbldulbtfd dblfndbr fifld vblufs.
      */
-    public abstract CalendarDate getCalendarDate(long millis);
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis);
 
-    public abstract CalendarDate getCalendarDate(long millis, CalendarDate date);
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis, CblfndbrDbtf dbtf);
 
-    public abstract CalendarDate getCalendarDate(long millis, TimeZone zone);
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis, TimfZonf zonf);
 
     /**
-     * Constructs a <code>CalendarDate</code> that is specific to this
-     * calendar system. All calendar fields have their initial
-     * values. The {@link TimeZone#getDefault() default time zone} is
-     * set to the instance.
+     * Construdts b <dodf>CblfndbrDbtf</dodf> tibt is spfdifid to tiis
+     * dblfndbr systfm. All dblfndbr fiflds ibvf tifir initibl
+     * vblufs. Tif {@link TimfZonf#gftDffbult() dffbult timf zonf} is
+     * sft to tif instbndf.
      *
-     * @return a <code>CalendarDate</code> instance that contains the initial
-     * calendar field values.
+     * @rfturn b <dodf>CblfndbrDbtf</dodf> instbndf tibt dontbins tif initibl
+     * dblfndbr fifld vblufs.
      */
-    public abstract CalendarDate newCalendarDate();
+    publid bbstrbdt CblfndbrDbtf nfwCblfndbrDbtf();
 
-    public abstract CalendarDate newCalendarDate(TimeZone zone);
+    publid bbstrbdt CblfndbrDbtf nfwCblfndbrDbtf(TimfZonf zonf);
 
     /**
-     * Returns the number of milliseconds since the Epoch, January 1,
-     * 1970 00:00:00 UTC (Gregorian), represented by the specified
-     * <code>CalendarDate</code>.
+     * Rfturns tif numbfr of millisfdonds sindf tif Epodi, Jbnubry 1,
+     * 1970 00:00:00 UTC (Grfgoribn), rfprfsfntfd by tif spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
      *
-     * @param date the <code>CalendarDate</code> from which the time
-     * value is calculated
-     * @return the number of milliseconds since the Epoch.
+     * @pbrbm dbtf tif <dodf>CblfndbrDbtf</dodf> from wiidi tif timf
+     * vbluf is dbldulbtfd
+     * @rfturn tif numbfr of millisfdonds sindf tif Epodi.
      */
-    public abstract long getTime(CalendarDate date);
+    publid bbstrbdt long gftTimf(CblfndbrDbtf dbtf);
 
     /**
-     * Returns the length in days of the specified year by
-     * <code>date</code>. This method does not perform the
-     * normalization with the specified <code>CalendarDate</code>. The
-     * <code>CalendarDate</code> must be normalized to get a correct
-     * value.
+     * Rfturns tif lfngti in dbys of tif spfdififd yfbr by
+     * <dodf>dbtf</dodf>. Tiis mftiod dofs not pfrform tif
+     * normblizbtion witi tif spfdififd <dodf>CblfndbrDbtf</dodf>. Tif
+     * <dodf>CblfndbrDbtf</dodf> must bf normblizfd to gft b dorrfdt
+     * vbluf.
      */
-    public abstract int getYearLength(CalendarDate date);
+    publid bbstrbdt int gftYfbrLfngti(CblfndbrDbtf dbtf);
 
     /**
-     * Returns the number of months of the specified year. This method
-     * does not perform the normalization with the specified
-     * <code>CalendarDate</code>. The <code>CalendarDate</code> must
-     * be normalized to get a correct value.
+     * Rfturns tif numbfr of montis of tif spfdififd yfbr. Tiis mftiod
+     * dofs not pfrform tif normblizbtion witi tif spfdififd
+     * <dodf>CblfndbrDbtf</dodf>. Tif <dodf>CblfndbrDbtf</dodf> must
+     * bf normblizfd to gft b dorrfdt vbluf.
      */
-    public abstract int getYearLengthInMonths(CalendarDate date);
+    publid bbstrbdt int gftYfbrLfngtiInMontis(CblfndbrDbtf dbtf);
 
     /**
-     * Returns the length in days of the month specified by the calendar
-     * date. This method does not perform the normalization with the
-     * specified calendar date. The <code>CalendarDate</code> must
-     * be normalized to get a correct value.
+     * Rfturns tif lfngti in dbys of tif monti spfdififd by tif dblfndbr
+     * dbtf. Tiis mftiod dofs not pfrform tif normblizbtion witi tif
+     * spfdififd dblfndbr dbtf. Tif <dodf>CblfndbrDbtf</dodf> must
+     * bf normblizfd to gft b dorrfdt vbluf.
      *
-     * @param date the date from which the month value is obtained
-     * @return the number of days in the month
-     * @exception IllegalArgumentException if the specified calendar date
-     * doesn't have a valid month value in this calendar system.
+     * @pbrbm dbtf tif dbtf from wiidi tif monti vbluf is obtbinfd
+     * @rfturn tif numbfr of dbys in tif monti
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd dblfndbr dbtf
+     * dofsn't ibvf b vblid monti vbluf in tiis dblfndbr systfm.
      */
-    public abstract int getMonthLength(CalendarDate date); // no setter
+    publid bbstrbdt int gftMontiLfngti(CblfndbrDbtf dbtf); // no sfttfr
 
     /**
-     * Returns the length in days of a week in this calendar
-     * system. If this calendar system has multiple radix weeks, this
-     * method returns only one of them.
+     * Rfturns tif lfngti in dbys of b wffk in tiis dblfndbr
+     * systfm. If tiis dblfndbr systfm ibs multiplf rbdix wffks, tiis
+     * mftiod rfturns only onf of tifm.
      */
-    public abstract int getWeekLength();
+    publid bbstrbdt int gftWffkLfngti();
 
     /**
-     * Returns the <code>Era</code> designated by the era name that
-     * has to be known to this calendar system. If no Era is
-     * applicable to this calendar system, null is returned.
+     * Rfturns tif <dodf>Erb</dodf> dfsignbtfd by tif frb nbmf tibt
+     * ibs to bf known to tiis dblfndbr systfm. If no Erb is
+     * bpplidbblf to tiis dblfndbr systfm, null is rfturnfd.
      *
-     * @param eraName the name of the era
-     * @return the <code>Era</code> designated by
-     * <code>eraName</code>, or <code>null</code> if no Era is
-     * applicable to this calendar system or the specified era name is
-     * not known to this calendar system.
+     * @pbrbm frbNbmf tif nbmf of tif frb
+     * @rfturn tif <dodf>Erb</dodf> dfsignbtfd by
+     * <dodf>frbNbmf</dodf>, or <dodf>null</dodf> if no Erb is
+     * bpplidbblf to tiis dblfndbr systfm or tif spfdififd frb nbmf is
+     * not known to tiis dblfndbr systfm.
      */
-    public abstract Era getEra(String eraName);
+    publid bbstrbdt Erb gftErb(String frbNbmf);
 
     /**
-     * Returns valid <code>Era</code>s of this calendar system. The
-     * return value is sorted in the descendant order. (i.e., the first
-     * element of the returned array is the oldest era.) If no era is
-     * applicable to this calendar system, <code>null</code> is returned.
+     * Rfturns vblid <dodf>Erb</dodf>s of tiis dblfndbr systfm. Tif
+     * rfturn vbluf is sortfd in tif dfsdfndbnt ordfr. (i.f., tif first
+     * flfmfnt of tif rfturnfd brrby is tif oldfst frb.) If no frb is
+     * bpplidbblf to tiis dblfndbr systfm, <dodf>null</dodf> is rfturnfd.
      *
-     * @return an array of valid <code>Era</code>s, or
-     * <code>null</code> if no era is applicable to this calendar
-     * system.
+     * @rfturn bn brrby of vblid <dodf>Erb</dodf>s, or
+     * <dodf>null</dodf> if no frb is bpplidbblf to tiis dblfndbr
+     * systfm.
      */
-    public abstract Era[] getEras();
+    publid bbstrbdt Erb[] gftErbs();
 
     /**
-     * @throws IllegalArgumentException if the specified era name is
-     * unknown to this calendar system.
-     * @see Era
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd frb nbmf is
+     * unknown to tiis dblfndbr systfm.
+     * @sff Erb
      */
-    public abstract void setEra(CalendarDate date, String eraName);
+    publid bbstrbdt void sftErb(CblfndbrDbtf dbtf, String frbNbmf);
 
     /**
-     * Returns a <code>CalendarDate</code> of the n-th day of week
-     * which is on, after or before the specified date. For example, the
-     * first Sunday in April 2002 (Gregorian) can be obtained as
-     * below:
+     * Rfturns b <dodf>CblfndbrDbtf</dodf> of tif n-ti dby of wffk
+     * wiidi is on, bftfr or bfforf tif spfdififd dbtf. For fxbmplf, tif
+     * first Sundby in April 2002 (Grfgoribn) dbn bf obtbinfd bs
+     * bflow:
      *
-     * <pre><code>
-     * Gregorian cal = CalendarSystem.getGregorianCalendar();
-     * CalendarDate date = cal.newCalendarDate();
-     * date.setDate(2004, cal.APRIL, 1);
-     * CalendarDate firstSun = cal.getNthDayOfWeek(1, cal.SUNDAY, date);
-     * // firstSun represents April 4, 2004.
-     * </code></pre>
+     * <prf><dodf>
+     * Grfgoribn dbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+     * CblfndbrDbtf dbtf = dbl.nfwCblfndbrDbtf();
+     * dbtf.sftDbtf(2004, dbl.APRIL, 1);
+     * CblfndbrDbtf firstSun = dbl.gftNtiDbyOfWffk(1, dbl.SUNDAY, dbtf);
+     * // firstSun rfprfsfnts April 4, 2004.
+     * </dodf></prf>
      *
-     * This method returns a new <code>CalendarDate</code> instance
-     * and doesn't modify the original date.
+     * Tiis mftiod rfturns b nfw <dodf>CblfndbrDbtf</dodf> instbndf
+     * bnd dofsn't modify tif originbl dbtf.
      *
-     * @param nth specifies the n-th one. A positive number specifies
-     * <em>on or after</em> the <code>date</code>. A non-positive number
-     * specifies <em>on or before</em> the <code>date</code>.
-     * @param dayOfWeek the day of week
-     * @param date the date
-     * @return the date of the nth <code>dayOfWeek</code> after
-     * or before the specified <code>CalendarDate</code>
+     * @pbrbm nti spfdififs tif n-ti onf. A positivf numbfr spfdififs
+     * <fm>on or bftfr</fm> tif <dodf>dbtf</dodf>. A non-positivf numbfr
+     * spfdififs <fm>on or bfforf</fm> tif <dodf>dbtf</dodf>.
+     * @pbrbm dbyOfWffk tif dby of wffk
+     * @pbrbm dbtf tif dbtf
+     * @rfturn tif dbtf of tif nti <dodf>dbyOfWffk</dodf> bftfr
+     * or bfforf tif spfdififd <dodf>CblfndbrDbtf</dodf>
      */
-    public abstract CalendarDate getNthDayOfWeek(int nth, int dayOfWeek,
-                                                 CalendarDate date);
+    publid bbstrbdt CblfndbrDbtf gftNtiDbyOfWffk(int nti, int dbyOfWffk,
+                                                 CblfndbrDbtf dbtf);
 
-    public abstract CalendarDate setTimeOfDay(CalendarDate date, int timeOfDay);
-
-    /**
-     * Checks whether the calendar fields specified by <code>date</code>
-     * represents a valid date and time in this calendar system. If the
-     * given date is valid, <code>date</code> is marked as <em>normalized</em>.
-     *
-     * @param date the <code>CalendarDate</code> to be validated
-     * @return <code>true</code> if all the calendar fields are consistent,
-     * otherwise, <code>false</code> is returned.
-     * @exception NullPointerException if the specified
-     * <code>date</code> is <code>null</code>
-     */
-    public abstract boolean validate(CalendarDate date);
+    publid bbstrbdt CblfndbrDbtf sftTimfOfDby(CblfndbrDbtf dbtf, int timfOfDby);
 
     /**
-     * Normalizes calendar fields in the specified
-     * <code>date</code>. Also all {@link CalendarDate#FIELD_UNDEFINED
-     * undefined} fields are set to correct values. The actual
-     * normalization process is calendar system dependent.
+     * Cifdks wiftifr tif dblfndbr fiflds spfdififd by <dodf>dbtf</dodf>
+     * rfprfsfnts b vblid dbtf bnd timf in tiis dblfndbr systfm. If tif
+     * givfn dbtf is vblid, <dodf>dbtf</dodf> is mbrkfd bs <fm>normblizfd</fm>.
      *
-     * @param date the calendar date to be validated
-     * @return <code>true</code> if all fields have been normalized;
-     * <code>false</code> otherwise.
-     * @exception NullPointerException if the specified
-     * <code>date</code> is <code>null</code>
+     * @pbrbm dbtf tif <dodf>CblfndbrDbtf</dodf> to bf vblidbtfd
+     * @rfturn <dodf>truf</dodf> if bll tif dblfndbr fiflds brf donsistfnt,
+     * otifrwisf, <dodf>fblsf</dodf> is rfturnfd.
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     * <dodf>dbtf</dodf> is <dodf>null</dodf>
      */
-    public abstract boolean normalize(CalendarDate date);
+    publid bbstrbdt boolfbn vblidbtf(CblfndbrDbtf dbtf);
+
+    /**
+     * Normblizfs dblfndbr fiflds in tif spfdififd
+     * <dodf>dbtf</dodf>. Also bll {@link CblfndbrDbtf#FIELD_UNDEFINED
+     * undffinfd} fiflds brf sft to dorrfdt vblufs. Tif bdtubl
+     * normblizbtion prodfss is dblfndbr systfm dfpfndfnt.
+     *
+     * @pbrbm dbtf tif dblfndbr dbtf to bf vblidbtfd
+     * @rfturn <dodf>truf</dodf> if bll fiflds ibvf bffn normblizfd;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     * <dodf>dbtf</dodf> is <dodf>null</dodf>
+     */
+    publid bbstrbdt boolfbn normblizf(CblfndbrDbtf dbtf);
 }

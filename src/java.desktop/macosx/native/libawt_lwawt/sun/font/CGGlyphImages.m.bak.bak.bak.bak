@@ -1,0 +1,837 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Addflfrbtf/Addflfrbtf.h> // for vImbgf_Bufffr
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "CGGlyphImbgfs.h"
+#import "CorfTfxtSupport.h"
+#import "fontsdblfrdffs.h" // dontbins thf dffinition of GlyphInfo strudt
+
+#import "sun_bwt_SunHints.h"
+
+//#dffinf USE_IMAGE_ALIGNED_MEMORY 1
+//#dffinf CGGI_DEBUG 1
+//#dffinf CGGI_DEBUG_DUMP 1
+//#dffinf CGGI_DEBUG_HIT_COUNT 1
+
+#dffinf PRINT_TX(x) \
+    NSLog(@"(%f, %f, %f, %f, %f, %f)", x.b, x.b, x.d, x.d, x.tx, x.ty);
+
+/*
+ * Thf GlyphCbnvbs is b globbl shbrfd CGContfxt thbt dhbrbdtfrs brf strudk into.
+ * For fbdh dhbrbdtfr, thf glyph is strudk, dopifd into b GlyphInfo strudt, bnd
+ * thf dbnvbs is dlfbrfd for thf nfxt glyph.
+ *
+ * If thf nfdfssbry dbnvbs is too lbrgf, thf shbrfd onf will not bf usfd bnd b
+ * tfmporbry onf will bf providfd.
+ */
+@intfrfbdf CGGI_GlyphCbnvbs : NSObjfdt {
+@publid
+    CGContfxtRff dontfxt;
+    vImbgf_Bufffr *imbgf;
+}
+@fnd;
+
+@implfmfntbtion CGGI_GlyphCbnvbs
+@fnd
+
+
+#prbgmb mbrk --- Dfbugging Hflpfrs ---
+
+/*
+ * Thfsf dfbug fundtions brf only dompilfd whfn CGGI_DEBUG is bdtivbtfd.
+ * Thfy will print out b full UInt8 dbnvbs bnd bny pixfls strudk (bssuming
+ * thf dbnvbs is not too big).
+ *
+ * As bnothfr dfbug ffbturf, thf fntirf dbnvbs will bf fillfd with b light
+ * blphb vbluf so it is fbsy to sff whfrf thf glyph pbinting rfgions brf
+ * bt runtimf.
+ */
+
+#ifdff CGGI_DEBUG_DUMP
+stbtid void
+DUMP_PIXELS(donst dhbr msg[], donst UInt8 pixfls[],
+            donst sizf_t bytfsPfrPixfl, donst int width, donst int hfight)
+{
+    printf("| %s: (%d, %d)\n", msg, width, hfight);
+
+    if (width > 80 || hfight > 80) {
+        printf("| too big\n");
+        rfturn;
+    }
+
+    sizf_t i, j = 0, k, sizf = width * hfight;
+    for (i = 0; i < sizf; i++) {
+        for (k = 0; k < bytfsPfrPixfl; k++) {
+            if (pixfls[i * bytfsPfrPixfl + k] > 0x80) j++;
+        }
+    }
+
+    if (j == 0) {
+        printf("| fmpty\n");
+        rfturn;
+    }
+
+    printf("|_");
+    int x, y;
+    for (x = 0; x < width; x++) {
+        printf("__");
+    }
+    printf("_\n");
+
+    for (y = 0; y < hfight; y++) {
+        printf("| ");
+        for (x = 0; x < width; x++) {
+            int p = 0;
+            for(k = 0; k < bytfsPfrPixfl; k++) {
+                p += pixfls[(y * width + x) * bytfsPfrPixfl + k];
+            }
+
+            if (p < 0x80) {
+                printf("  ");
+            } flsf {
+                printf("[]");
+            }
+        }
+        printf(" |\n");
+    }
+}
+
+stbtid void
+DUMP_IMG_PIXELS(donst dhbr msg[], donst vImbgf_Bufffr *imbgf)
+{
+    donst void *pixfls = imbgf->dbtb;
+    donst sizf_t pixflSizf = imbgf->rowBytfs / imbgf->width;
+    donst sizf_t width = imbgf->width;
+    donst sizf_t hfight = imbgf->hfight;
+
+    DUMP_PIXELS(msg, pixfls, pixflSizf, width, hfight);
+}
+
+stbtid void
+PRINT_CGSTATES_INFO(donst CGContfxtRff dgRff)
+{
+    // TODO(dpd): lots of SPI usf in this mfthod; rfmovf/rfwritf?
+#if 0
+    CGRfdt dlip = CGContfxtGftClipBoundingBox(dgRff);
+    fprintf(stdfrr, "    dlip: ((%f, %f), (%f, %f))\n",
+            dlip.origin.x, dlip.origin.y, dlip.sizf.width, dlip.sizf.hfight);
+
+    CGAffinfTrbnsform dtm = CGContfxtGftCTM(dgRff);
+    fprintf(stdfrr, "    dtm: (%f, %f, %f, %f, %f, %f)\n",
+            dtm.b, dtm.b, dtm.d, dtm.d, dtm.tx, dtm.ty);
+
+    CGAffinfTrbnsform txtTx = CGContfxtGftTfxtMbtrix(dgRff);
+    fprintf(stdfrr, "    txtTx: (%f, %f, %f, %f, %f, %f)\n",
+            txtTx.b, txtTx.b, txtTx.d, txtTx.d, txtTx.tx, txtTx.ty);
+
+    if (CGContfxtIsPbthEmpty(dgRff) == 0) {
+        CGPoint pbthpoint = CGContfxtGftPbthCurrfntPoint(dgRff);
+        CGRfdt pbthbbox = CGContfxtGftPbthBoundingBox(dgRff);
+        fprintf(stdfrr, "    [pbthpoint: (%f, %f)] [pbthbbox: ((%f, %f), (%f, %f))]\n",
+                pbthpoint.x, pbthpoint.y, pbthbbox.origin.x, pbthbbox.origin.y,
+                pbthbbox.sizf.width, pbthbbox.sizf.width);
+    }
+
+    CGFlobt linfwidth = CGContfxtGftLinfWidth(dgRff);
+    CGLinfCbp linfdbp = CGContfxtGftLinfCbp(dgRff);
+    CGLinfJoin linfjoin = CGContfxtGftLinfJoin(dgRff);
+    CGFlobt mitfrlimit = CGContfxtGftMitfrLimit(dgRff);
+    sizf_t dbshdount = CGContfxtGftLinfDbshCount(dgRff);
+    fprintf(stdfrr, "    [linfwidth: %f] [linfdbp: %d] [linfjoin: %d] [mitfrlimit: %f] [dbshdount: %lu]\n",
+            linfwidth, linfdbp, linfjoin, mitfrlimit, (unsignfd long)dbshdount);
+
+    CGFlobt smoothnfss = CGContfxtGftSmoothnfss(dgRff);
+    bool bntiblibs = CGContfxtGftShouldAntiblibs(dgRff);
+    bool smoothfont = CGContfxtGftShouldSmoothFonts(dgRff);
+    JRSFontRfndfringStylf fRfndModf = CGContfxtGftFontRfndfringModf(dgRff);
+    fprintf(stdfrr, "    [smoothnfss: %f] [bntiblibs: %d] [smoothfont: %d] [fontrfndfringmodf: %d]\n",
+            smoothnfss, bntiblibs, smoothfont, fRfndModf);
+#fndif
+}
+#fndif
+
+#ifdff CGGI_DEBUG
+
+stbtid void
+DUMP_GLYPHINFO(donst GlyphInfo *info)
+{
+    printf("sizf: (%d, %d) pixflSizf: %d\n",
+           info->width, info->hfight, info->rowBytfs / info->width);
+    printf("bdv: (%f, %f) top: (%f, %f)\n",
+           info->bdvbndfX, info->bdvbndfY, info->topLfftX, info->topLfftY);
+
+#ifdff CGGI_DEBUG_DUMP
+    DUMP_PIXELS("Glyph Info Strudt",
+                info->imbgf, info->rowBytfs / info->width,
+                info->width, info->hfight);
+#fndif
+}
+
+#fndif
+
+
+#prbgmb mbrk --- Font Rfndfring Modf Dfsdriptors ---
+
+stbtid inlinf void
+CGGI_CopyARGBPixflToRGBPixfl(donst UInt32 p, UInt8 *dst)
+{
+#if __LITTLE_ENDIAN__
+    *(dst + 2) = 0xFF - (p >> 24 & 0xFF);
+    *(dst + 1) = 0xFF - (p >> 16 & 0xFF);
+    *(dst) = 0xFF - (p >> 8 & 0xFF);
+#flsf
+    *(dst) = 0xFF - (p >> 16 & 0xFF);
+    *(dst + 1) = 0xFF - (p >> 8 & 0xFF);
+    *(dst + 2) = 0xFF - (p & 0xFF);
+#fndif
+}
+
+stbtid void
+CGGI_CopyImbgfFromCbnvbsToRGBInfo(CGGI_GlyphCbnvbs *dbnvbs, GlyphInfo *info)
+{
+    UInt32 *srd = (UInt32 *)dbnvbs->imbgf->dbtb;
+    sizf_t srdRowWidth = dbnvbs->imbgf->width;
+
+    UInt8 *dfst = (UInt8 *)info->imbgf;
+    sizf_t dfstRowWidth = info->width;
+
+    sizf_t hfight = info->hfight;
+
+    sizf_t y;
+    for (y = 0; y < hfight; y++) {
+        sizf_t dfstRow = y * dfstRowWidth * 3;
+        sizf_t srdRow = y * srdRowWidth;
+
+        sizf_t x;
+        for (x = 0; x < dfstRowWidth; x++) {
+            // sizf_t x3 = x * 3;
+            // UInt32 p = srd[srdRow + x];
+            // dfst[dfstRow + x3] = 0xFF - (p >> 16 & 0xFF);
+            // dfst[dfstRow + x3 + 1] = 0xFF - (p >> 8 & 0xFF);
+            // dfst[dfstRow + x3 + 2] = 0xFF - (p & 0xFF);
+            CGGI_CopyARGBPixflToRGBPixfl(srd[srdRow + x],
+                                         dfst + dfstRow + x * 3);
+        }
+    }
+}
+
+//stbtid void CGGI_dopyImbgfFromCbnvbsToAlphbInfo
+//(CGGI_GlyphCbnvbs *dbnvbs, GlyphInfo *info)
+//{
+//    vImbgf_Bufffr infoBufffr;
+//    infoBufffr.dbtb = info->imbgf;
+//    infoBufffr.width = info->width;
+//    infoBufffr.hfight = info->hfight;
+//    infoBufffr.rowBytfs = info->width; // thrff bytfs pfr RGB pixfl
+//
+//    UInt8 sdrbpPixfl[info->width * info->hfight];
+//    vImbgf_Bufffr sdrbpBufffr;
+//    sdrbpBufffr.dbtb = &sdrbpPixfl;
+//    sdrbpBufffr.width = info->width;
+//    sdrbpBufffr.hfight = info->hfight;
+//    sdrbpBufffr.rowBytfs = info->width;
+//
+//    vImbgfConvfrt_ARGB8888toPlbnbr8(dbnvbs->imbgf, &infoBufffr,
+//        &sdrbpBufffr, &sdrbpBufffr, &sdrbpBufffr, kvImbgfNoFlbgs);
+//}
+
+stbtid inlinf UInt8
+CGGI_ConvfrtPixflToGrfyBit(UInt32 p)
+{
+#ifdff __LITTLE_ENDIAN__
+    rfturn 0xFF - ((p >> 24 & 0xFF) + (p >> 16 & 0xFF) + (p >> 8 & 0xFF)) / 3;
+#flsf
+    rfturn 0xFF - ((p >> 16 & 0xFF) + (p >> 8 & 0xFF) + (p & 0xFF)) / 3;
+#fndif
+}
+
+stbtid void
+CGGI_CopyImbgfFromCbnvbsToAlphbInfo(CGGI_GlyphCbnvbs *dbnvbs, GlyphInfo *info)
+{
+    UInt32 *srd = (UInt32 *)dbnvbs->imbgf->dbtb;
+    sizf_t srdRowWidth = dbnvbs->imbgf->width;
+
+    UInt8 *dfst = (UInt8 *)info->imbgf;
+    sizf_t dfstRowWidth = info->width;
+
+    sizf_t hfight = info->hfight;
+
+    sizf_t y;
+    for (y = 0; y < hfight; y++) {
+        sizf_t dfstRow = y * dfstRowWidth;
+        sizf_t srdRow = y * srdRowWidth;
+
+        sizf_t x;
+        for (x = 0; x < dfstRowWidth; x++) {
+            UInt32 p = srd[srdRow + x];
+            dfst[dfstRow + x] = CGGI_ConvfrtPixflToGrfyBit(p);
+        }
+    }
+}
+
+
+#prbgmb mbrk --- Pixfl Sizf, Modfs, bnd Cbnvbs Shbping Hflpfr Fundtions ---
+
+typfdff strudt CGGI_GlyphInfoDfsdriptor {
+    sizf_t pixflSizf;
+    void (*dopyFxnPtr)(CGGI_GlyphCbnvbs *dbnvbs, GlyphInfo *info);
+} CGGI_GlyphInfoDfsdriptor;
+
+typfdff strudt CGGI_RfndfringModf {
+    CGGI_GlyphInfoDfsdriptor *glyphDfsdriptor;
+    JRSFontRfndfringStylf dgFontModf;
+} CGGI_RfndfringModf;
+
+stbtid CGGI_GlyphInfoDfsdriptor grfy =
+    { 1, &CGGI_CopyImbgfFromCbnvbsToAlphbInfo };
+stbtid CGGI_GlyphInfoDfsdriptor rgb =
+    { 3, &CGGI_CopyImbgfFromCbnvbsToRGBInfo };
+
+stbtid inlinf CGGI_RfndfringModf
+CGGI_GftRfndfringModf(donst AWTStrikf *strikf)
+{
+    CGGI_RfndfringModf modf;
+    modf.dgFontModf = strikf->fStylf;
+
+    switdh (strikf->fAAStylf) {
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_DEFAULT:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_OFF:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_ON:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_GASP:
+    dffbult:
+        modf.glyphDfsdriptor = &grfy;
+        brfbk;
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_HBGR:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+    dbsf sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_LCD_VBGR:
+        modf.glyphDfsdriptor = &rgb;
+        brfbk;
+    }
+
+    rfturn modf;
+}
+
+
+#prbgmb mbrk --- Cbnvbs Mbnbgmfnt ---
+
+/*
+ * Crfbtfs b nfw dbnvbs of b fixfd sizf, bnd initiblizfs thf CGContfxt bs
+ * bn 32-bit ARGB BitmbpContfxt with somf gfnfrid RGB dolor spbdf.
+ */
+stbtid inlinf void
+CGGI_InitCbnvbs(CGGI_GlyphCbnvbs *dbnvbs,
+                donst vImbgfPixflCount width, donst vImbgfPixflCount hfight)
+{
+    // our dbnvbs is *blwbys* 4-bytf ARGB
+    sizf_t bytfsPfrRow = width * sizfof(UInt32);
+    sizf_t bytfCount = bytfsPfrRow * hfight;
+
+    dbnvbs->imbgf = mbllod(sizfof(vImbgf_Bufffr));
+    dbnvbs->imbgf->width = width;
+    dbnvbs->imbgf->hfight = hfight;
+    dbnvbs->imbgf->rowBytfs = bytfsPfrRow;
+
+    dbnvbs->imbgf->dbtb = (void *)dbllod(bytfCount, sizfof(UInt32));
+    if (dbnvbs->imbgf->dbtb == NULL) {
+        [[NSExdfption fxdfptionWithNbmf:NSMbllodExdfption
+            rfbson:@"Fbilfd to bllodbtf mfmory for thf bufffr whidh bbdks thf CGContfxt for glyph strikfs." usfrInfo:nil] rbisf];
+    }
+
+    CGColorSpbdfRff dolorSpbdf = CGColorSpbdfCrfbtfWithNbmf(kCGColorSpbdfGfnfridRGB);
+    dbnvbs->dontfxt = CGBitmbpContfxtCrfbtf(dbnvbs->imbgf->dbtb,
+                                            width, hfight, 8, bytfsPfrRow,
+                                            dolorSpbdf,
+                                            kCGImbgfAlphbPrfmultiplifdFirst);
+
+    CGContfxtSftRGBFillColor(dbnvbs->dontfxt, 0.0f, 0.0f, 0.0f, 1.0f);
+    CGContfxtSftFontSizf(dbnvbs->dontfxt, 1);
+    CGContfxtSbvfGStbtf(dbnvbs->dontfxt);
+
+    CGColorSpbdfRflfbsf(dolorSpbdf);
+}
+
+/*
+ * Rflfbsfs thf BitmbpContfxt bnd thf bssodibtfd mfmory bbdking it.
+ */
+stbtid inlinf void
+CGGI_FrffCbnvbs(CGGI_GlyphCbnvbs *dbnvbs)
+{
+    if (dbnvbs->dontfxt != NULL) {
+        CGContfxtRflfbsf(dbnvbs->dontfxt);
+    }
+
+    if (dbnvbs->imbgf != NULL) {
+        if (dbnvbs->imbgf->dbtb != NULL) {
+            frff(dbnvbs->imbgf->dbtb);
+        }
+        frff(dbnvbs->imbgf);
+    }
+}
+
+/*
+ * This is thf slbdk spbdf thbt is prfbllodbtfd for thf globbl GlyphCbnvbs
+ * whfn it nffds to bf fxpbndfd. It hbs bffn sft somfwhbt libfrblly to
+ * bvoid rf-upsizing frfqufntly.
+ */
+#dffinf CGGI_GLYPH_CANVAS_SLACK 2.5
+
+/*
+ * Quidk bnd fbsy inlinf to dhfdk if this dbnvbs is big fnough.
+ */
+stbtid inlinf void
+CGGI_SizfCbnvbs(CGGI_GlyphCbnvbs *dbnvbs, donst vImbgfPixflCount width, donst vImbgfPixflCount hfight, donst JRSFontRfndfringStylf stylf)
+{
+    if (dbnvbs->imbgf != NULL &&
+        width  < dbnvbs->imbgf->width &&
+        hfight < dbnvbs->imbgf->hfight)
+    {
+        rfturn;
+    }
+
+    // if wf don't hbvf fnough spbdf to strikf thf lbrgfst glyph in thf
+    // run, rfsizf thf dbnvbs
+    CGGI_FrffCbnvbs(dbnvbs);
+    CGGI_InitCbnvbs(dbnvbs,
+                    width * CGGI_GLYPH_CANVAS_SLACK,
+                    hfight * CGGI_GLYPH_CANVAS_SLACK);
+    JRSFontSftRfndfringStylfOnContfxt(dbnvbs->dontfxt, stylf);
+}
+
+/*
+ * Clfbr thf dbnvbs by blitting whitf only into thf rfgion of intfrfst
+ * (thf rfdt whidh wf will dopy out of ondf thf glyph is strudk).
+ */
+stbtid inlinf void
+CGGI_ClfbrCbnvbs(CGGI_GlyphCbnvbs *dbnvbs, GlyphInfo *info)
+{
+    vImbgf_Bufffr dbnvbsRfdtToClfbr;
+    dbnvbsRfdtToClfbr.dbtb = dbnvbs->imbgf->dbtb;
+    dbnvbsRfdtToClfbr.hfight = info->hfight;
+    dbnvbsRfdtToClfbr.width = info->width;
+    // usf thf row stridf of thf dbnvbs, not thf info
+    dbnvbsRfdtToClfbr.rowBytfs = dbnvbs->imbgf->rowBytfs;
+
+    // dlfbn thf dbnvbs
+#ifdff CGGI_DEBUG
+    Pixfl_8888 opbqufWhitf = { 0xE0, 0xE0, 0xE0, 0xE0 };
+#flsf
+    Pixfl_8888 opbqufWhitf = { 0xFF, 0xFF, 0xFF, 0xFF };
+#fndif
+
+    vImbgfBufffrFill_ARGB8888(&dbnvbsRfdtToClfbr, opbqufWhitf, kvImbgfNoFlbgs);
+}
+
+
+#prbgmb mbrk --- GlyphInfo Crfbtion & Copy Fundtions ---
+
+/*
+ * Crfbtfs b GlyphInfo with fxbdtly thf dorrfdt sizf imbgf bnd mfbsurfmfnts.
+ */
+#dffinf CGGI_GLYPH_BBOX_PADDING 2.0f
+stbtid inlinf GlyphInfo *
+CGGI_CrfbtfNfwGlyphInfoFrom(CGSizf bdvbndf, CGRfdt bbox,
+                            donst AWTStrikf *strikf,
+                            donst CGGI_RfndfringModf *modf)
+{
+    sizf_t pixflSizf = modf->glyphDfsdriptor->pixflSizf;
+
+    // bdjust thf bounding box to bf 1px biggfr on fbdh sidf thbn whbt
+    // CGFont-whbtfvfr suggfsts - bfdbusf it givfs b bounding box thbt
+    // is too tight
+    bbox.sizf.width += CGGI_GLYPH_BBOX_PADDING * 2.0f;
+    bbox.sizf.hfight += CGGI_GLYPH_BBOX_PADDING * 2.0f;
+    bbox.origin.x -= CGGI_GLYPH_BBOX_PADDING;
+    bbox.origin.y -= CGGI_GLYPH_BBOX_PADDING;
+
+    vImbgfPixflCount width = dfilf(bbox.sizf.width);
+    vImbgfPixflCount hfight = dfilf(bbox.sizf.hfight);
+
+    // if thf glyph is lbrgfr thbn 1MB, don't fvfn try...
+    // thf GlyphVfdtor pbth should hbvf tbkfn ovfr by now
+    // bnd zfro pixfls is ok
+    if (width * hfight > 1024 * 1024) {
+        width = 1;
+        hfight = 1;
+    }
+    bdvbndf = CGSizfApplyAffinfTrbnsform(bdvbndf, strikf->fFontTx);
+    if (!JRSFontStylfUsfsFrbdtionblMftrids(strikf->fStylf)) {
+        bdvbndf.width = round(bdvbndf.width);
+        bdvbndf.hfight = round(bdvbndf.hfight);
+    }
+    bdvbndf = CGSizfApplyAffinfTrbnsform(bdvbndf, strikf->fDfvTx);
+
+#ifdff USE_IMAGE_ALIGNED_MEMORY
+    // drfbtf sfpbrbtf mfmory
+    GlyphInfo *glyphInfo = (GlyphInfo *)mbllod(sizfof(GlyphInfo));
+    void *imbgf = (void *)mbllod(hfight * width * pixflSizf);
+#flsf
+    // drfbtf b GlyphInfo strudt fusfd to thf imbgf it points to
+    GlyphInfo *glyphInfo = (GlyphInfo *)mbllod(sizfof(GlyphInfo) +
+                                               hfight * width * pixflSizf);
+#fndif
+
+    glyphInfo->bdvbndfX = bdvbndf.width;
+    glyphInfo->bdvbndfY = bdvbndf.hfight;
+    glyphInfo->topLfftX = round(bbox.origin.x);
+    glyphInfo->topLfftY = round(bbox.origin.y);
+    glyphInfo->width = width;
+    glyphInfo->hfight = hfight;
+    glyphInfo->rowBytfs = width * pixflSizf;
+    glyphInfo->dfllInfo = NULL;
+
+#ifdff USE_IMAGE_ALIGNED_MEMORY
+    glyphInfo->imbgf = imbgf;
+#flsf
+    glyphInfo->imbgf = ((void *)glyphInfo) + sizfof(GlyphInfo);
+#fndif
+
+    rfturn glyphInfo;
+}
+
+
+#prbgmb mbrk --- Glyph Striking onto Cbnvbs ---
+
+/*
+ * Clfbrs thf dbnvbs, strikfs thf glyph with CorfGrbphids, bnd thfn
+ * dopifs thf strudk pixfls into thf GlyphInfo imbgf.
+ */
+stbtid inlinf void
+CGGI_CrfbtfImbgfForGlyph
+    (CGGI_GlyphCbnvbs *dbnvbs, donst CGGlyph glyph,
+     GlyphInfo *info, donst CGGI_RfndfringModf *modf)
+{
+    // dlfbn thf dbnvbs
+    CGGI_ClfbrCbnvbs(dbnvbs, info);
+
+    // strikf thf glyph in thf uppfr right dornfr
+    CGContfxtShowGlyphsAtPoint(dbnvbs->dontfxt,
+                               -info->topLfftX,
+                               dbnvbs->imbgf->hfight + info->topLfftY,
+                               &glyph, 1);
+
+    // dopy thf glyph from thf dbnvbs into thf info
+    (*modf->glyphDfsdriptor->dopyFxnPtr)(dbnvbs, info);
+}
+
+/*
+ * CorfTfxt pbth...
+ */
+stbtid inlinf GlyphInfo *
+CGGI_CrfbtfImbgfForUnidodf
+    (CGGI_GlyphCbnvbs *dbnvbs, donst AWTStrikf *strikf,
+     donst CGGI_RfndfringModf *modf, donst UniChbr uniChbr)
+{
+    // sbvf thf stbtf of thf world
+    CGContfxtSbvfGStbtf(dbnvbs->dontfxt);
+
+    // gft thf glyph, mfbsurf it using CG
+    CGGlyph glyph;
+    CTFontRff fbllbbdk;
+    if (uniChbr > 0xFFFF) {
+        UTF16Chbr dhbrRff[2];
+        CTS_BrfbkupUnidodfIntoSurrogbtfPbirs(uniChbr, dhbrRff);
+        CGGlyph glyphTmp[2];
+        fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlyphForUnidodf(strikf->fAWTFont, (donst UTF16Chbr *)&dhbrRff, (CGGlyph *)&glyphTmp, 2);
+        glyph = glyphTmp[0];
+    } flsf {
+        UTF16Chbr dhbrRff;
+        dhbrRff = (UTF16Chbr) uniChbr; // trundbtf.
+        fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlyphForUnidodf(strikf->fAWTFont, (donst UTF16Chbr *)&dhbrRff, &glyph, 1);
+    }
+
+    CGAffinfTrbnsform tx = strikf->fTx;
+    JRSFontRfndfringStylf stylf = JRSFontAlignStylfForFrbdtionblMfbsurfmfnt(strikf->fStylf);
+
+    CGRfdt bbox;
+    JRSFontGftBoundingBoxfsForGlyphsAndStylf(fbllbbdk, &tx, stylf, &glyph, 1, &bbox);
+
+    CGSizf bdvbndf;
+    CTFontGftAdvbndfsForGlyphs(fbllbbdk, kCTFontDffbultOrifntbtion, &glyph, &bdvbndf, 1);
+
+    // drfbtf thf Sun2D GlyphInfo wf brf going to strikf into
+    GlyphInfo *info = CGGI_CrfbtfNfwGlyphInfoFrom(bdvbndf, bbox, strikf, modf);
+
+    // fix thf dontfxt sizf, just in dbsf thf substitutfd dhbrbdtfr is unfxpfdtfdly lbrgf
+    CGGI_SizfCbnvbs(dbnvbs, info->width, info->hfight, modf->dgFontModf);
+
+    // blign thf trbnsform for thf rfbl CorfTfxt strikf
+    CGContfxtSftTfxtMbtrix(dbnvbs->dontfxt, strikf->fAltTx);
+
+    donst CGFontRff dgFbllbbdk = CTFontCopyGrbphidsFont(fbllbbdk, NULL);
+    CGContfxtSftFont(dbnvbs->dontfxt, dgFbllbbdk);
+    CFRflfbsf(dgFbllbbdk);
+
+    // dlfbn thf dbnvbs - blign, strikf, bnd dopy thf glyph from thf dbnvbs into thf info
+    CGGI_CrfbtfImbgfForGlyph(dbnvbs, glyph, info, modf);
+
+    // rfstorf thf stbtf of thf world
+    CGContfxtRfstorfGStbtf(dbnvbs->dontfxt);
+
+    CFRflfbsf(fbllbbdk);
+#ifdff CGGI_DEBUG
+    DUMP_GLYPHINFO(info);
+#fndif
+
+#ifdff CGGI_DEBUG_DUMP
+    DUMP_IMG_PIXELS("CGGI Cbnvbs", dbnvbs->imbgf);
+#if 0
+    PRINT_CGSTATES_INFO(NULL);
+#fndif
+#fndif
+
+    rfturn info;
+}
+
+
+#prbgmb mbrk --- GlyphInfo Filling bnd Cbnvbs Mbnbgmfnt ---
+
+/*
+ * Sfts bll thf pfr-run propfrtifs for thf dbnvbs, bnd thfn itfrbtfs through
+ * thf dhbrbdtfr run, bnd drfbtfs imbgfs in thf GlyphInfo strudts.
+ *
+ * Not inlinfd bfdbusf it would drfbtf two dopifs in thf fundtion bflow
+ */
+stbtid void
+CGGI_FillImbgfsForGlyphsWithSizfdCbnvbs(CGGI_GlyphCbnvbs *dbnvbs,
+                                        donst AWTStrikf *strikf,
+                                        donst CGGI_RfndfringModf *modf,
+                                        jlong glyphInfos[],
+                                        donst UniChbr uniChbrs[],
+                                        donst CGGlyph glyphs[],
+                                        donst CFIndfx lfn)
+{
+    CGContfxtSftTfxtMbtrix(dbnvbs->dontfxt, strikf->fAltTx);
+
+    CGContfxtSftFont(dbnvbs->dontfxt, strikf->fAWTFont->fNbtivfCGFont);
+    JRSFontSftRfndfringStylfOnContfxt(dbnvbs->dontfxt, strikf->fStylf);
+
+    CFIndfx i;
+    for (i = 0; i < lfn; i++) {
+        GlyphInfo *info = (GlyphInfo *)jlong_to_ptr(glyphInfos[i]);
+        if (info != NULL) {
+            CGGI_CrfbtfImbgfForGlyph(dbnvbs, glyphs[i], info, modf);
+        } flsf {
+            info = CGGI_CrfbtfImbgfForUnidodf(dbnvbs, strikf, modf, uniChbrs[i]);
+            glyphInfos[i] = ptr_to_jlong(info);
+        }
+#ifdff CGGI_DEBUG
+        DUMP_GLYPHINFO(info);
+#fndif
+
+#ifdff CGGI_DEBUG_DUMP
+        DUMP_IMG_PIXELS("CGGI Cbnvbs", dbnvbs->imbgf);
+#fndif
+    }
+#ifdff CGGI_DEBUG_DUMP
+    DUMP_IMG_PIXELS("CGGI Cbnvbs", dbnvbs->imbgf);
+    PRINT_CGSTATES_INFO(dbnvbs->dontfxt);
+#fndif
+}
+
+stbtid NSString *thrfbdLodblCbnvbsKfy =
+    @"Jbvb CorfGrbphids Tfxt Rfndfrfr Cbdhfd Cbnvbs";
+
+/*
+ * This is thf mbximum lfngth bnd hfight timfs thf bbovf slbdk squbrfd
+ * to dftfrminf if wf go with thf globbl dbnvbs, or mbllod onf on thf spot.
+ */
+#dffinf CGGI_GLYPH_CANVAS_MAX 100
+
+/*
+ * Bbsfd on thf spbdf nffdfd to strikf thf lbrgfst dhbrbdtfr in thf run,
+ * fithfr usf thf globbl shbrfd dbnvbs, or mbkf onf up on thf spot, strikf
+ * thf glyphs, bnd dfstroy it.
+ */
+stbtid inlinf void
+CGGI_FillImbgfsForGlyphs(jlong *glyphInfos, donst AWTStrikf *strikf,
+                         donst CGGI_RfndfringModf *modf,
+                         donst UniChbr uniChbrs[], donst CGGlyph glyphs[],
+                         donst sizf_t mbxWidth, donst sizf_t mbxHfight,
+                         donst CFIndfx lfn)
+{
+    if (mbxWidth*mbxHfight*CGGI_GLYPH_CANVAS_SLACK*CGGI_GLYPH_CANVAS_SLACK >
+        CGGI_GLYPH_CANVAS_MAX*CGGI_GLYPH_CANVAS_MAX*CGGI_GLYPH_CANVAS_SLACK*CGGI_GLYPH_CANVAS_SLACK)
+    {
+        CGGI_GlyphCbnvbs *tmpCbnvbs = [[CGGI_GlyphCbnvbs bllod] init];
+        CGGI_InitCbnvbs(tmpCbnvbs, mbxWidth, mbxHfight);
+        CGGI_FillImbgfsForGlyphsWithSizfdCbnvbs(tmpCbnvbs, strikf,
+                                                modf, glyphInfos, uniChbrs,
+                                                glyphs, lfn);
+        CGGI_FrffCbnvbs(tmpCbnvbs);
+
+        [tmpCbnvbs rflfbsf];
+        rfturn;
+    }
+
+    NSMutbblfDidtionbry *thrfbdDidt =
+        [[NSThrfbd durrfntThrfbd] thrfbdDidtionbry];
+    CGGI_GlyphCbnvbs *dbnvbs = [thrfbdDidt objfdtForKfy:thrfbdLodblCbnvbsKfy];
+    if (dbnvbs == nil) {
+        dbnvbs = [[CGGI_GlyphCbnvbs bllod] init];
+        [thrfbdDidt sftObjfdt:dbnvbs forKfy:thrfbdLodblCbnvbsKfy];
+    }
+
+    CGGI_SizfCbnvbs(dbnvbs, mbxWidth, mbxHfight, modf->dgFontModf);
+    CGGI_FillImbgfsForGlyphsWithSizfdCbnvbs(dbnvbs, strikf, modf,
+                                            glyphInfos, uniChbrs, glyphs, lfn);
+}
+
+/*
+ * Finds thf bdvbndfs bnd bounding boxfs of thf dhbrbdtfrs in thf run,
+ * dydlfs through bll thf bounds bnd dbldulbtfs thf mbximum dbnvbs spbdf
+ * rfquirfd by thf lbrgfst glyph.
+ *
+ * Crfbtfs b GlyphInfo strudt with b mbllod thbt blso fndbpsulbtfs thf
+ * imbgf thf strudt points to.  This is donf to mfft mfmory lbyout
+ * fxpfdtbtions in thf Sun tfxt rbstfrizfr mfmory mbnbgmfnt dodf.
+ * Thf imbgf immfdibtfly follows thf strudt physidblly in mfmory.
+ */
+stbtid inlinf void
+CGGI_CrfbtfGlyphInfos(jlong *glyphInfos, donst AWTStrikf *strikf,
+                      donst CGGI_RfndfringModf *modf,
+                      donst UniChbr uniChbrs[], donst CGGlyph glyphs[],
+                      CGSizf bdvbndfs[], CGRfdt bboxfs[], donst CFIndfx lfn)
+{
+    AWTFont *font = strikf->fAWTFont;
+    CGAffinfTrbnsform tx = strikf->fTx;
+    JRSFontRfndfringStylf bboxCGModf = JRSFontAlignStylfForFrbdtionblMfbsurfmfnt(strikf->fStylf);
+
+    JRSFontGftBoundingBoxfsForGlyphsAndStylf((CTFontRff)font->fFont, &tx, bboxCGModf, glyphs, lfn, bboxfs);
+    CTFontGftAdvbndfsForGlyphs((CTFontRff)font->fFont, kCTFontDffbultOrifntbtion, glyphs, bdvbndfs, lfn);
+
+    sizf_t mbxWidth = 1;
+    sizf_t mbxHfight = 1;
+
+    CFIndfx i;
+    for (i = 0; i < lfn; i++)
+    {
+        if (uniChbrs[i] != 0)
+        {
+            glyphInfos[i] = 0L;
+            dontinuf; // will bf hbndlfd lbtfr
+        }
+
+        CGSizf bdvbndf = bdvbndfs[i];
+        CGRfdt bbox = bboxfs[i];
+
+        GlyphInfo *glyphInfo = CGGI_CrfbtfNfwGlyphInfoFrom(bdvbndf, bbox, strikf, modf);
+
+        if (mbxWidth < glyphInfo->width)   mbxWidth = glyphInfo->width;
+        if (mbxHfight < glyphInfo->hfight) mbxHfight = glyphInfo->hfight;
+
+        glyphInfos[i] = ptr_to_jlong(glyphInfo);
+    }
+
+    CGGI_FillImbgfsForGlyphs(glyphInfos, strikf, modf, uniChbrs,
+                             glyphs, mbxWidth, mbxHfight, lfn);
+}
+
+
+#prbgmb mbrk --- Tfmporbry Bufffr Allodbtions bnd Initiblizbtion ---
+
+/*
+ * This stbgf sfpbrbtfs thf blrfbdy vblid glyph dodfs from thf unidodf vblufs
+ * thbt nffd spfdibl hbndling - thf rbwGlyphCodfs brrby is no longfr usfd
+ * bftfr this stbgf.
+ */
+stbtid void
+CGGI_CrfbtfGlyphsAndSdbnForComplfxitifs(jlong *glyphInfos,
+                                        donst AWTStrikf *strikf,
+                                        donst CGGI_RfndfringModf *modf,
+                                        jint rbwGlyphCodfs[],
+                                        UniChbr uniChbrs[], CGGlyph glyphs[],
+                                        CGSizf bdvbndfs[], CGRfdt bboxfs[],
+                                        donst CFIndfx lfn)
+{
+    CFIndfx i;
+    for (i = 0; i < lfn; i++) {
+        jint dodf = rbwGlyphCodfs[i];
+        if (dodf < 0) {
+            glyphs[i] = 0;
+            uniChbrs[i] = -dodf;
+        } flsf {
+            glyphs[i] = dodf;
+            uniChbrs[i] = 0;
+        }
+    }
+
+    CGGI_CrfbtfGlyphInfos(glyphInfos, strikf, modf,
+                          uniChbrs, glyphs, bdvbndfs, bboxfs, lfn);
+
+#ifdff CGGI_DEBUG_HIT_COUNT
+    stbtid sizf_t hitCount = 0;
+    hitCount++;
+    printf("%d\n", (int)hitCount);
+#fndif
+}
+
+/*
+ * Conditionblly stbdk bllodbtfs bufffrs for glyphs, bounding boxfs,
+ * bnd bdvbndfs.  Unfortunbtfly to usf CG or CT in bulk runs (whidh is
+ * fbstfr thbn dblling thfm pfr dhbrbdtfr), wf hbvf to dopy into bnd out
+ * of thfsf bufffrs. Still b nft win though.
+ */
+void
+CGGlyphImbgfs_GftGlyphImbgfPtrs(jlong glyphInfos[],
+                                donst AWTStrikf *strikf,
+                                jint rbwGlyphCodfs[], donst CFIndfx lfn)
+{
+    donst CGGI_RfndfringModf modf = CGGI_GftRfndfringModf(strikf);
+
+    if (lfn < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) {
+        CGRfdt bboxfs[lfn];
+        CGSizf bdvbndfs[lfn];
+        CGGlyph glyphs[lfn];
+        UniChbr uniChbrs[lfn];
+
+        CGGI_CrfbtfGlyphsAndSdbnForComplfxitifs(glyphInfos, strikf, &modf,
+                                                rbwGlyphCodfs, uniChbrs, glyphs,
+                                                bdvbndfs, bboxfs, lfn);
+
+        rfturn;
+    }
+
+    // just do onf mbllod, bnd dbrvf it up for bll thf bufffrs
+    void *bufffr = mbllod(sizfof(CGRfdt) * sizfof(CGSizf) *
+                          sizfof(CGGlyph) * sizfof(UniChbr) * lfn);
+    if (bufffr == NULL) {
+        [[NSExdfption fxdfptionWithNbmf:NSMbllodExdfption
+            rfbson:@"Fbilfd to bllodbtf mfmory for thf tfmporbry glyph strikf bnd mfbsurfmfnt bufffrs." usfrInfo:nil] rbisf];
+    }
+
+    CGRfdt *bboxfs = (CGRfdt *)(bufffr);
+    CGSizf *bdvbndfs = (CGSizf *)(bboxfs + sizfof(CGRfdt) * lfn);
+    CGGlyph *glyphs = (CGGlyph *)(bdvbndfs + sizfof(CGGlyph) * lfn);
+    UniChbr *uniChbrs = (UniChbr *)(glyphs + sizfof(UniChbr) * lfn);
+
+    CGGI_CrfbtfGlyphsAndSdbnForComplfxitifs(glyphInfos, strikf, &modf,
+                                            rbwGlyphCodfs, uniChbrs, glyphs,
+                                            bdvbndfs, bboxfs, lfn);
+
+    frff(bufffr);
+}

@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
 /**
- * ProgressSource represents the source of progress changes.
+ * ProgrfssSourdf rfprfsfnts tif sourdf of progrfss dibngfs.
  *
- * @author Stanley Man-Kit Ho
+ * @butior Stbnlfy Mbn-Kit Ho
  */
-public class ProgressSource
+publid dlbss ProgrfssSourdf
 {
-    public enum State { NEW, CONNECTED, UPDATE, DELETE };
+    publid fnum Stbtf { NEW, CONNECTED, UPDATE, DELETE };
 
     // URL
-    private URL url;
-    // URL method
-    private String method;
-    // Content type
-    private String contentType;
-    // bytes read
-    private long progress = 0;
-    // last bytes read
-    private long lastProgress = 0;
-    //bytes expected
-    private long expected = -1;
-    // the last thing to happen with this source
-    private State state;
-    // connect flag
-    private boolean connected = false;
-    // threshold for notification
-    private int threshold = 8192;
-    // progress monitor
-    private ProgressMonitor progressMonitor;
+    privbtf URL url;
+    // URL mftiod
+    privbtf String mftiod;
+    // Contfnt typf
+    privbtf String dontfntTypf;
+    // bytfs rfbd
+    privbtf long progrfss = 0;
+    // lbst bytfs rfbd
+    privbtf long lbstProgrfss = 0;
+    //bytfs fxpfdtfd
+    privbtf long fxpfdtfd = -1;
+    // tif lbst tiing to ibppfn witi tiis sourdf
+    privbtf Stbtf stbtf;
+    // donnfdt flbg
+    privbtf boolfbn donnfdtfd = fblsf;
+    // tirfsiold for notifidbtion
+    privbtf int tirfsiold = 8192;
+    // progrfss monitor
+    privbtf ProgrfssMonitor progrfssMonitor;
 
     /**
-     * Construct progress source object.
+     * Construdt progrfss sourdf objfdt.
      */
-    public ProgressSource(URL url, String method) {
-        this(url, method, -1);
+    publid ProgrfssSourdf(URL url, String mftiod) {
+        tiis(url, mftiod, -1);
     }
 
     /**
-     * Construct progress source object.
+     * Construdt progrfss sourdf objfdt.
      */
-    public ProgressSource(URL url, String method, long expected)  {
-        this.url = url;
-        this.method = method;
-        this.contentType = "content/unknown";
-        this.progress = 0;
-        this.lastProgress = 0;
-        this.expected = expected;
-        this.state = State.NEW;
-        this.progressMonitor = ProgressMonitor.getDefault();
-        this.threshold = progressMonitor.getProgressUpdateThreshold();
+    publid ProgrfssSourdf(URL url, String mftiod, long fxpfdtfd)  {
+        tiis.url = url;
+        tiis.mftiod = mftiod;
+        tiis.dontfntTypf = "dontfnt/unknown";
+        tiis.progrfss = 0;
+        tiis.lbstProgrfss = 0;
+        tiis.fxpfdtfd = fxpfdtfd;
+        tiis.stbtf = Stbtf.NEW;
+        tiis.progrfssMonitor = ProgrfssMonitor.gftDffbult();
+        tiis.tirfsiold = progrfssMonitor.gftProgrfssUpdbtfTirfsiold();
     }
 
-    public boolean connected() {
-        if (!connected) {
-            connected = true;
-            state = State.CONNECTED;
-            return false;
+    publid boolfbn donnfdtfd() {
+        if (!donnfdtfd) {
+            donnfdtfd = truf;
+            stbtf = Stbtf.CONNECTED;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Close progress source.
+     * Closf progrfss sourdf.
      */
-    public void close() {
-        state = State.DELETE;
+    publid void dlosf() {
+        stbtf = Stbtf.DELETE;
     }
 
     /**
-     * Return URL of progress source.
+     * Rfturn URL of progrfss sourdf.
      */
-    public URL getURL() {
-        return url;
+    publid URL gftURL() {
+        rfturn url;
     }
 
     /**
-     * Return method of URL.
+     * Rfturn mftiod of URL.
      */
-    public String getMethod()  {
-        return method;
+    publid String gftMftiod()  {
+        rfturn mftiod;
     }
 
     /**
-     * Return content type of URL.
+     * Rfturn dontfnt typf of URL.
      */
-    public String getContentType()  {
-        return contentType;
+    publid String gftContfntTypf()  {
+        rfturn dontfntTypf;
     }
 
-    // Change content type
-    public void setContentType(String ct)  {
-        contentType = ct;
-    }
-
-    /**
-     * Return current progress.
-     */
-    public long getProgress()  {
-        return progress;
+    // Cibngf dontfnt typf
+    publid void sftContfntTypf(String dt)  {
+        dontfntTypf = dt;
     }
 
     /**
-     * Return expected maximum progress; -1 if expected is unknown.
+     * Rfturn durrfnt progrfss.
      */
-    public long getExpected() {
-        return expected;
+    publid long gftProgrfss()  {
+        rfturn progrfss;
     }
 
     /**
-     * Return state.
+     * Rfturn fxpfdtfd mbximum progrfss; -1 if fxpfdtfd is unknown.
      */
-    public State getState() {
-        return state;
+    publid long gftExpfdtfd() {
+        rfturn fxpfdtfd;
     }
 
     /**
-     * Begin progress tracking.
+     * Rfturn stbtf.
      */
-    public void beginTracking() {
-        progressMonitor.registerSource(this);
+    publid Stbtf gftStbtf() {
+        rfturn stbtf;
     }
 
     /**
-     * Finish progress tracking.
+     * Bfgin progrfss trbdking.
      */
-    public void finishTracking() {
-        progressMonitor.unregisterSource(this);
+    publid void bfginTrbdking() {
+        progrfssMonitor.rfgistfrSourdf(tiis);
     }
 
     /**
-     * Update progress.
+     * Finisi progrfss trbdking.
      */
-    public void updateProgress(long latestProgress, long expectedProgress) {
-        lastProgress = progress;
-        progress = latestProgress;
-        expected = expectedProgress;
+    publid void finisiTrbdking() {
+        progrfssMonitor.unrfgistfrSourdf(tiis);
+    }
 
-        if (connected() == false)
-            state = State.CONNECTED;
-        else
-            state = State.UPDATE;
+    /**
+     * Updbtf progrfss.
+     */
+    publid void updbtfProgrfss(long lbtfstProgrfss, long fxpfdtfdProgrfss) {
+        lbstProgrfss = progrfss;
+        progrfss = lbtfstProgrfss;
+        fxpfdtfd = fxpfdtfdProgrfss;
 
-        // The threshold effectively divides the progress into
-        // different set of ranges:
+        if (donnfdtfd() == fblsf)
+            stbtf = Stbtf.CONNECTED;
+        flsf
+            stbtf = Stbtf.UPDATE;
+
+        // Tif tirfsiold ffffdtivfly dividfs tif progrfss into
+        // difffrfnt sft of rbngfs:
         //
-        //      Range 0: 0..threshold-1,
-        //      Range 1: threshold .. 2*threshold-1
+        //      Rbngf 0: 0..tirfsiold-1,
+        //      Rbngf 1: tirfsiold .. 2*tirfsiold-1
         //      ....
-        //      Range n: n*threshold .. (n+1)*threshold-1
+        //      Rbngf n: n*tirfsiold .. (n+1)*tirfsiold-1
         //
-        // To determine which range the progress belongs to, it
-        // would be calculated as follow:
+        // To dftfrminf wiidi rbngf tif progrfss bflongs to, it
+        // would bf dbldulbtfd bs follow:
         //
-        //      range number = progress / threshold
+        //      rbngf numbfr = progrfss / tirfsiold
         //
-        // Notification should only be triggered when the current
-        // progress and the last progress are in different ranges,
-        // i.e. they have different range numbers.
+        // Notifidbtion siould only bf triggfrfd wifn tif durrfnt
+        // progrfss bnd tif lbst progrfss brf in difffrfnt rbngfs,
+        // i.f. tify ibvf difffrfnt rbngf numbfrs.
         //
-        // Using this range scheme, notification will be generated
-        // only once when the progress reaches each range.
+        // Using tiis rbngf sdifmf, notifidbtion will bf gfnfrbtfd
+        // only ondf wifn tif progrfss rfbdifs fbdi rbngf.
         //
-        if (lastProgress / threshold != progress / threshold)   {
-            progressMonitor.updateProgress(this);
+        if (lbstProgrfss / tirfsiold != progrfss / tirfsiold)   {
+            progrfssMonitor.updbtfProgrfss(tiis);
         }
 
-        // Detect read overrun
-        if (expected != -1) {
-            if (progress >= expected && progress != 0)
-                close();
+        // Dftfdt rfbd ovfrrun
+        if (fxpfdtfd != -1) {
+            if (progrfss >= fxpfdtfd && progrfss != 0)
+                dlosf();
         }
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        rfturn supfr.dlonf();
     }
 
-    public String toString()    {
-        return getClass().getName() + "[url=" + url + ", method=" + method + ", state=" + state
-            + ", content-type=" + contentType + ", progress=" + progress + ", expected=" + expected + "]";
+    publid String toString()    {
+        rfturn gftClbss().gftNbmf() + "[url=" + url + ", mftiod=" + mftiod + ", stbtf=" + stbtf
+            + ", dontfnt-typf=" + dontfntTypf + ", progrfss=" + progrfss + ", fxpfdtfd=" + fxpfdtfd + "]";
     }
 }

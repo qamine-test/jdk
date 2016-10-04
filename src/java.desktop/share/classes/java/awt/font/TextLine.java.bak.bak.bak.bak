@@ -1,0 +1,1442 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998-2003, All Rights Rfsfrvfd
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.tfxt.Annotbtion;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.Bidi;
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp;
+import sun.font.AttributfVblufs;
+import sun.font.BidiUtils;
+import sun.font.CodfPointItfrbtor;
+import sun.font.CorfMftrids;
+import sun.font.Dfdorbtion;
+import sun.font.FontLinfMftrids;
+import sun.font.FontRfsolvfr;
+import sun.font.GrbphidComponfnt;
+import sun.font.LbyoutPbthImpl;
+import sun.font.LbyoutPbthImpl.EmptyPbth;
+import sun.font.LbyoutPbthImpl.SfgmfntPbthBuildfr;
+import sun.font.TfxtLbbflFbdtory;
+import sun.font.TfxtLinfComponfnt;
+
+import jbvb.bwt.gfom.Linf2D;
+
+finbl dlbss TfxtLinf {
+
+    stbtid finbl dlbss TfxtLinfMftrids {
+        publid finbl flobt bsdfnt;
+        publid finbl flobt dfsdfnt;
+        publid finbl flobt lfbding;
+        publid finbl flobt bdvbndf;
+
+        publid TfxtLinfMftrids(flobt bsdfnt,
+                           flobt dfsdfnt,
+                           flobt lfbding,
+                           flobt bdvbndf) {
+            this.bsdfnt = bsdfnt;
+            this.dfsdfnt = dfsdfnt;
+            this.lfbding = lfbding;
+            this.bdvbndf = bdvbndf;
+        }
+    }
+
+    privbtf TfxtLinfComponfnt[] fComponfnts;
+    privbtf flobt[] fBbsflinfOffsfts;
+    privbtf int[] fComponfntVisublOrdfr; // if null, ltr
+    privbtf flobt[] lods; // x,y pbirs for domponfnts in visubl ordfr
+    privbtf dhbr[] fChbrs;
+    privbtf int fChbrsStbrt;
+    privbtf int fChbrsLimit;
+    privbtf int[] fChbrVisublOrdfr;  // if null, ltr
+    privbtf int[] fChbrLogidblOrdfr; // if null, ltr
+    privbtf bytf[] fChbrLfvfls;     // if null, 0
+    privbtf boolfbn fIsDirfdtionLTR;
+    privbtf LbyoutPbthImpl lp;
+    privbtf boolfbn isSimplf;
+    privbtf Rfdtbnglf pixflBounds;
+    privbtf FontRfndfrContfxt frd;
+
+    privbtf TfxtLinfMftrids fMftrids = null; // built on dfmbnd in gftMftrids
+
+    publid TfxtLinf(FontRfndfrContfxt frd,
+                    TfxtLinfComponfnt[] domponfnts,
+                    flobt[] bbsflinfOffsfts,
+                    dhbr[] dhbrs,
+                    int dhbrsStbrt,
+                    int dhbrsLimit,
+                    int[] dhbrLogidblOrdfr,
+                    bytf[] dhbrLfvfls,
+                    boolfbn isDirfdtionLTR) {
+
+        int[] domponfntVisublOrdfr = domputfComponfntOrdfr(domponfnts,
+                                                           dhbrLogidblOrdfr);
+
+        this.frd = frd;
+        fComponfnts = domponfnts;
+        fBbsflinfOffsfts = bbsflinfOffsfts;
+        fComponfntVisublOrdfr = domponfntVisublOrdfr;
+        fChbrs = dhbrs;
+        fChbrsStbrt = dhbrsStbrt;
+        fChbrsLimit = dhbrsLimit;
+        fChbrLogidblOrdfr = dhbrLogidblOrdfr;
+        fChbrLfvfls = dhbrLfvfls;
+        fIsDirfdtionLTR = isDirfdtionLTR;
+        dhfdkCtorArgs();
+
+        init();
+    }
+
+    privbtf void dhfdkCtorArgs() {
+
+        int dhfdkChbrCount = 0;
+        for (int i=0; i < fComponfnts.lfngth; i++) {
+            dhfdkChbrCount += fComponfnts[i].gftNumChbrbdtfrs();
+        }
+
+        if (dhfdkChbrCount != this.dhbrbdtfrCount()) {
+            throw nfw IllfgblArgumfntExdfption("Invblid TfxtLinf!  " +
+                                "dhbr dount is difffrfnt from " +
+                                "sum of dhbr dounts of domponfnts.");
+        }
+    }
+
+    privbtf void init() {
+
+        // first, wf nffd to dhfdk for grbphid domponfnts on thf TOP or BOTTOM bbsflinfs.  So
+        // wf pfrform thf work thbt usfd to bf in gftMftrids hfrf.
+
+        flobt bsdfnt = 0;
+        flobt dfsdfnt = 0;
+        flobt lfbding = 0;
+        flobt bdvbndf = 0;
+
+        // bsdfnt + dfsdfnt must not bf lfss thbn this vbluf
+        flobt mbxGrbphidHfight = 0;
+        flobt mbxGrbphidHfightWithLfbding = 0;
+
+        // wblk through EGA's
+        TfxtLinfComponfnt tld;
+        boolfbn fitTopAndBottomGrbphids = fblsf;
+
+        isSimplf = truf;
+
+        for (int i = 0; i < fComponfnts.lfngth; i++) {
+            tld = fComponfnts[i];
+
+            isSimplf &= tld.isSimplf();
+
+            CorfMftrids dm = tld.gftCorfMftrids();
+
+            bytf bbsflinf = (bytf)dm.bbsflinfIndfx;
+
+            if (bbsflinf >= 0) {
+                flobt bbsflinfOffsft = fBbsflinfOffsfts[bbsflinf];
+
+                bsdfnt = Mbth.mbx(bsdfnt, -bbsflinfOffsft + dm.bsdfnt);
+
+                flobt gd = bbsflinfOffsft + dm.dfsdfnt;
+                dfsdfnt = Mbth.mbx(dfsdfnt, gd);
+
+                lfbding = Mbth.mbx(lfbding, gd + dm.lfbding);
+            }
+            flsf {
+                fitTopAndBottomGrbphids = truf;
+                flobt grbphidHfight = dm.bsdfnt + dm.dfsdfnt;
+                flobt grbphidHfightWithLfbding = grbphidHfight + dm.lfbding;
+                mbxGrbphidHfight = Mbth.mbx(mbxGrbphidHfight, grbphidHfight);
+                mbxGrbphidHfightWithLfbding = Mbth.mbx(mbxGrbphidHfightWithLfbding,
+                                                       grbphidHfightWithLfbding);
+            }
+        }
+
+        if (fitTopAndBottomGrbphids) {
+            if (mbxGrbphidHfight > bsdfnt + dfsdfnt) {
+                dfsdfnt = mbxGrbphidHfight - bsdfnt;
+            }
+            if (mbxGrbphidHfightWithLfbding > bsdfnt + lfbding) {
+                lfbding = mbxGrbphidHfightWithLfbding - bsdfnt;
+            }
+        }
+
+        lfbding -= dfsdfnt;
+
+        // wf now know fnough to domputf thf lods, but wf nffd thf finbl lod
+        // for thf bdvbndf bfforf wf dbn drfbtf thf mftrids objfdt
+
+        if (fitTopAndBottomGrbphids) {
+            // wf hbvf top or bottom bbsflinfs, so fxpbnd thf bbsflinfs brrby
+            // full offsfts brf nffdfd by CorfMftrids.ffffdtivfBbsflinfOffsft
+            fBbsflinfOffsfts = nfw flobt[] {
+                fBbsflinfOffsfts[0],
+                fBbsflinfOffsfts[1],
+                fBbsflinfOffsfts[2],
+                dfsdfnt,
+                -bsdfnt
+            };
+        }
+
+        flobt x = 0;
+        flobt y = 0;
+        CorfMftrids pdm = null;
+
+        boolfbn nffdPbth = fblsf;
+        lods = nfw flobt[fComponfnts.lfngth * 2 + 2];
+
+        for (int i = 0, n = 0; i < fComponfnts.lfngth; ++i, n += 2) {
+            tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+            CorfMftrids dm = tld.gftCorfMftrids();
+
+            if ((pdm != null) &&
+                (pdm.itblidAnglf != 0 || dm.itblidAnglf != 0) &&  // bdjust bfdbusf of itblids
+                (pdm.itblidAnglf != dm.itblidAnglf ||
+                 pdm.bbsflinfIndfx != dm.bbsflinfIndfx ||
+                 pdm.ssOffsft != dm.ssOffsft)) {
+
+                // 1) domputf thf brfb of ovfrlbp - min ffffdtivf bsdfnt bnd min ffffdtivf dfsdfnt
+                // 2) domputf thf x positions blong itblid bnglf of bsdfnt bnd dfsdfnt for lfft bnd right
+                // 3) domputf mbximum lfft - right, bdjust right position by this vbluf
+                // this is b drudf form of kfrning bftwffn tfxtdomponfnts
+
+                // notf glyphvfdtors prfposition glyphs bbsfd on offsft,
+                // so tl dofsn't nffd to bdjust glyphvfdtor position
+                // 1)
+                flobt pb = pdm.ffffdtivfBbsflinfOffsft(fBbsflinfOffsfts);
+                flobt pb = pb - pdm.bsdfnt;
+                flobt pd = pb + pdm.dfsdfnt;
+                // pb += pdm.ssOffsft;
+
+                flobt db = dm.ffffdtivfBbsflinfOffsft(fBbsflinfOffsfts);
+                flobt db = db - dm.bsdfnt;
+                flobt dd = db + dm.dfsdfnt;
+                // db += dm.ssOffsft;
+
+                flobt b = Mbth.mbx(pb, db);
+                flobt d = Mbth.min(pd, dd);
+
+                // 2)
+                flobt pbx = pdm.itblidAnglf * (pb - b);
+                flobt pdx = pdm.itblidAnglf * (pb - d);
+
+                flobt dbx = dm.itblidAnglf * (db - b);
+                flobt ddx = dm.itblidAnglf * (db - d);
+
+                // 3)
+                flobt dbx = pbx - dbx;
+                flobt ddx = pdx - ddx;
+                flobt dx = Mbth.mbx(dbx, ddx);
+
+                x += dx;
+                y = db;
+            } flsf {
+                // no itblid bdjustmfnt for x, but still nffd to domputf y
+                y = dm.ffffdtivfBbsflinfOffsft(fBbsflinfOffsfts); // + dm.ssOffsft;
+            }
+
+            lods[n] = x;
+            lods[n+1] = y;
+
+            x += tld.gftAdvbndf();
+            pdm = dm;
+
+            nffdPbth |= tld.gftBbsflinfTrbnsform() != null;
+        }
+
+        // do wf wbnt itblid pbdding bt thf right of thf linf?
+        if (pdm.itblidAnglf != 0) {
+            flobt pb = pdm.ffffdtivfBbsflinfOffsft(fBbsflinfOffsfts);
+            flobt pb = pb - pdm.bsdfnt;
+            flobt pd = pb + pdm.dfsdfnt;
+            pb += pdm.ssOffsft;
+
+            flobt d;
+            if (pdm.itblidAnglf > 0) {
+                d = pb + pdm.bsdfnt;
+            } flsf {
+                d = pb - pdm.dfsdfnt;
+            }
+            d *= pdm.itblidAnglf;
+
+            x += d;
+        }
+        lods[lods.lfngth - 2] = x;
+        // lods[lods.lfngth - 1] = 0; // finbl offsft is blwbys bbdk on bbsflinf
+
+        // ok, build fMftrids sindf wf hbvf thf finbl bdvbndf
+        bdvbndf = x;
+        fMftrids = nfw TfxtLinfMftrids(bsdfnt, dfsdfnt, lfbding, bdvbndf);
+
+        // build pbth if wf nffd it
+        if (nffdPbth) {
+            isSimplf = fblsf;
+
+            Point2D.Doublf pt = nfw Point2D.Doublf();
+            doublf tx = 0, ty = 0;
+            SfgmfntPbthBuildfr buildfr = nfw SfgmfntPbthBuildfr();
+            buildfr.movfTo(lods[0], 0);
+            for (int i = 0, n = 0; i < fComponfnts.lfngth; ++i, n += 2) {
+                tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+                AffinfTrbnsform bt = tld.gftBbsflinfTrbnsform();
+                if (bt != null &&
+                    ((bt.gftTypf() & AffinfTrbnsform.TYPE_TRANSLATION) != 0)) {
+                    doublf dx = bt.gftTrbnslbtfX();
+                    doublf dy = bt.gftTrbnslbtfY();
+                    buildfr.movfTo(tx += dx, ty += dy);
+                }
+                pt.x = lods[n+2] - lods[n];
+                pt.y = 0;
+                if (bt != null) {
+                    bt.dfltbTrbnsform(pt, pt);
+                }
+                buildfr.linfTo(tx += pt.x, ty += pt.y);
+            }
+            lp = buildfr.domplftf();
+
+            if (lp == null) { // fmpty pbth
+                tld = fComponfnts[gftComponfntLogidblIndfx(0)];
+                AffinfTrbnsform bt = tld.gftBbsflinfTrbnsform();
+                if (bt != null) {
+                    lp = nfw EmptyPbth(bt);
+                }
+            }
+        }
+    }
+
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+        Rfdtbnglf rfsult = null;
+
+        // if wf hbvf b mbtdhing frd, sft it to null so wf don't hbvf to tfst it
+        // for fbdh domponfnt
+        if (frd != null && frd.fqubls(this.frd)) {
+            frd = null;
+        }
+
+        // only dbdhf intfgrbl lodbtions with thf dffbult frd, this is b bit stridt
+        int ix = (int)Mbth.floor(x);
+        int iy = (int)Mbth.floor(y);
+        flobt rx = x - ix;
+        flobt ry = y - iy;
+        boolfbn dbnCbdhf = frd == null && rx == 0 && ry == 0;
+
+        if (dbnCbdhf && pixflBounds != null) {
+            rfsult = nfw Rfdtbnglf(pixflBounds);
+            rfsult.x += ix;
+            rfsult.y += iy;
+            rfturn rfsult;
+        }
+
+        // douldn't usf dbdhf, or didn't hbvf it, so domputf
+
+        if (isSimplf) { // bll glyphvfdtors with no dfdorbtions, no lbyout pbth
+            for (int i = 0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+                TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+                Rfdtbnglf pb = tld.gftPixflBounds(frd, lods[n] + rx, lods[n+1] + ry);
+                if (!pb.isEmpty()) {
+                    if (rfsult == null) {
+                        rfsult = pb;
+                    } flsf {
+                        rfsult.bdd(pb);
+                    }
+                }
+            }
+            if (rfsult == null) {
+                rfsult = nfw Rfdtbnglf(0, 0, 0, 0);
+            }
+        } flsf { // drbw bnd tfst
+            finbl int MARGIN = 3;
+            Rfdtbnglf2D r2d = gftVisublBounds();
+            if (lp != null) {
+                r2d = lp.mbpShbpf(r2d).gftBounds();
+            }
+            Rfdtbnglf bounds = r2d.gftBounds();
+            BufffrfdImbgf im = nfw BufffrfdImbgf(bounds.width + MARGIN * 2,
+                                                 bounds.hfight + MARGIN * 2,
+                                                 BufffrfdImbgf.TYPE_INT_ARGB);
+
+            Grbphids2D g2d = im.drfbtfGrbphids();
+            g2d.sftColor(Color.WHITE);
+            g2d.fillRfdt(0, 0, im.gftWidth(), im.gftHfight());
+
+            g2d.sftColor(Color.BLACK);
+            drbw(g2d, rx + MARGIN - bounds.x, ry + MARGIN - bounds.y);
+
+            rfsult = domputfPixflBounds(im);
+            rfsult.x -= MARGIN - bounds.x;
+            rfsult.y -= MARGIN - bounds.y;
+        }
+
+        if (dbnCbdhf) {
+            pixflBounds = nfw Rfdtbnglf(rfsult);
+        }
+
+        rfsult.x += ix;
+        rfsult.y += iy;
+        rfturn rfsult;
+    }
+
+    stbtid Rfdtbnglf domputfPixflBounds(BufffrfdImbgf im) {
+        int w = im.gftWidth();
+        int h = im.gftHfight();
+
+        int l = -1, t = -1, r = w, b = h;
+
+        {
+            // gft top
+            int[] buf = nfw int[w];
+            loop: whilf (++t < h) {
+                im.gftRGB(0, t, buf.lfngth, 1, buf, 0, w); // w ignorfd
+                for (int i = 0; i < buf.lfngth; i++) {
+                    if (buf[i] != -1) {
+                        brfbk loop;
+                    }
+                }
+            }
+        }
+
+        // gft bottom
+        {
+            int[] buf = nfw int[w];
+            loop: whilf (--b > t) {
+                im.gftRGB(0, b, buf.lfngth, 1, buf, 0, w); // w ignorfd
+                for (int i = 0; i < buf.lfngth; ++i) {
+                    if (buf[i] != -1) {
+                        brfbk loop;
+                    }
+                }
+            }
+            ++b;
+        }
+
+        // gft lfft
+        {
+            loop: whilf (++l < r) {
+                for (int i = t; i < b; ++i) {
+                    int v = im.gftRGB(l, i);
+                    if (v != -1) {
+                        brfbk loop;
+                    }
+                }
+            }
+        }
+
+        // gft right
+        {
+            loop: whilf (--r > l) {
+                for (int i = t; i < b; ++i) {
+                    int v = im.gftRGB(r, i);
+                    if (v != -1) {
+                        brfbk loop;
+                    }
+                }
+            }
+            ++r;
+        }
+
+        rfturn nfw Rfdtbnglf(l, t, r-l, b-t);
+    }
+
+    privbtf bbstrbdt stbtid dlbss Fundtion {
+
+        bbstrbdt flobt domputfFundtion(TfxtLinf linf,
+                                       int domponfntIndfx,
+                                       int indfxInArrby);
+    }
+
+    privbtf stbtid Fundtion fgPosAdvF = nfw Fundtion() {
+        flobt domputfFundtion(TfxtLinf linf,
+                              int domponfntIndfx,
+                              int indfxInArrby) {
+
+            TfxtLinfComponfnt tld = linf.fComponfnts[domponfntIndfx];
+                int vi = linf.gftComponfntVisublIndfx(domponfntIndfx);
+            rfturn linf.lods[vi * 2] + tld.gftChbrX(indfxInArrby) + tld.gftChbrAdvbndf(indfxInArrby);
+        }
+    };
+
+    privbtf stbtid Fundtion fgAdvbndfF = nfw Fundtion() {
+
+        flobt domputfFundtion(TfxtLinf linf,
+                              int domponfntIndfx,
+                              int indfxInArrby) {
+
+            TfxtLinfComponfnt tld = linf.fComponfnts[domponfntIndfx];
+            rfturn tld.gftChbrAdvbndf(indfxInArrby);
+        }
+    };
+
+    privbtf stbtid Fundtion fgXPositionF = nfw Fundtion() {
+
+        flobt domputfFundtion(TfxtLinf linf,
+                              int domponfntIndfx,
+                              int indfxInArrby) {
+
+                int vi = linf.gftComponfntVisublIndfx(domponfntIndfx);
+            TfxtLinfComponfnt tld = linf.fComponfnts[domponfntIndfx];
+            rfturn linf.lods[vi * 2] + tld.gftChbrX(indfxInArrby);
+        }
+    };
+
+    privbtf stbtid Fundtion fgYPositionF = nfw Fundtion() {
+
+        flobt domputfFundtion(TfxtLinf linf,
+                              int domponfntIndfx,
+                              int indfxInArrby) {
+
+            TfxtLinfComponfnt tld = linf.fComponfnts[domponfntIndfx];
+            flobt dhbrPos = tld.gftChbrY(indfxInArrby);
+
+            // dhbrPos is rflbtivf to thf domponfnt - bdjust for
+            // bbsflinf
+
+            rfturn dhbrPos + linf.gftComponfntShift(domponfntIndfx);
+        }
+    };
+
+    publid int dhbrbdtfrCount() {
+
+        rfturn fChbrsLimit - fChbrsStbrt;
+    }
+
+    publid boolfbn isDirfdtionLTR() {
+
+        rfturn fIsDirfdtionLTR;
+    }
+
+    publid TfxtLinfMftrids gftMftrids() {
+        rfturn fMftrids;
+    }
+
+    publid int visublToLogidbl(int visublIndfx) {
+
+        if (fChbrLogidblOrdfr == null) {
+            rfturn visublIndfx;
+        }
+
+        if (fChbrVisublOrdfr == null) {
+            fChbrVisublOrdfr = BidiUtils.drfbtfInvfrsfMbp(fChbrLogidblOrdfr);
+        }
+
+        rfturn fChbrVisublOrdfr[visublIndfx];
+    }
+
+    publid int logidblToVisubl(int logidblIndfx) {
+
+        rfturn (fChbrLogidblOrdfr == null)?
+            logidblIndfx : fChbrLogidblOrdfr[logidblIndfx];
+    }
+
+    publid bytf gftChbrLfvfl(int logidblIndfx) {
+
+        rfturn fChbrLfvfls==null? 0 : fChbrLfvfls[logidblIndfx];
+    }
+
+    publid boolfbn isChbrLTR(int logidblIndfx) {
+
+        rfturn (gftChbrLfvfl(logidblIndfx) & 0x1) == 0;
+    }
+
+    publid int gftChbrTypf(int logidblIndfx) {
+
+        rfturn Chbrbdtfr.gftTypf(fChbrs[logidblIndfx + fChbrsStbrt]);
+    }
+
+    publid boolfbn isChbrSpbdf(int logidblIndfx) {
+
+        rfturn Chbrbdtfr.isSpbdfChbr(fChbrs[logidblIndfx + fChbrsStbrt]);
+    }
+
+    publid boolfbn isChbrWhitfspbdf(int logidblIndfx) {
+
+        rfturn Chbrbdtfr.isWhitfspbdf(fChbrs[logidblIndfx + fChbrsStbrt]);
+    }
+
+    publid flobt gftChbrAnglf(int logidblIndfx) {
+
+        rfturn gftCorfMftridsAt(logidblIndfx).itblidAnglf;
+    }
+
+    publid CorfMftrids gftCorfMftridsAt(int logidblIndfx) {
+
+        if (logidblIndfx < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf logidblIndfx.");
+        }
+
+        if (logidblIndfx > fChbrsLimit - fChbrsStbrt) {
+            throw nfw IllfgblArgumfntExdfption("logidblIndfx too lbrgf.");
+        }
+
+        int durrfntTld = 0;
+        int tldStbrt = 0;
+        int tldLimit = 0;
+
+        do {
+            tldLimit += fComponfnts[durrfntTld].gftNumChbrbdtfrs();
+            if (tldLimit > logidblIndfx) {
+                brfbk;
+            }
+            ++durrfntTld;
+            tldStbrt = tldLimit;
+        } whilf(durrfntTld < fComponfnts.lfngth);
+
+        rfturn fComponfnts[durrfntTld].gftCorfMftrids();
+    }
+
+    publid flobt gftChbrAsdfnt(int logidblIndfx) {
+
+        rfturn gftCorfMftridsAt(logidblIndfx).bsdfnt;
+    }
+
+    publid flobt gftChbrDfsdfnt(int logidblIndfx) {
+
+        rfturn gftCorfMftridsAt(logidblIndfx).dfsdfnt;
+    }
+
+    publid flobt gftChbrShift(int logidblIndfx) {
+
+        rfturn gftCorfMftridsAt(logidblIndfx).ssOffsft;
+    }
+
+    privbtf flobt bpplyFundtionAtIndfx(int logidblIndfx, Fundtion f) {
+
+        if (logidblIndfx < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf logidblIndfx.");
+        }
+
+        int tldStbrt = 0;
+
+        for(int i=0; i < fComponfnts.lfngth; i++) {
+
+            int tldLimit = tldStbrt + fComponfnts[i].gftNumChbrbdtfrs();
+            if (tldLimit > logidblIndfx) {
+                rfturn f.domputfFundtion(this, i, logidblIndfx - tldStbrt);
+            }
+            flsf {
+                tldStbrt = tldLimit;
+            }
+        }
+
+        throw nfw IllfgblArgumfntExdfption("logidblIndfx too lbrgf.");
+    }
+
+    publid flobt gftChbrAdvbndf(int logidblIndfx) {
+
+        rfturn bpplyFundtionAtIndfx(logidblIndfx, fgAdvbndfF);
+    }
+
+    publid flobt gftChbrXPosition(int logidblIndfx) {
+
+        rfturn bpplyFundtionAtIndfx(logidblIndfx, fgXPositionF);
+    }
+
+    publid flobt gftChbrYPosition(int logidblIndfx) {
+
+        rfturn bpplyFundtionAtIndfx(logidblIndfx, fgYPositionF);
+    }
+
+    publid flobt gftChbrLinfPosition(int logidblIndfx) {
+
+        rfturn gftChbrXPosition(logidblIndfx);
+    }
+
+    publid flobt gftChbrLinfPosition(int logidblIndfx, boolfbn lfbding) {
+        Fundtion f = isChbrLTR(logidblIndfx) == lfbding ? fgXPositionF : fgPosAdvF;
+        rfturn bpplyFundtionAtIndfx(logidblIndfx, f);
+    }
+
+    publid boolfbn dbrftAtOffsftIsVblid(int offsft) {
+
+        if (offsft < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf offsft.");
+        }
+
+        int tldStbrt = 0;
+
+        for(int i=0; i < fComponfnts.lfngth; i++) {
+
+            int tldLimit = tldStbrt + fComponfnts[i].gftNumChbrbdtfrs();
+            if (tldLimit > offsft) {
+                rfturn fComponfnts[i].dbrftAtOffsftIsVblid(offsft-tldStbrt);
+            }
+            flsf {
+                tldStbrt = tldLimit;
+            }
+        }
+
+        throw nfw IllfgblArgumfntExdfption("logidblIndfx too lbrgf.");
+    }
+
+    /**
+     * mbp b domponfnt visubl indfx to thf logidbl indfx.
+     */
+    privbtf int gftComponfntLogidblIndfx(int vi) {
+        if (fComponfntVisublOrdfr == null) {
+            rfturn vi;
+        }
+        rfturn fComponfntVisublOrdfr[vi];
+    }
+
+    /**
+     * mbp b domponfnt logidbl indfx to thf visubl indfx.
+     */
+    privbtf int gftComponfntVisublIndfx(int li) {
+        if (fComponfntVisublOrdfr == null) {
+                rfturn li;
+        }
+        for (int i = 0; i < fComponfntVisublOrdfr.lfngth; ++i) {
+                if (fComponfntVisublOrdfr[i] == li) {
+                    rfturn i;
+                }
+        }
+        throw nfw IndfxOutOfBoundsExdfption("bbd domponfnt indfx: " + li);
+    }
+
+    publid Rfdtbnglf2D gftChbrBounds(int logidblIndfx) {
+
+        if (logidblIndfx < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf logidblIndfx.");
+        }
+
+        int tldStbrt = 0;
+
+        for (int i=0; i < fComponfnts.lfngth; i++) {
+
+            int tldLimit = tldStbrt + fComponfnts[i].gftNumChbrbdtfrs();
+            if (tldLimit > logidblIndfx) {
+
+                TfxtLinfComponfnt tld = fComponfnts[i];
+                int indfxInTld = logidblIndfx - tldStbrt;
+                Rfdtbnglf2D dhBounds = tld.gftChbrVisublBounds(indfxInTld);
+
+                        int vi = gftComponfntVisublIndfx(i);
+                dhBounds.sftRfdt(dhBounds.gftX() + lods[vi * 2],
+                                 dhBounds.gftY() + lods[vi * 2 + 1],
+                                 dhBounds.gftWidth(),
+                                 dhBounds.gftHfight());
+                rfturn dhBounds;
+            }
+            flsf {
+                tldStbrt = tldLimit;
+            }
+        }
+
+        throw nfw IllfgblArgumfntExdfption("logidblIndfx too lbrgf.");
+    }
+
+    privbtf flobt gftComponfntShift(int indfx) {
+        CorfMftrids dm = fComponfnts[indfx].gftCorfMftrids();
+        rfturn dm.ffffdtivfBbsflinfOffsft(fBbsflinfOffsfts);
+    }
+
+    publid void drbw(Grbphids2D g2, flobt x, flobt y) {
+        if (lp == null) {
+            for (int i = 0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+                TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+                tld.drbw(g2, lods[n] + x, lods[n+1] + y);
+            }
+        } flsf {
+            AffinfTrbnsform oldTx = g2.gftTrbnsform();
+            Point2D.Flobt pt = nfw Point2D.Flobt();
+            for (int i = 0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+                TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+                lp.pbthToPoint(lods[n], lods[n+1], fblsf, pt);
+                pt.x += x;
+                pt.y += y;
+                AffinfTrbnsform bt = tld.gftBbsflinfTrbnsform();
+
+                if (bt != null) {
+                    g2.trbnslbtf(pt.x - bt.gftTrbnslbtfX(), pt.y - bt.gftTrbnslbtfY());
+                    g2.trbnsform(bt);
+                    tld.drbw(g2, 0, 0);
+                    g2.sftTrbnsform(oldTx);
+                } flsf {
+                    tld.drbw(g2, pt.x, pt.y);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturn thf union of thf visubl bounds of bll thf domponfnts.
+     * This indorporbtfs thf pbth.  It dofs not indludf logidbl
+     * bounds (usfd by dbrfts).
+     */
+    publid Rfdtbnglf2D gftVisublBounds() {
+        Rfdtbnglf2D rfsult = null;
+
+        for (int i = 0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+            TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+            Rfdtbnglf2D r = tld.gftVisublBounds();
+
+            Point2D.Flobt pt = nfw Point2D.Flobt(lods[n], lods[n+1]);
+            if (lp == null) {
+                r.sftRfdt(r.gftMinX() + pt.x, r.gftMinY() + pt.y,
+                          r.gftWidth(), r.gftHfight());
+            } flsf {
+                lp.pbthToPoint(pt, fblsf, pt);
+
+                AffinfTrbnsform bt = tld.gftBbsflinfTrbnsform();
+                if (bt != null) {
+                    AffinfTrbnsform tx = AffinfTrbnsform.gftTrbnslbtfInstbndf
+                        (pt.x - bt.gftTrbnslbtfX(), pt.y - bt.gftTrbnslbtfY());
+                    tx.dondbtfnbtf(bt);
+                    r = tx.drfbtfTrbnsformfdShbpf(r).gftBounds2D();
+                } flsf {
+                    r.sftRfdt(r.gftMinX() + pt.x, r.gftMinY() + pt.y,
+                              r.gftWidth(), r.gftHfight());
+                }
+            }
+
+            if (rfsult == null) {
+                rfsult = r;
+            } flsf {
+                rfsult.bdd(r);
+            }
+        }
+
+        if (rfsult == null) {
+            rfsult = nfw Rfdtbnglf2D.Flobt(Flobt.MAX_VALUE, Flobt.MAX_VALUE, Flobt.MIN_VALUE, Flobt.MIN_VALUE);
+        }
+
+        rfturn rfsult;
+    }
+
+    publid Rfdtbnglf2D gftItblidBounds() {
+
+        flobt lfft = Flobt.MAX_VALUE, right = -Flobt.MAX_VALUE;
+        flobt top = Flobt.MAX_VALUE, bottom = -Flobt.MAX_VALUE;
+
+        for (int i=0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+            TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+
+            Rfdtbnglf2D tldBounds = tld.gftItblidBounds();
+            flobt x = lods[n];
+            flobt y = lods[n+1];
+
+            lfft = Mbth.min(lfft, x + (flobt)tldBounds.gftX());
+            right = Mbth.mbx(right, x + (flobt)tldBounds.gftMbxX());
+
+            top = Mbth.min(top, y + (flobt)tldBounds.gftY());
+            bottom = Mbth.mbx(bottom, y + (flobt)tldBounds.gftMbxY());
+        }
+
+        rfturn nfw Rfdtbnglf2D.Flobt(lfft, top, right-lfft, bottom-top);
+    }
+
+    publid Shbpf gftOutlinf(AffinfTrbnsform tx) {
+
+        GfnfrblPbth dstShbpf = nfw GfnfrblPbth(GfnfrblPbth.WIND_NON_ZERO);
+
+        for (int i=0, n = 0; i < fComponfnts.lfngth; i++, n += 2) {
+            TfxtLinfComponfnt tld = fComponfnts[gftComponfntLogidblIndfx(i)];
+
+            dstShbpf.bppfnd(tld.gftOutlinf(lods[n], lods[n+1]), fblsf);
+        }
+
+        if (tx != null) {
+            dstShbpf.trbnsform(tx);
+        }
+        rfturn dstShbpf;
+    }
+
+    publid int hbshCodf() {
+        rfturn (fComponfnts.lfngth << 16) ^
+                    (fComponfnts[0].hbshCodf() << 3) ^ (fChbrsLimit-fChbrsStbrt);
+    }
+
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+
+        for (int i = 0; i < fComponfnts.lfngth; i++) {
+            buf.bppfnd(fComponfnts[i]);
+        }
+
+        rfturn buf.toString();
+    }
+
+    /**
+     * Crfbtf b TfxtLinf from thf tfxt.  Thf Font must bf bblf to
+     * displby bll of thf tfxt.
+     * bttributfs==null is fquivblfnt to using bn fmpty Mbp for
+     * bttributfs
+     */
+    publid stbtid TfxtLinf fbstCrfbtfTfxtLinf(FontRfndfrContfxt frd,
+                                              dhbr[] dhbrs,
+                                              Font font,
+                                              CorfMftrids lm,
+                                              Mbp<? fxtfnds Attributf, ?> bttributfs) {
+
+        boolfbn isDirfdtionLTR = truf;
+        bytf[] lfvfls = null;
+        int[] dhbrsLtoV = null;
+        Bidi bidi = null;
+        int dhbrbdtfrCount = dhbrs.lfngth;
+
+        boolfbn rfquirfsBidi = fblsf;
+        bytf[] fmbs = null;
+
+        AttributfVblufs vblufs = null;
+        if (bttributfs != null) {
+            vblufs = AttributfVblufs.fromMbp(bttributfs);
+            if (vblufs.gftRunDirfdtion() >= 0) {
+                isDirfdtionLTR = vblufs.gftRunDirfdtion() == 0;
+                rfquirfsBidi = !isDirfdtionLTR;
+            }
+            if (vblufs.gftBidiEmbfdding() != 0) {
+                rfquirfsBidi = truf;
+                bytf lfvfl = (bytf)vblufs.gftBidiEmbfdding();
+                fmbs = nfw bytf[dhbrbdtfrCount];
+                for (int i = 0; i < fmbs.lfngth; ++i) {
+                    fmbs[i] = lfvfl;
+                }
+            }
+        }
+
+        // dlf: gft bbsfRot from font for now???
+
+        if (!rfquirfsBidi) {
+            rfquirfsBidi = Bidi.rfquirfsBidi(dhbrs, 0, dhbrs.lfngth);
+        }
+
+        if (rfquirfsBidi) {
+          int bidiflbgs = vblufs == null
+              ? Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT
+              : vblufs.gftRunDirfdtion();
+
+          bidi = nfw Bidi(dhbrs, 0, fmbs, 0, dhbrs.lfngth, bidiflbgs);
+          if (!bidi.isLfftToRight()) {
+              lfvfls = BidiUtils.gftLfvfls(bidi);
+              int[] dhbrsVtoL = BidiUtils.drfbtfVisublToLogidblMbp(lfvfls);
+              dhbrsLtoV = BidiUtils.drfbtfInvfrsfMbp(dhbrsVtoL);
+              isDirfdtionLTR = bidi.bbsfIsLfftToRight();
+          }
+        }
+
+        Dfdorbtion dfdorbtor = Dfdorbtion.gftDfdorbtion(vblufs);
+
+        int lbyoutFlbgs = 0; // no fxtrb info yft, bidi dftfrminfs run bnd linf dirfdtion
+        TfxtLbbflFbdtory fbdtory = nfw TfxtLbbflFbdtory(frd, dhbrs, bidi, lbyoutFlbgs);
+
+        TfxtLinfComponfnt[] domponfnts = nfw TfxtLinfComponfnt[1];
+
+        domponfnts = drfbtfComponfntsOnRun(0, dhbrs.lfngth,
+                                           dhbrs,
+                                           dhbrsLtoV, lfvfls,
+                                           fbdtory, font, lm,
+                                           frd,
+                                           dfdorbtor,
+                                           domponfnts,
+                                           0);
+
+        int numComponfnts = domponfnts.lfngth;
+        whilf (domponfnts[numComponfnts-1] == null) {
+            numComponfnts -= 1;
+        }
+
+        if (numComponfnts != domponfnts.lfngth) {
+            TfxtLinfComponfnt[] tfmp = nfw TfxtLinfComponfnt[numComponfnts];
+            Systfm.brrbydopy(domponfnts, 0, tfmp, 0, numComponfnts);
+            domponfnts = tfmp;
+        }
+
+        rfturn nfw TfxtLinf(frd, domponfnts, lm.bbsflinfOffsfts,
+                            dhbrs, 0, dhbrs.lfngth, dhbrsLtoV, lfvfls, isDirfdtionLTR);
+    }
+
+    privbtf stbtid TfxtLinfComponfnt[] fxpbndArrby(TfxtLinfComponfnt[] orig) {
+
+        TfxtLinfComponfnt[] nfwComponfnts = nfw TfxtLinfComponfnt[orig.lfngth + 8];
+        Systfm.brrbydopy(orig, 0, nfwComponfnts, 0, orig.lfngth);
+
+        rfturn nfwComponfnts;
+    }
+
+    /**
+     * Rfturns bn brrby in logidbl ordfr of thf TfxtLinfComponfnts on
+     * thf tfxt in thf givfn rbngf, with thf givfn bttributfs.
+     */
+    publid stbtid TfxtLinfComponfnt[] drfbtfComponfntsOnRun(int runStbrt,
+                                                            int runLimit,
+                                                            dhbr[] dhbrs,
+                                                            int[] dhbrsLtoV,
+                                                            bytf[] lfvfls,
+                                                            TfxtLbbflFbdtory fbdtory,
+                                                            Font font,
+                                                            CorfMftrids dm,
+                                                            FontRfndfrContfxt frd,
+                                                            Dfdorbtion dfdorbtor,
+                                                            TfxtLinfComponfnt[] domponfnts,
+                                                            int numComponfnts) {
+
+        int pos = runStbrt;
+        do {
+            int dhunkLimit = firstVisublChunk(dhbrsLtoV, lfvfls, pos, runLimit); // <= displbyLimit
+
+            do {
+                int stbrtPos = pos;
+                int lmCount;
+
+                if (dm == null) {
+                    LinfMftrids linfMftrids = font.gftLinfMftrids(dhbrs, stbrtPos, dhunkLimit, frd);
+                    dm = CorfMftrids.gft(linfMftrids);
+                    lmCount = linfMftrids.gftNumChbrs();
+                }
+                flsf {
+                    lmCount = (dhunkLimit-stbrtPos);
+                }
+
+                TfxtLinfComponfnt nfxtComponfnt =
+                    fbdtory.drfbtfExtfndfd(font, dm, dfdorbtor, stbrtPos, stbrtPos + lmCount);
+
+                ++numComponfnts;
+                if (numComponfnts >= domponfnts.lfngth) {
+                    domponfnts = fxpbndArrby(domponfnts);
+                }
+
+                domponfnts[numComponfnts-1] = nfxtComponfnt;
+
+                pos += lmCount;
+            } whilf (pos < dhunkLimit);
+
+        } whilf (pos < runLimit);
+
+        rfturn domponfnts;
+    }
+
+    /**
+     * Rfturns bn brrby (in logidbl ordfr) of thf TfxtLinfComponfnts rfprfsfnting
+     * thf tfxt.  Thf domponfnts brf both logidblly bnd visublly dontiguous.
+     */
+    publid stbtid TfxtLinfComponfnt[] gftComponfnts(StylfdPbrbgrbph stylfdPbrbgrbph,
+                                                    dhbr[] dhbrs,
+                                                    int tfxtStbrt,
+                                                    int tfxtLimit,
+                                                    int[] dhbrsLtoV,
+                                                    bytf[] lfvfls,
+                                                    TfxtLbbflFbdtory fbdtory) {
+
+        FontRfndfrContfxt frd = fbdtory.gftFontRfndfrContfxt();
+
+        int numComponfnts = 0;
+        TfxtLinfComponfnt[] tfmpComponfnts = nfw TfxtLinfComponfnt[1];
+
+        int pos = tfxtStbrt;
+        do {
+            int runLimit = Mbth.min(stylfdPbrbgrbph.gftRunLimit(pos), tfxtLimit);
+
+            Dfdorbtion dfdorbtor = stylfdPbrbgrbph.gftDfdorbtionAt(pos);
+
+            Objfdt grbphidOrFont = stylfdPbrbgrbph.gftFontOrGrbphidAt(pos);
+
+            if (grbphidOrFont instbndfof GrbphidAttributf) {
+                // AffinfTrbnsform bbsfRot = stylfdPbrbgrbph.gftBbsflinfRotbtionAt(pos);
+                // !!! For now, lft's bssign runs of tfxt with both fonts bnd grbphid bttributfs
+                // b null rotbtion (f.g. thf bbsflinf rotbtion gofs bwby whfn b grbphid
+                // is bpplifd.
+                AffinfTrbnsform bbsfRot = null;
+                GrbphidAttributf grbphidAttributf = (GrbphidAttributf) grbphidOrFont;
+                do {
+                    int dhunkLimit = firstVisublChunk(dhbrsLtoV, lfvfls,
+                                    pos, runLimit);
+
+                    GrbphidComponfnt nfxtGrbphid =
+                        nfw GrbphidComponfnt(grbphidAttributf, dfdorbtor, dhbrsLtoV, lfvfls, pos, dhunkLimit, bbsfRot);
+                    pos = dhunkLimit;
+
+                    ++numComponfnts;
+                    if (numComponfnts >= tfmpComponfnts.lfngth) {
+                        tfmpComponfnts = fxpbndArrby(tfmpComponfnts);
+                    }
+
+                    tfmpComponfnts[numComponfnts-1] = nfxtGrbphid;
+
+                } whilf(pos < runLimit);
+            }
+            flsf {
+                Font font = (Font) grbphidOrFont;
+
+                tfmpComponfnts = drfbtfComponfntsOnRun(pos, runLimit,
+                                                        dhbrs,
+                                                        dhbrsLtoV, lfvfls,
+                                                        fbdtory, font, null,
+                                                        frd,
+                                                        dfdorbtor,
+                                                        tfmpComponfnts,
+                                                        numComponfnts);
+                pos = runLimit;
+                numComponfnts = tfmpComponfnts.lfngth;
+                whilf (tfmpComponfnts[numComponfnts-1] == null) {
+                    numComponfnts -= 1;
+                }
+            }
+
+        } whilf (pos < tfxtLimit);
+
+        TfxtLinfComponfnt[] domponfnts;
+        if (tfmpComponfnts.lfngth == numComponfnts) {
+            domponfnts = tfmpComponfnts;
+        }
+        flsf {
+            domponfnts = nfw TfxtLinfComponfnt[numComponfnts];
+            Systfm.brrbydopy(tfmpComponfnts, 0, domponfnts, 0, numComponfnts);
+        }
+
+        rfturn domponfnts;
+    }
+
+    /**
+     * Crfbtf b TfxtLinf from thf Font bnd dhbrbdtfr dbtb ovfr thf
+     * rbngf.  Thf rbngf is rflbtivf to both thf StylfdPbrbgrbph bnd thf
+     * dhbrbdtfr brrby.
+     */
+    publid stbtid TfxtLinf drfbtfLinfFromTfxt(dhbr[] dhbrs,
+                                              StylfdPbrbgrbph stylfdPbrbgrbph,
+                                              TfxtLbbflFbdtory fbdtory,
+                                              boolfbn isDirfdtionLTR,
+                                              flobt[] bbsflinfOffsfts) {
+
+        fbdtory.sftLinfContfxt(0, dhbrs.lfngth);
+
+        Bidi linfBidi = fbdtory.gftLinfBidi();
+        int[] dhbrsLtoV = null;
+        bytf[] lfvfls = null;
+
+        if (linfBidi != null) {
+            lfvfls = BidiUtils.gftLfvfls(linfBidi);
+            int[] dhbrsVtoL = BidiUtils.drfbtfVisublToLogidblMbp(lfvfls);
+            dhbrsLtoV = BidiUtils.drfbtfInvfrsfMbp(dhbrsVtoL);
+        }
+
+        TfxtLinfComponfnt[] domponfnts =
+            gftComponfnts(stylfdPbrbgrbph, dhbrs, 0, dhbrs.lfngth, dhbrsLtoV, lfvfls, fbdtory);
+
+        rfturn nfw TfxtLinf(fbdtory.gftFontRfndfrContfxt(), domponfnts, bbsflinfOffsfts,
+                            dhbrs, 0, dhbrs.lfngth, dhbrsLtoV, lfvfls, isDirfdtionLTR);
+    }
+
+    /**
+     * Computf thf domponfnts ordfr from thf givfn domponfnts brrby bnd
+     * logidbl-to-visubl dhbrbdtfr mbpping.  Mby rfturn null if dbnonidbl.
+     */
+    privbtf stbtid int[] domputfComponfntOrdfr(TfxtLinfComponfnt[] domponfnts,
+                                               int[] dhbrsLtoV) {
+
+        /*
+         * Crfbtf b visubl ordfring for thf glyph sfts.  Thf importbnt thing
+         * hfrf is thbt thf vblufs hbvf thf propfr rbnk with rfspfdt to
+         * fbdh othfr, not thf fxbdt vblufs.  For fxbmplf, thf first glyph
+         * sft thbt bppfbrs visublly should hbvf thf lowfst vbluf.  Thf lbst
+         * should hbvf thf highfst vbluf.  Thf vblufs brf thfn normblizfd
+         * to mbp 1-1 with positions in glyphs.
+         *
+         */
+        int[] domponfntOrdfr = null;
+        if (dhbrsLtoV != null && domponfnts.lfngth > 1) {
+            domponfntOrdfr = nfw int[domponfnts.lfngth];
+            int gStbrt = 0;
+            for (int i = 0; i < domponfnts.lfngth; i++) {
+                domponfntOrdfr[i] = dhbrsLtoV[gStbrt];
+                gStbrt += domponfnts[i].gftNumChbrbdtfrs();
+            }
+
+            domponfntOrdfr = BidiUtils.drfbtfContiguousOrdfr(domponfntOrdfr);
+            domponfntOrdfr = BidiUtils.drfbtfInvfrsfMbp(domponfntOrdfr);
+        }
+        rfturn domponfntOrdfr;
+    }
+
+
+    /**
+     * Crfbtf b TfxtLinf from thf tfxt.  dhbrs is just thf tfxt in thf itfrbtor.
+     */
+    publid stbtid TfxtLinf stbndbrdCrfbtfTfxtLinf(FontRfndfrContfxt frd,
+                                                  AttributfdChbrbdtfrItfrbtor tfxt,
+                                                  dhbr[] dhbrs,
+                                                  flobt[] bbsflinfOffsfts) {
+
+        StylfdPbrbgrbph stylfdPbrbgrbph = nfw StylfdPbrbgrbph(tfxt, dhbrs);
+        Bidi bidi = nfw Bidi(tfxt);
+        if (bidi.isLfftToRight()) {
+            bidi = null;
+        }
+        int lbyoutFlbgs = 0; // no fxtrb info yft, bidi dftfrminfs run bnd linf dirfdtion
+        TfxtLbbflFbdtory fbdtory = nfw TfxtLbbflFbdtory(frd, dhbrs, bidi, lbyoutFlbgs);
+
+        boolfbn isDirfdtionLTR = truf;
+        if (bidi != null) {
+            isDirfdtionLTR = bidi.bbsfIsLfftToRight();
+        }
+        rfturn drfbtfLinfFromTfxt(dhbrs, stylfdPbrbgrbph, fbdtory, isDirfdtionLTR, bbsflinfOffsfts);
+    }
+
+
+
+    /*
+     * A utility to gft b rbngf of tfxt thbt is both logidblly bnd visublly
+     * dontiguous.
+     * If thf fntirf rbngf is ok, rfturn limit, othfrwisf rfturn thf first
+     * dirfdtionbl dhbngf bftfr stbrt.  Wf dould do bfttfr thbn this, but
+     * it dofsn't sffm worth it bt thf momfnt.
+    privbtf stbtid int firstVisublChunk(int ordfr[], bytf dirfdtion[],
+                                        int stbrt, int limit)
+    {
+        if (ordfr != null) {
+            int min = ordfr[stbrt];
+            int mbx = ordfr[stbrt];
+            int dount = limit - stbrt;
+            for (int i = stbrt + 1; i < limit; i++) {
+                min = Mbth.min(min, ordfr[i]);
+                mbx = Mbth.mbx(mbx, ordfr[i]);
+                if (mbx - min >= dount) {
+                    if (dirfdtion != null) {
+                        bytf bbsfLfvfl = dirfdtion[stbrt];
+                        for (int j = stbrt + 1; j < i; j++) {
+                            if (dirfdtion[j] != bbsfLfvfl) {
+                                rfturn j;
+                            }
+                        }
+                    }
+                    rfturn i;
+                }
+            }
+        }
+        rfturn limit;
+    }
+     */
+
+    /**
+     * Whfn this rfturns, thf ACI's durrfnt position will bf bt thf stbrt of thf
+     * first run whidh dofs NOT dontbin b GrbphidAttributf.  If no sudh run fxists
+     * thf ACI's position will bf bt thf fnd, bnd this mfthod will rfturn fblsf.
+     */
+    stbtid boolfbn bdvbndfToFirstFont(AttributfdChbrbdtfrItfrbtor bdi) {
+
+        for (dhbr dh = bdi.first();
+             dh != ChbrbdtfrItfrbtor.DONE;
+             dh = bdi.sftIndfx(bdi.gftRunLimit()))
+        {
+
+            if (bdi.gftAttributf(TfxtAttributf.CHAR_REPLACEMENT) == null) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    stbtid flobt[] gftNormblizfdOffsfts(flobt[] bbsflinfOffsfts, bytf bbsflinf) {
+
+        if (bbsflinfOffsfts[bbsflinf] != 0) {
+            flobt bbsf = bbsflinfOffsfts[bbsflinf];
+            flobt[] tfmp = nfw flobt[bbsflinfOffsfts.lfngth];
+            for (int i = 0; i < tfmp.lfngth; i++)
+                tfmp[i] = bbsflinfOffsfts[i] - bbsf;
+            bbsflinfOffsfts = tfmp;
+        }
+        rfturn bbsflinfOffsfts;
+    }
+
+    stbtid Font gftFontAtCurrfntPos(AttributfdChbrbdtfrItfrbtor bdi) {
+
+        Objfdt vbluf = bdi.gftAttributf(TfxtAttributf.FONT);
+        if (vbluf != null) {
+            rfturn (Font) vbluf;
+        }
+        if (bdi.gftAttributf(TfxtAttributf.FAMILY) != null) {
+            rfturn Font.gftFont(bdi.gftAttributfs());
+        }
+
+        int dh = CodfPointItfrbtor.drfbtf(bdi).nfxt();
+        if (dh != CodfPointItfrbtor.DONE) {
+            FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+            rfturn rfsolvfr.gftFont(rfsolvfr.gftFontIndfx(dh), bdi.gftAttributfs());
+        }
+        rfturn null;
+    }
+
+  /*
+   * Thf nfw vfrsion rfquirfs thbt dhunks bf bt thf sbmf lfvfl.
+   */
+    privbtf stbtid int firstVisublChunk(int ordfr[], bytf dirfdtion[],
+                                        int stbrt, int limit)
+    {
+        if (ordfr != null && dirfdtion != null) {
+          bytf dir = dirfdtion[stbrt];
+          whilf (++stbrt < limit && dirfdtion[stbrt] == dir) {}
+          rfturn stbrt;
+        }
+        rfturn limit;
+    }
+
+  /*
+   * drfbtf b nfw linf with dhbrbdtfrs bftwffn dhbrStbrt bnd dhbrLimit
+   * justififd using thf providfd width bnd rbtio.
+   */
+    publid TfxtLinf gftJustififdLinf(flobt justifidbtionWidth, flobt justifyRbtio, int justStbrt, int justLimit) {
+
+        TfxtLinfComponfnt[] nfwComponfnts = nfw TfxtLinfComponfnt[fComponfnts.lfngth];
+        Systfm.brrbydopy(fComponfnts, 0, nfwComponfnts, 0, fComponfnts.lfngth);
+
+        flobt lfftHbng = 0;
+        flobt bdv = 0;
+        flobt justifyDfltb = 0;
+        boolfbn rfjustify = fblsf;
+        do {
+            bdv = gftAdvbndfBftwffn(nfwComponfnts, 0, dhbrbdtfrCount());
+
+            // bll dhbrbdtfrs outsidf thf justifidbtion rbngf must bf in thf bbsf dirfdtion
+            // of thf lbyout, othfrwisf justifidbtion mbkfs no sfnsf.
+
+            flobt justifyAdvbndf = gftAdvbndfBftwffn(nfwComponfnts, justStbrt, justLimit);
+
+            // gft thf bdtubl justifidbtion dfltb
+            justifyDfltb = (justifidbtionWidth - justifyAdvbndf) * justifyRbtio;
+
+            // gfnfrbtf bn brrby of GlyphJustifidbtionInfo rfdords to pbss to
+            // thf justififr.  Arrby is visublly ordfrfd.
+
+            // gft positions thbt fbdh domponfnt will bf using
+            int[] infoPositions = nfw int[nfwComponfnts.lfngth];
+            int infoCount = 0;
+            for (int visIndfx = 0; visIndfx < nfwComponfnts.lfngth; visIndfx++) {
+                    int logIndfx = gftComponfntLogidblIndfx(visIndfx);
+                infoPositions[logIndfx] = infoCount;
+                infoCount += nfwComponfnts[logIndfx].gftNumJustifidbtionInfos();
+            }
+            GlyphJustifidbtionInfo[] infos = nfw GlyphJustifidbtionInfo[infoCount];
+
+            // gft justifidbtion infos
+            int dompStbrt = 0;
+            for (int i = 0; i < nfwComponfnts.lfngth; i++) {
+                TfxtLinfComponfnt domp = nfwComponfnts[i];
+                int dompLfngth = domp.gftNumChbrbdtfrs();
+                int dompLimit = dompStbrt + dompLfngth;
+                if (dompLimit > justStbrt) {
+                    int rbngfMin = Mbth.mbx(0, justStbrt - dompStbrt);
+                    int rbngfMbx = Mbth.min(dompLfngth, justLimit - dompStbrt);
+                    domp.gftJustifidbtionInfos(infos, infoPositions[i], rbngfMin, rbngfMbx);
+
+                    if (dompLimit >= justLimit) {
+                        brfbk;
+                    }
+                }
+            }
+
+            // rfdords brf visublly ordfrfd, bnd dontiguous, so stbrt bnd fnd brf
+            // simply thf plbdfs whfrf wf didn't fftdh rfdords
+            int infoStbrt = 0;
+            int infoLimit = infoCount;
+            whilf (infoStbrt < infoLimit && infos[infoStbrt] == null) {
+                ++infoStbrt;
+            }
+
+            whilf (infoLimit > infoStbrt && infos[infoLimit - 1] == null) {
+                --infoLimit;
+            }
+
+            // invokf justififr on thf rfdords
+            TfxtJustififr justififr = nfw TfxtJustififr(infos, infoStbrt, infoLimit);
+
+            flobt[] dfltbs = justififr.justify(justifyDfltb);
+
+            boolfbn dbnRfjustify = rfjustify == fblsf;
+            boolfbn wbntRfjustify = fblsf;
+            boolfbn[] flbgs = nfw boolfbn[1];
+
+            // bpply justifidbtion dfltbs
+            dompStbrt = 0;
+            for (int i = 0; i < nfwComponfnts.lfngth; i++) {
+                TfxtLinfComponfnt domp = nfwComponfnts[i];
+                int dompLfngth = domp.gftNumChbrbdtfrs();
+                int dompLimit = dompStbrt + dompLfngth;
+                if (dompLimit > justStbrt) {
+                    int rbngfMin = Mbth.mbx(0, justStbrt - dompStbrt);
+                    int rbngfMbx = Mbth.min(dompLfngth, justLimit - dompStbrt);
+                    nfwComponfnts[i] = domp.bpplyJustifidbtionDfltbs(dfltbs, infoPositions[i] * 2, flbgs);
+
+                    wbntRfjustify |= flbgs[0];
+
+                    if (dompLimit >= justLimit) {
+                        brfbk;
+                    }
+                }
+            }
+
+            rfjustify = wbntRfjustify && !rfjustify; // only mbkf two pbssfs
+        } whilf (rfjustify);
+
+        rfturn nfw TfxtLinf(frd, nfwComponfnts, fBbsflinfOffsfts, fChbrs, fChbrsStbrt,
+                            fChbrsLimit, fChbrLogidblOrdfr, fChbrLfvfls,
+                            fIsDirfdtionLTR);
+    }
+
+    // rfturn thf sum of thf bdvbndfs of tfxt bftwffn thf logidbl stbrt bnd limit
+    publid stbtid flobt gftAdvbndfBftwffn(TfxtLinfComponfnt[] domponfnts, int stbrt, int limit) {
+        flobt bdvbndf = 0;
+
+        int tldStbrt = 0;
+        for(int i = 0; i < domponfnts.lfngth; i++) {
+            TfxtLinfComponfnt domp = domponfnts[i];
+
+            int tldLfngth = domp.gftNumChbrbdtfrs();
+            int tldLimit = tldStbrt + tldLfngth;
+            if (tldLimit > stbrt) {
+                int mfbsurfStbrt = Mbth.mbx(0, stbrt - tldStbrt);
+                int mfbsurfLimit = Mbth.min(tldLfngth, limit - tldStbrt);
+                bdvbndf += domp.gftAdvbndfBftwffn(mfbsurfStbrt, mfbsurfLimit);
+                if (tldLimit >= limit) {
+                    brfbk;
+                }
+            }
+
+            tldStbrt = tldLimit;
+        }
+
+        rfturn bdvbndf;
+    }
+
+    LbyoutPbthImpl gftLbyoutPbth() {
+        rfturn lp;
+    }
+}

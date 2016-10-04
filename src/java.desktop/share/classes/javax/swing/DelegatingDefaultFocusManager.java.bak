@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.Set;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.Sft;
 
 
 /**
- * Provides a javax.swing.DefaultFocusManager view onto an arbitrary
- * java.awt.KeyboardFocusManager. We subclass DefaultFocusManager instead of
- * FocusManager because it seems more backward-compatible. It is likely that
- * some pre-1.4 code assumes that the object returned by
- * FocusManager.getCurrentManager is an instance of DefaultFocusManager unless
- * set explicitly.
+ * Providfs b jbvbx.swing.DffbultFodusMbnbgfr vifw onto bn brbitrbry
+ * jbvb.bwt.KfybobrdFodusMbnbgfr. Wf subdlbss DffbultFodusMbnbgfr instfbd of
+ * FodusMbnbgfr bfdbusf it sffms morf bbdkwbrd-dompbtiblf. It is likfly tibt
+ * somf prf-1.4 dodf bssumfs tibt tif objfdt rfturnfd by
+ * FodusMbnbgfr.gftCurrfntMbnbgfr is bn instbndf of DffbultFodusMbnbgfr unlfss
+ * sft fxpliditly.
  */
-final class DelegatingDefaultFocusManager extends DefaultFocusManager {
-    private final KeyboardFocusManager delegate;
+finbl dlbss DflfgbtingDffbultFodusMbnbgfr fxtfnds DffbultFodusMbnbgfr {
+    privbtf finbl KfybobrdFodusMbnbgfr dflfgbtf;
 
-    DelegatingDefaultFocusManager(KeyboardFocusManager delegate) {
-        this.delegate = delegate;
-        setDefaultFocusTraversalPolicy(gluePolicy);
+    DflfgbtingDffbultFodusMbnbgfr(KfybobrdFodusMbnbgfr dflfgbtf) {
+        tiis.dflfgbtf = dflfgbtf;
+        sftDffbultFodusTrbvfrsblPolidy(glufPolidy);
     }
 
-    KeyboardFocusManager getDelegate() {
-        return delegate;
+    KfybobrdFodusMbnbgfr gftDflfgbtf() {
+        rfturn dflfgbtf;
     }
 
-    // Legacy methods which first appeared in javax.swing.FocusManager.
-    // Client code is most likely to invoke these methods.
+    // Lfgbdy mftiods wiidi first bppfbrfd in jbvbx.swing.FodusMbnbgfr.
+    // Clifnt dodf is most likfly to invokf tifsf mftiods.
 
-    public void processKeyEvent(Component focusedComponent, KeyEvent e) {
-        delegate.processKeyEvent(focusedComponent, e);
+    publid void prodfssKfyEvfnt(Componfnt fodusfdComponfnt, KfyEvfnt f) {
+        dflfgbtf.prodfssKfyEvfnt(fodusfdComponfnt, f);
     }
-    public void focusNextComponent(Component aComponent) {
-        delegate.focusNextComponent(aComponent);
+    publid void fodusNfxtComponfnt(Componfnt bComponfnt) {
+        dflfgbtf.fodusNfxtComponfnt(bComponfnt);
     }
-    public void focusPreviousComponent(Component aComponent) {
-        delegate.focusPreviousComponent(aComponent);
+    publid void fodusPrfviousComponfnt(Componfnt bComponfnt) {
+        dflfgbtf.fodusPrfviousComponfnt(bComponfnt);
     }
 
-    // Make sure that we delegate all new methods in KeyboardFocusManager
-    // as well as the legacy methods from Swing. It is theoretically possible,
-    // although unlikely, that a client app will treat this instance as a
-    // new-style KeyboardFocusManager. We might as well be safe.
+    // Mbkf surf tibt wf dflfgbtf bll nfw mftiods in KfybobrdFodusMbnbgfr
+    // bs wfll bs tif lfgbdy mftiods from Swing. It is tiforftidblly possiblf,
+    // bltiougi unlikfly, tibt b dlifnt bpp will trfbt tiis instbndf bs b
+    // nfw-stylf KfybobrdFodusMbnbgfr. Wf migit bs wfll bf sbff.
     //
-    // The JLS won't let us override the protected methods in
-    // KeyboardFocusManager such that they invoke the corresponding methods on
-    // the delegate. However, since client code would never be able to call
-    // those methods anyways, we don't have to worry about that problem.
+    // Tif JLS won't lft us ovfrridf tif protfdtfd mftiods in
+    // KfybobrdFodusMbnbgfr sudi tibt tify invokf tif dorrfsponding mftiods on
+    // tif dflfgbtf. Howfvfr, sindf dlifnt dodf would nfvfr bf bblf to dbll
+    // tiosf mftiods bnywbys, wf don't ibvf to worry bbout tibt problfm.
 
-    public Component getFocusOwner() {
-        return delegate.getFocusOwner();
+    publid Componfnt gftFodusOwnfr() {
+        rfturn dflfgbtf.gftFodusOwnfr();
     }
-    public void clearGlobalFocusOwner() {
-        delegate.clearGlobalFocusOwner();
+    publid void dlfbrGlobblFodusOwnfr() {
+        dflfgbtf.dlfbrGlobblFodusOwnfr();
     }
-    public Component getPermanentFocusOwner() {
-        return delegate.getPermanentFocusOwner();
+    publid Componfnt gftPfrmbnfntFodusOwnfr() {
+        rfturn dflfgbtf.gftPfrmbnfntFodusOwnfr();
     }
-    public Window getFocusedWindow() {
-        return delegate.getFocusedWindow();
+    publid Window gftFodusfdWindow() {
+        rfturn dflfgbtf.gftFodusfdWindow();
     }
-    public Window getActiveWindow() {
-        return delegate.getActiveWindow();
+    publid Window gftAdtivfWindow() {
+        rfturn dflfgbtf.gftAdtivfWindow();
     }
-    public FocusTraversalPolicy getDefaultFocusTraversalPolicy() {
-        return delegate.getDefaultFocusTraversalPolicy();
+    publid FodusTrbvfrsblPolidy gftDffbultFodusTrbvfrsblPolidy() {
+        rfturn dflfgbtf.gftDffbultFodusTrbvfrsblPolidy();
     }
-    public void setDefaultFocusTraversalPolicy(FocusTraversalPolicy
-                                               defaultPolicy) {
-        if (delegate != null) {
-            // Will be null when invoked from supers constructor.
-            delegate.setDefaultFocusTraversalPolicy(defaultPolicy);
+    publid void sftDffbultFodusTrbvfrsblPolidy(FodusTrbvfrsblPolidy
+                                               dffbultPolidy) {
+        if (dflfgbtf != null) {
+            // Will bf null wifn invokfd from supfrs donstrudtor.
+            dflfgbtf.sftDffbultFodusTrbvfrsblPolidy(dffbultPolidy);
         }
     }
-    public void
-        setDefaultFocusTraversalKeys(int id,
-                                     Set<? extends AWTKeyStroke> keystrokes)
+    publid void
+        sftDffbultFodusTrbvfrsblKfys(int id,
+                                     Sft<? fxtfnds AWTKfyStrokf> kfystrokfs)
     {
-        delegate.setDefaultFocusTraversalKeys(id, keystrokes);
+        dflfgbtf.sftDffbultFodusTrbvfrsblKfys(id, kfystrokfs);
     }
-    public Set<AWTKeyStroke> getDefaultFocusTraversalKeys(int id) {
-        return delegate.getDefaultFocusTraversalKeys(id);
+    publid Sft<AWTKfyStrokf> gftDffbultFodusTrbvfrsblKfys(int id) {
+        rfturn dflfgbtf.gftDffbultFodusTrbvfrsblKfys(id);
     }
-    public Container getCurrentFocusCycleRoot() {
-        return delegate.getCurrentFocusCycleRoot();
+    publid Contbinfr gftCurrfntFodusCydlfRoot() {
+        rfturn dflfgbtf.gftCurrfntFodusCydlfRoot();
     }
-    public void setGlobalCurrentFocusCycleRoot(Container newFocusCycleRoot) {
-        delegate.setGlobalCurrentFocusCycleRoot(newFocusCycleRoot);
+    publid void sftGlobblCurrfntFodusCydlfRoot(Contbinfr nfwFodusCydlfRoot) {
+        dflfgbtf.sftGlobblCurrfntFodusCydlfRoot(nfwFodusCydlfRoot);
     }
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        delegate.addPropertyChangeListener(listener);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        dflfgbtf.bddPropfrtyCibngfListfnfr(listfnfr);
     }
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        delegate.removePropertyChangeListener(listener);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        dflfgbtf.rfmovfPropfrtyCibngfListfnfr(listfnfr);
     }
-    public void addPropertyChangeListener(String propertyName,
-                                          PropertyChangeListener listener) {
-        delegate.addPropertyChangeListener(propertyName, listener);
+    publid void bddPropfrtyCibngfListfnfr(String propfrtyNbmf,
+                                          PropfrtyCibngfListfnfr listfnfr) {
+        dflfgbtf.bddPropfrtyCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
-    public void removePropertyChangeListener(String propertyName,
-                                             PropertyChangeListener listener) {
-        delegate.removePropertyChangeListener(propertyName, listener);
+    publid void rfmovfPropfrtyCibngfListfnfr(String propfrtyNbmf,
+                                             PropfrtyCibngfListfnfr listfnfr) {
+        dflfgbtf.rfmovfPropfrtyCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
-    public void addVetoableChangeListener(VetoableChangeListener listener) {
-        delegate.addVetoableChangeListener(listener);
+    publid void bddVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        dflfgbtf.bddVftobblfCibngfListfnfr(listfnfr);
     }
-    public void removeVetoableChangeListener(VetoableChangeListener listener) {
-        delegate.removeVetoableChangeListener(listener);
+    publid void rfmovfVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        dflfgbtf.rfmovfVftobblfCibngfListfnfr(listfnfr);
     }
-    public void addVetoableChangeListener(String propertyName,
-                                          VetoableChangeListener listener) {
-        delegate.addVetoableChangeListener(propertyName, listener);
+    publid void bddVftobblfCibngfListfnfr(String propfrtyNbmf,
+                                          VftobblfCibngfListfnfr listfnfr) {
+        dflfgbtf.bddVftobblfCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
-    public void removeVetoableChangeListener(String propertyName,
-                                             VetoableChangeListener listener) {
-        delegate.removeVetoableChangeListener(propertyName, listener);
+    publid void rfmovfVftobblfCibngfListfnfr(String propfrtyNbmf,
+                                             VftobblfCibngfListfnfr listfnfr) {
+        dflfgbtf.rfmovfVftobblfCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
-    public void addKeyEventDispatcher(KeyEventDispatcher dispatcher) {
-        delegate.addKeyEventDispatcher(dispatcher);
+    publid void bddKfyEvfntDispbtdifr(KfyEvfntDispbtdifr dispbtdifr) {
+        dflfgbtf.bddKfyEvfntDispbtdifr(dispbtdifr);
     }
-    public void removeKeyEventDispatcher(KeyEventDispatcher dispatcher) {
-        delegate.removeKeyEventDispatcher(dispatcher);
+    publid void rfmovfKfyEvfntDispbtdifr(KfyEvfntDispbtdifr dispbtdifr) {
+        dflfgbtf.rfmovfKfyEvfntDispbtdifr(dispbtdifr);
     }
-    public boolean dispatchEvent(AWTEvent e) {
-        return delegate.dispatchEvent(e);
+    publid boolfbn dispbtdiEvfnt(AWTEvfnt f) {
+        rfturn dflfgbtf.dispbtdiEvfnt(f);
     }
-    public boolean dispatchKeyEvent(KeyEvent e) {
-        return delegate.dispatchKeyEvent(e);
+    publid boolfbn dispbtdiKfyEvfnt(KfyEvfnt f) {
+        rfturn dflfgbtf.dispbtdiKfyEvfnt(f);
     }
-    public void upFocusCycle(Component aComponent) {
-        delegate.upFocusCycle(aComponent);
+    publid void upFodusCydlf(Componfnt bComponfnt) {
+        dflfgbtf.upFodusCydlf(bComponfnt);
     }
-    public void downFocusCycle(Container aContainer) {
-        delegate.downFocusCycle(aContainer);
+    publid void downFodusCydlf(Contbinfr bContbinfr) {
+        dflfgbtf.downFodusCydlf(bContbinfr);
     }
 }

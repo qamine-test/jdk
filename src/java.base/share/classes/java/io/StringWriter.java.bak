@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * A character stream that collects its output in a string buffer, which can
- * then be used to construct a string.
+ * A dibrbdtfr strfbm tibt dollfdts its output in b string bufffr, wiidi dbn
+ * tifn bf usfd to donstrudt b string.
  * <p>
- * Closing a <tt>StringWriter</tt> has no effect. The methods in this class
- * can be called after the stream has been closed without generating an
- * <tt>IOException</tt>.
+ * Closing b <tt>StringWritfr</tt> ibs no ffffdt. Tif mftiods in tiis dlbss
+ * dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout gfnfrbting bn
+ * <tt>IOExdfption</tt>.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class StringWriter extends Writer {
+publid dlbss StringWritfr fxtfnds Writfr {
 
-    private StringBuffer buf;
+    privbtf StringBufffr buf;
 
     /**
-     * Create a new string writer using the default initial string-buffer
-     * size.
+     * Crfbtf b nfw string writfr using tif dffbult initibl string-bufffr
+     * sizf.
      */
-    public StringWriter() {
-        buf = new StringBuffer();
-        lock = buf;
+    publid StringWritfr() {
+        buf = nfw StringBufffr();
+        lodk = buf;
     }
 
     /**
-     * Create a new string writer using the specified initial string-buffer
-     * size.
+     * Crfbtf b nfw string writfr using tif spfdififd initibl string-bufffr
+     * sizf.
      *
-     * @param initialSize
-     *        The number of <tt>char</tt> values that will fit into this buffer
-     *        before it is automatically expanded
+     * @pbrbm initiblSizf
+     *        Tif numbfr of <tt>dibr</tt> vblufs tibt will fit into tiis bufffr
+     *        bfforf it is butombtidblly fxpbndfd
      *
-     * @throws IllegalArgumentException
-     *         If <tt>initialSize</tt> is negative
+     * @tirows IllfgblArgumfntExdfption
+     *         If <tt>initiblSizf</tt> is nfgbtivf
      */
-    public StringWriter(int initialSize) {
-        if (initialSize < 0) {
-            throw new IllegalArgumentException("Negative buffer size");
+    publid StringWritfr(int initiblSizf) {
+        if (initiblSizf < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf bufffr sizf");
         }
-        buf = new StringBuffer(initialSize);
-        lock = buf;
+        buf = nfw StringBufffr(initiblSizf);
+        lodk = buf;
     }
 
     /**
-     * Write a single character.
+     * Writf b singlf dibrbdtfr.
      */
-    public void write(int c) {
-        buf.append((char) c);
+    publid void writf(int d) {
+        buf.bppfnd((dibr) d);
     }
 
     /**
-     * Write a portion of an array of characters.
+     * Writf b portion of bn brrby of dibrbdtfrs.
      *
-     * @param  cbuf  Array of characters
-     * @param  off   Offset from which to start writing characters
-     * @param  len   Number of characters to write
+     * @pbrbm  dbuf  Arrby of dibrbdtfrs
+     * @pbrbm  off   Offsft from wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to writf
      */
-    public void write(char cbuf[], int off, int len) {
-        if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-            ((off + len) > cbuf.length) || ((off + len) < 0)) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return;
+    publid void writf(dibr dbuf[], int off, int lfn) {
+        if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+            ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
         }
-        buf.append(cbuf, off, len);
+        buf.bppfnd(dbuf, off, lfn);
     }
 
     /**
-     * Write a string.
+     * Writf b string.
      */
-    public void write(String str) {
-        buf.append(str);
+    publid void writf(String str) {
+        buf.bppfnd(str);
     }
 
     /**
-     * Write a portion of a string.
+     * Writf b portion of b string.
      *
-     * @param  str  String to be written
-     * @param  off  Offset from which to start writing characters
-     * @param  len  Number of characters to write
+     * @pbrbm  str  String to bf writtfn
+     * @pbrbm  off  Offsft from wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm  lfn  Numbfr of dibrbdtfrs to writf
      */
-    public void write(String str, int off, int len)  {
-        buf.append(str.substring(off, off + len));
+    publid void writf(String str, int off, int lfn)  {
+        buf.bppfnd(str.substring(off, off + lfn));
     }
 
     /**
-     * Appends the specified character sequence to this writer.
+     * Appfnds tif spfdififd dibrbdtfr sfqufndf to tiis writfr.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(csq.toString()) </pre>
+     * <prf>
+     *     out.writf(dsq.toString()) </prf>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended. For instance, invoking the <tt>toString</tt> method of a
-     * character buffer will return a subsequence whose content depends upon
-     * the buffer's position and limit.
+     * <p> Dfpfnding on tif spfdifidbtion of <tt>toString</tt> for tif
+     * dibrbdtfr sfqufndf <tt>dsq</tt>, tif fntirf sfqufndf mby not bf
+     * bppfndfd. For instbndf, invoking tif <tt>toString</tt> mftiod of b
+     * dibrbdtfr bufffr will rfturn b subsfqufndf wiosf dontfnt dfpfnds upon
+     * tif bufffr's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this writer.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, tifn tif four dibrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to tiis writfr.
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public StringWriter append(CharSequence csq) {
-        if (csq == null)
-            write("null");
-        else
-            write(csq.toString());
-        return this;
+    publid StringWritfr bppfnd(CibrSfqufndf dsq) {
+        if (dsq == null)
+            writf("null");
+        flsf
+            writf(dsq.toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends a subsequence of the specified character sequence to this writer.
+     * Appfnds b subsfqufndf of tif spfdififd dibrbdtfr sfqufndf to tiis writfr.
      *
-     * <p> An invocation of this method of the form <tt>out.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in
-     * exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> wifn <tt>dsq</tt> is not <tt>null</tt>, bfibvfs in
+     * fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(csq.subSequence(start, end).toString()) </pre>
+     * <prf>
+     *     out.writf(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, tifn dibrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd tif four
+     *         dibrbdtfrs <tt>"null"</tt>.
      *
-     * @param  start
-     *         The index of the first character in the subsequence
+     * @pbrbm  stbrt
+     *         Tif indfx of tif first dibrbdtfr in tif subsfqufndf
      *
-     * @param  end
-     *         The index of the character following the last character in the
-     *         subsequence
+     * @pbrbm  fnd
+     *         Tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr in tif
+     *         subsfqufndf
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
-     *          <tt>csq.length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr tibn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr tibn
+     *          <tt>dsq.lfngti()</tt>
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public StringWriter append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        write(cs.subSequence(start, end).toString());
-        return this;
+    publid StringWritfr bppfnd(CibrSfqufndf dsq, int stbrt, int fnd) {
+        CibrSfqufndf ds = (dsq == null ? "null" : dsq);
+        writf(ds.subSfqufndf(stbrt, fnd).toString());
+        rfturn tiis;
     }
 
     /**
-     * Appends the specified character to this writer.
+     * Appfnds tif spfdififd dibrbdtfr to tiis writfr.
      *
-     * <p> An invocation of this method of the form <tt>out.append(c)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>out.bppfnd(d)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     out.write(c) </pre>
+     * <prf>
+     *     out.writf(d) </prf>
      *
-     * @param  c
-     *         The 16-bit character to append
+     * @pbrbm  d
+     *         Tif 16-bit dibrbdtfr to bppfnd
      *
-     * @return  This writer
+     * @rfturn  Tiis writfr
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public StringWriter append(char c) {
-        write(c);
-        return this;
+    publid StringWritfr bppfnd(dibr d) {
+        writf(d);
+        rfturn tiis;
     }
 
     /**
-     * Return the buffer's current value as a string.
+     * Rfturn tif bufffr's durrfnt vbluf bs b string.
      */
-    public String toString() {
-        return buf.toString();
+    publid String toString() {
+        rfturn buf.toString();
     }
 
     /**
-     * Return the string buffer itself.
+     * Rfturn tif string bufffr itsflf.
      *
-     * @return StringBuffer holding the current buffer value.
+     * @rfturn StringBufffr iolding tif durrfnt bufffr vbluf.
      */
-    public StringBuffer getBuffer() {
-        return buf;
+    publid StringBufffr gftBufffr() {
+        rfturn buf;
     }
 
     /**
-     * Flush the stream.
+     * Flusi tif strfbm.
      */
-    public void flush() {
+    publid void flusi() {
     }
 
     /**
-     * Closing a <tt>StringWriter</tt> has no effect. The methods in this
-     * class can be called after the stream has been closed without generating
-     * an <tt>IOException</tt>.
+     * Closing b <tt>StringWritfr</tt> ibs no ffffdt. Tif mftiods in tiis
+     * dlbss dbn bf dbllfd bftfr tif strfbm ibs bffn dlosfd witiout gfnfrbting
+     * bn <tt>IOExdfption</tt>.
      */
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
     }
 
 }

@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbtd;
+
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.rfgistry.LodbtfRfgistry;
+import jbvb.nft.MblformfdURLExdfption;
+import sun.jvmstbt.monitor.rfmotf.*;
+
+/**
+ * Applidbtion providing rfmotf bddfss to thf jvmstbt instrumfntbtion
+ * fxportfd by lodbl Jbvb Virtubl Mbdhinf prodfssfs. Rfmotf bddfss is
+ * providfd through bn RMI intfrfbdf.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss Jstbtd {
+
+    privbtf stbtid Rfgistry rfgistry;
+    privbtf stbtid int port = -1;
+    privbtf stbtid boolfbn stbrtRfgistry = truf;
+
+    privbtf stbtid void printUsbgf() {
+        Systfm.frr.println("usbgf: jstbtd [-nr] [-p port] [-n rminbmf]");
+    }
+
+    stbtid void bind(String nbmf, RfmotfHostImpl rfmotfHost)
+                throws RfmotfExdfption, MblformfdURLExdfption, Exdfption {
+
+        try {
+            Nbming.rfbind(nbmf, rfmotfHost);
+        } dbtdh (jbvb.rmi.ConnfdtExdfption f) {
+            /*
+             * fithfr thf rfgistry is not running or wf dbnnot dontbdt it.
+             * stbrt bn intfrnbl rfgistry if rfqufstfd.
+             */
+            if (stbrtRfgistry && rfgistry == null) {
+                int lodblport = (port < 0) ? Rfgistry.REGISTRY_PORT : port;
+                rfgistry = LodbtfRfgistry.drfbtfRfgistry(lodblport);
+                bind(nbmf, rfmotfHost);
+            }
+            flsf {
+                Systfm.out.println("Could not dontbdt rfgistry\n"
+                                   + f.gftMfssbgf());
+                f.printStbdkTrbdf();
+            }
+        } dbtdh (RfmotfExdfption f) {
+            Systfm.frr.println("Could not bind " + nbmf + " to RMI Rfgistry");
+            f.printStbdkTrbdf();
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        String rminbmf = null;
+        int brgd = 0;
+
+        for ( ; (brgd < brgs.lfngth) && (brgs[brgd].stbrtsWith("-")); brgd++) {
+            String brg = brgs[brgd];
+
+            if (brg.dompbrfTo("-nr") == 0) {
+                stbrtRfgistry = fblsf;
+            } flsf if (brg.stbrtsWith("-p")) {
+                if (brg.dompbrfTo("-p") != 0) {
+                    port = Intfgfr.pbrsfInt(brg.substring(2));
+                } flsf {
+                  brgd++;
+                  if (brgd >= brgs.lfngth) {
+                      printUsbgf();
+                      Systfm.fxit(1);
+                  }
+                  port = Intfgfr.pbrsfInt(brgs[brgd]);
+                }
+            } flsf if (brg.stbrtsWith("-n")) {
+                if (brg.dompbrfTo("-n") != 0) {
+                    rminbmf = brg.substring(2);
+                } flsf {
+                    brgd++;
+                    if (brgd >= brgs.lfngth) {
+                        printUsbgf();
+                        Systfm.fxit(1);
+                    }
+                    rminbmf = brgs[brgd];
+                }
+            } flsf {
+                printUsbgf();
+                Systfm.fxit(1);
+            }
+        }
+
+        if (brgd < brgs.lfngth) {
+            printUsbgf();
+            Systfm.fxit(1);
+        }
+
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            Systfm.sftSfdurityMbnbgfr(nfw RMISfdurityMbnbgfr());
+        }
+
+        StringBuildfr nbmf = nfw StringBuildfr();
+
+        if (port >= 0) {
+            nbmf.bppfnd("//:").bppfnd(port);
+        }
+
+        if (rminbmf == null) {
+            rminbmf = "JStbtRfmotfHost";
+        }
+
+        nbmf.bppfnd("/").bppfnd(rminbmf);
+
+        try {
+            // usf 1.5.0 dynbmidblly gfnfrbtfd subs.
+            Systfm.sftPropfrty("jbvb.rmi.sfrvfr.ignorfSubClbssfs", "truf");
+            RfmotfHostImpl rfmotfHost = nfw RfmotfHostImpl();
+            RfmotfHost stub = (RfmotfHost) UnidbstRfmotfObjfdt.fxportObjfdt(
+                    rfmotfHost, 0);
+            bind(nbmf.toString(), rfmotfHost);
+        } dbtdh (MblformfdURLExdfption f) {
+            if (rminbmf != null) {
+                Systfm.out.println("Bbd RMI sfrvfr nbmf: " + rminbmf);
+            } flsf {
+                Systfm.out.println("Bbd RMI URL: " + nbmf + " : "
+                                   + f.gftMfssbgf());
+            }
+            Systfm.fxit(1);
+        } dbtdh (jbvb.rmi.ConnfdtExdfption f) {
+            // dould not bttbdh to or drfbtf b rfgistry
+            Systfm.out.println("Could not dontbdt RMI rfgistry\n"
+                               + f.gftMfssbgf());
+            Systfm.fxit(1);
+        } dbtdh (Exdfption f) {
+            Systfm.out.println("Could not drfbtf rfmotf objfdt\n"
+                               + f.gftMfssbgf());
+            f.printStbdkTrbdf();
+            Systfm.fxit(1);
+        }
+    }
+}

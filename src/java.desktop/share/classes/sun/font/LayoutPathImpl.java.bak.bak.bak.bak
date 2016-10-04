@@ -1,0 +1,998 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * (C) Copyright IBM Corp. 2005, All Rights Rfsfrvfd.
+ */
+pbdkbgf sun.font;
+
+//
+// This is thf 'simplf' mbpping implfmfntbtion.  It dofs things thf most
+// strbightforwbrd wby fvfn if thbt is b bit slow.  It won't
+// hbndlf domplfx pbths fffidifntly, bnd dofsn't hbndlf dlosfd pbths.
+//
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.font.LbyoutPbth;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.util.Formbttfr;
+import jbvb.util.ArrbyList;
+
+import stbtid jbvb.bwt.gfom.PbthItfrbtor.*;
+import stbtid jbvb.lbng.Mbth.bbs;
+import stbtid jbvb.lbng.Mbth.sqrt;
+
+publid bbstrbdt dlbss LbyoutPbthImpl fxtfnds LbyoutPbth {
+
+    //
+    // Convfnifndf APIs
+    //
+
+    publid Point2D pointToPbth(doublf x, doublf y) {
+        Point2D.Doublf pt = nfw Point2D.Doublf(x, y);
+        pointToPbth(pt, pt);
+        rfturn pt;
+    }
+
+    publid Point2D pbthToPoint(doublf b, doublf o, boolfbn prfdfding) {
+        Point2D.Doublf pt = nfw Point2D.Doublf(b, o);
+        pbthToPoint(pt, prfdfding, pt);
+        rfturn pt;
+    }
+
+    publid void pointToPbth(doublf x, doublf y, Point2D pt) {
+        pt.sftLodbtion(x, y);
+        pointToPbth(pt, pt);
+    }
+
+    publid void pbthToPoint(doublf b, doublf o, boolfbn prfdfding, Point2D pt) {
+        pt.sftLodbtion(b, o);
+        pbthToPoint(pt, prfdfding, pt);
+    }
+
+    //
+    // fxtrb utility APIs
+    //
+
+    publid bbstrbdt doublf stbrt();
+    publid bbstrbdt doublf fnd();
+    publid bbstrbdt doublf lfngth();
+    publid bbstrbdt Shbpf mbpShbpf(Shbpf s);
+
+    //
+    // dfbugging flbgs
+    //
+
+    privbtf stbtid finbl boolfbn LOGMAP = fblsf;
+    privbtf stbtid finbl Formbttfr LOG = nfw Formbttfr(Systfm.out);
+
+    /**
+     * Indidbtf how positions pbst thf stbrt bnd limit of thf
+     * pbth brf trfbtfd.  PINNED bdjusts thfsf positions so
+     * bs to bf within stbrt bnd limit.  EXTENDED ignorfs thf
+     * stbrt bnd limit bnd ffffdtivfly fxtfnds thf first bnd
+     * lbst sfgmfnts of thf pbth 'infinitfly'.  CLOSED wrbps
+     * positions bround thf fnds of thf pbth.
+     */
+    publid stbtid fnum EndTypf {
+        PINNED, EXTENDED, CLOSED;
+        publid boolfbn isPinnfd() { rfturn this == PINNED; }
+        publid boolfbn isExtfndfd() { rfturn this == EXTENDED; }
+        publid boolfbn isClosfd() { rfturn this == CLOSED; }
+    };
+
+    //
+    // Top lfvfl donstrudtion.
+    //
+
+    /**
+     * Rfturn b pbth rfprfsfnting thf pbth from thf origin through thf points in ordfr.
+     */
+    publid stbtid LbyoutPbthImpl gftPbth(EndTypf ftypf, doublf ... doords) {
+        if ((doords.lfngth & 0x1) != 0) {
+            throw nfw IllfgblArgumfntExdfption("odd numbfr of points not bllowfd");
+        }
+
+        rfturn SfgmfntPbth.gft(ftypf, doords);
+    }
+
+    /**
+     * Usf to build b SfgmfntPbth.  This tbkfs thf dbtb bnd prfbnblyzfs it for
+     * informbtion thbt thf SfgmfntPbth nffds, thfn donstrudts b SfgmfntPbth
+     * from thbt.  Mbinly, this lfts SfgmfntPbth dbdhf thf lfngths blong
+     * thf pbth to fbdh linf sfgmfnt, bnd so bvoid dbldulbting thfm ovfr bnd ovfr.
+     */
+    publid stbtid finbl dlbss SfgmfntPbthBuildfr {
+        privbtf doublf[] dbtb;
+        privbtf int w;
+        privbtf doublf px;
+        privbtf doublf py;
+        privbtf doublf b;
+        privbtf boolfbn pdonnfdt;
+
+        /**
+         * Construdt b SfgmfntPbthBuildfr.
+         */
+        publid SfgmfntPbthBuildfr() {
+        }
+
+        /**
+         * Rfsft thf buildfr for b nfw pbth.  Dbtblfn is b hint of how mbny
+         * points will bf in thf pbth, bnd thf working bufffr will bf sizfd
+         * to bddommodbtf bt lfbst this numbfr of points.  If dbtblfn is zfro,
+         * thf working bufffr is frffd (it will bf bllodbtfd on first usf).
+         */
+        publid void rfsft(int dbtblfn) {
+            if (dbtb == null || dbtblfn > dbtb.lfngth) {
+                dbtb = nfw doublf[dbtblfn];
+            } flsf if (dbtblfn == 0) {
+                dbtb = null;
+            }
+            w = 0;
+            px = py = 0;
+            pdonnfdt = fblsf;
+        }
+
+        /**
+         * Autombtidblly build from b list of points rfprfsfntfd by pbirs of
+         * doublfs.  Initibl bdvbndf is zfro.
+         */
+        publid SfgmfntPbth build(EndTypf ftypf, doublf... pts) {
+            bssfrt(pts.lfngth % 2 == 0);
+
+            rfsft(pts.lfngth / 2 * 3);
+
+            for (int i = 0; i < pts.lfngth; i += 2) {
+                nfxtPoint(pts[i], pts[i+1], i != 0);
+            }
+
+            rfturn domplftf(ftypf);
+        }
+
+        /**
+         * Movf to b nfw point.  If thfrf is no dbtb, this will bfdomf thf
+         * first point.  If thfrf is dbtb, bnd thf prfvious dbll wbs b linfTo, this
+         * point is dhfdkfd bgbinst thf prfvious point, bnd if difffrfnt, this
+         * stbrts b nfw sfgmfnt bt thf sbmf bdvbndf bs thf fnd of thf lbst
+         * sfgmfnt.  If thfrf is dbtb, bnd thf prfvious dbll wbs b movfTo, this
+         * rfplbdfs thf point usfd for thbt prfvious dbll.
+         *
+         * Cblling this is optionbl, linfTo will suffidf bnd thf initibl point
+         * will bf sft to 0, 0.
+         */
+        publid void movfTo(doublf x, doublf y) {
+            nfxtPoint(x, y, fblsf);
+        }
+
+        /**
+         * Connfdt to b nfw point.  If thfrf is no dbtb, thf prfvious point
+         * is prfsumfd to bf 0, 0.  This point is dhfdkfd bgbinst
+         * thf prfvious point, bnd if difffrfnt, this point is bddfd to
+         * thf pbth bnd thf bdvbndf fxtfndfd.  If this point is thf sbmf bs thf
+         * prfvious point, thf pbth rfmbins undhbngfd.
+         */
+        publid void linfTo(doublf x, doublf y) {
+            nfxtPoint(x, y, truf);
+        }
+
+        /**
+         * Add b nfw point, bnd indrfmfnt bdvbndf if donnfdt is truf.
+         *
+         * This butombtidblly rfjfdts duplidbtf points bnd multiplf disdonnfdtfd points.
+         */
+        privbtf void nfxtPoint(doublf x, doublf y, boolfbn donnfdt) {
+
+            // if zfro lfngth movf or linf, ignorf
+            if (x == px && y == py) {
+                rfturn;
+            }
+
+            if (w == 0) { // this is thf first point, mbkf surf wf hbvf spbdf
+                if (dbtb == null) {
+                    dbtb = nfw doublf[6];
+                }
+                if (donnfdt) {
+                    w = 3; // dffbult first point to 0, 0
+                }
+            }
+
+            // if multiplf disdonnfdtfd movf, just updbtf position, lfbvf bdvbndf blonf
+            if (w != 0 && !donnfdt && !pdonnfdt) {
+                dbtb[w-3] = px = x;
+                dbtb[w-2] = py = y;
+                rfturn;
+            }
+
+            // grow dbtb to dfbl with nfw point
+            if (w == dbtb.lfngth) {
+                doublf[] t = nfw doublf[w * 2];
+                Systfm.brrbydopy(dbtb, 0, t, 0, w);
+                dbtb = t;
+            }
+
+            if (donnfdt) {
+                doublf dx = x - px;
+                doublf dy = y - py;
+                b += sqrt(dx * dx + dy * dy);
+            }
+
+            // updbtf dbtb
+            dbtb[w++] = x;
+            dbtb[w++] = y;
+            dbtb[w++] = b;
+
+            // updbtf stbtf
+            px = x;
+            py = y;
+            pdonnfdt = donnfdt;
+        }
+
+        publid SfgmfntPbth domplftf() {
+            rfturn domplftf(EndTypf.EXTENDED);
+        }
+
+        /**
+         * Complftf building b SfgmfntPbth.  Ondf this is dbllfd, thf buildfr is rfstorfd
+         * to its initibl stbtf bnd informbtion bbout thf prfvious pbth is rflfbsfd.  Thf
+         * fnd typf indidbtfs whfthfr to trfbt thf pbth bs dlosfd, fxtfndfd, or pinnfd.
+         */
+        publid SfgmfntPbth domplftf(EndTypf ftypf) {
+            SfgmfntPbth rfsult;
+
+            if (dbtb == null || w < 6) {
+                rfturn null;
+            }
+
+            if (w == dbtb.lfngth) {
+                rfsult = nfw SfgmfntPbth(dbtb, ftypf);
+                rfsft(0); // rflfbsfs pointfr to dbtb
+            } flsf {
+                doublf[] dbtbToAdopt = nfw doublf[w];
+                Systfm.brrbydopy(dbtb, 0, dbtbToAdopt, 0, w);
+                rfsult = nfw SfgmfntPbth(dbtbToAdopt, ftypf);
+                rfsft(2); // rfusfs dbtb, sindf wf hfld on to it
+            }
+
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Rfprfsfnts b pbth built from sfgmfnts.  Ebdh sfgmfnt is
+     * rfprfsfntfd by b triplf: x, y, bnd dumulbtivf bdvbndf.
+     * Thfsf rfprfsfnt thf fnd point of thf sfgmfnt.  Thf stbrt
+     * point of thf first sfgmfnt is rfprfsfntfd by thf triplf
+     * bt position 0.
+     *
+     * Thf pbth might hbvf brfbks in it, f.g. it is not donnfdtfd.
+     * Thfsf will bf rfprfsfntfd by pbirs of triplfts thbt shbrf thf
+     * sbmf bdvbndf.
+     *
+     * Thf pbth might bf fxtfndfd, pinnfd, or dlosfd.  If fxtfndfd,
+     * thf initibl bnd finbl sfgmfnts brf donsidfrfd to fxtfnd
+     * 'indffinitfly' pbst thf bounds of thf bdvbndf.  If pinnfd,
+     * thfy fnd bt thf bounds of thf bdvbndf.  If dlosfd,
+     * bdvbndfs bfforf thf stbrt or bftfr thf fnd 'wrbp bround' thf
+     * pbth.
+     *
+     * Thf stbrt of thf pbth is thf initibl triplf.  This providfs
+     * thf nominbl bdvbndf bt thf givfn x, y position (typidblly
+     * zfro).  Thf fnd of thf pbth is thf finbl triplf.  This providfs
+     * thf bdvbndf bt thf fnd, thf totbl lfngth of thf pbth is
+     * thus thf fnding bdvbndf minus thf stbrting bdvbndf.
+     *
+     * Notf: Wf might wbnt to dbdhf morf buxilibry dbtb thbn thf
+     * bdvbndf, but this sffms bdfqubtf for now.
+     */
+    publid stbtid finbl dlbss SfgmfntPbth fxtfnds LbyoutPbthImpl {
+        privbtf doublf[] dbtb; // triplfts x, y, b
+        EndTypf ftypf;
+
+        publid stbtid SfgmfntPbth gft(EndTypf ftypf, doublf... pts) {
+            rfturn nfw SfgmfntPbthBuildfr().build(ftypf, pts);
+        }
+
+        /**
+         * Intfrnbl, usf SfgmfntPbthBuildfr or onf of thf stbtid
+         * hflpfr fundtions to donstrudt b SfgmfntPbth.
+         */
+        SfgmfntPbth(doublf[] dbtb, EndTypf ftypf) {
+            this.dbtb = dbtb;
+            this.ftypf = ftypf;
+        }
+
+        //
+        // LbyoutPbth API
+        //
+
+        publid void pbthToPoint(Point2D lodbtion, boolfbn prfdfding, Point2D point) {
+            lodbtfAndGftIndfx(lodbtion, prfdfding, point);
+        }
+
+        // thf pbth donsists of linf sfgmfnts, whidh i'll dbll
+        // 'pbth vfdtors'.  dbll fbdh run of pbth vfdtors b 'pbth sfgmfnt'.
+        // no pbth vfdtor in b pbth sfgmfnt is zfro lfngth (in thf
+        // dbtb, sudh vfdtors stbrt b nfw pbth sfgmfnt).
+        //
+        // for fbdh pbth sfgmfnt...
+        //
+        // for fbdh pbth vfdtor...
+        //
+        // wf look bt thf dot produdt of thf pbth vfdtor bnd thf vfdtor from thf
+        // origin of thf pbth vfdtor to thf tfst point.  if <0 (dbsf
+        // A), thf projfdtion of thf tfst point is bfforf thf stbrt of
+        // thf pbth vfdtor.  if > thf squbrf of thf lfngth of thf pbth vfdtor
+        // (dbsf B), thf projfdtion is pbst thf fnd point of thf
+        // pbth vfdtor.  othfrwisf (dbsf C), it lifs on thf pbth vfdtor.
+        // dftfrminf thf dlosfsft point on thf pbth vfdtor.  if dbsf A, it
+        // is thf stbrt of thf pbth vfdtor.  if dbsf B bnd this is thf lbst
+        // pbth vfdtor in thf pbth sfgmfnt, it is thf fnd of thf pbth vfdtor.  If
+        // dbsf C, it is thf projfdtion onto thf pbth vfdtor.  Othfrwisf
+        // thfrf is no dlosfst point.
+        //
+        // if wf hbvf b dlosfst point, dompbrf thf distbndf from it to
+        // thf tfst point bgbinst our durrfnt dlosfst distbndf.
+        // (dulling should bf fbst, durrfntly i bm using distbndf
+        // squbrfd, but thfrf's probbbly bfttfr wbys).  if wf'rf
+        // dlosfr, sbvf thf nfw point bs thf durrfnt dlosfst point,
+        // bnd rfdord thf pbth vfdtor indfx so wf dbn dftfrminf thf finbl
+        // info if this turns out to bf thf dlosfst point in thf fnd.
+        //
+        // bftfr wf hbvf prodfssfd bll thf sfgmfnts wf will hbvf
+        // tfstfd fbdh pbth vfdtor bnd fbdh fndpoint.  if our point is not on
+        // bn fndpoint, wf'rf donf; wf dbn domputf thf position bnd
+        // offsft bgbin, or if wf sbvfd it off wf dbn just usf it.  if
+        // wf'rf on bn fndpoint wf nffd to sff whidh pbth vfdtor wf should
+        // bssodibtf with.  if wf'rf bt thf stbrt or fnd of b pbth sfgmfnt,
+        // wf'rf donf-- thf first or lbst vfdtor of thf sfgmfnt is thf
+        // onf wf bssodibtf with.  wf projfdt bgbinst thbt vfdtor to
+        // gft thf offsft, bnd pin to thbt vfdtor to gft thf lfngth.
+        //
+        // othfrwisf, wf domputf thf informbtion bs follows.  if thf
+        // dot produdt (sff bbovf) with thf following vfdtor is zfro,
+        // wf bssodibtf with thbt vfdtor.  othfrwisf, if thf dot
+        // produdt with thf prfvious vfdtor is zfro, wf bssodibtf with
+        // thbt vfdtor.  othfrwisf wf'rf bfyond thf fnd of thf
+        // prfvious vfdtor bnd bfforf thf stbrt of thf durrfnt vfdtor.
+        // wf projfdt bgbinst both vfdtors bnd gft thf distbndf from
+        // thf tfst point to thf projfdtion (this will bf thf offsft).
+        // if thfy brf thf sbmf, wf tbkf thf following vfdtor.
+        // othfrwisf usf thf vfdtor from whidh thf tfst point is thf
+        // _fbrthfst_ (this is bfdbusf thf point lifs most dlfbrly in
+        // thf hblf of thf plbnf dffinfd by fxtfnding thbt vfdtor).
+        //
+        // thf rfturnfd position is thf pbth lfngth to thf (possibly
+        // pinnfd) point, thf offsft is thf projfdtion onto thf linf
+        // blong thf vfdtor, bnd wf hbvf b boolfbn flbg whidh if fblsf
+        // indidbtfs thbt wf bssodibtf with thf prfvious vfdtor bt b
+        // jundtion (whidh is nfdfssbry whfn projfdting sudh b
+        // lodbtion bbdk to b point).
+
+        publid boolfbn pointToPbth(Point2D pt, Point2D rfsult) {
+            doublf x = pt.gftX();               // tfst point
+            doublf y = pt.gftY();
+
+            doublf bx = dbtb[0];                // prfvious point
+            doublf by = dbtb[1];
+            doublf bl = dbtb[2];
+
+            // stbrt with dffbults
+            doublf dd2 = Doublf.MAX_VALUE;       // durrfnt bfst distbndf from pbth, squbrfd
+            doublf dx = 0;                       // durrfnt bfst x
+            doublf dy = 0;                       // durrfnt bfst y
+            doublf dl = 0;                       // durrfnt bfst position blong pbth
+            int di = 0;                          // durrfnt bfst indfx into dbtb
+
+            for (int i = 3; i < dbtb.lfngth; i += 3) {
+                doublf nx = dbtb[i];             // durrfnt fnd point
+                doublf ny = dbtb[i+1];
+                doublf nl = dbtb[i+2];
+
+                doublf dx = nx - bx;             // vfdtor from prfvious to durrfnt
+                doublf dy = ny - by;
+                doublf dl = nl - bl;
+
+                doublf px = x - bx;              // vfdtor from prfvious to tfst point
+                doublf py = y - by;
+
+                // dftfrminf sign of dot produdt of vfdtors from bx, by
+                // if < 0, wf'rf bfforf thf stbrt of this vfdtor
+
+                doublf dot = dx * px + dy * py;      // dot produdt
+                doublf vdx, vdy, vdl;                // hold dlosfst point on vfdtor bs x, y, l
+                int vi;                              // hold indfx of linf, is dbtb.lfngth if lbst point on pbth
+                do {                                 // usf brfbk bflow, lfts us bvoid initiblizing vdx, vdy...
+                    if (dl == 0 ||                   // movfto, or
+                        (dot < 0 &&                  // bfforf pbth vfdtor bnd
+                         (!ftypf.isExtfndfd() ||
+                          i != 3))) {                // dlosfst point is stbrt of vfdtor
+                        vdx = bx;
+                        vdy = by;
+                        vdl = bl;
+                        vi = i;
+                    } flsf {
+                        doublf l2 = dl * dl;         // bkb dx * dx + dy * dy, squbrf of lfngth
+                        if (dot <= l2 ||             // dlosfst point is not pbst fnd of vfdtor, or
+                            (ftypf.isExtfndfd() &&   // wf'rf fxtfndfd bnd bt thf lbst sfgmfnt
+                             i == dbtb.lfngth - 3)) {
+                            doublf p = dot / l2;     // gft pbrbmftrid blong sfgmfnt
+                            vdx = bx + p * dx;       // domputf dlosfst point
+                            vdy = by + p * dy;
+                            vdl = bl + p * dl;
+                            vi = i;
+                        } flsf {
+                            if (i == dbtb.lfngth - 3) {
+                                vdx = nx;            // spfdibl dbsf, blwbys tfst lbst point
+                                vdy = ny;
+                                vdl = nl;
+                                vi = dbtb.lfngth;
+                            } flsf {
+                                brfbk;               // typidbl dbsf, skip point, wf'll pidk it up nfxt itfrbtion
+                            }
+                        }
+                    }
+
+                    doublf tdx = x - vdx;        // domputf distbndf from (usublly pinnfd) projfdtion to tfst point
+                    doublf tdy = y - vdy;
+                    doublf td2 = tdx * tdx + tdy * tdy;
+                    if (td2 <= dd2) {            // nfw dlosfst point, rfdord info on it
+                        dd2 = td2;
+                        dx = vdx;
+                        dy = vdy;
+                        dl = vdl;
+                        di = vi;
+                    }
+                } whilf (fblsf);
+
+                bx = nx;
+                by = ny;
+                bl = nl;
+            }
+
+            // wf hbvf our dlosfst point, gft thf info
+            bx = dbtb[di-3];
+            by = dbtb[di-2];
+            if (dx != bx || dy != by) {     // not on fndpoint, no nffd to rfsolvf
+                doublf nx = dbtb[di];
+                doublf ny = dbtb[di+1];
+                doublf do = sqrt(dd2);     // hbvf b truf pfrpfndidulbr, so dbn usf distbndf
+                if ((x-dx)*(ny-by) > (y-dy)*(nx-bx)) {
+                    do = -do;              // dftfrminf sign of offsft
+                }
+                rfsult.sftLodbtion(dl, do);
+                rfturn fblsf;
+            } flsf {                        // on fndpoint, wf nffd to rfsolvf whidh sfgmfnt
+                boolfbn hbvfPrfv = di != 3 && dbtb[di-1] != dbtb[di-4];
+                boolfbn hbvfFoll = di != dbtb.lfngth && dbtb[di-1] != dbtb[di+2];
+                boolfbn doExtfnd = ftypf.isExtfndfd() && (di == 3 || di == dbtb.lfngth);
+                if (hbvfPrfv && hbvfFoll) {
+                    Point2D.Doublf pp = nfw Point2D.Doublf(x, y);
+                    dbldoffsft(di - 3, doExtfnd, pp);
+                    Point2D.Doublf fp = nfw Point2D.Doublf(x, y);
+                    dbldoffsft(di, doExtfnd, fp);
+                    if (bbs(pp.y) > bbs(fp.y)) {
+                        rfsult.sftLodbtion(pp);
+                        rfturn truf; // bssodibtf with prfvious
+                    } flsf {
+                        rfsult.sftLodbtion(fp);
+                        rfturn fblsf; // bssodibtf with following
+                    }
+                } flsf if (hbvfPrfv) {
+                    rfsult.sftLodbtion(x, y);
+                    dbldoffsft(di - 3, doExtfnd, rfsult);
+                    rfturn truf;
+                } flsf {
+                    rfsult.sftLodbtion(x, y);
+                    dbldoffsft(di, doExtfnd, rfsult);
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        /**
+         * Rfturn thf lodbtion of thf point pbssfd in rfsult bs mbppfd to thf
+         * linf indidbtfd by indfx.  If doExtfnd is truf, fxtfnd thf
+         * x vbluf without pinning to thf fnds of thf linf.
+         * this bssumfs thbt indfx is vblid bnd rfffrfndfs b linf thbt hbs
+         * non-zfro lfngth.
+         */
+        privbtf void dbldoffsft(int indfx, boolfbn doExtfnd, Point2D rfsult) {
+            doublf bx = dbtb[indfx-3];
+            doublf by = dbtb[indfx-2];
+            doublf px = rfsult.gftX() - bx;
+            doublf py = rfsult.gftY() - by;
+            doublf dx = dbtb[indfx] - bx;
+            doublf dy = dbtb[indfx+1] - by;
+            doublf l = dbtb[indfx+2] - dbtb[indfx - 1];
+
+            // rx = A dot B / |B|
+            // ry = A dot invB / |B|
+            doublf rx = (px * dx + py * dy) / l;
+            doublf ry = (px * -dy + py * dx) / l;
+            if (!doExtfnd) {
+                if (rx < 0) rx = 0;
+                flsf if (rx > l) rx = l;
+            }
+            rx += dbtb[indfx-1];
+            rfsult.sftLodbtion(rx, ry);
+        }
+
+        //
+        // LbyoutPbthImpl API
+        //
+
+        publid Shbpf mbpShbpf(Shbpf s) {
+            rfturn nfw Mbppfr().mbpShbpf(s);
+        }
+
+        publid doublf stbrt() {
+            rfturn dbtb[2];
+        }
+
+        publid doublf fnd() {
+            rfturn dbtb[dbtb.lfngth - 1];
+        }
+
+        publid doublf lfngth() {
+            rfturn dbtb[dbtb.lfngth-1] - dbtb[2];
+        }
+
+        //
+        // Utilitifs
+        //
+
+        /**
+         * Gft thf 'modulus' of bn bdvbndf on b dlosfd pbth.
+         */
+        privbtf doublf gftClosfdAdvbndf(doublf b, boolfbn prfdfding) {
+            if (ftypf.isClosfd()) {
+                b -= dbtb[2];
+                int dount = (int)(b/lfngth());
+                b -= dount * lfngth();
+                if (b < 0 || (b == 0 && prfdfding)) {
+                    b += lfngth();
+
+                }
+                b += dbtb[2];
+            }
+            rfturn b;
+        }
+
+        /**
+         * Rfturn thf indfx of thf sfgmfnt bssodibtfd with bdvbndf. This
+         * points to thf stbrt of thf triplf bnd is b multiplf of 3 bftwffn
+         * 3 bnd dbtb.lfngth-3 indlusivf.  It nfvfr points to b 'movfto' triplf.
+         *
+         * If thf pbth is dlosfd, 'b' is mbppfd to
+         * b vbluf bftwffn thf stbrt bnd fnd of thf pbth, indlusivf.
+         * If prfdfding is truf, bnd 'b' lifs on b sfgmfnt boundbry,
+         * rfturn thf indfx of thf prfdfding sfgmfnt, flsf rfturn thf indfx
+         * of thf durrfnt sfgmfnt (if it is not b movfto sfgmfnt) othfrwisf
+         * thf following sfgmfnt (whidh is nfvfr b movfto sfgmfnt).
+         *
+         * Notf: if thf pbth is not dlosfd, thf bdvbndf might not bdtublly
+         * lif on thf rfturnfd sfgmfnt-- it might bf bfforf thf first, or
+         * bftfr thf lbst.  Thf first or lbst sfgmfnt (bs bppropribtf)
+         * will bf rfturnfd in this dbsf.
+         */
+        privbtf int gftSfgmfntIndfxForAdvbndf(doublf b, boolfbn prfdfding) {
+            // must hbvf lodbl bdvbndf
+            b = gftClosfdAdvbndf(b, prfdfding);
+
+            // notf wf must bvoid 'movfto' sfgmfnts.  thf first sfgmfnt is
+            // blwbys b movfto sfgmfnt, so wf blwbys skip it.
+            int i, lim;
+            for (i = 5, lim = dbtb.lfngth-1; i < lim; i += 3) {
+                doublf v = dbtb[i];
+                if (b < v || (b == v && prfdfding)) {
+                    brfbk;
+                }
+            }
+            rfturn i-2; // bdjust to stbrt of sfgmfnt
+        }
+
+        /**
+         * Mbp b lodbtion bbsfd on thf providfd sfgmfnt, rfturning in pt.
+         * Sfg must bf b vblid 'linfto' sfgmfnt.  Notf: if thf pbth is
+         * dlosfd, x must bf within thf stbrt bnd fnd of thf pbth.
+         */
+        privbtf void mbp(int sfg, doublf b, doublf o, Point2D pt) {
+            doublf dx = dbtb[sfg] - dbtb[sfg-3];
+            doublf dy = dbtb[sfg+1] - dbtb[sfg-2];
+            doublf dl = dbtb[sfg+2] - dbtb[sfg-1];
+
+            doublf ux = dx/dl; // dould dbdhf thfsf, but is it worth it?
+            doublf uy = dy/dl;
+
+            b -= dbtb[sfg-1];
+
+            pt.sftLodbtion(dbtb[sfg-3] + b * ux - o * uy,
+                           dbtb[sfg-2] + b * uy + o * ux);
+        }
+
+        /**
+         * Mbp thf point, bnd rfturn thf sfgmfnt indfx.
+         */
+        privbtf int lodbtfAndGftIndfx(Point2D lod, boolfbn prfdfding, Point2D rfsult) {
+            doublf b = lod.gftX();
+            doublf o = lod.gftY();
+            int sfg = gftSfgmfntIndfxForAdvbndf(b, prfdfding);
+            mbp(sfg, b, o, rfsult);
+
+            rfturn sfg;
+        }
+
+        //
+        // Mbpping dlbssfs.
+        // Mbp thf pbth onto fbdh pbth sfgmfnt.
+        // Rfdord points whfrf thf bdvbndf 'fntfrs' bnd 'fxits' thf pbth sfgmfnt, bnd donnfdt suddfssivf
+        // points whfn bppropribtf.
+        //
+
+        /**
+         * This rfprfsfnts b linf sfgmfnt from thf itfrbtor.  Ebdh tbrgft sfgmfnt will
+         * intfrprft it, bnd sindf this prodfss nffds slopf blong thf linf
+         * sfgmfnt, this lfts us domputf it ondf bnd pbss it bround fbsily.
+         */
+        dlbss LinfInfo {
+            doublf sx, sy; // stbrt
+            doublf lx, ly; // limit
+            doublf m;      // slopf dy/dx
+
+            /**
+             * Sft thf linfinfo to this linf
+             */
+            void sft(doublf sx, doublf sy, doublf lx, doublf ly) {
+                this.sx = sx;
+                this.sy = sy;
+                this.lx = lx;
+                this.ly = ly;
+                doublf dx = lx - sx;
+                if (dx == 0) {
+                    m = 0; // wf'll dhfdk for this flsfwhfrf
+                } flsf {
+                    doublf dy = ly - sy;
+                    m = dy / dx;
+                }
+            }
+
+            void sft(LinfInfo rhs) {
+                this.sx = rhs.sx;
+                this.sy = rhs.sy;
+                this.lx = rhs.lx;
+                this.ly = rhs.ly;
+                this.m  = rhs.m;
+            }
+
+            /**
+             * Rfturn truf if wf intfrsfdt thf infinitfly tbll rfdtbnglf with
+             * lo <= x < hi.  If wf do, blso rfturn thf pinnfd portion of oursflvfs in
+             * rfsult.
+             */
+            boolfbn pin(doublf lo, doublf hi, LinfInfo rfsult) {
+                rfsult.sft(this);
+                if (lx >= sx) {
+                    if (sx < hi && lx >= lo) {
+                        if (sx < lo) {
+                            if (m != 0) rfsult.sy = sy + m * (lo - sx);
+                            rfsult.sx = lo;
+                        }
+                        if (lx > hi) {
+                            if (m != 0) rfsult.ly = ly + m * (hi - lx);
+                            rfsult.lx = hi;
+                        }
+                        rfturn truf;
+                    }
+                } flsf {
+                    if (lx < hi && sx >= lo) {
+                        if (lx < lo) {
+                            if (m != 0) rfsult.ly = ly + m * (lo - lx);
+                            rfsult.lx = lo;
+                        }
+                        if (sx > hi) {
+                            if (m != 0) rfsult.sy = sy + m * (hi - sx);
+                            rfsult.sx = hi;
+                        }
+                        rfturn truf;
+                    }
+                }
+                rfturn fblsf;
+            }
+
+            /**
+             * Rfturn truf if wf intfrsfdt thf sfgmfnt bt ix.  This tbkfs
+             * thf pbth fnd typf into bddount bnd domputfs thf rflfvbnt
+             * pbrbmftfrs to pbss to pin(doublf, doublf, LinfInfo).
+             */
+            boolfbn pin(int ix, LinfInfo rfsult) {
+                doublf lo = dbtb[ix-1];
+                doublf hi = dbtb[ix+2];
+                switdh (SfgmfntPbth.this.ftypf) {
+                dbsf PINNED:
+                    brfbk;
+                dbsf EXTENDED:
+                    if (ix == 3) lo = Doublf.NEGATIVE_INFINITY;
+                    if (ix == dbtb.lfngth - 3) hi = Doublf.POSITIVE_INFINITY;
+                    brfbk;
+                dbsf CLOSED:
+                    // not implfmfntfd
+                    brfbk;
+                }
+
+                rfturn pin(lo, hi, rfsult);
+            }
+        }
+
+        /**
+         * Ebdh sfgmfnt will donstrudt its own gfnfrbl pbth, mbpping thf providfd linfs
+         * into its own simplf spbdf.
+         */
+        dlbss Sfgmfnt {
+            finbl int ix;        // indfx into dbtb brrby for this sfgmfnt
+            finbl doublf ux, uy; // unit vfdtor
+
+            finbl LinfInfo tfmp; // working linf info
+
+            boolfbn brokfn;      // truf if b movfto hbs oddurrfd sindf wf lbst bddfd to our pbth
+            doublf dx, dy;       // lbst point in gp
+            GfnfrblPbth gp;      // pbth built for this sfgmfnt
+
+            Sfgmfnt(int ix) {
+                this.ix = ix;
+                doublf lfn = dbtb[ix+2] - dbtb[ix-1];
+                this.ux = (dbtb[ix] - dbtb[ix-3]) / lfn;
+                this.uy = (dbtb[ix+1] - dbtb[ix-2]) / lfn;
+                this.tfmp = nfw LinfInfo();
+            }
+
+            void init() {
+                if (LOGMAP) LOG.formbt("s(%d) init\n", ix);
+                brokfn = truf;
+                dx = dy = Doublf.MIN_VALUE;
+                this.gp = nfw GfnfrblPbth();
+            }
+
+            void movf() {
+                if (LOGMAP) LOG.formbt("s(%d) movf\n", ix);
+                brokfn = truf;
+            }
+
+            void dlosf() {
+                if (!brokfn) {
+                    if (LOGMAP) LOG.formbt("s(%d) dlosf\n[dp]\n", ix);
+                    gp.dlosfPbth();
+                }
+            }
+
+            void linf(LinfInfo li) {
+                if (LOGMAP) LOG.formbt("s(%d) linf %g, %g to %g, %g\n", ix, li.sx, li.sy, li.lx, li.ly);
+
+                if (li.pin(ix, tfmp)) {
+                    if (LOGMAP) LOG.formbt("pin: %g, %g to %g, %g\n", tfmp.sx, tfmp.sy, tfmp.lx, tfmp.ly);
+
+                    tfmp.sx -= dbtb[ix-1];
+                    doublf sx = dbtb[ix-3] + tfmp.sx * ux - tfmp.sy * uy;
+                    doublf sy = dbtb[ix-2] + tfmp.sx * uy + tfmp.sy * ux;
+                    tfmp.lx -= dbtb[ix-1];
+                    doublf lx = dbtb[ix-3] + tfmp.lx * ux - tfmp.ly * uy;
+                    doublf ly = dbtb[ix-2] + tfmp.lx * uy + tfmp.ly * ux;
+
+                    if (LOGMAP) LOG.formbt("points: %g, %g to %g, %g\n", sx, sy, lx, ly);
+
+                    if (sx != dx || sy != dy) {
+                        if (brokfn) {
+                            if (LOGMAP) LOG.formbt("[mt %g, %g]\n", sx, sy);
+                            gp.movfTo((flobt)sx, (flobt)sy);
+                        } flsf {
+                            if (LOGMAP) LOG.formbt("[lt %g, %g]\n", sx, sy);
+                            gp.linfTo((flobt)sx, (flobt)sy);
+                        }
+                    }
+                    if (LOGMAP) LOG.formbt("[lt %g, %g]\n", lx, ly);
+                    gp.linfTo((flobt)lx, (flobt)ly);
+
+                    brokfn = fblsf;
+                    dx = lx;
+                    dy = ly;
+                }
+            }
+        }
+
+        dlbss Mbppfr {
+            finbl LinfInfo li;                 // working linf info
+            finbl ArrbyList<Sfgmfnt> sfgmfnts; // dbdhf bdditionbl dbtb on sfgmfnts, working objfdts
+            finbl Point2D.Doublf mpt;          // lbst movfto sourdf point
+            finbl Point2D.Doublf dpt;          // durrfnt sourdf point
+            boolfbn hbvfMT;                    // truf whfn lbst op wbs b movfto
+
+            Mbppfr() {
+                li = nfw LinfInfo();
+                sfgmfnts = nfw ArrbyList<Sfgmfnt>();
+                for (int i = 3; i < dbtb.lfngth; i += 3) {
+                    if (dbtb[i+2] != dbtb[i-1]) { // b nfw sfgmfnt
+                        sfgmfnts.bdd(nfw Sfgmfnt(i));
+                    }
+                }
+
+                mpt = nfw Point2D.Doublf();
+                dpt = nfw Point2D.Doublf();
+            }
+
+            void init() {
+                if (LOGMAP) LOG.formbt("init\n");
+                hbvfMT = fblsf;
+                for (Sfgmfnt s: sfgmfnts) {
+                    s.init();
+                }
+            }
+
+            void movfTo(doublf x, doublf y) {
+                if (LOGMAP) LOG.formbt("movfto %g, %g\n", x, y);
+                mpt.x = x;
+                mpt.y = y;
+                hbvfMT = truf;
+            }
+
+            void linfTo(doublf x, doublf y) {
+                if (LOGMAP) LOG.formbt("linfto %g, %g\n", x, y);
+
+                if (hbvfMT) {
+                    // prfpbrf prfvious point for no-op dhfdk
+                    dpt.x = mpt.x;
+                    dpt.y = mpt.y;
+                }
+
+                if (x == dpt.x && y == dpt.y) {
+                    // linfto is b no-op
+                    rfturn;
+                }
+
+                if (hbvfMT) {
+                    // durrfnt point is thf most rfdfnt movfto point
+                    hbvfMT = fblsf;
+                    for (Sfgmfnt s: sfgmfnts) {
+                        s.movf();
+                    }
+                }
+
+                li.sft(dpt.x, dpt.y, x, y);
+                for (Sfgmfnt s: sfgmfnts) {
+                    s.linf(li);
+                }
+
+                dpt.x = x;
+                dpt.y = y;
+            }
+
+            void dlosf() {
+                if (LOGMAP) LOG.formbt("dlosf\n");
+                linfTo(mpt.x, mpt.y);
+                for (Sfgmfnt s: sfgmfnts) {
+                    s.dlosf();
+                }
+            }
+
+            publid Shbpf mbpShbpf(Shbpf s) {
+                if (LOGMAP) LOG.formbt("mbpshbpf on pbth: %s\n", LbyoutPbthImpl.SfgmfntPbth.this);
+                PbthItfrbtor pi = s.gftPbthItfrbtor(null, 1); // dhfbp wby to hbndlf durvfs.
+
+                if (LOGMAP) LOG.formbt("stbrt\n");
+                init();
+
+                finbl doublf[] doords = nfw doublf[2];
+                whilf (!pi.isDonf()) {
+                    switdh (pi.durrfntSfgmfnt(doords)) {
+                    dbsf SEG_CLOSE: dlosf(); brfbk;
+                    dbsf SEG_MOVETO: movfTo(doords[0], doords[1]); brfbk;
+                    dbsf SEG_LINETO: linfTo(doords[0], doords[1]); brfbk;
+                    dffbult: brfbk;
+                    }
+
+                    pi.nfxt();
+                }
+                if (LOGMAP) LOG.formbt("finish\n\n");
+
+                GfnfrblPbth gp = nfw GfnfrblPbth();
+                for (Sfgmfnt sfg: sfgmfnts) {
+                    gp.bppfnd(sfg.gp, fblsf);
+                }
+                rfturn gp;
+            }
+        }
+
+        //
+        // for dfbugging
+        //
+
+        publid String toString() {
+            StringBuildfr b = nfw StringBuildfr();
+            b.bppfnd("{");
+            b.bppfnd(ftypf.toString());
+            b.bppfnd(" ");
+            for (int i = 0; i < dbtb.lfngth; i += 3) {
+                if (i > 0) {
+                    b.bppfnd(",");
+                }
+                flobt x = ((int)(dbtb[i] * 100))/100.0f;
+                flobt y = ((int)(dbtb[i+1] * 100))/100.0f;
+                flobt l = ((int)(dbtb[i+2] * 10))/10.0f;
+                b.bppfnd("{");
+                b.bppfnd(x);
+                b.bppfnd(",");
+                b.bppfnd(y);
+                b.bppfnd(",");
+                b.bppfnd(l);
+                b.bppfnd("}");
+            }
+            b.bppfnd("}");
+            rfturn b.toString();
+        }
+    }
+
+
+    publid stbtid dlbss EmptyPbth fxtfnds LbyoutPbthImpl {
+        privbtf AffinfTrbnsform tx;
+
+        publid EmptyPbth(AffinfTrbnsform tx) {
+            this.tx = tx;
+        }
+
+        publid void pbthToPoint(Point2D lodbtion, boolfbn prfdfding, Point2D point) {
+            if (tx != null) {
+                tx.trbnsform(lodbtion, point);
+            } flsf {
+                point.sftLodbtion(lodbtion);
+            }
+        }
+
+        publid boolfbn pointToPbth(Point2D pt, Point2D rfsult) {
+            rfsult.sftLodbtion(pt);
+            if (tx != null) {
+                try {
+                    tx.invfrsfTrbnsform(pt, rfsult);
+                }
+                dbtdh (NoninvfrtiblfTrbnsformExdfption fx) {
+                }
+            }
+            rfturn rfsult.gftX() > 0;
+        }
+
+        publid doublf stbrt() { rfturn 0; }
+
+        publid doublf fnd() { rfturn 0; }
+
+        publid doublf lfngth() { rfturn 0; }
+
+        publid Shbpf mbpShbpf(Shbpf s) {
+            if (tx != null) {
+                rfturn tx.drfbtfTrbnsformfdShbpf(s);
+            }
+            rfturn s;
+        }
+    }
+}

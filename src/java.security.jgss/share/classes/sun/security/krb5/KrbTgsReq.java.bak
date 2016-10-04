@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Arrbys;
 
 /**
- * This class encapsulates a Kerberos TGS-REQ that is sent from the
- * client to the KDC.
+ * Tiis dlbss fndbpsulbtfs b Kfrbfros TGS-REQ tibt is sfnt from tif
+ * dlifnt to tif KDC.
  */
-public class KrbTgsReq {
+publid dlbss KrbTgsRfq {
 
-    private PrincipalName princName;
-    private PrincipalName servName;
-    private TGSReq tgsReqMessg;
-    private KerberosTime ctime;
-    private Ticket secondTicket = null;
-    private boolean useSubkey = false;
-    EncryptionKey tgsReqKey;
+    privbtf PrindipblNbmf prindNbmf;
+    privbtf PrindipblNbmf sfrvNbmf;
+    privbtf TGSRfq tgsRfqMfssg;
+    privbtf KfrbfrosTimf dtimf;
+    privbtf Tidkft sfdondTidkft = null;
+    privbtf boolfbn usfSubkfy = fblsf;
+    EndryptionKfy tgsRfqKfy;
 
-    private static final boolean DEBUG = Krb5.DEBUG;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
 
-    private byte[] obuf;
-    private byte[] ibuf;
+    privbtf bytf[] obuf;
+    privbtf bytf[] ibuf;
 
-    // Used in CredentialsUtil
-    public KrbTgsReq(Credentials asCreds,
-                     PrincipalName sname)
-        throws KrbException, IOException {
-        this(new KDCOptions(),
-            asCreds,
-            sname,
-            null, // KerberosTime from
-            null, // KerberosTime till
-            null, // KerberosTime rtime
-            null, // eTypes, // null, // int[] eTypes
-            null, // HostAddresses addresses
-            null, // AuthorizationData authorizationData
-            null, // Ticket[] additionalTickets
-            null); // EncryptionKey subSessionKey
+    // Usfd in CrfdfntiblsUtil
+    publid KrbTgsRfq(Crfdfntibls bsCrfds,
+                     PrindipblNbmf snbmf)
+        tirows KrbExdfption, IOExdfption {
+        tiis(nfw KDCOptions(),
+            bsCrfds,
+            snbmf,
+            null, // KfrbfrosTimf from
+            null, // KfrbfrosTimf till
+            null, // KfrbfrosTimf rtimf
+            null, // fTypfs, // null, // int[] fTypfs
+            null, // HostAddrfssfs bddrfssfs
+            null, // AutiorizbtionDbtb butiorizbtionDbtb
+            null, // Tidkft[] bdditionblTidkfts
+            null); // EndryptionKfy subSfssionKfy
     }
 
     // S4U2proxy
-    public KrbTgsReq(Credentials asCreds,
-                     Ticket second,
-                     PrincipalName sname)
-            throws KrbException, IOException {
-        this(KDCOptions.with(KDCOptions.CNAME_IN_ADDL_TKT,
+    publid KrbTgsRfq(Crfdfntibls bsCrfds,
+                     Tidkft sfdond,
+                     PrindipblNbmf snbmf)
+            tirows KrbExdfption, IOExdfption {
+        tiis(KDCOptions.witi(KDCOptions.CNAME_IN_ADDL_TKT,
                 KDCOptions.FORWARDABLE),
-            asCreds,
-            sname,
+            bsCrfds,
+            snbmf,
             null,
             null,
             null,
             null,
             null,
             null,
-            new Ticket[] {second}, // the service ticket
+            nfw Tidkft[] {sfdond}, // tif sfrvidf tidkft
             null);
     }
 
-    // S4U2user
-    public KrbTgsReq(Credentials asCreds,
-                     PrincipalName sname,
-                     PAData extraPA)
-        throws KrbException, IOException {
-        this(KDCOptions.with(KDCOptions.FORWARDABLE),
-            asCreds,
-            asCreds.getClient(),
-            sname,
+    // S4U2usfr
+    publid KrbTgsRfq(Crfdfntibls bsCrfds,
+                     PrindipblNbmf snbmf,
+                     PADbtb fxtrbPA)
+        tirows KrbExdfption, IOExdfption {
+        tiis(KDCOptions.witi(KDCOptions.FORWARDABLE),
+            bsCrfds,
+            bsCrfds.gftClifnt(),
+            snbmf,
             null,
             null,
             null,
@@ -109,301 +109,301 @@ public class KrbTgsReq {
             null,
             null,
             null,
-            extraPA); // the PA-FOR-USER
+            fxtrbPA); // tif PA-FOR-USER
     }
 
-    // Called by Credentials, KrbCred
-    KrbTgsReq(
+    // Cbllfd by Crfdfntibls, KrbCrfd
+    KrbTgsRfq(
             KDCOptions options,
-            Credentials asCreds,
-            PrincipalName sname,
-            KerberosTime from,
-            KerberosTime till,
-            KerberosTime rtime,
-            int[] eTypes,
-            HostAddresses addresses,
-            AuthorizationData authorizationData,
-            Ticket[] additionalTickets,
-            EncryptionKey subKey) throws KrbException, IOException {
-        this(options, asCreds, asCreds.getClient(), sname,
-                from, till, rtime, eTypes, addresses,
-                authorizationData, additionalTickets, subKey, null);
+            Crfdfntibls bsCrfds,
+            PrindipblNbmf snbmf,
+            KfrbfrosTimf from,
+            KfrbfrosTimf till,
+            KfrbfrosTimf rtimf,
+            int[] fTypfs,
+            HostAddrfssfs bddrfssfs,
+            AutiorizbtionDbtb butiorizbtionDbtb,
+            Tidkft[] bdditionblTidkfts,
+            EndryptionKfy subKfy) tirows KrbExdfption, IOExdfption {
+        tiis(options, bsCrfds, bsCrfds.gftClifnt(), snbmf,
+                from, till, rtimf, fTypfs, bddrfssfs,
+                butiorizbtionDbtb, bdditionblTidkfts, subKfy, null);
     }
 
-    private KrbTgsReq(
+    privbtf KrbTgsRfq(
             KDCOptions options,
-            Credentials asCreds,
-            PrincipalName cname,
-            PrincipalName sname,
-            KerberosTime from,
-            KerberosTime till,
-            KerberosTime rtime,
-            int[] eTypes,
-            HostAddresses addresses,
-            AuthorizationData authorizationData,
-            Ticket[] additionalTickets,
-            EncryptionKey subKey,
-            PAData extraPA) throws KrbException, IOException {
+            Crfdfntibls bsCrfds,
+            PrindipblNbmf dnbmf,
+            PrindipblNbmf snbmf,
+            KfrbfrosTimf from,
+            KfrbfrosTimf till,
+            KfrbfrosTimf rtimf,
+            int[] fTypfs,
+            HostAddrfssfs bddrfssfs,
+            AutiorizbtionDbtb butiorizbtionDbtb,
+            Tidkft[] bdditionblTidkfts,
+            EndryptionKfy subKfy,
+            PADbtb fxtrbPA) tirows KrbExdfption, IOExdfption {
 
-        princName = cname;
-        servName = sname;
-        ctime = KerberosTime.now();
+        prindNbmf = dnbmf;
+        sfrvNbmf = snbmf;
+        dtimf = KfrbfrosTimf.now();
 
-        // check if they are valid arguments. The optional fields
-        // should be  consistent with settings in KDCOptions.
+        // difdk if tify brf vblid brgumfnts. Tif optionbl fiflds
+        // siould bf  donsistfnt witi sfttings in KDCOptions.
 
-        // TODO: Is this necessary? If the TGT is not FORWARDABLE,
-        // you can still request for a FORWARDABLE ticket, just the
-        // KDC will give you a non-FORWARDABLE one. Even if you
-        // cannot use the ticket expected, it still contains info.
-        // This means there will be problem later. We already have
-        // flags check in KrbTgsRep. Of course, sometimes the KDC
-        // will not issue the ticket at all.
+        // TODO: Is tiis nfdfssbry? If tif TGT is not FORWARDABLE,
+        // you dbn still rfqufst for b FORWARDABLE tidkft, just tif
+        // KDC will givf you b non-FORWARDABLE onf. Evfn if you
+        // dbnnot usf tif tidkft fxpfdtfd, it still dontbins info.
+        // Tiis mfbns tifrf will bf problfm lbtfr. Wf blrfbdy ibvf
+        // flbgs difdk in KrbTgsRfp. Of doursf, somftimfs tif KDC
+        // will not issuf tif tidkft bt bll.
 
-        if (options.get(KDCOptions.FORWARDABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_FORWARDABLE)))) {
-            throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.FORWARDABLE) &&
+                (!(bsCrfds.flbgs.gft(Krb5.TKT_OPTS_FORWARDABLE)))) {
+            tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.FORWARDED)) {
-            if (!(asCreds.flags.get(KDCOptions.FORWARDABLE)))
-                throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.FORWARDED)) {
+            if (!(bsCrfds.flbgs.gft(KDCOptions.FORWARDABLE)))
+                tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.PROXIABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_PROXIABLE)))) {
-            throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.PROXIABLE) &&
+                (!(bsCrfds.flbgs.gft(Krb5.TKT_OPTS_PROXIABLE)))) {
+            tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.PROXY)) {
-            if (!(asCreds.flags.get(KDCOptions.PROXIABLE)))
-                throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.PROXY)) {
+            if (!(bsCrfds.flbgs.gft(KDCOptions.PROXIABLE)))
+                tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.ALLOW_POSTDATE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_MAY_POSTDATE)))) {
-            throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.ALLOW_POSTDATE) &&
+                (!(bsCrfds.flbgs.gft(Krb5.TKT_OPTS_MAY_POSTDATE)))) {
+            tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.RENEWABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_RENEWABLE)))) {
-            throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        if (options.gft(KDCOptions.RENEWABLE) &&
+                (!(bsCrfds.flbgs.gft(Krb5.TKT_OPTS_RENEWABLE)))) {
+            tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
 
-        if (options.get(KDCOptions.POSTDATED)) {
-            if (!(asCreds.flags.get(KDCOptions.POSTDATED)))
-                throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-        } else {
+        if (options.gft(KDCOptions.POSTDATED)) {
+            if (!(bsCrfds.flbgs.gft(KDCOptions.POSTDATED)))
+                tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
             if (from != null)  from = null;
         }
-        if (options.get(KDCOptions.RENEWABLE)) {
-            if (!(asCreds.flags.get(KDCOptions.RENEWABLE)))
-                throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-        } else {
-            if (rtime != null)  rtime = null;
+        if (options.gft(KDCOptions.RENEWABLE)) {
+            if (!(bsCrfds.flbgs.gft(KDCOptions.RENEWABLE)))
+                tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
+            if (rtimf != null)  rtimf = null;
         }
-        if (options.get(KDCOptions.ENC_TKT_IN_SKEY) || options.get(KDCOptions.CNAME_IN_ADDL_TKT)) {
-            if (additionalTickets == null)
-                throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-            // in TGS_REQ there could be more than one additional
-            // tickets,  but in file-based credential cache,
-            // there is only one additional ticket field.
-            secondTicket = additionalTickets[0];
-        } else {
-            if (additionalTickets != null)
-                additionalTickets = null;
+        if (options.gft(KDCOptions.ENC_TKT_IN_SKEY) || options.gft(KDCOptions.CNAME_IN_ADDL_TKT)) {
+            if (bdditionblTidkfts == null)
+                tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+            // in TGS_REQ tifrf dould bf morf tibn onf bdditionbl
+            // tidkfts,  but in filf-bbsfd drfdfntibl dbdif,
+            // tifrf is only onf bdditionbl tidkft fifld.
+            sfdondTidkft = bdditionblTidkfts[0];
+        } flsf {
+            if (bdditionblTidkfts != null)
+                bdditionblTidkfts = null;
         }
 
-        tgsReqMessg = createRequest(
+        tgsRfqMfssg = drfbtfRfqufst(
                 options,
-                asCreds.ticket,
-                asCreds.key,
-                ctime,
-                princName,
-                servName,
+                bsCrfds.tidkft,
+                bsCrfds.kfy,
+                dtimf,
+                prindNbmf,
+                sfrvNbmf,
                 from,
                 till,
-                rtime,
-                eTypes,
-                addresses,
-                authorizationData,
-                additionalTickets,
-                subKey,
-                extraPA);
-        obuf = tgsReqMessg.asn1Encode();
+                rtimf,
+                fTypfs,
+                bddrfssfs,
+                butiorizbtionDbtb,
+                bdditionblTidkfts,
+                subKfy,
+                fxtrbPA);
+        obuf = tgsRfqMfssg.bsn1Endodf();
 
-        // XXX We need to revisit this to see if can't move it
-        // up such that FORWARDED flag set in the options
-        // is included in the marshaled request.
+        // XXX Wf nffd to rfvisit tiis to sff if dbn't movf it
+        // up sudi tibt FORWARDED flbg sft in tif options
+        // is indludfd in tif mbrsiblfd rfqufst.
         /*
-         * If this is based on a forwarded ticket, record that in the
-         * options, because the returned TgsRep will contain the
-         * FORWARDED flag set.
+         * If tiis is bbsfd on b forwbrdfd tidkft, rfdord tibt in tif
+         * options, bfdbusf tif rfturnfd TgsRfp will dontbin tif
+         * FORWARDED flbg sft.
          */
-        if (asCreds.flags.get(KDCOptions.FORWARDED))
-            options.set(KDCOptions.FORWARDED, true);
+        if (bsCrfds.flbgs.gft(KDCOptions.FORWARDED))
+            options.sft(KDCOptions.FORWARDED, truf);
 
 
     }
 
     /**
-     * Sends a TGS request to the realm of the target.
-     * @throws KrbException
-     * @throws IOException
+     * Sfnds b TGS rfqufst to tif rfblm of tif tbrgft.
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-    public void send() throws IOException, KrbException {
-        String realmStr = null;
-        if (servName != null)
-            realmStr = servName.getRealmString();
-        KdcComm comm = new KdcComm(realmStr);
-        ibuf = comm.send(obuf);
+    publid void sfnd() tirows IOExdfption, KrbExdfption {
+        String rfblmStr = null;
+        if (sfrvNbmf != null)
+            rfblmStr = sfrvNbmf.gftRfblmString();
+        KddComm domm = nfw KddComm(rfblmStr);
+        ibuf = domm.sfnd(obuf);
     }
 
-    public KrbTgsRep getReply()
-        throws KrbException, IOException {
-        return new KrbTgsRep(ibuf, this);
+    publid KrbTgsRfp gftRfply()
+        tirows KrbExdfption, IOExdfption {
+        rfturn nfw KrbTgsRfp(ibuf, tiis);
     }
 
     /**
-     * Sends the request, waits for a reply, and returns the Credentials.
-     * Used in Credentials, KrbCred, and internal/CredentialsUtil.
+     * Sfnds tif rfqufst, wbits for b rfply, bnd rfturns tif Crfdfntibls.
+     * Usfd in Crfdfntibls, KrbCrfd, bnd intfrnbl/CrfdfntiblsUtil.
      */
-    public Credentials sendAndGetCreds() throws IOException, KrbException {
-        KrbTgsRep tgs_rep = null;
-        String kdc = null;
-        send();
-        tgs_rep = getReply();
-        return tgs_rep.getCreds();
+    publid Crfdfntibls sfndAndGftCrfds() tirows IOExdfption, KrbExdfption {
+        KrbTgsRfp tgs_rfp = null;
+        String kdd = null;
+        sfnd();
+        tgs_rfp = gftRfply();
+        rfturn tgs_rfp.gftCrfds();
     }
 
-    KerberosTime getCtime() {
-        return ctime;
+    KfrbfrosTimf gftCtimf() {
+        rfturn dtimf;
     }
 
-    private TGSReq createRequest(
-                         KDCOptions kdc_options,
-                         Ticket ticket,
-                         EncryptionKey key,
-                         KerberosTime ctime,
-                         PrincipalName cname,
-                         PrincipalName sname,
-                         KerberosTime from,
-                         KerberosTime till,
-                         KerberosTime rtime,
-                         int[] eTypes,
-                         HostAddresses addresses,
-                         AuthorizationData authorizationData,
-                         Ticket[] additionalTickets,
-                         EncryptionKey subKey,
-                         PAData extraPA)
-        throws IOException, KrbException, UnknownHostException {
-        KerberosTime req_till = null;
+    privbtf TGSRfq drfbtfRfqufst(
+                         KDCOptions kdd_options,
+                         Tidkft tidkft,
+                         EndryptionKfy kfy,
+                         KfrbfrosTimf dtimf,
+                         PrindipblNbmf dnbmf,
+                         PrindipblNbmf snbmf,
+                         KfrbfrosTimf from,
+                         KfrbfrosTimf till,
+                         KfrbfrosTimf rtimf,
+                         int[] fTypfs,
+                         HostAddrfssfs bddrfssfs,
+                         AutiorizbtionDbtb butiorizbtionDbtb,
+                         Tidkft[] bdditionblTidkfts,
+                         EndryptionKfy subKfy,
+                         PADbtb fxtrbPA)
+        tirows IOExdfption, KrbExdfption, UnknownHostExdfption {
+        KfrbfrosTimf rfq_till = null;
         if (till == null) {
-            req_till = new KerberosTime(0);
-        } else {
-            req_till = till;
+            rfq_till = nfw KfrbfrosTimf(0);
+        } flsf {
+            rfq_till = till;
         }
 
         /*
-         * RFC 4120, Section 5.4.2.
-         * For KRB_TGS_REP, the ciphertext is encrypted in the
-         * sub-session key from the Authenticator, or if absent,
-         * the session key from the ticket-granting ticket used
-         * in the request.
+         * RFC 4120, Sfdtion 5.4.2.
+         * For KRB_TGS_REP, tif dipifrtfxt is fndryptfd in tif
+         * sub-sfssion kfy from tif Autifntidbtor, or if bbsfnt,
+         * tif sfssion kfy from tif tidkft-grbnting tidkft usfd
+         * in tif rfqufst.
          *
-         * To support this, use tgsReqKey to remember which key to use.
+         * To support tiis, usf tgsRfqKfy to rfmfmbfr wiidi kfy to usf.
          */
-        tgsReqKey = key;
+        tgsRfqKfy = kfy;
 
-        int[] req_eTypes = null;
-        if (eTypes == null) {
-            req_eTypes = EType.getDefaults("default_tgs_enctypes");
-        } else {
-            req_eTypes = eTypes;
+        int[] rfq_fTypfs = null;
+        if (fTypfs == null) {
+            rfq_fTypfs = ETypf.gftDffbults("dffbult_tgs_fndtypfs");
+        } flsf {
+            rfq_fTypfs = fTypfs;
         }
 
-        EncryptionKey reqKey = null;
-        EncryptedData encAuthorizationData = null;
-        if (authorizationData != null) {
-            byte[] ad = authorizationData.asn1Encode();
-            if (subKey != null) {
-                reqKey = subKey;
-                tgsReqKey = subKey;    // Key to use to decrypt reply
-                useSubkey = true;
-                encAuthorizationData = new EncryptedData(reqKey, ad,
-                    KeyUsage.KU_TGS_REQ_AUTH_DATA_SUBKEY);
-            } else
-                encAuthorizationData = new EncryptedData(key, ad,
-                    KeyUsage.KU_TGS_REQ_AUTH_DATA_SESSKEY);
+        EndryptionKfy rfqKfy = null;
+        EndryptfdDbtb fndAutiorizbtionDbtb = null;
+        if (butiorizbtionDbtb != null) {
+            bytf[] bd = butiorizbtionDbtb.bsn1Endodf();
+            if (subKfy != null) {
+                rfqKfy = subKfy;
+                tgsRfqKfy = subKfy;    // Kfy to usf to dfdrypt rfply
+                usfSubkfy = truf;
+                fndAutiorizbtionDbtb = nfw EndryptfdDbtb(rfqKfy, bd,
+                    KfyUsbgf.KU_TGS_REQ_AUTH_DATA_SUBKEY);
+            } flsf
+                fndAutiorizbtionDbtb = nfw EndryptfdDbtb(kfy, bd,
+                    KfyUsbgf.KU_TGS_REQ_AUTH_DATA_SESSKEY);
         }
 
-        KDCReqBody reqBody = new KDCReqBody(
-                                            kdc_options,
-                                            cname,
-                                            sname,
+        KDCRfqBody rfqBody = nfw KDCRfqBody(
+                                            kdd_options,
+                                            dnbmf,
+                                            snbmf,
                                             from,
-                                            req_till,
-                                            rtime,
-                                            Nonce.value(),
-                                            req_eTypes,
-                                            addresses,
-                                            encAuthorizationData,
-                                            additionalTickets);
+                                            rfq_till,
+                                            rtimf,
+                                            Nondf.vbluf(),
+                                            rfq_fTypfs,
+                                            bddrfssfs,
+                                            fndAutiorizbtionDbtb,
+                                            bdditionblTidkfts);
 
-        byte[] temp = reqBody.asn1Encode(Krb5.KRB_TGS_REQ);
-        // if the checksum type is one of the keyed checksum types,
-        // use session key.
-        Checksum cksum;
-        switch (Checksum.CKSUMTYPE_DEFAULT) {
-        case Checksum.CKSUMTYPE_RSA_MD4_DES:
-        case Checksum.CKSUMTYPE_DES_MAC:
-        case Checksum.CKSUMTYPE_DES_MAC_K:
-        case Checksum.CKSUMTYPE_RSA_MD4_DES_K:
-        case Checksum.CKSUMTYPE_RSA_MD5_DES:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
-        case Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
-            cksum = new Checksum(Checksum.CKSUMTYPE_DEFAULT, temp, key,
-                KeyUsage.KU_PA_TGS_REQ_CKSUM);
-            break;
-        case Checksum.CKSUMTYPE_CRC32:
-        case Checksum.CKSUMTYPE_RSA_MD4:
-        case Checksum.CKSUMTYPE_RSA_MD5:
-        default:
-            cksum = new Checksum(Checksum.CKSUMTYPE_DEFAULT, temp);
+        bytf[] tfmp = rfqBody.bsn1Endodf(Krb5.KRB_TGS_REQ);
+        // if tif difdksum typf is onf of tif kfyfd difdksum typfs,
+        // usf sfssion kfy.
+        Cifdksum dksum;
+        switdi (Cifdksum.CKSUMTYPE_DEFAULT) {
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4_DES:
+        dbsf Cifdksum.CKSUMTYPE_DES_MAC:
+        dbsf Cifdksum.CKSUMTYPE_DES_MAC_K:
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4_DES_K:
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD5_DES:
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
+        dbsf Cifdksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
+        dbsf Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
+            dksum = nfw Cifdksum(Cifdksum.CKSUMTYPE_DEFAULT, tfmp, kfy,
+                KfyUsbgf.KU_PA_TGS_REQ_CKSUM);
+            brfbk;
+        dbsf Cifdksum.CKSUMTYPE_CRC32:
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD4:
+        dbsf Cifdksum.CKSUMTYPE_RSA_MD5:
+        dffbult:
+            dksum = nfw Cifdksum(Cifdksum.CKSUMTYPE_DEFAULT, tfmp);
         }
 
-        // Usage will be KeyUsage.KU_PA_TGS_REQ_AUTHENTICATOR
+        // Usbgf will bf KfyUsbgf.KU_PA_TGS_REQ_AUTHENTICATOR
 
-        byte[] tgs_ap_req = new KrbApReq(
-                                         new APOptions(),
-                                         ticket,
-                                         key,
-                                         cname,
-                                         cksum,
-                                         ctime,
-                                         reqKey,
+        bytf[] tgs_bp_rfq = nfw KrbApRfq(
+                                         nfw APOptions(),
+                                         tidkft,
+                                         kfy,
+                                         dnbmf,
+                                         dksum,
+                                         dtimf,
+                                         rfqKfy,
                                          null,
-                                         null).getMessage();
+                                         null).gftMfssbgf();
 
-        PAData tgsPAData = new PAData(Krb5.PA_TGS_REQ, tgs_ap_req);
-        return new TGSReq(
-                extraPA != null ?
-                    new PAData[] {extraPA, tgsPAData } :
-                    new PAData[] {tgsPAData},
-                reqBody);
+        PADbtb tgsPADbtb = nfw PADbtb(Krb5.PA_TGS_REQ, tgs_bp_rfq);
+        rfturn nfw TGSRfq(
+                fxtrbPA != null ?
+                    nfw PADbtb[] {fxtrbPA, tgsPADbtb } :
+                    nfw PADbtb[] {tgsPADbtb},
+                rfqBody);
     }
 
-    TGSReq getMessage() {
-        return tgsReqMessg;
+    TGSRfq gftMfssbgf() {
+        rfturn tgsRfqMfssg;
     }
 
-    Ticket getSecondTicket() {
-        return secondTicket;
+    Tidkft gftSfdondTidkft() {
+        rfturn sfdondTidkft;
     }
 
-    private static void debug(String message) {
-        //      System.err.println(">>> KrbTgsReq: " + message);
+    privbtf stbtid void dfbug(String mfssbgf) {
+        //      Systfm.frr.println(">>> KrbTgsRfq: " + mfssbgf);
     }
 
-    boolean usedSubkey() {
-        return useSubkey;
+    boolfbn usfdSubkfy() {
+        rfturn usfSubkfy;
     }
 
 }

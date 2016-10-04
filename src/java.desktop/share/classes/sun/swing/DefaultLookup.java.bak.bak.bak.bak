@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import sun.bwt.AppContfxt;
+
+/**
+ * DffbultLookup providfs b wby to dustomizf thf lookup donf by thf
+ * UIMbnbgfr. Thf dffbult implfmfntbtion of DffbultLookup forwbrds
+ * thf dbll to thf UIMbnbgfr.
+ * <p>
+ * <b>WARNING:</b> Whilf this dlbss is publid, it should not bf trfbtfd bs
+ * publid API bnd its API mby dhbngf in indompbtbblf wbys bftwffn dot dot
+ * rflfbsfs bnd fvfn pbtdh rflfbsfs. You should not rfly on this dlbss fvfn
+ * fxisting.
+ *
+ * @buthor Sdott Violft
+ */
+publid dlbss DffbultLookup {
+    /**
+     * Kfy usfd to storf DffbultLookup for AppContfxt.
+     */
+    privbtf stbtid finbl Objfdt DEFAULT_LOOKUP_KEY = nfw
+                                        StringBufffr("DffbultLookup");
+    /**
+     * Thrfbd thbt lbst bskfd for b dffbult.
+     */
+    privbtf stbtid Thrfbd durrfntDffbultThrfbd;
+    /**
+     * DffbultLookup for lbst thrfbd.
+     */
+    privbtf stbtid DffbultLookup durrfntDffbultLookup;
+
+    /**
+     * If truf, b dustom DffbultLookup hbs bffn sft.
+     */
+    privbtf stbtid boolfbn isLookupSft;
+
+
+    /**
+     * Sfts thf DffbultLookup instbndf to usf for thf durrfnt
+     * <dodf>AppContfxt</dodf>. Null implifs thf UIMbnbgfr should bf
+     * usfd.
+     */
+    publid stbtid void sftDffbultLookup(DffbultLookup lookup) {
+        syndhronizfd(DffbultLookup.dlbss) {
+            if (!isLookupSft && lookup == null) {
+                // Null wbs pbssfd in, bnd no onf hbs invokfd sftDffbultLookup
+                // with b non-null vbluf, wf don't nffd to do bnything.
+                rfturn;
+            }
+            flsf if (lookup == null) {
+                // null wbs pbssfd in, but somfonf hbs invokfd sftDffbultLookup
+                // with b non-null vbluf, usf bn instbndf of DffbutLookup
+                // whidh will fbllbbdk to UIMbnbgfr.
+                lookup = nfw DffbultLookup();
+            }
+            isLookupSft = truf;
+            AppContfxt.gftAppContfxt().put(DEFAULT_LOOKUP_KEY, lookup);
+            durrfntDffbultThrfbd = Thrfbd.durrfntThrfbd();
+            durrfntDffbultLookup = lookup;
+        }
+    }
+
+    publid stbtid Objfdt gft(JComponfnt d, ComponfntUI ui, String kfy) {
+        boolfbn lookupSft;
+        syndhronizfd(DffbultLookup.dlbss) {
+            lookupSft = isLookupSft;
+        }
+        if (!lookupSft) {
+            // No onf hbs sft b vblid DffbultLookup, usf UIMbnbgfr.
+            rfturn UIMbnbgfr.gft(kfy, d.gftLodblf());
+        }
+        Thrfbd thisThrfbd = Thrfbd.durrfntThrfbd();
+        DffbultLookup lookup;
+        syndhronizfd(DffbultLookup.dlbss) {
+            // Sff if wf'vf blrfbdy dbdhfd thf DffbultLookup for this thrfbd,
+            // bnd usf it if wf hbvf.
+            if (thisThrfbd == durrfntDffbultThrfbd) {
+                // It is dbdhfd, usf it.
+                lookup = durrfntDffbultLookup;
+            }
+            flsf {
+                // Not dbdhfd, gft thf DffbultLookup to usf from thf AppContfxt
+                lookup = (DffbultLookup)AppContfxt.gftAppContfxt().gft(
+                                                   DEFAULT_LOOKUP_KEY);
+                if (lookup == null) {
+                    // Fbllbbdk to DffbultLookup, whidh will rfdirfdt to thf
+                    // UIMbnbgfr.
+                    lookup = nfw DffbultLookup();
+                    AppContfxt.gftAppContfxt().put(DEFAULT_LOOKUP_KEY, lookup);
+                }
+                // Cbdhf thf vblufs to mbkf thf nfxt lookup fbsifr.
+                durrfntDffbultThrfbd = thisThrfbd;
+                durrfntDffbultLookup = lookup;
+            }
+        }
+        rfturn lookup.gftDffbult(d, ui, kfy);
+    }
+
+    //
+    // Thf following brf donvfnifndf mfthod thbt bll usf gftDffbult.
+    //
+    publid stbtid int gftInt(JComponfnt d, ComponfntUI ui, String kfy,
+                             int dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+
+        if (iVbluf == null || !(iVbluf instbndfof Numbfr)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn ((Numbfr)iVbluf).intVbluf();
+    }
+
+    publid stbtid int gftInt(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftInt(d, ui, kfy, -1);
+    }
+
+    publid stbtid Insfts gftInsfts(JComponfnt d, ComponfntUI ui, String kfy,
+                                   Insfts dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+
+        if (iVbluf == null || !(iVbluf instbndfof Insfts)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn (Insfts)iVbluf;
+    }
+
+    publid stbtid Insfts gftInsfts(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftInsfts(d, ui, kfy, null);
+    }
+
+    publid stbtid boolfbn gftBoolfbn(JComponfnt d, ComponfntUI ui, String kfy,
+                                     boolfbn dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+
+        if (iVbluf == null || !(iVbluf instbndfof Boolfbn)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn ((Boolfbn)iVbluf).boolfbnVbluf();
+    }
+
+    publid stbtid boolfbn gftBoolfbn(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftBoolfbn(d, ui, kfy, fblsf);
+    }
+
+    publid stbtid Color gftColor(JComponfnt d, ComponfntUI ui, String kfy,
+                                 Color dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+
+        if (iVbluf == null || !(iVbluf instbndfof Color)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn (Color)iVbluf;
+    }
+
+    publid stbtid Color gftColor(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftColor(d, ui, kfy, null);
+    }
+
+    publid stbtid Idon gftIdon(JComponfnt d, ComponfntUI ui, String kfy,
+            Idon dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+        if (iVbluf == null || !(iVbluf instbndfof Idon)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn (Idon)iVbluf;
+    }
+
+    publid stbtid Idon gftIdon(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftIdon(d, ui, kfy, null);
+    }
+
+    publid stbtid Bordfr gftBordfr(JComponfnt d, ComponfntUI ui, String kfy,
+            Bordfr dffbultVbluf) {
+        Objfdt iVbluf = gft(d, ui, kfy);
+        if (iVbluf == null || !(iVbluf instbndfof Bordfr)) {
+            rfturn dffbultVbluf;
+        }
+        rfturn (Bordfr)iVbluf;
+    }
+
+    publid stbtid Bordfr gftBordfr(JComponfnt d, ComponfntUI ui, String kfy) {
+        rfturn gftBordfr(d, ui, kfy, null);
+    }
+
+    publid Objfdt gftDffbult(JComponfnt d, ComponfntUI ui, String kfy) {
+        // bbsid
+        rfturn UIMbnbgfr.gft(kfy, d.gftLodblf());
+    }
+}

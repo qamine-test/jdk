@@ -1,920 +1,920 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LongSummaryStatistics;
-import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.OptionalLong;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.LongBinaryOperator;
-import java.util.function.LongConsumer;
-import java.util.function.LongFunction;
-import java.util.function.LongPredicate;
-import java.util.function.LongSupplier;
-import java.util.function.LongToDoubleFunction;
-import java.util.function.LongToIntFunction;
-import java.util.function.LongUnaryOperator;
-import java.util.function.ObjLongConsumer;
-import java.util.function.Supplier;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.LongSummbryStbtistids;
+import jbvb.util.Objfdts;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.OptionblLong;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongFundtion;
+import jbvb.util.fundtion.LongPrfdidbtf;
+import jbvb.util.fundtion.LongSupplifr;
+import jbvb.util.fundtion.LongToDoublfFundtion;
+import jbvb.util.fundtion.LongToIntFundtion;
+import jbvb.util.fundtion.LongUnbryOpfrbtor;
+import jbvb.util.fundtion.ObjLongConsumfr;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * A sequence of primitive long-valued elements supporting sequential and parallel
- * aggregate operations.  This is the {@code long} primitive specialization of
- * {@link Stream}.
+ * A sfqufndf of primitivf long-vblufd flfmfnts supporting sfqufntibl bnd pbrbllfl
+ * bggrfgbtf opfrbtions.  Tiis is tif {@dodf long} primitivf spfdiblizbtion of
+ * {@link Strfbm}.
  *
- * <p>The following example illustrates an aggregate operation using
- * {@link Stream} and {@link LongStream}, computing the sum of the weights of the
- * red widgets:
+ * <p>Tif following fxbmplf illustrbtfs bn bggrfgbtf opfrbtion using
+ * {@link Strfbm} bnd {@link LongStrfbm}, domputing tif sum of tif wfigits of tif
+ * rfd widgfts:
  *
- * <pre>{@code
- *     long sum = widgets.stream()
- *                       .filter(w -> w.getColor() == RED)
- *                       .mapToLong(w -> w.getWeight())
+ * <prf>{@dodf
+ *     long sum = widgfts.strfbm()
+ *                       .filtfr(w -> w.gftColor() == RED)
+ *                       .mbpToLong(w -> w.gftWfigit())
  *                       .sum();
- * }</pre>
+ * }</prf>
  *
- * See the class documentation for {@link Stream} and the package documentation
- * for <a href="package-summary.html">java.util.stream</a> for additional
- * specification of streams, stream operations, stream pipelines, and
- * parallelism.
+ * Sff tif dlbss dodumfntbtion for {@link Strfbm} bnd tif pbdkbgf dodumfntbtion
+ * for <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b> for bdditionbl
+ * spfdifidbtion of strfbms, strfbm opfrbtions, strfbm pipflinfs, bnd
+ * pbrbllflism.
  *
- * @since 1.8
- * @see Stream
- * @see <a href="package-summary.html">java.util.stream</a>
+ * @sindf 1.8
+ * @sff Strfbm
+ * @sff <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b>
  */
-public interface LongStream extends BaseStream<Long, LongStream> {
+publid intfrfbdf LongStrfbm fxtfnds BbsfStrfbm<Long, LongStrfbm> {
 
     /**
-     * Returns a stream consisting of the elements of this stream that match
-     * the given predicate.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm tibt mbtdi
+     * tif givfn prfdidbtf.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to each element to determine if it
-     *                  should be included
-     * @return the new stream
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to fbdi flfmfnt to dftfrminf if it
+     *                  siould bf indludfd
+     * @rfturn tif nfw strfbm
      */
-    LongStream filter(LongPredicate predicate);
+    LongStrfbm filtfr(LongPrfdidbtf prfdidbtf);
 
     /**
-     * Returns a stream consisting of the results of applying the given
-     * function to the elements of this stream.
+     * Rfturns b strfbm donsisting of tif rfsults of bpplying tif givfn
+     * fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    LongStream map(LongUnaryOperator mapper);
+    LongStrfbm mbp(LongUnbryOpfrbtor mbppfr);
 
     /**
-     * Returns an object-valued {@code Stream} consisting of the results of
-     * applying the given function to the elements of this stream.
+     * Rfturns bn objfdt-vblufd {@dodf Strfbm} donsisting of tif rfsults of
+     * bpplying tif givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">
-     *     intermediate operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+     *     intfrmfdibtf opfrbtion</b>.
      *
-     * @param <U> the element type of the new stream
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm <U> tif flfmfnt typf of tif nfw strfbm
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    <U> Stream<U> mapToObj(LongFunction<? extends U> mapper);
+    <U> Strfbm<U> mbpToObj(LongFundtion<? fxtfnds U> mbppfr);
 
     /**
-     * Returns an {@code IntStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Rfturns bn {@dodf IntStrfbm} donsisting of tif rfsults of bpplying tif
+     * givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    IntStream mapToInt(LongToIntFunction mapper);
+    IntStrfbm mbpToInt(LongToIntFundtion mbppfr);
 
     /**
-     * Returns a {@code DoubleStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Rfturns b {@dodf DoublfStrfbm} donsisting of tif rfsults of bpplying tif
+     * givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    DoubleStream mapToDouble(LongToDoubleFunction mapper);
+    DoublfStrfbm mbpToDoublf(LongToDoublfFundtion mbppfr);
 
     /**
-     * Returns a stream consisting of the results of replacing each element of
-     * this stream with the contents of a mapped stream produced by applying
-     * the provided mapping function to each element.  Each mapped stream is
-     * {@link java.util.stream.BaseStream#close() closed} after its contents
-     * have been placed into this stream.  (If a mapped stream is {@code null}
-     * an empty stream is used, instead.)
+     * Rfturns b strfbm donsisting of tif rfsults of rfplbding fbdi flfmfnt of
+     * tiis strfbm witi tif dontfnts of b mbppfd strfbm produdfd by bpplying
+     * tif providfd mbpping fundtion to fbdi flfmfnt.  Ebdi mbppfd strfbm is
+     * {@link jbvb.util.strfbm.BbsfStrfbm#dlosf() dlosfd} bftfr its dontfnts
+     * ibvf bffn plbdfd into tiis strfbm.  (If b mbppfd strfbm is {@dodf null}
+     * bn fmpty strfbm is usfd, instfbd.)
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element which produces a
-     *               {@code LongStream} of new values
-     * @return the new stream
-     * @see Stream#flatMap(Function)
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt wiidi produdfs b
+     *               {@dodf LongStrfbm} of nfw vblufs
+     * @rfturn tif nfw strfbm
+     * @sff Strfbm#flbtMbp(Fundtion)
      */
-    LongStream flatMap(LongFunction<? extends LongStream> mapper);
+    LongStrfbm flbtMbp(LongFundtion<? fxtfnds LongStrfbm> mbppfr);
 
     /**
-     * Returns a stream consisting of the distinct elements of this stream.
+     * Rfturns b strfbm donsisting of tif distindt flfmfnts of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @return the new stream
+     * @rfturn tif nfw strfbm
      */
-    LongStream distinct();
+    LongStrfbm distindt();
 
     /**
-     * Returns a stream consisting of the elements of this stream in sorted
-     * order.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm in sortfd
+     * ordfr.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @return the new stream
+     * @rfturn tif nfw strfbm
      */
-    LongStream sorted();
+    LongStrfbm sortfd();
 
     /**
-     * Returns a stream consisting of the elements of this stream, additionally
-     * performing the provided action on each element as elements are consumed
-     * from the resulting stream.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm, bdditionblly
+     * pfrforming tif providfd bdtion on fbdi flfmfnt bs flfmfnts brf donsumfd
+     * from tif rfsulting strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * <p>For parallel stream pipelines, the action may be called at
-     * whatever time and in whatever thread the element is made available by the
-     * upstream operation.  If the action modifies shared state,
-     * it is responsible for providing the required synchronization.
+     * <p>For pbrbllfl strfbm pipflinfs, tif bdtion mby bf dbllfd bt
+     * wibtfvfr timf bnd in wibtfvfr tirfbd tif flfmfnt is mbdf bvbilbblf by tif
+     * upstrfbm opfrbtion.  If tif bdtion modififs sibrfd stbtf,
+     * it is rfsponsiblf for providing tif rfquirfd syndironizbtion.
      *
-     * @apiNote This method exists mainly to support debugging, where you want
-     * to see the elements as they flow past a certain point in a pipeline:
-     * <pre>{@code
-     *     LongStream.of(1, 2, 3, 4)
-     *         .filter(e -> e > 2)
-     *         .peek(e -> System.out.println("Filtered value: " + e))
-     *         .map(e -> e * e)
-     *         .peek(e -> System.out.println("Mapped value: " + e))
+     * @bpiNotf Tiis mftiod fxists mbinly to support dfbugging, wifrf you wbnt
+     * to sff tif flfmfnts bs tify flow pbst b dfrtbin point in b pipflinf:
+     * <prf>{@dodf
+     *     LongStrfbm.of(1, 2, 3, 4)
+     *         .filtfr(f -> f > 2)
+     *         .pffk(f -> Systfm.out.println("Filtfrfd vbluf: " + f))
+     *         .mbp(f -> f * f)
+     *         .pffk(f -> Systfm.out.println("Mbppfd vbluf: " + f))
      *         .sum();
-     * }</pre>
+     * }</prf>
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements as
-     *               they are consumed from the stream
-     * @return the new stream
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts bs
+     *               tify brf donsumfd from tif strfbm
+     * @rfturn tif nfw strfbm
      */
-    LongStream peek(LongConsumer action);
+    LongStrfbm pffk(LongConsumfr bdtion);
 
     /**
-     * Returns a stream consisting of the elements of this stream, truncated
-     * to be no longer than {@code maxSize} in length.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm, trundbtfd
+     * to bf no longfr tibn {@dodf mbxSizf} in lfngti.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * stateful intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * stbtfful intfrmfdibtf opfrbtion</b>.
      *
-     * @apiNote
-     * While {@code limit()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code maxSize}, since {@code limit(n)}
-     * is constrained to return not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(LongSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code limit()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code limit()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNotf
+     * Wiilf {@dodf limit()} is gfnfrblly b difbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf mbxSizf}, sindf {@dodf limit(n)}
+     * is donstrbinfd to rfturn not just bny <fm>n</fm> flfmfnts, but tif
+     * <fm>first n</fm> flfmfnts in tif fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudi bs {@link #gfnfrbtf(LongSupplifr)}) or rfmoving tif
+     * ordfring donstrbint witi {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf limit()} in pbrbllfl pipflinfs, if tif sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy witi fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion witi
+     * {@dodf limit()} in pbrbllfl pipflinfs, switdiing to sfqufntibl fxfdution
+     * witi {@link #sfqufntibl()} mby improvf pfrformbndf.
      *
-     * @param maxSize the number of elements the stream should be limited to
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code maxSize} is negative
+     * @pbrbm mbxSizf tif numbfr of flfmfnts tif strfbm siould bf limitfd to
+     * @rfturn tif nfw strfbm
+     * @tirows IllfgblArgumfntExdfption if {@dodf mbxSizf} is nfgbtivf
      */
-    LongStream limit(long maxSize);
+    LongStrfbm limit(long mbxSizf);
 
     /**
-     * Returns a stream consisting of the remaining elements of this stream
-     * after discarding the first {@code n} elements of the stream.
-     * If this stream contains fewer than {@code n} elements then an
-     * empty stream will be returned.
+     * Rfturns b strfbm donsisting of tif rfmbining flfmfnts of tiis strfbm
+     * bftfr disdbrding tif first {@dodf n} flfmfnts of tif strfbm.
+     * If tiis strfbm dontbins ffwfr tibn {@dodf n} flfmfnts tifn bn
+     * fmpty strfbm will bf rfturnfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @apiNote
-     * While {@code skip()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code n}, since {@code skip(n)}
-     * is constrained to skip not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(LongSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code skip()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code skip()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNotf
+     * Wiilf {@dodf skip()} is gfnfrblly b difbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf n}, sindf {@dodf skip(n)}
+     * is donstrbinfd to skip not just bny <fm>n</fm> flfmfnts, but tif
+     * <fm>first n</fm> flfmfnts in tif fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudi bs {@link #gfnfrbtf(LongSupplifr)}) or rfmoving tif
+     * ordfring donstrbint witi {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf skip()} in pbrbllfl pipflinfs, if tif sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy witi fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion witi
+     * {@dodf skip()} in pbrbllfl pipflinfs, switdiing to sfqufntibl fxfdution
+     * witi {@link #sfqufntibl()} mby improvf pfrformbndf.
      *
-     * @param n the number of leading elements to skip
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code n} is negative
+     * @pbrbm n tif numbfr of lfbding flfmfnts to skip
+     * @rfturn tif nfw strfbm
+     * @tirows IllfgblArgumfntExdfption if {@dodf n} is nfgbtivf
      */
-    LongStream skip(long n);
+    LongStrfbm skip(long n);
 
     /**
-     * Performs an action for each element of this stream.
+     * Pfrforms bn bdtion for fbdi flfmfnt of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * <p>For parallel stream pipelines, this operation does <em>not</em>
-     * guarantee to respect the encounter order of the stream, as doing so
-     * would sacrifice the benefit of parallelism.  For any given element, the
-     * action may be performed at whatever time and in whatever thread the
-     * library chooses.  If the action accesses shared state, it is
-     * responsible for providing the required synchronization.
+     * <p>For pbrbllfl strfbm pipflinfs, tiis opfrbtion dofs <fm>not</fm>
+     * gubrbntff to rfspfdt tif fndountfr ordfr of tif strfbm, bs doing so
+     * would sbdrifidf tif bfnffit of pbrbllflism.  For bny givfn flfmfnt, tif
+     * bdtion mby bf pfrformfd bt wibtfvfr timf bnd in wibtfvfr tirfbd tif
+     * librbry dioosfs.  If tif bdtion bddfssfs sibrfd stbtf, it is
+     * rfsponsiblf for providing tif rfquirfd syndironizbtion.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts
      */
-    void forEach(LongConsumer action);
+    void forEbdi(LongConsumfr bdtion);
 
     /**
-     * Performs an action for each element of this stream, guaranteeing that
-     * each element is processed in encounter order for streams that have a
-     * defined encounter order.
+     * Pfrforms bn bdtion for fbdi flfmfnt of tiis strfbm, gubrbntffing tibt
+     * fbdi flfmfnt is prodfssfd in fndountfr ordfr for strfbms tibt ibvf b
+     * dffinfd fndountfr ordfr.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
-     * @see #forEach(LongConsumer)
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts
+     * @sff #forEbdi(LongConsumfr)
      */
-    void forEachOrdered(LongConsumer action);
+    void forEbdiOrdfrfd(LongConsumfr bdtion);
 
     /**
-     * Returns an array containing the elements of this stream.
+     * Rfturns bn brrby dontbining tif flfmfnts of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an array containing the elements of this stream
+     * @rfturn bn brrby dontbining tif flfmfnts of tiis strfbm
      */
-    long[] toArray();
+    long[] toArrby();
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using the provided identity value and an
-     * <a href="package-summary.html#Associativity">associative</a>
-     * accumulation function, and returns the reduced value.  This is equivalent
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> on tif
+     * flfmfnts of tiis strfbm, using tif providfd idfntity vbluf bnd bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>
+     * bddumulbtion fundtion, bnd rfturns tif rfdudfd vbluf.  Tiis is fquivblfnt
      * to:
-     * <pre>{@code
-     *     long result = identity;
-     *     for (long element : this stream)
-     *         result = accumulator.applyAsLong(result, element)
-     *     return result;
-     * }</pre>
+     * <prf>{@dodf
+     *     long rfsult = idfntity;
+     *     for (long flfmfnt : tiis strfbm)
+     *         rfsult = bddumulbtor.bpplyAsLong(rfsult, flfmfnt)
+     *     rfturn rfsult;
+     * }</prf>
      *
-     * but is not constrained to execute sequentially.
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
      *
-     * <p>The {@code identity} value must be an identity for the accumulator
-     * function. This means that for all {@code x},
-     * {@code accumulator.apply(identity, x)} is equal to {@code x}.
-     * The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>Tif {@dodf idfntity} vbluf must bf bn idfntity for tif bddumulbtor
+     * fundtion. Tiis mfbns tibt for bll {@dodf x},
+     * {@dodf bddumulbtor.bpply(idfntity, x)} is fqubl to {@dodf x}.
+     * Tif {@dodf bddumulbtor} fundtion must bf bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> fundtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @apiNote Sum, min, max, and average are all special cases of reduction.
-     * Summing a stream of numbers can be expressed as:
+     * @bpiNotf Sum, min, mbx, bnd bvfrbgf brf bll spfdibl dbsfs of rfdudtion.
+     * Summing b strfbm of numbfrs dbn bf fxprfssfd bs:
      *
-     * <pre>{@code
-     *     long sum = integers.reduce(0, (a, b) -> a+b);
-     * }</pre>
+     * <prf>{@dodf
+     *     long sum = intfgfrs.rfdudf(0, (b, b) -> b+b);
+     * }</prf>
      *
-     * or more compactly:
+     * or morf dompbdtly:
      *
-     * <pre>{@code
-     *     long sum = integers.reduce(0, Long::sum);
-     * }</pre>
+     * <prf>{@dodf
+     *     long sum = intfgfrs.rfdudf(0, Long::sum);
+     * }</prf>
      *
-     * <p>While this may seem a more roundabout way to perform an aggregation
-     * compared to simply mutating a running total in a loop, reduction
-     * operations parallelize more gracefully, without needing additional
-     * synchronization and with greatly reduced risk of data races.
+     * <p>Wiilf tiis mby sffm b morf roundbbout wby to pfrform bn bggrfgbtion
+     * dompbrfd to simply mutbting b running totbl in b loop, rfdudtion
+     * opfrbtions pbrbllflizf morf grbdffully, witiout nffding bdditionbl
+     * syndironizbtion bnd witi grfbtly rfdudfd risk of dbtb rbdfs.
      *
-     * @param identity the identity value for the accumulating function
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
-     * @return the result of the reduction
-     * @see #sum()
-     * @see #min()
-     * @see #max()
-     * @see #average()
+     * @pbrbm idfntity tif idfntity vbluf for tif bddumulbting fundtion
+     * @pbrbm op bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *           <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff #sum()
+     * @sff #min()
+     * @sff #mbx()
+     * @sff #bvfrbgf()
      */
-    long reduce(long identity, LongBinaryOperator op);
+    long rfdudf(long idfntity, LongBinbryOpfrbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using an
-     * <a href="package-summary.html#Associativity">associative</a> accumulation
-     * function, and returns an {@code OptionalLong} describing the reduced value,
-     * if any. This is equivalent to:
-     * <pre>{@code
-     *     boolean foundAny = false;
-     *     long result = null;
-     *     for (long element : this stream) {
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> on tif
+     * flfmfnts of tiis strfbm, using bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> bddumulbtion
+     * fundtion, bnd rfturns bn {@dodf OptionblLong} dfsdribing tif rfdudfd vbluf,
+     * if bny. Tiis is fquivblfnt to:
+     * <prf>{@dodf
+     *     boolfbn foundAny = fblsf;
+     *     long rfsult = null;
+     *     for (long flfmfnt : tiis strfbm) {
      *         if (!foundAny) {
-     *             foundAny = true;
-     *             result = element;
+     *             foundAny = truf;
+     *             rfsult = flfmfnt;
      *         }
-     *         else
-     *             result = accumulator.applyAsLong(result, element);
+     *         flsf
+     *             rfsult = bddumulbtor.bpplyAsLong(rfsult, flfmfnt);
      *     }
-     *     return foundAny ? OptionalLong.of(result) : OptionalLong.empty();
-     * }</pre>
+     *     rfturn foundAny ? OptionblLong.of(rfsult) : OptionblLong.fmpty();
+     * }</prf>
      *
-     * but is not constrained to execute sequentially.
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
      *
-     * <p>The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>Tif {@dodf bddumulbtor} fundtion must bf bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> fundtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
-     * @return the result of the reduction
-     * @see #reduce(long, LongBinaryOperator)
+     * @pbrbm op bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *           <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff #rfdudf(long, LongBinbryOpfrbtor)
      */
-    OptionalLong reduce(LongBinaryOperator op);
+    OptionblLong rfdudf(LongBinbryOpfrbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#MutableReduction">mutable
-     * reduction</a> operation on the elements of this stream.  A mutable
-     * reduction is one in which the reduced value is a mutable result container,
-     * such as an {@code ArrayList}, and elements are incorporated by updating
-     * the state of the result rather than by replacing the result.  This
-     * produces a result equivalent to:
-     * <pre>{@code
-     *     R result = supplier.get();
-     *     for (long element : this stream)
-     *         accumulator.accept(result, element);
-     *     return result;
-     * }</pre>
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#MutbblfRfdudtion">mutbblf
+     * rfdudtion</b> opfrbtion on tif flfmfnts of tiis strfbm.  A mutbblf
+     * rfdudtion is onf in wiidi tif rfdudfd vbluf is b mutbblf rfsult dontbinfr,
+     * sudi bs bn {@dodf ArrbyList}, bnd flfmfnts brf indorporbtfd by updbting
+     * tif stbtf of tif rfsult rbtifr tibn by rfplbding tif rfsult.  Tiis
+     * produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     R rfsult = supplifr.gft();
+     *     for (long flfmfnt : tiis strfbm)
+     *         bddumulbtor.bddfpt(rfsult, flfmfnt);
+     *     rfturn rfsult;
+     * }</prf>
      *
-     * <p>Like {@link #reduce(long, LongBinaryOperator)}, {@code collect} operations
-     * can be parallelized without requiring additional synchronization.
+     * <p>Likf {@link #rfdudf(long, LongBinbryOpfrbtor)}, {@dodf dollfdt} opfrbtions
+     * dbn bf pbrbllflizfd witiout rfquiring bdditionbl syndironizbtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param <R> type of the result
-     * @param supplier a function that creates a new result container. For a
-     *                 parallel execution, this function may be called
-     *                 multiple times and must return a fresh value each time.
-     * @param accumulator an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for incorporating an additional element into a result
-     * @param combiner an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for combining two values, which must be
-     *                    compatible with the accumulator function
-     * @return the result of the reduction
-     * @see Stream#collect(Supplier, BiConsumer, BiConsumer)
+     * @pbrbm <R> typf of tif rfsult
+     * @pbrbm supplifr b fundtion tibt drfbtfs b nfw rfsult dontbinfr. For b
+     *                 pbrbllfl fxfdution, tiis fundtion mby bf dbllfd
+     *                 multiplf timfs bnd must rfturn b frfsi vbluf fbdi timf.
+     * @pbrbm bddumulbtor bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for indorporbting bn bdditionbl flfmfnt into b rfsult
+     * @pbrbm dombinfr bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for dombining two vblufs, wiidi must bf
+     *                    dompbtiblf witi tif bddumulbtor fundtion
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff Strfbm#dollfdt(Supplifr, BiConsumfr, BiConsumfr)
      */
-    <R> R collect(Supplier<R> supplier,
-                  ObjLongConsumer<R> accumulator,
-                  BiConsumer<R, R> combiner);
+    <R> R dollfdt(Supplifr<R> supplifr,
+                  ObjLongConsumfr<R> bddumulbtor,
+                  BiConsumfr<R, R> dombinfr);
 
     /**
-     * Returns the sum of elements in this stream.  This is a special case
-     * of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
-     * <pre>{@code
-     *     return reduce(0, Long::sum);
-     * }</pre>
+     * Rfturns tif sum of flfmfnts in tiis strfbm.  Tiis is b spfdibl dbsf
+     * of b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>
+     * bnd is fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(0, Long::sum);
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return the sum of elements in this stream
+     * @rfturn tif sum of flfmfnts in tiis strfbm
      */
     long sum();
 
     /**
-     * Returns an {@code OptionalLong} describing the minimum element of this
-     * stream, or an empty optional if this stream is empty.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
-     * <pre>{@code
-     *     return reduce(Long::min);
-     * }</pre>
+     * Rfturns bn {@dodf OptionblLong} dfsdribing tif minimum flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tiis strfbm is fmpty.  Tiis is b spfdibl
+     * dbsf of b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>
+     * bnd is fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Long::min);
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl opfrbtion</b>.
      *
-     * @return an {@code OptionalLong} containing the minimum element of this
-     * stream, or an empty {@code OptionalLong} if the stream is empty
+     * @rfturn bn {@dodf OptionblLong} dontbining tif minimum flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty
      */
-    OptionalLong min();
+    OptionblLong min();
 
     /**
-     * Returns an {@code OptionalLong} describing the maximum element of this
-     * stream, or an empty optional if this stream is empty.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>
-     * and is equivalent to:
-     * <pre>{@code
-     *     return reduce(Long::max);
-     * }</pre>
+     * Rfturns bn {@dodf OptionblLong} dfsdribing tif mbximum flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tiis strfbm is fmpty.  Tiis is b spfdibl
+     * dbsf of b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>
+     * bnd is fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Long::mbx);
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an {@code OptionalLong} containing the maximum element of this
-     * stream, or an empty {@code OptionalLong} if the stream is empty
+     * @rfturn bn {@dodf OptionblLong} dontbining tif mbximum flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty
      */
-    OptionalLong max();
+    OptionblLong mbx();
 
     /**
-     * Returns the count of elements in this stream.  This is a special case of
-     * a <a href="package-summary.html#Reduction">reduction</a> and is
-     * equivalent to:
-     * <pre>{@code
-     *     return map(e -> 1L).sum();
-     * }</pre>
+     * Rfturns tif dount of flfmfnts in tiis strfbm.  Tiis is b spfdibl dbsf of
+     * b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn mbp(f -> 1L).sum();
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl opfrbtion</b>.
      *
-     * @return the count of elements in this stream
+     * @rfturn tif dount of flfmfnts in tiis strfbm
      */
-    long count();
+    long dount();
 
     /**
-     * Returns an {@code OptionalDouble} describing the arithmetic mean of elements of
-     * this stream, or an empty optional if this stream is empty.  This is a
-     * special case of a
-     * <a href="package-summary.html#Reduction">reduction</a>.
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing tif britimftid mfbn of flfmfnts of
+     * tiis strfbm, or bn fmpty optionbl if tiis strfbm is fmpty.  Tiis is b
+     * spfdibl dbsf of b
+     * <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an {@code OptionalDouble} containing the average element of this
-     * stream, or an empty optional if the stream is empty
+     * @rfturn bn {@dodf OptionblDoublf} dontbining tif bvfrbgf flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tif strfbm is fmpty
      */
-    OptionalDouble average();
+    OptionblDoublf bvfrbgf();
 
     /**
-     * Returns a {@code LongSummaryStatistics} describing various summary data
-     * about the elements of this stream.  This is a special case of a
-     * <a href="package-summary.html#Reduction">reduction</a>.
+     * Rfturns b {@dodf LongSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout tif flfmfnts of tiis strfbm.  Tiis is b spfdibl dbsf of b
+     * <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return a {@code LongSummaryStatistics} describing various summary data
-     * about the elements of this stream
+     * @rfturn b {@dodf LongSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout tif flfmfnts of tiis strfbm
      */
-    LongSummaryStatistics summaryStatistics();
+    LongSummbryStbtistids summbryStbtistids();
 
     /**
-     * Returns whether any elements of this stream match the provided
-     * predicate.  May not evaluate the predicate on all elements if not
-     * necessary for determining the result.  If the stream is empty then
-     * {@code false} is returned and the predicate is not evaluated.
+     * Rfturns wiftifr bny flfmfnts of tiis strfbm mbtdi tif providfd
+     * prfdidbtf.  Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not
+     * nfdfssbry for dftfrmining tif rfsult.  If tif strfbm is fmpty tifn
+     * {@dodf fblsf} is rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>existential quantification</em> of the
-     * predicate over the elements of the stream (for some x P(x)).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>fxistfntibl qubntifidbtion</fm> of tif
+     * prfdidbtf ovfr tif flfmfnts of tif strfbm (for somf x P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if any elements of the stream match the provided
-     * predicate, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if bny flfmfnts of tif strfbm mbtdi tif providfd
+     * prfdidbtf, otifrwisf {@dodf fblsf}
      */
-    boolean anyMatch(LongPredicate predicate);
+    boolfbn bnyMbtdi(LongPrfdidbtf prfdidbtf);
 
     /**
-     * Returns whether all elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Rfturns wiftifr bll flfmfnts of tiis strfbm mbtdi tif providfd prfdidbtf.
+     * Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining tif rfsult.  If tif strfbm is fmpty tifn {@dodf truf} is
+     * rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * predicate over the elements of the stream (for all x P(x)).  If the
-     * stream is empty, the quantification is said to be <em>vacuously
-     * satisfied</em> and is always {@code true} (regardless of P(x)).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>univfrsbl qubntifidbtion</fm> of tif
+     * prfdidbtf ovfr tif flfmfnts of tif strfbm (for bll x P(x)).  If tif
+     * strfbm is fmpty, tif qubntifidbtion is sbid to bf <fm>vbduously
+     * sbtisfifd</fm> bnd is blwbys {@dodf truf} (rfgbrdlfss of P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either all elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if fitifr bll flfmfnts of tif strfbm mbtdi tif
+     * providfd prfdidbtf or tif strfbm is fmpty, otifrwisf {@dodf fblsf}
      */
-    boolean allMatch(LongPredicate predicate);
+    boolfbn bllMbtdi(LongPrfdidbtf prfdidbtf);
 
     /**
-     * Returns whether no elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Rfturns wiftifr no flfmfnts of tiis strfbm mbtdi tif providfd prfdidbtf.
+     * Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining tif rfsult.  If tif strfbm is fmpty tifn {@dodf truf} is
+     * rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * negated predicate over the elements of the stream (for all x ~P(x)).  If
-     * the stream is empty, the quantification is said to be vacuously satisfied
-     * and is always {@code true}, regardless of P(x).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>univfrsbl qubntifidbtion</fm> of tif
+     * nfgbtfd prfdidbtf ovfr tif flfmfnts of tif strfbm (for bll x ~P(x)).  If
+     * tif strfbm is fmpty, tif qubntifidbtion is sbid to bf vbduously sbtisfifd
+     * bnd is blwbys {@dodf truf}, rfgbrdlfss of P(x).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either no elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if fitifr no flfmfnts of tif strfbm mbtdi tif
+     * providfd prfdidbtf or tif strfbm is fmpty, otifrwisf {@dodf fblsf}
      */
-    boolean noneMatch(LongPredicate predicate);
+    boolfbn nonfMbtdi(LongPrfdidbtf prfdidbtf);
 
     /**
-     * Returns an {@link OptionalLong} describing the first element of this
-     * stream, or an empty {@code OptionalLong} if the stream is empty.  If the
-     * stream has no encounter order, then any element may be returned.
+     * Rfturns bn {@link OptionblLong} dfsdribing tif first flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty.  If tif
+     * strfbm ibs no fndountfr ordfr, tifn bny flfmfnt mby bf rfturnfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @return an {@code OptionalLong} describing the first element of this
-     * stream, or an empty {@code OptionalLong} if the stream is empty
+     * @rfturn bn {@dodf OptionblLong} dfsdribing tif first flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty
      */
-    OptionalLong findFirst();
+    OptionblLong findFirst();
 
     /**
-     * Returns an {@link OptionalLong} describing some element of the stream, or
-     * an empty {@code OptionalLong} if the stream is empty.
+     * Rfturns bn {@link OptionblLong} dfsdribing somf flfmfnt of tif strfbm, or
+     * bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * <p>The behavior of this operation is explicitly nondeterministic; it is
-     * free to select any element in the stream.  This is to allow for maximal
-     * performance in parallel operations; the cost is that multiple invocations
-     * on the same source may not return the same result.  (If a stable result
-     * is desired, use {@link #findFirst()} instead.)
+     * <p>Tif bfibvior of tiis opfrbtion is fxpliditly nondftfrministid; it is
+     * frff to sflfdt bny flfmfnt in tif strfbm.  Tiis is to bllow for mbximbl
+     * pfrformbndf in pbrbllfl opfrbtions; tif dost is tibt multiplf invodbtions
+     * on tif sbmf sourdf mby not rfturn tif sbmf rfsult.  (If b stbblf rfsult
+     * is dfsirfd, usf {@link #findFirst()} instfbd.)
      *
-     * @return an {@code OptionalLong} describing some element of this stream,
-     * or an empty {@code OptionalLong} if the stream is empty
-     * @see #findFirst()
+     * @rfturn bn {@dodf OptionblLong} dfsdribing somf flfmfnt of tiis strfbm,
+     * or bn fmpty {@dodf OptionblLong} if tif strfbm is fmpty
+     * @sff #findFirst()
      */
-    OptionalLong findAny();
+    OptionblLong findAny();
 
     /**
-     * Returns a {@code DoubleStream} consisting of the elements of this stream,
-     * converted to {@code double}.
+     * Rfturns b {@dodf DoublfStrfbm} donsisting of tif flfmfnts of tiis strfbm,
+     * donvfrtfd to {@dodf doublf}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return a {@code DoubleStream} consisting of the elements of this stream,
-     * converted to {@code double}
+     * @rfturn b {@dodf DoublfStrfbm} donsisting of tif flfmfnts of tiis strfbm,
+     * donvfrtfd to {@dodf doublf}
      */
-    DoubleStream asDoubleStream();
+    DoublfStrfbm bsDoublfStrfbm();
 
     /**
-     * Returns a {@code Stream} consisting of the elements of this stream,
-     * each boxed to a {@code Long}.
+     * Rfturns b {@dodf Strfbm} donsisting of tif flfmfnts of tiis strfbm,
+     * fbdi boxfd to b {@dodf Long}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return a {@code Stream} consistent of the elements of this stream,
-     * each boxed to {@code Long}
+     * @rfturn b {@dodf Strfbm} donsistfnt of tif flfmfnts of tiis strfbm,
+     * fbdi boxfd to {@dodf Long}
      */
-    Stream<Long> boxed();
+    Strfbm<Long> boxfd();
 
-    @Override
-    LongStream sequential();
+    @Ovfrridf
+    LongStrfbm sfqufntibl();
 
-    @Override
-    LongStream parallel();
+    @Ovfrridf
+    LongStrfbm pbrbllfl();
 
-    @Override
-    PrimitiveIterator.OfLong iterator();
+    @Ovfrridf
+    PrimitivfItfrbtor.OfLong itfrbtor();
 
-    @Override
-    Spliterator.OfLong spliterator();
+    @Ovfrridf
+    Splitfrbtor.OfLong splitfrbtor();
 
-    // Static factories
+    // Stbtid fbdtorifs
 
     /**
-     * Returns a builder for a {@code LongStream}.
+     * Rfturns b buildfr for b {@dodf LongStrfbm}.
      *
-     * @return a stream builder
+     * @rfturn b strfbm buildfr
      */
-    public static Builder builder() {
-        return new Streams.LongStreamBuilderImpl();
+    publid stbtid Buildfr buildfr() {
+        rfturn nfw Strfbms.LongStrfbmBuildfrImpl();
     }
 
     /**
-     * Returns an empty sequential {@code LongStream}.
+     * Rfturns bn fmpty sfqufntibl {@dodf LongStrfbm}.
      *
-     * @return an empty sequential stream
+     * @rfturn bn fmpty sfqufntibl strfbm
      */
-    public static LongStream empty() {
-        return StreamSupport.longStream(Spliterators.emptyLongSpliterator(), false);
+    publid stbtid LongStrfbm fmpty() {
+        rfturn StrfbmSupport.longStrfbm(Splitfrbtors.fmptyLongSplitfrbtor(), fblsf);
     }
 
     /**
-     * Returns a sequential {@code LongStream} containing a single element.
+     * Rfturns b sfqufntibl {@dodf LongStrfbm} dontbining b singlf flfmfnt.
      *
-     * @param t the single element
-     * @return a singleton sequential stream
+     * @pbrbm t tif singlf flfmfnt
+     * @rfturn b singlfton sfqufntibl strfbm
      */
-    public static LongStream of(long t) {
-        return StreamSupport.longStream(new Streams.LongStreamBuilderImpl(t), false);
+    publid stbtid LongStrfbm of(long t) {
+        rfturn StrfbmSupport.longStrfbm(nfw Strfbms.LongStrfbmBuildfrImpl(t), fblsf);
     }
 
     /**
-     * Returns a sequential ordered stream whose elements are the specified values.
+     * Rfturns b sfqufntibl ordfrfd strfbm wiosf flfmfnts brf tif spfdififd vblufs.
      *
-     * @param values the elements of the new stream
-     * @return the new stream
+     * @pbrbm vblufs tif flfmfnts of tif nfw strfbm
+     * @rfturn tif nfw strfbm
      */
-    public static LongStream of(long... values) {
-        return Arrays.stream(values);
+    publid stbtid LongStrfbm of(long... vblufs) {
+        rfturn Arrbys.strfbm(vblufs);
     }
 
     /**
-     * Returns an infinite sequential ordered {@code LongStream} produced by iterative
-     * application of a function {@code f} to an initial element {@code seed},
-     * producing a {@code Stream} consisting of {@code seed}, {@code f(seed)},
-     * {@code f(f(seed))}, etc.
+     * Rfturns bn infinitf sfqufntibl ordfrfd {@dodf LongStrfbm} produdfd by itfrbtivf
+     * bpplidbtion of b fundtion {@dodf f} to bn initibl flfmfnt {@dodf sffd},
+     * produding b {@dodf Strfbm} donsisting of {@dodf sffd}, {@dodf f(sffd)},
+     * {@dodf f(f(sffd))}, ftd.
      *
-     * <p>The first element (position {@code 0}) in the {@code LongStream} will
-     * be the provided {@code seed}.  For {@code n > 0}, the element at position
-     * {@code n}, will be the result of applying the function {@code f} to the
-     * element at position {@code n - 1}.
+     * <p>Tif first flfmfnt (position {@dodf 0}) in tif {@dodf LongStrfbm} will
+     * bf tif providfd {@dodf sffd}.  For {@dodf n > 0}, tif flfmfnt bt position
+     * {@dodf n}, will bf tif rfsult of bpplying tif fundtion {@dodf f} to tif
+     * flfmfnt bt position {@dodf n - 1}.
      *
-     * @param seed the initial element
-     * @param f a function to be applied to the previous element to produce
-     *          a new element
-     * @return a new sequential {@code LongStream}
+     * @pbrbm sffd tif initibl flfmfnt
+     * @pbrbm f b fundtion to bf bpplifd to tif prfvious flfmfnt to produdf
+     *          b nfw flfmfnt
+     * @rfturn b nfw sfqufntibl {@dodf LongStrfbm}
      */
-    public static LongStream iterate(final long seed, final LongUnaryOperator f) {
-        Objects.requireNonNull(f);
-        final PrimitiveIterator.OfLong iterator = new PrimitiveIterator.OfLong() {
-            long t = seed;
+    publid stbtid LongStrfbm itfrbtf(finbl long sffd, finbl LongUnbryOpfrbtor f) {
+        Objfdts.rfquirfNonNull(f);
+        finbl PrimitivfItfrbtor.OfLong itfrbtor = nfw PrimitivfItfrbtor.OfLong() {
+            long t = sffd;
 
-            @Override
-            public boolean hasNext() {
-                return true;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                rfturn truf;
             }
 
-            @Override
-            public long nextLong() {
+            @Ovfrridf
+            publid long nfxtLong() {
                 long v = t;
-                t = f.applyAsLong(t);
-                return v;
+                t = f.bpplyAsLong(t);
+                rfturn v;
             }
         };
-        return StreamSupport.longStream(Spliterators.spliteratorUnknownSize(
-                iterator,
-                Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+        rfturn StrfbmSupport.longStrfbm(Splitfrbtors.splitfrbtorUnknownSizf(
+                itfrbtor,
+                Splitfrbtor.ORDERED | Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL), fblsf);
     }
 
     /**
-     * Returns an infinite sequential unordered stream where each element is
-     * generated by the provided {@code LongSupplier}.  This is suitable for
-     * generating constant streams, streams of random elements, etc.
+     * Rfturns bn infinitf sfqufntibl unordfrfd strfbm wifrf fbdi flfmfnt is
+     * gfnfrbtfd by tif providfd {@dodf LongSupplifr}.  Tiis is suitbblf for
+     * gfnfrbting donstbnt strfbms, strfbms of rbndom flfmfnts, ftd.
      *
-     * @param s the {@code LongSupplier} for generated elements
-     * @return a new infinite sequential unordered {@code LongStream}
+     * @pbrbm s tif {@dodf LongSupplifr} for gfnfrbtfd flfmfnts
+     * @rfturn b nfw infinitf sfqufntibl unordfrfd {@dodf LongStrfbm}
      */
-    public static LongStream generate(LongSupplier s) {
-        Objects.requireNonNull(s);
-        return StreamSupport.longStream(
-                new StreamSpliterators.InfiniteSupplyingSpliterator.OfLong(Long.MAX_VALUE, s), false);
+    publid stbtid LongStrfbm gfnfrbtf(LongSupplifr s) {
+        Objfdts.rfquirfNonNull(s);
+        rfturn StrfbmSupport.longStrfbm(
+                nfw StrfbmSplitfrbtors.InfinitfSupplyingSplitfrbtor.OfLong(Long.MAX_VALUE, s), fblsf);
     }
 
     /**
-     * Returns a sequential ordered {@code LongStream} from {@code startInclusive}
-     * (inclusive) to {@code endExclusive} (exclusive) by an incremental step of
-     * {@code 1}.
+     * Rfturns b sfqufntibl ordfrfd {@dodf LongStrfbm} from {@dodf stbrtIndlusivf}
+     * (indlusivf) to {@dodf fndExdlusivf} (fxdlusivf) by bn indrfmfntbl stfp of
+     * {@dodf 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
-     * sequentially using a {@code for} loop as follows:
-     * <pre>{@code
-     *     for (long i = startInclusive; i < endExclusive ; i++) { ... }
-     * }</pre>
+     * @bpiNotf
+     * <p>An fquivblfnt sfqufndf of indrfbsing vblufs dbn bf produdfd
+     * sfqufntiblly using b {@dodf for} loop bs follows:
+     * <prf>{@dodf
+     *     for (long i = stbrtIndlusivf; i < fndExdlusivf ; i++) { ... }
+     * }</prf>
      *
-     * @param startInclusive the (inclusive) initial value
-     * @param endExclusive the exclusive upper bound
-     * @return a sequential {@code LongStream} for the range of {@code long}
-     *         elements
+     * @pbrbm stbrtIndlusivf tif (indlusivf) initibl vbluf
+     * @pbrbm fndExdlusivf tif fxdlusivf uppfr bound
+     * @rfturn b sfqufntibl {@dodf LongStrfbm} for tif rbngf of {@dodf long}
+     *         flfmfnts
      */
-    public static LongStream range(long startInclusive, final long endExclusive) {
-        if (startInclusive >= endExclusive) {
-            return empty();
-        } else if (endExclusive - startInclusive < 0) {
-            // Size of range > Long.MAX_VALUE
-            // Split the range in two and concatenate
-            // Note: if the range is [Long.MIN_VALUE, Long.MAX_VALUE) then
-            // the lower range, [Long.MIN_VALUE, 0) will be further split in two
-            long m = startInclusive + Long.divideUnsigned(endExclusive - startInclusive, 2) + 1;
-            return concat(range(startInclusive, m), range(m, endExclusive));
-        } else {
-            return StreamSupport.longStream(
-                    new Streams.RangeLongSpliterator(startInclusive, endExclusive, false), false);
+    publid stbtid LongStrfbm rbngf(long stbrtIndlusivf, finbl long fndExdlusivf) {
+        if (stbrtIndlusivf >= fndExdlusivf) {
+            rfturn fmpty();
+        } flsf if (fndExdlusivf - stbrtIndlusivf < 0) {
+            // Sizf of rbngf > Long.MAX_VALUE
+            // Split tif rbngf in two bnd dondbtfnbtf
+            // Notf: if tif rbngf is [Long.MIN_VALUE, Long.MAX_VALUE) tifn
+            // tif lowfr rbngf, [Long.MIN_VALUE, 0) will bf furtifr split in two
+            long m = stbrtIndlusivf + Long.dividfUnsignfd(fndExdlusivf - stbrtIndlusivf, 2) + 1;
+            rfturn dondbt(rbngf(stbrtIndlusivf, m), rbngf(m, fndExdlusivf));
+        } flsf {
+            rfturn StrfbmSupport.longStrfbm(
+                    nfw Strfbms.RbngfLongSplitfrbtor(stbrtIndlusivf, fndExdlusivf, fblsf), fblsf);
         }
     }
 
     /**
-     * Returns a sequential ordered {@code LongStream} from {@code startInclusive}
-     * (inclusive) to {@code endInclusive} (inclusive) by an incremental step of
-     * {@code 1}.
+     * Rfturns b sfqufntibl ordfrfd {@dodf LongStrfbm} from {@dodf stbrtIndlusivf}
+     * (indlusivf) to {@dodf fndIndlusivf} (indlusivf) by bn indrfmfntbl stfp of
+     * {@dodf 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
-     * sequentially using a {@code for} loop as follows:
-     * <pre>{@code
-     *     for (long i = startInclusive; i <= endInclusive ; i++) { ... }
-     * }</pre>
+     * @bpiNotf
+     * <p>An fquivblfnt sfqufndf of indrfbsing vblufs dbn bf produdfd
+     * sfqufntiblly using b {@dodf for} loop bs follows:
+     * <prf>{@dodf
+     *     for (long i = stbrtIndlusivf; i <= fndIndlusivf ; i++) { ... }
+     * }</prf>
      *
-     * @param startInclusive the (inclusive) initial value
-     * @param endInclusive the inclusive upper bound
-     * @return a sequential {@code LongStream} for the range of {@code long}
-     *         elements
+     * @pbrbm stbrtIndlusivf tif (indlusivf) initibl vbluf
+     * @pbrbm fndIndlusivf tif indlusivf uppfr bound
+     * @rfturn b sfqufntibl {@dodf LongStrfbm} for tif rbngf of {@dodf long}
+     *         flfmfnts
      */
-    public static LongStream rangeClosed(long startInclusive, final long endInclusive) {
-        if (startInclusive > endInclusive) {
-            return empty();
-        } else if (endInclusive - startInclusive + 1 <= 0) {
-            // Size of range > Long.MAX_VALUE
-            // Split the range in two and concatenate
-            // Note: if the range is [Long.MIN_VALUE, Long.MAX_VALUE] then
-            // the lower range, [Long.MIN_VALUE, 0), and upper range,
-            // [0, Long.MAX_VALUE], will both be further split in two
-            long m = startInclusive + Long.divideUnsigned(endInclusive - startInclusive, 2) + 1;
-            return concat(range(startInclusive, m), rangeClosed(m, endInclusive));
-        } else {
-            return StreamSupport.longStream(
-                    new Streams.RangeLongSpliterator(startInclusive, endInclusive, true), false);
+    publid stbtid LongStrfbm rbngfClosfd(long stbrtIndlusivf, finbl long fndIndlusivf) {
+        if (stbrtIndlusivf > fndIndlusivf) {
+            rfturn fmpty();
+        } flsf if (fndIndlusivf - stbrtIndlusivf + 1 <= 0) {
+            // Sizf of rbngf > Long.MAX_VALUE
+            // Split tif rbngf in two bnd dondbtfnbtf
+            // Notf: if tif rbngf is [Long.MIN_VALUE, Long.MAX_VALUE] tifn
+            // tif lowfr rbngf, [Long.MIN_VALUE, 0), bnd uppfr rbngf,
+            // [0, Long.MAX_VALUE], will boti bf furtifr split in two
+            long m = stbrtIndlusivf + Long.dividfUnsignfd(fndIndlusivf - stbrtIndlusivf, 2) + 1;
+            rfturn dondbt(rbngf(stbrtIndlusivf, m), rbngfClosfd(m, fndIndlusivf));
+        } flsf {
+            rfturn StrfbmSupport.longStrfbm(
+                    nfw Strfbms.RbngfLongSplitfrbtor(stbrtIndlusivf, fndIndlusivf, truf), fblsf);
         }
     }
 
     /**
-     * Creates a lazily concatenated stream whose elements are all the
-     * elements of the first stream followed by all the elements of the
-     * second stream.  The resulting stream is ordered if both
-     * of the input streams are ordered, and parallel if either of the input
-     * streams is parallel.  When the resulting stream is closed, the close
-     * handlers for both input streams are invoked.
+     * Crfbtfs b lbzily dondbtfnbtfd strfbm wiosf flfmfnts brf bll tif
+     * flfmfnts of tif first strfbm followfd by bll tif flfmfnts of tif
+     * sfdond strfbm.  Tif rfsulting strfbm is ordfrfd if boti
+     * of tif input strfbms brf ordfrfd, bnd pbrbllfl if fitifr of tif input
+     * strfbms is pbrbllfl.  Wifn tif rfsulting strfbm is dlosfd, tif dlosf
+     * ibndlfrs for boti input strfbms brf invokfd.
      *
-     * @implNote
-     * Use caution when constructing streams from repeated concatenation.
-     * Accessing an element of a deeply concatenated stream can result in deep
-     * call chains, or even {@code StackOverflowException}.
+     * @implNotf
+     * Usf dbution wifn donstrudting strfbms from rfpfbtfd dondbtfnbtion.
+     * Addfssing bn flfmfnt of b dffply dondbtfnbtfd strfbm dbn rfsult in dffp
+     * dbll dibins, or fvfn {@dodf StbdkOvfrflowExdfption}.
      *
-     * @param a the first stream
-     * @param b the second stream
-     * @return the concatenation of the two input streams
+     * @pbrbm b tif first strfbm
+     * @pbrbm b tif sfdond strfbm
+     * @rfturn tif dondbtfnbtion of tif two input strfbms
      */
-    public static LongStream concat(LongStream a, LongStream b) {
-        Objects.requireNonNull(a);
-        Objects.requireNonNull(b);
+    publid stbtid LongStrfbm dondbt(LongStrfbm b, LongStrfbm b) {
+        Objfdts.rfquirfNonNull(b);
+        Objfdts.rfquirfNonNull(b);
 
-        Spliterator.OfLong split = new Streams.ConcatSpliterator.OfLong(
-                a.spliterator(), b.spliterator());
-        LongStream stream = StreamSupport.longStream(split, a.isParallel() || b.isParallel());
-        return stream.onClose(Streams.composedClose(a, b));
+        Splitfrbtor.OfLong split = nfw Strfbms.CondbtSplitfrbtor.OfLong(
+                b.splitfrbtor(), b.splitfrbtor());
+        LongStrfbm strfbm = StrfbmSupport.longStrfbm(split, b.isPbrbllfl() || b.isPbrbllfl());
+        rfturn strfbm.onClosf(Strfbms.domposfdClosf(b, b));
     }
 
     /**
-     * A mutable builder for a {@code LongStream}.
+     * A mutbblf buildfr for b {@dodf LongStrfbm}.
      *
-     * <p>A stream builder has a lifecycle, which starts in a building
-     * phase, during which elements can be added, and then transitions to a built
-     * phase, after which elements may not be added.  The built phase begins
-     * begins when the {@link #build()} method is called, which creates an
-     * ordered stream whose elements are the elements that were added to the
-     * stream builder, in the order they were added.
+     * <p>A strfbm buildfr ibs b liffdydlf, wiidi stbrts in b building
+     * pibsf, during wiidi flfmfnts dbn bf bddfd, bnd tifn trbnsitions to b built
+     * pibsf, bftfr wiidi flfmfnts mby not bf bddfd.  Tif built pibsf bfgins
+     * bfgins wifn tif {@link #build()} mftiod is dbllfd, wiidi drfbtfs bn
+     * ordfrfd strfbm wiosf flfmfnts brf tif flfmfnts tibt wfrf bddfd to tif
+     * strfbm buildfr, in tif ordfr tify wfrf bddfd.
      *
-     * @see LongStream#builder()
-     * @since 1.8
+     * @sff LongStrfbm#buildfr()
+     * @sindf 1.8
      */
-    public interface Builder extends LongConsumer {
+    publid intfrfbdf Buildfr fxtfnds LongConsumfr {
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn flfmfnt to tif strfbm bfing built.
          *
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        @Override
-        void accept(long t);
+        @Ovfrridf
+        void bddfpt(long t);
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn flfmfnt to tif strfbm bfing built.
          *
-         * @implSpec
-         * The default implementation behaves as if:
-         * <pre>{@code
-         *     accept(t)
-         *     return this;
-         * }</pre>
+         * @implSpfd
+         * Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     bddfpt(t)
+         *     rfturn tiis;
+         * }</prf>
          *
-         * @param t the element to add
-         * @return {@code this} builder
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @pbrbm t tif flfmfnt to bdd
+         * @rfturn {@dodf tiis} buildfr
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        default Builder add(long t) {
-            accept(t);
-            return this;
+        dffbult Buildfr bdd(long t) {
+            bddfpt(t);
+            rfturn tiis;
         }
 
         /**
-         * Builds the stream, transitioning this builder to the built state.
-         * An {@code IllegalStateException} is thrown if there are further
-         * attempts to operate on the builder after it has entered the built
-         * state.
+         * Builds tif strfbm, trbnsitioning tiis buildfr to tif built stbtf.
+         * An {@dodf IllfgblStbtfExdfption} is tirown if tifrf brf furtifr
+         * bttfmpts to opfrbtf on tif buildfr bftfr it ibs fntfrfd tif built
+         * stbtf.
          *
-         * @return the built stream
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @rfturn tif built strfbm
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        LongStream build();
+        LongStrfbm build();
     }
 }

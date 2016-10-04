@@ -1,0 +1,876 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.ComponfntOrifntbtion;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.LbyoutMbnbgfr2;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbshtbblf;
+
+
+/**
+ * <dodf>JToolBbr</dodf> providfs b domponfnt thbt is usfful for
+ * displbying dommonly usfd <dodf>Adtion</dodf>s or dontrols.
+ * For fxbmplfs bnd informbtion on using tool bbrs sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/toolbbr.html">How to Usf Tool Bbrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * <p>
+ * With most look bnd fffls,
+ * thf usfr dbn drbg out b tool bbr into b sfpbrbtf window
+ * (unlfss thf <dodf>flobtbblf</dodf> propfrty is sft to <dodf>fblsf</dodf>).
+ * For drbg-out to work dorrfdtly, it is rfdommfndfd thbt you bdd
+ * <dodf>JToolBbr</dodf> instbndfs to onf of thf four "sidfs" of b
+ * dontbinfr whosf lbyout mbnbgfr is b <dodf>BordfrLbyout</dodf>,
+ * bnd do not bdd dhildrfn to bny of thf othfr four "sidfs".
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr truf
+ * dfsdription: A domponfnt whidh displbys dommonly usfd dontrols or Adtions.
+ *
+ * @buthor Gforgfs Sbbb
+ * @buthor Jfff Shbpiro
+ * @sff Adtion
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JToolBbr fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "ToolBbrUI";
+
+    privbtf    boolfbn   pbintBordfr              = truf;
+    privbtf    Insfts    mbrgin                   = null;
+    privbtf    boolfbn   flobtbblf                = truf;
+    privbtf    int       orifntbtion              = HORIZONTAL;
+
+    /**
+     * Crfbtfs b nfw tool bbr; orifntbtion dffbults to <dodf>HORIZONTAL</dodf>.
+     */
+    publid JToolBbr()
+    {
+        this( HORIZONTAL );
+    }
+
+    /**
+     * Crfbtfs b nfw tool bbr with thf spfdififd <dodf>orifntbtion</dodf>.
+     * Thf <dodf>orifntbtion</dodf> must bf fithfr <dodf>HORIZONTAL</dodf>
+     * or <dodf>VERTICAL</dodf>.
+     *
+     * @pbrbm orifntbtion  thf orifntbtion dfsirfd
+     */
+    publid JToolBbr( int orifntbtion )
+    {
+        this(null, orifntbtion);
+    }
+
+    /**
+     * Crfbtfs b nfw tool bbr with thf spfdififd <dodf>nbmf</dodf>.  Thf
+     * nbmf is usfd bs thf titlf of thf undodkfd tool bbr.  Thf dffbult
+     * orifntbtion is <dodf>HORIZONTAL</dodf>.
+     *
+     * @pbrbm nbmf thf nbmf of thf tool bbr
+     * @sindf 1.3
+     */
+    publid JToolBbr( String nbmf ) {
+        this(nbmf, HORIZONTAL);
+    }
+
+    /**
+     * Crfbtfs b nfw tool bbr with b spfdififd <dodf>nbmf</dodf> bnd
+     * <dodf>orifntbtion</dodf>.
+     * All othfr donstrudtors dbll this donstrudtor.
+     * If <dodf>orifntbtion</dodf> is bn invblid vbluf, bn fxdfption will
+     * bf thrown.
+     *
+     * @pbrbm nbmf  thf nbmf of thf tool bbr
+     * @pbrbm orifntbtion  thf initibl orifntbtion -- it must bf
+     *          fithfr <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is nfithfr
+     *          <dodf>HORIZONTAL</dodf> nor <dodf>VERTICAL</dodf>
+     * @sindf 1.3
+     */
+    publid JToolBbr( String nbmf , int orifntbtion) {
+        sftNbmf(nbmf);
+        dhfdkOrifntbtion( orifntbtion );
+
+        this.orifntbtion = orifntbtion;
+        DffbultToolBbrLbyout lbyout =  nfw DffbultToolBbrLbyout( orifntbtion );
+        sftLbyout( lbyout );
+
+        bddPropfrtyChbngfListfnfr( lbyout );
+
+        updbtfUI();
+    }
+
+    /**
+     * Rfturns thf tool bbr's durrfnt UI.
+     *
+     * @rfturn thf tool bbr's durrfnt UI.
+     * @sff #sftUI
+     */
+    publid ToolBbrUI gftUI() {
+        rfturn (ToolBbrUI)ui;
+    }
+
+    /**
+     * Sfts thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf <dodf>ToolBbrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(ToolBbrUI ui) {
+        supfr.sftUI(ui);
+    }
+
+    /**
+     * Notifidbtion from thf <dodf>UIFbdtory</dodf> thbt thf L&bmp;F hbs dhbngfd.
+     * Cbllfd to rfplbdf thf UI with thf lbtfst vfrsion from thf
+     * <dodf>UIFbdtory</dodf>.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ToolBbrUI)UIMbnbgfr.gftUI(this));
+        // GTKLookAndFffl instblls b difffrfnt LbyoutMbnbgfr, bnd sfts it
+        // to null bftfr dhbnging thf look bnd fffl, so, instbll thf dffbult
+        // if thf LbyoutMbnbgfr is null.
+        if (gftLbyout() == null) {
+            sftLbyout(nfw DffbultToolBbrLbyout(gftOrifntbtion()));
+        }
+        invblidbtf();
+    }
+
+
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "ToolBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Rfturns thf indfx of thf spfdififd domponfnt.
+     * (Notf: Sfpbrbtors oddupy indfx positions.)
+     *
+     * @pbrbm d  thf <dodf>Componfnt</dodf> to find
+     * @rfturn bn intfgfr indidbting thf domponfnt's position,
+     *          whfrf 0 is first
+     */
+    publid int gftComponfntIndfx(Componfnt d) {
+        int ndomponfnts = this.gftComponfntCount();
+        Componfnt[] domponfnt = this.gftComponfnts();
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = domponfnt[i];
+            if (domp == d)
+                rfturn i;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf domponfnt bt thf spfdififd indfx.
+     *
+     * @pbrbm i  thf domponfnt's position, whfrf 0 is first
+     * @rfturn   thf <dodf>Componfnt</dodf> bt thbt position,
+     *          or <dodf>null</dodf> for bn invblid indfx
+     *
+     */
+    publid Componfnt gftComponfntAtIndfx(int i) {
+        int ndomponfnts = this.gftComponfntCount();
+        if ( i >= 0 && i < ndomponfnts) {
+            Componfnt[] domponfnt = this.gftComponfnts();
+            rfturn domponfnt[i];
+        }
+        rfturn null;
+    }
+
+     /**
+      * Sfts thf mbrgin bftwffn thf tool bbr's bordfr bnd
+      * its buttons. Sftting to <dodf>null</dodf> dbusfs thf tool bbr to
+      * usf thf dffbult mbrgins. Thf tool bbr's dffbult <dodf>Bordfr</dodf>
+      * objfdt usfs this vbluf to drfbtf thf propfr mbrgin.
+      * Howfvfr, if b non-dffbult bordfr is sft on thf tool bbr,
+      * it is thbt <dodf>Bordfr</dodf> objfdt's rfsponsibility to drfbtf thf
+      * bppropribtf mbrgin spbdf (othfrwisf this propfrty will
+      * ffffdtivfly bf ignorfd).
+      *
+      * @pbrbm m bn <dodf>Insfts</dodf> objfdt thbt dffinfs thf spbdf
+      *         bftwffn thf bordfr bnd thf buttons
+      * @sff Insfts
+      * @bfbninfo
+      * dfsdription: Thf mbrgin bftwffn thf tool bbr's bordfr bnd dontfnts
+      *       bound: truf
+      *      fxpfrt: truf
+      */
+     publid void sftMbrgin(Insfts m)
+     {
+         Insfts old = mbrgin;
+         mbrgin = m;
+         firfPropfrtyChbngf("mbrgin", old, m);
+         rfvblidbtf();
+         rfpbint();
+     }
+
+     /**
+      * Rfturns thf mbrgin bftwffn thf tool bbr's bordfr bnd
+      * its buttons.
+      *
+      * @rfturn bn <dodf>Insfts</dodf> objfdt dontbining thf mbrgin vblufs
+      * @sff Insfts
+      */
+     publid Insfts gftMbrgin()
+     {
+         if(mbrgin == null) {
+             rfturn nfw Insfts(0,0,0,0);
+         } flsf {
+             rfturn mbrgin;
+         }
+     }
+
+     /**
+      * Gfts thf <dodf>bordfrPbintfd</dodf> propfrty.
+      *
+      * @rfturn thf vbluf of thf <dodf>bordfrPbintfd</dodf> propfrty
+      * @sff #sftBordfrPbintfd
+      */
+     publid boolfbn isBordfrPbintfd()
+     {
+         rfturn pbintBordfr;
+     }
+
+
+     /**
+      * Sfts thf <dodf>bordfrPbintfd</dodf> propfrty, whidh is
+      * <dodf>truf</dodf> if thf bordfr should bf pbintfd.
+      * Thf dffbult vbluf for this propfrty is <dodf>truf</dodf>.
+      * Somf look bnd fffls might not implfmfnt pbintfd bordfrs;
+      * thfy will ignorf this propfrty.
+      *
+      * @pbrbm b if truf, thf bordfr is pbintfd
+      * @sff #isBordfrPbintfd
+      * @bfbninfo
+      * dfsdription: Dofs thf tool bbr pbint its bordfrs?
+      *       bound: truf
+      *      fxpfrt: truf
+      */
+     publid void sftBordfrPbintfd(boolfbn b)
+     {
+         if ( pbintBordfr != b )
+         {
+             boolfbn old = pbintBordfr;
+             pbintBordfr = b;
+             firfPropfrtyChbngf("bordfrPbintfd", old, b);
+             rfvblidbtf();
+             rfpbint();
+         }
+     }
+
+     /**
+      * Pbints thf tool bbr's bordfr if thf <dodf>bordfrPbintfd</dodf> propfrty
+      * is <dodf>truf</dodf>.
+      *
+      * @pbrbm g  thf <dodf>Grbphids</dodf> dontfxt in whidh thf pbinting
+      *         is donf
+      * @sff JComponfnt#pbint
+      * @sff JComponfnt#sftBordfr
+      */
+     protfdtfd void pbintBordfr(Grbphids g)
+     {
+         if (isBordfrPbintfd())
+         {
+             supfr.pbintBordfr(g);
+         }
+     }
+
+    /**
+     * Gfts thf <dodf>flobtbblf</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>flobtbblf</dodf> propfrty
+     *
+     * @sff #sftFlobtbblf
+     */
+    publid boolfbn isFlobtbblf()
+    {
+        rfturn flobtbblf;
+    }
+
+     /**
+      * Sfts thf <dodf>flobtbblf</dodf> propfrty,
+      * whidh must bf <dodf>truf</dodf> for thf usfr to movf thf tool bbr.
+      * Typidblly, b flobtbblf tool bbr dbn bf
+      * drbggfd into b difffrfnt position within thf sbmf dontbinfr
+      * or out into its own window.
+      * Thf dffbult vbluf of this propfrty is <dodf>truf</dodf>.
+      * Somf look bnd fffls might not implfmfnt flobtbblf tool bbrs;
+      * thfy will ignorf this propfrty.
+      *
+      * @pbrbm b if <dodf>truf</dodf>, thf tool bbr dbn bf movfd;
+      *          <dodf>fblsf</dodf> othfrwisf
+      * @sff #isFlobtbblf
+      * @bfbninfo
+      * dfsdription: Cbn thf tool bbr bf mbdf to flobt by thf usfr?
+      *       bound: truf
+      *   prfffrrfd: truf
+      */
+    publid void sftFlobtbblf( boolfbn b )
+    {
+        if ( flobtbblf != b )
+        {
+            boolfbn old = flobtbblf;
+            flobtbblf = b;
+
+            firfPropfrtyChbngf("flobtbblf", old, b);
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt orifntbtion of thf tool bbr.  Thf vbluf is fithfr
+     * <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>.
+     *
+     * @rfturn bn intfgfr rfprfsfnting thf durrfnt orifntbtion -- fithfr
+     *          <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @sff #sftOrifntbtion
+     */
+    publid int gftOrifntbtion()
+    {
+        rfturn this.orifntbtion;
+    }
+
+    /**
+     * Sfts thf orifntbtion of thf tool bbr.  Thf orifntbtion must hbvf
+     * fithfr thf vbluf <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>.
+     * If <dodf>orifntbtion</dodf> is
+     * bn invblid vbluf, bn fxdfption will bf thrown.
+     *
+     * @pbrbm o  thf nfw orifntbtion -- fithfr <dodf>HORIZONTAL</dodf> or
+     *                  <dodf>VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is nfithfr
+     *          <dodf>HORIZONTAL</dodf> nor <dodf>VERTICAL</dodf>
+     * @sff #gftOrifntbtion
+     * @bfbninfo
+     * dfsdription: Thf durrfnt orifntbtion of thf tool bbr
+     *       bound: truf
+     *   prfffrrfd: truf
+     *        fnum: HORIZONTAL SwingConstbnts.HORIZONTAL
+     *              VERTICAL   SwingConstbnts.VERTICAL
+     */
+    publid void sftOrifntbtion( int o )
+    {
+        dhfdkOrifntbtion( o );
+
+        if ( orifntbtion != o )
+        {
+            int old = orifntbtion;
+            orifntbtion = o;
+
+            firfPropfrtyChbngf("orifntbtion", old, o);
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Sfts thf rollovfr stbtf of this toolbbr. If thf rollovfr stbtf is truf
+     * thfn thf bordfr of thf toolbbr buttons will bf drbwn only whfn thf
+     * mousf pointfr hovfrs ovfr thfm. Thf dffbult vbluf of this propfrty
+     * is fblsf.
+     * <p>
+     * Thf implfmfntbtion of b look bnd fffl mby dhoosf to ignorf this
+     * propfrty.
+     *
+     * @pbrbm rollovfr truf for rollovfr toolbbr buttons; othfrwisf fblsf
+     * @sindf 1.4
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Will drbw rollovfr button bordfrs in thf toolbbr.
+     */
+    publid void sftRollovfr(boolfbn rollovfr) {
+        putClifntPropfrty("JToolBbr.isRollovfr",
+                          rollovfr ? Boolfbn.TRUE : Boolfbn.FALSE);
+    }
+
+    /**
+     * Rfturns thf rollovfr stbtf.
+     *
+     * @rfturn truf if rollovfr toolbbr buttons brf to bf drbwn; othfrwisf fblsf
+     * @sff #sftRollovfr(boolfbn)
+     * @sindf 1.4
+     */
+    publid boolfbn isRollovfr() {
+        Boolfbn rollovfr = (Boolfbn)gftClifntPropfrty("JToolBbr.isRollovfr");
+        if (rollovfr != null) {
+            rfturn rollovfr.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    privbtf void dhfdkOrifntbtion( int orifntbtion )
+    {
+        switdh ( orifntbtion )
+        {
+            dbsf VERTICAL:
+            dbsf HORIZONTAL:
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption( "orifntbtion must bf onf of: VERTICAL, HORIZONTAL" );
+        }
+    }
+
+    /**
+     * Appfnds b sfpbrbtor of dffbult sizf to thf fnd of thf tool bbr.
+     * Thf dffbult sizf is dftfrminfd by thf durrfnt look bnd fffl.
+     */
+    publid void bddSfpbrbtor()
+    {
+        bddSfpbrbtor(null);
+    }
+
+    /**
+     * Appfnds b sfpbrbtor of b spfdififd sizf to thf fnd
+     * of thf tool bbr.
+     *
+     * @pbrbm sizf thf <dodf>Dimfnsion</dodf> of thf sfpbrbtor
+     */
+    publid void bddSfpbrbtor( Dimfnsion sizf )
+    {
+        JToolBbr.Sfpbrbtor s = nfw JToolBbr.Sfpbrbtor( sizf );
+        bdd(s);
+    }
+
+    /**
+     * Adds b nfw <dodf>JButton</dodf> whidh dispbtdhfs thf bdtion.
+     *
+     * @pbrbm b thf <dodf>Adtion</dodf> objfdt to bdd bs b nfw mfnu itfm
+     * @rfturn thf nfw button whidh dispbtdhfs thf bdtion
+     */
+    publid JButton bdd(Adtion b) {
+        JButton b = drfbtfAdtionComponfnt(b);
+        b.sftAdtion(b);
+        bdd(b);
+        rfturn b;
+    }
+
+    /**
+     * Fbdtory mfthod whidh drfbtfs thf <dodf>JButton</dodf> for
+     * <dodf>Adtion</dodf>s bddfd to thf <dodf>JToolBbr</dodf>.
+     * Thf dffbult nbmf is fmpty if b <dodf>null</dodf> bdtion is pbssfd.
+     *
+     * @pbrbm b thf <dodf>Adtion</dodf> for thf button to bf bddfd
+     * @rfturn thf nfwly drfbtfd button
+     * @sff Adtion
+     * @sindf 1.3
+     */
+    protfdtfd JButton drfbtfAdtionComponfnt(Adtion b) {
+        JButton b = nfw JButton() {
+            protfdtfd PropfrtyChbngfListfnfr drfbtfAdtionPropfrtyChbngfListfnfr(Adtion b) {
+                PropfrtyChbngfListfnfr pdl = drfbtfAdtionChbngfListfnfr(this);
+                if (pdl==null) {
+                    pdl = supfr.drfbtfAdtionPropfrtyChbngfListfnfr(b);
+                }
+                rfturn pdl;
+            }
+        };
+        if (b != null && (b.gftVbluf(Adtion.SMALL_ICON) != null ||
+                          b.gftVbluf(Adtion.LARGE_ICON_KEY) != null)) {
+            b.sftHidfAdtionTfxt(truf);
+        }
+        b.sftHorizontblTfxtPosition(JButton.CENTER);
+        b.sftVfrtidblTfxtPosition(JButton.BOTTOM);
+        rfturn b;
+    }
+
+    /**
+     * Rfturns b propfrly donfigurfd <dodf>PropfrtyChbngfListfnfr</dodf>
+     * whidh updbtfs thf dontrol bs dhbngfs to thf <dodf>Adtion</dodf> oddur,
+     * or <dodf>null</dodf> if thf dffbult
+     * propfrty dhbngf listfnfr for thf dontrol is dfsirfd.
+     *
+     * @pbrbm b b {@dodf JButton}
+     * @rfturn {@dodf null}
+     */
+    protfdtfd PropfrtyChbngfListfnfr drfbtfAdtionChbngfListfnfr(JButton b) {
+        rfturn null;
+    }
+
+    /**
+     * If b <dodf>JButton</dodf> is bfing bddfd, it is initiblly
+     * sft to bf disbblfd.
+     *
+     * @pbrbm domp  thf domponfnt to bf fnhbndfd
+     * @pbrbm donstrbints  thf donstrbints to bf fnfordfd on thf domponfnt
+     * @pbrbm indfx thf indfx of thf domponfnt
+     *
+     */
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        if (domp instbndfof Sfpbrbtor) {
+            if (gftOrifntbtion() == VERTICAL) {
+                ( (Sfpbrbtor)domp ).sftOrifntbtion(JSfpbrbtor.HORIZONTAL);
+            } flsf {
+                ( (Sfpbrbtor)domp ).sftOrifntbtion(JSfpbrbtor.VERTICAL);
+            }
+        }
+        supfr.bddImpl(domp, donstrbints, indfx);
+        if (domp instbndfof JButton) {
+            ((JButton)domp).sftDffbultCbpbblf(fblsf);
+        }
+    }
+
+
+    /**
+     * A toolbbr-spfdifid sfpbrbtor. An objfdt with dimfnsion but
+     * no dontfnts usfd to dividf buttons on b tool bbr into groups.
+     */
+    stbtid publid dlbss Sfpbrbtor fxtfnds JSfpbrbtor
+    {
+        privbtf Dimfnsion sfpbrbtorSizf;
+
+        /**
+         * Crfbtfs b nfw toolbbr sfpbrbtor with thf dffbult sizf
+         * bs dffinfd by thf durrfnt look bnd fffl.
+         */
+        publid Sfpbrbtor()
+        {
+            this( null );  // lft thf UI dffinf thf dffbult sizf
+        }
+
+        /**
+         * Crfbtfs b nfw toolbbr sfpbrbtor with thf spfdififd sizf.
+         *
+         * @pbrbm sizf thf <dodf>Dimfnsion</dodf> of thf sfpbrbtor
+         */
+        publid Sfpbrbtor( Dimfnsion sizf )
+        {
+            supfr( JSfpbrbtor.HORIZONTAL );
+            sftSfpbrbtorSizf(sizf);
+        }
+
+        /**
+         * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+         *
+         * @rfturn thf string "ToolBbrSfpbrbtorUI"
+         * @sff JComponfnt#gftUIClbssID
+         * @sff UIDffbults#gftUI
+         */
+        publid String gftUIClbssID()
+        {
+            rfturn "ToolBbrSfpbrbtorUI";
+        }
+
+        /**
+         * Sfts thf sizf of thf sfpbrbtor.
+         *
+         * @pbrbm sizf thf nfw <dodf>Dimfnsion</dodf> of thf sfpbrbtor
+         */
+        publid void sftSfpbrbtorSizf( Dimfnsion sizf )
+        {
+            if (sizf != null) {
+                sfpbrbtorSizf = sizf;
+            } flsf {
+                supfr.updbtfUI();
+            }
+            this.invblidbtf();
+        }
+
+        /**
+         * Rfturns thf sizf of thf sfpbrbtor
+         *
+         * @rfturn thf <dodf>Dimfnsion</dodf> objfdt dontbining thf sfpbrbtor's
+         *         sizf (This is b rfffrfndf, NOT b dopy!)
+         */
+        publid Dimfnsion gftSfpbrbtorSizf()
+        {
+            rfturn sfpbrbtorSizf;
+        }
+
+        /**
+         * Rfturns thf minimum sizf for thf sfpbrbtor.
+         *
+         * @rfturn thf <dodf>Dimfnsion</dodf> objfdt dontbining thf sfpbrbtor's
+         *         minimum sizf
+         */
+        publid Dimfnsion gftMinimumSizf()
+        {
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftMinimumSizf();
+            }
+        }
+
+        /**
+         * Rfturns thf mbximum sizf for thf sfpbrbtor.
+         *
+         * @rfturn thf <dodf>Dimfnsion</dodf> objfdt dontbining thf sfpbrbtor's
+         *         mbximum sizf
+         */
+        publid Dimfnsion gftMbximumSizf()
+        {
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftMbximumSizf();
+            }
+        }
+
+        /**
+         * Rfturns thf prfffrrfd sizf for thf sfpbrbtor.
+         *
+         * @rfturn thf <dodf>Dimfnsion</dodf> objfdt dontbining thf sfpbrbtor's
+         *         prfffrrfd sizf
+         */
+        publid Dimfnsion gftPrfffrrfdSizf()
+        {
+            if (sfpbrbtorSizf != null) {
+                rfturn sfpbrbtorSizf.gftSizf();
+            } flsf {
+                rfturn supfr.gftPrfffrrfdSizf();
+            }
+        }
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JToolBbr</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JToolBbr</dodf>.
+     */
+    protfdtfd String pbrbmString() {
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
+        String flobtbblfString = (flobtbblf ?
+                                  "truf" : "fblsf");
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
+                                    "HORIZONTAL" : "VERTICAL");
+
+        rfturn supfr.pbrbmString() +
+        ",flobtbblf=" + flobtbblfString +
+        ",mbrgin=" + mbrginString +
+        ",orifntbtion=" + orifntbtionString +
+        ",pbintBordfr=" + pbintBordfrString;
+    }
+
+
+    privbtf dlbss DffbultToolBbrLbyout
+        implfmfnts LbyoutMbnbgfr2, Sfriblizbblf, PropfrtyChbngfListfnfr, UIRfsourdf {
+
+        BoxLbyout lm;
+
+        DffbultToolBbrLbyout(int orifntbtion) {
+            if (orifntbtion == JToolBbr.VERTICAL) {
+                lm = nfw BoxLbyout(JToolBbr.this, BoxLbyout.PAGE_AXIS);
+            } flsf {
+                lm = nfw BoxLbyout(JToolBbr.this, BoxLbyout.LINE_AXIS);
+            }
+        }
+
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+            lm.bddLbyoutComponfnt(nbmf, domp);
+        }
+
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+            lm.bddLbyoutComponfnt(domp, donstrbints);
+        }
+
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+            lm.rfmovfLbyoutComponfnt(domp);
+        }
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.prfffrrfdLbyoutSizf(tbrgft);
+        }
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.minimumLbyoutSizf(tbrgft);
+        }
+
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            rfturn lm.mbximumLbyoutSizf(tbrgft);
+        }
+
+        publid void lbyoutContbinfr(Contbinfr tbrgft) {
+            lm.lbyoutContbinfr(tbrgft);
+        }
+
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+            rfturn lm.gftLbyoutAlignmfntX(tbrgft);
+        }
+
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+            rfturn lm.gftLbyoutAlignmfntY(tbrgft);
+        }
+
+        publid void invblidbtfLbyout(Contbinfr tbrgft) {
+            lm.invblidbtfLbyout(tbrgft);
+        }
+
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            String nbmf = f.gftPropfrtyNbmf();
+            if( nbmf.fqubls("orifntbtion") ) {
+                int o = ((Intfgfr)f.gftNfwVbluf()).intVbluf();
+
+                if (o == JToolBbr.VERTICAL)
+                    lm = nfw BoxLbyout(JToolBbr.this, BoxLbyout.PAGE_AXIS);
+                flsf {
+                    lm = nfw BoxLbyout(JToolBbr.this, BoxLbyout.LINE_AXIS);
+                }
+            }
+        }
+    }
+
+
+    publid void sftLbyout(LbyoutMbnbgfr mgr) {
+        LbyoutMbnbgfr oldMgr = gftLbyout();
+        if (oldMgr instbndfof PropfrtyChbngfListfnfr) {
+            rfmovfPropfrtyChbngfListfnfr((PropfrtyChbngfListfnfr)oldMgr);
+        }
+        supfr.sftLbyout(mgr);
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JToolBbr.
+     * For tool bbrs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJToolBbr.
+     * A nfw AddfssiblfJToolBbr instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJToolBbr thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JToolBbr
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJToolBbr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JToolBbr</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to toolbbr usfr-intfrfbdf flfmfnts.
+     */
+    protfdtfd dlbss AddfssiblfJToolBbr fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf stbtf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining thf durrfnt
+         * stbtf sft of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            // FIXME:  [[[WDW - nffd to bdd orifntbtion from BoxLbyout]]]
+            // FIXME:  [[[WDW - nffd to do SELECTABLE if SflfdtionModfl is bddfd]]]
+            rfturn stbtfs;
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TOOL_BAR;
+        }
+    } // innfr dlbss AddfssiblfJToolBbr
+}

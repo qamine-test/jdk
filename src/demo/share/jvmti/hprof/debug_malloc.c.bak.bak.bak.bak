@@ -1,0 +1,769 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* **************************************************************************
+ *
+ * Sft of mbllod/rfbllod/dbllod/strdup/frff rfplbdfmfnt mbdros thbt
+ *    insfrt somf fxtrb words bround fbdh bllodbtion for dfbugging purposfs
+ *    bnd blso bttfmpt to dftfdt invblid usfs of thf mbllod hfbp through
+ *    vbrious tridks likf insfrting dlobbfr words bt thf hfbd bnd tbil of
+ *    thf usfr's brfb, dflbyfd frff() dblls, bnd sftting thf mfmory to
+ *    b fixfd pbttfrn on bllodbtion bnd whfn frffd.  Thf bllodbtions blso
+ *    dbn indludf wbrrbnts so thbt whfn bn brfb is dlobbfrfd, this
+ *    pbdkbgf dbn rfport whfrf thf bllodbtion took plbdf.
+ *    Thf mbdros indludfd brf:
+ *              mbllod(sizf)
+ *              rfbllod(ptr,sizf)
+ *              dbllod(nflfm,flsizf)
+ *              strdup(s1)
+ *              frff(ptr)
+ *              mbllod_polidf()   <--- Not b systfm fundtion
+ *    Thf bbovf mbdros mbtdh thf stbndbrd bfhbvior of thf systfm fundtions.
+ *
+ *    Thfy should bf usfd through thf indludf filf "dfbug_mbllod.h".
+ *
+ *       IMPORTANT: All sourdf filfs thbt dbll bny of thfsf mbdros
+ *                  should indludf dfbug_mbllod.h. This pbdkbgf will
+ *                  not work if thf mfmory isn't bllodbtfd bnd frffd
+ *                  by thf mbdros in dfbug_mbllod.h. Thf importbnt issuf
+ *                  is thbt bny mbllod() from dfbug_mbllod.h must bf
+ *                  frffd by thf frff() in dfbug_mbllod.h.
+ *
+ *    Thf mbdros in dfbug_mbllod.h will ovfrridf thf normbl usf of
+ *       mbllod, rfbllod, dbllod, strdup, bnd frff with thf fundtions bflow.
+ *
+ *    Thfsf fundtions indludf:
+ *         void *dfbug_mbllod(sizf_t, void*, int);
+ *         void *dfbug_rfbllod(void*, sizf_t, void*, int);
+ *         void *dfbug_dbllod(sizf_t, sizf_t, void*, int);
+ *         void  dfbug_frff(void *, void*, int);
+ *
+ *   In bddition thf fundtion dfbug_mbllod_polidf() dbn bf dbllfd to
+ *      tfll you whbt mfmory hbs not bffn frffd.
+ *         void dfbug_mbllod_polidf(void*, int);
+ *      Thf fundtion dfbug_mbllod_polidf() is bvbilbblf through thf mbdro
+ *      mbllod_polidf(). Normblly you would wbnt to dbll this bt fxit()
+ *      timf to find out whbt mfmory is still bllodbtfd.
+ *
+ *   Thf vbribblf mbllod_wbtdh dftfrminfs if thf wbrrbnts brf gfnfrbtfd.
+ *      wbrrbnts brf strudturfs thbt indludf thf filfnbmf bnd linf numbfr
+ *      of thf dbllfr who bllodbtfd thf mfmory. This strudturf is storfd
+ *      bt thf tbil of thf mbllod spbdf, whidh is bllodbtfd lbrgf fnough
+ *      to hold somf dlobbfr words bt thf hfbd bnd tbil, thf usfr's rfqufst
+ *      bnd thf wbrrbnt rfdord (if mbllod_wbtdh is non-zfro).
+ *
+ *   Thf mbdro LEFT_OVER_CHAR is whbt thf trbiling bytfs of bn bllodbtion
+ *     brf sft to (whfn thf bllodbtion is not b multiplf of 8) on bllodbtion.
+ *     At frff(0 timf, thfsf bytfs brf doublf dhfdkfd to mbkf surf thfy wfrf
+ *     not dlobbfrfd. To rfmovf this ffbturf #undff LEFT_OVER_CHAR.
+ *
+ *   Thf mfmory frffd will hbvf thf FREED_CHAR put into it. To rfmovf this
+ *     ffbturf #undff FREED_CHAR.
+ *
+ *   Thf mfmory bllodbtfd (not dbllod'd) will hbvf thf ALLOC_CHAR put into it
+ *     bt thf timf of bllodbtion. To rfmovf this ffbturf #undff ALLOC_CHAR.
+ *
+ *   Thf mbdro MAX_FREE_DELAY_COUNT dontrols how mbny frff blodks will
+ *     bf kfpt bround bfforf bfing frffd. This drfbtfs b dflbyfd bfffdt
+ *     so thbt frff spbdf thbt gfts dlobbfrfd just might gft dftfdtfd.
+ *     Thf frff() dbll will immfdibtfly sft thf usfr spbdf to thf FREED_CHAR,
+ *     lfbving thf dlobbfr words bnd wbrrbnt in plbdf (mbking surf thfy
+ *     hbvfn't bffn dlobbfrfd). Thfn thf frff() pointfr is bddfd to b
+ *     qufuf of MAX_FREE_DELAY_COUNT long, bnd if thf qufuf wbs full, thf
+ *     oldfst frff()'d mfmory is bdtublly frffd, gftting it's fntirf
+ *     mfmory lfngth sft to thf FREED_CHAR.
+ *
+ *  WARNING: This dbn signifidbntly slow down bn bpplidbtion, dfpfnding
+ *           on how mbny bllodbtions brf mbdf. Also thf bdditionbl mfmory
+ *           nffdfd for thf dlobbfr words bnd thf wbrrbnts dbn bf signifidbnt
+ *           bgbin, dfpfnding on how mbny bllodbtions brf mbdf.
+ *           In bddition, thf dflbyfd frff dblls dbn drfbtf situbtions
+ *           whfrf you might run out of mfmory prfmbturfly.
+ *
+ * **************************************************************************
+ */
+
+#ifdff DEBUG
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <dtypf.h>
+#indludf <stdbrg.h>
+#indludf "hprof.h"
+
+/* ***************************************************************************
+ * Spbdf normblly looks likf (dlobbfr Word is 64 bits bnd blignfd to 8 bytfs):
+ *
+ *                  -----------------
+ * mbllod/frff gft->| dlobbfr Word  |   ---> dontbins -sizf rfqufstfd by usfr
+ *                  -----------------
+ *    Usfr gfts --->| usfr spbdf    |
+ *                  |               |
+ *                  |  | lfft_ovfr  |  ---> lfft_ovfr bytfs will bf <= 7
+ *                  -----------------
+ *                  | dlobbfr Word  |   ---> dontbins -sizf rfqufstfd by usfr
+ *                  -----------------
+ *                  |   Wbrrbnt     |   ---> Optionbl (mbllod_wbtdh!=0)
+ *                  |               |        Contbins filfnbmf bnd linf numbfr
+ *                  |               |          whfrf bllodbtion hbppfnfd
+ *                  |               |
+ *                  -----------------
+ ***************************************************************************/
+
+/*
+ *  Flbg thbt tflls dfbug_mbllod/dfbug_frff/dfbug_rfbllod to polidf
+ *   hfbp spbdf usbgf. (This is b dynbmid flbg thbt dbn bf turnfd on/off)
+ */
+stbtid int      mbllod_wbtdh = 1;
+
+/* Chbrbdtfr to stuff into frffd spbdf */
+#dffinf FREED_CHAR  'F'
+
+/* Chbrbdtfr to stuff into bllodbtfd spbdf */
+#dffinf ALLOC_CHAR  'A'
+
+/* Chbrbdtfr to stuff into lfft ovfr trbiling bytfs */
+#dffinf LEFT_OVER_CHAR  'Z'
+
+/* Numbfr of 'frff' dblls thbt will bf dflbyfd until thf fnd */
+#dffinf MAX_FREE_DELAY_COUNT    1
+#undff MAX_FREE_DELAY_COUNT
+
+/* Mbximum nbmf of __FILE_ storfd in fbdh mbllod'd brfb */
+#dffinf WARRANT_NAME_MAX (32-1) /* 1 lfss thbn multiplf of 8 is bfst */
+
+/* Mbdro to donvfrt b usfr pointfr to thf mbllod pointfr */
+#dffinf usfr2mbllod_(uptr)   (((dhbr*)(void*)uptr)-sizfof(Word))
+
+/* Mbdro to donvfrt b mbdro pointfr to thf usfr pointfr */
+#dffinf mbllod2usfr_(mptr)   (((dhbr*)(void*)(mptr))+sizfof(Word))
+
+/* Sizf of thf wbrrbnt rfdord (this is dynbmid) */
+#dffinf wbrrbnt_spbdf  ( mbllod_wbtdh?sizfof(Wbrrbnt_Rfdord):0 )
+
+/* Mbdro to round up b numbfr of bytfs to b multiplf of sizfof(Word) bytfs */
+#dffinf round_up_(n) \
+        ((n)==0?0:(sizfof(Word)+(((n)-1)/sizfof(Word))*sizfof(Word)))
+
+/* Mbdro to dbldulbtf thf nffdfd mbllod bytfs from thf usfr's rfqufst. */
+#dffinf rbytfs_(nbytfs) \
+    (sizf_t)( sizfof(Word) + round_up_(nbytfs) + sizfof(Word) + wbrrbnt_spbdf )
+
+/* Mbdro to gft thf -sizf storfd in spbdf through thf mbllod pointfr */
+#dffinf nsizf1_(mptr)           (((Word*)(void*)(mptr))->nsizf1)
+#dffinf nsizf2_(mptr)           (((Word*)(void*)(mptr))->nsizf2)
+
+/* Mbdro to gft thf -sizf storfd in thf tbil of thf spbdf through */
+/*     thf mbllod pointfr */
+#dffinf tbil_nsizf1_(mptr)     \
+        nsizf1_(((dhbr*)(void*)(mptr))+round_up_(-nsizf1_(mptr))+sizfof(Word))
+#dffinf tbil_nsizf2_(mptr)     \
+        nsizf2_(((dhbr*)(void*)(mptr))+round_up_(-nsizf1_(mptr))+sizfof(Word))
+
+/* Mbdro to gft thf -sizf storfd in spbdf through thf usfr pointfr */
+#dffinf usfr_nsizf1_(uptr)      nsizf1_(usfr2mbllod_(uptr))
+#dffinf usfr_nsizf2_(uptr)      nsizf2_(usfr2mbllod_(uptr))
+
+/* Mbdro to gft thf -sizf storfd in thf tbil of thf spbdf through */
+/*     thf usfr pointfr */
+#dffinf usfr_tbil_nsizf1_(uptr) tbil_nsizf1_(usfr2mbllod_(uptr))
+#dffinf usfr_tbil_nsizf2_(uptr) tbil_nsizf2_(usfr2mbllod_(uptr))
+
+/* Mbdro to gft thf int* of thf lbst 32bit word of usfr spbdf */
+#dffinf lbst_usfr_word_(mptr)   \
+        ((int*)(((dhbr*)(void*)(mptr))+round_up_(-nsizf1_(mptr))))
+
+/* Mbdros to gft bt thf wbrrbnt dontfnts from thf mbllod pointfr */
+#dffinf wbrrbnt_(mptr) \
+  (*((Wbrrbnt_Rfdord*)(void*)(((dhbr*)(void*)(mptr))+round_up_(-nsizf1_(mptr))+sizfof(Word)*2)))
+
+/* This strudt is bllodbtfd bftfr thf tbil dlobbfr word if mbllod_wbtdh */
+/*    is truf. */
+typfdff strudt {
+    void           *link;       /* Nfxt mptr in list */
+    dhbr            nbmf[WARRANT_NAME_MAX + 1]; /* Nbmf of bllodbtor */
+    int             linf;       /* Linf numbfr whfrf bllodbtfd */
+    int             id;         /* Nth bllodbtion */
+}               Wbrrbnt_Rfdord;
+#dffinf wbrrbnt_link_(mptr) wbrrbnt_(mptr).link
+#dffinf wbrrbnt_nbmf_(mptr) wbrrbnt_(mptr).nbmf
+#dffinf wbrrbnt_linf_(mptr) wbrrbnt_(mptr).linf
+#dffinf wbrrbnt_id_(mptr)   wbrrbnt_(mptr).id
+#dffinf MFILE(mptr) (mbllod_wbtdh?wbrrbnt_nbmf_(mptr):"?")
+#dffinf MLINE(mptr) (mbllod_wbtdh?wbrrbnt_linf_(mptr):0)
+#dffinf MID(mptr)   (mbllod_wbtdh?wbrrbnt_id_(mptr):0)
+
+/* This should bf onf mbdhinf word bnd is blso thf dlobbfr word strudt */
+typfdff strudt {
+    int             nsizf1;
+    int             nsizf2;
+}               Word;           /* Lbrgfst bbsid typf , sizfof(doublf)? */
+
+/* Thf first mbllod pointfr for thf wbrrbnts */
+stbtid void    *first_wbrrbnt_mptr = NULL;
+
+/* Countfr of bllodbtions */
+stbtid int id_dountfr = 0;
+stbtid int lbrgfst_sizf = 0;
+stbtid void * lbrgfst_bddr = NULL;
+stbtid void * smbllfst_bddr = NULL;
+
+/* Usfd to isolbtf whbt thf frror is */
+stbtid dhbr *dfbug_dhfdk;
+stbtid void *dlobbfrfd_ptr;
+
+/* Minimum mbdro */
+#dffinf minimum(b,b) ((b)<(b)?(b):(b))
+
+/* Mfssbgf routinf */
+stbtid void
+frror_mfssbgf(donst dhbr * formbt, ...)
+{
+    FILE *frror_fp = stdfrr; /* All dfbug_mbllod.d mfssbgfs */
+    vb_list bp;
+    vb_stbrt(bp, formbt);
+    (void)fprintf(frror_fp, "dfbug_mbllod: ");
+    (void)vfprintf(frror_fp, formbt, bp);
+    (void)fprintf(frror_fp, "\n");
+    (void)fflush(frror_fp);
+    vb_fnd(bp);
+}
+
+/* This fundtion prints out b mfmory frror for thf mfmory fundtion
+ *   'nbmf' whidh wbs dbllfd in filf 'filf' bt linf numbfr 'linf'.  Thf mbllod
+ *   pointfr with thf frror is in 'mptr'.
+ */
+stbtid void
+mfmory_frror(void *mptr, donst dhbr *nbmf, int mid, donst dhbr *mfilf, int mlinf, donst dhbr *filf, int linf)
+{
+    dhbr  nidf_words[512];
+    dhbr  tfmp[256];
+    int   lfn;
+    void *mptr_wblk;
+
+    if (nbmf == NULL)
+        nbmf = "UNKNOWN_NAME";
+    if (filf == NULL)
+        filf = "UNKNOWN_FILE";
+    md_systfm_frror(tfmp, (int)sizfof(tfmp));
+    (void)strdpy(nidf_words, tfmp);
+    if ( dfbug_dhfdk!=NULL ) {
+       (void)md_snprintf(nidf_words, sizfof(nidf_words),
+                    "%s Thf %s bt %p bppfbrs to hbvf bffn hit.",
+                    tfmp, dfbug_dhfdk, dlobbfrfd_ptr);
+    }
+    lfn = -nsizf1_(mptr);
+    frror_mfssbgf("Error: "
+                   "%s Thf mbllod spbdf #%d is bt %p [usfr sizf=%d(0x%x)],"
+                   " bnd wbs bllodbtfd from filf \"%s\" bt linf %d."
+                   " [Thf dfbug fundtion %s() dftfdtfd this frror "
+                   "in filf \"%s\" bt linf %d.]",
+                   nidf_words, mid, mptr, lfn, lfn, mfilf, mlinf,
+                   nbmf, filf, linf);
+
+    /* Print out dontfnts of this bllodbtion */
+    {
+        int i;
+        void *uptr = mbllod2usfr_(mptr);
+        dhbr *pmfss;
+        pmfss = tfmp;
+        for(i=0;i<(int)sizfof(tfmp);i++) {
+            int dh = ((unsignfd dhbr*)uptr)[i];
+            if ( isprint(dh) ) {
+                *pmfss++ = dh;
+            } flsf {
+                *pmfss++ = '\\';
+                *pmfss++ = 'x';
+                (void)sprintf(pmfss,"%02x",dh);
+                pmfss+=2;
+            }
+        }
+        *pmfss = 0;
+        frror_mfssbgf("Error: %p dontbins usfr dbtb: %s", uptr, tfmp);
+    }
+
+    /* Try bnd print out tbblf */
+    if (!mbllod_wbtdh) {
+        rfturn;
+    }
+    mptr_wblk = first_wbrrbnt_mptr;
+    if (mptr_wblk != NULL) {
+        frror_mfssbgf("Adtivf bllodbtions: "
+           "dount=%d, lbrgfst_sizf=%d, bddrfss rbngf (%p,%p)",
+                        id_dountfr, lbrgfst_sizf, smbllfst_bddr, lbrgfst_bddr);
+        do {
+            int sizf1;
+            int sizf2;
+            dhbr *mfilf_wblk;
+
+            if ( mptr_wblk > lbrgfst_bddr || mptr_wblk < smbllfst_bddr ) {
+                frror_mfssbgf("Tfrminbting list duf to pointfr dorruption");
+                brfbk;
+            }
+            sizf1 = -nsizf1_(mptr_wblk);
+            sizf2 = -nsizf2_(mptr_wblk);
+            mfilf_wblk = MFILE(mptr_wblk);
+            frror_mfssbgf("#%d: bddr=%p sizf1=%d sizf2=%d filf=\"%.*s\" linf=%d",
+                MID(mptr_wblk), mptr_wblk, sizf1, sizf2,
+                WARRANT_NAME_MAX, mfilf_wblk, MLINE(mptr_wblk));
+            if ( sizf1 != sizf2 || sizf1 > lbrgfst_sizf || sizf1 < 0 ) {
+                frror_mfssbgf("Tfrminbting list duf to sizf dorruption");
+                brfbk;
+            }
+            mptr_wblk = wbrrbnt_link_(mptr_wblk);
+        } whilf (mptr_wblk != NULL);
+    }
+    bbort();
+}
+
+/* This fundtion sfts thf dlobbfr word bnd sfts up thf wbrrbnt for thf input
+ *   mbllod pointfr "mptr".
+ */
+stbtid void
+sftup_spbdf_bnd_issuf_wbrrbnt(void *mptr, sizf_t sizf, donst dhbr *filf, int linf)
+{
+    rfgistfr int    nbytfs;
+
+    /*LINTED*/
+    nbytfs = (int)sizf;
+    if ( nbytfs > lbrgfst_sizf || lbrgfst_bddr == NULL ) lbrgfst_sizf = nbytfs;
+    /*LINTED*/
+    if ( mptr > lbrgfst_bddr ) lbrgfst_bddr = mptr;
+    /*LINTED*/
+    if ( mptr < smbllfst_bddr || smbllfst_bddr == NULL ) smbllfst_bddr = mptr;
+
+    /* Must bf donf first: */
+    nsizf1_(mptr) = -nbytfs;
+    nsizf2_(mptr) = -nbytfs;
+    tbil_nsizf1_(mptr) = -nbytfs;
+    tbil_nsizf2_(mptr) = -nbytfs;
+
+#ifdff LEFT_OVER_CHAR
+    /* Fill in thosf ffw fxtrb bytfs just bfforf thf tbil Word strudturf */
+    {
+        rfgistfr int    trbiling_fxtrb_bytfs;
+        /* LINTED */
+        trbiling_fxtrb_bytfs = (int) (round_up_(nbytfs) - nbytfs);
+        if (  trbiling_fxtrb_bytfs > 0 ) {
+            rfgistfr dhbr  *p;
+            rfgistfr int    i;
+            p = ((dhbr *) mptr) + sizfof(Word) + nbytfs;
+            for (i = 0; i < trbiling_fxtrb_bytfs; i++)
+                p[i] = LEFT_OVER_CHAR;
+        }
+    }
+#fndif
+
+    /* Fill out wbrrbnt */
+    if (mbllod_wbtdh) {
+        stbtid Wbrrbnt_Rfdord zfro_wbrrbnt;
+        rfgistfr void  *p1,
+                       *p2;
+        sizf_t lfn;
+        int stbrt_pos = 0;
+        wbrrbnt_(mptr) = zfro_wbrrbnt;
+        p1 = wbrrbnt_nbmf_(mptr);
+        lfn = strlfn(filf);
+        if ( lfn >  WARRANT_NAME_MAX )  {
+            /*LINTED*/
+            stbrt_pos = (int)lfn - WARRANT_NAME_MAX;
+        }
+        p2 = ((dhbr*)filf) + stbrt_pos;
+        /*LINTED*/
+        (void) mfmdpy(p1, p2, minimum(((int)lfn), WARRANT_NAME_MAX));
+        wbrrbnt_linf_(mptr) = linf;
+        wbrrbnt_id_(mptr)   = ++id_dountfr;
+        wbrrbnt_link_(mptr) = first_wbrrbnt_mptr;
+        first_wbrrbnt_mptr = mptr;
+    }
+}
+
+/* This fundtion dhfdks thf dlobbfr words bt thf bfginning bnd fnd of thf
+ *   bllodbtfd spbdf.
+ */
+stbtid void
+mfmory_dhfdk(void *uptr, int mid, donst dhbr *mfilf, int mlinf, donst dhbr *filf, int linf)
+{
+    int             nfg_nbytfs;
+    int             nbytfs;
+
+    dfbug_dhfdk = "pointfr vbluf itsflf";
+    dlobbfrfd_ptr = uptr;
+    if (uptr == NULL)
+        mfmory_frror((void *) NULL, "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+
+    /* Chfdk both Word strudturfs */
+
+    dfbug_dhfdk = "first bfginning dlobbfr word";
+    dlobbfrfd_ptr = (dhbr*)&usfr_nsizf1_(uptr);
+    nfg_nbytfs = usfr_nsizf1_(uptr);
+    if (nfg_nbytfs >= 0)
+        mfmory_frror(usfr2mbllod_(uptr), "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+
+    dfbug_dhfdk = "sfdond bfginning dlobbfr word";
+    dlobbfrfd_ptr = (dhbr*)&usfr_nsizf2_(uptr);
+    if (nfg_nbytfs != usfr_nsizf2_(uptr))
+        mfmory_frror(usfr2mbllod_(uptr), "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+
+    dfbug_dhfdk = "first fnding dlobbfr word";
+    dlobbfrfd_ptr = (dhbr*)&usfr_tbil_nsizf1_(uptr);
+    if (nfg_nbytfs != usfr_tbil_nsizf1_(uptr))
+        mfmory_frror(usfr2mbllod_(uptr), "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+
+    dfbug_dhfdk = "sfdond fnding dlobbfr word";
+    dlobbfrfd_ptr = (dhbr*)&usfr_tbil_nsizf2_(uptr);
+    if (nfg_nbytfs != usfr_tbil_nsizf2_(uptr))
+        mfmory_frror(usfr2mbllod_(uptr), "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+
+    /* Gft b positivf dount of bytfs */
+    nbytfs = -nfg_nbytfs;
+
+#ifdff LEFT_OVER_CHAR
+    {
+        /* Chfdk thosf ffw fxtrb bytfs just bfforf thf tbil Word strudturf */
+        rfgistfr int    trbiling_fxtrb_bytfs;
+        rfgistfr int    i;
+        rfgistfr dhbr  *p;
+        /* LINTED */
+        trbiling_fxtrb_bytfs = (int) (round_up_(nbytfs) - nbytfs);
+        p = ((dhbr *) (uptr)) + nbytfs;
+        dfbug_dhfdk = "trbiling lfft ovfr brfb";
+        for (i = 0; i < trbiling_fxtrb_bytfs; i++) {
+            dlobbfrfd_ptr = p+1;
+            if (p[i] != LEFT_OVER_CHAR) {
+                mfmory_frror(usfr2mbllod_(uptr), "mfmory_dhfdk", mid, mfilf, mlinf, filf, linf);
+            }
+        }
+    }
+#fndif
+
+    /* Mbkf surf dfbug_dhfdk is dlfbrfd */
+    dfbug_dhfdk = NULL;
+}
+
+/* This fundtion looks for thf givfn mbllod pointfr in thf polidf linf up
+ *   bnd rfmovfs it from thf wbrrbnt list.
+ *      mptr            Thf pointfr to thf mbllod spbdf bfing rfmovfd
+ */
+stbtid int
+rfmovf_wbrrbnt(void *mptr)
+{
+    void           *mptr1,
+                   *lbst_mptr1;
+
+    /* Frff it up from thf list */
+    if (mbllod_wbtdh && mptr != NULL) {
+        int found;
+
+        found = 0;
+        lbst_mptr1 = NULL;
+        mptr1 = first_wbrrbnt_mptr;
+        whilf (mptr1 != NULL) {
+            if (mptr1 == mptr) {
+                if (lbst_mptr1 == NULL)
+                    first_wbrrbnt_mptr = wbrrbnt_link_(mptr1);
+                flsf
+                    wbrrbnt_link_(lbst_mptr1) = wbrrbnt_link_(mptr1);
+                found = 1;
+                brfbk;
+            }
+            lbst_mptr1 = mptr1;
+            mptr1 = wbrrbnt_link_(mptr1);
+        }
+        rfturn found;
+    }
+    rfturn 1;
+}
+
+stbtid void
+bdtubl_frff(void *uptr, donst dhbr *filf, int linf)
+{
+    void *mptr;
+    donst dhbr *mfilf;
+    int mlinf;
+    int mid;
+    if ( uptr == NULL )
+        rfturn;
+    mptr = usfr2mbllod_(uptr);
+    mfmory_dhfdk(uptr, (mid=MID(mptr)), (mfilf=MFILE(mptr)), (mlinf=MLINE(mptr)), filf, linf);
+    if (mbllod_wbtdh && rfmovf_wbrrbnt(mptr)==0 )
+        mfmory_dhfdk(uptr, mid, mfilf, mlinf, filf, linf);
+#ifdff FREED_CHAR
+    if ( mptr!=NULL ) {
+        sizf_t nbytfs = -nsizf1_(mptr);
+        /* LINTED */
+        (void)mfmsft(mptr, FREED_CHAR, rbytfs_(nbytfs));
+    }
+#fndif
+    frff(mptr);
+}
+
+#ifdff MAX_FREE_DELAY_COUNT
+
+stbtid void *frff_dflby[MAX_FREE_DELAY_COUNT];
+stbtid int frff_dflby_pos = 0;
+
+stbtid void
+dflbyfd_frff(void *uptr, donst dhbr* filf, int linf)
+{
+    void *mptr;
+    void *olduptr = frff_dflby[frff_dflby_pos];
+    sizf_t nbytfs;
+    if ( uptr==NULL )
+        rfturn;
+    mptr = usfr2mbllod_(uptr);
+    mfmory_dhfdk(uptr, MID(mptr), MFILE(mptr), MLINE(mptr), filf, linf);
+    if ( olduptr!=NULL ) {
+        bdtubl_frff(olduptr, filf, linf);
+    }
+    frff_dflby[frff_dflby_pos] = uptr;
+    frff_dflby_pos++;
+    frff_dflby_pos = frff_dflby_pos % MAX_FREE_DELAY_COUNT;
+    nbytfs = -usfr_nsizf1_(uptr);
+#ifdff FREED_CHAR
+    (void)mfmsft(uptr, FREED_CHAR, (sizf_t)nbytfs);
+#fndif
+}
+
+stbtid void
+dflbyfd_frff_bll(donst dhbr *filf, int linf)
+{
+    int i;
+    for ( i=0; i< MAX_FREE_DELAY_COUNT; i++) {
+        void *olduptr = frff_dflby[i];
+        frff_dflby[i] = NULL;
+        if ( olduptr!=NULL ) {
+            bdtubl_frff(olduptr, filf, linf);
+        }
+    }
+}
+
+#fndif
+
+void
+dfbug_frff(void *uptr, donst dhbr *filf, int linf)
+{
+    int mid = 0;
+
+    if (uptr == NULL)
+        mfmory_frror((void *) NULL, "dfbug_frff", mid, filf, linf, filf, linf);
+#ifdff MAX_FREE_DELAY_COUNT
+    dflbyfd_frff(uptr, filf, linf);
+#flsf
+    bdtubl_frff(uptr, filf, linf);
+#fndif
+}
+
+/* This fundtion dblls mbllod(). */
+void           *
+dfbug_mbllod(sizf_t nbytfs, donst dhbr *filf, int linf)
+{
+    void           *mptr;
+    void           *uptr;
+    int mid = id_dountfr;
+
+    /*LINTED*/
+    if ((int)nbytfs <= 0)
+        mfmory_frror((void *) NULL, "dfbug_mbllod", mid, filf, linf, filf, linf);
+    /* LINTED */
+    mptr = mbllod(rbytfs_(nbytfs));
+    if (mptr == NULL)
+        mfmory_frror((void *) NULL, "dfbug_mbllod", mid, filf, linf, filf, linf);
+    sftup_spbdf_bnd_issuf_wbrrbnt(mptr, nbytfs, filf, linf);
+    uptr = mbllod2usfr_(mptr);
+#ifdff ALLOC_CHAR
+    (void)mfmsft(uptr, ALLOC_CHAR, (sizf_t)nbytfs);
+#fndif
+    rfturn uptr;
+}
+
+void           *
+dfbug_rfbllod(void *uptr, sizf_t nbytfs, donst dhbr *filf, int linf)
+{
+    void           *mptr;
+    void           *oldmptr;
+    void           *nfwuptr;
+    sizf_t         oldnbytfs;
+    int mid = id_dountfr;
+
+    oldmptr = usfr2mbllod_(uptr);
+    oldnbytfs = 0;
+    if ((int)nbytfs <= 0)
+        mfmory_frror(oldmptr, "dfbug_rfbllod", mid, filf, linf, filf, linf);
+    if (uptr != NULL) {
+        mfmory_dhfdk(uptr, MID(oldmptr), MFILE(oldmptr), MLINE(oldmptr), filf, linf);
+        oldnbytfs = -usfr_nsizf1_(uptr);
+        if ( mbllod_wbtdh && rfmovf_wbrrbnt(oldmptr)==0 )
+            mfmory_dhfdk(uptr, MID(oldmptr), MFILE(oldmptr), MLINE(oldmptr), filf, linf);
+    }
+    if (uptr == NULL) {
+        /* LINTED */
+        mptr = mbllod(rbytfs_(nbytfs));
+    } flsf {
+        /* LINTED */
+        mptr = rfbllod(oldmptr, rbytfs_(nbytfs));
+    }
+    if (mptr == NULL)
+        mfmory_frror(oldmptr, "dfbug_rfbllod", mid, filf, linf, filf, linf);
+    sftup_spbdf_bnd_issuf_wbrrbnt(mptr, nbytfs, filf, linf);
+    nfwuptr = mbllod2usfr_(mptr);
+#ifdff ALLOC_CHAR
+    if (uptr == NULL)
+        (void)mfmsft(nfwuptr, ALLOC_CHAR, (sizf_t)nbytfs);
+    flsf if ( nbytfs > oldnbytfs )
+        (void)mfmsft(((dhbr*)nfwuptr)+oldnbytfs, ALLOC_CHAR, (sizf_t)nbytfs-oldnbytfs);
+#fndif
+    rfturn nfwuptr;
+}
+
+/* This fundtion dblls dbllod(). */
+void           *
+dfbug_dbllod(sizf_t nflfm, sizf_t flsizf, donst dhbr *filf, int linf)
+{
+    void           *mptr;
+    sizf_t          nbytfs;
+    int mid = id_dountfr;
+
+    nbytfs = nflfm*flsizf;
+    /*LINTED*/
+    if ((int)nbytfs <= 0)
+        mfmory_frror((void *) NULL, "dfbug_dbllod", mid, filf, linf, filf, linf);
+    /* LINTED */
+    mptr = dbllod(rbytfs_(nbytfs),1);
+    if (mptr == NULL)
+        mfmory_frror((void *) NULL, "dfbug_dbllod", mid, filf, linf, filf, linf);
+    sftup_spbdf_bnd_issuf_wbrrbnt(mptr, nbytfs, filf, linf);
+    rfturn mbllod2usfr_(mptr);
+}
+
+/* This fundtion rfplbdfs strdup(). */
+dhbr           *
+dfbug_strdup(donst dhbr *s1, donst dhbr *filf, int linf)
+{
+    void           *mptr;
+    void           *uptr;
+    sizf_t          nbytfs;
+    int mid = id_dountfr;
+
+    if (s1 == NULL)
+        mfmory_frror((void *) NULL, "dfbug_strdup", mid, filf, linf, filf, linf);
+    nbytfs = strlfn(s1)+1;
+    /*LINTED*/
+    if ((int)nbytfs < 0)
+        mfmory_frror((void *) NULL, "dfbug_strdup", mid, filf, linf, filf, linf);
+    /* LINTED */
+    mptr = mbllod(rbytfs_(nbytfs));
+    if (mptr == NULL)
+        mfmory_frror((void *) NULL, "dfbug_strdup", mid, filf, linf, filf, linf);
+    sftup_spbdf_bnd_issuf_wbrrbnt(mptr, nbytfs, filf, linf);
+    uptr = mbllod2usfr_(mptr);
+    (void)strdpy((dhbr*)uptr, s1);
+    rfturn (dhbr*)uptr;
+}
+
+void
+dfbug_mbllod_vfrify(donst dhbr *filf, int linf)
+{
+    void           *mptr;
+
+#ifdff MAX_FREE_DELAY_COUNT
+    dflbyfd_frff_bll(filf,linf);
+#fndif
+
+    if (!mbllod_wbtdh) {
+        rfturn;
+    }
+    mptr = first_wbrrbnt_mptr;
+    if (mptr != NULL) {
+        /* Chfdk bll this mfmory first */
+        do {
+            mfmory_dhfdk(mbllod2usfr_(mptr), MID(mptr), MFILE(mptr), MLINE(mptr), filf, linf);
+            mptr = wbrrbnt_link_(mptr);
+        } whilf (mptr != NULL);
+    }
+}
+
+/* Rfport outstbnding spbdf wbrrbnts to donsolf. */
+void
+dfbug_mbllod_polidf(donst dhbr *filf, int linf)
+{
+    void           *mptr;
+
+#ifdff MAX_FREE_DELAY_COUNT
+    dflbyfd_frff_bll(filf,linf);
+#fndif
+
+    if (!mbllod_wbtdh) {
+        rfturn;
+    }
+
+    mptr = first_wbrrbnt_mptr;
+    if (mptr != NULL) {
+        dfbug_mbllod_vfrify(filf, linf);
+        /* Now issuf wbrrbnts */
+        mptr = first_wbrrbnt_mptr;
+        do {
+            frror_mfssbgf("Outstbnding spbdf wbrrbnt: %p (%d bytfs) bllodbtfd by %s bt linf %d, bllodbtion #%d",
+               mptr, -nsizf1_(mptr), wbrrbnt_nbmf_(mptr),
+               wbrrbnt_linf_(mptr), wbrrbnt_id_(mptr));
+
+            mptr = wbrrbnt_link_(mptr);
+        } whilf (mptr != NULL);
+    }
+}
+
+#flsf
+
+void
+dfbug_mbllod_vfrify(donst dhbr *filf, int linf)
+{
+    filf = filf;
+    linf = linf;
+}
+
+void
+dfbug_mbllod_polidf(donst dhbr *filf, int linf)
+{
+    filf = filf;
+    linf = linf;
+}
+
+#fndif

@@ -1,1484 +1,1484 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import sun.swing.table.DefaultTableCellHeaderRenderer;
+import sun.swing.tbblf.DffbultTbblfCfllHfbdfrRfndfrfr;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.Trbnsifnt;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 /**
- * This is the object which manages the header of the <code>JTable</code>.
+ * Tiis is tif objfdt wiidi mbnbgfs tif ifbdfr of tif <dodf>JTbblf</dodf>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see javax.swing.JTable
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sff jbvbx.swing.JTbblf
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTableHeader extends JComponent implements TableColumnModelListener, Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTbblfHfbdfr fxtfnds JComponfnt implfmfnts TbblfColumnModflListfnfr, Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "TableHeaderUI";
+    privbtf stbtid finbl String uiClbssID = "TbblfHfbdfrUI";
 
 //
-// Instance Variables
+// Instbndf Vbribblfs
 //
     /**
-     * The table for which this object is the header;
-     * the default is <code>null</code>.
+     * Tif tbblf for wiidi tiis objfdt is tif ifbdfr;
+     * tif dffbult is <dodf>null</dodf>.
      */
-    protected JTable table;
+    protfdtfd JTbblf tbblf;
 
     /**
-     * The <code>TableColumnModel</code> of the table header.
+     * Tif <dodf>TbblfColumnModfl</dodf> of tif tbblf ifbdfr.
      */
-    protected TableColumnModel  columnModel;
+    protfdtfd TbblfColumnModfl  dolumnModfl;
 
     /**
-     * If true, reordering of columns are allowed by the user;
-     * the default is true.
+     * If truf, rfordfring of dolumns brf bllowfd by tif usfr;
+     * tif dffbult is truf.
      */
-    protected boolean   reorderingAllowed;
+    protfdtfd boolfbn   rfordfringAllowfd;
 
     /**
-     * If true, resizing of columns are allowed by the user;
-     * the default is true.
+     * If truf, rfsizing of dolumns brf bllowfd by tif usfr;
+     * tif dffbult is truf.
      */
-    protected boolean   resizingAllowed;
+    protfdtfd boolfbn   rfsizingAllowfd;
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response
-     * to column dragging or resizing, are now unconditional.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf
+     * to dolumn drbgging or rfsizing, brf now undonditionbl.
      */
     /*
-     * If this flag is true, then the header will repaint the table as
-     * a column is dragged or resized; the default is true.
+     * If tiis flbg is truf, tifn tif ifbdfr will rfpbint tif tbblf bs
+     * b dolumn is drbggfd or rfsizfd; tif dffbult is truf.
      */
-    protected boolean   updateTableInRealTime;
+    protfdtfd boolfbn   updbtfTbblfInRfblTimf;
 
-    /** The index of the column being resized. <code>null</code> if not resizing. */
-    transient protected TableColumn     resizingColumn;
+    /** Tif indfx of tif dolumn bfing rfsizfd. <dodf>null</dodf> if not rfsizing. */
+    trbnsifnt protfdtfd TbblfColumn     rfsizingColumn;
 
-    /** The index of the column being dragged. <code>null</code> if not dragging. */
-    transient protected TableColumn     draggedColumn;
+    /** Tif indfx of tif dolumn bfing drbggfd. <dodf>null</dodf> if not drbgging. */
+    trbnsifnt protfdtfd TbblfColumn     drbggfdColumn;
 
-    /** The distance from its original position the column has been dragged. */
-    transient protected int     draggedDistance;
+    /** Tif distbndf from its originbl position tif dolumn ibs bffn drbggfd. */
+    trbnsifnt protfdtfd int     drbggfdDistbndf;
 
     /**
-      *  The default renderer to be used when a <code>TableColumn</code>
-      *  does not define a <code>headerRenderer</code>.
+      *  Tif dffbult rfndfrfr to bf usfd wifn b <dodf>TbblfColumn</dodf>
+      *  dofs not dffinf b <dodf>ifbdfrRfndfrfr</dodf>.
       */
-    private TableCellRenderer defaultRenderer;
+    privbtf TbblfCfllRfndfrfr dffbultRfndfrfr;
 
 //
-// Constructors
+// Construdtors
 //
 
     /**
-     *  Constructs a <code>JTableHeader</code> with a default
-     *  <code>TableColumnModel</code>.
+     *  Construdts b <dodf>JTbblfHfbdfr</dodf> witi b dffbult
+     *  <dodf>TbblfColumnModfl</dodf>.
      *
-     * @see #createDefaultColumnModel
+     * @sff #drfbtfDffbultColumnModfl
      */
-    public JTableHeader() {
-        this(null);
+    publid JTbblfHfbdfr() {
+        tiis(null);
     }
 
     /**
-     *  Constructs a <code>JTableHeader</code> which is initialized with
-     *  <code>cm</code> as the column model.  If <code>cm</code> is
-     *  <code>null</code> this method will initialize the table header
-     *  with a default <code>TableColumnModel</code>.
+     *  Construdts b <dodf>JTbblfHfbdfr</dodf> wiidi is initiblizfd witi
+     *  <dodf>dm</dodf> bs tif dolumn modfl.  If <dodf>dm</dodf> is
+     *  <dodf>null</dodf> tiis mftiod will initiblizf tif tbblf ifbdfr
+     *  witi b dffbult <dodf>TbblfColumnModfl</dodf>.
      *
-     * @param cm        the column model for the table
-     * @see #createDefaultColumnModel
+     * @pbrbm dm        tif dolumn modfl for tif tbblf
+     * @sff #drfbtfDffbultColumnModfl
      */
-    public JTableHeader(TableColumnModel cm) {
-        super();
+    publid JTbblfHfbdfr(TbblfColumnModfl dm) {
+        supfr();
 
-        //setFocusable(false); // for strict win/mac compatibility mode,
-                               // this method should be invoked
+        //sftFodusbblf(fblsf); // for stridt win/mbd dompbtibility modf,
+                               // tiis mftiod siould bf invokfd
 
-        if (cm == null)
-            cm = createDefaultColumnModel();
-        setColumnModel(cm);
+        if (dm == null)
+            dm = drfbtfDffbultColumnModfl();
+        sftColumnModfl(dm);
 
-        // Initialize local ivars
-        initializeLocalVars();
+        // Initiblizf lodbl ivbrs
+        initiblizfLodblVbrs();
 
-        // Get UI going
-        updateUI();
+        // Gft UI going
+        updbtfUI();
     }
 
 //
-// Local behavior attributes
+// Lodbl bfibvior bttributfs
 //
 
     /**
-     *  Sets the table associated with this header.
-     *  @param  table   the new table
-     *  @beaninfo
-     *   bound: true
-     *   description: The table associated with this header.
+     *  Sfts tif tbblf bssodibtfd witi tiis ifbdfr.
+     *  @pbrbm  tbblf   tif nfw tbblf
+     *  @bfbninfo
+     *   bound: truf
+     *   dfsdription: Tif tbblf bssodibtfd witi tiis ifbdfr.
      */
-    public void setTable(JTable table) {
-        JTable old = this.table;
-        this.table = table;
-        firePropertyChange("table", old, table);
+    publid void sftTbblf(JTbblf tbblf) {
+        JTbblf old = tiis.tbblf;
+        tiis.tbblf = tbblf;
+        firfPropfrtyCibngf("tbblf", old, tbblf);
     }
 
     /**
-      *  Returns the table associated with this header.
-      *  @return  the <code>table</code> property
+      *  Rfturns tif tbblf bssodibtfd witi tiis ifbdfr.
+      *  @rfturn  tif <dodf>tbblf</dodf> propfrty
       */
-    public JTable getTable() {
-        return table;
+    publid JTbblf gftTbblf() {
+        rfturn tbblf;
     }
 
     /**
-     *  Sets whether the user can drag column headers to reorder columns.
+     *  Sfts wiftifr tif usfr dbn drbg dolumn ifbdfrs to rfordfr dolumns.
      *
-     * @param   reorderingAllowed       true if the table view should allow
-     *                                  reordering; otherwise false
-     * @see     #getReorderingAllowed
-     * @beaninfo
-     *  bound: true
-     *  description: Whether the user can drag column headers to reorder columns.
+     * @pbrbm   rfordfringAllowfd       truf if tif tbblf vifw siould bllow
+     *                                  rfordfring; otifrwisf fblsf
+     * @sff     #gftRfordfringAllowfd
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Wiftifr tif usfr dbn drbg dolumn ifbdfrs to rfordfr dolumns.
      */
-    public void setReorderingAllowed(boolean reorderingAllowed) {
-        boolean old = this.reorderingAllowed;
-        this.reorderingAllowed = reorderingAllowed;
-        firePropertyChange("reorderingAllowed", old, reorderingAllowed);
+    publid void sftRfordfringAllowfd(boolfbn rfordfringAllowfd) {
+        boolfbn old = tiis.rfordfringAllowfd;
+        tiis.rfordfringAllowfd = rfordfringAllowfd;
+        firfPropfrtyCibngf("rfordfringAllowfd", old, rfordfringAllowfd);
     }
 
     /**
-     * Returns true if the user is allowed to rearrange columns by
-     * dragging their headers, false otherwise. The default is true. You can
-     * rearrange columns programmatically regardless of this setting.
+     * Rfturns truf if tif usfr is bllowfd to rfbrrbngf dolumns by
+     * drbgging tifir ifbdfrs, fblsf otifrwisf. Tif dffbult is truf. You dbn
+     * rfbrrbngf dolumns progrbmmbtidblly rfgbrdlfss of tiis sftting.
      *
-     * @return  the <code>reorderingAllowed</code> property
-     * @see     #setReorderingAllowed
+     * @rfturn  tif <dodf>rfordfringAllowfd</dodf> propfrty
+     * @sff     #sftRfordfringAllowfd
      */
-    public boolean getReorderingAllowed() {
-        return reorderingAllowed;
+    publid boolfbn gftRfordfringAllowfd() {
+        rfturn rfordfringAllowfd;
     }
 
     /**
-     *  Sets whether the user can resize columns by dragging between headers.
+     *  Sfts wiftifr tif usfr dbn rfsizf dolumns by drbgging bftwffn ifbdfrs.
      *
-     * @param   resizingAllowed         true if table view should allow
-     *                                  resizing
-     * @see     #getResizingAllowed
-     * @beaninfo
-     *  bound: true
-     *  description: Whether the user can resize columns by dragging between headers.
+     * @pbrbm   rfsizingAllowfd         truf if tbblf vifw siould bllow
+     *                                  rfsizing
+     * @sff     #gftRfsizingAllowfd
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Wiftifr tif usfr dbn rfsizf dolumns by drbgging bftwffn ifbdfrs.
      */
-    public void setResizingAllowed(boolean resizingAllowed) {
-        boolean old = this.resizingAllowed;
-        this.resizingAllowed = resizingAllowed;
-        firePropertyChange("resizingAllowed", old, resizingAllowed);
+    publid void sftRfsizingAllowfd(boolfbn rfsizingAllowfd) {
+        boolfbn old = tiis.rfsizingAllowfd;
+        tiis.rfsizingAllowfd = rfsizingAllowfd;
+        firfPropfrtyCibngf("rfsizingAllowfd", old, rfsizingAllowfd);
     }
 
     /**
-     * Returns true if the user is allowed to resize columns by dragging
-     * between their headers, false otherwise. The default is true. You can
-     * resize columns programmatically regardless of this setting.
+     * Rfturns truf if tif usfr is bllowfd to rfsizf dolumns by drbgging
+     * bftwffn tifir ifbdfrs, fblsf otifrwisf. Tif dffbult is truf. You dbn
+     * rfsizf dolumns progrbmmbtidblly rfgbrdlfss of tiis sftting.
      *
-     * @return  the <code>resizingAllowed</code> property
-     * @see     #setResizingAllowed
+     * @rfturn  tif <dodf>rfsizingAllowfd</dodf> propfrty
+     * @sff     #sftRfsizingAllowfd
      */
-    public boolean getResizingAllowed() {
-        return resizingAllowed;
+    publid boolfbn gftRfsizingAllowfd() {
+        rfturn rfsizingAllowfd;
     }
 
     /**
-     * Returns the the dragged column, if and only if, a drag is in
-     * process, otherwise returns <code>null</code>.
+     * Rfturns tif tif drbggfd dolumn, if bnd only if, b drbg is in
+     * prodfss, otifrwisf rfturns <dodf>null</dodf>.
      *
-     * @return  the dragged column, if a drag is in
-     *          process, otherwise returns <code>null</code>
-     * @see     #getDraggedDistance
+     * @rfturn  tif drbggfd dolumn, if b drbg is in
+     *          prodfss, otifrwisf rfturns <dodf>null</dodf>
+     * @sff     #gftDrbggfdDistbndf
      */
-    public TableColumn getDraggedColumn() {
-        return draggedColumn;
+    publid TbblfColumn gftDrbggfdColumn() {
+        rfturn drbggfdColumn;
     }
 
     /**
-     * Returns the column's horizontal distance from its original
-     * position, if and only if, a drag is in process. Otherwise, the
-     * the return value is meaningless.
+     * Rfturns tif dolumn's iorizontbl distbndf from its originbl
+     * position, if bnd only if, b drbg is in prodfss. Otifrwisf, tif
+     * tif rfturn vbluf is mfbninglfss.
      *
-     * @return  the column's horizontal distance from its original
-     *          position, if a drag is in process, otherwise the return
-     *          value is meaningless
-     * @see     #getDraggedColumn
+     * @rfturn  tif dolumn's iorizontbl distbndf from its originbl
+     *          position, if b drbg is in prodfss, otifrwisf tif rfturn
+     *          vbluf is mfbninglfss
+     * @sff     #gftDrbggfdColumn
      */
-    public int getDraggedDistance() {
-        return draggedDistance;
+    publid int gftDrbggfdDistbndf() {
+        rfturn drbggfdDistbndf;
     }
 
     /**
-     * Returns the resizing column.  If no column is being
-     * resized this method returns <code>null</code>.
+     * Rfturns tif rfsizing dolumn.  If no dolumn is bfing
+     * rfsizfd tiis mftiod rfturns <dodf>null</dodf>.
      *
-     * @return  the resizing column, if a resize is in process, otherwise
-     *          returns <code>null</code>
+     * @rfturn  tif rfsizing dolumn, if b rfsizf is in prodfss, otifrwisf
+     *          rfturns <dodf>null</dodf>
      */
-    public TableColumn getResizingColumn() {
-        return resizingColumn;
+    publid TbblfColumn gftRfsizingColumn() {
+        rfturn rfsizingColumn;
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response to
-     * column dragging or resizing, are now unconditional.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf to
+     * dolumn drbgging or rfsizing, brf now undonditionbl.
      */
     /*
-     *  Sets whether the body of the table updates in real time when
-     *  a column is resized or dragged.
+     *  Sfts wiftifr tif body of tif tbblf updbtfs in rfbl timf wifn
+     *  b dolumn is rfsizfd or drbggfd.
      *
-     * @param   flag                    true if tableView should update
-     *                                  the body of the table in real time
-     * @see #getUpdateTableInRealTime
+     * @pbrbm   flbg                    truf if tbblfVifw siould updbtf
+     *                                  tif body of tif tbblf in rfbl timf
+     * @sff #gftUpdbtfTbblfInRfblTimf
      */
-    public void setUpdateTableInRealTime(boolean flag) {
-        updateTableInRealTime = flag;
+    publid void sftUpdbtfTbblfInRfblTimf(boolfbn flbg) {
+        updbtfTbblfInRfblTimf = flbg;
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response to
-     * column dragging or resizing, are now unconditional.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Rfbl timf rfpbints, in rfsponsf to
+     * dolumn drbgging or rfsizing, brf now undonditionbl.
      */
     /*
-     * Returns true if the body of the table view updates in real
-     * time when a column is resized or dragged.  User can set this flag to
-     * false to speed up the table's response to user resize or drag actions.
-     * The default is true.
+     * Rfturns truf if tif body of tif tbblf vifw updbtfs in rfbl
+     * timf wifn b dolumn is rfsizfd or drbggfd.  Usfr dbn sft tiis flbg to
+     * fblsf to spffd up tif tbblf's rfsponsf to usfr rfsizf or drbg bdtions.
+     * Tif dffbult is truf.
      *
-     * @return  true if the table updates in real time
-     * @see #setUpdateTableInRealTime
+     * @rfturn  truf if tif tbblf updbtfs in rfbl timf
+     * @sff #sftUpdbtfTbblfInRfblTimf
      */
-    public boolean getUpdateTableInRealTime() {
-        return updateTableInRealTime;
+    publid boolfbn gftUpdbtfTbblfInRfblTimf() {
+        rfturn updbtfTbblfInRfblTimf;
     }
 
     /**
-     * Sets the default renderer to be used when no <code>headerRenderer</code>
-     * is defined by a <code>TableColumn</code>.
-     * @param  defaultRenderer  the default renderer
-     * @since 1.3
+     * Sfts tif dffbult rfndfrfr to bf usfd wifn no <dodf>ifbdfrRfndfrfr</dodf>
+     * is dffinfd by b <dodf>TbblfColumn</dodf>.
+     * @pbrbm  dffbultRfndfrfr  tif dffbult rfndfrfr
+     * @sindf 1.3
      */
-    public void setDefaultRenderer(TableCellRenderer defaultRenderer) {
-        this.defaultRenderer = defaultRenderer;
+    publid void sftDffbultRfndfrfr(TbblfCfllRfndfrfr dffbultRfndfrfr) {
+        tiis.dffbultRfndfrfr = dffbultRfndfrfr;
     }
 
     /**
-     * Returns the default renderer used when no <code>headerRenderer</code>
-     * is defined by a <code>TableColumn</code>.
-     * @return the default renderer
-     * @since 1.3
+     * Rfturns tif dffbult rfndfrfr usfd wifn no <dodf>ifbdfrRfndfrfr</dodf>
+     * is dffinfd by b <dodf>TbblfColumn</dodf>.
+     * @rfturn tif dffbult rfndfrfr
+     * @sindf 1.3
      */
-    @Transient
-    public TableCellRenderer getDefaultRenderer() {
-        return defaultRenderer;
+    @Trbnsifnt
+    publid TbblfCfllRfndfrfr gftDffbultRfndfrfr() {
+        rfturn dffbultRfndfrfr;
     }
 
     /**
-     * Returns the index of the column that <code>point</code> lies in, or -1 if it
-     * lies out of bounds.
+     * Rfturns tif indfx of tif dolumn tibt <dodf>point</dodf> lifs in, or -1 if it
+     * lifs out of bounds.
      *
-     * @param point  if this <code>point</code> lies within a column, the index of
-     *               that column will be returned; otherwise it is out of bounds
-     *               and -1 is returned
+     * @pbrbm point  if tiis <dodf>point</dodf> lifs witiin b dolumn, tif indfx of
+     *               tibt dolumn will bf rfturnfd; otifrwisf it is out of bounds
+     *               bnd -1 is rfturnfd
      *
-     * @return  the index of the column that <code>point</code> lies in, or -1 if it
-     *          lies out of bounds
+     * @rfturn  tif indfx of tif dolumn tibt <dodf>point</dodf> lifs in, or -1 if it
+     *          lifs out of bounds
      */
-    public int columnAtPoint(Point point) {
+    publid int dolumnAtPoint(Point point) {
         int x = point.x;
-        if (!getComponentOrientation().isLeftToRight()) {
-            x = getWidthInRightToLeft() - x - 1;
+        if (!gftComponfntOrifntbtion().isLfftToRigit()) {
+            x = gftWidtiInRigitToLfft() - x - 1;
         }
-        return getColumnModel().getColumnIndexAtX(x);
+        rfturn gftColumnModfl().gftColumnIndfxAtX(x);
     }
 
     /**
-     * Returns the rectangle containing the header tile at <code>column</code>.
-     * When the <code>column</code> parameter is out of bounds this method uses the
-     * same conventions as the <code>JTable</code> method <code>getCellRect</code>.
+     * Rfturns tif rfdtbnglf dontbining tif ifbdfr tilf bt <dodf>dolumn</dodf>.
+     * Wifn tif <dodf>dolumn</dodf> pbrbmftfr is out of bounds tiis mftiod usfs tif
+     * sbmf donvfntions bs tif <dodf>JTbblf</dodf> mftiod <dodf>gftCfllRfdt</dodf>.
      *
-     * @param column  index of the column
+     * @pbrbm dolumn  indfx of tif dolumn
      *
-     * @return  the rectangle containing the header tile at <code>column</code>
-     * @see JTable#getCellRect
+     * @rfturn  tif rfdtbnglf dontbining tif ifbdfr tilf bt <dodf>dolumn</dodf>
+     * @sff JTbblf#gftCfllRfdt
      */
-    public Rectangle getHeaderRect(int column) {
-        Rectangle r = new Rectangle();
-        TableColumnModel cm = getColumnModel();
+    publid Rfdtbnglf gftHfbdfrRfdt(int dolumn) {
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        TbblfColumnModfl dm = gftColumnModfl();
 
-        r.height = getHeight();
+        r.ifigit = gftHfigit();
 
-        if (column < 0) {
-            // x = width = 0;
-            if( !getComponentOrientation().isLeftToRight() ) {
-                r.x = getWidthInRightToLeft();
+        if (dolumn < 0) {
+            // x = widti = 0;
+            if( !gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidtiInRigitToLfft();
             }
         }
-        else if (column >= cm.getColumnCount()) {
-            if( getComponentOrientation().isLeftToRight() ) {
-                r.x = getWidth();
+        flsf if (dolumn >= dm.gftColumnCount()) {
+            if( gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidti();
             }
         }
-        else {
-            for(int i = 0; i < column; i++) {
-                r.x += cm.getColumn(i).getWidth();
+        flsf {
+            for(int i = 0; i < dolumn; i++) {
+                r.x += dm.gftColumn(i).gftWidti();
             }
-            if( !getComponentOrientation().isLeftToRight() ) {
-                r.x = getWidthInRightToLeft() - r.x - cm.getColumn(column).getWidth();
+            if( !gftComponfntOrifntbtion().isLfftToRigit() ) {
+                r.x = gftWidtiInRigitToLfft() - r.x - dm.gftColumn(dolumn).gftWidti();
             }
 
-            r.width = cm.getColumn(column).getWidth();
+            r.widti = dm.gftColumn(dolumn).gftWidti();
         }
-        return r;
+        rfturn r;
     }
 
 
     /**
-     * Allows the renderer's tips to be used if there is text set.
-     * @param  event  the location of the event identifies the proper
-     *                          renderer and, therefore, the proper tip
-     * @return the tool tip for this component
+     * Allows tif rfndfrfr's tips to bf usfd if tifrf is tfxt sft.
+     * @pbrbm  fvfnt  tif lodbtion of tif fvfnt idfntififs tif propfr
+     *                          rfndfrfr bnd, tifrfforf, tif propfr tip
+     * @rfturn tif tool tip for tiis domponfnt
      */
-    public String getToolTipText(MouseEvent event) {
+    publid String gftToolTipTfxt(MousfEvfnt fvfnt) {
         String tip = null;
-        Point p = event.getPoint();
-        int column;
+        Point p = fvfnt.gftPoint();
+        int dolumn;
 
-        // Locate the renderer under the event location
-        if ((column = columnAtPoint(p)) != -1) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            TableCellRenderer renderer = aColumn.getHeaderRenderer();
-            if (renderer == null) {
-                renderer = defaultRenderer;
+        // Lodbtf tif rfndfrfr undfr tif fvfnt lodbtion
+        if ((dolumn = dolumnAtPoint(p)) != -1) {
+            TbblfColumn bColumn = dolumnModfl.gftColumn(dolumn);
+            TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+            if (rfndfrfr == null) {
+                rfndfrfr = dffbultRfndfrfr;
             }
-            Component component = renderer.getTableCellRendererComponent(
-                              getTable(), aColumn.getHeaderValue(), false, false,
-                              -1, column);
+            Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                              gftTbblf(), bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                              -1, dolumn);
 
-            // Now have to see if the component is a JComponent before
-            // getting the tip
-            if (component instanceof JComponent) {
-                // Convert the event to the renderer's coordinate system
-                MouseEvent newEvent;
-                Rectangle cellRect = getHeaderRect(column);
+            // Now ibvf to sff if tif domponfnt is b JComponfnt bfforf
+            // gftting tif tip
+            if (domponfnt instbndfof JComponfnt) {
+                // Convfrt tif fvfnt to tif rfndfrfr's doordinbtf systfm
+                MousfEvfnt nfwEvfnt;
+                Rfdtbnglf dfllRfdt = gftHfbdfrRfdt(dolumn);
 
-                p.translate(-cellRect.x, -cellRect.y);
-                newEvent = new MouseEvent(component, event.getID(),
-                                          event.getWhen(), event.getModifiers(),
-                                          p.x, p.y, event.getXOnScreen(), event.getYOnScreen(),
-                                          event.getClickCount(),
-                                          event.isPopupTrigger(), MouseEvent.NOBUTTON);
+                p.trbnslbtf(-dfllRfdt.x, -dfllRfdt.y);
+                nfwEvfnt = nfw MousfEvfnt(domponfnt, fvfnt.gftID(),
+                                          fvfnt.gftWifn(), fvfnt.gftModififrs(),
+                                          p.x, p.y, fvfnt.gftXOnSdrffn(), fvfnt.gftYOnSdrffn(),
+                                          fvfnt.gftClidkCount(),
+                                          fvfnt.isPopupTriggfr(), MousfEvfnt.NOBUTTON);
 
-                tip = ((JComponent)component).getToolTipText(newEvent);
+                tip = ((JComponfnt)domponfnt).gftToolTipTfxt(nfwEvfnt);
             }
         }
 
-        // No tip from the renderer get our own tip
+        // No tip from tif rfndfrfr gft our own tip
         if (tip == null)
-            tip = getToolTipText();
+            tip = gftToolTipTfxt();
 
-        return tip;
+        rfturn tip;
     }
 
 //
-// Managing TableHeaderUI
+// Mbnbging TbblfHfbdfrUI
 //
 
     /**
-     * Returns the look and feel (L&amp;F) object that renders this component.
+     * Rfturns tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>TableHeaderUI</code> object that renders this component
+     * @rfturn tif <dodf>TbblfHfbdfrUI</dodf> objfdt tibt rfndfrs tiis domponfnt
      */
-    public TableHeaderUI getUI() {
-        return (TableHeaderUI)ui;
+    publid TbblfHfbdfrUI gftUI() {
+        rfturn (TbblfHfbdfrUI)ui;
     }
 
     /**
-     * Sets the look and feel (L&amp;F) object that renders this component.
+     * Sfts tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>TableHeaderUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  tif <dodf>TbblfHfbdfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
      */
-    public void setUI(TableHeaderUI ui){
-        if (this.ui != ui) {
-            super.setUI(ui);
-            repaint();
+    publid void sftUI(TbblfHfbdfrUI ui){
+        if (tiis.ui != ui) {
+            supfr.sftUI(ui);
+            rfpbint();
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * (L&amp;F) has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif look bnd fffl
+     * (L&bmp;F) ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI(){
-        setUI((TableHeaderUI)UIManager.getUI(this));
+    publid void updbtfUI(){
+        sftUI((TbblfHfbdfrUI)UIMbnbgfr.gftUI(tiis));
 
-        TableCellRenderer renderer = getDefaultRenderer();
-        if (renderer instanceof Component) {
-            SwingUtilities.updateComponentTreeUI((Component)renderer);
+        TbblfCfllRfndfrfr rfndfrfr = gftDffbultRfndfrfr();
+        if (rfndfrfr instbndfof Componfnt) {
+            SwingUtilitifs.updbtfComponfntTrffUI((Componfnt)rfndfrfr);
         }
     }
 
 
     /**
-     * Returns the suffix used to construct the name of the look and feel
-     * (L&amp;F) class used to render this component.
-     * @return the string "TableHeaderUI"
+     * Rfturns tif suffix usfd to donstrudt tif nbmf of tif look bnd fffl
+     * (L&bmp;F) dlbss usfd to rfndfr tiis domponfnt.
+     * @rfturn tif string "TbblfHfbdfrUI"
      *
-     * @return "TableHeaderUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn "TbblfHfbdfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
 //
-// Managing models
+// Mbnbging modfls
 //
 
 
     /**
-     *  Sets the column model for this table to <code>newModel</code> and registers
-     *  for listener notifications from the new column model.
+     *  Sfts tif dolumn modfl for tiis tbblf to <dodf>nfwModfl</dodf> bnd rfgistfrs
+     *  for listfnfr notifidbtions from tif nfw dolumn modfl.
      *
-     * @param   columnModel     the new data source for this table
-     * @exception IllegalArgumentException
-     *                          if <code>newModel</code> is <code>null</code>
-     * @see     #getColumnModel
-     * @beaninfo
-     *  bound: true
-     *  description: The object governing the way columns appear in the view.
+     * @pbrbm   dolumnModfl     tif nfw dbtb sourdf for tiis tbblf
+     * @fxdfption IllfgblArgumfntExdfption
+     *                          if <dodf>nfwModfl</dodf> is <dodf>null</dodf>
+     * @sff     #gftColumnModfl
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif objfdt govfrning tif wby dolumns bppfbr in tif vifw.
      */
-    public void setColumnModel(TableColumnModel columnModel) {
-        if (columnModel == null) {
-            throw new IllegalArgumentException("Cannot set a null ColumnModel");
+    publid void sftColumnModfl(TbblfColumnModfl dolumnModfl) {
+        if (dolumnModfl == null) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot sft b null ColumnModfl");
         }
-        TableColumnModel old = this.columnModel;
-        if (columnModel != old) {
+        TbblfColumnModfl old = tiis.dolumnModfl;
+        if (dolumnModfl != old) {
             if (old != null) {
-                old.removeColumnModelListener(this);
+                old.rfmovfColumnModflListfnfr(tiis);
             }
-            this.columnModel = columnModel;
-            columnModel.addColumnModelListener(this);
+            tiis.dolumnModfl = dolumnModfl;
+            dolumnModfl.bddColumnModflListfnfr(tiis);
 
-            firePropertyChange("columnModel", old, columnModel);
-            resizeAndRepaint();
+            firfPropfrtyCibngf("dolumnModfl", old, dolumnModfl);
+            rfsizfAndRfpbint();
         }
     }
 
     /**
-     * Returns the <code>TableColumnModel</code> that contains all column information
-     * of this table header.
+     * Rfturns tif <dodf>TbblfColumnModfl</dodf> tibt dontbins bll dolumn informbtion
+     * of tiis tbblf ifbdfr.
      *
-     * @return  the <code>columnModel</code> property
-     * @see     #setColumnModel
+     * @rfturn  tif <dodf>dolumnModfl</dodf> propfrty
+     * @sff     #sftColumnModfl
      */
-    public TableColumnModel getColumnModel() {
-        return columnModel;
+    publid TbblfColumnModfl gftColumnModfl() {
+        rfturn dolumnModfl;
     }
 
 //
-// Implementing TableColumnModelListener interface
+// Implfmfnting TbblfColumnModflListfnfr intfrfbdf
 //
 
     /**
-     * Invoked when a column is added to the table column model.
+     * Invokfd wifn b dolumn is bddfd to tif tbblf dolumn modfl.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
      *
-     * @param e  the event received
-     * @see TableColumnModelListener
+     * @pbrbm f  tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
      */
-    public void columnAdded(TableColumnModelEvent e) { resizeAndRepaint(); }
+    publid void dolumnAddfd(TbblfColumnModflEvfnt f) { rfsizfAndRfpbint(); }
 
 
     /**
-     * Invoked when a column is removed from the table column model.
+     * Invokfd wifn b dolumn is rfmovfd from tif tbblf dolumn modfl.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
      *
-     * @param e  the event received
-     * @see TableColumnModelListener
+     * @pbrbm f  tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
      */
-    public void columnRemoved(TableColumnModelEvent e) { resizeAndRepaint(); }
+    publid void dolumnRfmovfd(TbblfColumnModflEvfnt f) { rfsizfAndRfpbint(); }
 
 
     /**
-     * Invoked when a column is repositioned.
+     * Invokfd wifn b dolumn is rfpositionfd.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
      */
-    public void columnMoved(TableColumnModelEvent e) { repaint(); }
+    publid void dolumnMovfd(TbblfColumnModflEvfnt f) { rfpbint(); }
 
 
     /**
-     * Invoked when a column is moved due to a margin change.
+     * Invokfd wifn b dolumn is movfd duf to b mbrgin dibngf.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
      */
-    public void columnMarginChanged(ChangeEvent e) { resizeAndRepaint(); }
+    publid void dolumnMbrginCibngfd(CibngfEvfnt f) { rfsizfAndRfpbint(); }
 
 
-    // --Redrawing the header is slow in cell selection mode.
-    // --Since header selection is ugly and it is always clear from the
-    // --view which columns are selected, don't redraw the header.
+    // --Rfdrbwing tif ifbdfr is slow in dfll sflfdtion modf.
+    // --Sindf ifbdfr sflfdtion is ugly bnd it is blwbys dlfbr from tif
+    // --vifw wiidi dolumns brf sflfdtfd, don't rfdrbw tif ifbdfr.
     /**
-     * Invoked when the selection model of the <code>TableColumnModel</code>
-     * is changed.  This method currently has no effect (the header is not
-     * redrawn).
+     * Invokfd wifn tif sflfdtion modfl of tif <dodf>TbblfColumnModfl</dodf>
+     * is dibngfd.  Tiis mftiod durrfntly ibs no ffffdt (tif ifbdfr is not
+     * rfdrbwn).
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applidbtion dodf will not usf tifsf mftiods fxpliditly, tify
+     * brf usfd intfrnblly by <dodf>JTbblf</dodf>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm f tif fvfnt rfdfivfd
+     * @sff TbblfColumnModflListfnfr
      */
-    public void columnSelectionChanged(ListSelectionEvent e) { } // repaint(); }
+    publid void dolumnSflfdtionCibngfd(ListSflfdtionEvfnt f) { } // rfpbint(); }
 
 //
-//  Package Methods
+//  Pbdkbgf Mftiods
 //
 
     /**
-     *  Returns the default column model object which is
-     *  a <code>DefaultTableColumnModel</code>.  A subclass can override this
-     *  method to return a different column model object
+     *  Rfturns tif dffbult dolumn modfl objfdt wiidi is
+     *  b <dodf>DffbultTbblfColumnModfl</dodf>.  A subdlbss dbn ovfrridf tiis
+     *  mftiod to rfturn b difffrfnt dolumn modfl objfdt
      *
-     * @return the default column model object
+     * @rfturn tif dffbult dolumn modfl objfdt
      */
-    protected TableColumnModel createDefaultColumnModel() {
-        return new DefaultTableColumnModel();
+    protfdtfd TbblfColumnModfl drfbtfDffbultColumnModfl() {
+        rfturn nfw DffbultTbblfColumnModfl();
     }
 
     /**
-     *  Returns a default renderer to be used when no header renderer
-     *  is defined by a <code>TableColumn</code>.
+     *  Rfturns b dffbult rfndfrfr to bf usfd wifn no ifbdfr rfndfrfr
+     *  is dffinfd by b <dodf>TbblfColumn</dodf>.
      *
-     *  @return the default table column renderer
-     * @since 1.3
+     *  @rfturn tif dffbult tbblf dolumn rfndfrfr
+     * @sindf 1.3
      */
-    protected TableCellRenderer createDefaultRenderer() {
-        return new DefaultTableCellHeaderRenderer();
+    protfdtfd TbblfCfllRfndfrfr drfbtfDffbultRfndfrfr() {
+        rfturn nfw DffbultTbblfCfllHfbdfrRfndfrfr();
     }
 
 
     /**
-     * Initializes the local variables and properties with default values.
-     * Used by the constructor methods.
+     * Initiblizfs tif lodbl vbribblfs bnd propfrtifs witi dffbult vblufs.
+     * Usfd by tif donstrudtor mftiods.
      */
-    protected void initializeLocalVars() {
-        setOpaque(true);
-        table = null;
-        reorderingAllowed = true;
-        resizingAllowed = true;
-        draggedColumn = null;
-        draggedDistance = 0;
-        resizingColumn = null;
-        updateTableInRealTime = true;
+    protfdtfd void initiblizfLodblVbrs() {
+        sftOpbquf(truf);
+        tbblf = null;
+        rfordfringAllowfd = truf;
+        rfsizingAllowfd = truf;
+        drbggfdColumn = null;
+        drbggfdDistbndf = 0;
+        rfsizingColumn = null;
+        updbtfTbblfInRfblTimf = truf;
 
-        // I'm registered to do tool tips so we can draw tips for the
-        // renderers
-        ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-        toolTipManager.registerComponent(this);
-        setDefaultRenderer(createDefaultRenderer());
+        // I'm rfgistfrfd to do tool tips so wf dbn drbw tips for tif
+        // rfndfrfrs
+        ToolTipMbnbgfr toolTipMbnbgfr = ToolTipMbnbgfr.sibrfdInstbndf();
+        toolTipMbnbgfr.rfgistfrComponfnt(tiis);
+        sftDffbultRfndfrfr(drfbtfDffbultRfndfrfr());
     }
 
     /**
-     * Sizes the header and marks it as needing display.  Equivalent
-     * to <code>revalidate</code> followed by <code>repaint</code>.
+     * Sizfs tif ifbdfr bnd mbrks it bs nffding displby.  Equivblfnt
+     * to <dodf>rfvblidbtf</dodf> followfd by <dodf>rfpbint</dodf>.
      */
-    public void resizeAndRepaint() {
-        revalidate();
-        repaint();
+    publid void rfsizfAndRfpbint() {
+        rfvblidbtf();
+        rfpbint();
     }
 
     /**
-      *  Sets the header's <code>draggedColumn</code> to <code>aColumn</code>.
+      *  Sfts tif ifbdfr's <dodf>drbggfdColumn</dodf> to <dodf>bColumn</dodf>.
       *  <p>
-      *  Application code will not use this method explicitly, it is used
-      *  internally by the column dragging mechanism.
+      *  Applidbtion dodf will not usf tiis mftiod fxpliditly, it is usfd
+      *  intfrnblly by tif dolumn drbgging mfdibnism.
       *
-      *  @param  aColumn  the column being dragged, or <code>null</code> if
-      *                 no column is being dragged
+      *  @pbrbm  bColumn  tif dolumn bfing drbggfd, or <dodf>null</dodf> if
+      *                 no dolumn is bfing drbggfd
       */
-    public void setDraggedColumn(TableColumn aColumn) {
-        draggedColumn = aColumn;
+    publid void sftDrbggfdColumn(TbblfColumn bColumn) {
+        drbggfdColumn = bColumn;
     }
 
     /**
-      *  Sets the header's <code>draggedDistance</code> to <code>distance</code>.
-      *  @param distance  the distance dragged
+      *  Sfts tif ifbdfr's <dodf>drbggfdDistbndf</dodf> to <dodf>distbndf</dodf>.
+      *  @pbrbm distbndf  tif distbndf drbggfd
       */
-    public void setDraggedDistance(int distance) {
-        draggedDistance = distance;
+    publid void sftDrbggfdDistbndf(int distbndf) {
+        drbggfdDistbndf = distbndf;
     }
 
     /**
-      *  Sets the header's <code>resizingColumn</code> to <code>aColumn</code>.
+      *  Sfts tif ifbdfr's <dodf>rfsizingColumn</dodf> to <dodf>bColumn</dodf>.
       *  <p>
-      *  Application code will not use this method explicitly, it
-      *  is used internally by the column sizing mechanism.
+      *  Applidbtion dodf will not usf tiis mftiod fxpliditly, it
+      *  is usfd intfrnblly by tif dolumn sizing mfdibnism.
       *
-      *  @param  aColumn  the column being resized, or <code>null</code> if
-      *                 no column is being resized
+      *  @pbrbm  bColumn  tif dolumn bfing rfsizfd, or <dodf>null</dodf> if
+      *                 no dolumn is bfing rfsizfd
       */
-    public void setResizingColumn(TableColumn aColumn) {
-        resizingColumn = aColumn;
+    publid void sftRfsizingColumn(TbblfColumn bColumn) {
+        rfsizingColumn = bColumn;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if ((ui != null) && (getUIClassID().equals(uiClassID))) {
-            ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if ((ui != null) && (gftUIClbssID().fqubls(uiClbssID))) {
+            ui.instbllUI(tiis);
         }
     }
 
-    private int getWidthInRightToLeft() {
-        if ((table != null) &&
-            (table.getAutoResizeMode() != JTable.AUTO_RESIZE_OFF)) {
-            return table.getWidth();
+    privbtf int gftWidtiInRigitToLfft() {
+        if ((tbblf != null) &&
+            (tbblf.gftAutoRfsizfModf() != JTbblf.AUTO_RESIZE_OFF)) {
+            rfturn tbblf.gftWidti();
         }
-        return super.getWidth();
+        rfturn supfr.gftWidti();
     }
 
     /**
-     * Returns a string representation of this <code>JTableHeader</code>. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JTbblfHfbdfr</dodf>. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      * <P>
-     * Overriding <code>paramString</code> to provide information about the
-     * specific new aspects of the JFC components.
+     * Ovfrriding <dodf>pbrbmString</dodf> to providf informbtion bbout tif
+     * spfdifid nfw bspfdts of tif JFC domponfnts.
      *
-     * @return  a string representation of this <code>JTableHeader</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JTbblfHfbdfr</dodf>
      */
-    protected String paramString() {
-        String reorderingAllowedString = (reorderingAllowed ?
-                                          "true" : "false");
-        String resizingAllowedString = (resizingAllowed ?
-                                        "true" : "false");
-        String updateTableInRealTimeString = (updateTableInRealTime ?
-                                              "true" : "false");
+    protfdtfd String pbrbmString() {
+        String rfordfringAllowfdString = (rfordfringAllowfd ?
+                                          "truf" : "fblsf");
+        String rfsizingAllowfdString = (rfsizingAllowfd ?
+                                        "truf" : "fblsf");
+        String updbtfTbblfInRfblTimfString = (updbtfTbblfInRfblTimf ?
+                                              "truf" : "fblsf");
 
-        return super.paramString() +
-        ",draggedDistance=" + draggedDistance +
-        ",reorderingAllowed=" + reorderingAllowedString +
-        ",resizingAllowed=" + resizingAllowedString +
-        ",updateTableInRealTime=" + updateTableInRealTimeString;
+        rfturn supfr.pbrbmString() +
+        ",drbggfdDistbndf=" + drbggfdDistbndf +
+        ",rfordfringAllowfd=" + rfordfringAllowfdString +
+        ",rfsizingAllowfd=" + rfsizingAllowfdString +
+        ",updbtfTbblfInRfblTimf=" + updbtfTbblfInRfblTimfString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTableHeader.
-     * For JTableHeaders, the AccessibleContext takes the form of an
-     * AccessibleJTableHeader.
-     * A new AccessibleJTableHeader instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JTbblfHfbdfr.
+     * For JTbblfHfbdfrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJTbblfHfbdfr.
+     * A nfw AddfssiblfJTbblfHfbdfr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJTableHeader that serves as the
-     *         AccessibleContext of this JTableHeader
+     * @rfturn bn AddfssiblfJTbblfHfbdfr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JTbblfHfbdfr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTableHeader();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTbblfHfbdfr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     //
-    // *** should also implement AccessibleSelection?
-    // *** and what's up with keyboard navigation/manipulation?
+    // *** siould blso implfmfnt AddfssiblfSflfdtion?
+    // *** bnd wibt's up witi kfybobrd nbvigbtion/mbnipulbtion?
     //
     /**
-     * This class implements accessibility support for the
-     * <code>JTableHeader</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to table header user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTbblfHfbdfr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tbblf ifbdfr usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTableHeader extends AccessibleJComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTbblfHfbdfr fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PANEL;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PANEL;
         }
 
         /**
-         * Returns the Accessible child, if one exists, contained at the local
-         * coordinate Point.
+         * Rfturns tif Addfssiblf diild, if onf fxists, dontbinfd bt tif lodbl
+         * doordinbtf Point.
          *
-         * @param p The point defining the top-left corner of the Accessible,
-         * given in the coordinate space of the object's parent.
-         * @return the Accessible, if it exists, at the specified location;
-         * else null
+         * @pbrbm p Tif point dffining tif top-lfft dornfr of tif Addfssiblf,
+         * givfn in tif doordinbtf spbdf of tif objfdt's pbrfnt.
+         * @rfturn tif Addfssiblf, if it fxists, bt tif spfdififd lodbtion;
+         * flsf null
          */
-        public Accessible getAccessibleAt(Point p) {
-            int column;
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            int dolumn;
 
-            // Locate the renderer under the Point
-            if ((column = JTableHeader.this.columnAtPoint(p)) != -1) {
-                TableColumn aColumn = JTableHeader.this.columnModel.getColumn(column);
-                TableCellRenderer renderer = aColumn.getHeaderRenderer();
-                if (renderer == null) {
-                    if (defaultRenderer != null) {
-                        renderer = defaultRenderer;
-                    } else {
-                        return null;
+            // Lodbtf tif rfndfrfr undfr tif Point
+            if ((dolumn = JTbblfHfbdfr.tiis.dolumnAtPoint(p)) != -1) {
+                TbblfColumn bColumn = JTbblfHfbdfr.tiis.dolumnModfl.gftColumn(dolumn);
+                TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                if (rfndfrfr == null) {
+                    if (dffbultRfndfrfr != null) {
+                        rfndfrfr = dffbultRfndfrfr;
+                    } flsf {
+                        rfturn null;
                     }
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTableHeader.this.getTable(),
-                                  aColumn.getHeaderValue(), false, false,
-                                  -1, column);
+                Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                  JTbblfHfbdfr.tiis.gftTbblf(),
+                                  bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                  -1, dolumn);
 
-                return new AccessibleJTableHeaderEntry(column, JTableHeader.this, JTableHeader.this.table);
-            } else {
-                return null;
+                rfturn nfw AddfssiblfJTbblfHfbdfrEntry(dolumn, JTbblfHfbdfr.tiis, JTbblfHfbdfr.tiis.tbblf);
+            } flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
-         * method should return the number of children of this object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.  If bll
+         * of tif diildrfn of tiis objfdt implfmfnt Addfssiblf, tibn tiis
+         * mftiod siould rfturn tif numbfr of diildrfn of tiis objfdt.
          *
-         * @return the number of accessible children in the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            return JTableHeader.this.columnModel.getColumnCount();
+        publid int gftAddfssiblfCiildrfnCount() {
+            rfturn JTbblfHfbdfr.tiis.dolumnModfl.gftColumnCount();
         }
 
         /**
-         * Return the nth Accessible child of the object.
+         * Rfturn tif nti Addfssiblf diild of tif objfdt.
          *
-         * @param i zero-based index of child
-         * @return the nth Accessible child of the object
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif nti Addfssiblf diild of tif objfdt
          */
-        public Accessible getAccessibleChild(int i) {
-            if (i < 0 || i >= getAccessibleChildrenCount()) {
-                return null;
-            } else {
-                TableColumn aColumn = JTableHeader.this.columnModel.getColumn(i)
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            if (i < 0 || i >= gftAddfssiblfCiildrfnCount()) {
+                rfturn null;
+            } flsf {
+                TbblfColumn bColumn = JTbblfHfbdfr.tiis.dolumnModfl.gftColumn(i)
 ;
-                TableCellRenderer renderer = aColumn.getHeaderRenderer();
-                if (renderer == null) {
-                    if (defaultRenderer != null) {
-                        renderer = defaultRenderer;
-                    } else {
-                        return null;
+                TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                if (rfndfrfr == null) {
+                    if (dffbultRfndfrfr != null) {
+                        rfndfrfr = dffbultRfndfrfr;
+                    } flsf {
+                        rfturn null;
                     }
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTableHeader.this.getTable(),
-                                  aColumn.getHeaderValue(), false, false,
+                Componfnt domponfnt = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                  JTbblfHfbdfr.tiis.gftTbblf(),
+                                  bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
                                   -1, i);
 
-                return new AccessibleJTableHeaderEntry(i, JTableHeader.this, JTableHeader.this.table);
+                rfturn nfw AddfssiblfJTbblfHfbdfrEntry(i, JTbblfHfbdfr.tiis, JTbblfHfbdfr.tiis.tbblf);
             }
         }
 
       /**
-       * This class provides an implementation of the Java Accessibility
-       * API appropriate for JTableHeader entries.
+       * Tiis dlbss providfs bn implfmfntbtion of tif Jbvb Addfssibility
+       * API bppropribtf for JTbblfHfbdfr fntrifs.
        */
-        protected class AccessibleJTableHeaderEntry extends AccessibleContext
-            implements Accessible, AccessibleComponent  {
+        protfdtfd dlbss AddfssiblfJTbblfHfbdfrEntry fxtfnds AddfssiblfContfxt
+            implfmfnts Addfssiblf, AddfssiblfComponfnt  {
 
-            private JTableHeader parent;
-            private int column;
-            private JTable table;
-
-            /**
-             *  Constructs an AccessiblJTableHeaaderEntry
-             * @since 1.4
-             *
-             * @param c  the column index
-             * @param p  the parent <code>JTableHeader</code>
-             * @param t  the table <code>JTable</code>
-             */
-            public AccessibleJTableHeaderEntry(int c, JTableHeader p, JTable t) {
-                parent = p;
-                column = c;
-                table = t;
-                this.setAccessibleParent(parent);
-            }
+            privbtf JTbblfHfbdfr pbrfnt;
+            privbtf int dolumn;
+            privbtf JTbblf tbblf;
 
             /**
-             * Get the AccessibleContext associated with this object.
-             * In the implementation of the Java Accessibility API
-             * for this class, returns this object, which serves as
-             * its own AccessibleContext.
+             *  Construdts bn AddfssiblJTbblfHfbbdfrEntry
+             * @sindf 1.4
              *
-             * @return this object
+             * @pbrbm d  tif dolumn indfx
+             * @pbrbm p  tif pbrfnt <dodf>JTbblfHfbdfr</dodf>
+             * @pbrbm t  tif tbblf <dodf>JTbblf</dodf>
              */
-            public AccessibleContext getAccessibleContext() {
-                return this;
+            publid AddfssiblfJTbblfHfbdfrEntry(int d, JTbblfHfbdfr p, JTbblf t) {
+                pbrfnt = p;
+                dolumn = d;
+                tbblf = t;
+                tiis.sftAddfssiblfPbrfnt(pbrfnt);
             }
 
-            private AccessibleContext getCurrentAccessibleContext() {
-                TableColumnModel tcm = table.getColumnModel();
-                if (tcm != null) {
-                    // Fixes 4772355 - ArrayOutOfBoundsException in
-                    // JTableHeader
-                    if (column < 0 || column >= tcm.getColumnCount()) {
-                        return null;
+            /**
+             * Gft tif AddfssiblfContfxt bssodibtfd witi tiis objfdt.
+             * In tif implfmfntbtion of tif Jbvb Addfssibility API
+             * for tiis dlbss, rfturns tiis objfdt, wiidi sfrvfs bs
+             * its own AddfssiblfContfxt.
+             *
+             * @rfturn tiis objfdt
+             */
+            publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+                rfturn tiis;
+            }
+
+            privbtf AddfssiblfContfxt gftCurrfntAddfssiblfContfxt() {
+                TbblfColumnModfl tdm = tbblf.gftColumnModfl();
+                if (tdm != null) {
+                    // Fixfs 4772355 - ArrbyOutOfBoundsExdfption in
+                    // JTbblfHfbdfr
+                    if (dolumn < 0 || dolumn >= tdm.gftColumnCount()) {
+                        rfturn null;
                     }
-                    TableColumn aColumn = tcm.getColumn(column);
-                    TableCellRenderer renderer = aColumn.getHeaderRenderer();
-                    if (renderer == null) {
-                        if (defaultRenderer != null) {
-                            renderer = defaultRenderer;
-                        } else {
-                            return null;
+                    TbblfColumn bColumn = tdm.gftColumn(dolumn);
+                    TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                    if (rfndfrfr == null) {
+                        if (dffbultRfndfrfr != null) {
+                            rfndfrfr = dffbultRfndfrfr;
+                        } flsf {
+                            rfturn null;
                         }
                     }
-                    Component c = renderer.getTableCellRendererComponent(
-                                      JTableHeader.this.getTable(),
-                                      aColumn.getHeaderValue(), false, false,
-                                      -1, column);
-                    if (c instanceof Accessible) {
-                        return ((Accessible) c).getAccessibleContext();
+                    Componfnt d = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                      JTbblfHfbdfr.tiis.gftTbblf(),
+                                      bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                      -1, dolumn);
+                    if (d instbndfof Addfssiblf) {
+                        rfturn ((Addfssiblf) d).gftAddfssiblfContfxt();
                     }
                 }
-                return null;
+                rfturn null;
             }
 
-            private Component getCurrentComponent() {
-                TableColumnModel tcm = table.getColumnModel();
-                if (tcm != null) {
-                    // Fixes 4772355 - ArrayOutOfBoundsException in
-                    // JTableHeader
-                    if (column < 0 || column >= tcm.getColumnCount()) {
-                        return null;
+            privbtf Componfnt gftCurrfntComponfnt() {
+                TbblfColumnModfl tdm = tbblf.gftColumnModfl();
+                if (tdm != null) {
+                    // Fixfs 4772355 - ArrbyOutOfBoundsExdfption in
+                    // JTbblfHfbdfr
+                    if (dolumn < 0 || dolumn >= tdm.gftColumnCount()) {
+                        rfturn null;
                     }
-                    TableColumn aColumn = tcm.getColumn(column);
-                    TableCellRenderer renderer = aColumn.getHeaderRenderer();
-                    if (renderer == null) {
-                        if (defaultRenderer != null) {
-                            renderer = defaultRenderer;
-                        } else {
-                            return null;
+                    TbblfColumn bColumn = tdm.gftColumn(dolumn);
+                    TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+                    if (rfndfrfr == null) {
+                        if (dffbultRfndfrfr != null) {
+                            rfndfrfr = dffbultRfndfrfr;
+                        } flsf {
+                            rfturn null;
                         }
                     }
-                    return renderer.getTableCellRendererComponent(
-                                      JTableHeader.this.getTable(),
-                                      aColumn.getHeaderValue(), false, false,
-                                      -1, column);
-                } else {
-                    return null;
+                    rfturn rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(
+                                      JTbblfHfbdfr.tiis.gftTbblf(),
+                                      bColumn.gftHfbdfrVbluf(), fblsf, fblsf,
+                                      -1, dolumn);
+                } flsf {
+                    rfturn null;
                 }
             }
 
-        // AccessibleContext methods
+        // AddfssiblfContfxt mftiods
 
-            public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    String name = ac.getAccessibleName();
-                    if ((name != null) && (name != "")) {
-                        // return the cell renderer's AccessibleName
-                        return name;
+            publid String gftAddfssiblfNbmf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    String nbmf = bd.gftAddfssiblfNbmf();
+                    if ((nbmf != null) && (nbmf != "")) {
+                        // rfturn tif dfll rfndfrfr's AddfssiblfNbmf
+                        rfturn nbmf;
                     }
                 }
-                if ((accessibleName != null) && (accessibleName != "")) {
-                    return accessibleName;
-                } else {
-                    // fall back to the client property
-                    String name = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
-                    if (name != null) {
-                        return name;
-                    } else {
-                        return table.getColumnName(column);
+                if ((bddfssiblfNbmf != null) && (bddfssiblfNbmf != "")) {
+                    rfturn bddfssiblfNbmf;
+                } flsf {
+                    // fbll bbdk to tif dlifnt propfrty
+                    String nbmf = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY);
+                    if (nbmf != null) {
+                        rfturn nbmf;
+                    } flsf {
+                        rfturn tbblf.gftColumnNbmf(dolumn);
                     }
                 }
             }
 
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
-                } else {
-                    super.setAccessibleName(s);
+            publid void sftAddfssiblfNbmf(String s) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.sftAddfssiblfNbmf(s);
+                } flsf {
+                    supfr.sftAddfssiblfNbmf(s);
                 }
             }
 
             //
-            // *** should check toolTip text for desc. (needs MouseEvent)
+            // *** siould difdk toolTip tfxt for dfsd. (nffds MousfEvfnt)
             //
-            public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
-                } else {
-                    return super.getAccessibleDescription();
+            publid String gftAddfssiblfDfsdription() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfDfsdription();
+                } flsf {
+                    rfturn supfr.gftAddfssiblfDfsdription();
                 }
             }
 
-            public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
-                } else {
-                    super.setAccessibleDescription(s);
+            publid void sftAddfssiblfDfsdription(String s) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.sftAddfssiblfDfsdription(s);
+                } flsf {
+                    supfr.sftAddfssiblfDfsdription(s);
                 }
             }
 
-            public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
-                } else {
-                    return AccessibleRole.COLUMN_HEADER;
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfRolf();
+                } flsf {
+                    rfturn AddfssiblfRolf.COLUMN_HEADER;
                 }
             }
 
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    AccessibleStateSet states = ac.getAccessibleStateSet();
-                    if (isShowing()) {
-                        states.add(AccessibleState.SHOWING);
+            publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    AddfssiblfStbtfSft stbtfs = bd.gftAddfssiblfStbtfSft();
+                    if (isSiowing()) {
+                        stbtfs.bdd(AddfssiblfStbtf.SHOWING);
                     }
-                    return states;
-                } else {
-                    return new AccessibleStateSet();  // must be non null?
+                    rfturn stbtfs;
+                } flsf {
+                    rfturn nfw AddfssiblfStbtfSft();  // must bf non null?
                 }
             }
 
-            public int getAccessibleIndexInParent() {
-                return column;
+            publid int gftAddfssiblfIndfxInPbrfnt() {
+                rfturn dolumn;
             }
 
-            public int getAccessibleChildrenCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleChildrenCount();
-                } else {
-                    return 0;
+            publid int gftAddfssiblfCiildrfnCount() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftAddfssiblfCiildrfnCount();
+                } flsf {
+                    rfturn 0;
                 }
             }
 
-            public Accessible getAccessibleChild(int i) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    Accessible accessibleChild = ac.getAccessibleChild(i);
-                    ac.setAccessibleParent(this);
-                    return accessibleChild;
-                } else {
-                    return null;
+            publid Addfssiblf gftAddfssiblfCiild(int i) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    Addfssiblf bddfssiblfCiild = bd.gftAddfssiblfCiild(i);
+                    bd.sftAddfssiblfPbrfnt(tiis);
+                    rfturn bddfssiblfCiild;
+                } flsf {
+                    rfturn null;
                 }
             }
 
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
-                } else {
-                    return null;
+            publid Lodblf gftLodblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    rfturn bd.gftLodblf();
+                } flsf {
+                    rfturn null;
                 }
             }
 
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
-                } else {
-                    super.addPropertyChangeListener(l);
+            publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.bddPropfrtyCibngfListfnfr(l);
+                } flsf {
+                    supfr.bddPropfrtyCibngfListfnfr(l);
                 }
             }
 
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
-                } else {
-                    super.removePropertyChangeListener(l);
+            publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd != null) {
+                    bd.rfmovfPropfrtyCibngfListfnfr(l);
+                } flsf {
+                    supfr.rfmovfPropfrtyCibngfListfnfr(l);
                 }
             }
 
-            public AccessibleAction getAccessibleAction() {
-                return getCurrentAccessibleContext().getAccessibleAction();
+            publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfAdtion();
             }
 
            /**
-            * Get the AccessibleComponent associated with this object.  In the
-            * implementation of the Java Accessibility API for this class,
-            * return this object, which is responsible for implementing the
-            * AccessibleComponent interface on behalf of itself.
+            * Gft tif AddfssiblfComponfnt bssodibtfd witi tiis objfdt.  In tif
+            * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+            * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+            * AddfssiblfComponfnt intfrfbdf on bfiblf of itsflf.
             *
-            * @return this object
+            * @rfturn tiis objfdt
             */
-            public AccessibleComponent getAccessibleComponent() {
-                return this; // to override getBounds()
+            publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+                rfturn tiis; // to ovfrridf gftBounds()
             }
 
-            public AccessibleSelection getAccessibleSelection() {
-                return getCurrentAccessibleContext().getAccessibleSelection();
+            publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfSflfdtion();
             }
 
-            public AccessibleText getAccessibleText() {
-                return getCurrentAccessibleContext().getAccessibleText();
+            publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfTfxt();
             }
 
-            public AccessibleValue getAccessibleValue() {
-                return getCurrentAccessibleContext().getAccessibleValue();
+            publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+                rfturn gftCurrfntAddfssiblfContfxt().gftAddfssiblfVbluf();
             }
 
 
-        // AccessibleComponent methods
+        // AddfssiblfComponfnt mftiods
 
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.getBackground();
-                    } else {
-                        return null;
+            publid Color gftBbdkground() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftBbdkground();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftBbdkground();
+                    } flsf {
+                        rfturn null;
                     }
                 }
             }
 
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
-                } else {
-                    Component cp = getCurrentComponent();
-                    if (cp != null) {
-                        cp.setBackground(c);
+            publid void sftBbdkground(Color d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftBbdkground(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftBbdkground(d);
                     }
                 }
             }
 
-            public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.getForeground();
-                    } else {
-                        return null;
+            publid Color gftForfground() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftForfground();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftForfground();
+                    } flsf {
+                        rfturn null;
                     }
                 }
             }
 
-            public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
-                } else {
-                    Component cp = getCurrentComponent();
-                    if (cp != null) {
-                        cp.setForeground(c);
+            publid void sftForfground(Color d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftForfground(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftForfground(d);
                     }
                 }
             }
 
-            public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.getCursor();
-                    } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
-                        } else {
-                            return null;
+            publid Cursor gftCursor() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftCursor();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftCursor();
+                    } flsf {
+                        Addfssiblf bp = gftAddfssiblfPbrfnt();
+                        if (bp instbndfof AddfssiblfComponfnt) {
+                            rfturn ((AddfssiblfComponfnt) bp).gftCursor();
+                        } flsf {
+                            rfturn null;
                         }
                     }
                 }
             }
 
-            public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
-                } else {
-                    Component cp = getCurrentComponent();
-                    if (cp != null) {
-                        cp.setCursor(c);
+            publid void sftCursor(Cursor d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftCursor(d);
+                } flsf {
+                    Componfnt dp = gftCurrfntComponfnt();
+                    if (dp != null) {
+                        dp.sftCursor(d);
                     }
                 }
             }
 
-            public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.getFont();
-                    } else {
-                        return null;
+            publid Font gftFont() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftFont();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftFont();
+                    } flsf {
+                        rfturn null;
                     }
                 }
             }
 
-            public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.setFont(f);
+            publid void sftFont(Font f) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftFont(f);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftFont(f);
                     }
                 }
             }
 
-            public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.getFontMetrics(f);
-                    } else {
-                        return null;
+            publid FontMftrids gftFontMftrids(Font f) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftFontMftrids(f);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.gftFontMftrids(f);
+                    } flsf {
+                        rfturn null;
                     }
                 }
             }
 
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.isEnabled();
-                    } else {
-                        return false;
+            publid boolfbn isEnbblfd() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isEnbblfd();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isEnbblfd();
+                    } flsf {
+                        rfturn fblsf;
                     }
                 }
             }
 
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.setEnabled(b);
+            publid void sftEnbblfd(boolfbn b) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftEnbblfd(b);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftEnbblfd(b);
                     }
                 }
             }
 
-            public boolean isVisible() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isVisible();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.isVisible();
-                    } else {
-                        return false;
+            publid boolfbn isVisiblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isVisiblf();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isVisiblf();
+                    } flsf {
+                        rfturn fblsf;
                     }
                 }
             }
 
-            public void setVisible(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setVisible(b);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.setVisible(b);
+            publid void sftVisiblf(boolfbn b) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftVisiblf(b);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftVisiblf(b);
                     }
                 }
             }
 
-            public boolean isShowing() {
-                if (isVisible() && JTableHeader.this.isShowing()) {
-                    return true;
-                } else {
-                    return false;
+            publid boolfbn isSiowing() {
+                if (isVisiblf() && JTbblfHfbdfr.tiis.isSiowing()) {
+                    rfturn truf;
+                } flsf {
+                    rfturn fblsf;
                 }
             }
 
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
-                    } else {
-                        return getBounds().contains(p);
+            publid boolfbn dontbins(Point p) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+                    rfturn r.dontbins(p);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        Rfdtbnglf r = d.gftBounds();
+                        rfturn r.dontbins(p);
+                    } flsf {
+                        rfturn gftBounds().dontbins(p);
                     }
                 }
             }
 
-            public Point getLocationOnScreen() {
-                if (parent != null) {
-                    Point parentLocation = parent.getLocationOnScreen();
-                    Point componentLocation = getLocation();
-                    componentLocation.translate(parentLocation.x, parentLocation.y);
-                    return componentLocation;
-                } else {
-                    return null;
+            publid Point gftLodbtionOnSdrffn() {
+                if (pbrfnt != null) {
+                    Point pbrfntLodbtion = pbrfnt.gftLodbtionOnSdrffn();
+                    Point domponfntLodbtion = gftLodbtion();
+                    domponfntLodbtion.trbnslbtf(pbrfntLodbtion.x, pbrfntLodbtion.y);
+                    rfturn domponfntLodbtion;
+                } flsf {
+                    rfturn null;
                 }
             }
 
-            public Point getLocation() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.getLocation();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.getLocation();
-                    } else {
-                        return getBounds().getLocation();
+            publid Point gftLodbtion() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+                    rfturn r.gftLodbtion();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        Rfdtbnglf r = d.gftBounds();
+                        rfturn r.gftLodbtion();
+                    } flsf {
+                        rfturn gftBounds().gftLodbtion();
                     }
                 }
             }
 
-            public void setLocation(Point p) {
-//                if ((parent != null)  && (parent.contains(p))) {
-//                    ensureIndexIsVisible(indexInParent);
+            publid void sftLodbtion(Point p) {
+//                if ((pbrfnt != null)  && (pbrfnt.dontbins(p))) {
+//                    fnsurfIndfxIsVisiblf(indfxInPbrfnt);
 //                }
             }
 
-            public Rectangle getBounds() {
-                  Rectangle r = table.getCellRect(-1, column, false);
+            publid Rfdtbnglf gftBounds() {
+                  Rfdtbnglf r = tbblf.gftCfllRfdt(-1, dolumn, fblsf);
                   r.y = 0;
-                  return r;
+                  rfturn r;
 
-//                AccessibleContext ac = getCurrentAccessibleContext();
-//                if (ac instanceof AccessibleComponent) {
-//                    return ((AccessibleComponent) ac).getBounds();
-//                } else {
-//                  Component c = getCurrentComponent();
-//                  if (c != null) {
-//                      return c.getBounds();
-//                  } else {
-//                      Rectangle r = table.getCellRect(-1, column, false);
+//                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+//                if (bd instbndfof AddfssiblfComponfnt) {
+//                    rfturn ((AddfssiblfComponfnt) bd).gftBounds();
+//                } flsf {
+//                  Componfnt d = gftCurrfntComponfnt();
+//                  if (d != null) {
+//                      rfturn d.gftBounds();
+//                  } flsf {
+//                      Rfdtbnglf r = tbblf.gftCfllRfdt(-1, dolumn, fblsf);
 //                      r.y = 0;
-//                      return r;
+//                      rfturn r;
 //                  }
 //              }
             }
 
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.setBounds(r);
+            publid void sftBounds(Rfdtbnglf r) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftBounds(r);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftBounds(r);
                     }
                 }
             }
 
-            public Dimension getSize() {
-                return getBounds().getSize();
-//                AccessibleContext ac = getCurrentAccessibleContext();
-//                if (ac instanceof AccessibleComponent) {
-//                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-//                    return r.getSize();
-//                } else {
-//                    Component c = getCurrentComponent();
-//                    if (c != null) {
-//                        Rectangle r = c.getBounds();
-//                        return r.getSize();
-//                    } else {
-//                        return getBounds().getSize();
+            publid Dimfnsion gftSizf() {
+                rfturn gftBounds().gftSizf();
+//                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+//                if (bd instbndfof AddfssiblfComponfnt) {
+//                    Rfdtbnglf r = ((AddfssiblfComponfnt) bd).gftBounds();
+//                    rfturn r.gftSizf();
+//                } flsf {
+//                    Componfnt d = gftCurrfntComponfnt();
+//                    if (d != null) {
+//                        Rfdtbnglf r = d.gftBounds();
+//                        rfturn r.gftSizf();
+//                    } flsf {
+//                        rfturn gftBounds().gftSizf();
 //                    }
 //                }
             }
 
-            public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.setSize(d);
+            publid void sftSizf (Dimfnsion d) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).sftSizf(d);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.sftSizf(d);
                     }
                 }
             }
 
-            public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
-                } else {
-                    return null;
+            publid Addfssiblf gftAddfssiblfAt(Point p) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).gftAddfssiblfAt(p);
+                } flsf {
+                    rfturn null;
                 }
             }
 
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        return c.isFocusTraversable();
-                    } else {
-                        return false;
+            publid boolfbn isFodusTrbvfrsbblf() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    rfturn ((AddfssiblfComponfnt) bd).isFodusTrbvfrsbblf();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        rfturn d.isFodusTrbvfrsbblf();
+                    } flsf {
+                        rfturn fblsf;
                     }
                 }
             }
 
-            public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.requestFocus();
+            publid void rfqufstFodus() {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).rfqufstFodus();
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.rfqufstFodus();
                     }
                 }
             }
 
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.addFocusListener(l);
+            publid void bddFodusListfnfr(FodusListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).bddFodusListfnfr(l);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.bddFodusListfnfr(l);
                     }
                 }
             }
 
-            public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
-                } else {
-                    Component c = getCurrentComponent();
-                    if (c != null) {
-                        c.removeFocusListener(l);
+            publid void rfmovfFodusListfnfr(FodusListfnfr l) {
+                AddfssiblfContfxt bd = gftCurrfntAddfssiblfContfxt();
+                if (bd instbndfof AddfssiblfComponfnt) {
+                    ((AddfssiblfComponfnt) bd).rfmovfFodusListfnfr(l);
+                } flsf {
+                    Componfnt d = gftCurrfntComponfnt();
+                    if (d != null) {
+                        d.rfmovfFodusListfnfr(l);
                     }
                 }
             }
 
-        } // inner class AccessibleJTableHeaderElement
+        } // innfr dlbss AddfssiblfJTbblfHfbdfrElfmfnt
 
-    }  // inner class AccessibleJTableHeader
+    }  // innfr dlbss AddfssiblfJTbblfHfbdfr
 
-}  // End of Class JTableHeader
+}  // End of Clbss JTbblfHfbdfr

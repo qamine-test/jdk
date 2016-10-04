@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.util.List;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.pipe.Region;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.util.logging.PlbtformLoggfr;
 
-public class LWWindowPeer
-    extends LWContainerPeer<Window, JComponent>
-    implements FramePeer, DialogPeer, FullScreenCapable, DisplayChangedListener, PlatformEventNotifier
+publid dlbss LWWindowPffr
+    fxtfnds LWContbinfrPffr<Window, JComponfnt>
+    implfmfnts FrbmfPffr, DiblogPffr, FullSdrffnCbpbblf, DisplbyCibngfdListfnfr, PlbtformEvfntNotififr
 {
-    public enum PeerType {
+    publid fnum PffrTypf {
         SIMPLEWINDOW,
         FRAME,
         DIALOG,
@@ -52,1359 +52,1359 @@ public class LWWindowPeer
         LW_FRAME
     }
 
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.lwawt.focus.LWWindowPeer");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.lwbwt.fodus.LWWindowPffr");
 
-    private final PlatformWindow platformWindow;
+    privbtf finbl PlbtformWindow plbtformWindow;
 
-    private static final int MINIMUM_WIDTH = 1;
-    private static final int MINIMUM_HEIGHT = 1;
+    privbtf stbtid finbl int MINIMUM_WIDTH = 1;
+    privbtf stbtid finbl int MINIMUM_HEIGHT = 1;
 
-    private Insets insets = new Insets(0, 0, 0, 0);
+    privbtf Insfts insfts = nfw Insfts(0, 0, 0, 0);
 
-    private GraphicsDevice graphicsDevice;
-    private GraphicsConfiguration graphicsConfig;
+    privbtf GrbpiidsDfvidf grbpiidsDfvidf;
+    privbtf GrbpiidsConfigurbtion grbpiidsConfig;
 
-    private SurfaceData surfaceData;
-    private final Object surfaceDataLock = new Object();
+    privbtf SurfbdfDbtb surfbdfDbtb;
+    privbtf finbl Objfdt surfbdfDbtbLodk = nfw Objfdt();
 
-    private volatile int windowState = Frame.NORMAL;
+    privbtf volbtilf int windowStbtf = Frbmf.NORMAL;
 
-    // check that the mouse is over the window
-    private volatile boolean isMouseOver = false;
+    // difdk tibt tif mousf is ovfr tif window
+    privbtf volbtilf boolfbn isMousfOvfr = fblsf;
 
-    // A peer where the last mouse event came to. Used by cursor manager to
-    // find the component under cursor
-    private static volatile LWComponentPeer<?, ?> lastCommonMouseEventPeer;
+    // A pffr wifrf tif lbst mousf fvfnt dbmf to. Usfd by dursor mbnbgfr to
+    // find tif domponfnt undfr dursor
+    privbtf stbtid volbtilf LWComponfntPffr<?, ?> lbstCommonMousfEvfntPffr;
 
-    // A peer where the last mouse event came to. Used to generate
-    // MOUSE_ENTERED/EXITED notifications
-    private volatile LWComponentPeer<?, ?> lastMouseEventPeer;
+    // A pffr wifrf tif lbst mousf fvfnt dbmf to. Usfd to gfnfrbtf
+    // MOUSE_ENTERED/EXITED notifidbtions
+    privbtf volbtilf LWComponfntPffr<?, ?> lbstMousfEvfntPffr;
 
-    // Peers where all dragged/released events should come to,
-    // depending on what mouse button is being dragged according to Cocoa
-    private static final LWComponentPeer<?, ?>[] mouseDownTarget = new LWComponentPeer<?, ?>[3];
+    // Pffrs wifrf bll drbggfd/rflfbsfd fvfnts siould domf to,
+    // dfpfnding on wibt mousf button is bfing drbggfd bddording to Codob
+    privbtf stbtid finbl LWComponfntPffr<?, ?>[] mousfDownTbrgft = nfw LWComponfntPffr<?, ?>[3];
 
-    // A bitmask that indicates what mouse buttons produce MOUSE_CLICKED events
-    // on MOUSE_RELEASE. Click events are only generated if there were no drag
-    // events between MOUSE_PRESSED and MOUSE_RELEASED for particular button
-    private static int mouseClickButtons = 0;
+    // A bitmbsk tibt indidbtfs wibt mousf buttons produdf MOUSE_CLICKED fvfnts
+    // on MOUSE_RELEASE. Clidk fvfnts brf only gfnfrbtfd if tifrf wfrf no drbg
+    // fvfnts bftwffn MOUSE_PRESSED bnd MOUSE_RELEASED for pbrtidulbr button
+    privbtf stbtid int mousfClidkButtons = 0;
 
-    private volatile boolean isOpaque = true;
+    privbtf volbtilf boolfbn isOpbquf = truf;
 
-    private static final Font DEFAULT_FONT = new Font("Lucida Grande", Font.PLAIN, 13);
+    privbtf stbtid finbl Font DEFAULT_FONT = nfw Font("Ludidb Grbndf", Font.PLAIN, 13);
 
-    private static LWWindowPeer grabbingWindow;
+    privbtf stbtid LWWindowPffr grbbbingWindow;
 
-    private volatile boolean skipNextFocusChange;
+    privbtf volbtilf boolfbn skipNfxtFodusCibngf;
 
-    private static final Color nonOpaqueBackground = new Color(0, 0, 0, 0);
+    privbtf stbtid finbl Color nonOpbqufBbdkground = nfw Color(0, 0, 0, 0);
 
-    private volatile boolean textured;
+    privbtf volbtilf boolfbn tfxturfd;
 
-    private final PeerType peerType;
+    privbtf finbl PffrTypf pffrTypf;
 
-    private final SecurityWarningWindow warningWindow;
+    privbtf finbl SfdurityWbrningWindow wbrningWindow;
 
     /**
-     * Current modal blocker or null.
+     * Currfnt modbl blodkfr or null.
      *
-     * Synchronization: peerTreeLock.
+     * Syndironizbtion: pffrTrffLodk.
      */
-    private LWWindowPeer blocker;
+    privbtf LWWindowPffr blodkfr;
 
-    public LWWindowPeer(Window target, PlatformComponent platformComponent,
-                        PlatformWindow platformWindow, PeerType peerType)
+    publid LWWindowPffr(Window tbrgft, PlbtformComponfnt plbtformComponfnt,
+                        PlbtformWindow plbtformWindow, PffrTypf pffrTypf)
     {
-        super(target, platformComponent);
-        this.platformWindow = platformWindow;
-        this.peerType = peerType;
+        supfr(tbrgft, plbtformComponfnt);
+        tiis.plbtformWindow = plbtformWindow;
+        tiis.pffrTypf = pffrTypf;
 
-        Window owner = target.getOwner();
-        LWWindowPeer ownerPeer = owner == null ? null :
-             (LWWindowPeer) AWTAccessor.getComponentAccessor().getPeer(owner);
-        PlatformWindow ownerDelegate = (ownerPeer != null) ? ownerPeer.getPlatformWindow() : null;
+        Window ownfr = tbrgft.gftOwnfr();
+        LWWindowPffr ownfrPffr = ownfr == null ? null :
+             (LWWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(ownfr);
+        PlbtformWindow ownfrDflfgbtf = (ownfrPffr != null) ? ownfrPffr.gftPlbtformWindow() : null;
 
-        // The delegate.initialize() needs a non-null GC on X11.
-        GraphicsConfiguration gc = getTarget().getGraphicsConfiguration();
-        synchronized (getStateLock()) {
-            // graphicsConfig should be updated according to the real window
-            // bounds when the window is shown, see 4868278
-            this.graphicsConfig = gc;
+        // Tif dflfgbtf.initiblizf() nffds b non-null GC on X11.
+        GrbpiidsConfigurbtion gd = gftTbrgft().gftGrbpiidsConfigurbtion();
+        syndironizfd (gftStbtfLodk()) {
+            // grbpiidsConfig siould bf updbtfd bddording to tif rfbl window
+            // bounds wifn tif window is siown, sff 4868278
+            tiis.grbpiidsConfig = gd;
         }
 
-        if (!target.isFontSet()) {
-            target.setFont(DEFAULT_FONT);
+        if (!tbrgft.isFontSft()) {
+            tbrgft.sftFont(DEFAULT_FONT);
         }
 
-        if (!target.isBackgroundSet()) {
-            target.setBackground(SystemColor.window);
-        } else {
-            // first we check if user provided alpha for background. This is
-            // similar to what Apple's Java do.
-            // Since JDK7 we should rely on setOpacity() only.
-            // this.opacity = c.getAlpha();
+        if (!tbrgft.isBbdkgroundSft()) {
+            tbrgft.sftBbdkground(SystfmColor.window);
+        } flsf {
+            // first wf difdk if usfr providfd blpib for bbdkground. Tiis is
+            // similbr to wibt Applf's Jbvb do.
+            // Sindf JDK7 wf siould rfly on sftOpbdity() only.
+            // tiis.opbdity = d.gftAlpib();
         }
 
-        if (!target.isForegroundSet()) {
-            target.setForeground(SystemColor.windowText);
-            // we should not call setForeground because it will call a repaint
-            // which the peer may not be ready to do yet.
+        if (!tbrgft.isForfgroundSft()) {
+            tbrgft.sftForfground(SystfmColor.windowTfxt);
+            // wf siould not dbll sftForfground bfdbusf it will dbll b rfpbint
+            // wiidi tif pffr mby not bf rfbdy to do yft.
         }
 
-        platformWindow.initialize(target, this, ownerDelegate);
+        plbtformWindow.initiblizf(tbrgft, tiis, ownfrDflfgbtf);
 
-        // Init warning window(for applets)
-        SecurityWarningWindow warn = null;
-        if (target.getWarningString() != null) {
-            // accessSystemTray permission allows to display TrayIcon, TrayIcon tooltip
-            // and TrayIcon balloon windows without a warning window.
-            if (!AWTAccessor.getWindowAccessor().isTrayIconWindow(target)) {
-                LWToolkit toolkit = (LWToolkit)Toolkit.getDefaultToolkit();
-                warn = toolkit.createSecurityWarning(target, this);
+        // Init wbrning window(for bpplfts)
+        SfdurityWbrningWindow wbrn = null;
+        if (tbrgft.gftWbrningString() != null) {
+            // bddfssSystfmTrby pfrmission bllows to displby TrbyIdon, TrbyIdon tooltip
+            // bnd TrbyIdon bblloon windows witiout b wbrning window.
+            if (!AWTAddfssor.gftWindowAddfssor().isTrbyIdonWindow(tbrgft)) {
+                LWToolkit toolkit = (LWToolkit)Toolkit.gftDffbultToolkit();
+                wbrn = toolkit.drfbtfSfdurityWbrning(tbrgft, tiis);
             }
         }
 
-        warningWindow = warn;
+        wbrningWindow = wbrn;
     }
 
-    @Override
-    void initializeImpl() {
-        super.initializeImpl();
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
 
 
-        if (getTarget() instanceof Frame) {
-            setTitle(((Frame) getTarget()).getTitle());
-            setState(((Frame) getTarget()).getExtendedState());
-        } else if (getTarget() instanceof Dialog) {
-            setTitle(((Dialog) getTarget()).getTitle());
+        if (gftTbrgft() instbndfof Frbmf) {
+            sftTitlf(((Frbmf) gftTbrgft()).gftTitlf());
+            sftStbtf(((Frbmf) gftTbrgft()).gftExtfndfdStbtf());
+        } flsf if (gftTbrgft() instbndfof Diblog) {
+            sftTitlf(((Diblog) gftTbrgft()).gftTitlf());
         }
 
-        updateAlwaysOnTopState();
-        updateMinimumSize();
+        updbtfAlwbysOnTopStbtf();
+        updbtfMinimumSizf();
 
-        final Shape shape = getTarget().getShape();
-        if (shape != null) {
-            applyShape(Region.getInstance(shape, null));
+        finbl Sibpf sibpf = gftTbrgft().gftSibpf();
+        if (sibpf != null) {
+            bpplySibpf(Rfgion.gftInstbndf(sibpf, null));
         }
 
-        final float opacity = getTarget().getOpacity();
-        if (opacity < 1.0f) {
-            setOpacity(opacity);
+        finbl flobt opbdity = gftTbrgft().gftOpbdity();
+        if (opbdity < 1.0f) {
+            sftOpbdity(opbdity);
         }
 
-        setOpaque(getTarget().isOpaque());
+        sftOpbquf(gftTbrgft().isOpbquf());
 
-        updateInsets(platformWindow.getInsets());
-        if (getSurfaceData() == null) {
-            replaceSurfaceData(false);
+        updbtfInsfts(plbtformWindow.gftInsfts());
+        if (gftSurfbdfDbtb() == null) {
+            rfplbdfSurfbdfDbtb(fblsf);
         }
-        activateDisplayListener();
+        bdtivbtfDisplbyListfnfr();
     }
 
-    // Just a helper method
-    @Override
-    public PlatformWindow getPlatformWindow() {
-        return platformWindow;
+    // Just b iflpfr mftiod
+    @Ovfrridf
+    publid PlbtformWindow gftPlbtformWindow() {
+        rfturn plbtformWindow;
     }
 
-    @Override
-    protected LWWindowPeer getWindowPeerOrSelf() {
-        return this;
+    @Ovfrridf
+    protfdtfd LWWindowPffr gftWindowPffrOrSflf() {
+        rfturn tiis;
     }
 
     // ---- PEER METHODS ---- //
 
-    @Override
-    protected void disposeImpl() {
-        deactivateDisplayListener();
-        SurfaceData oldData = getSurfaceData();
-        synchronized (surfaceDataLock){
-            surfaceData = null;
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        dfbdtivbtfDisplbyListfnfr();
+        SurfbdfDbtb oldDbtb = gftSurfbdfDbtb();
+        syndironizfd (surfbdfDbtbLodk){
+            surfbdfDbtb = null;
         }
-        if (oldData != null) {
-            oldData.invalidate();
+        if (oldDbtb != null) {
+            oldDbtb.invblidbtf();
         }
-        if (isGrabbing()) {
-            ungrab();
+        if (isGrbbbing()) {
+            ungrbb();
         }
-        if (warningWindow != null) {
-            warningWindow.dispose();
+        if (wbrningWindow != null) {
+            wbrningWindow.disposf();
         }
 
-        platformWindow.dispose();
-        super.disposeImpl();
+        plbtformWindow.disposf();
+        supfr.disposfImpl();
     }
 
-    @Override
-    protected void setVisibleImpl(final boolean visible) {
-        if (!visible && warningWindow != null) {
-            warningWindow.setVisible(false, false);
+    @Ovfrridf
+    protfdtfd void sftVisiblfImpl(finbl boolfbn visiblf) {
+        if (!visiblf && wbrningWindow != null) {
+            wbrningWindow.sftVisiblf(fblsf, fblsf);
         }
 
-        super.setVisibleImpl(visible);
-        // TODO: update graphicsConfig, see 4868278
-        platformWindow.setVisible(visible);
-        if (isSimpleWindow()) {
-            KeyboardFocusManagerPeer kfmPeer = LWKeyboardFocusManagerPeer.getInstance();
+        supfr.sftVisiblfImpl(visiblf);
+        // TODO: updbtf grbpiidsConfig, sff 4868278
+        plbtformWindow.sftVisiblf(visiblf);
+        if (isSimplfWindow()) {
+            KfybobrdFodusMbnbgfrPffr kfmPffr = LWKfybobrdFodusMbnbgfrPffr.gftInstbndf();
 
-            if (visible) {
-                if (!getTarget().isAutoRequestFocus()) {
-                    return;
-                } else {
-                    requestWindowFocus(CausedFocusEvent.Cause.ACTIVATION);
+            if (visiblf) {
+                if (!gftTbrgft().isAutoRfqufstFodus()) {
+                    rfturn;
+                } flsf {
+                    rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf.ACTIVATION);
                 }
-            // Focus the owner in case this window is focused.
-            } else if (kfmPeer.getCurrentFocusedWindow() == getTarget()) {
-                // Transfer focus to the owner.
-                LWWindowPeer owner = getOwnerFrameDialog(LWWindowPeer.this);
-                if (owner != null) {
-                    owner.requestWindowFocus(CausedFocusEvent.Cause.ACTIVATION);
+            // Fodus tif ownfr in dbsf tiis window is fodusfd.
+            } flsf if (kfmPffr.gftCurrfntFodusfdWindow() == gftTbrgft()) {
+                // Trbnsffr fodus to tif ownfr.
+                LWWindowPffr ownfr = gftOwnfrFrbmfDiblog(LWWindowPffr.tiis);
+                if (ownfr != null) {
+                    ownfr.rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf.ACTIVATION);
                 }
             }
         }
     }
 
-    @Override
-    public final GraphicsConfiguration getGraphicsConfiguration() {
-        synchronized (getStateLock()) {
-            return graphicsConfig;
+    @Ovfrridf
+    publid finbl GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        syndironizfd (gftStbtfLodk()) {
+            rfturn grbpiidsConfig;
         }
     }
 
-    @Override
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        setGraphicsConfig(gc);
-        return false;
+    @Ovfrridf
+    publid boolfbn updbtfGrbpiidsDbtb(GrbpiidsConfigurbtion gd) {
+        sftGrbpiidsConfig(gd);
+        rfturn fblsf;
     }
 
-    protected final Graphics getOnscreenGraphics(Color fg, Color bg, Font f) {
-        if (getSurfaceData() == null) {
-            return null;
+    protfdtfd finbl Grbpiids gftOnsdrffnGrbpiids(Color fg, Color bg, Font f) {
+        if (gftSurfbdfDbtb() == null) {
+            rfturn null;
         }
         if (fg == null) {
-            fg = SystemColor.windowText;
+            fg = SystfmColor.windowTfxt;
         }
         if (bg == null) {
-            bg = SystemColor.window;
+            bg = SystfmColor.window;
         }
         if (f == null) {
             f = DEFAULT_FONT;
         }
-        return platformWindow.transformGraphics(new SunGraphics2D(getSurfaceData(), fg, bg, f));
+        rfturn plbtformWindow.trbnsformGrbpiids(nfw SunGrbpiids2D(gftSurfbdfDbtb(), fg, bg, f));
     }
 
-    @Override
-    public void setBounds(int x, int y, int w, int h, int op) {
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int w, int i, int op) {
 
-        if((op & NO_EMBEDDED_CHECK) == 0 && getPeerType() == PeerType.VIEW_EMBEDDED_FRAME) {
-            return;
+        if((op & NO_EMBEDDED_CHECK) == 0 && gftPffrTypf() == PffrTypf.VIEW_EMBEDDED_FRAME) {
+            rfturn;
         }
 
         if ((op & SET_CLIENT_SIZE) != 0) {
-            // SET_CLIENT_SIZE is only applicable to window peers, so handle it here
-            // instead of pulling 'insets' field up to LWComponentPeer
-            // no need to add insets since Window's notion of width and height includes insets.
+            // SET_CLIENT_SIZE is only bpplidbblf to window pffrs, so ibndlf it ifrf
+            // instfbd of pulling 'insfts' fifld up to LWComponfntPffr
+            // no nffd to bdd insfts sindf Window's notion of widti bnd ifigit indludfs insfts.
             op &= ~SET_CLIENT_SIZE;
             op |= SET_SIZE;
         }
 
-        // Don't post ComponentMoved/Resized and Paint events
-        // until we've got a notification from the delegate
-        Rectangle cb = constrainBounds(x, y, w, h);
+        // Don't post ComponfntMovfd/Rfsizfd bnd Pbint fvfnts
+        // until wf'vf got b notifidbtion from tif dflfgbtf
+        Rfdtbnglf db = donstrbinBounds(x, y, w, i);
 
-        Rectangle newBounds = new Rectangle(getBounds());
+        Rfdtbnglf nfwBounds = nfw Rfdtbnglf(gftBounds());
         if ((op & (SET_LOCATION | SET_BOUNDS)) != 0) {
-            newBounds.x = cb.x;
-            newBounds.y = cb.y;
+            nfwBounds.x = db.x;
+            nfwBounds.y = db.y;
         }
         if ((op & (SET_SIZE | SET_BOUNDS)) != 0) {
-            newBounds.width = cb.width;
-            newBounds.height = cb.height;
+            nfwBounds.widti = db.widti;
+            nfwBounds.ifigit = db.ifigit;
         }
-        // Native system could constraint bounds, so the peer wold be updated in the callback
-        platformWindow.setBounds(newBounds.x, newBounds.y, newBounds.width, newBounds.height);
+        // Nbtivf systfm dould donstrbint bounds, so tif pffr wold bf updbtfd in tif dbllbbdk
+        plbtformWindow.sftBounds(nfwBounds.x, nfwBounds.y, nfwBounds.widti, nfwBounds.ifigit);
     }
 
-    public Rectangle constrainBounds(Rectangle bounds) {
-        return constrainBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+    publid Rfdtbnglf donstrbinBounds(Rfdtbnglf bounds) {
+        rfturn donstrbinBounds(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
     }
 
-    public Rectangle constrainBounds(int x, int y, int w, int h) {
+    publid Rfdtbnglf donstrbinBounds(int x, int y, int w, int i) {
 
         if (w < MINIMUM_WIDTH) {
             w = MINIMUM_WIDTH;
         }
 
-        if (h < MINIMUM_HEIGHT) {
-            h = MINIMUM_HEIGHT;
+        if (i < MINIMUM_HEIGHT) {
+            i = MINIMUM_HEIGHT;
         }
 
-        final int maxW = getLWGC().getMaxTextureWidth();
-        final int maxH = getLWGC().getMaxTextureHeight();
+        finbl int mbxW = gftLWGC().gftMbxTfxturfWidti();
+        finbl int mbxH = gftLWGC().gftMbxTfxturfHfigit();
 
-        if (w > maxW) {
-            w = maxW;
+        if (w > mbxW) {
+            w = mbxW;
         }
-        if (h > maxH) {
-            h = maxH;
+        if (i > mbxH) {
+            i = mbxH;
         }
 
-        return new Rectangle(x, y, w, h);
+        rfturn nfw Rfdtbnglf(x, y, w, i);
     }
 
-    @Override
-    public Point getLocationOnScreen() {
-        return platformWindow.getLocationOnScreen();
+    @Ovfrridf
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn plbtformWindow.gftLodbtionOnSdrffn();
     }
 
     /**
-     * Overridden from LWContainerPeer to return the correct insets.
-     * Insets are queried from the delegate and are kept up to date by
-     * requiering when needed (i.e. when the window geometry is changed).
+     * Ovfrriddfn from LWContbinfrPffr to rfturn tif dorrfdt insfts.
+     * Insfts brf qufrifd from tif dflfgbtf bnd brf kfpt up to dbtf by
+     * rfquifring wifn nffdfd (i.f. wifn tif window gfomftry is dibngfd).
      */
-    @Override
-    public Insets getInsets() {
-        synchronized (getStateLock()) {
-            return insets;
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        syndironizfd (gftStbtfLodk()) {
+            rfturn insfts;
         }
     }
 
-    @Override
-    public FontMetrics getFontMetrics(Font f) {
-        // TODO: check for "use platform metrics" settings
-        return platformWindow.getFontMetrics(f);
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font f) {
+        // TODO: difdk for "usf plbtform mftrids" sfttings
+        rfturn plbtformWindow.gftFontMftrids(f);
     }
 
-    @Override
-    public void toFront() {
-        platformWindow.toFront();
+    @Ovfrridf
+    publid void toFront() {
+        plbtformWindow.toFront();
     }
 
-    @Override
-    public void toBack() {
-        platformWindow.toBack();
+    @Ovfrridf
+    publid void toBbdk() {
+        plbtformWindow.toBbdk();
     }
 
-    @Override
-    public void setZOrder(ComponentPeer above) {
-        throw new RuntimeException("not implemented");
+    @Ovfrridf
+    publid void sftZOrdfr(ComponfntPffr bbovf) {
+        tirow nfw RuntimfExdfption("not implfmfntfd");
     }
 
-    @Override
-    public void updateAlwaysOnTopState() {
-        platformWindow.setAlwaysOnTop(getTarget().isAlwaysOnTop());
+    @Ovfrridf
+    publid void updbtfAlwbysOnTopStbtf() {
+        plbtformWindow.sftAlwbysOnTop(gftTbrgft().isAlwbysOnTop());
     }
 
-    @Override
-    public void updateFocusableWindowState() {
-        platformWindow.updateFocusableWindowState();
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {
+        plbtformWindow.updbtfFodusbblfWindowStbtf();
     }
 
-    @Override
-    public void setModalBlocked(Dialog blocker, boolean blocked) {
-        synchronized (getPeerTreeLock()) {
-            ComponentPeer peer =  AWTAccessor.getComponentAccessor().getPeer(blocker);
-            if (blocked && (peer instanceof LWWindowPeer)) {
-                this.blocker = (LWWindowPeer) peer;
-            } else {
-                this.blocker = null;
+    @Ovfrridf
+    publid void sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
+        syndironizfd (gftPffrTrffLodk()) {
+            ComponfntPffr pffr =  AWTAddfssor.gftComponfntAddfssor().gftPffr(blodkfr);
+            if (blodkfd && (pffr instbndfof LWWindowPffr)) {
+                tiis.blodkfr = (LWWindowPffr) pffr;
+            } flsf {
+                tiis.blodkfr = null;
             }
         }
 
-        platformWindow.setModalBlocked(blocked);
+        plbtformWindow.sftModblBlodkfd(blodkfd);
     }
 
-    @Override
-    public void updateMinimumSize() {
-        final Dimension min;
-        if (getTarget().isMinimumSizeSet()) {
-            min = getTarget().getMinimumSize();
-            min.width = Math.max(min.width, MINIMUM_WIDTH);
-            min.height = Math.max(min.height, MINIMUM_HEIGHT);
-        } else {
-            min = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {
+        finbl Dimfnsion min;
+        if (gftTbrgft().isMinimumSizfSft()) {
+            min = gftTbrgft().gftMinimumSizf();
+            min.widti = Mbti.mbx(min.widti, MINIMUM_WIDTH);
+            min.ifigit = Mbti.mbx(min.ifigit, MINIMUM_HEIGHT);
+        } flsf {
+            min = nfw Dimfnsion(MINIMUM_WIDTH, MINIMUM_HEIGHT);
         }
 
-        final Dimension max;
-        if (getTarget().isMaximumSizeSet()) {
-            max = getTarget().getMaximumSize();
-            max.width = Math.min(max.width, getLWGC().getMaxTextureWidth());
-            max.height = Math.min(max.height, getLWGC().getMaxTextureHeight());
-        } else {
-            max = new Dimension(getLWGC().getMaxTextureWidth(),
-                                getLWGC().getMaxTextureHeight());
+        finbl Dimfnsion mbx;
+        if (gftTbrgft().isMbximumSizfSft()) {
+            mbx = gftTbrgft().gftMbximumSizf();
+            mbx.widti = Mbti.min(mbx.widti, gftLWGC().gftMbxTfxturfWidti());
+            mbx.ifigit = Mbti.min(mbx.ifigit, gftLWGC().gftMbxTfxturfHfigit());
+        } flsf {
+            mbx = nfw Dimfnsion(gftLWGC().gftMbxTfxturfWidti(),
+                                gftLWGC().gftMbxTfxturfHfigit());
         }
 
-        platformWindow.setSizeConstraints(min.width, min.height, max.width, max.height);
+        plbtformWindow.sftSizfConstrbints(min.widti, min.ifigit, mbx.widti, mbx.ifigit);
     }
 
-    @Override
-    public void updateIconImages() {
-        getPlatformWindow().updateIconImages();
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {
+        gftPlbtformWindow().updbtfIdonImbgfs();
     }
 
-    @Override
-    public void setBackground(final Color c) {
-        super.setBackground(c);
-        updateOpaque();
+    @Ovfrridf
+    publid void sftBbdkground(finbl Color d) {
+        supfr.sftBbdkground(d);
+        updbtfOpbquf();
     }
 
-    @Override
-    public void setOpacity(float opacity) {
-        getPlatformWindow().setOpacity(opacity);
-        repaintPeer();
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        gftPlbtformWindow().sftOpbdity(opbdity);
+        rfpbintPffr();
     }
 
-    @Override
-    public final void setOpaque(final boolean isOpaque) {
-        if (this.isOpaque != isOpaque) {
-            this.isOpaque = isOpaque;
-            updateOpaque();
+    @Ovfrridf
+    publid finbl void sftOpbquf(finbl boolfbn isOpbquf) {
+        if (tiis.isOpbquf != isOpbquf) {
+            tiis.isOpbquf = isOpbquf;
+            updbtfOpbquf();
         }
     }
 
-    private void updateOpaque() {
-        getPlatformWindow().setOpaque(!isTranslucent());
-        replaceSurfaceData(false);
-        repaintPeer();
+    privbtf void updbtfOpbquf() {
+        gftPlbtformWindow().sftOpbquf(!isTrbnsludfnt());
+        rfplbdfSurfbdfDbtb(fblsf);
+        rfpbintPffr();
     }
 
-    @Override
-    public void updateWindow() {
+    @Ovfrridf
+    publid void updbtfWindow() {
     }
 
-    public final boolean isTextured() {
-        return textured;
+    publid finbl boolfbn isTfxturfd() {
+        rfturn tfxturfd;
     }
 
-    public final void setTextured(final boolean isTextured) {
-        textured = isTextured;
+    publid finbl void sftTfxturfd(finbl boolfbn isTfxturfd) {
+        tfxturfd = isTfxturfd;
     }
 
-    @Override
-    public final boolean isTranslucent() {
-        synchronized (getStateLock()) {
+    @Ovfrridf
+    publid finbl boolfbn isTrbnsludfnt() {
+        syndironizfd (gftStbtfLodk()) {
             /*
-             * Textured window is a special case of translucent window.
-             * The difference is only in nswindow background. So when we set
-             * texture property our peer became fully translucent. It doesn't
-             * fill background, create non opaque backbuffers and layer etc.
+             * Tfxturfd window is b spfdibl dbsf of trbnsludfnt window.
+             * Tif difffrfndf is only in nswindow bbdkground. So wifn wf sft
+             * tfxturf propfrty our pffr bfdbmf fully trbnsludfnt. It dofsn't
+             * fill bbdkground, drfbtf non opbquf bbdkbufffrs bnd lbyfr ftd.
              */
-            return !isOpaque || isShaped() || isTextured();
+            rfturn !isOpbquf || isSibpfd() || isTfxturfd();
         }
     }
 
-    @Override
-    final void applyShapeImpl(final Region shape) {
-        super.applyShapeImpl(shape);
-        updateOpaque();
+    @Ovfrridf
+    finbl void bpplySibpfImpl(finbl Rfgion sibpf) {
+        supfr.bpplySibpfImpl(sibpf);
+        updbtfOpbquf();
     }
 
-    @Override
-    public void repositionSecurityWarning() {
-        if (warningWindow != null) {
-            AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-            Window target = getTarget();
-            int x = compAccessor.getX(target);
-            int y = compAccessor.getY(target);
-            int width = compAccessor.getWidth(target);
-            int height = compAccessor.getHeight(target);
-            warningWindow.reposition(x, y, width, height);
+    @Ovfrridf
+    publid void rfpositionSfdurityWbrning() {
+        if (wbrningWindow != null) {
+            AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+            Window tbrgft = gftTbrgft();
+            int x = dompAddfssor.gftX(tbrgft);
+            int y = dompAddfssor.gftY(tbrgft);
+            int widti = dompAddfssor.gftWidti(tbrgft);
+            int ifigit = dompAddfssor.gftHfigit(tbrgft);
+            wbrningWindow.rfposition(x, y, widti, ifigit);
         }
     }
 
     // ---- FRAME PEER METHODS ---- //
 
-    @Override // FramePeer and DialogPeer
-    public void setTitle(String title) {
-        platformWindow.setTitle(title == null ? "" : title);
+    @Ovfrridf // FrbmfPffr bnd DiblogPffr
+    publid void sftTitlf(String titlf) {
+        plbtformWindow.sftTitlf(titlf == null ? "" : titlf);
     }
 
-    @Override
-    public void setMenuBar(MenuBar mb) {
-         platformWindow.setMenuBar(mb);
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {
+         plbtformWindow.sftMfnuBbr(mb);
     }
 
-    @Override // FramePeer and DialogPeer
-    public void setResizable(boolean resizable) {
-        platformWindow.setResizable(resizable);
+    @Ovfrridf // FrbmfPffr bnd DiblogPffr
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        plbtformWindow.sftRfsizbblf(rfsizbblf);
     }
 
-    @Override
-    public void setState(int state) {
-        platformWindow.setWindowState(state);
+    @Ovfrridf
+    publid void sftStbtf(int stbtf) {
+        plbtformWindow.sftWindowStbtf(stbtf);
     }
 
-    @Override
-    public int getState() {
-        return windowState;
+    @Ovfrridf
+    publid int gftStbtf() {
+        rfturn windowStbtf;
     }
 
-    @Override
-    public void setMaximizedBounds(Rectangle bounds) {
-        // TODO: not implemented
+    @Ovfrridf
+    publid void sftMbximizfdBounds(Rfdtbnglf bounds) {
+        // TODO: not implfmfntfd
     }
 
-    @Override
-    public void setBoundsPrivate(int x, int y, int width, int height) {
-        setBounds(x, y, width, height, SET_BOUNDS | NO_EMBEDDED_CHECK);
+    @Ovfrridf
+    publid void sftBoundsPrivbtf(int x, int y, int widti, int ifigit) {
+        sftBounds(x, y, widti, ifigit, SET_BOUNDS | NO_EMBEDDED_CHECK);
     }
 
-    @Override
-    public Rectangle getBoundsPrivate() {
-        throw new RuntimeException("not implemented");
+    @Ovfrridf
+    publid Rfdtbnglf gftBoundsPrivbtf() {
+        tirow nfw RuntimfExdfption("not implfmfntfd");
     }
 
     // ---- DIALOG PEER METHODS ---- //
 
-    @Override
-    public void blockWindows(List<Window> windows) {
-        //TODO: LWX will probably need some collectJavaToplevels to speed this up
+    @Ovfrridf
+    publid void blodkWindows(List<Window> windows) {
+        //TODO: LWX will probbbly nffd somf dollfdtJbvbToplfvfls to spffd tiis up
         for (Window w : windows) {
-            WindowPeer wp =
-                    (WindowPeer) AWTAccessor.getComponentAccessor().getPeer(w);
+            WindowPffr wp =
+                    (WindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
             if (wp != null) {
-                wp.setModalBlocked((Dialog)getTarget(), true);
+                wp.sftModblBlodkfd((Diblog)gftTbrgft(), truf);
             }
         }
     }
 
     // ---- PEER NOTIFICATIONS ---- //
 
-    @Override
-    public void notifyIconify(boolean iconify) {
-        //The toplevel target is Frame and states are applicable to it.
-        //Otherwise, the target is Window and it don't have state property.
-        //Hopefully, no such events are posted in the queue so consider the
-        //target as Frame in all cases.
+    @Ovfrridf
+    publid void notifyIdonify(boolfbn idonify) {
+        //Tif toplfvfl tbrgft is Frbmf bnd stbtfs brf bpplidbblf to it.
+        //Otifrwisf, tif tbrgft is Window bnd it don't ibvf stbtf propfrty.
+        //Hopffully, no sudi fvfnts brf postfd in tif qufuf so donsidfr tif
+        //tbrgft bs Frbmf in bll dbsfs.
 
-        // REMIND: should we send it anyway if the state not changed since last
-        // time?
-        WindowEvent iconifyEvent = new WindowEvent(getTarget(),
-                iconify ? WindowEvent.WINDOW_ICONIFIED
-                        : WindowEvent.WINDOW_DEICONIFIED);
-        postEvent(iconifyEvent);
+        // REMIND: siould wf sfnd it bnywby if tif stbtf not dibngfd sindf lbst
+        // timf?
+        WindowEvfnt idonifyEvfnt = nfw WindowEvfnt(gftTbrgft(),
+                idonify ? WindowEvfnt.WINDOW_ICONIFIED
+                        : WindowEvfnt.WINDOW_DEICONIFIED);
+        postEvfnt(idonifyEvfnt);
 
-        int newWindowState = iconify ? Frame.ICONIFIED : Frame.NORMAL;
-        postWindowStateChangedEvent(newWindowState);
+        int nfwWindowStbtf = idonify ? Frbmf.ICONIFIED : Frbmf.NORMAL;
+        postWindowStbtfCibngfdEvfnt(nfwWindowStbtf);
 
-        // REMIND: RepaintManager doesn't repaint iconified windows and
-        // hence ignores any repaint request during deiconification.
-        // So, we need to repaint window explicitly when it becomes normal.
-        if (!iconify) {
-            repaintPeer();
+        // REMIND: RfpbintMbnbgfr dofsn't rfpbint idonififd windows bnd
+        // ifndf ignorfs bny rfpbint rfqufst during dfidonifidbtion.
+        // So, wf nffd to rfpbint window fxpliditly wifn it bfdomfs normbl.
+        if (!idonify) {
+            rfpbintPffr();
         }
     }
 
-    @Override
-    public void notifyZoom(boolean isZoomed) {
-        int newWindowState = isZoomed ? Frame.MAXIMIZED_BOTH : Frame.NORMAL;
-        postWindowStateChangedEvent(newWindowState);
-    }
-
-    /**
-     * Called by the {@code PlatformWindow} when any part of the window should
-     * be repainted.
-     */
-    @Override
-    public void notifyExpose(final Rectangle r) {
-        repaintPeer(r);
+    @Ovfrridf
+    publid void notifyZoom(boolfbn isZoomfd) {
+        int nfwWindowStbtf = isZoomfd ? Frbmf.MAXIMIZED_BOTH : Frbmf.NORMAL;
+        postWindowStbtfCibngfdEvfnt(nfwWindowStbtf);
     }
 
     /**
-     * Called by the {@code PlatformWindow} when this window is moved/resized by
-     * user or window insets are changed. There's no notifyReshape() in
-     * LWComponentPeer as the only components which could be resized by user are
-     * top-level windows.
+     * Cbllfd by tif {@dodf PlbtformWindow} wifn bny pbrt of tif window siould
+     * bf rfpbintfd.
      */
-    @Override
-    public void notifyReshape(int x, int y, int w, int h) {
-        Rectangle oldBounds = getBounds();
-        final boolean invalid = updateInsets(platformWindow.getInsets());
-        final boolean moved = (x != oldBounds.x) || (y != oldBounds.y);
-        final boolean resized = (w != oldBounds.width) || (h != oldBounds.height);
-
-        // Check if anything changed
-        if (!moved && !resized && !invalid) {
-            return;
-        }
-        // First, update peer's bounds
-        setBounds(x, y, w, h, SET_BOUNDS, false, false);
-
-        // Second, update the graphics config and surface data
-        final boolean isNewDevice = updateGraphicsDevice();
-        if (resized || isNewDevice) {
-            replaceSurfaceData();
-            updateMinimumSize();
-        }
-
-        // Third, COMPONENT_MOVED/COMPONENT_RESIZED/PAINT events
-        if (moved || invalid) {
-            handleMove(x, y, true);
-        }
-        if (resized || invalid || isNewDevice) {
-            handleResize(w, h, true);
-            repaintPeer();
-        }
-
-        repositionSecurityWarning();
+    @Ovfrridf
+    publid void notifyExposf(finbl Rfdtbnglf r) {
+        rfpbintPffr(r);
     }
 
-    private void clearBackground(final int w, final int h) {
-        final Graphics g = getOnscreenGraphics(getForeground(), getBackground(),
-                                               getFont());
+    /**
+     * Cbllfd by tif {@dodf PlbtformWindow} wifn tiis window is movfd/rfsizfd by
+     * usfr or window insfts brf dibngfd. Tifrf's no notifyRfsibpf() in
+     * LWComponfntPffr bs tif only domponfnts wiidi dould bf rfsizfd by usfr brf
+     * top-lfvfl windows.
+     */
+    @Ovfrridf
+    publid void notifyRfsibpf(int x, int y, int w, int i) {
+        Rfdtbnglf oldBounds = gftBounds();
+        finbl boolfbn invblid = updbtfInsfts(plbtformWindow.gftInsfts());
+        finbl boolfbn movfd = (x != oldBounds.x) || (y != oldBounds.y);
+        finbl boolfbn rfsizfd = (w != oldBounds.widti) || (i != oldBounds.ifigit);
+
+        // Cifdk if bnytiing dibngfd
+        if (!movfd && !rfsizfd && !invblid) {
+            rfturn;
+        }
+        // First, updbtf pffr's bounds
+        sftBounds(x, y, w, i, SET_BOUNDS, fblsf, fblsf);
+
+        // Sfdond, updbtf tif grbpiids donfig bnd surfbdf dbtb
+        finbl boolfbn isNfwDfvidf = updbtfGrbpiidsDfvidf();
+        if (rfsizfd || isNfwDfvidf) {
+            rfplbdfSurfbdfDbtb();
+            updbtfMinimumSizf();
+        }
+
+        // Tiird, COMPONENT_MOVED/COMPONENT_RESIZED/PAINT fvfnts
+        if (movfd || invblid) {
+            ibndlfMovf(x, y, truf);
+        }
+        if (rfsizfd || invblid || isNfwDfvidf) {
+            ibndlfRfsizf(w, i, truf);
+            rfpbintPffr();
+        }
+
+        rfpositionSfdurityWbrning();
+    }
+
+    privbtf void dlfbrBbdkground(finbl int w, finbl int i) {
+        finbl Grbpiids g = gftOnsdrffnGrbpiids(gftForfground(), gftBbdkground(),
+                                               gftFont());
         if (g != null) {
             try {
-                if (g instanceof Graphics2D) {
-                    ((Graphics2D) g).setComposite(AlphaComposite.Src);
+                if (g instbndfof Grbpiids2D) {
+                    ((Grbpiids2D) g).sftCompositf(AlpibCompositf.Srd);
                 }
-                if (isTranslucent()) {
-                    g.setColor(nonOpaqueBackground);
-                    g.fillRect(0, 0, w, h);
+                if (isTrbnsludfnt()) {
+                    g.sftColor(nonOpbqufBbdkground);
+                    g.fillRfdt(0, 0, w, i);
                 }
-                if (!isTextured()) {
-                    if (g instanceof SunGraphics2D) {
-                        ((SunGraphics2D) g).constrain(0, 0, w, h, getRegion());
+                if (!isTfxturfd()) {
+                    if (g instbndfof SunGrbpiids2D) {
+                        ((SunGrbpiids2D) g).donstrbin(0, 0, w, i, gftRfgion());
                     }
-                    g.setColor(getBackground());
-                    g.fillRect(0, 0, w, h);
+                    g.sftColor(gftBbdkground());
+                    g.fillRfdt(0, 0, w, i);
                 }
-            } finally {
-                g.dispose();
+            } finblly {
+                g.disposf();
             }
         }
     }
 
-    @Override
-    public void notifyUpdateCursor() {
-        getLWToolkit().getCursorManager().updateCursorLater(this);
+    @Ovfrridf
+    publid void notifyUpdbtfCursor() {
+        gftLWToolkit().gftCursorMbnbgfr().updbtfCursorLbtfr(tiis);
     }
 
-    @Override
-    public void notifyActivation(boolean activation, LWWindowPeer opposite) {
-        Window oppositeWindow = (opposite == null)? null : opposite.getTarget();
-        changeFocusedWindow(activation, oppositeWindow);
+    @Ovfrridf
+    publid void notifyAdtivbtion(boolfbn bdtivbtion, LWWindowPffr oppositf) {
+        Window oppositfWindow = (oppositf == null)? null : oppositf.gftTbrgft();
+        dibngfFodusfdWindow(bdtivbtion, oppositfWindow);
     }
 
-    // MouseDown in non-client area
-    @Override
-    public void notifyNCMouseDown() {
-        // Ungrab except for a click on a Dialog with the grabbing owner
-        if (grabbingWindow != null &&
-            !grabbingWindow.isOneOfOwnersOf(this))
+    // MousfDown in non-dlifnt brfb
+    @Ovfrridf
+    publid void notifyNCMousfDown() {
+        // Ungrbb fxdfpt for b dlidk on b Diblog witi tif grbbbing ownfr
+        if (grbbbingWindow != null &&
+            !grbbbingWindow.isOnfOfOwnfrsOf(tiis))
         {
-            grabbingWindow.ungrab();
+            grbbbingWindow.ungrbb();
         }
     }
 
     // ---- EVENTS ---- //
 
     /*
-     * Called by the delegate to dispatch the event to Java. Event
-     * coordinates are relative to non-client window are, i.e. the top-left
-     * point of the client area is (insets.top, insets.left).
+     * Cbllfd by tif dflfgbtf to dispbtdi tif fvfnt to Jbvb. Evfnt
+     * doordinbtfs brf rflbtivf to non-dlifnt window brf, i.f. tif top-lfft
+     * point of tif dlifnt brfb is (insfts.top, insfts.lfft).
      */
-    @Override
-    public void notifyMouseEvent(int id, long when, int button,
-                                 int x, int y, int screenX, int screenY,
-                                 int modifiers, int clickCount, boolean popupTrigger,
-                                 byte[] bdata)
+    @Ovfrridf
+    publid void notifyMousfEvfnt(int id, long wifn, int button,
+                                 int x, int y, int sdrffnX, int sdrffnY,
+                                 int modififrs, int dlidkCount, boolfbn popupTriggfr,
+                                 bytf[] bdbtb)
     {
-        // TODO: fill "bdata" member of AWTEvent
-        Rectangle r = getBounds();
-        // findPeerAt() expects parent coordinates
-        LWComponentPeer<?, ?> targetPeer = findPeerAt(r.x + x, r.y + y);
+        // TODO: fill "bdbtb" mfmbfr of AWTEvfnt
+        Rfdtbnglf r = gftBounds();
+        // findPffrAt() fxpfdts pbrfnt doordinbtfs
+        LWComponfntPffr<?, ?> tbrgftPffr = findPffrAt(r.x + x, r.y + y);
 
-        if (id == MouseEvent.MOUSE_EXITED) {
-            isMouseOver = false;
-            if (lastMouseEventPeer != null) {
-                if (lastMouseEventPeer.isEnabled()) {
-                    Point lp = lastMouseEventPeer.windowToLocal(x, y,
-                            this);
-                    Component target = lastMouseEventPeer.getTarget();
-                    postMouseExitedEvent(target, when, modifiers, lp,
-                            screenX, screenY, clickCount, popupTrigger, button);
+        if (id == MousfEvfnt.MOUSE_EXITED) {
+            isMousfOvfr = fblsf;
+            if (lbstMousfEvfntPffr != null) {
+                if (lbstMousfEvfntPffr.isEnbblfd()) {
+                    Point lp = lbstMousfEvfntPffr.windowToLodbl(x, y,
+                            tiis);
+                    Componfnt tbrgft = lbstMousfEvfntPffr.gftTbrgft();
+                    postMousfExitfdEvfnt(tbrgft, wifn, modififrs, lp,
+                            sdrffnX, sdrffnY, dlidkCount, popupTriggfr, button);
                 }
 
-                // Sometimes we may get MOUSE_EXITED after lastCommonMouseEventPeer is switched
-                // to a peer from another window. So we must first check if this peer is
-                // the same as lastWindowPeer
-                if (lastCommonMouseEventPeer != null && lastCommonMouseEventPeer.getWindowPeerOrSelf() == this) {
-                    lastCommonMouseEventPeer = null;
+                // Somftimfs wf mby gft MOUSE_EXITED bftfr lbstCommonMousfEvfntPffr is switdifd
+                // to b pffr from bnotifr window. So wf must first difdk if tiis pffr is
+                // tif sbmf bs lbstWindowPffr
+                if (lbstCommonMousfEvfntPffr != null && lbstCommonMousfEvfntPffr.gftWindowPffrOrSflf() == tiis) {
+                    lbstCommonMousfEvfntPffr = null;
                 }
-                lastMouseEventPeer = null;
+                lbstMousfEvfntPffr = null;
             }
-        } else if(id == MouseEvent.MOUSE_ENTERED) {
-            isMouseOver = true;
-            if (targetPeer != null) {
-                if (targetPeer.isEnabled()) {
-                    Point lp = targetPeer.windowToLocal(x, y, this);
-                    Component target = targetPeer.getTarget();
-                    postMouseEnteredEvent(target, when, modifiers, lp,
-                            screenX, screenY, clickCount, popupTrigger, button);
+        } flsf if(id == MousfEvfnt.MOUSE_ENTERED) {
+            isMousfOvfr = truf;
+            if (tbrgftPffr != null) {
+                if (tbrgftPffr.isEnbblfd()) {
+                    Point lp = tbrgftPffr.windowToLodbl(x, y, tiis);
+                    Componfnt tbrgft = tbrgftPffr.gftTbrgft();
+                    postMousfEntfrfdEvfnt(tbrgft, wifn, modififrs, lp,
+                            sdrffnX, sdrffnY, dlidkCount, popupTriggfr, button);
                 }
-                lastCommonMouseEventPeer = targetPeer;
-                lastMouseEventPeer = targetPeer;
+                lbstCommonMousfEvfntPffr = tbrgftPffr;
+                lbstMousfEvfntPffr = tbrgftPffr;
             }
-        } else {
-            PlatformWindow topmostPlatforWindow =
-                    platformWindow.getTopmostPlatformWindowUnderMouse();
+        } flsf {
+            PlbtformWindow topmostPlbtforWindow =
+                    plbtformWindow.gftTopmostPlbtformWindowUndfrMousf();
 
-            LWWindowPeer topmostWindowPeer =
-                    topmostPlatforWindow != null ? topmostPlatforWindow.getPeer() : null;
+            LWWindowPffr topmostWindowPffr =
+                    topmostPlbtforWindow != null ? topmostPlbtforWindow.gftPffr() : null;
 
-            // topmostWindowPeer == null condition is added for the backward
-            // compatibility with applets. It can be removed when the
-            // getTopmostPlatformWindowUnderMouse() method will be properly
-            // implemented in CPlatformEmbeddedFrame class
-            if (topmostWindowPeer == this || topmostWindowPeer == null) {
-                generateMouseEnterExitEventsForComponents(when, button, x, y,
-                        screenX, screenY, modifiers, clickCount, popupTrigger,
-                        targetPeer);
-            } else {
-                LWComponentPeer<?, ?> topmostTargetPeer =
-                        topmostWindowPeer != null ? topmostWindowPeer.findPeerAt(r.x + x, r.y + y) : null;
-                topmostWindowPeer.generateMouseEnterExitEventsForComponents(when, button, x, y,
-                        screenX, screenY, modifiers, clickCount, popupTrigger,
-                        topmostTargetPeer);
+            // topmostWindowPffr == null dondition is bddfd for tif bbdkwbrd
+            // dompbtibility witi bpplfts. It dbn bf rfmovfd wifn tif
+            // gftTopmostPlbtformWindowUndfrMousf() mftiod will bf propfrly
+            // implfmfntfd in CPlbtformEmbfddfdFrbmf dlbss
+            if (topmostWindowPffr == tiis || topmostWindowPffr == null) {
+                gfnfrbtfMousfEntfrExitEvfntsForComponfnts(wifn, button, x, y,
+                        sdrffnX, sdrffnY, modififrs, dlidkCount, popupTriggfr,
+                        tbrgftPffr);
+            } flsf {
+                LWComponfntPffr<?, ?> topmostTbrgftPffr =
+                        topmostWindowPffr != null ? topmostWindowPffr.findPffrAt(r.x + x, r.y + y) : null;
+                topmostWindowPffr.gfnfrbtfMousfEntfrExitEvfntsForComponfnts(wifn, button, x, y,
+                        sdrffnX, sdrffnY, modififrs, dlidkCount, popupTriggfr,
+                        topmostTbrgftPffr);
             }
 
-            // TODO: fill "bdata" member of AWTEvent
+            // TODO: fill "bdbtb" mfmbfr of AWTEvfnt
 
-            int eventButtonMask = (button > 0)? MouseEvent.getMaskForButton(button) : 0;
-            int otherButtonsPressed = modifiers & ~eventButtonMask;
+            int fvfntButtonMbsk = (button > 0)? MousfEvfnt.gftMbskForButton(button) : 0;
+            int otifrButtonsPrfssfd = modififrs & ~fvfntButtonMbsk;
 
-            // For pressed/dragged/released events OS X treats other
-            // mouse buttons as if they were BUTTON2, so we do the same
-            int targetIdx = (button > 3) ? MouseEvent.BUTTON2 - 1 : button - 1;
+            // For prfssfd/drbggfd/rflfbsfd fvfnts OS X trfbts otifr
+            // mousf buttons bs if tify wfrf BUTTON2, so wf do tif sbmf
+            int tbrgftIdx = (button > 3) ? MousfEvfnt.BUTTON2 - 1 : button - 1;
 
-            // MOUSE_ENTERED/EXITED are generated for the components strictly under
-            // mouse even when dragging. That's why we first update lastMouseEventPeer
-            // based on initial targetPeer value and only then recalculate targetPeer
-            // for MOUSE_DRAGGED/RELEASED events
-            if (id == MouseEvent.MOUSE_PRESSED) {
+            // MOUSE_ENTERED/EXITED brf gfnfrbtfd for tif domponfnts stridtly undfr
+            // mousf fvfn wifn drbgging. Tibt's wiy wf first updbtf lbstMousfEvfntPffr
+            // bbsfd on initibl tbrgftPffr vbluf bnd only tifn rfdbldulbtf tbrgftPffr
+            // for MOUSE_DRAGGED/RELEASED fvfnts
+            if (id == MousfEvfnt.MOUSE_PRESSED) {
 
-                // Ungrab only if this window is not an owned window of the grabbing one.
-                if (!isGrabbing() && grabbingWindow != null &&
-                    !grabbingWindow.isOneOfOwnersOf(this))
+                // Ungrbb only if tiis window is not bn ownfd window of tif grbbbing onf.
+                if (!isGrbbbing() && grbbbingWindow != null &&
+                    !grbbbingWindow.isOnfOfOwnfrsOf(tiis))
                 {
-                    grabbingWindow.ungrab();
+                    grbbbingWindow.ungrbb();
                 }
-                if (otherButtonsPressed == 0) {
-                    mouseClickButtons = eventButtonMask;
-                } else {
-                    mouseClickButtons |= eventButtonMask;
-                }
-
-                // The window should be focused on mouse click. If it gets activated by the native platform,
-                // this request will be no op. It will take effect when:
-                // 1. A simple not focused window is clicked.
-                // 2. An active but not focused owner frame/dialog is clicked.
-                // The mouse event then will trigger a focus request "in window" to the component, so the window
-                // should gain focus before.
-                requestWindowFocus(CausedFocusEvent.Cause.MOUSE_EVENT);
-
-                mouseDownTarget[targetIdx] = targetPeer;
-            } else if (id == MouseEvent.MOUSE_DRAGGED) {
-                // Cocoa dragged event has the information about which mouse
-                // button is being dragged. Use it to determine the peer that
-                // should receive the dragged event.
-                targetPeer = mouseDownTarget[targetIdx];
-                mouseClickButtons &= ~modifiers;
-            } else if (id == MouseEvent.MOUSE_RELEASED) {
-                // TODO: currently, mouse released event goes to the same component
-                // that received corresponding mouse pressed event. For most cases,
-                // it's OK, however, we need to make sure that our behavior is consistent
-                // with 1.6 for cases where component in question have been
-                // hidden/removed in between of mouse pressed/released events.
-                targetPeer = mouseDownTarget[targetIdx];
-
-                if ((modifiers & eventButtonMask) == 0) {
-                    mouseDownTarget[targetIdx] = null;
+                if (otifrButtonsPrfssfd == 0) {
+                    mousfClidkButtons = fvfntButtonMbsk;
+                } flsf {
+                    mousfClidkButtons |= fvfntButtonMbsk;
                 }
 
-                // mouseClickButtons is updated below, after MOUSE_CLICK is sent
-            }
+                // Tif window siould bf fodusfd on mousf dlidk. If it gfts bdtivbtfd by tif nbtivf plbtform,
+                // tiis rfqufst will bf no op. It will tbkf ffffdt wifn:
+                // 1. A simplf not fodusfd window is dlidkfd.
+                // 2. An bdtivf but not fodusfd ownfr frbmf/diblog is dlidkfd.
+                // Tif mousf fvfnt tifn will triggfr b fodus rfqufst "in window" to tif domponfnt, so tif window
+                // siould gbin fodus bfforf.
+                rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf.MOUSE_EVENT);
 
-            if (targetPeer == null) {
-                //TODO This can happen if this window is invisible. this is correct behavior in this case?
-                targetPeer = this;
-            }
+                mousfDownTbrgft[tbrgftIdx] = tbrgftPffr;
+            } flsf if (id == MousfEvfnt.MOUSE_DRAGGED) {
+                // Codob drbggfd fvfnt ibs tif informbtion bbout wiidi mousf
+                // button is bfing drbggfd. Usf it to dftfrminf tif pffr tibt
+                // siould rfdfivf tif drbggfd fvfnt.
+                tbrgftPffr = mousfDownTbrgft[tbrgftIdx];
+                mousfClidkButtons &= ~modififrs;
+            } flsf if (id == MousfEvfnt.MOUSE_RELEASED) {
+                // TODO: durrfntly, mousf rflfbsfd fvfnt gofs to tif sbmf domponfnt
+                // tibt rfdfivfd dorrfsponding mousf prfssfd fvfnt. For most dbsfs,
+                // it's OK, iowfvfr, wf nffd to mbkf surf tibt our bfibvior is donsistfnt
+                // witi 1.6 for dbsfs wifrf domponfnt in qufstion ibvf bffn
+                // iiddfn/rfmovfd in bftwffn of mousf prfssfd/rflfbsfd fvfnts.
+                tbrgftPffr = mousfDownTbrgft[tbrgftIdx];
 
-
-            Point lp = targetPeer.windowToLocal(x, y, this);
-            if (targetPeer.isEnabled()) {
-                MouseEvent event = new MouseEvent(targetPeer.getTarget(), id,
-                                                  when, modifiers, lp.x, lp.y,
-                                                  screenX, screenY, clickCount,
-                                                  popupTrigger, button);
-                postEvent(event);
-            }
-
-            if (id == MouseEvent.MOUSE_RELEASED) {
-                if ((mouseClickButtons & eventButtonMask) != 0
-                    && targetPeer.isEnabled()) {
-                    postEvent(new MouseEvent(targetPeer.getTarget(),
-                                             MouseEvent.MOUSE_CLICKED,
-                                             when, modifiers,
-                                             lp.x, lp.y, screenX, screenY,
-                                             clickCount, popupTrigger, button));
+                if ((modififrs & fvfntButtonMbsk) == 0) {
+                    mousfDownTbrgft[tbrgftIdx] = null;
                 }
-                mouseClickButtons &= ~eventButtonMask;
+
+                // mousfClidkButtons is updbtfd bflow, bftfr MOUSE_CLICK is sfnt
+            }
+
+            if (tbrgftPffr == null) {
+                //TODO Tiis dbn ibppfn if tiis window is invisiblf. tiis is dorrfdt bfibvior in tiis dbsf?
+                tbrgftPffr = tiis;
+            }
+
+
+            Point lp = tbrgftPffr.windowToLodbl(x, y, tiis);
+            if (tbrgftPffr.isEnbblfd()) {
+                MousfEvfnt fvfnt = nfw MousfEvfnt(tbrgftPffr.gftTbrgft(), id,
+                                                  wifn, modififrs, lp.x, lp.y,
+                                                  sdrffnX, sdrffnY, dlidkCount,
+                                                  popupTriggfr, button);
+                postEvfnt(fvfnt);
+            }
+
+            if (id == MousfEvfnt.MOUSE_RELEASED) {
+                if ((mousfClidkButtons & fvfntButtonMbsk) != 0
+                    && tbrgftPffr.isEnbblfd()) {
+                    postEvfnt(nfw MousfEvfnt(tbrgftPffr.gftTbrgft(),
+                                             MousfEvfnt.MOUSE_CLICKED,
+                                             wifn, modififrs,
+                                             lp.x, lp.y, sdrffnX, sdrffnY,
+                                             dlidkCount, popupTriggfr, button));
+                }
+                mousfClidkButtons &= ~fvfntButtonMbsk;
             }
         }
-        notifyUpdateCursor();
+        notifyUpdbtfCursor();
     }
 
-    private void generateMouseEnterExitEventsForComponents(long when,
-            int button, int x, int y, int screenX, int screenY,
-            int modifiers, int clickCount, boolean popupTrigger,
-            final LWComponentPeer<?, ?> targetPeer) {
+    privbtf void gfnfrbtfMousfEntfrExitEvfntsForComponfnts(long wifn,
+            int button, int x, int y, int sdrffnX, int sdrffnY,
+            int modififrs, int dlidkCount, boolfbn popupTriggfr,
+            finbl LWComponfntPffr<?, ?> tbrgftPffr) {
 
-        if (!isMouseOver || targetPeer == lastMouseEventPeer) {
-            return;
+        if (!isMousfOvfr || tbrgftPffr == lbstMousfEvfntPffr) {
+            rfturn;
         }
 
-        // Generate Mouse Exit for components
-        if (lastMouseEventPeer != null && lastMouseEventPeer.isEnabled()) {
-            Point oldp = lastMouseEventPeer.windowToLocal(x, y, this);
-            Component target = lastMouseEventPeer.getTarget();
-            postMouseExitedEvent(target, when, modifiers, oldp, screenX, screenY,
-                    clickCount, popupTrigger, button);
+        // Gfnfrbtf Mousf Exit for domponfnts
+        if (lbstMousfEvfntPffr != null && lbstMousfEvfntPffr.isEnbblfd()) {
+            Point oldp = lbstMousfEvfntPffr.windowToLodbl(x, y, tiis);
+            Componfnt tbrgft = lbstMousfEvfntPffr.gftTbrgft();
+            postMousfExitfdEvfnt(tbrgft, wifn, modififrs, oldp, sdrffnX, sdrffnY,
+                    dlidkCount, popupTriggfr, button);
         }
-        lastCommonMouseEventPeer = targetPeer;
-        lastMouseEventPeer = targetPeer;
+        lbstCommonMousfEvfntPffr = tbrgftPffr;
+        lbstMousfEvfntPffr = tbrgftPffr;
 
-        // Generate Mouse Enter for components
-        if (targetPeer != null && targetPeer.isEnabled()) {
-            Point newp = targetPeer.windowToLocal(x, y, this);
-            Component target = targetPeer.getTarget();
-            postMouseEnteredEvent(target, when, modifiers, newp, screenX, screenY, clickCount, popupTrigger, button);
+        // Gfnfrbtf Mousf Entfr for domponfnts
+        if (tbrgftPffr != null && tbrgftPffr.isEnbblfd()) {
+            Point nfwp = tbrgftPffr.windowToLodbl(x, y, tiis);
+            Componfnt tbrgft = tbrgftPffr.gftTbrgft();
+            postMousfEntfrfdEvfnt(tbrgft, wifn, modififrs, nfwp, sdrffnX, sdrffnY, dlidkCount, popupTriggfr, button);
         }
     }
 
-    private void postMouseEnteredEvent(Component target, long when, int modifiers,
-                                       Point loc, int xAbs, int yAbs,
-                                       int clickCount, boolean popupTrigger, int button) {
+    privbtf void postMousfEntfrfdEvfnt(Componfnt tbrgft, long wifn, int modififrs,
+                                       Point lod, int xAbs, int yAbs,
+                                       int dlidkCount, boolfbn popupTriggfr, int button) {
 
-        updateSecurityWarningVisibility();
+        updbtfSfdurityWbrningVisibility();
 
-        postEvent(new MouseEvent(target,
-                MouseEvent.MOUSE_ENTERED,
-                when, modifiers,
-                loc.x, loc.y, xAbs, yAbs,
-                clickCount, popupTrigger, button));
+        postEvfnt(nfw MousfEvfnt(tbrgft,
+                MousfEvfnt.MOUSE_ENTERED,
+                wifn, modififrs,
+                lod.x, lod.y, xAbs, yAbs,
+                dlidkCount, popupTriggfr, button));
     }
 
-    private void postMouseExitedEvent(Component target, long when, int modifiers,
-                                      Point loc, int xAbs, int yAbs,
-                                      int clickCount, boolean popupTrigger, int button) {
+    privbtf void postMousfExitfdEvfnt(Componfnt tbrgft, long wifn, int modififrs,
+                                      Point lod, int xAbs, int yAbs,
+                                      int dlidkCount, boolfbn popupTriggfr, int button) {
 
-        updateSecurityWarningVisibility();
+        updbtfSfdurityWbrningVisibility();
 
-        postEvent(new MouseEvent(target,
-                MouseEvent.MOUSE_EXITED,
-                when, modifiers,
-                loc.x, loc.y, xAbs, yAbs,
-                clickCount, popupTrigger, button));
+        postEvfnt(nfw MousfEvfnt(tbrgft,
+                MousfEvfnt.MOUSE_EXITED,
+                wifn, modififrs,
+                lod.x, lod.y, xAbs, yAbs,
+                dlidkCount, popupTriggfr, button));
     }
 
-    @Override
-    public void notifyMouseWheelEvent(long when, int x, int y, int modifiers,
-                                      int scrollType, int scrollAmount,
-                                      int wheelRotation, double preciseWheelRotation,
-                                      byte[] bdata)
+    @Ovfrridf
+    publid void notifyMousfWifflEvfnt(long wifn, int x, int y, int modififrs,
+                                      int sdrollTypf, int sdrollAmount,
+                                      int wifflRotbtion, doublf prfdisfWifflRotbtion,
+                                      bytf[] bdbtb)
     {
-        // TODO: could we just use the last mouse event target here?
-        Rectangle r = getBounds();
-        // findPeerAt() expects parent coordinates
-        final LWComponentPeer<?, ?> targetPeer = findPeerAt(r.x + x, r.y + y);
-        if (targetPeer == null || !targetPeer.isEnabled()) {
-            return;
+        // TODO: dould wf just usf tif lbst mousf fvfnt tbrgft ifrf?
+        Rfdtbnglf r = gftBounds();
+        // findPffrAt() fxpfdts pbrfnt doordinbtfs
+        finbl LWComponfntPffr<?, ?> tbrgftPffr = findPffrAt(r.x + x, r.y + y);
+        if (tbrgftPffr == null || !tbrgftPffr.isEnbblfd()) {
+            rfturn;
         }
 
-        Point lp = targetPeer.windowToLocal(x, y, this);
-        // TODO: fill "bdata" member of AWTEvent
-        // TODO: screenX/screenY
-        postEvent(new MouseWheelEvent(targetPeer.getTarget(),
-                                      MouseEvent.MOUSE_WHEEL,
-                                      when, modifiers,
+        Point lp = tbrgftPffr.windowToLodbl(x, y, tiis);
+        // TODO: fill "bdbtb" mfmbfr of AWTEvfnt
+        // TODO: sdrffnX/sdrffnY
+        postEvfnt(nfw MousfWifflEvfnt(tbrgftPffr.gftTbrgft(),
+                                      MousfEvfnt.MOUSE_WHEEL,
+                                      wifn, modififrs,
                                       lp.x, lp.y,
-                                      0, 0, /* screenX, Y */
-                                      0 /* clickCount */, false /* popupTrigger */,
-                                      scrollType, scrollAmount,
-                                      wheelRotation, preciseWheelRotation));
+                                      0, 0, /* sdrffnX, Y */
+                                      0 /* dlidkCount */, fblsf /* popupTriggfr */,
+                                      sdrollTypf, sdrollAmount,
+                                      wifflRotbtion, prfdisfWifflRotbtion));
     }
 
     /*
-     * Called by the delegate when a key is pressed.
+     * Cbllfd by tif dflfgbtf wifn b kfy is prfssfd.
      */
-    @Override
-    public void notifyKeyEvent(int id, long when, int modifiers,
-                               int keyCode, char keyChar, int keyLocation)
+    @Ovfrridf
+    publid void notifyKfyEvfnt(int id, long wifn, int modififrs,
+                               int kfyCodf, dibr kfyCibr, int kfyLodbtion)
     {
-        LWKeyboardFocusManagerPeer kfmPeer = LWKeyboardFocusManagerPeer.getInstance();
-        Component focusOwner = kfmPeer.getCurrentFocusOwner();
+        LWKfybobrdFodusMbnbgfrPffr kfmPffr = LWKfybobrdFodusMbnbgfrPffr.gftInstbndf();
+        Componfnt fodusOwnfr = kfmPffr.gftCurrfntFodusOwnfr();
 
-        if (focusOwner == null) {
-            focusOwner = kfmPeer.getCurrentFocusedWindow();
-            if (focusOwner == null) {
-                focusOwner = this.getTarget();
+        if (fodusOwnfr == null) {
+            fodusOwnfr = kfmPffr.gftCurrfntFodusfdWindow();
+            if (fodusOwnfr == null) {
+                fodusOwnfr = tiis.gftTbrgft();
             }
         }
 
-        KeyEvent keyEvent = new KeyEvent(focusOwner, id, when, modifiers,
-            keyCode, keyChar, keyLocation);
-        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(keyEvent,
-                (keyChar == KeyEvent.CHAR_UNDEFINED) ? keyCode
-                : ExtendedKeyCodes.getExtendedKeyCodeForChar(keyChar));
-        postEvent(keyEvent);
+        KfyEvfnt kfyEvfnt = nfw KfyEvfnt(fodusOwnfr, id, wifn, modififrs,
+            kfyCodf, kfyCibr, kfyLodbtion);
+        AWTAddfssor.gftKfyEvfntAddfssor().sftExtfndfdKfyCodf(kfyEvfnt,
+                (kfyCibr == KfyEvfnt.CHAR_UNDEFINED) ? kfyCodf
+                : ExtfndfdKfyCodfs.gftExtfndfdKfyCodfForCibr(kfyCibr));
+        postEvfnt(kfyEvfnt);
     }
 
     // ---- UTILITY METHODS ---- //
 
-    private void activateDisplayListener() {
-        final GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ((SunGraphicsEnvironment) ge).addDisplayChangedListener(this);
+    privbtf void bdtivbtfDisplbyListfnfr() {
+        finbl GrbpiidsEnvironmfnt gf =
+                GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        ((SunGrbpiidsEnvironmfnt) gf).bddDisplbyCibngfdListfnfr(tiis);
     }
 
-    private void deactivateDisplayListener() {
-        final GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ((SunGraphicsEnvironment) ge).removeDisplayChangedListener(this);
+    privbtf void dfbdtivbtfDisplbyListfnfr() {
+        finbl GrbpiidsEnvironmfnt gf =
+                GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        ((SunGrbpiidsEnvironmfnt) gf).rfmovfDisplbyCibngfdListfnfr(tiis);
     }
 
-    private void postWindowStateChangedEvent(int newWindowState) {
-        if (getTarget() instanceof Frame) {
-            AWTAccessor.getFrameAccessor().setExtendedState(
-                    (Frame)getTarget(), newWindowState);
+    privbtf void postWindowStbtfCibngfdEvfnt(int nfwWindowStbtf) {
+        if (gftTbrgft() instbndfof Frbmf) {
+            AWTAddfssor.gftFrbmfAddfssor().sftExtfndfdStbtf(
+                    (Frbmf)gftTbrgft(), nfwWindowStbtf);
         }
 
-        WindowEvent stateChangedEvent = new WindowEvent(getTarget(),
-                WindowEvent.WINDOW_STATE_CHANGED,
-                windowState, newWindowState);
-        postEvent(stateChangedEvent);
-        windowState = newWindowState;
+        WindowEvfnt stbtfCibngfdEvfnt = nfw WindowEvfnt(gftTbrgft(),
+                WindowEvfnt.WINDOW_STATE_CHANGED,
+                windowStbtf, nfwWindowStbtf);
+        postEvfnt(stbtfCibngfdEvfnt);
+        windowStbtf = nfwWindowStbtf;
 
-        updateSecurityWarningVisibility();
+        updbtfSfdurityWbrningVisibility();
     }
 
-    private static int getGraphicsConfigScreen(GraphicsConfiguration gc) {
-        // TODO: this method can be implemented in a more
-        // efficient way by forwarding to the delegate
-        GraphicsDevice gd = gc.getDevice();
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gds = ge.getScreenDevices();
-        for (int i = 0; i < gds.length; i++) {
+    privbtf stbtid int gftGrbpiidsConfigSdrffn(GrbpiidsConfigurbtion gd) {
+        // TODO: tiis mftiod dbn bf implfmfntfd in b morf
+        // fffidifnt wby by forwbrding to tif dflfgbtf
+        GrbpiidsDfvidf gd = gd.gftDfvidf();
+        GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        GrbpiidsDfvidf[] gds = gf.gftSdrffnDfvidfs();
+        for (int i = 0; i < gds.lfngti; i++) {
             if (gds[i] == gd) {
-                return i;
+                rfturn i;
             }
         }
-        // Should never happen if gc is a screen device config
-        return 0;
+        // Siould nfvfr ibppfn if gd is b sdrffn dfvidf donfig
+        rfturn 0;
     }
 
     /*
-     * This method is called when window's graphics config is changed from
-     * the app code (e.g. when the window is made non-opaque) or when
-     * the window is moved to another screen by user.
+     * Tiis mftiod is dbllfd wifn window's grbpiids donfig is dibngfd from
+     * tif bpp dodf (f.g. wifn tif window is mbdf non-opbquf) or wifn
+     * tif window is movfd to bnotifr sdrffn by usfr.
      *
-     * Returns true if the graphics config has been changed, false otherwise.
+     * Rfturns truf if tif grbpiids donfig ibs bffn dibngfd, fblsf otifrwisf.
      */
-    private boolean setGraphicsConfig(GraphicsConfiguration gc) {
-        synchronized (getStateLock()) {
-            if (graphicsConfig == gc) {
-                return false;
+    privbtf boolfbn sftGrbpiidsConfig(GrbpiidsConfigurbtion gd) {
+        syndironizfd (gftStbtfLodk()) {
+            if (grbpiidsConfig == gd) {
+                rfturn fblsf;
             }
-            // If window's graphics config is changed from the app code, the
-            // config correspond to the same device as before; when the window
-            // is moved by user, graphicsDevice is updated in notifyReshape().
-            // In either case, there's nothing to do with screenOn here
-            graphicsConfig = gc;
+            // If window's grbpiids donfig is dibngfd from tif bpp dodf, tif
+            // donfig dorrfspond to tif sbmf dfvidf bs bfforf; wifn tif window
+            // is movfd by usfr, grbpiidsDfvidf is updbtfd in notifyRfsibpf().
+            // In fitifr dbsf, tifrf's notiing to do witi sdrffnOn ifrf
+            grbpiidsConfig = gd;
         }
-        // SurfaceData is replaced later in updateGraphicsData()
-        return true;
+        // SurfbdfDbtb is rfplbdfd lbtfr in updbtfGrbpiidsDbtb()
+        rfturn truf;
     }
 
     /**
-     * Returns true if the GraphicsDevice has been changed, false otherwise.
+     * Rfturns truf if tif GrbpiidsDfvidf ibs bffn dibngfd, fblsf otifrwisf.
      */
-    public boolean updateGraphicsDevice() {
-        GraphicsDevice newGraphicsDevice = platformWindow.getGraphicsDevice();
-        synchronized (getStateLock()) {
-            if (graphicsDevice == newGraphicsDevice) {
-                return false;
+    publid boolfbn updbtfGrbpiidsDfvidf() {
+        GrbpiidsDfvidf nfwGrbpiidsDfvidf = plbtformWindow.gftGrbpiidsDfvidf();
+        syndironizfd (gftStbtfLodk()) {
+            if (grbpiidsDfvidf == nfwGrbpiidsDfvidf) {
+                rfturn fblsf;
             }
-            graphicsDevice = newGraphicsDevice;
+            grbpiidsDfvidf = nfwGrbpiidsDfvidf;
         }
 
-        final GraphicsConfiguration newGC = newGraphicsDevice.getDefaultConfiguration();
+        finbl GrbpiidsConfigurbtion nfwGC = nfwGrbpiidsDfvidf.gftDffbultConfigurbtion();
 
-        if (!setGraphicsConfig(newGC)) return false;
+        if (!sftGrbpiidsConfig(nfwGC)) rfturn fblsf;
 
-        SunToolkit.executeOnEventHandlerThread(getTarget(), new Runnable() {
-            public void run() {
-                AWTAccessor.getComponentAccessor().setGraphicsConfiguration(getTarget(), newGC);
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(gftTbrgft(), nfw Runnbblf() {
+            publid void run() {
+                AWTAddfssor.gftComponfntAddfssor().sftGrbpiidsConfigurbtion(gftTbrgft(), nfwGC);
             }
         });
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public final void displayChanged() {
-        if (updateGraphicsDevice()) {
-            updateMinimumSize();
+    @Ovfrridf
+    publid finbl void displbyCibngfd() {
+        if (updbtfGrbpiidsDfvidf()) {
+            updbtfMinimumSizf();
         }
-        // Replace surface unconditionally, because internal state of the
-        // GraphicsDevice could be changed.
-        replaceSurfaceData();
-        repaintPeer();
+        // Rfplbdf surfbdf undonditionblly, bfdbusf intfrnbl stbtf of tif
+        // GrbpiidsDfvidf dould bf dibngfd.
+        rfplbdfSurfbdfDbtb();
+        rfpbintPffr();
     }
 
-    @Override
-    public final void paletteChanged() {
-        // components do not need to react to this event.
+    @Ovfrridf
+    publid finbl void pblfttfCibngfd() {
+        // domponfnts do not nffd to rfbdt to tiis fvfnt.
     }
 
     /*
-     * May be called by delegate to provide SD to Java2D code.
+     * Mby bf dbllfd by dflfgbtf to providf SD to Jbvb2D dodf.
      */
-    public SurfaceData getSurfaceData() {
-        synchronized (surfaceDataLock) {
-            return surfaceData;
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        syndironizfd (surfbdfDbtbLodk) {
+            rfturn surfbdfDbtb;
         }
     }
 
-    private void replaceSurfaceData() {
-        replaceSurfaceData(true);
+    privbtf void rfplbdfSurfbdfDbtb() {
+        rfplbdfSurfbdfDbtb(truf);
     }
 
-    private void replaceSurfaceData(final boolean blit) {
-        synchronized (surfaceDataLock) {
-            final SurfaceData oldData = getSurfaceData();
-            surfaceData = platformWindow.replaceSurfaceData();
-            final Rectangle size = getSize();
-            if (getSurfaceData() != null && oldData != getSurfaceData()) {
-                clearBackground(size.width, size.height);
+    privbtf void rfplbdfSurfbdfDbtb(finbl boolfbn blit) {
+        syndironizfd (surfbdfDbtbLodk) {
+            finbl SurfbdfDbtb oldDbtb = gftSurfbdfDbtb();
+            surfbdfDbtb = plbtformWindow.rfplbdfSurfbdfDbtb();
+            finbl Rfdtbnglf sizf = gftSizf();
+            if (gftSurfbdfDbtb() != null && oldDbtb != gftSurfbdfDbtb()) {
+                dlfbrBbdkground(sizf.widti, sizf.ifigit);
             }
 
             if (blit) {
-                blitSurfaceData(oldData, getSurfaceData());
+                blitSurfbdfDbtb(oldDbtb, gftSurfbdfDbtb());
             }
 
-            if (oldData != null && oldData != getSurfaceData()) {
-                // TODO: drop oldData for D3D/WGL pipelines
-                // This can only happen when this peer is being created
-                oldData.flush();
+            if (oldDbtb != null && oldDbtb != gftSurfbdfDbtb()) {
+                // TODO: drop oldDbtb for D3D/WGL pipflinfs
+                // Tiis dbn only ibppfn wifn tiis pffr is bfing drfbtfd
+                oldDbtb.flusi();
             }
         }
-        flushOnscreenGraphics();
+        flusiOnsdrffnGrbpiids();
     }
 
-    private void blitSurfaceData(final SurfaceData src, final SurfaceData dst) {
-        //TODO blit. proof-of-concept
-        if (src != dst && src != null && dst != null
-            && !(dst instanceof NullSurfaceData)
-            && !(src instanceof NullSurfaceData)
-            && src.getSurfaceType().equals(dst.getSurfaceType())
-            && src.getDefaultScale() == dst.getDefaultScale()) {
-            final Rectangle size = src.getBounds();
-            final Blit blit = Blit.locate(src.getSurfaceType(),
-                                          CompositeType.Src,
-                                          dst.getSurfaceType());
+    privbtf void blitSurfbdfDbtb(finbl SurfbdfDbtb srd, finbl SurfbdfDbtb dst) {
+        //TODO blit. proof-of-dondfpt
+        if (srd != dst && srd != null && dst != null
+            && !(dst instbndfof NullSurfbdfDbtb)
+            && !(srd instbndfof NullSurfbdfDbtb)
+            && srd.gftSurfbdfTypf().fqubls(dst.gftSurfbdfTypf())
+            && srd.gftDffbultSdblf() == dst.gftDffbultSdblf()) {
+            finbl Rfdtbnglf sizf = srd.gftBounds();
+            finbl Blit blit = Blit.lodbtf(srd.gftSurfbdfTypf(),
+                                          CompositfTypf.Srd,
+                                          dst.gftSurfbdfTypf());
             if (blit != null) {
-                blit.Blit(src, dst, AlphaComposite.Src, null, 0, 0, 0, 0,
-                          size.width, size.height);
+                blit.Blit(srd, dst, AlpibCompositf.Srd, null, 0, 0, 0, 0,
+                          sizf.widti, sizf.ifigit);
             }
         }
     }
 
     /**
-     * Request the window insets from the delegate and compares it with the
-     * current one. This method is mostly called by the delegate, e.g. when the
-     * window state is changed and insets should be recalculated.
+     * Rfqufst tif window insfts from tif dflfgbtf bnd dompbrfs it witi tif
+     * durrfnt onf. Tiis mftiod is mostly dbllfd by tif dflfgbtf, f.g. wifn tif
+     * window stbtf is dibngfd bnd insfts siould bf rfdbldulbtfd.
      * <p/>
-     * This method may be called on the toolkit thread.
+     * Tiis mftiod mby bf dbllfd on tif toolkit tirfbd.
      */
-    public final boolean updateInsets(final Insets newInsets) {
-        synchronized (getStateLock()) {
-            if (insets.equals(newInsets)) {
-                return false;
+    publid finbl boolfbn updbtfInsfts(finbl Insfts nfwInsfts) {
+        syndironizfd (gftStbtfLodk()) {
+            if (insfts.fqubls(nfwInsfts)) {
+                rfturn fblsf;
             }
-            insets = newInsets;
+            insfts = nfwInsfts;
         }
-        return true;
+        rfturn truf;
     }
 
-    public static LWWindowPeer getWindowUnderCursor() {
-        return lastCommonMouseEventPeer != null ? lastCommonMouseEventPeer.getWindowPeerOrSelf() : null;
+    publid stbtid LWWindowPffr gftWindowUndfrCursor() {
+        rfturn lbstCommonMousfEvfntPffr != null ? lbstCommonMousfEvfntPffr.gftWindowPffrOrSflf() : null;
     }
 
-    public static LWComponentPeer<?, ?> getPeerUnderCursor() {
-        return lastCommonMouseEventPeer;
+    publid stbtid LWComponfntPffr<?, ?> gftPffrUndfrCursor() {
+        rfturn lbstCommonMousfEvfntPffr;
     }
 
     /*
-     * Requests platform to set native focus on a frame/dialog.
-     * In case of a simple window, triggers appropriate java focus change.
+     * Rfqufsts plbtform to sft nbtivf fodus on b frbmf/diblog.
+     * In dbsf of b simplf window, triggfrs bppropribtf jbvb fodus dibngf.
      */
-    public boolean requestWindowFocus(CausedFocusEvent.Cause cause) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-            focusLog.fine("requesting native focus to " + this);
+    publid boolfbn rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf dbusf) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf("rfqufsting nbtivf fodus to " + tiis);
         }
 
-        if (!focusAllowedFor()) {
-            focusLog.fine("focus is not allowed");
-            return false;
+        if (!fodusAllowfdFor()) {
+            fodusLog.finf("fodus is not bllowfd");
+            rfturn fblsf;
         }
 
-        if (platformWindow.rejectFocusRequest(cause)) {
-            return false;
+        if (plbtformWindow.rfjfdtFodusRfqufst(dbusf)) {
+            rfturn fblsf;
         }
 
-        AppContext targetAppContext = AWTAccessor.getComponentAccessor().getAppContext(getTarget());
-        KeyboardFocusManager kfm = AWTAccessor.getKeyboardFocusManagerAccessor()
-                .getCurrentKeyboardFocusManager(targetAppContext);
-        Window currentActive = kfm.getActiveWindow();
+        AppContfxt tbrgftAppContfxt = AWTAddfssor.gftComponfntAddfssor().gftAppContfxt(gftTbrgft());
+        KfybobrdFodusMbnbgfr kfm = AWTAddfssor.gftKfybobrdFodusMbnbgfrAddfssor()
+                .gftCurrfntKfybobrdFodusMbnbgfr(tbrgftAppContfxt);
+        Window durrfntAdtivf = kfm.gftAdtivfWindow();
 
 
-        Window opposite = LWKeyboardFocusManagerPeer.getInstance().
-            getCurrentFocusedWindow();
+        Window oppositf = LWKfybobrdFodusMbnbgfrPffr.gftInstbndf().
+            gftCurrfntFodusfdWindow();
 
-        // Make the owner active window.
-        if (isSimpleWindow()) {
-            LWWindowPeer owner = getOwnerFrameDialog(this);
+        // Mbkf tif ownfr bdtivf window.
+        if (isSimplfWindow()) {
+            LWWindowPffr ownfr = gftOwnfrFrbmfDiblog(tiis);
 
-            // If owner is not natively active, request native
-            // activation on it w/o sending events up to java.
-            if (owner != null && !owner.platformWindow.isActive()) {
-                if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    focusLog.fine("requesting native focus to the owner " + owner);
+            // If ownfr is not nbtivfly bdtivf, rfqufst nbtivf
+            // bdtivbtion on it w/o sfnding fvfnts up to jbvb.
+            if (ownfr != null && !ownfr.plbtformWindow.isAdtivf()) {
+                if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    fodusLog.finf("rfqufsting nbtivf fodus to tif ownfr " + ownfr);
                 }
-                LWWindowPeer currentActivePeer = currentActive == null ? null :
-                (LWWindowPeer) AWTAccessor.getComponentAccessor().getPeer(
-                        currentActive);
+                LWWindowPffr durrfntAdtivfPffr = durrfntAdtivf == null ? null :
+                (LWWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(
+                        durrfntAdtivf);
 
-                // Ensure the opposite is natively active and suppress sending events.
-                if (currentActivePeer != null && currentActivePeer.platformWindow.isActive()) {
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        focusLog.fine("the opposite is " + currentActivePeer);
+                // Ensurf tif oppositf is nbtivfly bdtivf bnd supprfss sfnding fvfnts.
+                if (durrfntAdtivfPffr != null && durrfntAdtivfPffr.plbtformWindow.isAdtivf()) {
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fodusLog.finf("tif oppositf is " + durrfntAdtivfPffr);
                     }
-                    currentActivePeer.skipNextFocusChange = true;
+                    durrfntAdtivfPffr.skipNfxtFodusCibngf = truf;
                 }
-                owner.skipNextFocusChange = true;
+                ownfr.skipNfxtFodusCibngf = truf;
 
-                owner.platformWindow.requestWindowFocus();
+                ownfr.plbtformWindow.rfqufstWindowFodus();
             }
 
-            // DKFM will synthesize all the focus/activation events correctly.
-            changeFocusedWindow(true, opposite);
-            return true;
+            // DKFM will syntifsizf bll tif fodus/bdtivbtion fvfnts dorrfdtly.
+            dibngfFodusfdWindow(truf, oppositf);
+            rfturn truf;
 
-        // In case the toplevel is active but not focused, change focus directly,
-        // as requesting native focus on it will not have effect.
-        } else if (getTarget() == currentActive && !getTarget().hasFocus()) {
+        // In dbsf tif toplfvfl is bdtivf but not fodusfd, dibngf fodus dirfdtly,
+        // bs rfqufsting nbtivf fodus on it will not ibvf ffffdt.
+        } flsf if (gftTbrgft() == durrfntAdtivf && !gftTbrgft().ibsFodus()) {
 
-            changeFocusedWindow(true, opposite);
-            return true;
+            dibngfFodusfdWindow(truf, oppositf);
+            rfturn truf;
         }
 
-        return platformWindow.requestWindowFocus();
+        rfturn plbtformWindow.rfqufstWindowFodus();
     }
 
-    protected boolean focusAllowedFor() {
-        Window window = getTarget();
-        // TODO: check if modal blocked
-        return window.isVisible() && window.isEnabled() && isFocusableWindow();
+    protfdtfd boolfbn fodusAllowfdFor() {
+        Window window = gftTbrgft();
+        // TODO: difdk if modbl blodkfd
+        rfturn window.isVisiblf() && window.isEnbblfd() && isFodusbblfWindow();
     }
 
-    private boolean isFocusableWindow() {
-        boolean focusable = getTarget().isFocusableWindow();
-        if (isSimpleWindow()) {
-            LWWindowPeer ownerPeer = getOwnerFrameDialog(this);
-            if (ownerPeer == null) {
-                return false;
+    privbtf boolfbn isFodusbblfWindow() {
+        boolfbn fodusbblf = gftTbrgft().isFodusbblfWindow();
+        if (isSimplfWindow()) {
+            LWWindowPffr ownfrPffr = gftOwnfrFrbmfDiblog(tiis);
+            if (ownfrPffr == null) {
+                rfturn fblsf;
             }
-            return focusable && ownerPeer.getTarget().isFocusableWindow();
+            rfturn fodusbblf && ownfrPffr.gftTbrgft().isFodusbblfWindow();
         }
-        return focusable;
+        rfturn fodusbblf;
     }
 
-    public boolean isSimpleWindow() {
-        Window window = getTarget();
-        return !(window instanceof Dialog || window instanceof Frame);
+    publid boolfbn isSimplfWindow() {
+        Window window = gftTbrgft();
+        rfturn !(window instbndfof Diblog || window instbndfof Frbmf);
     }
 
-    @Override
-    public void emulateActivation(boolean activate) {
-        changeFocusedWindow(activate, null);
+    @Ovfrridf
+    publid void fmulbtfAdtivbtion(boolfbn bdtivbtf) {
+        dibngfFodusfdWindow(bdtivbtf, null);
     }
 
-    private boolean isOneOfOwnersOf(LWWindowPeer peer) {
-        Window owner = (peer != null ? peer.getTarget().getOwner() : null);
-        while (owner != null) {
-            if ((LWWindowPeer)owner.getPeer() == this) {
-                return true;
+    privbtf boolfbn isOnfOfOwnfrsOf(LWWindowPffr pffr) {
+        Window ownfr = (pffr != null ? pffr.gftTbrgft().gftOwnfr() : null);
+        wiilf (ownfr != null) {
+            if ((LWWindowPffr)ownfr.gftPffr() == tiis) {
+                rfturn truf;
             }
-            owner = owner.getOwner();
+            ownfr = ownfr.gftOwnfr();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Changes focused window on java level.
+     * Cibngfs fodusfd window on jbvb lfvfl.
      */
-    protected void changeFocusedWindow(boolean becomesFocused, Window opposite) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-            focusLog.fine((becomesFocused?"gaining":"loosing") + " focus window: " + this);
+    protfdtfd void dibngfFodusfdWindow(boolfbn bfdomfsFodusfd, Window oppositf) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf((bfdomfsFodusfd?"gbining":"loosing") + " fodus window: " + tiis);
         }
-        if (skipNextFocusChange) {
-            focusLog.fine("skipping focus change");
-            skipNextFocusChange = false;
-            return;
+        if (skipNfxtFodusCibngf) {
+            fodusLog.finf("skipping fodus dibngf");
+            skipNfxtFodusCibngf = fblsf;
+            rfturn;
         }
-        if (!isFocusableWindow() && becomesFocused) {
-            focusLog.fine("the window is not focusable");
-            return;
+        if (!isFodusbblfWindow() && bfdomfsFodusfd) {
+            fodusLog.finf("tif window is not fodusbblf");
+            rfturn;
         }
-        if (becomesFocused) {
-            synchronized (getPeerTreeLock()) {
-                if (blocker != null) {
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                        focusLog.finest("the window is blocked by " + blocker);
+        if (bfdomfsFodusfd) {
+            syndironizfd (gftPffrTrffLodk()) {
+                if (blodkfr != null) {
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        fodusLog.finfst("tif window is blodkfd by " + blodkfr);
                     }
-                    return;
+                    rfturn;
                 }
             }
         }
 
-        // Note, the method is not called:
-        // - when the opposite (gaining focus) window is an owned/owner window.
-        // - for a simple window in any case.
-        if (!becomesFocused &&
-            (isGrabbing() || this.isOneOfOwnersOf(grabbingWindow)))
+        // Notf, tif mftiod is not dbllfd:
+        // - wifn tif oppositf (gbining fodus) window is bn ownfd/ownfr window.
+        // - for b simplf window in bny dbsf.
+        if (!bfdomfsFodusfd &&
+            (isGrbbbing() || tiis.isOnfOfOwnfrsOf(grbbbingWindow)))
         {
-            if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
-                focusLog.fine("ungrabbing on " + grabbingWindow);
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                fodusLog.finf("ungrbbbing on " + grbbbingWindow);
             }
-            // ungrab a simple window if its owner looses activation.
-            grabbingWindow.ungrab();
+            // ungrbb b simplf window if its ownfr loosfs bdtivbtion.
+            grbbbingWindow.ungrbb();
         }
 
-        KeyboardFocusManagerPeer kfmPeer = LWKeyboardFocusManagerPeer.getInstance();
-        kfmPeer.setCurrentFocusedWindow(becomesFocused ? getTarget() : null);
+        KfybobrdFodusMbnbgfrPffr kfmPffr = LWKfybobrdFodusMbnbgfrPffr.gftInstbndf();
+        kfmPffr.sftCurrfntFodusfdWindow(bfdomfsFodusfd ? gftTbrgft() : null);
 
-        int eventID = becomesFocused ? WindowEvent.WINDOW_GAINED_FOCUS : WindowEvent.WINDOW_LOST_FOCUS;
-        WindowEvent windowEvent = new TimedWindowEvent(getTarget(), eventID, opposite, System.currentTimeMillis());
+        int fvfntID = bfdomfsFodusfd ? WindowEvfnt.WINDOW_GAINED_FOCUS : WindowEvfnt.WINDOW_LOST_FOCUS;
+        WindowEvfnt windowEvfnt = nfw TimfdWindowEvfnt(gftTbrgft(), fvfntID, oppositf, Systfm.durrfntTimfMillis());
 
-        // TODO: wrap in SequencedEvent
-        postEvent(windowEvent);
+        // TODO: wrbp in SfqufndfdEvfnt
+        postEvfnt(windowEvfnt);
     }
 
     /*
-     * Retrieves the owner of the peer.
-     * Note: this method returns the owner which can be activated, (i.e. the instance
-     * of Frame or Dialog may be returned).
+     * Rftrifvfs tif ownfr of tif pffr.
+     * Notf: tiis mftiod rfturns tif ownfr wiidi dbn bf bdtivbtfd, (i.f. tif instbndf
+     * of Frbmf or Diblog mby bf rfturnfd).
      */
-    static LWWindowPeer getOwnerFrameDialog(LWWindowPeer peer) {
-        Window owner = (peer != null ? peer.getTarget().getOwner() : null);
-        while (owner != null && !(owner instanceof Frame || owner instanceof Dialog)) {
-            owner = owner.getOwner();
+    stbtid LWWindowPffr gftOwnfrFrbmfDiblog(LWWindowPffr pffr) {
+        Window ownfr = (pffr != null ? pffr.gftTbrgft().gftOwnfr() : null);
+        wiilf (ownfr != null && !(ownfr instbndfof Frbmf || ownfr instbndfof Diblog)) {
+            ownfr = ownfr.gftOwnfr();
         }
-        return owner == null ? null :
-               (LWWindowPeer) AWTAccessor.getComponentAccessor().getPeer(owner);
+        rfturn ownfr == null ? null :
+               (LWWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(ownfr);
     }
 
     /**
-     * Returns the foremost modal blocker of this window, or null.
+     * Rfturns tif forfmost modbl blodkfr of tiis window, or null.
      */
-    public LWWindowPeer getBlocker() {
-        synchronized (getPeerTreeLock()) {
-            LWWindowPeer blocker = this.blocker;
-            if (blocker == null) {
-                return null;
+    publid LWWindowPffr gftBlodkfr() {
+        syndironizfd (gftPffrTrffLodk()) {
+            LWWindowPffr blodkfr = tiis.blodkfr;
+            if (blodkfr == null) {
+                rfturn null;
             }
-            while (blocker.blocker != null) {
-                blocker = blocker.blocker;
+            wiilf (blodkfr.blodkfr != null) {
+                blodkfr = blodkfr.blodkfr;
             }
-            return blocker;
+            rfturn blodkfr;
         }
     }
 
-    @Override
-    public void enterFullScreenMode() {
-        platformWindow.enterFullScreenMode();
-        updateSecurityWarningVisibility();
+    @Ovfrridf
+    publid void fntfrFullSdrffnModf() {
+        plbtformWindow.fntfrFullSdrffnModf();
+        updbtfSfdurityWbrningVisibility();
     }
 
-    @Override
-    public void exitFullScreenMode() {
-        platformWindow.exitFullScreenMode();
-        updateSecurityWarningVisibility();
+    @Ovfrridf
+    publid void fxitFullSdrffnModf() {
+        plbtformWindow.fxitFullSdrffnModf();
+        updbtfSfdurityWbrningVisibility();
     }
 
-    public long getLayerPtr() {
-        return getPlatformWindow().getLayerPtr();
+    publid long gftLbyfrPtr() {
+        rfturn gftPlbtformWindow().gftLbyfrPtr();
     }
 
-    void grab() {
-        if (grabbingWindow != null && !isGrabbing()) {
-            grabbingWindow.ungrab();
+    void grbb() {
+        if (grbbbingWindow != null && !isGrbbbing()) {
+            grbbbingWindow.ungrbb();
         }
-        grabbingWindow = this;
+        grbbbingWindow = tiis;
     }
 
-    final void ungrab(boolean doPost) {
-        if (isGrabbing()) {
-            grabbingWindow = null;
+    finbl void ungrbb(boolfbn doPost) {
+        if (isGrbbbing()) {
+            grbbbingWindow = null;
             if (doPost) {
-                postEvent(new UngrabEvent(getTarget()));
+                postEvfnt(nfw UngrbbEvfnt(gftTbrgft()));
             }
         }
     }
 
-    void ungrab() {
-        ungrab(true);
+    void ungrbb() {
+        ungrbb(truf);
     }
 
-    private boolean isGrabbing() {
-        return this == grabbingWindow;
+    privbtf boolfbn isGrbbbing() {
+        rfturn tiis == grbbbingWindow;
     }
 
-    public PeerType getPeerType() {
-        return peerType;
+    publid PffrTypf gftPffrTypf() {
+        rfturn pffrTypf;
     }
 
-    public void updateSecurityWarningVisibility() {
-        if (warningWindow == null) {
-            return;
+    publid void updbtfSfdurityWbrningVisibility() {
+        if (wbrningWindow == null) {
+            rfturn;
         }
 
-        if (!isVisible()) {
-            return; // The warning window should already be hidden.
+        if (!isVisiblf()) {
+            rfturn; // Tif wbrning window siould blrfbdy bf iiddfn.
         }
 
-        boolean show = false;
+        boolfbn siow = fblsf;
 
-        if (!platformWindow.isFullScreenMode()) {
-            if (isVisible()) {
-                if (LWKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow() ==
-                        getTarget()) {
-                    show = true;
+        if (!plbtformWindow.isFullSdrffnModf()) {
+            if (isVisiblf()) {
+                if (LWKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow() ==
+                        gftTbrgft()) {
+                    siow = truf;
                 }
 
-                if (platformWindow.isUnderMouse() || warningWindow.isUnderMouse()) {
-                    show = true;
+                if (plbtformWindow.isUndfrMousf() || wbrningWindow.isUndfrMousf()) {
+                    siow = truf;
                 }
             }
         }
 
-        warningWindow.setVisible(show, true);
+        wbrningWindow.sftVisiblf(siow, truf);
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + " [target is " + getTarget() + "]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn supfr.toString() + " [tbrgft is " + gftTbrgft() + "]";
     }
 }

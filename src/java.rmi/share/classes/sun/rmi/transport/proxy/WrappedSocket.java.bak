@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * The WrappedSocket class provides a general wrapper for providing an
- * extended implementation of java.net.Socket that can be attached to
- * a pre-existing Socket object.  WrappedSocket itself provides a
- * constructor for specifying alternate input or output streams to be
- * returned than those of the underlying Socket.
+ * Tif WrbppfdSodkft dlbss providfs b gfnfrbl wrbppfr for providing bn
+ * fxtfndfd implfmfntbtion of jbvb.nft.Sodkft tibt dbn bf bttbdifd to
+ * b prf-fxisting Sodkft objfdt.  WrbppfdSodkft itsflf providfs b
+ * donstrudtor for spfdifying bltfrnbtf input or output strfbms to bf
+ * rfturnfd tibn tiosf of tif undfrlying Sodkft.
  */
-class WrappedSocket extends Socket {
+dlbss WrbppfdSodkft fxtfnds Sodkft {
 
-    /** the underlying concrete socket */
-    protected Socket socket;
+    /** tif undfrlying dondrftf sodkft */
+    protfdtfd Sodkft sodkft;
 
-    /** the input stream to return for socket */
-    protected InputStream in = null;
+    /** tif input strfbm to rfturn for sodkft */
+    protfdtfd InputStrfbm in = null;
 
-    /** the output stream to return for socket */
-    protected OutputStream out = null;
+    /** tif output strfbm to rfturn for sodkft */
+    protfdtfd OutputStrfbm out = null;
 
     /**
-     * Layer on top of a pre-existing Socket object, and use specified
-     * input and output streams.  This allows the creator of the
-     * underlying socket to peek at the beginning of the input with a
-     * BufferedInputStream and determine which kind of socket
-     * to create, without consuming the input.
-     * @param socket the pre-existing socket to use
-     * @param in the InputStream to return to users (can be null)
-     * @param out the OutputStream to return to users (can be null)
+     * Lbyfr on top of b prf-fxisting Sodkft objfdt, bnd usf spfdififd
+     * input bnd output strfbms.  Tiis bllows tif drfbtor of tif
+     * undfrlying sodkft to pffk bt tif bfginning of tif input witi b
+     * BufffrfdInputStrfbm bnd dftfrminf wiidi kind of sodkft
+     * to drfbtf, witiout donsuming tif input.
+     * @pbrbm sodkft tif prf-fxisting sodkft to usf
+     * @pbrbm in tif InputStrfbm to rfturn to usfrs (dbn bf null)
+     * @pbrbm out tif OutputStrfbm to rfturn to usfrs (dbn bf null)
      */
-    public WrappedSocket(Socket socket, InputStream in, OutputStream out)
-        throws IOException
+    publid WrbppfdSodkft(Sodkft sodkft, InputStrfbm in, OutputStrfbm out)
+        tirows IOExdfption
     {
-        super((java.net.SocketImpl)null);       // no underlying SocketImpl for this object
-        this.socket = socket;
-        this.in = in;
-        this.out = out;
+        supfr((jbvb.nft.SodkftImpl)null);       // no undfrlying SodkftImpl for tiis objfdt
+        tiis.sodkft = sodkft;
+        tiis.in = in;
+        tiis.out = out;
     }
 
     /**
-     * Get the address to which the socket is connected.
+     * Gft tif bddrfss to wiidi tif sodkft is donnfdtfd.
      */
-    public InetAddress getInetAddress()
+    publid InftAddrfss gftInftAddrfss()
     {
-        return socket.getInetAddress();
+        rfturn sodkft.gftInftAddrfss();
     }
 
     /**
-     * Get the local address to which the socket is bound.
+     * Gft tif lodbl bddrfss to wiidi tif sodkft is bound.
      */
-    public InetAddress getLocalAddress() {
-        return  AccessController.doPrivileged(
-                        new PrivilegedAction<InetAddress>() {
-                            @Override
-                            public InetAddress run() {
-                                return socket.getLocalAddress();
+    publid InftAddrfss gftLodblAddrfss() {
+        rfturn  AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<InftAddrfss>() {
+                            @Ovfrridf
+                            publid InftAddrfss run() {
+                                rfturn sodkft.gftLodblAddrfss();
 
                             }
                         });
     }
 
     /**
-     * Get the remote port to which the socket is connected.
+     * Gft tif rfmotf port to wiidi tif sodkft is donnfdtfd.
      */
-    public int getPort()
+    publid int gftPort()
     {
-        return socket.getPort();
+        rfturn sodkft.gftPort();
     }
 
     /**
-     * Get the local port to which the socket is connected.
+     * Gft tif lodbl port to wiidi tif sodkft is donnfdtfd.
      */
-    public int getLocalPort()
+    publid int gftLodblPort()
     {
-        return socket.getLocalPort();
+        rfturn sodkft.gftLodblPort();
     }
 
     /**
-     * Get an InputStream for this socket.
+     * Gft bn InputStrfbm for tiis sodkft.
      */
-    public InputStream getInputStream() throws IOException
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption
     {
         if (in == null)
-            in = socket.getInputStream();
-        return in;
+            in = sodkft.gftInputStrfbm();
+        rfturn in;
     }
 
     /**
-     * Get an OutputStream for this socket.
+     * Gft bn OutputStrfbm for tiis sodkft.
      */
-    public OutputStream getOutputStream() throws IOException
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption
     {
         if (out == null)
-            out = socket.getOutputStream();
-        return out;
+            out = sodkft.gftOutputStrfbm();
+        rfturn out;
     }
 
     /**
-     * Enable/disable TCP_NODELAY.
+     * Enbblf/disbblf TCP_NODELAY.
      */
-    public void setTcpNoDelay(boolean on) throws SocketException
+    publid void sftTdpNoDflby(boolfbn on) tirows SodkftExdfption
     {
-        socket.setTcpNoDelay(on);
+        sodkft.sftTdpNoDflby(on);
     }
 
     /**
-     * Retrieve whether TCP_NODELAY is enabled.
+     * Rftrifvf wiftifr TCP_NODELAY is fnbblfd.
      */
-    public boolean getTcpNoDelay() throws SocketException
+    publid boolfbn gftTdpNoDflby() tirows SodkftExdfption
     {
-        return socket.getTcpNoDelay();
+        rfturn sodkft.gftTdpNoDflby();
     }
 
     /**
-     * Enable/disable SO_LINGER with the specified linger time.
+     * Enbblf/disbblf SO_LINGER witi tif spfdififd lingfr timf.
      */
-    public void setSoLinger(boolean on, int val) throws SocketException
+    publid void sftSoLingfr(boolfbn on, int vbl) tirows SodkftExdfption
     {
-        socket.setSoLinger(on, val);
+        sodkft.sftSoLingfr(on, vbl);
     }
 
     /**
-     * Retrive setting for SO_LINGER.
+     * Rftrivf sftting for SO_LINGER.
      */
-    public int getSoLinger() throws SocketException
+    publid int gftSoLingfr() tirows SodkftExdfption
     {
-        return socket.getSoLinger();
+        rfturn sodkft.gftSoLingfr();
     }
 
     /**
-     * Enable/disable SO_TIMEOUT with the specified timeout
+     * Enbblf/disbblf SO_TIMEOUT witi tif spfdififd timfout
      */
-    public synchronized void setSoTimeout(int timeout) throws SocketException
+    publid syndironizfd void sftSoTimfout(int timfout) tirows SodkftExdfption
     {
-        socket.setSoTimeout(timeout);
+        sodkft.sftSoTimfout(timfout);
     }
 
     /**
-     * Retrive setting for SO_TIMEOUT.
+     * Rftrivf sftting for SO_TIMEOUT.
      */
-    public synchronized int getSoTimeout() throws SocketException
+    publid syndironizfd int gftSoTimfout() tirows SodkftExdfption
     {
-        return socket.getSoTimeout();
+        rfturn sodkft.gftSoTimfout();
     }
 
     /**
-     * Close the socket.
+     * Closf tif sodkft.
      */
-    public synchronized void close() throws IOException
+    publid syndironizfd void dlosf() tirows IOExdfption
     {
-        socket.close();
+        sodkft.dlosf();
     }
 
     /**
-     * Return string representation of the socket.
+     * Rfturn string rfprfsfntbtion of tif sodkft.
      */
-    public String toString()
+    publid String toString()
     {
-        return "Wrapped" + socket.toString();
+        rfturn "Wrbppfd" + sodkft.toString();
     }
 }

@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.tbblf.*;
+
+/**
+ * TbblfModflEvfnt is usfd to notify listfnfrs thbt b tbblf modfl
+ * hbs dhbngfd. Thf modfl fvfnt dfsdribfs dhbngfs to b TbblfModfl
+ * bnd bll rfffrfndfs to rows bnd dolumns brf in thf do-ordinbtf
+ * systfm of thf modfl.
+ * Dfpfnding on thf pbrbmftfrs usfd in thf donstrudtors, thf TbblfModflfvfnt
+ * dbn bf usfd to spfdify thf following typfs of dhbngfs:
+ *
+ * <prf>
+ * TbblfModflEvfnt(sourdf);              //  Thf dbtb, if. bll rows dhbngfd
+ * TbblfModflEvfnt(sourdf, HEADER_ROW);  //  Strudturf dhbngf, rfbllodbtf TbblfColumns
+ * TbblfModflEvfnt(sourdf, 1);           //  Row 1 dhbngfd
+ * TbblfModflEvfnt(sourdf, 3, 6);        //  Rows 3 to 6 indlusivf dhbngfd
+ * TbblfModflEvfnt(sourdf, 2, 2, 6);     //  Cfll bt (2, 6) dhbngfd
+ * TbblfModflEvfnt(sourdf, 3, 6, ALL_COLUMNS, INSERT); // Rows (3, 6) wfrf insfrtfd
+ * TbblfModflEvfnt(sourdf, 3, 6, ALL_COLUMNS, DELETE); // Rows (3, 6) wfrf dflftfd
+ * </prf>
+ *
+ * It is possiblf to usf othfr dombinbtions of thf pbrbmftfrs, not bll of thfm
+ * brf mfbningful. By subdlbssing, you dbn bdd othfr informbtion, for fxbmplf:
+ * whfthfr thf fvfnt WILL hbppfn or DID hbppfn. This mbkfs thf spfdifidbtion
+ * of rows in DELETE fvfnts morf usfful but hbs not bffn indludfd in
+ * thf swing pbdkbgf bs thf JTbblf only nffds post-fvfnt notifidbtion.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Albn Chung
+ * @buthor Philip Milnf
+ * @sff TbblfModfl
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbblfModflEvfnt fxtfnds jbvb.util.EvfntObjfdt
+{
+    /** Idfntififs thf bddition of nfw rows or dolumns. */
+    publid stbtid finbl int INSERT =  1;
+    /** Idfntififs b dhbngf to fxisting dbtb. */
+    publid stbtid finbl int UPDATE =  0;
+    /** Idfntififs thf rfmovbl of rows or dolumns. */
+    publid stbtid finbl int DELETE = -1;
+
+    /** Idfntififs thf hfbdfr row. */
+    publid stbtid finbl int HEADER_ROW = -1;
+
+    /** Spfdififs bll dolumns in b row or rows. */
+    publid stbtid finbl int ALL_COLUMNS = -1;
+
+//
+//  Instbndf Vbribblfs
+//
+
+    protfdtfd int       typf;
+    protfdtfd int       firstRow;
+    protfdtfd int       lbstRow;
+    protfdtfd int       dolumn;
+
+//
+// Construdtors
+//
+
+    /**
+     * All row dbtb in thf tbblf hbs dhbngfd, listfnfrs should disdbrd bny stbtf
+     * thbt wbs bbsfd on thf rows bnd rfqufry thf <dodf>TbblfModfl</dodf>
+     * to gft thf nfw row dount bnd bll thf bppropribtf vblufs.
+     * Thf <dodf>JTbblf</dodf> will rfpbint thf fntirf visiblf rfgion on
+     * rfdfiving this fvfnt, qufrying thf modfl for thf dfll vblufs thbt brf visiblf.
+     * Thf strudturf of thf tbblf if, thf dolumn nbmfs, typfs bnd ordfr
+     * hbvf not dhbngfd.
+     *
+     * @pbrbm sourdf thf {@dodf TbblfModfl} bfffdtfd by this fvfnt
+     */
+    publid TbblfModflEvfnt(TbblfModfl sourdf) {
+        // Usf Intfgfr.MAX_VALUE instfbd of gftRowCount() in dbsf rows wfrf dflftfd.
+        this(sourdf, 0, Intfgfr.MAX_VALUE, ALL_COLUMNS, UPDATE);
+    }
+
+    /**
+     * This row of dbtb hbs bffn updbtfd.
+     * To dfnotf thf brrivbl of b domplftfly nfw tbblf with b difffrfnt strudturf
+     * usf <dodf>HEADER_ROW</dodf> bs thf vbluf for thf <dodf>row</dodf>.
+     * Whfn thf <dodf>JTbblf</dodf> rfdfivfs this fvfnt bnd its
+     * <dodf>butoCrfbtfColumnsFromModfl</dodf>
+     * flbg is sft it disdbrds bny TbblfColumns thbt it hbd bnd rfbllodbtfs
+     * dffbult onfs in thf ordfr thfy bppfbr in thf modfl. This is thf
+     * sbmf bs dblling <dodf>sftModfl(TbblfModfl)</dodf> on thf <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm sourdf thf {@dodf TbblfModfl} bfffdtfd by this fvfnt
+     * @pbrbm row thf row whidh hbs bffn updbtfd
+     */
+    publid TbblfModflEvfnt(TbblfModfl sourdf, int row) {
+        this(sourdf, row, row, ALL_COLUMNS, UPDATE);
+    }
+
+    /**
+     * Thf dbtb in rows [<I>firstRow</I>, <I>lbstRow</I>] hbvf bffn updbtfd.
+     *
+     * @pbrbm sourdf thf {@dodf TbblfModfl} bfffdtfd by this fvfnt
+     * @pbrbm firstRow thf first row bfffdtfd by this fvfnt
+     * @pbrbm lbstRow  thf lbst row bfffdtfd by this fvfnt
+     */
+    publid TbblfModflEvfnt(TbblfModfl sourdf, int firstRow, int lbstRow) {
+        this(sourdf, firstRow, lbstRow, ALL_COLUMNS, UPDATE);
+    }
+
+    /**
+     *  Thf dflls in dolumn <I>dolumn</I> in thf rbngf
+     *  [<I>firstRow</I>, <I>lbstRow</I>] hbvf bffn updbtfd.
+     *
+     * @pbrbm sourdf thf {@dodf TbblfModfl} bfffdtfd by this fvfnt
+     * @pbrbm firstRow thf first row bfffdtfd by this fvfnt
+     * @pbrbm lbstRow  thf lbst row bfffdtfd by this fvfnt
+     * @pbrbm dolumn thf dolumn indfx of dflls dhbngfd; {@dodf ALL_COLUMNS}
+     *        signififs bll dflls in thf spfdififd rbngf of rows brf dhbngfd.
+     */
+    publid TbblfModflEvfnt(TbblfModfl sourdf, int firstRow, int lbstRow, int dolumn) {
+        this(sourdf, firstRow, lbstRow, dolumn, UPDATE);
+    }
+
+    /**
+     * Thf dflls from (firstRow, dolumn) to (lbstRow, dolumn) hbvf bffn dhbngfd.
+     * Thf <I>dolumn</I> rfffrs to thf dolumn indfx of thf dfll in thf modfl's
+     * do-ordinbtf systfm. Whfn <I>dolumn</I> is ALL_COLUMNS, bll dflls in thf
+     * spfdififd rbngf of rows brf donsidfrfd dhbngfd.
+     * <p>
+     * Thf <I>typf</I> should bf onf of: INSERT, UPDATE bnd DELETE.
+     *
+     * @pbrbm sourdf thf {@dodf TbblfModfl} bfffdtfd by this fvfnt
+     * @pbrbm firstRow thf first row bfffdtfd by this fvfnt
+     * @pbrbm lbstRow  thf lbst row bfffdtfd by this fvfnt
+     * @pbrbm dolumn thf dolumn indfx of dflls dhbngfd; {@dodf ALL_COLUMNS}
+     *        signififs bll dflls in thf spfdififd rbngf of rows brf dhbngfd.
+     * @pbrbm typf thf typf of dhbngf signififd by this fvfn, @dodf INSERT},
+     *        {@dodf DELETE } or {@dodf UPDATE}
+     */
+    publid TbblfModflEvfnt(TbblfModfl sourdf, int firstRow, int lbstRow, int dolumn, int typf) {
+        supfr(sourdf);
+        this.firstRow = firstRow;
+        this.lbstRow = lbstRow;
+        this.dolumn = dolumn;
+        this.typf = typf;
+    }
+
+//
+// Qufrying Mfthods
+//
+
+    /**
+     * Rfturns thf first row thbt dhbngfd.  HEADER_ROW mfbns thf mftb dbtb,
+     * if. nbmfs, typfs bnd ordfr of thf dolumns.
+     *
+     * @rfturn bn intfgfr signifying thf first row dhbngfd
+     */
+    publid int gftFirstRow() { rfturn firstRow; };
+
+    /**
+     * Rfturns thf lbst row thbt dhbngfd.
+     *
+     * @rfturn bn intfgfr signifying thf lbst row dhbngfd
+     */
+    publid int gftLbstRow() { rfturn lbstRow; };
+
+    /**
+     *  Rfturns thf dolumn for thf fvfnt.  If thf rfturn
+     *  vbluf is ALL_COLUMNS; it mfbns fvfry dolumn in thf spfdififd
+     *  rows dhbngfd.
+     *
+     * @rfturn bn intfgfr signifying whidh dolumn is bfffdtfd by this fvfnt
+     */
+    publid int gftColumn() { rfturn dolumn; };
+
+    /**
+     *  Rfturns thf typf of fvfnt - onf of: INSERT, UPDATE bnd DELETE.
+     *
+     * @rfturn thf typf of dhbngf to b tbblf modfl, bn {@dodf INSERT} or
+     *         {@dodf DELETE } of row(s) or dolumn(s) or {@dodf UPDATE}
+     *         to dbtb
+     */
+    publid int gftTypf() { rfturn typf; }
+}

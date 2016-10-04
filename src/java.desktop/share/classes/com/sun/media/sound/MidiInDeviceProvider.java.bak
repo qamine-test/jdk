@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiDfvidf;
 
 
 /**
- * MIDI input device provider.
+ * MIDI input dfvidf providfr.
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
-public final class MidiInDeviceProvider extends AbstractMidiDeviceProvider {
+publid finbl dlbss MidiInDfvidfProvidfr fxtfnds AbstrbdtMidiDfvidfProvidfr {
 
-    /** Cache of info objects for all MIDI output devices on the system. */
-    private static Info[] infos = null;
+    /** Cbdif of info objfdts for bll MIDI output dfvidfs on tif systfm. */
+    privbtf stbtid Info[] infos = null;
 
-    /** Cache of open MIDI input devices on the system. */
-    private static MidiDevice[] devices = null;
+    /** Cbdif of opfn MIDI input dfvidfs on tif systfm. */
+    privbtf stbtid MidiDfvidf[] dfvidfs = null;
 
-    private static final boolean enabled;
+    privbtf stbtid finbl boolfbn fnbblfd;
 
     // STATIC
 
-    static {
-        // initialize
-        Platform.initialize();
-        enabled = Platform.isMidiIOEnabled();
+    stbtid {
+        // initiblizf
+        Plbtform.initiblizf();
+        fnbblfd = Plbtform.isMidiIOEnbblfd();
     }
 
     // CONSTRUCTOR
 
     /**
-     * Required public no-arg constructor.
+     * Rfquirfd publid no-brg donstrudtor.
      */
-    public MidiInDeviceProvider() {
-        if (Printer.trace) Printer.trace("MidiInDeviceProvider: constructor");
+    publid MidiInDfvidfProvidfr() {
+        if (Printfr.trbdf) Printfr.trbdf("MidiInDfvidfProvidfr: donstrudtor");
     }
 
-    // implementation of abstract methods in AbstractMidiDeviceProvider
+    // implfmfntbtion of bbstrbdt mftiods in AbstrbdtMidiDfvidfProvidfr
 
-    AbstractMidiDeviceProvider.Info createInfo(int index) {
-        if (!enabled) {
-            return null;
+    AbstrbdtMidiDfvidfProvidfr.Info drfbtfInfo(int indfx) {
+        if (!fnbblfd) {
+            rfturn null;
         }
-        return new MidiInDeviceInfo(index, MidiInDeviceProvider.class);
+        rfturn nfw MidiInDfvidfInfo(indfx, MidiInDfvidfProvidfr.dlbss);
     }
 
-    MidiDevice createDevice(AbstractMidiDeviceProvider.Info info) {
-        if (enabled && (info instanceof MidiInDeviceInfo)) {
-            return new MidiInDevice(info);
+    MidiDfvidf drfbtfDfvidf(AbstrbdtMidiDfvidfProvidfr.Info info) {
+        if (fnbblfd && (info instbndfof MidiInDfvidfInfo)) {
+            rfturn nfw MidiInDfvidf(info);
         }
-        return null;
+        rfturn null;
     }
 
-    int getNumDevices() {
-        if (!enabled) {
-            if (Printer.debug)Printer.debug("MidiInDevice not enabled, returning 0 devices");
-            return 0;
+    int gftNumDfvidfs() {
+        if (!fnbblfd) {
+            if (Printfr.dfbug)Printfr.dfbug("MidiInDfvidf not fnbblfd, rfturning 0 dfvidfs");
+            rfturn 0;
         }
-        int numDevices = nGetNumDevices();
-        if (Printer.debug)Printer.debug("MidiInDeviceProvider.getNumDevices(): devices: " + numDevices);
-        return numDevices;
+        int numDfvidfs = nGftNumDfvidfs();
+        if (Printfr.dfbug)Printfr.dfbug("MidiInDfvidfProvidfr.gftNumDfvidfs(): dfvidfs: " + numDfvidfs);
+        rfturn numDfvidfs;
     }
 
-    MidiDevice[] getDeviceCache() { return devices; }
-    void setDeviceCache(MidiDevice[] devices) { MidiInDeviceProvider.devices = devices; }
-    Info[] getInfoCache() { return infos; }
-    void setInfoCache(Info[] infos) { MidiInDeviceProvider.infos = infos; }
+    MidiDfvidf[] gftDfvidfCbdif() { rfturn dfvidfs; }
+    void sftDfvidfCbdif(MidiDfvidf[] dfvidfs) { MidiInDfvidfProvidfr.dfvidfs = dfvidfs; }
+    Info[] gftInfoCbdif() { rfturn infos; }
+    void sftInfoCbdif(Info[] infos) { MidiInDfvidfProvidfr.infos = infos; }
 
 
     // INNER CLASSES
 
     /**
-     * Info class for MidiInDevices.  Adds the
-     * provider's Class to keep the provider class from being
-     * unloaded.  Otherwise, at least on JDK1.1.7 and 1.1.8,
-     * the provider class can be unloaded.  Then, then the provider
-     * is next invoked, the static block is executed again and a new
-     * instance of the device object is created.  Even though the
-     * previous instance may still exist and be open / in use / etc.,
-     * the new instance will not reflect that state...
+     * Info dlbss for MidiInDfvidfs.  Adds tif
+     * providfr's Clbss to kffp tif providfr dlbss from bfing
+     * unlobdfd.  Otifrwisf, bt lfbst on JDK1.1.7 bnd 1.1.8,
+     * tif providfr dlbss dbn bf unlobdfd.  Tifn, tifn tif providfr
+     * is nfxt invokfd, tif stbtid blodk is fxfdutfd bgbin bnd b nfw
+     * instbndf of tif dfvidf objfdt is drfbtfd.  Evfn tiougi tif
+     * prfvious instbndf mby still fxist bnd bf opfn / in usf / ftd.,
+     * tif nfw instbndf will not rfflfdt tibt stbtf...
      */
-    static final class MidiInDeviceInfo extends AbstractMidiDeviceProvider.Info {
-        private final Class<?> providerClass;
+    stbtid finbl dlbss MidiInDfvidfInfo fxtfnds AbstrbdtMidiDfvidfProvidfr.Info {
+        privbtf finbl Clbss<?> providfrClbss;
 
-        private MidiInDeviceInfo(int index, Class<?> providerClass) {
-            super(nGetName(index), nGetVendor(index), nGetDescription(index), nGetVersion(index), index);
-            this.providerClass = providerClass;
+        privbtf MidiInDfvidfInfo(int indfx, Clbss<?> providfrClbss) {
+            supfr(nGftNbmf(indfx), nGftVfndor(indfx), nGftDfsdription(indfx), nGftVfrsion(indfx), indfx);
+            tiis.providfrClbss = providfrClbss;
         }
 
-    } // class MidiInDeviceInfo
+    } // dlbss MidiInDfvidfInfo
 
 
     // NATIVE METHODS
 
-    private static native int nGetNumDevices();
-    private static native String nGetName(int index);
-    private static native String nGetVendor(int index);
-    private static native String nGetDescription(int index);
-    private static native String nGetVersion(int index);
+    privbtf stbtid nbtivf int nGftNumDfvidfs();
+    privbtf stbtid nbtivf String nGftNbmf(int indfx);
+    privbtf stbtid nbtivf String nGftVfndor(int indfx);
+    privbtf stbtid nbtivf String nGftDfsdription(int indfx);
+    privbtf stbtid nbtivf String nGftVfrsion(int indfx);
 }

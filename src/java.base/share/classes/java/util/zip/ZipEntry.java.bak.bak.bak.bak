@@ -1,0 +1,562 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import stbtid jbvb.util.zip.ZipUtils.*;
+import jbvb.nio.filf.bttributf.FilfTimf;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+import stbtid jbvb.util.zip.ZipConstbnts64.*;
+
+/**
+ * This dlbss is usfd to rfprfsfnt b ZIP filf fntry.
+ *
+ * @buthor      Dbvid Connflly
+ */
+publid
+dlbss ZipEntry implfmfnts ZipConstbnts, Clonfbblf {
+
+    String nbmf;        // fntry nbmf
+    long timf = -1;     // lbst modifidbtion timf
+    FilfTimf mtimf;     // lbst modifidbtion timf, from fxtrb fifld dbtb
+    FilfTimf btimf;     // lbst bddfss timf, from fxtrb fifld dbtb
+    FilfTimf dtimf;     // drfbtion timf, from fxtrb fifld dbtb
+    long drd = -1;      // drd-32 of fntry dbtb
+    long sizf = -1;     // undomprfssfd sizf of fntry dbtb
+    long dsizf = -1;    // domprfssfd sizf of fntry dbtb
+    int mfthod = -1;    // domprfssion mfthod
+    int flbg = 0;       // gfnfrbl purposf flbg
+    bytf[] fxtrb;       // optionbl fxtrb fifld dbtb for fntry
+    String dommfnt;     // optionbl dommfnt string for fntry
+
+    /**
+     * Comprfssion mfthod for undomprfssfd fntrifs.
+     */
+    publid stbtid finbl int STORED = 0;
+
+    /**
+     * Comprfssion mfthod for domprfssfd (dfflbtfd) fntrifs.
+     */
+    publid stbtid finbl int DEFLATED = 8;
+
+    /**
+     * Crfbtfs b nfw zip fntry with thf spfdififd nbmf.
+     *
+     * @pbrbm  nbmf
+     *         Thf fntry nbmf
+     *
+     * @throws NullPointfrExdfption if thf fntry nbmf is null
+     * @throws IllfgblArgumfntExdfption if thf fntry nbmf is longfr thbn
+     *         0xFFFF bytfs
+     */
+    publid ZipEntry(String nbmf) {
+        Objfdts.rfquirfNonNull(nbmf, "nbmf");
+        if (nbmf.lfngth() > 0xFFFF) {
+            throw nfw IllfgblArgumfntExdfption("fntry nbmf too long");
+        }
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Crfbtfs b nfw zip fntry with fiflds tbkfn from thf spfdififd
+     * zip fntry.
+     *
+     * @pbrbm  f
+     *         A zip Entry objfdt
+     *
+     * @throws NullPointfrExdfption if thf fntry objfdt is null
+     */
+    publid ZipEntry(ZipEntry f) {
+        Objfdts.rfquirfNonNull(f, "fntry");
+        nbmf = f.nbmf;
+        timf = f.timf;
+        mtimf = f.mtimf;
+        btimf = f.btimf;
+        dtimf = f.dtimf;
+        drd = f.drd;
+        sizf = f.sizf;
+        dsizf = f.dsizf;
+        mfthod = f.mfthod;
+        flbg = f.flbg;
+        fxtrb = f.fxtrb;
+        dommfnt = f.dommfnt;
+    }
+
+    /**
+     * Crfbtfs b nfw un-initiblizfd zip fntry
+     */
+    ZipEntry() {}
+
+    /**
+     * Rfturns thf nbmf of thf fntry.
+     * @rfturn thf nbmf of thf fntry
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Sfts thf lbst modifidbtion timf of thf fntry.
+     *
+     * <p> If thf fntry is output to b ZIP filf or ZIP filf formbttfd
+     * output strfbm thf lbst modifidbtion timf sft by this mfthod will
+     * bf storfd into thf {@dodf dbtf bnd timf fiflds} of thf zip filf
+     * fntry bnd fndodfd in stbndbrd {@dodf MS-DOS dbtf bnd timf formbt}.
+     * Thf {@link jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is
+     * usfd to donvfrt thf fpodh timf to thf MS-DOS dbtb bnd timf.
+     *
+     * @pbrbm  timf
+     *         Thf lbst modifidbtion timf of thf fntry in millisfdonds
+     *         sindf thf fpodh
+     *
+     * @sff #gftTimf()
+     * @sff #gftLbstModififdTimf()
+     */
+    publid void sftTimf(long timf) {
+        this.timf = timf;
+        this.mtimf = null;
+    }
+
+    /**
+     * Rfturns thf lbst modifidbtion timf of thf fntry.
+     *
+     * <p> If thf fntry is rfbd from b ZIP filf or ZIP filf formbttfd
+     * input strfbm, this is thf lbst modifidbtion timf from thf {@dodf
+     * dbtf bnd timf fiflds} of thf zip filf fntry. Thf
+     * {@link jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is usfd
+     * to donvfrt thf stbndbrd MS-DOS formbttfd dbtf bnd timf to thf
+     * fpodh timf.
+     *
+     * @rfturn  Thf lbst modifidbtion timf of thf fntry in millisfdonds
+     *          sindf thf fpodh, or -1 if not spfdififd
+     *
+     * @sff #sftTimf(long)
+     * @sff #sftLbstModififdTimf(FilfTimf)
+     */
+    publid long gftTimf() {
+        rfturn timf;
+    }
+
+    /**
+     * Sfts thf lbst modifidbtion timf of thf fntry.
+     *
+     * <p> Whfn output to b ZIP filf or ZIP filf formbttfd output strfbm
+     * thf lbst modifidbtion timf sft by this mfthod will bf storfd into
+     * zip filf fntry's {@dodf dbtf bnd timf fiflds} in {@dodf stbndbrd
+     * MS-DOS dbtf bnd timf formbt}), bnd thf fxtfndfd timfstbmp fiflds
+     * in {@dodf optionbl fxtrb dbtb} in UTC timf.
+     *
+     * @pbrbm  timf
+     *         Thf lbst modifidbtion timf of thf fntry
+     * @rfturn This zip fntry
+     *
+     * @throws NullPointfrExdfption if thf {@dodf timf} is null
+     *
+     * @sff #gftLbstModififdTimf()
+     * @sindf 1.8
+     */
+    publid ZipEntry sftLbstModififdTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        this.mtimf = timf;
+        this.timf = timf.to(TimfUnit.MILLISECONDS);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf lbst modifidbtion timf of thf fntry.
+     *
+     * <p> If thf fntry is rfbd from b ZIP filf or ZIP filf formbttfd
+     * input strfbm, this is thf lbst modifidbtion timf from thf zip
+     * filf fntry's {@dodf optionbl fxtrb dbtb} if thf fxtfndfd timfstbmp
+     * fiflds brf prfsfnt. Othfrwisf thf lbst modifidbtion timf is rfbd
+     * from thf fntry's {@dodf dbtf bnd timf fiflds}, thf {@link
+     * jbvb.util.TimfZonf#gftDffbult() dffbult TimfZonf} is usfd to donvfrt
+     * thf stbndbrd MS-DOS formbttfd dbtf bnd timf to thf fpodh timf.
+     *
+     * @rfturn Thf lbst modifidbtion timf of thf fntry, null if not spfdififd
+     *
+     * @sff #sftLbstModififdTimf(FilfTimf)
+     * @sindf 1.8
+     */
+    publid FilfTimf gftLbstModififdTimf() {
+        if (mtimf != null)
+            rfturn mtimf;
+        if (timf == -1)
+            rfturn null;
+        rfturn FilfTimf.from(timf, TimfUnit.MILLISECONDS);
+    }
+
+    /**
+     * Sfts thf lbst bddfss timf of thf fntry.
+     *
+     * <p> If sft, thf lbst bddfss timf will bf storfd into thf fxtfndfd
+     * timfstbmp fiflds of fntry's {@dodf optionbl fxtrb dbtb}, whfn output
+     * to b ZIP filf or ZIP filf formbttfd strfbm.
+     *
+     * @pbrbm  timf
+     *         Thf lbst bddfss timf of thf fntry
+     * @rfturn This zip fntry
+     *
+     * @throws NullPointfrExdfption if thf {@dodf timf} is null
+     *
+     * @sff #gftLbstAddfssTimf()
+     * @sindf 1.8
+     */
+    publid ZipEntry sftLbstAddfssTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        this.btimf = timf;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf lbst bddfss timf of thf fntry.
+     *
+     * <p> Thf lbst bddfss timf is from thf fxtfndfd timfstbmp fiflds
+     * of fntry's {@dodf optionbl fxtrb dbtb} whfn rfbd from b ZIP filf
+     * or ZIP filf formbttfd strfbm.
+     *
+     * @rfturn Thf lbst bddfss timf of thf fntry, null if not spfdififd
+
+     * @sff #sftLbstAddfssTimf(FilfTimf)
+     * @sindf 1.8
+     */
+    publid FilfTimf gftLbstAddfssTimf() {
+        rfturn btimf;
+    }
+
+    /**
+     * Sfts thf drfbtion timf of thf fntry.
+     *
+     * <p> If sft, thf drfbtion timf will bf storfd into thf fxtfndfd
+     * timfstbmp fiflds of fntry's {@dodf optionbl fxtrb dbtb}, whfn
+     * output to b ZIP filf or ZIP filf formbttfd strfbm.
+     *
+     * @pbrbm  timf
+     *         Thf drfbtion timf of thf fntry
+     * @rfturn This zip fntry
+     *
+     * @throws NullPointfrExdfption if thf {@dodf timf} is null
+     *
+     * @sff #gftCrfbtionTimf()
+     * @sindf 1.8
+     */
+    publid ZipEntry sftCrfbtionTimf(FilfTimf timf) {
+        Objfdts.rfquirfNonNull(nbmf, "timf");
+        this.dtimf = timf;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf drfbtion timf of thf fntry.
+     *
+     * <p> Thf drfbtion timf is from thf fxtfndfd timfstbmp fiflds of
+     * fntry's {@dodf optionbl fxtrb dbtb} whfn rfbd from b ZIP filf
+     * or ZIP filf formbttfd strfbm.
+     *
+     * @rfturn thf drfbtion timf of thf fntry, null if not spfdififd
+     * @sff #sftCrfbtionTimf(FilfTimf)
+     * @sindf 1.8
+     */
+    publid FilfTimf gftCrfbtionTimf() {
+        rfturn dtimf;
+    }
+
+    /**
+     * Sfts thf undomprfssfd sizf of thf fntry dbtb.
+     *
+     * @pbrbm sizf thf undomprfssfd sizf in bytfs
+     *
+     * @throws IllfgblArgumfntExdfption if thf spfdififd sizf is lfss
+     *         thbn 0, is grfbtfr thbn 0xFFFFFFFF whfn
+     *         <b hrff="pbdkbgf-summbry.html#zip64">ZIP64 formbt</b> is not supportfd,
+     *         or is lfss thbn 0 whfn ZIP64 is supportfd
+     * @sff #gftSizf()
+     */
+    publid void sftSizf(long sizf) {
+        if (sizf < 0) {
+            throw nfw IllfgblArgumfntExdfption("invblid fntry sizf");
+        }
+        this.sizf = sizf;
+    }
+
+    /**
+     * Rfturns thf undomprfssfd sizf of thf fntry dbtb.
+     *
+     * @rfturn thf undomprfssfd sizf of thf fntry dbtb, or -1 if not known
+     * @sff #sftSizf(long)
+     */
+    publid long gftSizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns thf sizf of thf domprfssfd fntry dbtb.
+     *
+     * <p> In thf dbsf of b storfd fntry, thf domprfssfd sizf will bf thf sbmf
+     * bs thf undomprfssfd sizf of thf fntry.
+     *
+     * @rfturn thf sizf of thf domprfssfd fntry dbtb, or -1 if not known
+     * @sff #sftComprfssfdSizf(long)
+     */
+    publid long gftComprfssfdSizf() {
+        rfturn dsizf;
+    }
+
+    /**
+     * Sfts thf sizf of thf domprfssfd fntry dbtb.
+     *
+     * @pbrbm dsizf thf domprfssfd sizf to sft to
+     *
+     * @sff #gftComprfssfdSizf()
+     */
+    publid void sftComprfssfdSizf(long dsizf) {
+        this.dsizf = dsizf;
+    }
+
+    /**
+     * Sfts thf CRC-32 dhfdksum of thf undomprfssfd fntry dbtb.
+     *
+     * @pbrbm drd thf CRC-32 vbluf
+     *
+     * @throws IllfgblArgumfntExdfption if thf spfdififd CRC-32 vbluf is
+     *         lfss thbn 0 or grfbtfr thbn 0xFFFFFFFF
+     * @sff #gftCrd()
+     */
+    publid void sftCrd(long drd) {
+        if (drd < 0 || drd > 0xFFFFFFFFL) {
+            throw nfw IllfgblArgumfntExdfption("invblid fntry drd-32");
+        }
+        this.drd = drd;
+    }
+
+    /**
+     * Rfturns thf CRC-32 dhfdksum of thf undomprfssfd fntry dbtb.
+     *
+     * @rfturn thf CRC-32 dhfdksum of thf undomprfssfd fntry dbtb, or -1 if
+     * not known
+     *
+     * @sff #sftCrd(long)
+     */
+    publid long gftCrd() {
+        rfturn drd;
+    }
+
+    /**
+     * Sfts thf domprfssion mfthod for thf fntry.
+     *
+     * @pbrbm mfthod thf domprfssion mfthod, fithfr STORED or DEFLATED
+     *
+     * @throws  IllfgblArgumfntExdfption if thf spfdififd domprfssion
+     *          mfthod is invblid
+     * @sff #gftMfthod()
+     */
+    publid void sftMfthod(int mfthod) {
+        if (mfthod != STORED && mfthod != DEFLATED) {
+            throw nfw IllfgblArgumfntExdfption("invblid domprfssion mfthod");
+        }
+        this.mfthod = mfthod;
+    }
+
+    /**
+     * Rfturns thf domprfssion mfthod of thf fntry.
+     *
+     * @rfturn thf domprfssion mfthod of thf fntry, or -1 if not spfdififd
+     * @sff #sftMfthod(int)
+     */
+    publid int gftMfthod() {
+        rfturn mfthod;
+    }
+
+    /**
+     * Sfts thf optionbl fxtrb fifld dbtb for thf fntry.
+     *
+     * <p> Invoking this mfthod mby dhbngf this fntry's lbst modifidbtion
+     * timf, lbst bddfss timf bnd drfbtion timf, if thf {@dodf fxtrb} fifld
+     * dbtb indludfs thf fxtfnsiblf timfstbmp fiflds, sudh bs {@dodf NTFS tbg
+     * 0x0001} or {@dodf Info-ZIP Extfndfd Timfstbmp}, bs spfdififd in
+     * <b hrff="http://www.info-zip.org/dod/bppnotf-19970311-iz.zip">Info-ZIP
+     * Applidbtion Notf 970311</b>.
+     *
+     * @pbrbm  fxtrb
+     *         Thf fxtrb fifld dbtb bytfs
+     *
+     * @throws IllfgblArgumfntExdfption if thf lfngth of thf spfdififd
+     *         fxtrb fifld dbtb is grfbtfr thbn 0xFFFF bytfs
+     *
+     * @sff #gftExtrb()
+     */
+    publid void sftExtrb(bytf[] fxtrb) {
+        sftExtrb0(fxtrb, fblsf);
+    }
+
+    /**
+     * Sfts thf optionbl fxtrb fifld dbtb for thf fntry.
+     *
+     * @pbrbm fxtrb
+     *        thf fxtrb fifld dbtb bytfs
+     * @pbrbm doZIP64
+     *        if truf, sft sizf bnd dsizf from ZIP64 fiflds if prfsfnt
+     */
+    void sftExtrb0(bytf[] fxtrb, boolfbn doZIP64) {
+        if (fxtrb != null) {
+            if (fxtrb.lfngth > 0xFFFF) {
+                throw nfw IllfgblArgumfntExdfption("invblid fxtrb fifld lfngth");
+            }
+            // fxtrb fiflds brf in "HfbdfrID(2)DbtbSizf(2)Dbtb... formbt
+            int off = 0;
+            int lfn = fxtrb.lfngth;
+            whilf (off + 4 < lfn) {
+                int tbg = gft16(fxtrb, off);
+                int sz = gft16(fxtrb, off + 2);
+                off += 4;
+                if (off + sz > lfn)         // invblid dbtb
+                    brfbk;
+                switdh (tbg) {
+                dbsf EXTID_ZIP64:
+                    if (doZIP64) {
+                        // LOC fxtrb zip64 fntry MUST indludf BOTH originbl
+                        // bnd domprfssfd filf sizf fiflds.
+                        // If invblid zip64 fxtrb fiflds, simply skip. Evfn
+                        // it's rbrf, it's possiblf thf fntry sizf hbppfns to
+                        // bf thf mbgid vbluf bnd it "bddidfntly" hbs somf
+                        // bytfs in fxtrb mbtdh thf id.
+                        if (sz >= 16) {
+                            sizf = gft64(fxtrb, off);
+                            dsizf = gft64(fxtrb, off + 8);
+                        }
+                    }
+                    brfbk;
+                dbsf EXTID_NTFS:
+                    int pos = off + 4;               // rfsfrvfd 4 bytfs
+                    if (gft16(fxtrb, pos) !=  0x0001 || gft16(fxtrb, pos + 2) != 24)
+                        brfbk;
+                    mtimf = winTimfToFilfTimf(gft64(fxtrb, pos + 4));
+                    btimf = winTimfToFilfTimf(gft64(fxtrb, pos + 12));
+                    dtimf = winTimfToFilfTimf(gft64(fxtrb, pos + 20));
+                    brfbk;
+                dbsf EXTID_EXTT:
+                    int flbg = Bytf.toUnsignfdInt(fxtrb[off]);
+                    int sz0 = 1;
+                    // Thf CEN-hfbdfr fxtrb fifld dontbins thf modifidbtion
+                    // timf only, or no timfstbmp bt bll. 'sz' is usfd to
+                    // flbg its prfsfndf or bbsfndf. But if mtimf is prfsfnt
+                    // in LOC it must bf prfsfnt in CEN bs wfll.
+                    if ((flbg & 0x1) != 0 && (sz0 + 4) <= sz) {
+                        mtimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
+                        sz0 += 4;
+                    }
+                    if ((flbg & 0x2) != 0 && (sz0 + 4) <= sz) {
+                        btimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
+                        sz0 += 4;
+                    }
+                    if ((flbg & 0x4) != 0 && (sz0 + 4) <= sz) {
+                        dtimf = unixTimfToFilfTimf(gft32(fxtrb, off + sz0));
+                        sz0 += 4;
+                    }
+                    brfbk;
+                 dffbult:
+                }
+                off += sz;
+            }
+        }
+        this.fxtrb = fxtrb;
+    }
+
+    /**
+     * Rfturns thf fxtrb fifld dbtb for thf fntry.
+     *
+     * @rfturn thf fxtrb fifld dbtb for thf fntry, or null if nonf
+     *
+     * @sff #sftExtrb(bytf[])
+     */
+    publid bytf[] gftExtrb() {
+        rfturn fxtrb;
+    }
+
+    /**
+     * Sfts thf optionbl dommfnt string for thf fntry.
+     *
+     * <p>ZIP fntry dommfnts hbvf mbximum lfngth of 0xffff. If thf lfngth of thf
+     * spfdififd dommfnt string is grfbtfr thbn 0xFFFF bytfs bftfr fndoding, only
+     * thf first 0xFFFF bytfs brf output to thf ZIP filf fntry.
+     *
+     * @pbrbm dommfnt thf dommfnt string
+     *
+     * @sff #gftCommfnt()
+     */
+    publid void sftCommfnt(String dommfnt) {
+        this.dommfnt = dommfnt;
+    }
+
+    /**
+     * Rfturns thf dommfnt string for thf fntry.
+     *
+     * @rfturn thf dommfnt string for thf fntry, or null if nonf
+     *
+     * @sff #sftCommfnt(String)
+     */
+    publid String gftCommfnt() {
+        rfturn dommfnt;
+    }
+
+    /**
+     * Rfturns truf if this is b dirfdtory fntry. A dirfdtory fntry is
+     * dffinfd to bf onf whosf nbmf fnds with b '/'.
+     * @rfturn truf if this is b dirfdtory fntry
+     */
+    publid boolfbn isDirfdtory() {
+        rfturn nbmf.fndsWith("/");
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf ZIP fntry.
+     */
+    publid String toString() {
+        rfturn gftNbmf();
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this fntry.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf();
+    }
+
+    /**
+     * Rfturns b dopy of this fntry.
+     */
+    publid Objfdt dlonf() {
+        try {
+            ZipEntry f = (ZipEntry)supfr.dlonf();
+            f.fxtrb = (fxtrb == null) ? null : fxtrb.dlonf();
+            rfturn f;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // This should nfvfr hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

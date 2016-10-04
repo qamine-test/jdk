@@ -1,720 +1,720 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+pbdkbgf jbvb.util;
+import jbvb.util.Dbtf;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
 /**
- * A facility for threads to schedule tasks for future execution in a
- * background thread.  Tasks may be scheduled for one-time execution, or for
- * repeated execution at regular intervals.
+ * A fbdility for tirfbds to sdifdulf tbsks for futurf fxfdution in b
+ * bbdkground tirfbd.  Tbsks mby bf sdifdulfd for onf-timf fxfdution, or for
+ * rfpfbtfd fxfdution bt rfgulbr intfrvbls.
  *
- * <p>Corresponding to each <tt>Timer</tt> object is a single background
- * thread that is used to execute all of the timer's tasks, sequentially.
- * Timer tasks should complete quickly.  If a timer task takes excessive time
- * to complete, it "hogs" the timer's task execution thread.  This can, in
- * turn, delay the execution of subsequent tasks, which may "bunch up" and
- * execute in rapid succession when (and if) the offending task finally
- * completes.
+ * <p>Corrfsponding to fbdi <tt>Timfr</tt> objfdt is b singlf bbdkground
+ * tirfbd tibt is usfd to fxfdutf bll of tif timfr's tbsks, sfqufntiblly.
+ * Timfr tbsks siould domplftf quidkly.  If b timfr tbsk tbkfs fxdfssivf timf
+ * to domplftf, it "iogs" tif timfr's tbsk fxfdution tirfbd.  Tiis dbn, in
+ * turn, dflby tif fxfdution of subsfqufnt tbsks, wiidi mby "bundi up" bnd
+ * fxfdutf in rbpid suddfssion wifn (bnd if) tif offfnding tbsk finblly
+ * domplftfs.
  *
- * <p>After the last live reference to a <tt>Timer</tt> object goes away
- * <i>and</i> all outstanding tasks have completed execution, the timer's task
- * execution thread terminates gracefully (and becomes subject to garbage
- * collection).  However, this can take arbitrarily long to occur.  By
- * default, the task execution thread does not run as a <i>daemon thread</i>,
- * so it is capable of keeping an application from terminating.  If a caller
- * wants to terminate a timer's task execution thread rapidly, the caller
- * should invoke the timer's <tt>cancel</tt> method.
+ * <p>Aftfr tif lbst livf rfffrfndf to b <tt>Timfr</tt> objfdt gofs bwby
+ * <i>bnd</i> bll outstbnding tbsks ibvf domplftfd fxfdution, tif timfr's tbsk
+ * fxfdution tirfbd tfrminbtfs grbdffully (bnd bfdomfs subjfdt to gbrbbgf
+ * dollfdtion).  Howfvfr, tiis dbn tbkf brbitrbrily long to oddur.  By
+ * dffbult, tif tbsk fxfdution tirfbd dofs not run bs b <i>dbfmon tirfbd</i>,
+ * so it is dbpbblf of kffping bn bpplidbtion from tfrminbting.  If b dbllfr
+ * wbnts to tfrminbtf b timfr's tbsk fxfdution tirfbd rbpidly, tif dbllfr
+ * siould invokf tif timfr's <tt>dbndfl</tt> mftiod.
  *
- * <p>If the timer's task execution thread terminates unexpectedly, for
- * example, because its <tt>stop</tt> method is invoked, any further
- * attempt to schedule a task on the timer will result in an
- * <tt>IllegalStateException</tt>, as if the timer's <tt>cancel</tt>
- * method had been invoked.
+ * <p>If tif timfr's tbsk fxfdution tirfbd tfrminbtfs unfxpfdtfdly, for
+ * fxbmplf, bfdbusf its <tt>stop</tt> mftiod is invokfd, bny furtifr
+ * bttfmpt to sdifdulf b tbsk on tif timfr will rfsult in bn
+ * <tt>IllfgblStbtfExdfption</tt>, bs if tif timfr's <tt>dbndfl</tt>
+ * mftiod ibd bffn invokfd.
  *
- * <p>This class is thread-safe: multiple threads can share a single
- * <tt>Timer</tt> object without the need for external synchronization.
+ * <p>Tiis dlbss is tirfbd-sbff: multiplf tirfbds dbn sibrf b singlf
+ * <tt>Timfr</tt> objfdt witiout tif nffd for fxtfrnbl syndironizbtion.
  *
- * <p>This class does <i>not</i> offer real-time guarantees: it schedules
- * tasks using the <tt>Object.wait(long)</tt> method.
+ * <p>Tiis dlbss dofs <i>not</i> offfr rfbl-timf gubrbntffs: it sdifdulfs
+ * tbsks using tif <tt>Objfdt.wbit(long)</tt> mftiod.
  *
- * <p>Java 5.0 introduced the {@code java.util.concurrent} package and
- * one of the concurrency utilities therein is the {@link
- * java.util.concurrent.ScheduledThreadPoolExecutor
- * ScheduledThreadPoolExecutor} which is a thread pool for repeatedly
- * executing tasks at a given rate or delay.  It is effectively a more
- * versatile replacement for the {@code Timer}/{@code TimerTask}
- * combination, as it allows multiple service threads, accepts various
- * time units, and doesn't require subclassing {@code TimerTask} (just
- * implement {@code Runnable}).  Configuring {@code
- * ScheduledThreadPoolExecutor} with one thread makes it equivalent to
- * {@code Timer}.
+ * <p>Jbvb 5.0 introdudfd tif {@dodf jbvb.util.dondurrfnt} pbdkbgf bnd
+ * onf of tif dondurrfndy utilitifs tifrfin is tif {@link
+ * jbvb.util.dondurrfnt.SdifdulfdTirfbdPoolExfdutor
+ * SdifdulfdTirfbdPoolExfdutor} wiidi is b tirfbd pool for rfpfbtfdly
+ * fxfduting tbsks bt b givfn rbtf or dflby.  It is ffffdtivfly b morf
+ * vfrsbtilf rfplbdfmfnt for tif {@dodf Timfr}/{@dodf TimfrTbsk}
+ * dombinbtion, bs it bllows multiplf sfrvidf tirfbds, bddfpts vbrious
+ * timf units, bnd dofsn't rfquirf subdlbssing {@dodf TimfrTbsk} (just
+ * implfmfnt {@dodf Runnbblf}).  Configuring {@dodf
+ * SdifdulfdTirfbdPoolExfdutor} witi onf tirfbd mbkfs it fquivblfnt to
+ * {@dodf Timfr}.
  *
- * <p>Implementation note: This class scales to large numbers of concurrently
- * scheduled tasks (thousands should present no problem).  Internally,
- * it uses a binary heap to represent its task queue, so the cost to schedule
- * a task is O(log n), where n is the number of concurrently scheduled tasks.
+ * <p>Implfmfntbtion notf: Tiis dlbss sdblfs to lbrgf numbfrs of dondurrfntly
+ * sdifdulfd tbsks (tiousbnds siould prfsfnt no problfm).  Intfrnblly,
+ * it usfs b binbry ifbp to rfprfsfnt its tbsk qufuf, so tif dost to sdifdulf
+ * b tbsk is O(log n), wifrf n is tif numbfr of dondurrfntly sdifdulfd tbsks.
  *
- * <p>Implementation note: All constructors start a timer thread.
+ * <p>Implfmfntbtion notf: All donstrudtors stbrt b timfr tirfbd.
  *
- * @author  Josh Bloch
- * @see     TimerTask
- * @see     Object#wait(long)
- * @since   1.3
+ * @butior  Josi Blodi
+ * @sff     TimfrTbsk
+ * @sff     Objfdt#wbit(long)
+ * @sindf   1.3
  */
 
-public class Timer {
+publid dlbss Timfr {
     /**
-     * The timer task queue.  This data structure is shared with the timer
-     * thread.  The timer produces tasks, via its various schedule calls,
-     * and the timer thread consumes, executing timer tasks as appropriate,
-     * and removing them from the queue when they're obsolete.
+     * Tif timfr tbsk qufuf.  Tiis dbtb strudturf is sibrfd witi tif timfr
+     * tirfbd.  Tif timfr produdfs tbsks, vib its vbrious sdifdulf dblls,
+     * bnd tif timfr tirfbd donsumfs, fxfduting timfr tbsks bs bppropribtf,
+     * bnd rfmoving tifm from tif qufuf wifn tify'rf obsolftf.
      */
-    private final TaskQueue queue = new TaskQueue();
+    privbtf finbl TbskQufuf qufuf = nfw TbskQufuf();
 
     /**
-     * The timer thread.
+     * Tif timfr tirfbd.
      */
-    private final TimerThread thread = new TimerThread(queue);
+    privbtf finbl TimfrTirfbd tirfbd = nfw TimfrTirfbd(qufuf);
 
     /**
-     * This object causes the timer's task execution thread to exit
-     * gracefully when there are no live references to the Timer object and no
-     * tasks in the timer queue.  It is used in preference to a finalizer on
-     * Timer as such a finalizer would be susceptible to a subclass's
-     * finalizer forgetting to call it.
+     * Tiis objfdt dbusfs tif timfr's tbsk fxfdution tirfbd to fxit
+     * grbdffully wifn tifrf brf no livf rfffrfndfs to tif Timfr objfdt bnd no
+     * tbsks in tif timfr qufuf.  It is usfd in prfffrfndf to b finblizfr on
+     * Timfr bs sudi b finblizfr would bf susdfptiblf to b subdlbss's
+     * finblizfr forgftting to dbll it.
      */
-    private final Object threadReaper = new Object() {
-        protected void finalize() throws Throwable {
-            synchronized(queue) {
-                thread.newTasksMayBeScheduled = false;
-                queue.notify(); // In case queue is empty.
+    privbtf finbl Objfdt tirfbdRfbpfr = nfw Objfdt() {
+        protfdtfd void finblizf() tirows Tirowbblf {
+            syndironizfd(qufuf) {
+                tirfbd.nfwTbsksMbyBfSdifdulfd = fblsf;
+                qufuf.notify(); // In dbsf qufuf is fmpty.
             }
         }
     };
 
     /**
-     * This ID is used to generate thread names.
+     * Tiis ID is usfd to gfnfrbtf tirfbd nbmfs.
      */
-    private final static AtomicInteger nextSerialNumber = new AtomicInteger(0);
-    private static int serialNumber() {
-        return nextSerialNumber.getAndIncrement();
+    privbtf finbl stbtid AtomidIntfgfr nfxtSfriblNumbfr = nfw AtomidIntfgfr(0);
+    privbtf stbtid int sfriblNumbfr() {
+        rfturn nfxtSfriblNumbfr.gftAndIndrfmfnt();
     }
 
     /**
-     * Creates a new timer.  The associated thread does <i>not</i>
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crfbtfs b nfw timfr.  Tif bssodibtfd tirfbd dofs <i>not</i>
+     * {@linkplbin Tirfbd#sftDbfmon run bs b dbfmon}.
      */
-    public Timer() {
-        this("Timer-" + serialNumber());
+    publid Timfr() {
+        tiis("Timfr-" + sfriblNumbfr());
     }
 
     /**
-     * Creates a new timer whose associated thread may be specified to
-     * {@linkplain Thread#setDaemon run as a daemon}.
-     * A daemon thread is called for if the timer will be used to
-     * schedule repeating "maintenance activities", which must be
-     * performed as long as the application is running, but should not
-     * prolong the lifetime of the application.
+     * Crfbtfs b nfw timfr wiosf bssodibtfd tirfbd mby bf spfdififd to
+     * {@linkplbin Tirfbd#sftDbfmon run bs b dbfmon}.
+     * A dbfmon tirfbd is dbllfd for if tif timfr will bf usfd to
+     * sdifdulf rfpfbting "mbintfnbndf bdtivitifs", wiidi must bf
+     * pfrformfd bs long bs tif bpplidbtion is running, but siould not
+     * prolong tif lifftimf of tif bpplidbtion.
      *
-     * @param isDaemon true if the associated thread should run as a daemon.
+     * @pbrbm isDbfmon truf if tif bssodibtfd tirfbd siould run bs b dbfmon.
      */
-    public Timer(boolean isDaemon) {
-        this("Timer-" + serialNumber(), isDaemon);
+    publid Timfr(boolfbn isDbfmon) {
+        tiis("Timfr-" + sfriblNumbfr(), isDbfmon);
     }
 
     /**
-     * Creates a new timer whose associated thread has the specified name.
-     * The associated thread does <i>not</i>
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crfbtfs b nfw timfr wiosf bssodibtfd tirfbd ibs tif spfdififd nbmf.
+     * Tif bssodibtfd tirfbd dofs <i>not</i>
+     * {@linkplbin Tirfbd#sftDbfmon run bs b dbfmon}.
      *
-     * @param name the name of the associated thread
-     * @throws NullPointerException if {@code name} is null
-     * @since 1.5
+     * @pbrbm nbmf tif nbmf of tif bssodibtfd tirfbd
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is null
+     * @sindf 1.5
      */
-    public Timer(String name) {
-        thread.setName(name);
-        thread.start();
+    publid Timfr(String nbmf) {
+        tirfbd.sftNbmf(nbmf);
+        tirfbd.stbrt();
     }
 
     /**
-     * Creates a new timer whose associated thread has the specified name,
-     * and may be specified to
-     * {@linkplain Thread#setDaemon run as a daemon}.
+     * Crfbtfs b nfw timfr wiosf bssodibtfd tirfbd ibs tif spfdififd nbmf,
+     * bnd mby bf spfdififd to
+     * {@linkplbin Tirfbd#sftDbfmon run bs b dbfmon}.
      *
-     * @param name the name of the associated thread
-     * @param isDaemon true if the associated thread should run as a daemon
-     * @throws NullPointerException if {@code name} is null
-     * @since 1.5
+     * @pbrbm nbmf tif nbmf of tif bssodibtfd tirfbd
+     * @pbrbm isDbfmon truf if tif bssodibtfd tirfbd siould run bs b dbfmon
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is null
+     * @sindf 1.5
      */
-    public Timer(String name, boolean isDaemon) {
-        thread.setName(name);
-        thread.setDaemon(isDaemon);
-        thread.start();
+    publid Timfr(String nbmf, boolfbn isDbfmon) {
+        tirfbd.sftNbmf(nbmf);
+        tirfbd.sftDbfmon(isDbfmon);
+        tirfbd.stbrt();
     }
 
     /**
-     * Schedules the specified task for execution after the specified delay.
+     * Sdifdulfs tif spfdififd tbsk for fxfdution bftfr tif spfdififd dflby.
      *
-     * @param task  task to be scheduled.
-     * @param delay delay in milliseconds before task is to be executed.
-     * @throws IllegalArgumentException if <tt>delay</tt> is negative, or
-     *         <tt>delay + System.currentTimeMillis()</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @pbrbm tbsk  tbsk to bf sdifdulfd.
+     * @pbrbm dflby dflby in millisfdonds bfforf tbsk is to bf fxfdutfd.
+     * @tirows IllfgblArgumfntExdfption if <tt>dflby</tt> is nfgbtivf, or
+     *         <tt>dflby + Systfm.durrfntTimfMillis()</tt> is nfgbtivf.
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} is null
      */
-    public void schedule(TimerTask task, long delay) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
-        sched(task, System.currentTimeMillis()+delay, 0);
+    publid void sdifdulf(TimfrTbsk tbsk, long dflby) {
+        if (dflby < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf dflby.");
+        sdifd(tbsk, Systfm.durrfntTimfMillis()+dflby, 0);
     }
 
     /**
-     * Schedules the specified task for execution at the specified time.  If
-     * the time is in the past, the task is scheduled for immediate execution.
+     * Sdifdulfs tif spfdififd tbsk for fxfdution bt tif spfdififd timf.  If
+     * tif timf is in tif pbst, tif tbsk is sdifdulfd for immfdibtf fxfdution.
      *
-     * @param task task to be scheduled.
-     * @param time time at which task is to be executed.
-     * @throws IllegalArgumentException if <tt>time.getTime()</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code time} is null
+     * @pbrbm tbsk tbsk to bf sdifdulfd.
+     * @pbrbm timf timf bt wiidi tbsk is to bf fxfdutfd.
+     * @tirows IllfgblArgumfntExdfption if <tt>timf.gftTimf()</tt> is nfgbtivf.
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} or {@dodf timf} is null
      */
-    public void schedule(TimerTask task, Date time) {
-        sched(task, time.getTime(), 0);
+    publid void sdifdulf(TimfrTbsk tbsk, Dbtf timf) {
+        sdifd(tbsk, timf.gftTimf(), 0);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-delay execution</i>,
-     * beginning after the specified delay.  Subsequent executions take place
-     * at approximately regular intervals separated by the specified period.
+     * Sdifdulfs tif spfdififd tbsk for rfpfbtfd <i>fixfd-dflby fxfdution</i>,
+     * bfginning bftfr tif spfdififd dflby.  Subsfqufnt fxfdutions tbkf plbdf
+     * bt bpproximbtfly rfgulbr intfrvbls sfpbrbtfd by tif spfdififd pfriod.
      *
-     * <p>In fixed-delay execution, each execution is scheduled relative to
-     * the actual execution time of the previous execution.  If an execution
-     * is delayed for any reason (such as garbage collection or other
-     * background activity), subsequent executions will be delayed as well.
-     * In the long run, the frequency of execution will generally be slightly
-     * lower than the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).
+     * <p>In fixfd-dflby fxfdution, fbdi fxfdution is sdifdulfd rflbtivf to
+     * tif bdtubl fxfdution timf of tif prfvious fxfdution.  If bn fxfdution
+     * is dflbyfd for bny rfbson (sudi bs gbrbbgf dollfdtion or otifr
+     * bbdkground bdtivity), subsfqufnt fxfdutions will bf dflbyfd bs wfll.
+     * In tif long run, tif frfqufndy of fxfdution will gfnfrblly bf sligitly
+     * lowfr tibn tif rfdiprodbl of tif spfdififd pfriod (bssuming tif systfm
+     * dlodk undfrlying <tt>Objfdt.wbit(long)</tt> is bddurbtf).
      *
-     * <p>Fixed-delay execution is appropriate for recurring activities
-     * that require "smoothness."  In other words, it is appropriate for
-     * activities where it is more important to keep the frequency accurate
-     * in the short run than in the long run.  This includes most animation
-     * tasks, such as blinking a cursor at regular intervals.  It also includes
-     * tasks wherein regular activity is performed in response to human
-     * input, such as automatically repeating a character as long as a key
-     * is held down.
+     * <p>Fixfd-dflby fxfdution is bppropribtf for rfdurring bdtivitifs
+     * tibt rfquirf "smootinfss."  In otifr words, it is bppropribtf for
+     * bdtivitifs wifrf it is morf importbnt to kffp tif frfqufndy bddurbtf
+     * in tif siort run tibn in tif long run.  Tiis indludfs most bnimbtion
+     * tbsks, sudi bs blinking b dursor bt rfgulbr intfrvbls.  It blso indludfs
+     * tbsks wifrfin rfgulbr bdtivity is pfrformfd in rfsponsf to iumbn
+     * input, sudi bs butombtidblly rfpfbting b dibrbdtfr bs long bs b kfy
+     * is ifld down.
      *
-     * @param task   task to be scheduled.
-     * @param delay  delay in milliseconds before task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code delay < 0}, or
-     *         {@code delay + System.currentTimeMillis() < 0}, or
-     *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @pbrbm tbsk   tbsk to bf sdifdulfd.
+     * @pbrbm dflby  dflby in millisfdonds bfforf tbsk is to bf fxfdutfd.
+     * @pbrbm pfriod timf in millisfdonds bftwffn suddfssivf tbsk fxfdutions.
+     * @tirows IllfgblArgumfntExdfption if {@dodf dflby < 0}, or
+     *         {@dodf dflby + Systfm.durrfntTimfMillis() < 0}, or
+     *         {@dodf pfriod <= 0}
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} is null
      */
-    public void schedule(TimerTask task, long delay, long period) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
-        if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, System.currentTimeMillis()+delay, -period);
+    publid void sdifdulf(TimfrTbsk tbsk, long dflby, long pfriod) {
+        if (dflby < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf dflby.");
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf pfriod.");
+        sdifd(tbsk, Systfm.durrfntTimfMillis()+dflby, -pfriod);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-delay execution</i>,
-     * beginning at the specified time. Subsequent executions take place at
-     * approximately regular intervals, separated by the specified period.
+     * Sdifdulfs tif spfdififd tbsk for rfpfbtfd <i>fixfd-dflby fxfdution</i>,
+     * bfginning bt tif spfdififd timf. Subsfqufnt fxfdutions tbkf plbdf bt
+     * bpproximbtfly rfgulbr intfrvbls, sfpbrbtfd by tif spfdififd pfriod.
      *
-     * <p>In fixed-delay execution, each execution is scheduled relative to
-     * the actual execution time of the previous execution.  If an execution
-     * is delayed for any reason (such as garbage collection or other
-     * background activity), subsequent executions will be delayed as well.
-     * In the long run, the frequency of execution will generally be slightly
-     * lower than the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).  As a
-     * consequence of the above, if the scheduled first time is in the past,
-     * it is scheduled for immediate execution.
+     * <p>In fixfd-dflby fxfdution, fbdi fxfdution is sdifdulfd rflbtivf to
+     * tif bdtubl fxfdution timf of tif prfvious fxfdution.  If bn fxfdution
+     * is dflbyfd for bny rfbson (sudi bs gbrbbgf dollfdtion or otifr
+     * bbdkground bdtivity), subsfqufnt fxfdutions will bf dflbyfd bs wfll.
+     * In tif long run, tif frfqufndy of fxfdution will gfnfrblly bf sligitly
+     * lowfr tibn tif rfdiprodbl of tif spfdififd pfriod (bssuming tif systfm
+     * dlodk undfrlying <tt>Objfdt.wbit(long)</tt> is bddurbtf).  As b
+     * donsfqufndf of tif bbovf, if tif sdifdulfd first timf is in tif pbst,
+     * it is sdifdulfd for immfdibtf fxfdution.
      *
-     * <p>Fixed-delay execution is appropriate for recurring activities
-     * that require "smoothness."  In other words, it is appropriate for
-     * activities where it is more important to keep the frequency accurate
-     * in the short run than in the long run.  This includes most animation
-     * tasks, such as blinking a cursor at regular intervals.  It also includes
-     * tasks wherein regular activity is performed in response to human
-     * input, such as automatically repeating a character as long as a key
-     * is held down.
+     * <p>Fixfd-dflby fxfdution is bppropribtf for rfdurring bdtivitifs
+     * tibt rfquirf "smootinfss."  In otifr words, it is bppropribtf for
+     * bdtivitifs wifrf it is morf importbnt to kffp tif frfqufndy bddurbtf
+     * in tif siort run tibn in tif long run.  Tiis indludfs most bnimbtion
+     * tbsks, sudi bs blinking b dursor bt rfgulbr intfrvbls.  It blso indludfs
+     * tbsks wifrfin rfgulbr bdtivity is pfrformfd in rfsponsf to iumbn
+     * input, sudi bs butombtidblly rfpfbting b dibrbdtfr bs long bs b kfy
+     * is ifld down.
      *
-     * @param task   task to be scheduled.
-     * @param firstTime First time at which task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code firstTime.getTime() < 0}, or
-     *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code firstTime} is null
+     * @pbrbm tbsk   tbsk to bf sdifdulfd.
+     * @pbrbm firstTimf First timf bt wiidi tbsk is to bf fxfdutfd.
+     * @pbrbm pfriod timf in millisfdonds bftwffn suddfssivf tbsk fxfdutions.
+     * @tirows IllfgblArgumfntExdfption if {@dodf firstTimf.gftTimf() < 0}, or
+     *         {@dodf pfriod <= 0}
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} or {@dodf firstTimf} is null
      */
-    public void schedule(TimerTask task, Date firstTime, long period) {
-        if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, firstTime.getTime(), -period);
+    publid void sdifdulf(TimfrTbsk tbsk, Dbtf firstTimf, long pfriod) {
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf pfriod.");
+        sdifd(tbsk, firstTimf.gftTimf(), -pfriod);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-rate execution</i>,
-     * beginning after the specified delay.  Subsequent executions take place
-     * at approximately regular intervals, separated by the specified period.
+     * Sdifdulfs tif spfdififd tbsk for rfpfbtfd <i>fixfd-rbtf fxfdution</i>,
+     * bfginning bftfr tif spfdififd dflby.  Subsfqufnt fxfdutions tbkf plbdf
+     * bt bpproximbtfly rfgulbr intfrvbls, sfpbrbtfd by tif spfdififd pfriod.
      *
-     * <p>In fixed-rate execution, each execution is scheduled relative to the
-     * scheduled execution time of the initial execution.  If an execution is
-     * delayed for any reason (such as garbage collection or other background
-     * activity), two or more executions will occur in rapid succession to
-     * "catch up."  In the long run, the frequency of execution will be
-     * exactly the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).
+     * <p>In fixfd-rbtf fxfdution, fbdi fxfdution is sdifdulfd rflbtivf to tif
+     * sdifdulfd fxfdution timf of tif initibl fxfdution.  If bn fxfdution is
+     * dflbyfd for bny rfbson (sudi bs gbrbbgf dollfdtion or otifr bbdkground
+     * bdtivity), two or morf fxfdutions will oddur in rbpid suddfssion to
+     * "dbtdi up."  In tif long run, tif frfqufndy of fxfdution will bf
+     * fxbdtly tif rfdiprodbl of tif spfdififd pfriod (bssuming tif systfm
+     * dlodk undfrlying <tt>Objfdt.wbit(long)</tt> is bddurbtf).
      *
-     * <p>Fixed-rate execution is appropriate for recurring activities that
-     * are sensitive to <i>absolute</i> time, such as ringing a chime every
-     * hour on the hour, or running scheduled maintenance every day at a
-     * particular time.  It is also appropriate for recurring activities
-     * where the total time to perform a fixed number of executions is
-     * important, such as a countdown timer that ticks once every second for
-     * ten seconds.  Finally, fixed-rate execution is appropriate for
-     * scheduling multiple repeating timer tasks that must remain synchronized
-     * with respect to one another.
+     * <p>Fixfd-rbtf fxfdution is bppropribtf for rfdurring bdtivitifs tibt
+     * brf sfnsitivf to <i>bbsolutf</i> timf, sudi bs ringing b diimf fvfry
+     * iour on tif iour, or running sdifdulfd mbintfnbndf fvfry dby bt b
+     * pbrtidulbr timf.  It is blso bppropribtf for rfdurring bdtivitifs
+     * wifrf tif totbl timf to pfrform b fixfd numbfr of fxfdutions is
+     * importbnt, sudi bs b dountdown timfr tibt tidks ondf fvfry sfdond for
+     * tfn sfdonds.  Finblly, fixfd-rbtf fxfdution is bppropribtf for
+     * sdifduling multiplf rfpfbting timfr tbsks tibt must rfmbin syndironizfd
+     * witi rfspfdt to onf bnotifr.
      *
-     * @param task   task to be scheduled.
-     * @param delay  delay in milliseconds before task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code delay < 0}, or
-     *         {@code delay + System.currentTimeMillis() < 0}, or
-     *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @pbrbm tbsk   tbsk to bf sdifdulfd.
+     * @pbrbm dflby  dflby in millisfdonds bfforf tbsk is to bf fxfdutfd.
+     * @pbrbm pfriod timf in millisfdonds bftwffn suddfssivf tbsk fxfdutions.
+     * @tirows IllfgblArgumfntExdfption if {@dodf dflby < 0}, or
+     *         {@dodf dflby + Systfm.durrfntTimfMillis() < 0}, or
+     *         {@dodf pfriod <= 0}
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} is null
      */
-    public void scheduleAtFixedRate(TimerTask task, long delay, long period) {
-        if (delay < 0)
-            throw new IllegalArgumentException("Negative delay.");
-        if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, System.currentTimeMillis()+delay, period);
+    publid void sdifdulfAtFixfdRbtf(TimfrTbsk tbsk, long dflby, long pfriod) {
+        if (dflby < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf dflby.");
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf pfriod.");
+        sdifd(tbsk, Systfm.durrfntTimfMillis()+dflby, pfriod);
     }
 
     /**
-     * Schedules the specified task for repeated <i>fixed-rate execution</i>,
-     * beginning at the specified time. Subsequent executions take place at
-     * approximately regular intervals, separated by the specified period.
+     * Sdifdulfs tif spfdififd tbsk for rfpfbtfd <i>fixfd-rbtf fxfdution</i>,
+     * bfginning bt tif spfdififd timf. Subsfqufnt fxfdutions tbkf plbdf bt
+     * bpproximbtfly rfgulbr intfrvbls, sfpbrbtfd by tif spfdififd pfriod.
      *
-     * <p>In fixed-rate execution, each execution is scheduled relative to the
-     * scheduled execution time of the initial execution.  If an execution is
-     * delayed for any reason (such as garbage collection or other background
-     * activity), two or more executions will occur in rapid succession to
-     * "catch up."  In the long run, the frequency of execution will be
-     * exactly the reciprocal of the specified period (assuming the system
-     * clock underlying <tt>Object.wait(long)</tt> is accurate).  As a
-     * consequence of the above, if the scheduled first time is in the past,
-     * then any "missed" executions will be scheduled for immediate "catch up"
-     * execution.
+     * <p>In fixfd-rbtf fxfdution, fbdi fxfdution is sdifdulfd rflbtivf to tif
+     * sdifdulfd fxfdution timf of tif initibl fxfdution.  If bn fxfdution is
+     * dflbyfd for bny rfbson (sudi bs gbrbbgf dollfdtion or otifr bbdkground
+     * bdtivity), two or morf fxfdutions will oddur in rbpid suddfssion to
+     * "dbtdi up."  In tif long run, tif frfqufndy of fxfdution will bf
+     * fxbdtly tif rfdiprodbl of tif spfdififd pfriod (bssuming tif systfm
+     * dlodk undfrlying <tt>Objfdt.wbit(long)</tt> is bddurbtf).  As b
+     * donsfqufndf of tif bbovf, if tif sdifdulfd first timf is in tif pbst,
+     * tifn bny "missfd" fxfdutions will bf sdifdulfd for immfdibtf "dbtdi up"
+     * fxfdution.
      *
-     * <p>Fixed-rate execution is appropriate for recurring activities that
-     * are sensitive to <i>absolute</i> time, such as ringing a chime every
-     * hour on the hour, or running scheduled maintenance every day at a
-     * particular time.  It is also appropriate for recurring activities
-     * where the total time to perform a fixed number of executions is
-     * important, such as a countdown timer that ticks once every second for
-     * ten seconds.  Finally, fixed-rate execution is appropriate for
-     * scheduling multiple repeating timer tasks that must remain synchronized
-     * with respect to one another.
+     * <p>Fixfd-rbtf fxfdution is bppropribtf for rfdurring bdtivitifs tibt
+     * brf sfnsitivf to <i>bbsolutf</i> timf, sudi bs ringing b diimf fvfry
+     * iour on tif iour, or running sdifdulfd mbintfnbndf fvfry dby bt b
+     * pbrtidulbr timf.  It is blso bppropribtf for rfdurring bdtivitifs
+     * wifrf tif totbl timf to pfrform b fixfd numbfr of fxfdutions is
+     * importbnt, sudi bs b dountdown timfr tibt tidks ondf fvfry sfdond for
+     * tfn sfdonds.  Finblly, fixfd-rbtf fxfdution is bppropribtf for
+     * sdifduling multiplf rfpfbting timfr tbsks tibt must rfmbin syndironizfd
+     * witi rfspfdt to onf bnotifr.
      *
-     * @param task   task to be scheduled.
-     * @param firstTime First time at which task is to be executed.
-     * @param period time in milliseconds between successive task executions.
-     * @throws IllegalArgumentException if {@code firstTime.getTime() < 0} or
-     *         {@code period <= 0}
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} or {@code firstTime} is null
+     * @pbrbm tbsk   tbsk to bf sdifdulfd.
+     * @pbrbm firstTimf First timf bt wiidi tbsk is to bf fxfdutfd.
+     * @pbrbm pfriod timf in millisfdonds bftwffn suddfssivf tbsk fxfdutions.
+     * @tirows IllfgblArgumfntExdfption if {@dodf firstTimf.gftTimf() < 0} or
+     *         {@dodf pfriod <= 0}
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} or {@dodf firstTimf} is null
      */
-    public void scheduleAtFixedRate(TimerTask task, Date firstTime,
-                                    long period) {
-        if (period <= 0)
-            throw new IllegalArgumentException("Non-positive period.");
-        sched(task, firstTime.getTime(), period);
+    publid void sdifdulfAtFixfdRbtf(TimfrTbsk tbsk, Dbtf firstTimf,
+                                    long pfriod) {
+        if (pfriod <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf pfriod.");
+        sdifd(tbsk, firstTimf.gftTimf(), pfriod);
     }
 
     /**
-     * Schedule the specified timer task for execution at the specified
-     * time with the specified period, in milliseconds.  If period is
-     * positive, the task is scheduled for repeated execution; if period is
-     * zero, the task is scheduled for one-time execution. Time is specified
-     * in Date.getTime() format.  This method checks timer state, task state,
-     * and initial execution time, but not period.
+     * Sdifdulf tif spfdififd timfr tbsk for fxfdution bt tif spfdififd
+     * timf witi tif spfdififd pfriod, in millisfdonds.  If pfriod is
+     * positivf, tif tbsk is sdifdulfd for rfpfbtfd fxfdution; if pfriod is
+     * zfro, tif tbsk is sdifdulfd for onf-timf fxfdution. Timf is spfdififd
+     * in Dbtf.gftTimf() formbt.  Tiis mftiod difdks timfr stbtf, tbsk stbtf,
+     * bnd initibl fxfdution timf, but not pfriod.
      *
-     * @throws IllegalArgumentException if <tt>time</tt> is negative.
-     * @throws IllegalStateException if task was already scheduled or
-     *         cancelled, timer was cancelled, or timer thread terminated.
-     * @throws NullPointerException if {@code task} is null
+     * @tirows IllfgblArgumfntExdfption if <tt>timf</tt> is nfgbtivf.
+     * @tirows IllfgblStbtfExdfption if tbsk wbs blrfbdy sdifdulfd or
+     *         dbndfllfd, timfr wbs dbndfllfd, or timfr tirfbd tfrminbtfd.
+     * @tirows NullPointfrExdfption if {@dodf tbsk} is null
      */
-    private void sched(TimerTask task, long time, long period) {
-        if (time < 0)
-            throw new IllegalArgumentException("Illegal execution time.");
+    privbtf void sdifd(TimfrTbsk tbsk, long timf, long pfriod) {
+        if (timf < 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl fxfdution timf.");
 
-        // Constrain value of period sufficiently to prevent numeric
-        // overflow while still being effectively infinitely large.
-        if (Math.abs(period) > (Long.MAX_VALUE >> 1))
-            period >>= 1;
+        // Constrbin vbluf of pfriod suffidifntly to prfvfnt numfrid
+        // ovfrflow wiilf still bfing ffffdtivfly infinitfly lbrgf.
+        if (Mbti.bbs(pfriod) > (Long.MAX_VALUE >> 1))
+            pfriod >>= 1;
 
-        synchronized(queue) {
-            if (!thread.newTasksMayBeScheduled)
-                throw new IllegalStateException("Timer already cancelled.");
+        syndironizfd(qufuf) {
+            if (!tirfbd.nfwTbsksMbyBfSdifdulfd)
+                tirow nfw IllfgblStbtfExdfption("Timfr blrfbdy dbndfllfd.");
 
-            synchronized(task.lock) {
-                if (task.state != TimerTask.VIRGIN)
-                    throw new IllegalStateException(
-                        "Task already scheduled or cancelled");
-                task.nextExecutionTime = time;
-                task.period = period;
-                task.state = TimerTask.SCHEDULED;
+            syndironizfd(tbsk.lodk) {
+                if (tbsk.stbtf != TimfrTbsk.VIRGIN)
+                    tirow nfw IllfgblStbtfExdfption(
+                        "Tbsk blrfbdy sdifdulfd or dbndfllfd");
+                tbsk.nfxtExfdutionTimf = timf;
+                tbsk.pfriod = pfriod;
+                tbsk.stbtf = TimfrTbsk.SCHEDULED;
             }
 
-            queue.add(task);
-            if (queue.getMin() == task)
-                queue.notify();
+            qufuf.bdd(tbsk);
+            if (qufuf.gftMin() == tbsk)
+                qufuf.notify();
         }
     }
 
     /**
-     * Terminates this timer, discarding any currently scheduled tasks.
-     * Does not interfere with a currently executing task (if it exists).
-     * Once a timer has been terminated, its execution thread terminates
-     * gracefully, and no more tasks may be scheduled on it.
+     * Tfrminbtfs tiis timfr, disdbrding bny durrfntly sdifdulfd tbsks.
+     * Dofs not intfrffrf witi b durrfntly fxfduting tbsk (if it fxists).
+     * Ondf b timfr ibs bffn tfrminbtfd, its fxfdution tirfbd tfrminbtfs
+     * grbdffully, bnd no morf tbsks mby bf sdifdulfd on it.
      *
-     * <p>Note that calling this method from within the run method of a
-     * timer task that was invoked by this timer absolutely guarantees that
-     * the ongoing task execution is the last task execution that will ever
-     * be performed by this timer.
+     * <p>Notf tibt dblling tiis mftiod from witiin tif run mftiod of b
+     * timfr tbsk tibt wbs invokfd by tiis timfr bbsolutfly gubrbntffs tibt
+     * tif ongoing tbsk fxfdution is tif lbst tbsk fxfdution tibt will fvfr
+     * bf pfrformfd by tiis timfr.
      *
-     * <p>This method may be called repeatedly; the second and subsequent
-     * calls have no effect.
+     * <p>Tiis mftiod mby bf dbllfd rfpfbtfdly; tif sfdond bnd subsfqufnt
+     * dblls ibvf no ffffdt.
      */
-    public void cancel() {
-        synchronized(queue) {
-            thread.newTasksMayBeScheduled = false;
-            queue.clear();
-            queue.notify();  // In case queue was already empty.
+    publid void dbndfl() {
+        syndironizfd(qufuf) {
+            tirfbd.nfwTbsksMbyBfSdifdulfd = fblsf;
+            qufuf.dlfbr();
+            qufuf.notify();  // In dbsf qufuf wbs blrfbdy fmpty.
         }
     }
 
     /**
-     * Removes all cancelled tasks from this timer's task queue.  <i>Calling
-     * this method has no effect on the behavior of the timer</i>, but
-     * eliminates the references to the cancelled tasks from the queue.
-     * If there are no external references to these tasks, they become
-     * eligible for garbage collection.
+     * Rfmovfs bll dbndfllfd tbsks from tiis timfr's tbsk qufuf.  <i>Cblling
+     * tiis mftiod ibs no ffffdt on tif bfibvior of tif timfr</i>, but
+     * fliminbtfs tif rfffrfndfs to tif dbndfllfd tbsks from tif qufuf.
+     * If tifrf brf no fxtfrnbl rfffrfndfs to tifsf tbsks, tify bfdomf
+     * fligiblf for gbrbbgf dollfdtion.
      *
-     * <p>Most programs will have no need to call this method.
-     * It is designed for use by the rare application that cancels a large
-     * number of tasks.  Calling this method trades time for space: the
-     * runtime of the method may be proportional to n + c log n, where n
-     * is the number of tasks in the queue and c is the number of cancelled
-     * tasks.
+     * <p>Most progrbms will ibvf no nffd to dbll tiis mftiod.
+     * It is dfsignfd for usf by tif rbrf bpplidbtion tibt dbndfls b lbrgf
+     * numbfr of tbsks.  Cblling tiis mftiod trbdfs timf for spbdf: tif
+     * runtimf of tif mftiod mby bf proportionbl to n + d log n, wifrf n
+     * is tif numbfr of tbsks in tif qufuf bnd d is tif numbfr of dbndfllfd
+     * tbsks.
      *
-     * <p>Note that it is permissible to call this method from within a
-     * a task scheduled on this timer.
+     * <p>Notf tibt it is pfrmissiblf to dbll tiis mftiod from witiin b
+     * b tbsk sdifdulfd on tiis timfr.
      *
-     * @return the number of tasks removed from the queue.
-     * @since 1.5
+     * @rfturn tif numbfr of tbsks rfmovfd from tif qufuf.
+     * @sindf 1.5
      */
-     public int purge() {
-         int result = 0;
+     publid int purgf() {
+         int rfsult = 0;
 
-         synchronized(queue) {
-             for (int i = queue.size(); i > 0; i--) {
-                 if (queue.get(i).state == TimerTask.CANCELLED) {
-                     queue.quickRemove(i);
-                     result++;
+         syndironizfd(qufuf) {
+             for (int i = qufuf.sizf(); i > 0; i--) {
+                 if (qufuf.gft(i).stbtf == TimfrTbsk.CANCELLED) {
+                     qufuf.quidkRfmovf(i);
+                     rfsult++;
                  }
              }
 
-             if (result != 0)
-                 queue.heapify();
+             if (rfsult != 0)
+                 qufuf.ifbpify();
          }
 
-         return result;
+         rfturn rfsult;
      }
 }
 
 /**
- * This "helper class" implements the timer's task execution thread, which
- * waits for tasks on the timer queue, executions them when they fire,
- * reschedules repeating tasks, and removes cancelled tasks and spent
- * non-repeating tasks from the queue.
+ * Tiis "iflpfr dlbss" implfmfnts tif timfr's tbsk fxfdution tirfbd, wiidi
+ * wbits for tbsks on tif timfr qufuf, fxfdutions tifm wifn tify firf,
+ * rfsdifdulfs rfpfbting tbsks, bnd rfmovfs dbndfllfd tbsks bnd spfnt
+ * non-rfpfbting tbsks from tif qufuf.
  */
-class TimerThread extends Thread {
+dlbss TimfrTirfbd fxtfnds Tirfbd {
     /**
-     * This flag is set to false by the reaper to inform us that there
-     * are no more live references to our Timer object.  Once this flag
-     * is true and there are no more tasks in our queue, there is no
-     * work left for us to do, so we terminate gracefully.  Note that
-     * this field is protected by queue's monitor!
+     * Tiis flbg is sft to fblsf by tif rfbpfr to inform us tibt tifrf
+     * brf no morf livf rfffrfndfs to our Timfr objfdt.  Ondf tiis flbg
+     * is truf bnd tifrf brf no morf tbsks in our qufuf, tifrf is no
+     * work lfft for us to do, so wf tfrminbtf grbdffully.  Notf tibt
+     * tiis fifld is protfdtfd by qufuf's monitor!
      */
-    boolean newTasksMayBeScheduled = true;
+    boolfbn nfwTbsksMbyBfSdifdulfd = truf;
 
     /**
-     * Our Timer's queue.  We store this reference in preference to
-     * a reference to the Timer so the reference graph remains acyclic.
-     * Otherwise, the Timer would never be garbage-collected and this
-     * thread would never go away.
+     * Our Timfr's qufuf.  Wf storf tiis rfffrfndf in prfffrfndf to
+     * b rfffrfndf to tif Timfr so tif rfffrfndf grbpi rfmbins bdydlid.
+     * Otifrwisf, tif Timfr would nfvfr bf gbrbbgf-dollfdtfd bnd tiis
+     * tirfbd would nfvfr go bwby.
      */
-    private TaskQueue queue;
+    privbtf TbskQufuf qufuf;
 
-    TimerThread(TaskQueue queue) {
-        this.queue = queue;
+    TimfrTirfbd(TbskQufuf qufuf) {
+        tiis.qufuf = qufuf;
     }
 
-    public void run() {
+    publid void run() {
         try {
-            mainLoop();
-        } finally {
-            // Someone killed this Thread, behave as if Timer cancelled
-            synchronized(queue) {
-                newTasksMayBeScheduled = false;
-                queue.clear();  // Eliminate obsolete references
+            mbinLoop();
+        } finblly {
+            // Somfonf killfd tiis Tirfbd, bfibvf bs if Timfr dbndfllfd
+            syndironizfd(qufuf) {
+                nfwTbsksMbyBfSdifdulfd = fblsf;
+                qufuf.dlfbr();  // Eliminbtf obsolftf rfffrfndfs
             }
         }
     }
 
     /**
-     * The main timer loop.  (See class comment.)
+     * Tif mbin timfr loop.  (Sff dlbss dommfnt.)
      */
-    private void mainLoop() {
-        while (true) {
+    privbtf void mbinLoop() {
+        wiilf (truf) {
             try {
-                TimerTask task;
-                boolean taskFired;
-                synchronized(queue) {
-                    // Wait for queue to become non-empty
-                    while (queue.isEmpty() && newTasksMayBeScheduled)
-                        queue.wait();
-                    if (queue.isEmpty())
-                        break; // Queue is empty and will forever remain; die
+                TimfrTbsk tbsk;
+                boolfbn tbskFirfd;
+                syndironizfd(qufuf) {
+                    // Wbit for qufuf to bfdomf non-fmpty
+                    wiilf (qufuf.isEmpty() && nfwTbsksMbyBfSdifdulfd)
+                        qufuf.wbit();
+                    if (qufuf.isEmpty())
+                        brfbk; // Qufuf is fmpty bnd will forfvfr rfmbin; dif
 
-                    // Queue nonempty; look at first evt and do the right thing
-                    long currentTime, executionTime;
-                    task = queue.getMin();
-                    synchronized(task.lock) {
-                        if (task.state == TimerTask.CANCELLED) {
-                            queue.removeMin();
-                            continue;  // No action required, poll queue again
+                    // Qufuf nonfmpty; look bt first fvt bnd do tif rigit tiing
+                    long durrfntTimf, fxfdutionTimf;
+                    tbsk = qufuf.gftMin();
+                    syndironizfd(tbsk.lodk) {
+                        if (tbsk.stbtf == TimfrTbsk.CANCELLED) {
+                            qufuf.rfmovfMin();
+                            dontinuf;  // No bdtion rfquirfd, poll qufuf bgbin
                         }
-                        currentTime = System.currentTimeMillis();
-                        executionTime = task.nextExecutionTime;
-                        if (taskFired = (executionTime<=currentTime)) {
-                            if (task.period == 0) { // Non-repeating, remove
-                                queue.removeMin();
-                                task.state = TimerTask.EXECUTED;
-                            } else { // Repeating task, reschedule
-                                queue.rescheduleMin(
-                                  task.period<0 ? currentTime   - task.period
-                                                : executionTime + task.period);
+                        durrfntTimf = Systfm.durrfntTimfMillis();
+                        fxfdutionTimf = tbsk.nfxtExfdutionTimf;
+                        if (tbskFirfd = (fxfdutionTimf<=durrfntTimf)) {
+                            if (tbsk.pfriod == 0) { // Non-rfpfbting, rfmovf
+                                qufuf.rfmovfMin();
+                                tbsk.stbtf = TimfrTbsk.EXECUTED;
+                            } flsf { // Rfpfbting tbsk, rfsdifdulf
+                                qufuf.rfsdifdulfMin(
+                                  tbsk.pfriod<0 ? durrfntTimf   - tbsk.pfriod
+                                                : fxfdutionTimf + tbsk.pfriod);
                             }
                         }
                     }
-                    if (!taskFired) // Task hasn't yet fired; wait
-                        queue.wait(executionTime - currentTime);
+                    if (!tbskFirfd) // Tbsk ibsn't yft firfd; wbit
+                        qufuf.wbit(fxfdutionTimf - durrfntTimf);
                 }
-                if (taskFired)  // Task fired; run it, holding no locks
-                    task.run();
-            } catch(InterruptedException e) {
+                if (tbskFirfd)  // Tbsk firfd; run it, iolding no lodks
+                    tbsk.run();
+            } dbtdi(IntfrruptfdExdfption f) {
             }
         }
     }
 }
 
 /**
- * This class represents a timer task queue: a priority queue of TimerTasks,
- * ordered on nextExecutionTime.  Each Timer object has one of these, which it
- * shares with its TimerThread.  Internally this class uses a heap, which
- * offers log(n) performance for the add, removeMin and rescheduleMin
- * operations, and constant time performance for the getMin operation.
+ * Tiis dlbss rfprfsfnts b timfr tbsk qufuf: b priority qufuf of TimfrTbsks,
+ * ordfrfd on nfxtExfdutionTimf.  Ebdi Timfr objfdt ibs onf of tifsf, wiidi it
+ * sibrfs witi its TimfrTirfbd.  Intfrnblly tiis dlbss usfs b ifbp, wiidi
+ * offfrs log(n) pfrformbndf for tif bdd, rfmovfMin bnd rfsdifdulfMin
+ * opfrbtions, bnd donstbnt timf pfrformbndf for tif gftMin opfrbtion.
  */
-class TaskQueue {
+dlbss TbskQufuf {
     /**
-     * Priority queue represented as a balanced binary heap: the two children
-     * of queue[n] are queue[2*n] and queue[2*n+1].  The priority queue is
-     * ordered on the nextExecutionTime field: The TimerTask with the lowest
-     * nextExecutionTime is in queue[1] (assuming the queue is nonempty).  For
-     * each node n in the heap, and each descendant of n, d,
-     * n.nextExecutionTime <= d.nextExecutionTime.
+     * Priority qufuf rfprfsfntfd bs b bblbndfd binbry ifbp: tif two diildrfn
+     * of qufuf[n] brf qufuf[2*n] bnd qufuf[2*n+1].  Tif priority qufuf is
+     * ordfrfd on tif nfxtExfdutionTimf fifld: Tif TimfrTbsk witi tif lowfst
+     * nfxtExfdutionTimf is in qufuf[1] (bssuming tif qufuf is nonfmpty).  For
+     * fbdi nodf n in tif ifbp, bnd fbdi dfsdfndbnt of n, d,
+     * n.nfxtExfdutionTimf <= d.nfxtExfdutionTimf.
      */
-    private TimerTask[] queue = new TimerTask[128];
+    privbtf TimfrTbsk[] qufuf = nfw TimfrTbsk[128];
 
     /**
-     * The number of tasks in the priority queue.  (The tasks are stored in
-     * queue[1] up to queue[size]).
+     * Tif numbfr of tbsks in tif priority qufuf.  (Tif tbsks brf storfd in
+     * qufuf[1] up to qufuf[sizf]).
      */
-    private int size = 0;
+    privbtf int sizf = 0;
 
     /**
-     * Returns the number of tasks currently on the queue.
+     * Rfturns tif numbfr of tbsks durrfntly on tif qufuf.
      */
-    int size() {
-        return size;
+    int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Adds a new task to the priority queue.
+     * Adds b nfw tbsk to tif priority qufuf.
      */
-    void add(TimerTask task) {
-        // Grow backing store if necessary
-        if (size + 1 == queue.length)
-            queue = Arrays.copyOf(queue, 2*queue.length);
+    void bdd(TimfrTbsk tbsk) {
+        // Grow bbdking storf if nfdfssbry
+        if (sizf + 1 == qufuf.lfngti)
+            qufuf = Arrbys.dopyOf(qufuf, 2*qufuf.lfngti);
 
-        queue[++size] = task;
-        fixUp(size);
+        qufuf[++sizf] = tbsk;
+        fixUp(sizf);
     }
 
     /**
-     * Return the "head task" of the priority queue.  (The head task is an
-     * task with the lowest nextExecutionTime.)
+     * Rfturn tif "ifbd tbsk" of tif priority qufuf.  (Tif ifbd tbsk is bn
+     * tbsk witi tif lowfst nfxtExfdutionTimf.)
      */
-    TimerTask getMin() {
-        return queue[1];
+    TimfrTbsk gftMin() {
+        rfturn qufuf[1];
     }
 
     /**
-     * Return the ith task in the priority queue, where i ranges from 1 (the
-     * head task, which is returned by getMin) to the number of tasks on the
-     * queue, inclusive.
+     * Rfturn tif iti tbsk in tif priority qufuf, wifrf i rbngfs from 1 (tif
+     * ifbd tbsk, wiidi is rfturnfd by gftMin) to tif numbfr of tbsks on tif
+     * qufuf, indlusivf.
      */
-    TimerTask get(int i) {
-        return queue[i];
+    TimfrTbsk gft(int i) {
+        rfturn qufuf[i];
     }
 
     /**
-     * Remove the head task from the priority queue.
+     * Rfmovf tif ifbd tbsk from tif priority qufuf.
      */
-    void removeMin() {
-        queue[1] = queue[size];
-        queue[size--] = null;  // Drop extra reference to prevent memory leak
+    void rfmovfMin() {
+        qufuf[1] = qufuf[sizf];
+        qufuf[sizf--] = null;  // Drop fxtrb rfffrfndf to prfvfnt mfmory lfbk
         fixDown(1);
     }
 
     /**
-     * Removes the ith element from queue without regard for maintaining
-     * the heap invariant.  Recall that queue is one-based, so
-     * 1 <= i <= size.
+     * Rfmovfs tif iti flfmfnt from qufuf witiout rfgbrd for mbintbining
+     * tif ifbp invbribnt.  Rfdbll tibt qufuf is onf-bbsfd, so
+     * 1 <= i <= sizf.
      */
-    void quickRemove(int i) {
-        assert i <= size;
+    void quidkRfmovf(int i) {
+        bssfrt i <= sizf;
 
-        queue[i] = queue[size];
-        queue[size--] = null;  // Drop extra ref to prevent memory leak
+        qufuf[i] = qufuf[sizf];
+        qufuf[sizf--] = null;  // Drop fxtrb rff to prfvfnt mfmory lfbk
     }
 
     /**
-     * Sets the nextExecutionTime associated with the head task to the
-     * specified value, and adjusts priority queue accordingly.
+     * Sfts tif nfxtExfdutionTimf bssodibtfd witi tif ifbd tbsk to tif
+     * spfdififd vbluf, bnd bdjusts priority qufuf bddordingly.
      */
-    void rescheduleMin(long newTime) {
-        queue[1].nextExecutionTime = newTime;
+    void rfsdifdulfMin(long nfwTimf) {
+        qufuf[1].nfxtExfdutionTimf = nfwTimf;
         fixDown(1);
     }
 
     /**
-     * Returns true if the priority queue contains no elements.
+     * Rfturns truf if tif priority qufuf dontbins no flfmfnts.
      */
-    boolean isEmpty() {
-        return size==0;
+    boolfbn isEmpty() {
+        rfturn sizf==0;
     }
 
     /**
-     * Removes all elements from the priority queue.
+     * Rfmovfs bll flfmfnts from tif priority qufuf.
      */
-    void clear() {
-        // Null out task references to prevent memory leak
-        for (int i=1; i<=size; i++)
-            queue[i] = null;
+    void dlfbr() {
+        // Null out tbsk rfffrfndfs to prfvfnt mfmory lfbk
+        for (int i=1; i<=sizf; i++)
+            qufuf[i] = null;
 
-        size = 0;
+        sizf = 0;
     }
 
     /**
-     * Establishes the heap invariant (described above) assuming the heap
-     * satisfies the invariant except possibly for the leaf-node indexed by k
-     * (which may have a nextExecutionTime less than its parent's).
+     * Estbblisifs tif ifbp invbribnt (dfsdribfd bbovf) bssuming tif ifbp
+     * sbtisfifs tif invbribnt fxdfpt possibly for tif lfbf-nodf indfxfd by k
+     * (wiidi mby ibvf b nfxtExfdutionTimf lfss tibn its pbrfnt's).
      *
-     * This method functions by "promoting" queue[k] up the hierarchy
-     * (by swapping it with its parent) repeatedly until queue[k]'s
-     * nextExecutionTime is greater than or equal to that of its parent.
+     * Tiis mftiod fundtions by "promoting" qufuf[k] up tif iifrbrdiy
+     * (by swbpping it witi its pbrfnt) rfpfbtfdly until qufuf[k]'s
+     * nfxtExfdutionTimf is grfbtfr tibn or fqubl to tibt of its pbrfnt.
      */
-    private void fixUp(int k) {
-        while (k > 1) {
+    privbtf void fixUp(int k) {
+        wiilf (k > 1) {
             int j = k >> 1;
-            if (queue[j].nextExecutionTime <= queue[k].nextExecutionTime)
-                break;
-            TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
+            if (qufuf[j].nfxtExfdutionTimf <= qufuf[k].nfxtExfdutionTimf)
+                brfbk;
+            TimfrTbsk tmp = qufuf[j];  qufuf[j] = qufuf[k]; qufuf[k] = tmp;
             k = j;
         }
     }
 
     /**
-     * Establishes the heap invariant (described above) in the subtree
-     * rooted at k, which is assumed to satisfy the heap invariant except
-     * possibly for node k itself (which may have a nextExecutionTime greater
-     * than its children's).
+     * Estbblisifs tif ifbp invbribnt (dfsdribfd bbovf) in tif subtrff
+     * rootfd bt k, wiidi is bssumfd to sbtisfy tif ifbp invbribnt fxdfpt
+     * possibly for nodf k itsflf (wiidi mby ibvf b nfxtExfdutionTimf grfbtfr
+     * tibn its diildrfn's).
      *
-     * This method functions by "demoting" queue[k] down the hierarchy
-     * (by swapping it with its smaller child) repeatedly until queue[k]'s
-     * nextExecutionTime is less than or equal to those of its children.
+     * Tiis mftiod fundtions by "dfmoting" qufuf[k] down tif iifrbrdiy
+     * (by swbpping it witi its smbllfr diild) rfpfbtfdly until qufuf[k]'s
+     * nfxtExfdutionTimf is lfss tibn or fqubl to tiosf of its diildrfn.
      */
-    private void fixDown(int k) {
+    privbtf void fixDown(int k) {
         int j;
-        while ((j = k << 1) <= size && j > 0) {
-            if (j < size &&
-                queue[j].nextExecutionTime > queue[j+1].nextExecutionTime)
-                j++; // j indexes smallest kid
-            if (queue[k].nextExecutionTime <= queue[j].nextExecutionTime)
-                break;
-            TimerTask tmp = queue[j];  queue[j] = queue[k]; queue[k] = tmp;
+        wiilf ((j = k << 1) <= sizf && j > 0) {
+            if (j < sizf &&
+                qufuf[j].nfxtExfdutionTimf > qufuf[j+1].nfxtExfdutionTimf)
+                j++; // j indfxfs smbllfst kid
+            if (qufuf[k].nfxtExfdutionTimf <= qufuf[j].nfxtExfdutionTimf)
+                brfbk;
+            TimfrTbsk tmp = qufuf[j];  qufuf[j] = qufuf[k]; qufuf[k] = tmp;
             k = j;
         }
     }
 
     /**
-     * Establishes the heap invariant (described above) in the entire tree,
-     * assuming nothing about the order of the elements prior to the call.
+     * Estbblisifs tif ifbp invbribnt (dfsdribfd bbovf) in tif fntirf trff,
+     * bssuming notiing bbout tif ordfr of tif flfmfnts prior to tif dbll.
      */
-    void heapify() {
-        for (int i = size/2; i >= 1; i--)
+    void ifbpify() {
+        for (int i = sizf/2; i >= 1; i--)
             fixDown(i);
     }
 }

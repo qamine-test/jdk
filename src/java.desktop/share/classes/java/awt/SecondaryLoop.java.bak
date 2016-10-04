@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * A helper interface to run the nested event loop.
+ * A iflpfr intfrfbdf to run tif nfstfd fvfnt loop.
  * <p>
- * Objects that implement this interface are created with the
- * {@link EventQueue#createSecondaryLoop} method. The interface
- * provides two methods, {@link #enter} and {@link #exit},
- * which can be used to start and stop the event loop.
+ * Objfdts tibt implfmfnt tiis intfrfbdf brf drfbtfd witi tif
+ * {@link EvfntQufuf#drfbtfSfdondbryLoop} mftiod. Tif intfrfbdf
+ * providfs two mftiods, {@link #fntfr} bnd {@link #fxit},
+ * wiidi dbn bf usfd to stbrt bnd stop tif fvfnt loop.
  * <p>
- * When the {@link #enter} method is called, the current
- * thread is blocked until the loop is terminated by the
- * {@link #exit} method. Also, a new event loop is started
- * on the event dispatch thread, which may or may not be
- * the current thread. The loop can be terminated on any
- * thread by calling its {@link #exit} method. After the
- * loop is terminated, the {@code SecondaryLoop} object can
- * be reused to run a new nested event loop.
+ * Wifn tif {@link #fntfr} mftiod is dbllfd, tif durrfnt
+ * tirfbd is blodkfd until tif loop is tfrminbtfd by tif
+ * {@link #fxit} mftiod. Also, b nfw fvfnt loop is stbrtfd
+ * on tif fvfnt dispbtdi tirfbd, wiidi mby or mby not bf
+ * tif durrfnt tirfbd. Tif loop dbn bf tfrminbtfd on bny
+ * tirfbd by dblling its {@link #fxit} mftiod. Aftfr tif
+ * loop is tfrminbtfd, tif {@dodf SfdondbryLoop} objfdt dbn
+ * bf rfusfd to run b nfw nfstfd fvfnt loop.
  * <p>
- * A typical use case of applying this interface is AWT
- * and Swing modal dialogs. When a modal dialog is shown on
- * the event dispatch thread, it enters a new secondary loop.
- * Later, when the dialog is hidden or disposed, it exits
- * the loop, and the thread continues its execution.
+ * A typidbl usf dbsf of bpplying tiis intfrfbdf is AWT
+ * bnd Swing modbl diblogs. Wifn b modbl diblog is siown on
+ * tif fvfnt dispbtdi tirfbd, it fntfrs b nfw sfdondbry loop.
+ * Lbtfr, wifn tif diblog is iiddfn or disposfd, it fxits
+ * tif loop, bnd tif tirfbd dontinufs its fxfdution.
  * <p>
- * The following example illustrates a simple use case of
- * secondary loops:
+ * Tif following fxbmplf illustrbtfs b simplf usf dbsf of
+ * sfdondbry loops:
  *
- * <pre>
- *   SecondaryLoop loop;
+ * <prf>
+ *   SfdondbryLoop loop;
  *
- *   JButton jButton = new JButton("Button");
- *   jButton.addActionListener(new ActionListener() {
- *       {@code @Override}
- *       public void actionPerformed(ActionEvent e) {
- *           Toolkit tk = Toolkit.getDefaultToolkit();
- *           EventQueue eq = tk.getSystemEventQueue();
- *           loop = eq.createSecondaryLoop();
+ *   JButton jButton = nfw JButton("Button");
+ *   jButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+ *       {@dodf @Ovfrridf}
+ *       publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *           Toolkit tk = Toolkit.gftDffbultToolkit();
+ *           EvfntQufuf fq = tk.gftSystfmEvfntQufuf();
+ *           loop = fq.drfbtfSfdondbryLoop();
  *
- *           // Spawn a new thread to do the work
- *           Thread worker = new WorkerThread();
- *           worker.start();
+ *           // Spbwn b nfw tirfbd to do tif work
+ *           Tirfbd workfr = nfw WorkfrTirfbd();
+ *           workfr.stbrt();
  *
- *           // Enter the loop to block the current event
- *           // handler, but leave UI responsive
- *           if (!loop.enter()) {
- *               // Report an error
+ *           // Entfr tif loop to blodk tif durrfnt fvfnt
+ *           // ibndlfr, but lfbvf UI rfsponsivf
+ *           if (!loop.fntfr()) {
+ *               // Rfport bn frror
  *           }
  *       }
  *   });
  *
- *   class WorkerThread extends Thread {
- *       {@code @Override}
- *       public void run() {
- *           // Perform calculations
- *           doSomethingUseful();
+ *   dlbss WorkfrTirfbd fxtfnds Tirfbd {
+ *       {@dodf @Ovfrridf}
+ *       publid void run() {
+ *           // Pfrform dbldulbtions
+ *           doSomftiingUsfful();
  *
- *           // Exit the loop
- *           loop.exit();
+ *           // Exit tif loop
+ *           loop.fxit();
  *       }
  *   }
- * </pre>
+ * </prf>
  *
- * @see Dialog#show
- * @see EventQueue#createSecondaryLoop
- * @see Toolkit#getSystemEventQueue
+ * @sff Diblog#siow
+ * @sff EvfntQufuf#drfbtfSfdondbryLoop
+ * @sff Toolkit#gftSystfmEvfntQufuf
  *
- * @author Anton Tarasov, Artem Ananiev
+ * @butior Anton Tbrbsov, Artfm Anbnifv
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public interface SecondaryLoop {
+publid intfrfbdf SfdondbryLoop {
 
     /**
-     * Blocks the execution of the current thread and enters a new
-     * secondary event loop on the event dispatch thread.
+     * Blodks tif fxfdution of tif durrfnt tirfbd bnd fntfrs b nfw
+     * sfdondbry fvfnt loop on tif fvfnt dispbtdi tirfbd.
      * <p>
-     * This method can be called by any thread including the event
-     * dispatch thread. This thread will be blocked until the {@link
-     * #exit} method is called or the loop is terminated. A new
-     * secondary loop will be created on the event dispatch thread
-     * for dispatching events in either case.
+     * Tiis mftiod dbn bf dbllfd by bny tirfbd indluding tif fvfnt
+     * dispbtdi tirfbd. Tiis tirfbd will bf blodkfd until tif {@link
+     * #fxit} mftiod is dbllfd or tif loop is tfrminbtfd. A nfw
+     * sfdondbry loop will bf drfbtfd on tif fvfnt dispbtdi tirfbd
+     * for dispbtdiing fvfnts in fitifr dbsf.
      * <p>
-     * This method can only start one new event loop at a time per
-     * object. If a secondary event loop has already been started
-     * by this object and is currently still running, this method
-     * returns {@code false} to indicate that it was not successful
-     * in starting a new event loop. Otherwise, this method blocks
-     * the calling thread and later returns {@code true} when the
-     * new event loop is terminated. At such time, this object can
-     * again be used to start another new event loop.
+     * Tiis mftiod dbn only stbrt onf nfw fvfnt loop bt b timf pfr
+     * objfdt. If b sfdondbry fvfnt loop ibs blrfbdy bffn stbrtfd
+     * by tiis objfdt bnd is durrfntly still running, tiis mftiod
+     * rfturns {@dodf fblsf} to indidbtf tibt it wbs not suddfssful
+     * in stbrting b nfw fvfnt loop. Otifrwisf, tiis mftiod blodks
+     * tif dblling tirfbd bnd lbtfr rfturns {@dodf truf} wifn tif
+     * nfw fvfnt loop is tfrminbtfd. At sudi timf, tiis objfdt dbn
+     * bgbin bf usfd to stbrt bnotifr nfw fvfnt loop.
      *
-     * @return {@code true} after termination of the secondary loop,
-     *         if the secondary loop was started by this call,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} bftfr tfrminbtion of tif sfdondbry loop,
+     *         if tif sfdondbry loop wbs stbrtfd by tiis dbll,
+     *         {@dodf fblsf} otifrwisf
      */
-    public boolean enter();
+    publid boolfbn fntfr();
 
     /**
-     * Unblocks the execution of the thread blocked by the {@link
-     * #enter} method and exits the secondary loop.
+     * Unblodks tif fxfdution of tif tirfbd blodkfd by tif {@link
+     * #fntfr} mftiod bnd fxits tif sfdondbry loop.
      * <p>
-     * This method resumes the thread that called the {@link #enter}
-     * method and exits the secondary loop that was created when
-     * the {@link #enter} method was invoked.
+     * Tiis mftiod rfsumfs tif tirfbd tibt dbllfd tif {@link #fntfr}
+     * mftiod bnd fxits tif sfdondbry loop tibt wbs drfbtfd wifn
+     * tif {@link #fntfr} mftiod wbs invokfd.
      * <p>
-     * Note that if any other secondary loop is started while this
-     * loop is running, the blocked thread will not resume execution
-     * until the nested loop is terminated.
+     * Notf tibt if bny otifr sfdondbry loop is stbrtfd wiilf tiis
+     * loop is running, tif blodkfd tirfbd will not rfsumf fxfdution
+     * until tif nfstfd loop is tfrminbtfd.
      * <p>
-     * If this secondary loop has not been started with the {@link
-     * #enter} method, or this secondary loop has already finished
-     * with the {@link #exit} method, this method returns {@code
-     * false}, otherwise {@code true} is returned.
+     * If tiis sfdondbry loop ibs not bffn stbrtfd witi tif {@link
+     * #fntfr} mftiod, or tiis sfdondbry loop ibs blrfbdy finisifd
+     * witi tif {@link #fxit} mftiod, tiis mftiod rfturns {@dodf
+     * fblsf}, otifrwisf {@dodf truf} is rfturnfd.
      *
-     * @return {@code true} if this loop was previously started and
-     *         has not yet been finished with the {@link #exit} method,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tiis loop wbs prfviously stbrtfd bnd
+     *         ibs not yft bffn finisifd witi tif {@link #fxit} mftiod,
+     *         {@dodf fblsf} otifrwisf
      */
-    public boolean exit();
+    publid boolfbn fxit();
 
 }

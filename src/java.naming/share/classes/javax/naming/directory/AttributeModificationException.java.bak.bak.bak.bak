@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+  * This fxdfption is thrown whfn bn bttfmpt is
+  * mbdf to bdd, or rfmovf, or modify bn bttributf, its idfntififr,
+  * or its vblufs thbt donflidts with thf bttributf's (sdhfmb) dffinition
+  * or thf bttributf's stbtf.
+  * It is thrown in rfsponsf to DirContfxt.modifyAttributfs().
+  * It dontbins b list of modifidbtions thbt hbvf not bffn pfrformfd, in thf
+  * ordfr thbt thfy wfrf supplifd to modifyAttributfs().
+  * If thf list is null, nonf of thf modifidbtions wfrf pfrformfd suddfssfully.
+  *<p>
+  * An AttributfModifidbtionExdfption instbndf is not syndhronizfd
+  * bgbinst dondurrfnt multithrfbdfd bddfss. Multiplf thrfbds trying
+  * to bddfss bnd modify b singlf AttributfModifidbtion instbndf
+  * should lodk thf objfdt.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff DirContfxt#modifyAttributfs
+  * @sindf 1.3
+  */
+
+/*
+  *<p>
+  * Thf sfriblizfd form of bn AttributfModifidbtionExdfption objfdt
+  * donsists of thf sfriblizfd fiflds of its NbmingExdfption
+  * supfrdlbss, followfd by bn brrby of ModifidbtionItfm objfdts.
+  *
+*/
+
+
+publid dlbss AttributfModifidbtionExdfption fxtfnds NbmingExdfption {
+    /**
+     * Contbins thf possibly null list of unfxfdutfd modifidbtions.
+     * @sfribl
+     */
+    privbtf ModifidbtionItfm[] unfxfds = null;
+
+    /**
+     * Construdts b nfw instbndf of AttributfModifidbtionExdfption using
+     * bn fxplbnbtion. All othfr fiflds brf sft to null.
+     *
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout this fxdfption.
+     * If null, this fxdfption hbs no dftbil mfssbgf.
+
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     */
+    publid AttributfModifidbtionExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+    }
+
+    /**
+      * Construdts b nfw instbndf of AttributfModifidbtionExdfption.
+      * All fiflds brf sft to null.
+      */
+    publid AttributfModifidbtionExdfption() {
+        supfr();
+    }
+
+    /**
+      * Sfts thf unfxfdutfd modifidbtion list to bf f.
+      * Itfms in thf list must bppfbr in thf sbmf ordfr in whidh thfy wfrf
+      * originblly supplifd in DirContfxt.modifyAttributfs().
+      * Thf first itfm in thf list is thf first onf thbt wbs not fxfdutfd.
+      * If this list is null, nonf of thf opfrbtions originblly submittfd
+      * to modifyAttributfs() wfrf fxfdutfd.
+
+      * @pbrbm f        Thf possibly null list of unfxfdutfd modifidbtions.
+      * @sff #gftUnfxfdutfdModifidbtions
+      */
+    publid void sftUnfxfdutfdModifidbtions(ModifidbtionItfm[] f) {
+        unfxfds = f;
+    }
+
+    /**
+      * Rftrifvfs thf unfxfdutfd modifidbtion list.
+      * Itfms in thf list bppfbr in thf sbmf ordfr in whidh thfy wfrf
+      * originblly supplifd in DirContfxt.modifyAttributfs().
+      * Thf first itfm in thf list is thf first onf thbt wbs not fxfdutfd.
+      * If this list is null, nonf of thf opfrbtions originblly submittfd
+      * to modifyAttributfs() wfrf fxfdutfd.
+
+      * @rfturn Thf possibly null unfxfdutfd modifidbtion list.
+      * @sff #sftUnfxfdutfdModifidbtions
+      */
+    publid ModifidbtionItfm[] gftUnfxfdutfdModifidbtions() {
+        rfturn unfxfds;
+    }
+
+    /**
+      * Thf string rfprfsfntbtion of this fxdfption donsists of
+      * informbtion bbout whfrf thf frror oddurrfd, bnd
+      * thf first unfxfdutfd modifidbtion.
+      * This string is mfbnt for dfbugging bnd not mfbn to bf intfrprftfd
+      * progrbmmbtidblly.
+      * @rfturn Thf non-null string rfprfsfntbtion of this fxdfption.
+      */
+    publid String toString() {
+        String orig = supfr.toString();
+        if (unfxfds != null) {
+            orig += ("First unfxfdutfd modifidbtion: " +
+                     unfxfds[0].toString());
+        }
+        rfturn orig;
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8060676069678710186L;
+}

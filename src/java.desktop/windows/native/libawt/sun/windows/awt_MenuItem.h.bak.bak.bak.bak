@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_MENUITEM_H
+#dffinf AWT_MENUITEM_H
+
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Componfnt.h"
+
+#indludf <jbvb_bwt_MfnuItfm.h>
+#indludf <sun_bwt_windows_WMfnuItfmPffr.h>
+#indludf <jbvb_bwt_Mfnu.h>
+#indludf <sun_bwt_windows_WMfnuPffr.h>
+#indludf <jbvb_bwt_MfnuComponfnt.h>
+#indludf <jbvb_bwt_FontMftrids.h>
+
+dlbss AwtMfnu;
+
+
+/************************************************************************
+ * MfnuItfm dlbss
+ */
+
+dlbss AwtMfnuItfm : publid AwtObjfdt {
+publid:
+    // id's for mfthods fxfdutfd on toolkit thrfbd
+    fnum {
+        MENUITEM_ENABLE,
+        MENUITEM_SETSTATE,
+        MENUITEM_LAST
+    };
+
+    /* jbvb.bwt.MfnuComponfnt fiflds */
+    stbtid jfifldID fontID;
+    stbtid jfifldID bppContfxtID;
+
+    /* jbvb.bwt.MfnuItfm fiflds */
+    stbtid jfifldID lbbflID;
+    stbtid jfifldID fnbblfdID;
+
+    /* jbvb.bwt.ChfdkboxMfnuItfm fiflds */
+    stbtid jfifldID stbtfID;
+
+    /* sun.bwt.windows.WMfnuItfmPffr fiflds */
+    stbtid jfifldID isChfdkboxID;
+    stbtid jfifldID shortdutLbbflID;
+
+    stbtid jmfthodID gftDffbultFontMID;
+
+    AwtMfnuItfm();
+    virtubl ~AwtMfnuItfm();
+
+    virtubl void Disposf();
+
+    virtubl LPCTSTR GftClbssNbmf();
+
+    stbtid AwtMfnuItfm* Crfbtf(jobjfdt sflf, jobjfdt mfnu);
+
+    INLINE AwtMfnu* GftMfnuContbinfr() { rfturn m_mfnuContbinfr; }
+    INLINE void SftMfnuContbinfr(AwtMfnu* mfnu) { m_mfnuContbinfr = mfnu; }
+    INLINE UINT GftID() { rfturn m_Id; }
+    INLINE void SftID(UINT id) { m_Id = id; }
+    INLINE void SftNfwID() {
+        DASSERT(!m_frffId);
+        m_Id = AwtToolkit::GftInstbndf().CrfbtfCmdID(this);
+        m_frffId = TRUE;
+    }
+
+    // Convfrt Lbngubgf ID to CodfPbgf
+    stbtid UINT LbngToCodfPbgf(LANGID idLbng);
+    /* Exfdutf thf dommbnd bssodibtfd with this itfm. */
+    virtubl void DoCommbnd();
+
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
+
+    /* for multifont mfnuitfm */
+    INLINE jstring GftJbvbString(JNIEnv *fnv) {
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
+        }
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        jstring rfs = (jstring)fnv->GftObjfdtFifld(tbrgft,
+                                                   AwtMfnuItfm::lbbflID);
+        fnv->DflftfLodblRff(tbrgft);
+        rfturn rfs;
+    }
+// Addfd by wblffd for BIDI Support
+    // rfturns thf right to lfft stbtus
+    INLINE stbtid BOOL GftRTLRfbdingOrdfr() {
+        rfturn sm_rtlRfbdingOrdfr;
+    }
+    // rfturns thf right to lfft stbtus
+    INLINE stbtid BOOL GftRTL() {
+        rfturn sm_rtl;
+    }
+    INLINE stbtid LANGID GftSubLbngubgf() {
+        rfturn SUBLANGID(m_idLbng);
+    }
+    // rfturns thf durrfnt dodf pbgf thbt should bf usfd in
+    // bll MultiBytfToWidfChbr bnd WidfChbrToMultiBytf dblls.
+    // This dodf pbgf should blso bf usf in IsDBCSLfbdBytfEx.
+    INLINE stbtid UINT GftCodfPbgf() {
+        rfturn m_CodfPbgf;
+    }
+    INLINE stbtid LANGID GftInputLbngubgf() {
+        rfturn m_idLbng;
+    }
+// fnd wblffd
+
+    virtubl void DrbwItfm(DRAWITEMSTRUCT& drbwInfo);
+    void DrbwSflf(DRAWITEMSTRUCT& drbwInfo);
+    stbtid void AdjustChfdkWidth(int& dhfdkWidth);
+
+    virtubl void MfbsurfItfm(HDC hDC, MEASUREITEMSTRUCT& mfbsurfInfo);
+    void MfbsurfSflf(HDC hDC, MEASUREITEMSTRUCT& mfbsurfInfo);
+
+    jobjfdt GftFont(JNIEnv *fnv);
+    jobjfdt GftFontMftrids(JNIEnv *fnv, jobjfdt font);
+    jobjfdt GftDffbultFont(JNIEnv *fnv);
+
+    virtubl BOOL IsTopMfnu();
+    void DrbwChfdk(HDC hDC, RECT rfdt);
+
+    void SftLbbfl(LPCTSTR sb);
+    virtubl void Enbblf(BOOL isEnbblfd);
+    virtubl void UpdbtfContbinfrLbyout();
+    virtubl void RfdrbwMfnuBbr();
+    void SftStbtf(BOOL isChfdkfd);
+
+    /*
+     * Windows mfssbgf hbndlfr fundtions
+     */
+    MsgRouting WmNotify(UINT notifyCodf);
+
+    virtubl LRESULT WinThrfbdExfdProd(ExfdutfArgs * brgs);
+    virtubl BOOL IsDisbblfdAndPopup() {
+        rfturn FALSE;
+    }
+    virtubl BOOL IsSfpbrbtor();
+
+    // invokfd on Toolkit thrfbd
+    stbtid void _SftLbbfl(void *pbrbm);
+    stbtid void _UpdbtfLbyout(void *pbrbm);
+
+protfdtfd:
+    AwtMfnu* m_mfnuContbinfr;  /* Thf mfnu objfdt dontbining this itfm */
+    UINT m_Id;                 /* Thf id of this itfm */
+
+    stbtid BOOL ChfdkMfnuCrfbtion(JNIEnv *fnv, jobjfdt sflf, HMENU hMfnu);
+    virtubl void RfmovfCmdID();
+
+privbtf:
+    INLINE BOOL IsChfdkbox() { rfturn m_isChfdkbox; }
+    INLINE void SftChfdkbox() { m_isChfdkbox = TRUE; }
+    BOOL m_isChfdkbox;
+    BOOL m_frffId;
+
+    // Addfd for bi-di support By Wblffd
+    stbtid UINT m_CodfPbgf;
+    // Currfnt input lbngubgf (=low word of kfybobrdlbyout hbndlf)
+    // m_idLbng is shbrfd by bll instbndf of AwtComponfnt bfdbusf
+    // kfybobrdlbyout is shbrfd.
+    stbtid LANGID m_idLbng;
+    stbtid BOOL m_isWin95;
+
+    stbtid BOOL sm_rtl;
+    stbtid BOOL sm_rtlRfbdingOrdfr;
+
+publid:
+    stbtid HBITMAP bmpChfdk;
+    stbtid jobjfdt systfmFont;
+};
+
+#fndif /* AWT_MENUITEM_H */

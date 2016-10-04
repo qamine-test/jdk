@@ -1,400 +1,400 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Rectangle;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rfdtbnglf;
 
-import java.io.Serializable;
-import sun.swing.DefaultLookup;
+import jbvb.io.Sfriblizbblf;
+import sun.swing.DffbultLookup;
 
 
 /**
- * The standard class for rendering (displaying) individual cells
- * in a <code>JTable</code>.
+ * Tif stbndbrd dlbss for rfndfring (displbying) individubl dflls
+ * in b <dodf>JTbblf</dodf>.
  * <p>
  *
- * <strong><a name="override">Implementation Note:</a></strong>
- * This class inherits from <code>JLabel</code>, a standard component class.
- * However <code>JTable</code> employs a unique mechanism for rendering
- * its cells and therefore requires some slightly modified behavior
- * from its cell renderer.
- * The table class defines a single cell renderer and uses it as a
- * as a rubber-stamp for rendering all cells in the table;
- * it renders the first cell,
- * changes the contents of that cell renderer,
- * shifts the origin to the new location, re-draws it, and so on.
- * The standard <code>JLabel</code> component was not
- * designed to be used this way and we want to avoid
- * triggering a <code>revalidate</code> each time the
- * cell is drawn. This would greatly decrease performance because the
- * <code>revalidate</code> message would be
- * passed up the hierarchy of the container to determine whether any other
- * components would be affected.
- * As the renderer is only parented for the lifetime of a painting operation
- * we similarly want to avoid the overhead associated with walking the
- * hierarchy for painting operations.
- * So this class
- * overrides the <code>validate</code>, <code>invalidate</code>,
- * <code>revalidate</code>, <code>repaint</code>, and
- * <code>firePropertyChange</code> methods to be
- * no-ops and override the <code>isOpaque</code> method solely to improve
- * performance.  If you write your own renderer,
- * please keep this performance consideration in mind.
+ * <strong><b nbmf="ovfrridf">Implfmfntbtion Notf:</b></strong>
+ * Tiis dlbss inifrits from <dodf>JLbbfl</dodf>, b stbndbrd domponfnt dlbss.
+ * Howfvfr <dodf>JTbblf</dodf> fmploys b uniquf mfdibnism for rfndfring
+ * its dflls bnd tifrfforf rfquirfs somf sligitly modififd bfibvior
+ * from its dfll rfndfrfr.
+ * Tif tbblf dlbss dffinfs b singlf dfll rfndfrfr bnd usfs it bs b
+ * bs b rubbfr-stbmp for rfndfring bll dflls in tif tbblf;
+ * it rfndfrs tif first dfll,
+ * dibngfs tif dontfnts of tibt dfll rfndfrfr,
+ * siifts tif origin to tif nfw lodbtion, rf-drbws it, bnd so on.
+ * Tif stbndbrd <dodf>JLbbfl</dodf> domponfnt wbs not
+ * dfsignfd to bf usfd tiis wby bnd wf wbnt to bvoid
+ * triggfring b <dodf>rfvblidbtf</dodf> fbdi timf tif
+ * dfll is drbwn. Tiis would grfbtly dfdrfbsf pfrformbndf bfdbusf tif
+ * <dodf>rfvblidbtf</dodf> mfssbgf would bf
+ * pbssfd up tif iifrbrdiy of tif dontbinfr to dftfrminf wiftifr bny otifr
+ * domponfnts would bf bfffdtfd.
+ * As tif rfndfrfr is only pbrfntfd for tif lifftimf of b pbinting opfrbtion
+ * wf similbrly wbnt to bvoid tif ovfrifbd bssodibtfd witi wblking tif
+ * iifrbrdiy for pbinting opfrbtions.
+ * So tiis dlbss
+ * ovfrridfs tif <dodf>vblidbtf</dodf>, <dodf>invblidbtf</dodf>,
+ * <dodf>rfvblidbtf</dodf>, <dodf>rfpbint</dodf>, bnd
+ * <dodf>firfPropfrtyCibngf</dodf> mftiods to bf
+ * no-ops bnd ovfrridf tif <dodf>isOpbquf</dodf> mftiod solfly to improvf
+ * pfrformbndf.  If you writf your own rfndfrfr,
+ * plfbsf kffp tiis pfrformbndf donsidfrbtion in mind.
  * <p>
  *
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Philip Milne
- * @see JTable
+ * @butior Piilip Milnf
+ * @sff JTbblf
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableCellRenderer extends JLabel
-    implements TableCellRenderer, Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTbblfCfllRfndfrfr fxtfnds JLbbfl
+    implfmfnts TbblfCfllRfndfrfr, Sfriblizbblf
 {
 
    /**
-    * An empty <code>Border</code>. This field might not be used. To change the
-    * <code>Border</code> used by this renderer override the
-    * <code>getTableCellRendererComponent</code> method and set the border
-    * of the returned component directly.
+    * An fmpty <dodf>Bordfr</dodf>. Tiis fifld migit not bf usfd. To dibngf tif
+    * <dodf>Bordfr</dodf> usfd by tiis rfndfrfr ovfrridf tif
+    * <dodf>gftTbblfCfllRfndfrfrComponfnt</dodf> mftiod bnd sft tif bordfr
+    * of tif rfturnfd domponfnt dirfdtly.
     */
-    private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    protected static Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
+    privbtf stbtid finbl Bordfr SAFE_NO_FOCUS_BORDER = nfw EmptyBordfr(1, 1, 1, 1);
+    privbtf stbtid finbl Bordfr DEFAULT_NO_FOCUS_BORDER = nfw EmptyBordfr(1, 1, 1, 1);
+    protfdtfd stbtid Bordfr noFodusBordfr = DEFAULT_NO_FOCUS_BORDER;
 
-    // We need a place to store the color the JLabel should be returned
-    // to after its foreground and background colors have been set
-    // to the selection background color.
-    // These ivars will be made protected when their names are finalized.
-    private Color unselectedForeground;
-    private Color unselectedBackground;
+    // Wf nffd b plbdf to storf tif dolor tif JLbbfl siould bf rfturnfd
+    // to bftfr its forfground bnd bbdkground dolors ibvf bffn sft
+    // to tif sflfdtion bbdkground dolor.
+    // Tifsf ivbrs will bf mbdf protfdtfd wifn tifir nbmfs brf finblizfd.
+    privbtf Color unsflfdtfdForfground;
+    privbtf Color unsflfdtfdBbdkground;
 
     /**
-     * Creates a default table cell renderer.
+     * Crfbtfs b dffbult tbblf dfll rfndfrfr.
      */
-    public DefaultTableCellRenderer() {
-        super();
-        setOpaque(true);
-        setBorder(getNoFocusBorder());
-        setName("Table.cellRenderer");
+    publid DffbultTbblfCfllRfndfrfr() {
+        supfr();
+        sftOpbquf(truf);
+        sftBordfr(gftNoFodusBordfr());
+        sftNbmf("Tbblf.dfllRfndfrfr");
     }
 
-    private Border getNoFocusBorder() {
-        Border border = DefaultLookup.getBorder(this, ui, "Table.cellNoFocusBorder");
-        if (System.getSecurityManager() != null) {
-            if (border != null) return border;
-            return SAFE_NO_FOCUS_BORDER;
-        } else if (border != null) {
-            if (noFocusBorder == null || noFocusBorder == DEFAULT_NO_FOCUS_BORDER) {
-                return border;
+    privbtf Bordfr gftNoFodusBordfr() {
+        Bordfr bordfr = DffbultLookup.gftBordfr(tiis, ui, "Tbblf.dfllNoFodusBordfr");
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            if (bordfr != null) rfturn bordfr;
+            rfturn SAFE_NO_FOCUS_BORDER;
+        } flsf if (bordfr != null) {
+            if (noFodusBordfr == null || noFodusBordfr == DEFAULT_NO_FOCUS_BORDER) {
+                rfturn bordfr;
             }
         }
-        return noFocusBorder;
+        rfturn noFodusBordfr;
     }
 
     /**
-     * Overrides <code>JComponent.setForeground</code> to assign
-     * the unselected-foreground color to the specified color.
+     * Ovfrridfs <dodf>JComponfnt.sftForfground</dodf> to bssign
+     * tif unsflfdtfd-forfground dolor to tif spfdififd dolor.
      *
-     * @param c set the foreground color to this value
+     * @pbrbm d sft tif forfground dolor to tiis vbluf
      */
-    public void setForeground(Color c) {
-        super.setForeground(c);
-        unselectedForeground = c;
+    publid void sftForfground(Color d) {
+        supfr.sftForfground(d);
+        unsflfdtfdForfground = d;
     }
 
     /**
-     * Overrides <code>JComponent.setBackground</code> to assign
-     * the unselected-background color to the specified color.
+     * Ovfrridfs <dodf>JComponfnt.sftBbdkground</dodf> to bssign
+     * tif unsflfdtfd-bbdkground dolor to tif spfdififd dolor.
      *
-     * @param c set the background color to this value
+     * @pbrbm d sft tif bbdkground dolor to tiis vbluf
      */
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        unselectedBackground = c;
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+        unsflfdtfdBbdkground = d;
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * [L&amp;F] has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif look bnd fffl
+     * [L&bmp;F] ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        super.updateUI();
-        setForeground(null);
-        setBackground(null);
+    publid void updbtfUI() {
+        supfr.updbtfUI();
+        sftForfground(null);
+        sftBbdkground(null);
     }
 
-    // implements javax.swing.table.TableCellRenderer
+    // implfmfnts jbvbx.swing.tbblf.TbblfCfllRfndfrfr
     /**
      *
-     * Returns the default table cell renderer.
+     * Rfturns tif dffbult tbblf dfll rfndfrfr.
      * <p>
-     * During a printing operation, this method will be called with
-     * <code>isSelected</code> and <code>hasFocus</code> values of
-     * <code>false</code> to prevent selection and focus from appearing
-     * in the printed output. To do other customization based on whether
-     * or not the table is being printed, check the return value from
-     * {@link javax.swing.JComponent#isPaintingForPrint()}.
+     * During b printing opfrbtion, tiis mftiod will bf dbllfd witi
+     * <dodf>isSflfdtfd</dodf> bnd <dodf>ibsFodus</dodf> vblufs of
+     * <dodf>fblsf</dodf> to prfvfnt sflfdtion bnd fodus from bppfbring
+     * in tif printfd output. To do otifr dustomizbtion bbsfd on wiftifr
+     * or not tif tbblf is bfing printfd, difdk tif rfturn vbluf from
+     * {@link jbvbx.swing.JComponfnt#isPbintingForPrint()}.
      *
-     * @param table  the <code>JTable</code>
-     * @param value  the value to assign to the cell at
-     *                  <code>[row, column]</code>
-     * @param isSelected true if cell is selected
-     * @param hasFocus true if cell has focus
-     * @param row  the row of the cell to render
-     * @param column the column of the cell to render
-     * @return the default table cell renderer
-     * @see javax.swing.JComponent#isPaintingForPrint()
+     * @pbrbm tbblf  tif <dodf>JTbblf</dodf>
+     * @pbrbm vbluf  tif vbluf to bssign to tif dfll bt
+     *                  <dodf>[row, dolumn]</dodf>
+     * @pbrbm isSflfdtfd truf if dfll is sflfdtfd
+     * @pbrbm ibsFodus truf if dfll ibs fodus
+     * @pbrbm row  tif row of tif dfll to rfndfr
+     * @pbrbm dolumn tif dolumn of tif dfll to rfndfr
+     * @rfturn tif dffbult tbblf dfll rfndfrfr
+     * @sff jbvbx.swing.JComponfnt#isPbintingForPrint()
      */
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                          boolean isSelected, boolean hasFocus, int row, int column) {
-        if (table == null) {
-            return this;
+    publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                          boolfbn isSflfdtfd, boolfbn ibsFodus, int row, int dolumn) {
+        if (tbblf == null) {
+            rfturn tiis;
         }
 
         Color fg = null;
         Color bg = null;
 
-        JTable.DropLocation dropLocation = table.getDropLocation();
-        if (dropLocation != null
-                && !dropLocation.isInsertRow()
-                && !dropLocation.isInsertColumn()
-                && dropLocation.getRow() == row
-                && dropLocation.getColumn() == column) {
+        JTbblf.DropLodbtion dropLodbtion = tbblf.gftDropLodbtion();
+        if (dropLodbtion != null
+                && !dropLodbtion.isInsfrtRow()
+                && !dropLodbtion.isInsfrtColumn()
+                && dropLodbtion.gftRow() == row
+                && dropLodbtion.gftColumn() == dolumn) {
 
-            fg = DefaultLookup.getColor(this, ui, "Table.dropCellForeground");
-            bg = DefaultLookup.getColor(this, ui, "Table.dropCellBackground");
+            fg = DffbultLookup.gftColor(tiis, ui, "Tbblf.dropCfllForfground");
+            bg = DffbultLookup.gftColor(tiis, ui, "Tbblf.dropCfllBbdkground");
 
-            isSelected = true;
+            isSflfdtfd = truf;
         }
 
-        if (isSelected) {
-            super.setForeground(fg == null ? table.getSelectionForeground()
+        if (isSflfdtfd) {
+            supfr.sftForfground(fg == null ? tbblf.gftSflfdtionForfground()
                                            : fg);
-            super.setBackground(bg == null ? table.getSelectionBackground()
+            supfr.sftBbdkground(bg == null ? tbblf.gftSflfdtionBbdkground()
                                            : bg);
-        } else {
-            Color background = unselectedBackground != null
-                                    ? unselectedBackground
-                                    : table.getBackground();
-            if (background == null || background instanceof javax.swing.plaf.UIResource) {
-                Color alternateColor = DefaultLookup.getColor(this, ui, "Table.alternateRowColor");
-                if (alternateColor != null && row % 2 != 0) {
-                    background = alternateColor;
+        } flsf {
+            Color bbdkground = unsflfdtfdBbdkground != null
+                                    ? unsflfdtfdBbdkground
+                                    : tbblf.gftBbdkground();
+            if (bbdkground == null || bbdkground instbndfof jbvbx.swing.plbf.UIRfsourdf) {
+                Color bltfrnbtfColor = DffbultLookup.gftColor(tiis, ui, "Tbblf.bltfrnbtfRowColor");
+                if (bltfrnbtfColor != null && row % 2 != 0) {
+                    bbdkground = bltfrnbtfColor;
                 }
             }
-            super.setForeground(unselectedForeground != null
-                                    ? unselectedForeground
-                                    : table.getForeground());
-            super.setBackground(background);
+            supfr.sftForfground(unsflfdtfdForfground != null
+                                    ? unsflfdtfdForfground
+                                    : tbblf.gftForfground());
+            supfr.sftBbdkground(bbdkground);
         }
 
-        setFont(table.getFont());
+        sftFont(tbblf.gftFont());
 
-        if (hasFocus) {
-            Border border = null;
-            if (isSelected) {
-                border = DefaultLookup.getBorder(this, ui, "Table.focusSelectedCellHighlightBorder");
+        if (ibsFodus) {
+            Bordfr bordfr = null;
+            if (isSflfdtfd) {
+                bordfr = DffbultLookup.gftBordfr(tiis, ui, "Tbblf.fodusSflfdtfdCfllHigiligitBordfr");
             }
-            if (border == null) {
-                border = DefaultLookup.getBorder(this, ui, "Table.focusCellHighlightBorder");
+            if (bordfr == null) {
+                bordfr = DffbultLookup.gftBordfr(tiis, ui, "Tbblf.fodusCfllHigiligitBordfr");
             }
-            setBorder(border);
+            sftBordfr(bordfr);
 
-            if (!isSelected && table.isCellEditable(row, column)) {
-                Color col;
-                col = DefaultLookup.getColor(this, ui, "Table.focusCellForeground");
-                if (col != null) {
-                    super.setForeground(col);
+            if (!isSflfdtfd && tbblf.isCfllEditbblf(row, dolumn)) {
+                Color dol;
+                dol = DffbultLookup.gftColor(tiis, ui, "Tbblf.fodusCfllForfground");
+                if (dol != null) {
+                    supfr.sftForfground(dol);
                 }
-                col = DefaultLookup.getColor(this, ui, "Table.focusCellBackground");
-                if (col != null) {
-                    super.setBackground(col);
+                dol = DffbultLookup.gftColor(tiis, ui, "Tbblf.fodusCfllBbdkground");
+                if (dol != null) {
+                    supfr.sftBbdkground(dol);
                 }
             }
-        } else {
-            setBorder(getNoFocusBorder());
+        } flsf {
+            sftBordfr(gftNoFodusBordfr());
         }
 
-        setValue(value);
+        sftVbluf(vbluf);
 
-        return this;
+        rfturn tiis;
     }
 
     /*
-     * The following methods are overridden as a performance measure to
-     * to prune code-paths are often called in the case of renders
-     * but which we know are unnecessary.  Great care should be taken
-     * when writing your own renderer to weigh the benefits and
-     * drawbacks of overriding methods like these.
+     * Tif following mftiods brf ovfrriddfn bs b pfrformbndf mfbsurf to
+     * to prunf dodf-pbtis brf oftfn dbllfd in tif dbsf of rfndfrs
+     * but wiidi wf know brf unnfdfssbry.  Grfbt dbrf siould bf tbkfn
+     * wifn writing your own rfndfrfr to wfigi tif bfnffits bnd
+     * drbwbbdks of ovfrriding mftiods likf tifsf.
      */
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public boolean isOpaque() {
-        Color back = getBackground();
-        Component p = getParent();
+    publid boolfbn isOpbquf() {
+        Color bbdk = gftBbdkground();
+        Componfnt p = gftPbrfnt();
         if (p != null) {
-            p = p.getParent();
+            p = p.gftPbrfnt();
         }
 
-        // p should now be the JTable.
-        boolean colorMatch = (back != null) && (p != null) &&
-            back.equals(p.getBackground()) &&
-                        p.isOpaque();
-        return !colorMatch && super.isOpaque();
+        // p siould now bf tif JTbblf.
+        boolfbn dolorMbtdi = (bbdk != null) && (p != null) &&
+            bbdk.fqubls(p.gftBbdkground()) &&
+                        p.isOpbquf();
+        rfturn !dolorMbtdi && supfr.isOpbquf();
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void invalidate() {}
+    publid void invblidbtf() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public void validate() {}
+    publid void vblidbtf() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public void revalidate() {}
+    publid void rfvblidbtf() {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public void repaint(long tm, int x, int y, int width, int height) {}
+    publid void rfpbint(long tm, int x, int y, int widti, int ifigit) {}
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public void repaint(Rectangle r) { }
+    publid void rfpbint(Rfdtbnglf r) { }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void repaint() {
+    publid void rfpbint() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        // Strings get interned...
-        if (propertyName=="text"
-                || propertyName == "labelFor"
-                || propertyName == "displayedMnemonic"
-                || ((propertyName == "font" || propertyName == "foreground")
-                    && oldValue != newValue
-                    && getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null)) {
+    protfdtfd void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        // Strings gft intfrnfd...
+        if (propfrtyNbmf=="tfxt"
+                || propfrtyNbmf == "lbbflFor"
+                || propfrtyNbmf == "displbyfdMnfmonid"
+                || ((propfrtyNbmf == "font" || propfrtyNbmf == "forfground")
+                    && oldVbluf != nfwVbluf
+                    && gftClifntPropfrty(jbvbx.swing.plbf.bbsid.BbsidHTML.propfrtyKfy) != null)) {
 
-            super.firePropertyChange(propertyName, oldValue, newValue);
+            supfr.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
         }
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Ovfrriddfn for pfrformbndf rfbsons.
+     * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+     * for morf informbtion.
      */
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) { }
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf) { }
 
 
     /**
-     * Sets the <code>String</code> object for the cell being rendered to
-     * <code>value</code>.
+     * Sfts tif <dodf>String</dodf> objfdt for tif dfll bfing rfndfrfd to
+     * <dodf>vbluf</dodf>.
      *
-     * @param value  the string value for this cell; if value is
-     *          <code>null</code> it sets the text value to an empty string
-     * @see JLabel#setText
+     * @pbrbm vbluf  tif string vbluf for tiis dfll; if vbluf is
+     *          <dodf>null</dodf> it sfts tif tfxt vbluf to bn fmpty string
+     * @sff JLbbfl#sftTfxt
      *
      */
-    protected void setValue(Object value) {
-        setText((value == null) ? "" : value.toString());
+    protfdtfd void sftVbluf(Objfdt vbluf) {
+        sftTfxt((vbluf == null) ? "" : vbluf.toString());
     }
 
 
     /**
-     * A subclass of <code>DefaultTableCellRenderer</code> that
-     * implements <code>UIResource</code>.
-     * <code>DefaultTableCellRenderer</code> doesn't implement
-     * <code>UIResource</code>
-     * directly so that applications can safely override the
-     * <code>cellRenderer</code> property with
-     * <code>DefaultTableCellRenderer</code> subclasses.
+     * A subdlbss of <dodf>DffbultTbblfCfllRfndfrfr</dodf> tibt
+     * implfmfnts <dodf>UIRfsourdf</dodf>.
+     * <dodf>DffbultTbblfCfllRfndfrfr</dodf> dofsn't implfmfnt
+     * <dodf>UIRfsourdf</dodf>
+     * dirfdtly so tibt bpplidbtions dbn sbffly ovfrridf tif
+     * <dodf>dfllRfndfrfr</dodf> propfrty witi
+     * <dodf>DffbultTbblfCfllRfndfrfr</dodf> subdlbssfs.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends DefaultTableCellRenderer
-        implements javax.swing.plaf.UIResource
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds DffbultTbblfCfllRfndfrfr
+        implfmfnts jbvbx.swing.plbf.UIRfsourdf
     {
     }
 

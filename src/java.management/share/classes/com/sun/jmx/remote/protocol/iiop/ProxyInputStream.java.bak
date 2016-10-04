@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.protocol.iiop;
+pbdkbgf dom.sun.jmx.rfmotf.protodol.iiop;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.math.BigDecimal;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.mbti.BigDfdimbl;
 
 import org.omg.CORBA.Any;
-import org.omg.CORBA.Context;
+import org.omg.CORBA.Contfxt;
 import org.omg.CORBA.NO_IMPLEMENT;
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.portable.BoxedValueHelper;
+import org.omg.CORBA.TypfCodf;
+import org.omg.CORBA.portbblf.BoxfdVblufHflpfr;
 
-@SuppressWarnings({"deprecation", "rawtypes"})
-public class ProxyInputStream extends org.omg.CORBA_2_3.portable.InputStream {
-    public ProxyInputStream(org.omg.CORBA.portable.InputStream in) {
-        this.in = in;
+@SupprfssWbrnings({"dfprfdbtion", "rbwtypfs"})
+publid dlbss ProxyInputStrfbm fxtfnds org.omg.CORBA_2_3.portbblf.InputStrfbm {
+    publid ProxyInputStrfbm(org.omg.CORBA.portbblf.InputStrfbm in) {
+        tiis.in = in;
     }
 
-    public boolean read_boolean() {
-        return in.read_boolean();
+    publid boolfbn rfbd_boolfbn() {
+        rfturn in.rfbd_boolfbn();
     }
 
-    public char read_char() {
-        return in.read_char();
+    publid dibr rfbd_dibr() {
+        rfturn in.rfbd_dibr();
     }
 
-    public char read_wchar() {
-        return in.read_wchar();
+    publid dibr rfbd_wdibr() {
+        rfturn in.rfbd_wdibr();
     }
 
-    public byte read_octet() {
-        return in.read_octet();
+    publid bytf rfbd_odtft() {
+        rfturn in.rfbd_odtft();
     }
 
-    public short read_short() {
-        return in.read_short();
+    publid siort rfbd_siort() {
+        rfturn in.rfbd_siort();
     }
 
-    public short read_ushort() {
-        return in.read_ushort();
+    publid siort rfbd_usiort() {
+        rfturn in.rfbd_usiort();
     }
 
-    public int read_long() {
-        return in.read_long();
+    publid int rfbd_long() {
+        rfturn in.rfbd_long();
     }
 
-    public int read_ulong() {
-        return in.read_ulong();
+    publid int rfbd_ulong() {
+        rfturn in.rfbd_ulong();
     }
 
-    public long read_longlong() {
-        return in.read_longlong();
+    publid long rfbd_longlong() {
+        rfturn in.rfbd_longlong();
     }
 
-    public long read_ulonglong() {
-        return in.read_ulonglong();
+    publid long rfbd_ulonglong() {
+        rfturn in.rfbd_ulonglong();
     }
 
-    public float read_float() {
-        return in.read_float();
+    publid flobt rfbd_flobt() {
+        rfturn in.rfbd_flobt();
     }
 
-    public double read_double() {
-        return in.read_double();
+    publid doublf rfbd_doublf() {
+        rfturn in.rfbd_doublf();
     }
 
-    public String read_string() {
-        return in.read_string();
+    publid String rfbd_string() {
+        rfturn in.rfbd_string();
     }
 
-    public String read_wstring() {
-        return in.read_wstring();
+    publid String rfbd_wstring() {
+        rfturn in.rfbd_wstring();
     }
 
-    public void read_boolean_array(boolean[] value, int offset, int length) {
-        in.read_boolean_array(value, offset, length);
+    publid void rfbd_boolfbn_brrby(boolfbn[] vbluf, int offsft, int lfngti) {
+        in.rfbd_boolfbn_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_char_array(char[] value, int offset, int length) {
-        in.read_char_array(value, offset, length);
+    publid void rfbd_dibr_brrby(dibr[] vbluf, int offsft, int lfngti) {
+        in.rfbd_dibr_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_wchar_array(char[] value, int offset, int length) {
-        in.read_wchar_array(value, offset, length);
+    publid void rfbd_wdibr_brrby(dibr[] vbluf, int offsft, int lfngti) {
+        in.rfbd_wdibr_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_octet_array(byte[] value, int offset, int length) {
-        in.read_octet_array(value, offset, length);
+    publid void rfbd_odtft_brrby(bytf[] vbluf, int offsft, int lfngti) {
+        in.rfbd_odtft_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_short_array(short[] value, int offset, int length) {
-        in.read_short_array(value, offset, length);
+    publid void rfbd_siort_brrby(siort[] vbluf, int offsft, int lfngti) {
+        in.rfbd_siort_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_ushort_array(short[] value, int offset, int length) {
-        in.read_ushort_array(value, offset, length);
+    publid void rfbd_usiort_brrby(siort[] vbluf, int offsft, int lfngti) {
+        in.rfbd_usiort_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_long_array(int[] value, int offset, int length) {
-        in.read_long_array(value, offset, length);
+    publid void rfbd_long_brrby(int[] vbluf, int offsft, int lfngti) {
+        in.rfbd_long_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_ulong_array(int[] value, int offset, int length) {
-        in.read_ulong_array(value, offset, length);
+    publid void rfbd_ulong_brrby(int[] vbluf, int offsft, int lfngti) {
+        in.rfbd_ulong_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_longlong_array(long[] value, int offset, int length) {
-        in.read_longlong_array(value, offset, length);
+    publid void rfbd_longlong_brrby(long[] vbluf, int offsft, int lfngti) {
+        in.rfbd_longlong_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_ulonglong_array(long[] value, int offset, int length) {
-        in.read_ulonglong_array(value, offset, length);
+    publid void rfbd_ulonglong_brrby(long[] vbluf, int offsft, int lfngti) {
+        in.rfbd_ulonglong_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_float_array(float[] value, int offset, int length) {
-        in.read_float_array(value, offset, length);
+    publid void rfbd_flobt_brrby(flobt[] vbluf, int offsft, int lfngti) {
+        in.rfbd_flobt_brrby(vbluf, offsft, lfngti);
     }
 
-    public void read_double_array(double[] value, int offset, int length) {
-        in.read_double_array(value, offset, length);
+    publid void rfbd_doublf_brrby(doublf[] vbluf, int offsft, int lfngti) {
+        in.rfbd_doublf_brrby(vbluf, offsft, lfngti);
     }
 
-    public org.omg.CORBA.Object read_Object() {
-        return in.read_Object();
+    publid org.omg.CORBA.Objfdt rfbd_Objfdt() {
+        rfturn in.rfbd_Objfdt();
     }
 
-    public TypeCode read_TypeCode() {
-        return in.read_TypeCode();
+    publid TypfCodf rfbd_TypfCodf() {
+        rfturn in.rfbd_TypfCodf();
     }
 
-    public Any read_any() {
-        return in.read_any();
+    publid Any rfbd_bny() {
+        rfturn in.rfbd_bny();
     }
 
     /**
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Override
-    @Deprecated
-    public org.omg.CORBA.Principal read_Principal() {
-        return in.read_Principal();
+    @Ovfrridf
+    @Dfprfdbtfd
+    publid org.omg.CORBA.Prindipbl rfbd_Prindipbl() {
+        rfturn in.rfbd_Prindipbl();
     }
 
-    @Override
-    public int read() throws IOException {
-        return in.read();
+    @Ovfrridf
+    publid int rfbd() tirows IOExdfption {
+        rfturn in.rfbd();
     }
 
-    @Override
-    public BigDecimal read_fixed() {
-        return in.read_fixed();
+    @Ovfrridf
+    publid BigDfdimbl rfbd_fixfd() {
+        rfturn in.rfbd_fixfd();
     }
 
-    @Override
-    public Context read_Context() {
-        return in.read_Context();
+    @Ovfrridf
+    publid Contfxt rfbd_Contfxt() {
+        rfturn in.rfbd_Contfxt();
     }
 
-    @Override
-    public org.omg.CORBA.Object read_Object(java.lang.Class clz) {
-        return in.read_Object(clz);
+    @Ovfrridf
+    publid org.omg.CORBA.Objfdt rfbd_Objfdt(jbvb.lbng.Clbss dlz) {
+        rfturn in.rfbd_Objfdt(dlz);
     }
 
-    @Override
-    public ORB orb() {
-        return in.orb();
+    @Ovfrridf
+    publid ORB orb() {
+        rfturn in.orb();
     }
 
-    @Override
-    public Serializable read_value() {
-        return narrow().read_value();
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf() {
+        rfturn nbrrow().rfbd_vbluf();
     }
 
-    @Override
-    public Serializable read_value(Class clz) {
-        return narrow().read_value(clz);
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(Clbss dlz) {
+        rfturn nbrrow().rfbd_vbluf(dlz);
     }
 
-    @Override
-    public Serializable read_value(BoxedValueHelper factory) {
-        return narrow().read_value(factory);
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(BoxfdVblufHflpfr fbdtory) {
+        rfturn nbrrow().rfbd_vbluf(fbdtory);
     }
 
-    @Override
-    public Serializable read_value(String rep_id) {
-        return narrow().read_value(rep_id);
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(String rfp_id) {
+        rfturn nbrrow().rfbd_vbluf(rfp_id);
     }
 
-    @Override
-    public Serializable read_value(Serializable value) {
-        return narrow().read_value(value);
+    @Ovfrridf
+    publid Sfriblizbblf rfbd_vbluf(Sfriblizbblf vbluf) {
+        rfturn nbrrow().rfbd_vbluf(vbluf);
     }
 
-    @Override
-    public Object read_abstract_interface() {
-        return narrow().read_abstract_interface();
+    @Ovfrridf
+    publid Objfdt rfbd_bbstrbdt_intfrfbdf() {
+        rfturn nbrrow().rfbd_bbstrbdt_intfrfbdf();
     }
 
-    @Override
-    public Object read_abstract_interface(Class clz) {
-        return narrow().read_abstract_interface(clz);
+    @Ovfrridf
+    publid Objfdt rfbd_bbstrbdt_intfrfbdf(Clbss dlz) {
+        rfturn nbrrow().rfbd_bbstrbdt_intfrfbdf(dlz);
     }
 
-    protected org.omg.CORBA_2_3.portable.InputStream narrow() {
-        if (in instanceof org.omg.CORBA_2_3.portable.InputStream)
-            return (org.omg.CORBA_2_3.portable.InputStream) in;
-        throw new NO_IMPLEMENT();
+    protfdtfd org.omg.CORBA_2_3.portbblf.InputStrfbm nbrrow() {
+        if (in instbndfof org.omg.CORBA_2_3.portbblf.InputStrfbm)
+            rfturn (org.omg.CORBA_2_3.portbblf.InputStrfbm) in;
+        tirow nfw NO_IMPLEMENT();
     }
 
-    public org.omg.CORBA.portable.InputStream getProxiedInputStream() {
-        return in;
+    publid org.omg.CORBA.portbblf.InputStrfbm gftProxifdInputStrfbm() {
+        rfturn in;
     }
 
-    protected final org.omg.CORBA.portable.InputStream in;
+    protfdtfd finbl org.omg.CORBA.portbblf.InputStrfbm in;
 }

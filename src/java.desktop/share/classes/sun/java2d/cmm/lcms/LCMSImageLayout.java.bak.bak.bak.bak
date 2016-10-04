@@ -1,0 +1,450 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.jbvb2d.dmm.ldms;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+import sun.bwt.imbgf.ShortComponfntRbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+
+dlbss LCMSImbgfLbyout {
+
+    publid stbtid int BYTES_SH(int x) {
+        rfturn x;
+    }
+
+    publid stbtid int EXTRA_SH(int x) {
+        rfturn x << 7;
+    }
+
+    publid stbtid int CHANNELS_SH(int x) {
+        rfturn x << 3;
+    }
+    publid stbtid finbl int SWAPFIRST = 1 << 14;
+    publid stbtid finbl int DOSWAP = 1 << 10;
+    publid stbtid finbl int PT_RGB_8 =
+            CHANNELS_SH(3) | BYTES_SH(1);
+    publid stbtid finbl int PT_GRAY_8 =
+            CHANNELS_SH(1) | BYTES_SH(1);
+    publid stbtid finbl int PT_GRAY_16 =
+            CHANNELS_SH(1) | BYTES_SH(2);
+    publid stbtid finbl int PT_RGBA_8 =
+            EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1);
+    publid stbtid finbl int PT_ARGB_8 =
+            EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1) | SWAPFIRST;
+    publid stbtid finbl int PT_BGR_8 =
+            DOSWAP | CHANNELS_SH(3) | BYTES_SH(1);
+    publid stbtid finbl int PT_ABGR_8 =
+            DOSWAP | EXTRA_SH(1) | CHANNELS_SH(3) | BYTES_SH(1);
+    publid stbtid finbl int PT_BGRA_8 = EXTRA_SH(1) | CHANNELS_SH(3)
+            | BYTES_SH(1) | DOSWAP | SWAPFIRST;
+    publid stbtid finbl int DT_BYTE = 0;
+    publid stbtid finbl int DT_SHORT = 1;
+    publid stbtid finbl int DT_INT = 2;
+    publid stbtid finbl int DT_DOUBLE = 3;
+    boolfbn isIntPbdkfd = fblsf;
+    int pixflTypf;
+    int dbtbTypf;
+    int width;
+    int hfight;
+    int nfxtRowOffsft;
+    privbtf int nfxtPixflOffsft;
+    int offsft;
+
+    /* This flbg indidbtfs whfthfr thf imbgf dbn bf prodfssfd
+     * bt ondf by doTrbnsfrom() nbtivf dbll. Othfrwisf, thf
+     * imbgf is prodfssfd sdbn by sdbn.
+     */
+    privbtf boolfbn imbgfAtOndf = fblsf;
+    Objfdt dbtbArrby;
+
+    privbtf int dbtbArrbyLfngth; /* in bytfs */
+
+    privbtf LCMSImbgfLbyout(int np, int pixflTypf, int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this.pixflTypf = pixflTypf;
+        width = np;
+        hfight = 1;
+        nfxtPixflOffsft = pixflSizf;
+        nfxtRowOffsft = sbffMult(pixflSizf, np);
+        offsft = 0;
+    }
+
+    privbtf LCMSImbgfLbyout(int width, int hfight, int pixflTypf,
+                            int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this.pixflTypf = pixflTypf;
+        this.width = width;
+        this.hfight = hfight;
+        nfxtPixflOffsft = pixflSizf;
+        nfxtRowOffsft = sbffMult(pixflSizf, width);
+        offsft = 0;
+    }
+
+
+    publid LCMSImbgfLbyout(bytf[] dbtb, int np, int pixflTypf, int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this(np, pixflTypf, pixflSizf);
+        dbtbTypf = DT_BYTE;
+        dbtbArrby = dbtb;
+        dbtbArrbyLfngth = dbtb.lfngth;
+
+        vfrify();
+    }
+
+    publid LCMSImbgfLbyout(short[] dbtb, int np, int pixflTypf, int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this(np, pixflTypf, pixflSizf);
+        dbtbTypf = DT_SHORT;
+        dbtbArrby = dbtb;
+        dbtbArrbyLfngth = 2 * dbtb.lfngth;
+
+        vfrify();
+    }
+
+    publid LCMSImbgfLbyout(int[] dbtb, int np, int pixflTypf, int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this(np, pixflTypf, pixflSizf);
+        dbtbTypf = DT_INT;
+        dbtbArrby = dbtb;
+        dbtbArrbyLfngth = 4 * dbtb.lfngth;
+
+        vfrify();
+    }
+
+    publid LCMSImbgfLbyout(doublf[] dbtb, int np, int pixflTypf, int pixflSizf)
+            throws ImbgfLbyoutExdfption
+    {
+        this(np, pixflTypf, pixflSizf);
+        dbtbTypf = DT_DOUBLE;
+        dbtbArrby = dbtb;
+        dbtbArrbyLfngth = 8 * dbtb.lfngth;
+
+        vfrify();
+    }
+
+    privbtf LCMSImbgfLbyout() {
+    }
+
+    /* This mfthod drfbtfs b lbyout objfdt for givfn imbgf.
+     * Rfturns null if thf imbgf is not supportfd by durrfnt implfmfntbtion.
+     */
+    publid stbtid LCMSImbgfLbyout drfbtfImbgfLbyout(BufffrfdImbgf imbgf) throws ImbgfLbyoutExdfption {
+        LCMSImbgfLbyout l = nfw LCMSImbgfLbyout();
+
+        switdh (imbgf.gftTypf()) {
+            dbsf BufffrfdImbgf.TYPE_INT_RGB:
+                l.pixflTypf = PT_ARGB_8;
+                l.isIntPbdkfd = truf;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_INT_ARGB:
+                l.pixflTypf = PT_ARGB_8;
+                l.isIntPbdkfd = truf;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_INT_BGR:
+                l.pixflTypf = PT_ABGR_8;
+                l.isIntPbdkfd = truf;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_3BYTE_BGR:
+                l.pixflTypf = PT_BGR_8;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR:
+                l.pixflTypf = PT_ABGR_8;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_BYTE_GRAY:
+                l.pixflTypf = PT_GRAY_8;
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_USHORT_GRAY:
+                l.pixflTypf = PT_GRAY_16;
+                brfbk;
+            dffbult:
+                /* ColorConvfrtOp drfbtfs domponfnt imbgfs bs
+                 * dffbult dfstinbtion, so this kind of imbgfs
+                 * hbs to bf supportfd.
+                 */
+                ColorModfl dm = imbgf.gftColorModfl();
+                if (dm instbndfof ComponfntColorModfl) {
+                    ComponfntColorModfl ddm = (ComponfntColorModfl) dm;
+
+                    // vfrify whfthfr thf domponfnt sizf is finf
+                    int[] ds = ddm.gftComponfntSizf();
+                    for (int s : ds) {
+                        if (s != 8) {
+                            rfturn null;
+                        }
+                    }
+
+                    rfturn drfbtfImbgfLbyout(imbgf.gftRbstfr());
+
+                }
+                rfturn null;
+        }
+
+        l.width = imbgf.gftWidth();
+        l.hfight = imbgf.gftHfight();
+
+        switdh (imbgf.gftTypf()) {
+            dbsf BufffrfdImbgf.TYPE_INT_RGB:
+            dbsf BufffrfdImbgf.TYPE_INT_ARGB:
+            dbsf BufffrfdImbgf.TYPE_INT_BGR:
+                do {
+                    IntfgfrComponfntRbstfr intRbstfr = (IntfgfrComponfntRbstfr)
+                            imbgf.gftRbstfr();
+                    l.nfxtRowOffsft = sbffMult(4, intRbstfr.gftSdbnlinfStridf());
+                    l.nfxtPixflOffsft = sbffMult(4, intRbstfr.gftPixflStridf());
+                    l.offsft = sbffMult(4, intRbstfr.gftDbtbOffsft(0));
+                    l.dbtbArrby = intRbstfr.gftDbtbStorbgf();
+                    l.dbtbArrbyLfngth = 4 * intRbstfr.gftDbtbStorbgf().lfngth;
+                    l.dbtbTypf = DT_INT;
+
+                    if (l.nfxtRowOffsft == l.width * 4 * intRbstfr.gftPixflStridf()) {
+                        l.imbgfAtOndf = truf;
+                    }
+                } whilf (fblsf);
+                brfbk;
+
+            dbsf BufffrfdImbgf.TYPE_3BYTE_BGR:
+            dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR:
+                do {
+                    BytfComponfntRbstfr bytfRbstfr = (BytfComponfntRbstfr)
+                            imbgf.gftRbstfr();
+                    l.nfxtRowOffsft = bytfRbstfr.gftSdbnlinfStridf();
+                    l.nfxtPixflOffsft = bytfRbstfr.gftPixflStridf();
+
+                    int firstBbnd = imbgf.gftSbmplfModfl().gftNumBbnds() - 1;
+                    l.offsft = bytfRbstfr.gftDbtbOffsft(firstBbnd);
+                    l.dbtbArrby = bytfRbstfr.gftDbtbStorbgf();
+                    l.dbtbArrbyLfngth = bytfRbstfr.gftDbtbStorbgf().lfngth;
+                    l.dbtbTypf = DT_BYTE;
+                    if (l.nfxtRowOffsft == l.width * bytfRbstfr.gftPixflStridf()) {
+                        l.imbgfAtOndf = truf;
+                    }
+                } whilf (fblsf);
+                brfbk;
+
+            dbsf BufffrfdImbgf.TYPE_BYTE_GRAY:
+                do {
+                    BytfComponfntRbstfr bytfRbstfr = (BytfComponfntRbstfr)
+                            imbgf.gftRbstfr();
+                    l.nfxtRowOffsft = bytfRbstfr.gftSdbnlinfStridf();
+                    l.nfxtPixflOffsft = bytfRbstfr.gftPixflStridf();
+
+                    l.dbtbArrbyLfngth = bytfRbstfr.gftDbtbStorbgf().lfngth;
+                    l.offsft = bytfRbstfr.gftDbtbOffsft(0);
+                    l.dbtbArrby = bytfRbstfr.gftDbtbStorbgf();
+                    l.dbtbTypf = DT_BYTE;
+
+                    if (l.nfxtRowOffsft == l.width * bytfRbstfr.gftPixflStridf()) {
+                        l.imbgfAtOndf = truf;
+                    }
+                } whilf (fblsf);
+                brfbk;
+
+            dbsf BufffrfdImbgf.TYPE_USHORT_GRAY:
+                do {
+                    ShortComponfntRbstfr shortRbstfr = (ShortComponfntRbstfr)
+                            imbgf.gftRbstfr();
+                    l.nfxtRowOffsft = sbffMult(2, shortRbstfr.gftSdbnlinfStridf());
+                    l.nfxtPixflOffsft = sbffMult(2, shortRbstfr.gftPixflStridf());
+
+                    l.offsft = sbffMult(2, shortRbstfr.gftDbtbOffsft(0));
+                    l.dbtbArrby = shortRbstfr.gftDbtbStorbgf();
+                    l.dbtbArrbyLfngth = 2 * shortRbstfr.gftDbtbStorbgf().lfngth;
+                    l.dbtbTypf = DT_SHORT;
+
+                    if (l.nfxtRowOffsft == l.width * 2 * shortRbstfr.gftPixflStridf()) {
+                        l.imbgfAtOndf = truf;
+                    }
+                } whilf (fblsf);
+                brfbk;
+            dffbult:
+                rfturn null;
+        }
+        l.vfrify();
+        rfturn l;
+    }
+
+    privbtf stbtid fnum BbndOrdfr {
+        DIRECT,
+        INVERTED,
+        ARBITRARY,
+        UNKNOWN;
+
+        publid stbtid BbndOrdfr gftBbndOrdfr(int[] bbndOffsfts) {
+            BbndOrdfr ordfr = UNKNOWN;
+
+            int numBbnds = bbndOffsfts.lfngth;
+
+            for (int i = 0; (ordfr != ARBITRARY) && (i < bbndOffsfts.lfngth); i++) {
+                switdh (ordfr) {
+                    dbsf UNKNOWN:
+                        if (bbndOffsfts[i] == i) {
+                            ordfr = DIRECT;
+                        } flsf if (bbndOffsfts[i] == (numBbnds - 1 - i)) {
+                            ordfr = INVERTED;
+                        } flsf {
+                            ordfr = ARBITRARY;
+                        }
+                        brfbk;
+                    dbsf DIRECT:
+                        if (bbndOffsfts[i] != i) {
+                            ordfr = ARBITRARY;
+                        }
+                        brfbk;
+                    dbsf INVERTED:
+                        if (bbndOffsfts[i] != (numBbnds - 1 - i)) {
+                            ordfr = ARBITRARY;
+                        }
+                        brfbk;
+                }
+            }
+            rfturn ordfr;
+        }
+    }
+
+    privbtf void vfrify() throws ImbgfLbyoutExdfption {
+
+        if (offsft < 0 || offsft >= dbtbArrbyLfngth) {
+            throw nfw ImbgfLbyoutExdfption("Invblid imbgf lbyout");
+        }
+
+        if (nfxtPixflOffsft != gftBytfsPfrPixfl(pixflTypf)) {
+            throw nfw ImbgfLbyoutExdfption("Invblid imbgf lbyout");
+        }
+
+        int lbstSdbnOffsft = sbffMult(nfxtRowOffsft, (hfight - 1));
+
+        int lbstPixflOffsft = sbffMult(nfxtPixflOffsft, (width -1 ));
+
+        lbstPixflOffsft = sbffAdd(lbstPixflOffsft, lbstSdbnOffsft);
+
+        int off = sbffAdd(offsft, lbstPixflOffsft);
+
+        if (off < 0 || off >= dbtbArrbyLfngth) {
+            throw nfw ImbgfLbyoutExdfption("Invblid imbgf lbyout");
+        }
+    }
+
+    stbtid int sbffAdd(int b, int b) throws ImbgfLbyoutExdfption {
+        long rfs = b;
+        rfs += b;
+        if (rfs < Intfgfr.MIN_VALUE || rfs > Intfgfr.MAX_VALUE) {
+            throw nfw ImbgfLbyoutExdfption("Invblid imbgf lbyout");
+        }
+        rfturn (int)rfs;
+    }
+
+    stbtid int sbffMult(int b, int b) throws ImbgfLbyoutExdfption {
+        long rfs = b;
+        rfs *= b;
+        if (rfs < Intfgfr.MIN_VALUE || rfs > Intfgfr.MAX_VALUE) {
+            throw nfw ImbgfLbyoutExdfption("Invblid imbgf lbyout");
+        }
+        rfturn (int)rfs;
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    publid stbtid dlbss ImbgfLbyoutExdfption fxtfnds Exdfption {
+        publid ImbgfLbyoutExdfption(String mfssbgf) {
+            supfr(mfssbgf);
+        }
+    }
+    publid stbtid LCMSImbgfLbyout drfbtfImbgfLbyout(Rbstfr r) {
+        LCMSImbgfLbyout l = nfw LCMSImbgfLbyout();
+        if (r instbndfof BytfComponfntRbstfr &&
+                r.gftSbmplfModfl() instbndfof ComponfntSbmplfModfl) {
+            BytfComponfntRbstfr br = (BytfComponfntRbstfr)r;
+
+            ComponfntSbmplfModfl dsm = (ComponfntSbmplfModfl)r.gftSbmplfModfl();
+
+            l.pixflTypf = CHANNELS_SH(br.gftNumBbnds()) | BYTES_SH(1);
+
+            int[] bbndOffsfts = dsm.gftBbndOffsfts();
+            BbndOrdfr ordfr = BbndOrdfr.gftBbndOrdfr(bbndOffsfts);
+
+            int firstBbnd = 0;
+            switdh (ordfr) {
+                dbsf INVERTED:
+                    l.pixflTypf |= DOSWAP;
+                    firstBbnd  = dsm.gftNumBbnds() - 1;
+                    brfbk;
+                dbsf DIRECT:
+                    // do nothing
+                    brfbk;
+                dffbult:
+                    // unbblf to drfbtf thf imbgf lbyout;
+                    rfturn null;
+            }
+
+            l.nfxtRowOffsft = br.gftSdbnlinfStridf();
+            l.nfxtPixflOffsft = br.gftPixflStridf();
+
+            l.offsft = br.gftDbtbOffsft(firstBbnd);
+            l.dbtbArrby = br.gftDbtbStorbgf();
+            l.dbtbTypf = DT_BYTE;
+
+            l.width = br.gftWidth();
+            l.hfight = br.gftHfight();
+
+            if (l.nfxtRowOffsft == l.width * br.gftPixflStridf()) {
+                l.imbgfAtOndf = truf;
+            }
+            rfturn l;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Dfrivfs numbfr of bytfs pfr pixfl from thf pixfl formbt.
+     * Following bit fiflds brf usfd hfrf:
+     *  [0..2] - bytfs pfr sbmplf
+     *  [3..6] - numbfr of dolor sbmplfs pfr pixfl
+     *  [7..9] - numbfr of non-dolor sbmplfs pfr pixfl
+     *
+     * A domplftf dfsdription of thf pixfl formbt dbn bf found
+     * hfrf: ldms2.h, linfs 651 - 667.
+     *
+     * @pbrbm pixflTypf pixfl formbt in ldms2 notbtion.
+     * @rfturn numbfr of bytfs pfr pixfl for givfn pixfl formbt.
+     */
+    privbtf stbtid int gftBytfsPfrPixfl(int pixflTypf) {
+        int bytfsPfrSbmplf = (0x7 & pixflTypf);
+        int dolorSbmplfsPfrPixfl = 0xF & (pixflTypf >> 3);
+        int fxtrbSbmplfsPfrPixfl = 0x7 & (pixflTypf >> 7);
+
+        rfturn bytfsPfrSbmplf * (dolorSbmplfsPfrPixfl + fxtrbSbmplfsPfrPixfl);
+    }
+}

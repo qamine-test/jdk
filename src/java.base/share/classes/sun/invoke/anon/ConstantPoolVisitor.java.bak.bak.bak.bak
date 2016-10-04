@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.invokf.bnon;
+
+/**
+ * A visitor dbllfd by {@link ConstbntPoolPbrsfr#pbrsf(ConstbntPoolVisitor)}
+ * whfn b donstbnt pool fntry is pbrsfd.
+ * <p>
+ * A visit* mfthod is dbllfd whfn b donstbnt pool fntry is pbrsfd.
+ * Thf first brgumfnt is blwbys thf donstbnt pool indfx.
+ * Thf sfdond brgumfnt is blwbys thf donstbnt pool tbg,
+ * fvfn for mfthods likf {@link #visitUTF8(int, bytf, String)} whidh only bpply to onf tbg.
+ * String brgumfnts rfffr to Utf8 or NbmfAndTypf fntrifs dfdlbrfd flsfwhfrf,
+ * bnd brf blwbys bddompbnifd by thf indfxfs of thosf fntrifs.
+ * <p>
+ * Thf ordfr of thf dblls to thf visit* mfthods is not nfdfssbrily rflbtfd
+ * to thf ordfr of thf fntrifs in thf donstbnt pool.
+ * If onf fntry hbs b rfffrfndf to bnothfr fntry, thf lbttfr (lowfr-lfvfl)
+ * fntry will bf visitfd first.
+ * <p>
+ * Thf following tbblf shows thf rflbtion bftwffn donstbnt pool fntry
+ * typfs bnd thf dorrfsponding visit* mfthods:
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="donstbnt pool visitor mfthods">
+ * <tr><th>Tbg(s)</th><th>Mfthod</th></tr>
+ * <tr>
+ *   <td>{@link #CONSTANT_Utf8}</td>
+ *   <td>{@link #visitUTF8(int, bytf, String)}</td>
+ * </tr><tr>
+ *   <td>{@link #CONSTANT_Intfgfr}, {@link #CONSTANT_Flobt},
+ *       {@link #CONSTANT_Long}, {@link #CONSTANT_Doublf}</td>
+ *   <td>{@link #visitConstbntVbluf(int, bytf, Objfdt)}</td>
+ * </tr><tr>
+ *   <td>{@link #CONSTANT_String}, {@link #CONSTANT_Clbss}</td>
+ *   <td>{@link #visitConstbntString(int, bytf, String, int)}</td>
+ * </tr><tr>
+ *   <td>{@link #CONSTANT_NbmfAndTypf}</td>
+ *   <td>{@link #visitDfsdriptor(int, bytf, String, String, int, int)}</td>
+ * </tr><tr>
+ *   <td>{@link #CONSTANT_Fifldrff},
+ *       {@link #CONSTANT_Mfthodrff},
+ *       {@link #CONSTANT_IntfrfbdfMfthodrff}</td>
+ *   <td>{@link #visitMfmbfrRff(int, bytf, String, String, String, int, int)}</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sff ConstbntPoolPbtdh
+ * @buthor Rfmi Forbx
+ * @buthor jrosf
+ */
+publid dlbss ConstbntPoolVisitor {
+  /** Cbllfd fbdh timf bn UTF8 donstbnt pool fntry is found.
+   * @pbrbm indfx thf donstbnt pool indfx
+   * @pbrbm tbg blwbys {@link #CONSTANT_Utf8}
+   * @pbrbm utf8 string fndodfd in modififd UTF-8 formbt pbssfd bs b {@dodf String}
+   *
+   * @sff ConstbntPoolPbtdh#putUTF8(int, String)
+   */
+  publid void visitUTF8(int indfx, bytf tbg, String utf8) {
+    // do nothing
+  }
+
+  /** Cbllfd for fbdh donstbnt pool fntry thbt fndodfs bn intfgfr,
+   *  b flobt, b long, or b doublf.
+   *  Constbnt strings bnd dlbssfs brf not mbnbgfd by this mfthod but
+   *  by {@link #visitConstbntString(int, bytf, String, int)}.
+   *
+   * @pbrbm indfx thf donstbnt pool indfx
+   * @pbrbm tbg onf of {@link #CONSTANT_Intfgfr},
+   *            {@link #CONSTANT_Flobt},
+   *            {@link #CONSTANT_Long},
+   *            or {@link #CONSTANT_Doublf}
+   * @pbrbm vbluf fndodfd vbluf
+   *
+   * @sff ConstbntPoolPbtdh#putConstbntVbluf(int, Objfdt)
+   */
+  publid void visitConstbntVbluf(int indfx, bytf tbg, Objfdt vbluf) {
+    // do nothing
+  }
+
+  /** Cbllfd for fbdh donstbnt pool fntry thbt fndodfs b string or b dlbss.
+   * @pbrbm indfx thf donstbnt pool indfx
+   * @pbrbm tbg onf of {@link #CONSTANT_String},
+   *            {@link #CONSTANT_Clbss},
+   * @pbrbm nbmf string body or dlbss nbmf (using dot sfpbrbtor)
+   * @pbrbm nbmfIndfx thf indfx of thf Utf8 string for thf nbmf
+   *
+   * @sff ConstbntPoolPbtdh#putConstbntVbluf(int, bytf, Objfdt)
+   */
+  publid void visitConstbntString(int indfx, bytf tbg,
+                                  String nbmf, int nbmfIndfx) {
+    // do nothing
+  }
+
+  /** Cbllfd for fbdh donstbnt pool fntry thbt fndodfs b nbmf bnd typf.
+   * @pbrbm indfx thf donstbnt pool indfx
+   * @pbrbm tbg blwbys {@link #CONSTANT_NbmfAndTypf}
+   * @pbrbm mfmbfrNbmf b fifld or mfthod nbmf
+   * @pbrbm signbturf thf mfmbfr signbturf
+   * @pbrbm mfmbfrNbmfIndfx indfx of thf Utf8 string for thf mfmbfr nbmf
+   * @pbrbm signbturfIndfx indfx of thf Utf8 string for thf signbturf
+   *
+   * @sff ConstbntPoolPbtdh#putDfsdriptor(int, String, String)
+   */
+  publid void visitDfsdriptor(int indfx, bytf tbg,
+                              String mfmbfrNbmf, String signbturf,
+                              int mfmbfrNbmfIndfx, int signbturfIndfx) {
+    // do nothing
+  }
+
+  /** Cbllfd for fbdh donstbnt pool fntry thbt fndodfs b fifld or mfthod.
+   * @pbrbm indfx thf donstbnt pool indfx
+   * @pbrbm tbg onf of {@link #CONSTANT_Fifldrff},
+   *            or {@link #CONSTANT_Mfthodrff},
+   *            or {@link #CONSTANT_IntfrfbdfMfthodrff}
+   * @pbrbm dlbssNbmf thf dlbss nbmf (using dot sfpbrbtor)
+   * @pbrbm mfmbfrNbmf nbmf of thf fifld or mfthod
+   * @pbrbm signbturf thf fifld or mfthod signbturf
+   * @pbrbm dlbssNbmfIndfx indfx of thf Utf8 string for thf dlbss nbmf
+   * @pbrbm dfsdriptorIndfx indfx of thf NbmfAndTypf dfsdriptor donstbnt
+   *
+   * @sff ConstbntPoolPbtdh#putMfmbfrRff(int, bytf, String, String, String)
+   */
+  publid void visitMfmbfrRff(int indfx, bytf tbg,
+                             String dlbssNbmf, String mfmbfrNbmf, String signbturf,
+                             int dlbssNbmfIndfx, int dfsdriptorIndfx) {
+    // do nothing
+  }
+
+    publid stbtid finbl bytf
+      CONSTANT_Nonf = 0,
+      CONSTANT_Utf8 = 1,
+      //CONSTANT_Unidodf = 2,               /* unusfd */
+      CONSTANT_Intfgfr = 3,
+      CONSTANT_Flobt = 4,
+      CONSTANT_Long = 5,
+      CONSTANT_Doublf = 6,
+      CONSTANT_Clbss = 7,
+      CONSTANT_String = 8,
+      CONSTANT_Fifldrff = 9,
+      CONSTANT_Mfthodrff = 10,
+      CONSTANT_IntfrfbdfMfthodrff = 11,
+      CONSTANT_NbmfAndTypf = 12;
+
+    privbtf stbtid String[] TAG_NAMES = {
+        "Empty",
+        "Utf8",
+        null, //"Unidodf",
+        "Intfgfr",
+        "Flobt",
+        "Long",
+        "Doublf",
+        "Clbss",
+        "String",
+        "Fifldrff",
+        "Mfthodrff",
+        "IntfrfbdfMfthodrff",
+        "NbmfAndTypf"
+    };
+
+    publid stbtid String tbgNbmf(bytf tbg) {
+        String nbmf = null;
+        if ((tbg & 0xFF) < TAG_NAMES.lfngth)
+            nbmf = TAG_NAMES[tbg];
+        if (nbmf == null)
+            nbmf = "Unknown#"+(tbg&0xFF);
+        rfturn nbmf;
+    }
+}

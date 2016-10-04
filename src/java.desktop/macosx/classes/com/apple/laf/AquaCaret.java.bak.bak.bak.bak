@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.*;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss AqubCbrft fxtfnds DffbultCbrft implfmfnts UIRfsourdf, PropfrtyChbngfListfnfr {
+    finbl boolfbn isMultiLinfEditor;
+    finbl JTfxtComponfnt d;
+
+    boolfbn mFodusfd = fblsf;
+
+    publid AqubCbrft(finbl Window inPbrfntWindow, finbl JTfxtComponfnt inComponfnt) {
+        supfr();
+        d = inComponfnt;
+        isMultiLinfEditor = (d instbndfof JTfxtArfb || d instbndfof JEditorPbnf);
+        inComponfnt.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    protfdtfd Highlightfr.HighlightPbintfr gftSflfdtionPbintfr() {
+        rfturn AqubHighlightfr.gftInstbndf();
+    }
+
+    /**
+     * Only show thf flbshing dbrft if thf sflfdtion rbngf is zfro
+     */
+    publid void sftVisiblf(boolfbn f) {
+        if (f) f = gftDot() == gftMbrk();
+        supfr.sftVisiblf(f);
+    }
+
+    protfdtfd void firfStbtfChbngfd() {
+        // If wf hbvf fodus thf dbrft should only flbsh if thf rbngf lfngth is zfro
+        if (mFodusfd) sftVisiblf(gftComponfnt().isEditbblf());
+
+        supfr.firfStbtfChbngfd();
+    }
+
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+        finbl String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+
+        if (AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(propfrtyNbmf)) {
+            finbl JTfxtComponfnt domp = ((JTfxtComponfnt)fvt.gftSourdf());
+
+            if (fvt.gftNfwVbluf() == Boolfbn.TRUE) {
+                sftVisiblf(domp.hbsFodus());
+            } flsf {
+                sftVisiblf(fblsf);
+            }
+
+            if (gftDot() != gftMbrk()) domp.gftUI().dbmbgfRbngf(domp, gftDot(), gftMbrk());
+        }
+    }
+
+    // --- FodusListfnfr mfthods --------------------------
+
+    privbtf boolfbn shouldSflfdtAllOnFodus = truf;
+    publid void fodusGbinfd(finbl FodusEvfnt f) {
+        finbl JTfxtComponfnt domponfnt = gftComponfnt();
+        if (!domponfnt.isEnbblfd() || !domponfnt.isEditbblf()) {
+            supfr.fodusGbinfd(f);
+            rfturn;
+        }
+
+        mFodusfd = truf;
+        if (!shouldSflfdtAllOnFodus) {
+            shouldSflfdtAllOnFodus = truf;
+            supfr.fodusGbinfd(f);
+            rfturn;
+        }
+
+        if (isMultiLinfEditor) {
+            supfr.fodusGbinfd(f);
+            rfturn;
+        }
+
+        finbl int fnd = domponfnt.gftDodumfnt().gftLfngth();
+        finbl int dot = gftDot();
+        finbl int mbrk = gftMbrk();
+        if (dot == mbrk) {
+            if (dot == 0) {
+                domponfnt.sftCbrftPosition(fnd);
+                domponfnt.movfCbrftPosition(0);
+            } flsf if (dot == fnd) {
+                domponfnt.sftCbrftPosition(0);
+                domponfnt.movfCbrftPosition(fnd);
+            }
+        }
+
+        supfr.fodusGbinfd(f);
+    }
+
+    publid void fodusLost(finbl FodusEvfnt f) {
+        mFodusfd = fblsf;
+        shouldSflfdtAllOnFodus = truf;
+        if (isMultiLinfEditor) {
+            sftVisiblf(fblsf);
+            d.rfpbint();
+        } flsf {
+            supfr.fodusLost(f);
+        }
+    }
+
+    // This fixfs thf problfm whfrf whfn on thf mbd you hbvf to dtrl lfft dlidk to
+    // gft popup triggfrs thf dbrft hbs dodf thbt only looks bt button numbfr.
+    // sff rbdbr # 3125390
+    publid void mousfPrfssfd(finbl MousfEvfnt f) {
+        if (!f.isPopupTriggfr()) {
+            supfr.mousfPrfssfd(f);
+            shouldSflfdtAllOnFodus = fblsf;
+        }
+    }
+
+    /**
+     * Dbmbgfs thf brfb surrounding thf dbrft to dbusf
+     * it to bf rfpbintfd in b nfw lodbtion.  If pbint()
+     * is rfimplfmfntfd, this mfthod should blso bf
+     * rfimplfmfntfd.  This mfthod should updbtf thf
+     * dbrft bounds (x, y, width, bnd hfight).
+     *
+     * @pbrbm r  thf durrfnt lodbtion of thf dbrft
+     * @sff #pbint
+     */
+    protfdtfd syndhronizfd void dbmbgf(finbl Rfdtbnglf r) {
+        if (r == null || fPbinting) rfturn;
+
+        x = r.x - 4;
+        y = r.y;
+        width = 10;
+        hfight = r.hfight;
+
+        // Don't dbmbgf thf bordfr brfb.  Wf dbn't pbint b pbrtibl bordfr, so gft thf
+        // intfrsfdtion of thf dbrft rfdtbnglf bnd thf domponfnt lfss thf bordfr, if bny.
+        finbl Rfdtbnglf dbrftRfdt = nfw Rfdtbnglf(x, y, width, hfight);
+        finbl Bordfr bordfr = gftComponfnt().gftBordfr();
+        if (bordfr != null) {
+            finbl Rfdtbnglf bllod = gftComponfnt().gftBounds();
+            bllod.x = bllod.y = 0;
+            finbl Insfts bordfrInsfts = bordfr.gftBordfrInsfts(gftComponfnt());
+            bllod.x += bordfrInsfts.lfft;
+            bllod.y += bordfrInsfts.top;
+            bllod.width -= bordfrInsfts.lfft + bordfrInsfts.right;
+            bllod.hfight -= bordfrInsfts.top + bordfrInsfts.bottom;
+            Rfdtbnglf2D.intfrsfdt(dbrftRfdt, bllod, dbrftRfdt);
+        }
+        x = dbrftRfdt.x;
+        y = dbrftRfdt.y;
+        width = Mbth.mbx(dbrftRfdt.width, 1);
+        hfight = Mbth.mbx(dbrftRfdt.hfight, 1);
+        rfpbint();
+    }
+
+    boolfbn fPbinting = fblsf;
+
+    // Sff <rdbr://problfm/3833837> 1.4.2_05-141.3: JTfxtFifld pfrformbndf with Aqub L&F
+    // Wf brf gftting into b dirdulbr dondition with thf BbsidCbrft pbint dodf sindf it dofsn't know bbout thf fbdt thbt our
+    // dbmbgf routinf bbovf flminbtfs thf bordfr. Sbdly wf dbn't fbsily dhbngf fithfr onf, so wf will
+    // bdd b pbinting flbg bnd not dbmbgf during b rfpbint.
+    publid void pbint(finbl Grbphids g) {
+        if (isVisiblf()) {
+            fPbinting = truf;
+            supfr.pbint(g);
+            fPbinting = fblsf;
+        }
+    }
+}

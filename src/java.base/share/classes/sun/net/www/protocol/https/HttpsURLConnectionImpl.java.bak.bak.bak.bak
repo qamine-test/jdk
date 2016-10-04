@@ -1,0 +1,538 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE: This dlbss livfs in thf pbdkbgf sun.nft.www.protodol.https.
+ * Thfrf is b dopy in dom.sun.nft.ssl.intfrnbl.www.protodol.https for JSSE
+ * 1.0.2 dompbtibility. It is 100% idfntidbl fxdfpt thf pbdkbgf bnd fxtfnds
+ * linfs. Any dhbngfs should bf mbdf to bf dlbss in sun.nft.* bnd thfn dopifd
+ * to dom.sun.nft.*.
+ */
+
+// For both dopifs of thf filf, undommfnt onf linf bnd dommfnt thf othfr
+pbdkbgf sun.nft.www.protodol.https;
+// pbdkbgf dom.sun.nft.ssl.intfrnbl.www.protodol.https;
+
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.ProtodolExdfption;
+import jbvb.io.*;
+import jbvbx.nft.ssl.*;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.nft.www.http.HttpClifnt;
+
+/**
+ * A dlbss to rfprfsfnt bn HTTP donnfdtion to b rfmotf objfdt.
+ *
+ * Idfblly, this dlbss should subdlbss bnd inhfrit thf http hbndlfr
+ * implfmfntbtion, but it dbn't do so bfdbusf thbt dlbss hbvf thf
+ * wrong Jbvb Typf.  Thus it usfs thf dflfgbtf (bkb, thf
+ * Adbptfr/Wrbppfr dfsign pbttfrn) to rfusf dodf from thf http
+ * hbndlfr.
+ *
+ * Sindf it would usf b dflfgbtf to bddfss
+ * sun.nft.www.protodol.http.HttpURLConnfdtion fundtionblitifs, it
+ * nffds to implfmfnt bll publid mfthods in it's supfr dlbss bnd bll
+ * thf wby to Objfdt.
+ *
+ */
+
+// For both dopifs of thf filf, undommfnt onf linf bnd dommfnt thf
+// othfr. Thf difffrfndfs bftwffn thf two dopifs brf introdudfd for
+// plugin, bnd it is mbrkfd bs sudh.
+publid dlbss HttpsURLConnfdtionImpl
+        fxtfnds jbvbx.nft.ssl.HttpsURLConnfdtion {
+// publid dlbss HttpsURLConnfdtionOldImpl
+//      fxtfnds dom.sun.nft.ssl.HttpsURLConnfdtion {
+
+    // NOTE: mbdf protfdtfd for plugin so thbt subdlbss dbn sft it.
+    protfdtfd DflfgbtfHttpsURLConnfdtion dflfgbtf;
+
+// For both dopifs of thf filf, undommfnt onf linf bnd dommfnt thf othfr
+    HttpsURLConnfdtionImpl(URL u, Hbndlfr hbndlfr) throws IOExdfption {
+//    HttpsURLConnfdtionOldImpl(URL u, Hbndlfr hbndlfr) throws IOExdfption {
+        this(u, null, hbndlfr);
+    }
+
+// For both dopifs of thf filf, undommfnt onf linf bnd dommfnt thf othfr
+    HttpsURLConnfdtionImpl(URL u, Proxy p, Hbndlfr hbndlfr) throws IOExdfption {
+//    HttpsURLConnfdtionOldImpl(URL u, Proxy p, Hbndlfr hbndlfr) throws IOExdfption {
+        supfr(u);
+        dflfgbtf = nfw DflfgbtfHttpsURLConnfdtion(url, p, hbndlfr, this);
+    }
+
+    // NOTE: introdudfd for plugin
+    // subdlbss nffds to ovfrwritf this to sft dflfgbtf to
+    // thf bppropribtf dflfgbtff
+    protfdtfd HttpsURLConnfdtionImpl(URL u) throws IOExdfption {
+        supfr(u);
+    }
+
+    /**
+     * Crfbtf b nfw HttpClifnt objfdt, bypbssing thf dbdhf of
+     * HTTP dlifnt objfdts/donnfdtions.
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     */
+    protfdtfd void sftNfwClifnt(URL url) throws IOExdfption {
+        dflfgbtf.sftNfwClifnt(url, fblsf);
+    }
+
+    /**
+     * Obtbin b HttpClifnt objfdt. Usf thf dbdhfd dopy if spfdififd.
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm usfCbdhf  whfthfr thf dbdhfd donnfdtion should bf usfd
+     *                  if prfsfnt
+     */
+    protfdtfd void sftNfwClifnt(URL url, boolfbn usfCbdhf)
+            throws IOExdfption {
+        dflfgbtf.sftNfwClifnt(url, usfCbdhf);
+    }
+
+    /**
+     * Crfbtf b nfw HttpClifnt objfdt, sft up so thbt it usfs
+     * pfr-instbndf proxying to thf givfn HTTP proxy.  This
+     * bypbssfs thf dbdhf of HTTP dlifnt objfdts/donnfdtions.
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm proxyHost thf proxy host to usf
+     * @pbrbm proxyPort thf proxy port to usf
+     */
+    protfdtfd void sftProxifdClifnt(URL url, String proxyHost, int proxyPort)
+            throws IOExdfption {
+        dflfgbtf.sftProxifdClifnt(url, proxyHost, proxyPort);
+    }
+
+    /**
+     * Obtbin b HttpClifnt objfdt, sft up so thbt it usfs pfr-instbndf
+     * proxying to thf givfn HTTP proxy. Usf thf dbdhfd dopy of HTTP
+     * dlifnt objfdts/donnfdtions if spfdififd.
+     *
+     * @pbrbm url       thf URL bfing bddfssfd
+     * @pbrbm proxyHost thf proxy host to usf
+     * @pbrbm proxyPort thf proxy port to usf
+     * @pbrbm usfCbdhf  whfthfr thf dbdhfd donnfdtion should bf usfd
+     *                  if prfsfnt
+     */
+    protfdtfd void sftProxifdClifnt(URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdhf) throws IOExdfption {
+        dflfgbtf.sftProxifdClifnt(url, proxyHost, proxyPort, usfCbdhf);
+    }
+
+    /**
+     * Implfmfnts thf HTTP protodol hbndlfr's "donnfdt" mfthod,
+     * fstbblishing bn SSL donnfdtion to thf sfrvfr bs nfdfssbry.
+     */
+    publid void donnfdt() throws IOExdfption {
+        dflfgbtf.donnfdt();
+    }
+
+    /**
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.  Sindf wf brf
+     * dflfgbting thf bdtubl implfmfntbtion to "dflfgbtf", wf nffd to
+     * dflfgbtf thf bddfss of "donnfdtfd" bs wfll.
+     */
+    protfdtfd boolfbn isConnfdtfd() {
+        rfturn dflfgbtf.isConnfdtfd();
+    }
+
+    /**
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.  Sindf wf brf
+     * dflfgbting thf bdtubl implfmfntbtion to "dflfgbtf", wf nffd to
+     * dflfgbtf thf bddfss of "donnfdtfd" bs wfll.
+     */
+    protfdtfd void sftConnfdtfd(boolfbn donn) {
+        dflfgbtf.sftConnfdtfd(donn);
+    }
+
+    /**
+     * Rfturns thf diphfr suitf in usf on this donnfdtion.
+     */
+    publid String gftCiphfrSuitf() {
+        rfturn dflfgbtf.gftCiphfrSuitf();
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf []
+        gftLodblCfrtifidbtfs() {
+        rfturn dflfgbtf.gftLodblCfrtifidbtfs();
+    }
+
+    /**
+     * Rfturns thf sfrvfr's dfrtifidbtf dhbin, or throws
+     * SSLPffrUnvfrififd Exdfption if
+     * thf sfrvfr did not buthfntidbtf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf []
+        gftSfrvfrCfrtifidbtfs() throws SSLPffrUnvfrififdExdfption {
+        rfturn dflfgbtf.gftSfrvfrCfrtifidbtfs();
+    }
+
+    /**
+     * Rfturns thf sfrvfr's X.509 dfrtifidbtf dhbin, or null if
+     * thf sfrvfr did not buthfntidbtf.
+     *
+     * NOTE: This mfthod is not nfdfssbry for thf vfrsion of this dlbss
+     * implfmfnting jbvbx.nft.ssl.HttpsURLConnfdtion, but providfd for
+     * dompbtibility with thf dom.sun.nft.ssl.HttpsURLConnfdtion vfrsion.
+     */
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] gftSfrvfrCfrtifidbtfChbin() {
+        try {
+            rfturn dflfgbtf.gftSfrvfrCfrtifidbtfChbin();
+        } dbtdh (SSLPffrUnvfrififdExdfption f) {
+            // this mfthod dofs not throw bn fxdfption bs dfdlbrfd in
+            // dom.sun.nft.ssl.HttpsURLConnfdtion.
+            // Rfturn null for dompbtibility.
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf prindipbl with whidh thf sfrvfr buthfntidbtfd itsflf,
+     * or throw b SSLPffrUnvfrififdExdfption if thf sfrvfr did not buthfntidbtf.
+     */
+    publid Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        rfturn dflfgbtf.gftPffrPrindipbl();
+    }
+
+    /**
+     * Rfturns thf prindipbl thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    publid Prindipbl gftLodblPrindipbl()
+    {
+        rfturn dflfgbtf.gftLodblPrindipbl();
+    }
+
+    /*
+     * Allowbblf input/output sfqufndfs:
+     * [intfrprftfd bs POST/PUT]
+     * - gft output, [writf output,] gft input, [rfbd input]
+     * - gft output, [writf output]
+     * [intfrprftfd bs GET]
+     * - gft input, [rfbd input]
+     * Disbllowfd:
+     * - gft input, [rfbd input,] gft output, [writf output]
+     */
+
+    publid syndhronizfd OutputStrfbm gftOutputStrfbm() throws IOExdfption {
+        rfturn dflfgbtf.gftOutputStrfbm();
+    }
+
+    publid syndhronizfd InputStrfbm gftInputStrfbm() throws IOExdfption {
+        rfturn dflfgbtf.gftInputStrfbm();
+    }
+
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn dflfgbtf.gftErrorStrfbm();
+    }
+
+    /**
+     * Disdonnfdt from thf sfrvfr.
+     */
+    publid void disdonnfdt() {
+        dflfgbtf.disdonnfdt();
+    }
+
+    publid boolfbn usingProxy() {
+        rfturn dflfgbtf.usingProxy();
+    }
+
+    /**
+     * Rfturns bn unmodifibblf Mbp of thf hfbdfr fiflds.
+     * Thf Mbp kfys brf Strings thbt rfprfsfnt thf
+     * rfsponsf-hfbdfr fifld nbmfs. Ebdh Mbp vbluf is bn
+     * unmodifibblf List of Strings thbt rfprfsfnts
+     * thf dorrfsponding fifld vblufs.
+     *
+     * @rfturn b Mbp of hfbdfr fiflds
+     * @sindf 1.4
+     */
+    publid Mbp<String,List<String>> gftHfbdfrFiflds() {
+        rfturn dflfgbtf.gftHfbdfrFiflds();
+    }
+
+    /**
+     * Gfts b hfbdfr fifld by nbmf. Rfturns null if not known.
+     * @pbrbm nbmf thf nbmf of thf hfbdfr fifld
+     */
+    publid String gftHfbdfrFifld(String nbmf) {
+        rfturn dflfgbtf.gftHfbdfrFifld(nbmf);
+    }
+
+    /**
+     * Gfts b hfbdfr fifld by indfx. Rfturns null if not known.
+     * @pbrbm n thf indfx of thf hfbdfr fifld
+     */
+    publid String gftHfbdfrFifld(int n) {
+        rfturn dflfgbtf.gftHfbdfrFifld(n);
+    }
+
+    /**
+     * Gfts b hfbdfr fifld by indfx. Rfturns null if not known.
+     * @pbrbm n thf indfx of thf hfbdfr fifld
+     */
+    publid String gftHfbdfrFifldKfy(int n) {
+        rfturn dflfgbtf.gftHfbdfrFifldKfy(n);
+    }
+
+    /**
+     * Sfts rfqufst propfrty. If b propfrty with thf kfy blrfbdy
+     * fxists, ovfrwritf its vbluf with thf nfw vbluf.
+     * @pbrbm vbluf thf vbluf to bf sft
+     */
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        dflfgbtf.sftRfqufstPropfrty(kfy, vbluf);
+    }
+
+    /**
+     * Adds b gfnfrbl rfqufst propfrty spfdififd by b
+     * kfy-vbluf pbir.  This mfthod will not ovfrwritf
+     * fxisting vblufs bssodibtfd with thf sbmf kfy.
+     *
+     * @pbrbm   kfy     thf kfyword by whidh thf rfqufst is known
+     *                  (f.g., "<dodf>bddfpt</dodf>").
+     * @pbrbm   vbluf  thf vbluf bssodibtfd with it.
+     * @sff #gftRfqufstPropfrtifs(jbvb.lbng.String)
+     * @sindf 1.4
+     */
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        dflfgbtf.bddRfqufstPropfrty(kfy, vbluf);
+    }
+
+    /**
+     * Ovfrwritf supfr dlbss mfthod
+     */
+    publid int gftRfsponsfCodf() throws IOExdfption {
+        rfturn dflfgbtf.gftRfsponsfCodf();
+    }
+
+    publid String gftRfqufstPropfrty(String kfy) {
+        rfturn dflfgbtf.gftRfqufstPropfrty(kfy);
+    }
+
+    /**
+     * Rfturns bn unmodifibblf Mbp of gfnfrbl rfqufst
+     * propfrtifs for this donnfdtion. Thf Mbp kfys
+     * brf Strings thbt rfprfsfnt thf rfqufst-hfbdfr
+     * fifld nbmfs. Ebdh Mbp vbluf is b unmodifibblf List
+     * of Strings thbt rfprfsfnts thf dorrfsponding
+     * fifld vblufs.
+     *
+     * @rfturn  b Mbp of thf gfnfrbl rfqufst propfrtifs for this donnfdtion.
+     * @throws IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sindf 1.4
+     */
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        rfturn dflfgbtf.gftRfqufstPropfrtifs();
+    }
+
+    /*
+     * Wf support JDK 1.2.x so wf dbn't dount on thfsf from JDK 1.3.
+     * Wf ovfrridf bnd supply our own vfrsion.
+     */
+    publid void sftInstbndfFollowRfdirfdts(boolfbn shouldFollow) {
+        dflfgbtf.sftInstbndfFollowRfdirfdts(shouldFollow);
+    }
+
+    publid boolfbn gftInstbndfFollowRfdirfdts() {
+        rfturn dflfgbtf.gftInstbndfFollowRfdirfdts();
+    }
+
+    publid void sftRfqufstMfthod(String mfthod) throws ProtodolExdfption {
+        dflfgbtf.sftRfqufstMfthod(mfthod);
+    }
+
+    publid String gftRfqufstMfthod() {
+        rfturn dflfgbtf.gftRfqufstMfthod();
+    }
+
+    publid String gftRfsponsfMfssbgf() throws IOExdfption {
+        rfturn dflfgbtf.gftRfsponsfMfssbgf();
+    }
+
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldDbtf(nbmf, Dffbult);
+    }
+
+    publid Pfrmission gftPfrmission() throws IOExdfption {
+        rfturn dflfgbtf.gftPfrmission();
+    }
+
+    publid URL gftURL() {
+        rfturn dflfgbtf.gftURL();
+    }
+
+    publid int gftContfntLfngth() {
+        rfturn dflfgbtf.gftContfntLfngth();
+    }
+
+    publid long gftContfntLfngthLong() {
+        rfturn dflfgbtf.gftContfntLfngthLong();
+    }
+
+    publid String gftContfntTypf() {
+        rfturn dflfgbtf.gftContfntTypf();
+    }
+
+    publid String gftContfntEndoding() {
+        rfturn dflfgbtf.gftContfntEndoding();
+    }
+
+    publid long gftExpirbtion() {
+        rfturn dflfgbtf.gftExpirbtion();
+    }
+
+    publid long gftDbtf() {
+        rfturn dflfgbtf.gftDbtf();
+    }
+
+    publid long gftLbstModififd() {
+        rfturn dflfgbtf.gftLbstModififd();
+    }
+
+    publid int gftHfbdfrFifldInt(String nbmf, int Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldInt(nbmf, Dffbult);
+    }
+
+    publid long gftHfbdfrFifldLong(String nbmf, long Dffbult) {
+        rfturn dflfgbtf.gftHfbdfrFifldLong(nbmf, Dffbult);
+    }
+
+    publid Objfdt gftContfnt() throws IOExdfption {
+        rfturn dflfgbtf.gftContfnt();
+    }
+
+    @SupprfssWbrnings("rbwtypfs")
+    publid Objfdt gftContfnt(Clbss[] dlbssfs) throws IOExdfption {
+        rfturn dflfgbtf.gftContfnt(dlbssfs);
+    }
+
+    publid String toString() {
+        rfturn dflfgbtf.toString();
+    }
+
+    publid void sftDoInput(boolfbn doinput) {
+        dflfgbtf.sftDoInput(doinput);
+    }
+
+    publid boolfbn gftDoInput() {
+        rfturn dflfgbtf.gftDoInput();
+    }
+
+    publid void sftDoOutput(boolfbn dooutput) {
+        dflfgbtf.sftDoOutput(dooutput);
+    }
+
+    publid boolfbn gftDoOutput() {
+        rfturn dflfgbtf.gftDoOutput();
+    }
+
+    publid void sftAllowUsfrIntfrbdtion(boolfbn bllowusfrintfrbdtion) {
+        dflfgbtf.sftAllowUsfrIntfrbdtion(bllowusfrintfrbdtion);
+    }
+
+    publid boolfbn gftAllowUsfrIntfrbdtion() {
+        rfturn dflfgbtf.gftAllowUsfrIntfrbdtion();
+    }
+
+    publid void sftUsfCbdhfs(boolfbn usfdbdhfs) {
+        dflfgbtf.sftUsfCbdhfs(usfdbdhfs);
+    }
+
+    publid boolfbn gftUsfCbdhfs() {
+        rfturn dflfgbtf.gftUsfCbdhfs();
+    }
+
+    publid void sftIfModififdSindf(long ifmodififdsindf) {
+        dflfgbtf.sftIfModififdSindf(ifmodififdsindf);
+    }
+
+    publid long gftIfModififdSindf() {
+        rfturn dflfgbtf.gftIfModififdSindf();
+    }
+
+    publid boolfbn gftDffbultUsfCbdhfs() {
+        rfturn dflfgbtf.gftDffbultUsfCbdhfs();
+    }
+
+    publid void sftDffbultUsfCbdhfs(boolfbn dffbultusfdbdhfs) {
+        dflfgbtf.sftDffbultUsfCbdhfs(dffbultusfdbdhfs);
+    }
+
+    /*
+     * finblizf (disposf) thf dflfgbtfd objfdt.  Othfrwisf
+     * sun.nft.www.protodol.http.HttpURLConnfdtion's finblizf()
+     * would hbvf to bf mbdf publid.
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        dflfgbtf.disposf();
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn dflfgbtf.fqubls(obj);
+    }
+
+    publid int hbshCodf() {
+        rfturn dflfgbtf.hbshCodf();
+    }
+
+    publid void sftConnfdtTimfout(int timfout) {
+        dflfgbtf.sftConnfdtTimfout(timfout);
+    }
+
+    publid int gftConnfdtTimfout() {
+        rfturn dflfgbtf.gftConnfdtTimfout();
+    }
+
+    publid void sftRfbdTimfout(int timfout) {
+        dflfgbtf.sftRfbdTimfout(timfout);
+    }
+
+    publid int gftRfbdTimfout() {
+        rfturn dflfgbtf.gftRfbdTimfout();
+    }
+
+    publid void sftFixfdLfngthStrfbmingModf (int dontfntLfngth) {
+        dflfgbtf.sftFixfdLfngthStrfbmingModf(dontfntLfngth);
+    }
+
+    publid void sftFixfdLfngthStrfbmingModf(long dontfntLfngth) {
+        dflfgbtf.sftFixfdLfngthStrfbmingModf(dontfntLfngth);
+    }
+
+    publid void sftChunkfdStrfbmingModf (int dhunklfn) {
+        dflfgbtf.sftChunkfdStrfbmingModf(dhunklfn);
+    }
+}

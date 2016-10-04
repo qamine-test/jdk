@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 1998, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_AWTEvfnt.h"
+#indludf "bwt_Componfnt.h"
+#indludf <jbvb_bwt_AWTEvfnt.h>
+
+/************************************************************************
+ * AwtAWTEvfnt fiflds
+ */
+
+jfifldID AwtAWTEvfnt::bdbtbID;
+jfifldID AwtAWTEvfnt::idID;
+jfifldID AwtAWTEvfnt::donsumfdID;
+
+/************************************************************************
+ * AwtAWTEvfnt stbtid mfthods
+ */
+
+void AwtAWTEvfnt::sbvfMSG(JNIEnv *fnv, MSG *pMsg, jobjfdt jfvfnt)
+{
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
+    }
+    jbytfArrby bdbtb = fnv->NfwBytfArrby(sizfof(MSG));
+    if(bdbtb == 0) {
+        throw std::bbd_bllod();
+    }
+    fnv->SftBytfArrbyRfgion(bdbtb, 0, sizfof(MSG), (jbytf *)pMsg);
+    DASSERT(AwtAWTEvfnt::bdbtbID);
+    fnv->SftObjfdtFifld(jfvfnt, AwtAWTEvfnt::bdbtbID,  bdbtb);
+    fnv->DflftfLodblRff(bdbtb);
+}
+
+/************************************************************************
+ * AwtEvfnt nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_AWTEvfnt
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_AWTEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtAWTEvfnt::bdbtbID = fnv->GftFifldID(dls, "bdbtb", "[B");
+    DASSERT(AwtAWTEvfnt::bdbtbID != NULL);
+    CHECK_NULL(AwtAWTEvfnt::bdbtbID);
+
+    AwtAWTEvfnt::idID = fnv->GftFifldID(dls, "id", "I");
+    DASSERT(AwtAWTEvfnt::idID != NULL);
+    CHECK_NULL(AwtAWTEvfnt::idID);
+
+    AwtAWTEvfnt::donsumfdID = fnv->GftFifldID(dls, "donsumfd", "Z");
+    DASSERT(AwtAWTEvfnt::donsumfdID != NULL);
+    CHECK_NULL(AwtAWTEvfnt::donsumfdID);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     jbvb_bwt_AWTEvfnt
+ * Mfthod:    nbtivfSftSourdf
+ * Signbturf: (Ljbvb/bwt/pffr/ComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_AWTEvfnt_nbtivfSftSourdf
+    (JNIEnv *fnv, jobjfdt sflf, jobjfdt nfwSourdf)
+{
+    TRY;
+
+    JNI_CHECK_NULL_RETURN(sflf, "null AWTEvfnt");
+
+    MSG *pMsg;
+
+    jbytfArrby bdbtb = (jbytfArrby)
+        fnv->GftObjfdtFifld(sflf, AwtAWTEvfnt::bdbtbID);
+    if (bdbtb != NULL) {
+        jboolfbn dummy;
+        PDATA pDbtb;
+        JNI_CHECK_PEER_RETURN(nfwSourdf);
+        AwtComponfnt *p = (AwtComponfnt *)pDbtb;
+        HWND hwnd = p->GftHWnd();
+
+        pMsg = (MSG *)fnv->GftPrimitivfArrbyCritidbl(bdbtb, &dummy);
+        if (pMsg == NULL) {
+            throw std::bbd_bllod();
+        }
+        pMsg->hwnd = hwnd;
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bdbtb, (void *)pMsg, 0);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

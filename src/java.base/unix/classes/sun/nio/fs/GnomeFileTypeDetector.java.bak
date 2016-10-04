@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.Path;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.filf.Pbti;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * File type detector that uses the GNOME I/O library or the deprecated
- * GNOME VFS to guess the MIME type of a file.
+ * Filf typf dftfdtor tibt usfs tif GNOME I/O librbry or tif dfprfdbtfd
+ * GNOME VFS to gufss tif MIME typf of b filf.
  */
 
-public class GnomeFileTypeDetector
-    extends AbstractFileTypeDetector
+publid dlbss GnomfFilfTypfDftfdtor
+    fxtfnds AbstrbdtFilfTypfDftfdtor
 {
-    private static final String GNOME_VFS_MIME_TYPE_UNKNOWN =
-        "application/octet-stream";
+    privbtf stbtid finbl String GNOME_VFS_MIME_TYPE_UNKNOWN =
+        "bpplidbtion/odtft-strfbm";
 
-    // true if GIO available
-    private final boolean gioAvailable;
+    // truf if GIO bvbilbblf
+    privbtf finbl boolfbn gioAvbilbblf;
 
-    // true if GNOME VFS available and GIO is not available
-    private final boolean gnomeVfsAvailable;
+    // truf if GNOME VFS bvbilbblf bnd GIO is not bvbilbblf
+    privbtf finbl boolfbn gnomfVfsAvbilbblf;
 
-    public GnomeFileTypeDetector() {
-        gioAvailable = initializeGio();
-        if (gioAvailable) {
-            gnomeVfsAvailable = false;
-        } else {
-            gnomeVfsAvailable = initializeGnomeVfs();
+    publid GnomfFilfTypfDftfdtor() {
+        gioAvbilbblf = initiblizfGio();
+        if (gioAvbilbblf) {
+            gnomfVfsAvbilbblf = fblsf;
+        } flsf {
+            gnomfVfsAvbilbblf = initiblizfGnomfVfs();
         }
     }
 
-    @Override
-    public String implProbeContentType(Path obj) throws IOException {
-        if (!gioAvailable && !gnomeVfsAvailable)
-            return null;
-        if (!(obj instanceof UnixPath))
-            return null;
+    @Ovfrridf
+    publid String implProbfContfntTypf(Pbti obj) tirows IOExdfption {
+        if (!gioAvbilbblf && !gnomfVfsAvbilbblf)
+            rfturn null;
+        if (!(obj instbndfof UnixPbti))
+            rfturn null;
 
-        UnixPath path = (UnixPath)obj;
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path.getByteArrayForSysCalls());
+        UnixPbti pbti = (UnixPbti)obj;
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbti.gftBytfArrbyForSysCblls());
         try {
-            if (gioAvailable) {
-                // GIO may access file so need permission check
-                path.checkRead();
-                byte[] type = probeUsingGio(buffer.address());
-                return (type == null) ? null : Util.toString(type);
-            } else {
-                byte[] type = probeUsingGnomeVfs(buffer.address());
-                if (type == null)
-                    return null;
-                String s = Util.toString(type);
-                return s.equals(GNOME_VFS_MIME_TYPE_UNKNOWN) ? null : s;
+            if (gioAvbilbblf) {
+                // GIO mby bddfss filf so nffd pfrmission difdk
+                pbti.difdkRfbd();
+                bytf[] typf = probfUsingGio(bufffr.bddrfss());
+                rfturn (typf == null) ? null : Util.toString(typf);
+            } flsf {
+                bytf[] typf = probfUsingGnomfVfs(bufffr.bddrfss());
+                if (typf == null)
+                    rfturn null;
+                String s = Util.toString(typf);
+                rfturn s.fqubls(GNOME_VFS_MIME_TYPE_UNKNOWN) ? null : s;
             }
-        } finally {
-            buffer.release();
+        } finblly {
+            bufffr.rflfbsf();
         }
 
     }
 
     // GIO
-    private static native boolean initializeGio();
-    private static native byte[] probeUsingGio(long pathAddress);
+    privbtf stbtid nbtivf boolfbn initiblizfGio();
+    privbtf stbtid nbtivf bytf[] probfUsingGio(long pbtiAddrfss);
 
     // GNOME VFS
-    private static native boolean initializeGnomeVfs();
-    private static native byte[] probeUsingGnomeVfs(long pathAddress);
+    privbtf stbtid nbtivf boolfbn initiblizfGnomfVfs();
+    privbtf stbtid nbtivf bytf[] probfUsingGnomfVfs(long pbtiAddrfss);
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                System.loadLibrary("nio");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
         }});
     }
 }

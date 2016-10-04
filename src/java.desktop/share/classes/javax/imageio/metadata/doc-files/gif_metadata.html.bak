@@ -1,453 +1,453 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<title>GIF Metadata Format Specification</title>
-</head>
+<titlf>GIF Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-<center><h1>
-GIF Metadata Format Specification
-</h1></center>
+<dfntfr><i1>
+GIF Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
 
-<a name="gif_stream_metadata_format">
-<center><h2>
-GIF Stream Metadata Format Specification
-</h2></center>
-</a>
+<b nbmf="gif_strfbm_mftbdbtb_formbt">
+<dfntfr><i2>
+GIF Strfbm Mftbdbtb Formbt Spfdifidbtion
+</i2></dfntfr>
+</b>
 <p>
 
-The GIF stream metadata format encodes the information stored in the
-per-file header, namely the file version, logical screen descriptor,
-and the global color table.
-
-<p>
-
-The logical screen descriptor describes the overall width and height
-of an animated file, as well as information about the color resolution
-(number of bits per pixel) and pixel aspect ratio.
+Tif GIF strfbm mftbdbtb formbt fndodfs tif informbtion storfd in tif
+pfr-filf ifbdfr, nbmfly tif filf vfrsion, logidbl sdrffn dfsdriptor,
+bnd tif globbl dolor tbblf.
 
 <p>
 
-The global color table contains a color lookup table that is used for
-images that do not have their own local color table.
+Tif logidbl sdrffn dfsdriptor dfsdribfs tif ovfrbll widti bnd ifigit
+of bn bnimbtfd filf, bs wfll bs informbtion bbout tif dolor rfsolution
+(numbfr of bits pfr pixfl) bnd pixfl bspfdt rbtio.
 
-<pre>
-&lt;!DOCTYPE "javax_imageio_gif_stream_1.0" [
+<p>
 
-  &lt;!ELEMENT "javax_imageio_gif_stream_1.0" (Version?, 
-    LogicalScreenDescriptor?, GlobalColorTable?)&gt;
+Tif globbl dolor tbblf dontbins b dolor lookup tbblf tibt is usfd for
+imbgfs tibt do not ibvf tifir own lodbl dolor tbblf.
 
-    &lt;!ELEMENT "Version" EMPTY&gt;
-      &lt;!-- The file version, either 87a or 89a --&gt;
-      &lt;!ATTLIST "Version" "value" ("87a" | "89a") #REQUIRED&gt;
-        &lt;!-- The version string --&gt;
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_strfbm_1.0" [
 
-    &lt;!ELEMENT "LogicalScreenDescriptor" EMPTY&gt;
-      &lt;!-- The logical screen descriptor, except for the global color table --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "logicalScreenWidth" #CDATA
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_strfbm_1.0" (Vfrsion?, 
+    LogidblSdrffnDfsdriptor?, GlobblColorTbblf?)&gt;
+
+    &lt;!ELEMENT "Vfrsion" EMPTY&gt;
+      &lt;!-- Tif filf vfrsion, fitifr 87b or 89b --&gt;
+      &lt;!ATTLIST "Vfrsion" "vbluf" ("87b" | "89b") #REQUIRED&gt;
+        &lt;!-- Tif vfrsion string --&gt;
+
+    &lt;!ELEMENT "LogidblSdrffnDfsdriptor" EMPTY&gt;
+      &lt;!-- Tif logidbl sdrffn dfsdriptor, fxdfpt for tif globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnWidti" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The width in pixels of the whole picture --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "logicalScreenHeight" #CDATA
+        &lt;!-- Tif widti in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "logidblSdrffnHfigit" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The height in pixels of the whole picture --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "colorResolution" #CDATA
+        &lt;!-- Tif ifigit in pixfls of tif wiolf pidturf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "dolorRfsolution" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The number of bits of color resolution, beteen 1 and 8 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 8 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "pixelAspectRatio" #CDATA
+        &lt;!-- Tif numbfr of bits of dolor rfsolution, bftffn 1 bnd 8 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 8 (indlusivf) --&gt;
+      &lt;!ATTLIST "LogidblSdrffnDfsdriptor" "pixflAspfdtRbtio" #CDATA
          #REQUIRED&gt;
-        &lt;!-- If 0, indicates square pixels, else W/H = (value + 15)/64 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64 --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "GlobalColorTable" (ColorTableEntry)*&gt;
-      &lt;!-- The global color table --&gt;
-      &lt;!-- Min children: 2 --&gt;
-      &lt;!-- Max children: 256 --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "sizeOfGlobalColorTable" ("2" | 
+    &lt;!ELEMENT "GlobblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Tif globbl dolor tbblf --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "sizfOfGlobblColorTbblf" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- The number of entries in the global color table --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "backgroundColorIndex" #CDATA
+        &lt;!-- Tif numbfr of fntrifs in tif globbl dolor tbblf --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "bbdkgroundColorIndfx" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The index of the color table entry to be used as a background --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "sortFlag" ("TRUE" | "FALSE")
+        &lt;!-- Tif indfx of tif dolor tbblf fntry to bf usfd bs b bbdkground --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+      &lt;!ATTLIST "GlobblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the global color table is sorted by frequency --&gt;
+        &lt;!-- Truf if tif globbl dolor tbblf is sortfd by frfqufndy --&gt;
 
-      &lt;!ELEMENT "ColorTableEntry" EMPTY&gt;
-        &lt;!-- A global color table entry --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+        &lt;!-- A globbl dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 ]&gt;
-</pre>
-<a name="gif_image_metadata_format">
-<center><h2>
-GIF Image Metadata Format Specification
-</h2></center>
-</a>
+</prf>
+<b nbmf="gif_imbgf_mftbdbtb_formbt">
+<dfntfr><i2>
+GIF Imbgf Mftbdbtb Formbt Spfdifidbtion
+</i2></dfntfr>
+</b>
 <p>
 
-The GIF image metadata format encodes the image descriptor, local
-color table, and extension information assciated with a single image
-within a GIF file, typically a frame of an animation.
-
-<p>
-
-The image description contains the offset of the frame within the
-logical screen described in the stream metadata, as well as the width
-and height of the frame and whether it is used interlaced encoding.
+Tif GIF imbgf mftbdbtb formbt fndodfs tif imbgf dfsdriptor, lodbl
+dolor tbblf, bnd fxtfnsion informbtion bssdibtfd witi b singlf imbgf
+witiin b GIF filf, typidblly b frbmf of bn bnimbtion.
 
 <p>
 
-The local color table, if present, supersedes the global color table
-for the frame at hand.
+Tif imbgf dfsdription dontbins tif offsft of tif frbmf witiin tif
+logidbl sdrffn dfsdribfd in tif strfbm mftbdbtb, bs wfll bs tif widti
+bnd ifigit of tif frbmf bnd wiftifr it is usfd intfrlbdfd fndoding.
 
 <p>
 
-The graphic control extension contains information on how the frame is
-to be incorporated into the animation.  The disposal method indicates
-whether the current frame should remain in place
-(<code>doNotDispose</code>), be restored to the backgound color as
-specified in the stream metadata
-(<code>restoreToBackgroundColor</code>), or be restored to the
-previous frame contents (<code>restoreToPrevious</code>) prior to
-displaying the subsequent frame.
+Tif lodbl dolor tbblf, if prfsfnt, supfrsfdfs tif globbl dolor tbblf
+for tif frbmf bt ibnd.
 
 <p>
 
-The user input flag indicates whether the animation should pause for
-user input before advancing to the next frame.  The transparent color
-flag and index indicate a color index for which pixels of the frame
-should not be drawn.  The delay time indicates how long the frame
-should be displayed, in hundredths of a second.  If the user input
-flag is set and the delay time is 0, the frame is intended to be
-advanced only on user input.
+Tif grbpiid dontrol fxtfnsion dontbins informbtion on iow tif frbmf is
+to bf indorporbtfd into tif bnimbtion.  Tif disposbl mftiod indidbtfs
+wiftifr tif durrfnt frbmf siould rfmbin in plbdf
+(<dodf>doNotDisposf</dodf>), bf rfstorfd to tif bbdkgound dolor bs
+spfdififd in tif strfbm mftbdbtb
+(<dodf>rfstorfToBbdkgroundColor</dodf>), or bf rfstorfd to tif
+prfvious frbmf dontfnts (<dodf>rfstorfToPrfvious</dodf>) prior to
+displbying tif subsfqufnt frbmf.
 
-<pre>
-&lt;!DOCTYPE "javax_imageio_gif_image_1.0" [
+<p>
 
-  &lt;!ELEMENT "javax_imageio_gif_image_1.0" (ImageDescriptor?, 
-    LocalColorTable?, GraphicControlExtension?, PlainTextExtension?, 
-    ApplicationExtensions?, CommentExtensions?)&gt;
+Tif usfr input flbg indidbtfs wiftifr tif bnimbtion siould pbusf for
+usfr input bfforf bdvbnding to tif nfxt frbmf.  Tif trbnspbrfnt dolor
+flbg bnd indfx indidbtf b dolor indfx for wiidi pixfls of tif frbmf
+siould not bf drbwn.  Tif dflby timf indidbtfs iow long tif frbmf
+siould bf displbyfd, in iundrfdtis of b sfdond.  If tif usfr input
+flbg is sft bnd tif dflby timf is 0, tif frbmf is intfndfd to bf
+bdvbndfd only on usfr input.
 
-    &lt;!ELEMENT "ImageDescriptor" EMPTY&gt;
-      &lt;!-- The image descriptor --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageLeftPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- The X offset of the image relative to the screen origin --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageTopPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- The Y offset of the image relative to the screen origin --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageWidth" #CDATA #REQUIRED&gt;
-        &lt;!-- The width of the image --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageHeight" #CDATA #REQUIRED&gt;
-        &lt;!-- The height of the image --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "interlaceFlag" ("TRUE" | "FALSE")
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_gif_imbgf_1.0" [
+
+  &lt;!ELEMENT "jbvbx_imbgfio_gif_imbgf_1.0" (ImbgfDfsdriptor?, 
+    LodblColorTbblf?, GrbpiidControlExtfnsion?, PlbinTfxtExtfnsion?, 
+    ApplidbtionExtfnsions?, CommfntExtfnsions?)&gt;
+
+    &lt;!ELEMENT "ImbgfDfsdriptor" EMPTY&gt;
+      &lt;!-- Tif imbgf dfsdriptor --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfLfftPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif X offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfTopPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif Y offsft of tif imbgf rflbtivf to tif sdrffn origin --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfWidti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif widti of tif imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "imbgfHfigit" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif ifigit of tif imbgf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "ImbgfDfsdriptor" "intfrlbdfFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the image is stored using interlacing --&gt;
+        &lt;!-- Truf if tif imbgf is storfd using intfrlbding --&gt;
 
-    &lt;!ELEMENT "LocalColorTable" (ColorTableEntry)*&gt;
-      &lt;!-- The local color table --&gt;
-      &lt;!-- Min children: 2 --&gt;
-      &lt;!-- Max children: 256 --&gt;
-      &lt;!ATTLIST "LocalColorTable" "sizeOfLocalColorTable" ("2" | 
+    &lt;!ELEMENT "LodblColorTbblf" (ColorTbblfEntry)*&gt;
+      &lt;!-- Tif lodbl dolor tbblf --&gt;
+      &lt;!-- Min diildrfn: 2 --&gt;
+      &lt;!-- Mbx diildrfn: 256 --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sizfOfLodblColorTbblf" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- The number of entries in the local color table --&gt;
-      &lt;!ATTLIST "LocalColorTable" "sortFlag" ("TRUE" | "FALSE")
+        &lt;!-- Tif numbfr of fntrifs in tif lodbl dolor tbblf --&gt;
+      &lt;!ATTLIST "LodblColorTbblf" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the local color table is sorted by frequency --&gt;
+        &lt;!-- Truf if tif lodbl dolor tbblf is sortfd by frfqufndy --&gt;
 
-      &lt;!ELEMENT "ColorTableEntry" EMPTY&gt;
-        &lt;!-- A local color table entry --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "ColorTbblfEntry" EMPTY&gt;
+        &lt;!-- A lodbl dolor tbblf fntry --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "indfx" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif indfx of tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "rfd" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfd vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "grffn" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif grffn vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "ColorTbblfEntry" "bluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif bluf vbluf for tif dolor tbblf fntry --&gt;
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "GraphicControlExtension" EMPTY&gt;
-      &lt;!-- A graphic control extension --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "disposalMethod" ("none" | 
-        "doNotDispose" | "restoreToBackgroundColor" | 
-        "restoreToPrevious" | "undefinedDisposalMethod4" | 
-        "undefinedDisposalMethod5" | "undefinedDisposalMethod6" | 
-        "undefinedDisposalMethod7") #REQUIRED&gt;
-        &lt;!-- The disposal method for this frame --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "userInputFlag" ("TRUE" | 
+    &lt;!ELEMENT "GrbpiidControlExtfnsion" EMPTY&gt;
+      &lt;!-- A grbpiid dontrol fxtfnsion --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "disposblMftiod" ("nonf" | 
+        "doNotDisposf" | "rfstorfToBbdkgroundColor" | 
+        "rfstorfToPrfvious" | "undffinfdDisposblMftiod4" | 
+        "undffinfdDisposblMftiod5" | "undffinfdDisposblMftiod6" | 
+        "undffinfdDisposblMftiod7") #REQUIRED&gt;
+        &lt;!-- Tif disposbl mftiod for tiis frbmf --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "usfrInputFlbg" ("TRUE" | 
         "FALSE") #REQUIRED&gt;
-        &lt;!-- True if the frame should be advanced based on user input --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "transparentColorFlag" (
+        &lt;!-- Truf if tif frbmf siould bf bdvbndfd bbsfd on usfr input --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorFlbg" (
         "TRUE" | "FALSE") #REQUIRED&gt;
-        &lt;!-- True if a transparent color exists --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "delayTime" #CDATA #REQUIRED&gt;
-        &lt;!-- The time to delay between frames, in hundredths of a second --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "transparentColorIndex"
+        &lt;!-- Truf if b trbnspbrfnt dolor fxists --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "dflbyTimf" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif timf to dflby bftwffn frbmfs, in iundrfdtis of b sfdond --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "GrbpiidControlExtfnsion" "trbnspbrfntColorIndfx"
          #CDATA #REQUIRED&gt;
-        &lt;!-- The transparent color, if transparentColorFlag is true --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- Tif trbnspbrfnt dolor, if trbnspbrfntColorFlbg is truf --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "PlainTextExtension" EMPTY&gt;
-      &lt;!-- A plain text (text grid) extension --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridLeft" #CDATA #REQUIRED&gt;
-        &lt;!-- The X offset of the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridTop" #CDATA #REQUIRED&gt;
-        &lt;!-- The Y offset of the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridWidth" #CDATA #REQUIRED&gt;
-        &lt;!-- The number of columns in the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridHeight" #CDATA #REQUIRED&gt;
-        &lt;!-- The number of rows in the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "characterCellWidth" #CDATA
+    &lt;!ELEMENT "PlbinTfxtExtfnsion" EMPTY&gt;
+      &lt;!-- A plbin tfxt (tfxt grid) fxtfnsion --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridLfft" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif X offsft of tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridTop" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif Y offsft of tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridWidti" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of dolumns in tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtGridHfigit" #CDATA #REQUIRED&gt;
+        &lt;!-- Tif numbfr of rows in tif tfxt grid --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllWidti" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The width of a character cell --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "characterCellHeight" #CDATA
+        &lt;!-- Tif widti of b dibrbdtfr dfll --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "dibrbdtfrCfllHfigit" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The height of a character cell --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textForegroundColor" #CDATA
+        &lt;!-- Tif ifigit of b dibrbdtfr dfll --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtForfgroundColor" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The text foreground color index --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textBackgroundColor" #CDATA
+        &lt;!-- Tif tfxt forfground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+      &lt;!ATTLIST "PlbinTfxtExtfnsion" "tfxtBbdkgroundColor" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The text background color index --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- Tif tfxt bbdkground dolor indfx --&gt;
+        &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+        &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-    &lt;!ELEMENT "ApplicationExtensions" (ApplicationExtension)*&gt;
-      &lt;!-- A set of application extensions --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+    &lt;!ELEMENT "ApplidbtionExtfnsions" (ApplidbtionExtfnsion)*&gt;
+      &lt;!-- A sft of bpplidbtion fxtfnsions --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
-      &lt;!ELEMENT "ApplicationExtension" EMPTY&gt;
-        &lt;!-- An application extension --&gt;
-        &lt;!-- User object: array of byte --&gt;
-        &lt;!-- Min length: 0 --&gt;
-        &lt;!-- Max length: 2147483647 --&gt;
-        &lt;!ATTLIST "ApplicationExtension" "applicationID" #CDATA
+      &lt;!ELEMENT "ApplidbtionExtfnsion" EMPTY&gt;
+        &lt;!-- An bpplidbtion fxtfnsion --&gt;
+        &lt;!-- Usfr objfdt: brrby of bytf --&gt;
+        &lt;!-- Min lfngti: 0 --&gt;
+        &lt;!-- Mbx lfngti: 2147483647 --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "bpplidbtionID" #CDATA
            #REQUIRED&gt;
-          &lt;!-- The application ID --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "ApplicationExtension" "authenticationCode" #CDATA
+          &lt;!-- Tif bpplidbtion ID --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
+        &lt;!ATTLIST "ApplidbtionExtfnsion" "butifntidbtionCodf" #CDATA
            #REQUIRED&gt;
-          &lt;!-- The authentication code --&gt;
-          &lt;!-- Data type: String --&gt;
+          &lt;!-- Tif butifntidbtion dodf --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 
-    &lt;!ELEMENT "CommentExtensions" (CommentExtension)*&gt;
-      &lt;!-- A set of comments --&gt;
-      &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+    &lt;!ELEMENT "CommfntExtfnsions" (CommfntExtfnsion)*&gt;
+      &lt;!-- A sft of dommfnts --&gt;
+      &lt;!-- Min diildrfn: 1 --&gt;
+      &lt;!-- Mbx diildrfn: 2147483647 --&gt;
 
-      &lt;!ELEMENT "CommentExtension" EMPTY&gt;
-        &lt;!-- A comment --&gt;
-        &lt;!ATTLIST "CommentExtension" "value" #CDATA #REQUIRED&gt;
-          &lt;!-- The comment --&gt;
-          &lt;!-- Data type: String --&gt;
+      &lt;!ELEMENT "CommfntExtfnsion" EMPTY&gt;
+        &lt;!-- A dommfnt --&gt;
+        &lt;!ATTLIST "CommfntExtfnsion" "vbluf" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif dommfnt --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 ]&gt;
-</pre>
+</prf>
 
 <p>
-<a name="mapping">
-<center>
-<table border=1>
-<caption><b>Mapping of Standard to GIF Native Stream Metadata</b></caption>
+<b nbmf="mbpping">
+<dfntfr>
+<tbblf bordfr=1>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Strfbm Mftbdbtb</b></dbption>
 <tr>
-<th>Standard Metadata Component</th>
-<th>GIF Native Stream Metadata Component</th>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Strfbm Mftbdbtb Componfnt</ti>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@index</td>
-<td>/GlobalColorTable/ColorTableEntry@index</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@indfx</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@red</td>
-<td>/GlobalColorTable/ColorTableEntry@red</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@rfd</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@green</td>
-<td>/GlobalColorTable/ColorTableEntry@green</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@grffn</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@blue</td>
-<td>/GlobalColorTable/ColorTableEntry@blue</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/GlobblColorTbblf/ColorTbblfEntry@bluf</td>
 </tr>
 <tr>
-<td>/Chroma/BackgroundIndex@value</td>
-<td>/GlobalColorTable@backgroundColorIndex</td>
+<td>/Ciromb/BbdkgroundIndfx@vbluf</td>
+<td>/GlobblColorTbblf@bbdkgroundColorIndfx</td>
 </tr>
 <tr>
-<td>/Data/BitsPerSample@value</td>
-<td>/LogicalScreenDescriptor@colorResolution</td>
+<td>/Dbtb/BitsPfrSbmplf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@dolorRfsolution</td>
 </tr>
 <tr>
-<td>/Dimension/PixelAspectRatio@value</td>
-<td>/LogicalScreenDescriptor@pixelAspectRatio</td>
+<td>/Dimfnsion/PixflAspfdtRbtio@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@pixflAspfdtRbtio</td>
 </tr>
 <tr>
-<td>/Dimension/HorizontalScreenSize@value</td>
-<td>/LogicalScreenDescriptor@logicalScreenWidth</td>
+<td>/Dimfnsion/HorizontblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnWidti</td>
 </tr>
 <tr>
-<td>/Dimension/VerticalScreenSize@value</td>
-<td>/LogicalScreenDescriptor@logicalScreenHeight</td>
+<td>/Dimfnsion/VfrtidblSdrffnSizf@vbluf</td>
+<td>/LogidblSdrffnDfsdriptor@logidblSdrffnHfigit</td>
 </tr>
 <tr>
-<td>/Document/FormatVersion@value</td>
-<td>/Version@value</td>
+<td>/Dodumfnt/FormbtVfrsion@vbluf</td>
+<td>/Vfrsion@vbluf</td>
 </tr>
-</table>
-</center>
+</tbblf>
+</dfntfr>
 </p>
 
 <p>
-<center>
-<table border=1>
-<caption><b>Mapping of Standard to GIF Native Image Metadata</b></caption>
+<dfntfr>
+<tbblf bordfr=1>
+<dbption><b>Mbpping of Stbndbrd to GIF Nbtivf Imbgf Mftbdbtb</b></dbption>
 <tr>
-<th>Standard Metadata Component</th>
-<th>GIF Native Image Metadata Component</th>
+<ti>Stbndbrd Mftbdbtb Componfnt</ti>
+<ti>GIF Nbtivf Imbgf Mftbdbtb Componfnt</ti>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@index</td>
-<td>/LocalColorTable/ColorTableEntry@index</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@indfx</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@indfx</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@red</td>
-<td>/LocalColorTable/ColorTableEntry@red</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@rfd</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@rfd</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@green</td>
-<td>/LocalColorTable/ColorTableEntry@green</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@grffn</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@grffn</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@blue</td>
-<td>/LocalColorTable/ColorTableEntry@blue</td>
+<td>/Ciromb/Pblfttf/PblfttfEntry@bluf</td>
+<td>/LodblColorTbblf/ColorTbblfEntry@bluf</td>
 </tr>
 <tr>
-<td>/Dimension/HorizontalPixelOffset@value</td>
-<td>/ImageDescriptor@imageLeftPosition</td>
+<td>/Dimfnsion/HorizontblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfLfftPosition</td>
 </tr>
 <tr>
-<td>/Dimension/VerticalPixelOffset@value</td>
-<td>/ImageDescriptor@imageTopPosition</td>
+<td>/Dimfnsion/VfrtidblPixflOffsft@vbluf</td>
+<td>/ImbgfDfsdriptor@imbgfTopPosition</td>
 </tr>
 <tr>
-<td>/Text/TextEntry@value</td>
-<td>/CommentExtensions/CommentExtension@value</td>
+<td>/Tfxt/TfxtEntry@vbluf</td>
+<td>/CommfntExtfnsions/CommfntExtfnsion@vbluf</td>
 </tr>
 <tr>
-<td>/Transparency/TransparentIndex@value</td>
-<td>/GraphicControlExtension@transparentColorIndex
-(/GraphicControlExtension@transparentColorFlag is also set to
+<td>/Trbnspbrfndy/TrbnspbrfntIndfx@vbluf</td>
+<td>/GrbpiidControlExtfnsion@trbnspbrfntColorIndfx
+(/GrbpiidControlExtfnsion@trbnspbrfntColorFlbg is blso sft to
 "TRUE")</td>
 </tr>
-</table>
-</center>
+</tbblf>
+</dfntfr>
 
 </body>
-</html>
+</itml>

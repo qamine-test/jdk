@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.util.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.lbng.rff.*;
 
-import javax.smartcardio.*;
-import static javax.smartcardio.CardTerminals.State.*;
+import jbvbx.smbrtdbrdio.*;
+import stbtid jbvbx.smbrtdbrdio.CbrdTfrminbls.Stbtf.*;
 
-import static sun.security.smartcardio.PCSC.*;
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
 
 /**
- * TerminalFactorySpi implementation class.
+ * TfrminblFbdtorySpi implfmfntbtion dlbss.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class PCSCTerminals extends CardTerminals {
+finbl dlbss PCSCTfrminbls fxtfnds CbrdTfrminbls {
 
-    // SCARDCONTEXT, currently shared between all threads/terminals
-    private static long contextId;
+    // SCARDCONTEXT, durrfntly sibrfd bftwffn bll tirfbds/tfrminbls
+    privbtf stbtid long dontfxtId;
 
-    // terminal state used by waitForCard()
-    private Map<String,ReaderState> stateMap;
+    // tfrminbl stbtf usfd by wbitForCbrd()
+    privbtf Mbp<String,RfbdfrStbtf> stbtfMbp;
 
-    PCSCTerminals() {
-        // empty
+    PCSCTfrminbls() {
+        // fmpty
     }
 
-    static synchronized void initContext() throws PCSCException {
-        if (contextId == 0) {
-            contextId = SCardEstablishContext(SCARD_SCOPE_USER);
+    stbtid syndironizfd void initContfxt() tirows PCSCExdfption {
+        if (dontfxtId == 0) {
+            dontfxtId = SCbrdEstbblisiContfxt(SCARD_SCOPE_USER);
         }
     }
 
-    private static final Map<String,Reference<TerminalImpl>> terminals
-        = new HashMap<String,Reference<TerminalImpl>>();
+    privbtf stbtid finbl Mbp<String,Rfffrfndf<TfrminblImpl>> tfrminbls
+        = nfw HbsiMbp<String,Rfffrfndf<TfrminblImpl>>();
 
-    private static synchronized TerminalImpl implGetTerminal(String name) {
-        Reference<TerminalImpl> ref = terminals.get(name);
-        TerminalImpl terminal = (ref != null) ? ref.get() : null;
-        if (terminal != null) {
-            return terminal;
+    privbtf stbtid syndironizfd TfrminblImpl implGftTfrminbl(String nbmf) {
+        Rfffrfndf<TfrminblImpl> rff = tfrminbls.gft(nbmf);
+        TfrminblImpl tfrminbl = (rff != null) ? rff.gft() : null;
+        if (tfrminbl != null) {
+            rfturn tfrminbl;
         }
-        terminal = new TerminalImpl(contextId, name);
-        terminals.put(name, new WeakReference<TerminalImpl>(terminal));
-        return terminal;
+        tfrminbl = nfw TfrminblImpl(dontfxtId, nbmf);
+        tfrminbls.put(nbmf, nfw WfbkRfffrfndf<TfrminblImpl>(tfrminbl));
+        rfturn tfrminbl;
 
     }
 
-    public synchronized List<CardTerminal> list(State state) throws CardException {
-        if (state == null) {
-            throw new NullPointerException();
+    publid syndironizfd List<CbrdTfrminbl> list(Stbtf stbtf) tirows CbrdExdfption {
+        if (stbtf == null) {
+            tirow nfw NullPointfrExdfption();
         }
         try {
-            String[] readerNames = SCardListReaders(contextId);
-            List<CardTerminal> list = new ArrayList<CardTerminal>(readerNames.length);
-            if (stateMap == null) {
-                // If waitForChange() has never been called, treat event
-                // queries as status queries.
-                if (state == CARD_INSERTION) {
-                    state = CARD_PRESENT;
-                } else if (state == CARD_REMOVAL) {
-                    state = CARD_ABSENT;
+            String[] rfbdfrNbmfs = SCbrdListRfbdfrs(dontfxtId);
+            List<CbrdTfrminbl> list = nfw ArrbyList<CbrdTfrminbl>(rfbdfrNbmfs.lfngti);
+            if (stbtfMbp == null) {
+                // If wbitForCibngf() ibs nfvfr bffn dbllfd, trfbt fvfnt
+                // qufrifs bs stbtus qufrifs.
+                if (stbtf == CARD_INSERTION) {
+                    stbtf = CARD_PRESENT;
+                } flsf if (stbtf == CARD_REMOVAL) {
+                    stbtf = CARD_ABSENT;
                 }
             }
-            for (String readerName : readerNames) {
-                CardTerminal terminal = implGetTerminal(readerName);
-                ReaderState readerState;
-                switch (state) {
-                case ALL:
-                    list.add(terminal);
-                    break;
-                case CARD_PRESENT:
-                    if (terminal.isCardPresent()) {
-                        list.add(terminal);
+            for (String rfbdfrNbmf : rfbdfrNbmfs) {
+                CbrdTfrminbl tfrminbl = implGftTfrminbl(rfbdfrNbmf);
+                RfbdfrStbtf rfbdfrStbtf;
+                switdi (stbtf) {
+                dbsf ALL:
+                    list.bdd(tfrminbl);
+                    brfbk;
+                dbsf CARD_PRESENT:
+                    if (tfrminbl.isCbrdPrfsfnt()) {
+                        list.bdd(tfrminbl);
                     }
-                    break;
-                case CARD_ABSENT:
-                    if (terminal.isCardPresent() == false) {
-                        list.add(terminal);
+                    brfbk;
+                dbsf CARD_ABSENT:
+                    if (tfrminbl.isCbrdPrfsfnt() == fblsf) {
+                        list.bdd(tfrminbl);
                     }
-                    break;
-                case CARD_INSERTION:
-                    readerState = stateMap.get(readerName);
-                    if ((readerState != null) && readerState.isInsertion()) {
-                        list.add(terminal);
+                    brfbk;
+                dbsf CARD_INSERTION:
+                    rfbdfrStbtf = stbtfMbp.gft(rfbdfrNbmf);
+                    if ((rfbdfrStbtf != null) && rfbdfrStbtf.isInsfrtion()) {
+                        list.bdd(tfrminbl);
                     }
-                    break;
-                case CARD_REMOVAL:
-                    readerState = stateMap.get(readerName);
-                    if ((readerState != null) && readerState.isRemoval()) {
-                        list.add(terminal);
+                    brfbk;
+                dbsf CARD_REMOVAL:
+                    rfbdfrStbtf = stbtfMbp.gft(rfbdfrNbmf);
+                    if ((rfbdfrStbtf != null) && rfbdfrStbtf.isRfmovbl()) {
+                        list.bdd(tfrminbl);
                     }
-                    break;
-                default:
-                    throw new CardException("Unknown state: " + state);
+                    brfbk;
+                dffbult:
+                    tirow nfw CbrdExdfption("Unknown stbtf: " + stbtf);
                 }
             }
-            return Collections.unmodifiableList(list);
-        } catch (PCSCException e) {
-            throw new CardException("list() failed", e);
+            rfturn Collfdtions.unmodifibblfList(list);
+        } dbtdi (PCSCExdfption f) {
+            tirow nfw CbrdExdfption("list() fbilfd", f);
         }
     }
 
-    private static class ReaderState {
-        private int current, previous;
-        ReaderState() {
-            current = SCARD_STATE_UNAWARE;
-            previous = SCARD_STATE_UNAWARE;
+    privbtf stbtid dlbss RfbdfrStbtf {
+        privbtf int durrfnt, prfvious;
+        RfbdfrStbtf() {
+            durrfnt = SCARD_STATE_UNAWARE;
+            prfvious = SCARD_STATE_UNAWARE;
         }
-        int get() {
-            return current;
+        int gft() {
+            rfturn durrfnt;
         }
-        void update(int newState) {
-            previous = current;
-            current = newState;
+        void updbtf(int nfwStbtf) {
+            prfvious = durrfnt;
+            durrfnt = nfwStbtf;
         }
-        boolean isInsertion() {
-            return !present(previous) && present(current);
+        boolfbn isInsfrtion() {
+            rfturn !prfsfnt(prfvious) && prfsfnt(durrfnt);
         }
-        boolean isRemoval() {
-            return present(previous) && !present(current);
+        boolfbn isRfmovbl() {
+            rfturn prfsfnt(prfvious) && !prfsfnt(durrfnt);
         }
-        static boolean present(int state) {
-            return (state & SCARD_STATE_PRESENT) != 0;
+        stbtid boolfbn prfsfnt(int stbtf) {
+            rfturn (stbtf & SCARD_STATE_PRESENT) != 0;
         }
     }
 
-    public synchronized boolean waitForChange(long timeout) throws CardException {
-        if (timeout < 0) {
-            throw new IllegalArgumentException
-                ("Timeout must not be negative: " + timeout);
+    publid syndironizfd boolfbn wbitForCibngf(long timfout) tirows CbrdExdfption {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Timfout must not bf nfgbtivf: " + timfout);
         }
-        if (stateMap == null) {
-            // We need to initialize the state database.
-            // Do that with a recursive call, which will return immediately
-            // because we pass SCARD_STATE_UNAWARE.
-            // After that, proceed with the real call.
-            stateMap = new HashMap<String,ReaderState>();
-            waitForChange(0);
+        if (stbtfMbp == null) {
+            // Wf nffd to initiblizf tif stbtf dbtbbbsf.
+            // Do tibt witi b rfdursivf dbll, wiidi will rfturn immfdibtfly
+            // bfdbusf wf pbss SCARD_STATE_UNAWARE.
+            // Aftfr tibt, prodffd witi tif rfbl dbll.
+            stbtfMbp = nfw HbsiMbp<String,RfbdfrStbtf>();
+            wbitForCibngf(0);
         }
-        if (timeout == 0) {
-            timeout = TIMEOUT_INFINITE;
+        if (timfout == 0) {
+            timfout = TIMEOUT_INFINITE;
         }
         try {
-            String[] readerNames = SCardListReaders(contextId);
-            int n = readerNames.length;
+            String[] rfbdfrNbmfs = SCbrdListRfbdfrs(dontfxtId);
+            int n = rfbdfrNbmfs.lfngti;
             if (n == 0) {
-                throw new IllegalStateException("No terminals available");
+                tirow nfw IllfgblStbtfExdfption("No tfrminbls bvbilbblf");
             }
-            int[] status = new int[n];
-            ReaderState[] readerStates = new ReaderState[n];
-            for (int i = 0; i < readerNames.length; i++) {
-                String name = readerNames[i];
-                ReaderState state = stateMap.get(name);
-                if (state == null) {
-                    state = new ReaderState();
+            int[] stbtus = nfw int[n];
+            RfbdfrStbtf[] rfbdfrStbtfs = nfw RfbdfrStbtf[n];
+            for (int i = 0; i < rfbdfrNbmfs.lfngti; i++) {
+                String nbmf = rfbdfrNbmfs[i];
+                RfbdfrStbtf stbtf = stbtfMbp.gft(nbmf);
+                if (stbtf == null) {
+                    stbtf = nfw RfbdfrStbtf();
                 }
-                readerStates[i] = state;
-                status[i] = state.get();
+                rfbdfrStbtfs[i] = stbtf;
+                stbtus[i] = stbtf.gft();
             }
-            status = SCardGetStatusChange(contextId, timeout, status, readerNames);
-            stateMap.clear(); // remove any readers that are no longer available
+            stbtus = SCbrdGftStbtusCibngf(dontfxtId, timfout, stbtus, rfbdfrNbmfs);
+            stbtfMbp.dlfbr(); // rfmovf bny rfbdfrs tibt brf no longfr bvbilbblf
             for (int i = 0; i < n; i++) {
-                ReaderState state = readerStates[i];
-                state.update(status[i]);
-                stateMap.put(readerNames[i], state);
+                RfbdfrStbtf stbtf = rfbdfrStbtfs[i];
+                stbtf.updbtf(stbtus[i]);
+                stbtfMbp.put(rfbdfrNbmfs[i], stbtf);
             }
-            return true;
-        } catch (PCSCException e) {
-            if (e.code == SCARD_E_TIMEOUT) {
-                return false;
-            } else {
-                throw new CardException("waitForChange() failed", e);
+            rfturn truf;
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_E_TIMEOUT) {
+                rfturn fblsf;
+            } flsf {
+                tirow nfw CbrdExdfption("wbitForCibngf() fbilfd", f);
             }
         }
     }
 
-    static List<CardTerminal> waitForCards(List<? extends CardTerminal> terminals,
-            long timeout, boolean wantPresent) throws CardException {
-        // the argument sanity checks are performed in
-        // javax.smartcardio.TerminalFactory or TerminalImpl
+    stbtid List<CbrdTfrminbl> wbitForCbrds(List<? fxtfnds CbrdTfrminbl> tfrminbls,
+            long timfout, boolfbn wbntPrfsfnt) tirows CbrdExdfption {
+        // tif brgumfnt sbnity difdks brf pfrformfd in
+        // jbvbx.smbrtdbrdio.TfrminblFbdtory or TfrminblImpl
 
-        long thisTimeout;
-        if (timeout == 0) {
-            timeout = TIMEOUT_INFINITE;
-            thisTimeout = TIMEOUT_INFINITE;
-        } else {
-            // if timeout is not infinite, do the initial call that retrieves
-            // the status with a 0 timeout. Otherwise, we might get incorrect
-            // timeout exceptions (seen on Solaris with PC/SC shim)
-            thisTimeout = 0;
+        long tiisTimfout;
+        if (timfout == 0) {
+            timfout = TIMEOUT_INFINITE;
+            tiisTimfout = TIMEOUT_INFINITE;
+        } flsf {
+            // if timfout is not infinitf, do tif initibl dbll tibt rftrifvfs
+            // tif stbtus witi b 0 timfout. Otifrwisf, wf migit gft indorrfdt
+            // timfout fxdfptions (sffn on Solbris witi PC/SC siim)
+            tiisTimfout = 0;
         }
 
-        String[] names = new String[terminals.size()];
+        String[] nbmfs = nfw String[tfrminbls.sizf()];
         int i = 0;
-        for (CardTerminal terminal : terminals) {
-            if (terminal instanceof TerminalImpl == false) {
-                throw new IllegalArgumentException
-                    ("Invalid terminal type: " + terminal.getClass().getName());
+        for (CbrdTfrminbl tfrminbl : tfrminbls) {
+            if (tfrminbl instbndfof TfrminblImpl == fblsf) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("Invblid tfrminbl typf: " + tfrminbl.gftClbss().gftNbmf());
             }
-            TerminalImpl impl = (TerminalImpl)terminal;
-            names[i++] = impl.name;
+            TfrminblImpl impl = (TfrminblImpl)tfrminbl;
+            nbmfs[i++] = impl.nbmf;
         }
 
-        int[] status = new int[names.length];
-        Arrays.fill(status, SCARD_STATE_UNAWARE);
+        int[] stbtus = nfw int[nbmfs.lfngti];
+        Arrbys.fill(stbtus, SCARD_STATE_UNAWARE);
 
         try {
-            while (true) {
-                // note that we pass "timeout" on each native PC/SC call
-                // that means that if we end up making multiple (more than 2)
-                // calls, we might wait too long.
-                // for now assume that is unlikely and not a problem.
-                status = SCardGetStatusChange(contextId, thisTimeout, status, names);
-                thisTimeout = timeout;
+            wiilf (truf) {
+                // notf tibt wf pbss "timfout" on fbdi nbtivf PC/SC dbll
+                // tibt mfbns tibt if wf fnd up mbking multiplf (morf tibn 2)
+                // dblls, wf migit wbit too long.
+                // for now bssumf tibt is unlikfly bnd not b problfm.
+                stbtus = SCbrdGftStbtusCibngf(dontfxtId, tiisTimfout, stbtus, nbmfs);
+                tiisTimfout = timfout;
 
-                List<CardTerminal> results = null;
-                for (i = 0; i < names.length; i++) {
-                    boolean nowPresent = (status[i] & SCARD_STATE_PRESENT) != 0;
-                    if (nowPresent == wantPresent) {
-                        if (results == null) {
-                            results = new ArrayList<CardTerminal>();
+                List<CbrdTfrminbl> rfsults = null;
+                for (i = 0; i < nbmfs.lfngti; i++) {
+                    boolfbn nowPrfsfnt = (stbtus[i] & SCARD_STATE_PRESENT) != 0;
+                    if (nowPrfsfnt == wbntPrfsfnt) {
+                        if (rfsults == null) {
+                            rfsults = nfw ArrbyList<CbrdTfrminbl>();
                         }
-                        results.add(implGetTerminal(names[i]));
+                        rfsults.bdd(implGftTfrminbl(nbmfs[i]));
                     }
                 }
 
-                if (results != null) {
-                    return Collections.unmodifiableList(results);
+                if (rfsults != null) {
+                    rfturn Collfdtions.unmodifibblfList(rfsults);
                 }
             }
-        } catch (PCSCException e) {
-            if (e.code == SCARD_E_TIMEOUT) {
-                return Collections.emptyList();
-            } else {
-                throw new CardException("waitForCard() failed", e);
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_E_TIMEOUT) {
+                rfturn Collfdtions.fmptyList();
+            } flsf {
+                tirow nfw CbrdExdfption("wbitForCbrd() fbilfd", f);
             }
         }
     }

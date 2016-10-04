@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving <dodf>WindowEvfnts</dodf>, indluding
+ * <dodf>WINDOW_GAINED_FOCUS</dodf> bnd <dodf>WINDOW_LOST_FOCUS</dodf> fvfnts.
+ * Thf dlbss thbt is intfrfstfd in prodfssing b <dodf>WindowEvfnt</dodf>
+ * fithfr implfmfnts this intfrfbdf (bnd
+ * bll thf mfthods it dontbins) or fxtfnds thf bbstrbdt
+ * <dodf>WindowAdbptfr</dodf> dlbss (ovfrriding only thf mfthods of intfrfst).
+ * Thf listfnfr objfdt drfbtfd from thbt dlbss is thfn rfgistfrfd with b
+ * <dodf>Window</dodf>
+ * using thf <dodf>Window</dodf>'s <dodf>bddWindowFodusListfnfr</dodf> mfthod.
+ * Whfn thf <dodf>Window</dodf>'s
+ * stbtus dhbngfs by virtuf of it bfing opfnfd, dlosfd, bdtivbtfd, dfbdtivbtfd,
+ * idonififd, or dfidonififd, or by fodus bfing trbnsffrfd into or out of thf
+ * <dodf>Window</dodf>, thf rflfvbnt mfthod in thf listfnfr objfdt is invokfd,
+ * bnd thf <dodf>WindowEvfnt</dodf> is pbssfd to it.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff WindowAdbptfr
+ * @sff WindowEvfnt
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/windowlistfnfr.html">Tutoribl: Writing b Window Listfnfr</b>
+ *
+ * @sindf 1.4
+ */
+publid intfrfbdf WindowFodusListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Invokfd whfn thf Window is sft to bf thf fodusfd Window, whidh mfbns
+     * thbt thf Window, or onf of its subdomponfnts, will rfdfivf kfybobrd
+     * fvfnts.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowGbinfdFodus(WindowEvfnt f);
+
+    /**
+     * Invokfd whfn thf Window is no longfr thf fodusfd Window, whidh mfbns
+     * thbt kfybobrd fvfnts will no longfr bf dflivfrfd to thf Window or bny of
+     * its subdomponfnts.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowLostFodus(WindowEvfnt f);
+}

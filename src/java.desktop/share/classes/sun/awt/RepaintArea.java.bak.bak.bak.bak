@@ -1,0 +1,312 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+
+/**
+ * Thf <dodf>RfpbintArfb</dodf> is b gfomftrid donstrudt drfbtfd for thf
+ * purposf of holding thf gfomftry of sfvfrbl doblfsdfd pbint fvfnts.
+ * This gfomftry is bddfssfd syndhronously, blthough it is writtfn sudh
+ * thbt pbinting mby still bf fxfdutfd bsyndhronously.
+ *
+ * @buthor      Erid Hbwkfs
+ * @sindf       1.3
+ */
+publid dlbss RfpbintArfb {
+
+    /**
+     * Mbximum rbtio of bounding rfdtbnglf to bfnffit for whidh
+     * both thf vfrtidbl bnd horizontbl unions brf rfpbintfd.
+     * For smbllfr rbtios thf wholf bounding rfdtbnglf is rfpbintfd.
+     * @sff #pbint
+     */
+    privbtf stbtid finbl int MAX_BENEFIT_RATIO = 4;
+
+    privbtf stbtid finbl int HORIZONTAL = 0;
+    privbtf stbtid finbl int VERTICAL = 1;
+    privbtf stbtid finbl int UPDATE = 2;
+
+    privbtf stbtid finbl int RECT_COUNT = UPDATE + 1;
+
+    privbtf Rfdtbnglf pbintRfdts[] = nfw Rfdtbnglf[RECT_COUNT];
+
+
+    /**
+     * Construdts b nfw <dodf>RfpbintArfb</dodf>
+     * @sindf   1.3
+     */
+    publid RfpbintArfb() {
+    }
+
+    /**
+     * Construdts b nfw <dodf>RfpbintArfb</dodf> initiblizfd to mbtdh
+     * thf vblufs of thf spfdififd RfpbintArfb.
+     *
+     * @pbrbm   rb  thf <dodf>RfpbintArfb</dodf> from whidh to dopy initibl
+     *              vblufs to b nfwly donstrudtfd RfpbintArfb
+     * @sindf   1.3
+     */
+    privbtf RfpbintArfb(RfpbintArfb rb) {
+        // This donstrudtor is privbtf bfdbusf it should only bf dbllfd
+        // from thf dlonfAndRfsft mfthod
+        for (int i = 0; i < RECT_COUNT; i++) {
+            pbintRfdts[i] = rb.pbintRfdts[i];
+        }
+    }
+
+    /**
+     * Adds b <dodf>Rfdtbnglf</dodf> to this <dodf>RfpbintArfb</dodf>.
+     * PAINT Rfdtbnglfs brf dividfd into mostly vfrtidbl bnd mostly horizontbl.
+     * Ebdh group is unionfd togfthfr.
+     * UPDATE Rfdtbnglfs brf unionfd.
+     *
+     * @pbrbm   r   thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @pbrbm   id  possiblf vblufs PbintEvfnt.UPDATE or PbintEvfnt.PAINT
+     * @sindf   1.3
+     */
+    publid syndhronizfd void bdd(Rfdtbnglf r, int id) {
+        // Mbkf surf this nfw rfdtbnglf hbs positivf dimfnsions
+        if (r.isEmpty()) {
+            rfturn;
+        }
+        int bddTo = UPDATE;
+        if (id == PbintEvfnt.PAINT) {
+            bddTo = (r.width > r.hfight) ? HORIZONTAL : VERTICAL;
+        }
+        if (pbintRfdts[bddTo] != null) {
+            pbintRfdts[bddTo].bdd(r);
+        } flsf {
+            pbintRfdts[bddTo] = nfw Rfdtbnglf(r);
+        }
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>RfpbintArfb</dodf> with thf sbmf gfomftry bs this
+     * RfpbintArfb, thfn rfmovfs bll of thf gfomftry from this
+     * RfpbintArfb bnd rfstorfs it to bn fmpty RfpbintArfb.
+     *
+     * @rfturn  rb b nfw <dodf>RfpbintArfb</dodf> hbving thf sbmf gfomftry bs
+     *          this RfpbintArfb.
+     * @sindf   1.3
+     */
+    privbtf syndhronizfd RfpbintArfb dlonfAndRfsft() {
+        RfpbintArfb rb = nfw RfpbintArfb(this);
+        for (int i = 0; i < RECT_COUNT; i++) {
+            pbintRfdts[i] = null;
+        }
+        rfturn rb;
+    }
+
+    publid boolfbn isEmpty() {
+        for (int i = 0; i < RECT_COUNT; i++) {
+            if (pbintRfdts[i] != null) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Constrbins thf sizf of thf rfpbint brfb to thf pbssfd in bounds.
+     */
+    publid syndhronizfd void donstrbin(int x, int y, int w, int h) {
+        for (int i = 0; i < RECT_COUNT; i++) {
+            Rfdtbnglf rfdt = pbintRfdts[i];
+            if (rfdt != null) {
+                if (rfdt.x < x) {
+                    rfdt.width -= (x - rfdt.x);
+                    rfdt.x = x;
+                }
+                if (rfdt.y < y) {
+                    rfdt.hfight -= (y - rfdt.y);
+                    rfdt.y = y;
+                }
+                int xDfltb = rfdt.x + rfdt.width - x - w;
+                if (xDfltb > 0) {
+                    rfdt.width -= xDfltb;
+                }
+                int yDfltb = rfdt.y + rfdt.hfight - y - h;
+                if (yDfltb > 0) {
+                    rfdt.hfight -= yDfltb;
+                }
+                if (rfdt.width <= 0 || rfdt.hfight <= 0) {
+                    pbintRfdts[i] = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Mbrks thf pbssfd in rfgion bs not nffding to bf pbintfd. It's possiblf
+     * this will do nothing.
+     */
+    publid syndhronizfd void subtrbdt(int x, int y, int w, int h) {
+        Rfdtbnglf subtrbdt = nfw Rfdtbnglf(x, y, w, h);
+        for (int i = 0; i < RECT_COUNT; i++) {
+            if (subtrbdt(pbintRfdts[i], subtrbdt)) {
+                if (pbintRfdts[i] != null && pbintRfdts[i].isEmpty()) {
+                    pbintRfdts[i] = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokfs pbint bnd updbtf on tbrgft Componfnt with optimbl
+     * rfdtbngulbr dlip rfgion.
+     * If PAINT bounding rfdtbnglf is lfss thbn
+     * MAX_BENEFIT_RATIO timfs thf bfnffit, thfn thf vfrtidbl bnd horizontbl unions brf
+     * pbintfd sfpbrbtfly.  Othfrwisf thf fntirf bounding rfdtbnglf is pbintfd.
+     *
+     * @pbrbm   tbrgft Componfnt to <dodf>pbint</dodf> or <dodf>updbtf</dodf>
+     * @sindf   1.4
+     */
+    publid void pbint(Objfdt tbrgft, boolfbn shouldClfbrRfdtBfforfPbint) {
+        Componfnt domp = (Componfnt)tbrgft;
+
+        if (isEmpty()) {
+            rfturn;
+        }
+
+        if (!domp.isVisiblf()) {
+            rfturn;
+        }
+
+        RfpbintArfb rb = this.dlonfAndRfsft();
+
+        if (!subtrbdt(rb.pbintRfdts[VERTICAL], rb.pbintRfdts[HORIZONTAL])) {
+            subtrbdt(rb.pbintRfdts[HORIZONTAL], rb.pbintRfdts[VERTICAL]);
+        }
+
+        if (rb.pbintRfdts[HORIZONTAL] != null && rb.pbintRfdts[VERTICAL] != null) {
+            Rfdtbnglf pbintRfdt = rb.pbintRfdts[HORIZONTAL].union(rb.pbintRfdts[VERTICAL]);
+            int squbrf = pbintRfdt.width * pbintRfdt.hfight;
+            int bfnffit = squbrf - rb.pbintRfdts[HORIZONTAL].width
+                * rb.pbintRfdts[HORIZONTAL].hfight - rb.pbintRfdts[VERTICAL].width
+                * rb.pbintRfdts[VERTICAL].hfight;
+            // if bfnffit is dompbrbblf with bounding box
+            if (MAX_BENEFIT_RATIO * bfnffit < squbrf) {
+                rb.pbintRfdts[HORIZONTAL] = pbintRfdt;
+                rb.pbintRfdts[VERTICAL] = null;
+            }
+        }
+        for (int i = 0; i < pbintRfdts.lfngth; i++) {
+            if (rb.pbintRfdts[i] != null
+                && !rb.pbintRfdts[i].isEmpty())
+            {
+                // Should usf sfpbrbtf Grbphids for fbdh pbint() dbll,
+                // sindf pbint() dbn dhbngf Grbphids stbtf for nfxt dbll.
+                Grbphids g = domp.gftGrbphids();
+                if (g != null) {
+                    try {
+                        g.sftClip(rb.pbintRfdts[i]);
+                        if (i == UPDATE) {
+                            updbtfComponfnt(domp, g);
+                        } flsf {
+                            if (shouldClfbrRfdtBfforfPbint) {
+                                g.dlfbrRfdt( rb.pbintRfdts[i].x,
+                                             rb.pbintRfdts[i].y,
+                                             rb.pbintRfdts[i].width,
+                                             rb.pbintRfdts[i].hfight);
+                            }
+                            pbintComponfnt(domp, g);
+                        }
+                    } finblly {
+                        g.disposf();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Cblls <dodf>Componfnt.updbtf(Grbphids)</dodf> with givfn Grbphids.
+     */
+    protfdtfd void updbtfComponfnt(Componfnt domp, Grbphids g) {
+        if (domp != null) {
+            domp.updbtf(g);
+        }
+    }
+
+    /**
+     * Cblls <dodf>Componfnt.pbint(Grbphids)</dodf> with givfn Grbphids.
+     */
+    protfdtfd void pbintComponfnt(Componfnt domp, Grbphids g) {
+        if (domp != null) {
+            domp.pbint(g);
+        }
+    }
+
+    /**
+     * Subtrbdts subtr from rfdt. If thf rfsult is rfdtbnglf
+     * dhbngfs rfdt bnd rfturns truf. Othfrwisf fblsf.
+     */
+    stbtid boolfbn subtrbdt(Rfdtbnglf rfdt, Rfdtbnglf subtr) {
+        if (rfdt == null || subtr == null) {
+            rfturn truf;
+        }
+        Rfdtbnglf dommon = rfdt.intfrsfdtion(subtr);
+        if (dommon.isEmpty()) {
+            rfturn truf;
+        }
+        if (rfdt.x == dommon.x && rfdt.y == dommon.y) {
+            if (rfdt.width == dommon.width) {
+                rfdt.y += dommon.hfight;
+                rfdt.hfight -= dommon.hfight;
+                rfturn truf;
+            } flsf
+            if (rfdt.hfight == dommon.hfight) {
+                rfdt.x += dommon.width;
+                rfdt.width -= dommon.width;
+                rfturn truf;
+            }
+        } flsf
+        if (rfdt.x + rfdt.width == dommon.x + dommon.width
+            && rfdt.y + rfdt.hfight == dommon.y + dommon.hfight)
+        {
+            if (rfdt.width == dommon.width) {
+                rfdt.hfight -= dommon.hfight;
+                rfturn truf;
+            } flsf
+            if (rfdt.hfight == dommon.hfight) {
+                rfdt.width -= dommon.width;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid String toString() {
+        rfturn supfr.toString() + "[ horizontbl=" + pbintRfdts[0] +
+            " vfrtidbl=" + pbintRfdts[1] +
+            " updbtf=" + pbintRfdts[2] + "]";
+    }
+}

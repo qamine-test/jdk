@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "fdlibm.h"
+
+#indludf "jbvb_lbng_StridtMbth.h"
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_dos(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jdos((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_sin(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jsin((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_tbn(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jtbn((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_bsin(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jbsin((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_bdos(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jbdos((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_btbn(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jbtbn((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_fxp(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jfxp((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_log(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jlog((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_log10(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jlog10((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_sqrt(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jsqrt((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_dbrt(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jdbrt((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_btbn2(JNIEnv *fnv, jdlbss unusfd, jdoublf d1, jdoublf d2)
+{
+    rfturn (jdoublf) jbtbn2((doublf)d1, (doublf)d2);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_pow(JNIEnv *fnv, jdlbss unusfd, jdoublf d1, jdoublf d2)
+{
+    rfturn (jdoublf) jpow((doublf)d1, (doublf)d2);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_IEEErfmbindfr(JNIEnv *fnv, jdlbss unusfd,
+                                  jdoublf dividfnd,
+                                  jdoublf divisor)
+{
+    rfturn (jdoublf) jrfmbindfr(dividfnd, divisor);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_dosh(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jdosh((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_sinh(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jsinh((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_tbnh(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jtbnh((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_hypot(JNIEnv *fnv, jdlbss unusfd, jdoublf x, jdoublf y)
+{
+    rfturn (jdoublf) jhypot((doublf)x, (doublf)y);
+}
+
+
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_log1p(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jlog1p((doublf)d);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_StridtMbth_fxpm1(JNIEnv *fnv, jdlbss unusfd, jdoublf d)
+{
+    rfturn (jdoublf) jfxpm1((doublf)d);
+}

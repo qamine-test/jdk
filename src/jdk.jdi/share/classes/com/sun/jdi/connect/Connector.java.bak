@@ -1,291 +1,291 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect;
+pbdkbgf dom.sun.jdi.donnfdt;
 
-import java.util.Map;
-import java.util.List;
-import java.io.Serializable;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A method of connection between a debugger and a target VM.
- * A connector encapsulates exactly one {@link Transport}. used
- * to establish the connection. Each connector has a set of arguments
- * which controls its operation. The arguments are stored as a
- * map, keyed by a string. Each implementation defines the string
- * argument keys it accepts.
+ * A mftiod of donnfdtion bftwffn b dfbuggfr bnd b tbrgft VM.
+ * A donnfdtor fndbpsulbtfs fxbdtly onf {@link Trbnsport}. usfd
+ * to fstbblisi tif donnfdtion. Ebdi donnfdtor ibs b sft of brgumfnts
+ * wiidi dontrols its opfrbtion. Tif brgumfnts brf storfd bs b
+ * mbp, kfyfd by b string. Ebdi implfmfntbtion dffinfs tif string
+ * brgumfnt kfys it bddfpts.
  *
- * @see LaunchingConnector
- * @see AttachingConnector
- * @see ListeningConnector
- * @see Connector.Argument
+ * @sff LbundiingConnfdtor
+ * @sff AttbdiingConnfdtor
+ * @sff ListfningConnfdtor
+ * @sff Connfdtor.Argumfnt
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface Connector {
+@jdk.Exportfd
+publid intfrfbdf Connfdtor {
     /**
-     * Returns a short identifier for the connector. Connector implementors
-     * should follow similar naming conventions as are used with packages
-     * to avoid name collisions. For example, the Sun connector
-     * implementations have names prefixed with "com.sun.jdi.".
-     * Not intended for exposure to end-user.
+     * Rfturns b siort idfntififr for tif donnfdtor. Connfdtor implfmfntors
+     * siould follow similbr nbming donvfntions bs brf usfd witi pbdkbgfs
+     * to bvoid nbmf dollisions. For fxbmplf, tif Sun donnfdtor
+     * implfmfntbtions ibvf nbmfs prffixfd witi "dom.sun.jdi.".
+     * Not intfndfd for fxposurf to fnd-usfr.
      *
-     * @return the name of this connector.
+     * @rfturn tif nbmf of tiis donnfdtor.
      */
-    String name();
+    String nbmf();
 
     /**
-     * Returns a human-readable description of this connector
-     * and its purpose.
+     * Rfturns b iumbn-rfbdbblf dfsdription of tiis donnfdtor
+     * bnd its purposf.
      *
-     * @return the description of this connector
+     * @rfturn tif dfsdription of tiis donnfdtor
      */
-    String description();
+    String dfsdription();
 
     /**
-     * Returns the transport mechanism used by this connector to establish
-     * connections with a target VM.
+     * Rfturns tif trbnsport mfdibnism usfd by tiis donnfdtor to fstbblisi
+     * donnfdtions witi b tbrgft VM.
      *
-     * @return the {@link Transport} used by this connector.
+     * @rfturn tif {@link Trbnsport} usfd by tiis donnfdtor.
      */
-    Transport transport();
+    Trbnsport trbnsport();
 
     /**
-     * Returns the arguments accepted by this Connector and their
-     * default values. The keys of the returned map are string argument
-     * names. The values are {@link Connector.Argument} containing
-     * information about the argument and its default value.
+     * Rfturns tif brgumfnts bddfptfd by tiis Connfdtor bnd tifir
+     * dffbult vblufs. Tif kfys of tif rfturnfd mbp brf string brgumfnt
+     * nbmfs. Tif vblufs brf {@link Connfdtor.Argumfnt} dontbining
+     * informbtion bbout tif brgumfnt bnd its dffbult vbluf.
      *
-     * @return the map associating argument names with argument
-     * information and default value.
+     * @rfturn tif mbp bssodibting brgumfnt nbmfs witi brgumfnt
+     * informbtion bnd dffbult vbluf.
      */
-    Map<String,Connector.Argument> defaultArguments();
+    Mbp<String,Connfdtor.Argumfnt> dffbultArgumfnts();
 
     /**
-     * Specification for and value of a Connector argument.
-     * Will always implement a subinterface of Argument:
-     * {@link Connector.StringArgument}, {@link Connector.BooleanArgument},
-     * {@link Connector.IntegerArgument},
-     * or {@link Connector.SelectedArgument}.
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt.
+     * Will blwbys implfmfnt b subintfrfbdf of Argumfnt:
+     * {@link Connfdtor.StringArgumfnt}, {@link Connfdtor.BoolfbnArgumfnt},
+     * {@link Connfdtor.IntfgfrArgumfnt},
+     * or {@link Connfdtor.SflfdtfdArgumfnt}.
      */
-    @jdk.Exported
-    public interface Argument extends Serializable {
+    @jdk.Exportfd
+    publid intfrfbdf Argumfnt fxtfnds Sfriblizbblf {
         /**
-         * Returns a short, unique identifier for the argument.
-         * Not intended for exposure to end-user.
+         * Rfturns b siort, uniquf idfntififr for tif brgumfnt.
+         * Not intfndfd for fxposurf to fnd-usfr.
          *
-         * @return the name of this argument.
+         * @rfturn tif nbmf of tiis brgumfnt.
          */
-        String name();
+        String nbmf();
 
         /**
-         * Returns a short human-readable label for this argument.
+         * Rfturns b siort iumbn-rfbdbblf lbbfl for tiis brgumfnt.
          *
-         * @return a label for this argument
+         * @rfturn b lbbfl for tiis brgumfnt
          */
-        String label();
+        String lbbfl();
 
         /**
-         * Returns a human-readable description of this argument
-         * and its purpose.
+         * Rfturns b iumbn-rfbdbblf dfsdription of tiis brgumfnt
+         * bnd its purposf.
          *
-         * @return the description of this argument
+         * @rfturn tif dfsdription of tiis brgumfnt
          */
-        String description();
+        String dfsdription();
 
         /**
-         * Returns the current value of the argument. Initially, the
-         * default value is returned. If the value is currently unspecified,
-         * null is returned.
+         * Rfturns tif durrfnt vbluf of tif brgumfnt. Initiblly, tif
+         * dffbult vbluf is rfturnfd. If tif vbluf is durrfntly unspfdififd,
+         * null is rfturnfd.
          *
-         * @return the current value of the argument.
+         * @rfturn tif durrfnt vbluf of tif brgumfnt.
          */
-        String value();
+        String vbluf();
 
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(String)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sfts tif vbluf of tif brgumfnt.
+         * Tif vbluf siould bf difdkfd witi {@link #isVblid(String)}
+         * bfforf sftting it; invblid vblufs will tirow bn fxdfption
+         * wifn tif donnfdtion is fstbblisifd - for fxbmplf,
+         * on {@link LbundiingConnfdtor#lbundi}
          */
-        void setValue(String value);
+        void sftVbluf(String vbluf);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if the value is valid to be
-         * used in {@link #setValue(String)}
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if tif vbluf is vblid to bf
+         * usfd in {@link #sftVbluf(String)}
          */
-        boolean isValid(String value);
+        boolfbn isVblid(String vbluf);
 
         /**
-         * Indicates whether the argument must be specified. If true,
-         * {@link #setValue} must be used to set a non-null value before
-         * using this argument in establishing a connection.
+         * Indidbtfs wiftifr tif brgumfnt must bf spfdififd. If truf,
+         * {@link #sftVbluf} must bf usfd to sft b non-null vbluf bfforf
+         * using tiis brgumfnt in fstbblisiing b donnfdtion.
          *
-         * @return <code>true</code> if the argument must be specified;
-         * <code>false</code> otherwise.
+         * @rfturn <dodf>truf</dodf> if tif brgumfnt must bf spfdififd;
+         * <dodf>fblsf</dodf> otifrwisf.
          */
-        boolean mustSpecify();
+        boolfbn mustSpfdify();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is Boolean.  Boolean values are represented
-     * by the localized versions of the strings "true" and "false".
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * wiosf vbluf is Boolfbn.  Boolfbn vblufs brf rfprfsfntfd
+     * by tif lodblizfd vfrsions of tif strings "truf" bnd "fblsf".
      */
-    @jdk.Exported
-    public interface BooleanArgument extends Argument {
+    @jdk.Exportfd
+    publid intfrfbdf BoolfbnArgumfnt fxtfnds Argumfnt {
         /**
-         * Sets the value of the argument.
+         * Sfts tif vbluf of tif brgumfnt.
          */
-        void setValue(boolean value);
+        void sftVbluf(boolfbn vbluf);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is a string
-         * representation of a boolean value.
-         * @see #stringValueOf(boolean)
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is b string
+         * rfprfsfntbtion of b boolfbn vbluf.
+         * @sff #stringVblufOf(boolfbn)
          */
-        boolean isValid(String value);
+        boolfbn isVblid(String vbluf);
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the current value of <code>this</code>
-         * instance.
-         * @return the localized String representation of the
-         * boolean value.
+         * Rfturn tif string rfprfsfntbtion of tif <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf tif durrfnt vbluf of <dodf>tiis</dodf>
+         * instbndf.
+         * @rfturn tif lodblizfd String rfprfsfntbtion of tif
+         * boolfbn vbluf.
          */
-        String stringValueOf(boolean value);
+        String stringVblufOf(boolfbn vbluf);
 
         /**
-         * Return the value of the argument as a boolean.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the boolean returned by this method is undefined.
-         * @return the value of the argument as a boolean.
+         * Rfturn tif vbluf of tif brgumfnt bs b boolfbn.  Sindf
+         * tif brgumfnt mby not ibvf bffn sft or mby ibvf bn invblid
+         * vbluf {@link #isVblid(String)} siould bf dbllfd on
+         * {@link #vbluf()} to difdk its vblidity.  If it is invblid
+         * tif boolfbn rfturnfd by tiis mftiod is undffinfd.
+         * @rfturn tif vbluf of tif brgumfnt bs b boolfbn.
          */
-        boolean booleanValue();
+        boolfbn boolfbnVbluf();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is an integer.  Integer values are represented
-     * by their corresponding strings.
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * wiosf vbluf is bn intfgfr.  Intfgfr vblufs brf rfprfsfntfd
+     * by tifir dorrfsponding strings.
      */
-    @jdk.Exported
-    public interface IntegerArgument extends Argument {
+    @jdk.Exportfd
+    publid intfrfbdf IntfgfrArgumfnt fxtfnds Argumfnt {
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(int)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sfts tif vbluf of tif brgumfnt.
+         * Tif vbluf siould bf difdkfd witi {@link #isVblid(int)}
+         * bfforf sftting it; invblid vblufs will tirow bn fxdfption
+         * wifn tif donnfdtion is fstbblisifd - for fxbmplf,
+         * on {@link LbundiingConnfdtor#lbundi}
          */
-        void setValue(int value);
+        void sftVbluf(int vbluf);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value represents an int that is
-         * <code>{@link #min()} &lt;= value &lt;= {@link #max()}</code>
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf rfprfsfnts bn int tibt is
+         * <dodf>{@link #min()} &lt;= vbluf &lt;= {@link #mbx()}</dodf>
          */
-        boolean isValid(String value);
+        boolfbn isVblid(String vbluf);
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if
-         * <code>{@link #min()} &lt;= value  &lt;= {@link #max()}</code>
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if
+         * <dodf>{@link #min()} &lt;= vbluf  &lt;= {@link #mbx()}</dodf>
          */
-        boolean isValid(int value);
+        boolfbn isVblid(int vbluf);
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the current value of <code>this</code>
-         * instance.
-         * @return the String representation of the
-         * int value.
+         * Rfturn tif string rfprfsfntbtion of tif <dodf>vbluf</dodf>
+         * pbrbmftfr.
+         * Dofs not sft or fxbminf tif durrfnt vbluf of <dodf>tiis</dodf>
+         * instbndf.
+         * @rfturn tif String rfprfsfntbtion of tif
+         * int vbluf.
          */
-        String stringValueOf(int value);
+        String stringVblufOf(int vbluf);
 
         /**
-         * Return the value of the argument as a int.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the int returned by this method is undefined.
-         * @return the value of the argument as a int.
+         * Rfturn tif vbluf of tif brgumfnt bs b int.  Sindf
+         * tif brgumfnt mby not ibvf bffn sft or mby ibvf bn invblid
+         * vbluf {@link #isVblid(String)} siould bf dbllfd on
+         * {@link #vbluf()} to difdk its vblidity.  If it is invblid
+         * tif int rfturnfd by tiis mftiod is undffinfd.
+         * @rfturn tif vbluf of tif brgumfnt bs b int.
          */
-        int intValue();
+        int intVbluf();
 
         /**
-         * The upper bound for the value.
-         * @return the maximum allowed value for this argument.
+         * Tif uppfr bound for tif vbluf.
+         * @rfturn tif mbximum bllowfd vbluf for tiis brgumfnt.
          */
-        int max();
+        int mbx();
 
         /**
-         * The lower bound for the value.
-         * @return the minimum allowed value for this argument.
+         * Tif lowfr bound for tif vbluf.
+         * @rfturn tif minimum bllowfd vbluf for tiis brgumfnt.
          */
         int min();
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is a String.
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * wiosf vbluf is b String.
      */
-    @jdk.Exported
-    public interface StringArgument extends Argument {
+    @jdk.Exportfd
+    publid intfrfbdf StringArgumfnt fxtfnds Argumfnt {
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> always
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> blwbys
          */
-        boolean isValid(String value);
+        boolfbn isVblid(String vbluf);
     }
 
     /**
-     * Specification for and value of a Connector argument,
-     * whose value is a String selected from a list of choices.
+     * Spfdifidbtion for bnd vbluf of b Connfdtor brgumfnt,
+     * wiosf vbluf is b String sflfdtfd from b list of dioidfs.
      */
-    @jdk.Exported
-    public interface SelectedArgument extends Argument {
+    @jdk.Exportfd
+    publid intfrfbdf SflfdtfdArgumfnt fxtfnds Argumfnt {
         /**
-         * Return the possible values for the argument
-         * @return {@link List} of {@link String}
+         * Rfturn tif possiblf vblufs for tif brgumfnt
+         * @rfturn {@link List} of {@link String}
          */
-        List<String> choices();
+        List<String> dioidfs();
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is one of {@link #choices()}.
+         * Pfrforms bbsid sbnity difdk of brgumfnt.
+         * @rfturn <dodf>truf</dodf> if vbluf is onf of {@link #dioidfs()}.
          */
-        boolean isValid(String value);
+        boolfbn isVblid(String vbluf);
     }
 }

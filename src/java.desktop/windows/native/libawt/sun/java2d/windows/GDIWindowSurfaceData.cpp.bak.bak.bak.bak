@@ -1,0 +1,1246 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_jbvb2d_windows_GDIWindowSurfbdfDbtb.h"
+
+#indludf "GDIWindowSurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "Rfgion.h"
+#indludf "Disposfr.h"
+#indludf "WindowsFlbgs.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Pblfttf.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "gdffs.h"
+#indludf "Trbdf.h"
+#indludf "Dfvidfs.h"
+
+#indludf "jni_util.h"
+
+stbtid LodkFund GDIWinSD_Lodk;
+stbtid GftRbsInfoFund GDIWinSD_GftRbsInfo;
+stbtid UnlodkFund GDIWinSD_Unlodk;
+stbtid DisposfFund GDIWinSD_Disposf;
+stbtid SftupFund GDIWinSD_Sftup;
+stbtid GftDCFund GDIWinSD_GftDC;
+stbtid RflfbsfDCFund GDIWinSD_RflfbsfDC;
+stbtid InvblidbtfSDFund GDIWinSD_InvblidbtfSD;
+
+stbtid HBRUSH   nullbrush;
+stbtid HPEN     nullpfn;
+
+stbtid jdlbss xorCompClbss;
+
+stbtid jboolfbn bfingShutdown = JNI_FALSE;
+stbtid volbtilf LONG timfStbmp = 0;
+fxtfrn CritidblSfdtion windowMovfLodk;
+
+fxtfrn "C"
+{
+GfnfrblDisposfFund DisposfThrfbdGrbphidsInfo;
+jobjfdt JNI_GftCurrfntThrfbd(JNIEnv *fnv);
+int thrfbdInfoIndfx = TLS_OUT_OF_INDEXES;
+
+stbtid jdlbss thrfbdClbss = NULL;
+stbtid jmfthodID durrfntThrfbdMfthodID = NULL;
+
+void SftupThrfbdGrbphidsInfo(JNIEnv *fnv, GDIWinSDOps *wsdo) {
+    J2dTrbdfLn(J2D_TRACE_INFO, "SftupThrfbdGrbphidsInfo");
+
+    // REMIND: hbndlf frror whfn drfbtion fbils
+    ThrfbdGrbphidsInfo *info =
+        (ThrfbdGrbphidsInfo*)TlsGftVbluf(thrfbdInfoIndfx);
+    if (info == NULL) {
+        info = nfw ThrfbdGrbphidsInfo;
+        ZfroMfmory(info, sizfof(ThrfbdGrbphidsInfo));
+        TlsSftVbluf(thrfbdInfoIndfx, (LPVOID)info);
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                    "  durrfnt bbtdh limit for for thrfbd 0x%x is %d",
+                     GftCurrfntThrfbdId(), ::GdiGftBbtdhLimit());
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  sftting to thf limit to 1");
+        // Fix for bug 4374079
+        ::GdiSftBbtdhLimit(1);
+
+        Disposfr_AddRfdord(fnv, JNI_GftCurrfntThrfbd(fnv),
+                           DisposfThrfbdGrbphidsInfo,
+                           ptr_to_jlong(info));
+    }
+
+    HDC oldhDC = info->hDC;
+    // thf hDC is NULL for offsdrffn surfbdfs - wf don't storf it
+    // in TLS bs it must bf drfbtfd nfw fvfry timf.
+
+    if( ((oldhDC == NULL) && wsdo->window != NULL) ||
+         (info->wsdo != wsdo) ||
+         (info->wsdoTimfStbmp != wsdo->timfStbmp) )
+    {
+
+        // Init grbphids stbtf, fithfr bfdbusf this is our first timf
+        // using it in this thrfbd or bfdbusf this thrfbd is now
+        // dfbling with b difffrfnt window thbn it wbs lbst timf.
+
+        //dhfdk fxtrb dondition:
+        //(info->wsdoTimfStbmp != wsdo->timfStbmp).
+        //Chfdking mfmory bddrfssfs (info->wsdo != wsdo) will not dftfdt
+        //thbt wsdo points to b nfwly bllodbtfd strudturf in dbsf
+        //thbt strudturf just got bllodbtfd bt b "rfdydlfd" mfmory lodbtion
+        //whidh prfviously wbs pointfd by info->wsdo
+        //sff bug# 6859086
+
+        // Rflfbsf dbdhfd DC. Wf usf dfffrrfd DC rflfbsing mfdhbnism bfdbusf
+        // thf DC is bssodibtfd with dbdhfd wsdo bnd domponfnt pffr,
+        // whidh mby'vf bffn disposfd by this timf, bnd wf hbvf
+        // no mfbns of dhfdking bgbinst it.
+        if (oldhDC != NULL) {
+            MovfDCToPbssivfList(oldhDC);
+            info->hDC = NULL;
+        }
+
+        if (wsdo->window != NULL){
+            HDC hDC;
+            // This is b window surfbdf
+            // First, init thf HDC objfdt
+            AwtComponfnt *domp = GDIWindowSurfbdfDbtb_GftComp(fnv, wsdo);
+            if (domp == NULL) {
+                rfturn;
+            }
+            hDC = domp->GftDCFromComponfnt();
+            if (hDC != NULL) {
+                ::SflfdtObjfdt(hDC, nullbrush);
+                ::SflfdtObjfdt(hDC, nullpfn);
+                ::SflfdtClipRgn(hDC, (HRGN) NULL);
+                ::SftROP2(hDC, R2_COPYPEN);
+                wsdo->dfvidf->SflfdtPblfttf(hDC);
+                // Notf thbt on NT4 wf don't nffd to do b rfblizf hfrf: thf
+                // pblfttf-shbring tbkfs dbrf of dolor issufs for us.  But
+                // on win98 if wf don't rfblizf b DC's pblfttf, thbt
+                // pblfttf dofs not bppfbr to hbvf dorrfdt bddfss to thf
+                // logidbl->systfm mbpping.
+                wsdo->dfvidf->RfblizfPblfttf(hDC);
+
+                // Sfdond, init thf rfst of thf grbphids stbtf
+                ::GftClifntRfdt(wsdo->window, &info->bounds);
+                // Mbkf window-rflbtivf from dlifnt-rflbtivf
+                ::OffsftRfdt(&info->bounds, wsdo->insfts.lfft, wsdo->insfts.top);
+                //Likfwisf, trbnslbtf GDI dblls from dlifnt-rflbtivf to window-rflbtivf
+                ::OffsftVifwportOrgEx(hDC, -wsdo->insfts.lfft, -wsdo->insfts.top, NULL);
+            }
+
+            // Finblly, sft thfsf nfw vblufs in thf info for this thrfbd
+            info->hDC = hDC;
+        }
+
+        // dbdhfd brush bnd pfn brf not bssodibtfd with bny DC, bnd dbn bf
+        // rfusfd, but hbvf to sft typf to 0 to indidbtf thbt no pfn/brush
+        // wfrf sft to thf nfw hdd
+        info->typf = 0;
+
+        if (info->dlip != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->dlip);
+        }
+        info->dlip = NULL;
+
+        if (info->domp != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->domp);
+        }
+        info->domp = NULL;
+
+        info->xordolor = 0;
+        info->pbtrop = PATCOPY;
+
+        //storf thf bddrfss bnd timf stbmp of nfwly bllodbtfd GDIWinSDOps strudturf
+        info->wsdo = wsdo;
+        info->wsdoTimfStbmp = wsdo->timfStbmp;
+    }
+}
+
+/**
+ * Rflfbsfs nbtivf dbtb storfd in Thrfbd lodbl storbgf.
+ * Cbllfd by thf Disposfr whfn thf bssodibtfd thrfbd difs.
+ */
+void DisposfThrfbdGrbphidsInfo(JNIEnv *fnv, jlong tgi) {
+    J2dTrbdfLn(J2D_TRACE_INFO, "DisposfThrfbdGrbphidsInfo");
+    ThrfbdGrbphidsInfo *info = (ThrfbdGrbphidsInfo*)jlong_to_ptr(tgi);
+    if (info != NULL) {
+        if (info->hDC != NULL) {
+            // movf thf DC from thf bdtivf dds list to
+            // thf pbssivf dd list to bf rflfbsfd lbtfr
+            MovfDCToPbssivfList(info->hDC);
+        }
+
+        if (info->dlip != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->dlip);
+        }
+        if (info->domp != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->domp);
+        }
+
+        if (info->brush != NULL) {
+            info->brush->Rflfbsf();
+        }
+        if (info->pfn != NULL) {
+            info->pfn->Rflfbsf();
+        }
+
+        dflftf info;
+    }
+}
+
+/**
+ * Rfturns durrfnt Thrfbd objfdt.
+ */
+jobjfdt
+JNI_GftCurrfntThrfbd(JNIEnv *fnv) {
+    rfturn fnv->CbllStbtidObjfdtMfthod(thrfbdClbss, durrfntThrfbdMfthodID);
+} /* JNI_GftCurrfntThrfbd() */
+
+/**
+ * Rfturn thf dbtb bssodibtfd with this thrfbd.
+ * NOTE: This fundtion bssumfs thbt thf SftupThrfbdGrbphidsInfo()
+ * fundtion hbs blrfbdy bffn dbllfd for this situbtion (thrfbd,
+ * window, ftd.), so wf dbn bssumf thbt thf thrfbd info dontbins
+ * b vblid hDC.  This should usublly bf thf dbsf sindf GDIWinSD_Sftup
+ * is dbllfd bs pbrt of thf GftOps() prodfss.
+ */
+ThrfbdGrbphidsInfo *GftThrfbdGrbphidsInfo(JNIEnv *fnv,
+                                          GDIWinSDOps *wsdo) {
+    rfturn (ThrfbdGrbphidsInfo*)TlsGftVbluf(thrfbdInfoIndfx);
+}
+
+__inlinf HDC GftThrfbdDC(JNIEnv *fnv, GDIWinSDOps *wsdo) {
+    ThrfbdGrbphidsInfo *info =
+        (ThrfbdGrbphidsInfo *)GftThrfbdGrbphidsInfo(fnv, wsdo);
+    if (!info) {
+        rfturn (HDC) NULL;
+    }
+    rfturn info->hDC;
+}
+
+} // fxtfrn "C"
+
+/**
+ * This sourdf filf dontbins support dodf for loops using thf
+ * SurfbdfDbtb intfrfbdf to tblk to b Win32 drbwbblf from nbtivf
+ * dodf.
+ */
+
+stbtid BOOL GDIWinSD_ChfdkMonitorArfb(GDIWinSDOps *wsdo,
+                                     SurfbdfDbtbBounds *bounds,
+                                     HDC hDC)
+{
+    HWND hW = wsdo->window;
+    BOOL rftCodf = TRUE;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_ChfdkMonitorArfb");
+    int numSdrffns;
+    {
+        Dfvidfs::InstbndfAddfss dfvidfs;
+        numSdrffns = dfvidfs->GftNumDfvidfs();
+    }
+    if( numSdrffns > 1 ) {
+
+        LPMONITORINFO miInfo;
+        RECT rSfdt ={0,0,0,0};
+        RECT rVifw ={bounds->x1, bounds->y1, bounds->x2, bounds->y2};
+        rftCodf = FALSE;
+
+        miInfo = wsdo->dfvidf->GftMonitorInfo();
+
+        POINT ptOrig = {0, 0};
+        ::ClifntToSdrffn(hW, &ptOrig);
+        ::OffsftRfdt(&rVifw,
+            (ptOrig.x), (ptOrig.y));
+
+        ::IntfrsfdtRfdt(&rSfdt,&rVifw,&(miInfo->rdMonitor));
+
+        if( FALSE == ::IsRfdtEmpty(&rSfdt) ) {
+            if( TRUE == ::EqublRfdt(&rSfdt,&rVifw) ) {
+                rftCodf = TRUE;
+            }
+        }
+    }
+    rfturn rftCodf;
+}
+
+fxtfrn "C" {
+
+void
+initThrfbdInfoIndfx()
+{
+    if (thrfbdInfoIndfx == TLS_OUT_OF_INDEXES) {
+        thrfbdInfoIndfx = TlsAllod();
+    }
+}
+
+
+/**
+ * Utility fundtion to mbkf surf thbt nbtivf bnd jbvb-lfvfl
+ * surfbdf dfpths brf mbtdhfd.  Thfy dbn bf mismbtdhfd whfn displby-dfpths
+ * dhbngf, fithfr bftwffn thf drfbtion of thf Jbvb surfbdfDbtb strudturf
+ * bnd thf nbtivf ddrbw surfbdf, or lbtfr whfn b surfbdf is butombtidblly
+ * bdjustfd to bf thf nfw displby dfpth (fvfn if it wbs drfbtfd in b difffrfnt
+ * dfpth to bfgin with)
+ */
+BOOL SurfbdfDfpthsCompbtiblf(int jbvbDfpth, int nbtivfDfpth)
+{
+    if (nbtivfDfpth != jbvbDfpth) {
+        switdh (nbtivfDfpth) {
+        dbsf 0: // Error dondition: somfthing is wrong with thf surfbdf
+        dbsf 8:
+        dbsf 24:
+            // Jbvb bnd nbtivf surfbdf dfpths should mbtdh fxbdtly for
+            // thfsf dbsfs
+            rfturn FALSE;
+            brfbk;
+        dbsf 16:
+            // Jbvb surfbdfDbtb should bf 15 or 16 bits
+            if (jbvbDfpth < 15 || jbvbDfpth > 16) {
+                rfturn FALSE;
+            }
+            brfbk;
+        dbsf 32:
+            // Could hbvf this nbtivf dfpth for fithfr 24- or 32-bit
+            // Jbvb surfbdfDbtb
+            if (jbvbDfpth != 24 && jbvbDfpth != 32) {
+                rfturn FALSE;
+            }
+            brfbk;
+        dffbult:
+            // should not gft hfrf, but if wf do somfthing is odd, so
+            // just rfgistfr b fbilurf
+            rfturn FALSE;
+        }
+    }
+    rfturn TRUE;
+}
+
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbdfDbtb
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbdfDbtb_initIDs(JNIEnv *fnv, jdlbss wsd,
+                                                 jdlbss XORComp)
+{
+    jdlbss td;
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWindowSurfbdfDbtb_initIDs");
+    nullbrush = (HBRUSH) ::GftStodkObjfdt(NULL_BRUSH);
+    nullpfn = (HPEN) ::GftStodkObjfdt(NULL_PEN);
+
+    initThrfbdInfoIndfx();
+
+    xorCompClbss = (jdlbss)fnv->NfwGlobblRff(XORComp);
+    if (fnv->ExdfptionChfdk()) {
+        rfturn;
+    }
+
+    td = fnv->FindClbss("jbvb/lbng/Thrfbd");
+    DASSERT(td != NULL);
+    CHECK_NULL(td);
+
+    thrfbdClbss = (jdlbss)fnv->NfwGlobblRff(td);
+    DASSERT(thrfbdClbss != NULL);
+    CHECK_NULL(thrfbdClbss);
+
+    durrfntThrfbdMfthodID =
+        fnv->GftStbtidMfthodID(thrfbdClbss,
+                               "durrfntThrfbd",  "()Ljbvb/lbng/Thrfbd;");
+    DASSERT(durrfntThrfbdMfthodID != NULL);
+}
+
+#undff ExdfptionOddurrfd
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbdfDbtb
+ * Mfthod:    initOps
+ * Signbturf: (Ljbvb/lbng/Objfdt;IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbdfDbtb_initOps(JNIEnv *fnv, jobjfdt wsd,
+                                                 jobjfdt pffr, jint dfpth,
+                                                 jint rfdMbsk, jint grffnMbsk,
+                                                 jint blufMbsk, jint sdrffn)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWindowSurfbdfDbtb_initOps");
+    GDIWinSDOps *wsdo = (GDIWinSDOps *)SurfbdfDbtb_InitOps(fnv, wsd, sizfof(GDIWinSDOps));
+    if (wsdo == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "Initiblizbtion of SurfbdfDbtb fbilfd.");
+        rfturn;
+    }
+    wsdo->timfStbmp = IntfrlodkfdIndrfmfnt(&timfStbmp); //drfbtion timf stbmp
+    wsdo->sdOps.Lodk = GDIWinSD_Lodk;
+    wsdo->sdOps.GftRbsInfo = GDIWinSD_GftRbsInfo;
+    wsdo->sdOps.Unlodk = GDIWinSD_Unlodk;
+    wsdo->sdOps.Disposf = GDIWinSD_Disposf;
+    wsdo->sdOps.Sftup = GDIWinSD_Sftup;
+    wsdo->GftDC = GDIWinSD_GftDC;
+    wsdo->RflfbsfDC = GDIWinSD_RflfbsfDC;
+    wsdo->InvblidbtfSD = GDIWinSD_InvblidbtfSD;
+    wsdo->invblid = JNI_FALSE;
+    wsdo->lodkTypf = WIN32SD_LOCK_UNLOCKED;
+    wsdo->pffr = fnv->NfwWfbkGlobblRff(pffr);
+    if (fnv->ExdfptionOddurrfd()) {
+        rfturn;
+    }
+    wsdo->dfpth = dfpth;
+    wsdo->pixflMbsks[0] = rfdMbsk;
+    wsdo->pixflMbsks[1] = grffnMbsk;
+    wsdo->pixflMbsks[2] = blufMbsk;
+    // Init thf DIB pixflStridf bnd pixfl mbsks bddording to
+    // thf pixfl dfpth. In thf 8-bit dbsf, thfrf brf no
+    // mbsks bs b pblfttf DIB is usfd instfbd. Likfwisf
+    // in thf 24-bit dbsf, Windows dofsn't fxpfdt thf mbsks
+    switdh (dfpth) {
+        dbsf 8:
+            wsdo->pixflStridf = 1;
+            brfbk;
+        dbsf 15: //555
+            wsdo->pixflStridf = 2;
+            brfbk;
+        dbsf 16: //565
+            wsdo->pixflStridf = 2;
+            brfbk;
+        dbsf 24:
+            wsdo->pixflStridf = 3;
+            brfbk;
+        dbsf 32: //888
+            wsdo->pixflStridf = 4;
+            brfbk;
+    }
+    // GDIWindowSurfbdfDbtb_GftWindow will throw NullPointfrExdfption
+    // if wsdo->window is NULL
+    wsdo->window = GDIWindowSurfbdfDbtb_GftWindow(fnv, wsdo);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
+                wsdo, wsdo->window);
+
+    {
+        Dfvidfs::InstbndfAddfss dfvidfs;
+        wsdo->dfvidf = dfvidfs->GftDfvidfRfffrfndf(sdrffn, FALSE);
+    }
+    if (wsdo->dfvidf == NULL ||
+        !SurfbdfDfpthsCompbtiblf(dfpth, wsdo->dfvidf->GftBitDfpth()))
+    {
+        if (wsdo->dfvidf != NULL) {
+            J2dTrbdfLn2(J2D_TRACE_WARNING,
+                        "GDIWindowSurfbdfDbtb_initOps: Surfbdf dfpth mismbtdh: "\
+                        "wsdo->dfpth=%d dfvidf dfpth=%d. Surfbdf invblidbtfd.",
+                        wsdo->dfpth, wsdo->dfvidf->GftBitDfpth());
+        } flsf {
+            J2dTrbdfLn1(J2D_TRACE_WARNING,
+                        "GDIWindowSurfbdfDbtb_initOps: Indorrfdt "\
+                        "sdrffn numbfr (sdrffn=%d). Surfbdf invblidbtfd.",
+                        sdrffn);
+        }
+
+        wsdo->invblid = JNI_TRUE;
+    }
+    wsdo->surfbdfLodk = nfw CritidblSfdtion();
+    wsdo->bitmbp = NULL;
+    wsdo->bmdd = NULL;
+    wsdo->bmCopyToSdrffn = FALSE;
+}
+
+JNIEXPORT GDIWinSDOps * JNICALL
+GDIWindowSurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb)
+{
+    SurfbdfDbtbOps *ops = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    // REMIND: Thfrf wbs originblly b dondition dhfdk hfrf to mbkf surf
+    // thbt wf wfrf rfblly dfbling with b GDIWindowSurfbdfDbtb objfdt, but
+    // it did not bllow for thf fxistfndf of othfr win32-bddflfrbtfd
+    // surfbdf dbtb objfdts (f.g., Win32OffSdrffnSurfbdfDbtb).  I'vf
+    // rfmovfd thf dhfdk for now, but wf should rfplbdf it with bnothfr,
+    // morf gfnfrbl dhfdk bgbinst Win32-rflbtfd surfbdfs.
+    rfturn (GDIWinSDOps *) ops;
+}
+
+JNIEXPORT GDIWinSDOps * JNICALL
+GDIWindowSurfbdfDbtb_GftOpsNoSftup(JNIEnv *fnv, jobjfdt sDbtb)
+{
+    // usf thf 'no sftup' vfrsion of GftOps
+    SurfbdfDbtbOps *ops = SurfbdfDbtb_GftOpsNoSftup(fnv, sDbtb);
+    rfturn (GDIWinSDOps *) ops;
+}
+
+JNIEXPORT AwtComponfnt * JNICALL
+GDIWindowSurfbdfDbtb_GftComp(JNIEnv *fnv, GDIWinSDOps *wsdo)
+{
+    PDATA pDbtb;
+    jobjfdt lodblObj = fnv->NfwLodblRff(wsdo->pffr);
+
+    if (lodblObj == NULL || (pDbtb = JNI_GET_PDATA(lodblObj)) == NULL) {
+        J2dTrbdfLn1(J2D_TRACE_WARNING,
+                    "GDIWindowSurfbdfDbtb_GftComp: Null pDbtb? pDbtb=0x%x",
+                    pDbtb);
+        if (bfingShutdown == JNI_TRUE) {
+            wsdo->invblid = JNI_TRUE;
+            rfturn (AwtComponfnt *) NULL;
+        }
+        try {
+            AwtToolkit::GftInstbndf().VfrifyAdtivf();
+        } dbtdh (bwt_toolkit_shutdown&) {
+            bfingShutdown = JNI_TRUE;
+            wsdo->invblid = JNI_TRUE;
+            rfturn (AwtComponfnt *) NULL;
+        }
+        if (wsdo->invblid == JNI_TRUE) {
+            SurfbdfDbtb_ThrowInvblidPipfExdfption(fnv,
+                "GDIWindowSurfbdfDbtb: bounds dhbngfd");
+        } flsf {
+            JNU_ThrowNullPointfrExdfption(fnv, "domponfnt brgumfnt pDbtb");
+        }
+        rfturn (AwtComponfnt *) NULL;
+    }
+    rfturn stbtid_dbst<AwtComponfnt*>(pDbtb);
+}
+
+JNIEXPORT HWND JNICALL
+GDIWindowSurfbdfDbtb_GftWindow(JNIEnv *fnv, GDIWinSDOps *wsdo)
+{
+    HWND window = wsdo->window;
+
+    if (window == (HWND) NULL) {
+        AwtComponfnt *domp = GDIWindowSurfbdfDbtb_GftComp(fnv, wsdo);
+        if (domp == NULL) {
+            J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "GDIWindowSurfbdfDbtb_GftWindow: null domponfnt");
+            rfturn (HWND) NULL;
+        }
+        domp->GftInsfts(&wsdo->insfts);
+        window = domp->GftHWnd();
+        if (::IsWindow(window) == FALSE) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                          "GDIWindowSurfbdfDbtb_GftWindow: disposfd domponfnt");
+            JNU_ThrowNullPointfrExdfption(fnv, "disposfd domponfnt");
+            rfturn (HWND) NULL;
+        }
+        wsdo->window = window;
+    }
+
+    rfturn window;
+}
+
+} /* fxtfrn "C" */
+
+stbtid jboolfbn GDIWinSD_SimplfClip(JNIEnv *fnv, GDIWinSDOps *wsdo,
+                                   SurfbdfDbtbBounds *bounds,
+                                   HDC hDC)
+{
+    RECT rClip;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_SimplfClip");
+    if (hDC == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    int nComplfxity = ::GftClipBox(hDC, &rClip);
+
+    switdh (nComplfxity) {
+    dbsf COMPLEXREGION:
+        {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  domplfx dlipping rfgion");
+            // if domplfx usfr/systfm dlip, morf dftbilfd tfsting rfquirfd
+            // dhfdk to sff if thf vifw itsflf hbs b domplfx dlip.
+            // ::GftClipBox is only API whidh rfturns ovfrlbppfd window stbtus
+            // so wf sft thf rVifw bs our dlip, bnd thfn sff if rfsulting
+            // dlip is domplfx.
+            // Only othfr wby to figurf this out would bf to wblk thf
+            // ovfrlbpping windows (no API to gft thf bdtubl visiblf dlip
+            // list).  Thfn wf'd still hbvf to mfrgf thbt info with thf
+            // dlip rfgion for thf dd (if it fxists).
+            // REMIND: wf dbn dbdhf thf CrfbtfRfdtRgnIndirfdt rfsult,
+            // bnd only ovfrridf with ::SftRfdtRgn
+
+            // First, drfbtf b rfgion hbndlf (nffd fxisting HRGN for
+            // thf following dbll).
+            HRGN rgnSbvf = ::CrfbtfRfdtRgn(0, 0, 0, 0);
+            int  dlipStbtus = ::GftClipRgn(hDC, rgnSbvf);
+            if (-1 == dlipStbtus) {
+                J2dTrbdfLn(J2D_TRACE_WARNING,
+                           "GDIWinSD_SimplfClip: fbilfd duf to dlip stbtus");
+                ::DflftfObjfdt(rgnSbvf);
+                rfturn JNI_FALSE;
+            }
+            HRGN rgnBounds = ::CrfbtfRfdtRgn(
+                bounds->x1 - wsdo->insfts.lfft,
+                bounds->y1 - wsdo->insfts.top,
+                bounds->x2 - wsdo->insfts.lfft,
+                bounds->y2 - wsdo->insfts.top);
+            ::SflfdtClipRgn(hDC, rgnBounds);
+            nComplfxity = ::GftClipBox(hDC, &rClip);
+            ::SflfdtClipRgn(hDC, dlipStbtus? rgnSbvf: NULL);
+            ::DflftfObjfdt(rgnSbvf);
+            ::DflftfObjfdt(rgnBounds);
+
+            // Now, tfst thf nfw dlip box.  If it's still not b
+            // SIMPLE rfgion, thfn our bounds must intfrsfdt pbrt of
+            // thf dlipping brtidlf
+            if (SIMPLEREGION != nComplfxity) {
+                J2dTrbdfLn(J2D_TRACE_WARNING,
+                           "GDIWinSD_SimplfClip: fbilfd duf to domplfxity");
+                rfturn JNI_FALSE;
+            }
+        }
+        // NOTE: No brfbk hfrf - wf wbnt to fbll through into thf
+        // SIMPLE dbsf, bdjust our bounds by thf nfw rClip rfdt
+        // bnd mbkf surf thbt our lodking bounds brf not fmpty.
+    dbsf SIMPLEREGION:
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  simplf dlipping rfgion");
+        // Constrbin thf bounds to thf givfn dlip box
+        if (bounds->x1 < rClip.lfft) {
+            bounds->x1 = rClip.lfft;
+        }
+        if (bounds->y1 < rClip.top) {
+            bounds->y1 = rClip.top;
+        }
+        if (bounds->x2 > rClip.right) {
+            bounds->x2 = rClip.right;
+        }
+        if (bounds->y2 > rClip.bottom) {
+            bounds->y2 = rClip.bottom;
+        }
+        // If thf bounds brf 0 or nfgbtivf, thfn thf bounds hbvf
+        // bffn obsdurfd by thf dlip box, so rfturn FALSE
+        if ((bounds->x2 <= bounds->x1) ||
+            (bounds->y2 <= bounds->y1)) {
+            // REMIND: Wf should probbbly do somfthing difffrfnt hfrf
+            // instfbd of simply rfturning FALSE.  Sindf thf bounds brf
+            // fmpty wf won't fnd up drbwing bnything, so why spfnd thf
+            // fffort of rfturning fblsf bnd hbving GDI do b LOCK_BY_DIB?
+            // Pfrhbps wf nffd b nfw lodk dodf thbt will indidbtf thbt wf
+            // shouldn't bothfr drbwing?
+            J2dTrbdfLn(J2D_TRACE_WARNING,
+                       "GDIWinSD_SimplfClip: fbilfd duf to fmpty bounds");
+            rfturn JNI_FALSE;
+        }
+        brfbk;
+    dbsf NULLREGION:
+    dbsf ERROR:
+    dffbult:
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                   "GDIWinSD_SimplfClip: fbilfd duf to indorrfdt domplfxity=%d",
+                    nComplfxity);
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jint GDIWinSD_Lodk(JNIEnv *fnv,
+                         SurfbdfDbtbOps *ops,
+                         SurfbdfDbtbRbsInfo *pRbsInfo,
+                         jint lodkflbgs)
+{
+    GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
+    int rft = SD_SUCCESS;
+    HDC hDC;
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_Lodk");
+
+    /* This surfbdfLodk rfplbdfs bn fbrlifr implfmfntbtion whidh usfd b
+    monitor bssodibtfd with thf pffr.  Thbt implfmfntbtion wbs pronf
+    to dfbdlodk problfms, so it wbs rfplbdfd by b lodk thbt dofs not
+    hbvf dfpfndfndifs outsidf of this thrfbd or objfdt.
+    Howfvfr, this lodk dofsn't nfdfssbrily do bll thbt wf wbnt.
+    For fxbmplf, b usfr mby issuf b dbll whidh rfsults in b DIB lodk
+    bnd bnothfr dbll whidh rfsults in b DDrbw Blt.  Wf dbn't gubrbntff
+    whbt ordfr thfsf opfrbtions hbppfn in (thfy brf drivfr bnd
+    vidfo-dbrd dfpfndfnt), so lodking bround thf issuf of fithfr of
+    thosf dblls won't nfdfssbrily gubrbntff b pbrtidulbr rfsult.
+    Thf rfbl solution might bf to movf bwby from mixing our
+    rfndfring API's.  Thbt is, if wf only usfd DDrbw, thfn wf dould
+    gubrbntff thbt bll rfndfring opfrbtions would hbppfn in b givfn
+    ordfr.  Similbrly for GDI.  But by mixing thfm, wf lfbvf our
+    dodf bt thf mfrdy of drivfr bugs.*/
+    wsdo->surfbdfLodk->Entfr();
+    if (wsdo->invblid == JNI_TRUE) {
+        J2dTrbdfLn(J2D_TRACE_WARNING, "GDIWinSD_Lodk: surfbdf is invblid");
+        wsdo->surfbdfLodk->Lfbvf();
+        if (bfingShutdown != JNI_TRUE) {
+            SurfbdfDbtb_ThrowInvblidPipfExdfption(fnv,
+                "GDIWindowSurfbdfDbtb: bounds dhbngfd");
+        }
+        rfturn SD_FAILURE;
+    }
+    if (wsdo->lodkTypf != WIN32SD_LOCK_UNLOCKED) {
+        wsdo->surfbdfLodk->Lfbvf();
+        if (!sbff_ExdfptionOddurrfd(fnv)) {
+            JNU_ThrowIntfrnblError(fnv, "Win32 LodkRbsDbtb dbnnot nfst lodks");
+        }
+        rfturn SD_FAILURE;
+    }
+
+    hDC = wsdo->GftDC(fnv, wsdo, 0, NULL, NULL, NULL, 0);
+    if (hDC == NULL) {
+        wsdo->surfbdfLodk->Lfbvf();
+        if (bfingShutdown != JNI_TRUE) {
+            JNU_ThrowNullPointfrExdfption(fnv, "HDC for domponfnt");
+        }
+        rfturn SD_FAILURE;
+    }
+
+    if (lodkflbgs & SD_LOCK_RD_WR) {
+        // Do bn initibl dlip to thf dlifnt rfgion of thf window
+        RECT drfdt;
+        ::GftClifntRfdt(wsdo->window, &drfdt);
+
+        // Trbnslbtf to window doords
+        drfdt.lfft += wsdo->insfts.lfft;
+        drfdt.top += wsdo->insfts.top;
+        drfdt.right += wsdo->insfts.lfft;
+        drfdt.bottom += wsdo->insfts.top;
+
+        SurfbdfDbtbBounds *bounds = &pRbsInfo->bounds;
+
+        if (bounds->x1 < drfdt.lfft) {
+            bounds->x1 = drfdt.lfft;
+        }
+        if (bounds->y1 < drfdt.top) {
+            bounds->y1 = drfdt.top;
+        }
+        if (bounds->x2 > drfdt.right) {
+            bounds->x2 = drfdt.right;
+        }
+        if (bounds->y2 > drfdt.bottom) {
+            bounds->y2 = drfdt.bottom;
+        }
+
+        if (bounds->x2 > bounds->x1 && bounds->y2 > bounds->y1) {
+            wsdo->lodkTypf = WIN32SD_LOCK_BY_DIB;
+            if (lodkflbgs & SD_LOCK_FASTEST) {
+                rft = SD_SLOWLOCK;
+            }
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, " lodkfd by DIB");
+        } flsf {
+            wsdo->RflfbsfDC(fnv, wsdo, hDC);
+            wsdo->lodkTypf = WIN32SD_LOCK_UNLOCKED;
+            wsdo->surfbdfLodk->Lfbvf();
+            rft = SD_FAILURE;
+            J2dTrbdfLn(J2D_TRACE_ERROR,
+                       "GDIWinSD_Lodk: frror lodking by DIB");
+        }
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "GDIWinSD_Lodk: surfbdf wbsn't lodkfd");
+        /* Thfy didn't lodk for bnything - wf won't givf thfm bnything */
+        wsdo->RflfbsfDC(fnv, wsdo, hDC);
+        wsdo->lodkTypf = WIN32SD_LOCK_UNLOCKED;
+        wsdo->surfbdfLodk->Lfbvf();
+        rft = SD_FAILURE;
+    }
+
+    wsdo->lodkFlbgs = lodkflbgs;
+    rfturn rft;
+}
+
+stbtid void GDIWinSD_GftRbsInfo(JNIEnv *fnv,
+                               SurfbdfDbtbOps *ops,
+                               SurfbdfDbtbRbsInfo *pRbsInfo)
+{
+    GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
+    jint lodkflbgs = wsdo->lodkFlbgs;
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_GftRbsInfo");
+    HDC hDC = GftThrfbdDC(fnv, wsdo);
+
+    if (wsdo->lodkTypf == WIN32SD_LOCK_UNLOCKED) {
+        mfmsft(pRbsInfo, 0, sizfof(*pRbsInfo));
+        rfturn;
+    }
+
+    if (wsdo->lodkTypf == WIN32SD_LOCK_BY_DIB) {
+        int x, y, w, h;
+        int pixflStridf = wsdo->pixflStridf;
+        // do not subtrbdt insfts from x,y bs wf tbkf dbrf of it in SD_GftDC
+        x = pRbsInfo->bounds.x1;
+        y = pRbsInfo->bounds.y1;
+        w = pRbsInfo->bounds.x2 - x;
+        h = pRbsInfo->bounds.y2 - y;
+
+        strudt tbgBitmbphfbdfr  {
+            BITMAPINFOHEADER bmiHfbdfr;
+            union {
+                DWORD           dwMbsks[3];
+                RGBQUAD         pblfttf[256];
+            } dolors;
+        } bmi;
+
+        // Nffd to drfbtf bitmbp if wf don't hbvf onf blrfbdy or
+        // if thf fxisting onf is not lbrgf fnough for this opfrbtion
+        // or if wf brf in 8 bpp displby modf (bfdbusf wf nffd to
+        // mbkf surf thbt thf lbtfst pblfttf info gfts lobdfd into
+        // thf bitmbp)
+        // REMIND: wf should find somf wby to dynbmidblly fordf bitmbp
+        // rfdrfbtion only whfn thf pblfttf dhbngfs
+        if (pixflStridf == 1 || !wsdo->bitmbp || (w > wsdo->bmWidth) ||
+            (h > wsdo->bmHfight))
+        {
+            if (wsdo->bitmbp) {
+                // dflftf old objfdts
+                J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                           "GDIWinSD_GftRbsInfo: rfdrfbting GDI bitmbp");
+                if (wsdo->bmdd) {   // should not bf null
+                    ::SflfdtObjfdt(wsdo->bmdd, wsdo->oldmbp);
+                    ::DflftfDC(wsdo->bmdd);
+                    wsdo->bmdd = 0;
+                }
+                ::DflftfObjfdt(wsdo->bitmbp);
+                wsdo->bitmbp = 0;
+            }
+            bmi.bmiHfbdfr.biSizf = sizfof(bmi.bmiHfbdfr);
+            bmi.bmiHfbdfr.biWidth = w;
+            bmi.bmiHfbdfr.biHfight = -h;
+            wsdo->bmWidth = w;
+            wsdo->bmHfight = h;
+            bmi.bmiHfbdfr.biPlbnfs = 1;
+            bmi.bmiHfbdfr.biBitCount = pixflStridf * 8;
+            // 1,3 bytf usf BI_RGB, 2,4 bytf usf BI_BITFIELD...
+            bmi.bmiHfbdfr.biComprfssion =
+                (pixflStridf & 1)
+                    ? BI_RGB
+                    : BI_BITFIELDS;
+            bmi.bmiHfbdfr.biSizfImbgf = 0;
+            bmi.bmiHfbdfr.biXPflsPfrMftfr = 0;
+            bmi.bmiHfbdfr.biYPflsPfrMftfr = 0;
+            bmi.bmiHfbdfr.biClrUsfd = 0;
+            bmi.bmiHfbdfr.biClrImportbnt = 0;
+            if (pixflStridf == 1) {
+                // wf dbn usf systfmEntrifs hfrf bfdbusf
+                // RGBQUAD is xRGB bnd systfmEntrifs brf storfd bs xRGB
+                mfmdpy(bmi.dolors.pblfttf, wsdo->dfvidf->GftSystfmPblfttfEntrifs(),
+                       sizfof(bmi.dolors.pblfttf));
+            } flsf {
+                // For non-indfx dbsfs, init thf mbsks for thf pixfl dfpth
+                for (int i = 0; i < 3; i++) {
+                    bmi.dolors.dwMbsks[i] = wsdo->pixflMbsks[i];
+                }
+            }
+
+            // REMIND: This would bf bfttfr if movfd to thf Lodk fundtion
+            // so thbt frrors dould bf dfblt with.
+            wsdo->bitmbp = ::CrfbtfDIBSfdtion(hDC, (BITMAPINFO *) &bmi,
+                                              DIB_RGB_COLORS, &wsdo->bmBufffr, NULL, 0);
+            if (wsdo->bitmbp != 0) {
+                // sdbnStridf is dbdhfd blong with rfusfbblf bitmbp
+                // Round up to thf nfxt DWORD boundbry
+                wsdo->bmSdbnStridf = (wsdo->bmWidth * pixflStridf + 3) & ~3;
+                wsdo->bmdd = ::CrfbtfCompbtiblfDC(hDC);
+                if (wsdo->bmdd == 0) {
+                    ::DflftfObjfdt(wsdo->bitmbp);
+                    wsdo->bitmbp = 0;
+                } flsf {
+                    wsdo->oldmbp = (HBITMAP) ::SflfdtObjfdt(wsdo->bmdd,
+                                                            wsdo->bitmbp);
+                }
+            }
+        }
+        if (wsdo->bitmbp != 0) {
+            if (lodkflbgs & SD_LOCK_NEED_PIXELS) {
+                int rft = ::BitBlt(wsdo->bmdd, 0, 0, w, h,
+                                   hDC, x, y, SRCCOPY);
+                ::GdiFlush();
+            }
+            wsdo->x = x;
+            wsdo->y = y;
+            wsdo->w = w;
+            wsdo->h = h;
+            pRbsInfo->rbsBbsf = (dhbr *)wsdo->bmBufffr - (x*pixflStridf +
+                                y*wsdo->bmSdbnStridf);
+            pRbsInfo->pixflStridf = pixflStridf;
+            pRbsInfo->pixflBitOffsft = 0;
+            pRbsInfo->sdbnStridf = wsdo->bmSdbnStridf;
+            if (lodkflbgs & SD_LOCK_WRITE) {
+                // If thf usfr writfs to thf bitmbp thfn wf should
+                // dopy thf bitmbp to thf sdrffn during Unlodk
+                wsdo->bmCopyToSdrffn = TRUE;
+            }
+        } flsf {
+            pRbsInfo->rbsBbsf = NULL;
+            pRbsInfo->pixflStridf = 0;
+            pRbsInfo->pixflBitOffsft = 0;
+            pRbsInfo->sdbnStridf = 0;
+        }
+    } flsf {
+        /* Thfy didn't lodk for bnything - wf won't givf thfm bnything */
+        pRbsInfo->rbsBbsf = NULL;
+        pRbsInfo->pixflStridf = 0;
+        pRbsInfo->pixflBitOffsft = 0;
+        pRbsInfo->sdbnStridf = 0;
+    }
+    if (wsdo->lodkFlbgs & SD_LOCK_LUT) {
+        pRbsInfo->lutBbsf =
+            (long *) wsdo->dfvidf->GftSystfmPblfttfEntrifs();
+        pRbsInfo->lutSizf = 256;
+    } flsf {
+        pRbsInfo->lutBbsf = NULL;
+        pRbsInfo->lutSizf = 0;
+    }
+    if (wsdo->lodkFlbgs & SD_LOCK_INVCOLOR) {
+        pRbsInfo->invColorTbblf = wsdo->dfvidf->GftSystfmInvfrsfLUT();
+        ColorDbtb *dDbtb = wsdo->dfvidf->GftColorDbtb();
+        pRbsInfo->rfdErrTbblf = dDbtb->img_odb_rfd;
+        pRbsInfo->grnErrTbblf = dDbtb->img_odb_grffn;
+        pRbsInfo->bluErrTbblf = dDbtb->img_odb_bluf;
+    } flsf {
+        pRbsInfo->invColorTbblf = NULL;
+        pRbsInfo->rfdErrTbblf = NULL;
+        pRbsInfo->grnErrTbblf = NULL;
+        pRbsInfo->bluErrTbblf = NULL;
+    }
+    if (wsdo->lodkFlbgs & SD_LOCK_INVGRAY) {
+        pRbsInfo->invGrbyTbblf =
+            wsdo->dfvidf->GftColorDbtb()->pGrbyInvfrsfLutDbtb;
+    } flsf {
+        pRbsInfo->invGrbyTbblf = NULL;
+    }
+}
+
+stbtid void GDIWinSD_Sftup(JNIEnv *fnv,
+                          SurfbdfDbtbOps *ops)
+{
+    // Cbll SftupTGI to fnsurf thbt this thrfbd blrfbdy hbs b DC thbt is
+    // dompbtiblf with this window.  This mfbns thbt wf won't bf dblling
+    // ::SfndMfssbgf(GETDC) in thf middlf of b lodk prodfdurf, whidh drfbtfs
+    // b potfntibl dfbdlodk situbtion.
+    // Notf thbt dblling SftupTGI hfrf mfbns thbt bnybody nffding b DC
+    // lbtfr in this rfndfring prodfss nffd only dbll GftTGI, whidh
+    // bssumfs thbt thf TGI strudturf is vblid for this thrfbd/window.
+    SftupThrfbdGrbphidsInfo(fnv, (GDIWinSDOps*)ops);
+}
+
+
+stbtid void GDIWinSD_Unlodk(JNIEnv *fnv,
+                           SurfbdfDbtbOps *ops,
+                           SurfbdfDbtbRbsInfo *pRbsInfo)
+{
+    GDIWinSDOps *wsdo = (GDIWinSDOps *) ops;
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_Unlodk");
+    HDC hDC = GftThrfbdDC(fnv, wsdo);
+
+    if (wsdo->lodkTypf == WIN32SD_LOCK_UNLOCKED) {
+        if (!sbff_ExdfptionOddurrfd(fnv)) {
+            JNU_ThrowIntfrnblError(fnv,
+                                   "Unmbtdhfd unlodk on Win32 SurfbdfDbtb");
+        }
+        rfturn;
+    }
+
+    if (wsdo->lodkTypf == WIN32SD_LOCK_BY_DIB) {
+        if (wsdo->lodkFlbgs & SD_LOCK_WRITE) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "GDIWinSD_Unlodk: do Blt of thf bitmbp");
+            if (wsdo->bmCopyToSdrffn && ::IsWindowVisiblf(wsdo->window)) {
+                // Don't bothfr dopying to sdrffn if our window hbs gonf bwby
+                // or if thf bitmbp wbs not bdtublly writtfn to during this
+                // Lodk/Unlodk prodfdurf.
+                ::BitBlt(hDC, wsdo->x, wsdo->y, wsdo->w, wsdo->h,
+                    wsdo->bmdd, 0, 0, SRCCOPY);
+                ::GdiFlush();
+            }
+            wsdo->bmCopyToSdrffn = FALSE;
+        }
+        wsdo->lodkTypf = WIN32SD_LOCK_UNLOCKED;
+        wsdo->RflfbsfDC(fnv, wsdo, hDC);
+    }
+    wsdo->surfbdfLodk->Lfbvf();
+}
+
+/*
+ * REMIND: This mfdhbnism is just b prototypf of b wby to mbnbgf b
+ * smbll dbdhf of DC objfdts.  It is indomplftf in thf following wbys:
+ *
+ * - It is not thrfbd-sbff!  It nffds bppropribtf lodking bnd rflfbsf dblls
+ *   (pfrhbps thf AutoDC mfdhbnisms from Kfstrfl)
+ * - It dofs hbrdly bny frror dhfdking (Whbt if GftDCEx rfturns NULL?)
+ * - It dbnnot hbndlf printfr DCs bnd thfir rfsolution
+ * - It should probbbly "livf" in thf nbtivf SurfbdfDbtb objfdt to bllow
+ *   bltfrnbtf implfmfntbtions for printing bnd fmbfdding
+ * - It dofsn't hbndlf XOR
+ * - It dbdhfs thf dlifnt bounds to dftfrminf if dlipping is rfblly nffdfd
+ *   (no wby to invblidbtf thf dbdhfd bounds bnd thfrf is probbbly b bfttfr
+ *    wby to mbnbgf dlip vblidbtion in bny dbsf)
+ */
+
+#dffinf COLORFOR(d)     (PALETTERGB(((d)>>16)&0xff,((d)>>8)&0xff,((d)&0xff)))
+
+COLORREF ChfdkGrbyColor(GDIWinSDOps *wsdo, int d) {
+    if (wsdo->dfvidf->GftGrbynfss() != GS_NOTGRAY) {
+        int g = (77 *(d & 0xFF) +
+                 150*((d >> 8) & 0xFF) +
+                 29 *((d >> 16) & 0xFF) + 128) / 256;
+        d = g | (g << 8) | (g << 16);
+    }
+    rfturn COLORFOR(d);
+}
+
+stbtid HDC GDIWinSD_GftDC(JNIEnv *fnv, GDIWinSDOps *wsdo,
+                         jint typf, jint *pbtrop,
+                         jobjfdt dlip, jobjfdt domp, jint dolor)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_GftDC");
+
+    if (wsdo->invblid == JNI_TRUE) {
+        if (bfingShutdown != JNI_TRUE) {
+            SurfbdfDbtb_ThrowInvblidPipfExdfption(fnv, "bounds dhbngfd");
+        }
+        rfturn (HDC) NULL;
+    }
+
+    ThrfbdGrbphidsInfo *info = GftThrfbdGrbphidsInfo(fnv, wsdo);
+    GDIWinSD_InitDC(fnv, wsdo, info, typf, pbtrop, dlip, domp, dolor);
+    rfturn fnv->ExdfptionChfdk() ? (HDC)NULL : info->hDC;
+}
+
+JNIEXPORT void JNICALL
+GDIWinSD_InitDC(JNIEnv *fnv, GDIWinSDOps *wsdo, ThrfbdGrbphidsInfo *info,
+               jint typf, jint *pbtrop,
+               jobjfdt dlip, jobjfdt domp, jint dolor)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_InitDC");
+
+    // init dlip
+    if (dlip == NULL) {
+        if (info->typf & CLIP) {
+            ::SflfdtClipRgn(info->hDC, (HRGN) NULL);
+            info->typf ^= CLIP;
+        }
+        if (info->dlip != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->dlip);
+            info->dlip = NULL;
+        }
+    } flsf if (!fnv->IsSbmfObjfdt(dlip, info->dlip)) {
+        SurfbdfDbtbBounds spbn;
+        RfgionDbtb dlipInfo;
+        if (Rfgion_GftInfo(fnv, dlip, &dlipInfo)) {
+            // rfturn; // REMIND: Whbt to do hfrf?
+        }
+
+        if (Rfgion_IsEmpty(&dlipInfo)) {
+            HRGN hrgn = ::CrfbtfRfdtRgn(0, 0, 0, 0);
+            ::SflfdtClipRgn(info->hDC, hrgn);
+            ::DflftfObjfdt(hrgn);
+            info->typf |= CLIP;
+        } flsf if (Rfgion_IsRfdtbngulbr(&dlipInfo)) {
+            if (dlipInfo.bounds.x1 <= info->bounds.lfft &&
+                dlipInfo.bounds.y1 <= info->bounds.top &&
+                dlipInfo.bounds.x2 >= info->bounds.right &&
+                dlipInfo.bounds.y2 >= info->bounds.bottom)
+            {
+                if (info->typf & CLIP) {
+                    ::SflfdtClipRgn(info->hDC, (HRGN) NULL);
+                    info->typf ^= CLIP;
+                }
+            } flsf {
+                // Mbkf thf window-rflbtivf rfdt b dlifnt-rflbtivf
+                // onf for Windows
+                HRGN hrgn =
+                    ::CrfbtfRfdtRgn(dlipInfo.bounds.x1 - wsdo->insfts.lfft,
+                                    dlipInfo.bounds.y1 - wsdo->insfts.top,
+                                    dlipInfo.bounds.x2 - wsdo->insfts.lfft,
+                                    dlipInfo.bounds.y2 - wsdo->insfts.top);
+                ::SflfdtClipRgn(info->hDC, hrgn);
+                ::DflftfObjfdt(hrgn);
+                info->typf |= CLIP;
+            }
+        } flsf {
+            int lfftInsft = wsdo->insfts.lfft;
+            int topInsft = wsdo->insfts.top;
+            Rfgion_StbrtItfrbtion(fnv, &dlipInfo);
+            jint numrfdts = Rfgion_CountItfrbtionRfdts(&dlipInfo);
+            RGNDATA *lpRgnDbtb;
+            try {
+                lpRgnDbtb = (RGNDATA *) SAFE_SIZE_STRUCT_ALLOC(sbff_Mbllod,
+                    sizfof(RGNDATAHEADER), numrfdts, sizfof(RECT));
+            } dbtdh (std::bbd_bllod&) {
+                JNU_ThrowOutOfMfmoryError(fnv, "Initiblizbtion of surfbdf rfgion dbtb fbilfd.");
+                rfturn;
+            }
+            donst DWORD nCount = sizfof(RGNDATAHEADER) + numrfdts * sizfof(RECT);
+            lpRgnDbtb->rdh.dwSizf = sizfof(RGNDATAHEADER);
+            lpRgnDbtb->rdh.iTypf = RDH_RECTANGLES;
+            lpRgnDbtb->rdh.nCount = numrfdts;
+            lpRgnDbtb->rdh.nRgnSizf = 0;
+            lpRgnDbtb->rdh.rdBound.lfft = dlipInfo.bounds.x1 - lfftInsft;
+            lpRgnDbtb->rdh.rdBound.top = dlipInfo.bounds.y1 - topInsft;
+            lpRgnDbtb->rdh.rdBound.right = dlipInfo.bounds.x2 - lfftInsft;
+            lpRgnDbtb->rdh.rdBound.bottom = dlipInfo.bounds.y2 - topInsft;
+            RECT *pRfdt = (RECT *) &(((RGNDATA *)lpRgnDbtb)->Bufffr);
+            whilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                pRfdt->lfft = spbn.x1 - lfftInsft;
+                pRfdt->top = spbn.y1 - topInsft;
+                pRfdt->right = spbn.x2 - lfftInsft;
+                pRfdt->bottom = spbn.y2 - topInsft;
+                pRfdt++;
+            }
+            Rfgion_EndItfrbtion(fnv, &dlipInfo);
+            HRGN hrgn = ::ExtCrfbtfRfgion(NULL, nCount, lpRgnDbtb);
+            frff(lpRgnDbtb);
+            ::SflfdtClipRgn(info->hDC, hrgn);
+            ::DflftfObjfdt(hrgn);
+            info->typf |= CLIP;
+        }
+        if (info->dlip != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->dlip);
+        }
+        info->dlip = fnv->NfwWfbkGlobblRff(dlip);
+        if (fnv->ExdfptionChfdk()) {
+            rfturn;
+        }
+    }
+
+    // init dompositf
+    if ((domp == NULL) || !fnv->IsInstbndfOf(domp, xorCompClbss)) {
+        if (info->domp != NULL) {
+            fnv->DflftfWfbkGlobblRff(info->domp);
+            info->domp = NULL;
+            info->pbtrop = PATCOPY;
+            ::SftROP2(info->hDC, R2_COPYPEN);
+        }
+    } flsf {
+        if (!fnv->IsSbmfObjfdt(domp, info->domp)) {
+            info->xordolor = GrPrim_CompGftXorColor(fnv, domp);
+            if (info->domp != NULL) {
+                fnv->DflftfWfbkGlobblRff(info->domp);
+            }
+            info->domp = fnv->NfwWfbkGlobblRff(domp);
+            info->pbtrop = PATINVERT;
+            ::SftROP2(info->hDC, R2_XORPEN);
+        }
+        dolor ^= info->xordolor;
+    }
+
+    if (pbtrop != NULL) {
+        *pbtrop = info->pbtrop;
+    }
+
+    // init brush bnd pfn
+    if (typf & BRUSH) {
+        if (info->brushdlr != dolor || (info->brush == NULL)) {
+            if (info->typf & BRUSH) {
+                ::SflfdtObjfdt(info->hDC, nullbrush);
+                info->typf ^= BRUSH;
+            }
+            if (info->brush != NULL) {
+                info->brush->Rflfbsf();
+            }
+            info->brush = AwtBrush::Gft(ChfdkGrbyColor(wsdo, dolor));
+            info->brushdlr = dolor;
+        }
+        if ((info->typf & BRUSH) == 0) {
+            ::SflfdtObjfdt(info->hDC, info->brush->GftHbndlf());
+            info->typf ^= BRUSH;
+        }
+    } flsf if (typf & NOBRUSH) {
+        if (info->typf & BRUSH) {
+            ::SflfdtObjfdt(info->hDC, nullbrush);
+            info->typf ^= BRUSH;
+        }
+    }
+    if (typf & PEN) {
+        if (info->pfndlr != dolor || (info->pfn == NULL)) {
+            if (info->typf & PEN) {
+                ::SflfdtObjfdt(info->hDC, nullpfn);
+                info->typf ^= PEN;
+            }
+            if (info->pfn != NULL) {
+                info->pfn->Rflfbsf();
+            }
+            info->pfn = AwtPfn::Gft(ChfdkGrbyColor(wsdo, dolor));
+            info->pfndlr = dolor;
+        }
+        if ((info->typf & PEN) == 0) {
+            ::SflfdtObjfdt(info->hDC, info->pfn->GftHbndlf());
+            info->typf ^= PEN;
+        }
+    } flsf if (typf & NOPEN) {
+        if (info->typf & PEN) {
+            ::SflfdtObjfdt(info->hDC, nullpfn);
+            info->typf ^= PEN;
+        }
+    }
+}
+
+stbtid void GDIWinSD_RflfbsfDC(JNIEnv *fnv, GDIWinSDOps *wsdo, HDC hDC)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_RflfbsfDC");
+    // Don't bdtublly do bnything hfrf: fvfry thrfbd holds its own
+    // wsdo-spfdifid DC until thf thrfbd gofs bwby or thf wsdo
+    // is disposfd.
+}
+
+
+stbtid void GDIWinSD_InvblidbtfSD(JNIEnv *fnv, GDIWinSDOps *wsdo)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_InvblidbtfSD");
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  wsdo=0x%x wsdo->window=0x%x",
+                wsdo, wsdo->window);
+
+    wsdo->invblid = JNI_TRUE;
+}
+
+
+
+/*
+ * Mfthod:    GDIWinSD_Disposf
+ */
+stbtid void
+GDIWinSD_Disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWinSD_Disposf");
+    // ops is bssumfd non-null bs it is dhfdkfd in SurfbdfDbtb_DisposfOps
+    GDIWinSDOps *wsdo = (GDIWinSDOps*)ops;
+    if (wsdo->bitmbp) {
+        // dflftf old objfdts
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  disposing thf GDI bitmbp");
+        if (wsdo->bmdd) {   // should not bf null
+            ::SflfdtObjfdt(wsdo->bmdd, wsdo->oldmbp);
+            ::DflftfDC(wsdo->bmdd);
+            wsdo->bmdd = 0;
+        }
+        ::DflftfObjfdt(wsdo->bitmbp);
+        wsdo->bitmbp = 0;
+    }
+    fnv->DflftfWfbkGlobblRff(wsdo->pffr);
+    if (wsdo->dfvidf != NULL) {
+        wsdo->dfvidf->Rflfbsf();
+        wsdo->dfvidf = NULL;
+    }
+    dflftf wsdo->surfbdfLodk;
+}
+
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIWindowSurfbdfDbtb
+ * Mfthod:    invblidbtfSD
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIWindowSurfbdfDbtb_invblidbtfSD(JNIEnv *fnv, jobjfdt wsd)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWindowSurfbdfDbtb_invblidbtfSD");
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOpsNoSftup(fnv, wsd);
+    if (wsdo != NULL) {
+        wsdo->InvblidbtfSD(fnv, wsdo);
+    }
+}

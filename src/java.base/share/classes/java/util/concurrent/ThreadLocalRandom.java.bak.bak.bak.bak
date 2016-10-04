@@ -1,0 +1,1101 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Rbndom;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.strfbm.DoublfStrfbm;
+import jbvb.util.strfbm.IntStrfbm;
+import jbvb.util.strfbm.LongStrfbm;
+import jbvb.util.strfbm.StrfbmSupport;
+
+/**
+ * A rbndom numbfr gfnfrbtor isolbtfd to thf durrfnt thrfbd.  Likf thf
+ * globbl {@link jbvb.util.Rbndom} gfnfrbtor usfd by thf {@link
+ * jbvb.lbng.Mbth} dlbss, b {@dodf ThrfbdLodblRbndom} is initiblizfd
+ * with bn intfrnblly gfnfrbtfd sffd thbt mby not othfrwisf bf
+ * modififd. Whfn bpplidbblf, usf of {@dodf ThrfbdLodblRbndom} rbthfr
+ * thbn shbrfd {@dodf Rbndom} objfdts in dondurrfnt progrbms will
+ * typidblly fndountfr mudh lfss ovfrhfbd bnd dontfntion.  Usf of
+ * {@dodf ThrfbdLodblRbndom} is pbrtidulbrly bppropribtf whfn multiplf
+ * tbsks (for fxbmplf, fbdh b {@link ForkJoinTbsk}) usf rbndom numbfrs
+ * in pbrbllfl in thrfbd pools.
+ *
+ * <p>Usbgfs of this dlbss should typidblly bf of thf form:
+ * {@dodf ThrfbdLodblRbndom.durrfnt().nfxtX(...)} (whfrf
+ * {@dodf X} is {@dodf Int}, {@dodf Long}, ftd).
+ * Whfn bll usbgfs brf of this form, it is nfvfr possiblf to
+ * bddidfntly shbrf b {@dodf ThrfbdLodblRbndom} bdross multiplf thrfbds.
+ *
+ * <p>This dlbss blso providfs bdditionbl dommonly usfd boundfd rbndom
+ * gfnfrbtion mfthods.
+ *
+ * <p>Instbndfs of {@dodf ThrfbdLodblRbndom} brf not dryptogrbphidblly
+ * sfdurf.  Considfr instfbd using {@link jbvb.sfdurity.SfdurfRbndom}
+ * in sfdurity-sfnsitivf bpplidbtions. Additionblly,
+ * dffbult-donstrudtfd instbndfs do not usf b dryptogrbphidblly rbndom
+ * sffd unlfss thf {@linkplbin Systfm#gftPropfrty systfm propfrty}
+ * {@dodf jbvb.util.sfdurfRbndomSffd} is sft to {@dodf truf}.
+ *
+ * @sindf 1.7
+ * @buthor Doug Lfb
+ */
+publid dlbss ThrfbdLodblRbndom fxtfnds Rbndom {
+    /*
+     * This dlbss implfmfnts thf jbvb.util.Rbndom API (bnd subdlbssfs
+     * Rbndom) using b singlf stbtid instbndf thbt bddfssfs rbndom
+     * numbfr stbtf hfld in dlbss Thrfbd (primbrily, fifld
+     * thrfbdLodblRbndomSffd). In doing so, it blso providfs b homf
+     * for mbnbging pbdkbgf-privbtf utilitifs thbt rfly on fxbdtly thf
+     * sbmf stbtf bs nffdfd to mbintbin thf ThrfbdLodblRbndom
+     * instbndfs. Wf lfvfrbgf thf nffd for bn initiblizbtion flbg
+     * fifld to blso usf it bs b "probf" -- b sflf-bdjusting thrfbd
+     * hbsh usfd for dontfntion bvoidbndf, bs wfll bs b sfdondbry
+     * simplfr (xorShift) rbndom sffd thbt is donsfrvbtivfly usfd to
+     * bvoid othfrwisf surprising usfrs by hijbdking thf
+     * ThrfbdLodblRbndom sfqufndf.  Thf dubl usf is b mbrribgf of
+     * donvfnifndf, but is b simplf bnd fffidifnt wby of rfduding
+     * bpplidbtion-lfvfl ovfrhfbd bnd footprint of most dondurrfnt
+     * progrbms.
+     *
+     * Evfn though this dlbss subdlbssfs jbvb.util.Rbndom, it usfs thf
+     * sbmf bbsid blgorithm bs jbvb.util.SplittbblfRbndom.  (Sff its
+     * intfrnbl dodumfntbtion for fxplbnbtions, whidh brf not rfpfbtfd
+     * hfrf.)  Bfdbusf ThrfbdLodblRbndoms brf not splittbblf
+     * though, wf usf only b singlf 64bit gbmmb.
+     *
+     * Bfdbusf this dlbss is in b difffrfnt pbdkbgf thbn dlbss Thrfbd,
+     * fifld bddfss mfthods usf Unsbff to bypbss bddfss dontrol rulfs.
+     * To donform to thf rfquirfmfnts of thf Rbndom supfrdlbss
+     * donstrudtor, thf dommon stbtid ThrfbdLodblRbndom mbintbins bn
+     * "initiblizfd" fifld for thf sbkf of rfjfdting usfr dblls to
+     * sftSffd whilf still bllowing b dbll from donstrudtor.  Notf
+     * thbt sfriblizbtion is domplftfly unnfdfssbry bfdbusf thfrf is
+     * only b stbtid singlfton.  But wf gfnfrbtf b sfribl form
+     * dontbining "rnd" bnd "initiblizfd" fiflds to fnsurf
+     * dompbtibility bdross vfrsions.
+     *
+     * Implfmfntbtions of non-dorf mfthods brf mostly thf sbmf bs in
+     * SplittbblfRbndom, thbt wfrf in pbrt dfrivfd from b prfvious
+     * vfrsion of this dlbss.
+     *
+     * Thf nfxtLodblGbussibn ThrfbdLodbl supports thf vfry rbrfly usfd
+     * nfxtGbussibn mfthod by providing b holdfr for thf sfdond of b
+     * pbir of thfm. As is truf for thf bbsf dlbss vfrsion of this
+     * mfthod, this timf/spbdf trbdfoff is probbbly nfvfr worthwhilf,
+     * but wf providf idfntidbl stbtistidbl propfrtifs.
+     */
+
+    /** Gfnfrbtfs pfr-thrfbd initiblizbtion/probf fifld */
+    privbtf stbtid finbl AtomidIntfgfr probfGfnfrbtor =
+        nfw AtomidIntfgfr();
+
+    /**
+     * Thf nfxt sffd for dffbult donstrudtors.
+     */
+    privbtf stbtid finbl AtomidLong sffdfr = nfw AtomidLong(initiblSffd());
+
+    privbtf stbtid long initiblSffd() {
+        String pp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                        "jbvb.util.sfdurfRbndomSffd"));
+        if (pp != null && pp.fqublsIgnorfCbsf("truf")) {
+            bytf[] sffdBytfs = jbvb.sfdurity.SfdurfRbndom.gftSffd(8);
+            long s = (long)(sffdBytfs[0]) & 0xffL;
+            for (int i = 1; i < 8; ++i)
+                s = (s << 8) | ((long)(sffdBytfs[i]) & 0xffL);
+            rfturn s;
+        }
+        long h = 0L;
+        try {
+            Enumfrbtion<NftworkIntfrfbdf> ifds =
+                    NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+            boolfbn rftry = fblsf; // rftry ondf if gftHbrdwbrfAddrfss is null
+            whilf (ifds.hbsMorfElfmfnts()) {
+                NftworkIntfrfbdf ifd = ifds.nfxtElfmfnt();
+                if (!ifd.isVirtubl()) { // skip fbkf bddrfssfs
+                    bytf[] bs = ifd.gftHbrdwbrfAddrfss();
+                    if (bs != null) {
+                        int n = bs.lfngth;
+                        int m = Mbth.min(n >>> 1, 4);
+                        for (int i = 0; i < m; ++i)
+                            h = (h << 16) ^ (bs[i] << 8) ^ bs[n-1-i];
+                        if (m < 4)
+                            h = (h << 8) ^ bs[n-1-m];
+                        h = mix64(h);
+                        brfbk;
+                    }
+                    flsf if (!rftry)
+                        rftry = truf;
+                    flsf
+                        brfbk;
+                }
+            }
+        } dbtdh (Exdfption ignorf) {
+        }
+        rfturn (h ^ mix64(Systfm.durrfntTimfMillis()) ^
+                mix64(Systfm.nbnoTimf()));
+    }
+
+    /**
+     * Thf sffd indrfmfnt
+     */
+    privbtf stbtid finbl long GAMMA = 0x9f3779b97f4b7d15L;
+
+    /**
+     * Thf indrfmfnt for gfnfrbting probf vblufs
+     */
+    privbtf stbtid finbl int PROBE_INCREMENT = 0x9f3779b9;
+
+    /**
+     * Thf indrfmfnt of sffdfr pfr nfw instbndf
+     */
+    privbtf stbtid finbl long SEEDER_INCREMENT = 0xbb67bf8584dbb73bL;
+
+    // Constbnts from SplittbblfRbndom
+    privbtf stbtid finbl doublf DOUBLE_UNIT = 0x1.0p-53;  // 1.0  / (1L << 53)
+    privbtf stbtid finbl flobt  FLOAT_UNIT  = 0x1.0p-24f; // 1.0f / (1 << 24)
+
+    /** Rbrfly-usfd holdfr for thf sfdond of b pbir of Gbussibns */
+    privbtf stbtid finbl ThrfbdLodbl<Doublf> nfxtLodblGbussibn =
+        nfw ThrfbdLodbl<Doublf>();
+
+    privbtf stbtid long mix64(long z) {
+        z = (z ^ (z >>> 33)) * 0xff51bfd7fd558dddL;
+        z = (z ^ (z >>> 33)) * 0xd4dfb9ff1b85fd53L;
+        rfturn z ^ (z >>> 33);
+    }
+
+    privbtf stbtid int mix32(long z) {
+        z = (z ^ (z >>> 33)) * 0xff51bfd7fd558dddL;
+        rfturn (int)(((z ^ (z >>> 33)) * 0xd4dfb9ff1b85fd53L) >>> 32);
+    }
+
+    /**
+     * Fifld usfd only during singlfton initiblizbtion.
+     * Truf whfn donstrudtor domplftfs.
+     */
+    boolfbn initiblizfd;
+
+    /** Construdtor usfd only for stbtid singlfton */
+    privbtf ThrfbdLodblRbndom() {
+        initiblizfd = truf; // fblsf during supfr() dbll
+    }
+
+    /** Thf dommon ThrfbdLodblRbndom */
+    stbtid finbl ThrfbdLodblRbndom instbndf = nfw ThrfbdLodblRbndom();
+
+    /**
+     * Initiblizf Thrfbd fiflds for thf durrfnt thrfbd.  Cbllfd only
+     * whfn Thrfbd.thrfbdLodblRbndomProbf is zfro, indidbting thbt b
+     * thrfbd lodbl sffd vbluf nffds to bf gfnfrbtfd. Notf thbt fvfn
+     * though thf initiblizbtion is purfly thrfbd-lodbl, wf nffd to
+     * rfly on (stbtid) btomid gfnfrbtors to initiblizf thf vblufs.
+     */
+    stbtid finbl void lodblInit() {
+        int p = probfGfnfrbtor.bddAndGft(PROBE_INCREMENT);
+        int probf = (p == 0) ? 1 : p; // skip 0
+        long sffd = mix64(sffdfr.gftAndAdd(SEEDER_INCREMENT));
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        UNSAFE.putLong(t, SEED, sffd);
+        UNSAFE.putInt(t, PROBE, probf);
+    }
+
+    /**
+     * Rfturns thf durrfnt thrfbd's {@dodf ThrfbdLodblRbndom}.
+     *
+     * @rfturn thf durrfnt thrfbd's {@dodf ThrfbdLodblRbndom}
+     */
+    publid stbtid ThrfbdLodblRbndom durrfnt() {
+        if (UNSAFE.gftInt(Thrfbd.durrfntThrfbd(), PROBE) == 0)
+            lodblInit();
+        rfturn instbndf;
+    }
+
+    /**
+     * Throws {@dodf UnsupportfdOpfrbtionExdfption}.  Sftting sffds in
+     * this gfnfrbtor is not supportfd.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption blwbys
+     */
+    publid void sftSffd(long sffd) {
+        // only bllow dbll from supfr() donstrudtor
+        if (initiblizfd)
+            throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    finbl long nfxtSffd() {
+        Thrfbd t; long r; // rfbd bnd updbtf pfr-thrfbd sffd
+        UNSAFE.putLong(t = Thrfbd.durrfntThrfbd(), SEED,
+                       r = UNSAFE.gftLong(t, SEED) + GAMMA);
+        rfturn r;
+    }
+
+    // Wf must dffinf this, but nfvfr usf it.
+    protfdtfd int nfxt(int bits) {
+        rfturn (int)(mix64(nfxtSffd()) >>> (64 - bits));
+    }
+
+    // IllfgblArgumfntExdfption mfssbgfs
+    stbtid finbl String BbdBound = "bound must bf positivf";
+    stbtid finbl String BbdRbngf = "bound must bf grfbtfr thbn origin";
+    stbtid finbl String BbdSizf  = "sizf must bf non-nfgbtivf";
+
+    /**
+     * Thf form of nfxtLong usfd by LongStrfbm Splitfrbtors.  If
+     * origin is grfbtfr thbn bound, bdts bs unboundfd form of
+     * nfxtLong, flsf bs boundfd form.
+     *
+     * @pbrbm origin thf lfbst vbluf, unlfss grfbtfr thbn bound
+     * @pbrbm bound thf uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
+     */
+    finbl long intfrnblNfxtLong(long origin, long bound) {
+        long r = mix64(nfxtSffd());
+        if (origin < bound) {
+            long n = bound - origin, m = n - 1;
+            if ((n & m) == 0L)  // powfr of two
+                r = (r & m) + origin;
+            flsf if (n > 0L) {  // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
+                for (long u = r >>> 1;            // fnsurf nonnfgbtivf
+                     u + m - (r = u % n) < 0L;    // rfjfdtion dhfdk
+                     u = mix64(nfxtSffd()) >>> 1) // rftry
+                    ;
+                r += origin;
+            }
+            flsf {              // rbngf not rfprfsfntbblf bs long
+                whilf (r < origin || r >= bound)
+                    r = mix64(nfxtSffd());
+            }
+        }
+        rfturn r;
+    }
+
+    /**
+     * Thf form of nfxtInt usfd by IntStrfbm Splitfrbtors.
+     * Exbdtly thf sbmf bs long vfrsion, fxdfpt for typfs.
+     *
+     * @pbrbm origin thf lfbst vbluf, unlfss grfbtfr thbn bound
+     * @pbrbm bound thf uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
+     */
+    finbl int intfrnblNfxtInt(int origin, int bound) {
+        int r = mix32(nfxtSffd());
+        if (origin < bound) {
+            int n = bound - origin, m = n - 1;
+            if ((n & m) == 0)
+                r = (r & m) + origin;
+            flsf if (n > 0) {
+                for (int u = r >>> 1;
+                     u + m - (r = u % n) < 0;
+                     u = mix32(nfxtSffd()) >>> 1)
+                    ;
+                r += origin;
+            }
+            flsf {
+                whilf (r < origin || r >= bound)
+                    r = mix32(nfxtSffd());
+            }
+        }
+        rfturn r;
+    }
+
+    /**
+     * Thf form of nfxtDoublf usfd by DoublfStrfbm Splitfrbtors.
+     *
+     * @pbrbm origin thf lfbst vbluf, unlfss grfbtfr thbn bound
+     * @pbrbm bound thf uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
+     */
+    finbl doublf intfrnblNfxtDoublf(doublf origin, doublf bound) {
+        doublf r = (nfxtLong() >>> 11) * DOUBLE_UNIT;
+        if (origin < bound) {
+            r = r * (bound - origin) + origin;
+            if (r >= bound) // dorrfdt for rounding
+                r = Doublf.longBitsToDoublf(Doublf.doublfToLongBits(bound) - 1);
+        }
+        rfturn r;
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf int} vbluf.
+     *
+     * @rfturn b psfudorbndom {@dodf int} vbluf
+     */
+    publid int nfxtInt() {
+        rfturn mix32(nfxtSffd());
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf int} vbluf bftwffn zfro (indlusivf)
+     * bnd thf spfdififd bound (fxdlusivf).
+     *
+     * @pbrbm bound thf uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf int} vbluf bftwffn zfro
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf bound} is not positivf
+     */
+    publid int nfxtInt(int bound) {
+        if (bound <= 0)
+            throw nfw IllfgblArgumfntExdfption(BbdBound);
+        int r = mix32(nfxtSffd());
+        int m = bound - 1;
+        if ((bound & m) == 0) // powfr of two
+            r &= m;
+        flsf { // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
+            for (int u = r >>> 1;
+                 u + m - (r = u % bound) < 0;
+                 u = mix32(nfxtSffd()) >>> 1)
+                ;
+        }
+        rfturn r;
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf int} vbluf bftwffn thf spfdififd
+     * origin (indlusivf) bnd thf spfdififd bound (fxdlusivf).
+     *
+     * @pbrbm origin thf lfbst vbluf rfturnfd
+     * @pbrbm bound thf uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf int} vbluf bftwffn thf origin
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr thbn
+     *         or fqubl to {@dodf bound}
+     */
+    publid int nfxtInt(int origin, int bound) {
+        if (origin >= bound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtInt(origin, bound);
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf long} vbluf.
+     *
+     * @rfturn b psfudorbndom {@dodf long} vbluf
+     */
+    publid long nfxtLong() {
+        rfturn mix64(nfxtSffd());
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf long} vbluf bftwffn zfro (indlusivf)
+     * bnd thf spfdififd bound (fxdlusivf).
+     *
+     * @pbrbm bound thf uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf long} vbluf bftwffn zfro
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf bound} is not positivf
+     */
+    publid long nfxtLong(long bound) {
+        if (bound <= 0)
+            throw nfw IllfgblArgumfntExdfption(BbdBound);
+        long r = mix64(nfxtSffd());
+        long m = bound - 1;
+        if ((bound & m) == 0L) // powfr of two
+            r &= m;
+        flsf { // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
+            for (long u = r >>> 1;
+                 u + m - (r = u % bound) < 0L;
+                 u = mix64(nfxtSffd()) >>> 1)
+                ;
+        }
+        rfturn r;
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf long} vbluf bftwffn thf spfdififd
+     * origin (indlusivf) bnd thf spfdififd bound (fxdlusivf).
+     *
+     * @pbrbm origin thf lfbst vbluf rfturnfd
+     * @pbrbm bound thf uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf long} vbluf bftwffn thf origin
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr thbn
+     *         or fqubl to {@dodf bound}
+     */
+    publid long nfxtLong(long origin, long bound) {
+        if (origin >= bound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtLong(origin, bound);
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     * (indlusivf) bnd onf (fxdlusivf).
+     *
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     *         (indlusivf) bnd onf (fxdlusivf)
+     */
+    publid doublf nfxtDoublf() {
+        rfturn (mix64(nfxtSffd()) >>> 11) * DOUBLE_UNIT;
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn 0.0
+     * (indlusivf) bnd thf spfdififd bound (fxdlusivf).
+     *
+     * @pbrbm bound thf uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf bound} is not positivf
+     */
+    publid doublf nfxtDoublf(doublf bound) {
+        if (!(bound > 0.0))
+            throw nfw IllfgblArgumfntExdfption(BbdBound);
+        doublf rfsult = (mix64(nfxtSffd()) >>> 11) * DOUBLE_UNIT * bound;
+        rfturn (rfsult < bound) ?  rfsult : // dorrfdt for rounding
+            Doublf.longBitsToDoublf(Doublf.doublfToLongBits(bound) - 1);
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn thf spfdififd
+     * origin (indlusivf) bnd bound (fxdlusivf).
+     *
+     * @pbrbm origin thf lfbst vbluf rfturnfd
+     * @pbrbm bound thf uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn thf origin
+     *         (indlusivf) bnd thf bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr thbn
+     *         or fqubl to {@dodf bound}
+     */
+    publid doublf nfxtDoublf(doublf origin, doublf bound) {
+        if (!(origin < bound))
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtDoublf(origin, bound);
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf boolfbn} vbluf.
+     *
+     * @rfturn b psfudorbndom {@dodf boolfbn} vbluf
+     */
+    publid boolfbn nfxtBoolfbn() {
+        rfturn mix32(nfxtSffd()) < 0;
+    }
+
+    /**
+     * Rfturns b psfudorbndom {@dodf flobt} vbluf bftwffn zfro
+     * (indlusivf) bnd onf (fxdlusivf).
+     *
+     * @rfturn b psfudorbndom {@dodf flobt} vbluf bftwffn zfro
+     *         (indlusivf) bnd onf (fxdlusivf)
+     */
+    publid flobt nfxtFlobt() {
+        rfturn (mix32(nfxtSffd()) >>> 8) * FLOAT_UNIT;
+    }
+
+    publid doublf nfxtGbussibn() {
+        // Usf nfxtLodblGbussibn instfbd of nfxtGbussibn fifld
+        Doublf d = nfxtLodblGbussibn.gft();
+        if (d != null) {
+            nfxtLodblGbussibn.sft(null);
+            rfturn d.doublfVbluf();
+        }
+        doublf v1, v2, s;
+        do {
+            v1 = 2 * nfxtDoublf() - 1; // bftwffn -1 bnd 1
+            v2 = 2 * nfxtDoublf() - 1; // bftwffn -1 bnd 1
+            s = v1 * v1 + v2 * v2;
+        } whilf (s >= 1 || s == 0);
+        doublf multiplifr = StridtMbth.sqrt(-2 * StridtMbth.log(s)/s);
+        nfxtLodblGbussibn.sft(nfw Doublf(v2 * multiplifr));
+        rfturn v1 * multiplifr;
+    }
+
+    // strfbm mfthods, dodfd in b wby intfndfd to bfttfr isolbtf for
+    // mbintfnbndf purposfs thf smbll difffrfndfs bdross forms.
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf int} vblufs.
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro
+     * @sindf 1.8
+     */
+    publid IntStrfbm ints(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (0L, strfbmSizf, Intfgfr.MAX_VALUE, 0),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf int}
+     * vblufs.
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * ints(Long.MAX_VALUE)}.
+     *
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs
+     * @sindf 1.8
+     */
+    publid IntStrfbm ints() {
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (0L, Long.MAX_VALUE, Intfgfr.MAX_VALUE, 0),
+             fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr
+     * of psfudorbndom {@dodf int} vblufs, fbdh donforming to thf givfn
+     * origin (indlusivf) bnd bound (fxdlusivf).
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro, or {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid IntStrfbm ints(long strfbmSizf, int rbndomNumbfrOrigin,
+                          int rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * int} vblufs, fbdh donforming to thf givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * ints(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
+     *
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid IntStrfbm ints(int rbndomNumbfrOrigin, int rbndomNumbfrBound) {
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf long} vblufs.
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro
+     * @sindf 1.8
+     */
+    publid LongStrfbm longs(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (0L, strfbmSizf, Long.MAX_VALUE, 0L),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf long}
+     * vblufs.
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * longs(Long.MAX_VALUE)}.
+     *
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs
+     * @sindf 1.8
+     */
+    publid LongStrfbm longs() {
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L),
+             fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf long}, fbdh donforming to thf givfn origin
+     * (indlusivf) bnd bound (fxdlusivf).
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro, or {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid LongStrfbm longs(long strfbmSizf, long rbndomNumbfrOrigin,
+                            long rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * long} vblufs, fbdh donforming to thf givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * longs(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
+     *
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid LongStrfbm longs(long rbndomNumbfrOrigin, long rbndomNumbfrBound) {
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf doublf} vblufs, fbdh bftwffn zfro
+     * (indlusivf) bnd onf (fxdlusivf).
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of {@dodf doublf} vblufs
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro
+     * @sindf 1.8
+     */
+    publid DoublfStrfbm doublfs(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (0L, strfbmSizf, Doublf.MAX_VALUE, 0.0),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * doublf} vblufs, fbdh bftwffn zfro (indlusivf) bnd onf
+     * (fxdlusivf).
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * doublfs(Long.MAX_VALUE)}.
+     *
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs
+     * @sindf 1.8
+     */
+    publid DoublfStrfbm doublfs() {
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (0L, Long.MAX_VALUE, Doublf.MAX_VALUE, 0.0),
+             fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm produding thf givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf doublf} vblufs, fbdh donforming to thf givfn origin
+     * (indlusivf) bnd bound (fxdlusivf).
+     *
+     * @pbrbm strfbmSizf thf numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss thbn zfro
+     * @throws IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid DoublfStrfbm doublfs(long strfbmSizf, doublf rbndomNumbfrOrigin,
+                                doublf rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            throw nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (!(rbndomNumbfrOrigin < rbndomNumbfrBound))
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * doublf} vblufs, fbdh donforming to thf givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
+     *
+     * @implNotf This mfthod is implfmfntfd to bf fquivblfnt to {@dodf
+     * doublfs(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
+     *
+     * @pbrbm rbndomNumbfrOrigin thf origin (indlusivf) of fbdh rbndom vbluf
+     * @pbrbm rbndomNumbfrBound thf bound (fxdlusivf) of fbdh rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs,
+     *         fbdh with thf givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @throws IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr thbn or fqubl to {@dodf rbndomNumbfrBound}
+     * @sindf 1.8
+     */
+    publid DoublfStrfbm doublfs(doublf rbndomNumbfrOrigin, doublf rbndomNumbfrBound) {
+        if (!(rbndomNumbfrOrigin < rbndomNumbfrBound))
+            throw nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
+    }
+
+    /**
+     * Splitfrbtor for int strfbms.  Wf multiplfx thf four int
+     * vfrsions into onf dlbss by trfbting b bound lfss thbn origin bs
+     * unboundfd, bnd blso by trfbting "infinitf" bs fquivblfnt to
+     * Long.MAX_VALUE. For splits, it usfs thf stbndbrd dividf-by-two
+     * bpprobdh. Thf long bnd doublf vfrsions of this dlbss brf
+     * idfntidbl fxdfpt for typfs.
+     */
+    stbtid finbl dlbss RbndomIntsSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        long indfx;
+        finbl long ffndf;
+        finbl int origin;
+        finbl int bound;
+        RbndomIntsSplitfrbtor(long indfx, long ffndf,
+                              int origin, int bound) {
+            this.indfx = indfx; this.ffndf = ffndf;
+            this.origin = origin; this.bound = bound;
+        }
+
+        publid RbndomIntsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomIntsSplitfrbtor(i, indfx = m, origin, bound);
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
+        }
+
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                donsumfr.bddfpt(ThrfbdLodblRbndom.durrfnt().intfrnblNfxtInt(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        publid void forEbdhRfmbining(IntConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                indfx = f;
+                int o = origin, b = bound;
+                ThrfbdLodblRbndom rng = ThrfbdLodblRbndom.durrfnt();
+                do {
+                    donsumfr.bddfpt(rng.intfrnblNfxtInt(o, b));
+                } whilf (++i < f);
+            }
+        }
+    }
+
+    /**
+     * Splitfrbtor for long strfbms.
+     */
+    stbtid finbl dlbss RbndomLongsSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        long indfx;
+        finbl long ffndf;
+        finbl long origin;
+        finbl long bound;
+        RbndomLongsSplitfrbtor(long indfx, long ffndf,
+                               long origin, long bound) {
+            this.indfx = indfx; this.ffndf = ffndf;
+            this.origin = origin; this.bound = bound;
+        }
+
+        publid RbndomLongsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomLongsSplitfrbtor(i, indfx = m, origin, bound);
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
+        }
+
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                donsumfr.bddfpt(ThrfbdLodblRbndom.durrfnt().intfrnblNfxtLong(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        publid void forEbdhRfmbining(LongConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                indfx = f;
+                long o = origin, b = bound;
+                ThrfbdLodblRbndom rng = ThrfbdLodblRbndom.durrfnt();
+                do {
+                    donsumfr.bddfpt(rng.intfrnblNfxtLong(o, b));
+                } whilf (++i < f);
+            }
+        }
+
+    }
+
+    /**
+     * Splitfrbtor for doublf strfbms.
+     */
+    stbtid finbl dlbss RbndomDoublfsSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        long indfx;
+        finbl long ffndf;
+        finbl doublf origin;
+        finbl doublf bound;
+        RbndomDoublfsSplitfrbtor(long indfx, long ffndf,
+                                 doublf origin, doublf bound) {
+            this.indfx = indfx; this.ffndf = ffndf;
+            this.origin = origin; this.bound = bound;
+        }
+
+        publid RbndomDoublfsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomDoublfsSplitfrbtor(i, indfx = m, origin, bound);
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
+        }
+
+        publid boolfbn tryAdvbndf(DoublfConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                donsumfr.bddfpt(ThrfbdLodblRbndom.durrfnt().intfrnblNfxtDoublf(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        publid void forEbdhRfmbining(DoublfConsumfr donsumfr) {
+            if (donsumfr == null) throw nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
+            if (i < f) {
+                indfx = f;
+                doublf o = origin, b = bound;
+                ThrfbdLodblRbndom rng = ThrfbdLodblRbndom.durrfnt();
+                do {
+                    donsumfr.bddfpt(rng.intfrnblNfxtDoublf(o, b));
+                } whilf (++i < f);
+            }
+        }
+    }
+
+
+    // Within-pbdkbgf utilitifs
+
+    /*
+     * Dfsdriptions of thf usbgfs of thf mfthods bflow dbn bf found in
+     * thf dlbssfs thbt usf thfm. Briffly, b thrfbd's "probf" vbluf is
+     * b non-zfro hbsh dodf thbt (probbbly) dofs not dollidf with
+     * othfr fxisting thrfbds with rfspfdt to bny powfr of two
+     * dollision spbdf. Whfn it dofs dollidf, it is psfudo-rbndomly
+     * bdjustfd (using b Mbrsbglib XorShift). Thf nfxtSfdondbrySffd
+     * mfthod is usfd in thf sbmf dontfxts bs ThrfbdLodblRbndom, but
+     * only for trbnsifnt usbgfs sudh bs rbndom bdbptivf spin/blodk
+     * sfqufndfs for whidh b dhfbp RNG suffidfs bnd for whidh it dould
+     * in prindiplf disrupt usfr-visiblf stbtistidbl propfrtifs of thf
+     * mbin ThrfbdLodblRbndom if wf wfrf to usf it.
+     *
+     * Notf: Bfdbusf of pbdkbgf-protfdtion issufs, vfrsions of somf
+     * thfsf mfthods blso bppfbr in somf subpbdkbgf dlbssfs.
+     */
+
+    /**
+     * Rfturns thf probf vbluf for thf durrfnt thrfbd without fording
+     * initiblizbtion. Notf thbt invoking ThrfbdLodblRbndom.durrfnt()
+     * dbn bf usfd to fordf initiblizbtion on zfro rfturn.
+     */
+    stbtid finbl int gftProbf() {
+        rfturn UNSAFE.gftInt(Thrfbd.durrfntThrfbd(), PROBE);
+    }
+
+    /**
+     * Psfudo-rbndomly bdvbndfs bnd rfdords thf givfn probf vbluf for thf
+     * givfn thrfbd.
+     */
+    stbtid finbl int bdvbndfProbf(int probf) {
+        probf ^= probf << 13;   // xorshift
+        probf ^= probf >>> 17;
+        probf ^= probf << 5;
+        UNSAFE.putInt(Thrfbd.durrfntThrfbd(), PROBE, probf);
+        rfturn probf;
+    }
+
+    /**
+     * Rfturns thf psfudo-rbndomly initiblizfd or updbtfd sfdondbry sffd.
+     */
+    stbtid finbl int nfxtSfdondbrySffd() {
+        int r;
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        if ((r = UNSAFE.gftInt(t, SECONDARY)) != 0) {
+            r ^= r << 13;   // xorshift
+            r ^= r >>> 17;
+            r ^= r << 5;
+        }
+        flsf {
+            lodblInit();
+            if ((r = (int)UNSAFE.gftLong(t, SEED)) == 0)
+                r = 1; // bvoid zfro
+        }
+        UNSAFE.putInt(t, SECONDARY, r);
+        rfturn r;
+    }
+
+    // Sfriblizbtion support
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5851777807851030925L;
+
+    /**
+     * @sfriblFifld rnd long
+     *              sffd for rbndom domputbtions
+     * @sfriblFifld initiblizfd boolfbn
+     *              blwbys truf
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+            nfw ObjfdtStrfbmFifld("rnd", long.dlbss),
+            nfw ObjfdtStrfbmFifld("initiblizfd", boolfbn.dlbss),
+    };
+
+    /**
+     * Sbvfs thf {@dodf ThrfbdLodblRbndom} to b strfbm (thbt is, sfriblizfs it).
+     * @pbrbm s thf strfbm
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.io.IOExdfption {
+
+        jbvb.io.ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("rnd", UNSAFE.gftLong(Thrfbd.durrfntThrfbd(), SEED));
+        fiflds.put("initiblizfd", truf);
+        s.writfFiflds();
+    }
+
+    /**
+     * Rfturns thf {@link #durrfnt() durrfnt} thrfbd's {@dodf ThrfbdLodblRbndom}.
+     * @rfturn thf {@link #durrfnt() durrfnt} thrfbd's {@dodf ThrfbdLodblRbndom}
+     */
+    privbtf Objfdt rfbdRfsolvf() {
+        rfturn durrfnt();
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long SEED;
+    privbtf stbtid finbl long PROBE;
+    privbtf stbtid finbl long SECONDARY;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> tk = Thrfbd.dlbss;
+            SEED = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomSffd"));
+            PROBE = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomProbf"));
+            SECONDARY = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomSfdondbrySffd"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+}

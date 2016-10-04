@@ -1,504 +1,504 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import com.sun.nio.file.ExtendedCopyOption;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import dom.sun.nio.filf.ExtfndfdCopyOption;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Utility methods for copying and moving files.
+ * Utility mftiods for dopying bnd moving filfs.
  */
 
-class WindowsFileCopy {
-    private WindowsFileCopy() {
+dlbss WindowsFilfCopy {
+    privbtf WindowsFilfCopy() {
     }
 
     /**
-     * Copy file from source to target
+     * Copy filf from sourdf to tbrgft
      */
-    static void copy(final WindowsPath source,
-                     final WindowsPath target,
+    stbtid void dopy(finbl WindowsPbti sourdf,
+                     finbl WindowsPbti tbrgft,
                      CopyOption... options)
-        throws IOException
+        tirows IOExdfption
     {
-        // map options
-        boolean replaceExisting = false;
-        boolean copyAttributes = false;
-        boolean followLinks = true;
-        boolean interruptible = false;
+        // mbp options
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttributfs = fblsf;
+        boolfbn followLinks = truf;
+        boolfbn intfrruptiblf = fblsf;
         for (CopyOption option: options) {
-            if (option == StandardCopyOption.REPLACE_EXISTING) {
-                replaceExisting = true;
-                continue;
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                rfplbdfExisting = truf;
+                dontinuf;
             }
             if (option == LinkOption.NOFOLLOW_LINKS) {
-                followLinks = false;
-                continue;
+                followLinks = fblsf;
+                dontinuf;
             }
-            if (option == StandardCopyOption.COPY_ATTRIBUTES) {
-                copyAttributes = true;
-                continue;
+            if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                dopyAttributfs = truf;
+                dontinuf;
             }
-            if (option == ExtendedCopyOption.INTERRUPTIBLE) {
-                interruptible = true;
-                continue;
+            if (option == ExtfndfdCopyOption.INTERRUPTIBLE) {
+                intfrruptiblf = truf;
+                dontinuf;
             }
             if (option == null)
-                throw new NullPointerException();
-            throw new UnsupportedOperationException("Unsupported copy option");
+                tirow nfw NullPointfrExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
         }
 
-        // check permissions. If the source file is a symbolic link then
-        // later we must also check LinkPermission
-        SecurityManager sm = System.getSecurityManager();
+        // difdk pfrmissions. If tif sourdf filf is b symbolid link tifn
+        // lbtfr wf must blso difdk LinkPfrmission
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            source.checkRead();
-            target.checkWrite();
+            sourdf.difdkRfbd();
+            tbrgft.difdkWritf();
         }
 
-        // get attributes of source file
-        // attempt to get attributes of target file
-        // if both files are the same there is nothing to do
-        // if target exists and !replace then throw exception
+        // gft bttributfs of sourdf filf
+        // bttfmpt to gft bttributfs of tbrgft filf
+        // if boti filfs brf tif sbmf tifrf is notiing to do
+        // if tbrgft fxists bnd !rfplbdf tifn tirow fxdfption
 
-        WindowsFileAttributes sourceAttrs = null;
-        WindowsFileAttributes targetAttrs = null;
+        WindowsFilfAttributfs sourdfAttrs = null;
+        WindowsFilfAttributfs tbrgftAttrs = null;
 
-        long sourceHandle = 0L;
+        long sourdfHbndlf = 0L;
         try {
-            sourceHandle = source.openForReadAttributeAccess(followLinks);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(source);
+            sourdfHbndlf = sourdf.opfnForRfbdAttributfAddfss(followLinks);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
         try {
-            // source attributes
+            // sourdf bttributfs
             try {
-                sourceAttrs = WindowsFileAttributes.readAttributes(sourceHandle);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(source);
+                sourdfAttrs = WindowsFilfAttributfs.rfbdAttributfs(sourdfHbndlf);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(sourdf);
             }
 
-            // open target (don't follow links)
-            long targetHandle = 0L;
+            // opfn tbrgft (don't follow links)
+            long tbrgftHbndlf = 0L;
             try {
-                targetHandle = target.openForReadAttributeAccess(false);
+                tbrgftHbndlf = tbrgft.opfnForRfbdAttributfAddfss(fblsf);
                 try {
-                    targetAttrs = WindowsFileAttributes.readAttributes(targetHandle);
+                    tbrgftAttrs = WindowsFilfAttributfs.rfbdAttributfs(tbrgftHbndlf);
 
-                    // if both files are the same then nothing to do
-                    if (WindowsFileAttributes.isSameFile(sourceAttrs, targetAttrs)) {
-                        return;
+                    // if boti filfs brf tif sbmf tifn notiing to do
+                    if (WindowsFilfAttributfs.isSbmfFilf(sourdfAttrs, tbrgftAttrs)) {
+                        rfturn;
                     }
 
-                    // can't replace file
-                    if (!replaceExisting) {
-                        throw new FileAlreadyExistsException(
-                            target.getPathForExceptionMessage());
+                    // dbn't rfplbdf filf
+                    if (!rfplbdfExisting) {
+                        tirow nfw FilfAlrfbdyExistsExdfption(
+                            tbrgft.gftPbtiForExdfptionMfssbgf());
                     }
 
-                } finally {
-                    CloseHandle(targetHandle);
+                } finblly {
+                    ClosfHbndlf(tbrgftHbndlf);
                 }
-            } catch (WindowsException x) {
-                // ignore
+            } dbtdi (WindowsExdfption x) {
+                // ignorf
             }
 
-        } finally {
-            CloseHandle(sourceHandle);
+        } finblly {
+            ClosfHbndlf(sourdfHbndlf);
         }
 
-        // if source file is a symbolic link then we must check for LinkPermission
-        if (sm != null && sourceAttrs.isSymbolicLink()) {
-            sm.checkPermission(new LinkPermission("symbolic"));
+        // if sourdf filf is b symbolid link tifn wf must difdk for LinkPfrmission
+        if (sm != null && sourdfAttrs.isSymbolidLink()) {
+            sm.difdkPfrmission(nfw LinkPfrmission("symbolid"));
         }
 
-        final String sourcePath = asWin32Path(source);
-        final String targetPath = asWin32Path(target);
+        finbl String sourdfPbti = bsWin32Pbti(sourdf);
+        finbl String tbrgftPbti = bsWin32Pbti(tbrgft);
 
-        // if target exists then delete it.
-        if (targetAttrs != null) {
+        // if tbrgft fxists tifn dflftf it.
+        if (tbrgftAttrs != null) {
             try {
-                if (targetAttrs.isDirectory() || targetAttrs.isDirectoryLink()) {
-                    RemoveDirectory(targetPath);
-                } else {
-                    DeleteFile(targetPath);
+                if (tbrgftAttrs.isDirfdtory() || tbrgftAttrs.isDirfdtoryLink()) {
+                    RfmovfDirfdtory(tbrgftPbti);
+                } flsf {
+                    DflftfFilf(tbrgftPbti);
                 }
-            } catch (WindowsException x) {
-                if (targetAttrs.isDirectory()) {
-                    // ERROR_ALREADY_EXISTS is returned when attempting to delete
-                    // non-empty directory on SAMBA servers.
-                    if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                        x.lastError() == ERROR_ALREADY_EXISTS)
+            } dbtdi (WindowsExdfption x) {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    // ERROR_ALREADY_EXISTS is rfturnfd wifn bttfmpting to dflftf
+                    // non-fmpty dirfdtory on SAMBA sfrvfrs.
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
                     {
-                        throw new DirectoryNotEmptyException(
-                            target.getPathForExceptionMessage());
+                        tirow nfw DirfdtoryNotEmptyExdfption(
+                            tbrgft.gftPbtiForExdfptionMfssbgf());
                     }
                 }
-                x.rethrowAsIOException(target);
+                x.rftirowAsIOExdfption(tbrgft);
             }
         }
 
-        // Use CopyFileEx if the file is not a directory or junction
-        if (!sourceAttrs.isDirectory() && !sourceAttrs.isDirectoryLink()) {
-            final int flags =
-                (source.getFileSystem().supportsLinks() && !followLinks) ?
+        // Usf CopyFilfEx if tif filf is not b dirfdtory or jundtion
+        if (!sourdfAttrs.isDirfdtory() && !sourdfAttrs.isDirfdtoryLink()) {
+            finbl int flbgs =
+                (sourdf.gftFilfSystfm().supportsLinks() && !followLinks) ?
                 COPY_FILE_COPY_SYMLINK : 0;
 
-            if (interruptible) {
-                // interruptible copy
-                Cancellable copyTask = new Cancellable() {
-                    @Override
-                    public int cancelValue() {
-                        return 1;  // TRUE
+            if (intfrruptiblf) {
+                // intfrruptiblf dopy
+                Cbndfllbblf dopyTbsk = nfw Cbndfllbblf() {
+                    @Ovfrridf
+                    publid int dbndflVbluf() {
+                        rfturn 1;  // TRUE
                     }
-                    @Override
-                    public void implRun() throws IOException {
+                    @Ovfrridf
+                    publid void implRun() tirows IOExdfption {
                         try {
-                            CopyFileEx(sourcePath, targetPath, flags,
-                                       addressToPollForCancel());
-                        } catch (WindowsException x) {
-                            x.rethrowAsIOException(source, target);
+                            CopyFilfEx(sourdfPbti, tbrgftPbti, flbgs,
+                                       bddrfssToPollForCbndfl());
+                        } dbtdi (WindowsExdfption x) {
+                            x.rftirowAsIOExdfption(sourdf, tbrgft);
                         }
                     }
                 };
                 try {
-                    Cancellable.runInterruptibly(copyTask);
-                } catch (ExecutionException e) {
-                    Throwable t = e.getCause();
-                    if (t instanceof IOException)
-                        throw (IOException)t;
-                    throw new IOException(t);
+                    Cbndfllbblf.runIntfrruptibly(dopyTbsk);
+                } dbtdi (ExfdutionExdfption f) {
+                    Tirowbblf t = f.gftCbusf();
+                    if (t instbndfof IOExdfption)
+                        tirow (IOExdfption)t;
+                    tirow nfw IOExdfption(t);
                 }
-            } else {
-                // non-interruptible copy
+            } flsf {
+                // non-intfrruptiblf dopy
                 try {
-                    CopyFileEx(sourcePath, targetPath, flags, 0L);
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(source, target);
+                    CopyFilfEx(sourdfPbti, tbrgftPbti, flbgs, 0L);
+                } dbtdi (WindowsExdfption x) {
+                    x.rftirowAsIOExdfption(sourdf, tbrgft);
                 }
             }
-            if (copyAttributes) {
-                // CopyFileEx does not copy security attributes
+            if (dopyAttributfs) {
+                // CopyFilfEx dofs not dopy sfdurity bttributfs
                 try {
-                    copySecurityAttributes(source, target, followLinks);
-                } catch (IOException x) {
-                    // ignore
+                    dopySfdurityAttributfs(sourdf, tbrgft, followLinks);
+                } dbtdi (IOExdfption x) {
+                    // ignorf
                 }
             }
-            return;
+            rfturn;
         }
 
-        // copy directory or directory junction
+        // dopy dirfdtory or dirfdtory jundtion
         try {
-            if (sourceAttrs.isDirectory()) {
-                CreateDirectory(targetPath, 0L);
-            } else {
-                String linkTarget = WindowsLinkSupport.readLink(source);
-                int flags = SYMBOLIC_LINK_FLAG_DIRECTORY;
-                CreateSymbolicLink(targetPath,
-                                   WindowsPath.addPrefixIfNeeded(linkTarget),
-                                   flags);
+            if (sourdfAttrs.isDirfdtory()) {
+                CrfbtfDirfdtory(tbrgftPbti, 0L);
+            } flsf {
+                String linkTbrgft = WindowsLinkSupport.rfbdLink(sourdf);
+                int flbgs = SYMBOLIC_LINK_FLAG_DIRECTORY;
+                CrfbtfSymbolidLink(tbrgftPbti,
+                                   WindowsPbti.bddPrffixIfNffdfd(linkTbrgft),
+                                   flbgs);
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(target);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(tbrgft);
         }
-        if (copyAttributes) {
-            // copy DOS/timestamps attributes
-            WindowsFileAttributeViews.Dos view =
-                WindowsFileAttributeViews.createDosView(target, false);
+        if (dopyAttributfs) {
+            // dopy DOS/timfstbmps bttributfs
+            WindowsFilfAttributfVifws.Dos vifw =
+                WindowsFilfAttributfVifws.drfbtfDosVifw(tbrgft, fblsf);
             try {
-                view.setAttributes(sourceAttrs);
-            } catch (IOException x) {
-                if (sourceAttrs.isDirectory()) {
+                vifw.sftAttributfs(sourdfAttrs);
+            } dbtdi (IOExdfption x) {
+                if (sourdfAttrs.isDirfdtory()) {
                     try {
-                        RemoveDirectory(targetPath);
-                    } catch (WindowsException ignore) { }
+                        RfmovfDirfdtory(tbrgftPbti);
+                    } dbtdi (WindowsExdfption ignorf) { }
                 }
             }
 
-            // copy security attributes. If this fail it doesn't cause the move
-            // to fail.
+            // dopy sfdurity bttributfs. If tiis fbil it dofsn't dbusf tif movf
+            // to fbil.
             try {
-                copySecurityAttributes(source, target, followLinks);
-            } catch (IOException ignore) { }
+                dopySfdurityAttributfs(sourdf, tbrgft, followLinks);
+            } dbtdi (IOExdfption ignorf) { }
         }
     }
 
     /**
-     * Move file from source to target
+     * Movf filf from sourdf to tbrgft
      */
-    static void move(WindowsPath source, WindowsPath target, CopyOption... options)
-        throws IOException
+    stbtid void movf(WindowsPbti sourdf, WindowsPbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        // map options
-        boolean atomicMove = false;
-        boolean replaceExisting = false;
+        // mbp options
+        boolfbn btomidMovf = fblsf;
+        boolfbn rfplbdfExisting = fblsf;
         for (CopyOption option: options) {
-            if (option == StandardCopyOption.ATOMIC_MOVE) {
-                atomicMove = true;
-                continue;
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                btomidMovf = truf;
+                dontinuf;
             }
-            if (option == StandardCopyOption.REPLACE_EXISTING) {
-                replaceExisting = true;
-                continue;
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                rfplbdfExisting = truf;
+                dontinuf;
             }
             if (option == LinkOption.NOFOLLOW_LINKS) {
-                // ignore
-                continue;
+                // ignorf
+                dontinuf;
             }
-            if (option == null) throw new NullPointerException();
-            throw new UnsupportedOperationException("Unsupported copy option");
+            if (option == null) tirow nfw NullPointfrExdfption();
+            tirow nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            source.checkWrite();
-            target.checkWrite();
+            sourdf.difdkWritf();
+            tbrgft.difdkWritf();
         }
 
-        final String sourcePath = asWin32Path(source);
-        final String targetPath = asWin32Path(target);
+        finbl String sourdfPbti = bsWin32Pbti(sourdf);
+        finbl String tbrgftPbti = bsWin32Pbti(tbrgft);
 
-        // atomic case
-        if (atomicMove) {
+        // btomid dbsf
+        if (btomidMovf) {
             try {
-                MoveFileEx(sourcePath, targetPath, MOVEFILE_REPLACE_EXISTING);
-            } catch (WindowsException x) {
-                if (x.lastError() == ERROR_NOT_SAME_DEVICE) {
-                    throw new AtomicMoveNotSupportedException(
-                        source.getPathForExceptionMessage(),
-                        target.getPathForExceptionMessage(),
-                        x.errorString());
+                MovfFilfEx(sourdfPbti, tbrgftPbti, MOVEFILE_REPLACE_EXISTING);
+            } dbtdi (WindowsExdfption x) {
+                if (x.lbstError() == ERROR_NOT_SAME_DEVICE) {
+                    tirow nfw AtomidMovfNotSupportfdExdfption(
+                        sourdf.gftPbtiForExdfptionMfssbgf(),
+                        tbrgft.gftPbtiForExdfptionMfssbgf(),
+                        x.frrorString());
                 }
-                x.rethrowAsIOException(source, target);
+                x.rftirowAsIOExdfption(sourdf, tbrgft);
             }
-            return;
+            rfturn;
         }
 
-        // get attributes of source file
-        // attempt to get attributes of target file
-        // if both files are the same there is nothing to do
-        // if target exists and !replace then throw exception
+        // gft bttributfs of sourdf filf
+        // bttfmpt to gft bttributfs of tbrgft filf
+        // if boti filfs brf tif sbmf tifrf is notiing to do
+        // if tbrgft fxists bnd !rfplbdf tifn tirow fxdfption
 
-        WindowsFileAttributes sourceAttrs = null;
-        WindowsFileAttributes targetAttrs = null;
+        WindowsFilfAttributfs sourdfAttrs = null;
+        WindowsFilfAttributfs tbrgftAttrs = null;
 
-        long sourceHandle = 0L;
+        long sourdfHbndlf = 0L;
         try {
-            sourceHandle = source.openForReadAttributeAccess(false);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(source);
+            sourdfHbndlf = sourdf.opfnForRfbdAttributfAddfss(fblsf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(sourdf);
         }
         try {
-            // source attributes
+            // sourdf bttributfs
             try {
-                sourceAttrs = WindowsFileAttributes.readAttributes(sourceHandle);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(source);
+                sourdfAttrs = WindowsFilfAttributfs.rfbdAttributfs(sourdfHbndlf);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(sourdf);
             }
 
-            // open target (don't follow links)
-            long targetHandle = 0L;
+            // opfn tbrgft (don't follow links)
+            long tbrgftHbndlf = 0L;
             try {
-                targetHandle = target.openForReadAttributeAccess(false);
+                tbrgftHbndlf = tbrgft.opfnForRfbdAttributfAddfss(fblsf);
                 try {
-                    targetAttrs = WindowsFileAttributes.readAttributes(targetHandle);
+                    tbrgftAttrs = WindowsFilfAttributfs.rfbdAttributfs(tbrgftHbndlf);
 
-                    // if both files are the same then nothing to do
-                    if (WindowsFileAttributes.isSameFile(sourceAttrs, targetAttrs)) {
-                        return;
+                    // if boti filfs brf tif sbmf tifn notiing to do
+                    if (WindowsFilfAttributfs.isSbmfFilf(sourdfAttrs, tbrgftAttrs)) {
+                        rfturn;
                     }
 
-                    // can't replace file
-                    if (!replaceExisting) {
-                        throw new FileAlreadyExistsException(
-                            target.getPathForExceptionMessage());
+                    // dbn't rfplbdf filf
+                    if (!rfplbdfExisting) {
+                        tirow nfw FilfAlrfbdyExistsExdfption(
+                            tbrgft.gftPbtiForExdfptionMfssbgf());
                     }
 
-                } finally {
-                    CloseHandle(targetHandle);
+                } finblly {
+                    ClosfHbndlf(tbrgftHbndlf);
                 }
-            } catch (WindowsException x) {
-                // ignore
+            } dbtdi (WindowsExdfption x) {
+                // ignorf
             }
 
-        } finally {
-            CloseHandle(sourceHandle);
+        } finblly {
+            ClosfHbndlf(sourdfHbndlf);
         }
 
-        // if target exists then delete it.
-        if (targetAttrs != null) {
+        // if tbrgft fxists tifn dflftf it.
+        if (tbrgftAttrs != null) {
             try {
-                if (targetAttrs.isDirectory() || targetAttrs.isDirectoryLink()) {
-                    RemoveDirectory(targetPath);
-                } else {
-                    DeleteFile(targetPath);
+                if (tbrgftAttrs.isDirfdtory() || tbrgftAttrs.isDirfdtoryLink()) {
+                    RfmovfDirfdtory(tbrgftPbti);
+                } flsf {
+                    DflftfFilf(tbrgftPbti);
                 }
-            } catch (WindowsException x) {
-                if (targetAttrs.isDirectory()) {
-                    // ERROR_ALREADY_EXISTS is returned when attempting to delete
-                    // non-empty directory on SAMBA servers.
-                    if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                        x.lastError() == ERROR_ALREADY_EXISTS)
+            } dbtdi (WindowsExdfption x) {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    // ERROR_ALREADY_EXISTS is rfturnfd wifn bttfmpting to dflftf
+                    // non-fmpty dirfdtory on SAMBA sfrvfrs.
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
                     {
-                        throw new DirectoryNotEmptyException(
-                            target.getPathForExceptionMessage());
+                        tirow nfw DirfdtoryNotEmptyExdfption(
+                            tbrgft.gftPbtiForExdfptionMfssbgf());
                     }
                 }
-                x.rethrowAsIOException(target);
+                x.rftirowAsIOExdfption(tbrgft);
             }
         }
 
-        // first try MoveFileEx (no options). If target is on same volume then
-        // all attributes (including security attributes) are preserved.
+        // first try MovfFilfEx (no options). If tbrgft is on sbmf volumf tifn
+        // bll bttributfs (indluding sfdurity bttributfs) brf prfsfrvfd.
         try {
-            MoveFileEx(sourcePath, targetPath, 0);
-            return;
-        } catch (WindowsException x) {
-            if (x.lastError() != ERROR_NOT_SAME_DEVICE)
-                x.rethrowAsIOException(source, target);
+            MovfFilfEx(sourdfPbti, tbrgftPbti, 0);
+            rfturn;
+        } dbtdi (WindowsExdfption x) {
+            if (x.lbstError() != ERROR_NOT_SAME_DEVICE)
+                x.rftirowAsIOExdfption(sourdf, tbrgft);
         }
 
-        // target is on different volume so use MoveFileEx with copy option
-        if (!sourceAttrs.isDirectory() && !sourceAttrs.isDirectoryLink()) {
+        // tbrgft is on difffrfnt volumf so usf MovfFilfEx witi dopy option
+        if (!sourdfAttrs.isDirfdtory() && !sourdfAttrs.isDirfdtoryLink()) {
             try {
-                MoveFileEx(sourcePath, targetPath, MOVEFILE_COPY_ALLOWED);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(source, target);
+                MovfFilfEx(sourdfPbti, tbrgftPbti, MOVEFILE_COPY_ALLOWED);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(sourdf, tbrgft);
             }
-            // MoveFileEx does not copy security attributes when moving
-            // across volumes.
+            // MovfFilfEx dofs not dopy sfdurity bttributfs wifn moving
+            // bdross volumfs.
             try {
-                copySecurityAttributes(source, target, false);
-            } catch (IOException x) {
-                // ignore
+                dopySfdurityAttributfs(sourdf, tbrgft, fblsf);
+            } dbtdi (IOExdfption x) {
+                // ignorf
             }
-            return;
+            rfturn;
         }
 
-        // moving directory or directory-link to another file system
-        assert sourceAttrs.isDirectory() || sourceAttrs.isDirectoryLink();
+        // moving dirfdtory or dirfdtory-link to bnotifr filf systfm
+        bssfrt sourdfAttrs.isDirfdtory() || sourdfAttrs.isDirfdtoryLink();
 
-        // create new directory or directory junction
+        // drfbtf nfw dirfdtory or dirfdtory jundtion
         try {
-            if (sourceAttrs.isDirectory()) {
-                CreateDirectory(targetPath, 0L);
-            } else {
-                String linkTarget = WindowsLinkSupport.readLink(source);
-                CreateSymbolicLink(targetPath,
-                                   WindowsPath.addPrefixIfNeeded(linkTarget),
+            if (sourdfAttrs.isDirfdtory()) {
+                CrfbtfDirfdtory(tbrgftPbti, 0L);
+            } flsf {
+                String linkTbrgft = WindowsLinkSupport.rfbdLink(sourdf);
+                CrfbtfSymbolidLink(tbrgftPbti,
+                                   WindowsPbti.bddPrffixIfNffdfd(linkTbrgft),
                                    SYMBOLIC_LINK_FLAG_DIRECTORY);
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(target);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(tbrgft);
         }
 
-        // copy timestamps/DOS attributes
-        WindowsFileAttributeViews.Dos view =
-                WindowsFileAttributeViews.createDosView(target, false);
+        // dopy timfstbmps/DOS bttributfs
+        WindowsFilfAttributfVifws.Dos vifw =
+                WindowsFilfAttributfVifws.drfbtfDosVifw(tbrgft, fblsf);
         try {
-            view.setAttributes(sourceAttrs);
-        } catch (IOException x) {
-            // rollback
+            vifw.sftAttributfs(sourdfAttrs);
+        } dbtdi (IOExdfption x) {
+            // rollbbdk
             try {
-                RemoveDirectory(targetPath);
-            } catch (WindowsException ignore) { }
-            throw x;
+                RfmovfDirfdtory(tbrgftPbti);
+            } dbtdi (WindowsExdfption ignorf) { }
+            tirow x;
         }
 
-        // copy security attributes. If this fails it doesn't cause the move
-        // to fail.
+        // dopy sfdurity bttributfs. If tiis fbils it dofsn't dbusf tif movf
+        // to fbil.
         try {
-            copySecurityAttributes(source, target, false);
-        } catch (IOException ignore) { }
+            dopySfdurityAttributfs(sourdf, tbrgft, fblsf);
+        } dbtdi (IOExdfption ignorf) { }
 
-        // delete source
+        // dflftf sourdf
         try {
-            RemoveDirectory(sourcePath);
-        } catch (WindowsException x) {
-            // rollback
+            RfmovfDirfdtory(sourdfPbti);
+        } dbtdi (WindowsExdfption x) {
+            // rollbbdk
             try {
-                RemoveDirectory(targetPath);
-            } catch (WindowsException ignore) { }
-            // ERROR_ALREADY_EXISTS is returned when attempting to delete
-            // non-empty directory on SAMBA servers.
-            if (x.lastError() == ERROR_DIR_NOT_EMPTY ||
-                x.lastError() == ERROR_ALREADY_EXISTS)
+                RfmovfDirfdtory(tbrgftPbti);
+            } dbtdi (WindowsExdfption ignorf) { }
+            // ERROR_ALREADY_EXISTS is rfturnfd wifn bttfmpting to dflftf
+            // non-fmpty dirfdtory on SAMBA sfrvfrs.
+            if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                x.lbstError() == ERROR_ALREADY_EXISTS)
             {
-                throw new DirectoryNotEmptyException(
-                    target.getPathForExceptionMessage());
+                tirow nfw DirfdtoryNotEmptyExdfption(
+                    tbrgft.gftPbtiForExdfptionMfssbgf());
             }
-            x.rethrowAsIOException(source);
+            x.rftirowAsIOExdfption(sourdf);
         }
     }
 
 
-    private static String asWin32Path(WindowsPath path) throws IOException {
+    privbtf stbtid String bsWin32Pbti(WindowsPbti pbti) tirows IOExdfption {
         try {
-            return path.getPathForWin32Calls();
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
-            return null;
+            rfturn pbti.gftPbtiForWin32Cblls();
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(pbti);
+            rfturn null;
         }
     }
 
     /**
-     * Copy DACL/owner/group from source to target
+     * Copy DACL/ownfr/group from sourdf to tbrgft
      */
-    private static void copySecurityAttributes(WindowsPath source,
-                                               WindowsPath target,
-                                               boolean followLinks)
-        throws IOException
+    privbtf stbtid void dopySfdurityAttributfs(WindowsPbti sourdf,
+                                               WindowsPbti tbrgft,
+                                               boolfbn followLinks)
+        tirows IOExdfption
     {
-        String path = WindowsLinkSupport.getFinalPath(source, followLinks);
+        String pbti = WindowsLinkSupport.gftFinblPbti(sourdf, followLinks);
 
-        // may need SeRestorePrivilege to set file owner
-        WindowsSecurity.Privilege priv =
-            WindowsSecurity.enablePrivilege("SeRestorePrivilege");
+        // mby nffd SfRfstorfPrivilfgf to sft filf ownfr
+        WindowsSfdurity.Privilfgf priv =
+            WindowsSfdurity.fnbblfPrivilfgf("SfRfstorfPrivilfgf");
         try {
-            int request = (DACL_SECURITY_INFORMATION |
+            int rfqufst = (DACL_SECURITY_INFORMATION |
                 OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION);
-            NativeBuffer buffer =
-                WindowsAclFileAttributeView.getFileSecurity(path, request);
+            NbtivfBufffr bufffr =
+                WindowsAdlFilfAttributfVifw.gftFilfSfdurity(pbti, rfqufst);
             try {
                 try {
-                    SetFileSecurity(target.getPathForWin32Calls(), request,
-                        buffer.address());
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(target);
+                    SftFilfSfdurity(tbrgft.gftPbtiForWin32Cblls(), rfqufst,
+                        bufffr.bddrfss());
+                } dbtdi (WindowsExdfption x) {
+                    x.rftirowAsIOExdfption(tbrgft);
                 }
-            } finally {
-                buffer.release();
+            } finblly {
+                bufffr.rflfbsf();
             }
-        } finally {
+        } finblly {
             priv.drop();
         }
     }

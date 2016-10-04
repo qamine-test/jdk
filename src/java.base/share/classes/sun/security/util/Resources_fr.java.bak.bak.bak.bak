@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+/**
+ * <p> This dlbss rfprfsfnts thf <dodf>RfsourdfBundlf</dodf>
+ * for jbvbx.sfdurity.buth bnd sun.sfdurity.
+ *
+ */
+publid dlbss Rfsourdfs_fr fxtfnds jbvb.util.ListRfsourdfBundlf {
+
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+
+        // jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+        {"invblid.null.input.s.", "fntr\u00E9fs NULL non vblidfs"},
+        {"bdtions.dbn.only.bf.rfbd.", "lfs bdtions sont bddfssiblfs fn lfdturf uniqufmfnt"},
+        {"pfrmission.nbmf.nbmf.syntbx.invblid.",
+                "syntbxf df nom df droit [{0}] non vblidf : "},
+        {"Crfdfntibl.Clbss.not.followfd.by.b.Prindipbl.Clbss.bnd.Nbmf",
+                "Clbssf Crfdfntibl non suivif d'unf dlbssf ft d'un nom df prindipbl"},
+        {"Prindipbl.Clbss.not.followfd.by.b.Prindipbl.Nbmf",
+                "Clbssf df prindipbl non suivif d'un nom df prindipbl"},
+        {"Prindipbl.Nbmf.must.bf.surroundfd.by.quotfs",
+                "Lf nom df prindipbl doit \u00EAtrf indiqu\u00E9 fntrf guillfmfts"},
+        {"Prindipbl.Nbmf.missing.fnd.quotf",
+                "Guillfmft ffrmbnt mbnqubnt pour lf nom df prindipbl"},
+        {"PrivbtfCrfdfntiblPfrmission.Prindipbl.Clbss.dbn.not.bf.b.wilddbrd.vbluf.if.Prindipbl.Nbmf.is.not.b.wilddbrd.vbluf",
+                "Lb dlbssf df prindipbl PrivbtfCrfdfntiblPfrmission nf pfut pbs \u00EAtrf unf vblfur g\u00E9n\u00E9riquf (*) si lf nom df prindipbl n'fst pbs unf vblfur g\u00E9n\u00E9riquf (*)"},
+        {"CrfdOwnfr.Prindipbl.Clbss.dlbss.Prindipbl.Nbmf.nbmf",
+                "CrfdOwnfr :\n\tClbssf df prindipbl = {0}\n\tNom df prindipbl = {1}"},
+
+        // jbvbx.sfdurity.buth.x500
+        {"providfd.null.nbmf", "nom NULL fourni"},
+        {"providfd.null.kfyword.mbp", "mbppbgf df mots-dl\u00E9s NULL fourni"},
+        {"providfd.null.OID.mbp", "mbppbgf OID NULL fourni"},
+
+        // jbvbx.sfdurity.buth.Subjfdt
+        {"NEWLINE", "\n"},
+        {"invblid.null.AddfssControlContfxt.providfd",
+                "AddfssControlContfxt NULL fourni non vblidf"},
+        {"invblid.null.bdtion.providfd", "bdtion NULL fournif non vblidf"},
+        {"invblid.null.Clbss.providfd", "dlbssf NULL fournif non vblidf"},
+        {"Subjfdt.", "Objft :\n"},
+        {".Prindipbl.", "\tPrindipbl : "},
+        {".Publid.Crfdfntibl.", "\tInformbtions d'idfntifidbtion publiqufs : "},
+        {".Privbtf.Crfdfntibls.inbddfssiblf.",
+                "\tInformbtions d'idfntifidbtion priv\u00E9fs inbddfssiblfs\n"},
+        {".Privbtf.Crfdfntibl.", "\tInformbtions d'idfntifidbtion priv\u00E9fs : "},
+        {".Privbtf.Crfdfntibl.inbddfssiblf.",
+                "\tInformbtions d'idfntifidbtion priv\u00E9fs inbddfssiblfs\n"},
+        {"Subjfdt.is.rfbd.only", "Sujft fn lfdturf sfulf"},
+        {"bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.jbvb.sfdurity.Prindipbl.to.b.Subjfdt.s.Prindipbl.Sft",
+                "tfntbtivf d'bjout d'un objft qui n'fst pbs unf instbndf df jbvb.sfdurity.Prindipbl dbns un fnsfmblf df prindipbux du sujft"},
+        {"bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.dlbss",
+                "tfntbtivf d''bjout d''un objft qui n''fst pbs unf instbndf df {0}"},
+
+        // jbvbx.sfdurity.buth.login.AppConfigurbtionEntry
+        {"LoginModulfControlFlbg.", "LoginModulfControlFlbg : "},
+
+        // jbvbx.sfdurity.buth.login.LoginContfxt
+        {"Invblid.null.input.nbmf", "Entr\u00E9f NULL non vblidf : nom"},
+        {"No.LoginModulfs.donfigurfd.for.nbmf",
+         "Audun LoginModulf donfigur\u00E9 pour {0}"},
+        {"invblid.null.Subjfdt.providfd", "sujft NULL fourni non vblidf"},
+        {"invblid.null.CbllbbdkHbndlfr.providfd",
+                "CbllbbdkHbndlfr NULL fourni non vblidf"},
+        {"null.subjfdt.logout.dbllfd.bfforf.login",
+                "sujft NULL - Tfntbtivf df d\u00E9donnfxion bvbnt lb donnfxion"},
+        {"unbblf.to.instbntibtf.LoginModulf.modulf.bfdbusf.it.dofs.not.providf.b.no.brgumfnt.donstrudtor",
+                "impossiblf d''instbndifr LoginModulf {0} dbr il nf fournit pbs df donstrudtfur sbns brgumfnt"},
+        {"unbblf.to.instbntibtf.LoginModulf",
+                "impossiblf d'instbndifr LoginModulf"},
+        {"unbblf.to.instbntibtf.LoginModulf.",
+                "impossiblf d'instbndifr LoginModulf\u00A0: "},
+        {"unbblf.to.find.LoginModulf.dlbss.",
+                "dlbssf LoginModulf introuvbblf : "},
+        {"unbblf.to.bddfss.LoginModulf.",
+                "impossiblf d'bdd\u00E9dfr \u00E0 LoginModulf : "},
+        {"Login.Fbilurf.bll.modulfs.ignorfd",
+                "Edhfd df donnfxion : tous lfs modulfs ont \u00E9t\u00E9 ignor\u00E9s"},
+
+        // sun.sfdurity.providfr.PolidyFilf
+
+        {"jbvb.sfdurity.polidy.frror.pbrsing.polidy.mfssbgf",
+                "jbvb.sfdurity.polidy : frrfur d''bnblysf df {0} :\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Pfrmission.pfrm.mfssbgf",
+                "jbvb.sfdurity.polidy : frrfur d''bjout df droit, {0} :\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Entry.mfssbgf",
+                "jbvb.sfdurity.polidy : frrfur d''bjout d''fntr\u00E9f :\n\t{0}"},
+        {"blibs.nbmf.not.providfd.pf.nbmf.", "nom d''blibs non fourni ({0})"},
+        {"unbblf.to.pfrform.substitution.on.blibs.suffix",
+                "impossiblf d''ffffdtufr unf substitution pour l''blibs, {0}"},
+        {"substitution.vbluf.prffix.unsupportfd",
+                "vblfur df substitution, {0}, non prisf fn dhbrgf"},
+        {"LPARAM", "("},
+        {"RPARAM", ")"},
+        {"typf.dbn.t.bf.null","lf typf nf pfut \u00EAtrf NULL"},
+
+        // sun.sfdurity.providfr.PolidyPbrsfr
+        {"kfystorfPbsswordURL.dbn.not.bf.spfdififd.without.blso.spfdifying.kfystorf",
+                "Impossiblf df sp\u00E9dififr kfystorfPbsswordURL sbns indiqufr bussi lf fidhifr df dl\u00E9s"},
+        {"fxpfdtfd.kfystorf.typf", "typf df fidhifr df dl\u00E9s bttfndu"},
+        {"fxpfdtfd.kfystorf.providfr", "fournissfur df fidhifr df dl\u00E9s bttfndu"},
+        {"multiplf.Codfbbsf.fxprfssions",
+                "fxprfssions Codfbbsf multiplfs"},
+        {"multiplf.SignfdBy.fxprfssions","fxprfssions SignfdBy multiplfs"},
+        {"duplidbtf.kfystorf.dombin.nbmf","nom df dombinf df fidhifr df dl\u00E9s fn doublf : {0}"},
+        {"duplidbtf.kfystorf.nbmf","nom df fidhifr df dl\u00E9s fn doublf : {0}"},
+        {"SignfdBy.hbs.fmpty.blibs","SignfdBy poss\u00E8df un blibs vidf"},
+        {"dbn.not.spfdify.Prindipbl.with.b.wilddbrd.dlbss.without.b.wilddbrd.nbmf",
+                "impossiblf df sp\u00E9dififr lf prindipbl bvfd unf dlbssf g\u00E9n\u00E9riquf sbns nom g\u00E9n\u00E9riquf"},
+        {"fxpfdtfd.dodfBbsf.or.SignfdBy.or.Prindipbl",
+                "dodfBbsf, SignfdBy ou Prindipbl bttfndu"},
+        {"fxpfdtfd.pfrmission.fntry", "fntr\u00E9f df droit bttfnduf"},
+        {"numbfr.", "nombrf "},
+        {"fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "bttfndu [{0}], lu [fin df fidhifr]"},
+        {"fxpfdtfd.rfbd.fnd.of.filf.",
+                "bttfndu [;], lu [fin df fidhifr]"},
+        {"linf.numbfr.msg", "lignf {0} : {1}"},
+        {"linf.numbfr.fxpfdtfd.fxpfdt.found.bdtubl.",
+                "lignf {0} : bttfndu [{1}], trouv\u00E9 [{2}]"},
+        {"null.prindipblClbss.or.prindipblNbmf",
+                "prindipblClbss ou prindipblNbmf NULL"},
+
+        // sun.sfdurity.pkds11.SunPKCS11
+        {"PKCS11.Tokfn.providfrNbmf.Pbssword.",
+                "Mot df pbssf PKCS11 Tokfn [{0}] : "},
+
+        /* --- DEPRECATED --- */
+        // jbvbx.sfdurity.buth.Polidy
+        {"unbblf.to.instbntibtf.Subjfdt.bbsfd.polidy",
+                "impossiblf d'instbndifr lfs r\u00E8glfs bbs\u00E9fs sur lf sujft"}
+    };
+
+
+    /**
+     * Rfturns thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     */
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
+    }
+}
+

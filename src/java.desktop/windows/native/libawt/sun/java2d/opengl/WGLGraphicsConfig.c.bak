@@ -1,719 +1,719 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "sun_java2d_opengl_WGLGraphicsConfig.h"
+#indludf "sun_jbvb2d_opfngl_WGLGrbpiidsConfig.i"
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include "WGLGraphicsConfig.h"
-#include "WGLSurfaceData.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "WGLGrbpiidsConfig.i"
+#indludf "WGLSurfbdfDbtb.i"
 
 /**
- * This is a globally shared context used when creating textures.  When any
- * new contexts are created, they specify this context as the "share list"
- * context, which means any texture objects created when this shared context
- * is current will be available to any other context in any other thread.
+ * Tiis is b globblly sibrfd dontfxt usfd wifn drfbting tfxturfs.  Wifn bny
+ * nfw dontfxts brf drfbtfd, tify spfdify tiis dontfxt bs tif "sibrf list"
+ * dontfxt, wiidi mfbns bny tfxturf objfdts drfbtfd wifn tiis sibrfd dontfxt
+ * is durrfnt will bf bvbilbblf to bny otifr dontfxt in bny otifr tirfbd.
  */
-HGLRC sharedContext = 0;
+HGLRC sibrfdContfxt = 0;
 
 /**
- * Attempts to initialize WGL and the core OpenGL library.  For this method
- * to return JNI_TRUE, the following must be true:
- *     - opengl32.dll must be loaded successfully (via LoadLibrary)
- *     - all core WGL/OGL function symbols from opengl32.dll must be
- *       available and loaded properly
- * If any of these requirements are not met, this method will return
- * JNI_FALSE, indicating there is no hope of using WGL/OpenGL for any
- * GraphicsConfig in the environment.
+ * Attfmpts to initiblizf WGL bnd tif dorf OpfnGL librbry.  For tiis mftiod
+ * to rfturn JNI_TRUE, tif following must bf truf:
+ *     - opfngl32.dll must bf lobdfd suddfssfully (vib LobdLibrbry)
+ *     - bll dorf WGL/OGL fundtion symbols from opfngl32.dll must bf
+ *       bvbilbblf bnd lobdfd propfrly
+ * If bny of tifsf rfquirfmfnts brf not mft, tiis mftiod will rfturn
+ * JNI_FALSE, indidbting tifrf is no iopf of using WGL/OpfnGL for bny
+ * GrbpiidsConfig in tif fnvironmfnt.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_WGLGraphicsConfig_initWGL(JNIEnv *env, jclass wglgc)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_WGLGrbpiidsConfig_initWGL(JNIEnv *fnv, jdlbss wglgd)
 {
-    J2dRlsTraceLn(J2D_TRACE_INFO, "WGLGraphicsConfig_initWGL");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "WGLGrbpiidsConfig_initWGL");
 
-    if (!OGLFuncs_OpenLibrary()) {
-        return JNI_FALSE;
+    if (!OGLFunds_OpfnLibrbry()) {
+        rfturn JNI_FALSE;
     }
 
-    if (!OGLFuncs_InitPlatformFuncs() ||
-        !OGLFuncs_InitBaseFuncs())
+    if (!OGLFunds_InitPlbtformFunds() ||
+        !OGLFunds_InitBbsfFunds())
     {
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Disposes all memory and resources allocated for the given OGLContext.
+ * Disposfs bll mfmory bnd rfsourdfs bllodbtfd for tif givfn OGLContfxt.
  */
-static void
-WGLGC_DestroyOGLContext(OGLContext *oglc)
+stbtid void
+WGLGC_DfstroyOGLContfxt(OGLContfxt *ogld)
 {
-    WGLCtxInfo *ctxinfo;
+    WGLCtxInfo *dtxinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_DestroyOGLContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_DfstroyOGLContfxt");
 
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "WGLGC_DestroyOGLContext: context is null");
-        return;
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "WGLGC_DfstroyOGLContfxt: dontfxt is null");
+        rfturn;
     }
 
-    // at this point, this context will be current to its scratch surface,
-    // so the following operations should be safe...
+    // bt tiis point, tiis dontfxt will bf durrfnt to its sdrbtdi surfbdf,
+    // so tif following opfrbtions siould bf sbff...
 
-    OGLContext_DestroyContextResources(oglc);
+    OGLContfxt_DfstroyContfxtRfsourdfs(ogld);
 
-    ctxinfo = (WGLCtxInfo *)oglc->ctxInfo;
-    if (ctxinfo != NULL) {
-        // release the current context before we continue
-        j2d_wglMakeCurrent(NULL, NULL);
+    dtxinfo = (WGLCtxInfo *)ogld->dtxInfo;
+    if (dtxinfo != NULL) {
+        // rflfbsf tif durrfnt dontfxt bfforf wf dontinuf
+        j2d_wglMbkfCurrfnt(NULL, NULL);
 
-        if (ctxinfo->context != 0) {
-            j2d_wglDeleteContext(ctxinfo->context);
+        if (dtxinfo->dontfxt != 0) {
+            j2d_wglDflftfContfxt(dtxinfo->dontfxt);
         }
-        if (ctxinfo->scratchSurface != 0) {
-            if (ctxinfo->scratchSurfaceDC != 0) {
-                j2d_wglReleasePbufferDCARB(ctxinfo->scratchSurface,
-                                           ctxinfo->scratchSurfaceDC);
+        if (dtxinfo->sdrbtdiSurfbdf != 0) {
+            if (dtxinfo->sdrbtdiSurfbdfDC != 0) {
+                j2d_wglRflfbsfPbufffrDCARB(dtxinfo->sdrbtdiSurfbdf,
+                                           dtxinfo->sdrbtdiSurfbdfDC);
             }
-            j2d_wglDestroyPbufferARB(ctxinfo->scratchSurface);
+            j2d_wglDfstroyPbufffrARB(dtxinfo->sdrbtdiSurfbdf);
         }
 
-        free(ctxinfo);
+        frff(dtxinfo);
     }
 
-    free(oglc);
+    frff(ogld);
 }
 
 /**
- * Disposes all memory and resources associated with the given
- * WGLGraphicsConfigInfo (including its native OGLContext data).
+ * Disposfs bll mfmory bnd rfsourdfs bssodibtfd witi tif givfn
+ * WGLGrbpiidsConfigInfo (indluding its nbtivf OGLContfxt dbtb).
  */
 void
-OGLGC_DestroyOGLGraphicsConfig(jlong pConfigInfo)
+OGLGC_DfstroyOGLGrbpiidsConfig(jlong pConfigInfo)
 {
-    WGLGraphicsConfigInfo *wglinfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    WGLGrbpiidsConfigInfo *wglinfo =
+        (WGLGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLGC_DestroyOGLGraphicsConfig");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLGC_DfstroyOGLGrbpiidsConfig");
 
     if (wglinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLGC_DestroyOGLGraphicsConfig: info is null");
-        return;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLGC_DfstroyOGLGrbpiidsConfig: info is null");
+        rfturn;
     }
 
-    if (wglinfo->context != NULL) {
-        WGLGC_DestroyOGLContext(wglinfo->context);
+    if (wglinfo->dontfxt != NULL) {
+        WGLGC_DfstroyOGLContfxt(wglinfo->dontfxt);
     }
 
-    free(wglinfo);
+    frff(wglinfo);
 }
 
 /**
- * Creates a temporary (non-visible) window that can be used for querying
- * the OpenGL capabilities of a given device.
+ * Crfbtfs b tfmporbry (non-visiblf) window tibt dbn bf usfd for qufrying
+ * tif OpfnGL dbpbbilitifs of b givfn dfvidf.
  *
- * REMIND: should be able to create a window on a specific device...
+ * REMIND: siould bf bblf to drfbtf b window on b spfdifid dfvidf...
  */
 HWND
-WGLGC_CreateScratchWindow(jint screennum)
+WGLGC_CrfbtfSdrbtdiWindow(jint sdrffnnum)
 {
-    static jboolean firsttime = JNI_TRUE;
+    stbtid jboolfbn firsttimf = JNI_TRUE;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_CreateScratchWindow");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_CrfbtfSdrbtdiWindow");
 
-    if (firsttime) {
-        WNDCLASS wc;
+    if (firsttimf) {
+        WNDCLASS wd;
 
-        // setup window class information
-        ZeroMemory(&wc, sizeof(WNDCLASS));
-        wc.hInstance = GetModuleHandle(NULL);
-        wc.lpfnWndProc = DefWindowProc;
-        wc.lpszClassName = L"Tmp";
-        if (RegisterClass(&wc) == 0) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "WGLGC_CreateScratchWindow: error registering window class");
-            return 0;
+        // sftup window dlbss informbtion
+        ZfroMfmory(&wd, sizfof(WNDCLASS));
+        wd.iInstbndf = GftModulfHbndlf(NULL);
+        wd.lpfnWndProd = DffWindowProd;
+        wd.lpszClbssNbmf = L"Tmp";
+        if (RfgistfrClbss(&wd) == 0) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "WGLGC_CrfbtfSdrbtdiWindow: frror rfgistfring window dlbss");
+            rfturn 0;
         }
 
-        firsttime = JNI_FALSE;
+        firsttimf = JNI_FALSE;
     }
 
-    // create scratch window
-    return CreateWindow(L"Tmp", L"Tmp", 0,
+    // drfbtf sdrbtdi window
+    rfturn CrfbtfWindow(L"Tmp", L"Tmp", 0,
                         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                         CW_USEDEFAULT, NULL, NULL,
-                        GetModuleHandle(NULL), NULL);
+                        GftModulfHbndlf(NULL), NULL);
 }
 
 /**
- * Returns a pixel format identifier that is suitable for Java 2D's needs
- * (must have a depth buffer, support for pbuffers, etc).  This method will
- * iterate through all pixel formats (if any) that match the requested
- * attributes and will attempt to find a pixel format with a minimal combined
- * depth+stencil buffer.  Note that we currently only need depth capabilities
- * (for shape clipping purposes), but wglChoosePixelFormatARB() will often
- * return a list of pixel formats with the largest depth buffer (and stencil)
- * sizes at the top of the list.  Therefore, we scan through the whole list
- * to find the most VRAM-efficient pixel format.  If no appropriate pixel
- * format can be found, this method returns 0.
+ * Rfturns b pixfl formbt idfntififr tibt is suitbblf for Jbvb 2D's nffds
+ * (must ibvf b dfpti bufffr, support for pbufffrs, ftd).  Tiis mftiod will
+ * itfrbtf tirougi bll pixfl formbts (if bny) tibt mbtdi tif rfqufstfd
+ * bttributfs bnd will bttfmpt to find b pixfl formbt witi b minimbl dombinfd
+ * dfpti+stfndil bufffr.  Notf tibt wf durrfntly only nffd dfpti dbpbbilitifs
+ * (for sibpf dlipping purposfs), but wglCioosfPixflFormbtARB() will oftfn
+ * rfturn b list of pixfl formbts witi tif lbrgfst dfpti bufffr (bnd stfndil)
+ * sizfs bt tif top of tif list.  Tifrfforf, wf sdbn tirougi tif wiolf list
+ * to find tif most VRAM-fffidifnt pixfl formbt.  If no bppropribtf pixfl
+ * formbt dbn bf found, tiis mftiod rfturns 0.
  */
-static int
-WGLGC_GetPixelFormatForDC(HDC hdc)
+stbtid int
+WGLGC_GftPixflFormbtForDC(HDC idd)
 {
-    int attrs[] = {
+    int bttrs[] = {
         WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
         WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
         WGL_DRAW_TO_PBUFFER_ARB, GL_TRUE,
         WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-        WGL_DEPTH_BITS_ARB, 16, // anything >= 16 will work for us
+        WGL_DEPTH_BITS_ARB, 16, // bnytiing >= 16 will work for us
         0
     };
     int pixfmts[32];
-    int chosenPixFmt = 0;
+    int diosfnPixFmt = 0;
     int nfmts, i;
 
-    // this is the initial minimum value for the combined depth+stencil size
-    // (we initialize it to some absurdly high value; realistic values will
-    // be much less than this number)
-    int minDepthPlusStencil = 512;
+    // tiis is tif initibl minimum vbluf for tif dombinfd dfpti+stfndil sizf
+    // (wf initiblizf it to somf bbsurdly iigi vbluf; rfblistid vblufs will
+    // bf mudi lfss tibn tiis numbfr)
+    int minDfptiPlusStfndil = 512;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "WGLGC_GetPixelFormatForDC");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "WGLGC_GftPixflFormbtForDC");
 
-    // find all pixel formats (maximum of 32) with the provided attributes
-    if (!j2d_wglChoosePixelFormatARB(hdc, attrs, NULL, 32, pixfmts, &nfmts)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_GetPixelFormatForDC: error choosing pixel format");
-        return 0;
+    // find bll pixfl formbts (mbximum of 32) witi tif providfd bttributfs
+    if (!j2d_wglCioosfPixflFormbtARB(idd, bttrs, NULL, 32, pixfmts, &nfmts)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_GftPixflFormbtForDC: frror dioosing pixfl formbt");
+        rfturn 0;
     }
 
     if (nfmts <= 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_GetPixelFormatForDC: no pixel formats found");
-        return 0;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_GftPixflFormbtForDC: no pixfl formbts found");
+        rfturn 0;
     }
 
-    J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  candidate pixel formats:");
+    J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  dbndidbtf pixfl formbts:");
 
-    // iterate through the list of pixel formats, looking for the one that
-    // meets our requirements while keeping the combined depth+stencil sizes
-    // to a minimum
+    // itfrbtf tirougi tif list of pixfl formbts, looking for tif onf tibt
+    // mffts our rfquirfmfnts wiilf kffping tif dombinfd dfpti+stfndil sizfs
+    // to b minimum
     for (i = 0; i < nfmts; i++) {
-        int attrKeys[] = {
+        int bttrKfys[] = {
             WGL_DEPTH_BITS_ARB, WGL_STENCIL_BITS_ARB,
             WGL_DOUBLE_BUFFER_ARB, WGL_ALPHA_BITS_ARB
         };
-        int attrVals[4];
+        int bttrVbls[4];
         int pixfmt = pixfmts[i];
-        int depth, stencil, db, alpha;
+        int dfpti, stfndil, db, blpib;
 
-        j2d_wglGetPixelFormatAttribivARB(hdc, pixfmt, 0, 4,
-                                         attrKeys, attrVals);
+        j2d_wglGftPixflFormbtAttribivARB(idd, pixfmt, 0, 4,
+                                         bttrKfys, bttrVbls);
 
-        depth   = attrVals[0];
-        stencil = attrVals[1];
-        db      = attrVals[2];
-        alpha   = attrVals[3];
+        dfpti   = bttrVbls[0];
+        stfndil = bttrVbls[1];
+        db      = bttrVbls[2];
+        blpib   = bttrVbls[3];
 
-        J2dRlsTrace5(J2D_TRACE_VERBOSE,
-            "[V]     pixfmt=%d db=%d alpha=%d depth=%d stencil=%d valid=",
-                     pixfmt, db, alpha, depth, stencil);
+        J2dRlsTrbdf5(J2D_TRACE_VERBOSE,
+            "[V]     pixfmt=%d db=%d blpib=%d dfpti=%d stfndil=%d vblid=",
+                     pixfmt, db, blpib, dfpti, stfndil);
 
-        if ((depth + stencil) < minDepthPlusStencil) {
-            J2dRlsTrace(J2D_TRACE_VERBOSE, "true\n");
-            minDepthPlusStencil = depth + stencil;
-            chosenPixFmt = pixfmt;
-        } else {
-            J2dRlsTrace(J2D_TRACE_VERBOSE, "false (large depth)\n");
+        if ((dfpti + stfndil) < minDfptiPlusStfndil) {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE, "truf\n");
+            minDfptiPlusStfndil = dfpti + stfndil;
+            diosfnPixFmt = pixfmt;
+        } flsf {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE, "fblsf (lbrgf dfpti)\n");
         }
     }
 
-    if (chosenPixFmt == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_GetPixelFormatForDC: could not find appropriate pixfmt");
-        return 0;
+    if (diosfnPixFmt == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_GftPixflFormbtForDC: dould not find bppropribtf pixfmt");
+        rfturn 0;
     }
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-        "WGLGC_GetPixelFormatForDC: chose %d as the best pixel format",
-                   chosenPixFmt);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+        "WGLGC_GftPixflFormbtForDC: diosf %d bs tif bfst pixfl formbt",
+                   diosfnPixFmt);
 
-    return chosenPixFmt;
+    rfturn diosfnPixFmt;
 }
 
 /**
- * Sets a "basic" pixel format for the given HDC.  This method is used only
- * for initializing a scratch window far enough such that we can load
- * GL/WGL extension function pointers using wglGetProcAddress.  (This method
- * differs from the one above in that it does not use wglChoosePixelFormatARB,
- * which is a WGL extension function, since we can't use that method without
- * first loading the extension functions under a "basic" pixel format.)
+ * Sfts b "bbsid" pixfl formbt for tif givfn HDC.  Tiis mftiod is usfd only
+ * for initiblizing b sdrbtdi window fbr fnougi sudi tibt wf dbn lobd
+ * GL/WGL fxtfnsion fundtion pointfrs using wglGftProdAddrfss.  (Tiis mftiod
+ * difffrs from tif onf bbovf in tibt it dofs not usf wglCioosfPixflFormbtARB,
+ * wiidi is b WGL fxtfnsion fundtion, sindf wf dbn't usf tibt mftiod witiout
+ * first lobding tif fxtfnsion fundtions undfr b "bbsid" pixfl formbt.)
  */
-static jboolean
-WGLGC_SetBasicPixelFormatForDC(HDC hdc)
+stbtid jboolfbn
+WGLGC_SftBbsidPixflFormbtForDC(HDC idd)
 {
     PIXELFORMATDESCRIPTOR pfd;
     int pixfmt;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_SetBasicPixelFormatForDC");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_SftBbsidPixflFormbtForDC");
 
-    // find pixel format
-    ZeroMemory(&pfd, sizeof(PIXELFORMATDESCRIPTOR));
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-    pfd.nVersion = 1;
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pfd.iPixelType = PFD_TYPE_RGBA;
-    pixfmt = ChoosePixelFormat(hdc, &pfd);
+    // find pixfl formbt
+    ZfroMfmory(&pfd, sizfof(PIXELFORMATDESCRIPTOR));
+    pfd.nSizf = sizfof(PIXELFORMATDESCRIPTOR);
+    pfd.nVfrsion = 1;
+    pfd.dwFlbgs = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixflTypf = PFD_TYPE_RGBA;
+    pixfmt = CioosfPixflFormbt(idd, &pfd);
 
-    if (!SetPixelFormat(hdc, pixfmt, &pfd)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_SetBasicPixelFormatForDC: error setting pixel format");
-        return JNI_FALSE;
+    if (!SftPixflFormbt(idd, pixfmt, &pfd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_SftBbsidPixflFormbtForDC: frror sftting pixfl formbt");
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Creates a context that is compatible with the given pixel format
- * identifier.  Returns 0 if the context could not be created properly.
+ * Crfbtfs b dontfxt tibt is dompbtiblf witi tif givfn pixfl formbt
+ * idfntififr.  Rfturns 0 if tif dontfxt dould not bf drfbtfd propfrly.
  */
-static HGLRC
-WGLGC_CreateContext(jint screennum, jint pixfmt)
+stbtid HGLRC
+WGLGC_CrfbtfContfxt(jint sdrffnnum, jint pixfmt)
 {
     PIXELFORMATDESCRIPTOR pfd;
-    HWND hwnd;
-    HDC hdc;
-    HGLRC hglrc;
+    HWND iwnd;
+    HDC idd;
+    HGLRC iglrd;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_CreateContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_CrfbtfContfxt");
 
-    hwnd = WGLGC_CreateScratchWindow(screennum);
-    if (hwnd == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_CreateContext: could not create scratch window");
-        return 0;
+    iwnd = WGLGC_CrfbtfSdrbtdiWindow(sdrffnnum);
+    if (iwnd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_CrfbtfContfxt: dould not drfbtf sdrbtdi window");
+        rfturn 0;
     }
 
-    // get the HDC for the scratch window
-    hdc = GetDC(hwnd);
-    if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_CreateContext: could not get dc for scratch window");
-        DestroyWindow(hwnd);
-        return 0;
+    // gft tif HDC for tif sdrbtdi window
+    idd = GftDC(iwnd);
+    if (idd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_CrfbtfContfxt: dould not gft dd for sdrbtdi window");
+        DfstroyWindow(iwnd);
+        rfturn 0;
     }
 
-    // set the pixel format for the scratch window
-    if (!SetPixelFormat(hdc, pixfmt, &pfd)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_CreateContext: error setting pixel format");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0;
+    // sft tif pixfl formbt for tif sdrbtdi window
+    if (!SftPixflFormbt(idd, pixfmt, &pfd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_CrfbtfContfxt: frror sftting pixfl formbt");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0;
     }
 
-    // create a context based on the scratch window
-    hglrc = j2d_wglCreateContext(hdc);
+    // drfbtf b dontfxt bbsfd on tif sdrbtdi window
+    iglrd = j2d_wglCrfbtfContfxt(idd);
 
-    // release the temporary resources
-    ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    // rflfbsf tif tfmporbry rfsourdfs
+    RflfbsfDC(iwnd, idd);
+    DfstroyWindow(iwnd);
 
-    return hglrc;
+    rfturn iglrd;
 }
 
 /**
- * Initializes the extension function pointers for the given device.  Note
- * that under WGL, extension functions have different entrypoints depending
- * on the device, so we must first make a context current for the given
- * device before attempting to load the function pointers via
- * wglGetProcAddress.
+ * Initiblizfs tif fxtfnsion fundtion pointfrs for tif givfn dfvidf.  Notf
+ * tibt undfr WGL, fxtfnsion fundtions ibvf difffrfnt fntrypoints dfpfnding
+ * on tif dfvidf, so wf must first mbkf b dontfxt durrfnt for tif givfn
+ * dfvidf bfforf bttfmpting to lobd tif fundtion pointfrs vib
+ * wglGftProdAddrfss.
  *
- * REMIND: ideally the extension function pointers would not be global, but
- *         rather would be stored in a structure associated with the
- *         WGLGraphicsConfig, so that we use the correct function entrypoint
- *         depending on the destination device...
+ * REMIND: idfblly tif fxtfnsion fundtion pointfrs would not bf globbl, but
+ *         rbtifr would bf storfd in b strudturf bssodibtfd witi tif
+ *         WGLGrbpiidsConfig, so tibt wf usf tif dorrfdt fundtion fntrypoint
+ *         dfpfnding on tif dfstinbtion dfvidf...
  */
-static jboolean
-WGLGC_InitExtFuncs(jint screennum)
+stbtid jboolfbn
+WGLGC_InitExtFunds(jint sdrffnnum)
 {
-    HWND hwnd;
-    HDC hdc;
-    HGLRC context;
+    HWND iwnd;
+    HDC idd;
+    HGLRC dontfxt;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_InitExtFuncs");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_InitExtFunds");
 
-    // create a scratch window
-    hwnd = WGLGC_CreateScratchWindow(screennum);
-    if (hwnd == 0) {
-        return JNI_FALSE;
+    // drfbtf b sdrbtdi window
+    iwnd = WGLGC_CrfbtfSdrbtdiWindow(sdrffnnum);
+    if (iwnd == 0) {
+        rfturn JNI_FALSE;
     }
 
-    // get the HDC for the scratch window
-    hdc = GetDC(hwnd);
-    if (hdc == 0) {
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    // gft tif HDC for tif sdrbtdi window
+    idd = GftDC(iwnd);
+    if (idd == 0) {
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    // find and set a basic pixel format for the scratch window
-    if (!WGLGC_SetBasicPixelFormatForDC(hdc)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitExtFuncs: could not find appropriate pixfmt");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    // find bnd sft b bbsid pixfl formbt for tif sdrbtdi window
+    if (!WGLGC_SftBbsidPixflFormbtForDC(idd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitExtFunds: dould not find bppropribtf pixfmt");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    // create a temporary context
-    context = j2d_wglCreateContext(hdc);
-    if (context == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitExtFuncs: could not create temp WGL context");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    // drfbtf b tfmporbry dontfxt
+    dontfxt = j2d_wglCrfbtfContfxt(idd);
+    if (dontfxt == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitExtFunds: dould not drfbtf tfmp WGL dontfxt");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    // make the context current so that we can load the function pointers
-    // using wglGetProcAddress
-    if (!j2d_wglMakeCurrent(hdc, context)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitExtFuncs: could not make temp context current");
-        j2d_wglDeleteContext(context);
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    // mbkf tif dontfxt durrfnt so tibt wf dbn lobd tif fundtion pointfrs
+    // using wglGftProdAddrfss
+    if (!j2d_wglMbkfCurrfnt(idd, dontfxt)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitExtFunds: dould not mbkf tfmp dontfxt durrfnt");
+        j2d_wglDflftfContfxt(dontfxt);
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    if (!OGLFuncs_InitExtFuncs()) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitExtFuncs: could not initialize extension funcs");
-        j2d_wglMakeCurrent(NULL, NULL);
-        j2d_wglDeleteContext(context);
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    if (!OGLFunds_InitExtFunds()) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitExtFunds: dould not initiblizf fxtfnsion funds");
+        j2d_wglMbkfCurrfnt(NULL, NULL);
+        j2d_wglDflftfContfxt(dontfxt);
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    // destroy the temporary resources
-    j2d_wglMakeCurrent(NULL, NULL);
-    j2d_wglDeleteContext(context);
-    ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    // dfstroy tif tfmporbry rfsourdfs
+    j2d_wglMbkfCurrfnt(NULL, NULL);
+    j2d_wglDflftfContfxt(dontfxt);
+    RflfbsfDC(iwnd, idd);
+    DfstroyWindow(iwnd);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Initializes a new OGLContext, which includes the native WGL context handle
- * and some other important information such as the associated pixel format.
+ * Initiblizfs b nfw OGLContfxt, wiidi indludfs tif nbtivf WGL dontfxt ibndlf
+ * bnd somf otifr importbnt informbtion sudi bs tif bssodibtfd pixfl formbt.
  */
-static OGLContext *
-WGLGC_InitOGLContext(jint pixfmt, HGLRC context,
-                     HPBUFFERARB scratch, HDC scratchDC, jint caps)
+stbtid OGLContfxt *
+WGLGC_InitOGLContfxt(jint pixfmt, HGLRC dontfxt,
+                     HPBUFFERARB sdrbtdi, HDC sdrbtdiDC, jint dbps)
 {
-    OGLContext *oglc;
-    WGLCtxInfo *ctxinfo;
+    OGLContfxt *ogld;
+    WGLCtxInfo *dtxinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGC_InitOGLContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGC_InitOGLContfxt");
 
-    oglc = (OGLContext *)malloc(sizeof(OGLContext));
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitOGLContext: could not allocate memory for oglc");
-        return NULL;
+    ogld = (OGLContfxt *)mbllod(sizfof(OGLContfxt));
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitOGLContfxt: dould not bllodbtf mfmory for ogld");
+        rfturn NULL;
     }
 
-    memset(oglc, 0, sizeof(OGLContext));
+    mfmsft(ogld, 0, sizfof(OGLContfxt));
 
-    ctxinfo = (WGLCtxInfo *)malloc(sizeof(WGLCtxInfo));
-    if (ctxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGC_InitOGLContext: could not allocate memory for ctxinfo");
-        free(oglc);
-        return NULL;
+    dtxinfo = (WGLCtxInfo *)mbllod(sizfof(WGLCtxInfo));
+    if (dtxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGC_InitOGLContfxt: dould not bllodbtf mfmory for dtxinfo");
+        frff(ogld);
+        rfturn NULL;
     }
 
-    ctxinfo->context = context;
-    ctxinfo->scratchSurface = scratch;
-    ctxinfo->scratchSurfaceDC = scratchDC;
-    oglc->ctxInfo = ctxinfo;
-    oglc->caps = caps;
+    dtxinfo->dontfxt = dontfxt;
+    dtxinfo->sdrbtdiSurfbdf = sdrbtdi;
+    dtxinfo->sdrbtdiSurfbdfDC = sdrbtdiDC;
+    ogld->dtxInfo = dtxinfo;
+    ogld->dbps = dbps;
 
-    return oglc;
+    rfturn ogld;
 }
 
 /**
- * Determines whether the WGL pipeline can be used for a given GraphicsConfig
- * provided its screen number and visual ID.  If the minimum requirements are
- * met, the native WGLGraphicsConfigInfo structure is initialized for this
- * GraphicsConfig with the necessary information (pixel format, etc.)
- * and a pointer to this structure is returned as a jlong.  If
- * initialization fails at any point, zero is returned, indicating that WGL
- * cannot be used for this GraphicsConfig (we should fallback on the existing
- * DX pipeline).
+ * Dftfrminfs wiftifr tif WGL pipflinf dbn bf usfd for b givfn GrbpiidsConfig
+ * providfd its sdrffn numbfr bnd visubl ID.  If tif minimum rfquirfmfnts brf
+ * mft, tif nbtivf WGLGrbpiidsConfigInfo strudturf is initiblizfd for tiis
+ * GrbpiidsConfig witi tif nfdfssbry informbtion (pixfl formbt, ftd.)
+ * bnd b pointfr to tiis strudturf is rfturnfd bs b jlong.  If
+ * initiblizbtion fbils bt bny point, zfro is rfturnfd, indidbting tibt WGL
+ * dbnnot bf usfd for tiis GrbpiidsConfig (wf siould fbllbbdk on tif fxisting
+ * DX pipflinf).
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_opengl_WGLGraphicsConfig_getWGLConfigInfo(JNIEnv *env,
-                                                          jclass wglgc,
-                                                          jint screennum,
+Jbvb_sun_jbvb2d_opfngl_WGLGrbpiidsConfig_gftWGLConfigInfo(JNIEnv *fnv,
+                                                          jdlbss wglgd,
+                                                          jint sdrffnnum,
                                                           jint pixfmt)
 {
-    OGLContext *oglc;
+    OGLContfxt *ogld;
     PIXELFORMATDESCRIPTOR pfd;
-    HWND hwnd;
-    HDC hdc;
-    HGLRC context;
-    HPBUFFERARB scratch;
-    HDC scratchDC;
-    WGLGraphicsConfigInfo *wglinfo;
-    const unsigned char *versionstr;
-    const char *extstr;
-    jint caps = CAPS_EMPTY;
-    int attrKeys[] = { WGL_DOUBLE_BUFFER_ARB, WGL_ALPHA_BITS_ARB };
-    int attrVals[2];
+    HWND iwnd;
+    HDC idd;
+    HGLRC dontfxt;
+    HPBUFFERARB sdrbtdi;
+    HDC sdrbtdiDC;
+    WGLGrbpiidsConfigInfo *wglinfo;
+    donst unsignfd dibr *vfrsionstr;
+    donst dibr *fxtstr;
+    jint dbps = CAPS_EMPTY;
+    int bttrKfys[] = { WGL_DOUBLE_BUFFER_ARB, WGL_ALPHA_BITS_ARB };
+    int bttrVbls[2];
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "WGLGraphicsConfig_getWGLConfigInfo");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "WGLGrbpiidsConfig_gftWGLConfigInfo");
 
-    // initialize GL/WGL extension functions
-    if (!WGLGC_InitExtFuncs(screennum)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not init ext funcs");
-        return 0L;
+    // initiblizf GL/WGL fxtfnsion fundtions
+    if (!WGLGC_InitExtFunds(sdrffnnum)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not init fxt funds");
+        rfturn 0L;
     }
 
-    // create a scratch window
-    hwnd = WGLGC_CreateScratchWindow(screennum);
-    if (hwnd == 0) {
-        return 0L;
+    // drfbtf b sdrbtdi window
+    iwnd = WGLGC_CrfbtfSdrbtdiWindow(sdrffnnum);
+    if (iwnd == 0) {
+        rfturn 0L;
     }
 
-    // get the HDC for the scratch window
-    hdc = GetDC(hwnd);
-    if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not get dc for scratch window");
-        DestroyWindow(hwnd);
-        return 0L;
+    // gft tif HDC for tif sdrbtdi window
+    idd = GftDC(iwnd);
+    if (idd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not gft dd for sdrbtdi window");
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
     if (pixfmt == 0) {
-        // find an appropriate pixel format
-        pixfmt = WGLGC_GetPixelFormatForDC(hdc);
+        // find bn bppropribtf pixfl formbt
+        pixfmt = WGLGC_GftPixflFormbtForDC(idd);
         if (pixfmt == 0) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "WGLGraphicsConfig_getWGLConfigInfo: could not find appropriate pixfmt");
-            ReleaseDC(hwnd, hdc);
-            DestroyWindow(hwnd);
-            return 0L;
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not find bppropribtf pixfmt");
+            RflfbsfDC(iwnd, idd);
+            DfstroyWindow(iwnd);
+            rfturn 0L;
         }
     }
 
-    if (sharedContext == 0) {
-        // create the one shared context
-        sharedContext = WGLGC_CreateContext(screennum, pixfmt);
-        if (sharedContext == 0) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "WGLGraphicsConfig_getWGLConfigInfo: could not create shared context");
-            ReleaseDC(hwnd, hdc);
-            DestroyWindow(hwnd);
-            return 0L;
+    if (sibrfdContfxt == 0) {
+        // drfbtf tif onf sibrfd dontfxt
+        sibrfdContfxt = WGLGC_CrfbtfContfxt(sdrffnnum, pixfmt);
+        if (sibrfdContfxt == 0) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not drfbtf sibrfd dontfxt");
+            RflfbsfDC(iwnd, idd);
+            DfstroyWindow(iwnd);
+            rfturn 0L;
         }
     }
 
-    // set the pixel format for the scratch window
-    if (!SetPixelFormat(hdc, pixfmt, &pfd)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsconfig_getWGLConfigInfo: error setting pixel format");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0L;
+    // sft tif pixfl formbt for tif sdrbtdi window
+    if (!SftPixflFormbt(idd, pixfmt, &pfd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsdonfig_gftWGLConfigInfo: frror sftting pixfl formbt");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
-    // create the HGLRC (context) for this WGLGraphicsConfig
-    context = j2d_wglCreateContext(hdc);
-    if (context == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not create WGL context");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0L;
+    // drfbtf tif HGLRC (dontfxt) for tiis WGLGrbpiidsConfig
+    dontfxt = j2d_wglCrfbtfContfxt(idd);
+    if (dontfxt == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not drfbtf WGL dontfxt");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
-    // REMIND: when using wglShareLists, the two contexts must use an
-    //         identical pixel format...
-    if (!j2d_wglShareLists(sharedContext, context)) {
-        J2dRlsTraceLn(J2D_TRACE_WARNING,
-            "WGLGraphicsConfig_getWGLConfigInfo: unable to share lists");
+    // REMIND: wifn using wglSibrfLists, tif two dontfxts must usf bn
+    //         idfntidbl pixfl formbt...
+    if (!j2d_wglSibrfLists(sibrfdContfxt, dontfxt)) {
+        J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: unbblf to sibrf lists");
     }
 
-    // make the context current so that we can query the OpenGL version
-    // and extension strings
-    if (!j2d_wglMakeCurrent(hdc, context)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not make temp context current");
-        j2d_wglDeleteContext(context);
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0L;
+    // mbkf tif dontfxt durrfnt so tibt wf dbn qufry tif OpfnGL vfrsion
+    // bnd fxtfnsion strings
+    if (!j2d_wglMbkfCurrfnt(idd, dontfxt)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not mbkf tfmp dontfxt durrfnt");
+        j2d_wglDflftfContfxt(dontfxt);
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
-    // get version and extension strings
-    versionstr = j2d_glGetString(GL_VERSION);
-    extstr = j2d_wglGetExtensionsStringARB(hdc);
-    OGLContext_GetExtensionInfo(env, &caps);
+    // gft vfrsion bnd fxtfnsion strings
+    vfrsionstr = j2d_glGftString(GL_VERSION);
+    fxtstr = j2d_wglGftExtfnsionsStringARB(idd);
+    OGLContfxt_GftExtfnsionInfo(fnv, &dbps);
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-        "WGLGraphicsConfig_getWGLConfigInfo: OpenGL version=%s",
-                   (versionstr == NULL) ? "null" : (char *)versionstr);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+        "WGLGrbpiidsConfig_gftWGLConfigInfo: OpfnGL vfrsion=%s",
+                   (vfrsionstr == NULL) ? "null" : (dibr *)vfrsionstr);
 
-    if (!OGLContext_IsVersionSupported(versionstr)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: OpenGL 1.2 is required");
-        j2d_wglMakeCurrent(NULL, NULL);
-        j2d_wglDeleteContext(context);
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0L;
+    if (!OGLContfxt_IsVfrsionSupportfd(vfrsionstr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: OpfnGL 1.2 is rfquirfd");
+        j2d_wglMbkfCurrfnt(NULL, NULL);
+        j2d_wglDflftfContfxt(dontfxt);
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
-    // check for required WGL extensions
-    if (!OGLContext_IsExtensionAvailable(extstr, "WGL_ARB_pbuffer") ||
-        !OGLContext_IsExtensionAvailable(extstr, "WGL_ARB_make_current_read")||
-        !OGLContext_IsExtensionAvailable(extstr, "WGL_ARB_pixel_format"))
+    // difdk for rfquirfd WGL fxtfnsions
+    if (!OGLContfxt_IsExtfnsionAvbilbblf(fxtstr, "WGL_ARB_pbufffr") ||
+        !OGLContfxt_IsExtfnsionAvbilbblf(fxtstr, "WGL_ARB_mbkf_durrfnt_rfbd")||
+        !OGLContfxt_IsExtfnsionAvbilbblf(fxtstr, "WGL_ARB_pixfl_formbt"))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: required ext(s) unavailable");
-        j2d_wglMakeCurrent(NULL, NULL);
-        j2d_wglDeleteContext(context);
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: rfquirfd fxt(s) unbvbilbblf");
+        j2d_wglMbkfCurrfnt(NULL, NULL);
+        j2d_wglDflftfContfxt(dontfxt);
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn 0L;
     }
 
-    // get config-specific capabilities
-    j2d_wglGetPixelFormatAttribivARB(hdc, pixfmt, 0, 2, attrKeys, attrVals);
-    if (attrVals[0]) {
-        caps |= CAPS_DOUBLEBUFFERED;
+    // gft donfig-spfdifid dbpbbilitifs
+    j2d_wglGftPixflFormbtAttribivARB(idd, pixfmt, 0, 2, bttrKfys, bttrVbls);
+    if (bttrVbls[0]) {
+        dbps |= CAPS_DOUBLEBUFFERED;
     }
-    if (attrVals[1] > 0) {
-        caps |= CAPS_STORED_ALPHA;
-    }
-
-    // create the scratch pbuffer
-    scratch = j2d_wglCreatePbufferARB(hdc, pixfmt, 1, 1, NULL);
-
-    // destroy the temporary resources
-    j2d_wglMakeCurrent(NULL, NULL);
-    ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
-
-    if (scratch == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not create scratch surface");
-        j2d_wglDeleteContext(context);
-        return 0L;
+    if (bttrVbls[1] > 0) {
+        dbps |= CAPS_STORED_ALPHA;
     }
 
-    // get the HDC for the scratch pbuffer
-    scratchDC = j2d_wglGetPbufferDCARB(scratch);
-    if (scratchDC == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not get hdc for scratch surface");
-        j2d_wglDeleteContext(context);
-        j2d_wglDestroyPbufferARB(scratch);
-        return 0L;
+    // drfbtf tif sdrbtdi pbufffr
+    sdrbtdi = j2d_wglCrfbtfPbufffrARB(idd, pixfmt, 1, 1, NULL);
+
+    // dfstroy tif tfmporbry rfsourdfs
+    j2d_wglMbkfCurrfnt(NULL, NULL);
+    RflfbsfDC(iwnd, idd);
+    DfstroyWindow(iwnd);
+
+    if (sdrbtdi == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not drfbtf sdrbtdi surfbdf");
+        j2d_wglDflftfContfxt(dontfxt);
+        rfturn 0L;
     }
 
-    // initialize the OGLContext, which wraps the pixfmt and HGLRC (context)
-    oglc = WGLGC_InitOGLContext(pixfmt, context, scratch, scratchDC, caps);
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not create oglc");
-        j2d_wglDeleteContext(context);
-        j2d_wglReleasePbufferDCARB(scratch, scratchDC);
-        j2d_wglDestroyPbufferARB(scratch);
-        return 0L;
+    // gft tif HDC for tif sdrbtdi pbufffr
+    sdrbtdiDC = j2d_wglGftPbufffrDCARB(sdrbtdi);
+    if (sdrbtdiDC == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not gft idd for sdrbtdi surfbdf");
+        j2d_wglDflftfContfxt(dontfxt);
+        j2d_wglDfstroyPbufffrARB(sdrbtdi);
+        rfturn 0L;
     }
 
-    J2dTraceLn(J2D_TRACE_VERBOSE,
-        "WGLGraphicsConfig_getWGLConfigInfo: finished checking dependencies");
+    // initiblizf tif OGLContfxt, wiidi wrbps tif pixfmt bnd HGLRC (dontfxt)
+    ogld = WGLGC_InitOGLContfxt(pixfmt, dontfxt, sdrbtdi, sdrbtdiDC, dbps);
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not drfbtf ogld");
+        j2d_wglDflftfContfxt(dontfxt);
+        j2d_wglRflfbsfPbufffrDCARB(sdrbtdi, sdrbtdiDC);
+        j2d_wglDfstroyPbufffrARB(sdrbtdi);
+        rfturn 0L;
+    }
 
-    // create the WGLGraphicsConfigInfo record for this config
-    wglinfo = (WGLGraphicsConfigInfo *)malloc(sizeof(WGLGraphicsConfigInfo));
+    J2dTrbdfLn(J2D_TRACE_VERBOSE,
+        "WGLGrbpiidsConfig_gftWGLConfigInfo: finisifd difdking dfpfndfndifs");
+
+    // drfbtf tif WGLGrbpiidsConfigInfo rfdord for tiis donfig
+    wglinfo = (WGLGrbpiidsConfigInfo *)mbllod(sizfof(WGLGrbpiidsConfigInfo));
     if (wglinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLGraphicsConfig_getWGLConfigInfo: could not allocate memory for wglinfo");
-        WGLGC_DestroyOGLContext(oglc);
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLGrbpiidsConfig_gftWGLConfigInfo: dould not bllodbtf mfmory for wglinfo");
+        WGLGC_DfstroyOGLContfxt(ogld);
+        rfturn 0L;
     }
 
-    wglinfo->screen = screennum;
+    wglinfo->sdrffn = sdrffnnum;
     wglinfo->pixfmt = pixfmt;
-    wglinfo->context = oglc;
+    wglinfo->dontfxt = ogld;
 
-    return ptr_to_jlong(wglinfo);
+    rfturn ptr_to_jlong(wglinfo);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_WGLGraphicsConfig_getDefaultPixFmt(JNIEnv *env,
-                                                          jclass wglgc,
-                                                          jint screennum)
+Jbvb_sun_jbvb2d_opfngl_WGLGrbpiidsConfig_gftDffbultPixFmt(JNIEnv *fnv,
+                                                          jdlbss wglgd,
+                                                          jint sdrffnnum)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGraphicsConfig_getDefaultPixFmt");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGrbpiidsConfig_gftDffbultPixFmt");
 
-    // REMIND: eventually we should implement this method so that it finds
-    //         the most appropriate default pixel format for the given
-    //         device; for now, we'll just return 0, and then we'll find
-    //         an appropriate pixel format in WGLGC_GetWGLConfigInfo()...
-    return 0;
+    // REMIND: fvfntublly wf siould implfmfnt tiis mftiod so tibt it finds
+    //         tif most bppropribtf dffbult pixfl formbt for tif givfn
+    //         dfvidf; for now, wf'll just rfturn 0, bnd tifn wf'll find
+    //         bn bppropribtf pixfl formbt in WGLGC_GftWGLConfigInfo()...
+    rfturn 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_WGLGraphicsConfig_getOGLCapabilities(JNIEnv *env,
-                                                            jclass wglgc,
-                                                            jlong configInfo)
+Jbvb_sun_jbvb2d_opfngl_WGLGrbpiidsConfig_gftOGLCbpbbilitifs(JNIEnv *fnv,
+                                                            jdlbss wglgd,
+                                                            jlong donfigInfo)
 {
-    WGLGraphicsConfigInfo *wglinfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(configInfo);
+    WGLGrbpiidsConfigInfo *wglinfo =
+        (WGLGrbpiidsConfigInfo *)jlong_to_ptr(donfigInfo);
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLGraphicsConfig_getOGLCapabilities");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLGrbpiidsConfig_gftOGLCbpbbilitifs");
 
-    if (wglinfo == NULL || wglinfo->context == NULL) {
-        return CAPS_EMPTY;
+    if (wglinfo == NULL || wglinfo->dontfxt == NULL) {
+        rfturn CAPS_EMPTY;
     }
 
-    return wglinfo->context->caps;
+    rfturn wglinfo->dontfxt->dbps;
 }

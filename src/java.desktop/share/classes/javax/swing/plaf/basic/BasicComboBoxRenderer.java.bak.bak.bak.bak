@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+
+import jbvb.bwt.*;
+
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * ComboBox rfndfrfr
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Arnbud Wfbfr
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidComboBoxRfndfrfr fxtfnds JLbbfl
+implfmfnts ListCfllRfndfrfr<Objfdt>, Sfriblizbblf {
+
+   /**
+    * An fmpty <dodf>Bordfr</dodf>. This fifld might not bf usfd. To dhbngf thf
+    * <dodf>Bordfr</dodf> usfd by this rfndfrfr dirfdtly sft it using
+    * thf <dodf>sftBordfr</dodf> mfthod.
+    */
+    protfdtfd stbtid Bordfr noFodusBordfr = nfw EmptyBordfr(1, 1, 1, 1);
+    privbtf finbl stbtid Bordfr SAFE_NO_FOCUS_BORDER = nfw EmptyBordfr(1, 1, 1, 1);
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidComboBoxRfndfrfr}.
+     */
+    publid BbsidComboBoxRfndfrfr() {
+        supfr();
+        sftOpbquf(truf);
+        sftBordfr(gftNoFodusBordfr());
+    }
+
+    privbtf stbtid Bordfr gftNoFodusBordfr() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            rfturn SAFE_NO_FOCUS_BORDER;
+        } flsf {
+            rfturn noFodusBordfr;
+        }
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion sizf;
+
+        if ((this.gftTfxt() == null) || (this.gftTfxt().fqubls( "" ))) {
+            sftTfxt( " " );
+            sizf = supfr.gftPrfffrrfdSizf();
+            sftTfxt( "" );
+        }
+        flsf {
+            sizf = supfr.gftPrfffrrfdSizf();
+        }
+
+        rfturn sizf;
+    }
+
+    @Ovfrridf
+    publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list,
+                                                 Objfdt vbluf,
+                                                 int indfx,
+                                                 boolfbn isSflfdtfd,
+                                                 boolfbn dfllHbsFodus)
+    {
+
+        /**if (isSflfdtfd) {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.sflfdtionBbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.sflfdtionForfground"));
+        } flsf {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.bbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.forfground"));
+        }**/
+
+        if (isSflfdtfd) {
+            sftBbdkground(list.gftSflfdtionBbdkground());
+            sftForfground(list.gftSflfdtionForfground());
+        }
+        flsf {
+            sftBbdkground(list.gftBbdkground());
+            sftForfground(list.gftForfground());
+        }
+
+        sftFont(list.gftFont());
+
+        if (vbluf instbndfof Idon) {
+            sftIdon((Idon)vbluf);
+        }
+        flsf {
+            sftTfxt((vbluf == null) ? "" : vbluf.toString());
+        }
+        rfturn this;
+    }
+
+
+    /**
+     * A subdlbss of BbsidComboBoxRfndfrfr thbt implfmfnts UIRfsourdf.
+     * BbsidComboBoxRfndfrfr dofsn't implfmfnt UIRfsourdf
+     * dirfdtly so thbt bpplidbtions dbn sbffly ovfrridf thf
+     * dfllRfndfrfr propfrty with BbsidListCfllRfndfrfr subdlbssfs.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds BbsidComboBoxRfndfrfr implfmfnts jbvbx.swing.plbf.UIRfsourdf {
+    }
+}

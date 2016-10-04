@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsConfiguration;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.GrbpiidsConfigurbtion;
 
-public class BufferedImageDevice extends GraphicsDevice
+publid dlbss BufffrfdImbgfDfvidf fxtfnds GrbpiidsDfvidf
 {
-    GraphicsConfiguration gc;
+    GrbpiidsConfigurbtion gd;
 
-    public BufferedImageDevice(BufferedImageGraphicsConfig gc) {
-        this.gc = gc;
+    publid BufffrfdImbgfDfvidf(BufffrfdImbgfGrbpiidsConfig gd) {
+        tiis.gd = gd;
     }
 
     /**
-     * Returns the type of this <code>GraphicsDevice</code>.
-     * @return the type of this <code>GraphicsDevice</code>, which can
-     * either be TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
-     * @see #TYPE_RASTER_SCREEN
-     * @see #TYPE_PRINTER
-     * @see #TYPE_IMAGE_BUFFER
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
      */
-    public int getType() {
-        return GraphicsDevice.TYPE_IMAGE_BUFFER;
+    publid int gftTypf() {
+        rfturn GrbpiidsDfvidf.TYPE_IMAGE_BUFFER;
     }
 
     /**
-     * Returns the identification string associated with this
-     * <code>GraphicsDevice</code>.
-     * @return a <code>String</code> that is the identification
-     * of this <code>GraphicsDevice</code>.
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public String getIDstring() {
-        return ("BufferedImage");
+    publid String gftIDstring() {
+        rfturn ("BufffrfdImbgf");
     }
 
     /**
-     * Returns all of the <code>GraphicsConfiguration</code>
-     * objects associated with this <code>GraphicsDevice</code>.
-     * @return an array of <code>GraphicsConfiguration</code>
-     * objects that are associated with this
-     * <code>GraphicsDevice</code>.
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts tibt brf bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public GraphicsConfiguration[] getConfigurations() {
-        return new GraphicsConfiguration[] { gc };
+    publid GrbpiidsConfigurbtion[] gftConfigurbtions() {
+        rfturn nfw GrbpiidsConfigurbtion[] { gd };
     }
 
     /**
-     * Returns the default <code>GraphicsConfiguration</code>
-     * associated with this <code>GraphicsDevice</code>.
-     * @return the default <code>GraphicsConfiguration</code>
-     * of this <code>GraphicsDevice</code>.
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public GraphicsConfiguration getDefaultConfiguration() {
-        return gc;
+    publid GrbpiidsConfigurbtion gftDffbultConfigurbtion() {
+        rfturn gd;
     }
 }

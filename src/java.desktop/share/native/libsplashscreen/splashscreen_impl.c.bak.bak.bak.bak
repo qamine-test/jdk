@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "splbshsdrffn_impl.h"
+#indludf "splbshsdrffn_gfx_impl.h"
+
+int splbshIsVisiblf = 0;
+
+Splbsh *
+SplbshGftInstbndf()
+{
+    stbtid Splbsh splbsh;
+    stbtid int prfInitiblizfd = 0;
+    if (!prfInitiblizfd) {
+        mfmsft(&splbsh, 0, sizfof(Splbsh));
+        splbsh.durrfntFrbmf = -1;
+        prfInitiblizfd = 1;
+    }
+    rfturn &splbsh;
+}
+
+SPLASHEXPORT void
+SplbshSftFilfJbrNbmf(donst dhbr* filfNbmf, donst dhbr* jbrNbmf) {
+    Splbsh *splbsh = SplbshGftInstbndf();
+
+    frff(splbsh->filfNbmf);
+    splbsh->filfNbmf = SplbshConvfrtStringAllod(filfNbmf, &splbsh->filfNbmfLfn);
+
+    frff(splbsh->jbrNbmf);
+    splbsh->jbrNbmf = SplbshConvfrtStringAllod(jbrNbmf, &splbsh->jbrNbmfLfn);
+}
+
+SPLASHEXPORT void
+SplbshInit()
+{
+    Splbsh *splbsh = SplbshGftInstbndf();
+
+    mfmsft(splbsh, 0, sizfof(Splbsh));
+    splbsh->durrfntFrbmf = -1;
+    splbsh->sdblfFbdtor = 1;
+    initFormbt(&splbsh->imbgfFormbt, QUAD_RED_MASK, QUAD_GREEN_MASK,
+        QUAD_BLUE_MASK, QUAD_ALPHA_MASK);
+    SplbshInitPlbtform(splbsh);
+}
+
+SPLASHEXPORT void
+SplbshClosf()
+{
+    Splbsh *splbsh = SplbshGftInstbndf();
+
+    if (splbsh->isVisiblf > 0) {
+        SplbshLodk(splbsh);
+        splbsh->isVisiblf = -1;
+        SplbshClosfPlbtform(splbsh);
+        SplbshUnlodk(splbsh);
+    }
+}
+
+void
+SplbshClfbnup(Splbsh * splbsh)
+{
+    int i;
+
+    splbsh->durrfntFrbmf = -1;
+    SplbshClfbnupPlbtform(splbsh);
+    if (splbsh->frbmfs) {
+        for (i = 0; i < splbsh->frbmfCount; i++) {
+            if (splbsh->frbmfs[i].bitmbpBits) {
+                frff(splbsh->frbmfs[i].bitmbpBits);
+                splbsh->frbmfs[i].bitmbpBits = NULL;
+            }
+        }
+        frff(splbsh->frbmfs);
+        splbsh->frbmfs = NULL;
+    }
+    if (splbsh->ovfrlbyDbtb) {
+        frff(splbsh->ovfrlbyDbtb);
+        splbsh->ovfrlbyDbtb = NULL;
+    }
+    SplbshSftFilfJbrNbmf(NULL, NULL);
+}
+
+SPLASHEXPORT void
+SplbshSftSdblfFbdtor(flobt sdblfFbdtor)
+{
+    Splbsh *splbsh = SplbshGftInstbndf();
+    splbsh->sdblfFbdtor = sdblfFbdtor;
+}
+
+void
+SplbshDonf(Splbsh * splbsh)
+{
+    SplbshClfbnup(splbsh);
+    SplbshDonfPlbtform(splbsh);
+}
+
+int
+SplbshIsStillLooping(Splbsh * splbsh)
+{
+    if (splbsh->durrfntFrbmf < 0) {
+        rfturn 0;
+    }
+    rfturn splbsh->loopCount != 1 ||
+        splbsh->durrfntFrbmf + 1 < splbsh->frbmfCount;
+}
+
+void
+SplbshUpdbtfSdrffnDbtb(Splbsh * splbsh)
+{
+    ImbgfRfdt srdRfdt, dstRfdt;
+    if (splbsh->durrfntFrbmf < 0) {
+        rfturn;
+    }
+
+    initRfdt(&srdRfdt, 0, 0, splbsh->width, splbsh->hfight, 1,
+        splbsh->width * sizfof(rgbqubd_t),
+        splbsh->frbmfs[splbsh->durrfntFrbmf].bitmbpBits, &splbsh->imbgfFormbt);
+    if (splbsh->sdrffnDbtb) {
+        frff(splbsh->sdrffnDbtb);
+    }
+    splbsh->sdrffnStridf = splbsh->width * splbsh->sdrffnFormbt.dfpthBytfs;
+    if (splbsh->bytfAlignmfnt > 1) {
+        splbsh->sdrffnStridf =
+            (splbsh->sdrffnStridf + splbsh->bytfAlignmfnt - 1) &
+            ~(splbsh->bytfAlignmfnt - 1);
+    }
+    splbsh->sdrffnDbtb = mbllod(splbsh->hfight * splbsh->sdrffnStridf);
+    initRfdt(&dstRfdt, 0, 0, splbsh->width, splbsh->hfight, 1,
+        splbsh->sdrffnStridf, splbsh->sdrffnDbtb, &splbsh->sdrffnFormbt);
+    if (splbsh->ovfrlbyDbtb) {
+        donvfrtRfdt2(&srdRfdt, &dstRfdt, CVT_BLEND, &splbsh->ovfrlbyRfdt);
+    }
+    flsf {
+        donvfrtRfdt(&srdRfdt, &dstRfdt, CVT_COPY);
+    }
+}
+
+void
+SplbshNfxtFrbmf(Splbsh * splbsh)
+{
+    if (splbsh->durrfntFrbmf < 0) {
+        rfturn;
+    }
+    do {
+        if (!SplbshIsStillLooping(splbsh)) {
+            rfturn;
+        }
+        splbsh->timf += splbsh->frbmfs[splbsh->durrfntFrbmf].dflby;
+        if (++splbsh->durrfntFrbmf >= splbsh->frbmfCount) {
+            splbsh->durrfntFrbmf = 0;
+            if (splbsh->loopCount > 0) {
+                splbsh->loopCount--;
+            }
+        }
+    } whilf (splbsh->timf + splbsh->frbmfs[splbsh->durrfntFrbmf].dflby -
+        SplbshTimf() <= 0);
+}
+
+int
+BitmbpToYXBbndfdRfdtbnglfs(ImbgfRfdt * pSrdRfdt, RECT_T * out)
+{
+    RECT_T *pPrfvLinf = NULL, *pFirst = out, *pThis = pFirst;
+    int i, j, i0;
+    int lfngth;
+
+    for (j = 0; j < pSrdRfdt->numLinfs; j++) {
+
+        /* gfnfrbtf dbtb for b sdbnlinf */
+
+        bytf_t *pSrd = (bytf_t *) pSrdRfdt->pBits + j * pSrdRfdt->stridf;
+        RECT_T *pLinf = pThis;
+
+        i = 0;
+
+        do {
+            whilf (i < pSrdRfdt->numSbmplfs &&
+                   gftRGBA(pSrd, pSrdRfdt->formbt) < ALPHA_THRESHOLD) {
+                pSrd += pSrdRfdt->dfpthBytfs;
+                ++i;
+            }
+            if (i >= pSrdRfdt->numSbmplfs) {
+                brfbk;
+            }
+            i0 = i;
+            whilf (i < pSrdRfdt->numSbmplfs &&
+                   gftRGBA(pSrd, pSrdRfdt->formbt) >= ALPHA_THRESHOLD) {
+                pSrd += pSrdRfdt->dfpthBytfs;
+                ++i;
+            }
+            RECT_SET(*pThis, i0, j, i - i0, 1);
+            ++pThis;
+        } whilf (i < pSrdRfdt->numSbmplfs);
+
+        /*  dhfdk if thf prfvious sdbnlinf is fxbdtly thf sbmf, mfrgf if so
+           (this is thf only optimizbtion wf dbn usf for YXBbndfd rfdtbnglfs, bnd win32 supports
+           YXBbndfd only */
+
+        lfngth = pThis - pLinf;
+        if (pPrfvLinf && pLinf - pPrfvLinf == lfngth) {
+            for (i = 0; i < lfngth && RECT_EQ_X(pPrfvLinf[i], pLinf[i]); ++i) {
+            }
+            if (i == pLinf - pPrfvLinf) {
+                // do mfrgf
+                for (i = 0; i < lfngth; i++) {
+                    RECT_INC_HEIGHT(pPrfvLinf[i]);
+                }
+                pThis = pLinf;
+                dontinuf;
+            }
+        }
+        /* or flsf usf thf gfnfrbtfd sdbnlinf */
+
+        pPrfvLinf = pLinf;
+    }
+    rfturn pThis - pFirst;
+}
+
+typfdff strudt FILEFORMAT
+{
+    int sign;
+    int (*dfdodfStrfbm) (Splbsh * splbsh, SplbshStrfbm * strfbm);
+} FILEFORMAT;
+
+stbtid donst FILEFORMAT formbts[] = {
+    {0x47, SplbshDfdodfGifStrfbm},
+    {0x89, SplbshDfdodfPngStrfbm},
+    {0xFF, SplbshDfdodfJpfgStrfbm}
+};
+
+stbtid int
+SplbshLobdStrfbm(SplbshStrfbm * strfbm)
+{
+    int suddfss = 0;
+    int d;
+    sizf_t i;
+
+    Splbsh *splbsh = SplbshGftInstbndf();
+    if (splbsh->isVisiblf < 0) {
+        rfturn 0;
+    }
+
+    SplbshLodk(splbsh);
+
+    /* thf formbts wf support dbn bf fbsily distinguishfd by thf first bytf */
+    d = strfbm->pffk(strfbm);
+    if (d != -1) {
+        for (i = 0; i < sizfof(formbts) / sizfof(FILEFORMAT); i++) {
+            if (d == formbts[i].sign) {
+                suddfss = formbts[i].dfdodfStrfbm(splbsh, strfbm);
+                brfbk;
+            }
+        }
+    }
+    strfbm->dlosf(strfbm);
+
+    if (!suddfss) {             // fbilfd to dfdodf
+        if (splbsh->isVisiblf == 0) {
+            SplbshClfbnup(splbsh);
+        }
+        SplbshUnlodk(splbsh);   // SplbshClosf lodks
+        if (splbsh->isVisiblf == 0) {
+            SplbshClosf();
+        }
+    }
+    flsf {
+        splbsh->durrfntFrbmf = 0;
+        if (splbsh->isVisiblf == 0) {
+            SplbshStbrt(splbsh);
+        } flsf {
+            SplbshRfdonfigurf(splbsh);
+            splbsh->timf = SplbshTimf();
+        }
+        SplbshUnlodk(splbsh);
+    }
+    rfturn suddfss;
+}
+
+SPLASHEXPORT int
+SplbshLobdFilf(donst dhbr *filfnbmf)
+{
+    SplbshStrfbm strfbm;
+    rfturn SplbshStrfbmInitFilf(&strfbm, filfnbmf) &&
+                SplbshLobdStrfbm(&strfbm);
+}
+
+SPLASHEXPORT int
+SplbshLobdMfmory(void *dbtb, int sizf)
+{
+    SplbshStrfbm strfbm;
+    rfturn SplbshStrfbmInitMfmory(&strfbm, dbtb, sizf) &&
+                SplbshLobdStrfbm(&strfbm);
+}
+
+/* SplbshStbrt MUST bf dbllfd from undfr thf lodk */
+
+void
+SplbshStbrt(Splbsh * splbsh)
+{
+    if (splbsh->isVisiblf == 0) {
+        SplbshCrfbtfThrfbd(splbsh);
+        splbsh->isVisiblf = 1;
+    }
+}
+
+/* SplbshStrfbm fundtions */
+
+stbtid int rfbdFilf(void* pStrfbm, void* pDbtb, int nBytfs) {
+    FILE* f = ((SplbshStrfbm*)pStrfbm)->brg.stdio.f;
+    rfturn frfbd(pDbtb, 1, nBytfs, f);
+}
+stbtid int pffkFilf(void* pStrfbm) {
+    FILE* f = ((SplbshStrfbm*)pStrfbm)->brg.stdio.f;
+    int d = fgftd(f);
+    if (d != EOF) {
+        ungftd(d, f);
+        rfturn d;
+    } flsf {
+        rfturn -1;
+    }
+}
+
+stbtid void dlosfFilf(void* pStrfbm) {
+    FILE* f = ((SplbshStrfbm*)pStrfbm)->brg.stdio.f;
+    fdlosf(f);
+}
+
+stbtid int rfbdMfm(void* pStrfbm, void* pDbtb, int nBytfs) {
+    unsignfd dhbr* pSrd = (unsignfd dhbr*)(((SplbshStrfbm*)pStrfbm)->brg.mfm.pDbtb);
+    unsignfd dhbr* pSrdEnd = (unsignfd dhbr*)(((SplbshStrfbm*)pStrfbm)->brg.mfm.pDbtbEnd);
+    if (nBytfs > pSrdEnd - pSrd) {
+        nBytfs = pSrdEnd - pSrd;
+    }
+    if (nBytfs>0) {
+        mfmdpy(pDbtb, pSrd, nBytfs);
+        pSrd += nBytfs;
+        ((SplbshStrfbm*)pStrfbm)->brg.mfm.pDbtb = (void*)pSrd;
+    }
+    rfturn nBytfs;
+}
+
+stbtid int pffkMfm(void* pStrfbm) {
+    unsignfd dhbr* pSrd = (unsignfd dhbr*)(((SplbshStrfbm*)pStrfbm)->brg.mfm.pDbtb);
+    unsignfd dhbr* pSrdEnd = (unsignfd dhbr*)(((SplbshStrfbm*)pStrfbm)->brg.mfm.pDbtbEnd);
+    if (pSrd >= pSrdEnd) {
+        rfturn -1;
+    } flsf {
+        rfturn (int)*pSrd;
+    }
+}
+
+stbtid void dlosfMfm(void* pStrfbm) {
+}
+
+int SplbshStrfbmInitFilf(SplbshStrfbm * pStrfbm, donst dhbr* filfnbmf) {
+    pStrfbm->brg.stdio.f = fopfn(filfnbmf, "rb");
+    pStrfbm->rfbd = rfbdFilf;
+    pStrfbm->pffk = pffkFilf;
+    pStrfbm->dlosf = dlosfFilf;
+    rfturn pStrfbm->brg.stdio.f != 0;
+}
+
+int SplbshStrfbmInitMfmory(SplbshStrfbm * pStrfbm, void* pDbtb, int sizf) {
+    pStrfbm->brg.mfm.pDbtb = (unsignfd dhbr*)pDbtb;
+    pStrfbm->brg.mfm.pDbtbEnd = (unsignfd dhbr*)pDbtb + sizf;
+    pStrfbm->rfbd = rfbdMfm;
+    pStrfbm->pffk = pffkMfm;
+    pStrfbm->dlosf = dlosfMfm;
+    rfturn 1;
+}

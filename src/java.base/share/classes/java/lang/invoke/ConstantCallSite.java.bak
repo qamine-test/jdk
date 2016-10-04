@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
 /**
- * A {@code ConstantCallSite} is a {@link CallSite} whose target is permanent, and can never be changed.
- * An {@code invokedynamic} instruction linked to a {@code ConstantCallSite} is permanently
- * bound to the call site's target.
- * @author John Rose, JSR 292 EG
+ * A {@dodf ConstbntCbllSitf} is b {@link CbllSitf} wiosf tbrgft is pfrmbnfnt, bnd dbn nfvfr bf dibngfd.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf ConstbntCbllSitf} is pfrmbnfntly
+ * bound to tif dbll sitf's tbrgft.
+ * @butior Join Rosf, JSR 292 EG
  */
-public class ConstantCallSite extends CallSite {
-    private final boolean isFrozen;
+publid dlbss ConstbntCbllSitf fxtfnds CbllSitf {
+    privbtf finbl boolfbn isFrozfn;
 
     /**
-     * Creates a call site with a permanent target.
-     * @param target the target to be permanently associated with this call site
-     * @throws NullPointerException if the proposed target is null
+     * Crfbtfs b dbll sitf witi b pfrmbnfnt tbrgft.
+     * @pbrbm tbrgft tif tbrgft to bf pfrmbnfntly bssodibtfd witi tiis dbll sitf
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
      */
-    public ConstantCallSite(MethodHandle target) {
-        super(target);
-        isFrozen = true;
+    publid ConstbntCbllSitf(MftiodHbndlf tbrgft) {
+        supfr(tbrgft);
+        isFrozfn = truf;
     }
 
     /**
-     * Creates a call site with a permanent target, possibly bound to the call site itself.
+     * Crfbtfs b dbll sitf witi b pfrmbnfnt tbrgft, possibly bound to tif dbll sitf itsflf.
      * <p>
-     * During construction of the call site, the {@code createTargetHook} is invoked to
-     * produce the actual target, as if by a call of the form
-     * {@code (MethodHandle) createTargetHook.invoke(this)}.
+     * During donstrudtion of tif dbll sitf, tif {@dodf drfbtfTbrgftHook} is invokfd to
+     * produdf tif bdtubl tbrgft, bs if by b dbll of tif form
+     * {@dodf (MftiodHbndlf) drfbtfTbrgftHook.invokf(tiis)}.
      * <p>
-     * Note that user code cannot perform such an action directly in a subclass constructor,
-     * since the target must be fixed before the {@code ConstantCallSite} constructor returns.
+     * Notf tibt usfr dodf dbnnot pfrform sudi bn bdtion dirfdtly in b subdlbss donstrudtor,
+     * sindf tif tbrgft must bf fixfd bfforf tif {@dodf ConstbntCbllSitf} donstrudtor rfturns.
      * <p>
-     * The hook is said to bind the call site to a target method handle,
-     * and a typical action would be {@code someTarget.bindTo(this)}.
-     * However, the hook is free to take any action whatever,
-     * including ignoring the call site and returning a constant target.
+     * Tif iook is sbid to bind tif dbll sitf to b tbrgft mftiod ibndlf,
+     * bnd b typidbl bdtion would bf {@dodf somfTbrgft.bindTo(tiis)}.
+     * Howfvfr, tif iook is frff to tbkf bny bdtion wibtfvfr,
+     * indluding ignoring tif dbll sitf bnd rfturning b donstbnt tbrgft.
      * <p>
-     * The result returned by the hook must be a method handle of exactly
-     * the same type as the call site.
+     * Tif rfsult rfturnfd by tif iook must bf b mftiod ibndlf of fxbdtly
+     * tif sbmf typf bs tif dbll sitf.
      * <p>
-     * While the hook is being called, the new {@code ConstantCallSite}
-     * object is in a partially constructed state.
-     * In this state,
-     * a call to {@code getTarget}, or any other attempt to use the target,
-     * will result in an {@code IllegalStateException}.
-     * It is legal at all times to obtain the call site's type using the {@code type} method.
+     * Wiilf tif iook is bfing dbllfd, tif nfw {@dodf ConstbntCbllSitf}
+     * objfdt is in b pbrtiblly donstrudtfd stbtf.
+     * In tiis stbtf,
+     * b dbll to {@dodf gftTbrgft}, or bny otifr bttfmpt to usf tif tbrgft,
+     * will rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * It is lfgbl bt bll timfs to obtbin tif dbll sitf's typf using tif {@dodf typf} mftiod.
      *
-     * @param targetType the type of the method handle to be permanently associated with this call site
-     * @param createTargetHook a method handle to invoke (on the call site) to produce the call site's target
-     * @throws WrongMethodTypeException if the hook cannot be invoked on the required arguments,
-     *         or if the target returned by the hook is not of the given {@code targetType}
-     * @throws NullPointerException if the hook returns a null value
-     * @throws ClassCastException if the hook returns something other than a {@code MethodHandle}
-     * @throws Throwable anything else thrown by the hook function
+     * @pbrbm tbrgftTypf tif typf of tif mftiod ibndlf to bf pfrmbnfntly bssodibtfd witi tiis dbll sitf
+     * @pbrbm drfbtfTbrgftHook b mftiod ibndlf to invokf (on tif dbll sitf) to produdf tif dbll sitf's tbrgft
+     * @tirows WrongMftiodTypfExdfption if tif iook dbnnot bf invokfd on tif rfquirfd brgumfnts,
+     *         or if tif tbrgft rfturnfd by tif iook is not of tif givfn {@dodf tbrgftTypf}
+     * @tirows NullPointfrExdfption if tif iook rfturns b null vbluf
+     * @tirows ClbssCbstExdfption if tif iook rfturns somftiing otifr tibn b {@dodf MftiodHbndlf}
+     * @tirows Tirowbblf bnytiing flsf tirown by tif iook fundtion
      */
-    protected ConstantCallSite(MethodType targetType, MethodHandle createTargetHook) throws Throwable {
-        super(targetType, createTargetHook);
-        isFrozen = true;
+    protfdtfd ConstbntCbllSitf(MftiodTypf tbrgftTypf, MftiodHbndlf drfbtfTbrgftHook) tirows Tirowbblf {
+        supfr(tbrgftTypf, drfbtfTbrgftHook);
+        isFrozfn = truf;
     }
 
     /**
-     * Returns the target method of the call site, which behaves
-     * like a {@code final} field of the {@code ConstantCallSite}.
-     * That is, the target is always the original value passed
-     * to the constructor call which created this instance.
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * likf b {@dodf finbl} fifld of tif {@dodf ConstbntCbllSitf}.
+     * Tibt is, tif tbrgft is blwbys tif originbl vbluf pbssfd
+     * to tif donstrudtor dbll wiidi drfbtfd tiis instbndf.
      *
-     * @return the immutable linkage state of this call site, a constant method handle
-     * @throws IllegalStateException if the {@code ConstantCallSite} constructor has not completed
+     * @rfturn tif immutbblf linkbgf stbtf of tiis dbll sitf, b donstbnt mftiod ibndlf
+     * @tirows IllfgblStbtfExdfption if tif {@dodf ConstbntCbllSitf} donstrudtor ibs not domplftfd
      */
-    @Override public final MethodHandle getTarget() {
-        if (!isFrozen)  throw new IllegalStateException();
-        return target;
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+        if (!isFrozfn)  tirow nfw IllfgblStbtfExdfption();
+        rfturn tbrgft;
     }
 
     /**
-     * Always throws an {@link UnsupportedOperationException}.
-     * This kind of call site cannot change its target.
-     * @param ignore a new target proposed for the call site, which is ignored
-     * @throws UnsupportedOperationException because this kind of call site cannot change its target
+     * Alwbys tirows bn {@link UnsupportfdOpfrbtionExdfption}.
+     * Tiis kind of dbll sitf dbnnot dibngf its tbrgft.
+     * @pbrbm ignorf b nfw tbrgft proposfd for tif dbll sitf, wiidi is ignorfd
+     * @tirows UnsupportfdOpfrbtionExdfption bfdbusf tiis kind of dbll sitf dbnnot dibngf its tbrgft
      */
-    @Override public final void setTarget(MethodHandle ignore) {
-        throw new UnsupportedOperationException();
+    @Ovfrridf publid finbl void sftTbrgft(MftiodHbndlf ignorf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Returns this call site's permanent target.
-     * Since that target will never change, this is a correct implementation
-     * of {@link CallSite#dynamicInvoker CallSite.dynamicInvoker}.
-     * @return the immutable linkage state of this call site, a constant method handle
-     * @throws IllegalStateException if the {@code ConstantCallSite} constructor has not completed
+     * Rfturns tiis dbll sitf's pfrmbnfnt tbrgft.
+     * Sindf tibt tbrgft will nfvfr dibngf, tiis is b dorrfdt implfmfntbtion
+     * of {@link CbllSitf#dynbmidInvokfr CbllSitf.dynbmidInvokfr}.
+     * @rfturn tif immutbblf linkbgf stbtf of tiis dbll sitf, b donstbnt mftiod ibndlf
+     * @tirows IllfgblStbtfExdfption if tif {@dodf ConstbntCbllSitf} donstrudtor ibs not domplftfd
      */
-    @Override
-    public final MethodHandle dynamicInvoker() {
-        return getTarget();
+    @Ovfrridf
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+        rfturn gftTbrgft();
     }
 }

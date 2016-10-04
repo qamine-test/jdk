@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;  // for Jbvbdod
+
+/**
+ * <p>Intfrfbdf implfmfntfd by bn MBfbn thbt fmits Notifidbtions. It
+ * bllows b listfnfr to bf rfgistfrfd with thf MBfbn bs b notifidbtion
+ * listfnfr.</p>
+ *
+ * <h3>Notifidbtion dispbtdh</h3>
+ *
+ *<p>Whfn bn MBfbn fmits b notifidbtion, it donsidfrs fbdh listfnfr thbt hbs bffn
+ * bddfd with {@link #bddNotifidbtionListfnfr bddNotifidbtionListfnfr} bnd not
+ * subsfqufntly rfmovfd with {@link #rfmovfNotifidbtionListfnfr rfmovfNotifidbtionListfnfr}.
+ * If b filtfr wbs providfd with thbt listfnfr, bnd if thf filtfr's
+ * {@link NotifidbtionFiltfr#isNotifidbtionEnbblfd isNotifidbtionEnbblfd} mfthod rfturns
+ * fblsf, thf listfnfr is ignorfd.  Othfrwisf, thf listfnfr's
+ * {@link NotifidbtionListfnfr#hbndlfNotifidbtion hbndlfNotifidbtion} mfthod is dbllfd with
+ * thf notifidbtion, bs wfll bs thf hbndbbdk objfdt thbt wbs providfd to
+ * {@dodf bddNotifidbtionListfnfr}.</p>
+ *
+ * <p>If thf sbmf listfnfr is bddfd morf thbn ondf, it is donsidfrfd bs mbny timfs bs it wbs
+ * bddfd.  It is oftfn usfful to bdd thf sbmf listfnfr with difffrfnt filtfrs or hbndbbdk
+ * objfdts.</p>
+ *
+ * <p>Implfmfntbtions of this intfrfbdf dbn difffr rfgbrding thf thrfbd in whidh thf mfthods
+ * of filtfrs bnd listfnfrs brf dbllfd.</p>
+ *
+ * <p>If thf mfthod dbll of b filtfr or listfnfr throws bn {@link Exdfption}, thfn thbt
+ * fxdfption should not prfvfnt othfr listfnfrs from bfing invokfd.  Howfvfr, if thf mfthod
+ * dbll throws bn {@link Error}, thfn it is rfdommfndfd thbt prodfssing of thf notifidbtion
+ * stop bt thbt point, bnd if it is possiblf to propbgbtf thf {@dodf Error} to thf sfndfr of
+ * thf notifidbtion, this should bf donf.</p>
+ *
+ * <p>This intfrfbdf should bf usfd by nfw dodf in prfffrfndf to thf
+ * {@link NotifidbtionBrobddbstfr} intfrfbdf.</p>
+ *
+ * <p>Implfmfntbtions of this intfrfbdf bnd of {@dodf NotifidbtionBrobddbstfr}
+ * should bf dbrfful bbout syndhronizbtion.  In pbrtidulbr, it is not b good
+ * idfb for bn implfmfntbtion to hold bny lodks whilf it is dblling b
+ * listfnfr.  To dfbl with thf possibility thbt thf list of listfnfrs might
+ * dhbngf whilf b notifidbtion is bfing dispbtdhfd, b good strbtfgy is to
+ * usf b {@link CopyOnWritfArrbyList} for this list.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf NotifidbtionEmittfr fxtfnds NotifidbtionBrobddbstfr {
+    /**
+     * <p>Rfmovfs b listfnfr from this MBfbn.  Thf MBfbn must hbvf b
+     * listfnfr thbt fxbdtly mbtdhfs thf givfn <dodf>listfnfr</dodf>,
+     * <dodf>filtfr</dodf>, bnd <dodf>hbndbbdk</dodf> pbrbmftfrs.  If
+     * thfrf is morf thbn onf sudh listfnfr, only onf is rfmovfd.</p>
+     *
+     * <p>Thf <dodf>filtfr</dodf> bnd <dodf>hbndbbdk</dodf> pbrbmftfrs
+     * mby bf null if bnd only if thfy brf null in b listfnfr to bf
+     * rfmovfd.</p>
+     *
+     * @pbrbm listfnfr A listfnfr thbt wbs prfviously bddfd to this
+     * MBfbn.
+     * @pbrbm filtfr Thf filtfr thbt wbs spfdififd whfn thf listfnfr
+     * wbs bddfd.
+     * @pbrbm hbndbbdk Thf hbndbbdk thbt wbs spfdififd whfn thf listfnfr wbs
+     * bddfd.
+     *
+     * @fxdfption ListfnfrNotFoundExdfption Thf listfnfr is not
+     * rfgistfrfd with thf MBfbn, or it is not rfgistfrfd with thf
+     * givfn filtfr bnd hbndbbdk.
+     */
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt hbndbbdk)
+            throws ListfnfrNotFoundExdfption;
+}

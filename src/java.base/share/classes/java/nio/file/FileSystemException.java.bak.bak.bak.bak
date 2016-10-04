@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Thrown whfn b filf systfm opfrbtion fbils on onf or two filfs. This dlbss is
+ * thf gfnfrbl dlbss for filf systfm fxdfptions.
+ *
+ * @sindf 1.7
+ */
+
+publid dlbss FilfSystfmExdfption
+    fxtfnds IOExdfption
+{
+    stbtid finbl long sfriblVfrsionUID = -3055425747967319812L;
+
+    privbtf finbl String filf;
+    privbtf finbl String othfr;
+
+    /**
+     * Construdts bn instbndf of this dlbss. This donstrudtor should bf usfd
+     * whfn bn opfrbtion involving onf filf fbils bnd thfrf isn't bny bdditionbl
+     * informbtion to fxplbin thf rfbson.
+     *
+     * @pbrbm   filf
+     *          b string idfntifying thf filf or {@dodf null} if not known.
+     */
+    publid FilfSystfmExdfption(String filf) {
+        supfr((String)null);
+        this.filf = filf;
+        this.othfr = null;
+    }
+
+    /**
+     * Construdts bn instbndf of this dlbss. This donstrudtor should bf usfd
+     * whfn bn opfrbtion involving two filfs fbils, or thfrf is bdditionbl
+     * informbtion to fxplbin thf rfbson.
+     *
+     * @pbrbm   filf
+     *          b string idfntifying thf filf or {@dodf null} if not known.
+     * @pbrbm   othfr
+     *          b string idfntifying thf othfr filf or {@dodf null} if thfrf
+     *          isn't bnothfr filf or if not known
+     * @pbrbm   rfbson
+     *          b rfbson mfssbgf with bdditionbl informbtion or {@dodf null}
+     */
+    publid FilfSystfmExdfption(String filf, String othfr, String rfbson) {
+        supfr(rfbson);
+        this.filf = filf;
+        this.othfr = othfr;
+    }
+
+    /**
+     * Rfturns thf filf usfd to drfbtf this fxdfption.
+     *
+     * @rfturn  thf filf (dbn bf {@dodf null})
+     */
+    publid String gftFilf() {
+        rfturn filf;
+    }
+
+    /**
+     * Rfturns thf othfr filf usfd to drfbtf this fxdfption.
+     *
+     * @rfturn  thf othfr filf (dbn bf {@dodf null})
+     */
+    publid String gftOthfrFilf() {
+        rfturn othfr;
+    }
+
+    /**
+     * Rfturns thf string fxplbining why thf filf systfm opfrbtion fbilfd.
+     *
+     * @rfturn  thf string fxplbining why thf filf systfm opfrbtion fbilfd
+     */
+    publid String gftRfbson() {
+        rfturn supfr.gftMfssbgf();
+    }
+
+    /**
+     * Rfturns thf dftbil mfssbgf string.
+     */
+    @Ovfrridf
+    publid String gftMfssbgf() {
+        if (filf == null && othfr == null)
+            rfturn gftRfbson();
+        StringBuildfr sb = nfw StringBuildfr();
+        if (filf != null)
+            sb.bppfnd(filf);
+        if (othfr != null) {
+            sb.bppfnd(" -> ");
+            sb.bppfnd(othfr);
+        }
+        if (gftRfbson() != null) {
+            sb.bppfnd(": ");
+            sb.bppfnd(gftRfbson());
+        }
+        rfturn sb.toString();
+    }
+}

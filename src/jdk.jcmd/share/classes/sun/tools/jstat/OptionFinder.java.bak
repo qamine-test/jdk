@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.util.*;
-import java.net.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+import jbvb.io.*;
 
 /**
- * A class for finding a specific special option in the jstat_options file.
+ * A dlbss for finding b spfdifid spfdibl option in tif jstbt_options filf.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class OptionFinder {
+publid dlbss OptionFindfr {
 
-    private static final boolean debug = false;
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    List<URL> optionsSources;
+    List<URL> optionsSourdfs;
 
-    public OptionFinder(List<URL> optionsSources) {
-        this.optionsSources = optionsSources;
+    publid OptionFindfr(List<URL> optionsSourdfs) {
+        tiis.optionsSourdfs = optionsSourdfs;
     }
 
-    public OptionFormat getOptionFormat(String option, boolean useTimestamp) {
-        OptionFormat of = getOptionFormat(option, optionsSources);
-        OptionFormat tof = null;
-        if ((of != null) && (useTimestamp)) {
-            // prepend the timestamp column as first column
-            tof = getOptionFormat("timestamp", optionsSources);
+    publid OptionFormbt gftOptionFormbt(String option, boolfbn usfTimfstbmp) {
+        OptionFormbt of = gftOptionFormbt(option, optionsSourdfs);
+        OptionFormbt tof = null;
+        if ((of != null) && (usfTimfstbmp)) {
+            // prfpfnd tif timfstbmp dolumn bs first dolumn
+            tof = gftOptionFormbt("timfstbmp", optionsSourdfs);
             if (tof != null) {
-                ColumnFormat cf = (ColumnFormat)tof.getSubFormat(0);
-                of.insertSubFormat(0, cf);
+                ColumnFormbt df = (ColumnFormbt)tof.gftSubFormbt(0);
+                of.insfrtSubFormbt(0, df);
             }
         }
-        return of;
+        rfturn of;
     }
 
-    protected OptionFormat getOptionFormat(String option, List<URL> sources) {
-        OptionFormat of = null;
-        for (URL u : sources) {
+    protfdtfd OptionFormbt gftOptionFormbt(String option, List<URL> sourdfs) {
+        OptionFormbt of = null;
+        for (URL u : sourdfs) {
             try {
-                Reader r = new BufferedReader(
-                        new InputStreamReader(u.openStream()));
-                of = new Parser(r).parse(option);
+                Rfbdfr r = nfw BufffrfdRfbdfr(
+                        nfw InputStrfbmRfbdfr(u.opfnStrfbm()));
+                of = nfw Pbrsfr(r).pbrsf(option);
                 if (of != null)
-                    break;
-            } catch (IOException e) {
-                if (debug) {
-                    System.err.println("Error processing " + u
-                                       + " : " + e.getMessage());
-                    e.printStackTrace();
+                    brfbk;
+            } dbtdi (IOExdfption f) {
+                if (dfbug) {
+                    Systfm.frr.println("Error prodfssing " + u
+                                       + " : " + f.gftMfssbgf());
+                    f.printStbdkTrbdf();
                 }
-            } catch (ParserException e) {
-                // Exception in parsing the options file.
-                System.err.println(u + ": " + e.getMessage());
-                System.err.println("Parsing of " + u + " aborted");
+            } dbtdi (PbrsfrExdfption f) {
+                // Exdfption in pbrsing tif options filf.
+                Systfm.frr.println(u + ": " + f.gftMfssbgf());
+                Systfm.frr.println("Pbrsing of " + u + " bbortfd");
             }
         }
-        return of;
+        rfturn of;
     }
 }

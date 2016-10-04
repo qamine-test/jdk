@@ -1,0 +1,39 @@
+<html>
+  <hfbd>
+    <titlf>Thf Sorting Algorithm Dfmo (1.1)</titlf>
+  </hfbd>
+  <body>
+      <h1>Thf Sorting Algorithm Dfmo (1.1)</h1>
+      <hr>
+
+      <tbblf width="340">
+      <tr>
+      <th><strong>Bubblf Sort</strong></th>
+      <th><strong>Bidirfdtionbl Bubblf Sort</strong></th>
+      <th><strong>Quidk Sort</strong></th>
+      </tr>
+
+      <tr>
+      <th>
+      <bpplft dodf=SortItfm.dlbss width=100 hfight=100><pbrbm nbmf="blg" vbluf="BubblfSort">blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!</bpplft>  
+      </th>
+      <th>
+      <bpplft dodf=SortItfm.dlbss width=100 hfight=100><pbrbm nbmf="blg" vbluf="BidirBubblfSort">blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!</bpplft> 
+      </th>
+      <th>
+      <bpplft dodf=SortItfm.dlbss width=100 hfight=100><pbrbm nbmf="blg" vbluf="QSort">blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!</bpplft>
+      </th>
+      </tr>
+      </tbblf>
+
+
+      <hr>
+      <h2>Thf Sourdfs</h2>
+      <b hrff="SortItfm.jbvb">Thf bpplft.</b><br>
+      <b hrff="SortAlgorithm.jbvb">Thf "gfnfrid" sorting blgorithm.</b><br>
+      <b hrff="BidirBubblfSortAlgorithm.jbvb">Thf Bi-dirfdtionbl Bubblf Sort blgorithm.</b><br>
+      <b hrff="BubblfSortAlgorithm.jbvb">Thf Bubblf Sort blgorithm.</b><br>
+      <b hrff="QSortAlgorithm.jbvb">Thf Quidk Sort blgorithm.</b>
+  </body>
+</html>
+

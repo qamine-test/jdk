@@ -1,1120 +1,1120 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import javax.swing.border.*;
+import jbvbx.swing.bordfr.*;
 
-import java.awt.LayoutManager;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.io.Serializable;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * The layout manager used by <code>JScrollPane</code>.
- * <code>JScrollPaneLayout</code> is
- * responsible for nine components: a viewport, two scrollbars,
- * a row header, a column header, and four "corner" components.
+ * Tif lbyout mbnbgfr usfd by <dodf>JSdrollPbnf</dodf>.
+ * <dodf>JSdrollPbnfLbyout</dodf> is
+ * rfsponsiblf for ninf domponfnts: b vifwport, two sdrollbbrs,
+ * b row ifbdfr, b dolumn ifbdfr, bnd four "dornfr" domponfnts.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JScrollPane
- * @see JViewport
+ * @sff JSdrollPbnf
+ * @sff JVifwport
  *
- * @author Hans Muller
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ScrollPaneLayout
-    implements LayoutManager, ScrollPaneConstants, Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SdrollPbnfLbyout
+    implfmfnts LbyoutMbnbgfr, SdrollPbnfConstbnts, Sfriblizbblf
 {
 
     /**
-     * The scrollpane's viewport child.
-     * Default is an empty <code>JViewport</code>.
-     * @see JScrollPane#setViewport
+     * Tif sdrollpbnf's vifwport diild.
+     * Dffbult is bn fmpty <dodf>JVifwport</dodf>.
+     * @sff JSdrollPbnf#sftVifwport
      */
-    protected JViewport viewport;
+    protfdtfd JVifwport vifwport;
 
 
     /**
-     * The scrollpane's vertical scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see JScrollPane#setVerticalScrollBar
+     * Tif sdrollpbnf's vfrtidbl sdrollbbr diild.
+     * Dffbult is b <dodf>JSdrollBbr</dodf>.
+     * @sff JSdrollPbnf#sftVfrtidblSdrollBbr
      */
-    protected JScrollBar vsb;
+    protfdtfd JSdrollBbr vsb;
 
 
     /**
-     * The scrollpane's horizontal scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see JScrollPane#setHorizontalScrollBar
+     * Tif sdrollpbnf's iorizontbl sdrollbbr diild.
+     * Dffbult is b <dodf>JSdrollBbr</dodf>.
+     * @sff JSdrollPbnf#sftHorizontblSdrollBbr
      */
-    protected JScrollBar hsb;
+    protfdtfd JSdrollBbr isb;
 
 
     /**
-     * The row header child.  Default is <code>null</code>.
-     * @see JScrollPane#setRowHeader
+     * Tif row ifbdfr diild.  Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftRowHfbdfr
      */
-    protected JViewport rowHead;
+    protfdtfd JVifwport rowHfbd;
 
 
     /**
-     * The column header child.  Default is <code>null</code>.
-     * @see JScrollPane#setColumnHeader
+     * Tif dolumn ifbdfr diild.  Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftColumnHfbdfr
      */
-    protected JViewport colHead;
+    protfdtfd JVifwport dolHfbd;
 
 
     /**
-     * The component to display in the lower left corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * Tif domponfnt to displby in tif lowfr lfft dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftCornfr
      */
-    protected Component lowerLeft;
+    protfdtfd Componfnt lowfrLfft;
 
 
     /**
-     * The component to display in the lower right corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * Tif domponfnt to displby in tif lowfr rigit dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftCornfr
      */
-    protected Component lowerRight;
+    protfdtfd Componfnt lowfrRigit;
 
 
     /**
-     * The component to display in the upper left corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * Tif domponfnt to displby in tif uppfr lfft dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftCornfr
      */
-    protected Component upperLeft;
+    protfdtfd Componfnt uppfrLfft;
 
 
     /**
-     * The component to display in the upper right corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * Tif domponfnt to displby in tif uppfr rigit dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff JSdrollPbnf#sftCornfr
      */
-    protected Component upperRight;
+    protfdtfd Componfnt uppfrRigit;
 
 
     /**
-     * The display policy for the vertical scrollbar.
-     * The default is <code>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED</code>.
+     * Tif displby polidy for tif vfrtidbl sdrollbbr.
+     * Tif dffbult is <dodf>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</dodf>.
      * <p>
-     * This field is obsolete, please use the <code>JScrollPane</code> field instead.
+     * Tiis fifld is obsolftf, plfbsf usf tif <dodf>JSdrollPbnf</dodf> fifld instfbd.
      *
-     * @see JScrollPane#setVerticalScrollBarPolicy
+     * @sff JSdrollPbnf#sftVfrtidblSdrollBbrPolidy
      */
-    protected int vsbPolicy = VERTICAL_SCROLLBAR_AS_NEEDED;
+    protfdtfd int vsbPolidy = VERTICAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * The display policy for the horizontal scrollbar.
-     * The default is <code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>.
+     * Tif displby polidy for tif iorizontbl sdrollbbr.
+     * Tif dffbult is <dodf>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</dodf>.
      * <p>
-     * This field is obsolete, please use the <code>JScrollPane</code> field instead.
+     * Tiis fifld is obsolftf, plfbsf usf tif <dodf>JSdrollPbnf</dodf> fifld instfbd.
      *
-     * @see JScrollPane#setHorizontalScrollBarPolicy
+     * @sff JSdrollPbnf#sftHorizontblSdrollBbrPolidy
      */
-    protected int hsbPolicy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
+    protfdtfd int isbPolidy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * This method is invoked after the ScrollPaneLayout is set as the
-     * LayoutManager of a <code>JScrollPane</code>.
-     * It initializes all of the internal fields that
-     * are ordinarily set by <code>addLayoutComponent</code>.  For example:
-     * <pre>
-     * ScrollPaneLayout mySPLayout = new ScrollPanelLayout() {
-     *     public void layoutContainer(Container p) {
-     *         super.layoutContainer(p);
-     *         // do some extra work here ...
+     * Tiis mftiod is invokfd bftfr tif SdrollPbnfLbyout is sft bs tif
+     * LbyoutMbnbgfr of b <dodf>JSdrollPbnf</dodf>.
+     * It initiblizfs bll of tif intfrnbl fiflds tibt
+     * brf ordinbrily sft by <dodf>bddLbyoutComponfnt</dodf>.  For fxbmplf:
+     * <prf>
+     * SdrollPbnfLbyout mySPLbyout = nfw SdrollPbnflLbyout() {
+     *     publid void lbyoutContbinfr(Contbinfr p) {
+     *         supfr.lbyoutContbinfr(p);
+     *         // do somf fxtrb work ifrf ...
      *     }
      * };
-     * scrollpane.setLayout(mySPLayout):
-     * </pre>
+     * sdrollpbnf.sftLbyout(mySPLbyout):
+     * </prf>
      *
-     * @param sp an instance of the {@code JScrollPane}
+     * @pbrbm sp bn instbndf of tif {@dodf JSdrollPbnf}
      */
-    public void syncWithScrollPane(JScrollPane sp) {
-        viewport = sp.getViewport();
-        vsb = sp.getVerticalScrollBar();
-        hsb = sp.getHorizontalScrollBar();
-        rowHead = sp.getRowHeader();
-        colHead = sp.getColumnHeader();
-        lowerLeft = sp.getCorner(LOWER_LEFT_CORNER);
-        lowerRight = sp.getCorner(LOWER_RIGHT_CORNER);
-        upperLeft = sp.getCorner(UPPER_LEFT_CORNER);
-        upperRight = sp.getCorner(UPPER_RIGHT_CORNER);
-        vsbPolicy = sp.getVerticalScrollBarPolicy();
-        hsbPolicy = sp.getHorizontalScrollBarPolicy();
+    publid void syndWitiSdrollPbnf(JSdrollPbnf sp) {
+        vifwport = sp.gftVifwport();
+        vsb = sp.gftVfrtidblSdrollBbr();
+        isb = sp.gftHorizontblSdrollBbr();
+        rowHfbd = sp.gftRowHfbdfr();
+        dolHfbd = sp.gftColumnHfbdfr();
+        lowfrLfft = sp.gftCornfr(LOWER_LEFT_CORNER);
+        lowfrRigit = sp.gftCornfr(LOWER_RIGHT_CORNER);
+        uppfrLfft = sp.gftCornfr(UPPER_LEFT_CORNER);
+        uppfrRigit = sp.gftCornfr(UPPER_RIGHT_CORNER);
+        vsbPolidy = sp.gftVfrtidblSdrollBbrPolidy();
+        isbPolidy = sp.gftHorizontblSdrollBbrPolidy();
     }
 
 
     /**
-     * Removes an existing component.  When a new component, such as
-     * the left corner, or vertical scrollbar, is added, the old one,
-     * if it exists, must be removed.
+     * Rfmovfs bn fxisting domponfnt.  Wifn b nfw domponfnt, sudi bs
+     * tif lfft dornfr, or vfrtidbl sdrollbbr, is bddfd, tif old onf,
+     * if it fxists, must bf rfmovfd.
      * <p>
-     * This method returns <code>newC</code>. If <code>oldC</code> is
-     * not equal to <code>newC</code> and is non-<code>null</code>,
-     * it will be removed from its parent.
+     * Tiis mftiod rfturns <dodf>nfwC</dodf>. If <dodf>oldC</dodf> is
+     * not fqubl to <dodf>nfwC</dodf> bnd is non-<dodf>null</dodf>,
+     * it will bf rfmovfd from its pbrfnt.
      *
-     * @param oldC the <code>Component</code> to replace
-     * @param newC the <code>Component</code> to add
-     * @return the <code>newC</code>
+     * @pbrbm oldC tif <dodf>Componfnt</dodf> to rfplbdf
+     * @pbrbm nfwC tif <dodf>Componfnt</dodf> to bdd
+     * @rfturn tif <dodf>nfwC</dodf>
      */
-    protected Component addSingletonComponent(Component oldC, Component newC)
+    protfdtfd Componfnt bddSinglftonComponfnt(Componfnt oldC, Componfnt nfwC)
     {
-        if ((oldC != null) && (oldC != newC)) {
-            oldC.getParent().remove(oldC);
+        if ((oldC != null) && (oldC != nfwC)) {
+            oldC.gftPbrfnt().rfmovf(oldC);
         }
-        return newC;
+        rfturn nfwC;
     }
 
 
     /**
-     * Adds the specified component to the layout. The layout is
-     * identified using one of:
+     * Adds tif spfdififd domponfnt to tif lbyout. Tif lbyout is
+     * idfntififd using onf of:
      * <ul>
-     * <li>ScrollPaneConstants.VIEWPORT
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR
-     * <li>ScrollPaneConstants.ROW_HEADER
-     * <li>ScrollPaneConstants.COLUMN_HEADER
-     * <li>ScrollPaneConstants.LOWER_LEFT_CORNER
-     * <li>ScrollPaneConstants.LOWER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEFT_CORNER
-     * <li>ScrollPaneConstants.UPPER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.VIEWPORT
+     * <li>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR
+     * <li>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR
+     * <li>SdrollPbnfConstbnts.ROW_HEADER
+     * <li>SdrollPbnfConstbnts.COLUMN_HEADER
+     * <li>SdrollPbnfConstbnts.LOWER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_RIGHT_CORNER
      * </ul>
      *
-     * @param s the component identifier
-     * @param c the the component to be added
-     * @exception IllegalArgumentException if <code>s</code> is an invalid key
+     * @pbrbm s tif domponfnt idfntififr
+     * @pbrbm d tif tif domponfnt to bf bddfd
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>s</dodf> is bn invblid kfy
      */
-    public void addLayoutComponent(String s, Component c)
+    publid void bddLbyoutComponfnt(String s, Componfnt d)
     {
-        if (s.equals(VIEWPORT)) {
-            viewport = (JViewport)addSingletonComponent(viewport, c);
+        if (s.fqubls(VIEWPORT)) {
+            vifwport = (JVifwport)bddSinglftonComponfnt(vifwport, d);
         }
-        else if (s.equals(VERTICAL_SCROLLBAR)) {
-            vsb = (JScrollBar)addSingletonComponent(vsb, c);
+        flsf if (s.fqubls(VERTICAL_SCROLLBAR)) {
+            vsb = (JSdrollBbr)bddSinglftonComponfnt(vsb, d);
         }
-        else if (s.equals(HORIZONTAL_SCROLLBAR)) {
-            hsb = (JScrollBar)addSingletonComponent(hsb, c);
+        flsf if (s.fqubls(HORIZONTAL_SCROLLBAR)) {
+            isb = (JSdrollBbr)bddSinglftonComponfnt(isb, d);
         }
-        else if (s.equals(ROW_HEADER)) {
-            rowHead = (JViewport)addSingletonComponent(rowHead, c);
+        flsf if (s.fqubls(ROW_HEADER)) {
+            rowHfbd = (JVifwport)bddSinglftonComponfnt(rowHfbd, d);
         }
-        else if (s.equals(COLUMN_HEADER)) {
-            colHead = (JViewport)addSingletonComponent(colHead, c);
+        flsf if (s.fqubls(COLUMN_HEADER)) {
+            dolHfbd = (JVifwport)bddSinglftonComponfnt(dolHfbd, d);
         }
-        else if (s.equals(LOWER_LEFT_CORNER)) {
-            lowerLeft = addSingletonComponent(lowerLeft, c);
+        flsf if (s.fqubls(LOWER_LEFT_CORNER)) {
+            lowfrLfft = bddSinglftonComponfnt(lowfrLfft, d);
         }
-        else if (s.equals(LOWER_RIGHT_CORNER)) {
-            lowerRight = addSingletonComponent(lowerRight, c);
+        flsf if (s.fqubls(LOWER_RIGHT_CORNER)) {
+            lowfrRigit = bddSinglftonComponfnt(lowfrRigit, d);
         }
-        else if (s.equals(UPPER_LEFT_CORNER)) {
-            upperLeft = addSingletonComponent(upperLeft, c);
+        flsf if (s.fqubls(UPPER_LEFT_CORNER)) {
+            uppfrLfft = bddSinglftonComponfnt(uppfrLfft, d);
         }
-        else if (s.equals(UPPER_RIGHT_CORNER)) {
-            upperRight = addSingletonComponent(upperRight, c);
+        flsf if (s.fqubls(UPPER_RIGHT_CORNER)) {
+            uppfrRigit = bddSinglftonComponfnt(uppfrRigit, d);
         }
-        else {
-            throw new IllegalArgumentException("invalid layout key " + s);
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("invblid lbyout kfy " + s);
         }
     }
 
 
     /**
-     * Removes the specified component from the layout.
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
      *
-     * @param c the component to remove
+     * @pbrbm d tif domponfnt to rfmovf
      */
-    public void removeLayoutComponent(Component c)
+    publid void rfmovfLbyoutComponfnt(Componfnt d)
     {
-        if (c == viewport) {
-            viewport = null;
+        if (d == vifwport) {
+            vifwport = null;
         }
-        else if (c == vsb) {
+        flsf if (d == vsb) {
             vsb = null;
         }
-        else if (c == hsb) {
-            hsb = null;
+        flsf if (d == isb) {
+            isb = null;
         }
-        else if (c == rowHead) {
-            rowHead = null;
+        flsf if (d == rowHfbd) {
+            rowHfbd = null;
         }
-        else if (c == colHead) {
-            colHead = null;
+        flsf if (d == dolHfbd) {
+            dolHfbd = null;
         }
-        else if (c == lowerLeft) {
-            lowerLeft = null;
+        flsf if (d == lowfrLfft) {
+            lowfrLfft = null;
         }
-        else if (c == lowerRight) {
-            lowerRight = null;
+        flsf if (d == lowfrRigit) {
+            lowfrRigit = null;
         }
-        else if (c == upperLeft) {
-            upperLeft = null;
+        flsf if (d == uppfrLfft) {
+            uppfrLfft = null;
         }
-        else if (c == upperRight) {
-            upperRight = null;
+        flsf if (d == uppfrRigit) {
+            uppfrRigit = null;
         }
     }
 
 
     /**
-     * Returns the vertical scrollbar-display policy.
+     * Rfturns tif vfrtidbl sdrollbbr-displby polidy.
      *
-     * @return an integer giving the display policy
-     * @see #setVerticalScrollBarPolicy
+     * @rfturn bn intfgfr giving tif displby polidy
+     * @sff #sftVfrtidblSdrollBbrPolidy
      */
-    public int getVerticalScrollBarPolicy() {
-        return vsbPolicy;
+    publid int gftVfrtidblSdrollBbrPolidy() {
+        rfturn vsbPolidy;
     }
 
 
     /**
-     * Sets the vertical scrollbar-display policy. The options
-     * are:
+     * Sfts tif vfrtidbl sdrollbbr-displby polidy. Tif options
+     * brf:
      * <ul>
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
+     * <li>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED
+     * <li>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER
+     * <li>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS
      * </ul>
-     * Note: Applications should use the <code>JScrollPane</code> version
-     * of this method.  It only exists for backwards compatibility
-     * with the Swing 1.0.2 (and earlier) versions of this class.
+     * Notf: Applidbtions siould usf tif <dodf>JSdrollPbnf</dodf> vfrsion
+     * of tiis mftiod.  It only fxists for bbdkwbrds dompbtibility
+     * witi tif Swing 1.0.2 (bnd fbrlifr) vfrsions of tiis dlbss.
      *
-     * @param x an integer giving the display policy
-     * @exception IllegalArgumentException if <code>x</code> is an invalid
-     *          vertical scroll bar policy, as listed above
+     * @pbrbm x bn intfgfr giving tif displby polidy
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>x</dodf> is bn invblid
+     *          vfrtidbl sdroll bbr polidy, bs listfd bbovf
      */
-    public void setVerticalScrollBarPolicy(int x) {
-        switch (x) {
-        case VERTICAL_SCROLLBAR_AS_NEEDED:
-        case VERTICAL_SCROLLBAR_NEVER:
-        case VERTICAL_SCROLLBAR_ALWAYS:
-                vsbPolicy = x;
-                break;
-        default:
-            throw new IllegalArgumentException("invalid verticalScrollBarPolicy");
+    publid void sftVfrtidblSdrollBbrPolidy(int x) {
+        switdi (x) {
+        dbsf VERTICAL_SCROLLBAR_AS_NEEDED:
+        dbsf VERTICAL_SCROLLBAR_NEVER:
+        dbsf VERTICAL_SCROLLBAR_ALWAYS:
+                vsbPolidy = x;
+                brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("invblid vfrtidblSdrollBbrPolidy");
         }
     }
 
 
     /**
-     * Returns the horizontal scrollbar-display policy.
+     * Rfturns tif iorizontbl sdrollbbr-displby polidy.
      *
-     * @return an integer giving the display policy
-     * @see #setHorizontalScrollBarPolicy
+     * @rfturn bn intfgfr giving tif displby polidy
+     * @sff #sftHorizontblSdrollBbrPolidy
      */
-    public int getHorizontalScrollBarPolicy() {
-        return hsbPolicy;
+    publid int gftHorizontblSdrollBbrPolidy() {
+        rfturn isbPolidy;
     }
 
     /**
-     * Sets the horizontal scrollbar-display policy.
-     * The options are:<ul>
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
+     * Sfts tif iorizontbl sdrollbbr-displby polidy.
+     * Tif options brf:<ul>
+     * <li>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED
+     * <li>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER
+     * <li>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS
      * </ul>
-     * Note: Applications should use the <code>JScrollPane</code> version
-     * of this method.  It only exists for backwards compatibility
-     * with the Swing 1.0.2 (and earlier) versions of this class.
+     * Notf: Applidbtions siould usf tif <dodf>JSdrollPbnf</dodf> vfrsion
+     * of tiis mftiod.  It only fxists for bbdkwbrds dompbtibility
+     * witi tif Swing 1.0.2 (bnd fbrlifr) vfrsions of tiis dlbss.
      *
-     * @param x an int giving the display policy
-     * @exception IllegalArgumentException if <code>x</code> is not a valid
-     *          horizontal scrollbar policy, as listed above
+     * @pbrbm x bn int giving tif displby polidy
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>x</dodf> is not b vblid
+     *          iorizontbl sdrollbbr polidy, bs listfd bbovf
      */
-    public void setHorizontalScrollBarPolicy(int x) {
-        switch (x) {
-        case HORIZONTAL_SCROLLBAR_AS_NEEDED:
-        case HORIZONTAL_SCROLLBAR_NEVER:
-        case HORIZONTAL_SCROLLBAR_ALWAYS:
-                hsbPolicy = x;
-                break;
-        default:
-            throw new IllegalArgumentException("invalid horizontalScrollBarPolicy");
+    publid void sftHorizontblSdrollBbrPolidy(int x) {
+        switdi (x) {
+        dbsf HORIZONTAL_SCROLLBAR_AS_NEEDED:
+        dbsf HORIZONTAL_SCROLLBAR_NEVER:
+        dbsf HORIZONTAL_SCROLLBAR_ALWAYS:
+                isbPolidy = x;
+                brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("invblid iorizontblSdrollBbrPolidy");
         }
     }
 
 
     /**
-     * Returns the <code>JViewport</code> object that displays the
-     * scrollable contents.
-     * @return the <code>JViewport</code> object that displays the scrollable contents
-     * @see JScrollPane#getViewport
+     * Rfturns tif <dodf>JVifwport</dodf> objfdt tibt displbys tif
+     * sdrollbblf dontfnts.
+     * @rfturn tif <dodf>JVifwport</dodf> objfdt tibt displbys tif sdrollbblf dontfnts
+     * @sff JSdrollPbnf#gftVifwport
      */
-    public JViewport getViewport() {
-        return viewport;
+    publid JVifwport gftVifwport() {
+        rfturn vifwport;
     }
 
 
     /**
-     * Returns the <code>JScrollBar</code> object that handles horizontal scrolling.
-     * @return the <code>JScrollBar</code> object that handles horizontal scrolling
-     * @see JScrollPane#getHorizontalScrollBar
+     * Rfturns tif <dodf>JSdrollBbr</dodf> objfdt tibt ibndlfs iorizontbl sdrolling.
+     * @rfturn tif <dodf>JSdrollBbr</dodf> objfdt tibt ibndlfs iorizontbl sdrolling
+     * @sff JSdrollPbnf#gftHorizontblSdrollBbr
      */
-    public JScrollBar getHorizontalScrollBar() {
-        return hsb;
+    publid JSdrollBbr gftHorizontblSdrollBbr() {
+        rfturn isb;
     }
 
     /**
-     * Returns the <code>JScrollBar</code> object that handles vertical scrolling.
-     * @return the <code>JScrollBar</code> object that handles vertical scrolling
-     * @see JScrollPane#getVerticalScrollBar
+     * Rfturns tif <dodf>JSdrollBbr</dodf> objfdt tibt ibndlfs vfrtidbl sdrolling.
+     * @rfturn tif <dodf>JSdrollBbr</dodf> objfdt tibt ibndlfs vfrtidbl sdrolling
+     * @sff JSdrollPbnf#gftVfrtidblSdrollBbr
      */
-    public JScrollBar getVerticalScrollBar() {
-        return vsb;
-    }
-
-
-    /**
-     * Returns the <code>JViewport</code> object that is the row header.
-     * @return the <code>JViewport</code> object that is the row header
-     * @see JScrollPane#getRowHeader
-     */
-    public JViewport getRowHeader() {
-        return rowHead;
+    publid JSdrollBbr gftVfrtidblSdrollBbr() {
+        rfturn vsb;
     }
 
 
     /**
-     * Returns the <code>JViewport</code> object that is the column header.
-     * @return the <code>JViewport</code> object that is the column header
-     * @see JScrollPane#getColumnHeader
+     * Rfturns tif <dodf>JVifwport</dodf> objfdt tibt is tif row ifbdfr.
+     * @rfturn tif <dodf>JVifwport</dodf> objfdt tibt is tif row ifbdfr
+     * @sff JSdrollPbnf#gftRowHfbdfr
      */
-    public JViewport getColumnHeader() {
-        return colHead;
+    publid JVifwport gftRowHfbdfr() {
+        rfturn rowHfbd;
     }
 
 
     /**
-     * Returns the <code>Component</code> at the specified corner.
-     * @param key the <code>String</code> specifying the corner
-     * @return the <code>Component</code> at the specified corner, as defined in
-     *         {@link ScrollPaneConstants}; if <code>key</code> is not one of the
-     *          four corners, <code>null</code> is returned
-     * @see JScrollPane#getCorner
+     * Rfturns tif <dodf>JVifwport</dodf> objfdt tibt is tif dolumn ifbdfr.
+     * @rfturn tif <dodf>JVifwport</dodf> objfdt tibt is tif dolumn ifbdfr
+     * @sff JSdrollPbnf#gftColumnHfbdfr
      */
-    public Component getCorner(String key) {
-        if (key.equals(LOWER_LEFT_CORNER)) {
-            return lowerLeft;
+    publid JVifwport gftColumnHfbdfr() {
+        rfturn dolHfbd;
+    }
+
+
+    /**
+     * Rfturns tif <dodf>Componfnt</dodf> bt tif spfdififd dornfr.
+     * @pbrbm kfy tif <dodf>String</dodf> spfdifying tif dornfr
+     * @rfturn tif <dodf>Componfnt</dodf> bt tif spfdififd dornfr, bs dffinfd in
+     *         {@link SdrollPbnfConstbnts}; if <dodf>kfy</dodf> is not onf of tif
+     *          four dornfrs, <dodf>null</dodf> is rfturnfd
+     * @sff JSdrollPbnf#gftCornfr
+     */
+    publid Componfnt gftCornfr(String kfy) {
+        if (kfy.fqubls(LOWER_LEFT_CORNER)) {
+            rfturn lowfrLfft;
         }
-        else if (key.equals(LOWER_RIGHT_CORNER)) {
-            return lowerRight;
+        flsf if (kfy.fqubls(LOWER_RIGHT_CORNER)) {
+            rfturn lowfrRigit;
         }
-        else if (key.equals(UPPER_LEFT_CORNER)) {
-            return upperLeft;
+        flsf if (kfy.fqubls(UPPER_LEFT_CORNER)) {
+            rfturn uppfrLfft;
         }
-        else if (key.equals(UPPER_RIGHT_CORNER)) {
-            return upperRight;
+        flsf if (kfy.fqubls(UPPER_RIGHT_CORNER)) {
+            rfturn uppfrRigit;
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
 
     /**
-     * The preferred size of a <code>ScrollPane</code> is the size of the insets,
-     * plus the preferred size of the viewport, plus the preferred size of
-     * the visible headers, plus the preferred size of the scrollbars
-     * that will appear given the current view and the current
-     * scrollbar displayPolicies.
-     * <p>Note that the rowHeader is calculated as part of the preferred width
-     * and the colHeader is calculated as part of the preferred size.
+     * Tif prfffrrfd sizf of b <dodf>SdrollPbnf</dodf> is tif sizf of tif insfts,
+     * plus tif prfffrrfd sizf of tif vifwport, plus tif prfffrrfd sizf of
+     * tif visiblf ifbdfrs, plus tif prfffrrfd sizf of tif sdrollbbrs
+     * tibt will bppfbr givfn tif durrfnt vifw bnd tif durrfnt
+     * sdrollbbr displbyPolidifs.
+     * <p>Notf tibt tif rowHfbdfr is dbldulbtfd bs pbrt of tif prfffrrfd widti
+     * bnd tif dolHfbdfr is dbldulbtfd bs pbrt of tif prfffrrfd sizf.
      *
-     * @param parent the <code>Container</code> that will be laid out
-     * @return a <code>Dimension</code> object specifying the preferred size of the
-     *         viewport and any scrollbars
-     * @see ViewportLayout
-     * @see LayoutManager
+     * @pbrbm pbrfnt tif <dodf>Contbinfr</dodf> tibt will bf lbid out
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt spfdifying tif prfffrrfd sizf of tif
+     *         vifwport bnd bny sdrollbbrs
+     * @sff VifwportLbyout
+     * @sff LbyoutMbnbgfr
      */
-    public Dimension preferredLayoutSize(Container parent)
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt)
     {
-        /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+        /* Synd tif (now obsolftf) polidy fiflds witi tif
+         * JSdrollPbnf.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JSdrollPbnf sdrollPbnf = (JSdrollPbnf)pbrfnt;
+        vsbPolidy = sdrollPbnf.gftVfrtidblSdrollBbrPolidy();
+        isbPolidy = sdrollPbnf.gftHorizontblSdrollBbrPolidy();
 
-        Insets insets = parent.getInsets();
-        int prefWidth = insets.left + insets.right;
-        int prefHeight = insets.top + insets.bottom;
+        Insfts insfts = pbrfnt.gftInsfts();
+        int prffWidti = insfts.lfft + insfts.rigit;
+        int prffHfigit = insfts.top + insfts.bottom;
 
-        /* Note that viewport.getViewSize() is equivalent to
-         * viewport.getView().getPreferredSize() modulo a null
-         * view or a view whose size was explicitly set.
+        /* Notf tibt vifwport.gftVifwSizf() is fquivblfnt to
+         * vifwport.gftVifw().gftPrfffrrfdSizf() modulo b null
+         * vifw or b vifw wiosf sizf wbs fxpliditly sft.
          */
 
-        Dimension extentSize = null;
-        Dimension viewSize = null;
-        Component view = null;
+        Dimfnsion fxtfntSizf = null;
+        Dimfnsion vifwSizf = null;
+        Componfnt vifw = null;
 
-        if (viewport != null) {
-            extentSize = viewport.getPreferredSize();
-            view = viewport.getView();
-            if (view != null) {
-                viewSize = view.getPreferredSize();
-            } else {
-                viewSize = new Dimension(0, 0);
+        if (vifwport != null) {
+            fxtfntSizf = vifwport.gftPrfffrrfdSizf();
+            vifw = vifwport.gftVifw();
+            if (vifw != null) {
+                vifwSizf = vifw.gftPrfffrrfdSizf();
+            } flsf {
+                vifwSizf = nfw Dimfnsion(0, 0);
             }
         }
 
-        /* If there's a viewport add its preferredSize.
+        /* If tifrf's b vifwport bdd its prfffrrfdSizf.
          */
 
-        if (extentSize != null) {
-            prefWidth += extentSize.width;
-            prefHeight += extentSize.height;
+        if (fxtfntSizf != null) {
+            prffWidti += fxtfntSizf.widti;
+            prffHfigit += fxtfntSizf.ifigit;
         }
 
-        /* If there's a JScrollPane.viewportBorder, add its insets.
+        /* If tifrf's b JSdrollPbnf.vifwportBordfr, bdd its insfts.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
-        if (viewportBorder != null) {
-            Insets vpbInsets = viewportBorder.getBorderInsets(parent);
-            prefWidth += vpbInsets.left + vpbInsets.right;
-            prefHeight += vpbInsets.top + vpbInsets.bottom;
+        Bordfr vifwportBordfr = sdrollPbnf.gftVifwportBordfr();
+        if (vifwportBordfr != null) {
+            Insfts vpbInsfts = vifwportBordfr.gftBordfrInsfts(pbrfnt);
+            prffWidti += vpbInsfts.lfft + vpbInsfts.rigit;
+            prffHfigit += vpbInsfts.top + vpbInsfts.bottom;
         }
 
-        /* If a header exists and it's visible, factor its
-         * preferred size in.
+        /* If b ifbdfr fxists bnd it's visiblf, fbdtor its
+         * prfffrrfd sizf in.
          */
 
-        if ((rowHead != null) && rowHead.isVisible()) {
-            prefWidth += rowHead.getPreferredSize().width;
+        if ((rowHfbd != null) && rowHfbd.isVisiblf()) {
+            prffWidti += rowHfbd.gftPrfffrrfdSizf().widti;
         }
 
-        if ((colHead != null) && colHead.isVisible()) {
-            prefHeight += colHead.getPreferredSize().height;
+        if ((dolHfbd != null) && dolHfbd.isVisiblf()) {
+            prffHfigit += dolHfbd.gftPrfffrrfdSizf().ifigit;
         }
 
-        /* If a scrollbar is going to appear, factor its preferred size in.
-         * If the scrollbars policy is AS_NEEDED, this can be a little
-         * tricky:
+        /* If b sdrollbbr is going to bppfbr, fbdtor its prfffrrfd sizf in.
+         * If tif sdrollbbrs polidy is AS_NEEDED, tiis dbn bf b littlf
+         * tridky:
          *
-         * - If the view is a Scrollable then scrollableTracksViewportWidth
-         * and scrollableTracksViewportHeight can be used to effectively
-         * disable scrolling (if they're true) in their respective dimensions.
+         * - If tif vifw is b Sdrollbblf tifn sdrollbblfTrbdksVifwportWidti
+         * bnd sdrollbblfTrbdksVifwportHfigit dbn bf usfd to ffffdtivfly
+         * disbblf sdrolling (if tify'rf truf) in tifir rfspfdtivf dimfnsions.
          *
-         * - Assuming that a scrollbar hasn't been disabled by the
-         * previous constraint, we need to decide if the scrollbar is going
-         * to appear to correctly compute the JScrollPanes preferred size.
-         * To do this we compare the preferredSize of the viewport (the
-         * extentSize) to the preferredSize of the view.  Although we're
-         * not responsible for laying out the view we'll assume that the
-         * JViewport will always give it its preferredSize.
+         * - Assuming tibt b sdrollbbr ibsn't bffn disbblfd by tif
+         * prfvious donstrbint, wf nffd to dfdidf if tif sdrollbbr is going
+         * to bppfbr to dorrfdtly domputf tif JSdrollPbnfs prfffrrfd sizf.
+         * To do tiis wf dompbrf tif prfffrrfdSizf of tif vifwport (tif
+         * fxtfntSizf) to tif prfffrrfdSizf of tif vifw.  Altiougi wf'rf
+         * not rfsponsiblf for lbying out tif vifw wf'll bssumf tibt tif
+         * JVifwport will blwbys givf it its prfffrrfdSizf.
          */
 
-        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
-            if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
-                prefWidth += vsb.getPreferredSize().width;
+        if ((vsb != null) && (vsbPolidy != VERTICAL_SCROLLBAR_NEVER)) {
+            if (vsbPolidy == VERTICAL_SCROLLBAR_ALWAYS) {
+                prffWidti += vsb.gftPrfffrrfdSizf().widti;
             }
-            else if ((viewSize != null) && (extentSize != null)) {
-                boolean canScroll = true;
-                if (view instanceof Scrollable) {
-                    canScroll = !((Scrollable)view).getScrollableTracksViewportHeight();
+            flsf if ((vifwSizf != null) && (fxtfntSizf != null)) {
+                boolfbn dbnSdroll = truf;
+                if (vifw instbndfof Sdrollbblf) {
+                    dbnSdroll = !((Sdrollbblf)vifw).gftSdrollbblfTrbdksVifwportHfigit();
                 }
-                if (canScroll && (viewSize.height > extentSize.height)) {
-                    prefWidth += vsb.getPreferredSize().width;
-                }
-            }
-        }
-
-        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER)) {
-            if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
-                prefHeight += hsb.getPreferredSize().height;
-            }
-            else if ((viewSize != null) && (extentSize != null)) {
-                boolean canScroll = true;
-                if (view instanceof Scrollable) {
-                    canScroll = !((Scrollable)view).getScrollableTracksViewportWidth();
-                }
-                if (canScroll && (viewSize.width > extentSize.width)) {
-                    prefHeight += hsb.getPreferredSize().height;
+                if (dbnSdroll && (vifwSizf.ifigit > fxtfntSizf.ifigit)) {
+                    prffWidti += vsb.gftPrfffrrfdSizf().widti;
                 }
             }
         }
 
-        return new Dimension(prefWidth, prefHeight);
+        if ((isb != null) && (isbPolidy != HORIZONTAL_SCROLLBAR_NEVER)) {
+            if (isbPolidy == HORIZONTAL_SCROLLBAR_ALWAYS) {
+                prffHfigit += isb.gftPrfffrrfdSizf().ifigit;
+            }
+            flsf if ((vifwSizf != null) && (fxtfntSizf != null)) {
+                boolfbn dbnSdroll = truf;
+                if (vifw instbndfof Sdrollbblf) {
+                    dbnSdroll = !((Sdrollbblf)vifw).gftSdrollbblfTrbdksVifwportWidti();
+                }
+                if (dbnSdroll && (vifwSizf.widti > fxtfntSizf.widti)) {
+                    prffHfigit += isb.gftPrfffrrfdSizf().ifigit;
+                }
+            }
+        }
+
+        rfturn nfw Dimfnsion(prffWidti, prffHfigit);
     }
 
 
     /**
-     * The minimum size of a <code>ScrollPane</code> is the size of the insets
-     * plus minimum size of the viewport, plus the scrollpane's
-     * viewportBorder insets, plus the minimum size
-     * of the visible headers, plus the minimum size of the
-     * scrollbars whose displayPolicy isn't NEVER.
+     * Tif minimum sizf of b <dodf>SdrollPbnf</dodf> is tif sizf of tif insfts
+     * plus minimum sizf of tif vifwport, plus tif sdrollpbnf's
+     * vifwportBordfr insfts, plus tif minimum sizf
+     * of tif visiblf ifbdfrs, plus tif minimum sizf of tif
+     * sdrollbbrs wiosf displbyPolidy isn't NEVER.
      *
-     * @param parent the <code>Container</code> that will be laid out
-     * @return a <code>Dimension</code> object specifying the minimum size
+     * @pbrbm pbrfnt tif <dodf>Contbinfr</dodf> tibt will bf lbid out
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt spfdifying tif minimum sizf
      */
-    public Dimension minimumLayoutSize(Container parent)
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt)
     {
-        /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+        /* Synd tif (now obsolftf) polidy fiflds witi tif
+         * JSdrollPbnf.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JSdrollPbnf sdrollPbnf = (JSdrollPbnf)pbrfnt;
+        vsbPolidy = sdrollPbnf.gftVfrtidblSdrollBbrPolidy();
+        isbPolidy = sdrollPbnf.gftHorizontblSdrollBbrPolidy();
 
-        Insets insets = parent.getInsets();
-        int minWidth = insets.left + insets.right;
-        int minHeight = insets.top + insets.bottom;
+        Insfts insfts = pbrfnt.gftInsfts();
+        int minWidti = insfts.lfft + insfts.rigit;
+        int minHfigit = insfts.top + insfts.bottom;
 
-        /* If there's a viewport add its minimumSize.
-         */
-
-        if (viewport != null) {
-            Dimension size = viewport.getMinimumSize();
-            minWidth += size.width;
-            minHeight += size.height;
-        }
-
-        /* If there's a JScrollPane.viewportBorder, add its insets.
+        /* If tifrf's b vifwport bdd its minimumSizf.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
-        if (viewportBorder != null) {
-            Insets vpbInsets = viewportBorder.getBorderInsets(parent);
-            minWidth += vpbInsets.left + vpbInsets.right;
-            minHeight += vpbInsets.top + vpbInsets.bottom;
+        if (vifwport != null) {
+            Dimfnsion sizf = vifwport.gftMinimumSizf();
+            minWidti += sizf.widti;
+            minHfigit += sizf.ifigit;
         }
 
-        /* If a header exists and it's visible, factor its
-         * minimum size in.
+        /* If tifrf's b JSdrollPbnf.vifwportBordfr, bdd its insfts.
          */
 
-        if ((rowHead != null) && rowHead.isVisible()) {
-            Dimension size = rowHead.getMinimumSize();
-            minWidth += size.width;
-            minHeight = Math.max(minHeight, size.height);
+        Bordfr vifwportBordfr = sdrollPbnf.gftVifwportBordfr();
+        if (vifwportBordfr != null) {
+            Insfts vpbInsfts = vifwportBordfr.gftBordfrInsfts(pbrfnt);
+            minWidti += vpbInsfts.lfft + vpbInsfts.rigit;
+            minHfigit += vpbInsfts.top + vpbInsfts.bottom;
         }
 
-        if ((colHead != null) && colHead.isVisible()) {
-            Dimension size = colHead.getMinimumSize();
-            minWidth = Math.max(minWidth, size.width);
-            minHeight += size.height;
-        }
-
-        /* If a scrollbar might appear, factor its minimum
-         * size in.
+        /* If b ifbdfr fxists bnd it's visiblf, fbdtor its
+         * minimum sizf in.
          */
 
-        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
-            Dimension size = vsb.getMinimumSize();
-            minWidth += size.width;
-            minHeight = Math.max(minHeight, size.height);
+        if ((rowHfbd != null) && rowHfbd.isVisiblf()) {
+            Dimfnsion sizf = rowHfbd.gftMinimumSizf();
+            minWidti += sizf.widti;
+            minHfigit = Mbti.mbx(minHfigit, sizf.ifigit);
         }
 
-        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER)) {
-            Dimension size = hsb.getMinimumSize();
-            minWidth = Math.max(minWidth, size.width);
-            minHeight += size.height;
+        if ((dolHfbd != null) && dolHfbd.isVisiblf()) {
+            Dimfnsion sizf = dolHfbd.gftMinimumSizf();
+            minWidti = Mbti.mbx(minWidti, sizf.widti);
+            minHfigit += sizf.ifigit;
         }
 
-        return new Dimension(minWidth, minHeight);
+        /* If b sdrollbbr migit bppfbr, fbdtor its minimum
+         * sizf in.
+         */
+
+        if ((vsb != null) && (vsbPolidy != VERTICAL_SCROLLBAR_NEVER)) {
+            Dimfnsion sizf = vsb.gftMinimumSizf();
+            minWidti += sizf.widti;
+            minHfigit = Mbti.mbx(minHfigit, sizf.ifigit);
+        }
+
+        if ((isb != null) && (isbPolidy != HORIZONTAL_SCROLLBAR_NEVER)) {
+            Dimfnsion sizf = isb.gftMinimumSizf();
+            minWidti = Mbti.mbx(minWidti, sizf.widti);
+            minHfigit += sizf.ifigit;
+        }
+
+        rfturn nfw Dimfnsion(minWidti, minHfigit);
     }
 
 
     /**
-     * Lays out the scrollpane. The positioning of components depends on
-     * the following constraints:
+     * Lbys out tif sdrollpbnf. Tif positioning of domponfnts dfpfnds on
+     * tif following donstrbints:
      * <ul>
-     * <li> The row header, if present and visible, gets its preferred
-     * width and the viewport's height.
+     * <li> Tif row ifbdfr, if prfsfnt bnd visiblf, gfts its prfffrrfd
+     * widti bnd tif vifwport's ifigit.
      *
-     * <li> The column header, if present and visible, gets its preferred
-     * height and the viewport's width.
+     * <li> Tif dolumn ifbdfr, if prfsfnt bnd visiblf, gfts its prfffrrfd
+     * ifigit bnd tif vifwport's widti.
      *
-     * <li> If a vertical scrollbar is needed, i.e. if the viewport's extent
-     * height is smaller than its view height or if the <code>displayPolicy</code>
-     * is ALWAYS, it's treated like the row header with respect to its
-     * dimensions and is made visible.
+     * <li> If b vfrtidbl sdrollbbr is nffdfd, i.f. if tif vifwport's fxtfnt
+     * ifigit is smbllfr tibn its vifw ifigit or if tif <dodf>displbyPolidy</dodf>
+     * is ALWAYS, it's trfbtfd likf tif row ifbdfr witi rfspfdt to its
+     * dimfnsions bnd is mbdf visiblf.
      *
-     * <li> If a horizontal scrollbar is needed, it is treated like the
-     * column header (see the paragraph above regarding the vertical scrollbar).
+     * <li> If b iorizontbl sdrollbbr is nffdfd, it is trfbtfd likf tif
+     * dolumn ifbdfr (sff tif pbrbgrbpi bbovf rfgbrding tif vfrtidbl sdrollbbr).
      *
-     * <li> If the scrollpane has a non-<code>null</code>
-     * <code>viewportBorder</code>, then space is allocated for that.
+     * <li> If tif sdrollpbnf ibs b non-<dodf>null</dodf>
+     * <dodf>vifwportBordfr</dodf>, tifn spbdf is bllodbtfd for tibt.
      *
-     * <li> The viewport gets the space available after accounting for
-     * the previous constraints.
+     * <li> Tif vifwport gfts tif spbdf bvbilbblf bftfr bddounting for
+     * tif prfvious donstrbints.
      *
-     * <li> The corner components, if provided, are aligned with the
-     * ends of the scrollbars and headers. If there is a vertical
-     * scrollbar, the right corners appear; if there is a horizontal
-     * scrollbar, the lower corners appear; a row header gets left
-     * corners, and a column header gets upper corners.
+     * <li> Tif dornfr domponfnts, if providfd, brf blignfd witi tif
+     * fnds of tif sdrollbbrs bnd ifbdfrs. If tifrf is b vfrtidbl
+     * sdrollbbr, tif rigit dornfrs bppfbr; if tifrf is b iorizontbl
+     * sdrollbbr, tif lowfr dornfrs bppfbr; b row ifbdfr gfts lfft
+     * dornfrs, bnd b dolumn ifbdfr gfts uppfr dornfrs.
      * </ul>
      *
-     * @param parent the <code>Container</code> to lay out
+     * @pbrbm pbrfnt tif <dodf>Contbinfr</dodf> to lby out
      */
-    public void layoutContainer(Container parent)
+    publid void lbyoutContbinfr(Contbinfr pbrfnt)
     {
-        /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+        /* Synd tif (now obsolftf) polidy fiflds witi tif
+         * JSdrollPbnf.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JSdrollPbnf sdrollPbnf = (JSdrollPbnf)pbrfnt;
+        vsbPolidy = sdrollPbnf.gftVfrtidblSdrollBbrPolidy();
+        isbPolidy = sdrollPbnf.gftHorizontblSdrollBbrPolidy();
 
-        Rectangle availR = scrollPane.getBounds();
-        availR.x = availR.y = 0;
+        Rfdtbnglf bvbilR = sdrollPbnf.gftBounds();
+        bvbilR.x = bvbilR.y = 0;
 
-        Insets insets = parent.getInsets();
-        availR.x = insets.left;
-        availR.y = insets.top;
-        availR.width -= insets.left + insets.right;
-        availR.height -= insets.top + insets.bottom;
+        Insfts insfts = pbrfnt.gftInsfts();
+        bvbilR.x = insfts.lfft;
+        bvbilR.y = insfts.top;
+        bvbilR.widti -= insfts.lfft + insfts.rigit;
+        bvbilR.ifigit -= insfts.top + insfts.bottom;
 
-        /* Get the scrollPane's orientation.
+        /* Gft tif sdrollPbnf's orifntbtion.
          */
-        boolean leftToRight = SwingUtilities.isLeftToRight(scrollPane);
+        boolfbn lfftToRigit = SwingUtilitifs.isLfftToRigit(sdrollPbnf);
 
-        /* If there's a visible column header remove the space it
-         * needs from the top of availR.  The column header is treated
-         * as if it were fixed height, arbitrary width.
+        /* If tifrf's b visiblf dolumn ifbdfr rfmovf tif spbdf it
+         * nffds from tif top of bvbilR.  Tif dolumn ifbdfr is trfbtfd
+         * bs if it wfrf fixfd ifigit, brbitrbry widti.
          */
 
-        Rectangle colHeadR = new Rectangle(0, availR.y, 0, 0);
+        Rfdtbnglf dolHfbdR = nfw Rfdtbnglf(0, bvbilR.y, 0, 0);
 
-        if ((colHead != null) && (colHead.isVisible())) {
-            int colHeadHeight = Math.min(availR.height,
-                                         colHead.getPreferredSize().height);
-            colHeadR.height = colHeadHeight;
-            availR.y += colHeadHeight;
-            availR.height -= colHeadHeight;
+        if ((dolHfbd != null) && (dolHfbd.isVisiblf())) {
+            int dolHfbdHfigit = Mbti.min(bvbilR.ifigit,
+                                         dolHfbd.gftPrfffrrfdSizf().ifigit);
+            dolHfbdR.ifigit = dolHfbdHfigit;
+            bvbilR.y += dolHfbdHfigit;
+            bvbilR.ifigit -= dolHfbdHfigit;
         }
 
-        /* If there's a visible row header remove the space it needs
-         * from the left or right of availR.  The row header is treated
-         * as if it were fixed width, arbitrary height.
+        /* If tifrf's b visiblf row ifbdfr rfmovf tif spbdf it nffds
+         * from tif lfft or rigit of bvbilR.  Tif row ifbdfr is trfbtfd
+         * bs if it wfrf fixfd widti, brbitrbry ifigit.
          */
 
-        Rectangle rowHeadR = new Rectangle(0, 0, 0, 0);
+        Rfdtbnglf rowHfbdR = nfw Rfdtbnglf(0, 0, 0, 0);
 
-        if ((rowHead != null) && (rowHead.isVisible())) {
-            int rowHeadWidth = Math.min(availR.width,
-                                        rowHead.getPreferredSize().width);
-            rowHeadR.width = rowHeadWidth;
-            availR.width -= rowHeadWidth;
-            if ( leftToRight ) {
-                rowHeadR.x = availR.x;
-                availR.x += rowHeadWidth;
-            } else {
-                rowHeadR.x = availR.x + availR.width;
+        if ((rowHfbd != null) && (rowHfbd.isVisiblf())) {
+            int rowHfbdWidti = Mbti.min(bvbilR.widti,
+                                        rowHfbd.gftPrfffrrfdSizf().widti);
+            rowHfbdR.widti = rowHfbdWidti;
+            bvbilR.widti -= rowHfbdWidti;
+            if ( lfftToRigit ) {
+                rowHfbdR.x = bvbilR.x;
+                bvbilR.x += rowHfbdWidti;
+            } flsf {
+                rowHfbdR.x = bvbilR.x + bvbilR.widti;
             }
         }
 
-        /* If there's a JScrollPane.viewportBorder, remove the
-         * space it occupies for availR.
+        /* If tifrf's b JSdrollPbnf.vifwportBordfr, rfmovf tif
+         * spbdf it oddupifs for bvbilR.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
-        Insets vpbInsets;
-        if (viewportBorder != null) {
-            vpbInsets = viewportBorder.getBorderInsets(parent);
-            availR.x += vpbInsets.left;
-            availR.y += vpbInsets.top;
-            availR.width -= vpbInsets.left + vpbInsets.right;
-            availR.height -= vpbInsets.top + vpbInsets.bottom;
+        Bordfr vifwportBordfr = sdrollPbnf.gftVifwportBordfr();
+        Insfts vpbInsfts;
+        if (vifwportBordfr != null) {
+            vpbInsfts = vifwportBordfr.gftBordfrInsfts(pbrfnt);
+            bvbilR.x += vpbInsfts.lfft;
+            bvbilR.y += vpbInsfts.top;
+            bvbilR.widti -= vpbInsfts.lfft + vpbInsfts.rigit;
+            bvbilR.ifigit -= vpbInsfts.top + vpbInsfts.bottom;
         }
-        else {
-            vpbInsets = new Insets(0,0,0,0);
+        flsf {
+            vpbInsfts = nfw Insfts(0,0,0,0);
         }
 
 
-        /* At this point availR is the space available for the viewport
-         * and scrollbars. rowHeadR is correct except for its height and y
-         * and colHeadR is correct except for its width and x.  Once we're
-         * through computing the dimensions  of these three parts we can
-         * go back and set the dimensions of rowHeadR.height, rowHeadR.y,
-         * colHeadR.width, colHeadR.x and the bounds for the corners.
+        /* At tiis point bvbilR is tif spbdf bvbilbblf for tif vifwport
+         * bnd sdrollbbrs. rowHfbdR is dorrfdt fxdfpt for its ifigit bnd y
+         * bnd dolHfbdR is dorrfdt fxdfpt for its widti bnd x.  Ondf wf'rf
+         * tirougi domputing tif dimfnsions  of tifsf tirff pbrts wf dbn
+         * go bbdk bnd sft tif dimfnsions of rowHfbdR.ifigit, rowHfbdR.y,
+         * dolHfbdR.widti, dolHfbdR.x bnd tif bounds for tif dornfrs.
          *
-         * We'll decide about putting up scrollbars by comparing the
-         * viewport views preferred size with the viewports extent
-         * size (generally just its size).  Using the preferredSize is
-         * reasonable because layout proceeds top down - so we expect
-         * the viewport to be laid out next.  And we assume that the
-         * viewports layout manager will give the view it's preferred
-         * size.  One exception to this is when the view implements
-         * Scrollable and Scrollable.getViewTracksViewport{Width,Height}
-         * methods return true.  If the view is tracking the viewports
-         * width we don't bother with a horizontal scrollbar, similarly
-         * if view.getViewTracksViewport(Height) is true we don't bother
-         * with a vertical scrollbar.
+         * Wf'll dfdidf bbout putting up sdrollbbrs by dompbring tif
+         * vifwport vifws prfffrrfd sizf witi tif vifwports fxtfnt
+         * sizf (gfnfrblly just its sizf).  Using tif prfffrrfdSizf is
+         * rfbsonbblf bfdbusf lbyout prodffds top down - so wf fxpfdt
+         * tif vifwport to bf lbid out nfxt.  And wf bssumf tibt tif
+         * vifwports lbyout mbnbgfr will givf tif vifw it's prfffrrfd
+         * sizf.  Onf fxdfption to tiis is wifn tif vifw implfmfnts
+         * Sdrollbblf bnd Sdrollbblf.gftVifwTrbdksVifwport{Widti,Hfigit}
+         * mftiods rfturn truf.  If tif vifw is trbdking tif vifwports
+         * widti wf don't botifr witi b iorizontbl sdrollbbr, similbrly
+         * if vifw.gftVifwTrbdksVifwport(Hfigit) is truf wf don't botifr
+         * witi b vfrtidbl sdrollbbr.
          */
 
-        Component view = (viewport != null) ? viewport.getView() : null;
-        Dimension viewPrefSize =
-            (view != null) ? view.getPreferredSize()
-                           : new Dimension(0,0);
+        Componfnt vifw = (vifwport != null) ? vifwport.gftVifw() : null;
+        Dimfnsion vifwPrffSizf =
+            (vifw != null) ? vifw.gftPrfffrrfdSizf()
+                           : nfw Dimfnsion(0,0);
 
-        Dimension extentSize =
-            (viewport != null) ? viewport.toViewCoordinates(availR.getSize())
-                               : new Dimension(0,0);
+        Dimfnsion fxtfntSizf =
+            (vifwport != null) ? vifwport.toVifwCoordinbtfs(bvbilR.gftSizf())
+                               : nfw Dimfnsion(0,0);
 
-        boolean viewTracksViewportWidth = false;
-        boolean viewTracksViewportHeight = false;
-        boolean isEmpty = (availR.width < 0 || availR.height < 0);
-        Scrollable sv;
-        // Don't bother checking the Scrollable methods if there is no room
-        // for the viewport, we aren't going to show any scrollbars in this
-        // case anyway.
-        if (!isEmpty && view instanceof Scrollable) {
-            sv = (Scrollable)view;
-            viewTracksViewportWidth = sv.getScrollableTracksViewportWidth();
-            viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
+        boolfbn vifwTrbdksVifwportWidti = fblsf;
+        boolfbn vifwTrbdksVifwportHfigit = fblsf;
+        boolfbn isEmpty = (bvbilR.widti < 0 || bvbilR.ifigit < 0);
+        Sdrollbblf sv;
+        // Don't botifr difdking tif Sdrollbblf mftiods if tifrf is no room
+        // for tif vifwport, wf brfn't going to siow bny sdrollbbrs in tiis
+        // dbsf bnywby.
+        if (!isEmpty && vifw instbndfof Sdrollbblf) {
+            sv = (Sdrollbblf)vifw;
+            vifwTrbdksVifwportWidti = sv.gftSdrollbblfTrbdksVifwportWidti();
+            vifwTrbdksVifwportHfigit = sv.gftSdrollbblfTrbdksVifwportHfigit();
         }
-        else {
+        flsf {
             sv = null;
         }
 
-        /* If there's a vertical scrollbar and we need one, allocate
-         * space for it (we'll make it visible later). A vertical
-         * scrollbar is considered to be fixed width, arbitrary height.
+        /* If tifrf's b vfrtidbl sdrollbbr bnd wf nffd onf, bllodbtf
+         * spbdf for it (wf'll mbkf it visiblf lbtfr). A vfrtidbl
+         * sdrollbbr is donsidfrfd to bf fixfd widti, brbitrbry ifigit.
          */
 
-        Rectangle vsbR = new Rectangle(0, availR.y - vpbInsets.top, 0, 0);
+        Rfdtbnglf vsbR = nfw Rfdtbnglf(0, bvbilR.y - vpbInsfts.top, 0, 0);
 
-        boolean vsbNeeded;
-        if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
-            vsbNeeded = true;
+        boolfbn vsbNffdfd;
+        if (vsbPolidy == VERTICAL_SCROLLBAR_ALWAYS) {
+            vsbNffdfd = truf;
         }
-        else if (vsbPolicy == VERTICAL_SCROLLBAR_NEVER) {
-            vsbNeeded = false;
+        flsf if (vsbPolidy == VERTICAL_SCROLLBAR_NEVER) {
+            vsbNffdfd = fblsf;
         }
-        else {  // vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED
-            vsbNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height);
-        }
-
-
-        if ((vsb != null) && vsbNeeded) {
-            adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
-            extentSize = viewport.toViewCoordinates(availR.getSize());
+        flsf {  // vsbPolidy == VERTICAL_SCROLLBAR_AS_NEEDED
+            vsbNffdfd = !vifwTrbdksVifwportHfigit && (vifwPrffSizf.ifigit > fxtfntSizf.ifigit);
         }
 
-        /* If there's a horizontal scrollbar and we need one, allocate
-         * space for it (we'll make it visible later). A horizontal
-         * scrollbar is considered to be fixed height, arbitrary width.
+
+        if ((vsb != null) && vsbNffdfd) {
+            bdjustForVSB(truf, bvbilR, vsbR, vpbInsfts, lfftToRigit);
+            fxtfntSizf = vifwport.toVifwCoordinbtfs(bvbilR.gftSizf());
+        }
+
+        /* If tifrf's b iorizontbl sdrollbbr bnd wf nffd onf, bllodbtf
+         * spbdf for it (wf'll mbkf it visiblf lbtfr). A iorizontbl
+         * sdrollbbr is donsidfrfd to bf fixfd ifigit, brbitrbry widti.
          */
 
-        Rectangle hsbR = new Rectangle(availR.x - vpbInsets.left, 0, 0, 0);
-        boolean hsbNeeded;
-        if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
-            hsbNeeded = true;
+        Rfdtbnglf isbR = nfw Rfdtbnglf(bvbilR.x - vpbInsfts.lfft, 0, 0, 0);
+        boolfbn isbNffdfd;
+        if (isbPolidy == HORIZONTAL_SCROLLBAR_ALWAYS) {
+            isbNffdfd = truf;
         }
-        else if (hsbPolicy == HORIZONTAL_SCROLLBAR_NEVER) {
-            hsbNeeded = false;
+        flsf if (isbPolidy == HORIZONTAL_SCROLLBAR_NEVER) {
+            isbNffdfd = fblsf;
         }
-        else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
-            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width);
+        flsf {  // isbPolidy == HORIZONTAL_SCROLLBAR_AS_NEEDED
+            isbNffdfd = !vifwTrbdksVifwportWidti && (vifwPrffSizf.widti > fxtfntSizf.widti);
         }
 
-        if ((hsb != null) && hsbNeeded) {
-            adjustForHSB(true, availR, hsbR, vpbInsets);
+        if ((isb != null) && isbNffdfd) {
+            bdjustForHSB(truf, bvbilR, isbR, vpbInsfts);
 
-            /* If we added the horizontal scrollbar then we've implicitly
-             * reduced  the vertical space available to the viewport.
-             * As a consequence we may have to add the vertical scrollbar,
-             * if that hasn't been done so already.  Of course we
-             * don't bother with any of this if the vsbPolicy is NEVER.
+            /* If wf bddfd tif iorizontbl sdrollbbr tifn wf'vf impliditly
+             * rfdudfd  tif vfrtidbl spbdf bvbilbblf to tif vifwport.
+             * As b donsfqufndf wf mby ibvf to bdd tif vfrtidbl sdrollbbr,
+             * if tibt ibsn't bffn donf so blrfbdy.  Of doursf wf
+             * don't botifr witi bny of tiis if tif vsbPolidy is NEVER.
              */
-            if ((vsb != null) && !vsbNeeded &&
-                (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
+            if ((vsb != null) && !vsbNffdfd &&
+                (vsbPolidy != VERTICAL_SCROLLBAR_NEVER)) {
 
-                extentSize = viewport.toViewCoordinates(availR.getSize());
-                vsbNeeded = viewPrefSize.height > extentSize.height;
+                fxtfntSizf = vifwport.toVifwCoordinbtfs(bvbilR.gftSizf());
+                vsbNffdfd = vifwPrffSizf.ifigit > fxtfntSizf.ifigit;
 
-                if (vsbNeeded) {
-                    adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
+                if (vsbNffdfd) {
+                    bdjustForVSB(truf, bvbilR, vsbR, vpbInsfts, lfftToRigit);
                 }
             }
         }
 
-        /* Set the size of the viewport first, and then recheck the Scrollable
-         * methods. Some components base their return values for the Scrollable
-         * methods on the size of the Viewport, so that if we don't
-         * ask after resetting the bounds we may have gotten the wrong
-         * answer.
+        /* Sft tif sizf of tif vifwport first, bnd tifn rfdifdk tif Sdrollbblf
+         * mftiods. Somf domponfnts bbsf tifir rfturn vblufs for tif Sdrollbblf
+         * mftiods on tif sizf of tif Vifwport, so tibt if wf don't
+         * bsk bftfr rfsftting tif bounds wf mby ibvf gottfn tif wrong
+         * bnswfr.
          */
 
-        if (viewport != null) {
-            viewport.setBounds(availR);
+        if (vifwport != null) {
+            vifwport.sftBounds(bvbilR);
 
             if (sv != null) {
-                extentSize = viewport.toViewCoordinates(availR.getSize());
+                fxtfntSizf = vifwport.toVifwCoordinbtfs(bvbilR.gftSizf());
 
-                boolean oldHSBNeeded = hsbNeeded;
-                boolean oldVSBNeeded = vsbNeeded;
-                viewTracksViewportWidth = sv.
-                                          getScrollableTracksViewportWidth();
-                viewTracksViewportHeight = sv.
-                                          getScrollableTracksViewportHeight();
-                if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
-                    boolean newVSBNeeded = !viewTracksViewportHeight &&
-                                     (viewPrefSize.height > extentSize.height);
-                    if (newVSBNeeded != vsbNeeded) {
-                        vsbNeeded = newVSBNeeded;
-                        adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets,
-                                     leftToRight);
-                        extentSize = viewport.toViewCoordinates
-                                              (availR.getSize());
+                boolfbn oldHSBNffdfd = isbNffdfd;
+                boolfbn oldVSBNffdfd = vsbNffdfd;
+                vifwTrbdksVifwportWidti = sv.
+                                          gftSdrollbblfTrbdksVifwportWidti();
+                vifwTrbdksVifwportHfigit = sv.
+                                          gftSdrollbblfTrbdksVifwportHfigit();
+                if (vsb != null && vsbPolidy == VERTICAL_SCROLLBAR_AS_NEEDED) {
+                    boolfbn nfwVSBNffdfd = !vifwTrbdksVifwportHfigit &&
+                                     (vifwPrffSizf.ifigit > fxtfntSizf.ifigit);
+                    if (nfwVSBNffdfd != vsbNffdfd) {
+                        vsbNffdfd = nfwVSBNffdfd;
+                        bdjustForVSB(vsbNffdfd, bvbilR, vsbR, vpbInsfts,
+                                     lfftToRigit);
+                        fxtfntSizf = vifwport.toVifwCoordinbtfs
+                                              (bvbilR.gftSizf());
                     }
                 }
-                if (hsb != null && hsbPolicy ==HORIZONTAL_SCROLLBAR_AS_NEEDED){
-                    boolean newHSBbNeeded = !viewTracksViewportWidth &&
-                                       (viewPrefSize.width > extentSize.width);
-                    if (newHSBbNeeded != hsbNeeded) {
-                        hsbNeeded = newHSBbNeeded;
-                        adjustForHSB(hsbNeeded, availR, hsbR, vpbInsets);
-                        if ((vsb != null) && !vsbNeeded &&
-                            (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
+                if (isb != null && isbPolidy ==HORIZONTAL_SCROLLBAR_AS_NEEDED){
+                    boolfbn nfwHSBbNffdfd = !vifwTrbdksVifwportWidti &&
+                                       (vifwPrffSizf.widti > fxtfntSizf.widti);
+                    if (nfwHSBbNffdfd != isbNffdfd) {
+                        isbNffdfd = nfwHSBbNffdfd;
+                        bdjustForHSB(isbNffdfd, bvbilR, isbR, vpbInsfts);
+                        if ((vsb != null) && !vsbNffdfd &&
+                            (vsbPolidy != VERTICAL_SCROLLBAR_NEVER)) {
 
-                            extentSize = viewport.toViewCoordinates
-                                         (availR.getSize());
-                            vsbNeeded = viewPrefSize.height >
-                                        extentSize.height;
+                            fxtfntSizf = vifwport.toVifwCoordinbtfs
+                                         (bvbilR.gftSizf());
+                            vsbNffdfd = vifwPrffSizf.ifigit >
+                                        fxtfntSizf.ifigit;
 
-                            if (vsbNeeded) {
-                                adjustForVSB(true, availR, vsbR, vpbInsets,
-                                             leftToRight);
+                            if (vsbNffdfd) {
+                                bdjustForVSB(truf, bvbilR, vsbR, vpbInsfts,
+                                             lfftToRigit);
                             }
                         }
                     }
                 }
-                if (oldHSBNeeded != hsbNeeded ||
-                    oldVSBNeeded != vsbNeeded) {
-                    viewport.setBounds(availR);
-                    // You could argue that we should recheck the
-                    // Scrollable methods again until they stop changing,
-                    // but they might never stop changing, so we stop here
-                    // and don't do any additional checks.
+                if (oldHSBNffdfd != isbNffdfd ||
+                    oldVSBNffdfd != vsbNffdfd) {
+                    vifwport.sftBounds(bvbilR);
+                    // You dould brguf tibt wf siould rfdifdk tif
+                    // Sdrollbblf mftiods bgbin until tify stop dibnging,
+                    // but tify migit nfvfr stop dibnging, so wf stop ifrf
+                    // bnd don't do bny bdditionbl difdks.
                 }
             }
         }
 
-        /* We now have the final size of the viewport: availR.
-         * Now fixup the header and scrollbar widths/heights.
+        /* Wf now ibvf tif finbl sizf of tif vifwport: bvbilR.
+         * Now fixup tif ifbdfr bnd sdrollbbr widtis/ifigits.
          */
-        vsbR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
-        hsbR.width = availR.width + vpbInsets.left + vpbInsets.right;
-        rowHeadR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
-        rowHeadR.y = availR.y - vpbInsets.top;
-        colHeadR.width = availR.width + vpbInsets.left + vpbInsets.right;
-        colHeadR.x = availR.x - vpbInsets.left;
+        vsbR.ifigit = bvbilR.ifigit + vpbInsfts.top + vpbInsfts.bottom;
+        isbR.widti = bvbilR.widti + vpbInsfts.lfft + vpbInsfts.rigit;
+        rowHfbdR.ifigit = bvbilR.ifigit + vpbInsfts.top + vpbInsfts.bottom;
+        rowHfbdR.y = bvbilR.y - vpbInsfts.top;
+        dolHfbdR.widti = bvbilR.widti + vpbInsfts.lfft + vpbInsfts.rigit;
+        dolHfbdR.x = bvbilR.x - vpbInsfts.lfft;
 
-        /* Set the bounds of the remaining components.  The scrollbars
-         * are made invisible if they're not needed.
+        /* Sft tif bounds of tif rfmbining domponfnts.  Tif sdrollbbrs
+         * brf mbdf invisiblf if tify'rf not nffdfd.
          */
 
-        if (rowHead != null) {
-            rowHead.setBounds(rowHeadR);
+        if (rowHfbd != null) {
+            rowHfbd.sftBounds(rowHfbdR);
         }
 
-        if (colHead != null) {
-            colHead.setBounds(colHeadR);
+        if (dolHfbd != null) {
+            dolHfbd.sftBounds(dolHfbdR);
         }
 
         if (vsb != null) {
-            if (vsbNeeded) {
-                if (colHead != null &&
-                    UIManager.getBoolean("ScrollPane.fillUpperCorner"))
+            if (vsbNffdfd) {
+                if (dolHfbd != null &&
+                    UIMbnbgfr.gftBoolfbn("SdrollPbnf.fillUppfrCornfr"))
                 {
-                    if ((leftToRight && upperRight == null) ||
-                        (!leftToRight && upperLeft == null))
+                    if ((lfftToRigit && uppfrRigit == null) ||
+                        (!lfftToRigit && uppfrLfft == null))
                     {
-                        // This is used primarily for GTK L&F, which needs to
-                        // extend the vertical scrollbar to fill the upper
-                        // corner near the column header.  Note that we skip
-                        // this step (and use the default behavior) if the
-                        // user has set a custom corner component.
-                        vsbR.y = colHeadR.y;
-                        vsbR.height += colHeadR.height;
+                        // Tiis is usfd primbrily for GTK L&F, wiidi nffds to
+                        // fxtfnd tif vfrtidbl sdrollbbr to fill tif uppfr
+                        // dornfr nfbr tif dolumn ifbdfr.  Notf tibt wf skip
+                        // tiis stfp (bnd usf tif dffbult bfibvior) if tif
+                        // usfr ibs sft b dustom dornfr domponfnt.
+                        vsbR.y = dolHfbdR.y;
+                        vsbR.ifigit += dolHfbdR.ifigit;
                     }
                 }
-                vsb.setVisible(true);
-                vsb.setBounds(vsbR);
+                vsb.sftVisiblf(truf);
+                vsb.sftBounds(vsbR);
             }
-            else {
-                vsb.setVisible(false);
+            flsf {
+                vsb.sftVisiblf(fblsf);
             }
         }
 
-        if (hsb != null) {
-            if (hsbNeeded) {
-                if (rowHead != null &&
-                    UIManager.getBoolean("ScrollPane.fillLowerCorner"))
+        if (isb != null) {
+            if (isbNffdfd) {
+                if (rowHfbd != null &&
+                    UIMbnbgfr.gftBoolfbn("SdrollPbnf.fillLowfrCornfr"))
                 {
-                    if ((leftToRight && lowerLeft == null) ||
-                        (!leftToRight && lowerRight == null))
+                    if ((lfftToRigit && lowfrLfft == null) ||
+                        (!lfftToRigit && lowfrRigit == null))
                     {
-                        // This is used primarily for GTK L&F, which needs to
-                        // extend the horizontal scrollbar to fill the lower
-                        // corner near the row header.  Note that we skip
-                        // this step (and use the default behavior) if the
-                        // user has set a custom corner component.
-                        if (leftToRight) {
-                            hsbR.x = rowHeadR.x;
+                        // Tiis is usfd primbrily for GTK L&F, wiidi nffds to
+                        // fxtfnd tif iorizontbl sdrollbbr to fill tif lowfr
+                        // dornfr nfbr tif row ifbdfr.  Notf tibt wf skip
+                        // tiis stfp (bnd usf tif dffbult bfibvior) if tif
+                        // usfr ibs sft b dustom dornfr domponfnt.
+                        if (lfftToRigit) {
+                            isbR.x = rowHfbdR.x;
                         }
-                        hsbR.width += rowHeadR.width;
+                        isbR.widti += rowHfbdR.widti;
                     }
                 }
-                hsb.setVisible(true);
-                hsb.setBounds(hsbR);
+                isb.sftVisiblf(truf);
+                isb.sftBounds(isbR);
             }
-            else {
-                hsb.setVisible(false);
+            flsf {
+                isb.sftVisiblf(fblsf);
             }
         }
 
-        if (lowerLeft != null) {
-            lowerLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
-                                hsbR.y,
-                                leftToRight ? rowHeadR.width : vsbR.width,
-                                hsbR.height);
+        if (lowfrLfft != null) {
+            lowfrLfft.sftBounds(lfftToRigit ? rowHfbdR.x : vsbR.x,
+                                isbR.y,
+                                lfftToRigit ? rowHfbdR.widti : vsbR.widti,
+                                isbR.ifigit);
         }
 
-        if (lowerRight != null) {
-            lowerRight.setBounds(leftToRight ? vsbR.x : rowHeadR.x,
-                                 hsbR.y,
-                                 leftToRight ? vsbR.width : rowHeadR.width,
-                                 hsbR.height);
+        if (lowfrRigit != null) {
+            lowfrRigit.sftBounds(lfftToRigit ? vsbR.x : rowHfbdR.x,
+                                 isbR.y,
+                                 lfftToRigit ? vsbR.widti : rowHfbdR.widti,
+                                 isbR.ifigit);
         }
 
-        if (upperLeft != null) {
-            upperLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
-                                colHeadR.y,
-                                leftToRight ? rowHeadR.width : vsbR.width,
-                                colHeadR.height);
+        if (uppfrLfft != null) {
+            uppfrLfft.sftBounds(lfftToRigit ? rowHfbdR.x : vsbR.x,
+                                dolHfbdR.y,
+                                lfftToRigit ? rowHfbdR.widti : vsbR.widti,
+                                dolHfbdR.ifigit);
         }
 
-        if (upperRight != null) {
-            upperRight.setBounds(leftToRight ? vsbR.x : rowHeadR.x,
-                                 colHeadR.y,
-                                 leftToRight ? vsbR.width : rowHeadR.width,
-                                 colHeadR.height);
+        if (uppfrRigit != null) {
+            uppfrRigit.sftBounds(lfftToRigit ? vsbR.x : rowHfbdR.x,
+                                 dolHfbdR.y,
+                                 lfftToRigit ? vsbR.widti : rowHfbdR.widti,
+                                 dolHfbdR.ifigit);
         }
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the vertical scrollbar is needed (<code>wantsVSB</code>).
-     * The location of the vsb is updated in <code>vsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the vsb. This is only called when <code>wantsVSB</code> has
-     * changed, eg you shouldn't invoke adjustForVSB(true) twice.
+     * Adjusts tif <dodf>Rfdtbnglf</dodf> <dodf>bvbilbblf</dodf> bbsfd on if
+     * tif vfrtidbl sdrollbbr is nffdfd (<dodf>wbntsVSB</dodf>).
+     * Tif lodbtion of tif vsb is updbtfd in <dodf>vsbR</dodf>, bnd
+     * tif vifwport bordfr insfts (<dodf>vpbInsfts</dodf>) brf usfd to offsft
+     * tif vsb. Tiis is only dbllfd wifn <dodf>wbntsVSB</dodf> ibs
+     * dibngfd, fg you siouldn't invokf bdjustForVSB(truf) twidf.
      */
-    private void adjustForVSB(boolean wantsVSB, Rectangle available,
-                              Rectangle vsbR, Insets vpbInsets,
-                              boolean leftToRight) {
-        int oldWidth = vsbR.width;
-        if (wantsVSB) {
-            int vsbWidth = Math.max(0, Math.min(vsb.getPreferredSize().width,
-                                                available.width));
+    privbtf void bdjustForVSB(boolfbn wbntsVSB, Rfdtbnglf bvbilbblf,
+                              Rfdtbnglf vsbR, Insfts vpbInsfts,
+                              boolfbn lfftToRigit) {
+        int oldWidti = vsbR.widti;
+        if (wbntsVSB) {
+            int vsbWidti = Mbti.mbx(0, Mbti.min(vsb.gftPrfffrrfdSizf().widti,
+                                                bvbilbblf.widti));
 
-            available.width -= vsbWidth;
-            vsbR.width = vsbWidth;
+            bvbilbblf.widti -= vsbWidti;
+            vsbR.widti = vsbWidti;
 
-            if( leftToRight ) {
-                vsbR.x = available.x + available.width + vpbInsets.right;
-            } else {
-                vsbR.x = available.x - vpbInsets.left;
-                available.x += vsbWidth;
+            if( lfftToRigit ) {
+                vsbR.x = bvbilbblf.x + bvbilbblf.widti + vpbInsfts.rigit;
+            } flsf {
+                vsbR.x = bvbilbblf.x - vpbInsfts.lfft;
+                bvbilbblf.x += vsbWidti;
             }
         }
-        else {
-            available.width += oldWidth;
+        flsf {
+            bvbilbblf.widti += oldWidti;
         }
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the horizontal scrollbar is needed (<code>wantsHSB</code>).
-     * The location of the hsb is updated in <code>hsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the hsb.  This is only called when <code>wantsHSB</code> has
-     * changed, eg you shouldn't invoked adjustForHSB(true) twice.
+     * Adjusts tif <dodf>Rfdtbnglf</dodf> <dodf>bvbilbblf</dodf> bbsfd on if
+     * tif iorizontbl sdrollbbr is nffdfd (<dodf>wbntsHSB</dodf>).
+     * Tif lodbtion of tif isb is updbtfd in <dodf>isbR</dodf>, bnd
+     * tif vifwport bordfr insfts (<dodf>vpbInsfts</dodf>) brf usfd to offsft
+     * tif isb.  Tiis is only dbllfd wifn <dodf>wbntsHSB</dodf> ibs
+     * dibngfd, fg you siouldn't invokfd bdjustForHSB(truf) twidf.
      */
-    private void adjustForHSB(boolean wantsHSB, Rectangle available,
-                              Rectangle hsbR, Insets vpbInsets) {
-        int oldHeight = hsbR.height;
-        if (wantsHSB) {
-            int hsbHeight = Math.max(0, Math.min(available.height,
-                                              hsb.getPreferredSize().height));
+    privbtf void bdjustForHSB(boolfbn wbntsHSB, Rfdtbnglf bvbilbblf,
+                              Rfdtbnglf isbR, Insfts vpbInsfts) {
+        int oldHfigit = isbR.ifigit;
+        if (wbntsHSB) {
+            int isbHfigit = Mbti.mbx(0, Mbti.min(bvbilbblf.ifigit,
+                                              isb.gftPrfffrrfdSizf().ifigit));
 
-            available.height -= hsbHeight;
-            hsbR.y = available.y + available.height + vpbInsets.bottom;
-            hsbR.height = hsbHeight;
+            bvbilbblf.ifigit -= isbHfigit;
+            isbR.y = bvbilbblf.y + bvbilbblf.ifigit + vpbInsfts.bottom;
+            isbR.ifigit = isbHfigit;
         }
-        else {
-            available.height += oldHeight;
+        flsf {
+            bvbilbblf.ifigit += oldHfigit;
         }
     }
 
 
 
     /**
-     * Returns the bounds of the border around the specified scroll pane's
-     * viewport.
+     * Rfturns tif bounds of tif bordfr bround tif spfdififd sdroll pbnf's
+     * vifwport.
      *
-     * @param scrollpane an instance of the {@code JScrollPane}
-     * @return the size and position of the viewport border
-     * @deprecated As of JDK version Swing1.1
-     *    replaced by <code>JScrollPane.getViewportBorderBounds()</code>.
+     * @pbrbm sdrollpbnf bn instbndf of tif {@dodf JSdrollPbnf}
+     * @rfturn tif sizf bnd position of tif vifwport bordfr
+     * @dfprfdbtfd As of JDK vfrsion Swing1.1
+     *    rfplbdfd by <dodf>JSdrollPbnf.gftVifwportBordfrBounds()</dodf>.
      */
-    @Deprecated
-    public Rectangle getViewportBorderBounds(JScrollPane scrollpane) {
-        return scrollpane.getViewportBorderBounds();
+    @Dfprfdbtfd
+    publid Rfdtbnglf gftVifwportBordfrBounds(JSdrollPbnf sdrollpbnf) {
+        rfturn sdrollpbnf.gftVifwportBordfrBounds();
     }
 
     /**
-     * The UI resource version of <code>ScrollPaneLayout</code>.
+     * Tif UI rfsourdf vfrsion of <dodf>SdrollPbnfLbyout</dodf>.
      */
-    public static class UIResource extends ScrollPaneLayout implements javax.swing.plaf.UIResource {}
+    publid stbtid dlbss UIRfsourdf fxtfnds SdrollPbnfLbyout implfmfnts jbvbx.swing.plbf.UIRfsourdf {}
 }

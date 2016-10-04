@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.rfgistry;
+
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import sun.rmi.rfgistry.RfgistryImpl;
+import sun.rmi.sfrvfr.UnidbstRff2;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.Util;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
+
+/**
+ * <dodf>LodbtfRfgistry</dodf> is usfd to obtbin b rfffrfndf to b bootstrbp
+ * rfmotf objfdt rfgistry on b pbrtidulbr host (indluding thf lodbl host), or
+ * to drfbtf b rfmotf objfdt rfgistry thbt bddfpts dblls on b spfdifid port.
+ *
+ * <p> Notf thbt b <dodf>gftRfgistry</dodf> dbll dofs not bdtublly mbkf b
+ * donnfdtion to thf rfmotf host.  It simply drfbtfs b lodbl rfffrfndf to
+ * thf rfmotf rfgistry bnd will suddffd fvfn if no rfgistry is running on
+ * thf rfmotf host.  Thfrfforf, b subsfqufnt mfthod invodbtion to b rfmotf
+ * rfgistry rfturnfd bs b rfsult of this mfthod mby fbil.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ * @sindf   1.1
+ * @sff     jbvb.rmi.rfgistry.Rfgistry
+ */
+publid finbl dlbss LodbtfRfgistry {
+
+    /**
+     * Privbtf donstrudtor to disbblf publid donstrudtion.
+     */
+    privbtf LodbtfRfgistry() {}
+
+    /**
+     * Rfturns b rfffrfndf to thf thf rfmotf objfdt <dodf>Rfgistry</dodf> for
+     * thf lodbl host on thf dffbult rfgistry port of 1099.
+     *
+     * @rfturn rfffrfndf (b stub) to thf rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if thf rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
+     */
+    publid stbtid Rfgistry gftRfgistry()
+        throws RfmotfExdfption
+    {
+        rfturn gftRfgistry(null, Rfgistry.REGISTRY_PORT);
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf thf rfmotf objfdt <dodf>Rfgistry</dodf> for
+     * thf lodbl host on thf spfdififd <dodf>port</dodf>.
+     *
+     * @pbrbm port port on whidh thf rfgistry bddfpts rfqufsts
+     * @rfturn rfffrfndf (b stub) to thf rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if thf rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
+     */
+    publid stbtid Rfgistry gftRfgistry(int port)
+        throws RfmotfExdfption
+    {
+        rfturn gftRfgistry(null, port);
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf rfmotf objfdt <dodf>Rfgistry</dodf> on thf
+     * spfdififd <dodf>host</dodf> on thf dffbult rfgistry port of 1099.  If
+     * <dodf>host</dodf> is <dodf>null</dodf>, thf lodbl host is usfd.
+     *
+     * @pbrbm host host for thf rfmotf rfgistry
+     * @rfturn rfffrfndf (b stub) to thf rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if thf rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
+     */
+    publid stbtid Rfgistry gftRfgistry(String host)
+        throws RfmotfExdfption
+    {
+        rfturn gftRfgistry(host, Rfgistry.REGISTRY_PORT);
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf rfmotf objfdt <dodf>Rfgistry</dodf> on thf
+     * spfdififd <dodf>host</dodf> bnd <dodf>port</dodf>. If <dodf>host</dodf>
+     * is <dodf>null</dodf>, thf lodbl host is usfd.
+     *
+     * @pbrbm host host for thf rfmotf rfgistry
+     * @pbrbm port port on whidh thf rfgistry bddfpts rfqufsts
+     * @rfturn rfffrfndf (b stub) to thf rfmotf objfdt rfgistry
+     * @fxdfption RfmotfExdfption if thf rfffrfndf dould not bf drfbtfd
+     * @sindf 1.1
+     */
+    publid stbtid Rfgistry gftRfgistry(String host, int port)
+        throws RfmotfExdfption
+    {
+        rfturn gftRfgistry(host, port, null);
+    }
+
+    /**
+     * Rfturns b lodblly drfbtfd rfmotf rfffrfndf to thf rfmotf objfdt
+     * <dodf>Rfgistry</dodf> on thf spfdififd <dodf>host</dodf> bnd
+     * <dodf>port</dodf>.  Communidbtion with this rfmotf rfgistry will
+     * usf thf supplifd <dodf>RMIClifntSodkftFbdtory</dodf> <dodf>dsf</dodf>
+     * to drfbtf <dodf>Sodkft</dodf> donnfdtions to thf rfgistry on thf
+     * rfmotf <dodf>host</dodf> bnd <dodf>port</dodf>.
+     *
+     * @pbrbm host host for thf rfmotf rfgistry
+     * @pbrbm port port on whidh thf rfgistry bddfpts rfqufsts
+     * @pbrbm dsf  dlifnt-sidf <dodf>Sodkft</dodf> fbdtory usfd to
+     *      mbkf donnfdtions to thf rfgistry.  If <dodf>dsf</dodf>
+     *      is null, thfn thf dffbult dlifnt-sidf <dodf>Sodkft</dodf>
+     *      fbdtory will bf usfd in thf rfgistry stub.
+     * @rfturn rfffrfndf (b stub) to thf rfmotf rfgistry
+     * @fxdfption RfmotfExdfption if thf rfffrfndf dould not bf drfbtfd
+     * @sindf 1.2
+     */
+    publid stbtid Rfgistry gftRfgistry(String host, int port,
+                                       RMIClifntSodkftFbdtory dsf)
+        throws RfmotfExdfption
+    {
+        Rfgistry rfgistry = null;
+
+        if (port <= 0)
+            port = Rfgistry.REGISTRY_PORT;
+
+        if (host == null || host.lfngth() == 0) {
+            // If host is blbnk (bs rfturnfd by "filf:" URL in 1.0.2 usfd in
+            // jbvb.rmi.Nbming), try to donvfrt to rfbl lodbl host nbmf so
+            // thbt thf RfgistryImpl's dhfdkAddfss will not fbil.
+            try {
+                host = jbvb.nft.InftAddrfss.gftLodblHost().gftHostAddrfss();
+            } dbtdh (Exdfption f) {
+                // If thbt fbilfd, bt lfbst try "" (lodblhost) bnywby...
+                host = "";
+            }
+        }
+
+        /*
+         * Crfbtf b proxy for thf rfgistry with thf givfn host, port, bnd
+         * dlifnt sodkft fbdtory.  If thf supplifd dlifnt sodkft fbdtory is
+         * null, thfn thf rff typf is b UnidbstRff, othfrwisf thf rff typf
+         * is b UnidbstRff2.  If thf propfrty
+         * jbvb.rmi.sfrvfr.ignorfStubClbssfs is truf, thfn thf proxy
+         * rfturnfd is bn instbndf of b dynbmid proxy dlbss thbt implfmfnts
+         * thf Rfgistry intfrfbdf; othfrwisf thf proxy rfturnfd is bn
+         * instbndf of thf prfgfnfrbtfd stub dlbss for RfgistryImpl.
+         **/
+        LivfRff livfRff =
+            nfw LivfRff(nfw ObjID(ObjID.REGISTRY_ID),
+                        nfw TCPEndpoint(host, port, dsf, null),
+                        fblsf);
+        RfmotfRff rff =
+            (dsf == null) ? nfw UnidbstRff(livfRff) : nfw UnidbstRff2(livfRff);
+
+        rfturn (Rfgistry) Util.drfbtfProxy(RfgistryImpl.dlbss, rff, fblsf);
+    }
+
+    /**
+     * Crfbtfs bnd fxports b <dodf>Rfgistry</dodf> instbndf on thf lodbl
+     * host thbt bddfpts rfqufsts on thf spfdififd <dodf>port</dodf>.
+     *
+     * <p>Thf <dodf>Rfgistry</dodf> instbndf is fxportfd bs if thf stbtid
+     * {@link UnidbstRfmotfObjfdt#fxportObjfdt(Rfmotf,int)
+     * UnidbstRfmotfObjfdt.fxportObjfdt} mfthod is invokfd, pbssing thf
+     * <dodf>Rfgistry</dodf> instbndf bnd thf spfdififd <dodf>port</dodf> bs
+     * brgumfnts, fxdfpt thbt thf <dodf>Rfgistry</dodf> instbndf is
+     * fxportfd with b wfll-known objfdt idfntififr, bn {@link ObjID}
+     * instbndf donstrudtfd with thf vbluf {@link ObjID#REGISTRY_ID}.
+     *
+     * @pbrbm port thf port on whidh thf rfgistry bddfpts rfqufsts
+     * @rfturn thf rfgistry
+     * @fxdfption RfmotfExdfption if thf rfgistry dould not bf fxportfd
+     * @sindf 1.1
+     **/
+    publid stbtid Rfgistry drfbtfRfgistry(int port) throws RfmotfExdfption {
+        rfturn nfw RfgistryImpl(port);
+    }
+
+    /**
+     * Crfbtfs bnd fxports b <dodf>Rfgistry</dodf> instbndf on thf lodbl
+     * host thbt usfs dustom sodkft fbdtorifs for dommunidbtion with thbt
+     * instbndf.  Thf rfgistry thbt is drfbtfd listfns for indoming
+     * rfqufsts on thf givfn <dodf>port</dodf> using b
+     * <dodf>SfrvfrSodkft</dodf> drfbtfd from thf supplifd
+     * <dodf>RMISfrvfrSodkftFbdtory</dodf>.
+     *
+     * <p>Thf <dodf>Rfgistry</dodf> instbndf is fxportfd bs if
+     * thf stbtid {@link
+     * UnidbstRfmotfObjfdt#fxportObjfdt(Rfmotf,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * UnidbstRfmotfObjfdt.fxportObjfdt} mfthod is invokfd, pbssing thf
+     * <dodf>Rfgistry</dodf> instbndf, thf spfdififd <dodf>port</dodf>, thf
+     * spfdififd <dodf>RMIClifntSodkftFbdtory</dodf>, bnd thf spfdififd
+     * <dodf>RMISfrvfrSodkftFbdtory</dodf> bs brgumfnts, fxdfpt thbt thf
+     * <dodf>Rfgistry</dodf> instbndf is fxportfd with b wfll-known objfdt
+     * idfntififr, bn {@link ObjID} instbndf donstrudtfd with thf vbluf
+     * {@link ObjID#REGISTRY_ID}.
+     *
+     * @pbrbm port port on whidh thf rfgistry bddfpts rfqufsts
+     * @pbrbm dsf  dlifnt-sidf <dodf>Sodkft</dodf> fbdtory usfd to
+     *      mbkf donnfdtions to thf rfgistry
+     * @pbrbm ssf  sfrvfr-sidf <dodf>SfrvfrSodkft</dodf> fbdtory
+     *      usfd to bddfpt donnfdtions to thf rfgistry
+     * @rfturn thf rfgistry
+     * @fxdfption RfmotfExdfption if thf rfgistry dould not bf fxportfd
+     * @sindf 1.2
+     **/
+    publid stbtid Rfgistry drfbtfRfgistry(int port,
+                                          RMIClifntSodkftFbdtory dsf,
+                                          RMISfrvfrSodkftFbdtory ssf)
+        throws RfmotfExdfption
+    {
+        rfturn nfw RfgistryImpl(port, dsf, ssf);
+    }
+}

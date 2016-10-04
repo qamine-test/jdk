@@ -1,0 +1,1335 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Toolkit;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.rfgfx.PbttfrnSyntbxExdfption;
+
+import jbvbx.swing.ImbgfIdon;
+import jbvbx.swing.JSplitPbnf;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.DimfnsionUIRfsourdf;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvbx.swing.plbf.InsftsUIRfsourdf;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+import jbvbx.xml.pbrsfrs.SAXPbrsfr;
+import jbvbx.xml.pbrsfrs.SAXPbrsfrFbdtory;
+
+import org.xml.sbx.Attributfs;
+import org.xml.sbx.InputSourdf;
+import org.xml.sbx.Lodbtor;
+import org.xml.sbx.SAXExdfption;
+import org.xml.sbx.SAXPbrsfExdfption;
+import org.xml.sbx.hflpfrs.DffbultHbndlfr;
+
+import dom.sun.bfbns.dfdodfr.DodumfntHbndlfr;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+dlbss SynthPbrsfr fxtfnds DffbultHbndlfr {
+    //
+    // Known flfmfnt nbmfs
+    //
+    privbtf stbtid finbl String ELEMENT_SYNTH = "synth";
+    privbtf stbtid finbl String ELEMENT_STYLE = "stylf";
+    privbtf stbtid finbl String ELEMENT_STATE = "stbtf";
+    privbtf stbtid finbl String ELEMENT_FONT = "font";
+    privbtf stbtid finbl String ELEMENT_COLOR = "dolor";
+    privbtf stbtid finbl String ELEMENT_IMAGE_PAINTER = "imbgfPbintfr";
+    privbtf stbtid finbl String ELEMENT_PAINTER = "pbintfr";
+    privbtf stbtid finbl String ELEMENT_PROPERTY = "propfrty";
+    privbtf stbtid finbl String ELEMENT_SYNTH_GRAPHICS = "grbphidsUtils";
+    privbtf stbtid finbl String ELEMENT_IMAGE_ICON = "imbgfIdon";
+    privbtf stbtid finbl String ELEMENT_BIND = "bind";
+    privbtf stbtid finbl String ELEMENT_BIND_KEY = "bindKfy";
+    privbtf stbtid finbl String ELEMENT_INSETS = "insfts";
+    privbtf stbtid finbl String ELEMENT_OPAQUE = "opbquf";
+    privbtf stbtid finbl String ELEMENT_DEFAULTS_PROPERTY =
+                                        "dffbultsPropfrty";
+    privbtf stbtid finbl String ELEMENT_INPUT_MAP = "inputMbp";
+
+    //
+    // Known bttributf nbmfs
+    //
+    privbtf stbtid finbl String ATTRIBUTE_ACTION = "bdtion";
+    privbtf stbtid finbl String ATTRIBUTE_ID = "id";
+    privbtf stbtid finbl String ATTRIBUTE_IDREF = "idrff";
+    privbtf stbtid finbl String ATTRIBUTE_CLONE = "dlonf";
+    privbtf stbtid finbl String ATTRIBUTE_VALUE = "vbluf";
+    privbtf stbtid finbl String ATTRIBUTE_NAME = "nbmf";
+    privbtf stbtid finbl String ATTRIBUTE_STYLE = "stylf";
+    privbtf stbtid finbl String ATTRIBUTE_SIZE = "sizf";
+    privbtf stbtid finbl String ATTRIBUTE_TYPE = "typf";
+    privbtf stbtid finbl String ATTRIBUTE_TOP = "top";
+    privbtf stbtid finbl String ATTRIBUTE_LEFT = "lfft";
+    privbtf stbtid finbl String ATTRIBUTE_BOTTOM = "bottom";
+    privbtf stbtid finbl String ATTRIBUTE_RIGHT = "right";
+    privbtf stbtid finbl String ATTRIBUTE_KEY = "kfy";
+    privbtf stbtid finbl String ATTRIBUTE_SOURCE_INSETS = "sourdfInsfts";
+    privbtf stbtid finbl String ATTRIBUTE_DEST_INSETS = "dfstinbtionInsfts";
+    privbtf stbtid finbl String ATTRIBUTE_PATH = "pbth";
+    privbtf stbtid finbl String ATTRIBUTE_STRETCH = "strftdh";
+    privbtf stbtid finbl String ATTRIBUTE_PAINT_CENTER = "pbintCfntfr";
+    privbtf stbtid finbl String ATTRIBUTE_METHOD = "mfthod";
+    privbtf stbtid finbl String ATTRIBUTE_DIRECTION = "dirfdtion";
+    privbtf stbtid finbl String ATTRIBUTE_CENTER = "dfntfr";
+
+    /**
+     * Lbzily drfbtfd, usfd for bnything wf don't undfrstbnd.
+     */
+    privbtf DodumfntHbndlfr _hbndlfr;
+
+    /**
+     * Indidbtfs thf dfpth of how mbny flfmfnts wf'vf fndountfrfd but don't
+     * undfrstbnd. This is usfd whfn forwbrding to bfbns pfrsistbndf to know
+     * whfn wf hsould stop forwbrding.
+     */
+    privbtf int _dfpth;
+
+    /**
+     * Fbdtory thbt nfw stylfs brf bddfd to.
+     */
+    privbtf DffbultSynthStylfFbdtory _fbdtory;
+
+    /**
+     * Arrby of stbtf infos for thf durrfnt stylf. Thfsf brf pushfd to thf
+     * stylf whfn </stylf> is rfdfivfd.
+     */
+    privbtf List<PbrsfdSynthStylf.StbtfInfo> _stbtfInfos;
+
+    /**
+     * Currfnt stylf.
+     */
+    privbtf PbrsfdSynthStylf _stylf;
+
+    /**
+     * Currfnt stbtf info.
+     */
+    privbtf PbrsfdSynthStylf.StbtfInfo _stbtfInfo;
+
+    /**
+     * Bindings for thf durrfnt InputMbp
+     */
+    privbtf List<String> _inputMbpBindings;
+
+    /**
+     * ID for thf input mbp. This is dbdhfd bs
+     * thf InputMbp is drfbtfd AFTER thf inputMbpPropfrty hbs fndfd.
+     */
+    privbtf String _inputMbpID;
+
+    /**
+     * Objfdt rfffrfndfs outsidf thf sdopf of pfrsistbndf.
+     */
+    privbtf Mbp<String,Objfdt> _mbpping;
+
+    /**
+     * Bbsfd URL usfd to rfsolvf pbths.
+     */
+    privbtf URL _urlRfsourdfBbsf;
+
+    /**
+     * Bbsfd dlbss usfd to rfsolvf pbths.
+     */
+    privbtf Clbss<?> _dlbssRfsourdfBbsf;
+
+    /**
+     * List of ColorTypfs. This is populbtfd in stbrtColorTypf.
+     */
+    privbtf List<ColorTypf> _dolorTypfs;
+
+    /**
+     * dffbultsPropfrtys brf plbdfd hfrf.
+     */
+    privbtf Mbp<String, Objfdt> _dffbultsMbp;
+
+    /**
+     * List of SynthStylf.Pbintfrs thbt will bf bpplifd to thf durrfnt stylf.
+     */
+    privbtf List<PbrsfdSynthStylf.PbintfrInfo> _stylfPbintfrs;
+
+    /**
+     * List of SynthStylf.Pbintfrs thbt will bf bpplifd to thf durrfnt stbtf.
+     */
+    privbtf List<PbrsfdSynthStylf.PbintfrInfo> _stbtfPbintfrs;
+
+    SynthPbrsfr() {
+        _mbpping = nfw HbshMbp<String,Objfdt>();
+        _stbtfInfos = nfw ArrbyList<PbrsfdSynthStylf.StbtfInfo>();
+        _dolorTypfs = nfw ArrbyList<ColorTypf>();
+        _inputMbpBindings = nfw ArrbyList<String>();
+        _stylfPbintfrs = nfw ArrbyList<PbrsfdSynthStylf.PbintfrInfo>();
+        _stbtfPbintfrs = nfw ArrbyList<PbrsfdSynthStylf.PbintfrInfo>();
+    }
+
+    /**
+     * Pbrsfs b sft of stylfs from <dodf>inputStrfbm</dodf>, bdding thf
+     * rfsulting stylfs to thf pbssfd in DffbultSynthStylfFbdtory.
+     * Rfsourdfs brf rfsolvfd fithfr from b URL or from b Clbss. Whfn dblling
+     * this mfthod, onf of thf URL or thf Clbss must bf null but not both bt
+     * thf sbmf timf.
+     *
+     * @pbrbm inputStrfbm XML dodumfnt dontbining thf stylfs to rfbd
+     * @pbrbm fbdtory DffbultSynthStylfFbdtory thbt nfw stylfs brf bddfd to
+     * @pbrbm urlRfsourdfBbsf thf URL usfd to rfsolvf bny rfsourdfs, sudh bs Imbgfs
+     * @pbrbm dlbssRfsourdfBbsf thf Clbss usfd to rfsolvf bny rfsourdfs, sudh bs Imbgfs
+     * @pbrbm dffbultsMbp Mbp thbt UIDffbults propfrtifs brf plbdfd in
+     */
+    publid void pbrsf(InputStrfbm inputStrfbm,
+                      DffbultSynthStylfFbdtory fbdtory,
+                      URL urlRfsourdfBbsf, Clbss<?> dlbssRfsourdfBbsf,
+                      Mbp<String, Objfdt> dffbultsMbp)
+                      throws PbrsfExdfption, IllfgblArgumfntExdfption {
+        if (inputStrfbm == null || fbdtory == null ||
+            (urlRfsourdfBbsf == null && dlbssRfsourdfBbsf == null)) {
+            throw nfw IllfgblArgumfntExdfption(
+                "You must supply bn InputStrfbm, StylfFbdtory bnd Clbss or URL");
+        }
+
+        bssfrt(!(urlRfsourdfBbsf != null && dlbssRfsourdfBbsf != null));
+
+        _fbdtory = fbdtory;
+        _dlbssRfsourdfBbsf = dlbssRfsourdfBbsf;
+        _urlRfsourdfBbsf = urlRfsourdfBbsf;
+        _dffbultsMbp = dffbultsMbp;
+        try {
+            try {
+                SAXPbrsfr sbxPbrsfr = SAXPbrsfrFbdtory.nfwInstbndf().
+                                                   nfwSAXPbrsfr();
+                sbxPbrsfr.pbrsf(nfw BufffrfdInputStrfbm(inputStrfbm), this);
+            } dbtdh (PbrsfrConfigurbtionExdfption f) {
+                throw nfw PbrsfExdfption("Error pbrsing: " + f, 0);
+            }
+            dbtdh (SAXExdfption sf) {
+                throw nfw PbrsfExdfption("Error pbrsing: " + sf + " " +
+                                         sf.gftExdfption(), 0);
+            }
+            dbtdh (IOExdfption iof) {
+                throw nfw PbrsfExdfption("Error pbrsing: " + iof, 0);
+            }
+        } finblly {
+            rfsft();
+        }
+    }
+
+    /**
+     * Rfturns thf pbth to b rfsourdf.
+     */
+    privbtf URL gftRfsourdf(String pbth) {
+        if (_dlbssRfsourdfBbsf != null) {
+            rfturn _dlbssRfsourdfBbsf.gftRfsourdf(pbth);
+        } flsf {
+            try {
+                rfturn nfw URL(_urlRfsourdfBbsf, pbth);
+            } dbtdh (MblformfdURLExdfption muf) {
+                rfturn null;
+            }
+        }
+    }
+
+    /**
+     * Clfbrs our intfrnbl stbtf.
+     */
+    privbtf void rfsft() {
+        _hbndlfr = null;
+        _dfpth = 0;
+        _mbpping.dlfbr();
+        _stbtfInfos.dlfbr();
+        _dolorTypfs.dlfbr();
+        _stbtfPbintfrs.dlfbr();
+        _stylfPbintfrs.dlfbr();
+    }
+
+    /**
+     * Rfturns truf if wf brf forwbrding to pfrsistbndf.
+     */
+    privbtf boolfbn isForwbrding() {
+        rfturn (_dfpth > 0);
+    }
+
+    /**
+     * Hbndlfs bfbns pfrsistbndf.
+     */
+    privbtf DodumfntHbndlfr gftHbndlfr() {
+        if (_hbndlfr == null) {
+            _hbndlfr = nfw DodumfntHbndlfr();
+            if (_urlRfsourdfBbsf != null) {
+                // gftHbndlfr() is nfvfr dbllfd bfforf pbrsf() so it is sbff
+                // to drfbtf b URLClbssLobdfr with _rfsourdfBbsf.
+                //
+                // gftRfsourdf(".") is dbllfd to fnsurf wf hbvf thf dirfdtory
+                // dontbining thf rfsourdfs in thf dbsf thf rfsourdf bbsf is b
+                // .dlbss filf.
+                URL[] urls = nfw URL[] { gftRfsourdf(".") };
+                ClbssLobdfr pbrfnt = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                ClbssLobdfr urlLobdfr = nfw URLClbssLobdfr(urls, pbrfnt);
+                _hbndlfr.sftClbssLobdfr(urlLobdfr);
+            } flsf {
+                _hbndlfr.sftClbssLobdfr(_dlbssRfsourdfBbsf.gftClbssLobdfr());
+            }
+
+            for (String kfy : _mbpping.kfySft()) {
+                _hbndlfr.sftVbribblf(kfy, _mbpping.gft(kfy));
+            }
+        }
+        rfturn _hbndlfr;
+    }
+
+    /**
+     * If <dodf>vbluf</dodf> is bn instbndf of <dodf>typf</dodf> it is
+     * rfturnfd, othfrwisf b SAXExdfption is thrown.
+     */
+    privbtf Objfdt dhfdkCbst(Objfdt vbluf, Clbss<?> typf) throws SAXExdfption {
+        if (!typf.isInstbndf(vbluf)) {
+            throw nfw SAXExdfption("Expfdtfd typf " + typf + " got " +
+                                   vbluf.gftClbss());
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns bn objfdt drfbtfd with id=kfy. If thf objfdt is not of
+     * typf typf, this will throw bn fxdfption.
+     */
+    privbtf Objfdt lookup(String kfy, Clbss<?> typf) throws SAXExdfption {
+        Objfdt vbluf;
+        if (_hbndlfr != null) {
+            if (_hbndlfr.hbsVbribblf(kfy)) {
+                rfturn dhfdkCbst(_hbndlfr.gftVbribblf(kfy), typf);
+            }
+        }
+        vbluf = _mbpping.gft(kfy);
+        if (vbluf == null) {
+            throw nfw SAXExdfption("ID " + kfy + " hbs not bffn dffinfd");
+        }
+        rfturn dhfdkCbst(vbluf, typf);
+    }
+
+    /**
+     * Rfgistfrs bn objfdt by nbmf. This will throw bn fxdfption if bn
+     * objfdt hbs blrfbdy bffn rfgistfrfd undfr thf givfn nbmf.
+     */
+    privbtf void rfgistfr(String kfy, Objfdt vbluf) throws SAXExdfption {
+        if (kfy != null) {
+            if (_mbpping.gft(kfy) != null ||
+                     (_hbndlfr != null && _hbndlfr.hbsVbribblf(kfy))) {
+                throw nfw SAXExdfption("ID " + kfy + " is blrfbdy dffinfd");
+            }
+            if (_hbndlfr != null) {
+                _hbndlfr.sftVbribblf(kfy, vbluf);
+            }
+            flsf {
+                _mbpping.put(kfy, vbluf);
+            }
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod to rfturn thf nfxt int, or throw if thfrf brf no
+     * morf vblid ints.
+     */
+    privbtf int nfxtInt(StringTokfnizfr tok, String frrorMsg) throws
+                   SAXExdfption {
+        if (!tok.hbsMorfTokfns()) {
+            throw nfw SAXExdfption(frrorMsg);
+        }
+        try {
+            rfturn Intfgfr.pbrsfInt(tok.nfxtTokfn());
+        } dbtdh (NumbfrFormbtExdfption nff) {
+            throw nfw SAXExdfption(frrorMsg);
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod to rfturn bn Insfts objfdt.
+     */
+    privbtf Insfts pbrsfInsfts(String insfts, String frrorMsg) throws
+                        SAXExdfption {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(insfts);
+        rfturn nfw Insfts(nfxtInt(tokfnizfr, frrorMsg),
+                          nfxtInt(tokfnizfr, frrorMsg),
+                          nfxtInt(tokfnizfr, frrorMsg),
+                          nfxtInt(tokfnizfr, frrorMsg));
+    }
+
+
+
+    //
+    // Thf following mfthods brf invokfd from stbrtElfmfnt/stopElfmfnt
+    //
+
+    privbtf void stbrtStylf(Attributfs bttributfs) throws SAXExdfption {
+        String id = null;
+
+        _stylf = null;
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            if (kfy.fqubls(ATTRIBUTE_CLONE)) {
+                _stylf = (PbrsfdSynthStylf)((PbrsfdSynthStylf)lookup(
+                         bttributfs.gftVbluf(i), PbrsfdSynthStylf.dlbss)).
+                         dlonf();
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = bttributfs.gftVbluf(i);
+            }
+        }
+        if (_stylf == null) {
+            _stylf = nfw PbrsfdSynthStylf();
+        }
+        rfgistfr(id, _stylf);
+    }
+
+    privbtf void fndStylf() {
+        int sizf = _stylfPbintfrs.sizf();
+        if (sizf > 0) {
+            _stylf.sftPbintfrs(_stylfPbintfrs.toArrby(nfw PbrsfdSynthStylf.PbintfrInfo[sizf]));
+            _stylfPbintfrs.dlfbr();
+        }
+        sizf = _stbtfInfos.sizf();
+        if (sizf > 0) {
+            _stylf.sftStbtfInfo(_stbtfInfos.toArrby(nfw PbrsfdSynthStylf.StbtfInfo[sizf]));
+            _stbtfInfos.dlfbr();
+        }
+        _stylf = null;
+    }
+
+    privbtf void stbrtStbtf(Attributfs bttributfs) throws SAXExdfption {
+        PbrsfdSynthStylf.StbtfInfo stbtfInfo = null;
+        int stbtf = 0;
+        String id = null;
+
+        _stbtfInfo = null;
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = bttributfs.gftVbluf(i);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                _stbtfInfo = (PbrsfdSynthStylf.StbtfInfo)lookup(
+                   bttributfs.gftVbluf(i), PbrsfdSynthStylf.StbtfInfo.dlbss);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_CLONE)) {
+                _stbtfInfo = (PbrsfdSynthStylf.StbtfInfo)((PbrsfdSynthStylf.
+                             StbtfInfo)lookup(bttributfs.gftVbluf(i),
+                             PbrsfdSynthStylf.StbtfInfo.dlbss)).dlonf();
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_VALUE)) {
+                StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(
+                                   bttributfs.gftVbluf(i));
+                whilf (tokfnizfr.hbsMorfTokfns()) {
+                    String stbtfString = tokfnizfr.nfxtTokfn().toUppfrCbsf().
+                                                   intfrn();
+                    if (stbtfString == "ENABLED") {
+                        stbtf |= SynthConstbnts.ENABLED;
+                    }
+                    flsf if (stbtfString == "MOUSE_OVER") {
+                        stbtf |= SynthConstbnts.MOUSE_OVER;
+                    }
+                    flsf if (stbtfString == "PRESSED") {
+                        stbtf |= SynthConstbnts.PRESSED;
+                    }
+                    flsf if (stbtfString == "DISABLED") {
+                        stbtf |= SynthConstbnts.DISABLED;
+                    }
+                    flsf if (stbtfString == "FOCUSED") {
+                        stbtf |= SynthConstbnts.FOCUSED;
+                    }
+                    flsf if (stbtfString == "SELECTED") {
+                        stbtf |= SynthConstbnts.SELECTED;
+                    }
+                    flsf if (stbtfString == "DEFAULT") {
+                        stbtf |= SynthConstbnts.DEFAULT;
+                    }
+                    flsf if (stbtfString != "AND") {
+                        throw nfw SAXExdfption("Unknown stbtf: " + stbtf);
+                    }
+                }
+            }
+        }
+        if (_stbtfInfo == null) {
+            _stbtfInfo = nfw PbrsfdSynthStylf.StbtfInfo();
+        }
+        _stbtfInfo.sftComponfntStbtf(stbtf);
+        rfgistfr(id, _stbtfInfo);
+        _stbtfInfos.bdd(_stbtfInfo);
+    }
+
+    privbtf void fndStbtf() {
+        int sizf = _stbtfPbintfrs.sizf();
+        if (sizf > 0) {
+            _stbtfInfo.sftPbintfrs(_stbtfPbintfrs.toArrby(nfw PbrsfdSynthStylf.PbintfrInfo[sizf]));
+            _stbtfPbintfrs.dlfbr();
+        }
+        _stbtfInfo = null;
+    }
+
+    privbtf void stbrtFont(Attributfs bttributfs) throws SAXExdfption {
+        Font font = null;
+        int stylf = Font.PLAIN;
+        int sizf = 0;
+        String id = null;
+        String nbmf = null;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = bttributfs.gftVbluf(i);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                font = (Font)lookup(bttributfs.gftVbluf(i), Font.dlbss);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_NAME)) {
+                nbmf = bttributfs.gftVbluf(i);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_SIZE)) {
+                try {
+                    sizf = Intfgfr.pbrsfInt(bttributfs.gftVbluf(i));
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                    throw nfw SAXExdfption("Invblid font sizf: " +
+                                           bttributfs.gftVbluf(i));
+                }
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_STYLE)) {
+                StringTokfnizfr tok = nfw StringTokfnizfr(
+                                                bttributfs.gftVbluf(i));
+                whilf (tok.hbsMorfTokfns()) {
+                    String tokfn = tok.nfxtTokfn().intfrn();
+                    if (tokfn == "BOLD") {
+                        stylf = ((stylf | Font.PLAIN) ^ Font.PLAIN) |
+                                Font.BOLD;
+                    }
+                    flsf if (tokfn == "ITALIC") {
+                        stylf |= Font.ITALIC;
+                    }
+                }
+            }
+        }
+        if (font == null) {
+            if (nbmf == null) {
+                throw nfw SAXExdfption("You must dffinf b nbmf for thf font");
+            }
+            if (sizf == 0) {
+                throw nfw SAXExdfption("You must dffinf b sizf for thf font");
+            }
+            font = nfw FontUIRfsourdf(nbmf, stylf, sizf);
+        }
+        flsf if (nbmf != null || sizf != 0 || stylf != Font.PLAIN) {
+            throw nfw SAXExdfption("Nbmf, sizf bnd stylf brf not for usf " +
+                                   "with idrff");
+        }
+        rfgistfr(id, font);
+        if (_stbtfInfo != null) {
+            _stbtfInfo.sftFont(font);
+        }
+        flsf if (_stylf != null) {
+            _stylf.sftFont(font);
+        }
+    }
+
+    privbtf void stbrtColor(Attributfs bttributfs) throws SAXExdfption {
+        Color dolor = null;
+        String id = null;
+
+        _dolorTypfs.dlfbr();
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = bttributfs.gftVbluf(i);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                dolor = (Color)lookup(bttributfs.gftVbluf(i), Color.dlbss);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_NAME)) {
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_VALUE)) {
+                String vbluf = bttributfs.gftVbluf(i);
+
+                if (vbluf.stbrtsWith("#")) {
+                    try {
+                        int brgb;
+                        boolfbn hbsAlphb;
+
+                        int lfngth = vbluf.lfngth();
+                        if (lfngth < 8) {
+                            // Just RGB, or somf portion of it.
+                            brgb = Intfgfr.dfdodf(vbluf);
+                            hbsAlphb = fblsf;
+                        } flsf if (lfngth == 8) {
+                            // Singlf dhbrbdtfr blphb: #ARRGGBB.
+                            brgb = Intfgfr.dfdodf(vbluf);
+                            hbsAlphb = truf;
+                        } flsf if (lfngth == 9) {
+                            // Color hbs blphb bnd is of thf form
+                            // #AARRGGBB.
+                            // Thf following split dfdoding is mbndbtory duf to
+                            // Intfgfr.dfdodf() bfhbvior whidh won't dfdodf
+                            // hfxbdfdimbl vblufs highfr thbn #7FFFFFFF.
+                            // Thus, whfn bn blphb dhbnnfl is dftfdtfd, it is
+                            // dfdodfd sfpbrbtfly from thf RGB dhbnnfls.
+                            int rgb = Intfgfr.dfdodf('#' +
+                                                     vbluf.substring(3, 9));
+                            int b = Intfgfr.dfdodf(vbluf.substring(0, 3));
+                            brgb = (b << 24) | rgb;
+                            hbsAlphb = truf;
+                        } flsf {
+                            throw nfw SAXExdfption("Invblid Color vbluf: "
+                                + vbluf);
+                        }
+
+                        dolor = nfw ColorUIRfsourdf(nfw Color(brgb, hbsAlphb));
+                    } dbtdh (NumbfrFormbtExdfption nff) {
+                        throw nfw SAXExdfption("Invblid Color vbluf: " +vbluf);
+                    }
+                }
+                flsf {
+                    try {
+                        dolor = nfw ColorUIRfsourdf((Color)Color.dlbss.
+                              gftFifld(vbluf.toUppfrCbsf()).gft(Color.dlbss));
+                    } dbtdh (NoSudhFifldExdfption nsff) {
+                        throw nfw SAXExdfption("Invblid dolor nbmf: " + vbluf);
+                    } dbtdh (IllfgblAddfssExdfption ibf) {
+                        throw nfw SAXExdfption("Invblid dolor nbmf: " + vbluf);
+                    }
+                }
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_TYPE)) {
+                StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(
+                                   bttributfs.gftVbluf(i));
+                whilf (tokfnizfr.hbsMorfTokfns()) {
+                    String typfNbmf = tokfnizfr.nfxtTokfn();
+                    int dlbssIndfx = typfNbmf.lbstIndfxOf('.');
+                    Clbss<?> typfClbss;
+
+                    if (dlbssIndfx == -1) {
+                        typfClbss = ColorTypf.dlbss;
+                        dlbssIndfx = 0;
+                    }
+                    flsf {
+                        try {
+                            typfClbss = RfflfdtUtil.forNbmf(typfNbmf.substring(
+                                                      0, dlbssIndfx));
+                        } dbtdh (ClbssNotFoundExdfption dnff) {
+                            throw nfw SAXExdfption("Unknown dlbss: " +
+                                      typfNbmf.substring(0, dlbssIndfx));
+                        }
+                        dlbssIndfx++;
+                    }
+                    try {
+                        _dolorTypfs.bdd((ColorTypf)dhfdkCbst(typfClbss.
+                              gftFifld(typfNbmf.substring(dlbssIndfx)).
+                              gft(typfClbss), ColorTypf.dlbss));
+                    } dbtdh (NoSudhFifldExdfption nsff) {
+                        throw nfw SAXExdfption("Unbblf to find dolor typf: " +
+                                               typfNbmf);
+                    } dbtdh (IllfgblAddfssExdfption ibf) {
+                        throw nfw SAXExdfption("Unbblf to find dolor typf: " +
+                                               typfNbmf);
+                    }
+                }
+            }
+        }
+        if (dolor == null) {
+            throw nfw SAXExdfption("dolor: you must spfdifidy b vbluf");
+        }
+        rfgistfr(id, dolor);
+        if (_stbtfInfo != null && _dolorTypfs.sizf() > 0) {
+            Color[] dolors = _stbtfInfo.gftColors();
+            int mbx = 0;
+            for (int dountfr = _dolorTypfs.sizf() - 1; dountfr >= 0;
+                     dountfr--) {
+                mbx = Mbth.mbx(mbx, _dolorTypfs.gft(dountfr).gftID());
+            }
+            if (dolors == null || dolors.lfngth <= mbx) {
+                Color[] nfwColors = nfw Color[mbx + 1];
+                if (dolors != null) {
+                    Systfm.brrbydopy(dolors, 0, nfwColors, 0, dolors.lfngth);
+                }
+                dolors = nfwColors;
+            }
+            for (int dountfr = _dolorTypfs.sizf() - 1; dountfr >= 0;
+                     dountfr--) {
+                dolors[_dolorTypfs.gft(dountfr).gftID()] = dolor;
+            }
+            _stbtfInfo.sftColors(dolors);
+        }
+    }
+
+    privbtf void stbrtPropfrty(Attributfs bttributfs,
+                               Objfdt propfrty) throws SAXExdfption {
+        Objfdt vbluf = null;
+        String kfy = null;
+        // Typf of thf vbluf: 0=idrff, 1=boolfbn, 2=dimfnsion, 3=insfts,
+        // 4=intfgfr,5=string
+        int iTypf = 0;
+        String bVbluf = null;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String bNbmf = bttributfs.gftQNbmf(i);
+            if (bNbmf.fqubls(ATTRIBUTE_TYPE)) {
+                String typf = bttributfs.gftVbluf(i).toUppfrCbsf();
+                if (typf.fqubls("IDREF")) {
+                    iTypf = 0;
+                }
+                flsf if (typf.fqubls("BOOLEAN")) {
+                    iTypf = 1;
+                }
+                flsf if (typf.fqubls("DIMENSION")) {
+                    iTypf = 2;
+                }
+                flsf if (typf.fqubls("INSETS")) {
+                    iTypf = 3;
+                }
+                flsf if (typf.fqubls("INTEGER")) {
+                    iTypf = 4;
+                }
+                flsf if (typf.fqubls("STRING")) {
+                    iTypf = 5;
+                }
+                flsf {
+                    throw nfw SAXExdfption(propfrty + " unknown typf, usf" +
+                        "idrff, boolfbn, dimfnsion, insfts or intfgfr");
+                }
+            }
+            flsf if (bNbmf.fqubls(ATTRIBUTE_VALUE)) {
+                bVbluf = bttributfs.gftVbluf(i);
+            }
+            flsf if (bNbmf.fqubls(ATTRIBUTE_KEY)) {
+                kfy = bttributfs.gftVbluf(i);
+            }
+        }
+        if (bVbluf != null) {
+            switdh (iTypf) {
+            dbsf 0: // idrff
+                vbluf = lookup(bVbluf, Objfdt.dlbss);
+                brfbk;
+            dbsf 1: // boolfbn
+                if (bVbluf.toUppfrCbsf().fqubls("TRUE")) {
+                    vbluf = Boolfbn.TRUE;
+                }
+                flsf {
+                    vbluf = Boolfbn.FALSE;
+                }
+                brfbk;
+            dbsf 2: // dimfnsion
+                StringTokfnizfr tok = nfw StringTokfnizfr(bVbluf);
+                vbluf = nfw DimfnsionUIRfsourdf(
+                    nfxtInt(tok, "Invblid dimfnsion"),
+                    nfxtInt(tok, "Invblid dimfnsion"));
+                brfbk;
+            dbsf 3: // insfts
+                vbluf = pbrsfInsfts(bVbluf, propfrty + " invblid insfts");
+                brfbk;
+            dbsf 4: // intfgfr
+                try {
+                    vbluf = Intfgfr.vblufOf(bVbluf);
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                    throw nfw SAXExdfption(propfrty + " invblid vbluf");
+                }
+                brfbk;
+            dbsf 5: //string
+                vbluf = bVbluf;
+                brfbk;
+            }
+        }
+        if (vbluf == null || kfy == null) {
+            throw nfw SAXExdfption(propfrty + ": you must supply b " +
+                                   "kfy bnd vbluf");
+        }
+        if (propfrty == ELEMENT_DEFAULTS_PROPERTY) {
+            _dffbultsMbp.put(kfy, vbluf);
+        }
+        flsf if (_stbtfInfo != null) {
+            if (_stbtfInfo.gftDbtb() == null) {
+                _stbtfInfo.sftDbtb(nfw HbshMbp<>());
+            }
+            _stbtfInfo.gftDbtb().put(kfy, vbluf);
+        }
+        flsf if (_stylf != null) {
+            if (_stylf.gftDbtb() == null) {
+                _stylf.sftDbtb(nfw HbshMbp<>());
+            }
+            _stylf.gftDbtb().put(kfy, vbluf);
+        }
+    }
+
+    privbtf void stbrtGrbphids(Attributfs bttributfs) throws SAXExdfption {
+        SynthGrbphidsUtils grbphids = null;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                grbphids = (SynthGrbphidsUtils)lookup(bttributfs.gftVbluf(i),
+                                                 SynthGrbphidsUtils.dlbss);
+            }
+        }
+        if (grbphids == null) {
+            throw nfw SAXExdfption("grbphidsUtils: you must supply bn idrff");
+        }
+        if (_stylf != null) {
+            _stylf.sftGrbphidsUtils(grbphids);
+        }
+    }
+
+    privbtf void stbrtInsfts(Attributfs bttributfs) throws SAXExdfption {
+        int top = 0;
+        int bottom = 0;
+        int lfft = 0;
+        int right = 0;
+        Insfts insfts = null;
+        String id = null;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+
+            try {
+                if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                    insfts = (Insfts)lookup(bttributfs.gftVbluf(i),
+                                                   Insfts.dlbss);
+                }
+                flsf if (kfy.fqubls(ATTRIBUTE_ID)) {
+                    id = bttributfs.gftVbluf(i);
+                }
+                flsf if (kfy.fqubls(ATTRIBUTE_TOP)) {
+                    top = Intfgfr.pbrsfInt(bttributfs.gftVbluf(i));
+                }
+                flsf if (kfy.fqubls(ATTRIBUTE_LEFT)) {
+                    lfft = Intfgfr.pbrsfInt(bttributfs.gftVbluf(i));
+                }
+                flsf if (kfy.fqubls(ATTRIBUTE_BOTTOM)) {
+                    bottom = Intfgfr.pbrsfInt(bttributfs.gftVbluf(i));
+                }
+                flsf if (kfy.fqubls(ATTRIBUTE_RIGHT)) {
+                    right = Intfgfr.pbrsfInt(bttributfs.gftVbluf(i));
+                }
+            } dbtdh (NumbfrFormbtExdfption nff) {
+                throw nfw SAXExdfption("insfts: bbd intfgfr vbluf for " +
+                                       bttributfs.gftVbluf(i));
+            }
+        }
+        if (insfts == null) {
+            insfts = nfw InsftsUIRfsourdf(top, lfft, bottom, right);
+        }
+        rfgistfr(id, insfts);
+        if (_stylf != null) {
+            _stylf.sftInsfts(insfts);
+        }
+    }
+
+    privbtf void stbrtBind(Attributfs bttributfs) throws SAXExdfption {
+        PbrsfdSynthStylf stylf = null;
+        String pbth = null;
+        int typf = -1;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+
+            if (kfy.fqubls(ATTRIBUTE_STYLE)) {
+                stylf = (PbrsfdSynthStylf)lookup(bttributfs.gftVbluf(i),
+                                                  PbrsfdSynthStylf.dlbss);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_TYPE)) {
+                String typfS = bttributfs.gftVbluf(i).toUppfrCbsf();
+
+                if (typfS.fqubls("NAME")) {
+                    typf = DffbultSynthStylfFbdtory.NAME;
+                }
+                flsf if (typfS.fqubls("REGION")) {
+                    typf = DffbultSynthStylfFbdtory.REGION;
+                }
+                flsf {
+                    throw nfw SAXExdfption("bind: unknown typf " + typfS);
+                }
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_KEY)) {
+                pbth = bttributfs.gftVbluf(i);
+            }
+        }
+        if (stylf == null || pbth == null || typf == -1) {
+            throw nfw SAXExdfption("bind: you must spfdify b stylf, typf " +
+                                   "bnd kfy");
+        }
+        try {
+            _fbdtory.bddStylf(stylf, pbth, typf);
+        } dbtdh (PbttfrnSyntbxExdfption psf) {
+            throw nfw SAXExdfption("bind: " + pbth + " is not b vblid " +
+                                   "rfgulbr fxprfssion");
+        }
+    }
+
+    privbtf void stbrtPbintfr(Attributfs bttributfs, String typf) throws SAXExdfption {
+        Insfts sourdfInsfts = null;
+        Insfts dfstInsfts = null;
+        String pbth = null;
+        boolfbn pbintCfntfr = truf;
+        boolfbn strftdh = truf;
+        SynthPbintfr pbintfr = null;
+        String mfthod = null;
+        String id = null;
+        int dirfdtion = -1;
+        boolfbn dfntfr = fblsf;
+
+        boolfbn strftdhSpfdififd = fblsf;
+        boolfbn pbintCfntfrSpfdififd = fblsf;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+            String vbluf = bttributfs.gftVbluf(i);
+
+            if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = vbluf;
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_METHOD)) {
+                mfthod = vbluf.toLowfrCbsf(Lodblf.ENGLISH);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_IDREF)) {
+                pbintfr = (SynthPbintfr)lookup(vbluf, SynthPbintfr.dlbss);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_PATH)) {
+                pbth = vbluf;
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_SOURCE_INSETS)) {
+                sourdfInsfts = pbrsfInsfts(vbluf, typf +
+                   ": sourdfInsfts must bf top lfft bottom right");
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_DEST_INSETS)) {
+                dfstInsfts = pbrsfInsfts(vbluf, typf +
+                  ": dfstinbtionInsfts must bf top lfft bottom right");
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_PAINT_CENTER)) {
+                pbintCfntfr = vbluf.toLowfrCbsf().fqubls("truf");
+                pbintCfntfrSpfdififd = truf;
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_STRETCH)) {
+                strftdh = vbluf.toLowfrCbsf().fqubls("truf");
+                strftdhSpfdififd = truf;
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_DIRECTION)) {
+                vbluf = vbluf.toUppfrCbsf().intfrn();
+                if (vbluf == "EAST") {
+                    dirfdtion = SwingConstbnts.EAST;
+                }
+                flsf if (vbluf == "NORTH") {
+                    dirfdtion = SwingConstbnts.NORTH;
+                }
+                flsf if (vbluf == "SOUTH") {
+                    dirfdtion = SwingConstbnts.SOUTH;
+                }
+                flsf if (vbluf == "WEST") {
+                    dirfdtion = SwingConstbnts.WEST;
+                }
+                flsf if (vbluf == "TOP") {
+                    dirfdtion = SwingConstbnts.TOP;
+                }
+                flsf if (vbluf == "LEFT") {
+                    dirfdtion = SwingConstbnts.LEFT;
+                }
+                flsf if (vbluf == "BOTTOM") {
+                    dirfdtion = SwingConstbnts.BOTTOM;
+                }
+                flsf if (vbluf == "RIGHT") {
+                    dirfdtion = SwingConstbnts.RIGHT;
+                }
+                flsf if (vbluf == "HORIZONTAL") {
+                    dirfdtion = SwingConstbnts.HORIZONTAL;
+                }
+                flsf if (vbluf == "VERTICAL") {
+                    dirfdtion = SwingConstbnts.VERTICAL;
+                }
+                flsf if (vbluf == "HORIZONTAL_SPLIT") {
+                    dirfdtion = JSplitPbnf.HORIZONTAL_SPLIT;
+                }
+                flsf if (vbluf == "VERTICAL_SPLIT") {
+                    dirfdtion = JSplitPbnf.VERTICAL_SPLIT;
+                }
+                flsf {
+                    throw nfw SAXExdfption(typf + ": unknown dirfdtion");
+                }
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_CENTER)) {
+                dfntfr = vbluf.toLowfrCbsf().fqubls("truf");
+            }
+        }
+        if (pbintfr == null) {
+            if (typf == ELEMENT_PAINTER) {
+                throw nfw SAXExdfption(typf +
+                             ": you must spfdify bn idrff");
+            }
+            if (sourdfInsfts == null && !dfntfr) {
+                throw nfw SAXExdfption(
+                             "propfrty: you must spfdify sourdfInsfts");
+            }
+            if (pbth == null) {
+                throw nfw SAXExdfption("propfrty: you must spfdify b pbth");
+            }
+            if (dfntfr && (sourdfInsfts != null || dfstInsfts != null ||
+                           pbintCfntfrSpfdififd || strftdhSpfdififd)) {
+                throw nfw SAXExdfption("Thf bttributfs: sourdfInsfts, " +
+                                       "dfstinbtionInsfts, pbintCfntfr bnd strftdh " +
+                                       " brf not lfgbl whfn dfntfr is truf");
+            }
+            pbintfr = nfw ImbgfPbintfr(!strftdh, pbintCfntfr,
+                     sourdfInsfts, dfstInsfts, gftRfsourdf(pbth), dfntfr);
+        }
+        rfgistfr(id, pbintfr);
+        if (_stbtfInfo != null) {
+            bddPbintfrOrMfrgf(_stbtfPbintfrs, mfthod, pbintfr, dirfdtion);
+        }
+        flsf if (_stylf != null) {
+            bddPbintfrOrMfrgf(_stylfPbintfrs, mfthod, pbintfr, dirfdtion);
+        }
+    }
+
+    privbtf void bddPbintfrOrMfrgf(List<PbrsfdSynthStylf.PbintfrInfo> pbintfrs, String mfthod,
+                                   SynthPbintfr pbintfr, int dirfdtion) {
+        PbrsfdSynthStylf.PbintfrInfo pbintfrInfo;
+        pbintfrInfo = nfw PbrsfdSynthStylf.PbintfrInfo(mfthod,
+                                                       pbintfr,
+                                                       dirfdtion);
+
+        for (Objfdt infoObjfdt: pbintfrs) {
+            PbrsfdSynthStylf.PbintfrInfo info;
+            info = (PbrsfdSynthStylf.PbintfrInfo) infoObjfdt;
+
+            if (pbintfrInfo.fqublsPbintfr(info)) {
+                info.bddPbintfr(pbintfr);
+                rfturn;
+            }
+        }
+
+        pbintfrs.bdd(pbintfrInfo);
+    }
+
+    privbtf void stbrtImbgfIdon(Attributfs bttributfs) throws SAXExdfption {
+        String pbth = null;
+        String id = null;
+
+        for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+            String kfy = bttributfs.gftQNbmf(i);
+
+            if (kfy.fqubls(ATTRIBUTE_ID)) {
+                id = bttributfs.gftVbluf(i);
+            }
+            flsf if (kfy.fqubls(ATTRIBUTE_PATH)) {
+                pbth = bttributfs.gftVbluf(i);
+            }
+        }
+        if (pbth == null) {
+            throw nfw SAXExdfption("imbgfIdon: you must spfdify b pbth");
+        }
+        rfgistfr(id, nfw LbzyImbgfIdon(gftRfsourdf(pbth)));
+       }
+
+    privbtf void stbrtOpbquf(Attributfs bttributfs) {
+        if (_stylf != null) {
+            _stylf.sftOpbquf(truf);
+            for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+                String kfy = bttributfs.gftQNbmf(i);
+
+                if (kfy.fqubls(ATTRIBUTE_VALUE)) {
+                    _stylf.sftOpbquf("truf".fqubls(bttributfs.gftVbluf(i).
+                                                   toLowfrCbsf()));
+                }
+            }
+        }
+    }
+
+    privbtf void stbrtInputMbp(Attributfs bttributfs) throws SAXExdfption {
+        _inputMbpBindings.dlfbr();
+        _inputMbpID = null;
+        if (_stylf != null) {
+            for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+                String kfy = bttributfs.gftQNbmf(i);
+
+                if (kfy.fqubls(ATTRIBUTE_ID)) {
+                    _inputMbpID = bttributfs.gftVbluf(i);
+                }
+            }
+        }
+    }
+
+    privbtf void fndInputMbp() throws SAXExdfption {
+        if (_inputMbpID != null) {
+            rfgistfr(_inputMbpID, nfw UIDffbults.LbzyInputMbp(
+                     _inputMbpBindings.toArrby(nfw Objfdt[_inputMbpBindings.
+                     sizf()])));
+        }
+        _inputMbpBindings.dlfbr();
+        _inputMbpID = null;
+    }
+
+    privbtf void stbrtBindKfy(Attributfs bttributfs) throws SAXExdfption {
+        if (_inputMbpID == null) {
+            // Not in bn inputmbp, bbil.
+            rfturn;
+        }
+        if (_stylf != null) {
+            String kfy = null;
+            String vbluf = null;
+            for(int i = bttributfs.gftLfngth() - 1; i >= 0; i--) {
+                String bKfy = bttributfs.gftQNbmf(i);
+
+                if (bKfy.fqubls(ATTRIBUTE_KEY)) {
+                    kfy = bttributfs.gftVbluf(i);
+                }
+                flsf if (bKfy.fqubls(ATTRIBUTE_ACTION)) {
+                    vbluf = bttributfs.gftVbluf(i);
+                }
+            }
+            if (kfy == null || vbluf == null) {
+                throw nfw SAXExdfption(
+                    "bindKfy: you must supply b kfy bnd bdtion");
+            }
+            _inputMbpBindings.bdd(kfy);
+            _inputMbpBindings.bdd(vbluf);
+        }
+    }
+
+    //
+    // SAX mfthods, thfsf forwbrd to thf DodumfntHbndlfr if wf don't know
+    // thf flfmfnt nbmf.
+    //
+
+    publid InputSourdf rfsolvfEntity(String publidId, String systfmId)
+                              throws IOExdfption, SAXExdfption {
+        if (isForwbrding()) {
+            rfturn gftHbndlfr().rfsolvfEntity(publidId, systfmId);
+        }
+        rfturn null;
+    }
+
+    publid void notbtionDfdl(String nbmf, String publidId, String systfmId) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().notbtionDfdl(nbmf, publidId, systfmId);
+        }
+    }
+
+    publid void unpbrsfdEntityDfdl(String nbmf, String publidId,
+                                   String systfmId, String notbtionNbmf) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().unpbrsfdEntityDfdl(nbmf, publidId, systfmId,
+                                            notbtionNbmf);
+        }
+    }
+
+    publid void sftDodumfntLodbtor(Lodbtor lodbtor) {
+        if (isForwbrding()) {
+            gftHbndlfr().sftDodumfntLodbtor(lodbtor);
+        }
+    }
+
+    publid void stbrtDodumfnt() throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().stbrtDodumfnt();
+        }
+    }
+
+    publid void fndDodumfnt() throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().fndDodumfnt();
+        }
+    }
+
+    publid void stbrtElfmfnt(String uri, String lodbl, String nbmf, Attributfs bttributfs)
+                     throws SAXExdfption {
+        nbmf = nbmf.intfrn();
+        if (nbmf == ELEMENT_STYLE) {
+            stbrtStylf(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_STATE) {
+            stbrtStbtf(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_FONT) {
+            stbrtFont(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_COLOR) {
+            stbrtColor(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_PAINTER) {
+            stbrtPbintfr(bttributfs, nbmf);
+        }
+        flsf if (nbmf == ELEMENT_IMAGE_PAINTER) {
+            stbrtPbintfr(bttributfs, nbmf);
+        }
+        flsf if (nbmf == ELEMENT_PROPERTY) {
+            stbrtPropfrty(bttributfs, ELEMENT_PROPERTY);
+        }
+        flsf if (nbmf == ELEMENT_DEFAULTS_PROPERTY) {
+            stbrtPropfrty(bttributfs, ELEMENT_DEFAULTS_PROPERTY);
+        }
+        flsf if (nbmf == ELEMENT_SYNTH_GRAPHICS) {
+            stbrtGrbphids(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_INSETS) {
+            stbrtInsfts(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_BIND) {
+            stbrtBind(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_BIND_KEY) {
+            stbrtBindKfy(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_IMAGE_ICON) {
+            stbrtImbgfIdon(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_OPAQUE) {
+            stbrtOpbquf(bttributfs);
+        }
+        flsf if (nbmf == ELEMENT_INPUT_MAP) {
+            stbrtInputMbp(bttributfs);
+        }
+        flsf if (nbmf != ELEMENT_SYNTH) {
+            if (_dfpth++ == 0) {
+                gftHbndlfr().stbrtDodumfnt();
+            }
+            gftHbndlfr().stbrtElfmfnt(uri, lodbl, nbmf, bttributfs);
+        }
+    }
+
+    publid void fndElfmfnt(String uri, String lodbl, String nbmf) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().fndElfmfnt(uri, lodbl, nbmf);
+            _dfpth--;
+            if (!isForwbrding()) {
+                gftHbndlfr().stbrtDodumfnt();
+            }
+        }
+        flsf {
+            nbmf = nbmf.intfrn();
+            if (nbmf == ELEMENT_STYLE) {
+                fndStylf();
+            }
+            flsf if (nbmf == ELEMENT_STATE) {
+                fndStbtf();
+            }
+            flsf if (nbmf == ELEMENT_INPUT_MAP) {
+                fndInputMbp();
+            }
+        }
+    }
+
+    publid void dhbrbdtfrs(dhbr dh[], int stbrt, int lfngth)
+                           throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().dhbrbdtfrs(dh, stbrt, lfngth);
+        }
+    }
+
+    publid void ignorbblfWhitfspbdf (dhbr dh[], int stbrt, int lfngth)
+        throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().ignorbblfWhitfspbdf(dh, stbrt, lfngth);
+        }
+    }
+
+    publid void prodfssingInstrudtion(String tbrgft, String dbtb)
+                                     throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().prodfssingInstrudtion(tbrgft, dbtb);
+        }
+    }
+
+    publid void wbrning(SAXPbrsfExdfption f) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().wbrning(f);
+        }
+    }
+
+    publid void frror(SAXPbrsfExdfption f) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().frror(f);
+        }
+    }
+
+
+    publid void fbtblError(SAXPbrsfExdfption f) throws SAXExdfption {
+        if (isForwbrding()) {
+            gftHbndlfr().fbtblError(f);
+        }
+        throw f;
+    }
+
+
+    /**
+     * ImbgfIdon thbt lbzily lobds thf imbgf until nffdfd.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss LbzyImbgfIdon fxtfnds ImbgfIdon implfmfnts UIRfsourdf {
+        privbtf URL lodbtion;
+
+        publid LbzyImbgfIdon(URL lodbtion) {
+            supfr();
+            this.lodbtion = lodbtion;
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            if (gftImbgf() != null) {
+                supfr.pbintIdon(d, g, x, y);
+            }
+        }
+
+        publid int gftIdonWidth() {
+            if (gftImbgf() != null) {
+                rfturn supfr.gftIdonWidth();
+            }
+            rfturn 0;
+        }
+
+        publid int gftIdonHfight() {
+            if (gftImbgf() != null) {
+                rfturn supfr.gftIdonHfight();
+            }
+            rfturn 0;
+        }
+
+        publid Imbgf gftImbgf() {
+            if (lodbtion != null) {
+                sftImbgf(Toolkit.gftDffbultToolkit().gftImbgf(lodbtion));
+                lodbtion = null;
+            }
+            rfturn supfr.gftImbgf();
+        }
+    }
+}

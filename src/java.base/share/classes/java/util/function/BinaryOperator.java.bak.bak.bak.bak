@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.fundtion;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Compbrbtor;
+
+/**
+ * Rfprfsfnts bn opfrbtion upon two opfrbnds of thf sbmf typf, produding b rfsult
+ * of thf sbmf typf bs thf opfrbnds.  This is b spfdiblizbtion of
+ * {@link BiFundtion} for thf dbsf whfrf thf opfrbnds bnd thf rfsult brf bll of
+ * thf sbmf typf.
+ *
+ * <p>This is b <b hrff="pbdkbgf-summbry.html">fundtionbl intfrfbdf</b>
+ * whosf fundtionbl mfthod is {@link #bpply(Objfdt, Objfdt)}.
+ *
+ * @pbrbm <T> thf typf of thf opfrbnds bnd rfsult of thf opfrbtor
+ *
+ * @sff BiFundtion
+ * @sff UnbryOpfrbtor
+ * @sindf 1.8
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf BinbryOpfrbtor<T> fxtfnds BiFundtion<T,T,T> {
+    /**
+     * Rfturns b {@link BinbryOpfrbtor} whidh rfturns thf lfssfr of two flfmfnts
+     * bddording to thf spfdififd {@dodf Compbrbtor}.
+     *
+     * @pbrbm <T> thf typf of thf input brgumfnts of thf dompbrbtor
+     * @pbrbm dompbrbtor b {@dodf Compbrbtor} for dompbring thf two vblufs
+     * @rfturn b {@dodf BinbryOpfrbtor} whidh rfturns thf lfssfr of its opfrbnds,
+     *         bddording to thf supplifd {@dodf Compbrbtor}
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+    publid stbtid <T> BinbryOpfrbtor<T> minBy(Compbrbtor<? supfr T> dompbrbtor) {
+        Objfdts.rfquirfNonNull(dompbrbtor);
+        rfturn (b, b) -> dompbrbtor.dompbrf(b, b) <= 0 ? b : b;
+    }
+
+    /**
+     * Rfturns b {@link BinbryOpfrbtor} whidh rfturns thf grfbtfr of two flfmfnts
+     * bddording to thf spfdififd {@dodf Compbrbtor}.
+     *
+     * @pbrbm <T> thf typf of thf input brgumfnts of thf dompbrbtor
+     * @pbrbm dompbrbtor b {@dodf Compbrbtor} for dompbring thf two vblufs
+     * @rfturn b {@dodf BinbryOpfrbtor} whidh rfturns thf grfbtfr of its opfrbnds,
+     *         bddording to thf supplifd {@dodf Compbrbtor}
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+    publid stbtid <T> BinbryOpfrbtor<T> mbxBy(Compbrbtor<? supfr T> dompbrbtor) {
+        Objfdts.rfquirfNonNull(dompbrbtor);
+        rfturn (b, b) -> dompbrbtor.dompbrf(b, b) >= 0 ? b : b;
+    }
+}

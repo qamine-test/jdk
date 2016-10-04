@@ -1,192 +1,192 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * This class provides skeletal implementations of some {@link Queue}
- * operations. The implementations in this class are appropriate when
- * the base implementation does <em>not</em> allow <tt>null</tt>
- * elements.  Methods {@link #add add}, {@link #remove remove}, and
- * {@link #element element} are based on {@link #offer offer}, {@link
- * #poll poll}, and {@link #peek peek}, respectively, but throw
- * exceptions instead of indicating failure via <tt>false</tt> or
- * <tt>null</tt> returns.
+ * Tiis dlbss providfs skflftbl implfmfntbtions of somf {@link Qufuf}
+ * opfrbtions. Tif implfmfntbtions in tiis dlbss brf bppropribtf wifn
+ * tif bbsf implfmfntbtion dofs <fm>not</fm> bllow <tt>null</tt>
+ * flfmfnts.  Mftiods {@link #bdd bdd}, {@link #rfmovf rfmovf}, bnd
+ * {@link #flfmfnt flfmfnt} brf bbsfd on {@link #offfr offfr}, {@link
+ * #poll poll}, bnd {@link #pffk pffk}, rfspfdtivfly, but tirow
+ * fxdfptions instfbd of indidbting fbilurf vib <tt>fblsf</tt> or
+ * <tt>null</tt> rfturns.
  *
- * <p>A <tt>Queue</tt> implementation that extends this class must
- * minimally define a method {@link Queue#offer} which does not permit
- * insertion of <tt>null</tt> elements, along with methods {@link
- * Queue#peek}, {@link Queue#poll}, {@link Collection#size}, and
- * {@link Collection#iterator}.  Typically, additional methods will be
- * overridden as well.  If these requirements cannot be met, consider
- * instead subclassing {@link AbstractCollection}.
+ * <p>A <tt>Qufuf</tt> implfmfntbtion tibt fxtfnds tiis dlbss must
+ * minimblly dffinf b mftiod {@link Qufuf#offfr} wiidi dofs not pfrmit
+ * insfrtion of <tt>null</tt> flfmfnts, blong witi mftiods {@link
+ * Qufuf#pffk}, {@link Qufuf#poll}, {@link Collfdtion#sizf}, bnd
+ * {@link Collfdtion#itfrbtor}.  Typidblly, bdditionbl mftiods will bf
+ * ovfrriddfn bs wfll.  If tifsf rfquirfmfnts dbnnot bf mft, donsidfr
+ * instfbd subdlbssing {@link AbstrbdtCollfdtion}.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public abstract class AbstractQueue<E>
-    extends AbstractCollection<E>
-    implements Queue<E> {
+publid bbstrbdt dlbss AbstrbdtQufuf<E>
+    fxtfnds AbstrbdtCollfdtion<E>
+    implfmfnts Qufuf<E> {
 
     /**
-     * Constructor for use by subclasses.
+     * Construdtor for usf by subdlbssfs.
      */
-    protected AbstractQueue() {
+    protfdtfd AbstrbdtQufuf() {
     }
 
     /**
-     * Inserts the specified element into this queue if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * <tt>true</tt> upon success and throwing an <tt>IllegalStateException</tt>
-     * if no space is currently available.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf if it is possiblf to do so
+     * immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * <tt>truf</tt> upon suddfss bnd tirowing bn <tt>IllfgblStbtfExdfption</tt>
+     * if no spbdf is durrfntly bvbilbblf.
      *
-     * <p>This implementation returns <tt>true</tt> if <tt>offer</tt> succeeds,
-     * else throws an <tt>IllegalStateException</tt>.
+     * <p>Tiis implfmfntbtion rfturns <tt>truf</tt> if <tt>offfr</tt> suddffds,
+     * flsf tirows bn <tt>IllfgblStbtfExdfption</tt>.
      *
-     * @param e the element to add
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null and
-     *         this queue does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn <tt>truf</tt> (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows IllfgblStbtfExdfption if tif flfmfnt dbnnot bf bddfd bt tiis
+     *         timf duf to dbpbdity rfstridtions
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd
+     *         tiis qufuf dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tiis flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
      */
-    public boolean add(E e) {
-        if (offer(e))
-            return true;
-        else
-            throw new IllegalStateException("Queue full");
+    publid boolfbn bdd(E f) {
+        if (offfr(f))
+            rfturn truf;
+        flsf
+            tirow nfw IllfgblStbtfExdfption("Qufuf full");
     }
 
     /**
-     * Retrieves and removes the head of this queue.  This method differs
-     * from {@link #poll poll} only in that it throws an exception if this
-     * queue is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf.  Tiis mftiod difffrs
+     * from {@link #poll poll} only in tibt it tirows bn fxdfption if tiis
+     * qufuf is fmpty.
      *
-     * <p>This implementation returns the result of <tt>poll</tt>
-     * unless the queue is empty.
+     * <p>Tiis implfmfntbtion rfturns tif rfsult of <tt>poll</tt>
+     * unlfss tif qufuf is fmpty.
      *
-     * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows NoSudiElfmfntExdfption if tiis qufuf is fmpty
      */
-    public E remove() {
+    publid E rfmovf() {
         E x = poll();
         if (x != null)
-            return x;
-        else
-            throw new NoSuchElementException();
+            rfturn x;
+        flsf
+            tirow nfw NoSudiElfmfntExdfption();
     }
 
     /**
-     * Retrieves, but does not remove, the head of this queue.  This method
-     * differs from {@link #peek peek} only in that it throws an exception if
-     * this queue is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tiis qufuf.  Tiis mftiod
+     * difffrs from {@link #pffk pffk} only in tibt it tirows bn fxdfption if
+     * tiis qufuf is fmpty.
      *
-     * <p>This implementation returns the result of <tt>peek</tt>
-     * unless the queue is empty.
+     * <p>Tiis implfmfntbtion rfturns tif rfsult of <tt>pffk</tt>
+     * unlfss tif qufuf is fmpty.
      *
-     * @return the head of this queue
-     * @throws NoSuchElementException if this queue is empty
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows NoSudiElfmfntExdfption if tiis qufuf is fmpty
      */
-    public E element() {
-        E x = peek();
+    publid E flfmfnt() {
+        E x = pffk();
         if (x != null)
-            return x;
-        else
-            throw new NoSuchElementException();
+            rfturn x;
+        flsf
+            tirow nfw NoSudiElfmfntExdfption();
     }
 
     /**
-     * Removes all of the elements from this queue.
-     * The queue will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis qufuf.
+     * Tif qufuf will bf fmpty bftfr tiis dbll rfturns.
      *
-     * <p>This implementation repeatedly invokes {@link #poll poll} until it
-     * returns <tt>null</tt>.
+     * <p>Tiis implfmfntbtion rfpfbtfdly invokfs {@link #poll poll} until it
+     * rfturns <tt>null</tt>.
      */
-    public void clear() {
-        while (poll() != null)
+    publid void dlfbr() {
+        wiilf (poll() != null)
             ;
     }
 
     /**
-     * Adds all of the elements in the specified collection to this
-     * queue.  Attempts to addAll of a queue to itself result in
-     * <tt>IllegalArgumentException</tt>. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Adds bll of tif flfmfnts in tif spfdififd dollfdtion to tiis
+     * qufuf.  Attfmpts to bddAll of b qufuf to itsflf rfsult in
+     * <tt>IllfgblArgumfntExdfption</tt>. Furtifr, tif bfibvior of
+     * tiis opfrbtion is undffinfd if tif spfdififd dollfdtion is
+     * modififd wiilf tif opfrbtion is in progrfss.
      *
-     * <p>This implementation iterates over the specified collection,
-     * and adds each element returned by the iterator to this
-     * queue, in turn.  A runtime exception encountered while
-     * trying to add an element (including, in particular, a
-     * <tt>null</tt> element) may result in only some of the elements
-     * having been successfully added when the associated exception is
-     * thrown.
+     * <p>Tiis implfmfntbtion itfrbtfs ovfr tif spfdififd dollfdtion,
+     * bnd bdds fbdi flfmfnt rfturnfd by tif itfrbtor to tiis
+     * qufuf, in turn.  A runtimf fxdfption fndountfrfd wiilf
+     * trying to bdd bn flfmfnt (indluding, in pbrtidulbr, b
+     * <tt>null</tt> flfmfnt) mby rfsult in only somf of tif flfmfnts
+     * ibving bffn suddfssfully bddfd wifn tif bssodibtfd fxdfption is
+     * tirown.
      *
-     * @param c collection containing elements to be added to this queue
-     * @return <tt>true</tt> if this queue changed as a result of the call
-     * @throws ClassCastException if the class of an element of the specified
-     *         collection prevents it from being added to this queue
-     * @throws NullPointerException if the specified collection contains a
-     *         null element and this queue does not permit null elements,
-     *         or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this
-     *         queue, or if the specified collection is this queue
-     * @throws IllegalStateException if not all the elements can be added at
-     *         this time due to insertion restrictions
-     * @see #add(Object)
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis qufuf
+     * @rfturn <tt>truf</tt> if tiis qufuf dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tif spfdififd
+     *         dollfdtion prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion dontbins b
+     *         null flfmfnt bnd tiis qufuf dofs not pfrmit null flfmfnts,
+     *         or if tif spfdififd dollfdtion is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of bn flfmfnt of tif
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to tiis
+     *         qufuf, or if tif spfdififd dollfdtion is tiis qufuf
+     * @tirows IllfgblStbtfExdfption if not bll tif flfmfnts dbn bf bddfd bt
+     *         tiis timf duf to insfrtion rfstridtions
+     * @sff #bdd(Objfdt)
      */
-    public boolean addAll(Collection<? extends E> c) {
-        if (c == null)
-            throw new NullPointerException();
-        if (c == this)
-            throw new IllegalArgumentException();
-        boolean modified = false;
-        for (E e : c)
-            if (add(e))
-                modified = true;
-        return modified;
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        if (d == null)
+            tirow nfw NullPointfrExdfption();
+        if (d == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        boolfbn modififd = fblsf;
+        for (E f : d)
+            if (bdd(f))
+                modififd = truf;
+        rfturn modififd;
     }
 
 }

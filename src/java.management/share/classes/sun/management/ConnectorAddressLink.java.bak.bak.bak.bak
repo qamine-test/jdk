@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+
+import sun.misd.Pfrf;
+import sun.mbnbgfmfnt.dountfr.Units;
+import sun.mbnbgfmfnt.dountfr.Countfr;
+import sun.mbnbgfmfnt.dountfr.pfrf.PfrfInstrumfntbtion;
+
+/**
+ * A utility dlbss to support thf fxporting bnd importing of thf bddrfss
+ * of b donnfdtor sfrvfr using thf instrumfntbtion bufffr.
+ *
+ * @sindf 1.5
+ */
+publid dlbss ConnfdtorAddrfssLink {
+
+    privbtf stbtid finbl String CONNECTOR_ADDRESS_COUNTER =
+            "sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.bddrfss";
+
+    /*
+     * Thf formbt of thf jvmstbt dountfrs rfprfsfnting thf propfrtifs of
+     * b givfn out-of-thf-box JMX rfmotf donnfdtor will bf bs follows:
+     *
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.<dountfr>.<kfy>=<vbluf>
+     *
+     * whfrf:
+     *
+     *     dountfr = indfx domputfd by this dlbss whidh uniqufly idfntififs
+     *               bn out-of-thf-box JMX rfmotf donnfdtor running in this
+     *               Jbvb virtubl mbdhinf.
+     *     kfy/vbluf = b givfn kfy/vbluf pbir in thf mbp supplifd to thf
+     *                 fxportRfmotf() mfthod.
+     *
+     * For fxbmplf,
+     *
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.rfmotfAddrfss=sfrvidf:jmx:rmi:///jndi/rmi://myhost:5000/jmxrmi
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.buthfntidbtf=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.ssl=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.sslRfgistry=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.sslNffdClifntAuth=fblsf
+     */
+    privbtf stbtid finbl String REMOTE_CONNECTOR_COUNTER_PREFIX =
+            "sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.";
+
+    /*
+     * JMX rfmotf donnfdtor dountfr (it will bf indrfmfntfd fvfry
+     * timf b nfw out-of-thf-box JMX rfmotf donnfdtor is drfbtfd).
+     */
+    privbtf stbtid AtomidIntfgfr dountfr = nfw AtomidIntfgfr();
+
+    /**
+     * Exports thf spfdififd donnfdtor bddrfss to thf instrumfntbtion bufffr
+     * so thbt it dbn bf rfbd by this or othfr Jbvb virtubl mbdhinfs running
+     * on thf sbmf systfm.
+     *
+     * @pbrbm bddrfss Thf donnfdtor bddrfss.
+     */
+    publid stbtid void fxport(String bddrfss) {
+        if (bddrfss == null || bddrfss.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("bddrfss not spfdififd");
+        }
+        Pfrf pfrf = Pfrf.gftPfrf();
+        pfrf.drfbtfString(
+                CONNECTOR_ADDRESS_COUNTER, 1, Units.STRING.intVbluf(), bddrfss);
+    }
+
+    /**
+     * Imports thf donnfdtor bddrfss from thf instrumfnt bufffr
+     * of thf spfdififd Jbvb virtubl mbdhinf.
+     *
+     * @pbrbm vmid bn idfntififr thbt uniqufly idfntififs b lodbl Jbvb virtubl
+     * mbdhinf, or <dodf>0</dodf> to indidbtf thf durrfnt Jbvb virtubl mbdhinf.
+     *
+     * @rfturn thf vbluf of thf donnfdtor bddrfss, or <dodf>null</dodf> if thf
+     * tbrgft VM hbs not fxportfd b donnfdtor bddrfss.
+     *
+     * @throws IOExdfption An I/O frror oddurrfd whilf trying to bdquirf thf
+     * instrumfntbtion bufffr.
+     */
+    publid stbtid String importFrom(int vmid) throws IOExdfption {
+        Pfrf pfrf = Pfrf.gftPfrf();
+        BytfBufffr bb;
+        try {
+            bb = pfrf.bttbdh(vmid, "r");
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            throw nfw IOExdfption(ibf.gftMfssbgf());
+        }
+        List<Countfr> dountfrs =
+                nfw PfrfInstrumfntbtion(bb).findByPbttfrn(CONNECTOR_ADDRESS_COUNTER);
+        Itfrbtor<Countfr> i = dountfrs.itfrbtor();
+        if (i.hbsNfxt()) {
+            Countfr d = i.nfxt();
+            rfturn (String) d.gftVbluf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Exports thf spfdififd rfmotf donnfdtor bddrfss bnd bssodibtfd
+     * donfigurbtion propfrtifs to thf instrumfntbtion bufffr so thbt
+     * it dbn bf rfbd by this or othfr Jbvb virtubl mbdhinfs running
+     * on thf sbmf systfm.
+     *
+     * @pbrbm propfrtifs Thf rfmotf donnfdtor bddrfss propfrtifs.
+     */
+    publid stbtid void fxportRfmotf(Mbp<String, String> propfrtifs) {
+        finbl int indfx = dountfr.gftAndIndrfmfnt();
+        Pfrf pfrf = Pfrf.gftPfrf();
+        for (Mbp.Entry<String, String> fntry : propfrtifs.fntrySft()) {
+            pfrf.drfbtfString(REMOTE_CONNECTOR_COUNTER_PREFIX + indfx + "." +
+                    fntry.gftKfy(), 1, Units.STRING.intVbluf(), fntry.gftVbluf());
+        }
+    }
+
+    /**
+     * Imports thf rfmotf donnfdtor bddrfss bnd bssodibtfd
+     * donfigurbtion propfrtifs from thf instrumfnt bufffr
+     * of thf spfdififd Jbvb virtubl mbdhinf.
+     *
+     * @pbrbm vmid bn idfntififr thbt uniqufly idfntififs b lodbl Jbvb virtubl
+     * mbdhinf, or <dodf>0</dodf> to indidbtf thf durrfnt Jbvb virtubl mbdhinf.
+     *
+     * @rfturn b mbp dontbining thf rfmotf donnfdtor's propfrtifs, or bn fmpty
+     * mbp if thf tbrgft VM hbs not fxportfd thf rfmotf donnfdtor's propfrtifs.
+     *
+     * @throws IOExdfption An I/O frror oddurrfd whilf trying to bdquirf thf
+     * instrumfntbtion bufffr.
+     */
+    publid stbtid Mbp<String, String> importRfmotfFrom(int vmid) throws IOExdfption {
+        Pfrf pfrf = Pfrf.gftPfrf();
+        BytfBufffr bb;
+        try {
+            bb = pfrf.bttbdh(vmid, "r");
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            throw nfw IOExdfption(ibf.gftMfssbgf());
+        }
+        List<Countfr> dountfrs = nfw PfrfInstrumfntbtion(bb).gftAllCountfrs();
+        Mbp<String, String> propfrtifs = nfw HbshMbp<>();
+        for (Countfr d : dountfrs) {
+            String nbmf =  d.gftNbmf();
+            if (nbmf.stbrtsWith(REMOTE_CONNECTOR_COUNTER_PREFIX) &&
+                    !nbmf.fqubls(CONNECTOR_ADDRESS_COUNTER)) {
+                propfrtifs.put(nbmf, d.gftVbluf().toString());
+            }
+        }
+        rfturn propfrtifs;
+    }
+}

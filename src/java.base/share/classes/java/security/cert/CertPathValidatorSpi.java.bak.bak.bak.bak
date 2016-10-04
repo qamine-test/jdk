@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+
+/**
+ *
+ * Thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@link CfrtPbthVblidbtor CfrtPbthVblidbtor} dlbss. All
+ * {@dodf CfrtPbthVblidbtor} implfmfntbtions must indludf b dlbss (thf
+ * SPI dlbss) thbt fxtfnds this dlbss ({@dodf CfrtPbthVblidbtorSpi})
+ * bnd implfmfnts bll of its mfthods. In gfnfrbl, instbndfs of this dlbss
+ * should only bf bddfssfd through thf {@dodf CfrtPbthVblidbtor} dlbss.
+ * For dftbils, sff thf Jbvb Cryptogrbphy Ardhitfdturf.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Instbndfs of this dlbss nffd not bf protfdtfd bgbinst dondurrfnt
+ * bddfss from multiplf thrfbds. Thrfbds thbt nffd to bddfss b singlf
+ * {@dodf CfrtPbthVblidbtorSpi} instbndf dondurrfntly should syndhronizf
+ * bmongst thfmsflvfs bnd providf thf nfdfssbry lodking bfforf dblling thf
+ * wrbpping {@dodf CfrtPbthVblidbtor} objfdt.
+ * <p>
+ * Howfvfr, implfmfntbtions of {@dodf CfrtPbthVblidbtorSpi} mby still
+ * fndountfr dondurrfndy issufs, sindf multiplf thrfbds fbdh
+ * mbnipulbting b difffrfnt {@dodf CfrtPbthVblidbtorSpi} instbndf nffd not
+ * syndhronizf.
+ *
+ * @sindf       1.4
+ * @buthor      Ybssir Ellfy
+ */
+publid bbstrbdt dlbss CfrtPbthVblidbtorSpi {
+
+    /**
+     * Thf dffbult donstrudtor.
+     */
+    publid CfrtPbthVblidbtorSpi() {}
+
+    /**
+     * Vblidbtfs thf spfdififd dfrtifidbtion pbth using thf spfdififd
+     * blgorithm pbrbmftfr sft.
+     * <p>
+     * Thf {@dodf CfrtPbth} spfdififd must bf of b typf thbt is
+     * supportfd by thf vblidbtion blgorithm, othfrwisf bn
+     * {@dodf InvblidAlgorithmPbrbmftfrExdfption} will bf thrown. For
+     * fxbmplf, b {@dodf CfrtPbthVblidbtor} thbt implfmfnts thf PKIX
+     * blgorithm vblidbtfs {@dodf CfrtPbth} objfdts of typf X.509.
+     *
+     * @pbrbm dfrtPbth thf {@dodf CfrtPbth} to bf vblidbtfd
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @rfturn thf rfsult of thf vblidbtion blgorithm
+     * @fxdfption CfrtPbthVblidbtorExdfption if thf {@dodf CfrtPbth}
+     * dofs not vblidbtf
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     * pbrbmftfrs or thf typf of thf spfdififd {@dodf CfrtPbth} brf
+     * inbppropribtf for this {@dodf CfrtPbthVblidbtor}
+     */
+    publid bbstrbdt CfrtPbthVblidbtorRfsult
+        fnginfVblidbtf(CfrtPbth dfrtPbth, CfrtPbthPbrbmftfrs pbrbms)
+        throws CfrtPbthVblidbtorExdfption, InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Rfturns b {@dodf CfrtPbthChfdkfr} thbt this implfmfntbtion usfs to
+     * dhfdk thf rfvodbtion stbtus of dfrtifidbtfs. A PKIX implfmfntbtion
+     * rfturns objfdts of typf {@dodf PKIXRfvodbtionChfdkfr}.
+     *
+     * <p>Thf primbry purposf of this mfthod is to bllow dbllfrs to spfdify
+     * bdditionbl input pbrbmftfrs bnd options spfdifid to rfvodbtion dhfdking.
+     * Sff thf dlbss dfsdription of {@dodf CfrtPbthVblidbtor} for bn fxbmplf.
+     *
+     * <p>This mfthod wbs bddfd to vfrsion 1.8 of thf Jbvb Plbtform Stbndbrd
+     * Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with fxisting
+     * sfrvidf providfrs, this mfthod dbnnot bf bbstrbdt bnd by dffbult throws
+     * bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @rfturn b {@dodf CfrtPbthChfdkfr} thbt this implfmfntbtion usfs to
+     * dhfdk thf rfvodbtion stbtus of dfrtifidbtfs
+     * @throws UnsupportfdOpfrbtionExdfption if this mfthod is not supportfd
+     * @sindf 1.8
+     */
+    publid CfrtPbthChfdkfr fnginfGftRfvodbtionChfdkfr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+}

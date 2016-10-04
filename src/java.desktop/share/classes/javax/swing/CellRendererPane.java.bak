@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * This class is inserted in between cell renderers and the components that
- * use them.  It just exists to thwart the repaint() and invalidate() methods
- * which would otherwise propagate up the tree when the renderer was configured.
- * It's used by the implementations of JTable, JTree, and JList.  For example,
- * here's how CellRendererPane is used in the code the paints each row
- * in a JList:
- * <pre>
- *   cellRendererPane = new CellRendererPane();
+ * Tiis dlbss is insfrtfd in bftwffn dfll rfndfrfrs bnd tif domponfnts tibt
+ * usf tifm.  It just fxists to tiwbrt tif rfpbint() bnd invblidbtf() mftiods
+ * wiidi would otifrwisf propbgbtf up tif trff wifn tif rfndfrfr wbs donfigurfd.
+ * It's usfd by tif implfmfntbtions of JTbblf, JTrff, bnd JList.  For fxbmplf,
+ * ifrf's iow CfllRfndfrfrPbnf is usfd in tif dodf tif pbints fbdi row
+ * in b JList:
+ * <prf>
+ *   dfllRfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
  *   ...
- *   Component rendererComponent = renderer.getListCellRendererComponent();
- *   renderer.configureListCellRenderer(dataModel.getElementAt(row), row);
- *   cellRendererPane.paintComponent(g, rendererComponent, this, x, y, w, h);
- * </pre>
+ *   Componfnt rfndfrfrComponfnt = rfndfrfr.gftListCfllRfndfrfrComponfnt();
+ *   rfndfrfr.donfigurfListCfllRfndfrfr(dbtbModfl.gftElfmfntAt(row), row);
+ *   dfllRfndfrfrPbnf.pbintComponfnt(g, rfndfrfrComponfnt, tiis, x, y, w, i);
+ * </prf>
  * <p>
- * A renderer component must override isShowing() and unconditionally return
- * true to work correctly because the Swing paint does nothing for components
- * with isShowing false.
+ * A rfndfrfr domponfnt must ovfrridf isSiowing() bnd undonditionblly rfturn
+ * truf to work dorrfdtly bfdbusf tif Swing pbint dofs notiing for domponfnts
+ * witi isSiowing fblsf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Hans Muller
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class CellRendererPane extends Container implements Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss CfllRfndfrfrPbnf fxtfnds Contbinfr implfmfnts Addfssiblf
 {
     /**
-     * Construct a CellRendererPane object.
+     * Construdt b CfllRfndfrfrPbnf objfdt.
      */
-    public CellRendererPane() {
-        super();
-        setLayout(null);
-        setVisible(false);
+    publid CfllRfndfrfrPbnf() {
+        supfr();
+        sftLbyout(null);
+        sftVisiblf(fblsf);
     }
 
     /**
-     * Overridden to avoid propagating a invalidate up the tree when the
-     * cell renderer child is configured.
+     * Ovfrriddfn to bvoid propbgbting b invblidbtf up tif trff wifn tif
+     * dfll rfndfrfr diild is donfigurfd.
      */
-    public void invalidate() { }
+    publid void invblidbtf() { }
 
 
     /**
-     * Shouldn't be called.
+     * Siouldn't bf dbllfd.
      */
-    public void paint(Graphics g) { }
+    publid void pbint(Grbpiids g) { }
 
 
     /**
-     * Shouldn't be called.
+     * Siouldn't bf dbllfd.
      */
-    public void update(Graphics g) { }
+    publid void updbtf(Grbpiids g) { }
 
 
     /**
-     * If the specified component is already a child of this then we don't
-     * bother doing anything - stacking order doesn't matter for cell
-     * renderer components (CellRendererPane doesn't paint anyway).
+     * If tif spfdififd domponfnt is blrfbdy b diild of tiis tifn wf don't
+     * botifr doing bnytiing - stbdking ordfr dofsn't mbttfr for dfll
+     * rfndfrfr domponfnts (CfllRfndfrfrPbnf dofsn't pbint bnywby).
      */
-    protected void addImpl(Component x, Object constraints, int index) {
-        if (x.getParent() == this) {
-            return;
+    protfdtfd void bddImpl(Componfnt x, Objfdt donstrbints, int indfx) {
+        if (x.gftPbrfnt() == tiis) {
+            rfturn;
         }
-        else {
-            super.addImpl(x, constraints, index);
+        flsf {
+            supfr.bddImpl(x, donstrbints, indfx);
         }
     }
 
 
     /**
-     * Paint a cell renderer component c on graphics object g.  Before the component
-     * is drawn it's reparented to this (if that's necessary), it's bounds
-     * are set to w,h and the graphics object is (effectively) translated to x,y.
-     * If it's a JComponent, double buffering is temporarily turned off. After
-     * the component is painted it's bounds are reset to -w, -h, 0, 0 so that, if
-     * it's the last renderer component painted, it will not start consuming input.
-     * The Container p is the component we're actually drawing on, typically it's
-     * equal to this.getParent(). If shouldValidate is true the component c will be
-     * validated before painted.
+     * Pbint b dfll rfndfrfr domponfnt d on grbpiids objfdt g.  Bfforf tif domponfnt
+     * is drbwn it's rfpbrfntfd to tiis (if tibt's nfdfssbry), it's bounds
+     * brf sft to w,i bnd tif grbpiids objfdt is (ffffdtivfly) trbnslbtfd to x,y.
+     * If it's b JComponfnt, doublf bufffring is tfmporbrily turnfd off. Aftfr
+     * tif domponfnt is pbintfd it's bounds brf rfsft to -w, -i, 0, 0 so tibt, if
+     * it's tif lbst rfndfrfr domponfnt pbintfd, it will not stbrt donsuming input.
+     * Tif Contbinfr p is tif domponfnt wf'rf bdtublly drbwing on, typidblly it's
+     * fqubl to tiis.gftPbrfnt(). If siouldVblidbtf is truf tif domponfnt d will bf
+     * vblidbtfd bfforf pbintfd.
      *
-     * @param g  the {@code Graphics} object to draw on
-     * @param c  the {@code Component} to draw
-     * @param p  the {@code Container} component actually drawn on
-     * @param x  an int specifying the left side of the area draw in, in pixels,
-     *           measured from the left edge of the graphics context
-     * @param y  an int specifying the top of the area to draw in, in pixels
-     *           measured down from the top edge of the graphics context
-     * @param w  an int specifying the width of the area draw in, in pixels
-     * @param h  an int specifying the height of the area draw in, in pixels
-     * @param shouldValidate  if true, component {@code c} will be validated
-     *                        before being painted
+     * @pbrbm g  tif {@dodf Grbpiids} objfdt to drbw on
+     * @pbrbm d  tif {@dodf Componfnt} to drbw
+     * @pbrbm p  tif {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm x  bn int spfdifying tif lfft sidf of tif brfb drbw in, in pixfls,
+     *           mfbsurfd from tif lfft fdgf of tif grbpiids dontfxt
+     * @pbrbm y  bn int spfdifying tif top of tif brfb to drbw in, in pixfls
+     *           mfbsurfd down from tif top fdgf of tif grbpiids dontfxt
+     * @pbrbm w  bn int spfdifying tif widti of tif brfb drbw in, in pixfls
+     * @pbrbm i  bn int spfdifying tif ifigit of tif brfb drbw in, in pixfls
+     * @pbrbm siouldVblidbtf  if truf, domponfnt {@dodf d} will bf vblidbtfd
+     *                        bfforf bfing pbintfd
      */
-    public void paintComponent(Graphics g, Component c, Container p, int x, int y, int w, int h, boolean shouldValidate) {
-        if (c == null) {
+    publid void pbintComponfnt(Grbpiids g, Componfnt d, Contbinfr p, int x, int y, int w, int i, boolfbn siouldVblidbtf) {
+        if (d == null) {
             if (p != null) {
-                Color oldColor = g.getColor();
-                g.setColor(p.getBackground());
-                g.fillRect(x, y, w, h);
-                g.setColor(oldColor);
+                Color oldColor = g.gftColor();
+                g.sftColor(p.gftBbdkground());
+                g.fillRfdt(x, y, w, i);
+                g.sftColor(oldColor);
             }
-            return;
+            rfturn;
         }
 
-        if (c.getParent() != this) {
-            this.add(c);
+        if (d.gftPbrfnt() != tiis) {
+            tiis.bdd(d);
         }
 
-        c.setBounds(x, y, w, h);
+        d.sftBounds(x, y, w, i);
 
-        if(shouldValidate) {
-            c.validate();
+        if(siouldVblidbtf) {
+            d.vblidbtf();
         }
 
-        boolean wasDoubleBuffered = false;
-        if ((c instanceof JComponent) && ((JComponent)c).isDoubleBuffered()) {
-            wasDoubleBuffered = true;
-            ((JComponent)c).setDoubleBuffered(false);
+        boolfbn wbsDoublfBufffrfd = fblsf;
+        if ((d instbndfof JComponfnt) && ((JComponfnt)d).isDoublfBufffrfd()) {
+            wbsDoublfBufffrfd = truf;
+            ((JComponfnt)d).sftDoublfBufffrfd(fblsf);
         }
 
-        Graphics cg = g.create(x, y, w, h);
+        Grbpiids dg = g.drfbtf(x, y, w, i);
         try {
-            c.paint(cg);
+            d.pbint(dg);
         }
-        finally {
-            cg.dispose();
-        }
-
-        if (wasDoubleBuffered && (c instanceof JComponent)) {
-            ((JComponent)c).setDoubleBuffered(true);
+        finblly {
+            dg.disposf();
         }
 
-        c.setBounds(-w, -h, 0, 0);
+        if (wbsDoublfBufffrfd && (d instbndfof JComponfnt)) {
+            ((JComponfnt)d).sftDoublfBufffrfd(truf);
+        }
+
+        d.sftBounds(-w, -i, 0, 0);
     }
 
 
     /**
-     * Calls this.paintComponent(g, c, p, x, y, w, h, false).
+     * Cblls tiis.pbintComponfnt(g, d, p, x, y, w, i, fblsf).
      *
-     * @param g  the {@code Graphics} object to draw on
-     * @param c  the {@code Component} to draw
-     * @param p  the {@code Container} component actually drawn on
-     * @param x  an int specifying the left side of the area draw in, in pixels,
-     *           measured from the left edge of the graphics context
-     * @param y  an int specifying the top of the area to draw in, in pixels
-     *           measured down from the top edge of the graphics context
-     * @param w  an int specifying the width of the area draw in, in pixels
-     * @param h  an int specifying the height of the area draw in, in pixels
+     * @pbrbm g  tif {@dodf Grbpiids} objfdt to drbw on
+     * @pbrbm d  tif {@dodf Componfnt} to drbw
+     * @pbrbm p  tif {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm x  bn int spfdifying tif lfft sidf of tif brfb drbw in, in pixfls,
+     *           mfbsurfd from tif lfft fdgf of tif grbpiids dontfxt
+     * @pbrbm y  bn int spfdifying tif top of tif brfb to drbw in, in pixfls
+     *           mfbsurfd down from tif top fdgf of tif grbpiids dontfxt
+     * @pbrbm w  bn int spfdifying tif widti of tif brfb drbw in, in pixfls
+     * @pbrbm i  bn int spfdifying tif ifigit of tif brfb drbw in, in pixfls
      */
-    public void paintComponent(Graphics g, Component c, Container p, int x, int y, int w, int h) {
-        paintComponent(g, c, p, x, y, w, h, false);
+    publid void pbintComponfnt(Grbpiids g, Componfnt d, Contbinfr p, int x, int y, int w, int i) {
+        pbintComponfnt(g, d, p, x, y, w, i, fblsf);
     }
 
 
     /**
-     * Calls this.paintComponent() with the rectangles x,y,width,height fields.
+     * Cblls tiis.pbintComponfnt() witi tif rfdtbnglfs x,y,widti,ifigit fiflds.
      *
-     * @param g  the {@code Graphics} object to draw on
-     * @param c  the {@code Component} to draw
-     * @param p  the {@code Container} component actually drawn on
-     * @param r  the {@code Rectangle} to draw in
+     * @pbrbm g  tif {@dodf Grbpiids} objfdt to drbw on
+     * @pbrbm d  tif {@dodf Componfnt} to drbw
+     * @pbrbm p  tif {@dodf Contbinfr} domponfnt bdtublly drbwn on
+     * @pbrbm r  tif {@dodf Rfdtbnglf} to drbw in
      */
-    public void paintComponent(Graphics g, Component c, Container p, Rectangle r) {
-        paintComponent(g, c, p, r.x, r.y, r.width, r.height);
+    publid void pbintComponfnt(Grbpiids g, Componfnt d, Contbinfr p, Rfdtbnglf r) {
+        pbintComponfnt(g, d, p, r.x, r.y, r.widti, r.ifigit);
     }
 
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        removeAll();
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        rfmovfAll();
+        s.dffbultWritfObjfdt();
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code CellRendererPan}
+     * {@dodf AddfssiblfContfxt} bssodibtfd witi tiis {@dodf CfllRfndfrfrPbn}
      */
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
 
     /**
-     * Gets the AccessibleContext associated with this CellRendererPane.
-     * For CellRendererPanes, the AccessibleContext takes the form of an
-     * AccessibleCellRendererPane.
-     * A new AccessibleCellRendererPane instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis CfllRfndfrfrPbnf.
+     * For CfllRfndfrfrPbnfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfCfllRfndfrfrPbnf.
+     * A nfw AddfssiblfCfllRfndfrfrPbnf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleCellRendererPane that serves as the
-     *         AccessibleContext of this CellRendererPane
+     * @rfturn bn AddfssiblfCfllRfndfrfrPbnf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis CfllRfndfrfrPbnf
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleCellRendererPane();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfCfllRfndfrfrPbnf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>CellRendererPane</code> class.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>CfllRfndfrfrPbnf</dodf> dlbss.
      */
-    protected class AccessibleCellRendererPane extends AccessibleAWTContainer {
-        // AccessibleContext methods
+    protfdtfd dlbss AddfssiblfCfllRfndfrfrPbnf fxtfnds AddfssiblfAWTContbinfr {
+        // AddfssiblfContfxt mftiods
         //
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PANEL;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PANEL;
         }
-    } // inner class AccessibleCellRendererPane
+    } // innfr dlbss AddfssiblfCfllRfndfrfrPbnf
 }

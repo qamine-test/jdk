@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.ref;
+pbdkbgf jbvb.lbng.rff;
 
 
 /**
- * Soft reference objects, which are cleared at the discretion of the garbage
- * collector in response to memory demand.  Soft references are most often used
- * to implement memory-sensitive caches.
+ * Soft rfffrfndf objfdts, wiidi brf dlfbrfd bt tif disdrftion of tif gbrbbgf
+ * dollfdtor in rfsponsf to mfmory dfmbnd.  Soft rfffrfndfs brf most oftfn usfd
+ * to implfmfnt mfmory-sfnsitivf dbdifs.
  *
- * <p> Suppose that the garbage collector determines at a certain point in time
- * that an object is <a href="package-summary.html#reachability">softly
- * reachable</a>.  At that time it may choose to clear atomically all soft
- * references to that object and all soft references to any other
- * softly-reachable objects from which that object is reachable through a chain
- * of strong references.  At the same time or at some later time it will
- * enqueue those newly-cleared soft references that are registered with
- * reference queues.
+ * <p> Supposf tibt tif gbrbbgf dollfdtor dftfrminfs bt b dfrtbin point in timf
+ * tibt bn objfdt is <b irff="pbdkbgf-summbry.itml#rfbdibbility">softly
+ * rfbdibblf</b>.  At tibt timf it mby dioosf to dlfbr btomidblly bll soft
+ * rfffrfndfs to tibt objfdt bnd bll soft rfffrfndfs to bny otifr
+ * softly-rfbdibblf objfdts from wiidi tibt objfdt is rfbdibblf tirougi b dibin
+ * of strong rfffrfndfs.  At tif sbmf timf or bt somf lbtfr timf it will
+ * fnqufuf tiosf nfwly-dlfbrfd soft rfffrfndfs tibt brf rfgistfrfd witi
+ * rfffrfndf qufufs.
  *
- * <p> All soft references to softly-reachable objects are guaranteed to have
- * been cleared before the virtual machine throws an
- * <code>OutOfMemoryError</code>.  Otherwise no constraints are placed upon the
- * time at which a soft reference will be cleared or the order in which a set
- * of such references to different objects will be cleared.  Virtual machine
- * implementations are, however, encouraged to bias against clearing
- * recently-created or recently-used soft references.
+ * <p> All soft rfffrfndfs to softly-rfbdibblf objfdts brf gubrbntffd to ibvf
+ * bffn dlfbrfd bfforf tif virtubl mbdiinf tirows bn
+ * <dodf>OutOfMfmoryError</dodf>.  Otifrwisf no donstrbints brf plbdfd upon tif
+ * timf bt wiidi b soft rfffrfndf will bf dlfbrfd or tif ordfr in wiidi b sft
+ * of sudi rfffrfndfs to difffrfnt objfdts will bf dlfbrfd.  Virtubl mbdiinf
+ * implfmfntbtions brf, iowfvfr, fndourbgfd to bibs bgbinst dlfbring
+ * rfdfntly-drfbtfd or rfdfntly-usfd soft rfffrfndfs.
  *
- * <p> Direct instances of this class may be used to implement simple caches;
- * this class or derived subclasses may also be used in larger data structures
- * to implement more sophisticated caches.  As long as the referent of a soft
- * reference is strongly reachable, that is, is actually in use, the soft
- * reference will not be cleared.  Thus a sophisticated cache can, for example,
- * prevent its most recently used entries from being discarded by keeping
- * strong referents to those entries, leaving the remaining entries to be
- * discarded at the discretion of the garbage collector.
+ * <p> Dirfdt instbndfs of tiis dlbss mby bf usfd to implfmfnt simplf dbdifs;
+ * tiis dlbss or dfrivfd subdlbssfs mby blso bf usfd in lbrgfr dbtb strudturfs
+ * to implfmfnt morf sopiistidbtfd dbdifs.  As long bs tif rfffrfnt of b soft
+ * rfffrfndf is strongly rfbdibblf, tibt is, is bdtublly in usf, tif soft
+ * rfffrfndf will not bf dlfbrfd.  Tius b sopiistidbtfd dbdif dbn, for fxbmplf,
+ * prfvfnt its most rfdfntly usfd fntrifs from bfing disdbrdfd by kffping
+ * strong rfffrfnts to tiosf fntrifs, lfbving tif rfmbining fntrifs to bf
+ * disdbrdfd bt tif disdrftion of tif gbrbbgf dollfdtor.
  *
- * @author   Mark Reinhold
- * @since    1.2
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.2
  */
 
-public class SoftReference<T> extends Reference<T> {
+publid dlbss SoftRfffrfndf<T> fxtfnds Rfffrfndf<T> {
 
     /**
-     * Timestamp clock, updated by the garbage collector
+     * Timfstbmp dlodk, updbtfd by tif gbrbbgf dollfdtor
      */
-    static private long clock;
+    stbtid privbtf long dlodk;
 
     /**
-     * Timestamp updated by each invocation of the get method.  The VM may use
-     * this field when selecting soft references to be cleared, but it is not
-     * required to do so.
+     * Timfstbmp updbtfd by fbdi invodbtion of tif gft mftiod.  Tif VM mby usf
+     * tiis fifld wifn sflfdting soft rfffrfndfs to bf dlfbrfd, but it is not
+     * rfquirfd to do so.
      */
-    private long timestamp;
+    privbtf long timfstbmp;
 
     /**
-     * Creates a new soft reference that refers to the given object.  The new
-     * reference is not registered with any queue.
+     * Crfbtfs b nfw soft rfffrfndf tibt rfffrs to tif givfn objfdt.  Tif nfw
+     * rfffrfndf is not rfgistfrfd witi bny qufuf.
      *
-     * @param referent object the new soft reference will refer to
+     * @pbrbm rfffrfnt objfdt tif nfw soft rfffrfndf will rfffr to
      */
-    public SoftReference(T referent) {
-        super(referent);
-        this.timestamp = clock;
+    publid SoftRfffrfndf(T rfffrfnt) {
+        supfr(rfffrfnt);
+        tiis.timfstbmp = dlodk;
     }
 
     /**
-     * Creates a new soft reference that refers to the given object and is
-     * registered with the given queue.
+     * Crfbtfs b nfw soft rfffrfndf tibt rfffrs to tif givfn objfdt bnd is
+     * rfgistfrfd witi tif givfn qufuf.
      *
-     * @param referent object the new soft reference will refer to
-     * @param q the queue with which the reference is to be registered,
-     *          or <tt>null</tt> if registration is not required
+     * @pbrbm rfffrfnt objfdt tif nfw soft rfffrfndf will rfffr to
+     * @pbrbm q tif qufuf witi wiidi tif rfffrfndf is to bf rfgistfrfd,
+     *          or <tt>null</tt> if rfgistrbtion is not rfquirfd
      *
      */
-    public SoftReference(T referent, ReferenceQueue<? super T> q) {
-        super(referent, q);
-        this.timestamp = clock;
+    publid SoftRfffrfndf(T rfffrfnt, RfffrfndfQufuf<? supfr T> q) {
+        supfr(rfffrfnt, q);
+        tiis.timfstbmp = dlodk;
     }
 
     /**
-     * Returns this reference object's referent.  If this reference object has
-     * been cleared, either by the program or by the garbage collector, then
-     * this method returns <code>null</code>.
+     * Rfturns tiis rfffrfndf objfdt's rfffrfnt.  If tiis rfffrfndf objfdt ibs
+     * bffn dlfbrfd, fitifr by tif progrbm or by tif gbrbbgf dollfdtor, tifn
+     * tiis mftiod rfturns <dodf>null</dodf>.
      *
-     * @return   The object to which this reference refers, or
-     *           <code>null</code> if this reference object has been cleared
+     * @rfturn   Tif objfdt to wiidi tiis rfffrfndf rfffrs, or
+     *           <dodf>null</dodf> if tiis rfffrfndf objfdt ibs bffn dlfbrfd
      */
-    public T get() {
-        T o = super.get();
-        if (o != null && this.timestamp != clock)
-            this.timestamp = clock;
-        return o;
+    publid T gft() {
+        T o = supfr.gft();
+        if (o != null && tiis.timfstbmp != dlodk)
+            tiis.timfstbmp = dlodk;
+        rfturn o;
     }
 
 }

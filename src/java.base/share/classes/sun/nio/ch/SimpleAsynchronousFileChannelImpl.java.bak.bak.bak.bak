@@ -1,0 +1,396 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+
+/**
+ * "Portbblf" implfmfntbtion of AsyndhronousFilfChbnnfl for usf on opfrbting
+ * systfms thbt don't support bsyndhronous filf I/O.
+ */
+
+publid dlbss SimplfAsyndhronousFilfChbnnflImpl
+    fxtfnds AsyndhronousFilfChbnnflImpl
+{
+    // lbzy initiblizbtion of dffbult thrfbd pool for filf I/O
+    privbtf stbtid dlbss DffbultExfdutorHoldfr {
+        stbtid finbl ExfdutorSfrvidf dffbultExfdutor =
+            ThrfbdPool.drfbtfDffbult().fxfdutor();
+    }
+
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid finbl FilfDispbtdhfr nd = nfw FilfDispbtdhfrImpl();
+
+    // Thrfbd-sbff sft of IDs of nbtivf thrfbds, for signblling
+    privbtf finbl NbtivfThrfbdSft thrfbds = nfw NbtivfThrfbdSft(2);
+
+
+    SimplfAsyndhronousFilfChbnnflImpl(FilfDfsdriptor fdObj,
+                                      boolfbn rfbding,
+                                      boolfbn writing,
+                                      ExfdutorSfrvidf fxfdutor)
+    {
+        supfr(fdObj, rfbding, writing, fxfdutor);
+    }
+
+    publid stbtid AsyndhronousFilfChbnnfl opfn(FilfDfsdriptor fdo,
+                                               boolfbn rfbding,
+                                               boolfbn writing,
+                                               ThrfbdPool pool)
+    {
+        // Exfdutor is fithfr dffbult or bbsfd on pool pbrbmftfrs
+        ExfdutorSfrvidf fxfdutor = (pool == null) ?
+            DffbultExfdutorHoldfr.dffbultExfdutor : pool.fxfdutor();
+        rfturn nfw SimplfAsyndhronousFilfChbnnflImpl(fdo, rfbding, writing, fxfdutor);
+    }
+
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        // mbrk dhbnnfl bs dlosfd
+        syndhronizfd (fdObj) {
+            if (dlosfd)
+                rfturn;     // blrfbdy dlosfd
+            dlosfd = truf;
+            // from this point on, if bnothfr thrfbd invokfs thf bfgin() mfthod
+            // thfn it will throw ClosfdChbnnflExdfption
+        }
+
+        // Invblidbtf bnd rflfbsf bny lodks thbt wf still hold
+        invblidbtfAllLodks();
+
+        // signbl bny thrfbds blodkfd on this dhbnnfl
+        thrfbds.signblAndWbit();
+
+        // wbit until bll bsynd I/O opfrbtions hbvf domplftfly grbdffully
+        dlosfLodk.writfLodk().lodk();
+        try {
+            // do nothing
+        } finblly {
+            dlosfLodk.writfLodk().unlodk();
+        }
+
+        // dlosf filf
+        nd.dlosf(fdObj);
+    }
+
+    @Ovfrridf
+    publid long sizf() throws IOExdfption {
+        int ti = thrfbds.bdd();
+        try {
+            long n = 0L;
+            try {
+                bfgin();
+                do {
+                    n = nd.sizf(fdObj);
+                } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn n;
+            } finblly {
+                fnd(n >= 0L);
+            }
+        } finblly {
+            thrfbds.rfmovf(ti);
+        }
+    }
+
+    @Ovfrridf
+    publid AsyndhronousFilfChbnnfl trundbtf(long sizf) throws IOExdfption {
+        if (sizf < 0L)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf sizf");
+        if (!writing)
+            throw nfw NonWritbblfChbnnflExdfption();
+        int ti = thrfbds.bdd();
+        try {
+            long n = 0L;
+            try {
+                bfgin();
+                do {
+                    n = nd.sizf(fdObj);
+                } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+
+                // trundbtf filf if 'sizf' lfss thbn durrfnt sizf
+                if (sizf < n && isOpfn()) {
+                    do {
+                        n = nd.trundbtf(fdObj, sizf);
+                    } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                }
+                rfturn this;
+            } finblly {
+                fnd(n > 0);
+            }
+        } finblly {
+            thrfbds.rfmovf(ti);
+        }
+    }
+
+    @Ovfrridf
+    publid void fordf(boolfbn mftbDbtb) throws IOExdfption {
+        int ti = thrfbds.bdd();
+        try {
+            int n = 0;
+            try {
+                bfgin();
+                do {
+                    n = nd.fordf(fdObj, mftbDbtb);
+                } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+            } finblly {
+                fnd(n >= 0);
+            }
+        } finblly {
+            thrfbds.rfmovf(ti);
+        }
+    }
+
+    @Ovfrridf
+    <A> Futurf<FilfLodk> implLodk(finbl long position,
+                                  finbl long sizf,
+                                  finbl boolfbn shbrfd,
+                                  finbl A bttbdhmfnt,
+                                  finbl ComplftionHbndlfr<FilfLodk,? supfr A> hbndlfr)
+    {
+        if (shbrfd && !rfbding)
+            throw nfw NonRfbdbblfChbnnflExdfption();
+        if (!shbrfd && !writing)
+            throw nfw NonWritbblfChbnnflExdfption();
+
+        // bdd to lodk tbblf
+        finbl FilfLodkImpl fli = bddToFilfLodkTbblf(position, sizf, shbrfd);
+        if (fli == null) {
+            Throwbblf fxd = nfw ClosfdChbnnflExdfption();
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withFbilurf(fxd);
+            Invokfr.invokfIndirfdtly(hbndlfr, bttbdhmfnt, null, fxd, fxfdutor);
+            rfturn null;
+        }
+
+        finbl PfndingFuturf<FilfLodk,A> rfsult = (hbndlfr == null) ?
+            nfw PfndingFuturf<FilfLodk,A>(this) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
+                Throwbblf fxd = null;
+
+                int ti = thrfbds.bdd();
+                try {
+                    int n;
+                    try {
+                        bfgin();
+                        do {
+                            n = nd.lodk(fdObj, truf, position, sizf, shbrfd);
+                        } whilf ((n == FilfDispbtdhfr.INTERRUPTED) && isOpfn());
+                        if (n != FilfDispbtdhfr.LOCKED || !isOpfn()) {
+                            throw nfw AsyndhronousClosfExdfption();
+                        }
+                    } dbtdh (IOExdfption x) {
+                        rfmovfFromFilfLodkTbblf(fli);
+                        if (!isOpfn())
+                            x = nfw AsyndhronousClosfExdfption();
+                        fxd = x;
+                    } finblly {
+                        fnd();
+                    }
+                } finblly {
+                    thrfbds.rfmovf(ti);
+                }
+                if (hbndlfr == null) {
+                    rfsult.sftRfsult(fli, fxd);
+                } flsf {
+                    Invokfr.invokfUndhfdkfd(hbndlfr, bttbdhmfnt, fli, fxd);
+                }
+            }
+        };
+        boolfbn fxfdutfd = fblsf;
+        try {
+            fxfdutor.fxfdutf(tbsk);
+            fxfdutfd = truf;
+        } finblly {
+            if (!fxfdutfd) {
+                // rollbbdk
+                rfmovfFromFilfLodkTbblf(fli);
+            }
+        }
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    publid FilfLodk tryLodk(long position, long sizf, boolfbn shbrfd)
+        throws IOExdfption
+    {
+        if (shbrfd && !rfbding)
+            throw nfw NonRfbdbblfChbnnflExdfption();
+        if (!shbrfd && !writing)
+            throw nfw NonWritbblfChbnnflExdfption();
+
+        // bdd to lodk tbblf
+        FilfLodkImpl fli = bddToFilfLodkTbblf(position, sizf, shbrfd);
+        if (fli == null)
+            throw nfw ClosfdChbnnflExdfption();
+
+        int ti = thrfbds.bdd();
+        boolfbn gotLodk = fblsf;
+        try {
+            bfgin();
+            int n;
+            do {
+                n = nd.lodk(fdObj, fblsf, position, sizf, shbrfd);
+            } whilf ((n == FilfDispbtdhfr.INTERRUPTED) && isOpfn());
+            if (n == FilfDispbtdhfr.LOCKED && isOpfn()) {
+                gotLodk = truf;
+                rfturn fli;    // lodk bdquirfd
+            }
+            if (n == FilfDispbtdhfr.NO_LOCK)
+                rfturn null;    // lodkfd by somfonf flsf
+            if (n == FilfDispbtdhfr.INTERRUPTED)
+                throw nfw AsyndhronousClosfExdfption();
+            // should not gft hfrf
+            throw nfw AssfrtionError();
+        } finblly {
+            if (!gotLodk)
+                rfmovfFromFilfLodkTbblf(fli);
+            fnd();
+            thrfbds.rfmovf(ti);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void implRflfbsf(FilfLodkImpl fli) throws IOExdfption {
+        nd.rflfbsf(fdObj, fli.position(), fli.sizf());
+    }
+
+    @Ovfrridf
+    <A> Futurf<Intfgfr> implRfbd(finbl BytfBufffr dst,
+                                 finbl long position,
+                                 finbl A bttbdhmfnt,
+                                 finbl ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (position < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (!rfbding)
+            throw nfw NonRfbdbblfChbnnflExdfption();
+        if (dst.isRfbdOnly())
+            throw nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+
+        // domplftf immfdibtfly if dhbnnfl dlosfd or no spbdf rfmbining
+        if (!isOpfn() || (dst.rfmbining() == 0)) {
+            Throwbblf fxd = (isOpfn()) ? null : nfw ClosfdChbnnflExdfption();
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withRfsult(0, fxd);
+            Invokfr.invokfIndirfdtly(hbndlfr, bttbdhmfnt, 0, fxd, fxfdutor);
+            rfturn null;
+        }
+
+        finbl PfndingFuturf<Intfgfr,A> rfsult = (hbndlfr == null) ?
+            nfw PfndingFuturf<Intfgfr,A>(this) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
+                int n = 0;
+                Throwbblf fxd = null;
+
+                int ti = thrfbds.bdd();
+                try {
+                    bfgin();
+                    do {
+                        n = IOUtil.rfbd(fdObj, dst, position, nd);
+                    } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                    if (n < 0 && !isOpfn())
+                        throw nfw AsyndhronousClosfExdfption();
+                } dbtdh (IOExdfption x) {
+                    if (!isOpfn())
+                        x = nfw AsyndhronousClosfExdfption();
+                    fxd = x;
+                } finblly {
+                    fnd();
+                    thrfbds.rfmovf(ti);
+                }
+                if (hbndlfr == null) {
+                    rfsult.sftRfsult(n, fxd);
+                } flsf {
+                    Invokfr.invokfUndhfdkfd(hbndlfr, bttbdhmfnt, n, fxd);
+                }
+            }
+        };
+        fxfdutor.fxfdutf(tbsk);
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    <A> Futurf<Intfgfr> implWritf(finbl BytfBufffr srd,
+                                  finbl long position,
+                                  finbl A bttbdhmfnt,
+                                  finbl ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (position < 0)
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf position");
+        if (!writing)
+            throw nfw NonWritbblfChbnnflExdfption();
+
+        // domplftf immfdibtfly if dhbnnfl is dlosfd or no bytfs rfmbining
+        if (!isOpfn() || (srd.rfmbining() == 0)) {
+            Throwbblf fxd = (isOpfn()) ? null : nfw ClosfdChbnnflExdfption();
+            if (hbndlfr == null)
+                rfturn ComplftfdFuturf.withRfsult(0, fxd);
+            Invokfr.invokfIndirfdtly(hbndlfr, bttbdhmfnt, 0, fxd, fxfdutor);
+            rfturn null;
+        }
+
+        finbl PfndingFuturf<Intfgfr,A> rfsult = (hbndlfr == null) ?
+            nfw PfndingFuturf<Intfgfr,A>(this) : null;
+        Runnbblf tbsk = nfw Runnbblf() {
+            publid void run() {
+                int n = 0;
+                Throwbblf fxd = null;
+
+                int ti = thrfbds.bdd();
+                try {
+                    bfgin();
+                    do {
+                        n = IOUtil.writf(fdObj, srd, position, nd);
+                    } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                    if (n < 0 && !isOpfn())
+                        throw nfw AsyndhronousClosfExdfption();
+                } dbtdh (IOExdfption x) {
+                    if (!isOpfn())
+                        x = nfw AsyndhronousClosfExdfption();
+                    fxd = x;
+                } finblly {
+                    fnd();
+                    thrfbds.rfmovf(ti);
+                }
+                if (hbndlfr == null) {
+                    rfsult.sftRfsult(n, fxd);
+                } flsf {
+                    Invokfr.invokfUndhfdkfd(hbndlfr, bttbdhmfnt, n, fxd);
+                }
+            }
+        };
+        fxfdutor.fxfdutf(tbsk);
+        rfturn rfsult;
+    }
+}

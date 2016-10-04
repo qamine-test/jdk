@@ -1,60 +1,60 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE supplementalData SYSTEM "../../common/dtd/ldmlSupplemental.dtd">
-<supplementalData>
-    <version number="$Revision: 6546 $"/>
-    <generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-    <numberingSystems>
-        <numberingSystem id="arab" type="numeric" digits="٠١٢٣٤٥٦٧٨٩"/>
-        <numberingSystem id="arabext" type="numeric" digits="۰۱۲۳۴۵۶۷۸۹"/>
-        <numberingSystem id="armn" type="algorithmic" rules="armenian-upper"/>
-        <numberingSystem id="armnlow" type="algorithmic" rules="armenian-lower"/>
-        <numberingSystem id="bali" type="numeric" digits="᭐᭑᭒᭓᭔᭕᭖᭗᭘᭙"/>
-        <numberingSystem id="beng" type="numeric" digits="০১২৩৪৫৬৭৮৯"/>
-        <numberingSystem id="cham" type="numeric" digits="꩐꩑꩒꩓꩔꩕꩖꩗꩘꩙"/>
-        <numberingSystem id="deva" type="numeric" digits="०१२३४५६७८९"/>
-        <numberingSystem id="ethi" type="algorithmic" rules="ethiopic"/>
-        <numberingSystem id="fullwide" type="numeric" digits="０１２３４５６７８９"/>
-        <numberingSystem id="geor" type="algorithmic" rules="georgian"/>
-        <numberingSystem id="grek" type="algorithmic" rules="greek-upper"/>
-        <numberingSystem id="greklow" type="algorithmic" rules="greek-lower"/>
-        <numberingSystem id="gujr" type="numeric" digits="૦૧૨૩૪૫૬૭૮૯"/>
-        <numberingSystem id="guru" type="numeric" digits="੦੧੨੩੪੫੬੭੮੯"/>
-        <numberingSystem id="hanidec" type="numeric" digits="〇一二三四五六七八九"/>
-        <numberingSystem id="hans" type="algorithmic" rules="zh/SpelloutRules/spellout-cardinal"/>
-        <numberingSystem id="hansfin" type="algorithmic" rules="zh/SpelloutRules/spellout-cardinal-financial"/>
-        <numberingSystem id="hant" type="algorithmic" rules="zh_Hant/SpelloutRules/spellout-cardinal"/>
-        <numberingSystem id="hantfin" type="algorithmic" rules="zh_Hant/SpelloutRules/spellout-cardinal-financial"/>
-        <numberingSystem id="hebr" type="algorithmic" rules="hebrew"/>
-        <numberingSystem id="java" type="numeric" digits="꧐꧑꧒꧓꧔꧕꧖꧗꧘꧙"/>
-        <numberingSystem id="jpan" type="algorithmic" rules="ja/SpelloutRules/spellout-cardinal"/>
-        <numberingSystem id="jpanfin" type="algorithmic" rules="ja/SpelloutRules/spellout-cardinal-financial"/>
-        <numberingSystem id="kali" type="numeric" digits="꤀꤁꤂꤃꤄꤅꤆꤇꤈꤉"/>
-        <numberingSystem id="khmr" type="numeric" digits="០១២៣៤៥៦៧៨៩"/>
-        <numberingSystem id="knda" type="numeric" digits="೦೧೨೩೪೫೬೭೮೯"/>
-        <numberingSystem id="lana" type="numeric" digits="᪀᪁᪂᪃᪄᪅᪆᪇᪈᪉"/>
-        <numberingSystem id="lanatham" type="numeric" digits="᪐᪑᪒᪓᪔᪕᪖᪗᪘᪙"/>
-        <numberingSystem id="laoo" type="numeric" digits="໐໑໒໓໔໕໖໗໘໙"/>
-        <numberingSystem id="latn" type="numeric" digits="0123456789"/>
-        <numberingSystem id="lepc" type="numeric" digits="᱀᱁᱂᱃᱄᱅᱆᱇᱈᱉"/>
-        <numberingSystem id="limb" type="numeric" digits="᥆᥇᥈᥉᥊᥋᥌᥍᥎᥏"/>
-        <numberingSystem id="mlym" type="numeric" digits="൦൧൨൩൪൫൬൭൮൯"/>
-        <numberingSystem id="mong" type="numeric" digits="᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"/>
-        <numberingSystem id="mtei" type="numeric" digits="꯰꯱꯲꯳꯴꯵꯶꯷꯸꯹"/>
-        <numberingSystem id="mymr" type="numeric" digits="၀၁၂၃၄၅၆၇၈၉"/>
-        <numberingSystem id="mymrshan" type="numeric" digits="႐႑႒႓႔႕႖႗႘႙"/>
-        <numberingSystem id="nkoo" type="numeric" digits="߉߈߇߆߅߄߃߂߁߀"/>
-        <numberingSystem id="olck" type="numeric" digits="᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙"/>
-        <numberingSystem id="orya" type="numeric" digits="୦୧୨୩୪୫୬୭୮୯"/>
-        <numberingSystem id="roman" type="algorithmic" rules="roman-upper"/>
-        <numberingSystem id="romanlow" type="algorithmic" rules="roman-lower"/>
-        <numberingSystem id="saur" type="numeric" digits="꣐꣑꣒꣓꣔꣕꣖꣗꣘꣙"/>
-        <numberingSystem id="sund" type="numeric" digits="᮰᮱᮲᮳᮴᮵᮶᮷᮸᮹"/>
-        <numberingSystem id="talu" type="numeric" digits="᧐᧑᧒᧓᧔᧕᧖᧗᧘᧙"/>
-        <numberingSystem id="taml" type="algorithmic" rules="tamil"/>
-        <numberingSystem id="tamldec" type="numeric" digits="௦௧௨௩௪௫௬௭௮௯"/>
-        <numberingSystem id="telu" type="numeric" digits="౦౧౨౩౪౫౬౭౮౯"/>
-        <numberingSystem id="thai" type="numeric" digits="๐๑๒๓๔๕๖๗๘๙"/>
-        <numberingSystem id="tibt" type="numeric" digits="༠༡༢༣༤༥༦༧༨༩"/>
-        <numberingSystem id="vaii" type="numeric" digits="꘠꘡꘢꘣꘤꘥꘦꘧꘨꘩"/>
-    </numberingSystems>
-</supplementalData>
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE supplfmfntblDbtb SYSTEM "../../dommon/dtd/ldmlSupplfmfntbl.dtd">
+<supplfmfntblDbtb>
+    <vfrsion numbfr="$Rfvision: 6546 $"/>
+    <gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+    <numbfringSystfms>
+        <numbfringSystfm id="brbb" typf="numfrid" digits="٠١٢٣٤٥٦٧٨٩"/>
+        <numbfringSystfm id="brbbfxt" typf="numfrid" digits="۰۱۲۳۴۵۶۷۸۹"/>
+        <numbfringSystfm id="brmn" typf="blgoritimid" rulfs="brmfnibn-uppfr"/>
+        <numbfringSystfm id="brmnlow" typf="blgoritimid" rulfs="brmfnibn-lowfr"/>
+        <numbfringSystfm id="bbli" typf="numfrid" digits="᭐᭑᭒᭓᭔᭕᭖᭗᭘᭙"/>
+        <numbfringSystfm id="bfng" typf="numfrid" digits="০১২৩৪৫৬৭৮৯"/>
+        <numbfringSystfm id="dibm" typf="numfrid" digits="꩐꩑꩒꩓꩔꩕꩖꩗꩘꩙"/>
+        <numbfringSystfm id="dfvb" typf="numfrid" digits="०१२३४५६७८९"/>
+        <numbfringSystfm id="ftii" typf="blgoritimid" rulfs="ftiiopid"/>
+        <numbfringSystfm id="fullwidf" typf="numfrid" digits="０１２３４５６７８９"/>
+        <numbfringSystfm id="gfor" typf="blgoritimid" rulfs="gforgibn"/>
+        <numbfringSystfm id="grfk" typf="blgoritimid" rulfs="grffk-uppfr"/>
+        <numbfringSystfm id="grfklow" typf="blgoritimid" rulfs="grffk-lowfr"/>
+        <numbfringSystfm id="gujr" typf="numfrid" digits="૦૧૨૩૪૫૬૭૮૯"/>
+        <numbfringSystfm id="guru" typf="numfrid" digits="੦੧੨੩੪੫੬੭੮੯"/>
+        <numbfringSystfm id="ibnidfd" typf="numfrid" digits="〇一二三四五六七八九"/>
+        <numbfringSystfm id="ibns" typf="blgoritimid" rulfs="zi/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="ibnsfin" typf="blgoritimid" rulfs="zi/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="ibnt" typf="blgoritimid" rulfs="zi_Hbnt/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="ibntfin" typf="blgoritimid" rulfs="zi_Hbnt/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="ifbr" typf="blgoritimid" rulfs="ifbrfw"/>
+        <numbfringSystfm id="jbvb" typf="numfrid" digits="꧐꧑꧒꧓꧔꧕꧖꧗꧘꧙"/>
+        <numbfringSystfm id="jpbn" typf="blgoritimid" rulfs="jb/SpflloutRulfs/spfllout-dbrdinbl"/>
+        <numbfringSystfm id="jpbnfin" typf="blgoritimid" rulfs="jb/SpflloutRulfs/spfllout-dbrdinbl-finbndibl"/>
+        <numbfringSystfm id="kbli" typf="numfrid" digits="꤀꤁꤂꤃꤄꤅꤆꤇꤈꤉"/>
+        <numbfringSystfm id="kimr" typf="numfrid" digits="០១២៣៤៥៦៧៨៩"/>
+        <numbfringSystfm id="kndb" typf="numfrid" digits="೦೧೨೩೪೫೬೭೮೯"/>
+        <numbfringSystfm id="lbnb" typf="numfrid" digits="᪀᪁᪂᪃᪄᪅᪆᪇᪈᪉"/>
+        <numbfringSystfm id="lbnbtibm" typf="numfrid" digits="᪐᪑᪒᪓᪔᪕᪖᪗᪘᪙"/>
+        <numbfringSystfm id="lboo" typf="numfrid" digits="໐໑໒໓໔໕໖໗໘໙"/>
+        <numbfringSystfm id="lbtn" typf="numfrid" digits="0123456789"/>
+        <numbfringSystfm id="lfpd" typf="numfrid" digits="᱀᱁᱂᱃᱄᱅᱆᱇᱈᱉"/>
+        <numbfringSystfm id="limb" typf="numfrid" digits="᥆᥇᥈᥉᥊᥋᥌᥍᥎᥏"/>
+        <numbfringSystfm id="mlym" typf="numfrid" digits="൦൧൨൩൪൫൬൭൮൯"/>
+        <numbfringSystfm id="mong" typf="numfrid" digits="᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"/>
+        <numbfringSystfm id="mtfi" typf="numfrid" digits="꯰꯱꯲꯳꯴꯵꯶꯷꯸꯹"/>
+        <numbfringSystfm id="mymr" typf="numfrid" digits="၀၁၂၃၄၅၆၇၈၉"/>
+        <numbfringSystfm id="mymrsibn" typf="numfrid" digits="႐႑႒႓႔႕႖႗႘႙"/>
+        <numbfringSystfm id="nkoo" typf="numfrid" digits="߉߈߇߆߅߄߃߂߁߀"/>
+        <numbfringSystfm id="oldk" typf="numfrid" digits="᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙"/>
+        <numbfringSystfm id="oryb" typf="numfrid" digits="୦୧୨୩୪୫୬୭୮୯"/>
+        <numbfringSystfm id="rombn" typf="blgoritimid" rulfs="rombn-uppfr"/>
+        <numbfringSystfm id="rombnlow" typf="blgoritimid" rulfs="rombn-lowfr"/>
+        <numbfringSystfm id="sbur" typf="numfrid" digits="꣐꣑꣒꣓꣔꣕꣖꣗꣘꣙"/>
+        <numbfringSystfm id="sund" typf="numfrid" digits="᮰᮱᮲᮳᮴᮵᮶᮷᮸᮹"/>
+        <numbfringSystfm id="tblu" typf="numfrid" digits="᧐᧑᧒᧓᧔᧕᧖᧗᧘᧙"/>
+        <numbfringSystfm id="tbml" typf="blgoritimid" rulfs="tbmil"/>
+        <numbfringSystfm id="tbmldfd" typf="numfrid" digits="௦௧௨௩௪௫௬௭௮௯"/>
+        <numbfringSystfm id="tflu" typf="numfrid" digits="౦౧౨౩౪౫౬౭౮౯"/>
+        <numbfringSystfm id="tibi" typf="numfrid" digits="๐๑๒๓๔๕๖๗๘๙"/>
+        <numbfringSystfm id="tibt" typf="numfrid" digits="༠༡༢༣༤༥༦༧༨༩"/>
+        <numbfringSystfm id="vbii" typf="numfrid" digits="꘠꘡꘢꘣꘤꘥꘦꘧꘨꘩"/>
+    </numbfringSystfms>
+</supplfmfntblDbtb>

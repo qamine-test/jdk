@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.decoder;
+pbdkbgf dom.sun.bfbns.dfdodfr;
 
-import java.beans.XMLDecoder;
+import jbvb.bfbns.XMLDfdodfr;
 
 /**
- * This class is intended to handle &lt;java&gt; element.
- * Each element that appears in the body of this element
- * is evaluated in the context of the decoder itself.
- * Typically this outer context is used to retrieve the owner of the decoder,
- * which can be set before reading the archive.
- * <p>The following attributes are supported:
+ * Tiis dlbss is intfndfd to ibndlf &lt;jbvb&gt; flfmfnt.
+ * Ebdi flfmfnt tibt bppfbrs in tif body of tiis flfmfnt
+ * is fvblubtfd in tif dontfxt of tif dfdodfr itsflf.
+ * Typidblly tiis outfr dontfxt is usfd to rftrifvf tif ownfr of tif dfdodfr,
+ * wiidi dbn bf sft bfforf rfbding tif brdiivf.
+ * <p>Tif following bttributfs brf supportfd:
  * <dl>
- * <dt>version
- * <dd>the Java version (not supported)
- * <dt>class
- * <dd>the type of preferable parser (not supported)
+ * <dt>vfrsion
+ * <dd>tif Jbvb vfrsion (not supportfd)
+ * <dt>dlbss
+ * <dd>tif typf of prfffrbblf pbrsfr (not supportfd)
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>tif idfntififr of tif vbribblf tibt is intfndfd to storf tif rfsult
  * </dl>
  *
- * @see DocumentHandler#getOwner
- * @see DocumentHandler#setOwner
- * @since 1.7
+ * @sff DodumfntHbndlfr#gftOwnfr
+ * @sff DodumfntHbndlfr#sftOwnfr
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-final class JavaElementHandler extends ElementHandler {
-    private Class<?> type;
-    private ValueObject value;
+finbl dlbss JbvbElfmfntHbndlfr fxtfnds ElfmfntHbndlfr {
+    privbtf Clbss<?> typf;
+    privbtf VblufObjfdt vbluf;
 
     /**
-     * Parses attributes of the element.
-     * The following attributes are supported:
+     * Pbrsfs bttributfs of tif flfmfnt.
+     * Tif following bttributfs brf supportfd:
      * <dl>
-     * <dt>version
-     * <dd>the Java version (not supported)
-     * <dt>class
-     * <dd>the type of preferable parser (not supported)
+     * <dt>vfrsion
+     * <dd>tif Jbvb vfrsion (not supportfd)
+     * <dt>dlbss
+     * <dd>tif typf of prfffrbblf pbrsfr (not supportfd)
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>tif idfntififr of tif vbribblf tibt is intfndfd to storf tif rfsult
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbmf   tif bttributf nbmf
+     * @pbrbm vbluf  tif bttributf vbluf
      */
-    @Override
-    public void addAttribute(String name, String value) {
-        if (name.equals("version")) { // NON-NLS: the attribute name
-            // unsupported attribute
-        } else if (name.equals("class")) { // NON-NLS: the attribute name
-            // check class for owner
-            this.type = getOwner().findClass(value);
-        } else {
-            super.addAttribute(name, value);
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("vfrsion")) { // NON-NLS: tif bttributf nbmf
+            // unsupportfd bttributf
+        } flsf if (nbmf.fqubls("dlbss")) { // NON-NLS: tif bttributf nbmf
+            // difdk dlbss for ownfr
+            tiis.typf = gftOwnfr().findClbss(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
         }
     }
 
     /**
-     * Adds the argument to the list of readed objects.
+     * Adds tif brgumfnt to tif list of rfbdfd objfdts.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgumfnt  tif vbluf of tif flfmfnt tibt dontbinfd in tiis onf
      */
-    @Override
-    protected void addArgument(Object argument) {
-        getOwner().addObject(argument);
+    @Ovfrridf
+    protfdtfd void bddArgumfnt(Objfdt brgumfnt) {
+        gftOwnfr().bddObjfdt(brgumfnt);
     }
 
     /**
-     * Tests whether the value of this element can be used
-     * as an argument of the element that contained in this one.
+     * Tfsts wiftifr tif vbluf of tiis flfmfnt dbn bf usfd
+     * bs bn brgumfnt of tif flfmfnt tibt dontbinfd in tiis onf.
      *
-     * @return {@code true} if the value of this element should be used
-     *         as an argument of the element that contained in this one,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif vbluf of tiis flfmfnt siould bf usfd
+     *         bs bn brgumfnt of tif flfmfnt tibt dontbinfd in tiis onf,
+     *         {@dodf fblsf} otifrwisf
      */
-    @Override
-    protected boolean isArgument() {
-        return false; // do not use owner as object
+    @Ovfrridf
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn fblsf; // do not usf ownfr bs objfdt
     }
 
     /**
-     * Returns the value of this element.
+     * Rfturns tif vbluf of tiis flfmfnt.
      *
-     * @return the value of this element
+     * @rfturn tif vbluf of tiis flfmfnt
      */
-    @Override
-    protected ValueObject getValueObject() {
-        if (this.value == null) {
-            this.value = ValueObjectImpl.create(getValue());
+    @Ovfrridf
+    protfdtfd VblufObjfdt gftVblufObjfdt() {
+        if (tiis.vbluf == null) {
+            tiis.vbluf = VblufObjfdtImpl.drfbtf(gftVbluf());
         }
-        return this.value;
+        rfturn tiis.vbluf;
     }
 
     /**
-     * Returns the owner of the owner document handler
-     * as a value of &lt;java&gt; element.
+     * Rfturns tif ownfr of tif ownfr dodumfnt ibndlfr
+     * bs b vbluf of &lt;jbvb&gt; flfmfnt.
      *
-     * @return the owner of the owner document handler
+     * @rfturn tif ownfr of tif ownfr dodumfnt ibndlfr
      */
-    private Object getValue() {
-        Object owner = getOwner().getOwner();
-        if ((this.type == null) || isValid(owner)) {
-            return owner;
+    privbtf Objfdt gftVbluf() {
+        Objfdt ownfr = gftOwnfr().gftOwnfr();
+        if ((tiis.typf == null) || isVblid(ownfr)) {
+            rfturn ownfr;
         }
-        if (owner instanceof XMLDecoder) {
-            XMLDecoder decoder = (XMLDecoder) owner;
-            owner = decoder.getOwner();
-            if (isValid(owner)) {
-                return owner;
+        if (ownfr instbndfof XMLDfdodfr) {
+            XMLDfdodfr dfdodfr = (XMLDfdodfr) ownfr;
+            ownfr = dfdodfr.gftOwnfr();
+            if (isVblid(ownfr)) {
+                rfturn ownfr;
             }
         }
-        throw new IllegalStateException("Unexpected owner class: " + owner.getClass().getName());
+        tirow nfw IllfgblStbtfExdfption("Unfxpfdtfd ownfr dlbss: " + ownfr.gftClbss().gftNbmf());
     }
 
     /**
-     * Validates the owner of the &lt;java&gt; element.
-     * The owner is valid if it is {@code null} or an instance
-     * of the class specified by the {@code class} attribute.
+     * Vblidbtfs tif ownfr of tif &lt;jbvb&gt; flfmfnt.
+     * Tif ownfr is vblid if it is {@dodf null} or bn instbndf
+     * of tif dlbss spfdififd by tif {@dodf dlbss} bttributf.
      *
-     * @param owner  the owner of the &lt;java&gt; element
-     * @return {@code true} if the {@code owner} is valid;
-     *         {@code false} otherwise
+     * @pbrbm ownfr  tif ownfr of tif &lt;jbvb&gt; flfmfnt
+     * @rfturn {@dodf truf} if tif {@dodf ownfr} is vblid;
+     *         {@dodf fblsf} otifrwisf
      */
-    private boolean isValid(Object owner) {
-        return (owner == null) || this.type.isInstance(owner);
+    privbtf boolfbn isVblid(Objfdt ownfr) {
+        rfturn (ownfr == null) || tiis.typf.isInstbndf(ownfr);
     }
 }

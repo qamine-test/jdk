@@ -1,1233 +1,1233 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.spnego;
+pbdkbgf sun.sfdurity.jgss.spnfgo;
 
-import com.sun.security.jgss.ExtendedGSSContext;
-import com.sun.security.jgss.InquireType;
-import java.io.*;
-import java.security.Provider;
-import org.ietf.jgss.*;
-import sun.security.jgss.*;
-import sun.security.jgss.spi.*;
-import sun.security.util.*;
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import dom.sun.sfdurity.jgss.InquirfTypf;
+import jbvb.io.*;
+import jbvb.sfdurity.Providfr;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.util.*;
 
 /**
- * Implements the mechanism specific context class for SPNEGO
- * GSS-API mechanism
+ * Implfmfnts tif mfdibnism spfdifid dontfxt dlbss for SPNEGO
+ * GSS-API mfdibnism
  *
- * @author Seema Malkani
- * @since 1.6
+ * @butior Sffmb Mblkbni
+ * @sindf 1.6
  */
-public class SpNegoContext implements GSSContextSpi {
+publid dlbss SpNfgoContfxt implfmfnts GSSContfxtSpi {
 
     /*
-     * The different states that this context can be in.
+     * Tif difffrfnt stbtfs tibt tiis dontfxt dbn bf in.
      */
-    private static final int STATE_NEW = 1;
-    private static final int STATE_IN_PROCESS = 2;
-    private static final int STATE_DONE = 3;
-    private static final int STATE_DELETED = 4;
+    privbtf stbtid finbl int STATE_NEW = 1;
+    privbtf stbtid finbl int STATE_IN_PROCESS = 2;
+    privbtf stbtid finbl int STATE_DONE = 3;
+    privbtf stbtid finbl int STATE_DELETED = 4;
 
-    private int state = STATE_NEW;
+    privbtf int stbtf = STATE_NEW;
 
     /*
-     * Optional features that the application can set and their default
-     * values.
+     * Optionbl ffbturfs tibt tif bpplidbtion dbn sft bnd tifir dffbult
+     * vblufs.
      */
-    private boolean credDelegState = false;
-    private boolean mutualAuthState = true;
-    private boolean replayDetState = true;
-    private boolean sequenceDetState = true;
-    private boolean confState = true;
-    private boolean integState = true;
-    private boolean delegPolicyState = false;
+    privbtf boolfbn drfdDflfgStbtf = fblsf;
+    privbtf boolfbn mutublAutiStbtf = truf;
+    privbtf boolfbn rfplbyDftStbtf = truf;
+    privbtf boolfbn sfqufndfDftStbtf = truf;
+    privbtf boolfbn donfStbtf = truf;
+    privbtf boolfbn intfgStbtf = truf;
+    privbtf boolfbn dflfgPolidyStbtf = fblsf;
 
-    private GSSNameSpi peerName = null;
-    private GSSNameSpi myName = null;
-    private SpNegoCredElement myCred = null;
+    privbtf GSSNbmfSpi pffrNbmf = null;
+    privbtf GSSNbmfSpi myNbmf = null;
+    privbtf SpNfgoCrfdElfmfnt myCrfd = null;
 
-    private GSSContext mechContext = null;
-    private byte[] DER_mechTypes = null;
+    privbtf GSSContfxt mfdiContfxt = null;
+    privbtf bytf[] DER_mfdiTypfs = null;
 
-    private int lifetime;
-    private ChannelBinding channelBinding;
-    private boolean initiator;
+    privbtf int lifftimf;
+    privbtf CibnnflBinding dibnnflBinding;
+    privbtf boolfbn initibtor;
 
-    // the underlying negotiated mechanism
-    private Oid internal_mech = null;
+    // tif undfrlying nfgotibtfd mfdibnism
+    privbtf Oid intfrnbl_mfdi = null;
 
-    // the SpNegoMechFactory that creates this context
-    final private SpNegoMechFactory factory;
+    // tif SpNfgoMfdiFbdtory tibt drfbtfs tiis dontfxt
+    finbl privbtf SpNfgoMfdiFbdtory fbdtory;
 
-    // debug property
-    static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction
-            ("sun.security.spnego.debug")).booleanValue();
+    // dfbug propfrty
+    stbtid finbl boolfbn DEBUG =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion
+            ("sun.sfdurity.spnfgo.dfbug")).boolfbnVbluf();
 
     /**
-     * Constructor for SpNegoContext to be called on the context initiator's
-     * side.
+     * Construdtor for SpNfgoContfxt to bf dbllfd on tif dontfxt initibtor's
+     * sidf.
      */
-    public SpNegoContext(SpNegoMechFactory factory, GSSNameSpi peerName,
-                        GSSCredentialSpi myCred,
-                        int lifetime) throws GSSException {
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, GSSNbmfSpi pffrNbmf,
+                        GSSCrfdfntiblSpi myCrfd,
+                        int lifftimf) tirows GSSExdfption {
 
-        if (peerName == null)
-            throw new IllegalArgumentException("Cannot have null peer name");
-        if ((myCred != null) && !(myCred instanceof SpNegoCredElement)) {
-            throw new IllegalArgumentException("Wrong cred element type");
+        if (pffrNbmf == null)
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibvf null pffr nbmf");
+        if ((myCrfd != null) && !(myCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            tirow nfw IllfgblArgumfntExdfption("Wrong drfd flfmfnt typf");
         }
-        this.peerName = peerName;
-        this.myCred = (SpNegoCredElement) myCred;
-        this.lifetime = lifetime;
-        this.initiator = true;
-        this.factory = factory;
+        tiis.pffrNbmf = pffrNbmf;
+        tiis.myCrfd = (SpNfgoCrfdElfmfnt) myCrfd;
+        tiis.lifftimf = lifftimf;
+        tiis.initibtor = truf;
+        tiis.fbdtory = fbdtory;
     }
 
     /**
-     * Constructor for SpNegoContext to be called on the context acceptor's
-     * side.
+     * Construdtor for SpNfgoContfxt to bf dbllfd on tif dontfxt bddfptor's
+     * sidf.
      */
-    public SpNegoContext(SpNegoMechFactory factory, GSSCredentialSpi myCred)
-            throws GSSException {
-        if ((myCred != null) && !(myCred instanceof SpNegoCredElement)) {
-            throw new IllegalArgumentException("Wrong cred element type");
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, GSSCrfdfntiblSpi myCrfd)
+            tirows GSSExdfption {
+        if ((myCrfd != null) && !(myCrfd instbndfof SpNfgoCrfdElfmfnt)) {
+            tirow nfw IllfgblArgumfntExdfption("Wrong drfd flfmfnt typf");
         }
-        this.myCred = (SpNegoCredElement) myCred;
-        this.initiator = false;
-        this.factory = factory;
+        tiis.myCrfd = (SpNfgoCrfdElfmfnt) myCrfd;
+        tiis.initibtor = fblsf;
+        tiis.fbdtory = fbdtory;
     }
 
     /**
-     * Constructor for SpNegoContext to import a previously exported context.
+     * Construdtor for SpNfgoContfxt to import b prfviously fxportfd dontfxt.
      */
-    public SpNegoContext(SpNegoMechFactory factory, byte [] interProcessToken)
-        throws GSSException {
-        throw new GSSException(GSSException.UNAVAILABLE,
-                               -1, "GSS Import Context not available");
+    publid SpNfgoContfxt(SpNfgoMfdiFbdtory fbdtory, bytf [] intfrProdfssTokfn)
+        tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE,
+                               -1, "GSS Import Contfxt not bvbilbblf");
     }
 
     /**
-     * Requests that confidentiality be available.
+     * Rfqufsts tibt donfidfntiblity bf bvbilbblf.
      */
-    public final void requestConf(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            confState  = value;
+    publid finbl void rfqufstConf(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            donfStbtf  = vbluf;
     }
 
     /**
-     * Is confidentiality available?
+     * Is donfidfntiblity bvbilbblf?
      */
-    public final boolean getConfState() {
-        return confState;
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
     }
 
     /**
-     * Requests that integrity be available.
+     * Rfqufsts tibt intfgrity bf bvbilbblf.
      */
-    public final void requestInteg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            integState  = value;
+    publid finbl void rfqufstIntfg(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            intfgStbtf  = vbluf;
     }
 
     /**
-     * Requests that deleg policy be respected.
+     * Rfqufsts tibt dflfg polidy bf rfspfdtfd.
      */
-    public final void requestDelegPolicy(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            delegPolicyState = value;
+    publid finbl void rfqufstDflfgPolidy(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            dflfgPolidyStbtf = vbluf;
     }
 
     /**
-     * Is integrity available?
+     * Is intfgrity bvbilbblf?
      */
-    public final boolean getIntegState() {
-        return integState;
+    publid finbl boolfbn gftIntfgStbtf() {
+        rfturn intfgStbtf;
     }
 
     /**
-     * Is deleg policy respected?
+     * Is dflfg polidy rfspfdtfd?
      */
-    public final boolean getDelegPolicyState() {
-        if (isInitiator() && mechContext != null &&
-                mechContext instanceof ExtendedGSSContext &&
-                (state == STATE_IN_PROCESS || state == STATE_DONE)) {
-            return ((ExtendedGSSContext)mechContext).getDelegPolicyState();
-        } else {
-            return delegPolicyState;
-        }
-    }
-
-    /**
-     * Requests that credential delegation be done during context
-     * establishment.
-     */
-    public final void requestCredDeleg(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            credDelegState  = value;
-    }
-
-    /**
-     * Is credential delegation enabled?
-     */
-    public final boolean getCredDelegState() {
-        if (isInitiator() && mechContext != null &&
-                (state == STATE_IN_PROCESS || state == STATE_DONE)) {
-            return mechContext.getCredDelegState();
-        } else {
-            return credDelegState;
+    publid finbl boolfbn gftDflfgPolidyStbtf() {
+        if (isInitibtor() && mfdiContfxt != null &&
+                mfdiContfxt instbndfof ExtfndfdGSSContfxt &&
+                (stbtf == STATE_IN_PROCESS || stbtf == STATE_DONE)) {
+            rfturn ((ExtfndfdGSSContfxt)mfdiContfxt).gftDflfgPolidyStbtf();
+        } flsf {
+            rfturn dflfgPolidyStbtf;
         }
     }
 
     /**
-     * Requests that mutual authentication be done during context
-     * establishment. Since this is fromm the client's perspective, it
-     * essentially requests that the server be authenticated.
+     * Rfqufsts tibt drfdfntibl dflfgbtion bf donf during dontfxt
+     * fstbblisimfnt.
      */
-    public final void requestMutualAuth(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator()) {
-            mutualAuthState  = value;
+    publid finbl void rfqufstCrfdDflfg(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            drfdDflfgStbtf  = vbluf;
+    }
+
+    /**
+     * Is drfdfntibl dflfgbtion fnbblfd?
+     */
+    publid finbl boolfbn gftCrfdDflfgStbtf() {
+        if (isInitibtor() && mfdiContfxt != null &&
+                (stbtf == STATE_IN_PROCESS || stbtf == STATE_DONE)) {
+            rfturn mfdiContfxt.gftCrfdDflfgStbtf();
+        } flsf {
+            rfturn drfdDflfgStbtf;
         }
     }
 
     /**
-     * Is mutual authentication enabled? Since this is from the client's
-     * perspective, it essentially meas that the server is being
-     * authenticated.
+     * Rfqufsts tibt mutubl butifntidbtion bf donf during dontfxt
+     * fstbblisimfnt. Sindf tiis is fromm tif dlifnt's pfrspfdtivf, it
+     * fssfntiblly rfqufsts tibt tif sfrvfr bf butifntidbtfd.
      */
-    public final boolean getMutualAuthState() {
-        return mutualAuthState;
+    publid finbl void rfqufstMutublAuti(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor()) {
+            mutublAutiStbtf  = vbluf;
+        }
     }
 
     /**
-     * Returns the mechanism oid.
+     * Is mutubl butifntidbtion fnbblfd? Sindf tiis is from tif dlifnt's
+     * pfrspfdtivf, it fssfntiblly mfbs tibt tif sfrvfr is bfing
+     * butifntidbtfd.
+     */
+    publid finbl boolfbn gftMutublAutiStbtf() {
+        rfturn mutublAutiStbtf;
+    }
+
+    /**
+     * Rfturns tif mfdibnism oid.
      *
-     * @return the Oid of this context
+     * @rfturn tif Oid of tiis dontfxt
      */
-    public final Oid getMech() {
-        if (isEstablished()) {
-            return getNegotiatedMech();
+    publid finbl Oid gftMfdi() {
+        if (isEstbblisifd()) {
+            rfturn gftNfgotibtfdMfdi();
         }
-        return (SpNegoMechFactory.GSS_SPNEGO_MECH_OID);
+        rfturn (SpNfgoMfdiFbdtory.GSS_SPNEGO_MECH_OID);
     }
 
-    public final Oid getNegotiatedMech() {
-        return (internal_mech);
+    publid finbl Oid gftNfgotibtfdMfdi() {
+        rfturn (intfrnbl_mfdi);
     }
 
-    public final Provider getProvider() {
-        return SpNegoMechFactory.PROVIDER;
+    publid finbl Providfr gftProvidfr() {
+        rfturn SpNfgoMfdiFbdtory.PROVIDER;
     }
 
-    public final void dispose() throws GSSException {
-        mechContext = null;
-        state = STATE_DELETED;
-    }
-
-    /**
-     * Tests if this is the initiator side of the context.
-     *
-     * @return boolean indicating if this is initiator (true)
-     *  or target (false)
-     */
-    public final boolean isInitiator() {
-        return initiator;
+    publid finbl void disposf() tirows GSSExdfption {
+        mfdiContfxt = null;
+        stbtf = STATE_DELETED;
     }
 
     /**
-     * Tests if the context can be used for per-message service.
-     * Context may allow the calls to the per-message service
-     * functions before being fully established.
+     * Tfsts if tiis is tif initibtor sidf of tif dontfxt.
      *
-     * @return boolean indicating if per-message methods can
-     *  be called.
+     * @rfturn boolfbn indidbting if tiis is initibtor (truf)
+     *  or tbrgft (fblsf)
      */
-    public final boolean isProtReady() {
-        return (state == STATE_DONE);
+    publid finbl boolfbn isInitibtor() {
+        rfturn initibtor;
     }
 
     /**
-     * Initiator context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
-     * is received from the peer.
+     * Tfsts if tif dontfxt dbn bf usfd for pfr-mfssbgf sfrvidf.
+     * Contfxt mby bllow tif dblls to tif pfr-mfssbgf sfrvidf
+     * fundtions bfforf bfing fully fstbblisifd.
      *
-     * @param is contains the token received from the peer. On the
-     *        first call it will be ignored.
-     * @return any token required to be sent to the peer
-     * It is responsibility of the caller to send the token
-     * to its peer for processing.
-     * @exception GSSException
+     * @rfturn boolfbn indidbting if pfr-mfssbgf mftiods dbn
+     *  bf dbllfd.
      */
-    public final byte[] initSecContext(InputStream is, int mechTokenSize)
-        throws GSSException {
+    publid finbl boolfbn isProtRfbdy() {
+        rfturn (stbtf == STATE_DONE);
+    }
 
-        byte[] retVal = null;
-        NegTokenInit initToken = null;
-        byte[] mechToken = null;
-        int errorCode = GSSException.FAILURE;
+    /**
+     * Initibtor dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
+     *
+     * @pbrbm is dontbins tif tokfn rfdfivfd from tif pffr. On tif
+     *        first dbll it will bf ignorfd.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to tif pffr
+     * It is rfsponsibility of tif dbllfr to sfnd tif tokfn
+     * to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf[] initSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+        tirows GSSExdfption {
+
+        bytf[] rftVbl = null;
+        NfgTokfnInit initTokfn = null;
+        bytf[] mfdiTokfn = null;
+        int frrorCodf = GSSExdfption.FAILURE;
 
         if (DEBUG) {
-            System.out.println("Entered SpNego.initSecContext with " +
-                                "state=" + printState(state));
+            Systfm.out.println("Entfrfd SpNfgo.initSfdContfxt witi " +
+                                "stbtf=" + printStbtf(stbtf));
         }
-        if (!isInitiator()) {
-            throw new GSSException(GSSException.FAILURE, -1,
-                "initSecContext on an acceptor GSSContext");
+        if (!isInitibtor()) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                "initSfdContfxt on bn bddfptor GSSContfxt");
         }
 
         try {
-            if (state == STATE_NEW) {
-                state = STATE_IN_PROCESS;
+            if (stbtf == STATE_NEW) {
+                stbtf = STATE_IN_PROCESS;
 
-                errorCode = GSSException.NO_CRED;
+                frrorCodf = GSSExdfption.NO_CRED;
 
-                // determine available mech set
-                Oid[] mechList = getAvailableMechs();
-                DER_mechTypes = getEncodedMechs(mechList);
+                // dftfrminf bvbilbblf mfdi sft
+                Oid[] mfdiList = gftAvbilbblfMfdis();
+                DER_mfdiTypfs = gftEndodfdMfdis(mfdiList);
 
-                // pull out first mechanism
-                internal_mech = mechList[0];
+                // pull out first mfdibnism
+                intfrnbl_mfdi = mfdiList[0];
 
-                // get the token for first mechanism
-                mechToken = GSS_initSecContext(null);
+                // gft tif tokfn for first mfdibnism
+                mfdiTokfn = GSS_initSfdContfxt(null);
 
-                errorCode = GSSException.DEFECTIVE_TOKEN;
-                // generate SPNEGO token
-                initToken = new NegTokenInit(DER_mechTypes, getContextFlags(),
-                                        mechToken, null);
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
+                // gfnfrbtf SPNEGO tokfn
+                initTokfn = nfw NfgTokfnInit(DER_mfdiTypfs, gftContfxtFlbgs(),
+                                        mfdiTokfn, null);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.initSecContext: " +
-                                "sending token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
                 }
-                // get the encoded token
-                retVal = initToken.getEncoded();
+                // gft tif fndodfd tokfn
+                rftVbl = initTokfn.gftEndodfd();
 
-            } else if (state == STATE_IN_PROCESS) {
+            } flsf if (stbtf == STATE_IN_PROCESS) {
 
-                errorCode = GSSException.FAILURE;
+                frrorCodf = GSSExdfption.FAILURE;
                 if (is == null) {
-                    throw new GSSException(errorCode, -1,
-                                "No token received from peer!");
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                "No tokfn rfdfivfd from pffr!");
                 }
 
-                errorCode = GSSException.DEFECTIVE_TOKEN;
-                byte[] server_token = new byte[is.available()];
-                SpNegoToken.readFully(is, server_token);
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
+                bytf[] sfrvfr_tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, sfrvfr_tokfn);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.initSecContext: " +
-                                        "process received token = " +
-                                        SpNegoToken.getHexBytes(server_token));
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                        "prodfss rfdfivfd tokfn = " +
+                                        SpNfgoTokfn.gftHfxBytfs(sfrvfr_tokfn));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
-                NegTokenTarg targToken = new NegTokenTarg(server_token);
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(sfrvfr_tokfn);
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.initSecContext: " +
-                                "received token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.initSfdContfxt: " +
+                                "rfdfivfd tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
                 }
 
-                // pull out mechanism
-                internal_mech = targToken.getSupportedMech();
-                if (internal_mech == null) {
-                    // return wth failure
-                    throw new GSSException(errorCode, -1,
-                                "supported mechanism from server is null");
+                // pull out mfdibnism
+                intfrnbl_mfdi = tbrgTokfn.gftSupportfdMfdi();
+                if (intfrnbl_mfdi == null) {
+                    // rfturn wti fbilurf
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                "supportfd mfdibnism from sfrvfr is null");
                 }
 
-                // get the negotiated result
-                SpNegoToken.NegoResult negoResult = null;
-                int result = targToken.getNegotiatedResult();
-                switch (result) {
-                    case 0:
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
-                        break;
-                    case 1:
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
-                        break;
-                    case 2:
-                        negoResult = SpNegoToken.NegoResult.REJECT;
-                        state = STATE_DELETED;
-                        break;
-                    default:
-                        state = STATE_DONE;
-                        break;
+                // gft tif nfgotibtfd rfsult
+                SpNfgoTokfn.NfgoRfsult nfgoRfsult = null;
+                int rfsult = tbrgTokfn.gftNfgotibtfdRfsult();
+                switdi (rfsult) {
+                    dbsf 0:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                        brfbk;
+                    dbsf 1:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
+                        brfbk;
+                    dbsf 2:
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                        stbtf = STATE_DELETED;
+                        brfbk;
+                    dffbult:
+                        stbtf = STATE_DONE;
+                        brfbk;
                 }
 
-                errorCode = GSSException.BAD_MECH;
+                frrorCodf = GSSExdfption.BAD_MECH;
 
-                if (negoResult == SpNegoToken.NegoResult.REJECT) {
-                    throw new GSSException(errorCode, -1,
-                                        internal_mech.toString());
+                if (nfgoRfsult == SpNfgoTokfn.NfgoRfsult.REJECT) {
+                    tirow nfw GSSExdfption(frrorCodf, -1,
+                                        intfrnbl_mfdi.toString());
                 }
 
-                errorCode = GSSException.DEFECTIVE_TOKEN;
+                frrorCodf = GSSExdfption.DEFECTIVE_TOKEN;
 
-                if ((negoResult == SpNegoToken.NegoResult.ACCEPT_COMPLETE) ||
-                    (negoResult == SpNegoToken.NegoResult.ACCEPT_INCOMPLETE)) {
+                if ((nfgoRfsult == SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE) ||
+                    (nfgoRfsult == SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE)) {
 
-                    // pull out the mechanism token
-                    byte[] accept_token = targToken.getResponseToken();
-                    if (accept_token == null) {
-                        if (!isMechContextEstablished()) {
-                            // return with failure
-                            throw new GSSException(errorCode, -1,
-                                    "mechanism token from server is null");
+                    // pull out tif mfdibnism tokfn
+                    bytf[] bddfpt_tokfn = tbrgTokfn.gftRfsponsfTokfn();
+                    if (bddfpt_tokfn == null) {
+                        if (!isMfdiContfxtEstbblisifd()) {
+                            // rfturn witi fbilurf
+                            tirow nfw GSSExdfption(frrorCodf, -1,
+                                    "mfdibnism tokfn from sfrvfr is null");
                         }
-                    } else {
-                        mechToken = GSS_initSecContext(accept_token);
+                    } flsf {
+                        mfdiTokfn = GSS_initSfdContfxt(bddfpt_tokfn);
                     }
-                    // verify MIC
-                    if (!GSSUtil.useMSInterop()) {
-                        byte[] micToken = targToken.getMechListMIC();
-                        if (!verifyMechListMIC(DER_mechTypes, micToken)) {
-                            throw new GSSException(errorCode, -1,
-                                "verification of MIC on MechList Failed!");
+                    // vfrify MIC
+                    if (!GSSUtil.usfMSIntfrop()) {
+                        bytf[] midTokfn = tbrgTokfn.gftMfdiListMIC();
+                        if (!vfrifyMfdiListMIC(DER_mfdiTypfs, midTokfn)) {
+                            tirow nfw GSSExdfption(frrorCodf, -1,
+                                "vfrifidbtion of MIC on MfdiList Fbilfd!");
                         }
                     }
-                    if (isMechContextEstablished()) {
-                        state = STATE_DONE;
-                        retVal = mechToken;
+                    if (isMfdiContfxtEstbblisifd()) {
+                        stbtf = STATE_DONE;
+                        rftVbl = mfdiTokfn;
                         if (DEBUG) {
-                            System.out.println("SPNEGO Negotiated Mechanism = "
-                                + internal_mech + " " +
-                                GSSUtil.getMechStr(internal_mech));
+                            Systfm.out.println("SPNEGO Nfgotibtfd Mfdibnism = "
+                                + intfrnbl_mfdi + " " +
+                                GSSUtil.gftMfdiStr(intfrnbl_mfdi));
                         }
-                    } else {
-                        // generate SPNEGO token
-                        initToken = new NegTokenInit(null, null,
-                                                mechToken, null);
+                    } flsf {
+                        // gfnfrbtf SPNEGO tokfn
+                        initTokfn = nfw NfgTokfnInit(null, null,
+                                                mfdiTokfn, null);
                         if (DEBUG) {
-                            System.out.println("SpNegoContext.initSecContext:" +
-                                " continue sending token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                            Systfm.out.println("SpNfgoContfxt.initSfdContfxt:" +
+                                " dontinuf sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
                         }
-                        // get the encoded token
-                        retVal = initToken.getEncoded();
+                        // gft tif fndodfd tokfn
+                        rftVbl = initTokfn.gftEndodfd();
                     }
                 }
 
-            } else {
-                // XXX Use logging API
+            } flsf {
+                // XXX Usf logging API
                 if (DEBUG) {
-                    System.out.println(state);
+                    Systfm.out.println(stbtf);
                 }
             }
             if (DEBUG) {
-                if (retVal != null) {
-                    System.out.println("SNegoContext.initSecContext: " +
-                        "sending token = " + SpNegoToken.getHexBytes(retVal));
+                if (rftVbl != null) {
+                    Systfm.out.println("SNfgoContfxt.initSfdContfxt: " +
+                        "sfnding tokfn = " + SpNfgoTokfn.gftHfxBytfs(rftVbl));
                 }
             }
-        } catch (GSSException e) {
-            GSSException gssException =
-                        new GSSException(errorCode, -1, e.getMessage());
-            gssException.initCause(e);
-            throw gssException;
-        } catch (IOException e) {
-            GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
-            throw gssException;
+        } dbtdi (GSSExdfption f) {
+            GSSExdfption gssExdfption =
+                        nfw GSSExdfption(frrorCodf, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
+        } dbtdi (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
         }
 
-        return retVal;
+        rfturn rftVbl;
     }
 
 
     /**
-     * Acceptor's context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
-     * is received from the peer.
+     * Addfptor's dontfxt fstbblisimfnt dbll. Tiis mftiod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs tibt morf dblls brf nffdfd bftfr tif nfxt tokfn
+     * is rfdfivfd from tif pffr.
      *
-     * @param is contains the token received from the peer.
-     * @return any token required to be sent to the peer
-     * It is responsibility of the caller to send the token
-     * to its peer for processing.
-     * @exception GSSException
+     * @pbrbm is dontbins tif tokfn rfdfivfd from tif pffr.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to tif pffr
+     * It is rfsponsibility of tif dbllfr to sfnd tif tokfn
+     * to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
      */
-    public final byte[] acceptSecContext(InputStream is, int mechTokenSize)
-        throws GSSException {
+    publid finbl bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdiTokfnSizf)
+        tirows GSSExdfption {
 
-        byte[] retVal = null;
-        SpNegoToken.NegoResult negoResult;
-        boolean valid = true;
+        bytf[] rftVbl = null;
+        SpNfgoTokfn.NfgoRfsult nfgoRfsult;
+        boolfbn vblid = truf;
 
         if (DEBUG) {
-            System.out.println("Entered SpNegoContext.acceptSecContext with " +
-                               "state=" +  printState(state));
+            Systfm.out.println("Entfrfd SpNfgoContfxt.bddfptSfdContfxt witi " +
+                               "stbtf=" +  printStbtf(stbtf));
         }
 
-        if (isInitiator()) {
-            throw new GSSException(GSSException.FAILURE, -1,
-                                   "acceptSecContext on an initiator " +
-                                   "GSSContext");
+        if (isInitibtor()) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                   "bddfptSfdContfxt on bn initibtor " +
+                                   "GSSContfxt");
         }
         try {
-            if (state == STATE_NEW) {
-                state = STATE_IN_PROCESS;
+            if (stbtf == STATE_NEW) {
+                stbtf = STATE_IN_PROCESS;
 
-                // read data
-                byte[] token = new byte[is.available()];
-                SpNegoToken.readFully(is, token);
+                // rfbd dbtb
+                bytf[] tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, tokfn);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                        "receiving token = " +
-                                        SpNegoToken.getHexBytes(token));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                        "rfdfiving tokfn = " +
+                                        SpNfgoTokfn.gftHfxBytfs(tokfn));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
-                NegTokenInit initToken = new NegTokenInit(token);
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnInit initTokfn = nfw NfgTokfnInit(tokfn);
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "received token of type = " +
-                                SpNegoToken.getTokenName(initToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "rfdfivfd tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(initTokfn.gftTypf()));
                 }
 
-                Oid[] mechList = initToken.getMechTypeList();
-                DER_mechTypes = initToken.getMechTypes();
-                if (DER_mechTypes == null) {
-                    valid = false;
+                Oid[] mfdiList = initTokfn.gftMfdiTypfList();
+                DER_mfdiTypfs = initTokfn.gftMfdiTypfs();
+                if (DER_mfdiTypfs == null) {
+                    vblid = fblsf;
                 }
 
                 /*
-                 * Select the best match between the list of mechs
-                 * that the initiator requested and the list that
-                 * the acceptor will support.
+                 * Sflfdt tif bfst mbtdi bftwffn tif list of mfdis
+                 * tibt tif initibtor rfqufstfd bnd tif list tibt
+                 * tif bddfptor will support.
                  */
-                Oid[] supported_mechSet = getAvailableMechs();
-                Oid mech_wanted =
-                        negotiate_mech_type(supported_mechSet, mechList);
-                if (mech_wanted == null) {
-                    valid = false;
+                Oid[] supportfd_mfdiSft = gftAvbilbblfMfdis();
+                Oid mfdi_wbntfd =
+                        nfgotibtf_mfdi_typf(supportfd_mfdiSft, mfdiList);
+                if (mfdi_wbntfd == null) {
+                    vblid = fblsf;
                 }
-                // save the desired mechanism
-                internal_mech = mech_wanted;
+                // sbvf tif dfsirfd mfdibnism
+                intfrnbl_mfdi = mfdi_wbntfd;
 
-                // get the token for mechanism
-                byte[] accept_token;
+                // gft tif tokfn for mfdibnism
+                bytf[] bddfpt_tokfn;
 
-                if (mechList[0].equals(mech_wanted)) {
-                    // get the mechanism token
-                    byte[] mechToken = initToken.getMechToken();
-                    if (mechToken == null) {
-                        throw new GSSException(GSSException.FAILURE, -1,
-                                "mechToken is missing");
+                if (mfdiList[0].fqubls(mfdi_wbntfd)) {
+                    // gft tif mfdibnism tokfn
+                    bytf[] mfdiTokfn = initTokfn.gftMfdiTokfn();
+                    if (mfdiTokfn == null) {
+                        tirow nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                "mfdiTokfn is missing");
                     }
-                    accept_token = GSS_acceptSecContext(mechToken);
-                } else {
-                    accept_token = null;
+                    bddfpt_tokfn = GSS_bddfptSfdContfxt(mfdiTokfn);
+                } flsf {
+                    bddfpt_tokfn = null;
                 }
 
-                // verify MIC
-                if (!GSSUtil.useMSInterop() && valid) {
-                    valid = verifyMechListMIC(DER_mechTypes,
-                                                initToken.getMechListMIC());
+                // vfrify MIC
+                if (!GSSUtil.usfMSIntfrop() && vblid) {
+                    vblid = vfrifyMfdiListMIC(DER_mfdiTypfs,
+                                                initTokfn.gftMfdiListMIC());
                 }
 
-                // determine negotiated result status
-                if (valid) {
-                    if (isMechContextEstablished()) {
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
-                        // now set the context flags for acceptor
-                        setContextFlags();
-                        // print the negotiated mech info
+                // dftfrminf nfgotibtfd rfsult stbtus
+                if (vblid) {
+                    if (isMfdiContfxtEstbblisifd()) {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                        // now sft tif dontfxt flbgs for bddfptor
+                        sftContfxtFlbgs();
+                        // print tif nfgotibtfd mfdi info
                         if (DEBUG) {
-                            System.out.println("SPNEGO Negotiated Mechanism = "
-                                + internal_mech + " " +
-                                GSSUtil.getMechStr(internal_mech));
+                            Systfm.out.println("SPNEGO Nfgotibtfd Mfdibnism = "
+                                + intfrnbl_mfdi + " " +
+                                GSSUtil.gftMfdiStr(intfrnbl_mfdi));
                         }
-                    } else {
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
+                    } flsf {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
                     }
-                } else {
-                    negoResult = SpNegoToken.NegoResult.REJECT;
-                    state = STATE_DONE;
+                } flsf {
+                    nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                    stbtf = STATE_DONE;
                 }
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "mechanism wanted = " + mech_wanted);
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "negotiated result = " + negoResult);
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "mfdibnism wbntfd = " + mfdi_wbntfd);
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "nfgotibtfd rfsult = " + nfgoRfsult);
                 }
 
-                // generate SPNEGO token
-                NegTokenTarg targToken = new NegTokenTarg(negoResult.ordinal(),
-                                mech_wanted, accept_token, null);
+                // gfnfrbtf SPNEGO tokfn
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(nfgoRfsult.ordinbl(),
+                                mfdi_wbntfd, bddfpt_tokfn, null);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "sending token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
                 }
-                // get the encoded token
-                retVal = targToken.getEncoded();
+                // gft tif fndodfd tokfn
+                rftVbl = tbrgTokfn.gftEndodfd();
 
-            } else if (state == STATE_IN_PROCESS) {
-                // read data
-                byte[] token = new byte[is.available()];
-                SpNegoToken.readFully(is, token);
+            } flsf if (stbtf == STATE_IN_PROCESS) {
+                // rfbd dbtb
+                bytf[] tokfn = nfw bytf[is.bvbilbblf()];
+                SpNfgoTokfn.rfbdFully(is, tokfn);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                            "receiving token = " +
-                            SpNegoToken.getHexBytes(token));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                            "rfdfiving tokfn = " +
+                            SpNfgoTokfn.gftHfxBytfs(tokfn));
                 }
 
-                // read the SPNEGO token
-                // token will be validated when parsing
-                NegTokenTarg inputToken = new NegTokenTarg(token);
+                // rfbd tif SPNEGO tokfn
+                // tokfn will bf vblidbtfd wifn pbrsing
+                NfgTokfnTbrg inputTokfn = nfw NfgTokfnTbrg(tokfn);
 
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                            "received token of type = " +
-                            SpNegoToken.getTokenName(inputToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                            "rfdfivfd tokfn of typf = " +
+                            SpNfgoTokfn.gftTokfnNbmf(inputTokfn.gftTypf()));
                 }
 
-                // read the token
-                byte[] client_token = inputToken.getResponseToken();
-                byte[] accept_token = GSS_acceptSecContext(client_token);
-                if (accept_token == null) {
-                    valid = false;
+                // rfbd tif tokfn
+                bytf[] dlifnt_tokfn = inputTokfn.gftRfsponsfTokfn();
+                bytf[] bddfpt_tokfn = GSS_bddfptSfdContfxt(dlifnt_tokfn);
+                if (bddfpt_tokfn == null) {
+                    vblid = fblsf;
                 }
 
-                // determine negotiated result status
-                if (valid) {
-                    if (isMechContextEstablished()) {
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_COMPLETE;
-                        state = STATE_DONE;
-                    } else {
-                        negoResult = SpNegoToken.NegoResult.ACCEPT_INCOMPLETE;
-                        state = STATE_IN_PROCESS;
+                // dftfrminf nfgotibtfd rfsult stbtus
+                if (vblid) {
+                    if (isMfdiContfxtEstbblisifd()) {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_COMPLETE;
+                        stbtf = STATE_DONE;
+                    } flsf {
+                        nfgoRfsult = SpNfgoTokfn.NfgoRfsult.ACCEPT_INCOMPLETE;
+                        stbtf = STATE_IN_PROCESS;
                     }
-                } else {
-                    negoResult = SpNegoToken.NegoResult.REJECT;
-                    state = STATE_DONE;
+                } flsf {
+                    nfgoRfsult = SpNfgoTokfn.NfgoRfsult.REJECT;
+                    stbtf = STATE_DONE;
                 }
 
-                // generate SPNEGO token
-                NegTokenTarg targToken = new NegTokenTarg(negoResult.ordinal(),
-                                null, accept_token, null);
+                // gfnfrbtf SPNEGO tokfn
+                NfgTokfnTbrg tbrgTokfn = nfw NfgTokfnTbrg(nfgoRfsult.ordinbl(),
+                                null, bddfpt_tokfn, null);
                 if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                                "sending token of type = " +
-                                SpNegoToken.getTokenName(targToken.getType()));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                                "sfnding tokfn of typf = " +
+                                SpNfgoTokfn.gftTokfnNbmf(tbrgTokfn.gftTypf()));
                 }
-                // get the encoded token
-                retVal = targToken.getEncoded();
+                // gft tif fndodfd tokfn
+                rftVbl = tbrgTokfn.gftEndodfd();
 
-            } else {
-                // XXX Use logging API
+            } flsf {
+                // XXX Usf logging API
                 if (DEBUG) {
-                    System.out.println("AcceptSecContext: state = " + state);
+                    Systfm.out.println("AddfptSfdContfxt: stbtf = " + stbtf);
                 }
             }
             if (DEBUG) {
-                    System.out.println("SpNegoContext.acceptSecContext: " +
-                        "sending token = " + SpNegoToken.getHexBytes(retVal));
+                    Systfm.out.println("SpNfgoContfxt.bddfptSfdContfxt: " +
+                        "sfnding tokfn = " + SpNfgoTokfn.gftHfxBytfs(rftVbl));
             }
-        } catch (IOException e) {
-            GSSException gssException =
-                new GSSException(GSSException.FAILURE, -1, e.getMessage());
-            gssException.initCause(e);
-            throw gssException;
+        } dbtdi (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            tirow gssExdfption;
         }
 
-        if (state == STATE_DONE) {
-            // now set the context flags for acceptor
-            setContextFlags();
+        if (stbtf == STATE_DONE) {
+            // now sft tif dontfxt flbgs for bddfptor
+            sftContfxtFlbgs();
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * obtain the available mechanisms
+     * obtbin tif bvbilbblf mfdibnisms
      */
-    private Oid[] getAvailableMechs() {
-        if (myCred != null) {
-            Oid[] mechs = new Oid[1];
-            mechs[0] = myCred.getInternalMech();
-            return mechs;
-        } else {
-            return factory.availableMechs;
-        }
-    }
-
-    /**
-     * get ther DER encoded MechList
-     */
-    private byte[] getEncodedMechs(Oid[] mechSet)
-        throws IOException, GSSException {
-
-        DerOutputStream mech = new DerOutputStream();
-        for (int i = 0; i < mechSet.length; i++) {
-            byte[] mechType = mechSet[i].getDER();
-            mech.write(mechType);
-        }
-        // insert in SEQUENCE
-        DerOutputStream mechTypeList = new DerOutputStream();
-        mechTypeList.write(DerValue.tag_Sequence, mech);
-        byte[] encoded = mechTypeList.toByteArray();
-        return encoded;
-    }
-
-    /**
-     * get the context flags
-     */
-    private BitArray getContextFlags() {
-        BitArray out = new BitArray(7);
-
-        if (getCredDelegState()) out.set(0, true);
-        if (getMutualAuthState()) out.set(1, true);
-        if (getReplayDetState()) out.set(2, true);
-        if (getSequenceDetState()) out.set(3, true);
-        if (getConfState()) out.set(5, true);
-        if (getIntegState()) out.set(6, true);
-
-        return out;
-    }
-
-    // Only called on acceptor side. On the initiator side, most flags
-    // are already set at request. For those that might get chanegd,
-    // state from mech below is used.
-    private void setContextFlags() {
-
-        if (mechContext != null) {
-            // default for cred delegation is false
-            if (mechContext.getCredDelegState()) {
-                credDelegState = true;
-            }
-            // default for the following are true
-            if (!mechContext.getMutualAuthState()) {
-                mutualAuthState = false;
-            }
-            if (!mechContext.getReplayDetState()) {
-                replayDetState = false;
-            }
-            if (!mechContext.getSequenceDetState()) {
-                sequenceDetState = false;
-            }
-            if (!mechContext.getIntegState()) {
-                integState = false;
-            }
-            if (!mechContext.getConfState()) {
-                confState = false;
-            }
+    privbtf Oid[] gftAvbilbblfMfdis() {
+        if (myCrfd != null) {
+            Oid[] mfdis = nfw Oid[1];
+            mfdis[0] = myCrfd.gftIntfrnblMfdi();
+            rfturn mfdis;
+        } flsf {
+            rfturn fbdtory.bvbilbblfMfdis;
         }
     }
 
     /**
-     * generate MIC on mechList. Not used at the moment.
+     * gft tifr DER fndodfd MfdiList
      */
-    /*private byte[] generateMechListMIC(byte[] mechTypes)
-        throws GSSException {
+    privbtf bytf[] gftEndodfdMfdis(Oid[] mfdiSft)
+        tirows IOExdfption, GSSExdfption {
 
-        // sanity check the required input
-        if (mechTypes == null) {
+        DfrOutputStrfbm mfdi = nfw DfrOutputStrfbm();
+        for (int i = 0; i < mfdiSft.lfngti; i++) {
+            bytf[] mfdiTypf = mfdiSft[i].gftDER();
+            mfdi.writf(mfdiTypf);
+        }
+        // insfrt in SEQUENCE
+        DfrOutputStrfbm mfdiTypfList = nfw DfrOutputStrfbm();
+        mfdiTypfList.writf(DfrVbluf.tbg_Sfqufndf, mfdi);
+        bytf[] fndodfd = mfdiTypfList.toBytfArrby();
+        rfturn fndodfd;
+    }
+
+    /**
+     * gft tif dontfxt flbgs
+     */
+    privbtf BitArrby gftContfxtFlbgs() {
+        BitArrby out = nfw BitArrby(7);
+
+        if (gftCrfdDflfgStbtf()) out.sft(0, truf);
+        if (gftMutublAutiStbtf()) out.sft(1, truf);
+        if (gftRfplbyDftStbtf()) out.sft(2, truf);
+        if (gftSfqufndfDftStbtf()) out.sft(3, truf);
+        if (gftConfStbtf()) out.sft(5, truf);
+        if (gftIntfgStbtf()) out.sft(6, truf);
+
+        rfturn out;
+    }
+
+    // Only dbllfd on bddfptor sidf. On tif initibtor sidf, most flbgs
+    // brf blrfbdy sft bt rfqufst. For tiosf tibt migit gft dibnfgd,
+    // stbtf from mfdi bflow is usfd.
+    privbtf void sftContfxtFlbgs() {
+
+        if (mfdiContfxt != null) {
+            // dffbult for drfd dflfgbtion is fblsf
+            if (mfdiContfxt.gftCrfdDflfgStbtf()) {
+                drfdDflfgStbtf = truf;
+            }
+            // dffbult for tif following brf truf
+            if (!mfdiContfxt.gftMutublAutiStbtf()) {
+                mutublAutiStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftRfplbyDftStbtf()) {
+                rfplbyDftStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftSfqufndfDftStbtf()) {
+                sfqufndfDftStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftIntfgStbtf()) {
+                intfgStbtf = fblsf;
+            }
+            if (!mfdiContfxt.gftConfStbtf()) {
+                donfStbtf = fblsf;
+            }
+        }
+    }
+
+    /**
+     * gfnfrbtf MIC on mfdiList. Not usfd bt tif momfnt.
+     */
+    /*privbtf bytf[] gfnfrbtfMfdiListMIC(bytf[] mfdiTypfs)
+        tirows GSSExdfption {
+
+        // sbnity difdk tif rfquirfd input
+        if (mfdiTypfs == null) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token included");
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd");
             }
-            return null;
+            rfturn null;
         }
 
-        // check if mechanism supports integrity
-        if (!mechContext.getIntegState()) {
+        // difdk if mfdibnism supports intfgrity
+        if (!mfdiContfxt.gftIntfgStbtf()) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token included" +
-                        " - mechanism does not support integrity");
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd" +
+                        " - mfdibnism dofs not support intfgrity");
             }
-            return null;
+            rfturn null;
         }
 
-        // compute MIC on DER encoded mechanism list
-        byte[] mic = null;
+        // domputf MIC on DER fndodfd mfdibnism list
+        bytf[] mid = null;
         try {
-            MessageProp prop = new MessageProp(0, true);
-            mic = getMIC(mechTypes, 0, mechTypes.length, prop);
+            MfssbgfProp prop = nfw MfssbgfProp(0, truf);
+            mid = gftMIC(mfdiTypfs, 0, mfdiTypfs.lfngti, prop);
             if (DEBUG) {
-                System.out.println("SpNegoContext: getMIC = " +
-                                        SpNegoToken.getHexBytes(mic));
+                Systfm.out.println("SpNfgoContfxt: gftMIC = " +
+                                        SpNfgoTokfn.gftHfxBytfs(mid));
             }
-        } catch (GSSException e) {
-            mic = null;
+        } dbtdi (GSSExdfption f) {
+            mid = null;
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token included" +
-                        " - getMIC failed : " + e.getMessage());
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn indludfd" +
+                        " - gftMIC fbilfd : " + f.gftMfssbgf());
             }
         }
-        return mic;
+        rfturn mid;
     }*/
 
     /**
-     * verify MIC on MechList
+     * vfrify MIC on MfdiList
      */
-    private boolean verifyMechListMIC(byte[] mechTypes, byte[] token)
-        throws GSSException {
+    privbtf boolfbn vfrifyMfdiListMIC(bytf[] mfdiTypfs, bytf[] tokfn)
+        tirows GSSExdfption {
 
-        // sanity check the input
-        if (token == null) {
+        // sbnity difdk tif input
+        if (tokfn == null) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token validation");
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn vblidbtion");
             }
-            return true;
+            rfturn truf;
         }
 
-        // check if mechanism supports integrity
-        if (!mechContext.getIntegState()) {
+        // difdk if mfdibnism supports intfgrity
+        if (!mfdiContfxt.gftIntfgStbtf()) {
             if (DEBUG) {
-                System.out.println("SpNegoContext: no MIC token validation" +
-                        " - mechanism does not support integrity");
+                Systfm.out.println("SpNfgoContfxt: no MIC tokfn vblidbtion" +
+                        " - mfdibnism dofs not support intfgrity");
             }
-            return true;
+            rfturn truf;
         }
 
-        // now verify the token
-        boolean valid = false;
+        // now vfrify tif tokfn
+        boolfbn vblid = fblsf;
         try {
-            MessageProp prop = new MessageProp(0, true);
-            verifyMIC(token, 0, token.length, mechTypes,
-                        0, mechTypes.length, prop);
-            valid = true;
-        } catch (GSSException e) {
-            valid = false;
+            MfssbgfProp prop = nfw MfssbgfProp(0, truf);
+            vfrifyMIC(tokfn, 0, tokfn.lfngti, mfdiTypfs,
+                        0, mfdiTypfs.lfngti, prop);
+            vblid = truf;
+        } dbtdi (GSSExdfption f) {
+            vblid = fblsf;
             if (DEBUG) {
-                System.out.println("SpNegoContext: MIC validation failed! " +
-                                        e.getMessage());
+                Systfm.out.println("SpNfgoContfxt: MIC vblidbtion fbilfd! " +
+                                        f.gftMfssbgf());
             }
         }
-        return valid;
+        rfturn vblid;
     }
 
     /**
-     * call gss_init_sec_context for the corresponding underlying mechanism
+     * dbll gss_init_sfd_dontfxt for tif dorrfsponding undfrlying mfdibnism
      */
-    private byte[] GSS_initSecContext(byte[] token) throws GSSException {
-        byte[] tok = null;
+    privbtf bytf[] GSS_initSfdContfxt(bytf[] tokfn) tirows GSSExdfption {
+        bytf[] tok = null;
 
-        if (mechContext == null) {
-            // initialize mech context
-            GSSName serverName =
-                factory.manager.createName(peerName.toString(),
-                    peerName.getStringNameType(), internal_mech);
-            GSSCredential cred = null;
-            if (myCred != null) {
-                // create context with provided credential
-                cred = new GSSCredentialImpl(factory.manager,
-                    myCred.getInternalCred());
+        if (mfdiContfxt == null) {
+            // initiblizf mfdi dontfxt
+            GSSNbmf sfrvfrNbmf =
+                fbdtory.mbnbgfr.drfbtfNbmf(pffrNbmf.toString(),
+                    pffrNbmf.gftStringNbmfTypf(), intfrnbl_mfdi);
+            GSSCrfdfntibl drfd = null;
+            if (myCrfd != null) {
+                // drfbtf dontfxt witi providfd drfdfntibl
+                drfd = nfw GSSCrfdfntiblImpl(fbdtory.mbnbgfr,
+                    myCrfd.gftIntfrnblCrfd());
             }
-            mechContext =
-                factory.manager.createContext(serverName,
-                    internal_mech, cred, GSSContext.DEFAULT_LIFETIME);
-            mechContext.requestConf(confState);
-            mechContext.requestInteg(integState);
-            mechContext.requestCredDeleg(credDelegState);
-            mechContext.requestMutualAuth(mutualAuthState);
-            mechContext.requestReplayDet(replayDetState);
-            mechContext.requestSequenceDet(sequenceDetState);
-            if (mechContext instanceof ExtendedGSSContext) {
-                ((ExtendedGSSContext)mechContext).requestDelegPolicy(
-                        delegPolicyState);
+            mfdiContfxt =
+                fbdtory.mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
+                    intfrnbl_mfdi, drfd, GSSContfxt.DEFAULT_LIFETIME);
+            mfdiContfxt.rfqufstConf(donfStbtf);
+            mfdiContfxt.rfqufstIntfg(intfgStbtf);
+            mfdiContfxt.rfqufstCrfdDflfg(drfdDflfgStbtf);
+            mfdiContfxt.rfqufstMutublAuti(mutublAutiStbtf);
+            mfdiContfxt.rfqufstRfplbyDft(rfplbyDftStbtf);
+            mfdiContfxt.rfqufstSfqufndfDft(sfqufndfDftStbtf);
+            if (mfdiContfxt instbndfof ExtfndfdGSSContfxt) {
+                ((ExtfndfdGSSContfxt)mfdiContfxt).rfqufstDflfgPolidy(
+                        dflfgPolidyStbtf);
             }
         }
 
-        // pass token
-        if (token != null) {
-            tok = token;
-        } else {
-            tok = new byte[0];
+        // pbss tokfn
+        if (tokfn != null) {
+            tok = tokfn;
+        } flsf {
+            tok = nfw bytf[0];
         }
 
-        // pass token to mechanism initSecContext
-        byte[] init_token = mechContext.initSecContext(tok, 0, tok.length);
+        // pbss tokfn to mfdibnism initSfdContfxt
+        bytf[] init_tokfn = mfdiContfxt.initSfdContfxt(tok, 0, tok.lfngti);
 
-        return init_token;
+        rfturn init_tokfn;
     }
 
     /**
-     * call gss_accept_sec_context for the corresponding underlying mechanism
+     * dbll gss_bddfpt_sfd_dontfxt for tif dorrfsponding undfrlying mfdibnism
      */
-    private byte[] GSS_acceptSecContext(byte[] token) throws GSSException {
+    privbtf bytf[] GSS_bddfptSfdContfxt(bytf[] tokfn) tirows GSSExdfption {
 
-        if (mechContext == null) {
-            // initialize mech context
-            GSSCredential cred = null;
-            if (myCred != null) {
-                // create context with provided credential
-                cred = new GSSCredentialImpl(factory.manager,
-                myCred.getInternalCred());
+        if (mfdiContfxt == null) {
+            // initiblizf mfdi dontfxt
+            GSSCrfdfntibl drfd = null;
+            if (myCrfd != null) {
+                // drfbtf dontfxt witi providfd drfdfntibl
+                drfd = nfw GSSCrfdfntiblImpl(fbdtory.mbnbgfr,
+                myCrfd.gftIntfrnblCrfd());
             }
-            mechContext =
-                factory.manager.createContext(cred);
+            mfdiContfxt =
+                fbdtory.mbnbgfr.drfbtfContfxt(drfd);
         }
 
-        // pass token to mechanism acceptSecContext
-        byte[] accept_token =
-                mechContext.acceptSecContext(token, 0, token.length);
+        // pbss tokfn to mfdibnism bddfptSfdContfxt
+        bytf[] bddfpt_tokfn =
+                mfdiContfxt.bddfptSfdContfxt(tokfn, 0, tokfn.lfngti);
 
-        return accept_token;
+        rfturn bddfpt_tokfn;
     }
 
     /**
-     * This routine compares the recieved mechset to the mechset that
-     * this server can support. It looks sequentially through the mechset
-     * and the first one that matches what the server can support is
-     * chosen as the negotiated mechanism. If one is found, negResult
-     * is set to ACCEPT_COMPLETE, otherwise we return NULL and negResult
-     * is set to REJECT.
+     * Tiis routinf dompbrfs tif rfdifvfd mfdisft to tif mfdisft tibt
+     * tiis sfrvfr dbn support. It looks sfqufntiblly tirougi tif mfdisft
+     * bnd tif first onf tibt mbtdifs wibt tif sfrvfr dbn support is
+     * diosfn bs tif nfgotibtfd mfdibnism. If onf is found, nfgRfsult
+     * is sft to ACCEPT_COMPLETE, otifrwisf wf rfturn NULL bnd nfgRfsult
+     * is sft to REJECT.
      */
-    private static Oid negotiate_mech_type(Oid[] supported_mechSet,
-                                        Oid[] mechSet) {
-        for (int i = 0; i < supported_mechSet.length; i++) {
-            for (int j = 0; j < mechSet.length; j++) {
-                if (mechSet[j].equals(supported_mechSet[i])) {
+    privbtf stbtid Oid nfgotibtf_mfdi_typf(Oid[] supportfd_mfdiSft,
+                                        Oid[] mfdiSft) {
+        for (int i = 0; i < supportfd_mfdiSft.lfngti; i++) {
+            for (int j = 0; j < mfdiSft.lfngti; j++) {
+                if (mfdiSft[j].fqubls(supportfd_mfdiSft[i])) {
                     if (DEBUG) {
-                        System.out.println("SpNegoContext: " +
-                                "negotiated mechanism = " + mechSet[j]);
+                        Systfm.out.println("SpNfgoContfxt: " +
+                                "nfgotibtfd mfdibnism = " + mfdiSft[j]);
                     }
-                    return (mechSet[j]);
+                    rfturn (mfdiSft[j]);
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public final boolean isEstablished() {
-        return (state == STATE_DONE);
+    publid finbl boolfbn isEstbblisifd() {
+        rfturn (stbtf == STATE_DONE);
     }
 
-    public final boolean isMechContextEstablished() {
-        if (mechContext != null) {
-            return mechContext.isEstablished();
-        } else {
+    publid finbl boolfbn isMfdiContfxtEstbblisifd() {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.isEstbblisifd();
+        } flsf {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
-    public final byte [] export() throws GSSException {
-        throw new GSSException(GSSException.UNAVAILABLE, -1,
-                               "GSS Export Context not available");
+    publid finbl bytf [] fxport() tirows GSSExdfption {
+        tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                               "GSS Export Contfxt not bvbilbblf");
     }
 
     /**
-     * Sets the channel bindings to be used during context
-     * establishment.
+     * Sfts tif dibnnfl bindings to bf usfd during dontfxt
+     * fstbblisimfnt.
      */
-    public final void setChannelBinding(ChannelBinding channelBinding)
-        throws GSSException {
-        this.channelBinding = channelBinding;
+    publid finbl void sftCibnnflBinding(CibnnflBinding dibnnflBinding)
+        tirows GSSExdfption {
+        tiis.dibnnflBinding = dibnnflBinding;
     }
 
-    final ChannelBinding getChannelBinding() {
-        return channelBinding;
+    finbl CibnnflBinding gftCibnnflBinding() {
+        rfturn dibnnflBinding;
     }
 
     /*
-     * Anonymity is a little different in that after an application
-     * requests anonymity it will want to know whether the mechanism
-     * can support it or not, prior to sending any tokens across for
-     * context establishment. Since this is from the initiator's
-     * perspective, it essentially requests that the initiator be
-     * anonymous.
+     * Anonymity is b littlf difffrfnt in tibt bftfr bn bpplidbtion
+     * rfqufsts bnonymity it will wbnt to know wiftifr tif mfdibnism
+     * dbn support it or not, prior to sfnding bny tokfns bdross for
+     * dontfxt fstbblisimfnt. Sindf tiis is from tif initibtor's
+     * pfrspfdtivf, it fssfntiblly rfqufsts tibt tif initibtor bf
+     * bnonymous.
      */
-    public final void requestAnonymity(boolean value) throws GSSException {
-        // Ignore silently. Application will check back with
-        // getAnonymityState.
+    publid finbl void rfqufstAnonymity(boolfbn vbluf) tirows GSSExdfption {
+        // Ignorf silfntly. Applidbtion will difdk bbdk witi
+        // gftAnonymityStbtf.
     }
 
-    // RFC 2853 actually calls for this to be called after context
-    // establishment to get the right answer, but that is
-    // incorrect. The application may not want to send over any
-    // tokens if anonymity is not available.
-    public final boolean getAnonymityState() {
-        return false;
-    }
-
-    /**
-     * Requests the desired lifetime. Can only be used on the context
-     * initiator's side.
-     */
-    public void requestLifetime(int lifetime) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            this.lifetime = lifetime;
+    // RFC 2853 bdtublly dblls for tiis to bf dbllfd bftfr dontfxt
+    // fstbblisimfnt to gft tif rigit bnswfr, but tibt is
+    // indorrfdt. Tif bpplidbtion mby not wbnt to sfnd ovfr bny
+    // tokfns if bnonymity is not bvbilbblf.
+    publid finbl boolfbn gftAnonymityStbtf() {
+        rfturn fblsf;
     }
 
     /**
-     * The lifetime remaining for this context.
+     * Rfqufsts tif dfsirfd lifftimf. Cbn only bf usfd on tif dontfxt
+     * initibtor's sidf.
      */
-    public final int getLifetime() {
-        if (mechContext != null) {
-            return mechContext.getLifetime();
-        } else {
-            return GSSContext.INDEFINITE_LIFETIME;
+    publid void rfqufstLifftimf(int lifftimf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            tiis.lifftimf = lifftimf;
+    }
+
+    /**
+     * Tif lifftimf rfmbining for tiis dontfxt.
+     */
+    publid finbl int gftLifftimf() {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftLifftimf();
+        } flsf {
+            rfturn GSSContfxt.INDEFINITE_LIFETIME;
         }
     }
 
-    public final boolean isTransferable() throws GSSException {
-        return false;
+    publid finbl boolfbn isTrbnsffrbblf() tirows GSSExdfption {
+        rfturn fblsf;
     }
 
     /**
-     * Requests that sequence checking be done on the GSS wrap and MIC
-     * tokens.
+     * Rfqufsts tibt sfqufndf difdking bf donf on tif GSS wrbp bnd MIC
+     * tokfns.
      */
-    public final void requestSequenceDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            sequenceDetState  = value;
+    publid finbl void rfqufstSfqufndfDft(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            sfqufndfDftStbtf  = vbluf;
     }
 
     /**
-     * Is sequence checking enabled on the GSS Wrap and MIC tokens?
-     * We enable sequence checking if replay detection is enabled.
+     * Is sfqufndf difdking fnbblfd on tif GSS Wrbp bnd MIC tokfns?
+     * Wf fnbblf sfqufndf difdking if rfplby dftfdtion is fnbblfd.
      */
-    public final boolean getSequenceDetState() {
-        return sequenceDetState || replayDetState;
+    publid finbl boolfbn gftSfqufndfDftStbtf() {
+        rfturn sfqufndfDftStbtf || rfplbyDftStbtf;
     }
 
     /**
-     * Requests that replay detection be done on the GSS wrap and MIC
-     * tokens.
+     * Rfqufsts tibt rfplby dftfdtion bf donf on tif GSS wrbp bnd MIC
+     * tokfns.
      */
-    public final void requestReplayDet(boolean value) throws GSSException {
-        if (state == STATE_NEW && isInitiator())
-            replayDetState  = value;
+    publid finbl void rfqufstRfplbyDft(boolfbn vbluf) tirows GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            rfplbyDftStbtf  = vbluf;
     }
 
     /**
-     * Is replay detection enabled on the GSS wrap and MIC tokens?
-     * We enable replay detection if sequence checking is enabled.
+     * Is rfplby dftfdtion fnbblfd on tif GSS wrbp bnd MIC tokfns?
+     * Wf fnbblf rfplby dftfdtion if sfqufndf difdking is fnbblfd.
      */
-    public final boolean getReplayDetState() {
-        return replayDetState || sequenceDetState;
+    publid finbl boolfbn gftRfplbyDftStbtf() {
+        rfturn rfplbyDftStbtf || sfqufndfDftStbtf;
     }
 
-    public final GSSNameSpi getTargName() throws GSSException {
-        // fill-in the GSSName
-        // get the peer name for the mechanism
-        if (mechContext != null) {
-            GSSNameImpl targName = (GSSNameImpl)mechContext.getTargName();
-            peerName = targName.getElement(internal_mech);
-            return peerName;
-        } else {
+    publid finbl GSSNbmfSpi gftTbrgNbmf() tirows GSSExdfption {
+        // fill-in tif GSSNbmf
+        // gft tif pffr nbmf for tif mfdibnism
+        if (mfdiContfxt != null) {
+            GSSNbmfImpl tbrgNbmf = (GSSNbmfImpl)mfdiContfxt.gftTbrgNbmf();
+            pffrNbmf = tbrgNbmf.gftElfmfnt(intfrnbl_mfdi);
+            rfturn pffrNbmf;
+        } flsf {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
             }
-            return null;
+            rfturn null;
         }
     }
 
-    public final GSSNameSpi getSrcName() throws GSSException {
-        // fill-in the GSSName
-        // get the src name for the mechanism
-        if (mechContext != null) {
-            GSSNameImpl srcName = (GSSNameImpl)mechContext.getSrcName();
-            myName = srcName.getElement(internal_mech);
-            return myName;
-        } else {
+    publid finbl GSSNbmfSpi gftSrdNbmf() tirows GSSExdfption {
+        // fill-in tif GSSNbmf
+        // gft tif srd nbmf for tif mfdibnism
+        if (mfdiContfxt != null) {
+            GSSNbmfImpl srdNbmf = (GSSNbmfImpl)mfdiContfxt.gftSrdNbmf();
+            myNbmf = srdNbmf.gftElfmfnt(intfrnbl_mfdi);
+            rfturn myNbmf;
+        } flsf {
             if (DEBUG) {
-                System.out.println("The underlying mechanism context has " +
-                                        "not been initialized");
+                Systfm.out.println("Tif undfrlying mfdibnism dontfxt ibs " +
+                                        "not bffn initiblizfd");
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Returns the delegated credential for the context. This
-     * is an optional feature of contexts which not all
-     * mechanisms will support. A context can be requested to
-     * support credential delegation by using the <b>CRED_DELEG</b>.
-     * This is only valid on the acceptor side of the context.
-     * @return GSSCredentialSpi object for the delegated credential
-     * @exception GSSException
-     * @see GSSContext#getCredDelegState
+     * Rfturns tif dflfgbtfd drfdfntibl for tif dontfxt. Tiis
+     * is bn optionbl ffbturf of dontfxts wiidi not bll
+     * mfdibnisms will support. A dontfxt dbn bf rfqufstfd to
+     * support drfdfntibl dflfgbtion by using tif <b>CRED_DELEG</b>.
+     * Tiis is only vblid on tif bddfptor sidf of tif dontfxt.
+     * @rfturn GSSCrfdfntiblSpi objfdt for tif dflfgbtfd drfdfntibl
+     * @fxdfption GSSExdfption
+     * @sff GSSContfxt#gftCrfdDflfgStbtf
      */
-    public final GSSCredentialSpi getDelegCred() throws GSSException {
-        if (state != STATE_IN_PROCESS && state != STATE_DONE)
-            throw new GSSException(GSSException.NO_CONTEXT);
-        if (mechContext != null) {
-            GSSCredentialImpl delegCred =
-                        (GSSCredentialImpl)mechContext.getDelegCred();
-            if (delegCred == null) {
-                return null;
+    publid finbl GSSCrfdfntiblSpi gftDflfgCrfd() tirows GSSExdfption {
+        if (stbtf != STATE_IN_PROCESS && stbtf != STATE_DONE)
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT);
+        if (mfdiContfxt != null) {
+            GSSCrfdfntiblImpl dflfgCrfd =
+                        (GSSCrfdfntiblImpl)mfdiContfxt.gftDflfgCrfd();
+            if (dflfgCrfd == null) {
+                rfturn null;
             }
-            // determine delegated cred element usage
-            boolean initiate = false;
-            if (delegCred.getUsage() == GSSCredential.INITIATE_ONLY) {
-                initiate = true;
+            // dftfrminf dflfgbtfd drfd flfmfnt usbgf
+            boolfbn initibtf = fblsf;
+            if (dflfgCrfd.gftUsbgf() == GSSCrfdfntibl.INITIATE_ONLY) {
+                initibtf = truf;
             }
-            GSSCredentialSpi mechCred =
-                    delegCred.getElement(internal_mech, initiate);
-            SpNegoCredElement cred = new SpNegoCredElement(mechCred);
-            return cred.getInternalCred();
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getDelegCred called in invalid state!");
+            GSSCrfdfntiblSpi mfdiCrfd =
+                    dflfgCrfd.gftElfmfnt(intfrnbl_mfdi, initibtf);
+            SpNfgoCrfdElfmfnt drfd = nfw SpNfgoCrfdElfmfnt(mfdiCrfd);
+            rfturn drfd.gftIntfrnblCrfd();
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftDflfgCrfd dbllfd in invblid stbtf!");
         }
     }
 
-    public final int getWrapSizeLimit(int qop, boolean confReq,
-                                       int maxTokSize) throws GSSException {
-        if (mechContext != null) {
-            return mechContext.getWrapSizeLimit(qop, confReq, maxTokSize);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getWrapSizeLimit called in invalid state!");
+    publid finbl int gftWrbpSizfLimit(int qop, boolfbn donfRfq,
+                                       int mbxTokSizf) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftWrbpSizfLimit(qop, donfRfq, mbxTokSizf);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftWrbpSizfLimit dbllfd in invblid stbtf!");
         }
     }
 
-    public final byte[] wrap(byte inBuf[], int offset, int len,
-                             MessageProp msgProp) throws GSSException {
-        if (mechContext != null) {
-            return mechContext.wrap(inBuf, offset, len, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "Wrap called in invalid state!");
+    publid finbl bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                             MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.wrbp(inBuf, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "Wrbp dbllfd in invblid stbtf!");
         }
     }
 
-    public final void wrap(InputStream is, OutputStream os,
-                            MessageProp msgProp) throws GSSException {
-        if (mechContext != null) {
-            mechContext.wrap(is, os, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "Wrap called in invalid state!");
+    publid finbl void wrbp(InputStrfbm is, OutputStrfbm os,
+                            MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.wrbp(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "Wrbp dbllfd in invblid stbtf!");
         }
     }
 
-    public final byte[] unwrap(byte inBuf[], int offset, int len,
-                               MessageProp msgProp)
-        throws GSSException {
-        if (mechContext != null) {
-            return mechContext.unwrap(inBuf, offset, len, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "UnWrap called in invalid state!");
+    publid finbl bytf[] unwrbp(bytf inBuf[], int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.unwrbp(inBuf, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "UnWrbp dbllfd in invblid stbtf!");
         }
     }
 
-    public final void unwrap(InputStream is, OutputStream os,
-                             MessageProp msgProp) throws GSSException {
-        if (mechContext != null) {
-            mechContext.unwrap(is, os, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "UnWrap called in invalid state!");
+    publid finbl void unwrbp(InputStrfbm is, OutputStrfbm os,
+                             MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.unwrbp(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "UnWrbp dbllfd in invblid stbtf!");
         }
     }
 
-    public final byte[] getMIC(byte []inMsg, int offset, int len,
-                               MessageProp msgProp)
-        throws GSSException {
-        if (mechContext != null) {
-            return mechContext.getMIC(inMsg, offset, len, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getMIC called in invalid state!");
+    publid finbl bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            rfturn mfdiContfxt.gftMIC(inMsg, offsft, lfn, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftMIC dbllfd in invblid stbtf!");
         }
     }
 
-    public final void getMIC(InputStream is, OutputStream os,
-                              MessageProp msgProp) throws GSSException {
-        if (mechContext != null) {
-            mechContext.getMIC(is, os, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "getMIC called in invalid state!");
+    publid finbl void gftMIC(InputStrfbm is, OutputStrfbm os,
+                              MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.gftMIC(is, os, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "gftMIC dbllfd in invblid stbtf!");
         }
     }
 
-    public final void verifyMIC(byte []inTok, int tokOffset, int tokLen,
-                                byte[] inMsg, int msgOffset, int msgLen,
-                                MessageProp msgProp)
-        throws GSSException {
-        if (mechContext != null) {
-            mechContext.verifyMIC(inTok, tokOffset, tokLen, inMsg, msgOffset,
-                                msgLen,  msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "verifyMIC called in invalid state!");
+    publid finbl void vfrifyMIC(bytf []inTok, int tokOffsft, int tokLfn,
+                                bytf[] inMsg, int msgOffsft, int msgLfn,
+                                MfssbgfProp msgProp)
+        tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.vfrifyMIC(inTok, tokOffsft, tokLfn, inMsg, msgOffsft,
+                                msgLfn,  msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "vfrifyMIC dbllfd in invblid stbtf!");
         }
     }
 
-    public final void verifyMIC(InputStream is, InputStream msgStr,
-                                 MessageProp msgProp) throws GSSException {
-        if (mechContext != null) {
-            mechContext.verifyMIC(is, msgStr, msgProp);
-        } else {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                                "verifyMIC called in invalid state!");
+    publid finbl void vfrifyMIC(InputStrfbm is, InputStrfbm msgStr,
+                                 MfssbgfProp msgProp) tirows GSSExdfption {
+        if (mfdiContfxt != null) {
+            mfdiContfxt.vfrifyMIC(is, msgStr, msgProp);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                "vfrifyMIC dbllfd in invblid stbtf!");
         }
     }
 
-    private static String printState(int state) {
-        switch (state) {
-          case STATE_NEW:
-                return ("STATE_NEW");
-          case STATE_IN_PROCESS:
-                return ("STATE_IN_PROCESS");
-          case STATE_DONE:
-                return ("STATE_DONE");
-          case STATE_DELETED:
-                return ("STATE_DELETED");
-          default:
-                return ("Unknown state " + state);
+    privbtf stbtid String printStbtf(int stbtf) {
+        switdi (stbtf) {
+          dbsf STATE_NEW:
+                rfturn ("STATE_NEW");
+          dbsf STATE_IN_PROCESS:
+                rfturn ("STATE_IN_PROCESS");
+          dbsf STATE_DONE:
+                rfturn ("STATE_DONE");
+          dbsf STATE_DELETED:
+                rfturn ("STATE_DELETED");
+          dffbult:
+                rfturn ("Unknown stbtf " + stbtf);
         }
     }
 
     /**
-     * Retrieve attribute of the context for {@code type}.
+     * Rftrifvf bttributf of tif dontfxt for {@dodf typf}.
      */
-    public Object inquireSecContext(InquireType type)
-            throws GSSException {
-        if (mechContext == null) {
-            throw new GSSException(GSSException.NO_CONTEXT, -1,
-                    "Underlying mech not established.");
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            tirows GSSExdfption {
+        if (mfdiContfxt == null) {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                    "Undfrlying mfdi not fstbblisifd.");
         }
-        if (mechContext instanceof ExtendedGSSContext) {
-            return ((ExtendedGSSContext)mechContext).inquireSecContext(type);
-        } else {
-            throw new GSSException(GSSException.BAD_MECH, -1,
-                    "inquireSecContext not supported by underlying mech.");
+        if (mfdiContfxt instbndfof ExtfndfdGSSContfxt) {
+            rfturn ((ExtfndfdGSSContfxt)mfdiContfxt).inquirfSfdContfxt(typf);
+        } flsf {
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MECH, -1,
+                    "inquirfSfdContfxt not supportfd by undfrlying mfdi.");
         }
     }
 }

@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.spi.TimeZoneNameProvider;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.TimfZonf;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
 
 /**
- * Concrete implementation of the
- * {@link java.util.spi.TimeZoneNameProvider TimeZoneNameProvider} class
- * for the JRE LocaleProviderAdapter.
+ * Condrftf implfmfntbtion of tif
+ * {@link jbvb.util.spi.TimfZonfNbmfProvidfr TimfZonfNbmfProvidfr} dlbss
+ * for tif JRE LodblfProvidfrAdbptfr.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public class TimeZoneNameProviderImpl extends TimeZoneNameProvider {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+publid dlbss TimfZonfNbmfProvidfrImpl fxtfnds TimfZonfNbmfProvidfr {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
 
-    TimeZoneNameProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
-        this.type = type;
-        this.langtags = langtags;
+    TimfZonfNbmfProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      */
-    @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
     }
 
-    @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
     }
 
     /**
-     * Returns a name for the given time zone ID that's suitable for
-     * presentation to the user in the specified locale. The given time
-     * zone ID is "GMT" or one of the names defined using "Zone" entries
-     * in the "tz database", a public domain time zone database at
-     * <a href="ftp://elsie.nci.nih.gov/pub/">ftp://elsie.nci.nih.gov/pub/</a>.
-     * The data of this database is contained in a file whose name starts with
-     * "tzdata", and the specification of the data format is part of the zic.8
-     * man page, which is contained in a file whose name starts with "tzcode".
+     * Rfturns b nbmf for tif givfn timf zonf ID tibt's suitbblf for
+     * prfsfntbtion to tif usfr in tif spfdififd lodblf. Tif givfn timf
+     * zonf ID is "GMT" or onf of tif nbmfs dffinfd using "Zonf" fntrifs
+     * in tif "tz dbtbbbsf", b publid dombin timf zonf dbtbbbsf bt
+     * <b irff="ftp://flsif.ndi.nii.gov/pub/">ftp://flsif.ndi.nii.gov/pub/</b>.
+     * Tif dbtb of tiis dbtbbbsf is dontbinfd in b filf wiosf nbmf stbrts witi
+     * "tzdbtb", bnd tif spfdifidbtion of tif dbtb formbt is pbrt of tif zid.8
+     * mbn pbgf, wiidi is dontbinfd in b filf wiosf nbmf stbrts witi "tzdodf".
      * <p>
-     * If <code>daylight</code> is true, the method should return a name
-     * appropriate for daylight saving time even if the specified time zone
-     * has not observed daylight saving time in the past.
+     * If <dodf>dbyligit</dodf> is truf, tif mftiod siould rfturn b nbmf
+     * bppropribtf for dbyligit sbving timf fvfn if tif spfdififd timf zonf
+     * ibs not obsfrvfd dbyligit sbving timf in tif pbst.
      *
-     * @param ID a time zone ID string
-     * @param daylight if true, return the daylight saving name.
-     * @param style either {@link java.util.TimeZone#LONG TimeZone.LONG} or
-     *    {@link java.util.TimeZone#SHORT TimeZone.SHORT}
-     * @param locale the desired locale
-     * @return the human-readable name of the given time zone in the
-     *     given locale, or null if it's not available.
-     * @exception IllegalArgumentException if <code>style</code> is invalid,
-     *     or <code>locale</code> isn't one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @exception NullPointerException if <code>ID</code> or <code>locale</code>
+     * @pbrbm ID b timf zonf ID string
+     * @pbrbm dbyligit if truf, rfturn tif dbyligit sbving nbmf.
+     * @pbrbm stylf fitifr {@link jbvb.util.TimfZonf#LONG TimfZonf.LONG} or
+     *    {@link jbvb.util.TimfZonf#SHORT TimfZonf.SHORT}
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @rfturn tif iumbn-rfbdbblf nbmf of tif givfn timf zonf in tif
+     *     givfn lodblf, or null if it's not bvbilbblf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>stylf</dodf> is invblid,
+     *     or <dodf>lodblf</dodf> isn't onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @fxdfption NullPointfrExdfption if <dodf>ID</dodf> or <dodf>lodblf</dodf>
      *     is null
-     * @see java.util.TimeZone#getDisplayName(boolean, int, java.util.Locale)
+     * @sff jbvb.util.TimfZonf#gftDisplbyNbmf(boolfbn, int, jbvb.util.Lodblf)
      */
-    @Override
-    public String getDisplayName(String id, boolean daylight, int style, Locale locale) {
-        String[] names = getDisplayNameArray(id, 5, locale);
-        if (names != null) {
-            int index = daylight ? 3 : 1;
-            if (style == TimeZone.SHORT) {
-                index++;
+    @Ovfrridf
+    publid String gftDisplbyNbmf(String id, boolfbn dbyligit, int stylf, Lodblf lodblf) {
+        String[] nbmfs = gftDisplbyNbmfArrby(id, 5, lodblf);
+        if (nbmfs != null) {
+            int indfx = dbyligit ? 3 : 1;
+            if (stylf == TimfZonf.SHORT) {
+                indfx++;
             }
-            return names[index];
+            rfturn nbmfs[indfx];
         }
-        return null;
+        rfturn null;
     }
 
-    @Override
-    public String getGenericDisplayName(String id, int style, Locale locale) {
-        String[] names = getDisplayNameArray(id, 7, locale);
-        if (names != null && names.length >= 7) {
-            return names[(style == TimeZone.LONG) ? 5 : 6];
+    @Ovfrridf
+    publid String gftGfnfridDisplbyNbmf(String id, int stylf, Lodblf lodblf) {
+        String[] nbmfs = gftDisplbyNbmfArrby(id, 7, lodblf);
+        if (nbmfs != null && nbmfs.lfngti >= 7) {
+            rfturn nbmfs[(stylf == TimfZonf.LONG) ? 5 : 6];
         }
-        return null;
+        rfturn null;
     }
 
-    private String[] getDisplayNameArray(String id, int n, Locale locale) {
-        if (id == null || locale == null) {
-            throw new NullPointerException();
+    privbtf String[] gftDisplbyNbmfArrby(String id, int n, Lodblf lodblf) {
+        if (id == null || lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return LocaleProviderAdapter.forType(type).getLocaleResources(locale).getTimeZoneNames(id, n);
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftTimfZonfNbmfs(id, n);
     }
 
     /**
-     * Returns a String[][] as the DateFormatSymbols.getZoneStrings() value for
-     * the given locale. This method is package private.
+     * Rfturns b String[][] bs tif DbtfFormbtSymbols.gftZonfStrings() vbluf for
+     * tif givfn lodblf. Tiis mftiod is pbdkbgf privbtf.
      *
-     * @param locale a Locale for time zone names
-     * @return an array of time zone names arrays
+     * @pbrbm lodblf b Lodblf for timf zonf nbmfs
+     * @rfturn bn brrby of timf zonf nbmfs brrbys
      */
-    String[][] getZoneStrings(Locale locale) {
-        return LocaleProviderAdapter.forType(type).getLocaleResources(locale).getZoneStrings();
+    String[][] gftZonfStrings(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf).gftZonfStrings();
     }
 }

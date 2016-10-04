@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.timf.zonf.ZonfRulfsExdfption;
+import jbvb.timf.zonf.ZonfRulfsProvidfr;
+import jbvb.util.Objfdts;
+
+/**
+ * A gfogrbphidbl rfgion whfrf thf sbmf timf-zonf rulfs bpply.
+ * <p>
+ * Timf-zonf informbtion is dbtfgorizfd bs b sft of rulfs dffining whfn bnd
+ * how thf offsft from UTC/Grffnwidh dhbngfs. Thfsf rulfs brf bddfssfd using
+ * idfntififrs bbsfd on gfogrbphidbl rfgions, sudh bs dountrifs or stbtfs.
+ * Thf most dommon rfgion dlbssifidbtion is thf Timf Zonf Dbtbbbsf (TZDB),
+ * whidh dffinfs rfgions sudh bs 'Europf/Pbris' bnd 'Asib/Tokyo'.
+ * <p>
+ * Thf rfgion idfntififr, modflfd by this dlbss, is distindt from thf
+ * undfrlying rulfs, modflfd by {@link ZonfRulfs}.
+ * Thf rulfs brf dffinfd by govfrnmfnts bnd dhbngf frfqufntly.
+ * By dontrbst, thf rfgion idfntififr is wfll-dffinfd bnd long-livfd.
+ * This sfpbrbtion blso bllows rulfs to bf shbrfd bftwffn rfgions if bppropribtf.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss ZonfRfgion fxtfnds ZonfId implfmfnts Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8386373296231747096L;
+    /**
+     * Thf timf-zonf ID, not null.
+     */
+    privbtf finbl String id;
+    /**
+     * Thf timf-zonf rulfs, null if zonf ID wbs lobdfd lfnifntly.
+     */
+    privbtf finbl trbnsifnt ZonfRulfs rulfs;
+
+    /**
+     * Obtbins bn instbndf of {@dodf ZonfId} from bn idfntififr.
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @pbrbm dhfdkAvbilbblf  whfthfr to dhfdk if thf zonf ID is bvbilbblf
+     * @rfturn thf zonf ID, not null
+     * @throws DbtfTimfExdfption if thf ID formbt is invblid
+     * @throws ZonfRulfsExdfption if dhfdking bvbilbbility bnd thf ID dbnnot bf found
+     */
+    stbtid ZonfRfgion ofId(String zonfId, boolfbn dhfdkAvbilbblf) {
+        Objfdts.rfquirfNonNull(zonfId, "zonfId");
+        dhfdkNbmf(zonfId);
+        ZonfRulfs rulfs = null;
+        try {
+            // blwbys bttfmpt lobd for bfttfr bfhbvior bftfr dfsfriblizbtion
+            rulfs = ZonfRulfsProvidfr.gftRulfs(zonfId, truf);
+        } dbtdh (ZonfRulfsExdfption fx) {
+            if (dhfdkAvbilbblf) {
+                throw fx;
+            }
+        }
+        rfturn nfw ZonfRfgion(zonfId, rulfs);
+    }
+
+    /**
+     * Chfdks thbt thf givfn string is b lfgbl ZondId nbmf.
+     *
+     * @pbrbm zonfId  thf timf-zonf ID, not null
+     * @throws DbtfTimfExdfption if thf ID formbt is invblid
+     */
+    privbtf stbtid void dhfdkNbmf(String zonfId) {
+        int n = zonfId.lfngth();
+        if (n < 2) {
+           throw nfw DbtfTimfExdfption("Invblid ID for rfgion-bbsfd ZonfId, invblid formbt: " + zonfId);
+        }
+        for (int i = 0; i < n; i++) {
+            dhbr d = zonfId.dhbrAt(i);
+            if (d >= 'b' && d <= 'z') dontinuf;
+            if (d >= 'A' && d <= 'Z') dontinuf;
+            if (d == '/' && i != 0) dontinuf;
+            if (d >= '0' && d <= '9' && i != 0) dontinuf;
+            if (d == '~' && i != 0) dontinuf;
+            if (d == '.' && i != 0) dontinuf;
+            if (d == '_' && i != 0) dontinuf;
+            if (d == '+' && i != 0) dontinuf;
+            if (d == '-' && i != 0) dontinuf;
+            throw nfw DbtfTimfExdfption("Invblid ID for rfgion-bbsfd ZonfId, invblid formbt: " + zonfId);
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Construdtor.
+     *
+     * @pbrbm id  thf timf-zonf ID, not null
+     * @pbrbm rulfs  thf rulfs, null for lbzy lookup
+     */
+    ZonfRfgion(String id, ZonfRulfs rulfs) {
+        this.id = id;
+        this.rulfs = rulfs;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String gftId() {
+        rfturn id;
+    }
+
+    @Ovfrridf
+    publid ZonfRulfs gftRulfs() {
+        // bdditionbl qufry for group providfr whfn null bllows for possibility
+        // thbt thf providfr wbs updbtfd bftfr thf ZonfId wbs drfbtfd
+        rfturn (rulfs != null ? rulfs : ZonfRulfsProvidfr.gftRulfs(id, fblsf));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../sfriblizfd-form.html#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(7);  // idfntififs b ZonfId (not ZonfOffsft)
+     *  out.writfUTF(zonfId);
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZONE_REGION_TYPE, this);
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    @Ovfrridf
+    void writf(DbtbOutput out) throws IOExdfption {
+        out.writfBytf(Sfr.ZONE_REGION_TYPE);
+        writfExtfrnbl(out);
+    }
+
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        out.writfUTF(id);
+    }
+
+    stbtid ZonfId rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        String id = in.rfbdUTF();
+        rfturn ZonfId.of(id, fblsf);
+    }
+
+}

@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 
 /**
- * Represents an SNMP IpAddress.
+ * Rfprfsfnts bn SNMP IpAddrfss.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpIpAddress extends SnmpOid {
-    private static final long serialVersionUID = 7204629998270874474L;
+publid dlbss SnmpIpAddrfss fxtfnds SnmpOid {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7204629998270874474L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from the specified bytes array.
-     * @param bytes The four bytes composing the address.
-     * @exception IllegalArgumentException The length of the array is not equal to four.
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from tif spfdififd bytfs brrby.
+     * @pbrbm bytfs Tif four bytfs domposing tif bddrfss.
+     * @fxdfption IllfgblArgumfntExdfption Tif lfngti of tif brrby is not fqubl to four.
      */
-    public SnmpIpAddress(byte[] bytes) throws IllegalArgumentException {
-        buildFromByteArray(bytes);
+    publid SnmpIpAddrfss(bytf[] bytfs) tirows IllfgblArgumfntExdfption {
+        buildFromBytfArrby(bytfs);
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from the specified long value.
-     * @param addr The initialization value.
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from tif spfdififd long vbluf.
+     * @pbrbm bddr Tif initiblizbtion vbluf.
      */
-    public SnmpIpAddress(long addr) {
-        int address = (int)addr ;
-        byte[] ipaddr = new byte[4];
+    publid SnmpIpAddrfss(long bddr) {
+        int bddrfss = (int)bddr ;
+        bytf[] ipbddr = nfw bytf[4];
 
-        ipaddr[0] = (byte) ((address >>> 24) & 0xFF);
-        ipaddr[1] = (byte) ((address >>> 16) & 0xFF);
-        ipaddr[2] = (byte) ((address >>> 8) & 0xFF);
-        ipaddr[3] = (byte) (address & 0xFF);
+        ipbddr[0] = (bytf) ((bddrfss >>> 24) & 0xFF);
+        ipbddr[1] = (bytf) ((bddrfss >>> 16) & 0xFF);
+        ipbddr[2] = (bytf) ((bddrfss >>> 8) & 0xFF);
+        ipbddr[3] = (bytf) (bddrfss & 0xFF);
 
-        buildFromByteArray(ipaddr);
+        buildFromBytfArrby(ipbddr);
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from a dot-formatted <CODE>String</CODE>.
-     * The dot-formatted <CODE>String</CODE> is formulated x.x.x.x .
-     * @param dotAddress The initialization value.
-     * @exception IllegalArgumentException The string does not correspond to an ip address.
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from b dot-formbttfd <CODE>String</CODE>.
+     * Tif dot-formbttfd <CODE>String</CODE> is formulbtfd x.x.x.x .
+     * @pbrbm dotAddrfss Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif string dofs not dorrfspond to bn ip bddrfss.
      */
-    public SnmpIpAddress(String dotAddress) throws IllegalArgumentException {
-        super(dotAddress) ;
-        if ((componentCount > 4) ||
-            (components[0] > 255) ||
-            (components[1] > 255) ||
-            (components[2] > 255) ||
-            (components[3] > 255)) {
-            throw new IllegalArgumentException(dotAddress) ;
+    publid SnmpIpAddrfss(String dotAddrfss) tirows IllfgblArgumfntExdfption {
+        supfr(dotAddrfss) ;
+        if ((domponfntCount > 4) ||
+            (domponfnts[0] > 255) ||
+            (domponfnts[1] > 255) ||
+            (domponfnts[2] > 255) ||
+            (domponfnts[3] > 255)) {
+            tirow nfw IllfgblArgumfntExdfption(dotAddrfss) ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpIpAddress</CODE> from four long values.
-     * @param b1 Byte 1.
-     * @param b2 Byte 2.
-     * @param b3 Byte 3.
-     * @param b4 Byte 4.
-     * @exception IllegalArgumentException A value is outside of [0-255].
+     * Construdts b nfw <CODE>SnmpIpAddrfss</CODE> from four long vblufs.
+     * @pbrbm b1 Bytf 1.
+     * @pbrbm b2 Bytf 2.
+     * @pbrbm b3 Bytf 3.
+     * @pbrbm b4 Bytf 4.
+     * @fxdfption IllfgblArgumfntExdfption A vbluf is outsidf of [0-255].
      */
-    public SnmpIpAddress(long b1, long b2, long b3, long b4) {
-        super(b1, b2, b3, b4) ;
-        if ((components[0] > 255) ||
-            (components[1] > 255) ||
-            (components[2] > 255) ||
-            (components[3] > 255)) {
-            throw new IllegalArgumentException() ;
+    publid SnmpIpAddrfss(long b1, long b2, long b3, long b4) {
+        supfr(b1, b2, b3, b4) ;
+        if ((domponfnts[0] > 255) ||
+            (domponfnts[1] > 255) ||
+            (domponfnts[2] > 255) ||
+            (domponfnts[3] > 255)) {
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Converts the address value to its byte array form.
-     * @return The byte array representation of the value.
+     * Convfrts tif bddrfss vbluf to its bytf brrby form.
+     * @rfturn Tif bytf brrby rfprfsfntbtion of tif vbluf.
      */
-    public byte[] byteValue() {
-        byte[] result = new byte[4] ;
-        result[0] = (byte)components[0] ;
-        result[1] = (byte)components[1] ;
-        result[2] = (byte)components[2] ;
-        result[3] = (byte)components[3] ;
+    publid bytf[] bytfVbluf() {
+        bytf[] rfsult = nfw bytf[4] ;
+        rfsult[0] = (bytf)domponfnts[0] ;
+        rfsult[1] = (bytf)domponfnts[1] ;
+        rfsult[2] = (bytf)domponfnts[2] ;
+        rfsult[3] = (bytf)domponfnts[3] ;
 
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * Converts the address to its <CODE>String</CODE> form.
-     * Same as <CODE>toString()</CODE>. Exists only to follow a naming scheme.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Convfrts tif bddrfss to its <CODE>String</CODE> form.
+     * Sbmf bs <CODE>toString()</CODE>. Exists only to follow b nbming sdifmf.
+     * @rfturn Tif <CODE>String</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public String stringValue() {
-        return toString() ;
+    publid String stringVbluf() {
+        rfturn toString() ;
     }
 
     /**
-     * Extracts the ip address from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the ip address value.
-     * @exception SnmpStatusException There is no ip address value
-     * available at the start position.
+     * Extrbdts tif ip bddrfss from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif OID rfprfsfnting tif ip bddrfss vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no ip bddrfss vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
-        if (start + 4 <= index.length) {
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
+        if (stbrt + 4 <= indfx.lfngti) {
             try {
-                return new SnmpOid(
-                                   index[start],
-                                   index[start+1],
-                                   index[start+2],
-                                   index[start+3]) ;
+                rfturn nfw SnmpOid(
+                                   indfx[stbrt],
+                                   indfx[stbrt+1],
+                                   indfx[stbrt+2],
+                                   indfx[stbrt+3]) ;
             }
-            catch(IllegalArgumentException e) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+            dbtdi(IllfgblArgumfntExdfption f) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
             }
         }
-        else {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        flsf {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Scans an index OID, skips the address value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no address value
-     * available at the start position.
+     * Sdbns bn indfx OID, skips tif bddrfss vbluf bnd rfturns tif position
+     * of tif nfxt vbluf.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif position of tif nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no bddrfss vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
-        if (start + 4 <= index.length) {
-            return start + 4 ;
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
+        if (stbrt + 4 <= indfx.lfngti) {
+            rfturn stbrt + 4 ;
         }
-        else {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        flsf {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpIpAddress</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpIpAddress</CODE> value.
-     * @param dest Where source should be appended.
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpIpAddrfss</CODE> to bnotifr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpIpAddrfss</CODE> vbluf.
+     * @pbrbm dfst Wifrf sourdf siould bf bppfndfd.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
-        if (source.getLength() != 4) {
-            throw new IllegalArgumentException() ;
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        if (sourdf.gftLfngti() != 4) {
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        dest.append(source) ;
+        dfst.bppfnd(sourdf) ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Rfturns b tfxtubl dfsdription of tif typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
     }
 
     // PRIVATE METHODS
     //----------------
     /**
-     * Build Ip address from byte array.
+     * Build Ip bddrfss from bytf brrby.
      */
-    private void buildFromByteArray(byte[] bytes) {
-        if (bytes.length != 4) {
-            throw new IllegalArgumentException() ;
+    privbtf void buildFromBytfArrby(bytf[] bytfs) {
+        if (bytfs.lfngti != 4) {
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        components = new long[4] ;
-        componentCount= 4;
-        components[0] = (bytes[0] >= 0) ? bytes[0] : bytes[0] + 256 ;
-        components[1] = (bytes[1] >= 0) ? bytes[1] : bytes[1] + 256 ;
-        components[2] = (bytes[2] >= 0) ? bytes[2] : bytes[2] + 256 ;
-        components[3] = (bytes[3] >= 0) ? bytes[3] : bytes[3] + 256 ;
+        domponfnts = nfw long[4] ;
+        domponfntCount= 4;
+        domponfnts[0] = (bytfs[0] >= 0) ? bytfs[0] : bytfs[0] + 256 ;
+        domponfnts[1] = (bytfs[1] >= 0) ? bytfs[1] : bytfs[1] + 256 ;
+        domponfnts[2] = (bytfs[2] >= 0) ? bytfs[2] : bytfs[2] + 256 ;
+        domponfnts[3] = (bytfs[3] >= 0) ? bytfs[3] : bytfs[3] + 256 ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbmf of tif typf.
      */
-    final static String name = "IpAddress" ;
+    finbl stbtid String nbmf = "IpAddrfss" ;
 }

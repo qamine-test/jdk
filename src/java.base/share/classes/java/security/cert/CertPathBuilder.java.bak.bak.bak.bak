@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import sun.sfdurity.util.Dfbug;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * A dlbss for building dfrtifidbtion pbths (blso known bs dfrtifidbtf dhbins).
+ * <p>
+ * This dlbss usfs b providfr-bbsfd brdhitfdturf.
+ * To drfbtf b {@dodf CfrtPbthBuildfr}, dbll
+ * onf of thf stbtid {@dodf gftInstbndf} mfthods, pbssing in thf
+ * blgorithm nbmf of thf {@dodf CfrtPbthBuildfr} dfsirfd bnd optionblly
+ * thf nbmf of thf providfr dfsirfd.
+ *
+ * <p>Ondf b {@dodf CfrtPbthBuildfr} objfdt hbs bffn drfbtfd, dfrtifidbtion
+ * pbths dbn bf donstrudtfd by dblling thf {@link #build build} mfthod bnd
+ * pbssing it bn blgorithm-spfdifid sft of pbrbmftfrs. If suddfssful, thf
+ * rfsult (indluding thf {@dodf CfrtPbth} thbt wbs built) is rfturnfd
+ * in bn objfdt thbt implfmfnts thf {@dodf CfrtPbthBuildfrRfsult}
+ * intfrfbdf.
+ *
+ * <p>Thf {@link #gftRfvodbtionChfdkfr} mfthod bllows bn bpplidbtion to spfdify
+ * bdditionbl blgorithm-spfdifid pbrbmftfrs bnd options usfd by thf
+ * {@dodf CfrtPbthBuildfr} whfn dhfdking thf rfvodbtion stbtus of dfrtifidbtfs.
+ * Hfrf is bn fxbmplf dfmonstrbting how it is usfd with thf PKIX blgorithm:
+ *
+ * <prf>
+ * CfrtPbthBuildfr dpb = CfrtPbthBuildfr.gftInstbndf("PKIX");
+ * PKIXRfvodbtionChfdkfr rd = (PKIXRfvodbtionChfdkfr)dpb.gftRfvodbtionChfdkfr();
+ * rd.sftOptions(EnumSft.of(Option.PREFER_CRLS));
+ * pbrbms.bddCfrtPbthChfdkfr(rd);
+ * CfrtPbthBuildfrRfsult dpbr = dpb.build(pbrbms);
+ * </prf>
+ *
+ * <p>Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to support thf
+ * following stbndbrd {@dodf CfrtPbthBuildfr} blgorithm:
+ * <ul>
+ * <li>{@dodf PKIX}</li>
+ * </ul>
+ * This blgorithm is dfsdribfd in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtPbthBuildfr">
+ * CfrtPbthBuildfr sfdtion</b> of thf
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion.
+ * Consult thf rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * othfr blgorithms brf supportfd.
+ *
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Thf stbtid mfthods of this dlbss brf gubrbntffd to bf thrfbd-sbff.
+ * Multiplf thrfbds mby dondurrfntly invokf thf stbtid mfthods dffinfd in
+ * this dlbss with no ill ffffdts.
+ * <p>
+ * Howfvfr, this is not truf for thf non-stbtid mfthods dffinfd by this dlbss.
+ * Unlfss othfrwisf dodumfntfd by b spfdifid providfr, thrfbds thbt nffd to
+ * bddfss b singlf {@dodf CfrtPbthBuildfr} instbndf dondurrfntly should
+ * syndhronizf bmongst thfmsflvfs bnd providf thf nfdfssbry lodking. Multiplf
+ * thrfbds fbdh mbnipulbting b difffrfnt {@dodf CfrtPbthBuildfr} instbndf
+ * nffd not syndhronizf.
+ *
+ * @sff CfrtPbth
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+publid dlbss CfrtPbthBuildfr {
+
+    /*
+     * Constbnt to lookup in thf Sfdurity propfrtifs filf to dftfrminf
+     * thf dffbult dfrtpbthbuildfr typf. In thf Sfdurity propfrtifs filf,
+     * thf dffbult dfrtpbthbuildfr typf is givfn bs:
+     * <prf>
+     * dfrtpbthbuildfr.typf=PKIX
+     * </prf>
+     */
+    privbtf stbtid finbl String CPB_TYPE = "dfrtpbthbuildfr.typf";
+    privbtf finbl CfrtPbthBuildfrSpi buildfrSpi;
+    privbtf finbl Providfr providfr;
+    privbtf finbl String blgorithm;
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbthBuildfr} objfdt of thf givfn blgorithm,
+     * bnd fndbpsulbtfs thf givfn providfr implfmfntbtion (SPI objfdt) in it.
+     *
+     * @pbrbm buildfrSpi thf providfr implfmfntbtion
+     * @pbrbm providfr thf providfr
+     * @pbrbm blgorithm thf blgorithm nbmf
+     */
+    protfdtfd CfrtPbthBuildfr(CfrtPbthBuildfrSpi buildfrSpi, Providfr providfr,
+        String blgorithm)
+    {
+        this.buildfrSpi = buildfrSpi;
+        this.providfr = providfr;
+        this.blgorithm = blgorithm;
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     * spfdififd blgorithm.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw CfrtPbthBuildfr objfdt fndbpsulbting thf
+     * CfrtPbthBuildfrSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd {@dodf CfrtPbthBuildfr}
+     *  blgorithm.  Sff thf CfrtPbthBuildfr sfdtion in thf <b hrff=
+     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtPbthBuildfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     *          spfdififd blgorithm.
+     *
+     * @throws NoSudhAlgorithmExdfption if no Providfr supports b
+     *          CfrtPbthBuildfrSpi implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtPbthBuildfr gftInstbndf(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbthBuildfr",
+            CfrtPbthBuildfrSpi.dlbss, blgorithm);
+        rfturn nfw CfrtPbthBuildfr((CfrtPbthBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     * spfdififd blgorithm.
+     *
+     * <p> A nfw CfrtPbthBuildfr objfdt fndbpsulbting thf
+     * CfrtPbthBuildfrSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd {@dodf CfrtPbthBuildfr}
+     *  blgorithm.  Sff thf CfrtPbthBuildfr sfdtion in thf <b hrff=
+     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtPbthBuildfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     *          spfdififd blgorithm.
+     *
+     * @throws NoSudhAlgorithmExdfption if b CfrtPbthBuildfrSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @throws NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf providfr} is
+     *          null or fmpty.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtPbthBuildfr gftInstbndf(String blgorithm, String providfr)
+           throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbthBuildfr",
+            CfrtPbthBuildfrSpi.dlbss, blgorithm, providfr);
+        rfturn nfw CfrtPbthBuildfr((CfrtPbthBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     * spfdififd blgorithm.
+     *
+     * <p> A nfw CfrtPbthBuildfr objfdt fndbpsulbting thf
+     * CfrtPbthBuildfrSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * @pbrbm blgorithm thf nbmf of thf rfqufstfd {@dodf CfrtPbthBuildfr}
+     *  blgorithm.  Sff thf CfrtPbthBuildfr sfdtion in thf <b hrff=
+     *  "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#CfrtPbthBuildfr">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn b {@dodf CfrtPbthBuildfr} objfdt thbt implfmfnts thf
+     *          spfdififd blgorithm.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b CfrtPbthBuildfrSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf {@dodf providfr} is
+     *          null.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid CfrtPbthBuildfr gftInstbndf(String blgorithm,
+            Providfr providfr) throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("CfrtPbthBuildfr",
+            CfrtPbthBuildfrSpi.dlbss, blgorithm, providfr);
+        rfturn nfw CfrtPbthBuildfr((CfrtPbthBuildfrSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns thf providfr of this {@dodf CfrtPbthBuildfr}.
+     *
+     * @rfturn thf providfr of this {@dodf CfrtPbthBuildfr}
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn this.providfr;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf blgorithm of this {@dodf CfrtPbthBuildfr}.
+     *
+     * @rfturn thf nbmf of thf blgorithm of this {@dodf CfrtPbthBuildfr}
+     */
+    publid finbl String gftAlgorithm() {
+        rfturn this.blgorithm;
+    }
+
+    /**
+     * Attfmpts to build b dfrtifidbtion pbth using thf spfdififd blgorithm
+     * pbrbmftfr sft.
+     *
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @rfturn thf rfsult of thf build blgorithm
+     * @throws CfrtPbthBuildfrExdfption if thf buildfr is unbblf to donstrudt
+     *  b dfrtifidbtion pbth thbt sbtisfifs thf spfdififd pbrbmftfrs
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd pbrbmftfrs
+     * brf inbppropribtf for this {@dodf CfrtPbthBuildfr}
+     */
+    publid finbl CfrtPbthBuildfrRfsult build(CfrtPbthPbrbmftfrs pbrbms)
+        throws CfrtPbthBuildfrExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        rfturn buildfrSpi.fnginfBuild(pbrbms);
+    }
+
+    /**
+     * Rfturns thf dffbult {@dodf CfrtPbthBuildfr} typf bs spfdififd by
+     * thf {@dodf dfrtpbthbuildfr.typf} sfdurity propfrty, or thf string
+     * {@litfrbl "PKIX"} if no sudh propfrty fxists.
+     *
+     * <p>Thf dffbult {@dodf CfrtPbthBuildfr} typf dbn bf usfd by
+     * bpplidbtions thbt do not wbnt to usf b hbrd-dodfd typf whfn dblling onf
+     * of thf {@dodf gftInstbndf} mfthods, bnd wbnt to providf b dffbult
+     * typf in dbsf b usfr dofs not spfdify its own.
+     *
+     * <p>Thf dffbult {@dodf CfrtPbthBuildfr} typf dbn bf dhbngfd by
+     * sftting thf vbluf of thf {@dodf dfrtpbthbuildfr.typf} sfdurity propfrty
+     * to thf dfsirfd typf.
+     *
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+     * @rfturn thf dffbult {@dodf CfrtPbthBuildfr} typf bs spfdififd
+     * by thf {@dodf dfrtpbthbuildfr.typf} sfdurity propfrty, or thf string
+     * {@litfrbl "PKIX"} if no sudh propfrty fxists.
+     */
+    publid finbl stbtid String gftDffbultTypf() {
+        String dpbtypf =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(CPB_TYPE);
+                }
+            });
+        rfturn (dpbtypf == null) ? "PKIX" : dpbtypf;
+    }
+
+    /**
+     * Rfturns b {@dodf CfrtPbthChfdkfr} thbt thf fndbpsulbtfd
+     * {@dodf CfrtPbthBuildfrSpi} implfmfntbtion usfs to dhfdk thf rfvodbtion
+     * stbtus of dfrtifidbtfs. A PKIX implfmfntbtion rfturns objfdts of
+     * typf {@dodf PKIXRfvodbtionChfdkfr}. Ebdh invodbtion of this mfthod
+     * rfturns b nfw instbndf of {@dodf CfrtPbthChfdkfr}.
+     *
+     * <p>Thf primbry purposf of this mfthod is to bllow dbllfrs to spfdify
+     * bdditionbl input pbrbmftfrs bnd options spfdifid to rfvodbtion dhfdking.
+     * Sff thf dlbss dfsdription for bn fxbmplf.
+     *
+     * @rfturn b {@dodf CfrtPbthChfdkfr}
+     * @throws UnsupportfdOpfrbtionExdfption if thf sfrvidf providfr dofs not
+     *         support this mfthod
+     * @sindf 1.8
+     */
+    publid finbl CfrtPbthChfdkfr gftRfvodbtionChfdkfr() {
+        rfturn buildfrSpi.fnginfGftRfvodbtionChfdkfr();
+    }
+}

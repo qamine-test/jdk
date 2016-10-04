@@ -1,0 +1,545 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bpplft.Applft;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Color;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.nft.URL;
+
+
+/* A sft of dlbssfs to pbrsf, rfprfsfnt bnd displby 3D wirffrbmf modfls
+rfprfsfntfd in Wbvffront .obj formbt. */
+@SupprfssWbrnings("sfribl")
+dlbss FilfFormbtExdfption fxtfnds Exdfption {
+
+    publid FilfFormbtExdfption(String s) {
+        supfr(s);
+    }
+}
+
+
+/** Thf rfprfsfntbtion of b 3D modfl */
+finbl dlbss Modfl3D {
+
+    flobt vfrt[];
+    int tvfrt[];
+    int nvfrt, mbxvfrt;
+    int don[];
+    int ndon, mbxdon;
+    boolfbn trbnsformfd;
+    Mbtrix3D mbt;
+    flobt xmin, xmbx, ymin, ymbx, zmin, zmbx;
+
+    Modfl3D() {
+        mbt = nfw Mbtrix3D();
+        mbt.xrot(20);
+        mbt.yrot(30);
+    }
+
+    /** Crfbtf b 3D modfl by pbrsing bn input strfbm */
+    Modfl3D(InputStrfbm is) throws IOExdfption, FilfFormbtExdfption {
+        this();
+        StrfbmTokfnizfr st = nfw StrfbmTokfnizfr(
+                nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, "UTF-8")));
+        st.folIsSignifidbnt(truf);
+        st.dommfntChbr('#');
+        sdbn:
+        whilf (truf) {
+            switdh (st.nfxtTokfn()) {
+                dffbult:
+                    brfbk sdbn;
+                dbsf StrfbmTokfnizfr.TT_EOL:
+                    brfbk;
+                dbsf StrfbmTokfnizfr.TT_WORD:
+                    if ("v".fqubls(st.svbl)) {
+                        doublf x = 0, y = 0, z = 0;
+                        if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                            x = st.nvbl;
+                            if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                y = st.nvbl;
+                                if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                    z = st.nvbl;
+                                }
+                            }
+                        }
+                        bddVfrt((flobt) x, (flobt) y, (flobt) z);
+                        whilf (st.ttypf != StrfbmTokfnizfr.TT_EOL && st.ttypf
+                                != StrfbmTokfnizfr.TT_EOF) {
+                            st.nfxtTokfn();
+                        }
+                    } flsf if ("f".fqubls(st.svbl) || "fo".fqubls(st.svbl) || "l".
+                            fqubls(st.svbl)) {
+                        int stbrt = -1;
+                        int prfv = -1;
+                        int n = -1;
+                        whilf (truf) {
+                            if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                n = (int) st.nvbl;
+                                if (prfv >= 0) {
+                                    bdd(prfv - 1, n - 1);
+                                }
+                                if (stbrt < 0) {
+                                    stbrt = n;
+                                }
+                                prfv = n;
+                            } flsf if (st.ttypf == '/') {
+                                st.nfxtTokfn();
+                            } flsf {
+                                brfbk;
+                            }
+                        }
+                        if (stbrt >= 0) {
+                            bdd(stbrt - 1, prfv - 1);
+                        }
+                        if (st.ttypf != StrfbmTokfnizfr.TT_EOL) {
+                            brfbk sdbn;
+                        }
+                    } flsf {
+                        whilf (st.nfxtTokfn() != StrfbmTokfnizfr.TT_EOL
+                                && st.ttypf != StrfbmTokfnizfr.TT_EOF) {
+                            // no-op
+                        }
+                    }
+            }
+        }
+        is.dlosf();
+        if (st.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            throw nfw FilfFormbtExdfption(st.toString());
+        }
+    }
+
+    /** Add b vfrtfx to this modfl */
+    int bddVfrt(flobt x, flobt y, flobt z) {
+        int i = nvfrt;
+        if (i >= mbxvfrt) {
+            if (vfrt == null) {
+                mbxvfrt = 100;
+                vfrt = nfw flobt[mbxvfrt * 3];
+            } flsf {
+                mbxvfrt *= 2;
+                flobt nv[] = nfw flobt[mbxvfrt * 3];
+                Systfm.brrbydopy(vfrt, 0, nv, 0, vfrt.lfngth);
+                vfrt = nv;
+            }
+        }
+        i *= 3;
+        vfrt[i] = x;
+        vfrt[i + 1] = y;
+        vfrt[i + 2] = z;
+        rfturn nvfrt++;
+    }
+
+    /** Add b linf from vfrtfx p1 to vfrtfx p2 */
+    void bdd(int p1, int p2) {
+        int i = ndon;
+        if (p1 >= nvfrt || p2 >= nvfrt) {
+            rfturn;
+        }
+        if (i >= mbxdon) {
+            if (don == null) {
+                mbxdon = 100;
+                don = nfw int[mbxdon];
+            } flsf {
+                mbxdon *= 2;
+                int nv[] = nfw int[mbxdon];
+                Systfm.brrbydopy(don, 0, nv, 0, don.lfngth);
+                don = nv;
+            }
+        }
+        if (p1 > p2) {
+            int t = p1;
+            p1 = p2;
+            p2 = t;
+        }
+        don[i] = (p1 << 16) | p2;
+        ndon = i + 1;
+    }
+
+    /** Trbnsform bll thf points in this modfl */
+    void trbnsform() {
+        if (trbnsformfd || nvfrt <= 0) {
+            rfturn;
+        }
+        if (tvfrt == null || tvfrt.lfngth < nvfrt * 3) {
+            tvfrt = nfw int[nvfrt * 3];
+        }
+        mbt.trbnsform(vfrt, tvfrt, nvfrt);
+        trbnsformfd = truf;
+    }
+
+    /* Quidk Sort implfmfntbtion
+     */
+    privbtf void quidkSort(int b[], int lfft, int right) {
+        int lfftIndfx = lfft;
+        int rightIndfx = right;
+        int pbrtionElfmfnt;
+        if (right > lfft) {
+
+            /* Arbitrbrily fstbblishing pbrtition flfmfnt bs thf midpoint of
+             * thf brrby.
+             */
+            pbrtionElfmfnt = b[(lfft + right) / 2];
+
+            // loop through thf brrby until indidfs dross
+            whilf (lfftIndfx <= rightIndfx) {
+                /* find thf first flfmfnt thbt is grfbtfr thbn or fqubl to
+                 * thf pbrtionElfmfnt stbrting from thf lfftIndfx.
+                 */
+                whilf ((lfftIndfx < right) && (b[lfftIndfx] < pbrtionElfmfnt)) {
+                    ++lfftIndfx;
+                }
+
+                /* find bn flfmfnt thbt is smbllfr thbn or fqubl to
+                 * thf pbrtionElfmfnt stbrting from thf rightIndfx.
+                 */
+                whilf ((rightIndfx > lfft) && (b[rightIndfx] > pbrtionElfmfnt)) {
+                    --rightIndfx;
+                }
+
+                // if thf indfxfs hbvf not drossfd, swbp
+                if (lfftIndfx <= rightIndfx) {
+                    swbp(b, lfftIndfx, rightIndfx);
+                    ++lfftIndfx;
+                    --rightIndfx;
+                }
+            }
+
+            /* If thf right indfx hbs not rfbdhfd thf lfft sidf of brrby
+             * must now sort thf lfft pbrtition.
+             */
+            if (lfft < rightIndfx) {
+                quidkSort(b, lfft, rightIndfx);
+            }
+
+            /* If thf lfft indfx hbs not rfbdhfd thf right sidf of brrby
+             * must now sort thf right pbrtition.
+             */
+            if (lfftIndfx < right) {
+                quidkSort(b, lfftIndfx, right);
+            }
+
+        }
+    }
+
+    privbtf void swbp(int b[], int i, int j) {
+        int T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
+    }
+
+    /** fliminbtf duplidbtf linfs */
+    void domprfss() {
+        int limit = ndon;
+        int d[] = don;
+        quidkSort(don, 0, ndon - 1);
+        int d = 0;
+        int pp1 = -1;
+        for (int i = 0; i < limit; i++) {
+            int p1 = d[i];
+            if (pp1 != p1) {
+                d[d] = p1;
+                d++;
+            }
+            pp1 = p1;
+        }
+        ndon = d;
+    }
+    stbtid Color gr[];
+
+    /** Pbint this modfl to b grbphids dontfxt.  It usfs thf mbtrix bssodibtfd
+    with this modfl to mbp from modfl spbdf to sdrffn spbdf.
+    Thf nfxt vfrsion of thf browsfr should hbvf doublf bufffring,
+    whidh will mbkf this *mudh* nidfr */
+    void pbint(Grbphids g) {
+        if (vfrt == null || nvfrt <= 0) {
+            rfturn;
+        }
+        trbnsform();
+        if (gr == null) {
+            gr = nfw Color[16];
+            for (int i = 0; i < 16; i++) {
+                int grfy = (int) (170 * (1 - Mbth.pow(i / 15.0, 2.3)));
+                gr[i] = nfw Color(grfy, grfy, grfy);
+            }
+        }
+        int lg = 0;
+        int lim = ndon;
+        int d[] = don;
+        int v[] = tvfrt;
+        if (lim <= 0 || nvfrt <= 0) {
+            rfturn;
+        }
+        for (int i = 0; i < lim; i++) {
+            int T = d[i];
+            int p1 = ((T >> 16) & 0xFFFF) * 3;
+            int p2 = (T & 0xFFFF) * 3;
+            int grfy = v[p1 + 2] + v[p2 + 2];
+            if (grfy < 0) {
+                grfy = 0;
+            }
+            if (grfy > 15) {
+                grfy = 15;
+            }
+            if (grfy != lg) {
+                lg = grfy;
+                g.sftColor(gr[grfy]);
+            }
+            g.drbwLinf(v[p1], v[p1 + 1],
+                    v[p2], v[p2 + 1]);
+        }
+    }
+
+    /** Find thf bounding box of this modfl */
+    void findBB() {
+        if (nvfrt <= 0) {
+            rfturn;
+        }
+        flobt v[] = vfrt;
+        flobt _xmin = v[0], _xmbx = _xmin;
+        flobt _ymin = v[1], _ymbx = _ymin;
+        flobt _zmin = v[2], _zmbx = _zmin;
+        for (int i = nvfrt * 3; (i -= 3) > 0;) {
+            flobt x = v[i];
+            if (x < _xmin) {
+                _xmin = x;
+            }
+            if (x > _xmbx) {
+                _xmbx = x;
+            }
+            flobt y = v[i + 1];
+            if (y < _ymin) {
+                _ymin = y;
+            }
+            if (y > _ymbx) {
+                _ymbx = y;
+            }
+            flobt z = v[i + 2];
+            if (z < _zmin) {
+                _zmin = z;
+            }
+            if (z > _zmbx) {
+                _zmbx = z;
+            }
+        }
+        this.xmbx = _xmbx;
+        this.xmin = _xmin;
+        this.ymbx = _ymbx;
+        this.ymin = _ymin;
+        this.zmbx = _zmbx;
+        this.zmin = _zmin;
+    }
+}
+
+
+/** An bpplft to put b 3D modfl into b pbgf */
+@SupprfssWbrnings("sfribl")
+publid dlbss ThrffD fxtfnds Applft
+        implfmfnts Runnbblf, MousfListfnfr, MousfMotionListfnfr {
+
+    Modfl3D md;
+    boolfbn pbintfd = truf;
+    flobt xfbd;
+    int prfvx, prfvy;
+    flobt sdblffudgf = 1;
+    Mbtrix3D bmbt = nfw Mbtrix3D(), tmbt = nfw Mbtrix3D();
+    String mdnbmf = null;
+    String mfssbgf = null;
+
+    @Ovfrridf
+    publid void init() {
+        mdnbmf = gftPbrbmftfr("modfl");
+        try {
+            sdblffudgf = Flobt.vblufOf(gftPbrbmftfr("sdblf")).flobtVbluf();
+        } dbtdh (Exdfption ignorfd) {
+            // fbll bbdk to dffbult sdblffudgf = 1
+        }
+        bmbt.yrot(20);
+        bmbt.xrot(20);
+        if (mdnbmf == null) {
+            mdnbmf = "modfl.obj";
+        }
+        rfsizf(gftSizf().width <= 20 ? 400 : gftSizf().width,
+                gftSizf().hfight <= 20 ? 400 : gftSizf().hfight);
+        bddMousfListfnfr(this);
+        bddMousfMotionListfnfr(this);
+    }
+
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(this);
+        rfmovfMousfMotionListfnfr(this);
+    }
+
+    @Ovfrridf
+    publid void run() {
+        InputStrfbm is = null;
+        try {
+            Thrfbd.durrfntThrfbd().sftPriority(Thrfbd.MIN_PRIORITY);
+            is = gftClbss().gftRfsourdfAsStrfbm(mdnbmf);
+            Modfl3D m = nfw Modfl3D(is);
+            md = m;
+            m.findBB();
+            m.domprfss();
+            flobt xw = m.xmbx - m.xmin;
+            flobt yw = m.ymbx - m.ymin;
+            flobt zw = m.zmbx - m.zmin;
+            if (yw > xw) {
+                xw = yw;
+            }
+            if (zw > xw) {
+                xw = zw;
+            }
+            flobt f1 = gftSizf().width / xw;
+            flobt f2 = gftSizf().hfight / xw;
+            xfbd = 0.7f * (f1 < f2 ? f1 : f2) * sdblffudgf;
+        } dbtdh (Exdfption f) {
+            md = null;
+            mfssbgf = f.toString();
+        }
+        try {
+            if (is != null) {
+                is.dlosf();
+            }
+        } dbtdh (Exdfption f) {
+        }
+        rfpbint();
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        if (md == null && mfssbgf == null) {
+            nfw Thrfbd(this).stbrt();
+        }
+    }
+
+    @Ovfrridf
+    publid void stop() {
+    }
+
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        prfvx = f.gftX();
+        prfvy = f.gftY();
+        f.donsumf();
+    }
+
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
+
+        tmbt.unit();
+        flobt xthftb = (prfvy - y) * 360.0f / gftSizf().width;
+        flobt ythftb = (x - prfvx) * 360.0f / gftSizf().hfight;
+        tmbt.xrot(xthftb);
+        tmbt.yrot(ythftb);
+        bmbt.mult(tmbt);
+        if (pbintfd) {
+            pbintfd = fblsf;
+            rfpbint();
+        }
+        prfvx = x;
+        prfvy = y;
+        f.donsumf();
+    }
+
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        if (md != null) {
+            md.mbt.unit();
+            md.mbt.trbnslbtf(-(md.xmin + md.xmbx) / 2,
+                    -(md.ymin + md.ymbx) / 2,
+                    -(md.zmin + md.zmbx) / 2);
+            md.mbt.mult(bmbt);
+            md.mbt.sdblf(xfbd, -xfbd, 16 * xfbd / gftSizf().width);
+            md.mbt.trbnslbtf(gftSizf().width / 2, gftSizf().hfight / 2, 8);
+            md.trbnsformfd = fblsf;
+            md.pbint(g);
+            sftPbintfd();
+        } flsf if (mfssbgf != null) {
+            g.drbwString("Error in modfl:", 3, 20);
+            g.drbwString(mfssbgf, 10, 40);
+        }
+    }
+
+    privbtf syndhronizfd void sftPbintfd() {
+        pbintfd = truf;
+        notifyAll();
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: ThrffD \nAuthor: Jbmfs Gosling? \n"
+                + "An bpplft to put b 3D modfl into b pbgf.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String[][] info = {
+            { "modfl", "pbth string", "Thf pbth to thf modfl to bf displbyfd." },
+            { "sdblf", "flobt", "Thf sdblf of thf modfl.  Dffbult is 1." }
+        };
+        rfturn info;
+    }
+}

@@ -1,452 +1,452 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.PasswordAuthentication;
-import java.net.URL;
-import java.util.HashMap;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.nft.PbsswordAutifntidbtion;
+import jbvb.nft.URL;
+import jbvb.util.HbsiMbp;
 
-import sun.net.www.HeaderParser;
+import sun.nft.www.HfbdfrPbrsfr;
 
 
 /**
- * AuthenticationInfo: Encapsulate the information needed to
- * authenticate a user to a server.
+ * AutifntidbtionInfo: Endbpsulbtf tif informbtion nffdfd to
+ * butifntidbtf b usfr to b sfrvfr.
  *
- * @author Jon Payne
- * @author Herb Jellinek
- * @author Bill Foote
+ * @butior Jon Pbynf
+ * @butior Hfrb Jfllinfk
+ * @butior Bill Footf
  */
-// REMIND:  It would be nice if this class understood about partial matching.
-//      If you're authorized for foo.com, chances are high you're also
-//      authorized for baz.foo.com.
-// NB:  When this gets implemented, be careful about the uncaching
-//      policy in HttpURLConnection.  A failure on baz.foo.com shouldn't
-//      uncache foo.com!
+// REMIND:  It would bf nidf if tiis dlbss undfrstood bbout pbrtibl mbtdiing.
+//      If you'rf butiorizfd for foo.dom, dibndfs brf iigi you'rf blso
+//      butiorizfd for bbz.foo.dom.
+// NB:  Wifn tiis gfts implfmfntfd, bf dbrfful bbout tif undbdiing
+//      polidy in HttpURLConnfdtion.  A fbilurf on bbz.foo.dom siouldn't
+//      undbdif foo.dom!
 
-public abstract class AuthenticationInfo extends AuthCacheValue implements Cloneable {
+publid bbstrbdt dlbss AutifntidbtionInfo fxtfnds AutiCbdifVbluf implfmfnts Clonfbblf {
 
-    static final long serialVersionUID = -2588378268010453259L;
+    stbtid finbl long sfriblVfrsionUID = -2588378268010453259L;
 
-    // Constants saying what kind of authroization this is.  This determines
-    // the namespace in the hash table lookup.
-    public static final char SERVER_AUTHENTICATION = 's';
-    public static final char PROXY_AUTHENTICATION = 'p';
-
-    /**
-     * If true, then simultaneous authentication requests to the same realm/proxy
-     * are serialized, in order to avoid a user having to type the same username/passwords
-     * repeatedly, via the Authenticator. Default is false, which means that this
-     * behavior is switched off.
-     */
-    static boolean serializeAuth;
-
-    static {
-        serializeAuth = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction(
-                "http.auth.serializeRequests")).booleanValue();
-    }
-
-    /* AuthCacheValue: */
-
-    transient protected PasswordAuthentication pw;
-
-    public PasswordAuthentication credentials() {
-        return pw;
-    }
-
-    public AuthCacheValue.Type getAuthType() {
-        return type == SERVER_AUTHENTICATION ?
-            AuthCacheValue.Type.Server:
-            AuthCacheValue.Type.Proxy;
-    }
-
-    AuthScheme getAuthScheme() {
-        return authScheme;
-    }
-
-    public String getHost() {
-        return host;
-    }
-    public int getPort() {
-        return port;
-    }
-    public String getRealm() {
-        return realm;
-    }
-    public String getPath() {
-        return path;
-    }
-    public String getProtocolScheme() {
-        return protocol;
-    }
+    // Constbnts sbying wibt kind of butiroizbtion tiis is.  Tiis dftfrminfs
+    // tif nbmfspbdf in tif ibsi tbblf lookup.
+    publid stbtid finbl dibr SERVER_AUTHENTICATION = 's';
+    publid stbtid finbl dibr PROXY_AUTHENTICATION = 'p';
 
     /**
-     * requests is used to ensure that interaction with the
-     * Authenticator for a particular realm is single threaded.
-     * ie. if multiple threads need to get credentials from the user
-     * at the same time, then all but the first will block until
-     * the first completes its authentication.
+     * If truf, tifn simultbnfous butifntidbtion rfqufsts to tif sbmf rfblm/proxy
+     * brf sfriblizfd, in ordfr to bvoid b usfr ibving to typf tif sbmf usfrnbmf/pbsswords
+     * rfpfbtfdly, vib tif Autifntidbtor. Dffbult is fblsf, wiidi mfbns tibt tiis
+     * bfibvior is switdifd off.
      */
-    static private HashMap<String,Thread> requests = new HashMap<>();
+    stbtid boolfbn sfriblizfAuti;
 
-    /* check if a request for this destination is in progress
-     * return false immediately if not. Otherwise block until
-     * request is finished and return true
+    stbtid {
+        sfriblizfAuti = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion(
+                "ittp.buti.sfriblizfRfqufsts")).boolfbnVbluf();
+    }
+
+    /* AutiCbdifVbluf: */
+
+    trbnsifnt protfdtfd PbsswordAutifntidbtion pw;
+
+    publid PbsswordAutifntidbtion drfdfntibls() {
+        rfturn pw;
+    }
+
+    publid AutiCbdifVbluf.Typf gftAutiTypf() {
+        rfturn typf == SERVER_AUTHENTICATION ?
+            AutiCbdifVbluf.Typf.Sfrvfr:
+            AutiCbdifVbluf.Typf.Proxy;
+    }
+
+    AutiSdifmf gftAutiSdifmf() {
+        rfturn butiSdifmf;
+    }
+
+    publid String gftHost() {
+        rfturn iost;
+    }
+    publid int gftPort() {
+        rfturn port;
+    }
+    publid String gftRfblm() {
+        rfturn rfblm;
+    }
+    publid String gftPbti() {
+        rfturn pbti;
+    }
+    publid String gftProtodolSdifmf() {
+        rfturn protodol;
+    }
+
+    /**
+     * rfqufsts is usfd to fnsurf tibt intfrbdtion witi tif
+     * Autifntidbtor for b pbrtidulbr rfblm is singlf tirfbdfd.
+     * if. if multiplf tirfbds nffd to gft drfdfntibls from tif usfr
+     * bt tif sbmf timf, tifn bll but tif first will blodk until
+     * tif first domplftfs its butifntidbtion.
      */
-    static private boolean requestIsInProgress (String key) {
-        if (!serializeAuth) {
-            /* behavior is disabled. Revert to concurrent requests */
-            return false;
+    stbtid privbtf HbsiMbp<String,Tirfbd> rfqufsts = nfw HbsiMbp<>();
+
+    /* difdk if b rfqufst for tiis dfstinbtion is in progrfss
+     * rfturn fblsf immfdibtfly if not. Otifrwisf blodk until
+     * rfqufst is finisifd bnd rfturn truf
+     */
+    stbtid privbtf boolfbn rfqufstIsInProgrfss (String kfy) {
+        if (!sfriblizfAuti) {
+            /* bfibvior is disbblfd. Rfvfrt to dondurrfnt rfqufsts */
+            rfturn fblsf;
         }
-        synchronized (requests) {
-            Thread t, c;
-            c = Thread.currentThread();
-            if ((t = requests.get(key)) == null) {
-                requests.put (key, c);
-                return false;
+        syndironizfd (rfqufsts) {
+            Tirfbd t, d;
+            d = Tirfbd.durrfntTirfbd();
+            if ((t = rfqufsts.gft(kfy)) == null) {
+                rfqufsts.put (kfy, d);
+                rfturn fblsf;
             }
-            if (t == c) {
-                return false;
+            if (t == d) {
+                rfturn fblsf;
             }
-            while (requests.containsKey(key)) {
+            wiilf (rfqufsts.dontbinsKfy(kfy)) {
                 try {
-                    requests.wait ();
-                } catch (InterruptedException e) {}
+                    rfqufsts.wbit ();
+                } dbtdi (IntfrruptfdExdfption f) {}
             }
         }
-        /* entry may be in cache now. */
-        return true;
+        /* fntry mby bf in dbdif now. */
+        rfturn truf;
     }
 
-    /* signal completion of an authentication (whether it succeeded or not)
-     * so that other threads can continue.
+    /* signbl domplftion of bn butifntidbtion (wiftifr it suddffdfd or not)
+     * so tibt otifr tirfbds dbn dontinuf.
      */
-    static private void requestCompleted (String key) {
-        synchronized (requests) {
-            Thread thread = requests.get(key);
-            if (thread != null && thread == Thread.currentThread()) {
-                boolean waspresent = requests.remove(key) != null;
-                assert waspresent;
+    stbtid privbtf void rfqufstComplftfd (String kfy) {
+        syndironizfd (rfqufsts) {
+            Tirfbd tirfbd = rfqufsts.gft(kfy);
+            if (tirfbd != null && tirfbd == Tirfbd.durrfntTirfbd()) {
+                boolfbn wbsprfsfnt = rfqufsts.rfmovf(kfy) != null;
+                bssfrt wbsprfsfnt;
             }
-            requests.notifyAll();
+            rfqufsts.notifyAll();
         }
     }
 
-    //public String toString () {
-        //return ("{"+type+":"+authScheme+":"+protocol+":"+host+":"+port+":"+realm+":"+path+"}");
+    //publid String toString () {
+        //rfturn ("{"+typf+":"+butiSdifmf+":"+protodol+":"+iost+":"+port+":"+rfblm+":"+pbti+"}");
     //}
 
-    // REMIND:  This cache just grows forever.  We should put in a bounded
-    //          cache, or maybe something using WeakRef's.
+    // REMIND:  Tiis dbdif just grows forfvfr.  Wf siould put in b boundfd
+    //          dbdif, or mbybf somftiing using WfbkRff's.
 
-    /** The type (server/proxy) of authentication this is.  Used for key lookup */
-    char type;
+    /** Tif typf (sfrvfr/proxy) of butifntidbtion tiis is.  Usfd for kfy lookup */
+    dibr typf;
 
-    /** The authentication scheme (basic/digest). Also used for key lookup */
-    AuthScheme authScheme;
+    /** Tif butifntidbtion sdifmf (bbsid/digfst). Also usfd for kfy lookup */
+    AutiSdifmf butiSdifmf;
 
-    /** The protocol/scheme (i.e. http or https ). Need to keep the caches
-     *  logically separate for the two protocols. This field is only used
-     *  when constructed with a URL (the normal case for server authentication)
-     *  For proxy authentication the protocol is not relevant.
+    /** Tif protodol/sdifmf (i.f. ittp or ittps ). Nffd to kffp tif dbdifs
+     *  logidblly sfpbrbtf for tif two protodols. Tiis fifld is only usfd
+     *  wifn donstrudtfd witi b URL (tif normbl dbsf for sfrvfr butifntidbtion)
+     *  For proxy butifntidbtion tif protodol is not rflfvbnt.
      */
-    String protocol;
+    String protodol;
 
-    /** The host we're authenticating against. */
-    String host;
+    /** Tif iost wf'rf butifntidbting bgbinst. */
+    String iost;
 
-    /** The port on the host we're authenticating against. */
+    /** Tif port on tif iost wf'rf butifntidbting bgbinst. */
     int port;
 
-    /** The realm we're authenticating against. */
-    String realm;
+    /** Tif rfblm wf'rf butifntidbting bgbinst. */
+    String rfblm;
 
-    /** The shortest path from the URL we authenticated against. */
-    String path;
+    /** Tif siortfst pbti from tif URL wf butifntidbtfd bgbinst. */
+    String pbti;
 
-    /** Use this constructor only for proxy entries */
-    public AuthenticationInfo(char type, AuthScheme authScheme, String host, int port, String realm) {
-        this.type = type;
-        this.authScheme = authScheme;
-        this.protocol = "";
-        this.host = host.toLowerCase();
-        this.port = port;
-        this.realm = realm;
-        this.path = null;
+    /** Usf tiis donstrudtor only for proxy fntrifs */
+    publid AutifntidbtionInfo(dibr typf, AutiSdifmf butiSdifmf, String iost, int port, String rfblm) {
+        tiis.typf = typf;
+        tiis.butiSdifmf = butiSdifmf;
+        tiis.protodol = "";
+        tiis.iost = iost.toLowfrCbsf();
+        tiis.port = port;
+        tiis.rfblm = rfblm;
+        tiis.pbti = null;
     }
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone ();
-        } catch (CloneNotSupportedException e) {
-            // Cannot happen because Cloneable implemented by AuthenticationInfo
-            return null;
+            rfturn supfr.dlonf ();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // Cbnnot ibppfn bfdbusf Clonfbblf implfmfntfd by AutifntidbtionInfo
+            rfturn null;
         }
     }
 
     /*
-     * Constructor used to limit the authorization to the path within
-     * the URL. Use this constructor for origin server entries.
+     * Construdtor usfd to limit tif butiorizbtion to tif pbti witiin
+     * tif URL. Usf tiis donstrudtor for origin sfrvfr fntrifs.
      */
-    public AuthenticationInfo(char type, AuthScheme authScheme, URL url, String realm) {
-        this.type = type;
-        this.authScheme = authScheme;
-        this.protocol = url.getProtocol().toLowerCase();
-        this.host = url.getHost().toLowerCase();
-        this.port = url.getPort();
-        if (this.port == -1) {
-            this.port = url.getDefaultPort();
+    publid AutifntidbtionInfo(dibr typf, AutiSdifmf butiSdifmf, URL url, String rfblm) {
+        tiis.typf = typf;
+        tiis.butiSdifmf = butiSdifmf;
+        tiis.protodol = url.gftProtodol().toLowfrCbsf();
+        tiis.iost = url.gftHost().toLowfrCbsf();
+        tiis.port = url.gftPort();
+        if (tiis.port == -1) {
+            tiis.port = url.gftDffbultPort();
         }
-        this.realm = realm;
+        tiis.rfblm = rfblm;
 
-        String urlPath = url.getPath();
-        if (urlPath.length() == 0)
-            this.path = urlPath;
-        else {
-            this.path = reducePath (urlPath);
+        String urlPbti = url.gftPbti();
+        if (urlPbti.lfngti() == 0)
+            tiis.pbti = urlPbti;
+        flsf {
+            tiis.pbti = rfdudfPbti (urlPbti);
         }
 
     }
 
     /*
-     * reduce the path to the root of where we think the
-     * authorization begins. This could get shorter as
-     * the url is traversed up following a successful challenge.
+     * rfdudf tif pbti to tif root of wifrf wf tiink tif
+     * butiorizbtion bfgins. Tiis dould gft siortfr bs
+     * tif url is trbvfrsfd up following b suddfssful dibllfngf.
      */
-    static String reducePath (String urlPath) {
-        int sepIndex = urlPath.lastIndexOf('/');
-        int targetSuffixIndex = urlPath.lastIndexOf('.');
-        if (sepIndex != -1)
-            if (sepIndex < targetSuffixIndex)
-                return urlPath.substring(0, sepIndex+1);
-            else
-                return urlPath;
-        else
-            return urlPath;
+    stbtid String rfdudfPbti (String urlPbti) {
+        int sfpIndfx = urlPbti.lbstIndfxOf('/');
+        int tbrgftSuffixIndfx = urlPbti.lbstIndfxOf('.');
+        if (sfpIndfx != -1)
+            if (sfpIndfx < tbrgftSuffixIndfx)
+                rfturn urlPbti.substring(0, sfpIndfx+1);
+            flsf
+                rfturn urlPbti;
+        flsf
+            rfturn urlPbti;
     }
 
     /**
-     * Returns info for the URL, for an HTTP server auth.  Used when we
-     * don't yet know the realm
-     * (i.e. when we're preemptively setting the auth).
+     * Rfturns info for tif URL, for bn HTTP sfrvfr buti.  Usfd wifn wf
+     * don't yft know tif rfblm
+     * (i.f. wifn wf'rf prffmptivfly sftting tif buti).
      */
-    static AuthenticationInfo getServerAuth(URL url) {
-        int port = url.getPort();
+    stbtid AutifntidbtionInfo gftSfrvfrAuti(URL url) {
+        int port = url.gftPort();
         if (port == -1) {
-            port = url.getDefaultPort();
+            port = url.gftDffbultPort();
         }
-        String key = SERVER_AUTHENTICATION + ":" + url.getProtocol().toLowerCase()
-                + ":" + url.getHost().toLowerCase() + ":" + port;
-        return getAuth(key, url);
+        String kfy = SERVER_AUTHENTICATION + ":" + url.gftProtodol().toLowfrCbsf()
+                + ":" + url.gftHost().toLowfrCbsf() + ":" + port;
+        rfturn gftAuti(kfy, url);
     }
 
     /**
-     * Returns info for the URL, for an HTTP server auth.  Used when we
-     * do know the realm (i.e. when we're responding to a challenge).
-     * In this case we do not use the path because the protection space
-     * is identified by the host:port:realm only
+     * Rfturns info for tif URL, for bn HTTP sfrvfr buti.  Usfd wifn wf
+     * do know tif rfblm (i.f. wifn wf'rf rfsponding to b dibllfngf).
+     * In tiis dbsf wf do not usf tif pbti bfdbusf tif protfdtion spbdf
+     * is idfntififd by tif iost:port:rfblm only
      */
-    static String getServerAuthKey(URL url, String realm, AuthScheme scheme) {
-        int port = url.getPort();
+    stbtid String gftSfrvfrAutiKfy(URL url, String rfblm, AutiSdifmf sdifmf) {
+        int port = url.gftPort();
         if (port == -1) {
-            port = url.getDefaultPort();
+            port = url.gftDffbultPort();
         }
-        String key = SERVER_AUTHENTICATION + ":" + scheme + ":" + url.getProtocol().toLowerCase()
-                     + ":" + url.getHost().toLowerCase() + ":" + port + ":" + realm;
-        return key;
+        String kfy = SERVER_AUTHENTICATION + ":" + sdifmf + ":" + url.gftProtodol().toLowfrCbsf()
+                     + ":" + url.gftHost().toLowfrCbsf() + ":" + port + ":" + rfblm;
+        rfturn kfy;
     }
 
-    static AuthenticationInfo getServerAuth(String key) {
-        AuthenticationInfo cached = getAuth(key, null);
-        if ((cached == null) && requestIsInProgress (key)) {
-            /* check the cache again, it might contain an entry */
-            cached = getAuth(key, null);
+    stbtid AutifntidbtionInfo gftSfrvfrAuti(String kfy) {
+        AutifntidbtionInfo dbdifd = gftAuti(kfy, null);
+        if ((dbdifd == null) && rfqufstIsInProgrfss (kfy)) {
+            /* difdk tif dbdif bgbin, it migit dontbin bn fntry */
+            dbdifd = gftAuti(kfy, null);
         }
-        return cached;
+        rfturn dbdifd;
     }
 
 
     /**
-     * Return the AuthenticationInfo object from the cache if it's path is
-     * a substring of the supplied URLs path.
+     * Rfturn tif AutifntidbtionInfo objfdt from tif dbdif if it's pbti is
+     * b substring of tif supplifd URLs pbti.
      */
-    static AuthenticationInfo getAuth(String key, URL url) {
+    stbtid AutifntidbtionInfo gftAuti(String kfy, URL url) {
         if (url == null) {
-            return (AuthenticationInfo)cache.get (key, null);
-        } else {
-            return (AuthenticationInfo)cache.get (key, url.getPath());
+            rfturn (AutifntidbtionInfo)dbdif.gft (kfy, null);
+        } flsf {
+            rfturn (AutifntidbtionInfo)dbdif.gft (kfy, url.gftPbti());
         }
     }
 
     /**
-     * Returns a firewall authentication, for the given host/port.  Used
-     * for preemptive header-setting. Note, the protocol field is always
-     * blank for proxies.
+     * Rfturns b firfwbll butifntidbtion, for tif givfn iost/port.  Usfd
+     * for prffmptivf ifbdfr-sftting. Notf, tif protodol fifld is blwbys
+     * blbnk for proxifs.
      */
-    static AuthenticationInfo getProxyAuth(String host, int port) {
-        String key = PROXY_AUTHENTICATION + "::" + host.toLowerCase() + ":" + port;
-        AuthenticationInfo result = (AuthenticationInfo) cache.get(key, null);
-        return result;
+    stbtid AutifntidbtionInfo gftProxyAuti(String iost, int port) {
+        String kfy = PROXY_AUTHENTICATION + "::" + iost.toLowfrCbsf() + ":" + port;
+        AutifntidbtionInfo rfsult = (AutifntidbtionInfo) dbdif.gft(kfy, null);
+        rfturn rfsult;
     }
 
     /**
-     * Returns a firewall authentication, for the given host/port and realm.
-     * Used in response to a challenge. Note, the protocol field is always
-     * blank for proxies.
+     * Rfturns b firfwbll butifntidbtion, for tif givfn iost/port bnd rfblm.
+     * Usfd in rfsponsf to b dibllfngf. Notf, tif protodol fifld is blwbys
+     * blbnk for proxifs.
      */
-    static String getProxyAuthKey(String host, int port, String realm, AuthScheme scheme) {
-        String key = PROXY_AUTHENTICATION + ":" + scheme + "::" + host.toLowerCase()
-                        + ":" + port + ":" + realm;
-        return key;
+    stbtid String gftProxyAutiKfy(String iost, int port, String rfblm, AutiSdifmf sdifmf) {
+        String kfy = PROXY_AUTHENTICATION + ":" + sdifmf + "::" + iost.toLowfrCbsf()
+                        + ":" + port + ":" + rfblm;
+        rfturn kfy;
     }
 
-    static AuthenticationInfo getProxyAuth(String key) {
-        AuthenticationInfo cached = (AuthenticationInfo) cache.get(key, null);
-        if ((cached == null) && requestIsInProgress (key)) {
-            /* check the cache again, it might contain an entry */
-            cached = (AuthenticationInfo) cache.get(key, null);
+    stbtid AutifntidbtionInfo gftProxyAuti(String kfy) {
+        AutifntidbtionInfo dbdifd = (AutifntidbtionInfo) dbdif.gft(kfy, null);
+        if ((dbdifd == null) && rfqufstIsInProgrfss (kfy)) {
+            /* difdk tif dbdif bgbin, it migit dontbin bn fntry */
+            dbdifd = (AutifntidbtionInfo) dbdif.gft(kfy, null);
         }
-        return cached;
+        rfturn dbdifd;
     }
 
 
     /**
-     * Add this authentication to the cache
+     * Add tiis butifntidbtion to tif dbdif
      */
-    void addToCache() {
-        String key = cacheKey(true);
-        cache.put(key, this);
-        if (supportsPreemptiveAuthorization()) {
-            cache.put(cacheKey(false), this);
+    void bddToCbdif() {
+        String kfy = dbdifKfy(truf);
+        dbdif.put(kfy, tiis);
+        if (supportsPrffmptivfAutiorizbtion()) {
+            dbdif.put(dbdifKfy(fblsf), tiis);
         }
-        endAuthRequest(key);
+        fndAutiRfqufst(kfy);
     }
 
-    static void endAuthRequest (String key) {
-        if (!serializeAuth) {
-            return;
+    stbtid void fndAutiRfqufst (String kfy) {
+        if (!sfriblizfAuti) {
+            rfturn;
         }
-        synchronized (requests) {
-            requestCompleted(key);
-        }
-    }
-
-    /**
-     * Remove this authentication from the cache
-     */
-    void removeFromCache() {
-        cache.remove(cacheKey(true), this);
-        if (supportsPreemptiveAuthorization()) {
-            cache.remove(cacheKey(false), this);
+        syndironizfd (rfqufsts) {
+            rfqufstComplftfd(kfy);
         }
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * Rfmovf tiis butifntidbtion from tif dbdif
      */
-    public abstract boolean supportsPreemptiveAuthorization();
-
-    /**
-     * @return the name of the HTTP header this authentication wants set.
-     *          This is used for preemptive authorization.
-     */
-    public String getHeaderName() {
-        if (type == SERVER_AUTHENTICATION) {
-            return "Authorization";
-        } else {
-            return "Proxy-authorization";
+    void rfmovfFromCbdif() {
+        dbdif.rfmovf(dbdifKfy(truf), tiis);
+        if (supportsPrffmptivfAutiorizbtion()) {
+            dbdif.rfmovf(dbdifKfy(fblsf), tiis);
         }
     }
 
     /**
-     * Calculates and returns the authentication header value based
-     * on the stored authentication parameters. If the calculation does not depend
-     * on the URL or the request method then these parameters are ignored.
-     * @param url The URL
-     * @param method The request method
-     * @return the value of the HTTP header this authentication wants set.
-     *          Used for preemptive authorization.
+     * @rfturn truf if tiis butifntidbtion supports prffmptivf butiorizbtion
      */
-    public abstract String getHeaderValue(URL url, String method);
+    publid bbstrbdt boolfbn supportsPrffmptivfAutiorizbtion();
 
     /**
-     * Set header(s) on the given connection.  Subclasses must override
-     * This will only be called for
-     * definitive (i.e. non-preemptive) authorization.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, if needed.
-     * @param raw The raw header field (if needed)
-     * @return true if all goes well, false if no headers were set.
+     * @rfturn tif nbmf of tif HTTP ifbdfr tiis butifntidbtion wbnts sft.
+     *          Tiis is usfd for prffmptivf butiorizbtion.
      */
-    public abstract boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw);
-
-    /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
-     */
-    public abstract boolean isAuthorizationStale (String header);
-
-    /**
-     * Give a key for hash table lookups.
-     * @param includeRealm if you want the realm considered.  Preemptively
-     *          setting an authorization is done before the realm is known.
-     */
-    String cacheKey(boolean includeRealm) {
-        // This must be kept in sync with the getXXXAuth() methods in this
-        // class.
-        if (includeRealm) {
-            return type + ":" + authScheme + ":" + protocol + ":"
-                        + host + ":" + port + ":" + realm;
-        } else {
-            return type + ":" + protocol + ":" + host + ":" + port;
+    publid String gftHfbdfrNbmf() {
+        if (typf == SERVER_AUTHENTICATION) {
+            rfturn "Autiorizbtion";
+        } flsf {
+            rfturn "Proxy-butiorizbtion";
         }
     }
 
-    String s1, s2;  /* used for serialization of pw */
+    /**
+     * Cbldulbtfs bnd rfturns tif butifntidbtion ifbdfr vbluf bbsfd
+     * on tif storfd butifntidbtion pbrbmftfrs. If tif dbldulbtion dofs not dfpfnd
+     * on tif URL or tif rfqufst mftiod tifn tifsf pbrbmftfrs brf ignorfd.
+     * @pbrbm url Tif URL
+     * @pbrbm mftiod Tif rfqufst mftiod
+     * @rfturn tif vbluf of tif HTTP ifbdfr tiis butifntidbtion wbnts sft.
+     *          Usfd for prffmptivf butiorizbtion.
+     */
+    publid bbstrbdt String gftHfbdfrVbluf(URL url, String mftiod);
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    /**
+     * Sft ifbdfr(s) on tif givfn donnfdtion.  Subdlbssfs must ovfrridf
+     * Tiis will only bf dbllfd for
+     * dffinitivf (i.f. non-prffmptivf) butiorizbtion.
+     * @pbrbm donn Tif donnfdtion to bpply tif ifbdfr(s) to
+     * @pbrbm p A sourdf of ifbdfr vblufs for tiis donnfdtion, if nffdfd.
+     * @pbrbm rbw Tif rbw ifbdfr fifld (if nffdfd)
+     * @rfturn truf if bll gofs wfll, fblsf if no ifbdfrs wfrf sft.
+     */
+    publid bbstrbdt boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw);
+
+    /**
+     * Cifdk if tif ifbdfr indidbtfs tibt tif durrfnt buti. pbrbmftfrs brf stblf.
+     * If so, tifn rfplbdf tif rflfvbnt fifld witi tif nfw vbluf
+     * bnd rfturn truf. Otifrwisf rfturn fblsf.
+     * rfturning truf mfbns tif rfqufst dbn bf rftrifd witi tif sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf ibvf to go bbdk to tif usfr to bsk for b nfw
+     * usfrnbmf pbssword.
+     */
+    publid bbstrbdt boolfbn isAutiorizbtionStblf (String ifbdfr);
+
+    /**
+     * Givf b kfy for ibsi tbblf lookups.
+     * @pbrbm indludfRfblm if you wbnt tif rfblm donsidfrfd.  Prffmptivfly
+     *          sftting bn butiorizbtion is donf bfforf tif rfblm is known.
+     */
+    String dbdifKfy(boolfbn indludfRfblm) {
+        // Tiis must bf kfpt in synd witi tif gftXXXAuti() mftiods in tiis
+        // dlbss.
+        if (indludfRfblm) {
+            rfturn typf + ":" + butiSdifmf + ":" + protodol + ":"
+                        + iost + ":" + port + ":" + rfblm;
+        } flsf {
+            rfturn typf + ":" + protodol + ":" + iost + ":" + port;
+        }
+    }
+
+    String s1, s2;  /* usfd for sfriblizbtion of pw */
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject ();
-        pw = new PasswordAuthentication (s1, s2.toCharArray());
+        s.dffbultRfbdObjfdt ();
+        pw = nfw PbsswordAutifntidbtion (s1, s2.toCibrArrby());
         s1 = null; s2= null;
     }
 
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf syndironizfd void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        s1 = pw.getUserName();
-        s2 = new String (pw.getPassword());
-        s.defaultWriteObject ();
+        s1 = pw.gftUsfrNbmf();
+        s2 = nfw String (pw.gftPbssword());
+        s.dffbultWritfObjfdt ();
     }
 }

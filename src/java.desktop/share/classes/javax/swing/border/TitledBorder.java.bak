@@ -1,726 +1,726 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.geom.Path2D;
-import java.beans.ConstructorProperties;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicHTML;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Pbti2D;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
 
 /**
- * A class which implements an arbitrary border
- * with the addition of a String title in a
- * specified position and justification.
+ * A dlbss wiidi implfmfnts bn brbitrbry bordfr
+ * witi tif bddition of b String titlf in b
+ * spfdififd position bnd justifidbtion.
  * <p>
- * If the border, font, or color property values are not
- * specified in the constructor or by invoking the appropriate
- * set methods, the property values will be defined by the current
- * look and feel, using the following property names in the
- * Defaults Table:
+ * If tif bordfr, font, or dolor propfrty vblufs brf not
+ * spfdififd in tif donstrudtor or by invoking tif bppropribtf
+ * sft mftiods, tif propfrty vblufs will bf dffinfd by tif durrfnt
+ * look bnd fffl, using tif following propfrty nbmfs in tif
+ * Dffbults Tbblf:
  * <ul>
- * <li>&quot;TitledBorder.border&quot;
- * <li>&quot;TitledBorder.font&quot;
- * <li>&quot;TitledBorder.titleColor&quot;
+ * <li>&quot;TitlfdBordfr.bordfr&quot;
+ * <li>&quot;TitlfdBordfr.font&quot;
+ * <li>&quot;TitlfdBordfr.titlfColor&quot;
  * </ul>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
- * @author Amy Fowler
+ * @butior Dbvid Klobb
+ * @butior Amy Fowlfr
  */
-@SuppressWarnings("serial")
-public class TitledBorder extends AbstractBorder
+@SupprfssWbrnings("sfribl")
+publid dlbss TitlfdBordfr fxtfnds AbstrbdtBordfr
 {
-    protected String title;
-    protected Border border;
-    protected int titlePosition;
-    protected int titleJustification;
-    protected Font titleFont;
-    protected Color titleColor;
+    protfdtfd String titlf;
+    protfdtfd Bordfr bordfr;
+    protfdtfd int titlfPosition;
+    protfdtfd int titlfJustifidbtion;
+    protfdtfd Font titlfFont;
+    protfdtfd Color titlfColor;
 
-    private final JLabel label;
-
-    /**
-     * Use the default vertical orientation for the title text.
-     */
-    static public final int     DEFAULT_POSITION        = 0;
-    /** Position the title above the border's top line. */
-    static public final int     ABOVE_TOP               = 1;
-    /** Position the title in the middle of the border's top line. */
-    static public final int     TOP                     = 2;
-    /** Position the title below the border's top line. */
-    static public final int     BELOW_TOP               = 3;
-    /** Position the title above the border's bottom line. */
-    static public final int     ABOVE_BOTTOM            = 4;
-    /** Position the title in the middle of the border's bottom line. */
-    static public final int     BOTTOM                  = 5;
-    /** Position the title below the border's bottom line. */
-    static public final int     BELOW_BOTTOM            = 6;
+    privbtf finbl JLbbfl lbbfl;
 
     /**
-     * Use the default justification for the title text.
+     * Usf tif dffbult vfrtidbl orifntbtion for tif titlf tfxt.
      */
-    static public final int     DEFAULT_JUSTIFICATION   = 0;
-    /** Position title text at the left side of the border line. */
-    static public final int     LEFT                    = 1;
-    /** Position title text in the center of the border line. */
-    static public final int     CENTER                  = 2;
-    /** Position title text at the right side of the border line. */
-    static public final int     RIGHT                   = 3;
-    /** Position title text at the left side of the border line
-     *  for left to right orientation, at the right side of the
-     *  border line for right to left orientation.
-     */
-    static public final int     LEADING = 4;
-    /** Position title text at the right side of the border line
-     *  for left to right orientation, at the left side of the
-     *  border line for right to left orientation.
-     */
-    static public final int     TRAILING = 5;
-
-    // Space between the border and the component's edge
-    static protected final int EDGE_SPACING = 2;
-
-    // Space between the border and text
-    static protected final int TEXT_SPACING = 2;
-
-    // Horizontal inset of text that is left or right justified
-    static protected final int TEXT_INSET_H = 5;
+    stbtid publid finbl int     DEFAULT_POSITION        = 0;
+    /** Position tif titlf bbovf tif bordfr's top linf. */
+    stbtid publid finbl int     ABOVE_TOP               = 1;
+    /** Position tif titlf in tif middlf of tif bordfr's top linf. */
+    stbtid publid finbl int     TOP                     = 2;
+    /** Position tif titlf bflow tif bordfr's top linf. */
+    stbtid publid finbl int     BELOW_TOP               = 3;
+    /** Position tif titlf bbovf tif bordfr's bottom linf. */
+    stbtid publid finbl int     ABOVE_BOTTOM            = 4;
+    /** Position tif titlf in tif middlf of tif bordfr's bottom linf. */
+    stbtid publid finbl int     BOTTOM                  = 5;
+    /** Position tif titlf bflow tif bordfr's bottom linf. */
+    stbtid publid finbl int     BELOW_BOTTOM            = 6;
 
     /**
-     * Creates a TitledBorder instance.
+     * Usf tif dffbult justifidbtion for tif titlf tfxt.
+     */
+    stbtid publid finbl int     DEFAULT_JUSTIFICATION   = 0;
+    /** Position titlf tfxt bt tif lfft sidf of tif bordfr linf. */
+    stbtid publid finbl int     LEFT                    = 1;
+    /** Position titlf tfxt in tif dfntfr of tif bordfr linf. */
+    stbtid publid finbl int     CENTER                  = 2;
+    /** Position titlf tfxt bt tif rigit sidf of tif bordfr linf. */
+    stbtid publid finbl int     RIGHT                   = 3;
+    /** Position titlf tfxt bt tif lfft sidf of tif bordfr linf
+     *  for lfft to rigit orifntbtion, bt tif rigit sidf of tif
+     *  bordfr linf for rigit to lfft orifntbtion.
+     */
+    stbtid publid finbl int     LEADING = 4;
+    /** Position titlf tfxt bt tif rigit sidf of tif bordfr linf
+     *  for lfft to rigit orifntbtion, bt tif lfft sidf of tif
+     *  bordfr linf for rigit to lfft orifntbtion.
+     */
+    stbtid publid finbl int     TRAILING = 5;
+
+    // Spbdf bftwffn tif bordfr bnd tif domponfnt's fdgf
+    stbtid protfdtfd finbl int EDGE_SPACING = 2;
+
+    // Spbdf bftwffn tif bordfr bnd tfxt
+    stbtid protfdtfd finbl int TEXT_SPACING = 2;
+
+    // Horizontbl insft of tfxt tibt is lfft or rigit justififd
+    stbtid protfdtfd finbl int TEXT_INSET_H = 5;
+
+    /**
+     * Crfbtfs b TitlfdBordfr instbndf.
      *
-     * @param title  the title the border should display
+     * @pbrbm titlf  tif titlf tif bordfr siould displby
      */
-    public TitledBorder(String title) {
-        this(null, title, LEADING, DEFAULT_POSITION, null, null);
+    publid TitlfdBordfr(String titlf) {
+        tiis(null, titlf, LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
-     * Creates a TitledBorder instance with the specified border
-     * and an empty title.
+     * Crfbtfs b TitlfdBordfr instbndf witi tif spfdififd bordfr
+     * bnd bn fmpty titlf.
      *
-     * @param border  the border
+     * @pbrbm bordfr  tif bordfr
      */
-    public TitledBorder(Border border) {
-        this(border, "", LEADING, DEFAULT_POSITION, null, null);
+    publid TitlfdBordfr(Bordfr bordfr) {
+        tiis(bordfr, "", LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
-     * Creates a TitledBorder instance with the specified border
-     * and title.
+     * Crfbtfs b TitlfdBordfr instbndf witi tif spfdififd bordfr
+     * bnd titlf.
      *
-     * @param border  the border
-     * @param title  the title the border should display
+     * @pbrbm bordfr  tif bordfr
+     * @pbrbm titlf  tif titlf tif bordfr siould displby
      */
-    public TitledBorder(Border border, String title) {
-        this(border, title, LEADING, DEFAULT_POSITION, null, null);
+    publid TitlfdBordfr(Bordfr bordfr, String titlf) {
+        tiis(bordfr, titlf, LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
-     * Creates a TitledBorder instance with the specified border,
-     * title, title-justification, and title-position.
+     * Crfbtfs b TitlfdBordfr instbndf witi tif spfdififd bordfr,
+     * titlf, titlf-justifidbtion, bnd titlf-position.
      *
-     * @param border  the border
-     * @param title  the title the border should display
-     * @param titleJustification the justification for the title
-     * @param titlePosition the position for the title
+     * @pbrbm bordfr  tif bordfr
+     * @pbrbm titlf  tif titlf tif bordfr siould displby
+     * @pbrbm titlfJustifidbtion tif justifidbtion for tif titlf
+     * @pbrbm titlfPosition tif position for tif titlf
      */
-    public TitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition) {
-        this(border, title, titleJustification,
-             titlePosition, null, null);
+    publid TitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition) {
+        tiis(bordfr, titlf, titlfJustifidbtion,
+             titlfPosition, null, null);
     }
 
     /**
-     * Creates a TitledBorder instance with the specified border,
-     * title, title-justification, title-position, and title-font.
+     * Crfbtfs b TitlfdBordfr instbndf witi tif spfdififd bordfr,
+     * titlf, titlf-justifidbtion, titlf-position, bnd titlf-font.
      *
-     * @param border  the border
-     * @param title  the title the border should display
-     * @param titleJustification the justification for the title
-     * @param titlePosition the position for the title
-     * @param titleFont the font for rendering the title
+     * @pbrbm bordfr  tif bordfr
+     * @pbrbm titlf  tif titlf tif bordfr siould displby
+     * @pbrbm titlfJustifidbtion tif justifidbtion for tif titlf
+     * @pbrbm titlfPosition tif position for tif titlf
+     * @pbrbm titlfFont tif font for rfndfring tif titlf
      */
-    public TitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont) {
-        this(border, title, titleJustification,
-             titlePosition, titleFont, null);
+    publid TitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont) {
+        tiis(bordfr, titlf, titlfJustifidbtion,
+             titlfPosition, titlfFont, null);
     }
 
     /**
-     * Creates a TitledBorder instance with the specified border,
-     * title, title-justification, title-position, title-font, and
-     * title-color.
+     * Crfbtfs b TitlfdBordfr instbndf witi tif spfdififd bordfr,
+     * titlf, titlf-justifidbtion, titlf-position, titlf-font, bnd
+     * titlf-dolor.
      *
-     * @param border  the border
-     * @param title  the title the border should display
-     * @param titleJustification the justification for the title
-     * @param titlePosition the position for the title
-     * @param titleFont the font of the title
-     * @param titleColor the color of the title
+     * @pbrbm bordfr  tif bordfr
+     * @pbrbm titlf  tif titlf tif bordfr siould displby
+     * @pbrbm titlfJustifidbtion tif justifidbtion for tif titlf
+     * @pbrbm titlfPosition tif position for tif titlf
+     * @pbrbm titlfFont tif font of tif titlf
+     * @pbrbm titlfColor tif dolor of tif titlf
      */
-    @ConstructorProperties({"border", "title", "titleJustification", "titlePosition", "titleFont", "titleColor"})
-    public TitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont,
-                        Color titleColor) {
-        this.title = title;
-        this.border = border;
-        this.titleFont = titleFont;
-        this.titleColor = titleColor;
+    @ConstrudtorPropfrtifs({"bordfr", "titlf", "titlfJustifidbtion", "titlfPosition", "titlfFont", "titlfColor"})
+    publid TitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont,
+                        Color titlfColor) {
+        tiis.titlf = titlf;
+        tiis.bordfr = bordfr;
+        tiis.titlfFont = titlfFont;
+        tiis.titlfColor = titlfColor;
 
-        setTitleJustification(titleJustification);
-        setTitlePosition(titlePosition);
+        sftTitlfJustifidbtion(titlfJustifidbtion);
+        sftTitlfPosition(titlfPosition);
 
-        this.label = new JLabel();
-        this.label.setOpaque(false);
-        this.label.putClientProperty(BasicHTML.propertyKey, null);
+        tiis.lbbfl = nfw JLbbfl();
+        tiis.lbbfl.sftOpbquf(fblsf);
+        tiis.lbbfl.putClifntPropfrty(BbsidHTML.propfrtyKfy, null);
     }
 
     /**
-     * Paints the border for the specified component with the
-     * specified position and size.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif
+     * spfdififd position bnd sizf.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        Border border = getBorder();
-        String title = getTitle();
-        if ((title != null) && !title.isEmpty()) {
-            int edge = (border instanceof TitledBorder) ? 0 : EDGE_SPACING;
-            JLabel label = getLabel(c);
-            Dimension size = label.getPreferredSize();
-            Insets insets = getBorderInsets(border, c, new Insets(0, 0, 0, 0));
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+        Bordfr bordfr = gftBordfr();
+        String titlf = gftTitlf();
+        if ((titlf != null) && !titlf.isEmpty()) {
+            int fdgf = (bordfr instbndfof TitlfdBordfr) ? 0 : EDGE_SPACING;
+            JLbbfl lbbfl = gftLbbfl(d);
+            Dimfnsion sizf = lbbfl.gftPrfffrrfdSizf();
+            Insfts insfts = gftBordfrInsfts(bordfr, d, nfw Insfts(0, 0, 0, 0));
 
-            int borderX = x + edge;
-            int borderY = y + edge;
-            int borderW = width - edge - edge;
-            int borderH = height - edge - edge;
+            int bordfrX = x + fdgf;
+            int bordfrY = y + fdgf;
+            int bordfrW = widti - fdgf - fdgf;
+            int bordfrH = ifigit - fdgf - fdgf;
 
-            int labelY = y;
-            int labelH = size.height;
-            int position = getPosition();
-            switch (position) {
-                case ABOVE_TOP:
-                    insets.left = 0;
-                    insets.right = 0;
-                    borderY += labelH - edge;
-                    borderH -= labelH - edge;
-                    break;
-                case TOP:
-                    insets.top = edge + insets.top/2 - labelH/2;
-                    if (insets.top < edge) {
-                        borderY -= insets.top;
-                        borderH += insets.top;
+            int lbbflY = y;
+            int lbbflH = sizf.ifigit;
+            int position = gftPosition();
+            switdi (position) {
+                dbsf ABOVE_TOP:
+                    insfts.lfft = 0;
+                    insfts.rigit = 0;
+                    bordfrY += lbbflH - fdgf;
+                    bordfrH -= lbbflH - fdgf;
+                    brfbk;
+                dbsf TOP:
+                    insfts.top = fdgf + insfts.top/2 - lbbflH/2;
+                    if (insfts.top < fdgf) {
+                        bordfrY -= insfts.top;
+                        bordfrH += insfts.top;
                     }
-                    else {
-                        labelY += insets.top;
+                    flsf {
+                        lbbflY += insfts.top;
                     }
-                    break;
-                case BELOW_TOP:
-                    labelY += insets.top + edge;
-                    break;
-                case ABOVE_BOTTOM:
-                    labelY += height - labelH - insets.bottom - edge;
-                    break;
-                case BOTTOM:
-                    labelY += height - labelH;
-                    insets.bottom = edge + (insets.bottom - labelH) / 2;
-                    if (insets.bottom < edge) {
-                        borderH += insets.bottom;
+                    brfbk;
+                dbsf BELOW_TOP:
+                    lbbflY += insfts.top + fdgf;
+                    brfbk;
+                dbsf ABOVE_BOTTOM:
+                    lbbflY += ifigit - lbbflH - insfts.bottom - fdgf;
+                    brfbk;
+                dbsf BOTTOM:
+                    lbbflY += ifigit - lbbflH;
+                    insfts.bottom = fdgf + (insfts.bottom - lbbflH) / 2;
+                    if (insfts.bottom < fdgf) {
+                        bordfrH += insfts.bottom;
                     }
-                    else {
-                        labelY -= insets.bottom;
+                    flsf {
+                        lbbflY -= insfts.bottom;
                     }
-                    break;
-                case BELOW_BOTTOM:
-                    insets.left = 0;
-                    insets.right = 0;
-                    labelY += height - labelH;
-                    borderH -= labelH - edge;
-                    break;
+                    brfbk;
+                dbsf BELOW_BOTTOM:
+                    insfts.lfft = 0;
+                    insfts.rigit = 0;
+                    lbbflY += ifigit - lbbflH;
+                    bordfrH -= lbbflH - fdgf;
+                    brfbk;
             }
-            insets.left += edge + TEXT_INSET_H;
-            insets.right += edge + TEXT_INSET_H;
+            insfts.lfft += fdgf + TEXT_INSET_H;
+            insfts.rigit += fdgf + TEXT_INSET_H;
 
-            int labelX = x;
-            int labelW = width - insets.left - insets.right;
-            if (labelW > size.width) {
-                labelW = size.width;
+            int lbbflX = x;
+            int lbbflW = widti - insfts.lfft - insfts.rigit;
+            if (lbbflW > sizf.widti) {
+                lbbflW = sizf.widti;
             }
-            switch (getJustification(c)) {
-                case LEFT:
-                    labelX += insets.left;
-                    break;
-                case RIGHT:
-                    labelX += width - insets.right - labelW;
-                    break;
-                case CENTER:
-                    labelX += (width - labelW) / 2;
-                    break;
+            switdi (gftJustifidbtion(d)) {
+                dbsf LEFT:
+                    lbbflX += insfts.lfft;
+                    brfbk;
+                dbsf RIGHT:
+                    lbbflX += widti - insfts.rigit - lbbflW;
+                    brfbk;
+                dbsf CENTER:
+                    lbbflX += (widti - lbbflW) / 2;
+                    brfbk;
             }
 
-            if (border != null) {
+            if (bordfr != null) {
                 if ((position != TOP) && (position != BOTTOM)) {
-                    border.paintBorder(c, g, borderX, borderY, borderW, borderH);
+                    bordfr.pbintBordfr(d, g, bordfrX, bordfrY, bordfrW, bordfrH);
                 }
-                else {
-                    Graphics g2 = g.create();
-                    if (g2 instanceof Graphics2D) {
-                        Graphics2D g2d = (Graphics2D) g2;
-                        Path2D path = new Path2D.Float();
-                        path.append(new Rectangle(borderX, borderY, borderW, labelY - borderY), false);
-                        path.append(new Rectangle(borderX, labelY, labelX - borderX - TEXT_SPACING, labelH), false);
-                        path.append(new Rectangle(labelX + labelW + TEXT_SPACING, labelY, borderX - labelX + borderW - labelW - TEXT_SPACING, labelH), false);
-                        path.append(new Rectangle(borderX, labelY + labelH, borderW, borderY - labelY + borderH - labelH), false);
-                        g2d.clip(path);
+                flsf {
+                    Grbpiids g2 = g.drfbtf();
+                    if (g2 instbndfof Grbpiids2D) {
+                        Grbpiids2D g2d = (Grbpiids2D) g2;
+                        Pbti2D pbti = nfw Pbti2D.Flobt();
+                        pbti.bppfnd(nfw Rfdtbnglf(bordfrX, bordfrY, bordfrW, lbbflY - bordfrY), fblsf);
+                        pbti.bppfnd(nfw Rfdtbnglf(bordfrX, lbbflY, lbbflX - bordfrX - TEXT_SPACING, lbbflH), fblsf);
+                        pbti.bppfnd(nfw Rfdtbnglf(lbbflX + lbbflW + TEXT_SPACING, lbbflY, bordfrX - lbbflX + bordfrW - lbbflW - TEXT_SPACING, lbbflH), fblsf);
+                        pbti.bppfnd(nfw Rfdtbnglf(bordfrX, lbbflY + lbbflH, bordfrW, bordfrY - lbbflY + bordfrH - lbbflH), fblsf);
+                        g2d.dlip(pbti);
                     }
-                    border.paintBorder(c, g2, borderX, borderY, borderW, borderH);
-                    g2.dispose();
+                    bordfr.pbintBordfr(d, g2, bordfrX, bordfrY, bordfrW, bordfrH);
+                    g2.disposf();
                 }
             }
-            g.translate(labelX, labelY);
-            label.setSize(labelW, labelH);
-            label.paint(g);
-            g.translate(-labelX, -labelY);
+            g.trbnslbtf(lbbflX, lbbflY);
+            lbbfl.sftSizf(lbbflW, lbbflH);
+            lbbfl.pbint(g);
+            g.trbnslbtf(-lbbflX, -lbbflY);
         }
-        else if (border != null) {
-            border.paintBorder(c, g, x, y, width, height);
+        flsf if (bordfr != null) {
+            bordfr.pbintBordfr(d, g, x, y, widti, ifigit);
         }
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        Border border = getBorder();
-        insets = getBorderInsets(border, c, insets);
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        Bordfr bordfr = gftBordfr();
+        insfts = gftBordfrInsfts(bordfr, d, insfts);
 
-        String title = getTitle();
-        if ((title != null) && !title.isEmpty()) {
-            int edge = (border instanceof TitledBorder) ? 0 : EDGE_SPACING;
-            JLabel label = getLabel(c);
-            Dimension size = label.getPreferredSize();
+        String titlf = gftTitlf();
+        if ((titlf != null) && !titlf.isEmpty()) {
+            int fdgf = (bordfr instbndfof TitlfdBordfr) ? 0 : EDGE_SPACING;
+            JLbbfl lbbfl = gftLbbfl(d);
+            Dimfnsion sizf = lbbfl.gftPrfffrrfdSizf();
 
-            switch (getPosition()) {
-                case ABOVE_TOP:
-                    insets.top += size.height - edge;
-                    break;
-                case TOP: {
-                    if (insets.top < size.height) {
-                        insets.top = size.height - edge;
+            switdi (gftPosition()) {
+                dbsf ABOVE_TOP:
+                    insfts.top += sizf.ifigit - fdgf;
+                    brfbk;
+                dbsf TOP: {
+                    if (insfts.top < sizf.ifigit) {
+                        insfts.top = sizf.ifigit - fdgf;
                     }
-                    break;
+                    brfbk;
                 }
-                case BELOW_TOP:
-                    insets.top += size.height;
-                    break;
-                case ABOVE_BOTTOM:
-                    insets.bottom += size.height;
-                    break;
-                case BOTTOM: {
-                    if (insets.bottom < size.height) {
-                        insets.bottom = size.height - edge;
+                dbsf BELOW_TOP:
+                    insfts.top += sizf.ifigit;
+                    brfbk;
+                dbsf ABOVE_BOTTOM:
+                    insfts.bottom += sizf.ifigit;
+                    brfbk;
+                dbsf BOTTOM: {
+                    if (insfts.bottom < sizf.ifigit) {
+                        insfts.bottom = sizf.ifigit - fdgf;
                     }
-                    break;
+                    brfbk;
                 }
-                case BELOW_BOTTOM:
-                    insets.bottom += size.height - edge;
-                    break;
+                dbsf BELOW_BOTTOM:
+                    insfts.bottom += sizf.ifigit - fdgf;
+                    brfbk;
             }
-            insets.top += edge + TEXT_SPACING;
-            insets.left += edge + TEXT_SPACING;
-            insets.right += edge + TEXT_SPACING;
-            insets.bottom += edge + TEXT_SPACING;
+            insfts.top += fdgf + TEXT_SPACING;
+            insfts.lfft += fdgf + TEXT_SPACING;
+            insfts.rigit += fdgf + TEXT_SPACING;
+            insfts.bottom += fdgf + TEXT_SPACING;
         }
-        return insets;
+        rfturn insfts;
     }
 
     /**
-     * Returns whether or not the border is opaque.
+     * Rfturns wiftifr or not tif bordfr is opbquf.
      */
-    public boolean isBorderOpaque() {
-        return false;
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns the title of the titled border.
+     * Rfturns tif titlf of tif titlfd bordfr.
      *
-     * @return the title of the titled border
+     * @rfturn tif titlf of tif titlfd bordfr
      */
-    public String getTitle() {
-        return title;
+    publid String gftTitlf() {
+        rfturn titlf;
     }
 
     /**
-     * Returns the border of the titled border.
+     * Rfturns tif bordfr of tif titlfd bordfr.
      *
-     * @return the border of the titled border
+     * @rfturn tif bordfr of tif titlfd bordfr
      */
-    public Border getBorder() {
-        return border != null
-                ? border
-                : UIManager.getBorder("TitledBorder.border");
+    publid Bordfr gftBordfr() {
+        rfturn bordfr != null
+                ? bordfr
+                : UIMbnbgfr.gftBordfr("TitlfdBordfr.bordfr");
     }
 
     /**
-     * Returns the title-position of the titled border.
+     * Rfturns tif titlf-position of tif titlfd bordfr.
      *
-     * @return the title-position of the titled border
+     * @rfturn tif titlf-position of tif titlfd bordfr
      */
-    public int getTitlePosition() {
-        return titlePosition;
+    publid int gftTitlfPosition() {
+        rfturn titlfPosition;
     }
 
     /**
-     * Returns the title-justification of the titled border.
+     * Rfturns tif titlf-justifidbtion of tif titlfd bordfr.
      *
-     * @return the title-justification of the titled border
+     * @rfturn tif titlf-justifidbtion of tif titlfd bordfr
      */
-    public int getTitleJustification() {
-        return titleJustification;
+    publid int gftTitlfJustifidbtion() {
+        rfturn titlfJustifidbtion;
     }
 
     /**
-     * Returns the title-font of the titled border.
+     * Rfturns tif titlf-font of tif titlfd bordfr.
      *
-     * @return the title-font of the titled border
+     * @rfturn tif titlf-font of tif titlfd bordfr
      */
-    public Font getTitleFont() {
-        return titleFont == null ? UIManager.getFont("TitledBorder.font") : titleFont;
+    publid Font gftTitlfFont() {
+        rfturn titlfFont == null ? UIMbnbgfr.gftFont("TitlfdBordfr.font") : titlfFont;
     }
 
     /**
-     * Returns the title-color of the titled border.
+     * Rfturns tif titlf-dolor of tif titlfd bordfr.
      *
-     * @return the title-color of the titled border
+     * @rfturn tif titlf-dolor of tif titlfd bordfr
      */
-    public Color getTitleColor() {
-        return titleColor == null ? UIManager.getColor("TitledBorder.titleColor") : titleColor;
+    publid Color gftTitlfColor() {
+        rfturn titlfColor == null ? UIMbnbgfr.gftColor("TitlfdBordfr.titlfColor") : titlfColor;
     }
 
 
-    // REMIND(aim): remove all or some of these set methods?
+    // REMIND(bim): rfmovf bll or somf of tifsf sft mftiods?
 
     /**
-     * Sets the title of the titled border.
-     * @param title  the title for the border
+     * Sfts tif titlf of tif titlfd bordfr.
+     * @pbrbm titlf  tif titlf for tif bordfr
      */
-    public void setTitle(String title) {
-        this.title = title;
+    publid void sftTitlf(String titlf) {
+        tiis.titlf = titlf;
     }
 
     /**
-     * Sets the border of the titled border.
-     * @param border the border
+     * Sfts tif bordfr of tif titlfd bordfr.
+     * @pbrbm bordfr tif bordfr
      */
-    public void setBorder(Border border) {
-        this.border = border;
+    publid void sftBordfr(Bordfr bordfr) {
+        tiis.bordfr = bordfr;
     }
 
     /**
-     * Sets the title-position of the titled border.
-     * @param titlePosition the position for the border
+     * Sfts tif titlf-position of tif titlfd bordfr.
+     * @pbrbm titlfPosition tif position for tif bordfr
      */
-    public void setTitlePosition(int titlePosition) {
-        switch (titlePosition) {
-            case ABOVE_TOP:
-            case TOP:
-            case BELOW_TOP:
-            case ABOVE_BOTTOM:
-            case BOTTOM:
-            case BELOW_BOTTOM:
-            case DEFAULT_POSITION:
-                this.titlePosition = titlePosition;
-                break;
-            default:
-                throw new IllegalArgumentException(titlePosition +
-                        " is not a valid title position.");
-        }
-    }
-
-    /**
-     * Sets the title-justification of the titled border.
-     * @param titleJustification the justification for the border
-     */
-    public void setTitleJustification(int titleJustification) {
-        switch (titleJustification) {
-            case DEFAULT_JUSTIFICATION:
-            case LEFT:
-            case CENTER:
-            case RIGHT:
-            case LEADING:
-            case TRAILING:
-                this.titleJustification = titleJustification;
-                break;
-            default:
-                throw new IllegalArgumentException(titleJustification +
-                        " is not a valid title justification.");
+    publid void sftTitlfPosition(int titlfPosition) {
+        switdi (titlfPosition) {
+            dbsf ABOVE_TOP:
+            dbsf TOP:
+            dbsf BELOW_TOP:
+            dbsf ABOVE_BOTTOM:
+            dbsf BOTTOM:
+            dbsf BELOW_BOTTOM:
+            dbsf DEFAULT_POSITION:
+                tiis.titlfPosition = titlfPosition;
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption(titlfPosition +
+                        " is not b vblid titlf position.");
         }
     }
 
     /**
-     * Sets the title-font of the titled border.
-     * @param titleFont the font for the border title
+     * Sfts tif titlf-justifidbtion of tif titlfd bordfr.
+     * @pbrbm titlfJustifidbtion tif justifidbtion for tif bordfr
      */
-    public void setTitleFont(Font titleFont) {
-        this.titleFont = titleFont;
+    publid void sftTitlfJustifidbtion(int titlfJustifidbtion) {
+        switdi (titlfJustifidbtion) {
+            dbsf DEFAULT_JUSTIFICATION:
+            dbsf LEFT:
+            dbsf CENTER:
+            dbsf RIGHT:
+            dbsf LEADING:
+            dbsf TRAILING:
+                tiis.titlfJustifidbtion = titlfJustifidbtion;
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption(titlfJustifidbtion +
+                        " is not b vblid titlf justifidbtion.");
+        }
     }
 
     /**
-     * Sets the title-color of the titled border.
-     * @param titleColor the color for the border title
+     * Sfts tif titlf-font of tif titlfd bordfr.
+     * @pbrbm titlfFont tif font for tif bordfr titlf
      */
-    public void setTitleColor(Color titleColor) {
-        this.titleColor = titleColor;
+    publid void sftTitlfFont(Font titlfFont) {
+        tiis.titlfFont = titlfFont;
     }
 
     /**
-     * Returns the minimum dimensions this border requires
-     * in order to fully display the border and title.
-     * @param c the component where this border will be drawn
-     * @return the {@code Dimension} object
+     * Sfts tif titlf-dolor of tif titlfd bordfr.
+     * @pbrbm titlfColor tif dolor for tif bordfr titlf
      */
-    public Dimension getMinimumSize(Component c) {
-        Insets insets = getBorderInsets(c);
-        Dimension minSize = new Dimension(insets.right+insets.left,
-                                          insets.top+insets.bottom);
-        String title = getTitle();
-        if ((title != null) && !title.isEmpty()) {
-            JLabel label = getLabel(c);
-            Dimension size = label.getPreferredSize();
+    publid void sftTitlfColor(Color titlfColor) {
+        tiis.titlfColor = titlfColor;
+    }
 
-            int position = getPosition();
+    /**
+     * Rfturns tif minimum dimfnsions tiis bordfr rfquirfs
+     * in ordfr to fully displby tif bordfr bnd titlf.
+     * @pbrbm d tif domponfnt wifrf tiis bordfr will bf drbwn
+     * @rfturn tif {@dodf Dimfnsion} objfdt
+     */
+    publid Dimfnsion gftMinimumSizf(Componfnt d) {
+        Insfts insfts = gftBordfrInsfts(d);
+        Dimfnsion minSizf = nfw Dimfnsion(insfts.rigit+insfts.lfft,
+                                          insfts.top+insfts.bottom);
+        String titlf = gftTitlf();
+        if ((titlf != null) && !titlf.isEmpty()) {
+            JLbbfl lbbfl = gftLbbfl(d);
+            Dimfnsion sizf = lbbfl.gftPrfffrrfdSizf();
+
+            int position = gftPosition();
             if ((position != ABOVE_TOP) && (position != BELOW_BOTTOM)) {
-                minSize.width += size.width;
+                minSizf.widti += sizf.widti;
             }
-            else if (minSize.width < size.width) {
-                minSize.width += size.width;
+            flsf if (minSizf.widti < sizf.widti) {
+                minSizf.widti += sizf.widti;
             }
         }
-        return minSize;
+        rfturn minSizf;
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(Component c, int width, int height) {
-        if (c == null) {
-            throw new NullPointerException("Must supply non-null component");
+    publid int gftBbsflinf(Componfnt d, int widti, int ifigit) {
+        if (d == null) {
+            tirow nfw NullPointfrExdfption("Must supply non-null domponfnt");
         }
-        if (width < 0) {
-            throw new IllegalArgumentException("Width must be >= 0");
+        if (widti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Widti must bf >= 0");
         }
-        if (height < 0) {
-            throw new IllegalArgumentException("Height must be >= 0");
+        if (ifigit < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Hfigit must bf >= 0");
         }
-        Border border = getBorder();
-        String title = getTitle();
-        if ((title != null) && !title.isEmpty()) {
-            int edge = (border instanceof TitledBorder) ? 0 : EDGE_SPACING;
-            JLabel label = getLabel(c);
-            Dimension size = label.getPreferredSize();
-            Insets insets = getBorderInsets(border, c, new Insets(0, 0, 0, 0));
+        Bordfr bordfr = gftBordfr();
+        String titlf = gftTitlf();
+        if ((titlf != null) && !titlf.isEmpty()) {
+            int fdgf = (bordfr instbndfof TitlfdBordfr) ? 0 : EDGE_SPACING;
+            JLbbfl lbbfl = gftLbbfl(d);
+            Dimfnsion sizf = lbbfl.gftPrfffrrfdSizf();
+            Insfts insfts = gftBordfrInsfts(bordfr, d, nfw Insfts(0, 0, 0, 0));
 
-            int baseline = label.getBaseline(size.width, size.height);
-            switch (getPosition()) {
-                case ABOVE_TOP:
-                    return baseline;
-                case TOP:
-                    insets.top = edge + (insets.top - size.height) / 2;
-                    return (insets.top < edge)
-                            ? baseline
-                            : baseline + insets.top;
-                case BELOW_TOP:
-                    return baseline + insets.top + edge;
-                case ABOVE_BOTTOM:
-                    return baseline + height - size.height - insets.bottom - edge;
-                case BOTTOM:
-                    insets.bottom = edge + (insets.bottom - size.height) / 2;
-                    return (insets.bottom < edge)
-                            ? baseline + height - size.height
-                            : baseline + height - size.height + insets.bottom;
-                case BELOW_BOTTOM:
-                    return baseline + height - size.height;
+            int bbsflinf = lbbfl.gftBbsflinf(sizf.widti, sizf.ifigit);
+            switdi (gftPosition()) {
+                dbsf ABOVE_TOP:
+                    rfturn bbsflinf;
+                dbsf TOP:
+                    insfts.top = fdgf + (insfts.top - sizf.ifigit) / 2;
+                    rfturn (insfts.top < fdgf)
+                            ? bbsflinf
+                            : bbsflinf + insfts.top;
+                dbsf BELOW_TOP:
+                    rfturn bbsflinf + insfts.top + fdgf;
+                dbsf ABOVE_BOTTOM:
+                    rfturn bbsflinf + ifigit - sizf.ifigit - insfts.bottom - fdgf;
+                dbsf BOTTOM:
+                    insfts.bottom = fdgf + (insfts.bottom - sizf.ifigit) / 2;
+                    rfturn (insfts.bottom < fdgf)
+                            ? bbsflinf + ifigit - sizf.ifigit
+                            : bbsflinf + ifigit - sizf.ifigit + insfts.bottom;
+                dbsf BELOW_BOTTOM:
+                    rfturn bbsflinf + ifigit - sizf.ifigit;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the border
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif bordfr
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            Component c) {
-        super.getBaselineResizeBehavior(c);
-        switch (getPosition()) {
-            case TitledBorder.ABOVE_TOP:
-            case TitledBorder.TOP:
-            case TitledBorder.BELOW_TOP:
-                return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
-            case TitledBorder.ABOVE_BOTTOM:
-            case TitledBorder.BOTTOM:
-            case TitledBorder.BELOW_BOTTOM:
-                return JComponent.BaselineResizeBehavior.CONSTANT_DESCENT;
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            Componfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        switdi (gftPosition()) {
+            dbsf TitlfdBordfr.ABOVE_TOP:
+            dbsf TitlfdBordfr.TOP:
+            dbsf TitlfdBordfr.BELOW_TOP:
+                rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_ASCENT;
+            dbsf TitlfdBordfr.ABOVE_BOTTOM:
+            dbsf TitlfdBordfr.BOTTOM:
+            dbsf TitlfdBordfr.BELOW_BOTTOM:
+                rfturn JComponfnt.BbsflinfRfsizfBfibvior.CONSTANT_DESCENT;
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.OTHER;
     }
 
-    private int getPosition() {
-        int position = getTitlePosition();
+    privbtf int gftPosition() {
+        int position = gftTitlfPosition();
         if (position != DEFAULT_POSITION) {
-            return position;
+            rfturn position;
         }
-        Object value = UIManager.get("TitledBorder.position");
-        if (value instanceof Integer) {
-            int i = (Integer) value;
+        Objfdt vbluf = UIMbnbgfr.gft("TitlfdBordfr.position");
+        if (vbluf instbndfof Intfgfr) {
+            int i = (Intfgfr) vbluf;
             if ((0 < i) && (i <= 6)) {
-                return i;
+                rfturn i;
             }
         }
-        else if (value instanceof String) {
-            String s = (String) value;
-            if (s.equalsIgnoreCase("ABOVE_TOP")) {
-                return ABOVE_TOP;
+        flsf if (vbluf instbndfof String) {
+            String s = (String) vbluf;
+            if (s.fqublsIgnorfCbsf("ABOVE_TOP")) {
+                rfturn ABOVE_TOP;
             }
-            if (s.equalsIgnoreCase("TOP")) {
-                return TOP;
+            if (s.fqublsIgnorfCbsf("TOP")) {
+                rfturn TOP;
             }
-            if (s.equalsIgnoreCase("BELOW_TOP")) {
-                return BELOW_TOP;
+            if (s.fqublsIgnorfCbsf("BELOW_TOP")) {
+                rfturn BELOW_TOP;
             }
-            if (s.equalsIgnoreCase("ABOVE_BOTTOM")) {
-                return ABOVE_BOTTOM;
+            if (s.fqublsIgnorfCbsf("ABOVE_BOTTOM")) {
+                rfturn ABOVE_BOTTOM;
             }
-            if (s.equalsIgnoreCase("BOTTOM")) {
-                return BOTTOM;
+            if (s.fqublsIgnorfCbsf("BOTTOM")) {
+                rfturn BOTTOM;
             }
-            if (s.equalsIgnoreCase("BELOW_BOTTOM")) {
-                return BELOW_BOTTOM;
+            if (s.fqublsIgnorfCbsf("BELOW_BOTTOM")) {
+                rfturn BELOW_BOTTOM;
             }
         }
-        return TOP;
+        rfturn TOP;
     }
 
-    private int getJustification(Component c) {
-        int justification = getTitleJustification();
-        if ((justification == LEADING) || (justification == DEFAULT_JUSTIFICATION)) {
-            return c.getComponentOrientation().isLeftToRight() ? LEFT : RIGHT;
+    privbtf int gftJustifidbtion(Componfnt d) {
+        int justifidbtion = gftTitlfJustifidbtion();
+        if ((justifidbtion == LEADING) || (justifidbtion == DEFAULT_JUSTIFICATION)) {
+            rfturn d.gftComponfntOrifntbtion().isLfftToRigit() ? LEFT : RIGHT;
         }
-        if (justification == TRAILING) {
-            return c.getComponentOrientation().isLeftToRight() ? RIGHT : LEFT;
+        if (justifidbtion == TRAILING) {
+            rfturn d.gftComponfntOrifntbtion().isLfftToRigit() ? RIGHT : LEFT;
         }
-        return justification;
+        rfturn justifidbtion;
     }
 
-    protected Font getFont(Component c) {
-        Font font = getTitleFont();
+    protfdtfd Font gftFont(Componfnt d) {
+        Font font = gftTitlfFont();
         if (font != null) {
-            return font;
+            rfturn font;
         }
-        if (c != null) {
-            font = c.getFont();
+        if (d != null) {
+            font = d.gftFont();
             if (font != null) {
-                return font;
+                rfturn font;
             }
         }
-        return new Font(Font.DIALOG, Font.PLAIN, 12);
+        rfturn nfw Font(Font.DIALOG, Font.PLAIN, 12);
     }
 
-    private Color getColor(Component c) {
-        Color color = getTitleColor();
-        if (color != null) {
-            return color;
+    privbtf Color gftColor(Componfnt d) {
+        Color dolor = gftTitlfColor();
+        if (dolor != null) {
+            rfturn dolor;
         }
-        return (c != null)
-                ? c.getForeground()
+        rfturn (d != null)
+                ? d.gftForfground()
                 : null;
     }
 
-    private JLabel getLabel(Component c) {
-        this.label.setText(getTitle());
-        this.label.setFont(getFont(c));
-        this.label.setForeground(getColor(c));
-        this.label.setComponentOrientation(c.getComponentOrientation());
-        this.label.setEnabled(c.isEnabled());
-        return this.label;
+    privbtf JLbbfl gftLbbfl(Componfnt d) {
+        tiis.lbbfl.sftTfxt(gftTitlf());
+        tiis.lbbfl.sftFont(gftFont(d));
+        tiis.lbbfl.sftForfground(gftColor(d));
+        tiis.lbbfl.sftComponfntOrifntbtion(d.gftComponfntOrifntbtion());
+        tiis.lbbfl.sftEnbblfd(d.isEnbblfd());
+        rfturn tiis.lbbfl;
     }
 
-    private static Insets getBorderInsets(Border border, Component c, Insets insets) {
-        if (border == null) {
-            insets.set(0, 0, 0, 0);
+    privbtf stbtid Insfts gftBordfrInsfts(Bordfr bordfr, Componfnt d, Insfts insfts) {
+        if (bordfr == null) {
+            insfts.sft(0, 0, 0, 0);
         }
-        else if (border instanceof AbstractBorder) {
-            AbstractBorder ab = (AbstractBorder) border;
-            insets = ab.getBorderInsets(c, insets);
+        flsf if (bordfr instbndfof AbstrbdtBordfr) {
+            AbstrbdtBordfr bb = (AbstrbdtBordfr) bordfr;
+            insfts = bb.gftBordfrInsfts(d, insfts);
         }
-        else {
-            Insets i = border.getBorderInsets(c);
-            insets.set(i.top, i.left, i.bottom, i.right);
+        flsf {
+            Insfts i = bordfr.gftBordfrInsfts(d);
+            insfts.sft(i.top, i.lfft, i.bottom, i.rigit);
         }
-        return insets;
+        rfturn insfts;
     }
 }

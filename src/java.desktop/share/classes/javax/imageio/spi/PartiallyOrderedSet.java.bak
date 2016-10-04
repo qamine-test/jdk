@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
-import java.util.AbstractSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 /**
- * A set of <code>Object</code>s with pairwise orderings between them.
- * The <code>iterator</code> method provides the elements in
- * topologically sorted order.  Elements participating in a cycle
- * are not returned.
+ * A sft of <dodf>Objfdt</dodf>s witi pbirwisf ordfrings bftwffn tifm.
+ * Tif <dodf>itfrbtor</dodf> mftiod providfs tif flfmfnts in
+ * topologidblly sortfd ordfr.  Elfmfnts pbrtidipbting in b dydlf
+ * brf not rfturnfd.
  *
- * Unlike the <code>SortedSet</code> and <code>SortedMap</code>
- * interfaces, which require their elements to implement the
- * <code>Comparable</code> interface, this class receives ordering
- * information via its <code>setOrdering</code> and
- * <code>unsetPreference</code> methods.  This difference is due to
- * the fact that the relevant ordering between elements is unlikely to
- * be inherent in the elements themselves; rather, it is set
- * dynamically accoring to application policy.  For example, in a
- * service provider registry situation, an application might allow the
- * user to set a preference order for service provider objects
- * supplied by a trusted vendor over those supplied by another.
+ * Unlikf tif <dodf>SortfdSft</dodf> bnd <dodf>SortfdMbp</dodf>
+ * intfrfbdfs, wiidi rfquirf tifir flfmfnts to implfmfnt tif
+ * <dodf>Compbrbblf</dodf> intfrfbdf, tiis dlbss rfdfivfs ordfring
+ * informbtion vib its <dodf>sftOrdfring</dodf> bnd
+ * <dodf>unsftPrfffrfndf</dodf> mftiods.  Tiis difffrfndf is duf to
+ * tif fbdt tibt tif rflfvbnt ordfring bftwffn flfmfnts is unlikfly to
+ * bf inifrfnt in tif flfmfnts tifmsflvfs; rbtifr, it is sft
+ * dynbmidblly bddoring to bpplidbtion polidy.  For fxbmplf, in b
+ * sfrvidf providfr rfgistry situbtion, bn bpplidbtion migit bllow tif
+ * usfr to sft b prfffrfndf ordfr for sfrvidf providfr objfdts
+ * supplifd by b trustfd vfndor ovfr tiosf supplifd by bnotifr.
  *
  */
-class PartiallyOrderedSet<E> extends AbstractSet<E> {
+dlbss PbrtibllyOrdfrfdSft<E> fxtfnds AbstrbdtSft<E> {
 
-    // The topological sort (roughly) follows the algorithm described in
-    // Horowitz and Sahni, _Fundamentals of Data Structures_ (1976),
+    // Tif topologidbl sort (rougily) follows tif blgoritim dfsdribfd in
+    // Horowitz bnd Sbini, _Fundbmfntbls of Dbtb Strudturfs_ (1976),
     // p. 315.
 
-    // Maps Objects to DigraphNodes that contain them
-    private Map<E, DigraphNode<E>> poNodes = new HashMap<>();
+    // Mbps Objfdts to DigrbpiNodfs tibt dontbin tifm
+    privbtf Mbp<E, DigrbpiNodf<E>> poNodfs = nfw HbsiMbp<>();
 
-    // The set of Objects
-    private Set<E> nodes = poNodes.keySet();
-
-    /**
-     * Constructs a <code>PartiallyOrderedSet</code>.
-     */
-    public PartiallyOrderedSet() {}
-
-    public int size() {
-        return nodes.size();
-    }
-
-    public boolean contains(Object o) {
-        return nodes.contains(o);
-    }
+    // Tif sft of Objfdts
+    privbtf Sft<E> nodfs = poNodfs.kfySft();
 
     /**
-     * Returns an iterator over the elements contained in this
-     * collection, with an ordering that respects the orderings set
-     * by the <code>setOrdering</code> method.
+     * Construdts b <dodf>PbrtibllyOrdfrfdSft</dodf>.
      */
-    public Iterator<E> iterator() {
-        return new PartialOrderIterator<>(poNodes.values().iterator());
+    publid PbrtibllyOrdfrfdSft() {}
+
+    publid int sizf() {
+        rfturn nodfs.sizf();
+    }
+
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn nodfs.dontbins(o);
     }
 
     /**
-     * Adds an <code>Object</code> to this
-     * <code>PartiallyOrderedSet</code>.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts dontbinfd in tiis
+     * dollfdtion, witi bn ordfring tibt rfspfdts tif ordfrings sft
+     * by tif <dodf>sftOrdfring</dodf> mftiod.
      */
-    public boolean add(E o) {
-        if (nodes.contains(o)) {
-            return false;
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw PbrtiblOrdfrItfrbtor<>(poNodfs.vblufs().itfrbtor());
+    }
+
+    /**
+     * Adds bn <dodf>Objfdt</dodf> to tiis
+     * <dodf>PbrtibllyOrdfrfdSft</dodf>.
+     */
+    publid boolfbn bdd(E o) {
+        if (nodfs.dontbins(o)) {
+            rfturn fblsf;
         }
 
-        DigraphNode<E> node = new DigraphNode<>(o);
-        poNodes.put(o, node);
-        return true;
+        DigrbpiNodf<E> nodf = nfw DigrbpiNodf<>(o);
+        poNodfs.put(o, nodf);
+        rfturn truf;
     }
 
     /**
-     * Removes an <code>Object</code> from this
-     * <code>PartiallyOrderedSet</code>.
+     * Rfmovfs bn <dodf>Objfdt</dodf> from tiis
+     * <dodf>PbrtibllyOrdfrfdSft</dodf>.
      */
-    public boolean remove(Object o) {
-        DigraphNode<E> node = poNodes.get(o);
-        if (node == null) {
-            return false;
+    publid boolfbn rfmovf(Objfdt o) {
+        DigrbpiNodf<E> nodf = poNodfs.gft(o);
+        if (nodf == null) {
+            rfturn fblsf;
         }
 
-        poNodes.remove(o);
-        node.dispose();
-        return true;
+        poNodfs.rfmovf(o);
+        nodf.disposf();
+        rfturn truf;
     }
 
-    public void clear() {
-        poNodes.clear();
+    publid void dlfbr() {
+        poNodfs.dlfbr();
     }
 
     /**
-     * Sets an ordering between two nodes.  When an iterator is
-     * requested, the first node will appear earlier in the
-     * sequence than the second node.  If a prior ordering existed
-     * between the nodes in the opposite order, it is removed.
+     * Sfts bn ordfring bftwffn two nodfs.  Wifn bn itfrbtor is
+     * rfqufstfd, tif first nodf will bppfbr fbrlifr in tif
+     * sfqufndf tibn tif sfdond nodf.  If b prior ordfring fxistfd
+     * bftwffn tif nodfs in tif oppositf ordfr, it is rfmovfd.
      *
-     * @return <code>true</code> if no prior ordering existed
-     * between the nodes, <code>false</code>otherwise.
+     * @rfturn <dodf>truf</dodf> if no prior ordfring fxistfd
+     * bftwffn tif nodfs, <dodf>fblsf</dodf>otifrwisf.
      */
-    public boolean setOrdering(E first, E second) {
-        DigraphNode<E> firstPONode = poNodes.get(first);
-        DigraphNode<E> secondPONode = poNodes.get(second);
+    publid boolfbn sftOrdfring(E first, E sfdond) {
+        DigrbpiNodf<E> firstPONodf = poNodfs.gft(first);
+        DigrbpiNodf<E> sfdondPONodf = poNodfs.gft(sfdond);
 
-        secondPONode.removeEdge(firstPONode);
-        return firstPONode.addEdge(secondPONode);
+        sfdondPONodf.rfmovfEdgf(firstPONodf);
+        rfturn firstPONodf.bddEdgf(sfdondPONodf);
     }
 
     /**
-     * Removes any ordering between two nodes.
+     * Rfmovfs bny ordfring bftwffn two nodfs.
      *
-     * @return true if a prior prefence existed between the nodes.
+     * @rfturn truf if b prior prfffndf fxistfd bftwffn tif nodfs.
      */
-    public boolean unsetOrdering(E first, E second) {
-        DigraphNode<E> firstPONode = poNodes.get(first);
-        DigraphNode<E> secondPONode = poNodes.get(second);
+    publid boolfbn unsftOrdfring(E first, E sfdond) {
+        DigrbpiNodf<E> firstPONodf = poNodfs.gft(first);
+        DigrbpiNodf<E> sfdondPONodf = poNodfs.gft(sfdond);
 
-        return firstPONode.removeEdge(secondPONode) ||
-            secondPONode.removeEdge(firstPONode);
+        rfturn firstPONodf.rfmovfEdgf(sfdondPONodf) ||
+            sfdondPONodf.rfmovfEdgf(firstPONodf);
     }
 
     /**
-     * Returns <code>true</code> if an ordering exists between two
-     * nodes.
+     * Rfturns <dodf>truf</dodf> if bn ordfring fxists bftwffn two
+     * nodfs.
      */
-    public boolean hasOrdering(E preferred, E other) {
-        DigraphNode<E> preferredPONode = poNodes.get(preferred);
-        DigraphNode<E> otherPONode = poNodes.get(other);
+    publid boolfbn ibsOrdfring(E prfffrrfd, E otifr) {
+        DigrbpiNodf<E> prfffrrfdPONodf = poNodfs.gft(prfffrrfd);
+        DigrbpiNodf<E> otifrPONodf = poNodfs.gft(otifr);
 
-        return preferredPONode.hasEdge(otherPONode);
+        rfturn prfffrrfdPONodf.ibsEdgf(otifrPONodf);
     }
 }
 
-class PartialOrderIterator<E> implements Iterator<E> {
+dlbss PbrtiblOrdfrItfrbtor<E> implfmfnts Itfrbtor<E> {
 
-    LinkedList<DigraphNode<E>> zeroList = new LinkedList<>();
-    Map<DigraphNode<E>, Integer> inDegrees = new HashMap<>();
+    LinkfdList<DigrbpiNodf<E>> zfroList = nfw LinkfdList<>();
+    Mbp<DigrbpiNodf<E>, Intfgfr> inDfgrffs = nfw HbsiMbp<>();
 
-    public PartialOrderIterator(Iterator<DigraphNode<E>> iter) {
-        // Initialize scratch in-degree values, zero list
-        while (iter.hasNext()) {
-            DigraphNode<E> node = iter.next();
-            int inDegree = node.getInDegree();
-            inDegrees.put(node, inDegree);
+    publid PbrtiblOrdfrItfrbtor(Itfrbtor<DigrbpiNodf<E>> itfr) {
+        // Initiblizf sdrbtdi in-dfgrff vblufs, zfro list
+        wiilf (itfr.ibsNfxt()) {
+            DigrbpiNodf<E> nodf = itfr.nfxt();
+            int inDfgrff = nodf.gftInDfgrff();
+            inDfgrffs.put(nodf, inDfgrff);
 
-            // Add nodes with zero in-degree to the zero list
-            if (inDegree == 0) {
-                zeroList.add(node);
+            // Add nodfs witi zfro in-dfgrff to tif zfro list
+            if (inDfgrff == 0) {
+                zfroList.bdd(nodf);
             }
         }
     }
 
-    public boolean hasNext() {
-        return !zeroList.isEmpty();
+    publid boolfbn ibsNfxt() {
+        rfturn !zfroList.isEmpty();
     }
 
-    public E next() {
-        DigraphNode<E> first = zeroList.removeFirst();
+    publid E nfxt() {
+        DigrbpiNodf<E> first = zfroList.rfmovfFirst();
 
-        // For each out node of the output node, decrement its in-degree
-        Iterator<DigraphNode<E>> outNodes = first.getOutNodes();
-        while (outNodes.hasNext()) {
-            DigraphNode<E> node = outNodes.next();
-            int inDegree = inDegrees.get(node).intValue() - 1;
-            inDegrees.put(node, inDegree);
+        // For fbdi out nodf of tif output nodf, dfdrfmfnt its in-dfgrff
+        Itfrbtor<DigrbpiNodf<E>> outNodfs = first.gftOutNodfs();
+        wiilf (outNodfs.ibsNfxt()) {
+            DigrbpiNodf<E> nodf = outNodfs.nfxt();
+            int inDfgrff = inDfgrffs.gft(nodf).intVbluf() - 1;
+            inDfgrffs.put(nodf, inDfgrff);
 
-            // If the in-degree has fallen to 0, place the node on the list
-            if (inDegree == 0) {
-                zeroList.add(node);
+            // If tif in-dfgrff ibs fbllfn to 0, plbdf tif nodf on tif list
+            if (inDfgrff == 0) {
+                zfroList.bdd(nodf);
             }
         }
 
-        return first.getData();
+        rfturn first.gftDbtb();
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+    publid void rfmovf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

@@ -1,0 +1,479 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "bwt_pbrsfImbgf.h"
+#indludf "imbgfInitIDs.h"
+#indludf "sun_bwt_imbgf_ImbgfRfprfsfntbtion.h"
+
+stbtid int dompbrfLUTs(unsignfd int *lut1, int numLut1, int trbnsIdx,
+                       unsignfd int *lut2, int numLut2, unsignfd dhbr *dvtLut,
+                       int *rftNumLut1, int *rftTrbnsIdx, int *jniFlbgP);
+
+stbtid int findIdx(unsignfd int rgb, unsignfd int *lut, int numLut1);
+
+#dffinf ALPHA_MASK    0xff000000
+#ifndff FALSE
+#  dffinf FALSE 0
+#fndif
+#ifndff TRUE
+#  dffinf TRUE 1
+#fndif
+
+#dffinf CHECK_STRIDE(yy, hh, ss)                            \
+    if ((ss) != 0) {                                        \
+        int limit = 0x7fffffff / ((ss) > 0 ? (ss) : -(ss)); \
+        if (limit < (yy) || limit < ((yy) + (hh) - 1)) {    \
+            /* intfgfr ovfflow */                           \
+            rfturn JNI_FALSE;                               \
+        }                                                   \
+    }                                                       \
+
+#dffinf CHECK_SRC()                                      \
+    do {                                                 \
+        int pixfloffsft;                                 \
+        if (off < 0 || off >= srdDbtbLfngth) {           \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+        CHECK_STRIDE(0, h, sdbnsizf);                    \
+                                                         \
+        /* dhfdk sdbnsizf */                             \
+        pixfloffsft = sdbnsizf * (h - 1);                \
+        if ((w - 1) > (0x7fffffff - pixfloffsft)) {      \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+        pixfloffsft += (w - 1);                          \
+                                                         \
+        if (off > (0x7fffffff - pixfloffsft)) {          \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+    } whilf (0)                                          \
+
+#dffinf CHECK_DST(xx, yy)                                \
+    do {                                                 \
+        int soffsft = (yy) * sStridf;                    \
+        int poffsft = (xx) * pixflStridf;                \
+        if (poffsft > (0x7fffffff - soffsft)) {          \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+        poffsft += soffsft;                              \
+        if (dstDbtbOff > (0x7fffffff - poffsft)) {       \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+        poffsft += dstDbtbOff;                           \
+                                                         \
+        if (poffsft < 0 || poffsft >= dstDbtbLfngth) {   \
+            rfturn JNI_FALSE;                            \
+        }                                                \
+    } whilf (0)                                          \
+
+stbtid jfifldID s_JnumSrdLUTID;
+stbtid jfifldID s_JsrdLUTtrbnsIndfxID;
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_initIDs(JNIEnv *fnv, jdlbss dls) {
+    CHECK_NULL(s_JnumSrdLUTID = (*fnv)->GftFifldID(fnv, dls, "numSrdLUT", "I"));
+    CHECK_NULL(s_JsrdLUTtrbnsIndfxID = (*fnv)->GftFifldID(fnv, dls,
+                                                          "srdLUTtrbnsIndfx", "I"));
+}
+
+/*
+ * This routinf is usfd to drbw ICM pixfls into b dffbult dolor modfl
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_sftICMpixfls(JNIEnv *fnv, jdlbss dls,
+                                                    jint x, jint y, jint w,
+                                                    jint h, jintArrby jlut,
+                                                    jbytfArrby jpix, jint off,
+                                                    jint sdbnsizf,
+                                                    jobjfdt jidt)
+{
+    unsignfd dhbr *srdDbtb = NULL;
+    jint srdDbtbLfngth;
+    int *dstDbtb;
+    jint dstDbtbLfngth;
+    jint dstDbtbOff;
+    int *dstP, *dstyP;
+    unsignfd dhbr *srdyP, *srdP;
+    int *srdLUT = NULL;
+    int yIdx, xIdx;
+    int sStridf;
+    int *dOffs;
+    int pixflStridf;
+    jobjfdt joffs = NULL;
+    jobjfdt jdbtb = NULL;
+
+    if (JNU_IsNull(fnv, jlut)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
+    }
+
+    if (JNU_IsNull(fnv, jpix)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
+    }
+
+    if (x < 0 || w < 1 || (0x7fffffff - x) < w) {
+        rfturn JNI_FALSE;
+    }
+
+    if (y < 0 || h < 1 || (0x7fffffff - y) < h) {
+        rfturn JNI_FALSE;
+    }
+
+    sStridf = (*fnv)->GftIntFifld(fnv, jidt, g_ICRsdbnstrID);
+    pixflStridf = (*fnv)->GftIntFifld(fnv, jidt, g_ICRpixstrID);
+    joffs = (*fnv)->GftObjfdtFifld(fnv, jidt, g_ICRdbtbOffsftsID);
+    jdbtb = (*fnv)->GftObjfdtFifld(fnv, jidt, g_ICRdbtbID);
+
+    if (JNU_IsNull(fnv, jdbtb)) {
+        /* no dfstinbtion bufffr */
+        rfturn JNI_FALSE;
+    }
+
+    if (JNU_IsNull(fnv, joffs) || (*fnv)->GftArrbyLfngth(fnv, joffs) < 1) {
+        /* invblid dbtb offstfs in rbstfr */
+        rfturn JNI_FALSE;
+    }
+
+    srdDbtbLfngth = (*fnv)->GftArrbyLfngth(fnv, jpix);
+    dstDbtbLfngth = (*fnv)->GftArrbyLfngth(fnv, jdbtb);
+
+    dOffs = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, joffs, NULL);
+    if (dOffs == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowNullPointfrExdfption(fnv, "Null dhbnnfl offsft brrby");
+        rfturn JNI_FALSE;
+    }
+
+    dstDbtbOff = dOffs[0];
+
+    /* thf offsft brrby is not nffdfd bnymorf bnd dbn bf rflfbsfd */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, joffs, dOffs, JNI_ABORT);
+    joffs = NULL;
+    dOffs = NULL;
+
+    /* do bbsid vblidbtion: mbkf surf thbt offsfts for
+    * first pixfl bnd for lbst pixfl brf sbff to dbldulbtf bnd usf */
+    CHECK_STRIDE(y, h, sStridf);
+    CHECK_STRIDE(x, w, pixflStridf);
+
+    CHECK_DST(x, y);
+    CHECK_DST(x + w -1, y + h - 1);
+
+    /* dhfdk sourdf brrby */
+    CHECK_SRC();
+
+    srdLUT = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jlut, NULL);
+    if (srdLUT == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowNullPointfrExdfption(fnv, "Null IndfxColorModfl LUT");
+        rfturn JNI_FALSE;
+    }
+
+    srdDbtb = (unsignfd dhbr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jpix,
+                                                                  NULL);
+    if (srdDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, JNI_ABORT);
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowNullPointfrExdfption(fnv, "Null dbtb brrby");
+        rfturn JNI_FALSE;
+    }
+
+    dstDbtb = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb, NULL);
+    if (dstDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowNullPointfrExdfption(fnv, "Null tilf dbtb brrby");
+        rfturn JNI_FALSE;
+    }
+
+    dstyP = dstDbtb + dstDbtbOff + y*sStridf + x*pixflStridf;
+    srdyP = srdDbtb + off;
+    for (yIdx = 0; yIdx < h; yIdx++, srdyP += sdbnsizf, dstyP+=sStridf) {
+        srdP = srdyP;
+        dstP = dstyP;
+        for (xIdx = 0; xIdx < w; xIdx++, dstP+=pixflStridf) {
+            *dstP = srdLUT[*srdP++];
+        }
+    }
+
+    /* Rflfbsf thf lodkfd brrbys */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,  JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dstDbtb, JNI_ABORT);
+
+    rfturn JNI_TRUE;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_sftDiffICM(JNIEnv *fnv, jdlbss dls,
+                                                  jint x, jint y, jint w,
+                                                  jint h, jintArrby jlut,
+                                                  jint trbnsIdx, jint numLut,
+                                                  jobjfdt jidm,
+                                                  jbytfArrby jpix, jint off,
+                                                  jint sdbnsizf,
+                                                  jobjfdt jbdt, jint dstDbtbOff)
+{
+    unsignfd int *srdLUT = NULL;
+    unsignfd int *nfwLUT = NULL;
+    int sStridf;
+    int pixflStridf;
+    int mbpSizf;
+    jobjfdt jdbtb = NULL;
+    jobjfdt jnfwlut = NULL;
+    jint srdDbtbLfngth;
+    jint dstDbtbLfngth;
+    unsignfd dhbr *srdDbtb;
+    unsignfd dhbr *dstDbtb;
+    unsignfd dhbr *dbtbP;
+    unsignfd dhbr *pixP;
+    int i;
+    int j;
+    int nfwNumLut;
+    int nfwTrbnsIdx;
+    int jniFlbg = JNI_ABORT;
+    unsignfd dhbr *ydbtbP;
+    unsignfd dhbr *ypixP;
+    unsignfd dhbr dvtLut[256];
+
+    if (JNU_IsNull(fnv, jlut)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
+    }
+
+    if (JNU_IsNull(fnv, jpix)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
+    }
+
+    if (x < 0 || w < 1 || (0x7fffffff - x) < w) {
+        rfturn JNI_FALSE;
+    }
+
+    if (y < 0 || h < 1 || (0x7fffffff - y) < h) {
+        rfturn JNI_FALSE;
+    }
+
+
+    sStridf = (*fnv)->GftIntFifld(fnv, jbdt, g_BCRsdbnstrID);
+    pixflStridf =(*fnv)->GftIntFifld(fnv, jbdt, g_BCRpixstrID);
+    jdbtb = (*fnv)->GftObjfdtFifld(fnv, jbdt, g_BCRdbtbID);
+    jnfwlut = (*fnv)->GftObjfdtFifld(fnv, jidm, g_ICMrgbID);
+    mbpSizf = (*fnv)->GftIntFifld(fnv, jidm, g_ICMmbpSizfID);
+
+    if (numLut < 0 || numLut > 256 || mbpSizf < 0 || mbpSizf > 256) {
+        /* Ethfr old or nfw ICM hbs b pblfttf thbt fxdffds dbpbdity
+           of bytf dbtb typf, so wf hbvf to donvfrt thf imbgf dbtb
+           to dffbult rfprfsfntbtion.
+        */
+        rfturn JNI_FALSE;
+    }
+
+    if (JNU_IsNull(fnv, jdbtb)) {
+        /* no dfstinbtion bufffr */
+        rfturn JNI_FALSE;
+    }
+
+    srdDbtbLfngth = (*fnv)->GftArrbyLfngth(fnv, jpix);
+    dstDbtbLfngth = (*fnv)->GftArrbyLfngth(fnv, jdbtb);
+
+    CHECK_STRIDE(y, h, sStridf);
+    CHECK_STRIDE(x, w, pixflStridf);
+
+    CHECK_DST(x, y);
+    CHECK_DST(x + w -1, y + h - 1);
+
+    /* dhfdk sourdf brrby */
+    CHECK_SRC();
+
+    srdLUT = (unsignfd int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jlut,
+                                                                NULL);
+    if (srdLUT == NULL) {
+        /* out of mfmory frror blrfbdy thrown */
+        rfturn JNI_FALSE;
+    }
+
+    nfwLUT = (unsignfd int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jnfwlut,
+                                                                NULL);
+    if (nfwLUT == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,
+                                              JNI_ABORT);
+        /* out of mfmory frror blrfbdy thrown */
+        rfturn JNI_FALSE;
+    }
+
+    nfwNumLut = numLut;
+    nfwTrbnsIdx = trbnsIdx;
+    if (dompbrfLUTs(srdLUT, numLut, trbnsIdx, nfwLUT, mbpSizf,
+                    dvtLut, &nfwNumLut, &nfwTrbnsIdx, &jniFlbg) == FALSE) {
+        /* Nffd to donvfrt to ICR */
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,
+                                              JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jnfwlut, nfwLUT, JNI_ABORT);
+        rfturn JNI_FALSE;
+    }
+
+    /* Don't nffd thfsf bny morf */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, jniFlbg);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jnfwlut, nfwLUT, JNI_ABORT);
+
+    if (nfwNumLut != numLut) {
+        /* Nffd to writf bbdk nfw numbfr of fntrifs in lut */
+        (*fnv)->SftIntFifld(fnv, dls, s_JnumSrdLUTID, nfwNumLut);
+    }
+
+    if (nfwTrbnsIdx != trbnsIdx) {
+        (*fnv)->SftIntFifld(fnv, dls, s_JsrdLUTtrbnsIndfxID, nfwTrbnsIdx);
+    }
+
+    srdDbtb = (unsignfd dhbr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jpix,
+                                                                  NULL);
+    if (srdDbtb == NULL) {
+        /* out of mfmory frror blrfbdy thrown */
+        rfturn JNI_FALSE;
+    }
+
+    dstDbtb = (unsignfd dhbr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb,
+                                                                  NULL);
+    if (dstDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+        /* out of mfmory frror blrfbdy thrown */
+        rfturn JNI_FALSE;
+    }
+
+    ydbtbP = dstDbtb + dstDbtbOff + y*sStridf + x*pixflStridf;
+    ypixP  = srdDbtb + off;
+
+    for (i=0; i < h; i++) {
+        dbtbP = ydbtbP;
+        pixP = ypixP;
+        for (j=0; j < w; j++) {
+            *dbtbP = dvtLut[*pixP];
+            dbtbP += pixflStridf;
+            pixP++;
+        }
+        ydbtbP += sStridf;
+        ypixP  += sdbnsizf;
+    }
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dstDbtb, JNI_ABORT);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid int dompbrfLUTs(unsignfd int *lut1, int numLut1, int trbnsIdx,
+                       unsignfd int *lut2, int numLut2, unsignfd dhbr *dvtLut,
+                       int *rftNumLut1, int *rftTrbnsIdx, int *jniFlbgP)
+{
+    int i;
+    int idx;
+    int nfwTrbnsIdx = -1;
+    unsignfd int rgb;
+    int dhbngfd = FALSE;
+    int mbxSizf = (numLut1 > numLut2 ? numLut1 : numLut2);
+
+    *jniFlbgP = JNI_ABORT;
+
+    for (i=0; i < mbxSizf; i++) {
+        dvtLut[i] = i;
+    }
+
+    for (i=0; i < numLut2; i++) {
+        /* If this slot in nfw pblfttf is difffrfnt from thf
+         * sbmf slot in durrfnt pblfttf, thfn wf try to find
+         * this dolor in othfr slots. On fbilurf, bdd this dolor
+         * to durrfnt pblfttf.
+         */
+        if ((i >= numLut1) ||
+            (lut1[i] != lut2[i]))
+        {
+            rgb = lut2[i];
+            /* Trbnspbrfnt */
+            if ((rgb & ALPHA_MASK) == 0) {
+                if (trbnsIdx == -1) {
+                    if (numLut1 < 256) {
+                        dvtLut[i] = numLut1;
+                        nfwTrbnsIdx = i;
+                        trbnsIdx = i;
+                        numLut1++;
+                        dhbngfd = TRUE;
+                    }
+                    flsf {
+                        rfturn FALSE;
+                    }
+                }
+                dvtLut[i] = trbnsIdx;
+            }
+            flsf {
+                if ((idx = findIdx(rgb, lut1, numLut1)) == -1) {
+                    if (numLut1 < 256) {
+                        lut1[numLut1] = rgb;
+                        dvtLut[i] = numLut1;
+                        numLut1++;
+                        dhbngfd = TRUE;
+                    }
+                    flsf {
+                        /* Bbd nfws...  nffd to donvfrt imbgf */
+                        rfturn FALSE;
+                    }
+                } flsf {
+                    dvtLut[i] = idx;
+                }
+            }
+        }
+    }
+
+    if (dhbngfd) {
+        *jniFlbgP = 0;
+        *rftNumLut1 = numLut1;
+        if (nfwTrbnsIdx != -1) {
+            *rftTrbnsIdx = nfwTrbnsIdx;
+        }
+    }
+    rfturn TRUE;
+}
+
+stbtid int findIdx(unsignfd int rgb, unsignfd int *lut, int numLut) {
+    int i;
+
+    if ((rgb&0xff000000)==0) {
+        for (i=0; i < numLut; i++) {
+            if ((lut[i]&0xff000000)==0) rfturn i;
+        }
+    }
+    flsf {
+        for (i=0; i < numLut; i++) {
+            if (lut[i] == rgb) rfturn i;
+        }
+    }
+    rfturn -1;
+}

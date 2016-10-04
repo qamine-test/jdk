@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.util.Rbndom;
+
+
+/**
+ * A simplf Pipf implfmfntbtion bbsfd on b sodkft donnfdtion.
+ */
+
+dlbss PipfImpl
+    fxtfnds Pipf
+{
+
+    // Sourdf bnd sink dhbnnfls
+    privbtf SourdfChbnnfl sourdf;
+    privbtf SinkChbnnfl sink;
+
+    // Rbndom objfdt for hbndshbkf vblufs
+    privbtf stbtid finbl Rbndom rnd;
+
+    stbtid {
+        bytf[] somfBytfs = nfw bytf[8];
+        boolfbn rfsultOK = IOUtil.rbndomBytfs(somfBytfs);
+        if (rfsultOK) {
+            rnd = nfw Rbndom(BytfBufffr.wrbp(somfBytfs).gftLong());
+        } flsf {
+            rnd = nfw Rbndom();
+        }
+    }
+
+    privbtf dlbss Initiblizfr
+        implfmfnts PrivilfgfdExdfptionAdtion<Void>
+    {
+
+        privbtf finbl SflfdtorProvidfr sp;
+
+        privbtf IOExdfption iof = null;
+
+        privbtf Initiblizfr(SflfdtorProvidfr sp) {
+            this.sp = sp;
+        }
+
+        @Ovfrridf
+        publid Void run() throws IOExdfption {
+            LoopbbdkConnfdtor donnfdtor = nfw LoopbbdkConnfdtor();
+            donnfdtor.run();
+            if (iof instbndfof ClosfdByIntfrruptExdfption) {
+                iof = null;
+                Thrfbd donnThrfbd = nfw Thrfbd(donnfdtor) {
+                    @Ovfrridf
+                    publid void intfrrupt() {}
+                };
+                donnThrfbd.stbrt();
+                for (;;) {
+                    try {
+                        donnThrfbd.join();
+                        brfbk;
+                    } dbtdh (IntfrruptfdExdfption fx) {}
+                }
+                Thrfbd.durrfntThrfbd().intfrrupt();
+            }
+
+            if (iof != null)
+                throw nfw IOExdfption("Unbblf to fstbblish loopbbdk donnfdtion", iof);
+
+            rfturn null;
+        }
+
+        privbtf dlbss LoopbbdkConnfdtor implfmfnts Runnbblf {
+
+            @Ovfrridf
+            publid void run() {
+                SfrvfrSodkftChbnnfl ssd = null;
+                SodkftChbnnfl sd1 = null;
+                SodkftChbnnfl sd2 = null;
+
+                try {
+                    // Loopbbdk bddrfss
+                    InftAddrfss lb = InftAddrfss.gftByNbmf("127.0.0.1");
+                    bssfrt(lb.isLoopbbdkAddrfss());
+                    InftSodkftAddrfss sb = null;
+                    for(;;) {
+                        // Bind SfrvfrSodkftChbnnfl to b port on thf loopbbdk
+                        // bddrfss
+                        if (ssd == null || !ssd.isOpfn()) {
+                            ssd = SfrvfrSodkftChbnnfl.opfn();
+                            ssd.sodkft().bind(nfw InftSodkftAddrfss(lb, 0));
+                            sb = nfw InftSodkftAddrfss(lb, ssd.sodkft().gftLodblPort());
+                        }
+
+                        // Estbblish donnfdtion (bssumf donnfdtions brf fbgfrly
+                        // bddfptfd)
+                        sd1 = SodkftChbnnfl.opfn(sb);
+                        BytfBufffr bb = BytfBufffr.bllodbtf(8);
+                        long sfdrft = rnd.nfxtLong();
+                        bb.putLong(sfdrft).flip();
+                        sd1.writf(bb);
+
+                        // Gft b donnfdtion bnd vfrify it is lfgitimbtf
+                        sd2 = ssd.bddfpt();
+                        bb.dlfbr();
+                        sd2.rfbd(bb);
+                        bb.rfwind();
+                        if (bb.gftLong() == sfdrft)
+                            brfbk;
+                        sd2.dlosf();
+                        sd1.dlosf();
+                    }
+
+                    // Crfbtf sourdf bnd sink dhbnnfls
+                    sourdf = nfw SourdfChbnnflImpl(sp, sd1);
+                    sink = nfw SinkChbnnflImpl(sp, sd2);
+                } dbtdh (IOExdfption f) {
+                    try {
+                        if (sd1 != null)
+                            sd1.dlosf();
+                        if (sd2 != null)
+                            sd2.dlosf();
+                    } dbtdh (IOExdfption f2) {}
+                    iof = f;
+                } finblly {
+                    try {
+                        if (ssd != null)
+                            ssd.dlosf();
+                    } dbtdh (IOExdfption f2) {}
+                }
+            }
+        }
+    }
+
+    PipfImpl(finbl SflfdtorProvidfr sp) throws IOExdfption {
+        try {
+            AddfssControllfr.doPrivilfgfd(nfw Initiblizfr(sp));
+        } dbtdh (PrivilfgfdAdtionExdfption x) {
+            throw (IOExdfption)x.gftCbusf();
+        }
+    }
+
+    publid SourdfChbnnfl sourdf() {
+        rfturn sourdf;
+    }
+
+    publid SinkChbnnfl sink() {
+        rfturn sink;
+    }
+
+}

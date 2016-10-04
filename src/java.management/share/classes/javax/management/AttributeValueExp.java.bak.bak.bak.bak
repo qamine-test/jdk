@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+
+/**
+ * <p>Rfprfsfnts bttributfs usfd bs brgumfnts to rflbtionbl donstrbints.
+ * Instbndfs of this dlbss brf usublly obtbinfd using {@link Qufry#bttr(String)
+ * Qufry.bttr}.</p>
+ *
+ * <p>An <CODE>AttributfVblufExp</CODE> mby bf usfd bnywhfrf b
+ * <CODE>VblufExp</CODE> is rfquirfd.
+ *
+ * @sindf 1.5
+ */
+publid dlbss AttributfVblufExp implfmfnts VblufExp  {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7768025046539163385L;
+
+    /**
+     * @sfribl Thf nbmf of thf bttributf
+     */
+    privbtf String bttr;
+
+    /**
+     * An <dodf>AttributfVblufExp</dodf> with b null bttributf.
+     * @dfprfdbtfd An instbndf drfbtfd with this donstrudtor dbnnot bf
+     * usfd in b qufry.
+     */
+    @Dfprfdbtfd
+    publid AttributfVblufExp() {
+    }
+
+    /**
+     * Crfbtfs b nfw <CODE>AttributfVblufExp</CODE> rfprfsfnting thf
+     * spfdififd objfdt bttributf, nbmfd bttr.
+     *
+     * @pbrbm bttr thf nbmf of thf bttributf whosf vbluf is thf vbluf
+     * of this {@link VblufExp}.
+     */
+    publid AttributfVblufExp(String bttr) {
+        this.bttr = bttr;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf nbmf of thf bttributf.
+     *
+     * @rfturn thf bttributf nbmf.
+     */
+    publid String gftAttributfNbmf()  {
+        rfturn bttr;
+    }
+
+    /**
+     * <p>Applifs thf <CODE>AttributfVblufExp</CODE> on bn MBfbn.
+     * This mfthod dblls {@link #gftAttributf gftAttributf(nbmf)} bnd wrbps
+     * thf rfsult bs b {@dodf VblufExp}.  Thf vbluf rfturnfd by
+     * {@dodf gftAttributf} must bf b {@dodf Numbfr}, {@dodf String},
+     * or {@dodf Boolfbn}; othfrwisf this mfthod throws b
+     * {@dodf BbdAttributfVblufExpExdfption}, whidh will dbusf
+     * thf dontbining qufry to bf fblsf for this {@dodf nbmf}.</p>
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf <CODE>AttributfVblufExp</CODE> will bf bpplifd.
+     *
+     * @rfturn  Thf <CODE>VblufExp</CODE>.
+     *
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     *
+     */
+    @Ovfrridf
+    publid VblufExp bpply(ObjfdtNbmf nbmf) throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        Objfdt rfsult = gftAttributf(nbmf);
+
+        if (rfsult instbndfof Numbfr) {
+            rfturn nfw NumfridVblufExp((Numbfr)rfsult);
+        } flsf if (rfsult instbndfof String) {
+            rfturn nfw StringVblufExp((String)rfsult);
+        } flsf if (rfsult instbndfof Boolfbn) {
+            rfturn nfw BoolfbnVblufExp((Boolfbn)rfsult);
+        } flsf {
+            throw nfw BbdAttributfVblufExpExdfption(rfsult);
+        }
+    }
+
+    /**
+     * Rfturns thf string rfprfsfnting its vbluf.
+     */
+    @Ovfrridf
+    publid String toString()  {
+        rfturn bttr;
+    }
+
+
+    /**
+     * Sfts thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     *
+     * @pbrbm s Thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     *
+     * @dfprfdbtfd This mfthod hbs no ffffdt.  Thf MBfbn Sfrvfr usfd to
+     * obtbin bn bttributf vbluf is {@link QufryEvbl#gftMBfbnSfrvfr()}.
+     */
+    /* Thfrf is no nffd for this mfthod, bfdbusf if b qufry is bfing
+       fvblutfd bn AttributfVblufExp dbn only bppfbr insidf b QufryExp,
+       bnd thbt QufryExp will itsflf hbvf donf sftMBfbnSfrvfr.  */
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s)  {
+    }
+
+
+    /**
+     * <p>Rfturn thf vbluf of thf givfn bttributf in thf nbmfd MBfbn.
+     * If thf bttfmpt to bddfss thf bttributf gfnfrbtfs bn fxdfption,
+     * rfturn null.</p>
+     *
+     * <p>Thf MBfbn Sfrvfr usfd is thf onf rfturnfd by {@link
+     * QufryEvbl#gftMBfbnSfrvfr()}.</p>
+     *
+     * @pbrbm nbmf thf nbmf of thf MBfbn whosf bttributf is to bf rfturnfd.
+     *
+     * @rfturn thf vbluf of thf bttributf, or null if it dould not bf
+     * obtbinfd.
+     */
+    protfdtfd Objfdt gftAttributf(ObjfdtNbmf nbmf) {
+        try {
+            // Gft thf vbluf from thf MBfbnSfrvfr
+
+            MBfbnSfrvfr sfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+
+            rfturn sfrvfr.gftAttributf(nbmf, bttr);
+        } dbtdh (Exdfption rf) {
+            rfturn null;
+        }
+    }
+}

@@ -1,2286 +1,2286 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.Font;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
-import sun.font.CompositeFontDescriptor;
-import sun.font.SunFontManager;
-import sun.font.FontManagerFactory;
-import sun.font.FontUtilities;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.Font;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import sun.font.CompositfFontDfsdriptor;
+import sun.font.SunFontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontUtilitifs;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * Provides the definitions of the five logical fonts: Serif, SansSerif,
- * Monospaced, Dialog, and DialogInput. The necessary information
- * is obtained from fontconfig files.
+ * Providfs tif dffinitions of tif fivf logidbl fonts: Sfrif, SbnsSfrif,
+ * Monospbdfd, Diblog, bnd DiblogInput. Tif nfdfssbry informbtion
+ * is obtbinfd from fontdonfig filfs.
  */
-public abstract class FontConfiguration {
+publid bbstrbdt dlbss FontConfigurbtion {
 
-    //static global runtime env
-    protected static String osVersion;
-    protected static String osName;
-    protected static String encoding; // canonical name of default nio charset
-    protected static Locale startupLocale = null;
-    protected static Hashtable<String, String> localeMap = null;
-    private static FontConfiguration fontConfig;
-    private static PlatformLogger logger;
-    protected static boolean isProperties = true;
+    //stbtid globbl runtimf fnv
+    protfdtfd stbtid String osVfrsion;
+    protfdtfd stbtid String osNbmf;
+    protfdtfd stbtid String fndoding; // dbnonidbl nbmf of dffbult nio dibrsft
+    protfdtfd stbtid Lodblf stbrtupLodblf = null;
+    protfdtfd stbtid Hbsitbblf<String, String> lodblfMbp = null;
+    privbtf stbtid FontConfigurbtion fontConfig;
+    privbtf stbtid PlbtformLoggfr loggfr;
+    protfdtfd stbtid boolfbn isPropfrtifs = truf;
 
-    protected SunFontManager fontManager;
-    protected boolean preferLocaleFonts;
-    protected boolean preferPropFonts;
+    protfdtfd SunFontMbnbgfr fontMbnbgfr;
+    protfdtfd boolfbn prfffrLodblfFonts;
+    protfdtfd boolfbn prfffrPropFonts;
 
-    private File fontConfigFile;
-    private boolean foundOsSpecificFile;
-    private boolean inited;
-    private String javaLib;
+    privbtf Filf fontConfigFilf;
+    privbtf boolfbn foundOsSpfdifidFilf;
+    privbtf boolfbn initfd;
+    privbtf String jbvbLib;
 
-    /* A default FontConfiguration must be created before an alternate
-     * one to ensure proper static initialisation takes place.
+    /* A dffbult FontConfigurbtion must bf drfbtfd bfforf bn bltfrnbtf
+     * onf to fnsurf propfr stbtid initiblisbtion tbkfs plbdf.
      */
-    public FontConfiguration(SunFontManager fm) {
-        if (FontUtilities.debugFonts()) {
-            FontUtilities.getLogger()
-                .info("Creating standard Font Configuration");
+    publid FontConfigurbtion(SunFontMbnbgfr fm) {
+        if (FontUtilitifs.dfbugFonts()) {
+            FontUtilitifs.gftLoggfr()
+                .info("Crfbting stbndbrd Font Configurbtion");
         }
-        if (FontUtilities.debugFonts() && logger == null) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+        if (FontUtilitifs.dfbugFonts() && loggfr == null) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
         }
-        fontManager = fm;
-        setOsNameAndVersion();  /* static initialization */
-        setEncoding();          /* static initialization */
-        /* Separating out the file location from the rest of the
-         * initialisation, so the caller has the option of doing
-         * something else if a suitable file isn't found.
+        fontMbnbgfr = fm;
+        sftOsNbmfAndVfrsion();  /* stbtid initiblizbtion */
+        sftEndoding();          /* stbtid initiblizbtion */
+        /* Sfpbrbting out tif filf lodbtion from tif rfst of tif
+         * initiblisbtion, so tif dbllfr ibs tif option of doing
+         * somftiing flsf if b suitbblf filf isn't found.
          */
-        findFontConfigFile();
+        findFontConfigFilf();
     }
 
-    public synchronized boolean init() {
-        if (!inited) {
-            this.preferLocaleFonts = false;
-            this.preferPropFonts = false;
-            setFontConfiguration();
-            readFontConfigFile(fontConfigFile);
+    publid syndironizfd boolfbn init() {
+        if (!initfd) {
+            tiis.prfffrLodblfFonts = fblsf;
+            tiis.prfffrPropFonts = fblsf;
+            sftFontConfigurbtion();
+            rfbdFontConfigFilf(fontConfigFilf);
             initFontConfig();
-            inited = true;
+            initfd = truf;
         }
-        return true;
+        rfturn truf;
     }
 
-    public FontConfiguration(SunFontManager fm,
-                             boolean preferLocaleFonts,
-                             boolean preferPropFonts) {
-        fontManager = fm;
-        if (FontUtilities.debugFonts()) {
-            FontUtilities.getLogger()
-                .info("Creating alternate Font Configuration");
+    publid FontConfigurbtion(SunFontMbnbgfr fm,
+                             boolfbn prfffrLodblfFonts,
+                             boolfbn prfffrPropFonts) {
+        fontMbnbgfr = fm;
+        if (FontUtilitifs.dfbugFonts()) {
+            FontUtilitifs.gftLoggfr()
+                .info("Crfbting bltfrnbtf Font Configurbtion");
         }
-        this.preferLocaleFonts = preferLocaleFonts;
-        this.preferPropFonts = preferPropFonts;
-        /* fontConfig should be initialised by default constructor, and
-         * its data tables can be shared, since readFontConfigFile doesn't
-         * update any other state. Also avoid a doPrivileged block.
+        tiis.prfffrLodblfFonts = prfffrLodblfFonts;
+        tiis.prfffrPropFonts = prfffrPropFonts;
+        /* fontConfig siould bf initiblisfd by dffbult donstrudtor, bnd
+         * its dbtb tbblfs dbn bf sibrfd, sindf rfbdFontConfigFilf dofsn't
+         * updbtf bny otifr stbtf. Also bvoid b doPrivilfgfd blodk.
          */
         initFontConfig();
     }
 
     /**
-     * Fills in this instance's osVersion and osName members. By
-     * default uses the system properties os.name and os.version;
-     * subclasses may override.
+     * Fills in tiis instbndf's osVfrsion bnd osNbmf mfmbfrs. By
+     * dffbult usfs tif systfm propfrtifs os.nbmf bnd os.vfrsion;
+     * subdlbssfs mby ovfrridf.
      */
-    protected void setOsNameAndVersion() {
-        osName = System.getProperty("os.name");
-        osVersion = System.getProperty("os.version");
+    protfdtfd void sftOsNbmfAndVfrsion() {
+        osNbmf = Systfm.gftPropfrty("os.nbmf");
+        osVfrsion = Systfm.gftPropfrty("os.vfrsion");
     }
 
-    private void setEncoding() {
-        encoding = Charset.defaultCharset().name();
-        startupLocale = SunToolkit.getStartupLocale();
+    privbtf void sftEndoding() {
+        fndoding = Cibrsft.dffbultCibrsft().nbmf();
+        stbrtupLodblf = SunToolkit.gftStbrtupLodblf();
     }
 
     /////////////////////////////////////////////////////////////////////
-    // methods for loading the FontConfig file                         //
+    // mftiods for lobding tif FontConfig filf                         //
     /////////////////////////////////////////////////////////////////////
 
-    public boolean foundOsSpecificFile() {
-        return foundOsSpecificFile;
+    publid boolfbn foundOsSpfdifidFilf() {
+        rfturn foundOsSpfdifidFilf;
     }
 
-    /* Smoke test to see if we can trust this configuration by testing if
-     * the first slot of a composite font maps to an installed file.
+    /* Smokf tfst to sff if wf dbn trust tiis donfigurbtion by tfsting if
+     * tif first slot of b dompositf font mbps to bn instbllfd filf.
      */
-    public boolean fontFilesArePresent() {
+    publid boolfbn fontFilfsArfPrfsfnt() {
         init();
-        short fontNameID = compFontNameIDs[0][0][0];
-        short fileNameID = getComponentFileID(fontNameID);
-        final String fileName = mapFileName(getComponentFileName(fileNameID));
-        Boolean exists = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Boolean>() {
-                 public Boolean run() {
+        siort fontNbmfID = dompFontNbmfIDs[0][0][0];
+        siort filfNbmfID = gftComponfntFilfID(fontNbmfID);
+        finbl String filfNbmf = mbpFilfNbmf(gftComponfntFilfNbmf(filfNbmfID));
+        Boolfbn fxists = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                 publid Boolfbn run() {
                      try {
-                         File f = new File(fileName);
-                         return Boolean.valueOf(f.exists());
+                         Filf f = nfw Filf(filfNbmf);
+                         rfturn Boolfbn.vblufOf(f.fxists());
                      }
-                     catch (Exception e) {
-                         return Boolean.FALSE;
+                     dbtdi (Exdfption f) {
+                         rfturn Boolfbn.FALSE;
                      }
                  }
                 });
-        return exists.booleanValue();
+        rfturn fxists.boolfbnVbluf();
     }
 
-    private void findFontConfigFile() {
+    privbtf void findFontConfigFilf() {
 
-        foundOsSpecificFile = true; // default assumption.
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null) {
-            throw new Error("java.home property not set");
+        foundOsSpfdifidFilf = truf; // dffbult bssumption.
+        String jbvbHomf = Systfm.gftPropfrty("jbvb.iomf");
+        if (jbvbHomf == null) {
+            tirow nfw Error("jbvb.iomf propfrty not sft");
         }
-        javaLib = javaHome + File.separator + "lib";
-        String userConfigFile = System.getProperty("sun.awt.fontconfig");
-        if (userConfigFile != null) {
-            fontConfigFile = new File(userConfigFile);
-        } else {
-            fontConfigFile = findFontConfigFile(javaLib);
+        jbvbLib = jbvbHomf + Filf.sfpbrbtor + "lib";
+        String usfrConfigFilf = Systfm.gftPropfrty("sun.bwt.fontdonfig");
+        if (usfrConfigFilf != null) {
+            fontConfigFilf = nfw Filf(usfrConfigFilf);
+        } flsf {
+            fontConfigFilf = findFontConfigFilf(jbvbLib);
         }
     }
 
-    private void readFontConfigFile(File f) {
-        /* This is invoked here as readFontConfigFile is only invoked
-         * once per VM, and always in a privileged context, thus the
-         * directory containing installed fall back fonts is accessed
-         * from this context
+    privbtf void rfbdFontConfigFilf(Filf f) {
+        /* Tiis is invokfd ifrf bs rfbdFontConfigFilf is only invokfd
+         * ondf pfr VM, bnd blwbys in b privilfgfd dontfxt, tius tif
+         * dirfdtory dontbining instbllfd fbll bbdk fonts is bddfssfd
+         * from tiis dontfxt
          */
-        getInstalledFallbackFonts(javaLib);
+        gftInstbllfdFbllbbdkFonts(jbvbLib);
 
         if (f != null) {
             try {
-                FileInputStream in = new FileInputStream(f.getPath());
-                if (isProperties) {
-                    loadProperties(in);
-                } else {
-                    loadBinary(in);
+                FilfInputStrfbm in = nfw FilfInputStrfbm(f.gftPbti());
+                if (isPropfrtifs) {
+                    lobdPropfrtifs(in);
+                } flsf {
+                    lobdBinbry(in);
                 }
-                in.close();
-                if (FontUtilities.debugFonts()) {
-                    logger.config("Read logical font configuration from " + f);
+                in.dlosf();
+                if (FontUtilitifs.dfbugFonts()) {
+                    loggfr.donfig("Rfbd logidbl font donfigurbtion from " + f);
                 }
-            } catch (IOException e) {
-                if (FontUtilities.debugFonts()) {
-                    logger.config("Failed to read logical font configuration from " + f);
+            } dbtdi (IOExdfption f) {
+                if (FontUtilitifs.dfbugFonts()) {
+                    loggfr.donfig("Fbilfd to rfbd logidbl font donfigurbtion from " + f);
                 }
             }
         }
-        String version = getVersion();
-        if (!"1".equals(version) && FontUtilities.debugFonts()) {
-            logger.config("Unsupported fontconfig version: " + version);
+        String vfrsion = gftVfrsion();
+        if (!"1".fqubls(vfrsion) && FontUtilitifs.dfbugFonts()) {
+            loggfr.donfig("Unsupportfd fontdonfig vfrsion: " + vfrsion);
         }
     }
 
-    protected void getInstalledFallbackFonts(String javaLib) {
-        String fallbackDirName = javaLib + File.separator +
-            "fonts" + File.separator + "fallback";
+    protfdtfd void gftInstbllfdFbllbbdkFonts(String jbvbLib) {
+        String fbllbbdkDirNbmf = jbvbLib + Filf.sfpbrbtor +
+            "fonts" + Filf.sfpbrbtor + "fbllbbdk";
 
-        File fallbackDir = new File(fallbackDirName);
-        if (fallbackDir.exists() && fallbackDir.isDirectory()) {
-            String[] ttfs = fallbackDir.list(fontManager.getTrueTypeFilter());
-            String[] t1s = fallbackDir.list(fontManager.getType1Filter());
-            int numTTFs = (ttfs == null) ? 0 : ttfs.length;
-            int numT1s = (t1s == null) ? 0 : t1s.length;
-            int len = numTTFs + numT1s;
+        Filf fbllbbdkDir = nfw Filf(fbllbbdkDirNbmf);
+        if (fbllbbdkDir.fxists() && fbllbbdkDir.isDirfdtory()) {
+            String[] ttfs = fbllbbdkDir.list(fontMbnbgfr.gftTrufTypfFiltfr());
+            String[] t1s = fbllbbdkDir.list(fontMbnbgfr.gftTypf1Filtfr());
+            int numTTFs = (ttfs == null) ? 0 : ttfs.lfngti;
+            int numT1s = (t1s == null) ? 0 : t1s.lfngti;
+            int lfn = numTTFs + numT1s;
             if (numTTFs + numT1s == 0) {
-                return;
+                rfturn;
             }
-            installedFallbackFontFiles = new String[len];
+            instbllfdFbllbbdkFontFilfs = nfw String[lfn];
             for (int i=0; i<numTTFs; i++) {
-                installedFallbackFontFiles[i] =
-                    fallbackDir + File.separator + ttfs[i];
+                instbllfdFbllbbdkFontFilfs[i] =
+                    fbllbbdkDir + Filf.sfpbrbtor + ttfs[i];
             }
             for (int i=0; i<numT1s; i++) {
-                installedFallbackFontFiles[i+numTTFs] =
-                    fallbackDir + File.separator + t1s[i];
+                instbllfdFbllbbdkFontFilfs[i+numTTFs] =
+                    fbllbbdkDir + Filf.sfpbrbtor + t1s[i];
             }
-            fontManager.registerFontsInDir(fallbackDirName);
+            fontMbnbgfr.rfgistfrFontsInDir(fbllbbdkDirNbmf);
         }
     }
 
-    private File findImpl(String fname) {
-        File f = new File(fname + ".properties");
-        if (f.canRead()) {
-            isProperties = true;
-            return f;
+    privbtf Filf findImpl(String fnbmf) {
+        Filf f = nfw Filf(fnbmf + ".propfrtifs");
+        if (f.dbnRfbd()) {
+            isPropfrtifs = truf;
+            rfturn f;
         }
-        f = new File(fname + ".bfc");
-        if (f.canRead()) {
-            isProperties = false;
-            return f;
+        f = nfw Filf(fnbmf + ".bfd");
+        if (f.dbnRfbd()) {
+            isPropfrtifs = fblsf;
+            rfturn f;
         }
-        return null;
+        rfturn null;
     }
 
-    private File findFontConfigFile(String javaLib) {
-        String baseName = javaLib + File.separator + "fontconfig";
-        File configFile;
-        String osMajorVersion = null;
-        if (osVersion != null && osName != null) {
-            configFile = findImpl(baseName + "." + osName + "." + osVersion);
-            if (configFile != null) {
-                return configFile;
+    privbtf Filf findFontConfigFilf(String jbvbLib) {
+        String bbsfNbmf = jbvbLib + Filf.sfpbrbtor + "fontdonfig";
+        Filf donfigFilf;
+        String osMbjorVfrsion = null;
+        if (osVfrsion != null && osNbmf != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osNbmf + "." + osVfrsion);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
             }
-            int decimalPointIndex = osVersion.indexOf('.');
-            if (decimalPointIndex != -1) {
-                osMajorVersion = osVersion.substring(0, osVersion.indexOf('.'));
-                configFile = findImpl(baseName + "." + osName + "." + osMajorVersion);
-                if (configFile != null) {
-                    return configFile;
+            int dfdimblPointIndfx = osVfrsion.indfxOf('.');
+            if (dfdimblPointIndfx != -1) {
+                osMbjorVfrsion = osVfrsion.substring(0, osVfrsion.indfxOf('.'));
+                donfigFilf = findImpl(bbsfNbmf + "." + osNbmf + "." + osMbjorVfrsion);
+                if (donfigFilf != null) {
+                    rfturn donfigFilf;
                 }
             }
         }
-        if (osName != null) {
-            configFile = findImpl(baseName + "." + osName);
-            if (configFile != null) {
-                return configFile;
+        if (osNbmf != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osNbmf);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
             }
         }
-        if (osVersion != null) {
-            configFile = findImpl(baseName + "." + osVersion);
-            if (configFile != null) {
-                return configFile;
+        if (osVfrsion != null) {
+            donfigFilf = findImpl(bbsfNbmf + "." + osVfrsion);
+            if (donfigFilf != null) {
+                rfturn donfigFilf;
             }
-            if (osMajorVersion != null) {
-                configFile = findImpl(baseName + "." + osMajorVersion);
-                if (configFile != null) {
-                    return configFile;
+            if (osMbjorVfrsion != null) {
+                donfigFilf = findImpl(bbsfNbmf + "." + osMbjorVfrsion);
+                if (donfigFilf != null) {
+                    rfturn donfigFilf;
                 }
             }
         }
-        foundOsSpecificFile = false;
+        foundOsSpfdifidFilf = fblsf;
 
-        configFile = findImpl(baseName);
-        if (configFile != null) {
-            return configFile;
+        donfigFilf = findImpl(bbsfNbmf);
+        if (donfigFilf != null) {
+            rfturn donfigFilf;
         }
-        return null;
+        rfturn null;
     }
 
-    /* Initialize the internal data tables from binary format font
-     * configuration file.
+    /* Initiblizf tif intfrnbl dbtb tbblfs from binbry formbt font
+     * donfigurbtion filf.
      */
-    public static void loadBinary(InputStream inStream) throws IOException {
-        DataInputStream in = new DataInputStream(inStream);
-        head = readShortTable(in, HEAD_LENGTH);
-        int[] tableSizes = new int[INDEX_TABLEEND];
+    publid stbtid void lobdBinbry(InputStrfbm inStrfbm) tirows IOExdfption {
+        DbtbInputStrfbm in = nfw DbtbInputStrfbm(inStrfbm);
+        ifbd = rfbdSiortTbblf(in, HEAD_LENGTH);
+        int[] tbblfSizfs = nfw int[INDEX_TABLEEND];
         for (int i = 0; i < INDEX_TABLEEND; i++) {
-            tableSizes[i] = head[i + 1] - head[i];
+            tbblfSizfs[i] = ifbd[i + 1] - ifbd[i];
         }
-        table_scriptIDs       = readShortTable(in, tableSizes[INDEX_scriptIDs]);
-        table_scriptFonts     = readShortTable(in, tableSizes[INDEX_scriptFonts]);
-        table_elcIDs          = readShortTable(in, tableSizes[INDEX_elcIDs]);
-        table_sequences        = readShortTable(in, tableSizes[INDEX_sequences]);
-        table_fontfileNameIDs = readShortTable(in, tableSizes[INDEX_fontfileNameIDs]);
-        table_componentFontNameIDs = readShortTable(in, tableSizes[INDEX_componentFontNameIDs]);
-        table_filenames       = readShortTable(in, tableSizes[INDEX_filenames]);
-        table_awtfontpaths    = readShortTable(in, tableSizes[INDEX_awtfontpaths]);
-        table_exclusions      = readShortTable(in, tableSizes[INDEX_exclusions]);
-        table_proportionals   = readShortTable(in, tableSizes[INDEX_proportionals]);
-        table_scriptFontsMotif   = readShortTable(in, tableSizes[INDEX_scriptFontsMotif]);
-        table_alphabeticSuffix   = readShortTable(in, tableSizes[INDEX_alphabeticSuffix]);
-        table_stringIDs       = readShortTable(in, tableSizes[INDEX_stringIDs]);
+        tbblf_sdriptIDs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptIDs]);
+        tbblf_sdriptFonts     = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptFonts]);
+        tbblf_fldIDs          = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fldIDs]);
+        tbblf_sfqufndfs        = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sfqufndfs]);
+        tbblf_fontfilfNbmfIDs = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fontfilfNbmfIDs]);
+        tbblf_domponfntFontNbmfIDs = rfbdSiortTbblf(in, tbblfSizfs[INDEX_domponfntFontNbmfIDs]);
+        tbblf_filfnbmfs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_filfnbmfs]);
+        tbblf_bwtfontpbtis    = rfbdSiortTbblf(in, tbblfSizfs[INDEX_bwtfontpbtis]);
+        tbblf_fxdlusions      = rfbdSiortTbblf(in, tbblfSizfs[INDEX_fxdlusions]);
+        tbblf_proportionbls   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_proportionbls]);
+        tbblf_sdriptFontsMotif   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_sdriptFontsMotif]);
+        tbblf_blpibbftidSuffix   = rfbdSiortTbblf(in, tbblfSizfs[INDEX_blpibbftidSuffix]);
+        tbblf_stringIDs       = rfbdSiortTbblf(in, tbblfSizfs[INDEX_stringIDs]);
 
-        //StringTable cache
-        stringCache = new String[table_stringIDs.length + 1];
+        //StringTbblf dbdif
+        stringCbdif = nfw String[tbblf_stringIDs.lfngti + 1];
 
-        int len = tableSizes[INDEX_stringTable];
-        byte[] bb = new byte[len * 2];
-        table_stringTable = new char[len];
-        in.read(bb);
+        int lfn = tbblfSizfs[INDEX_stringTbblf];
+        bytf[] bb = nfw bytf[lfn * 2];
+        tbblf_stringTbblf = nfw dibr[lfn];
+        in.rfbd(bb);
         int i = 0, j = 0;
-        while (i < len) {
-           table_stringTable[i++] = (char)(bb[j++] << 8 | (bb[j++] & 0xff));
+        wiilf (i < lfn) {
+           tbblf_stringTbblf[i++] = (dibr)(bb[j++] << 8 | (bb[j++] & 0xff));
         }
-        if (verbose) {
+        if (vfrbosf) {
             dump();
         }
     }
 
-    /* Generate a binary format font configuration from internal data
-     * tables.
+    /* Gfnfrbtf b binbry formbt font donfigurbtion from intfrnbl dbtb
+     * tbblfs.
      */
-    public static void saveBinary(OutputStream out) throws IOException {
-        sanityCheck();
+    publid stbtid void sbvfBinbry(OutputStrfbm out) tirows IOExdfption {
+        sbnityCifdk();
 
-        DataOutputStream dataOut = new DataOutputStream(out);
-        writeShortTable(dataOut, head);
-        writeShortTable(dataOut, table_scriptIDs);
-        writeShortTable(dataOut, table_scriptFonts);
-        writeShortTable(dataOut, table_elcIDs);
-        writeShortTable(dataOut, table_sequences);
-        writeShortTable(dataOut, table_fontfileNameIDs);
-        writeShortTable(dataOut, table_componentFontNameIDs);
-        writeShortTable(dataOut, table_filenames);
-        writeShortTable(dataOut, table_awtfontpaths);
-        writeShortTable(dataOut, table_exclusions);
-        writeShortTable(dataOut, table_proportionals);
-        writeShortTable(dataOut, table_scriptFontsMotif);
-        writeShortTable(dataOut, table_alphabeticSuffix);
-        writeShortTable(dataOut, table_stringIDs);
-        //stringTable
-        dataOut.writeChars(new String(table_stringTable));
-        out.close();
-        if (verbose) {
+        DbtbOutputStrfbm dbtbOut = nfw DbtbOutputStrfbm(out);
+        writfSiortTbblf(dbtbOut, ifbd);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptIDs);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptFonts);
+        writfSiortTbblf(dbtbOut, tbblf_fldIDs);
+        writfSiortTbblf(dbtbOut, tbblf_sfqufndfs);
+        writfSiortTbblf(dbtbOut, tbblf_fontfilfNbmfIDs);
+        writfSiortTbblf(dbtbOut, tbblf_domponfntFontNbmfIDs);
+        writfSiortTbblf(dbtbOut, tbblf_filfnbmfs);
+        writfSiortTbblf(dbtbOut, tbblf_bwtfontpbtis);
+        writfSiortTbblf(dbtbOut, tbblf_fxdlusions);
+        writfSiortTbblf(dbtbOut, tbblf_proportionbls);
+        writfSiortTbblf(dbtbOut, tbblf_sdriptFontsMotif);
+        writfSiortTbblf(dbtbOut, tbblf_blpibbftidSuffix);
+        writfSiortTbblf(dbtbOut, tbblf_stringIDs);
+        //stringTbblf
+        dbtbOut.writfCibrs(nfw String(tbblf_stringTbblf));
+        out.dlosf();
+        if (vfrbosf) {
             dump();
         }
     }
 
-    //private static boolean loadingProperties;
-    private static short stringIDNum;
-    private static short[] stringIDs;
-    private static StringBuilder stringTable;
+    //privbtf stbtid boolfbn lobdingPropfrtifs;
+    privbtf stbtid siort stringIDNum;
+    privbtf stbtid siort[] stringIDs;
+    privbtf stbtid StringBuildfr stringTbblf;
 
-    public static void loadProperties(InputStream in) throws IOException {
-        //loadingProperties = true;
-        //StringID starts from "1", "0" is reserved for "not defined"
+    publid stbtid void lobdPropfrtifs(InputStrfbm in) tirows IOExdfption {
+        //lobdingPropfrtifs = truf;
+        //StringID stbrts from "1", "0" is rfsfrvfd for "not dffinfd"
         stringIDNum = 1;
-        stringIDs = new short[1000];
-        stringTable = new StringBuilder(4096);
+        stringIDs = nfw siort[1000];
+        stringTbblf = nfw StringBuildfr(4096);
 
-        if (verbose && logger == null) {
-            logger = PlatformLogger.getLogger("sun.awt.FontConfiguration");
+        if (vfrbosf && loggfr == null) {
+            loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.FontConfigurbtion");
         }
-        new PropertiesHandler().load(in);
+        nfw PropfrtifsHbndlfr().lobd(in);
 
-        //loadingProperties = false;
+        //lobdingPropfrtifs = fblsf;
         stringIDs = null;
-        stringTable = null;
+        stringTbblf = null;
     }
 
 
     /////////////////////////////////////////////////////////////////////
-    // methods for initializing the FontConfig                         //
+    // mftiods for initiblizing tif FontConfig                         //
     /////////////////////////////////////////////////////////////////////
 
     /**
-     *  set initLocale, initEncoding and initELC for this FontConfig object
-     *  currently we just simply use the startup locale and encoding
+     *  sft initLodblf, initEndoding bnd initELC for tiis FontConfig objfdt
+     *  durrfntly wf just simply usf tif stbrtup lodblf bnd fndoding
      */
-    private void initFontConfig() {
-        initLocale = startupLocale;
-        initEncoding = encoding;
-        if (preferLocaleFonts && !willReorderForStartupLocale()) {
-            preferLocaleFonts = false;
+    privbtf void initFontConfig() {
+        initLodblf = stbrtupLodblf;
+        initEndoding = fndoding;
+        if (prfffrLodblfFonts && !willRfordfrForStbrtupLodblf()) {
+            prfffrLodblfFonts = fblsf;
         }
-        initELC = getInitELC();
-        initAllComponentFonts();
+        initELC = gftInitELC();
+        initAllComponfntFonts();
     }
 
-    //"ELC" stands for "Encoding.Language.Country". This method returns
-    //the ID of the matched elc setting of "initLocale" in elcIDs table.
-    //If no match is found, it returns the default ID, which is
-    //"NULL.NULL.NULL" in elcIDs table.
-    private short getInitELC() {
+    //"ELC" stbnds for "Endoding.Lbngubgf.Country". Tiis mftiod rfturns
+    //tif ID of tif mbtdifd fld sftting of "initLodblf" in fldIDs tbblf.
+    //If no mbtdi is found, it rfturns tif dffbult ID, wiidi is
+    //"NULL.NULL.NULL" in fldIDs tbblf.
+    privbtf siort gftInitELC() {
         if (initELC != -1) {
-            return initELC;
+            rfturn initELC;
         }
-        HashMap <String, Integer> elcIDs = new HashMap<String, Integer>();
-        for (int i = 0; i < table_elcIDs.length; i++) {
-            elcIDs.put(getString(table_elcIDs[i]), i);
+        HbsiMbp <String, Intfgfr> fldIDs = nfw HbsiMbp<String, Intfgfr>();
+        for (int i = 0; i < tbblf_fldIDs.lfngti; i++) {
+            fldIDs.put(gftString(tbblf_fldIDs[i]), i);
         }
-        String language = initLocale.getLanguage();
-        String country = initLocale.getCountry();
-        String elc;
-        if (elcIDs.containsKey(elc=initEncoding + "." + language + "." + country)
-            || elcIDs.containsKey(elc=initEncoding + "." + language)
-            || elcIDs.containsKey(elc=initEncoding)) {
-            initELC = elcIDs.get(elc).shortValue();
-        } else {
-            initELC = elcIDs.get("NULL.NULL.NULL").shortValue();
+        String lbngubgf = initLodblf.gftLbngubgf();
+        String dountry = initLodblf.gftCountry();
+        String fld;
+        if (fldIDs.dontbinsKfy(fld=initEndoding + "." + lbngubgf + "." + dountry)
+            || fldIDs.dontbinsKfy(fld=initEndoding + "." + lbngubgf)
+            || fldIDs.dontbinsKfy(fld=initEndoding)) {
+            initELC = fldIDs.gft(fld).siortVbluf();
+        } flsf {
+            initELC = fldIDs.gft("NULL.NULL.NULL").siortVbluf();
         }
         int i = 0;
-        while (i < table_alphabeticSuffix.length) {
-            if (initELC == table_alphabeticSuffix[i]) {
-                alphabeticSuffix = getString(table_alphabeticSuffix[i + 1]);
-                return initELC;
+        wiilf (i < tbblf_blpibbftidSuffix.lfngti) {
+            if (initELC == tbblf_blpibbftidSuffix[i]) {
+                blpibbftidSuffix = gftString(tbblf_blpibbftidSuffix[i + 1]);
+                rfturn initELC;
             }
             i += 2;
         }
-        return initELC;
+        rfturn initELC;
     }
 
-    public static boolean verbose;
-    private short    initELC = -1;
-    private Locale   initLocale;
-    private String   initEncoding;
-    private String   alphabeticSuffix;
+    publid stbtid boolfbn vfrbosf;
+    privbtf siort    initELC = -1;
+    privbtf Lodblf   initLodblf;
+    privbtf String   initEndoding;
+    privbtf String   blpibbftidSuffix;
 
-    private short[][][] compFontNameIDs = new short[NUM_FONTS][NUM_STYLES][];
-    private int[][][] compExclusions = new int[NUM_FONTS][][];
-    private int[] compCoreNum = new int[NUM_FONTS];
+    privbtf siort[][][] dompFontNbmfIDs = nfw siort[NUM_FONTS][NUM_STYLES][];
+    privbtf int[][][] dompExdlusions = nfw int[NUM_FONTS][][];
+    privbtf int[] dompCorfNum = nfw int[NUM_FONTS];
 
-    private Set<Short> coreFontNameIDs = new HashSet<Short>();
-    private Set<Short> fallbackFontNameIDs = new HashSet<Short>();
+    privbtf Sft<Siort> dorfFontNbmfIDs = nfw HbsiSft<Siort>();
+    privbtf Sft<Siort> fbllbbdkFontNbmfIDs = nfw HbsiSft<Siort>();
 
-    private void initAllComponentFonts() {
-        short[] fallbackScripts = getFallbackScripts();
-        for (int fontIndex = 0; fontIndex < NUM_FONTS; fontIndex++) {
-            short[] coreScripts = getCoreScripts(fontIndex);
-            compCoreNum[fontIndex] = coreScripts.length;
+    privbtf void initAllComponfntFonts() {
+        siort[] fbllbbdkSdripts = gftFbllbbdkSdripts();
+        for (int fontIndfx = 0; fontIndfx < NUM_FONTS; fontIndfx++) {
+            siort[] dorfSdripts = gftCorfSdripts(fontIndfx);
+            dompCorfNum[fontIndfx] = dorfSdripts.lfngti;
             /*
-            System.out.println("coreScriptID=" + table_sequences[initELC * 5 + fontIndex]);
-            for (int i = 0; i < coreScripts.length; i++) {
-            System.out.println("  " + i + " :" + getString(table_scriptIDs[coreScripts[i]]));
+            Systfm.out.println("dorfSdriptID=" + tbblf_sfqufndfs[initELC * 5 + fontIndfx]);
+            for (int i = 0; i < dorfSdripts.lfngti; i++) {
+            Systfm.out.println("  " + i + " :" + gftString(tbblf_sdriptIDs[dorfSdripts[i]]));
             }
             */
-            //init exclusionRanges
-            int[][] exclusions = new int[coreScripts.length][];
-            for (int i = 0; i < coreScripts.length; i++) {
-                exclusions[i] = getExclusionRanges(coreScripts[i]);
+            //init fxdlusionRbngfs
+            int[][] fxdlusions = nfw int[dorfSdripts.lfngti][];
+            for (int i = 0; i < dorfSdripts.lfngti; i++) {
+                fxdlusions[i] = gftExdlusionRbngfs(dorfSdripts[i]);
             }
-            compExclusions[fontIndex] = exclusions;
-            //init componentFontNames
-            for (int styleIndex = 0; styleIndex < NUM_STYLES; styleIndex++) {
-                int index;
-                short[] nameIDs = new short[coreScripts.length + fallbackScripts.length];
-                //core
-                for (index = 0; index < coreScripts.length; index++) {
-                    nameIDs[index] = getComponentFontID(coreScripts[index],
-                                               fontIndex, styleIndex);
-                    if (preferLocaleFonts && localeMap != null &&
-                            fontManager.usingAlternateFontforJALocales()) {
-                        nameIDs[index] = remapLocaleMap(fontIndex, styleIndex,
-                                                        coreScripts[index], nameIDs[index]);
+            dompExdlusions[fontIndfx] = fxdlusions;
+            //init domponfntFontNbmfs
+            for (int stylfIndfx = 0; stylfIndfx < NUM_STYLES; stylfIndfx++) {
+                int indfx;
+                siort[] nbmfIDs = nfw siort[dorfSdripts.lfngti + fbllbbdkSdripts.lfngti];
+                //dorf
+                for (indfx = 0; indfx < dorfSdripts.lfngti; indfx++) {
+                    nbmfIDs[indfx] = gftComponfntFontID(dorfSdripts[indfx],
+                                               fontIndfx, stylfIndfx);
+                    if (prfffrLodblfFonts && lodblfMbp != null &&
+                            fontMbnbgfr.usingAltfrnbtfFontforJALodblfs()) {
+                        nbmfIDs[indfx] = rfmbpLodblfMbp(fontIndfx, stylfIndfx,
+                                                        dorfSdripts[indfx], nbmfIDs[indfx]);
                     }
-                    if (preferPropFonts) {
-                        nameIDs[index] = remapProportional(fontIndex, nameIDs[index]);
+                    if (prfffrPropFonts) {
+                        nbmfIDs[indfx] = rfmbpProportionbl(fontIndfx, nbmfIDs[indfx]);
                     }
-                    //System.out.println("nameid=" + nameIDs[index]);
-                    coreFontNameIDs.add(nameIDs[index]);
+                    //Systfm.out.println("nbmfid=" + nbmfIDs[indfx]);
+                    dorfFontNbmfIDs.bdd(nbmfIDs[indfx]);
                 }
-                //fallback
-                for (int i = 0; i < fallbackScripts.length; i++) {
-                    short id = getComponentFontID(fallbackScripts[i],
-                                               fontIndex, styleIndex);
-                    if (preferLocaleFonts && localeMap != null &&
-                            fontManager.usingAlternateFontforJALocales()) {
-                        id = remapLocaleMap(fontIndex, styleIndex, fallbackScripts[i], id);
+                //fbllbbdk
+                for (int i = 0; i < fbllbbdkSdripts.lfngti; i++) {
+                    siort id = gftComponfntFontID(fbllbbdkSdripts[i],
+                                               fontIndfx, stylfIndfx);
+                    if (prfffrLodblfFonts && lodblfMbp != null &&
+                            fontMbnbgfr.usingAltfrnbtfFontforJALodblfs()) {
+                        id = rfmbpLodblfMbp(fontIndfx, stylfIndfx, fbllbbdkSdripts[i], id);
                     }
-                    if (preferPropFonts) {
-                        id = remapProportional(fontIndex, id);
+                    if (prfffrPropFonts) {
+                        id = rfmbpProportionbl(fontIndfx, id);
                     }
-                    if (contains(nameIDs, id, index)) {
-                        continue;
+                    if (dontbins(nbmfIDs, id, indfx)) {
+                        dontinuf;
                     }
                     /*
-                      System.out.println("fontIndex=" + fontIndex + ", styleIndex=" + styleIndex
-                           + ", fbIndex=" + i + ",fbS=" + fallbackScripts[i] + ", id=" + id);
+                      Systfm.out.println("fontIndfx=" + fontIndfx + ", stylfIndfx=" + stylfIndfx
+                           + ", fbIndfx=" + i + ",fbS=" + fbllbbdkSdripts[i] + ", id=" + id);
                     */
-                    fallbackFontNameIDs.add(id);
-                    nameIDs[index++] = id;
+                    fbllbbdkFontNbmfIDs.bdd(id);
+                    nbmfIDs[indfx++] = id;
                 }
-                if (index < nameIDs.length) {
-                    short[] newNameIDs = new short[index];
-                    System.arraycopy(nameIDs, 0, newNameIDs, 0, index);
-                    nameIDs = newNameIDs;
+                if (indfx < nbmfIDs.lfngti) {
+                    siort[] nfwNbmfIDs = nfw siort[indfx];
+                    Systfm.brrbydopy(nbmfIDs, 0, nfwNbmfIDs, 0, indfx);
+                    nbmfIDs = nfwNbmfIDs;
                 }
-                compFontNameIDs[fontIndex][styleIndex] = nameIDs;
+                dompFontNbmfIDs[fontIndfx][stylfIndfx] = nbmfIDs;
             }
         }
    }
 
-   private short remapLocaleMap(int fontIndex, int styleIndex, short scriptID, short fontID) {
-        String scriptName = getString(table_scriptIDs[scriptID]);
+   privbtf siort rfmbpLodblfMbp(int fontIndfx, int stylfIndfx, siort sdriptID, siort fontID) {
+        String sdriptNbmf = gftString(tbblf_sdriptIDs[sdriptID]);
 
-        String value = localeMap.get(scriptName);
-        if (value == null) {
-            String fontName = fontNames[fontIndex];
-            String styleName = styleNames[styleIndex];
-            value = localeMap.get(fontName + "." + styleName + "." + scriptName);
+        String vbluf = lodblfMbp.gft(sdriptNbmf);
+        if (vbluf == null) {
+            String fontNbmf = fontNbmfs[fontIndfx];
+            String stylfNbmf = stylfNbmfs[stylfIndfx];
+            vbluf = lodblfMbp.gft(fontNbmf + "." + stylfNbmf + "." + sdriptNbmf);
         }
-        if (value == null) {
-            return fontID;
+        if (vbluf == null) {
+            rfturn fontID;
         }
 
-        for (int i = 0; i < table_componentFontNameIDs.length; i++) {
-            String name = getString(table_componentFontNameIDs[i]);
-            if (value.equalsIgnoreCase(name)) {
-                fontID = (short)i;
-                break;
+        for (int i = 0; i < tbblf_domponfntFontNbmfIDs.lfngti; i++) {
+            String nbmf = gftString(tbblf_domponfntFontNbmfIDs[i]);
+            if (vbluf.fqublsIgnorfCbsf(nbmf)) {
+                fontID = (siort)i;
+                brfbk;
             }
         }
-        return fontID;
+        rfturn fontID;
     }
 
-    public static boolean hasMonoToPropMap() {
-        return table_proportionals != null && table_proportionals.length != 0;
+    publid stbtid boolfbn ibsMonoToPropMbp() {
+        rfturn tbblf_proportionbls != null && tbblf_proportionbls.lfngti != 0;
     }
 
-    private short remapProportional(int fontIndex, short id) {
-    if (preferPropFonts &&
-        table_proportionals.length != 0 &&
-        fontIndex != 2 &&         //"monospaced"
-        fontIndex != 4) {         //"dialoginput"
+    privbtf siort rfmbpProportionbl(int fontIndfx, siort id) {
+    if (prfffrPropFonts &&
+        tbblf_proportionbls.lfngti != 0 &&
+        fontIndfx != 2 &&         //"monospbdfd"
+        fontIndfx != 4) {         //"dibloginput"
             int i = 0;
-            while (i < table_proportionals.length) {
-                if (table_proportionals[i] == id) {
-                    return table_proportionals[i + 1];
+            wiilf (i < tbblf_proportionbls.lfngti) {
+                if (tbblf_proportionbls[i] == id) {
+                    rfturn tbblf_proportionbls[i + 1];
                 }
                 i += 2;
             }
         }
-        return id;
+        rfturn id;
     }
 
     /////////////////////////////////////////////////////////////////////
-    // Methods for handling font and style names                       //
+    // Mftiods for ibndling font bnd stylf nbmfs                       //
     /////////////////////////////////////////////////////////////////////
-    protected static final int NUM_FONTS = 5;
-    protected static final int NUM_STYLES = 4;
-    protected static final String[] fontNames
-            = {"serif", "sansserif", "monospaced", "dialog", "dialoginput"};
-    protected static final String[] publicFontNames
+    protfdtfd stbtid finbl int NUM_FONTS = 5;
+    protfdtfd stbtid finbl int NUM_STYLES = 4;
+    protfdtfd stbtid finbl String[] fontNbmfs
+            = {"sfrif", "sbnssfrif", "monospbdfd", "diblog", "dibloginput"};
+    protfdtfd stbtid finbl String[] publidFontNbmfs
             = {Font.SERIF, Font.SANS_SERIF, Font.MONOSPACED, Font.DIALOG,
                Font.DIALOG_INPUT};
-    protected static final String[] styleNames
-            = {"plain", "bold", "italic", "bolditalic"};
+    protfdtfd stbtid finbl String[] stylfNbmfs
+            = {"plbin", "bold", "itblid", "bolditblid"};
 
     /**
-     * Checks whether the given font family name is a valid logical font name.
-     * The check is case insensitive.
+     * Cifdks wiftifr tif givfn font fbmily nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf insfnsitivf.
      */
-    public static boolean isLogicalFontFamilyName(String fontName) {
-        return isLogicalFontFamilyNameLC(fontName.toLowerCase(Locale.ENGLISH));
+    publid stbtid boolfbn isLogidblFontFbmilyNbmf(String fontNbmf) {
+        rfturn isLogidblFontFbmilyNbmfLC(fontNbmf.toLowfrCbsf(Lodblf.ENGLISH));
     }
 
     /**
-     * Checks whether the given font family name is a valid logical font name.
-     * The check is case sensitive.
+     * Cifdks wiftifr tif givfn font fbmily nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf sfnsitivf.
      */
-    public static boolean isLogicalFontFamilyNameLC(String fontName) {
-        for (int i = 0; i < fontNames.length; i++) {
-            if (fontName.equals(fontNames[i])) {
-                return true;
+    publid stbtid boolfbn isLogidblFontFbmilyNbmfLC(String fontNbmf) {
+        for (int i = 0; i < fontNbmfs.lfngti; i++) {
+            if (fontNbmf.fqubls(fontNbmfs[i])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Checks whether the given style name is a valid logical font style name.
+     * Cifdks wiftifr tif givfn stylf nbmf is b vblid logidbl font stylf nbmf.
      */
-    private static boolean isLogicalFontStyleName(String styleName) {
-        for (int i = 0; i < styleNames.length; i++) {
-            if (styleName.equals(styleNames[i])) {
-                return true;
+    privbtf stbtid boolfbn isLogidblFontStylfNbmf(String stylfNbmf) {
+        for (int i = 0; i < stylfNbmfs.lfngti; i++) {
+            if (stylfNbmf.fqubls(stylfNbmfs[i])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Checks whether the given font face name is a valid logical font name.
-     * The check is case insensitive.
+     * Cifdks wiftifr tif givfn font fbdf nbmf is b vblid logidbl font nbmf.
+     * Tif difdk is dbsf insfnsitivf.
      */
-    public static boolean isLogicalFontFaceName(String fontName) {
-        return isLogicalFontFaceNameLC(fontName.toLowerCase(Locale.ENGLISH));
+    publid stbtid boolfbn isLogidblFontFbdfNbmf(String fontNbmf) {
+        rfturn isLogidblFontFbdfNbmfLC(fontNbmf.toLowfrCbsf(Lodblf.ENGLISH));
     }
 
    /**
-    * Checks whether the given font face name is a valid logical font name.
-    * The check is case sensitive.
+    * Cifdks wiftifr tif givfn font fbdf nbmf is b vblid logidbl font nbmf.
+    * Tif difdk is dbsf sfnsitivf.
     */
-    public static boolean isLogicalFontFaceNameLC(String fontName) {
-        int period = fontName.indexOf('.');
-        if (period >= 0) {
-            String familyName = fontName.substring(0, period);
-            String styleName = fontName.substring(period + 1);
-            return isLogicalFontFamilyName(familyName) &&
-                    isLogicalFontStyleName(styleName);
-        } else {
-            return isLogicalFontFamilyName(fontName);
+    publid stbtid boolfbn isLogidblFontFbdfNbmfLC(String fontNbmf) {
+        int pfriod = fontNbmf.indfxOf('.');
+        if (pfriod >= 0) {
+            String fbmilyNbmf = fontNbmf.substring(0, pfriod);
+            String stylfNbmf = fontNbmf.substring(pfriod + 1);
+            rfturn isLogidblFontFbmilyNbmf(fbmilyNbmf) &&
+                    isLogidblFontStylfNbmf(stylfNbmf);
+        } flsf {
+            rfturn isLogidblFontFbmilyNbmf(fontNbmf);
         }
     }
 
-    protected static int getFontIndex(String fontName) {
-        return getArrayIndex(fontNames, fontName);
+    protfdtfd stbtid int gftFontIndfx(String fontNbmf) {
+        rfturn gftArrbyIndfx(fontNbmfs, fontNbmf);
     }
 
-    protected static int getStyleIndex(String styleName) {
-        return getArrayIndex(styleNames, styleName);
+    protfdtfd stbtid int gftStylfIndfx(String stylfNbmf) {
+        rfturn gftArrbyIndfx(stylfNbmfs, stylfNbmf);
     }
 
-    private static int getArrayIndex(String[] names, String name) {
-        for (int i = 0; i < names.length; i++) {
-            if (name.equals(names[i])) {
-                return i;
+    privbtf stbtid int gftArrbyIndfx(String[] nbmfs, String nbmf) {
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            if (nbmf.fqubls(nbmfs[i])) {
+                rfturn i;
             }
         }
-        assert false;
-        return 0;
+        bssfrt fblsf;
+        rfturn 0;
     }
 
-    protected static int getStyleIndex(int style) {
-        switch (style) {
-            case Font.PLAIN:
-                return 0;
-            case Font.BOLD:
-                return 1;
-            case Font.ITALIC:
-                return 2;
-            case Font.BOLD | Font.ITALIC:
-                return 3;
-            default:
-                return 0;
+    protfdtfd stbtid int gftStylfIndfx(int stylf) {
+        switdi (stylf) {
+            dbsf Font.PLAIN:
+                rfturn 0;
+            dbsf Font.BOLD:
+                rfturn 1;
+            dbsf Font.ITALIC:
+                rfturn 2;
+            dbsf Font.BOLD | Font.ITALIC:
+                rfturn 3;
+            dffbult:
+                rfturn 0;
         }
     }
 
-    protected static String getFontName(int fontIndex) {
-        return fontNames[fontIndex];
+    protfdtfd stbtid String gftFontNbmf(int fontIndfx) {
+        rfturn fontNbmfs[fontIndfx];
     }
 
-    protected static String getStyleName(int styleIndex) {
-        return styleNames[styleIndex];
-    }
-
-    /**
-     * Returns the font face name for the given logical font
-     * family name and style.
-     * The style argument is interpreted as in java.awt.Font.Font.
-     */
-    public static String getLogicalFontFaceName(String familyName, int style) {
-        assert isLogicalFontFamilyName(familyName);
-        return familyName.toLowerCase(Locale.ENGLISH) + "." + getStyleString(style);
+    protfdtfd stbtid String gftStylfNbmf(int stylfIndfx) {
+        rfturn stylfNbmfs[stylfIndfx];
     }
 
     /**
-     * Returns the string typically used in properties files
-     * for the given style.
-     * The style argument is interpreted as in java.awt.Font.Font.
+     * Rfturns tif font fbdf nbmf for tif givfn logidbl font
+     * fbmily nbmf bnd stylf.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
      */
-    public static String getStyleString(int style) {
-        return getStyleName(getStyleIndex(style));
+    publid stbtid String gftLogidblFontFbdfNbmf(String fbmilyNbmf, int stylf) {
+        bssfrt isLogidblFontFbmilyNbmf(fbmilyNbmf);
+        rfturn fbmilyNbmf.toLowfrCbsf(Lodblf.ENGLISH) + "." + gftStylfString(stylf);
     }
 
     /**
-     * Returns a fallback name for the given font name. For a few known
-     * font names, matching logical font names are returned. For all
-     * other font names, defaultFallback is returned.
-     * defaultFallback differs between AWT and 2D.
+     * Rfturns tif string typidblly usfd in propfrtifs filfs
+     * for tif givfn stylf.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
      */
-    public abstract String getFallbackFamilyName(String fontName, String defaultFallback);
+    publid stbtid String gftStylfString(int stylf) {
+        rfturn gftStylfNbmf(gftStylfIndfx(stylf));
+    }
 
     /**
-     * Returns the 1.1 equivalent for some old 1.0 font family names for
-     * which we need to maintain compatibility in some configurations.
-     * Returns null for other font names.
+     * Rfturns b fbllbbdk nbmf for tif givfn font nbmf. For b ffw known
+     * font nbmfs, mbtdiing logidbl font nbmfs brf rfturnfd. For bll
+     * otifr font nbmfs, dffbultFbllbbdk is rfturnfd.
+     * dffbultFbllbbdk difffrs bftwffn AWT bnd 2D.
      */
-    protected String getCompatibilityFamilyName(String fontName) {
-        fontName = fontName.toLowerCase(Locale.ENGLISH);
-        if (fontName.equals("timesroman")) {
-            return "serif";
-        } else if (fontName.equals("helvetica")) {
-            return "sansserif";
-        } else if (fontName.equals("courier")) {
-            return "monospaced";
+    publid bbstrbdt String gftFbllbbdkFbmilyNbmf(String fontNbmf, String dffbultFbllbbdk);
+
+    /**
+     * Rfturns tif 1.1 fquivblfnt for somf old 1.0 font fbmily nbmfs for
+     * wiidi wf nffd to mbintbin dompbtibility in somf donfigurbtions.
+     * Rfturns null for otifr font nbmfs.
+     */
+    protfdtfd String gftCompbtibilityFbmilyNbmf(String fontNbmf) {
+        fontNbmf = fontNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        if (fontNbmf.fqubls("timfsrombn")) {
+            rfturn "sfrif";
+        } flsf if (fontNbmf.fqubls("iflvftidb")) {
+            rfturn "sbnssfrif";
+        } flsf if (fontNbmf.fqubls("dourifr")) {
+            rfturn "monospbdfd";
         }
-        return null;
+        rfturn null;
     }
 
-    protected static String[] installedFallbackFontFiles = null;
+    protfdtfd stbtid String[] instbllfdFbllbbdkFontFilfs = null;
 
     /**
-     * Maps a file name given in the font configuration file
-     * to a format appropriate for the platform.
+     * Mbps b filf nbmf givfn in tif font donfigurbtion filf
+     * to b formbt bppropribtf for tif plbtform.
      */
-    protected String mapFileName(String fileName) {
-        return fileName;
+    protfdtfd String mbpFilfNbmf(String filfNbmf) {
+        rfturn filfNbmf;
     }
 
     //////////////////////////////////////////////////////////////////////
-    //  reordering                                                      //
+    //  rfordfring                                                      //
     //////////////////////////////////////////////////////////////////////
 
-    /* Mappings from file encoding to font config name for font supporting
-     * the corresponding language. This is filled in by initReorderMap()
+    /* Mbppings from filf fndoding to font donfig nbmf for font supporting
+     * tif dorrfsponding lbngubgf. Tiis is fillfd in by initRfordfrMbp()
      */
-    protected HashMap<String, Object> reorderMap = null;
+    protfdtfd HbsiMbp<String, Objfdt> rfordfrMbp = null;
 
-    /* Platform-specific mappings */
-    protected abstract void initReorderMap();
+    /* Plbtform-spfdifid mbppings */
+    protfdtfd bbstrbdt void initRfordfrMbp();
 
-    /* Move item at index "src" to "dst", shuffling all values in
-     * between down
+    /* Movf itfm bt indfx "srd" to "dst", siuffling bll vblufs in
+     * bftwffn down
      */
-    private void shuffle(String[] seq, int src, int dst) {
-        if (dst >= src) {
-            return;
+    privbtf void siufflf(String[] sfq, int srd, int dst) {
+        if (dst >= srd) {
+            rfturn;
         }
-        String tmp = seq[src];
-        for (int i=src; i>dst; i--) {
-            seq[i] = seq[i-1];
+        String tmp = sfq[srd];
+        for (int i=srd; i>dst; i--) {
+            sfq[i] = sfq[i-1];
         }
-        seq[dst] = tmp;
+        sfq[dst] = tmp;
     }
 
-    /* Called to determine if there's a re-order sequence for this locale/
-     * encoding. If there's none then the caller can "bail" and avoid
-     * unnecessary work
+    /* Cbllfd to dftfrminf if tifrf's b rf-ordfr sfqufndf for tiis lodblf/
+     * fndoding. If tifrf's nonf tifn tif dbllfr dbn "bbil" bnd bvoid
+     * unnfdfssbry work
      */
-    public static boolean willReorderForStartupLocale() {
-        return getReorderSequence() != null;
+    publid stbtid boolfbn willRfordfrForStbrtupLodblf() {
+        rfturn gftRfordfrSfqufndf() != null;
     }
 
-    private static Object getReorderSequence() {
-        if (fontConfig.reorderMap == null) {
-             fontConfig.initReorderMap();
+    privbtf stbtid Objfdt gftRfordfrSfqufndf() {
+        if (fontConfig.rfordfrMbp == null) {
+             fontConfig.initRfordfrMbp();
         }
-        HashMap<String, Object> reorderMap = fontConfig.reorderMap;
+        HbsiMbp<String, Objfdt> rfordfrMbp = fontConfig.rfordfrMbp;
 
-        /* Find the most specific mapping */
-        String language = startupLocale.getLanguage();
-        String country = startupLocale.getCountry();
-        Object val = reorderMap.get(encoding + "." + language + "." + country);
-        if (val == null) {
-            val = reorderMap.get(encoding + "." + language);
+        /* Find tif most spfdifid mbpping */
+        String lbngubgf = stbrtupLodblf.gftLbngubgf();
+        String dountry = stbrtupLodblf.gftCountry();
+        Objfdt vbl = rfordfrMbp.gft(fndoding + "." + lbngubgf + "." + dountry);
+        if (vbl == null) {
+            vbl = rfordfrMbp.gft(fndoding + "." + lbngubgf);
         }
-        if (val == null) {
-            val = reorderMap.get(encoding);
+        if (vbl == null) {
+            vbl = rfordfrMbp.gft(fndoding);
         }
-        return val;
+        rfturn vbl;
     }
 
-    /* This method reorders the sequence such that the matches for the
-     * file encoding are moved ahead of other elements.
-     * If an encoding uses more than one font, they are all moved up.
+    /* Tiis mftiod rfordfrs tif sfqufndf sudi tibt tif mbtdifs for tif
+     * filf fndoding brf movfd bifbd of otifr flfmfnts.
+     * If bn fndoding usfs morf tibn onf font, tify brf bll movfd up.
      */
-     private void reorderSequenceForLocale(String[] seq) {
-        Object val =  getReorderSequence();
-        if (val instanceof String) {
-            for (int i=0; i< seq.length; i++) {
-                if (seq[i].equals(val)) {
-                    shuffle(seq, i, 0);
-                    return;
+     privbtf void rfordfrSfqufndfForLodblf(String[] sfq) {
+        Objfdt vbl =  gftRfordfrSfqufndf();
+        if (vbl instbndfof String) {
+            for (int i=0; i< sfq.lfngti; i++) {
+                if (sfq[i].fqubls(vbl)) {
+                    siufflf(sfq, i, 0);
+                    rfturn;
                 }
             }
-        } else if (val instanceof String[]) {
-            String[] fontLangs = (String[])val;
-            for (int l=0; l<fontLangs.length;l++) {
-                for (int i=0; i<seq.length;i++) {
-                    if (seq[i].equals(fontLangs[l])) {
-                        shuffle(seq, i, l);
+        } flsf if (vbl instbndfof String[]) {
+            String[] fontLbngs = (String[])vbl;
+            for (int l=0; l<fontLbngs.lfngti;l++) {
+                for (int i=0; i<sfq.lfngti;i++) {
+                    if (sfq[i].fqubls(fontLbngs[l])) {
+                        siufflf(sfq, i, l);
                     }
                 }
             }
         }
     }
 
-    private static Vector<String> splitSequence(String sequence) {
-        //String.split would be more convenient, but incurs big performance penalty
-        Vector<String> parts = new Vector<>();
-        int start = 0;
-        int end;
-        while ((end = sequence.indexOf(',', start)) >= 0) {
-            parts.add(sequence.substring(start, end));
-            start = end + 1;
+    privbtf stbtid Vfdtor<String> splitSfqufndf(String sfqufndf) {
+        //String.split would bf morf donvfnifnt, but indurs big pfrformbndf pfnblty
+        Vfdtor<String> pbrts = nfw Vfdtor<>();
+        int stbrt = 0;
+        int fnd;
+        wiilf ((fnd = sfqufndf.indfxOf(',', stbrt)) >= 0) {
+            pbrts.bdd(sfqufndf.substring(stbrt, fnd));
+            stbrt = fnd + 1;
         }
-        if (sequence.length() > start) {
-            parts.add(sequence.substring(start, sequence.length()));
+        if (sfqufndf.lfngti() > stbrt) {
+            pbrts.bdd(sfqufndf.substring(stbrt, sfqufndf.lfngti()));
         }
-        return parts;
+        rfturn pbrts;
     }
 
-    protected String[] split(String sequence) {
-        Vector<String> v = splitSequence(sequence);
-        return v.toArray(new String[0]);
+    protfdtfd String[] split(String sfqufndf) {
+        Vfdtor<String> v = splitSfqufndf(sfqufndf);
+        rfturn v.toArrby(nfw String[0]);
     }
 
     ////////////////////////////////////////////////////////////////////////
-    // Methods for extracting information from the fontconfig data for AWT//
+    // Mftiods for fxtrbdting informbtion from tif fontdonfig dbtb for AWT//
     ////////////////////////////////////////////////////////////////////////
-    private Hashtable<String, Charset> charsetRegistry = new Hashtable<>(5);
+    privbtf Hbsitbblf<String, Cibrsft> dibrsftRfgistry = nfw Hbsitbblf<>(5);
 
     /**
-     * Returns FontDescriptors describing the physical fonts used for the
-     * given logical font name and style. The font name is interpreted
-     * in a case insensitive way.
-     * The style argument is interpreted as in java.awt.Font.Font.
+     * Rfturns FontDfsdriptors dfsdribing tif piysidbl fonts usfd for tif
+     * givfn logidbl font nbmf bnd stylf. Tif font nbmf is intfrprftfd
+     * in b dbsf insfnsitivf wby.
+     * Tif stylf brgumfnt is intfrprftfd bs in jbvb.bwt.Font.Font.
      */
-    public FontDescriptor[] getFontDescriptors(String fontName, int style) {
-        assert isLogicalFontFamilyName(fontName);
-        fontName = fontName.toLowerCase(Locale.ENGLISH);
-        int fontIndex = getFontIndex(fontName);
-        int styleIndex = getStyleIndex(style);
-        return getFontDescriptors(fontIndex, styleIndex);
+    publid FontDfsdriptor[] gftFontDfsdriptors(String fontNbmf, int stylf) {
+        bssfrt isLogidblFontFbmilyNbmf(fontNbmf);
+        fontNbmf = fontNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        int fontIndfx = gftFontIndfx(fontNbmf);
+        int stylfIndfx = gftStylfIndfx(stylf);
+        rfturn gftFontDfsdriptors(fontIndfx, stylfIndfx);
     }
-    private FontDescriptor[][][] fontDescriptors =
-        new FontDescriptor[NUM_FONTS][NUM_STYLES][];
+    privbtf FontDfsdriptor[][][] fontDfsdriptors =
+        nfw FontDfsdriptor[NUM_FONTS][NUM_STYLES][];
 
-    private FontDescriptor[] getFontDescriptors(int fontIndex, int styleIndex) {
-        FontDescriptor[] descriptors = fontDescriptors[fontIndex][styleIndex];
-        if (descriptors == null) {
-            descriptors = buildFontDescriptors(fontIndex, styleIndex);
-            fontDescriptors[fontIndex][styleIndex] = descriptors;
+    privbtf FontDfsdriptor[] gftFontDfsdriptors(int fontIndfx, int stylfIndfx) {
+        FontDfsdriptor[] dfsdriptors = fontDfsdriptors[fontIndfx][stylfIndfx];
+        if (dfsdriptors == null) {
+            dfsdriptors = buildFontDfsdriptors(fontIndfx, stylfIndfx);
+            fontDfsdriptors[fontIndfx][stylfIndfx] = dfsdriptors;
         }
-        return descriptors;
+        rfturn dfsdriptors;
     }
 
-    protected FontDescriptor[] buildFontDescriptors(int fontIndex, int styleIndex) {
-        String fontName = fontNames[fontIndex];
-        String styleName = styleNames[styleIndex];
+    protfdtfd FontDfsdriptor[] buildFontDfsdriptors(int fontIndfx, int stylfIndfx) {
+        String fontNbmf = fontNbmfs[fontIndfx];
+        String stylfNbmf = stylfNbmfs[stylfIndfx];
 
-        short[] scriptIDs = getCoreScripts(fontIndex);
-        short[] nameIDs = compFontNameIDs[fontIndex][styleIndex];
-        String[] sequence = new String[scriptIDs.length];
-        String[] names = new String[scriptIDs.length];
-        for (int i = 0; i < sequence.length; i++) {
-            names[i] = getComponentFontName(nameIDs[i]);
-            sequence[i] = getScriptName(scriptIDs[i]);
-            if (alphabeticSuffix != null && "alphabetic".equals(sequence[i])) {
-                sequence[i] = sequence[i] + "/" + alphabeticSuffix;
+        siort[] sdriptIDs = gftCorfSdripts(fontIndfx);
+        siort[] nbmfIDs = dompFontNbmfIDs[fontIndfx][stylfIndfx];
+        String[] sfqufndf = nfw String[sdriptIDs.lfngti];
+        String[] nbmfs = nfw String[sdriptIDs.lfngti];
+        for (int i = 0; i < sfqufndf.lfngti; i++) {
+            nbmfs[i] = gftComponfntFontNbmf(nbmfIDs[i]);
+            sfqufndf[i] = gftSdriptNbmf(sdriptIDs[i]);
+            if (blpibbftidSuffix != null && "blpibbftid".fqubls(sfqufndf[i])) {
+                sfqufndf[i] = sfqufndf[i] + "/" + blpibbftidSuffix;
             }
         }
-        int[][] fontExclusionRanges = compExclusions[fontIndex];
+        int[][] fontExdlusionRbngfs = dompExdlusions[fontIndfx];
 
-        FontDescriptor[] descriptors = new FontDescriptor[names.length];
+        FontDfsdriptor[] dfsdriptors = nfw FontDfsdriptor[nbmfs.lfngti];
 
-        for (int i = 0; i < names.length; i++) {
-            String awtFontName;
-            String encoding;
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            String bwtFontNbmf;
+            String fndoding;
 
-            awtFontName = makeAWTFontName(names[i], sequence[i]);
+            bwtFontNbmf = mbkfAWTFontNbmf(nbmfs[i], sfqufndf[i]);
 
-            // look up character encoding
-            encoding = getEncoding(names[i], sequence[i]);
-            if (encoding == null) {
-                encoding = "default";
+            // look up dibrbdtfr fndoding
+            fndoding = gftEndoding(nbmfs[i], sfqufndf[i]);
+            if (fndoding == null) {
+                fndoding = "dffbult";
             }
-            CharsetEncoder enc
-                    = getFontCharsetEncoder(encoding.trim(), awtFontName);
+            CibrsftEndodfr fnd
+                    = gftFontCibrsftEndodfr(fndoding.trim(), bwtFontNbmf);
 
-            // we already have the exclusion ranges
-            int[] exclusionRanges = fontExclusionRanges[i];
+            // wf blrfbdy ibvf tif fxdlusion rbngfs
+            int[] fxdlusionRbngfs = fontExdlusionRbngfs[i];
 
-            // create descriptor
-            descriptors[i] = new FontDescriptor(awtFontName, enc, exclusionRanges);
+            // drfbtf dfsdriptor
+            dfsdriptors[i] = nfw FontDfsdriptor(bwtFontNbmf, fnd, fxdlusionRbngfs);
         }
-        return descriptors;
+        rfturn dfsdriptors;
     }
 
     /**
-     * Returns the AWT font name for the given platform font name and
-     * character subset.
+     * Rfturns tif AWT font nbmf for tif givfn plbtform font nbmf bnd
+     * dibrbdtfr subsft.
      */
-    protected String makeAWTFontName(String platformFontName,
-            String characterSubsetName) {
-        return platformFontName;
+    protfdtfd String mbkfAWTFontNbmf(String plbtformFontNbmf,
+            String dibrbdtfrSubsftNbmf) {
+        rfturn plbtformFontNbmf;
     }
 
     /**
-     * Returns the java.io name of the platform character encoding for the
-     * given AWT font name and character subset. May return "default"
-     * to indicate that getDefaultFontCharset should be called to obtain
-     * a charset encoder.
+     * Rfturns tif jbvb.io nbmf of tif plbtform dibrbdtfr fndoding for tif
+     * givfn AWT font nbmf bnd dibrbdtfr subsft. Mby rfturn "dffbult"
+     * to indidbtf tibt gftDffbultFontCibrsft siould bf dbllfd to obtbin
+     * b dibrsft fndodfr.
      */
-    protected abstract String getEncoding(String awtFontName,
-            String characterSubsetName);
+    protfdtfd bbstrbdt String gftEndoding(String bwtFontNbmf,
+            String dibrbdtfrSubsftNbmf);
 
-    private CharsetEncoder getFontCharsetEncoder(final String charsetName,
-            String fontName) {
+    privbtf CibrsftEndodfr gftFontCibrsftEndodfr(finbl String dibrsftNbmf,
+            String fontNbmf) {
 
-        Charset fc = null;
-        if (charsetName.equals("default")) {
-            fc = charsetRegistry.get(fontName);
-        } else {
-            fc = charsetRegistry.get(charsetName);
+        Cibrsft fd = null;
+        if (dibrsftNbmf.fqubls("dffbult")) {
+            fd = dibrsftRfgistry.gft(fontNbmf);
+        } flsf {
+            fd = dibrsftRfgistry.gft(dibrsftNbmf);
         }
-        if (fc != null) {
-            return fc.newEncoder();
+        if (fd != null) {
+            rfturn fd.nfwEndodfr();
         }
 
-        if (!charsetName.startsWith("sun.awt.") && !charsetName.equals("default")) {
-            fc = Charset.forName(charsetName);
-        } else {
-            Class<?> fcc = AccessController.doPrivileged(new PrivilegedAction<Class<?>>() {
-                    public Class<?> run() {
+        if (!dibrsftNbmf.stbrtsWiti("sun.bwt.") && !dibrsftNbmf.fqubls("dffbult")) {
+            fd = Cibrsft.forNbmf(dibrsftNbmf);
+        } flsf {
+            Clbss<?> fdd = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Clbss<?>>() {
+                    publid Clbss<?> run() {
                         try {
-                            return Class.forName(charsetName, true,
-                                                 ClassLoader.getSystemClassLoader());
-                        } catch (ClassNotFoundException e) {
+                            rfturn Clbss.forNbmf(dibrsftNbmf, truf,
+                                                 ClbssLobdfr.gftSystfmClbssLobdfr());
+                        } dbtdi (ClbssNotFoundExdfption f) {
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
 
-            if (fcc != null) {
+            if (fdd != null) {
                 try {
-                    fc = (Charset) fcc.newInstance();
-                } catch (Exception e) {
+                    fd = (Cibrsft) fdd.nfwInstbndf();
+                } dbtdi (Exdfption f) {
                 }
             }
         }
-        if (fc == null) {
-            fc = getDefaultFontCharset(fontName);
+        if (fd == null) {
+            fd = gftDffbultFontCibrsft(fontNbmf);
         }
 
-        if (charsetName.equals("default")){
-            charsetRegistry.put(fontName, fc);
-        } else {
-            charsetRegistry.put(charsetName, fc);
+        if (dibrsftNbmf.fqubls("dffbult")){
+            dibrsftRfgistry.put(fontNbmf, fd);
+        } flsf {
+            dibrsftRfgistry.put(dibrsftNbmf, fd);
         }
-        return fc.newEncoder();
+        rfturn fd.nfwEndodfr();
     }
 
-    protected abstract Charset getDefaultFontCharset(
-            String fontName);
+    protfdtfd bbstrbdt Cibrsft gftDffbultFontCibrsft(
+            String fontNbmf);
 
-    /* This retrieves the platform font directories (path) calculated
-     * by setAWTFontPathSequence(String[]). The default implementation
-     * returns null, its expected that X11 platforms may return
+    /* Tiis rftrifvfs tif plbtform font dirfdtorifs (pbti) dbldulbtfd
+     * by sftAWTFontPbtiSfqufndf(String[]). Tif dffbult implfmfntbtion
+     * rfturns null, its fxpfdtfd tibt X11 plbtforms mby rfturn
      * non-null.
      */
-    public HashSet<String> getAWTFontPathSet() {
-        return null;
+    publid HbsiSft<String> gftAWTFontPbtiSft() {
+        rfturn null;
     }
 
     ////////////////////////////////////////////////////////////////////////
-    // methods for extracting information from the fontconfig data for 2D //
+    // mftiods for fxtrbdting informbtion from tif fontdonfig dbtb for 2D //
     ////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns an array of composite font descriptors for all logical font
-     * faces.
-     * If the font configuration file doesn't specify Lucida Sans Regular
-     * or the given fallback font as component fonts, they are added here.
+     * Rfturns bn brrby of dompositf font dfsdriptors for bll logidbl font
+     * fbdfs.
+     * If tif font donfigurbtion filf dofsn't spfdify Ludidb Sbns Rfgulbr
+     * or tif givfn fbllbbdk font bs domponfnt fonts, tify brf bddfd ifrf.
      */
-    public CompositeFontDescriptor[] get2DCompositeFontInfo() {
-        CompositeFontDescriptor[] result =
-                new CompositeFontDescriptor[NUM_FONTS * NUM_STYLES];
-        String defaultFontFile = fontManager.getDefaultFontFile();
-        String defaultFontFaceName = fontManager.getDefaultFontFaceName();
+    publid CompositfFontDfsdriptor[] gft2DCompositfFontInfo() {
+        CompositfFontDfsdriptor[] rfsult =
+                nfw CompositfFontDfsdriptor[NUM_FONTS * NUM_STYLES];
+        String dffbultFontFilf = fontMbnbgfr.gftDffbultFontFilf();
+        String dffbultFontFbdfNbmf = fontMbnbgfr.gftDffbultFontFbdfNbmf();
 
-        for (int fontIndex = 0; fontIndex < NUM_FONTS; fontIndex++) {
-            String fontName = publicFontNames[fontIndex];
+        for (int fontIndfx = 0; fontIndfx < NUM_FONTS; fontIndfx++) {
+            String fontNbmf = publidFontNbmfs[fontIndfx];
 
-            // determine exclusion ranges for font
-            // AWT uses separate exclusion range array per component font.
-            // 2D packs all range boundaries into one array.
-            // Both use separate entries for lower and upper boundary.
-            int[][] exclusions = compExclusions[fontIndex];
-            int numExclusionRanges = 0;
-            for (int i = 0; i < exclusions.length; i++) {
-                numExclusionRanges += exclusions[i].length;
+            // dftfrminf fxdlusion rbngfs for font
+            // AWT usfs sfpbrbtf fxdlusion rbngf brrby pfr domponfnt font.
+            // 2D pbdks bll rbngf boundbrifs into onf brrby.
+            // Boti usf sfpbrbtf fntrifs for lowfr bnd uppfr boundbry.
+            int[][] fxdlusions = dompExdlusions[fontIndfx];
+            int numExdlusionRbngfs = 0;
+            for (int i = 0; i < fxdlusions.lfngti; i++) {
+                numExdlusionRbngfs += fxdlusions[i].lfngti;
             }
-            int[] exclusionRanges = new int[numExclusionRanges];
-            int[] exclusionRangeLimits = new int[exclusions.length];
-            int exclusionRangeIndex = 0;
-            int exclusionRangeLimitIndex = 0;
-            for (int i = 0; i < exclusions.length; i++) {
-                int[] componentRanges = exclusions[i];
-                for (int j = 0; j < componentRanges.length; ) {
-                    int value = componentRanges[j];
-                    exclusionRanges[exclusionRangeIndex++] = componentRanges[j++];
-                    exclusionRanges[exclusionRangeIndex++] = componentRanges[j++];
+            int[] fxdlusionRbngfs = nfw int[numExdlusionRbngfs];
+            int[] fxdlusionRbngfLimits = nfw int[fxdlusions.lfngti];
+            int fxdlusionRbngfIndfx = 0;
+            int fxdlusionRbngfLimitIndfx = 0;
+            for (int i = 0; i < fxdlusions.lfngti; i++) {
+                int[] domponfntRbngfs = fxdlusions[i];
+                for (int j = 0; j < domponfntRbngfs.lfngti; ) {
+                    int vbluf = domponfntRbngfs[j];
+                    fxdlusionRbngfs[fxdlusionRbngfIndfx++] = domponfntRbngfs[j++];
+                    fxdlusionRbngfs[fxdlusionRbngfIndfx++] = domponfntRbngfs[j++];
                 }
-                exclusionRangeLimits[i] = exclusionRangeIndex;
+                fxdlusionRbngfLimits[i] = fxdlusionRbngfIndfx;
             }
-            // other info is per style
-            for (int styleIndex = 0; styleIndex < NUM_STYLES; styleIndex++) {
-                int maxComponentFontCount = compFontNameIDs[fontIndex][styleIndex].length;
-                boolean sawDefaultFontFile = false;
-                // fall back fonts listed in the lib/fonts/fallback directory
-                if (installedFallbackFontFiles != null) {
-                    maxComponentFontCount += installedFallbackFontFiles.length;
+            // otifr info is pfr stylf
+            for (int stylfIndfx = 0; stylfIndfx < NUM_STYLES; stylfIndfx++) {
+                int mbxComponfntFontCount = dompFontNbmfIDs[fontIndfx][stylfIndfx].lfngti;
+                boolfbn sbwDffbultFontFilf = fblsf;
+                // fbll bbdk fonts listfd in tif lib/fonts/fbllbbdk dirfdtory
+                if (instbllfdFbllbbdkFontFilfs != null) {
+                    mbxComponfntFontCount += instbllfdFbllbbdkFontFilfs.lfngti;
                 }
-                String faceName = fontName + "." + styleNames[styleIndex];
+                String fbdfNbmf = fontNbmf + "." + stylfNbmfs[stylfIndfx];
 
-                // determine face names and file names of component fonts
-                String[] componentFaceNames = new String[maxComponentFontCount];
-                String[] componentFileNames = new String[maxComponentFontCount];
+                // dftfrminf fbdf nbmfs bnd filf nbmfs of domponfnt fonts
+                String[] domponfntFbdfNbmfs = nfw String[mbxComponfntFontCount];
+                String[] domponfntFilfNbmfs = nfw String[mbxComponfntFontCount];
 
-                int index;
-                for (index = 0; index < compFontNameIDs[fontIndex][styleIndex].length; index++) {
-                    short fontNameID = compFontNameIDs[fontIndex][styleIndex][index];
-                    short fileNameID = getComponentFileID(fontNameID);
-                    componentFaceNames[index] = getFaceNameFromComponentFontName(getComponentFontName(fontNameID));
-                    componentFileNames[index] = mapFileName(getComponentFileName(fileNameID));
-                    if (componentFileNames[index] == null ||
-                        needToSearchForFile(componentFileNames[index])) {
-                        componentFileNames[index] = getFileNameFromComponentFontName(getComponentFontName(fontNameID));
+                int indfx;
+                for (indfx = 0; indfx < dompFontNbmfIDs[fontIndfx][stylfIndfx].lfngti; indfx++) {
+                    siort fontNbmfID = dompFontNbmfIDs[fontIndfx][stylfIndfx][indfx];
+                    siort filfNbmfID = gftComponfntFilfID(fontNbmfID);
+                    domponfntFbdfNbmfs[indfx] = gftFbdfNbmfFromComponfntFontNbmf(gftComponfntFontNbmf(fontNbmfID));
+                    domponfntFilfNbmfs[indfx] = mbpFilfNbmf(gftComponfntFilfNbmf(filfNbmfID));
+                    if (domponfntFilfNbmfs[indfx] == null ||
+                        nffdToSfbrdiForFilf(domponfntFilfNbmfs[indfx])) {
+                        domponfntFilfNbmfs[indfx] = gftFilfNbmfFromComponfntFontNbmf(gftComponfntFontNbmf(fontNbmfID));
                     }
-                    if (!sawDefaultFontFile &&
-                        defaultFontFile.equals(componentFileNames[index])) {
-                        sawDefaultFontFile = true;
+                    if (!sbwDffbultFontFilf &&
+                        dffbultFontFilf.fqubls(domponfntFilfNbmfs[indfx])) {
+                        sbwDffbultFontFilf = truf;
                     }
                     /*
-                    System.out.println(publicFontNames[fontIndex] + "." + styleNames[styleIndex] + "."
-                        + getString(table_scriptIDs[coreScripts[index]]) + "=" + componentFileNames[index]);
+                    Systfm.out.println(publidFontNbmfs[fontIndfx] + "." + stylfNbmfs[stylfIndfx] + "."
+                        + gftString(tbblf_sdriptIDs[dorfSdripts[indfx]]) + "=" + domponfntFilfNbmfs[indfx]);
                     */
                 }
 
-                //"Lucida Sans Regular" is not in the list, we add it here
-                if (!sawDefaultFontFile) {
-                    int len = 0;
-                    if (installedFallbackFontFiles != null) {
-                        len = installedFallbackFontFiles.length;
+                //"Ludidb Sbns Rfgulbr" is not in tif list, wf bdd it ifrf
+                if (!sbwDffbultFontFilf) {
+                    int lfn = 0;
+                    if (instbllfdFbllbbdkFontFilfs != null) {
+                        lfn = instbllfdFbllbbdkFontFilfs.lfngti;
                     }
-                    if (index + len == maxComponentFontCount) {
-                        String[] newComponentFaceNames = new String[maxComponentFontCount + 1];
-                        System.arraycopy(componentFaceNames, 0, newComponentFaceNames, 0, index);
-                        componentFaceNames = newComponentFaceNames;
-                        String[] newComponentFileNames = new String[maxComponentFontCount + 1];
-                        System.arraycopy(componentFileNames, 0, newComponentFileNames, 0, index);
-                        componentFileNames = newComponentFileNames;
+                    if (indfx + lfn == mbxComponfntFontCount) {
+                        String[] nfwComponfntFbdfNbmfs = nfw String[mbxComponfntFontCount + 1];
+                        Systfm.brrbydopy(domponfntFbdfNbmfs, 0, nfwComponfntFbdfNbmfs, 0, indfx);
+                        domponfntFbdfNbmfs = nfwComponfntFbdfNbmfs;
+                        String[] nfwComponfntFilfNbmfs = nfw String[mbxComponfntFontCount + 1];
+                        Systfm.brrbydopy(domponfntFilfNbmfs, 0, nfwComponfntFilfNbmfs, 0, indfx);
+                        domponfntFilfNbmfs = nfwComponfntFilfNbmfs;
                     }
-                    componentFaceNames[index] = defaultFontFaceName;
-                    componentFileNames[index] = defaultFontFile;
-                    index++;
+                    domponfntFbdfNbmfs[indfx] = dffbultFontFbdfNbmf;
+                    domponfntFilfNbmfs[indfx] = dffbultFontFilf;
+                    indfx++;
                 }
 
-                if (installedFallbackFontFiles != null) {
-                    for (int ifb=0; ifb<installedFallbackFontFiles.length; ifb++) {
-                        componentFaceNames[index] = null;
-                        componentFileNames[index] = installedFallbackFontFiles[ifb];
-                        index++;
+                if (instbllfdFbllbbdkFontFilfs != null) {
+                    for (int ifb=0; ifb<instbllfdFbllbbdkFontFilfs.lfngti; ifb++) {
+                        domponfntFbdfNbmfs[indfx] = null;
+                        domponfntFilfNbmfs[indfx] = instbllfdFbllbbdkFontFilfs[ifb];
+                        indfx++;
                     }
                 }
 
-                if (index < maxComponentFontCount) {
-                    String[] newComponentFaceNames = new String[index];
-                    System.arraycopy(componentFaceNames, 0, newComponentFaceNames, 0, index);
-                    componentFaceNames = newComponentFaceNames;
-                    String[] newComponentFileNames = new String[index];
-                    System.arraycopy(componentFileNames, 0, newComponentFileNames, 0, index);
-                    componentFileNames = newComponentFileNames;
+                if (indfx < mbxComponfntFontCount) {
+                    String[] nfwComponfntFbdfNbmfs = nfw String[indfx];
+                    Systfm.brrbydopy(domponfntFbdfNbmfs, 0, nfwComponfntFbdfNbmfs, 0, indfx);
+                    domponfntFbdfNbmfs = nfwComponfntFbdfNbmfs;
+                    String[] nfwComponfntFilfNbmfs = nfw String[indfx];
+                    Systfm.brrbydopy(domponfntFilfNbmfs, 0, nfwComponfntFilfNbmfs, 0, indfx);
+                    domponfntFilfNbmfs = nfwComponfntFilfNbmfs;
                 }
-                // exclusion range limit array length must match component face name
-                // array length - native code relies on this
+                // fxdlusion rbngf limit brrby lfngti must mbtdi domponfnt fbdf nbmf
+                // brrby lfngti - nbtivf dodf rflifs on tiis
 
-                int[] clippedExclusionRangeLimits = exclusionRangeLimits;
-                if (index != clippedExclusionRangeLimits.length) {
-                    int len = exclusionRangeLimits.length;
-                    clippedExclusionRangeLimits = new int[index];
-                    System.arraycopy(exclusionRangeLimits, 0, clippedExclusionRangeLimits, 0, len);
-                    //padding for various fallback fonts
-                    for (int i = len; i < index; i++) {
-                        clippedExclusionRangeLimits[i] = exclusionRanges.length;
+                int[] dlippfdExdlusionRbngfLimits = fxdlusionRbngfLimits;
+                if (indfx != dlippfdExdlusionRbngfLimits.lfngti) {
+                    int lfn = fxdlusionRbngfLimits.lfngti;
+                    dlippfdExdlusionRbngfLimits = nfw int[indfx];
+                    Systfm.brrbydopy(fxdlusionRbngfLimits, 0, dlippfdExdlusionRbngfLimits, 0, lfn);
+                    //pbdding for vbrious fbllbbdk fonts
+                    for (int i = lfn; i < indfx; i++) {
+                        dlippfdExdlusionRbngfLimits[i] = fxdlusionRbngfs.lfngti;
                     }
                 }
                 /*
-                System.out.println(faceName + ":");
-                for (int i = 0; i < componentFileNames.length; i++) {
-                    System.out.println("    " + componentFaceNames[i]
-                         + "  -> " + componentFileNames[i]);
+                Systfm.out.println(fbdfNbmf + ":");
+                for (int i = 0; i < domponfntFilfNbmfs.lfngti; i++) {
+                    Systfm.out.println("    " + domponfntFbdfNbmfs[i]
+                         + "  -> " + domponfntFilfNbmfs[i]);
                 }
                 */
-                result[fontIndex * NUM_STYLES + styleIndex]
-                        = new CompositeFontDescriptor(
-                            faceName,
-                            compCoreNum[fontIndex],
-                            componentFaceNames,
-                            componentFileNames,
-                            exclusionRanges,
-                            clippedExclusionRangeLimits);
+                rfsult[fontIndfx * NUM_STYLES + stylfIndfx]
+                        = nfw CompositfFontDfsdriptor(
+                            fbdfNbmf,
+                            dompCorfNum[fontIndfx],
+                            domponfntFbdfNbmfs,
+                            domponfntFilfNbmfs,
+                            fxdlusionRbngfs,
+                            dlippfdExdlusionRbngfLimits);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    protected abstract String getFaceNameFromComponentFontName(String componentFontName);
-    protected abstract String getFileNameFromComponentFontName(String componentFontName);
+    protfdtfd bbstrbdt String gftFbdfNbmfFromComponfntFontNbmf(String domponfntFontNbmf);
+    protfdtfd bbstrbdt String gftFilfNbmfFromComponfntFontNbmf(String domponfntFontNbmf);
 
     /*
-    public class 2dFont {
-        public String platformName;
-        public String fontfileName;
+    publid dlbss 2dFont {
+        publid String plbtformNbmf;
+        publid String fontfilfNbmf;
     }
-    private 2dFont [] componentFonts = null;
+    privbtf 2dFont [] domponfntFonts = null;
     */
 
-    /* Used on Linux to test if a file referenced in a font configuration
-     * file exists in the location that is expected. If it does, no need
-     * to search for it. If it doesn't then unless its a fallback font,
-     * return that expensive code should be invoked to search for the font.
+    /* Usfd on Linux to tfst if b filf rfffrfndfd in b font donfigurbtion
+     * filf fxists in tif lodbtion tibt is fxpfdtfd. If it dofs, no nffd
+     * to sfbrdi for it. If it dofsn't tifn unlfss its b fbllbbdk font,
+     * rfturn tibt fxpfnsivf dodf siould bf invokfd to sfbrdi for tif font.
      */
-    HashMap<String, Boolean> existsMap;
-    public boolean needToSearchForFile(String fileName) {
-        if (!FontUtilities.isLinux) {
-            return false;
-        } else if (existsMap == null) {
-           existsMap = new HashMap<String, Boolean>();
+    HbsiMbp<String, Boolfbn> fxistsMbp;
+    publid boolfbn nffdToSfbrdiForFilf(String filfNbmf) {
+        if (!FontUtilitifs.isLinux) {
+            rfturn fblsf;
+        } flsf if (fxistsMbp == null) {
+           fxistsMbp = nfw HbsiMbp<String, Boolfbn>();
         }
-        Boolean exists = existsMap.get(fileName);
-        if (exists == null) {
-            /* call getNumberCoreFonts() to ensure these are initialised, and
-             * if this file isn't for a core component, ie, is a for a fallback
-             * font which very typically isn't available, then can't afford
-             * to take the start-up penalty to search for it.
+        Boolfbn fxists = fxistsMbp.gft(filfNbmf);
+        if (fxists == null) {
+            /* dbll gftNumbfrCorfFonts() to fnsurf tifsf brf initiblisfd, bnd
+             * if tiis filf isn't for b dorf domponfnt, if, is b for b fbllbbdk
+             * font wiidi vfry typidblly isn't bvbilbblf, tifn dbn't bfford
+             * to tbkf tif stbrt-up pfnblty to sfbrdi for it.
              */
-            getNumberCoreFonts();
-            if (!coreFontFileNames.contains(fileName)) {
-                exists = Boolean.TRUE;
-            } else {
-                exists = Boolean.valueOf((new File(fileName)).exists());
-                existsMap.put(fileName, exists);
-                if (FontUtilities.debugFonts() &&
-                    exists == Boolean.FALSE) {
-                    logger.warning("Couldn't locate font file " + fileName);
+            gftNumbfrCorfFonts();
+            if (!dorfFontFilfNbmfs.dontbins(filfNbmf)) {
+                fxists = Boolfbn.TRUE;
+            } flsf {
+                fxists = Boolfbn.vblufOf((nfw Filf(filfNbmf)).fxists());
+                fxistsMbp.put(filfNbmf, fxists);
+                if (FontUtilitifs.dfbugFonts() &&
+                    fxists == Boolfbn.FALSE) {
+                    loggfr.wbrning("Couldn't lodbtf font filf " + filfNbmf);
                 }
             }
         }
-        return exists == Boolean.FALSE;
+        rfturn fxists == Boolfbn.FALSE;
     }
 
-    private int numCoreFonts = -1;
-    private String[] componentFonts = null;
-    HashMap <String, String> filenamesMap = new HashMap<String, String>();
-    HashSet <String> coreFontFileNames = new HashSet<String>();
+    privbtf int numCorfFonts = -1;
+    privbtf String[] domponfntFonts = null;
+    HbsiMbp <String, String> filfnbmfsMbp = nfw HbsiMbp<String, String>();
+    HbsiSft <String> dorfFontFilfNbmfs = nfw HbsiSft<String>();
 
-    /* Return the number of core fonts. Note this isn't thread safe but
-     * a calling thread can call this and getPlatformFontNames() in either
-     * order.
+    /* Rfturn tif numbfr of dorf fonts. Notf tiis isn't tirfbd sbff but
+     * b dblling tirfbd dbn dbll tiis bnd gftPlbtformFontNbmfs() in fitifr
+     * ordfr.
      */
-    public int getNumberCoreFonts() {
-        if (numCoreFonts == -1) {
-            numCoreFonts = coreFontNameIDs.size();
-            Short[] emptyShortArray = new Short[0];
-            Short[] core = coreFontNameIDs.toArray(emptyShortArray);
-            Short[] fallback = fallbackFontNameIDs.toArray(emptyShortArray);
+    publid int gftNumbfrCorfFonts() {
+        if (numCorfFonts == -1) {
+            numCorfFonts = dorfFontNbmfIDs.sizf();
+            Siort[] fmptySiortArrby = nfw Siort[0];
+            Siort[] dorf = dorfFontNbmfIDs.toArrby(fmptySiortArrby);
+            Siort[] fbllbbdk = fbllbbdkFontNbmfIDs.toArrby(fmptySiortArrby);
 
-            int numFallbackFonts = 0;
+            int numFbllbbdkFonts = 0;
             int i;
-            for (i = 0; i < fallback.length; i++) {
-                if (coreFontNameIDs.contains(fallback[i])) {
-                    fallback[i] = null;
-                    continue;
+            for (i = 0; i < fbllbbdk.lfngti; i++) {
+                if (dorfFontNbmfIDs.dontbins(fbllbbdk[i])) {
+                    fbllbbdk[i] = null;
+                    dontinuf;
                 }
-                numFallbackFonts++;
+                numFbllbbdkFonts++;
             }
-            componentFonts = new String[numCoreFonts + numFallbackFonts];
-            String filename = null;
-            for (i = 0; i < core.length; i++) {
-                short fontid = core[i];
-                short fileid = getComponentFileID(fontid);
-                componentFonts[i] = getComponentFontName(fontid);
-                String compFileName = getComponentFileName(fileid);
-                if (compFileName != null) {
-                    coreFontFileNames.add(compFileName);
+            domponfntFonts = nfw String[numCorfFonts + numFbllbbdkFonts];
+            String filfnbmf = null;
+            for (i = 0; i < dorf.lfngti; i++) {
+                siort fontid = dorf[i];
+                siort filfid = gftComponfntFilfID(fontid);
+                domponfntFonts[i] = gftComponfntFontNbmf(fontid);
+                String dompFilfNbmf = gftComponfntFilfNbmf(filfid);
+                if (dompFilfNbmf != null) {
+                    dorfFontFilfNbmfs.bdd(dompFilfNbmf);
                 }
-                filenamesMap.put(componentFonts[i], mapFileName(compFileName));
+                filfnbmfsMbp.put(domponfntFonts[i], mbpFilfNbmf(dompFilfNbmf));
             }
-            for (int j = 0; j < fallback.length; j++) {
-                if (fallback[j] != null) {
-                    short fontid = fallback[j];
-                    short fileid = getComponentFileID(fontid);
-                    componentFonts[i] = getComponentFontName(fontid);
-                    filenamesMap.put(componentFonts[i],
-                                     mapFileName(getComponentFileName(fileid)));
+            for (int j = 0; j < fbllbbdk.lfngti; j++) {
+                if (fbllbbdk[j] != null) {
+                    siort fontid = fbllbbdk[j];
+                    siort filfid = gftComponfntFilfID(fontid);
+                    domponfntFonts[i] = gftComponfntFontNbmf(fontid);
+                    filfnbmfsMbp.put(domponfntFonts[i],
+                                     mbpFilfNbmf(gftComponfntFilfNbmf(filfid)));
                     i++;
                 }
             }
         }
-        return numCoreFonts;
+        rfturn numCorfFonts;
     }
 
-    /* Return all platform font names used by this font configuration.
-     * The first getNumberCoreFonts() entries are guaranteed to be the
-     * core fonts - ie no fall back only fonts.
+    /* Rfturn bll plbtform font nbmfs usfd by tiis font donfigurbtion.
+     * Tif first gftNumbfrCorfFonts() fntrifs brf gubrbntffd to bf tif
+     * dorf fonts - if no fbll bbdk only fonts.
      */
-    public String[] getPlatformFontNames() {
-        if (numCoreFonts == -1) {
-            getNumberCoreFonts();
+    publid String[] gftPlbtformFontNbmfs() {
+        if (numCorfFonts == -1) {
+            gftNumbfrCorfFonts();
         }
-        return componentFonts;
+        rfturn domponfntFonts;
     }
 
     /**
-     * Returns a file name for the physical font represented by this platform font name,
-     * if the font configuration has such information available, or null if the
-     * information is unavailable. The file name returned is just a hint; a null return
-     * value doesn't necessarily mean that the font is unavailable, nor does a non-null
-     * return value guarantee that the file exists and contains the physical font.
-     * The file name can be an absolute or a relative path name.
+     * Rfturns b filf nbmf for tif piysidbl font rfprfsfntfd by tiis plbtform font nbmf,
+     * if tif font donfigurbtion ibs sudi informbtion bvbilbblf, or null if tif
+     * informbtion is unbvbilbblf. Tif filf nbmf rfturnfd is just b iint; b null rfturn
+     * vbluf dofsn't nfdfssbrily mfbn tibt tif font is unbvbilbblf, nor dofs b non-null
+     * rfturn vbluf gubrbntff tibt tif filf fxists bnd dontbins tif piysidbl font.
+     * Tif filf nbmf dbn bf bn bbsolutf or b rflbtivf pbti nbmf.
      */
-    public String getFileNameFromPlatformName(String platformName) {
-        // get2DCompositeFontInfo
-        //     ->  getFileNameFromComponentfontName()  (W/M)
-        //       ->   getFileNameFromPlatformName()
-        // it's a waste of time on Win32, but I have to give X11 a chance to
-        // call getFileNameFromXLFD()
-        return filenamesMap.get(platformName);
+    publid String gftFilfNbmfFromPlbtformNbmf(String plbtformNbmf) {
+        // gft2DCompositfFontInfo
+        //     ->  gftFilfNbmfFromComponfntfontNbmf()  (W/M)
+        //       ->   gftFilfNbmfFromPlbtformNbmf()
+        // it's b wbstf of timf on Win32, but I ibvf to givf X11 b dibndf to
+        // dbll gftFilfNbmfFromXLFD()
+        rfturn filfnbmfsMbp.gft(plbtformNbmf);
     }
 
     /**
-     * Returns a configuration specific path to be appended to the font
-     * search path.
+     * Rfturns b donfigurbtion spfdifid pbti to bf bppfndfd to tif font
+     * sfbrdi pbti.
      */
-    public String getExtraFontPath() {
-        return getString(head[INDEX_appendedfontpath]);
+    publid String gftExtrbFontPbti() {
+        rfturn gftString(ifbd[INDEX_bppfndfdfontpbti]);
     }
 
-    public String getVersion() {
-        return getString(head[INDEX_version]);
+    publid String gftVfrsion() {
+        rfturn gftString(ifbd[INDEX_vfrsion]);
     }
 
-    /* subclass support */
-    protected static FontConfiguration getFontConfiguration() {
-        return fontConfig;
+    /* subdlbss support */
+    protfdtfd stbtid FontConfigurbtion gftFontConfigurbtion() {
+        rfturn fontConfig;
     }
 
-    protected void setFontConfiguration() {
-        fontConfig = this;      /* static initialization */
+    protfdtfd void sftFontConfigurbtion() {
+        fontConfig = tiis;      /* stbtid initiblizbtion */
     }
 
     //////////////////////////////////////////////////////////////////////
-    // FontConfig data tables and the index constants in binary file    //
+    // FontConfig dbtb tbblfs bnd tif indfx donstbnts in binbry filf    //
     //////////////////////////////////////////////////////////////////////
-    /* The binary font configuration file begins with a short[] "head", which
-     * contains the offsets to the starts of the individual data table which
-     * immediately follow. The current implementation includes the tables shown
-     * below.
+    /* Tif binbry font donfigurbtion filf bfgins witi b siort[] "ifbd", wiidi
+     * dontbins tif offsfts to tif stbrts of tif individubl dbtb tbblf wiidi
+     * immfdibtfly follow. Tif durrfnt implfmfntbtion indludfs tif tbblfs siown
+     * bflow.
      *
-     * (00) table_scriptIDs    :stringIDs of all defined CharacterSubsetNames
-     * (01) table_scriptFonts  :scriptID x fontIndex x styleIndex->
-     *                          PlatformFontNameID mapping. Each scriptID might
-     *                          have 1 or 20 entries depends on if it is defined
-     *                          via a "allfonts.CharacterSubsetname" or a list of
-     *                          "LogicalFontName.StyleName.CharacterSubsetName"
-     *                          entries, positive entry means it's a "allfonts"
-     *                          entry, a negative value means this is a offset to
-     *                          a NUM_FONTS x NUM_STYLES subtable.
-     * (02) table_elcIDs       :stringIDs of all defined ELC names, string
-     *                          "NULL.NULL.NULL" is used for "default"
-     * (03) table_sequences    :elcID x logicalFont -> scriptIDs table defined
-     *                          by "sequence.allfonts/LogicalFontName.ELC" in
-     *                          font configuration file, each "elcID" has
-     *                          NUM_FONTS (5) entries in this table.
-     * (04) table_fontfileNameIDs
-     *                         :stringIDs of all defined font file names
-     * (05) table_componentFontNameIDs
-     *                         :stringIDs of all defined PlatformFontNames
-     * (06) table_filenames    :platformFontNamesID->fontfileNameID mapping
-     *                          table, the index is the platformFontNamesID.
-     * (07) table_awtfontpaths :CharacterSubsetNames->awtfontpaths mapping table,
-     *                          the index is the CharacterSubsetName's stringID
-     *                          and content is the stringID of awtfontpath.
-     * (08) table_exclusions   :scriptID -> exclusionRanges mapping table,
-     *                          the index is the scriptID and the content is
-                                a id of an exclusionRanges int[].
-     * (09) table_proportionals:list of pairs of PlatformFontNameIDs, stores
-     *                          the replacement info defined by "proportional"
-     *                          keyword.
-     * (10) table_scriptFontsMotif
-     *                         :same as (01) except this table stores the
-     *                          info defined with ".motif" keyword
-     * (11) table_alphabeticSuffix
-     *                         :elcID -> stringID of alphabetic/XXXX entries
-     * (12) table_stringIDs    :The index of this table is the string ID, the
-     *                          content is the "start index" of this string in
-     *                          stringTable, use the start index of next entry
-     *                          as the "end index".
-     * (13) table_stringTable  :The real storage of all character strings defined
-     *                          /used this font configuration, need a pair of
-     *                          "start" and "end" indices to access.
-     * (14) reserved
-     * (15) table_fallbackScripts
-     *                         :stringIDs of fallback CharacterSubsetnames, stored
-     *                          in the order of they are defined in sequence.fallback.
-     * (16) table_appendedfontpath
-     *                         :stringtID of the "appendedfontpath" defined.
-     * (17) table_version   :stringID of the version number of this fontconfig file.
+     * (00) tbblf_sdriptIDs    :stringIDs of bll dffinfd CibrbdtfrSubsftNbmfs
+     * (01) tbblf_sdriptFonts  :sdriptID x fontIndfx x stylfIndfx->
+     *                          PlbtformFontNbmfID mbpping. Ebdi sdriptID migit
+     *                          ibvf 1 or 20 fntrifs dfpfnds on if it is dffinfd
+     *                          vib b "bllfonts.CibrbdtfrSubsftnbmf" or b list of
+     *                          "LogidblFontNbmf.StylfNbmf.CibrbdtfrSubsftNbmf"
+     *                          fntrifs, positivf fntry mfbns it's b "bllfonts"
+     *                          fntry, b nfgbtivf vbluf mfbns tiis is b offsft to
+     *                          b NUM_FONTS x NUM_STYLES subtbblf.
+     * (02) tbblf_fldIDs       :stringIDs of bll dffinfd ELC nbmfs, string
+     *                          "NULL.NULL.NULL" is usfd for "dffbult"
+     * (03) tbblf_sfqufndfs    :fldID x logidblFont -> sdriptIDs tbblf dffinfd
+     *                          by "sfqufndf.bllfonts/LogidblFontNbmf.ELC" in
+     *                          font donfigurbtion filf, fbdi "fldID" ibs
+     *                          NUM_FONTS (5) fntrifs in tiis tbblf.
+     * (04) tbblf_fontfilfNbmfIDs
+     *                         :stringIDs of bll dffinfd font filf nbmfs
+     * (05) tbblf_domponfntFontNbmfIDs
+     *                         :stringIDs of bll dffinfd PlbtformFontNbmfs
+     * (06) tbblf_filfnbmfs    :plbtformFontNbmfsID->fontfilfNbmfID mbpping
+     *                          tbblf, tif indfx is tif plbtformFontNbmfsID.
+     * (07) tbblf_bwtfontpbtis :CibrbdtfrSubsftNbmfs->bwtfontpbtis mbpping tbblf,
+     *                          tif indfx is tif CibrbdtfrSubsftNbmf's stringID
+     *                          bnd dontfnt is tif stringID of bwtfontpbti.
+     * (08) tbblf_fxdlusions   :sdriptID -> fxdlusionRbngfs mbpping tbblf,
+     *                          tif indfx is tif sdriptID bnd tif dontfnt is
+                                b id of bn fxdlusionRbngfs int[].
+     * (09) tbblf_proportionbls:list of pbirs of PlbtformFontNbmfIDs, storfs
+     *                          tif rfplbdfmfnt info dffinfd by "proportionbl"
+     *                          kfyword.
+     * (10) tbblf_sdriptFontsMotif
+     *                         :sbmf bs (01) fxdfpt tiis tbblf storfs tif
+     *                          info dffinfd witi ".motif" kfyword
+     * (11) tbblf_blpibbftidSuffix
+     *                         :fldID -> stringID of blpibbftid/XXXX fntrifs
+     * (12) tbblf_stringIDs    :Tif indfx of tiis tbblf is tif string ID, tif
+     *                          dontfnt is tif "stbrt indfx" of tiis string in
+     *                          stringTbblf, usf tif stbrt indfx of nfxt fntry
+     *                          bs tif "fnd indfx".
+     * (13) tbblf_stringTbblf  :Tif rfbl storbgf of bll dibrbdtfr strings dffinfd
+     *                          /usfd tiis font donfigurbtion, nffd b pbir of
+     *                          "stbrt" bnd "fnd" indidfs to bddfss.
+     * (14) rfsfrvfd
+     * (15) tbblf_fbllbbdkSdripts
+     *                         :stringIDs of fbllbbdk CibrbdtfrSubsftnbmfs, storfd
+     *                          in tif ordfr of tify brf dffinfd in sfqufndf.fbllbbdk.
+     * (16) tbblf_bppfndfdfontpbti
+     *                         :stringtID of tif "bppfndfdfontpbti" dffinfd.
+     * (17) tbblf_vfrsion   :stringID of tif vfrsion numbfr of tiis fontdonfig filf.
      */
-    private static final int HEAD_LENGTH = 20;
-    private static final int INDEX_scriptIDs = 0;
-    private static final int INDEX_scriptFonts = 1;
-    private static final int INDEX_elcIDs = 2;
-    private static final int INDEX_sequences = 3;
-    private static final int INDEX_fontfileNameIDs = 4;
-    private static final int INDEX_componentFontNameIDs = 5;
-    private static final int INDEX_filenames = 6;
-    private static final int INDEX_awtfontpaths = 7;
-    private static final int INDEX_exclusions = 8;
-    private static final int INDEX_proportionals = 9;
-    private static final int INDEX_scriptFontsMotif = 10;
-    private static final int INDEX_alphabeticSuffix = 11;
-    private static final int INDEX_stringIDs = 12;
-    private static final int INDEX_stringTable = 13;
-    private static final int INDEX_TABLEEND = 14;
-    private static final int INDEX_fallbackScripts = 15;
-    private static final int INDEX_appendedfontpath = 16;
-    private static final int INDEX_version = 17;
+    privbtf stbtid finbl int HEAD_LENGTH = 20;
+    privbtf stbtid finbl int INDEX_sdriptIDs = 0;
+    privbtf stbtid finbl int INDEX_sdriptFonts = 1;
+    privbtf stbtid finbl int INDEX_fldIDs = 2;
+    privbtf stbtid finbl int INDEX_sfqufndfs = 3;
+    privbtf stbtid finbl int INDEX_fontfilfNbmfIDs = 4;
+    privbtf stbtid finbl int INDEX_domponfntFontNbmfIDs = 5;
+    privbtf stbtid finbl int INDEX_filfnbmfs = 6;
+    privbtf stbtid finbl int INDEX_bwtfontpbtis = 7;
+    privbtf stbtid finbl int INDEX_fxdlusions = 8;
+    privbtf stbtid finbl int INDEX_proportionbls = 9;
+    privbtf stbtid finbl int INDEX_sdriptFontsMotif = 10;
+    privbtf stbtid finbl int INDEX_blpibbftidSuffix = 11;
+    privbtf stbtid finbl int INDEX_stringIDs = 12;
+    privbtf stbtid finbl int INDEX_stringTbblf = 13;
+    privbtf stbtid finbl int INDEX_TABLEEND = 14;
+    privbtf stbtid finbl int INDEX_fbllbbdkSdripts = 15;
+    privbtf stbtid finbl int INDEX_bppfndfdfontpbti = 16;
+    privbtf stbtid finbl int INDEX_vfrsion = 17;
 
-    private static short[] head;
-    private static short[] table_scriptIDs;
-    private static short[] table_scriptFonts;
-    private static short[] table_elcIDs;
-    private static short[] table_sequences;
-    private static short[] table_fontfileNameIDs;
-    private static short[] table_componentFontNameIDs;
-    private static short[] table_filenames;
-    protected static short[] table_awtfontpaths;
-    private static short[] table_exclusions;
-    private static short[] table_proportionals;
-    private static short[] table_scriptFontsMotif;
-    private static short[] table_alphabeticSuffix;
-    private static short[] table_stringIDs;
-    private static char[]  table_stringTable;
+    privbtf stbtid siort[] ifbd;
+    privbtf stbtid siort[] tbblf_sdriptIDs;
+    privbtf stbtid siort[] tbblf_sdriptFonts;
+    privbtf stbtid siort[] tbblf_fldIDs;
+    privbtf stbtid siort[] tbblf_sfqufndfs;
+    privbtf stbtid siort[] tbblf_fontfilfNbmfIDs;
+    privbtf stbtid siort[] tbblf_domponfntFontNbmfIDs;
+    privbtf stbtid siort[] tbblf_filfnbmfs;
+    protfdtfd stbtid siort[] tbblf_bwtfontpbtis;
+    privbtf stbtid siort[] tbblf_fxdlusions;
+    privbtf stbtid siort[] tbblf_proportionbls;
+    privbtf stbtid siort[] tbblf_sdriptFontsMotif;
+    privbtf stbtid siort[] tbblf_blpibbftidSuffix;
+    privbtf stbtid siort[] tbblf_stringIDs;
+    privbtf stbtid dibr[]  tbblf_stringTbblf;
 
     /**
-     * Checks consistencies of complied fontconfig data. This method
-     * is called only at the build-time from
-     * build.tools.compilefontconfig.CompileFontConfig.
+     * Cifdks donsistfndifs of domplifd fontdonfig dbtb. Tiis mftiod
+     * is dbllfd only bt tif build-timf from
+     * build.tools.dompilffontdonfig.CompilfFontConfig.
      */
-    private static void sanityCheck() {
-        int errors = 0;
+    privbtf stbtid void sbnityCifdk() {
+        int frrors = 0;
 
-        //This method will only be called during build time, do we
-        //need do PrivilegedAction?
-        String osName = java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedAction<String>() {
-            public String run() {
-                return System.getProperty("os.name");
+        //Tiis mftiod will only bf dbllfd during build timf, do wf
+        //nffd do PrivilfgfdAdtion?
+        String osNbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Systfm.gftPropfrty("os.nbmf");
             }
         });
 
-        //componentFontNameID starts from "1"
-        for (int ii = 1; ii < table_filenames.length; ii++) {
-            if (table_filenames[ii] == -1) {
-                // The corresponding finename entry for a component
-                // font name is mandatory on Windows, but it's
-                // optional on Solaris and Linux.
-                if (osName.contains("Windows")) {
-                    System.err.println("\n Error: <filename."
-                                       + getString(table_componentFontNameIDs[ii])
-                                       + "> entry is missing!!!");
-                    errors++;
-                } else {
-                    if (verbose && !isEmpty(table_filenames)) {
-                        System.err.println("\n Note: 'filename' entry is undefined for \""
-                                           + getString(table_componentFontNameIDs[ii])
+        //domponfntFontNbmfID stbrts from "1"
+        for (int ii = 1; ii < tbblf_filfnbmfs.lfngti; ii++) {
+            if (tbblf_filfnbmfs[ii] == -1) {
+                // Tif dorrfsponding finfnbmf fntry for b domponfnt
+                // font nbmf is mbndbtory on Windows, but it's
+                // optionbl on Solbris bnd Linux.
+                if (osNbmf.dontbins("Windows")) {
+                    Systfm.frr.println("\n Error: <filfnbmf."
+                                       + gftString(tbblf_domponfntFontNbmfIDs[ii])
+                                       + "> fntry is missing!!!");
+                    frrors++;
+                } flsf {
+                    if (vfrbosf && !isEmpty(tbblf_filfnbmfs)) {
+                        Systfm.frr.println("\n Notf: 'filfnbmf' fntry is undffinfd for \""
+                                           + gftString(tbblf_domponfntFontNbmfIDs[ii])
                                            + "\"");
                     }
                 }
             }
         }
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
             if (fid == 0) {
-                System.out.println("\n Error: <allfonts."
-                                   + getString(table_scriptIDs[ii])
-                                   + "> entry is missing!!!");
-                errors++;
-                continue;
-            } else if (fid < 0) {
-                fid = (short)-fid;
+                Systfm.out.println("\n Error: <bllfonts."
+                                   + gftString(tbblf_sdriptIDs[ii])
+                                   + "> fntry is missing!!!");
+                frrors++;
+                dontinuf;
+            } flsf if (fid < 0) {
+                fid = (siort)-fid;
                 for (int iii = 0; iii < NUM_FONTS; iii++) {
                     for (int iij = 0; iij < NUM_STYLES; iij++) {
                         int jj = iii * NUM_STYLES + iij;
-                        short ffid = table_scriptFonts[fid + jj];
+                        siort ffid = tbblf_sdriptFonts[fid + jj];
                         if (ffid == 0) {
-                            System.err.println("\n Error: <"
-                                           + getFontName(iii) + "."
-                                           + getStyleName(iij) + "."
-                                           + getString(table_scriptIDs[ii])
-                                           + "> entry is missing!!!");
-                            errors++;
+                            Systfm.frr.println("\n Error: <"
+                                           + gftFontNbmf(iii) + "."
+                                           + gftStylfNbmf(iij) + "."
+                                           + gftString(tbblf_sdriptIDs[ii])
+                                           + "> fntry is missing!!!");
+                            frrors++;
                         }
                     }
                 }
             }
         }
-        if ("SunOS".equals(osName)) {
-            for (int ii = 0; ii < table_awtfontpaths.length; ii++) {
-                if (table_awtfontpaths[ii] == 0) {
-                    String script = getString(table_scriptIDs[ii]);
-                    if (script.contains("lucida") ||
-                        script.contains("dingbats") ||
-                        script.contains("symbol")) {
-                        continue;
+        if ("SunOS".fqubls(osNbmf)) {
+            for (int ii = 0; ii < tbblf_bwtfontpbtis.lfngti; ii++) {
+                if (tbblf_bwtfontpbtis[ii] == 0) {
+                    String sdript = gftString(tbblf_sdriptIDs[ii]);
+                    if (sdript.dontbins("ludidb") ||
+                        sdript.dontbins("dingbbts") ||
+                        sdript.dontbins("symbol")) {
+                        dontinuf;
                     }
-                    System.err.println("\nError: "
-                                       + "<awtfontpath."
-                                       + script
-                                       + "> entry is missing!!!");
-                    errors++;
+                    Systfm.frr.println("\nError: "
+                                       + "<bwtfontpbti."
+                                       + sdript
+                                       + "> fntry is missing!!!");
+                    frrors++;
                 }
             }
         }
-        if (errors != 0) {
-            System.err.println("!!THERE ARE " + errors + " ERROR(S) IN "
+        if (frrors != 0) {
+            Systfm.frr.println("!!THERE ARE " + frrors + " ERROR(S) IN "
                                + "THE FONTCONFIG FILE, PLEASE CHECK ITS CONTENT!!\n");
-            System.exit(1);
+            Systfm.fxit(1);
         }
     }
 
-    private static boolean isEmpty(short[] a) {
-        for (short s : a) {
+    privbtf stbtid boolfbn isEmpty(siort[] b) {
+        for (siort s : b) {
             if (s != -1) {
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    //dump the fontconfig data tables
-    private static void dump() {
-        System.out.println("\n----Head Table------------");
+    //dump tif fontdonfig dbtb tbblfs
+    privbtf stbtid void dump() {
+        Systfm.out.println("\n----Hfbd Tbblf------------");
         for (int ii = 0; ii < HEAD_LENGTH; ii++) {
-            System.out.println("  " + ii + " : " + head[ii]);
+            Systfm.out.println("  " + ii + " : " + ifbd[ii]);
         }
-        System.out.println("\n----scriptIDs-------------");
-        printTable(table_scriptIDs, 0);
-        System.out.println("\n----scriptFonts----------------");
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        Systfm.out.println("\n----sdriptIDs-------------");
+        printTbblf(tbblf_sdriptIDs, 0);
+        Systfm.out.println("\n----sdriptFonts----------------");
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
             if (fid >= 0) {
-                System.out.println("  allfonts."
-                                   + getString(table_scriptIDs[ii])
+                Systfm.out.println("  bllfonts."
+                                   + gftString(tbblf_sdriptIDs[ii])
                                    + "="
-                                   + getString(table_componentFontNameIDs[fid]));
+                                   + gftString(tbblf_domponfntFontNbmfIDs[fid]));
             }
         }
-        for (int ii = 0; ii < table_scriptIDs.length; ii++) {
-            short fid = table_scriptFonts[ii];
+        for (int ii = 0; ii < tbblf_sdriptIDs.lfngti; ii++) {
+            siort fid = tbblf_sdriptFonts[ii];
             if (fid < 0) {
-                fid = (short)-fid;
+                fid = (siort)-fid;
                 for (int iii = 0; iii < NUM_FONTS; iii++) {
                     for (int iij = 0; iij < NUM_STYLES; iij++) {
                         int jj = iii * NUM_STYLES + iij;
-                        short ffid = table_scriptFonts[fid + jj];
-                        System.out.println("  "
-                                           + getFontName(iii) + "."
-                                           + getStyleName(iij) + "."
-                                           + getString(table_scriptIDs[ii])
+                        siort ffid = tbblf_sdriptFonts[fid + jj];
+                        Systfm.out.println("  "
+                                           + gftFontNbmf(iii) + "."
+                                           + gftStylfNbmf(iij) + "."
+                                           + gftString(tbblf_sdriptIDs[ii])
                                            + "="
-                                           + getString(table_componentFontNameIDs[ffid]));
+                                           + gftString(tbblf_domponfntFontNbmfIDs[ffid]));
                     }
                 }
 
             }
         }
-        System.out.println("\n----elcIDs----------------");
-        printTable(table_elcIDs, 0);
-        System.out.println("\n----sequences-------------");
-        for (int ii = 0; ii< table_elcIDs.length; ii++) {
-            System.out.println("  " + ii + "/" + getString(table_elcIDs[ii]));
-            short[] ss = getShortArray(table_sequences[ii * NUM_FONTS + 0]);
-            for (int jj = 0; jj < ss.length; jj++) {
-                System.out.println("     " + getString(table_scriptIDs[ss[jj]]));
+        Systfm.out.println("\n----fldIDs----------------");
+        printTbblf(tbblf_fldIDs, 0);
+        Systfm.out.println("\n----sfqufndfs-------------");
+        for (int ii = 0; ii< tbblf_fldIDs.lfngti; ii++) {
+            Systfm.out.println("  " + ii + "/" + gftString(tbblf_fldIDs[ii]));
+            siort[] ss = gftSiortArrby(tbblf_sfqufndfs[ii * NUM_FONTS + 0]);
+            for (int jj = 0; jj < ss.lfngti; jj++) {
+                Systfm.out.println("     " + gftString(tbblf_sdriptIDs[ss[jj]]));
             }
         }
-        System.out.println("\n----fontfileNameIDs-------");
-        printTable(table_fontfileNameIDs, 0);
+        Systfm.out.println("\n----fontfilfNbmfIDs-------");
+        printTbblf(tbblf_fontfilfNbmfIDs, 0);
 
-        System.out.println("\n----componentFontNameIDs--");
-        printTable(table_componentFontNameIDs, 1);
-        System.out.println("\n----filenames-------------");
-        for (int ii = 0; ii < table_filenames.length; ii++) {
-            if (table_filenames[ii] == -1) {
-                System.out.println("  " + ii + " : null");
-            } else {
-                System.out.println("  " + ii + " : "
-                   + getString(table_fontfileNameIDs[table_filenames[ii]]));
+        Systfm.out.println("\n----domponfntFontNbmfIDs--");
+        printTbblf(tbblf_domponfntFontNbmfIDs, 1);
+        Systfm.out.println("\n----filfnbmfs-------------");
+        for (int ii = 0; ii < tbblf_filfnbmfs.lfngti; ii++) {
+            if (tbblf_filfnbmfs[ii] == -1) {
+                Systfm.out.println("  " + ii + " : null");
+            } flsf {
+                Systfm.out.println("  " + ii + " : "
+                   + gftString(tbblf_fontfilfNbmfIDs[tbblf_filfnbmfs[ii]]));
             }
         }
-        System.out.println("\n----awtfontpaths---------");
-        for (int ii = 0; ii < table_awtfontpaths.length; ii++) {
-            System.out.println("  " + getString(table_scriptIDs[ii])
+        Systfm.out.println("\n----bwtfontpbtis---------");
+        for (int ii = 0; ii < tbblf_bwtfontpbtis.lfngti; ii++) {
+            Systfm.out.println("  " + gftString(tbblf_sdriptIDs[ii])
                                + " : "
-                               + getString(table_awtfontpaths[ii]));
+                               + gftString(tbblf_bwtfontpbtis[ii]));
         }
-        System.out.println("\n----proportionals--------");
-        for (int ii = 0; ii < table_proportionals.length; ii++) {
-            System.out.println("  "
-                   + getString(table_componentFontNameIDs[table_proportionals[ii++]])
+        Systfm.out.println("\n----proportionbls--------");
+        for (int ii = 0; ii < tbblf_proportionbls.lfngti; ii++) {
+            Systfm.out.println("  "
+                   + gftString(tbblf_domponfntFontNbmfIDs[tbblf_proportionbls[ii++]])
                    + " -> "
-                   + getString(table_componentFontNameIDs[table_proportionals[ii]]));
+                   + gftString(tbblf_domponfntFontNbmfIDs[tbblf_proportionbls[ii]]));
         }
         int i = 0;
-        System.out.println("\n----alphabeticSuffix----");
-        while (i < table_alphabeticSuffix.length) {
-          System.out.println("    " + getString(table_elcIDs[table_alphabeticSuffix[i++]])
-                             + " -> " + getString(table_alphabeticSuffix[i++]));
+        Systfm.out.println("\n----blpibbftidSuffix----");
+        wiilf (i < tbblf_blpibbftidSuffix.lfngti) {
+          Systfm.out.println("    " + gftString(tbblf_fldIDs[tbblf_blpibbftidSuffix[i++]])
+                             + " -> " + gftString(tbblf_blpibbftidSuffix[i++]));
         }
-        System.out.println("\n----String Table---------");
-        System.out.println("    stringID:    Num =" + table_stringIDs.length);
-        System.out.println("    stringTable: Size=" + table_stringTable.length * 2);
+        Systfm.out.println("\n----String Tbblf---------");
+        Systfm.out.println("    stringID:    Num =" + tbblf_stringIDs.lfngti);
+        Systfm.out.println("    stringTbblf: Sizf=" + tbblf_stringTbblf.lfngti * 2);
 
-        System.out.println("\n----fallbackScriptIDs---");
-        short[] fbsIDs = getShortArray(head[INDEX_fallbackScripts]);
-        for (int ii = 0; ii < fbsIDs.length; ii++) {
-          System.out.println("  " + getString(table_scriptIDs[fbsIDs[ii]]));
+        Systfm.out.println("\n----fbllbbdkSdriptIDs---");
+        siort[] fbsIDs = gftSiortArrby(ifbd[INDEX_fbllbbdkSdripts]);
+        for (int ii = 0; ii < fbsIDs.lfngti; ii++) {
+          Systfm.out.println("  " + gftString(tbblf_sdriptIDs[fbsIDs[ii]]));
         }
-        System.out.println("\n----appendedfontpath-----");
-        System.out.println("  " + getString(head[INDEX_appendedfontpath]));
-        System.out.println("\n----Version--------------");
-        System.out.println("  " + getString(head[INDEX_version]));
+        Systfm.out.println("\n----bppfndfdfontpbti-----");
+        Systfm.out.println("  " + gftString(ifbd[INDEX_bppfndfdfontpbti]));
+        Systfm.out.println("\n----Vfrsion--------------");
+        Systfm.out.println("  " + gftString(ifbd[INDEX_vfrsion]));
     }
 
 
     //////////////////////////////////////////////////////////////////////
-    // Data table access methods                                        //
+    // Dbtb tbblf bddfss mftiods                                        //
     //////////////////////////////////////////////////////////////////////
 
-    /* Return the fontID of the platformFontName defined in this font config
-     * by "LogicalFontName.StyleName.CharacterSubsetName" entry or
-     * "allfonts.CharacterSubsetName" entry in properties format fc file.
+    /* Rfturn tif fontID of tif plbtformFontNbmf dffinfd in tiis font donfig
+     * by "LogidblFontNbmf.StylfNbmf.CibrbdtfrSubsftNbmf" fntry or
+     * "bllfonts.CibrbdtfrSubsftNbmf" fntry in propfrtifs formbt fd filf.
      */
-    protected static short getComponentFontID(short scriptID, int fontIndex, int styleIndex) {
-        short fid = table_scriptFonts[scriptID];
-        //System.out.println("fid=" + fid + "/ scriptID=" + scriptID + ", fi=" + fontIndex + ", si=" + styleIndex);
+    protfdtfd stbtid siort gftComponfntFontID(siort sdriptID, int fontIndfx, int stylfIndfx) {
+        siort fid = tbblf_sdriptFonts[sdriptID];
+        //Systfm.out.println("fid=" + fid + "/ sdriptID=" + sdriptID + ", fi=" + fontIndfx + ", si=" + stylfIndfx);
         if (fid >= 0) {
-            //"allfonts"
-            return fid;
-        } else {
-            return table_scriptFonts[-fid + fontIndex * NUM_STYLES + styleIndex];
+            //"bllfonts"
+            rfturn fid;
+        } flsf {
+            rfturn tbblf_sdriptFonts[-fid + fontIndfx * NUM_STYLES + stylfIndfx];
         }
     }
 
-    /* Same as getCompoentFontID() except this method returns the fontID define by
-     * "xxxx.motif" entry.
+    /* Sbmf bs gftCompofntFontID() fxdfpt tiis mftiod rfturns tif fontID dffinf by
+     * "xxxx.motif" fntry.
      */
-    protected static short getComponentFontIDMotif(short scriptID, int fontIndex, int styleIndex) {
-        if (table_scriptFontsMotif.length == 0) {
-            return 0;
+    protfdtfd stbtid siort gftComponfntFontIDMotif(siort sdriptID, int fontIndfx, int stylfIndfx) {
+        if (tbblf_sdriptFontsMotif.lfngti == 0) {
+            rfturn 0;
         }
-        short fid = table_scriptFontsMotif[scriptID];
+        siort fid = tbblf_sdriptFontsMotif[sdriptID];
         if (fid >= 0) {
-            //"allfonts" > 0 or "not defined" == 0
-            return fid;
-        } else {
-            return table_scriptFontsMotif[-fid + fontIndex * NUM_STYLES + styleIndex];
+            //"bllfonts" > 0 or "not dffinfd" == 0
+            rfturn fid;
+        } flsf {
+            rfturn tbblf_sdriptFontsMotif[-fid + fontIndfx * NUM_STYLES + stylfIndfx];
         }
     }
 
-    private static int[] getExclusionRanges(short scriptID) {
-        short exID = table_exclusions[scriptID];
-        if (exID == 0) {
-            return EMPTY_INT_ARRAY;
-        } else {
-            char[] exChar = getString(exID).toCharArray();
-            int[] exInt = new int[exChar.length / 2];
+    privbtf stbtid int[] gftExdlusionRbngfs(siort sdriptID) {
+        siort fxID = tbblf_fxdlusions[sdriptID];
+        if (fxID == 0) {
+            rfturn EMPTY_INT_ARRAY;
+        } flsf {
+            dibr[] fxCibr = gftString(fxID).toCibrArrby();
+            int[] fxInt = nfw int[fxCibr.lfngti / 2];
             int i = 0;
-            for (int j = 0; j < exInt.length; j++) {
-                exInt[j] = (exChar[i++] << 16) + (exChar[i++] & 0xffff);
+            for (int j = 0; j < fxInt.lfngti; j++) {
+                fxInt[j] = (fxCibr[i++] << 16) + (fxCibr[i++] & 0xffff);
             }
-            return exInt;
+            rfturn fxInt;
         }
     }
 
-    private static boolean contains(short IDs[], short id, int limit) {
+    privbtf stbtid boolfbn dontbins(siort IDs[], siort id, int limit) {
         for (int i = 0; i < limit; i++) {
             if (IDs[i] == id) {
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    /* Return the PlatformFontName from its fontID*/
-    protected static String getComponentFontName(short id) {
+    /* Rfturn tif PlbtformFontNbmf from its fontID*/
+    protfdtfd stbtid String gftComponfntFontNbmf(siort id) {
         if (id < 0) {
-            return null;
+            rfturn null;
         }
-        return getString(table_componentFontNameIDs[id]);
+        rfturn gftString(tbblf_domponfntFontNbmfIDs[id]);
     }
 
-    private static String getComponentFileName(short id) {
+    privbtf stbtid String gftComponfntFilfNbmf(siort id) {
         if (id < 0) {
-            return null;
+            rfturn null;
         }
-        return getString(table_fontfileNameIDs[id]);
+        rfturn gftString(tbblf_fontfilfNbmfIDs[id]);
     }
 
-    //componentFontID -> componentFileID
-    private static short getComponentFileID(short nameID) {
-        return table_filenames[nameID];
+    //domponfntFontID -> domponfntFilfID
+    privbtf stbtid siort gftComponfntFilfID(siort nbmfID) {
+        rfturn tbblf_filfnbmfs[nbmfID];
     }
 
-    private static String getScriptName(short scriptID) {
-        return getString(table_scriptIDs[scriptID]);
+    privbtf stbtid String gftSdriptNbmf(siort sdriptID) {
+        rfturn gftString(tbblf_sdriptIDs[sdriptID]);
     }
 
-   private HashMap<String, Short> reorderScripts;
-   protected short[] getCoreScripts(int fontIndex) {
-        short elc = getInitELC();
+   privbtf HbsiMbp<String, Siort> rfordfrSdripts;
+   protfdtfd siort[] gftCorfSdripts(int fontIndfx) {
+        siort fld = gftInitELC();
         /*
-          System.out.println("getCoreScripts: elc=" + elc + ", fontIndex=" + fontIndex);
-          short[] ss = getShortArray(table_sequences[elc * NUM_FONTS + fontIndex]);
-          for (int i = 0; i < ss.length; i++) {
-              System.out.println("     " + getString((short)table_scriptIDs[ss[i]]));
+          Systfm.out.println("gftCorfSdripts: fld=" + fld + ", fontIndfx=" + fontIndfx);
+          siort[] ss = gftSiortArrby(tbblf_sfqufndfs[fld * NUM_FONTS + fontIndfx]);
+          for (int i = 0; i < ss.lfngti; i++) {
+              Systfm.out.println("     " + gftString((siort)tbblf_sdriptIDs[ss[i]]));
           }
           */
-        short[] scripts = getShortArray(table_sequences[elc * NUM_FONTS + fontIndex]);
-        if (preferLocaleFonts) {
-            if (reorderScripts == null) {
-                reorderScripts = new HashMap<String, Short>();
+        siort[] sdripts = gftSiortArrby(tbblf_sfqufndfs[fld * NUM_FONTS + fontIndfx]);
+        if (prfffrLodblfFonts) {
+            if (rfordfrSdripts == null) {
+                rfordfrSdripts = nfw HbsiMbp<String, Siort>();
             }
-            String[] ss = new String[scripts.length];
-            for (int i = 0; i < ss.length; i++) {
-                ss[i] = getScriptName(scripts[i]);
-                reorderScripts.put(ss[i], scripts[i]);
+            String[] ss = nfw String[sdripts.lfngti];
+            for (int i = 0; i < ss.lfngti; i++) {
+                ss[i] = gftSdriptNbmf(sdripts[i]);
+                rfordfrSdripts.put(ss[i], sdripts[i]);
             }
-            reorderSequenceForLocale(ss);
-            for (int i = 0; i < ss.length; i++) {
-                scripts[i] = reorderScripts.get(ss[i]);
+            rfordfrSfqufndfForLodblf(ss);
+            for (int i = 0; i < ss.lfngti; i++) {
+                sdripts[i] = rfordfrSdripts.gft(ss[i]);
             }
         }
-         return scripts;
+         rfturn sdripts;
     }
 
-    private static short[] getFallbackScripts() {
-        return getShortArray(head[INDEX_fallbackScripts]);
+    privbtf stbtid siort[] gftFbllbbdkSdripts() {
+        rfturn gftSiortArrby(ifbd[INDEX_fbllbbdkSdripts]);
     }
 
-    private static void printTable(short[] list, int start) {
-        for (int i = start; i < list.length; i++) {
-            System.out.println("  " + i + " : " + getString(list[i]));
+    privbtf stbtid void printTbblf(siort[] list, int stbrt) {
+        for (int i = stbrt; i < list.lfngti; i++) {
+            Systfm.out.println("  " + i + " : " + gftString(list[i]));
         }
     }
 
-    private static short[] readShortTable(DataInputStream in, int len )
-        throws IOException {
-        if (len == 0) {
-            return EMPTY_SHORT_ARRAY;
+    privbtf stbtid siort[] rfbdSiortTbblf(DbtbInputStrfbm in, int lfn )
+        tirows IOExdfption {
+        if (lfn == 0) {
+            rfturn EMPTY_SHORT_ARRAY;
         }
-        short[] data = new short[len];
-        byte[] bb = new byte[len * 2];
-        in.read(bb);
+        siort[] dbtb = nfw siort[lfn];
+        bytf[] bb = nfw bytf[lfn * 2];
+        in.rfbd(bb);
         int i = 0,j = 0;
-        while (i < len) {
-            data[i++] = (short)(bb[j++] << 8 | (bb[j++] & 0xff));
+        wiilf (i < lfn) {
+            dbtb[i++] = (siort)(bb[j++] << 8 | (bb[j++] & 0xff));
         }
-        return data;
+        rfturn dbtb;
     }
 
-    private static void writeShortTable(DataOutputStream out, short[] data)
-        throws IOException {
-        for (short val : data) {
-            out.writeShort(val);
+    privbtf stbtid void writfSiortTbblf(DbtbOutputStrfbm out, siort[] dbtb)
+        tirows IOExdfption {
+        for (siort vbl : dbtb) {
+            out.writfSiort(vbl);
         }
     }
 
-    private static short[] toList(HashMap<String, Short> map) {
-        short[] list = new short[map.size()];
-        Arrays.fill(list, (short) -1);
-        for (Entry<String, Short> entry : map.entrySet()) {
-            list[entry.getValue()] = getStringID(entry.getKey());
+    privbtf stbtid siort[] toList(HbsiMbp<String, Siort> mbp) {
+        siort[] list = nfw siort[mbp.sizf()];
+        Arrbys.fill(list, (siort) -1);
+        for (Entry<String, Siort> fntry : mbp.fntrySft()) {
+            list[fntry.gftVbluf()] = gftStringID(fntry.gftKfy());
         }
-        return list;
+        rfturn list;
     }
 
-    //runtime cache
-    private static String[] stringCache;
-    protected static String getString(short stringID) {
+    //runtimf dbdif
+    privbtf stbtid String[] stringCbdif;
+    protfdtfd stbtid String gftString(siort stringID) {
         if (stringID == 0)
-            return null;
+            rfturn null;
         /*
-        if (loadingProperties) {
-            return stringTable.substring(stringIDs[stringID],
+        if (lobdingPropfrtifs) {
+            rfturn stringTbblf.substring(stringIDs[stringID],
                                          stringIDs[stringID+1]);
         }
         */
-        //sync if we want it to be MT-enabled
-        if (stringCache[stringID] == null){
-            stringCache[stringID] =
-              new String (table_stringTable,
-                          table_stringIDs[stringID],
-                          table_stringIDs[stringID+1] - table_stringIDs[stringID]);
+        //synd if wf wbnt it to bf MT-fnbblfd
+        if (stringCbdif[stringID] == null){
+            stringCbdif[stringID] =
+              nfw String (tbblf_stringTbblf,
+                          tbblf_stringIDs[stringID],
+                          tbblf_stringIDs[stringID+1] - tbblf_stringIDs[stringID]);
         }
-        return stringCache[stringID];
+        rfturn stringCbdif[stringID];
     }
 
-    private static short[] getShortArray(short shortArrayID) {
-        String s = getString(shortArrayID);
-        char[] cc = s.toCharArray();
-        short[] ss = new short[cc.length];
-        for (int i = 0; i < cc.length; i++) {
-            ss[i] = (short)(cc[i] & 0xffff);
+    privbtf stbtid siort[] gftSiortArrby(siort siortArrbyID) {
+        String s = gftString(siortArrbyID);
+        dibr[] dd = s.toCibrArrby();
+        siort[] ss = nfw siort[dd.lfngti];
+        for (int i = 0; i < dd.lfngti; i++) {
+            ss[i] = (siort)(dd[i] & 0xffff);
         }
-        return ss;
+        rfturn ss;
     }
 
-    private static short getStringID(String s) {
+    privbtf stbtid siort gftStringID(String s) {
         if (s == null) {
-            return (short)0;
+            rfturn (siort)0;
         }
-        short pos0 = (short)stringTable.length();
-        stringTable.append(s);
-        short pos1 = (short)stringTable.length();
+        siort pos0 = (siort)stringTbblf.lfngti();
+        stringTbblf.bppfnd(s);
+        siort pos1 = (siort)stringTbblf.lfngti();
 
         stringIDs[stringIDNum] = pos0;
         stringIDs[stringIDNum + 1] = pos1;
         stringIDNum++;
-        if (stringIDNum + 1 >= stringIDs.length) {
-            short[] tmp = new short[stringIDNum + 1000];
-            System.arraycopy(stringIDs, 0, tmp, 0, stringIDNum);
+        if (stringIDNum + 1 >= stringIDs.lfngti) {
+            siort[] tmp = nfw siort[stringIDNum + 1000];
+            Systfm.brrbydopy(stringIDs, 0, tmp, 0, stringIDNum);
             stringIDs = tmp;
         }
-        return (short)(stringIDNum - 1);
+        rfturn (siort)(stringIDNum - 1);
     }
 
-    private static short getShortArrayID(short sa[]) {
-        char[] cc = new char[sa.length];
-        for (int i = 0; i < sa.length; i ++) {
-            cc[i] = (char)sa[i];
+    privbtf stbtid siort gftSiortArrbyID(siort sb[]) {
+        dibr[] dd = nfw dibr[sb.lfngti];
+        for (int i = 0; i < sb.lfngti; i ++) {
+            dd[i] = (dibr)sb[i];
         }
-        String s = new String(cc);
-        return getStringID(s);
+        String s = nfw String(dd);
+        rfturn gftStringID(s);
     }
 
-    //utility "empty" objects
-    private static final int[] EMPTY_INT_ARRAY = new int[0];
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-    private static final short[] EMPTY_SHORT_ARRAY = new short[0];
-    private static final String UNDEFINED_COMPONENT_FONT = "unknown";
+    //utility "fmpty" objfdts
+    privbtf stbtid finbl int[] EMPTY_INT_ARRAY = nfw int[0];
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+    privbtf stbtid finbl siort[] EMPTY_SHORT_ARRAY = nfw siort[0];
+    privbtf stbtid finbl String UNDEFINED_COMPONENT_FONT = "unknown";
 
     //////////////////////////////////////////////////////////////////////////
-    //Convert the FontConfig data in Properties file to binary data tables  //
+    //Convfrt tif FontConfig dbtb in Propfrtifs filf to binbry dbtb tbblfs  //
     //////////////////////////////////////////////////////////////////////////
-    static class PropertiesHandler {
-        public void load(InputStream in) throws IOException {
-            initLogicalNameStyle();
-            initHashMaps();
-            FontProperties fp = new FontProperties();
-            fp.load(in);
-            initBinaryTable();
+    stbtid dlbss PropfrtifsHbndlfr {
+        publid void lobd(InputStrfbm in) tirows IOExdfption {
+            initLogidblNbmfStylf();
+            initHbsiMbps();
+            FontPropfrtifs fp = nfw FontPropfrtifs();
+            fp.lobd(in);
+            initBinbryTbblf();
         }
 
-        private void initBinaryTable() {
+        privbtf void initBinbryTbblf() {
             //(0)
-            head = new short[HEAD_LENGTH];
-            head[INDEX_scriptIDs] = (short)HEAD_LENGTH;
+            ifbd = nfw siort[HEAD_LENGTH];
+            ifbd[INDEX_sdriptIDs] = (siort)HEAD_LENGTH;
 
-            table_scriptIDs = toList(scriptIDs);
-            //(1)a: scriptAllfonts scriptID/allfonts -> componentFontNameID
-            //   b: scriptFonts    scriptID -> componentFontNameID[20]
-            //if we have a "allfonts.script" def, then we just put
-            //the "-platformFontID" value in the slot, otherwise the slot
-            //value is "offset" which "offset" is where 20 entries located
-            //in the table attached.
-            head[INDEX_scriptFonts] = (short)(head[INDEX_scriptIDs]  + table_scriptIDs.length);
-            int len = table_scriptIDs.length + scriptFonts.size() * 20;
-            table_scriptFonts = new short[len];
+            tbblf_sdriptIDs = toList(sdriptIDs);
+            //(1)b: sdriptAllfonts sdriptID/bllfonts -> domponfntFontNbmfID
+            //   b: sdriptFonts    sdriptID -> domponfntFontNbmfID[20]
+            //if wf ibvf b "bllfonts.sdript" dff, tifn wf just put
+            //tif "-plbtformFontID" vbluf in tif slot, otifrwisf tif slot
+            //vbluf is "offsft" wiidi "offsft" is wifrf 20 fntrifs lodbtfd
+            //in tif tbblf bttbdifd.
+            ifbd[INDEX_sdriptFonts] = (siort)(ifbd[INDEX_sdriptIDs]  + tbblf_sdriptIDs.lfngti);
+            int lfn = tbblf_sdriptIDs.lfngti + sdriptFonts.sizf() * 20;
+            tbblf_sdriptFonts = nfw siort[lfn];
 
-            for (Entry<Short, Short> entry : scriptAllfonts.entrySet()) {
-                table_scriptFonts[entry.getKey().intValue()] = entry.getValue();
+            for (Entry<Siort, Siort> fntry : sdriptAllfonts.fntrySft()) {
+                tbblf_sdriptFonts[fntry.gftKfy().intVbluf()] = fntry.gftVbluf();
             }
-            int off = table_scriptIDs.length;
-            for (Entry<Short, Short[]> entry : scriptFonts.entrySet()) {
-                table_scriptFonts[entry.getKey().intValue()] = (short)-off;
-                Short[] v = entry.getValue();
+            int off = tbblf_sdriptIDs.lfngti;
+            for (Entry<Siort, Siort[]> fntry : sdriptFonts.fntrySft()) {
+                tbblf_sdriptFonts[fntry.gftKfy().intVbluf()] = (siort)-off;
+                Siort[] v = fntry.gftVbluf();
                 for (int i = 0; i < 20; i++) {
                     if (v[i] != null) {
-                        table_scriptFonts[off++] = v[i];
-                    } else {
-                        table_scriptFonts[off++] = 0;
+                        tbblf_sdriptFonts[off++] = v[i];
+                    } flsf {
+                        tbblf_sdriptFonts[off++] = 0;
                     }
                 }
             }
 
             //(2)
-            head[INDEX_elcIDs] = (short)(head[INDEX_scriptFonts]  + table_scriptFonts.length);
-            table_elcIDs = toList(elcIDs);
+            ifbd[INDEX_fldIDs] = (siort)(ifbd[INDEX_sdriptFonts]  + tbblf_sdriptFonts.lfngti);
+            tbblf_fldIDs = toList(fldIDs);
 
-            //(3) sequences  elcID -> XXXX[1|5] -> scriptID[]
-            head[INDEX_sequences] = (short)(head[INDEX_elcIDs]  + table_elcIDs.length);
-            table_sequences = new short[elcIDs.size() * NUM_FONTS];
-            for (Entry<Short, short[]> entry : sequences.entrySet()) {
-                //table_sequences[entry.getKey().intValue()] = (short)-off;
-                int k = entry.getKey().intValue();
-                short[] v = entry.getValue();
+            //(3) sfqufndfs  fldID -> XXXX[1|5] -> sdriptID[]
+            ifbd[INDEX_sfqufndfs] = (siort)(ifbd[INDEX_fldIDs]  + tbblf_fldIDs.lfngti);
+            tbblf_sfqufndfs = nfw siort[fldIDs.sizf() * NUM_FONTS];
+            for (Entry<Siort, siort[]> fntry : sfqufndfs.fntrySft()) {
+                //tbblf_sfqufndfs[fntry.gftKfy().intVbluf()] = (siort)-off;
+                int k = fntry.gftKfy().intVbluf();
+                siort[] v = fntry.gftVbluf();
                 /*
-                  System.out.println("elc=" + k + "/" + getString((short)table_elcIDs[k]));
-                  short[] ss = getShortArray(v[0]);
-                  for (int i = 0; i < ss.length; i++) {
-                  System.out.println("     " + getString((short)table_scriptIDs[ss[i]]));
+                  Systfm.out.println("fld=" + k + "/" + gftString((siort)tbblf_fldIDs[k]));
+                  siort[] ss = gftSiortArrby(v[0]);
+                  for (int i = 0; i < ss.lfngti; i++) {
+                  Systfm.out.println("     " + gftString((siort)tbblf_sdriptIDs[ss[i]]));
                   }
                   */
-                if (v.length == 1) {
-                    //the "allfonts" entries
+                if (v.lfngti == 1) {
+                    //tif "bllfonts" fntrifs
                     for (int i = 0; i < NUM_FONTS; i++) {
-                        table_sequences[k * NUM_FONTS + i] = v[0];
+                        tbblf_sfqufndfs[k * NUM_FONTS + i] = v[0];
                     }
-                } else {
+                } flsf {
                     for (int i = 0; i < NUM_FONTS; i++) {
-                        table_sequences[k * NUM_FONTS + i] = v[i];
+                        tbblf_sfqufndfs[k * NUM_FONTS + i] = v[i];
                     }
                 }
             }
             //(4)
-            head[INDEX_fontfileNameIDs] = (short)(head[INDEX_sequences]  + table_sequences.length);
-            table_fontfileNameIDs = toList(fontfileNameIDs);
+            ifbd[INDEX_fontfilfNbmfIDs] = (siort)(ifbd[INDEX_sfqufndfs]  + tbblf_sfqufndfs.lfngti);
+            tbblf_fontfilfNbmfIDs = toList(fontfilfNbmfIDs);
 
             //(5)
-            head[INDEX_componentFontNameIDs] = (short)(head[INDEX_fontfileNameIDs]  + table_fontfileNameIDs.length);
-            table_componentFontNameIDs = toList(componentFontNameIDs);
+            ifbd[INDEX_domponfntFontNbmfIDs] = (siort)(ifbd[INDEX_fontfilfNbmfIDs]  + tbblf_fontfilfNbmfIDs.lfngti);
+            tbblf_domponfntFontNbmfIDs = toList(domponfntFontNbmfIDs);
 
-            //(6)componentFontNameID -> filenameID
-            head[INDEX_filenames] = (short)(head[INDEX_componentFontNameIDs]  + table_componentFontNameIDs.length);
-            table_filenames = new short[table_componentFontNameIDs.length];
-            Arrays.fill(table_filenames, (short) -1);
+            //(6)domponfntFontNbmfID -> filfnbmfID
+            ifbd[INDEX_filfnbmfs] = (siort)(ifbd[INDEX_domponfntFontNbmfIDs]  + tbblf_domponfntFontNbmfIDs.lfngti);
+            tbblf_filfnbmfs = nfw siort[tbblf_domponfntFontNbmfIDs.lfngti];
+            Arrbys.fill(tbblf_filfnbmfs, (siort) -1);
 
-            for (Entry<Short, Short> entry : filenames.entrySet()) {
-                table_filenames[entry.getKey()] = entry.getValue();
+            for (Entry<Siort, Siort> fntry : filfnbmfs.fntrySft()) {
+                tbblf_filfnbmfs[fntry.gftKfy()] = fntry.gftVbluf();
             }
 
-            //(7)scriptID-> awtfontpath
-            //the paths are stored as scriptID -> stringID in awtfontpahts
-            head[INDEX_awtfontpaths] = (short)(head[INDEX_filenames]  + table_filenames.length);
-            table_awtfontpaths = new short[table_scriptIDs.length];
-            for (Entry<Short, Short> entry : awtfontpaths.entrySet()) {
-                table_awtfontpaths[entry.getKey()] = entry.getValue();
+            //(7)sdriptID-> bwtfontpbti
+            //tif pbtis brf storfd bs sdriptID -> stringID in bwtfontpbits
+            ifbd[INDEX_bwtfontpbtis] = (siort)(ifbd[INDEX_filfnbmfs]  + tbblf_filfnbmfs.lfngti);
+            tbblf_bwtfontpbtis = nfw siort[tbblf_sdriptIDs.lfngti];
+            for (Entry<Siort, Siort> fntry : bwtfontpbtis.fntrySft()) {
+                tbblf_bwtfontpbtis[fntry.gftKfy()] = fntry.gftVbluf();
             }
 
-            //(8)exclusions
-            head[INDEX_exclusions] = (short)(head[INDEX_awtfontpaths]  + table_awtfontpaths.length);
-            table_exclusions = new short[scriptIDs.size()];
-            for (Entry<Short, int[]> entry : exclusions.entrySet()) {
-                int[] exI = entry.getValue();
-                char[] exC = new char[exI.length * 2];
+            //(8)fxdlusions
+            ifbd[INDEX_fxdlusions] = (siort)(ifbd[INDEX_bwtfontpbtis]  + tbblf_bwtfontpbtis.lfngti);
+            tbblf_fxdlusions = nfw siort[sdriptIDs.sizf()];
+            for (Entry<Siort, int[]> fntry : fxdlusions.fntrySft()) {
+                int[] fxI = fntry.gftVbluf();
+                dibr[] fxC = nfw dibr[fxI.lfngti * 2];
                 int j = 0;
-                for (int i = 0; i < exI.length; i++) {
-                    exC[j++] = (char) (exI[i] >> 16);
-                    exC[j++] = (char) (exI[i] & 0xffff);
+                for (int i = 0; i < fxI.lfngti; i++) {
+                    fxC[j++] = (dibr) (fxI[i] >> 16);
+                    fxC[j++] = (dibr) (fxI[i] & 0xffff);
                 }
-                table_exclusions[entry.getKey()] = getStringID(new String (exC));
+                tbblf_fxdlusions[fntry.gftKfy()] = gftStringID(nfw String (fxC));
             }
-            //(9)proportionals
-            head[INDEX_proportionals] = (short)(head[INDEX_exclusions]  + table_exclusions.length);
-            table_proportionals = new short[proportionals.size() * 2];
+            //(9)proportionbls
+            ifbd[INDEX_proportionbls] = (siort)(ifbd[INDEX_fxdlusions]  + tbblf_fxdlusions.lfngti);
+            tbblf_proportionbls = nfw siort[proportionbls.sizf() * 2];
             int j = 0;
-            for (Entry<Short, Short> entry : proportionals.entrySet()) {
-                table_proportionals[j++] = entry.getKey();
-                table_proportionals[j++] = entry.getValue();
+            for (Entry<Siort, Siort> fntry : proportionbls.fntrySft()) {
+                tbblf_proportionbls[j++] = fntry.gftKfy();
+                tbblf_proportionbls[j++] = fntry.gftVbluf();
             }
 
-            //(10) see (1) for info, the only difference is "xxx.motif"
-            head[INDEX_scriptFontsMotif] = (short)(head[INDEX_proportionals] + table_proportionals.length);
-            if (scriptAllfontsMotif.size() != 0 || scriptFontsMotif.size() != 0) {
-                len = table_scriptIDs.length + scriptFontsMotif.size() * 20;
-                table_scriptFontsMotif = new short[len];
+            //(10) sff (1) for info, tif only difffrfndf is "xxx.motif"
+            ifbd[INDEX_sdriptFontsMotif] = (siort)(ifbd[INDEX_proportionbls] + tbblf_proportionbls.lfngti);
+            if (sdriptAllfontsMotif.sizf() != 0 || sdriptFontsMotif.sizf() != 0) {
+                lfn = tbblf_sdriptIDs.lfngti + sdriptFontsMotif.sizf() * 20;
+                tbblf_sdriptFontsMotif = nfw siort[lfn];
 
-                for (Entry<Short, Short> entry : scriptAllfontsMotif.entrySet()) {
-                    table_scriptFontsMotif[entry.getKey().intValue()] =
-                      (short)entry.getValue();
+                for (Entry<Siort, Siort> fntry : sdriptAllfontsMotif.fntrySft()) {
+                    tbblf_sdriptFontsMotif[fntry.gftKfy().intVbluf()] =
+                      (siort)fntry.gftVbluf();
                 }
-                off = table_scriptIDs.length;
-                for (Entry<Short, Short[]> entry : scriptFontsMotif.entrySet()) {
-                    table_scriptFontsMotif[entry.getKey().intValue()] = (short)-off;
-                    Short[] v = entry.getValue();
+                off = tbblf_sdriptIDs.lfngti;
+                for (Entry<Siort, Siort[]> fntry : sdriptFontsMotif.fntrySft()) {
+                    tbblf_sdriptFontsMotif[fntry.gftKfy().intVbluf()] = (siort)-off;
+                    Siort[] v = fntry.gftVbluf();
                     int i = 0;
-                    while (i < 20) {
+                    wiilf (i < 20) {
                         if (v[i] != null) {
-                            table_scriptFontsMotif[off++] = v[i];
-                        } else {
-                            table_scriptFontsMotif[off++] = 0;
+                            tbblf_sdriptFontsMotif[off++] = v[i];
+                        } flsf {
+                            tbblf_sdriptFontsMotif[off++] = 0;
                         }
                         i++;
                     }
                 }
-            } else {
-                table_scriptFontsMotif = EMPTY_SHORT_ARRAY;
+            } flsf {
+                tbblf_sdriptFontsMotif = EMPTY_SHORT_ARRAY;
             }
 
-            //(11)short[] alphabeticSuffix
-            head[INDEX_alphabeticSuffix] = (short)(head[INDEX_scriptFontsMotif] + table_scriptFontsMotif.length);
-            table_alphabeticSuffix = new short[alphabeticSuffix.size() * 2];
+            //(11)siort[] blpibbftidSuffix
+            ifbd[INDEX_blpibbftidSuffix] = (siort)(ifbd[INDEX_sdriptFontsMotif] + tbblf_sdriptFontsMotif.lfngti);
+            tbblf_blpibbftidSuffix = nfw siort[blpibbftidSuffix.sizf() * 2];
             j = 0;
-            for (Entry<Short, Short> entry : alphabeticSuffix.entrySet()) {
-                table_alphabeticSuffix[j++] = entry.getKey();
-                table_alphabeticSuffix[j++] = entry.getValue();
+            for (Entry<Siort, Siort> fntry : blpibbftidSuffix.fntrySft()) {
+                tbblf_blpibbftidSuffix[j++] = fntry.gftKfy();
+                tbblf_blpibbftidSuffix[j++] = fntry.gftVbluf();
             }
 
-            //(15)short[] fallbackScriptIDs; just put the ID in head
-            head[INDEX_fallbackScripts] = getShortArrayID(fallbackScriptIDs);
+            //(15)siort[] fbllbbdkSdriptIDs; just put tif ID in ifbd
+            ifbd[INDEX_fbllbbdkSdripts] = gftSiortArrbyID(fbllbbdkSdriptIDs);
 
-            //(16)appendedfontpath
-            head[INDEX_appendedfontpath] = getStringID(appendedfontpath);
+            //(16)bppfndfdfontpbti
+            ifbd[INDEX_bppfndfdfontpbti] = gftStringID(bppfndfdfontpbti);
 
-            //(17)version
-            head[INDEX_version] = getStringID(version);
+            //(17)vfrsion
+            ifbd[INDEX_vfrsion] = gftStringID(vfrsion);
 
-            //(12)short[] StringIDs
-            head[INDEX_stringIDs] = (short)(head[INDEX_alphabeticSuffix] + table_alphabeticSuffix.length);
-            table_stringIDs = new short[stringIDNum + 1];
-            System.arraycopy(stringIDs, 0, table_stringIDs, 0, stringIDNum + 1);
+            //(12)siort[] StringIDs
+            ifbd[INDEX_stringIDs] = (siort)(ifbd[INDEX_blpibbftidSuffix] + tbblf_blpibbftidSuffix.lfngti);
+            tbblf_stringIDs = nfw siort[stringIDNum + 1];
+            Systfm.brrbydopy(stringIDs, 0, tbblf_stringIDs, 0, stringIDNum + 1);
 
-            //(13)StringTable
-            head[INDEX_stringTable] = (short)(head[INDEX_stringIDs] + stringIDNum + 1);
-            table_stringTable = stringTable.toString().toCharArray();
+            //(13)StringTbblf
+            ifbd[INDEX_stringTbblf] = (siort)(ifbd[INDEX_stringIDs] + stringIDNum + 1);
+            tbblf_stringTbblf = stringTbblf.toString().toCibrArrby();
             //(14)
-            head[INDEX_TABLEEND] = (short)(head[INDEX_stringTable] + stringTable.length());
+            ifbd[INDEX_TABLEEND] = (siort)(ifbd[INDEX_stringTbblf] + stringTbblf.lfngti());
 
-            //StringTable cache
-            stringCache = new String[table_stringIDs.length];
+            //StringTbblf dbdif
+            stringCbdif = nfw String[tbblf_stringIDs.lfngti];
         }
 
         //////////////////////////////////////////////
-        private HashMap<String, Short> scriptIDs;
-        //elc -> Encoding.Language.Country
-        private HashMap<String, Short> elcIDs;
-        //componentFontNameID starts from "1", "0" reserves for "undefined"
-        private HashMap<String, Short> componentFontNameIDs;
-        private HashMap<String, Short> fontfileNameIDs;
-        private HashMap<String, Integer> logicalFontIDs;
-        private HashMap<String, Integer> fontStyleIDs;
+        privbtf HbsiMbp<String, Siort> sdriptIDs;
+        //fld -> Endoding.Lbngubgf.Country
+        privbtf HbsiMbp<String, Siort> fldIDs;
+        //domponfntFontNbmfID stbrts from "1", "0" rfsfrvfs for "undffinfd"
+        privbtf HbsiMbp<String, Siort> domponfntFontNbmfIDs;
+        privbtf HbsiMbp<String, Siort> fontfilfNbmfIDs;
+        privbtf HbsiMbp<String, Intfgfr> logidblFontIDs;
+        privbtf HbsiMbp<String, Intfgfr> fontStylfIDs;
 
-        //componentFontNameID -> fontfileNameID
-        private HashMap<Short, Short>  filenames;
+        //domponfntFontNbmfID -> fontfilfNbmfID
+        privbtf HbsiMbp<Siort, Siort>  filfnbmfs;
 
-        //elcID -> allfonts/logicalFont -> scriptID list
-        //(1)if we have a "allfonts", then the length of the
-        //   value array is "1", otherwise it's 5, each font
-        //   must have their own individual entry.
-        //scriptID list "short[]" is stored as an ID
-        private HashMap<Short, short[]> sequences;
+        //fldID -> bllfonts/logidblFont -> sdriptID list
+        //(1)if wf ibvf b "bllfonts", tifn tif lfngti of tif
+        //   vbluf brrby is "1", otifrwisf it's 5, fbdi font
+        //   must ibvf tifir own individubl fntry.
+        //sdriptID list "siort[]" is storfd bs bn ID
+        privbtf HbsiMbp<Siort, siort[]> sfqufndfs;
 
-        //scriptID ->logicFontID/fontStyleID->componentFontNameID,
-        //a 20-entry array (5-name x 4-style) for each script
-        private HashMap<Short, Short[]> scriptFonts;
+        //sdriptID ->logidFontID/fontStylfID->domponfntFontNbmfID,
+        //b 20-fntry brrby (5-nbmf x 4-stylf) for fbdi sdript
+        privbtf HbsiMbp<Siort, Siort[]> sdriptFonts;
 
-        //scriptID -> componentFontNameID
-        private HashMap<Short, Short> scriptAllfonts;
+        //sdriptID -> domponfntFontNbmfID
+        privbtf HbsiMbp<Siort, Siort> sdriptAllfonts;
 
-        //scriptID -> exclusionRanges[]
-        private HashMap<Short, int[]> exclusions;
+        //sdriptID -> fxdlusionRbngfs[]
+        privbtf HbsiMbp<Siort, int[]> fxdlusions;
 
-        //scriptID -> fontpath
-        private HashMap<Short, Short> awtfontpaths;
+        //sdriptID -> fontpbti
+        privbtf HbsiMbp<Siort, Siort> bwtfontpbtis;
 
         //fontID -> fontID
-        private HashMap<Short, Short> proportionals;
+        privbtf HbsiMbp<Siort, Siort> proportionbls;
 
-        //scriptID -> componentFontNameID
-        private HashMap<Short, Short> scriptAllfontsMotif;
+        //sdriptID -> domponfntFontNbmfID
+        privbtf HbsiMbp<Siort, Siort> sdriptAllfontsMotif;
 
-        //scriptID ->logicFontID/fontStyleID->componentFontNameID,
-        private HashMap<Short, Short[]> scriptFontsMotif;
+        //sdriptID ->logidFontID/fontStylfID->domponfntFontNbmfID,
+        privbtf HbsiMbp<Siort, Siort[]> sdriptFontsMotif;
 
-        //elcID -> stringID of alphabetic/XXXX
-        private HashMap<Short, Short> alphabeticSuffix;
+        //fldID -> stringID of blpibbftid/XXXX
+        privbtf HbsiMbp<Siort, Siort> blpibbftidSuffix;
 
-        private short[] fallbackScriptIDs;
-        private String version;
-        private String appendedfontpath;
+        privbtf siort[] fbllbbdkSdriptIDs;
+        privbtf String vfrsion;
+        privbtf String bppfndfdfontpbti;
 
-        private void initLogicalNameStyle() {
-            logicalFontIDs = new HashMap<String, Integer>();
-            fontStyleIDs = new HashMap<String, Integer>();
-            logicalFontIDs.put("serif",      0);
-            logicalFontIDs.put("sansserif",  1);
-            logicalFontIDs.put("monospaced", 2);
-            logicalFontIDs.put("dialog",     3);
-            logicalFontIDs.put("dialoginput",4);
-            fontStyleIDs.put("plain",      0);
-            fontStyleIDs.put("bold",       1);
-            fontStyleIDs.put("italic",     2);
-            fontStyleIDs.put("bolditalic", 3);
+        privbtf void initLogidblNbmfStylf() {
+            logidblFontIDs = nfw HbsiMbp<String, Intfgfr>();
+            fontStylfIDs = nfw HbsiMbp<String, Intfgfr>();
+            logidblFontIDs.put("sfrif",      0);
+            logidblFontIDs.put("sbnssfrif",  1);
+            logidblFontIDs.put("monospbdfd", 2);
+            logidblFontIDs.put("diblog",     3);
+            logidblFontIDs.put("dibloginput",4);
+            fontStylfIDs.put("plbin",      0);
+            fontStylfIDs.put("bold",       1);
+            fontStylfIDs.put("itblid",     2);
+            fontStylfIDs.put("bolditblid", 3);
         }
 
-        private void initHashMaps() {
-            scriptIDs = new HashMap<String, Short>();
-            elcIDs = new HashMap<String, Short>();
-            componentFontNameIDs = new HashMap<String, Short>();
-            /*Init these tables to allow componentFontNameID, fontfileNameIDs
-              to start from "1".
+        privbtf void initHbsiMbps() {
+            sdriptIDs = nfw HbsiMbp<String, Siort>();
+            fldIDs = nfw HbsiMbp<String, Siort>();
+            domponfntFontNbmfIDs = nfw HbsiMbp<String, Siort>();
+            /*Init tifsf tbblfs to bllow domponfntFontNbmfID, fontfilfNbmfIDs
+              to stbrt from "1".
             */
-            componentFontNameIDs.put("", Short.valueOf((short)0));
+            domponfntFontNbmfIDs.put("", Siort.vblufOf((siort)0));
 
-            fontfileNameIDs = new HashMap<String, Short>();
-            filenames = new HashMap<Short, Short>();
-            sequences = new HashMap<Short, short[]>();
-            scriptFonts = new HashMap<Short, Short[]>();
-            scriptAllfonts = new HashMap<Short, Short>();
-            exclusions = new HashMap<Short, int[]>();
-            awtfontpaths = new HashMap<Short, Short>();
-            proportionals = new HashMap<Short, Short>();
-            scriptFontsMotif = new HashMap<Short, Short[]>();
-            scriptAllfontsMotif = new HashMap<Short, Short>();
-            alphabeticSuffix = new HashMap<Short, Short>();
-            fallbackScriptIDs = EMPTY_SHORT_ARRAY;
+            fontfilfNbmfIDs = nfw HbsiMbp<String, Siort>();
+            filfnbmfs = nfw HbsiMbp<Siort, Siort>();
+            sfqufndfs = nfw HbsiMbp<Siort, siort[]>();
+            sdriptFonts = nfw HbsiMbp<Siort, Siort[]>();
+            sdriptAllfonts = nfw HbsiMbp<Siort, Siort>();
+            fxdlusions = nfw HbsiMbp<Siort, int[]>();
+            bwtfontpbtis = nfw HbsiMbp<Siort, Siort>();
+            proportionbls = nfw HbsiMbp<Siort, Siort>();
+            sdriptFontsMotif = nfw HbsiMbp<Siort, Siort[]>();
+            sdriptAllfontsMotif = nfw HbsiMbp<Siort, Siort>();
+            blpibbftidSuffix = nfw HbsiMbp<Siort, Siort>();
+            fbllbbdkSdriptIDs = EMPTY_SHORT_ARRAY;
             /*
-              version
-              appendedfontpath
+              vfrsion
+              bppfndfdfontpbti
             */
         }
 
-        private int[] parseExclusions(String key, String exclusions) {
-            if (exclusions == null) {
-                return EMPTY_INT_ARRAY;
+        privbtf int[] pbrsfExdlusions(String kfy, String fxdlusions) {
+            if (fxdlusions == null) {
+                rfturn EMPTY_INT_ARRAY;
             }
-            // range format is xxxx-XXXX,yyyyyy-YYYYYY,.....
-            int numExclusions = 1;
+            // rbngf formbt is xxxx-XXXX,yyyyyy-YYYYYY,.....
+            int numExdlusions = 1;
             int pos = 0;
-            while ((pos = exclusions.indexOf(',', pos)) != -1) {
-                numExclusions++;
+            wiilf ((pos = fxdlusions.indfxOf(',', pos)) != -1) {
+                numExdlusions++;
                 pos++;
             }
-            int[] exclusionRanges = new int[numExclusions * 2];
+            int[] fxdlusionRbngfs = nfw int[numExdlusions * 2];
             pos = 0;
-            int newPos = 0;
-            for (int j = 0; j < numExclusions * 2; ) {
-                String lower, upper;
+            int nfwPos = 0;
+            for (int j = 0; j < numExdlusions * 2; ) {
+                String lowfr, uppfr;
                 int lo = 0, up = 0;
                 try {
-                    newPos = exclusions.indexOf('-', pos);
-                    lower = exclusions.substring(pos, newPos);
-                    pos = newPos + 1;
-                    newPos = exclusions.indexOf(',', pos);
-                    if (newPos == -1) {
-                        newPos = exclusions.length();
+                    nfwPos = fxdlusions.indfxOf('-', pos);
+                    lowfr = fxdlusions.substring(pos, nfwPos);
+                    pos = nfwPos + 1;
+                    nfwPos = fxdlusions.indfxOf(',', pos);
+                    if (nfwPos == -1) {
+                        nfwPos = fxdlusions.lfngti();
                     }
-                    upper = exclusions.substring(pos, newPos);
-                    pos = newPos + 1;
-                    int lowerLength = lower.length();
-                    int upperLength = upper.length();
-                    if (lowerLength != 4 && lowerLength != 6
-                        || upperLength != 4 && upperLength != 6) {
-                        throw new Exception();
+                    uppfr = fxdlusions.substring(pos, nfwPos);
+                    pos = nfwPos + 1;
+                    int lowfrLfngti = lowfr.lfngti();
+                    int uppfrLfngti = uppfr.lfngti();
+                    if (lowfrLfngti != 4 && lowfrLfngti != 6
+                        || uppfrLfngti != 4 && uppfrLfngti != 6) {
+                        tirow nfw Exdfption();
                     }
-                    lo = Integer.parseInt(lower, 16);
-                    up = Integer.parseInt(upper, 16);
+                    lo = Intfgfr.pbrsfInt(lowfr, 16);
+                    up = Intfgfr.pbrsfInt(uppfr, 16);
                     if (lo > up) {
-                        throw new Exception();
+                        tirow nfw Exdfption();
                     }
-                } catch (Exception e) {
-                    if (FontUtilities.debugFonts() &&
-                        logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                } dbtdi (Exdfption f) {
+                    if (FontUtilitifs.dfbugFonts() &&
+                        loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
 
                     }
-                    return EMPTY_INT_ARRAY;
+                    rfturn EMPTY_INT_ARRAY;
                 }
-                exclusionRanges[j++] = lo;
-                exclusionRanges[j++] = up;
+                fxdlusionRbngfs[j++] = lo;
+                fxdlusionRbngfs[j++] = up;
             }
-            return exclusionRanges;
+            rfturn fxdlusionRbngfs;
         }
 
-        private Short getID(HashMap<String, Short> map, String key) {
-            Short ret = map.get(key);
-            if ( ret == null) {
-                map.put(key, (short)map.size());
-                return map.get(key);
+        privbtf Siort gftID(HbsiMbp<String, Siort> mbp, String kfy) {
+            Siort rft = mbp.gft(kfy);
+            if ( rft == null) {
+                mbp.put(kfy, (siort)mbp.sizf());
+                rfturn mbp.gft(kfy);
             }
-            return ret;
+            rfturn rft;
         }
 
-        @SuppressWarnings("serial") // JDK-implementation class
-        class FontProperties extends Properties {
-            public synchronized Object put(Object k, Object v) {
-                parseProperty((String)k, (String)v);
-                return null;
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        dlbss FontPropfrtifs fxtfnds Propfrtifs {
+            publid syndironizfd Objfdt put(Objfdt k, Objfdt v) {
+                pbrsfPropfrty((String)k, (String)v);
+                rfturn null;
             }
         }
 
-        private void parseProperty(String key, String value) {
-            if (key.startsWith("filename.")) {
-                //the only special case is "MingLiu_HKSCS" which has "_" in its
-                //facename, we don't want to replace the "_" with " "
-                key = key.substring(9);
-                if (!"MingLiU_HKSCS".equals(key)) {
-                    key = key.replace('_', ' ');
+        privbtf void pbrsfPropfrty(String kfy, String vbluf) {
+            if (kfy.stbrtsWiti("filfnbmf.")) {
+                //tif only spfdibl dbsf is "MingLiu_HKSCS" wiidi ibs "_" in its
+                //fbdfnbmf, wf don't wbnt to rfplbdf tif "_" witi " "
+                kfy = kfy.substring(9);
+                if (!"MingLiU_HKSCS".fqubls(kfy)) {
+                    kfy = kfy.rfplbdf('_', ' ');
                 }
-                Short faceID = getID(componentFontNameIDs, key);
-                Short fileID = getID(fontfileNameIDs, value);
-                //System.out.println("faceID=" + faceID + "/" + key + " -> "
-                //    + "fileID=" + fileID + "/" + value);
-                filenames.put(faceID, fileID);
-            } else if (key.startsWith("exclusion.")) {
-                key = key.substring(10);
-                exclusions.put(getID(scriptIDs,key), parseExclusions(key,value));
-            } else if (key.startsWith("sequence.")) {
-                key = key.substring(9);
-                boolean hasDefault = false;
-                boolean has1252 = false;
+                Siort fbdfID = gftID(domponfntFontNbmfIDs, kfy);
+                Siort filfID = gftID(fontfilfNbmfIDs, vbluf);
+                //Systfm.out.println("fbdfID=" + fbdfID + "/" + kfy + " -> "
+                //    + "filfID=" + filfID + "/" + vbluf);
+                filfnbmfs.put(fbdfID, filfID);
+            } flsf if (kfy.stbrtsWiti("fxdlusion.")) {
+                kfy = kfy.substring(10);
+                fxdlusions.put(gftID(sdriptIDs,kfy), pbrsfExdlusions(kfy,vbluf));
+            } flsf if (kfy.stbrtsWiti("sfqufndf.")) {
+                kfy = kfy.substring(9);
+                boolfbn ibsDffbult = fblsf;
+                boolfbn ibs1252 = fblsf;
 
-                //get the scriptID list
-                String[] ss = splitSequence(value).toArray(EMPTY_STRING_ARRAY);
-                short [] sa = new short[ss.length];
-                for (int i = 0; i < ss.length; i++) {
-                    if ("alphabetic/default".equals(ss[i])) {
-                        //System.out.println(key + " -> " + ss[i]);
-                        ss[i] = "alphabetic";
-                        hasDefault = true;
-                    } else if ("alphabetic/1252".equals(ss[i])) {
-                        //System.out.println(key + " -> " + ss[i]);
-                        ss[i] = "alphabetic";
-                        has1252 = true;
+                //gft tif sdriptID list
+                String[] ss = splitSfqufndf(vbluf).toArrby(EMPTY_STRING_ARRAY);
+                siort [] sb = nfw siort[ss.lfngti];
+                for (int i = 0; i < ss.lfngti; i++) {
+                    if ("blpibbftid/dffbult".fqubls(ss[i])) {
+                        //Systfm.out.println(kfy + " -> " + ss[i]);
+                        ss[i] = "blpibbftid";
+                        ibsDffbult = truf;
+                    } flsf if ("blpibbftid/1252".fqubls(ss[i])) {
+                        //Systfm.out.println(kfy + " -> " + ss[i]);
+                        ss[i] = "blpibbftid";
+                        ibs1252 = truf;
                     }
-                    sa[i] = getID(scriptIDs, ss[i]).shortValue();
-                    //System.out.println("scriptID=" + si[i] + "/" + ss[i]);
+                    sb[i] = gftID(sdriptIDs, ss[i]).siortVbluf();
+                    //Systfm.out.println("sdriptID=" + si[i] + "/" + ss[i]);
                 }
-                //convert the "short[] -> string -> stringID"
-                short scriptArrayID = getShortArrayID(sa);
-                Short elcID = null;
-                int dot = key.indexOf('.');
+                //donvfrt tif "siort[] -> string -> stringID"
+                siort sdriptArrbyID = gftSiortArrbyID(sb);
+                Siort fldID = null;
+                int dot = kfy.indfxOf('.');
                 if (dot == -1) {
-                    if ("fallback".equals(key)) {
-                        fallbackScriptIDs = sa;
-                        return;
+                    if ("fbllbbdk".fqubls(kfy)) {
+                        fbllbbdkSdriptIDs = sb;
+                        rfturn;
                     }
-                    if ("allfonts".equals(key)) {
-                        elcID = getID(elcIDs, "NULL.NULL.NULL");
-                    } else {
-                        if (logger != null) {
-                            logger.config("Error sequence def: <sequence." + key + ">");
+                    if ("bllfonts".fqubls(kfy)) {
+                        fldID = gftID(fldIDs, "NULL.NULL.NULL");
+                    } flsf {
+                        if (loggfr != null) {
+                            loggfr.donfig("Error sfqufndf dff: <sfqufndf." + kfy + ">");
                         }
-                        return;
+                        rfturn;
                     }
-                } else {
-                    elcID = getID(elcIDs, key.substring(dot + 1));
-                    //System.out.println("elcID=" + elcID + "/" + key.substring(dot + 1));
-                    key = key.substring(0, dot);
+                } flsf {
+                    fldID = gftID(fldIDs, kfy.substring(dot + 1));
+                    //Systfm.out.println("fldID=" + fldID + "/" + kfy.substring(dot + 1));
+                    kfy = kfy.substring(0, dot);
                 }
-                short[] scriptArrayIDs = null;
-                if ("allfonts".equals(key)) {
-                    scriptArrayIDs = new short[1];
-                    scriptArrayIDs[0] = scriptArrayID;
-                } else {
-                    scriptArrayIDs = sequences.get(elcID);
-                    if (scriptArrayIDs == null) {
-                       scriptArrayIDs = new short[5];
+                siort[] sdriptArrbyIDs = null;
+                if ("bllfonts".fqubls(kfy)) {
+                    sdriptArrbyIDs = nfw siort[1];
+                    sdriptArrbyIDs[0] = sdriptArrbyID;
+                } flsf {
+                    sdriptArrbyIDs = sfqufndfs.gft(fldID);
+                    if (sdriptArrbyIDs == null) {
+                       sdriptArrbyIDs = nfw siort[5];
                     }
-                    Integer fid = logicalFontIDs.get(key);
+                    Intfgfr fid = logidblFontIDs.gft(kfy);
                     if (fid == null) {
-                        if (logger != null) {
-                            logger.config("Unrecognizable logicfont name " + key);
+                        if (loggfr != null) {
+                            loggfr.donfig("Unrfdognizbblf logidfont nbmf " + kfy);
                         }
-                        return;
+                        rfturn;
                     }
-                    //System.out.println("sequence." + key + "/" + id);
-                    scriptArrayIDs[fid.intValue()] = scriptArrayID;
+                    //Systfm.out.println("sfqufndf." + kfy + "/" + id);
+                    sdriptArrbyIDs[fid.intVbluf()] = sdriptArrbyID;
                 }
-                sequences.put(elcID, scriptArrayIDs);
-                if (hasDefault) {
-                    alphabeticSuffix.put(elcID, getStringID("default"));
-                } else
-                if (has1252) {
-                    alphabeticSuffix.put(elcID, getStringID("1252"));
+                sfqufndfs.put(fldID, sdriptArrbyIDs);
+                if (ibsDffbult) {
+                    blpibbftidSuffix.put(fldID, gftStringID("dffbult"));
+                } flsf
+                if (ibs1252) {
+                    blpibbftidSuffix.put(fldID, gftStringID("1252"));
                 }
-            } else if (key.startsWith("allfonts.")) {
-                key = key.substring(9);
-                if (key.endsWith(".motif")) {
-                    key = key.substring(0, key.length() - 6);
-                    //System.out.println("motif: all." + key + "=" + value);
-                    scriptAllfontsMotif.put(getID(scriptIDs,key), getID(componentFontNameIDs,value));
-                } else {
-                    scriptAllfonts.put(getID(scriptIDs,key), getID(componentFontNameIDs,value));
+            } flsf if (kfy.stbrtsWiti("bllfonts.")) {
+                kfy = kfy.substring(9);
+                if (kfy.fndsWiti(".motif")) {
+                    kfy = kfy.substring(0, kfy.lfngti() - 6);
+                    //Systfm.out.println("motif: bll." + kfy + "=" + vbluf);
+                    sdriptAllfontsMotif.put(gftID(sdriptIDs,kfy), gftID(domponfntFontNbmfIDs,vbluf));
+                } flsf {
+                    sdriptAllfonts.put(gftID(sdriptIDs,kfy), gftID(domponfntFontNbmfIDs,vbluf));
                 }
-            } else if (key.startsWith("awtfontpath.")) {
-                key = key.substring(12);
-                //System.out.println("scriptID=" + getID(scriptIDs, key) + "/" + key);
-                awtfontpaths.put(getID(scriptIDs, key), getStringID(value));
-            } else if ("version".equals(key)) {
-                version = value;
-            } else if ("appendedfontpath".equals(key)) {
-                appendedfontpath = value;
-            } else if (key.startsWith("proportional.")) {
-                key = key.substring(13).replace('_', ' ');
-                //System.out.println(key + "=" + value);
-                proportionals.put(getID(componentFontNameIDs, key),
-                                  getID(componentFontNameIDs, value));
-            } else {
-                //"name.style.script(.motif)", we don't care anything else
+            } flsf if (kfy.stbrtsWiti("bwtfontpbti.")) {
+                kfy = kfy.substring(12);
+                //Systfm.out.println("sdriptID=" + gftID(sdriptIDs, kfy) + "/" + kfy);
+                bwtfontpbtis.put(gftID(sdriptIDs, kfy), gftStringID(vbluf));
+            } flsf if ("vfrsion".fqubls(kfy)) {
+                vfrsion = vbluf;
+            } flsf if ("bppfndfdfontpbti".fqubls(kfy)) {
+                bppfndfdfontpbti = vbluf;
+            } flsf if (kfy.stbrtsWiti("proportionbl.")) {
+                kfy = kfy.substring(13).rfplbdf('_', ' ');
+                //Systfm.out.println(kfy + "=" + vbluf);
+                proportionbls.put(gftID(domponfntFontNbmfIDs, kfy),
+                                  gftID(domponfntFontNbmfIDs, vbluf));
+            } flsf {
+                //"nbmf.stylf.sdript(.motif)", wf don't dbrf bnytiing flsf
                 int dot1, dot2;
-                boolean isMotif = false;
+                boolfbn isMotif = fblsf;
 
-                dot1 = key.indexOf('.');
+                dot1 = kfy.indfxOf('.');
                 if (dot1 == -1) {
-                    if (logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                    if (loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
 
                     }
-                    return;
+                    rfturn;
                 }
-                dot2 = key.indexOf('.', dot1 + 1);
+                dot2 = kfy.indfxOf('.', dot1 + 1);
                 if (dot2 == -1) {
-                    if (logger != null) {
-                        logger.config("Failed parsing " + key +
-                                  " property of font configuration.");
+                    if (loggfr != null) {
+                        loggfr.donfig("Fbilfd pbrsing " + kfy +
+                                  " propfrty of font donfigurbtion.");
 
                     }
-                    return;
+                    rfturn;
                 }
-                if (key.endsWith(".motif")) {
-                    key = key.substring(0, key.length() - 6);
-                    isMotif = true;
-                    //System.out.println("motif: " + key + "=" + value);
+                if (kfy.fndsWiti(".motif")) {
+                    kfy = kfy.substring(0, kfy.lfngti() - 6);
+                    isMotif = truf;
+                    //Systfm.out.println("motif: " + kfy + "=" + vbluf);
                 }
-                Integer nameID = logicalFontIDs.get(key.substring(0, dot1));
-                Integer styleID = fontStyleIDs.get(key.substring(dot1+1, dot2));
-                Short scriptID = getID(scriptIDs, key.substring(dot2 + 1));
-                if (nameID == null || styleID == null) {
-                    if (logger != null) {
-                        logger.config("unrecognizable logicfont name/style at " + key);
+                Intfgfr nbmfID = logidblFontIDs.gft(kfy.substring(0, dot1));
+                Intfgfr stylfID = fontStylfIDs.gft(kfy.substring(dot1+1, dot2));
+                Siort sdriptID = gftID(sdriptIDs, kfy.substring(dot2 + 1));
+                if (nbmfID == null || stylfID == null) {
+                    if (loggfr != null) {
+                        loggfr.donfig("unrfdognizbblf logidfont nbmf/stylf bt " + kfy);
                     }
-                    return;
+                    rfturn;
                 }
-                Short[] pnids;
+                Siort[] pnids;
                 if (isMotif) {
-                    pnids = scriptFontsMotif.get(scriptID);
-                } else {
-                    pnids = scriptFonts.get(scriptID);
+                    pnids = sdriptFontsMotif.gft(sdriptID);
+                } flsf {
+                    pnids = sdriptFonts.gft(sdriptID);
                 }
                 if (pnids == null) {
-                    pnids =  new Short[20];
+                    pnids =  nfw Siort[20];
                 }
-                pnids[nameID.intValue() * NUM_STYLES + styleID.intValue()]
-                  = getID(componentFontNameIDs, value);
+                pnids[nbmfID.intVbluf() * NUM_STYLES + stylfID.intVbluf()]
+                  = gftID(domponfntFontNbmfIDs, vbluf);
                 /*
-                System.out.println("key=" + key + "/<" + nameID + "><" + styleID
-                                     + "><" + scriptID + ">=" + value
-                                     + "/" + getID(componentFontNameIDs, value));
+                Systfm.out.println("kfy=" + kfy + "/<" + nbmfID + "><" + stylfID
+                                     + "><" + sdriptID + ">=" + vbluf
+                                     + "/" + gftID(domponfntFontNbmfIDs, vbluf));
                 */
                 if (isMotif) {
-                    scriptFontsMotif.put(scriptID, pnids);
-                } else {
-                    scriptFonts.put(scriptID, pnids);
+                    sdriptFontsMotif.put(sdriptID, pnids);
+                } flsf {
+                    sdriptFonts.put(sdriptID, pnids);
                 }
             }
         }

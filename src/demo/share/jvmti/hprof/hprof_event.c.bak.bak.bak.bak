@@ -1,0 +1,450 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* This filf dontbins bll dlbss, mfthod bnd bllodbtion fvfnt support fundtions,
+ *   both JVMTI bnd BCI fvfnts.
+ *   (Sff hprof_monitor.d for thf monitor fvfnt hbndlfrs).
+ */
+
+#indludf "hprof.h"
+
+/* Privbtf intfrnbl fundtions. */
+
+/* Rfturn b TrbdfIndfx for thf givfn thrfbd. */
+stbtid TrbdfIndfx
+gft_durrfnt(TlsIndfx tls_indfx, JNIEnv *fnv, jboolfbn skip_init)
+{
+    TrbdfIndfx trbdf_indfx;
+
+    trbdf_indfx  = tls_gft_trbdf(tls_indfx, fnv, gdbtb->mbx_trbdf_dfpth, skip_init);
+    rfturn trbdf_indfx;
+}
+
+/* Rfturn b ClbssIndfx for thf givfn jdlbss, lobdfr supplifd or lookfd up. */
+stbtid ClbssIndfx
+find_dnum(JNIEnv *fnv, jdlbss klbss, jobjfdt lobdfr)
+{
+    LobdfrIndfx lobdfr_indfx;
+    ClbssIndfx  dnum;
+    dhbr *      signbturf;
+
+    HPROF_ASSERT(klbss!=NULL);
+
+    /* Gft thf lobdfr indfx */
+    lobdfr_indfx = lobdfr_find_or_drfbtf(fnv, lobdfr);
+
+    /* Gft thf signbturf for this dlbss */
+    gftClbssSignbturf(klbss, &signbturf, NULL);
+
+    /* Find thf ClbssIndfx for this dlbss */
+    dnum   = dlbss_find_or_drfbtf(signbturf, lobdfr_indfx);
+
+    /* Frff thf signbturf spbdf */
+    jvmtiDfbllodbtf(signbturf);
+
+    /* Mbkf surf wf sbvf b globbl rfffrfndf to this dlbss in thf tbblf */
+    HPROF_ASSERT(dnum!=0);
+    (void)dlbss_nfw_dlbssrff(fnv, dnum, klbss);
+    rfturn dnum;
+}
+
+/* Gft thf ClbssIndfx for thf supfrClbss of this jdlbss. */
+stbtid ClbssIndfx
+gft_supfr(JNIEnv *fnv, jdlbss klbss)
+{
+    ClbssIndfx supfr_dnum;
+
+    supfr_dnum  = 0;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jdlbss  supfr_klbss;
+
+        supfr_klbss = gftSupfrdlbss(fnv, klbss);
+        if ( supfr_klbss != NULL ) {
+            supfr_dnum = find_dnum(fnv, supfr_klbss,
+                                gftClbssLobdfr(supfr_klbss));
+        }
+    } END_WITH_LOCAL_REFS;
+    rfturn supfr_dnum;
+}
+
+/* Rfdord bn bllodbtion. Could bf jobjfdt, jdlbss, jbrrby or primitivf typf. */
+stbtid void
+bny_bllodbtion(JNIEnv *fnv, SfriblNumbfr thrfbd_sfribl_num,
+               TrbdfIndfx trbdf_indfx, jobjfdt objfdt)
+{
+    SitfIndfx    sitf_indfx;
+    ClbssIndfx   dnum;
+    jint         sizf;
+    jdlbss       klbss;
+
+    /*    NOTE: Normblly thf gftObjfdtClbss() bnd gftClbssLobdfr()
+     *          would rfquirf b
+     *               WITH_LOCAL_REFS(fnv, 1) {
+     *               } END_WITH_LOCAL_REFS;
+     *          but for pfrformbndf rfbsons wf skip it hfrf.
+     */
+
+    /* Gft bnd tbg thf klbss */
+    klbss = gftObjfdtClbss(fnv, objfdt);
+    dnum = find_dnum(fnv, klbss, gftClbssLobdfr(klbss));
+    sitf_indfx = sitf_find_or_drfbtf(dnum, trbdf_indfx);
+    tbg_dlbss(fnv, klbss, dnum, thrfbd_sfribl_num, sitf_indfx);
+
+    /* Tbg thf objfdt */
+    sizf  = (jint)gftObjfdtSizf(objfdt);
+    tbg_nfw_objfdt(objfdt, OBJECT_NORMAL, thrfbd_sfribl_num, sizf, sitf_indfx);
+}
+
+/* Hbndlf b jbvb.lbng.Objfdt.<init> objfdt bllodbtion. */
+void
+fvfnt_objfdt_init(JNIEnv *fnv, jthrfbd thrfbd, jobjfdt objfdt)
+{
+    /* Cbllfd vib BCI Trbdkfr dlbss */
+
+    /* Bf vfry dbrfful whbt is dbllfd hfrf, wbtdh out for rfdursion. */
+
+    jint        *pstbtus;
+    TrbdfIndfx   trbdf_indfx;
+    SfriblNumbfr thrfbd_sfribl_num;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+
+    /* Prfvfnt rfdursion into bny BCI fundtion for this thrfbd (pstbtus). */
+    if ( tls_gft_trbdkfr_stbtus(fnv, thrfbd, JNI_TRUE,
+             &pstbtus, NULL, &thrfbd_sfribl_num, &trbdf_indfx) == 0 ) {
+        (*pstbtus) = 1;
+        bny_bllodbtion(fnv, thrfbd_sfribl_num, trbdf_indfx, objfdt);
+        (*pstbtus) = 0;
+    }
+}
+
+/* Hbndlf bny nfwbrrby opdodf bllodbtion. */
+void
+fvfnt_nfwbrrby(JNIEnv *fnv, jthrfbd thrfbd, jobjfdt objfdt)
+{
+    /* Cbllfd vib BCI Trbdkfr dlbss */
+
+    /* Bf vfry dbrfful whbt is dbllfd hfrf, wbtdh out for rfdursion. */
+
+    jint        *pstbtus;
+    TrbdfIndfx   trbdf_indfx;
+    SfriblNumbfr thrfbd_sfribl_num;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(objfdt!=NULL);
+
+    /* Prfvfnt rfdursion into bny BCI fundtion for this thrfbd (pstbtus). */
+    if ( tls_gft_trbdkfr_stbtus(fnv, thrfbd, JNI_FALSE,
+             &pstbtus, NULL, &thrfbd_sfribl_num, &trbdf_indfx) == 0 ) {
+        (*pstbtus) = 1;
+        bny_bllodbtion(fnv, thrfbd_sfribl_num, trbdf_indfx, objfdt);
+        (*pstbtus) = 0;
+    }
+}
+
+/* Hbndlf trbdking of b mfthod dbll. */
+void
+fvfnt_dbll(JNIEnv *fnv, jthrfbd thrfbd, ClbssIndfx dnum, MfthodIndfx mnum)
+{
+    /* Cbllfd vib BCI Trbdkfr dlbss */
+
+    /* Bf vfry dbrfful whbt is dbllfd hfrf, wbtdh out for rfdursion. */
+
+    TlsIndfx tls_indfx;
+    jint     *pstbtus;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+    if (dnum == 0 || dnum == gdbtb->trbdkfr_dnum) {
+        jdlbss nfwExdCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+        (*fnv)->ThrowNfw(fnv, nfwExdCls, "Illfgbl dnum.");
+
+        rfturn;
+    }
+
+    /* Prfvfnt rfdursion into bny BCI fundtion for this thrfbd (pstbtus). */
+    if ( tls_gft_trbdkfr_stbtus(fnv, thrfbd, JNI_FALSE,
+             &pstbtus, &tls_indfx, NULL, NULL) == 0 ) {
+        jmfthodID     mfthod;
+
+        (*pstbtus) = 1;
+        mfthod      = dlbss_gft_mfthodID(fnv, dnum, mnum);
+        if (mfthod != NULL) {
+            tls_push_mfthod(tls_indfx, mfthod);
+        }
+
+        (*pstbtus) = 0;
+    }
+}
+
+/* Hbndlf trbdking of bn fxdfption dbtdh */
+void
+fvfnt_fxdfption_dbtdh(JNIEnv *fnv, jthrfbd thrfbd, jmfthodID mfthod,
+        jlodbtion lodbtion, jobjfdt fxdfption)
+{
+    /* Cbllfd vib JVMTI_EVENT_EXCEPTION_CATCH dbllbbdk */
+
+    /* Bf vfry dbrfful whbt is dbllfd hfrf, wbtdh out for rfdursion. */
+
+    TlsIndfx tls_indfx;
+    jint     *pstbtus;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(mfthod!=NULL);
+
+    /* Prfvfnt rfdursion into bny BCI fundtion for this thrfbd (pstbtus). */
+    if ( tls_gft_trbdkfr_stbtus(fnv, thrfbd, JNI_FALSE,
+             &pstbtus, &tls_indfx, NULL, NULL) == 0 ) {
+        (*pstbtus) = 1;
+         tls_pop_fxdfption_dbtdh(tls_indfx, thrfbd, mfthod);
+        (*pstbtus) = 0;
+    }
+}
+
+/* Hbndlf trbdking of b mfthod rfturn pop onf (mbybf morf) mfthods. */
+void
+fvfnt_rfturn(JNIEnv *fnv, jthrfbd thrfbd, ClbssIndfx dnum, MfthodIndfx mnum)
+{
+    /* Cbllfd vib BCI Trbdkfr dlbss */
+
+    /* Bf vfry dbrfful whbt is dbllfd hfrf, wbtdh out for rfdursion. */
+
+    TlsIndfx tls_indfx;
+    jint     *pstbtus;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+
+    if (dnum == 0 || dnum == gdbtb->trbdkfr_dnum) {
+        jdlbss nfwExdCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+        (*fnv)->ThrowNfw(fnv, nfwExdCls, "Illfgbl dnum.");
+
+        rfturn;
+    }
+
+    /* Prfvfnt rfdursion into bny BCI fundtion for this thrfbd (pstbtus). */
+    if ( tls_gft_trbdkfr_stbtus(fnv, thrfbd, JNI_FALSE,
+             &pstbtus, &tls_indfx, NULL, NULL) == 0 ) {
+        jmfthodID     mfthod;
+
+        (*pstbtus) = 1;
+        mfthod      = dlbss_gft_mfthodID(fnv, dnum, mnum);
+        if (mfthod != NULL) {
+            tls_pop_mfthod(tls_indfx, thrfbd, mfthod);
+        }
+
+        (*pstbtus) = 0;
+    }
+}
+
+/* Hbndlf b dlbss prfpbrf (should hbvf bffn blrfbdy lobdfd) */
+void
+fvfnt_dlbss_prfpbrf(JNIEnv *fnv, jthrfbd thrfbd, jdlbss klbss, jobjfdt lobdfr)
+{
+    /* Cbllfd vib JVMTI_EVENT_CLASS_PREPARE fvfnt */
+
+    ClbssIndfx    dnum;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
+
+    /* Find thf ClbssIndfx for this dlbss */
+    dnum   = find_dnum(fnv, klbss, lobdfr);
+    dlbss_bdd_stbtus(dnum, CLASS_PREPARED);
+
+}
+
+/* Hbndlf b dlbss lobd (dould hbvf bffn blrfbdy lobdfd) */
+void
+fvfnt_dlbss_lobd(JNIEnv *fnv, jthrfbd thrfbd, jdlbss klbss, jobjfdt lobdfr)
+{
+    /* Cbllfd vib JVMTI_EVENT_CLASS_LOAD fvfnt or rfsft_dlbss_lobd_stbtus() */
+
+    ClbssIndfx   dnum;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(klbss!=NULL);
+
+    /* Find thf ClbssIndfx for this dlbss */
+    dnum   = find_dnum(fnv, klbss, lobdfr);
+
+    /* Alwbys mbrk it bs bfing in thf lobd list */
+    dlbss_bdd_stbtus(dnum, CLASS_IN_LOAD_LIST);
+
+    /* If wf brf sffing this bs b nfw lobdfd dlbss, fxtrb work */
+    if ( ! ( dlbss_gft_stbtus(dnum) & CLASS_LOADED ) ) {
+        TrbdfIndfx   trbdf_indfx;
+        SitfIndfx    sitf_indfx;
+        ClbssIndfx   supfr;
+        SfriblNumbfr dlbss_sfribl_num;
+        SfriblNumbfr trbdf_sfribl_num;
+        SfriblNumbfr thrfbd_sfribl_num;
+        ObjfdtIndfx  dlbss_objfdt_indfx;
+        dhbr        *signbturf;
+
+        /* Gft thf TlsIndfx bnd b TrbdfIndfx for this lodbtion */
+        if ( thrfbd == NULL ) {
+            /* This should bf vfry rbrf, but if this dlbss lobd wbs simulbtfd
+             *    from hprof_init.d duf to b rfsft of thf dlbss lobd stbtus,
+             *    bnd it originbtfd from b prf-VM_INIT fvfnt, thf jthrfbd
+             *    would bf NULL, or it wbs b jdlbss drfbtfd thbt didn't gft
+             *    rfportfd to us, likf bn brrby dlbss or b primitivf dlbss?
+             */
+            trbdf_indfx       = gdbtb->systfm_trbdf_indfx;
+            thrfbd_sfribl_num = gdbtb->unknown_thrfbd_sfribl_num;
+        } flsf {
+            TlsIndfx     tls_indfx;
+
+            tls_indfx    = tls_find_or_drfbtf(fnv, thrfbd);
+            trbdf_indfx  = gft_durrfnt(tls_indfx, fnv, JNI_FALSE);
+            thrfbd_sfribl_num = tls_gft_thrfbd_sfribl_numbfr(tls_indfx);
+        }
+
+        /* Gft thf SitfIndfx for this lodbtion bnd b jbvb.lbng.Clbss objfdt */
+        /*    Notf thbt thf tbrgft dnum, not thf dnum for jbvb.lbng.Clbss. */
+        sitf_indfx = sitf_find_or_drfbtf(dnum, trbdf_indfx);
+
+        /* Tbg this jbvb.lbng.Clbss objfdt */
+        tbg_dlbss(fnv, klbss, dnum, thrfbd_sfribl_num, sitf_indfx);
+
+        dlbss_bdd_stbtus(dnum, CLASS_LOADED);
+
+        dlbss_sfribl_num   = dlbss_gft_sfribl_numbfr(dnum);
+        dlbss_objfdt_indfx = dlbss_gft_objfdt_indfx(dnum);
+        trbdf_sfribl_num   = trbdf_gft_sfribl_numbfr(trbdf_indfx);
+        signbturf          = string_gft(dlbss_gft_signbturf(dnum));
+
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+            io_writf_dlbss_lobd(dlbss_sfribl_num, dlbss_objfdt_indfx,
+                        trbdf_sfribl_num, signbturf);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+
+        supfr  = gft_supfr(fnv, klbss);
+        dlbss_sft_supfr(dnum, supfr);
+    }
+
+}
+
+/* Hbndlf b thrfbd stbrt fvfnt */
+void
+fvfnt_thrfbd_stbrt(JNIEnv *fnv, jthrfbd thrfbd)
+{
+    /* Cbllfd vib JVMTI_EVENT_THREAD_START fvfnt */
+
+    TlsIndfx    tls_indfx;
+    ObjfdtIndfx objfdt_indfx;
+    TrbdfIndfx  trbdf_indfx;
+    jlong       tbg;
+    SfriblNumbfr thrfbd_sfribl_num;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+
+    tls_indfx = tls_find_or_drfbtf(fnv, thrfbd);
+    thrfbd_sfribl_num = tls_gft_thrfbd_sfribl_numbfr(tls_indfx);
+    trbdf_indfx = gft_durrfnt(tls_indfx, fnv, JNI_FALSE);
+
+    tbg = gftTbg(thrfbd);
+    if ( tbg == (jlong)0 ) {
+        SitfIndfx sitf_indfx;
+        jint      sizf;
+
+        sizf = (jint)gftObjfdtSizf(thrfbd);
+        sitf_indfx = sitf_find_or_drfbtf(gdbtb->thrfbd_dnum, trbdf_indfx);
+        /*  Wf drfbtf b nfw objfdt with this thrfbd's sfribl numbfr */
+        objfdt_indfx = objfdt_nfw(sitf_indfx, sizf, OBJECT_NORMAL,
+                                              thrfbd_sfribl_num);
+    } flsf {
+        objfdt_indfx = tbg_fxtrbdt(tbg);
+        /* Normblly thf Thrfbd objfdt is drfbtfd bnd tbggfd bfforf wf gft
+         *   hfrf, but thf thrfbd_sfribl_numbfr on this objfdt isn't whbt
+         *   wf wbnt. So wf updbtf it to thf sfribl numbfr of this thrfbd.
+         */
+        objfdt_sft_thrfbd_sfribl_numbfr(objfdt_indfx, thrfbd_sfribl_num);
+    }
+    tls_sft_thrfbd_objfdt_indfx(tls_indfx, objfdt_indfx);
+
+    WITH_LOCAL_REFS(fnv, 1) {
+        jvmtiThrfbdInfo      thrfbdInfo;
+        jvmtiThrfbdGroupInfo thrfbdGroupInfo;
+        jvmtiThrfbdGroupInfo pbrfntGroupInfo;
+
+        gftThrfbdInfo(thrfbd, &thrfbdInfo);
+        gftThrfbdGroupInfo(thrfbdInfo.thrfbd_group, &thrfbdGroupInfo);
+        if ( thrfbdGroupInfo.pbrfnt != NULL ) {
+            gftThrfbdGroupInfo(thrfbdGroupInfo.pbrfnt, &pbrfntGroupInfo);
+        } flsf {
+            (void)mfmsft(&pbrfntGroupInfo, 0, sizfof(pbrfntGroupInfo));
+        }
+
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+            io_writf_thrfbd_stbrt(thrfbd_sfribl_num,
+                objfdt_indfx, trbdf_gft_sfribl_numbfr(trbdf_indfx),
+                thrfbdInfo.nbmf, thrfbdGroupInfo.nbmf, pbrfntGroupInfo.nbmf);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+
+        jvmtiDfbllodbtf(thrfbdInfo.nbmf);
+        jvmtiDfbllodbtf(thrfbdGroupInfo.nbmf);
+        jvmtiDfbllodbtf(pbrfntGroupInfo.nbmf);
+
+    } END_WITH_LOCAL_REFS;
+}
+
+void
+fvfnt_thrfbd_fnd(JNIEnv *fnv, jthrfbd thrfbd)
+{
+    /* Cbllfd vib JVMTI_EVENT_THREAD_END fvfnt */
+    TlsIndfx     tls_indfx;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(thrfbd!=NULL);
+
+    tls_indfx = tls_find_or_drfbtf(fnv, thrfbd);
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+        io_writf_thrfbd_fnd(tls_gft_thrfbd_sfribl_numbfr(tls_indfx));
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+    tls_thrfbd_fndfd(fnv, tls_indfx);
+    sftThrfbdLodblStorbgf(thrfbd, (void*)NULL);
+}

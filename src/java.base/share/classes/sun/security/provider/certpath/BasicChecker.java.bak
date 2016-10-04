@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.SignatureException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.X509Certificate;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.TrustAnchor;
-import java.security.interfaces.DSAParams;
-import java.security.interfaces.DSAPublicKey;
-import java.security.spec.DSAPublicKeySpec;
-import javax.security.auth.x500.X500Principal;
-import sun.security.x509.X500Name;
-import sun.security.util.Debug;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Collfdtion;
+import jbvb.util.Dbtf;
+import jbvb.util.Sft;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.TrustAndior;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+import jbvb.sfdurity.spfd.DSAPublidKfySpfd;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * BasicChecker is a PKIXCertPathChecker that checks the basic information
- * on a PKIX certificate, namely the signature, timestamp, and subject/issuer
- * name chaining.
+ * BbsidCifdkfr is b PKIXCfrtPbtiCifdkfr tibt difdks tif bbsid informbtion
+ * on b PKIX dfrtifidbtf, nbmfly tif signbturf, timfstbmp, bnd subjfdt/issufr
+ * nbmf dibining.
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-class BasicChecker extends PKIXCertPathChecker {
+dlbss BbsidCifdkfr fxtfnds PKIXCfrtPbtiCifdkfr {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private final PublicKey trustedPubKey;
-    private final X500Principal caName;
-    private final Date date;
-    private final String sigProvider;
-    private final boolean sigOnly;
-    private X500Principal prevSubject;
-    private PublicKey prevPubKey;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf finbl PublidKfy trustfdPubKfy;
+    privbtf finbl X500Prindipbl dbNbmf;
+    privbtf finbl Dbtf dbtf;
+    privbtf finbl String sigProvidfr;
+    privbtf finbl boolfbn sigOnly;
+    privbtf X500Prindipbl prfvSubjfdt;
+    privbtf PublidKfy prfvPubKfy;
 
     /**
-     * Constructor that initializes the input parameters.
+     * Construdtor tibt initiblizfs tif input pbrbmftfrs.
      *
-     * @param anchor the anchor selected to validate the target certificate
-     * @param testDate the time for which the validity of the certificate
-     *        should be determined
-     * @param sigProvider the name of the signature provider
-     * @param sigOnly true if only signature checking is to be done;
-     *        if false, all checks are done
+     * @pbrbm bndior tif bndior sflfdtfd to vblidbtf tif tbrgft dfrtifidbtf
+     * @pbrbm tfstDbtf tif timf for wiidi tif vblidity of tif dfrtifidbtf
+     *        siould bf dftfrminfd
+     * @pbrbm sigProvidfr tif nbmf of tif signbturf providfr
+     * @pbrbm sigOnly truf if only signbturf difdking is to bf donf;
+     *        if fblsf, bll difdks brf donf
      */
-    BasicChecker(TrustAnchor anchor, Date date, String sigProvider,
-                 boolean sigOnly) {
-        if (anchor.getTrustedCert() != null) {
-            this.trustedPubKey = anchor.getTrustedCert().getPublicKey();
-            this.caName = anchor.getTrustedCert().getSubjectX500Principal();
-        } else {
-            this.trustedPubKey = anchor.getCAPublicKey();
-            this.caName = anchor.getCA();
+    BbsidCifdkfr(TrustAndior bndior, Dbtf dbtf, String sigProvidfr,
+                 boolfbn sigOnly) {
+        if (bndior.gftTrustfdCfrt() != null) {
+            tiis.trustfdPubKfy = bndior.gftTrustfdCfrt().gftPublidKfy();
+            tiis.dbNbmf = bndior.gftTrustfdCfrt().gftSubjfdtX500Prindipbl();
+        } flsf {
+            tiis.trustfdPubKfy = bndior.gftCAPublidKfy();
+            tiis.dbNbmf = bndior.gftCA();
         }
-        this.date = date;
-        this.sigProvider = sigProvider;
-        this.sigOnly = sigOnly;
-        this.prevPubKey = trustedPubKey;
+        tiis.dbtf = dbtf;
+        tiis.sigProvidfr = sigProvidfr;
+        tiis.sigOnly = sigOnly;
+        tiis.prfvPubKfy = trustfdPubKfy;
     }
 
     /**
-     * Initializes the internal state of the checker from parameters
-     * specified in the constructor.
+     * Initiblizfs tif intfrnbl stbtf of tif difdkfr from pbrbmftfrs
+     * spfdififd in tif donstrudtor.
      */
-    @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (!forward) {
-            prevPubKey = trustedPubKey;
-            if (PKIX.isDSAPublicKeyWithoutParams(prevPubKey)) {
-                // If TrustAnchor is a DSA public key and it has no params, it
-                // cannot be used to verify the signature of the first cert,
-                // so throw exception
-                throw new CertPathValidatorException("Key parameters missing");
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) tirows CfrtPbtiVblidbtorExdfption {
+        if (!forwbrd) {
+            prfvPubKfy = trustfdPubKfy;
+            if (PKIX.isDSAPublidKfyWitioutPbrbms(prfvPubKfy)) {
+                // If TrustAndior is b DSA publid kfy bnd it ibs no pbrbms, it
+                // dbnnot bf usfd to vfrify tif signbturf of tif first dfrt,
+                // so tirow fxdfption
+                tirow nfw CfrtPbtiVblidbtorExdfption("Kfy pbrbmftfrs missing");
             }
-            prevSubject = caName;
-        } else {
-            throw new
-                CertPathValidatorException("forward checking not supported");
+            prfvSubjfdt = dbNbmf;
+        } flsf {
+            tirow nfw
+                CfrtPbtiVblidbtorExdfption("forwbrd difdking not supportfd");
         }
     }
 
-    @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isForwbrdCifdkingSupportfd() {
+        rfturn fblsf;
     }
 
-    @Override
-    public Set<String> getSupportedExtensions() {
-        return null;
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        rfturn null;
     }
 
     /**
-     * Performs the signature, timestamp, and subject/issuer name chaining
-     * checks on the certificate using its internal state. This method does
-     * not remove any critical extensions from the Collection.
+     * Pfrforms tif signbturf, timfstbmp, bnd subjfdt/issufr nbmf dibining
+     * difdks on tif dfrtifidbtf using its intfrnbl stbtf. Tiis mftiod dofs
+     * not rfmovf bny dritidbl fxtfnsions from tif Collfdtion.
      *
-     * @param cert the Certificate
-     * @param unresolvedCritExts a Collection of the unresolved critical
-     * extensions
-     * @throws CertPathValidatorException if certificate does not verify
+     * @pbrbm dfrt tif Cfrtifidbtf
+     * @pbrbm unrfsolvfdCritExts b Collfdtion of tif unrfsolvfd dritidbl
+     * fxtfnsions
+     * @tirows CfrtPbtiVblidbtorExdfption if dfrtifidbtf dofs not vfrify
      */
-    @Override
-    public void check(Certificate cert, Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+    @Ovfrridf
+    publid void difdk(Cfrtifidbtf dfrt, Collfdtion<String> unrfsolvfdCritExts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Cfrtifidbtf durrCfrt = (X509Cfrtifidbtf)dfrt;
 
         if (!sigOnly) {
-            verifyTimestamp(currCert);
-            verifyNameChaining(currCert);
+            vfrifyTimfstbmp(durrCfrt);
+            vfrifyNbmfCibining(durrCfrt);
         }
-        verifySignature(currCert);
+        vfrifySignbturf(durrCfrt);
 
-        updateState(currCert);
+        updbtfStbtf(durrCfrt);
     }
 
     /**
-     * Verifies the signature on the certificate using the previous public key.
+     * Vfrififs tif signbturf on tif dfrtifidbtf using tif prfvious publid kfy.
      *
-     * @param cert the X509Certificate
-     * @throws CertPathValidatorException if certificate does not verify
+     * @pbrbm dfrt tif X509Cfrtifidbtf
+     * @tirows CfrtPbtiVblidbtorExdfption if dfrtifidbtf dofs not vfrify
      */
-    private void verifySignature(X509Certificate cert)
-        throws CertPathValidatorException
+    privbtf void vfrifySignbturf(X509Cfrtifidbtf dfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        String msg = "signature";
-        if (debug != null)
-            debug.println("---checking " + msg + "...");
+        String msg = "signbturf";
+        if (dfbug != null)
+            dfbug.println("---difdking " + msg + "...");
 
         try {
-            cert.verify(prevPubKey, sigProvider);
-        } catch (SignatureException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1,
-                 BasicReason.INVALID_SIGNATURE);
-        } catch (GeneralSecurityException e) {
-            throw new CertPathValidatorException(msg + " check failed", e);
+            dfrt.vfrify(prfvPubKfy, sigProvidfr);
+        } dbtdi (SignbturfExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                (msg + " difdk fbilfd", f, null, -1,
+                 BbsidRfbson.INVALID_SIGNATURE);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(msg + " difdk fbilfd", f);
         }
 
-        if (debug != null)
-            debug.println(msg + " verified.");
+        if (dfbug != null)
+            dfbug.println(msg + " vfrififd.");
     }
 
     /**
-     * Internal method to verify the timestamp on a certificate
+     * Intfrnbl mftiod to vfrify tif timfstbmp on b dfrtifidbtf
      */
-    private void verifyTimestamp(X509Certificate cert)
-        throws CertPathValidatorException
+    privbtf void vfrifyTimfstbmp(X509Cfrtifidbtf dfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        String msg = "timestamp";
-        if (debug != null)
-            debug.println("---checking " + msg + ":" + date.toString() + "...");
+        String msg = "timfstbmp";
+        if (dfbug != null)
+            dfbug.println("---difdking " + msg + ":" + dbtf.toString() + "...");
 
         try {
-            cert.checkValidity(date);
-        } catch (CertificateExpiredException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1, BasicReason.EXPIRED);
-        } catch (CertificateNotYetValidException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1, BasicReason.NOT_YET_VALID);
+            dfrt.difdkVblidity(dbtf);
+        } dbtdi (CfrtifidbtfExpirfdExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                (msg + " difdk fbilfd", f, null, -1, BbsidRfbson.EXPIRED);
+        } dbtdi (CfrtifidbtfNotYftVblidExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                (msg + " difdk fbilfd", f, null, -1, BbsidRfbson.NOT_YET_VALID);
         }
 
-        if (debug != null)
-            debug.println(msg + " verified.");
+        if (dfbug != null)
+            dfbug.println(msg + " vfrififd.");
     }
 
     /**
-     * Internal method to check that cert has a valid DN to be next in a chain
+     * Intfrnbl mftiod to difdk tibt dfrt ibs b vblid DN to bf nfxt in b dibin
      */
-    private void verifyNameChaining(X509Certificate cert)
-        throws CertPathValidatorException
+    privbtf void vfrifyNbmfCibining(X509Cfrtifidbtf dfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        if (prevSubject != null) {
+        if (prfvSubjfdt != null) {
 
-            String msg = "subject/issuer name chaining";
-            if (debug != null)
-                debug.println("---checking " + msg + "...");
+            String msg = "subjfdt/issufr nbmf dibining";
+            if (dfbug != null)
+                dfbug.println("---difdking " + msg + "...");
 
-            X500Principal currIssuer = cert.getIssuerX500Principal();
+            X500Prindipbl durrIssufr = dfrt.gftIssufrX500Prindipbl();
 
-            // reject null or empty issuer DNs
-            if (X500Name.asX500Name(currIssuer).isEmpty()) {
-                throw new CertPathValidatorException
-                    (msg + " check failed: " +
-                     "empty/null issuer DN in certificate is invalid", null,
-                     null, -1, PKIXReason.NAME_CHAINING);
+            // rfjfdt null or fmpty issufr DNs
+            if (X500Nbmf.bsX500Nbmf(durrIssufr).isEmpty()) {
+                tirow nfw CfrtPbtiVblidbtorExdfption
+                    (msg + " difdk fbilfd: " +
+                     "fmpty/null issufr DN in dfrtifidbtf is invblid", null,
+                     null, -1, PKIXRfbson.NAME_CHAINING);
             }
 
-            if (!(currIssuer.equals(prevSubject))) {
-                throw new CertPathValidatorException
-                    (msg + " check failed", null, null, -1,
-                     PKIXReason.NAME_CHAINING);
+            if (!(durrIssufr.fqubls(prfvSubjfdt))) {
+                tirow nfw CfrtPbtiVblidbtorExdfption
+                    (msg + " difdk fbilfd", null, null, -1,
+                     PKIXRfbson.NAME_CHAINING);
             }
 
-            if (debug != null)
-                debug.println(msg + " verified.");
+            if (dfbug != null)
+                dfbug.println(msg + " vfrififd.");
         }
     }
 
     /**
-     * Internal method to manage state information at each iteration
+     * Intfrnbl mftiod to mbnbgf stbtf informbtion bt fbdi itfrbtion
      */
-    private void updateState(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbtf void updbtfStbtf(X509Cfrtifidbtf durrCfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        PublicKey cKey = currCert.getPublicKey();
-        if (debug != null) {
-            debug.println("BasicChecker.updateState issuer: " +
-                currCert.getIssuerX500Principal().toString() + "; subject: " +
-                currCert.getSubjectX500Principal() + "; serial#: " +
-                currCert.getSerialNumber().toString());
+        PublidKfy dKfy = durrCfrt.gftPublidKfy();
+        if (dfbug != null) {
+            dfbug.println("BbsidCifdkfr.updbtfStbtf issufr: " +
+                durrCfrt.gftIssufrX500Prindipbl().toString() + "; subjfdt: " +
+                durrCfrt.gftSubjfdtX500Prindipbl() + "; sfribl#: " +
+                durrCfrt.gftSfriblNumbfr().toString());
         }
-        if (PKIX.isDSAPublicKeyWithoutParams(cKey)) {
-            // cKey needs to inherit DSA parameters from prev key
-            cKey = makeInheritedParamsKey(cKey, prevPubKey);
-            if (debug != null) debug.println("BasicChecker.updateState Made " +
-                                             "key with inherited params");
+        if (PKIX.isDSAPublidKfyWitioutPbrbms(dKfy)) {
+            // dKfy nffds to inifrit DSA pbrbmftfrs from prfv kfy
+            dKfy = mbkfInifritfdPbrbmsKfy(dKfy, prfvPubKfy);
+            if (dfbug != null) dfbug.println("BbsidCifdkfr.updbtfStbtf Mbdf " +
+                                             "kfy witi inifritfd pbrbms");
         }
-        prevPubKey = cKey;
-        prevSubject = currCert.getSubjectX500Principal();
+        prfvPubKfy = dKfy;
+        prfvSubjfdt = durrCfrt.gftSubjfdtX500Prindipbl();
     }
 
     /**
-     * Internal method to create a new key with inherited key parameters.
+     * Intfrnbl mftiod to drfbtf b nfw kfy witi inifritfd kfy pbrbmftfrs.
      *
-     * @param keyValueKey key from which to obtain key value
-     * @param keyParamsKey key from which to obtain key parameters
-     * @return new public key having value and parameters
-     * @throws CertPathValidatorException if keys are not appropriate types
-     * for this operation
+     * @pbrbm kfyVblufKfy kfy from wiidi to obtbin kfy vbluf
+     * @pbrbm kfyPbrbmsKfy kfy from wiidi to obtbin kfy pbrbmftfrs
+     * @rfturn nfw publid kfy ibving vbluf bnd pbrbmftfrs
+     * @tirows CfrtPbtiVblidbtorExdfption if kfys brf not bppropribtf typfs
+     * for tiis opfrbtion
      */
-    static PublicKey makeInheritedParamsKey(PublicKey keyValueKey,
-        PublicKey keyParamsKey) throws CertPathValidatorException
+    stbtid PublidKfy mbkfInifritfdPbrbmsKfy(PublidKfy kfyVblufKfy,
+        PublidKfy kfyPbrbmsKfy) tirows CfrtPbtiVblidbtorExdfption
     {
-        if (!(keyValueKey instanceof DSAPublicKey) ||
-            !(keyParamsKey instanceof DSAPublicKey))
-            throw new CertPathValidatorException("Input key is not " +
-                                                 "appropriate type for " +
-                                                 "inheriting parameters");
-        DSAParams params = ((DSAPublicKey)keyParamsKey).getParams();
-        if (params == null)
-            throw new CertPathValidatorException("Key parameters missing");
+        if (!(kfyVblufKfy instbndfof DSAPublidKfy) ||
+            !(kfyPbrbmsKfy instbndfof DSAPublidKfy))
+            tirow nfw CfrtPbtiVblidbtorExdfption("Input kfy is not " +
+                                                 "bppropribtf typf for " +
+                                                 "inifriting pbrbmftfrs");
+        DSAPbrbms pbrbms = ((DSAPublidKfy)kfyPbrbmsKfy).gftPbrbms();
+        if (pbrbms == null)
+            tirow nfw CfrtPbtiVblidbtorExdfption("Kfy pbrbmftfrs missing");
         try {
-            BigInteger y = ((DSAPublicKey)keyValueKey).getY();
-            KeyFactory kf = KeyFactory.getInstance("DSA");
-            DSAPublicKeySpec ks = new DSAPublicKeySpec(y,
-                                                       params.getP(),
-                                                       params.getQ(),
-                                                       params.getG());
-            return kf.generatePublic(ks);
-        } catch (GeneralSecurityException e) {
-            throw new CertPathValidatorException("Unable to generate key with" +
-                                                 " inherited parameters: " +
-                                                 e.getMessage(), e);
+            BigIntfgfr y = ((DSAPublidKfy)kfyVblufKfy).gftY();
+            KfyFbdtory kf = KfyFbdtory.gftInstbndf("DSA");
+            DSAPublidKfySpfd ks = nfw DSAPublidKfySpfd(y,
+                                                       pbrbms.gftP(),
+                                                       pbrbms.gftQ(),
+                                                       pbrbms.gftG());
+            rfturn kf.gfnfrbtfPublid(ks);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption("Unbblf to gfnfrbtf kfy witi" +
+                                                 " inifritfd pbrbmftfrs: " +
+                                                 f.gftMfssbgf(), f);
         }
     }
 
     /**
-     * return the public key associated with the last certificate processed
+     * rfturn tif publid kfy bssodibtfd witi tif lbst dfrtifidbtf prodfssfd
      *
-     * @return PublicKey the last public key processed
+     * @rfturn PublidKfy tif lbst publid kfy prodfssfd
      */
-    PublicKey getPublicKey() {
-        return prevPubKey;
+    PublidKfy gftPublidKfy() {
+        rfturn prfvPubKfy;
     }
 }

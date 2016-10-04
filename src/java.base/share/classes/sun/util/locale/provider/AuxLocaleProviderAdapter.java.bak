@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.spi.CalendarProvider;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
+import sun.util.spi.CblfndbrProvidfr;
 
 /**
- * An abstract parent class for the
- * HostLocaleProviderAdapter/SPILocaleProviderAdapter.
+ * An bbstrbdt pbrfnt dlbss for tif
+ * HostLodblfProvidfrAdbptfr/SPILodblfProvidfrAdbptfr.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public abstract class AuxLocaleProviderAdapter extends LocaleProviderAdapter {
+publid bbstrbdt dlbss AuxLodblfProvidfrAdbptfr fxtfnds LodblfProvidfrAdbptfr {
     /**
-     * SPI implementations map
+     * SPI implfmfntbtions mbp
      */
-    private ConcurrentMap<Class<? extends LocaleServiceProvider>, LocaleServiceProvider> providersMap =
-            new ConcurrentHashMap<>();
+    privbtf CondurrfntMbp<Clbss<? fxtfnds LodblfSfrvidfProvidfr>, LodblfSfrvidfProvidfr> providfrsMbp =
+            nfw CondurrfntHbsiMbp<>();
 
     /**
-     * Getter method for Locale Service Providers
+     * Gfttfr mftiod for Lodblf Sfrvidf Providfrs
      */
-    @Override
-    public <P extends LocaleServiceProvider> P getLocaleServiceProvider(Class<P> c) {
-        @SuppressWarnings("unchecked")
-        P lsp = (P) providersMap.get(c);
+    @Ovfrridf
+    publid <P fxtfnds LodblfSfrvidfProvidfr> P gftLodblfSfrvidfProvidfr(Clbss<P> d) {
+        @SupprfssWbrnings("undifdkfd")
+        P lsp = (P) providfrsMbp.gft(d);
         if (lsp == null) {
-            lsp = findInstalledProvider(c);
-            providersMap.putIfAbsent(c, lsp == null ? NULL_PROVIDER : lsp);
+            lsp = findInstbllfdProvidfr(d);
+            providfrsMbp.putIfAbsfnt(d, lsp == null ? NULL_PROVIDER : lsp);
         }
 
-        return lsp;
+        rfturn lsp;
     }
 
     /**
-     * Real body to find an implementation for each SPI.
+     * Rfbl body to find bn implfmfntbtion for fbdi SPI.
      *
-     * @param <P>
-     * @param c
-     * @return
+     * @pbrbm <P>
+     * @pbrbm d
+     * @rfturn
      */
-    protected abstract <P extends LocaleServiceProvider> P findInstalledProvider(final Class<P> c);
+    protfdtfd bbstrbdt <P fxtfnds LodblfSfrvidfProvidfr> P findInstbllfdProvidfr(finbl Clbss<P> d);
 
-    @Override
-    public BreakIteratorProvider getBreakIteratorProvider() {
-        return getLocaleServiceProvider(BreakIteratorProvider.class);
+    @Ovfrridf
+    publid BrfbkItfrbtorProvidfr gftBrfbkItfrbtorProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(BrfbkItfrbtorProvidfr.dlbss);
     }
 
-    @Override
-    public CollatorProvider getCollatorProvider() {
-        return getLocaleServiceProvider(CollatorProvider.class);
+    @Ovfrridf
+    publid CollbtorProvidfr gftCollbtorProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(CollbtorProvidfr.dlbss);
     }
 
-    @Override
-    public DateFormatProvider getDateFormatProvider() {
-        return getLocaleServiceProvider(DateFormatProvider.class);
+    @Ovfrridf
+    publid DbtfFormbtProvidfr gftDbtfFormbtProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(DbtfFormbtProvidfr.dlbss);
     }
 
-    @Override
-    public DateFormatSymbolsProvider getDateFormatSymbolsProvider() {
-        return getLocaleServiceProvider(DateFormatSymbolsProvider.class);
+    @Ovfrridf
+    publid DbtfFormbtSymbolsProvidfr gftDbtfFormbtSymbolsProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(DbtfFormbtSymbolsProvidfr.dlbss);
     }
 
-    @Override
-    public DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider() {
-        return getLocaleServiceProvider(DecimalFormatSymbolsProvider.class);
+    @Ovfrridf
+    publid DfdimblFormbtSymbolsProvidfr gftDfdimblFormbtSymbolsProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(DfdimblFormbtSymbolsProvidfr.dlbss);
     }
 
-    @Override
-    public NumberFormatProvider getNumberFormatProvider() {
-        return getLocaleServiceProvider(NumberFormatProvider.class);
+    @Ovfrridf
+    publid NumbfrFormbtProvidfr gftNumbfrFormbtProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(NumbfrFormbtProvidfr.dlbss);
     }
 
     /**
-     * Getter methods for java.util.spi.* providers
+     * Gfttfr mftiods for jbvb.util.spi.* providfrs
      */
-    @Override
-    public CurrencyNameProvider getCurrencyNameProvider() {
-        return getLocaleServiceProvider(CurrencyNameProvider.class);
+    @Ovfrridf
+    publid CurrfndyNbmfProvidfr gftCurrfndyNbmfProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(CurrfndyNbmfProvidfr.dlbss);
     }
 
-    @Override
-    public LocaleNameProvider getLocaleNameProvider() {
-        return getLocaleServiceProvider(LocaleNameProvider.class);
+    @Ovfrridf
+    publid LodblfNbmfProvidfr gftLodblfNbmfProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(LodblfNbmfProvidfr.dlbss);
     }
 
-    @Override
-    public TimeZoneNameProvider getTimeZoneNameProvider() {
-        return getLocaleServiceProvider(TimeZoneNameProvider.class);
+    @Ovfrridf
+    publid TimfZonfNbmfProvidfr gftTimfZonfNbmfProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(TimfZonfNbmfProvidfr.dlbss);
     }
 
-    @Override
-    public CalendarDataProvider getCalendarDataProvider() {
-        return getLocaleServiceProvider(CalendarDataProvider.class);
+    @Ovfrridf
+    publid CblfndbrDbtbProvidfr gftCblfndbrDbtbProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(CblfndbrDbtbProvidfr.dlbss);
     }
 
-    @Override
-    public CalendarNameProvider getCalendarNameProvider() {
-        return getLocaleServiceProvider(CalendarNameProvider.class);
+    @Ovfrridf
+    publid CblfndbrNbmfProvidfr gftCblfndbrNbmfProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(CblfndbrNbmfProvidfr.dlbss);
     }
 
     /**
-     * Getter methods for sun.util.spi.* providers
+     * Gfttfr mftiods for sun.util.spi.* providfrs
      */
-    @Override
-    public CalendarProvider getCalendarProvider() {
-        return getLocaleServiceProvider(CalendarProvider.class);
+    @Ovfrridf
+    publid CblfndbrProvidfr gftCblfndbrProvidfr() {
+        rfturn gftLodblfSfrvidfProvidfr(CblfndbrProvidfr.dlbss);
     }
 
-    @Override
-    public LocaleResources getLocaleResources(Locale locale) {
-        return null;
+    @Ovfrridf
+    publid LodblfRfsourdfs gftLodblfRfsourdfs(Lodblf lodblf) {
+        rfturn null;
     }
 
-    private static Locale[] availableLocales = null;
+    privbtf stbtid Lodblf[] bvbilbblfLodblfs = null;
 
-    @Override
-    public Locale[] getAvailableLocales() {
-        if (availableLocales == null) {
-            Set<Locale> avail = new HashSet<>();
-            for (Class<? extends LocaleServiceProvider> c :
-                    LocaleServiceProviderPool.spiClasses) {
-                LocaleServiceProvider lsp = getLocaleServiceProvider(c);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        if (bvbilbblfLodblfs == null) {
+            Sft<Lodblf> bvbil = nfw HbsiSft<>();
+            for (Clbss<? fxtfnds LodblfSfrvidfProvidfr> d :
+                    LodblfSfrvidfProvidfrPool.spiClbssfs) {
+                LodblfSfrvidfProvidfr lsp = gftLodblfSfrvidfProvidfr(d);
                 if (lsp != null) {
-                    avail.addAll(Arrays.asList(lsp.getAvailableLocales()));
+                    bvbil.bddAll(Arrbys.bsList(lsp.gftAvbilbblfLodblfs()));
                 }
             }
-            availableLocales = avail.toArray(new Locale[0]);
+            bvbilbblfLodblfs = bvbil.toArrby(nfw Lodblf[0]);
         }
 
-        // assuming caller won't mutate the array.
-        return availableLocales;
+        // bssuming dbllfr won't mutbtf tif brrby.
+        rfturn bvbilbblfLodblfs;
     }
 
     /**
-     * A dummy locale service provider that indicates there is no
-     * provider available
+     * A dummy lodblf sfrvidf providfr tibt indidbtfs tifrf is no
+     * providfr bvbilbblf
      */
-    private static NullProvider NULL_PROVIDER = new NullProvider();
-    private static class NullProvider extends LocaleServiceProvider {
-        @Override
-        public Locale[] getAvailableLocales() {
-            return new Locale[0];
+    privbtf stbtid NullProvidfr NULL_PROVIDER = nfw NullProvidfr();
+    privbtf stbtid dlbss NullProvidfr fxtfnds LodblfSfrvidfProvidfr {
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn nfw Lodblf[0];
         }
     }
 }

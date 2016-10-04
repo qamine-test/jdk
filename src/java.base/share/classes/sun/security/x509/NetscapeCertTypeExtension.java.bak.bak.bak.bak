@@ -1,0 +1,321 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.*;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnts Nftsdbpf Cfrtifidbtf Typf Extfnsion.
+ * Thf dftbils brf dffinfd
+ * <b hrff=http://www.nftsdbpf.dom/fng/sfdurity/domm4-dfrt-fxts.html>
+ * hfrf </b>.
+ *
+ * <p>This fxtfnsion, if prfsfnt, dffinfs both thf purposf
+ * (f.g., fndiphfrmfnt, signbturf, dfrtifidbtf signing) bnd thf bpplidbtion
+ * (f.g., SSL, S/Mimf or Objfdt Signing of thf kfy dontbinfd in thf
+ * dfrtifidbtf. This fxtfnsion hbs bffn supfrsfdfd by IETF PKIX fxtfnsions
+ * but is providfd hfrf for dompbtibility rfbsons.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+
+publid dlbss NftsdbpfCfrtTypfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.NftsdbpfCfrtTypf";
+
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "NftsdbpfCfrtTypf";
+    publid stbtid finbl String SSL_CLIENT = "ssl_dlifnt";
+    publid stbtid finbl String SSL_SERVER = "ssl_sfrvfr";
+    publid stbtid finbl String S_MIME = "s_mimf";
+    publid stbtid finbl String OBJECT_SIGNING = "objfdt_signing";
+    publid stbtid finbl String SSL_CA = "ssl_db";
+    publid stbtid finbl String S_MIME_CA = "s_mimf_db";
+    publid stbtid finbl String OBJECT_SIGNING_CA = "objfdt_signing_db";
+
+    privbtf stbtid finbl int CfrtTypf_dbtb[] = { 2, 16, 840, 1, 113730, 1, 1 };
+
+    /**
+     * Objfdt idfntififr for thf Nftsdbpf-Cfrt-Typf fxtfnsion.
+     */
+    publid stbtid ObjfdtIdfntififr NftsdbpfCfrtTypf_Id;
+
+    stbtid {
+        try {
+            NftsdbpfCfrtTypf_Id = nfw ObjfdtIdfntififr(CfrtTypf_dbtb);
+        } dbtdh (IOExdfption iof) {
+            // should not hbppfn
+        }
+    }
+
+    privbtf boolfbn[] bitString;
+
+    privbtf stbtid dlbss MbpEntry {
+        String mNbmf;
+        int mPosition;
+
+        MbpEntry(String nbmf, int position) {
+            mNbmf = nbmf;
+            mPosition = position;
+        }
+    }
+
+    privbtf stbtid MbpEntry[] mMbpDbtb = {
+        nfw MbpEntry(SSL_CLIENT, 0),
+        nfw MbpEntry(SSL_SERVER, 1),
+        nfw MbpEntry(S_MIME, 2),
+        nfw MbpEntry(OBJECT_SIGNING, 3),
+        // notf thbt bit 4 is rfsfrvfd
+        nfw MbpEntry(SSL_CA, 5),
+        nfw MbpEntry(S_MIME_CA, 6),
+        nfw MbpEntry(OBJECT_SIGNING_CA, 7),
+    };
+
+    privbtf stbtid finbl Vfdtor<String> mAttributfNbmfs = nfw Vfdtor<String>();
+    stbtid {
+        for (MbpEntry fntry : mMbpDbtb) {
+            mAttributfNbmfs.bdd(fntry.mNbmf);
+        }
+    }
+
+    privbtf stbtid int gftPosition(String nbmf) throws IOExdfption {
+        for (int i = 0; i < mMbpDbtb.lfngth; i++) {
+            if (nbmf.fqublsIgnorfCbsf(mMbpDbtb[i].mNbmf))
+                rfturn mMbpDbtb[i].mPosition;
+        }
+        throw nfw IOExdfption("Attributf nbmf [" + nbmf
+                             + "] not rfdognizfd by CfrtAttrSft:NftsdbpfCfrtTypf.");
+    }
+
+    // Endodf this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        os.putTrundbtfdUnblignfdBitString(nfw BitArrby(this.bitString));
+        this.fxtfnsionVbluf = os.toBytfArrby();
+    }
+
+    /**
+     * Chfdk if bit is sft.
+     *
+     * @pbrbm position thf position in thf bit string to dhfdk.
+     */
+    privbtf boolfbn isSft(int position) {
+        rfturn bitString[position];
+    }
+
+    /**
+     * Sft thf bit bt thf spfdififd position.
+     */
+    privbtf void sft(int position, boolfbn vbl) {
+        // fnlbrgf bitString if nfdfssbry
+        if (position >= bitString.lfngth) {
+            boolfbn[] tmp = nfw boolfbn[position+1];
+            Systfm.brrbydopy(bitString, 0, tmp, 0, bitString.lfngth);
+            bitString = tmp;
+        }
+        bitString[position] = vbl;
+    }
+
+    /**
+     * Crfbtf b NftsdbpfCfrtTypfExtfnsion with thf pbssfd bit sfttings.
+     * Thf dritidblity is sft to truf.
+     *
+     * @pbrbm bitString thf bits to bf sft for thf fxtfnsion.
+     */
+    publid NftsdbpfCfrtTypfExtfnsion(bytf[] bitString) throws IOExdfption {
+        this.bitString =
+            nfw BitArrby(bitString.lfngth*8, bitString).toBoolfbnArrby();
+        this.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        this.dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf b NftsdbpfCfrtTypfExtfnsion with thf pbssfd bit sfttings.
+     * Thf dritidblity is sft to truf.
+     *
+     * @pbrbm bitString thf bits to bf sft for thf fxtfnsion.
+     */
+    publid NftsdbpfCfrtTypfExtfnsion(boolfbn[] bitString) throws IOExdfption {
+        this.bitString = bitString;
+        this.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        this.dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid NftsdbpfCfrtTypfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        this.bitString = vbl.gftUnblignfdBitString().toBoolfbnArrby();
+    }
+
+    /**
+     * Crfbtf b dffbult kfy usbgf.
+     */
+    publid NftsdbpfCfrtTypfExtfnsion() {
+        fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        dritidbl = truf;
+        bitString = nfw boolfbn[0];
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof Boolfbn))
+            throw nfw IOExdfption("Attributf must bf of typf Boolfbn.");
+
+        boolfbn vbl = ((Boolfbn)obj).boolfbnVbluf();
+        sft(gftPosition(nbmf), vbl);
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Boolfbn gft(String nbmf) throws IOExdfption {
+        rfturn Boolfbn.vblufOf(isSft(gftPosition(nbmf)));
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        sft(gftPosition(nbmf), fblsf);
+        fndodfThis();
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf NftsdbpfCfrtTypf.
+     */
+    publid String toString() {
+        String s = supfr.toString() + "NftsdbpfCfrtTypf [\n";
+
+        try {
+           if (isSft(gftPosition(SSL_CLIENT)))
+               s += "   SSL dlifnt\n";
+           if (isSft(gftPosition(SSL_SERVER)))
+               s += "   SSL sfrvfr\n";
+           if (isSft(gftPosition(S_MIME)))
+               s += "   S/MIME\n";
+           if (isSft(gftPosition(OBJECT_SIGNING)))
+               s += "   Objfdt Signing\n";
+           if (isSft(gftPosition(SSL_CA)))
+               s += "   SSL CA\n";
+           if (isSft(gftPosition(S_MIME_CA)))
+               s += "   S/MIME CA\n";
+           if (isSft(gftPosition(OBJECT_SIGNING_CA)))
+               s += "   Objfdt Signing CA" ;
+        } dbtdh (Exdfption f) { }
+
+        s += "]\n";
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
+
+        if (this.fxtfnsionVbluf == null) {
+            this.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+            this.dritidbl = truf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        rfturn mAttributfNbmfs.flfmfnts();
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+
+    /**
+     * Gft b boolfbn brrby rfprfsfnting thf bits of this fxtfnsion,
+     * bs it mbps to thf KfyUsbgf fxtfnsion.
+     * @rfturn thf bit vblufs of this fxtfnsion mbppfd to thf bit vblufs
+     * of thf KfyUsbgf fxtfnsion bs bn brrby of boolfbns.
+     */
+    publid boolfbn[] gftKfyUsbgfMbppfdBits() {
+        KfyUsbgfExtfnsion kfyUsbgf = nfw KfyUsbgfExtfnsion();
+        Boolfbn vbl = Boolfbn.TRUE;
+
+        try {
+            if (isSft(gftPosition(SSL_CLIENT)) ||
+                isSft(gftPosition(S_MIME)) ||
+                isSft(gftPosition(OBJECT_SIGNING)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.DIGITAL_SIGNATURE, vbl);
+
+            if (isSft(gftPosition(SSL_SERVER)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.KEY_ENCIPHERMENT, vbl);
+
+            if (isSft(gftPosition(SSL_CA)) ||
+                isSft(gftPosition(S_MIME_CA)) ||
+                isSft(gftPosition(OBJECT_SIGNING_CA)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.KEY_CERTSIGN, vbl);
+        } dbtdh (IOExdfption f) { }
+        rfturn kfyUsbgf.gftBits();
+    }
+}

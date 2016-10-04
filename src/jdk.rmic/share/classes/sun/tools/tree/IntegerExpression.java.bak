@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class IntegerExpression extends ConstantExpression {
-    int value;
+publid
+dlbss IntfgfrExprfssion fxtfnds ConstbntExprfssion {
+    int vbluf;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    IntegerExpression(int op, long where, Type type, int value) {
-        super(op, where, type);
-        this.value = value;
+    IntfgfrExprfssion(int op, long wifrf, Typf typf, int vbluf) {
+        supfr(op, wifrf, typf);
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * See if this number fits in the given type.
+     * Sff if tiis numbfr fits in tif givfn typf.
      */
-    public boolean fitsType(Environment env, Context ctx, Type t) {
-        if (this.type.isType(TC_CHAR)) {
-            // A char constant is not really an int constant,
-            // so do not report that 'a' fits in a byte or short,
-            // even if its value is in fact 7-bit ascii.  See JLS 5.2.
-            return super.fitsType(env, ctx, t);
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
+        if (tiis.typf.isTypf(TC_CHAR)) {
+            // A dibr donstbnt is not rfblly bn int donstbnt,
+            // so do not rfport tibt 'b' fits in b bytf or siort,
+            // fvfn if its vbluf is in fbdt 7-bit bsdii.  Sff JLS 5.2.
+            rfturn supfr.fitsTypf(fnv, dtx, t);
         }
-        switch (t.getTypeCode()) {
-          case TC_BYTE:
-            return value == (byte)value;
-          case TC_SHORT:
-            return value == (short)value;
-          case TC_CHAR:
-            return value == (char)value;
+        switdi (t.gftTypfCodf()) {
+          dbsf TC_BYTE:
+            rfturn vbluf == (bytf)vbluf;
+          dbsf TC_SHORT:
+            rfturn vbluf == (siort)vbluf;
+          dbsf TC_CHAR:
+            rfturn vbluf == (dibr)vbluf;
         }
-        return super.fitsType(env, ctx, t);
+        rfturn supfr.fitsTypf(fnv, dtx, t);
     }
 
     /**
-     * Get the value
+     * Gft tif vbluf
      */
-    public Object getValue() {
-        return value;
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Cifdk if tif fxprfssion is fqubl to b vbluf
      */
-    public boolean equals(int i) {
-        return value == i;
+    publid boolfbn fqubls(int i) {
+        rfturn vbluf == i;
     }
 
     /**
-     * Check if the expression is equal to its default static value
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
      */
-    public boolean equalsDefault() {
-        return value == 0;
+    publid boolfbn fqublsDffbult() {
+        rfturn vbluf == 0;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_ldc, value);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(wifrf, opd_ldd, vbluf);
     }
 }

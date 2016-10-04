@@ -1,1446 +1,1446 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.UnbryOpfrbtor;
 
 /**
- * The {@code Vector} class implements a growable array of
- * objects. Like an array, it contains components that can be
- * accessed using an integer index. However, the size of a
- * {@code Vector} can grow or shrink as needed to accommodate
- * adding and removing items after the {@code Vector} has been created.
+ * Tif {@dodf Vfdtor} dlbss implfmfnts b growbblf brrby of
+ * objfdts. Likf bn brrby, it dontbins domponfnts tibt dbn bf
+ * bddfssfd using bn intfgfr indfx. Howfvfr, tif sizf of b
+ * {@dodf Vfdtor} dbn grow or sirink bs nffdfd to bddommodbtf
+ * bdding bnd rfmoving itfms bftfr tif {@dodf Vfdtor} ibs bffn drfbtfd.
  *
- * <p>Each vector tries to optimize storage management by maintaining a
- * {@code capacity} and a {@code capacityIncrement}. The
- * {@code capacity} is always at least as large as the vector
- * size; it is usually larger because as components are added to the
- * vector, the vector's storage increases in chunks the size of
- * {@code capacityIncrement}. An application can increase the
- * capacity of a vector before inserting a large number of
- * components; this reduces the amount of incremental reallocation.
+ * <p>Ebdi vfdtor trifs to optimizf storbgf mbnbgfmfnt by mbintbining b
+ * {@dodf dbpbdity} bnd b {@dodf dbpbdityIndrfmfnt}. Tif
+ * {@dodf dbpbdity} is blwbys bt lfbst bs lbrgf bs tif vfdtor
+ * sizf; it is usublly lbrgfr bfdbusf bs domponfnts brf bddfd to tif
+ * vfdtor, tif vfdtor's storbgf indrfbsfs in diunks tif sizf of
+ * {@dodf dbpbdityIndrfmfnt}. An bpplidbtion dbn indrfbsf tif
+ * dbpbdity of b vfdtor bfforf insfrting b lbrgf numbfr of
+ * domponfnts; tiis rfdudfs tif bmount of indrfmfntbl rfbllodbtion.
  *
- * <p id="fail-fast">
- * The iterators returned by this class's {@link #iterator() iterator} and
- * {@link #listIterator(int) listIterator} methods are <em>fail-fast</em>:
- * if the vector is structurally modified at any time after the iterator is
- * created, in any way except through the iterator's own
- * {@link ListIterator#remove() remove} or
- * {@link ListIterator#add(Object) add} methods, the iterator will throw a
- * {@link ConcurrentModificationException}.  Thus, in the face of
- * concurrent modification, the iterator fails quickly and cleanly, rather
- * than risking arbitrary, non-deterministic behavior at an undetermined
- * time in the future.  The {@link Enumeration Enumerations} returned by
- * the {@link #elements() elements} method are <em>not</em> fail-fast; if the
- * Vector is structurally modified at any time after the enumeration is
- * created then the results of enumerating are undefined.
+ * <p id="fbil-fbst">
+ * Tif itfrbtors rfturnfd by tiis dlbss's {@link #itfrbtor() itfrbtor} bnd
+ * {@link #listItfrbtor(int) listItfrbtor} mftiods brf <fm>fbil-fbst</fm>:
+ * if tif vfdtor is strudturblly modififd bt bny timf bftfr tif itfrbtor is
+ * drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own
+ * {@link ListItfrbtor#rfmovf() rfmovf} or
+ * {@link ListItfrbtor#bdd(Objfdt) bdd} mftiods, tif itfrbtor will tirow b
+ * {@link CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of
+ * dondurrfnt modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr
+ * tibn risking brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd
+ * timf in tif futurf.  Tif {@link Enumfrbtion Enumfrbtions} rfturnfd by
+ * tif {@link #flfmfnts() flfmfnts} mftiod brf <fm>not</fm> fbil-fbst; if tif
+ * Vfdtor is strudturblly modififd bt bny timf bftfr tif fnumfrbtion is
+ * drfbtfd tifn tif rfsults of fnumfrbting brf undffinfd.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:  <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow {@dodf CondurrfntModifidbtionExdfption} on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss:  <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>As of the Java 2 platform v1.2, this class was retrofitted to
- * implement the {@link List} interface, making it a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.  Unlike the new collection
- * implementations, {@code Vector} is synchronized.  If a thread-safe
- * implementation is not needed, it is recommended to use {@link
- * ArrayList} in place of {@code Vector}.
+ * <p>As of tif Jbvb 2 plbtform v1.2, tiis dlbss wbs rftrofittfd to
+ * implfmfnt tif {@link List} intfrfbdf, mbking it b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.  Unlikf tif nfw dollfdtion
+ * implfmfntbtions, {@dodf Vfdtor} is syndironizfd.  If b tirfbd-sbff
+ * implfmfntbtion is not nffdfd, it is rfdommfndfd to usf {@link
+ * ArrbyList} in plbdf of {@dodf Vfdtor}.
  *
- * @param <E> Type of component elements
+ * @pbrbm <E> Typf of domponfnt flfmfnts
  *
- * @author  Lee Boynton
- * @author  Jonathan Payne
- * @see Collection
- * @see LinkedList
- * @since   1.0
+ * @butior  Lff Boynton
+ * @butior  Jonbtibn Pbynf
+ * @sff Collfdtion
+ * @sff LinkfdList
+ * @sindf   1.0
  */
-public class Vector<E>
-    extends AbstractList<E>
-    implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+publid dlbss Vfdtor<E>
+    fxtfnds AbstrbdtList<E>
+    implfmfnts List<E>, RbndomAddfss, Clonfbblf, jbvb.io.Sfriblizbblf
 {
     /**
-     * The array buffer into which the components of the vector are
-     * stored. The capacity of the vector is the length of this array buffer,
-     * and is at least large enough to contain all the vector's elements.
+     * Tif brrby bufffr into wiidi tif domponfnts of tif vfdtor brf
+     * storfd. Tif dbpbdity of tif vfdtor is tif lfngti of tiis brrby bufffr,
+     * bnd is bt lfbst lbrgf fnougi to dontbin bll tif vfdtor's flfmfnts.
      *
-     * <p>Any array elements following the last element in the Vector are null.
+     * <p>Any brrby flfmfnts following tif lbst flfmfnt in tif Vfdtor brf null.
      *
-     * @serial
+     * @sfribl
      */
-    protected Object[] elementData;
+    protfdtfd Objfdt[] flfmfntDbtb;
 
     /**
-     * The number of valid components in this {@code Vector} object.
-     * Components {@code elementData[0]} through
-     * {@code elementData[elementCount-1]} are the actual items.
+     * Tif numbfr of vblid domponfnts in tiis {@dodf Vfdtor} objfdt.
+     * Componfnts {@dodf flfmfntDbtb[0]} tirougi
+     * {@dodf flfmfntDbtb[flfmfntCount-1]} brf tif bdtubl itfms.
      *
-     * @serial
+     * @sfribl
      */
-    protected int elementCount;
+    protfdtfd int flfmfntCount;
 
     /**
-     * The amount by which the capacity of the vector is automatically
-     * incremented when its size becomes greater than its capacity.  If
-     * the capacity increment is less than or equal to zero, the capacity
-     * of the vector is doubled each time it needs to grow.
+     * Tif bmount by wiidi tif dbpbdity of tif vfdtor is butombtidblly
+     * indrfmfntfd wifn its sizf bfdomfs grfbtfr tibn its dbpbdity.  If
+     * tif dbpbdity indrfmfnt is lfss tibn or fqubl to zfro, tif dbpbdity
+     * of tif vfdtor is doublfd fbdi timf it nffds to grow.
      *
-     * @serial
+     * @sfribl
      */
-    protected int capacityIncrement;
+    protfdtfd int dbpbdityIndrfmfnt;
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -2767605614048989439L;
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2767605614048989439L;
 
     /**
-     * Constructs an empty vector with the specified initial capacity and
-     * capacity increment.
+     * Construdts bn fmpty vfdtor witi tif spfdififd initibl dbpbdity bnd
+     * dbpbdity indrfmfnt.
      *
-     * @param   initialCapacity     the initial capacity of the vector
-     * @param   capacityIncrement   the amount by which the capacity is
-     *                              increased when the vector overflows
-     * @throws IllegalArgumentException if the specified initial capacity
-     *         is negative
+     * @pbrbm   initiblCbpbdity     tif initibl dbpbdity of tif vfdtor
+     * @pbrbm   dbpbdityIndrfmfnt   tif bmount by wiidi tif dbpbdity is
+     *                              indrfbsfd wifn tif vfdtor ovfrflows
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd initibl dbpbdity
+     *         is nfgbtivf
      */
-    public Vector(int initialCapacity, int capacityIncrement) {
-        super();
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+
-                                               initialCapacity);
-        this.elementData = new Object[initialCapacity];
-        this.capacityIncrement = capacityIncrement;
+    publid Vfdtor(int initiblCbpbdity, int dbpbdityIndrfmfnt) {
+        supfr();
+        if (initiblCbpbdity < 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl Cbpbdity: "+
+                                               initiblCbpbdity);
+        tiis.flfmfntDbtb = nfw Objfdt[initiblCbpbdity];
+        tiis.dbpbdityIndrfmfnt = dbpbdityIndrfmfnt;
     }
 
     /**
-     * Constructs an empty vector with the specified initial capacity and
-     * with its capacity increment equal to zero.
+     * Construdts bn fmpty vfdtor witi tif spfdififd initibl dbpbdity bnd
+     * witi its dbpbdity indrfmfnt fqubl to zfro.
      *
-     * @param   initialCapacity   the initial capacity of the vector
-     * @throws IllegalArgumentException if the specified initial capacity
-     *         is negative
+     * @pbrbm   initiblCbpbdity   tif initibl dbpbdity of tif vfdtor
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd initibl dbpbdity
+     *         is nfgbtivf
      */
-    public Vector(int initialCapacity) {
-        this(initialCapacity, 0);
+    publid Vfdtor(int initiblCbpbdity) {
+        tiis(initiblCbpbdity, 0);
     }
 
     /**
-     * Constructs an empty vector so that its internal data array
-     * has size {@code 10} and its standard capacity increment is
-     * zero.
+     * Construdts bn fmpty vfdtor so tibt its intfrnbl dbtb brrby
+     * ibs sizf {@dodf 10} bnd its stbndbrd dbpbdity indrfmfnt is
+     * zfro.
      */
-    public Vector() {
-        this(10);
+    publid Vfdtor() {
+        tiis(10);
     }
 
     /**
-     * Constructs a vector containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.
+     * Construdts b vfdtor dontbining tif flfmfnts of tif spfdififd
+     * dollfdtion, in tif ordfr tify brf rfturnfd by tif dollfdtion's
+     * itfrbtor.
      *
-     * @param c the collection whose elements are to be placed into this
-     *       vector
-     * @throws NullPointerException if the specified collection is null
-     * @since   1.2
+     * @pbrbm d tif dollfdtion wiosf flfmfnts brf to bf plbdfd into tiis
+     *       vfdtor
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     * @sindf   1.2
      */
-    public Vector(Collection<? extends E> c) {
-        elementData = c.toArray();
-        elementCount = elementData.length;
-        // c.toArray might (incorrectly) not return Object[] (see 6260652)
-        if (elementData.getClass() != Object[].class)
-            elementData = Arrays.copyOf(elementData, elementCount, Object[].class);
+    publid Vfdtor(Collfdtion<? fxtfnds E> d) {
+        flfmfntDbtb = d.toArrby();
+        flfmfntCount = flfmfntDbtb.lfngti;
+        // d.toArrby migit (indorrfdtly) not rfturn Objfdt[] (sff 6260652)
+        if (flfmfntDbtb.gftClbss() != Objfdt[].dlbss)
+            flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, flfmfntCount, Objfdt[].dlbss);
     }
 
     /**
-     * Copies the components of this vector into the specified array.
-     * The item at index {@code k} in this vector is copied into
-     * component {@code k} of {@code anArray}.
+     * Copifs tif domponfnts of tiis vfdtor into tif spfdififd brrby.
+     * Tif itfm bt indfx {@dodf k} in tiis vfdtor is dopifd into
+     * domponfnt {@dodf k} of {@dodf bnArrby}.
      *
-     * @param  anArray the array into which the components get copied
-     * @throws NullPointerException if the given array is null
-     * @throws IndexOutOfBoundsException if the specified array is not
-     *         large enough to hold all the components of this vector
-     * @throws ArrayStoreException if a component of this vector is not of
-     *         a runtime type that can be stored in the specified array
-     * @see #toArray(Object[])
+     * @pbrbm  bnArrby tif brrby into wiidi tif domponfnts gft dopifd
+     * @tirows NullPointfrExdfption if tif givfn brrby is null
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd brrby is not
+     *         lbrgf fnougi to iold bll tif domponfnts of tiis vfdtor
+     * @tirows ArrbyStorfExdfption if b domponfnt of tiis vfdtor is not of
+     *         b runtimf typf tibt dbn bf storfd in tif spfdififd brrby
+     * @sff #toArrby(Objfdt[])
      */
-    public synchronized void copyInto(Object[] anArray) {
-        System.arraycopy(elementData, 0, anArray, 0, elementCount);
+    publid syndironizfd void dopyInto(Objfdt[] bnArrby) {
+        Systfm.brrbydopy(flfmfntDbtb, 0, bnArrby, 0, flfmfntCount);
     }
 
     /**
-     * Trims the capacity of this vector to be the vector's current
-     * size. If the capacity of this vector is larger than its current
-     * size, then the capacity is changed to equal the size by replacing
-     * its internal data array, kept in the field {@code elementData},
-     * with a smaller one. An application can use this operation to
-     * minimize the storage of a vector.
+     * Trims tif dbpbdity of tiis vfdtor to bf tif vfdtor's durrfnt
+     * sizf. If tif dbpbdity of tiis vfdtor is lbrgfr tibn its durrfnt
+     * sizf, tifn tif dbpbdity is dibngfd to fqubl tif sizf by rfplbding
+     * its intfrnbl dbtb brrby, kfpt in tif fifld {@dodf flfmfntDbtb},
+     * witi b smbllfr onf. An bpplidbtion dbn usf tiis opfrbtion to
+     * minimizf tif storbgf of b vfdtor.
      */
-    public synchronized void trimToSize() {
+    publid syndironizfd void trimToSizf() {
         modCount++;
-        int oldCapacity = elementData.length;
-        if (elementCount < oldCapacity) {
-            elementData = Arrays.copyOf(elementData, elementCount);
+        int oldCbpbdity = flfmfntDbtb.lfngti;
+        if (flfmfntCount < oldCbpbdity) {
+            flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, flfmfntCount);
         }
     }
 
     /**
-     * Increases the capacity of this vector, if necessary, to ensure
-     * that it can hold at least the number of components specified by
-     * the minimum capacity argument.
+     * Indrfbsfs tif dbpbdity of tiis vfdtor, if nfdfssbry, to fnsurf
+     * tibt it dbn iold bt lfbst tif numbfr of domponfnts spfdififd by
+     * tif minimum dbpbdity brgumfnt.
      *
-     * <p>If the current capacity of this vector is less than
-     * {@code minCapacity}, then its capacity is increased by replacing its
-     * internal data array, kept in the field {@code elementData}, with a
-     * larger one.  The size of the new data array will be the old size plus
-     * {@code capacityIncrement}, unless the value of
-     * {@code capacityIncrement} is less than or equal to zero, in which case
-     * the new capacity will be twice the old capacity; but if this new size
-     * is still smaller than {@code minCapacity}, then the new capacity will
-     * be {@code minCapacity}.
+     * <p>If tif durrfnt dbpbdity of tiis vfdtor is lfss tibn
+     * {@dodf minCbpbdity}, tifn its dbpbdity is indrfbsfd by rfplbding its
+     * intfrnbl dbtb brrby, kfpt in tif fifld {@dodf flfmfntDbtb}, witi b
+     * lbrgfr onf.  Tif sizf of tif nfw dbtb brrby will bf tif old sizf plus
+     * {@dodf dbpbdityIndrfmfnt}, unlfss tif vbluf of
+     * {@dodf dbpbdityIndrfmfnt} is lfss tibn or fqubl to zfro, in wiidi dbsf
+     * tif nfw dbpbdity will bf twidf tif old dbpbdity; but if tiis nfw sizf
+     * is still smbllfr tibn {@dodf minCbpbdity}, tifn tif nfw dbpbdity will
+     * bf {@dodf minCbpbdity}.
      *
-     * @param minCapacity the desired minimum capacity
+     * @pbrbm minCbpbdity tif dfsirfd minimum dbpbdity
      */
-    public synchronized void ensureCapacity(int minCapacity) {
-        if (minCapacity > 0) {
+    publid syndironizfd void fnsurfCbpbdity(int minCbpbdity) {
+        if (minCbpbdity > 0) {
             modCount++;
-            ensureCapacityHelper(minCapacity);
+            fnsurfCbpbdityHflpfr(minCbpbdity);
         }
     }
 
     /**
-     * This implements the unsynchronized semantics of ensureCapacity.
-     * Synchronized methods in this class can internally call this
-     * method for ensuring capacity without incurring the cost of an
-     * extra synchronization.
+     * Tiis implfmfnts tif unsyndironizfd sfmbntids of fnsurfCbpbdity.
+     * Syndironizfd mftiods in tiis dlbss dbn intfrnblly dbll tiis
+     * mftiod for fnsuring dbpbdity witiout indurring tif dost of bn
+     * fxtrb syndironizbtion.
      *
-     * @see #ensureCapacity(int)
+     * @sff #fnsurfCbpbdity(int)
      */
-    private void ensureCapacityHelper(int minCapacity) {
-        // overflow-conscious code
-        if (minCapacity - elementData.length > 0)
-            grow(minCapacity);
+    privbtf void fnsurfCbpbdityHflpfr(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        if (minCbpbdity - flfmfntDbtb.lfngti > 0)
+            grow(minCbpbdity);
     }
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * Tif mbximum sizf of brrby to bllodbtf.
+     * Somf VMs rfsfrvf somf ifbdfr words in bn brrby.
+     * Attfmpts to bllodbtf lbrgfr brrbys mby rfsult in
+     * OutOfMfmoryError: Rfqufstfd brrby sizf fxdffds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbtf stbtid finbl int MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
 
-    private void grow(int minCapacity) {
-        // overflow-conscious code
-        int oldCapacity = elementData.length;
-        int newCapacity = oldCapacity + ((capacityIncrement > 0) ?
-                                         capacityIncrement : oldCapacity);
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
-            newCapacity = hugeCapacity(minCapacity);
-        elementData = Arrays.copyOf(elementData, newCapacity);
+    privbtf void grow(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        int oldCbpbdity = flfmfntDbtb.lfngti;
+        int nfwCbpbdity = oldCbpbdity + ((dbpbdityIndrfmfnt > 0) ?
+                                         dbpbdityIndrfmfnt : oldCbpbdity);
+        if (nfwCbpbdity - minCbpbdity < 0)
+            nfwCbpbdity = minCbpbdity;
+        if (nfwCbpbdity - MAX_ARRAY_SIZE > 0)
+            nfwCbpbdity = iugfCbpbdity(minCbpbdity);
+        flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, nfwCbpbdity);
     }
 
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
-            throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
-            Integer.MAX_VALUE :
+    privbtf stbtid int iugfCbpbdity(int minCbpbdity) {
+        if (minCbpbdity < 0) // ovfrflow
+            tirow nfw OutOfMfmoryError();
+        rfturn (minCbpbdity > MAX_ARRAY_SIZE) ?
+            Intfgfr.MAX_VALUE :
             MAX_ARRAY_SIZE;
     }
 
     /**
-     * Sets the size of this vector. If the new size is greater than the
-     * current size, new {@code null} items are added to the end of
-     * the vector. If the new size is less than the current size, all
-     * components at index {@code newSize} and greater are discarded.
+     * Sfts tif sizf of tiis vfdtor. If tif nfw sizf is grfbtfr tibn tif
+     * durrfnt sizf, nfw {@dodf null} itfms brf bddfd to tif fnd of
+     * tif vfdtor. If tif nfw sizf is lfss tibn tif durrfnt sizf, bll
+     * domponfnts bt indfx {@dodf nfwSizf} bnd grfbtfr brf disdbrdfd.
      *
-     * @param  newSize   the new size of this vector
-     * @throws ArrayIndexOutOfBoundsException if the new size is negative
+     * @pbrbm  nfwSizf   tif nfw sizf of tiis vfdtor
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif nfw sizf is nfgbtivf
      */
-    public synchronized void setSize(int newSize) {
+    publid syndironizfd void sftSizf(int nfwSizf) {
         modCount++;
-        if (newSize > elementCount) {
-            ensureCapacityHelper(newSize);
-        } else {
-            for (int i = newSize ; i < elementCount ; i++) {
-                elementData[i] = null;
+        if (nfwSizf > flfmfntCount) {
+            fnsurfCbpbdityHflpfr(nfwSizf);
+        } flsf {
+            for (int i = nfwSizf ; i < flfmfntCount ; i++) {
+                flfmfntDbtb[i] = null;
             }
         }
-        elementCount = newSize;
+        flfmfntCount = nfwSizf;
     }
 
     /**
-     * Returns the current capacity of this vector.
+     * Rfturns tif durrfnt dbpbdity of tiis vfdtor.
      *
-     * @return  the current capacity (the length of its internal
-     *          data array, kept in the field {@code elementData}
-     *          of this vector)
+     * @rfturn  tif durrfnt dbpbdity (tif lfngti of its intfrnbl
+     *          dbtb brrby, kfpt in tif fifld {@dodf flfmfntDbtb}
+     *          of tiis vfdtor)
      */
-    public synchronized int capacity() {
-        return elementData.length;
+    publid syndironizfd int dbpbdity() {
+        rfturn flfmfntDbtb.lfngti;
     }
 
     /**
-     * Returns the number of components in this vector.
+     * Rfturns tif numbfr of domponfnts in tiis vfdtor.
      *
-     * @return  the number of components in this vector
+     * @rfturn  tif numbfr of domponfnts in tiis vfdtor
      */
-    public synchronized int size() {
-        return elementCount;
+    publid syndironizfd int sizf() {
+        rfturn flfmfntCount;
     }
 
     /**
-     * Tests if this vector has no components.
+     * Tfsts if tiis vfdtor ibs no domponfnts.
      *
-     * @return  {@code true} if and only if this vector has
-     *          no components, that is, its size is zero;
-     *          {@code false} otherwise.
+     * @rfturn  {@dodf truf} if bnd only if tiis vfdtor ibs
+     *          no domponfnts, tibt is, its sizf is zfro;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public synchronized boolean isEmpty() {
-        return elementCount == 0;
+    publid syndironizfd boolfbn isEmpty() {
+        rfturn flfmfntCount == 0;
     }
 
     /**
-     * Returns an enumeration of the components of this vector. The
-     * returned {@code Enumeration} object will generate all items in
-     * this vector. The first item generated is the item at index {@code 0},
-     * then the item at index {@code 1}, and so on. If the vector is
-     * structurally modified while enumerating over the elements then the
-     * results of enumerating are undefined.
+     * Rfturns bn fnumfrbtion of tif domponfnts of tiis vfdtor. Tif
+     * rfturnfd {@dodf Enumfrbtion} objfdt will gfnfrbtf bll itfms in
+     * tiis vfdtor. Tif first itfm gfnfrbtfd is tif itfm bt indfx {@dodf 0},
+     * tifn tif itfm bt indfx {@dodf 1}, bnd so on. If tif vfdtor is
+     * strudturblly modififd wiilf fnumfrbting ovfr tif flfmfnts tifn tif
+     * rfsults of fnumfrbting brf undffinfd.
      *
-     * @return  an enumeration of the components of this vector
-     * @see     Iterator
+     * @rfturn  bn fnumfrbtion of tif domponfnts of tiis vfdtor
+     * @sff     Itfrbtor
      */
-    public Enumeration<E> elements() {
-        return new Enumeration<E>() {
-            int count = 0;
+    publid Enumfrbtion<E> flfmfnts() {
+        rfturn nfw Enumfrbtion<E>() {
+            int dount = 0;
 
-            public boolean hasMoreElements() {
-                return count < elementCount;
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn dount < flfmfntCount;
             }
 
-            public E nextElement() {
-                synchronized (Vector.this) {
-                    if (count < elementCount) {
-                        return elementData(count++);
+            publid E nfxtElfmfnt() {
+                syndironizfd (Vfdtor.tiis) {
+                    if (dount < flfmfntCount) {
+                        rfturn flfmfntDbtb(dount++);
                     }
                 }
-                throw new NoSuchElementException("Vector Enumeration");
+                tirow nfw NoSudiElfmfntExdfption("Vfdtor Enumfrbtion");
             }
         };
     }
 
     /**
-     * Returns {@code true} if this vector contains the specified element.
-     * More formally, returns {@code true} if and only if this vector
-     * contains at least one element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Rfturns {@dodf truf} if tiis vfdtor dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis vfdtor
+     * dontbins bt lfbst onf flfmfnt {@dodf f} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
      *
-     * @param o element whose presence in this vector is to be tested
-     * @return {@code true} if this vector contains the specified element
+     * @pbrbm o flfmfnt wiosf prfsfndf in tiis vfdtor is to bf tfstfd
+     * @rfturn {@dodf truf} if tiis vfdtor dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        return indexOf(o, 0) >= 0;
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn indfxOf(o, 0) >= 0;
     }
 
     /**
-     * Returns the index of the first occurrence of the specified element
-     * in this vector, or -1 if this vector does not contain the element.
-     * More formally, returns the lowest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt
+     * in tiis vfdtor, or -1 if tiis vfdtor dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif lowfst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @return the index of the first occurrence of the specified element in
-     *         this vector, or -1 if this vector does not contain the element
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @rfturn tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt in
+     *         tiis vfdtor, or -1 if tiis vfdtor dofs not dontbin tif flfmfnt
      */
-    public int indexOf(Object o) {
-        return indexOf(o, 0);
+    publid int indfxOf(Objfdt o) {
+        rfturn indfxOf(o, 0);
     }
 
     /**
-     * Returns the index of the first occurrence of the specified element in
-     * this vector, searching forwards from {@code index}, or returns -1 if
-     * the element is not found.
-     * More formally, returns the lowest index {@code i} such that
-     * <tt>(i&nbsp;&gt;=&nbsp;index&nbsp;&amp;&amp;&nbsp;(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i))))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt in
+     * tiis vfdtor, sfbrdiing forwbrds from {@dodf indfx}, or rfturns -1 if
+     * tif flfmfnt is not found.
+     * Morf formblly, rfturns tif lowfst indfx {@dodf i} sudi tibt
+     * <tt>(i&nbsp;&gt;=&nbsp;indfx&nbsp;&bmp;&bmp;&nbsp;(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i))))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @param index index to start searching from
-     * @return the index of the first occurrence of the element in
-     *         this vector at position {@code index} or later in the vector;
-     *         {@code -1} if the element is not found.
-     * @throws IndexOutOfBoundsException if the specified index is negative
-     * @see     Object#equals(Object)
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @pbrbm indfx indfx to stbrt sfbrdiing from
+     * @rfturn tif indfx of tif first oddurrfndf of tif flfmfnt in
+     *         tiis vfdtor bt position {@dodf indfx} or lbtfr in tif vfdtor;
+     *         {@dodf -1} if tif flfmfnt is not found.
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd indfx is nfgbtivf
+     * @sff     Objfdt#fqubls(Objfdt)
      */
-    public synchronized int indexOf(Object o, int index) {
+    publid syndironizfd int indfxOf(Objfdt o, int indfx) {
         if (o == null) {
-            for (int i = index ; i < elementCount ; i++)
-                if (elementData[i]==null)
-                    return i;
-        } else {
-            for (int i = index ; i < elementCount ; i++)
-                if (o.equals(elementData[i]))
-                    return i;
+            for (int i = indfx ; i < flfmfntCount ; i++)
+                if (flfmfntDbtb[i]==null)
+                    rfturn i;
+        } flsf {
+            for (int i = indfx ; i < flfmfntCount ; i++)
+                if (o.fqubls(flfmfntDbtb[i]))
+                    rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element
-     * in this vector, or -1 if this vector does not contain the element.
-     * More formally, returns the highest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt
+     * in tiis vfdtor, or -1 if tiis vfdtor dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif iigifst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @return the index of the last occurrence of the specified element in
-     *         this vector, or -1 if this vector does not contain the element
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @rfturn tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt in
+     *         tiis vfdtor, or -1 if tiis vfdtor dofs not dontbin tif flfmfnt
      */
-    public synchronized int lastIndexOf(Object o) {
-        return lastIndexOf(o, elementCount-1);
+    publid syndironizfd int lbstIndfxOf(Objfdt o) {
+        rfturn lbstIndfxOf(o, flfmfntCount-1);
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element in
-     * this vector, searching backwards from {@code index}, or returns -1 if
-     * the element is not found.
-     * More formally, returns the highest index {@code i} such that
-     * <tt>(i&nbsp;&lt;=&nbsp;index&nbsp;&amp;&amp;&nbsp;(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i))))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt in
+     * tiis vfdtor, sfbrdiing bbdkwbrds from {@dodf indfx}, or rfturns -1 if
+     * tif flfmfnt is not found.
+     * Morf formblly, rfturns tif iigifst indfx {@dodf i} sudi tibt
+     * <tt>(i&nbsp;&lt;=&nbsp;indfx&nbsp;&bmp;&bmp;&nbsp;(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i))))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @param index index to start searching backwards from
-     * @return the index of the last occurrence of the element at position
-     *         less than or equal to {@code index} in this vector;
-     *         -1 if the element is not found.
-     * @throws IndexOutOfBoundsException if the specified index is greater
-     *         than or equal to the current size of this vector
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @pbrbm indfx indfx to stbrt sfbrdiing bbdkwbrds from
+     * @rfturn tif indfx of tif lbst oddurrfndf of tif flfmfnt bt position
+     *         lfss tibn or fqubl to {@dodf indfx} in tiis vfdtor;
+     *         -1 if tif flfmfnt is not found.
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd indfx is grfbtfr
+     *         tibn or fqubl to tif durrfnt sizf of tiis vfdtor
      */
-    public synchronized int lastIndexOf(Object o, int index) {
-        if (index >= elementCount)
-            throw new IndexOutOfBoundsException(index + " >= "+ elementCount);
+    publid syndironizfd int lbstIndfxOf(Objfdt o, int indfx) {
+        if (indfx >= flfmfntCount)
+            tirow nfw IndfxOutOfBoundsExdfption(indfx + " >= "+ flfmfntCount);
 
         if (o == null) {
-            for (int i = index; i >= 0; i--)
-                if (elementData[i]==null)
-                    return i;
-        } else {
-            for (int i = index; i >= 0; i--)
-                if (o.equals(elementData[i]))
-                    return i;
+            for (int i = indfx; i >= 0; i--)
+                if (flfmfntDbtb[i]==null)
+                    rfturn i;
+        } flsf {
+            for (int i = indfx; i >= 0; i--)
+                if (o.fqubls(flfmfntDbtb[i]))
+                    rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the component at the specified index.
+     * Rfturns tif domponfnt bt tif spfdififd indfx.
      *
-     * <p>This method is identical in functionality to the {@link #get(int)}
-     * method (which is part of the {@link List} interface).
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif {@link #gft(int)}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf).
      *
-     * @param      index   an index into this vector
-     * @return     the component at the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index >= size()})
+     * @pbrbm      indfx   bn indfx into tiis vfdtor
+     * @rfturn     tif domponfnt bt tif spfdififd indfx
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx >= sizf()})
      */
-    public synchronized E elementAt(int index) {
-        if (index >= elementCount) {
-            throw new ArrayIndexOutOfBoundsException(index + " >= " + elementCount);
+    publid syndironizfd E flfmfntAt(int indfx) {
+        if (indfx >= flfmfntCount) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx + " >= " + flfmfntCount);
         }
 
-        return elementData(index);
+        rfturn flfmfntDbtb(indfx);
     }
 
     /**
-     * Returns the first component (the item at index {@code 0}) of
-     * this vector.
+     * Rfturns tif first domponfnt (tif itfm bt indfx {@dodf 0}) of
+     * tiis vfdtor.
      *
-     * @return     the first component of this vector
-     * @throws NoSuchElementException if this vector has no components
+     * @rfturn     tif first domponfnt of tiis vfdtor
+     * @tirows NoSudiElfmfntExdfption if tiis vfdtor ibs no domponfnts
      */
-    public synchronized E firstElement() {
-        if (elementCount == 0) {
-            throw new NoSuchElementException();
+    publid syndironizfd E firstElfmfnt() {
+        if (flfmfntCount == 0) {
+            tirow nfw NoSudiElfmfntExdfption();
         }
-        return elementData(0);
+        rfturn flfmfntDbtb(0);
     }
 
     /**
-     * Returns the last component of the vector.
+     * Rfturns tif lbst domponfnt of tif vfdtor.
      *
-     * @return  the last component of the vector, i.e., the component at index
-     *          <code>size()&nbsp;-&nbsp;1</code>.
-     * @throws NoSuchElementException if this vector is empty
+     * @rfturn  tif lbst domponfnt of tif vfdtor, i.f., tif domponfnt bt indfx
+     *          <dodf>sizf()&nbsp;-&nbsp;1</dodf>.
+     * @tirows NoSudiElfmfntExdfption if tiis vfdtor is fmpty
      */
-    public synchronized E lastElement() {
-        if (elementCount == 0) {
-            throw new NoSuchElementException();
+    publid syndironizfd E lbstElfmfnt() {
+        if (flfmfntCount == 0) {
+            tirow nfw NoSudiElfmfntExdfption();
         }
-        return elementData(elementCount - 1);
+        rfturn flfmfntDbtb(flfmfntCount - 1);
     }
 
     /**
-     * Sets the component at the specified {@code index} of this
-     * vector to be the specified object. The previous component at that
-     * position is discarded.
+     * Sfts tif domponfnt bt tif spfdififd {@dodf indfx} of tiis
+     * vfdtor to bf tif spfdififd objfdt. Tif prfvious domponfnt bt tibt
+     * position is disdbrdfd.
      *
-     * <p>The index must be a value greater than or equal to {@code 0}
-     * and less than the current size of the vector.
+     * <p>Tif indfx must bf b vbluf grfbtfr tibn or fqubl to {@dodf 0}
+     * bnd lfss tibn tif durrfnt sizf of tif vfdtor.
      *
-     * <p>This method is identical in functionality to the
-     * {@link #set(int, Object) set(int, E)}
-     * method (which is part of the {@link List} interface). Note that the
-     * {@code set} method reverses the order of the parameters, to more closely
-     * match array usage.  Note also that the {@code set} method returns the
-     * old value that was stored at the specified position.
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif
+     * {@link #sft(int, Objfdt) sft(int, E)}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf). Notf tibt tif
+     * {@dodf sft} mftiod rfvfrsfs tif ordfr of tif pbrbmftfrs, to morf dlosfly
+     * mbtdi brrby usbgf.  Notf blso tibt tif {@dodf sft} mftiod rfturns tif
+     * old vbluf tibt wbs storfd bt tif spfdififd position.
      *
-     * @param      obj     what the component is to be set to
-     * @param      index   the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index >= size()})
+     * @pbrbm      obj     wibt tif domponfnt is to bf sft to
+     * @pbrbm      indfx   tif spfdififd indfx
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx >= sizf()})
      */
-    public synchronized void setElementAt(E obj, int index) {
-        if (index >= elementCount) {
-            throw new ArrayIndexOutOfBoundsException(index + " >= " +
-                                                     elementCount);
+    publid syndironizfd void sftElfmfntAt(E obj, int indfx) {
+        if (indfx >= flfmfntCount) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx + " >= " +
+                                                     flfmfntCount);
         }
-        elementData[index] = obj;
+        flfmfntDbtb[indfx] = obj;
     }
 
     /**
-     * Deletes the component at the specified index. Each component in
-     * this vector with an index greater or equal to the specified
-     * {@code index} is shifted downward to have an index one
-     * smaller than the value it had previously. The size of this vector
-     * is decreased by {@code 1}.
+     * Dflftfs tif domponfnt bt tif spfdififd indfx. Ebdi domponfnt in
+     * tiis vfdtor witi bn indfx grfbtfr or fqubl to tif spfdififd
+     * {@dodf indfx} is siiftfd downwbrd to ibvf bn indfx onf
+     * smbllfr tibn tif vbluf it ibd prfviously. Tif sizf of tiis vfdtor
+     * is dfdrfbsfd by {@dodf 1}.
      *
-     * <p>The index must be a value greater than or equal to {@code 0}
-     * and less than the current size of the vector.
+     * <p>Tif indfx must bf b vbluf grfbtfr tibn or fqubl to {@dodf 0}
+     * bnd lfss tibn tif durrfnt sizf of tif vfdtor.
      *
-     * <p>This method is identical in functionality to the {@link #remove(int)}
-     * method (which is part of the {@link List} interface).  Note that the
-     * {@code remove} method returns the old value that was stored at the
-     * specified position.
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif {@link #rfmovf(int)}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf).  Notf tibt tif
+     * {@dodf rfmovf} mftiod rfturns tif old vbluf tibt wbs storfd bt tif
+     * spfdififd position.
      *
-     * @param      index   the index of the object to remove
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index >= size()})
+     * @pbrbm      indfx   tif indfx of tif objfdt to rfmovf
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx >= sizf()})
      */
-    public synchronized void removeElementAt(int index) {
-        if (index >= elementCount) {
-            throw new ArrayIndexOutOfBoundsException(index + " >= " +
-                                                     elementCount);
+    publid syndironizfd void rfmovfElfmfntAt(int indfx) {
+        if (indfx >= flfmfntCount) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx + " >= " +
+                                                     flfmfntCount);
         }
-        else if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException(index);
+        flsf if (indfx < 0) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx);
         }
-        int j = elementCount - index - 1;
+        int j = flfmfntCount - indfx - 1;
         if (j > 0) {
-            System.arraycopy(elementData, index + 1, elementData, index, j);
+            Systfm.brrbydopy(flfmfntDbtb, indfx + 1, flfmfntDbtb, indfx, j);
         }
         modCount++;
-        elementCount--;
-        elementData[elementCount] = null; /* to let gc do its work */
+        flfmfntCount--;
+        flfmfntDbtb[flfmfntCount] = null; /* to lft gd do its work */
     }
 
     /**
-     * Inserts the specified object as a component in this vector at the
-     * specified {@code index}. Each component in this vector with
-     * an index greater or equal to the specified {@code index} is
-     * shifted upward to have an index one greater than the value it had
-     * previously.
+     * Insfrts tif spfdififd objfdt bs b domponfnt in tiis vfdtor bt tif
+     * spfdififd {@dodf indfx}. Ebdi domponfnt in tiis vfdtor witi
+     * bn indfx grfbtfr or fqubl to tif spfdififd {@dodf indfx} is
+     * siiftfd upwbrd to ibvf bn indfx onf grfbtfr tibn tif vbluf it ibd
+     * prfviously.
      *
-     * <p>The index must be a value greater than or equal to {@code 0}
-     * and less than or equal to the current size of the vector. (If the
-     * index is equal to the current size of the vector, the new element
-     * is appended to the Vector.)
+     * <p>Tif indfx must bf b vbluf grfbtfr tibn or fqubl to {@dodf 0}
+     * bnd lfss tibn or fqubl to tif durrfnt sizf of tif vfdtor. (If tif
+     * indfx is fqubl to tif durrfnt sizf of tif vfdtor, tif nfw flfmfnt
+     * is bppfndfd to tif Vfdtor.)
      *
-     * <p>This method is identical in functionality to the
-     * {@link #add(int, Object) add(int, E)}
-     * method (which is part of the {@link List} interface).  Note that the
-     * {@code add} method reverses the order of the parameters, to more closely
-     * match array usage.
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif
+     * {@link #bdd(int, Objfdt) bdd(int, E)}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf).  Notf tibt tif
+     * {@dodf bdd} mftiod rfvfrsfs tif ordfr of tif pbrbmftfrs, to morf dlosfly
+     * mbtdi brrby usbgf.
      *
-     * @param      obj     the component to insert
-     * @param      index   where to insert the new component
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index > size()})
+     * @pbrbm      obj     tif domponfnt to insfrt
+     * @pbrbm      indfx   wifrf to insfrt tif nfw domponfnt
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx > sizf()})
      */
-    public synchronized void insertElementAt(E obj, int index) {
-        if (index > elementCount) {
-            throw new ArrayIndexOutOfBoundsException(index
-                                                     + " > " + elementCount);
+    publid syndironizfd void insfrtElfmfntAt(E obj, int indfx) {
+        if (indfx > flfmfntCount) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx
+                                                     + " > " + flfmfntCount);
         }
-        ensureCapacityHelper(elementCount + 1);
-        System.arraycopy(elementData, index, elementData, index + 1, elementCount - index);
-        elementData[index] = obj;
+        fnsurfCbpbdityHflpfr(flfmfntCount + 1);
+        Systfm.brrbydopy(flfmfntDbtb, indfx, flfmfntDbtb, indfx + 1, flfmfntCount - indfx);
+        flfmfntDbtb[indfx] = obj;
         modCount++;
-        elementCount++;
+        flfmfntCount++;
     }
 
     /**
-     * Adds the specified component to the end of this vector,
-     * increasing its size by one. The capacity of this vector is
-     * increased if its size becomes greater than its capacity.
+     * Adds tif spfdififd domponfnt to tif fnd of tiis vfdtor,
+     * indrfbsing its sizf by onf. Tif dbpbdity of tiis vfdtor is
+     * indrfbsfd if its sizf bfdomfs grfbtfr tibn its dbpbdity.
      *
-     * <p>This method is identical in functionality to the
-     * {@link #add(Object) add(E)}
-     * method (which is part of the {@link List} interface).
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif
+     * {@link #bdd(Objfdt) bdd(E)}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf).
      *
-     * @param   obj   the component to be added
+     * @pbrbm   obj   tif domponfnt to bf bddfd
      */
-    public synchronized void addElement(E obj) {
-        ensureCapacityHelper(elementCount + 1);
+    publid syndironizfd void bddElfmfnt(E obj) {
+        fnsurfCbpbdityHflpfr(flfmfntCount + 1);
         modCount++;
-        elementData[elementCount++] = obj;
+        flfmfntDbtb[flfmfntCount++] = obj;
     }
 
     /**
-     * Removes the first (lowest-indexed) occurrence of the argument
-     * from this vector. If the object is found in this vector, each
-     * component in the vector with an index greater or equal to the
-     * object's index is shifted downward to have an index one smaller
-     * than the value it had previously.
+     * Rfmovfs tif first (lowfst-indfxfd) oddurrfndf of tif brgumfnt
+     * from tiis vfdtor. If tif objfdt is found in tiis vfdtor, fbdi
+     * domponfnt in tif vfdtor witi bn indfx grfbtfr or fqubl to tif
+     * objfdt's indfx is siiftfd downwbrd to ibvf bn indfx onf smbllfr
+     * tibn tif vbluf it ibd prfviously.
      *
-     * <p>This method is identical in functionality to the
-     * {@link #remove(Object)} method (which is part of the
-     * {@link List} interface).
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif
+     * {@link #rfmovf(Objfdt)} mftiod (wiidi is pbrt of tif
+     * {@link List} intfrfbdf).
      *
-     * @param   obj   the component to be removed
-     * @return  {@code true} if the argument was a component of this
-     *          vector; {@code false} otherwise.
+     * @pbrbm   obj   tif domponfnt to bf rfmovfd
+     * @rfturn  {@dodf truf} if tif brgumfnt wbs b domponfnt of tiis
+     *          vfdtor; {@dodf fblsf} otifrwisf.
      */
-    public synchronized boolean removeElement(Object obj) {
+    publid syndironizfd boolfbn rfmovfElfmfnt(Objfdt obj) {
         modCount++;
-        int i = indexOf(obj);
+        int i = indfxOf(obj);
         if (i >= 0) {
-            removeElementAt(i);
-            return true;
+            rfmovfElfmfntAt(i);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Removes all components from this vector and sets its size to zero.
+     * Rfmovfs bll domponfnts from tiis vfdtor bnd sfts its sizf to zfro.
      *
-     * <p>This method is identical in functionality to the {@link #clear}
-     * method (which is part of the {@link List} interface).
+     * <p>Tiis mftiod is idfntidbl in fundtionblity to tif {@link #dlfbr}
+     * mftiod (wiidi is pbrt of tif {@link List} intfrfbdf).
      */
-    public synchronized void removeAllElements() {
-        // Let gc do its work
-        for (int i = 0; i < elementCount; i++)
-            elementData[i] = null;
+    publid syndironizfd void rfmovfAllElfmfnts() {
+        // Lft gd do its work
+        for (int i = 0; i < flfmfntCount; i++)
+            flfmfntDbtb[i] = null;
 
         modCount++;
-        elementCount = 0;
+        flfmfntCount = 0;
     }
 
     /**
-     * Returns a clone of this vector. The copy will contain a
-     * reference to a clone of the internal data array, not a reference
-     * to the original internal data array of this {@code Vector} object.
+     * Rfturns b dlonf of tiis vfdtor. Tif dopy will dontbin b
+     * rfffrfndf to b dlonf of tif intfrnbl dbtb brrby, not b rfffrfndf
+     * to tif originbl intfrnbl dbtb brrby of tiis {@dodf Vfdtor} objfdt.
      *
-     * @return  a clone of this vector
+     * @rfturn  b dlonf of tiis vfdtor
      */
-    public synchronized Object clone() {
+    publid syndironizfd Objfdt dlonf() {
         try {
-            @SuppressWarnings("unchecked")
-                Vector<E> v = (Vector<E>) super.clone();
-            v.elementData = Arrays.copyOf(elementData, elementCount);
+            @SupprfssWbrnings("undifdkfd")
+                Vfdtor<E> v = (Vfdtor<E>) supfr.dlonf();
+            v.flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, flfmfntCount);
             v.modCount = 0;
-            return v;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn v;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this Vector
-     * in the correct order.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis Vfdtor
+     * in tif dorrfdt ordfr.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public synchronized Object[] toArray() {
-        return Arrays.copyOf(elementData, elementCount);
+    publid syndironizfd Objfdt[] toArrby() {
+        rfturn Arrbys.dopyOf(flfmfntDbtb, flfmfntCount);
     }
 
     /**
-     * Returns an array containing all of the elements in this Vector in the
-     * correct order; the runtime type of the returned array is that of the
-     * specified array.  If the Vector fits in the specified array, it is
-     * returned therein.  Otherwise, a new array is allocated with the runtime
-     * type of the specified array and the size of this Vector.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis Vfdtor in tif
+     * dorrfdt ordfr; tif runtimf typf of tif rfturnfd brrby is tibt of tif
+     * spfdififd brrby.  If tif Vfdtor fits in tif spfdififd brrby, it is
+     * rfturnfd tifrfin.  Otifrwisf, b nfw brrby is bllodbtfd witi tif runtimf
+     * typf of tif spfdififd brrby bnd tif sizf of tiis Vfdtor.
      *
-     * <p>If the Vector fits in the specified array with room to spare
-     * (i.e., the array has more elements than the Vector),
-     * the element in the array immediately following the end of the
-     * Vector is set to null.  (This is useful in determining the length
-     * of the Vector <em>only</em> if the caller knows that the Vector
-     * does not contain any null elements.)
+     * <p>If tif Vfdtor fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tif Vfdtor),
+     * tif flfmfnt in tif brrby immfdibtfly following tif fnd of tif
+     * Vfdtor is sft to null.  (Tiis is usfful in dftfrmining tif lfngti
+     * of tif Vfdtor <fm>only</fm> if tif dbllfr knows tibt tif Vfdtor
+     * dofs not dontbin bny null flfmfnts.)
      *
-     * @param <T> type of array elements. The same type as {@code <E>} or a
-     * supertype of {@code <E>}.
-     * @param a the array into which the elements of the Vector are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of the Vector
-     * @throws ArrayStoreException if the runtime type of a, {@code <T>}, is not
-     * a supertype of the runtime type, {@code <E>}, of every element in this
-     * Vector
-     * @throws NullPointerException if the given array is null
-     * @since 1.2
+     * @pbrbm <T> typf of brrby flfmfnts. Tif sbmf typf bs {@dodf <E>} or b
+     * supfrtypf of {@dodf <E>}.
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif Vfdtor brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf.
+     * @rfturn bn brrby dontbining tif flfmfnts of tif Vfdtor
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of b, {@dodf <T>}, is not
+     * b supfrtypf of tif runtimf typf, {@dodf <E>}, of fvfry flfmfnt in tiis
+     * Vfdtor
+     * @tirows NullPointfrExdfption if tif givfn brrby is null
+     * @sindf 1.2
      */
-    @SuppressWarnings("unchecked")
-    public synchronized <T> T[] toArray(T[] a) {
-        if (a.length < elementCount)
-            return (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());
+    @SupprfssWbrnings("undifdkfd")
+    publid syndironizfd <T> T[] toArrby(T[] b) {
+        if (b.lfngti < flfmfntCount)
+            rfturn (T[]) Arrbys.dopyOf(flfmfntDbtb, flfmfntCount, b.gftClbss());
 
-        System.arraycopy(elementData, 0, a, 0, elementCount);
+        Systfm.brrbydopy(flfmfntDbtb, 0, b, 0, flfmfntCount);
 
-        if (a.length > elementCount)
-            a[elementCount] = null;
+        if (b.lfngti > flfmfntCount)
+            b[flfmfntCount] = null;
 
-        return a;
+        rfturn b;
     }
 
-    // Positional Access Operations
+    // Positionbl Addfss Opfrbtions
 
-    @SuppressWarnings("unchecked")
-    E elementData(int index) {
-        return (E) elementData[index];
-    }
-
-    /**
-     * Returns the element at the specified position in this Vector.
-     *
-     * @param index index of the element to return
-     * @return object at the specified index
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *            ({@code index < 0 || index >= size()})
-     * @since 1.2
-     */
-    public synchronized E get(int index) {
-        if (index >= elementCount)
-            throw new ArrayIndexOutOfBoundsException(index);
-
-        return elementData(index);
+    @SupprfssWbrnings("undifdkfd")
+    E flfmfntDbtb(int indfx) {
+        rfturn (E) flfmfntDbtb[indfx];
     }
 
     /**
-     * Replaces the element at the specified position in this Vector with the
-     * specified element.
+     * Rfturns tif flfmfnt bt tif spfdififd position in tiis Vfdtor.
      *
-     * @param index index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index >= size()})
-     * @since 1.2
+     * @pbrbm indfx indfx of tif flfmfnt to rfturn
+     * @rfturn objfdt bt tif spfdififd indfx
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *            ({@dodf indfx < 0 || indfx >= sizf()})
+     * @sindf 1.2
      */
-    public synchronized E set(int index, E element) {
-        if (index >= elementCount)
-            throw new ArrayIndexOutOfBoundsException(index);
+    publid syndironizfd E gft(int indfx) {
+        if (indfx >= flfmfntCount)
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx);
 
-        E oldValue = elementData(index);
-        elementData[index] = element;
-        return oldValue;
+        rfturn flfmfntDbtb(indfx);
     }
 
     /**
-     * Appends the specified element to the end of this Vector.
+     * Rfplbdfs tif flfmfnt bt tif spfdififd position in tiis Vfdtor witi tif
+     * spfdififd flfmfnt.
      *
-     * @param e element to be appended to this Vector
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @since 1.2
+     * @pbrbm indfx indfx of tif flfmfnt to rfplbdf
+     * @pbrbm flfmfnt flfmfnt to bf storfd bt tif spfdififd position
+     * @rfturn tif flfmfnt prfviously bt tif spfdififd position
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx >= sizf()})
+     * @sindf 1.2
      */
-    public synchronized boolean add(E e) {
-        ensureCapacityHelper(elementCount + 1);
+    publid syndironizfd E sft(int indfx, E flfmfnt) {
+        if (indfx >= flfmfntCount)
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx);
+
+        E oldVbluf = flfmfntDbtb(indfx);
+        flfmfntDbtb[indfx] = flfmfnt;
+        rfturn oldVbluf;
+    }
+
+    /**
+     * Appfnds tif spfdififd flfmfnt to tif fnd of tiis Vfdtor.
+     *
+     * @pbrbm f flfmfnt to bf bppfndfd to tiis Vfdtor
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @sindf 1.2
+     */
+    publid syndironizfd boolfbn bdd(E f) {
+        fnsurfCbpbdityHflpfr(flfmfntCount + 1);
         modCount++;
-        elementData[elementCount++] = e;
-        return true;
+        flfmfntDbtb[flfmfntCount++] = f;
+        rfturn truf;
     }
 
     /**
-     * Removes the first occurrence of the specified element in this Vector
-     * If the Vector does not contain the element, it is unchanged.  More
-     * formally, removes the element with the lowest index i such that
-     * {@code (o==null ? get(i)==null : o.equals(get(i)))} (if such
-     * an element exists).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt in tiis Vfdtor
+     * If tif Vfdtor dofs not dontbin tif flfmfnt, it is undibngfd.  Morf
+     * formblly, rfmovfs tif flfmfnt witi tif lowfst indfx i sudi tibt
+     * {@dodf (o==null ? gft(i)==null : o.fqubls(gft(i)))} (if sudi
+     * bn flfmfnt fxists).
      *
-     * @param o element to be removed from this Vector, if present
-     * @return true if the Vector contained the specified element
-     * @since 1.2
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis Vfdtor, if prfsfnt
+     * @rfturn truf if tif Vfdtor dontbinfd tif spfdififd flfmfnt
+     * @sindf 1.2
      */
-    public boolean remove(Object o) {
-        return removeElement(o);
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn rfmovfElfmfnt(o);
     }
 
     /**
-     * Inserts the specified element at the specified position in this Vector.
-     * Shifts the element currently at that position (if any) and any
-     * subsequent elements to the right (adds one to their indices).
+     * Insfrts tif spfdififd flfmfnt bt tif spfdififd position in tiis Vfdtor.
+     * Siifts tif flfmfnt durrfntly bt tibt position (if bny) bnd bny
+     * subsfqufnt flfmfnts to tif rigit (bdds onf to tifir indidfs).
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index > size()})
-     * @since 1.2
+     * @pbrbm indfx indfx bt wiidi tif spfdififd flfmfnt is to bf insfrtfd
+     * @pbrbm flfmfnt flfmfnt to bf insfrtfd
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx > sizf()})
+     * @sindf 1.2
      */
-    public void add(int index, E element) {
-        insertElementAt(element, index);
+    publid void bdd(int indfx, E flfmfnt) {
+        insfrtElfmfntAt(flfmfnt, indfx);
     }
 
     /**
-     * Removes the element at the specified position in this Vector.
-     * Shifts any subsequent elements to the left (subtracts one from their
-     * indices).  Returns the element that was removed from the Vector.
+     * Rfmovfs tif flfmfnt bt tif spfdififd position in tiis Vfdtor.
+     * Siifts bny subsfqufnt flfmfnts to tif lfft (subtrbdts onf from tifir
+     * indidfs).  Rfturns tif flfmfnt tibt wbs rfmovfd from tif Vfdtor.
      *
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index >= size()})
-     * @param index the index of the element to be removed
-     * @return element that was removed
-     * @since 1.2
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx >= sizf()})
+     * @pbrbm indfx tif indfx of tif flfmfnt to bf rfmovfd
+     * @rfturn flfmfnt tibt wbs rfmovfd
+     * @sindf 1.2
      */
-    public synchronized E remove(int index) {
+    publid syndironizfd E rfmovf(int indfx) {
         modCount++;
-        if (index >= elementCount)
-            throw new ArrayIndexOutOfBoundsException(index);
-        E oldValue = elementData(index);
+        if (indfx >= flfmfntCount)
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx);
+        E oldVbluf = flfmfntDbtb(indfx);
 
-        int numMoved = elementCount - index - 1;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
-                             numMoved);
-        elementData[--elementCount] = null; // Let gc do its work
+        int numMovfd = flfmfntCount - indfx - 1;
+        if (numMovfd > 0)
+            Systfm.brrbydopy(flfmfntDbtb, indfx+1, flfmfntDbtb, indfx,
+                             numMovfd);
+        flfmfntDbtb[--flfmfntCount] = null; // Lft gd do its work
 
-        return oldValue;
+        rfturn oldVbluf;
     }
 
     /**
-     * Removes all of the elements from this Vector.  The Vector will
-     * be empty after this call returns (unless it throws an exception).
+     * Rfmovfs bll of tif flfmfnts from tiis Vfdtor.  Tif Vfdtor will
+     * bf fmpty bftfr tiis dbll rfturns (unlfss it tirows bn fxdfption).
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public void clear() {
-        removeAllElements();
+    publid void dlfbr() {
+        rfmovfAllElfmfnts();
     }
 
-    // Bulk Operations
+    // Bulk Opfrbtions
 
     /**
-     * Returns true if this Vector contains all of the elements in the
-     * specified Collection.
+     * Rfturns truf if tiis Vfdtor dontbins bll of tif flfmfnts in tif
+     * spfdififd Collfdtion.
      *
-     * @param   c a collection whose elements will be tested for containment
-     *          in this Vector
-     * @return true if this Vector contains all of the elements in the
-     *         specified collection
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm   d b dollfdtion wiosf flfmfnts will bf tfstfd for dontbinmfnt
+     *          in tiis Vfdtor
+     * @rfturn truf if tiis Vfdtor dontbins bll of tif flfmfnts in tif
+     *         spfdififd dollfdtion
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public synchronized boolean containsAll(Collection<?> c) {
-        return super.containsAll(c);
+    publid syndironizfd boolfbn dontbinsAll(Collfdtion<?> d) {
+        rfturn supfr.dontbinsAll(d);
     }
 
     /**
-     * Appends all of the elements in the specified Collection to the end of
-     * this Vector, in the order that they are returned by the specified
-     * Collection's Iterator.  The behavior of this operation is undefined if
-     * the specified Collection is modified while the operation is in progress.
-     * (This implies that the behavior of this call is undefined if the
-     * specified Collection is this Vector, and this Vector is nonempty.)
+     * Appfnds bll of tif flfmfnts in tif spfdififd Collfdtion to tif fnd of
+     * tiis Vfdtor, in tif ordfr tibt tify brf rfturnfd by tif spfdififd
+     * Collfdtion's Itfrbtor.  Tif bfibvior of tiis opfrbtion is undffinfd if
+     * tif spfdififd Collfdtion is modififd wiilf tif opfrbtion is in progrfss.
+     * (Tiis implifs tibt tif bfibvior of tiis dbll is undffinfd if tif
+     * spfdififd Collfdtion is tiis Vfdtor, bnd tiis Vfdtor is nonfmpty.)
      *
-     * @param c elements to be inserted into this Vector
-     * @return {@code true} if this Vector changed as a result of the call
-     * @throws NullPointerException if the specified collection is null
-     * @since 1.2
+     * @pbrbm d flfmfnts to bf insfrtfd into tiis Vfdtor
+     * @rfturn {@dodf truf} if tiis Vfdtor dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     * @sindf 1.2
      */
-    public boolean addAll(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        if (numNew > 0) {
-            synchronized (this) {
-                ensureCapacityHelper(elementCount + numNew);
-                System.arraycopy(a, 0, elementData, elementCount, numNew);
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        Objfdt[] b = d.toArrby();
+        int numNfw = b.lfngti;
+        if (numNfw > 0) {
+            syndironizfd (tiis) {
+                fnsurfCbpbdityHflpfr(flfmfntCount + numNfw);
+                Systfm.brrbydopy(b, 0, flfmfntDbtb, flfmfntCount, numNfw);
                 modCount++;
-                elementCount += numNew;
+                flfmfntCount += numNfw;
             }
         }
-        return numNew > 0;
+        rfturn numNfw > 0;
     }
 
     /**
-     * Removes from this Vector all of its elements that are contained in the
-     * specified Collection.
+     * Rfmovfs from tiis Vfdtor bll of its flfmfnts tibt brf dontbinfd in tif
+     * spfdififd Collfdtion.
      *
-     * @param c a collection of elements to be removed from the Vector
-     * @return true if this Vector changed as a result of the call
-     * @throws ClassCastException if the types of one or more elements
-     *         in this vector are incompatible with the specified
-     *         collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this vector contains one or more null
-     *         elements and the specified collection does not support null
-     *         elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @since 1.2
+     * @pbrbm d b dollfdtion of flfmfnts to bf rfmovfd from tif Vfdtor
+     * @rfturn truf if tiis Vfdtor dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif typfs of onf or morf flfmfnts
+     *         in tiis vfdtor brf indompbtiblf witi tif spfdififd
+     *         dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis vfdtor dontbins onf or morf null
+     *         flfmfnts bnd tif spfdififd dollfdtion dofs not support null
+     *         flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sindf 1.2
      */
-    public synchronized boolean removeAll(Collection<?> c) {
-        return super.removeAll(c);
+    publid syndironizfd boolfbn rfmovfAll(Collfdtion<?> d) {
+        rfturn supfr.rfmovfAll(d);
     }
 
     /**
-     * Retains only the elements in this Vector that are contained in the
-     * specified Collection.  In other words, removes from this Vector all
-     * of its elements that are not contained in the specified Collection.
+     * Rftbins only tif flfmfnts in tiis Vfdtor tibt brf dontbinfd in tif
+     * spfdififd Collfdtion.  In otifr words, rfmovfs from tiis Vfdtor bll
+     * of its flfmfnts tibt brf not dontbinfd in tif spfdififd Collfdtion.
      *
-     * @param c a collection of elements to be retained in this Vector
-     *          (all other elements are removed)
-     * @return true if this Vector changed as a result of the call
-     * @throws ClassCastException if the types of one or more elements
-     *         in this vector are incompatible with the specified
-     *         collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this vector contains one or more null
-     *         elements and the specified collection does not support null
-     *         elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @since 1.2
+     * @pbrbm d b dollfdtion of flfmfnts to bf rftbinfd in tiis Vfdtor
+     *          (bll otifr flfmfnts brf rfmovfd)
+     * @rfturn truf if tiis Vfdtor dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif typfs of onf or morf flfmfnts
+     *         in tiis vfdtor brf indompbtiblf witi tif spfdififd
+     *         dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis vfdtor dontbins onf or morf null
+     *         flfmfnts bnd tif spfdififd dollfdtion dofs not support null
+     *         flfmfnts
+     *         (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sindf 1.2
      */
-    public synchronized boolean retainAll(Collection<?> c) {
-        return super.retainAll(c);
+    publid syndironizfd boolfbn rftbinAll(Collfdtion<?> d) {
+        rfturn supfr.rftbinAll(d);
     }
 
     /**
-     * Inserts all of the elements in the specified Collection into this
-     * Vector at the specified position.  Shifts the element currently at
-     * that position (if any) and any subsequent elements to the right
-     * (increases their indices).  The new elements will appear in the Vector
-     * in the order that they are returned by the specified Collection's
-     * iterator.
+     * Insfrts bll of tif flfmfnts in tif spfdififd Collfdtion into tiis
+     * Vfdtor bt tif spfdififd position.  Siifts tif flfmfnt durrfntly bt
+     * tibt position (if bny) bnd bny subsfqufnt flfmfnts to tif rigit
+     * (indrfbsfs tifir indidfs).  Tif nfw flfmfnts will bppfbr in tif Vfdtor
+     * in tif ordfr tibt tify brf rfturnfd by tif spfdififd Collfdtion's
+     * itfrbtor.
      *
-     * @param index index at which to insert the first element from the
-     *              specified collection
-     * @param c elements to be inserted into this Vector
-     * @return {@code true} if this Vector changed as a result of the call
-     * @throws ArrayIndexOutOfBoundsException if the index is out of range
-     *         ({@code index < 0 || index > size()})
-     * @throws NullPointerException if the specified collection is null
-     * @since 1.2
+     * @pbrbm indfx indfx bt wiidi to insfrt tif first flfmfnt from tif
+     *              spfdififd dollfdtion
+     * @pbrbm d flfmfnts to bf insfrtfd into tiis Vfdtor
+     * @rfturn {@dodf truf} if tiis Vfdtor dibngfd bs b rfsult of tif dbll
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx > sizf()})
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     * @sindf 1.2
      */
-    public synchronized boolean addAll(int index, Collection<? extends E> c) {
-        if (index < 0 || index > elementCount)
-            throw new ArrayIndexOutOfBoundsException(index);
+    publid syndironizfd boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        if (indfx < 0 || indfx > flfmfntCount)
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(indfx);
 
-        Object[] a = c.toArray();
-        int numNew = a.length;
+        Objfdt[] b = d.toArrby();
+        int numNfw = b.lfngti;
 
-        if (numNew > 0) {
-            ensureCapacityHelper(elementCount + numNew);
+        if (numNfw > 0) {
+            fnsurfCbpbdityHflpfr(flfmfntCount + numNfw);
 
-            int numMoved = elementCount - index;
-            if (numMoved > 0)
-                System.arraycopy(elementData, index, elementData,
-                        index + numNew, numMoved);
+            int numMovfd = flfmfntCount - indfx;
+            if (numMovfd > 0)
+                Systfm.brrbydopy(flfmfntDbtb, indfx, flfmfntDbtb,
+                        indfx + numNfw, numMovfd);
 
-             System.arraycopy(a, 0, elementData, index, numNew);
-             elementCount += numNew;
+             Systfm.brrbydopy(b, 0, flfmfntDbtb, indfx, numNfw);
+             flfmfntCount += numNfw;
              modCount++;
         }
-        return numNew > 0;
+        rfturn numNfw > 0;
     }
 
     /**
-     * Compares the specified Object with this Vector for equality.  Returns
-     * true if and only if the specified Object is also a List, both Lists
-     * have the same size, and all corresponding pairs of elements in the two
-     * Lists are <em>equal</em>.  (Two elements {@code e1} and
-     * {@code e2} are <em>equal</em> if {@code (e1==null ? e2==null :
-     * e1.equals(e2))}.)  In other words, two Lists are defined to be
-     * equal if they contain the same elements in the same order.
+     * Compbrfs tif spfdififd Objfdt witi tiis Vfdtor for fqublity.  Rfturns
+     * truf if bnd only if tif spfdififd Objfdt is blso b List, boti Lists
+     * ibvf tif sbmf sizf, bnd bll dorrfsponding pbirs of flfmfnts in tif two
+     * Lists brf <fm>fqubl</fm>.  (Two flfmfnts {@dodf f1} bnd
+     * {@dodf f2} brf <fm>fqubl</fm> if {@dodf (f1==null ? f2==null :
+     * f1.fqubls(f2))}.)  In otifr words, two Lists brf dffinfd to bf
+     * fqubl if tify dontbin tif sbmf flfmfnts in tif sbmf ordfr.
      *
-     * @param o the Object to be compared for equality with this Vector
-     * @return true if the specified Object is equal to this Vector
+     * @pbrbm o tif Objfdt to bf dompbrfd for fqublity witi tiis Vfdtor
+     * @rfturn truf if tif spfdififd Objfdt is fqubl to tiis Vfdtor
      */
-    public synchronized boolean equals(Object o) {
-        return super.equals(o);
+    publid syndironizfd boolfbn fqubls(Objfdt o) {
+        rfturn supfr.fqubls(o);
     }
 
     /**
-     * Returns the hash code value for this Vector.
+     * Rfturns tif ibsi dodf vbluf for tiis Vfdtor.
      */
-    public synchronized int hashCode() {
-        return super.hashCode();
+    publid syndironizfd int ibsiCodf() {
+        rfturn supfr.ibsiCodf();
     }
 
     /**
-     * Returns a string representation of this Vector, containing
-     * the String representation of each element.
+     * Rfturns b string rfprfsfntbtion of tiis Vfdtor, dontbining
+     * tif String rfprfsfntbtion of fbdi flfmfnt.
      */
-    public synchronized String toString() {
-        return super.toString();
+    publid syndironizfd String toString() {
+        rfturn supfr.toString();
     }
 
     /**
-     * Returns a view of the portion of this List between fromIndex,
-     * inclusive, and toIndex, exclusive.  (If fromIndex and toIndex are
-     * equal, the returned List is empty.)  The returned List is backed by this
-     * List, so changes in the returned List are reflected in this List, and
-     * vice-versa.  The returned List supports all of the optional List
-     * operations supported by this List.
+     * Rfturns b vifw of tif portion of tiis List bftwffn fromIndfx,
+     * indlusivf, bnd toIndfx, fxdlusivf.  (If fromIndfx bnd toIndfx brf
+     * fqubl, tif rfturnfd List is fmpty.)  Tif rfturnfd List is bbdkfd by tiis
+     * List, so dibngfs in tif rfturnfd List brf rfflfdtfd in tiis List, bnd
+     * vidf-vfrsb.  Tif rfturnfd List supports bll of tif optionbl List
+     * opfrbtions supportfd by tiis List.
      *
-     * <p>This method eliminates the need for explicit range operations (of
-     * the sort that commonly exist for arrays).  Any operation that expects
-     * a List can be used as a range operation by operating on a subList view
-     * instead of a whole List.  For example, the following idiom
-     * removes a range of elements from a List:
-     * <pre>
-     *      list.subList(from, to).clear();
-     * </pre>
-     * Similar idioms may be constructed for indexOf and lastIndexOf,
-     * and all of the algorithms in the Collections class can be applied to
-     * a subList.
+     * <p>Tiis mftiod fliminbtfs tif nffd for fxplidit rbngf opfrbtions (of
+     * tif sort tibt dommonly fxist for brrbys).  Any opfrbtion tibt fxpfdts
+     * b List dbn bf usfd bs b rbngf opfrbtion by opfrbting on b subList vifw
+     * instfbd of b wiolf List.  For fxbmplf, tif following idiom
+     * rfmovfs b rbngf of flfmfnts from b List:
+     * <prf>
+     *      list.subList(from, to).dlfbr();
+     * </prf>
+     * Similbr idioms mby bf donstrudtfd for indfxOf bnd lbstIndfxOf,
+     * bnd bll of tif blgoritims in tif Collfdtions dlbss dbn bf bpplifd to
+     * b subList.
      *
-     * <p>The semantics of the List returned by this method become undefined if
-     * the backing list (i.e., this List) is <i>structurally modified</i> in
-     * any way other than via the returned List.  (Structural modifications are
-     * those that change the size of the List, or otherwise perturb it in such
-     * a fashion that iterations in progress may yield incorrect results.)
+     * <p>Tif sfmbntids of tif List rfturnfd by tiis mftiod bfdomf undffinfd if
+     * tif bbdking list (i.f., tiis List) is <i>strudturblly modififd</i> in
+     * bny wby otifr tibn vib tif rfturnfd List.  (Strudturbl modifidbtions brf
+     * tiosf tibt dibngf tif sizf of tif List, or otifrwisf pfrturb it in sudi
+     * b fbsiion tibt itfrbtions in progrfss mby yifld indorrfdt rfsults.)
      *
-     * @param fromIndex low endpoint (inclusive) of the subList
-     * @param toIndex high endpoint (exclusive) of the subList
-     * @return a view of the specified range within this List
-     * @throws IndexOutOfBoundsException if an endpoint index value is out of range
-     *         {@code (fromIndex < 0 || toIndex > size)}
-     * @throws IllegalArgumentException if the endpoint indices are out of order
-     *         {@code (fromIndex > toIndex)}
+     * @pbrbm fromIndfx low fndpoint (indlusivf) of tif subList
+     * @pbrbm toIndfx iigi fndpoint (fxdlusivf) of tif subList
+     * @rfturn b vifw of tif spfdififd rbngf witiin tiis List
+     * @tirows IndfxOutOfBoundsExdfption if bn fndpoint indfx vbluf is out of rbngf
+     *         {@dodf (fromIndfx < 0 || toIndfx > sizf)}
+     * @tirows IllfgblArgumfntExdfption if tif fndpoint indidfs brf out of ordfr
+     *         {@dodf (fromIndfx > toIndfx)}
      */
-    public synchronized List<E> subList(int fromIndex, int toIndex) {
-        return Collections.synchronizedList(super.subList(fromIndex, toIndex),
-                                            this);
+    publid syndironizfd List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn Collfdtions.syndironizfdList(supfr.subList(fromIndfx, toIndfx),
+                                            tiis);
     }
 
     /**
-     * Removes from this list all of the elements whose index is between
-     * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
-     * Shifts any succeeding elements to the left (reduces their index).
-     * This call shortens the list by {@code (toIndex - fromIndex)} elements.
-     * (If {@code toIndex==fromIndex}, this operation has no effect.)
+     * Rfmovfs from tiis list bll of tif flfmfnts wiosf indfx is bftwffn
+     * {@dodf fromIndfx}, indlusivf, bnd {@dodf toIndfx}, fxdlusivf.
+     * Siifts bny suddffding flfmfnts to tif lfft (rfdudfs tifir indfx).
+     * Tiis dbll siortfns tif list by {@dodf (toIndfx - fromIndfx)} flfmfnts.
+     * (If {@dodf toIndfx==fromIndfx}, tiis opfrbtion ibs no ffffdt.)
      */
-    protected synchronized void removeRange(int fromIndex, int toIndex) {
-        int numMoved = elementCount - toIndex;
-        System.arraycopy(elementData, toIndex, elementData, fromIndex,
-                         numMoved);
+    protfdtfd syndironizfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        int numMovfd = flfmfntCount - toIndfx;
+        Systfm.brrbydopy(flfmfntDbtb, toIndfx, flfmfntDbtb, fromIndfx,
+                         numMovfd);
 
-        // Let gc do its work
+        // Lft gd do its work
         modCount++;
-        int newElementCount = elementCount - (toIndex-fromIndex);
-        while (elementCount != newElementCount)
-            elementData[--elementCount] = null;
+        int nfwElfmfntCount = flfmfntCount - (toIndfx-fromIndfx);
+        wiilf (flfmfntCount != nfwElfmfntCount)
+            flfmfntDbtb[--flfmfntCount] = null;
     }
 
     /**
-     * Save the state of the {@code Vector} instance to a stream (that
-     * is, serialize it).
-     * This method performs synchronization to ensure the consistency
-     * of the serialized data.
+     * Sbvf tif stbtf of tif {@dodf Vfdtor} instbndf to b strfbm (tibt
+     * is, sfriblizf it).
+     * Tiis mftiod pfrforms syndironizbtion to fnsurf tif donsistfndy
+     * of tif sfriblizfd dbtb.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        final java.io.ObjectOutputStream.PutField fields = s.putFields();
-        final Object[] data;
-        synchronized (this) {
-            fields.put("capacityIncrement", capacityIncrement);
-            fields.put("elementCount", elementCount);
-            data = elementData.clone();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        finbl jbvb.io.ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        finbl Objfdt[] dbtb;
+        syndironizfd (tiis) {
+            fiflds.put("dbpbdityIndrfmfnt", dbpbdityIndrfmfnt);
+            fiflds.put("flfmfntCount", flfmfntCount);
+            dbtb = flfmfntDbtb.dlonf();
         }
-        fields.put("elementData", data);
-        s.writeFields();
+        fiflds.put("flfmfntDbtb", dbtb);
+        s.writfFiflds();
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
-     * sequence), starting at the specified position in the list.
-     * The specified index indicates the first element that would be
-     * returned by an initial call to {@link ListIterator#next next}.
-     * An initial call to {@link ListIterator#previous previous} would
-     * return the element with the specified index minus one.
+     * Rfturns b list itfrbtor ovfr tif flfmfnts in tiis list (in propfr
+     * sfqufndf), stbrting bt tif spfdififd position in tif list.
+     * Tif spfdififd indfx indidbtfs tif first flfmfnt tibt would bf
+     * rfturnfd by bn initibl dbll to {@link ListItfrbtor#nfxt nfxt}.
+     * An initibl dbll to {@link ListItfrbtor#prfvious prfvious} would
+     * rfturn tif flfmfnt witi tif spfdififd indfx minus onf.
      *
-     * <p>The returned list iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
+     * <p>Tif rfturnfd list itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
      *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public synchronized ListIterator<E> listIterator(int index) {
-        if (index < 0 || index > elementCount)
-            throw new IndexOutOfBoundsException("Index: "+index);
-        return new ListItr(index);
+    publid syndironizfd ListItfrbtor<E> listItfrbtor(int indfx) {
+        if (indfx < 0 || indfx > flfmfntCount)
+            tirow nfw IndfxOutOfBoundsExdfption("Indfx: "+indfx);
+        rfturn nfw ListItr(indfx);
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
-     * sequence).
+     * Rfturns b list itfrbtor ovfr tif flfmfnts in tiis list (in propfr
+     * sfqufndf).
      *
-     * <p>The returned list iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
+     * <p>Tif rfturnfd list itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
      *
-     * @see #listIterator(int)
+     * @sff #listItfrbtor(int)
      */
-    public synchronized ListIterator<E> listIterator() {
-        return new ListItr(0);
+    publid syndironizfd ListItfrbtor<E> listItfrbtor() {
+        rfturn nfw ListItr(0);
     }
 
     /**
-     * Returns an iterator over the elements in this list in proper sequence.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf.
      *
-     * <p>The returned iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
+     * <p>Tif rfturnfd itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
      *
-     * @return an iterator over the elements in this list in proper sequence
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf
      */
-    public synchronized Iterator<E> iterator() {
-        return new Itr();
+    publid syndironizfd Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
     }
 
     /**
-     * An optimized version of AbstractList.Itr
+     * An optimizfd vfrsion of AbstrbdtList.Itr
      */
-    private class Itr implements Iterator<E> {
-        int cursor;       // index of next element to return
-        int lastRet = -1; // index of last element returned; -1 if no such
-        int expectedModCount = modCount;
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
+        int dursor;       // indfx of nfxt flfmfnt to rfturn
+        int lbstRft = -1; // indfx of lbst flfmfnt rfturnfd; -1 if no sudi
+        int fxpfdtfdModCount = modCount;
 
-        public boolean hasNext() {
-            // Racy but within spec, since modifications are checked
-            // within or after synchronization in next/previous
-            return cursor != elementCount;
+        publid boolfbn ibsNfxt() {
+            // Rbdy but witiin spfd, sindf modifidbtions brf difdkfd
+            // witiin or bftfr syndironizbtion in nfxt/prfvious
+            rfturn dursor != flfmfntCount;
         }
 
-        public E next() {
-            synchronized (Vector.this) {
-                checkForComodification();
-                int i = cursor;
-                if (i >= elementCount)
-                    throw new NoSuchElementException();
-                cursor = i + 1;
-                return elementData(lastRet = i);
+        publid E nfxt() {
+            syndironizfd (Vfdtor.tiis) {
+                difdkForComodifidbtion();
+                int i = dursor;
+                if (i >= flfmfntCount)
+                    tirow nfw NoSudiElfmfntExdfption();
+                dursor = i + 1;
+                rfturn flfmfntDbtb(lbstRft = i);
             }
         }
 
-        public void remove() {
-            if (lastRet == -1)
-                throw new IllegalStateException();
-            synchronized (Vector.this) {
-                checkForComodification();
-                Vector.this.remove(lastRet);
-                expectedModCount = modCount;
+        publid void rfmovf() {
+            if (lbstRft == -1)
+                tirow nfw IllfgblStbtfExdfption();
+            syndironizfd (Vfdtor.tiis) {
+                difdkForComodifidbtion();
+                Vfdtor.tiis.rfmovf(lbstRft);
+                fxpfdtfdModCount = modCount;
             }
-            cursor = lastRet;
-            lastRet = -1;
+            dursor = lbstRft;
+            lbstRft = -1;
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
-            synchronized (Vector.this) {
-                final int size = elementCount;
-                int i = cursor;
-                if (i >= size) {
-                    return;
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            syndironizfd (Vfdtor.tiis) {
+                finbl int sizf = flfmfntCount;
+                int i = dursor;
+                if (i >= sizf) {
+                    rfturn;
                 }
-        @SuppressWarnings("unchecked")
-                final E[] elementData = (E[]) Vector.this.elementData;
-                if (i >= elementData.length) {
-                    throw new ConcurrentModificationException();
+        @SupprfssWbrnings("undifdkfd")
+                finbl E[] flfmfntDbtb = (E[]) Vfdtor.tiis.flfmfntDbtb;
+                if (i >= flfmfntDbtb.lfngti) {
+                    tirow nfw CondurrfntModifidbtionExdfption();
                 }
-                while (i != size && modCount == expectedModCount) {
-                    action.accept(elementData[i++]);
+                wiilf (i != sizf && modCount == fxpfdtfdModCount) {
+                    bdtion.bddfpt(flfmfntDbtb[i++]);
                 }
-                // update once at end of iteration to reduce heap write traffic
-                cursor = i;
-                lastRet = i - 1;
-                checkForComodification();
+                // updbtf ondf bt fnd of itfrbtion to rfdudf ifbp writf trbffid
+                dursor = i;
+                lbstRft = i - 1;
+                difdkForComodifidbtion();
             }
         }
 
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+        finbl void difdkForComodifidbtion() {
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
     /**
-     * An optimized version of AbstractList.ListItr
+     * An optimizfd vfrsion of AbstrbdtList.ListItr
      */
-    final class ListItr extends Itr implements ListIterator<E> {
-        ListItr(int index) {
-            super();
-            cursor = index;
+    finbl dlbss ListItr fxtfnds Itr implfmfnts ListItfrbtor<E> {
+        ListItr(int indfx) {
+            supfr();
+            dursor = indfx;
         }
 
-        public boolean hasPrevious() {
-            return cursor != 0;
+        publid boolfbn ibsPrfvious() {
+            rfturn dursor != 0;
         }
 
-        public int nextIndex() {
-            return cursor;
+        publid int nfxtIndfx() {
+            rfturn dursor;
         }
 
-        public int previousIndex() {
-            return cursor - 1;
+        publid int prfviousIndfx() {
+            rfturn dursor - 1;
         }
 
-        public E previous() {
-            synchronized (Vector.this) {
-                checkForComodification();
-                int i = cursor - 1;
+        publid E prfvious() {
+            syndironizfd (Vfdtor.tiis) {
+                difdkForComodifidbtion();
+                int i = dursor - 1;
                 if (i < 0)
-                    throw new NoSuchElementException();
-                cursor = i;
-                return elementData(lastRet = i);
+                    tirow nfw NoSudiElfmfntExdfption();
+                dursor = i;
+                rfturn flfmfntDbtb(lbstRft = i);
             }
         }
 
-        public void set(E e) {
-            if (lastRet == -1)
-                throw new IllegalStateException();
-            synchronized (Vector.this) {
-                checkForComodification();
-                Vector.this.set(lastRet, e);
+        publid void sft(E f) {
+            if (lbstRft == -1)
+                tirow nfw IllfgblStbtfExdfption();
+            syndironizfd (Vfdtor.tiis) {
+                difdkForComodifidbtion();
+                Vfdtor.tiis.sft(lbstRft, f);
             }
         }
 
-        public void add(E e) {
-            int i = cursor;
-            synchronized (Vector.this) {
-                checkForComodification();
-                Vector.this.add(i, e);
-                expectedModCount = modCount;
+        publid void bdd(E f) {
+            int i = dursor;
+            syndironizfd (Vfdtor.tiis) {
+                difdkForComodifidbtion();
+                Vfdtor.tiis.bdd(i, f);
+                fxpfdtfdModCount = modCount;
             }
-            cursor = i + 1;
-            lastRet = -1;
+            dursor = i + 1;
+            lbstRft = -1;
         }
     }
 
-    @Override
-    public synchronized void forEach(Consumer<? super E> action) {
-        Objects.requireNonNull(action);
-        final int expectedModCount = modCount;
-        @SuppressWarnings("unchecked")
-        final E[] elementData = (E[]) this.elementData;
-        final int elementCount = this.elementCount;
-        for (int i=0; modCount == expectedModCount && i < elementCount; i++) {
-            action.accept(elementData[i]);
+    @Ovfrridf
+    publid syndironizfd void forEbdi(Consumfr<? supfr E> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        finbl int fxpfdtfdModCount = modCount;
+        @SupprfssWbrnings("undifdkfd")
+        finbl E[] flfmfntDbtb = (E[]) tiis.flfmfntDbtb;
+        finbl int flfmfntCount = tiis.flfmfntCount;
+        for (int i=0; modCount == fxpfdtfdModCount && i < flfmfntCount; i++) {
+            bdtion.bddfpt(flfmfntDbtb[i]);
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized boolean removeIf(Predicate<? super E> filter) {
-        Objects.requireNonNull(filter);
-        // figure out which elements are to be removed
-        // any exception thrown from the filter predicate at this stage
-        // will leave the collection unmodified
-        int removeCount = 0;
-        final int size = elementCount;
-        final BitSet removeSet = new BitSet(size);
-        final int expectedModCount = modCount;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
-            @SuppressWarnings("unchecked")
-            final E element = (E) elementData[i];
-            if (filter.test(element)) {
-                removeSet.set(i);
-                removeCount++;
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid syndironizfd boolfbn rfmovfIf(Prfdidbtf<? supfr E> filtfr) {
+        Objfdts.rfquirfNonNull(filtfr);
+        // figurf out wiidi flfmfnts brf to bf rfmovfd
+        // bny fxdfption tirown from tif filtfr prfdidbtf bt tiis stbgf
+        // will lfbvf tif dollfdtion unmodififd
+        int rfmovfCount = 0;
+        finbl int sizf = flfmfntCount;
+        finbl BitSft rfmovfSft = nfw BitSft(sizf);
+        finbl int fxpfdtfdModCount = modCount;
+        for (int i=0; modCount == fxpfdtfdModCount && i < sizf; i++) {
+            @SupprfssWbrnings("undifdkfd")
+            finbl E flfmfnt = (E) flfmfntDbtb[i];
+            if (filtfr.tfst(flfmfnt)) {
+                rfmovfSft.sft(i);
+                rfmovfCount++;
             }
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        // shift surviving elements left over the spaces left by removed elements
-        final boolean anyToRemove = removeCount > 0;
-        if (anyToRemove) {
-            final int newSize = size - removeCount;
-            for (int i=0, j=0; (i < size) && (j < newSize); i++, j++) {
-                i = removeSet.nextClearBit(i);
-                elementData[j] = elementData[i];
+        // siift surviving flfmfnts lfft ovfr tif spbdfs lfft by rfmovfd flfmfnts
+        finbl boolfbn bnyToRfmovf = rfmovfCount > 0;
+        if (bnyToRfmovf) {
+            finbl int nfwSizf = sizf - rfmovfCount;
+            for (int i=0, j=0; (i < sizf) && (j < nfwSizf); i++, j++) {
+                i = rfmovfSft.nfxtClfbrBit(i);
+                flfmfntDbtb[j] = flfmfntDbtb[i];
             }
-            for (int k=newSize; k < size; k++) {
-                elementData[k] = null;  // Let gc do its work
+            for (int k=nfwSizf; k < sizf; k++) {
+                flfmfntDbtb[k] = null;  // Lft gd do its work
             }
-            elementCount = newSize;
-            if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException();
+            flfmfntCount = nfwSizf;
+            if (modCount != fxpfdtfdModCount) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
             modCount++;
         }
 
-        return anyToRemove;
+        rfturn bnyToRfmovf;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized void replaceAll(UnaryOperator<E> operator) {
-        Objects.requireNonNull(operator);
-        final int expectedModCount = modCount;
-        final int size = elementCount;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
-            elementData[i] = operator.apply((E) elementData[i]);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid syndironizfd void rfplbdfAll(UnbryOpfrbtor<E> opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        finbl int fxpfdtfdModCount = modCount;
+        finbl int sizf = flfmfntCount;
+        for (int i=0; modCount == fxpfdtfdModCount && i < sizf; i++) {
+            flfmfntDbtb[i] = opfrbtor.bpply((E) flfmfntDbtb[i]);
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
         modCount++;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public synchronized void sort(Comparator<? super E> c) {
-        final int expectedModCount = modCount;
-        Arrays.sort((E[]) elementData, 0, elementCount, c);
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid syndironizfd void sort(Compbrbtor<? supfr E> d) {
+        finbl int fxpfdtfdModCount = modCount;
+        Arrbys.sort((E[]) flfmfntDbtb, 0, flfmfntCount, d);
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
         modCount++;
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr tif flfmfnts in tiis
      * list.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#SUBSIZED}, and {@link Spliterator#ORDERED}.
-     * Overriding implementations should document the reporting of additional
-     * characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED},
+     * {@link Splitfrbtor#SUBSIZED}, bnd {@link Splitfrbtor#ORDERED}.
+     * Ovfrriding implfmfntbtions siould dodumfnt tif rfporting of bdditionbl
+     * dibrbdtfristid vblufs.
      *
-     * @return a {@code Spliterator} over the elements in this list
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis list
+     * @sindf 1.8
      */
-    @Override
-    public Spliterator<E> spliterator() {
-        return new VectorSpliterator<>(this, null, 0, -1, 0);
+    @Ovfrridf
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw VfdtorSplitfrbtor<>(tiis, null, 0, -1, 0);
     }
 
-    /** Similar to ArrayList Spliterator */
-    static final class VectorSpliterator<E> implements Spliterator<E> {
-        private final Vector<E> list;
-        private Object[] array;
-        private int index; // current index, modified on advance/split
-        private int fence; // -1 until used; then one past last index
-        private int expectedModCount; // initialized when fence set
+    /** Similbr to ArrbyList Splitfrbtor */
+    stbtid finbl dlbss VfdtorSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        privbtf finbl Vfdtor<E> list;
+        privbtf Objfdt[] brrby;
+        privbtf int indfx; // durrfnt indfx, modififd on bdvbndf/split
+        privbtf int ffndf; // -1 until usfd; tifn onf pbst lbst indfx
+        privbtf int fxpfdtfdModCount; // initiblizfd wifn ffndf sft
 
-        /** Create new spliterator covering the given  range */
-        VectorSpliterator(Vector<E> list, Object[] array, int origin, int fence,
-                          int expectedModCount) {
-            this.list = list;
-            this.array = array;
-            this.index = origin;
-            this.fence = fence;
-            this.expectedModCount = expectedModCount;
+        /** Crfbtf nfw splitfrbtor dovfring tif givfn  rbngf */
+        VfdtorSplitfrbtor(Vfdtor<E> list, Objfdt[] brrby, int origin, int ffndf,
+                          int fxpfdtfdModCount) {
+            tiis.list = list;
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.fxpfdtfdModCount = fxpfdtfdModCount;
         }
 
-        private int getFence() { // initialize on first use
-            int hi;
-            if ((hi = fence) < 0) {
-                synchronized(list) {
-                    array = list.elementData;
-                    expectedModCount = list.modCount;
-                    hi = fence = list.elementCount;
+        privbtf int gftFfndf() { // initiblizf on first usf
+            int ii;
+            if ((ii = ffndf) < 0) {
+                syndironizfd(list) {
+                    brrby = list.flfmfntDbtb;
+                    fxpfdtfdModCount = list.modCount;
+                    ii = ffndf = list.flfmfntCount;
                 }
             }
-            return hi;
+            rfturn ii;
         }
 
-        public Spliterator<E> trySplit() {
-            int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
-            return (lo >= mid) ? null :
-                new VectorSpliterator<>(list, array, lo, index = mid,
-                                        expectedModCount);
+        publid Splitfrbtor<E> trySplit() {
+            int ii = gftFfndf(), lo = indfx, mid = (lo + ii) >>> 1;
+            rfturn (lo >= mid) ? null :
+                nfw VfdtorSplitfrbtor<>(list, brrby, lo, indfx = mid,
+                                        fxpfdtfdModCount);
         }
 
-        @SuppressWarnings("unchecked")
-        public boolean tryAdvance(Consumer<? super E> action) {
+        @SupprfssWbrnings("undifdkfd")
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
             int i;
-            if (action == null)
-                throw new NullPointerException();
-            if (getFence() > (i = index)) {
-                index = i + 1;
-                action.accept((E)array[i]);
-                if (list.modCount != expectedModCount)
-                    throw new ConcurrentModificationException();
-                return true;
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (gftFfndf() > (i = indfx)) {
+                indfx = i + 1;
+                bdtion.bddfpt((E)brrby[i]);
+                if (list.modCount != fxpfdtfdModCount)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super E> action) {
-            int i, hi; // hoist accesses and checks from loop
-            Vector<E> lst; Object[] a;
-            if (action == null)
-                throw new NullPointerException();
+        @SupprfssWbrnings("undifdkfd")
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            int i, ii; // ioist bddfssfs bnd difdks from loop
+            Vfdtor<E> lst; Objfdt[] b;
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
             if ((lst = list) != null) {
-                if ((hi = fence) < 0) {
-                    synchronized(lst) {
-                        expectedModCount = lst.modCount;
-                        a = array = lst.elementData;
-                        hi = fence = lst.elementCount;
+                if ((ii = ffndf) < 0) {
+                    syndironizfd(lst) {
+                        fxpfdtfdModCount = lst.modCount;
+                        b = brrby = lst.flfmfntDbtb;
+                        ii = ffndf = lst.flfmfntCount;
                     }
                 }
-                else
-                    a = array;
-                if (a != null && (i = index) >= 0 && (index = hi) <= a.length) {
-                    while (i < hi)
-                        action.accept((E) a[i++]);
-                    if (lst.modCount == expectedModCount)
-                        return;
+                flsf
+                    b = brrby;
+                if (b != null && (i = indfx) >= 0 && (indfx = ii) <= b.lfngti) {
+                    wiilf (i < ii)
+                        bdtion.bddfpt((E) b[i++]);
+                    if (lst.modCount == fxpfdtfdModCount)
+                        rfturn;
                 }
             }
-            throw new ConcurrentModificationException();
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        public long estimateSize() {
-            return getFence() - index;
+        publid long fstimbtfSizf() {
+            rfturn gftFfndf() - indfx;
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
     }
 }

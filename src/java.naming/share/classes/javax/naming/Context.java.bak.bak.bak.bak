@@ -1,0 +1,1089 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This intfrfbdf rfprfsfnts b nbming dontfxt, whidh
+ * donsists of b sft of nbmf-to-objfdt bindings.
+ * It dontbins mfthods for fxbmining bnd updbting thfsf bindings.
+ *
+ * <h1>Nbmfs</h1>
+ * Ebdh nbmf pbssfd bs bn brgumfnt to b <tt>Contfxt</tt> mfthod is rflbtivf
+ * to thbt dontfxt.  Thf fmpty nbmf is usfd to nbmf thf dontfxt itsflf.
+ * A nbmf pbrbmftfr mby nfvfr bf null.
+ * <p>
+ * Most of thf mfthods hbvf ovfrlobdfd vfrsions with onf tbking b
+ * <dodf>Nbmf</dodf> pbrbmftfr bnd onf tbking b <dodf>String</dodf>.
+ * Thfsf ovfrlobdfd vfrsions brf fquivblfnt in thbt if
+ * thf <dodf>Nbmf</dodf> bnd <dodf>String</dodf> pbrbmftfrs brf just
+ * difffrfnt rfprfsfntbtions of thf sbmf nbmf, thfn thf ovfrlobdfd
+ * vfrsions of thf sbmf mfthods bfhbvf thf sbmf.
+ * In thf mfthod dfsdriptions bflow, only onf vfrsion is fully dodumfntfd.
+ * Thf sfdond vfrsion instfbd hbs b link to thf first:  thf sbmf
+ * dodumfntbtion bpplifs to both.
+ * <p>
+ * For systfms thbt support ffdfrbtion, <tt>String</tt> nbmf brgumfnts to
+ * <tt>Contfxt</tt> mfthods brf dompositf nbmfs. Nbmf brgumfnts thbt brf
+ * instbndfs of <tt>CompositfNbmf</tt> brf trfbtfd bs dompositf nbmfs,
+ * whilf <tt>Nbmf</tt> brgumfnts thbt brf not instbndfs of
+ * <tt>CompositfNbmf</tt> brf trfbtfd bs dompound nbmfs (whidh might bf
+ * instbndfs of <tt>CompoundNbmf</tt> or othfr implfmfntbtions of dompound
+ * nbmfs). This bllows thf rfsults of <tt>NbmfPbrsfr.pbrsf()</tt> to bf usfd bs
+ * brgumfnts to thf <tt>Contfxt</tt> mfthods.
+ * Prior to JNDI 1.2, bll nbmf brgumfnts wfrf trfbtfd bs dompositf nbmfs.
+ *<p>
+ * Furthfrmorf, for systfms thbt support ffdfrbtion, bll nbmfs rfturnfd
+ * in b <tt>NbmingEnumfrbtion</tt>
+ * from <tt>list()</tt> bnd <tt>listBindings()</tt> brf dompositf nbmfs
+ * rfprfsfntfd bs strings.
+ * Sff <tt>CompositfNbmf</tt> for thf string syntbx of nbmfs.
+ *<p>
+ * For systfms thbt do not support ffdfrbtion, thf nbmf brgumfnts (in
+ * fithfr <tt>Nbmf</tt> or <tt>String</tt> forms) bnd thf nbmfs rfturnfd in
+ * <tt>NbmingEnumfrbtion</tt> mby bf nbmfs in thfir own nbmfspbdf rbthfr thbn
+ * nbmfs in b dompositf nbmfspbdf, bt thf disdrftion of thf sfrvidf
+ * providfr.
+ *
+ *<h1>Exdfptions</h1>
+ * All thf mfthods in this intfrfbdf dbn throw b <tt>NbmingExdfption</tt> or
+ * bny of its subdlbssfs. Sff <tt>NbmingExdfption</tt> bnd thfir subdlbssfs
+ * for dftbils on fbdh fxdfption.
+ *
+ *<h1>Condurrfnt Addfss</h1>
+ * A Contfxt instbndf is not gubrbntffd to bf syndhronizfd bgbinst
+ * dondurrfnt bddfss by multiplf thrfbds.  Thrfbds thbt nffd to bddfss
+ * b singlf Contfxt instbndf dondurrfntly should syndhronizf bmongst
+ * thfmsflvfs bnd providf thf nfdfssbry lodking.  Multiplf thrfbds
+ * fbdh mbnipulbting b difffrfnt Contfxt instbndf nffd not
+ * syndhronizf.  Notf thbt thf {@link #lookup(Nbmf) <tt>lookup</tt>}
+ * mfthod, whfn pbssfd bn fmpty nbmf, will rfturn b nfw Contfxt instbndf
+ * rfprfsfnting thf sbmf nbming dontfxt.
+ *<p>
+ * For purposfs of dondurrfndy dontrol,
+ * b Contfxt opfrbtion thbt rfturns b <tt>NbmingEnumfrbtion</tt> is
+ * not donsidfrfd to hbvf domplftfd whilf thf fnumfrbtion is still in
+ * usf, or whilf bny rfffrrbls gfnfrbtfd by thbt opfrbtion brf still
+ * bfing followfd.
+ *
+ *
+ *<h1>Pbrbmftfrs</h1>
+ * A <tt>Nbmf</tt> pbrbmftfr pbssfd to bny mfthod of thf
+ * <tt>Contfxt</tt> intfrfbdf or onf of its subintfrfbdfs
+ * will not bf modififd by thf sfrvidf providfr.
+ * Thf sfrvidf providfr mby kffp b rfffrfndf to it
+ * for thf durbtion of thf opfrbtion, indluding bny fnumfrbtion of thf
+ * mfthod's rfsults bnd thf prodfssing of bny rfffrrbls gfnfrbtfd.
+ * Thf dbllfr should not modify thf objfdt during this timf.
+ * A <tt>Nbmf</tt> rfturnfd by bny sudh mfthod is ownfd by thf dbllfr.
+ * Thf dbllfr mby subsfqufntly modify it; thf sfrvidf providfr mby not.
+ *
+ *
+ *<h1>Environmfnt Propfrtifs</h1>
+ *<p>
+ * JNDI bpplidbtions nffd b wby to dommunidbtf vbrious prfffrfndfs
+ * bnd propfrtifs thbt dffinf thf fnvironmfnt in whidh nbming bnd
+ * dirfdtory sfrvidfs brf bddfssfd. For fxbmplf, b dontfxt might
+ * rfquirf spfdifidbtion of sfdurity drfdfntibls in ordfr to bddfss
+ * thf sfrvidf. Anothfr dontfxt might rfquirf thbt sfrvfr donfigurbtion
+ * informbtion bf supplifd. Thfsf brf rfffrrfd to bs thf <fm>fnvironmfnt</fm>
+ * of b dontfxt. Thf <tt>Contfxt</tt> intfrfbdf providfs mfthods for
+ * rftrifving bnd updbting this fnvironmfnt.
+ *<p>
+ * Thf fnvironmfnt is inhfritfd from thf pbrfnt dontfxt bs
+ * dontfxt mfthods prodffd from onf dontfxt to thf nfxt. Chbngfs to
+ * thf fnvironmfnt of onf dontfxt do not dirfdtly bfffdt thosf
+ * of othfr dontfxts.
+ *<p>
+ * It is implfmfntbtion-dfpfndfnt whfn fnvironmfnt propfrtifs brf usfd
+ * bnd/or vfrififd for vblidity.  For fxbmplf, somf of thf
+ * sfdurity-rflbtfd propfrtifs brf usfd by sfrvidf providfrs to "log in"
+ * to thf dirfdtory.  This login prodfss might oddur bt thf timf thf
+ * dontfxt is drfbtfd, or thf first timf b mfthod is invokfd on thf
+ * dontfxt.  Whfn, bnd whfthfr this oddurs bt bll, is
+ * implfmfntbtion-dfpfndfnt.  Whfn fnvironmfnt propfrtifs brf bddfd or
+ * rfmovfd from thf dontfxt, vfrifying thf vblidity of thf dhbngfs is bgbin
+ * implfmfntbtion-dfpfndfnt. For fxbmplf, vfrifidbtion of somf propfrtifs
+ * might oddur bt thf timf thf dhbngf is mbdf, or bt thf timf thf nfxt
+ * opfrbtion is pfrformfd on thf dontfxt, or not bt bll.
+ *<p>
+ * Any objfdt with b rfffrfndf to b dontfxt mby fxbminf thbt dontfxt's
+ * fnvironmfnt.  Sfnsitivf informbtion sudh bs dlfbr-tfxt
+ * pbsswords should not bf storfd thfrf unlfss thf implfmfntbtion is
+ * known to protfdt it.
+ *
+ *<p>
+ *<b nbmf=RESOURCEFILES></b>
+ *<h1>Rfsourdf Filfs</h1>
+ *<p>
+ * To simplify thf tbsk of sftting up thf fnvironmfnt
+ * rfquirfd by b JNDI bpplidbtion,
+ * bpplidbtion domponfnts bnd sfrvidf providfrs mby bf distributfd
+ * blong with <fm>rfsourdf filfs.</fm>
+ * A JNDI rfsourdf filf is b filf in thf propfrtifs filf formbt (sff
+ * {@link jbvb.util.Propfrtifs#lobd <tt>jbvb.util.Propfrtifs</tt>}),
+ * dontbining b list of kfy/vbluf pbirs.
+ * Thf kfy is thf nbmf of thf propfrty (f.g. "jbvb.nbming.fbdtory.objfdt")
+ * bnd thf vbluf is b string in thf formbt dffinfd
+ * for thbt propfrty.  Hfrf is bn fxbmplf of b JNDI rfsourdf filf:
+ *
+ * <blodkquotf>{@dodf
+ * jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.AttrsToCorbb:dom.wiz.from.Pfrson
+ * jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.CorbbToAttrs:dom.wiz.from.Pfrson
+ * jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.RfsponsfControlFbdtory
+ * }</blodkquotf>
+ *
+ * Thf JNDI dlbss librbry rfbds thf rfsourdf filfs bnd mbkfs thf propfrty
+ * vblufs frffly bvbilbblf.  Thus JNDI rfsourdf filfs should bf donsidfrfd
+ * to bf "world rfbdbblf", bnd sfnsitivf informbtion sudh bs dlfbr-tfxt
+ * pbsswords should not bf storfd thfrf.
+ *<p>
+ * Thfrf brf two kinds of JNDI rfsourdf filfs:
+ * <fm>providfr</fm> bnd <fm>bpplidbtion</fm>.
+ *
+ * <h2>Providfr Rfsourdf Filfs</h2>
+ *
+ * Ebdh sfrvidf providfr hbs bn optionbl rfsourdf thbt lists propfrtifs
+ * spfdifid to thbt providfr.  Thf nbmf of this rfsourdf is:
+ * <blodkquotf>
+ * [<fm>prffix</fm>/]<tt>jndiprovidfr.propfrtifs</tt>
+ * </blodkquotf>
+ * whfrf <fm>prffix</fm> is
+ * thf pbdkbgf nbmf of thf providfr's dontfxt implfmfntbtion(s),
+ * with fbdh pfriod (".") donvfrtfd to b slbsh ("/").
+ *
+ * For fxbmplf, supposf b sfrvidf providfr dffinfs b dontfxt
+ * implfmfntbtion with dlbss nbmf <tt>dom.sun.jndi.ldbp.LdbpCtx</tt>.
+ * Thf providfr rfsourdf for this providfr is nbmfd
+ * <tt>dom/sun/jndi/ldbp/jndiprovidfr.propfrtifs</tt>.  If thf dlbss is
+ * not in b pbdkbgf, thf rfsourdf's nbmf is simply
+ * <tt>jndiprovidfr.propfrtifs</tt>.
+ *
+ * <p>
+ * <b nbmf=LISTPROPS></b>
+ * Cfrtbin mfthods in thf JNDI dlbss librbry mbkf usf of thf stbndbrd
+ * JNDI propfrtifs thbt spfdify lists of JNDI fbdtorifs:
+ * <ul>
+ * <li>jbvb.nbming.fbdtory.objfdt
+ * <li>jbvb.nbming.fbdtory.stbtf
+ * <li>jbvb.nbming.fbdtory.dontrol
+ * <li>jbvb.nbming.fbdtory.url.pkgs
+ * </ul>
+ * Thf JNDI librbry will donsult thf providfr rfsourdf filf
+ * whfn dftfrmining thf vblufs of thfsf propfrtifs.
+ * Propfrtifs othfr thbn thfsf mby bf sft in thf providfr
+ * rfsourdf filf bt thf disdrftion of thf sfrvidf providfr.
+ * Thf sfrvidf providfr's dodumfntbtion should dlfbrly stbtf whidh
+ * propfrtifs brf bllowfd; othfr propfrtifs in thf filf will bf ignorfd.
+ *
+ * <h2>Applidbtion Rfsourdf Filfs</h2>
+ *
+ * Whfn bn bpplidbtion is dfployfd, it will gfnfrblly hbvf sfvfrbl
+ * dodfbbsf dirfdtorifs bnd JARs in its dlbsspbth. JNDI lodbtfs (using
+ * {@link ClbssLobdfr#gftRfsourdfs <tt>ClbssLobdfr.gftRfsourdfs()</tt>})
+ * bll <fm>bpplidbtion rfsourdf filfs</fm> nbmfd <tt>jndi.propfrtifs</tt>
+ * in thf dlbsspbth.
+ * In bddition, if thf filf <i>jbvb.homf</i><tt>/lib/jndi.propfrtifs</tt>
+ * fxists bnd is rfbdbblf,
+ * JNDI trfbts it bs bn bdditionbl bpplidbtion rfsourdf filf.
+ * (<i>jbvb.homf</i> indidbtfs thf
+ * dirfdtory nbmfd by thf <tt>jbvb.homf</tt> systfm propfrty.)
+ * All of thf propfrtifs dontbinfd in thfsf filfs brf plbdfd
+ * into thf fnvironmfnt of thf initibl dontfxt.  This fnvironmfnt
+ * is thfn inhfritfd by othfr dontfxts.
+ *
+ * <p>
+ * For fbdh propfrty found in morf thbn onf bpplidbtion rfsourdf filf,
+ * JNDI usfs thf first vbluf found or, in b ffw dbsfs whfrf it mbkfs
+ * sfnsf to do so, it dondbtfnbtfs bll of thf vblufs (dftbils brf givfn
+ * bflow).
+ * For fxbmplf, if thf "jbvb.nbming.fbdtory.objfdt" propfrty is found in
+ * thrff <tt>jndi.propfrtifs</tt> rfsourdf filfs, thf
+ * list of objfdt fbdtorifs is b dondbtfnbtion of thf propfrty
+ * vblufs from bll thrff filfs.
+ * Using this sdhfmf, fbdh dfploybblf domponfnt is rfsponsiblf for
+ * listing thf fbdtorifs thbt it fxports.  JNDI butombtidblly
+ * dollfdts bnd usfs bll of thfsf fxport lists whfn sfbrdhing for fbdtory
+ * dlbssfs.
+ *
+ * <h2>Sfbrdh Algorithm for Propfrtifs</h2>
+ *
+ * Whfn JNDI donstrudts bn initibl dontfxt, thf dontfxt's fnvironmfnt
+ * is initiblizfd with propfrtifs dffinfd in thf fnvironmfnt pbrbmftfr
+ * pbssfd to thf donstrudtor, thf systfm propfrtifs,
+ * bnd thf bpplidbtion rfsourdf filfs.  Sff
+ * <b hrff=InitiblContfxt.html#ENVIRONMENT><tt>InitiblContfxt</tt></b>
+ * for dftbils.
+ * This initibl fnvironmfnt is thfn inhfritfd by othfr dontfxt instbndfs.
+ *
+ * <p>
+ * Whfn thf JNDI dlbss librbry nffds to dftfrminf
+ * thf vbluf of b propfrty, it dofs so by mfrging
+ * thf vblufs from thf following two sourdfs, in ordfr:
+ * <ol>
+ * <li>Thf fnvironmfnt of thf dontfxt bfing opfrbtfd on.
+ * <li>Thf providfr rfsourdf filf (<tt>jndiprovidfr.propfrtifs</tt>)
+ * for thf dontfxt bfing opfrbtfd on.
+ * </ol>
+ * For fbdh propfrty found in both of thfsf two sourdfs,
+ * JNDI dftfrminfs thf propfrty's vbluf bs follows.  If thf propfrty is
+ * onf of thf stbndbrd JNDI propfrtifs thbt spfdify b list of JNDI
+ * fbdtorifs (listfd <b hrff=#LISTPROPS>bbovf</b>), thf vblufs brf
+ * dondbtfnbtfd into b singlf dolon-sfpbrbtfd list.  For othfr
+ * propfrtifs, only thf first vbluf found is usfd.
+ *
+ * <p>
+ * Whfn b sfrvidf providfr nffds to dftfrminf thf vbluf of b propfrty,
+ * it will gfnfrblly tbkf thbt vbluf dirfdtly from thf fnvironmfnt.
+ * A sfrvidf providfr mby dffinf providfr-spfdifid propfrtifs
+ * to bf plbdfd in its own providfr rfsourdf filf.  In thbt
+ * dbsf it should mfrgf vblufs bs dfsdribfd in thf prfvious pbrbgrbph.
+ *
+ * <p>
+ * In this wby, fbdh sfrvidf providfr dfvflopfr dbn spfdify b list of
+ * fbdtorifs to usf with thbt sfrvidf providfr. Thfsf dbn bf modififd by
+ * thf bpplidbtion rfsourdfs spfdififd by thf dfployfr of thf bpplidbtion,
+ * whidh in turn dbn bf modififd by thf usfr.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @buthor R. Vbsudfvbn
+ *
+ * @sindf 1.3
+ */
+
+publid intfrfbdf Contfxt {
+
+    /**
+     * Rftrifvfs thf nbmfd objfdt.
+     * If <tt>nbmf</tt> is fmpty, rfturns b nfw instbndf of this dontfxt
+     * (whidh rfprfsfnts thf sbmf nbming dontfxt bs this dontfxt, but its
+     * fnvironmfnt mby bf modififd indfpfndfntly bnd it mby bf bddfssfd
+     * dondurrfntly).
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #lookup(String)
+     * @sff #lookupLink(Nbmf)
+     */
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf nbmfd objfdt.
+     * Sff {@link #lookup(Nbmf)} for dftbils.
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt.
+     * All intfrmfdibtf dontfxts bnd thf tbrgft dontfxt (thbt nbmfd by bll
+     * but tfrminbl btomid domponfnt of thf nbmf) must blrfbdy fxist.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if objfdt did not supply bll mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #bind(String, Objfdt)
+     * @sff #rfbind(Nbmf, Objfdt)
+     * @sff jbvbx.nbming.dirfdtory.DirContfxt#bind(Nbmf, Objfdt,
+     *          jbvbx.nbming.dirfdtory.Attributfs)
+     */
+    publid void bind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt.
+     * Sff {@link #bind(Nbmf, Objfdt)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if objfdt did not supply bll mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void bind(String nbmf, Objfdt obj) throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, ovfrwriting bny fxisting binding.
+     * All intfrmfdibtf dontfxts bnd thf tbrgft dontfxt (thbt nbmfd by bll
+     * but tfrminbl btomid domponfnt of thf nbmf) must blrfbdy fxist.
+     *
+     * <p> If thf objfdt is b <tt>DirContfxt</tt>, bny fxisting bttributfs
+     * bssodibtfd with thf nbmf brf rfplbdfd with thosf of thf objfdt.
+     * Othfrwisf, bny fxisting bttributfs bssodibtfd with thf nbmf rfmbin
+     * undhbngfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if objfdt did not supply bll mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #rfbind(String, Objfdt)
+     * @sff #bind(Nbmf, Objfdt)
+     * @sff jbvbx.nbming.dirfdtory.DirContfxt#rfbind(Nbmf, Objfdt,
+     *          jbvbx.nbming.dirfdtory.Attributfs)
+     * @sff jbvbx.nbming.dirfdtory.DirContfxt
+     */
+    publid void rfbind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, ovfrwriting bny fxisting binding.
+     * Sff {@link #rfbind(Nbmf, Objfdt)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if objfdt did not supply bll mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void rfbind(String nbmf, Objfdt obj) throws NbmingExdfption;
+
+    /**
+     * Unbinds thf nbmfd objfdt.
+     * Rfmovfs thf tfrminbl btomid nbmf in <dodf>nbmf</dodf>
+     * from thf tbrgft dontfxt--thbt nbmfd by bll but thf tfrminbl
+     * btomid pbrt of <dodf>nbmf</dodf>.
+     *
+     * <p> This mfthod is idfmpotfnt.
+     * It suddffds fvfn if thf tfrminbl btomid nbmf
+     * is not bound in thf tbrgft dontfxt, but throws
+     * <tt>NbmfNotFoundExdfption</tt>
+     * if bny of thf intfrmfdibtf dontfxts do not fxist.
+     *
+     * <p> Any bttributfs bssodibtfd with thf nbmf brf rfmovfd.
+     * Intfrmfdibtf dontfxts brf not dhbngfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to unbind; mby not bf fmpty
+     * @throws  NbmfNotFoundExdfption if bn intfrmfdibtf dontfxt dofs not fxist
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     * @sff #unbind(String)
+     */
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Unbinds thf nbmfd objfdt.
+     * Sff {@link #unbind(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to unbind; mby not bf fmpty
+     * @throws  NbmfNotFoundExdfption if bn intfrmfdibtf dontfxt dofs not fxist
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void unbind(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Binds b nfw nbmf to thf objfdt bound to bn old nbmf, bnd unbinds
+     * thf old nbmf.  Both nbmfs brf rflbtivf to this dontfxt.
+     * Any bttributfs bssodibtfd with thf old nbmf bfdomf bssodibtfd
+     * with thf nfw nbmf.
+     * Intfrmfdibtf dontfxts of thf old nbmf brf not dhbngfd.
+     *
+     * @pbrbm oldNbmf
+     *          thf nbmf of thf fxisting binding; mby not bf fmpty
+     * @pbrbm nfwNbmf
+     *          thf nbmf of thf nfw binding; mby not bf fmpty
+     * @throws  NbmfAlrfbdyBoundExdfption if <tt>nfwNbmf</tt> is blrfbdy bound
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #rfnbmf(String, String)
+     * @sff #bind(Nbmf, Objfdt)
+     * @sff #rfbind(Nbmf, Objfdt)
+     */
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf) throws NbmingExdfption;
+
+    /**
+     * Binds b nfw nbmf to thf objfdt bound to bn old nbmf, bnd unbinds
+     * thf old nbmf.
+     * Sff {@link #rfnbmf(Nbmf, Nbmf)} for dftbils.
+     *
+     * @pbrbm oldNbmf
+     *          thf nbmf of thf fxisting binding; mby not bf fmpty
+     * @pbrbm nfwNbmf
+     *          thf nbmf of thf nfw binding; mby not bf fmpty
+     * @throws  NbmfAlrfbdyBoundExdfption if <tt>nfwNbmf</tt> is blrfbdy bound
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) throws NbmingExdfption;
+
+    /**
+     * Enumfrbtfs thf nbmfs bound in thf nbmfd dontfxt, blong with thf
+     * dlbss nbmfs of objfdts bound to thfm.
+     * Thf dontfnts of bny subdontfxts brf not indludfd.
+     *
+     * <p> If b binding is bddfd to or rfmovfd from this dontfxt,
+     * its ffffdt on bn fnumfrbtion prfviously rfturnfd is undffinfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to list
+     * @rfturn  bn fnumfrbtion of thf nbmfs bnd dlbss nbmfs of thf
+     *          bindings in this dontfxt.  Ebdh flfmfnt of thf
+     *          fnumfrbtion is of typf <tt>NbmfClbssPbir</tt>.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #list(String)
+     * @sff #listBindings(Nbmf)
+     * @sff NbmfClbssPbir
+     */
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        throws NbmingExdfption;
+
+    /**
+     * Enumfrbtfs thf nbmfs bound in thf nbmfd dontfxt, blong with thf
+     * dlbss nbmfs of objfdts bound to thfm.
+     * Sff {@link #list(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to list
+     * @rfturn  bn fnumfrbtion of thf nbmfs bnd dlbss nbmfs of thf
+     *          bindings in this dontfxt.  Ebdh flfmfnt of thf
+     *          fnumfrbtion is of typf <tt>NbmfClbssPbir</tt>.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+        throws NbmingExdfption;
+
+    /**
+     * Enumfrbtfs thf nbmfs bound in thf nbmfd dontfxt, blong with thf
+     * objfdts bound to thfm.
+     * Thf dontfnts of bny subdontfxts brf not indludfd.
+     *
+     * <p> If b binding is bddfd to or rfmovfd from this dontfxt,
+     * its ffffdt on bn fnumfrbtion prfviously rfturnfd is undffinfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to list
+     * @rfturn  bn fnumfrbtion of thf bindings in this dontfxt.
+     *          Ebdh flfmfnt of thf fnumfrbtion is of typf
+     *          <tt>Binding</tt>.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #listBindings(String)
+     * @sff #list(Nbmf)
+     * @sff Binding
+      */
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+        throws NbmingExdfption;
+
+    /**
+     * Enumfrbtfs thf nbmfs bound in thf nbmfd dontfxt, blong with thf
+     * objfdts bound to thfm.
+     * Sff {@link #listBindings(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to list
+     * @rfturn  bn fnumfrbtion of thf bindings in this dontfxt.
+     *          Ebdh flfmfnt of thf fnumfrbtion is of typf
+     *          <tt>Binding</tt>.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+        throws NbmingExdfption;
+
+    /**
+     * Dfstroys thf nbmfd dontfxt bnd rfmovfs it from thf nbmfspbdf.
+     * Any bttributfs bssodibtfd with thf nbmf brf blso rfmovfd.
+     * Intfrmfdibtf dontfxts brf not dfstroyfd.
+     *
+     * <p> This mfthod is idfmpotfnt.
+     * It suddffds fvfn if thf tfrminbl btomid nbmf
+     * is not bound in thf tbrgft dontfxt, but throws
+     * <tt>NbmfNotFoundExdfption</tt>
+     * if bny of thf intfrmfdibtf dontfxts do not fxist.
+     *
+     * <p> In b ffdfrbtfd nbming systfm, b dontfxt from onf nbming systfm
+     * mby bf bound to b nbmf in bnothfr.  Onf dbn subsfqufntly
+     * look up bnd pfrform opfrbtions on thf forfign dontfxt using b
+     * dompositf nbmf.  Howfvfr, bn bttfmpt dfstroy thf dontfxt using
+     * this dompositf nbmf will fbil with
+     * <tt>NotContfxtExdfption</tt>, bfdbusf thf forfign dontfxt is not
+     * b "subdontfxt" of thf dontfxt in whidh it is bound.
+     * Instfbd, usf <tt>unbind()</tt> to rfmovf thf
+     * binding of thf forfign dontfxt.  Dfstroying thf forfign dontfxt
+     * rfquirfs thbt thf <tt>dfstroySubdontfxt()</tt> bf pfrformfd
+     * on b dontfxt from thf forfign dontfxt's "nbtivf" nbming systfm.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to bf dfstroyfd; mby not bf fmpty
+     * @throws  NbmfNotFoundExdfption if bn intfrmfdibtf dontfxt dofs not fxist
+     * @throws  NotContfxtExdfption if thf nbmf is bound but dofs not nbmf b
+     *          dontfxt, or dofs not nbmf b dontfxt of thf bppropribtf typf
+     * @throws  ContfxtNotEmptyExdfption if thf nbmfd dontfxt is not fmpty
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #dfstroySubdontfxt(String)
+     */
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Dfstroys thf nbmfd dontfxt bnd rfmovfs it from thf nbmfspbdf.
+     * Sff {@link #dfstroySubdontfxt(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to bf dfstroyfd; mby not bf fmpty
+     * @throws  NbmfNotFoundExdfption if bn intfrmfdibtf dontfxt dofs not fxist
+     * @throws  NotContfxtExdfption if thf nbmf is bound but dofs not nbmf b
+     *          dontfxt, or dofs not nbmf b dontfxt of thf bppropribtf typf
+     * @throws  ContfxtNotEmptyExdfption if thf nbmfd dontfxt is not fmpty
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Crfbtfs bnd binds b nfw dontfxt.
+     * Crfbtfs b nfw dontfxt with thf givfn nbmf bnd binds it in
+     * thf tbrgft dontfxt (thbt nbmfd by bll but tfrminbl btomid
+     * domponfnt of thf nbmf).  All intfrmfdibtf dontfxts bnd thf
+     * tbrgft dontfxt must blrfbdy fxist.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to drfbtf; mby not bf fmpty
+     * @rfturn  thf nfwly drfbtfd dontfxt
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if drfbtion of thf subdontfxt rfquirfs spfdifidbtion of
+     *          mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #drfbtfSubdontfxt(String)
+     * @sff jbvbx.nbming.dirfdtory.DirContfxt#drfbtfSubdontfxt
+     */
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Crfbtfs bnd binds b nfw dontfxt.
+     * Sff {@link #drfbtfSubdontfxt(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to drfbtf; mby not bf fmpty
+     * @rfturn  thf nfwly drfbtfd dontfxt
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  jbvbx.nbming.dirfdtory.InvblidAttributfsExdfption
+     *          if drfbtion of thf subdontfxt rfquirfs spfdifidbtion of
+     *          mbndbtory bttributfs
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf nbmfd objfdt, following links fxdfpt
+     * for thf tfrminbl btomid domponfnt of thf nbmf.
+     * If thf objfdt bound to <tt>nbmf</tt> is not b link,
+     * rfturns thf objfdt itsflf.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>, not following thf
+     *          tfrminbl link (if bny).
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #lookupLink(String)
+     */
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf nbmfd objfdt, following links fxdfpt
+     * for thf tfrminbl btomid domponfnt of thf nbmf.
+     * Sff {@link #lookupLink(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>, not following thf
+     *          tfrminbl link (if bny)
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf pbrsfr bssodibtfd with thf nbmfd dontfxt.
+     * In b ffdfrbtion of nbmfspbdfs, difffrfnt nbming systfms will
+     * pbrsf nbmfs difffrfntly.  This mfthod bllows bn bpplidbtion
+     * to gft b pbrsfr for pbrsing nbmfs into thfir btomid domponfnts
+     * using thf nbming donvfntion of b pbrtidulbr nbming systfm.
+     * Within bny singlf nbming systfm, <tt>NbmfPbrsfr</tt> objfdts
+     * rfturnfd by this mfthod must bf fqubl (using thf <tt>fqubls()</tt>
+     * tfst).
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt from whidh to gft thf pbrsfr
+     * @rfturn  b nbmf pbrsfr thbt dbn pbrsf dompound nbmfs into thfir btomid
+     *          domponfnts
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #gftNbmfPbrsfr(String)
+     * @sff CompoundNbmf
+     */
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf pbrsfr bssodibtfd with thf nbmfd dontfxt.
+     * Sff {@link #gftNbmfPbrsfr(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt from whidh to gft thf pbrsfr
+     * @rfturn  b nbmf pbrsfr thbt dbn pbrsf dompound nbmfs into thfir btomid
+     *          domponfnts
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Composfs thf nbmf of this dontfxt with b nbmf rflbtivf to
+     * this dontfxt.
+     * Givfn b nbmf (<dodf>nbmf</dodf>) rflbtivf to this dontfxt, bnd
+     * thf nbmf (<dodf>prffix</dodf>) of this dontfxt rflbtivf to onf
+     * of its bndfstors, this mfthod rfturns thf domposition of thf
+     * two nbmfs using thf syntbx bppropribtf for thf nbming
+     * systfm(s) involvfd.  Thbt is, if <dodf>nbmf</dodf> nbmfs bn
+     * objfdt rflbtivf to this dontfxt, thf rfsult is thf nbmf of thf
+     * sbmf objfdt, but rflbtivf to thf bndfstor dontfxt.  Nonf of thf
+     * nbmfs mby bf null.
+     * <p>
+     * For fxbmplf, if this dontfxt is nbmfd "wiz.dom" rflbtivf
+     * to thf initibl dontfxt, thfn
+     * <prf>
+     *  domposfNbmf("fbst", "wiz.dom")  </prf>
+     * might rfturn <dodf>"fbst.wiz.dom"</dodf>.
+     * If instfbd this dontfxt is nbmfd "org/rfsfbrdh", thfn
+     * <prf>
+     *  domposfNbmf("usfr/jbnf", "org/rfsfbrdh")        </prf>
+     * might rfturn <dodf>"org/rfsfbrdh/usfr/jbnf"</dodf> whilf
+     * <prf>
+     *  domposfNbmf("usfr/jbnf", "rfsfbrdh")    </prf>
+     * rfturns <dodf>"rfsfbrdh/usfr/jbnf"</dodf>.
+     *
+     * @pbrbm nbmf
+     *          b nbmf rflbtivf to this dontfxt
+     * @pbrbm prffix
+     *          thf nbmf of this dontfxt rflbtivf to onf of its bndfstors
+     * @rfturn  thf domposition of <dodf>prffix</dodf> bnd <dodf>nbmf</dodf>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #domposfNbmf(String, String)
+     */
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+        throws NbmingExdfption;
+
+    /**
+     * Composfs thf nbmf of this dontfxt with b nbmf rflbtivf to
+     * this dontfxt.
+     * Sff {@link #domposfNbmf(Nbmf, Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          b nbmf rflbtivf to this dontfxt
+     * @pbrbm prffix
+     *          thf nbmf of this dontfxt rflbtivf to onf of its bndfstors
+     * @rfturn  thf domposition of <dodf>prffix</dodf> bnd <dodf>nbmf</dodf>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid String domposfNbmf(String nbmf, String prffix)
+            throws NbmingExdfption;
+
+    /**
+     * Adds b nfw fnvironmfnt propfrty to thf fnvironmfnt of this
+     * dontfxt.  If thf propfrty blrfbdy fxists, its vbluf is ovfrwrittfn.
+     * Sff dlbss dfsdription for morf dftbils on fnvironmfnt propfrtifs.
+     *
+     * @pbrbm propNbmf
+     *          thf nbmf of thf fnvironmfnt propfrty to bdd; mby not bf null
+     * @pbrbm propVbl
+     *          thf vbluf of thf propfrty to bdd; mby not bf null
+     * @rfturn  thf prfvious vbluf of thf propfrty, or null if thf propfrty wbs
+     *          not in thf fnvironmfnt bfforf
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #gftEnvironmfnt()
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+        throws NbmingExdfption;
+
+    /**
+     * Rfmovfs bn fnvironmfnt propfrty from thf fnvironmfnt of this
+     * dontfxt.  Sff dlbss dfsdription for morf dftbils on fnvironmfnt
+     * propfrtifs.
+     *
+     * @pbrbm propNbmf
+     *          thf nbmf of thf fnvironmfnt propfrty to rfmovf; mby not bf null
+     * @rfturn  thf prfvious vbluf of thf propfrty, or null if thf propfrty wbs
+     *          not in thf fnvironmfnt
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #gftEnvironmfnt()
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     */
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf fnvironmfnt in ffffdt for this dontfxt.
+     * Sff dlbss dfsdription for morf dftbils on fnvironmfnt propfrtifs.
+     *
+     * <p> Thf dbllfr should not mbkf bny dhbngfs to thf objfdt rfturnfd:
+     * thfir ffffdt on thf dontfxt is undffinfd.
+     * Thf fnvironmfnt of this dontfxt mby bf dhbngfd using
+     * <tt>bddToEnvironmfnt()</tt> bnd <tt>rfmovfFromEnvironmfnt()</tt>.
+     *
+     * @rfturn  thf fnvironmfnt of this dontfxt; nfvfr null
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    publid Hbshtbblf<?,?> gftEnvironmfnt() throws NbmingExdfption;
+
+    /**
+     * Closfs this dontfxt.
+     * This mfthod rflfbsfs this dontfxt's rfsourdfs immfdibtfly, instfbd of
+     * wbiting for thfm to bf rflfbsfd butombtidblly by thf gbrbbgf dollfdtor.
+     *
+     * <p> This mfthod is idfmpotfnt:  invoking it on b dontfxt thbt hbs
+     * blrfbdy bffn dlosfd hbs no ffffdt.  Invoking bny othfr mfthod
+     * on b dlosfd dontfxt is not bllowfd, bnd rfsults in undffinfd bfhbviour.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void dlosf() throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf full nbmf of this dontfxt within its own nbmfspbdf.
+     *
+     * <p> Mbny nbming sfrvidfs hbvf b notion of b "full nbmf" for objfdts
+     * in thfir rfspfdtivf nbmfspbdfs.  For fxbmplf, bn LDAP fntry hbs
+     * b distinguishfd nbmf, bnd b DNS rfdord hbs b fully qublififd nbmf.
+     * This mfthod bllows thf dlifnt bpplidbtion to rftrifvf this nbmf.
+     * Thf string rfturnfd by this mfthod is not b JNDI dompositf nbmf
+     * bnd should not bf pbssfd dirfdtly to dontfxt mfthods.
+     * In nbming systfms for whidh thf notion of full nbmf dofs not
+     * mbkf sfnsf, <tt>OpfrbtionNotSupportfdExdfption</tt> is thrown.
+     *
+     * @rfturn  this dontfxt's nbmf in its own nbmfspbdf; nfvfr null
+     * @throws  OpfrbtionNotSupportfdExdfption if thf nbming systfm dofs
+     *          not hbvf thf notion of b full nbmf
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sindf 1.3
+     */
+    publid String gftNbmfInNbmfspbdf() throws NbmingExdfption;
+
+// publid stbtid finbl:  JLS sbys rfdommfndfd stylf is to omit thfsf modififrs
+// bfdbusf thfy brf thf dffbult
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf initibl dontfxt fbdtory to usf. Thf vbluf
+     * of thf propfrty should bf thf fully qublififd dlbss nbmf
+     * of thf fbdtory dlbss thbt will drfbtf bn initibl dontfxt.
+     * This propfrty mby bf spfdififd in thf fnvironmfnt pbrbmftfr
+     * pbssfd to thf initibl dontfxt donstrudtor,
+     * b systfm propfrty, or bn bpplidbtion rfsourdf filf.
+     * If it is not spfdififd in bny of thfsf sourdfs,
+     * <tt>NoInitiblContfxtExdfption</tt> is thrown whfn bn initibl
+     * dontfxt is rfquirfd to domplftf bn opfrbtion.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.fbdtory.initibl".
+     *
+     * @sff InitiblContfxt
+     * @sff jbvbx.nbming.dirfdtory.InitiblDirContfxt
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftInitiblContfxt
+     * @sff jbvbx.nbming.spi.InitiblContfxtFbdtory
+     * @sff NoInitiblContfxtExdfption
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String INITIAL_CONTEXT_FACTORY = "jbvb.nbming.fbdtory.initibl";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf list of objfdt fbdtorifs to usf. Thf vbluf
+     * of thf propfrty should bf b dolon-sfpbrbtfd list of thf fully
+     * qublififd dlbss nbmfs of fbdtory dlbssfs thbt will drfbtf bn objfdt
+     * givfn informbtion bbout thf objfdt.
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or onf or morf rfsourdf filfs.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.fbdtory.objfdt".
+     *
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String OBJECT_FACTORIES = "jbvb.nbming.fbdtory.objfdt";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf list of stbtf fbdtorifs to usf. Thf vbluf
+     * of thf propfrty should bf b dolon-sfpbrbtfd list of thf fully
+     * qublififd dlbss nbmfs of stbtf fbdtory dlbssfs thbt will bf usfd
+     * to gft bn objfdt's stbtf givfn thf objfdt itsflf.
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or onf or morf rfsourdf filfs.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.fbdtory.stbtf".
+     *
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftStbtfToBind
+     * @sff jbvbx.nbming.spi.StbtfFbdtory
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     * @sindf 1.3
+     */
+    String STATE_FACTORIES = "jbvb.nbming.fbdtory.stbtf";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf list of pbdkbgf prffixfs to usf whfn
+     * lobding in URL dontfxt fbdtorifs. Thf vbluf
+     * of thf propfrty should bf b dolon-sfpbrbtfd list of pbdkbgf
+     * prffixfs for thf dlbss nbmf of thf fbdtory dlbss thbt will drfbtf
+     * b URL dontfxt fbdtory.
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or onf or morf rfsourdf filfs.
+     * Thf prffix <tt>dom.sun.jndi.url</tt> is blwbys bppfndfd to
+     * thf possibly fmpty list of pbdkbgf prffixfs.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.fbdtory.url.pkgs".
+     *
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
+     * @sff jbvbx.nbming.spi.ObjfdtFbdtory
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String URL_PKG_PREFIXES = "jbvb.nbming.fbdtory.url.pkgs";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying donfigurbtion informbtion for thf sfrvidf providfr
+     * to usf. Thf vbluf of thf propfrty should dontbin b URL string
+     * (f.g. "ldbp://somfhost:389").
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or b rfsourdf filf.
+     * If it is not spfdififd in bny of thfsf sourdfs,
+     * thf dffbult donfigurbtion is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.providfr.url".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String PROVIDER_URL = "jbvb.nbming.providfr.url";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty
+     * for spfdifying thf DNS host bnd dombin nbmfs to usf for thf
+     * JNDI URL dontfxt (for fxbmplf, "dns://somfhost/wiz.dom").
+     * This propfrty mby bf spfdififd in thf fnvironmfnt, b systfm propfrty,
+     * or b rfsourdf filf.
+     * If it is not spfdififd in bny of thfsf sourdfs
+     * bnd thf progrbm bttfmpts to usf b JNDI URL dontbining b DNS nbmf,
+     * b <tt>ConfigurbtionExdfption</tt> will bf thrown.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.dns.url".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String DNS_URL = "jbvb.nbming.dns.url";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf buthoritbtivfnfss of thf sfrvidf rfqufstfd.
+     * If thf vbluf of thf propfrty is thf string "truf", it mfbns
+     * thbt thf bddfss is to thf most buthoritbtivf sourdf (i.f. bypbss
+     * bny dbdhf or rfplidbs). If thf vbluf is bnything flsf,
+     * thf sourdf nffd not bf (but mby bf) buthoritbtivf.
+     * If unspfdififd, thf vbluf dffbults to "fblsf".
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.buthoritbtivf".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String AUTHORITATIVE = "jbvb.nbming.buthoritbtivf";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf bbtdh sizf to usf whfn rfturning dbtb vib thf
+     * sfrvidf's protodol. This is b hint to thf providfr to rfturn
+     * thf rfsults of opfrbtions in bbtdhfs of thf spfdififd sizf, so
+     * thf providfr dbn optimizf its pfrformbndf bnd usbgf of rfsourdfs.
+     * Thf vbluf of thf propfrty is thf string rfprfsfntbtion of bn
+     * intfgfr.
+     * If unspfdififd, thf bbtdh sizf is dftfrminfd by thf sfrvidf
+     * providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.bbtdhsizf".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String BATCHSIZE = "jbvb.nbming.bbtdhsizf";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying how rfffrrbls fndountfrfd by thf sfrvidf providfr
+     * brf to bf prodfssfd. Thf vbluf of thf propfrty is onf of thf
+     * following strings:
+     * <dl>
+     * <dt>"follow"
+     * <dd>follow rfffrrbls butombtidblly
+     * <dt>"ignorf"
+     * <dd>ignorf rfffrrbls
+     * <dt>"throw"
+     * <dd>throw <tt>RfffrrblExdfption</tt> whfn b rfffrrbl is fndountfrfd.
+     * </dl>
+     * If this propfrty is not spfdififd, thf dffbult is
+     * dftfrminfd by thf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.rfffrrbl".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String REFERRAL = "jbvb.nbming.rfffrrbl";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf sfdurity protodol to usf.
+     * Its vbluf is b string dftfrminfd by thf sfrvidf providfr
+     * (f.g. "ssl").
+     * If this propfrty is unspfdififd,
+     * thf bfhbviour is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.sfdurity.protodol".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String SECURITY_PROTOCOL = "jbvb.nbming.sfdurity.protodol";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf sfdurity lfvfl to usf.
+     * Its vbluf is onf of thf following strings:
+     * "nonf", "simplf", "strong".
+     * If this propfrty is unspfdififd,
+     * thf bfhbviour is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.sfdurity.buthfntidbtion".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String SECURITY_AUTHENTICATION = "jbvb.nbming.sfdurity.buthfntidbtion";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf idfntity of thf prindipbl for buthfntidbting
+     * thf dbllfr to thf sfrvidf. Thf formbt of thf prindipbl
+     * dfpfnds on thf buthfntidbtion sdhfmf.
+     * If this propfrty is unspfdififd,
+     * thf bfhbviour is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.sfdurity.prindipbl".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String SECURITY_PRINCIPAL = "jbvb.nbming.sfdurity.prindipbl";
+
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf drfdfntibls of thf prindipbl for buthfntidbting
+     * thf dbllfr to thf sfrvidf. Thf vbluf of thf propfrty dfpfnds
+     * on thf buthfntidbtion sdhfmf. For fxbmplf, it dould bf b hbshfd
+     * pbssword, dlfbr-tfxt pbssword, kfy, dfrtifidbtf, bnd so on.
+     * If this propfrty is unspfdififd,
+     * thf bfhbviour is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.sfdurity.drfdfntibls".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+
+    String SECURITY_CREDENTIALS = "jbvb.nbming.sfdurity.drfdfntibls";
+    /**
+     * Constbnt thbt holds thf nbmf of thf fnvironmfnt propfrty for
+     * spfdifying thf prfffrrfd lbngubgf to usf with thf sfrvidf.
+     * Thf vbluf of thf propfrty is b dolon-sfpbrbtfd list of lbngubgf
+     * tbgs bs dffinfd in RFC 1766.
+     * If this propfrty is unspfdififd,
+     * thf lbngubgf prfffrfndf is dftfrminfd by thf sfrvidf providfr.
+     *
+     * <p> Thf vbluf of this donstbnt is "jbvb.nbming.lbngubgf".
+     *
+     * @sff #bddToEnvironmfnt(String, Objfdt)
+     * @sff #rfmovfFromEnvironmfnt(String)
+     */
+    String LANGUAGE = "jbvb.nbming.lbngubgf";
+
+    /**
+     * @dfprfdbtfd An fnvironmfnt propfrty with this nbmf is ignorfd
+     *             whilf donstrudting bn initibl dontfxt.
+     * This donstbnt wbs originblly usfd bs b propfrty nbmf to spfdify bn
+     * {@dodf Applft} to rftrifvf pbrbmftfrs from, whfn drfbting bn initibl
+     * dontfxt. Currfntly bny bpplft propfrtifs thbt nffd to bf pbssfd to bn
+     * initibl dontfxt should bf dopifd into thf fnvironmfnt hbshtbblf:
+     * <prf>{@dodf
+     *     Hbshtbblf fnv = nfw Hbshtbblf();
+     *     fnv.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+     *       ((Applft) this).gftPbrbmftfr(Contfxt.INITIAL_CONTEXT_FACTORY));
+     *     fnv.put(Contfxt.PROVIDER_URL,
+     *       ((Applft) this).gftPbrbmftfr(Contfxt.PROVIDER_URL));
+     *     // ... othfr propfrtifs ...
+     *
+     *     Contfxt dtx = nfw InitiblContfxt(fnv);
+     * }</prf>
+     *
+     * @sindf 1.3
+     */
+    @Dfprfdbtfd
+    String APPLET = "jbvb.nbming.bpplft";
+};

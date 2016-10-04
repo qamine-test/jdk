@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
-import sun.security.internal.spec.*;
-import sun.security.internal.interfaces.TlsMasterSecret;
+import sun.sfdurity.intfrnbl.spfd.*;
+import sun.sfdurity.intfrnbl.intfrfbdfs.TlsMbstfrSfdrft;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * KeyGenerator to calculate the SSL/TLS key material (cipher keys and ivs,
- * mac keys) from the master secret.
+ * KfyGfnfrbtor to dbldulbtf tif SSL/TLS kfy mbtfribl (dipifr kfys bnd ivs,
+ * mbd kfys) from tif mbstfr sfdrft.
  *
- * @author  Andreas Sterbenz
- * @since   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.6
  */
-public final class P11TlsKeyMaterialGenerator extends KeyGeneratorSpi {
+publid finbl dlbss P11TlsKfyMbtfriblGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
 
-    private final static String MSG = "TlsKeyMaterialGenerator must be "
-        + "initialized using a TlsKeyMaterialParameterSpec";
+    privbtf finbl stbtid String MSG = "TlsKfyMbtfriblGfnfrbtor must bf "
+        + "initiblizfd using b TlsKfyMbtfriblPbrbmftfrSpfd";
 
-    // token instance
-    private final Token token;
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
 
-    // algorithm name
-    private final String algorithm;
+    // blgoritim nbmf
+    privbtf finbl String blgoritim;
 
-    // mechanism id
-    private long mechanism;
+    // mfdibnism id
+    privbtf long mfdibnism;
 
-    // parameter spec
-    private TlsKeyMaterialParameterSpec spec;
+    // pbrbmftfr spfd
+    privbtf TlsKfyMbtfriblPbrbmftfrSpfd spfd;
 
-    // master secret as a P11Key
-    private P11Key p11Key;
+    // mbstfr sfdrft bs b P11Kfy
+    privbtf P11Kfy p11Kfy;
 
-    // version, e.g. 0x0301
-    private int version;
+    // vfrsion, f.g. 0x0301
+    privbtf int vfrsion;
 
-    P11TlsKeyMaterialGenerator(Token token, String algorithm, long mechanism)
-            throws PKCS11Exception {
-        super();
-        this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+    P11TlsKfyMbtfriblGfnfrbtor(Tokfn tokfn, String blgoritim, long mfdibnism)
+            tirows PKCS11Exdfption {
+        supfr();
+        tiis.tokfn = tokfn;
+        tiis.blgoritim = blgoritim;
+        tiis.mfdibnism = mfdibnism;
     }
 
-    protected void engineInit(SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        tirow nfw InvblidPbrbmftfrExdfption(MSG);
     }
 
-    protected void engineInit(AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (params instanceof TlsKeyMaterialParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException(MSG);
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsKfyMbtfriblPbrbmftfrSpfd == fblsf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(MSG);
         }
-        this.spec = (TlsKeyMaterialParameterSpec)params;
+        tiis.spfd = (TlsKfyMbtfriblPbrbmftfrSpfd)pbrbms;
         try {
-            p11Key = P11SecretKeyFactory.convertKey
-                            (token, spec.getMasterSecret(), "TlsMasterSecret");
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException("init() failed", e);
+            p11Kfy = P11SfdrftKfyFbdtory.donvfrtKfy
+                            (tokfn, spfd.gftMbstfrSfdrft(), "TlsMbstfrSfdrft");
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("init() fbilfd", f);
         }
-        version = (spec.getMajorVersion() << 8) | spec.getMinorVersion();
-        if ((version < 0x0300) && (version > 0x0302)) {
-            throw new InvalidAlgorithmParameterException
-                    ("Only SSL 3.0, TLS 1.0, and TLS 1.1 are supported");
+        vfrsion = (spfd.gftMbjorVfrsion() << 8) | spfd.gftMinorVfrsion();
+        if ((vfrsion < 0x0300) && (vfrsion > 0x0302)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("Only SSL 3.0, TLS 1.0, bnd TLS 1.1 brf supportfd");
         }
-        // we assume the token supports both the CKM_SSL3_* and the CKM_TLS_*
-        // mechanisms
+        // wf bssumf tif tokfn supports boti tif CKM_SSL3_* bnd tif CKM_TLS_*
+        // mfdibnisms
     }
 
-    protected void engineInit(int keysize, SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        tirow nfw InvblidPbrbmftfrExdfption(MSG);
     }
 
-    protected SecretKey engineGenerateKey() {
-        if (spec == null) {
-            throw new IllegalStateException
-                ("TlsKeyMaterialGenerator must be initialized");
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (spfd == null) {
+            tirow nfw IllfgblStbtfExdfption
+                ("TlsKfyMbtfriblGfnfrbtor must bf initiblizfd");
         }
-        mechanism = (version == 0x0300) ? CKM_SSL3_KEY_AND_MAC_DERIVE
+        mfdibnism = (vfrsion == 0x0300) ? CKM_SSL3_KEY_AND_MAC_DERIVE
                                          : CKM_TLS_KEY_AND_MAC_DERIVE;
-        int macBits = spec.getMacKeyLength() << 3;
-        int ivBits = spec.getIvLength() << 3;
+        int mbdBits = spfd.gftMbdKfyLfngti() << 3;
+        int ivBits = spfd.gftIvLfngti() << 3;
 
-        int expandedKeyBits = spec.getExpandedCipherKeyLength() << 3;
-        int keyBits = spec.getCipherKeyLength() << 3;
-        boolean isExportable;
-        if (expandedKeyBits != 0) {
-            isExportable = true;
-        } else {
-            isExportable = false;
-            expandedKeyBits = keyBits;
+        int fxpbndfdKfyBits = spfd.gftExpbndfdCipifrKfyLfngti() << 3;
+        int kfyBits = spfd.gftCipifrKfyLfngti() << 3;
+        boolfbn isExportbblf;
+        if (fxpbndfdKfyBits != 0) {
+            isExportbblf = truf;
+        } flsf {
+            isExportbblf = fblsf;
+            fxpbndfdKfyBits = kfyBits;
         }
 
-        CK_SSL3_RANDOM_DATA random = new CK_SSL3_RANDOM_DATA
-                            (spec.getClientRandom(), spec.getServerRandom());
-        CK_SSL3_KEY_MAT_PARAMS params = new CK_SSL3_KEY_MAT_PARAMS
-                            (macBits, keyBits, ivBits, isExportable, random);
+        CK_SSL3_RANDOM_DATA rbndom = nfw CK_SSL3_RANDOM_DATA
+                            (spfd.gftClifntRbndom(), spfd.gftSfrvfrRbndom());
+        CK_SSL3_KEY_MAT_PARAMS pbrbms = nfw CK_SSL3_KEY_MAT_PARAMS
+                            (mbdBits, kfyBits, ivBits, isExportbblf, rbndom);
 
-        String cipherAlgorithm = spec.getCipherAlgorithm();
-        long keyType = P11SecretKeyFactory.getKeyType(cipherAlgorithm);
-        if (keyType < 0) {
-            if (keyBits != 0) {
-                throw new ProviderException
-                            ("Unknown algorithm: " + spec.getCipherAlgorithm());
-            } else {
-                // NULL encryption ciphersuites
-                keyType = CKK_GENERIC_SECRET;
+        String dipifrAlgoritim = spfd.gftCipifrAlgoritim();
+        long kfyTypf = P11SfdrftKfyFbdtory.gftKfyTypf(dipifrAlgoritim);
+        if (kfyTypf < 0) {
+            if (kfyBits != 0) {
+                tirow nfw ProvidfrExdfption
+                            ("Unknown blgoritim: " + spfd.gftCipifrAlgoritim());
+            } flsf {
+                // NULL fndryption dipifrsuitfs
+                kfyTypf = CKK_GENERIC_SECRET;
             }
         }
 
-        Session session = null;
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            CK_ATTRIBUTE[] attributes;
-            if (keyBits != 0) {
-                attributes = new CK_ATTRIBUTE[] {
-                    new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
-                    new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType),
-                    new CK_ATTRIBUTE(CKA_VALUE_LEN, expandedKeyBits >> 3),
+            sfssion = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs;
+            if (kfyBits != 0) {
+                bttributfs = nfw CK_ATTRIBUTE[] {
+                    nfw CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
+                    nfw CK_ATTRIBUTE(CKA_KEY_TYPE, kfyTypf),
+                    nfw CK_ATTRIBUTE(CKA_VALUE_LEN, fxpbndfdKfyBits >> 3),
                 };
-            } else {
-                // ciphersuites with NULL ciphers
-                attributes = new CK_ATTRIBUTE[0];
+            } flsf {
+                // dipifrsuitfs witi NULL dipifrs
+                bttributfs = nfw CK_ATTRIBUTE[0];
             }
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, keyType, attributes);
-            // the returned keyID is a dummy, ignore
-            long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, params), p11Key.keyID, attributes);
+            bttributfs = tokfn.gftAttributfs
+                (O_GENERATE, CKO_SECRET_KEY, kfyTypf, bttributfs);
+            // tif rfturnfd kfyID is b dummy, ignorf
+            long kfyID = tokfn.p11.C_DfrivfKfy(sfssion.id(),
+                nfw CK_MECHANISM(mfdibnism, pbrbms), p11Kfy.kfyID, bttributfs);
 
-            CK_SSL3_KEY_MAT_OUT out = params.pReturnedKeyMaterial;
-            // Note that the MAC keys do not inherit all attributes from the
-            // template, but they do inherit the sensitive/extractable/token
-            // flags, which is all P11Key cares about.
-            SecretKey clientMacKey, serverMacKey;
+            CK_SSL3_KEY_MAT_OUT out = pbrbms.pRfturnfdKfyMbtfribl;
+            // Notf tibt tif MAC kfys do not inifrit bll bttributfs from tif
+            // tfmplbtf, but tify do inifrit tif sfnsitivf/fxtrbdtbblf/tokfn
+            // flbgs, wiidi is bll P11Kfy dbrfs bbout.
+            SfdrftKfy dlifntMbdKfy, sfrvfrMbdKfy;
 
-            // The MAC size may be zero for GCM mode.
+            // Tif MAC sizf mby bf zfro for GCM modf.
             //
-            // PKCS11 does not support GCM mode as the author made the comment,
-            // so the macBits is unlikely to be zero. It's only a place holder.
-            if (macBits != 0) {
-                clientMacKey = P11Key.secretKey
-                    (session, out.hClientMacSecret, "MAC", macBits, attributes);
-                serverMacKey = P11Key.secretKey
-                    (session, out.hServerMacSecret, "MAC", macBits, attributes);
-            } else {
-                clientMacKey = null;
-                serverMacKey = null;
+            // PKCS11 dofs not support GCM modf bs tif butior mbdf tif dommfnt,
+            // so tif mbdBits is unlikfly to bf zfro. It's only b plbdf ioldfr.
+            if (mbdBits != 0) {
+                dlifntMbdKfy = P11Kfy.sfdrftKfy
+                    (sfssion, out.iClifntMbdSfdrft, "MAC", mbdBits, bttributfs);
+                sfrvfrMbdKfy = P11Kfy.sfdrftKfy
+                    (sfssion, out.iSfrvfrMbdSfdrft, "MAC", mbdBits, bttributfs);
+            } flsf {
+                dlifntMbdKfy = null;
+                sfrvfrMbdKfy = null;
             }
 
-            SecretKey clientCipherKey, serverCipherKey;
-            if (keyBits != 0) {
-                clientCipherKey = P11Key.secretKey(session, out.hClientKey,
-                        cipherAlgorithm, expandedKeyBits, attributes);
-                serverCipherKey = P11Key.secretKey(session, out.hServerKey,
-                        cipherAlgorithm, expandedKeyBits, attributes);
-            } else {
-                clientCipherKey = null;
-                serverCipherKey = null;
+            SfdrftKfy dlifntCipifrKfy, sfrvfrCipifrKfy;
+            if (kfyBits != 0) {
+                dlifntCipifrKfy = P11Kfy.sfdrftKfy(sfssion, out.iClifntKfy,
+                        dipifrAlgoritim, fxpbndfdKfyBits, bttributfs);
+                sfrvfrCipifrKfy = P11Kfy.sfdrftKfy(sfssion, out.iSfrvfrKfy,
+                        dipifrAlgoritim, fxpbndfdKfyBits, bttributfs);
+            } flsf {
+                dlifntCipifrKfy = null;
+                sfrvfrCipifrKfy = null;
             }
-            IvParameterSpec clientIv = (out.pIVClient == null)
-                                    ? null : new IvParameterSpec(out.pIVClient);
-            IvParameterSpec serverIv = (out.pIVServer == null)
-                                    ? null : new IvParameterSpec(out.pIVServer);
+            IvPbrbmftfrSpfd dlifntIv = (out.pIVClifnt == null)
+                                    ? null : nfw IvPbrbmftfrSpfd(out.pIVClifnt);
+            IvPbrbmftfrSpfd sfrvfrIv = (out.pIVSfrvfr == null)
+                                    ? null : nfw IvPbrbmftfrSpfd(out.pIVSfrvfr);
 
-            return new TlsKeyMaterialSpec(clientMacKey, serverMacKey,
-                    clientCipherKey, clientIv, serverCipherKey, serverIv);
+            rfturn nfw TlsKfyMbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+                    dlifntCipifrKfy, dlifntIv, sfrvfrCipifrKfy, sfrvfrIv);
 
-        } catch (Exception e) {
-            throw new ProviderException("Could not generate key", e);
-        } finally {
-            token.releaseSession(session);
+        } dbtdi (Exdfption f) {
+            tirow nfw ProvidfrExdfption("Could not gfnfrbtf kfy", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 

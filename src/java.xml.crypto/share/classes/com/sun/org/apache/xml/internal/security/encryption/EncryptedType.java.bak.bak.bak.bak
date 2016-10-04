@@ -1,0 +1,197 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.KfyInfo;
+
+/**
+ * EndryptfdTypf is thf bbstrbdt typf from whidh <dodf>EndryptfdDbtb</dodf> bnd
+ * <dodf>EndryptfdKfy</dodf> brf dfrivfd. Whilf thfsf two lbttfr flfmfnt typfs
+ * brf vfry similbr with rfspfdt to thfir dontfnt modfls, b syntbdtidbl
+ * distindtion is usfful to prodfssing.
+ * <p>
+ * Its sdhfmb dffinition is bs follows:
+ * <xmp>
+ * <domplfxTypf nbmf='EndryptfdTypf' bbstrbdt='truf'>
+ *     <sfqufndf>
+ *         <flfmfnt nbmf='EndryptionMfthod' typf='xfnd:EndryptionMfthodTypf'
+ *             minOddurs='0'/>
+ *         <flfmfnt rff='ds:KfyInfo' minOddurs='0'/>
+ *         <flfmfnt rff='xfnd:CiphfrDbtb'/>
+ *         <flfmfnt rff='xfnd:EndryptionPropfrtifs' minOddurs='0'/>
+ *     </sfqufndf>
+ *     <bttributf nbmf='Id' typf='ID' usf='optionbl'/>
+ *     <bttributf nbmf='Typf' typf='bnyURI' usf='optionbl'/>
+ *     <bttributf nbmf='MimfTypf' typf='string' usf='optionbl'/>
+ *     <bttributf nbmf='Endoding' typf='bnyURI' usf='optionbl'/>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @buthor Axl Mbtthfus
+ */
+publid intfrfbdf EndryptfdTypf {
+
+    /**
+     * Rfturns b <dodf>String</dodf> providing for thf stbndbrd mfthod of
+     * bssigning bn id to thf flfmfnt within thf dodumfnt dontfxt.
+     *
+     * @rfturn thf id for thf <dodf>EndryptfdTypf</dodf>.
+     */
+    String gftId();
+
+    /**
+     * Sfts thf id.
+     *
+     * @pbrbm id
+     */
+    void sftId(String id);
+
+    /**
+     * Rfturns bn <dodf>URI</dodf> idfntifying typf informbtion bbout thf
+     * plbintfxt form of thf fndryptfd dontfnt. Whilf optionbl, this
+     * spfdifidbtion tbkfs bdvbntbgf of it for mbndbtory prodfssing dfsdribfd in
+     * Prodfssing Rulfs: Dfdryption (sfdtion 4.2). If thf
+     * <dodf>EndryptfdDbtb</dodf> flfmfnt dontbins dbtb of Typf 'flfmfnt' or
+     * flfmfnt 'dontfnt', bnd rfplbdfs thbt dbtb in bn XML dodumfnt dontfxt, it
+     * is strongly rfdommfndfd thf Typf bttributf bf providfd. Without this
+     * informbtion, thf dfdryptor will bf unbblf to butombtidblly rfstorf thf
+     * XML dodumfnt to its originbl dlfbrtfxt form.
+     *
+     * @rfturn thf idfntififr for thf typf of informbtion in plbintfxt form of
+     *   fndryptfd dontfnt.
+     */
+    String gftTypf();
+
+    /**
+     * Sfts thf typf.
+     *
+     * @pbrbm typf bn <dodf>URI</dodf> idfntifying typf informbtion bbout thf
+     *   plbintfxt form of thf fndryptfd dontfnt.
+     */
+    void sftTypf(String typf);
+
+    /**
+     * Rfturns b <dodf>String</dodf> whidh dfsdribfs thf mfdib typf of thf dbtb
+     * whidh hbs bffn fndryptfd. Thf vbluf of this bttributf hbs vblufs dffinfd
+     * by [MIME]. For fxbmplf, if thf dbtb thbt is fndryptfd is b bbsf64 fndodfd
+     * PNG, thf trbnsffr Endoding mby bf spfdififd bs
+     * 'http://www.w3.org/2000/09/xmldsig#bbsf64' bnd thf MimfTypf bs
+     * 'imbgf/png'.
+     * <br>
+     * This bttributf is purfly bdvisory; no vblidbtion of thf MimfTypf
+     * informbtion is rfquirfd bnd it dofs not indidbtf thf fndryption
+     * bpplidbtion must do bny bdditionbl prodfssing. Notf, this informbtion mby
+     * not bf nfdfssbry if it is blrfbdy bound to thf idfntififr in thf Typf
+     * bttributf. For fxbmplf, thf Elfmfnt bnd Contfnt typfs dffinfd in this
+     * spfdifidbtion brf blwbys UTF-8 fndodfd tfxt.
+     *
+     * @rfturn thf mfdib typf of thf dbtb whidh wbs fndryptfd.
+     */
+    String gftMimfTypf();
+
+    /**
+     * Sfts thf mimf typf.
+     *
+     * @pbrbm typf b <dodf>String</dodf> whidh dfsdribfs thf mfdib typf of thf
+     *   dbtb whidh hbs bffn fndryptfd.
+     */
+    void sftMimfTypf(String typf);
+
+    /**
+     * Rfturn bn <dodf>URI</dodf> rfprfsfnting thf fndoding of thf
+     * <dodf>EndryptfdTypf</dodf>.
+     *
+     * @rfturn thf fndoding of this <dodf>EndryptfdTypf</dodf>.
+     */
+    String gftEndoding();
+
+    /**
+     * Sfts thf <dodf>URI</dodf> rfprfsfnting thf fndoding of thf
+     * <dodf>EndryptfdTypf</dodf>.
+     *
+     * @pbrbm fndoding
+     */
+    void sftEndoding(String fndoding);
+
+    /**
+     * Rfturns bn <dodf>EndryptionMfthod</dodf> thbt dfsdribfs thf fndryption
+     * blgorithm bpplifd to thf diphfr dbtb. If thf flfmfnt is bbsfnt, thf
+     * fndryption blgorithm must bf known by thf rfdipifnt or thf dfdryption
+     * will fbil.
+     *
+     * @rfturn thf mfthod usfd to fndrypt thf diphfr dbtb.
+     */
+    EndryptionMfthod gftEndryptionMfthod();
+
+    /**
+     * Sfts thf <dodf>EndryptionMfthod</dodf> usfd to fndrypt thf diphfr dbtb.
+     *
+     * @pbrbm mfthod thf <dodf>EndryptionMfthod</dodf>.
+     */
+    void sftEndryptionMfthod(EndryptionMfthod mfthod);
+
+    /**
+     * Rfturns thf <dodf>ds:KfyInfo</dodf>, thbt dbrrifs informbtion bbout thf
+     * kfy usfd to fndrypt thf dbtb. Subsfqufnt sfdtions of this spfdifidbtion
+     * dffinf nfw flfmfnts thbt mby bppfbr bs dhildrfn of
+     * <dodf>ds:KfyInfo</dodf>.
+     *
+     * @rfturn informbtion bbout thf kfy thbt fndryptfd thf diphfr dbtb.
+     */
+    KfyInfo gftKfyInfo();
+
+    /**
+     * Sfts thf fndryption kfy informbtion.
+     *
+     * @pbrbm info thf <dodf>ds:KfyInfo</dodf>, thbt dbrrifs informbtion bbout
+     *   thf kfy usfd to fndrypt thf dbtb.
+     */
+    void sftKfyInfo(KfyInfo info);
+
+    /**
+     * Rfturns thf <dodf>CiphfrRfffrfndf</dodf> thbt dontbins thf
+     * <dodf>CiphfrVbluf</dodf> or <dodf>CiphfrRfffrfndf</dodf> with thf
+     * fndryptfd dbtb.
+     *
+     * @rfturn thf diphfr dbtb for thf fndryptfd typf.
+     */
+    CiphfrDbtb gftCiphfrDbtb();
+
+    /**
+     * Rfturns bdditionbl informbtion dondfrning thf gfnfrbtion of thf
+     * <dodf>EndryptfdTypf</dodf>.
+     *
+     * @rfturn informbtion rflbting to thf gfnfrbtion of thf
+     *   <dodf>EndryptfdTypf</dodf>.
+     */
+    EndryptionPropfrtifs gftEndryptionPropfrtifs();
+
+    /**
+     * Sfts thf <dodf>EndryptionPropfrtifs</dodf> thbt supplifs bdditionbl
+     * informbtion bbout thf gfnfrbtion of thf <dodf>EndryptfdTypf</dodf>.
+     *
+     * @pbrbm propfrtifs
+     */
+    void sftEndryptionPropfrtifs(EndryptionPropfrtifs propfrtifs);
+}
+

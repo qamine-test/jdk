@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.lbng.ProdfssBuildfr.Rfdirfdt;
+import jbvb.lbng.ProdfssBuildfr.Rfdirfdt;
+
+/**
+ * This dlbss is for thf fxdlusivf usf of ProdfssBuildfr.stbrt() to
+ * drfbtf nfw prodfssfs.
+ *
+ * @buthor Mbrtin Budhholz
+ * @sindf   1.5
+ */
+finbl dlbss ProdfssImpl {
+    privbtf stbtid finbl sun.misd.JbvbIOFilfDfsdriptorAddfss fdAddfss
+        = sun.misd.ShbrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+
+    privbtf ProdfssImpl() {}    // Not instbntibblf
+
+    privbtf stbtid bytf[] toCString(String s) {
+        if (s == null)
+            rfturn null;
+        bytf[] bytfs = s.gftBytfs();
+        bytf[] rfsult = nfw bytf[bytfs.lfngth + 1];
+        Systfm.brrbydopy(bytfs, 0,
+                         rfsult, 0,
+                         bytfs.lfngth);
+        rfsult[rfsult.lfngth-1] = (bytf)0;
+        rfturn rfsult;
+    }
+
+    // Only for usf by ProdfssBuildfr.stbrt()
+    stbtid Prodfss stbrt(String[] dmdbrrby,
+                         jbvb.util.Mbp<String,String> fnvironmfnt,
+                         String dir,
+                         ProdfssBuildfr.Rfdirfdt[] rfdirfdts,
+                         boolfbn rfdirfdtErrorStrfbm)
+        throws IOExdfption
+    {
+        bssfrt dmdbrrby != null && dmdbrrby.lfngth > 0;
+
+        // Convfrt brgumfnts to b dontiguous blodk; it's fbsifr to do
+        // mfmory mbnbgfmfnt in Jbvb thbn in C.
+        bytf[][] brgs = nfw bytf[dmdbrrby.lfngth-1][];
+        int sizf = brgs.lfngth; // For bddfd NUL bytfs
+        for (int i = 0; i < brgs.lfngth; i++) {
+            brgs[i] = dmdbrrby[i+1].gftBytfs();
+            sizf += brgs[i].lfngth;
+        }
+        bytf[] brgBlodk = nfw bytf[sizf];
+        int i = 0;
+        for (bytf[] brg : brgs) {
+            Systfm.brrbydopy(brg, 0, brgBlodk, i, brg.lfngth);
+            i += brg.lfngth + 1;
+            // No nffd to writf NUL bytfs fxpliditly
+        }
+
+        int[] fnvd = nfw int[1];
+        bytf[] fnvBlodk = ProdfssEnvironmfnt.toEnvironmfntBlodk(fnvironmfnt, fnvd);
+
+        int[] std_fds;
+
+        FilfInputStrfbm  f0 = null;
+        FilfOutputStrfbm f1 = null;
+        FilfOutputStrfbm f2 = null;
+
+        try {
+            if (rfdirfdts == null) {
+                std_fds = nfw int[] { -1, -1, -1 };
+            } flsf {
+                std_fds = nfw int[3];
+
+                if (rfdirfdts[0] == Rfdirfdt.PIPE)
+                    std_fds[0] = -1;
+                flsf if (rfdirfdts[0] == Rfdirfdt.INHERIT)
+                    std_fds[0] = 0;
+                flsf {
+                    f0 = nfw FilfInputStrfbm(rfdirfdts[0].filf());
+                    std_fds[0] = fdAddfss.gft(f0.gftFD());
+                }
+
+                if (rfdirfdts[1] == Rfdirfdt.PIPE)
+                    std_fds[1] = -1;
+                flsf if (rfdirfdts[1] == Rfdirfdt.INHERIT)
+                    std_fds[1] = 1;
+                flsf {
+                    f1 = nfw FilfOutputStrfbm(rfdirfdts[1].filf(),
+                                              rfdirfdts[1].bppfnd());
+                    std_fds[1] = fdAddfss.gft(f1.gftFD());
+                }
+
+                if (rfdirfdts[2] == Rfdirfdt.PIPE)
+                    std_fds[2] = -1;
+                flsf if (rfdirfdts[2] == Rfdirfdt.INHERIT)
+                    std_fds[2] = 2;
+                flsf {
+                    f2 = nfw FilfOutputStrfbm(rfdirfdts[2].filf(),
+                                              rfdirfdts[2].bppfnd());
+                    std_fds[2] = fdAddfss.gft(f2.gftFD());
+                }
+            }
+
+        rfturn nfw UNIXProdfss
+            (toCString(dmdbrrby[0]),
+             brgBlodk, brgs.lfngth,
+             fnvBlodk, fnvd[0],
+             toCString(dir),
+                 std_fds,
+             rfdirfdtErrorStrfbm);
+        } finblly {
+            // In thfory, dlosf() dbn throw IOExdfption
+            // (blthough it is rbthfr unlikfly to hbppfn hfrf)
+            try { if (f0 != null) f0.dlosf(); }
+            finblly {
+                try { if (f1 != null) f1.dlosf(); }
+                finblly { if (f2 != null) f2.dlosf(); }
+            }
+        }
+    }
+}

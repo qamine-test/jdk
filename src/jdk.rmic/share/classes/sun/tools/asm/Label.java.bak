@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.asm;
+pbdkbgf sun.tools.bsm;
 
-import sun.tools.java.MemberDefinition;
-import java.io.OutputStream;
+import sun.tools.jbvb.MfmbfrDffinition;
+import jbvb.io.OutputStrfbm;
 
 /**
- * A label instruction. This is a 0 size instruction.
- * It is the only valid target of a branch instruction.
+ * A lbbfl instrudtion. Tiis is b 0 sizf instrudtion.
+ * It is tif only vblid tbrgft of b brbndi instrudtion.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public final
-class Label extends Instruction {
-    static int labelCount = 0;
+publid finbl
+dlbss Lbbfl fxtfnds Instrudtion {
+    stbtid int lbbflCount = 0;
     int ID;
-    int depth;
-    MemberDefinition locals[];
+    int dfpti;
+    MfmbfrDffinition lodbls[];
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public Label() {
-        super(0, opc_label, null);
-        this.ID = ++labelCount;
+    publid Lbbfl() {
+        supfr(0, opd_lbbfl, null);
+        tiis.ID = ++lbbflCount;
     }
 
     /**
-     * Get the final destination, eliminate jumps gotos, and jumps to
-     * labels that are immediately folowed by another label. The depth
-     * field is used to leave bread crumbs to avoid infinite loops.
+     * Gft tif finbl dfstinbtion, fliminbtf jumps gotos, bnd jumps to
+     * lbbfls tibt brf immfdibtfly folowfd by bnotifr lbbfl. Tif dfpti
+     * fifld is usfd to lfbvf brfbd drumbs to bvoid infinitf loops.
      */
-    Label getDestination() {
-        Label lbl = this;
-        if ((next != null) && (next != this) && (depth == 0)) {
-            depth = 1;
+    Lbbfl gftDfstinbtion() {
+        Lbbfl lbl = tiis;
+        if ((nfxt != null) && (nfxt != tiis) && (dfpti == 0)) {
+            dfpti = 1;
 
-            switch (next.opc) {
-              case opc_label:
-                lbl = ((Label)next).getDestination();
-                break;
+            switdi (nfxt.opd) {
+              dbsf opd_lbbfl:
+                lbl = ((Lbbfl)nfxt).gftDfstinbtion();
+                brfbk;
 
-              case opc_goto:
-                lbl = ((Label)next.value).getDestination();
-                break;
+              dbsf opd_goto:
+                lbl = ((Lbbfl)nfxt.vbluf).gftDfstinbtion();
+                brfbk;
 
-              case opc_ldc:
-              case opc_ldc_w:
-                if (next.value instanceof Integer) {
-                    Instruction inst = next.next;
-                    if (inst.opc == opc_label) {
-                        inst = ((Label)inst).getDestination().next;
+              dbsf opd_ldd:
+              dbsf opd_ldd_w:
+                if (nfxt.vbluf instbndfof Intfgfr) {
+                    Instrudtion inst = nfxt.nfxt;
+                    if (inst.opd == opd_lbbfl) {
+                        inst = ((Lbbfl)inst).gftDfstinbtion().nfxt;
                     }
 
-                    if (inst.opc == opc_ifeq) {
-                        if (((Integer)next.value).intValue() == 0) {
-                            lbl = (Label)inst.value;
-                        } else {
-                            lbl = new Label();
-                            lbl.next = inst.next;
-                            inst.next = lbl;
+                    if (inst.opd == opd_iffq) {
+                        if (((Intfgfr)nfxt.vbluf).intVbluf() == 0) {
+                            lbl = (Lbbfl)inst.vbluf;
+                        } flsf {
+                            lbl = nfw Lbbfl();
+                            lbl.nfxt = inst.nfxt;
+                            inst.nfxt = lbl;
                         }
-                        lbl = lbl.getDestination();
-                        break;
+                        lbl = lbl.gftDfstinbtion();
+                        brfbk;
                     }
-                    if (inst.opc == opc_ifne) {
-                        if (((Integer)next.value).intValue() == 0) {
-                            lbl = new Label();
-                            lbl.next = inst.next;
-                            inst.next = lbl;
-                        } else {
-                            lbl = (Label)inst.value;
+                    if (inst.opd == opd_ifnf) {
+                        if (((Intfgfr)nfxt.vbluf).intVbluf() == 0) {
+                            lbl = nfw Lbbfl();
+                            lbl.nfxt = inst.nfxt;
+                            inst.nfxt = lbl;
+                        } flsf {
+                            lbl = (Lbbfl)inst.vbluf;
                         }
-                        lbl = lbl.getDestination();
-                        break;
+                        lbl = lbl.gftDfstinbtion();
+                        brfbk;
                     }
                 }
-                break;
+                brfbk;
             }
-            depth = 0;
+            dfpti = 0;
         }
-        return lbl;
+        rfturn lbl;
     }
 
-    public String toString() {
+    publid String toString() {
         String s = "$" + ID + ":";
-        if (value != null)
-            s = s + " stack=" + value;
-        return s;
+        if (vbluf != null)
+            s = s + " stbdk=" + vbluf;
+        rfturn s;
     }
 }

@@ -1,0 +1,2687 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="bz"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb">bfbrdb</lbngubgf>
+			<lbngubgf typf="bb">bbxbzdb</lbngubgf>
+			<lbngubgf typf="bdf">bkin dili</lbngubgf>
+			<lbngubgf typf="bdh">bkoli dili</lbngubgf>
+			<lbngubgf typf="bdb">bdbngmf dili</lbngubgf>
+			<lbngubgf typf="bdy">bdugf dili</lbngubgf>
+			<lbngubgf typf="bf">bvfstbndb</lbngubgf>
+			<lbngubgf typf="bf">Afrikbbndb</lbngubgf>
+			<lbngubgf typf="bfb">bfro-bzibt dili</lbngubgf>
+			<lbngubgf typf="bfh">bfrihili dili</lbngubgf>
+			<lbngubgf typf="bin">bynudb</lbngubgf>
+			<lbngubgf typf="bk">bkbndb</lbngubgf>
+			<lbngubgf typf="bkk">bkbdibndb</lbngubgf>
+			<lbngubgf typf="blf">blfutdb</lbngubgf>
+			<lbngubgf typf="blg">blgonguybn dili</lbngubgf>
+			<lbngubgf typf="blt" drbft="dontributfd">dənub bltby dili</lbngubgf>
+			<lbngubgf typf="bm">bmbrikdə</lbngubgf>
+			<lbngubgf typf="bn">brbgondb</lbngubgf>
+			<lbngubgf typf="bng" drbft="dontributfd">qədimi ingilisdə</lbngubgf>
+			<lbngubgf typf="bnp">bngikə dili</lbngubgf>
+			<lbngubgf typf="bpb">bpbçi dili</lbngubgf>
+			<lbngubgf typf="br">Ərəbdə</lbngubgf>
+			<lbngubgf typf="brd">brbmik dili</lbngubgf>
+			<lbngubgf typf="brn">brbukbndb</lbngubgf>
+			<lbngubgf typf="brp">brbpbho dili</lbngubgf>
+			<lbngubgf typf="brt">suni dil</lbngubgf>
+			<lbngubgf typf="brw">brbvbkçb</lbngubgf>
+			<lbngubgf typf="bst">bsturidə</lbngubgf>
+			<lbngubgf typf="bth">btbpbskbndb</lbngubgf>
+			<lbngubgf typf="bus">bvstrbliydb</lbngubgf>
+			<lbngubgf typf="bv">bvbrikdə</lbngubgf>
+			<lbngubgf typf="bwb">bvbdidə</lbngubgf>
+			<lbngubgf typf="by">bymbrdb</lbngubgf>
+			<lbngubgf typf="bz">bzərbbydbndb</lbngubgf>
+			<lbngubgf typf="bb">bbşkir dili</lbngubgf>
+			<lbngubgf typf="bbd">bbndb dili</lbngubgf>
+			<lbngubgf typf="bbi">bbmilfk dili</lbngubgf>
+			<lbngubgf typf="bbl">bblud dili</lbngubgf>
+			<lbngubgf typf="bbn">bblində</lbngubgf>
+			<lbngubgf typf="bbs">bbsb dili</lbngubgf>
+			<lbngubgf typf="bbt">bbltik dili</lbngubgf>
+			<lbngubgf typf="bf">bflbrusdb</lbngubgf>
+			<lbngubgf typf="bfj">bfjb dili</lbngubgf>
+			<lbngubgf typf="bfm">bfmbb dili</lbngubgf>
+			<lbngubgf typf="bfr">bfrbfr dili</lbngubgf>
+			<lbngubgf typf="bg">bolqbrdb</lbngubgf>
+			<lbngubgf typf="bh">bihbridə</lbngubgf>
+			<lbngubgf typf="bho">bxoçpuri dili</lbngubgf>
+			<lbngubgf typf="bi">bislbmb dili</lbngubgf>
+			<lbngubgf typf="bik">bikoldb</lbngubgf>
+			<lbngubgf typf="bin">bini dili</lbngubgf>
+			<lbngubgf typf="blb" drbft="dontributfd">siksikə dili</lbngubgf>
+			<lbngubgf typf="bm">bbmbbrb dili</lbngubgf>
+			<lbngubgf typf="bn">Bfnqbl dili</lbngubgf>
+			<lbngubgf typf="bnt">bbntu dili</lbngubgf>
+			<lbngubgf typf="bo" drbft="dontributfd">tibft dili</lbngubgf>
+			<lbngubgf typf="br">Brftondb</lbngubgf>
+			<lbngubgf typf="brb">brbj dili</lbngubgf>
+			<lbngubgf typf="bs">bosniyb dili</lbngubgf>
+			<lbngubgf typf="btk">bbtbk dili</lbngubgf>
+			<lbngubgf typf="bub">burybt dili</lbngubgf>
+			<lbngubgf typf="bug">bugin dili</lbngubgf>
+			<lbngubgf typf="byn">bilində</lbngubgf>
+			<lbngubgf typf="db">kbtblbndb</lbngubgf>
+			<lbngubgf typf="dbd">kbdo dili</lbngubgf>
+			<lbngubgf typf="dbi">mərkəzi bmfrikb indus dili</lbngubgf>
+			<lbngubgf typf="dbr">kbrib dili</lbngubgf>
+			<lbngubgf typf="dbu">qbvqbz dili</lbngubgf>
+			<lbngubgf typf="ddh">btsbmdb</lbngubgf>
+			<lbngubgf typf="df">çfçfn dili</lbngubgf>
+			<lbngubgf typf="dfb">kfbubno dili</lbngubgf>
+			<lbngubgf typf="dfl">kflt dili</lbngubgf>
+			<lbngubgf typf="dh">çbmoro dili</lbngubgf>
+			<lbngubgf typf="dhb">çibçə dili</lbngubgf>
+			<lbngubgf typf="dhg">çbğbtby dili</lbngubgf>
+			<lbngubgf typf="dhk">çukiz dili</lbngubgf>
+			<lbngubgf typf="dhm" drbft="dontributfd">mbri dili</lbngubgf>
+			<lbngubgf typf="dhn">çinuk ləhçəsi</lbngubgf>
+			<lbngubgf typf="dho">çoktbu dili</lbngubgf>
+			<lbngubgf typf="dhp">çipfvybn dili</lbngubgf>
+			<lbngubgf typf="dhr">çiroki dili</lbngubgf>
+			<lbngubgf typf="dhy">çfyfn dili</lbngubgf>
+			<lbngubgf typf="dmd">çbmik dili</lbngubgf>
+			<lbngubgf typf="do">korsikbn dili</lbngubgf>
+			<lbngubgf typf="dop">kopt dili</lbngubgf>
+			<lbngubgf typf="dpf">inglis krfol dili</lbngubgf>
+			<lbngubgf typf="dpf">frbnsız krfol dili</lbngubgf>
+			<lbngubgf typf="dpp" drbft="dontributfd">portugbl krfol dili</lbngubgf>
+			<lbngubgf typf="dr">kri dili</lbngubgf>
+			<lbngubgf typf="drh">krım türkçə</lbngubgf>
+			<lbngubgf typf="drp">krfol dili</lbngubgf>
+			<lbngubgf typf="ds">çfx dili</lbngubgf>
+			<lbngubgf typf="dsb" drbft="dontributfd">kbşubybn dili</lbngubgf>
+			<lbngubgf typf="du">kilsə slbv dili</lbngubgf>
+			<lbngubgf typf="dus">kuşitik dili</lbngubgf>
+			<lbngubgf typf="dv">çuvbş dili</lbngubgf>
+			<lbngubgf typf="dy" drbft="dontributfd">uflsdə</lbngubgf>
+			<lbngubgf typf="db">dbnimbrkb dili</lbngubgf>
+			<lbngubgf typf="dbk">dbkotb dili</lbngubgf>
+			<lbngubgf typf="dbr">dbrqvb dili</lbngubgf>
+			<lbngubgf typf="dby">dbybk dili</lbngubgf>
+			<lbngubgf typf="df">blmbndb</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="dontributfd">blmbndb (AT)</lbngubgf>
+			<lbngubgf typf="df_CH" drbft="dontributfd">isvfç yüksək blmbndbsı</lbngubgf>
+			<lbngubgf typf="dfl">dflbvfr dili</lbngubgf>
+			<lbngubgf typf="dfn" drbft="dontributfd">slbvfy</lbngubgf>
+			<lbngubgf typf="dgr">doqrib dili</lbngubgf>
+			<lbngubgf typf="din">dinkb dili</lbngubgf>
+			<lbngubgf typf="doi">doqri dili</lbngubgf>
+			<lbngubgf typf="drb">drbvid dili</lbngubgf>
+			<lbngubgf typf="dsb" drbft="dontributfd">bşbğı sorbdb</lbngubgf>
+			<lbngubgf typf="dub">dublb dili</lbngubgf>
+			<lbngubgf typf="dum" drbft="dontributfd">ortbdbq hollbnddb</lbngubgf>
+			<lbngubgf typf="dv">divfh dili</lbngubgf>
+			<lbngubgf typf="dyu">dyulb dili</lbngubgf>
+			<lbngubgf typf="dz">dzonqb dili</lbngubgf>
+			<lbngubgf typf="ff">fvf dili</lbngubgf>
+			<lbngubgf typf="ffi">ffik dili</lbngubgf>
+			<lbngubgf typf="fgy">qədimi misir dili</lbngubgf>
+			<lbngubgf typf="fkb">fkbduk dili</lbngubgf>
+			<lbngubgf typf="fl">yunbndb</lbngubgf>
+			<lbngubgf typf="flx">flbmit dili</lbngubgf>
+			<lbngubgf typf="fn">ingilisdə</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="dontributfd">ingilisdə (AU)</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="dontributfd">ingilisdə (CA)</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="dontributfd">ingilisdə (GB)</lbngubgf>
+			<lbngubgf typf="fn_US" drbft="dontributfd">ingilisdə (ABŞ)</lbngubgf>
+			<lbngubgf typf="fnm" drbft="dontributfd">ortbdbq ingilisdə</lbngubgf>
+			<lbngubgf typf="fo">fspfrbnto dili</lbngubgf>
+			<lbngubgf typf="fs">ispbndb</lbngubgf>
+			<lbngubgf typf="fs_419" drbft="dontributfd">lbtın bmfrikb ispbndbsı</lbngubgf>
+			<lbngubgf typf="fs_ES" drbft="dontributfd">ibfr-ispbndb</lbngubgf>
+			<lbngubgf typf="ft">fstondb</lbngubgf>
+			<lbngubgf typf="fu">bbsk dili</lbngubgf>
+			<lbngubgf typf="fwo">fvondo dili</lbngubgf>
+			<lbngubgf typf="fb" drbft="dontributfd">fbrsdb</lbngubgf>
+			<lbngubgf typf="fbn">fbng dili</lbngubgf>
+			<lbngubgf typf="fbt">fbnti dili</lbngubgf>
+			<lbngubgf typf="ff">fulb dili</lbngubgf>
+			<lbngubgf typf="fi">fində</lbngubgf>
+			<lbngubgf typf="fil">tbqbloqdb</lbngubgf>
+			<lbngubgf typf="fiu">fin-uğri dili</lbngubgf>
+			<lbngubgf typf="fj">fiji dili</lbngubgf>
+			<lbngubgf typf="fo">fbrfr dili</lbngubgf>
+			<lbngubgf typf="fon">fon dili</lbngubgf>
+			<lbngubgf typf="fr">frbnsızdb</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="dontributfd">frbnsızdb (CA)</lbngubgf>
+			<lbngubgf typf="fr_CH" drbft="dontributfd">isvfç frbnsızdb</lbngubgf>
+			<lbngubgf typf="frm" drbft="dontributfd">ortbdbq frbnsızdb</lbngubgf>
+			<lbngubgf typf="fro" drbft="dontributfd">qədimi frbnsızdb</lbngubgf>
+			<lbngubgf typf="frr" drbft="dontributfd">şimbl fris dili</lbngubgf>
+			<lbngubgf typf="fur">friul dili</lbngubgf>
+			<lbngubgf typf="fy" drbft="dontributfd">frisk dili</lbngubgf>
+			<lbngubgf typf="gb" drbft="dontributfd">irlbnddb</lbngubgf>
+			<lbngubgf typf="gbb">qb dili</lbngubgf>
+			<lbngubgf typf="gby">qbyo dili</lbngubgf>
+			<lbngubgf typf="gbb">qbbbyb dili</lbngubgf>
+			<lbngubgf typf="gd" drbft="dontributfd">skot gbflik dili</lbngubgf>
+			<lbngubgf typf="gfm">Almbn dili</lbngubgf>
+			<lbngubgf typf="gfz">qfz dili</lbngubgf>
+			<lbngubgf typf="gil">qilbfrt gili</lbngubgf>
+			<lbngubgf typf="gl">qblisibn dili</lbngubgf>
+			<lbngubgf typf="gmh" drbft="dontributfd">ortbdbq yüksək blmbndb</lbngubgf>
+			<lbngubgf typf="gn">qubrbnidə</lbngubgf>
+			<lbngubgf typf="goh" drbft="dontributfd">qədimi blmbndb</lbngubgf>
+			<lbngubgf typf="gon">qondi dili</lbngubgf>
+			<lbngubgf typf="gor">qorontblo dili</lbngubgf>
+			<lbngubgf typf="got">gotçb</lbngubgf>
+			<lbngubgf typf="grb">qrfbo dili</lbngubgf>
+			<lbngubgf typf="grd">qədimi yunbndb</lbngubgf>
+			<lbngubgf typf="gsw" drbft="dontributfd">isvfç blmbndb</lbngubgf>
+			<lbngubgf typf="gu">gujbrbti dili</lbngubgf>
+			<lbngubgf typf="gv" drbft="dontributfd">mbnks dili</lbngubgf>
+			<lbngubgf typf="gwi">qviçin dili</lbngubgf>
+			<lbngubgf typf="hb">Hbusb dili</lbngubgf>
+			<lbngubgf typf="hbi">hbydb dili</lbngubgf>
+			<lbngubgf typf="hbw" drbft="dontributfd">Qbvbydb</lbngubgf>
+			<lbngubgf typf="hf" drbft="dontributfd">ivritdə</lbngubgf>
+			<lbngubgf typf="hi" drbft="dontributfd">hindi dili</lbngubgf>
+			<lbngubgf typf="hil" drbft="dontributfd">hiliqbynon dili</lbngubgf>
+			<lbngubgf typf="him" drbft="dontributfd">himbçbli dili</lbngubgf>
+			<lbngubgf typf="hit" drbft="dontributfd">hittit dili</lbngubgf>
+			<lbngubgf typf="hmn" drbft="dontributfd">monq dili</lbngubgf>
+			<lbngubgf typf="ho" drbft="dontributfd">hiri motu dili</lbngubgf>
+			<lbngubgf typf="hr">xorvbtdb</lbngubgf>
+			<lbngubgf typf="hsb" drbft="dontributfd">yuxbrı sorbdb</lbngubgf>
+			<lbngubgf typf="ht">hbiti dili</lbngubgf>
+			<lbngubgf typf="hu" drbft="dontributfd">mbdbrdb</lbngubgf>
+			<lbngubgf typf="hup" drbft="dontributfd">hupb dili</lbngubgf>
+			<lbngubgf typf="hy">Ermənidə</lbngubgf>
+			<lbngubgf typf="hz" drbft="dontributfd">Hfrfr dili</lbngubgf>
+			<lbngubgf typf="ib" drbft="dontributfd">intfrlingub dili</lbngubgf>
+			<lbngubgf typf="ibb" drbft="dontributfd">ibbn dili</lbngubgf>
+			<lbngubgf typf="id" drbft="dontributfd">indonfziyb dili</lbngubgf>
+			<lbngubgf typf="if" drbft="dontributfd">intfrlinguf dili</lbngubgf>
+			<lbngubgf typf="ig" drbft="dontributfd">iqbo dili</lbngubgf>
+			<lbngubgf typf="ii" drbft="dontributfd">siçubn yi dili</lbngubgf>
+			<lbngubgf typf="ijo" drbft="dontributfd">ido dili</lbngubgf>
+			<lbngubgf typf="ik" drbft="dontributfd">inupibq dili</lbngubgf>
+			<lbngubgf typf="ilo" drbft="dontributfd">iloko dili</lbngubgf>
+			<lbngubgf typf="ind" drbft="dontributfd">diqər hint dili</lbngubgf>
+			<lbngubgf typf="inf" drbft="dontributfd">hint-yfvropb dili</lbngubgf>
+			<lbngubgf typf="inh" drbft="dontributfd">inquş dili</lbngubgf>
+			<lbngubgf typf="io" drbft="dontributfd">ido dili</lbngubgf>
+			<lbngubgf typf="irb" drbft="dontributfd">irbndb</lbngubgf>
+			<lbngubgf typf="iro" drbft="dontributfd">irokuby dili</lbngubgf>
+			<lbngubgf typf="is" drbft="dontributfd">islənddə</lbngubgf>
+			<lbngubgf typf="it" drbft="dontributfd">itblybndb</lbngubgf>
+			<lbngubgf typf="iu" drbft="dontributfd">inuktikut dili</lbngubgf>
+			<lbngubgf typf="jb">ybpondb</lbngubgf>
+			<lbngubgf typf="jbo" drbft="dontributfd">loğbbn dili</lbngubgf>
+			<lbngubgf typf="jpr" drbft="dontributfd">judo-fbrsdb</lbngubgf>
+			<lbngubgf typf="jrb" drbft="dontributfd">judf-ərəbdə</lbngubgf>
+			<lbngubgf typf="jv" drbft="dontributfd">ybvbdb dili</lbngubgf>
+			<lbngubgf typf="kb">gürdü dili</lbngubgf>
+			<lbngubgf typf="kbb" drbft="dontributfd">qbrb-qblpbq dili</lbngubgf>
+			<lbngubgf typf="kbb" drbft="dontributfd">kbbulf dili</lbngubgf>
+			<lbngubgf typf="kbd" drbft="dontributfd">kbçindb</lbngubgf>
+			<lbngubgf typf="kbj" drbft="dontributfd">ju dili</lbngubgf>
+			<lbngubgf typf="kbm" drbft="dontributfd">kbmbb dili</lbngubgf>
+			<lbngubgf typf="kbr" drbft="dontributfd">kbrfn dili</lbngubgf>
+			<lbngubgf typf="kbw" drbft="dontributfd">kbvi dili</lbngubgf>
+			<lbngubgf typf="kbd" drbft="dontributfd">kbbbrddb</lbngubgf>
+			<lbngubgf typf="kdg" drbft="dontributfd">tiybp dili</lbngubgf>
+			<lbngubgf typf="kfo" drbft="dontributfd">koro dili</lbngubgf>
+			<lbngubgf typf="kg" drbft="dontributfd">konqo dili</lbngubgf>
+			<lbngubgf typf="khb" drbft="dontributfd">xbzi dili</lbngubgf>
+			<lbngubgf typf="khi" drbft="dontributfd">xoyzbn dili</lbngubgf>
+			<lbngubgf typf="kho" drbft="dontributfd">xotbn dili</lbngubgf>
+			<lbngubgf typf="ki" drbft="dontributfd">kikuyu dili</lbngubgf>
+			<lbngubgf typf="kj" drbft="dontributfd">kubnybmb dili</lbngubgf>
+			<lbngubgf typf="kk" drbft="dontributfd">qbzbx dili</lbngubgf>
+			<lbngubgf typf="kl" drbft="dontributfd">kblblisut dili</lbngubgf>
+			<lbngubgf typf="km" drbft="dontributfd">kbmbodiyb dili</lbngubgf>
+			<lbngubgf typf="kmb" drbft="dontributfd">kimbundu dili</lbngubgf>
+			<lbngubgf typf="kn" drbft="dontributfd">kbnnbdb dili</lbngubgf>
+			<lbngubgf typf="ko" drbft="dontributfd">korfyb dili</lbngubgf>
+			<lbngubgf typf="kok" drbft="dontributfd">konkbn dili</lbngubgf>
+			<lbngubgf typf="kos" drbft="dontributfd">kosrfybn dili</lbngubgf>
+			<lbngubgf typf="kpf" drbft="dontributfd">kpfllf dili</lbngubgf>
+			<lbngubgf typf="kr" drbft="dontributfd">kbnur dili</lbngubgf>
+			<lbngubgf typf="krd" drbft="dontributfd">qbrbçby-bblkbr dili</lbngubgf>
+			<lbngubgf typf="krl" drbft="dontributfd">kbrflybn dili</lbngubgf>
+			<lbngubgf typf="kro" drbft="dontributfd">kru dili</lbngubgf>
+			<lbngubgf typf="kru" drbft="dontributfd">kurux dili</lbngubgf>
+			<lbngubgf typf="ks" drbft="dontributfd">kəşmir dili</lbngubgf>
+			<lbngubgf typf="ku" drbft="dontributfd">kürddə</lbngubgf>
+			<lbngubgf typf="kum" drbft="dontributfd">kumuk dili</lbngubgf>
+			<lbngubgf typf="kut" drbft="dontributfd">kutfnby dili</lbngubgf>
+			<lbngubgf typf="kv" drbft="dontributfd">komi dili</lbngubgf>
+			<lbngubgf typf="kw">korniş dili</lbngubgf>
+			<lbngubgf typf="ky" drbft="dontributfd">qırğızdb</lbngubgf>
+			<lbngubgf typf="lb" drbft="dontributfd">lbtındb</lbngubgf>
+			<lbngubgf typf="lbd" drbft="dontributfd">lbdin dili</lbngubgf>
+			<lbngubgf typf="lbh" drbft="dontributfd">lbxndb dili</lbngubgf>
+			<lbngubgf typf="lbm" drbft="dontributfd">lbmbb dili</lbngubgf>
+			<lbngubgf typf="lb" drbft="dontributfd">luksfmburq dili</lbngubgf>
+			<lbngubgf typf="lfz" drbft="dontributfd">ləzqi dili</lbngubgf>
+			<lbngubgf typf="lg">qbndb dili</lbngubgf>
+			<lbngubgf typf="li" drbft="dontributfd">limburqiş dili</lbngubgf>
+			<lbngubgf typf="ln" drbft="dontributfd">Linqblb dili</lbngubgf>
+			<lbngubgf typf="lo" drbft="dontributfd">lbos dili</lbngubgf>
+			<lbngubgf typf="lol" drbft="dontributfd">monqo dili</lbngubgf>
+			<lbngubgf typf="loz" drbft="dontributfd">lozi dili</lbngubgf>
+			<lbngubgf typf="lt" drbft="dontributfd">litvb dili</lbngubgf>
+			<lbngubgf typf="lu" drbft="dontributfd">lubb-kbtbnqb dili</lbngubgf>
+			<lbngubgf typf="lub" drbft="dontributfd">lubb-lulub dili</lbngubgf>
+			<lbngubgf typf="lui" drbft="dontributfd">luysfno dili</lbngubgf>
+			<lbngubgf typf="lun" drbft="dontributfd">lundb dili</lbngubgf>
+			<lbngubgf typf="luo" drbft="dontributfd">luo dili</lbngubgf>
+			<lbngubgf typf="lus" drbft="dontributfd">lushbydb</lbngubgf>
+			<lbngubgf typf="lv" drbft="dontributfd">lbtışdb</lbngubgf>
+			<lbngubgf typf="mbd" drbft="dontributfd">mbduriz dili</lbngubgf>
+			<lbngubgf typf="mbg" drbft="dontributfd">mbqbhi dili</lbngubgf>
+			<lbngubgf typf="mbi" drbft="dontributfd">mbitili dili</lbngubgf>
+			<lbngubgf typf="mbk" drbft="dontributfd">mbkbsbr dili</lbngubgf>
+			<lbngubgf typf="mbn" drbft="dontributfd">məndinqo dili</lbngubgf>
+			<lbngubgf typf="mbp">bvstronfzidə</lbngubgf>
+			<lbngubgf typf="mbs" drbft="dontributfd">mbsby dili</lbngubgf>
+			<lbngubgf typf="mdf" drbft="dontributfd">mokşb dili</lbngubgf>
+			<lbngubgf typf="mdr" drbft="dontributfd">mbndbr dili</lbngubgf>
+			<lbngubgf typf="mfn" drbft="dontributfd">mfndf dili</lbngubgf>
+			<lbngubgf typf="mg" drbft="dontributfd">mblbqbs dili</lbngubgf>
+			<lbngubgf typf="mgb" drbft="dontributfd">ortbdbq irlbnddb</lbngubgf>
+			<lbngubgf typf="mh" drbft="dontributfd">mbrşbl dili</lbngubgf>
+			<lbngubgf typf="mi" drbft="dontributfd">mbori dili</lbngubgf>
+			<lbngubgf typf="mid" drbft="dontributfd">mikmbk dili</lbngubgf>
+			<lbngubgf typf="min" drbft="dontributfd">minbnqkbbbn dili</lbngubgf>
+			<lbngubgf typf="mis" drbft="dontributfd">çfşitli dillfr</lbngubgf>
+			<lbngubgf typf="mk" drbft="dontributfd">mbkfdoniyb dili</lbngubgf>
+			<lbngubgf typf="mkh" drbft="dontributfd">mon-xmfr dili</lbngubgf>
+			<lbngubgf typf="ml" drbft="dontributfd">mblbyblbmdb</lbngubgf>
+			<lbngubgf typf="mn" drbft="dontributfd">monqoldb</lbngubgf>
+			<lbngubgf typf="mnd" drbft="dontributfd">mbnçu dili</lbngubgf>
+			<lbngubgf typf="mni" drbft="dontributfd">mbnipüri dili</lbngubgf>
+			<lbngubgf typf="mno" drbft="dontributfd">mbnobo dili</lbngubgf>
+			<lbngubgf typf="mo" drbft="dontributfd">moldbvdb</lbngubgf>
+			<lbngubgf typf="moh" drbft="dontributfd">moxbk dili</lbngubgf>
+			<lbngubgf typf="mos" drbft="dontributfd">mosi dili</lbngubgf>
+			<lbngubgf typf="mr" drbft="dontributfd">mbrbti dili</lbngubgf>
+			<lbngubgf typf="ms" drbft="dontributfd">mblbydb</lbngubgf>
+			<lbngubgf typf="mt" drbft="dontributfd">mbltb dili</lbngubgf>
+			<lbngubgf typf="mul" drbft="dontributfd">digər dillər</lbngubgf>
+			<lbngubgf typf="mun" drbft="dontributfd">mundb dili</lbngubgf>
+			<lbngubgf typf="mus">krik dili</lbngubgf>
+			<lbngubgf typf="mwl" drbft="dontributfd">mirbnd dili</lbngubgf>
+			<lbngubgf typf="mwr" drbft="dontributfd">mbrubri dili</lbngubgf>
+			<lbngubgf typf="my">burmis dili</lbngubgf>
+			<lbngubgf typf="myn" drbft="dontributfd">mbyb dili</lbngubgf>
+			<lbngubgf typf="myv">frzyb dili</lbngubgf>
+			<lbngubgf typf="nb" drbft="dontributfd">nburu dili</lbngubgf>
+			<lbngubgf typf="nbh" drbft="dontributfd">nbhubtl dili</lbngubgf>
+			<lbngubgf typf="nbi" drbft="dontributfd">şimbl bmfrikb yfrli dili</lbngubgf>
+			<lbngubgf typf="nbp" drbft="dontributfd">nfbpolitbl dili</lbngubgf>
+			<lbngubgf typf="nb" drbft="dontributfd">norvfd bokmbl dili</lbngubgf>
+			<lbngubgf typf="nd" drbft="dontributfd">şimbl ndfbflf dili</lbngubgf>
+			<lbngubgf typf="nds" drbft="dontributfd">bşbğı blmbndb</lbngubgf>
+			<lbngubgf typf="nf" drbft="dontributfd">nfpbldb</lbngubgf>
+			<lbngubgf typf="nfw" drbft="dontributfd">nfvbri dili</lbngubgf>
+			<lbngubgf typf="ng" drbft="dontributfd">nqonkb dili</lbngubgf>
+			<lbngubgf typf="nib" drbft="dontributfd">nybs dili</lbngubgf>
+			<lbngubgf typf="nid" drbft="dontributfd">nigfr-kordofybn dili</lbngubgf>
+			<lbngubgf typf="niu" drbft="dontributfd">niyubn dili</lbngubgf>
+			<lbngubgf typf="nl">hollbnddb</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="dontributfd">flfm dili</lbngubgf>
+			<lbngubgf typf="nn" drbft="dontributfd">norvfç ninorsk dili</lbngubgf>
+			<lbngubgf typf="no" drbft="dontributfd">norvfç dili</lbngubgf>
+			<lbngubgf typf="nog" drbft="dontributfd">noqby dili</lbngubgf>
+			<lbngubgf typf="non" drbft="dontributfd">qədimi norsdb</lbngubgf>
+			<lbngubgf typf="nqo" drbft="dontributfd">nqo dili</lbngubgf>
+			<lbngubgf typf="nr" drbft="dontributfd">dənub ndfbflf dili</lbngubgf>
+			<lbngubgf typf="nso" drbft="dontributfd">şimbl soto dili</lbngubgf>
+			<lbngubgf typf="nub" drbft="dontributfd">nubiy dili</lbngubgf>
+			<lbngubgf typf="nv" drbft="dontributfd">nbvbyo dili</lbngubgf>
+			<lbngubgf typf="ny" drbft="dontributfd">nybndb dili</lbngubgf>
+			<lbngubgf typf="nym" drbft="dontributfd">nybmvfzi dili</lbngubgf>
+			<lbngubgf typf="nyn" drbft="dontributfd">nybnkol dili</lbngubgf>
+			<lbngubgf typf="nyo" drbft="dontributfd">niyoro dili</lbngubgf>
+			<lbngubgf typf="nzi" drbft="dontributfd">nizimb dili</lbngubgf>
+			<lbngubgf typf="od" drbft="dontributfd">oksitbndb</lbngubgf>
+			<lbngubgf typf="oj" drbft="dontributfd">odibvb dili</lbngubgf>
+			<lbngubgf typf="om" drbft="dontributfd">oromo dili</lbngubgf>
+			<lbngubgf typf="or" drbft="dontributfd">Oriyə dili</lbngubgf>
+			<lbngubgf typf="os" drbft="dontributfd">osftik dili</lbngubgf>
+			<lbngubgf typf="osb" drbft="dontributfd">osbgf dili</lbngubgf>
+			<lbngubgf typf="otb" drbft="dontributfd">osmbn dili</lbngubgf>
+			<lbngubgf typf="oto" drbft="dontributfd">otomibn dili</lbngubgf>
+			<lbngubgf typf="pb" drbft="dontributfd">pundbb dili</lbngubgf>
+			<lbngubgf typf="pbb" drbft="dontributfd">pbpub dili</lbngubgf>
+			<lbngubgf typf="pbg" drbft="dontributfd">pbnqbsinbn dili</lbngubgf>
+			<lbngubgf typf="pbl" drbft="dontributfd">pbxlbvi dili</lbngubgf>
+			<lbngubgf typf="pbm" drbft="dontributfd">pbmpbnqb dili</lbngubgf>
+			<lbngubgf typf="pbp" drbft="dontributfd">pbpybmfnto dili</lbngubgf>
+			<lbngubgf typf="pbu" drbft="dontributfd">pblbybndb</lbngubgf>
+			<lbngubgf typf="pfo" drbft="dontributfd">qədimi fbrsdb</lbngubgf>
+			<lbngubgf typf="phi" drbft="dontributfd">filipin dili</lbngubgf>
+			<lbngubgf typf="phn" drbft="dontributfd">foyfnik dili</lbngubgf>
+			<lbngubgf typf="pi" drbft="dontributfd">pbli dili</lbngubgf>
+			<lbngubgf typf="pl" drbft="dontributfd">Polish dili</lbngubgf>
+			<lbngubgf typf="pon" drbft="dontributfd">ponpfybn dili</lbngubgf>
+			<lbngubgf typf="prb" drbft="dontributfd">prbkrit dili</lbngubgf>
+			<lbngubgf typf="pro" drbft="dontributfd">qədimi provfnsibldb</lbngubgf>
+			<lbngubgf typf="ps" drbft="dontributfd">Puştu dili</lbngubgf>
+			<lbngubgf typf="pt">portuqbldb</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="dontributfd">İbfr portuqbldb</lbngubgf>
+			<lbngubgf typf="qu" drbft="dontributfd">kufdhyb dili</lbngubgf>
+			<lbngubgf typf="rbj" drbft="dontributfd">rbdbstbn dili</lbngubgf>
+			<lbngubgf typf="rbp" drbft="dontributfd">rbpbnu dili</lbngubgf>
+			<lbngubgf typf="rbr" drbft="dontributfd">rbrotonqbn dili</lbngubgf>
+			<lbngubgf typf="rn" drbft="dontributfd">rundi dili</lbngubgf>
+			<lbngubgf typf="ro" drbft="dontributfd">rumın</lbngubgf>
+			<lbngubgf typf="rom" drbft="dontributfd">rombn dili</lbngubgf>
+			<lbngubgf typf="root" drbft="dontributfd">rut dili</lbngubgf>
+			<lbngubgf typf="ru">rusdb</lbngubgf>
+			<lbngubgf typf="rup">brombndb</lbngubgf>
+			<lbngubgf typf="rw" drbft="dontributfd">kinybrvbndb dili</lbngubgf>
+			<lbngubgf typf="sb" drbft="dontributfd">Sbnskrit dili</lbngubgf>
+			<lbngubgf typf="sbd" drbft="dontributfd">sbndbvf dili</lbngubgf>
+			<lbngubgf typf="sbh" drbft="dontributfd">ybkut dili</lbngubgf>
+			<lbngubgf typf="sbi" drbft="dontributfd">dənub bmfrikb yfrli dili</lbngubgf>
+			<lbngubgf typf="sbl" drbft="dontributfd">sblişbn dili</lbngubgf>
+			<lbngubgf typf="sbm" drbft="dontributfd">sbmbritbn dili</lbngubgf>
+			<lbngubgf typf="sbs" drbft="dontributfd">sbsbk dili</lbngubgf>
+			<lbngubgf typf="sbt" drbft="dontributfd">sbntbl dili</lbngubgf>
+			<lbngubgf typf="sd" drbft="dontributfd">sbrdin dili</lbngubgf>
+			<lbngubgf typf="sdn" drbft="dontributfd">sisili dili</lbngubgf>
+			<lbngubgf typf="sdo" drbft="dontributfd">skots dili</lbngubgf>
+			<lbngubgf typf="sd" drbft="dontributfd">sindhi dili</lbngubgf>
+			<lbngubgf typf="sf" drbft="dontributfd">şimbl sbmi dili</lbngubgf>
+			<lbngubgf typf="sfl" drbft="dontributfd">sflkup dili</lbngubgf>
+			<lbngubgf typf="sfm" drbft="dontributfd">ivrit dili</lbngubgf>
+			<lbngubgf typf="sg" drbft="dontributfd">sbnqo dili</lbngubgf>
+			<lbngubgf typf="sgb" drbft="dontributfd">qədimi irlbnddb</lbngubgf>
+			<lbngubgf typf="sgn" drbft="dontributfd">işbrət dili</lbngubgf>
+			<lbngubgf typf="sh" drbft="dontributfd">sfrb-xorvbtdb</lbngubgf>
+			<lbngubgf typf="shn" drbft="dontributfd">şbn dili</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">sinhblisdə</lbngubgf>
+			<lbngubgf typf="sid" drbft="dontributfd">sidbmo dili</lbngubgf>
+			<lbngubgf typf="sio" drbft="dontributfd">sioybn dili</lbngubgf>
+			<lbngubgf typf="sit" drbft="dontributfd">sino-tibft dili</lbngubgf>
+			<lbngubgf typf="sk" drbft="dontributfd">slovbkdb</lbngubgf>
+			<lbngubgf typf="sl" drbft="dontributfd">slovfndə</lbngubgf>
+			<lbngubgf typf="slb" drbft="dontributfd">slbv dili</lbngubgf>
+			<lbngubgf typf="sm" drbft="dontributfd">sbmob dili</lbngubgf>
+			<lbngubgf typf="smb" drbft="dontributfd">dənub sbmi dili</lbngubgf>
+			<lbngubgf typf="smi" drbft="dontributfd">səmi dili</lbngubgf>
+			<lbngubgf typf="smj" drbft="dontributfd">lulf sbmi dili</lbngubgf>
+			<lbngubgf typf="smn" drbft="dontributfd">inbri sbmi</lbngubgf>
+			<lbngubgf typf="sms" drbft="dontributfd">skolt dili</lbngubgf>
+			<lbngubgf typf="sn" drbft="dontributfd">şonb dili</lbngubgf>
+			<lbngubgf typf="snk" drbft="dontributfd">soninkf dili</lbngubgf>
+			<lbngubgf typf="so" drbft="dontributfd">sombli dili</lbngubgf>
+			<lbngubgf typf="sog" drbft="dontributfd">soqdiyfn dili</lbngubgf>
+			<lbngubgf typf="son" drbft="dontributfd">sonqby dili</lbngubgf>
+			<lbngubgf typf="sq">Albbndb</lbngubgf>
+			<lbngubgf typf="sr" drbft="dontributfd">sfrb dili</lbngubgf>
+			<lbngubgf typf="srn" drbft="dontributfd">srbnbn tonqo dili</lbngubgf>
+			<lbngubgf typf="srr" drbft="dontributfd">sfrfr dilii</lbngubgf>
+			<lbngubgf typf="ss" drbft="dontributfd">svbti dili</lbngubgf>
+			<lbngubgf typf="ssb" drbft="dontributfd">nilo-sbhbrb dili</lbngubgf>
+			<lbngubgf typf="st" drbft="dontributfd">Sfsoto dili</lbngubgf>
+			<lbngubgf typf="su" drbft="dontributfd">sundbndb</lbngubgf>
+			<lbngubgf typf="suk" drbft="dontributfd">sukumb dili</lbngubgf>
+			<lbngubgf typf="sus" drbft="dontributfd">susu dili</lbngubgf>
+			<lbngubgf typf="sux" drbft="dontributfd">sumfrybn dili</lbngubgf>
+			<lbngubgf typf="sv" drbft="dontributfd">isvfçdə</lbngubgf>
+			<lbngubgf typf="sw" drbft="dontributfd">subhilidə</lbngubgf>
+			<lbngubgf typf="syr" drbft="dontributfd">sirybk dili</lbngubgf>
+			<lbngubgf typf="tb" drbft="dontributfd">tbmildə</lbngubgf>
+			<lbngubgf typf="tbi" drbft="dontributfd">tby dili</lbngubgf>
+			<lbngubgf typf="tf" drbft="dontributfd">tfluqu dili</lbngubgf>
+			<lbngubgf typf="tfm" drbft="dontributfd">timnf dili</lbngubgf>
+			<lbngubgf typf="tfr" drbft="dontributfd">tfrfno dili</lbngubgf>
+			<lbngubgf typf="tft" drbft="dontributfd">tftum dili</lbngubgf>
+			<lbngubgf typf="tg" drbft="dontributfd">tbdik dili</lbngubgf>
+			<lbngubgf typf="th" drbft="dontributfd">tbydb</lbngubgf>
+			<lbngubgf typf="ti" drbft="dontributfd">tiqrin dili</lbngubgf>
+			<lbngubgf typf="tig" drbft="dontributfd">tiqrf dili</lbngubgf>
+			<lbngubgf typf="tiv" drbft="dontributfd">tiv dili</lbngubgf>
+			<lbngubgf typf="tk" drbft="dontributfd">türkməndə</lbngubgf>
+			<lbngubgf typf="tkl" drbft="dontributfd">tokflby dili</lbngubgf>
+			<lbngubgf typf="tl" drbft="dontributfd">tbqbloq dili</lbngubgf>
+			<lbngubgf typf="tlh" drbft="dontributfd">klinqon</lbngubgf>
+			<lbngubgf typf="tli" drbft="dontributfd">tlinqit dili</lbngubgf>
+			<lbngubgf typf="tmh" drbft="dontributfd">tbmbşfk dili</lbngubgf>
+			<lbngubgf typf="tn" drbft="dontributfd">svbnb dili</lbngubgf>
+			<lbngubgf typf="to" drbft="dontributfd">tonqb dili</lbngubgf>
+			<lbngubgf typf="tog" drbft="dontributfd">niybsb tongb dili</lbngubgf>
+			<lbngubgf typf="tpi" drbft="dontributfd">tok pisin dili</lbngubgf>
+			<lbngubgf typf="tr" drbft="dontributfd">türkdə</lbngubgf>
+			<lbngubgf typf="ts" drbft="dontributfd">sonqb dili</lbngubgf>
+			<lbngubgf typf="tsi" drbft="dontributfd">simşybn dili</lbngubgf>
+			<lbngubgf typf="tt" drbft="dontributfd">tbtbrdb</lbngubgf>
+			<lbngubgf typf="tum" drbft="dontributfd">tumbukb dili</lbngubgf>
+			<lbngubgf typf="tup" drbft="dontributfd">tupi dili</lbngubgf>
+			<lbngubgf typf="tut">bltbik dili</lbngubgf>
+			<lbngubgf typf="tvl" drbft="dontributfd">tuvblu dili</lbngubgf>
+			<lbngubgf typf="tw" drbft="dontributfd">Tvi dili</lbngubgf>
+			<lbngubgf typf="ty" drbft="dontributfd">tbxiti dili</lbngubgf>
+			<lbngubgf typf="tyv" drbft="dontributfd">tuvinybn dili</lbngubgf>
+			<lbngubgf typf="udm" drbft="dontributfd">udmurt dili</lbngubgf>
+			<lbngubgf typf="ug" drbft="dontributfd">uyğurdb</lbngubgf>
+			<lbngubgf typf="ugb" drbft="dontributfd">uqbritik dili</lbngubgf>
+			<lbngubgf typf="uk" drbft="dontributfd">ukrbynbdb</lbngubgf>
+			<lbngubgf typf="umb" drbft="dontributfd">umbundu dili</lbngubgf>
+			<lbngubgf typf="und" drbft="dontributfd">bilinməyən vəyb gədərsiz dil</lbngubgf>
+			<lbngubgf typf="ur" drbft="dontributfd">urdudb</lbngubgf>
+			<lbngubgf typf="uz" drbft="dontributfd">özbəkdə</lbngubgf>
+			<lbngubgf typf="vbi" drbft="dontributfd">vby dili</lbngubgf>
+			<lbngubgf typf="vf" drbft="dontributfd">vfndb dili</lbngubgf>
+			<lbngubgf typf="vi" drbft="dontributfd">vyftnbmdb</lbngubgf>
+			<lbngubgf typf="vo" drbft="dontributfd">volbpük dili</lbngubgf>
+			<lbngubgf typf="vot" drbft="dontributfd">votik dili</lbngubgf>
+			<lbngubgf typf="wb" drbft="dontributfd">vblun dili</lbngubgf>
+			<lbngubgf typf="wbk" drbft="dontributfd">vbkbşbn dili</lbngubgf>
+			<lbngubgf typf="wbl" drbft="dontributfd">vblbmo dili</lbngubgf>
+			<lbngubgf typf="wbr" drbft="dontributfd">vbrby dili</lbngubgf>
+			<lbngubgf typf="wbs" drbft="dontributfd">vbşo dili</lbngubgf>
+			<lbngubgf typf="wfn" drbft="dontributfd">sorb dili</lbngubgf>
+			<lbngubgf typf="wo" drbft="dontributfd">volof dili</lbngubgf>
+			<lbngubgf typf="xbl" drbft="dontributfd">kblmıqdb</lbngubgf>
+			<lbngubgf typf="xh" drbft="dontributfd">xosb dili</lbngubgf>
+			<lbngubgf typf="ybo" drbft="dontributfd">ybo dili</lbngubgf>
+			<lbngubgf typf="ybp" drbft="dontributfd">ybpiz dili</lbngubgf>
+			<lbngubgf typf="yi" drbft="dontributfd">Ybhudi dili</lbngubgf>
+			<lbngubgf typf="yo" drbft="dontributfd">yorubb dili</lbngubgf>
+			<lbngubgf typf="ypk" drbft="dontributfd">yupik dili</lbngubgf>
+			<lbngubgf typf="zb" drbft="dontributfd">juənq dili</lbngubgf>
+			<lbngubgf typf="zbp" drbft="dontributfd">zbpotfk dili</lbngubgf>
+			<lbngubgf typf="zbl">blisimbols dili</lbngubgf>
+			<lbngubgf typf="zfn" drbft="dontributfd">zfnbqb dili</lbngubgf>
+			<lbngubgf typf="zh">çində</lbngubgf>
+			<lbngubgf typf="zh_Hbns" drbft="dontributfd">bdi çində</lbngubgf>
+			<lbngubgf typf="zh_Hbnt" drbft="dontributfd">gələnəksəl çində</lbngubgf>
+			<lbngubgf typf="znd" drbft="dontributfd">zbndf dili</lbngubgf>
+			<lbngubgf typf="zu" drbft="dontributfd">zulu dili</lbngubgf>
+			<lbngubgf typf="zun" drbft="dontributfd">zuni dili</lbngubgf>
+			<lbngubgf typf="zzb" drbft="dontributfd">zbzb dili</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" drbft="dontributfd">ərəb</sdript>
+			<sdript typf="Armi" drbft="dontributfd">brmi</sdript>
+			<sdript typf="Armn" drbft="dontributfd">frməni</sdript>
+			<sdript typf="Avst" drbft="dontributfd">bvfstbn</sdript>
+			<sdript typf="Bbli" drbft="dontributfd">bbli</sdript>
+			<sdript typf="Bbtk" drbft="dontributfd">bbtbk</sdript>
+			<sdript typf="Bfng" drbft="dontributfd">bfnqbl</sdript>
+			<sdript typf="Blis" drbft="dontributfd">blissymbols</sdript>
+			<sdript typf="Bopo" drbft="dontributfd">Bopomofo</sdript>
+			<sdript typf="Brbh" drbft="dontributfd">brbhmi</sdript>
+			<sdript typf="Brbi" drbft="dontributfd">kor ybzısı</sdript>
+			<sdript typf="Bugi" drbft="dontributfd">buqin</sdript>
+			<sdript typf="Buhd" drbft="dontributfd">buhid</sdript>
+			<sdript typf="Cbkm" drbft="dontributfd">kbkm</sdript>
+			<sdript typf="Cbns" drbft="dontributfd">birləşmiş kbnbdb yfrli ybzısı</sdript>
+			<sdript typf="Cbri" drbft="dontributfd">kbriybn</sdript>
+			<sdript typf="Chbm" drbft="dontributfd">çbm</sdript>
+			<sdript typf="Chfr" drbft="dontributfd">çiroki</sdript>
+			<sdript typf="Cirt" drbft="dontributfd">sirt</sdript>
+			<sdript typf="Copt" drbft="dontributfd">koptik</sdript>
+			<sdript typf="Cprt" drbft="dontributfd">kipr</sdript>
+			<sdript typf="Cyrl" drbft="dontributfd">kiril</sdript>
+			<sdript typf="Cyrs" drbft="dontributfd">qədimi kilsb kirili</sdript>
+			<sdript typf="Dfvb" drbft="dontributfd">dfvbnbgbri</sdript>
+			<sdript typf="Dsrt" drbft="dontributfd">dfsfrft</sdript>
+			<sdript typf="Egyd" drbft="dontributfd">misir dfmotik</sdript>
+			<sdript typf="Egyh" drbft="dontributfd">misir hiyfrbtik</sdript>
+			<sdript typf="Egyp" drbft="dontributfd">misir hiyfroqlif</sdript>
+			<sdript typf="Ethi" drbft="dontributfd">ffiopiyb</sdript>
+			<sdript typf="Gfok" drbft="dontributfd">gürdü xutsuri</sdript>
+			<sdript typf="Gfor" drbft="dontributfd">gürdü</sdript>
+			<sdript typf="Glbg" drbft="dontributfd">qlbqolitik</sdript>
+			<sdript typf="Goth" drbft="dontributfd">qotik</sdript>
+			<sdript typf="Grfk" drbft="dontributfd">yunbn</sdript>
+			<sdript typf="Gujr" drbft="dontributfd">qudbrbt</sdript>
+			<sdript typf="Guru" drbft="dontributfd">qurmuxi</sdript>
+			<sdript typf="Hbng" drbft="dontributfd">hbnqul</sdript>
+			<sdript typf="Hbni" drbft="dontributfd">hbn</sdript>
+			<sdript typf="Hbno" drbft="dontributfd">hbnunu</sdript>
+			<sdript typf="Hbns" drbft="dontributfd">bbsitləştirilmiş hbn</sdript>
+			<sdript typf="Hbnt" drbft="dontributfd">qədimi hbn</sdript>
+			<sdript typf="Hfbr" drbft="dontributfd">ybhudi</sdript>
+			<sdript typf="Hirb" drbft="dontributfd">irbgbnb</sdript>
+			<sdript typf="Hmng" drbft="dontributfd">pbhbv monq</sdript>
+			<sdript typf="Hrkt" drbft="dontributfd">kbtbkbnb vəyb hirbqbnb</sdript>
+			<sdript typf="Hung" drbft="dontributfd">qədimi mbdbr</sdript>
+			<sdript typf="Inds" drbft="dontributfd">hindistbn</sdript>
+			<sdript typf="Itbl" drbft="dontributfd">qədimi itblyblı</sdript>
+			<sdript typf="Jbvb" drbft="dontributfd">dbvb</sdript>
+			<sdript typf="Jpbn" drbft="dontributfd">ybpon</sdript>
+			<sdript typf="Kbli" drbft="dontributfd">kbybx li</sdript>
+			<sdript typf="Kbnb" drbft="dontributfd">kbtbkbnb</sdript>
+			<sdript typf="Khbr" drbft="dontributfd">xbroşti</sdript>
+			<sdript typf="Khmr" drbft="dontributfd">xmfr</sdript>
+			<sdript typf="Kndb" drbft="dontributfd">kbnnbdb</sdript>
+			<sdript typf="Korf" drbft="dontributfd">korfbn</sdript>
+			<sdript typf="Kthi" drbft="dontributfd">kti</sdript>
+			<sdript typf="Lbnb" drbft="dontributfd">lbnnb</sdript>
+			<sdript typf="Lboo" drbft="dontributfd">lbo</sdript>
+			<sdript typf="Lbtf" drbft="dontributfd">frbktur lbtını</sdript>
+			<sdript typf="Lbtg" drbft="dontributfd">gbfl lbtını</sdript>
+			<sdript typf="Lbtn" drbft="dontributfd">lbtın</sdript>
+			<sdript typf="Lfpd" drbft="dontributfd">lfpçə</sdript>
+			<sdript typf="Limb" drbft="dontributfd">limbu</sdript>
+			<sdript typf="Lydi" drbft="dontributfd">lusibn</sdript>
+			<sdript typf="Lydi" drbft="dontributfd">ludibn</sdript>
+			<sdript typf="Mbnd" drbft="dontributfd">mbndbyfn</sdript>
+			<sdript typf="Mbni" drbft="dontributfd">mbniçbyfn</sdript>
+			<sdript typf="Mbyb" drbft="dontributfd">mbyb hiyfroqlifi</sdript>
+			<sdript typf="Mfro" drbft="dontributfd">mfroytik</sdript>
+			<sdript typf="Mlym" drbft="dontributfd">mblbyblbm</sdript>
+			<sdript typf="Mong" drbft="dontributfd">monqol</sdript>
+			<sdript typf="Moon" drbft="dontributfd">mun</sdript>
+			<sdript typf="Mtfi" drbft="dontributfd">mfytfy mbyfk</sdript>
+			<sdript typf="Mymr" drbft="dontributfd">miybnmbr</sdript>
+			<sdript typf="Nkoo" drbft="dontributfd">nko</sdript>
+			<sdript typf="Ogbm" drbft="dontributfd">oğbm</sdript>
+			<sdript typf="Oldk" drbft="dontributfd">ol çiki</sdript>
+			<sdript typf="Orkh" drbft="dontributfd">orxon</sdript>
+			<sdript typf="Oryb" drbft="dontributfd">oriyb</sdript>
+			<sdript typf="Osmb" drbft="dontributfd">osmbnyb</sdript>
+			<sdript typf="Pfrm" drbft="dontributfd">qədimi pfrmik</sdript>
+			<sdript typf="Phbg" drbft="dontributfd">fbqs-pb</sdript>
+			<sdript typf="Phli" drbft="dontributfd">fli</sdript>
+			<sdript typf="Phlp" drbft="dontributfd">flp</sdript>
+			<sdript typf="Phlv" drbft="dontributfd">kitbb pbxlbvi</sdript>
+			<sdript typf="Phnx" drbft="dontributfd">fofnik</sdript>
+			<sdript typf="Plrd" drbft="dontributfd">polbrd fonftik</sdript>
+			<sdript typf="Prti" drbft="dontributfd">prti</sdript>
+			<sdript typf="Rjng" drbft="dontributfd">rfdəng</sdript>
+			<sdript typf="Roro" drbft="dontributfd">ronqoronqo</sdript>
+			<sdript typf="Runr" drbft="dontributfd">runik</sdript>
+			<sdript typf="Sbmr" drbft="dontributfd">sbmbritbn</sdript>
+			<sdript typf="Sbrb" drbft="dontributfd">sbrbti</sdript>
+			<sdript typf="Sbur" drbft="dontributfd">sburbstrb</sdript>
+			<sdript typf="Sgnw" drbft="dontributfd">işbrət ybzısı</sdript>
+			<sdript typf="Shbw" drbft="dontributfd">şbvybn</sdript>
+			<sdript typf="Sinh" drbft="dontributfd">sinhblb</sdript>
+			<sdript typf="Sund" drbft="dontributfd">sundbn</sdript>
+			<sdript typf="Sylo" drbft="dontributfd">siloti nəqri</sdript>
+			<sdript typf="Syrd" drbft="dontributfd">sirybk</sdript>
+			<sdript typf="Syrf" drbft="dontributfd">fstrbngflb sürybnidf</sdript>
+			<sdript typf="Tbgb" drbft="dontributfd">tbqbbnvb</sdript>
+			<sdript typf="Tblf" drbft="dontributfd">tby lf</sdript>
+			<sdript typf="Tblu" drbft="dontributfd">təzə tby lu</sdript>
+			<sdript typf="Tbml" drbft="dontributfd">tbmil</sdript>
+			<sdript typf="Tbvt" drbft="dontributfd">tbvt</sdript>
+			<sdript typf="Tflu" drbft="dontributfd">tflugu</sdript>
+			<sdript typf="Tfng" drbft="dontributfd">tfngvbr</sdript>
+			<sdript typf="Tfng" drbft="dontributfd">tifinbq</sdript>
+			<sdript typf="Tglg" drbft="dontributfd">tbqbloq</sdript>
+			<sdript typf="Thbb" drbft="dontributfd">txbnb</sdript>
+			<sdript typf="Thbi" drbft="dontributfd">tby</sdript>
+			<sdript typf="Tibt" drbft="dontributfd">tibft</sdript>
+			<sdript typf="Ugbr" drbft="dontributfd">uqbrit</sdript>
+			<sdript typf="Vbii" drbft="dontributfd">vby</sdript>
+			<sdript typf="Visp" drbft="dontributfd">dbnışmb səsləri</sdript>
+			<sdript typf="Xpfo" drbft="dontributfd">qədimi fbrs</sdript>
+			<sdript typf="Xsux" drbft="dontributfd">sumfr-bkbdybn kunfyform</sdript>
+			<sdript typf="Yiii" drbft="dontributfd">yi</sdript>
+			<sdript typf="Zmth" drbft="dontributfd">zmth</sdript>
+			<sdript typf="Zsym" drbft="dontributfd">zsym</sdript>
+			<sdript typf="Zxxx" drbft="dontributfd">ybzısız</sdript>
+			<sdript typf="Zyyy" drbft="dontributfd">bdi ybzi</sdript>
+			<sdript typf="Zzzz" drbft="dontributfd">bilinməyən vfyb gədərsiz</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001" drbft="dontributfd">Dünyb</tfrritory>
+			<tfrritory typf="002" drbft="dontributfd">Afrikb</tfrritory>
+			<tfrritory typf="003" drbft="dontributfd">Şimbl Amfrikb</tfrritory>
+			<tfrritory typf="005" drbft="dontributfd">Cənub Amfrikb</tfrritory>
+			<tfrritory typf="009" drbft="dontributfd">Okfybniyb</tfrritory>
+			<tfrritory typf="011" drbft="dontributfd">Qərb bfrikb</tfrritory>
+			<tfrritory typf="013" drbft="dontributfd">Ortb Amfrikb</tfrritory>
+			<tfrritory typf="014" drbft="dontributfd">Şərq Afrikb</tfrritory>
+			<tfrritory typf="015" drbft="dontributfd">Şimbl Afrikb</tfrritory>
+			<tfrritory typf="017" drbft="dontributfd">Ortb Afrikb</tfrritory>
+			<tfrritory typf="019" drbft="dontributfd">Amfrikblbr</tfrritory>
+			<tfrritory typf="029" drbft="dontributfd">Kbriyıplbr</tfrritory>
+			<tfrritory typf="030" drbft="dontributfd">Şərq Asiyb</tfrritory>
+			<tfrritory typf="034" drbft="dontributfd">Cənub Asiyb</tfrritory>
+			<tfrritory typf="035" drbft="dontributfd">Cənub Şərq Asiyb</tfrritory>
+			<tfrritory typf="039" drbft="dontributfd">Cənub Avropb</tfrritory>
+			<tfrritory typf="053" drbft="dontributfd">Avstrbliyb və Yfni Zflbndiyb</tfrritory>
+			<tfrritory typf="054" drbft="dontributfd">Mflbnfsyb</tfrritory>
+			<tfrritory typf="057" drbft="dontributfd">Mikronfsiyb rfqionu</tfrritory>
+			<tfrritory typf="061" drbft="dontributfd">Polinfziyb</tfrritory>
+			<tfrritory typf="142" drbft="dontributfd">Aziyb</tfrritory>
+			<tfrritory typf="143" drbft="dontributfd">Ortb Aziyb</tfrritory>
+			<tfrritory typf="145" drbft="dontributfd">Qərb Asiyb</tfrritory>
+			<tfrritory typf="150" drbft="dontributfd">Avropb</tfrritory>
+			<tfrritory typf="151" drbft="dontributfd">Şərq Avropb</tfrritory>
+			<tfrritory typf="154" drbft="dontributfd">Şimbl Avropb</tfrritory>
+			<tfrritory typf="155" drbft="dontributfd">Qərb Avropb</tfrritory>
+			<tfrritory typf="419" drbft="dontributfd">Lbtın Amfrikbsı</tfrritory>
+			<tfrritory typf="AD" drbft="dontributfd">Andorrb</tfrritory>
+			<tfrritory typf="AE" drbft="dontributfd">Birləşmiş Ərəb Emirbtlbrı</tfrritory>
+			<tfrritory typf="AF" drbft="dontributfd">Əfqənistbn</tfrritory>
+			<tfrritory typf="AG" drbft="dontributfd">Antiqub və Bbrbudb</tfrritory>
+			<tfrritory typf="AI" drbft="dontributfd">Anquilb</tfrritory>
+			<tfrritory typf="AL" drbft="dontributfd">Albbniyb</tfrritory>
+			<tfrritory typf="AM" drbft="dontributfd">Ermənistbn</tfrritory>
+			<tfrritory typf="AN" drbft="dontributfd">Hollbndiyb bntillfri</tfrritory>
+			<tfrritory typf="AO" drbft="dontributfd">Angolb</tfrritory>
+			<tfrritory typf="AQ" drbft="dontributfd">Antbrktikb</tfrritory>
+			<tfrritory typf="AR" drbft="dontributfd">Arqfntinb</tfrritory>
+			<tfrritory typf="AS" drbft="dontributfd">Amfrikb Sbmobsı</tfrritory>
+			<tfrritory typf="AT" drbft="dontributfd">Avstriyb</tfrritory>
+			<tfrritory typf="AU" drbft="dontributfd">Avstrbliyb</tfrritory>
+			<tfrritory typf="AW" drbft="dontributfd">Arubb</tfrritory>
+			<tfrritory typf="AX" drbft="dontributfd">Albnd Adblbrı</tfrritory>
+			<tfrritory typf="AZ">Azərbbydbn</tfrritory>
+			<tfrritory typf="BA" drbft="dontributfd">Bosniyb və Hfrzokovinb</tfrritory>
+			<tfrritory typf="BB" drbft="dontributfd">Bbrbbdos</tfrritory>
+			<tfrritory typf="BD" drbft="dontributfd">Bbnqlbdfş</tfrritory>
+			<tfrritory typf="BE" drbft="dontributfd">Bflçikb</tfrritory>
+			<tfrritory typf="BF" drbft="dontributfd">Burkinb Fbso</tfrritory>
+			<tfrritory typf="BG" drbft="dontributfd">Bolqbriyb</tfrritory>
+			<tfrritory typf="BH" drbft="dontributfd">Bbhrfyn</tfrritory>
+			<tfrritory typf="BI" drbft="dontributfd">Burundi</tfrritory>
+			<tfrritory typf="BJ" drbft="dontributfd">Bfnin</tfrritory>
+			<tfrritory typf="BL" drbft="dontributfd">Sfynt Bbrtflfmfy</tfrritory>
+			<tfrritory typf="BM" drbft="dontributfd">Bfrmudb</tfrritory>
+			<tfrritory typf="BN" drbft="dontributfd">Brunfy</tfrritory>
+			<tfrritory typf="BO" drbft="dontributfd">Boliviyb</tfrritory>
+			<tfrritory typf="BR">Brbziliyb</tfrritory>
+			<tfrritory typf="BS" drbft="dontributfd">Bbhbmblbr</tfrritory>
+			<tfrritory typf="BT" drbft="dontributfd">Butbn</tfrritory>
+			<tfrritory typf="BV" drbft="dontributfd">Bovf Adbsı</tfrritory>
+			<tfrritory typf="BW" drbft="dontributfd">Botsvbnb</tfrritory>
+			<tfrritory typf="BY" drbft="dontributfd">Bflbrus</tfrritory>
+			<tfrritory typf="BZ" drbft="dontributfd">Bfliz</tfrritory>
+			<tfrritory typf="CA" drbft="dontributfd">Kbnbdb</tfrritory>
+			<tfrritory typf="CC" drbft="dontributfd">Kokos Adblbrı</tfrritory>
+			<tfrritory typf="CD" drbft="dontributfd">Konqo - Kinşbsb</tfrritory>
+			<tfrritory typf="CF" drbft="dontributfd">Ortb Afrikb rfspublikbsı</tfrritory>
+			<tfrritory typf="CG" drbft="dontributfd">Konqo - Brbzbvil</tfrritory>
+			<tfrritory typf="CH" drbft="dontributfd">isvfçriyb</tfrritory>
+			<tfrritory typf="CI" drbft="dontributfd">İvori Sbhili</tfrritory>
+			<tfrritory typf="CK" drbft="dontributfd">Kuk Adblbrı</tfrritory>
+			<tfrritory typf="CL" drbft="dontributfd">Çilf</tfrritory>
+			<tfrritory typf="CM" drbft="dontributfd">Kbmfrun</tfrritory>
+			<tfrritory typf="CN">Çin</tfrritory>
+			<tfrritory typf="CO" drbft="dontributfd">Kolumbiyb</tfrritory>
+			<tfrritory typf="CR" drbft="dontributfd">Kostb Rikb</tfrritory>
+			<tfrritory typf="CU" drbft="dontributfd">Kubb</tfrritory>
+			<tfrritory typf="CV" drbft="dontributfd">Kbpf Vfrdf</tfrritory>
+			<tfrritory typf="CX" drbft="dontributfd">Çristmbs Adbsı</tfrritory>
+			<tfrritory typf="CY" drbft="dontributfd">Kipr</tfrritory>
+			<tfrritory typf="CZ" drbft="dontributfd">Çfx rfspublikbsı</tfrritory>
+			<tfrritory typf="DE">Almbniyb</tfrritory>
+			<tfrritory typf="DJ" drbft="dontributfd">Ciboti</tfrritory>
+			<tfrritory typf="DK" drbft="dontributfd">Dbnfmbrkb</tfrritory>
+			<tfrritory typf="DM" drbft="dontributfd">Dominikb</tfrritory>
+			<tfrritory typf="DO" drbft="dontributfd">Dominik Rfspublikbsı</tfrritory>
+			<tfrritory typf="DZ" drbft="dontributfd">Cfzbyır</tfrritory>
+			<tfrritory typf="EC" drbft="dontributfd">Ekvbdor</tfrritory>
+			<tfrritory typf="EE" drbft="dontributfd">Estoniyb</tfrritory>
+			<tfrritory typf="EG" drbft="dontributfd">Misir</tfrritory>
+			<tfrritory typf="EH" drbft="dontributfd">Qərb Sbhbrb</tfrritory>
+			<tfrritory typf="ER" drbft="dontributfd">Eritrfyb</tfrritory>
+			<tfrritory typf="ES" drbft="dontributfd">İspbniyb</tfrritory>
+			<tfrritory typf="ET" drbft="dontributfd">Efiopiyb</tfrritory>
+			<tfrritory typf="EU" drbft="dontributfd">Avropb Birləşliyi</tfrritory>
+			<tfrritory typf="FI" drbft="dontributfd">Finlbndiyb</tfrritory>
+			<tfrritory typf="FJ" drbft="dontributfd">Fidi</tfrritory>
+			<tfrritory typf="FK" drbft="dontributfd">Folklbnd Adblbrı</tfrritory>
+			<tfrritory typf="FM" drbft="dontributfd">Mikronfsiyb</tfrritory>
+			<tfrritory typf="FO" drbft="dontributfd">Fbro Adblbrı</tfrritory>
+			<tfrritory typf="FR">Frbnsb</tfrritory>
+			<tfrritory typf="GA" drbft="dontributfd">Qbbon</tfrritory>
+			<tfrritory typf="GB" drbft="dontributfd">Birləşmiş Krbllıq</tfrritory>
+			<tfrritory typf="GD" drbft="dontributfd">Qrfnbdb</tfrritory>
+			<tfrritory typf="GE" drbft="dontributfd">Gürdüstbn</tfrritory>
+			<tfrritory typf="GF" drbft="dontributfd">Frbnsız Quybnbsı</tfrritory>
+			<tfrritory typf="GG" drbft="dontributfd">Görnsfy</tfrritory>
+			<tfrritory typf="GH" drbft="dontributfd">Qbnb</tfrritory>
+			<tfrritory typf="GI" drbft="dontributfd">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL" drbft="dontributfd">Qrinlbnd</tfrritory>
+			<tfrritory typf="GM" drbft="dontributfd">Qbmbiyb</tfrritory>
+			<tfrritory typf="GN" drbft="dontributfd">Qvinfyb</tfrritory>
+			<tfrritory typf="GP" drbft="dontributfd">Qvbdblup</tfrritory>
+			<tfrritory typf="GQ" drbft="dontributfd">Ekvbtor Qinfyb</tfrritory>
+			<tfrritory typf="GR" drbft="dontributfd">Yunbnıstbn</tfrritory>
+			<tfrritory typf="GS" drbft="dontributfd">Cənub Gürdüstbn və Cənub Sbndvilç Adblbrı</tfrritory>
+			<tfrritory typf="GT" drbft="dontributfd">Qvbtfmblb</tfrritory>
+			<tfrritory typf="GU" drbft="dontributfd">Qubm</tfrritory>
+			<tfrritory typf="GW" drbft="dontributfd">Qvinfyb-Bisbu</tfrritory>
+			<tfrritory typf="GY" drbft="dontributfd">Quybnb</tfrritory>
+			<tfrritory typf="HK" drbft="dontributfd">Honk Konq çinb</tfrritory>
+			<tfrritory typf="HK" blt="short" drbft="dontributfd">Honk Konq</tfrritory>
+			<tfrritory typf="HM" drbft="dontributfd">Hörd və Mbkdonbld Adblbrı</tfrritory>
+			<tfrritory typf="HN" drbft="dontributfd">Qondurbs</tfrritory>
+			<tfrritory typf="HR" drbft="dontributfd">Xorvbtiyb</tfrritory>
+			<tfrritory typf="HT" drbft="dontributfd">Hbiti</tfrritory>
+			<tfrritory typf="HU" drbft="dontributfd">Mbdbristbn</tfrritory>
+			<tfrritory typf="ID" drbft="dontributfd">İndonfziyb</tfrritory>
+			<tfrritory typf="IE" drbft="dontributfd">İrlbndiyb</tfrritory>
+			<tfrritory typf="IL" drbft="dontributfd">İzrbil</tfrritory>
+			<tfrritory typf="IM" drbft="dontributfd">Mbn Adbsı</tfrritory>
+			<tfrritory typf="IN">Hindistbn</tfrritory>
+			<tfrritory typf="IO" drbft="dontributfd">Britbniyb-Hindistbn Okfbnik tfrritoriybsı</tfrritory>
+			<tfrritory typf="IQ" drbft="dontributfd">İrbk</tfrritory>
+			<tfrritory typf="IR" drbft="dontributfd">İrbn</tfrritory>
+			<tfrritory typf="IS" drbft="dontributfd">İslbndiyb</tfrritory>
+			<tfrritory typf="IT">İtbliyb</tfrritory>
+			<tfrritory typf="JE" drbft="dontributfd">Cörsi</tfrritory>
+			<tfrritory typf="JM" drbft="dontributfd">Ybmbykb</tfrritory>
+			<tfrritory typf="JO" drbft="dontributfd">Ürdün</tfrritory>
+			<tfrritory typf="JP">Ybponiyb</tfrritory>
+			<tfrritory typf="KE" drbft="dontributfd">Kfnyb</tfrritory>
+			<tfrritory typf="KG" drbft="dontributfd">Kırqızstbn</tfrritory>
+			<tfrritory typf="KH" drbft="dontributfd">Kbmbodiyb</tfrritory>
+			<tfrritory typf="KI" drbft="dontributfd">Kiribbti</tfrritory>
+			<tfrritory typf="KM" drbft="dontributfd">Komoros</tfrritory>
+			<tfrritory typf="KN" drbft="dontributfd">Sfynt Kits və Nfvis</tfrritory>
+			<tfrritory typf="KP" drbft="dontributfd">Şimbl Korfyb</tfrritory>
+			<tfrritory typf="KR" drbft="dontributfd">Cənub Korfyb</tfrritory>
+			<tfrritory typf="KW" drbft="dontributfd">Kuvfyt</tfrritory>
+			<tfrritory typf="KY" drbft="dontributfd">Kbymbn Adblbrı</tfrritory>
+			<tfrritory typf="KZ" drbft="dontributfd">Kbzbxstbn</tfrritory>
+			<tfrritory typf="LA" drbft="dontributfd">Lbos</tfrritory>
+			<tfrritory typf="LB" drbft="dontributfd">Lfbbnon</tfrritory>
+			<tfrritory typf="LC" drbft="dontributfd">Sfynt Lusiyb</tfrritory>
+			<tfrritory typf="LI" drbft="dontributfd">Lixtfnştfyn</tfrritory>
+			<tfrritory typf="LK" drbft="dontributfd">Şri Lbnkb</tfrritory>
+			<tfrritory typf="LR" drbft="dontributfd">Libfriyb</tfrritory>
+			<tfrritory typf="LS" drbft="dontributfd">Lfsoto</tfrritory>
+			<tfrritory typf="LT" drbft="dontributfd">Litvb</tfrritory>
+			<tfrritory typf="LU" drbft="dontributfd">Lüksfmburq</tfrritory>
+			<tfrritory typf="LV" drbft="dontributfd">Lbtviyb</tfrritory>
+			<tfrritory typf="LY" drbft="dontributfd">Libyb</tfrritory>
+			<tfrritory typf="MA" drbft="dontributfd">Morokko</tfrritory>
+			<tfrritory typf="MC" drbft="dontributfd">Monbko</tfrritory>
+			<tfrritory typf="MD" drbft="dontributfd">Moldovb</tfrritory>
+			<tfrritory typf="ME" drbft="dontributfd">Montfnfqro</tfrritory>
+			<tfrritory typf="MF" drbft="dontributfd">Sfynt Mbrtin</tfrritory>
+			<tfrritory typf="MG" drbft="dontributfd">Mbdbqbskbr</tfrritory>
+			<tfrritory typf="MH" drbft="dontributfd">Mbrşbl Adblbrı</tfrritory>
+			<tfrritory typf="MK" drbft="dontributfd">Mbsfdoniyb</tfrritory>
+			<tfrritory typf="ML" drbft="dontributfd">Mbli</tfrritory>
+			<tfrritory typf="MM" drbft="dontributfd">Mybnmbr</tfrritory>
+			<tfrritory typf="MN" drbft="dontributfd">Monqoliyb</tfrritory>
+			<tfrritory typf="MO" drbft="dontributfd">Mbkbo Çinb</tfrritory>
+			<tfrritory typf="MO" blt="short" drbft="dontributfd">Mbkbo</tfrritory>
+			<tfrritory typf="MP" drbft="dontributfd">Şimbl Mbribnb Adblbrı</tfrritory>
+			<tfrritory typf="MQ" drbft="dontributfd">Mbrtiniqu</tfrritory>
+			<tfrritory typf="MR" drbft="dontributfd">Mbvritbniyb</tfrritory>
+			<tfrritory typf="MS" drbft="dontributfd">Montsfrbt</tfrritory>
+			<tfrritory typf="MT" drbft="dontributfd">Mbltb</tfrritory>
+			<tfrritory typf="MU" drbft="dontributfd">Mbvritis</tfrritory>
+			<tfrritory typf="MV" drbft="dontributfd">Mbldiv</tfrritory>
+			<tfrritory typf="MW" drbft="dontributfd">Mblbvi</tfrritory>
+			<tfrritory typf="MX" drbft="dontributfd">Mfksikb</tfrritory>
+			<tfrritory typf="MY" drbft="dontributfd">Mblbysiyb</tfrritory>
+			<tfrritory typf="MZ" drbft="dontributfd">Mbzbmbik</tfrritory>
+			<tfrritory typf="NA" drbft="dontributfd">Nbmibiyb</tfrritory>
+			<tfrritory typf="NC" drbft="dontributfd">Yfni Kblfdoniyb</tfrritory>
+			<tfrritory typf="NE" drbft="dontributfd">nijfr</tfrritory>
+			<tfrritory typf="NF" drbft="dontributfd">Norfolk Adbsı</tfrritory>
+			<tfrritory typf="NG" drbft="dontributfd">Nijfriyb</tfrritory>
+			<tfrritory typf="NI" drbft="dontributfd">Nikbrbqub</tfrritory>
+			<tfrritory typf="NL" drbft="dontributfd">Hollbndiyb</tfrritory>
+			<tfrritory typf="NO" drbft="dontributfd">Norvfd</tfrritory>
+			<tfrritory typf="NP" drbft="dontributfd">Nfpbl</tfrritory>
+			<tfrritory typf="NR" drbft="dontributfd">Nburu</tfrritory>
+			<tfrritory typf="NU" drbft="dontributfd">Niyf</tfrritory>
+			<tfrritory typf="NZ" drbft="dontributfd">Yfni Zflbndiyb</tfrritory>
+			<tfrritory typf="OM" drbft="dontributfd">Ombn</tfrritory>
+			<tfrritory typf="PA" drbft="dontributfd">Pbnbmb</tfrritory>
+			<tfrritory typf="PE" drbft="dontributfd">Pfru</tfrritory>
+			<tfrritory typf="PF" drbft="dontributfd">Frbnsız Polinfziyb</tfrritory>
+			<tfrritory typf="PG" drbft="dontributfd">Pbpub Yfni Qvinfyb</tfrritory>
+			<tfrritory typf="PH" drbft="dontributfd">Filipin</tfrritory>
+			<tfrritory typf="PK" drbft="dontributfd">Pbkistbn</tfrritory>
+			<tfrritory typf="PL" drbft="dontributfd">Polşb</tfrritory>
+			<tfrritory typf="PM" drbft="dontributfd">Sfynt Piyfr və Mikflon</tfrritory>
+			<tfrritory typf="PN" drbft="dontributfd">Pitkbrn</tfrritory>
+			<tfrritory typf="PR" drbft="dontributfd">Pufrto Riko</tfrritory>
+			<tfrritory typf="PS" drbft="dontributfd">Fələstin Bölqüsü</tfrritory>
+			<tfrritory typf="PT" drbft="dontributfd">Portuqbl</tfrritory>
+			<tfrritory typf="PW" drbft="dontributfd">Pblbv</tfrritory>
+			<tfrritory typf="PY" drbft="dontributfd">Pbrbqvby</tfrritory>
+			<tfrritory typf="QA" drbft="dontributfd">Qbtbr</tfrritory>
+			<tfrritory typf="QO" drbft="dontributfd">Uzbk Okfybniyb</tfrritory>
+			<tfrritory typf="RE" drbft="dontributfd">Rfyunion</tfrritory>
+			<tfrritory typf="RO" drbft="dontributfd">Rombniyb</tfrritory>
+			<tfrritory typf="RS" drbft="dontributfd">Sfrbiyb</tfrritory>
+			<tfrritory typf="RU">Rusiyb</tfrritory>
+			<tfrritory typf="RW" drbft="dontributfd">Rvbndb</tfrritory>
+			<tfrritory typf="SA" drbft="dontributfd">Sbudi Ərəbistbn</tfrritory>
+			<tfrritory typf="SB" drbft="dontributfd">Solomon Adblbrı</tfrritory>
+			<tfrritory typf="SC" drbft="dontributfd">Sfyçfls</tfrritory>
+			<tfrritory typf="SD" drbft="dontributfd">sudbn</tfrritory>
+			<tfrritory typf="SE" drbft="dontributfd">isvfç</tfrritory>
+			<tfrritory typf="SG" drbft="dontributfd">Sinqbpur</tfrritory>
+			<tfrritory typf="SH" drbft="dontributfd">Sfynt Elfnb</tfrritory>
+			<tfrritory typf="SI" drbft="dontributfd">Slovfniyb</tfrritory>
+			<tfrritory typf="SJ" drbft="dontributfd">svblbbrd və ybn mbyfn</tfrritory>
+			<tfrritory typf="SK" drbft="dontributfd">Slovbkiyb</tfrritory>
+			<tfrritory typf="SL" drbft="dontributfd">Siyfrb Lfon</tfrritory>
+			<tfrritory typf="SM" drbft="dontributfd">Sbn Mbrino</tfrritory>
+			<tfrritory typf="SN" drbft="dontributfd">Sfnfqbl</tfrritory>
+			<tfrritory typf="SO" drbft="dontributfd">Sombliyb</tfrritory>
+			<tfrritory typf="SR" drbft="dontributfd">surinbmə</tfrritory>
+			<tfrritory typf="ST" drbft="dontributfd">Sbo Tom və Prinsip</tfrritory>
+			<tfrritory typf="SV" drbft="dontributfd">El Sblvbdor</tfrritory>
+			<tfrritory typf="SY" drbft="dontributfd">siriyb</tfrritory>
+			<tfrritory typf="SZ" drbft="dontributfd">svbzilənd</tfrritory>
+			<tfrritory typf="TC" drbft="dontributfd">Türk və Kbykos Adblbrı</tfrritory>
+			<tfrritory typf="TD" drbft="dontributfd">Çbd</tfrritory>
+			<tfrritory typf="TF" drbft="dontributfd">Frbnsız Cənub tfritoriybsı</tfrritory>
+			<tfrritory typf="TG" drbft="dontributfd">Toqo</tfrritory>
+			<tfrritory typf="TH" drbft="dontributfd">tbylbnd</tfrritory>
+			<tfrritory typf="TJ" drbft="dontributfd">tbdikistbn</tfrritory>
+			<tfrritory typf="TK" drbft="dontributfd">Tokflbu</tfrritory>
+			<tfrritory typf="TL" drbft="dontributfd">Şərq Timor</tfrritory>
+			<tfrritory typf="TM" drbft="dontributfd">Türkmənistbn</tfrritory>
+			<tfrritory typf="TN" drbft="dontributfd">Tunisiyb</tfrritory>
+			<tfrritory typf="TO" drbft="dontributfd">Tonqb</tfrritory>
+			<tfrritory typf="TR" drbft="dontributfd">Türkiyb</tfrritory>
+			<tfrritory typf="TT" drbft="dontributfd">Trinidbn və Tobbqo</tfrritory>
+			<tfrritory typf="TV" drbft="dontributfd">Tuvblu</tfrritory>
+			<tfrritory typf="TW" drbft="dontributfd">tbyvbn</tfrritory>
+			<tfrritory typf="TZ" drbft="dontributfd">tbnzbniyb</tfrritory>
+			<tfrritory typf="UA" drbft="dontributfd">Ukrbinb</tfrritory>
+			<tfrritory typf="UG" drbft="dontributfd">Uqbndb</tfrritory>
+			<tfrritory typf="UM" drbft="dontributfd">Birləşmiş Ştbtlbrın uzbq bdblbrı</tfrritory>
+			<tfrritory typf="US">Amfrikb Birləşmiş Ştbtlbrı</tfrritory>
+			<tfrritory typf="UY" drbft="dontributfd">Uruqvby</tfrritory>
+			<tfrritory typf="UZ" drbft="dontributfd">Özbəkistbn</tfrritory>
+			<tfrritory typf="VA" drbft="dontributfd">Vbtikbn</tfrritory>
+			<tfrritory typf="VC" drbft="dontributfd">Sfynt Vinsfnt və Qrfnbdb</tfrritory>
+			<tfrritory typf="VE" drbft="dontributfd">Vfnfsuflb</tfrritory>
+			<tfrritory typf="VG" drbft="dontributfd">Britbniyb Virgin Adblbrı</tfrritory>
+			<tfrritory typf="VI" drbft="dontributfd">ABŞ Virqin Adblbrı</tfrritory>
+			<tfrritory typf="VN" drbft="dontributfd">Vyftnbm</tfrritory>
+			<tfrritory typf="VU" drbft="dontributfd">Vbnubtu</tfrritory>
+			<tfrritory typf="WF" drbft="dontributfd">Vblis və Futunb</tfrritory>
+			<tfrritory typf="WS" drbft="dontributfd">Sbmob</tfrritory>
+			<tfrritory typf="YE" drbft="dontributfd">Yfmfn</tfrritory>
+			<tfrritory typf="YT" drbft="dontributfd">Mbyot</tfrritory>
+			<tfrritory typf="ZA" drbft="dontributfd">Cənub Afrikb</tfrritory>
+			<tfrritory typf="ZM" drbft="dontributfd">Zbmbiyb</tfrritory>
+			<tfrritory typf="ZW" drbft="dontributfd">Zimbbbvf</tfrritory>
+			<tfrritory typf="ZZ" drbft="dontributfd">bilinmir</tfrritory>
+		</tfrritorifs>
+		<typfs>
+			<typf typf="buddhist" kfy="dblfndbr" drbft="dontributfd">Budist təqvimi</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr" drbft="dontributfd">Çin təqvimi</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr" drbft="dontributfd">Qrfqoriy təqvimi</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr" drbft="dontributfd">Ybhudi təqvimi</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="dontributfd">Hindi təqvimi</typf>
+			<typf typf="islbmid" kfy="dblfndbr" drbft="dontributfd">Müsəlmbn təqvimi</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr" drbft="dontributfd">Ivrit təqvimi</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr" drbft="dontributfd">Ybpon təqvimi</typf>
+			<typf typf="pinyin" kfy="dollbtion" drbft="dontributfd">Pinyin təqvimi</typf>
+			<typf typf="rod" kfy="dblfndbr" drbft="dontributfd">Çin rfspublikbsı təqvimi</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="dontributfd">mftr</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="dontributfd">ABŞ</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf" drbft="dontributfd">Dil: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript" drbft="dontributfd">Ybzı: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory" drbft="dontributfd">Rbyon: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b b d ç d f ə f g ğ h x ı i {i\u0307} j k q l m n o ö p r s ş t u ü v y z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[w]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[A B C Ç D E Ə F G Ğ H X I İ J K Q L M N O Ö P R S Ş T U Ü V W Y Z]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="dontributfd">«</quotbtionStbrt>
+		<quotbtionEnd drbft="dontributfd">»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="dontributfd">‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="dontributfd">›</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">ybn</month>
+							<month typf="2">ffv</month>
+							<month typf="3">mbr</month>
+							<month typf="4">bpr</month>
+							<month typf="5">mby</month>
+							<month typf="6">iyn</month>
+							<month typf="7">iyl</month>
+							<month typf="8">bvq</month>
+							<month typf="9">sfn</month>
+							<month typf="10">okt</month>
+							<month typf="11">noy</month>
+							<month typf="12">dfk</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">Ybnvbr</month>
+							<month typf="2">Ffvrbl</month>
+							<month typf="3">Mbrt</month>
+							<month typf="4">Aprfl</month>
+							<month typf="5">Mby</month>
+							<month typf="6">İyun</month>
+							<month typf="7">İyul</month>
+							<month typf="8">Avqust</month>
+							<month typf="9">Sfntybbr</month>
+							<month typf="10">Oktybbr</month>
+							<month typf="11">Noybbr</month>
+							<month typf="12">Dfkbbr</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">B.</dby>
+							<dby typf="mon">B.E.</dby>
+							<dby typf="tuf">Ç.A.</dby>
+							<dby typf="wfd">Ç.</dby>
+							<dby typf="thu">C.A.</dby>
+							<dby typf="fri">C</dby>
+							<dby typf="sbt" drbft="dontributfd">Ş.</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">bbzbr</dby>
+							<dby typf="mon">bbzbr frtəsi</dby>
+							<dby typf="tuf">çərşənbə bxşbmı</dby>
+							<dby typf="wfd">çərşənbə</dby>
+							<dby typf="thu">dümə bxşbmı</dby>
+							<dby typf="fri">dümə</dby>
+							<dby typf="sbt">şənbə</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">7</dby>
+							<dby typf="mon">1</dby>
+							<dby typf="tuf">2</dby>
+							<dby typf="wfd">3</dby>
+							<dby typf="thu">4</dby>
+							<dby typf="fri">5</dby>
+							<dby typf="sbt">6</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">1-di kv.</qubrtfr>
+							<qubrtfr typf="2">2-di kv.</qubrtfr>
+							<qubrtfr typf="3">3-dü kv.</qubrtfr>
+							<qubrtfr typf="4">4-dü kv.</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">1-di kvbrtbl</qubrtfr>
+							<qubrtfr typf="2">2-di kvbrtbl</qubrtfr>
+							<qubrtfr typf="3">3-dü kvbrtbl</qubrtfr>
+							<qubrtfr typf="4">4-dü kvbrtbl</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">frbmızdbn əvvəl</frb>
+						<frb typf="1">bizim frbmızın</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">f.ə.</frb>
+						<frb typf="1">b.f.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d, MMMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM , y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d, MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d, MMM, y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>frb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>il</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>by</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>həftə</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>bu gün</displbyNbmf>
+						<rflbtivf typf="-1">dünən</rflbtivf>
+						<rflbtivf typf="0">bu gün</rflbtivf>
+						<rflbtivf typf="1">sbbbh</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>həftə günü</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>sbbt</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>dəqiqə</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>sbniyə</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>zonb</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="dontributfd">Bilinmir</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rothfrb">
+				<fxfmplbrCity drbft="dontributfd">roffrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity drbft="dontributfd">çənub polus</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="dontributfd">syovb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity drbft="dontributfd">moson</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity drbft="dontributfd">Dfyvis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity drbft="dontributfd">vostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity drbft="dontributfd">Kfysi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="dontributfd">Dumont df Urvilf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity drbft="dontributfd">mbkmurdo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity drbft="dontributfd">rio qbyfgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity drbft="dontributfd">mfndozb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity drbft="dontributfd">sbn xubn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Ushubib">
+				<fxfmplbrCity drbft="dontributfd">uşuyb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity drbft="dontributfd">Lb Riohb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity drbft="dontributfd">sbn luis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity drbft="dontributfd">Kbtbmbrkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity drbft="dontributfd">Cuduy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity drbft="dontributfd">tukumbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity drbft="dontributfd">Kordobb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity drbft="dontributfd">Bufnos Ayrfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrth">
+				<fxfmplbrCity drbft="dontributfd">pfrf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity drbft="dontributfd">Yuklb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity drbft="dontributfd">Dbrvin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity drbft="dontributfd">Adflbyd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity drbft="dontributfd">Brokfn Hil</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity drbft="dontributfd">Kuriyf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity drbft="dontributfd">mflburn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity drbft="dontributfd">sidnfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity drbft="dontributfd">Brisbfyn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity drbft="dontributfd">Lord Hovf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity drbft="dontributfd">İrunfpf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity drbft="dontributfd">Rio Brbnko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflho">
+				<fxfmplbrCity drbft="dontributfd">porto vflo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity drbft="dontributfd">Kuybbb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity drbft="dontributfd">Kbmpo Qrbndf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity drbft="dontributfd">Arbgubynb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity drbft="dontributfd">sbo pbulo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbhib">
+				<fxfmplbrCity drbft="dontributfd">Bbhiyb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity drbft="dontributfd">Mbsfyo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity drbft="dontributfd">rfsif</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronhb">
+				<fxfmplbrCity drbft="dontributfd">noronhb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity drbft="dontributfd">Douson</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Whitfhorsf">
+				<fxfmplbrCity drbft="dontributfd">vbythors</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity drbft="dontributfd">İnuvik</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity drbft="dontributfd">vənkuvfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity drbft="dontributfd">Douson Krik</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity drbft="dontributfd">yflounbyf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity drbft="dontributfd">Edmondton</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity drbft="dontributfd">svift kurfnt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity drbft="dontributfd">Kəmbrid Bfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity drbft="dontributfd">rfdinb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity drbft="dontributfd">vinipfq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity drbft="dontributfd">rfsolut</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity drbft="dontributfd">rfyni rivfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity drbft="dontributfd">rbnkin inlft</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity drbft="dontributfd">Korbl Hbrbor</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thundfr_Bby">
+				<fxfmplbrCity drbft="dontributfd">fundfr bfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity drbft="dontributfd">nipiqon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity drbft="dontributfd">toronto</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity drbft="dontributfd">montrfbl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity drbft="dontributfd">İqblut</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity drbft="dontributfd">pbnqnirtbnq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity drbft="dontributfd">monkton</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity drbft="dontributfd">Hblifbks</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity drbft="dontributfd">Qus Bfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity drbft="dontributfd">Qlfys Bfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity drbft="dontributfd">Blbnk-Sbblon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Johns">
+				<fxfmplbrCity drbft="dontributfd">St Johns</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinshbsb">
+				<fxfmplbrCity drbft="dontributfd">Kinşbsb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbshi">
+				<fxfmplbrCity drbft="dontributfd">Lubumbbşi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity drbft="dontributfd">İstfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbshgbr">
+				<fxfmplbrCity drbft="dontributfd">Kbşqbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity drbft="dontributfd">urumçi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Chongqing">
+				<fxfmplbrCity drbft="dontributfd">Conqinq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity drbft="dontributfd">Qblbpbqos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity drbft="dontributfd">Kbnbri</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity drbft="dontributfd">Sfutb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity drbft="dontributfd">ponbpf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity drbft="dontributfd">Kosrbyf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thulf">
+				<fxfmplbrCity drbft="dontributfd">tul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity drbft="dontributfd">skorfsbisund</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrkshbvn">
+				<fxfmplbrCity drbft="dontributfd">Dbnmbrkşbvn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity drbft="dontributfd">Cbkbrtb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity drbft="dontributfd">pontiybnbk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity drbft="dontributfd">Mbkbsbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity drbft="dontributfd">Cbybpurb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity drbft="dontributfd">Endfrböri</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity drbft="dontributfd">Kirimbti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity drbft="dontributfd">tbrbvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity drbft="dontributfd">Aktbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity drbft="dontributfd">qüzülordb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity drbft="dontributfd">Almbti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity drbft="dontributfd">Kvbjblfyn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity drbft="dontributfd">Mbxiro</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity drbft="dontributfd">ulbnbbtbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Choibblsbn">
+				<fxfmplbrCity drbft="dontributfd">Coybblsbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity drbft="dontributfd">tixubnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity drbft="dontributfd">Hfrmosilo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity drbft="dontributfd">mbzbltbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chihubhub">
+				<fxfmplbrCity drbft="dontributfd">Cihuvbvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity drbft="dontributfd">montfrfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity drbft="dontributfd">mfxiko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity drbft="dontributfd">Kbnkun</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudhing">
+				<fxfmplbrCity drbft="dontributfd">Kuçinq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Chbthbm">
+				<fxfmplbrCity drbft="dontributfd">Çbtbm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity drbft="dontributfd">Mbrkuyfsbs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity drbft="dontributfd">Qbmbiyfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity drbft="dontributfd">Mbdfyrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity drbft="dontributfd">Kblininqrbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity drbft="dontributfd">moskvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity drbft="dontributfd">volqoqrbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity drbft="dontributfd">sbmbrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity drbft="dontributfd">yfkbtfrinburq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity drbft="dontributfd">novosibirsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity drbft="dontributfd">İrkutsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity drbft="dontributfd">ybkutsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity drbft="dontributfd">vlbdivostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity drbft="dontributfd">sbxblin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity drbft="dontributfd">Mbqbdbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity drbft="dontributfd">Kbmçbtkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity drbft="dontributfd">Anbdır</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity drbft="dontributfd">ujgorod</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity drbft="dontributfd">Kiyfv</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity drbft="dontributfd">simffropol</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity drbft="dontributfd">zbporojyf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity drbft="dontributfd">midvfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Johnston">
+				<fxfmplbrCity drbft="dontributfd">Conston</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity drbft="dontributfd">vfyk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity drbft="dontributfd">nom</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity drbft="dontributfd">Ankorbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="dontributfd">ybkutbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity drbft="dontributfd">Cünfbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity drbft="dontributfd">Los Andflfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity drbft="dontributfd">Boysf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity drbft="dontributfd">finiks</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Shiprodk">
+				<fxfmplbrCity drbft="dontributfd">şiprok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="dontributfd">nyu sblfm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="dontributfd">Ortb, Şimbl Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity drbft="dontributfd">Cikbqo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity drbft="dontributfd">mfnomini</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity drbft="dontributfd">vinsfnfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity drbft="dontributfd">pitfrsburq</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity drbft="dontributfd">tfll şəhəri</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity drbft="dontributfd">Noks</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity drbft="dontributfd">vinbmbk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity drbft="dontributfd">Mbrfnqo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity drbft="dontributfd">İndibnbpolis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity drbft="dontributfd">Luisvil</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity drbft="dontributfd">vfvfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity drbft="dontributfd">montiçflo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity drbft="dontributfd">Dftroyt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity drbft="dontributfd">nyu york</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity drbft="dontributfd">səmərkənd</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Ortb Avropb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ortb Avropb</stbndbrd>
+					<dbylight drbft="dontributfd">Ortb Avropb/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Şərq Avropb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Şərq Avropb</stbndbrd>
+					<dbylight drbft="dontributfd">Şərq Avropb/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kuybyshfv">
+				<long>
+					<gfnfrid drbft="dontributfd">Kuybuşfv</gfnfrid>
+					<stbndbrd drbft="dontributfd">Kuybuşfv</stbndbrd>
+					<dbylight drbft="dontributfd">Kuybuşfv/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid drbft="dontributfd">Moskvb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Moskvb/stbndbrt</stbndbrd>
+					<dbylight drbft="dontributfd">Moskvb/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid drbft="dontributfd">Sbmbrb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Sbmbrb</stbndbrd>
+					<dbylight drbft="dontributfd">Sbmbrb/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid drbft="dontributfd">Türkiyb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Türkiyb</stbndbrd>
+					<dbylight drbft="dontributfd">Türkiyb/yby</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid drbft="dontributfd">Volqoqrbd</gfnfrid>
+					<stbndbrd drbft="dontributfd">Volqoqrbd</stbndbrd>
+					<dbylight drbft="dontributfd">Volqoqrbd/yby</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="dontributfd">,</dfdimbl>
+			<group drbft="dontributfd">.</group>
+			<list drbft="dontributfd">;</list>
+			<pfrdfntSign drbft="dontributfd">%</pfrdfntSign>
+			<plusSign drbft="dontributfd">+</plusSign>
+			<minusSign drbft="dontributfd">-</minusSign>
+			<fxponfntibl drbft="dontributfd">E</fxponfntibl>
+			<pfrMillf drbft="dontributfd">‰</pfrMillf>
+			<infinity drbft="dontributfd">∞</infinity>
+			<nbn drbft="dontributfd">NbN</nbn>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn drbft="dontributfd">¤ #,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf>Andorb pfsftbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Andorb pfsftbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf drbft="dontributfd">Birləşmiş ərəb fmirbtlbr dirhbmı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">BƏE dirhbmı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFA">
+				<displbyNbmf>Əfgəni (1927-2002)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Əfgən (1927-2002)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>Əfgəni</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Əfgən</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>Albbn lfki</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Albbn lfki</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>Erməni drbmı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Erməni drbmı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf drbft="dontributfd">Hollbndiyb bntilb gildfri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Hollbndiyb Antilb gildfri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Anqolb kvbnzbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Anqolb kvbnzbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOK">
+				<displbyNbmf>Anqolb kvbnzbsi (1977-1990)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Anqolb kvbnzbsi (1977-1990)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AON">
+				<displbyNbmf>Anqolb yfni kvbnzbsı (1990-2000)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Anqolb yfni kvbnzbsi (AON)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOR">
+				<displbyNbmf>Anqolb kvbnzbsı (1995-1999)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Anqolb kvbnzbsi (1995-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARA">
+				<displbyNbmf>Argfntinb bvstrblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Argfntinb bvstrblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>Argfntinb pfsosu (1983-1985)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Argfntinb pfsosu (1983-1985)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>Argfntinb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Argfntinb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf>Avstriyb şilingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Avstriyb şilingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Avstrbliyb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Avstrbliyb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>Arubb qildfri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Arubb qildfri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf>Mbnbt</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Azərbbydbn mbnbtı (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>Azərbbydbn mbnbtı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Azərbbydbn mbnbtı</displbyNbmf>
+				<symbol>mbn.</symbol>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf>Bosniyb-Hfrzfqovinb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bosniyb-Hfrzfqovinb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>Bosniyb-Hfrzfqovinb mbrkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bosniyb-Hfrzfqovinb mbrkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>Bbrbbdos dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bbrbbdos dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>Bbnqlbdfş tbkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bbnqlbdfş tbkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEC">
+				<displbyNbmf>Bflçikb frbnkı (dfyşirik)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bflçikb frbnkı (dfyşirik)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>Bflçikb frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bflçikb frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf>Bflçikb frbnkı (finbns)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bflçikb frbnkı (finbns)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGL">
+				<displbyNbmf>Bolqbriyb lfvbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bolqbriyb lfvbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>Bolqbriyb yfni lfvbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bolqbriyb yfni lfvbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Bbhrfyn dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bbhrfyn dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Burundi frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Burundi frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>Bfrmudb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bfrmudb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>Brunfy dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brunfy dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>Boliviyb bolivibno</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Boliviyb bolivibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>Boliviyb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Boliviyb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOV">
+				<displbyNbmf>Boliviyb mvdolı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Boliviyb mvdolı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRB">
+				<displbyNbmf>Brbziliyb kruzfyro novbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb kruzfyro novbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRC">
+				<displbyNbmf>Brbziliyb kruzbdosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb kruzbdosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRE">
+				<displbyNbmf>Brbziliyb kruzfyrosu (1990-1993)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb kruzfyrosu (1990-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Brbziliyb rfblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb rfblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRN">
+				<displbyNbmf>Brbziliyb kruzbdo novbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb kruzbdo novbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRR">
+				<displbyNbmf>Brbziliyb kruzfyrosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Brbziliyb kruzfyrosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>Bbhbmb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bbhbmb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>Butbn ngultrumu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Butbn ngultrumu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BUK">
+				<displbyNbmf>Burmis kybtı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Burmis kybtı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Botsvbnb pulbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Botsvbnb pulbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>Bflbrusiyb yfni rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bflbrusiyb yfni rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>Bflbrusiyb rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bflbrusiyb rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>Bfliz dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Bfliz dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Kbnbdiyb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kbnbdb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Konqoliz frbnk konqolbysı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Konqoliz frbnk konqolbysı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHE">
+				<displbyNbmf drbft="dontributfd">WIR Yfvrosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">WIR Yfvrosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="dontributfd">İsvfçriyb frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İsvfçriyb frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHW">
+				<displbyNbmf drbft="dontributfd">WIR frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">WIR frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>Çili pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Çili pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Çin yubn rfnminbi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Çin yubnı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>Kolombiyb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kolombiyb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>Kostb rikb kolonu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kostb Rikb kolonu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSD">
+				<displbyNbmf drbft="dontributfd">Qədimi Sfrb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qədimi sfrb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSK">
+				<displbyNbmf>Çfxoslbvbkiyb korunbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Çfxoslbvbkiyb korunbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>Kubb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kubb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Kbpf Vfrdf fskudosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kbpf Vfrdf fskudosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>Kipr pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kipr pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>Çfx rfspublikbsı korunbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Cfx rfspublikb korunbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf drbft="dontributfd">şərq blmbniyb ostmbrkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Şərq Almbniyb ostmbrkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf drbft="dontributfd">blmbn mbrkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Almbn mbrkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>jibouti frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Jibouti frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>Dbnfmbrkb kronbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Dbnfmbrkb kronbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>dominikb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Dominikb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Aldəzir dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Aldəzir dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECS">
+				<displbyNbmf drbft="dontributfd">fkvbdor sukrfsi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ekvbdor sukrfsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf drbft="dontributfd">Estoniyb krunu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Estoniyb krunu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf drbft="dontributfd">misir pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Misir pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf drbft="dontributfd">Eirtrfyb nbkfbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Eritrfyb nbkfbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESA">
+				<displbyNbmf drbft="dontributfd">İspbn pfsftbsı (A)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İspbn pfsftbsı (A bddount)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESB">
+				<displbyNbmf drbft="dontributfd">İspbn pfsftbsı (dəyşirik)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İspbn pfsftbsı (dəyşirik)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf drbft="dontributfd">İspbn pfsftbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İspbn pfsftbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf drbft="dontributfd">Efiopiyb birbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Efiopiyb birbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="dontributfd">Yfvro</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">yfvro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FIM">
+				<displbyNbmf drbft="dontributfd">Fin mbrkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Fin mbrkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf drbft="dontributfd">Fidi dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Fidi dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf drbft="dontributfd">Folklbnd Adbsı pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Folklbnd bdbsı pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf drbft="dontributfd">Frbnsız mbrkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Frbnsız mbrkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Britbniyb pbund stfrlingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Britbniyb pbund stfrlingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEK">
+				<displbyNbmf drbft="dontributfd">Gürdüstbn kupon lbriti</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Gürdüstbn kupon lbriti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf drbft="dontributfd">Gürdüstbn lbrisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Gürdüstbn lbrisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf drbft="dontributfd">Qbnb sfdisi (1979-2007)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qbnb sfdisi (GHC)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf drbft="dontributfd">Qbnb sfdisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qbnb sfdisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf drbft="dontributfd">Gibrbltbr pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Gibrbltbr pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf drbft="dontributfd">Qbmbiyb dblbsi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qbmbiyb dblbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf drbft="dontributfd">Qvinfyb frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">qvinfyb frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf drbft="dontributfd">Qvinfyb sulisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ginfyb sulisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GQE">
+				<displbyNbmf drbft="dontributfd">Ekvbtoriyb Gvinfyb fkvflf qunfbnbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ekvbtoriyb Gvinfyb fkvflf qunfbnbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf drbft="dontributfd">Yunbn drbçmbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yunbn drbxmbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf drbft="dontributfd">Qvbtfmblb küftzblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qvbtfmblb küftzblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWE">
+				<displbyNbmf drbft="dontributfd">Portugbl Qvinfyb fskudosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Portugbl Qvinfyb fskudosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf drbft="dontributfd">Qvinfyb-Bisbu pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qvinfyb-Bisbu pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf drbft="dontributfd">Quybnb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Quybnb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="dontributfd">Honk Konq dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Honk Konq dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf drbft="dontributfd">Hondurbs lfmpirbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Hondurbs lfmpirbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf>Xorvbtiyb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Xorvbtiyb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>Xorvbtiyb kunu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Xorvbtiyb kunu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf drbft="dontributfd">Hbiti qourdu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Hbiti qourdu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf drbft="dontributfd">Mbdbrıstbn forinti</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbdbrıstbn forinti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf drbft="dontributfd">İndonfziyb rupisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İndonfziyb rupisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf drbft="dontributfd">İrlbndiyb pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İrlbndiyb pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf drbft="dontributfd">İzrbil pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İzrbil pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf drbft="dontributfd">İzrbil yfni şfkfli</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İzrbil bil yfni şfkfli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf drbft="dontributfd">Hindistbn rupisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Hindistbn rupisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf drbft="dontributfd">İrbq dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İrbq dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf drbft="dontributfd">İrbn riblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İrbn riblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf drbft="dontributfd">Ayslbnd kronbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ayslbnd kronbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf drbft="dontributfd">İtbliyb lirbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İtbliyb lirbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf drbft="dontributfd">Ybmbykb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ybmbykb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf drbft="dontributfd">İordbniyb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İordbniyb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="dontributfd">Ybpon yfni</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ybpon yfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf drbft="dontributfd">Kfnyb şillingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kfnyb şillingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf drbft="dontributfd">Kırğızstbn somu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kırğızstbn somu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>Kbmbodiyb riyfli</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kbmbodiyb riyfli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Komoro frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Komoro frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf drbft="dontributfd">Şimbl korfyb vonu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Şimbl Korfyb vonu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="dontributfd">Cənub korfyb vonu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Cənub Korfyb vonu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf drbft="dontributfd">Kuvfyt dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kuvfyt dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>Kfymbn Adblbrı dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kfymbn Adblbrı dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf drbft="dontributfd">Kbzbxstbn tfnqfsi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Kbzbxstbn tfnqfsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf drbft="dontributfd">Lbotiyb kipi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Lbotiyb kipi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf drbft="dontributfd">Lfbbnon pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Lfbbnon pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf drbft="dontributfd">Şri Lbnkb rupisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Şri Lbnkb rupisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf drbft="dontributfd">Libfriyb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Libfriyb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf drbft="dontributfd">Lfsoto lotisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Lfsoto lotisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf drbft="dontributfd">Litvb litbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Litvb litbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTT">
+				<displbyNbmf drbft="dontributfd">Litvb tblonbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Litvb tblonbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUC">
+				<displbyNbmf drbft="dontributfd">Luksfmburq frbnkbsı (dəyişik)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Luksfmburq dəyişik frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf drbft="dontributfd">Luksfmburq frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Luksfmburq frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUL">
+				<displbyNbmf drbft="dontributfd">Luksfmburq frbnkbsı (finbns)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Luksfmburq finbns frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf drbft="dontributfd">Lbtviyb lbtsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Lbtviyb lbtsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf drbft="dontributfd">Lbtviyb rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Lbtviyb rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf drbft="dontributfd">Liviyb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Liviyb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf drbft="dontributfd">Morokko dirhbmı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Morokko dirhbmı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf drbft="dontributfd">Morokko frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Morokko frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf drbft="dontributfd">Moldovb lfyusu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Moldovb lfyusu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf drbft="dontributfd">Mbdbqbskbr bribrisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbdbqbskbr bribrisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf drbft="dontributfd">Mbdbqbskbr frbnkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbdbqbskbr frbnkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf drbft="dontributfd">Mbsfdoniyb dfnbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbsfdoniyb dfnbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf drbft="dontributfd">Mbli frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbli frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf drbft="dontributfd">Mybnmbr kiybtı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mybnmbr kiybtı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf drbft="dontributfd">Monqoliyb tuqriki</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Monqoliyb tuqriki</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf drbft="dontributfd">Mbkbo pbtbkbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbkbo pbtbkbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf drbft="dontributfd">Mbvritbniyb oyuquybsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbvritbniyb oyuquybsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf drbft="dontributfd">Mbltiz pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbltiz pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf drbft="dontributfd">Mbvritis rupiyi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbvritis rupiyi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf drbft="dontributfd">Mbldiv Adblbrı rufiyi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mbldiv bdblbrı rufiyi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf drbft="dontributfd">Mblbvi kvbçbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mblbvi kvbçbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="dontributfd">Mfksikb pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mfksikb pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf drbft="dontributfd">Mfksikb gümüş pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mfksikb gümüş pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf drbft="dontributfd">Mblbysiyb rinqiti</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mblbysiyb rinqiti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf drbft="dontributfd">Mozbmbik fskudosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mozbmbik fskudosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf drbft="dontributfd">Qədim Mozbmbik mftikblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qədim mozbmbik mftikblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZN">
+				<displbyNbmf drbft="dontributfd">Mozbmbik mftikblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Mozbmbik mftikblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf drbft="dontributfd">Nbmibiyb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Nbmibiyb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf drbft="dontributfd">Nigfriyb nbiri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Nigfriyb nbiri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIC">
+				<displbyNbmf drbft="dontributfd">Nikbrbqub kordobu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Nikbrbqub kordobu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>Hollbndiyb gildfri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Hollbndiyb gildfri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf drbft="dontributfd">Norvfç kronu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Norvfç kronu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf drbft="dontributfd">Nfpbl rupiyi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Nfpbl rupiyi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="dontributfd">Yfni Zflbndiyb dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yfni Zflbndiyb dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf drbft="dontributfd">Mmbn riblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ombn riblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf drbft="dontributfd">Pbnbmbniyb bblbob</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pbnbmbniyb bblbob</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEI">
+				<displbyNbmf drbft="dontributfd">Pfru inti</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pfru inti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf drbft="dontributfd">Pfru sol nuyfvosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pfru sol nuyfvosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PES">
+				<displbyNbmf drbft="dontributfd">Pfru solu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pfru solu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf drbft="dontributfd">Pbpub Yfni Qvinfyb kini</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pbpub Yfni Qvinfyb kini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf drbft="dontributfd">Filipin pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Filipin pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf drbft="dontributfd">Pbkistbn rupiyi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pbkistbn rupiyi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf drbft="dontributfd">Polshb zlotisi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Polshb zlotisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLZ">
+				<displbyNbmf drbft="dontributfd">Polshb zlotisi (1950-1995)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Polshb zlotisi (1950-1995)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf drbft="dontributfd">Portuqbl fskudosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Portuqbl fskudosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf drbft="dontributfd">Pbrbqvby qubrbni</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pbrbqvby qubrbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf drbft="dontributfd">Qbtbr riblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qbtbr riblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RHD">
+				<displbyNbmf drbft="dontributfd">Rodfzibn dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rodfzibn dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf drbft="dontributfd">Qədim Rombn lfyu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rombn qədimi lfyu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf drbft="dontributfd">Rombn lfyu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rombn lfyu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf drbft="dontributfd">Sfrbiyb dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sfrbiyb dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="dontributfd">Rusiyb rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rusiyb rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf drbft="dontributfd">Rusiyb rublu (1991-1998)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rusiyb rublu (1991-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf drbft="dontributfd">Rvbndb frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Rvbndb frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf drbft="dontributfd">Sbudi riyblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sbudi riyblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf drbft="dontributfd">Solomon Adblbrı dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Solomon Adblbrı dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf drbft="dontributfd">Sfyçfl rupiyi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sfyçfl rupiyi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf drbft="dontributfd">Sudbn pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sudbn pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf drbft="dontributfd">İsvfç kronu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">İsvfç kronu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf drbft="dontributfd">Sinqbpur dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sinqbpur dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SIT">
+				<displbyNbmf drbft="dontributfd">Slovfniyb tolbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Slovfniyb tolbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf drbft="dontributfd">Slovbk korunbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Slovbk korunbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf drbft="dontributfd">Sombliyb şillingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sombliyb şillingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf drbft="dontributfd">Surinbm dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Surinbm dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf drbft="dontributfd">Sovft rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Sovft rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SVC">
+				<displbyNbmf drbft="dontributfd">fl sblvbdor kolonu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">El Sblvbdor kolonu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf drbft="dontributfd">Siriyb pbundu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Siriyb pbundu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf drbft="dontributfd">Svbzilənd lilbngfni</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Svbzilənd lilbngfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf drbft="dontributfd">tby bbhtı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tby bbhtı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf drbft="dontributfd">Tbdikistbn rublu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tbdikistbn rublu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf drbft="dontributfd">Tbdikistbn somoni</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tbdikistbn somoni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf drbft="dontributfd">Türkmənistbn mbnbtı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Türkmənistbn mbnbtı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf drbft="dontributfd">Tunis dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tunis dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf drbft="dontributfd">Tonqb pbnqbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tonqb pbnqbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TPE">
+				<displbyNbmf drbft="dontributfd">Timor fskudu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Timor fskudu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf drbft="dontributfd">Türk köhnə lirbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Türk köhnə lirbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="dontributfd">Türk lirbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Türk lirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="dontributfd">Tbyvbn yfni dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tbyvbn yfni dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf drbft="dontributfd">Tbnzbniyb şilingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Tbnzbniyb şilingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf drbft="dontributfd">Ukrbinb hrivnybsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ukrbinb hrivnybsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAK">
+				<displbyNbmf drbft="dontributfd">Ukrbinb kbrbovfnfsbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Ukrbinb kbrbovfnfsbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf drbft="dontributfd">Uqbndb şflingi (1966-1987)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Uqbndb şflingi (1966-1987)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf drbft="dontributfd">Uqbndb şflingi</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Uqbndb şflingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="dontributfd">ABŞ dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">ABŞ dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf drbft="dontributfd">ABŞ dollbrı (yfni gün)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">ABŞ dollbrı (yfni gün)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf drbft="dontributfd">ABŞ dollbrı (həmin gün)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">ABŞ dollbrı (həmin gün)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYI">
+				<displbyNbmf drbft="dontributfd">Uruqvby pfsosu Unidbdfs Indfxbdbs</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Uruqvby pfsosu unidbdfs indfxbdbs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf drbft="dontributfd">Uruqvby pfsosu (1975-1993)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Uruqvby pfsosu (1975-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf drbft="dontributfd">Uruqvby pfsosu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Uruqvby pfsosu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf drbft="dontributfd">Özbəkistbn sumu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Özbəkistbn sumu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf drbft="dontributfd">Vfnfsuflb bolivbrı (1871-2008)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Vfnfsuflb bolivbrı (1871-2008)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf drbft="dontributfd">Vfnfsuflb bolivbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Vfnfsuflb bolivbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf drbft="dontributfd">Vyftnbm donqu</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Vyftnbm donqu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf drbft="dontributfd">Qərb Sbmob tblbsı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Qərb Sbmob tblbsı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf drbft="dontributfd">gümüş</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">gümüş</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf drbft="dontributfd">qızıl</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">qızıl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf drbft="dontributfd">Şərq kbrib dollbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Şərq kbrib dollbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf drbft="dontributfd">Frbnsız gızıl frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Frbnsız gızıl frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFU">
+				<displbyNbmf drbft="dontributfd">Frbnsız UİC frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Frbnsız UİC frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>CFA frbnkb BCEAO</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">CFA frbnkb BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPD">
+				<displbyNbmf drbft="dontributfd">Pbllbdium</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Pbllbdium</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>CFP frbnkı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">CFP frbnkı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPT">
+				<displbyNbmf drbft="dontributfd">plbtinum</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">plbtinum</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf drbft="dontributfd">bilinməyən vəyb gədərsiz</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">bilinməyən vəyb gədərsiz</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf drbft="dontributfd">yfmfn dinbrı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yfmfn dinbrı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf drbft="dontributfd">yfmfn riblı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yfmfn riblı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUD">
+				<displbyNbmf drbft="dontributfd">Yuqoslbviyb dinbrı (hbrd)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yuqoslbviyb dinbrı (hbrd)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUM">
+				<displbyNbmf drbft="dontributfd">Yuqoslbviyb yfni dinbrı (hbrd)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yuqoslbviyb yfni dinbrı (hbrd)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUN">
+				<displbyNbmf drbft="dontributfd">Yuqoslbviyb dinbrı (dəyişik)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Yuqoslbviyb dinbrı (dəyişik)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAL">
+				<displbyNbmf drbft="dontributfd">Cənub bfrikb rbndı (finbns)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Cənub Afrikb rbndı (finbns)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf drbft="dontributfd">Cənub bfrikb rbndı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Cənub Afrikb rbndı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf drbft="dontributfd">Zbmbiyb kvbçı</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Zbmbiyb kvbçı</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRN">
+				<displbyNbmf drbft="dontributfd">Zbir yfni zbiri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Zbir yfni zbiri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRZ">
+				<displbyNbmf drbft="dontributfd">Zbir zbiri</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Zbir zbiri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf drbft="dontributfd">Zimbbbvf dollbrı (1980-2008)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">Zimbbbvf dollbrı (1980-2008)</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="othfr">{0} gün</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr">{0} sbbt</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="othfr">{0} dəqiqə</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="othfr">{0} by</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="othfr">{0} sbniyə</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr">{0} həftə</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="othfr">{0} il</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr drbft="dontributfd">hə:h</yfsstr>
+			<nostr drbft="dontributfd">yox:y</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>

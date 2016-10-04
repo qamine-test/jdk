@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <windows.h>
+#indludf <rpd.h>
+#indludf <winsodk.h>
+#indludf <lm.h>
+
+#indludf <stdio.h>
+#indludf <stdbrg.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <tdhbr.h>
+#indludf <fdntl.h>
+
+#indludf "jni_util.h"
+
+#dffinf SECURITY_WIN32
+#indludf "sspi.h"
+
+stbtid void fndSfqufndf (PCrfdHbndlf drfdHbnd, PCtxtHbndlf dtxHbndlf, JNIEnv *fnv, jobjfdt stbtus);
+
+stbtid jfifldID ntlm_dtxHbndlfID;
+stbtid jfifldID ntlm_drdHbndlfID;
+stbtid jfifldID stbtus_sfqComplftfID;
+
+stbtid HINSTANCE lib = NULL;
+
+JNIEXPORT void JNICALL Jbvb_sun_nft_www_protodol_http_ntlm_NTLMAuthSfqufndf_initFirst
+(JNIEnv *fnv, jdlbss buthsfq_dlbzz, jdlbss stbtus_dlbzz)
+{
+    ntlm_dtxHbndlfID = (*fnv)->GftFifldID(fnv, buthsfq_dlbzz, "dtxHbndlf", "J");
+    CHECK_NULL(ntlm_dtxHbndlfID);
+    ntlm_drdHbndlfID = (*fnv)->GftFifldID(fnv, buthsfq_dlbzz, "drdHbndlf", "J");
+    CHECK_NULL(ntlm_drdHbndlfID);
+    stbtus_sfqComplftfID = (*fnv)->GftFifldID(fnv, stbtus_dlbzz, "sfqufndfComplftf", "Z");
+}
+
+/*
+ * Clbss:     sun_nft_www_protodol_http_NTLMAuthSfqufndf
+ * Mfthod:    gftCrfdfntiblsHbndlf
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)J
+ */
+
+JNIEXPORT jlong JNICALL Jbvb_sun_nft_www_protodol_http_ntlm_NTLMAuthSfqufndf_gftCrfdfntiblsHbndlf
+(JNIEnv *fnv, jobjfdt this, jstring usfr, jstring dombin, jstring pbssword)
+{
+    SEC_WINNT_AUTH_IDENTITY   AuthId;
+    SEC_WINNT_AUTH_IDENTITY * pAuthId;
+    donst CHAR        *pUsfr = 0;
+    donst CHAR        *pDombin = 0;
+    donst CHAR        *pPbssword = 0;
+    CrfdHbndlf      *pCrfd;
+    TimfStbmp            ltimf;
+    jboolfbn         isCopy;
+    SECURITY_STATUS      ss;
+
+    if (usfr != 0) {
+        pUsfr = JNU_GftStringPlbtformChbrs(fnv, usfr, &isCopy);
+        if (pUsfr == NULL)
+            rfturn 0;  // pfnding Exdfption
+    }
+    if (dombin != 0) {
+        pDombin = JNU_GftStringPlbtformChbrs(fnv, dombin, &isCopy);
+        if (pDombin == NULL) {
+            if (pUsfr != NULL)
+                JNU_RflfbsfStringPlbtformChbrs(fnv, usfr, pUsfr);
+            rfturn 0;  // pfnding Exdfption
+        }
+    }
+    if (pbssword != 0) {
+        pPbssword = JNU_GftStringPlbtformChbrs(fnv, pbssword, &isCopy);
+        if (pPbssword == NULL) {
+            if(pUsfr != NULL)
+                JNU_RflfbsfStringPlbtformChbrs(fnv, usfr, pUsfr);
+            if(pDombin != NULL)
+                JNU_RflfbsfStringPlbtformChbrs(fnv, dombin, pDombin);
+            rfturn 0;  // pfnding Exdfption
+        }
+    }
+    pCrfd = (CrfdHbndlf *)mbllod(sizfof (CrfdHbndlf));
+    if (pCrfd == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+        if (pUsfr != NULL)
+            JNU_RflfbsfStringPlbtformChbrs(fnv, usfr, pUsfr);
+        if (pPbssword != NULL)
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbssword, pPbssword);
+        if (pDombin != NULL)
+            JNU_RflfbsfStringPlbtformChbrs(fnv, dombin, pDombin);
+        rfturn NULL;
+    }
+
+    if ( ((pUsfr != NULL) || (pPbssword != NULL)) || (pDombin != NULL)) {
+        pAuthId = &AuthId;
+
+        mfmsft( &AuthId, 0, sizfof( AuthId ));
+
+        if ( pUsfr != NULL ) {
+            AuthId.Usfr       = (unsignfd dhbr *) pUsfr;
+            AuthId.UsfrLfngth = (unsignfd long) strlfn( pUsfr );
+        }
+
+        if ( pPbssword != NULL ) {
+            AuthId.Pbssword       = (unsignfd dhbr *) pPbssword;
+            AuthId.PbsswordLfngth = (unsignfd long) strlfn( pPbssword );
+        }
+
+        if ( pDombin != NULL ) {
+            AuthId.Dombin       = (unsignfd dhbr *) pDombin;
+            AuthId.DombinLfngth = (unsignfd long) strlfn( pDombin );
+        }
+
+        AuthId.Flbgs = SEC_WINNT_AUTH_IDENTITY_ANSI;
+    } flsf {
+        pAuthId = NULL;
+    }
+
+    ss = AdquirfCrfdfntiblsHbndlfA(
+        NULL, "NTLM", SECPKG_CRED_OUTBOUND,
+        NULL, pAuthId, NULL, NULL,
+        pCrfd, &ltimf
+        );
+
+    /* Rflfbsf rfsourdfs hfld by JNU_GftStringPlbtformChbrs */
+    if (pUsfr != NULL)
+        JNU_RflfbsfStringPlbtformChbrs(fnv, usfr, pUsfr);
+    if (pPbssword != NULL)
+        JNU_RflfbsfStringPlbtformChbrs(fnv, pbssword, pPbssword);
+    if (pDombin != NULL)
+        JNU_RflfbsfStringPlbtformChbrs(fnv, dombin, pDombin);
+
+    if (ss == 0) {
+        rfturn (jlong) pCrfd;
+    } flsf {
+        rfturn 0;
+    }
+}
+
+
+/*
+ * Clbss:     sun_nft_www_protodol_http_ntlm_NTLMAuthSfqufndf
+ * Mfthod:    gftNfxtTokfn
+ * Signbturf: (J[BLsun/nft/www/protodol/http/ntlm/NTLMAuthSfqufndf/Stbtus;)[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_nft_www_protodol_http_ntlm_NTLMAuthSfqufndf_gftNfxtTokfn
+(JNIEnv *fnv, jobjfdt this, jlong drdHbndlf, jbytfArrby lbstTokfn, jobjfdt stbtus)
+{
+
+    VOID        *pInput = 0;
+    DWORD            inputLfn;
+    CHAR         buffOut[1024];
+    jboolfbn         isCopy;
+    SECURITY_STATUS      ss;
+    SfdBufffrDfsd        OutBuffDfsd;
+    SfdBufffr            OutSfdBuff;
+    SfdBufffrDfsd        InBuffDfsd;
+    SfdBufffr            InSfdBuff;
+    ULONG                ContfxtAttributfs;
+    CrfdHbndlf      *pCrfd = (CrfdHbndlf *)drdHbndlf;
+    CtxtHbndlf      *pCtx;
+    CtxtHbndlf      *nfwContfxt;
+    TimfStbmp            ltimf;
+    jbytfArrby       rfsult;
+
+
+    pCtx = (CtxtHbndlf *) (*fnv)->GftLongFifld (fnv, this, ntlm_dtxHbndlfID);
+    if (pCtx == 0) { /* first dbll */
+        nfwContfxt = (CtxtHbndlf *)mbllod(sizfof(CtxtHbndlf));
+        if (nfwContfxt != NULL) {
+            (*fnv)->SftLongFifld (fnv, this, ntlm_dtxHbndlfID, (jlong)nfwContfxt);
+        } flsf {
+            JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            rfturn NULL;
+        }
+    } flsf {
+        nfwContfxt = pCtx;
+    }
+
+    OutBuffDfsd.ulVfrsion = 0;
+    OutBuffDfsd.dBufffrs  = 1;
+    OutBuffDfsd.pBufffrs  = &OutSfdBuff;
+
+    OutSfdBuff.dbBufffr   = 1024;
+    OutSfdBuff.BufffrTypf = SECBUFFER_TOKEN;
+    OutSfdBuff.pvBufffr   = buffOut;
+
+    /*
+     *  Prfpbrf our Input bufffr - Notf thf sfrvfr is fxpfdting thf dlifnt's
+     *  nfgotibtion pbdkft on thf first dbll
+     */
+
+    if (lbstTokfn != 0)
+    {
+        pInput = (VOID *)(*fnv)->GftBytfArrbyElfmfnts(fnv, lbstTokfn, &isCopy);
+        CHECK_NULL_RETURN(pInput, NULL);
+        inputLfn = (*fnv)->GftArrbyLfngth(fnv, lbstTokfn);
+
+        InBuffDfsd.ulVfrsion = 0;
+        InBuffDfsd.dBufffrs  = 1;
+        InBuffDfsd.pBufffrs  = &InSfdBuff;
+
+        InSfdBuff.dbBufffr       = inputLfn;
+        InSfdBuff.BufffrTypf = SECBUFFER_TOKEN;
+        InSfdBuff.pvBufffr       = pInput;
+    }
+
+    /*
+     *  will rfturn suddfss whfn its donf but wf still
+     *  nffd to sfnd thf out bufffr if thfrf brf bytfs to sfnd
+     */
+
+    ss = InitiblizfSfdurityContfxtA(
+        pCrfd, pCtx, NULL, 0, 0, SECURITY_NATIVE_DREP,
+        lbstTokfn ? &InBuffDfsd : NULL, 0, nfwContfxt, &OutBuffDfsd,
+        &ContfxtAttributfs, &ltimf
+    );
+
+    if (pInput != 0) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lbstTokfn, pInput, JNI_ABORT);
+    }
+
+    if (ss < 0) {
+        fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+        rfturn 0;
+    }
+
+    if ((ss == SEC_I_COMPLETE_NEEDED) || (ss == SEC_I_COMPLETE_AND_CONTINUE) ) {
+        ss = ComplftfAuthTokfn( pCtx, &OutBuffDfsd );
+
+        if (ss < 0) {
+            fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+            rfturn 0;
+        }
+    }
+
+    if ( OutSfdBuff.dbBufffr > 0 ) {
+        jbytfArrby rft = (*fnv)->NfwBytfArrby(fnv, OutSfdBuff.dbBufffr);
+        if (rft != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rft, 0, OutSfdBuff.dbBufffr,
+                    OutSfdBuff.pvBufffr);
+        }
+        if (lbstTokfn != 0) // 2nd stbgf
+            fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+        rfsult = rft;
+    }
+
+    if ((ss != SEC_I_CONTINUE_NEEDED) && (ss == SEC_I_COMPLETE_AND_CONTINUE)) {
+        fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+    }
+
+    rfturn rfsult;
+}
+
+stbtid void fndSfqufndf (PCrfdHbndlf drfdHbnd, PCtxtHbndlf dtxHbndlf, JNIEnv *fnv, jobjfdt stbtus) {
+    if (drfdHbnd != 0) {
+        FrffCrfdfntiblsHbndlf(drfdHbnd);
+        frff(drfdHbnd);
+    }
+
+    if (dtxHbndlf != 0) {
+        DflftfSfdurityContfxt(dtxHbndlf);
+        frff(dtxHbndlf);
+    }
+
+    /* Sfqufndf is domplftf so sft flbg */
+    (*fnv)->SftBoolfbnFifld(fnv, stbtus, stbtus_sfqComplftfID, JNI_TRUE);
+}

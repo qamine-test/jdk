@@ -1,415 +1,169 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// DefaultHandler.java - default implementation of the core handlers.
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the public domain.
-// $Id: DefaultHandler.java,v 1.3 2006/04/13 02:06:32 jeffsuttor Exp $
+// DffbultHbndlfr.jbvb - dffbult implfmfntbtion of tif dorf ibndlfrs.
+// ittp://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  Tiis dlbss is in tif publid dombin.
+// $Id: DffbultHbndlfr.jbvb,v 1.3 2006/04/13 02:06:32 jfffsuttor Exp $
 
-package jdk.internal.org.xml.sax.helpers;
+pbdkbgf jdk.intfrnbl.org.xml.sbx.iflpfrs;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.Locator;
-import jdk.internal.org.xml.sax.Attributes;
-import jdk.internal.org.xml.sax.EntityResolver;
-import jdk.internal.org.xml.sax.DTDHandler;
-import jdk.internal.org.xml.sax.ContentHandler;
-import jdk.internal.org.xml.sax.ErrorHandler;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.SAXParseException;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.Lodbtor;
+import jdk.intfrnbl.org.xml.sbx.Attributfs;
+import jdk.intfrnbl.org.xml.sbx.EntityRfsolvfr;
+import jdk.intfrnbl.org.xml.sbx.DTDHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.ContfntHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.ErrorHbndlfr;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXPbrsfExdfption;
 
 
 /**
- * Default base class for SAX2 event handlers.
+ * Dffbult bbsf dlbss for SAX2 fvfnt ibndlfrs.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>This class is available as a convenience base class for SAX2
- * applications: it provides default implementations for all of the
- * callbacks in the four core SAX2 handler classes:</p>
+ * <p>Tiis dlbss is bvbilbblf bs b donvfnifndf bbsf dlbss for SAX2
+ * bpplidbtions: it providfs dffbult implfmfntbtions for bll of tif
+ * dbllbbdks in tif four dorf SAX2 ibndlfr dlbssfs:</p>
  *
  * <ul>
- * <li>{@link org.xml.sax.EntityResolver EntityResolver}</li>
- * <li>{@link org.xml.sax.DTDHandler DTDHandler}</li>
- * <li>{@link org.xml.sax.ContentHandler ContentHandler}</li>
- * <li>{@link org.xml.sax.ErrorHandler ErrorHandler}</li>
+ * <li>{@link org.xml.sbx.EntityRfsolvfr EntityRfsolvfr}</li>
+ * <li>{@link org.xml.sbx.DTDHbndlfr DTDHbndlfr}</li>
+ * <li>{@link org.xml.sbx.ContfntHbndlfr ContfntHbndlfr}</li>
+ * <li>{@link org.xml.sbx.ErrorHbndlfr ErrorHbndlfr}</li>
  * </ul>
  *
- * <p>Application writers can extend this class when they need to
- * implement only part of an interface; parser writers can
- * instantiate this class to provide default handlers when the
- * application has not supplied its own.</p>
+ * <p>Applidbtion writfrs dbn fxtfnd tiis dlbss wifn tify nffd to
+ * implfmfnt only pbrt of bn intfrfbdf; pbrsfr writfrs dbn
+ * instbntibtf tiis dlbss to providf dffbult ibndlfrs wifn tif
+ * bpplidbtion ibs not supplifd its own.</p>
  *
- * <p>This class replaces the deprecated SAX1
- * {@link org.xml.sax.HandlerBase HandlerBase} class.</p>
+ * <p>Tiis dlbss rfplbdfs tif dfprfdbtfd SAX1
+ * {@link org.xml.sbx.HbndlfrBbsf HbndlfrBbsf} dlbss.</p>
  *
- * @since SAX 2.0
- * @author David Megginson,
- * @see org.xml.sax.EntityResolver
- * @see org.xml.sax.DTDHandler
- * @see org.xml.sax.ContentHandler
- * @see org.xml.sax.ErrorHandler
+ * @sindf SAX 2.0
+ * @butior Dbvid Mfgginson,
+ * @sff org.xml.sbx.EntityRfsolvfr
+ * @sff org.xml.sbx.DTDHbndlfr
+ * @sff org.xml.sbx.ContfntHbndlfr
+ * @sff org.xml.sbx.ErrorHbndlfr
  */
-public class DefaultHandler
-    implements EntityResolver, DTDHandler, ContentHandler, ErrorHandler
+publid dlbss DffbultHbndlfr
+    implfmfnts EntityRfsolvfr, DTDHbndlfr, ContfntHbndlfr, ErrorHbndlfr
 {
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of the EntityResolver interface.
+    // Dffbult implfmfntbtion of tif EntityRfsolvfr intfrfbdf.
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Resolve an external entity.
+     * Rfsolvf bn fxtfrnbl fntity.
      *
-     * <p>Always return null, so that the parser will use the system
-     * identifier provided in the XML document.  This method implements
-     * the SAX default behaviour: application writers can override it
-     * in a subclass to do special translations such as catalog lookups
-     * or URI redirection.</p>
+     * <p>Alwbys rfturn null, so tibt tif pbrsfr will usf tif systfm
+     * idfntififr providfd in tif XML dodumfnt.  Tiis mftiod implfmfnts
+     * tif SAX dffbult bfibviour: bpplidbtion writfrs dbn ovfrridf it
+     * in b subdlbss to do spfdibl trbnslbtions sudi bs dbtblog lookups
+     * or URI rfdirfdtion.</p>
      *
-     * @param publicId The public identifier, or null if none is
-     *                 available.
-     * @param systemId The system identifier provided in the XML
-     *                 document.
-     * @return The new input source, or null to require the
-     *         default behaviour.
-     * @exception java.io.IOException If there is an error setting
-     *            up the new input source.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.EntityResolver#resolveEntity
+     * @pbrbm publidId Tif publid idfntififr, or null if nonf is
+     *                 bvbilbblf.
+     * @pbrbm systfmId Tif systfm idfntififr providfd in tif XML
+     *                 dodumfnt.
+     * @rfturn Tif nfw input sourdf, or null to rfquirf tif
+     *         dffbult bfibviour.
+     * @fxdfption jbvb.io.IOExdfption If tifrf is bn frror sftting
+     *            up tif nfw input sourdf.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.EntityRfsolvfr#rfsolvfEntity
      */
-    public InputSource resolveEntity (String publicId, String systemId)
-        throws IOException, SAXException
+    publid InputSourdf rfsolvfEntity (String publidId, String systfmId)
+        tirows IOExdfption, SAXExdfption
     {
-        return null;
-    }
-
-
-
-    ////////////////////////////////////////////////////////////////////
-    // Default implementation of DTDHandler interface.
-    ////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Receive notification of a notation declaration.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass if they wish to keep track of the notations
-     * declared in a document.</p>
-     *
-     * @param name The notation name.
-     * @param publicId The notation public identifier, or null if not
-     *                 available.
-     * @param systemId The notation system identifier.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.DTDHandler#notationDecl
-     */
-    public void notationDecl (String name, String publicId, String systemId)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of an unparsed entity declaration.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to keep track of the unparsed entities
-     * declared in a document.</p>
-     *
-     * @param name The entity name.
-     * @param publicId The entity public identifier, or null if not
-     *                 available.
-     * @param systemId The entity system identifier.
-     * @param notationName The name of the associated notation.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.DTDHandler#unparsedEntityDecl
-     */
-    public void unparsedEntityDecl (String name, String publicId,
-                                    String systemId, String notationName)
-        throws SAXException
-    {
-        // no op
+        rfturn null;
     }
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of ContentHandler interface.
+    // Dffbult implfmfntbtion of DTDHbndlfr intfrfbdf.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Receive a Locator object for document events.
+     * Rfdfivf notifidbtion of b notbtion dfdlbrbtion.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass if they wish to store the locator for use
-     * with other document events.</p>
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss if tify wisi to kffp trbdk of tif notbtions
+     * dfdlbrfd in b dodumfnt.</p>
      *
-     * @param locator A locator for all SAX document events.
-     * @see org.xml.sax.ContentHandler#setDocumentLocator
-     * @see org.xml.sax.Locator
+     * @pbrbm nbmf Tif notbtion nbmf.
+     * @pbrbm publidId Tif notbtion publid idfntififr, or null if not
+     *                 bvbilbblf.
+     * @pbrbm systfmId Tif notbtion systfm idfntififr.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.DTDHbndlfr#notbtionDfdl
      */
-    public void setDocumentLocator (Locator locator)
+    publid void notbtionDfdl (String nbmf, String publidId, String systfmId)
+        tirows SAXExdfption
     {
         // no op
     }
 
 
     /**
-     * Receive notification of the beginning of the document.
+     * Rfdfivf notifidbtion of bn unpbrsfd fntity dfdlbrbtion.
      *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the beginning
-     * of a document (such as allocating the root node of a tree or
-     * creating an output file).</p>
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to kffp trbdk of tif unpbrsfd fntitifs
+     * dfdlbrfd in b dodumfnt.</p>
      *
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startDocument
+     * @pbrbm nbmf Tif fntity nbmf.
+     * @pbrbm publidId Tif fntity publid idfntififr, or null if not
+     *                 bvbilbblf.
+     * @pbrbm systfmId Tif fntity systfm idfntififr.
+     * @pbrbm notbtionNbmf Tif nbmf of tif bssodibtfd notbtion.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.DTDHbndlfr#unpbrsfdEntityDfdl
      */
-    public void startDocument ()
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of the end of the document.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end
-     * of a document (such as finalising a tree or closing an output
-     * file).</p>
-     *
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endDocument
-     */
-    public void endDocument ()
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of the start of a Namespace mapping.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the start of
-     * each Namespace prefix scope (such as storing the prefix mapping).</p>
-     *
-     * @param prefix The Namespace prefix being declared.
-     * @param uri The Namespace URI mapped to the prefix.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startPrefixMapping
-     */
-    public void startPrefixMapping (String prefix, String uri)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of the end of a Namespace mapping.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end of
-     * each prefix mapping.</p>
-     *
-     * @param prefix The Namespace prefix being declared.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endPrefixMapping
-     */
-    public void endPrefixMapping (String prefix)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of the start of an element.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the start of
-     * each element (such as allocating a new tree node or writing
-     * output to a file).</p>
-     *
-     * @param uri The Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
-     *        processing is not being performed.
-     * @param localName The local name (without prefix), or the
-     *        empty string if Namespace processing is not being
-     *        performed.
-     * @param qName The qualified name (with prefix), or the
-     *        empty string if qualified names are not available.
-     * @param attributes The attributes attached to the element.  If
-     *        there are no attributes, it shall be an empty
-     *        Attributes object.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#startElement
-     */
-    public void startElement (String uri, String localName,
-                              String qName, Attributes attributes)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of the end of an element.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions at the end of
-     * each element (such as finalising a tree node or writing
-     * output to a file).</p>
-     *
-     * @param uri The Namespace URI, or the empty string if the
-     *        element has no Namespace URI or if Namespace
-     *        processing is not being performed.
-     * @param localName The local name (without prefix), or the
-     *        empty string if Namespace processing is not being
-     *        performed.
-     * @param qName The qualified name (with prefix), or the
-     *        empty string if qualified names are not available.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#endElement
-     */
-    public void endElement (String uri, String localName, String qName)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of character data inside an element.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method to take specific actions for each chunk of character data
-     * (such as adding the data to a node or buffer, or printing it to
-     * a file).</p>
-     *
-     * @param ch The characters.
-     * @param start The start position in the character array.
-     * @param length The number of characters to use from the
-     *               character array.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#characters
-     */
-    public void characters (char ch[], int start, int length)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of ignorable whitespace in element content.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method to take specific actions for each chunk of ignorable
-     * whitespace (such as adding data to a node or buffer, or printing
-     * it to a file).</p>
-     *
-     * @param ch The whitespace characters.
-     * @param start The start position in the character array.
-     * @param length The number of characters to use from the
-     *               character array.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#ignorableWhitespace
-     */
-    public void ignorableWhitespace (char ch[], int start, int length)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of a processing instruction.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions for each
-     * processing instruction, such as setting status variables or
-     * invoking other methods.</p>
-     *
-     * @param target The processing instruction target.
-     * @param data The processing instruction data, or null if
-     *             none is supplied.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#processingInstruction
-     */
-    public void processingInstruction (String target, String data)
-        throws SAXException
-    {
-        // no op
-    }
-
-
-    /**
-     * Receive notification of a skipped entity.
-     *
-     * <p>By default, do nothing.  Application writers may override this
-     * method in a subclass to take specific actions for each
-     * processing instruction, such as setting status variables or
-     * invoking other methods.</p>
-     *
-     * @param name The name of the skipped entity.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ContentHandler#processingInstruction
-     */
-    public void skippedEntity (String name)
-        throws SAXException
+    publid void unpbrsfdEntityDfdl (String nbmf, String publidId,
+                                    String systfmId, String notbtionNbmf)
+        tirows SAXExdfption
     {
         // no op
     }
@@ -417,75 +171,321 @@ public class DefaultHandler
 
 
     ////////////////////////////////////////////////////////////////////
-    // Default implementation of the ErrorHandler interface.
+    // Dffbult implfmfntbtion of ContfntHbndlfr intfrfbdf.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Receive notification of a parser warning.
+     * Rfdfivf b Lodbtor objfdt for dodumfnt fvfnts.
      *
-     * <p>The default implementation does nothing.  Application writers
-     * may override this method in a subclass to take specific actions
-     * for each warning, such as inserting the message in a log file or
-     * printing it to the console.</p>
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss if tify wisi to storf tif lodbtor for usf
+     * witi otifr dodumfnt fvfnts.</p>
      *
-     * @param e The warning information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#warning
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm lodbtor A lodbtor for bll SAX dodumfnt fvfnts.
+     * @sff org.xml.sbx.ContfntHbndlfr#sftDodumfntLodbtor
+     * @sff org.xml.sbx.Lodbtor
      */
-    public void warning (SAXParseException e)
-        throws SAXException
+    publid void sftDodumfntLodbtor (Lodbtor lodbtor)
     {
         // no op
     }
 
 
     /**
-     * Receive notification of a recoverable parser error.
+     * Rfdfivf notifidbtion of tif bfginning of tif dodumfnt.
      *
-     * <p>The default implementation does nothing.  Application writers
-     * may override this method in a subclass to take specific actions
-     * for each error, such as inserting the message in a log file or
-     * printing it to the console.</p>
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif bfginning
+     * of b dodumfnt (sudi bs bllodbting tif root nodf of b trff or
+     * drfbting bn output filf).</p>
      *
-     * @param e The error information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#warning
-     * @see org.xml.sax.SAXParseException
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtDodumfnt
      */
-    public void error (SAXParseException e)
-        throws SAXException
+    publid void stbrtDodumfnt ()
+        tirows SAXExdfption
     {
         // no op
     }
 
 
     /**
-     * Report a fatal XML parsing error.
+     * Rfdfivf notifidbtion of tif fnd of tif dodumfnt.
      *
-     * <p>The default implementation throws a SAXParseException.
-     * Application writers may override this method in a subclass if
-     * they need to take specific actions for each fatal error (such as
-     * collecting all of the errors into a single report): in any case,
-     * the application must stop all regular processing when this
-     * method is invoked, since the document is no longer reliable, and
-     * the parser may no longer report parsing events.</p>
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif fnd
+     * of b dodumfnt (sudi bs finblising b trff or dlosing bn output
+     * filf).</p>
      *
-     * @param e The error information encoded as an exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.ErrorHandler#fatalError
-     * @see org.xml.sax.SAXParseException
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndDodumfnt
      */
-    public void fatalError (SAXParseException e)
-        throws SAXException
+    publid void fndDodumfnt ()
+        tirows SAXExdfption
     {
-        throw e;
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of tif stbrt of b Nbmfspbdf mbpping.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif stbrt of
+     * fbdi Nbmfspbdf prffix sdopf (sudi bs storing tif prffix mbpping).</p>
+     *
+     * @pbrbm prffix Tif Nbmfspbdf prffix bfing dfdlbrfd.
+     * @pbrbm uri Tif Nbmfspbdf URI mbppfd to tif prffix.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtPrffixMbpping
+     */
+    publid void stbrtPrffixMbpping (String prffix, String uri)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of tif fnd of b Nbmfspbdf mbpping.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif fnd of
+     * fbdi prffix mbpping.</p>
+     *
+     * @pbrbm prffix Tif Nbmfspbdf prffix bfing dfdlbrfd.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndPrffixMbpping
+     */
+    publid void fndPrffixMbpping (String prffix)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of tif stbrt of bn flfmfnt.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif stbrt of
+     * fbdi flfmfnt (sudi bs bllodbting b nfw trff nodf or writing
+     * output to b filf).</p>
+     *
+     * @pbrbm uri Tif Nbmfspbdf URI, or tif fmpty string if tif
+     *        flfmfnt ibs no Nbmfspbdf URI or if Nbmfspbdf
+     *        prodfssing is not bfing pfrformfd.
+     * @pbrbm lodblNbmf Tif lodbl nbmf (witiout prffix), or tif
+     *        fmpty string if Nbmfspbdf prodfssing is not bfing
+     *        pfrformfd.
+     * @pbrbm qNbmf Tif qublififd nbmf (witi prffix), or tif
+     *        fmpty string if qublififd nbmfs brf not bvbilbblf.
+     * @pbrbm bttributfs Tif bttributfs bttbdifd to tif flfmfnt.  If
+     *        tifrf brf no bttributfs, it sibll bf bn fmpty
+     *        Attributfs objfdt.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#stbrtElfmfnt
+     */
+    publid void stbrtElfmfnt (String uri, String lodblNbmf,
+                              String qNbmf, Attributfs bttributfs)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of tif fnd of bn flfmfnt.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions bt tif fnd of
+     * fbdi flfmfnt (sudi bs finblising b trff nodf or writing
+     * output to b filf).</p>
+     *
+     * @pbrbm uri Tif Nbmfspbdf URI, or tif fmpty string if tif
+     *        flfmfnt ibs no Nbmfspbdf URI or if Nbmfspbdf
+     *        prodfssing is not bfing pfrformfd.
+     * @pbrbm lodblNbmf Tif lodbl nbmf (witiout prffix), or tif
+     *        fmpty string if Nbmfspbdf prodfssing is not bfing
+     *        pfrformfd.
+     * @pbrbm qNbmf Tif qublififd nbmf (witi prffix), or tif
+     *        fmpty string if qublififd nbmfs brf not bvbilbblf.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#fndElfmfnt
+     */
+    publid void fndElfmfnt (String uri, String lodblNbmf, String qNbmf)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of dibrbdtfr dbtb insidf bn flfmfnt.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod to tbkf spfdifid bdtions for fbdi diunk of dibrbdtfr dbtb
+     * (sudi bs bdding tif dbtb to b nodf or bufffr, or printing it to
+     * b filf).</p>
+     *
+     * @pbrbm di Tif dibrbdtfrs.
+     * @pbrbm stbrt Tif stbrt position in tif dibrbdtfr brrby.
+     * @pbrbm lfngti Tif numbfr of dibrbdtfrs to usf from tif
+     *               dibrbdtfr brrby.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#dibrbdtfrs
+     */
+    publid void dibrbdtfrs (dibr di[], int stbrt, int lfngti)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of ignorbblf wiitfspbdf in flfmfnt dontfnt.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod to tbkf spfdifid bdtions for fbdi diunk of ignorbblf
+     * wiitfspbdf (sudi bs bdding dbtb to b nodf or bufffr, or printing
+     * it to b filf).</p>
+     *
+     * @pbrbm di Tif wiitfspbdf dibrbdtfrs.
+     * @pbrbm stbrt Tif stbrt position in tif dibrbdtfr brrby.
+     * @pbrbm lfngti Tif numbfr of dibrbdtfrs to usf from tif
+     *               dibrbdtfr brrby.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#ignorbblfWiitfspbdf
+     */
+    publid void ignorbblfWiitfspbdf (dibr di[], int stbrt, int lfngti)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b prodfssing instrudtion.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions for fbdi
+     * prodfssing instrudtion, sudi bs sftting stbtus vbribblfs or
+     * invoking otifr mftiods.</p>
+     *
+     * @pbrbm tbrgft Tif prodfssing instrudtion tbrgft.
+     * @pbrbm dbtb Tif prodfssing instrudtion dbtb, or null if
+     *             nonf is supplifd.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#prodfssingInstrudtion
+     */
+    publid void prodfssingInstrudtion (String tbrgft, String dbtb)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b skippfd fntity.
+     *
+     * <p>By dffbult, do notiing.  Applidbtion writfrs mby ovfrridf tiis
+     * mftiod in b subdlbss to tbkf spfdifid bdtions for fbdi
+     * prodfssing instrudtion, sudi bs sftting stbtus vbribblfs or
+     * invoking otifr mftiods.</p>
+     *
+     * @pbrbm nbmf Tif nbmf of tif skippfd fntity.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ContfntHbndlfr#prodfssingInstrudtion
+     */
+    publid void skippfdEntity (String nbmf)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Dffbult implfmfntbtion of tif ErrorHbndlfr intfrfbdf.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Rfdfivf notifidbtion of b pbrsfr wbrning.
+     *
+     * <p>Tif dffbult implfmfntbtion dofs notiing.  Applidbtion writfrs
+     * mby ovfrridf tiis mftiod in b subdlbss to tbkf spfdifid bdtions
+     * for fbdi wbrning, sudi bs insfrting tif mfssbgf in b log filf or
+     * printing it to tif donsolf.</p>
+     *
+     * @pbrbm f Tif wbrning informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#wbrning
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void wbrning (SAXPbrsfExdfption f)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfdfivf notifidbtion of b rfdovfrbblf pbrsfr frror.
+     *
+     * <p>Tif dffbult implfmfntbtion dofs notiing.  Applidbtion writfrs
+     * mby ovfrridf tiis mftiod in b subdlbss to tbkf spfdifid bdtions
+     * for fbdi frror, sudi bs insfrting tif mfssbgf in b log filf or
+     * printing it to tif donsolf.</p>
+     *
+     * @pbrbm f Tif frror informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#wbrning
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void frror (SAXPbrsfExdfption f)
+        tirows SAXExdfption
+    {
+        // no op
+    }
+
+
+    /**
+     * Rfport b fbtbl XML pbrsing frror.
+     *
+     * <p>Tif dffbult implfmfntbtion tirows b SAXPbrsfExdfption.
+     * Applidbtion writfrs mby ovfrridf tiis mftiod in b subdlbss if
+     * tify nffd to tbkf spfdifid bdtions for fbdi fbtbl frror (sudi bs
+     * dollfdting bll of tif frrors into b singlf rfport): in bny dbsf,
+     * tif bpplidbtion must stop bll rfgulbr prodfssing wifn tiis
+     * mftiod is invokfd, sindf tif dodumfnt is no longfr rflibblf, bnd
+     * tif pbrsfr mby no longfr rfport pbrsing fvfnts.</p>
+     *
+     * @pbrbm f Tif frror informbtion fndodfd bs bn fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.ErrorHbndlfr#fbtblError
+     * @sff org.xml.sbx.SAXPbrsfExdfption
+     */
+    publid void fbtblError (SAXPbrsfExdfption f)
+        tirows SAXExdfption
+    {
+        tirow f;
     }
 
 }
 
-// end of DefaultHandler.java
+// fnd of DffbultHbndlfr.jbvb

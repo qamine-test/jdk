@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss spfdififs b Diffif-Hfllmbn publid kfy with its bssodibtfd
+ * pbrbmftfrs.
+ *
+ * <p>Notf thbt this dlbss dofs not pfrform bny vblidbtion on spfdififd
+ * pbrbmftfrs. Thus, thf spfdififd vblufs brf rfturnfd dirfdtly fvfn
+ * if thfy brf null.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sff DHPrivbtfKfySpfd
+ * @sindf 1.4
+ */
+publid dlbss DHPublidKfySpfd implfmfnts jbvb.sfdurity.spfd.KfySpfd {
+
+    // Thf publid vbluf
+    privbtf BigIntfgfr y;
+
+    // Thf primf modulus
+    privbtf BigIntfgfr p;
+
+    // Thf bbsf gfnfrbtor
+    privbtf BigIntfgfr g;
+
+    /**
+     * Construdtor thbt tbkfs b publid vbluf <dodf>y</dodf>, b primf
+     * modulus <dodf>p</dodf>, bnd b bbsf gfnfrbtor <dodf>g</dodf>.
+     * @pbrbm y  publid vbluf y
+     * @pbrbm p  primf modulus p
+     * @pbrbm g  bbsf gfnfrbtor g
+     */
+    publid DHPublidKfySpfd(BigIntfgfr y, BigIntfgfr p, BigIntfgfr g) {
+        this.y = y;
+        this.p = p;
+        this.g = g;
+    }
+
+    /**
+     * Rfturns thf publid vbluf <dodf>y</dodf>.
+     *
+     * @rfturn thf publid vbluf <dodf>y</dodf>
+     */
+    publid BigIntfgfr gftY() {
+        rfturn this.y;
+    }
+
+    /**
+     * Rfturns thf primf modulus <dodf>p</dodf>.
+     *
+     * @rfturn thf primf modulus <dodf>p</dodf>
+     */
+    publid BigIntfgfr gftP() {
+        rfturn this.p;
+    }
+
+    /**
+     * Rfturns thf bbsf gfnfrbtor <dodf>g</dodf>.
+     *
+     * @rfturn thf bbsf gfnfrbtor <dodf>g</dodf>
+     */
+    publid BigIntfgfr gftG() {
+        rfturn this.g;
+    }
+}

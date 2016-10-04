@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: KfyVbluf.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
+
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvbx.xml.drypto.XMLStrudturf;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>KfyVbluf</dodf> flfmfnt bs dffinfd
+ * in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>. A
+ * <dodf>KfyVbluf</dodf> objfdt dontbins b singlf publid kfy thbt mby bf
+ * usfful in vblidbting thf signbturf. Thf XML sdhfmb dffinition is dffinfd bs:
+ *
+ * <prf>
+ *    &lt;flfmfnt nbmf="KfyVbluf" typf="ds:KfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="KfyVblufTypf" mixfd="truf"&gt;
+ *      &lt;dhoidf&gt;
+ *        &lt;flfmfnt rff="ds:DSAKfyVbluf"/&gt;
+ *        &lt;flfmfnt rff="ds:RSAKfyVbluf"/&gt;
+ *        &lt;bny nbmfspbdf="##othfr" prodfssContfnts="lbx"/&gt;
+ *      &lt;/dhoidf&gt;
+ *    &lt;/domplfxTypf&gt;
+ *
+ *    &lt;flfmfnt nbmf="DSAKfyVbluf" typf="ds:DSAKfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="DSAKfyVblufTypf"&gt;
+ *      &lt;sfqufndf&gt;
+ *        &lt;sfqufndf minOddurs="0"&gt;
+ *          &lt;flfmfnt nbmf="P" typf="ds:CryptoBinbry"/&gt;
+ *          &lt;flfmfnt nbmf="Q" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *        &lt;flfmfnt nbmf="G" typf="ds:CryptoBinbry" minOddurs="0"/&gt;
+ *        &lt;flfmfnt nbmf="Y" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;flfmfnt nbmf="J" typf="ds:CryptoBinbry" minOddurs="0"/&gt;
+ *        &lt;sfqufndf minOddurs="0"&gt;
+ *          &lt;flfmfnt nbmf="Sffd" typf="ds:CryptoBinbry"/&gt;
+ *          &lt;flfmfnt nbmf="PgfnCountfr" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *      &lt;/sfqufndf&gt;
+ *    &lt;/domplfxTypf&gt;
+ *
+ *    &lt;flfmfnt nbmf="RSAKfyVbluf" typf="ds:RSAKfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="RSAKfyVblufTypf"&gt;
+ *      &lt;sfqufndf&gt;
+ *        &lt;flfmfnt nbmf="Modulus" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;flfmfnt nbmf="Exponfnt" typf="ds:CryptoBinbry"/&gt;
+ *      &lt;/sfqufndf&gt;
+ *    &lt;/domplfxTypf&gt;
+ * </prf>
+ * A <dodf>KfyVbluf</dodf> instbndf mby bf drfbtfd by invoking thf
+ * {@link KfyInfoFbdtory#nfwKfyVbluf nfwKfyVbluf} mfthod of thf
+ * {@link KfyInfoFbdtory} dlbss, bnd pbssing it b {@link
+ * jbvb.sfdurity.PublidKfy} rfprfsfnting thf vbluf of thf publid kfy. Hfrf is
+ * bn fxbmplf of drfbting b <dodf>KfyVbluf</dodf> from b {@link DSAPublidKfy}
+ * of b {@link jbvb.sfdurity.dfrt.Cfrtifidbtf} storfd in b
+ * {@link jbvb.sfdurity.KfyStorf}:
+ * <prf>
+ * KfyStorf kfyStorf = KfyStorf.gftInstbndf(KfyStorf.gftDffbultTypf());
+ * PublidKfy dsbPublidKfy = kfyStorf.gftCfrtifidbtf("myDSASigningCfrt").gftPublidKfy();
+ * KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ * KfyVbluf kfyVbluf = fbdtory.nfwKfyVbluf(dsbPublidKfy);
+ * </prf>
+ *
+ * This dlbss rfturns thf <dodf>DSAKfyVbluf</dodf> bnd
+ * <dodf>RSAKfyVbluf</dodf> flfmfnts bs objfdts of typf
+ * {@link DSAPublidKfy} bnd {@link RSAPublidKfy}, rfspfdtivfly. Notf thbt not
+ * bll of thf fiflds in thf sdhfmb brf bddfssiblf bs pbrbmftfrs of thfsf
+ * typfs.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwKfyVbluf(PublidKfy)
+ */
+publid intfrfbdf KfyVbluf fxtfnds XMLStrudturf {
+
+    /**
+     * URI idfntifying thf DSA KfyVbluf KfyInfo typf:
+     * http://www.w3.org/2000/09/xmldsig#DSAKfyVbluf. This dbn bf spfdififd bs
+     * thf vbluf of thf <dodf>typf</dodf> pbrbmftfr of thf
+     * {@link RftrifvblMfthod} dlbss to dfsdribf b rfmotf
+     * <dodf>DSAKfyVbluf</dodf> strudturf.
+     */
+    finbl stbtid String DSA_TYPE =
+        "http://www.w3.org/2000/09/xmldsig#DSAKfyVbluf";
+
+    /**
+     * URI idfntifying thf RSA KfyVbluf KfyInfo typf:
+     * http://www.w3.org/2000/09/xmldsig#RSAKfyVbluf. This dbn bf spfdififd bs
+     * thf vbluf of thf <dodf>typf</dodf> pbrbmftfr of thf
+     * {@link RftrifvblMfthod} dlbss to dfsdribf b rfmotf
+     * <dodf>RSAKfyVbluf</dodf> strudturf.
+     */
+    finbl stbtid String RSA_TYPE =
+        "http://www.w3.org/2000/09/xmldsig#RSAKfyVbluf";
+
+    /**
+     * Rfturns thf publid kfy of this <dodf>KfyVbluf</dodf>.
+     *
+     * @rfturn thf publid kfy of this <dodf>KfyVbluf</dodf>
+     * @throws KfyExdfption if this <dodf>KfyVbluf</dodf> dbnnot bf donvfrtfd
+     *    to b <dodf>PublidKfy</dodf>
+     */
+    PublidKfy gftPublidKfy() throws KfyExdfption;
+}

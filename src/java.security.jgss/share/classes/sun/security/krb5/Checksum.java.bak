@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.util.Arrays;
-import sun.security.util.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.util.Arrbys;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This class encapsulates the concept of a Kerberos checksum.
+ * Tiis dlbss fndbpsulbtfs tif dondfpt of b Kfrbfros difdksum.
  */
-public class Checksum {
+publid dlbss Cifdksum {
 
-    private int cksumType;
-    private byte[] checksum;
+    privbtf int dksumTypf;
+    privbtf bytf[] difdksum;
 
     // ----------------------------------------------+-------------+-----------
-    //                      Checksum type            |sumtype      |checksum
-    //                                               |value        | size
+    //                      Cifdksum typf            |sumtypf      |difdksum
+    //                                               |vbluf        | sizf
     // ----------------------------------------------+-------------+-----------
-    public static final int CKSUMTYPE_NULL          = 0;               // 0
-    public static final int CKSUMTYPE_CRC32         = 1;               // 4
-    public static final int CKSUMTYPE_RSA_MD4       = 2;               // 16
-    public static final int CKSUMTYPE_RSA_MD4_DES   = 3;               // 24
-    public static final int CKSUMTYPE_DES_MAC       = 4;               // 16
-    public static final int CKSUMTYPE_DES_MAC_K     = 5;               // 8
-    public static final int CKSUMTYPE_RSA_MD4_DES_K = 6;               // 16
-    public static final int CKSUMTYPE_RSA_MD5       = 7;               // 16
-    public static final int CKSUMTYPE_RSA_MD5_DES   = 8;               // 24
+    publid stbtid finbl int CKSUMTYPE_NULL          = 0;               // 0
+    publid stbtid finbl int CKSUMTYPE_CRC32         = 1;               // 4
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4       = 2;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4_DES   = 3;               // 24
+    publid stbtid finbl int CKSUMTYPE_DES_MAC       = 4;               // 16
+    publid stbtid finbl int CKSUMTYPE_DES_MAC_K     = 5;               // 8
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4_DES_K = 6;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD5       = 7;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD5_DES   = 8;               // 24
 
-     // draft-ietf-krb-wg-crypto-07.txt
-    public static final int CKSUMTYPE_HMAC_SHA1_DES3_KD = 12;          // 20
+     // drbft-iftf-krb-wg-drypto-07.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_DES3_KD = 12;          // 20
 
-    // draft-raeburn-krb-rijndael-krb-07.txt
-    public static final int CKSUMTYPE_HMAC_SHA1_96_AES128 = 15;        // 96
-    public static final int CKSUMTYPE_HMAC_SHA1_96_AES256 = 16;        // 96
+    // drbft-rbfburn-krb-rijndbfl-krb-07.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_96_AES128 = 15;        // 96
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_96_AES256 = 16;        // 96
 
-    // draft-brezak-win2k-krb-rc4-hmac-04.txt
-    public static final int CKSUMTYPE_HMAC_MD5_ARCFOUR = -138;
+    // drbft-brfzbk-win2k-krb-rd4-imbd-04.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_MD5_ARCFOUR = -138;
 
-    static int CKSUMTYPE_DEFAULT;
-    static int SAFECKSUMTYPE_DEFAULT;
+    stbtid int CKSUMTYPE_DEFAULT;
+    stbtid int SAFECKSUMTYPE_DEFAULT;
 
-    private static boolean DEBUG = Krb5.DEBUG;
-    static {
-        initStatic();
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+    stbtid {
+        initStbtid();
     }
 
-    public static void initStatic() {
-        String temp = null;
-        Config cfg = null;
+    publid stbtid void initStbtid() {
+        String tfmp = null;
+        Config dfg = null;
         try {
-            cfg = Config.getInstance();
-            temp = cfg.get("libdefaults", "default_checksum");
-            if (temp != null)
+            dfg = Config.gftInstbndf();
+            tfmp = dfg.gft("libdffbults", "dffbult_difdksum");
+            if (tfmp != null)
                 {
-                    CKSUMTYPE_DEFAULT = Config.getType(temp);
-                } else {
+                    CKSUMTYPE_DEFAULT = Config.gftTypf(tfmp);
+                } flsf {
                     /*
-                     * If the default checksum is not
-                     * specified in the configuration we
-                     * set it to RSA_MD5. We follow the MIT and
-                     * SEAM implementation.
+                     * If tif dffbult difdksum is not
+                     * spfdififd in tif donfigurbtion wf
+                     * sft it to RSA_MD5. Wf follow tif MIT bnd
+                     * SEAM implfmfntbtion.
                      */
                     CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
                 }
-        } catch (Exception exc) {
+        } dbtdi (Exdfption fxd) {
             if (DEBUG) {
-                System.out.println("Exception in getting default checksum "+
-                                   "value from the configuration " +
-                                   "Setting default checksum to be RSA-MD5");
-                exc.printStackTrace();
+                Systfm.out.println("Exdfption in gftting dffbult difdksum "+
+                                   "vbluf from tif donfigurbtion " +
+                                   "Sftting dffbult difdksum to bf RSA-MD5");
+                fxd.printStbdkTrbdf();
             }
             CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
         }
 
 
         try {
-            temp = cfg.get("libdefaults", "safe_checksum_type");
-            if (temp != null)
+            tfmp = dfg.gft("libdffbults", "sbff_difdksum_typf");
+            if (tfmp != null)
                 {
-                    SAFECKSUMTYPE_DEFAULT = Config.getType(temp);
-                } else {
+                    SAFECKSUMTYPE_DEFAULT = Config.gftTypf(tfmp);
+                } flsf {
                     SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
                 }
-        } catch (Exception exc) {
+        } dbtdi (Exdfption fxd) {
             if (DEBUG) {
-                System.out.println("Exception in getting safe default " +
-                                   "checksum value " +
-                                   "from the configuration Setting  " +
-                                   "safe default checksum to be RSA-MD5");
-                exc.printStackTrace();
+                Systfm.out.println("Exdfption in gftting sbff dffbult " +
+                                   "difdksum vbluf " +
+                                   "from tif donfigurbtion Sftting  " +
+                                   "sbff dffbult difdksum to bf RSA-MD5");
+                fxd.printStbdkTrbdf();
             }
             SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
         }
     }
 
     /**
-     * Constructs a new Checksum using the raw data and type.
-     * @data the byte array of checksum.
-     * @new_cksumType the type of checksum.
+     * Construdts b nfw Cifdksum using tif rbw dbtb bnd typf.
+     * @dbtb tif bytf brrby of difdksum.
+     * @nfw_dksumTypf tif typf of difdksum.
      *
      */
-         // used in InitialToken
-    public Checksum(byte[] data, int new_cksumType) {
-        cksumType = new_cksumType;
-        checksum = data;
+         // usfd in InitiblTokfn
+    publid Cifdksum(bytf[] dbtb, int nfw_dksumTypf) {
+        dksumTypf = nfw_dksumTypf;
+        difdksum = dbtb;
     }
 
     /**
-     * Constructs a new Checksum by calculating the checksum over the data
-     * using specified checksum type.
-     * @new_cksumType the type of checksum.
-     * @data the data that needs to be performed a checksum calculation on.
+     * Construdts b nfw Cifdksum by dbldulbting tif difdksum ovfr tif dbtb
+     * using spfdififd difdksum typf.
+     * @nfw_dksumTypf tif typf of difdksum.
+     * @dbtb tif dbtb tibt nffds to bf pfrformfd b difdksum dbldulbtion on.
      */
-    public Checksum(int new_cksumType, byte[] data)
-        throws KdcErrException, KrbCryptoException {
+    publid Cifdksum(int nfw_dksumTypf, bytf[] dbtb)
+        tirows KddErrExdfption, KrbCryptoExdfption {
 
-        cksumType = new_cksumType;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe()) {
-            checksum = cksumEngine.calculateChecksum(data, data.length);
-        } else {
-            throw new KdcErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        dksumTypf = nfw_dksumTypf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff()) {
+            difdksum = dksumEnginf.dbldulbtfCifdksum(dbtb, dbtb.lfngti);
+        } flsf {
+            tirow nfw KddErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
         }
     }
 
     /**
-     * Constructs a new Checksum by calculating the keyed checksum
-     * over the data using specified checksum type.
-     * @new_cksumType the type of checksum.
-     * @data the data that needs to be performed a checksum calculation on.
+     * Construdts b nfw Cifdksum by dbldulbting tif kfyfd difdksum
+     * ovfr tif dbtb using spfdififd difdksum typf.
+     * @nfw_dksumTypf tif typf of difdksum.
+     * @dbtb tif dbtb tibt nffds to bf pfrformfd b difdksum dbldulbtion on.
      */
-         // KrbSafe, KrbTgsReq
-    public Checksum(int new_cksumType, byte[] data,
-                        EncryptionKey key, int usage)
-        throws KdcErrException, KrbApErrException, KrbCryptoException {
-        cksumType = new_cksumType;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe())
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
-        checksum =
-            cksumEngine.calculateKeyedChecksum(data,
-                data.length,
-                key.getBytes(),
-                usage);
+         // KrbSbff, KrbTgsRfq
+    publid Cifdksum(int nfw_dksumTypf, bytf[] dbtb,
+                        EndryptionKfy kfy, int usbgf)
+        tirows KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+        dksumTypf = nfw_dksumTypf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff())
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        difdksum =
+            dksumEnginf.dbldulbtfKfyfdCifdksum(dbtb,
+                dbtb.lfngti,
+                kfy.gftBytfs(),
+                usbgf);
     }
 
     /**
-     * Verifies the keyed checksum over the data passed in.
+     * Vfrififs tif kfyfd difdksum ovfr tif dbtb pbssfd in.
      */
-    public boolean verifyKeyedChecksum(byte[] data, EncryptionKey key,
-                                        int usage)
-        throws KdcErrException, KrbApErrException, KrbCryptoException {
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe())
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
-        return cksumEngine.verifyKeyedChecksum(data,
-                                               data.length,
-                                               key.getBytes(),
-                                               checksum,
-            usage);
+    publid boolfbn vfrifyKfyfdCifdksum(bytf[] dbtb, EndryptionKfy kfy,
+                                        int usbgf)
+        tirows KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff())
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        rfturn dksumEnginf.vfrifyKfyfdCifdksum(dbtb,
+                                               dbtb.lfngti,
+                                               kfy.gftBytfs(),
+                                               difdksum,
+            usbgf);
     }
 
     /*
-    public Checksum(byte[] data) throws KdcErrException, KrbCryptoException {
-        this(Checksum.CKSUMTYPE_DEFAULT, data);
+    publid Cifdksum(bytf[] dbtb) tirows KddErrExdfption, KrbCryptoExdfption {
+        tiis(Cifdksum.CKSUMTYPE_DEFAULT, dbtb);
     }
     */
 
-    boolean isEqual(Checksum cksum) throws KdcErrException {
-        if (cksumType != cksum.cksumType)
-            return false;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        return CksumType.isChecksumEqual(checksum, cksum.checksum);
+    boolfbn isEqubl(Cifdksum dksum) tirows KddErrExdfption {
+        if (dksumTypf != dksum.dksumTypf)
+            rfturn fblsf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        rfturn CksumTypf.isCifdksumEqubl(difdksum, dksum.difdksum);
     }
 
     /**
-     * Constructs an instance of Checksum from an ASN.1 encoded representation.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1
-     * encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Construdts bn instbndf of Cifdksum from bn ASN.1 fndodfd rfprfsfntbtion.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1
+     * fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      *
      */
-    private Checksum(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    privbtf Cifdksum(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x00) {
-            cksumType = der.getData().getBigInteger().intValue();
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x00) {
+            dksumTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x01) {
-            checksum = der.getData().getOctetString();
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x01) {
+            difdksum = dfr.gftDbtb().gftOdtftString();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        if (encoding.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes a Checksum object.
+     * Endodfs b Cifdksum objfdt.
      * <xmp>
-     * Checksum    ::= SEQUENCE {
-     *         cksumtype   [0] Int32,
-     *         checksum    [1] OCTET STRING
+     * Cifdksum    ::= SEQUENCE {
+     *         dksumtypf   [0] Int32,
+     *         difdksum    [1] OCTET STRING
      * }
      * </xmp>
      *
      * <p>
-     * This definition reflects the Network Working Group RFC 4120
-     * specification available at
-     * <a href="http://www.ietf.org/rfc/rfc4120.txt">
-     * http://www.ietf.org/rfc/rfc4120.txt</a>.
-     * @return byte array of enocded Checksum.
-     * @exception Asn1Exception if an error occurs while decoding an
-     * ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading
-     * encoded data.
+     * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+     * spfdifidbtion bvbilbblf bt
+     * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+     * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
+     * @rfturn bytf brrby of fnoddfd Cifdksum.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+     * fndodfd dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(cksumType));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                       true, (byte)0x00), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(checksum);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                       true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(dksumTypf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                       truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(difdksum);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                       truf, (bytf)0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
 
     /**
-     * Parse (unmarshal) a checksum object from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrsf (unmbrsibl) b difdksum objfdt from b DER input strfbm.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception if an error occurs while decoding an
-     * ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading
-     * encoded data.
-     * @param data the Der input stream value, which contains one or more
-     * marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional
-     * @return an instance of Checksum.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding
+     * fndodfd dbtb.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or morf
+     * mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if tiis dbtb fifld is optionbl
+     * @rfturn bn instbndf of Cifdksum.
      *
      */
-    public static Checksum parse(DerInputStream data,
-                                 byte explicitTag, boolean optional)
-        throws Asn1Exception, IOException {
+    publid stbtid Cifdksum pbrsf(DfrInputStrfbm dbtb,
+                                 bytf fxpliditTbg, boolfbn optionbl)
+        tirows Asn1Exdfption, IOExdfption {
 
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag)) {
-            return null;
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg)) {
+            rfturn null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        } else {
-            DerValue subDer = der.getData().getDerValue();
-            return new Checksum(subDer);
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw Cifdksum(subDfr);
         }
     }
 
     /**
-     * Returns the raw bytes of the checksum, not in ASN.1 encoded form.
+     * Rfturns tif rbw bytfs of tif difdksum, not in ASN.1 fndodfd form.
      */
-    public final byte[] getBytes() {
-        return checksum;
+    publid finbl bytf[] gftBytfs() {
+        rfturn difdksum;
     }
 
-    public final int getType() {
-        return cksumType;
+    publid finbl int gftTypf() {
+        rfturn dksumTypf;
     }
 
-    @Override public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof Checksum)) {
-            return false;
+        if (!(obj instbndfof Cifdksum)) {
+            rfturn fblsf;
         }
 
         try {
-            return isEqual((Checksum)obj);
-        } catch (KdcErrException kee) {
-            return false;
+            rfturn isEqubl((Cifdksum)obj);
+        } dbtdi (KddErrExdfption kff) {
+            rfturn fblsf;
         }
     }
 
-    @Override public int hashCode() {
-        int result = 17;
-        result = 37 * result + cksumType;
-        if (checksum != null) {
-            result = 37 * result + Arrays.hashCode(checksum);
+    @Ovfrridf publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 37 * rfsult + dksumTypf;
+        if (difdksum != null) {
+            rfsult = 37 * rfsult + Arrbys.ibsiCodf(difdksum);
         }
-        return result;
+        rfturn rfsult;
     }
 }

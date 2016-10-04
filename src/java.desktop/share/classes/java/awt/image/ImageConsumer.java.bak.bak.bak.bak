@@ -1,0 +1,227 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.util.Hbshtbblf;
+
+
+/**
+ * Thf intfrfbdf for objfdts fxprfssing intfrfst in imbgf dbtb through
+ * thf ImbgfProdudfr intfrfbdfs.  Whfn b donsumfr is bddfd to bn imbgf
+ * produdfr, thf produdfr dflivfrs bll of thf dbtb bbout thf imbgf
+ * using thf mfthod dblls dffinfd in this intfrfbdf.
+ *
+ * @sff ImbgfProdudfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid intfrfbdf ImbgfConsumfr {
+    /**
+     * Thf dimfnsions of thf sourdf imbgf brf rfportfd using thf
+     * sftDimfnsions mfthod dbll.
+     * @pbrbm width thf width of thf sourdf imbgf
+     * @pbrbm hfight thf hfight of thf sourdf imbgf
+     */
+    void sftDimfnsions(int width, int hfight);
+
+    /**
+     * Sfts thf fxtfnsiblf list of propfrtifs bssodibtfd with this imbgf.
+     * @pbrbm props thf list of propfrtifs to bf bssodibtfd with this
+     *        imbgf
+     */
+    void sftPropfrtifs(Hbshtbblf<?,?> props);
+
+    /**
+     * Sfts thf ColorModfl objfdt usfd for thf mbjority of
+     * thf pixfls rfportfd using thf sftPixfls mfthod
+     * dblls.  Notf thbt fbdh sft of pixfls dflivfrfd using sftPixfls
+     * dontbins its own ColorModfl objfdt, so no bssumption should
+     * bf mbdf thbt this modfl will bf thf only onf usfd in dflivfring
+     * pixfl vblufs.  A notbblf dbsf whfrf multiplf ColorModfl objfdts
+     * mby bf sffn is b filtfrfd imbgf whfn for fbdh sft of pixfls
+     * thbt it filtfrs, thf filtfr
+     * dftfrminfs  whfthfr thf
+     * pixfls dbn bf sfnt on untoudhfd, using thf originbl ColorModfl,
+     * or whfthfr thf pixfls should bf modififd (filtfrfd) bnd pbssfd
+     * on using b ColorModfl morf donvfnifnt for thf filtfring prodfss.
+     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
+     * @sff ColorModfl
+     */
+    void sftColorModfl(ColorModfl modfl);
+
+    /**
+     * Sfts thf hints thbt thf ImbgfConsumfr usfs to prodfss thf
+     * pixfls dflivfrfd by thf ImbgfProdudfr.
+     * Thf ImbgfProdudfr dbn dflivfr thf pixfls in bny ordfr, but
+     * thf ImbgfConsumfr mby bf bblf to sdblf or donvfrt thf pixfls
+     * to thf dfstinbtion ColorModfl morf fffidifntly or with highfr
+     * qublity if it knows somf informbtion bbout how thf pixfls will
+     * bf dflivfrfd up front.  Thf sftHints mfthod should bf dbllfd
+     * bfforf bny dblls to bny of thf sftPixfls mfthods with b bit mbsk
+     * of hints bbout thf mbnnfr in whidh thf pixfls will bf dflivfrfd.
+     * If thf ImbgfProdudfr dofs not follow thf guidflinfs for thf
+     * indidbtfd hint, thf rfsults brf undffinfd.
+     * @pbrbm hintflbgs b sft of hints thbt thf ImbgfConsumfr usfs to
+     *        prodfss thf pixfls
+     */
+    void sftHints(int hintflbgs);
+
+    /**
+     * Thf pixfls will bf dflivfrfd in b rbndom ordfr.  This tflls thf
+     * ImbgfConsumfr not to usf bny optimizbtions thbt dfpfnd on thf
+     * ordfr of pixfl dflivfry, whidh should bf thf dffbult bssumption
+     * in thf bbsfndf of bny dbll to thf sftHints mfthod.
+     * @sff #sftHints
+     */
+    int RANDOMPIXELORDER = 1;
+
+    /**
+     * Thf pixfls will bf dflivfrfd in top-down, lfft-to-right ordfr.
+     * @sff #sftHints
+     */
+    int TOPDOWNLEFTRIGHT = 2;
+
+    /**
+     * Thf pixfls will bf dflivfrfd in (multiplfs of) domplftf sdbnlinfs
+     * bt b timf.
+     * @sff #sftHints
+     */
+    int COMPLETESCANLINES = 4;
+
+    /**
+     * Thf pixfls will bf dflivfrfd in b singlf pbss.  Ebdh pixfl will
+     * bppfbr in only onf dbll to bny of thf sftPixfls mfthods.  An
+     * fxbmplf of bn imbgf formbt whidh dofs not mfft this dritfrion
+     * is b progrfssivf JPEG imbgf whidh dffinfs pixfls in multiplf
+     * pbssfs, fbdh morf rffinfd thbn thf prfvious.
+     * @sff #sftHints
+     */
+    int SINGLEPASS = 8;
+
+    /**
+     * Thf imbgf dontbin b singlf stbtid imbgf.  Thf pixfls will bf dffinfd
+     * in dblls to thf sftPixfls mfthods bnd thfn thf imbgfComplftf mfthod
+     * will bf dbllfd with thf STATICIMAGEDONE flbg bftfr whidh no morf
+     * imbgf dbtb will bf dflivfrfd.  An fxbmplf of bn imbgf typf whidh
+     * would not mfft thfsf dritfrib would bf thf output of b vidfo fffd,
+     * or thf rfprfsfntbtion of b 3D rfndfring bfing mbnipulbtfd
+     * by thf usfr.  Thf fnd of fbdh frbmf in thosf typfs of imbgfs will
+     * bf indidbtfd by dblling imbgfComplftf with thf SINGLEFRAMEDONE flbg.
+     * @sff #sftHints
+     * @sff #imbgfComplftf
+     */
+    int SINGLEFRAME = 16;
+
+    /**
+     * Dflivfrs thf pixfls of thf imbgf with onf or morf dblls
+     * to this mfthod.  Ebdh dbll spfdififs thf lodbtion bnd
+     * sizf of thf rfdtbnglf of sourdf pixfls thbt brf dontbinfd in
+     * thf brrby of pixfls.  Thf spfdififd ColorModfl objfdt should
+     * bf usfd to donvfrt thf pixfls into thfir dorrfsponding dolor
+     * bnd blphb domponfnts.  Pixfl (m,n) is storfd in thf pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Thf pixfls dflivfrfd using
+     * this mfthod brf bll storfd bs bytfs.
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf
+     *        brfb of pixfls to bf sft
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+     *        brfb of pixfls to bf sft
+     * @pbrbm w thf width of thf brfb of pixfls
+     * @pbrbm h thf hfight of thf brfb of pixfls
+     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls thf brrby of pixfls
+     * @pbrbm off thf offsft into thf <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
+     * thf <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
+     */
+    void sftPixfls(int x, int y, int w, int h,
+                   ColorModfl modfl, bytf pixfls[], int off, int sdbnsizf);
+
+    /**
+     * Thf pixfls of thf imbgf brf dflivfrfd using onf or morf dblls
+     * to thf sftPixfls mfthod.  Ebdh dbll spfdififs thf lodbtion bnd
+     * sizf of thf rfdtbnglf of sourdf pixfls thbt brf dontbinfd in
+     * thf brrby of pixfls.  Thf spfdififd ColorModfl objfdt should
+     * bf usfd to donvfrt thf pixfls into thfir dorrfsponding dolor
+     * bnd blphb domponfnts.  Pixfl (m,n) is storfd in thf pixfls brrby
+     * bt indfx (n * sdbnsizf + m + off).  Thf pixfls dflivfrfd using
+     * this mfthod brf bll storfd bs ints.
+     * this mfthod brf bll storfd bs ints.
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf
+     *        brfb of pixfls to bf sft
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+     *        brfb of pixfls to bf sft
+     * @pbrbm w thf width of thf brfb of pixfls
+     * @pbrbm h thf hfight of thf brfb of pixfls
+     * @pbrbm modfl thf spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls thf brrby of pixfls
+     * @pbrbm off thf offsft into thf <dodf>pixfls</dodf> brrby
+     * @pbrbm sdbnsizf thf distbndf from onf row of pixfls to thf nfxt in
+     * thf <dodf>pixfls</dodf> brrby
+     * @sff ColorModfl
+     */
+    void sftPixfls(int x, int y, int w, int h,
+                   ColorModfl modfl, int pixfls[], int off, int sdbnsizf);
+
+    /**
+     * Thf imbgfComplftf mfthod is dbllfd whfn thf ImbgfProdudfr is
+     * finishfd dflivfring bll of thf pixfls thbt thf sourdf imbgf
+     * dontbins, or whfn b singlf frbmf of b multi-frbmf bnimbtion hbs
+     * bffn domplftfd, or whfn bn frror in lobding or produding thf
+     * imbgf hbs oddurrfd.  Thf ImbgfConsumfr should rfmovf itsflf from thf
+     * list of donsumfrs rfgistfrfd with thf ImbgfProdudfr bt this timf,
+     * unlfss it is intfrfstfd in suddfssivf frbmfs.
+     * @pbrbm stbtus thf stbtus of imbgf lobding
+     * @sff ImbgfProdudfr#rfmovfConsumfr
+     */
+    void imbgfComplftf(int stbtus);
+
+    /**
+     * An frror wbs fndountfrfd whilf produding thf imbgf.
+     * @sff #imbgfComplftf
+     */
+    int IMAGEERROR = 1;
+
+    /**
+     * Onf frbmf of thf imbgf is domplftf but thfrf brf morf frbmfs
+     * to bf dflivfrfd.
+     * @sff #imbgfComplftf
+     */
+    int SINGLEFRAMEDONE = 2;
+
+    /**
+     * Thf imbgf is domplftf bnd thfrf brf no morf pixfls or frbmfs
+     * to bf dflivfrfd.
+     * @sff #imbgfComplftf
+     */
+    int STATICIMAGEDONE = 3;
+
+    /**
+     * Thf imbgf drfbtion prodfss wbs dflibfrbtfly bbortfd.
+     * @sff #imbgfComplftf
+     */
+    int IMAGEABORTED = 4;
+}

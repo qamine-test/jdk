@@ -1,0 +1,1603 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+
+
+/**
+ * <dodf>MfssbgfFormbt</dodf> providfs b mfbns to produdf dondbtfnbtfd
+ * mfssbgfs in b lbngubgf-nfutrbl wby. Usf this to donstrudt mfssbgfs
+ * displbyfd for fnd usfrs.
+ *
+ * <p>
+ * <dodf>MfssbgfFormbt</dodf> tbkfs b sft of objfdts, formbts thfm, thfn
+ * insfrts thf formbttfd strings into thf pbttfrn bt thf bppropribtf plbdfs.
+ *
+ * <p>
+ * <strong>Notf:</strong>
+ * <dodf>MfssbgfFormbt</dodf> difffrs from thf othfr <dodf>Formbt</dodf>
+ * dlbssfs in thbt you drfbtf b <dodf>MfssbgfFormbt</dodf> objfdt with onf
+ * of its donstrudtors (not with b <dodf>gftInstbndf</dodf> stylf fbdtory
+ * mfthod). Thf fbdtory mfthods brfn't nfdfssbry bfdbusf <dodf>MfssbgfFormbt</dodf>
+ * itsflf dofsn't implfmfnt lodblf spfdifid bfhbvior. Any lodblf spfdifid
+ * bfhbvior is dffinfd by thf pbttfrn thbt you providf bs wfll bs thf
+ * subformbts usfd for insfrtfd brgumfnts.
+ *
+ * <h3><b nbmf="pbttfrns">Pbttfrns bnd Thfir Intfrprftbtion</b></h3>
+ *
+ * <dodf>MfssbgfFormbt</dodf> usfs pbttfrns of thf following form:
+ * <blodkquotf><prf>
+ * <i>MfssbgfFormbtPbttfrn:</i>
+ *         <i>String</i>
+ *         <i>MfssbgfFormbtPbttfrn</i> <i>FormbtElfmfnt</i> <i>String</i>
+ *
+ * <i>FormbtElfmfnt:</i>
+ *         { <i>ArgumfntIndfx</i> }
+ *         { <i>ArgumfntIndfx</i> , <i>FormbtTypf</i> }
+ *         { <i>ArgumfntIndfx</i> , <i>FormbtTypf</i> , <i>FormbtStylf</i> }
+ *
+ * <i>FormbtTypf: onf of </i>
+ *         numbfr dbtf timf dhoidf
+ *
+ * <i>FormbtStylf:</i>
+ *         short
+ *         mfdium
+ *         long
+ *         full
+ *         intfgfr
+ *         durrfndy
+ *         pfrdfnt
+ *         <i>SubformbtPbttfrn</i>
+ * </prf></blodkquotf>
+ *
+ * <p>Within b <i>String</i>, b pbir of singlf quotfs dbn bf usfd to
+ * quotf bny brbitrbry dhbrbdtfrs fxdfpt singlf quotfs. For fxbmplf,
+ * pbttfrn string <dodf>"'{0}'"</dodf> rfprfsfnts string
+ * <dodf>"{0}"</dodf>, not b <i>FormbtElfmfnt</i>. A singlf quotf itsflf
+ * must bf rfprfsfntfd by doublfd singlf quotfs {@dodf ''} throughout b
+ * <i>String</i>.  For fxbmplf, pbttfrn string <dodf>"'{''}'"</dodf> is
+ * intfrprftfd bs b sfqufndf of <dodf>'{</dodf> (stbrt of quoting bnd b
+ * lfft durly brbdf), <dodf>''</dodf> (b singlf quotf), bnd
+ * <dodf>}'</dodf> (b right durly brbdf bnd fnd of quoting),
+ * <fm>not</fm> <dodf>'{'</dodf> bnd <dodf>'}'</dodf> (quotfd lfft bnd
+ * right durly brbdfs): rfprfsfnting string <dodf>"{'}"</dodf>,
+ * <fm>not</fm> <dodf>"{}"</dodf>.
+ *
+ * <p>A <i>SubformbtPbttfrn</i> is intfrprftfd by its dorrfsponding
+ * subformbt, bnd subformbt-dfpfndfnt pbttfrn rulfs bpply. For fxbmplf,
+ * pbttfrn string <dodf>"{1,numbfr,<u>$'#',##</u>}"</dodf>
+ * (<i>SubformbtPbttfrn</i> with undfrlinf) will produdf b numbfr formbt
+ * with thf pound-sign quotfd, with b rfsult sudh bs: {@dodf
+ * "$#31,45"}. Rfffr to fbdh {@dodf Formbt} subdlbss dodumfntbtion for
+ * dftbils.
+ *
+ * <p>Any unmbtdhfd quotf is trfbtfd bs dlosfd bt thf fnd of thf givfn
+ * pbttfrn. For fxbmplf, pbttfrn string {@dodf "'{0}"} is trfbtfd bs
+ * pbttfrn {@dodf "'{0}'"}.
+ *
+ * <p>Any durly brbdfs within bn unquotfd pbttfrn must bf bblbndfd. For
+ * fxbmplf, <dodf>"bb {0} df"</dodf> bnd <dodf>"bb '}' df"</dodf> brf
+ * vblid pbttfrns, but <dodf>"bb {0'}' df"</dodf>, <dodf>"bb } df"</dodf>
+ * bnd <dodf>"''{''"</dodf> brf not.
+ *
+ * <dl><dt><b>Wbrning:</b><dd>Thf rulfs for using quotfs within mfssbgf
+ * formbt pbttfrns unfortunbtfly hbvf shown to bf somfwhbt donfusing.
+ * In pbrtidulbr, it isn't blwbys obvious to lodblizfrs whfthfr singlf
+ * quotfs nffd to bf doublfd or not. Mbkf surf to inform lodblizfrs bbout
+ * thf rulfs, bnd tfll thfm (for fxbmplf, by using dommfnts in rfsourdf
+ * bundlf sourdf filfs) whidh strings will bf prodfssfd by {@dodf MfssbgfFormbt}.
+ * Notf thbt lodblizfrs mby nffd to usf singlf quotfs in trbnslbtfd
+ * strings whfrf thf originbl vfrsion dofsn't hbvf thfm.
+ * </dl>
+ * <p>
+ * Thf <i>ArgumfntIndfx</i> vbluf is b non-nfgbtivf intfgfr writtfn
+ * using thf digits {@dodf '0'} through {@dodf '9'}, bnd rfprfsfnts bn indfx into thf
+ * {@dodf brgumfnts} brrby pbssfd to thf {@dodf formbt} mfthods
+ * or thf rfsult brrby rfturnfd by thf {@dodf pbrsf} mfthods.
+ * <p>
+ * Thf <i>FormbtTypf</i> bnd <i>FormbtStylf</i> vblufs brf usfd to drfbtf
+ * b {@dodf Formbt} instbndf for thf formbt flfmfnt. Thf following
+ * tbblf shows how thf vblufs mbp to {@dodf Formbt} instbndfs. Combinbtions not
+ * shown in thf tbblf brf illfgbl. A <i>SubformbtPbttfrn</i> must
+ * bf b vblid pbttfrn string for thf {@dodf Formbt} subdlbss usfd.
+ *
+ * <tbblf bordfr=1 summbry="Shows how FormbtTypf bnd FormbtStylf vblufs mbp to Formbt instbndfs">
+ *    <tr>
+ *       <th id="ft" dlbss="TbblfHfbdingColor">FormbtTypf
+ *       <th id="fs" dlbss="TbblfHfbdingColor">FormbtStylf
+ *       <th id="sd" dlbss="TbblfHfbdingColor">Subformbt Crfbtfd
+ *    <tr>
+ *       <td hfbdfrs="ft"><i>(nonf)</i>
+ *       <td hfbdfrs="fs"><i>(nonf)</i>
+ *       <td hfbdfrs="sd"><dodf>null</dodf>
+ *    <tr>
+ *       <td hfbdfrs="ft" rowspbn=5><dodf>numbfr</dodf>
+ *       <td hfbdfrs="fs"><i>(nonf)</i>
+ *       <td hfbdfrs="sd">{@link NumbfrFormbt#gftInstbndf(Lodblf) NumbfrFormbt.gftInstbndf}{@dodf (gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>intfgfr</dodf>
+ *       <td hfbdfrs="sd">{@link NumbfrFormbt#gftIntfgfrInstbndf(Lodblf) NumbfrFormbt.gftIntfgfrInstbndf}{@dodf (gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>durrfndy</dodf>
+ *       <td hfbdfrs="sd">{@link NumbfrFormbt#gftCurrfndyInstbndf(Lodblf) NumbfrFormbt.gftCurrfndyInstbndf}{@dodf (gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>pfrdfnt</dodf>
+ *       <td hfbdfrs="sd">{@link NumbfrFormbt#gftPfrdfntInstbndf(Lodblf) NumbfrFormbt.gftPfrdfntInstbndf}{@dodf (gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td hfbdfrs="sd">{@dodf nfw} {@link DfdimblFormbt#DfdimblFormbt(String,DfdimblFormbtSymbols) DfdimblFormbt}{@dodf (subformbtPbttfrn,} {@link DfdimblFormbtSymbols#gftInstbndf(Lodblf) DfdimblFormbtSymbols.gftInstbndf}{@dodf (gftLodblf()))}
+ *    <tr>
+ *       <td hfbdfrs="ft" rowspbn=6><dodf>dbtf</dodf>
+ *       <td hfbdfrs="fs"><i>(nonf)</i>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>short</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#SHORT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>mfdium</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>long</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#LONG}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>full</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#FULL}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td hfbdfrs="sd">{@dodf nfw} {@link SimplfDbtfFormbt#SimplfDbtfFormbt(String,Lodblf) SimplfDbtfFormbt}{@dodf (subformbtPbttfrn, gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="ft" rowspbn=6><dodf>timf</dodf>
+ *       <td hfbdfrs="fs"><i>(nonf)</i>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>short</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#SHORT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>mfdium</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>long</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#LONG}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><dodf>full</dodf>
+ *       <td hfbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#FULL}{@dodf , gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td hfbdfrs="sd">{@dodf nfw} {@link SimplfDbtfFormbt#SimplfDbtfFormbt(String,Lodblf) SimplfDbtfFormbt}{@dodf (subformbtPbttfrn, gftLodblf())}
+ *    <tr>
+ *       <td hfbdfrs="ft"><dodf>dhoidf</dodf>
+ *       <td hfbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td hfbdfrs="sd">{@dodf nfw} {@link ChoidfFormbt#ChoidfFormbt(String) ChoidfFormbt}{@dodf (subformbtPbttfrn)}
+ * </tbblf>
+ *
+ * <h4>Usbgf Informbtion</h4>
+ *
+ * <p>
+ * Hfrf brf somf fxbmplfs of usbgf.
+ * In rfbl intfrnbtionblizfd progrbms, thf mfssbgf formbt pbttfrn bnd othfr
+ * stbtid strings will, of doursf, bf obtbinfd from rfsourdf bundlfs.
+ * Othfr pbrbmftfrs will bf dynbmidblly dftfrminfd bt runtimf.
+ * <p>
+ * Thf first fxbmplf usfs thf stbtid mfthod <dodf>MfssbgfFormbt.formbt</dodf>,
+ * whidh intfrnblly drfbtfs b <dodf>MfssbgfFormbt</dodf> for onf-timf usf:
+ * <blodkquotf><prf>
+ * int plbnft = 7;
+ * String fvfnt = "b disturbbndf in thf Fordf";
+ *
+ * String rfsult = MfssbgfFormbt.formbt(
+ *     "At {1,timf} on {1,dbtf}, thfrf wbs {2} on plbnft {0,numbfr,intfgfr}.",
+ *     plbnft, nfw Dbtf(), fvfnt);
+ * </prf></blodkquotf>
+ * Thf output is:
+ * <blodkquotf><prf>
+ * At 12:30 PM on Jul 3, 2053, thfrf wbs b disturbbndf in thf Fordf on plbnft 7.
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * Thf following fxbmplf drfbtfs b <dodf>MfssbgfFormbt</dodf> instbndf thbt
+ * dbn bf usfd rfpfbtfdly:
+ * <blodkquotf><prf>
+ * int filfCount = 1273;
+ * String diskNbmf = "MyDisk";
+ * Objfdt[] tfstArgs = {nfw Long(filfCount), diskNbmf};
+ *
+ * MfssbgfFormbt form = nfw MfssbgfFormbt(
+ *     "Thf disk \"{1}\" dontbins {0} filf(s).");
+ *
+ * Systfm.out.println(form.formbt(tfstArgs));
+ * </prf></blodkquotf>
+ * Thf output with difffrfnt vblufs for <dodf>filfCount</dodf>:
+ * <blodkquotf><prf>
+ * Thf disk "MyDisk" dontbins 0 filf(s).
+ * Thf disk "MyDisk" dontbins 1 filf(s).
+ * Thf disk "MyDisk" dontbins 1,273 filf(s).
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * For morf sophistidbtfd pbttfrns, you dbn usf b <dodf>ChoidfFormbt</dodf>
+ * to produdf dorrfdt forms for singulbr bnd plurbl:
+ * <blodkquotf><prf>
+ * MfssbgfFormbt form = nfw MfssbgfFormbt("Thf disk \"{1}\" dontbins {0}.");
+ * doublf[] filflimits = {0,1,2};
+ * String[] filfpbrt = {"no filfs","onf filf","{0,numbfr} filfs"};
+ * ChoidfFormbt filfform = nfw ChoidfFormbt(filflimits, filfpbrt);
+ * form.sftFormbtByArgumfntIndfx(0, filfform);
+ *
+ * int filfCount = 1273;
+ * String diskNbmf = "MyDisk";
+ * Objfdt[] tfstArgs = {nfw Long(filfCount), diskNbmf};
+ *
+ * Systfm.out.println(form.formbt(tfstArgs));
+ * </prf></blodkquotf>
+ * Thf output with difffrfnt vblufs for <dodf>filfCount</dodf>:
+ * <blodkquotf><prf>
+ * Thf disk "MyDisk" dontbins no filfs.
+ * Thf disk "MyDisk" dontbins onf filf.
+ * Thf disk "MyDisk" dontbins 1,273 filfs.
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * You dbn drfbtf thf <dodf>ChoidfFormbt</dodf> progrbmmbtidblly, bs in thf
+ * bbovf fxbmplf, or by using b pbttfrn. Sff {@link ChoidfFormbt}
+ * for morf informbtion.
+ * <blodkquotf><prf>{@dodf
+ * form.bpplyPbttfrn(
+ *    "Thfrf {0,dhoidf,0#brf no filfs|1#is onf filf|1<brf {0,numbfr,intfgfr} filfs}.");
+ * }</prf></blodkquotf>
+ *
+ * <p>
+ * <strong>Notf:</strong> As wf sff bbovf, thf string produdfd
+ * by b <dodf>ChoidfFormbt</dodf> in <dodf>MfssbgfFormbt</dodf> is trfbtfd bs spfdibl;
+ * oddurrfndfs of '{' brf usfd to indidbtf subformbts, bnd dbusf rfdursion.
+ * If you drfbtf both b <dodf>MfssbgfFormbt</dodf> bnd <dodf>ChoidfFormbt</dodf>
+ * progrbmmbtidblly (instfbd of using thf string pbttfrns), thfn bf dbrfful not to
+ * produdf b formbt thbt rfdursfs on itsflf, whidh will dbusf bn infinitf loop.
+ * <p>
+ * Whfn b singlf brgumfnt is pbrsfd morf thbn ondf in thf string, thf lbst mbtdh
+ * will bf thf finbl rfsult of thf pbrsing.  For fxbmplf,
+ * <blodkquotf><prf>
+ * MfssbgfFormbt mf = nfw MfssbgfFormbt("{0,numbfr,#.##}, {0,numbfr,#.#}");
+ * Objfdt[] objs = {nfw Doublf(3.1415)};
+ * String rfsult = mf.formbt( objs );
+ * // rfsult now fqubls "3.14, 3.1"
+ * objs = null;
+ * objs = mf.pbrsf(rfsult, nfw PbrsfPosition(0));
+ * // objs now fqubls {nfw Doublf(3.1)}
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * Likfwisf, pbrsing with b {@dodf MfssbgfFormbt} objfdt using pbttfrns dontbining
+ * multiplf oddurrfndfs of thf sbmf brgumfnt would rfturn thf lbst mbtdh.  For
+ * fxbmplf,
+ * <blodkquotf><prf>
+ * MfssbgfFormbt mf = nfw MfssbgfFormbt("{0}, {0}, {0}");
+ * String forPbrsing = "x, y, z";
+ * Objfdt[] objs = mf.pbrsf(forPbrsing, nfw PbrsfPosition(0));
+ * // rfsult now fqubls {nfw String("z")}
+ * </prf></blodkquotf>
+ *
+ * <h4><b nbmf="syndhronizbtion">Syndhronizbtion</b></h4>
+ *
+ * <p>
+ * Mfssbgf formbts brf not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * @sff          jbvb.util.Lodblf
+ * @sff          Formbt
+ * @sff          NumbfrFormbt
+ * @sff          DfdimblFormbt
+ * @sff          DfdimblFormbtSymbols
+ * @sff          ChoidfFormbt
+ * @sff          DbtfFormbt
+ * @sff          SimplfDbtfFormbt
+ *
+ * @buthor       Mbrk Dbvis
+ */
+
+publid dlbss MfssbgfFormbt fxtfnds Formbt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6479157306784022952L;
+
+    /**
+     * Construdts b MfssbgfFormbt for thf dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf bnd thf
+     * spfdififd pbttfrn.
+     * Thf donstrudtor first sfts thf lodblf, thfn pbrsfs thf pbttfrn bnd
+     * drfbtfs b list of subformbts for thf formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd thfir intfrprftbtion brf spfdififd in thf
+     * <b hrff="#pbttfrns">dlbss dfsdription</b>.
+     *
+     * @pbrbm pbttfrn thf pbttfrn for this mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if thf pbttfrn is invblid
+     */
+    publid MfssbgfFormbt(String pbttfrn) {
+        this.lodblf = Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT);
+        bpplyPbttfrn(pbttfrn);
+    }
+
+    /**
+     * Construdts b MfssbgfFormbt for thf spfdififd lodblf bnd
+     * pbttfrn.
+     * Thf donstrudtor first sfts thf lodblf, thfn pbrsfs thf pbttfrn bnd
+     * drfbtfs b list of subformbts for thf formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd thfir intfrprftbtion brf spfdififd in thf
+     * <b hrff="#pbttfrns">dlbss dfsdription</b>.
+     *
+     * @pbrbm pbttfrn thf pbttfrn for this mfssbgf formbt
+     * @pbrbm lodblf thf lodblf for this mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if thf pbttfrn is invblid
+     * @sindf 1.4
+     */
+    publid MfssbgfFormbt(String pbttfrn, Lodblf lodblf) {
+        this.lodblf = lodblf;
+        bpplyPbttfrn(pbttfrn);
+    }
+
+    /**
+     * Sfts thf lodblf to bf usfd whfn drfbting or dompbring subformbts.
+     * This bfffdts subsfqufnt dblls
+     * <ul>
+     * <li>to thf {@link #bpplyPbttfrn bpplyPbttfrn}
+     *     bnd {@link #toPbttfrn toPbttfrn} mfthods if formbt flfmfnts spfdify
+     *     b formbt typf bnd thfrfforf hbvf thf subformbts drfbtfd in thf
+     *     <dodf>bpplyPbttfrn</dodf> mfthod, bs wfll bs
+     * <li>to thf <dodf>formbt</dodf> bnd
+     *     {@link #formbtToChbrbdtfrItfrbtor formbtToChbrbdtfrItfrbtor} mfthods
+     *     if formbt flfmfnts do not spfdify b formbt typf bnd thfrfforf hbvf
+     *     thf subformbts drfbtfd in thf formbtting mfthods.
+     * </ul>
+     * Subformbts thbt hbvf blrfbdy bffn drfbtfd brf not bfffdtfd.
+     *
+     * @pbrbm lodblf thf lodblf to bf usfd whfn drfbting or dompbring subformbts
+     */
+    publid void sftLodblf(Lodblf lodblf) {
+        this.lodblf = lodblf;
+    }
+
+    /**
+     * Gfts thf lodblf thbt's usfd whfn drfbting or dompbring subformbts.
+     *
+     * @rfturn thf lodblf usfd whfn drfbting or dompbring subformbts
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+
+    /**
+     * Sfts thf pbttfrn usfd by this mfssbgf formbt.
+     * Thf mfthod pbrsfs thf pbttfrn bnd drfbtfs b list of subformbts
+     * for thf formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd thfir intfrprftbtion brf spfdififd in thf
+     * <b hrff="#pbttfrns">dlbss dfsdription</b>.
+     *
+     * @pbrbm pbttfrn thf pbttfrn for this mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if thf pbttfrn is invblid
+     */
+    @SupprfssWbrnings("fbllthrough") // fbllthrough in switdh is fxpfdtfd, supprfss it
+    publid void bpplyPbttfrn(String pbttfrn) {
+            StringBuildfr[] sfgmfnts = nfw StringBuildfr[4];
+            // Allodbtf only sfgmfnts[SEG_RAW] hfrf. Thf rfst brf
+            // bllodbtfd on dfmbnd.
+            sfgmfnts[SEG_RAW] = nfw StringBuildfr();
+
+            int pbrt = SEG_RAW;
+            int formbtNumbfr = 0;
+            boolfbn inQuotf = fblsf;
+            int brbdfStbdk = 0;
+            mbxOffsft = -1;
+            for (int i = 0; i < pbttfrn.lfngth(); ++i) {
+                dhbr dh = pbttfrn.dhbrAt(i);
+                if (pbrt == SEG_RAW) {
+                    if (dh == '\'') {
+                        if (i + 1 < pbttfrn.lfngth()
+                            && pbttfrn.dhbrAt(i+1) == '\'') {
+                            sfgmfnts[pbrt].bppfnd(dh);  // hbndlf doublfs
+                            ++i;
+                        } flsf {
+                            inQuotf = !inQuotf;
+                        }
+                    } flsf if (dh == '{' && !inQuotf) {
+                        pbrt = SEG_INDEX;
+                        if (sfgmfnts[SEG_INDEX] == null) {
+                            sfgmfnts[SEG_INDEX] = nfw StringBuildfr();
+                        }
+                    } flsf {
+                        sfgmfnts[pbrt].bppfnd(dh);
+                    }
+                } flsf  {
+                    if (inQuotf) {              // just dopy quotfs in pbrts
+                        sfgmfnts[pbrt].bppfnd(dh);
+                        if (dh == '\'') {
+                            inQuotf = fblsf;
+                        }
+                    } flsf {
+                        switdh (dh) {
+                        dbsf ',':
+                            if (pbrt < SEG_MODIFIER) {
+                                if (sfgmfnts[++pbrt] == null) {
+                                    sfgmfnts[pbrt] = nfw StringBuildfr();
+                                }
+                            } flsf {
+                                sfgmfnts[pbrt].bppfnd(dh);
+                            }
+                            brfbk;
+                        dbsf '{':
+                            ++brbdfStbdk;
+                            sfgmfnts[pbrt].bppfnd(dh);
+                            brfbk;
+                        dbsf '}':
+                            if (brbdfStbdk == 0) {
+                                pbrt = SEG_RAW;
+                                mbkfFormbt(i, formbtNumbfr, sfgmfnts);
+                                formbtNumbfr++;
+                                // throw bwby othfr sfgmfnts
+                                sfgmfnts[SEG_INDEX] = null;
+                                sfgmfnts[SEG_TYPE] = null;
+                                sfgmfnts[SEG_MODIFIER] = null;
+                            } flsf {
+                                --brbdfStbdk;
+                                sfgmfnts[pbrt].bppfnd(dh);
+                            }
+                            brfbk;
+                        dbsf ' ':
+                            // Skip bny lfbding spbdf dhbrs for SEG_TYPE.
+                            if (pbrt != SEG_TYPE || sfgmfnts[SEG_TYPE].lfngth() > 0) {
+                                sfgmfnts[pbrt].bppfnd(dh);
+                            }
+                            brfbk;
+                        dbsf '\'':
+                            inQuotf = truf;
+                            // fbll through, so wf kffp quotfs in othfr pbrts
+                        dffbult:
+                            sfgmfnts[pbrt].bppfnd(dh);
+                            brfbk;
+                        }
+                    }
+                }
+            }
+            if (brbdfStbdk == 0 && pbrt != 0) {
+                mbxOffsft = -1;
+                throw nfw IllfgblArgumfntExdfption("Unmbtdhfd brbdfs in thf pbttfrn.");
+            }
+            this.pbttfrn = sfgmfnts[0].toString();
+    }
+
+
+    /**
+     * Rfturns b pbttfrn rfprfsfnting thf durrfnt stbtf of thf mfssbgf formbt.
+     * Thf string is donstrudtfd from intfrnbl informbtion bnd thfrfforf
+     * dofs not nfdfssbrily fqubl thf prfviously bpplifd pbttfrn.
+     *
+     * @rfturn b pbttfrn rfprfsfnting thf durrfnt stbtf of thf mfssbgf formbt
+     */
+    publid String toPbttfrn() {
+        // lbtfr, mbkf this morf fxtfnsiblf
+        int lbstOffsft = 0;
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            dopyAndFixQuotfs(pbttfrn, lbstOffsft, offsfts[i], rfsult);
+            lbstOffsft = offsfts[i];
+            rfsult.bppfnd('{').bppfnd(brgumfntNumbfrs[i]);
+            Formbt fmt = formbts[i];
+            if (fmt == null) {
+                // do nothing, string formbt
+            } flsf if (fmt instbndfof NumbfrFormbt) {
+                if (fmt.fqubls(NumbfrFormbt.gftInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftCurrfndyInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,durrfndy");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftPfrdfntInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,pfrdfnt");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftIntfgfrInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,intfgfr");
+                } flsf {
+                    if (fmt instbndfof DfdimblFormbt) {
+                        rfsult.bppfnd(",numbfr,").bppfnd(((DfdimblFormbt)fmt).toPbttfrn());
+                    } flsf if (fmt instbndfof ChoidfFormbt) {
+                        rfsult.bppfnd(",dhoidf,").bppfnd(((ChoidfFormbt)fmt).toPbttfrn());
+                    } flsf {
+                        // UNKNOWN
+                    }
+                }
+            } flsf if (fmt instbndfof DbtfFormbt) {
+                int indfx;
+                for (indfx = MODIFIER_DEFAULT; indfx < DATE_TIME_MODIFIERS.lfngth; indfx++) {
+                    DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf(DATE_TIME_MODIFIERS[indfx],
+                                                               lodblf);
+                    if (fmt.fqubls(df)) {
+                        rfsult.bppfnd(",dbtf");
+                        brfbk;
+                    }
+                    df = DbtfFormbt.gftTimfInstbndf(DATE_TIME_MODIFIERS[indfx],
+                                                    lodblf);
+                    if (fmt.fqubls(df)) {
+                        rfsult.bppfnd(",timf");
+                        brfbk;
+                    }
+                }
+                if (indfx >= DATE_TIME_MODIFIERS.lfngth) {
+                    if (fmt instbndfof SimplfDbtfFormbt) {
+                        rfsult.bppfnd(",dbtf,").bppfnd(((SimplfDbtfFormbt)fmt).toPbttfrn());
+                    } flsf {
+                        // UNKNOWN
+                    }
+                } flsf if (indfx != MODIFIER_DEFAULT) {
+                    rfsult.bppfnd(',').bppfnd(DATE_TIME_MODIFIER_KEYWORDS[indfx]);
+                }
+            } flsf {
+                //rfsult.bppfnd(", unknown");
+            }
+            rfsult.bppfnd('}');
+        }
+        dopyAndFixQuotfs(pbttfrn, lbstOffsft, pbttfrn.lfngth(), rfsult);
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Sfts thf formbts to usf for thf vblufs pbssfd into
+     * <dodf>formbt</dodf> mfthods or rfturnfd from <dodf>pbrsf</dodf>
+     * mfthods. Thf indidfs of flfmfnts in <dodf>nfwFormbts</dodf>
+     * dorrfspond to thf brgumfnt indidfs usfd in thf prfviously sft
+     * pbttfrn string.
+     * Thf ordfr of formbts in <dodf>nfwFormbts</dodf> thus dorrfsponds to
+     * thf ordfr of flfmfnts in thf <dodf>brgumfnts</dodf> brrby pbssfd
+     * to thf <dodf>formbt</dodf> mfthods or thf rfsult brrby rfturnfd
+     * by thf <dodf>pbrsf</dodf> mfthods.
+     * <p>
+     * If bn brgumfnt indfx is usfd for morf thbn onf formbt flfmfnt
+     * in thf pbttfrn string, thfn thf dorrfsponding nfw formbt is usfd
+     * for bll sudh formbt flfmfnts. If bn brgumfnt indfx is not usfd
+     * for bny formbt flfmfnt in thf pbttfrn string, thfn thf
+     * dorrfsponding nfw formbt is ignorfd. If ffwfr formbts brf providfd
+     * thbn nffdfd, thfn only thf formbts for brgumfnt indidfs lfss
+     * thbn <dodf>nfwFormbts.lfngth</dodf> brf rfplbdfd.
+     *
+     * @pbrbm nfwFormbts thf nfw formbts to usf
+     * @fxdfption NullPointfrExdfption if <dodf>nfwFormbts</dodf> is null
+     * @sindf 1.4
+     */
+    publid void sftFormbtsByArgumfntIndfx(Formbt[] nfwFormbts) {
+        for (int i = 0; i <= mbxOffsft; i++) {
+            int j = brgumfntNumbfrs[i];
+            if (j < nfwFormbts.lfngth) {
+                formbts[i] = nfwFormbts[j];
+            }
+        }
+    }
+
+    /**
+     * Sfts thf formbts to usf for thf formbt flfmfnts in thf
+     * prfviously sft pbttfrn string.
+     * Thf ordfr of formbts in <dodf>nfwFormbts</dodf> dorrfsponds to
+     * thf ordfr of formbt flfmfnts in thf pbttfrn string.
+     * <p>
+     * If morf formbts brf providfd thbn nffdfd by thf pbttfrn string,
+     * thf rfmbining onfs brf ignorfd. If ffwfr formbts brf providfd
+     * thbn nffdfd, thfn only thf first <dodf>nfwFormbts.lfngth</dodf>
+     * formbts brf rfplbdfd.
+     * <p>
+     * Sindf thf ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dhbngfs during lodblizbtion, it is gfnfrblly bfttfr to usf thf
+     * {@link #sftFormbtsByArgumfntIndfx sftFormbtsByArgumfntIndfx}
+     * mfthod, whidh bssumfs bn ordfr of formbts dorrfsponding to thf
+     * ordfr of flfmfnts in thf <dodf>brgumfnts</dodf> brrby pbssfd to
+     * thf <dodf>formbt</dodf> mfthods or thf rfsult brrby rfturnfd by
+     * thf <dodf>pbrsf</dodf> mfthods.
+     *
+     * @pbrbm nfwFormbts thf nfw formbts to usf
+     * @fxdfption NullPointfrExdfption if <dodf>nfwFormbts</dodf> is null
+     */
+    publid void sftFormbts(Formbt[] nfwFormbts) {
+        int runsToCopy = nfwFormbts.lfngth;
+        if (runsToCopy > mbxOffsft + 1) {
+            runsToCopy = mbxOffsft + 1;
+        }
+        for (int i = 0; i < runsToCopy; i++) {
+            formbts[i] = nfwFormbts[i];
+        }
+    }
+
+    /**
+     * Sfts thf formbt to usf for thf formbt flfmfnts within thf
+     * prfviously sft pbttfrn string thbt usf thf givfn brgumfnt
+     * indfx.
+     * Thf brgumfnt indfx is pbrt of thf formbt flfmfnt dffinition bnd
+     * rfprfsfnts bn indfx into thf <dodf>brgumfnts</dodf> brrby pbssfd
+     * to thf <dodf>formbt</dodf> mfthods or thf rfsult brrby rfturnfd
+     * by thf <dodf>pbrsf</dodf> mfthods.
+     * <p>
+     * If thf brgumfnt indfx is usfd for morf thbn onf formbt flfmfnt
+     * in thf pbttfrn string, thfn thf nfw formbt is usfd for bll sudh
+     * formbt flfmfnts. If thf brgumfnt indfx is not usfd for bny formbt
+     * flfmfnt in thf pbttfrn string, thfn thf nfw formbt is ignorfd.
+     *
+     * @pbrbm brgumfntIndfx thf brgumfnt indfx for whidh to usf thf nfw formbt
+     * @pbrbm nfwFormbt thf nfw formbt to usf
+     * @sindf 1.4
+     */
+    publid void sftFormbtByArgumfntIndfx(int brgumfntIndfx, Formbt nfwFormbt) {
+        for (int j = 0; j <= mbxOffsft; j++) {
+            if (brgumfntNumbfrs[j] == brgumfntIndfx) {
+                formbts[j] = nfwFormbt;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf formbt to usf for thf formbt flfmfnt with thf givfn
+     * formbt flfmfnt indfx within thf prfviously sft pbttfrn string.
+     * Thf formbt flfmfnt indfx is thf zfro-bbsfd numbfr of thf formbt
+     * flfmfnt dounting from thf stbrt of thf pbttfrn string.
+     * <p>
+     * Sindf thf ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dhbngfs during lodblizbtion, it is gfnfrblly bfttfr to usf thf
+     * {@link #sftFormbtByArgumfntIndfx sftFormbtByArgumfntIndfx}
+     * mfthod, whidh bddfssfs formbt flfmfnts bbsfd on thf brgumfnt
+     * indfx thfy spfdify.
+     *
+     * @pbrbm formbtElfmfntIndfx thf indfx of b formbt flfmfnt within thf pbttfrn
+     * @pbrbm nfwFormbt thf formbt to usf for thf spfdififd formbt flfmfnt
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if {@dodf formbtElfmfntIndfx} is fqubl to or
+     *            lbrgfr thbn thf numbfr of formbt flfmfnts in thf pbttfrn string
+     */
+    publid void sftFormbt(int formbtElfmfntIndfx, Formbt nfwFormbt) {
+        formbts[formbtElfmfntIndfx] = nfwFormbt;
+    }
+
+    /**
+     * Gfts thf formbts usfd for thf vblufs pbssfd into
+     * <dodf>formbt</dodf> mfthods or rfturnfd from <dodf>pbrsf</dodf>
+     * mfthods. Thf indidfs of flfmfnts in thf rfturnfd brrby
+     * dorrfspond to thf brgumfnt indidfs usfd in thf prfviously sft
+     * pbttfrn string.
+     * Thf ordfr of formbts in thf rfturnfd brrby thus dorrfsponds to
+     * thf ordfr of flfmfnts in thf <dodf>brgumfnts</dodf> brrby pbssfd
+     * to thf <dodf>formbt</dodf> mfthods or thf rfsult brrby rfturnfd
+     * by thf <dodf>pbrsf</dodf> mfthods.
+     * <p>
+     * If bn brgumfnt indfx is usfd for morf thbn onf formbt flfmfnt
+     * in thf pbttfrn string, thfn thf formbt usfd for thf lbst sudh
+     * formbt flfmfnt is rfturnfd in thf brrby. If bn brgumfnt indfx
+     * is not usfd for bny formbt flfmfnt in thf pbttfrn string, thfn
+     * null is rfturnfd in thf brrby.
+     *
+     * @rfturn thf formbts usfd for thf brgumfnts within thf pbttfrn
+     * @sindf 1.4
+     */
+    publid Formbt[] gftFormbtsByArgumfntIndfx() {
+        int mbximumArgumfntNumbfr = -1;
+        for (int i = 0; i <= mbxOffsft; i++) {
+            if (brgumfntNumbfrs[i] > mbximumArgumfntNumbfr) {
+                mbximumArgumfntNumbfr = brgumfntNumbfrs[i];
+            }
+        }
+        Formbt[] rfsultArrby = nfw Formbt[mbximumArgumfntNumbfr + 1];
+        for (int i = 0; i <= mbxOffsft; i++) {
+            rfsultArrby[brgumfntNumbfrs[i]] = formbts[i];
+        }
+        rfturn rfsultArrby;
+    }
+
+    /**
+     * Gfts thf formbts usfd for thf formbt flfmfnts in thf
+     * prfviously sft pbttfrn string.
+     * Thf ordfr of formbts in thf rfturnfd brrby dorrfsponds to
+     * thf ordfr of formbt flfmfnts in thf pbttfrn string.
+     * <p>
+     * Sindf thf ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dhbngfs during lodblizbtion, it's gfnfrblly bfttfr to usf thf
+     * {@link #gftFormbtsByArgumfntIndfx gftFormbtsByArgumfntIndfx}
+     * mfthod, whidh bssumfs bn ordfr of formbts dorrfsponding to thf
+     * ordfr of flfmfnts in thf <dodf>brgumfnts</dodf> brrby pbssfd to
+     * thf <dodf>formbt</dodf> mfthods or thf rfsult brrby rfturnfd by
+     * thf <dodf>pbrsf</dodf> mfthods.
+     *
+     * @rfturn thf formbts usfd for thf formbt flfmfnts in thf pbttfrn
+     */
+    publid Formbt[] gftFormbts() {
+        Formbt[] rfsultArrby = nfw Formbt[mbxOffsft + 1];
+        Systfm.brrbydopy(formbts, 0, rfsultArrby, 0, mbxOffsft + 1);
+        rfturn rfsultArrby;
+    }
+
+    /**
+     * Formbts bn brrby of objfdts bnd bppfnds thf <dodf>MfssbgfFormbt</dodf>'s
+     * pbttfrn, with formbt flfmfnts rfplbdfd by thf formbttfd objfdts, to thf
+     * providfd <dodf>StringBufffr</dodf>.
+     * <p>
+     * Thf tfxt substitutfd for thf individubl formbt flfmfnts is dfrivfd from
+     * thf durrfnt subformbt of thf formbt flfmfnt bnd thf
+     * <dodf>brgumfnts</dodf> flfmfnt bt thf formbt flfmfnt's brgumfnt indfx
+     * bs indidbtfd by thf first mbtdhing linf of thf following tbblf. An
+     * brgumfnt is <i>unbvbilbblf</i> if <dodf>brgumfnts</dodf> is
+     * <dodf>null</dodf> or hbs ffwfr thbn brgumfntIndfx+1 flfmfnts.
+     *
+     * <tbblf bordfr=1 summbry="Exbmplfs of subformbt,brgumfnt,bnd formbttfd tfxt">
+     *    <tr>
+     *       <th>Subformbt
+     *       <th>Argumfnt
+     *       <th>Formbttfd Tfxt
+     *    <tr>
+     *       <td><i>bny</i>
+     *       <td><i>unbvbilbblf</i>
+     *       <td><dodf>"{" + brgumfntIndfx + "}"</dodf>
+     *    <tr>
+     *       <td><i>bny</i>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>"null"</dodf>
+     *    <tr>
+     *       <td><dodf>instbndfof ChoidfFormbt</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>subformbt.formbt(brgumfnt).indfxOf('{') &gt;= 0 ?<br>
+     *           (nfw MfssbgfFormbt(subformbt.formbt(brgumfnt), gftLodblf())).formbt(brgumfnt) :
+     *           subformbt.formbt(brgumfnt)</dodf>
+     *    <tr>
+     *       <td><dodf>!= null</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>subformbt.formbt(brgumfnt)</dodf>
+     *    <tr>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof Numbfr</dodf>
+     *       <td><dodf>NumbfrFormbt.gftInstbndf(gftLodblf()).formbt(brgumfnt)</dodf>
+     *    <tr>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof Dbtf</dodf>
+     *       <td><dodf>DbtfFormbt.gftDbtfTimfInstbndf(DbtfFormbt.SHORT, DbtfFormbt.SHORT, gftLodblf()).formbt(brgumfnt)</dodf>
+     *    <tr>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof String</dodf>
+     *       <td><dodf>brgumfnt</dodf>
+     *    <tr>
+     *       <td><dodf>null</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>brgumfnt.toString()</dodf>
+     * </tbblf>
+     * <p>
+     * If <dodf>pos</dodf> is non-null, bnd rfffrs to
+     * <dodf>Fifld.ARGUMENT</dodf>, thf lodbtion of thf first formbttfd
+     * string will bf rfturnfd.
+     *
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @pbrbm rfsult whfrf tfxt is bppfndfd.
+     * @pbrbm pos On input: bn blignmfnt fifld, if dfsirfd.
+     *            On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn thf string bufffr pbssfd in bs {@dodf rfsult}, with formbttfd
+     * tfxt bppfndfd
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in thf
+     *            <dodf>brgumfnts</dodf> brrby is not of thf typf
+     *            fxpfdtfd by thf formbt flfmfnt(s) thbt usf it.
+     */
+    publid finbl StringBufffr formbt(Objfdt[] brgumfnts, StringBufffr rfsult,
+                                     FifldPosition pos)
+    {
+        rfturn subformbt(brgumfnts, rfsult, pos, null);
+    }
+
+    /**
+     * Crfbtfs b MfssbgfFormbt with thf givfn pbttfrn bnd usfs it
+     * to formbt thf givfn brgumfnts. This is fquivblfnt to
+     * <blodkquotf>
+     *     <dodf>(nfw {@link #MfssbgfFormbt(String) MfssbgfFormbt}(pbttfrn)).{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}(brgumfnts, nfw StringBufffr(), null).toString()</dodf>
+     * </blodkquotf>
+     *
+     * @pbrbm pbttfrn   thf pbttfrn string
+     * @pbrbm brgumfnts objfdt(s) to formbt
+     * @rfturn thf formbttfd string
+     * @fxdfption IllfgblArgumfntExdfption if thf pbttfrn is invblid,
+     *            or if bn brgumfnt in thf <dodf>brgumfnts</dodf> brrby
+     *            is not of thf typf fxpfdtfd by thf formbt flfmfnt(s)
+     *            thbt usf it.
+     */
+    publid stbtid String formbt(String pbttfrn, Objfdt ... brgumfnts) {
+        MfssbgfFormbt tfmp = nfw MfssbgfFormbt(pbttfrn);
+        rfturn tfmp.formbt(brgumfnts);
+    }
+
+    // Ovfrridfs
+    /**
+     * Formbts bn brrby of objfdts bnd bppfnds thf <dodf>MfssbgfFormbt</dodf>'s
+     * pbttfrn, with formbt flfmfnts rfplbdfd by thf formbttfd objfdts, to thf
+     * providfd <dodf>StringBufffr</dodf>.
+     * This is fquivblfnt to
+     * <blodkquotf>
+     *     <dodf>{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}((Objfdt[]) brgumfnts, rfsult, pos)</dodf>
+     * </blodkquotf>
+     *
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @pbrbm rfsult whfrf tfxt is bppfndfd.
+     * @pbrbm pos On input: bn blignmfnt fifld, if dfsirfd.
+     *            On output: thf offsfts of thf blignmfnt fifld.
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in thf
+     *            <dodf>brgumfnts</dodf> brrby is not of thf typf
+     *            fxpfdtfd by thf formbt flfmfnt(s) thbt usf it.
+     */
+    publid finbl StringBufffr formbt(Objfdt brgumfnts, StringBufffr rfsult,
+                                     FifldPosition pos)
+    {
+        rfturn subformbt((Objfdt[]) brgumfnts, rfsult, pos, null);
+    }
+
+    /**
+     * Formbts bn brrby of objfdts bnd insfrts thfm into thf
+     * <dodf>MfssbgfFormbt</dodf>'s pbttfrn, produding bn
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * You dbn usf thf rfturnfd <dodf>AttributfdChbrbdtfrItfrbtor</dodf>
+     * to build thf rfsulting String, bs wfll bs to dftfrminf informbtion
+     * bbout thf rfsulting String.
+     * <p>
+     * Thf tfxt of thf rfturnfd <dodf>AttributfdChbrbdtfrItfrbtor</dodf> is
+     * thf sbmf thbt would bf rfturnfd by
+     * <blodkquotf>
+     *     <dodf>{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}(brgumfnts, nfw StringBufffr(), null).toString()</dodf>
+     * </blodkquotf>
+     * <p>
+     * In bddition, thf <dodf>AttributfdChbrbdtfrItfrbtor</dodf> dontbins bt
+     * lfbst bttributfs indidbting whfrf tfxt wbs gfnfrbtfd from bn
+     * brgumfnt in thf <dodf>brgumfnts</dodf> brrby. Thf kfys of thfsf bttributfs brf of
+     * typf <dodf>MfssbgfFormbt.Fifld</dodf>, thfir vblufs brf
+     * <dodf>Intfgfr</dodf> objfdts indidbting thf indfx in thf <dodf>brgumfnts</dodf>
+     * brrby of thf brgumfnt from whidh thf tfxt wbs gfnfrbtfd.
+     * <p>
+     * Thf bttributfs/vbluf from thf undfrlying <dodf>Formbt</dodf>
+     * instbndfs thbt <dodf>MfssbgfFormbt</dodf> usfs will blso bf
+     * plbdfd in thf rfsulting <dodf>AttributfdChbrbdtfrItfrbtor</dodf>.
+     * This bllows you to not only find whfrf bn brgumfnt is plbdfd in thf
+     * rfsulting String, but blso whidh fiflds it dontbins in turn.
+     *
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @rfturn AttributfdChbrbdtfrItfrbtor dfsdribing thf formbttfd vbluf.
+     * @fxdfption NullPointfrExdfption if <dodf>brgumfnts</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in thf
+     *            <dodf>brgumfnts</dodf> brrby is not of thf typf
+     *            fxpfdtfd by thf formbt flfmfnt(s) thbt usf it.
+     * @sindf 1.4
+     */
+    publid AttributfdChbrbdtfrItfrbtor formbtToChbrbdtfrItfrbtor(Objfdt brgumfnts) {
+        StringBufffr rfsult = nfw StringBufffr();
+        ArrbyList<AttributfdChbrbdtfrItfrbtor> itfrbtors = nfw ArrbyList<>();
+
+        if (brgumfnts == null) {
+            throw nfw NullPointfrExdfption(
+                   "formbtToChbrbdtfrItfrbtor must bf pbssfd non-null objfdt");
+        }
+        subformbt((Objfdt[]) brgumfnts, rfsult, null, itfrbtors);
+        if (itfrbtors.sizf() == 0) {
+            rfturn drfbtfAttributfdChbrbdtfrItfrbtor("");
+        }
+        rfturn drfbtfAttributfdChbrbdtfrItfrbtor(
+                     itfrbtors.toArrby(
+                     nfw AttributfdChbrbdtfrItfrbtor[itfrbtors.sizf()]));
+    }
+
+    /**
+     * Pbrsfs thf string.
+     *
+     * <p>Cbvfbts: Thf pbrsf mby fbil in b numbfr of dirdumstbndfs.
+     * For fxbmplf:
+     * <ul>
+     * <li>If onf of thf brgumfnts dofs not oddur in thf pbttfrn.
+     * <li>If thf formbt of bn brgumfnt losfs informbtion, sudh bs
+     *     with b dhoidf formbt whfrf b lbrgf numbfr formbts to "mbny".
+     * <li>Dofs not yft hbndlf rfdursion (whfrf
+     *     thf substitutfd strings dontbin {n} rfffrfndfs.)
+     * <li>Will not blwbys find b mbtdh (or thf dorrfdt mbtdh)
+     *     if somf pbrt of thf pbrsf is bmbiguous.
+     *     For fxbmplf, if thf pbttfrn "{1},{2}" is usfd with thf
+     *     string brgumfnts {"b,b", "d"}, it will formbt bs "b,b,d".
+     *     Whfn thf rfsult is pbrsfd, it will rfturn {"b", "b,d"}.
+     * <li>If b singlf brgumfnt is pbrsfd morf thbn ondf in thf string,
+     *     thfn thf lbtfr pbrsf wins.
+     * </ul>
+     * Whfn thf pbrsf fbils, usf PbrsfPosition.gftErrorIndfx() to find out
+     * whfrf in thf string thf pbrsing fbilfd.  Thf rfturnfd frror
+     * indfx is thf stbrting offsft of thf sub-pbttfrns thbt thf string
+     * is dompbring with.  For fxbmplf, if thf pbrsing string "AAA {0} BBB"
+     * is dompbring bgbinst thf pbttfrn "AAD {0} BBB", thf frror indfx is
+     * 0. Whfn bn frror oddurs, thf dbll to this mfthod will rfturn null.
+     * If thf sourdf is null, rfturn bn fmpty brrby.
+     *
+     * @pbrbm sourdf thf string to pbrsf
+     * @pbrbm pos    thf pbrsf position
+     * @rfturn bn brrby of pbrsfd objfdts
+     */
+    publid Objfdt[] pbrsf(String sourdf, PbrsfPosition pos) {
+        if (sourdf == null) {
+            Objfdt[] fmpty = {};
+            rfturn fmpty;
+        }
+
+        int mbximumArgumfntNumbfr = -1;
+        for (int i = 0; i <= mbxOffsft; i++) {
+            if (brgumfntNumbfrs[i] > mbximumArgumfntNumbfr) {
+                mbximumArgumfntNumbfr = brgumfntNumbfrs[i];
+            }
+        }
+        Objfdt[] rfsultArrby = nfw Objfdt[mbximumArgumfntNumbfr + 1];
+
+        int pbttfrnOffsft = 0;
+        int sourdfOffsft = pos.indfx;
+        PbrsfPosition tfmpStbtus = nfw PbrsfPosition(0);
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            // mbtdh up to formbt
+            int lfn = offsfts[i] - pbttfrnOffsft;
+            if (lfn == 0 || pbttfrn.rfgionMbtdhfs(pbttfrnOffsft,
+                                                  sourdf, sourdfOffsft, lfn)) {
+                sourdfOffsft += lfn;
+                pbttfrnOffsft += lfn;
+            } flsf {
+                pos.frrorIndfx = sourdfOffsft;
+                rfturn null; // lfbvf indfx bs is to signbl frror
+            }
+
+            // now usf formbt
+            if (formbts[i] == null) {   // string formbt
+                // if bt fnd, usf longfst possiblf mbtdh
+                // othfrwisf usfs first mbtdh to intfrvfning string
+                // dofs NOT rfdursivfly try bll possibilitifs
+                int tfmpLfngth = (i != mbxOffsft) ? offsfts[i+1] : pbttfrn.lfngth();
+
+                int nfxt;
+                if (pbttfrnOffsft >= tfmpLfngth) {
+                    nfxt = sourdf.lfngth();
+                }flsf{
+                    nfxt = sourdf.indfxOf(pbttfrn.substring(pbttfrnOffsft, tfmpLfngth),
+                                          sourdfOffsft);
+                }
+
+                if (nfxt < 0) {
+                    pos.frrorIndfx = sourdfOffsft;
+                    rfturn null; // lfbvf indfx bs is to signbl frror
+                } flsf {
+                    String strVbluf= sourdf.substring(sourdfOffsft,nfxt);
+                    if (!strVbluf.fqubls("{"+brgumfntNumbfrs[i]+"}"))
+                        rfsultArrby[brgumfntNumbfrs[i]]
+                            = sourdf.substring(sourdfOffsft,nfxt);
+                    sourdfOffsft = nfxt;
+                }
+            } flsf {
+                tfmpStbtus.indfx = sourdfOffsft;
+                rfsultArrby[brgumfntNumbfrs[i]]
+                    = formbts[i].pbrsfObjfdt(sourdf,tfmpStbtus);
+                if (tfmpStbtus.indfx == sourdfOffsft) {
+                    pos.frrorIndfx = sourdfOffsft;
+                    rfturn null; // lfbvf indfx bs is to signbl frror
+                }
+                sourdfOffsft = tfmpStbtus.indfx; // updbtf
+            }
+        }
+        int lfn = pbttfrn.lfngth() - pbttfrnOffsft;
+        if (lfn == 0 || pbttfrn.rfgionMbtdhfs(pbttfrnOffsft,
+                                              sourdf, sourdfOffsft, lfn)) {
+            pos.indfx = sourdfOffsft + lfn;
+        } flsf {
+            pos.frrorIndfx = sourdfOffsft;
+            rfturn null; // lfbvf indfx bs is to signbl frror
+        }
+        rfturn rfsultArrby;
+    }
+
+    /**
+     * Pbrsfs tfxt from thf bfginning of thf givfn string to produdf bn objfdt
+     * brrby.
+     * Thf mfthod mby not usf thf fntirf tfxt of thf givfn string.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on mfssbgf pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf> whosf bfginning should bf pbrsfd.
+     * @rfturn An <dodf>Objfdt</dodf> brrby pbrsfd from thf string.
+     * @fxdfption PbrsfExdfption if thf bfginning of thf spfdififd string
+     *            dbnnot bf pbrsfd.
+     */
+    publid Objfdt[] pbrsf(String sourdf) throws PbrsfExdfption {
+        PbrsfPosition pos  = nfw PbrsfPosition(0);
+        Objfdt[] rfsult = pbrsf(sourdf, pos);
+        if (pos.indfx == 0)  // undhbngfd, rfturnfd objfdt is null
+            throw nfw PbrsfExdfption("MfssbgfFormbt pbrsf frror!", pos.frrorIndfx);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Pbrsfs tfxt from b string to produdf bn objfdt brrby.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * objfdt brrby is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on mfssbgf pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of whidh should bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn An <dodf>Objfdt</dodf> brrby pbrsfd from thf string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
+     */
+    publid Objfdt pbrsfObjfdt(String sourdf, PbrsfPosition pos) {
+        rfturn pbrsf(sourdf, pos);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.
+     *
+     * @rfturn b dlonf of this instbndf.
+     */
+    publid Objfdt dlonf() {
+        MfssbgfFormbt othfr = (MfssbgfFormbt) supfr.dlonf();
+
+        // dlonf brrbys. Cbn't do with utility bfdbusf of bug in Clonfbblf
+        othfr.formbts = formbts.dlonf(); // shbllow dlonf
+        for (int i = 0; i < formbts.lfngth; ++i) {
+            if (formbts[i] != null)
+                othfr.formbts[i] = (Formbt)formbts[i].dlonf();
+        }
+        // for primitivfs or immutbblfs, shbllow dlonf is fnough
+        othfr.offsfts = offsfts.dlonf();
+        othfr.brgumfntNumbfrs = brgumfntNumbfrs.dlonf();
+
+        rfturn othfr;
+    }
+
+    /**
+     * Equblity dompbrison bftwffn two mfssbgf formbt objfdts
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)                      // quidk dhfdk
+            rfturn truf;
+        if (obj == null || gftClbss() != obj.gftClbss())
+            rfturn fblsf;
+        MfssbgfFormbt othfr = (MfssbgfFormbt) obj;
+        rfturn (mbxOffsft == othfr.mbxOffsft
+                && pbttfrn.fqubls(othfr.pbttfrn)
+                && ((lodblf != null && lodblf.fqubls(othfr.lodblf))
+                 || (lodblf == null && othfr.lodblf == null))
+                && Arrbys.fqubls(offsfts,othfr.offsfts)
+                && Arrbys.fqubls(brgumfntNumbfrs,othfr.brgumfntNumbfrs)
+                && Arrbys.fqubls(formbts,othfr.formbts));
+    }
+
+    /**
+     * Gfnfrbtfs b hbsh dodf for thf mfssbgf formbt objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn pbttfrn.hbshCodf(); // fnough for rfbsonbblf distribution
+    }
+
+
+    /**
+     * Dffinfs donstbnts thbt brf usfd bs bttributf kfys in thf
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>MfssbgfFormbt.formbtToChbrbdtfrItfrbtor</dodf>.
+     *
+     * @sindf 1.4
+     */
+    publid stbtid dlbss Fifld fxtfnds Formbt.Fifld {
+
+        // Prodlbim sfribl dompbtibility with 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 7899943957617360810L;
+
+        /**
+         * Crfbtfs b Fifld with thf spfdififd nbmf.
+         *
+         * @pbrbm nbmf Nbmf of thf bttributf
+         */
+        protfdtfd Fifld(String nbmf) {
+            supfr(nbmf);
+        }
+
+        /**
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to thf prfdffinfd donstbnts.
+         *
+         * @throws InvblidObjfdtExdfption if thf donstbnt dould not bf
+         *         rfsolvfd.
+         * @rfturn rfsolvfd MfssbgfFormbt.Fifld donstbnt
+         */
+        protfdtfd Objfdt rfbdRfsolvf() throws InvblidObjfdtExdfption {
+            if (this.gftClbss() != MfssbgfFormbt.Fifld.dlbss) {
+                throw nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
+            }
+
+            rfturn ARGUMENT;
+        }
+
+        //
+        // Thf donstbnts
+        //
+
+        /**
+         * Constbnt idfntifying b portion of b mfssbgf thbt wbs gfnfrbtfd
+         * from bn brgumfnt pbssfd into <dodf>formbtToChbrbdtfrItfrbtor</dodf>.
+         * Thf vbluf bssodibtfd with thf kfy will bf bn <dodf>Intfgfr</dodf>
+         * indidbting thf indfx in thf <dodf>brgumfnts</dodf> brrby of thf
+         * brgumfnt from whidh thf tfxt wbs gfnfrbtfd.
+         */
+        publid finbl stbtid Fifld ARGUMENT =
+                           nfw Fifld("mfssbgf brgumfnt fifld");
+    }
+
+    // ===========================privbtfs============================
+
+    /**
+     * Thf lodblf to usf for formbtting numbfrs bnd dbtfs.
+     * @sfribl
+     */
+    privbtf Lodblf lodblf;
+
+    /**
+     * Thf string thbt thf formbttfd vblufs brf to bf pluggfd into.  In othfr words, this
+     * is thf pbttfrn supplifd on donstrudtion with bll of thf {} fxprfssions tbkfn out.
+     * @sfribl
+     */
+    privbtf String pbttfrn = "";
+
+    /** Thf initiblly fxpfdtfd numbfr of subformbts in thf formbt */
+    privbtf stbtid finbl int INITIAL_FORMATS = 10;
+
+    /**
+     * An brrby of formbttfrs, whidh brf usfd to formbt thf brgumfnts.
+     * @sfribl
+     */
+    privbtf Formbt[] formbts = nfw Formbt[INITIAL_FORMATS];
+
+    /**
+     * Thf positions whfrf thf rfsults of formbtting fbdh brgumfnt brf to bf insfrtfd
+     * into thf pbttfrn.
+     * @sfribl
+     */
+    privbtf int[] offsfts = nfw int[INITIAL_FORMATS];
+
+    /**
+     * Thf brgumfnt numbfrs dorrfsponding to fbdh formbttfr.  (Thf formbttfrs brf storfd
+     * in thf ordfr thfy oddur in thf pbttfrn, not in thf ordfr in whidh thf brgumfnts
+     * brf spfdififd.)
+     * @sfribl
+     */
+    privbtf int[] brgumfntNumbfrs = nfw int[INITIAL_FORMATS];
+
+    /**
+     * Onf lfss thbn thf numbfr of fntrifs in <dodf>offsfts</dodf>.  Cbn blso bf thought of
+     * bs thf indfx of thf highfst-numbfrfd flfmfnt in <dodf>offsfts</dodf> thbt is bfing usfd.
+     * All of thfsf brrbys should hbvf thf sbmf numbfr of flfmfnts bfing usfd bs <dodf>offsfts</dodf>
+     * dofs, bnd so this vbribblf suffidfs to tfll us how mbny fntrifs brf in bll of thfm.
+     * @sfribl
+     */
+    privbtf int mbxOffsft = -1;
+
+    /**
+     * Intfrnbl routinf usfd by formbt. If <dodf>dhbrbdtfrItfrbtors</dodf> is
+     * non-null, AttributfdChbrbdtfrItfrbtor will bf drfbtfd from thf
+     * subformbts bs nfdfssbry. If <dodf>dhbrbdtfrItfrbtors</dodf> is null
+     * bnd <dodf>fp</dodf> is non-null bnd idfntififs
+     * <dodf>Fifld.MESSAGE_ARGUMENT</dodf>, thf lodbtion of
+     * thf first rfplbdfd brgumfnt will bf sft in it.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in thf
+     *            <dodf>brgumfnts</dodf> brrby is not of thf typf
+     *            fxpfdtfd by thf formbt flfmfnt(s) thbt usf it.
+     */
+    privbtf StringBufffr subformbt(Objfdt[] brgumfnts, StringBufffr rfsult,
+                                   FifldPosition fp, List<AttributfdChbrbdtfrItfrbtor> dhbrbdtfrItfrbtors) {
+        // notf: this implfmfntbtion bssumfs b fbst substring & indfx.
+        // if this is not truf, would bf bfttfr to bppfnd dhbrs onf by onf.
+        int lbstOffsft = 0;
+        int lbst = rfsult.lfngth();
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            rfsult.bppfnd(pbttfrn.substring(lbstOffsft, offsfts[i]));
+            lbstOffsft = offsfts[i];
+            int brgumfntNumbfr = brgumfntNumbfrs[i];
+            if (brgumfnts == null || brgumfntNumbfr >= brgumfnts.lfngth) {
+                rfsult.bppfnd('{').bppfnd(brgumfntNumbfr).bppfnd('}');
+                dontinuf;
+            }
+            // int brgRfdursion = ((rfdursionProtfdtion >> (brgumfntNumbfr*2)) & 0x3);
+            if (fblsf) { // if (brgRfdursion == 3){
+                // prfvfnt loop!!!
+                rfsult.bppfnd('\uFFFD');
+            } flsf {
+                Objfdt obj = brgumfnts[brgumfntNumbfr];
+                String brg = null;
+                Formbt subFormbttfr = null;
+                if (obj == null) {
+                    brg = "null";
+                } flsf if (formbts[i] != null) {
+                    subFormbttfr = formbts[i];
+                    if (subFormbttfr instbndfof ChoidfFormbt) {
+                        brg = formbts[i].formbt(obj);
+                        if (brg.indfxOf('{') >= 0) {
+                            subFormbttfr = nfw MfssbgfFormbt(brg, lodblf);
+                            obj = brgumfnts;
+                            brg = null;
+                        }
+                    }
+                } flsf if (obj instbndfof Numbfr) {
+                    // formbt numbfr if dbn
+                    subFormbttfr = NumbfrFormbt.gftInstbndf(lodblf);
+                } flsf if (obj instbndfof Dbtf) {
+                    // formbt b Dbtf if dbn
+                    subFormbttfr = DbtfFormbt.gftDbtfTimfInstbndf(
+                             DbtfFormbt.SHORT, DbtfFormbt.SHORT, lodblf);//fix
+                } flsf if (obj instbndfof String) {
+                    brg = (String) obj;
+
+                } flsf {
+                    brg = obj.toString();
+                    if (brg == null) brg = "null";
+                }
+
+                // At this point wf brf in two stbtfs, fithfr subFormbttfr
+                // is non-null indidbting wf should formbt obj using it,
+                // or brg is non-null bnd wf should usf it bs thf vbluf.
+
+                if (dhbrbdtfrItfrbtors != null) {
+                    // If dhbrbdtfrItfrbtors is non-null, it indidbtfs wf nffd
+                    // to gft thf ChbrbdtfrItfrbtor from thf dhild formbttfr.
+                    if (lbst != rfsult.lfngth()) {
+                        dhbrbdtfrItfrbtors.bdd(
+                            drfbtfAttributfdChbrbdtfrItfrbtor(rfsult.substring
+                                                              (lbst)));
+                        lbst = rfsult.lfngth();
+                    }
+                    if (subFormbttfr != null) {
+                        AttributfdChbrbdtfrItfrbtor subItfrbtor =
+                                   subFormbttfr.formbtToChbrbdtfrItfrbtor(obj);
+
+                        bppfnd(rfsult, subItfrbtor);
+                        if (lbst != rfsult.lfngth()) {
+                            dhbrbdtfrItfrbtors.bdd(
+                                         drfbtfAttributfdChbrbdtfrItfrbtor(
+                                         subItfrbtor, Fifld.ARGUMENT,
+                                         Intfgfr.vblufOf(brgumfntNumbfr)));
+                            lbst = rfsult.lfngth();
+                        }
+                        brg = null;
+                    }
+                    if (brg != null && brg.lfngth() > 0) {
+                        rfsult.bppfnd(brg);
+                        dhbrbdtfrItfrbtors.bdd(
+                                 drfbtfAttributfdChbrbdtfrItfrbtor(
+                                 brg, Fifld.ARGUMENT,
+                                 Intfgfr.vblufOf(brgumfntNumbfr)));
+                        lbst = rfsult.lfngth();
+                    }
+                }
+                flsf {
+                    if (subFormbttfr != null) {
+                        brg = subFormbttfr.formbt(obj);
+                    }
+                    lbst = rfsult.lfngth();
+                    rfsult.bppfnd(brg);
+                    if (i == 0 && fp != null && Fifld.ARGUMENT.fqubls(
+                                  fp.gftFifldAttributf())) {
+                        fp.sftBfginIndfx(lbst);
+                        fp.sftEndIndfx(rfsult.lfngth());
+                    }
+                    lbst = rfsult.lfngth();
+                }
+            }
+        }
+        rfsult.bppfnd(pbttfrn.substring(lbstOffsft, pbttfrn.lfngth()));
+        if (dhbrbdtfrItfrbtors != null && lbst != rfsult.lfngth()) {
+            dhbrbdtfrItfrbtors.bdd(drfbtfAttributfdChbrbdtfrItfrbtor(
+                                   rfsult.substring(lbst)));
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Convfnifndf mfthod to bppfnd bll thf dhbrbdtfrs in
+     * <dodf>itfrbtor</dodf> to thf StringBufffr <dodf>rfsult</dodf>.
+     */
+    privbtf void bppfnd(StringBufffr rfsult, ChbrbdtfrItfrbtor itfrbtor) {
+        if (itfrbtor.first() != ChbrbdtfrItfrbtor.DONE) {
+            dhbr bChbr;
+
+            rfsult.bppfnd(itfrbtor.first());
+            whilf ((bChbr = itfrbtor.nfxt()) != ChbrbdtfrItfrbtor.DONE) {
+                rfsult.bppfnd(bChbr);
+            }
+        }
+    }
+
+    // Indidfs for sfgmfnts
+    privbtf stbtid finbl int SEG_RAW      = 0;
+    privbtf stbtid finbl int SEG_INDEX    = 1;
+    privbtf stbtid finbl int SEG_TYPE     = 2;
+    privbtf stbtid finbl int SEG_MODIFIER = 3; // modififr or subformbt
+
+    // Indidfs for typf kfywords
+    privbtf stbtid finbl int TYPE_NULL    = 0;
+    privbtf stbtid finbl int TYPE_NUMBER  = 1;
+    privbtf stbtid finbl int TYPE_DATE    = 2;
+    privbtf stbtid finbl int TYPE_TIME    = 3;
+    privbtf stbtid finbl int TYPE_CHOICE  = 4;
+
+    privbtf stbtid finbl String[] TYPE_KEYWORDS = {
+        "",
+        "numbfr",
+        "dbtf",
+        "timf",
+        "dhoidf"
+    };
+
+    // Indidfs for numbfr modififrs
+    privbtf stbtid finbl int MODIFIER_DEFAULT  = 0; // dommon in numbfr bnd dbtf-timf
+    privbtf stbtid finbl int MODIFIER_CURRENCY = 1;
+    privbtf stbtid finbl int MODIFIER_PERCENT  = 2;
+    privbtf stbtid finbl int MODIFIER_INTEGER  = 3;
+
+    privbtf stbtid finbl String[] NUMBER_MODIFIER_KEYWORDS = {
+        "",
+        "durrfndy",
+        "pfrdfnt",
+        "intfgfr"
+    };
+
+    // Indidfs for dbtf-timf modififrs
+    privbtf stbtid finbl int MODIFIER_SHORT   = 1;
+    privbtf stbtid finbl int MODIFIER_MEDIUM  = 2;
+    privbtf stbtid finbl int MODIFIER_LONG    = 3;
+    privbtf stbtid finbl int MODIFIER_FULL    = 4;
+
+    privbtf stbtid finbl String[] DATE_TIME_MODIFIER_KEYWORDS = {
+        "",
+        "short",
+        "mfdium",
+        "long",
+        "full"
+    };
+
+    // Dbtf-timf stylf vblufs dorrfsponding to thf dbtf-timf modififrs.
+    privbtf stbtid finbl int[] DATE_TIME_MODIFIERS = {
+        DbtfFormbt.DEFAULT,
+        DbtfFormbt.SHORT,
+        DbtfFormbt.MEDIUM,
+        DbtfFormbt.LONG,
+        DbtfFormbt.FULL,
+    };
+
+    privbtf void mbkfFormbt(int position, int offsftNumbfr,
+                            StringBuildfr[] tfxtSfgmfnts)
+    {
+        String[] sfgmfnts = nfw String[tfxtSfgmfnts.lfngth];
+        for (int i = 0; i < tfxtSfgmfnts.lfngth; i++) {
+            StringBuildfr onfsfg = tfxtSfgmfnts[i];
+            sfgmfnts[i] = (onfsfg != null) ? onfsfg.toString() : "";
+        }
+
+        // gft thf brgumfnt numbfr
+        int brgumfntNumbfr;
+        try {
+            brgumfntNumbfr = Intfgfr.pbrsfInt(sfgmfnts[SEG_INDEX]); // blwbys unlodblizfd!
+        } dbtdh (NumbfrFormbtExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("dbn't pbrsf brgumfnt numbfr: "
+                                               + sfgmfnts[SEG_INDEX], f);
+        }
+        if (brgumfntNumbfr < 0) {
+            throw nfw IllfgblArgumfntExdfption("nfgbtivf brgumfnt numbfr: "
+                                               + brgumfntNumbfr);
+        }
+
+        // rfsizf formbt informbtion brrbys if nfdfssbry
+        if (offsftNumbfr >= formbts.lfngth) {
+            int nfwLfngth = formbts.lfngth * 2;
+            Formbt[] nfwFormbts = nfw Formbt[nfwLfngth];
+            int[] nfwOffsfts = nfw int[nfwLfngth];
+            int[] nfwArgumfntNumbfrs = nfw int[nfwLfngth];
+            Systfm.brrbydopy(formbts, 0, nfwFormbts, 0, mbxOffsft + 1);
+            Systfm.brrbydopy(offsfts, 0, nfwOffsfts, 0, mbxOffsft + 1);
+            Systfm.brrbydopy(brgumfntNumbfrs, 0, nfwArgumfntNumbfrs, 0, mbxOffsft + 1);
+            formbts = nfwFormbts;
+            offsfts = nfwOffsfts;
+            brgumfntNumbfrs = nfwArgumfntNumbfrs;
+        }
+        int oldMbxOffsft = mbxOffsft;
+        mbxOffsft = offsftNumbfr;
+        offsfts[offsftNumbfr] = sfgmfnts[SEG_RAW].lfngth();
+        brgumfntNumbfrs[offsftNumbfr] = brgumfntNumbfr;
+
+        // now gft thf formbt
+        Formbt nfwFormbt = null;
+        if (sfgmfnts[SEG_TYPE].lfngth() != 0) {
+            int typf = findKfyword(sfgmfnts[SEG_TYPE], TYPE_KEYWORDS);
+            switdh (typf) {
+            dbsf TYPE_NULL:
+                // Typf "" is bllowfd. f.g., "{0,}", "{0,,}", bnd "{0,,#}"
+                // brf trfbtfd bs "{0}".
+                brfbk;
+
+            dbsf TYPE_NUMBER:
+                switdh (findKfyword(sfgmfnts[SEG_MODIFIER], NUMBER_MODIFIER_KEYWORDS)) {
+                dbsf MODIFIER_DEFAULT:
+                    nfwFormbt = NumbfrFormbt.gftInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_CURRENCY:
+                    nfwFormbt = NumbfrFormbt.gftCurrfndyInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_PERCENT:
+                    nfwFormbt = NumbfrFormbt.gftPfrdfntInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_INTEGER:
+                    nfwFormbt = NumbfrFormbt.gftIntfgfrInstbndf(lodblf);
+                    brfbk;
+                dffbult: // DfdimblFormbt pbttfrn
+                    try {
+                        nfwFormbt = nfw DfdimblFormbt(sfgmfnts[SEG_MODIFIER],
+                                                      DfdimblFormbtSymbols.gftInstbndf(lodblf));
+                    } dbtdh (IllfgblArgumfntExdfption f) {
+                        mbxOffsft = oldMbxOffsft;
+                        throw f;
+                    }
+                    brfbk;
+                }
+                brfbk;
+
+            dbsf TYPE_DATE:
+            dbsf TYPE_TIME:
+                int mod = findKfyword(sfgmfnts[SEG_MODIFIER], DATE_TIME_MODIFIER_KEYWORDS);
+                if (mod >= 0 && mod < DATE_TIME_MODIFIER_KEYWORDS.lfngth) {
+                    if (typf == TYPE_DATE) {
+                        nfwFormbt = DbtfFormbt.gftDbtfInstbndf(DATE_TIME_MODIFIERS[mod],
+                                                               lodblf);
+                    } flsf {
+                        nfwFormbt = DbtfFormbt.gftTimfInstbndf(DATE_TIME_MODIFIERS[mod],
+                                                               lodblf);
+                    }
+                } flsf {
+                    // SimplfDbtfFormbt pbttfrn
+                    try {
+                        nfwFormbt = nfw SimplfDbtfFormbt(sfgmfnts[SEG_MODIFIER], lodblf);
+                    } dbtdh (IllfgblArgumfntExdfption f) {
+                        mbxOffsft = oldMbxOffsft;
+                        throw f;
+                    }
+                }
+                brfbk;
+
+            dbsf TYPE_CHOICE:
+                try {
+                    // ChoidfFormbt pbttfrn
+                    nfwFormbt = nfw ChoidfFormbt(sfgmfnts[SEG_MODIFIER]);
+                } dbtdh (Exdfption f) {
+                    mbxOffsft = oldMbxOffsft;
+                    throw nfw IllfgblArgumfntExdfption("Choidf Pbttfrn indorrfdt: "
+                                                       + sfgmfnts[SEG_MODIFIER], f);
+                }
+                brfbk;
+
+            dffbult:
+                mbxOffsft = oldMbxOffsft;
+                throw nfw IllfgblArgumfntExdfption("unknown formbt typf: " +
+                                                   sfgmfnts[SEG_TYPE]);
+            }
+        }
+        formbts[offsftNumbfr] = nfwFormbt;
+    }
+
+    privbtf stbtid finbl int findKfyword(String s, String[] list) {
+        for (int i = 0; i < list.lfngth; ++i) {
+            if (s.fqubls(list[i]))
+                rfturn i;
+        }
+
+        // Try trimmfd lowfrdbsf.
+        String ls = s.trim().toLowfrCbsf(Lodblf.ROOT);
+        if (ls != s) {
+            for (int i = 0; i < list.lfngth; ++i) {
+                if (ls.fqubls(list[i]))
+                    rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf stbtid finbl void dopyAndFixQuotfs(String sourdf, int stbrt, int fnd,
+                                               StringBuildfr tbrgft) {
+        boolfbn quotfd = fblsf;
+
+        for (int i = stbrt; i < fnd; ++i) {
+            dhbr dh = sourdf.dhbrAt(i);
+            if (dh == '{') {
+                if (!quotfd) {
+                    tbrgft.bppfnd('\'');
+                    quotfd = truf;
+                }
+                tbrgft.bppfnd(dh);
+            } flsf if (dh == '\'') {
+                tbrgft.bppfnd("''");
+            } flsf {
+                if (quotfd) {
+                    tbrgft.bppfnd('\'');
+                    quotfd = fblsf;
+                }
+                tbrgft.bppfnd(dh);
+            }
+        }
+        if (quotfd) {
+            tbrgft.bppfnd('\'');
+        }
+    }
+
+    /**
+     * Aftfr rfbding bn objfdt from thf input strfbm, do b simplf vfrifidbtion
+     * to mbintbin dlbss invbribnts.
+     * @throws InvblidObjfdtExdfption if thf objfdts rfbd from thf strfbm is invblid.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        boolfbn isVblid = mbxOffsft >= -1
+                && formbts.lfngth > mbxOffsft
+                && offsfts.lfngth > mbxOffsft
+                && brgumfntNumbfrs.lfngth > mbxOffsft;
+        if (isVblid) {
+            int lbstOffsft = pbttfrn.lfngth() + 1;
+            for (int i = mbxOffsft; i >= 0; --i) {
+                if ((offsfts[i] < 0) || (offsfts[i] > lbstOffsft)) {
+                    isVblid = fblsf;
+                    brfbk;
+                } flsf {
+                    lbstOffsft = offsfts[i];
+                }
+            }
+        }
+        if (!isVblid) {
+            throw nfw InvblidObjfdtExdfption("Could not rfdonstrudt MfssbgfFormbt from dorrupt strfbm.");
+        }
+    }
+}

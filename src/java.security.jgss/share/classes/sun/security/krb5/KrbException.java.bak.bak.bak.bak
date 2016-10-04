@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.KRBError;
+
+publid dlbss KrbExdfption fxtfnds Exdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4993302876451928596L;
+
+    privbtf int rfturnCodf;
+    privbtf KRBError frror;
+
+    publid KrbExdfption(String s) {
+        supfr(s);
+    }
+
+    publid KrbExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+
+    publid KrbExdfption(int i) {
+        rfturnCodf = i;
+    }
+
+    publid KrbExdfption(int i, String s) {
+        this(s);
+        rfturnCodf = i;
+    }
+
+    publid KrbExdfption(KRBError f) {
+        rfturnCodf = f.gftErrorCodf();
+        frror = f;
+    }
+
+    publid KrbExdfption(KRBError f, String s) {
+        this(s);
+        rfturnCodf = f.gftErrorCodf();
+        frror = f;
+    }
+
+    publid KRBError gftError() {
+        rfturn frror;
+    }
+
+
+    publid int rfturnCodf() {
+        rfturn rfturnCodf;
+    }
+
+    publid String rfturnCodfSymbol() {
+        rfturn rfturnCodfSymbol(rfturnCodf);
+    }
+
+    publid stbtid String rfturnCodfSymbol(int i) {
+        rfturn "not yft implfmfntfd";
+    }
+
+    publid String rfturnCodfMfssbgf() {
+        rfturn Krb5.gftErrorMfssbgf(rfturnCodf);
+    }
+
+    publid stbtid String frrorMfssbgf(int i) {
+        rfturn Krb5.gftErrorMfssbgf(i);
+    }
+
+
+    publid String krbErrorMfssbgf() {
+        StringBuildfr strbuf = nfw StringBuildfr("krb_frror " + rfturnCodf);
+        String msg =  gftMfssbgf();
+        if (msg != null) {
+            strbuf.bppfnd(" ");
+            strbuf.bppfnd(msg);
+        }
+        rfturn strbuf.toString();
+    }
+
+    /**
+     * Rfturns mfssbgfs likf:
+     * "Intfgrity dhfdk on dfdryptfd fifld fbilfd (31) - \
+     *                         Could not dfdrypt sfrvidf tidkft"
+     * If thf frror dodf is 0 thfn thf first hblf is skippfd.
+     */
+    publid String gftMfssbgf() {
+        StringBuildfr mfssbgf = nfw StringBuildfr();
+        int rfturnCodf = rfturnCodf();
+        if (rfturnCodf != 0) {
+            mfssbgf.bppfnd(rfturnCodfMfssbgf());
+            mfssbgf.bppfnd(" (").bppfnd(rfturnCodf()).bppfnd(')');
+        }
+        String donsMfssbgf = supfr.gftMfssbgf();
+        if (donsMfssbgf != null && donsMfssbgf.lfngth() != 0) {
+            if (rfturnCodf != 0)
+                mfssbgf.bppfnd(" - ");
+            mfssbgf.bppfnd(donsMfssbgf);
+        }
+        rfturn mfssbgf.toString();
+    }
+
+    publid String toString() {
+        rfturn ("KrbExdfption: " + gftMfssbgf());
+    }
+
+    @Ovfrridf publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 37 * rfsult + rfturnCodf;
+        if (frror != null) {
+            rfsult = 37 * rfsult + frror.hbshCodf();
+        }
+        rfturn rfsult;
+    }
+
+    @Ovfrridf publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+
+        if (!(obj instbndfof KrbExdfption)) {
+            rfturn fblsf;
+        }
+
+        KrbExdfption othfr = (KrbExdfption)obj;
+        if (rfturnCodf != othfr.rfturnCodf) {
+            rfturn fblsf;
+        }
+        rfturn (frror == null)?(othfr.frror == null):
+            (frror.fqubls(othfr.frror));
+    }
+}

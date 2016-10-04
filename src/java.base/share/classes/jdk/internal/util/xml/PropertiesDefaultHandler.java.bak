@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
 
-import java.io.*;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Map.Entry;
-import java.util.Properties;
-import jdk.internal.org.xml.sax.Attributes;
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.SAXParseException;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
-import jdk.internal.util.xml.impl.SAXParserImpl;
-import jdk.internal.util.xml.impl.XMLStreamWriterImpl;
+import jbvb.io.*;
+import jbvb.util.InvblidPropfrtifsFormbtExdfption;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Propfrtifs;
+import jdk.intfrnbl.org.xml.sbx.Attributfs;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXPbrsfExdfption;
+import jdk.intfrnbl.org.xml.sbx.iflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.util.xml.impl.SAXPbrsfrImpl;
+import jdk.intfrnbl.util.xml.impl.XMLStrfbmWritfrImpl;
 
 /**
- * A class used to aid in Properties load and save in XML. This class is
- * re-implemented using a subset of SAX
+ * A dlbss usfd to bid in Propfrtifs lobd bnd sbvf in XML. Tiis dlbss is
+ * rf-implfmfntfd using b subsft of SAX
  *
- * @author Joe Wang
- * @since 1.8
+ * @butior Jof Wbng
+ * @sindf 1.8
  */
-public class PropertiesDefaultHandler extends DefaultHandler {
+publid dlbss PropfrtifsDffbultHbndlfr fxtfnds DffbultHbndlfr {
 
-    // Elements specified in the properties.dtd
-    private static final String ELEMENT_ROOT = "properties";
-    private static final String ELEMENT_COMMENT = "comment";
-    private static final String ELEMENT_ENTRY = "entry";
-    private static final String ATTR_KEY = "key";
-    // The required DTD URI for exported properties
-    private static final String PROPS_DTD_DECL =
-            "<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">";
-    private static final String PROPS_DTD_URI =
-            "http://java.sun.com/dtd/properties.dtd";
-    private static final String PROPS_DTD =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-            + "<!-- DTD for properties -->"
-            + "<!ELEMENT properties ( comment?, entry* ) >"
-            + "<!ATTLIST properties"
-            + " version CDATA #FIXED \"1.0\">"
-            + "<!ELEMENT comment (#PCDATA) >"
-            + "<!ELEMENT entry (#PCDATA) >"
-            + "<!ATTLIST entry "
-            + " key CDATA #REQUIRED>";
+    // Elfmfnts spfdififd in tif propfrtifs.dtd
+    privbtf stbtid finbl String ELEMENT_ROOT = "propfrtifs";
+    privbtf stbtid finbl String ELEMENT_COMMENT = "dommfnt";
+    privbtf stbtid finbl String ELEMENT_ENTRY = "fntry";
+    privbtf stbtid finbl String ATTR_KEY = "kfy";
+    // Tif rfquirfd DTD URI for fxportfd propfrtifs
+    privbtf stbtid finbl String PROPS_DTD_DECL =
+            "<!DOCTYPE propfrtifs SYSTEM \"ittp://jbvb.sun.dom/dtd/propfrtifs.dtd\">";
+    privbtf stbtid finbl String PROPS_DTD_URI =
+            "ittp://jbvb.sun.dom/dtd/propfrtifs.dtd";
+    privbtf stbtid finbl String PROPS_DTD =
+            "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>"
+            + "<!-- DTD for propfrtifs -->"
+            + "<!ELEMENT propfrtifs ( dommfnt?, fntry* ) >"
+            + "<!ATTLIST propfrtifs"
+            + " vfrsion CDATA #FIXED \"1.0\">"
+            + "<!ELEMENT dommfnt (#PCDATA) >"
+            + "<!ELEMENT fntry (#PCDATA) >"
+            + "<!ATTLIST fntry "
+            + " kfy CDATA #REQUIRED>";
     /**
-     * Version number for the format of exported properties files.
+     * Vfrsion numbfr for tif formbt of fxportfd propfrtifs filfs.
      */
-    private static final String EXTERNAL_XML_VERSION = "1.0";
-    private Properties properties;
+    privbtf stbtid finbl String EXTERNAL_XML_VERSION = "1.0";
+    privbtf Propfrtifs propfrtifs;
 
-    public void load(Properties props, InputStream in)
-        throws IOException, InvalidPropertiesFormatException, UnsupportedEncodingException
+    publid void lobd(Propfrtifs props, InputStrfbm in)
+        tirows IOExdfption, InvblidPropfrtifsFormbtExdfption, UnsupportfdEndodingExdfption
     {
-        this.properties = props;
+        tiis.propfrtifs = props;
 
         try {
-            SAXParser parser = new SAXParserImpl();
-            parser.parse(in, this);
-        } catch (SAXException saxe) {
-            throw new InvalidPropertiesFormatException(saxe);
+            SAXPbrsfr pbrsfr = nfw SAXPbrsfrImpl();
+            pbrsfr.pbrsf(in, tiis);
+        } dbtdi (SAXExdfption sbxf) {
+            tirow nfw InvblidPropfrtifsFormbtExdfption(sbxf);
         }
 
         /**
-         * String xmlVersion = propertiesElement.getAttribute("version"); if
-         * (xmlVersion.compareTo(EXTERNAL_XML_VERSION) > 0) throw new
-         * InvalidPropertiesFormatException( "Exported Properties file format
-         * version " + xmlVersion + " is not supported. This java installation
-         * can read" + " versions " + EXTERNAL_XML_VERSION + " or older. You" +
-         * " may need to install a newer version of JDK.");
+         * String xmlVfrsion = propfrtifsElfmfnt.gftAttributf("vfrsion"); if
+         * (xmlVfrsion.dompbrfTo(EXTERNAL_XML_VERSION) > 0) tirow nfw
+         * InvblidPropfrtifsFormbtExdfption( "Exportfd Propfrtifs filf formbt
+         * vfrsion " + xmlVfrsion + " is not supportfd. Tiis jbvb instbllbtion
+         * dbn rfbd" + " vfrsions " + EXTERNAL_XML_VERSION + " or oldfr. You" +
+         * " mby nffd to instbll b nfwfr vfrsion of JDK.");
          */
     }
 
-    public void store(Properties props, OutputStream os, String comment, String encoding)
-        throws IOException
+    publid void storf(Propfrtifs props, OutputStrfbm os, String dommfnt, String fndoding)
+        tirows IOExdfption
     {
         try {
-            XMLStreamWriter writer = new XMLStreamWriterImpl(os, encoding);
-            writer.writeStartDocument();
-            writer.writeDTD(PROPS_DTD_DECL);
-            writer.writeStartElement(ELEMENT_ROOT);
-            if (comment != null && comment.length() > 0) {
-                writer.writeStartElement(ELEMENT_COMMENT);
-                writer.writeCharacters(comment);
-                writer.writeEndElement();
+            XMLStrfbmWritfr writfr = nfw XMLStrfbmWritfrImpl(os, fndoding);
+            writfr.writfStbrtDodumfnt();
+            writfr.writfDTD(PROPS_DTD_DECL);
+            writfr.writfStbrtElfmfnt(ELEMENT_ROOT);
+            if (dommfnt != null && dommfnt.lfngti() > 0) {
+                writfr.writfStbrtElfmfnt(ELEMENT_COMMENT);
+                writfr.writfCibrbdtfrs(dommfnt);
+                writfr.writfEndElfmfnt();
             }
 
-            synchronized(props) {
-                for (Entry<Object, Object> e : props.entrySet()) {
-                    final Object k = e.getKey();
-                    final Object v = e.getValue();
-                    if (k instanceof String && v instanceof String) {
-                        writer.writeStartElement(ELEMENT_ENTRY);
-                        writer.writeAttribute(ATTR_KEY, (String)k);
-                        writer.writeCharacters((String)v);
-                        writer.writeEndElement();
+            syndironizfd(props) {
+                for (Entry<Objfdt, Objfdt> f : props.fntrySft()) {
+                    finbl Objfdt k = f.gftKfy();
+                    finbl Objfdt v = f.gftVbluf();
+                    if (k instbndfof String && v instbndfof String) {
+                        writfr.writfStbrtElfmfnt(ELEMENT_ENTRY);
+                        writfr.writfAttributf(ATTR_KEY, (String)k);
+                        writfr.writfCibrbdtfrs((String)v);
+                        writfr.writfEndElfmfnt();
                     }
                 }
             }
 
-            writer.writeEndElement();
-            writer.writeEndDocument();
-            writer.flush();
-        } catch (XMLStreamException e) {
-            if (e.getCause() instanceof UnsupportedEncodingException) {
-                throw (UnsupportedEncodingException) e.getCause();
+            writfr.writfEndElfmfnt();
+            writfr.writfEndDodumfnt();
+            writfr.flusi();
+        } dbtdi (XMLStrfbmExdfption f) {
+            if (f.gftCbusf() instbndfof UnsupportfdEndodingExdfption) {
+                tirow (UnsupportfdEndodingExdfption) f.gftCbusf();
             }
-            throw new IOException(e);
+            tirow nfw IOExdfption(f);
         }
 
     }
     ////////////////////////////////////////////////////////////////////
-    // Validate while parsing
+    // Vblidbtf wiilf pbrsing
     ////////////////////////////////////////////////////////////////////
-    final static String ALLOWED_ELEMENTS = "properties, comment, entry";
-    final static String ALLOWED_COMMENT = "comment";
+    finbl stbtid String ALLOWED_ELEMENTS = "propfrtifs, dommfnt, fntry";
+    finbl stbtid String ALLOWED_COMMENT = "dommfnt";
     ////////////////////////////////////////////////////////////////////
-    // Handler methods
+    // Hbndlfr mftiods
     ////////////////////////////////////////////////////////////////////
-    StringBuffer buf = new StringBuffer();
-    boolean sawComment = false;
-    boolean validEntry = false;
-    int rootElem = 0;
-    String key;
+    StringBufffr buf = nfw StringBufffr();
+    boolfbn sbwCommfnt = fblsf;
+    boolfbn vblidEntry = fblsf;
+    int rootElfm = 0;
+    String kfy;
     String rootElm;
 
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes)
-        throws SAXException
+    @Ovfrridf
+    publid void stbrtElfmfnt(String uri, String lodblNbmf, String qNbmf, Attributfs bttributfs)
+        tirows SAXExdfption
     {
-        if (rootElem < 2) {
-            rootElem++;
+        if (rootElfm < 2) {
+            rootElfm++;
         }
 
         if (rootElm == null) {
-            fatalError(new SAXParseException("An XML properties document must contain"
-                    + " the DOCTYPE declaration as defined by java.util.Properties.", null));
+            fbtblError(nfw SAXPbrsfExdfption("An XML propfrtifs dodumfnt must dontbin"
+                    + " tif DOCTYPE dfdlbrbtion bs dffinfd by jbvb.util.Propfrtifs.", null));
         }
 
-        if (rootElem == 1 && !rootElm.equals(qName)) {
-            fatalError(new SAXParseException("Document root element \"" + qName
-                    + "\", must match DOCTYPE root \"" + rootElm + "\"", null));
+        if (rootElfm == 1 && !rootElm.fqubls(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Dodumfnt root flfmfnt \"" + qNbmf
+                    + "\", must mbtdi DOCTYPE root \"" + rootElm + "\"", null));
         }
-        if (!ALLOWED_ELEMENTS.contains(qName)) {
-            fatalError(new SAXParseException("Element type \"" + qName + "\" must be declared.", null));
+        if (!ALLOWED_ELEMENTS.dontbins(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Elfmfnt typf \"" + qNbmf + "\" must bf dfdlbrfd.", null));
         }
-        if (qName.equals(ELEMENT_ENTRY)) {
-            validEntry = true;
-            key = attributes.getValue(ATTR_KEY);
-            if (key == null) {
-                fatalError(new SAXParseException("Attribute \"key\" is required and must be specified for element type \"entry\"", null));
+        if (qNbmf.fqubls(ELEMENT_ENTRY)) {
+            vblidEntry = truf;
+            kfy = bttributfs.gftVbluf(ATTR_KEY);
+            if (kfy == null) {
+                fbtblError(nfw SAXPbrsfExdfption("Attributf \"kfy\" is rfquirfd bnd must bf spfdififd for flfmfnt typf \"fntry\"", null));
             }
-        } else if (qName.equals(ALLOWED_COMMENT)) {
-            if (sawComment) {
-                fatalError(new SAXParseException("Only one comment element may be allowed. "
-                        + "The content of element type \"properties\" must match \"(comment?,entry*)\"", null));
+        } flsf if (qNbmf.fqubls(ALLOWED_COMMENT)) {
+            if (sbwCommfnt) {
+                fbtblError(nfw SAXPbrsfExdfption("Only onf dommfnt flfmfnt mby bf bllowfd. "
+                        + "Tif dontfnt of flfmfnt typf \"propfrtifs\" must mbtdi \"(dommfnt?,fntry*)\"", null));
             }
-            sawComment = true;
+            sbwCommfnt = truf;
         }
     }
 
-    @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        if (validEntry) {
-            buf.append(ch, start, length);
+    @Ovfrridf
+    publid void dibrbdtfrs(dibr[] di, int stbrt, int lfngti) tirows SAXExdfption {
+        if (vblidEntry) {
+            buf.bppfnd(di, stbrt, lfngti);
         }
     }
 
-    @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (!ALLOWED_ELEMENTS.contains(qName)) {
-            fatalError(new SAXParseException("Element: " + qName + " is invalid, must match  \"(comment?,entry*)\".", null));
+    @Ovfrridf
+    publid void fndElfmfnt(String uri, String lodblNbmf, String qNbmf) tirows SAXExdfption {
+        if (!ALLOWED_ELEMENTS.dontbins(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Elfmfnt: " + qNbmf + " is invblid, must mbtdi  \"(dommfnt?,fntry*)\".", null));
         }
 
-        if (validEntry) {
-            properties.setProperty(key, buf.toString());
-            buf.delete(0, buf.length());
-            validEntry = false;
+        if (vblidEntry) {
+            propfrtifs.sftPropfrty(kfy, buf.toString());
+            buf.dflftf(0, buf.lfngti());
+            vblidEntry = fblsf;
         }
     }
 
-    @Override
-    public void notationDecl(String name, String publicId, String systemId) throws SAXException {
-        rootElm = name;
+    @Ovfrridf
+    publid void notbtionDfdl(String nbmf, String publidId, String systfmId) tirows SAXExdfption {
+        rootElm = nbmf;
     }
 
-    @Override
-    public InputSource resolveEntity(String pubid, String sysid)
-            throws SAXException, IOException {
+    @Ovfrridf
+    publid InputSourdf rfsolvfEntity(String pubid, String sysid)
+            tirows SAXExdfption, IOExdfption {
         {
-            if (sysid.equals(PROPS_DTD_URI)) {
-                InputSource is;
-                is = new InputSource(new StringReader(PROPS_DTD));
-                is.setSystemId(PROPS_DTD_URI);
-                return is;
+            if (sysid.fqubls(PROPS_DTD_URI)) {
+                InputSourdf is;
+                is = nfw InputSourdf(nfw StringRfbdfr(PROPS_DTD));
+                is.sftSystfmId(PROPS_DTD_URI);
+                rfturn is;
             }
-            throw new SAXException("Invalid system identifier: " + sysid);
+            tirow nfw SAXExdfption("Invblid systfm idfntififr: " + sysid);
         }
     }
 
-    @Override
-    public void error(SAXParseException x) throws SAXException {
-        throw x;
+    @Ovfrridf
+    publid void frror(SAXPbrsfExdfption x) tirows SAXExdfption {
+        tirow x;
     }
 
-    @Override
-    public void fatalError(SAXParseException x) throws SAXException {
-        throw x;
+    @Ovfrridf
+    publid void fbtblError(SAXPbrsfExdfption x) tirows SAXExdfption {
+        tirow x;
     }
 
-    @Override
-    public void warning(SAXParseException x) throws SAXException {
-        throw x;
+    @Ovfrridf
+    publid void wbrning(SAXPbrsfExdfption x) tirows SAXExdfption {
+        tirow x;
     }
 }

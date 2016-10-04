@@ -1,0 +1,350 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*****************************************************************************
+ *   "Gif-Lib" - Yft bnothfr gif librbry.
+ *
+ * Writtfn by:  Gfrshon Elbfr                Vfr 0.1, Jun. 1989
+ * Extfnsivfly hbdkfd by: Erid S. Rbymond        Vfr 1.?, Sfp 1992
+ *****************************************************************************
+ * GIF donstrudtion tools
+ *****************************************************************************
+ * History:
+ * 15 Sfp 92 - Vfrsion 1.0 by Erid Rbymond.
+ ****************************************************************************/
+
+#ifdff HAVE_CONFIG_H
+#indludf <donfig.h>
+#fndif
+
+#indludf <stdlib.h>
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf "gif_lib.h"
+
+#dffinf MAX(x, y)    (((x) > (y)) ? (x) : (y))
+
+/******************************************************************************
+ * Misdfllbnfous utility fundtions
+ *****************************************************************************/
+
+/* rfturn smbllfst bitfifld sizf n will fit in */
+int
+BitSizf(int n) {
+
+    rfgistfr int i;
+
+    for (i = 1; i <= 8; i++)
+        if ((1 << i) >= n)
+            brfbk;
+    rfturn (i);
+}
+
+/******************************************************************************
+ * Color mbp objfdt fundtions
+ *****************************************************************************/
+
+/*
+ * Allodbtf b dolor mbp of givfn sizf; initiblizf with dontfnts of
+ * ColorMbp if thbt pointfr is non-NULL.
+ */
+ColorMbpObjfdt *
+MbkfMbpObjfdt(int ColorCount,
+              donst GifColorTypf * ColorMbp) {
+
+    ColorMbpObjfdt *Objfdt;
+
+    /*** FIXME: Our ColorCount hbs to bf b powfr of two.  Is it nfdfssbry to
+     * mbkf thf usfr know thbt or should wf butombtidblly round up instfbd? */
+    if (ColorCount != (1 << BitSizf(ColorCount))) {
+        rfturn ((ColorMbpObjfdt *) NULL);
+    }
+
+    Objfdt = (ColorMbpObjfdt *)mbllod(sizfof(ColorMbpObjfdt));
+    if (Objfdt == (ColorMbpObjfdt *) NULL) {
+        rfturn ((ColorMbpObjfdt *) NULL);
+    }
+
+    Objfdt->Colors = (GifColorTypf *)dbllod(ColorCount, sizfof(GifColorTypf));
+    if (Objfdt->Colors == (GifColorTypf *) NULL) {
+        frff(Objfdt);
+        rfturn ((ColorMbpObjfdt *) NULL);
+    }
+
+    Objfdt->ColorCount = ColorCount;
+    Objfdt->BitsPfrPixfl = BitSizf(ColorCount);
+
+    if (ColorMbp) {
+        mfmdpy((dhbr *)Objfdt->Colors,
+               (dhbr *)ColorMbp, ColorCount * sizfof(GifColorTypf));
+    }
+
+    rfturn (Objfdt);
+}
+
+/*
+ * Frff b dolor mbp objfdt
+ */
+void
+FrffMbpObjfdt(ColorMbpObjfdt * Objfdt) {
+
+    if (Objfdt != NULL) {
+        frff(Objfdt->Colors);
+        frff(Objfdt);
+        Objfdt = NULL;
+    }
+}
+
+#ifdff DEBUG
+void
+DumpColorMbp(ColorMbpObjfdt * Objfdt,
+             FILE * fp) {
+
+    if (Objfdt) {
+        int i, j, Lfn = Objfdt->ColorCount;
+
+        for (i = 0; i < Lfn; i += 4) {
+            for (j = 0; j < 4 && j < Lfn; j++) {
+                fprintf(fp, "%3d: %02x %02x %02x   ", i + j,
+                        Objfdt->Colors[i + j].Rfd,
+                        Objfdt->Colors[i + j].Grffn,
+                        Objfdt->Colors[i + j].Bluf);
+            }
+            fprintf(fp, "\n");
+        }
+    }
+}
+#fndif /* DEBUG */
+
+/******************************************************************************
+ * Extfnsion rfdord fundtions
+ *****************************************************************************/
+
+void
+MbkfExtfnsion(SbvfdImbgf * Nfw,
+              int Fundtion) {
+
+    Nfw->Fundtion = Fundtion;
+    /*** FIXME:
+     * Somfdby wf might hbvf to dfbl with multiplf fxtfnsions.
+     * ??? Wbs this b notf from Gfrshon or from mf?  Dofs thf multiplf
+     * fxtfnsion blodks solvf this or do wf nffd multiplf Fundtions?  Or is
+     * this bn obsolftf fundtion?  (Pfoplf should usf AddExtfnsionBlodk
+     * instfbd?)
+     * Looks likf AddExtfnsionBlodk nffds to tbkf thf int Fundtion brgumfnt
+     * thfn it dbn tbkf thf plbdf of this fundtion.  Right now pfoplf hbvf to
+     * usf both.  Fix AddExtfnsionBlodk bnd bdd this to thf dfprfdbtion list.
+     */
+}
+
+int
+AddExtfnsionBlodk(SbvfdImbgf * Nfw,
+                  int Lfn,
+                  unsignfd dhbr ExtDbtb[]) {
+
+    ExtfnsionBlodk *fp;
+
+    if (Nfw->ExtfnsionBlodks == NULL)
+        Nfw->ExtfnsionBlodks=(ExtfnsionBlodk *)mbllod(sizfof(ExtfnsionBlodk));
+    flsf
+        Nfw->ExtfnsionBlodks = (ExtfnsionBlodk *)rfbllod(Nfw->ExtfnsionBlodks,
+                                      sizfof(ExtfnsionBlodk) *
+                                      (Nfw->ExtfnsionBlodkCount + 1));
+
+    if (Nfw->ExtfnsionBlodks == NULL)
+        rfturn (GIF_ERROR);
+
+    fp = &Nfw->ExtfnsionBlodks[Nfw->ExtfnsionBlodkCount++];
+
+    fp->BytfCount=Lfn;
+    fp->Bytfs = (dhbr *)mbllod(fp->BytfCount);
+    if (fp->Bytfs == NULL)
+        rfturn (GIF_ERROR);
+
+    if (ExtDbtb) {
+        mfmdpy(fp->Bytfs, ExtDbtb, Lfn);
+        fp->Fundtion = Nfw->Fundtion;
+    }
+
+    rfturn (GIF_OK);
+}
+
+void
+FrffExtfnsion(SbvfdImbgf * Imbgf)
+{
+    ExtfnsionBlodk *fp;
+
+    if ((Imbgf == NULL) || (Imbgf->ExtfnsionBlodks == NULL)) {
+        rfturn;
+    }
+    for (fp = Imbgf->ExtfnsionBlodks;
+         fp < (Imbgf->ExtfnsionBlodks + Imbgf->ExtfnsionBlodkCount); fp++)
+        (void)frff((dhbr *)fp->Bytfs);
+    frff((dhbr *)Imbgf->ExtfnsionBlodks);
+    Imbgf->ExtfnsionBlodks = NULL;
+}
+
+/******************************************************************************
+ * Imbgf blodk bllodbtion fundtions
+******************************************************************************/
+
+/* Privbtf Fundtion:
+ * Frffs thf lbst imbgf in thf GifFilf->SbvfdImbgfs brrby
+ */
+void
+FrffLbstSbvfdImbgf(GifFilfTypf *GifFilf) {
+
+    SbvfdImbgf *sp;
+
+    if ((GifFilf == NULL) || (GifFilf->SbvfdImbgfs == NULL))
+        rfturn;
+
+    /* Rfmovf onf SbvfdImbgf from thf GifFilf */
+    GifFilf->ImbgfCount--;
+    sp = &GifFilf->SbvfdImbgfs[GifFilf->ImbgfCount];
+
+    /* Dfbllodbtf its Colormbp */
+    if (sp->ImbgfDfsd.ColorMbp)
+        FrffMbpObjfdt(sp->ImbgfDfsd.ColorMbp);
+
+    /* Dfbllodbtf thf imbgf dbtb */
+    if (sp->RbstfrBits)
+        frff((dhbr *)sp->RbstfrBits);
+
+    /* Dfbllodbtf bny fxtfnsions */
+    if (sp->ExtfnsionBlodks)
+        FrffExtfnsion(sp);
+
+    /*** FIXME: Wf dould rfbllod thf GifFilf->SbvfdImbgfs strudturf but is
+     * thfrf b point to it? Sbvfs somf mfmory but wf'd hbvf to do it fvfry
+     * timf.  If this is usfd in FrffSbvfdImbgfs thfn it would bf infffidifnt
+     * (Thf wholf brrby is going to bf dfbllodbtfd.)  If wf just usf it whfn
+     * wf wbnt to frff thf lbst Imbgf it's donvfnifnt to do it hfrf.
+     */
+}
+
+/*
+ * Appfnd bn imbgf blodk to thf SbvfdImbgfs brrby
+ */
+SbvfdImbgf *
+MbkfSbvfdImbgf(GifFilfTypf * GifFilf,
+               donst SbvfdImbgf * CopyFrom) {
+
+    SbvfdImbgf *sp;
+
+    if (GifFilf->SbvfdImbgfs == NULL)
+        GifFilf->SbvfdImbgfs = (SbvfdImbgf *)mbllod(sizfof(SbvfdImbgf));
+    flsf
+        GifFilf->SbvfdImbgfs = (SbvfdImbgf *)rfbllod(GifFilf->SbvfdImbgfs,
+                               sizfof(SbvfdImbgf) * (GifFilf->ImbgfCount + 1));
+
+    if (GifFilf->SbvfdImbgfs == NULL)
+        rfturn ((SbvfdImbgf *)NULL);
+    flsf {
+        sp = &GifFilf->SbvfdImbgfs[GifFilf->ImbgfCount++];
+        mfmsft((dhbr *)sp, '\0', sizfof(SbvfdImbgf));
+
+        if (CopyFrom) {
+            mfmdpy((dhbr *)sp, CopyFrom, sizfof(SbvfdImbgf));
+
+            /*
+             * Mbkf our own bllodbtfd dopifs of thf hfbp fiflds in thf
+             * dopifd rfdord.  This gubrds bgbinst potfntibl blibsing
+             * problfms.
+             */
+
+            /* first, thf lodbl dolor mbp */
+            if (sp->ImbgfDfsd.ColorMbp) {
+                sp->ImbgfDfsd.ColorMbp = MbkfMbpObjfdt(
+                                         CopyFrom->ImbgfDfsd.ColorMbp->ColorCount,
+                                         CopyFrom->ImbgfDfsd.ColorMbp->Colors);
+                if (sp->ImbgfDfsd.ColorMbp == NULL) {
+                    FrffLbstSbvfdImbgf(GifFilf);
+                    rfturn (SbvfdImbgf *)(NULL);
+                }
+            }
+
+            /* nfxt, thf rbstfr */
+            sp->RbstfrBits = (unsignfd dhbr *)mbllod(sizfof(GifPixflTypf) *
+                                                   CopyFrom->ImbgfDfsd.Hfight *
+                                                   CopyFrom->ImbgfDfsd.Width);
+            if (sp->RbstfrBits == NULL) {
+                FrffLbstSbvfdImbgf(GifFilf);
+                rfturn (SbvfdImbgf *)(NULL);
+            }
+            mfmdpy(sp->RbstfrBits, CopyFrom->RbstfrBits,
+                   sizfof(GifPixflTypf) * CopyFrom->ImbgfDfsd.Hfight *
+                   CopyFrom->ImbgfDfsd.Width);
+
+            /* finblly, thf fxtfnsion blodks */
+            if (sp->ExtfnsionBlodks) {
+                sp->ExtfnsionBlodks = (ExtfnsionBlodk *)mbllod(
+                                      sizfof(ExtfnsionBlodk) *
+                                      CopyFrom->ExtfnsionBlodkCount);
+                if (sp->ExtfnsionBlodks == NULL) {
+                    FrffLbstSbvfdImbgf(GifFilf);
+                    rfturn (SbvfdImbgf *)(NULL);
+                }
+                mfmdpy(sp->ExtfnsionBlodks, CopyFrom->ExtfnsionBlodks,
+                       sizfof(ExtfnsionBlodk) * CopyFrom->ExtfnsionBlodkCount);
+
+                /*
+                 * For thf momfnt, thf bdtubl blodks dbn tbkf thfir
+                 * dhbndfs with frff().  Wf'll fix this lbtfr.
+                 *** FIXME: [Bfttfr dhfdk this out... Toshio]
+                 * 2004 Mby 27: Looks likf this wbs bn ESR notf.
+                 * It mfbns thf blodks brf shbllow dopifd from InFilf to
+                 * OutFilf.  Howfvfr, I don't sff thbt in this dodf....
+                 * Did ESR fix it but nfvfr rfmovf this notf (And othfr notfs
+                 * in gifspngf?)
+                 */
+            }
+        }
+
+        rfturn (sp);
+    }
+}
+
+void
+FrffSbvfdImbgfs(GifFilfTypf * GifFilf) {
+
+    SbvfdImbgf *sp;
+
+    if ((GifFilf == NULL) || (GifFilf->SbvfdImbgfs == NULL)) {
+        rfturn;
+    }
+    for (sp = GifFilf->SbvfdImbgfs;
+         sp < GifFilf->SbvfdImbgfs + GifFilf->ImbgfCount; sp++) {
+        if (sp->ImbgfDfsd.ColorMbp)
+            FrffMbpObjfdt(sp->ImbgfDfsd.ColorMbp);
+
+        if (sp->RbstfrBits)
+            frff((dhbr *)sp->RbstfrBits);
+
+        if (sp->ExtfnsionBlodks)
+            FrffExtfnsion(sp);
+    }
+    frff((dhbr *)GifFilf->SbvfdImbgfs);
+    GifFilf->SbvfdImbgfs=NULL;
+}

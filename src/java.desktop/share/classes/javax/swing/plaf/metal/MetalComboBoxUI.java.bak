@@ -1,407 +1,407 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.io.Serializable;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.*;
 
 
 /**
- * Metal UI for JComboBox
+ * Mftbl UI for JComboBox
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see MetalComboBoxEditor
- * @see MetalComboBoxButton
- * @author Tom Santos
+ * @sff MftblComboBoxEditor
+ * @sff MftblComboBoxButton
+ * @butior Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalComboBoxUI extends BasicComboBoxUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxUI fxtfnds BbsidComboBoxUI {
 
     /**
-     * Constructs an instance of {@code MetalComboBoxUI}.
+     * Construdts bn instbndf of {@dodf MftblComboBoxUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalComboBoxUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblComboBoxUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new MetalComboBoxUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblComboBoxUI();
     }
 
-    public void paint(Graphics g, JComponent c) {
-        if (MetalLookAndFeel.usingOcean()) {
-            super.paint(g, c);
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            supfr.pbint(g, d);
         }
     }
 
     /**
-     * If necessary paints the currently selected item.
+     * If nfdfssbry pbints tif durrfntly sflfdtfd itfm.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint current value to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
-     * @since 1.5
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm bounds Rfgion to pbint durrfnt vbluf to
+     * @pbrbm ibsFodus wiftifr or not tif JComboBox ibs fodus
+     * @tirows NullPointfrExdfption if bny of tif brgumfnts brf null.
+     * @sindf 1.5
      */
-    public void paintCurrentValue(Graphics g, Rectangle bounds,
-                                  boolean hasFocus) {
-        // This is really only called if we're using ocean.
-        if (MetalLookAndFeel.usingOcean()) {
+    publid void pbintCurrfntVbluf(Grbpiids g, Rfdtbnglf bounds,
+                                  boolfbn ibsFodus) {
+        // Tiis is rfblly only dbllfd if wf'rf using odfbn.
+        if (MftblLookAndFffl.usingOdfbn()) {
             bounds.x += 2;
-            bounds.width -= 3;
-            if (arrowButton != null) {
-                Insets buttonInsets = arrowButton.getInsets();
-                bounds.y += buttonInsets.top;
-                bounds.height -= (buttonInsets.top + buttonInsets.bottom);
+            bounds.widti -= 3;
+            if (brrowButton != null) {
+                Insfts buttonInsfts = brrowButton.gftInsfts();
+                bounds.y += buttonInsfts.top;
+                bounds.ifigit -= (buttonInsfts.top + buttonInsfts.bottom);
             }
-            else {
+            flsf {
                 bounds.y += 2;
-                bounds.height -= 4;
+                bounds.ifigit -= 4;
             }
-            super.paintCurrentValue(g, bounds, hasFocus);
+            supfr.pbintCurrfntVbluf(g, bounds, ibsFodus);
         }
-        else if (g == null || bounds == null) {
-            throw new NullPointerException(
-                "Must supply a non-null Graphics and Rectangle");
+        flsf if (g == null || bounds == null) {
+            tirow nfw NullPointfrExdfption(
+                "Must supply b non-null Grbpiids bnd Rfdtbnglf");
         }
     }
 
     /**
-     * If necessary paints the background of the currently selected item.
+     * If nfdfssbry pbints tif bbdkground of tif durrfntly sflfdtfd itfm.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint background to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
-     * @since 1.5
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm bounds Rfgion to pbint bbdkground to
+     * @pbrbm ibsFodus wiftifr or not tif JComboBox ibs fodus
+     * @tirows NullPointfrExdfption if bny of tif brgumfnts brf null.
+     * @sindf 1.5
      */
-    public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-                                            boolean hasFocus) {
-        // This is really only called if we're using ocean.
-        if (MetalLookAndFeel.usingOcean()) {
-            g.setColor(MetalLookAndFeel.getControlDarkShadow());
-            g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height - 1);
-            g.setColor(MetalLookAndFeel.getControlShadow());
-            g.drawRect(bounds.x + 1, bounds.y + 1, bounds.width - 2,
-                       bounds.height - 3);
-            if (hasFocus && !isPopupVisible(comboBox) &&
-                    arrowButton != null) {
-                g.setColor(listBox.getSelectionBackground());
-                Insets buttonInsets = arrowButton.getInsets();
-                if (buttonInsets.top > 2) {
-                    g.fillRect(bounds.x + 2, bounds.y + 2, bounds.width - 3,
-                               buttonInsets.top - 2);
+    publid void pbintCurrfntVblufBbdkground(Grbpiids g, Rfdtbnglf bounds,
+                                            boolfbn ibsFodus) {
+        // Tiis is rfblly only dbllfd if wf'rf using odfbn.
+        if (MftblLookAndFffl.usingOdfbn()) {
+            g.sftColor(MftblLookAndFffl.gftControlDbrkSibdow());
+            g.drbwRfdt(bounds.x, bounds.y, bounds.widti, bounds.ifigit - 1);
+            g.sftColor(MftblLookAndFffl.gftControlSibdow());
+            g.drbwRfdt(bounds.x + 1, bounds.y + 1, bounds.widti - 2,
+                       bounds.ifigit - 3);
+            if (ibsFodus && !isPopupVisiblf(domboBox) &&
+                    brrowButton != null) {
+                g.sftColor(listBox.gftSflfdtionBbdkground());
+                Insfts buttonInsfts = brrowButton.gftInsfts();
+                if (buttonInsfts.top > 2) {
+                    g.fillRfdt(bounds.x + 2, bounds.y + 2, bounds.widti - 3,
+                               buttonInsfts.top - 2);
                 }
-                if (buttonInsets.bottom > 2) {
-                    g.fillRect(bounds.x + 2, bounds.y + bounds.height -
-                               buttonInsets.bottom, bounds.width - 3,
-                               buttonInsets.bottom - 2);
+                if (buttonInsfts.bottom > 2) {
+                    g.fillRfdt(bounds.x + 2, bounds.y + bounds.ifigit -
+                               buttonInsfts.bottom, bounds.widti - 3,
+                               buttonInsfts.bottom - 2);
                 }
             }
         }
-        else if (g == null || bounds == null) {
-            throw new NullPointerException(
-                "Must supply a non-null Graphics and Rectangle");
+        flsf if (g == null || bounds == null) {
+            tirow nfw NullPointfrExdfption(
+                "Must supply b non-null Grbpiids bnd Rfdtbnglf");
         }
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        int baseline;
-        if (MetalLookAndFeel.usingOcean() && height >= 4) {
-            height -= 4;
-            baseline = super.getBaseline(c, width, height);
-            if (baseline >= 0) {
-                baseline += 2;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        int bbsflinf;
+        if (MftblLookAndFffl.usingOdfbn() && ifigit >= 4) {
+            ifigit -= 4;
+            bbsflinf = supfr.gftBbsflinf(d, widti, ifigit);
+            if (bbsflinf >= 0) {
+                bbsflinf += 2;
             }
         }
-        else {
-            baseline = super.getBaseline(c, width, height);
+        flsf {
+            bbsflinf = supfr.gftBbsflinf(d, widti, ifigit);
         }
-        return baseline;
+        rfturn bbsflinf;
     }
 
-    protected ComboBoxEditor createEditor() {
-        return new MetalComboBoxEditor.UIResource();
+    protfdtfd ComboBoxEditor drfbtfEditor() {
+        rfturn nfw MftblComboBoxEditor.UIRfsourdf();
     }
 
-    protected ComboPopup createPopup() {
-        return super.createPopup();
+    protfdtfd ComboPopup drfbtfPopup() {
+        rfturn supfr.drfbtfPopup();
     }
 
-    protected JButton createArrowButton() {
-        boolean iconOnly = (comboBox.isEditable() ||
-                            MetalLookAndFeel.usingOcean());
-        JButton button = new MetalComboBoxButton( comboBox,
-                                                  new MetalComboBoxIcon(),
-                                                  iconOnly,
-                                                  currentValuePane,
+    protfdtfd JButton drfbtfArrowButton() {
+        boolfbn idonOnly = (domboBox.isEditbblf() ||
+                            MftblLookAndFffl.usingOdfbn());
+        JButton button = nfw MftblComboBoxButton( domboBox,
+                                                  nfw MftblComboBoxIdon(),
+                                                  idonOnly,
+                                                  durrfntVblufPbnf,
                                                   listBox );
-        button.setMargin( new Insets( 0, 1, 1, 3 ) );
-        if (MetalLookAndFeel.usingOcean()) {
-            // Disabled rollover effect.
-            button.putClientProperty(MetalBorders.NO_BUTTON_ROLLOVER,
-                                     Boolean.TRUE);
+        button.sftMbrgin( nfw Insfts( 0, 1, 1, 3 ) );
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // Disbblfd rollovfr ffffdt.
+            button.putClifntPropfrty(MftblBordfrs.NO_BUTTON_ROLLOVER,
+                                     Boolfbn.TRUE);
         }
-        updateButtonForOcean(button);
-        return button;
+        updbtfButtonForOdfbn(button);
+        rfturn button;
     }
 
     /**
-     * Resets the necessary state on the ComboBoxButton for ocean.
+     * Rfsfts tif nfdfssbry stbtf on tif ComboBoxButton for odfbn.
      */
-    private void updateButtonForOcean(JButton button) {
-        if (MetalLookAndFeel.usingOcean()) {
-            // Ocean renders the focus in a different way, this
-            // would be redundant.
-            button.setFocusPainted(comboBox.isEditable());
+    privbtf void updbtfButtonForOdfbn(JButton button) {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // Odfbn rfndfrs tif fodus in b difffrfnt wby, tiis
+            // would bf rfdundbnt.
+            button.sftFodusPbintfd(domboBox.isEditbblf());
         }
     }
 
-    public PropertyChangeListener createPropertyChangeListener() {
-        return new MetalPropertyChangeListener();
+    publid PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn nfw MftblPropfrtyCibngfListfnfr();
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf MftblComboBoxUI}.
      */
-    public class MetalPropertyChangeListener extends BasicComboBoxUI.PropertyChangeHandler {
-        public void propertyChange(PropertyChangeEvent e) {
-            super.propertyChange( e );
-            String propertyName = e.getPropertyName();
+    publid dlbss MftblPropfrtyCibngfListfnfr fxtfnds BbsidComboBoxUI.PropfrtyCibngfHbndlfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            supfr.propfrtyCibngf( f );
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-            if ( propertyName == "editable" ) {
-                if(arrowButton instanceof MetalComboBoxButton) {
-                            MetalComboBoxButton button = (MetalComboBoxButton)arrowButton;
-                            button.setIconOnly( comboBox.isEditable() ||
-                                    MetalLookAndFeel.usingOcean() );
+            if ( propfrtyNbmf == "fditbblf" ) {
+                if(brrowButton instbndfof MftblComboBoxButton) {
+                            MftblComboBoxButton button = (MftblComboBoxButton)brrowButton;
+                            button.sftIdonOnly( domboBox.isEditbblf() ||
+                                    MftblLookAndFffl.usingOdfbn() );
                 }
-                        comboBox.repaint();
-                updateButtonForOcean(arrowButton);
-            } else if ( propertyName == "background" ) {
-                Color color = (Color)e.getNewValue();
-                arrowButton.setBackground(color);
-                listBox.setBackground(color);
+                        domboBox.rfpbint();
+                updbtfButtonForOdfbn(brrowButton);
+            } flsf if ( propfrtyNbmf == "bbdkground" ) {
+                Color dolor = (Color)f.gftNfwVbluf();
+                brrowButton.sftBbdkground(dolor);
+                listBox.sftBbdkground(dolor);
 
-            } else if ( propertyName == "foreground" ) {
-                Color color = (Color)e.getNewValue();
-                arrowButton.setForeground(color);
-                listBox.setForeground(color);
+            } flsf if ( propfrtyNbmf == "forfground" ) {
+                Color dolor = (Color)f.gftNfwVbluf();
+                brrowButton.sftForfground(dolor);
+                listBox.sftForfground(dolor);
             }
         }
     }
 
     /**
-     * As of Java 2 platform v1.4 this method is no longer used. Do not call or
-     * override. All the functionality of this method is in the
-     * MetalPropertyChangeListener.
+     * As of Jbvb 2 plbtform v1.4 tiis mftiod is no longfr usfd. Do not dbll or
+     * ovfrridf. All tif fundtionblity of tiis mftiod is in tif
+     * MftblPropfrtyCibngfListfnfr.
      *
-     * @param e an instance of {@code PropertyChangeEvent}
-     * @deprecated As of Java 2 platform v1.4.
+     * @pbrbm f bn instbndf of {@dodf PropfrtyCibngfEvfnt}
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    protected void editablePropertyChanged( PropertyChangeEvent e ) { }
+    @Dfprfdbtfd
+    protfdtfd void fditbblfPropfrtyCibngfd( PropfrtyCibngfEvfnt f ) { }
 
-    protected LayoutManager createLayoutManager() {
-        return new MetalComboBoxLayoutManager();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw MftblComboBoxLbyoutMbnbgfr();
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf MftblComboBoxUI}.
      */
-    public class MetalComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public void layoutContainer( Container parent ) {
-            layoutComboBox( parent, this );
+    publid dlbss MftblComboBoxLbyoutMbnbgfr fxtfnds BbsidComboBoxUI.ComboBoxLbyoutMbnbgfr {
+        publid void lbyoutContbinfr( Contbinfr pbrfnt ) {
+            lbyoutComboBox( pbrfnt, tiis );
         }
 
         /**
-         * Lays out the parent container.
+         * Lbys out tif pbrfnt dontbinfr.
          *
-         * @param parent a container
+         * @pbrbm pbrfnt b dontbinfr
          */
-        public void superLayout( Container parent ) {
-            super.layoutContainer( parent );
+        publid void supfrLbyout( Contbinfr pbrfnt ) {
+            supfr.lbyoutContbinfr( pbrfnt );
         }
     }
 
     /**
-     * Lays out the {@code JComboBox} in the {@code parent} container.
+     * Lbys out tif {@dodf JComboBox} in tif {@dodf pbrfnt} dontbinfr.
      *
-     * @param parent a container
-     * @param manager an instance of {@code MetalComboBoxLayoutManager}
+     * @pbrbm pbrfnt b dontbinfr
+     * @pbrbm mbnbgfr bn instbndf of {@dodf MftblComboBoxLbyoutMbnbgfr}
      */
-    // This is here because of a bug in the compiler.
-    // When a protected-inner-class-savvy compiler comes out we
-    // should move this into MetalComboBoxLayoutManager.
-    public void layoutComboBox( Container parent, MetalComboBoxLayoutManager manager ) {
-        if (comboBox.isEditable() && !MetalLookAndFeel.usingOcean()) {
-            manager.superLayout( parent );
-            return;
+    // Tiis is ifrf bfdbusf of b bug in tif dompilfr.
+    // Wifn b protfdtfd-innfr-dlbss-sbvvy dompilfr domfs out wf
+    // siould movf tiis into MftblComboBoxLbyoutMbnbgfr.
+    publid void lbyoutComboBox( Contbinfr pbrfnt, MftblComboBoxLbyoutMbnbgfr mbnbgfr ) {
+        if (domboBox.isEditbblf() && !MftblLookAndFffl.usingOdfbn()) {
+            mbnbgfr.supfrLbyout( pbrfnt );
+            rfturn;
         }
 
-        if (arrowButton != null) {
-            if (MetalLookAndFeel.usingOcean() ) {
-                Insets insets = comboBox.getInsets();
-                int buttonWidth = arrowButton.getMinimumSize().width;
-                arrowButton.setBounds(MetalUtils.isLeftToRight(comboBox)
-                                ? (comboBox.getWidth() - insets.right - buttonWidth)
-                                : insets.left,
-                            insets.top, buttonWidth,
-                            comboBox.getHeight() - insets.top - insets.bottom);
+        if (brrowButton != null) {
+            if (MftblLookAndFffl.usingOdfbn() ) {
+                Insfts insfts = domboBox.gftInsfts();
+                int buttonWidti = brrowButton.gftMinimumSizf().widti;
+                brrowButton.sftBounds(MftblUtils.isLfftToRigit(domboBox)
+                                ? (domboBox.gftWidti() - insfts.rigit - buttonWidti)
+                                : insfts.lfft,
+                            insfts.top, buttonWidti,
+                            domboBox.gftHfigit() - insfts.top - insfts.bottom);
             }
-            else {
-                Insets insets = comboBox.getInsets();
-                int width = comboBox.getWidth();
-                int height = comboBox.getHeight();
-                arrowButton.setBounds( insets.left, insets.top,
-                                       width - (insets.left + insets.right),
-                                       height - (insets.top + insets.bottom) );
+            flsf {
+                Insfts insfts = domboBox.gftInsfts();
+                int widti = domboBox.gftWidti();
+                int ifigit = domboBox.gftHfigit();
+                brrowButton.sftBounds( insfts.lfft, insfts.top,
+                                       widti - (insfts.lfft + insfts.rigit),
+                                       ifigit - (insfts.top + insfts.bottom) );
             }
         }
 
-        if (editor != null && MetalLookAndFeel.usingOcean()) {
-            Rectangle cvb = rectangleForCurrentValue();
-            editor.setBounds(cvb);
+        if (fditor != null && MftblLookAndFffl.usingOdfbn()) {
+            Rfdtbnglf dvb = rfdtbnglfForCurrfntVbluf();
+            fditor.sftBounds(dvb);
         }
     }
 
     /**
-     * As of Java 2 platform v1.4 this method is no
-     * longer used.
+     * As of Jbvb 2 plbtform v1.4 tiis mftiod is no
+     * longfr usfd.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    protected void removeListeners() {
-        if ( propertyChangeListener != null ) {
-            comboBox.removePropertyChangeListener( propertyChangeListener );
+    @Dfprfdbtfd
+    protfdtfd void rfmovfListfnfrs() {
+        if ( propfrtyCibngfListfnfr != null ) {
+            domboBox.rfmovfPropfrtyCibngfListfnfr( propfrtyCibngfListfnfr );
         }
     }
 
-    // These two methods were overloaded and made public. This was probably a
-    // mistake in the implementation. The functionality that they used to
-    // provide is no longer necessary and should be removed. However,
-    // removing them will create an uncompatible API change.
+    // Tifsf two mftiods wfrf ovfrlobdfd bnd mbdf publid. Tiis wbs probbbly b
+    // mistbkf in tif implfmfntbtion. Tif fundtionblity tibt tify usfd to
+    // providf is no longfr nfdfssbry bnd siould bf rfmovfd. Howfvfr,
+    // rfmoving tifm will drfbtf bn undompbtiblf API dibngf.
 
-    public void configureEditor() {
-        super.configureEditor();
+    publid void donfigurfEditor() {
+        supfr.donfigurfEditor();
     }
 
-    public void unconfigureEditor() {
-        super.unconfigureEditor();
+    publid void undonfigurfEditor() {
+        supfr.undonfigurfEditor();
     }
 
-    public Dimension getMinimumSize( JComponent c ) {
-        if ( !isMinimumSizeDirty ) {
-            return new Dimension( cachedMinimumSize );
+    publid Dimfnsion gftMinimumSizf( JComponfnt d ) {
+        if ( !isMinimumSizfDirty ) {
+            rfturn nfw Dimfnsion( dbdifdMinimumSizf );
         }
 
-        Dimension size = null;
+        Dimfnsion sizf = null;
 
-        if ( !comboBox.isEditable() &&
-             arrowButton != null) {
-            Insets buttonInsets = arrowButton.getInsets();
-            Insets insets = comboBox.getInsets();
+        if ( !domboBox.isEditbblf() &&
+             brrowButton != null) {
+            Insfts buttonInsfts = brrowButton.gftInsfts();
+            Insfts insfts = domboBox.gftInsfts();
 
-            size = getDisplaySize();
-            size.width += insets.left + insets.right;
-            size.width += buttonInsets.right;
-            size.width += arrowButton.getMinimumSize().width;
-            size.height += insets.top + insets.bottom;
-            size.height += buttonInsets.top + buttonInsets.bottom;
+            sizf = gftDisplbySizf();
+            sizf.widti += insfts.lfft + insfts.rigit;
+            sizf.widti += buttonInsfts.rigit;
+            sizf.widti += brrowButton.gftMinimumSizf().widti;
+            sizf.ifigit += insfts.top + insfts.bottom;
+            sizf.ifigit += buttonInsfts.top + buttonInsfts.bottom;
         }
-        else if ( comboBox.isEditable() &&
-                  arrowButton != null &&
-                  editor != null ) {
-            size = super.getMinimumSize( c );
-            Insets margin = arrowButton.getMargin();
-            size.height += margin.top + margin.bottom;
-            size.width += margin.left + margin.right;
+        flsf if ( domboBox.isEditbblf() &&
+                  brrowButton != null &&
+                  fditor != null ) {
+            sizf = supfr.gftMinimumSizf( d );
+            Insfts mbrgin = brrowButton.gftMbrgin();
+            sizf.ifigit += mbrgin.top + mbrgin.bottom;
+            sizf.widti += mbrgin.lfft + mbrgin.rigit;
         }
-        else {
-            size = super.getMinimumSize( c );
+        flsf {
+            sizf = supfr.gftMinimumSizf( d );
         }
 
-        cachedMinimumSize.setSize( size.width, size.height );
-        isMinimumSizeDirty = false;
+        dbdifdMinimumSizf.sftSizf( sizf.widti, sizf.ifigit );
+        isMinimumSizfDirty = fblsf;
 
-        return new Dimension( cachedMinimumSize );
+        rfturn nfw Dimfnsion( dbdifdMinimumSizf );
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf MftblComboBoxUI}.
      *
-     * This class is now obsolete and doesn't do anything and
-     * is only included for backwards API compatibility. Do not call or
-     * override.
+     * Tiis dlbss is now obsolftf bnd dofsn't do bnytiing bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    public class MetalComboPopup extends BasicComboPopup {
+    @Dfprfdbtfd
+    publid dlbss MftblComboPopup fxtfnds BbsidComboPopup {
 
         /**
-         * Constructs a new instance of {@code MetalComboPopup}.
+         * Construdts b nfw instbndf of {@dodf MftblComboPopup}.
          *
-         * @param cBox an instance of {@code JComboBox}
+         * @pbrbm dBox bn instbndf of {@dodf JComboBox}
          */
-        public MetalComboPopup( JComboBox<Object> cBox) {
-            super( cBox );
+        publid MftblComboPopup( JComboBox<Objfdt> dBox) {
+            supfr( dBox );
         }
 
-        // This method was overloaded and made public. This was probably
-        // mistake in the implementation. The functionality that they used to
-        // provide is no longer necessary and should be removed. However,
-        // removing them will create an uncompatible API change.
+        // Tiis mftiod wbs ovfrlobdfd bnd mbdf publid. Tiis wbs probbbly
+        // mistbkf in tif implfmfntbtion. Tif fundtionblity tibt tify usfd to
+        // providf is no longfr nfdfssbry bnd siould bf rfmovfd. Howfvfr,
+        // rfmoving tifm will drfbtf bn undompbtiblf API dibngf.
 
-        public void delegateFocus(MouseEvent e) {
-            super.delegateFocus(e);
+        publid void dflfgbtfFodus(MousfEvfnt f) {
+            supfr.dflfgbtfFodus(f);
         }
     }
 }

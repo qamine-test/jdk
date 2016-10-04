@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls.spi;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.nio.dh.Intfrruptiblf;
+
+
+/**
+ * Bbsf implfmfntbtion dlbss for intfrruptiblf dhbnnfls.
+ *
+ * <p> This dlbss fndbpsulbtfs thf low-lfvfl mbdhinfry rfquirfd to implfmfnt
+ * thf bsyndhronous dlosing bnd intfrruption of dhbnnfls.  A dondrftf dhbnnfl
+ * dlbss must invokf thf {@link #bfgin bfgin} bnd {@link #fnd fnd} mfthods
+ * bfforf bnd bftfr, rfspfdtivfly, invoking bn I/O opfrbtion thbt might blodk
+ * indffinitfly.  In ordfr to fnsurf thbt thf {@link #fnd fnd} mfthod is blwbys
+ * invokfd, thfsf mfthods should bf usfd within b
+ * <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk:
+ *
+ * <blodkquotf><prf>
+ * boolfbn domplftfd = fblsf;
+ * try {
+ *     bfgin();
+ *     domplftfd = ...;    // Pfrform blodking I/O opfrbtion
+ *     rfturn ...;         // Rfturn rfsult
+ * } finblly {
+ *     fnd(domplftfd);
+ * }</prf></blodkquotf>
+ *
+ * <p> Thf <tt>domplftfd</tt> brgumfnt to thf {@link #fnd fnd} mfthod tflls
+ * whfthfr or not thf I/O opfrbtion bdtublly domplftfd, thbt is, whfthfr it hbd
+ * bny ffffdt thbt would bf visiblf to thf invokfr.  In thf dbsf of bn
+ * opfrbtion thbt rfbds bytfs, for fxbmplf, this brgumfnt should bf
+ * <tt>truf</tt> if, bnd only if, somf bytfs wfrf bdtublly trbnsffrrfd into thf
+ * invokfr's tbrgft bufffr.
+ *
+ * <p> A dondrftf dhbnnfl dlbss must blso implfmfnt thf {@link
+ * #implClosfChbnnfl implClosfChbnnfl} mfthod in sudh b wby thbt if it is
+ * invokfd whilf bnothfr thrfbd is blodkfd in b nbtivf I/O opfrbtion upon thf
+ * dhbnnfl thfn thbt opfrbtion will immfdibtfly rfturn, fithfr by throwing bn
+ * fxdfption or by rfturning normblly.  If b thrfbd is intfrruptfd or thf
+ * dhbnnfl upon whidh it is blodkfd is bsyndhronously dlosfd thfn thf dhbnnfl's
+ * {@link #fnd fnd} mfthod will throw thf bppropribtf fxdfption.
+ *
+ * <p> This dlbss pfrforms thf syndhronizbtion rfquirfd to implfmfnt thf {@link
+ * jbvb.nio.dhbnnfls.Chbnnfl} spfdifidbtion.  Implfmfntbtions of thf {@link
+ * #implClosfChbnnfl implClosfChbnnfl} mfthod nffd not syndhronizf bgbinst
+ * othfr thrfbds thbt might bf bttfmpting to dlosf thf dhbnnfl.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss AbstrbdtIntfrruptiblfChbnnfl
+    implfmfnts Chbnnfl, IntfrruptiblfChbnnfl
+{
+
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+    privbtf volbtilf boolfbn opfn = truf;
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd AbstrbdtIntfrruptiblfChbnnfl() { }
+
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> If thf dhbnnfl hbs blrfbdy bffn dlosfd thfn this mfthod rfturns
+     * immfdibtfly.  Othfrwisf it mbrks thf dhbnnfl bs dlosfd bnd thfn invokfs
+     * thf {@link #implClosfChbnnfl implClosfChbnnfl} mfthod in ordfr to
+     * domplftf thf dlosf opfrbtion.  </p>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid finbl void dlosf() throws IOExdfption {
+        syndhronizfd (dlosfLodk) {
+            if (!opfn)
+                rfturn;
+            opfn = fblsf;
+            implClosfChbnnfl();
+        }
+    }
+
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> This mfthod is invokfd by thf {@link #dlosf dlosf} mfthod in ordfr
+     * to pfrform thf bdtubl work of dlosing thf dhbnnfl.  This mfthod is only
+     * invokfd if thf dhbnnfl hbs not yft bffn dlosfd, bnd it is nfvfr invokfd
+     * morf thbn ondf.
+     *
+     * <p> An implfmfntbtion of this mfthod must brrbngf for bny othfr thrfbd
+     * thbt is blodkfd in bn I/O opfrbtion upon this dhbnnfl to rfturn
+     * immfdibtfly, fithfr by throwing bn fxdfption or by rfturning normblly.
+     * </p>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs whilf dlosing thf dhbnnfl
+     */
+    protfdtfd bbstrbdt void implClosfChbnnfl() throws IOExdfption;
+
+    publid finbl boolfbn isOpfn() {
+        rfturn opfn;
+    }
+
+
+    // -- Intfrruption mbdhinfry --
+
+    privbtf Intfrruptiblf intfrruptor;
+    privbtf volbtilf Thrfbd intfrruptfd;
+
+    /**
+     * Mbrks thf bfginning of bn I/O opfrbtion thbt might blodk indffinitfly.
+     *
+     * <p> This mfthod should bf invokfd in tbndfm with thf {@link #fnd fnd}
+     * mfthod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk bs
+     * shown <b hrff="#bf">bbovf</b>, in ordfr to implfmfnt bsyndhronous
+     * dlosing bnd intfrruption for this dhbnnfl.  </p>
+     */
+    protfdtfd finbl void bfgin() {
+        if (intfrruptor == null) {
+            intfrruptor = nfw Intfrruptiblf() {
+                    publid void intfrrupt(Thrfbd tbrgft) {
+                        syndhronizfd (dlosfLodk) {
+                            if (!opfn)
+                                rfturn;
+                            opfn = fblsf;
+                            intfrruptfd = tbrgft;
+                            try {
+                                AbstrbdtIntfrruptiblfChbnnfl.this.implClosfChbnnfl();
+                            } dbtdh (IOExdfption x) { }
+                        }
+                    }};
+        }
+        blodkfdOn(intfrruptor);
+        Thrfbd mf = Thrfbd.durrfntThrfbd();
+        if (mf.isIntfrruptfd())
+            intfrruptor.intfrrupt(mf);
+    }
+
+    /**
+     * Mbrks thf fnd of bn I/O opfrbtion thbt might blodk indffinitfly.
+     *
+     * <p> This mfthod should bf invokfd in tbndfm with thf {@link #bfgin
+     * bfgin} mfthod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk
+     * bs shown <b hrff="#bf">bbovf</b>, in ordfr to implfmfnt bsyndhronous
+     * dlosing bnd intfrruption for this dhbnnfl.  </p>
+     *
+     * @pbrbm  domplftfd
+     *         <tt>truf</tt> if, bnd only if, thf I/O opfrbtion domplftfd
+     *         suddfssfully, thbt is, hbd somf ffffdt thbt would bf visiblf to
+     *         thf opfrbtion's invokfr
+     *
+     * @throws  AsyndhronousClosfExdfption
+     *          If thf dhbnnfl wbs bsyndhronously dlosfd
+     *
+     * @throws  ClosfdByIntfrruptExdfption
+     *          If thf thrfbd blodkfd in thf I/O opfrbtion wbs intfrruptfd
+     */
+    protfdtfd finbl void fnd(boolfbn domplftfd)
+        throws AsyndhronousClosfExdfption
+    {
+        blodkfdOn(null);
+        Thrfbd intfrruptfd = this.intfrruptfd;
+        if (intfrruptfd != null && intfrruptfd == Thrfbd.durrfntThrfbd()) {
+            intfrruptfd = null;
+            throw nfw ClosfdByIntfrruptExdfption();
+        }
+        if (!domplftfd && !opfn)
+            throw nfw AsyndhronousClosfExdfption();
+    }
+
+
+    // -- sun.misd.ShbrfdSfdrfts --
+    stbtid void blodkfdOn(Intfrruptiblf intr) {         // pbdkbgf-privbtf
+        sun.misd.ShbrfdSfdrfts.gftJbvbLbngAddfss().blodkfdOn(Thrfbd.durrfntThrfbd(),
+                                                             intr);
+    }
+}

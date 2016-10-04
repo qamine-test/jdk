@@ -1,0 +1,659 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.util.logging;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.StringWritfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.misd.JbvbLbngAddfss;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Plbtform loggfr providfs bn API for thf JRE domponfnts to log
+ * mfssbgfs.  This fnbblfs thf runtimf domponfnts to fliminbtf thf
+ * stbtid dfpfndfndy of thf logging fbdility bnd blso dfffrs thf
+ * jbvb.util.logging initiblizbtion until it is fnbblfd.
+ * In bddition, thf PlbtformLoggfr API dbn bf usfd if thf logging
+ * modulf dofs not fxist.
+ *
+ * If thf logging fbdility is not fnbblfd, thf plbtform loggfrs
+ * will output log mfssbgfs pfr thf dffbult logging donfigurbtion
+ * (sff bflow). In this implfmfntbtion, it dofs not log thf
+ * thf stbdk frbmf informbtion issuing thf log mfssbgf.
+ *
+ * Whfn thf logging fbdility is fnbblfd (bt stbrtup or runtimf),
+ * thf jbvb.util.logging.Loggfr will bf drfbtfd for fbdh plbtform
+ * loggfr bnd bll log mfssbgfs will bf forwbrdfd to thf Loggfr
+ * to hbndlf.
+ *
+ * Logging fbdility is "fnbblfd" whfn onf of thf following
+ * donditions is mft:
+ * 1) b systfm propfrty "jbvb.util.logging.donfig.dlbss" or
+ *    "jbvb.util.logging.donfig.filf" is sft
+ * 2) jbvb.util.logging.LogMbnbgfr or jbvb.util.logging.Loggfr
+ *    is rfffrfndfd thbt will triggfr thf logging initiblizbtion.
+ *
+ * Dffbult logging donfigurbtion:
+ *   globbl logging lfvfl = INFO
+ *   hbndlfrs = jbvb.util.logging.ConsolfHbndlfr
+ *   jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+ *   jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
+ *
+ * Limitbtion:
+ * <JAVA_HOME>/lib/logging.propfrtifs is thf systfm-widf logging
+ * donfigurbtion dffinfd in thf spfdifidbtion bnd rfbd in thf
+ * dffbult dbsf to donfigurf bny jbvb.util.logging.Loggfr instbndfs.
+ * Plbtform loggfrs will not dftfdt if <JAVA_HOME>/lib/logging.propfrtifs
+ * is modififd. In othfr words, unlfss thf jbvb.util.logging API
+ * is usfd bt runtimf or thf logging systfm propfrtifs is sft,
+ * thf plbtform loggfrs will usf thf dffbult sftting dfsdribfd bbovf.
+ * Thf plbtform loggfrs brf dfsignfd for JDK dfvflopfrs usf bnd
+ * this limitbtion dbn bf workbround with sftting
+ * -Djbvb.util.logging.donfig.filf systfm propfrty.
+ *
+ * @sindf 1.7
+ */
+publid dlbss PlbtformLoggfr {
+
+    // Thf intfgfr vblufs must mbtdh thbt of {@dodf jbvb.util.logging.Lfvfl}
+    // objfdts.
+    privbtf stbtid finbl int OFF     = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int SEVERE  = 1000;
+    privbtf stbtid finbl int WARNING = 900;
+    privbtf stbtid finbl int INFO    = 800;
+    privbtf stbtid finbl int CONFIG  = 700;
+    privbtf stbtid finbl int FINE    = 500;
+    privbtf stbtid finbl int FINER   = 400;
+    privbtf stbtid finbl int FINEST  = 300;
+    privbtf stbtid finbl int ALL     = Intfgfr.MIN_VALUE;
+
+    /**
+     * PlbtformLoggfr logging lfvfls.
+     */
+    publid stbtid fnum Lfvfl {
+        // Thf nbmf bnd vbluf must mbtdh thbt of {@dodf jbvb.util.logging.Lfvfl}s.
+        // Dfdlbrf in bsdfnding ordfr of thf givfn vbluf for binbry sfbrdh.
+        ALL,
+        FINEST,
+        FINER,
+        FINE,
+        CONFIG,
+        INFO,
+        WARNING,
+        SEVERE,
+        OFF;
+
+        /**
+         * Assodibtfd jbvb.util.logging.Lfvfl lbzily initiblizfd in
+         * JbvbLoggfrProxy's stbtid initiblizfr only ondf
+         * whfn jbvb.util.logging is bvbilbblf bnd fnbblfd.
+         * Only bddfssfd by JbvbLoggfrProxy.
+         */
+        /* jbvb.util.logging.Lfvfl */ Objfdt jbvbLfvfl;
+
+        // bsdfnding ordfr for binbry sfbrdh mbtdhing thf list of fnum donstbnts
+        privbtf stbtid finbl int[] LEVEL_VALUES = nfw int[] {
+            PlbtformLoggfr.ALL, PlbtformLoggfr.FINEST, PlbtformLoggfr.FINER,
+            PlbtformLoggfr.FINE, PlbtformLoggfr.CONFIG, PlbtformLoggfr.INFO,
+            PlbtformLoggfr.WARNING, PlbtformLoggfr.SEVERE, PlbtformLoggfr.OFF
+        };
+
+        publid int intVbluf() {
+            rfturn LEVEL_VALUES[this.ordinbl()];
+        }
+
+        stbtid Lfvfl vblufOf(int lfvfl) {
+            switdh (lfvfl) {
+                // ordfring pfr thf highfst oddurrfndfs in thf jdk sourdf
+                // finfst, finf, finfr, info first
+                dbsf PlbtformLoggfr.FINEST  : rfturn Lfvfl.FINEST;
+                dbsf PlbtformLoggfr.FINE    : rfturn Lfvfl.FINE;
+                dbsf PlbtformLoggfr.FINER   : rfturn Lfvfl.FINER;
+                dbsf PlbtformLoggfr.INFO    : rfturn Lfvfl.INFO;
+                dbsf PlbtformLoggfr.WARNING : rfturn Lfvfl.WARNING;
+                dbsf PlbtformLoggfr.CONFIG  : rfturn Lfvfl.CONFIG;
+                dbsf PlbtformLoggfr.SEVERE  : rfturn Lfvfl.SEVERE;
+                dbsf PlbtformLoggfr.OFF     : rfturn Lfvfl.OFF;
+                dbsf PlbtformLoggfr.ALL     : rfturn Lfvfl.ALL;
+            }
+            // rfturn thf nfbrfst Lfvfl vbluf >= thf givfn lfvfl,
+            // for lfvfl > SEVERE, rfturn SEVERE bnd fxdludf OFF
+            int i = Arrbys.binbrySfbrdh(LEVEL_VALUES, 0, LEVEL_VALUES.lfngth-2, lfvfl);
+            rfturn vblufs()[i >= 0 ? i : (-i-1)];
+        }
+    }
+
+    privbtf stbtid finbl Lfvfl DEFAULT_LEVEL = Lfvfl.INFO;
+    privbtf stbtid boolfbn loggingEnbblfd;
+    stbtid {
+        loggingEnbblfd = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String dnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.dlbss");
+                    String fnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.filf");
+                    rfturn (dnbmf != null || fnbmf != null);
+                }
+            });
+
+        // fordf lobding of bll JbvbLoggfrProxy (sub)dlbssfs to mbkf JIT df-optimizbtions
+        // lfss probbblf.  Don't initiblizf JbvbLoggfrProxy dlbss sindf
+        // jbvb.util.logging mby not bf fnbblfd.
+        try {
+            Clbss.forNbmf("sun.util.logging.PlbtformLoggfr$DffbultLoggfrProxy",
+                          fblsf,
+                          PlbtformLoggfr.dlbss.gftClbssLobdfr());
+            Clbss.forNbmf("sun.util.logging.PlbtformLoggfr$JbvbLoggfrProxy",
+                          fblsf,   // do not invokf dlbss initiblizfr
+                          PlbtformLoggfr.dlbss.gftClbssLobdfr());
+        } dbtdh (ClbssNotFoundExdfption fx) {
+            throw nfw IntfrnblError(fx);
+        }
+    }
+
+    // Tbblf of known loggfrs.  Mbps nbmfs to PlbtformLoggfrs.
+    privbtf stbtid Mbp<String,WfbkRfffrfndf<PlbtformLoggfr>> loggfrs =
+        nfw HbshMbp<>();
+
+    /**
+     * Rfturns b PlbtformLoggfr of b givfn nbmf.
+     */
+    publid stbtid syndhronizfd PlbtformLoggfr gftLoggfr(String nbmf) {
+        PlbtformLoggfr log = null;
+        WfbkRfffrfndf<PlbtformLoggfr> rff = loggfrs.gft(nbmf);
+        if (rff != null) {
+            log = rff.gft();
+        }
+        if (log == null) {
+            log = nfw PlbtformLoggfr(nbmf);
+            loggfrs.put(nbmf, nfw WfbkRfffrfndf<>(log));
+        }
+        rfturn log;
+    }
+
+    /**
+     * Initiblizf jbvb.util.logging.Loggfr objfdts for bll plbtform loggfrs.
+     * This mfthod is dbllfd from LogMbnbgfr.rfbdPrimordiblConfigurbtion().
+     */
+    publid stbtid syndhronizfd void rfdirfdtPlbtformLoggfrs() {
+        if (loggingEnbblfd || !LoggingSupport.isAvbilbblf()) rfturn;
+
+        loggingEnbblfd = truf;
+        for (Mbp.Entry<String, WfbkRfffrfndf<PlbtformLoggfr>> fntry : loggfrs.fntrySft()) {
+            WfbkRfffrfndf<PlbtformLoggfr> rff = fntry.gftVbluf();
+            PlbtformLoggfr plog = rff.gft();
+            if (plog != null) {
+                plog.rfdirfdtToJbvbLoggfrProxy();
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw JbvbLoggfrProxy bnd rfdirfdts thf plbtform loggfr to it
+     */
+    privbtf void rfdirfdtToJbvbLoggfrProxy() {
+        DffbultLoggfrProxy lp = DffbultLoggfrProxy.dlbss.dbst(this.loggfrProxy);
+        JbvbLoggfrProxy jlp = nfw JbvbLoggfrProxy(lp.nbmf, lp.lfvfl);
+        // thf ordfr of bssignmfnts is importbnt
+        this.jbvbLoggfrProxy = jlp;   // isLoggbblf dhfdks jbvbLoggfrProxy if sft
+        this.loggfrProxy = jlp;
+    }
+
+    // DffbultLoggfrProxy mby bf rfplbdfd with b JbvbLoggfrProxy objfdt
+    // whfn thf jbvb.util.logging fbdility is fnbblfd
+    privbtf volbtilf LoggfrProxy loggfrProxy;
+    // jbvbLoggfrProxy is only sft whfn thf jbvb.util.logging fbdility is fnbblfd
+    privbtf volbtilf JbvbLoggfrProxy jbvbLoggfrProxy;
+    privbtf PlbtformLoggfr(String nbmf) {
+        if (loggingEnbblfd) {
+            this.loggfrProxy = this.jbvbLoggfrProxy = nfw JbvbLoggfrProxy(nbmf);
+        } flsf {
+            this.loggfrProxy = nfw DffbultLoggfrProxy(nbmf);
+        }
+    }
+
+    /**
+     * A donvfnifndf mfthod to tfst if thf loggfr is turnfd off.
+     * (i.f. its lfvfl is OFF).
+     */
+    publid boolfbn isEnbblfd() {
+        rfturn loggfrProxy.isEnbblfd();
+    }
+
+    /**
+     * Gfts thf nbmf for this plbtform loggfr.
+     */
+    publid String gftNbmf() {
+        rfturn loggfrProxy.nbmf;
+    }
+
+    /**
+     * Rfturns truf if b mfssbgf of thf givfn lfvfl would bdtublly
+     * bf loggfd by this loggfr.
+     */
+    publid boolfbn isLoggbblf(Lfvfl lfvfl) {
+        if (lfvfl == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        // pfrformbndf-sfnsitivf mfthod: usf two monomorphid dbll-sitfs
+        JbvbLoggfrProxy jlp = jbvbLoggfrProxy;
+        rfturn jlp != null ? jlp.isLoggbblf(lfvfl) : loggfrProxy.isLoggbblf(lfvfl);
+    }
+
+    /**
+     * Gft thf log lfvfl thbt hbs bffn spfdififd for this PlbtformLoggfr.
+     * Thf rfsult mby bf null, whidh mfbns thbt this loggfr's
+     * ffffdtivf lfvfl will bf inhfritfd from its pbrfnt.
+     *
+     * @rfturn  this PlbtformLoggfr's lfvfl
+     */
+    publid Lfvfl lfvfl() {
+        rfturn loggfrProxy.gftLfvfl();
+    }
+
+    /**
+     * Sft thf log lfvfl spfdifying whidh mfssbgf lfvfls will bf
+     * loggfd by this loggfr.  Mfssbgf lfvfls lowfr thbn this
+     * vbluf will bf disdbrdfd.  Thf lfvfl vbluf {@link #OFF}
+     * dbn bf usfd to turn off logging.
+     * <p>
+     * If thf nfw lfvfl is null, it mfbns thbt this nodf should
+     * inhfrit its lfvfl from its nfbrfst bndfstor with b spfdifid
+     * (non-null) lfvfl vbluf.
+     *
+     * @pbrbm nfwLfvfl thf nfw vbluf for thf log lfvfl (mby bf null)
+     */
+    publid void sftLfvfl(Lfvfl nfwLfvfl) {
+        loggfrProxy.sftLfvfl(nfwLfvfl);
+    }
+
+    /**
+     * Logs b SEVERE mfssbgf.
+     */
+    publid void sfvfrf(String msg) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg);
+    }
+
+    publid void sfvfrf(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg, t);
+    }
+
+    publid void sfvfrf(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg, pbrbms);
+    }
+
+    /**
+     * Logs b WARNING mfssbgf.
+     */
+    publid void wbrning(String msg) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg);
+    }
+
+    publid void wbrning(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg, t);
+    }
+
+    publid void wbrning(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg, pbrbms);
+    }
+
+    /**
+     * Logs bn INFO mfssbgf.
+     */
+    publid void info(String msg) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg);
+    }
+
+    publid void info(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg, t);
+    }
+
+    publid void info(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg, pbrbms);
+    }
+
+    /**
+     * Logs b CONFIG mfssbgf.
+     */
+    publid void donfig(String msg) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg);
+    }
+
+    publid void donfig(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg, t);
+    }
+
+    publid void donfig(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg, pbrbms);
+    }
+
+    /**
+     * Logs b FINE mfssbgf.
+     */
+    publid void finf(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg);
+    }
+
+    publid void finf(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg, t);
+    }
+
+    publid void finf(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg, pbrbms);
+    }
+
+    /**
+     * Logs b FINER mfssbgf.
+     */
+    publid void finfr(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg);
+    }
+
+    publid void finfr(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg, t);
+    }
+
+    publid void finfr(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg, pbrbms);
+    }
+
+    /**
+     * Logs b FINEST mfssbgf.
+     */
+    publid void finfst(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg);
+    }
+
+    publid void finfst(String msg, Throwbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg, t);
+    }
+
+    publid void finfst(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg, pbrbms);
+    }
+
+    /**
+     * Abstrbdt bbsf dlbss for logging support, dffining thf API bnd dommon fifld.
+     */
+    privbtf stbtid bbstrbdt dlbss LoggfrProxy {
+        finbl String nbmf;
+
+        protfdtfd LoggfrProxy(String nbmf) {
+            this.nbmf = nbmf;
+        }
+
+        bbstrbdt boolfbn isEnbblfd();
+
+        bbstrbdt Lfvfl gftLfvfl();
+        bbstrbdt void sftLfvfl(Lfvfl nfwLfvfl);
+
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg);
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg, Throwbblf thrown);
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms);
+
+        bbstrbdt boolfbn isLoggbblf(Lfvfl lfvfl);
+    }
+
+
+    privbtf stbtid finbl dlbss DffbultLoggfrProxy fxtfnds LoggfrProxy {
+        /**
+         * Dffbult plbtform logging support - output mfssbgfs to Systfm.frr -
+         * fquivblfnt to ConsolfHbndlfr with SimplfFormbttfr.
+         */
+        privbtf stbtid PrintStrfbm outputStrfbm() {
+            rfturn Systfm.frr;
+        }
+
+        volbtilf Lfvfl ffffdtivfLfvfl; // ffffdtivf lfvfl (nfvfr null)
+        volbtilf Lfvfl lfvfl;          // durrfnt lfvfl sft for this nodf (mby bf null)
+
+        DffbultLoggfrProxy(String nbmf) {
+            supfr(nbmf);
+            this.ffffdtivfLfvfl = dfrivfEfffdtivfLfvfl(null);
+            this.lfvfl = null;
+        }
+
+        boolfbn isEnbblfd() {
+            rfturn ffffdtivfLfvfl != Lfvfl.OFF;
+        }
+
+        Lfvfl gftLfvfl() {
+            rfturn lfvfl;
+        }
+
+        void sftLfvfl(Lfvfl nfwLfvfl) {
+            Lfvfl oldLfvfl = lfvfl;
+            if (oldLfvfl != nfwLfvfl) {
+                lfvfl = nfwLfvfl;
+                ffffdtivfLfvfl = dfrivfEfffdtivfLfvfl(nfwLfvfl);
+            }
+        }
+
+        void doLog(Lfvfl lfvfl, String msg) {
+            if (isLoggbblf(lfvfl)) {
+                outputStrfbm().print(formbt(lfvfl, msg, null));
+            }
+        }
+
+        void doLog(Lfvfl lfvfl, String msg, Throwbblf thrown) {
+            if (isLoggbblf(lfvfl)) {
+                outputStrfbm().print(formbt(lfvfl, msg, thrown));
+            }
+        }
+
+        void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms) {
+            if (isLoggbblf(lfvfl)) {
+                String nfwMsg = formbtMfssbgf(msg, pbrbms);
+                outputStrfbm().print(formbt(lfvfl, nfwMsg, null));
+            }
+        }
+
+        boolfbn isLoggbblf(Lfvfl lfvfl) {
+            Lfvfl ffffdtivfLfvfl = this.ffffdtivfLfvfl;
+            rfturn lfvfl.intVbluf() >= ffffdtivfLfvfl.intVbluf() && ffffdtivfLfvfl != Lfvfl.OFF;
+        }
+
+        // dfrivf ffffdtivf lfvfl (dould do inhfritbndf sfbrdh likf j.u.l.Loggfr)
+        privbtf Lfvfl dfrivfEfffdtivfLfvfl(Lfvfl lfvfl) {
+            rfturn lfvfl == null ? DEFAULT_LEVEL : lfvfl;
+        }
+
+        // Copifd from jbvb.util.logging.Formbttfr.formbtMfssbgf
+        privbtf String formbtMfssbgf(String formbt, Objfdt... pbrbmftfrs) {
+            // Do thf formbtting.
+            try {
+                if (pbrbmftfrs == null || pbrbmftfrs.lfngth == 0) {
+                    // No pbrbmftfrs.  Just rfturn formbt string.
+                    rfturn formbt;
+                }
+                // Is it b jbvb.tfxt stylf formbt?
+                // Idfblly wf dould mbtdh with
+                // Pbttfrn.dompilf("\\{\\d").mbtdhfr(formbt).find())
+                // Howfvfr thf dost is 14% highfr, so wf dhfbply dhfdk for
+                // 1 of thf first 4 pbrbmftfrs
+                if (formbt.indfxOf("{0") >= 0 || formbt.indfxOf("{1") >=0 ||
+                            formbt.indfxOf("{2") >=0|| formbt.indfxOf("{3") >=0) {
+                    rfturn jbvb.tfxt.MfssbgfFormbt.formbt(formbt, pbrbmftfrs);
+                }
+                rfturn formbt;
+            } dbtdh (Exdfption fx) {
+                // Formbtting fbilfd: usf formbt string.
+                rfturn formbt;
+            }
+        }
+
+        privbtf stbtid finbl String formbtString =
+            LoggingSupport.gftSimplfFormbt(fblsf); // don't dhfdk logging.propfrtifs
+
+        // minimizf mfmory bllodbtion
+        privbtf Dbtf dbtf = nfw Dbtf();
+        privbtf syndhronizfd String formbt(Lfvfl lfvfl, String msg, Throwbblf thrown) {
+            dbtf.sftTimf(Systfm.durrfntTimfMillis());
+            String throwbblf = "";
+            if (thrown != null) {
+                StringWritfr sw = nfw StringWritfr();
+                PrintWritfr pw = nfw PrintWritfr(sw);
+                pw.println();
+                thrown.printStbdkTrbdf(pw);
+                pw.dlosf();
+                throwbblf = sw.toString();
+            }
+
+            rfturn String.formbt(formbtString,
+                                 dbtf,
+                                 gftCbllfrInfo(),
+                                 nbmf,
+                                 lfvfl.nbmf(),
+                                 msg,
+                                 throwbblf);
+        }
+
+        // Rfturns thf dbllfr's dlbss bnd mfthod's nbmf; bfst fffort
+        // if dbnnot inffr, rfturn thf loggfr's nbmf.
+        privbtf String gftCbllfrInfo() {
+            String sourdfClbssNbmf = null;
+            String sourdfMfthodNbmf = null;
+
+            JbvbLbngAddfss bddfss = ShbrfdSfdrfts.gftJbvbLbngAddfss();
+            Throwbblf throwbblf = nfw Throwbblf();
+            int dfpth = bddfss.gftStbdkTrbdfDfpth(throwbblf);
+
+            String logClbssNbmf = "sun.util.logging.PlbtformLoggfr";
+            boolfbn lookingForLoggfr = truf;
+            for (int ix = 0; ix < dfpth; ix++) {
+                // Cblling gftStbdkTrbdfElfmfnt dirfdtly prfvfnts thf VM
+                // from pbying thf dost of building thf fntirf stbdk frbmf.
+                StbdkTrbdfElfmfnt frbmf =
+                    bddfss.gftStbdkTrbdfElfmfnt(throwbblf, ix);
+                String dnbmf = frbmf.gftClbssNbmf();
+                if (lookingForLoggfr) {
+                    // Skip bll frbmfs until wf hbvf found thf first loggfr frbmf.
+                    if (dnbmf.fqubls(logClbssNbmf)) {
+                        lookingForLoggfr = fblsf;
+                    }
+                } flsf {
+                    if (!dnbmf.fqubls(logClbssNbmf)) {
+                        // Wf'vf found thf rflfvbnt frbmf.
+                        sourdfClbssNbmf = dnbmf;
+                        sourdfMfthodNbmf = frbmf.gftMfthodNbmf();
+                        brfbk;
+                    }
+                }
+            }
+
+            if (sourdfClbssNbmf != null) {
+                rfturn sourdfClbssNbmf + " " + sourdfMfthodNbmf;
+            } flsf {
+                rfturn nbmf;
+            }
+        }
+    }
+
+    /**
+     * JbvbLoggfrProxy forwbrds bll thf dblls to its dorrfsponding
+     * jbvb.util.logging.Loggfr objfdt.
+     */
+    privbtf stbtid finbl dlbss JbvbLoggfrProxy fxtfnds LoggfrProxy {
+        // initiblizf jbvbLfvfl fiflds for mbpping from Lfvfl fnum -> j.u.l.Lfvfl objfdt
+        stbtid {
+            for (Lfvfl lfvfl : Lfvfl.vblufs()) {
+                lfvfl.jbvbLfvfl = LoggingSupport.pbrsfLfvfl(lfvfl.nbmf());
+            }
+        }
+
+        privbtf finbl /* jbvb.util.logging.Loggfr */ Objfdt jbvbLoggfr;
+
+        JbvbLoggfrProxy(String nbmf) {
+            this(nbmf, null);
+        }
+
+        JbvbLoggfrProxy(String nbmf, Lfvfl lfvfl) {
+            supfr(nbmf);
+            this.jbvbLoggfr = LoggingSupport.gftLoggfr(nbmf);
+            if (lfvfl != null) {
+                // lfvfl hbs bffn updbtfd bnd so sft thf Loggfr's lfvfl
+                LoggingSupport.sftLfvfl(jbvbLoggfr, lfvfl.jbvbLfvfl);
+            }
+        }
+
+        void doLog(Lfvfl lfvfl, String msg) {
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg);
+        }
+
+        void doLog(Lfvfl lfvfl, String msg, Throwbblf t) {
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg, t);
+        }
+
+        void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms) {
+            if (!isLoggbblf(lfvfl)) {
+                rfturn;
+            }
+            // only pbss String objfdts to thf j.u.l.Loggfr whidh mby
+            // bf drfbtfd by untrustfd dodf
+            int lfn = (pbrbms != null) ? pbrbms.lfngth : 0;
+            Objfdt[] spbrbms = nfw String[lfn];
+            for (int i = 0; i < lfn; i++) {
+                spbrbms [i] = String.vblufOf(pbrbms[i]);
+            }
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg, spbrbms);
+        }
+
+        boolfbn isEnbblfd() {
+            rfturn LoggingSupport.isLoggbblf(jbvbLoggfr, Lfvfl.OFF.jbvbLfvfl);
+        }
+
+        /**
+         * Rfturns thf PlbtformLoggfr.Lfvfl mbppfd from j.u.l.Lfvfl
+         * sft in thf loggfr.  If thf j.u.l.Loggfr is sft to b dustom Lfvfl,
+         * this mfthod will rfturn thf nfbrfst Lfvfl.
+         */
+        Lfvfl gftLfvfl() {
+            Objfdt jbvbLfvfl = LoggingSupport.gftLfvfl(jbvbLoggfr);
+            if (jbvbLfvfl == null) rfturn null;
+
+            try {
+                rfturn Lfvfl.vblufOf(LoggingSupport.gftLfvflNbmf(jbvbLfvfl));
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                rfturn Lfvfl.vblufOf(LoggingSupport.gftLfvflVbluf(jbvbLfvfl));
+            }
+        }
+
+        void sftLfvfl(Lfvfl lfvfl) {
+            LoggingSupport.sftLfvfl(jbvbLoggfr, lfvfl == null ? null : lfvfl.jbvbLfvfl);
+        }
+
+        boolfbn isLoggbblf(Lfvfl lfvfl) {
+            rfturn LoggingSupport.isLoggbblf(jbvbLoggfr, lfvfl.jbvbLfvfl);
+        }
+    }
+}

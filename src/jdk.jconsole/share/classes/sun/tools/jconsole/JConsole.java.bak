@@ -1,453 +1,453 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.util.List;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.security.auth.login.FailedLoginException;
-import javax.net.ssl.SSLHandshakeException;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.sfdurity.buti.login.FbilfdLoginExdfption;
+import jbvbx.nft.ssl.SSLHbndsibkfExdfption;
 
-import com.sun.tools.jconsole.JConsolePlugin;
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
 
-import sun.net.util.IPAddressUtil;
+import sun.nft.util.IPAddrfssUtil;
 
-import static sun.tools.jconsole.Utilities.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
 
-@SuppressWarnings("serial")
-public class JConsole extends JFrame
-    implements ActionListener, InternalFrameListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss JConsolf fxtfnds JFrbmf
+    implfmfnts AdtionListfnfr, IntfrnblFrbmfListfnfr {
 
-    static /*final*/ boolean IS_GTK;
-    static /*final*/ boolean IS_WIN;
+    stbtid /*finbl*/ boolfbn IS_GTK;
+    stbtid /*finbl*/ boolfbn IS_WIN;
 
-    static {
-        // Apply the system L&F if it is GTK or Windows, and
-        // the L&F is not specified using a system property.
-        if (System.getProperty("swing.defaultlaf") == null) {
-            String systemLaF = UIManager.getSystemLookAndFeelClassName();
-            if (systemLaF.equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel") ||
-                systemLaF.equals("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")) {
+    stbtid {
+        // Apply tif systfm L&F if it is GTK or Windows, bnd
+        // tif L&F is not spfdififd using b systfm propfrty.
+        if (Systfm.gftPropfrty("swing.dffbultlbf") == null) {
+            String systfmLbF = UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf();
+            if (systfmLbF.fqubls("dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl") ||
+                systfmLbF.fqubls("dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl")) {
 
                 try {
-                    UIManager.setLookAndFeel(systemLaF);
-                } catch (Exception e) {
-                    System.err.println(Resources.format(Messages.JCONSOLE_COLON_, e.getMessage()));
+                    UIMbnbgfr.sftLookAndFffl(systfmLbF);
+                } dbtdi (Exdfption f) {
+                    Systfm.frr.println(Rfsourdfs.formbt(Mfssbgfs.JCONSOLE_COLON_, f.gftMfssbgf()));
                 }
             }
         }
 
-        updateLafValues();
+        updbtfLbfVblufs();
     }
 
 
-    static void updateLafValues() {
-        String lafName = UIManager.getLookAndFeel().getClass().getName();
-        IS_GTK = lafName.equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        IS_WIN = lafName.equals("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+    stbtid void updbtfLbfVblufs() {
+        String lbfNbmf = UIMbnbgfr.gftLookAndFffl().gftClbss().gftNbmf();
+        IS_GTK = lbfNbmf.fqubls("dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl");
+        IS_WIN = lbfNbmf.fqubls("dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl");
 
-        //BorderedComponent.updateLafValues();
+        //BordfrfdComponfnt.updbtfLbfVblufs();
     }
 
 
-    private final static String title =
-        Messages.JAVA_MONITORING___MANAGEMENT_CONSOLE;
-    public final static String ROOT_URL =
-        "service:jmx:";
+    privbtf finbl stbtid String titlf =
+        Mfssbgfs.JAVA_MONITORING___MANAGEMENT_CONSOLE;
+    publid finbl stbtid String ROOT_URL =
+        "sfrvidf:jmx:";
 
-    private static int updateInterval = 4000;
-    private static String pluginPath = "";
+    privbtf stbtid int updbtfIntfrvbl = 4000;
+    privbtf stbtid String pluginPbti = "";
 
-    private JMenuBar menuBar;
-    private JMenuItem hotspotMI, connectMI, exitMI;
-    private WindowMenu windowMenu;
-    private JMenuItem tileMI, cascadeMI, minimizeAllMI, restoreAllMI;
-    private JMenuItem userGuideMI, aboutMI;
+    privbtf JMfnuBbr mfnuBbr;
+    privbtf JMfnuItfm iotspotMI, donnfdtMI, fxitMI;
+    privbtf WindowMfnu windowMfnu;
+    privbtf JMfnuItfm tilfMI, dbsdbdfMI, minimizfAllMI, rfstorfAllMI;
+    privbtf JMfnuItfm usfrGuidfMI, bboutMI;
 
-    private JButton connectButton;
-    private JDesktopPane desktop;
-    private ConnectDialog connectDialog;
-    private CreateMBeanDialog createDialog;
+    privbtf JButton donnfdtButton;
+    privbtf JDfsktopPbnf dfsktop;
+    privbtf ConnfdtDiblog donnfdtDiblog;
+    privbtf CrfbtfMBfbnDiblog drfbtfDiblog;
 
-    private ArrayList<VMInternalFrame> windows =
-        new ArrayList<VMInternalFrame>();
+    privbtf ArrbyList<VMIntfrnblFrbmf> windows =
+        nfw ArrbyList<VMIntfrnblFrbmf>();
 
-    private int frameLoc = 5;
-    static boolean debug;
+    privbtf int frbmfLod = 5;
+    stbtid boolfbn dfbug;
 
-    public JConsole(boolean hotspot) {
-        super(title);
+    publid JConsolf(boolfbn iotspot) {
+        supfr(titlf);
 
-        setRootPane(new FixedJRootPane());
-        setAccessibleDescription(this,
-                                 Messages.JCONSOLE_ACCESSIBLE_DESCRIPTION);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        sftRootPbnf(nfw FixfdJRootPbnf());
+        sftAddfssiblfDfsdription(tiis,
+                                 Mfssbgfs.JCONSOLE_ACCESSIBLE_DESCRIPTION);
+        sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
 
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
+        mfnuBbr = nfw JMfnuBbr();
+        sftJMfnuBbr(mfnuBbr);
 
-        // TODO: Use Actions !
+        // TODO: Usf Adtions !
 
-        JMenu connectionMenu = new JMenu(Messages.CONNECTION);
-        connectionMenu.setMnemonic(Resources.getMnemonicInt(Messages.CONNECTION));
-        menuBar.add(connectionMenu);
-        if(hotspot) {
-            hotspotMI = new JMenuItem(Messages.HOTSPOT_MBEANS_ELLIPSIS);
-            hotspotMI.setMnemonic(Resources.getMnemonicInt(Messages.HOTSPOT_MBEANS_ELLIPSIS));
-            hotspotMI.setAccelerator(KeyStroke.
-                                     getKeyStroke(KeyEvent.VK_H,
-                                                  InputEvent.CTRL_MASK));
-            hotspotMI.addActionListener(this);
-            connectionMenu.add(hotspotMI);
+        JMfnu donnfdtionMfnu = nfw JMfnu(Mfssbgfs.CONNECTION);
+        donnfdtionMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CONNECTION));
+        mfnuBbr.bdd(donnfdtionMfnu);
+        if(iotspot) {
+            iotspotMI = nfw JMfnuItfm(Mfssbgfs.HOTSPOT_MBEANS_ELLIPSIS);
+            iotspotMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HOTSPOT_MBEANS_ELLIPSIS));
+            iotspotMI.sftAddflfrbtor(KfyStrokf.
+                                     gftKfyStrokf(KfyEvfnt.VK_H,
+                                                  InputEvfnt.CTRL_MASK));
+            iotspotMI.bddAdtionListfnfr(tiis);
+            donnfdtionMfnu.bdd(iotspotMI);
 
-            connectionMenu.addSeparator();
+            donnfdtionMfnu.bddSfpbrbtor();
         }
 
-        connectMI = new JMenuItem(Messages.NEW_CONNECTION_ELLIPSIS);
-        connectMI.setMnemonic(Resources.getMnemonicInt(Messages.NEW_CONNECTION_ELLIPSIS));
-        connectMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-                                                        InputEvent.CTRL_MASK));
-        connectMI.addActionListener(this);
-        connectionMenu.add(connectMI);
+        donnfdtMI = nfw JMfnuItfm(Mfssbgfs.NEW_CONNECTION_ELLIPSIS);
+        donnfdtMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.NEW_CONNECTION_ELLIPSIS));
+        donnfdtMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_N,
+                                                        InputEvfnt.CTRL_MASK));
+        donnfdtMI.bddAdtionListfnfr(tiis);
+        donnfdtionMfnu.bdd(donnfdtMI);
 
-        connectionMenu.addSeparator();
+        donnfdtionMfnu.bddSfpbrbtor();
 
-        exitMI = new JMenuItem(Messages.EXIT);
-        exitMI.setMnemonic(Resources.getMnemonicInt(Messages.EXIT));
-        exitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
-                                                     InputEvent.ALT_MASK));
-        exitMI.addActionListener(this);
-        connectionMenu.add(exitMI);
+        fxitMI = nfw JMfnuItfm(Mfssbgfs.EXIT);
+        fxitMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.EXIT));
+        fxitMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F4,
+                                                     InputEvfnt.ALT_MASK));
+        fxitMI.bddAdtionListfnfr(tiis);
+        donnfdtionMfnu.bdd(fxitMI);
 
 
-        JMenu helpMenu = new JMenu(Messages.HELP_MENU_TITLE);
-        helpMenu.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_TITLE));
-        menuBar.add(helpMenu);
+        JMfnu iflpMfnu = nfw JMfnu(Mfssbgfs.HELP_MENU_TITLE);
+        iflpMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_TITLE));
+        mfnuBbr.bdd(iflpMfnu);
 
-        if (AboutDialog.isBrowseSupported()) {
-            userGuideMI = new JMenuItem(Messages.HELP_MENU_USER_GUIDE_TITLE);
-            userGuideMI.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_USER_GUIDE_TITLE));
-            userGuideMI.addActionListener(this);
-            helpMenu.add(userGuideMI);
-            helpMenu.addSeparator();
+        if (AboutDiblog.isBrowsfSupportfd()) {
+            usfrGuidfMI = nfw JMfnuItfm(Mfssbgfs.HELP_MENU_USER_GUIDE_TITLE);
+            usfrGuidfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_USER_GUIDE_TITLE));
+            usfrGuidfMI.bddAdtionListfnfr(tiis);
+            iflpMfnu.bdd(usfrGuidfMI);
+            iflpMfnu.bddSfpbrbtor();
         }
-        aboutMI = new JMenuItem(Messages.HELP_MENU_ABOUT_TITLE);
-        aboutMI.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_ABOUT_TITLE));
-        aboutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        aboutMI.addActionListener(this);
-        helpMenu.add(aboutMI);
+        bboutMI = nfw JMfnuItfm(Mfssbgfs.HELP_MENU_ABOUT_TITLE);
+        bboutMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_ABOUT_TITLE));
+        bboutMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F1, 0));
+        bboutMI.bddAdtionListfnfr(tiis);
+        iflpMfnu.bdd(bboutMI);
     }
 
-    public JDesktopPane getDesktopPane() {
-        return desktop;
+    publid JDfsktopPbnf gftDfsktopPbnf() {
+        rfturn dfsktop;
     }
 
-    public List<VMInternalFrame> getInternalFrames() {
-        return windows;
+    publid List<VMIntfrnblFrbmf> gftIntfrnblFrbmfs() {
+        rfturn windows;
     }
 
-    private void createMDI() {
-        // Restore title - we now show connection name on internal frames
-        setTitle(title);
+    privbtf void drfbtfMDI() {
+        // Rfstorf titlf - wf now siow donnfdtion nbmf on intfrnbl frbmfs
+        sftTitlf(titlf);
 
-        Container cp = getContentPane();
-        Component oldCenter =
-            ((BorderLayout)cp.getLayout()).
-            getLayoutComponent(BorderLayout.CENTER);
+        Contbinfr dp = gftContfntPbnf();
+        Componfnt oldCfntfr =
+            ((BordfrLbyout)dp.gftLbyout()).
+            gftLbyoutComponfnt(BordfrLbyout.CENTER);
 
-        windowMenu = new WindowMenu(Messages.WINDOW);
-        windowMenu.setMnemonic(Resources.getMnemonicInt(Messages.WINDOW));
-        // Add Window menu before Help menu
-        menuBar.add(windowMenu, menuBar.getComponentCount() - 1);
+        windowMfnu = nfw WindowMfnu(Mfssbgfs.WINDOW);
+        windowMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.WINDOW));
+        // Add Window mfnu bfforf Hflp mfnu
+        mfnuBbr.bdd(windowMfnu, mfnuBbr.gftComponfntCount() - 1);
 
-        desktop = new JDesktopPane();
-        desktop.setBackground(new Color(235, 245, 255));
+        dfsktop = nfw JDfsktopPbnf();
+        dfsktop.sftBbdkground(nfw Color(235, 245, 255));
 
-        cp.add(desktop, BorderLayout.CENTER);
+        dp.bdd(dfsktop, BordfrLbyout.CENTER);
 
-        if (oldCenter instanceof VMPanel) {
-            addFrame((VMPanel)oldCenter);
+        if (oldCfntfr instbndfof VMPbnfl) {
+            bddFrbmf((VMPbnfl)oldCfntfr);
         }
     }
 
-    private class WindowMenu extends JMenu {
-        VMInternalFrame[] windowMenuWindows = new VMInternalFrame[0];
-        int separatorPosition;
+    privbtf dlbss WindowMfnu fxtfnds JMfnu {
+        VMIntfrnblFrbmf[] windowMfnuWindows = nfw VMIntfrnblFrbmf[0];
+        int sfpbrbtorPosition;
 
-        // The width value of viewR is used to truncate long menu items.
-        // The rest are placeholders and are ignored for this purpose.
-        Rectangle viewR = new Rectangle(0, 0, 400, 20);
-        Rectangle textR = new Rectangle(0, 0, 0, 0);
-        Rectangle iconR = new Rectangle(0, 0, 0, 0);
+        // Tif widti vbluf of vifwR is usfd to trundbtf long mfnu itfms.
+        // Tif rfst brf plbdfioldfrs bnd brf ignorfd for tiis purposf.
+        Rfdtbnglf vifwR = nfw Rfdtbnglf(0, 0, 400, 20);
+        Rfdtbnglf tfxtR = nfw Rfdtbnglf(0, 0, 0, 0);
+        Rfdtbnglf idonR = nfw Rfdtbnglf(0, 0, 0, 0);
 
-        WindowMenu(String text) {
-            super(text);
+        WindowMfnu(String tfxt) {
+            supfr(tfxt);
 
-            cascadeMI = new JMenuItem(Messages.CASCADE);
-            cascadeMI.setMnemonic(Resources.getMnemonicInt(Messages.CASCADE));
-            cascadeMI.addActionListener(JConsole.this);
-            add(cascadeMI);
+            dbsdbdfMI = nfw JMfnuItfm(Mfssbgfs.CASCADE);
+            dbsdbdfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CASCADE));
+            dbsdbdfMI.bddAdtionListfnfr(JConsolf.tiis);
+            bdd(dbsdbdfMI);
 
-            tileMI = new JMenuItem(Messages.TILE);
-            tileMI.setMnemonic(Resources.getMnemonicInt(Messages.TILE));
-            tileMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
-                                                         InputEvent.CTRL_MASK));
-            tileMI.addActionListener(JConsole.this);
-            add(tileMI);
+            tilfMI = nfw JMfnuItfm(Mfssbgfs.TILE);
+            tilfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TILE));
+            tilfMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_T,
+                                                         InputEvfnt.CTRL_MASK));
+            tilfMI.bddAdtionListfnfr(JConsolf.tiis);
+            bdd(tilfMI);
 
-            minimizeAllMI = new JMenuItem(Messages.MINIMIZE_ALL);
-            minimizeAllMI.setMnemonic(Resources.getMnemonicInt(Messages.MINIMIZE_ALL));
-            minimizeAllMI.addActionListener(JConsole.this);
-            add(minimizeAllMI);
+            minimizfAllMI = nfw JMfnuItfm(Mfssbgfs.MINIMIZE_ALL);
+            minimizfAllMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.MINIMIZE_ALL));
+            minimizfAllMI.bddAdtionListfnfr(JConsolf.tiis);
+            bdd(minimizfAllMI);
 
-            restoreAllMI = new JMenuItem(Messages.RESTORE_ALL);
-            restoreAllMI.setMnemonic(Resources.getMnemonicInt(Messages.RESTORE_ALL));
-            restoreAllMI.addActionListener(JConsole.this);
-            add(restoreAllMI);
+            rfstorfAllMI = nfw JMfnuItfm(Mfssbgfs.RESTORE_ALL);
+            rfstorfAllMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.RESTORE_ALL));
+            rfstorfAllMI.bddAdtionListfnfr(JConsolf.tiis);
+            bdd(rfstorfAllMI);
 
-            separatorPosition = getMenuComponentCount();
+            sfpbrbtorPosition = gftMfnuComponfntCount();
         }
 
-        private void add(VMInternalFrame vmIF) {
-            if (separatorPosition == getMenuComponentCount()) {
-                addSeparator();
+        privbtf void bdd(VMIntfrnblFrbmf vmIF) {
+            if (sfpbrbtorPosition == gftMfnuComponfntCount()) {
+                bddSfpbrbtor();
             }
 
-            int index = -1;
-            int position = separatorPosition + 1;
-            int n = windowMenuWindows.length;
+            int indfx = -1;
+            int position = sfpbrbtorPosition + 1;
+            int n = windowMfnuWindows.lfngti;
 
             for (int i = 0; i < n; i++) {
-                if (windowMenuWindows[i] != null) {
-                    // Slot is in use, try next
+                if (windowMfnuWindows[i] != null) {
+                    // Slot is in usf, try nfxt
                     position++;
-                } else {
-                    // Found a free slot
-                    index = i;
-                    break;
+                } flsf {
+                    // Found b frff slot
+                    indfx = i;
+                    brfbk;
                 }
             }
 
-            if (index == -1) {
-                // Create a slot at the end
-                VMInternalFrame[] newArray = new VMInternalFrame[n + 1];
-                System.arraycopy(windowMenuWindows, 0, newArray, 0, n);
-                windowMenuWindows = newArray;
-                index = n;
+            if (indfx == -1) {
+                // Crfbtf b slot bt tif fnd
+                VMIntfrnblFrbmf[] nfwArrby = nfw VMIntfrnblFrbmf[n + 1];
+                Systfm.brrbydopy(windowMfnuWindows, 0, nfwArrby, 0, n);
+                windowMfnuWindows = nfwArrby;
+                indfx = n;
             }
 
-            windowMenuWindows[index] = vmIF;
+            windowMfnuWindows[indfx] = vmIF;
 
-            String indexString = "" + (index+1);
-            String vmName = vmIF.getVMPanel().getDisplayName();
-            // Maybe truncate menu item string and end with "..."
-            String text =
-                SwingUtilities.layoutCompoundLabel(this,
-                                        getGraphics().getFontMetrics(getFont()),
-                                        indexString +  " " + vmName,
+            String indfxString = "" + (indfx+1);
+            String vmNbmf = vmIF.gftVMPbnfl().gftDisplbyNbmf();
+            // Mbybf trundbtf mfnu itfm string bnd fnd witi "..."
+            String tfxt =
+                SwingUtilitifs.lbyoutCompoundLbbfl(tiis,
+                                        gftGrbpiids().gftFontMftrids(gftFont()),
+                                        indfxString +  " " + vmNbmf,
                                         null, 0, 0, 0, 0,
-                                        viewR, iconR, textR, 0);
-            JMenuItem mi = new JMenuItem(text);
-            if (text.endsWith("...")) {
-                mi.setToolTipText(vmName);
+                                        vifwR, idonR, tfxtR, 0);
+            JMfnuItfm mi = nfw JMfnuItfm(tfxt);
+            if (tfxt.fndsWiti("...")) {
+                mi.sftToolTipTfxt(vmNbmf);
             }
 
-            // Set mnemonic using last digit of number
-            int nDigits = indexString.length();
-            mi.setMnemonic(indexString.charAt(nDigits-1));
-            mi.setDisplayedMnemonicIndex(nDigits-1);
+            // Sft mnfmonid using lbst digit of numbfr
+            int nDigits = indfxString.lfngti();
+            mi.sftMnfmonid(indfxString.dibrAt(nDigits-1));
+            mi.sftDisplbyfdMnfmonidIndfx(nDigits-1);
 
-            mi.putClientProperty("JConsole.vmIF", vmIF);
-            mi.addActionListener(JConsole.this);
-            vmIF.putClientProperty("JConsole.menuItem", mi);
-            add(mi, position);
+            mi.putClifntPropfrty("JConsolf.vmIF", vmIF);
+            mi.bddAdtionListfnfr(JConsolf.tiis);
+            vmIF.putClifntPropfrty("JConsolf.mfnuItfm", mi);
+            bdd(mi, position);
         }
 
-        private void remove(VMInternalFrame vmIF) {
-            for (int i = 0; i < windowMenuWindows.length; i++) {
-                if (windowMenuWindows[i] == vmIF) {
-                    windowMenuWindows[i] = null;
+        privbtf void rfmovf(VMIntfrnblFrbmf vmIF) {
+            for (int i = 0; i < windowMfnuWindows.lfngti; i++) {
+                if (windowMfnuWindows[i] == vmIF) {
+                    windowMfnuWindows[i] = null;
                 }
             }
-            JMenuItem mi = (JMenuItem)vmIF.getClientProperty("JConsole.menuItem");
-            remove(mi);
-            mi.putClientProperty("JConsole.vmIF", null);
-            vmIF.putClientProperty("JConsole.menuItem", null);
+            JMfnuItfm mi = (JMfnuItfm)vmIF.gftClifntPropfrty("JConsolf.mfnuItfm");
+            rfmovf(mi);
+            mi.putClifntPropfrty("JConsolf.vmIF", null);
+            vmIF.putClifntPropfrty("JConsolf.mfnuItfm", null);
 
-            if (separatorPosition == getMenuComponentCount() - 1) {
-                remove(getMenuComponent(getMenuComponentCount() - 1));
+            if (sfpbrbtorPosition == gftMfnuComponfntCount() - 1) {
+                rfmovf(gftMfnuComponfnt(gftMfnuComponfntCount() - 1));
             }
         }
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        Object src = ev.getSource();
-        if (src == hotspotMI) {
-            showCreateMBeanDialog();
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        Objfdt srd = fv.gftSourdf();
+        if (srd == iotspotMI) {
+            siowCrfbtfMBfbnDiblog();
         }
 
-        if (src == connectButton || src == connectMI) {
-            VMPanel vmPanel = null;
-            JInternalFrame vmIF = desktop.getSelectedFrame();
-            if (vmIF instanceof VMInternalFrame) {
-                vmPanel = ((VMInternalFrame)vmIF).getVMPanel();
+        if (srd == donnfdtButton || srd == donnfdtMI) {
+            VMPbnfl vmPbnfl = null;
+            JIntfrnblFrbmf vmIF = dfsktop.gftSflfdtfdFrbmf();
+            if (vmIF instbndfof VMIntfrnblFrbmf) {
+                vmPbnfl = ((VMIntfrnblFrbmf)vmIF).gftVMPbnfl();
             }
-                String hostName = "";
+                String iostNbmf = "";
                 String url = "";
-                if (vmPanel != null) {
-                    hostName = vmPanel.getHostName();
-                    if(vmPanel.getUrl() != null)
-                        url = vmPanel.getUrl();
+                if (vmPbnfl != null) {
+                    iostNbmf = vmPbnfl.gftHostNbmf();
+                    if(vmPbnfl.gftUrl() != null)
+                        url = vmPbnfl.gftUrl();
                 }
-                showConnectDialog(url, hostName, 0, null, null, null);
-        } else if (src == tileMI) {
-            tileWindows();
-        } else if (src == cascadeMI) {
-            cascadeWindows();
-        } else if (src == minimizeAllMI) {
-            for (VMInternalFrame vmIF : windows) {
+                siowConnfdtDiblog(url, iostNbmf, 0, null, null, null);
+        } flsf if (srd == tilfMI) {
+            tilfWindows();
+        } flsf if (srd == dbsdbdfMI) {
+            dbsdbdfWindows();
+        } flsf if (srd == minimizfAllMI) {
+            for (VMIntfrnblFrbmf vmIF : windows) {
                 try {
-                    vmIF.setIcon(true);
-                } catch (PropertyVetoException ex) {
-                    // Ignore
+                    vmIF.sftIdon(truf);
+                } dbtdi (PropfrtyVftoExdfption fx) {
+                    // Ignorf
                 }
             }
-        } else if (src == restoreAllMI) {
-            for (VMInternalFrame vmIF : windows) {
+        } flsf if (srd == rfstorfAllMI) {
+            for (VMIntfrnblFrbmf vmIF : windows) {
                 try {
-                    vmIF.setIcon(false);
-                } catch (PropertyVetoException ex) {
-                    // Ignore
+                    vmIF.sftIdon(fblsf);
+                } dbtdi (PropfrtyVftoExdfption fx) {
+                    // Ignorf
                 }
             }
-        } else if (src == exitMI) {
-            System.exit(0);
-        } else if (src == userGuideMI) {
-            AboutDialog.browseUserGuide(this);
-        } else if (src == aboutMI) {
-            AboutDialog.showAboutDialog(this);
-        } else if (src instanceof JMenuItem) {
-            JMenuItem mi = (JMenuItem)src;
-            VMInternalFrame vmIF = (VMInternalFrame)mi.
-                getClientProperty("JConsole.vmIF");
+        } flsf if (srd == fxitMI) {
+            Systfm.fxit(0);
+        } flsf if (srd == usfrGuidfMI) {
+            AboutDiblog.browsfUsfrGuidf(tiis);
+        } flsf if (srd == bboutMI) {
+            AboutDiblog.siowAboutDiblog(tiis);
+        } flsf if (srd instbndfof JMfnuItfm) {
+            JMfnuItfm mi = (JMfnuItfm)srd;
+            VMIntfrnblFrbmf vmIF = (VMIntfrnblFrbmf)mi.
+                gftClifntPropfrty("JConsolf.vmIF");
             if (vmIF != null) {
                 try {
-                    vmIF.setIcon(false);
-                    vmIF.setSelected(true);
-                } catch (PropertyVetoException ex) {
-                    // Ignore
+                    vmIF.sftIdon(fblsf);
+                    vmIF.sftSflfdtfd(truf);
+                } dbtdi (PropfrtyVftoExdfption fx) {
+                    // Ignorf
                 }
-                vmIF.moveToFront();
+                vmIF.movfToFront();
             }
         }
     }
 
 
-    public void tileWindows() {
+    publid void tilfWindows() {
         int w = -1;
-        int h = -1;
+        int i = -1;
         int n = 0;
-        for (VMInternalFrame vmIF : windows) {
-            if (!vmIF.isIcon()) {
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
                 n++;
                 if (w == -1) {
                     try {
-                        vmIF.setMaximum(true);
-                        w = vmIF.getWidth();
-                        h = vmIF.getHeight();
-                    } catch (PropertyVetoException ex) {
-                        // Ignore
+                        vmIF.sftMbximum(truf);
+                        w = vmIF.gftWidti();
+                        i = vmIF.gftHfigit();
+                    } dbtdi (PropfrtyVftoExdfption fx) {
+                        // Ignorf
                     }
                 }
             }
         }
-        if (n > 0 && w > 0 && h > 0) {
-            int rows = (int)Math.ceil(Math.sqrt(n));
-            int cols = n / rows;
-            if (rows * cols < n) cols++;
+        if (n > 0 && w > 0 && i > 0) {
+            int rows = (int)Mbti.dfil(Mbti.sqrt(n));
+            int dols = n / rows;
+            if (rows * dols < n) dols++;
             int x = 0;
             int y = 0;
-            w /= cols;
-            h /= rows;
-            int col = 0;
-            for (VMInternalFrame vmIF : windows) {
-                if (!vmIF.isIcon()) {
+            w /= dols;
+            i /= rows;
+            int dol = 0;
+            for (VMIntfrnblFrbmf vmIF : windows) {
+                if (!vmIF.isIdon()) {
                     try {
-                        vmIF.setMaximum(n==1);
-                    } catch (PropertyVetoException ex) {
-                        // Ignore
+                        vmIF.sftMbximum(n==1);
+                    } dbtdi (PropfrtyVftoExdfption fx) {
+                        // Ignorf
                     }
                     if (n > 1) {
-                        vmIF.setBounds(x, y, w, h);
+                        vmIF.sftBounds(x, y, w, i);
                     }
-                    if (col < cols-1) {
-                        col++;
+                    if (dol < dols-1) {
+                        dol++;
                         x += w;
-                    } else {
-                        col = 0;
+                    } flsf {
+                        dol = 0;
                         x = 0;
-                        y += h;
+                        y += i;
                     }
                 }
             }
         }
     }
 
-    public void cascadeWindows() {
+    publid void dbsdbdfWindows() {
         int n = 0;
         int w = -1;
-        int h = -1;
-        for (VMInternalFrame vmIF : windows) {
-            if (!vmIF.isIcon()) {
+        int i = -1;
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
                 try {
-                    vmIF.setMaximum(false);
-                } catch (PropertyVetoException ex) {
-                    // Ignore
+                    vmIF.sftMbximum(fblsf);
+                } dbtdi (PropfrtyVftoExdfption fx) {
+                    // Ignorf
                 }
                 n++;
-                vmIF.pack();
+                vmIF.pbdk();
                 if (w == -1) {
                     try {
-                        w = vmIF.getWidth();
-                        h = vmIF.getHeight();
-                        vmIF.setMaximum(true);
-                        w = vmIF.getWidth() - w;
-                        h = vmIF.getHeight() - h;
-                        vmIF.pack();
-                    } catch (PropertyVetoException ex) {
-                        // Ignore
+                        w = vmIF.gftWidti();
+                        i = vmIF.gftHfigit();
+                        vmIF.sftMbximum(truf);
+                        w = vmIF.gftWidti() - w;
+                        i = vmIF.gftHfigit() - i;
+                        vmIF.pbdk();
+                    } dbtdi (PropfrtyVftoExdfption fx) {
+                        // Ignorf
                     }
                 }
             }
@@ -455,378 +455,378 @@ public class JConsole extends JFrame
         int x = 0;
         int y = 0;
         int dX = (n > 1) ? (w / (n - 1)) : 0;
-        int dY = (n > 1) ? (h / (n - 1)) : 0;
-        for (VMInternalFrame vmIF : windows) {
-            if (!vmIF.isIcon()) {
-                vmIF.setLocation(x, y);
-                vmIF.moveToFront();
+        int dY = (n > 1) ? (i / (n - 1)) : 0;
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
+                vmIF.sftLodbtion(x, y);
+                vmIF.movfToFront();
                 x += dX;
                 y += dY;
             }
         }
     }
 
-    // Call on EDT
-    void addHost(String hostName, int port,
-                 String userName, String password) {
-        addHost(hostName, port, userName, password, false);
+    // Cbll on EDT
+    void bddHost(String iostNbmf, int port,
+                 String usfrNbmf, String pbssword) {
+        bddHost(iostNbmf, port, usfrNbmf, pbssword, fblsf);
     }
 
-    // Call on EDT
-    void addVmid(LocalVirtualMachine lvm) {
-        addVmid(lvm, false);
+    // Cbll on EDT
+    void bddVmid(LodblVirtublMbdiinf lvm) {
+        bddVmid(lvm, fblsf);
     }
 
-    // Call on EDT
-    void addVmid(final LocalVirtualMachine lvm, final boolean tile) {
-        new Thread("JConsole.addVmid") {
-            public void run() {
+    // Cbll on EDT
+    void bddVmid(finbl LodblVirtublMbdiinf lvm, finbl boolfbn tilf) {
+        nfw Tirfbd("JConsolf.bddVmid") {
+            publid void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(lvm), tile);
-                } catch (final SecurityException ex) {
-                    failed(ex, null, null, null);
-                } catch (final IOException ex) {
-                    failed(ex, null, null, null);
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(lvm), tilf);
+                } dbtdi (finbl SfdurityExdfption fx) {
+                    fbilfd(fx, null, null, null);
+                } dbtdi (finbl IOExdfption fx) {
+                    fbilfd(fx, null, null, null);
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
-    // Call on EDT
-    void addUrl(final String url,
-                final String userName,
-                final String password,
-                final boolean tile) {
-        new Thread("JConsole.addUrl") {
-            public void run() {
+    // Cbll on EDT
+    void bddUrl(finbl String url,
+                finbl String usfrNbmf,
+                finbl String pbssword,
+                finbl boolfbn tilf) {
+        nfw Tirfbd("JConsolf.bddUrl") {
+            publid void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(url, userName, password),
-                                   tile);
-                } catch (final MalformedURLException ex) {
-                    failed(ex, url, userName, password);
-                } catch (final SecurityException ex) {
-                    failed(ex, url, userName, password);
-                } catch (final IOException ex) {
-                    failed(ex, url, userName, password);
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(url, usfrNbmf, pbssword),
+                                   tilf);
+                } dbtdi (finbl MblformfdURLExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
+                } dbtdi (finbl SfdurityExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
+                } dbtdi (finbl IOExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
 
-    // Call on EDT
-    void addHost(final String hostName, final int port,
-                 final String userName, final String password,
-                 final boolean tile) {
-        new Thread("JConsole.addHost") {
-            public void run() {
+    // Cbll on EDT
+    void bddHost(finbl String iostNbmf, finbl int port,
+                 finbl String usfrNbmf, finbl String pbssword,
+                 finbl boolfbn tilf) {
+        nfw Tirfbd("JConsolf.bddHost") {
+            publid void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(hostName, port,
-                                                              userName, password),
-                                   tile);
-                } catch (final IOException ex) {
-                    dbgStackTrace(ex);
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            showConnectDialog(null, hostName, port,
-                                              userName, password, errorMessage(ex));
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(iostNbmf, port,
+                                                              usfrNbmf, pbssword),
+                                   tilf);
+                } dbtdi (finbl IOExdfption fx) {
+                    dbgStbdkTrbdf(fx);
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            siowConnfdtDiblog(null, iostNbmf, port,
+                                              usfrNbmf, pbssword, frrorMfssbgf(fx));
                         }
                     });
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
 
-    // Call on worker thread
-    void addProxyClient(final ProxyClient proxyClient, final boolean tile) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                VMPanel vmPanel = new VMPanel(proxyClient, updateInterval);
-                addFrame(vmPanel);
+    // Cbll on workfr tirfbd
+    void bddProxyClifnt(finbl ProxyClifnt proxyClifnt, finbl boolfbn tilf) {
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                VMPbnfl vmPbnfl = nfw VMPbnfl(proxyClifnt, updbtfIntfrvbl);
+                bddFrbmf(vmPbnfl);
 
-                if (tile) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            tileWindows();
+                if (tilf) {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            tilfWindows();
                         }
                     });
                 }
-                vmPanel.connect();
+                vmPbnfl.donnfdt();
             }
         });
     }
 
 
-    // Call on worker thread
-    private void failed(final Exception ex,
-                        final String url,
-                        final String userName,
-                        final String password) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                dbgStackTrace(ex);
-                showConnectDialog(url,
+    // Cbll on workfr tirfbd
+    privbtf void fbilfd(finbl Exdfption fx,
+                        finbl String url,
+                        finbl String usfrNbmf,
+                        finbl String pbssword) {
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                dbgStbdkTrbdf(fx);
+                siowConnfdtDiblog(url,
                                   null,
                                   -1,
-                                  userName,
-                                  password,
-                                  errorMessage(ex));
+                                  usfrNbmf,
+                                  pbssword,
+                                  frrorMfssbgf(fx));
             }
         });
     }
 
 
-    private VMInternalFrame addFrame(VMPanel vmPanel) {
-        final VMInternalFrame vmIF = new VMInternalFrame(vmPanel);
+    privbtf VMIntfrnblFrbmf bddFrbmf(VMPbnfl vmPbnfl) {
+        finbl VMIntfrnblFrbmf vmIF = nfw VMIntfrnblFrbmf(vmPbnfl);
 
-        for (VMInternalFrame f : windows) {
+        for (VMIntfrnblFrbmf f : windows) {
             try {
-                f.setMaximum(false);
-            } catch (PropertyVetoException ex) {
-                // Ignore
+                f.sftMbximum(fblsf);
+            } dbtdi (PropfrtyVftoExdfption fx) {
+                // Ignorf
             }
         }
-        desktop.add(vmIF);
+        dfsktop.bdd(vmIF);
 
-        vmIF.setLocation(frameLoc, frameLoc);
-        frameLoc += 30;
-        vmIF.setVisible(true);
-        windows.add(vmIF);
-        if (windows.size() == 1) {
+        vmIF.sftLodbtion(frbmfLod, frbmfLod);
+        frbmfLod += 30;
+        vmIF.sftVisiblf(truf);
+        windows.bdd(vmIF);
+        if (windows.sizf() == 1) {
             try {
-                vmIF.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                // Ignore
+                vmIF.sftMbximum(truf);
+            } dbtdi (PropfrtyVftoExdfption fx) {
+                // Ignorf
             }
         }
-        vmIF.addInternalFrameListener(this);
-        windowMenu.add(vmIF);
+        vmIF.bddIntfrnblFrbmfListfnfr(tiis);
+        windowMfnu.bdd(vmIF);
 
-        return vmIF;
+        rfturn vmIF;
     }
 
-    private void showConnectDialog(String url,
-                                   String hostName,
+    privbtf void siowConnfdtDiblog(String url,
+                                   String iostNbmf,
                                    int port,
-                                   String userName,
-                                   String password,
+                                   String usfrNbmf,
+                                   String pbssword,
                                    String msg) {
-        if (connectDialog == null) {
-            connectDialog = new ConnectDialog(this);
+        if (donnfdtDiblog == null) {
+            donnfdtDiblog = nfw ConnfdtDiblog(tiis);
         }
-        connectDialog.setConnectionParameters(url,
-                                              hostName,
+        donnfdtDiblog.sftConnfdtionPbrbmftfrs(url,
+                                              iostNbmf,
                                               port,
-                                              userName,
-                                              password,
+                                              usfrNbmf,
+                                              pbssword,
                                               msg);
 
-        connectDialog.refresh();
-        connectDialog.setVisible(true);
+        donnfdtDiblog.rffrfsi();
+        donnfdtDiblog.sftVisiblf(truf);
         try {
-            // Bring to front of other dialogs
-            connectDialog.setSelected(true);
-        } catch (PropertyVetoException e) {
+            // Bring to front of otifr diblogs
+            donnfdtDiblog.sftSflfdtfd(truf);
+        } dbtdi (PropfrtyVftoExdfption f) {
         }
     }
 
-    private void showCreateMBeanDialog() {
-        if (createDialog == null) {
-            createDialog = new CreateMBeanDialog(this);
+    privbtf void siowCrfbtfMBfbnDiblog() {
+        if (drfbtfDiblog == null) {
+            drfbtfDiblog = nfw CrfbtfMBfbnDiblog(tiis);
         }
-        createDialog.setVisible(true);
+        drfbtfDiblog.sftVisiblf(truf);
         try {
-            // Bring to front of other dialogs
-            createDialog.setSelected(true);
-        } catch (PropertyVetoException e) {
+            // Bring to front of otifr diblogs
+            drfbtfDiblog.sftSflfdtfd(truf);
+        } dbtdi (PropfrtyVftoExdfption f) {
         }
     }
 
-    private void removeVMInternalFrame(VMInternalFrame vmIF) {
-        windowMenu.remove(vmIF);
-        desktop.remove(vmIF);
-        desktop.repaint();
-        vmIF.getVMPanel().cleanUp();
-        vmIF.dispose();
+    privbtf void rfmovfVMIntfrnblFrbmf(VMIntfrnblFrbmf vmIF) {
+        windowMfnu.rfmovf(vmIF);
+        dfsktop.rfmovf(vmIF);
+        dfsktop.rfpbint();
+        vmIF.gftVMPbnfl().dlfbnUp();
+        vmIF.disposf();
     }
 
-    private boolean isProxyClientUsed(ProxyClient client) {
-        for(VMInternalFrame frame : windows) {
-            ProxyClient cli = frame.getVMPanel().getProxyClient(false);
-            if(client == cli)
-                return true;
+    privbtf boolfbn isProxyClifntUsfd(ProxyClifnt dlifnt) {
+        for(VMIntfrnblFrbmf frbmf : windows) {
+            ProxyClifnt dli = frbmf.gftVMPbnfl().gftProxyClifnt(fblsf);
+            if(dlifnt == dli)
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static boolean isValidRemoteString(String txt) {
-        boolean valid = false;
+    stbtid boolfbn isVblidRfmotfString(String txt) {
+        boolfbn vblid = fblsf;
         if (txt != null) {
             txt = txt.trim();
-            if (txt.startsWith(ROOT_URL)) {
-                if (txt.length() > ROOT_URL.length()) {
-                    valid = true;
+            if (txt.stbrtsWiti(ROOT_URL)) {
+                if (txt.lfngti() > ROOT_URL.lfngti()) {
+                    vblid = truf;
                 }
-            } else {
+            } flsf {
                 //---------------------------------------
-                // Supported host and port combinations:
-                //     hostname:port
-                //     IPv4Address:port
-                //     [IPv6Address]:port
+                // Supportfd iost bnd port dombinbtions:
+                //     iostnbmf:port
+                //     IPv4Addrfss:port
+                //     [IPv6Addrfss]:port
                 //---------------------------------------
 
-                // Is literal IPv6 address?
+                // Is litfrbl IPv6 bddrfss?
                 //
-                if (txt.startsWith("[")) {
-                    int index = txt.indexOf("]:");
-                    if (index != -1) {
-                        // Extract literal IPv6 address
+                if (txt.stbrtsWiti("[")) {
+                    int indfx = txt.indfxOf("]:");
+                    if (indfx != -1) {
+                        // Extrbdt litfrbl IPv6 bddrfss
                         //
-                        String address = txt.substring(1, index);
-                        if (IPAddressUtil.isIPv6LiteralAddress(address)) {
-                            // Extract port
+                        String bddrfss = txt.substring(1, indfx);
+                        if (IPAddrfssUtil.isIPv6LitfrblAddrfss(bddrfss)) {
+                            // Extrbdt port
                             //
                             try {
-                                String portStr = txt.substring(index + 2);
-                                int port = Integer.parseInt(portStr);
+                                String portStr = txt.substring(indfx + 2);
+                                int port = Intfgfr.pbrsfInt(portStr);
                                 if (port >= 0 && port <= 0xFFFF) {
-                                    valid = true;
+                                    vblid = truf;
                                 }
-                            } catch (NumberFormatException ex) {
-                                valid = false;
+                            } dbtdi (NumbfrFormbtExdfption fx) {
+                                vblid = fblsf;
                             }
                         }
                     }
-                } else {
+                } flsf {
                     String[] s = txt.split(":");
-                    if (s.length == 2) {
+                    if (s.lfngti == 2) {
                         try {
-                            int port = Integer.parseInt(s[1]);
+                            int port = Intfgfr.pbrsfInt(s[1]);
                             if (port >= 0 && port <= 0xFFFF) {
-                                valid = true;
+                                vblid = truf;
                             }
-                        } catch (NumberFormatException ex) {
-                            valid = false;
+                        } dbtdi (NumbfrFormbtExdfption fx) {
+                            vblid = fblsf;
                         }
                     }
                 }
             }
         }
-        return valid;
+        rfturn vblid;
     }
 
-    private String errorMessage(Exception ex) {
-       String msg = Messages.CONNECTION_FAILED;
-       if (ex instanceof IOException || ex instanceof SecurityException) {
-           Throwable cause = null;
-           Throwable c = ex.getCause();
-           while (c != null) {
-               cause = c;
-               c = c.getCause();
+    privbtf String frrorMfssbgf(Exdfption fx) {
+       String msg = Mfssbgfs.CONNECTION_FAILED;
+       if (fx instbndfof IOExdfption || fx instbndfof SfdurityExdfption) {
+           Tirowbblf dbusf = null;
+           Tirowbblf d = fx.gftCbusf();
+           wiilf (d != null) {
+               dbusf = d;
+               d = d.gftCbusf();
            }
-           if (cause instanceof ConnectException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof UnknownHostException) {
-               return Resources.format(Messages.UNKNOWN_HOST, cause.getMessage());
-           } else if (cause instanceof NoRouteToHostException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof FailedLoginException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof SSLHandshakeException) {
-               return msg + ": "+ cause.getMessage();
+           if (dbusf instbndfof ConnfdtExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof UnknownHostExdfption) {
+               rfturn Rfsourdfs.formbt(Mfssbgfs.UNKNOWN_HOST, dbusf.gftMfssbgf());
+           } flsf if (dbusf instbndfof NoRoutfToHostExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof FbilfdLoginExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof SSLHbndsibkfExdfption) {
+               rfturn msg + ": "+ dbusf.gftMfssbgf();
            }
-        } else if (ex instanceof MalformedURLException) {
-           return Resources.format(Messages.INVALID_URL, ex.getMessage());
+        } flsf if (fx instbndfof MblformfdURLExdfption) {
+           rfturn Rfsourdfs.formbt(Mfssbgfs.INVALID_URL, fx.gftMfssbgf());
         }
-        return msg + ": " + ex.getMessage();
+        rfturn msg + ": " + fx.gftMfssbgf();
     }
 
 
-    // InternalFrameListener interface
+    // IntfrnblFrbmfListfnfr intfrfbdf
 
-    public void internalFrameClosing(InternalFrameEvent e) {
-        VMInternalFrame vmIF = (VMInternalFrame)e.getInternalFrame();
-        removeVMInternalFrame(vmIF);
-        windows.remove(vmIF);
-        ProxyClient client = vmIF.getVMPanel().getProxyClient(false);
-        if(!isProxyClientUsed(client))
-            client.markAsDead();
-        if (windows.size() == 0) {
-            showConnectDialog("", "", 0, null, null, null);
+    publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f) {
+        VMIntfrnblFrbmf vmIF = (VMIntfrnblFrbmf)f.gftIntfrnblFrbmf();
+        rfmovfVMIntfrnblFrbmf(vmIF);
+        windows.rfmovf(vmIF);
+        ProxyClifnt dlifnt = vmIF.gftVMPbnfl().gftProxyClifnt(fblsf);
+        if(!isProxyClifntUsfd(dlifnt))
+            dlifnt.mbrkAsDfbd();
+        if (windows.sizf() == 0) {
+            siowConnfdtDiblog("", "", 0, null, null, null);
         }
     }
 
-    public void internalFrameOpened(InternalFrameEvent e) {}
-    public void internalFrameClosed(InternalFrameEvent e) {}
-    public void internalFrameIconified(InternalFrameEvent e) {}
-    public void internalFrameDeiconified(InternalFrameEvent e) {}
-    public void internalFrameActivated(InternalFrameEvent e) {}
-    public void internalFrameDeactivated(InternalFrameEvent e) {}
+    publid void intfrnblFrbmfOpfnfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfClosfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfIdonififd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfDfidonififd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfAdtivbtfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfDfbdtivbtfd(IntfrnblFrbmfEvfnt f) {}
 
 
-    private static void usage() {
-        System.err.println(Resources.format(Messages.ZZ_USAGE_TEXT, "jconsole"));
+    privbtf stbtid void usbgf() {
+        Systfm.frr.println(Rfsourdfs.formbt(Mfssbgfs.ZZ_USAGE_TEXT, "jdonsolf"));
     }
 
-    private static void mainInit(final List<String> urls,
-                                 final List<String> hostNames,
-                                 final List<Integer> ports,
-                                 final List<LocalVirtualMachine> vmids,
-                                 final ProxyClient proxyClient,
-                                 final boolean noTile,
-                                 final boolean hotspot) {
+    privbtf stbtid void mbinInit(finbl List<String> urls,
+                                 finbl List<String> iostNbmfs,
+                                 finbl List<Intfgfr> ports,
+                                 finbl List<LodblVirtublMbdiinf> vmids,
+                                 finbl ProxyClifnt proxyClifnt,
+                                 finbl boolfbn noTilf,
+                                 finbl boolfbn iotspot) {
 
 
-        // Always create Swing GUI on the Event Dispatching Thread
-        SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    JConsole jConsole = new JConsole(hotspot);
+        // Alwbys drfbtf Swing GUI on tif Evfnt Dispbtdiing Tirfbd
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    JConsolf jConsolf = nfw JConsolf(iotspot);
 
-                    // Center the window on screen, taking into account screen
-                    // size and insets.
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
-                    GraphicsConfiguration gc = jConsole.getGraphicsConfiguration();
-                    Dimension scrSize = toolkit.getScreenSize();
-                    Insets scrInsets  = toolkit.getScreenInsets(gc);
-                    Rectangle scrBounds =
-                        new Rectangle(scrInsets.left, scrInsets.top,
-                                      scrSize.width  - scrInsets.left - scrInsets.right,
-                                      scrSize.height - scrInsets.top  - scrInsets.bottom);
-                    int w = Math.min(900, scrBounds.width);
-                    int h = Math.min(750, scrBounds.height);
-                    jConsole.setBounds(scrBounds.x + (scrBounds.width  - w) / 2,
-                                       scrBounds.y + (scrBounds.height - h) / 2,
-                                       w, h);
+                    // Cfntfr tif window on sdrffn, tbking into bddount sdrffn
+                    // sizf bnd insfts.
+                    Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                    GrbpiidsConfigurbtion gd = jConsolf.gftGrbpiidsConfigurbtion();
+                    Dimfnsion sdrSizf = toolkit.gftSdrffnSizf();
+                    Insfts sdrInsfts  = toolkit.gftSdrffnInsfts(gd);
+                    Rfdtbnglf sdrBounds =
+                        nfw Rfdtbnglf(sdrInsfts.lfft, sdrInsfts.top,
+                                      sdrSizf.widti  - sdrInsfts.lfft - sdrInsfts.rigit,
+                                      sdrSizf.ifigit - sdrInsfts.top  - sdrInsfts.bottom);
+                    int w = Mbti.min(900, sdrBounds.widti);
+                    int i = Mbti.min(750, sdrBounds.ifigit);
+                    jConsolf.sftBounds(sdrBounds.x + (sdrBounds.widti  - w) / 2,
+                                       sdrBounds.y + (sdrBounds.ifigit - i) / 2,
+                                       w, i);
 
-                    jConsole.setVisible(true);
-                    jConsole.createMDI();
+                    jConsolf.sftVisiblf(truf);
+                    jConsolf.drfbtfMDI();
 
-                    for (int i = 0; i < hostNames.size(); i++) {
-                        jConsole.addHost(hostNames.get(i), ports.get(i),
+                    for (int i = 0; i < iostNbmfs.sizf(); i++) {
+                        jConsolf.bddHost(iostNbmfs.gft(i), ports.gft(i),
                                          null, null,
-                                         (i == hostNames.size() - 1) ?
-                                         !noTile : false);
+                                         (i == iostNbmfs.sizf() - 1) ?
+                                         !noTilf : fblsf);
                     }
 
-                    for (int i = 0; i < urls.size(); i++) {
-                        jConsole.addUrl(urls.get(i),
+                    for (int i = 0; i < urls.sizf(); i++) {
+                        jConsolf.bddUrl(urls.gft(i),
                                         null,
                                         null,
-                                        (i == urls.size() - 1) ?
-                                        !noTile : false);
+                                        (i == urls.sizf() - 1) ?
+                                        !noTilf : fblsf);
                     }
 
-                    for (int i = 0; i < vmids.size(); i++) {
-                        jConsole.addVmid(vmids.get(i),
-                                        (i == vmids.size() - 1) ?
-                                        !noTile : false);
+                    for (int i = 0; i < vmids.sizf(); i++) {
+                        jConsolf.bddVmid(vmids.gft(i),
+                                        (i == vmids.sizf() - 1) ?
+                                        !noTilf : fblsf);
                     }
 
-                    if (vmids.size() == 0 &&
-                        hostNames.size() == 0 &&
-                        urls.size() == 0) {
-                        jConsole.showConnectDialog(null,
+                    if (vmids.sizf() == 0 &&
+                        iostNbmfs.sizf() == 0 &&
+                        urls.sizf() == 0) {
+                        jConsolf.siowConnfdtDiblog(null,
                                                    null,
                                                    0,
                                                    null,
@@ -837,276 +837,276 @@ public class JConsole extends JFrame
             });
     }
 
-    public static void main(String[] args) {
-        boolean noTile = false, hotspot = false;
-        int argIndex = 0;
-        ProxyClient proxyClient = null;
+    publid stbtid void mbin(String[] brgs) {
+        boolfbn noTilf = fblsf, iotspot = fblsf;
+        int brgIndfx = 0;
+        ProxyClifnt proxyClifnt = null;
 
-        if (System.getProperty("jconsole.showOutputViewer") != null) {
-            OutputViewer.init();
+        if (Systfm.gftPropfrty("jdonsolf.siowOutputVifwfr") != null) {
+            OutputVifwfr.init();
         }
 
-        while (args.length - argIndex > 0 && args[argIndex].startsWith("-")) {
-            String arg = args[argIndex++];
-            if (arg.equals("-h") ||
-                arg.equals("-help") ||
-                arg.equals("-?")) {
+        wiilf (brgs.lfngti - brgIndfx > 0 && brgs[brgIndfx].stbrtsWiti("-")) {
+            String brg = brgs[brgIndfx++];
+            if (brg.fqubls("-i") ||
+                brg.fqubls("-iflp") ||
+                brg.fqubls("-?")) {
 
-                usage();
-                return;
-            } else if (arg.startsWith("-interval=")) {
+                usbgf();
+                rfturn;
+            } flsf if (brg.stbrtsWiti("-intfrvbl=")) {
                 try {
-                    updateInterval = Integer.parseInt(arg.substring(10)) *
+                    updbtfIntfrvbl = Intfgfr.pbrsfInt(brg.substring(10)) *
                         1000;
-                    if (updateInterval <= 0) {
-                        usage();
-                        return;
+                    if (updbtfIntfrvbl <= 0) {
+                        usbgf();
+                        rfturn;
                     }
-                } catch (NumberFormatException ex) {
-                    usage();
-                    return;
+                } dbtdi (NumbfrFormbtExdfption fx) {
+                    usbgf();
+                    rfturn;
                 }
-            } else if (arg.equals("-pluginpath")) {
-                if (argIndex < args.length && !args[argIndex].startsWith("-")) {
-                    pluginPath = args[argIndex++];
-                } else {
-                    // Invalid argument
-                    usage();
-                    return;
+            } flsf if (brg.fqubls("-pluginpbti")) {
+                if (brgIndfx < brgs.lfngti && !brgs[brgIndfx].stbrtsWiti("-")) {
+                    pluginPbti = brgs[brgIndfx++];
+                } flsf {
+                    // Invblid brgumfnt
+                    usbgf();
+                    rfturn;
                 }
-            } else if (arg.equals("-notile")) {
-                noTile = true;
-            } else if (arg.equals("-version")) {
-                Version.print(System.err);
-                return;
-            } else if (arg.equals("-debug")) {
-                debug = true;
-            } else if (arg.equals("-fullversion")) {
-                Version.printFullVersion(System.err);
-                return;
-            } else {
-                // Unknown switch
-                usage();
-                return;
+            } flsf if (brg.fqubls("-notilf")) {
+                noTilf = truf;
+            } flsf if (brg.fqubls("-vfrsion")) {
+                Vfrsion.print(Systfm.frr);
+                rfturn;
+            } flsf if (brg.fqubls("-dfbug")) {
+                dfbug = truf;
+            } flsf if (brg.fqubls("-fullvfrsion")) {
+                Vfrsion.printFullVfrsion(Systfm.frr);
+                rfturn;
+            } flsf {
+                // Unknown switdi
+                usbgf();
+                rfturn;
             }
         }
 
-        if (System.getProperty("jconsole.showUnsupported") != null) {
-            hotspot = true;
+        if (Systfm.gftPropfrty("jdonsolf.siowUnsupportfd") != null) {
+            iotspot = truf;
         }
 
-        List<String> urls = new ArrayList<String>();
-        List<String> hostNames = new ArrayList<String>();
-        List<Integer> ports = new ArrayList<Integer>();
-        List<LocalVirtualMachine> vms = new ArrayList<LocalVirtualMachine>();
+        List<String> urls = nfw ArrbyList<String>();
+        List<String> iostNbmfs = nfw ArrbyList<String>();
+        List<Intfgfr> ports = nfw ArrbyList<Intfgfr>();
+        List<LodblVirtublMbdiinf> vms = nfw ArrbyList<LodblVirtublMbdiinf>();
 
-        for (int i = argIndex; i < args.length; i++) {
-            String arg = args[i];
-            if (isValidRemoteString(arg)) {
-                if (arg.startsWith(ROOT_URL)) {
-                    urls.add(arg);
-                } else if (arg.matches(".*:[0-9]*")) {
-                    int p = arg.lastIndexOf(':');
-                    hostNames.add(arg.substring(0, p));
+        for (int i = brgIndfx; i < brgs.lfngti; i++) {
+            String brg = brgs[i];
+            if (isVblidRfmotfString(brg)) {
+                if (brg.stbrtsWiti(ROOT_URL)) {
+                    urls.bdd(brg);
+                } flsf if (brg.mbtdifs(".*:[0-9]*")) {
+                    int p = brg.lbstIndfxOf(':');
+                    iostNbmfs.bdd(brg.substring(0, p));
                     try {
-                        ports.add(Integer.parseInt(arg.substring(p+1)));
-                    } catch (NumberFormatException ex) {
-                        usage();
-                        return;
+                        ports.bdd(Intfgfr.pbrsfInt(brg.substring(p+1)));
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        usbgf();
+                        rfturn;
                     }
                 }
-            } else {
-                if (!isLocalAttachAvailable()) {
-                    System.err.println("Local process monitoring is not supported");
-                    return;
+            } flsf {
+                if (!isLodblAttbdiAvbilbblf()) {
+                    Systfm.frr.println("Lodbl prodfss monitoring is not supportfd");
+                    rfturn;
                 }
                 try {
-                    int vmid = Integer.parseInt(arg);
-                    LocalVirtualMachine lvm =
-                        LocalVirtualMachine.getLocalVirtualMachine(vmid);
+                    int vmid = Intfgfr.pbrsfInt(brg);
+                    LodblVirtublMbdiinf lvm =
+                        LodblVirtublMbdiinf.gftLodblVirtublMbdiinf(vmid);
                     if (lvm == null) {
-                        System.err.println("Invalid process id:" + vmid);
-                        return;
+                        Systfm.frr.println("Invblid prodfss id:" + vmid);
+                        rfturn;
                     }
-                    vms.add(lvm);
-                } catch (NumberFormatException ex) {
-                    usage();
-                    return;
+                    vms.bdd(lvm);
+                } dbtdi (NumbfrFormbtExdfption fx) {
+                    usbgf();
+                    rfturn;
                 }
             }
         }
 
-        mainInit(urls, hostNames, ports, vms, proxyClient, noTile, hotspot);
+        mbinInit(urls, iostNbmfs, ports, vms, proxyClifnt, noTilf, iotspot);
     }
 
-    public static boolean isDebug() {
-        return debug;
+    publid stbtid boolfbn isDfbug() {
+        rfturn dfbug;
     }
 
-    private static void dbgStackTrace(Exception ex) {
-        if (debug) {
-            ex.printStackTrace();
+    privbtf stbtid void dbgStbdkTrbdf(Exdfption fx) {
+        if (dfbug) {
+            fx.printStbdkTrbdf();
         }
     }
 
-    private static final boolean localAttachmentSupported;
-    static {
-        boolean supported;
+    privbtf stbtid finbl boolfbn lodblAttbdimfntSupportfd;
+    stbtid {
+        boolfbn supportfd;
         try {
-            Class.forName("com.sun.tools.attach.VirtualMachine");
-            Class.forName("sun.management.ConnectorAddressLink");
-            supported = true;
-        } catch (NoClassDefFoundError x) {
-            supported = false;
-        } catch (ClassNotFoundException x) {
-            supported = false;
+            Clbss.forNbmf("dom.sun.tools.bttbdi.VirtublMbdiinf");
+            Clbss.forNbmf("sun.mbnbgfmfnt.ConnfdtorAddrfssLink");
+            supportfd = truf;
+        } dbtdi (NoClbssDffFoundError x) {
+            supportfd = fblsf;
+        } dbtdi (ClbssNotFoundExdfption x) {
+            supportfd = fblsf;
         }
-        localAttachmentSupported = supported;
+        lodblAttbdimfntSupportfd = supportfd;
     }
 
-    public static boolean isLocalAttachAvailable() {
-        return localAttachmentSupported;
+    publid stbtid boolfbn isLodblAttbdiAvbilbblf() {
+        rfturn lodblAttbdimfntSupportfd;
     }
 
 
-    private static ServiceLoader<JConsolePlugin> pluginService = null;
+    privbtf stbtid SfrvidfLobdfr<JConsolfPlugin> pluginSfrvidf = null;
 
-    // Return a list of newly instantiated JConsolePlugin objects
-    static synchronized List<JConsolePlugin> getPlugins() {
-        if (pluginService == null) {
-            // First time loading and initializing the plugins
-            initPluginService(pluginPath);
-        } else {
-            // reload the plugin so that new instances will be created
-            pluginService.reload();
+    // Rfturn b list of nfwly instbntibtfd JConsolfPlugin objfdts
+    stbtid syndironizfd List<JConsolfPlugin> gftPlugins() {
+        if (pluginSfrvidf == null) {
+            // First timf lobding bnd initiblizing tif plugins
+            initPluginSfrvidf(pluginPbti);
+        } flsf {
+            // rflobd tif plugin so tibt nfw instbndfs will bf drfbtfd
+            pluginSfrvidf.rflobd();
         }
 
-        List<JConsolePlugin> plugins = new ArrayList<JConsolePlugin>();
-        for (JConsolePlugin p : pluginService) {
-            plugins.add(p);
+        List<JConsolfPlugin> plugins = nfw ArrbyList<JConsolfPlugin>();
+        for (JConsolfPlugin p : pluginSfrvidf) {
+            plugins.bdd(p);
         }
-        return plugins;
+        rfturn plugins;
     }
 
-    private static void initPluginService(String pluginPath) {
-        if (pluginPath.length() > 0) {
+    privbtf stbtid void initPluginSfrvidf(String pluginPbti) {
+        if (pluginPbti.lfngti() > 0) {
             try {
-                ClassLoader pluginCL = new URLClassLoader(pathToURLs(pluginPath));
-                ServiceLoader<JConsolePlugin> plugins =
-                    ServiceLoader.load(JConsolePlugin.class, pluginCL);
-                // validate all plugins
-            for (JConsolePlugin p : plugins) {
-                    if (isDebug()) {
-                        System.out.println("Plugin " + p.getClass() + " loaded.");
+                ClbssLobdfr pluginCL = nfw URLClbssLobdfr(pbtiToURLs(pluginPbti));
+                SfrvidfLobdfr<JConsolfPlugin> plugins =
+                    SfrvidfLobdfr.lobd(JConsolfPlugin.dlbss, pluginCL);
+                // vblidbtf bll plugins
+            for (JConsolfPlugin p : plugins) {
+                    if (isDfbug()) {
+                        Systfm.out.println("Plugin " + p.gftClbss() + " lobdfd.");
                     }
                 }
-                pluginService = plugins;
-            } catch (ServiceConfigurationError e) {
-                // Error occurs during initialization of plugin
-                System.out.println(Resources.format(Messages.FAIL_TO_LOAD_PLUGIN,
-                                   e.getMessage()));
-            } catch (MalformedURLException e) {
-                if (JConsole.isDebug()) {
-                    e.printStackTrace();
+                pluginSfrvidf = plugins;
+            } dbtdi (SfrvidfConfigurbtionError f) {
+                // Error oddurs during initiblizbtion of plugin
+                Systfm.out.println(Rfsourdfs.formbt(Mfssbgfs.FAIL_TO_LOAD_PLUGIN,
+                                   f.gftMfssbgf()));
+            } dbtdi (MblformfdURLExdfption f) {
+                if (JConsolf.isDfbug()) {
+                    f.printStbdkTrbdf();
                 }
-                System.out.println(Resources.format(Messages.INVALID_PLUGIN_PATH,
-                                   e.getMessage()));
+                Systfm.out.println(Rfsourdfs.formbt(Mfssbgfs.INVALID_PLUGIN_PATH,
+                                   f.gftMfssbgf()));
             }
         }
 
-        if (pluginService == null) {
+        if (pluginSfrvidf == null) {
             initEmptyPlugin();
         }
     }
 
-    private static void initEmptyPlugin() {
-        ClassLoader pluginCL = new URLClassLoader(new URL[0]);
-        pluginService = ServiceLoader.load(JConsolePlugin.class, pluginCL);
+    privbtf stbtid void initEmptyPlugin() {
+        ClbssLobdfr pluginCL = nfw URLClbssLobdfr(nfw URL[0]);
+        pluginSfrvidf = SfrvidfLobdfr.lobd(JConsolfPlugin.dlbss, pluginCL);
     }
 
    /**
-     * Utility method for converting a search path string to an array
-     * of directory and JAR file URLs.
+     * Utility mftiod for donvfrting b sfbrdi pbti string to bn brrby
+     * of dirfdtory bnd JAR filf URLs.
      *
-     * @param path the search path string
-     * @return the resulting array of directory and JAR file URLs
+     * @pbrbm pbti tif sfbrdi pbti string
+     * @rfturn tif rfsulting brrby of dirfdtory bnd JAR filf URLs
      */
-    private static URL[] pathToURLs(String path) throws MalformedURLException {
-        String[] names = path.split(File.pathSeparator);
-        URL[] urls = new URL[names.length];
-        int count = 0;
-        for (String f : names) {
-            URL url = fileToURL(new File(f));
-            urls[count++] = url;
+    privbtf stbtid URL[] pbtiToURLs(String pbti) tirows MblformfdURLExdfption {
+        String[] nbmfs = pbti.split(Filf.pbtiSfpbrbtor);
+        URL[] urls = nfw URL[nbmfs.lfngti];
+        int dount = 0;
+        for (String f : nbmfs) {
+            URL url = filfToURL(nfw Filf(f));
+            urls[dount++] = url;
         }
-        return urls;
+        rfturn urls;
     }
 
     /**
-     * Returns the directory or JAR file URL corresponding to the specified
-     * local file name.
+     * Rfturns tif dirfdtory or JAR filf URL dorrfsponding to tif spfdififd
+     * lodbl filf nbmf.
      *
-     * @param file the File object
-     * @return the resulting directory or JAR file URL, or null if unknown
+     * @pbrbm filf tif Filf objfdt
+     * @rfturn tif rfsulting dirfdtory or JAR filf URL, or null if unknown
      */
-    private static URL fileToURL(File file) throws MalformedURLException {
-        String name;
+    privbtf stbtid URL filfToURL(Filf filf) tirows MblformfdURLExdfption {
+        String nbmf;
         try {
-            name = file.getCanonicalPath();
-        } catch (IOException e) {
-            name = file.getAbsolutePath();
+            nbmf = filf.gftCbnonidblPbti();
+        } dbtdi (IOExdfption f) {
+            nbmf = filf.gftAbsolutfPbti();
         }
-        name = name.replace(File.separatorChar, '/');
-        if (!name.startsWith("/")) {
-            name = "/" + name;
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorCibr, '/');
+        if (!nbmf.stbrtsWiti("/")) {
+            nbmf = "/" + nbmf;
         }
-        // If the file does not exist, then assume that it's a directory
-        if (!file.isFile()) {
-            name = name + "/";
+        // If tif filf dofs not fxist, tifn bssumf tibt it's b dirfdtory
+        if (!filf.isFilf()) {
+            nbmf = nbmf + "/";
         }
-        return new URL("file", "", name);
+        rfturn nfw URL("filf", "", nbmf);
     }
 
 
-    private static class FixedJRootPane extends JRootPane {
-        public void updateUI() {
-            updateLafValues();
-            super.updateUI();
+    privbtf stbtid dlbss FixfdJRootPbnf fxtfnds JRootPbnf {
+        publid void updbtfUI() {
+            updbtfLbfVblufs();
+            supfr.updbtfUI();
         }
 
         /**
-         * The revalidate method seems to be the only one that gets
-         * called whenever there is a change of L&F or change of theme
-         * in Windows L&F and GTK L&F.
+         * Tif rfvblidbtf mftiod sffms to bf tif only onf tibt gfts
+         * dbllfd wifnfvfr tifrf is b dibngf of L&F or dibngf of tifmf
+         * in Windows L&F bnd GTK L&F.
          */
-        @Override
-        public void revalidate() {
-            // Workaround for Swing bug where the titledborder in both
-            // GTK and Windows L&F's use calculated colors instead of
-            // the highlight/shadow colors from the theme.
+        @Ovfrridf
+        publid void rfvblidbtf() {
+            // Workbround for Swing bug wifrf tif titlfdbordfr in boti
+            // GTK bnd Windows L&F's usf dbldulbtfd dolors instfbd of
+            // tif iigiligit/sibdow dolors from tif tifmf.
             //
-            // Putting null removes any previous override and causes a
-            // fallback to the current L&F's value.
-            UIManager.put("TitledBorder.border", null);
-            Border border = UIManager.getBorder("TitledBorder.border");
-            if (border instanceof BorderUIResource.EtchedBorderUIResource) {
-                Color highlight = UIManager.getColor("ToolBar.highlight");
-                Color shadow    = UIManager.getColor("ToolBar.shadow");
-                border = new BorderUIResource.EtchedBorderUIResource(highlight,
-                                                                     shadow);
-                UIManager.put("TitledBorder.border", border);
+            // Putting null rfmovfs bny prfvious ovfrridf bnd dbusfs b
+            // fbllbbdk to tif durrfnt L&F's vbluf.
+            UIMbnbgfr.put("TitlfdBordfr.bordfr", null);
+            Bordfr bordfr = UIMbnbgfr.gftBordfr("TitlfdBordfr.bordfr");
+            if (bordfr instbndfof BordfrUIRfsourdf.EtdifdBordfrUIRfsourdf) {
+                Color iigiligit = UIMbnbgfr.gftColor("ToolBbr.iigiligit");
+                Color sibdow    = UIMbnbgfr.gftColor("ToolBbr.sibdow");
+                bordfr = nfw BordfrUIRfsourdf.EtdifdBordfrUIRfsourdf(iigiligit,
+                                                                     sibdow);
+                UIMbnbgfr.put("TitlfdBordfr.bordfr", bordfr);
             }
 
             if (IS_GTK) {
-                // Workaround for Swing bug where the titledborder in
-                // GTK L&F use hardcoded color and font for the title
-                // instead of getting them from the theme.
-                UIManager.put("TitledBorder.titleColor",
-                              UIManager.getColor("Label.foreground"));
-                UIManager.put("TitledBorder.font",
-                              UIManager.getFont("Label.font"));
+                // Workbround for Swing bug wifrf tif titlfdbordfr in
+                // GTK L&F usf ibrddodfd dolor bnd font for tif titlf
+                // instfbd of gftting tifm from tif tifmf.
+                UIMbnbgfr.put("TitlfdBordfr.titlfColor",
+                              UIMbnbgfr.gftColor("Lbbfl.forfground"));
+                UIMbnbgfr.put("TitlfdBordfr.font",
+                              UIMbnbgfr.gftFont("Lbbfl.font"));
             }
-            super.revalidate();
+            supfr.rfvblidbtf();
         }
     }
 }

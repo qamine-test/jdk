@@ -1,892 +1,892 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <sys/utsname.h>
-#include "GraphicsPrimitiveMgr.h"
-#include "java2d_Mlib.h"
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <sys/utsnbmf.i>
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "jbvb2d_Mlib.i"
 
-typedef struct {
-    AnyFunc  *func_c;
-    AnyFunc  *func_vis;
-} AnyFunc_pair;
+typfdff strudt {
+    AnyFund  *fund_d;
+    AnyFund  *fund_vis;
+} AnyFund_pbir;
 
-#define DEF_FUNC(x)    \
+#dffinf DEF_FUNC(x)    \
     void x();          \
     void ADD_SUFF(x)();
 
-#define ADD_FUNC(x)    \
+#dffinf ADD_FUNC(x)    \
     { & x, & ADD_SUFF(x) }
 
 /***************************************************************/
 
-DEF_FUNC(AnyByteDrawGlyphList)
-DEF_FUNC(AnyByteDrawGlyphListXor)
-DEF_FUNC(AnyByteIsomorphicCopy)
-DEF_FUNC(AnyByteIsomorphicScaleCopy)
-DEF_FUNC(AnyByteIsomorphicXorCopy)
-DEF_FUNC(AnyByteSetLine)
-DEF_FUNC(AnyByteSetRect)
-DEF_FUNC(AnyByteSetSpans)
-DEF_FUNC(AnyByteSetParallelogram)
-DEF_FUNC(AnyByteXorLine)
-DEF_FUNC(AnyByteXorRect)
-DEF_FUNC(AnyByteXorSpans)
-DEF_FUNC(AnyShortDrawGlyphList)
-DEF_FUNC(AnyShortDrawGlyphListXor)
-DEF_FUNC(AnyShortIsomorphicCopy)
-DEF_FUNC(AnyShortIsomorphicScaleCopy)
-DEF_FUNC(AnyShortIsomorphicXorCopy)
-DEF_FUNC(AnyShortSetLine)
-DEF_FUNC(AnyShortSetRect)
-DEF_FUNC(AnyShortSetSpans)
-DEF_FUNC(AnyShortSetParallelogram)
-DEF_FUNC(AnyShortXorLine)
-DEF_FUNC(AnyShortXorRect)
-DEF_FUNC(AnyShortXorSpans)
-DEF_FUNC(Any3ByteDrawGlyphList)
-DEF_FUNC(Any3ByteDrawGlyphListXor)
-DEF_FUNC(Any3ByteIsomorphicCopy)
-DEF_FUNC(Any3ByteIsomorphicScaleCopy)
-DEF_FUNC(Any3ByteIsomorphicXorCopy)
-DEF_FUNC(Any3ByteSetLine)
-DEF_FUNC(Any3ByteSetRect)
-DEF_FUNC(Any3ByteSetSpans)
-DEF_FUNC(Any3ByteSetParallelogram)
-DEF_FUNC(Any3ByteXorLine)
-DEF_FUNC(Any3ByteXorRect)
-DEF_FUNC(Any3ByteXorSpans)
-DEF_FUNC(Any4ByteDrawGlyphList)
-DEF_FUNC(Any4ByteDrawGlyphListXor)
-DEF_FUNC(Any4ByteIsomorphicCopy)
-DEF_FUNC(Any4ByteIsomorphicScaleCopy)
-DEF_FUNC(Any4ByteIsomorphicXorCopy)
-DEF_FUNC(Any4ByteSetLine)
-DEF_FUNC(Any4ByteSetRect)
-DEF_FUNC(Any4ByteSetSpans)
-DEF_FUNC(Any4ByteSetParallelogram)
-DEF_FUNC(Any4ByteXorLine)
-DEF_FUNC(Any4ByteXorRect)
-DEF_FUNC(Any4ByteXorSpans)
-DEF_FUNC(AnyIntDrawGlyphList)
-DEF_FUNC(AnyIntDrawGlyphListXor)
-DEF_FUNC(AnyIntIsomorphicCopy)
-DEF_FUNC(AnyIntIsomorphicScaleCopy)
-DEF_FUNC(AnyIntIsomorphicXorCopy)
-DEF_FUNC(AnyIntSetLine)
-DEF_FUNC(AnyIntSetRect)
-DEF_FUNC(AnyIntSetSpans)
-DEF_FUNC(AnyIntSetParallelogram)
-DEF_FUNC(AnyIntXorLine)
-DEF_FUNC(AnyIntXorRect)
-DEF_FUNC(AnyIntXorSpans)
-DEF_FUNC(ByteGrayAlphaMaskFill)
-DEF_FUNC(ByteGrayDrawGlyphListAA)
-DEF_FUNC(ByteGraySrcMaskFill)
-DEF_FUNC(ByteGraySrcOverMaskFill)
-DEF_FUNC(ByteGrayToIntArgbConvert)
-DEF_FUNC(ByteGrayToIntArgbScaleConvert)
-DEF_FUNC(ByteIndexedBmToByteGrayScaleXparOver)
-DEF_FUNC(ByteIndexedBmToByteGrayXparBgCopy)
-DEF_FUNC(ByteIndexedBmToByteGrayXparOver)
-DEF_FUNC(ByteIndexedToByteGrayConvert)
-DEF_FUNC(ByteIndexedToByteGrayScaleConvert)
-DEF_FUNC(Index12GrayToByteGrayConvert)
-DEF_FUNC(Index12GrayToByteGrayScaleConvert)
-DEF_FUNC(Index8GrayToByteGrayConvert)
-DEF_FUNC(Index8GrayToByteGrayScaleConvert)
-DEF_FUNC(IntArgbBmToByteGrayScaleXparOver)
-DEF_FUNC(IntArgbBmToByteGrayXparBgCopy)
-DEF_FUNC(IntArgbBmToByteGrayXparOver)
-DEF_FUNC(IntArgbToByteGrayAlphaMaskBlit)
-DEF_FUNC(IntArgbToByteGrayConvert)
-DEF_FUNC(IntArgbToByteGrayScaleConvert)
-DEF_FUNC(IntArgbToByteGraySrcOverMaskBlit)
-DEF_FUNC(IntArgbToByteGrayXorBlit)
-DEF_FUNC(IntRgbToByteGrayAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToByteGrayConvert)
-DEF_FUNC(ThreeByteBgrToByteGrayScaleConvert)
-DEF_FUNC(UshortGrayToByteGrayConvert)
-DEF_FUNC(UshortGrayToByteGrayScaleConvert)
-DEF_FUNC(ByteGrayToUshortGrayConvert)
-DEF_FUNC(ByteGrayToUshortGrayScaleConvert)
-DEF_FUNC(ByteIndexedBmToUshortGrayScaleXparOver)
-DEF_FUNC(ByteIndexedBmToUshortGrayXparBgCopy)
-DEF_FUNC(ByteIndexedBmToUshortGrayXparOver)
-DEF_FUNC(ByteIndexedToUshortGrayConvert)
-DEF_FUNC(ByteIndexedToUshortGrayScaleConvert)
-DEF_FUNC(IntArgbBmToUshortGrayScaleXparOver)
-DEF_FUNC(IntArgbToUshortGrayAlphaMaskBlit)
-DEF_FUNC(IntArgbToUshortGrayConvert)
-DEF_FUNC(IntArgbToUshortGrayScaleConvert)
-DEF_FUNC(IntArgbToUshortGraySrcOverMaskBlit)
-DEF_FUNC(IntArgbToUshortGrayXorBlit)
-DEF_FUNC(IntRgbToUshortGrayAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToUshortGrayConvert)
-DEF_FUNC(ThreeByteBgrToUshortGrayScaleConvert)
-DEF_FUNC(UshortGrayAlphaMaskFill)
-DEF_FUNC(UshortGrayDrawGlyphListAA)
-DEF_FUNC(UshortGraySrcMaskFill)
-DEF_FUNC(UshortGraySrcOverMaskFill)
-DEF_FUNC(UshortGrayToIntArgbConvert)
-DEF_FUNC(UshortGrayToIntArgbScaleConvert)
-DEF_FUNC(ByteGrayToByteIndexedConvert)
-DEF_FUNC(ByteGrayToByteIndexedScaleConvert)
-DEF_FUNC(ByteIndexedAlphaMaskFill)
-DEF_FUNC(ByteIndexedBmToByteIndexedScaleXparOver)
-DEF_FUNC(ByteIndexedBmToByteIndexedXparBgCopy)
-DEF_FUNC(ByteIndexedBmToByteIndexedXparOver)
-DEF_FUNC(ByteIndexedDrawGlyphListAA)
-DEF_FUNC(ByteIndexedToByteIndexedConvert)
-DEF_FUNC(ByteIndexedToByteIndexedScaleConvert)
-DEF_FUNC(Index12GrayToByteIndexedConvert)
-DEF_FUNC(Index12GrayToByteIndexedScaleConvert)
-DEF_FUNC(IntArgbBmToByteIndexedScaleXparOver)
-DEF_FUNC(IntArgbBmToByteIndexedXparBgCopy)
-DEF_FUNC(IntArgbBmToByteIndexedXparOver)
-DEF_FUNC(IntArgbToByteIndexedAlphaMaskBlit)
-DEF_FUNC(IntArgbToByteIndexedConvert)
-DEF_FUNC(IntArgbToByteIndexedScaleConvert)
-DEF_FUNC(IntArgbToByteIndexedXorBlit)
-DEF_FUNC(IntRgbToByteIndexedAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToByteIndexedConvert)
-DEF_FUNC(ThreeByteBgrToByteIndexedScaleConvert)
-DEF_FUNC(ByteGrayToFourByteAbgrConvert)
-DEF_FUNC(ByteGrayToFourByteAbgrScaleConvert)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrScaleXparOver)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrXparBgCopy)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrXparOver)
-DEF_FUNC(ByteIndexedToFourByteAbgrConvert)
-DEF_FUNC(ByteIndexedToFourByteAbgrScaleConvert)
-DEF_FUNC(FourByteAbgrAlphaMaskFill)
-DEF_FUNC(FourByteAbgrDrawGlyphListAA)
-DEF_FUNC(FourByteAbgrSrcMaskFill)
-DEF_FUNC(FourByteAbgrSrcOverMaskFill)
-DEF_FUNC(FourByteAbgrToIntArgbConvert)
-DEF_FUNC(FourByteAbgrToIntArgbScaleConvert)
-DEF_FUNC(IntArgbBmToFourByteAbgrScaleXparOver)
-DEF_FUNC(IntArgbToFourByteAbgrAlphaMaskBlit)
-DEF_FUNC(IntArgbToFourByteAbgrConvert)
-DEF_FUNC(IntArgbToFourByteAbgrScaleConvert)
-DEF_FUNC(IntArgbToFourByteAbgrSrcOverMaskBlit)
-DEF_FUNC(IntArgbToFourByteAbgrXorBlit)
-DEF_FUNC(IntRgbToFourByteAbgrAlphaMaskBlit)
-DEF_FUNC(IntRgbToFourByteAbgrConvert)
-DEF_FUNC(IntRgbToFourByteAbgrScaleConvert)
-DEF_FUNC(ThreeByteBgrToFourByteAbgrConvert)
-DEF_FUNC(ThreeByteBgrToFourByteAbgrScaleConvert)
-DEF_FUNC(ByteGrayToFourByteAbgrPreConvert)
-DEF_FUNC(ByteGrayToFourByteAbgrPreScaleConvert)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrPreScaleXparOver)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrPreXparBgCopy)
-DEF_FUNC(ByteIndexedBmToFourByteAbgrPreXparOver)
-DEF_FUNC(ByteIndexedToFourByteAbgrPreConvert)
-DEF_FUNC(ByteIndexedToFourByteAbgrPreScaleConvert)
-DEF_FUNC(FourByteAbgrPreAlphaMaskFill)
-DEF_FUNC(FourByteAbgrPreDrawGlyphListAA)
-DEF_FUNC(FourByteAbgrPreSrcMaskFill)
-DEF_FUNC(FourByteAbgrPreSrcOverMaskFill)
-DEF_FUNC(FourByteAbgrPreToIntArgbConvert)
-DEF_FUNC(FourByteAbgrPreToIntArgbScaleConvert)
-DEF_FUNC(IntArgbBmToFourByteAbgrPreScaleXparOver)
-DEF_FUNC(IntArgbToFourByteAbgrPreAlphaMaskBlit)
-DEF_FUNC(IntArgbToFourByteAbgrPreConvert)
-DEF_FUNC(IntArgbToFourByteAbgrPreScaleConvert)
-DEF_FUNC(IntArgbToFourByteAbgrPreSrcOverMaskBlit)
-DEF_FUNC(IntArgbToFourByteAbgrPreXorBlit)
-DEF_FUNC(IntRgbToFourByteAbgrPreAlphaMaskBlit)
-DEF_FUNC(IntRgbToFourByteAbgrPreConvert)
-DEF_FUNC(IntRgbToFourByteAbgrPreScaleConvert)
-DEF_FUNC(ThreeByteBgrToFourByteAbgrPreConvert)
-DEF_FUNC(ThreeByteBgrToFourByteAbgrPreScaleConvert)
-DEF_FUNC(ByteIndexedBmToIntArgbScaleXparOver)
-DEF_FUNC(ByteIndexedBmToIntArgbXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIntArgbXparOver)
-DEF_FUNC(ByteIndexedToIntArgbConvert)
-DEF_FUNC(ByteIndexedToIntArgbScaleConvert)
-DEF_FUNC(Index12GrayToIntArgbConvert)
-DEF_FUNC(IntArgbAlphaMaskFill)
-DEF_FUNC(IntArgbBmToIntArgbScaleXparOver)
-DEF_FUNC(IntArgbDrawGlyphListAA)
-DEF_FUNC(IntArgbSrcMaskFill)
-DEF_FUNC(IntArgbSrcOverMaskFill)
-DEF_FUNC(IntArgbToIntArgbAlphaMaskBlit)
-DEF_FUNC(IntArgbToIntArgbSrcOverMaskBlit)
+DEF_FUNC(AnyBytfDrbwGlypiList)
+DEF_FUNC(AnyBytfDrbwGlypiListXor)
+DEF_FUNC(AnyBytfIsomorpiidCopy)
+DEF_FUNC(AnyBytfIsomorpiidSdblfCopy)
+DEF_FUNC(AnyBytfIsomorpiidXorCopy)
+DEF_FUNC(AnyBytfSftLinf)
+DEF_FUNC(AnyBytfSftRfdt)
+DEF_FUNC(AnyBytfSftSpbns)
+DEF_FUNC(AnyBytfSftPbrbllflogrbm)
+DEF_FUNC(AnyBytfXorLinf)
+DEF_FUNC(AnyBytfXorRfdt)
+DEF_FUNC(AnyBytfXorSpbns)
+DEF_FUNC(AnySiortDrbwGlypiList)
+DEF_FUNC(AnySiortDrbwGlypiListXor)
+DEF_FUNC(AnySiortIsomorpiidCopy)
+DEF_FUNC(AnySiortIsomorpiidSdblfCopy)
+DEF_FUNC(AnySiortIsomorpiidXorCopy)
+DEF_FUNC(AnySiortSftLinf)
+DEF_FUNC(AnySiortSftRfdt)
+DEF_FUNC(AnySiortSftSpbns)
+DEF_FUNC(AnySiortSftPbrbllflogrbm)
+DEF_FUNC(AnySiortXorLinf)
+DEF_FUNC(AnySiortXorRfdt)
+DEF_FUNC(AnySiortXorSpbns)
+DEF_FUNC(Any3BytfDrbwGlypiList)
+DEF_FUNC(Any3BytfDrbwGlypiListXor)
+DEF_FUNC(Any3BytfIsomorpiidCopy)
+DEF_FUNC(Any3BytfIsomorpiidSdblfCopy)
+DEF_FUNC(Any3BytfIsomorpiidXorCopy)
+DEF_FUNC(Any3BytfSftLinf)
+DEF_FUNC(Any3BytfSftRfdt)
+DEF_FUNC(Any3BytfSftSpbns)
+DEF_FUNC(Any3BytfSftPbrbllflogrbm)
+DEF_FUNC(Any3BytfXorLinf)
+DEF_FUNC(Any3BytfXorRfdt)
+DEF_FUNC(Any3BytfXorSpbns)
+DEF_FUNC(Any4BytfDrbwGlypiList)
+DEF_FUNC(Any4BytfDrbwGlypiListXor)
+DEF_FUNC(Any4BytfIsomorpiidCopy)
+DEF_FUNC(Any4BytfIsomorpiidSdblfCopy)
+DEF_FUNC(Any4BytfIsomorpiidXorCopy)
+DEF_FUNC(Any4BytfSftLinf)
+DEF_FUNC(Any4BytfSftRfdt)
+DEF_FUNC(Any4BytfSftSpbns)
+DEF_FUNC(Any4BytfSftPbrbllflogrbm)
+DEF_FUNC(Any4BytfXorLinf)
+DEF_FUNC(Any4BytfXorRfdt)
+DEF_FUNC(Any4BytfXorSpbns)
+DEF_FUNC(AnyIntDrbwGlypiList)
+DEF_FUNC(AnyIntDrbwGlypiListXor)
+DEF_FUNC(AnyIntIsomorpiidCopy)
+DEF_FUNC(AnyIntIsomorpiidSdblfCopy)
+DEF_FUNC(AnyIntIsomorpiidXorCopy)
+DEF_FUNC(AnyIntSftLinf)
+DEF_FUNC(AnyIntSftRfdt)
+DEF_FUNC(AnyIntSftSpbns)
+DEF_FUNC(AnyIntSftPbrbllflogrbm)
+DEF_FUNC(AnyIntXorLinf)
+DEF_FUNC(AnyIntXorRfdt)
+DEF_FUNC(AnyIntXorSpbns)
+DEF_FUNC(BytfGrbyAlpibMbskFill)
+DEF_FUNC(BytfGrbyDrbwGlypiListAA)
+DEF_FUNC(BytfGrbySrdMbskFill)
+DEF_FUNC(BytfGrbySrdOvfrMbskFill)
+DEF_FUNC(BytfGrbyToIntArgbConvfrt)
+DEF_FUNC(BytfGrbyToIntArgbSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToBytfGrbySdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToBytfGrbyXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToBytfGrbyXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToBytfGrbyConvfrt)
+DEF_FUNC(BytfIndfxfdToBytfGrbySdblfConvfrt)
+DEF_FUNC(Indfx12GrbyToBytfGrbyConvfrt)
+DEF_FUNC(Indfx12GrbyToBytfGrbySdblfConvfrt)
+DEF_FUNC(Indfx8GrbyToBytfGrbyConvfrt)
+DEF_FUNC(Indfx8GrbyToBytfGrbySdblfConvfrt)
+DEF_FUNC(IntArgbBmToBytfGrbySdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToBytfGrbyXpbrBgCopy)
+DEF_FUNC(IntArgbBmToBytfGrbyXpbrOvfr)
+DEF_FUNC(IntArgbToBytfGrbyAlpibMbskBlit)
+DEF_FUNC(IntArgbToBytfGrbyConvfrt)
+DEF_FUNC(IntArgbToBytfGrbySdblfConvfrt)
+DEF_FUNC(IntArgbToBytfGrbySrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToBytfGrbyXorBlit)
+DEF_FUNC(IntRgbToBytfGrbyAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToBytfGrbyConvfrt)
+DEF_FUNC(TirffBytfBgrToBytfGrbySdblfConvfrt)
+DEF_FUNC(UsiortGrbyToBytfGrbyConvfrt)
+DEF_FUNC(UsiortGrbyToBytfGrbySdblfConvfrt)
+DEF_FUNC(BytfGrbyToUsiortGrbyConvfrt)
+DEF_FUNC(BytfGrbyToUsiortGrbySdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToUsiortGrbySdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToUsiortGrbyXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToUsiortGrbyXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToUsiortGrbyConvfrt)
+DEF_FUNC(BytfIndfxfdToUsiortGrbySdblfConvfrt)
+DEF_FUNC(IntArgbBmToUsiortGrbySdblfXpbrOvfr)
+DEF_FUNC(IntArgbToUsiortGrbyAlpibMbskBlit)
+DEF_FUNC(IntArgbToUsiortGrbyConvfrt)
+DEF_FUNC(IntArgbToUsiortGrbySdblfConvfrt)
+DEF_FUNC(IntArgbToUsiortGrbySrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToUsiortGrbyXorBlit)
+DEF_FUNC(IntRgbToUsiortGrbyAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToUsiortGrbyConvfrt)
+DEF_FUNC(TirffBytfBgrToUsiortGrbySdblfConvfrt)
+DEF_FUNC(UsiortGrbyAlpibMbskFill)
+DEF_FUNC(UsiortGrbyDrbwGlypiListAA)
+DEF_FUNC(UsiortGrbySrdMbskFill)
+DEF_FUNC(UsiortGrbySrdOvfrMbskFill)
+DEF_FUNC(UsiortGrbyToIntArgbConvfrt)
+DEF_FUNC(UsiortGrbyToIntArgbSdblfConvfrt)
+DEF_FUNC(BytfGrbyToBytfIndfxfdConvfrt)
+DEF_FUNC(BytfGrbyToBytfIndfxfdSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdAlpibMbskFill)
+DEF_FUNC(BytfIndfxfdBmToBytfIndfxfdSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToBytfIndfxfdXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToBytfIndfxfdXpbrOvfr)
+DEF_FUNC(BytfIndfxfdDrbwGlypiListAA)
+DEF_FUNC(BytfIndfxfdToBytfIndfxfdConvfrt)
+DEF_FUNC(BytfIndfxfdToBytfIndfxfdSdblfConvfrt)
+DEF_FUNC(Indfx12GrbyToBytfIndfxfdConvfrt)
+DEF_FUNC(Indfx12GrbyToBytfIndfxfdSdblfConvfrt)
+DEF_FUNC(IntArgbBmToBytfIndfxfdSdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToBytfIndfxfdXpbrBgCopy)
+DEF_FUNC(IntArgbBmToBytfIndfxfdXpbrOvfr)
+DEF_FUNC(IntArgbToBytfIndfxfdAlpibMbskBlit)
+DEF_FUNC(IntArgbToBytfIndfxfdConvfrt)
+DEF_FUNC(IntArgbToBytfIndfxfdSdblfConvfrt)
+DEF_FUNC(IntArgbToBytfIndfxfdXorBlit)
+DEF_FUNC(IntRgbToBytfIndfxfdAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToBytfIndfxfdConvfrt)
+DEF_FUNC(TirffBytfBgrToBytfIndfxfdSdblfConvfrt)
+DEF_FUNC(BytfGrbyToFourBytfAbgrConvfrt)
+DEF_FUNC(BytfGrbyToFourBytfAbgrSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToFourBytfAbgrConvfrt)
+DEF_FUNC(BytfIndfxfdToFourBytfAbgrSdblfConvfrt)
+DEF_FUNC(FourBytfAbgrAlpibMbskFill)
+DEF_FUNC(FourBytfAbgrDrbwGlypiListAA)
+DEF_FUNC(FourBytfAbgrSrdMbskFill)
+DEF_FUNC(FourBytfAbgrSrdOvfrMbskFill)
+DEF_FUNC(FourBytfAbgrToIntArgbConvfrt)
+DEF_FUNC(FourBytfAbgrToIntArgbSdblfConvfrt)
+DEF_FUNC(IntArgbBmToFourBytfAbgrSdblfXpbrOvfr)
+DEF_FUNC(IntArgbToFourBytfAbgrAlpibMbskBlit)
+DEF_FUNC(IntArgbToFourBytfAbgrConvfrt)
+DEF_FUNC(IntArgbToFourBytfAbgrSdblfConvfrt)
+DEF_FUNC(IntArgbToFourBytfAbgrSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToFourBytfAbgrXorBlit)
+DEF_FUNC(IntRgbToFourBytfAbgrAlpibMbskBlit)
+DEF_FUNC(IntRgbToFourBytfAbgrConvfrt)
+DEF_FUNC(IntRgbToFourBytfAbgrSdblfConvfrt)
+DEF_FUNC(TirffBytfBgrToFourBytfAbgrConvfrt)
+DEF_FUNC(TirffBytfBgrToFourBytfAbgrSdblfConvfrt)
+DEF_FUNC(BytfGrbyToFourBytfAbgrPrfConvfrt)
+DEF_FUNC(BytfGrbyToFourBytfAbgrPrfSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToFourBytfAbgrPrfConvfrt)
+DEF_FUNC(BytfIndfxfdToFourBytfAbgrPrfSdblfConvfrt)
+DEF_FUNC(FourBytfAbgrPrfAlpibMbskFill)
+DEF_FUNC(FourBytfAbgrPrfDrbwGlypiListAA)
+DEF_FUNC(FourBytfAbgrPrfSrdMbskFill)
+DEF_FUNC(FourBytfAbgrPrfSrdOvfrMbskFill)
+DEF_FUNC(FourBytfAbgrPrfToIntArgbConvfrt)
+DEF_FUNC(FourBytfAbgrPrfToIntArgbSdblfConvfrt)
+DEF_FUNC(IntArgbBmToFourBytfAbgrPrfSdblfXpbrOvfr)
+DEF_FUNC(IntArgbToFourBytfAbgrPrfAlpibMbskBlit)
+DEF_FUNC(IntArgbToFourBytfAbgrPrfConvfrt)
+DEF_FUNC(IntArgbToFourBytfAbgrPrfSdblfConvfrt)
+DEF_FUNC(IntArgbToFourBytfAbgrPrfSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToFourBytfAbgrPrfXorBlit)
+DEF_FUNC(IntRgbToFourBytfAbgrPrfAlpibMbskBlit)
+DEF_FUNC(IntRgbToFourBytfAbgrPrfConvfrt)
+DEF_FUNC(IntRgbToFourBytfAbgrPrfSdblfConvfrt)
+DEF_FUNC(TirffBytfBgrToFourBytfAbgrPrfConvfrt)
+DEF_FUNC(TirffBytfBgrToFourBytfAbgrPrfSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIntArgbSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToIntArgbXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIntArgbXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIntArgbConvfrt)
+DEF_FUNC(BytfIndfxfdToIntArgbSdblfConvfrt)
+DEF_FUNC(Indfx12GrbyToIntArgbConvfrt)
+DEF_FUNC(IntArgbAlpibMbskFill)
+DEF_FUNC(IntArgbBmToIntArgbSdblfXpbrOvfr)
+DEF_FUNC(IntArgbDrbwGlypiListAA)
+DEF_FUNC(IntArgbSrdMbskFill)
+DEF_FUNC(IntArgbSrdOvfrMbskFill)
+DEF_FUNC(IntArgbToIntArgbAlpibMbskBlit)
+DEF_FUNC(IntArgbToIntArgbSrdOvfrMbskBlit)
 DEF_FUNC(IntArgbToIntArgbXorBlit)
-DEF_FUNC(IntRgbToIntArgbAlphaMaskBlit)
-DEF_FUNC(ByteIndexedBmToIntArgbBmScaleXparOver)
-DEF_FUNC(ByteIndexedBmToIntArgbBmXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIntArgbBmXparOver)
-DEF_FUNC(ByteIndexedToIntArgbBmConvert)
-DEF_FUNC(ByteIndexedToIntArgbBmScaleConvert)
-DEF_FUNC(IntArgbBmAlphaMaskFill)
-DEF_FUNC(IntArgbBmDrawGlyphListAA)
-DEF_FUNC(IntArgbBmToIntArgbConvert)
-DEF_FUNC(IntArgbToIntArgbBmAlphaMaskBlit)
-DEF_FUNC(IntArgbToIntArgbBmConvert)
-DEF_FUNC(IntArgbToIntArgbBmScaleConvert)
+DEF_FUNC(IntRgbToIntArgbAlpibMbskBlit)
+DEF_FUNC(BytfIndfxfdBmToIntArgbBmSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToIntArgbBmXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIntArgbBmXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIntArgbBmConvfrt)
+DEF_FUNC(BytfIndfxfdToIntArgbBmSdblfConvfrt)
+DEF_FUNC(IntArgbBmAlpibMbskFill)
+DEF_FUNC(IntArgbBmDrbwGlypiListAA)
+DEF_FUNC(IntArgbBmToIntArgbConvfrt)
+DEF_FUNC(IntArgbToIntArgbBmAlpibMbskBlit)
+DEF_FUNC(IntArgbToIntArgbBmConvfrt)
+DEF_FUNC(IntArgbToIntArgbBmSdblfConvfrt)
 DEF_FUNC(IntArgbToIntArgbBmXorBlit)
-DEF_FUNC(ByteGrayToIntArgbPreConvert)
-DEF_FUNC(ByteGrayToIntArgbPreScaleConvert)
-DEF_FUNC(ByteIndexedBmToIntArgbPreScaleXparOver)
-DEF_FUNC(ByteIndexedBmToIntArgbPreXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIntArgbPreXparOver)
-DEF_FUNC(ByteIndexedToIntArgbPreConvert)
-DEF_FUNC(ByteIndexedToIntArgbPreScaleConvert)
-DEF_FUNC(IntArgbPreAlphaMaskFill)
-DEF_FUNC(IntArgbPreDrawGlyphListAA)
-DEF_FUNC(IntArgbPreSrcMaskFill)
-DEF_FUNC(IntArgbPreSrcOverMaskFill)
-DEF_FUNC(IntArgbPreToIntArgbConvert)
-DEF_FUNC(IntArgbPreToIntArgbScaleConvert)
-DEF_FUNC(IntArgbToIntArgbPreAlphaMaskBlit)
-DEF_FUNC(IntArgbToIntArgbPreConvert)
-DEF_FUNC(IntArgbToIntArgbPreScaleConvert)
-DEF_FUNC(IntArgbToIntArgbPreSrcOverMaskBlit)
-DEF_FUNC(IntArgbToIntArgbPreXorBlit)
-DEF_FUNC(IntRgbToIntArgbPreAlphaMaskBlit)
-DEF_FUNC(IntRgbToIntArgbPreConvert)
-DEF_FUNC(IntRgbToIntArgbPreScaleConvert)
-DEF_FUNC(ThreeByteBgrToIntArgbPreConvert)
-DEF_FUNC(ThreeByteBgrToIntArgbPreScaleConvert)
-DEF_FUNC(ByteIndexedBmToIntBgrScaleXparOver)
-DEF_FUNC(ByteIndexedBmToIntBgrXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIntBgrXparOver)
-DEF_FUNC(ByteIndexedToIntBgrConvert)
-DEF_FUNC(ByteIndexedToIntBgrScaleConvert)
-DEF_FUNC(IntArgbBmToIntBgrScaleXparOver)
-DEF_FUNC(IntArgbBmToIntBgrXparBgCopy)
-DEF_FUNC(IntArgbBmToIntBgrXparOver)
-DEF_FUNC(IntArgbToIntBgrAlphaMaskBlit)
-DEF_FUNC(IntArgbToIntBgrConvert)
-DEF_FUNC(IntArgbToIntBgrScaleConvert)
-DEF_FUNC(IntArgbToIntBgrSrcOverMaskBlit)
+DEF_FUNC(BytfGrbyToIntArgbPrfConvfrt)
+DEF_FUNC(BytfGrbyToIntArgbPrfSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIntArgbPrfSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToIntArgbPrfXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIntArgbPrfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIntArgbPrfConvfrt)
+DEF_FUNC(BytfIndfxfdToIntArgbPrfSdblfConvfrt)
+DEF_FUNC(IntArgbPrfAlpibMbskFill)
+DEF_FUNC(IntArgbPrfDrbwGlypiListAA)
+DEF_FUNC(IntArgbPrfSrdMbskFill)
+DEF_FUNC(IntArgbPrfSrdOvfrMbskFill)
+DEF_FUNC(IntArgbPrfToIntArgbConvfrt)
+DEF_FUNC(IntArgbPrfToIntArgbSdblfConvfrt)
+DEF_FUNC(IntArgbToIntArgbPrfAlpibMbskBlit)
+DEF_FUNC(IntArgbToIntArgbPrfConvfrt)
+DEF_FUNC(IntArgbToIntArgbPrfSdblfConvfrt)
+DEF_FUNC(IntArgbToIntArgbPrfSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToIntArgbPrfXorBlit)
+DEF_FUNC(IntRgbToIntArgbPrfAlpibMbskBlit)
+DEF_FUNC(IntRgbToIntArgbPrfConvfrt)
+DEF_FUNC(IntRgbToIntArgbPrfSdblfConvfrt)
+DEF_FUNC(TirffBytfBgrToIntArgbPrfConvfrt)
+DEF_FUNC(TirffBytfBgrToIntArgbPrfSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIntBgrSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToIntBgrXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIntBgrXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIntBgrConvfrt)
+DEF_FUNC(BytfIndfxfdToIntBgrSdblfConvfrt)
+DEF_FUNC(IntArgbBmToIntBgrSdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToIntBgrXpbrBgCopy)
+DEF_FUNC(IntArgbBmToIntBgrXpbrOvfr)
+DEF_FUNC(IntArgbToIntBgrAlpibMbskBlit)
+DEF_FUNC(IntArgbToIntBgrConvfrt)
+DEF_FUNC(IntArgbToIntBgrSdblfConvfrt)
+DEF_FUNC(IntArgbToIntBgrSrdOvfrMbskBlit)
 DEF_FUNC(IntArgbToIntBgrXorBlit)
-DEF_FUNC(IntBgrAlphaMaskFill)
-DEF_FUNC(IntBgrDrawGlyphListAA)
-DEF_FUNC(IntBgrSrcMaskFill)
-DEF_FUNC(IntBgrSrcOverMaskFill)
-DEF_FUNC(IntBgrToIntArgbConvert)
-DEF_FUNC(IntBgrToIntArgbScaleConvert)
-DEF_FUNC(IntBgrToIntBgrAlphaMaskBlit)
-DEF_FUNC(IntRgbToIntBgrAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToIntBgrConvert)
-DEF_FUNC(ThreeByteBgrToIntBgrScaleConvert)
-DEF_FUNC(ByteGrayToIntRgbConvert)
-DEF_FUNC(ByteGrayToIntRgbScaleConvert)
-DEF_FUNC(IntArgbBmToIntRgbXparBgCopy)
-DEF_FUNC(IntArgbBmToIntRgbXparOver)
-DEF_FUNC(IntArgbToIntRgbAlphaMaskBlit)
-DEF_FUNC(IntArgbToIntRgbSrcOverMaskBlit)
+DEF_FUNC(IntBgrAlpibMbskFill)
+DEF_FUNC(IntBgrDrbwGlypiListAA)
+DEF_FUNC(IntBgrSrdMbskFill)
+DEF_FUNC(IntBgrSrdOvfrMbskFill)
+DEF_FUNC(IntBgrToIntArgbConvfrt)
+DEF_FUNC(IntBgrToIntArgbSdblfConvfrt)
+DEF_FUNC(IntBgrToIntBgrAlpibMbskBlit)
+DEF_FUNC(IntRgbToIntBgrAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToIntBgrConvfrt)
+DEF_FUNC(TirffBytfBgrToIntBgrSdblfConvfrt)
+DEF_FUNC(BytfGrbyToIntRgbConvfrt)
+DEF_FUNC(BytfGrbyToIntRgbSdblfConvfrt)
+DEF_FUNC(IntArgbBmToIntRgbXpbrBgCopy)
+DEF_FUNC(IntArgbBmToIntRgbXpbrOvfr)
+DEF_FUNC(IntArgbToIntRgbAlpibMbskBlit)
+DEF_FUNC(IntArgbToIntRgbSrdOvfrMbskBlit)
 DEF_FUNC(IntArgbToIntRgbXorBlit)
-DEF_FUNC(IntRgbAlphaMaskFill)
-DEF_FUNC(IntRgbDrawGlyphListAA)
-DEF_FUNC(IntRgbSrcMaskFill)
-DEF_FUNC(IntRgbSrcOverMaskFill)
-DEF_FUNC(IntRgbToIntArgbConvert)
-DEF_FUNC(IntRgbToIntArgbScaleConvert)
-DEF_FUNC(IntRgbToIntRgbAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToIntRgbConvert)
-DEF_FUNC(ThreeByteBgrToIntRgbScaleConvert)
-DEF_FUNC(ByteGrayToIntRgbxConvert)
-DEF_FUNC(ByteGrayToIntRgbxScaleConvert)
-DEF_FUNC(ByteIndexedBmToIntRgbxScaleXparOver)
-DEF_FUNC(ByteIndexedBmToIntRgbxXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIntRgbxXparOver)
-DEF_FUNC(ByteIndexedToIntRgbxConvert)
-DEF_FUNC(ByteIndexedToIntRgbxScaleConvert)
-DEF_FUNC(IntArgbBmToIntRgbxScaleXparOver)
-DEF_FUNC(IntArgbToIntRgbxConvert)
-DEF_FUNC(IntArgbToIntRgbxScaleConvert)
+DEF_FUNC(IntRgbAlpibMbskFill)
+DEF_FUNC(IntRgbDrbwGlypiListAA)
+DEF_FUNC(IntRgbSrdMbskFill)
+DEF_FUNC(IntRgbSrdOvfrMbskFill)
+DEF_FUNC(IntRgbToIntArgbConvfrt)
+DEF_FUNC(IntRgbToIntArgbSdblfConvfrt)
+DEF_FUNC(IntRgbToIntRgbAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToIntRgbConvfrt)
+DEF_FUNC(TirffBytfBgrToIntRgbSdblfConvfrt)
+DEF_FUNC(BytfGrbyToIntRgbxConvfrt)
+DEF_FUNC(BytfGrbyToIntRgbxSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIntRgbxSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToIntRgbxXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIntRgbxXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIntRgbxConvfrt)
+DEF_FUNC(BytfIndfxfdToIntRgbxSdblfConvfrt)
+DEF_FUNC(IntArgbBmToIntRgbxSdblfXpbrOvfr)
+DEF_FUNC(IntArgbToIntRgbxConvfrt)
+DEF_FUNC(IntArgbToIntRgbxSdblfConvfrt)
 DEF_FUNC(IntArgbToIntRgbxXorBlit)
-DEF_FUNC(IntRgbxDrawGlyphListAA)
-DEF_FUNC(IntRgbxToIntArgbConvert)
-DEF_FUNC(IntRgbxToIntArgbScaleConvert)
-DEF_FUNC(ThreeByteBgrToIntRgbxConvert)
-DEF_FUNC(ThreeByteBgrToIntRgbxScaleConvert)
-DEF_FUNC(ByteGrayToThreeByteBgrConvert)
-DEF_FUNC(ByteGrayToThreeByteBgrScaleConvert)
-DEF_FUNC(ByteIndexedBmToThreeByteBgrScaleXparOver)
-DEF_FUNC(ByteIndexedBmToThreeByteBgrXparBgCopy)
-DEF_FUNC(ByteIndexedBmToThreeByteBgrXparOver)
-DEF_FUNC(ByteIndexedToThreeByteBgrConvert)
-DEF_FUNC(ByteIndexedToThreeByteBgrScaleConvert)
-DEF_FUNC(IntArgbBmToThreeByteBgrScaleXparOver)
-DEF_FUNC(IntArgbBmToThreeByteBgrXparBgCopy)
-DEF_FUNC(IntArgbBmToThreeByteBgrXparOver)
-DEF_FUNC(IntArgbToThreeByteBgrAlphaMaskBlit)
-DEF_FUNC(IntArgbToThreeByteBgrConvert)
-DEF_FUNC(IntArgbToThreeByteBgrScaleConvert)
-DEF_FUNC(IntArgbToThreeByteBgrSrcOverMaskBlit)
-DEF_FUNC(IntArgbToThreeByteBgrXorBlit)
-DEF_FUNC(IntRgbToThreeByteBgrAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrAlphaMaskFill)
-DEF_FUNC(ThreeByteBgrDrawGlyphListAA)
-DEF_FUNC(ThreeByteBgrSrcMaskFill)
-DEF_FUNC(ThreeByteBgrSrcOverMaskFill)
-DEF_FUNC(ThreeByteBgrToIntArgbConvert)
-DEF_FUNC(ThreeByteBgrToIntArgbScaleConvert)
-DEF_FUNC(ByteGrayToIndex8GrayConvert)
-DEF_FUNC(ByteGrayToIndex8GrayScaleConvert)
-DEF_FUNC(ByteIndexedBmToIndex8GrayXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIndex8GrayXparOver)
-DEF_FUNC(ByteIndexedToIndex8GrayConvert)
-DEF_FUNC(ByteIndexedToIndex8GrayScaleConvert)
-DEF_FUNC(Index12GrayToIndex8GrayConvert)
-DEF_FUNC(Index12GrayToIndex8GrayScaleConvert)
-DEF_FUNC(Index8GrayAlphaMaskFill)
-DEF_FUNC(Index8GrayDrawGlyphListAA)
-DEF_FUNC(Index8GraySrcOverMaskFill)
-DEF_FUNC(Index8GrayToIndex8GrayConvert)
-DEF_FUNC(Index8GrayToIndex8GrayScaleConvert)
-DEF_FUNC(IntArgbToIndex8GrayAlphaMaskBlit)
-DEF_FUNC(IntArgbToIndex8GrayConvert)
-DEF_FUNC(IntArgbToIndex8GrayScaleConvert)
-DEF_FUNC(IntArgbToIndex8GraySrcOverMaskBlit)
-DEF_FUNC(IntArgbToIndex8GrayXorBlit)
-DEF_FUNC(IntRgbToIndex8GrayAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToIndex8GrayConvert)
-DEF_FUNC(ThreeByteBgrToIndex8GrayScaleConvert)
-DEF_FUNC(UshortGrayToIndex8GrayScaleConvert)
-DEF_FUNC(ByteGrayToIndex12GrayConvert)
-DEF_FUNC(ByteGrayToIndex12GrayScaleConvert)
-DEF_FUNC(ByteIndexedBmToIndex12GrayXparBgCopy)
-DEF_FUNC(ByteIndexedBmToIndex12GrayXparOver)
-DEF_FUNC(ByteIndexedToIndex12GrayConvert)
-DEF_FUNC(ByteIndexedToIndex12GrayScaleConvert)
-DEF_FUNC(Index12GrayAlphaMaskFill)
-DEF_FUNC(Index12GrayDrawGlyphListAA)
-DEF_FUNC(Index12GraySrcOverMaskFill)
-DEF_FUNC(Index12GrayToIndex12GrayConvert)
-DEF_FUNC(Index12GrayToIndex12GrayScaleConvert)
-DEF_FUNC(Index12GrayToIntArgbScaleConvert)
-DEF_FUNC(Index8GrayToIndex12GrayConvert)
-DEF_FUNC(Index8GrayToIndex12GrayScaleConvert)
-DEF_FUNC(IntArgbToIndex12GrayAlphaMaskBlit)
-DEF_FUNC(IntArgbToIndex12GrayConvert)
-DEF_FUNC(IntArgbToIndex12GrayScaleConvert)
-DEF_FUNC(IntArgbToIndex12GraySrcOverMaskBlit)
-DEF_FUNC(IntArgbToIndex12GrayXorBlit)
-DEF_FUNC(IntRgbToIndex12GrayAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToIndex12GrayConvert)
-DEF_FUNC(ThreeByteBgrToIndex12GrayScaleConvert)
-DEF_FUNC(UshortGrayToIndex12GrayScaleConvert)
-DEF_FUNC(ByteBinary1BitAlphaMaskFill)
-DEF_FUNC(ByteBinary1BitDrawGlyphList)
-DEF_FUNC(ByteBinary1BitDrawGlyphListAA)
-DEF_FUNC(ByteBinary1BitDrawGlyphListXor)
-DEF_FUNC(ByteBinary1BitSetLine)
-DEF_FUNC(ByteBinary1BitSetRect)
-DEF_FUNC(ByteBinary1BitSetSpans)
-DEF_FUNC(ByteBinary1BitToByteBinary1BitConvert)
-DEF_FUNC(ByteBinary1BitToIntArgbAlphaMaskBlit)
-DEF_FUNC(ByteBinary1BitToIntArgbConvert)
-DEF_FUNC(ByteBinary1BitXorLine)
-DEF_FUNC(ByteBinary1BitXorRect)
-DEF_FUNC(ByteBinary1BitXorSpans)
-DEF_FUNC(IntArgbToByteBinary1BitAlphaMaskBlit)
-DEF_FUNC(IntArgbToByteBinary1BitConvert)
-DEF_FUNC(IntArgbToByteBinary1BitXorBlit)
-DEF_FUNC(ByteBinary2BitAlphaMaskFill)
-DEF_FUNC(ByteBinary2BitDrawGlyphList)
-DEF_FUNC(ByteBinary2BitDrawGlyphListAA)
-DEF_FUNC(ByteBinary2BitDrawGlyphListXor)
-DEF_FUNC(ByteBinary2BitSetLine)
-DEF_FUNC(ByteBinary2BitSetRect)
-DEF_FUNC(ByteBinary2BitSetSpans)
-DEF_FUNC(ByteBinary2BitToByteBinary2BitConvert)
-DEF_FUNC(ByteBinary2BitToIntArgbAlphaMaskBlit)
-DEF_FUNC(ByteBinary2BitToIntArgbConvert)
-DEF_FUNC(ByteBinary2BitXorLine)
-DEF_FUNC(ByteBinary2BitXorRect)
-DEF_FUNC(ByteBinary2BitXorSpans)
-DEF_FUNC(IntArgbToByteBinary2BitAlphaMaskBlit)
-DEF_FUNC(IntArgbToByteBinary2BitConvert)
-DEF_FUNC(IntArgbToByteBinary2BitXorBlit)
-DEF_FUNC(ByteBinary4BitAlphaMaskFill)
-DEF_FUNC(ByteBinary4BitDrawGlyphList)
-DEF_FUNC(ByteBinary4BitDrawGlyphListAA)
-DEF_FUNC(ByteBinary4BitDrawGlyphListXor)
-DEF_FUNC(ByteBinary4BitSetLine)
-DEF_FUNC(ByteBinary4BitSetRect)
-DEF_FUNC(ByteBinary4BitSetSpans)
-DEF_FUNC(ByteBinary4BitToByteBinary4BitConvert)
-DEF_FUNC(ByteBinary4BitToIntArgbAlphaMaskBlit)
-DEF_FUNC(ByteBinary4BitToIntArgbConvert)
-DEF_FUNC(ByteBinary4BitXorLine)
-DEF_FUNC(ByteBinary4BitXorRect)
-DEF_FUNC(ByteBinary4BitXorSpans)
-DEF_FUNC(IntArgbToByteBinary4BitAlphaMaskBlit)
-DEF_FUNC(IntArgbToByteBinary4BitConvert)
-DEF_FUNC(IntArgbToByteBinary4BitXorBlit)
-DEF_FUNC(ByteGrayToUshort555RgbConvert)
-DEF_FUNC(ByteGrayToUshort555RgbScaleConvert)
-DEF_FUNC(ByteIndexedBmToUshort555RgbScaleXparOver)
-DEF_FUNC(ByteIndexedBmToUshort555RgbXparBgCopy)
-DEF_FUNC(ByteIndexedBmToUshort555RgbXparOver)
-DEF_FUNC(ByteIndexedToUshort555RgbConvert)
-DEF_FUNC(ByteIndexedToUshort555RgbScaleConvert)
-DEF_FUNC(IntArgbBmToUshort555RgbScaleXparOver)
-DEF_FUNC(IntArgbBmToUshort555RgbXparBgCopy)
-DEF_FUNC(IntArgbBmToUshort555RgbXparOver)
-DEF_FUNC(IntArgbToUshort555RgbAlphaMaskBlit)
-DEF_FUNC(IntArgbToUshort555RgbConvert)
-DEF_FUNC(IntArgbToUshort555RgbScaleConvert)
-DEF_FUNC(IntArgbToUshort555RgbSrcOverMaskBlit)
-DEF_FUNC(IntArgbToUshort555RgbXorBlit)
-DEF_FUNC(IntRgbToUshort555RgbAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToUshort555RgbConvert)
-DEF_FUNC(ThreeByteBgrToUshort555RgbScaleConvert)
-DEF_FUNC(Ushort555RgbAlphaMaskFill)
-DEF_FUNC(Ushort555RgbDrawGlyphListAA)
-DEF_FUNC(Ushort555RgbSrcMaskFill)
-DEF_FUNC(Ushort555RgbSrcOverMaskFill)
-DEF_FUNC(Ushort555RgbToIntArgbConvert)
-DEF_FUNC(Ushort555RgbToIntArgbScaleConvert)
-DEF_FUNC(ByteGrayToUshort555RgbxConvert)
-DEF_FUNC(ByteGrayToUshort555RgbxScaleConvert)
-DEF_FUNC(ByteIndexedBmToUshort555RgbxScaleXparOver)
-DEF_FUNC(ByteIndexedBmToUshort555RgbxXparBgCopy)
-DEF_FUNC(ByteIndexedBmToUshort555RgbxXparOver)
-DEF_FUNC(ByteIndexedToUshort555RgbxConvert)
-DEF_FUNC(ByteIndexedToUshort555RgbxScaleConvert)
-DEF_FUNC(IntArgbBmToUshort555RgbxScaleXparOver)
-DEF_FUNC(IntArgbToUshort555RgbxConvert)
-DEF_FUNC(IntArgbToUshort555RgbxScaleConvert)
-DEF_FUNC(IntArgbToUshort555RgbxXorBlit)
-DEF_FUNC(ThreeByteBgrToUshort555RgbxConvert)
-DEF_FUNC(ThreeByteBgrToUshort555RgbxScaleConvert)
-DEF_FUNC(Ushort555RgbxDrawGlyphListAA)
-DEF_FUNC(Ushort555RgbxToIntArgbConvert)
-DEF_FUNC(Ushort555RgbxToIntArgbScaleConvert)
-DEF_FUNC(ByteGrayToUshort565RgbConvert)
-DEF_FUNC(ByteGrayToUshort565RgbScaleConvert)
-DEF_FUNC(ByteIndexedBmToUshort565RgbScaleXparOver)
-DEF_FUNC(ByteIndexedBmToUshort565RgbXparBgCopy)
-DEF_FUNC(ByteIndexedBmToUshort565RgbXparOver)
-DEF_FUNC(ByteIndexedToUshort565RgbConvert)
-DEF_FUNC(ByteIndexedToUshort565RgbScaleConvert)
-DEF_FUNC(IntArgbBmToUshort565RgbScaleXparOver)
-DEF_FUNC(IntArgbBmToUshort565RgbXparBgCopy)
-DEF_FUNC(IntArgbBmToUshort565RgbXparOver)
-DEF_FUNC(IntArgbToUshort565RgbAlphaMaskBlit)
-DEF_FUNC(IntArgbToUshort565RgbConvert)
-DEF_FUNC(IntArgbToUshort565RgbScaleConvert)
-DEF_FUNC(IntArgbToUshort565RgbSrcOverMaskBlit)
-DEF_FUNC(IntArgbToUshort565RgbXorBlit)
-DEF_FUNC(IntRgbToUshort565RgbAlphaMaskBlit)
-DEF_FUNC(ThreeByteBgrToUshort565RgbConvert)
-DEF_FUNC(ThreeByteBgrToUshort565RgbScaleConvert)
-DEF_FUNC(Ushort565RgbAlphaMaskFill)
-DEF_FUNC(Ushort565RgbDrawGlyphListAA)
-DEF_FUNC(Ushort565RgbSrcMaskFill)
-DEF_FUNC(Ushort565RgbSrcOverMaskFill)
-DEF_FUNC(Ushort565RgbToIntArgbConvert)
-DEF_FUNC(Ushort565RgbToIntArgbScaleConvert)
+DEF_FUNC(IntRgbxDrbwGlypiListAA)
+DEF_FUNC(IntRgbxToIntArgbConvfrt)
+DEF_FUNC(IntRgbxToIntArgbSdblfConvfrt)
+DEF_FUNC(TirffBytfBgrToIntRgbxConvfrt)
+DEF_FUNC(TirffBytfBgrToIntRgbxSdblfConvfrt)
+DEF_FUNC(BytfGrbyToTirffBytfBgrConvfrt)
+DEF_FUNC(BytfGrbyToTirffBytfBgrSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToTirffBytfBgrSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToTirffBytfBgrXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToTirffBytfBgrXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToTirffBytfBgrConvfrt)
+DEF_FUNC(BytfIndfxfdToTirffBytfBgrSdblfConvfrt)
+DEF_FUNC(IntArgbBmToTirffBytfBgrSdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToTirffBytfBgrXpbrBgCopy)
+DEF_FUNC(IntArgbBmToTirffBytfBgrXpbrOvfr)
+DEF_FUNC(IntArgbToTirffBytfBgrAlpibMbskBlit)
+DEF_FUNC(IntArgbToTirffBytfBgrConvfrt)
+DEF_FUNC(IntArgbToTirffBytfBgrSdblfConvfrt)
+DEF_FUNC(IntArgbToTirffBytfBgrSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToTirffBytfBgrXorBlit)
+DEF_FUNC(IntRgbToTirffBytfBgrAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrAlpibMbskFill)
+DEF_FUNC(TirffBytfBgrDrbwGlypiListAA)
+DEF_FUNC(TirffBytfBgrSrdMbskFill)
+DEF_FUNC(TirffBytfBgrSrdOvfrMbskFill)
+DEF_FUNC(TirffBytfBgrToIntArgbConvfrt)
+DEF_FUNC(TirffBytfBgrToIntArgbSdblfConvfrt)
+DEF_FUNC(BytfGrbyToIndfx8GrbyConvfrt)
+DEF_FUNC(BytfGrbyToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIndfx8GrbyXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIndfx8GrbyXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIndfx8GrbyConvfrt)
+DEF_FUNC(BytfIndfxfdToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(Indfx12GrbyToIndfx8GrbyConvfrt)
+DEF_FUNC(Indfx12GrbyToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(Indfx8GrbyAlpibMbskFill)
+DEF_FUNC(Indfx8GrbyDrbwGlypiListAA)
+DEF_FUNC(Indfx8GrbySrdOvfrMbskFill)
+DEF_FUNC(Indfx8GrbyToIndfx8GrbyConvfrt)
+DEF_FUNC(Indfx8GrbyToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(IntArgbToIndfx8GrbyAlpibMbskBlit)
+DEF_FUNC(IntArgbToIndfx8GrbyConvfrt)
+DEF_FUNC(IntArgbToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(IntArgbToIndfx8GrbySrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToIndfx8GrbyXorBlit)
+DEF_FUNC(IntRgbToIndfx8GrbyAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToIndfx8GrbyConvfrt)
+DEF_FUNC(TirffBytfBgrToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(UsiortGrbyToIndfx8GrbySdblfConvfrt)
+DEF_FUNC(BytfGrbyToIndfx12GrbyConvfrt)
+DEF_FUNC(BytfGrbyToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToIndfx12GrbyXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToIndfx12GrbyXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToIndfx12GrbyConvfrt)
+DEF_FUNC(BytfIndfxfdToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(Indfx12GrbyAlpibMbskFill)
+DEF_FUNC(Indfx12GrbyDrbwGlypiListAA)
+DEF_FUNC(Indfx12GrbySrdOvfrMbskFill)
+DEF_FUNC(Indfx12GrbyToIndfx12GrbyConvfrt)
+DEF_FUNC(Indfx12GrbyToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(Indfx12GrbyToIntArgbSdblfConvfrt)
+DEF_FUNC(Indfx8GrbyToIndfx12GrbyConvfrt)
+DEF_FUNC(Indfx8GrbyToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(IntArgbToIndfx12GrbyAlpibMbskBlit)
+DEF_FUNC(IntArgbToIndfx12GrbyConvfrt)
+DEF_FUNC(IntArgbToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(IntArgbToIndfx12GrbySrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToIndfx12GrbyXorBlit)
+DEF_FUNC(IntRgbToIndfx12GrbyAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToIndfx12GrbyConvfrt)
+DEF_FUNC(TirffBytfBgrToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(UsiortGrbyToIndfx12GrbySdblfConvfrt)
+DEF_FUNC(BytfBinbry1BitAlpibMbskFill)
+DEF_FUNC(BytfBinbry1BitDrbwGlypiList)
+DEF_FUNC(BytfBinbry1BitDrbwGlypiListAA)
+DEF_FUNC(BytfBinbry1BitDrbwGlypiListXor)
+DEF_FUNC(BytfBinbry1BitSftLinf)
+DEF_FUNC(BytfBinbry1BitSftRfdt)
+DEF_FUNC(BytfBinbry1BitSftSpbns)
+DEF_FUNC(BytfBinbry1BitToBytfBinbry1BitConvfrt)
+DEF_FUNC(BytfBinbry1BitToIntArgbAlpibMbskBlit)
+DEF_FUNC(BytfBinbry1BitToIntArgbConvfrt)
+DEF_FUNC(BytfBinbry1BitXorLinf)
+DEF_FUNC(BytfBinbry1BitXorRfdt)
+DEF_FUNC(BytfBinbry1BitXorSpbns)
+DEF_FUNC(IntArgbToBytfBinbry1BitAlpibMbskBlit)
+DEF_FUNC(IntArgbToBytfBinbry1BitConvfrt)
+DEF_FUNC(IntArgbToBytfBinbry1BitXorBlit)
+DEF_FUNC(BytfBinbry2BitAlpibMbskFill)
+DEF_FUNC(BytfBinbry2BitDrbwGlypiList)
+DEF_FUNC(BytfBinbry2BitDrbwGlypiListAA)
+DEF_FUNC(BytfBinbry2BitDrbwGlypiListXor)
+DEF_FUNC(BytfBinbry2BitSftLinf)
+DEF_FUNC(BytfBinbry2BitSftRfdt)
+DEF_FUNC(BytfBinbry2BitSftSpbns)
+DEF_FUNC(BytfBinbry2BitToBytfBinbry2BitConvfrt)
+DEF_FUNC(BytfBinbry2BitToIntArgbAlpibMbskBlit)
+DEF_FUNC(BytfBinbry2BitToIntArgbConvfrt)
+DEF_FUNC(BytfBinbry2BitXorLinf)
+DEF_FUNC(BytfBinbry2BitXorRfdt)
+DEF_FUNC(BytfBinbry2BitXorSpbns)
+DEF_FUNC(IntArgbToBytfBinbry2BitAlpibMbskBlit)
+DEF_FUNC(IntArgbToBytfBinbry2BitConvfrt)
+DEF_FUNC(IntArgbToBytfBinbry2BitXorBlit)
+DEF_FUNC(BytfBinbry4BitAlpibMbskFill)
+DEF_FUNC(BytfBinbry4BitDrbwGlypiList)
+DEF_FUNC(BytfBinbry4BitDrbwGlypiListAA)
+DEF_FUNC(BytfBinbry4BitDrbwGlypiListXor)
+DEF_FUNC(BytfBinbry4BitSftLinf)
+DEF_FUNC(BytfBinbry4BitSftRfdt)
+DEF_FUNC(BytfBinbry4BitSftSpbns)
+DEF_FUNC(BytfBinbry4BitToBytfBinbry4BitConvfrt)
+DEF_FUNC(BytfBinbry4BitToIntArgbAlpibMbskBlit)
+DEF_FUNC(BytfBinbry4BitToIntArgbConvfrt)
+DEF_FUNC(BytfBinbry4BitXorLinf)
+DEF_FUNC(BytfBinbry4BitXorRfdt)
+DEF_FUNC(BytfBinbry4BitXorSpbns)
+DEF_FUNC(IntArgbToBytfBinbry4BitAlpibMbskBlit)
+DEF_FUNC(IntArgbToBytfBinbry4BitConvfrt)
+DEF_FUNC(IntArgbToBytfBinbry4BitXorBlit)
+DEF_FUNC(BytfGrbyToUsiort555RgbConvfrt)
+DEF_FUNC(BytfGrbyToUsiort555RgbSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToUsiort555RgbConvfrt)
+DEF_FUNC(BytfIndfxfdToUsiort555RgbSdblfConvfrt)
+DEF_FUNC(IntArgbBmToUsiort555RgbSdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToUsiort555RgbXpbrBgCopy)
+DEF_FUNC(IntArgbBmToUsiort555RgbXpbrOvfr)
+DEF_FUNC(IntArgbToUsiort555RgbAlpibMbskBlit)
+DEF_FUNC(IntArgbToUsiort555RgbConvfrt)
+DEF_FUNC(IntArgbToUsiort555RgbSdblfConvfrt)
+DEF_FUNC(IntArgbToUsiort555RgbSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToUsiort555RgbXorBlit)
+DEF_FUNC(IntRgbToUsiort555RgbAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToUsiort555RgbConvfrt)
+DEF_FUNC(TirffBytfBgrToUsiort555RgbSdblfConvfrt)
+DEF_FUNC(Usiort555RgbAlpibMbskFill)
+DEF_FUNC(Usiort555RgbDrbwGlypiListAA)
+DEF_FUNC(Usiort555RgbSrdMbskFill)
+DEF_FUNC(Usiort555RgbSrdOvfrMbskFill)
+DEF_FUNC(Usiort555RgbToIntArgbConvfrt)
+DEF_FUNC(Usiort555RgbToIntArgbSdblfConvfrt)
+DEF_FUNC(BytfGrbyToUsiort555RgbxConvfrt)
+DEF_FUNC(BytfGrbyToUsiort555RgbxSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbxSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbxXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToUsiort555RgbxXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToUsiort555RgbxConvfrt)
+DEF_FUNC(BytfIndfxfdToUsiort555RgbxSdblfConvfrt)
+DEF_FUNC(IntArgbBmToUsiort555RgbxSdblfXpbrOvfr)
+DEF_FUNC(IntArgbToUsiort555RgbxConvfrt)
+DEF_FUNC(IntArgbToUsiort555RgbxSdblfConvfrt)
+DEF_FUNC(IntArgbToUsiort555RgbxXorBlit)
+DEF_FUNC(TirffBytfBgrToUsiort555RgbxConvfrt)
+DEF_FUNC(TirffBytfBgrToUsiort555RgbxSdblfConvfrt)
+DEF_FUNC(Usiort555RgbxDrbwGlypiListAA)
+DEF_FUNC(Usiort555RgbxToIntArgbConvfrt)
+DEF_FUNC(Usiort555RgbxToIntArgbSdblfConvfrt)
+DEF_FUNC(BytfGrbyToUsiort565RgbConvfrt)
+DEF_FUNC(BytfGrbyToUsiort565RgbSdblfConvfrt)
+DEF_FUNC(BytfIndfxfdBmToUsiort565RgbSdblfXpbrOvfr)
+DEF_FUNC(BytfIndfxfdBmToUsiort565RgbXpbrBgCopy)
+DEF_FUNC(BytfIndfxfdBmToUsiort565RgbXpbrOvfr)
+DEF_FUNC(BytfIndfxfdToUsiort565RgbConvfrt)
+DEF_FUNC(BytfIndfxfdToUsiort565RgbSdblfConvfrt)
+DEF_FUNC(IntArgbBmToUsiort565RgbSdblfXpbrOvfr)
+DEF_FUNC(IntArgbBmToUsiort565RgbXpbrBgCopy)
+DEF_FUNC(IntArgbBmToUsiort565RgbXpbrOvfr)
+DEF_FUNC(IntArgbToUsiort565RgbAlpibMbskBlit)
+DEF_FUNC(IntArgbToUsiort565RgbConvfrt)
+DEF_FUNC(IntArgbToUsiort565RgbSdblfConvfrt)
+DEF_FUNC(IntArgbToUsiort565RgbSrdOvfrMbskBlit)
+DEF_FUNC(IntArgbToUsiort565RgbXorBlit)
+DEF_FUNC(IntRgbToUsiort565RgbAlpibMbskBlit)
+DEF_FUNC(TirffBytfBgrToUsiort565RgbConvfrt)
+DEF_FUNC(TirffBytfBgrToUsiort565RgbSdblfConvfrt)
+DEF_FUNC(Usiort565RgbAlpibMbskFill)
+DEF_FUNC(Usiort565RgbDrbwGlypiListAA)
+DEF_FUNC(Usiort565RgbSrdMbskFill)
+DEF_FUNC(Usiort565RgbSrdOvfrMbskFill)
+DEF_FUNC(Usiort565RgbToIntArgbConvfrt)
+DEF_FUNC(Usiort565RgbToIntArgbSdblfConvfrt)
 
 /***************************************************************/
 
-static AnyFunc_pair vis_func_pair_array[] = {
-    ADD_FUNC(AnyByteDrawGlyphList),
-    ADD_FUNC(AnyByteDrawGlyphListXor),
-    ADD_FUNC(AnyByteIsomorphicCopy),
-    ADD_FUNC(AnyByteIsomorphicScaleCopy),
-    ADD_FUNC(AnyByteIsomorphicXorCopy),
-    ADD_FUNC(AnyByteSetLine),
-    ADD_FUNC(AnyByteSetRect),
-    ADD_FUNC(AnyByteSetSpans),
-    ADD_FUNC(AnyByteSetParallelogram),
-    ADD_FUNC(AnyByteXorLine),
-    ADD_FUNC(AnyByteXorRect),
-    ADD_FUNC(AnyByteXorSpans),
-    ADD_FUNC(AnyShortDrawGlyphList),
-    ADD_FUNC(AnyShortDrawGlyphListXor),
-    ADD_FUNC(AnyShortIsomorphicCopy),
-    ADD_FUNC(AnyShortIsomorphicScaleCopy),
-    ADD_FUNC(AnyShortIsomorphicXorCopy),
-    ADD_FUNC(AnyShortSetLine),
-    ADD_FUNC(AnyShortSetRect),
-    ADD_FUNC(AnyShortSetSpans),
-    ADD_FUNC(AnyShortSetParallelogram),
-    ADD_FUNC(AnyShortXorLine),
-    ADD_FUNC(AnyShortXorRect),
-    ADD_FUNC(AnyShortXorSpans),
-    ADD_FUNC(Any3ByteIsomorphicCopy),
-    ADD_FUNC(Any3ByteIsomorphicScaleCopy),
-    ADD_FUNC(Any3ByteIsomorphicXorCopy),
-    ADD_FUNC(Any3ByteSetLine),
-    ADD_FUNC(Any3ByteSetRect),
-    ADD_FUNC(Any3ByteSetSpans),
-    ADD_FUNC(Any3ByteSetParallelogram),
-    ADD_FUNC(Any3ByteXorLine),
-    ADD_FUNC(Any3ByteXorRect),
-    ADD_FUNC(Any3ByteXorSpans),
-    ADD_FUNC(Any4ByteDrawGlyphList),
-    ADD_FUNC(Any4ByteDrawGlyphListXor),
-    ADD_FUNC(Any4ByteIsomorphicCopy),
-    ADD_FUNC(Any4ByteIsomorphicScaleCopy),
-    ADD_FUNC(Any4ByteIsomorphicXorCopy),
-    ADD_FUNC(Any4ByteSetLine),
-    ADD_FUNC(Any4ByteSetRect),
-    ADD_FUNC(Any4ByteSetSpans),
-    ADD_FUNC(Any4ByteSetParallelogram),
-    ADD_FUNC(Any4ByteXorLine),
-    ADD_FUNC(Any4ByteXorRect),
-    ADD_FUNC(Any4ByteXorSpans),
-    ADD_FUNC(AnyIntDrawGlyphList),
-    ADD_FUNC(AnyIntDrawGlyphListXor),
-    ADD_FUNC(AnyIntIsomorphicCopy),
-    ADD_FUNC(AnyIntIsomorphicScaleCopy),
-    ADD_FUNC(AnyIntIsomorphicXorCopy),
-    ADD_FUNC(AnyIntSetLine),
-    ADD_FUNC(AnyIntSetRect),
-    ADD_FUNC(AnyIntSetSpans),
-    ADD_FUNC(AnyIntSetParallelogram),
-    ADD_FUNC(AnyIntXorLine),
-    ADD_FUNC(AnyIntXorRect),
-    ADD_FUNC(AnyIntXorSpans),
-    ADD_FUNC(ByteGrayAlphaMaskFill),
-    ADD_FUNC(ByteGrayDrawGlyphListAA),
-    ADD_FUNC(ByteGraySrcMaskFill),
-    ADD_FUNC(ByteGraySrcOverMaskFill),
-    ADD_FUNC(ByteGrayToIntArgbConvert),
-    ADD_FUNC(ByteGrayToIntArgbScaleConvert),
-    ADD_FUNC(ByteIndexedBmToByteGrayScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToByteGrayXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToByteGrayXparOver),
-    ADD_FUNC(ByteIndexedToByteGrayConvert),
-    ADD_FUNC(ByteIndexedToByteGrayScaleConvert),
-    ADD_FUNC(Index12GrayToByteGrayConvert),
-    ADD_FUNC(Index12GrayToByteGrayScaleConvert),
-    ADD_FUNC(Index8GrayToByteGrayConvert),
-    ADD_FUNC(Index8GrayToByteGrayScaleConvert),
-    ADD_FUNC(IntArgbBmToByteGrayScaleXparOver),
-    ADD_FUNC(IntArgbBmToByteGrayXparBgCopy),
-    ADD_FUNC(IntArgbBmToByteGrayXparOver),
-    ADD_FUNC(IntArgbToByteGrayAlphaMaskBlit),
-    ADD_FUNC(IntArgbToByteGrayConvert),
-    ADD_FUNC(IntArgbToByteGrayScaleConvert),
-    ADD_FUNC(IntArgbToByteGraySrcOverMaskBlit),
-    ADD_FUNC(IntArgbToByteGrayXorBlit),
-    ADD_FUNC(IntRgbToByteGrayAlphaMaskBlit),
-    ADD_FUNC(ThreeByteBgrToByteGrayConvert),
-    ADD_FUNC(ThreeByteBgrToByteGrayScaleConvert),
-    ADD_FUNC(UshortGrayToByteGrayConvert),
-    ADD_FUNC(UshortGrayToByteGrayScaleConvert),
-    ADD_FUNC(ByteGrayToUshortGrayConvert),
-    ADD_FUNC(ByteGrayToUshortGrayScaleConvert),
-    ADD_FUNC(ByteIndexedBmToUshortGrayScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToUshortGrayXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToUshortGrayXparOver),
-    ADD_FUNC(ByteIndexedToUshortGrayConvert),
-    ADD_FUNC(ByteIndexedToUshortGrayScaleConvert),
-    ADD_FUNC(IntArgbBmToUshortGrayScaleXparOver),
-    ADD_FUNC(IntArgbToUshortGrayConvert),
-    ADD_FUNC(IntArgbToUshortGrayScaleConvert),
-    ADD_FUNC(ThreeByteBgrToUshortGrayConvert),
-    ADD_FUNC(ThreeByteBgrToUshortGrayScaleConvert),
-    ADD_FUNC(UshortGrayToIntArgbConvert),
-    ADD_FUNC(UshortGrayToIntArgbScaleConvert),
-    ADD_FUNC(ByteGrayToByteIndexedConvert),
-    ADD_FUNC(ByteGrayToByteIndexedScaleConvert),
-    ADD_FUNC(ByteIndexedBmToByteIndexedScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToByteIndexedXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToByteIndexedXparOver),
-    ADD_FUNC(ByteIndexedToByteIndexedConvert),
-    ADD_FUNC(ByteIndexedToByteIndexedScaleConvert),
-    ADD_FUNC(Index12GrayToByteIndexedConvert),
-    ADD_FUNC(Index12GrayToByteIndexedScaleConvert),
-    ADD_FUNC(IntArgbBmToByteIndexedScaleXparOver),
-    ADD_FUNC(IntArgbBmToByteIndexedXparBgCopy),
-    ADD_FUNC(IntArgbBmToByteIndexedXparOver),
-    ADD_FUNC(IntArgbToByteIndexedConvert),
-    ADD_FUNC(IntArgbToByteIndexedScaleConvert),
-    ADD_FUNC(IntArgbToByteIndexedXorBlit),
-    ADD_FUNC(ThreeByteBgrToByteIndexedConvert),
-    ADD_FUNC(ThreeByteBgrToByteIndexedScaleConvert),
-    ADD_FUNC(ByteGrayToFourByteAbgrConvert),
-    ADD_FUNC(ByteGrayToFourByteAbgrScaleConvert),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrXparOver),
-    ADD_FUNC(ByteIndexedToFourByteAbgrConvert),
-    ADD_FUNC(ByteIndexedToFourByteAbgrScaleConvert),
-    ADD_FUNC(FourByteAbgrAlphaMaskFill),
-    ADD_FUNC(FourByteAbgrDrawGlyphListAA),
-    ADD_FUNC(FourByteAbgrSrcMaskFill),
-    ADD_FUNC(FourByteAbgrSrcOverMaskFill),
-    ADD_FUNC(FourByteAbgrToIntArgbConvert),
-    ADD_FUNC(FourByteAbgrToIntArgbScaleConvert),
-    ADD_FUNC(IntArgbBmToFourByteAbgrScaleXparOver),
-    ADD_FUNC(IntArgbToFourByteAbgrAlphaMaskBlit),
-    ADD_FUNC(IntArgbToFourByteAbgrConvert),
-    ADD_FUNC(IntArgbToFourByteAbgrScaleConvert),
-    ADD_FUNC(IntArgbToFourByteAbgrSrcOverMaskBlit),
-    ADD_FUNC(IntArgbToFourByteAbgrXorBlit),
-    ADD_FUNC(IntRgbToFourByteAbgrAlphaMaskBlit),
-    ADD_FUNC(IntRgbToFourByteAbgrConvert),
-    ADD_FUNC(IntRgbToFourByteAbgrScaleConvert),
-    ADD_FUNC(ThreeByteBgrToFourByteAbgrConvert),
-    ADD_FUNC(ThreeByteBgrToFourByteAbgrScaleConvert),
-    ADD_FUNC(ByteGrayToFourByteAbgrPreConvert),
-    ADD_FUNC(ByteGrayToFourByteAbgrPreScaleConvert),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrPreScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrPreXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToFourByteAbgrPreXparOver),
-    ADD_FUNC(ByteIndexedToFourByteAbgrPreConvert),
-    ADD_FUNC(ByteIndexedToFourByteAbgrPreScaleConvert),
-    ADD_FUNC(FourByteAbgrPreAlphaMaskFill),
-    ADD_FUNC(FourByteAbgrPreDrawGlyphListAA),
-    ADD_FUNC(FourByteAbgrPreSrcMaskFill),
-    ADD_FUNC(FourByteAbgrPreSrcOverMaskFill),
-    ADD_FUNC(FourByteAbgrPreToIntArgbConvert),
-    ADD_FUNC(FourByteAbgrPreToIntArgbScaleConvert),
-    ADD_FUNC(IntArgbBmToFourByteAbgrPreScaleXparOver),
-    ADD_FUNC(IntArgbToFourByteAbgrPreAlphaMaskBlit),
-    ADD_FUNC(IntArgbToFourByteAbgrPreConvert),
-    ADD_FUNC(IntArgbToFourByteAbgrPreScaleConvert),
-    ADD_FUNC(IntArgbToFourByteAbgrPreSrcOverMaskBlit),
-    ADD_FUNC(IntArgbToFourByteAbgrPreXorBlit),
-    ADD_FUNC(IntRgbToFourByteAbgrPreAlphaMaskBlit),
-    ADD_FUNC(IntRgbToFourByteAbgrPreConvert),
-    ADD_FUNC(IntRgbToFourByteAbgrPreScaleConvert),
-    ADD_FUNC(ThreeByteBgrToFourByteAbgrPreConvert),
-    ADD_FUNC(ThreeByteBgrToFourByteAbgrPreScaleConvert),
-    ADD_FUNC(ByteIndexedBmToIntArgbScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToIntArgbXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToIntArgbXparOver),
-    ADD_FUNC(ByteIndexedToIntArgbConvert),
-    ADD_FUNC(ByteIndexedToIntArgbScaleConvert),
-    ADD_FUNC(Index12GrayToIntArgbConvert),
-    ADD_FUNC(IntArgbAlphaMaskFill),
-    ADD_FUNC(IntArgbBmToIntArgbScaleXparOver),
-    ADD_FUNC(IntArgbDrawGlyphListAA),
-    ADD_FUNC(IntArgbSrcMaskFill),
-    ADD_FUNC(IntArgbSrcOverMaskFill),
-    ADD_FUNC(IntArgbToIntArgbAlphaMaskBlit),
-    ADD_FUNC(IntArgbToIntArgbSrcOverMaskBlit),
+stbtid AnyFund_pbir vis_fund_pbir_brrby[] = {
+    ADD_FUNC(AnyBytfDrbwGlypiList),
+    ADD_FUNC(AnyBytfDrbwGlypiListXor),
+    ADD_FUNC(AnyBytfIsomorpiidCopy),
+    ADD_FUNC(AnyBytfIsomorpiidSdblfCopy),
+    ADD_FUNC(AnyBytfIsomorpiidXorCopy),
+    ADD_FUNC(AnyBytfSftLinf),
+    ADD_FUNC(AnyBytfSftRfdt),
+    ADD_FUNC(AnyBytfSftSpbns),
+    ADD_FUNC(AnyBytfSftPbrbllflogrbm),
+    ADD_FUNC(AnyBytfXorLinf),
+    ADD_FUNC(AnyBytfXorRfdt),
+    ADD_FUNC(AnyBytfXorSpbns),
+    ADD_FUNC(AnySiortDrbwGlypiList),
+    ADD_FUNC(AnySiortDrbwGlypiListXor),
+    ADD_FUNC(AnySiortIsomorpiidCopy),
+    ADD_FUNC(AnySiortIsomorpiidSdblfCopy),
+    ADD_FUNC(AnySiortIsomorpiidXorCopy),
+    ADD_FUNC(AnySiortSftLinf),
+    ADD_FUNC(AnySiortSftRfdt),
+    ADD_FUNC(AnySiortSftSpbns),
+    ADD_FUNC(AnySiortSftPbrbllflogrbm),
+    ADD_FUNC(AnySiortXorLinf),
+    ADD_FUNC(AnySiortXorRfdt),
+    ADD_FUNC(AnySiortXorSpbns),
+    ADD_FUNC(Any3BytfIsomorpiidCopy),
+    ADD_FUNC(Any3BytfIsomorpiidSdblfCopy),
+    ADD_FUNC(Any3BytfIsomorpiidXorCopy),
+    ADD_FUNC(Any3BytfSftLinf),
+    ADD_FUNC(Any3BytfSftRfdt),
+    ADD_FUNC(Any3BytfSftSpbns),
+    ADD_FUNC(Any3BytfSftPbrbllflogrbm),
+    ADD_FUNC(Any3BytfXorLinf),
+    ADD_FUNC(Any3BytfXorRfdt),
+    ADD_FUNC(Any3BytfXorSpbns),
+    ADD_FUNC(Any4BytfDrbwGlypiList),
+    ADD_FUNC(Any4BytfDrbwGlypiListXor),
+    ADD_FUNC(Any4BytfIsomorpiidCopy),
+    ADD_FUNC(Any4BytfIsomorpiidSdblfCopy),
+    ADD_FUNC(Any4BytfIsomorpiidXorCopy),
+    ADD_FUNC(Any4BytfSftLinf),
+    ADD_FUNC(Any4BytfSftRfdt),
+    ADD_FUNC(Any4BytfSftSpbns),
+    ADD_FUNC(Any4BytfSftPbrbllflogrbm),
+    ADD_FUNC(Any4BytfXorLinf),
+    ADD_FUNC(Any4BytfXorRfdt),
+    ADD_FUNC(Any4BytfXorSpbns),
+    ADD_FUNC(AnyIntDrbwGlypiList),
+    ADD_FUNC(AnyIntDrbwGlypiListXor),
+    ADD_FUNC(AnyIntIsomorpiidCopy),
+    ADD_FUNC(AnyIntIsomorpiidSdblfCopy),
+    ADD_FUNC(AnyIntIsomorpiidXorCopy),
+    ADD_FUNC(AnyIntSftLinf),
+    ADD_FUNC(AnyIntSftRfdt),
+    ADD_FUNC(AnyIntSftSpbns),
+    ADD_FUNC(AnyIntSftPbrbllflogrbm),
+    ADD_FUNC(AnyIntXorLinf),
+    ADD_FUNC(AnyIntXorRfdt),
+    ADD_FUNC(AnyIntXorSpbns),
+    ADD_FUNC(BytfGrbyAlpibMbskFill),
+    ADD_FUNC(BytfGrbyDrbwGlypiListAA),
+    ADD_FUNC(BytfGrbySrdMbskFill),
+    ADD_FUNC(BytfGrbySrdOvfrMbskFill),
+    ADD_FUNC(BytfGrbyToIntArgbConvfrt),
+    ADD_FUNC(BytfGrbyToIntArgbSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToBytfGrbySdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToBytfGrbyXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToBytfGrbyXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToBytfGrbyConvfrt),
+    ADD_FUNC(BytfIndfxfdToBytfGrbySdblfConvfrt),
+    ADD_FUNC(Indfx12GrbyToBytfGrbyConvfrt),
+    ADD_FUNC(Indfx12GrbyToBytfGrbySdblfConvfrt),
+    ADD_FUNC(Indfx8GrbyToBytfGrbyConvfrt),
+    ADD_FUNC(Indfx8GrbyToBytfGrbySdblfConvfrt),
+    ADD_FUNC(IntArgbBmToBytfGrbySdblfXpbrOvfr),
+    ADD_FUNC(IntArgbBmToBytfGrbyXpbrBgCopy),
+    ADD_FUNC(IntArgbBmToBytfGrbyXpbrOvfr),
+    ADD_FUNC(IntArgbToBytfGrbyAlpibMbskBlit),
+    ADD_FUNC(IntArgbToBytfGrbyConvfrt),
+    ADD_FUNC(IntArgbToBytfGrbySdblfConvfrt),
+    ADD_FUNC(IntArgbToBytfGrbySrdOvfrMbskBlit),
+    ADD_FUNC(IntArgbToBytfGrbyXorBlit),
+    ADD_FUNC(IntRgbToBytfGrbyAlpibMbskBlit),
+    ADD_FUNC(TirffBytfBgrToBytfGrbyConvfrt),
+    ADD_FUNC(TirffBytfBgrToBytfGrbySdblfConvfrt),
+    ADD_FUNC(UsiortGrbyToBytfGrbyConvfrt),
+    ADD_FUNC(UsiortGrbyToBytfGrbySdblfConvfrt),
+    ADD_FUNC(BytfGrbyToUsiortGrbyConvfrt),
+    ADD_FUNC(BytfGrbyToUsiortGrbySdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToUsiortGrbySdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToUsiortGrbyXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToUsiortGrbyXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToUsiortGrbyConvfrt),
+    ADD_FUNC(BytfIndfxfdToUsiortGrbySdblfConvfrt),
+    ADD_FUNC(IntArgbBmToUsiortGrbySdblfXpbrOvfr),
+    ADD_FUNC(IntArgbToUsiortGrbyConvfrt),
+    ADD_FUNC(IntArgbToUsiortGrbySdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrToUsiortGrbyConvfrt),
+    ADD_FUNC(TirffBytfBgrToUsiortGrbySdblfConvfrt),
+    ADD_FUNC(UsiortGrbyToIntArgbConvfrt),
+    ADD_FUNC(UsiortGrbyToIntArgbSdblfConvfrt),
+    ADD_FUNC(BytfGrbyToBytfIndfxfdConvfrt),
+    ADD_FUNC(BytfGrbyToBytfIndfxfdSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToBytfIndfxfdSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToBytfIndfxfdXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToBytfIndfxfdXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToBytfIndfxfdConvfrt),
+    ADD_FUNC(BytfIndfxfdToBytfIndfxfdSdblfConvfrt),
+    ADD_FUNC(Indfx12GrbyToBytfIndfxfdConvfrt),
+    ADD_FUNC(Indfx12GrbyToBytfIndfxfdSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToBytfIndfxfdSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbBmToBytfIndfxfdXpbrBgCopy),
+    ADD_FUNC(IntArgbBmToBytfIndfxfdXpbrOvfr),
+    ADD_FUNC(IntArgbToBytfIndfxfdConvfrt),
+    ADD_FUNC(IntArgbToBytfIndfxfdSdblfConvfrt),
+    ADD_FUNC(IntArgbToBytfIndfxfdXorBlit),
+    ADD_FUNC(TirffBytfBgrToBytfIndfxfdConvfrt),
+    ADD_FUNC(TirffBytfBgrToBytfIndfxfdSdblfConvfrt),
+    ADD_FUNC(BytfGrbyToFourBytfAbgrConvfrt),
+    ADD_FUNC(BytfGrbyToFourBytfAbgrSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToFourBytfAbgrConvfrt),
+    ADD_FUNC(BytfIndfxfdToFourBytfAbgrSdblfConvfrt),
+    ADD_FUNC(FourBytfAbgrAlpibMbskFill),
+    ADD_FUNC(FourBytfAbgrDrbwGlypiListAA),
+    ADD_FUNC(FourBytfAbgrSrdMbskFill),
+    ADD_FUNC(FourBytfAbgrSrdOvfrMbskFill),
+    ADD_FUNC(FourBytfAbgrToIntArgbConvfrt),
+    ADD_FUNC(FourBytfAbgrToIntArgbSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToFourBytfAbgrSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbToFourBytfAbgrAlpibMbskBlit),
+    ADD_FUNC(IntArgbToFourBytfAbgrConvfrt),
+    ADD_FUNC(IntArgbToFourBytfAbgrSdblfConvfrt),
+    ADD_FUNC(IntArgbToFourBytfAbgrSrdOvfrMbskBlit),
+    ADD_FUNC(IntArgbToFourBytfAbgrXorBlit),
+    ADD_FUNC(IntRgbToFourBytfAbgrAlpibMbskBlit),
+    ADD_FUNC(IntRgbToFourBytfAbgrConvfrt),
+    ADD_FUNC(IntRgbToFourBytfAbgrSdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrToFourBytfAbgrConvfrt),
+    ADD_FUNC(TirffBytfBgrToFourBytfAbgrSdblfConvfrt),
+    ADD_FUNC(BytfGrbyToFourBytfAbgrPrfConvfrt),
+    ADD_FUNC(BytfGrbyToFourBytfAbgrPrfSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToFourBytfAbgrPrfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToFourBytfAbgrPrfConvfrt),
+    ADD_FUNC(BytfIndfxfdToFourBytfAbgrPrfSdblfConvfrt),
+    ADD_FUNC(FourBytfAbgrPrfAlpibMbskFill),
+    ADD_FUNC(FourBytfAbgrPrfDrbwGlypiListAA),
+    ADD_FUNC(FourBytfAbgrPrfSrdMbskFill),
+    ADD_FUNC(FourBytfAbgrPrfSrdOvfrMbskFill),
+    ADD_FUNC(FourBytfAbgrPrfToIntArgbConvfrt),
+    ADD_FUNC(FourBytfAbgrPrfToIntArgbSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToFourBytfAbgrPrfSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbToFourBytfAbgrPrfAlpibMbskBlit),
+    ADD_FUNC(IntArgbToFourBytfAbgrPrfConvfrt),
+    ADD_FUNC(IntArgbToFourBytfAbgrPrfSdblfConvfrt),
+    ADD_FUNC(IntArgbToFourBytfAbgrPrfSrdOvfrMbskBlit),
+    ADD_FUNC(IntArgbToFourBytfAbgrPrfXorBlit),
+    ADD_FUNC(IntRgbToFourBytfAbgrPrfAlpibMbskBlit),
+    ADD_FUNC(IntRgbToFourBytfAbgrPrfConvfrt),
+    ADD_FUNC(IntRgbToFourBytfAbgrPrfSdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrToFourBytfAbgrPrfConvfrt),
+    ADD_FUNC(TirffBytfBgrToFourBytfAbgrPrfSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToIntArgbConvfrt),
+    ADD_FUNC(BytfIndfxfdToIntArgbSdblfConvfrt),
+    ADD_FUNC(Indfx12GrbyToIntArgbConvfrt),
+    ADD_FUNC(IntArgbAlpibMbskFill),
+    ADD_FUNC(IntArgbBmToIntArgbSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbDrbwGlypiListAA),
+    ADD_FUNC(IntArgbSrdMbskFill),
+    ADD_FUNC(IntArgbSrdOvfrMbskFill),
+    ADD_FUNC(IntArgbToIntArgbAlpibMbskBlit),
+    ADD_FUNC(IntArgbToIntArgbSrdOvfrMbskBlit),
     ADD_FUNC(IntArgbToIntArgbXorBlit),
-    ADD_FUNC(IntRgbToIntArgbAlphaMaskBlit),
-    ADD_FUNC(ByteIndexedBmToIntArgbBmScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToIntArgbBmXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToIntArgbBmXparOver),
-    ADD_FUNC(ByteIndexedToIntArgbBmConvert),
-    ADD_FUNC(ByteIndexedToIntArgbBmScaleConvert),
-    ADD_FUNC(IntArgbBmDrawGlyphListAA),
-    ADD_FUNC(IntArgbBmToIntArgbConvert),
-    ADD_FUNC(IntArgbToIntArgbBmConvert),
-    ADD_FUNC(IntArgbToIntArgbBmScaleConvert),
+    ADD_FUNC(IntRgbToIntArgbAlpibMbskBlit),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbBmSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbBmXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbBmXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToIntArgbBmConvfrt),
+    ADD_FUNC(BytfIndfxfdToIntArgbBmSdblfConvfrt),
+    ADD_FUNC(IntArgbBmDrbwGlypiListAA),
+    ADD_FUNC(IntArgbBmToIntArgbConvfrt),
+    ADD_FUNC(IntArgbToIntArgbBmConvfrt),
+    ADD_FUNC(IntArgbToIntArgbBmSdblfConvfrt),
     ADD_FUNC(IntArgbToIntArgbBmXorBlit),
-    ADD_FUNC(ByteGrayToIntArgbPreConvert),
-    ADD_FUNC(ByteGrayToIntArgbPreScaleConvert),
-    ADD_FUNC(ByteIndexedBmToIntArgbPreScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToIntArgbPreXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToIntArgbPreXparOver),
-    ADD_FUNC(ByteIndexedToIntArgbPreConvert),
-    ADD_FUNC(ByteIndexedToIntArgbPreScaleConvert),
-    ADD_FUNC(IntArgbPreAlphaMaskFill),
-    ADD_FUNC(IntArgbPreDrawGlyphListAA),
-    ADD_FUNC(IntArgbPreSrcMaskFill),
-    ADD_FUNC(IntArgbPreSrcOverMaskFill),
-    ADD_FUNC(IntArgbPreToIntArgbConvert),
-    ADD_FUNC(IntArgbPreToIntArgbScaleConvert),
-    ADD_FUNC(IntArgbToIntArgbPreAlphaMaskBlit),
-    ADD_FUNC(IntArgbToIntArgbPreConvert),
-    ADD_FUNC(IntArgbToIntArgbPreScaleConvert),
-    ADD_FUNC(IntArgbToIntArgbPreSrcOverMaskBlit),
-    ADD_FUNC(IntArgbToIntArgbPreXorBlit),
-    ADD_FUNC(IntRgbToIntArgbPreAlphaMaskBlit),
-    ADD_FUNC(IntRgbToIntArgbPreConvert),
-    ADD_FUNC(IntRgbToIntArgbPreScaleConvert),
-    ADD_FUNC(ThreeByteBgrToIntArgbPreConvert),
-    ADD_FUNC(ThreeByteBgrToIntArgbPreScaleConvert),
-    ADD_FUNC(ByteIndexedBmToIntBgrScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToIntBgrXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToIntBgrXparOver),
-    ADD_FUNC(ByteIndexedToIntBgrConvert),
-    ADD_FUNC(ByteIndexedToIntBgrScaleConvert),
-    ADD_FUNC(IntArgbBmToIntBgrScaleXparOver),
-    ADD_FUNC(IntArgbBmToIntBgrXparBgCopy),
-    ADD_FUNC(IntArgbBmToIntBgrXparOver),
-    ADD_FUNC(IntArgbToIntBgrAlphaMaskBlit),
-    ADD_FUNC(IntArgbToIntBgrConvert),
-    ADD_FUNC(IntArgbToIntBgrScaleConvert),
-    ADD_FUNC(IntArgbToIntBgrSrcOverMaskBlit),
+    ADD_FUNC(BytfGrbyToIntArgbPrfConvfrt),
+    ADD_FUNC(BytfGrbyToIntArgbPrfSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbPrfSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbPrfXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToIntArgbPrfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToIntArgbPrfConvfrt),
+    ADD_FUNC(BytfIndfxfdToIntArgbPrfSdblfConvfrt),
+    ADD_FUNC(IntArgbPrfAlpibMbskFill),
+    ADD_FUNC(IntArgbPrfDrbwGlypiListAA),
+    ADD_FUNC(IntArgbPrfSrdMbskFill),
+    ADD_FUNC(IntArgbPrfSrdOvfrMbskFill),
+    ADD_FUNC(IntArgbPrfToIntArgbConvfrt),
+    ADD_FUNC(IntArgbPrfToIntArgbSdblfConvfrt),
+    ADD_FUNC(IntArgbToIntArgbPrfAlpibMbskBlit),
+    ADD_FUNC(IntArgbToIntArgbPrfConvfrt),
+    ADD_FUNC(IntArgbToIntArgbPrfSdblfConvfrt),
+    ADD_FUNC(IntArgbToIntArgbPrfSrdOvfrMbskBlit),
+    ADD_FUNC(IntArgbToIntArgbPrfXorBlit),
+    ADD_FUNC(IntRgbToIntArgbPrfAlpibMbskBlit),
+    ADD_FUNC(IntRgbToIntArgbPrfConvfrt),
+    ADD_FUNC(IntRgbToIntArgbPrfSdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntArgbPrfConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntArgbPrfSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToIntBgrSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToIntBgrXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToIntBgrXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToIntBgrConvfrt),
+    ADD_FUNC(BytfIndfxfdToIntBgrSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToIntBgrSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbBmToIntBgrXpbrBgCopy),
+    ADD_FUNC(IntArgbBmToIntBgrXpbrOvfr),
+    ADD_FUNC(IntArgbToIntBgrAlpibMbskBlit),
+    ADD_FUNC(IntArgbToIntBgrConvfrt),
+    ADD_FUNC(IntArgbToIntBgrSdblfConvfrt),
+    ADD_FUNC(IntArgbToIntBgrSrdOvfrMbskBlit),
     ADD_FUNC(IntArgbToIntBgrXorBlit),
-    ADD_FUNC(IntBgrAlphaMaskFill),
-    ADD_FUNC(IntBgrDrawGlyphListAA),
-    ADD_FUNC(IntBgrSrcMaskFill),
-    ADD_FUNC(IntBgrSrcOverMaskFill),
-    ADD_FUNC(IntBgrToIntArgbConvert),
-    ADD_FUNC(IntBgrToIntArgbScaleConvert),
-    ADD_FUNC(IntBgrToIntBgrAlphaMaskBlit),
-    ADD_FUNC(IntRgbToIntBgrAlphaMaskBlit),
-    ADD_FUNC(ThreeByteBgrToIntBgrConvert),
-    ADD_FUNC(ThreeByteBgrToIntBgrScaleConvert),
-    ADD_FUNC(ByteGrayToIntRgbConvert),
-    ADD_FUNC(ByteGrayToIntRgbScaleConvert),
-    ADD_FUNC(IntArgbBmToIntRgbXparBgCopy),
-    ADD_FUNC(IntArgbBmToIntRgbXparOver),
-    ADD_FUNC(IntArgbToIntRgbAlphaMaskBlit),
-    ADD_FUNC(IntArgbToIntRgbSrcOverMaskBlit),
+    ADD_FUNC(IntBgrAlpibMbskFill),
+    ADD_FUNC(IntBgrDrbwGlypiListAA),
+    ADD_FUNC(IntBgrSrdMbskFill),
+    ADD_FUNC(IntBgrSrdOvfrMbskFill),
+    ADD_FUNC(IntBgrToIntArgbConvfrt),
+    ADD_FUNC(IntBgrToIntArgbSdblfConvfrt),
+    ADD_FUNC(IntBgrToIntBgrAlpibMbskBlit),
+    ADD_FUNC(IntRgbToIntBgrAlpibMbskBlit),
+    ADD_FUNC(TirffBytfBgrToIntBgrConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntBgrSdblfConvfrt),
+    ADD_FUNC(BytfGrbyToIntRgbConvfrt),
+    ADD_FUNC(BytfGrbyToIntRgbSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToIntRgbXpbrBgCopy),
+    ADD_FUNC(IntArgbBmToIntRgbXpbrOvfr),
+    ADD_FUNC(IntArgbToIntRgbAlpibMbskBlit),
+    ADD_FUNC(IntArgbToIntRgbSrdOvfrMbskBlit),
     ADD_FUNC(IntArgbToIntRgbXorBlit),
-    ADD_FUNC(IntRgbAlphaMaskFill),
-    ADD_FUNC(IntRgbDrawGlyphListAA),
-    ADD_FUNC(IntRgbSrcMaskFill),
-    ADD_FUNC(IntRgbSrcOverMaskFill),
-    ADD_FUNC(IntRgbToIntArgbConvert),
-    ADD_FUNC(IntRgbToIntArgbScaleConvert),
-    ADD_FUNC(IntRgbToIntRgbAlphaMaskBlit),
-    ADD_FUNC(ThreeByteBgrToIntRgbConvert),
-    ADD_FUNC(ThreeByteBgrToIntRgbScaleConvert),
-    ADD_FUNC(ByteGrayToIntRgbxConvert),
-    ADD_FUNC(ByteGrayToIntRgbxScaleConvert),
-    ADD_FUNC(ByteIndexedBmToIntRgbxScaleXparOver),
-    ADD_FUNC(ByteIndexedBmToIntRgbxXparBgCopy),
-    ADD_FUNC(ByteIndexedBmToIntRgbxXparOver),
-    ADD_FUNC(ByteIndexedToIntRgbxConvert),
-    ADD_FUNC(ByteIndexedToIntRgbxScaleConvert),
-    ADD_FUNC(IntArgbBmToIntRgbxScaleXparOver),
-    ADD_FUNC(IntArgbToIntRgbxConvert),
-    ADD_FUNC(IntArgbToIntRgbxScaleConvert),
+    ADD_FUNC(IntRgbAlpibMbskFill),
+    ADD_FUNC(IntRgbDrbwGlypiListAA),
+    ADD_FUNC(IntRgbSrdMbskFill),
+    ADD_FUNC(IntRgbSrdOvfrMbskFill),
+    ADD_FUNC(IntRgbToIntArgbConvfrt),
+    ADD_FUNC(IntRgbToIntArgbSdblfConvfrt),
+    ADD_FUNC(IntRgbToIntRgbAlpibMbskBlit),
+    ADD_FUNC(TirffBytfBgrToIntRgbConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntRgbSdblfConvfrt),
+    ADD_FUNC(BytfGrbyToIntRgbxConvfrt),
+    ADD_FUNC(BytfGrbyToIntRgbxSdblfConvfrt),
+    ADD_FUNC(BytfIndfxfdBmToIntRgbxSdblfXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdBmToIntRgbxXpbrBgCopy),
+    ADD_FUNC(BytfIndfxfdBmToIntRgbxXpbrOvfr),
+    ADD_FUNC(BytfIndfxfdToIntRgbxConvfrt),
+    ADD_FUNC(BytfIndfxfdToIntRgbxSdblfConvfrt),
+    ADD_FUNC(IntArgbBmToIntRgbxSdblfXpbrOvfr),
+    ADD_FUNC(IntArgbToIntRgbxConvfrt),
+    ADD_FUNC(IntArgbToIntRgbxSdblfConvfrt),
     ADD_FUNC(IntArgbToIntRgbxXorBlit),
-    ADD_FUNC(IntRgbxDrawGlyphListAA),
-    ADD_FUNC(IntRgbxToIntArgbConvert),
-    ADD_FUNC(IntRgbxToIntArgbScaleConvert),
-    ADD_FUNC(ThreeByteBgrToIntRgbxConvert),
-    ADD_FUNC(ThreeByteBgrToIntRgbxScaleConvert),
-    ADD_FUNC(ThreeByteBgrAlphaMaskFill),
-    ADD_FUNC(ThreeByteBgrSrcMaskFill),
-    ADD_FUNC(ThreeByteBgrSrcOverMaskFill),
-    ADD_FUNC(ThreeByteBgrToIntArgbConvert),
-    ADD_FUNC(ThreeByteBgrToIntArgbScaleConvert),
+    ADD_FUNC(IntRgbxDrbwGlypiListAA),
+    ADD_FUNC(IntRgbxToIntArgbConvfrt),
+    ADD_FUNC(IntRgbxToIntArgbSdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntRgbxConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntRgbxSdblfConvfrt),
+    ADD_FUNC(TirffBytfBgrAlpibMbskFill),
+    ADD_FUNC(TirffBytfBgrSrdMbskFill),
+    ADD_FUNC(TirffBytfBgrSrdOvfrMbskFill),
+    ADD_FUNC(TirffBytfBgrToIntArgbConvfrt),
+    ADD_FUNC(TirffBytfBgrToIntArgbSdblfConvfrt),
 };
 
 /***************************************************************/
 
-#define NUM_VIS_FUNCS sizeof(vis_func_pair_array)/sizeof(AnyFunc_pair)
+#dffinf NUM_VIS_FUNCS sizfof(vis_fund_pbir_brrby)/sizfof(AnyFund_pbir)
 
 /***************************************************************/
 
-#define HASH_SIZE     1024 /* must be power of 2 and > number of functions */
-#define PTR_SHIFT     ((sizeof(void*) == 4) ? 2 : 3)
-#define HASH_FUNC(x)  (((jint)(x) >> PTR_SHIFT) & (HASH_SIZE - 1))
-#define NEXT_INDEX(j) ((j + 1) & (HASH_SIZE - 1))
+#dffinf HASH_SIZE     1024 /* must bf powfr of 2 bnd > numbfr of fundtions */
+#dffinf PTR_SHIFT     ((sizfof(void*) == 4) ? 2 : 3)
+#dffinf HASH_FUNC(x)  (((jint)(x) >> PTR_SHIFT) & (HASH_SIZE - 1))
+#dffinf NEXT_INDEX(j) ((j + 1) & (HASH_SIZE - 1))
 
-static AnyFunc* hash_table[HASH_SIZE];
-static AnyFunc* hash_table_vis[HASH_SIZE];
+stbtid AnyFund* ibsi_tbblf[HASH_SIZE];
+stbtid AnyFund* ibsi_tbblf_vis[HASH_SIZE];
 
 /***************************************************************/
 
-static int initialized;
-static int usevis = JNI_TRUE;
+stbtid int initiblizfd;
+stbtid int usfvis = JNI_TRUE;
 
-#if defined(__linux__) || defined(MACOSX)
-#   define ULTRA_CHIP   "sparc64"
-#else
-#   define ULTRA_CHIP   "sun4u"
-#endif
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+#   dffinf ULTRA_CHIP   "spbrd64"
+#flsf
+#   dffinf ULTRA_CHIP   "sun4u"
+#fndif
 
-extern TransformInterpFunc *pBilinearFunc;
-extern TransformInterpFunc *pBicubicFunc;
-extern TransformInterpFunc vis_BilinearBlend;
-extern TransformInterpFunc vis_BicubicBlend;
+fxtfrn TrbnsformIntfrpFund *pBilinfbrFund;
+fxtfrn TrbnsformIntfrpFund *pBidubidFund;
+fxtfrn TrbnsformIntfrpFund vis_BilinfbrBlfnd;
+fxtfrn TrbnsformIntfrpFund vis_BidubidBlfnd;
 
 /*
- * This function returns a pointer to the VIS accelerated version
- * of the indicated C function if it exists and if the conditions
- * are correct to use the VIS functions.
+ * Tiis fundtion rfturns b pointfr to tif VIS bddflfrbtfd vfrsion
+ * of tif indidbtfd C fundtion if it fxists bnd if tif donditions
+ * brf dorrfdt to usf tif VIS fundtions.
  */
-AnyFunc* MapAccelFunction(AnyFunc *func_c)
+AnyFund* MbpAddflFundtion(AnyFund *fund_d)
 {
     jint i, j;
 
-    if (!initialized) {
-        struct utsname name;
+    if (!initiblizfd) {
+        strudt utsnbmf nbmf;
 
         /*
-         * Only use the vis loops if the environment variable is set.
-         * Find out the machine name. If it is an SUN ultra, we
-         * can use the vis library
+         * Only usf tif vis loops if tif fnvironmfnt vbribblf is sft.
+         * Find out tif mbdiinf nbmf. If it is bn SUN ultrb, wf
+         * dbn usf tif vis librbry
          */
-        if (uname(&name) < 0 || strcmp(name.machine, ULTRA_CHIP) != 0) {
-            usevis = JNI_FALSE;
-        } else {
-            char *vis_env = getenv("J2D_USE_VIS_LOOPS");
-            if (vis_env != 0) {
-                switch (*vis_env) {
-                case 'T':
-                    fprintf(stderr, "VIS loops enabled\n");
-                case 't':
-                    usevis = JNI_TRUE;
-                    break;
+        if (unbmf(&nbmf) < 0 || strdmp(nbmf.mbdiinf, ULTRA_CHIP) != 0) {
+            usfvis = JNI_FALSE;
+        } flsf {
+            dibr *vis_fnv = gftfnv("J2D_USE_VIS_LOOPS");
+            if (vis_fnv != 0) {
+                switdi (*vis_fnv) {
+                dbsf 'T':
+                    fprintf(stdfrr, "VIS loops fnbblfd\n");
+                dbsf 't':
+                    usfvis = JNI_TRUE;
+                    brfbk;
 
-                case 'F':
-                    fprintf(stderr, "VIS loops disabled\n");
-                case 'f':
-                    usevis = JNI_FALSE;
-                    break;
+                dbsf 'F':
+                    fprintf(stdfrr, "VIS loops disbblfd\n");
+                dbsf 'f':
+                    usfvis = JNI_FALSE;
+                    brfbk;
 
-                default:
-                    fprintf(stderr, "VIS loops %s by default\n",
-                            usevis ? "enabled" : "disabled");
-                    break;
+                dffbult:
+                    fprintf(stdfrr, "VIS loops %s by dffbult\n",
+                            usfvis ? "fnbblfd" : "disbblfd");
+                    brfbk;
                 }
             }
         }
-        initialized = 1;
-        if (usevis) {
-            /* fill hash table */
-            memset(hash_table, 0, sizeof(hash_table));
+        initiblizfd = 1;
+        if (usfvis) {
+            /* fill ibsi tbblf */
+            mfmsft(ibsi_tbblf, 0, sizfof(ibsi_tbblf));
             for (i = 0; i < NUM_VIS_FUNCS; i++) {
-                AnyFunc* func = vis_func_pair_array[i].func_c;
-                j = HASH_FUNC(func);
-                while (hash_table[j] != NULL) {
+                AnyFund* fund = vis_fund_pbir_brrby[i].fund_d;
+                j = HASH_FUNC(fund);
+                wiilf (ibsi_tbblf[j] != NULL) {
                     j = NEXT_INDEX(j);
                 }
-                hash_table[j] = func;
-                hash_table_vis[j] = vis_func_pair_array[i].func_vis;
+                ibsi_tbblf[j] = fund;
+                ibsi_tbblf_vis[j] = vis_fund_pbir_brrby[i].fund_vis;
             }
-            pBilinearFunc = vis_BilinearBlend;
-            pBicubicFunc = vis_BicubicBlend;
+            pBilinfbrFund = vis_BilinfbrBlfnd;
+            pBidubidFund = vis_BidubidBlfnd;
         }
     }
-    if (!usevis) {
-        return func_c;
+    if (!usfvis) {
+        rfturn fund_d;
     }
 
-    j = HASH_FUNC(func_c);
-    while (hash_table[j] != NULL) {
-        if (hash_table[j] == func_c) {
-            return hash_table_vis[j];
+    j = HASH_FUNC(fund_d);
+    wiilf (ibsi_tbblf[j] != NULL) {
+        if (ibsi_tbblf[j] == fund_d) {
+            rfturn ibsi_tbblf_vis[j];
         }
         j = NEXT_INDEX(j);
     }
 
-    return func_c;
+    rfturn fund_d;
 }
 
 /***************************************************************/

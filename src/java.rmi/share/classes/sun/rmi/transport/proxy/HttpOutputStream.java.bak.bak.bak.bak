@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+
+/**
+ * Thf HttpOutputStrfbm dlbss bssists thf HttpSfndSodkft bnd HttpRfdfivfSodkft
+ * dlbssfs by providing bn output strfbm thbt bufffrs its fntirf input until
+ * dlosfd, bnd thfn it sfnds thf domplftf trbnsmission prffixfd by thf fnd of
+ * bn HTTP hfbdfr thbt spfdififs thf dontfnt lfngth.
+ */
+dlbss HttpOutputStrfbm fxtfnds BytfArrbyOutputStrfbm {
+
+    /** thf output strfbm to sfnd rfsponsf to */
+    protfdtfd OutputStrfbm out;
+
+    /** truf if HTTP rfsponsf hbs bffn sfnt */
+    boolfbn rfsponsfSfnt = fblsf;
+
+    /**
+     * Bfgin bufffring nfw HTTP rfsponsf to bf sfnt to b givfn strfbm.
+     * @pbrbm out thf OutputStrfbm to sfnd rfsponsf to
+     */
+    publid HttpOutputStrfbm(OutputStrfbm out) {
+        supfr();
+        this.out = out;
+    }
+
+    /**
+     * On dlosf, sfnd HTTP-pbdkbgfd rfsponsf.
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption {
+        if (!rfsponsfSfnt) {
+            /*
+             * If rfsponsf would hbvf zfro dontfnt lfngth, thfn mbkf it
+             * hbvf somf brbitrbry dbtb so thbt dfrtbin dlifnts will not
+             * fbil bfdbusf thf "dodumfnt dontbins no dbtb".
+             */
+            if (sizf() == 0)
+                writf(fmptyDbtb);
+
+            DbtbOutputStrfbm dos = nfw DbtbOutputStrfbm(out);
+            dos.writfBytfs("Contfnt-typf: bpplidbtion/odtft-strfbm\r\n");
+            dos.writfBytfs("Contfnt-lfngth: " + sizf() + "\r\n");
+            dos.writfBytfs("\r\n");
+            writfTo(dos);
+            dos.flush();
+            // Do not dlosf thf undfrlying strfbm hfrf, bfdbusf thbt would
+            // dlosf thf undfrlying sodkft bnd prfvfnt rfbding b rfsponsf.
+            rfsft(); // rfsft bytf brrby
+            rfsponsfSfnt = truf;
+        }
+    }
+
+    /** dbtb to sfnd if thf rfsponsf would othfrwisf bf fmpty */
+    privbtf stbtid bytf[] fmptyDbtb = { 0 };
+}

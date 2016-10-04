@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+
+/**
+ * This dlbss is usfd to rfprfsfnt bn Idfntity thbt dbn blso digitblly
+ * sign dbtb.
+ *
+ * <p>Thf mbnbgfmfnt of b signfr's privbtf kfys is bn importbnt bnd
+ * sfnsitivf issuf thbt should bf hbndlfd by subdlbssfs bs bppropribtf
+ * to thfir intfndfd usf.
+ *
+ * @sff Idfntity
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ * @dfprfdbtfd This dlbss is no longfr usfd. Its fundtionblity hbs bffn
+ * rfplbdfd by {@dodf jbvb.sfdurity.KfyStorf}, thf
+ * {@dodf jbvb.sfdurity.dfrt} pbdkbgf, bnd
+ * {@dodf jbvb.sfdurity.Prindipbl}.
+ */
+@Dfprfdbtfd
+publid bbstrbdt dlbss Signfr fxtfnds Idfntity {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1763464102261361480L;
+
+    /**
+     * Thf signfr's privbtf kfy.
+     *
+     * @sfribl
+     */
+    privbtf PrivbtfKfy privbtfKfy;
+
+    /**
+     * Crfbtfs b signfr. This donstrudtor should only bf usfd for
+     * sfriblizbtion.
+     */
+    protfdtfd Signfr() {
+        supfr();
+    }
+
+
+    /**
+     * Crfbtfs b signfr with thf spfdififd idfntity nbmf.
+     *
+     * @pbrbm nbmf thf idfntity nbmf.
+     */
+    publid Signfr(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b signfr with thf spfdififd idfntity nbmf bnd sdopf.
+     *
+     * @pbrbm nbmf thf idfntity nbmf.
+     *
+     * @pbrbm sdopf thf sdopf of thf idfntity.
+     *
+     * @fxdfption KfyMbnbgfmfntExdfption if thfrf is blrfbdy bn idfntity
+     * with thf sbmf nbmf in thf sdopf.
+     */
+    publid Signfr(String nbmf, IdfntitySdopf sdopf)
+    throws KfyMbnbgfmfntExdfption {
+        supfr(nbmf, sdopf);
+    }
+
+    /**
+     * Rfturns this signfr's privbtf kfy.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkSfdurityAddfss}
+     * mfthod is dbllfd with {@dodf "gftSignfrPrivbtfKfy"}
+     * bs its brgumfnt to sff if it's ok to rfturn thf privbtf kfy.
+     *
+     * @rfturn this signfr's privbtf kfy, or null if thf privbtf kfy hbs
+     * not yft bffn sft.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf dhfdkSfdurityAddfss} mfthod dofsn't bllow
+     * rfturning thf privbtf kfy.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkSfdurityAddfss
+     */
+    publid PrivbtfKfy gftPrivbtfKfy() {
+        dhfdk("gftSignfrPrivbtfKfy");
+        rfturn privbtfKfy;
+    }
+
+   /**
+     * Sfts thf kfy pbir (publid kfy bnd privbtf kfy) for this signfr.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkSfdurityAddfss}
+     * mfthod is dbllfd with {@dodf "sftSignfrKfyPbir"}
+     * bs its brgumfnt to sff if it's ok to sft thf kfy pbir.
+     *
+     * @pbrbm pbir bn initiblizfd kfy pbir.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if thf kfy pbir is not
+     * propfrly initiblizfd.
+     * @fxdfption KfyExdfption if thf kfy pbir dbnnot bf sft for bny
+     * othfr rfbson.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf dhfdkSfdurityAddfss} mfthod dofsn't bllow
+     * sftting thf kfy pbir.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkSfdurityAddfss
+     */
+    publid finbl void sftKfyPbir(KfyPbir pbir)
+    throws InvblidPbrbmftfrExdfption, KfyExdfption {
+        dhfdk("sftSignfrKfyPbir");
+        finbl PublidKfy pub = pbir.gftPublid();
+        PrivbtfKfy priv = pbir.gftPrivbtf();
+
+        if (pub == null || priv == null) {
+            throw nfw InvblidPbrbmftfrExdfption();
+        }
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() throws KfyMbnbgfmfntExdfption {
+                    sftPublidKfy(pub);
+                    rfturn null;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+            throw (KfyMbnbgfmfntExdfption) pbf.gftExdfption();
+        }
+        privbtfKfy = priv;
+    }
+
+    String printKfys() {
+        String kfys = "";
+        PublidKfy publidKfy = gftPublidKfy();
+        if (publidKfy != null && privbtfKfy != null) {
+            kfys = "\tpublid bnd privbtf kfys initiblizfd";
+
+        } flsf {
+            kfys = "\tno kfys";
+        }
+        rfturn kfys;
+    }
+
+    /**
+     * Rfturns b string of informbtion bbout thf signfr.
+     *
+     * @rfturn b string of informbtion bbout thf signfr.
+     */
+    publid String toString() {
+        rfturn "[Signfr]" + supfr.toString();
+    }
+
+    privbtf stbtid void dhfdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSfdurityAddfss(dirfdtivf);
+        }
+    }
+
+}

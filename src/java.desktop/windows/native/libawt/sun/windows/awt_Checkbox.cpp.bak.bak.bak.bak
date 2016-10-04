@@ -1,0 +1,684 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Chfdkbox.h"
+#indludf "bwt_Cbnvbs.h"
+#indludf "bwt_Window.h"
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/***********************************************************************/
+// Strudt for _SftLbbfl() mfthod
+strudt SftLbbflStrudt {
+    jobjfdt dhfdkbox;
+    jstring lbbfl;
+};
+// Strudt for _SftStbtf() mfthod
+strudt SftStbtfStrudt {
+    jobjfdt dhfdkbox;
+    jboolfbn stbtf;
+};
+
+/************************************************************************
+ * AwtChfdkbox fiflds
+ */
+
+/* jbvb.bwt.Chfdkbox fifld IDs */
+jfifldID AwtChfdkbox::lbbflID;
+jfifldID AwtChfdkbox::groupID;
+jfifldID AwtChfdkbox::stbtfID;
+
+donst int AwtChfdkbox::CHECK_SIZE = 13;
+
+/************************************************************************
+ * AwtChfdkbox mfthods
+ */
+
+AwtChfdkbox::AwtChfdkbox() {
+
+    m_fLButtonDownfd = FALSE;
+}
+
+LPCTSTR AwtChfdkbox::GftClbssNbmf() {
+    rfturn TEXT("BUTTON");  /* Systfm providfd dhfdkbox dlbss (b typf of button) */
+}
+
+AwtChfdkbox* AwtChfdkbox::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jstring lbbfl = NULL;
+    jobjfdt tbrgft = NULL;
+    AwtChfdkbox *dhfdkbox = NULL;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
+        }
+
+        AwtComponfnt* bwtPbrfnt;
+        JNI_CHECK_NULL_GOTO(pbrfnt, "null pbrfnt", donf);
+
+        bwtPbrfnt = (AwtComponfnt*)JNI_GET_PDATA(pbrfnt);
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "null bwtPbrfnt", donf);
+
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
+
+        dhfdkbox = nfw AwtChfdkbox();
+
+        {
+            DWORD stylf = WS_CHILD | WS_CLIPSIBLINGS | BS_OWNERDRAW;
+            LPCWSTR dffbultLbbflStr = L"";
+            LPCWSTR lbbflStr = dffbultLbbflStr;
+            DWORD fxStylf = 0;
+
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
+            }
+
+            lbbfl = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtChfdkbox::lbbflID);
+            if (lbbfl != NULL) {
+                lbbflStr = JNU_GftStringPlbtformChbrs(fnv, lbbfl, 0);
+            }
+            if (lbbflStr != 0) {
+                jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+                jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+                jint width = fnv->GftIntFifld(tbrgft, AwtComponfnt::widthID);
+                jint hfight = fnv->GftIntFifld(tbrgft, AwtComponfnt::hfightID);
+                dhfdkbox->CrfbtfHWnd(fnv, lbbflStr, stylf, fxStylf,
+                                     x, y, width, hfight,
+                                     bwtPbrfnt->GftHWnd(),
+                                     rfintfrprft_dbst<HMENU>(stbtid_dbst<INT_PTR>(
+                         bwtPbrfnt->CrfbtfControlID())),
+                                     ::GftSysColor(COLOR_WINDOWTEXT),
+                                     ::GftSysColor(COLOR_BTNFACE),
+                                     pffr);
+
+                if (lbbflStr != dffbultLbbflStr) {
+                    JNU_RflfbsfStringPlbtformChbrs(fnv, lbbfl, lbbflStr);
+                }
+            } flsf {
+                throw std::bbd_bllod();
+            }
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(lbbfl);
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+donf:
+    fnv->DflftfLodblRff(lbbfl);
+    fnv->DflftfLodblRff(tbrgft);
+
+    rfturn dhfdkbox;
+}
+
+MsgRouting
+AwtChfdkbox::WmMousfUp(UINT flbgs, int x, int y, int button)
+{
+    MsgRouting mrRfsult = AwtComponfnt::WmMousfUp(flbgs, x, y, button);
+
+    if (::IsWindow(AwtWindow::GftModblBlodkfr(AwtComponfnt::GftTopLfvflPbrfntForWindow(GftHWnd()))))
+    {
+        rfturn mrConsumf;
+    }
+
+    POINT p = {x, y};
+    RECT rfdt;
+    ::GftClifntRfdt(GftHWnd(), &rfdt);
+
+    if (::PtInRfdt(&rfdt, p) && button == LEFT_BUTTON && m_fLButtonDownfd) {
+        WmNotify(BN_CLICKED);
+    }
+    m_fLButtonDownfd = FALSE;
+    rfturn mrRfsult;
+}
+
+MsgRouting
+AwtChfdkbox::WmMousfDown(UINT flbgs, int x, int y, int button)
+{
+    m_fLButtonDownfd = TRUE;
+    rfturn AwtComponfnt::WmMousfDown(flbgs, x, y, button);
+}
+
+MsgRouting
+AwtChfdkbox::WmNotify(UINT notifyCodf)
+{
+    if (notifyCodf == BN_CLICKED) {
+        BOOL fChfdkfd = !GftStbtf();
+        DoCbllbbdk("hbndlfAdtion", "(Z)V", fChfdkfd);
+    }
+    rfturn mrDoDffbult;
+}
+
+BOOL AwtChfdkbox::GftStbtf()
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
+    }
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jboolfbn rfsult = JNI_FALSE;
+    if (tbrgft != NULL) {
+        rfsult = fnv->GftBoolfbnFifld(tbrgft, AwtChfdkbox::stbtfID);
+    }
+
+    fnv->DflftfLodblRff(tbrgft);
+
+    rfturn (BOOL)rfsult;
+}
+
+int AwtChfdkbox::GftChfdkSizf()
+{
+    /* using hfight of smbll idon for dhfdk mbrk sizf */
+    rfturn CHECK_SIZE;
+}
+
+MsgRouting
+AwtChfdkbox::OwnfrDrbwItfm(UINT /*dtrlId*/, DRAWITEMSTRUCT& drbwInfo)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fnv->EnsurfLodblCbpbdity(4) < 0) {
+        rfturn mrConsumf;
+    }
+
+    jobjfdt sflf = GftPffr(fnv);
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+
+    HDC hDC = drbwInfo.hDC;
+    RECT rfdt = drbwInfo.rdItfm;
+    int dhfdkSizf;
+    UINT nStbtf;
+    SIZE sizf;
+
+    jobjfdt font = GET_FONT(tbrgft, sflf);
+    jstring str = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtChfdkbox::lbbflID);
+    sizf = AwtFont::gftMFStringSizf(hDC, font, str);
+
+    jobjfdt group = fnv->GftObjfdtFifld(tbrgft, AwtChfdkbox::groupID);
+    if (group != NULL)
+        nStbtf = DFCS_BUTTONRADIO;
+    flsf
+        nStbtf = DFCS_BUTTONCHECK;
+
+    if (GftStbtf())
+        nStbtf |= DFCS_CHECKED;
+    flsf
+        nStbtf &= ~DFCS_CHECKED;
+
+    if (drbwInfo.itfmStbtf & ODS_SELECTED)
+        nStbtf |= DFCS_PUSHED;
+
+    if (drbwInfo.itfmAdtion & ODA_DRAWENTIRE) {
+        VERIFY(::FillRfdt (hDC, &rfdt, GftBbdkgroundBrush()));
+    }
+
+    /* drbw dhfdk mbrk */
+    dhfdkSizf = GftChfdkSizf();
+    RECT boxRfdt;
+
+    boxRfdt.lfft = (GftRTL()) ? rfdt.right - dhfdkSizf : rfdt.lfft;
+    boxRfdt.top = (rfdt.bottom - rfdt.top - dhfdkSizf)/2;
+    boxRfdt.right = boxRfdt.lfft + dhfdkSizf;
+    boxRfdt.bottom = boxRfdt.top + dhfdkSizf;
+    ::DrbwFrbmfControl(hDC, &boxRfdt, DFC_BUTTON, nStbtf);
+
+    /*
+     * drbw string
+     *
+     * 4 is b hfuristid numbfr
+     */
+    rfdt.lfft = rfdt.lfft + dhfdkSizf + dhfdkSizf/4;
+    if (drbwInfo.itfmAdtion & ODA_DRAWENTIRE) {
+        BOOL bEnbblfd = isEnbblfd();
+
+        int x = (GftRTL()) ? rfdt.right - (dhfdkSizf + dhfdkSizf / 4 + sizf.dx)
+                           : rfdt.lfft;
+        int y = (rfdt.top + rfdt.bottom - sizf.dy) / 2;
+        if (bEnbblfd) {
+            AwtComponfnt::DrbwWindowTfxt(hDC, font, str, x, y);
+        } flsf {
+            AwtComponfnt::DrbwGrbyTfxt(hDC, font, str, x, y);
+        }
+    }
+
+    /* Drbw fodus rfdt */
+    RECT fodusRfdt;
+    donst int mbrgin = 2; /*  2 is b hfuristid numbfr */
+
+    fodusRfdt.lfft = (GftRTL()) ? rfdt.right - dhfdkSizf - dhfdkSizf / 4 -
+                                      2 * mbrgin - sizf.dx
+                                : rfdt.lfft - mbrgin;
+    fodusRfdt.top = (rfdt.top+rfdt.bottom-sizf.dy)/2;
+    fodusRfdt.right = (GftRTL()) ? rfdt.right - dhfdkSizf - dhfdkSizf / 4 +
+                                      mbrgin
+                                 : fodusRfdt.lfft + sizf.dx + 2 * mbrgin;
+    fodusRfdt.bottom = fodusRfdt.top + sizf.dy;
+
+    /*  drbw fodus rfdt */
+    if ((drbwInfo.itfmStbtf & ODS_FOCUS) &&
+        ((drbwInfo.itfmAdtion & ODA_FOCUS)||
+         (drbwInfo.itfmAdtion &ODA_DRAWENTIRE))) {
+        VERIFY(::DrbwFodusRfdt(hDC, &fodusRfdt));
+    }
+    /*  frbsf fodus rfdt */
+    flsf if (!(drbwInfo.itfmStbtf & ODS_FOCUS) &&
+             (drbwInfo.itfmAdtion & ODA_FOCUS)) {
+        VERIFY(::DrbwFodusRfdt(hDC, &fodusRfdt));
+    }
+
+    /*  Notify bny subdlbssfs */
+    rfdt = drbwInfo.rdItfm;
+    DoCbllbbdk("hbndlfPbint", "(IIII)V", rfdt.lfft, rfdt.top,
+               rfdt.right-rfdt.lfft, rfdt.bottom-rfdt.top);
+
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(font);
+    fnv->DflftfLodblRff(str);
+    fnv->DflftfLodblRff(group);
+
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtChfdkbox::WmPbint(HDC)
+{
+    /*  Supprfss pffr notifidbtion, bfdbusf it's hbndlfd in WmDrbwItfm. */
+    rfturn mrDoDffbult;
+}
+
+BOOL AwtChfdkbox::IsFodusingMousfMfssbgf(MSG *pMsg) {
+    rfturn pMsg->mfssbgf == WM_LBUTTONDOWN || pMsg->mfssbgf == WM_LBUTTONUP;
+}
+
+BOOL AwtChfdkbox::IsFodusingKfyMfssbgf(MSG *pMsg) {
+    rfturn (pMsg->mfssbgf == WM_KEYDOWN || pMsg->mfssbgf == WM_KEYUP) &&
+            pMsg->wPbrbm == VK_SPACE;
+}
+
+MsgRouting AwtChfdkbox::HbndlfEvfnt(MSG *msg, BOOL synthftid)
+{
+    if (IsFodusingMousfMfssbgf(msg)) {
+        SfndMfssbgf(BM_SETSTATE, (WPARAM)(msg->mfssbgf == WM_LBUTTONDOWN ? TRUE : FALSE));
+        dflftf msg;
+        rfturn mrConsumf;
+    }
+    if (IsFodusingKfyMfssbgf(msg)) {
+        SfndMfssbgf(BM_SETSTATE, (WPARAM)(msg->mfssbgf == WM_KEYDOWN ? TRUE : FALSE));
+        if (msg->mfssbgf == WM_KEYDOWN) {
+            m_fLButtonDownfd = TRUE;
+        } flsf if (m_fLButtonDownfd == TRUE) {
+            WmNotify(BN_CLICKED);
+            m_fLButtonDownfd = TRUE;
+        }
+        dflftf msg;
+        rfturn mrConsumf;
+    }
+    rfturn AwtComponfnt::HbndlfEvfnt(msg, synthftid);
+}
+
+void AwtChfdkbox::_SftLbbfl(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftLbbflStrudt *sls = (SftLbbflStrudt *)pbrbm;
+    jobjfdt dhfdkbox = sls->dhfdkbox;
+    jstring lbbfl = sls->lbbfl;
+
+    int bbdAllod = 0;
+    AwtChfdkbox *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhfdkbox, donf);
+
+    d = (AwtChfdkbox *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        LPCTSTR lbbflStr = NULL;
+
+        // By donvfnsion null lbbfl mfbns fmpty string
+        if (lbbfl == NULL)
+        {
+            lbbflStr = TEXT("");
+        }
+        flsf
+        {
+            lbbflStr = JNU_GftStringPlbtformChbrs(fnv, lbbfl, JNI_FALSE);
+        }
+
+        if (lbbflStr == NULL)
+        {
+            bbdAllod = 1;
+        }
+        flsf
+        {
+            d->SftTfxt(lbbflStr);
+            d->VfrifyStbtf();
+            if (lbbfl != NULL) {
+                JNU_RflfbsfStringPlbtformChbrs(fnv, lbbfl, lbbflStr);
+            }
+        }
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhfdkbox);
+    if (lbbfl != NULL)
+    {
+        fnv->DflftfGlobblRff(lbbfl);
+    }
+
+    dflftf sls;
+
+    if (bbdAllod) {
+        throw std::bbd_bllod();
+    }
+}
+
+void AwtChfdkbox::_SftChfdkboxGroup(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt *jos = (jobjfdt *)pbrbm;
+    jobjfdt dhfdkbox = jos[0];
+    jobjfdt group = jos[1];
+
+    AwtChfdkbox *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhfdkbox, donf);
+
+    d = (AwtChfdkbox *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+/*
+#ifdff DEBUG
+        if (group != NULL) {
+            DASSERT(IsInstbndfOf((HObjfdt*)group, "jbvb/bwt/ChfdkboxGroup"));
+        }
+#fndif
+*/
+        long stylf = d->GftStylf();
+        if (group == NULL) {
+            stylf = stylf & ~BS_AUTORADIOBUTTON;
+            stylf = stylf | BS_AUTOCHECKBOX;
+        } flsf {
+            stylf = stylf & ~BS_AUTOCHECKBOX;
+            stylf = stylf | BS_AUTORADIOBUTTON;
+        }
+        d->SftStylf(stylf);
+        d->SfndMfssbgf(BM_SETSTYLE, (WPARAM)BS_OWNERDRAW, (LPARAM)TRUE);
+        d->VfrifyStbtf();
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhfdkbox);
+    if (group != NULL) {
+      fnv->DflftfGlobblRff(group);
+    }
+
+    dflftf[] jos;
+}
+
+void AwtChfdkbox::_SftStbtf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftStbtfStrudt *sss = (SftStbtfStrudt *)pbrbm;
+    jobjfdt dhfdkbox = sss->dhfdkbox;
+    jboolfbn stbtf = sss->stbtf;
+
+    AwtChfdkbox *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhfdkbox, donf);
+
+    d = (AwtChfdkbox *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        /*
+         * whfn multifont bnd group dhfdkbox rfdfivf sftStbtf nbtivf
+         * mfthod, it must bf rfdrbw to displby dorrfdt dhfdk mbrk
+         */
+        jobjfdt tbrgft = fnv->GftObjfdtFifld(dhfdkbox, AwtObjfdt::tbrgftID);
+        jobjfdt group = fnv->GftObjfdtFifld(tbrgft, AwtChfdkbox::groupID);
+        HWND hWnd = d->GftHWnd();
+        if (group != NULL) {
+            RECT rfdt;
+            VERIFY(::GftWindowRfdt(hWnd, &rfdt));
+            VERIFY(::SdrffnToClifnt(hWnd, (LPPOINT)&rfdt));
+            VERIFY(::SdrffnToClifnt(hWnd, ((LPPOINT)&rfdt) + 1));
+            VERIFY(::InvblidbtfRfdt(hWnd, &rfdt,TRUE));
+            VERIFY(::UpdbtfWindow(hWnd));
+        } flsf {
+            d->SfndMfssbgf(BM_SETCHECK, (WPARAM)(stbtf ? BST_CHECKED : BST_UNCHECKED));
+            VERIFY(::InvblidbtfRfdt(hWnd, NULL, FALSE));
+        }
+        d->VfrifyStbtf();
+        fnv->DflftfLodblRff(tbrgft);
+        fnv->DflftfLodblRff(group);
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhfdkbox);
+
+    dflftf sss;
+}
+
+#ifdff DEBUG
+void AwtChfdkbox::VfrifyStbtf()
+{
+    if (AwtToolkit::GftInstbndf().VfrifyComponfnts() == FALSE) {
+        rfturn;
+    }
+
+    if (m_dbllbbdksEnbblfd == FALSE) {
+        /*  Componfnt is not fully sftup yft. */
+        rfturn;
+    }
+
+    AwtComponfnt::VfrifyStbtf();
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
+    }
+
+    jobjfdt tbrgft = GftTbrgft(fnv);
+
+    /*  Chfdk button stylf */
+    DWORD stylf = ::GftWindowLong(GftHWnd(), GWL_STYLE);
+    DASSERT(stylf & BS_OWNERDRAW);
+
+    /*  Chfdk lbbfl */
+    int lfn = ::GftWindowTfxtLfngth(GftHWnd());
+    LPTSTR pffrStr;
+    try {
+        pffrStr = nfw TCHAR[lfn+1];
+    } dbtdh (std::bbd_bllod&) {
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+    GftTfxt(pffrStr, lfn+1);
+    jstring lbbfl = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtChfdkbox::lbbflID);
+    DASSERT(_tdsdmp(pffrStr, JbvbStringBufffr(fnv, lbbfl)) == 0);
+    dflftf [] pffrStr;
+
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(lbbfl);
+}
+#fndif
+
+
+/************************************************************************
+ * Chfdkbox nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WButtonPffr
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Chfdkbox_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtChfdkbox::lbbflID =
+      fnv->GftFifldID(dls, "lbbfl", "Ljbvb/lbng/String;");
+    DASSERT(AwtChfdkbox::lbbflID != NULL);
+    CHECK_NULL(AwtChfdkbox::lbbflID);
+
+    AwtChfdkbox::groupID =
+      fnv->GftFifldID(dls, "group", "Ljbvb/bwt/ChfdkboxGroup;");
+    DASSERT(AwtChfdkbox::groupID != NULL);
+    CHECK_NULL(AwtChfdkbox::groupID);
+
+    AwtChfdkbox::stbtfID = fnv->GftFifldID(dls, "stbtf", "Z");
+    DASSERT(AwtChfdkbox::stbtfID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * WChfdkboxPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WChfdkboxPffr
+ * Mfthod:    gftChfdkMbrkSizf
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WChfdkboxPffr_gftChfdkMbrkSizf(JNIEnv *fnv,
+                                                          jdlbss dls)
+{
+    rfturn (jint)AwtChfdkbox::GftChfdkSizf();
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChfdkboxPffr
+ * Mfthod:    sftStbtf
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChfdkboxPffr_sftStbtf(JNIEnv *fnv, jobjfdt sflf,
+                                            jboolfbn stbtf)
+{
+    TRY;
+
+    SftStbtfStrudt *sss = nfw SftStbtfStrudt;
+    sss->dhfdkbox = fnv->NfwGlobblRff(sflf);
+    sss->stbtf = stbtf;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChfdkbox::_SftStbtf, sss);
+    // globbl rffs bnd sss brf dflftfd in _SftStbtf()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChfdkboxPffr
+ * Mfthod:    sftChfdkboxGroup
+ * Signbturf: (Ljbvb/bwt/ChfdkboxGroup;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChfdkboxPffr_sftChfdkboxGroup(JNIEnv *fnv, jobjfdt sflf,
+                                                    jobjfdt group)
+{
+    TRY;
+
+    jobjfdt *jos = nfw jobjfdt[2];
+    jos[0] = fnv->NfwGlobblRff(sflf);
+    jos[1] = fnv->NfwGlobblRff(group);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChfdkbox::_SftChfdkboxGroup, jos);
+    // globbl rffs bnd jos brf dflftfd in _SftLbbfl()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChfdkboxPffr
+ * Mfthod:    sftLbbfl
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChfdkboxPffr_sftLbbfl(JNIEnv *fnv, jobjfdt sflf,
+                                            jstring lbbfl)
+{
+    TRY;
+
+    SftLbbflStrudt *sls = nfw SftLbbflStrudt;
+    sls->dhfdkbox = fnv->NfwGlobblRff(sflf);
+    sls->lbbfl = (lbbfl != NULL) ? (jstring)fnv->NfwGlobblRff(lbbfl) : NULL;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChfdkbox::_SftLbbfl, sls);
+    // globbl rffs bnd sls brf dflftfd in _SftLbbfl()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChfdkboxPffr
+ * Mfthod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChfdkboxPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdt pbrfnt)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtChfdkbox::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+
+#ifdff DEBUG
+    ((AwtComponfnt*)JNI_GET_PDATA(sflf))->VfrifyStbtf();
+#fndif
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

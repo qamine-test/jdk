@@ -1,86 +1,86 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* inftrees.h -- header to use inftrees.c
- * Copyright (C) 1995-2005, 2010 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* inftrffs.i -- ifbdfr to usf inftrffs.d
+ * Copyrigit (C) 1995-2005, 2010 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
-/* WARNING: this file should *not* be used by applications. It is
-   part of the implementation of the compression library and is
-   subject to change. Applications should only use zlib.h.
+/* WARNING: tiis filf siould *not* bf usfd by bpplidbtions. It is
+   pbrt of tif implfmfntbtion of tif domprfssion librbry bnd is
+   subjfdt to dibngf. Applidbtions siould only usf zlib.i.
  */
 
-/* Structure for decoding tables.  Each entry provides either the
-   information needed to do the operation requested by the code that
-   indexed that table entry, or it provides a pointer to another
-   table that indexes more bits of the code.  op indicates whether
-   the entry is a pointer to another table, a literal, a length or
-   distance, an end-of-block, or an invalid code.  For a table
-   pointer, the low four bits of op is the number of index bits of
-   that table.  For a length or distance, the low four bits of op
-   is the number of extra bits to get after the code.  bits is
-   the number of bits in this code or part of the code to drop off
-   of the bit buffer.  val is the actual byte to output in the case
-   of a literal, the base length or distance, or the offset from
-   the current table to the next table.  Each entry is four bytes. */
-typedef struct {
-    unsigned char op;           /* operation, extra bits, table bits */
-    unsigned char bits;         /* bits in this part of the code */
-    unsigned short val;         /* offset in table or code value */
-} code;
+/* Strudturf for dfdoding tbblfs.  Ebdi fntry providfs fitifr tif
+   informbtion nffdfd to do tif opfrbtion rfqufstfd by tif dodf tibt
+   indfxfd tibt tbblf fntry, or it providfs b pointfr to bnotifr
+   tbblf tibt indfxfs morf bits of tif dodf.  op indidbtfs wiftifr
+   tif fntry is b pointfr to bnotifr tbblf, b litfrbl, b lfngti or
+   distbndf, bn fnd-of-blodk, or bn invblid dodf.  For b tbblf
+   pointfr, tif low four bits of op is tif numbfr of indfx bits of
+   tibt tbblf.  For b lfngti or distbndf, tif low four bits of op
+   is tif numbfr of fxtrb bits to gft bftfr tif dodf.  bits is
+   tif numbfr of bits in tiis dodf or pbrt of tif dodf to drop off
+   of tif bit bufffr.  vbl is tif bdtubl bytf to output in tif dbsf
+   of b litfrbl, tif bbsf lfngti or distbndf, or tif offsft from
+   tif durrfnt tbblf to tif nfxt tbblf.  Ebdi fntry is four bytfs. */
+typfdff strudt {
+    unsignfd dibr op;           /* opfrbtion, fxtrb bits, tbblf bits */
+    unsignfd dibr bits;         /* bits in tiis pbrt of tif dodf */
+    unsignfd siort vbl;         /* offsft in tbblf or dodf vbluf */
+} dodf;
 
-/* op values as set by inflate_table():
-    00000000 - literal
-    0000tttt - table link, tttt != 0 is the number of table index bits
-    0001eeee - length or distance, eeee is the number of extra bits
-    01100000 - end of block
-    01000000 - invalid code
+/* op vblufs bs sft by inflbtf_tbblf():
+    00000000 - litfrbl
+    0000tttt - tbblf link, tttt != 0 is tif numbfr of tbblf indfx bits
+    0001ffff - lfngti or distbndf, ffff is tif numbfr of fxtrb bits
+    01100000 - fnd of blodk
+    01000000 - invblid dodf
  */
 
-/* Maximum size of the dynamic table.  The maximum number of code structures is
-   1444, which is the sum of 852 for literal/length codes and 592 for distance
-   codes.  These values were found by exhaustive searches using the program
-   examples/enough.c found in the zlib distribtution.  The arguments to that
-   program are the number of symbols, the initial root table size, and the
-   maximum bit length of a code.  "enough 286 9 15" for literal/length codes
-   returns returns 852, and "enough 30 6 15" for distance codes returns 592.
-   The initial root table size (9 or 6) is found in the fifth argument of the
-   inflate_table() calls in inflate.c and infback.c.  If the root table size is
-   changed, then these maximum sizes would be need to be recalculated and
-   updated. */
-#define ENOUGH_LENS 852
-#define ENOUGH_DISTS 592
-#define ENOUGH (ENOUGH_LENS+ENOUGH_DISTS)
+/* Mbximum sizf of tif dynbmid tbblf.  Tif mbximum numbfr of dodf strudturfs is
+   1444, wiidi is tif sum of 852 for litfrbl/lfngti dodfs bnd 592 for distbndf
+   dodfs.  Tifsf vblufs wfrf found by fxibustivf sfbrdifs using tif progrbm
+   fxbmplfs/fnougi.d found in tif zlib distribtution.  Tif brgumfnts to tibt
+   progrbm brf tif numbfr of symbols, tif initibl root tbblf sizf, bnd tif
+   mbximum bit lfngti of b dodf.  "fnougi 286 9 15" for litfrbl/lfngti dodfs
+   rfturns rfturns 852, bnd "fnougi 30 6 15" for distbndf dodfs rfturns 592.
+   Tif initibl root tbblf sizf (9 or 6) is found in tif fifti brgumfnt of tif
+   inflbtf_tbblf() dblls in inflbtf.d bnd infbbdk.d.  If tif root tbblf sizf is
+   dibngfd, tifn tifsf mbximum sizfs would bf nffd to bf rfdbldulbtfd bnd
+   updbtfd. */
+#dffinf ENOUGH_LENS 852
+#dffinf ENOUGH_DISTS 592
+#dffinf ENOUGH (ENOUGH_LENS+ENOUGH_DISTS)
 
-/* Type of code to build for inflate_table() */
-typedef enum {
+/* Typf of dodf to build for inflbtf_tbblf() */
+typfdff fnum {
     CODES,
     LENS,
     DISTS
-} codetype;
+} dodftypf;
 
-int ZLIB_INTERNAL inflate_table OF((codetype type, unsigned short FAR *lens,
-                             unsigned codes, code FAR * FAR *table,
-                             unsigned FAR *bits, unsigned short FAR *work));
+int ZLIB_INTERNAL inflbtf_tbblf OF((dodftypf typf, unsignfd siort FAR *lfns,
+                             unsignfd dodfs, dodf FAR * FAR *tbblf,
+                             unsignfd FAR *bits, unsignfd siort FAR *work));

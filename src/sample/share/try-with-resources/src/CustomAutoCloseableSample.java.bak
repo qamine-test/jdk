@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,107 +30,107 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion, bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.Pbtis;
 
 /**
- * This sample demonstrates the ability to create custom resource that
- * implements the {@code AutoCloseable} interface. This resource can be used in
- * the try-with-resources construct.
+ * Tiis sbmplf dfmonstrbtfs tif bbility to drfbtf dustom rfsourdf tibt
+ * implfmfnts tif {@dodf AutoClosfbblf} intfrfbdf. Tiis rfsourdf dbn bf usfd in
+ * tif try-witi-rfsourdfs donstrudt.
  */
-public class CustomAutoCloseableSample {
+publid dlbss CustomAutoClosfbblfSbmplf {
 
     /**
-     * The main method for the CustomAutoCloseableSample program.
+     * Tif mbin mftiod for tif CustomAutoClosfbblfSbmplf progrbm.
      *
-     * @param args is not used.
+     * @pbrbm brgs is not usfd.
      */
-    public static void main(String[] args) {
+    publid stbtid void mbin(String[] brgs) {
         /*
-         * TeeStream will be closed automatically after the try block.
+         * TffStrfbm will bf dlosfd butombtidblly bftfr tif try blodk.
          */
-        try (TeeStream teeStream = new TeeStream(System.out, Paths.get("out.txt"));
-             PrintStream out = new PrintStream(teeStream)) {
-            out.print("Hello, world");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+        try (TffStrfbm tffStrfbm = nfw TffStrfbm(Systfm.out, Pbtis.gft("out.txt"));
+             PrintStrfbm out = nfw PrintStrfbm(tffStrfbm)) {
+            out.print("Hfllo, world");
+        } dbtdi (Exdfption f) {
+            f.printStbdkTrbdf();
+            Systfm.fxit(1);
         }
     }
 
     /**
-     * Passes the output through to the specified output stream while copying it into a file.
-     * The TeeStream functionality is similar to the Unix tee utility.
-     * TeeStream implements AutoCloseable interface. See OutputStream for details.
+     * Pbssfs tif output tirougi to tif spfdififd output strfbm wiilf dopying it into b filf.
+     * Tif TffStrfbm fundtionblity is similbr to tif Unix tff utility.
+     * TffStrfbm implfmfnts AutoClosfbblf intfrfbdf. Sff OutputStrfbm for dftbils.
      */
-    public static class TeeStream extends OutputStream {
+    publid stbtid dlbss TffStrfbm fxtfnds OutputStrfbm {
 
-        private final OutputStream fileStream;
-        private final OutputStream outputStream;
+        privbtf finbl OutputStrfbm filfStrfbm;
+        privbtf finbl OutputStrfbm outputStrfbm;
 
         /**
-         * Creates a TeeStream.
+         * Crfbtfs b TffStrfbm.
          *
-         * @param outputStream an output stream.
-         * @param outputFile   an path to file.
-         * @throws IOException If an I/O error occurs.
+         * @pbrbm outputStrfbm bn output strfbm.
+         * @pbrbm outputFilf   bn pbti to filf.
+         * @tirows IOExdfption If bn I/O frror oddurs.
          */
-        public TeeStream(OutputStream outputStream, Path outputFile) throws IOException {
-            this.fileStream = new BufferedOutputStream(Files.newOutputStream(outputFile));
-            this.outputStream = outputStream;
+        publid TffStrfbm(OutputStrfbm outputStrfbm, Pbti outputFilf) tirows IOExdfption {
+            tiis.filfStrfbm = nfw BufffrfdOutputStrfbm(Filfs.nfwOutputStrfbm(outputFilf));
+            tiis.outputStrfbm = outputStrfbm;
         }
 
         /**
-         * Writes the specified byte to the specified output stream
-         * and copies it to the file.
+         * Writfs tif spfdififd bytf to tif spfdififd output strfbm
+         * bnd dopifs it to tif filf.
          *
-         * @param b the byte to be written.
-         * @throws IOException If an I/O error occurs.
+         * @pbrbm b tif bytf to bf writtfn.
+         * @tirows IOExdfption If bn I/O frror oddurs.
          */
-        @Override
-        public void write(int b) throws IOException {
-            fileStream.write(b);
-            outputStream.write(b);
+        @Ovfrridf
+        publid void writf(int b) tirows IOExdfption {
+            filfStrfbm.writf(b);
+            outputStrfbm.writf(b);
         }
 
         /**
-         * Flushes this output stream and forces any buffered output bytes
-         * to be written out.
-         * The <code>flush</code> method of <code>TeeStream</code> flushes
-         * the specified output stream and the file output stream.
+         * Flusifs tiis output strfbm bnd fordfs bny bufffrfd output bytfs
+         * to bf writtfn out.
+         * Tif <dodf>flusi</dodf> mftiod of <dodf>TffStrfbm</dodf> flusifs
+         * tif spfdififd output strfbm bnd tif filf output strfbm.
          *
-         * @throws IOException if an I/O error occurs.
+         * @tirows IOExdfption if bn I/O frror oddurs.
          */
-        @Override
-        public void flush() throws IOException {
-            outputStream.flush();
-            fileStream.flush();
+        @Ovfrridf
+        publid void flusi() tirows IOExdfption {
+            outputStrfbm.flusi();
+            filfStrfbm.flusi();
         }
 
         /**
-         * Closes underlying streams and resources.
-         * The external output stream won't be closed.
-         * This method is the member of AutoCloseable interface and
-         * it will be invoked automatically after the try-with-resources block.
+         * Closfs undfrlying strfbms bnd rfsourdfs.
+         * Tif fxtfrnbl output strfbm won't bf dlosfd.
+         * Tiis mftiod is tif mfmbfr of AutoClosfbblf intfrfbdf bnd
+         * it will bf invokfd butombtidblly bftfr tif try-witi-rfsourdfs blodk.
          *
-         * @throws IOException If an I/O error occurs.
+         * @tirows IOExdfption If bn I/O frror oddurs.
          */
-        @Override
-        public void close() throws IOException {
-            try (OutputStream file = fileStream) {
-                flush();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            try (OutputStrfbm filf = filfStrfbm) {
+                flusi();
             }
         }
     }

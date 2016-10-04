@@ -1,137 +1,137 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 
 /**
- * Handles <code>&lt;ds:Object&gt;</code> elements
- * <code>Object<code> {@link Element} supply facility which can contain any kind data
+ * Hbndlfs <dodf>&lt;ds:Objfdt&gt;</dodf> flfmfnts
+ * <dodf>Objfdt<dodf> {@link Elfmfnt} supply fbdility wiidi dbn dontbin bny kind dbtb
  *
- * @author Christian Geuer-Pollmann
- * $todo$ if we remove childen, the boolean values are not updated
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * $todo$ if wf rfmovf diildfn, tif boolfbn vblufs brf not updbtfd
  */
-public class ObjectContainer extends SignatureElementProxy {
+publid dlbss ObjfdtContbinfr fxtfnds SignbturfElfmfntProxy {
 
     /**
-     * Constructs {@link ObjectContainer}
+     * Construdts {@link ObjfdtContbinfr}
      *
-     * @param doc the {@link Document} in which <code>Object</code> element is placed
+     * @pbrbm dod tif {@link Dodumfnt} in wiidi <dodf>Objfdt</dodf> flfmfnt is plbdfd
      */
-    public ObjectContainer(Document doc) {
-        super(doc);
+    publid ObjfdtContbinfr(Dodumfnt dod) {
+        supfr(dod);
     }
 
     /**
-     * Constructs {@link ObjectContainer} from {@link Element}
+     * Construdts {@link ObjfdtContbinfr} from {@link Elfmfnt}
      *
-     * @param element is <code>Object</code> element
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt is <dodf>Objfdt</dodf> flfmfnt
+     * @pbrbm bbsfURI tif URI of tif rfsourdf wifrf tif XML instbndf wbs storfd
+     * @tirows XMLSfdurityExdfption
      */
-    public ObjectContainer(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    publid ObjfdtContbinfr(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sfts tif <dodf>Id</dodf> bttributf
      *
-     * @param Id <code>Id</code> attribute
+     * @pbrbm Id <dodf>Id</dodf> bttributf
      */
-    public void setId(String Id) {
+    publid void sftId(String Id) {
         if (Id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, Id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, Id);
+            tiis.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Rfturns tif <dodf>Id</dodf> bttributf
      *
-     * @return the <code>Id</code> attribute
+     * @rfturn tif <dodf>Id</dodf> bttributf
      */
-    public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+    publid String gftId() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Sets the <code>MimeType</code> attribute
+     * Sfts tif <dodf>MimfTypf</dodf> bttributf
      *
-     * @param MimeType the <code>MimeType</code> attribute
+     * @pbrbm MimfTypf tif <dodf>MimfTypf</dodf> bttributf
      */
-    public void setMimeType(String MimeType) {
-        if (MimeType != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_MIMETYPE, MimeType);
+    publid void sftMimfTypf(String MimfTypf) {
+        if (MimfTypf != null) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_MIMETYPE, MimfTypf);
         }
     }
 
     /**
-     * Returns the <code>MimeType</code> attribute
+     * Rfturns tif <dodf>MimfTypf</dodf> bttributf
      *
-     * @return the <code>MimeType</code> attribute
+     * @rfturn tif <dodf>MimfTypf</dodf> bttributf
      */
-    public String getMimeType() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_MIMETYPE);
+    publid String gftMimfTypf() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_MIMETYPE);
     }
 
     /**
-     * Sets the <code>Encoding</code> attribute
+     * Sfts tif <dodf>Endoding</dodf> bttributf
      *
-     * @param Encoding the <code>Encoding</code> attribute
+     * @pbrbm Endoding tif <dodf>Endoding</dodf> bttributf
      */
-    public void setEncoding(String Encoding) {
-        if (Encoding != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ENCODING, Encoding);
+    publid void sftEndoding(String Endoding) {
+        if (Endoding != null) {
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ENCODING, Endoding);
         }
     }
 
     /**
-     * Returns the <code>Encoding</code> attribute
+     * Rfturns tif <dodf>Endoding</dodf> bttributf
      *
-     * @return the <code>Encoding</code> attribute
+     * @rfturn tif <dodf>Endoding</dodf> bttributf
      */
-    public String getEncoding() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ENCODING);
+    publid String gftEndoding() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ENCODING);
     }
 
     /**
-     * Adds child Node
+     * Adds diild Nodf
      *
-     * @param node child Node
-     * @return the new node in the tree.
+     * @pbrbm nodf diild Nodf
+     * @rfturn tif nfw nodf in tif trff.
      */
-    public Node appendChild(Node node) {
-        return this.constructionElement.appendChild(node);
+    publid Nodf bppfndCiild(Nodf nodf) {
+        rfturn tiis.donstrudtionElfmfnt.bppfndCiild(nodf);
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_OBJECT;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_OBJECT;
     }
 }

@@ -1,145 +1,145 @@
 #
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Accessibility package.
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
 #
-# When this file is read in, the strings are put into the 
-# defaults table.  This is an implementation detail of the current
-# workings of Accessibility.  DO NOT DEPEND ON THIS.  
-# This may change in future versions of Accessibility as we improve 
-# localization support.
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
 #
-# @author  Lynn Monsanto
+# @butior  Lynn Monsbnto
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-alert=avisering
-awtcomponent=AWT-komponent
-checkbox=kryssruta
-colorchooser=f\u00E4rgv\u00E4ljare
-columnheader=kolumnrubrik
-combobox=kombinationsruta
-canvas=rityta
-desktopicon=skrivbordsikon
-desktoppane=skrivbordsruta
-dialog=dialogruta
-directorypane=katalogruta
-glasspane=glasruta
-filechooser=filv\u00E4ljare
-filler=utfyllnad
-frame=ram
-internalframe=intern ram
-label=etikett
-layeredpane=staplad ruta
-list=lista
-listitem=listobjekt
-menubar=menyrad
-menu=meny
-menuitem=menyalternativ
-optionpane=alternativruta
-pagetab=sidflik
-pagetablist=sidflikslista
-panel=panel
-passwordtext=l\u00F6senordstext
-popupmenu=snabbmeny
-progressbar=statusrad
-pushbutton=knapp
-radiobutton=alternativknapp
-rootpane=grundruta
-rowheader=radrubrik
-scrollbar=rullningslist
-scrollpane=rullningsruta
-separator=avskiljare
-slider=skjutreglage
-splitpane=delad ruta
-swingcomponent=swing-komponent
-table=tabell
-text=text
-tree=tr\u00E4d
-togglebutton=v\u00E4xlingsknapp
-toolbar=verktygsrad
-tooltip=knappbeskrivning
+blfrt=bvisfring
+bwtdomponfnt=AWT-komponfnt
+difdkbox=kryssrutb
+dolordioosfr=f\u00E4rgv\u00E4ljbrf
+dolumnifbdfr=kolumnrubrik
+dombobox=kombinbtionsrutb
+dbnvbs=ritytb
+dfsktopidon=skrivbordsikon
+dfsktoppbnf=skrivbordsrutb
+diblog=diblogrutb
+dirfdtorypbnf=kbtblogrutb
+glbsspbnf=glbsrutb
+filfdioosfr=filv\u00E4ljbrf
+fillfr=utfyllnbd
+frbmf=rbm
+intfrnblfrbmf=intfrn rbm
+lbbfl=ftikftt
+lbyfrfdpbnf=stbplbd rutb
+list=listb
+listitfm=listobjfkt
+mfnubbr=mfnyrbd
+mfnu=mfny
+mfnuitfm=mfnybltfrnbtiv
+optionpbnf=bltfrnbtivrutb
+pbgftbb=sidflik
+pbgftbblist=sidflikslistb
+pbnfl=pbnfl
+pbsswordtfxt=l\u00F6sfnordstfxt
+popupmfnu=snbbbmfny
+progrfssbbr=stbtusrbd
+pusibutton=knbpp
+rbdiobutton=bltfrnbtivknbpp
+rootpbnf=grundrutb
+rowifbdfr=rbdrubrik
+sdrollbbr=rullningslist
+sdrollpbnf=rullningsrutb
+sfpbrbtor=bvskiljbrf
+slidfr=skjutrfglbgf
+splitpbnf=dflbd rutb
+swingdomponfnt=swing-komponfnt
+tbblf=tbbfll
+tfxt=tfxt
+trff=tr\u00E4d
+togglfbutton=v\u00E4xlingsknbpp
+toolbbr=vfrktygsrbd
+tooltip=knbppbfskrivning
 unknown=ok\u00E4nd
-viewport=vyport
-window=f\u00F6nster
+vifwport=vyport
+window=f\u00F6nstfr
 #
-# accessible relations
+# bddfssiblf rflbtions
 #
-labelFor=etikett f\u00F6r
-labeledBy=etikett av
-memberOf=medlem i
-controlledBy=controlledBy
-controllerFor=controllerFor
+lbbflFor=ftikftt f\u00F6r
+lbbflfdBy=ftikftt bv
+mfmbfrOf=mfdlfm i
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-active=aktiv
-armed=redo
-busy=upptagen
-checked=markerad
-collapsed=komprimerad
-editable=redigerbar
-expandable=ut\u00F6kningsbar
-expanded=ut\u00F6kad
-enabled=aktiverad
-focusable=fokuseringsbar
-focused=fokuserad
-iconified=minimerad
-modal=modal
-multiline=flera rader
-multiselectable=flerval
-opaque=t\u00E4ckande
-pressed=nedtryckt
-resizable=storleks\u00E4ndringsbar
-selectable=valbar
-selected=vald
-showing=visas
-singleline=en rad
-transient=tillf\u00E4llig
-visible=synlig
-vertical=vertikal
-horizontal=horisontell
+bdtivf=bktiv
+brmfd=rfdo
+busy=upptbgfn
+difdkfd=mbrkfrbd
+dollbpsfd=komprimfrbd
+fditbblf=rfdigfrbbr
+fxpbndbblf=ut\u00F6kningsbbr
+fxpbndfd=ut\u00F6kbd
+fnbblfd=bktivfrbd
+fodusbblf=fokusfringsbbr
+fodusfd=fokusfrbd
+idonififd=minimfrbd
+modbl=modbl
+multilinf=flfrb rbdfr
+multisflfdtbblf=flfrvbl
+opbquf=t\u00E4dkbndf
+prfssfd=nfdtrydkt
+rfsizbblf=storlfks\u00E4ndringsbbr
+sflfdtbblf=vblbbr
+sflfdtfd=vbld
+siowing=visbs
+singlflinf=fn rbd
+trbnsifnt=tillf\u00E4llig
+visiblf=synlig
+vfrtidbl=vfrtikbl
+iorizontbl=iorisontfll
 #
-# accessible actions
+# bddfssiblf bdtions
 #
-toggleexpand=v\u00E4xla expandering
+togglffxpbnd=v\u00E4xlb fxpbndfring
 
-# new relations, roles and states for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
 
 # 
-# accessible relations
+# bddfssiblf rflbtions
 #
-flowsTo=fl\u00F6dar till
-flowsFrom=fl\u00F6dar fr\u00E5n
-subwindowOf=delf\u00F6nster av
-parentWindowOf=\u00F6verordnat f\u00F6nster f\u00F6r
-embeds=b\u00E4ddar in
-embeddedBy=b\u00E4ddas in av
-childNodeOf=underordnad nod f\u00F6r
+flowsTo=fl\u00F6dbr till
+flowsFrom=fl\u00F6dbr fr\u00E5n
+subwindowOf=dflf\u00F6nstfr bv
+pbrfntWindowOf=\u00F6vfrordnbt f\u00F6nstfr f\u00F6r
+fmbfds=b\u00E4ddbr in
+fmbfddfdBy=b\u00E4ddbs in bv
+diildNodfOf=undfrordnbd nod f\u00F6r
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-header=sidhuvud
-footer=sidfot
-paragraph=stycke
-ruler=linjal
-editbar=redigeringslist
-progressMonitor=f\u00F6rlopps\u00F6vervakare
+ifbdfr=sidiuvud
+footfr=sidfot
+pbrbgrbpi=stydkf
+rulfr=linjbl
+fditbbr=rfdigfringslist
+progrfssMonitor=f\u00F6rlopps\u00F6vfrvbkbrf
 
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-managesDescendants=hanterar underordnade
-indeterminate=obest\u00E4mt
-truncated=kapad
+mbnbgfsDfsdfndbnts=ibntfrbr undfrordnbdf
+indftfrminbtf=obfst\u00E4mt
+trundbtfd=kbpbd
 
-# new for J2SE 1.6.0
+# nfw for J2SE 1.6.0
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-htmlcontainer=HTML-container
+itmldontbinfr=HTML-dontbinfr
 
 #
 # END OF MATERIAL TO LOCALIZE

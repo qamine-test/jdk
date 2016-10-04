@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf mbpping from OID & nbmf to dlbssfs bnd vidf
+ * vfrsb.  Usfd by CfrtifidbtfExtfnsions & PKCS10 to gft thf jbvb
+ * dlbssfs bssodibtfd with b pbrtidulbr OID/nbmf.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @buthor Andrfbs Stfrbfnz
+ *
+ */
+publid dlbss OIDMbp {
+
+    privbtf OIDMbp() {
+        // fmpty
+    }
+
+    // "usfr-frifndly" nbmfs
+    privbtf stbtid finbl String ROOT = X509CfrtImpl.NAME + "." +
+                                 X509CfrtInfo.NAME + "." +
+                                 X509CfrtInfo.EXTENSIONS;
+    privbtf stbtid finbl String AUTH_KEY_IDENTIFIER = ROOT + "." +
+                                          AuthorityKfyIdfntififrExtfnsion.NAME;
+    privbtf stbtid finbl String SUB_KEY_IDENTIFIER  = ROOT + "." +
+                                          SubjfdtKfyIdfntififrExtfnsion.NAME;
+    privbtf stbtid finbl String KEY_USAGE           = ROOT + "." +
+                                          KfyUsbgfExtfnsion.NAME;
+    privbtf stbtid finbl String PRIVATE_KEY_USAGE   = ROOT + "." +
+                                          PrivbtfKfyUsbgfExtfnsion.NAME;
+    privbtf stbtid finbl String POLICY_MAPPINGS     = ROOT + "." +
+                                          PolidyMbppingsExtfnsion.NAME;
+    privbtf stbtid finbl String SUB_ALT_NAME        = ROOT + "." +
+                                          SubjfdtAltfrnbtivfNbmfExtfnsion.NAME;
+    privbtf stbtid finbl String ISSUER_ALT_NAME     = ROOT + "." +
+                                          IssufrAltfrnbtivfNbmfExtfnsion.NAME;
+    privbtf stbtid finbl String BASIC_CONSTRAINTS   = ROOT + "." +
+                                          BbsidConstrbintsExtfnsion.NAME;
+    privbtf stbtid finbl String NAME_CONSTRAINTS    = ROOT + "." +
+                                          NbmfConstrbintsExtfnsion.NAME;
+    privbtf stbtid finbl String POLICY_CONSTRAINTS  = ROOT + "." +
+                                          PolidyConstrbintsExtfnsion.NAME;
+    privbtf stbtid finbl String CRL_NUMBER  = ROOT + "." +
+                                              CRLNumbfrExtfnsion.NAME;
+    privbtf stbtid finbl String CRL_REASON  = ROOT + "." +
+                                              CRLRfbsonCodfExtfnsion.NAME;
+    privbtf stbtid finbl String NETSCAPE_CERT  = ROOT + "." +
+                                              NftsdbpfCfrtTypfExtfnsion.NAME;
+    privbtf stbtid finbl String CERT_POLICIES = ROOT + "." +
+                                             CfrtifidbtfPolidifsExtfnsion.NAME;
+    privbtf stbtid finbl String EXT_KEY_USAGE       = ROOT + "." +
+                                          ExtfndfdKfyUsbgfExtfnsion.NAME;
+    privbtf stbtid finbl String INHIBIT_ANY_POLICY  = ROOT + "." +
+                                          InhibitAnyPolidyExtfnsion.NAME;
+    privbtf stbtid finbl String CRL_DIST_POINTS = ROOT + "." +
+                                        CRLDistributionPointsExtfnsion.NAME;
+
+    privbtf stbtid finbl String CERT_ISSUER = ROOT + "." +
+                                        CfrtifidbtfIssufrExtfnsion.NAME;
+    privbtf stbtid finbl String SUBJECT_INFO_ACCESS = ROOT + "." +
+                                          SubjfdtInfoAddfssExtfnsion.NAME;
+    privbtf stbtid finbl String AUTH_INFO_ACCESS = ROOT + "." +
+                                          AuthorityInfoAddfssExtfnsion.NAME;
+    privbtf stbtid finbl String ISSUING_DIST_POINT = ROOT + "." +
+                                        IssuingDistributionPointExtfnsion.NAME;
+    privbtf stbtid finbl String DELTA_CRL_INDICATOR = ROOT + "." +
+                                        DfltbCRLIndidbtorExtfnsion.NAME;
+    privbtf stbtid finbl String FRESHEST_CRL = ROOT + "." +
+                                        FrfshfstCRLExtfnsion.NAME;
+    privbtf stbtid finbl String OCSPNOCHECK = ROOT + "." +
+                                        OCSPNoChfdkExtfnsion.NAME;
+
+    privbtf stbtid finbl int NftsdbpfCfrtTypf_dbtb[] =
+        { 2, 16, 840, 1, 113730, 1, 1 };
+
+    /** Mbp ObjfdtIdfntififr(oid) -> OIDInfo(info) */
+    privbtf finbl stbtid Mbp<ObjfdtIdfntififr,OIDInfo> oidMbp;
+
+    /** Mbp String(frifndly nbmf) -> OIDInfo(info) */
+    privbtf finbl stbtid Mbp<String,OIDInfo> nbmfMbp;
+
+    stbtid {
+        oidMbp = nfw HbshMbp<ObjfdtIdfntififr,OIDInfo>();
+        nbmfMbp = nfw HbshMbp<String,OIDInfo>();
+        bddIntfrnbl(SUB_KEY_IDENTIFIER, PKIXExtfnsions.SubjfdtKfy_Id,
+                    "sun.sfdurity.x509.SubjfdtKfyIdfntififrExtfnsion");
+        bddIntfrnbl(KEY_USAGE, PKIXExtfnsions.KfyUsbgf_Id,
+                    "sun.sfdurity.x509.KfyUsbgfExtfnsion");
+        bddIntfrnbl(PRIVATE_KEY_USAGE, PKIXExtfnsions.PrivbtfKfyUsbgf_Id,
+                    "sun.sfdurity.x509.PrivbtfKfyUsbgfExtfnsion");
+        bddIntfrnbl(SUB_ALT_NAME, PKIXExtfnsions.SubjfdtAltfrnbtivfNbmf_Id,
+                    "sun.sfdurity.x509.SubjfdtAltfrnbtivfNbmfExtfnsion");
+        bddIntfrnbl(ISSUER_ALT_NAME, PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id,
+                    "sun.sfdurity.x509.IssufrAltfrnbtivfNbmfExtfnsion");
+        bddIntfrnbl(BASIC_CONSTRAINTS, PKIXExtfnsions.BbsidConstrbints_Id,
+                    "sun.sfdurity.x509.BbsidConstrbintsExtfnsion");
+        bddIntfrnbl(CRL_NUMBER, PKIXExtfnsions.CRLNumbfr_Id,
+                    "sun.sfdurity.x509.CRLNumbfrExtfnsion");
+        bddIntfrnbl(CRL_REASON, PKIXExtfnsions.RfbsonCodf_Id,
+                    "sun.sfdurity.x509.CRLRfbsonCodfExtfnsion");
+        bddIntfrnbl(NAME_CONSTRAINTS, PKIXExtfnsions.NbmfConstrbints_Id,
+                    "sun.sfdurity.x509.NbmfConstrbintsExtfnsion");
+        bddIntfrnbl(POLICY_MAPPINGS, PKIXExtfnsions.PolidyMbppings_Id,
+                    "sun.sfdurity.x509.PolidyMbppingsExtfnsion");
+        bddIntfrnbl(AUTH_KEY_IDENTIFIER, PKIXExtfnsions.AuthorityKfy_Id,
+                    "sun.sfdurity.x509.AuthorityKfyIdfntififrExtfnsion");
+        bddIntfrnbl(POLICY_CONSTRAINTS, PKIXExtfnsions.PolidyConstrbints_Id,
+                    "sun.sfdurity.x509.PolidyConstrbintsExtfnsion");
+        bddIntfrnbl(NETSCAPE_CERT, ObjfdtIdfntififr.nfwIntfrnbl
+                    (nfw int[] {2,16,840,1,113730,1,1}),
+                    "sun.sfdurity.x509.NftsdbpfCfrtTypfExtfnsion");
+        bddIntfrnbl(CERT_POLICIES, PKIXExtfnsions.CfrtifidbtfPolidifs_Id,
+                    "sun.sfdurity.x509.CfrtifidbtfPolidifsExtfnsion");
+        bddIntfrnbl(EXT_KEY_USAGE, PKIXExtfnsions.ExtfndfdKfyUsbgf_Id,
+                    "sun.sfdurity.x509.ExtfndfdKfyUsbgfExtfnsion");
+        bddIntfrnbl(INHIBIT_ANY_POLICY, PKIXExtfnsions.InhibitAnyPolidy_Id,
+                    "sun.sfdurity.x509.InhibitAnyPolidyExtfnsion");
+        bddIntfrnbl(CRL_DIST_POINTS, PKIXExtfnsions.CRLDistributionPoints_Id,
+                    "sun.sfdurity.x509.CRLDistributionPointsExtfnsion");
+        bddIntfrnbl(CERT_ISSUER, PKIXExtfnsions.CfrtifidbtfIssufr_Id,
+                    "sun.sfdurity.x509.CfrtifidbtfIssufrExtfnsion");
+        bddIntfrnbl(SUBJECT_INFO_ACCESS, PKIXExtfnsions.SubjfdtInfoAddfss_Id,
+                    "sun.sfdurity.x509.SubjfdtInfoAddfssExtfnsion");
+        bddIntfrnbl(AUTH_INFO_ACCESS, PKIXExtfnsions.AuthInfoAddfss_Id,
+                    "sun.sfdurity.x509.AuthorityInfoAddfssExtfnsion");
+        bddIntfrnbl(ISSUING_DIST_POINT,
+                    PKIXExtfnsions.IssuingDistributionPoint_Id,
+                    "sun.sfdurity.x509.IssuingDistributionPointExtfnsion");
+        bddIntfrnbl(DELTA_CRL_INDICATOR, PKIXExtfnsions.DfltbCRLIndidbtor_Id,
+                    "sun.sfdurity.x509.DfltbCRLIndidbtorExtfnsion");
+        bddIntfrnbl(FRESHEST_CRL, PKIXExtfnsions.FrfshfstCRL_Id,
+                    "sun.sfdurity.x509.FrfshfstCRLExtfnsion");
+        bddIntfrnbl(OCSPNOCHECK, PKIXExtfnsions.OCSPNoChfdk_Id,
+                    "sun.sfdurity.x509.OCSPNoChfdkExtfnsion");
+    }
+
+    /**
+     * Add bttributfs to thf tbblf. For intfrnbl usf in thf stbtid
+     * initiblizfr.
+     */
+    privbtf stbtid void bddIntfrnbl(String nbmf, ObjfdtIdfntififr oid,
+            String dlbssNbmf) {
+        OIDInfo info = nfw OIDInfo(nbmf, oid, dlbssNbmf);
+        oidMbp.put(oid, info);
+        nbmfMbp.put(nbmf, info);
+    }
+
+    /**
+     * Innfr dlbss fndbpsulbting thf mbpping info bnd Clbss lobding.
+     */
+    privbtf stbtid dlbss OIDInfo {
+
+        finbl ObjfdtIdfntififr oid;
+        finbl String nbmf;
+        finbl String dlbssNbmf;
+        privbtf volbtilf Clbss<?> dlbzz;
+
+        OIDInfo(String nbmf, ObjfdtIdfntififr oid, String dlbssNbmf) {
+            this.nbmf = nbmf;
+            this.oid = oid;
+            this.dlbssNbmf = dlbssNbmf;
+        }
+
+        OIDInfo(String nbmf, ObjfdtIdfntififr oid, Clbss<?> dlbzz) {
+            this.nbmf = nbmf;
+            this.oid = oid;
+            this.dlbssNbmf = dlbzz.gftNbmf();
+            this.dlbzz = dlbzz;
+        }
+
+        /**
+         * Rfturn thf Clbss objfdt bssodibtfd with this bttributf.
+         */
+        Clbss<?> gftClbzz() throws CfrtifidbtfExdfption {
+            try {
+                Clbss<?> d = dlbzz;
+                if (d == null) {
+                    d = Clbss.forNbmf(dlbssNbmf);
+                    dlbzz = d;
+                }
+                rfturn d;
+            } dbtdh (ClbssNotFoundExdfption f) {
+                throw nfw CfrtifidbtfExdfption("Could not lobd dlbss: " + f, f);
+            }
+        }
+    }
+
+    /**
+     * Add b nbmf to lookup tbblf.
+     *
+     * @pbrbm nbmf thf nbmf of thf bttr
+     * @pbrbm oid thf string rfprfsfntbtion of thf objfdt idfntififr for
+     *         thf dlbss.
+     * @pbrbm dlbzz thf Clbss objfdt bssodibtfd with this bttributf
+     * @fxdfption CfrtifidbtfExdfption on frrors.
+     */
+    publid stbtid void bddAttributf(String nbmf, String oid, Clbss<?> dlbzz)
+            throws CfrtifidbtfExdfption {
+        ObjfdtIdfntififr objId;
+        try {
+            objId = nfw ObjfdtIdfntififr(oid);
+        } dbtdh (IOExdfption iof) {
+            throw nfw CfrtifidbtfExdfption
+                                ("Invblid Objfdt idfntififr: " + oid);
+        }
+        OIDInfo info = nfw OIDInfo(nbmf, objId, dlbzz);
+        if (oidMbp.put(objId, info) != null) {
+            throw nfw CfrtifidbtfExdfption
+                                ("Objfdt idfntififr blrfbdy fxists: " + oid);
+        }
+        if (nbmfMbp.put(nbmf, info) != null) {
+            throw nfw CfrtifidbtfExdfption("Nbmf blrfbdy fxists: " + nbmf);
+        }
+    }
+
+    /**
+     * Rfturn usfr frifndly nbmf bssodibtfd with thf OID.
+     *
+     * @pbrbm oid thf nbmf of thf objfdt idfntififr to bf rfturnfd.
+     * @rfturn thf usfr frifndly nbmf or null if no nbmf
+     * is rfgistfrfd for this oid.
+     */
+    publid stbtid String gftNbmf(ObjfdtIdfntififr oid) {
+        OIDInfo info = oidMbp.gft(oid);
+        rfturn (info == null) ? null : info.nbmf;
+    }
+
+    /**
+     * Rfturn Objfdt idfntififr for usfr frifndly nbmf.
+     *
+     * @pbrbm nbmf thf usfr frifndly nbmf.
+     * @rfturn thf Objfdt Idfntififr or null if no oid
+     * is rfgistfrfd for this nbmf.
+     */
+    publid stbtid ObjfdtIdfntififr gftOID(String nbmf) {
+        OIDInfo info = nbmfMbp.gft(nbmf);
+        rfturn (info == null) ? null : info.oid;
+    }
+
+    /**
+     * Rfturn thf jbvb dlbss objfdt bssodibtfd with thf usfr frifndly nbmf.
+     *
+     * @pbrbm nbmf thf usfr frifndly nbmf.
+     * @fxdfption CfrtifidbtfExdfption if dlbss dbnnot bf instbntibtfd.
+     */
+    publid stbtid Clbss<?> gftClbss(String nbmf) throws CfrtifidbtfExdfption {
+        OIDInfo info = nbmfMbp.gft(nbmf);
+        rfturn (info == null) ? null : info.gftClbzz();
+    }
+
+    /**
+     * Rfturn thf jbvb dlbss objfdt bssodibtfd with thf objfdt idfntififr.
+     *
+     * @pbrbm oid thf nbmf of thf objfdt idfntififr to bf rfturnfd.
+     * @fxdfption CfrtifidbtfExdfption if dlbss dbnnot bf instbtibtfd.
+     */
+    publid stbtid Clbss<?> gftClbss(ObjfdtIdfntififr oid)
+            throws CfrtifidbtfExdfption {
+        OIDInfo info = oidMbp.gft(oid);
+        rfturn (info == null) ? null : info.gftClbzz();
+    }
+
+}

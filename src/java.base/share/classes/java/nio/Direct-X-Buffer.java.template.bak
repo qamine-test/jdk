@@ -1,490 +1,490 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
-import java.io.FileDescriptor;
-import sun.misc.Cleaner;
-import sun.misc.Unsafe;
-import sun.misc.VM;
-import sun.nio.ch.DirectBuffer;
+import jbvb.io.FilfDfsdriptor;
+import sun.misd.Clfbnfr;
+import sun.misd.Unsbff;
+import sun.misd.VM;
+import sun.nio.di.DirfdtBufffr;
 
 
-class Direct$Type$Buffer$RW$$BO$
+dlbss Dirfdt$Typf$Bufffr$RW$$BO$
 #if[rw]
-    extends {#if[byte]?Mapped$Type$Buffer:$Type$Buffer}
-#else[rw]
-    extends Direct$Type$Buffer$BO$
-#end[rw]
-    implements DirectBuffer
+    fxtfnds {#if[bytf]?Mbppfd$Typf$Bufffr:$Typf$Bufffr}
+#flsf[rw]
+    fxtfnds Dirfdt$Typf$Bufffr$BO$
+#fnd[rw]
+    implfmfnts DirfdtBufffr
 {
 
 #if[rw]
 
-    // Cached unsafe-access object
-    protected static final Unsafe unsafe = Bits.unsafe();
+    // Cbdifd unsbff-bddfss objfdt
+    protfdtfd stbtid finbl Unsbff unsbff = Bits.unsbff();
 
-    // Cached array base offset
-    private static final long arrayBaseOffset = (long)unsafe.arrayBaseOffset($type$[].class);
+    // Cbdifd brrby bbsf offsft
+    privbtf stbtid finbl long brrbyBbsfOffsft = (long)unsbff.brrbyBbsfOffsft($typf$[].dlbss);
 
-    // Cached unaligned-access capability
-    protected static final boolean unaligned = Bits.unaligned();
+    // Cbdifd unblignfd-bddfss dbpbbility
+    protfdtfd stbtid finbl boolfbn unblignfd = Bits.unblignfd();
 
-    // Base address, used in all indexing calculations
-    // NOTE: moved up to Buffer.java for speed in JNI GetDirectBufferAddress
-    //    protected long address;
+    // Bbsf bddrfss, usfd in bll indfxing dbldulbtions
+    // NOTE: movfd up to Bufffr.jbvb for spffd in JNI GftDirfdtBufffrAddrfss
+    //    protfdtfd long bddrfss;
 
-    // An object attached to this buffer. If this buffer is a view of another
-    // buffer then we use this field to keep a reference to that buffer to
-    // ensure that its memory isn't freed before we are done with it.
-    private final Object att;
+    // An objfdt bttbdifd to tiis bufffr. If tiis bufffr is b vifw of bnotifr
+    // bufffr tifn wf usf tiis fifld to kffp b rfffrfndf to tibt bufffr to
+    // fnsurf tibt its mfmory isn't frffd bfforf wf brf donf witi it.
+    privbtf finbl Objfdt btt;
 
-    public Object attachment() {
-        return att;
+    publid Objfdt bttbdimfnt() {
+        rfturn btt;
     }
 
-#if[byte]
+#if[bytf]
 
-    private static class Deallocator
-        implements Runnable
+    privbtf stbtid dlbss Dfbllodbtor
+        implfmfnts Runnbblf
     {
 
-        private static Unsafe unsafe = Unsafe.getUnsafe();
+        privbtf stbtid Unsbff unsbff = Unsbff.gftUnsbff();
 
-        private long address;
-        private long size;
-        private int capacity;
+        privbtf long bddrfss;
+        privbtf long sizf;
+        privbtf int dbpbdity;
 
-        private Deallocator(long address, long size, int capacity) {
-            assert (address != 0);
-            this.address = address;
-            this.size = size;
-            this.capacity = capacity;
+        privbtf Dfbllodbtor(long bddrfss, long sizf, int dbpbdity) {
+            bssfrt (bddrfss != 0);
+            tiis.bddrfss = bddrfss;
+            tiis.sizf = sizf;
+            tiis.dbpbdity = dbpbdity;
         }
 
-        public void run() {
-            if (address == 0) {
-                // Paranoia
-                return;
+        publid void run() {
+            if (bddrfss == 0) {
+                // Pbrbnoib
+                rfturn;
             }
-            unsafe.freeMemory(address);
-            address = 0;
-            Bits.unreserveMemory(size, capacity);
+            unsbff.frffMfmory(bddrfss);
+            bddrfss = 0;
+            Bits.unrfsfrvfMfmory(sizf, dbpbdity);
         }
 
     }
 
-    private final Cleaner cleaner;
+    privbtf finbl Clfbnfr dlfbnfr;
 
-    public Cleaner cleaner() { return cleaner; }
+    publid Clfbnfr dlfbnfr() { rfturn dlfbnfr; }
 
-#else[byte]
+#flsf[bytf]
 
-    public Cleaner cleaner() { return null; }
+    publid Clfbnfr dlfbnfr() { rfturn null; }
 
-#end[byte]
+#fnd[bytf]
 
-#end[rw]
+#fnd[rw]
 
-#if[byte]
+#if[bytf]
 
-    // Primary constructor
+    // Primbry donstrudtor
     //
-    Direct$Type$Buffer$RW$(int cap) {                   // package-private
+    Dirfdt$Typf$Bufffr$RW$(int dbp) {                   // pbdkbgf-privbtf
 #if[rw]
-        super(-1, 0, cap, cap);
-        boolean pa = VM.isDirectMemoryPageAligned();
-        int ps = Bits.pageSize();
-        long size = Math.max(1L, (long)cap + (pa ? ps : 0));
-        Bits.reserveMemory(size, cap);
+        supfr(-1, 0, dbp, dbp);
+        boolfbn pb = VM.isDirfdtMfmoryPbgfAlignfd();
+        int ps = Bits.pbgfSizf();
+        long sizf = Mbti.mbx(1L, (long)dbp + (pb ? ps : 0));
+        Bits.rfsfrvfMfmory(sizf, dbp);
 
-        long base = 0;
+        long bbsf = 0;
         try {
-            base = unsafe.allocateMemory(size);
-        } catch (OutOfMemoryError x) {
-            Bits.unreserveMemory(size, cap);
-            throw x;
+            bbsf = unsbff.bllodbtfMfmory(sizf);
+        } dbtdi (OutOfMfmoryError x) {
+            Bits.unrfsfrvfMfmory(sizf, dbp);
+            tirow x;
         }
-        unsafe.setMemory(base, size, (byte) 0);
-        if (pa && (base % ps != 0)) {
-            // Round up to page boundary
-            address = base + ps - (base & (ps - 1));
-        } else {
-            address = base;
+        unsbff.sftMfmory(bbsf, sizf, (bytf) 0);
+        if (pb && (bbsf % ps != 0)) {
+            // Round up to pbgf boundbry
+            bddrfss = bbsf + ps - (bbsf & (ps - 1));
+        } flsf {
+            bddrfss = bbsf;
         }
-        cleaner = Cleaner.create(this, new Deallocator(base, size, cap));
-        att = null;
-#else[rw]
-        super(cap);
-#end[rw]
+        dlfbnfr = Clfbnfr.drfbtf(tiis, nfw Dfbllodbtor(bbsf, sizf, dbp));
+        btt = null;
+#flsf[rw]
+        supfr(dbp);
+#fnd[rw]
     }
 
 #if[rw]
 
-    // Invoked to construct a direct ByteBuffer referring to the block of
-    // memory. A given arbitrary object may also be attached to the buffer.
+    // Invokfd to donstrudt b dirfdt BytfBufffr rfffrring to tif blodk of
+    // mfmory. A givfn brbitrbry objfdt mby blso bf bttbdifd to tif bufffr.
     //
-    Direct$Type$Buffer(long addr, int cap, Object ob) {
-        super(-1, 0, cap, cap);
-        address = addr;
-        cleaner = null;
-        att = ob;
+    Dirfdt$Typf$Bufffr(long bddr, int dbp, Objfdt ob) {
+        supfr(-1, 0, dbp, dbp);
+        bddrfss = bddr;
+        dlfbnfr = null;
+        btt = ob;
     }
 
 
-    // Invoked only by JNI: NewDirectByteBuffer(void*, long)
+    // Invokfd only by JNI: NfwDirfdtBytfBufffr(void*, long)
     //
-    private Direct$Type$Buffer(long addr, int cap) {
-        super(-1, 0, cap, cap);
-        address = addr;
-        cleaner = null;
-        att = null;
+    privbtf Dirfdt$Typf$Bufffr(long bddr, int dbp) {
+        supfr(-1, 0, dbp, dbp);
+        bddrfss = bddr;
+        dlfbnfr = null;
+        btt = null;
     }
 
-#end[rw]
+#fnd[rw]
 
-    // For memory-mapped buffers -- invoked by FileChannelImpl via reflection
+    // For mfmory-mbppfd bufffrs -- invokfd by FilfCibnnflImpl vib rfflfdtion
     //
-    protected Direct$Type$Buffer$RW$(int cap, long addr,
-                                     FileDescriptor fd,
-                                     Runnable unmapper)
+    protfdtfd Dirfdt$Typf$Bufffr$RW$(int dbp, long bddr,
+                                     FilfDfsdriptor fd,
+                                     Runnbblf unmbppfr)
     {
 #if[rw]
-        super(-1, 0, cap, cap, fd);
-        address = addr;
-        cleaner = Cleaner.create(this, unmapper);
-        att = null;
-#else[rw]
-        super(cap, addr, fd, unmapper);
-#end[rw]
+        supfr(-1, 0, dbp, dbp, fd);
+        bddrfss = bddr;
+        dlfbnfr = Clfbnfr.drfbtf(tiis, unmbppfr);
+        btt = null;
+#flsf[rw]
+        supfr(dbp, bddr, fd, unmbppfr);
+#fnd[rw]
     }
 
-#end[byte]
+#fnd[bytf]
 
-    // For duplicates and slices
+    // For duplidbtfs bnd slidfs
     //
-    Direct$Type$Buffer$RW$$BO$(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
+    Dirfdt$Typf$Bufffr$RW$$BO$(DirfdtBufffr db,         // pbdkbgf-privbtf
+                               int mbrk, int pos, int lim, int dbp,
                                int off)
     {
 #if[rw]
-        super(mark, pos, lim, cap);
-        address = db.address() + off;
-#if[byte]
-        cleaner = null;
-#end[byte]
-        att = db;
-#else[rw]
-        super(db, mark, pos, lim, cap, off);
-#end[rw]
+        supfr(mbrk, pos, lim, dbp);
+        bddrfss = db.bddrfss() + off;
+#if[bytf]
+        dlfbnfr = null;
+#fnd[bytf]
+        btt = db;
+#flsf[rw]
+        supfr(db, mbrk, pos, lim, dbp, off);
+#fnd[rw]
     }
 
-    public $Type$Buffer slice() {
-        int pos = this.position();
-        int lim = this.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+    publid $Typf$Bufffr slidf() {
+        int pos = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
         int off = (pos << $LG_BYTES_PER_VALUE$);
-        assert (off >= 0);
-        return new Direct$Type$Buffer$RW$$BO$(this, -1, 0, rem, rem, off);
+        bssfrt (off >= 0);
+        rfturn nfw Dirfdt$Typf$Bufffr$RW$$BO$(tiis, -1, 0, rfm, rfm, off);
     }
 
-    public $Type$Buffer duplicate() {
-        return new Direct$Type$Buffer$RW$$BO$(this,
-                                              this.markValue(),
-                                              this.position(),
-                                              this.limit(),
-                                              this.capacity(),
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw Dirfdt$Typf$Bufffr$RW$$BO$(tiis,
+                                              tiis.mbrkVbluf(),
+                                              tiis.position(),
+                                              tiis.limit(),
+                                              tiis.dbpbdity(),
                                               0);
     }
 
-    public $Type$Buffer asReadOnlyBuffer() {
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
 #if[rw]
-        return new Direct$Type$BufferR$BO$(this,
-                                           this.markValue(),
-                                           this.position(),
-                                           this.limit(),
-                                           this.capacity(),
+        rfturn nfw Dirfdt$Typf$BufffrR$BO$(tiis,
+                                           tiis.mbrkVbluf(),
+                                           tiis.position(),
+                                           tiis.limit(),
+                                           tiis.dbpbdity(),
                                            0);
-#else[rw]
-        return duplicate();
-#end[rw]
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
     }
 
 #if[rw]
 
-    public long address() {
-        return address;
+    publid long bddrfss() {
+        rfturn bddrfss;
     }
 
-    private long ix(int i) {
-        return address + (i << $LG_BYTES_PER_VALUE$);
+    privbtf long ix(int i) {
+        rfturn bddrfss + (i << $LG_BYTES_PER_VALUE$);
     }
 
-    public $type$ get() {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(nextGetIndex()))));
+    publid $typf$ gft() {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(nfxtGftIndfx()))));
     }
 
-    public $type$ get(int i) {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(checkIndex(i)))));
+    publid $typf$ gft(int i) {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(difdkIndfx(i)))));
     }
 
-#if[streamableType]
-    $type$ getUnchecked(int i) {
-        return $fromBits$($swap$(unsafe.get$Swaptype$(ix(i))));
+#if[strfbmbblfTypf]
+    $typf$ gftUndifdkfd(int i) {
+        rfturn $fromBits$($swbp$(unsbff.gft$Swbptypf$(ix(i))));
     }
-#end[streamableType]
+#fnd[strfbmbblfTypf]
 
-    public $Type$Buffer get($type$[] dst, int offset, int length) {
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngti) {
 #if[rw]
-        if ((length << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
-            checkBounds(offset, length, dst.length);
+        if ((lfngti << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
+            difdkBounds(offsft, lfngti, dst.lfngti);
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
-            int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
-                throw new BufferUnderflowException();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+            if (lfngti > rfm)
+                tirow nfw BufffrUndfrflowExdfption();
 
-#if[!byte]
-            if (order() != ByteOrder.nativeOrder())
-                Bits.copyTo$Memtype$Array(ix(pos), dst,
-                                          offset << $LG_BYTES_PER_VALUE$,
-                                          length << $LG_BYTES_PER_VALUE$);
-            else
-#end[!byte]
-                Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
-                                 offset << $LG_BYTES_PER_VALUE$,
-                                 length << $LG_BYTES_PER_VALUE$);
-            position(pos + length);
-        } else {
-            super.get(dst, offset, length);
+#if[!bytf]
+            if (ordfr() != BytfOrdfr.nbtivfOrdfr())
+                Bits.dopyTo$Mfmtypf$Arrby(ix(pos), dst,
+                                          offsft << $LG_BYTES_PER_VALUE$,
+                                          lfngti << $LG_BYTES_PER_VALUE$);
+            flsf
+#fnd[!bytf]
+                Bits.dopyToArrby(ix(pos), dst, brrbyBbsfOffsft,
+                                 offsft << $LG_BYTES_PER_VALUE$,
+                                 lfngti << $LG_BYTES_PER_VALUE$);
+            position(pos + lfngti);
+        } flsf {
+            supfr.gft(dst, offsft, lfngti);
         }
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer put($type$ x) {
+    publid $Typf$Bufffr put($typf$ x) {
 #if[rw]
-        unsafe.put$Swaptype$(ix(nextPutIndex()), $swap$($toBits$(x)));
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        unsbff.put$Swbptypf$(ix(nfxtPutIndfx()), $swbp$($toBits$(x)));
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put(int i, $type$ x) {
+    publid $Typf$Bufffr put(int i, $typf$ x) {
 #if[rw]
-        unsafe.put$Swaptype$(ix(checkIndex(i)), $swap$($toBits$(x)));
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        unsbff.put$Swbptypf$(ix(difdkIndfx(i)), $swbp$($toBits$(x)));
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put($Type$Buffer src) {
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
 #if[rw]
-        if (src instanceof Direct$Type$Buffer$BO$) {
-            if (src == this)
-                throw new IllegalArgumentException();
-            Direct$Type$Buffer$RW$$BO$ sb = (Direct$Type$Buffer$RW$$BO$)src;
+        if (srd instbndfof Dirfdt$Typf$Bufffr$BO$) {
+            if (srd == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            Dirfdt$Typf$Bufffr$RW$$BO$ sb = (Dirfdt$Typf$Bufffr$RW$$BO$)srd;
 
             int spos = sb.position();
             int slim = sb.limit();
-            assert (spos <= slim);
-            int srem = (spos <= slim ? slim - spos : 0);
+            bssfrt (spos <= slim);
+            int srfm = (spos <= slim ? slim - spos : 0);
 
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
-            int rem = (pos <= lim ? lim - pos : 0);
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
 
-            if (srem > rem)
-                throw new BufferOverflowException();
-            unsafe.copyMemory(sb.ix(spos), ix(pos), srem << $LG_BYTES_PER_VALUE$);
-            sb.position(spos + srem);
-            position(pos + srem);
-        } else if (src.hb != null) {
+            if (srfm > rfm)
+                tirow nfw BufffrOvfrflowExdfption();
+            unsbff.dopyMfmory(sb.ix(spos), ix(pos), srfm << $LG_BYTES_PER_VALUE$);
+            sb.position(spos + srfm);
+            position(pos + srfm);
+        } flsf if (srd.ib != null) {
 
-            int spos = src.position();
-            int slim = src.limit();
-            assert (spos <= slim);
-            int srem = (spos <= slim ? slim - spos : 0);
+            int spos = srd.position();
+            int slim = srd.limit();
+            bssfrt (spos <= slim);
+            int srfm = (spos <= slim ? slim - spos : 0);
 
-            put(src.hb, src.offset + spos, srem);
-            src.position(spos + srem);
+            put(srd.ib, srd.offsft + spos, srfm);
+            srd.position(spos + srfm);
 
-        } else {
-            super.put(src);
+        } flsf {
+            supfr.put(srd);
         }
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put($type$[] src, int offset, int length) {
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngti) {
 #if[rw]
-        if ((length << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
-            checkBounds(offset, length, src.length);
+        if ((lfngti << $LG_BYTES_PER_VALUE$) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
+            difdkBounds(offsft, lfngti, srd.lfngti);
             int pos = position();
             int lim = limit();
-            assert (pos <= lim);
-            int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
-                throw new BufferOverflowException();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+            if (lfngti > rfm)
+                tirow nfw BufffrOvfrflowExdfption();
 
-#if[!byte]
-            if (order() != ByteOrder.nativeOrder())
-                Bits.copyFrom$Memtype$Array(src, offset << $LG_BYTES_PER_VALUE$,
-                                            ix(pos), length << $LG_BYTES_PER_VALUE$);
-            else
-#end[!byte]
-                Bits.copyFromArray(src, arrayBaseOffset, offset << $LG_BYTES_PER_VALUE$,
-                                   ix(pos), length << $LG_BYTES_PER_VALUE$);
-            position(pos + length);
-        } else {
-            super.put(src, offset, length);
+#if[!bytf]
+            if (ordfr() != BytfOrdfr.nbtivfOrdfr())
+                Bits.dopyFrom$Mfmtypf$Arrby(srd, offsft << $LG_BYTES_PER_VALUE$,
+                                            ix(pos), lfngti << $LG_BYTES_PER_VALUE$);
+            flsf
+#fnd[!bytf]
+                Bits.dopyFromArrby(srd, brrbyBbsfOffsft, offsft << $LG_BYTES_PER_VALUE$,
+                                   ix(pos), lfngti << $LG_BYTES_PER_VALUE$);
+            position(pos + lfngti);
+        } flsf {
+            supfr.put(srd, offsft, lfngti);
         }
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer compact() {
+    publid $Typf$Bufffr dompbdt() {
 #if[rw]
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-        unsafe.copyMemory(ix(pos), ix(0), rem << $LG_BYTES_PER_VALUE$);
-        position(rem);
-        limit(capacity());
-        discardMark();
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        unsbff.dopyMfmory(ix(pos), ix(0), rfm << $LG_BYTES_PER_VALUE$);
+        position(rfm);
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public boolean isDirect() {
-        return true;
+    publid boolfbn isDirfdt() {
+        rfturn truf;
     }
 
-    public boolean isReadOnly() {
-        return {#if[rw]?false:true};
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
     }
 
 
-#if[char]
+#if[dibr]
 
-    public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
-            throw new IndexOutOfBoundsException();
+    publid String toString(int stbrt, int fnd) {
+        if ((fnd > limit()) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
         try {
-            int len = end - start;
-            char[] ca = new char[len];
-            CharBuffer cb = CharBuffer.wrap(ca);
-            CharBuffer db = this.duplicate();
-            db.position(start);
-            db.limit(end);
-            cb.put(db);
-            return new String(ca);
-        } catch (StringIndexOutOfBoundsException x) {
-            throw new IndexOutOfBoundsException();
+            int lfn = fnd - stbrt;
+            dibr[] db = nfw dibr[lfn];
+            CibrBufffr db = CibrBufffr.wrbp(db);
+            CibrBufffr db = tiis.duplidbtf();
+            db.position(stbrt);
+            db.limit(fnd);
+            db.put(db);
+            rfturn nfw String(db);
+        } dbtdi (StringIndfxOutOfBoundsExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
     }
 
 
-    // --- Methods to support CharSequence ---
+    // --- Mftiods to support CibrSfqufndf ---
 
-    public CharBuffer subSequence(int start, int end) {
+    publid CibrBufffr subSfqufndf(int stbrt, int fnd) {
         int pos = position();
         int lim = limit();
-        assert (pos <= lim);
+        bssfrt (pos <= lim);
         pos = (pos <= lim ? pos : lim);
-        int len = lim - pos;
+        int lfn = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
-            throw new IndexOutOfBoundsException();
-        return new DirectCharBuffer$RW$$BO$(this,
+        if ((stbrt < 0) || (fnd > lfn) || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        rfturn nfw DirfdtCibrBufffr$RW$$BO$(tiis,
                                             -1,
-                                            pos + start,
-                                            pos + end,
-                                            capacity(),
-                                            offset);
+                                            pos + stbrt,
+                                            pos + fnd,
+                                            dbpbdity(),
+                                            offsft);
     }
 
-#end[char]
+#fnd[dibr]
 
 
 
-#if[!byte]
+#if[!bytf]
 
-    public ByteOrder order() {
+    publid BytfOrdfr ordfr() {
 #if[boS]
-        return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)
-                ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
-#end[boS]
+        rfturn ((BytfOrdfr.nbtivfOrdfr() == BytfOrdfr.BIG_ENDIAN)
+                ? BytfOrdfr.LITTLE_ENDIAN : BytfOrdfr.BIG_ENDIAN);
+#fnd[boS]
 #if[boU]
-        return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
-                ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
-#end[boU]
+        rfturn ((BytfOrdfr.nbtivfOrdfr() != BytfOrdfr.BIG_ENDIAN)
+                ? BytfOrdfr.LITTLE_ENDIAN : BytfOrdfr.BIG_ENDIAN);
+#fnd[boU]
     }
 
-#end[!byte]
+#fnd[!bytf]
 
 
 
-#if[byte]
+#if[bytf]
 
-    byte _get(int i) {                          // package-private
-        return unsafe.getByte(address + i);
+    bytf _gft(int i) {                          // pbdkbgf-privbtf
+        rfturn unsbff.gftBytf(bddrfss + i);
     }
 
-    void _put(int i, byte b) {                  // package-private
+    void _put(int i, bytf b) {                  // pbdkbgf-privbtf
 #if[rw]
-        unsafe.putByte(address + i, b);
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        unsbff.putBytf(bddrfss + i, b);
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
     // #BIN
     //
-    // Binary-data access methods  for short, char, int, long, float,
-    // and double will be inserted here
+    // Binbry-dbtb bddfss mftiods  for siort, dibr, int, long, flobt,
+    // bnd doublf will bf insfrtfd ifrf
 
-#end[byte]
+#fnd[bytf]
 
 }

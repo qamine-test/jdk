@@ -1,205 +1,205 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * A {@link CompletionService} that uses a supplied {@link Executor}
- * to execute tasks.  This class arranges that submitted tasks are,
- * upon completion, placed on a queue accessible using {@code take}.
- * The class is lightweight enough to be suitable for transient use
- * when processing groups of tasks.
+ * A {@link ComplftionSfrvidf} tibt usfs b supplifd {@link Exfdutor}
+ * to fxfdutf tbsks.  Tiis dlbss brrbngfs tibt submittfd tbsks brf,
+ * upon domplftion, plbdfd on b qufuf bddfssiblf using {@dodf tbkf}.
+ * Tif dlbss is ligitwfigit fnougi to bf suitbblf for trbnsifnt usf
+ * wifn prodfssing groups of tbsks.
  *
  * <p>
  *
- * <b>Usage Examples.</b>
+ * <b>Usbgf Exbmplfs.</b>
  *
- * Suppose you have a set of solvers for a certain problem, each
- * returning a value of some type {@code Result}, and would like to
- * run them concurrently, processing the results of each of them that
- * return a non-null value, in some method {@code use(Result r)}. You
- * could write this as:
+ * Supposf you ibvf b sft of solvfrs for b dfrtbin problfm, fbdi
+ * rfturning b vbluf of somf typf {@dodf Rfsult}, bnd would likf to
+ * run tifm dondurrfntly, prodfssing tif rfsults of fbdi of tifm tibt
+ * rfturn b non-null vbluf, in somf mftiod {@dodf usf(Rfsult r)}. You
+ * dould writf tiis bs:
  *
- * <pre> {@code
- * void solve(Executor e,
- *            Collection<Callable<Result>> solvers)
- *     throws InterruptedException, ExecutionException {
- *     CompletionService<Result> ecs
- *         = new ExecutorCompletionService<Result>(e);
- *     for (Callable<Result> s : solvers)
- *         ecs.submit(s);
- *     int n = solvers.size();
+ * <prf> {@dodf
+ * void solvf(Exfdutor f,
+ *            Collfdtion<Cbllbblf<Rfsult>> solvfrs)
+ *     tirows IntfrruptfdExdfption, ExfdutionExdfption {
+ *     ComplftionSfrvidf<Rfsult> fds
+ *         = nfw ExfdutorComplftionSfrvidf<Rfsult>(f);
+ *     for (Cbllbblf<Rfsult> s : solvfrs)
+ *         fds.submit(s);
+ *     int n = solvfrs.sizf();
  *     for (int i = 0; i < n; ++i) {
- *         Result r = ecs.take().get();
+ *         Rfsult r = fds.tbkf().gft();
  *         if (r != null)
- *             use(r);
+ *             usf(r);
  *     }
- * }}</pre>
+ * }}</prf>
  *
- * Suppose instead that you would like to use the first non-null result
- * of the set of tasks, ignoring any that encounter exceptions,
- * and cancelling all other tasks when the first one is ready:
+ * Supposf instfbd tibt you would likf to usf tif first non-null rfsult
+ * of tif sft of tbsks, ignoring bny tibt fndountfr fxdfptions,
+ * bnd dbndflling bll otifr tbsks wifn tif first onf is rfbdy:
  *
- * <pre> {@code
- * void solve(Executor e,
- *            Collection<Callable<Result>> solvers)
- *     throws InterruptedException {
- *     CompletionService<Result> ecs
- *         = new ExecutorCompletionService<Result>(e);
- *     int n = solvers.size();
- *     List<Future<Result>> futures
- *         = new ArrayList<Future<Result>>(n);
- *     Result result = null;
+ * <prf> {@dodf
+ * void solvf(Exfdutor f,
+ *            Collfdtion<Cbllbblf<Rfsult>> solvfrs)
+ *     tirows IntfrruptfdExdfption {
+ *     ComplftionSfrvidf<Rfsult> fds
+ *         = nfw ExfdutorComplftionSfrvidf<Rfsult>(f);
+ *     int n = solvfrs.sizf();
+ *     List<Futurf<Rfsult>> futurfs
+ *         = nfw ArrbyList<Futurf<Rfsult>>(n);
+ *     Rfsult rfsult = null;
  *     try {
- *         for (Callable<Result> s : solvers)
- *             futures.add(ecs.submit(s));
+ *         for (Cbllbblf<Rfsult> s : solvfrs)
+ *             futurfs.bdd(fds.submit(s));
  *         for (int i = 0; i < n; ++i) {
  *             try {
- *                 Result r = ecs.take().get();
+ *                 Rfsult r = fds.tbkf().gft();
  *                 if (r != null) {
- *                     result = r;
- *                     break;
+ *                     rfsult = r;
+ *                     brfbk;
  *                 }
- *             } catch (ExecutionException ignore) {}
+ *             } dbtdi (ExfdutionExdfption ignorf) {}
  *         }
  *     }
- *     finally {
- *         for (Future<Result> f : futures)
- *             f.cancel(true);
+ *     finblly {
+ *         for (Futurf<Rfsult> f : futurfs)
+ *             f.dbndfl(truf);
  *     }
  *
- *     if (result != null)
- *         use(result);
- * }}</pre>
+ *     if (rfsult != null)
+ *         usf(rfsult);
+ * }}</prf>
  */
-public class ExecutorCompletionService<V> implements CompletionService<V> {
-    private final Executor executor;
-    private final AbstractExecutorService aes;
-    private final BlockingQueue<Future<V>> completionQueue;
+publid dlbss ExfdutorComplftionSfrvidf<V> implfmfnts ComplftionSfrvidf<V> {
+    privbtf finbl Exfdutor fxfdutor;
+    privbtf finbl AbstrbdtExfdutorSfrvidf bfs;
+    privbtf finbl BlodkingQufuf<Futurf<V>> domplftionQufuf;
 
     /**
-     * FutureTask extension to enqueue upon completion
+     * FuturfTbsk fxtfnsion to fnqufuf upon domplftion
      */
-    private class QueueingFuture extends FutureTask<Void> {
-        QueueingFuture(RunnableFuture<V> task) {
-            super(task, null);
-            this.task = task;
+    privbtf dlbss QufufingFuturf fxtfnds FuturfTbsk<Void> {
+        QufufingFuturf(RunnbblfFuturf<V> tbsk) {
+            supfr(tbsk, null);
+            tiis.tbsk = tbsk;
         }
-        protected void done() { completionQueue.add(task); }
-        private final Future<V> task;
+        protfdtfd void donf() { domplftionQufuf.bdd(tbsk); }
+        privbtf finbl Futurf<V> tbsk;
     }
 
-    private RunnableFuture<V> newTaskFor(Callable<V> task) {
-        if (aes == null)
-            return new FutureTask<V>(task);
-        else
-            return aes.newTaskFor(task);
+    privbtf RunnbblfFuturf<V> nfwTbskFor(Cbllbblf<V> tbsk) {
+        if (bfs == null)
+            rfturn nfw FuturfTbsk<V>(tbsk);
+        flsf
+            rfturn bfs.nfwTbskFor(tbsk);
     }
 
-    private RunnableFuture<V> newTaskFor(Runnable task, V result) {
-        if (aes == null)
-            return new FutureTask<V>(task, result);
-        else
-            return aes.newTaskFor(task, result);
-    }
-
-    /**
-     * Creates an ExecutorCompletionService using the supplied
-     * executor for base task execution and a
-     * {@link LinkedBlockingQueue} as a completion queue.
-     *
-     * @param executor the executor to use
-     * @throws NullPointerException if executor is {@code null}
-     */
-    public ExecutorCompletionService(Executor executor) {
-        if (executor == null)
-            throw new NullPointerException();
-        this.executor = executor;
-        this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
-        this.completionQueue = new LinkedBlockingQueue<Future<V>>();
+    privbtf RunnbblfFuturf<V> nfwTbskFor(Runnbblf tbsk, V rfsult) {
+        if (bfs == null)
+            rfturn nfw FuturfTbsk<V>(tbsk, rfsult);
+        flsf
+            rfturn bfs.nfwTbskFor(tbsk, rfsult);
     }
 
     /**
-     * Creates an ExecutorCompletionService using the supplied
-     * executor for base task execution and the supplied queue as its
-     * completion queue.
+     * Crfbtfs bn ExfdutorComplftionSfrvidf using tif supplifd
+     * fxfdutor for bbsf tbsk fxfdution bnd b
+     * {@link LinkfdBlodkingQufuf} bs b domplftion qufuf.
      *
-     * @param executor the executor to use
-     * @param completionQueue the queue to use as the completion queue
-     *        normally one dedicated for use by this service. This
-     *        queue is treated as unbounded -- failed attempted
-     *        {@code Queue.add} operations for completed tasks cause
-     *        them not to be retrievable.
-     * @throws NullPointerException if executor or completionQueue are {@code null}
+     * @pbrbm fxfdutor tif fxfdutor to usf
+     * @tirows NullPointfrExdfption if fxfdutor is {@dodf null}
      */
-    public ExecutorCompletionService(Executor executor,
-                                     BlockingQueue<Future<V>> completionQueue) {
-        if (executor == null || completionQueue == null)
-            throw new NullPointerException();
-        this.executor = executor;
-        this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
-        this.completionQueue = completionQueue;
+    publid ExfdutorComplftionSfrvidf(Exfdutor fxfdutor) {
+        if (fxfdutor == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.fxfdutor = fxfdutor;
+        tiis.bfs = (fxfdutor instbndfof AbstrbdtExfdutorSfrvidf) ?
+            (AbstrbdtExfdutorSfrvidf) fxfdutor : null;
+        tiis.domplftionQufuf = nfw LinkfdBlodkingQufuf<Futurf<V>>();
     }
 
-    public Future<V> submit(Callable<V> task) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<V> f = newTaskFor(task);
-        executor.execute(new QueueingFuture(f));
-        return f;
+    /**
+     * Crfbtfs bn ExfdutorComplftionSfrvidf using tif supplifd
+     * fxfdutor for bbsf tbsk fxfdution bnd tif supplifd qufuf bs its
+     * domplftion qufuf.
+     *
+     * @pbrbm fxfdutor tif fxfdutor to usf
+     * @pbrbm domplftionQufuf tif qufuf to usf bs tif domplftion qufuf
+     *        normblly onf dfdidbtfd for usf by tiis sfrvidf. Tiis
+     *        qufuf is trfbtfd bs unboundfd -- fbilfd bttfmptfd
+     *        {@dodf Qufuf.bdd} opfrbtions for domplftfd tbsks dbusf
+     *        tifm not to bf rftrifvbblf.
+     * @tirows NullPointfrExdfption if fxfdutor or domplftionQufuf brf {@dodf null}
+     */
+    publid ExfdutorComplftionSfrvidf(Exfdutor fxfdutor,
+                                     BlodkingQufuf<Futurf<V>> domplftionQufuf) {
+        if (fxfdutor == null || domplftionQufuf == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.fxfdutor = fxfdutor;
+        tiis.bfs = (fxfdutor instbndfof AbstrbdtExfdutorSfrvidf) ?
+            (AbstrbdtExfdutorSfrvidf) fxfdutor : null;
+        tiis.domplftionQufuf = domplftionQufuf;
     }
 
-    public Future<V> submit(Runnable task, V result) {
-        if (task == null) throw new NullPointerException();
-        RunnableFuture<V> f = newTaskFor(task, result);
-        executor.execute(new QueueingFuture(f));
-        return f;
+    publid Futurf<V> submit(Cbllbblf<V> tbsk) {
+        if (tbsk == null) tirow nfw NullPointfrExdfption();
+        RunnbblfFuturf<V> f = nfwTbskFor(tbsk);
+        fxfdutor.fxfdutf(nfw QufufingFuturf(f));
+        rfturn f;
     }
 
-    public Future<V> take() throws InterruptedException {
-        return completionQueue.take();
+    publid Futurf<V> submit(Runnbblf tbsk, V rfsult) {
+        if (tbsk == null) tirow nfw NullPointfrExdfption();
+        RunnbblfFuturf<V> f = nfwTbskFor(tbsk, rfsult);
+        fxfdutor.fxfdutf(nfw QufufingFuturf(f));
+        rfturn f;
     }
 
-    public Future<V> poll() {
-        return completionQueue.poll();
+    publid Futurf<V> tbkf() tirows IntfrruptfdExdfption {
+        rfturn domplftionQufuf.tbkf();
     }
 
-    public Future<V> poll(long timeout, TimeUnit unit)
-            throws InterruptedException {
-        return completionQueue.poll(timeout, unit);
+    publid Futurf<V> poll() {
+        rfturn domplftionQufuf.poll();
+    }
+
+    publid Futurf<V> poll(long timfout, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+        rfturn domplftionQufuf.poll(timfout, unit);
     }
 
 }

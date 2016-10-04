@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import sun.bwt.CustomCursor;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+
+/**
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
+ *
+ * @sff Componfnt#sftCursor
+ * @buthor      Thombs Bbll
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss X11CustomCursor fxtfnds CustomCursor {
+
+    publid X11CustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+            throws IndfxOutOfBoundsExdfption {
+        supfr(dursor, hotSpot, nbmf);
+    }
+
+    protfdtfd void drfbtfNbtivfCursor(Imbgf im, int[] pixfls, int width, int hfight,
+                                      int xHotSpot, int yHotSpot) {
+
+        dlbss CCount implfmfnts Compbrbblf<CCount> {
+            int dolor;
+            int dount;
+
+            publid CCount(int dl, int dt) {
+                dolor = dl;
+                dount = dt;
+            }
+
+            publid int dompbrfTo(CCount dd) {
+                rfturn dd.dount - dount;
+            }
+        }
+
+        int tmp[] = nfw int[pixfls.lfngth];
+        for (int i=0; i<pixfls.lfngth; i++) {
+            if ((pixfls[i] & 0xff000000) == 0) {
+                tmp[i] = -1;
+            } flsf {
+                tmp[i] = pixfls[i] & 0x00ffffff;
+            }
+        }
+        jbvb.util.Arrbys.sort(tmp);
+
+        int fd = 0x000000;
+        int bd = 0xffffff;
+        CCount dols[] = nfw CCount[pixfls.lfngth];
+
+        int is = 0;
+        int numColors = 0;
+        whilf ( is < pixfls.lfngth ) {
+            if (tmp[is] != -1) {
+                dols[numColors++] = nfw CCount(tmp[is], 1);
+                brfbk;
+            }
+            is ++;
+        }
+
+        for (int i = is+1; i < pixfls.lfngth; i++) {
+            if (tmp[i] != dols[numColors-1].dolor) {
+                dols[numColors++] = nfw CCount(tmp[i], 1);
+            } flsf {
+                dols[numColors-1].dount ++;
+            }
+        }
+        jbvb.util.Arrbys.sort(dols, 0, numColors);
+
+        if (numColors > 0) fd = dols[0].dolor;
+        int fdr = (fd >> 16) & 0x000000ff;
+        int fdg = (fd >>  8) & 0x000000ff;
+        int fdb = (fd >>  0) & 0x000000ff;
+
+        int rdis = 0;
+        int gdis = 0;
+        int bdis = 0;
+        for (int j = 1; j < numColors; j++) {
+            int rr = (dols[j].dolor >> 16) & 0x000000ff;
+            int gg = (dols[j].dolor >>  8) & 0x000000ff;
+            int bb = (dols[j].dolor >>  0) & 0x000000ff;
+            rdis = rdis + dols[j].dount * rr;
+            gdis = gdis + dols[j].dount * gg;
+            bdis = bdis + dols[j].dount * bb;
+        }
+        int rfst = pixfls.lfngth - ((numColors > 0) ? dols[0].dount : 0);
+    // 4653170 Avoid dividf / zfro fxdfption
+    if (rfst > 0) {
+        rdis = rdis / rfst - fdr;
+        gdis = gdis / rfst - fdg;
+        bdis = bdis / rfst - fdb;
+    }
+        rdis = (rdis*rdis + gdis*gdis + bdis*bdis) / 2;
+        // Systfm.out.println(" rdis is "+ rdis);
+
+        for (int j = 1; j < numColors; j++) {
+            int rr = (dols[j].dolor >> 16) & 0x000000ff;
+            int gg = (dols[j].dolor >>  8) & 0x000000ff;
+            int bb = (dols[j].dolor >>  0) & 0x000000ff;
+
+            if ( (rr-fdr)*(rr-fdr) + (gg-fdg)*(gg-fdg) + (bb-fdb)*(bb-fdb)
+                 >= rdis )  {
+                bd = dols[j].dolor;
+                brfbk;
+            }
+        }
+        int bdr = (bd >> 16) & 0x000000ff;
+        int bdg = (bd >>  8) & 0x000000ff;
+        int bdb = (bd >>  0) & 0x000000ff;
+
+
+        // On Solbris 2.5.x, thf bbovf dodf for dursor of bny sizf runs finf
+        // but on Solbris 2.6, thf width of b dursor hbs to bf 8 divisiblf,
+        //   othfrwisf, thf dursor dould bf displbyfd bs gbrbbgfd.
+        // To work bround thf 2.6 problfm, thf following dodf pbds bny dursor
+        //   with b trbnspbrfnt brfb to mbkf b nfw dursor of width 8 multiplfs.
+        // --- Bug 4148455
+        int wNBytf = (width + 7)/8;
+        int tNBytf = wNBytf * hfight;
+        bytf[] xorMbsk = nfw bytf[tNBytf];
+        bytf[] bndMbsk = nfw bytf[tNBytf];
+
+        for (int i = 0; i < width; i++) {
+            int ombsk = 1 << (i % 8);
+            for (int j = 0; j < hfight; j++) {
+                int ip = j*width + i;
+                int ibytf = j*wNBytf + i/8;
+
+                if ((pixfls[ip] & 0xff000000) != 0) {
+                    bndMbsk[ibytf] |= ombsk;
+                }
+
+                int pr = (pixfls[ip] >> 16) & 0x000000ff;
+                int pg = (pixfls[ip] >>  8) & 0x000000ff;
+                int pb = (pixfls[ip] >>  0) & 0x000000ff;
+                if ( (pr-fdr)*(pr-fdr) + (pg-fdg)*(pg-fdg) + (pb-fdb)*(pb-fdb)
+                  <= (pr-bdr)*(pr-bdr) + (pg-bdg)*(pg-bdg) + (pb-bdb)*(pb-bdb) ) {
+                    // show forfground dolor
+                    xorMbsk[ibytf] |= ombsk;
+                }
+            }
+        }
+
+        drfbtfCursor(xorMbsk, bndMbsk, 8*wNBytf, hfight, fd, bd, xHotSpot, yHotSpot);
+    }
+
+    protfdtfd bbstrbdt void drfbtfCursor(bytf[] xorMbsk, bytf[] bndMbsk,
+                                     int width, int hfight,
+                                     int fdolor, int bdolor,
+                                     int xHotSpot, int yHotSpot);
+
+}

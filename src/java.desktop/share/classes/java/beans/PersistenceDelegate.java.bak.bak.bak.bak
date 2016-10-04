@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+/**
+ * Thf PfrsistfndfDflfgbtf dlbss tbkfs thf rfsponsibility
+ * for fxprfssing thf stbtf of bn instbndf of b givfn dlbss
+ * in tfrms of thf mfthods in thf dlbss's publid API. Instfbd
+ * of bssodibting thf rfsponsibility of pfrsistfndf with
+ * thf dlbss itsflf bs is donf, for fxbmplf, by thf
+ * <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf>
+ * mfthods usfd by thf <dodf>ObjfdtOutputStrfbm</dodf>, strfbms likf
+ * thf <dodf>XMLEndodfr</dodf> whidh
+ * usf this dflfgbtion modfl dbn hbvf thfir bfhbvior dontrollfd
+ * indfpfndfntly of thf dlbssfs thfmsflvfs. Normblly, thf dlbss
+ * is thf bfst plbdf to put sudh informbtion bnd donvfntions
+ * dbn fbsily bf fxprfssfd in this dflfgbtion sdhfmf to do just thbt.
+ * Somftimfs howfvfr, it is thf dbsf thbt b minor problfm
+ * in b singlf dlbss prfvfnts bn fntirf objfdt grbph from
+ * bfing writtfn bnd this dbn lfbvf thf bpplidbtion
+ * dfvflopfr with no rfdoursf but to bttfmpt to shbdow
+ * thf problfmbtid dlbssfs lodblly or usf bltfrnbtivf
+ * pfrsistfndf tfdhniqufs. In situbtions likf thfsf, thf
+ * dflfgbtion modfl givfs b rflbtivfly dlfbn mfdhbnism for
+ * thf bpplidbtion dfvflopfr to intfrvfnf in bll pbrts of thf
+ * sfriblizbtion prodfss without rfquiring thbt modifidbtions
+ * bf mbdf to thf implfmfntbtion of dlbssfs whidh brf not pbrt
+ * of thf bpplidbtion itsflf.
+ * <p>
+ * In bddition to using b dflfgbtion modfl, this pfrsistfndf
+ * sdhfmf difffrs from trbditionbl sfriblizbtion sdhfmfs
+ * in rfquiring bn bnblog of thf <dodf>writfObjfdt</dodf>
+ * mfthod without b dorrfsponding <dodf>rfbdObjfdt</dodf>
+ * mfthod. Thf <dodf>writfObjfdt</dodf> bnblog fndodfs fbdh
+ * instbndf in tfrms of its publid API bnd thfrf is no nffd to
+ * dffinf b <dodf>rfbdObjfdt</dodf> bnblog
+ * sindf thf prodfdurf for rfbding thf sfriblizfd form
+ * is dffinfd by thf sfmbntids of mfthod invodbtion bs lbid
+ * out in thf Jbvb Lbngubgf Spfdifidbtion.
+ * Brfbking thf dfpfndfndy bftwffn <dodf>writfObjfdt</dodf>
+ * bnd <dodf>rfbdObjfdt</dodf> implfmfntbtions, whidh mby
+ * dhbngf from vfrsion to vfrsion, is thf kfy fbdtor
+ * in mbking thf brdhivfs produdfd by this tfdhniquf immunf
+ * to dhbngfs in thf privbtf implfmfntbtions of thf dlbssfs
+ * to whidh thfy rfffr.
+ * <p>
+ * A pfrsistfndf dflfgbtf, mby tbkf dontrol of bll
+ * bspfdts of thf pfrsistfndf of bn objfdt indluding:
+ * <ul>
+ * <li>
+ * Dfdiding whfthfr or not bn instbndf dbn bf mutbtfd
+ * into bnothfr instbndf of thf sbmf dlbss.
+ * <li>
+ * Instbntibting thf objfdt, fithfr by dblling b
+ * publid donstrudtor or b publid fbdtory mfthod.
+ * <li>
+ * Pfrforming thf initiblizbtion of thf objfdt.
+ * </ul>
+ * @sff XMLEndodfr
+ *
+ * @sindf 1.4
+ *
+ * @buthor Philip Milnf
+ */
+
+publid bbstrbdt dlbss PfrsistfndfDflfgbtf {
+
+    /**
+     * Thf <dodf>writfObjfdt</dodf> is b singlf fntry point to thf pfrsistfndf
+     * bnd is usfd by b <dodf>Endodfr</dodf> in thf trbditionbl
+     * modf of dflfgbtion. Although this mfthod is not finbl,
+     * it should not nffd to bf subdlbssfd undfr normbl dirdumstbndfs.
+     * <p>
+     * This implfmfntbtion first dhfdks to sff if thf strfbm
+     * hbs blrfbdy fndountfrfd this objfdt. Nfxt thf
+     * <dodf>mutbtfsTo</dodf> mfthod is dbllfd to sff if
+     * thbt dbndidbtf rfturnfd from thf strfbm dbn
+     * bf mutbtfd into bn bddurbtf dopy of <dodf>oldInstbndf</dodf>.
+     * If it dbn, thf <dodf>initiblizf</dodf> mfthod is dbllfd to
+     * pfrform thf initiblizbtion. If not, thf dbndidbtf is rfmovfd
+     * from thf strfbm, bnd thf <dodf>instbntibtf</dodf> mfthod
+     * is dbllfd to drfbtf b nfw dbndidbtf for this objfdt.
+     *
+     * @pbrbm oldInstbndf Thf instbndf thbt will bf drfbtfd by this fxprfssion.
+     * @pbrbm out Thf strfbm to whidh this fxprfssion will bf writtfn.
+     *
+     * @throws NullPointfrExdfption if {@dodf out} is {@dodf null}
+     */
+    publid void writfObjfdt(Objfdt oldInstbndf, Endodfr out) {
+        Objfdt nfwInstbndf = out.gft(oldInstbndf);
+        if (!mutbtfsTo(oldInstbndf, nfwInstbndf)) {
+            out.rfmovf(oldInstbndf);
+            out.writfExprfssion(instbntibtf(oldInstbndf, out));
+        }
+        flsf {
+            initiblizf(oldInstbndf.gftClbss(), oldInstbndf, nfwInstbndf, out);
+        }
+    }
+
+    /**
+     * Rfturns truf if bn <fm>fquivblfnt</fm> dopy of <dodf>oldInstbndf</dodf> mby bf
+     * drfbtfd by bpplying b sfrifs of stbtfmfnts to <dodf>nfwInstbndf</dodf>.
+     * In thf spfdifidbtion of this mfthod, wf mfbn by fquivblfnt thbt thf modififd instbndf
+     * is indistinguishbblf from <dodf>oldInstbndf</dodf> in thf bfhbvior
+     * of thf rflfvbnt mfthods in its publid API. [Notf: wf usf thf
+     * phrbsf <fm>rflfvbnt</fm> mfthods rbthfr thbn <fm>bll</fm> mfthods
+     * hfrf only bfdbusf, to bf stridtly dorrfdt, mfthods likf <dodf>hbshCodf</dodf>
+     * bnd <dodf>toString</dodf> prfvfnt most dlbssfs from produding truly
+     * indistinguishbblf dopifs of thfir instbndfs].
+     * <p>
+     * Thf dffbult bfhbvior rfturns <dodf>truf</dodf>
+     * if thf dlbssfs of thf two instbndfs brf thf sbmf.
+     *
+     * @pbrbm oldInstbndf Thf instbndf to bf dopifd.
+     * @pbrbm nfwInstbndf Thf instbndf thbt is to bf modififd.
+     * @rfturn Truf if bn fquivblfnt dopy of <dodf>nfwInstbndf</dodf> mby bf
+     *         drfbtfd by bpplying b sfrifs of mutbtions to <dodf>oldInstbndf</dodf>.
+     */
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn (nfwInstbndf != null && oldInstbndf != null &&
+                oldInstbndf.gftClbss() == nfwInstbndf.gftClbss());
+    }
+
+    /**
+     * Rfturns bn fxprfssion whosf vbluf is <dodf>oldInstbndf</dodf>.
+     * This mfthod is usfd to dhbrbdtfrizf thf donstrudtor
+     * or fbdtory mfthod thbt should bf usfd to drfbtf thf givfn objfdt.
+     * For fxbmplf, thf <dodf>instbntibtf</dodf> mfthod of thf pfrsistfndf
+     * dflfgbtf for thf <dodf>Fifld</dodf> dlbss dould bf dffinfd bs follows:
+     * <prf>
+     * Fifld f = (Fifld)oldInstbndf;
+     * rfturn nfw Exprfssion(f, f.gftDfdlbringClbss(), "gftFifld", nfw Objfdt[]{f.gftNbmf()});
+     * </prf>
+     * Notf thbt wf dfdlbrf thf vbluf of thf rfturnfd fxprfssion so thbt
+     * thf vbluf of thf fxprfssion (bs rfturnfd by <dodf>gftVbluf</dodf>)
+     * will bf idfntidbl to <dodf>oldInstbndf</dodf>.
+     *
+     * @pbrbm oldInstbndf Thf instbndf thbt will bf drfbtfd by this fxprfssion.
+     * @pbrbm out Thf strfbm to whidh this fxprfssion will bf writtfn.
+     * @rfturn An fxprfssion whosf vbluf is <dodf>oldInstbndf</dodf>.
+     *
+     * @throws NullPointfrExdfption if {@dodf out} is {@dodf null}
+     *                              bnd this vbluf is usfd in thf mfthod
+     */
+    protfdtfd bbstrbdt Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out);
+
+    /**
+     * Produdf b sfrifs of stbtfmfnts with sidf ffffdts on <dodf>nfwInstbndf</dodf>
+     * so thbt thf nfw instbndf bfdomfs <fm>fquivblfnt</fm> to <dodf>oldInstbndf</dodf>.
+     * In thf spfdifidbtion of this mfthod, wf mfbn by fquivblfnt thbt, bftfr thf mfthod
+     * rfturns, thf modififd instbndf is indistinguishbblf from
+     * <dodf>nfwInstbndf</dodf> in thf bfhbvior of bll mfthods in its
+     * publid API.
+     * <p>
+     * Thf implfmfntbtion typidblly bdhifvfs this gobl by produding b sfrifs of
+     * "whbt hbppfnfd" stbtfmfnts involving thf <dodf>oldInstbndf</dodf>
+     * bnd its publidly bvbilbblf stbtf. Thfsf stbtfmfnts brf sfnt
+     * to thf output strfbm using its <dodf>writfExprfssion</dodf>
+     * mfthod whidh rfturns bn fxprfssion involving flfmfnts in
+     * b dlonfd fnvironmfnt simulbting thf stbtf of bn input strfbm during
+     * rfbding. Ebdh stbtfmfnt rfturnfd will hbvf hbd bll instbndfs
+     * thf old fnvironmfnt rfplbdfd with objfdts whidh fxist in thf nfw
+     * onf. In pbrtidulbr, rfffrfndfs to thf tbrgft of thfsf stbtfmfnts,
+     * whidh stbrt out bs rfffrfndfs to <dodf>oldInstbndf</dodf> brf rfturnfd
+     * bs rfffrfndfs to thf <dodf>nfwInstbndf</dodf> instfbd.
+     * Exfduting thfsf stbtfmfnts ffffdts bn indrfmfntbl
+     * blignmfnt of thf stbtf of thf two objfdts bs b sfrifs of
+     * modifidbtions to thf objfdts in thf nfw fnvironmfnt.
+     * By thf timf thf initiblizf mfthod rfturns it should bf impossiblf
+     * to tfll thf two instbndfs bpbrt by using thfir publid APIs.
+     * Most importbntly, thf sfqufndf of stfps thbt wfrf usfd to mbkf
+     * thfsf objfdts bppfbr fquivblfnt will hbvf bffn rfdordfd
+     * by thf output strfbm bnd will form thf bdtubl output whfn
+     * thf strfbm is flushfd.
+     * <p>
+     * Thf dffbult implfmfntbtion, dblls thf <dodf>initiblizf</dodf>
+     * mfthod of thf typf's supfrdlbss.
+     *
+     * @pbrbm typf thf typf of thf instbndfs
+     * @pbrbm oldInstbndf Thf instbndf to bf dopifd.
+     * @pbrbm nfwInstbndf Thf instbndf thbt is to bf modififd.
+     * @pbrbm out Thf strfbm to whidh bny initiblizbtion stbtfmfnts should bf writtfn.
+     *
+     * @throws NullPointfrExdfption if {@dodf out} is {@dodf null}
+     */
+    protfdtfd void initiblizf(Clbss<?> typf,
+                              Objfdt oldInstbndf, Objfdt nfwInstbndf,
+                              Endodfr out)
+    {
+        Clbss<?> supfrTypf = typf.gftSupfrdlbss();
+        PfrsistfndfDflfgbtf info = out.gftPfrsistfndfDflfgbtf(supfrTypf);
+        info.initiblizf(supfrTypf, oldInstbndf, nfwInstbndf, out);
+    }
+}

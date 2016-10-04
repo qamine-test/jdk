@@ -1,0 +1,742 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tbblf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.io.Sfriblizbblf;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * Thf stbndbrd dolumn-hbndlfr for b <dodf>JTbblf</dodf>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Albn Chung
+ * @buthor Philip Milnf
+ * @sff JTbblf
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTbblfColumnModfl implfmfnts TbblfColumnModfl,
+                        PropfrtyChbngfListfnfr, ListSflfdtionListfnfr, Sfriblizbblf
+{
+//
+// Instbndf Vbribblfs
+//
+
+    /** Arrby of TbblfColumn objfdts in this modfl */
+    protfdtfd Vfdtor<TbblfColumn> tbblfColumns;
+
+    /** Modfl for kffping trbdk of dolumn sflfdtions */
+    protfdtfd ListSflfdtionModfl sflfdtionModfl;
+
+    /** Width mbrgin bftwffn fbdh dolumn */
+    protfdtfd int dolumnMbrgin;
+
+    /** List of TbblfColumnModflListfnfr */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    /** Chbngf fvfnt (only onf nffdfd) */
+    trbnsifnt protfdtfd ChbngfEvfnt dhbngfEvfnt = null;
+
+    /** Column sflfdtion bllowfd in this dolumn modfl */
+    protfdtfd boolfbn dolumnSflfdtionAllowfd;
+
+    /** A lodbl dbdhf of thf dombinfd width of bll dolumns */
+    protfdtfd int totblColumnWidth;
+
+//
+// Construdtors
+//
+    /**
+     * Crfbtfs b dffbult tbblf dolumn modfl.
+     */
+    publid DffbultTbblfColumnModfl() {
+        supfr();
+
+        // Initiblizf lodbl ivbrs to dffbult
+        tbblfColumns = nfw Vfdtor<TbblfColumn>();
+        sftSflfdtionModfl(drfbtfSflfdtionModfl());
+        sftColumnMbrgin(1);
+        invblidbtfWidthCbdhf();
+        sftColumnSflfdtionAllowfd(fblsf);
+    }
+
+//
+// Modifying thf modfl
+//
+
+    /**
+     *  Appfnds <dodf>bColumn</dodf> to thf fnd of thf
+     *  <dodf>tbblfColumns</dodf> brrby.
+     *  This mfthod blso posts thf <dodf>dolumnAddfd</dodf>
+     *  fvfnt to its listfnfrs.
+     *
+     * @pbrbm   bColumn         thf <dodf>TbblfColumn</dodf> to bf bddfd
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>bColumn</dodf> is
+     *                          <dodf>null</dodf>
+     * @sff     #rfmovfColumn
+     */
+    publid void bddColumn(TbblfColumn bColumn) {
+        if (bColumn == null) {
+            throw nfw IllfgblArgumfntExdfption("Objfdt is null");
+        }
+
+        tbblfColumns.bddElfmfnt(bColumn);
+        bColumn.bddPropfrtyChbngfListfnfr(this);
+        invblidbtfWidthCbdhf();
+
+        // Post dolumnAddfd fvfnt notifidbtion
+        firfColumnAddfd(nfw TbblfColumnModflEvfnt(this, 0,
+                                                  gftColumnCount() - 1));
+    }
+
+    /**
+     *  Dflftfs thf <dodf>dolumn</dodf> from thf
+     *  <dodf>tbblfColumns</dodf> brrby.  This mfthod will do nothing if
+     *  <dodf>dolumn</dodf> is not in thf tbblf's dolumns list.
+     *  <dodf>tilf</dodf> is dbllfd
+     *  to rfsizf both thf hfbdfr bnd tbblf vifws.
+     *  This mfthod blso posts b <dodf>dolumnRfmovfd</dodf>
+     *  fvfnt to its listfnfrs.
+     *
+     * @pbrbm   dolumn          thf <dodf>TbblfColumn</dodf> to bf rfmovfd
+     * @sff     #bddColumn
+     */
+    publid void rfmovfColumn(TbblfColumn dolumn) {
+        int dolumnIndfx = tbblfColumns.indfxOf(dolumn);
+
+        if (dolumnIndfx != -1) {
+            // Adjust for thf sflfdtion
+            if (sflfdtionModfl != null) {
+                sflfdtionModfl.rfmovfIndfxIntfrvbl(dolumnIndfx,dolumnIndfx);
+            }
+
+            dolumn.rfmovfPropfrtyChbngfListfnfr(this);
+            tbblfColumns.rfmovfElfmfntAt(dolumnIndfx);
+            invblidbtfWidthCbdhf();
+
+            // Post dolumnAddfd fvfnt notifidbtion.  (JTbblf bnd JTbblfHfbdfr
+            // listfns so thfy dbn bdjust sizf bnd rfdrbw)
+            firfColumnRfmovfd(nfw TbblfColumnModflEvfnt(this,
+                                           dolumnIndfx, 0));
+        }
+    }
+
+    /**
+     * Movfs thf dolumn bnd hfbding bt <dodf>dolumnIndfx</dodf> to
+     * <dodf>nfwIndfx</dodf>.  Thf old dolumn bt <dodf>dolumnIndfx</dodf>
+     * will now bf found bt <dodf>nfwIndfx</dodf>.  Thf dolumn
+     * thbt usfd to bf bt <dodf>nfwIndfx</dodf> is shiftfd
+     * lfft or right to mbkf room.  This will not movf bny dolumns if
+     * <dodf>dolumnIndfx</dodf> fqubls <dodf>nfwIndfx</dodf>.  This mfthod
+     * blso posts b <dodf>dolumnMovfd</dodf> fvfnt to its listfnfrs.
+     *
+     * @pbrbm   dolumnIndfx                     thf indfx of dolumn to bf movfd
+     * @pbrbm   nfwIndfx                        nfw indfx to movf thf dolumn
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>dolumn</dodf> or
+     *                                          <dodf>nfwIndfx</dodf>
+     *                                          brf not in thf vblid rbngf
+     */
+    publid void movfColumn(int dolumnIndfx, int nfwIndfx) {
+        if ((dolumnIndfx < 0) || (dolumnIndfx >= gftColumnCount()) ||
+            (nfwIndfx < 0) || (nfwIndfx >= gftColumnCount()))
+            throw nfw IllfgblArgumfntExdfption("movfColumn() - Indfx out of rbngf");
+
+        TbblfColumn bColumn;
+
+        // If thf dolumn hbs not yft movfd fbr fnough to dhbngf positions
+        // post thf fvfnt bnywby, thf "drbggfdDistbndf" propfrty of thf
+        // tbblfHfbdfr will sby how fbr thf dolumn hbs bffn drbggfd.
+        // Hfrf wf brf rfblly trying to gft thf bfst out of bn
+        // API thbt dould do with somf rfthinking. Wf prfsfrvf bbdkwbrd
+        // dompbtibility by slightly bfnding thf mfbning of thfsf mfthods.
+        if (dolumnIndfx == nfwIndfx) {
+            firfColumnMovfd(nfw TbblfColumnModflEvfnt(this, dolumnIndfx, nfwIndfx));
+            rfturn;
+        }
+        bColumn = tbblfColumns.flfmfntAt(dolumnIndfx);
+
+        tbblfColumns.rfmovfElfmfntAt(dolumnIndfx);
+        boolfbn sflfdtfd = sflfdtionModfl.isSflfdtfdIndfx(dolumnIndfx);
+        sflfdtionModfl.rfmovfIndfxIntfrvbl(dolumnIndfx,dolumnIndfx);
+
+        tbblfColumns.insfrtElfmfntAt(bColumn, nfwIndfx);
+        sflfdtionModfl.insfrtIndfxIntfrvbl(nfwIndfx, 1, truf);
+        if (sflfdtfd) {
+            sflfdtionModfl.bddSflfdtionIntfrvbl(nfwIndfx, nfwIndfx);
+        }
+        flsf {
+            sflfdtionModfl.rfmovfSflfdtionIntfrvbl(nfwIndfx, nfwIndfx);
+        }
+
+        firfColumnMovfd(nfw TbblfColumnModflEvfnt(this, dolumnIndfx,
+                                                               nfwIndfx));
+    }
+
+    /**
+     * Sfts thf dolumn mbrgin to <dodf>nfwMbrgin</dodf>.  This mfthod
+     * blso posts b <dodf>dolumnMbrginChbngfd</dodf> fvfnt to its
+     * listfnfrs.
+     *
+     * @pbrbm   nfwMbrgin               thf nfw mbrgin width, in pixfls
+     * @sff     #gftColumnMbrgin
+     * @sff     #gftTotblColumnWidth
+     */
+    publid void sftColumnMbrgin(int nfwMbrgin) {
+        if (nfwMbrgin != dolumnMbrgin) {
+            dolumnMbrgin = nfwMbrgin;
+            // Post dolumnMbrginChbngfd fvfnt notifidbtion.
+            firfColumnMbrginChbngfd();
+        }
+    }
+
+//
+// Qufrying thf modfl
+//
+
+    /**
+     * Rfturns thf numbfr of dolumns in thf <dodf>tbblfColumns</dodf> brrby.
+     *
+     * @rfturn  thf numbfr of dolumns in thf <dodf>tbblfColumns</dodf> brrby
+     * @sff     #gftColumns
+     */
+    publid int gftColumnCount() {
+        rfturn tbblfColumns.sizf();
+    }
+
+    /**
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of bll thf dolumns in thf modfl.
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of thf dolumns in thf modfl
+     */
+    publid Enumfrbtion<TbblfColumn> gftColumns() {
+        rfturn tbblfColumns.flfmfnts();
+    }
+
+    /**
+     * Rfturns thf indfx of thf first dolumn in thf <dodf>tbblfColumns</dodf>
+     * brrby whosf idfntififr is fqubl to <dodf>idfntififr</dodf>,
+     * whfn dompbrfd using <dodf>fqubls</dodf>.
+     *
+     * @pbrbm           idfntififr              thf idfntififr objfdt
+     * @rfturn          thf indfx of thf first dolumn in thf
+     *                  <dodf>tbblfColumns</dodf> brrby whosf idfntififr
+     *                  is fqubl to <dodf>idfntififr</dodf>
+     * @fxdfption       IllfgblArgumfntExdfption  if <dodf>idfntififr</dodf>
+     *                          is <dodf>null</dodf>, or if no
+     *                          <dodf>TbblfColumn</dodf> hbs this
+     *                          <dodf>idfntififr</dodf>
+     * @sff             #gftColumn
+     */
+    publid int gftColumnIndfx(Objfdt idfntififr) {
+        if (idfntififr == null) {
+            throw nfw IllfgblArgumfntExdfption("Idfntififr is null");
+        }
+
+        Enumfrbtion<TbblfColumn> fnumfrbtion = gftColumns();
+        TbblfColumn bColumn;
+        int indfx = 0;
+
+        whilf (fnumfrbtion.hbsMorfElfmfnts()) {
+            bColumn = fnumfrbtion.nfxtElfmfnt();
+            // Compbrf thfm this wby in dbsf thf dolumn's idfntififr is null.
+            if (idfntififr.fqubls(bColumn.gftIdfntififr()))
+                rfturn indfx;
+            indfx++;
+        }
+        throw nfw IllfgblArgumfntExdfption("Idfntififr not found");
+    }
+
+    /**
+     * Rfturns thf <dodf>TbblfColumn</dodf> objfdt for thf dolumn
+     * bt <dodf>dolumnIndfx</dodf>.
+     *
+     * @pbrbm   dolumnIndfx     thf indfx of thf dolumn dfsirfd
+     * @rfturn  thf <dodf>TbblfColumn</dodf> objfdt for thf dolumn
+     *                          bt <dodf>dolumnIndfx</dodf>
+     */
+    publid TbblfColumn gftColumn(int dolumnIndfx) {
+        rfturn tbblfColumns.flfmfntAt(dolumnIndfx);
+    }
+
+    /**
+     * Rfturns thf width mbrgin for <dodf>TbblfColumn</dodf>.
+     * Thf dffbult <dodf>dolumnMbrgin</dodf> is 1.
+     *
+     * @rfturn  thf mbximum width for thf <dodf>TbblfColumn</dodf>
+     * @sff     #sftColumnMbrgin
+     */
+    publid int gftColumnMbrgin() {
+        rfturn dolumnMbrgin;
+    }
+
+    /**
+     * Rfturns thf indfx of thf dolumn thbt lifs bt position <dodf>x</dodf>,
+     * or -1 if no dolumn dovfrs this point.
+     *
+     * In kffping with Swing's sfpbrbblf modfl brdhitfdturf, b
+     * TbblfColumnModfl dofs not know how thf tbblf dolumns bdtublly bppfbr on
+     * sdrffn.  Thf visubl prfsfntbtion of thf dolumns is thf rfsponsibility
+     * of thf vifw/dontrollfr objfdt using this modfl (typidblly JTbblf).  Thf
+     * vifw/dontrollfr nffd not displby thf dolumns sfqufntiblly from lfft to
+     * right.  For fxbmplf, dolumns dould bf displbyfd from right to lfft to
+     * bddommodbtf b lodblf prfffrfndf or somf dolumns might bf hiddfn bt thf
+     * rfqufst of thf usfr.  Bfdbusf thf modfl dofs not know how thf dolumns
+     * brf lbid out on sdrffn, thf givfn <dodf>xPosition</dodf> should not bf
+     * donsidfrfd to bf b doordinbtf in 2D grbphids spbdf.  Instfbd, it should
+     * bf donsidfrfd to bf b width from thf stbrt of thf first dolumn in thf
+     * modfl.  If thf dolumn indfx for b givfn X doordinbtf in 2D spbdf is
+     * rfquirfd, <dodf>JTbblf.dolumnAtPoint</dodf> dbn bf usfd instfbd.
+     *
+     * @pbrbm  x  thf horizontbl lodbtion of intfrfst
+     * @rfturn  thf indfx of thf dolumn or -1 if no dolumn is found
+     * @sff jbvbx.swing.JTbblf#dolumnAtPoint
+     */
+    publid int gftColumnIndfxAtX(int x) {
+        if (x < 0) {
+            rfturn -1;
+        }
+        int dd = gftColumnCount();
+        for(int dolumn = 0; dolumn < dd; dolumn++) {
+            x = x - gftColumn(dolumn).gftWidth();
+            if (x < 0) {
+                rfturn dolumn;
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf totbl dombinfd width of bll dolumns.
+     * @rfturn thf <dodf>totblColumnWidth</dodf> propfrty
+     */
+    publid int gftTotblColumnWidth() {
+        if (totblColumnWidth == -1) {
+            rfdbldWidthCbdhf();
+        }
+        rfturn totblColumnWidth;
+    }
+
+//
+// Sflfdtion modfl
+//
+
+    /**
+     *  Sfts thf sflfdtion modfl for this <dodf>TbblfColumnModfl</dodf>
+     *  to <dodf>nfwModfl</dodf>
+     *  bnd rfgistfrs for listfnfr notifidbtions from thf nfw sflfdtion
+     *  modfl.  If <dodf>nfwModfl</dodf> is <dodf>null</dodf>,
+     *  bn fxdfption is thrown.
+     *
+     * @pbrbm   nfwModfl        thf nfw sflfdtion modfl
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>nfwModfl</dodf>
+     *                                          is <dodf>null</dodf>
+     * @sff     #gftSflfdtionModfl
+     */
+    publid void sftSflfdtionModfl(ListSflfdtionModfl nfwModfl) {
+        if (nfwModfl == null) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot sft b null SflfdtionModfl");
+        }
+
+        ListSflfdtionModfl oldModfl = sflfdtionModfl;
+
+        if (nfwModfl != oldModfl) {
+            if (oldModfl != null) {
+                oldModfl.rfmovfListSflfdtionListfnfr(this);
+            }
+
+            sflfdtionModfl= nfwModfl;
+            nfwModfl.bddListSflfdtionListfnfr(this);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>ListSflfdtionModfl</dodf> thbt is usfd to
+     * mbintbin dolumn sflfdtion stbtf.
+     *
+     * @rfturn  thf objfdt thbt providfs dolumn sflfdtion stbtf.  Or
+     *          <dodf>null</dodf> if row sflfdtion is not bllowfd.
+     * @sff     #sftSflfdtionModfl
+     */
+    publid ListSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
+    }
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Sfts whfthfr dolumn sflfdtion is bllowfd.  Thf dffbult is fblsf.
+     * @pbrbm  flbg truf if dolumn sflfdtion will bf bllowfd, fblsf othfrwisf
+     */
+    publid void sftColumnSflfdtionAllowfd(boolfbn flbg) {
+        dolumnSflfdtionAllowfd = flbg;
+    }
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Rfturns truf if dolumn sflfdtion is bllowfd, othfrwisf fblsf.
+     * Thf dffbult is fblsf.
+     * @rfturn thf <dodf>dolumnSflfdtionAllowfd</dodf> propfrty
+     */
+    publid boolfbn gftColumnSflfdtionAllowfd() {
+        rfturn dolumnSflfdtionAllowfd;
+    }
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Rfturns bn brrby of sflfdtfd dolumns.  If <dodf>sflfdtionModfl</dodf>
+     * is <dodf>null</dodf>, rfturns bn fmpty brrby.
+     * @rfturn bn brrby of sflfdtfd dolumns or bn fmpty brrby if nothing
+     *                  is sflfdtfd or thf <dodf>sflfdtionModfl</dodf> is
+     *                  <dodf>null</dodf>
+     */
+    publid int[] gftSflfdtfdColumns() {
+        if (sflfdtionModfl != null) {
+            int iMin = sflfdtionModfl.gftMinSflfdtionIndfx();
+            int iMbx = sflfdtionModfl.gftMbxSflfdtionIndfx();
+
+            if ((iMin == -1) || (iMbx == -1)) {
+                rfturn nfw int[0];
+            }
+
+            int[] rvTmp = nfw int[1+ (iMbx - iMin)];
+            int n = 0;
+            for(int i = iMin; i <= iMbx; i++) {
+                if (sflfdtionModfl.isSflfdtfdIndfx(i)) {
+                    rvTmp[n++] = i;
+                }
+            }
+            int[] rv = nfw int[n];
+            Systfm.brrbydopy(rvTmp, 0, rv, 0, n);
+            rfturn rv;
+        }
+        rfturn  nfw int[0];
+    }
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Rfturns thf numbfr of dolumns sflfdtfd.
+     * @rfturn thf numbfr of dolumns sflfdtfd
+     */
+    publid int gftSflfdtfdColumnCount() {
+        if (sflfdtionModfl != null) {
+            int iMin = sflfdtionModfl.gftMinSflfdtionIndfx();
+            int iMbx = sflfdtionModfl.gftMbxSflfdtionIndfx();
+            int dount = 0;
+
+            for(int i = iMin; i <= iMbx; i++) {
+                if (sflfdtionModfl.isSflfdtfdIndfx(i)) {
+                    dount++;
+                }
+            }
+            rfturn dount;
+        }
+        rfturn 0;
+    }
+
+//
+// Listfnfr Support Mfthods
+//
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Adds b listfnfr for tbblf dolumn modfl fvfnts.
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
+     */
+    publid void bddColumnModflListfnfr(TbblfColumnModflListfnfr x) {
+        listfnfrList.bdd(TbblfColumnModflListfnfr.dlbss, x);
+    }
+
+    // implfmfnts jbvbx.swing.tbblf.TbblfColumnModfl
+    /**
+     * Rfmovfs b listfnfr for tbblf dolumn modfl fvfnts.
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
+     */
+    publid void rfmovfColumnModflListfnfr(TbblfColumnModflListfnfr x) {
+        listfnfrList.rfmovf(TbblfColumnModflListfnfr.dlbss, x);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf dolumn modfl listfnfrs
+     * rfgistfrfd on this modfl.
+     *
+     * @rfturn bll of this dffbult tbblf dolumn modfl's <dodf>ColumnModflListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dolumn modfl listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddColumnModflListfnfr
+     * @sff #rfmovfColumnModflListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid TbblfColumnModflListfnfr[] gftColumnModflListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(TbblfColumnModflListfnfr.dlbss);
+    }
+
+//
+//   Evfnt firing mfthods
+//
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     * @pbrbm f  thf fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfColumnAddfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (f == null)
+                //  f = nfw ChbngfEvfnt(this);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnAddfd(f);
+            }
+        }
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     * @pbrbm  f  thf fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfColumnRfmovfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (f == null)
+                //  f = nfw ChbngfEvfnt(this);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnRfmovfd(f);
+            }
+        }
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     * @pbrbm  f thf fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfColumnMovfd(TbblfColumnModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (f == null)
+                //  f = nfw ChbngfEvfnt(this);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnMovfd(f);
+            }
+        }
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     * @pbrbm f thf fvfnt rfdfivfd
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfColumnSflfdtionChbngfd(ListSflfdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (f == null)
+                //  f = nfw ChbngfEvfnt(this);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnSflfdtionChbngfd(f);
+            }
+        }
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfColumnMbrginChbngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfColumnModflListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (dhbngfEvfnt == null)
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((TbblfColumnModflListfnfr)listfnfrs[i+1]).
+                    dolumnMbrginChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     *
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl,
+     * sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultTbblfColumnModfl</dodf> <dodf>m</dodf>
+     * for its dolumn modfl listfnfrs with thf following dodf:
+     *
+     * <prf>ColumnModflListfnfr[] dmls = (ColumnModflListfnfr[])(m.gftListfnfrs(ColumnModflListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this modfl,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftColumnModflListfnfrs
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+
+//
+// Implfmfnting thf PropfrtyChbngfListfnfr intfrfbdf
+//
+
+    // PENDING(blbn)
+    // implfmfnts jbvb.bfbns.PropfrtyChbngfListfnfr
+    /**
+     * Propfrty Chbngf Listfnfr dhbngf mfthod.  Usfd to trbdk dhbngfs
+     * to thf dolumn width or prfffrrfd dolumn width.
+     *
+     * @pbrbm  fvt  <dodf>PropfrtyChbngfEvfnt</dodf>
+     */
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        String nbmf = fvt.gftPropfrtyNbmf();
+
+        if (nbmf == "width" || nbmf == "prfffrrfdWidth") {
+            invblidbtfWidthCbdhf();
+            // This is b misnomfr, wf'rf using this mfthod
+            // simply to dbusf b rflbyout.
+            firfColumnMbrginChbngfd();
+        }
+
+    }
+
+//
+// Implfmfnting ListSflfdtionListfnfr intfrfbdf
+//
+
+    // implfmfnts jbvbx.swing.fvfnt.ListSflfdtionListfnfr
+    /**
+     * A <dodf>ListSflfdtionListfnfr</dodf> thbt forwbrds
+     * <dodf>ListSflfdtionEvfnts</dodf> whfn thfrf is b dolumn
+     * sflfdtion dhbngf.
+     *
+     * @pbrbm f  thf dhbngf fvfnt
+     */
+    publid void vblufChbngfd(ListSflfdtionEvfnt f) {
+        firfColumnSflfdtionChbngfd(f);
+    }
+
+//
+// Protfdtfd Mfthods
+//
+
+    /**
+     * Crfbtfs b nfw dffbult list sflfdtion modfl.
+     *
+     * @rfturn b nfwly drfbtfd dffbult list sflfdtion modfl.
+     */
+    protfdtfd ListSflfdtionModfl drfbtfSflfdtionModfl() {
+        rfturn nfw DffbultListSflfdtionModfl();
+    }
+
+    /**
+     * Rfdbldulbtfs thf totbl dombinfd width of bll dolumns.  Updbtfs thf
+     * <dodf>totblColumnWidth</dodf> propfrty.
+     */
+    protfdtfd void rfdbldWidthCbdhf() {
+        Enumfrbtion<TbblfColumn> fnumfrbtion = gftColumns();
+        totblColumnWidth = 0;
+        whilf (fnumfrbtion.hbsMorfElfmfnts()) {
+            totblColumnWidth += fnumfrbtion.nfxtElfmfnt().gftWidth();
+        }
+    }
+
+    privbtf void invblidbtfWidthCbdhf() {
+        totblColumnWidth = -1;
+    }
+
+} // End of dlbss DffbultTbblfColumnModfl

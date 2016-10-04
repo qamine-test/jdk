@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf MPI Arbitrbry Prfdision Intfgfr Arithmftid librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Midhbfl J. Frombfrgfr.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 1998
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Nftsdbpf Communidbtions Corporbtion
+ *
+ *********************************************************************** */
+
+/*  Arbitrbry prfdision intfgfr brithmftid librbry
+ *
+ *  NOTE WELL: thf dontfnt of this hfbdfr filf is NOT pbrt of thf "publid"
+ *  API for thf MPI librbry, bnd mby dhbngf bt bny timf.
+ *  Applidbtion progrbms thbt usf libmpi should NOT indludf this hfbdfr filf.
+ */
+
+#ifndff _MPI_PRIV_H
+#dffinf _MPI_PRIV_H
+
+/* $Id: mpi-priv.h,v 1.20 2005/11/22 07:16:43 rflyfb%nftsdbpf.dom Exp $ */
+
+#indludf "mpi.h"
+#ifndff _KERNEL
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <dtypf.h>
+#fndif /* _KERNEL */
+
+#if MP_DEBUG
+#indludf <stdio.h>
+
+#dffinf DIAG(T,V) {fprintf(stdfrr,T);mp_print(V,stdfrr);fputd('\n',stdfrr);}
+#flsf
+#dffinf DIAG(T,V)
+#fndif
+
+/* If wf brfn't using b wirfd-in logbrithm tbblf, wf nffd to indludf
+   thf mbth librbry to gft thf log() fundtion
+ */
+
+/* {{{ s_logv_2[] - log tbblf for 2 in vbrious bbsfs */
+
+#if MP_LOGTAB
+/*
+  A tbblf of thf logs of 2 for vbrious bbsfs (thf 0 bnd 1 fntrifs of
+  this tbblf brf mfbninglfss bnd should not bf rfffrfndfd).
+
+  This tbblf is usfd to domputf output lfngths for thf mp_torbdix()
+  fundtion.  Sindf b numbfr n in rbdix r tbkfs up bbout log_r(n)
+  digits, wf fstimbtf thf output sizf by tbking thf lfbst intfgfr
+  grfbtfr thbn log_r(n), whfrf:
+
+  log_r(n) = log_2(n) * log_r(2)
+
+  This tbblf, thfrfforf, is b tbblf of log_r(2) for 2 <= r <= 36,
+  whidh brf thf output bbsfs supportfd.
+ */
+
+fxtfrn donst flobt s_logv_2[];
+#dffinf LOG_V_2(R)  s_logv_2[(R)]
+
+#flsf
+
+/*
+   If MP_LOGTAB is not dffinfd, usf thf mbth librbry to domputf thf
+   logbrithms on thf fly.  Othfrwisf, usf thf tbblf.
+   Pidk whidh works bfst for your systfm.
+ */
+
+#indludf <mbth.h>
+#dffinf LOG_V_2(R)  (log(2.0)/log(R))
+
+#fndif /* if MP_LOGTAB */
+
+/* }}} */
+
+/* {{{ Digit brithmftid mbdros */
+
+/*
+  Whfn bdding bnd multiplying digits, thf rfsults dbn bf lbrgfr thbn
+  dbn bf dontbinfd in bn mp_digit.  Thus, bn mp_word is usfd.  Thfsf
+  mbdros mbsk off thf uppfr bnd lowfr digits of thf mp_word (thf
+  mp_word mby bf morf thbn 2 mp_digits widf, but wf only dondfrn
+  oursflvfs with thf low-ordfr 2 mp_digits)
+ */
+
+#dffinf  CARRYOUT(W)  (mp_digit)((W)>>DIGIT_BIT)
+#dffinf  ACCUM(W)     (mp_digit)(W)
+
+#dffinf MP_MIN(b,b)   (((b) < (b)) ? (b) : (b))
+#dffinf MP_MAX(b,b)   (((b) > (b)) ? (b) : (b))
+#dffinf MP_HOWMANY(b,b) (((b) + (b) - 1)/(b))
+#dffinf MP_ROUNDUP(b,b) (MP_HOWMANY(b,b) * (b))
+
+/* }}} */
+
+/* {{{ Compbrison donstbnts */
+
+#dffinf  MP_LT       -1
+#dffinf  MP_EQ        0
+#dffinf  MP_GT        1
+
+/* }}} */
+
+/* {{{ privbtf fundtion dfdlbrbtions */
+
+/*
+   If MP_MACRO is fblsf, thfsf will bf dffinfd bs bdtubl fundtions;
+   othfrwisf, suitbblf mbdro dffinitions will bf usfd.  This works
+   bround thf fbdt thbt ANSI C89 dofsn't support bn 'inlinf' kfyword
+   (blthough I hfbr C9x will ... bbout bloody timf).  At prfsfnt, thf
+   mbdro dffinitions brf idfntidbl to thf fundtion bodifs, but thfy'll
+   fxpbnd in plbdf, instfbd of gfnfrbting b fundtion dbll.
+
+   I dhosf thfsf pbrtidulbr fundtions to bf mbdf into mbdros bfdbusf
+   somf profiling showfd thfy brf dbllfd b lot on b typidbl worklobd,
+   bnd yft thfy brf primbrily housfkffping.
+ */
+#if MP_MACRO == 0
+ void     s_mp_sftz(mp_digit *dp, mp_sizf dount); /* zfro digits           */
+ void     s_mp_dopy(donst mp_digit *sp, mp_digit *dp, mp_sizf dount); /* dopy */
+ void    *s_mp_bllod(sizf_t nb, sizf_t ni, int flbg); /* gfnfrbl bllodbtor    */
+ void     s_mp_frff(void *ptr, mp_sizf);          /* gfnfrbl frff fundtion */
+fxtfrn unsignfd long mp_bllods;
+fxtfrn unsignfd long mp_frffs;
+fxtfrn unsignfd long mp_dopifs;
+#flsf
+
+ /* Evfn if thfsf brf dffinfd bs mbdros, wf nffd to rfspfdt thf sfttings
+    of thf MP_MEMSET bnd MP_MEMCPY donfigurbtion options...
+  */
+ #if MP_MEMSET == 0
+  #dffinf  s_mp_sftz(dp, dount) \
+       {int ix;for(ix=0;ix<(dount);ix++)(dp)[ix]=0;}
+ #flsf
+  #dffinf  s_mp_sftz(dp, dount) mfmsft(dp, 0, (dount) * sizfof(mp_digit))
+ #fndif /* MP_MEMSET */
+
+ #if MP_MEMCPY == 0
+  #dffinf  s_mp_dopy(sp, dp, dount) \
+       {int ix;for(ix=0;ix<(dount);ix++)(dp)[ix]=(sp)[ix];}
+ #flsf
+  #dffinf  s_mp_dopy(sp, dp, dount) mfmdpy(dp, sp, (dount) * sizfof(mp_digit))
+ #fndif /* MP_MEMCPY */
+
+ #dffinf  s_mp_bllod(nb, ni)  dbllod(nb, ni)
+ #dffinf  s_mp_frff(ptr) {if(ptr) frff(ptr);}
+#fndif /* MP_MACRO */
+
+mp_frr   s_mp_grow(mp_int *mp, mp_sizf min);   /* indrfbsf bllodbtfd sizf */
+mp_frr   s_mp_pbd(mp_int *mp, mp_sizf min);    /* lfft pbd with zfrofs    */
+
+#if MP_MACRO == 0
+ void     s_mp_dlbmp(mp_int *mp);               /* dlip lfbding zfrofs     */
+#flsf
+ #dffinf  s_mp_dlbmp(mp)\
+  { mp_sizf usfd = MP_USED(mp); \
+    whilf (usfd > 1 && DIGIT(mp, usfd - 1) == 0) --usfd; \
+    MP_USED(mp) = usfd; \
+  }
+#fndif /* MP_MACRO */
+
+void     s_mp_fxdh(mp_int *b, mp_int *b);      /* swbp b bnd b in plbdf   */
+
+mp_frr   s_mp_lshd(mp_int *mp, mp_sizf p);     /* lfft-shift by p digits  */
+void     s_mp_rshd(mp_int *mp, mp_sizf p);     /* right-shift by p digits */
+mp_frr   s_mp_mul_2d(mp_int *mp, mp_digit d);  /* multiply by 2^d in plbdf */
+void     s_mp_div_2d(mp_int *mp, mp_digit d);  /* dividf by 2^d in plbdf  */
+void     s_mp_mod_2d(mp_int *mp, mp_digit d);  /* modulo 2^d in plbdf     */
+void     s_mp_div_2(mp_int *mp);               /* dividf by 2 in plbdf    */
+mp_frr   s_mp_mul_2(mp_int *mp);               /* multiply by 2 in plbdf  */
+mp_frr   s_mp_norm(mp_int *b, mp_int *b, mp_digit *pd);
+                                               /* normblizf for division  */
+mp_frr   s_mp_bdd_d(mp_int *mp, mp_digit d);   /* unsignfd digit bddition */
+mp_frr   s_mp_sub_d(mp_int *mp, mp_digit d);   /* unsignfd digit subtrbdt */
+mp_frr   s_mp_mul_d(mp_int *mp, mp_digit d);   /* unsignfd digit multiply */
+mp_frr   s_mp_div_d(mp_int *mp, mp_digit d, mp_digit *r);
+                                               /* unsignfd digit dividf   */
+mp_frr   s_mp_rfdudf(mp_int *x, donst mp_int *m, donst mp_int *mu);
+                                               /* Bbrrftt rfdudtion       */
+mp_frr   s_mp_bdd(mp_int *b, donst mp_int *b); /* mbgnitudf bddition      */
+mp_frr   s_mp_bdd_3brg(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr   s_mp_sub(mp_int *b, donst mp_int *b); /* mbgnitudf subtrbdt      */
+mp_frr   s_mp_sub_3brg(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr   s_mp_bdd_offsft(mp_int *b, mp_int *b, mp_sizf offsft);
+                                               /* b += b * RADIX^offsft   */
+mp_frr   s_mp_mul(mp_int *b, donst mp_int *b); /* mbgnitudf multiply      */
+#if MP_SQUARE
+mp_frr   s_mp_sqr(mp_int *b);                  /* mbgnitudf squbrf        */
+#flsf
+#dffinf  s_mp_sqr(b) s_mp_mul(b, b)
+#fndif
+mp_frr   s_mp_div(mp_int *rfm, mp_int *div, mp_int *quot); /* mbgnitudf div */
+mp_frr   s_mp_fxptmod(donst mp_int *b, donst mp_int *b, donst mp_int *m, mp_int *d);
+mp_frr   s_mp_2fxpt(mp_int *b, mp_digit k);    /* b = 2^k                 */
+int      s_mp_dmp(donst mp_int *b, donst mp_int *b); /* mbgnitudf dompbrison */
+int      s_mp_dmp_d(donst mp_int *b, mp_digit d); /* mbgnitudf digit dompbrf */
+int      s_mp_ispow2(donst mp_int *v);         /* is v b powfr of 2?      */
+int      s_mp_ispow2d(mp_digit d);             /* is d b powfr of 2?      */
+
+int      s_mp_tovbluf(dhbr dh, int r);          /* donvfrt dh to vbluf    */
+dhbr     s_mp_todigit(mp_digit vbl, int r, int low); /* donvfrt vbl to digit */
+int      s_mp_outlfn(int bits, int r);          /* output lfngth in bytfs */
+mp_digit s_mp_invmod_rbdix(mp_digit P);   /* rfturns (P ** -1) mod RADIX */
+mp_frr   s_mp_invmod_odd_m( donst mp_int *b, donst mp_int *m, mp_int *d);
+mp_frr   s_mp_invmod_2d(    donst mp_int *b, mp_sizf k,       mp_int *d);
+mp_frr   s_mp_invmod_fvfn_m(donst mp_int *b, donst mp_int *m, mp_int *d);
+
+#ifdff NSS_USE_COMBA
+
+#dffinf IS_POWER_OF_2(b) ((b) && !((b) & ((b)-1)))
+
+void s_mp_mul_dombb_4(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_8(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_16(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_32(donst mp_int *A, donst mp_int *B, mp_int *C);
+
+void s_mp_sqr_dombb_4(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_8(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_16(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_32(donst mp_int *A, mp_int *B);
+
+#fndif /* fnd NSS_USE_COMBA */
+
+/* ------ mpv fundtions, opfrbtf on brrbys of digits, not on mp_int's ------ */
+#if dffinfd (__OS2__) && dffinfd (__IBMC__)
+#dffinf MPI_ASM_DECL __ddfdl
+#flsf
+#dffinf MPI_ASM_DECL
+#fndif
+
+#ifdff MPI_AMD64
+
+mp_digit MPI_ASM_DECL s_mpv_mul_sft_vfd64(mp_digit*, mp_digit *, mp_sizf, mp_digit);
+mp_digit MPI_ASM_DECL s_mpv_mul_bdd_vfd64(mp_digit*, donst mp_digit*, mp_sizf, mp_digit);
+
+/* d = b * b */
+#dffinf s_mpv_mul_d(b, b_lfn, b, d) \
+        ((unsignfd long*)d)[b_lfn] = s_mpv_mul_sft_vfd64(d, b, b_lfn, b)
+
+/* d += b * b */
+#dffinf s_mpv_mul_d_bdd(b, b_lfn, b, d) \
+        ((unsignfd long*)d)[b_lfn] = s_mpv_mul_bdd_vfd64(d, b, b_lfn, b)
+
+#flsf
+
+void     MPI_ASM_DECL s_mpv_mul_d(donst mp_digit *b, mp_sizf b_lfn,
+                                        mp_digit b, mp_digit *d);
+void     MPI_ASM_DECL s_mpv_mul_d_bdd(donst mp_digit *b, mp_sizf b_lfn,
+                                            mp_digit b, mp_digit *d);
+
+#fndif
+
+void     MPI_ASM_DECL s_mpv_mul_d_bdd_prop(donst mp_digit *b,
+                                                mp_sizf b_lfn, mp_digit b,
+                                                mp_digit *d);
+void     MPI_ASM_DECL s_mpv_sqr_bdd_prop(donst mp_digit *b,
+                                                mp_sizf b_lfn,
+                                                mp_digit *sqrs);
+
+mp_frr   MPI_ASM_DECL s_mpv_div_2dx1d(mp_digit Nhi, mp_digit Nlo,
+                            mp_digit divisor, mp_digit *quot, mp_digit *rfm);
+
+/* d += b * b * (MP_RADIX ** offsft);  */
+#dffinf s_mp_mul_d_bdd_offsft(b, b, d, off) \
+(s_mpv_mul_d_bdd_prop(MP_DIGITS(b), MP_USED(b), b, MP_DIGITS(d) + off), MP_OKAY)
+
+typfdff strudt {
+  mp_int       N;       /* modulus N */
+  mp_digit     n0primf; /* n0' = - (n0 ** -1) mod MP_RADIX */
+  mp_sizf      b;       /* R == 2 ** b,  blso b = # signifidbnt bits in N */
+} mp_mont_modulus;
+
+mp_frr s_mp_mul_mont(donst mp_int *b, donst mp_int *b, mp_int *d,
+                       mp_mont_modulus *mmm);
+mp_frr s_mp_rfdd(mp_int *T, mp_mont_modulus *mmm);
+
+/*
+ * s_mpi_gftProdfssorLinfSizf() rfturns thf sizf in bytfs of thf dbdhf linf
+ * if b dbdhf fxists, or zfro if thfrf is no dbdhf. If morf thbn onf
+ * dbdhf linf fxists, it should rfturn thf smbllfst linf sizf (whidh is
+ * usublly thf L1 dbdhf).
+ *
+ * mp_modfxp usfs this informbtion to mbkf surf thbt privbtf kfy informbtion
+ * isn't bfing lfbkfd through thf dbdhf.
+ *
+ * sff mpdpudbdhf.d for thf implfmfntbtion.
+ */
+unsignfd long s_mpi_gftProdfssorLinfSizf();
+
+/* }}} */
+#fndif /* _MPI_PRIV_H */

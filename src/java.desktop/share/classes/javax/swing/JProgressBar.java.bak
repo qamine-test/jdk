@@ -1,1131 +1,1131 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
 
-import java.text.Format;
-import java.text.NumberFormat;
+import jbvb.tfxt.Formbt;
+import jbvb.tfxt.NumbfrFormbt;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.swing.event.*;
-import javax.accessibility.*;
-import javax.swing.plaf.ProgressBarUI;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.plbf.ProgrfssBbrUI;
 
 
 /**
- * A component that visually displays the progress of some task.  As the task
- * progresses towards completion, the progress bar displays the
- * task's percentage of completion.
- * This percentage is typically represented visually by a rectangle which
- * starts out empty and gradually becomes filled in as the task progresses.
- * In addition, the progress bar can display a textual representation of this
- * percentage.
+ * A domponfnt tibt visublly displbys tif progrfss of somf tbsk.  As tif tbsk
+ * progrfssfs towbrds domplftion, tif progrfss bbr displbys tif
+ * tbsk's pfrdfntbgf of domplftion.
+ * Tiis pfrdfntbgf is typidblly rfprfsfntfd visublly by b rfdtbnglf wiidi
+ * stbrts out fmpty bnd grbdublly bfdomfs fillfd in bs tif tbsk progrfssfs.
+ * In bddition, tif progrfss bbr dbn displby b tfxtubl rfprfsfntbtion of tiis
+ * pfrdfntbgf.
  * <p>
- * {@code JProgressBar} uses a {@code BoundedRangeModel} as its data model,
- * with the {@code value} property representing the "current" state of the task,
- * and the {@code minimum} and {@code maximum} properties representing the
- * beginning and end points, respectively.
+ * {@dodf JProgrfssBbr} usfs b {@dodf BoundfdRbngfModfl} bs its dbtb modfl,
+ * witi tif {@dodf vbluf} propfrty rfprfsfnting tif "durrfnt" stbtf of tif tbsk,
+ * bnd tif {@dodf minimum} bnd {@dodf mbximum} propfrtifs rfprfsfnting tif
+ * bfginning bnd fnd points, rfspfdtivfly.
  * <p>
- * To indicate that a task of unknown length is executing,
- * you can put a progress bar into indeterminate mode.
- * While the bar is in indeterminate mode,
- * it animates constantly to show that work is occurring.
- * As soon as you can determine the task's length and amount of progress,
- * you should update the progress bar's value
- * and switch it back to determinate mode.
- *
- * <p>
- *
- * Here is an example of creating a progress bar,
- * where <code>task</code> is an object (representing some piece of work)
- * which returns information about the progress of the task:
- *
- *<pre>
- *progressBar = new JProgressBar(0, task.getLengthOfTask());
- *progressBar.setValue(0);
- *progressBar.setStringPainted(true);
- *</pre>
- *
- * Here is an example of querying the current state of the task, and using
- * the returned value to update the progress bar:
- *
- *<pre>
- *progressBar.setValue(task.getCurrent());
- *</pre>
- *
- * Here is an example of putting a progress bar into
- * indeterminate mode,
- * and then switching back to determinate mode
- * once the length of the task is known:
- *
- *<pre>
- *progressBar = new JProgressBar();
- *<em>...//when the task of (initially) unknown length begins:</em>
- *progressBar.setIndeterminate(true);
- *<em>...//do some work; get length of task...</em>
- *progressBar.setMaximum(newLength);
- *progressBar.setValue(newValue);
- *progressBar.setIndeterminate(false);
- *</pre>
+ * To indidbtf tibt b tbsk of unknown lfngti is fxfduting,
+ * you dbn put b progrfss bbr into indftfrminbtf modf.
+ * Wiilf tif bbr is in indftfrminbtf modf,
+ * it bnimbtfs donstbntly to siow tibt work is oddurring.
+ * As soon bs you dbn dftfrminf tif tbsk's lfngti bnd bmount of progrfss,
+ * you siould updbtf tif progrfss bbr's vbluf
+ * bnd switdi it bbdk to dftfrminbtf modf.
  *
  * <p>
  *
- * For complete examples and further documentation see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html" target="_top">How to Monitor Progress</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Hfrf is bn fxbmplf of drfbting b progrfss bbr,
+ * wifrf <dodf>tbsk</dodf> is bn objfdt (rfprfsfnting somf pifdf of work)
+ * wiidi rfturns informbtion bbout tif progrfss of tif tbsk:
+ *
+ *<prf>
+ *progrfssBbr = nfw JProgrfssBbr(0, tbsk.gftLfngtiOfTbsk());
+ *progrfssBbr.sftVbluf(0);
+ *progrfssBbr.sftStringPbintfd(truf);
+ *</prf>
+ *
+ * Hfrf is bn fxbmplf of qufrying tif durrfnt stbtf of tif tbsk, bnd using
+ * tif rfturnfd vbluf to updbtf tif progrfss bbr:
+ *
+ *<prf>
+ *progrfssBbr.sftVbluf(tbsk.gftCurrfnt());
+ *</prf>
+ *
+ * Hfrf is bn fxbmplf of putting b progrfss bbr into
+ * indftfrminbtf modf,
+ * bnd tifn switdiing bbdk to dftfrminbtf modf
+ * ondf tif lfngti of tif tbsk is known:
+ *
+ *<prf>
+ *progrfssBbr = nfw JProgrfssBbr();
+ *<fm>...//wifn tif tbsk of (initiblly) unknown lfngti bfgins:</fm>
+ *progrfssBbr.sftIndftfrminbtf(truf);
+ *<fm>...//do somf work; gft lfngti of tbsk...</fm>
+ *progrfssBbr.sftMbximum(nfwLfngti);
+ *progrfssBbr.sftVbluf(nfwVbluf);
+ *progrfssBbr.sftIndftfrminbtf(fblsf);
+ *</prf>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ *
+ * For domplftf fxbmplfs bnd furtifr dodumfntbtion sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.itml" tbrgft="_top">How to Monitor Progrfss</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see javax.swing.plaf.basic.BasicProgressBarUI
- * @see javax.swing.BoundedRangeModel
- * @see javax.swing.SwingWorker
+ * @sff jbvbx.swing.plbf.bbsid.BbsidProgrfssBbrUI
+ * @sff jbvbx.swing.BoundfdRbngfModfl
+ * @sff jbvbx.swing.SwingWorkfr
  *
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that displays an integer value.
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A domponfnt tibt displbys bn intfgfr vbluf.
  *
- * @author Michael C. Albers
- * @author Kathy Walrath
- * @since 1.2
+ * @butior Midibfl C. Albfrs
+ * @butior Kbtiy Wblrbti
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JProgressBar extends JComponent implements SwingConstants, Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JProgrfssBbr fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
 {
     /**
-     * @see #getUIClassID
+     * @sff #gftUIClbssID
      */
-    private static final String uiClassID = "ProgressBarUI";
+    privbtf stbtid finbl String uiClbssID = "ProgrfssBbrUI";
 
     /**
-     * Whether the progress bar is horizontal or vertical.
-     * The default is <code>HORIZONTAL</code>.
+     * Wiftifr tif progrfss bbr is iorizontbl or vfrtidbl.
+     * Tif dffbult is <dodf>HORIZONTAL</dodf>.
      *
-     * @see #setOrientation
+     * @sff #sftOrifntbtion
      */
-    protected int orientation;
+    protfdtfd int orifntbtion;
 
     /**
-     * Whether to display a border around the progress bar.
-     * The default is <code>true</code>.
+     * Wiftifr to displby b bordfr bround tif progrfss bbr.
+     * Tif dffbult is <dodf>truf</dodf>.
      *
-     * @see #setBorderPainted
+     * @sff #sftBordfrPbintfd
      */
-    protected boolean paintBorder;
+    protfdtfd boolfbn pbintBordfr;
 
     /**
-     * The object that holds the data for the progress bar.
+     * Tif objfdt tibt iolds tif dbtb for tif progrfss bbr.
      *
-     * @see #setModel
+     * @sff #sftModfl
      */
-    protected BoundedRangeModel model;
+    protfdtfd BoundfdRbngfModfl modfl;
 
     /**
-     * An optional string that can be displayed on the progress bar.
-     * The default is <code>null</code>. Setting this to a non-<code>null</code>
-     * value does not imply that the string will be displayed.
-     * To display the string, {@code paintString} must be {@code true}.
+     * An optionbl string tibt dbn bf displbyfd on tif progrfss bbr.
+     * Tif dffbult is <dodf>null</dodf>. Sftting tiis to b non-<dodf>null</dodf>
+     * vbluf dofs not imply tibt tif string will bf displbyfd.
+     * To displby tif string, {@dodf pbintString} must bf {@dodf truf}.
      *
-     * @see #setString
-     * @see #setStringPainted
+     * @sff #sftString
+     * @sff #sftStringPbintfd
      */
-    protected String progressString;
+    protfdtfd String progrfssString;
 
     /**
-     * Whether to display a string of text on the progress bar.
-     * The default is <code>false</code>.
-     * Setting this to <code>true</code> causes a textual
-     * display of the progress to be rendered on the progress bar. If
-     * the <code>progressString</code> is <code>null</code>,
-     * the percentage of completion is displayed on the progress bar.
-     * Otherwise, the <code>progressString</code> is
-     * rendered on the progress bar.
+     * Wiftifr to displby b string of tfxt on tif progrfss bbr.
+     * Tif dffbult is <dodf>fblsf</dodf>.
+     * Sftting tiis to <dodf>truf</dodf> dbusfs b tfxtubl
+     * displby of tif progrfss to bf rfndfrfd on tif progrfss bbr. If
+     * tif <dodf>progrfssString</dodf> is <dodf>null</dodf>,
+     * tif pfrdfntbgf of domplftion is displbyfd on tif progrfss bbr.
+     * Otifrwisf, tif <dodf>progrfssString</dodf> is
+     * rfndfrfd on tif progrfss bbr.
      *
-     * @see #setStringPainted
-     * @see #setString
+     * @sff #sftStringPbintfd
+     * @sff #sftString
      */
-    protected boolean paintString;
+    protfdtfd boolfbn pbintString;
 
     /**
-     * The default minimum for a progress bar is 0.
+     * Tif dffbult minimum for b progrfss bbr is 0.
      */
-    static final private int defaultMinimum = 0;
+    stbtid finbl privbtf int dffbultMinimum = 0;
     /**
-     * The default maximum for a progress bar is 100.
+     * Tif dffbult mbximum for b progrfss bbr is 100.
      */
-    static final private int defaultMaximum = 100;
+    stbtid finbl privbtf int dffbultMbximum = 100;
     /**
-     * The default orientation for a progress bar is <code>HORIZONTAL</code>.
+     * Tif dffbult orifntbtion for b progrfss bbr is <dodf>HORIZONTAL</dodf>.
      */
-    static final private int defaultOrientation = HORIZONTAL;
+    stbtid finbl privbtf int dffbultOrifntbtion = HORIZONTAL;
 
     /**
-     * Only one <code>ChangeEvent</code> is needed per instance since the
-     * event's only interesting property is the immutable source, which
-     * is the progress bar.
-     * The event is lazily created the first time that an
-     * event notification is fired.
+     * Only onf <dodf>CibngfEvfnt</dodf> is nffdfd pfr instbndf sindf tif
+     * fvfnt's only intfrfsting propfrty is tif immutbblf sourdf, wiidi
+     * is tif progrfss bbr.
+     * Tif fvfnt is lbzily drfbtfd tif first timf tibt bn
+     * fvfnt notifidbtion is firfd.
      *
-     * @see #fireStateChanged
+     * @sff #firfStbtfCibngfd
      */
-    protected transient ChangeEvent changeEvent = null;
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
     /**
-     * Listens for change events sent by the progress bar's model,
-     * redispatching them
-     * to change-event listeners registered upon
-     * this progress bar.
+     * Listfns for dibngf fvfnts sfnt by tif progrfss bbr's modfl,
+     * rfdispbtdiing tifm
+     * to dibngf-fvfnt listfnfrs rfgistfrfd upon
+     * tiis progrfss bbr.
      *
-     * @see #createChangeListener
+     * @sff #drfbtfCibngfListfnfr
      */
-    protected ChangeListener changeListener = null;
+    protfdtfd CibngfListfnfr dibngfListfnfr = null;
 
     /**
-     * Format used when displaying percent complete.
+     * Formbt usfd wifn displbying pfrdfnt domplftf.
      */
-    private transient Format format;
+    privbtf trbnsifnt Formbt formbt;
 
     /**
-     * Whether the progress bar is indeterminate (<code>true</code>) or
-     * normal (<code>false</code>); the default is <code>false</code>.
+     * Wiftifr tif progrfss bbr is indftfrminbtf (<dodf>truf</dodf>) or
+     * normbl (<dodf>fblsf</dodf>); tif dffbult is <dodf>fblsf</dodf>.
      *
-     * @see #setIndeterminate
-     * @since 1.4
+     * @sff #sftIndftfrminbtf
+     * @sindf 1.4
      */
-    private boolean indeterminate;
+    privbtf boolfbn indftfrminbtf;
 
 
    /**
-     * Creates a horizontal progress bar
-     * that displays a border but no progress string.
-     * The initial and minimum values are 0,
-     * and the maximum is 100.
+     * Crfbtfs b iorizontbl progrfss bbr
+     * tibt displbys b bordfr but no progrfss string.
+     * Tif initibl bnd minimum vblufs brf 0,
+     * bnd tif mbximum is 100.
      *
-     * @see #setOrientation
-     * @see #setBorderPainted
-     * @see #setStringPainted
-     * @see #setString
-     * @see #setIndeterminate
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
      */
-    public JProgressBar()
+    publid JProgrfssBbr()
     {
-        this(defaultOrientation);
+        tiis(dffbultOrifntbtion);
     }
 
    /**
-     * Creates a progress bar with the specified orientation,
-     * which can be
-     * either {@code SwingConstants.VERTICAL} or
-     * {@code SwingConstants.HORIZONTAL}.
-     * By default, a border is painted but a progress string is not.
-     * The initial and minimum values are 0,
-     * and the maximum is 100.
+     * Crfbtfs b progrfss bbr witi tif spfdififd orifntbtion,
+     * wiidi dbn bf
+     * fitifr {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     * Tif initibl bnd minimum vblufs brf 0,
+     * bnd tif mbximum is 100.
      *
-     * @param orient  the desired orientation of the progress bar
-     * @throws IllegalArgumentException if {@code orient} is an illegal value
+     * @pbrbm orifnt  tif dfsirfd orifntbtion of tif progrfss bbr
+     * @tirows IllfgblArgumfntExdfption if {@dodf orifnt} is bn illfgbl vbluf
      *
-     * @see #setOrientation
-     * @see #setBorderPainted
-     * @see #setStringPainted
-     * @see #setString
-     * @see #setIndeterminate
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
      */
-    public JProgressBar(int orient)
+    publid JProgrfssBbr(int orifnt)
     {
-        this(orient, defaultMinimum, defaultMaximum);
+        tiis(orifnt, dffbultMinimum, dffbultMbximum);
     }
 
 
     /**
-     * Creates a horizontal progress bar
-     * with the specified minimum and maximum.
-     * Sets the initial value of the progress bar to the specified minimum.
-     * By default, a border is painted but a progress string is not.
+     * Crfbtfs b iorizontbl progrfss bbr
+     * witi tif spfdififd minimum bnd mbximum.
+     * Sfts tif initibl vbluf of tif progrfss bbr to tif spfdififd minimum.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
      * <p>
-     * The <code>BoundedRangeModel</code> that holds the progress bar's data
-     * handles any issues that may arise from improperly setting the
-     * minimum, initial, and maximum values on the progress bar.
-     * See the {@code BoundedRangeModel} documentation for details.
+     * Tif <dodf>BoundfdRbngfModfl</dodf> tibt iolds tif progrfss bbr's dbtb
+     * ibndlfs bny issufs tibt mby brisf from impropfrly sftting tif
+     * minimum, initibl, bnd mbximum vblufs on tif progrfss bbr.
+     * Sff tif {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
      *
-     * @param min  the minimum value of the progress bar
-     * @param max  the maximum value of the progress bar
+     * @pbrbm min  tif minimum vbluf of tif progrfss bbr
+     * @pbrbm mbx  tif mbximum vbluf of tif progrfss bbr
      *
-     * @see BoundedRangeModel
-     * @see #setOrientation
-     * @see #setBorderPainted
-     * @see #setStringPainted
-     * @see #setString
-     * @see #setIndeterminate
+     * @sff BoundfdRbngfModfl
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
      */
-    public JProgressBar(int min, int max)
+    publid JProgrfssBbr(int min, int mbx)
     {
-        this(defaultOrientation, min, max);
+        tiis(dffbultOrifntbtion, min, mbx);
     }
 
 
     /**
-     * Creates a progress bar using the specified orientation,
-     * minimum, and maximum.
-     * By default, a border is painted but a progress string is not.
-     * Sets the initial value of the progress bar to the specified minimum.
+     * Crfbtfs b progrfss bbr using tif spfdififd orifntbtion,
+     * minimum, bnd mbximum.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
+     * Sfts tif initibl vbluf of tif progrfss bbr to tif spfdififd minimum.
      * <p>
-     * The <code>BoundedRangeModel</code> that holds the progress bar's data
-     * handles any issues that may arise from improperly setting the
-     * minimum, initial, and maximum values on the progress bar.
-     * See the {@code BoundedRangeModel} documentation for details.
+     * Tif <dodf>BoundfdRbngfModfl</dodf> tibt iolds tif progrfss bbr's dbtb
+     * ibndlfs bny issufs tibt mby brisf from impropfrly sftting tif
+     * minimum, initibl, bnd mbximum vblufs on tif progrfss bbr.
+     * Sff tif {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
      *
-     * @param orient  the desired orientation of the progress bar
-     * @param min  the minimum value of the progress bar
-     * @param max  the maximum value of the progress bar
-     * @throws IllegalArgumentException if {@code orient} is an illegal value
+     * @pbrbm orifnt  tif dfsirfd orifntbtion of tif progrfss bbr
+     * @pbrbm min  tif minimum vbluf of tif progrfss bbr
+     * @pbrbm mbx  tif mbximum vbluf of tif progrfss bbr
+     * @tirows IllfgblArgumfntExdfption if {@dodf orifnt} is bn illfgbl vbluf
      *
-     * @see BoundedRangeModel
-     * @see #setOrientation
-     * @see #setBorderPainted
-     * @see #setStringPainted
-     * @see #setString
-     * @see #setIndeterminate
+     * @sff BoundfdRbngfModfl
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
      */
-    public JProgressBar(int orient, int min, int max)
+    publid JProgrfssBbr(int orifnt, int min, int mbx)
     {
-        // Creating the model this way is a bit simplistic, but
-        //  I believe that it is the the most common usage of this
-        //  component - it's what people will expect.
-        setModel(new DefaultBoundedRangeModel(min, 0, min, max));
-        updateUI();
+        // Crfbting tif modfl tiis wby is b bit simplistid, but
+        //  I bflifvf tibt it is tif tif most dommon usbgf of tiis
+        //  domponfnt - it's wibt pfoplf will fxpfdt.
+        sftModfl(nfw DffbultBoundfdRbngfModfl(min, 0, min, mbx));
+        updbtfUI();
 
-        setOrientation(orient);      // documented with set/getOrientation()
-        setBorderPainted(true);      // documented with is/setBorderPainted()
-        setStringPainted(false);     // see setStringPainted
-        setString(null);             // see getString
-        setIndeterminate(false);     // see setIndeterminate
+        sftOrifntbtion(orifnt);      // dodumfntfd witi sft/gftOrifntbtion()
+        sftBordfrPbintfd(truf);      // dodumfntfd witi is/sftBordfrPbintfd()
+        sftStringPbintfd(fblsf);     // sff sftStringPbintfd
+        sftString(null);             // sff gftString
+        sftIndftfrminbtf(fblsf);     // sff sftIndftfrminbtf
     }
 
 
     /**
-     * Creates a horizontal progress bar
-     * that uses the specified model
-     * to hold the progress bar's data.
-     * By default, a border is painted but a progress string is not.
+     * Crfbtfs b iorizontbl progrfss bbr
+     * tibt usfs tif spfdififd modfl
+     * to iold tif progrfss bbr's dbtb.
+     * By dffbult, b bordfr is pbintfd but b progrfss string is not.
      *
-     * @param newModel  the data model for the progress bar
+     * @pbrbm nfwModfl  tif dbtb modfl for tif progrfss bbr
      *
-     * @see #setOrientation
-     * @see #setBorderPainted
-     * @see #setStringPainted
-     * @see #setString
-     * @see #setIndeterminate
+     * @sff #sftOrifntbtion
+     * @sff #sftBordfrPbintfd
+     * @sff #sftStringPbintfd
+     * @sff #sftString
+     * @sff #sftIndftfrminbtf
      */
-    public JProgressBar(BoundedRangeModel newModel)
+    publid JProgrfssBbr(BoundfdRbngfModfl nfwModfl)
     {
-        setModel(newModel);
-        updateUI();
+        sftModfl(nfwModfl);
+        updbtfUI();
 
-        setOrientation(defaultOrientation);  // see setOrientation()
-        setBorderPainted(true);              // see setBorderPainted()
-        setStringPainted(false);             // see setStringPainted
-        setString(null);                     // see getString
-        setIndeterminate(false);             // see setIndeterminate
+        sftOrifntbtion(dffbultOrifntbtion);  // sff sftOrifntbtion()
+        sftBordfrPbintfd(truf);              // sff sftBordfrPbintfd()
+        sftStringPbintfd(fblsf);             // sff sftStringPbintfd
+        sftString(null);                     // sff gftString
+        sftIndftfrminbtf(fblsf);             // sff sftIndftfrminbtf
     }
 
 
     /**
-     * Returns {@code SwingConstants.VERTICAL} or
-     * {@code SwingConstants.HORIZONTAL}, depending on the orientation
-     * of the progress bar. The default orientation is
-     * {@code SwingConstants.HORIZONTAL}.
+     * Rfturns {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}, dfpfnding on tif orifntbtion
+     * of tif progrfss bbr. Tif dffbult orifntbtion is
+     * {@dodf SwingConstbnts.HORIZONTAL}.
      *
-     * @return <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @see #setOrientation
+     * @rfturn <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @sff #sftOrifntbtion
      */
-    public int getOrientation() {
-        return orientation;
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
     }
 
 
    /**
-     * Sets the progress bar's orientation to <code>newOrientation</code>,
-     * which must be {@code SwingConstants.VERTICAL} or
-     * {@code SwingConstants.HORIZONTAL}. The default orientation
-     * is {@code SwingConstants.HORIZONTAL}.
+     * Sfts tif progrfss bbr's orifntbtion to <dodf>nfwOrifntbtion</dodf>,
+     * wiidi must bf {@dodf SwingConstbnts.VERTICAL} or
+     * {@dodf SwingConstbnts.HORIZONTAL}. Tif dffbult orifntbtion
+     * is {@dodf SwingConstbnts.HORIZONTAL}.
      *
-     * @param  newOrientation  <code>HORIZONTAL</code> or <code>VERTICAL</code>
-     * @exception      IllegalArgumentException    if <code>newOrientation</code>
-     *                                              is an illegal value
-     * @see #getOrientation
+     * @pbrbm  nfwOrifntbtion  <dodf>HORIZONTAL</dodf> or <dodf>VERTICAL</dodf>
+     * @fxdfption      IllfgblArgumfntExdfption    if <dodf>nfwOrifntbtion</dodf>
+     *                                              is bn illfgbl vbluf
+     * @sff #gftOrifntbtion
      *
-     * @beaninfo
-     *    preferred: true
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Set the progress bar's orientation.
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Sft tif progrfss bbr's orifntbtion.
      */
-    public void setOrientation(int newOrientation) {
-        if (orientation != newOrientation) {
-            switch (newOrientation) {
-            case VERTICAL:
-            case HORIZONTAL:
-                int oldOrientation = orientation;
-                orientation = newOrientation;
-                firePropertyChange("orientation", oldOrientation, newOrientation);
-                if (accessibleContext != null) {
-                    accessibleContext.firePropertyChange(
-                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            ((oldOrientation == VERTICAL)
-                             ? AccessibleState.VERTICAL
-                             : AccessibleState.HORIZONTAL),
-                            ((orientation == VERTICAL)
-                             ? AccessibleState.VERTICAL
-                             : AccessibleState.HORIZONTAL));
+    publid void sftOrifntbtion(int nfwOrifntbtion) {
+        if (orifntbtion != nfwOrifntbtion) {
+            switdi (nfwOrifntbtion) {
+            dbsf VERTICAL:
+            dbsf HORIZONTAL:
+                int oldOrifntbtion = orifntbtion;
+                orifntbtion = nfwOrifntbtion;
+                firfPropfrtyCibngf("orifntbtion", oldOrifntbtion, nfwOrifntbtion);
+                if (bddfssiblfContfxt != null) {
+                    bddfssiblfContfxt.firfPropfrtyCibngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            ((oldOrifntbtion == VERTICAL)
+                             ? AddfssiblfStbtf.VERTICAL
+                             : AddfssiblfStbtf.HORIZONTAL),
+                            ((orifntbtion == VERTICAL)
+                             ? AddfssiblfStbtf.VERTICAL
+                             : AddfssiblfStbtf.HORIZONTAL));
                 }
-                break;
-            default:
-                throw new IllegalArgumentException(newOrientation +
-                                             " is not a legal orientation");
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption(nfwOrifntbtion +
+                                             " is not b lfgbl orifntbtion");
             }
-            revalidate();
+            rfvblidbtf();
         }
     }
 
 
     /**
-     * Returns the value of the <code>stringPainted</code> property.
+     * Rfturns tif vbluf of tif <dodf>stringPbintfd</dodf> propfrty.
      *
-     * @return the value of the <code>stringPainted</code> property
-     * @see    #setStringPainted
-     * @see    #setString
+     * @rfturn tif vbluf of tif <dodf>stringPbintfd</dodf> propfrty
+     * @sff    #sftStringPbintfd
+     * @sff    #sftString
      */
-    public boolean isStringPainted() {
-        return paintString;
+    publid boolfbn isStringPbintfd() {
+        rfturn pbintString;
     }
 
 
     /**
-     * Sets the value of the <code>stringPainted</code> property,
-     * which determines whether the progress bar
-     * should render a progress string.
-     * The default is <code>false</code>, meaning
-     * no string is painted.
-     * Some look and feels might not support progress strings
-     * or might support them only when the progress bar is in determinate mode.
+     * Sfts tif vbluf of tif <dodf>stringPbintfd</dodf> propfrty,
+     * wiidi dftfrminfs wiftifr tif progrfss bbr
+     * siould rfndfr b progrfss string.
+     * Tif dffbult is <dodf>fblsf</dodf>, mfbning
+     * no string is pbintfd.
+     * Somf look bnd fffls migit not support progrfss strings
+     * or migit support tifm only wifn tif progrfss bbr is in dftfrminbtf modf.
      *
-     * @param   b       <code>true</code> if the progress bar should render a string
-     * @see     #isStringPainted
-     * @see     #setString
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the progress bar should render a string.
+     * @pbrbm   b       <dodf>truf</dodf> if tif progrfss bbr siould rfndfr b string
+     * @sff     #isStringPbintfd
+     * @sff     #sftString
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Wiftifr tif progrfss bbr siould rfndfr b string.
      */
-    public void setStringPainted(boolean b) {
-        //PENDING: specify that string not painted when in indeterminate mode?
-        //         or just leave that to the L&F?
-        boolean oldValue = paintString;
-        paintString = b;
-        firePropertyChange("stringPainted", oldValue, paintString);
-        if (paintString != oldValue) {
-            revalidate();
-            repaint();
+    publid void sftStringPbintfd(boolfbn b) {
+        //PENDING: spfdify tibt string not pbintfd wifn in indftfrminbtf modf?
+        //         or just lfbvf tibt to tif L&F?
+        boolfbn oldVbluf = pbintString;
+        pbintString = b;
+        firfPropfrtyCibngf("stringPbintfd", oldVbluf, pbintString);
+        if (pbintString != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
 
     /**
-     * Returns a {@code String} representation of the current progress.
-     * By default, this returns a simple percentage {@code String} based on
-     * the value returned from {@code getPercentComplete}.  An example
-     * would be the "42%".  You can change this by calling {@code setString}.
+     * Rfturns b {@dodf String} rfprfsfntbtion of tif durrfnt progrfss.
+     * By dffbult, tiis rfturns b simplf pfrdfntbgf {@dodf String} bbsfd on
+     * tif vbluf rfturnfd from {@dodf gftPfrdfntComplftf}.  An fxbmplf
+     * would bf tif "42%".  You dbn dibngf tiis by dblling {@dodf sftString}.
      *
-     * @return the value of the progress string, or a simple percentage string
-     *         if the progress string is {@code null}
-     * @see    #setString
+     * @rfturn tif vbluf of tif progrfss string, or b simplf pfrdfntbgf string
+     *         if tif progrfss string is {@dodf null}
+     * @sff    #sftString
      */
-    public String getString(){
-        if (progressString != null) {
-            return progressString;
-        } else {
-            if (format == null) {
-                format = NumberFormat.getPercentInstance();
+    publid String gftString(){
+        if (progrfssString != null) {
+            rfturn progrfssString;
+        } flsf {
+            if (formbt == null) {
+                formbt = NumbfrFormbt.gftPfrdfntInstbndf();
             }
-            return format.format(new Double(getPercentComplete()));
+            rfturn formbt.formbt(nfw Doublf(gftPfrdfntComplftf()));
         }
     }
 
     /**
-     * Sets the value of the progress string. By default,
-     * this string is <code>null</code>, implying the built-in behavior of
-     * using a simple percent string.
-     * If you have provided a custom progress string and want to revert to
-     * the built-in behavior, set the string back to <code>null</code>.
+     * Sfts tif vbluf of tif progrfss string. By dffbult,
+     * tiis string is <dodf>null</dodf>, implying tif built-in bfibvior of
+     * using b simplf pfrdfnt string.
+     * If you ibvf providfd b dustom progrfss string bnd wbnt to rfvfrt to
+     * tif built-in bfibvior, sft tif string bbdk to <dodf>null</dodf>.
      * <p>
-     * The progress string is painted only if
-     * the <code>isStringPainted</code> method returns <code>true</code>.
+     * Tif progrfss string is pbintfd only if
+     * tif <dodf>isStringPbintfd</dodf> mftiod rfturns <dodf>truf</dodf>.
      *
-     * @param  s       the value of the progress string
-     * @see    #getString
-     * @see    #setStringPainted
-     * @see    #isStringPainted
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Specifies the progress string to paint
+     * @pbrbm  s       tif vbluf of tif progrfss string
+     * @sff    #gftString
+     * @sff    #sftStringPbintfd
+     * @sff    #isStringPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Spfdififs tif progrfss string to pbint
      */
-    public void setString(String s){
-        String oldValue = progressString;
-        progressString = s;
-        firePropertyChange("string", oldValue, progressString);
-        if (progressString == null || oldValue == null || !progressString.equals(oldValue)) {
-            repaint();
+    publid void sftString(String s){
+        String oldVbluf = progrfssString;
+        progrfssString = s;
+        firfPropfrtyCibngf("string", oldVbluf, progrfssString);
+        if (progrfssString == null || oldVbluf == null || !progrfssString.fqubls(oldVbluf)) {
+            rfpbint();
         }
     }
 
     /**
-     * Returns the percent complete for the progress bar.
-     * Note that this number is between 0.0 and 1.0.
+     * Rfturns tif pfrdfnt domplftf for tif progrfss bbr.
+     * Notf tibt tiis numbfr is bftwffn 0.0 bnd 1.0.
      *
-     * @return the percent complete for this progress bar
+     * @rfturn tif pfrdfnt domplftf for tiis progrfss bbr
      */
-    public double getPercentComplete() {
-        long span = model.getMaximum() - model.getMinimum();
-        double currentValue = model.getValue();
-        double pc = (currentValue - model.getMinimum()) / span;
-        return pc;
+    publid doublf gftPfrdfntComplftf() {
+        long spbn = modfl.gftMbximum() - modfl.gftMinimum();
+        doublf durrfntVbluf = modfl.gftVbluf();
+        doublf pd = (durrfntVbluf - modfl.gftMinimum()) / spbn;
+        rfturn pd;
     }
 
     /**
-     * Returns the <code>borderPainted</code> property.
+     * Rfturns tif <dodf>bordfrPbintfd</dodf> propfrty.
      *
-     * @return the value of the <code>borderPainted</code> property
-     * @see    #setBorderPainted
-     * @beaninfo
-     *  description: Does the progress bar paint its border
+     * @rfturn tif vbluf of tif <dodf>bordfrPbintfd</dodf> propfrty
+     * @sff    #sftBordfrPbintfd
+     * @bfbninfo
+     *  dfsdription: Dofs tif progrfss bbr pbint its bordfr
      */
-    public boolean isBorderPainted() {
-        return paintBorder;
+    publid boolfbn isBordfrPbintfd() {
+        rfturn pbintBordfr;
     }
 
     /**
-     * Sets the <code>borderPainted</code> property, which is
-     * <code>true</code> if the progress bar should paint its border.
-     * The default value for this property is <code>true</code>.
-     * Some look and feels might not implement painted borders;
-     * they will ignore this property.
+     * Sfts tif <dodf>bordfrPbintfd</dodf> propfrty, wiidi is
+     * <dodf>truf</dodf> if tif progrfss bbr siould pbint its bordfr.
+     * Tif dffbult vbluf for tiis propfrty is <dodf>truf</dodf>.
+     * Somf look bnd fffls migit not implfmfnt pbintfd bordfrs;
+     * tify will ignorf tiis propfrty.
      *
-     * @param   b       <code>true</code> if the progress bar
-     *                  should paint its border;
-     *                  otherwise, <code>false</code>
-     * @see     #isBorderPainted
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Whether the progress bar should paint its border.
+     * @pbrbm   b       <dodf>truf</dodf> if tif progrfss bbr
+     *                  siould pbint its bordfr;
+     *                  otifrwisf, <dodf>fblsf</dodf>
+     * @sff     #isBordfrPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Wiftifr tif progrfss bbr siould pbint its bordfr.
      */
-    public void setBorderPainted(boolean b) {
-        boolean oldValue = paintBorder;
-        paintBorder = b;
-        firePropertyChange("borderPainted", oldValue, paintBorder);
-        if (paintBorder != oldValue) {
-            repaint();
+    publid void sftBordfrPbintfd(boolfbn b) {
+        boolfbn oldVbluf = pbintBordfr;
+        pbintBordfr = b;
+        firfPropfrtyCibngf("bordfrPbintfd", oldVbluf, pbintBordfr);
+        if (pbintBordfr != oldVbluf) {
+            rfpbint();
         }
     }
 
     /**
-     * Paints the progress bar's border if the <code>borderPainted</code>
-     * property is <code>true</code>.
+     * Pbints tif progrfss bbr's bordfr if tif <dodf>bordfrPbintfd</dodf>
+     * propfrty is <dodf>truf</dodf>.
      *
-     * @param g  the <code>Graphics</code> context within which to paint the border
-     * @see #paint
-     * @see #setBorder
-     * @see #isBorderPainted
-     * @see #setBorderPainted
+     * @pbrbm g  tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint tif bordfr
+     * @sff #pbint
+     * @sff #sftBordfr
+     * @sff #isBordfrPbintfd
+     * @sff #sftBordfrPbintfd
      */
-    protected void paintBorder(Graphics g) {
-        if (isBorderPainted()) {
-            super.paintBorder(g);
+    protfdtfd void pbintBordfr(Grbpiids g) {
+        if (isBordfrPbintfd()) {
+            supfr.pbintBordfr(g);
         }
     }
 
 
     /**
-     * Returns the look-and-feel object that renders this component.
+     * Rfturns tif look-bnd-fffl objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>ProgressBarUI</code> object that renders this component
+     * @rfturn tif <dodf>ProgrfssBbrUI</dodf> objfdt tibt rfndfrs tiis domponfnt
      */
-    public ProgressBarUI getUI() {
-        return (ProgressBarUI)ui;
+    publid ProgrfssBbrUI gftUI() {
+        rfturn (ProgrfssBbrUI)ui;
     }
 
     /**
-     * Sets the look-and-feel object that renders this component.
+     * Sfts tif look-bnd-fffl objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  a <code>ProgressBarUI</code> object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui  b <dodf>ProgrfssBbrUI</dodf> objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(ProgressBarUI ui) {
-        super.setUI(ui);
-    }
-
-
-    /**
-     * Resets the UI property to a value from the current look and feel.
-     *
-     * @see JComponent#updateUI
-     */
-    public void updateUI() {
-        setUI((ProgressBarUI)UIManager.getUI(this));
+    publid void sftUI(ProgrfssBbrUI ui) {
+        supfr.sftUI(ui);
     }
 
 
     /**
-     * Returns the name of the look-and-feel class that renders this component.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @return the string "ProgressBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        expert: true
-     *   description: A string that specifies the name of the look-and-feel class.
+     * @sff JComponfnt#updbtfUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid void updbtfUI() {
+        sftUI((ProgrfssBbrUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
-    /* We pass each Change event to the listeners with the
-     * the progress bar as the event source.
+    /**
+     * Rfturns tif nbmf of tif look-bnd-fffl dlbss tibt rfndfrs tiis domponfnt.
+     *
+     * @rfturn tif string "ProgrfssBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string tibt spfdififs tif nbmf of tif look-bnd-fffl dlbss.
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /* Wf pbss fbdi Cibngf fvfnt to tif listfnfrs witi tif
+     * tif progrfss bbr bs tif fvfnt sourdf.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf dlbss ModflListfnfr implfmfnts CibngfListfnfr, Sfriblizbblf {
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            firfStbtfCibngfd();
         }
     }
 
     /**
-     * Subclasses that want to handle change events
-     * from the model differently
-     * can override this to return
-     * an instance of a custom <code>ChangeListener</code> implementation.
-     * The default {@code ChangeListener} simply calls the
-     * {@code fireStateChanged} method to forward {@code ChangeEvent}s
-     * to the {@code ChangeListener}s that have been added directly to the
-     * progress bar.
+     * Subdlbssfs tibt wbnt to ibndlf dibngf fvfnts
+     * from tif modfl difffrfntly
+     * dbn ovfrridf tiis to rfturn
+     * bn instbndf of b dustom <dodf>CibngfListfnfr</dodf> implfmfntbtion.
+     * Tif dffbult {@dodf CibngfListfnfr} simply dblls tif
+     * {@dodf firfStbtfCibngfd} mftiod to forwbrd {@dodf CibngfEvfnt}s
+     * to tif {@dodf CibngfListfnfr}s tibt ibvf bffn bddfd dirfdtly to tif
+     * progrfss bbr.
      *
-     * @return the instance of a custom {@code ChangeListener} implementation.
-     * @see #changeListener
-     * @see #fireStateChanged
-     * @see javax.swing.event.ChangeListener
-     * @see javax.swing.BoundedRangeModel
+     * @rfturn tif instbndf of b dustom {@dodf CibngfListfnfr} implfmfntbtion.
+     * @sff #dibngfListfnfr
+     * @sff #firfStbtfCibngfd
+     * @sff jbvbx.swing.fvfnt.CibngfListfnfr
+     * @sff jbvbx.swing.BoundfdRbngfModfl
      */
-    protected ChangeListener createChangeListener() {
-        return new ModelListener();
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr() {
+        rfturn nfw ModflListfnfr();
     }
 
     /**
-     * Adds the specified <code>ChangeListener</code> to the progress bar.
+     * Adds tif spfdififd <dodf>CibngfListfnfr</dodf> to tif progrfss bbr.
      *
-     * @param l the <code>ChangeListener</code> to add
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to bdd
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from the progress bar.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tif progrfss bbr.
      *
-     * @param l the <code>ChangeListener</code> to remove
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to rfmovf
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this progress bar with <code>addChangeListener</code>.
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis progrfss bbr witi <dodf>bddCibngfListfnfr</dodf>.
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Send a {@code ChangeEvent}, whose source is this {@code JProgressBar}, to
-     * all {@code ChangeListener}s that have registered interest in
-     * {@code ChangeEvent}s.
-     * This method is called each time a {@code ChangeEvent} is received from
-     * the model.
+     * Sfnd b {@dodf CibngfEvfnt}, wiosf sourdf is tiis {@dodf JProgrfssBbr}, to
+     * bll {@dodf CibngfListfnfr}s tibt ibvf rfgistfrfd intfrfst in
+     * {@dodf CibngfEvfnt}s.
+     * Tiis mftiod is dbllfd fbdi timf b {@dodf CibngfEvfnt} is rfdfivfd from
+     * tif modfl.
      * <p>
      *
-     * The event instance is created if necessary, and stored in
-     * {@code changeEvent}.
+     * Tif fvfnt instbndf is drfbtfd if nfdfssbry, bnd storfd in
+     * {@dodf dibngfEvfnt}.
      *
-     * @see #addChangeListener
-     * @see EventListenerList
+     * @sff #bddCibngfListfnfr
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
-            }
-        }
-    }
-
-    /**
-     * Returns the data model used by this progress bar.
-     *
-     * @return the <code>BoundedRangeModel</code> currently in use
-     * @see #setModel
-     * @see    BoundedRangeModel
-     */
-    public BoundedRangeModel getModel() {
-        return model;
-    }
-
-    /**
-     * Sets the data model used by the <code>JProgressBar</code>.
-     * Note that the {@code BoundedRangeModel}'s {@code extent} is not used,
-     * and is set to {@code 0}.
-     *
-     * @param  newModel the <code>BoundedRangeModel</code> to use
-     *
-     * @beaninfo
-     *    expert: true
-     * description: The data model used by the JProgressBar.
-     */
-    public void setModel(BoundedRangeModel newModel) {
-        // PENDING(???) setting the same model to multiple bars is broken; listeners
-        BoundedRangeModel oldModel = getModel();
-
-        if (newModel != oldModel) {
-            if (oldModel != null) {
-                oldModel.removeChangeListener(changeListener);
-                changeListener = null;
-            }
-
-            model = newModel;
-
-            if (newModel != null) {
-                changeListener = createChangeListener();
-                newModel.addChangeListener(changeListener);
-            }
-
-            if (accessibleContext != null) {
-                accessibleContext.firePropertyChange(
-                        AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                        (oldModel== null
-                         ? null : Integer.valueOf(oldModel.getValue())),
-                        (newModel== null
-                         ? null : Integer.valueOf(newModel.getValue())));
-            }
-
-            if (model != null) {
-                model.setExtent(0);
-            }
-            repaint();
-        }
-    }
-
-
-    /* All of the model methods are implemented by delegation. */
-
-    /**
-     * Returns the progress bar's current {@code value}
-     * from the <code>BoundedRangeModel</code>.
-     * The value is always between the
-     * minimum and maximum values, inclusive.
-     *
-     * @return  the current value of the progress bar
-     * @see     #setValue
-     * @see     BoundedRangeModel#getValue
-     */
-    public int getValue() { return getModel().getValue(); }
-
-    /**
-     * Returns the progress bar's {@code minimum} value
-     * from the <code>BoundedRangeModel</code>.
-     *
-     * @return  the progress bar's minimum value
-     * @see     #setMinimum
-     * @see     BoundedRangeModel#getMinimum
-     */
-    public int getMinimum() { return getModel().getMinimum(); }
-
-    /**
-     * Returns the progress bar's {@code maximum} value
-     * from the <code>BoundedRangeModel</code>.
-     *
-     * @return  the progress bar's maximum value
-     * @see     #setMaximum
-     * @see     BoundedRangeModel#getMaximum
-     */
-    public int getMaximum() { return getModel().getMaximum(); }
-
-    /**
-     * Sets the progress bar's current value to {@code n}.  This method
-     * forwards the new value to the model.
-     * <p>
-     * The data model (an instance of {@code BoundedRangeModel})
-     * handles any mathematical
-     * issues arising from assigning faulty values.  See the
-     * {@code BoundedRangeModel} documentation for details.
-     * <p>
-     * If the new value is different from the previous value,
-     * all change listeners are notified.
-     *
-     * @param   n       the new value
-     * @see     #getValue
-     * @see     #addChangeListener
-     * @see     BoundedRangeModel#setValue
-     * @beaninfo
-     *    preferred: true
-     *  description: The progress bar's current value.
-     */
-    public void setValue(int n) {
-        BoundedRangeModel brm = getModel();
-        int oldValue = brm.getValue();
-        brm.setValue(n);
-
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(brm.getValue()));
-        }
-    }
-
-    /**
-     * Sets the progress bar's minimum value
-     * (stored in the progress bar's data model) to <code>n</code>.
-     * <p>
-     * The data model (a <code>BoundedRangeModel</code> instance)
-     * handles any mathematical
-     * issues arising from assigning faulty values.
-     * See the {@code BoundedRangeModel} documentation for details.
-     * <p>
-     * If the minimum value is different from the previous minimum,
-     * all change listeners are notified.
-     *
-     * @param  n       the new minimum
-     * @see    #getMinimum
-     * @see    #addChangeListener
-     * @see    BoundedRangeModel#setMinimum
-     * @beaninfo
-     *  preferred: true
-     * description: The progress bar's minimum value.
-     */
-    public void setMinimum(int n) { getModel().setMinimum(n); }
-
-    /**
-     * Sets the progress bar's maximum value
-     * (stored in the progress bar's data model) to <code>n</code>.
-     * <p>
-     * The underlying <code>BoundedRangeModel</code> handles any mathematical
-     * issues arising from assigning faulty values.
-     * See the {@code BoundedRangeModel} documentation for details.
-     * <p>
-     * If the maximum value is different from the previous maximum,
-     * all change listeners are notified.
-     *
-     * @param  n       the new maximum
-     * @see    #getMaximum
-     * @see    #addChangeListener
-     * @see    BoundedRangeModel#setMaximum
-     * @beaninfo
-     *    preferred: true
-     *  description: The progress bar's maximum value.
-     */
-    public void setMaximum(int n) { getModel().setMaximum(n); }
-
-    /**
-     * Sets the <code>indeterminate</code> property of the progress bar,
-     * which determines whether the progress bar is in determinate
-     * or indeterminate mode.
-     * An indeterminate progress bar continuously displays animation
-     * indicating that an operation of unknown length is occurring.
-     * By default, this property is <code>false</code>.
-     * Some look and feels might not support indeterminate progress bars;
-     * they will ignore this property.
-     *
-     * <p>
-     *
-     * See
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html" target="_top">How to Monitor Progress</a>
-     * for examples of using indeterminate progress bars.
-     *
-     * @param newValue  <code>true</code> if the progress bar
-     *                  should change to indeterminate mode;
-     *                  <code>false</code> if it should revert to normal.
-     *
-     * @see #isIndeterminate
-     * @see javax.swing.plaf.basic.BasicProgressBarUI
-     *
-     * @since 1.4
-     *
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Set whether the progress bar is indeterminate (true)
-     *               or normal (false).
-     */
-    public void setIndeterminate(boolean newValue) {
-        boolean oldValue = indeterminate;
-        indeterminate = newValue;
-        firePropertyChange("indeterminate", oldValue, indeterminate);
-    }
-
-    /**
-     * Returns the value of the <code>indeterminate</code> property.
-     *
-     * @return the value of the <code>indeterminate</code> property
-     * @see    #setIndeterminate
-     *
-     * @since 1.4
-     *
-     * @beaninfo
-     *  description: Is the progress bar indeterminate (true)
-     *               or normal (false)?
-     */
-    public boolean isIndeterminate() {
-        return indeterminate;
-    }
-
-
-    /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
-     */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    protfdtfd void firfStbtfCibngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
+    /**
+     * Rfturns tif dbtb modfl usfd by tiis progrfss bbr.
+     *
+     * @rfturn tif <dodf>BoundfdRbngfModfl</dodf> durrfntly in usf
+     * @sff #sftModfl
+     * @sff    BoundfdRbngfModfl
+     */
+    publid BoundfdRbngfModfl gftModfl() {
+        rfturn modfl;
+    }
 
     /**
-     * Returns a string representation of this <code>JProgressBar</code>.
-     * This method is intended to be used only for debugging purposes. The
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Sfts tif dbtb modfl usfd by tif <dodf>JProgrfssBbr</dodf>.
+     * Notf tibt tif {@dodf BoundfdRbngfModfl}'s {@dodf fxtfnt} is not usfd,
+     * bnd is sft to {@dodf 0}.
      *
-     * @return  a string representation of this <code>JProgressBar</code>
+     * @pbrbm  nfwModfl tif <dodf>BoundfdRbngfModfl</dodf> to usf
+     *
+     * @bfbninfo
+     *    fxpfrt: truf
+     * dfsdription: Tif dbtb modfl usfd by tif JProgrfssBbr.
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL ?
+    publid void sftModfl(BoundfdRbngfModfl nfwModfl) {
+        // PENDING(???) sftting tif sbmf modfl to multiplf bbrs is brokfn; listfnfrs
+        BoundfdRbngfModfl oldModfl = gftModfl();
+
+        if (nfwModfl != oldModfl) {
+            if (oldModfl != null) {
+                oldModfl.rfmovfCibngfListfnfr(dibngfListfnfr);
+                dibngfListfnfr = null;
+            }
+
+            modfl = nfwModfl;
+
+            if (nfwModfl != null) {
+                dibngfListfnfr = drfbtfCibngfListfnfr();
+                nfwModfl.bddCibngfListfnfr(dibngfListfnfr);
+            }
+
+            if (bddfssiblfContfxt != null) {
+                bddfssiblfContfxt.firfPropfrtyCibngf(
+                        AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                        (oldModfl== null
+                         ? null : Intfgfr.vblufOf(oldModfl.gftVbluf())),
+                        (nfwModfl== null
+                         ? null : Intfgfr.vblufOf(nfwModfl.gftVbluf())));
+            }
+
+            if (modfl != null) {
+                modfl.sftExtfnt(0);
+            }
+            rfpbint();
+        }
+    }
+
+
+    /* All of tif modfl mftiods brf implfmfntfd by dflfgbtion. */
+
+    /**
+     * Rfturns tif progrfss bbr's durrfnt {@dodf vbluf}
+     * from tif <dodf>BoundfdRbngfModfl</dodf>.
+     * Tif vbluf is blwbys bftwffn tif
+     * minimum bnd mbximum vblufs, indlusivf.
+     *
+     * @rfturn  tif durrfnt vbluf of tif progrfss bbr
+     * @sff     #sftVbluf
+     * @sff     BoundfdRbngfModfl#gftVbluf
+     */
+    publid int gftVbluf() { rfturn gftModfl().gftVbluf(); }
+
+    /**
+     * Rfturns tif progrfss bbr's {@dodf minimum} vbluf
+     * from tif <dodf>BoundfdRbngfModfl</dodf>.
+     *
+     * @rfturn  tif progrfss bbr's minimum vbluf
+     * @sff     #sftMinimum
+     * @sff     BoundfdRbngfModfl#gftMinimum
+     */
+    publid int gftMinimum() { rfturn gftModfl().gftMinimum(); }
+
+    /**
+     * Rfturns tif progrfss bbr's {@dodf mbximum} vbluf
+     * from tif <dodf>BoundfdRbngfModfl</dodf>.
+     *
+     * @rfturn  tif progrfss bbr's mbximum vbluf
+     * @sff     #sftMbximum
+     * @sff     BoundfdRbngfModfl#gftMbximum
+     */
+    publid int gftMbximum() { rfturn gftModfl().gftMbximum(); }
+
+    /**
+     * Sfts tif progrfss bbr's durrfnt vbluf to {@dodf n}.  Tiis mftiod
+     * forwbrds tif nfw vbluf to tif modfl.
+     * <p>
+     * Tif dbtb modfl (bn instbndf of {@dodf BoundfdRbngfModfl})
+     * ibndlfs bny mbtifmbtidbl
+     * issufs brising from bssigning fbulty vblufs.  Sff tif
+     * {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If tif nfw vbluf is difffrfnt from tif prfvious vbluf,
+     * bll dibngf listfnfrs brf notififd.
+     *
+     * @pbrbm   n       tif nfw vbluf
+     * @sff     #gftVbluf
+     * @sff     #bddCibngfListfnfr
+     * @sff     BoundfdRbngfModfl#sftVbluf
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Tif progrfss bbr's durrfnt vbluf.
+     */
+    publid void sftVbluf(int n) {
+        BoundfdRbngfModfl brm = gftModfl();
+        int oldVbluf = brm.gftVbluf();
+        brm.sftVbluf(n);
+
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(brm.gftVbluf()));
+        }
+    }
+
+    /**
+     * Sfts tif progrfss bbr's minimum vbluf
+     * (storfd in tif progrfss bbr's dbtb modfl) to <dodf>n</dodf>.
+     * <p>
+     * Tif dbtb modfl (b <dodf>BoundfdRbngfModfl</dodf> instbndf)
+     * ibndlfs bny mbtifmbtidbl
+     * issufs brising from bssigning fbulty vblufs.
+     * Sff tif {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If tif minimum vbluf is difffrfnt from tif prfvious minimum,
+     * bll dibngf listfnfrs brf notififd.
+     *
+     * @pbrbm  n       tif nfw minimum
+     * @sff    #gftMinimum
+     * @sff    #bddCibngfListfnfr
+     * @sff    BoundfdRbngfModfl#sftMinimum
+     * @bfbninfo
+     *  prfffrrfd: truf
+     * dfsdription: Tif progrfss bbr's minimum vbluf.
+     */
+    publid void sftMinimum(int n) { gftModfl().sftMinimum(n); }
+
+    /**
+     * Sfts tif progrfss bbr's mbximum vbluf
+     * (storfd in tif progrfss bbr's dbtb modfl) to <dodf>n</dodf>.
+     * <p>
+     * Tif undfrlying <dodf>BoundfdRbngfModfl</dodf> ibndlfs bny mbtifmbtidbl
+     * issufs brising from bssigning fbulty vblufs.
+     * Sff tif {@dodf BoundfdRbngfModfl} dodumfntbtion for dftbils.
+     * <p>
+     * If tif mbximum vbluf is difffrfnt from tif prfvious mbximum,
+     * bll dibngf listfnfrs brf notififd.
+     *
+     * @pbrbm  n       tif nfw mbximum
+     * @sff    #gftMbximum
+     * @sff    #bddCibngfListfnfr
+     * @sff    BoundfdRbngfModfl#sftMbximum
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Tif progrfss bbr's mbximum vbluf.
+     */
+    publid void sftMbximum(int n) { gftModfl().sftMbximum(n); }
+
+    /**
+     * Sfts tif <dodf>indftfrminbtf</dodf> propfrty of tif progrfss bbr,
+     * wiidi dftfrminfs wiftifr tif progrfss bbr is in dftfrminbtf
+     * or indftfrminbtf modf.
+     * An indftfrminbtf progrfss bbr dontinuously displbys bnimbtion
+     * indidbting tibt bn opfrbtion of unknown lfngti is oddurring.
+     * By dffbult, tiis propfrty is <dodf>fblsf</dodf>.
+     * Somf look bnd fffls migit not support indftfrminbtf progrfss bbrs;
+     * tify will ignorf tiis propfrty.
+     *
+     * <p>
+     *
+     * Sff
+     * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.itml" tbrgft="_top">How to Monitor Progrfss</b>
+     * for fxbmplfs of using indftfrminbtf progrfss bbrs.
+     *
+     * @pbrbm nfwVbluf  <dodf>truf</dodf> if tif progrfss bbr
+     *                  siould dibngf to indftfrminbtf modf;
+     *                  <dodf>fblsf</dodf> if it siould rfvfrt to normbl.
+     *
+     * @sff #isIndftfrminbtf
+     * @sff jbvbx.swing.plbf.bbsid.BbsidProgrfssBbrUI
+     *
+     * @sindf 1.4
+     *
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Sft wiftifr tif progrfss bbr is indftfrminbtf (truf)
+     *               or normbl (fblsf).
+     */
+    publid void sftIndftfrminbtf(boolfbn nfwVbluf) {
+        boolfbn oldVbluf = indftfrminbtf;
+        indftfrminbtf = nfwVbluf;
+        firfPropfrtyCibngf("indftfrminbtf", oldVbluf, indftfrminbtf);
+    }
+
+    /**
+     * Rfturns tif vbluf of tif <dodf>indftfrminbtf</dodf> propfrty.
+     *
+     * @rfturn tif vbluf of tif <dodf>indftfrminbtf</dodf> propfrty
+     * @sff    #sftIndftfrminbtf
+     *
+     * @sindf 1.4
+     *
+     * @bfbninfo
+     *  dfsdription: Is tif progrfss bbr indftfrminbtf (truf)
+     *               or normbl (fblsf)?
+     */
+    publid boolfbn isIndftfrminbtf() {
+        rfturn indftfrminbtf;
+    }
+
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JProgrfssBbr</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs. Tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JProgrfssBbr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
-        String paintBorderString = (paintBorder ?
-                                    "true" : "false");
-        String progressStringString = (progressString != null ?
-                                       progressString : "");
-        String paintStringString = (paintString ?
-                                    "true" : "false");
-        String indeterminateString = (indeterminate ?
-                                    "true" : "false");
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String progrfssStringString = (progrfssString != null ?
+                                       progrfssString : "");
+        String pbintStringString = (pbintString ?
+                                    "truf" : "fblsf");
+        String indftfrminbtfString = (indftfrminbtf ?
+                                    "truf" : "fblsf");
 
-        return super.paramString() +
-        ",orientation=" + orientationString +
-        ",paintBorder=" + paintBorderString +
-        ",paintString=" + paintStringString +
-        ",progressString=" + progressStringString +
-        ",indeterminateString=" + indeterminateString;
+        rfturn supfr.pbrbmString() +
+        ",orifntbtion=" + orifntbtionString +
+        ",pbintBordfr=" + pbintBordfrString +
+        ",pbintString=" + pbintStringString +
+        ",progrfssString=" + progrfssStringString +
+        ",indftfrminbtfString=" + indftfrminbtfString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JProgressBar</code>. For progress bars, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJProgressBar</code>.
-     * A new <code>AccessibleJProgressBar</code> instance is created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>JProgrfssBbr</dodf>. For progrfss bbrs, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfJProgrfssBbr</dodf>.
+     * A nfw <dodf>AddfssiblfJProgrfssBbr</dodf> instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleJProgressBar</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JProgressBar</code>
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this ProgressBar.
+     * @rfturn bn <dodf>AddfssiblfJProgrfssBbr</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>JProgrfssBbr</dodf>
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis ProgrfssBbr.
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJProgressBar();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJProgrfssBbr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JProgressBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to progress bar user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JProgrfssBbr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to progrfss bbr usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJProgressBar extends AccessibleJComponent
-        implements AccessibleValue {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJProgrfssBbr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
 
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleState containing the current state
-         * of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining tif durrfnt stbtf
+         * of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getModel().getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftModfl().gftVblufIsAdjusting()) {
+                stbtfs.bdd(AddfssiblfStbtf.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
-            } else {
-                states.add(AccessibleState.HORIZONTAL);
+            if (gftOrifntbtion() == VERTICAL) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
             }
-            return states;
+            rfturn stbtfs;
         }
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PROGRESS_BAR;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PROGRESS_BAR;
         }
 
         /**
-         * Gets the <code>AccessibleValue</code> associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * returns this object, which is responsible for implementing the
-         * <code>AccessibleValue</code> interface on behalf of itself.
+         * Gfts tif <dodf>AddfssiblfVbluf</dodf> bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturns tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Gets the accessible value of this object.
+         * Gfts tif bddfssiblf vbluf of tiis objfdt.
          *
-         * @return the current value of this object
+         * @rfturn tif durrfnt vbluf of tiis objfdt
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftVbluf());
         }
 
         /**
-         * Sets the value of this object as a <code>Number</code>.
+         * Sfts tif vbluf of tiis objfdt bs b <dodf>Numbfr</dodf>.
          *
-         * @return <code>true</code> if the value was set
+         * @rfturn <dodf>truf</dodf> if tif vbluf wbs sft
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
             // TIGER- 4422535
             if (n == null) {
-                return false;
+                rfturn fblsf;
             }
-            setValue(n.intValue());
-            return true;
+            sftVbluf(n.intVbluf());
+            rfturn truf;
         }
 
         /**
-         * Gets the minimum accessible value of this object.
+         * Gfts tif minimum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return the minimum value of this object
+         * @rfturn tif minimum vbluf of tiis objfdt
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMinimum());
         }
 
         /**
-         * Gets the maximum accessible value of this object.
+         * Gfts tif mbximum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return the maximum value of this object
+         * @rfturn tif mbximum vbluf of tiis objfdt
          */
-        public Number getMaximumAccessibleValue() {
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
             // TIGER - 4422362
-            return Integer.valueOf(model.getMaximum() - model.getExtent());
+            rfturn Intfgfr.vblufOf(modfl.gftMbximum() - modfl.gftExtfnt());
         }
 
-    } // AccessibleJProgressBar
+    } // AddfssiblfJProgrfssBbr
 }

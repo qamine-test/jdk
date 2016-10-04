@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.util.Sft;
+import jbvb.util.EnumSft;
+import jbvb.sfdurity.SfdurfRbndom;
+import stbtid jbvb.sfdurity.AddfssControllfr.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.bttributf.FilfAttributf;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmission;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmissions;
+import stbtid jbvb.nio.filf.bttributf.PosixFilfPfrmission.*;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+
+/**
+ * Hflpfr dlbss to support drfbtion of tfmporbry filfs bnd dirfdtorifs with
+ * initibl bttributfs.
+ */
+
+dlbss TfmpFilfHflpfr {
+    privbtf TfmpFilfHflpfr() { }
+
+    // tfmporbry dirfdtory lodbtion
+    privbtf stbtid finbl Pbth tmpdir =
+        Pbths.gft(doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.io.tmpdir")));
+
+    privbtf stbtid finbl boolfbn isPosix =
+        FilfSystfms.gftDffbult().supportfdFilfAttributfVifws().dontbins("posix");
+
+    // filf nbmf gfnfrbtion, sbmf bs jbvb.io.Filf for now
+    privbtf stbtid finbl SfdurfRbndom rbndom = nfw SfdurfRbndom();
+    privbtf stbtid Pbth gfnfrbtfPbth(String prffix, String suffix, Pbth dir) {
+        long n = rbndom.nfxtLong();
+        n = (n == Long.MIN_VALUE) ? 0 : Mbth.bbs(n);
+        Pbth nbmf = dir.gftFilfSystfm().gftPbth(prffix + Long.toString(n) + suffix);
+        // thf gfnfrbtfd nbmf should bf b simplf filf nbmf
+        if (nbmf.gftPbrfnt() != null)
+            throw nfw IllfgblArgumfntExdfption("Invblid prffix or suffix");
+        rfturn dir.rfsolvf(nbmf);
+    }
+
+    // dffbult filf bnd dirfdtory pfrmissions (lbzily initiblizfd)
+    privbtf stbtid dlbss PosixPfrmissions {
+        stbtid finbl FilfAttributf<Sft<PosixFilfPfrmission>> filfPfrmissions =
+            PosixFilfPfrmissions.bsFilfAttributf(EnumSft.of(OWNER_READ, OWNER_WRITE));
+        stbtid finbl FilfAttributf<Sft<PosixFilfPfrmission>> dirPfrmissions =
+            PosixFilfPfrmissions.bsFilfAttributf(EnumSft
+                .of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE));
+    }
+
+    /**
+     * Crfbtfs b filf or dirfdtory in in thf givfn givfn dirfdtory (or in thf
+     * tfmporbry dirfdtory if dir is {@dodf null}).
+     */
+    privbtf stbtid Pbth drfbtf(Pbth dir,
+                               String prffix,
+                               String suffix,
+                               boolfbn drfbtfDirfdtory,
+                               FilfAttributf<?>[] bttrs)
+        throws IOExdfption
+    {
+        if (prffix == null)
+            prffix = "";
+        if (suffix == null)
+            suffix = (drfbtfDirfdtory) ? "" : ".tmp";
+        if (dir == null)
+            dir = tmpdir;
+
+        // in POSIX fnvironmfnts usf dffbult filf bnd dirfdtory pfrmissions
+        // if initibl pfrmissions not givfn by dbllfr.
+        if (isPosix && (dir.gftFilfSystfm() == FilfSystfms.gftDffbult())) {
+            if (bttrs.lfngth == 0) {
+                // no bttributfs so usf dffbult pfrmissions
+                bttrs = nfw FilfAttributf<?>[1];
+                bttrs[0] = (drfbtfDirfdtory) ? PosixPfrmissions.dirPfrmissions :
+                                               PosixPfrmissions.filfPfrmissions;
+            } flsf {
+                // dhfdk if posix pfrmissions givfn; if not usf dffbult
+                boolfbn hbsPfrmissions = fblsf;
+                for (int i=0; i<bttrs.lfngth; i++) {
+                    if (bttrs[i].nbmf().fqubls("posix:pfrmissions")) {
+                        hbsPfrmissions = truf;
+                        brfbk;
+                    }
+                }
+                if (!hbsPfrmissions) {
+                    FilfAttributf<?>[] dopy = nfw FilfAttributf<?>[bttrs.lfngth+1];
+                    Systfm.brrbydopy(bttrs, 0, dopy, 0, bttrs.lfngth);
+                    bttrs = dopy;
+                    bttrs[bttrs.lfngth-1] = (drfbtfDirfdtory) ?
+                        PosixPfrmissions.dirPfrmissions :
+                        PosixPfrmissions.filfPfrmissions;
+                }
+            }
+        }
+
+        // loop gfnfrbting rbndom nbmfs until filf or dirfdtory dbn bf drfbtfd
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        for (;;) {
+            Pbth f;
+            try {
+                f = gfnfrbtfPbth(prffix, suffix, dir);
+            } dbtdh (InvblidPbthExdfption f) {
+                // don't rfvfbl tfmporbry dirfdtory lodbtion
+                if (sm != null)
+                    throw nfw IllfgblArgumfntExdfption("Invblid prffix or suffix");
+                throw f;
+            }
+            try {
+                if (drfbtfDirfdtory) {
+                    rfturn Filfs.drfbtfDirfdtory(f, bttrs);
+                } flsf {
+                    rfturn Filfs.drfbtfFilf(f, bttrs);
+                }
+            } dbtdh (SfdurityExdfption f) {
+                // don't rfvfbl tfmporbry dirfdtory lodbtion
+                if (dir == tmpdir && sm != null)
+                    throw nfw SfdurityExdfption("Unbblf to drfbtf tfmporbry filf or dirfdtory");
+                throw f;
+            } dbtdh (FilfAlrfbdyExistsExdfption f) {
+                // ignorf
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b tfmporbry filf in thf givfn dirfdtory, or in in thf
+     * tfmporbry dirfdtory if dir is {@dodf null}.
+     */
+    stbtid Pbth drfbtfTfmpFilf(Pbth dir,
+                               String prffix,
+                               String suffix,
+                               FilfAttributf<?>[] bttrs)
+        throws IOExdfption
+    {
+        rfturn drfbtf(dir, prffix, suffix, fblsf, bttrs);
+    }
+
+    /**
+     * Crfbtfs b tfmporbry dirfdtory in thf givfn dirfdtory, or in in thf
+     * tfmporbry dirfdtory if dir is {@dodf null}.
+     */
+    stbtid Pbth drfbtfTfmpDirfdtory(Pbth dir,
+                                    String prffix,
+                                    FilfAttributf<?>[] bttrs)
+        throws IOExdfption
+    {
+        rfturn drfbtf(dir, prffix, null, truf, bttrs);
+    }
+}

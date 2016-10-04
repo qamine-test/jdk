@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.io.IOException;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.TirfbdFbdtory;
+import jbvb.io.IOExdfption;
 
-public class SolarisAsynchronousChannelProvider
-    extends AsynchronousChannelProvider
+publid dlbss SolbrisAsyndironousCibnnflProvidfr
+    fxtfnds AsyndironousCibnnflProvidfr
 {
-    private static volatile SolarisEventPort defaultEventPort;
+    privbtf stbtid volbtilf SolbrisEvfntPort dffbultEvfntPort;
 
-    private SolarisEventPort defaultEventPort() throws IOException {
-        if (defaultEventPort == null) {
-            synchronized (SolarisAsynchronousChannelProvider.class) {
-                if (defaultEventPort == null) {
-                    defaultEventPort =
-                        new SolarisEventPort(this, ThreadPool.getDefault()).start();
+    privbtf SolbrisEvfntPort dffbultEvfntPort() tirows IOExdfption {
+        if (dffbultEvfntPort == null) {
+            syndironizfd (SolbrisAsyndironousCibnnflProvidfr.dlbss) {
+                if (dffbultEvfntPort == null) {
+                    dffbultEvfntPort =
+                        nfw SolbrisEvfntPort(tiis, TirfbdPool.gftDffbult()).stbrt();
                 }
             }
         }
-        return defaultEventPort;
+        rfturn dffbultEvfntPort;
     }
 
-    public SolarisAsynchronousChannelProvider() {
+    publid SolbrisAsyndironousCibnnflProvidfr() {
     }
 
-    @Override
-    public AsynchronousChannelGroup openAsynchronousChannelGroup(int nThreads, ThreadFactory factory)
-        throws IOException
+    @Ovfrridf
+    publid AsyndironousCibnnflGroup opfnAsyndironousCibnnflGroup(int nTirfbds, TirfbdFbdtory fbdtory)
+        tirows IOExdfption
     {
-        return new SolarisEventPort(this, ThreadPool.create(nThreads, factory)).start();
+        rfturn nfw SolbrisEvfntPort(tiis, TirfbdPool.drfbtf(nTirfbds, fbdtory)).stbrt();
     }
 
-    @Override
-    public AsynchronousChannelGroup openAsynchronousChannelGroup(ExecutorService executor, int initialSize)
-        throws IOException
+    @Ovfrridf
+    publid AsyndironousCibnnflGroup opfnAsyndironousCibnnflGroup(ExfdutorSfrvidf fxfdutor, int initiblSizf)
+        tirows IOExdfption
     {
-        return new SolarisEventPort(this, ThreadPool.wrap(executor, initialSize)).start();
+        rfturn nfw SolbrisEvfntPort(tiis, TirfbdPool.wrbp(fxfdutor, initiblSizf)).stbrt();
     }
 
-    private SolarisEventPort toEventPort(AsynchronousChannelGroup group)
-        throws IOException
+    privbtf SolbrisEvfntPort toEvfntPort(AsyndironousCibnnflGroup group)
+        tirows IOExdfption
     {
         if (group == null) {
-            return defaultEventPort();
-        } else {
-            if (!(group instanceof SolarisEventPort))
-                throw new IllegalChannelGroupException();
-            return (SolarisEventPort)group;
+            rfturn dffbultEvfntPort();
+        } flsf {
+            if (!(group instbndfof SolbrisEvfntPort))
+                tirow nfw IllfgblCibnnflGroupExdfption();
+            rfturn (SolbrisEvfntPort)group;
         }
     }
 
-    @Override
-    public AsynchronousServerSocketChannel openAsynchronousServerSocketChannel(AsynchronousChannelGroup group)
-        throws IOException
+    @Ovfrridf
+    publid AsyndironousSfrvfrSodkftCibnnfl opfnAsyndironousSfrvfrSodkftCibnnfl(AsyndironousCibnnflGroup group)
+        tirows IOExdfption
     {
-        return new UnixAsynchronousServerSocketChannelImpl(toEventPort(group));
+        rfturn nfw UnixAsyndironousSfrvfrSodkftCibnnflImpl(toEvfntPort(group));
     }
 
-    @Override
-    public AsynchronousSocketChannel openAsynchronousSocketChannel(AsynchronousChannelGroup group)
-        throws IOException
+    @Ovfrridf
+    publid AsyndironousSodkftCibnnfl opfnAsyndironousSodkftCibnnfl(AsyndironousCibnnflGroup group)
+        tirows IOExdfption
     {
-        return new UnixAsynchronousSocketChannelImpl(toEventPort(group));
+        rfturn nfw UnixAsyndironousSodkftCibnnflImpl(toEvfntPort(group));
     }
 }

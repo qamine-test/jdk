@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.util.Arrbys;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class represents the OtherName as required by the GeneralNames
- * ASN.1 object. It supplies the generic framework to allow specific
- * Other Name types, and also provides minimal support for unrecognized
- * Other Name types.
+ * Tiis dlbss rfprfsfnts tif OtifrNbmf bs rfquirfd by tif GfnfrblNbmfs
+ * ASN.1 objfdt. It supplifs tif gfnfrid frbmfwork to bllow spfdifid
+ * Otifr Nbmf typfs, bnd blso providfs minimbl support for unrfdognizfd
+ * Otifr Nbmf typfs.
  *
- * The ASN.1 definition for OtherName is:
- * <pre>
- * OtherName ::= SEQUENCE {
- *     type-id    OBJECT IDENTIFIER,
- *     value      [0] EXPLICIT ANY DEFINED BY type-id
+ * Tif ASN.1 dffinition for OtifrNbmf is:
+ * <prf>
+ * OtifrNbmf ::= SEQUENCE {
+ *     typf-id    OBJECT IDENTIFIER,
+ *     vbluf      [0] EXPLICIT ANY DEFINED BY typf-id
  * }
- * </pre>
- * @author Hemma Prafullchandra
+ * </prf>
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class OtherName implements GeneralNameInterface {
+publid dlbss OtifrNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
 
-    private String name;
-    private ObjectIdentifier oid;
-    private byte[] nameValue = null;
-    private GeneralNameInterface gni = null;
+    privbtf String nbmf;
+    privbtf ObjfdtIdfntififr oid;
+    privbtf bytf[] nbmfVbluf = null;
+    privbtf GfnfrblNbmfIntfrfbdf gni = null;
 
-    private static final byte TAG_VALUE = 0;
+    privbtf stbtid finbl bytf TAG_VALUE = 0;
 
-    private int myhash = -1;
+    privbtf int myibsi = -1;
 
     /**
-     * Create the OtherName object from a passed ObjectIdentfier and
-     * byte array name value
+     * Crfbtf tif OtifrNbmf objfdt from b pbssfd ObjfdtIdfntfifr bnd
+     * bytf brrby nbmf vbluf
      *
-     * @param oid ObjectIdentifier of this OtherName object
-     * @param value the DER-encoded value of the OtherName
-     * @throws IOException on error
+     * @pbrbm oid ObjfdtIdfntififr of tiis OtifrNbmf objfdt
+     * @pbrbm vbluf tif DER-fndodfd vbluf of tif OtifrNbmf
+     * @tirows IOExdfption on frror
      */
-    public OtherName(ObjectIdentifier oid, byte[] value) throws IOException {
-        if (oid == null || value == null) {
-            throw new NullPointerException("parameters may not be null");
+    publid OtifrNbmf(ObjfdtIdfntififr oid, bytf[] vbluf) tirows IOExdfption {
+        if (oid == null || vbluf == null) {
+            tirow nfw NullPointfrExdfption("pbrbmftfrs mby not bf null");
         }
-        this.oid = oid;
-        this.nameValue = value;
-        gni = getGNI(oid, value);
+        tiis.oid = oid;
+        tiis.nbmfVbluf = vbluf;
+        gni = gftGNI(oid, vbluf);
         if (gni != null) {
-            name = gni.toString();
-        } else {
-            name = "Unrecognized ObjectIdentifier: " + oid.toString();
+            nbmf = gni.toString();
+        } flsf {
+            nbmf = "Unrfdognizfd ObjfdtIdfntififr: " + oid.toString();
         }
     }
 
     /**
-     * Create the OtherName object from the passed encoded Der value.
+     * Crfbtf tif OtifrNbmf objfdt from tif pbssfd fndodfd Dfr vbluf.
      *
-     * @param derValue the encoded DER OtherName.
-     * @exception IOException on error.
+     * @pbrbm dfrVbluf tif fndodfd DER OtifrNbmf.
+     * @fxdfption IOExdfption on frror.
      */
-    public OtherName(DerValue derValue) throws IOException {
-        DerInputStream in = derValue.toDerInputStream();
+    publid OtifrNbmf(DfrVbluf dfrVbluf) tirows IOExdfption {
+        DfrInputStrfbm in = dfrVbluf.toDfrInputStrfbm();
 
-        oid = in.getOID();
-        DerValue val = in.getDerValue();
-        nameValue = val.toByteArray();
-        gni = getGNI(oid, nameValue);
+        oid = in.gftOID();
+        DfrVbluf vbl = in.gftDfrVbluf();
+        nbmfVbluf = vbl.toBytfArrby();
+        gni = gftGNI(oid, nbmfVbluf);
         if (gni != null) {
-            name = gni.toString();
-        } else {
-            name = "Unrecognized ObjectIdentifier: " + oid.toString();
+            nbmf = gni.toString();
+        } flsf {
+            nbmf = "Unrfdognizfd ObjfdtIdfntififr: " + oid.toString();
         }
     }
 
     /**
-     * Get ObjectIdentifier
+     * Gft ObjfdtIdfntififr
      */
-    public ObjectIdentifier getOID() {
-        //XXXX May want to consider cloning this
-        return oid;
+    publid ObjfdtIdfntififr gftOID() {
+        //XXXX Mby wbnt to donsidfr dloning tiis
+        rfturn oid;
     }
 
     /**
-     * Get name value
+     * Gft nbmf vbluf
      */
-    public byte[] getNameValue() {
-        return nameValue.clone();
+    publid bytf[] gftNbmfVbluf() {
+        rfturn nbmfVbluf.dlonf();
     }
 
     /**
-     * Get GeneralNameInterface
+     * Gft GfnfrblNbmfIntfrfbdf
      */
-    private GeneralNameInterface getGNI(ObjectIdentifier oid, byte[] nameValue)
-            throws IOException {
+    privbtf GfnfrblNbmfIntfrfbdf gftGNI(ObjfdtIdfntififr oid, bytf[] nbmfVbluf)
+            tirows IOExdfption {
         try {
-            Class<?> extClass = OIDMap.getClass(oid);
-            if (extClass == null) {   // Unsupported OtherName
-                return null;
+            Clbss<?> fxtClbss = OIDMbp.gftClbss(oid);
+            if (fxtClbss == null) {   // Unsupportfd OtifrNbmf
+                rfturn null;
             }
-            Class<?>[] params = { Object.class };
-            Constructor<?> cons = extClass.getConstructor(params);
+            Clbss<?>[] pbrbms = { Objfdt.dlbss };
+            Construdtor<?> dons = fxtClbss.gftConstrudtor(pbrbms);
 
-            Object[] passed = new Object[] { nameValue };
-            GeneralNameInterface gni =
-                       (GeneralNameInterface)cons.newInstance(passed);
-            return gni;
-        } catch (Exception e) {
-            throw new IOException("Instantiation error: " + e, e);
+            Objfdt[] pbssfd = nfw Objfdt[] { nbmfVbluf };
+            GfnfrblNbmfIntfrfbdf gni =
+                       (GfnfrblNbmfIntfrfbdf)dons.nfwInstbndf(pbssfd);
+            rfturn gni;
+        } dbtdi (Exdfption f) {
+            tirow nfw IOExdfption("Instbntibtion frror: " + f, f);
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Rfturn tif typf of tif GfnfrblNbmf.
      */
-    public int getType() {
-        return GeneralNameInterface.NAME_ANY;
+    publid int gftTypf() {
+        rfturn GfnfrblNbmfIntfrfbdf.NAME_ANY;
     }
 
     /**
-     * Encode the Other name into the DerOutputStream.
+     * Endodf tif Otifr nbmf into tif DfrOutputStrfbm.
      *
-     * @param out the DER stream to encode the Other-Name to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DER strfbm to fndodf tif Otifr-Nbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
         if (gni != null) {
-            // This OtherName has a supported class
-            gni.encode(out);
-            return;
-        } else {
-            // This OtherName has no supporting class
-            DerOutputStream tmp = new DerOutputStream();
+            // Tiis OtifrNbmf ibs b supportfd dlbss
+            gni.fndodf(out);
+            rfturn;
+        } flsf {
+            // Tiis OtifrNbmf ibs no supporting dlbss
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
             tmp.putOID(oid);
-            tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_VALUE), nameValue);
-            out.write(DerValue.tag_Sequence, tmp);
+            tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_VALUE), nbmfVbluf);
+            out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
         }
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbrfs tiis nbmf witi bnotifr, for fqublity.
      *
-     * @return true iff the names are identical.
+     * @rfturn truf iff tif nbmfs brf idfntidbl.
      */
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (!(other instanceof OtherName)) {
-            return false;
+        if (!(otifr instbndfof OtifrNbmf)) {
+            rfturn fblsf;
         }
-        OtherName otherOther = (OtherName)other;
-        if (!(otherOther.oid.equals((Object)oid))) {
-            return false;
+        OtifrNbmf otifrOtifr = (OtifrNbmf)otifr;
+        if (!(otifrOtifr.oid.fqubls((Objfdt)oid))) {
+            rfturn fblsf;
         }
-        GeneralNameInterface otherGNI = null;
+        GfnfrblNbmfIntfrfbdf otifrGNI = null;
         try {
-            otherGNI = getGNI(otherOther.oid, otherOther.nameValue);
-        } catch (IOException ioe) {
-            return false;
+            otifrGNI = gftGNI(otifrOtifr.oid, otifrOtifr.nbmfVbluf);
+        } dbtdi (IOExdfption iof) {
+            rfturn fblsf;
         }
 
-        boolean result;
-        if (otherGNI != null) {
+        boolfbn rfsult;
+        if (otifrGNI != null) {
             try {
-                result = (otherGNI.constrains(this) == NAME_MATCH);
-            } catch (UnsupportedOperationException ioe) {
-                result = false;
+                rfsult = (otifrGNI.donstrbins(tiis) == NAME_MATCH);
+            } dbtdi (UnsupportfdOpfrbtionExdfption iof) {
+                rfsult = fblsf;
             }
-        } else {
-            result = Arrays.equals(nameValue, otherOther.nameValue);
+        } flsf {
+            rfsult = Arrbys.fqubls(nbmfVbluf, otifrOtifr.nbmfVbluf);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns the hash code for this OtherName.
+     * Rfturns tif ibsi dodf for tiis OtifrNbmf.
      *
-     * @return a hash code value.
+     * @rfturn b ibsi dodf vbluf.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = 37 + oid.hashCode();
-            for (int i = 0; i < nameValue.length; i++) {
-                myhash = 37 * myhash + nameValue[i];
+    publid int ibsiCodf() {
+        if (myibsi == -1) {
+            myibsi = 37 + oid.ibsiCodf();
+            for (int i = 0; i < nbmfVbluf.lfngti; i++) {
+                myibsi = 37 * myibsi + nbmfVbluf[i];
             }
         }
-        return myhash;
+        rfturn myibsi;
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convfrt tif nbmf into usfr rfbdbblf string.
      */
-    public String toString() {
-        return "Other-Name: " + name;
+    publid String toString() {
+        rfturn "Otifr-Nbmf: " + nbmf;
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name
-     *       (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the
-     *       naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the
-     *       naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name,
-     *       but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Rfturn typf of donstrbint inputNbmf plbdfs on tiis nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf
+     *       (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdifs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in tif
+     *       nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is iigifr in tif
+     *       nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdi or nbrrow nbmf,
+     *       but is sbmf typf.
+     * </ul>.  Tifsf rfsults brf usfd in difdking NbmfConstrbints during
+     * dfrtifidbtion pbti vfrifidbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but
-     *         comparison operations are not supported for this name type.
+     * @pbrbm inputNbmf to bf difdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @tirows UnsupportfdOpfrbtionExdfption if nbmf is sbmf typf, but
+     *         dompbrison opfrbtions brf not supportfd for tiis nbmf typf.
      */
-    public int constrains(GeneralNameInterface inputName) {
-        int constraintType;
-        if (inputName == null) {
-            constraintType = NAME_DIFF_TYPE;
-        } else if (inputName.getType() != NAME_ANY) {
-            constraintType = NAME_DIFF_TYPE;
-        } else {
-            throw new UnsupportedOperationException("Narrowing, widening, "
-                + "and matching are not supported for OtherName.");
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) {
+        int donstrbintTypf;
+        if (inputNbmf == null) {
+            donstrbintTypf = NAME_DIFF_TYPE;
+        } flsf if (inputNbmf.gftTypf() != NAME_ANY) {
+            donstrbintTypf = NAME_DIFF_TYPE;
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Nbrrowing, widfning, "
+                + "bnd mbtdiing brf not supportfd for OtifrNbmf.");
         }
-        return constraintType;
+        rfturn donstrbintTypf;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds.
+     * Rfturn subtrff dfpti of tiis nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @rfturns distbndf of nbmf from root
+     * @tirows UnsupportfdOpfrbtionExdfption if not supportfd for tiis nbmf typf
      */
-    public int subtreeDepth() {
-        throw new UnsupportedOperationException
-            ("subtreeDepth() not supported for generic OtherName");
+    publid int subtrffDfpti() {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("subtrffDfpti() not supportfd for gfnfrid OtifrNbmf");
     }
 
 }

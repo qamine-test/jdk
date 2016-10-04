@@ -1,1603 +1,1603 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
 
 
 /**
- * <code>MessageFormat</code> provides a means to produce concatenated
- * messages in a language-neutral way. Use this to construct messages
- * displayed for end users.
+ * <dodf>MfssbgfFormbt</dodf> providfs b mfbns to produdf dondbtfnbtfd
+ * mfssbgfs in b lbngubgf-nfutrbl wby. Usf tiis to donstrudt mfssbgfs
+ * displbyfd for fnd usfrs.
  *
  * <p>
- * <code>MessageFormat</code> takes a set of objects, formats them, then
- * inserts the formatted strings into the pattern at the appropriate places.
+ * <dodf>MfssbgfFormbt</dodf> tbkfs b sft of objfdts, formbts tifm, tifn
+ * insfrts tif formbttfd strings into tif pbttfrn bt tif bppropribtf plbdfs.
  *
  * <p>
- * <strong>Note:</strong>
- * <code>MessageFormat</code> differs from the other <code>Format</code>
- * classes in that you create a <code>MessageFormat</code> object with one
- * of its constructors (not with a <code>getInstance</code> style factory
- * method). The factory methods aren't necessary because <code>MessageFormat</code>
- * itself doesn't implement locale specific behavior. Any locale specific
- * behavior is defined by the pattern that you provide as well as the
- * subformats used for inserted arguments.
+ * <strong>Notf:</strong>
+ * <dodf>MfssbgfFormbt</dodf> difffrs from tif otifr <dodf>Formbt</dodf>
+ * dlbssfs in tibt you drfbtf b <dodf>MfssbgfFormbt</dodf> objfdt witi onf
+ * of its donstrudtors (not witi b <dodf>gftInstbndf</dodf> stylf fbdtory
+ * mftiod). Tif fbdtory mftiods brfn't nfdfssbry bfdbusf <dodf>MfssbgfFormbt</dodf>
+ * itsflf dofsn't implfmfnt lodblf spfdifid bfibvior. Any lodblf spfdifid
+ * bfibvior is dffinfd by tif pbttfrn tibt you providf bs wfll bs tif
+ * subformbts usfd for insfrtfd brgumfnts.
  *
- * <h3><a name="patterns">Patterns and Their Interpretation</a></h3>
+ * <i3><b nbmf="pbttfrns">Pbttfrns bnd Tifir Intfrprftbtion</b></i3>
  *
- * <code>MessageFormat</code> uses patterns of the following form:
- * <blockquote><pre>
- * <i>MessageFormatPattern:</i>
+ * <dodf>MfssbgfFormbt</dodf> usfs pbttfrns of tif following form:
+ * <blodkquotf><prf>
+ * <i>MfssbgfFormbtPbttfrn:</i>
  *         <i>String</i>
- *         <i>MessageFormatPattern</i> <i>FormatElement</i> <i>String</i>
+ *         <i>MfssbgfFormbtPbttfrn</i> <i>FormbtElfmfnt</i> <i>String</i>
  *
- * <i>FormatElement:</i>
- *         { <i>ArgumentIndex</i> }
- *         { <i>ArgumentIndex</i> , <i>FormatType</i> }
- *         { <i>ArgumentIndex</i> , <i>FormatType</i> , <i>FormatStyle</i> }
+ * <i>FormbtElfmfnt:</i>
+ *         { <i>ArgumfntIndfx</i> }
+ *         { <i>ArgumfntIndfx</i> , <i>FormbtTypf</i> }
+ *         { <i>ArgumfntIndfx</i> , <i>FormbtTypf</i> , <i>FormbtStylf</i> }
  *
- * <i>FormatType: one of </i>
- *         number date time choice
+ * <i>FormbtTypf: onf of </i>
+ *         numbfr dbtf timf dioidf
  *
- * <i>FormatStyle:</i>
- *         short
- *         medium
+ * <i>FormbtStylf:</i>
+ *         siort
+ *         mfdium
  *         long
  *         full
- *         integer
- *         currency
- *         percent
- *         <i>SubformatPattern</i>
- * </pre></blockquote>
+ *         intfgfr
+ *         durrfndy
+ *         pfrdfnt
+ *         <i>SubformbtPbttfrn</i>
+ * </prf></blodkquotf>
  *
- * <p>Within a <i>String</i>, a pair of single quotes can be used to
- * quote any arbitrary characters except single quotes. For example,
- * pattern string <code>"'{0}'"</code> represents string
- * <code>"{0}"</code>, not a <i>FormatElement</i>. A single quote itself
- * must be represented by doubled single quotes {@code ''} throughout a
- * <i>String</i>.  For example, pattern string <code>"'{''}'"</code> is
- * interpreted as a sequence of <code>'{</code> (start of quoting and a
- * left curly brace), <code>''</code> (a single quote), and
- * <code>}'</code> (a right curly brace and end of quoting),
- * <em>not</em> <code>'{'</code> and <code>'}'</code> (quoted left and
- * right curly braces): representing string <code>"{'}"</code>,
- * <em>not</em> <code>"{}"</code>.
+ * <p>Witiin b <i>String</i>, b pbir of singlf quotfs dbn bf usfd to
+ * quotf bny brbitrbry dibrbdtfrs fxdfpt singlf quotfs. For fxbmplf,
+ * pbttfrn string <dodf>"'{0}'"</dodf> rfprfsfnts string
+ * <dodf>"{0}"</dodf>, not b <i>FormbtElfmfnt</i>. A singlf quotf itsflf
+ * must bf rfprfsfntfd by doublfd singlf quotfs {@dodf ''} tirougiout b
+ * <i>String</i>.  For fxbmplf, pbttfrn string <dodf>"'{''}'"</dodf> is
+ * intfrprftfd bs b sfqufndf of <dodf>'{</dodf> (stbrt of quoting bnd b
+ * lfft durly brbdf), <dodf>''</dodf> (b singlf quotf), bnd
+ * <dodf>}'</dodf> (b rigit durly brbdf bnd fnd of quoting),
+ * <fm>not</fm> <dodf>'{'</dodf> bnd <dodf>'}'</dodf> (quotfd lfft bnd
+ * rigit durly brbdfs): rfprfsfnting string <dodf>"{'}"</dodf>,
+ * <fm>not</fm> <dodf>"{}"</dodf>.
  *
- * <p>A <i>SubformatPattern</i> is interpreted by its corresponding
- * subformat, and subformat-dependent pattern rules apply. For example,
- * pattern string <code>"{1,number,<u>$'#',##</u>}"</code>
- * (<i>SubformatPattern</i> with underline) will produce a number format
- * with the pound-sign quoted, with a result such as: {@code
- * "$#31,45"}. Refer to each {@code Format} subclass documentation for
- * details.
+ * <p>A <i>SubformbtPbttfrn</i> is intfrprftfd by its dorrfsponding
+ * subformbt, bnd subformbt-dfpfndfnt pbttfrn rulfs bpply. For fxbmplf,
+ * pbttfrn string <dodf>"{1,numbfr,<u>$'#',##</u>}"</dodf>
+ * (<i>SubformbtPbttfrn</i> witi undfrlinf) will produdf b numbfr formbt
+ * witi tif pound-sign quotfd, witi b rfsult sudi bs: {@dodf
+ * "$#31,45"}. Rfffr to fbdi {@dodf Formbt} subdlbss dodumfntbtion for
+ * dftbils.
  *
- * <p>Any unmatched quote is treated as closed at the end of the given
- * pattern. For example, pattern string {@code "'{0}"} is treated as
- * pattern {@code "'{0}'"}.
+ * <p>Any unmbtdifd quotf is trfbtfd bs dlosfd bt tif fnd of tif givfn
+ * pbttfrn. For fxbmplf, pbttfrn string {@dodf "'{0}"} is trfbtfd bs
+ * pbttfrn {@dodf "'{0}'"}.
  *
- * <p>Any curly braces within an unquoted pattern must be balanced. For
- * example, <code>"ab {0} de"</code> and <code>"ab '}' de"</code> are
- * valid patterns, but <code>"ab {0'}' de"</code>, <code>"ab } de"</code>
- * and <code>"''{''"</code> are not.
+ * <p>Any durly brbdfs witiin bn unquotfd pbttfrn must bf bblbndfd. For
+ * fxbmplf, <dodf>"bb {0} df"</dodf> bnd <dodf>"bb '}' df"</dodf> brf
+ * vblid pbttfrns, but <dodf>"bb {0'}' df"</dodf>, <dodf>"bb } df"</dodf>
+ * bnd <dodf>"''{''"</dodf> brf not.
  *
- * <dl><dt><b>Warning:</b><dd>The rules for using quotes within message
- * format patterns unfortunately have shown to be somewhat confusing.
- * In particular, it isn't always obvious to localizers whether single
- * quotes need to be doubled or not. Make sure to inform localizers about
- * the rules, and tell them (for example, by using comments in resource
- * bundle source files) which strings will be processed by {@code MessageFormat}.
- * Note that localizers may need to use single quotes in translated
- * strings where the original version doesn't have them.
+ * <dl><dt><b>Wbrning:</b><dd>Tif rulfs for using quotfs witiin mfssbgf
+ * formbt pbttfrns unfortunbtfly ibvf siown to bf somfwibt donfusing.
+ * In pbrtidulbr, it isn't blwbys obvious to lodblizfrs wiftifr singlf
+ * quotfs nffd to bf doublfd or not. Mbkf surf to inform lodblizfrs bbout
+ * tif rulfs, bnd tfll tifm (for fxbmplf, by using dommfnts in rfsourdf
+ * bundlf sourdf filfs) wiidi strings will bf prodfssfd by {@dodf MfssbgfFormbt}.
+ * Notf tibt lodblizfrs mby nffd to usf singlf quotfs in trbnslbtfd
+ * strings wifrf tif originbl vfrsion dofsn't ibvf tifm.
  * </dl>
  * <p>
- * The <i>ArgumentIndex</i> value is a non-negative integer written
- * using the digits {@code '0'} through {@code '9'}, and represents an index into the
- * {@code arguments} array passed to the {@code format} methods
- * or the result array returned by the {@code parse} methods.
+ * Tif <i>ArgumfntIndfx</i> vbluf is b non-nfgbtivf intfgfr writtfn
+ * using tif digits {@dodf '0'} tirougi {@dodf '9'}, bnd rfprfsfnts bn indfx into tif
+ * {@dodf brgumfnts} brrby pbssfd to tif {@dodf formbt} mftiods
+ * or tif rfsult brrby rfturnfd by tif {@dodf pbrsf} mftiods.
  * <p>
- * The <i>FormatType</i> and <i>FormatStyle</i> values are used to create
- * a {@code Format} instance for the format element. The following
- * table shows how the values map to {@code Format} instances. Combinations not
- * shown in the table are illegal. A <i>SubformatPattern</i> must
- * be a valid pattern string for the {@code Format} subclass used.
+ * Tif <i>FormbtTypf</i> bnd <i>FormbtStylf</i> vblufs brf usfd to drfbtf
+ * b {@dodf Formbt} instbndf for tif formbt flfmfnt. Tif following
+ * tbblf siows iow tif vblufs mbp to {@dodf Formbt} instbndfs. Combinbtions not
+ * siown in tif tbblf brf illfgbl. A <i>SubformbtPbttfrn</i> must
+ * bf b vblid pbttfrn string for tif {@dodf Formbt} subdlbss usfd.
  *
- * <table border=1 summary="Shows how FormatType and FormatStyle values map to Format instances">
+ * <tbblf bordfr=1 summbry="Siows iow FormbtTypf bnd FormbtStylf vblufs mbp to Formbt instbndfs">
  *    <tr>
- *       <th id="ft" class="TableHeadingColor">FormatType
- *       <th id="fs" class="TableHeadingColor">FormatStyle
- *       <th id="sc" class="TableHeadingColor">Subformat Created
+ *       <ti id="ft" dlbss="TbblfHfbdingColor">FormbtTypf
+ *       <ti id="fs" dlbss="TbblfHfbdingColor">FormbtStylf
+ *       <ti id="sd" dlbss="TbblfHfbdingColor">Subformbt Crfbtfd
  *    <tr>
- *       <td headers="ft"><i>(none)</i>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc"><code>null</code>
+ *       <td ifbdfrs="ft"><i>(nonf)</i>
+ *       <td ifbdfrs="fs"><i>(nonf)</i>
+ *       <td ifbdfrs="sd"><dodf>null</dodf>
  *    <tr>
- *       <td headers="ft" rowspan=5><code>number</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link NumberFormat#getInstance(Locale) NumberFormat.getInstance}{@code (getLocale())}
+ *       <td ifbdfrs="ft" rowspbn=5><dodf>numbfr</dodf>
+ *       <td ifbdfrs="fs"><i>(nonf)</i>
+ *       <td ifbdfrs="sd">{@link NumbfrFormbt#gftInstbndf(Lodblf) NumbfrFormbt.gftInstbndf}{@dodf (gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>integer</code>
- *       <td headers="sc">{@link NumberFormat#getIntegerInstance(Locale) NumberFormat.getIntegerInstance}{@code (getLocale())}
+ *       <td ifbdfrs="fs"><dodf>intfgfr</dodf>
+ *       <td ifbdfrs="sd">{@link NumbfrFormbt#gftIntfgfrInstbndf(Lodblf) NumbfrFormbt.gftIntfgfrInstbndf}{@dodf (gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>currency</code>
- *       <td headers="sc">{@link NumberFormat#getCurrencyInstance(Locale) NumberFormat.getCurrencyInstance}{@code (getLocale())}
+ *       <td ifbdfrs="fs"><dodf>durrfndy</dodf>
+ *       <td ifbdfrs="sd">{@link NumbfrFormbt#gftCurrfndyInstbndf(Lodblf) NumbfrFormbt.gftCurrfndyInstbndf}{@dodf (gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>percent</code>
- *       <td headers="sc">{@link NumberFormat#getPercentInstance(Locale) NumberFormat.getPercentInstance}{@code (getLocale())}
+ *       <td ifbdfrs="fs"><dodf>pfrdfnt</dodf>
+ *       <td ifbdfrs="sd">{@link NumbfrFormbt#gftPfrdfntInstbndf(Lodblf) NumbfrFormbt.gftPfrdfntInstbndf}{@dodf (gftLodblf())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link DecimalFormat#DecimalFormat(String,DecimalFormatSymbols) DecimalFormat}{@code (subformatPattern,} {@link DecimalFormatSymbols#getInstance(Locale) DecimalFormatSymbols.getInstance}{@code (getLocale()))}
+ *       <td ifbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td ifbdfrs="sd">{@dodf nfw} {@link DfdimblFormbt#DfdimblFormbt(String,DfdimblFormbtSymbols) DfdimblFormbt}{@dodf (subformbtPbttfrn,} {@link DfdimblFormbtSymbols#gftInstbndf(Lodblf) DfdimblFormbtSymbols.gftInstbndf}{@dodf (gftLodblf()))}
  *    <tr>
- *       <td headers="ft" rowspan=6><code>date</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td ifbdfrs="ft" rowspbn=6><dodf>dbtf</dodf>
+ *       <td ifbdfrs="fs"><i>(nonf)</i>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>short</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#SHORT}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>siort</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#SHORT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>medium</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>mfdium</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>long</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#LONG}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>long</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#LONG}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>full</code>
- *       <td headers="sc">{@link DateFormat#getDateInstance(int,Locale) DateFormat.getDateInstance}{@code (}{@link DateFormat#FULL}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>full</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftDbtfInstbndf(int,Lodblf) DbtfFormbt.gftDbtfInstbndf}{@dodf (}{@link DbtfFormbt#FULL}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link SimpleDateFormat#SimpleDateFormat(String,Locale) SimpleDateFormat}{@code (subformatPattern, getLocale())}
+ *       <td ifbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td ifbdfrs="sd">{@dodf nfw} {@link SimplfDbtfFormbt#SimplfDbtfFormbt(String,Lodblf) SimplfDbtfFormbt}{@dodf (subformbtPbttfrn, gftLodblf())}
  *    <tr>
- *       <td headers="ft" rowspan=6><code>time</code>
- *       <td headers="fs"><i>(none)</i>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td ifbdfrs="ft" rowspbn=6><dodf>timf</dodf>
+ *       <td ifbdfrs="fs"><i>(nonf)</i>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>short</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#SHORT}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>siort</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#SHORT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>medium</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#DEFAULT}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>mfdium</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#DEFAULT}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>long</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#LONG}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>long</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#LONG}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><code>full</code>
- *       <td headers="sc">{@link DateFormat#getTimeInstance(int,Locale) DateFormat.getTimeInstance}{@code (}{@link DateFormat#FULL}{@code , getLocale())}
+ *       <td ifbdfrs="fs"><dodf>full</dodf>
+ *       <td ifbdfrs="sd">{@link DbtfFormbt#gftTimfInstbndf(int,Lodblf) DbtfFormbt.gftTimfInstbndf}{@dodf (}{@link DbtfFormbt#FULL}{@dodf , gftLodblf())}
  *    <tr>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link SimpleDateFormat#SimpleDateFormat(String,Locale) SimpleDateFormat}{@code (subformatPattern, getLocale())}
+ *       <td ifbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td ifbdfrs="sd">{@dodf nfw} {@link SimplfDbtfFormbt#SimplfDbtfFormbt(String,Lodblf) SimplfDbtfFormbt}{@dodf (subformbtPbttfrn, gftLodblf())}
  *    <tr>
- *       <td headers="ft"><code>choice</code>
- *       <td headers="fs"><i>SubformatPattern</i>
- *       <td headers="sc">{@code new} {@link ChoiceFormat#ChoiceFormat(String) ChoiceFormat}{@code (subformatPattern)}
- * </table>
+ *       <td ifbdfrs="ft"><dodf>dioidf</dodf>
+ *       <td ifbdfrs="fs"><i>SubformbtPbttfrn</i>
+ *       <td ifbdfrs="sd">{@dodf nfw} {@link CioidfFormbt#CioidfFormbt(String) CioidfFormbt}{@dodf (subformbtPbttfrn)}
+ * </tbblf>
  *
- * <h4>Usage Information</h4>
- *
- * <p>
- * Here are some examples of usage.
- * In real internationalized programs, the message format pattern and other
- * static strings will, of course, be obtained from resource bundles.
- * Other parameters will be dynamically determined at runtime.
- * <p>
- * The first example uses the static method <code>MessageFormat.format</code>,
- * which internally creates a <code>MessageFormat</code> for one-time use:
- * <blockquote><pre>
- * int planet = 7;
- * String event = "a disturbance in the Force";
- *
- * String result = MessageFormat.format(
- *     "At {1,time} on {1,date}, there was {2} on planet {0,number,integer}.",
- *     planet, new Date(), event);
- * </pre></blockquote>
- * The output is:
- * <blockquote><pre>
- * At 12:30 PM on Jul 3, 2053, there was a disturbance in the Force on planet 7.
- * </pre></blockquote>
+ * <i4>Usbgf Informbtion</i4>
  *
  * <p>
- * The following example creates a <code>MessageFormat</code> instance that
- * can be used repeatedly:
- * <blockquote><pre>
- * int fileCount = 1273;
- * String diskName = "MyDisk";
- * Object[] testArgs = {new Long(fileCount), diskName};
+ * Hfrf brf somf fxbmplfs of usbgf.
+ * In rfbl intfrnbtionblizfd progrbms, tif mfssbgf formbt pbttfrn bnd otifr
+ * stbtid strings will, of doursf, bf obtbinfd from rfsourdf bundlfs.
+ * Otifr pbrbmftfrs will bf dynbmidblly dftfrminfd bt runtimf.
+ * <p>
+ * Tif first fxbmplf usfs tif stbtid mftiod <dodf>MfssbgfFormbt.formbt</dodf>,
+ * wiidi intfrnblly drfbtfs b <dodf>MfssbgfFormbt</dodf> for onf-timf usf:
+ * <blodkquotf><prf>
+ * int plbnft = 7;
+ * String fvfnt = "b disturbbndf in tif Fordf";
  *
- * MessageFormat form = new MessageFormat(
- *     "The disk \"{1}\" contains {0} file(s).");
- *
- * System.out.println(form.format(testArgs));
- * </pre></blockquote>
- * The output with different values for <code>fileCount</code>:
- * <blockquote><pre>
- * The disk "MyDisk" contains 0 file(s).
- * The disk "MyDisk" contains 1 file(s).
- * The disk "MyDisk" contains 1,273 file(s).
- * </pre></blockquote>
+ * String rfsult = MfssbgfFormbt.formbt(
+ *     "At {1,timf} on {1,dbtf}, tifrf wbs {2} on plbnft {0,numbfr,intfgfr}.",
+ *     plbnft, nfw Dbtf(), fvfnt);
+ * </prf></blodkquotf>
+ * Tif output is:
+ * <blodkquotf><prf>
+ * At 12:30 PM on Jul 3, 2053, tifrf wbs b disturbbndf in tif Fordf on plbnft 7.
+ * </prf></blodkquotf>
  *
  * <p>
- * For more sophisticated patterns, you can use a <code>ChoiceFormat</code>
- * to produce correct forms for singular and plural:
- * <blockquote><pre>
- * MessageFormat form = new MessageFormat("The disk \"{1}\" contains {0}.");
- * double[] filelimits = {0,1,2};
- * String[] filepart = {"no files","one file","{0,number} files"};
- * ChoiceFormat fileform = new ChoiceFormat(filelimits, filepart);
- * form.setFormatByArgumentIndex(0, fileform);
+ * Tif following fxbmplf drfbtfs b <dodf>MfssbgfFormbt</dodf> instbndf tibt
+ * dbn bf usfd rfpfbtfdly:
+ * <blodkquotf><prf>
+ * int filfCount = 1273;
+ * String diskNbmf = "MyDisk";
+ * Objfdt[] tfstArgs = {nfw Long(filfCount), diskNbmf};
  *
- * int fileCount = 1273;
- * String diskName = "MyDisk";
- * Object[] testArgs = {new Long(fileCount), diskName};
+ * MfssbgfFormbt form = nfw MfssbgfFormbt(
+ *     "Tif disk \"{1}\" dontbins {0} filf(s).");
  *
- * System.out.println(form.format(testArgs));
- * </pre></blockquote>
- * The output with different values for <code>fileCount</code>:
- * <blockquote><pre>
- * The disk "MyDisk" contains no files.
- * The disk "MyDisk" contains one file.
- * The disk "MyDisk" contains 1,273 files.
- * </pre></blockquote>
+ * Systfm.out.println(form.formbt(tfstArgs));
+ * </prf></blodkquotf>
+ * Tif output witi difffrfnt vblufs for <dodf>filfCount</dodf>:
+ * <blodkquotf><prf>
+ * Tif disk "MyDisk" dontbins 0 filf(s).
+ * Tif disk "MyDisk" dontbins 1 filf(s).
+ * Tif disk "MyDisk" dontbins 1,273 filf(s).
+ * </prf></blodkquotf>
  *
  * <p>
- * You can create the <code>ChoiceFormat</code> programmatically, as in the
- * above example, or by using a pattern. See {@link ChoiceFormat}
- * for more information.
- * <blockquote><pre>{@code
- * form.applyPattern(
- *    "There {0,choice,0#are no files|1#is one file|1<are {0,number,integer} files}.");
- * }</pre></blockquote>
+ * For morf sopiistidbtfd pbttfrns, you dbn usf b <dodf>CioidfFormbt</dodf>
+ * to produdf dorrfdt forms for singulbr bnd plurbl:
+ * <blodkquotf><prf>
+ * MfssbgfFormbt form = nfw MfssbgfFormbt("Tif disk \"{1}\" dontbins {0}.");
+ * doublf[] filflimits = {0,1,2};
+ * String[] filfpbrt = {"no filfs","onf filf","{0,numbfr} filfs"};
+ * CioidfFormbt filfform = nfw CioidfFormbt(filflimits, filfpbrt);
+ * form.sftFormbtByArgumfntIndfx(0, filfform);
+ *
+ * int filfCount = 1273;
+ * String diskNbmf = "MyDisk";
+ * Objfdt[] tfstArgs = {nfw Long(filfCount), diskNbmf};
+ *
+ * Systfm.out.println(form.formbt(tfstArgs));
+ * </prf></blodkquotf>
+ * Tif output witi difffrfnt vblufs for <dodf>filfCount</dodf>:
+ * <blodkquotf><prf>
+ * Tif disk "MyDisk" dontbins no filfs.
+ * Tif disk "MyDisk" dontbins onf filf.
+ * Tif disk "MyDisk" dontbins 1,273 filfs.
+ * </prf></blodkquotf>
  *
  * <p>
- * <strong>Note:</strong> As we see above, the string produced
- * by a <code>ChoiceFormat</code> in <code>MessageFormat</code> is treated as special;
- * occurrences of '{' are used to indicate subformats, and cause recursion.
- * If you create both a <code>MessageFormat</code> and <code>ChoiceFormat</code>
- * programmatically (instead of using the string patterns), then be careful not to
- * produce a format that recurses on itself, which will cause an infinite loop.
+ * You dbn drfbtf tif <dodf>CioidfFormbt</dodf> progrbmmbtidblly, bs in tif
+ * bbovf fxbmplf, or by using b pbttfrn. Sff {@link CioidfFormbt}
+ * for morf informbtion.
+ * <blodkquotf><prf>{@dodf
+ * form.bpplyPbttfrn(
+ *    "Tifrf {0,dioidf,0#brf no filfs|1#is onf filf|1<brf {0,numbfr,intfgfr} filfs}.");
+ * }</prf></blodkquotf>
+ *
  * <p>
- * When a single argument is parsed more than once in the string, the last match
- * will be the final result of the parsing.  For example,
- * <blockquote><pre>
- * MessageFormat mf = new MessageFormat("{0,number,#.##}, {0,number,#.#}");
- * Object[] objs = {new Double(3.1415)};
- * String result = mf.format( objs );
- * // result now equals "3.14, 3.1"
+ * <strong>Notf:</strong> As wf sff bbovf, tif string produdfd
+ * by b <dodf>CioidfFormbt</dodf> in <dodf>MfssbgfFormbt</dodf> is trfbtfd bs spfdibl;
+ * oddurrfndfs of '{' brf usfd to indidbtf subformbts, bnd dbusf rfdursion.
+ * If you drfbtf boti b <dodf>MfssbgfFormbt</dodf> bnd <dodf>CioidfFormbt</dodf>
+ * progrbmmbtidblly (instfbd of using tif string pbttfrns), tifn bf dbrfful not to
+ * produdf b formbt tibt rfdursfs on itsflf, wiidi will dbusf bn infinitf loop.
+ * <p>
+ * Wifn b singlf brgumfnt is pbrsfd morf tibn ondf in tif string, tif lbst mbtdi
+ * will bf tif finbl rfsult of tif pbrsing.  For fxbmplf,
+ * <blodkquotf><prf>
+ * MfssbgfFormbt mf = nfw MfssbgfFormbt("{0,numbfr,#.##}, {0,numbfr,#.#}");
+ * Objfdt[] objs = {nfw Doublf(3.1415)};
+ * String rfsult = mf.formbt( objs );
+ * // rfsult now fqubls "3.14, 3.1"
  * objs = null;
- * objs = mf.parse(result, new ParsePosition(0));
- * // objs now equals {new Double(3.1)}
- * </pre></blockquote>
+ * objs = mf.pbrsf(rfsult, nfw PbrsfPosition(0));
+ * // objs now fqubls {nfw Doublf(3.1)}
+ * </prf></blodkquotf>
  *
  * <p>
- * Likewise, parsing with a {@code MessageFormat} object using patterns containing
- * multiple occurrences of the same argument would return the last match.  For
- * example,
- * <blockquote><pre>
- * MessageFormat mf = new MessageFormat("{0}, {0}, {0}");
- * String forParsing = "x, y, z";
- * Object[] objs = mf.parse(forParsing, new ParsePosition(0));
- * // result now equals {new String("z")}
- * </pre></blockquote>
+ * Likfwisf, pbrsing witi b {@dodf MfssbgfFormbt} objfdt using pbttfrns dontbining
+ * multiplf oddurrfndfs of tif sbmf brgumfnt would rfturn tif lbst mbtdi.  For
+ * fxbmplf,
+ * <blodkquotf><prf>
+ * MfssbgfFormbt mf = nfw MfssbgfFormbt("{0}, {0}, {0}");
+ * String forPbrsing = "x, y, z";
+ * Objfdt[] objs = mf.pbrsf(forPbrsing, nfw PbrsfPosition(0));
+ * // rfsult now fqubls {nfw String("z")}
+ * </prf></blodkquotf>
  *
- * <h4><a name="synchronization">Synchronization</a></h4>
+ * <i4><b nbmf="syndironizbtion">Syndironizbtion</b></i4>
  *
  * <p>
- * Message formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Mfssbgf formbts brf not syndironizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdi tirfbd.
+ * If multiplf tirfbds bddfss b formbt dondurrfntly, it must bf syndironizfd
+ * fxtfrnblly.
  *
- * @see          java.util.Locale
- * @see          Format
- * @see          NumberFormat
- * @see          DecimalFormat
- * @see          DecimalFormatSymbols
- * @see          ChoiceFormat
- * @see          DateFormat
- * @see          SimpleDateFormat
+ * @sff          jbvb.util.Lodblf
+ * @sff          Formbt
+ * @sff          NumbfrFormbt
+ * @sff          DfdimblFormbt
+ * @sff          DfdimblFormbtSymbols
+ * @sff          CioidfFormbt
+ * @sff          DbtfFormbt
+ * @sff          SimplfDbtfFormbt
  *
- * @author       Mark Davis
+ * @butior       Mbrk Dbvis
  */
 
-public class MessageFormat extends Format {
+publid dlbss MfssbgfFormbt fxtfnds Formbt {
 
-    private static final long serialVersionUID = 6479157306784022952L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6479157306784022952L;
 
     /**
-     * Constructs a MessageFormat for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale and the
-     * specified pattern.
-     * The constructor first sets the locale, then parses the pattern and
-     * creates a list of subformats for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Construdts b MfssbgfFormbt for tif dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf bnd tif
+     * spfdififd pbttfrn.
+     * Tif donstrudtor first sfts tif lodblf, tifn pbrsfs tif pbttfrn bnd
+     * drfbtfs b list of subformbts for tif formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd tifir intfrprftbtion brf spfdififd in tif
+     * <b irff="#pbttfrns">dlbss dfsdription</b>.
      *
-     * @param pattern the pattern for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
+     * @pbrbm pbttfrn tif pbttfrn for tiis mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if tif pbttfrn is invblid
      */
-    public MessageFormat(String pattern) {
-        this.locale = Locale.getDefault(Locale.Category.FORMAT);
-        applyPattern(pattern);
+    publid MfssbgfFormbt(String pbttfrn) {
+        tiis.lodblf = Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT);
+        bpplyPbttfrn(pbttfrn);
     }
 
     /**
-     * Constructs a MessageFormat for the specified locale and
-     * pattern.
-     * The constructor first sets the locale, then parses the pattern and
-     * creates a list of subformats for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Construdts b MfssbgfFormbt for tif spfdififd lodblf bnd
+     * pbttfrn.
+     * Tif donstrudtor first sfts tif lodblf, tifn pbrsfs tif pbttfrn bnd
+     * drfbtfs b list of subformbts for tif formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd tifir intfrprftbtion brf spfdififd in tif
+     * <b irff="#pbttfrns">dlbss dfsdription</b>.
      *
-     * @param pattern the pattern for this message format
-     * @param locale the locale for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
-     * @since 1.4
+     * @pbrbm pbttfrn tif pbttfrn for tiis mfssbgf formbt
+     * @pbrbm lodblf tif lodblf for tiis mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if tif pbttfrn is invblid
+     * @sindf 1.4
      */
-    public MessageFormat(String pattern, Locale locale) {
-        this.locale = locale;
-        applyPattern(pattern);
+    publid MfssbgfFormbt(String pbttfrn, Lodblf lodblf) {
+        tiis.lodblf = lodblf;
+        bpplyPbttfrn(pbttfrn);
     }
 
     /**
-     * Sets the locale to be used when creating or comparing subformats.
-     * This affects subsequent calls
+     * Sfts tif lodblf to bf usfd wifn drfbting or dompbring subformbts.
+     * Tiis bfffdts subsfqufnt dblls
      * <ul>
-     * <li>to the {@link #applyPattern applyPattern}
-     *     and {@link #toPattern toPattern} methods if format elements specify
-     *     a format type and therefore have the subformats created in the
-     *     <code>applyPattern</code> method, as well as
-     * <li>to the <code>format</code> and
-     *     {@link #formatToCharacterIterator formatToCharacterIterator} methods
-     *     if format elements do not specify a format type and therefore have
-     *     the subformats created in the formatting methods.
+     * <li>to tif {@link #bpplyPbttfrn bpplyPbttfrn}
+     *     bnd {@link #toPbttfrn toPbttfrn} mftiods if formbt flfmfnts spfdify
+     *     b formbt typf bnd tifrfforf ibvf tif subformbts drfbtfd in tif
+     *     <dodf>bpplyPbttfrn</dodf> mftiod, bs wfll bs
+     * <li>to tif <dodf>formbt</dodf> bnd
+     *     {@link #formbtToCibrbdtfrItfrbtor formbtToCibrbdtfrItfrbtor} mftiods
+     *     if formbt flfmfnts do not spfdify b formbt typf bnd tifrfforf ibvf
+     *     tif subformbts drfbtfd in tif formbtting mftiods.
      * </ul>
-     * Subformats that have already been created are not affected.
+     * Subformbts tibt ibvf blrfbdy bffn drfbtfd brf not bfffdtfd.
      *
-     * @param locale the locale to be used when creating or comparing subformats
+     * @pbrbm lodblf tif lodblf to bf usfd wifn drfbting or dompbring subformbts
      */
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    publid void sftLodblf(Lodblf lodblf) {
+        tiis.lodblf = lodblf;
     }
 
     /**
-     * Gets the locale that's used when creating or comparing subformats.
+     * Gfts tif lodblf tibt's usfd wifn drfbting or dompbring subformbts.
      *
-     * @return the locale used when creating or comparing subformats
+     * @rfturn tif lodblf usfd wifn drfbting or dompbring subformbts
      */
-    public Locale getLocale() {
-        return locale;
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
 
     /**
-     * Sets the pattern used by this message format.
-     * The method parses the pattern and creates a list of subformats
-     * for the format elements contained in it.
-     * Patterns and their interpretation are specified in the
-     * <a href="#patterns">class description</a>.
+     * Sfts tif pbttfrn usfd by tiis mfssbgf formbt.
+     * Tif mftiod pbrsfs tif pbttfrn bnd drfbtfs b list of subformbts
+     * for tif formbt flfmfnts dontbinfd in it.
+     * Pbttfrns bnd tifir intfrprftbtion brf spfdififd in tif
+     * <b irff="#pbttfrns">dlbss dfsdription</b>.
      *
-     * @param pattern the pattern for this message format
-     * @exception IllegalArgumentException if the pattern is invalid
+     * @pbrbm pbttfrn tif pbttfrn for tiis mfssbgf formbt
+     * @fxdfption IllfgblArgumfntExdfption if tif pbttfrn is invblid
      */
-    @SuppressWarnings("fallthrough") // fallthrough in switch is expected, suppress it
-    public void applyPattern(String pattern) {
-            StringBuilder[] segments = new StringBuilder[4];
-            // Allocate only segments[SEG_RAW] here. The rest are
-            // allocated on demand.
-            segments[SEG_RAW] = new StringBuilder();
+    @SupprfssWbrnings("fblltirougi") // fblltirougi in switdi is fxpfdtfd, supprfss it
+    publid void bpplyPbttfrn(String pbttfrn) {
+            StringBuildfr[] sfgmfnts = nfw StringBuildfr[4];
+            // Allodbtf only sfgmfnts[SEG_RAW] ifrf. Tif rfst brf
+            // bllodbtfd on dfmbnd.
+            sfgmfnts[SEG_RAW] = nfw StringBuildfr();
 
-            int part = SEG_RAW;
-            int formatNumber = 0;
-            boolean inQuote = false;
-            int braceStack = 0;
-            maxOffset = -1;
-            for (int i = 0; i < pattern.length(); ++i) {
-                char ch = pattern.charAt(i);
-                if (part == SEG_RAW) {
-                    if (ch == '\'') {
-                        if (i + 1 < pattern.length()
-                            && pattern.charAt(i+1) == '\'') {
-                            segments[part].append(ch);  // handle doubles
+            int pbrt = SEG_RAW;
+            int formbtNumbfr = 0;
+            boolfbn inQuotf = fblsf;
+            int brbdfStbdk = 0;
+            mbxOffsft = -1;
+            for (int i = 0; i < pbttfrn.lfngti(); ++i) {
+                dibr di = pbttfrn.dibrAt(i);
+                if (pbrt == SEG_RAW) {
+                    if (di == '\'') {
+                        if (i + 1 < pbttfrn.lfngti()
+                            && pbttfrn.dibrAt(i+1) == '\'') {
+                            sfgmfnts[pbrt].bppfnd(di);  // ibndlf doublfs
                             ++i;
-                        } else {
-                            inQuote = !inQuote;
+                        } flsf {
+                            inQuotf = !inQuotf;
                         }
-                    } else if (ch == '{' && !inQuote) {
-                        part = SEG_INDEX;
-                        if (segments[SEG_INDEX] == null) {
-                            segments[SEG_INDEX] = new StringBuilder();
+                    } flsf if (di == '{' && !inQuotf) {
+                        pbrt = SEG_INDEX;
+                        if (sfgmfnts[SEG_INDEX] == null) {
+                            sfgmfnts[SEG_INDEX] = nfw StringBuildfr();
                         }
-                    } else {
-                        segments[part].append(ch);
+                    } flsf {
+                        sfgmfnts[pbrt].bppfnd(di);
                     }
-                } else  {
-                    if (inQuote) {              // just copy quotes in parts
-                        segments[part].append(ch);
-                        if (ch == '\'') {
-                            inQuote = false;
+                } flsf  {
+                    if (inQuotf) {              // just dopy quotfs in pbrts
+                        sfgmfnts[pbrt].bppfnd(di);
+                        if (di == '\'') {
+                            inQuotf = fblsf;
                         }
-                    } else {
-                        switch (ch) {
-                        case ',':
-                            if (part < SEG_MODIFIER) {
-                                if (segments[++part] == null) {
-                                    segments[part] = new StringBuilder();
+                    } flsf {
+                        switdi (di) {
+                        dbsf ',':
+                            if (pbrt < SEG_MODIFIER) {
+                                if (sfgmfnts[++pbrt] == null) {
+                                    sfgmfnts[pbrt] = nfw StringBuildfr();
                                 }
-                            } else {
-                                segments[part].append(ch);
+                            } flsf {
+                                sfgmfnts[pbrt].bppfnd(di);
                             }
-                            break;
-                        case '{':
-                            ++braceStack;
-                            segments[part].append(ch);
-                            break;
-                        case '}':
-                            if (braceStack == 0) {
-                                part = SEG_RAW;
-                                makeFormat(i, formatNumber, segments);
-                                formatNumber++;
-                                // throw away other segments
-                                segments[SEG_INDEX] = null;
-                                segments[SEG_TYPE] = null;
-                                segments[SEG_MODIFIER] = null;
-                            } else {
-                                --braceStack;
-                                segments[part].append(ch);
+                            brfbk;
+                        dbsf '{':
+                            ++brbdfStbdk;
+                            sfgmfnts[pbrt].bppfnd(di);
+                            brfbk;
+                        dbsf '}':
+                            if (brbdfStbdk == 0) {
+                                pbrt = SEG_RAW;
+                                mbkfFormbt(i, formbtNumbfr, sfgmfnts);
+                                formbtNumbfr++;
+                                // tirow bwby otifr sfgmfnts
+                                sfgmfnts[SEG_INDEX] = null;
+                                sfgmfnts[SEG_TYPE] = null;
+                                sfgmfnts[SEG_MODIFIER] = null;
+                            } flsf {
+                                --brbdfStbdk;
+                                sfgmfnts[pbrt].bppfnd(di);
                             }
-                            break;
-                        case ' ':
-                            // Skip any leading space chars for SEG_TYPE.
-                            if (part != SEG_TYPE || segments[SEG_TYPE].length() > 0) {
-                                segments[part].append(ch);
+                            brfbk;
+                        dbsf ' ':
+                            // Skip bny lfbding spbdf dibrs for SEG_TYPE.
+                            if (pbrt != SEG_TYPE || sfgmfnts[SEG_TYPE].lfngti() > 0) {
+                                sfgmfnts[pbrt].bppfnd(di);
                             }
-                            break;
-                        case '\'':
-                            inQuote = true;
-                            // fall through, so we keep quotes in other parts
-                        default:
-                            segments[part].append(ch);
-                            break;
+                            brfbk;
+                        dbsf '\'':
+                            inQuotf = truf;
+                            // fbll tirougi, so wf kffp quotfs in otifr pbrts
+                        dffbult:
+                            sfgmfnts[pbrt].bppfnd(di);
+                            brfbk;
                         }
                     }
                 }
             }
-            if (braceStack == 0 && part != 0) {
-                maxOffset = -1;
-                throw new IllegalArgumentException("Unmatched braces in the pattern.");
+            if (brbdfStbdk == 0 && pbrt != 0) {
+                mbxOffsft = -1;
+                tirow nfw IllfgblArgumfntExdfption("Unmbtdifd brbdfs in tif pbttfrn.");
             }
-            this.pattern = segments[0].toString();
+            tiis.pbttfrn = sfgmfnts[0].toString();
     }
 
 
     /**
-     * Returns a pattern representing the current state of the message format.
-     * The string is constructed from internal information and therefore
-     * does not necessarily equal the previously applied pattern.
+     * Rfturns b pbttfrn rfprfsfnting tif durrfnt stbtf of tif mfssbgf formbt.
+     * Tif string is donstrudtfd from intfrnbl informbtion bnd tifrfforf
+     * dofs not nfdfssbrily fqubl tif prfviously bpplifd pbttfrn.
      *
-     * @return a pattern representing the current state of the message format
+     * @rfturn b pbttfrn rfprfsfnting tif durrfnt stbtf of tif mfssbgf formbt
      */
-    public String toPattern() {
-        // later, make this more extensible
-        int lastOffset = 0;
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i <= maxOffset; ++i) {
-            copyAndFixQuotes(pattern, lastOffset, offsets[i], result);
-            lastOffset = offsets[i];
-            result.append('{').append(argumentNumbers[i]);
-            Format fmt = formats[i];
+    publid String toPbttfrn() {
+        // lbtfr, mbkf tiis morf fxtfnsiblf
+        int lbstOffsft = 0;
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            dopyAndFixQuotfs(pbttfrn, lbstOffsft, offsfts[i], rfsult);
+            lbstOffsft = offsfts[i];
+            rfsult.bppfnd('{').bppfnd(brgumfntNumbfrs[i]);
+            Formbt fmt = formbts[i];
             if (fmt == null) {
-                // do nothing, string format
-            } else if (fmt instanceof NumberFormat) {
-                if (fmt.equals(NumberFormat.getInstance(locale))) {
-                    result.append(",number");
-                } else if (fmt.equals(NumberFormat.getCurrencyInstance(locale))) {
-                    result.append(",number,currency");
-                } else if (fmt.equals(NumberFormat.getPercentInstance(locale))) {
-                    result.append(",number,percent");
-                } else if (fmt.equals(NumberFormat.getIntegerInstance(locale))) {
-                    result.append(",number,integer");
-                } else {
-                    if (fmt instanceof DecimalFormat) {
-                        result.append(",number,").append(((DecimalFormat)fmt).toPattern());
-                    } else if (fmt instanceof ChoiceFormat) {
-                        result.append(",choice,").append(((ChoiceFormat)fmt).toPattern());
-                    } else {
+                // do notiing, string formbt
+            } flsf if (fmt instbndfof NumbfrFormbt) {
+                if (fmt.fqubls(NumbfrFormbt.gftInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftCurrfndyInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,durrfndy");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftPfrdfntInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,pfrdfnt");
+                } flsf if (fmt.fqubls(NumbfrFormbt.gftIntfgfrInstbndf(lodblf))) {
+                    rfsult.bppfnd(",numbfr,intfgfr");
+                } flsf {
+                    if (fmt instbndfof DfdimblFormbt) {
+                        rfsult.bppfnd(",numbfr,").bppfnd(((DfdimblFormbt)fmt).toPbttfrn());
+                    } flsf if (fmt instbndfof CioidfFormbt) {
+                        rfsult.bppfnd(",dioidf,").bppfnd(((CioidfFormbt)fmt).toPbttfrn());
+                    } flsf {
                         // UNKNOWN
                     }
                 }
-            } else if (fmt instanceof DateFormat) {
-                int index;
-                for (index = MODIFIER_DEFAULT; index < DATE_TIME_MODIFIERS.length; index++) {
-                    DateFormat df = DateFormat.getDateInstance(DATE_TIME_MODIFIERS[index],
-                                                               locale);
-                    if (fmt.equals(df)) {
-                        result.append(",date");
-                        break;
+            } flsf if (fmt instbndfof DbtfFormbt) {
+                int indfx;
+                for (indfx = MODIFIER_DEFAULT; indfx < DATE_TIME_MODIFIERS.lfngti; indfx++) {
+                    DbtfFormbt df = DbtfFormbt.gftDbtfInstbndf(DATE_TIME_MODIFIERS[indfx],
+                                                               lodblf);
+                    if (fmt.fqubls(df)) {
+                        rfsult.bppfnd(",dbtf");
+                        brfbk;
                     }
-                    df = DateFormat.getTimeInstance(DATE_TIME_MODIFIERS[index],
-                                                    locale);
-                    if (fmt.equals(df)) {
-                        result.append(",time");
-                        break;
+                    df = DbtfFormbt.gftTimfInstbndf(DATE_TIME_MODIFIERS[indfx],
+                                                    lodblf);
+                    if (fmt.fqubls(df)) {
+                        rfsult.bppfnd(",timf");
+                        brfbk;
                     }
                 }
-                if (index >= DATE_TIME_MODIFIERS.length) {
-                    if (fmt instanceof SimpleDateFormat) {
-                        result.append(",date,").append(((SimpleDateFormat)fmt).toPattern());
-                    } else {
+                if (indfx >= DATE_TIME_MODIFIERS.lfngti) {
+                    if (fmt instbndfof SimplfDbtfFormbt) {
+                        rfsult.bppfnd(",dbtf,").bppfnd(((SimplfDbtfFormbt)fmt).toPbttfrn());
+                    } flsf {
                         // UNKNOWN
                     }
-                } else if (index != MODIFIER_DEFAULT) {
-                    result.append(',').append(DATE_TIME_MODIFIER_KEYWORDS[index]);
+                } flsf if (indfx != MODIFIER_DEFAULT) {
+                    rfsult.bppfnd(',').bppfnd(DATE_TIME_MODIFIER_KEYWORDS[indfx]);
                 }
-            } else {
-                //result.append(", unknown");
+            } flsf {
+                //rfsult.bppfnd(", unknown");
             }
-            result.append('}');
+            rfsult.bppfnd('}');
         }
-        copyAndFixQuotes(pattern, lastOffset, pattern.length(), result);
-        return result.toString();
+        dopyAndFixQuotfs(pbttfrn, lbstOffsft, pbttfrn.lfngti(), rfsult);
+        rfturn rfsult.toString();
     }
 
     /**
-     * Sets the formats to use for the values passed into
-     * <code>format</code> methods or returned from <code>parse</code>
-     * methods. The indices of elements in <code>newFormats</code>
-     * correspond to the argument indices used in the previously set
-     * pattern string.
-     * The order of formats in <code>newFormats</code> thus corresponds to
-     * the order of elements in the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * Sfts tif formbts to usf for tif vblufs pbssfd into
+     * <dodf>formbt</dodf> mftiods or rfturnfd from <dodf>pbrsf</dodf>
+     * mftiods. Tif indidfs of flfmfnts in <dodf>nfwFormbts</dodf>
+     * dorrfspond to tif brgumfnt indidfs usfd in tif prfviously sft
+     * pbttfrn string.
+     * Tif ordfr of formbts in <dodf>nfwFormbts</dodf> tius dorrfsponds to
+     * tif ordfr of flfmfnts in tif <dodf>brgumfnts</dodf> brrby pbssfd
+     * to tif <dodf>formbt</dodf> mftiods or tif rfsult brrby rfturnfd
+     * by tif <dodf>pbrsf</dodf> mftiods.
      * <p>
-     * If an argument index is used for more than one format element
-     * in the pattern string, then the corresponding new format is used
-     * for all such format elements. If an argument index is not used
-     * for any format element in the pattern string, then the
-     * corresponding new format is ignored. If fewer formats are provided
-     * than needed, then only the formats for argument indices less
-     * than <code>newFormats.length</code> are replaced.
+     * If bn brgumfnt indfx is usfd for morf tibn onf formbt flfmfnt
+     * in tif pbttfrn string, tifn tif dorrfsponding nfw formbt is usfd
+     * for bll sudi formbt flfmfnts. If bn brgumfnt indfx is not usfd
+     * for bny formbt flfmfnt in tif pbttfrn string, tifn tif
+     * dorrfsponding nfw formbt is ignorfd. If ffwfr formbts brf providfd
+     * tibn nffdfd, tifn only tif formbts for brgumfnt indidfs lfss
+     * tibn <dodf>nfwFormbts.lfngti</dodf> brf rfplbdfd.
      *
-     * @param newFormats the new formats to use
-     * @exception NullPointerException if <code>newFormats</code> is null
-     * @since 1.4
+     * @pbrbm nfwFormbts tif nfw formbts to usf
+     * @fxdfption NullPointfrExdfption if <dodf>nfwFormbts</dodf> is null
+     * @sindf 1.4
      */
-    public void setFormatsByArgumentIndex(Format[] newFormats) {
-        for (int i = 0; i <= maxOffset; i++) {
-            int j = argumentNumbers[i];
-            if (j < newFormats.length) {
-                formats[i] = newFormats[j];
+    publid void sftFormbtsByArgumfntIndfx(Formbt[] nfwFormbts) {
+        for (int i = 0; i <= mbxOffsft; i++) {
+            int j = brgumfntNumbfrs[i];
+            if (j < nfwFormbts.lfngti) {
+                formbts[i] = nfwFormbts[j];
             }
         }
     }
 
     /**
-     * Sets the formats to use for the format elements in the
-     * previously set pattern string.
-     * The order of formats in <code>newFormats</code> corresponds to
-     * the order of format elements in the pattern string.
+     * Sfts tif formbts to usf for tif formbt flfmfnts in tif
+     * prfviously sft pbttfrn string.
+     * Tif ordfr of formbts in <dodf>nfwFormbts</dodf> dorrfsponds to
+     * tif ordfr of formbt flfmfnts in tif pbttfrn string.
      * <p>
-     * If more formats are provided than needed by the pattern string,
-     * the remaining ones are ignored. If fewer formats are provided
-     * than needed, then only the first <code>newFormats.length</code>
-     * formats are replaced.
+     * If morf formbts brf providfd tibn nffdfd by tif pbttfrn string,
+     * tif rfmbining onfs brf ignorfd. If ffwfr formbts brf providfd
+     * tibn nffdfd, tifn only tif first <dodf>nfwFormbts.lfngti</dodf>
+     * formbts brf rfplbdfd.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it is generally better to use the
-     * {@link #setFormatsByArgumentIndex setFormatsByArgumentIndex}
-     * method, which assumes an order of formats corresponding to the
-     * order of elements in the <code>arguments</code> array passed to
-     * the <code>format</code> methods or the result array returned by
-     * the <code>parse</code> methods.
+     * Sindf tif ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dibngfs during lodblizbtion, it is gfnfrblly bfttfr to usf tif
+     * {@link #sftFormbtsByArgumfntIndfx sftFormbtsByArgumfntIndfx}
+     * mftiod, wiidi bssumfs bn ordfr of formbts dorrfsponding to tif
+     * ordfr of flfmfnts in tif <dodf>brgumfnts</dodf> brrby pbssfd to
+     * tif <dodf>formbt</dodf> mftiods or tif rfsult brrby rfturnfd by
+     * tif <dodf>pbrsf</dodf> mftiods.
      *
-     * @param newFormats the new formats to use
-     * @exception NullPointerException if <code>newFormats</code> is null
+     * @pbrbm nfwFormbts tif nfw formbts to usf
+     * @fxdfption NullPointfrExdfption if <dodf>nfwFormbts</dodf> is null
      */
-    public void setFormats(Format[] newFormats) {
-        int runsToCopy = newFormats.length;
-        if (runsToCopy > maxOffset + 1) {
-            runsToCopy = maxOffset + 1;
+    publid void sftFormbts(Formbt[] nfwFormbts) {
+        int runsToCopy = nfwFormbts.lfngti;
+        if (runsToCopy > mbxOffsft + 1) {
+            runsToCopy = mbxOffsft + 1;
         }
         for (int i = 0; i < runsToCopy; i++) {
-            formats[i] = newFormats[i];
+            formbts[i] = nfwFormbts[i];
         }
     }
 
     /**
-     * Sets the format to use for the format elements within the
-     * previously set pattern string that use the given argument
-     * index.
-     * The argument index is part of the format element definition and
-     * represents an index into the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * Sfts tif formbt to usf for tif formbt flfmfnts witiin tif
+     * prfviously sft pbttfrn string tibt usf tif givfn brgumfnt
+     * indfx.
+     * Tif brgumfnt indfx is pbrt of tif formbt flfmfnt dffinition bnd
+     * rfprfsfnts bn indfx into tif <dodf>brgumfnts</dodf> brrby pbssfd
+     * to tif <dodf>formbt</dodf> mftiods or tif rfsult brrby rfturnfd
+     * by tif <dodf>pbrsf</dodf> mftiods.
      * <p>
-     * If the argument index is used for more than one format element
-     * in the pattern string, then the new format is used for all such
-     * format elements. If the argument index is not used for any format
-     * element in the pattern string, then the new format is ignored.
+     * If tif brgumfnt indfx is usfd for morf tibn onf formbt flfmfnt
+     * in tif pbttfrn string, tifn tif nfw formbt is usfd for bll sudi
+     * formbt flfmfnts. If tif brgumfnt indfx is not usfd for bny formbt
+     * flfmfnt in tif pbttfrn string, tifn tif nfw formbt is ignorfd.
      *
-     * @param argumentIndex the argument index for which to use the new format
-     * @param newFormat the new format to use
-     * @since 1.4
+     * @pbrbm brgumfntIndfx tif brgumfnt indfx for wiidi to usf tif nfw formbt
+     * @pbrbm nfwFormbt tif nfw formbt to usf
+     * @sindf 1.4
      */
-    public void setFormatByArgumentIndex(int argumentIndex, Format newFormat) {
-        for (int j = 0; j <= maxOffset; j++) {
-            if (argumentNumbers[j] == argumentIndex) {
-                formats[j] = newFormat;
+    publid void sftFormbtByArgumfntIndfx(int brgumfntIndfx, Formbt nfwFormbt) {
+        for (int j = 0; j <= mbxOffsft; j++) {
+            if (brgumfntNumbfrs[j] == brgumfntIndfx) {
+                formbts[j] = nfwFormbt;
             }
         }
     }
 
     /**
-     * Sets the format to use for the format element with the given
-     * format element index within the previously set pattern string.
-     * The format element index is the zero-based number of the format
-     * element counting from the start of the pattern string.
+     * Sfts tif formbt to usf for tif formbt flfmfnt witi tif givfn
+     * formbt flfmfnt indfx witiin tif prfviously sft pbttfrn string.
+     * Tif formbt flfmfnt indfx is tif zfro-bbsfd numbfr of tif formbt
+     * flfmfnt dounting from tif stbrt of tif pbttfrn string.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it is generally better to use the
-     * {@link #setFormatByArgumentIndex setFormatByArgumentIndex}
-     * method, which accesses format elements based on the argument
-     * index they specify.
+     * Sindf tif ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dibngfs during lodblizbtion, it is gfnfrblly bfttfr to usf tif
+     * {@link #sftFormbtByArgumfntIndfx sftFormbtByArgumfntIndfx}
+     * mftiod, wiidi bddfssfs formbt flfmfnts bbsfd on tif brgumfnt
+     * indfx tify spfdify.
      *
-     * @param formatElementIndex the index of a format element within the pattern
-     * @param newFormat the format to use for the specified format element
-     * @exception ArrayIndexOutOfBoundsException if {@code formatElementIndex} is equal to or
-     *            larger than the number of format elements in the pattern string
+     * @pbrbm formbtElfmfntIndfx tif indfx of b formbt flfmfnt witiin tif pbttfrn
+     * @pbrbm nfwFormbt tif formbt to usf for tif spfdififd formbt flfmfnt
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if {@dodf formbtElfmfntIndfx} is fqubl to or
+     *            lbrgfr tibn tif numbfr of formbt flfmfnts in tif pbttfrn string
      */
-    public void setFormat(int formatElementIndex, Format newFormat) {
-        formats[formatElementIndex] = newFormat;
+    publid void sftFormbt(int formbtElfmfntIndfx, Formbt nfwFormbt) {
+        formbts[formbtElfmfntIndfx] = nfwFormbt;
     }
 
     /**
-     * Gets the formats used for the values passed into
-     * <code>format</code> methods or returned from <code>parse</code>
-     * methods. The indices of elements in the returned array
-     * correspond to the argument indices used in the previously set
-     * pattern string.
-     * The order of formats in the returned array thus corresponds to
-     * the order of elements in the <code>arguments</code> array passed
-     * to the <code>format</code> methods or the result array returned
-     * by the <code>parse</code> methods.
+     * Gfts tif formbts usfd for tif vblufs pbssfd into
+     * <dodf>formbt</dodf> mftiods or rfturnfd from <dodf>pbrsf</dodf>
+     * mftiods. Tif indidfs of flfmfnts in tif rfturnfd brrby
+     * dorrfspond to tif brgumfnt indidfs usfd in tif prfviously sft
+     * pbttfrn string.
+     * Tif ordfr of formbts in tif rfturnfd brrby tius dorrfsponds to
+     * tif ordfr of flfmfnts in tif <dodf>brgumfnts</dodf> brrby pbssfd
+     * to tif <dodf>formbt</dodf> mftiods or tif rfsult brrby rfturnfd
+     * by tif <dodf>pbrsf</dodf> mftiods.
      * <p>
-     * If an argument index is used for more than one format element
-     * in the pattern string, then the format used for the last such
-     * format element is returned in the array. If an argument index
-     * is not used for any format element in the pattern string, then
-     * null is returned in the array.
+     * If bn brgumfnt indfx is usfd for morf tibn onf formbt flfmfnt
+     * in tif pbttfrn string, tifn tif formbt usfd for tif lbst sudi
+     * formbt flfmfnt is rfturnfd in tif brrby. If bn brgumfnt indfx
+     * is not usfd for bny formbt flfmfnt in tif pbttfrn string, tifn
+     * null is rfturnfd in tif brrby.
      *
-     * @return the formats used for the arguments within the pattern
-     * @since 1.4
+     * @rfturn tif formbts usfd for tif brgumfnts witiin tif pbttfrn
+     * @sindf 1.4
      */
-    public Format[] getFormatsByArgumentIndex() {
-        int maximumArgumentNumber = -1;
-        for (int i = 0; i <= maxOffset; i++) {
-            if (argumentNumbers[i] > maximumArgumentNumber) {
-                maximumArgumentNumber = argumentNumbers[i];
+    publid Formbt[] gftFormbtsByArgumfntIndfx() {
+        int mbximumArgumfntNumbfr = -1;
+        for (int i = 0; i <= mbxOffsft; i++) {
+            if (brgumfntNumbfrs[i] > mbximumArgumfntNumbfr) {
+                mbximumArgumfntNumbfr = brgumfntNumbfrs[i];
             }
         }
-        Format[] resultArray = new Format[maximumArgumentNumber + 1];
-        for (int i = 0; i <= maxOffset; i++) {
-            resultArray[argumentNumbers[i]] = formats[i];
+        Formbt[] rfsultArrby = nfw Formbt[mbximumArgumfntNumbfr + 1];
+        for (int i = 0; i <= mbxOffsft; i++) {
+            rfsultArrby[brgumfntNumbfrs[i]] = formbts[i];
         }
-        return resultArray;
+        rfturn rfsultArrby;
     }
 
     /**
-     * Gets the formats used for the format elements in the
-     * previously set pattern string.
-     * The order of formats in the returned array corresponds to
-     * the order of format elements in the pattern string.
+     * Gfts tif formbts usfd for tif formbt flfmfnts in tif
+     * prfviously sft pbttfrn string.
+     * Tif ordfr of formbts in tif rfturnfd brrby dorrfsponds to
+     * tif ordfr of formbt flfmfnts in tif pbttfrn string.
      * <p>
-     * Since the order of format elements in a pattern string often
-     * changes during localization, it's generally better to use the
-     * {@link #getFormatsByArgumentIndex getFormatsByArgumentIndex}
-     * method, which assumes an order of formats corresponding to the
-     * order of elements in the <code>arguments</code> array passed to
-     * the <code>format</code> methods or the result array returned by
-     * the <code>parse</code> methods.
+     * Sindf tif ordfr of formbt flfmfnts in b pbttfrn string oftfn
+     * dibngfs during lodblizbtion, it's gfnfrblly bfttfr to usf tif
+     * {@link #gftFormbtsByArgumfntIndfx gftFormbtsByArgumfntIndfx}
+     * mftiod, wiidi bssumfs bn ordfr of formbts dorrfsponding to tif
+     * ordfr of flfmfnts in tif <dodf>brgumfnts</dodf> brrby pbssfd to
+     * tif <dodf>formbt</dodf> mftiods or tif rfsult brrby rfturnfd by
+     * tif <dodf>pbrsf</dodf> mftiods.
      *
-     * @return the formats used for the format elements in the pattern
+     * @rfturn tif formbts usfd for tif formbt flfmfnts in tif pbttfrn
      */
-    public Format[] getFormats() {
-        Format[] resultArray = new Format[maxOffset + 1];
-        System.arraycopy(formats, 0, resultArray, 0, maxOffset + 1);
-        return resultArray;
+    publid Formbt[] gftFormbts() {
+        Formbt[] rfsultArrby = nfw Formbt[mbxOffsft + 1];
+        Systfm.brrbydopy(formbts, 0, rfsultArrby, 0, mbxOffsft + 1);
+        rfturn rfsultArrby;
     }
 
     /**
-     * Formats an array of objects and appends the <code>MessageFormat</code>'s
-     * pattern, with format elements replaced by the formatted objects, to the
-     * provided <code>StringBuffer</code>.
+     * Formbts bn brrby of objfdts bnd bppfnds tif <dodf>MfssbgfFormbt</dodf>'s
+     * pbttfrn, witi formbt flfmfnts rfplbdfd by tif formbttfd objfdts, to tif
+     * providfd <dodf>StringBufffr</dodf>.
      * <p>
-     * The text substituted for the individual format elements is derived from
-     * the current subformat of the format element and the
-     * <code>arguments</code> element at the format element's argument index
-     * as indicated by the first matching line of the following table. An
-     * argument is <i>unavailable</i> if <code>arguments</code> is
-     * <code>null</code> or has fewer than argumentIndex+1 elements.
+     * Tif tfxt substitutfd for tif individubl formbt flfmfnts is dfrivfd from
+     * tif durrfnt subformbt of tif formbt flfmfnt bnd tif
+     * <dodf>brgumfnts</dodf> flfmfnt bt tif formbt flfmfnt's brgumfnt indfx
+     * bs indidbtfd by tif first mbtdiing linf of tif following tbblf. An
+     * brgumfnt is <i>unbvbilbblf</i> if <dodf>brgumfnts</dodf> is
+     * <dodf>null</dodf> or ibs ffwfr tibn brgumfntIndfx+1 flfmfnts.
      *
-     * <table border=1 summary="Examples of subformat,argument,and formatted text">
+     * <tbblf bordfr=1 summbry="Exbmplfs of subformbt,brgumfnt,bnd formbttfd tfxt">
      *    <tr>
-     *       <th>Subformat
-     *       <th>Argument
-     *       <th>Formatted Text
+     *       <ti>Subformbt
+     *       <ti>Argumfnt
+     *       <ti>Formbttfd Tfxt
      *    <tr>
-     *       <td><i>any</i>
-     *       <td><i>unavailable</i>
-     *       <td><code>"{" + argumentIndex + "}"</code>
+     *       <td><i>bny</i>
+     *       <td><i>unbvbilbblf</i>
+     *       <td><dodf>"{" + brgumfntIndfx + "}"</dodf>
      *    <tr>
-     *       <td><i>any</i>
-     *       <td><code>null</code>
-     *       <td><code>"null"</code>
+     *       <td><i>bny</i>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>"null"</dodf>
      *    <tr>
-     *       <td><code>instanceof ChoiceFormat</code>
-     *       <td><i>any</i>
-     *       <td><code>subformat.format(argument).indexOf('{') &gt;= 0 ?<br>
-     *           (new MessageFormat(subformat.format(argument), getLocale())).format(argument) :
-     *           subformat.format(argument)</code>
+     *       <td><dodf>instbndfof CioidfFormbt</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>subformbt.formbt(brgumfnt).indfxOf('{') &gt;= 0 ?<br>
+     *           (nfw MfssbgfFormbt(subformbt.formbt(brgumfnt), gftLodblf())).formbt(brgumfnt) :
+     *           subformbt.formbt(brgumfnt)</dodf>
      *    <tr>
-     *       <td><code>!= null</code>
-     *       <td><i>any</i>
-     *       <td><code>subformat.format(argument)</code>
+     *       <td><dodf>!= null</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>subformbt.formbt(brgumfnt)</dodf>
      *    <tr>
-     *       <td><code>null</code>
-     *       <td><code>instanceof Number</code>
-     *       <td><code>NumberFormat.getInstance(getLocale()).format(argument)</code>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof Numbfr</dodf>
+     *       <td><dodf>NumbfrFormbt.gftInstbndf(gftLodblf()).formbt(brgumfnt)</dodf>
      *    <tr>
-     *       <td><code>null</code>
-     *       <td><code>instanceof Date</code>
-     *       <td><code>DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, getLocale()).format(argument)</code>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof Dbtf</dodf>
+     *       <td><dodf>DbtfFormbt.gftDbtfTimfInstbndf(DbtfFormbt.SHORT, DbtfFormbt.SHORT, gftLodblf()).formbt(brgumfnt)</dodf>
      *    <tr>
-     *       <td><code>null</code>
-     *       <td><code>instanceof String</code>
-     *       <td><code>argument</code>
+     *       <td><dodf>null</dodf>
+     *       <td><dodf>instbndfof String</dodf>
+     *       <td><dodf>brgumfnt</dodf>
      *    <tr>
-     *       <td><code>null</code>
-     *       <td><i>any</i>
-     *       <td><code>argument.toString()</code>
-     * </table>
+     *       <td><dodf>null</dodf>
+     *       <td><i>bny</i>
+     *       <td><dodf>brgumfnt.toString()</dodf>
+     * </tbblf>
      * <p>
-     * If <code>pos</code> is non-null, and refers to
-     * <code>Field.ARGUMENT</code>, the location of the first formatted
-     * string will be returned.
+     * If <dodf>pos</dodf> is non-null, bnd rfffrs to
+     * <dodf>Fifld.ARGUMENT</dodf>, tif lodbtion of tif first formbttfd
+     * string will bf rfturnfd.
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @param result where text is appended.
-     * @param pos On input: an alignment field, if desired.
-     *            On output: the offsets of the alignment field.
-     * @return the string buffer passed in as {@code result}, with formatted
-     * text appended
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @pbrbm rfsult wifrf tfxt is bppfndfd.
+     * @pbrbm pos On input: bn blignmfnt fifld, if dfsirfd.
+     *            On output: tif offsfts of tif blignmfnt fifld.
+     * @rfturn tif string bufffr pbssfd in bs {@dodf rfsult}, witi formbttfd
+     * tfxt bppfndfd
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in tif
+     *            <dodf>brgumfnts</dodf> brrby is not of tif typf
+     *            fxpfdtfd by tif formbt flfmfnt(s) tibt usf it.
      */
-    public final StringBuffer format(Object[] arguments, StringBuffer result,
-                                     FieldPosition pos)
+    publid finbl StringBufffr formbt(Objfdt[] brgumfnts, StringBufffr rfsult,
+                                     FifldPosition pos)
     {
-        return subformat(arguments, result, pos, null);
+        rfturn subformbt(brgumfnts, rfsult, pos, null);
     }
 
     /**
-     * Creates a MessageFormat with the given pattern and uses it
-     * to format the given arguments. This is equivalent to
-     * <blockquote>
-     *     <code>(new {@link #MessageFormat(String) MessageFormat}(pattern)).{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}(arguments, new StringBuffer(), null).toString()</code>
-     * </blockquote>
+     * Crfbtfs b MfssbgfFormbt witi tif givfn pbttfrn bnd usfs it
+     * to formbt tif givfn brgumfnts. Tiis is fquivblfnt to
+     * <blodkquotf>
+     *     <dodf>(nfw {@link #MfssbgfFormbt(String) MfssbgfFormbt}(pbttfrn)).{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}(brgumfnts, nfw StringBufffr(), null).toString()</dodf>
+     * </blodkquotf>
      *
-     * @param pattern   the pattern string
-     * @param arguments object(s) to format
-     * @return the formatted string
-     * @exception IllegalArgumentException if the pattern is invalid,
-     *            or if an argument in the <code>arguments</code> array
-     *            is not of the type expected by the format element(s)
-     *            that use it.
+     * @pbrbm pbttfrn   tif pbttfrn string
+     * @pbrbm brgumfnts objfdt(s) to formbt
+     * @rfturn tif formbttfd string
+     * @fxdfption IllfgblArgumfntExdfption if tif pbttfrn is invblid,
+     *            or if bn brgumfnt in tif <dodf>brgumfnts</dodf> brrby
+     *            is not of tif typf fxpfdtfd by tif formbt flfmfnt(s)
+     *            tibt usf it.
      */
-    public static String format(String pattern, Object ... arguments) {
-        MessageFormat temp = new MessageFormat(pattern);
-        return temp.format(arguments);
+    publid stbtid String formbt(String pbttfrn, Objfdt ... brgumfnts) {
+        MfssbgfFormbt tfmp = nfw MfssbgfFormbt(pbttfrn);
+        rfturn tfmp.formbt(brgumfnts);
     }
 
-    // Overrides
+    // Ovfrridfs
     /**
-     * Formats an array of objects and appends the <code>MessageFormat</code>'s
-     * pattern, with format elements replaced by the formatted objects, to the
-     * provided <code>StringBuffer</code>.
-     * This is equivalent to
-     * <blockquote>
-     *     <code>{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}((Object[]) arguments, result, pos)</code>
-     * </blockquote>
+     * Formbts bn brrby of objfdts bnd bppfnds tif <dodf>MfssbgfFormbt</dodf>'s
+     * pbttfrn, witi formbt flfmfnts rfplbdfd by tif formbttfd objfdts, to tif
+     * providfd <dodf>StringBufffr</dodf>.
+     * Tiis is fquivblfnt to
+     * <blodkquotf>
+     *     <dodf>{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}((Objfdt[]) brgumfnts, rfsult, pos)</dodf>
+     * </blodkquotf>
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @param result where text is appended.
-     * @param pos On input: an alignment field, if desired.
-     *            On output: the offsets of the alignment field.
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @pbrbm rfsult wifrf tfxt is bppfndfd.
+     * @pbrbm pos On input: bn blignmfnt fifld, if dfsirfd.
+     *            On output: tif offsfts of tif blignmfnt fifld.
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in tif
+     *            <dodf>brgumfnts</dodf> brrby is not of tif typf
+     *            fxpfdtfd by tif formbt flfmfnt(s) tibt usf it.
      */
-    public final StringBuffer format(Object arguments, StringBuffer result,
-                                     FieldPosition pos)
+    publid finbl StringBufffr formbt(Objfdt brgumfnts, StringBufffr rfsult,
+                                     FifldPosition pos)
     {
-        return subformat((Object[]) arguments, result, pos, null);
+        rfturn subformbt((Objfdt[]) brgumfnts, rfsult, pos, null);
     }
 
     /**
-     * Formats an array of objects and inserts them into the
-     * <code>MessageFormat</code>'s pattern, producing an
-     * <code>AttributedCharacterIterator</code>.
-     * You can use the returned <code>AttributedCharacterIterator</code>
-     * to build the resulting String, as well as to determine information
-     * about the resulting String.
+     * Formbts bn brrby of objfdts bnd insfrts tifm into tif
+     * <dodf>MfssbgfFormbt</dodf>'s pbttfrn, produding bn
+     * <dodf>AttributfdCibrbdtfrItfrbtor</dodf>.
+     * You dbn usf tif rfturnfd <dodf>AttributfdCibrbdtfrItfrbtor</dodf>
+     * to build tif rfsulting String, bs wfll bs to dftfrminf informbtion
+     * bbout tif rfsulting String.
      * <p>
-     * The text of the returned <code>AttributedCharacterIterator</code> is
-     * the same that would be returned by
-     * <blockquote>
-     *     <code>{@link #format(java.lang.Object[], java.lang.StringBuffer, java.text.FieldPosition) format}(arguments, new StringBuffer(), null).toString()</code>
-     * </blockquote>
+     * Tif tfxt of tif rfturnfd <dodf>AttributfdCibrbdtfrItfrbtor</dodf> is
+     * tif sbmf tibt would bf rfturnfd by
+     * <blodkquotf>
+     *     <dodf>{@link #formbt(jbvb.lbng.Objfdt[], jbvb.lbng.StringBufffr, jbvb.tfxt.FifldPosition) formbt}(brgumfnts, nfw StringBufffr(), null).toString()</dodf>
+     * </blodkquotf>
      * <p>
-     * In addition, the <code>AttributedCharacterIterator</code> contains at
-     * least attributes indicating where text was generated from an
-     * argument in the <code>arguments</code> array. The keys of these attributes are of
-     * type <code>MessageFormat.Field</code>, their values are
-     * <code>Integer</code> objects indicating the index in the <code>arguments</code>
-     * array of the argument from which the text was generated.
+     * In bddition, tif <dodf>AttributfdCibrbdtfrItfrbtor</dodf> dontbins bt
+     * lfbst bttributfs indidbting wifrf tfxt wbs gfnfrbtfd from bn
+     * brgumfnt in tif <dodf>brgumfnts</dodf> brrby. Tif kfys of tifsf bttributfs brf of
+     * typf <dodf>MfssbgfFormbt.Fifld</dodf>, tifir vblufs brf
+     * <dodf>Intfgfr</dodf> objfdts indidbting tif indfx in tif <dodf>brgumfnts</dodf>
+     * brrby of tif brgumfnt from wiidi tif tfxt wbs gfnfrbtfd.
      * <p>
-     * The attributes/value from the underlying <code>Format</code>
-     * instances that <code>MessageFormat</code> uses will also be
-     * placed in the resulting <code>AttributedCharacterIterator</code>.
-     * This allows you to not only find where an argument is placed in the
-     * resulting String, but also which fields it contains in turn.
+     * Tif bttributfs/vbluf from tif undfrlying <dodf>Formbt</dodf>
+     * instbndfs tibt <dodf>MfssbgfFormbt</dodf> usfs will blso bf
+     * plbdfd in tif rfsulting <dodf>AttributfdCibrbdtfrItfrbtor</dodf>.
+     * Tiis bllows you to not only find wifrf bn brgumfnt is plbdfd in tif
+     * rfsulting String, but blso wiidi fiflds it dontbins in turn.
      *
-     * @param arguments an array of objects to be formatted and substituted.
-     * @return AttributedCharacterIterator describing the formatted value.
-     * @exception NullPointerException if <code>arguments</code> is null.
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
-     * @since 1.4
+     * @pbrbm brgumfnts bn brrby of objfdts to bf formbttfd bnd substitutfd.
+     * @rfturn AttributfdCibrbdtfrItfrbtor dfsdribing tif formbttfd vbluf.
+     * @fxdfption NullPointfrExdfption if <dodf>brgumfnts</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in tif
+     *            <dodf>brgumfnts</dodf> brrby is not of tif typf
+     *            fxpfdtfd by tif formbt flfmfnt(s) tibt usf it.
+     * @sindf 1.4
      */
-    public AttributedCharacterIterator formatToCharacterIterator(Object arguments) {
-        StringBuffer result = new StringBuffer();
-        ArrayList<AttributedCharacterIterator> iterators = new ArrayList<>();
+    publid AttributfdCibrbdtfrItfrbtor formbtToCibrbdtfrItfrbtor(Objfdt brgumfnts) {
+        StringBufffr rfsult = nfw StringBufffr();
+        ArrbyList<AttributfdCibrbdtfrItfrbtor> itfrbtors = nfw ArrbyList<>();
 
-        if (arguments == null) {
-            throw new NullPointerException(
-                   "formatToCharacterIterator must be passed non-null object");
+        if (brgumfnts == null) {
+            tirow nfw NullPointfrExdfption(
+                   "formbtToCibrbdtfrItfrbtor must bf pbssfd non-null objfdt");
         }
-        subformat((Object[]) arguments, result, null, iterators);
-        if (iterators.size() == 0) {
-            return createAttributedCharacterIterator("");
+        subformbt((Objfdt[]) brgumfnts, rfsult, null, itfrbtors);
+        if (itfrbtors.sizf() == 0) {
+            rfturn drfbtfAttributfdCibrbdtfrItfrbtor("");
         }
-        return createAttributedCharacterIterator(
-                     iterators.toArray(
-                     new AttributedCharacterIterator[iterators.size()]));
+        rfturn drfbtfAttributfdCibrbdtfrItfrbtor(
+                     itfrbtors.toArrby(
+                     nfw AttributfdCibrbdtfrItfrbtor[itfrbtors.sizf()]));
     }
 
     /**
-     * Parses the string.
+     * Pbrsfs tif string.
      *
-     * <p>Caveats: The parse may fail in a number of circumstances.
-     * For example:
+     * <p>Cbvfbts: Tif pbrsf mby fbil in b numbfr of dirdumstbndfs.
+     * For fxbmplf:
      * <ul>
-     * <li>If one of the arguments does not occur in the pattern.
-     * <li>If the format of an argument loses information, such as
-     *     with a choice format where a large number formats to "many".
-     * <li>Does not yet handle recursion (where
-     *     the substituted strings contain {n} references.)
-     * <li>Will not always find a match (or the correct match)
-     *     if some part of the parse is ambiguous.
-     *     For example, if the pattern "{1},{2}" is used with the
-     *     string arguments {"a,b", "c"}, it will format as "a,b,c".
-     *     When the result is parsed, it will return {"a", "b,c"}.
-     * <li>If a single argument is parsed more than once in the string,
-     *     then the later parse wins.
+     * <li>If onf of tif brgumfnts dofs not oddur in tif pbttfrn.
+     * <li>If tif formbt of bn brgumfnt losfs informbtion, sudi bs
+     *     witi b dioidf formbt wifrf b lbrgf numbfr formbts to "mbny".
+     * <li>Dofs not yft ibndlf rfdursion (wifrf
+     *     tif substitutfd strings dontbin {n} rfffrfndfs.)
+     * <li>Will not blwbys find b mbtdi (or tif dorrfdt mbtdi)
+     *     if somf pbrt of tif pbrsf is bmbiguous.
+     *     For fxbmplf, if tif pbttfrn "{1},{2}" is usfd witi tif
+     *     string brgumfnts {"b,b", "d"}, it will formbt bs "b,b,d".
+     *     Wifn tif rfsult is pbrsfd, it will rfturn {"b", "b,d"}.
+     * <li>If b singlf brgumfnt is pbrsfd morf tibn ondf in tif string,
+     *     tifn tif lbtfr pbrsf wins.
      * </ul>
-     * When the parse fails, use ParsePosition.getErrorIndex() to find out
-     * where in the string the parsing failed.  The returned error
-     * index is the starting offset of the sub-patterns that the string
-     * is comparing with.  For example, if the parsing string "AAA {0} BBB"
-     * is comparing against the pattern "AAD {0} BBB", the error index is
-     * 0. When an error occurs, the call to this method will return null.
-     * If the source is null, return an empty array.
+     * Wifn tif pbrsf fbils, usf PbrsfPosition.gftErrorIndfx() to find out
+     * wifrf in tif string tif pbrsing fbilfd.  Tif rfturnfd frror
+     * indfx is tif stbrting offsft of tif sub-pbttfrns tibt tif string
+     * is dompbring witi.  For fxbmplf, if tif pbrsing string "AAA {0} BBB"
+     * is dompbring bgbinst tif pbttfrn "AAD {0} BBB", tif frror indfx is
+     * 0. Wifn bn frror oddurs, tif dbll to tiis mftiod will rfturn null.
+     * If tif sourdf is null, rfturn bn fmpty brrby.
      *
-     * @param source the string to parse
-     * @param pos    the parse position
-     * @return an array of parsed objects
+     * @pbrbm sourdf tif string to pbrsf
+     * @pbrbm pos    tif pbrsf position
+     * @rfturn bn brrby of pbrsfd objfdts
      */
-    public Object[] parse(String source, ParsePosition pos) {
-        if (source == null) {
-            Object[] empty = {};
-            return empty;
+    publid Objfdt[] pbrsf(String sourdf, PbrsfPosition pos) {
+        if (sourdf == null) {
+            Objfdt[] fmpty = {};
+            rfturn fmpty;
         }
 
-        int maximumArgumentNumber = -1;
-        for (int i = 0; i <= maxOffset; i++) {
-            if (argumentNumbers[i] > maximumArgumentNumber) {
-                maximumArgumentNumber = argumentNumbers[i];
+        int mbximumArgumfntNumbfr = -1;
+        for (int i = 0; i <= mbxOffsft; i++) {
+            if (brgumfntNumbfrs[i] > mbximumArgumfntNumbfr) {
+                mbximumArgumfntNumbfr = brgumfntNumbfrs[i];
             }
         }
-        Object[] resultArray = new Object[maximumArgumentNumber + 1];
+        Objfdt[] rfsultArrby = nfw Objfdt[mbximumArgumfntNumbfr + 1];
 
-        int patternOffset = 0;
-        int sourceOffset = pos.index;
-        ParsePosition tempStatus = new ParsePosition(0);
-        for (int i = 0; i <= maxOffset; ++i) {
-            // match up to format
-            int len = offsets[i] - patternOffset;
-            if (len == 0 || pattern.regionMatches(patternOffset,
-                                                  source, sourceOffset, len)) {
-                sourceOffset += len;
-                patternOffset += len;
-            } else {
-                pos.errorIndex = sourceOffset;
-                return null; // leave index as is to signal error
+        int pbttfrnOffsft = 0;
+        int sourdfOffsft = pos.indfx;
+        PbrsfPosition tfmpStbtus = nfw PbrsfPosition(0);
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            // mbtdi up to formbt
+            int lfn = offsfts[i] - pbttfrnOffsft;
+            if (lfn == 0 || pbttfrn.rfgionMbtdifs(pbttfrnOffsft,
+                                                  sourdf, sourdfOffsft, lfn)) {
+                sourdfOffsft += lfn;
+                pbttfrnOffsft += lfn;
+            } flsf {
+                pos.frrorIndfx = sourdfOffsft;
+                rfturn null; // lfbvf indfx bs is to signbl frror
             }
 
-            // now use format
-            if (formats[i] == null) {   // string format
-                // if at end, use longest possible match
-                // otherwise uses first match to intervening string
-                // does NOT recursively try all possibilities
-                int tempLength = (i != maxOffset) ? offsets[i+1] : pattern.length();
+            // now usf formbt
+            if (formbts[i] == null) {   // string formbt
+                // if bt fnd, usf longfst possiblf mbtdi
+                // otifrwisf usfs first mbtdi to intfrvfning string
+                // dofs NOT rfdursivfly try bll possibilitifs
+                int tfmpLfngti = (i != mbxOffsft) ? offsfts[i+1] : pbttfrn.lfngti();
 
-                int next;
-                if (patternOffset >= tempLength) {
-                    next = source.length();
-                }else{
-                    next = source.indexOf(pattern.substring(patternOffset, tempLength),
-                                          sourceOffset);
+                int nfxt;
+                if (pbttfrnOffsft >= tfmpLfngti) {
+                    nfxt = sourdf.lfngti();
+                }flsf{
+                    nfxt = sourdf.indfxOf(pbttfrn.substring(pbttfrnOffsft, tfmpLfngti),
+                                          sourdfOffsft);
                 }
 
-                if (next < 0) {
-                    pos.errorIndex = sourceOffset;
-                    return null; // leave index as is to signal error
-                } else {
-                    String strValue= source.substring(sourceOffset,next);
-                    if (!strValue.equals("{"+argumentNumbers[i]+"}"))
-                        resultArray[argumentNumbers[i]]
-                            = source.substring(sourceOffset,next);
-                    sourceOffset = next;
+                if (nfxt < 0) {
+                    pos.frrorIndfx = sourdfOffsft;
+                    rfturn null; // lfbvf indfx bs is to signbl frror
+                } flsf {
+                    String strVbluf= sourdf.substring(sourdfOffsft,nfxt);
+                    if (!strVbluf.fqubls("{"+brgumfntNumbfrs[i]+"}"))
+                        rfsultArrby[brgumfntNumbfrs[i]]
+                            = sourdf.substring(sourdfOffsft,nfxt);
+                    sourdfOffsft = nfxt;
                 }
-            } else {
-                tempStatus.index = sourceOffset;
-                resultArray[argumentNumbers[i]]
-                    = formats[i].parseObject(source,tempStatus);
-                if (tempStatus.index == sourceOffset) {
-                    pos.errorIndex = sourceOffset;
-                    return null; // leave index as is to signal error
+            } flsf {
+                tfmpStbtus.indfx = sourdfOffsft;
+                rfsultArrby[brgumfntNumbfrs[i]]
+                    = formbts[i].pbrsfObjfdt(sourdf,tfmpStbtus);
+                if (tfmpStbtus.indfx == sourdfOffsft) {
+                    pos.frrorIndfx = sourdfOffsft;
+                    rfturn null; // lfbvf indfx bs is to signbl frror
                 }
-                sourceOffset = tempStatus.index; // update
+                sourdfOffsft = tfmpStbtus.indfx; // updbtf
             }
         }
-        int len = pattern.length() - patternOffset;
-        if (len == 0 || pattern.regionMatches(patternOffset,
-                                              source, sourceOffset, len)) {
-            pos.index = sourceOffset + len;
-        } else {
-            pos.errorIndex = sourceOffset;
-            return null; // leave index as is to signal error
+        int lfn = pbttfrn.lfngti() - pbttfrnOffsft;
+        if (lfn == 0 || pbttfrn.rfgionMbtdifs(pbttfrnOffsft,
+                                              sourdf, sourdfOffsft, lfn)) {
+            pos.indfx = sourdfOffsft + lfn;
+        } flsf {
+            pos.frrorIndfx = sourdfOffsft;
+            rfturn null; // lfbvf indfx bs is to signbl frror
         }
-        return resultArray;
+        rfturn rfsultArrby;
     }
 
     /**
-     * Parses text from the beginning of the given string to produce an object
-     * array.
-     * The method may not use the entire text of the given string.
+     * Pbrsfs tfxt from tif bfginning of tif givfn string to produdf bn objfdt
+     * brrby.
+     * Tif mftiod mby not usf tif fntirf tfxt of tif givfn string.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on message parsing.
+     * Sff tif {@link #pbrsf(String, PbrsfPosition)} mftiod for morf informbtion
+     * on mfssbgf pbrsing.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return An <code>Object</code> array parsed from the string.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @pbrbm sourdf A <dodf>String</dodf> wiosf bfginning siould bf pbrsfd.
+     * @rfturn An <dodf>Objfdt</dodf> brrby pbrsfd from tif string.
+     * @fxdfption PbrsfExdfption if tif bfginning of tif spfdififd string
+     *            dbnnot bf pbrsfd.
      */
-    public Object[] parse(String source) throws ParseException {
-        ParsePosition pos  = new ParsePosition(0);
-        Object[] result = parse(source, pos);
-        if (pos.index == 0)  // unchanged, returned object is null
-            throw new ParseException("MessageFormat parse error!", pos.errorIndex);
+    publid Objfdt[] pbrsf(String sourdf) tirows PbrsfExdfption {
+        PbrsfPosition pos  = nfw PbrsfPosition(0);
+        Objfdt[] rfsult = pbrsf(sourdf, pos);
+        if (pos.indfx == 0)  // undibngfd, rfturnfd objfdt is null
+            tirow nfw PbrsfExdfption("MfssbgfFormbt pbrsf frror!", pos.frrorIndfx);
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Parses text from a string to produce an object array.
+     * Pbrsfs tfxt from b string to produdf bn objfdt brrby.
      * <p>
-     * The method attempts to parse text starting at the index given by
-     * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * object array is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * Tif mftiod bttfmpts to pbrsf tfxt stbrting bt tif indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, tifn tif indfx of <dodf>pos</dodf> is updbtfd
+     * to tif indfx bftfr tif lbst dibrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dibrbdtfrs up to tif fnd of tif string), bnd tif pbrsfd
+     * objfdt brrby is rfturnfd. Tif updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf tif stbrting point for tif nfxt dbll to tiis mftiod.
+     * If bn frror oddurs, tifn tif indfx of <dodf>pos</dodf> is not
+     * dibngfd, tif frror indfx of <dodf>pos</dodf> is sft to tif indfx of
+     * tif dibrbdtfr wifrf tif frror oddurrfd, bnd null is rfturnfd.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on message parsing.
+     * Sff tif {@link #pbrsf(String, PbrsfPosition)} mftiod for morf informbtion
+     * on mfssbgf pbrsing.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error
-     *            index information as described above.
-     * @return An <code>Object</code> array parsed from the string. In case of
-     *         error, returns null.
-     * @exception NullPointerException if <code>pos</code> is null.
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of wiidi siould bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt witi indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn An <dodf>Objfdt</dodf> brrby pbrsfd from tif string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
      */
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
+    publid Objfdt pbrsfObjfdt(String sourdf, PbrsfPosition pos) {
+        rfturn pbrsf(sourdf, pos);
     }
 
     /**
-     * Creates and returns a copy of this object.
+     * Crfbtfs bnd rfturns b dopy of tiis objfdt.
      *
-     * @return a clone of this instance.
+     * @rfturn b dlonf of tiis instbndf.
      */
-    public Object clone() {
-        MessageFormat other = (MessageFormat) super.clone();
+    publid Objfdt dlonf() {
+        MfssbgfFormbt otifr = (MfssbgfFormbt) supfr.dlonf();
 
-        // clone arrays. Can't do with utility because of bug in Cloneable
-        other.formats = formats.clone(); // shallow clone
-        for (int i = 0; i < formats.length; ++i) {
-            if (formats[i] != null)
-                other.formats[i] = (Format)formats[i].clone();
+        // dlonf brrbys. Cbn't do witi utility bfdbusf of bug in Clonfbblf
+        otifr.formbts = formbts.dlonf(); // sibllow dlonf
+        for (int i = 0; i < formbts.lfngti; ++i) {
+            if (formbts[i] != null)
+                otifr.formbts[i] = (Formbt)formbts[i].dlonf();
         }
-        // for primitives or immutables, shallow clone is enough
-        other.offsets = offsets.clone();
-        other.argumentNumbers = argumentNumbers.clone();
+        // for primitivfs or immutbblfs, sibllow dlonf is fnougi
+        otifr.offsfts = offsfts.dlonf();
+        otifr.brgumfntNumbfrs = brgumfntNumbfrs.dlonf();
 
-        return other;
+        rfturn otifr;
     }
 
     /**
-     * Equality comparison between two message format objects
+     * Equblity dompbrison bftwffn two mfssbgf formbt objfdts
      */
-    public boolean equals(Object obj) {
-        if (this == obj)                      // quick check
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        MessageFormat other = (MessageFormat) obj;
-        return (maxOffset == other.maxOffset
-                && pattern.equals(other.pattern)
-                && ((locale != null && locale.equals(other.locale))
-                 || (locale == null && other.locale == null))
-                && Arrays.equals(offsets,other.offsets)
-                && Arrays.equals(argumentNumbers,other.argumentNumbers)
-                && Arrays.equals(formats,other.formats));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj)                      // quidk difdk
+            rfturn truf;
+        if (obj == null || gftClbss() != obj.gftClbss())
+            rfturn fblsf;
+        MfssbgfFormbt otifr = (MfssbgfFormbt) obj;
+        rfturn (mbxOffsft == otifr.mbxOffsft
+                && pbttfrn.fqubls(otifr.pbttfrn)
+                && ((lodblf != null && lodblf.fqubls(otifr.lodblf))
+                 || (lodblf == null && otifr.lodblf == null))
+                && Arrbys.fqubls(offsfts,otifr.offsfts)
+                && Arrbys.fqubls(brgumfntNumbfrs,otifr.brgumfntNumbfrs)
+                && Arrbys.fqubls(formbts,otifr.formbts));
     }
 
     /**
-     * Generates a hash code for the message format object.
+     * Gfnfrbtfs b ibsi dodf for tif mfssbgf formbt objfdt.
      */
-    public int hashCode() {
-        return pattern.hashCode(); // enough for reasonable distribution
+    publid int ibsiCodf() {
+        rfturn pbttfrn.ibsiCodf(); // fnougi for rfbsonbblf distribution
     }
 
 
     /**
-     * Defines constants that are used as attribute keys in the
-     * <code>AttributedCharacterIterator</code> returned
-     * from <code>MessageFormat.formatToCharacterIterator</code>.
+     * Dffinfs donstbnts tibt brf usfd bs bttributf kfys in tif
+     * <dodf>AttributfdCibrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>MfssbgfFormbt.formbtToCibrbdtfrItfrbtor</dodf>.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public static class Field extends Format.Field {
+    publid stbtid dlbss Fifld fxtfnds Formbt.Fifld {
 
-        // Proclaim serial compatibility with 1.4 FCS
-        private static final long serialVersionUID = 7899943957617360810L;
+        // Prodlbim sfribl dompbtibility witi 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 7899943957617360810L;
 
         /**
-         * Creates a Field with the specified name.
+         * Crfbtfs b Fifld witi tif spfdififd nbmf.
          *
-         * @param name Name of the attribute
+         * @pbrbm nbmf Nbmf of tif bttributf
          */
-        protected Field(String name) {
-            super(name);
+        protfdtfd Fifld(String nbmf) {
+            supfr(nbmf);
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to tif prfdffinfd donstbnts.
          *
-         * @throws InvalidObjectException if the constant could not be
-         *         resolved.
-         * @return resolved MessageFormat.Field constant
+         * @tirows InvblidObjfdtExdfption if tif donstbnt dould not bf
+         *         rfsolvfd.
+         * @rfturn rfsolvfd MfssbgfFormbt.Fifld donstbnt
          */
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != MessageFormat.Field.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        protfdtfd Objfdt rfbdRfsolvf() tirows InvblidObjfdtExdfption {
+            if (tiis.gftClbss() != MfssbgfFormbt.Fifld.dlbss) {
+                tirow nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
             }
 
-            return ARGUMENT;
+            rfturn ARGUMENT;
         }
 
         //
-        // The constants
+        // Tif donstbnts
         //
 
         /**
-         * Constant identifying a portion of a message that was generated
-         * from an argument passed into <code>formatToCharacterIterator</code>.
-         * The value associated with the key will be an <code>Integer</code>
-         * indicating the index in the <code>arguments</code> array of the
-         * argument from which the text was generated.
+         * Constbnt idfntifying b portion of b mfssbgf tibt wbs gfnfrbtfd
+         * from bn brgumfnt pbssfd into <dodf>formbtToCibrbdtfrItfrbtor</dodf>.
+         * Tif vbluf bssodibtfd witi tif kfy will bf bn <dodf>Intfgfr</dodf>
+         * indidbting tif indfx in tif <dodf>brgumfnts</dodf> brrby of tif
+         * brgumfnt from wiidi tif tfxt wbs gfnfrbtfd.
          */
-        public final static Field ARGUMENT =
-                           new Field("message argument field");
+        publid finbl stbtid Fifld ARGUMENT =
+                           nfw Fifld("mfssbgf brgumfnt fifld");
     }
 
-    // ===========================privates============================
+    // ===========================privbtfs============================
 
     /**
-     * The locale to use for formatting numbers and dates.
-     * @serial
+     * Tif lodblf to usf for formbtting numbfrs bnd dbtfs.
+     * @sfribl
      */
-    private Locale locale;
+    privbtf Lodblf lodblf;
 
     /**
-     * The string that the formatted values are to be plugged into.  In other words, this
-     * is the pattern supplied on construction with all of the {} expressions taken out.
-     * @serial
+     * Tif string tibt tif formbttfd vblufs brf to bf pluggfd into.  In otifr words, tiis
+     * is tif pbttfrn supplifd on donstrudtion witi bll of tif {} fxprfssions tbkfn out.
+     * @sfribl
      */
-    private String pattern = "";
+    privbtf String pbttfrn = "";
 
-    /** The initially expected number of subformats in the format */
-    private static final int INITIAL_FORMATS = 10;
+    /** Tif initiblly fxpfdtfd numbfr of subformbts in tif formbt */
+    privbtf stbtid finbl int INITIAL_FORMATS = 10;
 
     /**
-     * An array of formatters, which are used to format the arguments.
-     * @serial
+     * An brrby of formbttfrs, wiidi brf usfd to formbt tif brgumfnts.
+     * @sfribl
      */
-    private Format[] formats = new Format[INITIAL_FORMATS];
+    privbtf Formbt[] formbts = nfw Formbt[INITIAL_FORMATS];
 
     /**
-     * The positions where the results of formatting each argument are to be inserted
-     * into the pattern.
-     * @serial
+     * Tif positions wifrf tif rfsults of formbtting fbdi brgumfnt brf to bf insfrtfd
+     * into tif pbttfrn.
+     * @sfribl
      */
-    private int[] offsets = new int[INITIAL_FORMATS];
+    privbtf int[] offsfts = nfw int[INITIAL_FORMATS];
 
     /**
-     * The argument numbers corresponding to each formatter.  (The formatters are stored
-     * in the order they occur in the pattern, not in the order in which the arguments
-     * are specified.)
-     * @serial
+     * Tif brgumfnt numbfrs dorrfsponding to fbdi formbttfr.  (Tif formbttfrs brf storfd
+     * in tif ordfr tify oddur in tif pbttfrn, not in tif ordfr in wiidi tif brgumfnts
+     * brf spfdififd.)
+     * @sfribl
      */
-    private int[] argumentNumbers = new int[INITIAL_FORMATS];
+    privbtf int[] brgumfntNumbfrs = nfw int[INITIAL_FORMATS];
 
     /**
-     * One less than the number of entries in <code>offsets</code>.  Can also be thought of
-     * as the index of the highest-numbered element in <code>offsets</code> that is being used.
-     * All of these arrays should have the same number of elements being used as <code>offsets</code>
-     * does, and so this variable suffices to tell us how many entries are in all of them.
-     * @serial
+     * Onf lfss tibn tif numbfr of fntrifs in <dodf>offsfts</dodf>.  Cbn blso bf tiougit of
+     * bs tif indfx of tif iigifst-numbfrfd flfmfnt in <dodf>offsfts</dodf> tibt is bfing usfd.
+     * All of tifsf brrbys siould ibvf tif sbmf numbfr of flfmfnts bfing usfd bs <dodf>offsfts</dodf>
+     * dofs, bnd so tiis vbribblf suffidfs to tfll us iow mbny fntrifs brf in bll of tifm.
+     * @sfribl
      */
-    private int maxOffset = -1;
+    privbtf int mbxOffsft = -1;
 
     /**
-     * Internal routine used by format. If <code>characterIterators</code> is
-     * non-null, AttributedCharacterIterator will be created from the
-     * subformats as necessary. If <code>characterIterators</code> is null
-     * and <code>fp</code> is non-null and identifies
-     * <code>Field.MESSAGE_ARGUMENT</code>, the location of
-     * the first replaced argument will be set in it.
+     * Intfrnbl routinf usfd by formbt. If <dodf>dibrbdtfrItfrbtors</dodf> is
+     * non-null, AttributfdCibrbdtfrItfrbtor will bf drfbtfd from tif
+     * subformbts bs nfdfssbry. If <dodf>dibrbdtfrItfrbtors</dodf> is null
+     * bnd <dodf>fp</dodf> is non-null bnd idfntififs
+     * <dodf>Fifld.MESSAGE_ARGUMENT</dodf>, tif lodbtion of
+     * tif first rfplbdfd brgumfnt will bf sft in it.
      *
-     * @exception IllegalArgumentException if an argument in the
-     *            <code>arguments</code> array is not of the type
-     *            expected by the format element(s) that use it.
+     * @fxdfption IllfgblArgumfntExdfption if bn brgumfnt in tif
+     *            <dodf>brgumfnts</dodf> brrby is not of tif typf
+     *            fxpfdtfd by tif formbt flfmfnt(s) tibt usf it.
      */
-    private StringBuffer subformat(Object[] arguments, StringBuffer result,
-                                   FieldPosition fp, List<AttributedCharacterIterator> characterIterators) {
-        // note: this implementation assumes a fast substring & index.
-        // if this is not true, would be better to append chars one by one.
-        int lastOffset = 0;
-        int last = result.length();
-        for (int i = 0; i <= maxOffset; ++i) {
-            result.append(pattern.substring(lastOffset, offsets[i]));
-            lastOffset = offsets[i];
-            int argumentNumber = argumentNumbers[i];
-            if (arguments == null || argumentNumber >= arguments.length) {
-                result.append('{').append(argumentNumber).append('}');
-                continue;
+    privbtf StringBufffr subformbt(Objfdt[] brgumfnts, StringBufffr rfsult,
+                                   FifldPosition fp, List<AttributfdCibrbdtfrItfrbtor> dibrbdtfrItfrbtors) {
+        // notf: tiis implfmfntbtion bssumfs b fbst substring & indfx.
+        // if tiis is not truf, would bf bfttfr to bppfnd dibrs onf by onf.
+        int lbstOffsft = 0;
+        int lbst = rfsult.lfngti();
+        for (int i = 0; i <= mbxOffsft; ++i) {
+            rfsult.bppfnd(pbttfrn.substring(lbstOffsft, offsfts[i]));
+            lbstOffsft = offsfts[i];
+            int brgumfntNumbfr = brgumfntNumbfrs[i];
+            if (brgumfnts == null || brgumfntNumbfr >= brgumfnts.lfngti) {
+                rfsult.bppfnd('{').bppfnd(brgumfntNumbfr).bppfnd('}');
+                dontinuf;
             }
-            // int argRecursion = ((recursionProtection >> (argumentNumber*2)) & 0x3);
-            if (false) { // if (argRecursion == 3){
-                // prevent loop!!!
-                result.append('\uFFFD');
-            } else {
-                Object obj = arguments[argumentNumber];
-                String arg = null;
-                Format subFormatter = null;
+            // int brgRfdursion = ((rfdursionProtfdtion >> (brgumfntNumbfr*2)) & 0x3);
+            if (fblsf) { // if (brgRfdursion == 3){
+                // prfvfnt loop!!!
+                rfsult.bppfnd('\uFFFD');
+            } flsf {
+                Objfdt obj = brgumfnts[brgumfntNumbfr];
+                String brg = null;
+                Formbt subFormbttfr = null;
                 if (obj == null) {
-                    arg = "null";
-                } else if (formats[i] != null) {
-                    subFormatter = formats[i];
-                    if (subFormatter instanceof ChoiceFormat) {
-                        arg = formats[i].format(obj);
-                        if (arg.indexOf('{') >= 0) {
-                            subFormatter = new MessageFormat(arg, locale);
-                            obj = arguments;
-                            arg = null;
+                    brg = "null";
+                } flsf if (formbts[i] != null) {
+                    subFormbttfr = formbts[i];
+                    if (subFormbttfr instbndfof CioidfFormbt) {
+                        brg = formbts[i].formbt(obj);
+                        if (brg.indfxOf('{') >= 0) {
+                            subFormbttfr = nfw MfssbgfFormbt(brg, lodblf);
+                            obj = brgumfnts;
+                            brg = null;
                         }
                     }
-                } else if (obj instanceof Number) {
-                    // format number if can
-                    subFormatter = NumberFormat.getInstance(locale);
-                } else if (obj instanceof Date) {
-                    // format a Date if can
-                    subFormatter = DateFormat.getDateTimeInstance(
-                             DateFormat.SHORT, DateFormat.SHORT, locale);//fix
-                } else if (obj instanceof String) {
-                    arg = (String) obj;
+                } flsf if (obj instbndfof Numbfr) {
+                    // formbt numbfr if dbn
+                    subFormbttfr = NumbfrFormbt.gftInstbndf(lodblf);
+                } flsf if (obj instbndfof Dbtf) {
+                    // formbt b Dbtf if dbn
+                    subFormbttfr = DbtfFormbt.gftDbtfTimfInstbndf(
+                             DbtfFormbt.SHORT, DbtfFormbt.SHORT, lodblf);//fix
+                } flsf if (obj instbndfof String) {
+                    brg = (String) obj;
 
-                } else {
-                    arg = obj.toString();
-                    if (arg == null) arg = "null";
+                } flsf {
+                    brg = obj.toString();
+                    if (brg == null) brg = "null";
                 }
 
-                // At this point we are in two states, either subFormatter
-                // is non-null indicating we should format obj using it,
-                // or arg is non-null and we should use it as the value.
+                // At tiis point wf brf in two stbtfs, fitifr subFormbttfr
+                // is non-null indidbting wf siould formbt obj using it,
+                // or brg is non-null bnd wf siould usf it bs tif vbluf.
 
-                if (characterIterators != null) {
-                    // If characterIterators is non-null, it indicates we need
-                    // to get the CharacterIterator from the child formatter.
-                    if (last != result.length()) {
-                        characterIterators.add(
-                            createAttributedCharacterIterator(result.substring
-                                                              (last)));
-                        last = result.length();
+                if (dibrbdtfrItfrbtors != null) {
+                    // If dibrbdtfrItfrbtors is non-null, it indidbtfs wf nffd
+                    // to gft tif CibrbdtfrItfrbtor from tif diild formbttfr.
+                    if (lbst != rfsult.lfngti()) {
+                        dibrbdtfrItfrbtors.bdd(
+                            drfbtfAttributfdCibrbdtfrItfrbtor(rfsult.substring
+                                                              (lbst)));
+                        lbst = rfsult.lfngti();
                     }
-                    if (subFormatter != null) {
-                        AttributedCharacterIterator subIterator =
-                                   subFormatter.formatToCharacterIterator(obj);
+                    if (subFormbttfr != null) {
+                        AttributfdCibrbdtfrItfrbtor subItfrbtor =
+                                   subFormbttfr.formbtToCibrbdtfrItfrbtor(obj);
 
-                        append(result, subIterator);
-                        if (last != result.length()) {
-                            characterIterators.add(
-                                         createAttributedCharacterIterator(
-                                         subIterator, Field.ARGUMENT,
-                                         Integer.valueOf(argumentNumber)));
-                            last = result.length();
+                        bppfnd(rfsult, subItfrbtor);
+                        if (lbst != rfsult.lfngti()) {
+                            dibrbdtfrItfrbtors.bdd(
+                                         drfbtfAttributfdCibrbdtfrItfrbtor(
+                                         subItfrbtor, Fifld.ARGUMENT,
+                                         Intfgfr.vblufOf(brgumfntNumbfr)));
+                            lbst = rfsult.lfngti();
                         }
-                        arg = null;
+                        brg = null;
                     }
-                    if (arg != null && arg.length() > 0) {
-                        result.append(arg);
-                        characterIterators.add(
-                                 createAttributedCharacterIterator(
-                                 arg, Field.ARGUMENT,
-                                 Integer.valueOf(argumentNumber)));
-                        last = result.length();
+                    if (brg != null && brg.lfngti() > 0) {
+                        rfsult.bppfnd(brg);
+                        dibrbdtfrItfrbtors.bdd(
+                                 drfbtfAttributfdCibrbdtfrItfrbtor(
+                                 brg, Fifld.ARGUMENT,
+                                 Intfgfr.vblufOf(brgumfntNumbfr)));
+                        lbst = rfsult.lfngti();
                     }
                 }
-                else {
-                    if (subFormatter != null) {
-                        arg = subFormatter.format(obj);
+                flsf {
+                    if (subFormbttfr != null) {
+                        brg = subFormbttfr.formbt(obj);
                     }
-                    last = result.length();
-                    result.append(arg);
-                    if (i == 0 && fp != null && Field.ARGUMENT.equals(
-                                  fp.getFieldAttribute())) {
-                        fp.setBeginIndex(last);
-                        fp.setEndIndex(result.length());
+                    lbst = rfsult.lfngti();
+                    rfsult.bppfnd(brg);
+                    if (i == 0 && fp != null && Fifld.ARGUMENT.fqubls(
+                                  fp.gftFifldAttributf())) {
+                        fp.sftBfginIndfx(lbst);
+                        fp.sftEndIndfx(rfsult.lfngti());
                     }
-                    last = result.length();
+                    lbst = rfsult.lfngti();
                 }
             }
         }
-        result.append(pattern.substring(lastOffset, pattern.length()));
-        if (characterIterators != null && last != result.length()) {
-            characterIterators.add(createAttributedCharacterIterator(
-                                   result.substring(last)));
+        rfsult.bppfnd(pbttfrn.substring(lbstOffsft, pbttfrn.lfngti()));
+        if (dibrbdtfrItfrbtors != null && lbst != rfsult.lfngti()) {
+            dibrbdtfrItfrbtors.bdd(drfbtfAttributfdCibrbdtfrItfrbtor(
+                                   rfsult.substring(lbst)));
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Convenience method to append all the characters in
-     * <code>iterator</code> to the StringBuffer <code>result</code>.
+     * Convfnifndf mftiod to bppfnd bll tif dibrbdtfrs in
+     * <dodf>itfrbtor</dodf> to tif StringBufffr <dodf>rfsult</dodf>.
      */
-    private void append(StringBuffer result, CharacterIterator iterator) {
-        if (iterator.first() != CharacterIterator.DONE) {
-            char aChar;
+    privbtf void bppfnd(StringBufffr rfsult, CibrbdtfrItfrbtor itfrbtor) {
+        if (itfrbtor.first() != CibrbdtfrItfrbtor.DONE) {
+            dibr bCibr;
 
-            result.append(iterator.first());
-            while ((aChar = iterator.next()) != CharacterIterator.DONE) {
-                result.append(aChar);
+            rfsult.bppfnd(itfrbtor.first());
+            wiilf ((bCibr = itfrbtor.nfxt()) != CibrbdtfrItfrbtor.DONE) {
+                rfsult.bppfnd(bCibr);
             }
         }
     }
 
-    // Indices for segments
-    private static final int SEG_RAW      = 0;
-    private static final int SEG_INDEX    = 1;
-    private static final int SEG_TYPE     = 2;
-    private static final int SEG_MODIFIER = 3; // modifier or subformat
+    // Indidfs for sfgmfnts
+    privbtf stbtid finbl int SEG_RAW      = 0;
+    privbtf stbtid finbl int SEG_INDEX    = 1;
+    privbtf stbtid finbl int SEG_TYPE     = 2;
+    privbtf stbtid finbl int SEG_MODIFIER = 3; // modififr or subformbt
 
-    // Indices for type keywords
-    private static final int TYPE_NULL    = 0;
-    private static final int TYPE_NUMBER  = 1;
-    private static final int TYPE_DATE    = 2;
-    private static final int TYPE_TIME    = 3;
-    private static final int TYPE_CHOICE  = 4;
+    // Indidfs for typf kfywords
+    privbtf stbtid finbl int TYPE_NULL    = 0;
+    privbtf stbtid finbl int TYPE_NUMBER  = 1;
+    privbtf stbtid finbl int TYPE_DATE    = 2;
+    privbtf stbtid finbl int TYPE_TIME    = 3;
+    privbtf stbtid finbl int TYPE_CHOICE  = 4;
 
-    private static final String[] TYPE_KEYWORDS = {
+    privbtf stbtid finbl String[] TYPE_KEYWORDS = {
         "",
-        "number",
-        "date",
-        "time",
-        "choice"
+        "numbfr",
+        "dbtf",
+        "timf",
+        "dioidf"
     };
 
-    // Indices for number modifiers
-    private static final int MODIFIER_DEFAULT  = 0; // common in number and date-time
-    private static final int MODIFIER_CURRENCY = 1;
-    private static final int MODIFIER_PERCENT  = 2;
-    private static final int MODIFIER_INTEGER  = 3;
+    // Indidfs for numbfr modififrs
+    privbtf stbtid finbl int MODIFIER_DEFAULT  = 0; // dommon in numbfr bnd dbtf-timf
+    privbtf stbtid finbl int MODIFIER_CURRENCY = 1;
+    privbtf stbtid finbl int MODIFIER_PERCENT  = 2;
+    privbtf stbtid finbl int MODIFIER_INTEGER  = 3;
 
-    private static final String[] NUMBER_MODIFIER_KEYWORDS = {
+    privbtf stbtid finbl String[] NUMBER_MODIFIER_KEYWORDS = {
         "",
-        "currency",
-        "percent",
-        "integer"
+        "durrfndy",
+        "pfrdfnt",
+        "intfgfr"
     };
 
-    // Indices for date-time modifiers
-    private static final int MODIFIER_SHORT   = 1;
-    private static final int MODIFIER_MEDIUM  = 2;
-    private static final int MODIFIER_LONG    = 3;
-    private static final int MODIFIER_FULL    = 4;
+    // Indidfs for dbtf-timf modififrs
+    privbtf stbtid finbl int MODIFIER_SHORT   = 1;
+    privbtf stbtid finbl int MODIFIER_MEDIUM  = 2;
+    privbtf stbtid finbl int MODIFIER_LONG    = 3;
+    privbtf stbtid finbl int MODIFIER_FULL    = 4;
 
-    private static final String[] DATE_TIME_MODIFIER_KEYWORDS = {
+    privbtf stbtid finbl String[] DATE_TIME_MODIFIER_KEYWORDS = {
         "",
-        "short",
-        "medium",
+        "siort",
+        "mfdium",
         "long",
         "full"
     };
 
-    // Date-time style values corresponding to the date-time modifiers.
-    private static final int[] DATE_TIME_MODIFIERS = {
-        DateFormat.DEFAULT,
-        DateFormat.SHORT,
-        DateFormat.MEDIUM,
-        DateFormat.LONG,
-        DateFormat.FULL,
+    // Dbtf-timf stylf vblufs dorrfsponding to tif dbtf-timf modififrs.
+    privbtf stbtid finbl int[] DATE_TIME_MODIFIERS = {
+        DbtfFormbt.DEFAULT,
+        DbtfFormbt.SHORT,
+        DbtfFormbt.MEDIUM,
+        DbtfFormbt.LONG,
+        DbtfFormbt.FULL,
     };
 
-    private void makeFormat(int position, int offsetNumber,
-                            StringBuilder[] textSegments)
+    privbtf void mbkfFormbt(int position, int offsftNumbfr,
+                            StringBuildfr[] tfxtSfgmfnts)
     {
-        String[] segments = new String[textSegments.length];
-        for (int i = 0; i < textSegments.length; i++) {
-            StringBuilder oneseg = textSegments[i];
-            segments[i] = (oneseg != null) ? oneseg.toString() : "";
+        String[] sfgmfnts = nfw String[tfxtSfgmfnts.lfngti];
+        for (int i = 0; i < tfxtSfgmfnts.lfngti; i++) {
+            StringBuildfr onfsfg = tfxtSfgmfnts[i];
+            sfgmfnts[i] = (onfsfg != null) ? onfsfg.toString() : "";
         }
 
-        // get the argument number
-        int argumentNumber;
+        // gft tif brgumfnt numbfr
+        int brgumfntNumbfr;
         try {
-            argumentNumber = Integer.parseInt(segments[SEG_INDEX]); // always unlocalized!
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("can't parse argument number: "
-                                               + segments[SEG_INDEX], e);
+            brgumfntNumbfr = Intfgfr.pbrsfInt(sfgmfnts[SEG_INDEX]); // blwbys unlodblizfd!
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("dbn't pbrsf brgumfnt numbfr: "
+                                               + sfgmfnts[SEG_INDEX], f);
         }
-        if (argumentNumber < 0) {
-            throw new IllegalArgumentException("negative argument number: "
-                                               + argumentNumber);
+        if (brgumfntNumbfr < 0) {
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf brgumfnt numbfr: "
+                                               + brgumfntNumbfr);
         }
 
-        // resize format information arrays if necessary
-        if (offsetNumber >= formats.length) {
-            int newLength = formats.length * 2;
-            Format[] newFormats = new Format[newLength];
-            int[] newOffsets = new int[newLength];
-            int[] newArgumentNumbers = new int[newLength];
-            System.arraycopy(formats, 0, newFormats, 0, maxOffset + 1);
-            System.arraycopy(offsets, 0, newOffsets, 0, maxOffset + 1);
-            System.arraycopy(argumentNumbers, 0, newArgumentNumbers, 0, maxOffset + 1);
-            formats = newFormats;
-            offsets = newOffsets;
-            argumentNumbers = newArgumentNumbers;
+        // rfsizf formbt informbtion brrbys if nfdfssbry
+        if (offsftNumbfr >= formbts.lfngti) {
+            int nfwLfngti = formbts.lfngti * 2;
+            Formbt[] nfwFormbts = nfw Formbt[nfwLfngti];
+            int[] nfwOffsfts = nfw int[nfwLfngti];
+            int[] nfwArgumfntNumbfrs = nfw int[nfwLfngti];
+            Systfm.brrbydopy(formbts, 0, nfwFormbts, 0, mbxOffsft + 1);
+            Systfm.brrbydopy(offsfts, 0, nfwOffsfts, 0, mbxOffsft + 1);
+            Systfm.brrbydopy(brgumfntNumbfrs, 0, nfwArgumfntNumbfrs, 0, mbxOffsft + 1);
+            formbts = nfwFormbts;
+            offsfts = nfwOffsfts;
+            brgumfntNumbfrs = nfwArgumfntNumbfrs;
         }
-        int oldMaxOffset = maxOffset;
-        maxOffset = offsetNumber;
-        offsets[offsetNumber] = segments[SEG_RAW].length();
-        argumentNumbers[offsetNumber] = argumentNumber;
+        int oldMbxOffsft = mbxOffsft;
+        mbxOffsft = offsftNumbfr;
+        offsfts[offsftNumbfr] = sfgmfnts[SEG_RAW].lfngti();
+        brgumfntNumbfrs[offsftNumbfr] = brgumfntNumbfr;
 
-        // now get the format
-        Format newFormat = null;
-        if (segments[SEG_TYPE].length() != 0) {
-            int type = findKeyword(segments[SEG_TYPE], TYPE_KEYWORDS);
-            switch (type) {
-            case TYPE_NULL:
-                // Type "" is allowed. e.g., "{0,}", "{0,,}", and "{0,,#}"
-                // are treated as "{0}".
-                break;
+        // now gft tif formbt
+        Formbt nfwFormbt = null;
+        if (sfgmfnts[SEG_TYPE].lfngti() != 0) {
+            int typf = findKfyword(sfgmfnts[SEG_TYPE], TYPE_KEYWORDS);
+            switdi (typf) {
+            dbsf TYPE_NULL:
+                // Typf "" is bllowfd. f.g., "{0,}", "{0,,}", bnd "{0,,#}"
+                // brf trfbtfd bs "{0}".
+                brfbk;
 
-            case TYPE_NUMBER:
-                switch (findKeyword(segments[SEG_MODIFIER], NUMBER_MODIFIER_KEYWORDS)) {
-                case MODIFIER_DEFAULT:
-                    newFormat = NumberFormat.getInstance(locale);
-                    break;
-                case MODIFIER_CURRENCY:
-                    newFormat = NumberFormat.getCurrencyInstance(locale);
-                    break;
-                case MODIFIER_PERCENT:
-                    newFormat = NumberFormat.getPercentInstance(locale);
-                    break;
-                case MODIFIER_INTEGER:
-                    newFormat = NumberFormat.getIntegerInstance(locale);
-                    break;
-                default: // DecimalFormat pattern
+            dbsf TYPE_NUMBER:
+                switdi (findKfyword(sfgmfnts[SEG_MODIFIER], NUMBER_MODIFIER_KEYWORDS)) {
+                dbsf MODIFIER_DEFAULT:
+                    nfwFormbt = NumbfrFormbt.gftInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_CURRENCY:
+                    nfwFormbt = NumbfrFormbt.gftCurrfndyInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_PERCENT:
+                    nfwFormbt = NumbfrFormbt.gftPfrdfntInstbndf(lodblf);
+                    brfbk;
+                dbsf MODIFIER_INTEGER:
+                    nfwFormbt = NumbfrFormbt.gftIntfgfrInstbndf(lodblf);
+                    brfbk;
+                dffbult: // DfdimblFormbt pbttfrn
                     try {
-                        newFormat = new DecimalFormat(segments[SEG_MODIFIER],
-                                                      DecimalFormatSymbols.getInstance(locale));
-                    } catch (IllegalArgumentException e) {
-                        maxOffset = oldMaxOffset;
-                        throw e;
+                        nfwFormbt = nfw DfdimblFormbt(sfgmfnts[SEG_MODIFIER],
+                                                      DfdimblFormbtSymbols.gftInstbndf(lodblf));
+                    } dbtdi (IllfgblArgumfntExdfption f) {
+                        mbxOffsft = oldMbxOffsft;
+                        tirow f;
                     }
-                    break;
+                    brfbk;
                 }
-                break;
+                brfbk;
 
-            case TYPE_DATE:
-            case TYPE_TIME:
-                int mod = findKeyword(segments[SEG_MODIFIER], DATE_TIME_MODIFIER_KEYWORDS);
-                if (mod >= 0 && mod < DATE_TIME_MODIFIER_KEYWORDS.length) {
-                    if (type == TYPE_DATE) {
-                        newFormat = DateFormat.getDateInstance(DATE_TIME_MODIFIERS[mod],
-                                                               locale);
-                    } else {
-                        newFormat = DateFormat.getTimeInstance(DATE_TIME_MODIFIERS[mod],
-                                                               locale);
+            dbsf TYPE_DATE:
+            dbsf TYPE_TIME:
+                int mod = findKfyword(sfgmfnts[SEG_MODIFIER], DATE_TIME_MODIFIER_KEYWORDS);
+                if (mod >= 0 && mod < DATE_TIME_MODIFIER_KEYWORDS.lfngti) {
+                    if (typf == TYPE_DATE) {
+                        nfwFormbt = DbtfFormbt.gftDbtfInstbndf(DATE_TIME_MODIFIERS[mod],
+                                                               lodblf);
+                    } flsf {
+                        nfwFormbt = DbtfFormbt.gftTimfInstbndf(DATE_TIME_MODIFIERS[mod],
+                                                               lodblf);
                     }
-                } else {
-                    // SimpleDateFormat pattern
+                } flsf {
+                    // SimplfDbtfFormbt pbttfrn
                     try {
-                        newFormat = new SimpleDateFormat(segments[SEG_MODIFIER], locale);
-                    } catch (IllegalArgumentException e) {
-                        maxOffset = oldMaxOffset;
-                        throw e;
+                        nfwFormbt = nfw SimplfDbtfFormbt(sfgmfnts[SEG_MODIFIER], lodblf);
+                    } dbtdi (IllfgblArgumfntExdfption f) {
+                        mbxOffsft = oldMbxOffsft;
+                        tirow f;
                     }
                 }
-                break;
+                brfbk;
 
-            case TYPE_CHOICE:
+            dbsf TYPE_CHOICE:
                 try {
-                    // ChoiceFormat pattern
-                    newFormat = new ChoiceFormat(segments[SEG_MODIFIER]);
-                } catch (Exception e) {
-                    maxOffset = oldMaxOffset;
-                    throw new IllegalArgumentException("Choice Pattern incorrect: "
-                                                       + segments[SEG_MODIFIER], e);
+                    // CioidfFormbt pbttfrn
+                    nfwFormbt = nfw CioidfFormbt(sfgmfnts[SEG_MODIFIER]);
+                } dbtdi (Exdfption f) {
+                    mbxOffsft = oldMbxOffsft;
+                    tirow nfw IllfgblArgumfntExdfption("Cioidf Pbttfrn indorrfdt: "
+                                                       + sfgmfnts[SEG_MODIFIER], f);
                 }
-                break;
+                brfbk;
 
-            default:
-                maxOffset = oldMaxOffset;
-                throw new IllegalArgumentException("unknown format type: " +
-                                                   segments[SEG_TYPE]);
+            dffbult:
+                mbxOffsft = oldMbxOffsft;
+                tirow nfw IllfgblArgumfntExdfption("unknown formbt typf: " +
+                                                   sfgmfnts[SEG_TYPE]);
             }
         }
-        formats[offsetNumber] = newFormat;
+        formbts[offsftNumbfr] = nfwFormbt;
     }
 
-    private static final int findKeyword(String s, String[] list) {
-        for (int i = 0; i < list.length; ++i) {
-            if (s.equals(list[i]))
-                return i;
+    privbtf stbtid finbl int findKfyword(String s, String[] list) {
+        for (int i = 0; i < list.lfngti; ++i) {
+            if (s.fqubls(list[i]))
+                rfturn i;
         }
 
-        // Try trimmed lowercase.
-        String ls = s.trim().toLowerCase(Locale.ROOT);
+        // Try trimmfd lowfrdbsf.
+        String ls = s.trim().toLowfrCbsf(Lodblf.ROOT);
         if (ls != s) {
-            for (int i = 0; i < list.length; ++i) {
-                if (ls.equals(list[i]))
-                    return i;
+            for (int i = 0; i < list.lfngti; ++i) {
+                if (ls.fqubls(list[i]))
+                    rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    private static final void copyAndFixQuotes(String source, int start, int end,
-                                               StringBuilder target) {
-        boolean quoted = false;
+    privbtf stbtid finbl void dopyAndFixQuotfs(String sourdf, int stbrt, int fnd,
+                                               StringBuildfr tbrgft) {
+        boolfbn quotfd = fblsf;
 
-        for (int i = start; i < end; ++i) {
-            char ch = source.charAt(i);
-            if (ch == '{') {
-                if (!quoted) {
-                    target.append('\'');
-                    quoted = true;
+        for (int i = stbrt; i < fnd; ++i) {
+            dibr di = sourdf.dibrAt(i);
+            if (di == '{') {
+                if (!quotfd) {
+                    tbrgft.bppfnd('\'');
+                    quotfd = truf;
                 }
-                target.append(ch);
-            } else if (ch == '\'') {
-                target.append("''");
-            } else {
-                if (quoted) {
-                    target.append('\'');
-                    quoted = false;
+                tbrgft.bppfnd(di);
+            } flsf if (di == '\'') {
+                tbrgft.bppfnd("''");
+            } flsf {
+                if (quotfd) {
+                    tbrgft.bppfnd('\'');
+                    quotfd = fblsf;
                 }
-                target.append(ch);
+                tbrgft.bppfnd(di);
             }
         }
-        if (quoted) {
-            target.append('\'');
+        if (quotfd) {
+            tbrgft.bppfnd('\'');
         }
     }
 
     /**
-     * After reading an object from the input stream, do a simple verification
-     * to maintain class invariants.
-     * @throws InvalidObjectException if the objects read from the stream is invalid.
+     * Aftfr rfbding bn objfdt from tif input strfbm, do b simplf vfrifidbtion
+     * to mbintbin dlbss invbribnts.
+     * @tirows InvblidObjfdtExdfption if tif objfdts rfbd from tif strfbm is invblid.
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        boolean isValid = maxOffset >= -1
-                && formats.length > maxOffset
-                && offsets.length > maxOffset
-                && argumentNumbers.length > maxOffset;
-        if (isValid) {
-            int lastOffset = pattern.length() + 1;
-            for (int i = maxOffset; i >= 0; --i) {
-                if ((offsets[i] < 0) || (offsets[i] > lastOffset)) {
-                    isValid = false;
-                    break;
-                } else {
-                    lastOffset = offsets[i];
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        boolfbn isVblid = mbxOffsft >= -1
+                && formbts.lfngti > mbxOffsft
+                && offsfts.lfngti > mbxOffsft
+                && brgumfntNumbfrs.lfngti > mbxOffsft;
+        if (isVblid) {
+            int lbstOffsft = pbttfrn.lfngti() + 1;
+            for (int i = mbxOffsft; i >= 0; --i) {
+                if ((offsfts[i] < 0) || (offsfts[i] > lbstOffsft)) {
+                    isVblid = fblsf;
+                    brfbk;
+                } flsf {
+                    lbstOffsft = offsfts[i];
                 }
             }
         }
-        if (!isValid) {
-            throw new InvalidObjectException("Could not reconstruct MessageFormat from corrupt stream.");
+        if (!isVblid) {
+            tirow nfw InvblidObjfdtExdfption("Could not rfdonstrudt MfssbgfFormbt from dorrupt strfbm.");
         }
     }
 }

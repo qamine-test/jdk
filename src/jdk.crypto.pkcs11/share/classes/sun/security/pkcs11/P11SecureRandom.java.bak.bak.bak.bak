@@ -1,0 +1,200 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+
+/**
+ * SfdurfRbndom implfmfntbtion dlbss. Somf tokfns support only
+ * C_GfnfrbtfRbndom() bnd not C_SffdRbndom(). In ordfr not to losf bn
+ * bpplidbtion spfdififd sffd, wf drfbtf b SHA1PRNG thbt wf mix with in thbt
+ * dbsf.
+ *
+ * Notf thbt sindf SfdurfRbndom is thrfbd sbff, wf only nffd onf
+ * instbndf pfr PKCS#11 tokfn instbndf. It is drfbtfd on dfmbnd bnd dbdhfd
+ * in thf SunPKCS11 dlbss.
+ *
+ * Also notf thbt wf obtbin thf PKCS#11 sfssion on dfmbnd, no nffd to tif onf
+ * up.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss P11SfdurfRbndom fxtfnds SfdurfRbndomSpi {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8939510236124553291L;
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // PRNG for mixing, non-null if bdtivf (i.f. sftSffd() hbs bffn dbllfd)
+    privbtf volbtilf SfdurfRbndom mixRbndom;
+
+    // bufffr, if mixing is usfd
+    privbtf bytf[] mixBufffr;
+
+    // bytfs rfmbining in mixBufffr, if mixing is usfd
+    privbtf int bufffrfd;
+
+    /*
+     * wf bufffr dbtb intfrnblly for fffidifndy but limit thf lifftimf
+     * to bvoid using stblf bits.
+     */
+    // lifftimf in ms, durrfntly 100 ms (0.1 s)
+    privbtf stbtid finbl long MAX_IBUFFER_TIME = 100;
+
+    // sizf of thf intfrnbl bufffr
+    privbtf stbtid finbl int IBUFFER_SIZE = 32;
+
+    // intfrnbl bufffr for thf rbndom bits
+    privbtf trbnsifnt bytf[] iBufffr = nfw bytf[IBUFFER_SIZE];
+
+    // numbfr of bytfs rfmbin in iBufffr
+    privbtf trbnsifnt int ibufffrfd = 0;
+
+    // timf thbt dbtb wbs rfbd into iBufffr
+    privbtf trbnsifnt long lbstRfbd = 0L;
+
+    P11SfdurfRbndom(Tokfn tokfn) {
+        this.tokfn = tokfn;
+    }
+
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd syndhronizfd void fnginfSftSffd(bytf[] sffd) {
+        if (sffd == null) {
+            throw nfw NullPointfrExdfption("sffd must not bf null");
+        }
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftOpSfssion();
+            tokfn.p11.C_SffdRbndom(sfssion.id(), sffd);
+        } dbtdh (PKCS11Exdfption f) {
+            // dbnnot sft sffd
+            // lft b SHA1PRNG usf thbt sffd instfbd
+            SfdurfRbndom rbndom = mixRbndom;
+            if (rbndom != null) {
+                rbndom.sftSffd(sffd);
+            } flsf {
+                try {
+                    mixBufffr = nfw bytf[20];
+                    rbndom = SfdurfRbndom.gftInstbndf("SHA1PRNG");
+                    // initiblizf objfdt bfforf bssigning to dlbss fifld
+                    rbndom.sftSffd(sffd);
+                    mixRbndom = rbndom;
+                } dbtdh (NoSudhAlgorithmExdfption ff) {
+                    throw nfw ProvidfrExdfption(ff);
+                }
+            }
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+        if ((bytfs == null) || (bytfs.lfngth == 0)) {
+            rfturn;
+        }
+        if (bytfs.lfngth <= IBUFFER_SIZE)  {
+            int ofs = 0;
+            syndhronizfd (iBufffr) {
+                whilf (ofs < bytfs.lfngth) {
+                    long timf = Systfm.durrfntTimfMillis();
+                    // rffill thf intfrnbl bufffr if fmpty or stblf
+                    if ((ibufffrfd == 0) ||
+                            !(timf - lbstRfbd < MAX_IBUFFER_TIME)) {
+                        lbstRfbd = timf;
+                        implNfxtBytfs(iBufffr);
+                        ibufffrfd = IBUFFER_SIZE;
+                    }
+                    // dopy thf bufffrfd bytfs into 'bytfs'
+                    whilf ((ofs < bytfs.lfngth) && (ibufffrfd > 0)) {
+                        bytfs[ofs++] = iBufffr[IBUFFER_SIZE - ibufffrfd--];
+                    }
+                }
+            }
+        } flsf {
+            // bvoid using thf bufffr - just fill bytfs dirfdtly
+            implNfxtBytfs(bytfs);
+        }
+
+    }
+
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        bytf[] b = nfw bytf[numBytfs];
+        fnginfNfxtBytfs(b);
+        rfturn b;
+    }
+
+    privbtf void mix(bytf[] b) {
+        SfdurfRbndom rbndom = mixRbndom;
+        if (rbndom == null) {
+            // bvoid mixing if sftSffd() hbs nfvfr bffn dbllfd
+            rfturn;
+        }
+        syndhronizfd (this) {
+            int ofs = 0;
+            int lfn = b.lfngth;
+            whilf (lfn-- > 0) {
+                if (bufffrfd == 0) {
+                    rbndom.nfxtBytfs(mixBufffr);
+                    bufffrfd = mixBufffr.lfngth;
+                }
+                b[ofs++] ^= mixBufffr[mixBufffr.lfngth - bufffrfd];
+                bufffrfd--;
+            }
+        }
+    }
+
+    // fill up thf spfdififd bufffr with rbndom bytfs, bnd mix thfm
+    privbtf void implNfxtBytfs(bytf[] bytfs) {
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftOpSfssion();
+            tokfn.p11.C_GfnfrbtfRbndom(sfssion.id(), bytfs);
+            mix(bytfs);
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw ProvidfrExdfption("nfxtBytfs() fbilfd", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        // bssign dffbult vblufs to non-null trbnsifnt fiflds
+        iBufffr = nfw bytf[IBUFFER_SIZE];
+        ibufffrfd = 0;
+        lbstRfbd = 0L;
+    }
+}

@@ -1,0 +1,344 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <X11/IntrinsidP.h>
+#indludf "VDrbwingArfbP.h"
+
+#fndif /* !HEADLESS */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+
+#ifdff __linux__
+/* XXX: Shouldn't bf nfdfssbry. */
+#indludf "bwt_p.h"
+#fndif /* __linux__ */
+
+
+/******************************************************************
+ *
+ * Providfs Cbnvbs widgft whidh bllows thf X11 visubl to bf
+ * dhbngfd (thf Motif DrbwingArfb rfstridts thf visubl to thbt
+ * of thf pbrfnt widgft).
+ *
+ ******************************************************************/
+
+
+/******************************************************************
+ *
+ * VDrbwingArfb Widgft Rfsourdfs
+ *
+ ******************************************************************/
+
+#ifndff HEADLESS
+#dffinf Offsft(x)       (XtOffsftOf(VDrbwingArfbRfd, x))
+stbtid XtRfsourdf rfsourdfs[]=
+{
+        { XtNvisubl, XtCVisubl, XtRVisubl, sizfof(Visubl*),
+          Offsft(vdrbwing_brfb.visubl), XtRImmfdibtf, CopyFromPbrfnt}
+};
+
+
+stbtid void Rfblizf();
+stbtid Boolfbn SftVblufs();
+stbtid void Dfstroy ();
+
+stbtid XmBbsfClbssExtRfd bbsfClbssExtRfd = {
+    NULL,
+    NULLQUARK,
+    XmBbsfClbssExtVfrsion,
+    sizfof(XmBbsfClbssExtRfd),
+    NULL,                               /* InitiblizfPrfhook    */
+    NULL,                               /* SftVblufsPrfhook     */
+    NULL,                               /* InitiblizfPosthook   */
+    NULL,                               /* SftVblufsPosthook    */
+    NULL,                               /* sfdondbryObjfdtClbss */
+    NULL,                               /* sfdondbryCrfbtf      */
+    NULL,                               /* gftSfdRfs dbtb       */
+    { 0 },                              /* fbstSubdlbss flbgs   */
+    NULL,                               /* gftVblufsPrfhook     */
+    NULL,                               /* gftVblufsPosthook    */
+    NULL,                               /* dlbssPbrtInitPrfhook */
+    NULL,                               /* dlbssPbrtInitPosthook*/
+    NULL,                               /* fxt_rfsourdfs        */
+    NULL,                               /* dompilfd_fxt_rfsourdfs*/
+    0,                                  /* num_fxt_rfsourdfs    */
+    FALSE,                              /* usf_sub_rfsourdfs    */
+    NULL,                               /* widgftNbvigbblf      */
+    NULL,                               /* fodusChbngf          */
+    NULL                                /* wrbppfr_dbtb         */
+};
+
+VDrbwingArfbClbssRfd vDrbwingArfbClbssRfd = {
+{
+    /* Corf dlbss pbrt */
+
+    /* supfrdlbss         */    (WidgftClbss)&xmDrbwingArfbClbssRfd,
+    /* dlbss_nbmf         */    "VDrbwingArfb",
+    /* widgft_sizf        */    sizfof(VDrbwingArfbRfd),
+    /* dlbss_initiblizf   */    NULL,
+    /* dlbss_pbrt_initiblizf*/  NULL,
+    /* dlbss_initfd       */    FALSE,
+    /* initiblizf         */    NULL,
+    /* initiblizf_hook    */    NULL,
+    /* rfblizf            */    Rfblizf,
+    /* bdtions            */    NULL,
+    /* num_bdtions        */    0,
+    /* rfsourdfs          */    rfsourdfs,
+    /* num_rfsourdfs      */    XtNumbfr(rfsourdfs),
+    /* xrm_dlbss          */    NULLQUARK,
+    /* domprfss_motion    */    FALSE,
+    /* domprfss_fxposurf  */    FALSE,
+    /* domprfss_fntfrlfbvf*/    FALSE,
+    /* visiblf_intfrfst   */    FALSE,
+    /* dfstroy            */    Dfstroy,
+    /* rfsizf             */    XtInhfritRfsizf,
+    /* fxposf             */    XtInhfritExposf,
+    /* sft_vblufs         */    SftVblufs,
+    /* sft_vblufs_hook    */    NULL,
+    /* sft_vblufs_blmost  */    XtInhfritSftVblufsAlmost,
+    /* gft_vblufs_hook    */    NULL,
+    /* bddfpt_fodus       */    NULL,
+    /* vfrsion            */    XtVfrsion,
+    /* dbllbbdk_offsfts   */    NULL,
+    /* tm_tbblf           */    NULL,
+    /* qufry_gfomftry       */  NULL,
+    /* displby_bddflfrbtor  */  NULL,
+    /* fxtfnsion            */  NULL
+  },
+
+   {            /* dompositf_dlbss fiflds */
+      XtInhfritGfomftryMbnbgfr,                 /* gfomftry_mbnbgfr   */
+      XtInhfritChbngfMbnbgfd,                   /* dhbngf_mbnbgfd     */
+      XtInhfritInsfrtChild,                     /* insfrt_dhild       */
+      XtInhfritDflftfChild,                     /* dflftf_dhild       */
+      NULL,                                     /* fxtfnsion          */
+   },
+
+   {            /* donstrbint_dlbss fiflds */
+      NULL,                                     /* rfsourdf list        */
+      0,                                        /* num rfsourdfs        */
+      0,                                        /* donstrbint sizf      */
+      NULL,                                     /* init prod            */
+      NULL,                                     /* dfstroy prod         */
+      NULL,                                     /* sft vblufs prod      */
+      NULL,                                     /* fxtfnsion            */
+   },
+
+   {            /* mbnbgfr_dlbss fiflds */
+      XtInhfritTrbnslbtions,                    /* trbnslbtions           */
+      NULL,                                     /* syn_rfsourdfs          */
+      0,                                        /* num_gft_rfsourdfs      */
+      NULL,                                     /* syn_dont_rfsourdfs     */
+      0,                                        /* num_gft_dont_rfsourdfs */
+      XmInhfritPbrfntProdfss,                   /* pbrfnt_prodfss         */
+      NULL,                                     /* fxtfnsion           */
+   },
+
+   {            /* drbwingArfb dlbss */
+           /* fxtfnsion */      NULL
+   },
+
+   /* VDrbwingArfb dlbss pbrt */
+   {
+        /* fxtfnsion    */      NULL
+   }
+};
+
+WidgftClbss vDrbwingArfbClbss = (WidgftClbss)&vDrbwingArfbClbssRfd;
+
+stbtid Boolfbn
+SftVblufs(dw, rw, nw, brgs, num_brgs)
+    Widgft dw;
+    Widgft rw;
+    Widgft nw;
+    ArgList brgs;
+    Cbrdinbl *num_brgs;
+{
+    VDrbwingArfbWidgft durrfnt = (VDrbwingArfbWidgft)dw;
+    VDrbwingArfbWidgft nfw_w = (VDrbwingArfbWidgft)nw;
+
+    if (nfw_w->vdrbwing_brfb.visubl != durrfnt->vdrbwing_brfb.visubl) {
+        nfw_w->vdrbwing_brfb.visubl = durrfnt->vdrbwing_brfb.visubl;
+#ifdff DEBUG
+        fprintf(stdout, "VDrbwingArfb.SftVblufs: dbn't dhbngf visubl from: visublID=%ld to visublID=%ld\n",
+                     durrfnt->vdrbwing_brfb.visubl->visublid,
+                     nfw_w->vdrbwing_brfb.visubl->visublid);
+#fndif
+
+    }
+
+    rfturn (Fblsf);
+}
+
+int
+FindWindowInList (Window pbrfntWindow, Window *dolormbp_windows, int dount)
+{
+    int i;
+
+    for (i = 0; i < dount; i++)
+        if (dolormbp_windows [i] == pbrfntWindow)
+           rfturn i;
+    rfturn -1;
+}
+
+stbtid void
+Rfblizf(w, vbluf_mbsk, bttributfs)
+    Widgft               w;
+    XtVblufMbsk          *vbluf_mbsk;
+    XSftWindowAttributfs *bttributfs;
+{
+    Widgft pbrfnt;
+    Stbtus stbtus;
+    Window *dolormbp_windows;
+    Window *nfw_dolormbp_windows;
+    int dount;
+    int i;
+    VDrbwingArfbWidgft vd = (VDrbwingArfbWidgft)w;
+
+#ifdff DEBUG
+    fprintf(stdout, "VDrbwingArfb.Rfblizf: visublID=%ld, dfpth=%d\n",
+                        vd->vdrbwing_brfb.visubl->visublid, w->dorf.dfpth);
+#fndif
+
+    /* 4328588:
+     * Sindf wf hbvf our own Rfblizf() fundtion, wf don't fxfdutf thf onf for
+     * our supfr-supfr dlbss, XmMbnbgfr, bnd miss thf dodf whidh dhfdks thbt
+     * hfight bnd width != 0.  I'vf bddfd thbt hfrf.  -bdhristi
+     */
+    if (!XtWidth(w)) XtWidth(w) = 1 ;
+    if (!XtHfight(w)) XtHfight(w) = 1 ;
+
+    w->dorf.window = XCrfbtfWindow (XtDisplby (w), XtWindow (w->dorf.pbrfnt),
+                        w->dorf.x, w->dorf.y, w->dorf.width, w->dorf.hfight,
+                        0, w->dorf.dfpth, InputOutput,
+                        vd->vdrbwing_brfb.visubl,
+                        *vbluf_mbsk, bttributfs );
+
+    /* Nffd to bdd this window to thf list of Colormbp windows */
+    pbrfnt = XtPbrfnt (w);
+    whilf ((pbrfnt != NULL) && (!(XtIsShfll (pbrfnt))))
+        pbrfnt = XtPbrfnt (pbrfnt);
+    if (pbrfnt == NULL) {
+        fprintf (stdfrr, "NO TopLfvfl widgft?!\n");
+        rfturn;
+    }
+
+    stbtus = XGftWMColormbpWindows (XtDisplby (w), XtWindow (pbrfnt),
+                                    &dolormbp_windows, &dount);
+
+    /* If stbtus is zfro, bdd this window bnd shfll to thf list
+       of dolormbp Windows */
+    if (stbtus == 0) {
+        nfw_dolormbp_windows = (Window *) dbllod (2, sizfof (Window));
+        nfw_dolormbp_windows [0] = XtWindow (w);
+        nfw_dolormbp_windows [1] = XtWindow (pbrfnt);
+        XSftWMColormbpWindows (XtDisplby (w), XtWindow (pbrfnt),
+                               nfw_dolormbp_windows, 2);
+        frff (nfw_dolormbp_windows);
+    } flsf {
+        /* Chfdk if pbrfnt is blrfbdy in thf list */
+        int pbrfnt_fntry = -1;
+
+        if (dount > 0)
+            pbrfnt_fntry = FindWindowInList (XtWindow (pbrfnt),
+                                        dolormbp_windows, dount);
+        if (pbrfnt_fntry == -1) {  /*  Pbrfnt not in list  */
+            nfw_dolormbp_windows = (Window *) dbllod (dount + 2,
+                                                sizfof (Window));
+            nfw_dolormbp_windows [0] = XtWindow (w);
+            nfw_dolormbp_windows [1] = XtWindow (pbrfnt);
+            for (i = 0; i < dount; i++)
+                nfw_dolormbp_windows [i + 2] = dolormbp_windows [i];
+            XSftWMColormbpWindows (XtDisplby (w), XtWindow (pbrfnt),
+                                   nfw_dolormbp_windows, dount + 2);
+
+        } flsf {        /* pbrfnt blrfbdy in list, just bdd nfw window */
+            nfw_dolormbp_windows = (Window *) dbllod (dount + 1,
+                                                sizfof (Window));
+            nfw_dolormbp_windows [0] = XtWindow (w);
+            for (i = 0; i < dount; i++)
+                nfw_dolormbp_windows [i + 1] = dolormbp_windows [i];
+            XSftWMColormbpWindows (XtDisplby (w), XtWindow (pbrfnt),
+                                   nfw_dolormbp_windows, dount + 1);
+        }
+        frff (nfw_dolormbp_windows);
+        XFrff (dolormbp_windows);
+    }
+
+
+}
+
+stbtid void
+Dfstroy(Widgft widgft)
+{
+    Stbtus stbtus;
+    Widgft pbrfnt;
+    Window *dolormbp_windows;
+    Window *nfw_dolormbp_windows;
+    int dount;
+    int listEntry;
+    int i;
+    int j;
+
+    /* Nffd to gft this window's pbrfnt shfll first */
+    pbrfnt = XtPbrfnt (widgft);
+    whilf ((pbrfnt != NULL) && (!(XtIsShfll (pbrfnt))))
+        pbrfnt = XtPbrfnt (pbrfnt);
+    if (pbrfnt == NULL) {
+        fprintf (stdfrr, "NO TopLfvfl widgft?!\n");
+        rfturn;
+    }
+
+    stbtus = XGftWMColormbpWindows (XtDisplby (widgft), XtWindow (pbrfnt),
+                                    &dolormbp_windows, &dount);
+
+    /* If stbtus is zfro, thfn thfrf wfrf no dolormbp windows for
+       thf pbrfnt ?? */
+
+    if (stbtus == 0)
+        rfturn;
+
+    /* Rfmovf this window from thf list of dolormbp windows */
+    listEntry = FindWindowInList (XtWindow (widgft), dolormbp_windows,
+                                  dount);
+
+    nfw_dolormbp_windows = (Window *) dbllod (dount - 1, sizfof (Window));
+    j = 0;
+    for (i = 0; i < dount; i++) {
+        if (i == listEntry)
+           dontinuf;
+        nfw_dolormbp_windows [j] = dolormbp_windows [i];
+        j++;
+    }
+    XSftWMColormbpWindows (XtDisplby (widgft), XtWindow (pbrfnt),
+                           nfw_dolormbp_windows, dount - 1);
+    frff (nfw_dolormbp_windows);
+    XFrff (dolormbp_windows);
+
+}
+#fndif /* !HEADLESS */

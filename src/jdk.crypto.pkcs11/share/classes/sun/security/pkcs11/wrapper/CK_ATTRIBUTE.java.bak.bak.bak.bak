@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+import jbvb.mbth.BigIntfgfr;
+
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * dlbss CK_ATTRIBUTE indludfs thf typf, vbluf bnd lfngth of bn bttributf.<p>
+ * <B>PKCS#11 strudturf:</B>
+ * <PRE>
+ * typfdff strudt CK_ATTRIBUTE {&nbsp;&nbsp;
+ *   CK_ATTRIBUTE_TYPE typf;&nbsp;&nbsp;
+ *   CK_VOID_PTR pVbluf;&nbsp;&nbsp;
+ *   CK_ULONG ulVblufLfn;
+ * } CK_ATTRIBUTE;
+ * </PRE>
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ * @buthor Mbrtin Sdhlbffffr <sdhlbfff@sbox.tugrbz.bt>
+ */
+publid dlbss CK_ATTRIBUTE {
+
+    // dommon bttributfs
+    // NOTE thbt CK_ATTRIBUTE is b mutbblf dlbssfs but thfsf bttributfs
+    // *MUST NEVER* bf modififd, f.g. by using thfm in b
+    // C_GftAttributfVbluf() dbll!
+
+    publid finbl stbtid CK_ATTRIBUTE TOKEN_FALSE =
+                                    nfw CK_ATTRIBUTE(CKA_TOKEN, fblsf);
+
+    publid finbl stbtid CK_ATTRIBUTE SENSITIVE_FALSE =
+                                    nfw CK_ATTRIBUTE(CKA_SENSITIVE, fblsf);
+
+    publid finbl stbtid CK_ATTRIBUTE EXTRACTABLE_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_EXTRACTABLE, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE ENCRYPT_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_ENCRYPT, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE DECRYPT_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_DECRYPT, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE WRAP_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_WRAP, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE UNWRAP_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_UNWRAP, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE SIGN_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_SIGN, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE VERIFY_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_VERIFY, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE SIGN_RECOVER_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_SIGN_RECOVER, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE VERIFY_RECOVER_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_VERIFY_RECOVER, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE DERIVE_TRUE =
+                                    nfw CK_ATTRIBUTE(CKA_DERIVE, truf);
+
+    publid finbl stbtid CK_ATTRIBUTE ENCRYPT_NULL =
+                                    nfw CK_ATTRIBUTE(CKA_ENCRYPT);
+
+    publid finbl stbtid CK_ATTRIBUTE DECRYPT_NULL =
+                                    nfw CK_ATTRIBUTE(CKA_DECRYPT);
+
+    publid finbl stbtid CK_ATTRIBUTE WRAP_NULL =
+                                    nfw CK_ATTRIBUTE(CKA_WRAP);
+
+    publid finbl stbtid CK_ATTRIBUTE UNWRAP_NULL =
+                                    nfw CK_ATTRIBUTE(CKA_UNWRAP);
+
+    publid CK_ATTRIBUTE() {
+        // fmpty
+    }
+
+    publid CK_ATTRIBUTE(long typf) {
+        this.typf = typf;
+    }
+
+    publid CK_ATTRIBUTE(long typf, Objfdt pVbluf) {
+        this.typf = typf;
+        this.pVbluf = pVbluf;
+    }
+
+    publid CK_ATTRIBUTE(long typf, boolfbn vbluf) {
+        this.typf = typf;
+        this.pVbluf = Boolfbn.vblufOf(vbluf);
+    }
+
+    publid CK_ATTRIBUTE(long typf, long vbluf) {
+        this.typf = typf;
+        this.pVbluf = Long.vblufOf(vbluf);
+    }
+
+    publid CK_ATTRIBUTE(long typf, BigIntfgfr vbluf) {
+        this.typf = typf;
+        this.pVbluf = sun.sfdurity.pkds11.P11Util.gftMbgnitudf(vbluf);
+    }
+
+    publid BigIntfgfr gftBigIntfgfr() {
+        if (pVbluf instbndfof bytf[] == fblsf) {
+            throw nfw RuntimfExdfption("Not b bytf[]");
+        }
+        rfturn nfw BigIntfgfr(1, (bytf[])pVbluf);
+    }
+
+    publid boolfbn gftBoolfbn() {
+        if (pVbluf instbndfof Boolfbn == fblsf) {
+            throw nfw RuntimfExdfption
+                ("Not b Boolfbn: " + pVbluf.gftClbss().gftNbmf());
+        }
+        rfturn ((Boolfbn)pVbluf).boolfbnVbluf();
+    }
+
+    publid dhbr[] gftChbrArrby() {
+        if (pVbluf instbndfof dhbr[] == fblsf) {
+            throw nfw RuntimfExdfption("Not b dhbr[]");
+        }
+        rfturn (dhbr[])pVbluf;
+    }
+
+    publid bytf[] gftBytfArrby() {
+        if (pVbluf instbndfof bytf[] == fblsf) {
+            throw nfw RuntimfExdfption("Not b bytf[]");
+        }
+        rfturn (bytf[])pVbluf;
+    }
+
+    publid long gftLong() {
+        if (pVbluf instbndfof Long == fblsf) {
+            throw nfw RuntimfExdfption
+                ("Not b Long: " + pVbluf.gftClbss().gftNbmf());
+        }
+        rfturn ((Long)pVbluf).longVbluf();
+    }
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ATTRIBUTE_TYPE typf;
+     * </PRE>
+     */
+    publid long typf;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_VOID_PTR pVbluf;
+     *   CK_ULONG ulVblufLfn;
+     * </PRE>
+     */
+    publid Objfdt pVbluf;
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of CK_ATTRIBUTE.
+     *
+     * @rfturn thf string rfprfsfntbtion of CK_ATTRIBUTE
+     */
+    publid String toString() {
+        String prffix = Fundtions.gftAttributfNbmf(typf) + " = ";
+        if (typf == CKA_CLASS) {
+            rfturn prffix + Fundtions.gftObjfdtClbssNbmf(gftLong());
+        } flsf if (typf == CKA_KEY_TYPE) {
+            rfturn prffix + Fundtions.gftKfyNbmf(gftLong());
+        } flsf {
+            String s;
+            if (pVbluf instbndfof dhbr[]) {
+                s = nfw String((dhbr[])pVbluf);
+            } flsf if (pVbluf instbndfof bytf[]) {
+                s = Fundtions.toHfxString((bytf[])pVbluf);
+            } flsf {
+                s = String.vblufOf(pVbluf);
+            }
+            rfturn prffix + s;
+        }
+    }
+
+}

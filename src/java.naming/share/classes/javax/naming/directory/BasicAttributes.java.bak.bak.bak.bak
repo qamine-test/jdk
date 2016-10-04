@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Lodblf;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
+
+/**
+  * This dlbss providfs b bbsid implfmfntbtion
+  * of thf Attributfs intfrfbdf.
+  *<p>
+  * BbsidAttributfs is fithfr dbsf-sfnsitivf or dbsf-insfnsitivf (dbsf-ignorf).
+  * This propfrty is dftfrminfd bt thf timf thf BbsidAttributfs donstrudtor
+  * is dbllfd.
+  * In b dbsf-insfnsitivf BbsidAttributfs, thf dbsf of its bttributf idfntififrs
+  * is ignorfd whfn sfbrdhing for bn bttributf, or bdding bttributfs.
+  * In b dbsf-sfnsitivf BbsidAttributfs, thf dbsf is signifidbnt.
+  *<p>
+  * Whfn thf BbsidAttributfs dlbss nffds to drfbtf bn Attributf, it
+  * usfs BbsidAttributf. Thfrf is no othfr dfpfndfndy on BbsidAttributf.
+  *<p>
+  * Notf thbt updbtfs to BbsidAttributfs (sudh bs bdding or rfmoving bn bttributf)
+  * dofs not bfffdt thf dorrfsponding rfprfsfntbtion in thf dirfdtory.
+  * Updbtfs to thf dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in thf DirContfxt intfrfbdf.
+  *<p>
+  * A BbsidAttributfs instbndf is not syndhronizfd bgbinst dondurrfnt
+  * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify
+  * b singlf BbsidAttributfs instbndf should lodk thf objfdt.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff DirContfxt#gftAttributfs
+  * @sff DirContfxt#modifyAttributfs
+  * @sff DirContfxt#bind
+  * @sff DirContfxt#rfbind
+  * @sff DirContfxt#drfbtfSubdontfxt
+  * @sff DirContfxt#sfbrdh
+  * @sindf 1.3
+  */
+
+publid dlbss BbsidAttributfs implfmfnts Attributfs {
+    /**
+     * Indidbtfs whfthfr dbsf of bttributf ids is ignorfd.
+     * @sfribl
+     */
+    privbtf boolfbn ignorfCbsf = fblsf;
+
+    // Thf 'kfy' in bttrs is storfd in thf 'right dbsf'.
+    // If ignorfCbsf is truf, kfy is bwbys lowfrdbsf.
+    // If ignorfCbsf is fblsf, kfy is storfd bs supplifd by put().
+    // %%% Not dfdlbrfd "privbtf" duf to bug 4064984.
+    trbnsifnt Hbshtbblf<String,Attributf> bttrs = nfw Hbshtbblf<>(11);
+
+    /**
+      * Construdts b nfw instbndf of Attributfs.
+      * Thf dhbrbdtfr dbsf of bttributf idfntififrs
+      * is signifidbnt whfn subsfqufntly rftrifving or bdding bttributfs.
+      */
+    publid BbsidAttributfs() {
+    }
+
+    /**
+      * Construdts b nfw instbndf of Attributfs.
+      * If <dodf>ignorfCbsf</dodf> is truf, thf dhbrbdtfr dbsf of bttributf
+      * idfntififrs is ignorfd; othfrwisf thf dbsf is signifidbnt.
+      * @pbrbm ignorfCbsf truf mfbns this bttributf sft will ignorf
+      *                   thf dbsf of its bttributf idfntififrs
+      *                   whfn rftrifving or bdding bttributfs;
+      *                   fblsf mfbns dbsf is rfspfdtfd.
+      */
+    publid BbsidAttributfs(boolfbn ignorfCbsf) {
+        this.ignorfCbsf = ignorfCbsf;
+    }
+
+    /**
+      * Construdts b nfw instbndf of Attributfs with onf bttributf.
+      * Thf bttributf spfdififd by bttrID bnd vbl brf bddfd to thf nfwly
+      * drfbtfd bttributf.
+      * Thf dhbrbdtfr dbsf of bttributf idfntififrs
+      * is signifidbnt whfn subsfqufntly rftrifving or bdding bttributfs.
+      * @pbrbm bttrID   non-null Thf id of thf bttributf to bdd.
+      * @pbrbm vbl Thf vbluf of thf bttributf to bdd. If null, b null
+      *        vbluf is bddfd to thf bttributf.
+      */
+    publid BbsidAttributfs(String bttrID, Objfdt vbl) {
+        this();
+        this.put(nfw BbsidAttributf(bttrID, vbl));
+    }
+
+    /**
+      * Construdts b nfw instbndf of Attributfs with onf bttributf.
+      * Thf bttributf spfdififd by bttrID bnd vbl brf bddfd to thf nfwly
+      * drfbtfd bttributf.
+      * If <dodf>ignorfCbsf</dodf> is truf, thf dhbrbdtfr dbsf of bttributf
+      * idfntififrs is ignorfd; othfrwisf thf dbsf is signifidbnt.
+      * @pbrbm bttrID   non-null Thf id of thf bttributf to bdd.
+      *           If this bttributf sft ignorfs thf dhbrbdtfr
+      *           dbsf of its bttributf ids, thf dbsf of bttrID
+      *           is ignorfd.
+      * @pbrbm vbl Thf vbluf of thf bttributf to bdd. If null, b null
+      *        vbluf is bddfd to thf bttributf.
+      * @pbrbm ignorfCbsf truf mfbns this bttributf sft will ignorf
+      *                   thf dbsf of its bttributf idfntififrs
+      *                   whfn rftrifving or bdding bttributfs;
+      *                   fblsf mfbns dbsf is rfspfdtfd.
+      */
+    publid BbsidAttributfs(String bttrID, Objfdt vbl, boolfbn ignorfCbsf) {
+        this(ignorfCbsf);
+        this.put(nfw BbsidAttributf(bttrID, vbl));
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid Objfdt dlonf() {
+        BbsidAttributfs bttrsft;
+        try {
+            bttrsft = (BbsidAttributfs)supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            bttrsft = nfw BbsidAttributfs(ignorfCbsf);
+        }
+        bttrsft.bttrs = (Hbshtbblf<String,Attributf>)bttrs.dlonf();
+        rfturn bttrsft;
+    }
+
+    publid boolfbn isCbsfIgnorfd() {
+        rfturn ignorfCbsf;
+    }
+
+    publid int sizf() {
+        rfturn bttrs.sizf();
+    }
+
+    publid Attributf gft(String bttrID) {
+        Attributf bttr = bttrs.gft(
+                ignorfCbsf ? bttrID.toLowfrCbsf(Lodblf.ENGLISH) : bttrID);
+        rfturn (bttr);
+    }
+
+    publid NbmingEnumfrbtion<Attributf> gftAll() {
+        rfturn nfw AttrEnumImpl();
+    }
+
+    publid NbmingEnumfrbtion<String> gftIDs() {
+        rfturn nfw IDEnumImpl();
+    }
+
+    publid Attributf put(String bttrID, Objfdt vbl) {
+        rfturn this.put(nfw BbsidAttributf(bttrID, vbl));
+    }
+
+    publid Attributf put(Attributf bttr) {
+        String id = bttr.gftID();
+        if (ignorfCbsf) {
+            id = id.toLowfrCbsf(Lodblf.ENGLISH);
+        }
+        rfturn bttrs.put(id, bttr);
+    }
+
+    publid Attributf rfmovf(String bttrID) {
+        String id = (ignorfCbsf ? bttrID.toLowfrCbsf(Lodblf.ENGLISH) : bttrID);
+        rfturn bttrs.rfmovf(id);
+    }
+
+    /**
+     * Gfnfrbtfs thf string rfprfsfntbtion of this bttributf sft.
+     * Thf string donsists of fbdh bttributf idfntififr bnd thf dontfnts
+     * of fbdh bttributf. Thf dontfnts of this string is usfful
+     * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
+     *
+     * @rfturn A non-null string listing thf dontfnts of this bttributf sft.
+     */
+    publid String toString() {
+        if (bttrs.sizf() == 0) {
+            rfturn("No bttributfs");
+        } flsf {
+            rfturn bttrs.toString();
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr this <tt>BbsidAttributfs</tt> is fqubl to bnothfr
+     * <tt>Attributfs</tt>
+     * Two <tt>Attributfs</tt> brf fqubl if thfy brf both instbndfs of
+     * <tt>Attributfs</tt>,
+     * trfbt thf dbsf of bttributf IDs thf sbmf wby, bnd dontbin thf
+     * sbmf bttributfs. Ebdh <tt>Attributf</tt> in this <tt>BbsidAttributfs</tt>
+     * is dhfdkfd for fqublity using <tt>Objfdt.fqubls()</tt>, whidh mby hbvf
+     * bf ovfrriddfn by implfmfntbtions of <tt>Attributf</tt>).
+     * If b subdlbss ovfrridfs <tt>fqubls()</tt>,
+     * it should ovfrridf <tt>hbshCodf()</tt>
+     * bs wfll so thbt two <tt>Attributfs</tt> instbndfs thbt brf fqubl
+     * hbvf thf sbmf hbsh dodf.
+     * @pbrbm obj thf possibly null objfdt to dompbrf bgbinst.
+     *
+     * @rfturn truf If obj is fqubl to this BbsidAttributfs.
+     * @sff #hbshCodf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Attributfs)) {
+            Attributfs tbrgft = (Attributfs)obj;
+
+            // Chfdk dbsf first
+            if (ignorfCbsf != tbrgft.isCbsfIgnorfd()) {
+                rfturn fblsf;
+            }
+
+            if (sizf() == tbrgft.sizf()) {
+                Attributf thfir, minf;
+                try {
+                    NbmingEnumfrbtion<?> thfirs = tbrgft.gftAll();
+                    whilf (thfirs.hbsMorf()) {
+                        thfir = (Attributf)thfirs.nfxt();
+                        minf = gft(thfir.gftID());
+                        if (!thfir.fqubls(minf)) {
+                            rfturn fblsf;
+                        }
+                    }
+                } dbtdh (NbmingExdfption f) {
+                    rfturn fblsf;
+                }
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Cbldulbtfs thf hbsh dodf of this BbsidAttributfs.
+     *<p>
+     * Thf hbsh dodf is domputfd by bdding thf hbsh dodf of
+     * thf bttributfs of this objfdt. If this BbsidAttributfs
+     * ignorfs dbsf of its bttributf IDs, onf is bddfd to thf hbsh dodf.
+     * If b subdlbss ovfrridfs <tt>hbshCodf()</tt>,
+     * it should ovfrridf <tt>fqubls()</tt>
+     * bs wfll so thbt two <tt>Attributfs</tt> instbndfs thbt brf fqubl
+     * hbvf thf sbmf hbsh dodf.
+     *
+     * @rfturn bn int rfprfsfnting thf hbsh dodf of this BbsidAttributfs instbndf.
+     * @sff #fqubls
+     */
+    publid int hbshCodf() {
+        int hbsh = (ignorfCbsf ? 1 : 0);
+        try {
+            NbmingEnumfrbtion<?> bll = gftAll();
+            whilf (bll.hbsMorf()) {
+                hbsh += bll.nfxt().hbshCodf();
+            }
+        } dbtdh (NbmingExdfption f) {}
+        rfturn hbsh;
+    }
+
+    /**
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils.
+     * @sfriblDbtb Dffbult fifld (ignorfCbsf flbg -- b boolfbn), followfd by
+     * thf numbfr of bttributfs in thf sft
+     * (bn int), bnd thfn thf individubl Attributf objfdts.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt(); // writf out thf ignorfCbsf flbg
+        s.writfInt(bttrs.sizf());
+        Enumfrbtion<Attributf> bttrEnum = bttrs.flfmfnts();
+        whilf (bttrEnum.hbsMorfElfmfnts()) {
+            s.writfObjfdt(bttrEnum.nfxtElfmfnt());
+        }
+    }
+
+    /**
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();  // rfbd in thf ignorfCbsf flbg
+        int n = s.rfbdInt();    // numbfr of bttributfs
+        bttrs = (n >= 1)
+            ? nfw Hbshtbblf<String,Attributf>(n * 2)
+            : nfw Hbshtbblf<String,Attributf>(2); // dbn't hbvf initibl sizf of 0 (grrr...)
+        whilf (--n >= 0) {
+            put((Attributf)s.rfbdObjfdt());
+        }
+    }
+
+
+dlbss AttrEnumImpl implfmfnts NbmingEnumfrbtion<Attributf> {
+
+    Enumfrbtion<Attributf> flfmfnts;
+
+    publid AttrEnumImpl() {
+        this.flfmfnts = bttrs.flfmfnts();
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn flfmfnts.hbsMorfElfmfnts();
+    }
+
+    publid Attributf nfxtElfmfnt() {
+        rfturn flfmfnts.nfxtElfmfnt();
+    }
+
+    publid boolfbn hbsMorf() throws NbmingExdfption {
+        rfturn hbsMorfElfmfnts();
+    }
+
+    publid Attributf nfxt() throws NbmingExdfption {
+        rfturn nfxtElfmfnt();
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        flfmfnts = null;
+    }
+}
+
+dlbss IDEnumImpl implfmfnts NbmingEnumfrbtion<String> {
+
+    Enumfrbtion<Attributf> flfmfnts;
+
+    publid IDEnumImpl() {
+        // Wblking through thf flfmfnts, rbthfr thbn thf kfys, givfs
+        // us bttributf IDs thbt hbvf not bffn donvfrtfd to lowfrdbsf.
+        this.flfmfnts = bttrs.flfmfnts();
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn flfmfnts.hbsMorfElfmfnts();
+    }
+
+    publid String nfxtElfmfnt() {
+        Attributf bttr = flfmfnts.nfxtElfmfnt();
+        rfturn bttr.gftID();
+    }
+
+    publid boolfbn hbsMorf() throws NbmingExdfption {
+        rfturn hbsMorfElfmfnts();
+    }
+
+    publid String nfxt() throws NbmingExdfption {
+        rfturn nfxtElfmfnt();
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        flfmfnts = null;
+    }
+}
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4980164073184639448L;
+}

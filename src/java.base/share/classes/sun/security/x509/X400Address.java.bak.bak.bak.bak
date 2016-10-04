@@ -1,0 +1,423 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+
+/**
+ * This dlbss dffinfs thf X400Addrfss of thf GfnfrblNbmf dhoidf.
+ * <p>
+ * Thf ASN.1 syntbx for this is:
+ * <prf>
+ * ORAddrfss ::= SEQUENCE {
+ *    built-in-stbndbrd-bttributfs BuiltInStbndbrdAttributfs,
+ *    built-in-dombin-dffinfd-bttributfs
+ *                         BuiltInDombinDffinfdAttributfs OPTIONAL,
+ *    -- sff blso tflftfx-dombin-dffinfd-bttributfs
+ *    fxtfnsion-bttributfs ExtfnsionAttributfs OPTIONAL }
+ * --      Thf OR-bddrfss is sfmbntidblly bbsfnt from thf OR-nbmf if thf
+ * --      built-in-stbndbrd-bttributf sfqufndf is fmpty bnd thf
+ * --      built-in-dombin-dffinfd-bttributfs bnd fxtfnsion-bttributfs brf
+ * --      both omittfd.
+ *
+ * --      Built-in Stbndbrd Attributfs
+ *
+ * BuiltInStbndbrdAttributfs ::= SEQUENCE {
+ *    dountry-nbmf CountryNbmf OPTIONAL,
+ *    bdministrbtion-dombin-nbmf AdministrbtionDombinNbmf OPTIONAL,
+ *    nftwork-bddrfss      [0] NftworkAddrfss OPTIONAL,
+ *    -- sff blso fxtfndfd-nftwork-bddrfss
+ *    tfrminbl-idfntififr  [1] TfrminblIdfntififr OPTIONAL,
+ *    privbtf-dombin-nbmf  [2] PrivbtfDombinNbmf OPTIONAL,
+ *    orgbnizbtion-nbmf    [3] OrgbnizbtionNbmf OPTIONAL,
+ *    -- sff blso tflftfx-orgbnizbtion-nbmf
+ *    numfrid-usfr-idfntififr      [4] NumfridUsfrIdfntififr OPTIONAL,
+ *    pfrsonbl-nbmf        [5] PfrsonblNbmf OPTIONAL,
+ *    -- sff blso tflftfx-pfrsonbl-nbmf
+ *    orgbnizbtionbl-unit-nbmfs    [6] OrgbnizbtionblUnitNbmfs OPTIONAL
+ *    -- sff blso tflftfx-orgbnizbtionbl-unit-nbmfs -- }
+ *
+ * CountryNbmf ::= [APPLICATION 1] CHOICE {
+ *    x121-ddd-dodf NumfridString
+ *                 (SIZE (ub-dountry-nbmf-numfrid-lfngth)),
+ *    iso-3166-blphb2-dodf PrintbblfString
+ *                 (SIZE (ub-dountry-nbmf-blphb-lfngth)) }
+ *
+ * AdministrbtionDombinNbmf ::= [APPLICATION 2] CHOICE {
+ *    numfrid NumfridString (SIZE (0..ub-dombin-nbmf-lfngth)),
+ *    printbblf PrintbblfString (SIZE (0..ub-dombin-nbmf-lfngth)) }
+ *
+ * NftworkAddrfss ::= X121Addrfss  -- sff blso fxtfndfd-nftwork-bddrfss
+ *
+ * X121Addrfss ::= NumfridString (SIZE (1..ub-x121-bddrfss-lfngth))
+ *
+ * TfrminblIdfntififr ::= PrintbblfString (SIZE (1..ub-tfrminbl-id-lfngth))
+ *
+ * PrivbtfDombinNbmf ::= CHOICE {
+ *    numfrid NumfridString (SIZE (1..ub-dombin-nbmf-lfngth)),
+ *    printbblf PrintbblfString (SIZE (1..ub-dombin-nbmf-lfngth)) }
+ *
+ * OrgbnizbtionNbmf ::= PrintbblfString
+ *                             (SIZE (1..ub-orgbnizbtion-nbmf-lfngth))
+ * -- sff blso tflftfx-orgbnizbtion-nbmf
+ *
+ * NumfridUsfrIdfntififr ::= NumfridString
+ *                             (SIZE (1..ub-numfrid-usfr-id-lfngth))
+ *
+ * PfrsonblNbmf ::= SET {
+ *    surnbmf [0] PrintbblfString (SIZE (1..ub-surnbmf-lfngth)),
+ *    givfn-nbmf [1] PrintbblfString
+ *                         (SIZE (1..ub-givfn-nbmf-lfngth)) OPTIONAL,
+ *    initibls [2] PrintbblfString (SIZE (1..ub-initibls-lfngth)) OPTIONAL,
+ *    gfnfrbtion-qublififr [3] PrintbblfString
+ *                 (SIZE (1..ub-gfnfrbtion-qublififr-lfngth)) OPTIONAL }
+ * -- sff blso tflftfx-pfrsonbl-nbmf
+ *
+ * OrgbnizbtionblUnitNbmfs ::= SEQUENCE SIZE (1..ub-orgbnizbtionbl-units)
+ *                                         OF OrgbnizbtionblUnitNbmf
+ * -- sff blso tflftfx-orgbnizbtionbl-unit-nbmfs
+ *
+ * OrgbnizbtionblUnitNbmf ::= PrintbblfString (SIZE
+ *                         (1..ub-orgbnizbtionbl-unit-nbmf-lfngth))
+ *
+ * --      Built-in Dombin-dffinfd Attributfs
+ *
+ * BuiltInDombinDffinfdAttributfs ::= SEQUENCE SIZE
+ *                                 (1..ub-dombin-dffinfd-bttributfs) OF
+ *                                 BuiltInDombinDffinfdAttributf
+ *
+ * BuiltInDombinDffinfdAttributf ::= SEQUENCE {
+ *    typf PrintbblfString (SIZE
+ *                         (1..ub-dombin-dffinfd-bttributf-typf-lfngth)),
+ *    vbluf PrintbblfString (SIZE
+ *                         (1..ub-dombin-dffinfd-bttributf-vbluf-lfngth))}
+ *
+ * --      Extfnsion Attributfs
+ *
+ * ExtfnsionAttributfs ::= SET SIZE (1..ub-fxtfnsion-bttributfs) OF
+ *                         ExtfnsionAttributf
+ *
+ * ExtfnsionAttributf ::=  SEQUENCE {
+ *    fxtfnsion-bttributf-typf [0] INTEGER (0..ub-fxtfnsion-bttributfs),
+ *    fxtfnsion-bttributf-vbluf [1]
+ *                         ANY DEFINED BY fxtfnsion-bttributf-typf }
+ *
+ * -- Extfnsion typfs bnd bttributf vblufs
+ * --
+ *
+ * dommon-nbmf INTEGER ::= 1
+ *
+ * CommonNbmf ::= PrintbblfString (SIZE (1..ub-dommon-nbmf-lfngth))
+ *
+ * tflftfx-dommon-nbmf INTEGER ::= 2
+ *
+ * TflftfxCommonNbmf ::= TflftfxString (SIZE (1..ub-dommon-nbmf-lfngth))
+ *
+ * tflftfx-orgbnizbtion-nbmf INTEGER ::= 3
+ *
+ * TflftfxOrgbnizbtionNbmf ::=
+ *                 TflftfxString (SIZE (1..ub-orgbnizbtion-nbmf-lfngth))
+ *
+ * tflftfx-pfrsonbl-nbmf INTEGER ::= 4
+ *
+ * TflftfxPfrsonblNbmf ::= SET {
+ *    surnbmf [0] TflftfxString (SIZE (1..ub-surnbmf-lfngth)),
+ *    givfn-nbmf [1] TflftfxString
+ *                 (SIZE (1..ub-givfn-nbmf-lfngth)) OPTIONAL,
+ *    initibls [2] TflftfxString (SIZE (1..ub-initibls-lfngth)) OPTIONAL,
+ *    gfnfrbtion-qublififr [3] TflftfxString (SIZE
+ *                 (1..ub-gfnfrbtion-qublififr-lfngth)) OPTIONAL }
+ *
+ * tflftfx-orgbnizbtionbl-unit-nbmfs INTEGER ::= 5
+ *
+ * TflftfxOrgbnizbtionblUnitNbmfs ::= SEQUENCE SIZE
+ *         (1..ub-orgbnizbtionbl-units) OF TflftfxOrgbnizbtionblUnitNbmf
+ *
+ * TflftfxOrgbnizbtionblUnitNbmf ::= TflftfxString
+ *                         (SIZE (1..ub-orgbnizbtionbl-unit-nbmf-lfngth))
+ *
+ * pds-nbmf INTEGER ::= 7
+ *
+ * PDSNbmf ::= PrintbblfString (SIZE (1..ub-pds-nbmf-lfngth))
+ *
+ * physidbl-dflivfry-dountry-nbmf INTEGER ::= 8
+ *
+ * PhysidblDflivfryCountryNbmf ::= CHOICE {
+ *    x121-ddd-dodf NumfridString (SIZE (ub-dountry-nbmf-numfrid-lfngth)),
+ *    iso-3166-blphb2-dodf PrintbblfString
+ *                         (SIZE (ub-dountry-nbmf-blphb-lfngth)) }
+ *
+ * postbl-dodf INTEGER ::= 9
+ *
+ * PostblCodf ::= CHOICE {
+ *    numfrid-dodf NumfridString (SIZE (1..ub-postbl-dodf-lfngth)),
+ *    printbblf-dodf PrintbblfString (SIZE (1..ub-postbl-dodf-lfngth)) }
+ *
+ * physidbl-dflivfry-offidf-nbmf INTEGER ::= 10
+ *
+ * PhysidblDflivfryOffidfNbmf ::= PDSPbrbmftfr
+ *
+ * physidbl-dflivfry-offidf-numbfr INTEGER ::= 11
+ *
+ * PhysidblDflivfryOffidfNumbfr ::= PDSPbrbmftfr
+ *
+ * fxtfnsion-OR-bddrfss-domponfnts INTEGER ::= 12
+ *
+ * ExtfnsionORAddrfssComponfnts ::= PDSPbrbmftfr
+ *
+ * physidbl-dflivfry-pfrsonbl-nbmf INTEGER ::= 13
+ *
+ * PhysidblDflivfryPfrsonblNbmf ::= PDSPbrbmftfr
+ *
+ * physidbl-dflivfry-orgbnizbtion-nbmf INTEGER ::= 14
+ *
+ * PhysidblDflivfryOrgbnizbtionNbmf ::= PDSPbrbmftfr
+ *
+ * fxtfnsion-physidbl-dflivfry-bddrfss-domponfnts INTEGER ::= 15
+ *
+ * ExtfnsionPhysidblDflivfryAddrfssComponfnts ::= PDSPbrbmftfr
+ *
+ * unformbttfd-postbl-bddrfss INTEGER ::= 16
+ *
+ * UnformbttfdPostblAddrfss ::= SET {
+ *    printbblf-bddrfss SEQUENCE SIZE (1..ub-pds-physidbl-bddrfss-linfs) OF
+ *            PrintbblfString (SIZE (1..ub-pds-pbrbmftfr-lfngth)) OPTIONAL,
+ *    tflftfx-string TflftfxString
+ *          (SIZE (1..ub-unformbttfd-bddrfss-lfngth)) OPTIONAL }
+ *
+ * strfft-bddrfss INTEGER ::= 17
+ *
+ * StrfftAddrfss ::= PDSPbrbmftfr
+ *
+ * post-offidf-box-bddrfss INTEGER ::= 18
+ *
+ * PostOffidfBoxAddrfss ::= PDSPbrbmftfr
+ *
+ * postf-rfstbntf-bddrfss INTEGER ::= 19
+ *
+ * PostfRfstbntfAddrfss ::= PDSPbrbmftfr
+ *
+ * uniquf-postbl-nbmf INTEGER ::= 20
+ *
+ * UniqufPostblNbmf ::= PDSPbrbmftfr
+ *
+ * lodbl-postbl-bttributfs INTEGER ::= 21
+ *
+ * LodblPostblAttributfs ::= PDSPbrbmftfr
+ *
+ * PDSPbrbmftfr ::= SET {
+ *    printbblf-string PrintbblfString
+ *                 (SIZE(1..ub-pds-pbrbmftfr-lfngth)) OPTIONAL,
+ *    tflftfx-string TflftfxString
+ *                 (SIZE(1..ub-pds-pbrbmftfr-lfngth)) OPTIONAL }
+ *
+ * fxtfndfd-nftwork-bddrfss INTEGER ::= 22
+ *
+ * ExtfndfdNftworkAddrfss ::= CHOICE {
+ *    f163-4-bddrfss SEQUENCE {
+ *         numbfr [0] NumfridString (SIZE (1..ub-f163-4-numbfr-lfngth)),
+ *         sub-bddrfss [1] NumfridString
+ *                 (SIZE (1..ub-f163-4-sub-bddrfss-lfngth)) OPTIONAL },
+ *    psbp-bddrfss [0] PrfsfntbtionAddrfss }
+ *
+ * PrfsfntbtionAddrfss ::= SEQUENCE {
+ *         pSflfdtor       [0] EXPLICIT OCTET STRING OPTIONAL,
+ *         sSflfdtor       [1] EXPLICIT OCTET STRING OPTIONAL,
+ *         tSflfdtor       [2] EXPLICIT OCTET STRING OPTIONAL,
+ *         nAddrfssfs      [3] EXPLICIT SET SIZE (1..MAX) OF OCTET STRING }
+ *
+ * tfrminbl-typf  INTEGER ::= 23
+ *
+ * TfrminblTypf ::= INTEGER {
+ *    tflfx (3),
+ *    tflftfx (4),
+ *    g3-fbdsimilf (5),
+ *    g4-fbdsimilf (6),
+ *    ib5-tfrminbl (7),
+ *    vidfotfx (8) } (0..ub-intfgfr-options)
+ *
+ * --      Extfnsion Dombin-dffinfd Attributfs
+ *
+ * tflftfx-dombin-dffinfd-bttributfs INTEGER ::= 6
+ *
+ * TflftfxDombinDffinfdAttributfs ::= SEQUENCE SIZE
+ *    (1..ub-dombin-dffinfd-bttributfs) OF TflftfxDombinDffinfdAttributf
+ *
+ * TflftfxDombinDffinfdAttributf ::= SEQUENCE {
+ *         typf TflftfxString
+ *                (SIZE (1..ub-dombin-dffinfd-bttributf-typf-lfngth)),
+ *         vbluf TflftfxString
+ *                (SIZE (1..ub-dombin-dffinfd-bttributf-vbluf-lfngth)) }
+ *
+ * --  spfdifidbtions of Uppfr Bounds shbll bf rfgbrdfd bs mbndbtory
+ * --  from Annfx B of ITU-T X.411 Rfffrfndf Dffinition of MTS Pbrbmftfr
+ * --  Uppfr Bounds
+ *
+ * --      Uppfr Bounds
+ * ub-nbmf INTEGER ::=     32768
+ * ub-dommon-nbmf  INTEGER ::=     64
+ * ub-lodblity-nbmf        INTEGER ::=     128
+ * ub-stbtf-nbmf   INTEGER ::=     128
+ * ub-orgbnizbtion-nbmf    INTEGER ::=     64
+ * ub-orgbnizbtionbl-unit-nbmf     INTEGER ::=     64
+ * ub-titlf        INTEGER ::=     64
+ * ub-mbtdh        INTEGER ::=     128
+ *
+ * ub-fmbilbddrfss-lfngth INTEGER ::= 128
+ *
+ * ub-dommon-nbmf-lfngth INTEGER ::= 64
+ * ub-dountry-nbmf-blphb-lfngth INTEGER ::= 2
+ * ub-dountry-nbmf-numfrid-lfngth INTEGER ::= 3
+ * ub-dombin-dffinfd-bttributfs INTEGER ::= 4
+ * ub-dombin-dffinfd-bttributf-typf-lfngth INTEGER ::= 8
+ * ub-dombin-dffinfd-bttributf-vbluf-lfngth INTEGER ::= 128
+ * ub-dombin-nbmf-lfngth INTEGER ::= 16
+ * ub-fxtfnsion-bttributfs INTEGER ::= 256
+ * ub-f163-4-numbfr-lfngth INTEGER ::= 15
+ * ub-f163-4-sub-bddrfss-lfngth INTEGER ::= 40
+ * ub-gfnfrbtion-qublififr-lfngth INTEGER ::= 3
+ * ub-givfn-nbmf-lfngth INTEGER ::= 16
+ * ub-initibls-lfngth INTEGER ::= 5
+ * ub-intfgfr-options INTEGER ::= 256
+ * ub-numfrid-usfr-id-lfngth INTEGER ::= 32
+ * ub-orgbnizbtion-nbmf-lfngth INTEGER ::= 64
+ * ub-orgbnizbtionbl-unit-nbmf-lfngth INTEGER ::= 32
+ * ub-orgbnizbtionbl-units INTEGER ::= 4
+ * ub-pds-nbmf-lfngth INTEGER ::= 16
+ * ub-pds-pbrbmftfr-lfngth INTEGER ::= 30
+ * ub-pds-physidbl-bddrfss-linfs INTEGER ::= 6
+ * ub-postbl-dodf-lfngth INTEGER ::= 16
+ * ub-surnbmf-lfngth INTEGER ::= 40
+ * ub-tfrminbl-id-lfngth INTEGER ::= 24
+ * ub-unformbttfd-bddrfss-lfngth INTEGER ::= 180
+ * ub-x121-bddrfss-lfngth INTEGER ::= 16
+ *
+ * -- Notf - uppfr bounds on string typfs, sudh bs TflftfxString, brf
+ * -- mfbsurfd in dhbrbdtfrs.  Exdfpting PrintbblfString or IA5String, b
+ * -- signifidbntly grfbtfr numbfr of odtfts will bf rfquirfd to hold
+ * -- sudh b vbluf.  As b minimum, 16 odtfts, or twidf thf spfdififd uppfr
+ * -- bound, whidhfvfr is thf lbrgfr, should bf bllowfd for TflftfxString.
+ * -- For UTF8String or UnivfrsblString bt lfbst four timfs thf uppfr
+ * -- bound should bf bllowfd.
+ * </prf>
+ *
+ * @buthor Annf Andfrson
+ * @sindf       1.4
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
+ */
+publid dlbss X400Addrfss implfmfnts GfnfrblNbmfIntfrfbdf {
+
+    // Privbtf dbtb mfmbfrs
+    bytf[] nbmfVbluf = null;
+
+    /**
+     * Crfbtf thf X400Addrfss objfdt from thf spfdififd bytf brrby
+     *
+     * @pbrbm nbmfVbluf vbluf of thf nbmf bs b bytf brrby
+     */
+    publid X400Addrfss(bytf[] vbluf) {
+        nbmfVbluf = vbluf;
+    }
+
+    /**
+     * Crfbtf thf X400Addrfss objfdt from thf pbssfd fndodfd Dfr vbluf.
+     *
+     * @pbrbm dfrVbluf thf fndodfd DER X400Addrfss.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid X400Addrfss(DfrVbluf dfrVbluf) throws IOExdfption {
+        nbmfVbluf = dfrVbluf.toBytfArrby();
+    }
+
+    /**
+     * Rfturn thf typf of thf GfnfrblNbmf.
+     */
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_X400);
+    }
+
+    /**
+     * Endodf thf X400 nbmf into thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DER strfbm to fndodf thf X400Addrfss to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrVbluf dfrVbluf = nfw DfrVbluf(nbmfVbluf);
+        out.putDfrVbluf(dfrVbluf);
+    }
+
+    /**
+     * Rfturn thf printbblf string.
+     */
+    publid String toString() {
+        rfturn ("X400Addrfss: <DER-fndodfd vbluf>");
+    }
+
+    /**
+     * Rfturn typf of donstrbint inputNbmf plbdfs on this nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdhfs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in thf nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is highfr in thf nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdh or nbrrow nbmf, but is sbmf typf.
+     * </ul>.  Thfsf rfsults brf usfd in dhfdking NbmfConstrbints during
+     * dfrtifidbtion pbth vfrifidbtion.
+     *
+     * @pbrbm inputNbmf to bf dhfdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @throws UnsupportfdOpfrbtionExdfption if nbmf is sbmf typf, but dompbrison opfrbtions brf
+     *          not supportfd for this nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) throws UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_X400)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf
+            //Nbrrowing, widfning, bnd mbtdh donstrbints not dffinfd in rfd2459 for X400Addrfss
+            throw nfw UnsupportfdOpfrbtionExdfption("Nbrrowing, widfning, bnd mbtdh brf not supportfd for X400Addrfss.");
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpth of this nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbth lfngths in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @throws UnsupportfdOpfrbtionExdfption if not supportfd for this nbmf typf
+     */
+    publid int subtrffDfpth() throws UnsupportfdOpfrbtionExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("subtrffDfpth not supportfd for X400Addrfss");
+    }
+
+}

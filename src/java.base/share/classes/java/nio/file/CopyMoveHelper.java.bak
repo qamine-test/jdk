@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.attribute.*;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * Helper class to support copying or moving files when the source and target
- * are associated with different providers.
+ * Hflpfr dlbss to support dopying or moving filfs wifn tif sourdf bnd tbrgft
+ * brf bssodibtfd witi difffrfnt providfrs.
  */
 
-class CopyMoveHelper {
-    private CopyMoveHelper() { }
+dlbss CopyMovfHflpfr {
+    privbtf CopyMovfHflpfr() { }
 
     /**
-     * Parses the arguments for a file copy operation.
+     * Pbrsfs tif brgumfnts for b filf dopy opfrbtion.
      */
-    private static class CopyOptions {
-        boolean replaceExisting = false;
-        boolean copyAttributes = false;
-        boolean followLinks = true;
+    privbtf stbtid dlbss CopyOptions {
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttributfs = fblsf;
+        boolfbn followLinks = truf;
 
-        private CopyOptions() { }
+        privbtf CopyOptions() { }
 
-        static CopyOptions parse(CopyOption... options) {
-            CopyOptions result = new CopyOptions();
+        stbtid CopyOptions pbrsf(CopyOption... options) {
+            CopyOptions rfsult = nfw CopyOptions();
             for (CopyOption option: options) {
-                if (option == StandardCopyOption.REPLACE_EXISTING) {
-                    result.replaceExisting = true;
-                    continue;
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    rfsult.rfplbdfExisting = truf;
+                    dontinuf;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    result.followLinks = false;
-                    continue;
+                    rfsult.followLinks = fblsf;
+                    dontinuf;
                 }
-                if (option == StandardCopyOption.COPY_ATTRIBUTES) {
-                    result.copyAttributes = true;
-                    continue;
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                    rfsult.dopyAttributfs = truf;
+                    dontinuf;
                 }
                 if (option == null)
-                    throw new NullPointerException();
-                throw new UnsupportedOperationException("'" + option +
-                    "' is not a recognized copy option");
+                    tirow nfw NullPointfrExdfption();
+                tirow nfw UnsupportfdOpfrbtionExdfption("'" + option +
+                    "' is not b rfdognizfd dopy option");
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
     /**
-     * Converts the given array of options for moving a file to options suitable
-     * for copying the file when a move is implemented as copy + delete.
+     * Convfrts tif givfn brrby of options for moving b filf to options suitbblf
+     * for dopying tif filf wifn b movf is implfmfntfd bs dopy + dflftf.
      */
-    private static CopyOption[] convertMoveToCopyOptions(CopyOption... options)
-        throws AtomicMoveNotSupportedException
+    privbtf stbtid CopyOption[] donvfrtMovfToCopyOptions(CopyOption... options)
+        tirows AtomidMovfNotSupportfdExdfption
     {
-        int len = options.length;
-        CopyOption[] newOptions = new CopyOption[len+2];
-        for (int i=0; i<len; i++) {
+        int lfn = options.lfngti;
+        CopyOption[] nfwOptions = nfw CopyOption[lfn+2];
+        for (int i=0; i<lfn; i++) {
             CopyOption option = options[i];
-            if (option == StandardCopyOption.ATOMIC_MOVE) {
-                throw new AtomicMoveNotSupportedException(null, null,
-                    "Atomic move between providers is not supported");
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                tirow nfw AtomidMovfNotSupportfdExdfption(null, null,
+                    "Atomid movf bftwffn providfrs is not supportfd");
             }
-            newOptions[i] = option;
+            nfwOptions[i] = option;
         }
-        newOptions[len] = LinkOption.NOFOLLOW_LINKS;
-        newOptions[len+1] = StandardCopyOption.COPY_ATTRIBUTES;
-        return newOptions;
+        nfwOptions[lfn] = LinkOption.NOFOLLOW_LINKS;
+        nfwOptions[lfn+1] = StbndbrdCopyOption.COPY_ATTRIBUTES;
+        rfturn nfwOptions;
     }
 
     /**
-     * Simple copy for use when source and target are associated with different
-     * providers
+     * Simplf dopy for usf wifn sourdf bnd tbrgft brf bssodibtfd witi difffrfnt
+     * providfrs
      */
-    static void copyToForeignTarget(Path source, Path target,
+    stbtid void dopyToForfignTbrgft(Pbti sourdf, Pbti tbrgft,
                                     CopyOption... options)
-        throws IOException
+        tirows IOExdfption
     {
-        CopyOptions opts = CopyOptions.parse(options);
-        LinkOption[] linkOptions = (opts.followLinks) ? new LinkOption[0] :
-            new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+        CopyOptions opts = CopyOptions.pbrsf(options);
+        LinkOption[] linkOptions = (opts.followLinks) ? nfw LinkOption[0] :
+            nfw LinkOption[] { LinkOption.NOFOLLOW_LINKS };
 
-        // attributes of source file
-        BasicFileAttributes attrs = Files.readAttributes(source,
-                                                         BasicFileAttributes.class,
+        // bttributfs of sourdf filf
+        BbsidFilfAttributfs bttrs = Filfs.rfbdAttributfs(sourdf,
+                                                         BbsidFilfAttributfs.dlbss,
                                                          linkOptions);
-        if (attrs.isSymbolicLink())
-            throw new IOException("Copying of symbolic links not supported");
+        if (bttrs.isSymbolidLink())
+            tirow nfw IOExdfption("Copying of symbolid links not supportfd");
 
-        // delete target if it exists and REPLACE_EXISTING is specified
-        if (opts.replaceExisting) {
-            Files.deleteIfExists(target);
-        } else if (Files.exists(target))
-            throw new FileAlreadyExistsException(target.toString());
+        // dflftf tbrgft if it fxists bnd REPLACE_EXISTING is spfdififd
+        if (opts.rfplbdfExisting) {
+            Filfs.dflftfIfExists(tbrgft);
+        } flsf if (Filfs.fxists(tbrgft))
+            tirow nfw FilfAlrfbdyExistsExdfption(tbrgft.toString());
 
-        // create directory or copy file
-        if (attrs.isDirectory()) {
-            Files.createDirectory(target);
-        } else {
-            try (InputStream in = Files.newInputStream(source)) {
-                Files.copy(in, target);
+        // drfbtf dirfdtory or dopy filf
+        if (bttrs.isDirfdtory()) {
+            Filfs.drfbtfDirfdtory(tbrgft);
+        } flsf {
+            try (InputStrfbm in = Filfs.nfwInputStrfbm(sourdf)) {
+                Filfs.dopy(in, tbrgft);
             }
         }
 
-        // copy basic attributes to target
-        if (opts.copyAttributes) {
-            BasicFileAttributeView view =
-                Files.getFileAttributeView(target, BasicFileAttributeView.class);
+        // dopy bbsid bttributfs to tbrgft
+        if (opts.dopyAttributfs) {
+            BbsidFilfAttributfVifw vifw =
+                Filfs.gftFilfAttributfVifw(tbrgft, BbsidFilfAttributfVifw.dlbss);
             try {
-                view.setTimes(attrs.lastModifiedTime(),
-                              attrs.lastAccessTime(),
-                              attrs.creationTime());
-            } catch (Throwable x) {
-                // rollback
+                vifw.sftTimfs(bttrs.lbstModififdTimf(),
+                              bttrs.lbstAddfssTimf(),
+                              bttrs.drfbtionTimf());
+            } dbtdi (Tirowbblf x) {
+                // rollbbdk
                 try {
-                    Files.delete(target);
-                } catch (Throwable suppressed) {
-                    x.addSuppressed(suppressed);
+                    Filfs.dflftf(tbrgft);
+                } dbtdi (Tirowbblf supprfssfd) {
+                    x.bddSupprfssfd(supprfssfd);
                 }
-                throw x;
+                tirow x;
             }
         }
     }
 
     /**
-     * Simple move implements as copy+delete for use when source and target are
-     * associated with different providers
+     * Simplf movf implfmfnts bs dopy+dflftf for usf wifn sourdf bnd tbrgft brf
+     * bssodibtfd witi difffrfnt providfrs
      */
-    static void moveToForeignTarget(Path source, Path target,
-                                    CopyOption... options) throws IOException
+    stbtid void movfToForfignTbrgft(Pbti sourdf, Pbti tbrgft,
+                                    CopyOption... options) tirows IOExdfption
     {
-        copyToForeignTarget(source, target, convertMoveToCopyOptions(options));
-        Files.delete(source);
+        dopyToForfignTbrgft(sourdf, tbrgft, donvfrtMovfToCopyOptions(options));
+        Filfs.dflftf(sourdf);
     }
 }

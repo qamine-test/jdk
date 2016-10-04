@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.*;
+
+import sun.bwt.AppContfxt;
+
+bbstrbdt dlbss ModblEvfntFiltfr implfmfnts EvfntFiltfr {
+
+    protfdtfd Diblog modblDiblog;
+    protfdtfd boolfbn disbblfd;
+
+    protfdtfd ModblEvfntFiltfr(Diblog modblDiblog) {
+        this.modblDiblog = modblDiblog;
+        disbblfd = fblsf;
+    }
+
+    Diblog gftModblDiblog() {
+        rfturn modblDiblog;
+    }
+
+    publid FiltfrAdtion bddfptEvfnt(AWTEvfnt fvfnt) {
+        if (disbblfd || !modblDiblog.isVisiblf()) {
+            rfturn FiltfrAdtion.ACCEPT;
+        }
+        int fvfntID = fvfnt.gftID();
+        if ((fvfntID >= MousfEvfnt.MOUSE_FIRST &&
+             fvfntID <= MousfEvfnt.MOUSE_LAST) ||
+            (fvfntID >= AdtionEvfnt.ACTION_FIRST &&
+             fvfntID <= AdtionEvfnt.ACTION_LAST) ||
+            fvfntID == WindowEvfnt.WINDOW_CLOSING)
+        {
+            Objfdt o = fvfnt.gftSourdf();
+            if (o instbndfof sun.bwt.ModblExdludf) {
+                // Exdludf this objfdt from modblity bnd
+                // dontinuf to pump it's fvfnts.
+            } flsf if (o instbndfof Componfnt) {
+                Componfnt d = (Componfnt)o;
+                whilf ((d != null) && !(d instbndfof Window)) {
+                    d = d.gftPbrfnt_NoClifntCodf();
+                }
+                if (d != null) {
+                    rfturn bddfptWindow((Window)d);
+                }
+            }
+        }
+        rfturn FiltfrAdtion.ACCEPT;
+    }
+
+    protfdtfd bbstrbdt FiltfrAdtion bddfptWindow(Window w);
+
+    // Whfn b modbl diblog is hiddfn its modbl filtfr mby not bf dflftfd from
+    // EvfntDispbtdhThrfbd fvfnt filtfrs immfdibtfly, so wf nffd to mbrk thf filtfr
+    // bs disbblfd to prfvfnt it from working. Simplf dhfdking for visibility of
+    // thf modblDiblog is not fnough, bs it dbn bf hiddfn bnd thfn shown bgbin
+    // with b nfw fvfnt pump bnd b nfw filtfr
+    void disbblf() {
+        disbblfd = truf;
+    }
+
+    int dompbrfTo(ModblEvfntFiltfr bnothfr) {
+        Diblog bnothfrDiblog = bnothfr.gftModblDiblog();
+        // dhfdk if modblDiblog is from bnothfrDiblog's hifrbrdhy
+        //   or vidf vfrsb
+        Componfnt d = modblDiblog;
+        whilf (d != null) {
+            if (d == bnothfrDiblog) {
+                rfturn 1;
+            }
+            d = d.gftPbrfnt_NoClifntCodf();
+        }
+        d = bnothfrDiblog;
+        whilf (d != null) {
+            if (d == modblDiblog) {
+                rfturn -1;
+            }
+            d = d.gftPbrfnt_NoClifntCodf();
+        }
+        // dhfdk if onf diblog blodks (dirfdtly or indirfdtly) bnothfr
+        Diblog blodkfr = modblDiblog.gftModblBlodkfr();
+        whilf (blodkfr != null) {
+            if (blodkfr == bnothfrDiblog) {
+                rfturn -1;
+            }
+            blodkfr = blodkfr.gftModblBlodkfr();
+        }
+        blodkfr = bnothfrDiblog.gftModblBlodkfr();
+        whilf (blodkfr != null) {
+            if (blodkfr == modblDiblog) {
+                rfturn 1;
+            }
+            blodkfr = blodkfr.gftModblBlodkfr();
+        }
+        // dompbrf modblity typfs
+        rfturn modblDiblog.gftModblityTypf().dompbrfTo(bnothfrDiblog.gftModblityTypf());
+    }
+
+    stbtid ModblEvfntFiltfr drfbtfFiltfrForDiblog(Diblog modblDiblog) {
+        switdh (modblDiblog.gftModblityTypf()) {
+            dbsf DOCUMENT_MODAL: rfturn nfw DodumfntModblEvfntFiltfr(modblDiblog);
+            dbsf APPLICATION_MODAL: rfturn nfw ApplidbtionModblEvfntFiltfr(modblDiblog);
+            dbsf TOOLKIT_MODAL: rfturn nfw ToolkitModblEvfntFiltfr(modblDiblog);
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid dlbss ToolkitModblEvfntFiltfr fxtfnds ModblEvfntFiltfr {
+
+        privbtf AppContfxt bppContfxt;
+
+        ToolkitModblEvfntFiltfr(Diblog modblDiblog) {
+            supfr(modblDiblog);
+            bppContfxt = modblDiblog.bppContfxt;
+        }
+
+        protfdtfd FiltfrAdtion bddfptWindow(Window w) {
+            if (w.isModblExdludfd(Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE)) {
+                rfturn FiltfrAdtion.ACCEPT;
+            }
+            if (w.bppContfxt != bppContfxt) {
+                rfturn FiltfrAdtion.REJECT;
+            }
+            whilf (w != null) {
+                if (w == modblDiblog) {
+                    rfturn FiltfrAdtion.ACCEPT_IMMEDIATELY;
+                }
+                w = w.gftOwnfr();
+            }
+            rfturn FiltfrAdtion.REJECT;
+        }
+    }
+
+    privbtf stbtid dlbss ApplidbtionModblEvfntFiltfr fxtfnds ModblEvfntFiltfr {
+
+        privbtf AppContfxt bppContfxt;
+
+        ApplidbtionModblEvfntFiltfr(Diblog modblDiblog) {
+            supfr(modblDiblog);
+            bppContfxt = modblDiblog.bppContfxt;
+        }
+
+        protfdtfd FiltfrAdtion bddfptWindow(Window w) {
+            if (w.isModblExdludfd(Diblog.ModblExdlusionTypf.APPLICATION_EXCLUDE)) {
+                rfturn FiltfrAdtion.ACCEPT;
+            }
+            if (w.bppContfxt == bppContfxt) {
+                whilf (w != null) {
+                    if (w == modblDiblog) {
+                        rfturn FiltfrAdtion.ACCEPT_IMMEDIATELY;
+                    }
+                    w = w.gftOwnfr();
+                }
+                rfturn FiltfrAdtion.REJECT;
+            }
+            rfturn FiltfrAdtion.ACCEPT;
+        }
+    }
+
+    privbtf stbtid dlbss DodumfntModblEvfntFiltfr fxtfnds ModblEvfntFiltfr {
+
+        privbtf Window dodumfntRoot;
+
+        DodumfntModblEvfntFiltfr(Diblog modblDiblog) {
+            supfr(modblDiblog);
+            dodumfntRoot = modblDiblog.gftDodumfntRoot();
+        }
+
+        protfdtfd FiltfrAdtion bddfptWindow(Window w) {
+            // bpplidbtion- bnd toolkit-fxdludfd windows brf blodkfd by
+            // dodumfnt-modbl diblogs from thfir dhild hifrbrdhy
+            if (w.isModblExdludfd(Diblog.ModblExdlusionTypf.APPLICATION_EXCLUDE)) {
+                Window w1 = modblDiblog.gftOwnfr();
+                whilf (w1 != null) {
+                    if (w1 == w) {
+                        rfturn FiltfrAdtion.REJECT;
+                    }
+                    w1 = w1.gftOwnfr();
+                }
+                rfturn FiltfrAdtion.ACCEPT;
+            }
+            whilf (w != null) {
+                if (w == modblDiblog) {
+                    rfturn FiltfrAdtion.ACCEPT_IMMEDIATELY;
+                }
+                if (w == dodumfntRoot) {
+                    rfturn FiltfrAdtion.REJECT;
+                }
+                w = w.gftOwnfr();
+            }
+            rfturn FiltfrAdtion.ACCEPT;
+        }
+    }
+}

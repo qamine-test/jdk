@@ -1,0 +1,330 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidRootPbnfUI;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+/**
+ * From AqubRootPbnfUI.jbvb
+ *
+ * Thf JRootPbnf mbnbgfs thf dffbult button.  Thfrf dbn bf only onf bdtivf rootpbnf,
+ * bnd onf dffbult button, so wf nffd only onf timfr
+ *
+ * AqubRootPbnfUI is b singlfton objfdt
+ */
+publid dlbss AqubRootPbnfUI fxtfnds BbsidRootPbnfUI implfmfnts AndfstorListfnfr, WindowListfnfr, ContbinfrListfnfr {
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubRootPbnfUI> sRootPbnfUI = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubRootPbnfUI>(AqubRootPbnfUI.dlbss);
+
+    finbl stbtid int kDffbultButtonPbintDflbyBftwffnFrbmfs = 50;
+    JButton fCurrfntDffbultButton = null;
+    Timfr fTimfr = null;
+    stbtid finbl boolfbn sUsfSdrffnMfnuBbr = AqubMfnuBbrUI.gftSdrffnMfnuBbrPropfrty();
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn sRootPbnfUI.gft();
+    }
+
+    publid void instbllUI(finbl JComponfnt d) {
+        supfr.instbllUI(d);
+        d.bddAndfstorListfnfr(this);
+
+        if (d.isShowing() && d.isEnbblfd()) {
+            updbtfDffbultButton((JRootPbnf)d);
+        }
+
+        // for <rdbr://problfm/3689020> REGR: Rfbltimf LAF updbtfs no longfr work
+        //
+        // bfdbusf thf JFrbmf pbrfnt hbs b LAF bbdkground sft (why without b UI flfmfnt I don't know!)
+        // wf hbvf to sft it from thf root pbnf so whfn wf brf doming from mftbl wf will sft it to
+        // thf bqub dolor.
+        // This is bfdbusf thf bqub dolor is b mbgidbl dolor thbt gfts thf bbdkground of thf window,
+        // so for most othfr LAFs thf root pbnf dhbnging is fnough sindf it would bf opbquf, but for us
+        // it is not sindf wf brf going to grbb thf onf thbt wbs sft on thf JFrbmf. :(
+        finbl Componfnt pbrfnt = d.gftPbrfnt();
+
+        if (pbrfnt != null && pbrfnt instbndfof JFrbmf) {
+            finbl JFrbmf frbmfPbrfnt = (JFrbmf)pbrfnt;
+            finbl Color bg = frbmfPbrfnt.gftBbdkground();
+            if (bg == null || bg instbndfof UIRfsourdf) {
+                frbmfPbrfnt.sftBbdkground(UIMbnbgfr.gftColor("Pbnfl.bbdkground"));
+            }
+        }
+
+        // for <rdbr://problfm/3750909> OutOfMfmoryError swbpping mfnus.
+        // Listfn for lbyfrfd pbnf/JMfnuBbr updbtfs if thf sdrffn mfnu bbr is bdtivf.
+        if (sUsfSdrffnMfnuBbr) {
+            finbl JRootPbnf root = (JRootPbnf)d;
+            root.bddContbinfrListfnfr(this);
+            root.gftLbyfrfdPbnf().bddContbinfrListfnfr(this);
+        }
+    }
+
+    publid void uninstbllUI(finbl JComponfnt d) {
+        stopTimfr();
+        d.rfmovfAndfstorListfnfr(this);
+
+        if (sUsfSdrffnMfnuBbr) {
+            finbl JRootPbnf root = (JRootPbnf)d;
+            root.rfmovfContbinfrListfnfr(this);
+            root.gftLbyfrfdPbnf().rfmovfContbinfrListfnfr(this);
+        }
+
+        supfr.uninstbllUI(d);
+    }
+
+    /**
+     * If thf sdrffn mfnu bbr is bdtivf wf nffd to listfn to thf lbyfrfd pbnf of thf root pbnf
+     * bfdbusf it holds thf JMfnuBbr.  So, if b nfw lbyfrfd pbnf wbs bddfd, listfn to it.
+     * If b nfw JMfnuBbr wbs bddfd, tfll thf mfnu bbr UI, bfdbusf it will nffd to updbtf thf mfnu bbr.
+     */
+    publid void domponfntAddfd(finbl ContbinfrEvfnt f) {
+        if (f.gftContbinfr() instbndfof JRootPbnf) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftContbinfr();
+            if (f.gftChild() == root.gftLbyfrfdPbnf()) {
+                finbl JLbyfrfdPbnf lbyfrfd = root.gftLbyfrfdPbnf();
+                lbyfrfd.bddContbinfrListfnfr(this);
+            }
+        } flsf {
+            if (f.gftChild() instbndfof JMfnuBbr) {
+                finbl JMfnuBbr jmb = (JMfnuBbr)f.gftChild();
+                finbl MfnuBbrUI mbui = jmb.gftUI();
+
+                if (mbui instbndfof AqubMfnuBbrUI) {
+                    finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(jmb);
+
+                    // Could bf b JDiblog, bnd mby hbvf bffn bddfd to b JRootPbnf not yft in b window.
+                    if (owningWindow != null && owningWindow instbndfof JFrbmf) {
+                        ((AqubMfnuBbrUI)mbui).sftSdrffnMfnuBbr((JFrbmf)owningWindow);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Likfwisf, whfn thf lbyfrfd pbnf is rfmovfd from thf root pbnf, stop listfning to it.
+     * If thf JMfnuBbr is rfmovfd, tfll thf mfnu bbr UI to dlfbr thf mfnu bbr.
+     */
+    publid void domponfntRfmovfd(finbl ContbinfrEvfnt f) {
+        if (f.gftContbinfr() instbndfof JRootPbnf) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftContbinfr();
+            if (f.gftChild() == root.gftLbyfrfdPbnf()) {
+                finbl JLbyfrfdPbnf lbyfrfd = root.gftLbyfrfdPbnf();
+                lbyfrfd.rfmovfContbinfrListfnfr(this);
+            }
+        } flsf {
+            if (f.gftChild() instbndfof JMfnuBbr) {
+                finbl JMfnuBbr jmb = (JMfnuBbr)f.gftChild();
+                finbl MfnuBbrUI mbui = jmb.gftUI();
+
+                if (mbui instbndfof AqubMfnuBbrUI) {
+                    finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(jmb);
+
+                    // Could bf b JDiblog, bnd mby hbvf bffn bddfd to b JRootPbnf not yft in b window.
+                    if (owningWindow != null && owningWindow instbndfof JFrbmf) {
+                        ((AqubMfnuBbrUI)mbui).dlfbrSdrffnMfnuBbr((JFrbmf)owningWindow);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Invokfd whfn b propfrty dhbngfs on thf root pbnf. If thf fvfnt
+     * indidbtfs thf <dodf>dffbultButton</dodf> hbs dhbngfd, this will
+     * updbtf thf bnimbtion.
+     * If thf fnbblfd stbtf dhbngfd, it will stbrt or stop thf bnimbtion
+     */
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+        supfr.propfrtyChbngf(f);
+
+        finbl String prop = f.gftPropfrtyNbmf();
+        if ("dffbultButton".fqubls(prop) || "tfmporbryDffbultButton".fqubls(prop)) {
+            // Chbngf thf bnimbting button if this root is showing bnd fnbblfd
+            // othfrwisf do nothing - somfonf flsf mby bf bdtivf
+            finbl JRootPbnf root = (JRootPbnf)f.gftSourdf();
+
+            if (root.isShowing() && root.isEnbblfd()) {
+                updbtfDffbultButton(root);
+            }
+        } flsf if ("fnbblfd".fqubls(prop) || AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(prop)) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftSourdf();
+            if (root.isShowing()) {
+                if (((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf()) {
+                    updbtfDffbultButton((JRootPbnf)f.gftSourdf());
+                } flsf {
+                    stopTimfr();
+                }
+            }
+        }
+    }
+
+    syndhronizfd void stopTimfr() {
+        if (fTimfr != null) {
+            fTimfr.stop();
+            fTimfr = null;
+        }
+    }
+
+    syndhronizfd void updbtfDffbultButton(finbl JRootPbnf root) {
+        finbl JButton button = root.gftDffbultButton();
+        //Systfm.frr.println("in updbtfDffbultButton button = " + button);
+        fCurrfntDffbultButton = button;
+        stopTimfr();
+        if (button != null) {
+            fTimfr = nfw Timfr(kDffbultButtonPbintDflbyBftwffnFrbmfs, nfw DffbultButtonPbintfr(root));
+            fTimfr.stbrt();
+        }
+    }
+
+    dlbss DffbultButtonPbintfr implfmfnts AdtionListfnfr {
+        JRootPbnf root;
+
+        publid DffbultButtonPbintfr(finbl JRootPbnf root) {
+            this.root = root;
+        }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JButton dffbultButton = root.gftDffbultButton();
+            if ((dffbultButton != null) && dffbultButton.isShowing()) {
+                if (dffbultButton.isEnbblfd()) {
+                    dffbultButton.rfpbint();
+                }
+            } flsf {
+                stopTimfr();
+            }
+        }
+    }
+
+    /**
+     * This is sort of likf vifwDidMovfToWindow:.  Whfn thf root pbnf is put into b window
+     * this mfthod gfts dbllfd for thf notifidbtion.
+     * Wf nffd to sft up thf listfnfr rflbtionship so wf dbn pidk up bdtivbtion fvfnts.
+     * And, if b JMfnuBbr wbs bddfd bfforf thf root pbnf wbs bddfd to thf window, wf now nffd
+     * to notify thf mfnu bbr UI.
+     */
+    publid void bndfstorAddfd(finbl AndfstorEvfnt fvfnt) {
+        // this is so wf dbn hbndlf window bdtivbtfd bnd dfbdtivbtfd fvfnts so
+        // our swing dontrols dbn dolor/fnbblf/disbblf/fodus drbw dorrfdtly
+        finbl Contbinfr bndfstor = fvfnt.gftComponfnt();
+        finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(bndfstor);
+
+        if (owningWindow != null) {
+            // Wf gft this mfssbgf fvfn whfn b diblog is opfnfd bnd thf owning window is b window
+            // thbt dould blrfbdy bf listfnfd to. Wf should only bf b listfnfr ondf.
+            // bdding multiplf listfnfrs wbs thf dbusf of <rdbr://problfm/3534047>
+            // but thf indorrfdt rfmovbl of thfm dbusfd <rdbr://problfm/3617848>
+            owningWindow.rfmovfWindowListfnfr(this);
+            owningWindow.bddWindowListfnfr(this);
+        }
+
+        // Thf root pbnf hbs bffn bddfd to thf hifrbrdhy.  If it's fnbblfd updbtf thf dffbult
+        // button to stbrt thf throbbing.  Sindf thf UI is b singlfton mbkf surf thf root pbnf
+        // wf brf dhfdking hbs b dffbult button bfforf dblling updbtf othfrwisf wf will stop
+        // throbbing thf durrfnt dffbult button.
+        finbl JComponfnt domp = fvfnt.gftComponfnt();
+        if (domp instbndfof JRootPbnf) {
+            finbl JRootPbnf rp = (JRootPbnf)domp;
+            if (rp.isEnbblfd() && rp.gftDffbultButton() != null) {
+                updbtfDffbultButton((JRootPbnf)domp);
+            }
+        }
+    }
+
+    /**
+     * If thf JRootPbnf wbs rfmovfd from thf window wf should dlfbr thf sdrffn mfnu bbr.
+     * Thbt's b non-trivibl problfm, bfdbusf you nffd to know whidh window thf JRootPbnf wbs in
+     * bfforf it wbs rfmovfd.  By thf timf bndfstorRfmovfd wbs dbllfd, thf JRootPbnf hbs blrfbdy bffn rfmovfd
+     */
+
+    publid void bndfstorRfmovfd(finbl AndfstorEvfnt fvfnt) { }
+    publid void bndfstorMovfd(finbl AndfstorEvfnt fvfnt) { }
+
+    publid void windowAdtivbtfd(finbl WindowEvfnt f) {
+        updbtfComponfntTrffUIAdtivbtion((Componfnt)f.gftSourdf(), Boolfbn.TRUE);
+    }
+
+    publid void windowDfbdtivbtfd(finbl WindowEvfnt f) {
+        updbtfComponfntTrffUIAdtivbtion((Componfnt)f.gftSourdf(), Boolfbn.FALSE);
+    }
+
+    publid void windowOpfnfd(finbl WindowEvfnt f) { }
+    publid void windowClosing(finbl WindowEvfnt f) { }
+
+    publid void windowClosfd(finbl WindowEvfnt f) {
+        // Wf know thf window is dlosfd so rfmovf thf listfnfr.
+        finbl Window w = f.gftWindow();
+        w.rfmovfWindowListfnfr(this);
+    }
+
+    publid void windowIdonififd(finbl WindowEvfnt f) { }
+    publid void windowDfidonififd(finbl WindowEvfnt f) { }
+    publid void windowStbtfChbngfd(finbl WindowEvfnt f) { }
+    publid void windowGbinfdFodus(finbl WindowEvfnt f) { }
+    publid void windowLostFodus(finbl WindowEvfnt f) { }
+
+    privbtf stbtid void updbtfComponfntTrffUIAdtivbtion(finbl Componfnt d, Objfdt bdtivf) {
+        if (d instbndfof jbvbx.swing.JIntfrnblFrbmf) {
+            bdtivf = (((JIntfrnblFrbmf)d).isSflfdtfd() ? Boolfbn.TRUE : Boolfbn.FALSE);
+        }
+
+        if (d instbndfof jbvbx.swing.JComponfnt) {
+            ((jbvbx.swing.JComponfnt)d).putClifntPropfrty(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY, bdtivf);
+        }
+
+        Componfnt[] dhildrfn = null;
+
+        if (d instbndfof jbvbx.swing.JMfnu) {
+            dhildrfn = ((jbvbx.swing.JMfnu)d).gftMfnuComponfnts();
+        } flsf if (d instbndfof Contbinfr) {
+            dhildrfn = ((Contbinfr)d).gftComponfnts();
+        }
+
+        if (dhildrfn == null) rfturn;
+
+        for (finbl Componfnt flfmfnt : dhildrfn) {
+            updbtfComponfntTrffUIAdtivbtion(flfmfnt, bdtivf);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void updbtf(finbl Grbphids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            AqubUtils.fillRfdt(g, d);
+        }
+        pbint(g, d);
+    }
+}

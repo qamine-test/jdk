@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+
+/**
+ * <p>An objfdt of this dlbss implfmfnts thf MBfbnSfrvfr intfrfbdf bnd
+ * wrbps bnothfr objfdt thbt blso implfmfnts thbt intfrfbdf.
+ * Typidblly, bn implfmfntbtion of this intfrfbdf pfrforms somf bdtion
+ * in somf or bll mfthods of thf <dodf>MBfbnSfrvfr</dodf> intfrfbdf
+ * bfforf bnd/or bftfr forwbrding thf mfthod to thf wrbppfd objfdt.
+ * Exbmplfs indludf sfdurity dhfdking bnd logging.</p>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf MBfbnSfrvfrForwbrdfr fxtfnds MBfbnSfrvfr {
+
+    /**
+     * Rfturns thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd.
+     *
+     * @rfturn thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd,
+     * or null if thfrf is nonf.
+     *
+     * @sff #sftMBfbnSfrvfr
+     */
+    publid MBfbnSfrvfr gftMBfbnSfrvfr();
+
+    /**
+     * Sfts thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd
+     * bftfr trfbtmfnt by this objfdt.
+     *
+     * @pbrbm mbs thf MBfbnSfrvfr objfdt to whidh rfqufsts will bf forwbrdfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if this objfdt is blrfbdy
+     * forwbrding to bn MBfbnSfrvfr objfdt or if <dodf>mbs</dodf> is
+     * null or if <dodf>mbs</dodf> is idfntidbl to this objfdt.
+     *
+     * @sff #gftMBfbnSfrvfr
+     */
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr mbs);
+}

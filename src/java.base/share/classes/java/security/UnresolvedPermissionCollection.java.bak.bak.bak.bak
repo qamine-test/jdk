@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.*;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * A UnrfsolvfdPfrmissionCollfdtion storfs b dollfdtion
+ * of UnrfsolvfdPfrmission pfrmissions.
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.UnrfsolvfdPfrmission
+ *
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ *
+ * @sfribl indludf
+ */
+
+finbl dlbss UnrfsolvfdPfrmissionCollfdtion
+fxtfnds PfrmissionCollfdtion
+implfmfnts jbvb.io.Sfriblizbblf
+{
+    /**
+     * Kfy is pfrmission typf, vbluf is b list of thf UnrfsolvfdPfrmissions
+     * of thf sbmf typf.
+     * Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss.
+     */
+    privbtf trbnsifnt Mbp<String, List<UnrfsolvfdPfrmission>> pfrms;
+
+    /**
+     * Crfbtf bn fmpty UnrfsolvfdPfrmissionCollfdtion objfdt.
+     *
+     */
+    publid UnrfsolvfdPfrmissionCollfdtion() {
+        pfrms = nfw HbshMbp<String, List<UnrfsolvfdPfrmission>>(11);
+    }
+
+    /**
+     * Adds b pfrmission to this UnrfsolvfdPfrmissionCollfdtion.
+     * Thf kfy for thf hbsh is thf unrfsolvfd pfrmission's typf (dlbss) nbmf.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     */
+
+    publid void bdd(Pfrmission pfrmission)
+    {
+        if (! (pfrmission instbndfof UnrfsolvfdPfrmission))
+            throw nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        UnrfsolvfdPfrmission up = (UnrfsolvfdPfrmission) pfrmission;
+
+        List<UnrfsolvfdPfrmission> v;
+        syndhronizfd (this) {
+            v = pfrms.gft(up.gftNbmf());
+            if (v == null) {
+                v = nfw ArrbyList<UnrfsolvfdPfrmission>();
+                pfrms.put(up.gftNbmf(), v);
+            }
+        }
+        syndhronizfd (v) {
+            v.bdd(up);
+        }
+    }
+
+    /**
+     * gft bny unrfsolvfd pfrmissions of thf sbmf typf bs p,
+     * bnd rfturn thf List dontbining thfm.
+     */
+    List<UnrfsolvfdPfrmission> gftUnrfsolvfdPfrmissions(Pfrmission p) {
+        syndhronizfd (this) {
+            rfturn pfrms.gft(p.gftClbss().gftNbmf());
+        }
+    }
+
+    /**
+     * blwbys rfturns fblsf for unrfsolvfd pfrmissions
+     *
+     */
+    publid boolfbn implifs(Pfrmission pfrmission)
+    {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf UnrfsolvfdPfrmission lists in thf
+     * dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf UnrfsolvfdPfrmission objfdts.
+     */
+
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        List<Pfrmission> rfsults =
+            nfw ArrbyList<>(); // whfrf rfsults brf storfd
+
+        // Gft itfrbtor of Mbp vblufs (whidh brf lists of pfrmissions)
+        syndhronizfd (this) {
+            for (List<UnrfsolvfdPfrmission> l : pfrms.vblufs()) {
+                syndhronizfd (l) {
+                    rfsults.bddAll(l);
+                }
+            }
+        }
+
+        rfturn Collfdtions.fnumfrbtion(rfsults);
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7176153071733132400L;
+
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility with fbrlifr rflfbsfs,
+    // whidh hbd thf sfriblizbblf fifld:
+    // privbtf Hbshtbblf pfrmissions; // kfyfd on typf
+
+    /**
+     * @sfriblFifld pfrmissions jbvb.util.Hbshtbblf
+     *     A tbblf of thf UnrfsolvfdPfrmissions kfyfd on typf, vbluf is Vfdtor
+     *     of pfrmissions
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Hbshtbblf.dlbss),
+    };
+
+    /**
+     * @sfriblDbtb Dffbult fifld.
+     */
+    /*
+     * Writfs thf dontfnts of thf pfrms fifld out bs b Hbshtbblf
+     * in whidh thf vblufs brf Vfdtors for
+     * sfriblizbtion dompbtibility with fbrlifr rflfbsfs.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) throws IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
+
+        // Copy pfrms into b Hbshtbblf
+        Hbshtbblf<String, Vfdtor<UnrfsolvfdPfrmission>> pfrmissions =
+            nfw Hbshtbblf<>(pfrms.sizf()*2);
+
+        // Convfrt fbdh fntry (List) into b Vfdtor
+        syndhronizfd (this) {
+            Sft<Mbp.Entry<String, List<UnrfsolvfdPfrmission>>> sft = pfrms.fntrySft();
+            for (Mbp.Entry<String, List<UnrfsolvfdPfrmission>> f : sft) {
+                // Convfrt list into Vfdtor
+                List<UnrfsolvfdPfrmission> list = f.gftVbluf();
+                Vfdtor<UnrfsolvfdPfrmission> vfd = nfw Vfdtor<>(list.sizf());
+                syndhronizfd (list) {
+                    vfd.bddAll(list);
+                }
+
+                // Add to Hbshtbblf bfing sfriblizfd
+                pfrmissions.put(f.gftKfy(), vfd);
+            }
+        }
+
+        // Writf out sfriblizbblf fiflds
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrmissions", pfrmissions);
+        out.writfFiflds();
+    }
+
+    /*
+     * Rfbds in b Hbshtbblf in whidh thf vblufs brf Vfdtors of
+     * UnrfsolvfdPfrmissions bnd sbvfs thfm in thf pfrms fifld.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption,
+    ClbssNotFoundExdfption {
+        // Don't dbll dffbultRfbdObjfdt()
+
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
+
+        // Gft pfrmissions
+        @SupprfssWbrnings("undhfdkfd")
+        // writfObjfdt writfs b Hbshtbblf<String, Vfdtor<UnrfsolvfdPfrmission>>
+        // for thf pfrmissions kfy, so this dbst is sbff, unlfss thf dbtb is dorrupt.
+        Hbshtbblf<String, Vfdtor<UnrfsolvfdPfrmission>> pfrmissions =
+                (Hbshtbblf<String, Vfdtor<UnrfsolvfdPfrmission>>)
+                gfiflds.gft("pfrmissions", null);
+        pfrms = nfw HbshMbp<String, List<UnrfsolvfdPfrmission>>(pfrmissions.sizf()*2);
+
+        // Convfrt fbdh fntry (Vfdtor) into b List
+        Sft<Mbp.Entry<String, Vfdtor<UnrfsolvfdPfrmission>>> sft = pfrmissions.fntrySft();
+        for (Mbp.Entry<String, Vfdtor<UnrfsolvfdPfrmission>> f : sft) {
+            // Convfrt Vfdtor into ArrbyList
+            Vfdtor<UnrfsolvfdPfrmission> vfd = f.gftVbluf();
+            List<UnrfsolvfdPfrmission> list = nfw ArrbyList<>(vfd.sizf());
+            list.bddAll(vfd);
+
+            // Add to Hbshtbblf bfing sfriblizfd
+            pfrms.put(f.gftKfy(), list);
+        }
+    }
+}

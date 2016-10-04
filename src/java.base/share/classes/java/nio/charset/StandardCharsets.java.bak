@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.nio.charset;
+pbdkbgf jbvb.nio.dibrsft;
 
 /**
- * Constant definitions for the standard {@link Charset Charsets}. These
- * charsets are guaranteed to be available on every implementation of the Java
- * platform.
+ * Constbnt dffinitions for tif stbndbrd {@link Cibrsft Cibrsfts}. Tifsf
+ * dibrsfts brf gubrbntffd to bf bvbilbblf on fvfry implfmfntbtion of tif Jbvb
+ * plbtform.
  *
- * @see <a href="Charset.html#standard">Standard Charsets</a>
- * @since 1.7
+ * @sff <b irff="Cibrsft.itml#stbndbrd">Stbndbrd Cibrsfts</b>
+ * @sindf 1.7
  */
-public final class StandardCharsets {
+publid finbl dlbss StbndbrdCibrsfts {
 
-    private StandardCharsets() {
-        throw new AssertionError("No java.nio.charset.StandardCharsets instances for you!");
+    privbtf StbndbrdCibrsfts() {
+        tirow nfw AssfrtionError("No jbvb.nio.dibrsft.StbndbrdCibrsfts instbndfs for you!");
     }
     /**
-     * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
-     * Unicode character set
+     * Sfvfn-bit ASCII, b.k.b. ISO646-US, b.k.b. tif Bbsid Lbtin blodk of tif
+     * Unidodf dibrbdtfr sft
      */
-    public static final Charset US_ASCII = Charset.forName("US-ASCII");
+    publid stbtid finbl Cibrsft US_ASCII = Cibrsft.forNbmf("US-ASCII");
     /**
-     * ISO Latin Alphabet No. 1, a.k.a. ISO-LATIN-1
+     * ISO Lbtin Alpibbft No. 1, b.k.b. ISO-LATIN-1
      */
-    public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+    publid stbtid finbl Cibrsft ISO_8859_1 = Cibrsft.forNbmf("ISO-8859-1");
     /**
-     * Eight-bit UCS Transformation Format
+     * Eigit-bit UCS Trbnsformbtion Formbt
      */
-    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    publid stbtid finbl Cibrsft UTF_8 = Cibrsft.forNbmf("UTF-8");
     /**
-     * Sixteen-bit UCS Transformation Format, big-endian byte order
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, big-fndibn bytf ordfr
      */
-    public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
+    publid stbtid finbl Cibrsft UTF_16BE = Cibrsft.forNbmf("UTF-16BE");
     /**
-     * Sixteen-bit UCS Transformation Format, little-endian byte order
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, littlf-fndibn bytf ordfr
      */
-    public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+    publid stbtid finbl Cibrsft UTF_16LE = Cibrsft.forNbmf("UTF-16LE");
     /**
-     * Sixteen-bit UCS Transformation Format, byte order identified by an
-     * optional byte-order mark
+     * Sixtffn-bit UCS Trbnsformbtion Formbt, bytf ordfr idfntififd by bn
+     * optionbl bytf-ordfr mbrk
      */
-    public static final Charset UTF_16 = Charset.forName("UTF-16");
+    publid stbtid finbl Cibrsft UTF_16 = Cibrsft.forNbmf("UTF-16");
 }

@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import javax.imageio.metadata.IIOMetadata;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
 
 /**
- * An interface providing metadata transcoding capability.
+ * An intfrfbdf providing mftbdbtb trbnsdoding dbpbbility.
  *
- * <p> Any image may be transcoded (written to a different format
- * than the one it was originally stored in) simply by performing
- * a read operation followed by a write operation.  However, loss
- * of data may occur in this process due to format differences.
+ * <p> Any imbgf mby bf trbnsdodfd (writtfn to b difffrfnt formbt
+ * tibn tif onf it wbs originblly storfd in) simply by pfrforming
+ * b rfbd opfrbtion followfd by b writf opfrbtion.  Howfvfr, loss
+ * of dbtb mby oddur in tiis prodfss duf to formbt difffrfndfs.
  *
- * <p> In general, the best results will be achieved when
- * format-specific metadata objects can be created to encapsulate as
- * much information about the image and its associated metadata as
- * possible, in terms that are understood by the specific
- * <code>ImageWriter</code> used to perform the encoding.
+ * <p> In gfnfrbl, tif bfst rfsults will bf bdiifvfd wifn
+ * formbt-spfdifid mftbdbtb objfdts dbn bf drfbtfd to fndbpsulbtf bs
+ * mudi informbtion bbout tif imbgf bnd its bssodibtfd mftbdbtb bs
+ * possiblf, in tfrms tibt brf undfrstood by tif spfdifid
+ * <dodf>ImbgfWritfr</dodf> usfd to pfrform tif fndoding.
  *
- * <p> An <code>ImageTranscoder</code> may be used to convert the
- * <code>IIOMetadata</code> objects supplied by the
- * <code>ImageReader</code> (representing per-stream and per-image
- * metadata) into corresponding objects suitable for encoding by a
- * particular <code>ImageWriter</code>.  In the case where the methods
- * of this interface are being called directly on an
- * <code>ImageWriter</code>, the output will be suitable for that
- * writer.
+ * <p> An <dodf>ImbgfTrbnsdodfr</dodf> mby bf usfd to donvfrt tif
+ * <dodf>IIOMftbdbtb</dodf> objfdts supplifd by tif
+ * <dodf>ImbgfRfbdfr</dodf> (rfprfsfnting pfr-strfbm bnd pfr-imbgf
+ * mftbdbtb) into dorrfsponding objfdts suitbblf for fndoding by b
+ * pbrtidulbr <dodf>ImbgfWritfr</dodf>.  In tif dbsf wifrf tif mftiods
+ * of tiis intfrfbdf brf bfing dbllfd dirfdtly on bn
+ * <dodf>ImbgfWritfr</dodf>, tif output will bf suitbblf for tibt
+ * writfr.
  *
- * <p> The internal details of converting an <code>IIOMetadata</code>
- * object into a writer-specific format will vary according to the
- * context of the operation.  Typically, an <code>ImageWriter</code>
- * will inspect the incoming object to see if it implements additional
- * interfaces with which the writer is familiar.  This might be the
- * case, for example, if the object was obtained by means of a read
- * operation on a reader plug-in written by the same vendor as the
- * writer.  In this case, the writer may access the incoming object by
- * means of its plug-in specific interfaces.  In this case, the
- * re-encoding may be close to lossless if the image file format is
- * kept constant.  If the format is changing, the writer may still
- * attempt to preserve as much information as possible.
+ * <p> Tif intfrnbl dftbils of donvfrting bn <dodf>IIOMftbdbtb</dodf>
+ * objfdt into b writfr-spfdifid formbt will vbry bddording to tif
+ * dontfxt of tif opfrbtion.  Typidblly, bn <dodf>ImbgfWritfr</dodf>
+ * will inspfdt tif indoming objfdt to sff if it implfmfnts bdditionbl
+ * intfrfbdfs witi wiidi tif writfr is fbmilibr.  Tiis migit bf tif
+ * dbsf, for fxbmplf, if tif objfdt wbs obtbinfd by mfbns of b rfbd
+ * opfrbtion on b rfbdfr plug-in writtfn by tif sbmf vfndor bs tif
+ * writfr.  In tiis dbsf, tif writfr mby bddfss tif indoming objfdt by
+ * mfbns of its plug-in spfdifid intfrfbdfs.  In tiis dbsf, tif
+ * rf-fndoding mby bf dlosf to losslfss if tif imbgf filf formbt is
+ * kfpt donstbnt.  If tif formbt is dibnging, tif writfr mby still
+ * bttfmpt to prfsfrvf bs mudi informbtion bs possiblf.
  *
- * <p> If the incoming object does not implement any additional
- * interfaces known to the writer, the writer has no choice but to
- * access it via the standard <code>IIOMetadata</code> interfaces such
- * as the tree view provided by <code>IIOMetadata.getAsTree</code>.
- * In this case, there is likely to be significant loss of
- * information.
+ * <p> If tif indoming objfdt dofs not implfmfnt bny bdditionbl
+ * intfrfbdfs known to tif writfr, tif writfr ibs no dioidf but to
+ * bddfss it vib tif stbndbrd <dodf>IIOMftbdbtb</dodf> intfrfbdfs sudi
+ * bs tif trff vifw providfd by <dodf>IIOMftbdbtb.gftAsTrff</dodf>.
+ * In tiis dbsf, tifrf is likfly to bf signifidbnt loss of
+ * informbtion.
  *
- * <p> An independent <code>ImageTranscoder</code> essentially takes
- * on the same role as the writer plug-in in the above examples.  It
- * must be familiar with the private interfaces used by both the
- * reader and writer plug-ins, and manually instantiate an object that
- * will be usable by the writer.  The resulting metadata objects may
- * be used by the writer directly.
+ * <p> An indfpfndfnt <dodf>ImbgfTrbnsdodfr</dodf> fssfntiblly tbkfs
+ * on tif sbmf rolf bs tif writfr plug-in in tif bbovf fxbmplfs.  It
+ * must bf fbmilibr witi tif privbtf intfrfbdfs usfd by boti tif
+ * rfbdfr bnd writfr plug-ins, bnd mbnublly instbntibtf bn objfdt tibt
+ * will bf usbblf by tif writfr.  Tif rfsulting mftbdbtb objfdts mby
+ * bf usfd by tif writfr dirfdtly.
  *
- * <p> No independent implementations of <code>ImageTranscoder</code>
- * are provided as part of the standard API.  Instead, the intention
- * of this interface is to provide a way for implementations to be
- * created and discovered by applications as the need arises.
+ * <p> No indfpfndfnt implfmfntbtions of <dodf>ImbgfTrbnsdodfr</dodf>
+ * brf providfd bs pbrt of tif stbndbrd API.  Instfbd, tif intfntion
+ * of tiis intfrfbdf is to providf b wby for implfmfntbtions to bf
+ * drfbtfd bnd disdovfrfd by bpplidbtions bs tif nffd brisfs.
  *
  */
-public interface ImageTranscoder {
+publid intfrfbdf ImbgfTrbnsdodfr {
 
     /**
-     * Returns an <code>IIOMetadata</code> object that may be used for
-     * encoding and optionally modified using its document interfaces
-     * or other interfaces specific to the writer plug-in that will be
-     * used for encoding.
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt tibt mby bf usfd for
+     * fndoding bnd optionblly modififd using its dodumfnt intfrfbdfs
+     * or otifr intfrfbdfs spfdifid to tif writfr plug-in tibt will bf
+     * usfd for fndoding.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the stream
-     * metadata.
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs wifrf it mby bfffdt tif strudturf of tif strfbm
+     * mftbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not understood by this writer or
-     * transcoder, they will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not undfrstood by tiis writfr or
+     * trbnsdodfr, tify will bf ignorfd.
      *
-     * @param inData an <code>IIOMetadata</code> object representing
-     * stream metadata, used to initialize the state of the returned
-     * object.
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm inDbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, usfd to initiblizf tif stbtf of tif rfturnfd
+     * objfdt.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd to
+     * fndodf tif imbgf, or <dodf>null</dodf>.
      *
-     * @return an <code>IIOMetadata</code> object, or
-     * <code>null</code> if the plug-in does not provide metadata
-     * encoding capabilities.
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf> if tif plug-in dofs not providf mftbdbtb
+     * fndoding dbpbbilitifs.
      *
-     * @exception IllegalArgumentException if <code>inData</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>inDbtb</dodf> is
+     * <dodf>null</dodf>.
      */
-    IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                      ImageWriteParam param);
+    IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                      ImbgfWritfPbrbm pbrbm);
 
     /**
-     * Returns an <code>IIOMetadata</code> object that may be used for
-     * encoding and optionally modified using its document interfaces
-     * or other interfaces specific to the writer plug-in that will be
-     * used for encoding.
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt tibt mby bf usfd for
+     * fndoding bnd optionblly modififd using its dodumfnt intfrfbdfs
+     * or otifr intfrfbdfs spfdifid to tif writfr plug-in tibt will bf
+     * usfd for fndoding.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the image
-     * metadata.
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs wifrf it mby bfffdt tif strudturf of tif imbgf
+     * mftbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not understood by this writer or
-     * transcoder, they will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not undfrstood by tiis writfr or
+     * trbnsdodfr, tify will bf ignorfd.
      *
-     * @param inData an <code>IIOMetadata</code> object representing
-     * image metadata, used to initialize the state of the returned
-     * object.
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating
-     * the layout and color information of the image with which the
-     * metadata will be associated.
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm inDbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * imbgf mftbdbtb, usfd to initiblizf tif stbtf of tif rfturnfd
+     * objfdt.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting
+     * tif lbyout bnd dolor informbtion of tif imbgf witi wiidi tif
+     * mftbdbtb will bf bssodibtfd.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd to
+     * fndodf tif imbgf, or <dodf>null</dodf>.
      *
-     * @return an <code>IIOMetadata</code> object,
-     * or <code>null</code> if the plug-in does not provide
-     * metadata encoding capabilities.
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt,
+     * or <dodf>null</dodf> if tif plug-in dofs not providf
+     * mftbdbtb fndoding dbpbbilitifs.
      *
-     * @exception IllegalArgumentException if either of
-     * <code>inData</code> or <code>imageType</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if fitifr of
+     * <dodf>inDbtb</dodf> or <dodf>imbgfTypf</dodf> is
+     * <dodf>null</dodf>.
      */
-    IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                     ImageTypeSpecifier imageType,
-                                     ImageWriteParam param);
+    IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                     ImbgfTypfSpfdififr imbgfTypf,
+                                     ImbgfWritfPbrbm pbrbm);
 }

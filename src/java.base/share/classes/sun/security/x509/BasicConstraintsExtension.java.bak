@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class represents the Basic Constraints Extension.
+ * Tiis dlbss rfprfsfnts tif Bbsid Constrbints Extfnsion.
  *
- * <p>The basic constraints extension identifies whether the subject of the
- * certificate is a CA and how deep a certification path may exist
- * through that CA.
+ * <p>Tif bbsid donstrbints fxtfnsion idfntififs wiftifr tif subjfdt of tif
+ * dfrtifidbtf is b CA bnd iow dffp b dfrtifidbtion pbti mby fxist
+ * tirougi tibt CA.
  *
- * <pre>
- * The ASN.1 syntax for this extension is:
- * BasicConstraints ::= SEQUENCE {
- *     cA                BOOLEAN DEFAULT FALSE,
- *     pathLenConstraint INTEGER (0..MAX) OPTIONAL
+ * <prf>
+ * Tif ASN.1 syntbx for tiis fxtfnsion is:
+ * BbsidConstrbints ::= SEQUENCE {
+ *     dA                BOOLEAN DEFAULT FALSE,
+ *     pbtiLfnConstrbint INTEGER (0..MAX) OPTIONAL
  * }
- * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
- * @see Extension
+ * </prf>
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
+ * @sff Extfnsion
  */
-public class BasicConstraintsExtension extends Extension
-implements CertAttrSet<String> {
+publid dlbss BbsidConstrbintsExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.BasicConstraints";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.BbsidConstrbints";
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "BasicConstraints";
-    public static final String IS_CA = "is_ca";
-    public static final String PATH_LEN = "path_len";
+    publid stbtid finbl String NAME = "BbsidConstrbints";
+    publid stbtid finbl String IS_CA = "is_db";
+    publid stbtid finbl String PATH_LEN = "pbti_lfn";
 
-    // Private data members
-    private boolean     ca = false;
-    private int pathLen = -1;
+    // Privbtf dbtb mfmbfrs
+    privbtf boolfbn     db = fblsf;
+    privbtf int pbtiLfn = -1;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+    // Endodf tiis fxtfnsion vbluf
+    privbtf void fndodfTiis() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        if (ca) {
-            tmp.putBoolean(ca);
-            // Only encode pathLen when ca == true
-            if (pathLen >= 0) {
-                tmp.putInteger(pathLen);
+        if (db) {
+            tmp.putBoolfbn(db);
+            // Only fndodf pbtiLfn wifn db == truf
+            if (pbtiLfn >= 0) {
+                tmp.putIntfgfr(pbtiLfn);
             }
         }
-        out.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = out.toByteArray();
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        tiis.fxtfnsionVbluf = out.toBytfArrby();
     }
 
     /**
-     * Default constructor for this object. The extension is marked
-     * critical if the ca flag is true, false otherwise.
+     * Dffbult donstrudtor for tiis objfdt. Tif fxtfnsion is mbrkfd
+     * dritidbl if tif db flbg is truf, fblsf otifrwisf.
      *
-     * @param ca true, if the subject of the Certificate is a CA.
-     * @param len specifies the depth of the certification path.
+     * @pbrbm db truf, if tif subjfdt of tif Cfrtifidbtf is b CA.
+     * @pbrbm lfn spfdififs tif dfpti of tif dfrtifidbtion pbti.
      */
-    public BasicConstraintsExtension(boolean ca, int len) throws IOException {
-        this(Boolean.valueOf(ca), ca, len);
+    publid BbsidConstrbintsExtfnsion(boolfbn db, int lfn) tirows IOExdfption {
+        tiis(Boolfbn.vblufOf(db), db, lfn);
     }
 
     /**
-     * Constructor for this object with specified criticality.
+     * Construdtor for tiis objfdt witi spfdififd dritidblity.
      *
-     * @param critical true, if the extension should be marked critical
-     * @param ca true, if the subject of the Certificate is a CA.
-     * @param len specifies the depth of the certification path.
+     * @pbrbm dritidbl truf, if tif fxtfnsion siould bf mbrkfd dritidbl
+     * @pbrbm db truf, if tif subjfdt of tif Cfrtifidbtf is b CA.
+     * @pbrbm lfn spfdififs tif dfpti of tif dfrtifidbtion pbti.
      */
-    public BasicConstraintsExtension(Boolean critical, boolean ca, int len)
-    throws IOException {
-        this.ca = ca;
-        this.pathLen = len;
-        this.extensionId = PKIXExtensions.BasicConstraints_Id;
-        this.critical = critical.booleanValue();
-        encodeThis();
+    publid BbsidConstrbintsExtfnsion(Boolfbn dritidbl, boolfbn db, int lfn)
+    tirows IOExdfption {
+        tiis.db = db;
+        tiis.pbtiLfn = lfn;
+        tiis.fxtfnsionId = PKIXExtfnsions.BbsidConstrbints_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical flag indicating if extension is critical or not
-     * @param value an array containing the DER encoded bytes of the extension.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl flbg indidbting if fxtfnsion is dritidbl or not
+     * @pbrbm vbluf bn brrby dontbining tif DER fndodfd bytfs of tif fxtfnsion.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-     public BasicConstraintsExtension(Boolean critical, Object value)
-         throws IOException
+     publid BbsidConstrbintsExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+         tirows IOExdfption
     {
-         this.extensionId = PKIXExtensions.BasicConstraints_Id;
-         this.critical = critical.booleanValue();
+         tiis.fxtfnsionId = PKIXExtfnsions.BbsidConstrbints_Id;
+         tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-         this.extensionValue = (byte[]) value;
-         DerValue val = new DerValue(this.extensionValue);
-         if (val.tag != DerValue.tag_Sequence) {
-             throw new IOException("Invalid encoding of BasicConstraints");
-         }
-
-         if (val.data == null || val.data.available() == 0) {
-             // non-CA cert ("cA" field is FALSE by default), return -1
-             return;
-         }
-         DerValue opt = val.data.getDerValue();
-         if (opt.tag != DerValue.tag_Boolean) {
-             // non-CA cert ("cA" field is FALSE by default), return -1
-             return;
+         tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+         DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+         if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+             tirow nfw IOExdfption("Invblid fndoding of BbsidConstrbints");
          }
 
-         this.ca = opt.getBoolean();
-         if (val.data.available() == 0) {
-             // From PKIX profile:
-             // Where pathLenConstraint does not appear, there is no
-             // limit to the allowed length of the certification path.
-             this.pathLen = Integer.MAX_VALUE;
-             return;
+         if (vbl.dbtb == null || vbl.dbtb.bvbilbblf() == 0) {
+             // non-CA dfrt ("dA" fifld is FALSE by dffbult), rfturn -1
+             rfturn;
+         }
+         DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+         if (opt.tbg != DfrVbluf.tbg_Boolfbn) {
+             // non-CA dfrt ("dA" fifld is FALSE by dffbult), rfturn -1
+             rfturn;
          }
 
-         opt = val.data.getDerValue();
-         if (opt.tag != DerValue.tag_Integer) {
-             throw new IOException("Invalid encoding of BasicConstraints");
+         tiis.db = opt.gftBoolfbn();
+         if (vbl.dbtb.bvbilbblf() == 0) {
+             // From PKIX profilf:
+             // Wifrf pbtiLfnConstrbint dofs not bppfbr, tifrf is no
+             // limit to tif bllowfd lfngti of tif dfrtifidbtion pbti.
+             tiis.pbtiLfn = Intfgfr.MAX_VALUE;
+             rfturn;
          }
-         this.pathLen = opt.getInteger();
+
+         opt = vbl.dbtb.gftDfrVbluf();
+         if (opt.tbg != DfrVbluf.tbg_Intfgfr) {
+             tirow nfw IOExdfption("Invblid fndoding of BbsidConstrbints");
+         }
+         tiis.pbtiLfn = opt.gftIntfgfr();
          /*
-          * Activate this check once again after PKIX profiling
-          * is a standard and this check no longer imposes an
-          * interoperability barrier.
-          * if (ca) {
-          *   if (!this.critical) {
-          *   throw new IOException("Criticality cannot be false for CA.");
+          * Adtivbtf tiis difdk ondf bgbin bftfr PKIX profiling
+          * is b stbndbrd bnd tiis difdk no longfr imposfs bn
+          * intfropfrbbility bbrrifr.
+          * if (db) {
+          *   if (!tiis.dritidbl) {
+          *   tirow nfw IOExdfption("Critidblity dbnnot bf fblsf for CA.");
           *   }
           * }
           */
      }
 
      /**
-      * Return user readable form of extension.
+      * Rfturn usfr rfbdbblf form of fxtfnsion.
       */
-     public String toString() {
-         String s = super.toString() + "BasicConstraints:[\n";
+     publid String toString() {
+         String s = supfr.toString() + "BbsidConstrbints:[\n";
 
-         s += ((ca) ? ("  CA:true") : ("  CA:false")) + "\n";
-         if (pathLen >= 0) {
-             s += "  PathLen:" + pathLen + "\n";
-         } else {
-             s += "  PathLen: undefined\n";
+         s += ((db) ? ("  CA:truf") : ("  CA:fblsf")) + "\n";
+         if (pbtiLfn >= 0) {
+             s += "  PbtiLfn:" + pbtiLfn + "\n";
+         } flsf {
+             s += "  PbtiLfn: undffinfd\n";
          }
-         return (s + "]\n");
+         rfturn (s + "]\n");
      }
 
      /**
-      * Encode this extension value to the output stream.
+      * Endodf tiis fxtfnsion vbluf to tif output strfbm.
       *
-      * @param out the DerOutputStream to encode the extension to.
+      * @pbrbm out tif DfrOutputStrfbm to fndodf tif fxtfnsion to.
       */
-     public void encode(OutputStream out) throws IOException {
-         DerOutputStream tmp = new DerOutputStream();
-         if (extensionValue == null) {
-             this.extensionId = PKIXExtensions.BasicConstraints_Id;
-             if (ca) {
-                 critical = true;
-             } else {
-                 critical = false;
+     publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+         DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+         if (fxtfnsionVbluf == null) {
+             tiis.fxtfnsionId = PKIXExtfnsions.BbsidConstrbints_Id;
+             if (db) {
+                 dritidbl = truf;
+             } flsf {
+                 dritidbl = fblsf;
              }
-             encodeThis();
+             fndodfTiis();
          }
-         super.encode(tmp);
+         supfr.fndodf(tmp);
 
-         out.write(tmp.toByteArray());
+         out.writf(tmp.toBytfArrby());
      }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            if (!(obj instanceof Boolean)) {
-              throw new IOException("Attribute value should be of type Boolean.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(IS_CA)) {
+            if (!(obj instbndfof Boolfbn)) {
+              tirow nfw IOExdfption("Attributf vbluf siould bf of typf Boolfbn.");
             }
-            ca = ((Boolean)obj).booleanValue();
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            if (!(obj instanceof Integer)) {
-              throw new IOException("Attribute value should be of type Integer.");
+            db = ((Boolfbn)obj).boolfbnVbluf();
+        } flsf if (nbmf.fqublsIgnorfCbsf(PATH_LEN)) {
+            if (!(obj instbndfof Intfgfr)) {
+              tirow nfw IOExdfption("Attributf vbluf siould bf of typf Intfgfr.");
             }
-            pathLen = ((Integer)obj).intValue();
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+            pbtiLfn = ((Intfgfr)obj).intVbluf();
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:BbsidConstrbints.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            return (Boolean.valueOf(ca));
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            return (Integer.valueOf(pathLen));
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+    publid Objfdt gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(IS_CA)) {
+            rfturn (Boolfbn.vblufOf(db));
+        } flsf if (nbmf.fqublsIgnorfCbsf(PATH_LEN)) {
+            rfturn (Intfgfr.vblufOf(pbtiLfn));
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:BbsidConstrbints.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            ca = false;
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            pathLen = -1;
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(IS_CA)) {
+            db = fblsf;
+        } flsf if (nbmf.fqublsIgnorfCbsf(PATH_LEN)) {
+            pbtiLfn = -1;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:BbsidConstrbints.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(IS_CA);
-        elements.addElement(PATH_LEN);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(IS_CA);
+        flfmfnts.bddElfmfnt(PATH_LEN);
 
-        return (elements.elements());
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 }

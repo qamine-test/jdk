@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.net.*;
-import jdk.net.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.lang.reflect.Field;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Collections;
+import jbvb.nft.*;
+import jdk.nft.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Collfdtions;
 
 /**
- * Contains the native implementation for extended socket options
- * together with some other static utilities
+ * Contbins tif nbtivf implfmfntbtion for fxtfndfd sodkft options
+ * togftifr witi somf otifr stbtid utilitifs
  */
-public class ExtendedOptionsImpl {
+publid dlbss ExtfndfdOptionsImpl {
 
-    static {
-        AccessController.doPrivileged((PrivilegedAction<Void>)() -> {
-            System.loadLibrary("net");
-            return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>)() -> {
+            Systfm.lobdLibrbry("nft");
+            rfturn null;
         });
         init();
     }
 
-    private ExtendedOptionsImpl() {}
+    privbtf ExtfndfdOptionsImpl() {}
 
-    public static void checkSetOptionPermission(SocketOption<?> option) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void difdkSftOptionPfrmission(SodkftOption<?> option) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null) {
-            return;
+            rfturn;
         }
-        String check = "setOption." + option.name();
-        sm.checkPermission(new NetworkPermission(check));
+        String difdk = "sftOption." + option.nbmf();
+        sm.difdkPfrmission(nfw NftworkPfrmission(difdk));
     }
 
-    public static void checkGetOptionPermission(SocketOption<?> option) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void difdkGftOptionPfrmission(SodkftOption<?> option) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null) {
-            return;
+            rfturn;
         }
-        String check = "getOption." + option.name();
-        sm.checkPermission(new NetworkPermission(check));
+        String difdk = "gftOption." + option.nbmf();
+        sm.difdkPfrmission(nfw NftworkPfrmission(difdk));
     }
 
-    public static void checkValueType(Object value, Class<?> type) {
-        if (!type.isAssignableFrom(value.getClass())) {
-            String s = "Found: " + value.getClass().toString() + " Expected: "
-                        + type.toString();
-            throw new IllegalArgumentException(s);
+    publid stbtid void difdkVblufTypf(Objfdt vbluf, Clbss<?> typf) {
+        if (!typf.isAssignbblfFrom(vbluf.gftClbss())) {
+            String s = "Found: " + vbluf.gftClbss().toString() + " Expfdtfd: "
+                        + typf.toString();
+            tirow nfw IllfgblArgumfntExdfption(s);
         }
     }
 
-    private static native void init();
+    privbtf stbtid nbtivf void init();
 
     /*
-     * Extension native implementations
+     * Extfnsion nbtivf implfmfntbtions
      *
      * SO_FLOW_SLA
      */
-    public static native void setFlowOption(FileDescriptor fd, SocketFlow f);
-    public static native void getFlowOption(FileDescriptor fd, SocketFlow f);
-    public static native boolean flowSupported();
+    publid stbtid nbtivf void sftFlowOption(FilfDfsdriptor fd, SodkftFlow f);
+    publid stbtid nbtivf void gftFlowOption(FilfDfsdriptor fd, SodkftFlow f);
+    publid stbtid nbtivf boolfbn flowSupportfd();
 }

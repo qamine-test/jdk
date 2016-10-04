@@ -1,329 +1,329 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <malloc.h>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <mbllod.i>
 
-#include "FileSystemSupport_md.h"
+#indludf "FilfSystfmSupport_md.i"
 
 /*
- * Windows implementation of file system support functions
+ * Windows implfmfntbtion of filf systfm support fundtions
  */
 
-#define slash           '\\'
-#define altSlash        '/'
+#dffinf slbsi           '\\'
+#dffinf bltSlbsi        '/'
 
-static int isSlash(char c) {
-    return (c == '\\') || (c == '/');
+stbtid int isSlbsi(dibr d) {
+    rfturn (d == '\\') || (d == '/');
 }
 
-static int isLetter(char c) {
-    return ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'));
+stbtid int isLfttfr(dibr d) {
+    rfturn ((d >= 'b') && (d <= 'z')) || ((d >= 'A') && (d <= 'Z'));
 }
 
-char pathSeparator() {
-    return ';';
+dibr pbtiSfpbrbtor() {
+    rfturn ';';
 }
 
-/* filename are case insensitive on windows */
-int filenameStrcmp(const char* s1, const char* s2) {
-    return strcasecmp(s1, s2);
+/* filfnbmf brf dbsf insfnsitivf on windows */
+int filfnbmfStrdmp(donst dibr* s1, donst dibr* s2) {
+    rfturn strdbsfdmp(s1, s2);
 }
 
-char* basePath(const char* path) {
-    char* pos = strchr(path, slash);
-    char* last = NULL;
-    while (pos != NULL) {
-        last = pos;
+dibr* bbsfPbti(donst dibr* pbti) {
+    dibr* pos = strdir(pbti, slbsi);
+    dibr* lbst = NULL;
+    wiilf (pos != NULL) {
+        lbst = pos;
         pos++;
-        pos = strchr(pos, slash);
+        pos = strdir(pos, slbsi);
     }
-    if (last == NULL) {
-        return (char*)path;
-    } else {
-        int len = (int)(last - path);
-        char* str = (char*)malloc(len+1);
-        if (len > 0) {
-            memcpy(str, path, len);
+    if (lbst == NULL) {
+        rfturn (dibr*)pbti;
+    } flsf {
+        int lfn = (int)(lbst - pbti);
+        dibr* str = (dibr*)mbllod(lfn+1);
+        if (lfn > 0) {
+            mfmdpy(str, pbti, lfn);
         }
-        str[len] = '\0';
-        return str;
+        str[lfn] = '\0';
+        rfturn str;
     }
 }
 
 
 
-/* -- Normalization - src/windows/classes/java/io/Win32FileSystem.java */
+/* -- Normblizbtion - srd/windows/dlbssfs/jbvb/io/Win32FilfSystfm.jbvb */
 
 
-/* A normal Win32 pathname contains no duplicate slashes, except possibly
- * for a UNC prefix, and does not end with a slash.  It may be the empty
- * string.  Normalized Win32 pathnames have the convenient property that
- * the length of the prefix almost uniquely identifies the type of the path
- * and whether it is absolute or relative:
+/* A normbl Win32 pbtinbmf dontbins no duplidbtf slbsifs, fxdfpt possibly
+ * for b UNC prffix, bnd dofs not fnd witi b slbsi.  It mby bf tif fmpty
+ * string.  Normblizfd Win32 pbtinbmfs ibvf tif donvfnifnt propfrty tibt
+ * tif lfngti of tif prffix blmost uniqufly idfntififs tif typf of tif pbti
+ * bnd wiftifr it is bbsolutf or rflbtivf:
  *
- *      0  relative to both drive and directory
- *      1  drive-relative (begins with '\\')
- *      2  absolute UNC (if first char is '\\'),
- *         else directory-relative (has form "z:foo")
- *      3  absolute local pathname (begins with "z:\\")
+ *      0  rflbtivf to boti drivf bnd dirfdtory
+ *      1  drivf-rflbtivf (bfgins witi '\\')
+ *      2  bbsolutf UNC (if first dibr is '\\'),
+ *         flsf dirfdtory-rflbtivf (ibs form "z:foo")
+ *      3  bbsolutf lodbl pbtinbmf (bfgins witi "z:\\")
  */
-static int normalizePrefix(const char* path, int len, char* sb, int* sbLen) {
-    char c;
-    int src = 0;
-    while ((src < len) && isSlash(path[src])) src++;
-    if ((len - src >= 2)
-        && isLetter(c = path[src])
-        && path[src + 1] == ':') {
-        /* Remove leading slashes if followed by drive specifier.
-           This hack is necessary to support file URLs containing drive
-           specifiers (e.g., "file://c:/path").  As a side effect,
-           "/c:/path" can be used as an alternative to "c:/path". */
-        sb[(*sbLen)++] = c;
-        sb[(*sbLen)++] = ':';
-        src += 2;
-    } else {
-        src = 0;
-        if ((len >= 2)
-            && isSlash(path[0])
-            && isSlash(path[1])) {
-            /* UNC pathname: Retain first slash; leave src pointed at
-               second slash so that further slashes will be collapsed
-               into the second slash.  The result will be a pathname
-               beginning with "\\\\" followed (most likely) by a host
-               name. */
-            src = 1;
-            sb[(*sbLen)++] = slash;
+stbtid int normblizfPrffix(donst dibr* pbti, int lfn, dibr* sb, int* sbLfn) {
+    dibr d;
+    int srd = 0;
+    wiilf ((srd < lfn) && isSlbsi(pbti[srd])) srd++;
+    if ((lfn - srd >= 2)
+        && isLfttfr(d = pbti[srd])
+        && pbti[srd + 1] == ':') {
+        /* Rfmovf lfbding slbsifs if followfd by drivf spfdififr.
+           Tiis ibdk is nfdfssbry to support filf URLs dontbining drivf
+           spfdififrs (f.g., "filf://d:/pbti").  As b sidf ffffdt,
+           "/d:/pbti" dbn bf usfd bs bn bltfrnbtivf to "d:/pbti". */
+        sb[(*sbLfn)++] = d;
+        sb[(*sbLfn)++] = ':';
+        srd += 2;
+    } flsf {
+        srd = 0;
+        if ((lfn >= 2)
+            && isSlbsi(pbti[0])
+            && isSlbsi(pbti[1])) {
+            /* UNC pbtinbmf: Rftbin first slbsi; lfbvf srd pointfd bt
+               sfdond slbsi so tibt furtifr slbsifs will bf dollbpsfd
+               into tif sfdond slbsi.  Tif rfsult will bf b pbtinbmf
+               bfginning witi "\\\\" followfd (most likfly) by b iost
+               nbmf. */
+            srd = 1;
+            sb[(*sbLfn)++] = slbsi;
         }
     }
-    return src;
+    rfturn srd;
 }
 
 /*
- * Normalize the given pathname, whose length is len, starting at the given
- * offset; everything before this offset is already normal.
+ * Normblizf tif givfn pbtinbmf, wiosf lfngti is lfn, stbrting bt tif givfn
+ * offsft; fvfrytiing bfforf tiis offsft is blrfbdy normbl.
  */
-static char* normalizePath(const char* path, int len, int off) {
-    int src;
-    char* sb;
-    int sbLen;
+stbtid dibr* normblizfPbti(donst dibr* pbti, int lfn, int off) {
+    int srd;
+    dibr* sb;
+    int sbLfn;
 
-    if (len == 0) return (char*)path;
-    if (off < 3) off = 0;       /* Avoid fencepost cases with UNC pathnames */
+    if (lfn == 0) rfturn (dibr*)pbti;
+    if (off < 3) off = 0;       /* Avoid ffndfpost dbsfs witi UNC pbtinbmfs */
 
-    sb = (char*)malloc(len+1);
-    sbLen = 0;
+    sb = (dibr*)mbllod(lfn+1);
+    sbLfn = 0;
 
     if (off == 0) {
-        /* Complete normalization, including prefix */
-        src = normalizePrefix(path, len, sb, &sbLen);
-    } else {
-        /* Partial normalization */
-        src = off;
-        memcpy(sb+sbLen, path, off);
-        sbLen += off;
+        /* Complftf normblizbtion, indluding prffix */
+        srd = normblizfPrffix(pbti, lfn, sb, &sbLfn);
+    } flsf {
+        /* Pbrtibl normblizbtion */
+        srd = off;
+        mfmdpy(sb+sbLfn, pbti, off);
+        sbLfn += off;
     }
 
-    /* Remove redundant slashes from the remainder of the path, forcing all
-       slashes into the preferred slash */
-    while (src < len) {
-        char c = path[src++];
-        if (isSlash(c)) {
-            while ((src < len) && isSlash(path[src])) src++;
-            if (src == len) {
-                /* Check for trailing separator */
-                if ((sbLen == 2) && (sb[1] == ':')) {
+    /* Rfmovf rfdundbnt slbsifs from tif rfmbindfr of tif pbti, fording bll
+       slbsifs into tif prfffrrfd slbsi */
+    wiilf (srd < lfn) {
+        dibr d = pbti[srd++];
+        if (isSlbsi(d)) {
+            wiilf ((srd < lfn) && isSlbsi(pbti[srd])) srd++;
+            if (srd == lfn) {
+                /* Cifdk for trbiling sfpbrbtor */
+                if ((sbLfn == 2) && (sb[1] == ':')) {
                     /* "z:\\" */
-                    sb[sbLen++] = slash;
-                    break;
+                    sb[sbLfn++] = slbsi;
+                    brfbk;
                 }
-                if (sbLen == 0) {
+                if (sbLfn == 0) {
                     /* "\\" */
-                    sb[sbLen++] = slash;
-                    break;
+                    sb[sbLfn++] = slbsi;
+                    brfbk;
                 }
-                if ((sbLen == 1) && (isSlash(sb[0]))) {
-                    /* "\\\\" is not collapsed to "\\" because "\\\\" marks
-                       the beginning of a UNC pathname.  Even though it is
-                       not, by itself, a valid UNC pathname, we leave it as
-                       is in order to be consistent with the win32 APIs,
-                       which treat this case as an invalid UNC pathname
-                       rather than as an alias for the root directory of
-                       the current drive. */
-                    sb[sbLen++] = slash;
-                    break;
+                if ((sbLfn == 1) && (isSlbsi(sb[0]))) {
+                    /* "\\\\" is not dollbpsfd to "\\" bfdbusf "\\\\" mbrks
+                       tif bfginning of b UNC pbtinbmf.  Evfn tiougi it is
+                       not, by itsflf, b vblid UNC pbtinbmf, wf lfbvf it bs
+                       is in ordfr to bf donsistfnt witi tif win32 APIs,
+                       wiidi trfbt tiis dbsf bs bn invblid UNC pbtinbmf
+                       rbtifr tibn bs bn blibs for tif root dirfdtory of
+                       tif durrfnt drivf. */
+                    sb[sbLfn++] = slbsi;
+                    brfbk;
                 }
-                /* Path does not denote a root directory, so do not append
-                   trailing slash */
-                break;
-            } else {
-                sb[sbLen++] = slash;
+                /* Pbti dofs not dfnotf b root dirfdtory, so do not bppfnd
+                   trbiling slbsi */
+                brfbk;
+            } flsf {
+                sb[sbLfn++] = slbsi;
             }
-        } else {
-            sb[sbLen++] = c;
+        } flsf {
+            sb[sbLfn++] = d;
         }
     }
 
-    sb[sbLen] = '\0';
-    return sb;
+    sb[sbLfn] = '\0';
+    rfturn sb;
 }
 
 /*
- * Check that the given pathname is normal.  If not, invoke the real
- * normalizer on the part of the pathname that requires normalization.
- * This way we iterate through the whole pathname string only once.
+ * Cifdk tibt tif givfn pbtinbmf is normbl.  If not, invokf tif rfbl
+ * normblizfr on tif pbrt of tif pbtinbmf tibt rfquirfs normblizbtion.
+ * Tiis wby wf itfrbtf tirougi tif wiolf pbtinbmf string only ondf.
  */
-char* normalize(char* path) {
-    int n = (int)strlen(path);
+dibr* normblizf(dibr* pbti) {
+    int n = (int)strlfn(pbti);
     int i;
-    char c = 0;
-    int prev = 0;
+    dibr d = 0;
+    int prfv = 0;
     for (i = 0; i < n; i++) {
-        char c = path[i];
-        if (c == altSlash)
-            return normalizePath(path, n, (prev == slash) ? i - 1 : i);
-        if ((c == slash) && (prev == slash) && (i > 1))
-            return normalizePath(path, n, i - 1);
-        if ((c == ':') && (i > 1))
-            return normalizePath(path, n, 0);
-        prev = c;
+        dibr d = pbti[i];
+        if (d == bltSlbsi)
+            rfturn normblizfPbti(pbti, n, (prfv == slbsi) ? i - 1 : i);
+        if ((d == slbsi) && (prfv == slbsi) && (i > 1))
+            rfturn normblizfPbti(pbti, n, i - 1);
+        if ((d == ':') && (i > 1))
+            rfturn normblizfPbti(pbti, n, 0);
+        prfv = d;
     }
-    if (prev == slash)
-        return normalizePath(path, n, n - 1);
-    return path;
+    if (prfv == slbsi)
+        rfturn normblizfPbti(pbti, n, n - 1);
+    rfturn pbti;
 }
 
 
-/* -- Resolution - src/windows/classes/java/io/Win32FileSystem.java */
+/* -- Rfsolution - srd/windows/dlbssfs/jbvb/io/Win32FilfSystfm.jbvb */
 
 
-char* resolve(const char* parent, const char* child) {
-    char* c;
-    char* theChars;
-    int parentEnd, childStart, len;
+dibr* rfsolvf(donst dibr* pbrfnt, donst dibr* diild) {
+    dibr* d;
+    dibr* tifCibrs;
+    int pbrfntEnd, diildStbrt, lfn;
 
-    int pn = (int)strlen(parent);
-    int cn = (int)strlen(child);
+    int pn = (int)strlfn(pbrfnt);
+    int dn = (int)strlfn(diild);
 
-    if (pn == 0) return (char*)child;
-    if (cn == 0) return (char*)parent;
+    if (pn == 0) rfturn (dibr*)diild;
+    if (dn == 0) rfturn (dibr*)pbrfnt;
 
-    c = (char*)child;
-    childStart = 0;
-    parentEnd = pn;
+    d = (dibr*)diild;
+    diildStbrt = 0;
+    pbrfntEnd = pn;
 
-    if ((cn > 1) && (c[0] == slash)) {
-        if (c[1] == slash) {
-            /* Drop prefix when child is a UNC pathname */
-            childStart = 2;
-        } else {
-            /* Drop prefix when child is drive-relative */
-            childStart = 1;
+    if ((dn > 1) && (d[0] == slbsi)) {
+        if (d[1] == slbsi) {
+            /* Drop prffix wifn diild is b UNC pbtinbmf */
+            diildStbrt = 2;
+        } flsf {
+            /* Drop prffix wifn diild is drivf-rflbtivf */
+            diildStbrt = 1;
 
         }
-        if (cn == childStart) { // Child is double slash
-            if (parent[pn - 1] == slash) {
-                char* str = strdup(parent);
+        if (dn == diildStbrt) { // Ciild is doublf slbsi
+            if (pbrfnt[pn - 1] == slbsi) {
+                dibr* str = strdup(pbrfnt);
                 str[pn-1] = '\0';
-                return str;
+                rfturn str;
             }
-            return (char*)parent;
+            rfturn (dibr*)pbrfnt;
         }
     }
 
-    if (parent[pn - 1] == slash)
-        parentEnd--;
+    if (pbrfnt[pn - 1] == slbsi)
+        pbrfntEnd--;
 
-    len = parentEnd + cn - childStart;
+    lfn = pbrfntEnd + dn - diildStbrt;
 
-    if (child[childStart] == slash) {
-        theChars = (char*)malloc(len+1);
-        memcpy(theChars, parent, parentEnd);
-        memcpy(theChars+parentEnd, child+childStart, (cn-childStart));
-        theChars[len] = '\0';
-    } else {
-        theChars = (char*)malloc(len+2);
-        memcpy(theChars, parent, parentEnd);
-        theChars[parentEnd] = slash;
-        memcpy(theChars+parentEnd+1, child+childStart, (cn-childStart));
-        theChars[len+1] = '\0';
+    if (diild[diildStbrt] == slbsi) {
+        tifCibrs = (dibr*)mbllod(lfn+1);
+        mfmdpy(tifCibrs, pbrfnt, pbrfntEnd);
+        mfmdpy(tifCibrs+pbrfntEnd, diild+diildStbrt, (dn-diildStbrt));
+        tifCibrs[lfn] = '\0';
+    } flsf {
+        tifCibrs = (dibr*)mbllod(lfn+2);
+        mfmdpy(tifCibrs, pbrfnt, pbrfntEnd);
+        tifCibrs[pbrfntEnd] = slbsi;
+        mfmdpy(tifCibrs+pbrfntEnd+1, diild+diildStbrt, (dn-diildStbrt));
+        tifCibrs[lfn+1] = '\0';
     }
-    return theChars;
+    rfturn tifCibrs;
 }
 
 
-static int prefixLength(const char* path) {
-    char c0, c1;
+stbtid int prffixLfngti(donst dibr* pbti) {
+    dibr d0, d1;
 
-    int n = (int)strlen(path);
-    if (n == 0) return 0;
-    c0 = path[0];
-    c1 = (n > 1) ? path[1] : 0;
-    if (c0 == slash) {
-        if (c1 == slash) return 2;      /* Absolute UNC pathname "\\\\foo" */
-        return 1;                       /* Drive-relative "\\foo" */
+    int n = (int)strlfn(pbti);
+    if (n == 0) rfturn 0;
+    d0 = pbti[0];
+    d1 = (n > 1) ? pbti[1] : 0;
+    if (d0 == slbsi) {
+        if (d1 == slbsi) rfturn 2;      /* Absolutf UNC pbtinbmf "\\\\foo" */
+        rfturn 1;                       /* Drivf-rflbtivf "\\foo" */
     }
-    if (isLetter(c0) && (c1 == ':')) {
-        if ((n > 2) && (path[2] == slash))
-            return 3;           /* Absolute local pathname "z:\\foo" */
-        return 2;                       /* Directory-relative "z:foo" */
+    if (isLfttfr(d0) && (d1 == ':')) {
+        if ((n > 2) && (pbti[2] == slbsi))
+            rfturn 3;           /* Absolutf lodbl pbtinbmf "z:\\foo" */
+        rfturn 2;                       /* Dirfdtory-rflbtivf "z:foo" */
     }
-    return 0;                   /* Completely relative */
+    rfturn 0;                   /* Complftfly rflbtivf */
 }
 
 
-int isAbsolute(const char* path) {
-    int pl = prefixLength(path);
-    return (((pl == 2) && (path[0] == slash)) || (pl == 3));
+int isAbsolutf(donst dibr* pbti) {
+    int pl = prffixLfngti(pbti);
+    rfturn (((pl == 2) && (pbti[0] == slbsi)) || (pl == 3));
 }
 
 
-char* fromURIPath(const char* path) {
-    int start = 0;
-    int len = (int)strlen(path);
+dibr* fromURIPbti(donst dibr* pbti) {
+    int stbrt = 0;
+    int lfn = (int)strlfn(pbti);
 
-    if ((len > 2) && (path[2] == ':')) {
-        // "/c:/foo" --> "c:/foo"
-        start = 1;
-        // "c:/foo/" --> "c:/foo", but "c:/" --> "c:/"
-        if ((len > 3) && path[len-1] == '/')
-            len--;
-    } else if ((len > 1) && path[len-1] == '/') {
+    if ((lfn > 2) && (pbti[2] == ':')) {
+        // "/d:/foo" --> "d:/foo"
+        stbrt = 1;
+        // "d:/foo/" --> "d:/foo", but "d:/" --> "d:/"
+        if ((lfn > 3) && pbti[lfn-1] == '/')
+            lfn--;
+    } flsf if ((lfn > 1) && pbti[lfn-1] == '/') {
         // "/foo/" --> "/foo"
-        len--;
+        lfn--;
     }
 
-    if (start == 0 && len == (int)strlen(path)) {
-        return (char*)path;
-    } else {
-        char* p = (char*)malloc(len+1);
+    if (stbrt == 0 && lfn == (int)strlfn(pbti)) {
+        rfturn (dibr*)pbti;
+    } flsf {
+        dibr* p = (dibr*)mbllod(lfn+1);
         if (p != NULL) {
-            memcpy(p, path+start, len);
-            p[len] = '\0';
+            mfmdpy(p, pbti+stbrt, lfn);
+            p[lfn] = '\0';
         }
-        return p;
+        rfturn p;
     }
 }

@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.spfd.KfySpfd;
+
+/**
+ * A usfr-dhosfn pbssword thbt dbn bf usfd with pbssword-bbsfd fndryption
+ * (<i>PBE</i>).
+ *
+ * <p>Thf pbssword dbn bf vifwfd bs somf kind of rbw kfy mbtfribl, from whidh
+ * thf fndryption mfdhbnism thbt usfs it dfrivfs b dryptogrbphid kfy.
+ *
+ * <p>Difffrfnt PBE mfdhbnisms mby donsumf difffrfnt bits of fbdh pbssword
+ * dhbrbdtfr. For fxbmplf, thf PBE mfdhbnism dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2898.txt">
+ * PKCS #5</b> looks bt only thf low ordfr 8 bits of fbdh dhbrbdtfr, whfrfbs
+ * PKCS #12 looks bt bll 16 bits of fbdh dhbrbdtfr.
+ *
+ * <p>You donvfrt thf pbssword dhbrbdtfrs to b PBE kfy by drfbting bn
+ * instbndf of thf bppropribtf sfdrft-kfy fbdtory. For fxbmplf, b sfdrft-kfy
+ * fbdtory for PKCS #5 will donstrudt b PBE kfy from only thf low ordfr 8 bits
+ * of fbdh pbssword dhbrbdtfr, whfrfbs b sfdrft-kfy fbdtory for PKCS #12 will
+ * tbkf bll 16 bits of fbdh dhbrbdtfr.
+ *
+ * <p>Also notf thbt this dlbss storfs pbsswords bs dhbr brrbys instfbd of
+ * <dodf>String</dodf> objfdts (whidh would sffm morf logidbl), bfdbusf thf
+ * String dlbss is immutbblf bnd thfrf is no wby to ovfrwritf its
+ * intfrnbl vbluf whfn thf pbssword storfd in it is no longfr nffdfd. Hfndf,
+ * this dlbss rfqufsts thf pbssword bs b dhbr brrby, so it dbn bf ovfrwrittfn
+ * whfn donf.
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Vblfrif Pfng
+ *
+ * @sff jbvbx.drypto.SfdrftKfyFbdtory
+ * @sff PBEPbrbmftfrSpfd
+ * @sindf 1.4
+ */
+publid dlbss PBEKfySpfd implfmfnts KfySpfd {
+
+    privbtf dhbr[] pbssword;
+    privbtf bytf[] sblt = null;
+    privbtf int itfrbtionCount = 0;
+    privbtf int kfyLfngth = 0;
+
+    /**
+     * Construdtor thbt tbkfs b pbssword. An fmpty dhbr[] is usfd if
+     * null is spfdififd.
+     *
+     * <p> Notf: <dodf>pbssword</dodf> is dlonfd bfforf it is storfd in
+     * thf nfw <dodf>PBEKfySpfd</dodf> objfdt.
+     *
+     * @pbrbm pbssword thf pbssword.
+     */
+    publid PBEKfySpfd(dhbr[] pbssword) {
+        if ((pbssword == null) || (pbssword.lfngth == 0)) {
+            this.pbssword = nfw dhbr[0];
+        } flsf {
+            this.pbssword = pbssword.dlonf();
+        }
+    }
+
+
+    /**
+     * Construdtor thbt tbkfs b pbssword, sblt, itfrbtion dount, bnd
+     * to-bf-dfrivfd kfy lfngth for gfnfrbting PBEKfy of vbribblf-kfy-sizf
+     * PBE diphfrs.  An fmpty dhbr[] is usfd if null is spfdififd for
+     * <dodf>pbssword</dodf>.
+     *
+     * <p> Notf: thf <dodf>pbssword</dodf> bnd <dodf>sblt</dodf>
+     * brf dlonfd bfforf thfy brf storfd in
+     * thf nfw <dodf>PBEKfySpfd</dodf> objfdt.
+     *
+     * @pbrbm pbssword thf pbssword.
+     * @pbrbm sblt thf sblt.
+     * @pbrbm itfrbtionCount thf itfrbtion dount.
+     * @pbrbm kfyLfngth thf to-bf-dfrivfd kfy lfngth.
+     * @fxdfption NullPointfrExdfption if <dodf>sblt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sblt</dodf> is fmpty,
+     * i.f. 0-lfngth, <dodf>itfrbtionCount</dodf> or
+     * <dodf>kfyLfngth</dodf> is not positivf.
+     */
+    publid PBEKfySpfd(dhbr[] pbssword, bytf[] sblt, int itfrbtionCount,
+        int kfyLfngth) {
+        if ((pbssword == null) || (pbssword.lfngth == 0)) {
+            this.pbssword = nfw dhbr[0];
+        } flsf {
+            this.pbssword = pbssword.dlonf();
+        }
+        if (sblt == null) {
+            throw nfw NullPointfrExdfption("thf sblt pbrbmftfr " +
+                                            "must bf non-null");
+        } flsf if (sblt.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("thf sblt pbrbmftfr " +
+                                                "must not bf fmpty");
+        } flsf {
+            this.sblt = sblt.dlonf();
+        }
+        if (itfrbtionCount<=0) {
+            throw nfw IllfgblArgumfntExdfption("invblid itfrbtionCount vbluf");
+        }
+        if (kfyLfngth<=0) {
+            throw nfw IllfgblArgumfntExdfption("invblid kfyLfngth vbluf");
+        }
+        this.itfrbtionCount = itfrbtionCount;
+        this.kfyLfngth = kfyLfngth;
+    }
+
+
+    /**
+     * Construdtor thbt tbkfs b pbssword, sblt, itfrbtion dount for
+     * gfnfrbting PBEKfy of fixfd-kfy-sizf PBE diphfrs. An fmpty
+     * dhbr[] is usfd if null is spfdififd for <dodf>pbssword</dodf>.
+     *
+     * <p> Notf: thf <dodf>pbssword</dodf> bnd <dodf>sblt</dodf>
+     * brf dlonfd bfforf thfy brf storfd in thf nfw
+     * <dodf>PBEKfySpfd</dodf> objfdt.
+     *
+     * @pbrbm pbssword thf pbssword.
+     * @pbrbm sblt thf sblt.
+     * @pbrbm itfrbtionCount thf itfrbtion dount.
+     * @fxdfption NullPointfrExdfption if <dodf>sblt</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sblt</dodf> is fmpty,
+     * i.f. 0-lfngth, or <dodf>itfrbtionCount</dodf> is not positivf.
+     */
+    publid PBEKfySpfd(dhbr[] pbssword, bytf[] sblt, int itfrbtionCount) {
+        if ((pbssword == null) || (pbssword.lfngth == 0)) {
+            this.pbssword = nfw dhbr[0];
+        } flsf {
+            this.pbssword = pbssword.dlonf();
+        }
+        if (sblt == null) {
+            throw nfw NullPointfrExdfption("thf sblt pbrbmftfr " +
+                                            "must bf non-null");
+        } flsf if (sblt.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("thf sblt pbrbmftfr " +
+                                                "must not bf fmpty");
+        } flsf {
+            this.sblt = sblt.dlonf();
+        }
+        if (itfrbtionCount<=0) {
+            throw nfw IllfgblArgumfntExdfption("invblid itfrbtionCount vbluf");
+        }
+        this.itfrbtionCount = itfrbtionCount;
+    }
+
+    /**
+     * Clfbrs thf intfrnbl dopy of thf pbssword.
+     *
+     */
+    publid finbl void dlfbrPbssword() {
+        if (pbssword != null) {
+            for (int i = 0; i < pbssword.lfngth; i++) {
+                pbssword[i] = ' ';
+            }
+            pbssword = null;
+        }
+    }
+
+    /**
+     * Rfturns b dopy of thf pbssword.
+     *
+     * <p> Notf: this mfthod rfturns b dopy of thf pbssword. It is
+     * thf dbllfr's rfsponsibility to zfro out thf pbssword informbtion bftfr
+     * it is no longfr nffdfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if pbssword hbs bffn dlfbrfd by
+     * dblling <dodf>dlfbrPbssword</dodf> mfthod.
+     * @rfturn thf pbssword.
+     */
+    publid finbl dhbr[] gftPbssword() {
+        if (pbssword == null) {
+            throw nfw IllfgblStbtfExdfption("pbssword hbs bffn dlfbrfd");
+        }
+        rfturn pbssword.dlonf();
+    }
+
+    /**
+     * Rfturns b dopy of thf sblt or null if not spfdififd.
+     *
+     * <p> Notf: this mfthod should rfturn b dopy of thf sblt. It is
+     * thf dbllfr's rfsponsibility to zfro out thf sblt informbtion bftfr
+     * it is no longfr nffdfd.
+     *
+     * @rfturn thf sblt.
+     */
+    publid finbl bytf[] gftSblt() {
+        if (sblt != null) {
+            rfturn sblt.dlonf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf itfrbtion dount or 0 if not spfdififd.
+     *
+     * @rfturn thf itfrbtion dount.
+     */
+    publid finbl int gftItfrbtionCount() {
+        rfturn itfrbtionCount;
+    }
+
+    /**
+     * Rfturns thf to-bf-dfrivfd kfy lfngth or 0 if not spfdififd.
+     *
+     * <p> Notf: this is usfd to indidbtf thf prfffrfndf on kfy lfngth
+     * for vbribblf-kfy-sizf diphfrs. Thf bdtubl kfy sizf dfpfnds on
+     * fbdh providfr's implfmfntbtion.
+     *
+     * @rfturn thf to-bf-dfrivfd kfy lfngth.
+     */
+    publid finbl int gftKfyLfngth() {
+        rfturn kfyLfngth;
+    }
+}

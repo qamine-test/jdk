@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.util.dondurrfnt.Futurf;
+
+/**
+ * An bsyndhronous dhbnnfl thbt dbn rfbd bnd writf bytfs.
+ *
+ * <p> Somf dhbnnfls mby not bllow morf thbn onf rfbd or writf to bf outstbnding
+ * bt bny givfn timf. If b thrfbd invokfs b rfbd mfthod bfforf b prfvious rfbd
+ * opfrbtion hbs domplftfd thfn b {@link RfbdPfndingExdfption} will bf thrown.
+ * Similbrly, if b writf mfthod is invokfd bfforf b prfvious writf hbs domplftfd
+ * thfn {@link WritfPfndingExdfption} is thrown. Whfthfr or not othfr kinds of
+ * I/O opfrbtions mby prodffd dondurrfntly with b rfbd opfrbtion dfpfnds upon
+ * thf typf of thf dhbnnfl.
+ *
+ * <p> Notf thbt {@link jbvb.nio.BytfBufffr BytfBufffrs} brf not sbff for usf by
+ * multiplf dondurrfnt thrfbds. Whfn b rfbd or writf opfrbtion is initibtfd thfn
+ * dbrf must bf tbkfn to fnsurf thbt thf bufffr is not bddfssfd until thf
+ * opfrbtion domplftfs.
+ *
+ * @sff Chbnnfls#nfwInputStrfbm(AsyndhronousBytfChbnnfl)
+ * @sff Chbnnfls#nfwOutputStrfbm(AsyndhronousBytfChbnnfl)
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf AsyndhronousBytfChbnnfl
+    fxtfnds AsyndhronousChbnnfl
+{
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr.
+     *
+     * <p> This mfthod initibtfs bn bsyndhronous rfbd opfrbtion to rfbd b
+     * sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr. Thf {@dodf
+     * hbndlfr} pbrbmftfr is b domplftion hbndlfr thbt is invokfd whfn thf rfbd
+     * opfrbtion domplftfs (or fbils). Thf rfsult pbssfd to thf domplftion
+     * hbndlfr is thf numbfr of bytfs rfbd or {@dodf -1} if no bytfs dould bf
+     * rfbd bfdbusf thf dhbnnfl hbs rfbdhfd fnd-of-strfbm.
+     *
+     * <p> Thf rfbd opfrbtion mby rfbd up to <i>r</i> bytfs from thf dhbnnfl,
+     * whfrf <i>r</i> is thf numbfr of bytfs rfmbining in thf bufffr, thbt is,
+     * {@dodf dst.rfmbining()} bt thf timf thbt thf rfbd is bttfmptfd. Whfrf
+     * <i>r</i> is 0, thf rfbd opfrbtion domplftfs immfdibtfly with b rfsult of
+     * {@dodf 0} without initibting bn I/O opfrbtion.
+     *
+     * <p> Supposf thbt b bytf sfqufndf of lfngth <i>n</i> is rfbd, whfrf
+     * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
+     * This bytf sfqufndf will bf trbnsffrrfd into thf bufffr so thbt thf first
+     * bytf in thf sfqufndf is bt indfx <i>p</i> bnd thf lbst bytf is bt indfx
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>,
+     * whfrf <i>p</i> is thf bufffr's position bt thf momfnt thf rfbd is
+     * pfrformfd. Upon domplftion thf bufffr's position will bf fqubl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not hbvf dhbngfd.
+     *
+     * <p> Bufffrs brf not sbff for usf by multiplf dondurrfnt thrfbds so dbrf
+     * should bf tbkfn to not bddfss thf bufffr until thf opfrbtion hbs
+     * domplftfd.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf. Somf dhbnnfl typfs mby not
+     * bllow morf thbn onf rfbd to bf outstbnding bt bny givfn timf. If b thrfbd
+     * initibtfs b rfbd opfrbtion bfforf b prfvious rfbd opfrbtion hbs
+     * domplftfd thfn b {@link RfbdPfndingExdfption} will bf thrown.
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   dst
+     *          Thf bufffr into whidh bytfs brf to bf trbnsffrrfd
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf domplftion hbndlfr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf bufffr is rfbd-only
+     * @throws  RfbdPfndingExdfption
+     *          If thf dhbnnfl dofs not bllow morf thbn onf rfbd to bf outstbnding
+     *          bnd b prfvious rfbd hbs not domplftfd
+     * @throws  ShutdownChbnnflGroupExdfption
+     *          If thf dhbnnfl is bssodibtfd with b {@link AsyndhronousChbnnflGroup
+     *          group} thbt hbs tfrminbtfd
+     */
+    <A> void rfbd(BytfBufffr dst,
+                  A bttbdhmfnt,
+                  ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr.
+     *
+     * <p> This mfthod initibtfs bn bsyndhronous rfbd opfrbtion to rfbd b
+     * sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr. Thf mfthod
+     * bfhbvfs in fxbdtly thf sbmf mbnnfr bs thf {@link
+     * #rfbd(BytfBufffr,Objfdt,ComplftionHbndlfr)
+     * rfbd(BytfBufffr,Objfdt,ComplftionHbndlfr)} mfthod fxdfpt thbt instfbd
+     * of spfdifying b domplftion hbndlfr, this mfthod rfturns b {@dodf Futurf}
+     * rfprfsfnting thf pfnding rfsult. Thf {@dodf Futurf}'s {@link Futurf#gft()
+     * gft} mfthod rfturns thf numbfr of bytfs rfbd or {@dodf -1} if no bytfs
+     * dould bf rfbd bfdbusf thf dhbnnfl hbs rfbdhfd fnd-of-strfbm.
+     *
+     * @pbrbm   dst
+     *          Thf bufffr into whidh bytfs brf to bf trbnsffrrfd
+     *
+     * @rfturn  A Futurf rfprfsfnting thf rfsult of thf opfrbtion
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf bufffr is rfbd-only
+     * @throws  RfbdPfndingExdfption
+     *          If thf dhbnnfl dofs not bllow morf thbn onf rfbd to bf outstbnding
+     *          bnd b prfvious rfbd hbs not domplftfd
+     */
+    Futurf<Intfgfr> rfbd(BytfBufffr dst);
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr.
+     *
+     * <p> This mfthod initibtfs bn bsyndhronous writf opfrbtion to writf b
+     * sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr. Thf {@dodf
+     * hbndlfr} pbrbmftfr is b domplftion hbndlfr thbt is invokfd whfn thf writf
+     * opfrbtion domplftfs (or fbils). Thf rfsult pbssfd to thf domplftion
+     * hbndlfr is thf numbfr of bytfs writtfn.
+     *
+     * <p> Thf writf opfrbtion mby writf up to <i>r</i> bytfs to thf dhbnnfl,
+     * whfrf <i>r</i> is thf numbfr of bytfs rfmbining in thf bufffr, thbt is,
+     * {@dodf srd.rfmbining()} bt thf timf thbt thf writf is bttfmptfd. Whfrf
+     * <i>r</i> is 0, thf writf opfrbtion domplftfs immfdibtfly with b rfsult of
+     * {@dodf 0} without initibting bn I/O opfrbtion.
+     *
+     * <p> Supposf thbt b bytf sfqufndf of lfngth <i>n</i> is writtfn, whfrf
+     * <tt>0</tt>&nbsp;<tt>&lt;</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
+     * This bytf sfqufndf will bf trbnsffrrfd from thf bufffr stbrting bt indfx
+     * <i>p</i>, whfrf <i>p</i> is thf bufffr's position bt thf momfnt thf
+     * writf is pfrformfd; thf indfx of thf lbst bytf writtfn will bf
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>.
+     * Upon domplftion thf bufffr's position will bf fqubl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not hbvf dhbngfd.
+     *
+     * <p> Bufffrs brf not sbff for usf by multiplf dondurrfnt thrfbds so dbrf
+     * should bf tbkfn to not bddfss thf bufffr until thf opfrbtion hbs
+     * domplftfd.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf. Somf dhbnnfl typfs mby not
+     * bllow morf thbn onf writf to bf outstbnding bt bny givfn timf. If b thrfbd
+     * initibtfs b writf opfrbtion bfforf b prfvious writf opfrbtion hbs
+     * domplftfd thfn b {@link WritfPfndingExdfption} will bf thrown.
+     *
+     * @pbrbm   <A>
+     *          Thf typf of thf bttbdhmfnt
+     * @pbrbm   srd
+     *          Thf bufffr from whidh bytfs brf to bf rftrifvfd
+     * @pbrbm   bttbdhmfnt
+     *          Thf objfdt to bttbdh to thf I/O opfrbtion; dbn bf {@dodf null}
+     * @pbrbm   hbndlfr
+     *          Thf domplftion hbndlfr objfdt
+     *
+     * @throws  WritfPfndingExdfption
+     *          If thf dhbnnfl dofs not bllow morf thbn onf writf to bf outstbnding
+     *          bnd b prfvious writf hbs not domplftfd
+     * @throws  ShutdownChbnnflGroupExdfption
+     *          If thf dhbnnfl is bssodibtfd with b {@link AsyndhronousChbnnflGroup
+     *          group} thbt hbs tfrminbtfd
+     */
+    <A> void writf(BytfBufffr srd,
+                   A bttbdhmfnt,
+                   ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+    /**
+     * Writfs b sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr.
+     *
+     * <p> This mfthod initibtfs bn bsyndhronous writf opfrbtion to writf b
+     * sfqufndf of bytfs to this dhbnnfl from thf givfn bufffr. Thf mfthod
+     * bfhbvfs in fxbdtly thf sbmf mbnnfr bs thf {@link
+     * #writf(BytfBufffr,Objfdt,ComplftionHbndlfr)
+     * writf(BytfBufffr,Objfdt,ComplftionHbndlfr)} mfthod fxdfpt thbt instfbd
+     * of spfdifying b domplftion hbndlfr, this mfthod rfturns b {@dodf Futurf}
+     * rfprfsfnting thf pfnding rfsult. Thf {@dodf Futurf}'s {@link Futurf#gft()
+     * gft} mfthod rfturns thf numbfr of bytfs writtfn.
+     *
+     * @pbrbm   srd
+     *          Thf bufffr from whidh bytfs brf to bf rftrifvfd
+     *
+     * @rfturn A Futurf rfprfsfnting thf rfsult of thf opfrbtion
+     *
+     * @throws  WritfPfndingExdfption
+     *          If thf dhbnnfl dofs not bllow morf thbn onf writf to bf outstbnding
+     *          bnd b prfvious writf hbs not domplftfd
+     */
+    Futurf<Intfgfr> writf(BytfBufffr srd);
+}

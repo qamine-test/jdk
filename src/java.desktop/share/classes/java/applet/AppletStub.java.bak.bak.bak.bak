@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bpplft;
+
+import jbvb.nft.URL;
+
+/**
+ * Whfn bn bpplft is first drfbtfd, bn bpplft stub is bttbdhfd to it
+ * using thf bpplft's <dodf>sftStub</dodf> mfthod. This stub
+ * sfrvfs bs thf intfrfbdf bftwffn thf bpplft bnd thf browsfr
+ * fnvironmfnt or bpplft vifwfr fnvironmfnt in whidh thf bpplidbtion
+ * is running.
+ *
+ * @buthor      Arthur vbn Hoff
+ * @sff         jbvb.bpplft.Applft#sftStub(jbvb.bpplft.ApplftStub)
+ * @sindf       1.0
+ */
+publid intfrfbdf ApplftStub {
+    /**
+     * Dftfrminfs if thf bpplft is bdtivf. An bpplft is bdtivf just
+     * bfforf its <dodf>stbrt</dodf> mfthod is dbllfd. It bfdomfs
+     * inbdtivf just bfforf its <dodf>stop</dodf> mfthod is dbllfd.
+     *
+     * @rfturn  <dodf>truf</dodf> if thf bpplft is bdtivf;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isAdtivf();
+
+
+    /**
+     * Gfts thf URL of thf dodumfnt in whidh thf bpplft is fmbfddfd.
+     * For fxbmplf, supposf bn bpplft is dontbinfd
+     * within thf dodumfnt:
+     * <blodkquotf><prf>
+     *    http://www.orbdlf.dom/tfdhnftwork/jbvb/indfx.html
+     * </prf></blodkquotf>
+     * Thf dodumfnt bbsf is:
+     * <blodkquotf><prf>
+     *    http://www.orbdlf.dom/tfdhnftwork/jbvb/indfx.html
+     * </prf></blodkquotf>
+     *
+     * @rfturn  thf {@link jbvb.nft.URL} of thf dodumfnt thbt dontbins thf
+     *          bpplft.
+     * @sff     jbvb.bpplft.ApplftStub#gftCodfBbsf()
+     */
+    URL gftDodumfntBbsf();
+
+    /**
+     * Gfts thf bbsf URL. This is thf URL of thf dirfdtory whidh dontbins thf bpplft.
+     *
+     * @rfturn  thf bbsf {@link jbvb.nft.URL} of
+     *          thf dirfdtory whidh dontbins thf bpplft.
+     * @sff     jbvb.bpplft.ApplftStub#gftDodumfntBbsf()
+     */
+    URL gftCodfBbsf();
+
+    /**
+     * Rfturns thf vbluf of thf nbmfd pbrbmftfr in thf HTML tbg. For
+     * fxbmplf, if bn bpplft is spfdififd bs
+     * <blodkquotf><prf>
+     * &lt;bpplft dodf="Clodk" width=50 hfight=50&gt;
+     * &lt;pbrbm nbmf=Color vbluf="bluf"&gt;
+     * &lt;/bpplft&gt;
+     * </prf></blodkquotf>
+     * <p>
+     * thfn b dbll to <dodf>gftPbrbmftfr("Color")</dodf> rfturns thf
+     * vbluf <dodf>"bluf"</dodf>.
+     *
+     * @pbrbm   nbmf   b pbrbmftfr nbmf.
+     * @rfturn  thf vbluf of thf nbmfd pbrbmftfr,
+     * or <tt>null</tt> if not sft.
+     */
+    String gftPbrbmftfr(String nbmf);
+
+    /**
+     * Rfturns thf bpplft's dontfxt.
+     *
+     * @rfturn  thf bpplft's dontfxt.
+     */
+    ApplftContfxt gftApplftContfxt();
+
+    /**
+     * Cbllfd whfn thf bpplft wbnts to bf rfsizfd.
+     *
+     * @pbrbm   width    thf nfw rfqufstfd width for thf bpplft.
+     * @pbrbm   hfight   thf nfw rfqufstfd hfight for thf bpplft.
+     */
+    void bpplftRfsizf(int width, int hfight);
+}

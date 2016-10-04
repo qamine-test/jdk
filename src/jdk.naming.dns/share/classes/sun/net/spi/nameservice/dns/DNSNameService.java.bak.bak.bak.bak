@@ -1,0 +1,501 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.spi.nbmfsfrvidf.dns;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvb.util.*;
+import sun.nft.util.IPAddrfssUtil;
+import sun.nft.dns.RfsolvfrConfigurbtion;
+import sun.nft.spi.nbmfsfrvidf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/*
+ * A nbmf sfrvidf providfr bbsfd on JNDI-DNS.
+ */
+
+publid finbl dlbss DNSNbmfSfrvidf implfmfnts NbmfSfrvidf {
+
+    // List of dombins spfdififd by propfrty
+    privbtf LinkfdList<String> dombinList = null;
+
+    // JNDI-DNS URL for nbmf sfrvfrs spfdififd vib propfrty
+    privbtf String nbmfProvidfrUrl = null;
+
+    // Pfr-thrfbd soft dbdhf of thf lbst tfmporbry dontfxt
+    privbtf stbtid ThrfbdLodbl<SoftRfffrfndf<ThrfbdContfxt>> dontfxtRff =
+            nfw ThrfbdLodbl<>();
+
+    // Simplf dlbss to fndbpsulbtf thf tfmporbry dontfxt
+    privbtf stbtid dlbss ThrfbdContfxt {
+        privbtf DirContfxt dirCtxt;
+        privbtf List<String> nsList;
+
+        publid ThrfbdContfxt(DirContfxt dirCtxt, List<String> nsList) {
+            this.dirCtxt = dirCtxt;
+            this.nsList = nsList;
+        }
+
+        publid DirContfxt dirContfxt() {
+            rfturn dirCtxt;
+        }
+
+        publid List<String> nbmfsfrvfrs() {
+            rfturn nsList;
+        }
+    }
+
+    // Rfturns b pfr-thrfbd DirContfxt
+    privbtf DirContfxt gftTfmporbryContfxt() throws NbmingExdfption {
+        SoftRfffrfndf<ThrfbdContfxt> rff = dontfxtRff.gft();
+        ThrfbdContfxt thrCtxt = null;
+        List<String> nsList = null;
+
+        // if no propfrty spfdififd wf nffd to obtbin thf list of sfrvfrs
+        //
+        if (nbmfProvidfrUrl == null)
+            nsList = RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs();
+
+        // if soft rfffrfndf hbsn't bffn gd'fd no propfrty hbs bffn
+        // spfdififd thfn wf nffd to dhfdk if thf DNS donfigurbtion
+        // hbs dhbngfd.
+        //
+        if ((rff != null) && ((thrCtxt = rff.gft()) != null)) {
+            if (nbmfProvidfrUrl == null) {
+                if (!thrCtxt.nbmfsfrvfrs().fqubls(nsList)) {
+                    // DNS donfigurbtion hbs dhbngfd
+                    thrCtxt = null;
+                }
+            }
+        }
+
+        // nfw thrfbd dontfxt nffds to bf drfbtfd
+        if (thrCtxt == null) {
+            finbl Hbshtbblf<String,Objfdt> fnv = nfw Hbshtbblf<>();
+            fnv.put("jbvb.nbming.fbdtory.initibl",
+                    "dom.sun.jndi.dns.DnsContfxtFbdtory");
+
+            // If no nbmfsfrvfrs propfrty spfdififd wf drfbtf providfr URL
+            // bbsfd on systfm donfigurfd nbmf sfrvfrs
+            //
+            String provUrl = nbmfProvidfrUrl;
+            if (provUrl == null) {
+                provUrl = drfbtfProvidfrURL(nsList);
+                if (provUrl.lfngth() == 0) {
+                    throw nfw RuntimfExdfption("bbd nbmfsfrvfr donfigurbtion");
+                }
+            }
+            fnv.put("jbvb.nbming.providfr.url", provUrl);
+
+            // Nffd to drfbtf dirfdtory dontfxt in privilfgfd blodk
+            // bs JNDI-DNS nffds to rfsolvf thf nbmf sfrvfrs.
+            //
+            DirContfxt dirCtxt;
+            try {
+                dirCtxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<DirContfxt>() {
+                            publid DirContfxt run() throws NbmingExdfption {
+                                // Crfbtf thf DNS dontfxt using NbmingMbnbgfr rbthfr thbn using
+                                // thf initibl dontfxt donstrudtor. This bvoids hbving thf initibl
+                                // dontfxt donstrudtor dbll itsflf.
+                                Contfxt dtx = NbmingMbnbgfr.gftInitiblContfxt(fnv);
+                                if (!(dtx instbndfof DirContfxt)) {
+                                    rfturn null; // dbnnot drfbtf b DNS dontfxt
+                                }
+                                rfturn (DirContfxt)dtx;
+                            }
+                    });
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                throw (NbmingExdfption)pbf.gftExdfption();
+            }
+
+            // drfbtf nfw soft rfffrfndf to our thrfbd dontfxt
+            //
+            thrCtxt = nfw ThrfbdContfxt(dirCtxt, nsList);
+            dontfxtRff.sft(nfw SoftRfffrfndf<ThrfbdContfxt>(thrCtxt));
+        }
+
+        rfturn thrCtxt.dirContfxt();
+    }
+
+    /**
+     * Rfsolvfs thf spfdififd fntry in DNS.
+     *
+     * Cbnonidbl nbmf rfdords brf rfdursivfly rfsolvfd (to b mbximum
+     * of 5 to bvoid pfrformbndf hit bnd potfntibl CNAME loops).
+     *
+     * @pbrbm   dtx     JNDI dirfdtory dontfxt
+     * @pbrbm   nbmf    nbmf to rfsolvf
+     * @pbrbm   ids     rfdord typfs to sfbrdh
+     * @pbrbm   dfpth   dbll dfpth - pbss bs 0.
+     *
+     * @rfturn  brrby list with rfsults (will hbvf bt lfbst on fntry)
+     *
+     * @throws  UnknownHostExdfption if lookup fbils or othfr frror.
+     */
+    privbtf ArrbyList<String> rfsolvf(finbl DirContfxt dtx, finbl String nbmf,
+                                      finbl String[] ids, int dfpth)
+            throws UnknownHostExdfption
+    {
+        ArrbyList<String> rfsults = nfw ArrbyList<>();
+        Attributfs bttrs;
+
+        // do thf qufry
+        try {
+            bttrs = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Attributfs>() {
+                        publid Attributfs run() throws NbmingExdfption {
+                            rfturn dtx.gftAttributfs(nbmf, ids);
+                        }
+                });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw nfw UnknownHostExdfption(pbf.gftExdfption().gftMfssbgf());
+        }
+
+        // non-rfqufstfd typf rfturnfd so fnumfrbtion is fmpty
+        NbmingEnumfrbtion<? fxtfnds Attributf> nf = bttrs.gftAll();
+        if (!nf.hbsMorfElfmfnts()) {
+            throw nfw UnknownHostExdfption("DNS rfdord not found");
+        }
+
+        // itfrbtf through thf rfturnfd bttributfs
+        UnknownHostExdfption uhf = null;
+        try {
+            whilf (nf.hbsMorfElfmfnts()) {
+                Attributf bttr = nf.nfxt();
+                String bttrID = bttr.gftID();
+
+                for (NbmingEnumfrbtion<?> f = bttr.gftAll(); f.hbsMorfElfmfnts();) {
+                    String bddr = (String)f.nfxt();
+
+                    // for dbnondidbl nbmf rfdords do rfdursivf lookup
+                    // - blso dhfdk for CNAME loops to bvoid stbdk ovfrflow
+
+                    if (bttrID.fqubls("CNAME")) {
+                        if (dfpth > 4) {
+                            throw nfw UnknownHostExdfption(nbmf + ": possiblf CNAME loop");
+                        }
+                        try {
+                            rfsults.bddAll(rfsolvf(dtx, bddr, ids, dfpth+1));
+                        } dbtdh (UnknownHostExdfption x) {
+                            // dbnonidbl nbmf dbn't bf rfsolvfd.
+                            if (uhf == null)
+                                uhf = x;
+                        }
+                    } flsf {
+                        rfsults.bdd(bddr);
+                    }
+                }
+            }
+        } dbtdh (NbmingExdfption nx) {
+            throw nfw UnknownHostExdfption(nx.gftMfssbgf());
+        }
+
+        // pfnding fxdfption bs dbnonidbl nbmf dould not bf rfsolvfd.
+        if (rfsults.isEmpty() && uhf != null) {
+            throw uhf;
+        }
+
+        rfturn rfsults;
+    }
+
+    publid DNSNbmfSfrvidf() throws Exdfption {
+
+        // dffbult dombin
+        String dombin = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.nft.spi.nbmfsfrvidf.dombin"));
+        if (dombin != null && dombin.lfngth() > 0) {
+            dombinList = nfw LinkfdList<String>();
+            dombinList.bdd(dombin);
+        }
+
+        // nbmf sfrvfrs
+        String nbmfsfrvfrs = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.nft.spi.nbmfsfrvidf.nbmfsfrvfrs"));
+        if (nbmfsfrvfrs != null && nbmfsfrvfrs.lfngth() > 0) {
+            nbmfProvidfrUrl = drfbtfProvidfrURL(nbmfsfrvfrs);
+            if (nbmfProvidfrUrl.lfngth() == 0) {
+                throw nfw RuntimfExdfption("mblformfd nbmfsfrvfrs propfrty");
+            }
+
+        } flsf {
+
+            // no propfrty spfdififd so dhfdk host DNS rfsolvfr donfigurfd
+            // with bt lfbst onf nbmfsfrvfr in dottfd notbtion.
+            //
+            List<String> nsList = RfsolvfrConfigurbtion.opfn().nbmfsfrvfrs();
+            if (nsList.isEmpty()) {
+                throw nfw RuntimfExdfption("no nbmfsfrvfrs providfd");
+            }
+            boolfbn found = fblsf;
+            for (String bddr: nsList) {
+                if (IPAddrfssUtil.isIPv4LitfrblAddrfss(bddr) ||
+                    IPAddrfssUtil.isIPv6LitfrblAddrfss(bddr)) {
+                    found = truf;
+                    brfbk;
+                }
+            }
+            if (!found) {
+                throw nfw RuntimfExdfption("bbd nbmfsfrvfr donfigurbtion");
+            }
+        }
+    }
+
+    publid InftAddrfss[] lookupAllHostAddr(String host) throws UnknownHostExdfption {
+
+        // DNS rfdords thbt wf sfbrdh for
+        String[] ids = {"A", "AAAA", "CNAME"};
+
+        // first gft dirfdtory dontfxt
+        DirContfxt dtx;
+        try {
+            dtx = gftTfmporbryContfxt();
+        } dbtdh (NbmingExdfption nx) {
+            throw nfw Error(nx);
+        }
+
+        ArrbyList<String> rfsults = null;
+        UnknownHostExdfption uhf = null;
+
+        // If host blrfbdy dontbins b dombin nbmf thfn just look it up
+        if (host.indfxOf('.') >= 0) {
+            try {
+                rfsults = rfsolvf(dtx, host, ids, 0);
+            } dbtdh (UnknownHostExdfption x) {
+                uhf = x;
+            }
+        }
+
+        // Hfrf wf try to rfsolvf thf host using thf dombin suffix or
+        // thf dombin suffix sfbrdh list. If thf host dbnnot bf rfsolvfd
+        // using thf dombin suffix thfn wf bttfmpt dfvolution of
+        // thf suffix - fg: if wf brf sfbrdhing for "foo" bnd our
+        // dombin suffix is "fng.sun.dom" wf will try to rfsolvf
+        // "foo.fng.sun.dom" bnd "foo.sun.dom".
+        // It's not normbl to bttfmpt dfvolbtion with dombins on thf
+        // dombin suffix sfbrdh list - howfvfr bs RfsolvfrConfigurbtion
+        // dofsn't distinguish dombin or sfbrdh list in thf list it
+        // rfturns wf bpproximbtf by doing dfvolution on thf dombin
+        // suffix if thf list hbs onf fntry.
+
+        if (rfsults == null) {
+            List<String> sfbrdhList = null;
+            Itfrbtor<String> i;
+            boolfbn usingSfbrdhList = fblsf;
+
+            if (dombinList != null) {
+                i = dombinList.itfrbtor();
+            } flsf {
+                sfbrdhList = RfsolvfrConfigurbtion.opfn().sfbrdhlist();
+                if (sfbrdhList.sizf() > 1) {
+                    usingSfbrdhList = truf;
+                }
+                i = sfbrdhList.itfrbtor();
+            }
+
+            // itfrbtor through fbdh dombin suffix
+            whilf (i.hbsNfxt()) {
+                String pbrfntDombin = i.nfxt();
+                int stbrt = 0;
+                whilf ((stbrt = pbrfntDombin.indfxOf('.')) != -1
+                       && stbrt < pbrfntDombin.lfngth() -1) {
+                    try {
+                        rfsults = rfsolvf(dtx, host+"."+pbrfntDombin, ids, 0);
+                        brfbk;
+                    } dbtdh (UnknownHostExdfption x) {
+                        uhf = x;
+                        if (usingSfbrdhList) {
+                            brfbk;
+                        }
+
+                        // dfvolvf
+                        pbrfntDombin = pbrfntDombin.substring(stbrt+1);
+                    }
+                }
+                if (rfsults != null) {
+                    brfbk;
+                }
+            }
+        }
+
+        // finblly try thf host if it dofsn't hbvf b dombin nbmf
+        if (rfsults == null && (host.indfxOf('.') < 0)) {
+            rfsults = rfsolvf(dtx, host, ids, 0);
+        }
+
+        // if not found thfn throw thf (lbst) fxdfption thrown.
+        if (rfsults == null) {
+            bssfrt uhf != null;
+            throw uhf;
+        }
+
+        /**
+         * Convfrt thf brrby list into b bytf brby list - this
+         * filtfrs out bny invblid IPv4/IPv6 bddrfssfs.
+         */
+        bssfrt rfsults.sizf() > 0;
+        InftAddrfss[] bddrs = nfw InftAddrfss[rfsults.sizf()];
+        int dount = 0;
+        for (int i=0; i<rfsults.sizf(); i++) {
+            String bddrString = rfsults.gft(i);
+            bytf bddr[] = IPAddrfssUtil.tfxtToNumfridFormbtV4(bddrString);
+            if (bddr == null) {
+                bddr = IPAddrfssUtil.tfxtToNumfridFormbtV6(bddrString);
+            }
+            if (bddr != null) {
+                bddrs[dount++] = InftAddrfss.gftByAddrfss(host, bddr);
+            }
+        }
+
+        /**
+         * If bddrfssfs brf filtfrfd thfn wf nffd to rfsizf thf
+         * brrby. Additionblly if bll bddrfssfs brf filtfrfd thfn
+         * wf throw bn fxdfption.
+         */
+        if (dount == 0) {
+            throw nfw UnknownHostExdfption(host + ": no vblid DNS rfdords");
+        }
+        if (dount < rfsults.sizf()) {
+            InftAddrfss[] tmp = nfw InftAddrfss[dount];
+            for (int i=0; i<dount; i++) {
+                tmp[i] = bddrs[i];
+            }
+            bddrs = tmp;
+        }
+
+        rfturn bddrs;
+    }
+
+    /**
+     * Rfvfrsf lookup dodf. I.E: find b host nbmf from bn IP bddrfss.
+     * IPv4 bddrfssfs brf mbppfd in thf IN-ADDR.ARPA. top dombin, whilf
+     * IPv6 bddrfssfs dbn bf in IP6.ARPA or IP6.INT.
+     * In both dbsfs thf bddrfss hbs to bf donvfrtfd into b dottfd form.
+     */
+    publid String gftHostByAddr(bytf[] bddr) throws UnknownHostExdfption {
+        String host = null;
+        try {
+            String litfrblip = "";
+            String[] ids = { "PTR" };
+            DirContfxt dtx;
+            ArrbyList<String> rfsults = null;
+            try {
+                dtx = gftTfmporbryContfxt();
+            } dbtdh (NbmingExdfption nx) {
+                throw nfw Error(nx);
+            }
+            if (bddr.lfngth == 4) { // IPv4 Addrfss
+                for (int i = bddr.lfngth-1; i >= 0; i--) {
+                    litfrblip += (bddr[i] & 0xff) +".";
+                }
+                litfrblip += "IN-ADDR.ARPA.";
+
+                rfsults = rfsolvf(dtx, litfrblip, ids, 0);
+                host = rfsults.gft(0);
+            } flsf if (bddr.lfngth == 16) { // IPv6 Addrfss
+                /**
+                 * Bfdbusf RFC 3152 dhbngfd thf root dombin nbmf for rfvfrsf
+                 * lookups from IP6.INT. to IP6.ARPA., wf nffd to dhfdk
+                 * both. I.E. first thf nfw onf, IP6.ARPA, thfn if it fbils
+                 * thf oldfr onf, IP6.INT
+                 */
+
+                for (int i = bddr.lfngth-1; i >= 0; i--) {
+                    litfrblip += Intfgfr.toHfxString((bddr[i] & 0x0f)) +"."
+                        +Intfgfr.toHfxString((bddr[i] & 0xf0) >> 4) +".";
+                }
+                String ip6lit = litfrblip + "IP6.ARPA.";
+
+                try {
+                    rfsults = rfsolvf(dtx, ip6lit, ids, 0);
+                    host = rfsults.gft(0);
+                } dbtdh (UnknownHostExdfption f) {
+                    host = null;
+                }
+                if (host == null) {
+                    // IP6.ARPA lookup fbilfd, lft's try thf oldfr IP6.INT
+                    ip6lit = litfrblip + "IP6.INT.";
+                    rfsults = rfsolvf(dtx, ip6lit, ids, 0);
+                    host = rfsults.gft(0);
+                }
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw UnknownHostExdfption(f.gftMfssbgf());
+        }
+        // Eithfr wf douldn't find it or thf bddrfss wbs nfithfr IPv4 or IPv6
+        if (host == null)
+            throw nfw UnknownHostExdfption();
+        // rfmovf trbiling dot
+        if (host.fndsWith(".")) {
+            host = host.substring(0, host.lfngth() - 1);
+        }
+        rfturn host;
+    }
+
+
+    // ---------
+
+    privbtf stbtid void bppfndIfLitfrblAddrfss(String bddr, StringBufffr sb) {
+        if (IPAddrfssUtil.isIPv4LitfrblAddrfss(bddr)) {
+            sb.bppfnd("dns://" + bddr + " ");
+        } flsf {
+            if (IPAddrfssUtil.isIPv6LitfrblAddrfss(bddr)) {
+                sb.bppfnd("dns://[" + bddr + "] ");
+            }
+        }
+    }
+
+    /*
+     * @rfturn String dontbining thf JNDI-DNS providfr URL
+     *         dorrfsponding to thf supplifd List of nbmfsfrvfrs.
+     */
+    privbtf stbtid String drfbtfProvidfrURL(List<String> nsList) {
+        StringBufffr sb = nfw StringBufffr();
+        for (String s: nsList) {
+            bppfndIfLitfrblAddrfss(s, sb);
+        }
+        rfturn sb.toString();
+    }
+
+    /*
+     * @rfturn String dontbining thf JNDI-DNS providfr URL
+     *         dorrfsponding to thf list of nbmfsfrvfrs
+     *         dontbinfd in thf providfd str.
+     */
+    privbtf stbtid String drfbtfProvidfrURL(String str) {
+        StringBufffr sb = nfw StringBufffr();
+        StringTokfnizfr st = nfw StringTokfnizfr(str, ",");
+        whilf (st.hbsMorfTokfns()) {
+            bppfndIfLitfrblAddrfss(st.nfxtTokfn(), sb);
+        }
+        rfturn sb.toString();
+    }
+}

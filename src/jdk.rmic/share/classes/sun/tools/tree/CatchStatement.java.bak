@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.LodblVbribblf;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class CatchStatement extends Statement {
+publid
+dlbss CbtdiStbtfmfnt fxtfnds Stbtfmfnt {
     int mod;
-    Expression texpr;
-    Identifier id;
-    Statement body;
-    LocalMember field;
+    Exprfssion tfxpr;
+    Idfntififr id;
+    Stbtfmfnt body;
+    LodblMfmbfr fifld;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public CatchStatement(long where, Expression texpr, IdentifierToken id, Statement body) {
-        super(CATCH, where);
-        this.mod = id.getModifiers();
-        this.texpr = texpr;
-        this.id = id.getName();
-        this.body = body;
+    publid CbtdiStbtfmfnt(long wifrf, Exprfssion tfxpr, IdfntififrTokfn id, Stbtfmfnt body) {
+        supfr(CATCH, wifrf);
+        tiis.mod = id.gftModififrs();
+        tiis.tfxpr = tfxpr;
+        tiis.id = id.gftNbmf();
+        tiis.body = body;
     }
-    /** @deprecated */
-    @Deprecated
-    public CatchStatement(long where, Expression texpr, Identifier id, Statement body) {
-        super(CATCH, where);
-        this.texpr = texpr;
-        this.id = id;
-        this.body = body;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid CbtdiStbtfmfnt(long wifrf, Exprfssion tfxpr, Idfntififr id, Stbtfmfnt body) {
+        supfr(CATCH, wifrf);
+        tiis.tfxpr = tfxpr;
+        tiis.id = id;
+        tiis.body = body;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = reach(env, vset);
-        ctx = new Context(ctx, this);
-        Type type = texpr.toType(env, ctx);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        vsft = rfbdi(fnv, vsft);
+        dtx = nfw Contfxt(dtx, tiis);
+        Typf typf = tfxpr.toTypf(fnv, dtx);
 
         try {
-            if (ctx.getLocalField(id) != null) {
-                env.error(where, "local.redefined", id);
+            if (dtx.gftLodblFifld(id) != null) {
+                fnv.frror(wifrf, "lodbl.rfdffinfd", id);
             }
 
-            if (type.isType(TC_ERROR)) {
-                // error message printed out elsewhere
-            } else if (!type.isType(TC_CLASS)) {
-                env.error(where, "catch.not.throwable", type);
-            } else {
-                ClassDefinition def = env.getClassDefinition(type);
-                if (!def.subClassOf(env,
-                               env.getClassDeclaration(idJavaLangThrowable))) {
-                    env.error(where, "catch.not.throwable", def);
+            if (typf.isTypf(TC_ERROR)) {
+                // frror mfssbgf printfd out flsfwifrf
+            } flsf if (!typf.isTypf(TC_CLASS)) {
+                fnv.frror(wifrf, "dbtdi.not.tirowbblf", typf);
+            } flsf {
+                ClbssDffinition dff = fnv.gftClbssDffinition(typf);
+                if (!dff.subClbssOf(fnv,
+                               fnv.gftClbssDfdlbrbtion(idJbvbLbngTirowbblf))) {
+                    fnv.frror(wifrf, "dbtdi.not.tirowbblf", dff);
                 }
             }
 
-            field = new LocalMember(where, ctx.field.getClassDefinition(), mod, type, id);
-            ctx.declare(env, field);
-            vset.addVar(field.number);
+            fifld = nfw LodblMfmbfr(wifrf, dtx.fifld.gftClbssDffinition(), mod, typf, id);
+            dtx.dfdlbrf(fnv, fifld);
+            vsft.bddVbr(fifld.numbfr);
 
-            return body.check(env, ctx, vset, exp);
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
-            return vset;
+            rfturn body.difdk(fnv, dtx, vsft, fxp);
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(wifrf, "dlbss.not.found", f.nbmf, opNbmfs[op]);
+            rfturn vsft;
         }
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        ctx = new Context(ctx, this);
-        if (field.isUsed()) {
-            ctx.declare(env, field);
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, tiis);
+        if (fifld.isUsfd()) {
+            dtx.dfdlbrf(fnv, fifld);
         }
         if (body != null) {
-            body = body.inline(env, ctx);
+            body = body.inlinf(fnv, dtx);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        CatchStatement s = (CatchStatement)clone();
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        CbtdiStbtfmfnt s = (CbtdiStbtfmfnt)dlonf();
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
         }
-        if (field != null) {
-            s.field = field.copyInline(ctx);
+        if (fifld != null) {
+            s.fifld = fifld.dopyInlinf(dtx);
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Compute cost of inlining this statement
+     * Computf dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx){
-        int cost = 1;
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx){
+        int dost = 1;
         if (body != null) {
-            cost += body.costInline(thresh, env,ctx);
+            dost += body.dostInlinf(tirfsi, fnv,dtx);
         }
-        return cost;
+        rfturn dost;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext newctx = new CodeContext(ctx, this);
-        if (field.isUsed()) {
-            newctx.declare(env, field);
-            asm.add(where, opc_astore, new LocalVariable(field, field.number));
-        } else {
-            asm.add(where, opc_pop);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, tiis);
+        if (fifld.isUsfd()) {
+            nfwdtx.dfdlbrf(fnv, fifld);
+            bsm.bdd(wifrf, opd_bstorf, nfw LodblVbribblf(fifld, fifld.numbfr));
+        } flsf {
+            bsm.bdd(wifrf, opd_pop);
         }
         if (body != null) {
-            body.code(env, newctx, asm);
+            body.dodf(fnv, nfwdtx, bsm);
         }
-        //asm.add(newctx.breakLabel);
+        //bsm.bdd(nfwdtx.brfbkLbbfl);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
-        out.print("catch (");
-        texpr.print(out);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("dbtdi (");
+        tfxpr.print(out);
         out.print(" " + id + ") ");
         if (body != null) {
-            body.print(out, indent);
-        } else {
-            out.print("<empty>");
+            body.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
         }
     }
 }

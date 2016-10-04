@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * An fntity dfdlbrfd within b usfr dffinfd
+ * typf (dlbss or intfrfbdf).
+ * This intfrfbdf is thf root of thf typf
+ * domponfnt hifrbrdhy whidh
+ * indludfs {@link Fifld} bnd {@link Mfthod}.
+ * Typf domponfnts of thf sbmf nbmf dfdlbrfd in difffrfnt dlbssfs
+ * (indluding thosf rflbtfd by inhfritbndf) hbvf difffrfnt
+ * TypfComponfnt objfdts.
+ * TypfComponfnts dbn bf usfd blonf to rftrifvf stbtid informbtion
+ * bbout thfir dfdlbrbtion, or dbn bf usfd in donjundtion with b
+ * {@link RfffrfndfTypf} or {@link ObjfdtRfffrfndf} to bddfss vblufs
+ * or invokf, bs bpplidbblf.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf TypfComponfnt fxtfnds Mirror, Addfssiblf {
+
+    /**
+     * Gfts thf nbmf of this typf domponfnt.
+     * <P>
+     * Notf: for fiflds, this is thf fifld nbmf; for mfthods,
+     * this is thf mfthod nbmf; for donstrudtors, this is &lt;init&gt;;
+     * for stbtid initiblizfrs, this is &lt;dlinit&gt;.
+     *
+     * @rfturn b string dontbining thf nbmf.
+     */
+    String nbmf();
+
+    /**
+     * Gfts thf JNI-stylf signbturf for this typf domponfnt. Thf
+     * signbturf is fndodfd typf informbtion bs dffinfd
+     * in thf JNI dodumfntbtion. It is b donvfnifnt, dompbdt formbt for
+     * for mbnipulbting typf informbtion intfrnblly, not nfdfssbrily
+     * for displby to bn fnd usfr. Sff {@link Fifld#typfNbmf} bnd
+     * {@link Mfthod#rfturnTypfNbmf} for wbys to hflp gft b morf rfbdbblf
+     * rfprfsfntbtion of thf typf.
+     *
+     * @sff <b hrff="dod-filfs/signbturf.html">Typf Signbturfs</b>
+     * @rfturn b string dontbining thf signbturf
+     */
+    String signbturf();
+
+    /**
+     * Gfts thf gfnfrid signbturf for this TypfComponfnt if thfrf is onf.
+     * Gfnfrid signbturfs brf dfsdribfd in thf
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *
+     * @rfturn b string dontbining thf gfnfrid signbturf, or <dodf>null</dodf>
+     * if thfrf is no gfnfrid signbturf.
+     *
+     * @sindf 1.5
+     */
+    String gfnfridSignbturf();
+
+    /**
+     * Rfturns thf typf in whidh this domponfnt wbs dfdlbrfd. Thf
+     * rfturnfd {@link RfffrfndfTypf} mirrors fithfr b dlbss or bn
+     * intfrfbdf in thf tbrgft VM.
+     *
+     * @rfturn b {@link RfffrfndfTypf} for thf typf thbt dfdlbrfd
+     * this typf domponfnt.
+     */
+    RfffrfndfTypf dfdlbringTypf();
+
+    /**
+     * Dftfrminfs if this TypfComponfnt is stbtid.
+     * Rfturn vbluf is undffinfd for donstrudtors bnd stbtid initiblizfrs.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf domponfnt wbs dfdlbrfd
+     * stbtid; fblsf othfrwisf.
+     */
+    boolfbn isStbtid();
+
+    /**
+     * Dftfrminfs if this TypfComponfnt is finbl.
+     * Rfturn vbluf is undffinfd for donstrudtors bnd stbtid initiblizfrs.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf domponfnt wbs dfdlbrfd
+     * finbl; fblsf othfrwisf.
+     */
+    boolfbn isFinbl();
+
+    /**
+     * Dftfrminfs if this TypfComponfnt is synthftid. Synthftid mfmbfrs
+     * brf gfnfrbtfd by thf dompilfr bnd brf not prfsfnt in thf sourdf
+     * dodf for thf dontbining dlbss.
+     * <p>
+     * Not bll tbrgft VMs support this qufry. Sff
+     * {@link VirtublMbdhinf#dbnGftSynthftidAttributf} to dftfrminf if thf
+     * opfrbtion is supportfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf domponfnt is synthftid;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf tbrgft
+     * VM dbnnot providf informbtion on synthftid bttributfs.
+     */
+    boolfbn isSynthftid();
+}

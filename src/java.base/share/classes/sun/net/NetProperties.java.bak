@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Properties;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Propfrtifs;
 
 /*
- * This class allows for centralized access to Networking properties.
- * Default values are loaded from the file jre/lib/net.properties
+ * Tiis dlbss bllows for dfntrblizfd bddfss to Nftworking propfrtifs.
+ * Dffbult vblufs brf lobdfd from tif filf jrf/lib/nft.propfrtifs
  *
  *
- * @author Jean-Christophe Collet
+ * @butior Jfbn-Ciristopif Collft
  *
  */
 
-public class NetProperties {
-    static private Properties props = new Properties();
-    static {
-        AccessController.doPrivileged(
-            new PrivilegedAction<Void>() {
-                public Void run() {
-                    loadDefaultProperties();
-                    return null;
+publid dlbss NftPropfrtifs {
+    stbtid privbtf Propfrtifs props = nfw Propfrtifs();
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    lobdDffbultPropfrtifs();
+                    rfturn null;
                 }});
     }
 
-    private NetProperties() { };
+    privbtf NftPropfrtifs() { };
 
 
     /*
-     * Loads the default networking system properties
-     * the file is in jre/lib/net.properties
+     * Lobds tif dffbult nftworking systfm propfrtifs
+     * tif filf is in jrf/lib/nft.propfrtifs
      */
-    static private void loadDefaultProperties() {
-        String fname = System.getProperty("java.home");
-        if (fname == null) {
-            throw new Error("Can't find java.home ??");
+    stbtid privbtf void lobdDffbultPropfrtifs() {
+        String fnbmf = Systfm.gftPropfrty("jbvb.iomf");
+        if (fnbmf == null) {
+            tirow nfw Error("Cbn't find jbvb.iomf ??");
         }
         try {
-            File f = new File(fname, "lib");
-            f = new File(f, "net.properties");
-            fname = f.getCanonicalPath();
-            InputStream in = new FileInputStream(fname);
-            BufferedInputStream bin = new BufferedInputStream(in);
-            props.load(bin);
-            bin.close();
-        } catch (Exception e) {
-            // Do nothing. We couldn't find or access the file
-            // so we won't have default properties...
+            Filf f = nfw Filf(fnbmf, "lib");
+            f = nfw Filf(f, "nft.propfrtifs");
+            fnbmf = f.gftCbnonidblPbti();
+            InputStrfbm in = nfw FilfInputStrfbm(fnbmf);
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+            props.lobd(bin);
+            bin.dlosf();
+        } dbtdi (Exdfption f) {
+            // Do notiing. Wf douldn't find or bddfss tif filf
+            // so wf won't ibvf dffbult propfrtifs...
         }
     }
 
     /**
-     * Get a networking system property. If no system property was defined
-     * returns the default value, if it exists, otherwise returns
-     * <code>null</code>.
-     * @param      key  the property name.
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
-     *          to the system properties.
-     * @return the <code>String</code> value for the property,
-     *         or <code>null</code>
+     * Gft b nftworking systfm propfrty. If no systfm propfrty wbs dffinfd
+     * rfturns tif dffbult vbluf, if it fxists, otifrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm      kfy  tif propfrty nbmf.
+     * @tirows  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *          to tif systfm propfrtifs.
+     * @rfturn tif <dodf>String</dodf> vbluf for tif propfrty,
+     *         or <dodf>null</dodf>
      */
-    static public String get(String key) {
-        String def = props.getProperty(key);
+    stbtid publid String gft(String kfy) {
+        String dff = props.gftPropfrty(kfy);
         try {
-            return System.getProperty(key, def);
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+            rfturn Systfm.gftPropfrty(kfy, dff);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+        } dbtdi (NullPointfrExdfption f) {
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Get an Integer networking system property. If no system property was
-     * defined returns the default value, if it exists, otherwise returns
-     * <code>null</code>.
-     * @param   key     the property name.
-     * @param   defval  the default value to use if the property is not found
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
-     *          to the system properties.
-     * @return the <code>Integer</code> value for the property,
-     *         or <code>null</code>
+     * Gft bn Intfgfr nftworking systfm propfrty. If no systfm propfrty wbs
+     * dffinfd rfturns tif dffbult vbluf, if it fxists, otifrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm   kfy     tif propfrty nbmf.
+     * @pbrbm   dffvbl  tif dffbult vbluf to usf if tif propfrty is not found
+     * @tirows  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *          to tif systfm propfrtifs.
+     * @rfturn tif <dodf>Intfgfr</dodf> vbluf for tif propfrty,
+     *         or <dodf>null</dodf>
      */
-    static public Integer getInteger(String key, int defval) {
-        String val = null;
+    stbtid publid Intfgfr gftIntfgfr(String kfy, int dffvbl) {
+        String vbl = null;
 
         try {
-            val = System.getProperty(key, props.getProperty(key));
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+            vbl = Systfm.gftPropfrty(kfy, props.gftPropfrty(kfy));
+        } dbtdi (IllfgblArgumfntExdfption f) {
+        } dbtdi (NullPointfrExdfption f) {
         }
 
-        if (val != null) {
+        if (vbl != null) {
             try {
-                return Integer.decode(val);
-            } catch (NumberFormatException ex) {
+                rfturn Intfgfr.dfdodf(vbl);
+            } dbtdi (NumbfrFormbtExdfption fx) {
             }
         }
-        return defval;
+        rfturn dffvbl;
     }
 
     /**
-     * Get a Boolean networking system property. If no system property was
-     * defined returns the default value, if it exists, otherwise returns
-     * <code>null</code>.
-     * @param   key     the property name.
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
-     *          to the system properties.
-     * @return the <code>Boolean</code> value for the property,
-     *         or <code>null</code>
+     * Gft b Boolfbn nftworking systfm propfrty. If no systfm propfrty wbs
+     * dffinfd rfturns tif dffbult vbluf, if it fxists, otifrwisf rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm   kfy     tif propfrty nbmf.
+     * @tirows  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *          to tif systfm propfrtifs.
+     * @rfturn tif <dodf>Boolfbn</dodf> vbluf for tif propfrty,
+     *         or <dodf>null</dodf>
      */
-    static public Boolean getBoolean(String key) {
-        String val = null;
+    stbtid publid Boolfbn gftBoolfbn(String kfy) {
+        String vbl = null;
 
         try {
-            val = System.getProperty(key, props.getProperty(key));
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+            vbl = Systfm.gftPropfrty(kfy, props.gftPropfrty(kfy));
+        } dbtdi (IllfgblArgumfntExdfption f) {
+        } dbtdi (NullPointfrExdfption f) {
         }
 
-        if (val != null) {
+        if (vbl != null) {
             try {
-                return Boolean.valueOf(val);
-            } catch (NumberFormatException ex) {
+                rfturn Boolfbn.vblufOf(vbl);
+            } dbtdi (NumbfrFormbtExdfption fx) {
             }
         }
-        return null;
+        rfturn null;
     }
 
 }

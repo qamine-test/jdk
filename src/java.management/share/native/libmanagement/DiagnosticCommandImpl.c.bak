@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <jni.h>
-#include "management.h"
-#include "sun_management_DiagnosticCommandImpl.h"
+#indludf <stdlib.i>
+#indludf <jni.i>
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_DibgnostidCommbndImpl.i"
 
-JNIEXPORT void JNICALL Java_sun_management_DiagnosticCommandImpl_setNotificationEnabled
-(JNIEnv *env, jobject dummy, jboolean enabled) {
-    if (jmm_version <= JMM_VERSION_1_2_2) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-                        "JMX interface to diagnostic framework notifications is not supported by this VM");
-        return;
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_sftNotifidbtionEnbblfd
+(JNIEnv *fnv, jobjfdt dummy, jboolfbn fnbblfd) {
+    if (jmm_vfrsion <= JMM_VERSION_1_2_2) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+                        "JMX intfrfbdf to dibgnostid frbmfwork notifidbtions is not supportfd by tiis VM");
+        rfturn;
     }
-    jmm_interface->SetDiagnosticFrameworkNotificationEnabled(env, enabled);
+    jmm_intfrfbdf->SftDibgnostidFrbmfworkNotifidbtionEnbblfd(fnv, fnbblfd);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_DiagnosticCommandImpl_getDiagnosticCommands
-  (JNIEnv *env, jobject dummy)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_gftDibgnostidCommbnds
+  (JNIEnv *fnv, jobjfdt dummy)
 {
-  return jmm_interface->GetDiagnosticCommands(env);
+  rfturn jmm_intfrfbdf->GftDibgnostidCommbnds(fnv);
 }
 
-jobject getDiagnosticCommandArgumentInfoArray(JNIEnv *env, jstring command,
-                                              int num_arg) {
+jobjfdt gftDibgnostidCommbndArgumfntInfoArrby(JNIEnv *fnv, jstring dommbnd,
+                                              int num_brg) {
   int i;
-  jobject obj;
-  jobjectArray result;
-  dcmdArgInfo* dcmd_arg_info_array;
-  jclass dcmdArgInfoCls;
-  jclass arraysCls;
-  jmethodID mid;
-  jobject resultList;
+  jobjfdt obj;
+  jobjfdtArrby rfsult;
+  ddmdArgInfo* ddmd_brg_info_brrby;
+  jdlbss ddmdArgInfoCls;
+  jdlbss brrbysCls;
+  jmftiodID mid;
+  jobjfdt rfsultList;
 
-  dcmd_arg_info_array = (dcmdArgInfo*) malloc(num_arg * sizeof(dcmdArgInfo));
-  /* According to ISO C it is perfectly legal for malloc to return zero if called with a zero argument */
-  if (dcmd_arg_info_array == NULL && num_arg != 0) {
-    return NULL;
+  ddmd_brg_info_brrby = (ddmdArgInfo*) mbllod(num_brg * sizfof(ddmdArgInfo));
+  /* Addording to ISO C it is pfrffdtly lfgbl for mbllod to rfturn zfro if dbllfd witi b zfro brgumfnt */
+  if (ddmd_brg_info_brrby == NULL && num_brg != 0) {
+    rfturn NULL;
   }
-  jmm_interface->GetDiagnosticCommandArgumentsInfo(env, command,
-                                                   dcmd_arg_info_array);
-  dcmdArgInfoCls = (*env)->FindClass(env,
-                                     "sun/management/DiagnosticCommandArgumentInfo");
-  result = (*env)->NewObjectArray(env, num_arg, dcmdArgInfoCls, NULL);
-  if (result == NULL) {
-    free(dcmd_arg_info_array);
-    return NULL;
+  jmm_intfrfbdf->GftDibgnostidCommbndArgumfntsInfo(fnv, dommbnd,
+                                                   ddmd_brg_info_brrby);
+  ddmdArgInfoCls = (*fnv)->FindClbss(fnv,
+                                     "sun/mbnbgfmfnt/DibgnostidCommbndArgumfntInfo");
+  rfsult = (*fnv)->NfwObjfdtArrby(fnv, num_brg, ddmdArgInfoCls, NULL);
+  if (rfsult == NULL) {
+    frff(ddmd_brg_info_brrby);
+    rfturn NULL;
   }
-  for (i=0; i<num_arg; i++) {
-    obj = JNU_NewObjectByName(env,
-                              "sun/management/DiagnosticCommandArgumentInfo",
-                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZI)V",
-                              (*env)->NewStringUTF(env,dcmd_arg_info_array[i].name),
-                              (*env)->NewStringUTF(env,dcmd_arg_info_array[i].description),
-                              (*env)->NewStringUTF(env,dcmd_arg_info_array[i].type),
-                              dcmd_arg_info_array[i].default_string == NULL ? NULL:
-                              (*env)->NewStringUTF(env, dcmd_arg_info_array[i].default_string),
-                              dcmd_arg_info_array[i].mandatory,
-                              dcmd_arg_info_array[i].option,
-                              dcmd_arg_info_array[i].multiple,
-                              dcmd_arg_info_array[i].position);
+  for (i=0; i<num_brg; i++) {
+    obj = JNU_NfwObjfdtByNbmf(fnv,
+                              "sun/mbnbgfmfnt/DibgnostidCommbndArgumfntInfo",
+                              "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;ZZZI)V",
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].nbmf),
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].dfsdription),
+                              (*fnv)->NfwStringUTF(fnv,ddmd_brg_info_brrby[i].typf),
+                              ddmd_brg_info_brrby[i].dffbult_string == NULL ? NULL:
+                              (*fnv)->NfwStringUTF(fnv, ddmd_brg_info_brrby[i].dffbult_string),
+                              ddmd_brg_info_brrby[i].mbndbtory,
+                              ddmd_brg_info_brrby[i].option,
+                              ddmd_brg_info_brrby[i].multiplf,
+                              ddmd_brg_info_brrby[i].position);
     if (obj == NULL) {
-      free(dcmd_arg_info_array);
-      return NULL;
+      frff(ddmd_brg_info_brrby);
+      rfturn NULL;
     }
-    (*env)->SetObjectArrayElement(env, result, i, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, obj);
   }
-  free(dcmd_arg_info_array);
-  arraysCls = (*env)->FindClass(env, "java/util/Arrays");
-  mid = (*env)->GetStaticMethodID(env, arraysCls,
-                                  "asList", "([Ljava/lang/Object;)Ljava/util/List;");
-  resultList = (*env)->CallStaticObjectMethod(env, arraysCls, mid, result);
-  return resultList;
+  frff(ddmd_brg_info_brrby);
+  brrbysCls = (*fnv)->FindClbss(fnv, "jbvb/util/Arrbys");
+  mid = (*fnv)->GftStbtidMftiodID(fnv, brrbysCls,
+                                  "bsList", "([Ljbvb/lbng/Objfdt;)Ljbvb/util/List;");
+  rfsultList = (*fnv)->CbllStbtidObjfdtMftiod(fnv, brrbysCls, mid, rfsult);
+  rfturn rfsultList;
 }
 
-/* Throws IllegalArgumentException if at least one of the diagnostic command
- * passed in argument is not supported by the JVM
+/* Tirows IllfgblArgumfntExdfption if bt lfbst onf of tif dibgnostid dommbnd
+ * pbssfd in brgumfnt is not supportfd by tif JVM
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_DiagnosticCommandImpl_getDiagnosticCommandInfo
-(JNIEnv *env, jobject dummy, jobjectArray commands)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_gftDibgnostidCommbndInfo
+(JNIEnv *fnv, jobjfdt dummy, jobjfdtArrby dommbnds)
 {
   int i;
-  jclass dcmdInfoCls;
-  jobject result;
-  jobjectArray args;
-  jobject obj;
-  jmmOptionalSupport mos;
-  jint ret = jmm_interface->GetOptionalSupport(env, &mos);
-  jsize num_commands;
-  dcmdInfo* dcmd_info_array;
+  jdlbss ddmdInfoCls;
+  jobjfdt rfsult;
+  jobjfdtArrby brgs;
+  jobjfdt obj;
+  jmmOptionblSupport mos;
+  jint rft = jmm_intfrfbdf->GftOptionblSupport(fnv, &mos);
+  jsizf num_dommbnds;
+  ddmdInfo* ddmd_info_brrby;
 
-  if (commands == NULL) {
-      JNU_ThrowNullPointerException(env, "Invalid String Array");
-      return NULL;
+  if (dommbnds == NULL) {
+      JNU_TirowNullPointfrExdfption(fnv, "Invblid String Arrby");
+      rfturn NULL;
   }
-  num_commands = (*env)->GetArrayLength(env, commands);
-  dcmdInfoCls = (*env)->FindClass(env,
-                                  "sun/management/DiagnosticCommandInfo");
-  result = (*env)->NewObjectArray(env, num_commands, dcmdInfoCls, NULL);
-  if (result == NULL) {
-      JNU_ThrowOutOfMemoryError(env, 0);
-      return NULL;
+  num_dommbnds = (*fnv)->GftArrbyLfngti(fnv, dommbnds);
+  ddmdInfoCls = (*fnv)->FindClbss(fnv,
+                                  "sun/mbnbgfmfnt/DibgnostidCommbndInfo");
+  rfsult = (*fnv)->NfwObjfdtArrby(fnv, num_dommbnds, ddmdInfoCls, NULL);
+  if (rfsult == NULL) {
+      JNU_TirowOutOfMfmoryError(fnv, 0);
+      rfturn NULL;
   }
-  if (num_commands == 0) {
-      /* Handle the 'zero commands' case specially to avoid calling 'malloc()' */
-      /* with a zero argument because that may legally return a NULL pointer.  */
-      return result;
+  if (num_dommbnds == 0) {
+      /* Hbndlf tif 'zfro dommbnds' dbsf spfdiblly to bvoid dblling 'mbllod()' */
+      /* witi b zfro brgumfnt bfdbusf tibt mby lfgblly rfturn b NULL pointfr.  */
+      rfturn rfsult;
   }
-  dcmd_info_array = (dcmdInfo*) malloc(num_commands * sizeof(dcmdInfo));
-  if (dcmd_info_array == NULL) {
-      JNU_ThrowOutOfMemoryError(env, NULL);
-      return NULL;
+  ddmd_info_brrby = (ddmdInfo*) mbllod(num_dommbnds * sizfof(ddmdInfo));
+  if (ddmd_info_brrby == NULL) {
+      JNU_TirowOutOfMfmoryError(fnv, NULL);
+      rfturn NULL;
   }
-  jmm_interface->GetDiagnosticCommandInfo(env, commands, dcmd_info_array);
-  for (i=0; i<num_commands; i++) {
-      args = getDiagnosticCommandArgumentInfoArray(env,
-                                                   (*env)->GetObjectArrayElement(env,commands,i),
-                                                   dcmd_info_array[i].num_arguments);
-      if (args == NULL) {
-          free(dcmd_info_array);
-          JNU_ThrowOutOfMemoryError(env, 0);
-          return NULL;
+  jmm_intfrfbdf->GftDibgnostidCommbndInfo(fnv, dommbnds, ddmd_info_brrby);
+  for (i=0; i<num_dommbnds; i++) {
+      brgs = gftDibgnostidCommbndArgumfntInfoArrby(fnv,
+                                                   (*fnv)->GftObjfdtArrbyElfmfnt(fnv,dommbnds,i),
+                                                   ddmd_info_brrby[i].num_brgumfnts);
+      if (brgs == NULL) {
+          frff(ddmd_info_brrby);
+          JNU_TirowOutOfMfmoryError(fnv, 0);
+          rfturn NULL;
       }
-      obj = JNU_NewObjectByName(env,
-                                "sun/management/DiagnosticCommandInfo",
-                                "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/util/List;)V",
-                                (*env)->NewStringUTF(env,dcmd_info_array[i].name),
-                                (*env)->NewStringUTF(env,dcmd_info_array[i].description),
-                                (*env)->NewStringUTF(env,dcmd_info_array[i].impact),
-                                dcmd_info_array[i].permission_class==NULL?NULL:(*env)->NewStringUTF(env,dcmd_info_array[i].permission_class),
-                                dcmd_info_array[i].permission_name==NULL?NULL:(*env)->NewStringUTF(env,dcmd_info_array[i].permission_name),
-                                dcmd_info_array[i].permission_action==NULL?NULL:(*env)->NewStringUTF(env,dcmd_info_array[i].permission_action),
-                                dcmd_info_array[i].enabled,
-                                args);
+      obj = JNU_NfwObjfdtByNbmf(fnv,
+                                "sun/mbnbgfmfnt/DibgnostidCommbndInfo",
+                                "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;ZLjbvb/util/List;)V",
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].nbmf),
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].dfsdription),
+                                (*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].impbdt),
+                                ddmd_info_brrby[i].pfrmission_dlbss==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_dlbss),
+                                ddmd_info_brrby[i].pfrmission_nbmf==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_nbmf),
+                                ddmd_info_brrby[i].pfrmission_bdtion==NULL?NULL:(*fnv)->NfwStringUTF(fnv,ddmd_info_brrby[i].pfrmission_bdtion),
+                                ddmd_info_brrby[i].fnbblfd,
+                                brgs);
       if (obj == NULL) {
-          free(dcmd_info_array);
-          JNU_ThrowOutOfMemoryError(env, 0);
-          return NULL;
+          frff(ddmd_info_brrby);
+          JNU_TirowOutOfMfmoryError(fnv, 0);
+          rfturn NULL;
       }
-      (*env)->SetObjectArrayElement(env, result, i, obj);
+      (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, obj);
   }
-  free(dcmd_info_array);
-  return result;
+  frff(ddmd_info_brrby);
+  rfturn rfsult;
 }
 
-/* Throws IllegalArgumentException if the diagnostic command
- * passed in argument is not supported by the JVM
+/* Tirows IllfgblArgumfntExdfption if tif dibgnostid dommbnd
+ * pbssfd in brgumfnt is not supportfd by tif JVM
  */
 JNIEXPORT jstring JNICALL
-Java_sun_management_DiagnosticCommandImpl_executeDiagnosticCommand
-(JNIEnv *env, jobject dummy, jstring command) {
-  return jmm_interface->ExecuteDiagnosticCommand(env, command);
+Jbvb_sun_mbnbgfmfnt_DibgnostidCommbndImpl_fxfdutfDibgnostidCommbnd
+(JNIEnv *fnv, jobjfdt dummy, jstring dommbnd) {
+  rfturn jmm_intfrfbdf->ExfdutfDibgnostidCommbnd(fnv, dommbnd);
 }

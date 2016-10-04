@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.*;
 
-class VMState {
-    private final VirtualMachineImpl vm;
+dlbss VMStbtf {
+    privbtf finbl VirtublMbdiinfImpl vm;
 
-    // Listeners
-    private final List<WeakReference<VMListener>> listeners = new ArrayList<WeakReference<VMListener>>(); // synchronized (this)
-    private boolean notifyingListeners = false;  // synchronized (this)
+    // Listfnfrs
+    privbtf finbl List<WfbkRfffrfndf<VMListfnfr>> listfnfrs = nfw ArrbyList<WfbkRfffrfndf<VMListfnfr>>(); // syndironizfd (tiis)
+    privbtf boolfbn notifyingListfnfrs = fblsf;  // syndironizfd (tiis)
 
     /*
-     * Certain information can be cached only when the entire VM is
-     * suspended and there are no pending resumes. The fields below
-     * are used to track whether there are pending resumes. (There
-     * is an assumption that JDWP command ids are increasing over time.)
+     * Cfrtbin informbtion dbn bf dbdifd only wifn tif fntirf VM is
+     * suspfndfd bnd tifrf brf no pfnding rfsumfs. Tif fiflds bflow
+     * brf usfd to trbdk wiftifr tifrf brf pfnding rfsumfs. (Tifrf
+     * is bn bssumption tibt JDWP dommbnd ids brf indrfbsing ovfr timf.)
      */
-    private int lastCompletedCommandId = 0;   // synchronized (this)
-    private int lastResumeCommandId = 0;      // synchronized (this)
+    privbtf int lbstComplftfdCommbndId = 0;   // syndironizfd (tiis)
+    privbtf int lbstRfsumfCommbndId = 0;      // syndironizfd (tiis)
 
-    // This is cached only while the VM is suspended
-    private static class Cache {
-        List<ThreadGroupReference> groups = null;  // cached Top Level ThreadGroups
-        List<ThreadReference> threads = null; // cached Threads
+    // Tiis is dbdifd only wiilf tif VM is suspfndfd
+    privbtf stbtid dlbss Cbdif {
+        List<TirfbdGroupRfffrfndf> groups = null;  // dbdifd Top Lfvfl TirfbdGroups
+        List<TirfbdRfffrfndf> tirfbds = null; // dbdifd Tirfbds
     }
 
-    private Cache cache = null;               // synchronized (this)
-    private static final Cache markerCache = new Cache();
+    privbtf Cbdif dbdif = null;               // syndironizfd (tiis)
+    privbtf stbtid finbl Cbdif mbrkfrCbdif = nfw Cbdif();
 
-    private void disableCache() {
-        synchronized (this) {
-            cache = null;
+    privbtf void disbblfCbdif() {
+        syndironizfd (tiis) {
+            dbdif = null;
         }
     }
 
-    private void enableCache() {
-        synchronized (this) {
-            cache = markerCache;
+    privbtf void fnbblfCbdif() {
+        syndironizfd (tiis) {
+            dbdif = mbrkfrCbdif;
         }
     }
 
-    private Cache getCache() {
-        synchronized (this) {
-            if (cache == markerCache) {
-                cache = new Cache();
+    privbtf Cbdif gftCbdif() {
+        syndironizfd (tiis) {
+            if (dbdif == mbrkfrCbdif) {
+                dbdif = nfw Cbdif();
             }
-            return cache;
+            rfturn dbdif;
         }
     }
 
-    VMState(VirtualMachineImpl vm) {
-        this.vm = vm;
+    VMStbtf(VirtublMbdiinfImpl vm) {
+        tiis.vm = vm;
     }
 
     /**
-     * Is the VM currently suspended, for the purpose of caching?
-     * Must be called synchronized on vm.state()
+     * Is tif VM durrfntly suspfndfd, for tif purposf of dbdiing?
+     * Must bf dbllfd syndironizfd on vm.stbtf()
      */
-    boolean isSuspended() {
-        return cache != null;
+    boolfbn isSuspfndfd() {
+        rfturn dbdif != null;
     }
 
     /*
-     * A JDWP command has been completed (reply has been received).
-     * Update data that tracks pending resume commands.
+     * A JDWP dommbnd ibs bffn domplftfd (rfply ibs bffn rfdfivfd).
+     * Updbtf dbtb tibt trbdks pfnding rfsumf dommbnds.
      */
-    synchronized void notifyCommandComplete(int id) {
-        lastCompletedCommandId = id;
+    syndironizfd void notifyCommbndComplftf(int id) {
+        lbstComplftfdCommbndId = id;
     }
 
-    synchronized void freeze() {
-        if (cache == null && (lastCompletedCommandId >= lastResumeCommandId)) {
+    syndironizfd void frffzf() {
+        if (dbdif == null && (lbstComplftfdCommbndId >= lbstRfsumfCommbndId)) {
             /*
-             * No pending resumes to worry about. The VM is suspended
-             * and additional state can be cached. Notify all
-             * interested listeners.
+             * No pfnding rfsumfs to worry bbout. Tif VM is suspfndfd
+             * bnd bdditionbl stbtf dbn bf dbdifd. Notify bll
+             * intfrfstfd listfnfrs.
              */
-            processVMAction(new VMAction(vm, VMAction.VM_SUSPENDED));
-            enableCache();
+            prodfssVMAdtion(nfw VMAdtion(vm, VMAdtion.VM_SUSPENDED));
+            fnbblfCbdif();
         }
     }
 
-    synchronized PacketStream thawCommand(CommandSender sender) {
-        PacketStream stream = sender.send();
-        lastResumeCommandId = stream.id();
-        thaw();
-        return stream;
+    syndironizfd PbdkftStrfbm tibwCommbnd(CommbndSfndfr sfndfr) {
+        PbdkftStrfbm strfbm = sfndfr.sfnd();
+        lbstRfsumfCommbndId = strfbm.id();
+        tibw();
+        rfturn strfbm;
     }
 
     /**
-     * All threads are resuming
+     * All tirfbds brf rfsuming
      */
-    void thaw() {
-        thaw(null);
+    void tibw() {
+        tibw(null);
     }
 
     /**
-     * Tell listeners to invalidate suspend-sensitive caches.
-     * If resumingThread != null, then only that thread is being
-     * resumed.
+     * Tfll listfnfrs to invblidbtf suspfnd-sfnsitivf dbdifs.
+     * If rfsumingTirfbd != null, tifn only tibt tirfbd is bfing
+     * rfsumfd.
      */
-    synchronized void thaw(ThreadReference resumingThread) {
-        if (cache != null) {
-            if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                vm.printTrace("Clearing VM suspended cache");
+    syndironizfd void tibw(TirfbdRfffrfndf rfsumingTirfbd) {
+        if (dbdif != null) {
+            if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                vm.printTrbdf("Clfbring VM suspfndfd dbdif");
             }
-            disableCache();
+            disbblfCbdif();
         }
-        processVMAction(new VMAction(vm, resumingThread, VMAction.VM_NOT_SUSPENDED));
+        prodfssVMAdtion(nfw VMAdtion(vm, rfsumingTirfbd, VMAdtion.VM_NOT_SUSPENDED));
     }
 
-    private synchronized void processVMAction(VMAction action) {
-        if (!notifyingListeners) {
-            // Prevent recursion
-            notifyingListeners = true;
+    privbtf syndironizfd void prodfssVMAdtion(VMAdtion bdtion) {
+        if (!notifyingListfnfrs) {
+            // Prfvfnt rfdursion
+            notifyingListfnfrs = truf;
 
-            Iterator<WeakReference<VMListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<VMListener> ref = iter.next();
-                VMListener listener = ref.get();
-                if (listener != null) {
-                    boolean keep = true;
-                    switch (action.id()) {
-                        case VMAction.VM_SUSPENDED:
-                            keep = listener.vmSuspended(action);
-                            break;
-                        case VMAction.VM_NOT_SUSPENDED:
-                            keep = listener.vmNotSuspended(action);
-                            break;
+            Itfrbtor<WfbkRfffrfndf<VMListfnfr>> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                WfbkRfffrfndf<VMListfnfr> rff = itfr.nfxt();
+                VMListfnfr listfnfr = rff.gft();
+                if (listfnfr != null) {
+                    boolfbn kffp = truf;
+                    switdi (bdtion.id()) {
+                        dbsf VMAdtion.VM_SUSPENDED:
+                            kffp = listfnfr.vmSuspfndfd(bdtion);
+                            brfbk;
+                        dbsf VMAdtion.VM_NOT_SUSPENDED:
+                            kffp = listfnfr.vmNotSuspfndfd(bdtion);
+                            brfbk;
                     }
-                    if (!keep) {
-                        iter.remove();
+                    if (!kffp) {
+                        itfr.rfmovf();
                     }
-                } else {
-                    // Listener is unreachable; clean up
-                    iter.remove();
+                } flsf {
+                    // Listfnfr is unrfbdibblf; dlfbn up
+                    itfr.rfmovf();
                 }
             }
 
-            notifyingListeners = false;
+            notifyingListfnfrs = fblsf;
         }
     }
 
-    synchronized void addListener(VMListener listener) {
-        listeners.add(new WeakReference<VMListener>(listener));
+    syndironizfd void bddListfnfr(VMListfnfr listfnfr) {
+        listfnfrs.bdd(nfw WfbkRfffrfndf<VMListfnfr>(listfnfr));
     }
 
-    synchronized boolean hasListener(VMListener listener) {
-        return listeners.contains(listener);
+    syndironizfd boolfbn ibsListfnfr(VMListfnfr listfnfr) {
+        rfturn listfnfrs.dontbins(listfnfr);
     }
 
-    synchronized void removeListener(VMListener listener) {
-        Iterator<WeakReference<VMListener>> iter = listeners.iterator();
-        while (iter.hasNext()) {
-            WeakReference<VMListener> ref = iter.next();
-            if (listener.equals(ref.get())) {
-                iter.remove();
-                break;
+    syndironizfd void rfmovfListfnfr(VMListfnfr listfnfr) {
+        Itfrbtor<WfbkRfffrfndf<VMListfnfr>> itfr = listfnfrs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            WfbkRfffrfndf<VMListfnfr> rff = itfr.nfxt();
+            if (listfnfr.fqubls(rff.gft())) {
+                itfr.rfmovf();
+                brfbk;
             }
         }
     }
 
-    List<ThreadReference> allThreads() {
-        List<ThreadReference> threads = null;
+    List<TirfbdRfffrfndf> bllTirfbds() {
+        List<TirfbdRfffrfndf> tirfbds = null;
         try {
-            Cache local = getCache();
+            Cbdif lodbl = gftCbdif();
 
-            if (local != null) {
-                // may be stale when returned, but not provably so
-                threads = local.threads;
+            if (lodbl != null) {
+                // mby bf stblf wifn rfturnfd, but not provbbly so
+                tirfbds = lodbl.tirfbds;
             }
-            if (threads == null) {
-                threads = Arrays.asList((ThreadReference[])JDWP.VirtualMachine.AllThreads.
-                                        process(vm).threads);
-                if (local != null) {
-                    local.threads = threads;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace("Caching all threads (count = " +
-                                      threads.size() + ") while VM suspended");
+            if (tirfbds == null) {
+                tirfbds = Arrbys.bsList((TirfbdRfffrfndf[])JDWP.VirtublMbdiinf.AllTirfbds.
+                                        prodfss(vm).tirfbds);
+                if (lodbl != null) {
+                    lodbl.tirfbds = tirfbds;
+                    if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf("Cbdiing bll tirfbds (dount = " +
+                                      tirfbds.sizf() + ") wiilf VM suspfndfd");
                     }
                 }
             }
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return threads;
+        rfturn tirfbds;
     }
 
 
-    List<ThreadGroupReference> topLevelThreadGroups() {
-        List<ThreadGroupReference> groups = null;
+    List<TirfbdGroupRfffrfndf> topLfvflTirfbdGroups() {
+        List<TirfbdGroupRfffrfndf> groups = null;
         try {
-            Cache local = getCache();
+            Cbdif lodbl = gftCbdif();
 
-            if (local != null) {
-                groups = local.groups;
+            if (lodbl != null) {
+                groups = lodbl.groups;
             }
             if (groups == null) {
-                groups = Arrays.asList(
-                                (ThreadGroupReference[])JDWP.VirtualMachine.TopLevelThreadGroups.
-                                       process(vm).groups);
-                if (local != null) {
-                    local.groups = groups;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace(
-                          "Caching top level thread groups (count = " +
-                          groups.size() + ") while VM suspended");
+                groups = Arrbys.bsList(
+                                (TirfbdGroupRfffrfndf[])JDWP.VirtublMbdiinf.TopLfvflTirfbdGroups.
+                                       prodfss(vm).groups);
+                if (lodbl != null) {
+                    lodbl.groups = groups;
+                    if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf(
+                          "Cbdiing top lfvfl tirfbd groups (dount = " +
+                          groups.sizf() + ") wiilf VM suspfndfd");
                     }
                 }
             }
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return groups;
+        rfturn groups;
     }
 
 }

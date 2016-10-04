@@ -1,0 +1,187 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.ChbngfListfnfr;
+import jbvbx.swing.fvfnt.ChbngfEvfnt;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfWhfflEvfnt;
+import jbvb.bwt.pffr.SdrollPbnfPffr;
+import jbvb.util.List;
+
+/**
+ * Lightwfight implfmfntbtion of {@link SdrollPbnfPffr}. Dflfgbtfs most of thf
+ * work to thf {@link JSdrollPbnf}.
+ */
+finbl dlbss LWSdrollPbnfPffr fxtfnds LWContbinfrPffr<SdrollPbnf, JSdrollPbnf>
+        implfmfnts SdrollPbnfPffr, ChbngfListfnfr {
+
+    LWSdrollPbnfPffr(finbl SdrollPbnf tbrgft,
+                     finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
+    }
+
+    @Ovfrridf
+    JSdrollPbnf drfbtfDflfgbtf() {
+        finbl JSdrollPbnf sp = nfw JSdrollPbnf();
+        finbl JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftOpbquf(fblsf);
+        pbnfl.sftVisiblf(fblsf);
+        sp.gftVifwport().sftVifw(pbnfl);
+        sp.sftBordfr(BordfrFbdtory.drfbtfEmptyBordfr());
+        sp.gftVifwport().bddChbngfListfnfr(this);
+        rfturn sp;
+    }
+
+    @Ovfrridf
+    publid void hbndlfEvfnt(AWTEvfnt f) {
+        if (f instbndfof MousfWhfflEvfnt) {
+            MousfWhfflEvfnt whfflEvfnt = (MousfWhfflEvfnt) f;
+            //jbvb.bwt.SdrollPbnf donsumfs thf fvfnt
+            // in dbsf isWhfflSdrollingEnbblfd() is truf,
+            // fordibly sfnd thf donsumfd fvfnt to thf dflfgbtf
+            if (gftTbrgft().isWhfflSdrollingEnbblfd() && whfflEvfnt.isConsumfd()) {
+                sfndEvfntToDflfgbtf(whfflEvfnt);
+            }
+        } flsf {
+            supfr.hbndlfEvfnt(f);
+        }
+    }
+
+    @Ovfrridf
+    publid void stbtfChbngfd(finbl ChbngfEvfnt f) {
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                finbl LWComponfntPffr<?, ?> vifwPffr = gftVifwPffr();
+                if (vifwPffr != null) {
+                    finbl Rfdtbnglf r;
+                    syndhronizfd (gftDflfgbtfLodk()) {
+                        r = gftDflfgbtf().gftVifwport().gftVifw().gftBounds();
+                    }
+                    vifwPffr.sftBounds(r.x, r.y, r.width, r.hfight, SET_BOUNDS,
+                                       truf, truf);
+                }
+            }
+        });
+    }
+
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        finbl int polidy = gftTbrgft().gftSdrollbbrDisplbyPolidy();
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().gftVifwport().sftSdrollModf(JVifwport.SIMPLE_SCROLL_MODE);
+            gftDflfgbtf().sftVfrtidblSdrollBbrPolidy(donvfrtVPolidy(polidy));
+            gftDflfgbtf().sftHorizontblSdrollBbrPolidy(donvfrtHPolidy(polidy));
+        }
+    }
+
+    LWComponfntPffr<?, ?> gftVifwPffr() {
+        finbl List<LWComponfntPffr<?, ?>> pffrList = gftChildrfn();
+        rfturn pffrList.isEmpty() ? null : pffrList.gft(0);
+    }
+
+    @Ovfrridf
+    Rfdtbnglf gftContfntSizf() {
+        Rfdtbnglf vifwRfdt = gftDflfgbtf().gftVifwport().gftVifwRfdt();
+        rfturn nfw Rfdtbnglf(vifwRfdt.width, vifwRfdt.hfight);
+    }
+
+    @Ovfrridf
+    publid void lbyout() {
+        supfr.lbyout();
+        syndhronizfd (gftDflfgbtfLodk()) {
+            finbl LWComponfntPffr<?, ?> vifwPffr = gftVifwPffr();
+            if (vifwPffr != null) {
+                Componfnt vifw = gftDflfgbtf().gftVifwport().gftVifw();
+                vifw.sftBounds(vifwPffr.gftBounds());
+                vifw.sftPrfffrrfdSizf(vifwPffr.gftPrfffrrfdSizf());
+                vifw.sftMinimumSizf(vifwPffr.gftMinimumSizf());
+                gftDflfgbtf().invblidbtf();
+                gftDflfgbtf().vblidbtf();
+                vifwPffr.sftBounds(vifw.gftBounds());
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void sftSdrollPosition(int x, int y) {
+    }
+
+    @Ovfrridf
+    publid int gftHSdrollbbrHfight() {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            rfturn gftDflfgbtf().gftHorizontblSdrollBbr().gftHfight();
+        }
+    }
+
+    @Ovfrridf
+    publid int gftVSdrollbbrWidth() {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            rfturn gftDflfgbtf().gftVfrtidblSdrollBbr().gftWidth();
+        }
+    }
+
+    @Ovfrridf
+    publid void dhildRfsizfd(int w, int h) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().invblidbtf();
+            gftDflfgbtf().vblidbtf();
+        }
+    }
+
+    @Ovfrridf
+    publid void sftUnitIndrfmfnt(Adjustbblf bdj, int u) {
+    }
+
+    @Ovfrridf
+    publid void sftVbluf(Adjustbblf bdj, int v) {
+    }
+
+    privbtf stbtid int donvfrtHPolidy(finbl int polidy) {
+        switdh (polidy) {
+            dbsf SdrollPbnf.SCROLLBARS_NEVER:
+                rfturn SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER;
+            dbsf SdrollPbnf.SCROLLBARS_ALWAYS:
+                rfturn SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS;
+            dffbult:
+                rfturn SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED;
+        }
+    }
+
+    privbtf stbtid int donvfrtVPolidy(finbl int polidy) {
+        switdh (polidy) {
+            dbsf SdrollPbnf.SCROLLBARS_NEVER:
+                rfturn SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER;
+            dbsf SdrollPbnf.SCROLLBARS_ALWAYS:
+                rfturn SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS;
+            dffbult:
+                rfturn SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED;
+        }
+    }
+}

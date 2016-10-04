@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * A <code>Patch</code> object represents a location, on a MIDI
- * synthesizer, into which a single instrument is stored (loaded).
- * Every <code>Instrument</code> object has its own <code>Patch</code>
- * object that specifies the memory location
- * into which that instrument should be loaded. The
- * location is specified abstractly by a bank index and a program number (not by
- * any scheme that directly refers to a specific address or offset in RAM).
- * This is a hierarchical indexing scheme: MIDI provides for up to 16384 banks,
- * each of which contains up to 128 program locations.  For example, a
- * minimal sort of synthesizer might have only one bank of instruments, and
- * only 32 instruments (programs) in that bank.
+ * A <dodf>Pbtdi</dodf> objfdt rfprfsfnts b lodbtion, on b MIDI
+ * syntifsizfr, into wiidi b singlf instrumfnt is storfd (lobdfd).
+ * Evfry <dodf>Instrumfnt</dodf> objfdt ibs its own <dodf>Pbtdi</dodf>
+ * objfdt tibt spfdififs tif mfmory lodbtion
+ * into wiidi tibt instrumfnt siould bf lobdfd. Tif
+ * lodbtion is spfdififd bbstrbdtly by b bbnk indfx bnd b progrbm numbfr (not by
+ * bny sdifmf tibt dirfdtly rfffrs to b spfdifid bddrfss or offsft in RAM).
+ * Tiis is b iifrbrdiidbl indfxing sdifmf: MIDI providfs for up to 16384 bbnks,
+ * fbdi of wiidi dontbins up to 128 progrbm lodbtions.  For fxbmplf, b
+ * minimbl sort of syntifsizfr migit ibvf only onf bbnk of instrumfnts, bnd
+ * only 32 instrumfnts (progrbms) in tibt bbnk.
  * <p>
- * To select what instrument should play the notes on a particular MIDI
- * channel, two kinds of MIDI message are used that specify a patch location:
- * a bank-select command, and a program-change channel command.  The Java Sound
- * equivalent is the
- * {@link MidiChannel#programChange(int, int) programChange(int, int)}
- * method of <code>MidiChannel</code>.
+ * To sflfdt wibt instrumfnt siould plby tif notfs on b pbrtidulbr MIDI
+ * dibnnfl, two kinds of MIDI mfssbgf brf usfd tibt spfdify b pbtdi lodbtion:
+ * b bbnk-sflfdt dommbnd, bnd b progrbm-dibngf dibnnfl dommbnd.  Tif Jbvb Sound
+ * fquivblfnt is tif
+ * {@link MidiCibnnfl#progrbmCibngf(int, int) progrbmCibngf(int, int)}
+ * mftiod of <dodf>MidiCibnnfl</dodf>.
  *
- * @see Instrument
- * @see Instrument#getPatch()
- * @see MidiChannel#programChange(int, int)
- * @see Synthesizer#loadInstruments(Soundbank, Patch[])
- * @see Soundbank
- * @see Sequence#getPatchList()
+ * @sff Instrumfnt
+ * @sff Instrumfnt#gftPbtdi()
+ * @sff MidiCibnnfl#progrbmCibngf(int, int)
+ * @sff Syntifsizfr#lobdInstrumfnts(Soundbbnk, Pbtdi[])
+ * @sff Soundbbnk
+ * @sff Sfqufndf#gftPbtdiList()
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
 
-public class Patch {
+publid dlbss Pbtdi {
 
 
     /**
-     * Bank index
+     * Bbnk indfx
      */
-    private final int bank;
+    privbtf finbl int bbnk;
 
 
     /**
-     * Program change number
+     * Progrbm dibngf numbfr
      */
-    private final int program;
+    privbtf finbl int progrbm;
 
 
     /**
-     * Constructs a new patch object from the specified bank and program
-     * numbers.
-     * @param bank the bank index (in the range from 0 to 16383)
-     * @param program the program index (in the range from 0 to 127)
+     * Construdts b nfw pbtdi objfdt from tif spfdififd bbnk bnd progrbm
+     * numbfrs.
+     * @pbrbm bbnk tif bbnk indfx (in tif rbngf from 0 to 16383)
+     * @pbrbm progrbm tif progrbm indfx (in tif rbngf from 0 to 127)
      */
-    public Patch(int bank, int program) {
+    publid Pbtdi(int bbnk, int progrbm) {
 
-        this.bank = bank;
-        this.program = program;
+        tiis.bbnk = bbnk;
+        tiis.progrbm = progrbm;
     }
 
 
     /**
-     * Returns the number of the bank that contains the instrument
-     * whose location this <code>Patch</code> specifies.
-     * @return the bank number, whose range is from 0 to 16383
-     * @see MidiChannel#programChange(int, int)
+     * Rfturns tif numbfr of tif bbnk tibt dontbins tif instrumfnt
+     * wiosf lodbtion tiis <dodf>Pbtdi</dodf> spfdififs.
+     * @rfturn tif bbnk numbfr, wiosf rbngf is from 0 to 16383
+     * @sff MidiCibnnfl#progrbmCibngf(int, int)
      */
-    public int getBank() {
+    publid int gftBbnk() {
 
-        return bank;
+        rfturn bbnk;
     }
 
 
     /**
-     * Returns the index, within
-     * a bank, of the instrument whose location this <code>Patch</code> specifies.
-     * @return the instrument's program number, whose range is from 0 to 127
+     * Rfturns tif indfx, witiin
+     * b bbnk, of tif instrumfnt wiosf lodbtion tiis <dodf>Pbtdi</dodf> spfdififs.
+     * @rfturn tif instrumfnt's progrbm numbfr, wiosf rbngf is from 0 to 127
      *
-     * @see MidiChannel#getProgram
-     * @see MidiChannel#programChange(int)
-     * @see MidiChannel#programChange(int, int)
+     * @sff MidiCibnnfl#gftProgrbm
+     * @sff MidiCibnnfl#progrbmCibngf(int)
+     * @sff MidiCibnnfl#progrbmCibngf(int, int)
      */
-    public int getProgram() {
+    publid int gftProgrbm() {
 
-        return program;
+        rfturn progrbm;
     }
 }

@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.dns;
+pbdkbgf sun.nft.dns;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
 
 /*
- * An implementation of ResolverConfiguration for Solaris
- * and Linux.
+ * An implfmfntbtion of RfsolvfrConfigurbtion for Solbris
+ * bnd Linux.
  */
 
-public class ResolverConfigurationImpl
-    extends ResolverConfiguration
+publid dlbss RfsolvfrConfigurbtionImpl
+    fxtfnds RfsolvfrConfigurbtion
 {
-    // Lock helds whilst loading configuration or checking
-    private static Object lock = new Object();
+    // Lodk iflds wiilst lobding donfigurbtion or difdking
+    privbtf stbtid Objfdt lodk = nfw Objfdt();
 
-    // Time of last refresh.
-    private static long lastRefresh = -1;
+    // Timf of lbst rffrfsi.
+    privbtf stbtid long lbstRffrfsi = -1;
 
-    // Cache timeout (300 seconds) - should be converted into property
-    // or configured as preference in the future.
-    private static final int TIMEOUT = 300000;
+    // Cbdif timfout (300 sfdonds) - siould bf donvfrtfd into propfrty
+    // or donfigurfd bs prfffrfndf in tif futurf.
+    privbtf stbtid finbl int TIMEOUT = 300000;
 
-    // Resolver options
-    private final Options opts;
+    // Rfsolvfr options
+    privbtf finbl Options opts;
 
-    // Parse /etc/resolv.conf to get the values for a particular
-    // keyword.
+    // Pbrsf /ftd/rfsolv.donf to gft tif vblufs for b pbrtidulbr
+    // kfyword.
     //
-    private LinkedList<String> resolvconf(String keyword,
-                                          int maxperkeyword,
-                                          int maxkeywords)
+    privbtf LinkfdList<String> rfsolvdonf(String kfyword,
+                                          int mbxpfrkfyword,
+                                          int mbxkfywords)
     {
-        LinkedList<String> ll = new LinkedList<>();
+        LinkfdList<String> ll = nfw LinkfdList<>();
 
         try {
-            BufferedReader in =
-                new BufferedReader(new FileReader("/etc/resolv.conf"));
-            String line;
-            while ((line = in.readLine()) != null) {
-                int maxvalues = maxperkeyword;
-                if (line.length() == 0)
-                   continue;
-                if (line.charAt(0) == '#' || line.charAt(0) == ';')
-                    continue;
-                if (!line.startsWith(keyword))
-                    continue;
-                String value = line.substring(keyword.length());
-                if (value.length() == 0)
-                    continue;
-                if (value.charAt(0) != ' ' && value.charAt(0) != '\t')
-                    continue;
-                StringTokenizer st = new StringTokenizer(value, " \t");
-                while (st.hasMoreTokens()) {
-                    String val = st.nextToken();
-                    if (val.charAt(0) == '#' || val.charAt(0) == ';') {
-                        break;
+            BufffrfdRfbdfr in =
+                nfw BufffrfdRfbdfr(nfw FilfRfbdfr("/ftd/rfsolv.donf"));
+            String linf;
+            wiilf ((linf = in.rfbdLinf()) != null) {
+                int mbxvblufs = mbxpfrkfyword;
+                if (linf.lfngti() == 0)
+                   dontinuf;
+                if (linf.dibrAt(0) == '#' || linf.dibrAt(0) == ';')
+                    dontinuf;
+                if (!linf.stbrtsWiti(kfyword))
+                    dontinuf;
+                String vbluf = linf.substring(kfyword.lfngti());
+                if (vbluf.lfngti() == 0)
+                    dontinuf;
+                if (vbluf.dibrAt(0) != ' ' && vbluf.dibrAt(0) != '\t')
+                    dontinuf;
+                StringTokfnizfr st = nfw StringTokfnizfr(vbluf, " \t");
+                wiilf (st.ibsMorfTokfns()) {
+                    String vbl = st.nfxtTokfn();
+                    if (vbl.dibrAt(0) == '#' || vbl.dibrAt(0) == ';') {
+                        brfbk;
                     }
-                    ll.add(val);
-                    if (--maxvalues == 0) {
-                        break;
+                    ll.bdd(vbl);
+                    if (--mbxvblufs == 0) {
+                        brfbk;
                     }
                 }
-                if (--maxkeywords == 0) {
-                    break;
+                if (--mbxkfywords == 0) {
+                    brfbk;
                 }
             }
-            in.close();
-        } catch (IOException ioe) {
-            // problem reading value
+            in.dlosf();
+        } dbtdi (IOExdfption iof) {
+            // problfm rfbding vbluf
         }
 
-        return ll;
+        rfturn ll;
     }
 
-    private LinkedList<String> searchlist;
-    private LinkedList<String> nameservers;
+    privbtf LinkfdList<String> sfbrdilist;
+    privbtf LinkfdList<String> nbmfsfrvfrs;
 
 
-    // Load DNS configuration from OS
+    // Lobd DNS donfigurbtion from OS
 
-    private void loadConfig() {
-        assert Thread.holdsLock(lock);
+    privbtf void lobdConfig() {
+        bssfrt Tirfbd.ioldsLodk(lodk);
 
-        // check if cached settings have expired.
-        if (lastRefresh >= 0) {
-            long currTime = System.currentTimeMillis();
-            if ((currTime - lastRefresh) < TIMEOUT) {
-                return;
+        // difdk if dbdifd sfttings ibvf fxpirfd.
+        if (lbstRffrfsi >= 0) {
+            long durrTimf = Systfm.durrfntTimfMillis();
+            if ((durrTimf - lbstRffrfsi) < TIMEOUT) {
+                rfturn;
             }
         }
 
-        // get the name servers from /etc/resolv.conf
-        nameservers =
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<LinkedList<String>>() {
-                    public LinkedList<String> run() {
-                        // typically MAXNS is 3 but we've picked 5 here
-                        // to allow for additional servers if required.
-                        return resolvconf("nameserver", 1, 5);
+        // gft tif nbmf sfrvfrs from /ftd/rfsolv.donf
+        nbmfsfrvfrs =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        // typidblly MAXNS is 3 but wf'vf pidkfd 5 ifrf
+                        // to bllow for bdditionbl sfrvfrs if rfquirfd.
+                        rfturn rfsolvdonf("nbmfsfrvfr", 1, 5);
                     } /* run */
                 });
 
-        // get the search list (or domain)
-        searchlist = getSearchList();
+        // gft tif sfbrdi list (or dombin)
+        sfbrdilist = gftSfbrdiList();
 
-        // update the timestamp on the configuration
-        lastRefresh = System.currentTimeMillis();
+        // updbtf tif timfstbmp on tif donfigurbtion
+        lbstRffrfsi = Systfm.durrfntTimfMillis();
     }
 
 
-    // obtain search list or local domain
+    // obtbin sfbrdi list or lodbl dombin
 
-    private LinkedList<String> getSearchList() {
+    privbtf LinkfdList<String> gftSfbrdiList() {
 
-        LinkedList<String> sl;
+        LinkfdList<String> sl;
 
-        // first try the search keyword in /etc/resolv.conf
+        // first try tif sfbrdi kfyword in /ftd/rfsolv.donf
 
-        sl = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<LinkedList<String>>() {
-                    public LinkedList<String> run() {
-                        LinkedList<String> ll;
+        sl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                 nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        LinkfdList<String> ll;
 
-                        // first try search keyword (max 6 domains)
-                        ll = resolvconf("search", 6, 1);
-                        if (ll.size() > 0) {
-                            return ll;
+                        // first try sfbrdi kfyword (mbx 6 dombins)
+                        ll = rfsolvdonf("sfbrdi", 6, 1);
+                        if (ll.sizf() > 0) {
+                            rfturn ll;
                         }
 
-                        return null;
+                        rfturn null;
 
                     } /* run */
 
                 });
         if (sl != null) {
-            return sl;
+            rfturn sl;
         }
 
-        // No search keyword so use local domain
+        // No sfbrdi kfyword so usf lodbl dombin
 
 
-        // LOCALDOMAIN has absolute priority on Solaris
+        // LOCALDOMAIN ibs bbsolutf priority on Solbris
 
-        String localDomain = localDomain0();
-        if (localDomain != null && localDomain.length() > 0) {
-            sl = new LinkedList<String>();
-            sl.add(localDomain);
-            return sl;
+        String lodblDombin = lodblDombin0();
+        if (lodblDombin != null && lodblDombin.lfngti() > 0) {
+            sl = nfw LinkfdList<String>();
+            sl.bdd(lodblDombin);
+            rfturn sl;
         }
 
-        // try domain keyword in /etc/resolv.conf
+        // try dombin kfyword in /ftd/rfsolv.donf
 
-        sl = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<LinkedList<String>>() {
-                    public LinkedList<String> run() {
-                        LinkedList<String> ll;
+        sl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                 nfw jbvb.sfdurity.PrivilfgfdAdtion<LinkfdList<String>>() {
+                    publid LinkfdList<String> run() {
+                        LinkfdList<String> ll;
 
-                        ll = resolvconf("domain", 1, 1);
-                        if (ll.size() > 0) {
-                            return ll;
+                        ll = rfsolvdonf("dombin", 1, 1);
+                        if (ll.sizf() > 0) {
+                            rfturn ll;
                         }
-                        return null;
+                        rfturn null;
 
                     } /* run */
                 });
         if (sl != null) {
-            return sl;
+            rfturn sl;
         }
 
-        // no local domain so try fallback (RPC) domain or
-        // hostName
+        // no lodbl dombin so try fbllbbdk (RPC) dombin or
+        // iostNbmf
 
-        sl = new LinkedList<>();
-        String domain = fallbackDomain0();
-        if (domain != null && domain.length() > 0) {
-            sl.add(domain);
+        sl = nfw LinkfdList<>();
+        String dombin = fbllbbdkDombin0();
+        if (dombin != null && dombin.lfngti() > 0) {
+            sl.bdd(dombin);
         }
 
-        return sl;
+        rfturn sl;
     }
 
 
     // ----
 
-    ResolverConfigurationImpl() {
-        opts = new OptionsImpl();
+    RfsolvfrConfigurbtionImpl() {
+        opts = nfw OptionsImpl();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> searchlist() {
-        synchronized (lock) {
-            loadConfig();
+    @SupprfssWbrnings("undifdkfd")
+    publid List<String> sfbrdilist() {
+        syndironizfd (lodk) {
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)searchlist.clone();
+            // List is mutbblf so rfturn b sibllow dopy
+            rfturn (List<String>)sfbrdilist.dlonf();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> nameservers() {
-        synchronized (lock) {
-            loadConfig();
+    @SupprfssWbrnings("undifdkfd")
+    publid List<String> nbmfsfrvfrs() {
+        syndironizfd (lodk) {
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
+            // List is mutbblf so rfturn b sibllow dopy
 
-          return (List<String>)nameservers.clone();
+          rfturn (List<String>)nbmfsfrvfrs.dlonf();
 
         }
     }
 
-    public Options options() {
-        return opts;
+    publid Options options() {
+        rfturn opts;
     }
 
 
-    // --- Native methods --
+    // --- Nbtivf mftiods --
 
-    static native String localDomain0();
+    stbtid nbtivf String lodblDombin0();
 
-    static native String fallbackDomain0();
+    stbtid nbtivf String fbllbbdkDombin0();
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("net");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
                 }
             });
     }
@@ -262,7 +262,7 @@ public class ResolverConfigurationImpl
 }
 
 /**
- * Implementation of {@link ResolverConfiguration.Options}
+ * Implfmfntbtion of {@link RfsolvfrConfigurbtion.Options}
  */
-class OptionsImpl extends ResolverConfiguration.Options {
+dlbss OptionsImpl fxtfnds RfsolvfrConfigurbtion.Options {
 }

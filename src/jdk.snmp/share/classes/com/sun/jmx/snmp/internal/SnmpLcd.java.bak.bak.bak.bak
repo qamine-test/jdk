@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+import jbvb.util.Hbshtbblf;
+import dom.sun.jmx.snmp.SnmpEnginfId;
+import dom.sun.jmx.snmp.SnmpUnknownModflLddExdfption;
+import dom.sun.jmx.snmp.SnmpUnknownSubSystfmExdfption;
+/**
+ * Clbss to fxtfnd in ordfr to dfvflop b dustomizfd Lodbl Configurbtion Dbtbstorf. Thf Ldd is usfd by thf <CODE>SnmpEnginf</CODE> to storf bnd rftrifvf dbtb.
+ *<P> <CODE>SnmpLdd</CODE> mbnbgfs thf Ldds nffdfd by fvfry {@link dom.sun.jmx.snmp.intfrnbl.SnmpModfl SnmpModfl}. It is possiblf to bdd bnd rfmovf {@link dom.sun.jmx.snmp.intfrnbl.SnmpModflLdd SnmpModflLdd}.</P>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss SnmpLdd {
+
+    dlbss SubSysLddMbnbgfr {
+        privbtf Hbshtbblf<Intfgfr, SnmpModflLdd> modfls =
+                nfw Hbshtbblf<Intfgfr, SnmpModflLdd>();
+
+        publid void bddModflLdd(int id,
+                                SnmpModflLdd usmldd) {
+            modfls.put(id, usmldd);
+        }
+
+        publid SnmpModflLdd gftModflLdd(int id) {
+            rfturn modfls.gft(id);
+        }
+
+        publid SnmpModflLdd rfmovfModflLdd(int id) {
+            rfturn modfls.rfmovf(id);
+        }
+    }
+
+
+    privbtf Hbshtbblf<SnmpSubSystfm, SubSysLddMbnbgfr> subs =
+            nfw Hbshtbblf<SnmpSubSystfm, SubSysLddMbnbgfr>();
+
+    /**
+     * Rfturns thf numbfr of timf thf fnginf rfbootfd.
+     * @rfturn Thf numbfr of rfboots or -1 if thf informbtion is not prfsfnt in thf Ldd.
+     */
+    publid bbstrbdt int gftEnginfBoots();
+    /**
+     * Rfturns thf fnginf Id lodbtfd in thf Ldd.
+     * @rfturn Thf fnginf Id or null if thf informbtion is not prfsfnt in thf Ldd.
+     */
+    publid bbstrbdt String gftEnginfId();
+
+    /**
+     * Pfrsists thf numbfr of rfboots.
+     * @pbrbm i Rfboot numbfr.
+     */
+    publid bbstrbdt void storfEnginfBoots(int i);
+
+    /**
+     * Pfrsists thf fnginf Id.
+     * @pbrbm id Thf fnginf Id.
+     */
+    publid bbstrbdt void  storfEnginfId(SnmpEnginfId id);
+    /**
+     * Adds bn Ldd modfl.
+     * @pbrbm sys Thf subsytfm mbnbging thf modfl.
+     * @pbrbm id Thf modfl Id.
+     * @pbrbm ldd Thf Ldd modfl.
+     */
+    publid void bddModflLdd(SnmpSubSystfm sys,
+                            int id,
+                            SnmpModflLdd ldd) {
+
+        SubSysLddMbnbgfr subsys = subs.gft(sys);
+        if( subsys == null ) {
+            subsys = nfw SubSysLddMbnbgfr();
+            subs.put(sys, subsys);
+        }
+
+        subsys.bddModflLdd(id, ldd);
+    }
+     /**
+     * Rfmovfs bn Ldd modfl.
+     * @pbrbm sys Thf subsytfm mbnbging thf modfl.
+     * @pbrbm id Thf modfl Id.
+     */
+    publid void rfmovfModflLdd(SnmpSubSystfm sys,
+                                int id)
+        throws SnmpUnknownModflLddExdfption, SnmpUnknownSubSystfmExdfption {
+
+        SubSysLddMbnbgfr subsys = subs.gft(sys);
+        if( subsys != null ) {
+            SnmpModflLdd ldd = subsys.rfmovfModflLdd(id);
+            if(ldd == null) {
+                throw nfw SnmpUnknownModflLddExdfption("Modfl : " + id);
+            }
+        }
+        flsf
+            throw nfw SnmpUnknownSubSystfmExdfption(sys.toString());
+    }
+
+    /**
+     * Gfts bn Ldd modfl.
+     * @pbrbm sys Thf subsytfm mbnbging thf modfl
+     * @pbrbm id Thf modfl Id.
+     * @rfturn Thf Ldd modfl or null if no Ldd modfl wfrf found.
+     */
+    publid SnmpModflLdd gftModflLdd(SnmpSubSystfm sys,
+                                    int id) {
+        SubSysLddMbnbgfr subsys = subs.gft(sys);
+
+        if(subsys == null) rfturn null;
+
+        rfturn subsys.gftModflLdd(id);
+    }
+}

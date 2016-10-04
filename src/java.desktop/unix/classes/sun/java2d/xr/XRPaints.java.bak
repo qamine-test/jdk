@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.MultipleGradientPaint.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.xr.XRSurfaceData.XRInternalSurfaceData;
+import jbvb.bwt.*;
+import jbvb.bwt.MultiplfGrbdifntPbint.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.xr.XRSurfbdfDbtb.XRIntfrnblSurfbdfDbtb;
 
-abstract class XRPaints {
-    static XRCompositeManager xrCompMan;
+bbstrbdt dlbss XRPbints {
+    stbtid XRCompositfMbnbgfr xrCompMbn;
 
-    static final XRGradient xrGradient = new XRGradient();
-    static final XRLinearGradient xrLinearGradient = new XRLinearGradient();
-    static final XRRadialGradient xrRadialGradient = new XRRadialGradient();
-    static final XRTexture xrTexture = new XRTexture();
+    stbtid finbl XRGrbdifnt xrGrbdifnt = nfw XRGrbdifnt();
+    stbtid finbl XRLinfbrGrbdifnt xrLinfbrGrbdifnt = nfw XRLinfbrGrbdifnt();
+    stbtid finbl XRRbdiblGrbdifnt xrRbdiblGrbdifnt = nfw XRRbdiblGrbdifnt();
+    stbtid finbl XRTfxturf xrTfxturf = nfw XRTfxturf();
 
-    public static void register(XRCompositeManager xrComp) {
-        xrCompMan = xrComp;
+    publid stbtid void rfgistfr(XRCompositfMbnbgfr xrComp) {
+        xrCompMbn = xrComp;
     }
 
-    private static XRPaints getXRPaint(SunGraphics2D sg2d) {
-        switch (sg2d.paintState) {
-        case SunGraphics2D.PAINT_GRADIENT:
-            return xrGradient;
+    privbtf stbtid XRPbints gftXRPbint(SunGrbpiids2D sg2d) {
+        switdi (sg2d.pbintStbtf) {
+        dbsf SunGrbpiids2D.PAINT_GRADIENT:
+            rfturn xrGrbdifnt;
 
-        case SunGraphics2D.PAINT_LIN_GRADIENT:
-            return xrLinearGradient;
+        dbsf SunGrbpiids2D.PAINT_LIN_GRADIENT:
+            rfturn xrLinfbrGrbdifnt;
 
-        case SunGraphics2D.PAINT_RAD_GRADIENT:
-            return xrRadialGradient;
+        dbsf SunGrbpiids2D.PAINT_RAD_GRADIENT:
+            rfturn xrRbdiblGrbdifnt;
 
-        case SunGraphics2D.PAINT_TEXTURE:
-            return xrTexture;
+        dbsf SunGrbpiids2D.PAINT_TEXTURE:
+            rfturn xrTfxturf;
 
-        default:
-            return null;
+        dffbult:
+            rfturn null;
         }
     }
 
     /**
-     * Attempts to locate an implementation corresponding to the paint state of
-     * the provided SunGraphics2D object. If no implementation can be found, or
-     * if the paint cannot be accelerated under the conditions of the
-     * SunGraphics2D, this method returns false; otherwise, returns true.
+     * Attfmpts to lodbtf bn implfmfntbtion dorrfsponding to tif pbint stbtf of
+     * tif providfd SunGrbpiids2D objfdt. If no implfmfntbtion dbn bf found, or
+     * if tif pbint dbnnot bf bddflfrbtfd undfr tif donditions of tif
+     * SunGrbpiids2D, tiis mftiod rfturns fblsf; otifrwisf, rfturns truf.
      */
-    static boolean isValid(SunGraphics2D sg2d) {
-        XRPaints impl = getXRPaint(sg2d);
-        return (impl != null && impl.isPaintValid(sg2d));
+    stbtid boolfbn isVblid(SunGrbpiids2D sg2d) {
+        XRPbints impl = gftXRPbint(sg2d);
+        rfturn (impl != null && impl.isPbintVblid(sg2d));
     }
 
-    static void setPaint(SunGraphics2D sg2d, Paint paint) {
-        XRPaints impl = getXRPaint(sg2d);
+    stbtid void sftPbint(SunGrbpiids2D sg2d, Pbint pbint) {
+        XRPbints impl = gftXRPbint(sg2d);
         if (impl != null) {
-            impl.setXRPaint(sg2d, paint);
+            impl.sftXRPbint(sg2d, pbint);
         }
     }
 
     /**
-     * Returns true if this implementation is able to accelerate the Paint
-     * object associated with, and under the conditions of, the provided
-     * SunGraphics2D instance; otherwise returns false.
+     * Rfturns truf if tiis implfmfntbtion is bblf to bddflfrbtf tif Pbint
+     * objfdt bssodibtfd witi, bnd undfr tif donditions of, tif providfd
+     * SunGrbpiids2D instbndf; otifrwisf rfturns fblsf.
      */
-    abstract boolean isPaintValid(SunGraphics2D sg2d);
+    bbstrbdt boolfbn isPbintVblid(SunGrbpiids2D sg2d);
 
-    abstract void setXRPaint(SunGraphics2D sg2d, Paint paint);
+    bbstrbdt void sftXRPbint(SunGrbpiids2D sg2d, Pbint pbint);
 
-    private static class XRGradient extends XRPaints {
-        private XRGradient() {
+    privbtf stbtid dlbss XRGrbdifnt fxtfnds XRPbints {
+        privbtf XRGrbdifnt() {
         }
 
         /**
-         * There are no restrictions for accelerating GradientPaint, so this
-         * method always returns true.
+         * Tifrf brf no rfstridtions for bddflfrbting GrbdifntPbint, so tiis
+         * mftiod blwbys rfturns truf.
          */
-        @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            return true;
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbpiids2D sg2d) {
+            rfturn truf;
         }
 
-        void setXRPaint(SunGraphics2D sg2d, Paint pt) {
-            GradientPaint paint = (GradientPaint) pt;
+        void sftXRPbint(SunGrbpiids2D sg2d, Pbint pt) {
+            GrbdifntPbint pbint = (GrbdifntPbint) pt;
 
-            int repeat = paint.isCyclic() ? XRUtils.RepeatReflect : XRUtils.RepeatPad;
-            float fractions[] = {0, 1};
-            int[] pixels = convertToIntArgbPixels(new Color[] { paint.getColor1(), paint.getColor2() });
+            int rfpfbt = pbint.isCydlid() ? XRUtils.RfpfbtRfflfdt : XRUtils.RfpfbtPbd;
+            flobt frbdtions[] = {0, 1};
+            int[] pixfls = donvfrtToIntArgbPixfls(nfw Color[] { pbint.gftColor1(), pbint.gftColor2() });
 
-            Point2D pt1 = paint.getPoint1();
-            Point2D pt2 = paint.getPoint2();
+            Point2D pt1 = pbint.gftPoint1();
+            Point2D pt2 = pbint.gftPoint2();
 
-            XRBackend con = xrCompMan.getBackend();
-            int gradient = con.createLinearGradient(pt1, pt2, fractions, pixels, repeat);
-            xrCompMan.setGradientPaint(new XRSurfaceData.XRInternalSurfaceData(con, gradient));
+            XRBbdkfnd don = xrCompMbn.gftBbdkfnd();
+            int grbdifnt = don.drfbtfLinfbrGrbdifnt(pt1, pt2, frbdtions, pixfls, rfpfbt);
+            xrCompMbn.sftGrbdifntPbint(nfw XRSurfbdfDbtb.XRIntfrnblSurfbdfDbtb(don, grbdifnt));
         }
     }
 
-    public int getGradientLength(Point2D pt1, Point2D pt2) {
-           double xDiff = Math.max(pt1.getX(), pt2.getX()) - Math.min(pt1.getX(), pt2.getX());
-           double yDiff = Math.max(pt1.getY(), pt2.getY()) - Math.min(pt1.getY(), pt2.getY());
-           return (int) Math.ceil(Math.sqrt(xDiff*xDiff + yDiff*yDiff));
+    publid int gftGrbdifntLfngti(Point2D pt1, Point2D pt2) {
+           doublf xDiff = Mbti.mbx(pt1.gftX(), pt2.gftX()) - Mbti.min(pt1.gftX(), pt2.gftX());
+           doublf yDiff = Mbti.mbx(pt1.gftY(), pt2.gftY()) - Mbti.min(pt1.gftY(), pt2.gftY());
+           rfturn (int) Mbti.dfil(Mbti.sqrt(xDiff*xDiff + yDiff*yDiff));
     }
 
-    private static class XRLinearGradient extends XRPaints {
+    privbtf stbtid dlbss XRLinfbrGrbdifnt fxtfnds XRPbints {
 
-        @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            return ((LinearGradientPaint) sg2d.getPaint()).getColorSpace() == ColorSpaceType.SRGB;
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbpiids2D sg2d) {
+            rfturn ((LinfbrGrbdifntPbint) sg2d.gftPbint()).gftColorSpbdf() == ColorSpbdfTypf.SRGB;
         }
 
-        @Override
-        void setXRPaint(SunGraphics2D sg2d, Paint pt) {
-            LinearGradientPaint paint = (LinearGradientPaint) pt;
+        @Ovfrridf
+        void sftXRPbint(SunGrbpiids2D sg2d, Pbint pt) {
+            LinfbrGrbdifntPbint pbint = (LinfbrGrbdifntPbint) pt;
 
-            Color[] colors = paint.getColors();
-            Point2D pt1 = paint.getStartPoint();
-            Point2D pt2 = paint.getEndPoint();
+            Color[] dolors = pbint.gftColors();
+            Point2D pt1 = pbint.gftStbrtPoint();
+            Point2D pt2 = pbint.gftEndPoint();
 
-            int repeat = XRUtils.getRepeatForCycleMethod(paint.getCycleMethod());
-            float[] fractions = paint.getFractions();
-            int[] pixels = convertToIntArgbPixels(colors);
+            int rfpfbt = XRUtils.gftRfpfbtForCydlfMftiod(pbint.gftCydlfMftiod());
+            flobt[] frbdtions = pbint.gftFrbdtions();
+            int[] pixfls = donvfrtToIntArgbPixfls(dolors);
 
-            AffineTransform at = paint.getTransform();
+            AffinfTrbnsform bt = pbint.gftTrbnsform();
             try {
-                at.invert();
-            } catch (NoninvertibleTransformException ex) {
-                ex.printStackTrace();
+                bt.invfrt();
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption fx) {
+                fx.printStbdkTrbdf();
             }
 
-            XRBackend con = xrCompMan.getBackend();
-            int gradient = con.createLinearGradient(pt1, pt2, fractions, pixels, repeat);
-            XRInternalSurfaceData x11sd = new XRSurfaceData.XRInternalSurfaceData(con, gradient);
-            x11sd.setStaticSrcTx(at);
-            xrCompMan.setGradientPaint(x11sd);
+            XRBbdkfnd don = xrCompMbn.gftBbdkfnd();
+            int grbdifnt = don.drfbtfLinfbrGrbdifnt(pt1, pt2, frbdtions, pixfls, rfpfbt);
+            XRIntfrnblSurfbdfDbtb x11sd = nfw XRSurfbdfDbtb.XRIntfrnblSurfbdfDbtb(don, grbdifnt);
+            x11sd.sftStbtidSrdTx(bt);
+            xrCompMbn.sftGrbdifntPbint(x11sd);
         }
     }
 
-    private static class XRRadialGradient extends XRPaints {
+    privbtf stbtid dlbss XRRbdiblGrbdifnt fxtfnds XRPbints {
 
-        @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            RadialGradientPaint grad = (RadialGradientPaint) sg2d.paint;
-            return grad.getFocusPoint().equals(grad.getCenterPoint())
-                   && grad.getColorSpace() == ColorSpaceType.SRGB;
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbpiids2D sg2d) {
+            RbdiblGrbdifntPbint grbd = (RbdiblGrbdifntPbint) sg2d.pbint;
+            rfturn grbd.gftFodusPoint().fqubls(grbd.gftCfntfrPoint())
+                   && grbd.gftColorSpbdf() == ColorSpbdfTypf.SRGB;
         }
 
-        @Override
-        void setXRPaint(SunGraphics2D sg2d, Paint pt) {
-            RadialGradientPaint paint = (RadialGradientPaint) pt;
-            Color[] colors = paint.getColors();
-            Point2D center = paint.getCenterPoint();
+        @Ovfrridf
+        void sftXRPbint(SunGrbpiids2D sg2d, Pbint pt) {
+            RbdiblGrbdifntPbint pbint = (RbdiblGrbdifntPbint) pt;
+            Color[] dolors = pbint.gftColors();
+            Point2D dfntfr = pbint.gftCfntfrPoint();
 
-            int repeat = XRUtils.getRepeatForCycleMethod(paint.getCycleMethod());
-            float[] fractions = paint.getFractions();
-            int[] pixels = convertToIntArgbPixels(colors);
-            float radius = paint.getRadius();
+            int rfpfbt = XRUtils.gftRfpfbtForCydlfMftiod(pbint.gftCydlfMftiod());
+            flobt[] frbdtions = pbint.gftFrbdtions();
+            int[] pixfls = donvfrtToIntArgbPixfls(dolors);
+            flobt rbdius = pbint.gftRbdius();
 
-            float cx = (float) center.getX();
-            float cy = (float) center.getY();
+            flobt dx = (flobt) dfntfr.gftX();
+            flobt dy = (flobt) dfntfr.gftY();
 
-            AffineTransform at = paint.getTransform();
+            AffinfTrbnsform bt = pbint.gftTrbnsform();
             try {
-                at.invert();
-            } catch (NoninvertibleTransformException ex) {
-                ex.printStackTrace();
+                bt.invfrt();
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption fx) {
+                fx.printStbdkTrbdf();
             }
 
-            XRBackend con = xrCompMan.getBackend();
-            int gradient = con.createRadialGradient(cx, cy, 0, radius, fractions, pixels, repeat);
-            XRInternalSurfaceData x11sd = new XRSurfaceData.XRInternalSurfaceData(con, gradient);
-            x11sd.setStaticSrcTx(at);
-            xrCompMan.setGradientPaint(x11sd);
+            XRBbdkfnd don = xrCompMbn.gftBbdkfnd();
+            int grbdifnt = don.drfbtfRbdiblGrbdifnt(dx, dy, 0, rbdius, frbdtions, pixfls, rfpfbt);
+            XRIntfrnblSurfbdfDbtb x11sd = nfw XRSurfbdfDbtb.XRIntfrnblSurfbdfDbtb(don, grbdifnt);
+            x11sd.sftStbtidSrdTx(bt);
+            xrCompMbn.sftGrbdifntPbint(x11sd);
         }
     }
 
-    private static class XRTexture extends XRPaints {
+    privbtf stbtid dlbss XRTfxturf fxtfnds XRPbints {
 
-        private XRSurfaceData getAccSrcSurface(XRSurfaceData dstData, BufferedImage bi) {
-            // REMIND: this is a hack that attempts to cache the system
-            // memory image from the TexturePaint instance into an
-            // XRender pixmap...
-            SurfaceData srcData = dstData.getSourceSurfaceData(bi, SunGraphics2D.TRANSFORM_ISIDENT, CompositeType.SrcOver, null);
-            if (!(srcData instanceof XRSurfaceData)) {
-                srcData = dstData.getSourceSurfaceData(bi, SunGraphics2D.TRANSFORM_ISIDENT, CompositeType.SrcOver, null);
-                if (!(srcData instanceof XRSurfaceData)) {
-                    throw new InternalError("Surface not cachable");
+        privbtf XRSurfbdfDbtb gftAddSrdSurfbdf(XRSurfbdfDbtb dstDbtb, BufffrfdImbgf bi) {
+            // REMIND: tiis is b ibdk tibt bttfmpts to dbdif tif systfm
+            // mfmory imbgf from tif TfxturfPbint instbndf into bn
+            // XRfndfr pixmbp...
+            SurfbdfDbtb srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(bi, SunGrbpiids2D.TRANSFORM_ISIDENT, CompositfTypf.SrdOvfr, null);
+            if (!(srdDbtb instbndfof XRSurfbdfDbtb)) {
+                srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(bi, SunGrbpiids2D.TRANSFORM_ISIDENT, CompositfTypf.SrdOvfr, null);
+                if (!(srdDbtb instbndfof XRSurfbdfDbtb)) {
+                    tirow nfw IntfrnblError("Surfbdf not dbdibblf");
                 }
             }
 
-            return (XRSurfaceData) srcData;
+            rfturn (XRSurfbdfDbtb) srdDbtb;
         }
 
-        @Override
-        boolean isPaintValid(SunGraphics2D sg2d) {
-            TexturePaint paint = (TexturePaint) sg2d.paint;
-            BufferedImage bi = paint.getImage();
-            XRSurfaceData dstData = (XRSurfaceData) sg2d.getDestSurface();
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbpiids2D sg2d) {
+            TfxturfPbint pbint = (TfxturfPbint) sg2d.pbint;
+            BufffrfdImbgf bi = pbint.gftImbgf();
+            XRSurfbdfDbtb dstDbtb = (XRSurfbdfDbtb) sg2d.gftDfstSurfbdf();
 
-            return getAccSrcSurface(dstData, bi) != null;
+            rfturn gftAddSrdSurfbdf(dstDbtb, bi) != null;
         }
 
-        @Override
-        void setXRPaint(SunGraphics2D sg2d, Paint pt) {
-            TexturePaint paint = (TexturePaint) pt;
-            BufferedImage bi = paint.getImage();
-            Rectangle2D anchor = paint.getAnchorRect();
+        @Ovfrridf
+        void sftXRPbint(SunGrbpiids2D sg2d, Pbint pt) {
+            TfxturfPbint pbint = (TfxturfPbint) pt;
+            BufffrfdImbgf bi = pbint.gftImbgf();
+            Rfdtbnglf2D bndior = pbint.gftAndiorRfdt();
 
-            XRSurfaceData dstData = (XRSurfaceData) sg2d.surfaceData;
-            XRSurfaceData srcData = getAccSrcSurface(dstData, bi);
+            XRSurfbdfDbtb dstDbtb = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+            XRSurfbdfDbtb srdDbtb = gftAddSrdSurfbdf(dstDbtb, bi);
 
-            AffineTransform at = new AffineTransform();
-            at.translate(anchor.getX(), anchor.getY());
-            at.scale(anchor.getWidth() / ((double) bi.getWidth()), anchor.getHeight() / ((double) bi.getHeight()));
+            AffinfTrbnsform bt = nfw AffinfTrbnsform();
+            bt.trbnslbtf(bndior.gftX(), bndior.gftY());
+            bt.sdblf(bndior.gftWidti() / ((doublf) bi.gftWidti()), bndior.gftHfigit() / ((doublf) bi.gftHfigit()));
 
             try {
-                at.invert();
-            } catch (NoninvertibleTransformException ex) {
-                at.setToIdentity();
+                bt.invfrt();
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption fx) {
+                bt.sftToIdfntity();
             }
-            srcData.setStaticSrcTx(at);
+            srdDbtb.sftStbtidSrdTx(bt);
 
-            srcData.validateAsSource(at, XRUtils.RepeatNormal, XRUtils.ATransOpToXRQuality(sg2d.interpolationType));
-            xrCompMan.setTexturePaint(srcData);
+            srdDbtb.vblidbtfAsSourdf(bt, XRUtils.RfpfbtNormbl, XRUtils.ATrbnsOpToXRQublity(sg2d.intfrpolbtionTypf));
+            xrCompMbn.sftTfxturfPbint(srdDbtb);
         }
     }
 
-    public int[] convertToIntArgbPixels(Color[] colors) {
-        int[] pixels = new int[colors.length];
-        for (int i = 0; i < colors.length; i++) {
-            pixels[i] = colorToIntArgbPixel(colors[i]);
+    publid int[] donvfrtToIntArgbPixfls(Color[] dolors) {
+        int[] pixfls = nfw int[dolors.lfngti];
+        for (int i = 0; i < dolors.lfngti; i++) {
+            pixfls[i] = dolorToIntArgbPixfl(dolors[i]);
         }
-        return pixels;
+        rfturn pixfls;
     }
 
-    public int colorToIntArgbPixel(Color c) {
-        int rgb = c.getRGB();
-        int a = Math.round(xrCompMan.getExtraAlpha() * (rgb >>> 24));
-        return ((a << 24) | (rgb & 0x00FFFFFF));
+    publid int dolorToIntArgbPixfl(Color d) {
+        int rgb = d.gftRGB();
+        int b = Mbti.round(xrCompMbn.gftExtrbAlpib() * (rgb >>> 24));
+        rfturn ((b << 24) | (rgb & 0x00FFFFFF));
     }
 }

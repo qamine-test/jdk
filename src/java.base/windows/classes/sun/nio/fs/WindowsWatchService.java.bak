@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.*;
-import com.sun.nio.file.ExtendedWatchEventModifier;
-import sun.misc.Unsafe;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import dom.sun.nio.filf.ExtfndfdWbtdiEvfntModififr;
+import sun.misd.Unsbff;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /*
- * Win32 implementation of WatchService based on ReadDirectoryChangesW.
+ * Win32 implfmfntbtion of WbtdiSfrvidf bbsfd on RfbdDirfdtoryCibngfsW.
  */
 
-class WindowsWatchService
-    extends AbstractWatchService
+dlbss WindowsWbtdiSfrvidf
+    fxtfnds AbstrbdtWbtdiSfrvidf
 {
-    private final static int WAKEUP_COMPLETION_KEY = 0;
-    private final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf finbl stbtid int WAKEUP_COMPLETION_KEY = 0;
+    privbtf finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    // background thread to service I/O completion port
-    private final Poller poller;
+    // bbdkground tirfbd to sfrvidf I/O domplftion port
+    privbtf finbl Pollfr pollfr;
 
     /**
-     * Creates an I/O completion port and a daemon thread to service it
+     * Crfbtfs bn I/O domplftion port bnd b dbfmon tirfbd to sfrvidf it
      */
-    WindowsWatchService(WindowsFileSystem fs) throws IOException {
-        // create I/O completion port
+    WindowsWbtdiSfrvidf(WindowsFilfSystfm fs) tirows IOExdfption {
+        // drfbtf I/O domplftion port
         long port = 0L;
         try {
-            port = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0);
-        } catch (WindowsException x) {
-            throw new IOException(x.getMessage());
+            port = CrfbtfIoComplftionPort(INVALID_HANDLE_VALUE, 0, 0);
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOExdfption(x.gftMfssbgf());
         }
 
-        this.poller = new Poller(fs, this, port);
-        this.poller.start();
+        tiis.pollfr = nfw Pollfr(fs, tiis, port);
+        tiis.pollfr.stbrt();
     }
 
-    @Override
-    WatchKey register(Path path,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
-         throws IOException
+    @Ovfrridf
+    WbtdiKfy rfgistfr(Pbti pbti,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Modififr... modififrs)
+         tirows IOExdfption
     {
-        // delegate to poller
-        return poller.register(path, events, modifiers);
+        // dflfgbtf to pollfr
+        rfturn pollfr.rfgistfr(pbti, fvfnts, modififrs);
     }
 
-    @Override
-    void implClose() throws IOException {
-        // delegate to poller
-        poller.close();
+    @Ovfrridf
+    void implClosf() tirows IOExdfption {
+        // dflfgbtf to pollfr
+        pollfr.dlosf();
     }
 
     /**
-     * Windows implementation of WatchKey.
+     * Windows implfmfntbtion of WbtdiKfy.
      */
-    private class WindowsWatchKey extends AbstractWatchKey {
-        // file key (used to detect existing registrations)
-        private final FileKey fileKey;
+    privbtf dlbss WindowsWbtdiKfy fxtfnds AbstrbdtWbtdiKfy {
+        // filf kfy (usfd to dftfdt fxisting rfgistrbtions)
+        privbtf finbl FilfKfy filfKfy;
 
-        // handle to directory
-        private volatile long handle = INVALID_HANDLE_VALUE;
+        // ibndlf to dirfdtory
+        privbtf volbtilf long ibndlf = INVALID_HANDLE_VALUE;
 
-        // interest events
-        private Set<? extends WatchEvent.Kind<?>> events;
+        // intfrfst fvfnts
+        privbtf Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts;
 
-        // subtree
-        private boolean watchSubtree;
+        // subtrff
+        privbtf boolfbn wbtdiSubtrff;
 
-        // buffer for change events
-        private NativeBuffer buffer;
+        // bufffr for dibngf fvfnts
+        privbtf NbtivfBufffr bufffr;
 
-        // pointer to bytes returned (in buffer)
-        private long countAddress;
+        // pointfr to bytfs rfturnfd (in bufffr)
+        privbtf long dountAddrfss;
 
-        // pointer to overlapped structure (in buffer)
-        private long overlappedAddress;
+        // pointfr to ovfrlbppfd strudturf (in bufffr)
+        privbtf long ovfrlbppfdAddrfss;
 
-        // completion key (used to map I/O completion to WatchKey)
-        private int completionKey;
+        // domplftion kfy (usfd to mbp I/O domplftion to WbtdiKfy)
+        privbtf int domplftionKfy;
 
-        WindowsWatchKey(Path dir,
-                        AbstractWatchService watcher,
-                        FileKey fileKey)
+        WindowsWbtdiKfy(Pbti dir,
+                        AbstrbdtWbtdiSfrvidf wbtdifr,
+                        FilfKfy filfKfy)
         {
-            super(dir, watcher);
-            this.fileKey = fileKey;
+            supfr(dir, wbtdifr);
+            tiis.filfKfy = filfKfy;
         }
 
-        WindowsWatchKey init(long handle,
-                             Set<? extends WatchEvent.Kind<?>> events,
-                             boolean watchSubtree,
-                             NativeBuffer buffer,
-                             long countAddress,
-                             long overlappedAddress,
-                             int completionKey)
+        WindowsWbtdiKfy init(long ibndlf,
+                             Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts,
+                             boolfbn wbtdiSubtrff,
+                             NbtivfBufffr bufffr,
+                             long dountAddrfss,
+                             long ovfrlbppfdAddrfss,
+                             int domplftionKfy)
         {
-            this.handle = handle;
-            this.events = events;
-            this.watchSubtree = watchSubtree;
-            this.buffer = buffer;
-            this.countAddress = countAddress;
-            this.overlappedAddress = overlappedAddress;
-            this.completionKey = completionKey;
-            return this;
+            tiis.ibndlf = ibndlf;
+            tiis.fvfnts = fvfnts;
+            tiis.wbtdiSubtrff = wbtdiSubtrff;
+            tiis.bufffr = bufffr;
+            tiis.dountAddrfss = dountAddrfss;
+            tiis.ovfrlbppfdAddrfss = ovfrlbppfdAddrfss;
+            tiis.domplftionKfy = domplftionKfy;
+            rfturn tiis;
         }
 
-        long handle() {
-            return handle;
+        long ibndlf() {
+            rfturn ibndlf;
         }
 
-        Set<? extends WatchEvent.Kind<?>> events() {
-            return events;
+        Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts() {
+            rfturn fvfnts;
         }
 
-        void setEvents(Set<? extends WatchEvent.Kind<?>> events) {
-            this.events = events;
+        void sftEvfnts(Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts) {
+            tiis.fvfnts = fvfnts;
         }
 
-        boolean watchSubtree() {
-            return watchSubtree;
+        boolfbn wbtdiSubtrff() {
+            rfturn wbtdiSubtrff;
         }
 
-        NativeBuffer buffer() {
-            return buffer;
+        NbtivfBufffr bufffr() {
+            rfturn bufffr;
         }
 
-        long countAddress() {
-            return countAddress;
+        long dountAddrfss() {
+            rfturn dountAddrfss;
         }
 
-        long overlappedAddress() {
-            return overlappedAddress;
+        long ovfrlbppfdAddrfss() {
+            rfturn ovfrlbppfdAddrfss;
         }
 
-        FileKey fileKey() {
-            return fileKey;
+        FilfKfy filfKfy() {
+            rfturn filfKfy;
         }
 
-        int completionKey() {
-            return completionKey;
+        int domplftionKfy() {
+            rfturn domplftionKfy;
         }
 
-        // close directory and release buffer
-        void releaseResources() {
-            CloseHandle(handle);
-            buffer.cleaner().clean();
+        // dlosf dirfdtory bnd rflfbsf bufffr
+        void rflfbsfRfsourdfs() {
+            ClosfHbndlf(ibndlf);
+            bufffr.dlfbnfr().dlfbn();
         }
 
-        // Invalidate key by closing directory and releasing buffer
-        void invalidate() {
-            releaseResources();
-            handle = INVALID_HANDLE_VALUE;
-            buffer = null;
-            countAddress = 0;
-            overlappedAddress = 0;
+        // Invblidbtf kfy by dlosing dirfdtory bnd rflfbsing bufffr
+        void invblidbtf() {
+            rflfbsfRfsourdfs();
+            ibndlf = INVALID_HANDLE_VALUE;
+            bufffr = null;
+            dountAddrfss = 0;
+            ovfrlbppfdAddrfss = 0;
         }
 
-        @Override
-        public boolean isValid() {
-            return handle != INVALID_HANDLE_VALUE;
+        @Ovfrridf
+        publid boolfbn isVblid() {
+            rfturn ibndlf != INVALID_HANDLE_VALUE;
         }
 
-        @Override
-        public void cancel() {
-            if (isValid()) {
-                // delegate to poller
-                poller.cancel(this);
+        @Ovfrridf
+        publid void dbndfl() {
+            if (isVblid()) {
+                // dflfgbtf to pollfr
+                pollfr.dbndfl(tiis);
             }
         }
     }
 
-    // file key to unique identify (open) directory
-    private static class FileKey {
-        private final int volSerialNumber;
-        private final int fileIndexHigh;
-        private final int fileIndexLow;
+    // filf kfy to uniquf idfntify (opfn) dirfdtory
+    privbtf stbtid dlbss FilfKfy {
+        privbtf finbl int volSfriblNumbfr;
+        privbtf finbl int filfIndfxHigi;
+        privbtf finbl int filfIndfxLow;
 
-        FileKey(int volSerialNumber, int fileIndexHigh, int fileIndexLow) {
-            this.volSerialNumber = volSerialNumber;
-            this.fileIndexHigh = fileIndexHigh;
-            this.fileIndexLow = fileIndexLow;
+        FilfKfy(int volSfriblNumbfr, int filfIndfxHigi, int filfIndfxLow) {
+            tiis.volSfriblNumbfr = volSfriblNumbfr;
+            tiis.filfIndfxHigi = filfIndfxHigi;
+            tiis.filfIndfxLow = filfIndfxLow;
         }
 
-        @Override
-        public int hashCode() {
-            return volSerialNumber ^ fileIndexHigh ^ fileIndexLow;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn volSfriblNumbfr ^ filfIndfxHigi ^ filfIndfxLow;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this)
-                return true;
-            if (!(obj instanceof FileKey))
-                return false;
-            FileKey other = (FileKey)obj;
-            if (this.volSerialNumber != other.volSerialNumber) return false;
-            if (this.fileIndexHigh != other.fileIndexHigh) return false;
-            return this.fileIndexLow == other.fileIndexLow;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis)
+                rfturn truf;
+            if (!(obj instbndfof FilfKfy))
+                rfturn fblsf;
+            FilfKfy otifr = (FilfKfy)obj;
+            if (tiis.volSfriblNumbfr != otifr.volSfriblNumbfr) rfturn fblsf;
+            if (tiis.filfIndfxHigi != otifr.filfIndfxHigi) rfturn fblsf;
+            rfturn tiis.filfIndfxLow == otifr.filfIndfxLow;
         }
     }
 
-    // all change events
-    private static final int ALL_FILE_NOTIFY_EVENTS =
+    // bll dibngf fvfnts
+    privbtf stbtid finbl int ALL_FILE_NOTIFY_EVENTS =
         FILE_NOTIFY_CHANGE_FILE_NAME |
         FILE_NOTIFY_CHANGE_DIR_NAME |
         FILE_NOTIFY_CHANGE_ATTRIBUTES  |
@@ -239,353 +239,353 @@ class WindowsWatchService
         FILE_NOTIFY_CHANGE_SECURITY;
 
     /**
-     * Background thread to service I/O completion port.
+     * Bbdkground tirfbd to sfrvidf I/O domplftion port.
      */
-    private class Poller extends AbstractPoller {
+    privbtf dlbss Pollfr fxtfnds AbstrbdtPollfr {
         /*
-         * typedef struct _OVERLAPPED {
-         *     DWORD  Internal;
-         *     DWORD  InternalHigh;
-         *     DWORD  Offset;
-         *     DWORD  OffsetHigh;
-         *     HANDLE hEvent;
+         * typfdff strudt _OVERLAPPED {
+         *     DWORD  Intfrnbl;
+         *     DWORD  IntfrnblHigi;
+         *     DWORD  Offsft;
+         *     DWORD  OffsftHigi;
+         *     HANDLE iEvfnt;
          * } OVERLAPPED;
          */
-        private static final short SIZEOF_DWORD         = 4;
-        private static final short SIZEOF_OVERLAPPED    = 32; // 20 on 32-bit
+        privbtf stbtid finbl siort SIZEOF_DWORD         = 4;
+        privbtf stbtid finbl siort SIZEOF_OVERLAPPED    = 32; // 20 on 32-bit
 
         /*
-         * typedef struct _FILE_NOTIFY_INFORMATION {
-         *     DWORD NextEntryOffset;
-         *     DWORD Action;
-         *     DWORD FileNameLength;
-         *     WCHAR FileName[1];
-         * } FileNameLength;
+         * typfdff strudt _FILE_NOTIFY_INFORMATION {
+         *     DWORD NfxtEntryOffsft;
+         *     DWORD Adtion;
+         *     DWORD FilfNbmfLfngti;
+         *     WCHAR FilfNbmf[1];
+         * } FilfNbmfLfngti;
          */
-        private static final short OFFSETOF_NEXTENTRYOFFSET = 0;
-        private static final short OFFSETOF_ACTION          = 4;
-        private static final short OFFSETOF_FILENAMELENGTH  = 8;
-        private static final short OFFSETOF_FILENAME        = 12;
+        privbtf stbtid finbl siort OFFSETOF_NEXTENTRYOFFSET = 0;
+        privbtf stbtid finbl siort OFFSETOF_ACTION          = 4;
+        privbtf stbtid finbl siort OFFSETOF_FILENAMELENGTH  = 8;
+        privbtf stbtid finbl siort OFFSETOF_FILENAME        = 12;
 
-        // size of per-directory buffer for events (FIXME - make this configurable)
-        // Need to be less than 4*16384 = 65536. DWORD align.
-        private static final int CHANGES_BUFFER_SIZE    = 16 * 1024;
+        // sizf of pfr-dirfdtory bufffr for fvfnts (FIXME - mbkf tiis donfigurbblf)
+        // Nffd to bf lfss tibn 4*16384 = 65536. DWORD blign.
+        privbtf stbtid finbl int CHANGES_BUFFER_SIZE    = 16 * 1024;
 
-        private final WindowsFileSystem fs;
-        private final WindowsWatchService watcher;
-        private final long port;
+        privbtf finbl WindowsFilfSystfm fs;
+        privbtf finbl WindowsWbtdiSfrvidf wbtdifr;
+        privbtf finbl long port;
 
-        // maps completion key to WatchKey
-        private final Map<Integer,WindowsWatchKey> ck2key;
+        // mbps domplftion kfy to WbtdiKfy
+        privbtf finbl Mbp<Intfgfr,WindowsWbtdiKfy> dk2kfy;
 
-        // maps file key to WatchKey
-        private final Map<FileKey,WindowsWatchKey> fk2key;
+        // mbps filf kfy to WbtdiKfy
+        privbtf finbl Mbp<FilfKfy,WindowsWbtdiKfy> fk2kfy;
 
-        // unique completion key for each directory
-        // native completion key capacity is 64 bits on Win64.
-        private int lastCompletionKey;
+        // uniquf domplftion kfy for fbdi dirfdtory
+        // nbtivf domplftion kfy dbpbdity is 64 bits on Win64.
+        privbtf int lbstComplftionKfy;
 
-        Poller(WindowsFileSystem fs, WindowsWatchService watcher, long port) {
-            this.fs = fs;
-            this.watcher = watcher;
-            this.port = port;
-            this.ck2key = new HashMap<>();
-            this.fk2key = new HashMap<>();
-            this.lastCompletionKey = 0;
+        Pollfr(WindowsFilfSystfm fs, WindowsWbtdiSfrvidf wbtdifr, long port) {
+            tiis.fs = fs;
+            tiis.wbtdifr = wbtdifr;
+            tiis.port = port;
+            tiis.dk2kfy = nfw HbsiMbp<>();
+            tiis.fk2kfy = nfw HbsiMbp<>();
+            tiis.lbstComplftionKfy = 0;
         }
 
-        @Override
-        void wakeup() throws IOException {
+        @Ovfrridf
+        void wbkfup() tirows IOExdfption {
             try {
-                PostQueuedCompletionStatus(port, WAKEUP_COMPLETION_KEY);
-            } catch (WindowsException x) {
-                throw new IOException(x.getMessage());
+                PostQufufdComplftionStbtus(port, WAKEUP_COMPLETION_KEY);
+            } dbtdi (WindowsExdfption x) {
+                tirow nfw IOExdfption(x.gftMfssbgf());
             }
         }
 
         /**
-         * Register a directory for changes as follows:
+         * Rfgistfr b dirfdtory for dibngfs bs follows:
          *
-         * 1. Open directory
-         * 2. Read its attributes (and check it really is a directory)
-         * 3. Assign completion key and associated handle with completion port
-         * 4. Call ReadDirectoryChangesW to start (async) read of changes
-         * 5. Create or return existing key representing registration
+         * 1. Opfn dirfdtory
+         * 2. Rfbd its bttributfs (bnd difdk it rfblly is b dirfdtory)
+         * 3. Assign domplftion kfy bnd bssodibtfd ibndlf witi domplftion port
+         * 4. Cbll RfbdDirfdtoryCibngfsW to stbrt (bsynd) rfbd of dibngfs
+         * 5. Crfbtf or rfturn fxisting kfy rfprfsfnting rfgistrbtion
          */
-        @Override
-        Object implRegister(Path obj,
-                            Set<? extends WatchEvent.Kind<?>> events,
-                            WatchEvent.Modifier... modifiers)
+        @Ovfrridf
+        Objfdt implRfgistfr(Pbti obj,
+                            Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts,
+                            WbtdiEvfnt.Modififr... modififrs)
         {
-            WindowsPath dir = (WindowsPath)obj;
-            boolean watchSubtree = false;
+            WindowsPbti dir = (WindowsPbti)obj;
+            boolfbn wbtdiSubtrff = fblsf;
 
-            // FILE_TREE modifier allowed
-            for (WatchEvent.Modifier modifier: modifiers) {
-                if (modifier == ExtendedWatchEventModifier.FILE_TREE) {
-                    watchSubtree = true;
-                } else {
-                    if (modifier == null)
-                        return new NullPointerException();
-                    if (modifier instanceof com.sun.nio.file.SensitivityWatchEventModifier)
-                        continue; // ignore
-                    return new UnsupportedOperationException("Modifier not supported");
+            // FILE_TREE modififr bllowfd
+            for (WbtdiEvfnt.Modififr modififr: modififrs) {
+                if (modififr == ExtfndfdWbtdiEvfntModififr.FILE_TREE) {
+                    wbtdiSubtrff = truf;
+                } flsf {
+                    if (modififr == null)
+                        rfturn nfw NullPointfrExdfption();
+                    if (modififr instbndfof dom.sun.nio.filf.SfnsitivityWbtdiEvfntModififr)
+                        dontinuf; // ignorf
+                    rfturn nfw UnsupportfdOpfrbtionExdfption("Modififr not supportfd");
                 }
             }
 
-            // open directory
-            long handle;
+            // opfn dirfdtory
+            long ibndlf;
             try {
-                handle = CreateFile(dir.getPathForWin32Calls(),
+                ibndlf = CrfbtfFilf(dir.gftPbtiForWin32Cblls(),
                                     FILE_LIST_DIRECTORY,
                                     (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                                     OPEN_EXISTING,
                                     FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED);
-            } catch (WindowsException x) {
-                return x.asIOException(dir);
+            } dbtdi (WindowsExdfption x) {
+                rfturn x.bsIOExdfption(dir);
             }
 
-            boolean registered = false;
+            boolfbn rfgistfrfd = fblsf;
             try {
-                // read attributes and check file is a directory
-                WindowsFileAttributes attrs;
+                // rfbd bttributfs bnd difdk filf is b dirfdtory
+                WindowsFilfAttributfs bttrs;
                 try {
-                    attrs = WindowsFileAttributes.readAttributes(handle);
-                } catch (WindowsException x) {
-                    return x.asIOException(dir);
+                    bttrs = WindowsFilfAttributfs.rfbdAttributfs(ibndlf);
+                } dbtdi (WindowsExdfption x) {
+                    rfturn x.bsIOExdfption(dir);
                 }
-                if (!attrs.isDirectory()) {
-                    return new NotDirectoryException(dir.getPathForExceptionMessage());
-                }
-
-                // check if this directory is already registered
-                FileKey fk = new FileKey(attrs.volSerialNumber(),
-                                         attrs.fileIndexHigh(),
-                                         attrs.fileIndexLow());
-                WindowsWatchKey existing = fk2key.get(fk);
-
-                // if already registered and we're not changing the subtree
-                // modifier then simply update the event and return the key.
-                if (existing != null && watchSubtree == existing.watchSubtree()) {
-                    existing.setEvents(events);
-                    return existing;
+                if (!bttrs.isDirfdtory()) {
+                    rfturn nfw NotDirfdtoryExdfption(dir.gftPbtiForExdfptionMfssbgf());
                 }
 
-                // Can overflow the int type capacity.
-                // Skip WAKEUP_COMPLETION_KEY value.
-                int completionKey = ++lastCompletionKey;
-                if (completionKey == WAKEUP_COMPLETION_KEY)
-                    completionKey = ++lastCompletionKey;
+                // difdk if tiis dirfdtory is blrfbdy rfgistfrfd
+                FilfKfy fk = nfw FilfKfy(bttrs.volSfriblNumbfr(),
+                                         bttrs.filfIndfxHigi(),
+                                         bttrs.filfIndfxLow());
+                WindowsWbtdiKfy fxisting = fk2kfy.gft(fk);
 
-                // associate handle with completion port
+                // if blrfbdy rfgistfrfd bnd wf'rf not dibnging tif subtrff
+                // modififr tifn simply updbtf tif fvfnt bnd rfturn tif kfy.
+                if (fxisting != null && wbtdiSubtrff == fxisting.wbtdiSubtrff()) {
+                    fxisting.sftEvfnts(fvfnts);
+                    rfturn fxisting;
+                }
+
+                // Cbn ovfrflow tif int typf dbpbdity.
+                // Skip WAKEUP_COMPLETION_KEY vbluf.
+                int domplftionKfy = ++lbstComplftionKfy;
+                if (domplftionKfy == WAKEUP_COMPLETION_KEY)
+                    domplftionKfy = ++lbstComplftionKfy;
+
+                // bssodibtf ibndlf witi domplftion port
                 try {
-                    CreateIoCompletionPort(handle, port, completionKey);
-                } catch (WindowsException x) {
-                    return new IOException(x.getMessage());
+                    CrfbtfIoComplftionPort(ibndlf, port, domplftionKfy);
+                } dbtdi (WindowsExdfption x) {
+                    rfturn nfw IOExdfption(x.gftMfssbgf());
                 }
 
-                // allocate memory for events, including space for other structures
-                // needed to do overlapped I/O
-                int size = CHANGES_BUFFER_SIZE + SIZEOF_DWORD + SIZEOF_OVERLAPPED;
-                NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+                // bllodbtf mfmory for fvfnts, indluding spbdf for otifr strudturfs
+                // nffdfd to do ovfrlbppfd I/O
+                int sizf = CHANGES_BUFFER_SIZE + SIZEOF_DWORD + SIZEOF_OVERLAPPED;
+                NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
 
-                long bufferAddress = buffer.address();
-                long overlappedAddress = bufferAddress + size - SIZEOF_OVERLAPPED;
-                long countAddress = overlappedAddress - SIZEOF_DWORD;
+                long bufffrAddrfss = bufffr.bddrfss();
+                long ovfrlbppfdAddrfss = bufffrAddrfss + sizf - SIZEOF_OVERLAPPED;
+                long dountAddrfss = ovfrlbppfdAddrfss - SIZEOF_DWORD;
 
-                // start async read of changes to directory
+                // stbrt bsynd rfbd of dibngfs to dirfdtory
                 try {
-                    ReadDirectoryChangesW(handle,
-                                          bufferAddress,
+                    RfbdDirfdtoryCibngfsW(ibndlf,
+                                          bufffrAddrfss,
                                           CHANGES_BUFFER_SIZE,
-                                          watchSubtree,
+                                          wbtdiSubtrff,
                                           ALL_FILE_NOTIFY_EVENTS,
-                                          countAddress,
-                                          overlappedAddress);
-                } catch (WindowsException x) {
-                    buffer.release();
-                    return new IOException(x.getMessage());
+                                          dountAddrfss,
+                                          ovfrlbppfdAddrfss);
+                } dbtdi (WindowsExdfption x) {
+                    bufffr.rflfbsf();
+                    rfturn nfw IOExdfption(x.gftMfssbgf());
                 }
 
-                WindowsWatchKey watchKey;
-                if (existing == null) {
-                    // not registered so create new watch key
-                    watchKey = new WindowsWatchKey(dir, watcher, fk)
-                        .init(handle, events, watchSubtree, buffer, countAddress,
-                              overlappedAddress, completionKey);
-                    // map file key to watch key
-                    fk2key.put(fk, watchKey);
-                } else {
-                    // directory already registered so need to:
-                    // 1. remove mapping from old completion key to existing watch key
-                    // 2. release existing key's resources (handle/buffer)
-                    // 3. re-initialize key with new handle/buffer
-                    ck2key.remove(existing.completionKey());
-                    existing.releaseResources();
-                    watchKey = existing.init(handle, events, watchSubtree, buffer,
-                        countAddress, overlappedAddress, completionKey);
+                WindowsWbtdiKfy wbtdiKfy;
+                if (fxisting == null) {
+                    // not rfgistfrfd so drfbtf nfw wbtdi kfy
+                    wbtdiKfy = nfw WindowsWbtdiKfy(dir, wbtdifr, fk)
+                        .init(ibndlf, fvfnts, wbtdiSubtrff, bufffr, dountAddrfss,
+                              ovfrlbppfdAddrfss, domplftionKfy);
+                    // mbp filf kfy to wbtdi kfy
+                    fk2kfy.put(fk, wbtdiKfy);
+                } flsf {
+                    // dirfdtory blrfbdy rfgistfrfd so nffd to:
+                    // 1. rfmovf mbpping from old domplftion kfy to fxisting wbtdi kfy
+                    // 2. rflfbsf fxisting kfy's rfsourdfs (ibndlf/bufffr)
+                    // 3. rf-initiblizf kfy witi nfw ibndlf/bufffr
+                    dk2kfy.rfmovf(fxisting.domplftionKfy());
+                    fxisting.rflfbsfRfsourdfs();
+                    wbtdiKfy = fxisting.init(ibndlf, fvfnts, wbtdiSubtrff, bufffr,
+                        dountAddrfss, ovfrlbppfdAddrfss, domplftionKfy);
                 }
-                // map completion map to watch key
-                ck2key.put(completionKey, watchKey);
+                // mbp domplftion mbp to wbtdi kfy
+                dk2kfy.put(domplftionKfy, wbtdiKfy);
 
-                registered = true;
-                return watchKey;
+                rfgistfrfd = truf;
+                rfturn wbtdiKfy;
 
-            } finally {
-                if (!registered) CloseHandle(handle);
+            } finblly {
+                if (!rfgistfrfd) ClosfHbndlf(ibndlf);
             }
         }
 
-        // cancel single key
-        @Override
-        void implCancelKey(WatchKey obj) {
-            WindowsWatchKey key = (WindowsWatchKey)obj;
-            if (key.isValid()) {
-                fk2key.remove(key.fileKey());
-                ck2key.remove(key.completionKey());
-                key.invalidate();
+        // dbndfl singlf kfy
+        @Ovfrridf
+        void implCbndflKfy(WbtdiKfy obj) {
+            WindowsWbtdiKfy kfy = (WindowsWbtdiKfy)obj;
+            if (kfy.isVblid()) {
+                fk2kfy.rfmovf(kfy.filfKfy());
+                dk2kfy.rfmovf(kfy.domplftionKfy());
+                kfy.invblidbtf();
             }
         }
 
-        // close watch service
-        @Override
-        void implCloseAll() {
-            // cancel all keys
-            for (Map.Entry<Integer, WindowsWatchKey> entry: ck2key.entrySet()) {
-                entry.getValue().invalidate();
+        // dlosf wbtdi sfrvidf
+        @Ovfrridf
+        void implClosfAll() {
+            // dbndfl bll kfys
+            for (Mbp.Entry<Intfgfr, WindowsWbtdiKfy> fntry: dk2kfy.fntrySft()) {
+                fntry.gftVbluf().invblidbtf();
             }
-            fk2key.clear();
-            ck2key.clear();
+            fk2kfy.dlfbr();
+            dk2kfy.dlfbr();
 
-            // close I/O completion port
-            CloseHandle(port);
+            // dlosf I/O domplftion port
+            ClosfHbndlf(port);
         }
 
-        // Translate file change action into watch event
-        private WatchEvent.Kind<?> translateActionToEvent(int action)
+        // Trbnslbtf filf dibngf bdtion into wbtdi fvfnt
+        privbtf WbtdiEvfnt.Kind<?> trbnslbtfAdtionToEvfnt(int bdtion)
         {
-            switch (action) {
-                case FILE_ACTION_MODIFIED :
-                    return StandardWatchEventKinds.ENTRY_MODIFY;
+            switdi (bdtion) {
+                dbsf FILE_ACTION_MODIFIED :
+                    rfturn StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY;
 
-                case FILE_ACTION_ADDED :
-                case FILE_ACTION_RENAMED_NEW_NAME :
-                    return StandardWatchEventKinds.ENTRY_CREATE;
+                dbsf FILE_ACTION_ADDED :
+                dbsf FILE_ACTION_RENAMED_NEW_NAME :
+                    rfturn StbndbrdWbtdiEvfntKinds.ENTRY_CREATE;
 
-                case FILE_ACTION_REMOVED :
-                case FILE_ACTION_RENAMED_OLD_NAME :
-                    return StandardWatchEventKinds.ENTRY_DELETE;
+                dbsf FILE_ACTION_REMOVED :
+                dbsf FILE_ACTION_RENAMED_OLD_NAME :
+                    rfturn StbndbrdWbtdiEvfntKinds.ENTRY_DELETE;
 
-                default :
-                    return null;  // action not recognized
+                dffbult :
+                    rfturn null;  // bdtion not rfdognizfd
             }
         }
 
-        // process events (list of FILE_NOTIFY_INFORMATION structures)
-        private void processEvents(WindowsWatchKey key, int size) {
-            long address = key.buffer().address();
+        // prodfss fvfnts (list of FILE_NOTIFY_INFORMATION strudturfs)
+        privbtf void prodfssEvfnts(WindowsWbtdiKfy kfy, int sizf) {
+            long bddrfss = kfy.bufffr().bddrfss();
 
-            int nextOffset;
+            int nfxtOffsft;
             do {
-                int action = unsafe.getInt(address + OFFSETOF_ACTION);
+                int bdtion = unsbff.gftInt(bddrfss + OFFSETOF_ACTION);
 
-                // map action to event
-                WatchEvent.Kind<?> kind = translateActionToEvent(action);
-                if (key.events().contains(kind)) {
-                    // copy the name
-                    int nameLengthInBytes = unsafe.getInt(address + OFFSETOF_FILENAMELENGTH);
-                    if ((nameLengthInBytes % 2) != 0) {
-                        throw new AssertionError("FileNameLength.FileNameLength is not a multiple of 2");
+                // mbp bdtion to fvfnt
+                WbtdiEvfnt.Kind<?> kind = trbnslbtfAdtionToEvfnt(bdtion);
+                if (kfy.fvfnts().dontbins(kind)) {
+                    // dopy tif nbmf
+                    int nbmfLfngtiInBytfs = unsbff.gftInt(bddrfss + OFFSETOF_FILENAMELENGTH);
+                    if ((nbmfLfngtiInBytfs % 2) != 0) {
+                        tirow nfw AssfrtionError("FilfNbmfLfngti.FilfNbmfLfngti is not b multiplf of 2");
                     }
-                    char[] nameAsArray = new char[nameLengthInBytes/2];
-                    unsafe.copyMemory(null, address + OFFSETOF_FILENAME, nameAsArray,
-                        Unsafe.ARRAY_CHAR_BASE_OFFSET, nameLengthInBytes);
+                    dibr[] nbmfAsArrby = nfw dibr[nbmfLfngtiInBytfs/2];
+                    unsbff.dopyMfmory(null, bddrfss + OFFSETOF_FILENAME, nbmfAsArrby,
+                        Unsbff.ARRAY_CHAR_BASE_OFFSET, nbmfLfngtiInBytfs);
 
-                    // create FileName and queue event
-                    WindowsPath name = WindowsPath
-                        .createFromNormalizedPath(fs, new String(nameAsArray));
-                    key.signalEvent(kind, name);
+                    // drfbtf FilfNbmf bnd qufuf fvfnt
+                    WindowsPbti nbmf = WindowsPbti
+                        .drfbtfFromNormblizfdPbti(fs, nfw String(nbmfAsArrby));
+                    kfy.signblEvfnt(kind, nbmf);
                 }
 
-                // next event
-                nextOffset = unsafe.getInt(address + OFFSETOF_NEXTENTRYOFFSET);
-                address += (long)nextOffset;
-            } while (nextOffset != 0);
+                // nfxt fvfnt
+                nfxtOffsft = unsbff.gftInt(bddrfss + OFFSETOF_NEXTENTRYOFFSET);
+                bddrfss += (long)nfxtOffsft;
+            } wiilf (nfxtOffsft != 0);
         }
 
         /**
-         * Poller main loop
+         * Pollfr mbin loop
          */
-        @Override
-        public void run() {
+        @Ovfrridf
+        publid void run() {
             for (;;) {
-                CompletionStatus info;
+                ComplftionStbtus info;
                 try {
-                    info = GetQueuedCompletionStatus(port);
-                } catch (WindowsException x) {
-                    // this should not happen
-                    x.printStackTrace();
-                    return;
+                    info = GftQufufdComplftionStbtus(port);
+                } dbtdi (WindowsExdfption x) {
+                    // tiis siould not ibppfn
+                    x.printStbdkTrbdf();
+                    rfturn;
                 }
 
-                // wakeup
-                if (info.completionKey() == WAKEUP_COMPLETION_KEY) {
-                    boolean shutdown = processRequests();
-                    if (shutdown) {
-                        return;
+                // wbkfup
+                if (info.domplftionKfy() == WAKEUP_COMPLETION_KEY) {
+                    boolfbn siutdown = prodfssRfqufsts();
+                    if (siutdown) {
+                        rfturn;
                     }
-                    continue;
+                    dontinuf;
                 }
 
-                // map completionKey to get WatchKey
-                WindowsWatchKey key = ck2key.get((int)info.completionKey());
-                if (key == null) {
-                    // We get here when a registration is changed. In that case
-                    // the directory is closed which causes an event with the
-                    // old completion key.
-                    continue;
+                // mbp domplftionKfy to gft WbtdiKfy
+                WindowsWbtdiKfy kfy = dk2kfy.gft((int)info.domplftionKfy());
+                if (kfy == null) {
+                    // Wf gft ifrf wifn b rfgistrbtion is dibngfd. In tibt dbsf
+                    // tif dirfdtory is dlosfd wiidi dbusfs bn fvfnt witi tif
+                    // old domplftion kfy.
+                    dontinuf;
                 }
 
-                boolean criticalError = false;
-                int errorCode = info.error();
-                int messageSize = info.bytesTransferred();
-                if (errorCode == ERROR_NOTIFY_ENUM_DIR) {
-                    // buffer overflow
-                    key.signalEvent(StandardWatchEventKinds.OVERFLOW, null);
-                } else if (errorCode != 0 && errorCode != ERROR_MORE_DATA) {
-                    // ReadDirectoryChangesW failed
-                    criticalError = true;
-                } else {
-                    // ERROR_MORE_DATA is a warning about incomplete
-                    // data transfer over TCP/UDP stack. For the case
-                    // [messageSize] is zero in the most of cases.
+                boolfbn dritidblError = fblsf;
+                int frrorCodf = info.frror();
+                int mfssbgfSizf = info.bytfsTrbnsffrrfd();
+                if (frrorCodf == ERROR_NOTIFY_ENUM_DIR) {
+                    // bufffr ovfrflow
+                    kfy.signblEvfnt(StbndbrdWbtdiEvfntKinds.OVERFLOW, null);
+                } flsf if (frrorCodf != 0 && frrorCodf != ERROR_MORE_DATA) {
+                    // RfbdDirfdtoryCibngfsW fbilfd
+                    dritidblError = truf;
+                } flsf {
+                    // ERROR_MORE_DATA is b wbrning bbout indomplftf
+                    // dbtb trbnsffr ovfr TCP/UDP stbdk. For tif dbsf
+                    // [mfssbgfSizf] is zfro in tif most of dbsfs.
 
-                    if (messageSize > 0) {
-                        // process non-empty events.
-                        processEvents(key, messageSize);
-                    } else if (errorCode == 0) {
-                        // insufficient buffer size
-                        // not described, but can happen.
-                        key.signalEvent(StandardWatchEventKinds.OVERFLOW, null);
+                    if (mfssbgfSizf > 0) {
+                        // prodfss non-fmpty fvfnts.
+                        prodfssEvfnts(kfy, mfssbgfSizf);
+                    } flsf if (frrorCodf == 0) {
+                        // insuffidifnt bufffr sizf
+                        // not dfsdribfd, but dbn ibppfn.
+                        kfy.signblEvfnt(StbndbrdWbtdiEvfntKinds.OVERFLOW, null);
                     }
 
-                    // start read for next batch of changes
+                    // stbrt rfbd for nfxt bbtdi of dibngfs
                     try {
-                        ReadDirectoryChangesW(key.handle(),
-                                              key.buffer().address(),
+                        RfbdDirfdtoryCibngfsW(kfy.ibndlf(),
+                                              kfy.bufffr().bddrfss(),
                                               CHANGES_BUFFER_SIZE,
-                                              key.watchSubtree(),
+                                              kfy.wbtdiSubtrff(),
                                               ALL_FILE_NOTIFY_EVENTS,
-                                              key.countAddress(),
-                                              key.overlappedAddress());
-                    } catch (WindowsException x) {
-                        // no choice but to cancel key
-                        criticalError = true;
+                                              kfy.dountAddrfss(),
+                                              kfy.ovfrlbppfdAddrfss());
+                    } dbtdi (WindowsExdfption x) {
+                        // no dioidf but to dbndfl kfy
+                        dritidblError = truf;
                     }
                 }
-                if (criticalError) {
-                    implCancelKey(key);
-                    key.signal();
+                if (dritidblError) {
+                    implCbndflKfy(kfy);
+                    kfy.signbl();
                 }
             }
         }

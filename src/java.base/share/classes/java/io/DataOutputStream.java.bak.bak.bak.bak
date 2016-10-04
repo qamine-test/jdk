@@ -1,0 +1,416 @@
+/*
+ * Copyright (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * A dbtb output strfbm lfts bn bpplidbtion writf primitivf Jbvb dbtb
+ * typfs to bn output strfbm in b portbblf wby. An bpplidbtion dbn
+ * thfn usf b dbtb input strfbm to rfbd thf dbtb bbdk in.
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.io.DbtbInputStrfbm
+ * @sindf   1.0
+ */
+publid
+dlbss DbtbOutputStrfbm fxtfnds FiltfrOutputStrfbm implfmfnts DbtbOutput {
+    /**
+     * Thf numbfr of bytfs writtfn to thf dbtb output strfbm so fbr.
+     * If this dountfr ovfrflows, it will bf wrbppfd to Intfgfr.MAX_VALUE.
+     */
+    protfdtfd int writtfn;
+
+    /**
+     * bytfbrr is initiblizfd on dfmbnd by writfUTF
+     */
+    privbtf bytf[] bytfbrr = null;
+
+    /**
+     * Crfbtfs b nfw dbtb output strfbm to writf dbtb to thf spfdififd
+     * undfrlying output strfbm. Thf dountfr <dodf>writtfn</dodf> is
+     * sft to zfro.
+     *
+     * @pbrbm   out   thf undfrlying output strfbm, to bf sbvfd for lbtfr
+     *                usf.
+     * @sff     jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid DbtbOutputStrfbm(OutputStrfbm out) {
+        supfr(out);
+    }
+
+    /**
+     * Indrfbsfs thf writtfn dountfr by thf spfdififd vbluf
+     * until it rfbdhfs Intfgfr.MAX_VALUE.
+     */
+    privbtf void indCount(int vbluf) {
+        int tfmp = writtfn + vbluf;
+        if (tfmp < 0) {
+            tfmp = Intfgfr.MAX_VALUE;
+        }
+        writtfn = tfmp;
+    }
+
+    /**
+     * Writfs thf spfdififd bytf (thf low fight bits of thf brgumfnt
+     * <dodf>b</dodf>) to thf undfrlying output strfbm. If no fxdfption
+     * is thrown, thf dountfr <dodf>writtfn</dodf> is indrfmfntfd by
+     * <dodf>1</dodf>.
+     * <p>
+     * Implfmfnts thf <dodf>writf</dodf> mfthod of <dodf>OutputStrfbm</dodf>.
+     *
+     * @pbrbm      b   thf <dodf>bytf</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid syndhronizfd void writf(int b) throws IOExdfption {
+        out.writf(b);
+        indCount(1);
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to thf undfrlying output strfbm.
+     * If no fxdfption is thrown, thf dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>lfn</dodf>.
+     *
+     * @pbrbm      b     thf dbtb.
+     * @pbrbm      off   thf stbrt offsft in thf dbtb.
+     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid syndhronizfd void writf(bytf b[], int off, int lfn)
+        throws IOExdfption
+    {
+        out.writf(b, off, lfn);
+        indCount(lfn);
+    }
+
+    /**
+     * Flushfs this dbtb output strfbm. This fordfs bny bufffrfd output
+     * bytfs to bf writtfn out to thf strfbm.
+     * <p>
+     * Thf <dodf>flush</dodf> mfthod of <dodf>DbtbOutputStrfbm</dodf>
+     * dblls thf <dodf>flush</dodf> mfthod of its undfrlying output strfbm.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.io.OutputStrfbm#flush()
+     */
+    publid void flush() throws IOExdfption {
+        out.flush();
+    }
+
+    /**
+     * Writfs b <dodf>boolfbn</dodf> to thf undfrlying output strfbm bs
+     * b 1-bytf vbluf. Thf vbluf <dodf>truf</dodf> is writtfn out bs thf
+     * vbluf <dodf>(bytf)1</dodf>; thf vbluf <dodf>fblsf</dodf> is
+     * writtfn out bs thf vbluf <dodf>(bytf)0</dodf>. If no fxdfption is
+     * thrown, thf dountfr <dodf>writtfn</dodf> is indrfmfntfd by
+     * <dodf>1</dodf>.
+     *
+     * @pbrbm      v   b <dodf>boolfbn</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfBoolfbn(boolfbn v) throws IOExdfption {
+        out.writf(v ? 1 : 0);
+        indCount(1);
+    }
+
+    /**
+     * Writfs out b <dodf>bytf</dodf> to thf undfrlying output strfbm bs
+     * b 1-bytf vbluf. If no fxdfption is thrown, thf dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>1</dodf>.
+     *
+     * @pbrbm      v   b <dodf>bytf</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfBytf(int v) throws IOExdfption {
+        out.writf(v);
+        indCount(1);
+    }
+
+    /**
+     * Writfs b <dodf>short</dodf> to thf undfrlying output strfbm bs two
+     * bytfs, high bytf first. If no fxdfption is thrown, thf dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>2</dodf>.
+     *
+     * @pbrbm      v   b <dodf>short</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfShort(int v) throws IOExdfption {
+        out.writf((v >>> 8) & 0xFF);
+        out.writf((v >>> 0) & 0xFF);
+        indCount(2);
+    }
+
+    /**
+     * Writfs b <dodf>dhbr</dodf> to thf undfrlying output strfbm bs b
+     * 2-bytf vbluf, high bytf first. If no fxdfption is thrown, thf
+     * dountfr <dodf>writtfn</dodf> is indrfmfntfd by <dodf>2</dodf>.
+     *
+     * @pbrbm      v   b <dodf>dhbr</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfChbr(int v) throws IOExdfption {
+        out.writf((v >>> 8) & 0xFF);
+        out.writf((v >>> 0) & 0xFF);
+        indCount(2);
+    }
+
+    /**
+     * Writfs bn <dodf>int</dodf> to thf undfrlying output strfbm bs four
+     * bytfs, high bytf first. If no fxdfption is thrown, thf dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>4</dodf>.
+     *
+     * @pbrbm      v   bn <dodf>int</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfInt(int v) throws IOExdfption {
+        out.writf((v >>> 24) & 0xFF);
+        out.writf((v >>> 16) & 0xFF);
+        out.writf((v >>>  8) & 0xFF);
+        out.writf((v >>>  0) & 0xFF);
+        indCount(4);
+    }
+
+    privbtf bytf writfBufffr[] = nfw bytf[8];
+
+    /**
+     * Writfs b <dodf>long</dodf> to thf undfrlying output strfbm bs fight
+     * bytfs, high bytf first. In no fxdfption is thrown, thf dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by <dodf>8</dodf>.
+     *
+     * @pbrbm      v   b <dodf>long</dodf> to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfLong(long v) throws IOExdfption {
+        writfBufffr[0] = (bytf)(v >>> 56);
+        writfBufffr[1] = (bytf)(v >>> 48);
+        writfBufffr[2] = (bytf)(v >>> 40);
+        writfBufffr[3] = (bytf)(v >>> 32);
+        writfBufffr[4] = (bytf)(v >>> 24);
+        writfBufffr[5] = (bytf)(v >>> 16);
+        writfBufffr[6] = (bytf)(v >>>  8);
+        writfBufffr[7] = (bytf)(v >>>  0);
+        out.writf(writfBufffr, 0, 8);
+        indCount(8);
+    }
+
+    /**
+     * Convfrts thf flobt brgumfnt to bn <dodf>int</dodf> using thf
+     * <dodf>flobtToIntBits</dodf> mfthod in dlbss <dodf>Flobt</dodf>,
+     * bnd thfn writfs thbt <dodf>int</dodf> vbluf to thf undfrlying
+     * output strfbm bs b 4-bytf qubntity, high bytf first. If no
+     * fxdfption is thrown, thf dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>4</dodf>.
+     *
+     * @pbrbm      v   b <dodf>flobt</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.lbng.Flobt#flobtToIntBits(flobt)
+     */
+    publid finbl void writfFlobt(flobt v) throws IOExdfption {
+        writfInt(Flobt.flobtToIntBits(v));
+    }
+
+    /**
+     * Convfrts thf doublf brgumfnt to b <dodf>long</dodf> using thf
+     * <dodf>doublfToLongBits</dodf> mfthod in dlbss <dodf>Doublf</dodf>,
+     * bnd thfn writfs thbt <dodf>long</dodf> vbluf to thf undfrlying
+     * output strfbm bs bn 8-bytf qubntity, high bytf first. If no
+     * fxdfption is thrown, thf dountfr <dodf>writtfn</dodf> is
+     * indrfmfntfd by <dodf>8</dodf>.
+     *
+     * @pbrbm      v   b <dodf>doublf</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     * @sff        jbvb.lbng.Doublf#doublfToLongBits(doublf)
+     */
+    publid finbl void writfDoublf(doublf v) throws IOExdfption {
+        writfLong(Doublf.doublfToLongBits(v));
+    }
+
+    /**
+     * Writfs out thf string to thf undfrlying output strfbm bs b
+     * sfqufndf of bytfs. Ebdh dhbrbdtfr in thf string is writtfn out, in
+     * sfqufndf, by disdbrding its high fight bits. If no fxdfption is
+     * thrown, thf dountfr <dodf>writtfn</dodf> is indrfmfntfd by thf
+     * lfngth of <dodf>s</dodf>.
+     *
+     * @pbrbm      s   b string of bytfs to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfBytfs(String s) throws IOExdfption {
+        int lfn = s.lfngth();
+        for (int i = 0 ; i < lfn ; i++) {
+            out.writf((bytf)s.dhbrAt(i));
+        }
+        indCount(lfn);
+    }
+
+    /**
+     * Writfs b string to thf undfrlying output strfbm bs b sfqufndf of
+     * dhbrbdtfrs. Ebdh dhbrbdtfr is writtfn to thf dbtb output strfbm bs
+     * if by thf <dodf>writfChbr</dodf> mfthod. If no fxdfption is
+     * thrown, thf dountfr <dodf>writtfn</dodf> is indrfmfntfd by twidf
+     * thf lfngth of <dodf>s</dodf>.
+     *
+     * @pbrbm      s   b <dodf>String</dodf> vbluf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.DbtbOutputStrfbm#writfChbr(int)
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
+     */
+    publid finbl void writfChbrs(String s) throws IOExdfption {
+        int lfn = s.lfngth();
+        for (int i = 0 ; i < lfn ; i++) {
+            int v = s.dhbrAt(i);
+            out.writf((v >>> 8) & 0xFF);
+            out.writf((v >>> 0) & 0xFF);
+        }
+        indCount(lfn * 2);
+    }
+
+    /**
+     * Writfs b string to thf undfrlying output strfbm using
+     * <b hrff="DbtbInput.html#modififd-utf-8">modififd UTF-8</b>
+     * fndoding in b mbdhinf-indfpfndfnt mbnnfr.
+     * <p>
+     * First, two bytfs brf writtfn to thf output strfbm bs if by thf
+     * <dodf>writfShort</dodf> mfthod giving thf numbfr of bytfs to
+     * follow. This vbluf is thf numbfr of bytfs bdtublly writtfn out,
+     * not thf lfngth of thf string. Following thf lfngth, fbdh dhbrbdtfr
+     * of thf string is output, in sfqufndf, using thf modififd UTF-8 fndoding
+     * for thf dhbrbdtfr. If no fxdfption is thrown, thf dountfr
+     * <dodf>writtfn</dodf> is indrfmfntfd by thf totbl numbfr of
+     * bytfs writtfn to thf output strfbm. This will bf bt lfbst two
+     * plus thf lfngth of <dodf>str</dodf>, bnd bt most two plus
+     * thridf thf lfngth of <dodf>str</dodf>.
+     *
+     * @pbrbm      str   b string to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid finbl void writfUTF(String str) throws IOExdfption {
+        writfUTF(str, this);
+    }
+
+    /**
+     * Writfs b string to thf spfdififd DbtbOutput using
+     * <b hrff="DbtbInput.html#modififd-utf-8">modififd UTF-8</b>
+     * fndoding in b mbdhinf-indfpfndfnt mbnnfr.
+     * <p>
+     * First, two bytfs brf writtfn to out bs if by thf <dodf>writfShort</dodf>
+     * mfthod giving thf numbfr of bytfs to follow. This vbluf is thf numbfr of
+     * bytfs bdtublly writtfn out, not thf lfngth of thf string. Following thf
+     * lfngth, fbdh dhbrbdtfr of thf string is output, in sfqufndf, using thf
+     * modififd UTF-8 fndoding for thf dhbrbdtfr. If no fxdfption is thrown, thf
+     * dountfr <dodf>writtfn</dodf> is indrfmfntfd by thf totbl numbfr of
+     * bytfs writtfn to thf output strfbm. This will bf bt lfbst two
+     * plus thf lfngth of <dodf>str</dodf>, bnd bt most two plus
+     * thridf thf lfngth of <dodf>str</dodf>.
+     *
+     * @pbrbm      str   b string to bf writtfn.
+     * @pbrbm      out   dfstinbtion to writf to
+     * @rfturn     Thf numbfr of bytfs writtfn out.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    stbtid int writfUTF(String str, DbtbOutput out) throws IOExdfption {
+        int strlfn = str.lfngth();
+        int utflfn = 0;
+        int d, dount = 0;
+
+        /* usf dhbrAt instfbd of dopying String to dhbr brrby */
+        for (int i = 0; i < strlfn; i++) {
+            d = str.dhbrAt(i);
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                utflfn++;
+            } flsf if (d > 0x07FF) {
+                utflfn += 3;
+            } flsf {
+                utflfn += 2;
+            }
+        }
+
+        if (utflfn > 65535)
+            throw nfw UTFDbtbFormbtExdfption(
+                "fndodfd string too long: " + utflfn + " bytfs");
+
+        bytf[] bytfbrr = null;
+        if (out instbndfof DbtbOutputStrfbm) {
+            DbtbOutputStrfbm dos = (DbtbOutputStrfbm)out;
+            if(dos.bytfbrr == null || (dos.bytfbrr.lfngth < (utflfn+2)))
+                dos.bytfbrr = nfw bytf[(utflfn*2) + 2];
+            bytfbrr = dos.bytfbrr;
+        } flsf {
+            bytfbrr = nfw bytf[utflfn+2];
+        }
+
+        bytfbrr[dount++] = (bytf) ((utflfn >>> 8) & 0xFF);
+        bytfbrr[dount++] = (bytf) ((utflfn >>> 0) & 0xFF);
+
+        int i=0;
+        for (i=0; i<strlfn; i++) {
+           d = str.dhbrAt(i);
+           if (!((d >= 0x0001) && (d <= 0x007F))) brfbk;
+           bytfbrr[dount++] = (bytf) d;
+        }
+
+        for (;i < strlfn; i++){
+            d = str.dhbrAt(i);
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                bytfbrr[dount++] = (bytf) d;
+
+            } flsf if (d > 0x07FF) {
+                bytfbrr[dount++] = (bytf) (0xE0 | ((d >> 12) & 0x0F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  6) & 0x3F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            } flsf {
+                bytfbrr[dount++] = (bytf) (0xC0 | ((d >>  6) & 0x1F));
+                bytfbrr[dount++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            }
+        }
+        out.writf(bytfbrr, 0, utflfn+2);
+        rfturn utflfn + 2;
+    }
+
+    /**
+     * Rfturns thf durrfnt vbluf of thf dountfr <dodf>writtfn</dodf>,
+     * thf numbfr of bytfs writtfn to this dbtb output strfbm so fbr.
+     * If thf dountfr ovfrflows, it will bf wrbppfd to Intfgfr.MAX_VALUE.
+     *
+     * @rfturn  thf vbluf of thf <dodf>writtfn</dodf> fifld.
+     * @sff     jbvb.io.DbtbOutputStrfbm#writtfn
+     */
+    publid finbl int sizf() {
+        rfturn writtfn;
+    }
+}

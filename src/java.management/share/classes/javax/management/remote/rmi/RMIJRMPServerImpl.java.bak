@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
-import java.io.IOException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.RemoteObject;
-import java.util.Map;
-import java.util.Collections;
-import javax.security.auth.Subject;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
+import jbvbx.sfdurity.buti.Subjfdt;
 
-import com.sun.jmx.remote.internal.RMIExporter;
-import com.sun.jmx.remote.util.EnvHelp;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.server.UnicastServerRef2;
+import dom.sun.jmx.rfmotf.intfrnbl.RMIExportfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff2;
 
 /**
- * <p>An {@link RMIServer} object that is exported through JRMP and that
- * creates client connections as RMI objects exported through JRMP.
- * User code does not usually reference this class directly.</p>
+ * <p>An {@link RMISfrvfr} objfdt tibt is fxportfd tirougi JRMP bnd tibt
+ * drfbtfs dlifnt donnfdtions bs RMI objfdts fxportfd tirougi JRMP.
+ * Usfr dodf dofs not usublly rfffrfndf tiis dlbss dirfdtly.</p>
  *
- * @see RMIServerImpl
+ * @sff RMISfrvfrImpl
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class RMIJRMPServerImpl extends RMIServerImpl {
+publid dlbss RMIJRMPSfrvfrImpl fxtfnds RMISfrvfrImpl {
     /**
-     * <p>Creates a new {@link RMIServer} object that will be exported
-     * on the given port using the given socket factories.</p>
+     * <p>Crfbtfs b nfw {@link RMISfrvfr} objfdt tibt will bf fxportfd
+     * on tif givfn port using tif givfn sodkft fbdtorifs.</p>
      *
-     * @param port the port on which this object and the {@link
-     * RMIConnectionImpl} objects it creates will be exported.  Can be
-     * zero, to indicate any available port.
+     * @pbrbm port tif port on wiidi tiis objfdt bnd tif {@link
+     * RMIConnfdtionImpl} objfdts it drfbtfs will bf fxportfd.  Cbn bf
+     * zfro, to indidbtf bny bvbilbblf port.
      *
-     * @param csf the client socket factory for the created RMI
-     * objects.  Can be null.
+     * @pbrbm dsf tif dlifnt sodkft fbdtory for tif drfbtfd RMI
+     * objfdts.  Cbn bf null.
      *
-     * @param ssf the server socket factory for the created RMI
-     * objects.  Can be null.
+     * @pbrbm ssf tif sfrvfr sodkft fbdtory for tif drfbtfd RMI
+     * objfdts.  Cbn bf null.
      *
-     * @param env the environment map.  Can be null.
+     * @pbrbm fnv tif fnvironmfnt mbp.  Cbn bf null.
      *
-     * @exception IOException if the {@link RMIServer} object
-     * cannot be created.
+     * @fxdfption IOExdfption if tif {@link RMISfrvfr} objfdt
+     * dbnnot bf drfbtfd.
      *
-     * @exception IllegalArgumentException if <code>port</code> is
-     * negative.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>port</dodf> is
+     * nfgbtivf.
      */
-    public RMIJRMPServerImpl(int port,
-                             RMIClientSocketFactory csf,
-                             RMIServerSocketFactory ssf,
-                             Map<String,?> env)
-            throws IOException {
+    publid RMIJRMPSfrvfrImpl(int port,
+                             RMIClifntSodkftFbdtory dsf,
+                             RMISfrvfrSodkftFbdtory ssf,
+                             Mbp<String,?> fnv)
+            tirows IOExdfption {
 
-        super(env);
+        supfr(fnv);
 
         if (port < 0)
-            throw new IllegalArgumentException("Negative port: " + port);
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf port: " + port);
 
-        this.port = port;
-        this.csf = csf;
-        this.ssf = ssf;
-        this.env = (env == null) ? Collections.<String, Object>emptyMap() : env;
+        tiis.port = port;
+        tiis.dsf = dsf;
+        tiis.ssf = ssf;
+        tiis.fnv = (fnv == null) ? Collfdtions.<String, Objfdt>fmptyMbp() : fnv;
     }
 
-    protected void export() throws IOException {
-        export(this);
+    protfdtfd void fxport() tirows IOExdfption {
+        fxport(tiis);
     }
 
-    private void export(Remote obj) throws RemoteException {
-        final RMIExporter exporter =
-            (RMIExporter) env.get(RMIExporter.EXPORTER_ATTRIBUTE);
-        final boolean daemon = EnvHelp.isServerDaemon(env);
+    privbtf void fxport(Rfmotf obj) tirows RfmotfExdfption {
+        finbl RMIExportfr fxportfr =
+            (RMIExportfr) fnv.gft(RMIExportfr.EXPORTER_ATTRIBUTE);
+        finbl boolfbn dbfmon = EnvHflp.isSfrvfrDbfmon(fnv);
 
-        if (daemon && exporter != null) {
-            throw new IllegalArgumentException("If "+EnvHelp.JMX_SERVER_DAEMON+
-                    " is specified as true, "+RMIExporter.EXPORTER_ATTRIBUTE+
-                    " cannot be used to specify an exporter!");
+        if (dbfmon && fxportfr != null) {
+            tirow nfw IllfgblArgumfntExdfption("If "+EnvHflp.JMX_SERVER_DAEMON+
+                    " is spfdififd bs truf, "+RMIExportfr.EXPORTER_ATTRIBUTE+
+                    " dbnnot bf usfd to spfdify bn fxportfr!");
         }
 
-        if (daemon) {
-            if (csf == null && ssf == null) {
-                new UnicastServerRef(port).exportObject(obj, null, true);
-            } else {
-                new UnicastServerRef2(port, csf, ssf).exportObject(obj, null, true);
+        if (dbfmon) {
+            if (dsf == null && ssf == null) {
+                nfw UnidbstSfrvfrRff(port).fxportObjfdt(obj, null, truf);
+            } flsf {
+                nfw UnidbstSfrvfrRff2(port, dsf, ssf).fxportObjfdt(obj, null, truf);
             }
-        } else if (exporter != null) {
-            exporter.exportObject(obj, port, csf, ssf);
-        } else {
-            UnicastRemoteObject.exportObject(obj, port, csf, ssf);
+        } flsf if (fxportfr != null) {
+            fxportfr.fxportObjfdt(obj, port, dsf, ssf);
+        } flsf {
+            UnidbstRfmotfObjfdt.fxportObjfdt(obj, port, dsf, ssf);
         }
     }
 
-    private void unexport(Remote obj, boolean force)
-            throws NoSuchObjectException {
-        RMIExporter exporter =
-            (RMIExporter) env.get(RMIExporter.EXPORTER_ATTRIBUTE);
-        if (exporter == null)
-            UnicastRemoteObject.unexportObject(obj, force);
-        else
-            exporter.unexportObject(obj, force);
+    privbtf void unfxport(Rfmotf obj, boolfbn fordf)
+            tirows NoSudiObjfdtExdfption {
+        RMIExportfr fxportfr =
+            (RMIExportfr) fnv.gft(RMIExportfr.EXPORTER_ATTRIBUTE);
+        if (fxportfr == null)
+            UnidbstRfmotfObjfdt.unfxportObjfdt(obj, fordf);
+        flsf
+            fxportfr.unfxportObjfdt(obj, fordf);
     }
 
-    protected String getProtocol() {
-        return "rmi";
+    protfdtfd String gftProtodol() {
+        rfturn "rmi";
     }
 
     /**
-     * <p>Returns a serializable stub for this {@link RMIServer} object.</p>
+     * <p>Rfturns b sfriblizbblf stub for tiis {@link RMISfrvfr} objfdt.</p>
      *
-     * @return a serializable stub.
+     * @rfturn b sfriblizbblf stub.
      *
-     * @exception IOException if the stub cannot be obtained - e.g the
-     *            RMIJRMPServerImpl has not been exported yet.
+     * @fxdfption IOExdfption if tif stub dbnnot bf obtbinfd - f.g tif
+     *            RMIJRMPSfrvfrImpl ibs not bffn fxportfd yft.
      */
-    public Remote toStub() throws IOException {
-        return RemoteObject.toStub(this);
+    publid Rfmotf toStub() tirows IOExdfption {
+        rfturn RfmotfObjfdt.toStub(tiis);
     }
 
     /**
-     * <p>Creates a new client connection as an RMI object exported
-     * through JRMP. The port and socket factories for the new
-     * {@link RMIConnection} object are the ones supplied
-     * to the <code>RMIJRMPServerImpl</code> constructor.</p>
+     * <p>Crfbtfs b nfw dlifnt donnfdtion bs bn RMI objfdt fxportfd
+     * tirougi JRMP. Tif port bnd sodkft fbdtorifs for tif nfw
+     * {@link RMIConnfdtion} objfdt brf tif onfs supplifd
+     * to tif <dodf>RMIJRMPSfrvfrImpl</dodf> donstrudtor.</p>
      *
-     * @param connectionId the ID of the new connection. Every
-     * connection opened by this connector server will have a
-     * different id.  The behavior is unspecified if this parameter is
+     * @pbrbm donnfdtionId tif ID of tif nfw donnfdtion. Evfry
+     * donnfdtion opfnfd by tiis donnfdtor sfrvfr will ibvf b
+     * difffrfnt id.  Tif bfibvior is unspfdififd if tiis pbrbmftfr is
      * null.
      *
-     * @param subject the authenticated subject.  Can be null.
+     * @pbrbm subjfdt tif butifntidbtfd subjfdt.  Cbn bf null.
      *
-     * @return the newly-created <code>RMIConnection</code>.
+     * @rfturn tif nfwly-drfbtfd <dodf>RMIConnfdtion</dodf>.
      *
-     * @exception IOException if the new {@link RMIConnection}
-     * object cannot be created or exported.
+     * @fxdfption IOExdfption if tif nfw {@link RMIConnfdtion}
+     * objfdt dbnnot bf drfbtfd or fxportfd.
      */
-    protected RMIConnection makeClient(String connectionId, Subject subject)
-            throws IOException {
+    protfdtfd RMIConnfdtion mbkfClifnt(String donnfdtionId, Subjfdt subjfdt)
+            tirows IOExdfption {
 
-        if (connectionId == null)
-            throw new NullPointerException("Null connectionId");
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Null donnfdtionId");
 
-        RMIConnection client =
-            new RMIConnectionImpl(this, connectionId, getDefaultClassLoader(),
-                                  subject, env);
-        export(client);
-        return client;
+        RMIConnfdtion dlifnt =
+            nfw RMIConnfdtionImpl(tiis, donnfdtionId, gftDffbultClbssLobdfr(),
+                                  subjfdt, fnv);
+        fxport(dlifnt);
+        rfturn dlifnt;
     }
 
-    protected void closeClient(RMIConnection client) throws IOException {
-        unexport(client, true);
+    protfdtfd void dlosfClifnt(RMIConnfdtion dlifnt) tirows IOExdfption {
+        unfxport(dlifnt, truf);
     }
 
     /**
-     * <p>Called by {@link #close()} to close the connector server by
-     * unexporting this object.  After returning from this method, the
-     * connector server must not accept any new connections.</p>
+     * <p>Cbllfd by {@link #dlosf()} to dlosf tif donnfdtor sfrvfr by
+     * unfxporting tiis objfdt.  Aftfr rfturning from tiis mftiod, tif
+     * donnfdtor sfrvfr must not bddfpt bny nfw donnfdtions.</p>
      *
-     * @exception IOException if the attempt to close the connector
-     * server failed.
+     * @fxdfption IOExdfption if tif bttfmpt to dlosf tif donnfdtor
+     * sfrvfr fbilfd.
      */
-    protected void closeServer() throws IOException {
-        unexport(this, true);
+    protfdtfd void dlosfSfrvfr() tirows IOExdfption {
+        unfxport(tiis, truf);
     }
 
-    private final int port;
-    private final RMIClientSocketFactory csf;
-    private final RMIServerSocketFactory ssf;
-    private final Map<String, ?> env;
+    privbtf finbl int port;
+    privbtf finbl RMIClifntSodkftFbdtory dsf;
+    privbtf finbl RMISfrvfrSodkftFbdtory ssf;
+    privbtf finbl Mbp<String, ?> fnv;
 }

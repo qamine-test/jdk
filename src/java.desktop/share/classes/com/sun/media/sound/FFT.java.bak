@@ -1,747 +1,747 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * Fast Fourier Transformer.
+ * Fbst Fourifr Trbnsformfr.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class FFT {
+publid finbl dlbss FFT {
 
-    private final double[] w;
-    private final int fftFrameSize;
-    private final int sign;
-    private final int[] bitm_array;
-    private final int fftFrameSize2;
+    privbtf finbl doublf[] w;
+    privbtf finbl int fftFrbmfSizf;
+    privbtf finbl int sign;
+    privbtf finbl int[] bitm_brrby;
+    privbtf finbl int fftFrbmfSizf2;
 
-    // Sign = -1 is FFT, 1 is IFFT (inverse FFT)
-    // Data = Interlaced double array to be transformed.
-    // The order is: real (sin), complex (cos)
-    // Framesize must be power of 2
-    public FFT(int fftFrameSize, int sign) {
-        w = computeTwiddleFactors(fftFrameSize, sign);
+    // Sign = -1 is FFT, 1 is IFFT (invfrsf FFT)
+    // Dbtb = Intfrlbdfd doublf brrby to bf trbnsformfd.
+    // Tif ordfr is: rfbl (sin), domplfx (dos)
+    // Frbmfsizf must bf powfr of 2
+    publid FFT(int fftFrbmfSizf, int sign) {
+        w = domputfTwiddlfFbdtors(fftFrbmfSizf, sign);
 
-        this.fftFrameSize = fftFrameSize;
-        this.sign = sign;
-        fftFrameSize2 = fftFrameSize << 1;
+        tiis.fftFrbmfSizf = fftFrbmfSizf;
+        tiis.sign = sign;
+        fftFrbmfSizf2 = fftFrbmfSizf << 1;
 
-        // Pre-process Bit-Reversal
-        bitm_array = new int[fftFrameSize2];
-        for (int i = 2; i < fftFrameSize2; i += 2) {
+        // Prf-prodfss Bit-Rfvfrsbl
+        bitm_brrby = nfw int[fftFrbmfSizf2];
+        for (int i = 2; i < fftFrbmfSizf2; i += 2) {
             int j;
             int bitm;
-            for (bitm = 2, j = 0; bitm < fftFrameSize2; bitm <<= 1) {
+            for (bitm = 2, j = 0; bitm < fftFrbmfSizf2; bitm <<= 1) {
                 if ((i & bitm) != 0)
                     j++;
                 j <<= 1;
             }
-            bitm_array[i] = j;
+            bitm_brrby[i] = j;
         }
 
     }
 
-    public void transform(double[] data) {
-        bitreversal(data);
-        calc(fftFrameSize, data, sign, w);
+    publid void trbnsform(doublf[] dbtb) {
+        bitrfvfrsbl(dbtb);
+        dbld(fftFrbmfSizf, dbtb, sign, w);
     }
 
-    private final static double[] computeTwiddleFactors(int fftFrameSize,
+    privbtf finbl stbtid doublf[] domputfTwiddlfFbdtors(int fftFrbmfSizf,
             int sign) {
 
-        int imax = (int) (Math.log(fftFrameSize) / Math.log(2.));
+        int imbx = (int) (Mbti.log(fftFrbmfSizf) / Mbti.log(2.));
 
-        double[] warray = new double[(fftFrameSize - 1) * 4];
-        int w_index = 0;
+        doublf[] wbrrby = nfw doublf[(fftFrbmfSizf - 1) * 4];
+        int w_indfx = 0;
 
-        for (int i = 0,  nstep = 2; i < imax; i++) {
-            int jmax = nstep;
-            nstep <<= 1;
+        for (int i = 0,  nstfp = 2; i < imbx; i++) {
+            int jmbx = nstfp;
+            nstfp <<= 1;
 
-            double wr = 1.0;
-            double wi = 0.0;
+            doublf wr = 1.0;
+            doublf wi = 0.0;
 
-            double arg = Math.PI / (jmax >> 1);
-            double wfr = Math.cos(arg);
-            double wfi = sign * Math.sin(arg);
+            doublf brg = Mbti.PI / (jmbx >> 1);
+            doublf wfr = Mbti.dos(brg);
+            doublf wfi = sign * Mbti.sin(brg);
 
-            for (int j = 0; j < jmax; j += 2) {
-                warray[w_index++] = wr;
-                warray[w_index++] = wi;
+            for (int j = 0; j < jmbx; j += 2) {
+                wbrrby[w_indfx++] = wr;
+                wbrrby[w_indfx++] = wi;
 
-                double tempr = wr;
-                wr = tempr * wfr - wi * wfi;
-                wi = tempr * wfi + wi * wfr;
+                doublf tfmpr = wr;
+                wr = tfmpr * wfr - wi * wfi;
+                wi = tfmpr * wfi + wi * wfr;
             }
         }
 
-        // PRECOMPUTATION of wwr1, wwi1 for factor 4 Decomposition (3 * complex
-        // operators and 8 +/- complex operators)
+        // PRECOMPUTATION of wwr1, wwi1 for fbdtor 4 Dfdomposition (3 * domplfx
+        // opfrbtors bnd 8 +/- domplfx opfrbtors)
         {
-            w_index = 0;
-            int w_index2 = warray.length >> 1;
-            for (int i = 0,  nstep = 2; i < (imax - 1); i++) {
-                int jmax = nstep;
-                nstep *= 2;
+            w_indfx = 0;
+            int w_indfx2 = wbrrby.lfngti >> 1;
+            for (int i = 0,  nstfp = 2; i < (imbx - 1); i++) {
+                int jmbx = nstfp;
+                nstfp *= 2;
 
-                int ii = w_index + jmax;
-                for (int j = 0; j < jmax; j += 2) {
-                    double wr = warray[w_index++];
-                    double wi = warray[w_index++];
-                    double wr1 = warray[ii++];
-                    double wi1 = warray[ii++];
-                    warray[w_index2++] = wr * wr1 - wi * wi1;
-                    warray[w_index2++] = wr * wi1 + wi * wr1;
+                int ii = w_indfx + jmbx;
+                for (int j = 0; j < jmbx; j += 2) {
+                    doublf wr = wbrrby[w_indfx++];
+                    doublf wi = wbrrby[w_indfx++];
+                    doublf wr1 = wbrrby[ii++];
+                    doublf wi1 = wbrrby[ii++];
+                    wbrrby[w_indfx2++] = wr * wr1 - wi * wi1;
+                    wbrrby[w_indfx2++] = wr * wi1 + wi * wr1;
                 }
             }
 
         }
 
-        return warray;
+        rfturn wbrrby;
     }
 
-    private final static void calc(int fftFrameSize, double[] data, int sign,
-            double[] w) {
+    privbtf finbl stbtid void dbld(int fftFrbmfSizf, doublf[] dbtb, int sign,
+            doublf[] w) {
 
-        final int fftFrameSize2 = fftFrameSize << 1;
+        finbl int fftFrbmfSizf2 = fftFrbmfSizf << 1;
 
-        int nstep = 2;
+        int nstfp = 2;
 
-        if (nstep >= fftFrameSize2)
-            return;
-        int i = nstep - 2;
+        if (nstfp >= fftFrbmfSizf2)
+            rfturn;
+        int i = nstfp - 2;
         if (sign == -1)
-            calcF4F(fftFrameSize, data, i, nstep, w);
-        else
-            calcF4I(fftFrameSize, data, i, nstep, w);
+            dbldF4F(fftFrbmfSizf, dbtb, i, nstfp, w);
+        flsf
+            dbldF4I(fftFrbmfSizf, dbtb, i, nstfp, w);
 
     }
 
-    private final static void calcF2E(int fftFrameSize, double[] data, int i,
-            int nstep, double[] w) {
-        int jmax = nstep;
-        for (int n = 0; n < jmax; n += 2) {
-            double wr = w[i++];
-            double wi = w[i++];
-            int m = n + jmax;
-            double datam_r = data[m];
-            double datam_i = data[m + 1];
-            double datan_r = data[n];
-            double datan_i = data[n + 1];
-            double tempr = datam_r * wr - datam_i * wi;
-            double tempi = datam_r * wi + datam_i * wr;
-            data[m] = datan_r - tempr;
-            data[m + 1] = datan_i - tempi;
-            data[n] = datan_r + tempr;
-            data[n + 1] = datan_i + tempi;
+    privbtf finbl stbtid void dbldF2E(int fftFrbmfSizf, doublf[] dbtb, int i,
+            int nstfp, doublf[] w) {
+        int jmbx = nstfp;
+        for (int n = 0; n < jmbx; n += 2) {
+            doublf wr = w[i++];
+            doublf wi = w[i++];
+            int m = n + jmbx;
+            doublf dbtbm_r = dbtb[m];
+            doublf dbtbm_i = dbtb[m + 1];
+            doublf dbtbn_r = dbtb[n];
+            doublf dbtbn_i = dbtb[n + 1];
+            doublf tfmpr = dbtbm_r * wr - dbtbm_i * wi;
+            doublf tfmpi = dbtbm_r * wi + dbtbm_i * wr;
+            dbtb[m] = dbtbn_r - tfmpr;
+            dbtb[m + 1] = dbtbn_i - tfmpi;
+            dbtb[n] = dbtbn_r + tfmpr;
+            dbtb[n + 1] = dbtbn_i + tfmpi;
         }
-        return;
+        rfturn;
 
     }
 
-    // Perform Factor-4 Decomposition with 3 * complex operators and 8 +/-
-    // complex operators
-    private final static void calcF4F(int fftFrameSize, double[] data, int i,
-            int nstep, double[] w) {
-        final int fftFrameSize2 = fftFrameSize << 1; // 2*fftFrameSize;
-        // Factor-4 Decomposition
+    // Pfrform Fbdtor-4 Dfdomposition witi 3 * domplfx opfrbtors bnd 8 +/-
+    // domplfx opfrbtors
+    privbtf finbl stbtid void dbldF4F(int fftFrbmfSizf, doublf[] dbtb, int i,
+            int nstfp, doublf[] w) {
+        finbl int fftFrbmfSizf2 = fftFrbmfSizf << 1; // 2*fftFrbmfSizf;
+        // Fbdtor-4 Dfdomposition
 
-        int w_len = w.length >> 1;
-        while (nstep < fftFrameSize2) {
+        int w_lfn = w.lfngti >> 1;
+        wiilf (nstfp < fftFrbmfSizf2) {
 
-            if (nstep << 2 == fftFrameSize2) {
-                // Goto Factor-4 Final Decomposition
-                // calcF4E(data, i, nstep, -1, w);
-                calcF4FE(fftFrameSize, data, i, nstep, w);
-                return;
+            if (nstfp << 2 == fftFrbmfSizf2) {
+                // Goto Fbdtor-4 Finbl Dfdomposition
+                // dbldF4E(dbtb, i, nstfp, -1, w);
+                dbldF4FE(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
             }
-            int jmax = nstep;
-            int nnstep = nstep << 1;
-            if (nnstep == fftFrameSize2) {
-                // Factor-4 Decomposition not possible
-                calcF2E(fftFrameSize, data, i, nstep, w);
-                return;
+            int jmbx = nstfp;
+            int nnstfp = nstfp << 1;
+            if (nnstfp == fftFrbmfSizf2) {
+                // Fbdtor-4 Dfdomposition not possiblf
+                dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
             }
-            nstep <<= 2;
-            int ii = i + jmax;
-            int iii = i + w_len;
+            nstfp <<= 2;
+            int ii = i + jmbx;
+            int iii = i + w_lfn;
 
             {
                 i += 2;
                 ii += 2;
                 iii += 2;
 
-                for (int n = 0; n < fftFrameSize2; n += nstep) {
-                    int m = n + jmax;
+                for (int n = 0; n < fftFrbmfSizf2; n += nstfp) {
+                    int m = n + jmbx;
 
-                    double datam1_r = data[m];
-                    double datam1_i = data[m + 1];
-                    double datan1_r = data[n];
-                    double datan1_i = data[n + 1];
+                    doublf dbtbm1_r = dbtb[m];
+                    doublf dbtbm1_i = dbtb[m + 1];
+                    doublf dbtbn1_r = dbtb[n];
+                    doublf dbtbn1_i = dbtb[n + 1];
 
-                    n += nnstep;
-                    m += nnstep;
-                    double datam2_r = data[m];
-                    double datam2_i = data[m + 1];
-                    double datan2_r = data[n];
-                    double datan2_i = data[n + 1];
+                    n += nnstfp;
+                    m += nnstfp;
+                    doublf dbtbm2_r = dbtb[m];
+                    doublf dbtbm2_i = dbtb[m + 1];
+                    doublf dbtbn2_r = dbtb[n];
+                    doublf dbtbn2_i = dbtb[n + 1];
 
-                    double tempr = datam1_r;
-                    double tempi = datam1_i;
+                    doublf tfmpr = dbtbm1_r;
+                    doublf tfmpi = dbtbm1_i;
 
-                    datam1_r = datan1_r - tempr;
-                    datam1_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbm1_r = dbtbn1_r - tfmpr;
+                    dbtbm1_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    double n2w1r = datan2_r;
-                    double n2w1i = datan2_i;
-                    double m2ww1r = datam2_r;
-                    double m2ww1i = datam2_i;
+                    doublf n2w1r = dbtbn2_r;
+                    doublf n2w1i = dbtbn2_i;
+                    doublf m2ww1r = dbtbm2_r;
+                    doublf m2ww1i = dbtbm2_i;
 
-                    tempr = m2ww1r - n2w1r;
-                    tempi = m2ww1i - n2w1i;
+                    tfmpr = m2ww1r - n2w1r;
+                    tfmpi = m2ww1i - n2w1i;
 
-                    datam2_r = datam1_r + tempi;
-                    datam2_i = datam1_i - tempr;
-                    datam1_r = datam1_r - tempi;
-                    datam1_i = datam1_i + tempr;
+                    dbtbm2_r = dbtbm1_r + tfmpi;
+                    dbtbm2_i = dbtbm1_i - tfmpr;
+                    dbtbm1_r = dbtbm1_r - tfmpi;
+                    dbtbm1_i = dbtbm1_i + tfmpr;
 
-                    tempr = n2w1r + m2ww1r;
-                    tempi = n2w1i + m2ww1i;
+                    tfmpr = n2w1r + m2ww1r;
+                    tfmpi = n2w1i + m2ww1i;
 
-                    datan2_r = datan1_r - tempr;
-                    datan2_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbn2_r = dbtbn1_r - tfmpr;
+                    dbtbn2_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    data[m] = datam2_r;
-                    data[m + 1] = datam2_i;
-                    data[n] = datan2_r;
-                    data[n + 1] = datan2_i;
+                    dbtb[m] = dbtbm2_r;
+                    dbtb[m + 1] = dbtbm2_i;
+                    dbtb[n] = dbtbn2_r;
+                    dbtb[n + 1] = dbtbn2_i;
 
-                    n -= nnstep;
-                    m -= nnstep;
-                    data[m] = datam1_r;
-                    data[m + 1] = datam1_i;
-                    data[n] = datan1_r;
-                    data[n + 1] = datan1_i;
+                    n -= nnstfp;
+                    m -= nnstfp;
+                    dbtb[m] = dbtbm1_r;
+                    dbtb[m + 1] = dbtbm1_i;
+                    dbtb[n] = dbtbn1_r;
+                    dbtb[n + 1] = dbtbn1_i;
 
                 }
             }
 
-            for (int j = 2; j < jmax; j += 2) {
-                double wr = w[i++];
-                double wi = w[i++];
-                double wr1 = w[ii++];
-                double wi1 = w[ii++];
-                double wwr1 = w[iii++];
-                double wwi1 = w[iii++];
-                // double wwr1 = wr * wr1 - wi * wi1; // these numbers can be
-                // precomputed!!!
-                // double wwi1 = wr * wi1 + wi * wr1;
+            for (int j = 2; j < jmbx; j += 2) {
+                doublf wr = w[i++];
+                doublf wi = w[i++];
+                doublf wr1 = w[ii++];
+                doublf wi1 = w[ii++];
+                doublf wwr1 = w[iii++];
+                doublf wwi1 = w[iii++];
+                // doublf wwr1 = wr * wr1 - wi * wi1; // tifsf numbfrs dbn bf
+                // prfdomputfd!!!
+                // doublf wwi1 = wr * wi1 + wi * wr1;
 
-                for (int n = j; n < fftFrameSize2; n += nstep) {
-                    int m = n + jmax;
+                for (int n = j; n < fftFrbmfSizf2; n += nstfp) {
+                    int m = n + jmbx;
 
-                    double datam1_r = data[m];
-                    double datam1_i = data[m + 1];
-                    double datan1_r = data[n];
-                    double datan1_i = data[n + 1];
+                    doublf dbtbm1_r = dbtb[m];
+                    doublf dbtbm1_i = dbtb[m + 1];
+                    doublf dbtbn1_r = dbtb[n];
+                    doublf dbtbn1_i = dbtb[n + 1];
 
-                    n += nnstep;
-                    m += nnstep;
-                    double datam2_r = data[m];
-                    double datam2_i = data[m + 1];
-                    double datan2_r = data[n];
-                    double datan2_i = data[n + 1];
+                    n += nnstfp;
+                    m += nnstfp;
+                    doublf dbtbm2_r = dbtb[m];
+                    doublf dbtbm2_i = dbtb[m + 1];
+                    doublf dbtbn2_r = dbtb[n];
+                    doublf dbtbn2_i = dbtb[n + 1];
 
-                    double tempr = datam1_r * wr - datam1_i * wi;
-                    double tempi = datam1_r * wi + datam1_i * wr;
+                    doublf tfmpr = dbtbm1_r * wr - dbtbm1_i * wi;
+                    doublf tfmpi = dbtbm1_r * wi + dbtbm1_i * wr;
 
-                    datam1_r = datan1_r - tempr;
-                    datam1_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbm1_r = dbtbn1_r - tfmpr;
+                    dbtbm1_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    double n2w1r = datan2_r * wr1 - datan2_i * wi1;
-                    double n2w1i = datan2_r * wi1 + datan2_i * wr1;
-                    double m2ww1r = datam2_r * wwr1 - datam2_i * wwi1;
-                    double m2ww1i = datam2_r * wwi1 + datam2_i * wwr1;
+                    doublf n2w1r = dbtbn2_r * wr1 - dbtbn2_i * wi1;
+                    doublf n2w1i = dbtbn2_r * wi1 + dbtbn2_i * wr1;
+                    doublf m2ww1r = dbtbm2_r * wwr1 - dbtbm2_i * wwi1;
+                    doublf m2ww1i = dbtbm2_r * wwi1 + dbtbm2_i * wwr1;
 
-                    tempr = m2ww1r - n2w1r;
-                    tempi = m2ww1i - n2w1i;
+                    tfmpr = m2ww1r - n2w1r;
+                    tfmpi = m2ww1i - n2w1i;
 
-                    datam2_r = datam1_r + tempi;
-                    datam2_i = datam1_i - tempr;
-                    datam1_r = datam1_r - tempi;
-                    datam1_i = datam1_i + tempr;
+                    dbtbm2_r = dbtbm1_r + tfmpi;
+                    dbtbm2_i = dbtbm1_i - tfmpr;
+                    dbtbm1_r = dbtbm1_r - tfmpi;
+                    dbtbm1_i = dbtbm1_i + tfmpr;
 
-                    tempr = n2w1r + m2ww1r;
-                    tempi = n2w1i + m2ww1i;
+                    tfmpr = n2w1r + m2ww1r;
+                    tfmpi = n2w1i + m2ww1i;
 
-                    datan2_r = datan1_r - tempr;
-                    datan2_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbn2_r = dbtbn1_r - tfmpr;
+                    dbtbn2_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    data[m] = datam2_r;
-                    data[m + 1] = datam2_i;
-                    data[n] = datan2_r;
-                    data[n + 1] = datan2_i;
+                    dbtb[m] = dbtbm2_r;
+                    dbtb[m + 1] = dbtbm2_i;
+                    dbtb[n] = dbtbn2_r;
+                    dbtb[n + 1] = dbtbn2_i;
 
-                    n -= nnstep;
-                    m -= nnstep;
-                    data[m] = datam1_r;
-                    data[m + 1] = datam1_i;
-                    data[n] = datan1_r;
-                    data[n + 1] = datan1_i;
+                    n -= nnstfp;
+                    m -= nnstfp;
+                    dbtb[m] = dbtbm1_r;
+                    dbtb[m + 1] = dbtbm1_i;
+                    dbtb[n] = dbtbn1_r;
+                    dbtb[n + 1] = dbtbn1_i;
                 }
             }
 
-            i += jmax << 1;
+            i += jmbx << 1;
 
         }
 
-        calcF2E(fftFrameSize, data, i, nstep, w);
+        dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
 
     }
 
-    // Perform Factor-4 Decomposition with 3 * complex operators and 8 +/-
-    // complex operators
-    private final static void calcF4I(int fftFrameSize, double[] data, int i,
-            int nstep, double[] w) {
-        final int fftFrameSize2 = fftFrameSize << 1; // 2*fftFrameSize;
-        // Factor-4 Decomposition
+    // Pfrform Fbdtor-4 Dfdomposition witi 3 * domplfx opfrbtors bnd 8 +/-
+    // domplfx opfrbtors
+    privbtf finbl stbtid void dbldF4I(int fftFrbmfSizf, doublf[] dbtb, int i,
+            int nstfp, doublf[] w) {
+        finbl int fftFrbmfSizf2 = fftFrbmfSizf << 1; // 2*fftFrbmfSizf;
+        // Fbdtor-4 Dfdomposition
 
-        int w_len = w.length >> 1;
-        while (nstep < fftFrameSize2) {
+        int w_lfn = w.lfngti >> 1;
+        wiilf (nstfp < fftFrbmfSizf2) {
 
-            if (nstep << 2 == fftFrameSize2) {
-                // Goto Factor-4 Final Decomposition
-                // calcF4E(data, i, nstep, 1, w);
-                calcF4IE(fftFrameSize, data, i, nstep, w);
-                return;
+            if (nstfp << 2 == fftFrbmfSizf2) {
+                // Goto Fbdtor-4 Finbl Dfdomposition
+                // dbldF4E(dbtb, i, nstfp, 1, w);
+                dbldF4IE(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
             }
-            int jmax = nstep;
-            int nnstep = nstep << 1;
-            if (nnstep == fftFrameSize2) {
-                // Factor-4 Decomposition not possible
-                calcF2E(fftFrameSize, data, i, nstep, w);
-                return;
+            int jmbx = nstfp;
+            int nnstfp = nstfp << 1;
+            if (nnstfp == fftFrbmfSizf2) {
+                // Fbdtor-4 Dfdomposition not possiblf
+                dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
             }
-            nstep <<= 2;
-            int ii = i + jmax;
-            int iii = i + w_len;
+            nstfp <<= 2;
+            int ii = i + jmbx;
+            int iii = i + w_lfn;
             {
                 i += 2;
                 ii += 2;
                 iii += 2;
 
-                for (int n = 0; n < fftFrameSize2; n += nstep) {
-                    int m = n + jmax;
+                for (int n = 0; n < fftFrbmfSizf2; n += nstfp) {
+                    int m = n + jmbx;
 
-                    double datam1_r = data[m];
-                    double datam1_i = data[m + 1];
-                    double datan1_r = data[n];
-                    double datan1_i = data[n + 1];
+                    doublf dbtbm1_r = dbtb[m];
+                    doublf dbtbm1_i = dbtb[m + 1];
+                    doublf dbtbn1_r = dbtb[n];
+                    doublf dbtbn1_i = dbtb[n + 1];
 
-                    n += nnstep;
-                    m += nnstep;
-                    double datam2_r = data[m];
-                    double datam2_i = data[m + 1];
-                    double datan2_r = data[n];
-                    double datan2_i = data[n + 1];
+                    n += nnstfp;
+                    m += nnstfp;
+                    doublf dbtbm2_r = dbtb[m];
+                    doublf dbtbm2_i = dbtb[m + 1];
+                    doublf dbtbn2_r = dbtb[n];
+                    doublf dbtbn2_i = dbtb[n + 1];
 
-                    double tempr = datam1_r;
-                    double tempi = datam1_i;
+                    doublf tfmpr = dbtbm1_r;
+                    doublf tfmpi = dbtbm1_i;
 
-                    datam1_r = datan1_r - tempr;
-                    datam1_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbm1_r = dbtbn1_r - tfmpr;
+                    dbtbm1_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    double n2w1r = datan2_r;
-                    double n2w1i = datan2_i;
-                    double m2ww1r = datam2_r;
-                    double m2ww1i = datam2_i;
+                    doublf n2w1r = dbtbn2_r;
+                    doublf n2w1i = dbtbn2_i;
+                    doublf m2ww1r = dbtbm2_r;
+                    doublf m2ww1i = dbtbm2_i;
 
-                    tempr = n2w1r - m2ww1r;
-                    tempi = n2w1i - m2ww1i;
+                    tfmpr = n2w1r - m2ww1r;
+                    tfmpi = n2w1i - m2ww1i;
 
-                    datam2_r = datam1_r + tempi;
-                    datam2_i = datam1_i - tempr;
-                    datam1_r = datam1_r - tempi;
-                    datam1_i = datam1_i + tempr;
+                    dbtbm2_r = dbtbm1_r + tfmpi;
+                    dbtbm2_i = dbtbm1_i - tfmpr;
+                    dbtbm1_r = dbtbm1_r - tfmpi;
+                    dbtbm1_i = dbtbm1_i + tfmpr;
 
-                    tempr = n2w1r + m2ww1r;
-                    tempi = n2w1i + m2ww1i;
+                    tfmpr = n2w1r + m2ww1r;
+                    tfmpi = n2w1i + m2ww1i;
 
-                    datan2_r = datan1_r - tempr;
-                    datan2_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
+                    dbtbn2_r = dbtbn1_r - tfmpr;
+                    dbtbn2_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
 
-                    data[m] = datam2_r;
-                    data[m + 1] = datam2_i;
-                    data[n] = datan2_r;
-                    data[n + 1] = datan2_i;
+                    dbtb[m] = dbtbm2_r;
+                    dbtb[m + 1] = dbtbm2_i;
+                    dbtb[n] = dbtbn2_r;
+                    dbtb[n + 1] = dbtbn2_i;
 
-                    n -= nnstep;
-                    m -= nnstep;
-                    data[m] = datam1_r;
-                    data[m + 1] = datam1_i;
-                    data[n] = datan1_r;
-                    data[n + 1] = datan1_i;
-
-                }
-
-            }
-            for (int j = 2; j < jmax; j += 2) {
-                double wr = w[i++];
-                double wi = w[i++];
-                double wr1 = w[ii++];
-                double wi1 = w[ii++];
-                double wwr1 = w[iii++];
-                double wwi1 = w[iii++];
-                // double wwr1 = wr * wr1 - wi * wi1; // these numbers can be
-                // precomputed!!!
-                // double wwi1 = wr * wi1 + wi * wr1;
-
-                for (int n = j; n < fftFrameSize2; n += nstep) {
-                    int m = n + jmax;
-
-                    double datam1_r = data[m];
-                    double datam1_i = data[m + 1];
-                    double datan1_r = data[n];
-                    double datan1_i = data[n + 1];
-
-                    n += nnstep;
-                    m += nnstep;
-                    double datam2_r = data[m];
-                    double datam2_i = data[m + 1];
-                    double datan2_r = data[n];
-                    double datan2_i = data[n + 1];
-
-                    double tempr = datam1_r * wr - datam1_i * wi;
-                    double tempi = datam1_r * wi + datam1_i * wr;
-
-                    datam1_r = datan1_r - tempr;
-                    datam1_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
-
-                    double n2w1r = datan2_r * wr1 - datan2_i * wi1;
-                    double n2w1i = datan2_r * wi1 + datan2_i * wr1;
-                    double m2ww1r = datam2_r * wwr1 - datam2_i * wwi1;
-                    double m2ww1i = datam2_r * wwi1 + datam2_i * wwr1;
-
-                    tempr = n2w1r - m2ww1r;
-                    tempi = n2w1i - m2ww1i;
-
-                    datam2_r = datam1_r + tempi;
-                    datam2_i = datam1_i - tempr;
-                    datam1_r = datam1_r - tempi;
-                    datam1_i = datam1_i + tempr;
-
-                    tempr = n2w1r + m2ww1r;
-                    tempi = n2w1i + m2ww1i;
-
-                    datan2_r = datan1_r - tempr;
-                    datan2_i = datan1_i - tempi;
-                    datan1_r = datan1_r + tempr;
-                    datan1_i = datan1_i + tempi;
-
-                    data[m] = datam2_r;
-                    data[m + 1] = datam2_i;
-                    data[n] = datan2_r;
-                    data[n + 1] = datan2_i;
-
-                    n -= nnstep;
-                    m -= nnstep;
-                    data[m] = datam1_r;
-                    data[m + 1] = datam1_i;
-                    data[n] = datan1_r;
-                    data[n + 1] = datan1_i;
+                    n -= nnstfp;
+                    m -= nnstfp;
+                    dbtb[m] = dbtbm1_r;
+                    dbtb[m + 1] = dbtbm1_i;
+                    dbtb[n] = dbtbn1_r;
+                    dbtb[n + 1] = dbtbn1_i;
 
                 }
+
+            }
+            for (int j = 2; j < jmbx; j += 2) {
+                doublf wr = w[i++];
+                doublf wi = w[i++];
+                doublf wr1 = w[ii++];
+                doublf wi1 = w[ii++];
+                doublf wwr1 = w[iii++];
+                doublf wwi1 = w[iii++];
+                // doublf wwr1 = wr * wr1 - wi * wi1; // tifsf numbfrs dbn bf
+                // prfdomputfd!!!
+                // doublf wwi1 = wr * wi1 + wi * wr1;
+
+                for (int n = j; n < fftFrbmfSizf2; n += nstfp) {
+                    int m = n + jmbx;
+
+                    doublf dbtbm1_r = dbtb[m];
+                    doublf dbtbm1_i = dbtb[m + 1];
+                    doublf dbtbn1_r = dbtb[n];
+                    doublf dbtbn1_i = dbtb[n + 1];
+
+                    n += nnstfp;
+                    m += nnstfp;
+                    doublf dbtbm2_r = dbtb[m];
+                    doublf dbtbm2_i = dbtb[m + 1];
+                    doublf dbtbn2_r = dbtb[n];
+                    doublf dbtbn2_i = dbtb[n + 1];
+
+                    doublf tfmpr = dbtbm1_r * wr - dbtbm1_i * wi;
+                    doublf tfmpi = dbtbm1_r * wi + dbtbm1_i * wr;
+
+                    dbtbm1_r = dbtbn1_r - tfmpr;
+                    dbtbm1_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
+
+                    doublf n2w1r = dbtbn2_r * wr1 - dbtbn2_i * wi1;
+                    doublf n2w1i = dbtbn2_r * wi1 + dbtbn2_i * wr1;
+                    doublf m2ww1r = dbtbm2_r * wwr1 - dbtbm2_i * wwi1;
+                    doublf m2ww1i = dbtbm2_r * wwi1 + dbtbm2_i * wwr1;
+
+                    tfmpr = n2w1r - m2ww1r;
+                    tfmpi = n2w1i - m2ww1i;
+
+                    dbtbm2_r = dbtbm1_r + tfmpi;
+                    dbtbm2_i = dbtbm1_i - tfmpr;
+                    dbtbm1_r = dbtbm1_r - tfmpi;
+                    dbtbm1_i = dbtbm1_i + tfmpr;
+
+                    tfmpr = n2w1r + m2ww1r;
+                    tfmpi = n2w1i + m2ww1i;
+
+                    dbtbn2_r = dbtbn1_r - tfmpr;
+                    dbtbn2_i = dbtbn1_i - tfmpi;
+                    dbtbn1_r = dbtbn1_r + tfmpr;
+                    dbtbn1_i = dbtbn1_i + tfmpi;
+
+                    dbtb[m] = dbtbm2_r;
+                    dbtb[m + 1] = dbtbm2_i;
+                    dbtb[n] = dbtbn2_r;
+                    dbtb[n + 1] = dbtbn2_i;
+
+                    n -= nnstfp;
+                    m -= nnstfp;
+                    dbtb[m] = dbtbm1_r;
+                    dbtb[m + 1] = dbtbm1_i;
+                    dbtb[n] = dbtbn1_r;
+                    dbtb[n + 1] = dbtbn1_i;
+
+                }
             }
 
-            i += jmax << 1;
+            i += jmbx << 1;
 
         }
 
-        calcF2E(fftFrameSize, data, i, nstep, w);
+        dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
 
     }
 
-    // Perform Factor-4 Decomposition with 3 * complex operators and 8 +/-
-    // complex operators
-    private final static void calcF4FE(int fftFrameSize, double[] data, int i,
-            int nstep, double[] w) {
-        final int fftFrameSize2 = fftFrameSize << 1; // 2*fftFrameSize;
-        // Factor-4 Decomposition
+    // Pfrform Fbdtor-4 Dfdomposition witi 3 * domplfx opfrbtors bnd 8 +/-
+    // domplfx opfrbtors
+    privbtf finbl stbtid void dbldF4FE(int fftFrbmfSizf, doublf[] dbtb, int i,
+            int nstfp, doublf[] w) {
+        finbl int fftFrbmfSizf2 = fftFrbmfSizf << 1; // 2*fftFrbmfSizf;
+        // Fbdtor-4 Dfdomposition
 
-        int w_len = w.length >> 1;
-        while (nstep < fftFrameSize2) {
+        int w_lfn = w.lfngti >> 1;
+        wiilf (nstfp < fftFrbmfSizf2) {
 
-            int jmax = nstep;
-            int nnstep = nstep << 1;
-            if (nnstep == fftFrameSize2) {
-                // Factor-4 Decomposition not possible
-                calcF2E(fftFrameSize, data, i, nstep, w);
-                return;
+            int jmbx = nstfp;
+            int nnstfp = nstfp << 1;
+            if (nnstfp == fftFrbmfSizf2) {
+                // Fbdtor-4 Dfdomposition not possiblf
+                dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
             }
-            nstep <<= 2;
-            int ii = i + jmax;
-            int iii = i + w_len;
-            for (int n = 0; n < jmax; n += 2) {
-                double wr = w[i++];
-                double wi = w[i++];
-                double wr1 = w[ii++];
-                double wi1 = w[ii++];
-                double wwr1 = w[iii++];
-                double wwi1 = w[iii++];
-                // double wwr1 = wr * wr1 - wi * wi1; // these numbers can be
-                // precomputed!!!
-                // double wwi1 = wr * wi1 + wi * wr1;
+            nstfp <<= 2;
+            int ii = i + jmbx;
+            int iii = i + w_lfn;
+            for (int n = 0; n < jmbx; n += 2) {
+                doublf wr = w[i++];
+                doublf wi = w[i++];
+                doublf wr1 = w[ii++];
+                doublf wi1 = w[ii++];
+                doublf wwr1 = w[iii++];
+                doublf wwi1 = w[iii++];
+                // doublf wwr1 = wr * wr1 - wi * wi1; // tifsf numbfrs dbn bf
+                // prfdomputfd!!!
+                // doublf wwi1 = wr * wi1 + wi * wr1;
 
-                int m = n + jmax;
+                int m = n + jmbx;
 
-                double datam1_r = data[m];
-                double datam1_i = data[m + 1];
-                double datan1_r = data[n];
-                double datan1_i = data[n + 1];
+                doublf dbtbm1_r = dbtb[m];
+                doublf dbtbm1_i = dbtb[m + 1];
+                doublf dbtbn1_r = dbtb[n];
+                doublf dbtbn1_i = dbtb[n + 1];
 
-                n += nnstep;
-                m += nnstep;
-                double datam2_r = data[m];
-                double datam2_i = data[m + 1];
-                double datan2_r = data[n];
-                double datan2_i = data[n + 1];
+                n += nnstfp;
+                m += nnstfp;
+                doublf dbtbm2_r = dbtb[m];
+                doublf dbtbm2_i = dbtb[m + 1];
+                doublf dbtbn2_r = dbtb[n];
+                doublf dbtbn2_i = dbtb[n + 1];
 
-                double tempr = datam1_r * wr - datam1_i * wi;
-                double tempi = datam1_r * wi + datam1_i * wr;
+                doublf tfmpr = dbtbm1_r * wr - dbtbm1_i * wi;
+                doublf tfmpi = dbtbm1_r * wi + dbtbm1_i * wr;
 
-                datam1_r = datan1_r - tempr;
-                datam1_i = datan1_i - tempi;
-                datan1_r = datan1_r + tempr;
-                datan1_i = datan1_i + tempi;
+                dbtbm1_r = dbtbn1_r - tfmpr;
+                dbtbm1_i = dbtbn1_i - tfmpi;
+                dbtbn1_r = dbtbn1_r + tfmpr;
+                dbtbn1_i = dbtbn1_i + tfmpi;
 
-                double n2w1r = datan2_r * wr1 - datan2_i * wi1;
-                double n2w1i = datan2_r * wi1 + datan2_i * wr1;
-                double m2ww1r = datam2_r * wwr1 - datam2_i * wwi1;
-                double m2ww1i = datam2_r * wwi1 + datam2_i * wwr1;
+                doublf n2w1r = dbtbn2_r * wr1 - dbtbn2_i * wi1;
+                doublf n2w1i = dbtbn2_r * wi1 + dbtbn2_i * wr1;
+                doublf m2ww1r = dbtbm2_r * wwr1 - dbtbm2_i * wwi1;
+                doublf m2ww1i = dbtbm2_r * wwi1 + dbtbm2_i * wwr1;
 
-                tempr = m2ww1r - n2w1r;
-                tempi = m2ww1i - n2w1i;
+                tfmpr = m2ww1r - n2w1r;
+                tfmpi = m2ww1i - n2w1i;
 
-                datam2_r = datam1_r + tempi;
-                datam2_i = datam1_i - tempr;
-                datam1_r = datam1_r - tempi;
-                datam1_i = datam1_i + tempr;
+                dbtbm2_r = dbtbm1_r + tfmpi;
+                dbtbm2_i = dbtbm1_i - tfmpr;
+                dbtbm1_r = dbtbm1_r - tfmpi;
+                dbtbm1_i = dbtbm1_i + tfmpr;
 
-                tempr = n2w1r + m2ww1r;
-                tempi = n2w1i + m2ww1i;
+                tfmpr = n2w1r + m2ww1r;
+                tfmpi = n2w1i + m2ww1i;
 
-                datan2_r = datan1_r - tempr;
-                datan2_i = datan1_i - tempi;
-                datan1_r = datan1_r + tempr;
-                datan1_i = datan1_i + tempi;
+                dbtbn2_r = dbtbn1_r - tfmpr;
+                dbtbn2_i = dbtbn1_i - tfmpi;
+                dbtbn1_r = dbtbn1_r + tfmpr;
+                dbtbn1_i = dbtbn1_i + tfmpi;
 
-                data[m] = datam2_r;
-                data[m + 1] = datam2_i;
-                data[n] = datan2_r;
-                data[n + 1] = datan2_i;
+                dbtb[m] = dbtbm2_r;
+                dbtb[m + 1] = dbtbm2_i;
+                dbtb[n] = dbtbn2_r;
+                dbtb[n + 1] = dbtbn2_i;
 
-                n -= nnstep;
-                m -= nnstep;
-                data[m] = datam1_r;
-                data[m + 1] = datam1_i;
-                data[n] = datan1_r;
-                data[n + 1] = datan1_i;
-
-            }
-
-            i += jmax << 1;
-
-        }
-
-    }
-
-    // Perform Factor-4 Decomposition with 3 * complex operators and 8 +/-
-    // complex operators
-    private final static void calcF4IE(int fftFrameSize, double[] data, int i,
-            int nstep, double[] w) {
-        final int fftFrameSize2 = fftFrameSize << 1; // 2*fftFrameSize;
-        // Factor-4 Decomposition
-
-        int w_len = w.length >> 1;
-        while (nstep < fftFrameSize2) {
-
-            int jmax = nstep;
-            int nnstep = nstep << 1;
-            if (nnstep == fftFrameSize2) {
-                // Factor-4 Decomposition not possible
-                calcF2E(fftFrameSize, data, i, nstep, w);
-                return;
-            }
-            nstep <<= 2;
-            int ii = i + jmax;
-            int iii = i + w_len;
-            for (int n = 0; n < jmax; n += 2) {
-                double wr = w[i++];
-                double wi = w[i++];
-                double wr1 = w[ii++];
-                double wi1 = w[ii++];
-                double wwr1 = w[iii++];
-                double wwi1 = w[iii++];
-                // double wwr1 = wr * wr1 - wi * wi1; // these numbers can be
-                // precomputed!!!
-                // double wwi1 = wr * wi1 + wi * wr1;
-
-                int m = n + jmax;
-
-                double datam1_r = data[m];
-                double datam1_i = data[m + 1];
-                double datan1_r = data[n];
-                double datan1_i = data[n + 1];
-
-                n += nnstep;
-                m += nnstep;
-                double datam2_r = data[m];
-                double datam2_i = data[m + 1];
-                double datan2_r = data[n];
-                double datan2_i = data[n + 1];
-
-                double tempr = datam1_r * wr - datam1_i * wi;
-                double tempi = datam1_r * wi + datam1_i * wr;
-
-                datam1_r = datan1_r - tempr;
-                datam1_i = datan1_i - tempi;
-                datan1_r = datan1_r + tempr;
-                datan1_i = datan1_i + tempi;
-
-                double n2w1r = datan2_r * wr1 - datan2_i * wi1;
-                double n2w1i = datan2_r * wi1 + datan2_i * wr1;
-                double m2ww1r = datam2_r * wwr1 - datam2_i * wwi1;
-                double m2ww1i = datam2_r * wwi1 + datam2_i * wwr1;
-
-                tempr = n2w1r - m2ww1r;
-                tempi = n2w1i - m2ww1i;
-
-                datam2_r = datam1_r + tempi;
-                datam2_i = datam1_i - tempr;
-                datam1_r = datam1_r - tempi;
-                datam1_i = datam1_i + tempr;
-
-                tempr = n2w1r + m2ww1r;
-                tempi = n2w1i + m2ww1i;
-
-                datan2_r = datan1_r - tempr;
-                datan2_i = datan1_i - tempi;
-                datan1_r = datan1_r + tempr;
-                datan1_i = datan1_i + tempi;
-
-                data[m] = datam2_r;
-                data[m + 1] = datam2_i;
-                data[n] = datan2_r;
-                data[n + 1] = datan2_i;
-
-                n -= nnstep;
-                m -= nnstep;
-                data[m] = datam1_r;
-                data[m + 1] = datam1_i;
-                data[n] = datan1_r;
-                data[n + 1] = datan1_i;
+                n -= nnstfp;
+                m -= nnstfp;
+                dbtb[m] = dbtbm1_r;
+                dbtb[m + 1] = dbtbm1_i;
+                dbtb[n] = dbtbn1_r;
+                dbtb[n + 1] = dbtbn1_i;
 
             }
 
-            i += jmax << 1;
+            i += jmbx << 1;
 
         }
 
     }
 
-    private final void bitreversal(double[] data) {
-        if (fftFrameSize < 4)
-            return;
+    // Pfrform Fbdtor-4 Dfdomposition witi 3 * domplfx opfrbtors bnd 8 +/-
+    // domplfx opfrbtors
+    privbtf finbl stbtid void dbldF4IE(int fftFrbmfSizf, doublf[] dbtb, int i,
+            int nstfp, doublf[] w) {
+        finbl int fftFrbmfSizf2 = fftFrbmfSizf << 1; // 2*fftFrbmfSizf;
+        // Fbdtor-4 Dfdomposition
 
-        int inverse = fftFrameSize2 - 2;
-        for (int i = 0; i < fftFrameSize; i += 4) {
-            int j = bitm_array[i];
+        int w_lfn = w.lfngti >> 1;
+        wiilf (nstfp < fftFrbmfSizf2) {
 
-            // Performing Bit-Reversal, even v.s. even, O(2N)
+            int jmbx = nstfp;
+            int nnstfp = nstfp << 1;
+            if (nnstfp == fftFrbmfSizf2) {
+                // Fbdtor-4 Dfdomposition not possiblf
+                dbldF2E(fftFrbmfSizf, dbtb, i, nstfp, w);
+                rfturn;
+            }
+            nstfp <<= 2;
+            int ii = i + jmbx;
+            int iii = i + w_lfn;
+            for (int n = 0; n < jmbx; n += 2) {
+                doublf wr = w[i++];
+                doublf wi = w[i++];
+                doublf wr1 = w[ii++];
+                doublf wi1 = w[ii++];
+                doublf wwr1 = w[iii++];
+                doublf wwi1 = w[iii++];
+                // doublf wwr1 = wr * wr1 - wi * wi1; // tifsf numbfrs dbn bf
+                // prfdomputfd!!!
+                // doublf wwi1 = wr * wi1 + wi * wr1;
+
+                int m = n + jmbx;
+
+                doublf dbtbm1_r = dbtb[m];
+                doublf dbtbm1_i = dbtb[m + 1];
+                doublf dbtbn1_r = dbtb[n];
+                doublf dbtbn1_i = dbtb[n + 1];
+
+                n += nnstfp;
+                m += nnstfp;
+                doublf dbtbm2_r = dbtb[m];
+                doublf dbtbm2_i = dbtb[m + 1];
+                doublf dbtbn2_r = dbtb[n];
+                doublf dbtbn2_i = dbtb[n + 1];
+
+                doublf tfmpr = dbtbm1_r * wr - dbtbm1_i * wi;
+                doublf tfmpi = dbtbm1_r * wi + dbtbm1_i * wr;
+
+                dbtbm1_r = dbtbn1_r - tfmpr;
+                dbtbm1_i = dbtbn1_i - tfmpi;
+                dbtbn1_r = dbtbn1_r + tfmpr;
+                dbtbn1_i = dbtbn1_i + tfmpi;
+
+                doublf n2w1r = dbtbn2_r * wr1 - dbtbn2_i * wi1;
+                doublf n2w1i = dbtbn2_r * wi1 + dbtbn2_i * wr1;
+                doublf m2ww1r = dbtbm2_r * wwr1 - dbtbm2_i * wwi1;
+                doublf m2ww1i = dbtbm2_r * wwi1 + dbtbm2_i * wwr1;
+
+                tfmpr = n2w1r - m2ww1r;
+                tfmpi = n2w1i - m2ww1i;
+
+                dbtbm2_r = dbtbm1_r + tfmpi;
+                dbtbm2_i = dbtbm1_i - tfmpr;
+                dbtbm1_r = dbtbm1_r - tfmpi;
+                dbtbm1_i = dbtbm1_i + tfmpr;
+
+                tfmpr = n2w1r + m2ww1r;
+                tfmpi = n2w1i + m2ww1i;
+
+                dbtbn2_r = dbtbn1_r - tfmpr;
+                dbtbn2_i = dbtbn1_i - tfmpi;
+                dbtbn1_r = dbtbn1_r + tfmpr;
+                dbtbn1_i = dbtbn1_i + tfmpi;
+
+                dbtb[m] = dbtbm2_r;
+                dbtb[m + 1] = dbtbm2_i;
+                dbtb[n] = dbtbn2_r;
+                dbtb[n + 1] = dbtbn2_i;
+
+                n -= nnstfp;
+                m -= nnstfp;
+                dbtb[m] = dbtbm1_r;
+                dbtb[m + 1] = dbtbm1_i;
+                dbtb[n] = dbtbn1_r;
+                dbtb[n + 1] = dbtbn1_i;
+
+            }
+
+            i += jmbx << 1;
+
+        }
+
+    }
+
+    privbtf finbl void bitrfvfrsbl(doublf[] dbtb) {
+        if (fftFrbmfSizf < 4)
+            rfturn;
+
+        int invfrsf = fftFrbmfSizf2 - 2;
+        for (int i = 0; i < fftFrbmfSizf; i += 4) {
+            int j = bitm_brrby[i];
+
+            // Pfrforming Bit-Rfvfrsbl, fvfn v.s. fvfn, O(2N)
             if (i < j) {
 
                 int n = i;
                 int m = j;
 
-                // COMPLEX: SWAP(data[n], data[m])
-                // Real Part
-                double tempr = data[n];
-                data[n] = data[m];
-                data[m] = tempr;
-                // Imagery Part
+                // COMPLEX: SWAP(dbtb[n], dbtb[m])
+                // Rfbl Pbrt
+                doublf tfmpr = dbtb[n];
+                dbtb[n] = dbtb[m];
+                dbtb[m] = tfmpr;
+                // Imbgfry Pbrt
                 n++;
                 m++;
-                double tempi = data[n];
-                data[n] = data[m];
-                data[m] = tempi;
+                doublf tfmpi = dbtb[n];
+                dbtb[n] = dbtb[m];
+                dbtb[m] = tfmpi;
 
-                n = inverse - i;
-                m = inverse - j;
+                n = invfrsf - i;
+                m = invfrsf - j;
 
-                // COMPLEX: SWAP(data[n], data[m])
-                // Real Part
-                tempr = data[n];
-                data[n] = data[m];
-                data[m] = tempr;
-                // Imagery Part
+                // COMPLEX: SWAP(dbtb[n], dbtb[m])
+                // Rfbl Pbrt
+                tfmpr = dbtb[n];
+                dbtb[n] = dbtb[m];
+                dbtb[m] = tfmpr;
+                // Imbgfry Pbrt
                 n++;
                 m++;
-                tempi = data[n];
-                data[n] = data[m];
-                data[m] = tempi;
+                tfmpi = dbtb[n];
+                dbtb[n] = dbtb[m];
+                dbtb[m] = tfmpi;
             }
 
-            // Performing Bit-Reversal, odd v.s. even, O(N)
+            // Pfrforming Bit-Rfvfrsbl, odd v.s. fvfn, O(N)
 
-            int m = j + fftFrameSize; // bitm_array[i+2];
-            // COMPLEX: SWAP(data[n], data[m])
-            // Real Part
+            int m = j + fftFrbmfSizf; // bitm_brrby[i+2];
+            // COMPLEX: SWAP(dbtb[n], dbtb[m])
+            // Rfbl Pbrt
             int n = i + 2;
-            double tempr = data[n];
-            data[n] = data[m];
-            data[m] = tempr;
-            // Imagery Part
+            doublf tfmpr = dbtb[n];
+            dbtb[n] = dbtb[m];
+            dbtb[m] = tfmpr;
+            // Imbgfry Pbrt
             n++;
             m++;
-            double tempi = data[n];
-            data[n] = data[m];
-            data[m] = tempi;
+            doublf tfmpi = dbtb[n];
+            dbtb[n] = dbtb[m];
+            dbtb[m] = tfmpi;
         }
 
     }

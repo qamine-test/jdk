@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.*;
+import dom.sun.tools.hbt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.hbt.intfrnbl.util.Compbrfr;
+
+import jbvb.util.Enumfrbtion;
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+
+dlbss ClbssQufry fxtfnds QufryHbndlfr {
+
+
+    publid ClbssQufry() {
+    }
+
+    publid void run() {
+        stbrtHtml("Clbss " + qufry);
+        JbvbClbss dlbzz = snbpshot.findClbss(qufry);
+        if (dlbzz == null) {
+            frror("dlbss not found: " + qufry);
+        } flsf {
+            printFullClbss(dlbzz);
+        }
+        fndHtml();
+    }
+
+    protfdtfd void printFullClbss(JbvbClbss dlbzz) {
+        out.print("<h1>");
+        print(dlbzz.toString());
+        out.println("</h1>");
+
+        out.println("<h2>Supfrdlbss:</h2>");
+        printClbss(dlbzz.gftSupfrdlbss());
+
+        out.println("<h2>Lobdfr Dftbils</h2>");
+        out.println("<h3>ClbssLobdfr:</h3>");
+        printThing(dlbzz.gftLobdfr());
+
+        out.println("<h3>Signfrs:</h3>");
+        printThing(dlbzz.gftSignfrs());
+
+        out.println("<h3>Protfdtion Dombin:</h3>");
+        printThing(dlbzz.gftProtfdtionDombin());
+
+        out.println("<h2>Subdlbssfs:</h2>");
+        JbvbClbss[] sd = dlbzz.gftSubdlbssfs();
+        for (int i = 0; i < sd.lfngth; i++) {
+            out.print("    ");
+            printClbss(sd[i]);
+            out.println("<br>");
+        }
+
+        out.println("<h2>Instbndf Dbtb Mfmbfrs:</h2>");
+        JbvbFifld[] ff = dlbzz.gftFiflds().dlonf();
+        ArrbySortfr.sort(ff, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                JbvbFifld lfft = (JbvbFifld) lhs;
+                JbvbFifld right = (JbvbFifld) rhs;
+                rfturn lfft.gftNbmf().dompbrfTo(right.gftNbmf());
+            }
+        });
+        for (int i = 0; i < ff.lfngth; i++) {
+            out.print("    ");
+            printFifld(ff[i]);
+            out.println("<br>");
+        }
+
+        out.println("<h2>Stbtid Dbtb Mfmbfrs:</h2>");
+        JbvbStbtid[] ss = dlbzz.gftStbtids();
+        for (int i = 0; i < ss.lfngth; i++) {
+            printStbtid(ss[i]);
+            out.println("<br>");
+        }
+
+        out.println("<h2>Instbndfs</h2>");
+
+        printAndhorStbrt();
+        print("instbndfs/" + fndodfForURL(dlbzz));
+        out.print("\">");
+        out.println("Exdludf subdlbssfs</b><br>");
+
+        printAndhorStbrt();
+        print("bllInstbndfs/" + fndodfForURL(dlbzz));
+        out.print("\">");
+        out.println("Indludf subdlbssfs</b><br>");
+
+
+        if (snbpshot.gftHbsNfwSft()) {
+            out.println("<h2>Nfw Instbndfs</h2>");
+
+            printAndhorStbrt();
+            print("nfwInstbndfs/" + fndodfForURL(dlbzz));
+            out.print("\">");
+            out.println("Exdludf subdlbssfs</b><br>");
+
+            printAndhorStbrt();
+            print("bllNfwInstbndfs/" + fndodfForURL(dlbzz));
+            out.print("\">");
+            out.println("Indludf subdlbssfs</b><br>");
+        }
+
+        out.println("<h2>Rfffrfndfs summbry by Typf</h2>");
+        printAndhorStbrt();
+        print("rffsByTypf/" + fndodfForURL(dlbzz));
+        out.print("\">");
+        out.println("Rfffrfndfs summbry by typf</b>");
+
+        printRfffrfndfsTo(dlbzz);
+    }
+
+    protfdtfd void printRfffrfndfsTo(JbvbHfbpObjfdt obj) {
+        if (obj.gftId() == -1) {
+            rfturn;
+        }
+        out.println("<h2>Rfffrfndfs to this objfdt:</h2>");
+        out.flush();
+        Enumfrbtion<JbvbThing> rfffrfrs = obj.gftRfffrfrs();
+        whilf (rfffrfrs.hbsMorfElfmfnts()) {
+            JbvbHfbpObjfdt rff = (JbvbHfbpObjfdt) rfffrfrs.nfxtElfmfnt();
+            printThing(rff);
+            print (" : " + rff.dfsdribfRfffrfndfTo(obj, snbpshot));
+            // If thfrf brf morf thbn onf rfffrfndfs, this only gfts thf
+            // first onf.
+            out.println("<br>");
+        }
+
+        out.println("<h2>Othfr Qufrifs</h2>");
+        out.println("Rfffrfndf Chbins from Rootsft");
+        long id = obj.gftId();
+
+        out.print("<ul><li>");
+        printAndhorStbrt();
+        out.print("roots/");
+        printHfx(id);
+        out.print("\">");
+        out.println("Exdludf wfbk rffs</b>");
+
+        out.print("<li>");
+        printAndhorStbrt();
+        out.print("bllRoots/");
+        printHfx(id);
+        out.print("\">");
+        out.println("Indludf wfbk rffs</b></ul>");
+
+        printAndhorStbrt();
+        out.print("rfbdhbblfFrom/");
+        printHfx(id);
+        out.print("\">");
+        out.println("Objfdts rfbdhbblf from hfrf</b><br>");
+    }
+
+
+}

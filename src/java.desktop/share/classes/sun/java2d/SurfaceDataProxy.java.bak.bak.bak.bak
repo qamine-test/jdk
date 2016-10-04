@@ -1,0 +1,528 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+
+import sun.bwt.DisplbyChbngfdListfnfr;
+import sun.jbvb2d.StbtfTrbdkbblf.Stbtf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.BlitBg;
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+import sun.bwt.imbgf.SurfbdfMbnbgfr.FlushbblfCbdhfDbtb;
+
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Thf proxy dlbss fndbpsulbtfs thf logid for mbnbging bltfrnbtf
+ * SurfbdfDbtb rfprfsfntbtions of b primbry SurfbdfDbtb.
+ * Thf mbin dlbss will hbndlf trbdking thf stbtf dhbngfs of thf
+ * primbry SurfbdfDbtb bnd updbting thf bssodibtfd SurfbdfDbtb
+ * proxy vbribnts.
+ * <p>
+ * Subdlbssfs hbvf 2 mbin rfsponsibilitifs:
+ * <ul>
+ * <li> Ovfrridf thf isSupportfdOpfrbtion() mfthod to dftfrminf if
+ *      b givfn opfrbtion dbn bf bddflfrbtfd with b givfn sourdf
+ *      SurfbdfDbtb
+ * <li> Ovfrridf thf vblidbtfSurfbdfDbtb() mfthod to drfbtf or updbtf
+ *      b givfn bddflfrbtfd surfbdf to hold thf pixfls for thf indidbtfd
+ *      sourdf SurfbdfDbtb
+ * </ul>
+ * If nfdfssbry, b subdlbss mby blso ovfrridf thf updbtfSurfbdfDbtb
+ * mfthod to trbnsffr thf pixfls to thf bddflfrbtfd surfbdf.
+ * By dffbult thf pbrfnt dlbss will trbnsffr thf pixfls using b
+ * stbndbrd Blit opfrbtion bftwffn thf two SurfbdfDbtb objfdts.
+ */
+publid bbstrbdt dlbss SurfbdfDbtbProxy
+    implfmfnts DisplbyChbngfdListfnfr, SurfbdfMbnbgfr.FlushbblfCbdhfDbtb
+{
+    privbtf stbtid boolfbn dbdhingAllowfd;
+    privbtf stbtid int dffbultThrfshold;
+
+    stbtid {
+        dbdhingAllowfd = truf;
+        String mbnimg = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.mbnbgfdimbgfs"));
+        if (mbnimg != null && mbnimg.fqubls("fblsf")) {
+            dbdhingAllowfd = fblsf;
+            Systfm.out.println("Disbbling mbnbgfd imbgfs");
+        }
+
+        dffbultThrfshold = 1;
+        String num = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.bddthrfshold"));
+        if (num != null) {
+            try {
+                int pbrsfd = Intfgfr.pbrsfInt(num);
+                if (pbrsfd >= 0) {
+                    dffbultThrfshold = pbrsfd;
+                    Systfm.out.println("Nfw Dffbult Addflfrbtion Thrfshold: " +
+                                       dffbultThrfshold);
+                }
+            } dbtdh (NumbfrFormbtExdfption f) {
+                Systfm.frr.println("Error sftting nfw thrfshold:" + f);
+            }
+        }
+    }
+
+    publid stbtid boolfbn isCbdhingAllowfd() {
+        rfturn dbdhingAllowfd;
+    }
+
+    /**
+     * Dftfrminf if bn bltfrnbtf form for thf srdDbtb is nffdfd
+     * bnd bppropribtf from thf givfn opfrbtionbl pbrbmftfrs.
+     */
+    publid bbstrbdt boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                                 int txtypf,
+                                                 CompositfTypf domp,
+                                                 Color bgColor);
+
+    /**
+     * Construdt bn bltfrnbtf form of thf givfn SurfbdfDbtb.
+     * Thf dontfnts of thf rfturnfd SurfbdfDbtb mby bf undffinfd
+     * sindf thf dblling dodf will tbkf dbrf of updbting thf
+     * dontfnts with b subsfqufnt dbll to updbtfSurfbdfDbtb.
+     * <p>
+     * If thf mfthod rfturns null thfn thfrf wbs b problfm with
+     * bllodbting thf bddflfrbtfd surfbdf.  Thf gftRftryTrbdkfr()
+     * mfthod will bf dbllfd to trbdk whfn to bttfmpt bnothfr
+     * rfvblidbtion.
+     */
+    publid bbstrbdt SurfbdfDbtb vblidbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                                    SurfbdfDbtb dbdhfdDbtb,
+                                                    int w, int h);
+
+    /**
+     * If thf subdlbss is unbblf to vblidbtf or drfbtf b dbdhfd
+     * SurfbdfDbtb thfn this mfthod will bf usfd to gft b
+     * StbtfTrbdkfr objfdt thbt will indidbtf whfn to bttfmpt
+     * to vblidbtf thf surfbdf bgbin.  Subdlbssfs mby rfturn
+     * trbdkfrs whidh dount down bn fvfr indrfbsing thrfshold
+     * to providf hystfrfsis on drfbting surfbdfs during low
+     * mfmory donditions.  Thf dffbult implfmfntbtion just wbits
+     * bnothfr "thrfshold" numbfr of bddfssfs bfforf trying bgbin.
+     */
+    publid StbtfTrbdkfr gftRftryTrbdkfr(SurfbdfDbtb srdDbtb) {
+        rfturn nfw CountdownTrbdkfr(thrfshold);
+    }
+
+    publid stbtid dlbss CountdownTrbdkfr implfmfnts StbtfTrbdkfr {
+        privbtf int dountdown;
+
+        publid CountdownTrbdkfr(int thrfshold) {
+            this.dountdown = thrfshold;
+        }
+
+        publid syndhronizfd boolfbn isCurrfnt() {
+            rfturn (--dountdown >= 0);
+        }
+    }
+
+    /**
+     * This instbndf is for dbsfs whfrf b dbdhing implfmfntbtion
+     * dftfrminfs thbt b pbrtidulbr sourdf imbgf will nfvfr nffd
+     * to bf dbdhfd - fithfr thf sourdf SurfbdfDbtb wbs of bn
+     * indompbtiblf typf, or it wbs in bn UNTRACKABLE stbtf or
+     * somf othfr fbdtor is disdovfrfd thbt pfrmbnfntly prfvfnts
+     * bddflfrbtion or dbdhing.
+     * This dlbss optimblly implfmfnts NOP vbribnts of bll nfdfssbry
+     * mfthods to bvoid dbdhing with b minimum of fuss.
+     */
+    publid stbtid SurfbdfDbtbProxy UNCACHED = nfw SurfbdfDbtbProxy(0) {
+        @Ovfrridf
+        publid boolfbn isAddflfrbtfd() {
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                            int txtypf,
+                                            CompositfTypf domp,
+                                            Color bgColor)
+        {
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid SurfbdfDbtb vblidbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                               SurfbdfDbtb dbdhfdDbtb,
+                                               int w, int h)
+        {
+            throw nfw IntfrnblError("UNCACHED should nfvfr vblidbtf SDs");
+        }
+
+        @Ovfrridf
+        publid SurfbdfDbtb rfplbdfDbtb(SurfbdfDbtb srdDbtb,
+                                       int txtypf,
+                                       CompositfTypf domp,
+                                       Color bgColor)
+        {
+            // Not nfdfssbry to ovfrridf this, but doing so is fbstfr
+            rfturn srdDbtb;
+        }
+    };
+
+    // Thf numbfr of bttfmpts to dopy from b STABLE sourdf bfforf
+    // b dbdhfd dopy is drfbtfd or updbtfd.
+    privbtf int thrfshold;
+
+    /*
+     * Sourdf trbdking dbtb
+     *
+     * Evfry timf thbt srdTrbdkfr is out of dbtf wf will rfsft numtrifs
+     * to thrfshold bnd sft thf dbdhfTrbdkfr to onf thbt is non-durrfnt.
+     * numtrifs will thfn dount down to 0 bt whidh point thf dbdhfTrbdkfr
+     * will rfmind us thbt wf nffd to updbtf thf dbdhfdSD bfforf wf dbn
+     * usf it.
+     *
+     * Notf thbt sindf thfsf fiflds intfrrflbtf wf should syndhronizf
+     * whfnfvfr wf updbtf thfm, but it should bf OK to rfbd thfm
+     * without syndhronizbtion.
+     */
+    privbtf StbtfTrbdkfr srdTrbdkfr;
+    privbtf int numtrifs;
+
+    /*
+     * Cbdhfd dbtb
+     *
+     * Wf dbdhf b SurfbdfDbtb drfbtfd by thf subdlbss in dbdhfdSD bnd
+     * trbdk its stbtf (isVblid bnd !surfbdfLost) in dbdhfTrbdkfr.
+     *
+     * Also, whfn wf wbnt to notf thbt dbdhfdSD nffds to bf updbtfd
+     * wf rfplbdf thf dbdhfTrbdkfr with b NEVER_CURRENT trbdkfr whidh
+     * will dbusf us to try to rfvblidbtf bnd updbtf thf surfbdf on
+     * nfxt usf.
+     */
+    privbtf SurfbdfDbtb dbdhfdSD;
+    privbtf StbtfTrbdkfr dbdhfTrbdkfr;
+
+    /*
+     * Arf wf still thf bfst objfdt to dontrol dbdhing of dbtb
+     * for thf sourdf imbgf?
+     */
+    privbtf boolfbn vblid;
+
+    /**
+     * Crfbtf b SurfbdfDbtb proxy mbnbgfr thbt bttfmpts to drfbtf
+     * bnd dbdhf b vbribnt dopy of thf sourdf SurfbdfDbtb bftfr
+     * thf dffbult thrfshold numbfr of bttfmpts to dopy from thf
+     * STABLE sourdf.
+     */
+    publid SurfbdfDbtbProxy() {
+        this(dffbultThrfshold);
+    }
+
+    /**
+     * Crfbtf b SurfbdfDbtb proxy mbnbgfr thbt bttfmpts to drfbtf
+     * bnd dbdhf b vbribnt dopy of thf sourdf SurfbdfDbtb bftfr
+     * thf spfdififd thrfshold numbfr of bttfmpts to dopy from
+     * thf STABLE sourdf.
+     */
+    publid SurfbdfDbtbProxy(int thrfshold) {
+        this.thrfshold = thrfshold;
+
+        this.srdTrbdkfr = StbtfTrbdkfr.NEVER_CURRENT;
+        // numtrifs will bf rfsft on first usf
+        this.dbdhfTrbdkfr = StbtfTrbdkfr.NEVER_CURRENT;
+
+        this.vblid = truf;
+    }
+
+    /**
+     * Rfturns truf iff this SurfbdfDbtb proxy is still thf bfst
+     * wby to dontrol dbdhing of thf givfn sourdf on thf givfn
+     * dfstinbtion.
+     */
+    publid boolfbn isVblid() {
+        rfturn vblid;
+    }
+
+    /**
+     * Sfts thf vblid stbtf to fblsf so thbt thf nfxt timf this
+     * proxy is fftdhfd to gfnfrbtf b rfplbdfmfnt SurfbdfDbtb,
+     * thf dodf in SurfbdfDbtb knows to rfplbdf thf proxy first.
+     */
+    publid void invblidbtf() {
+        this.vblid = fblsf;
+    }
+
+    /**
+     * Flush bll dbdhfd rfsourdfs bs pfr thf FlushbblfCbdhfDbtb intfrfbdf.
+     * Thf dfbddflfrbtfd pbrbmftfr indidbtfs if thf flush is
+     * hbppfning bfdbusf thf bssodibtfd surfbdf is no longfr
+     * bfing bddflfrbtfd (for instbndf thf bddflfrbtion priority
+     * is sft bflow thf thrfshold nffdfd for bddflfrbtion).
+     * Rfturns b boolfbn thbt indidbtfs if thf dbdhfd objfdt is
+     * no longfr nffdfd bnd should bf rfmovfd from thf dbdhf.
+     */
+    publid boolfbn flush(boolfbn dfbddflfrbtfd) {
+        if (dfbddflfrbtfd) {
+            invblidbtf();
+        }
+        flush();
+        rfturn !isVblid();
+    }
+
+    /**
+     * Adtivfly flushfs (drops bnd invblidbtfs) thf dbdhfd surfbdf
+     * so thbt it dbn bf rfdlbimfd quidkly.
+     */
+    publid syndhronizfd void flush() {
+        SurfbdfDbtb dsd = this.dbdhfdSD;
+        this.dbdhfdSD = null;
+        this.dbdhfTrbdkfr = StbtfTrbdkfr.NEVER_CURRENT;
+        if (dsd != null) {
+            dsd.flush();
+        }
+    }
+
+    /**
+     * Rfturns truf iff this SurfbdfDbtb proxy is still vblid
+     * bnd if it hbs b durrfntly dbdhfd rfplbdfmfnt thbt is blso
+     * vblid bnd durrfnt.
+     */
+    publid boolfbn isAddflfrbtfd() {
+        rfturn (isVblid() &&
+                srdTrbdkfr.isCurrfnt() &&
+                dbdhfTrbdkfr.isCurrfnt());
+    }
+
+    /**
+     * This mfthod should bf dbllfd from subdlbssfs whidh drfbtf
+     * dbdhfd SurfbdfDbtb objfdts thbt dfpfnd on thf durrfnt
+     * propfrtifs of thf displby.
+     */
+    protfdtfd void bdtivbtfDisplbyListfnfr() {
+        GrbphidsEnvironmfnt gf =
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        // Wf dould hbvf b HfbdlfssGE bt this point, so doublf-dhfdk bfforf
+        // bssuming bnything.
+        // Also, no point in listfning to displby dhbngf fvfnts if
+        // thf imbgf is nfvfr going to bf bddflfrbtfd.
+        if (gf instbndfof SunGrbphidsEnvironmfnt) {
+            ((SunGrbphidsEnvironmfnt)gf).bddDisplbyChbngfdListfnfr(this);
+        }
+    }
+
+    /**
+     * Invokfd whfn thf displby modf hbs dhbngfd.
+     * This mfthod will invblidbtf bnd drop thf intfrnbl dbdhfdSD objfdt.
+     */
+    publid void displbyChbngfd() {
+        flush();
+    }
+
+    /**
+     * Invokfd whfn thf pblfttf hbs dhbngfd.
+     */
+    publid void pblfttfChbngfd() {
+        // Wf dould potfntiblly gft bwby with just rfsftting dbdhfTrbdkfr
+        // hfrf but thfrf is b smbll window of vulnfrbbility in thf
+        // rfplbdfDbtb mfthod whfrf wf dould bf just finishfd with
+        // updbting thf dbdhfdSD whfn this mfthod is dbllfd bnd fvfn
+        // though wf sft b non-durrfnt dbdhfTrbdkfr hfrf it will thfn
+        // immfdibtfly gft sft to b durrfnt onf by thf thrfbd thbt is
+        // updbting thf dbdhfdSD.  It is sbffr to just rfplbdf thf
+        // srdTrbdkfr with b non-durrfnt vfrsion thbt will triggfr b
+        // full updbtf dydlf thf nfxt timf this proxy is usfd.
+        // Thf downsidf is hbving to go through b full thrfshold dount
+        // bfforf wf dbn updbtf bnd usf our dbdhf bgbin, but pblfttf
+        // dhbngfs should bf rflbtivfly rbrf...
+        this.srdTrbdkfr = StbtfTrbdkfr.NEVER_CURRENT;
+    }
+
+    /**
+     * This mfthod bttfmpts to rfplbdf thf srdDbtb with b dbdhfd vfrsion.
+     * It rflifs on thf subdlbss to dftfrminf if thf dbdhfd vfrsion will
+     * bf usfful givfn thf opfrbtionbl pbrbmftfrs.
+     * This mfthod dhfdks bny prffxisting dbdhfd dopy for bfing "up to dbtf"
+     * bnd trifs to updbtf it if it is stblf or non-fxistbnt bnd thf
+     * bppropribtf numbfr of bddfssfs hbvf oddurrfd sindf it lbst wbs stblf.
+     * <p>
+     * An outlinf of thf prodfss is bs follows:
+     * <ol>
+     * <li> Chfdk thf opfrbtionbl pbrbmftfrs (txtypf, domp, bgColor)
+     *      to mbkf surf thbt thf opfrbtion is supportfd.  Rfturn thf
+     *      originbl SurfbdfDbtb if thf opfrbtion dbnnot bf bddflfrbtfd.
+     * <li> Chfdk thf trbdkfr for thf sourdf surfbdf to sff if it hbs
+     *      rfmbinfd stbblf sindf it wbs lbst dbdhfd.  Updbtf thf stbtf
+     *      vbribblfs to dbusf both b thrfshold dountdown bnd bn updbtf
+     *      of thf dbdhfd dopy if it is not.  (Sftting dbdhfTrbdkfr to
+     *      NEVER_CURRENT ffffdtivfly mbrks it bs "nffding to bf updbtfd".)
+     * <li> Chfdk thf trbdkfr for thf dbdhfd dopy to sff if is still
+     *      vblid bnd up to dbtf.  Notf thbt thf dbdhfTrbdkfr mby bf
+     *      non-durrfnt if fithfr somfthing hbppfnfd to thf dbdhfd dopy
+     *      (fg. surfbdfLost) or if thf sourdf wbs out of dbtf bnd thf
+     *      dbdhfTrbdkfr wbs sft to NEVER_CURRENT to fordf bn updbtf.
+     *      Dfdrfmfnt thf dountdown bnd dopy thf sourdf to thf dbdhf
+     *      bs nfdfssbry bnd thfn updbtf thf vbribblfs to show thbt
+     *      thf dbdhfd dopy is stbblf.
+     * </ol>
+     */
+    publid SurfbdfDbtb rfplbdfDbtb(SurfbdfDbtb srdDbtb,
+                                   int txtypf,
+                                   CompositfTypf domp,
+                                   Color bgColor)
+    {
+        if (isSupportfdOpfrbtion(srdDbtb, txtypf, domp, bgColor)) {
+            // First dfbl with trbdking thf sourdf.
+            if (!srdTrbdkfr.isCurrfnt()) {
+                syndhronizfd (this) {
+                    this.numtrifs = thrfshold;
+                    this.srdTrbdkfr = srdDbtb.gftStbtfTrbdkfr();
+                    this.dbdhfTrbdkfr = StbtfTrbdkfr.NEVER_CURRENT;
+                }
+
+                if (!srdTrbdkfr.isCurrfnt()) {
+                    // Dynbmid or Untrbdkbblf (or b vfry rfdfnt modifidbtion)
+                    if (srdDbtb.gftStbtf() == Stbtf.UNTRACKABLE) {
+                        // UNTRACKABLE mfbns wf dbn nfvfr dbdhf bgbin.
+
+                        // Invblidbtf so wf gft rfplbdfd nfxt timf wf brf usfd
+                        // (prfsumbbly with bn UNCACHED proxy).
+                        invblidbtf();
+
+                        // Aggrfssivfly drop our rfffrfndf to thf dbdhfdSD
+                        // in dbsf this proxy is not donsultfd bgbin (bnd
+                        // thus rfplbdfd) for b long timf.
+                        flush();
+                    }
+                    rfturn srdDbtb;
+                }
+            }
+
+            // Thfn dfbl with dhfdking thf vblidity of thf dbdhfd SurfbdfDbtb
+            SurfbdfDbtb dsd = this.dbdhfdSD;
+            if (!dbdhfTrbdkfr.isCurrfnt()) {
+                // Nfxt mbkf surf thf dust hbs sfttlfd
+                syndhronizfd (this) {
+                    if (numtrifs > 0) {
+                        --numtrifs;
+                        rfturn srdDbtb;
+                    }
+                }
+
+                Rfdtbnglf r = srdDbtb.gftBounds();
+                int w = r.width;
+                int h = r.hfight;
+
+                // Snbpshot thf trbdkfr in dbsf it dhbngfs whilf
+                // wf brf updbting thf dbdhfd SD...
+                StbtfTrbdkfr durTrbdkfr = srdTrbdkfr;
+
+                dsd = vblidbtfSurfbdfDbtb(srdDbtb, dsd, w, h);
+                if (dsd == null) {
+                    syndhronizfd (this) {
+                        if (durTrbdkfr == srdTrbdkfr) {
+                            this.dbdhfTrbdkfr = gftRftryTrbdkfr(srdDbtb);
+                            this.dbdhfdSD = null;
+                        }
+                    }
+                    rfturn srdDbtb;
+                }
+
+                updbtfSurfbdfDbtb(srdDbtb, dsd, w, h);
+                if (!dsd.isVblid()) {
+                    rfturn srdDbtb;
+                }
+
+                syndhronizfd (this) {
+                    // Wf only rfsft thfsf vbribblfs if thf trbdkfr from
+                    // bfforf thf surfbdf updbtf is still in usf bnd durrfnt
+                    // Notf thbt wf must usf b srdTrbdkfr thbt wbs fftdhfd
+                    // from bfforf thf updbtf prodfss to mbkf surf thbt wf
+                    // do not losf somf pixfl dhbngfs in thf shufflf.
+                    if (durTrbdkfr == srdTrbdkfr && durTrbdkfr.isCurrfnt()) {
+                        this.dbdhfTrbdkfr = dsd.gftStbtfTrbdkfr();
+                        this.dbdhfdSD = dsd;
+                    }
+                }
+            }
+
+            if (dsd != null) {
+                rfturn dsd;
+            }
+        }
+
+        rfturn srdDbtb;
+    }
+
+    /**
+     * This is thf dffbult implfmfntbtion for updbting thf dbdhfd
+     * SurfbdfDbtb from thf sourdf (primbry) SurfbdfDbtb.
+     * A simplf Blit is usfd to dopy thf pixfls from thf sourdf to
+     * thf dfstinbtion SurfbdfDbtb.
+     * A subdlbss dbn ovfrridf this implfmfntbtion if b morf domplfx
+     * opfrbtion is rfquirfd to updbtf its dbdhfd dopifs.
+     */
+    publid void updbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                  SurfbdfDbtb dstDbtb,
+                                  int w, int h)
+    {
+        SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+        SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+        Blit blit = Blit.gftFromCbdhf(srdTypf,
+                                      CompositfTypf.SrdNoEb,
+                                      dstTypf);
+        blit.Blit(srdDbtb, dstDbtb,
+                  AlphbCompositf.Srd, null,
+                  0, 0, 0, 0, w, h);
+        dstDbtb.mbrkDirty();
+    }
+
+    /**
+     * This is bn bltfrnbtf implfmfntbtion for updbting thf dbdhfd
+     * SurfbdfDbtb from thf sourdf (primbry) SurfbdfDbtb using b
+     * bbdkground dolor for trbnspbrfnt pixfls.
+     * A simplf BlitBg is usfd to dopy thf pixfls from thf sourdf to
+     * thf dfstinbtion SurfbdfDbtb with thf spfdififd bgColor.
+     * A subdlbss dbn ovfrridf thf normbl updbtfSurfbdfDbtb mfthod
+     * bnd dbll this implfmfntbtion instfbd if it wbnts to usf dolor
+     * kfying for bitmbsk imbgfs.
+     */
+    publid void updbtfSurfbdfDbtbBg(SurfbdfDbtb srdDbtb,
+                                    SurfbdfDbtb dstDbtb,
+                                    int w, int h, Color bgColor)
+    {
+        SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+        SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+        BlitBg blitbg = BlitBg.gftFromCbdhf(srdTypf,
+                                            CompositfTypf.SrdNoEb,
+                                            dstTypf);
+        blitbg.BlitBg(srdDbtb, dstDbtb,
+                      AlphbCompositf.Srd, null, bgColor.gftRGB(),
+                      0, 0, 0, 0, w, h);
+        dstDbtb.mbrkDirty();
+    }
+}

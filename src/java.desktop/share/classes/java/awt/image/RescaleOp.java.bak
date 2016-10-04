@@ -1,666 +1,666 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.RenderingHints;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
+import sun.bwt.imbgf.ImbgingLib;
 
 /**
- * This class performs a pixel-by-pixel rescaling of the data in the
- * source image by multiplying the sample values for each pixel by a scale
- * factor and then adding an offset. The scaled sample values are clipped
- * to the minimum/maximum representable in the destination image.
+ * Tiis dlbss pfrforms b pixfl-by-pixfl rfsdbling of tif dbtb in tif
+ * sourdf imbgf by multiplying tif sbmplf vblufs for fbdi pixfl by b sdblf
+ * fbdtor bnd tifn bdding bn offsft. Tif sdblfd sbmplf vblufs brf dlippfd
+ * to tif minimum/mbximum rfprfsfntbblf in tif dfstinbtion imbgf.
  * <p>
- * The pseudo code for the rescaling operation is as follows:
- * <pre>
- *for each pixel from Source object {
- *    for each band/component of the pixel {
- *        dstElement = (srcElement*scaleFactor) + offset
+ * Tif psfudo dodf for tif rfsdbling opfrbtion is bs follows:
+ * <prf>
+ *for fbdi pixfl from Sourdf objfdt {
+ *    for fbdi bbnd/domponfnt of tif pixfl {
+ *        dstElfmfnt = (srdElfmfnt*sdblfFbdtor) + offsft
  *    }
  *}
- * </pre>
+ * </prf>
  * <p>
- * For Rasters, rescaling operates on bands.  The number of
- * sets of scaling constants may be one, in which case the same constants
- * are applied to all bands, or it must equal the number of Source
- * Raster bands.
+ * For Rbstfrs, rfsdbling opfrbtfs on bbnds.  Tif numbfr of
+ * sfts of sdbling donstbnts mby bf onf, in wiidi dbsf tif sbmf donstbnts
+ * brf bpplifd to bll bbnds, or it must fqubl tif numbfr of Sourdf
+ * Rbstfr bbnds.
  * <p>
- * For BufferedImages, rescaling operates on color and alpha components.
- * The number of sets of scaling constants may be one, in which case the
- * same constants are applied to all color (but not alpha) components.
- * Otherwise, the  number of sets of scaling constants may
- * equal the number of Source color components, in which case no
- * rescaling of the alpha component (if present) is performed.
- * If neither of these cases apply, the number of sets of scaling constants
- * must equal the number of Source color components plus alpha components,
- * in which case all color and alpha components are rescaled.
+ * For BufffrfdImbgfs, rfsdbling opfrbtfs on dolor bnd blpib domponfnts.
+ * Tif numbfr of sfts of sdbling donstbnts mby bf onf, in wiidi dbsf tif
+ * sbmf donstbnts brf bpplifd to bll dolor (but not blpib) domponfnts.
+ * Otifrwisf, tif  numbfr of sfts of sdbling donstbnts mby
+ * fqubl tif numbfr of Sourdf dolor domponfnts, in wiidi dbsf no
+ * rfsdbling of tif blpib domponfnt (if prfsfnt) is pfrformfd.
+ * If nfitifr of tifsf dbsfs bpply, tif numbfr of sfts of sdbling donstbnts
+ * must fqubl tif numbfr of Sourdf dolor domponfnts plus blpib domponfnts,
+ * in wiidi dbsf bll dolor bnd blpib domponfnts brf rfsdblfd.
  * <p>
- * BufferedImage sources with premultiplied alpha data are treated in the same
- * manner as non-premultiplied images for purposes of rescaling.  That is,
- * the rescaling is done per band on the raw data of the BufferedImage source
- * without regard to whether the data is premultiplied.  If a color conversion
- * is required to the destination ColorModel, the premultiplied state of
- * both source and destination will be taken into account for this step.
+ * BufffrfdImbgf sourdfs witi prfmultiplifd blpib dbtb brf trfbtfd in tif sbmf
+ * mbnnfr bs non-prfmultiplifd imbgfs for purposfs of rfsdbling.  Tibt is,
+ * tif rfsdbling is donf pfr bbnd on tif rbw dbtb of tif BufffrfdImbgf sourdf
+ * witiout rfgbrd to wiftifr tif dbtb is prfmultiplifd.  If b dolor donvfrsion
+ * is rfquirfd to tif dfstinbtion ColorModfl, tif prfmultiplifd stbtf of
+ * boti sourdf bnd dfstinbtion will bf tbkfn into bddount for tiis stfp.
  * <p>
- * Images with an IndexColorModel cannot be rescaled.
+ * Imbgfs witi bn IndfxColorModfl dbnnot bf rfsdblfd.
  * <p>
- * If a RenderingHints object is specified in the constructor, the
- * color rendering hint and the dithering hint may be used when color
- * conversion is required.
+ * If b RfndfringHints objfdt is spfdififd in tif donstrudtor, tif
+ * dolor rfndfring iint bnd tif ditifring iint mby bf usfd wifn dolor
+ * donvfrsion is rfquirfd.
  * <p>
- * Note that in-place operation is allowed (i.e. the source and destination can
- * be the same object).
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * Notf tibt in-plbdf opfrbtion is bllowfd (i.f. tif sourdf bnd dfstinbtion dbn
+ * bf tif sbmf objfdt).
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  */
-public class RescaleOp implements BufferedImageOp, RasterOp {
-    float[] scaleFactors;
-    float[] offsets;
-    int length = 0;
-    RenderingHints hints;
+publid dlbss RfsdblfOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    flobt[] sdblfFbdtors;
+    flobt[] offsfts;
+    int lfngti = 0;
+    RfndfringHints iints;
 
-    private int srcNbits;
-    private int dstNbits;
+    privbtf int srdNbits;
+    privbtf int dstNbits;
 
 
     /**
-     * Constructs a new RescaleOp with the desired scale factors
-     * and offsets.  The length of the scaleFactor and offset arrays
-     * must meet the restrictions stated in the class comments above.
-     * The RenderingHints argument may be null.
-     * @param scaleFactors the specified scale factors
-     * @param offsets the specified offsets
-     * @param hints the specified <code>RenderingHints</code>, or
-     *        <code>null</code>
+     * Construdts b nfw RfsdblfOp witi tif dfsirfd sdblf fbdtors
+     * bnd offsfts.  Tif lfngti of tif sdblfFbdtor bnd offsft brrbys
+     * must mfft tif rfstridtions stbtfd in tif dlbss dommfnts bbovf.
+     * Tif RfndfringHints brgumfnt mby bf null.
+     * @pbrbm sdblfFbdtors tif spfdififd sdblf fbdtors
+     * @pbrbm offsfts tif spfdififd offsfts
+     * @pbrbm iints tif spfdififd <dodf>RfndfringHints</dodf>, or
+     *        <dodf>null</dodf>
      */
-    public RescaleOp (float[] scaleFactors, float[] offsets,
-                      RenderingHints hints) {
-        length = scaleFactors.length;
-        if (length > offsets.length) length = offsets.length;
+    publid RfsdblfOp (flobt[] sdblfFbdtors, flobt[] offsfts,
+                      RfndfringHints iints) {
+        lfngti = sdblfFbdtors.lfngti;
+        if (lfngti > offsfts.lfngti) lfngti = offsfts.lfngti;
 
-        this.scaleFactors = new float[length];
-        this.offsets      = new float[length];
-        for (int i=0; i < length; i++) {
-            this.scaleFactors[i] = scaleFactors[i];
-            this.offsets[i]      = offsets[i];
+        tiis.sdblfFbdtors = nfw flobt[lfngti];
+        tiis.offsfts      = nfw flobt[lfngti];
+        for (int i=0; i < lfngti; i++) {
+            tiis.sdblfFbdtors[i] = sdblfFbdtors[i];
+            tiis.offsfts[i]      = offsfts[i];
         }
-        this.hints = hints;
+        tiis.iints = iints;
     }
 
     /**
-     * Constructs a new RescaleOp with the desired scale factor
-     * and offset.  The scaleFactor and offset will be applied to
-     * all bands in a source Raster and to all color (but not alpha)
-     * components in a BufferedImage.
-     * The RenderingHints argument may be null.
-     * @param scaleFactor the specified scale factor
-     * @param offset the specified offset
-     * @param hints the specified <code>RenderingHints</code>, or
-     *        <code>null</code>
+     * Construdts b nfw RfsdblfOp witi tif dfsirfd sdblf fbdtor
+     * bnd offsft.  Tif sdblfFbdtor bnd offsft will bf bpplifd to
+     * bll bbnds in b sourdf Rbstfr bnd to bll dolor (but not blpib)
+     * domponfnts in b BufffrfdImbgf.
+     * Tif RfndfringHints brgumfnt mby bf null.
+     * @pbrbm sdblfFbdtor tif spfdififd sdblf fbdtor
+     * @pbrbm offsft tif spfdififd offsft
+     * @pbrbm iints tif spfdififd <dodf>RfndfringHints</dodf>, or
+     *        <dodf>null</dodf>
      */
-    public RescaleOp (float scaleFactor, float offset, RenderingHints hints) {
-        length = 1;
-        this.scaleFactors = new float[1];
-        this.offsets      = new float[1];
-        this.scaleFactors[0] = scaleFactor;
-        this.offsets[0]       = offset;
-        this.hints = hints;
+    publid RfsdblfOp (flobt sdblfFbdtor, flobt offsft, RfndfringHints iints) {
+        lfngti = 1;
+        tiis.sdblfFbdtors = nfw flobt[1];
+        tiis.offsfts      = nfw flobt[1];
+        tiis.sdblfFbdtors[0] = sdblfFbdtor;
+        tiis.offsfts[0]       = offsft;
+        tiis.iints = iints;
     }
 
     /**
-     * Returns the scale factors in the given array. The array is also
-     * returned for convenience.  If scaleFactors is null, a new array
-     * will be allocated.
-     * @param scaleFactors the array to contain the scale factors of
-     *        this <code>RescaleOp</code>
-     * @return the scale factors of this <code>RescaleOp</code>.
+     * Rfturns tif sdblf fbdtors in tif givfn brrby. Tif brrby is blso
+     * rfturnfd for donvfnifndf.  If sdblfFbdtors is null, b nfw brrby
+     * will bf bllodbtfd.
+     * @pbrbm sdblfFbdtors tif brrby to dontbin tif sdblf fbdtors of
+     *        tiis <dodf>RfsdblfOp</dodf>
+     * @rfturn tif sdblf fbdtors of tiis <dodf>RfsdblfOp</dodf>.
      */
-    final public float[] getScaleFactors (float scaleFactors[]) {
-        if (scaleFactors == null) {
-            return this.scaleFactors.clone();
+    finbl publid flobt[] gftSdblfFbdtors (flobt sdblfFbdtors[]) {
+        if (sdblfFbdtors == null) {
+            rfturn tiis.sdblfFbdtors.dlonf();
         }
-        System.arraycopy (this.scaleFactors, 0, scaleFactors, 0,
-                          Math.min(this.scaleFactors.length,
-                                   scaleFactors.length));
-        return scaleFactors;
+        Systfm.brrbydopy (tiis.sdblfFbdtors, 0, sdblfFbdtors, 0,
+                          Mbti.min(tiis.sdblfFbdtors.lfngti,
+                                   sdblfFbdtors.lfngti));
+        rfturn sdblfFbdtors;
     }
 
     /**
-     * Returns the offsets in the given array. The array is also returned
-     * for convenience.  If offsets is null, a new array
-     * will be allocated.
-     * @param offsets the array to contain the offsets of
-     *        this <code>RescaleOp</code>
-     * @return the offsets of this <code>RescaleOp</code>.
+     * Rfturns tif offsfts in tif givfn brrby. Tif brrby is blso rfturnfd
+     * for donvfnifndf.  If offsfts is null, b nfw brrby
+     * will bf bllodbtfd.
+     * @pbrbm offsfts tif brrby to dontbin tif offsfts of
+     *        tiis <dodf>RfsdblfOp</dodf>
+     * @rfturn tif offsfts of tiis <dodf>RfsdblfOp</dodf>.
      */
-    final public float[] getOffsets(float offsets[]) {
-        if (offsets == null) {
-            return this.offsets.clone();
+    finbl publid flobt[] gftOffsfts(flobt offsfts[]) {
+        if (offsfts == null) {
+            rfturn tiis.offsfts.dlonf();
         }
 
-        System.arraycopy (this.offsets, 0, offsets, 0,
-                          Math.min(this.offsets.length, offsets.length));
-        return offsets;
+        Systfm.brrbydopy (tiis.offsfts, 0, offsfts, 0,
+                          Mbti.min(tiis.offsfts.lfngti, offsfts.lfngti));
+        rfturn offsfts;
     }
 
     /**
-     * Returns the number of scaling factors and offsets used in this
-     * RescaleOp.
-     * @return the number of scaling factors and offsets of this
-     *         <code>RescaleOp</code>.
+     * Rfturns tif numbfr of sdbling fbdtors bnd offsfts usfd in tiis
+     * RfsdblfOp.
+     * @rfturn tif numbfr of sdbling fbdtors bnd offsfts of tiis
+     *         <dodf>RfsdblfOp</dodf>.
      */
-    final public int getNumFactors() {
-        return length;
+    finbl publid int gftNumFbdtors() {
+        rfturn lfngti;
     }
 
 
     /**
-     * Creates a ByteLookupTable to implement the rescale.
-     * The table may have either a SHORT or BYTE input.
-     * @param nElems    Number of elements the table is to have.
-     *                  This will generally be 256 for byte and
-     *                  65536 for short.
+     * Crfbtfs b BytfLookupTbblf to implfmfnt tif rfsdblf.
+     * Tif tbblf mby ibvf fitifr b SHORT or BYTE input.
+     * @pbrbm nElfms    Numbfr of flfmfnts tif tbblf is to ibvf.
+     *                  Tiis will gfnfrblly bf 256 for bytf bnd
+     *                  65536 for siort.
      */
-    private ByteLookupTable createByteLut(float scale[],
-                                          float off[],
-                                          int   nBands,
-                                          int   nElems) {
+    privbtf BytfLookupTbblf drfbtfBytfLut(flobt sdblf[],
+                                          flobt off[],
+                                          int   nBbnds,
+                                          int   nElfms) {
 
-        byte[][]        lutData = new byte[scale.length][nElems];
+        bytf[][]        lutDbtb = nfw bytf[sdblf.lfngti][nElfms];
 
-        for (int band=0; band<scale.length; band++) {
-            float  bandScale   = scale[band];
-            float  bandOff     = off[band];
-            byte[] bandLutData = lutData[band];
-            for (int i=0; i<nElems; i++) {
-                int val = (int)(i*bandScale + bandOff);
-                if ((val & 0xffffff00) != 0) {
-                    if (val < 0) {
-                        val = 0;
-                    } else {
-                        val = 255;
+        for (int bbnd=0; bbnd<sdblf.lfngti; bbnd++) {
+            flobt  bbndSdblf   = sdblf[bbnd];
+            flobt  bbndOff     = off[bbnd];
+            bytf[] bbndLutDbtb = lutDbtb[bbnd];
+            for (int i=0; i<nElfms; i++) {
+                int vbl = (int)(i*bbndSdblf + bbndOff);
+                if ((vbl & 0xffffff00) != 0) {
+                    if (vbl < 0) {
+                        vbl = 0;
+                    } flsf {
+                        vbl = 255;
                     }
                 }
-                bandLutData[i] = (byte)val;
+                bbndLutDbtb[i] = (bytf)vbl;
             }
 
         }
 
-        return new ByteLookupTable(0, lutData);
+        rfturn nfw BytfLookupTbblf(0, lutDbtb);
     }
 
     /**
-     * Creates a ShortLookupTable to implement the rescale.
-     * The table may have either a SHORT or BYTE input.
-     * @param nElems    Number of elements the table is to have.
-     *                  This will generally be 256 for byte and
-     *                  65536 for short.
+     * Crfbtfs b SiortLookupTbblf to implfmfnt tif rfsdblf.
+     * Tif tbblf mby ibvf fitifr b SHORT or BYTE input.
+     * @pbrbm nElfms    Numbfr of flfmfnts tif tbblf is to ibvf.
+     *                  Tiis will gfnfrblly bf 256 for bytf bnd
+     *                  65536 for siort.
      */
-    private ShortLookupTable createShortLut(float scale[],
-                                            float off[],
-                                            int   nBands,
-                                            int   nElems) {
+    privbtf SiortLookupTbblf drfbtfSiortLut(flobt sdblf[],
+                                            flobt off[],
+                                            int   nBbnds,
+                                            int   nElfms) {
 
-        short[][]        lutData = new short[scale.length][nElems];
+        siort[][]        lutDbtb = nfw siort[sdblf.lfngti][nElfms];
 
-        for (int band=0; band<scale.length; band++) {
-            float   bandScale   = scale[band];
-            float   bandOff     = off[band];
-            short[] bandLutData = lutData[band];
-            for (int i=0; i<nElems; i++) {
-                int val = (int)(i*bandScale + bandOff);
-                if ((val & 0xffff0000) != 0) {
-                    if (val < 0) {
-                        val = 0;
-                    } else {
-                        val = 65535;
+        for (int bbnd=0; bbnd<sdblf.lfngti; bbnd++) {
+            flobt   bbndSdblf   = sdblf[bbnd];
+            flobt   bbndOff     = off[bbnd];
+            siort[] bbndLutDbtb = lutDbtb[bbnd];
+            for (int i=0; i<nElfms; i++) {
+                int vbl = (int)(i*bbndSdblf + bbndOff);
+                if ((vbl & 0xffff0000) != 0) {
+                    if (vbl < 0) {
+                        vbl = 0;
+                    } flsf {
+                        vbl = 65535;
                     }
                 }
-                bandLutData[i] = (short)val;
+                bbndLutDbtb[i] = (siort)vbl;
             }
         }
 
-        return new ShortLookupTable(0, lutData);
+        rfturn nfw SiortLookupTbblf(0, lutDbtb);
     }
 
 
     /**
-     * Determines if the rescale can be performed as a lookup.
-     * The dst must be a byte or short type.
-     * The src must be less than 16 bits.
-     * All source band sizes must be the same and all dst band sizes
-     * must be the same.
+     * Dftfrminfs if tif rfsdblf dbn bf pfrformfd bs b lookup.
+     * Tif dst must bf b bytf or siort typf.
+     * Tif srd must bf lfss tibn 16 bits.
+     * All sourdf bbnd sizfs must bf tif sbmf bnd bll dst bbnd sizfs
+     * must bf tif sbmf.
      */
-    private boolean canUseLookup(Raster src, Raster dst) {
+    privbtf boolfbn dbnUsfLookup(Rbstfr srd, Rbstfr dst) {
 
         //
-        // Check that the src datatype is either a BYTE or SHORT
+        // Cifdk tibt tif srd dbtbtypf is fitifr b BYTE or SHORT
         //
-        int datatype = src.getDataBuffer().getDataType();
-        if(datatype != DataBuffer.TYPE_BYTE &&
-           datatype != DataBuffer.TYPE_USHORT) {
-            return false;
+        int dbtbtypf = srd.gftDbtbBufffr().gftDbtbTypf();
+        if(dbtbtypf != DbtbBufffr.TYPE_BYTE &&
+           dbtbtypf != DbtbBufffr.TYPE_USHORT) {
+            rfturn fblsf;
         }
 
         //
-        // Check dst sample sizes. All must be 8 or 16 bits.
+        // Cifdk dst sbmplf sizfs. All must bf 8 or 16 bits.
         //
-        SampleModel dstSM = dst.getSampleModel();
-        dstNbits = dstSM.getSampleSize(0);
+        SbmplfModfl dstSM = dst.gftSbmplfModfl();
+        dstNbits = dstSM.gftSbmplfSizf(0);
 
         if (!(dstNbits == 8 || dstNbits == 16)) {
-            return false;
+            rfturn fblsf;
         }
-        for (int i=1; i<src.getNumBands(); i++) {
-            int bandSize = dstSM.getSampleSize(i);
-            if (bandSize != dstNbits) {
-                return false;
+        for (int i=1; i<srd.gftNumBbnds(); i++) {
+            int bbndSizf = dstSM.gftSbmplfSizf(i);
+            if (bbndSizf != dstNbits) {
+                rfturn fblsf;
             }
         }
 
         //
-        // Check src sample sizes. All must be the same size
+        // Cifdk srd sbmplf sizfs. All must bf tif sbmf sizf
         //
-        SampleModel srcSM = src.getSampleModel();
-        srcNbits = srcSM.getSampleSize(0);
-        if (srcNbits > 16) {
-            return false;
+        SbmplfModfl srdSM = srd.gftSbmplfModfl();
+        srdNbits = srdSM.gftSbmplfSizf(0);
+        if (srdNbits > 16) {
+            rfturn fblsf;
         }
-        for (int i=1; i<src.getNumBands(); i++) {
-            int bandSize = srcSM.getSampleSize(i);
-            if (bandSize != srcNbits) {
-                return false;
+        for (int i=1; i<srd.gftNumBbnds(); i++) {
+            int bbndSizf = srdSM.gftSbmplfSizf(i);
+            if (bbndSizf != srdNbits) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Rescales the source BufferedImage.
-     * If the color model in the source image is not the same as that
-     * in the destination image, the pixels will be converted
-     * in the destination.  If the destination image is null,
-     * a BufferedImage will be created with the source ColorModel.
-     * An IllegalArgumentException may be thrown if the number of
-     * scaling factors/offsets in this object does not meet the
-     * restrictions stated in the class comments above, or if the
-     * source image has an IndexColorModel.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @param dst the destination for the filtering operation
-     *            or <code>null</code>
-     * @return the filtered <code>BufferedImage</code>.
-     * @throws IllegalArgumentException if the <code>ColorModel</code>
-     *         of <code>src</code> is an <code>IndexColorModel</code>,
-     *         or if the number of scaling factors and offsets in this
-     *         <code>RescaleOp</code> do not meet the requirements
-     *         stated in the class comments.
+     * Rfsdblfs tif sourdf BufffrfdImbgf.
+     * If tif dolor modfl in tif sourdf imbgf is not tif sbmf bs tibt
+     * in tif dfstinbtion imbgf, tif pixfls will bf donvfrtfd
+     * in tif dfstinbtion.  If tif dfstinbtion imbgf is null,
+     * b BufffrfdImbgf will bf drfbtfd witi tif sourdf ColorModfl.
+     * An IllfgblArgumfntExdfption mby bf tirown if tif numbfr of
+     * sdbling fbdtors/offsfts in tiis objfdt dofs not mfft tif
+     * rfstridtions stbtfd in tif dlbss dommfnts bbovf, or if tif
+     * sourdf imbgf ibs bn IndfxColorModfl.
+     * @pbrbm srd tif <dodf>BufffrfdImbgf</dodf> to bf filtfrfd
+     * @pbrbm dst tif dfstinbtion for tif filtfring opfrbtion
+     *            or <dodf>null</dodf>
+     * @rfturn tif filtfrfd <dodf>BufffrfdImbgf</dodf>.
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>ColorModfl</dodf>
+     *         of <dodf>srd</dodf> is bn <dodf>IndfxColorModfl</dodf>,
+     *         or if tif numbfr of sdbling fbdtors bnd offsfts in tiis
+     *         <dodf>RfsdblfOp</dodf> do not mfft tif rfquirfmfnts
+     *         stbtfd in tif dlbss dommfnts.
      */
-    public final BufferedImage filter (BufferedImage src, BufferedImage dst) {
-        ColorModel srcCM = src.getColorModel();
-        ColorModel dstCM;
-        int numBands = srcCM.getNumColorComponents();
+    publid finbl BufffrfdImbgf filtfr (BufffrfdImbgf srd, BufffrfdImbgf dst) {
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM;
+        int numBbnds = srdCM.gftNumColorComponfnts();
 
 
-        if (srcCM instanceof IndexColorModel) {
-            throw new
-                IllegalArgumentException("Rescaling cannot be "+
-                                         "performed on an indexed image");
+        if (srdCM instbndfof IndfxColorModfl) {
+            tirow nfw
+                IllfgblArgumfntExdfption("Rfsdbling dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
         }
-        if (length != 1 && length != numBands &&
-            length != srcCM.getNumComponents())
+        if (lfngti != 1 && lfngti != numBbnds &&
+            lfngti != srdCM.gftNumComponfnts())
         {
-            throw new IllegalArgumentException("Number of scaling constants "+
-                                               "does not equal the number of"+
-                                               " of color or color/alpha "+
-                                               " components");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of sdbling donstbnts "+
+                                               "dofs not fqubl tif numbfr of"+
+                                               " of dolor or dolor/blpib "+
+                                               " domponfnts");
         }
 
-        boolean needToConvert = false;
+        boolfbn nffdToConvfrt = fblsf;
 
-        // Include alpha
-        if (length > numBands && srcCM.hasAlpha()) {
-            length = numBands+1;
+        // Indludf blpib
+        if (lfngti > numBbnds && srdCM.ibsAlpib()) {
+            lfngti = numBbnds+1;
         }
 
-        int width = src.getWidth();
-        int height = src.getHeight();
+        int widti = srd.gftWidti();
+        int ifigit = srd.gftHfigit();
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
-            dstCM = srcCM;
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
         }
-        else {
-            if (width != dst.getWidth()) {
-                throw new
-                    IllegalArgumentException("Src width ("+width+
-                                             ") not equal to dst width ("+
-                                             dst.getWidth()+")");
+        flsf {
+            if (widti != dst.gftWidti()) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("Srd widti ("+widti+
+                                             ") not fqubl to dst widti ("+
+                                             dst.gftWidti()+")");
             }
-            if (height != dst.getHeight()) {
-                throw new
-                    IllegalArgumentException("Src height ("+height+
-                                             ") not equal to dst height ("+
-                                             dst.getHeight()+")");
+            if (ifigit != dst.gftHfigit()) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("Srd ifigit ("+ifigit+
+                                             ") not fqubl to dst ifigit ("+
+                                             dst.gftHfigit()+")");
             }
 
-            dstCM = dst.getColorModel();
-            if(srcCM.getColorSpace().getType() !=
-               dstCM.getColorSpace().getType()) {
-                needToConvert = true;
-                dst = createCompatibleDestImage(src, null);
+            dstCM = dst.gftColorModfl();
+            if(srdCM.gftColorSpbdf().gftTypf() !=
+               dstCM.gftColorSpbdf().gftTypf()) {
+                nffdToConvfrt = truf;
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
             }
 
         }
 
-        BufferedImage origDst = dst;
+        BufffrfdImbgf origDst = dst;
 
         //
-        // Try to use a native BI rescale operation first
+        // Try to usf b nbtivf BI rfsdblf opfrbtion first
         //
-        if (ImagingLib.filter(this, src, dst) == null) {
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
             //
-            // Native BI rescale failed - convert to rasters
+            // Nbtivf BI rfsdblf fbilfd - donvfrt to rbstfrs
             //
-            WritableRaster srcRaster = src.getRaster();
-            WritableRaster dstRaster = dst.getRaster();
+            WritbblfRbstfr srdRbstfr = srd.gftRbstfr();
+            WritbblfRbstfr dstRbstfr = dst.gftRbstfr();
 
-            if (srcCM.hasAlpha()) {
-                if (numBands-1 == length || length == 1) {
-                    int minx = srcRaster.getMinX();
-                    int miny = srcRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (srdCM.ibsAlpib()) {
+                if (numBbnds-1 == lfngti || lfngti == 1) {
+                    int minx = srdRbstfr.gftMinX();
+                    int miny = srdRbstfr.gftMinY();
+                    int[] bbnds = nfw int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    srcRaster =
-                        srcRaster.createWritableChild(minx, miny,
-                                                      srcRaster.getWidth(),
-                                                      srcRaster.getHeight(),
+                    srdRbstfr =
+                        srdRbstfr.drfbtfWritbblfCiild(minx, miny,
+                                                      srdRbstfr.gftWidti(),
+                                                      srdRbstfr.gftHfigit(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
-            if (dstCM.hasAlpha()) {
-                int dstNumBands = dstRaster.getNumBands();
-                if (dstNumBands-1 == length || length == 1) {
-                    int minx = dstRaster.getMinX();
-                    int miny = dstRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (dstCM.ibsAlpib()) {
+                int dstNumBbnds = dstRbstfr.gftNumBbnds();
+                if (dstNumBbnds-1 == lfngti || lfngti == 1) {
+                    int minx = dstRbstfr.gftMinX();
+                    int miny = dstRbstfr.gftMinY();
+                    int[] bbnds = nfw int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    dstRaster =
-                        dstRaster.createWritableChild(minx, miny,
-                                                      dstRaster.getWidth(),
-                                                      dstRaster.getHeight(),
+                    dstRbstfr =
+                        dstRbstfr.drfbtfWritbblfCiild(minx, miny,
+                                                      dstRbstfr.gftWidti(),
+                                                      dstRbstfr.gftHfigit(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
 
             //
-            // Call the raster filter method
+            // Cbll tif rbstfr filtfr mftiod
             //
-            filter(srcRaster, dstRaster);
+            filtfr(srdRbstfr, dstRbstfr);
 
         }
 
-        if (needToConvert) {
-            // ColorModels are not the same
-            ColorConvertOp ccop = new ColorConvertOp(hints);
-            ccop.filter(dst, origDst);
+        if (nffdToConvfrt) {
+            // ColorModfls brf not tif sbmf
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ddop.filtfr(dst, origDst);
         }
 
-        return origDst;
+        rfturn origDst;
     }
 
     /**
-     * Rescales the pixel data in the source Raster.
-     * If the destination Raster is null, a new Raster will be created.
-     * The source and destination must have the same number of bands.
-     * Otherwise, an IllegalArgumentException is thrown.
-     * Note that the number of scaling factors/offsets in this object must
-     * meet the restrictions stated in the class comments above.
-     * Otherwise, an IllegalArgumentException is thrown.
-     * @param src the <code>Raster</code> to be filtered
-     * @param dst the destination for the filtering operation
-     *            or <code>null</code>
-     * @return the filtered <code>WritableRaster</code>.
-     * @throws IllegalArgumentException if <code>src</code> and
-     *         <code>dst</code> do not have the same number of bands,
-     *         or if the number of scaling factors and offsets in this
-     *         <code>RescaleOp</code> do not meet the requirements
-     *         stated in the class comments.
+     * Rfsdblfs tif pixfl dbtb in tif sourdf Rbstfr.
+     * If tif dfstinbtion Rbstfr is null, b nfw Rbstfr will bf drfbtfd.
+     * Tif sourdf bnd dfstinbtion must ibvf tif sbmf numbfr of bbnds.
+     * Otifrwisf, bn IllfgblArgumfntExdfption is tirown.
+     * Notf tibt tif numbfr of sdbling fbdtors/offsfts in tiis objfdt must
+     * mfft tif rfstridtions stbtfd in tif dlbss dommfnts bbovf.
+     * Otifrwisf, bn IllfgblArgumfntExdfption is tirown.
+     * @pbrbm srd tif <dodf>Rbstfr</dodf> to bf filtfrfd
+     * @pbrbm dst tif dfstinbtion for tif filtfring opfrbtion
+     *            or <dodf>null</dodf>
+     * @rfturn tif filtfrfd <dodf>WritbblfRbstfr</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     *         <dodf>dst</dodf> do not ibvf tif sbmf numbfr of bbnds,
+     *         or if tif numbfr of sdbling fbdtors bnd offsfts in tiis
+     *         <dodf>RfsdblfOp</dodf> do not mfft tif rfquirfmfnts
+     *         stbtfd in tif dlbss dommfnts.
      */
-    public final WritableRaster filter (Raster src, WritableRaster dst)  {
-        int numBands = src.getNumBands();
-        int width  = src.getWidth();
-        int height = src.getHeight();
-        int[] srcPix = null;
-        int step = 0;
+    publid finbl WritbblfRbstfr filtfr (Rbstfr srd, WritbblfRbstfr dst)  {
+        int numBbnds = srd.gftNumBbnds();
+        int widti  = srd.gftWidti();
+        int ifigit = srd.gftHfigit();
+        int[] srdPix = null;
+        int stfp = 0;
         int tidx = 0;
 
-        // Create a new destination Raster, if needed
+        // Crfbtf b nfw dfstinbtion Rbstfr, if nffdfd
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
-        else if (height != dst.getHeight() || width != dst.getWidth()) {
-            throw new
-               IllegalArgumentException("Width or height of Rasters do not "+
-                                        "match");
+        flsf if (ifigit != dst.gftHfigit() || widti != dst.gftWidti()) {
+            tirow nfw
+               IllfgblArgumfntExdfption("Widti or ifigit of Rbstfrs do not "+
+                                        "mbtdi");
         }
-        else if (numBands != dst.getNumBands()) {
-            // Make sure that the number of bands are equal
-            throw new IllegalArgumentException("Number of bands in src "
-                            + numBands
-                            + " does not equal number of bands in dest "
-                            + dst.getNumBands());
+        flsf if (numBbnds != dst.gftNumBbnds()) {
+            // Mbkf surf tibt tif numbfr of bbnds brf fqubl
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bbnds in srd "
+                            + numBbnds
+                            + " dofs not fqubl numbfr of bbnds in dfst "
+                            + dst.gftNumBbnds());
         }
-        // Make sure that the arrays match
-        // Make sure that the low/high/constant arrays match
-        if (length != 1 && length != src.getNumBands()) {
-            throw new IllegalArgumentException("Number of scaling constants "+
-                                               "does not equal the number of"+
-                                               " of bands in the src raster");
-        }
-
-
-        //
-        // Try for a native raster rescale first
-        //
-        if (ImagingLib.filter(this, src, dst) != null) {
-            return dst;
+        // Mbkf surf tibt tif brrbys mbtdi
+        // Mbkf surf tibt tif low/iigi/donstbnt brrbys mbtdi
+        if (lfngti != 1 && lfngti != srd.gftNumBbnds()) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of sdbling donstbnts "+
+                                               "dofs not fqubl tif numbfr of"+
+                                               " of bbnds in tif srd rbstfr");
         }
 
-        //
-        // Native raster rescale failed.
-        // Try to see if a lookup operation can be used
-        //
-        if (canUseLookup(src, dst)) {
-            int srcNgray = (1 << srcNbits);
-            int dstNgray = (1 << dstNbits);
 
-            if (dstNgray == 256) {
-                ByteLookupTable lut = createByteLut(scaleFactors, offsets,
-                                                    numBands, srcNgray);
-                LookupOp op = new LookupOp(lut, hints);
-                op.filter(src, dst);
-            } else {
-                ShortLookupTable lut = createShortLut(scaleFactors, offsets,
-                                                      numBands, srcNgray);
-                LookupOp op = new LookupOp(lut, hints);
-                op.filter(src, dst);
+        //
+        // Try for b nbtivf rbstfr rfsdblf first
+        //
+        if (ImbgingLib.filtfr(tiis, srd, dst) != null) {
+            rfturn dst;
+        }
+
+        //
+        // Nbtivf rbstfr rfsdblf fbilfd.
+        // Try to sff if b lookup opfrbtion dbn bf usfd
+        //
+        if (dbnUsfLookup(srd, dst)) {
+            int srdNgrby = (1 << srdNbits);
+            int dstNgrby = (1 << dstNbits);
+
+            if (dstNgrby == 256) {
+                BytfLookupTbblf lut = drfbtfBytfLut(sdblfFbdtors, offsfts,
+                                                    numBbnds, srdNgrby);
+                LookupOp op = nfw LookupOp(lut, iints);
+                op.filtfr(srd, dst);
+            } flsf {
+                SiortLookupTbblf lut = drfbtfSiortLut(sdblfFbdtors, offsfts,
+                                                      numBbnds, srdNgrby);
+                LookupOp op = nfw LookupOp(lut, iints);
+                op.filtfr(srd, dst);
             }
-        } else {
+        } flsf {
             //
-            // Fall back to the slow code
+            // Fbll bbdk to tif slow dodf
             //
-            if (length > 1) {
-                step = 1;
+            if (lfngti > 1) {
+                stfp = 1;
             }
 
-            int sminX = src.getMinX();
-            int sY = src.getMinY();
-            int dminX = dst.getMinX();
-            int dY = dst.getMinY();
+            int sminX = srd.gftMinX();
+            int sY = srd.gftMinY();
+            int dminX = dst.gftMinX();
+            int dY = dst.gftMinY();
             int sX;
             int dX;
 
             //
-            //  Determine bits per band to determine maxval for clamps.
-            //  The min is assumed to be zero.
-            //  REMIND: This must change if we ever support signed data types.
+            //  Dftfrminf bits pfr bbnd to dftfrminf mbxvbl for dlbmps.
+            //  Tif min is bssumfd to bf zfro.
+            //  REMIND: Tiis must dibngf if wf fvfr support signfd dbtb typfs.
             //
             int nbits;
-            int dstMax[] = new int[numBands];
-            int dstMask[] = new int[numBands];
-            SampleModel dstSM = dst.getSampleModel();
-            for (int z=0; z<numBands; z++) {
-                nbits = dstSM.getSampleSize(z);
-                dstMax[z] = (1 << nbits) - 1;
-                dstMask[z] = ~(dstMax[z]);
+            int dstMbx[] = nfw int[numBbnds];
+            int dstMbsk[] = nfw int[numBbnds];
+            SbmplfModfl dstSM = dst.gftSbmplfModfl();
+            for (int z=0; z<numBbnds; z++) {
+                nbits = dstSM.gftSbmplfSizf(z);
+                dstMbx[z] = (1 << nbits) - 1;
+                dstMbsk[z] = ~(dstMbx[z]);
             }
 
-            int val;
-            for (int y=0; y < height; y++, sY++, dY++) {
+            int vbl;
+            for (int y=0; y < ifigit; y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
-                for (int x = 0; x < width; x++, sX++, dX++) {
-                    // Get data for all bands at this x,y position
-                    srcPix = src.getPixel(sX, sY, srcPix);
+                for (int x = 0; x < widti; x++, sX++, dX++) {
+                    // Gft dbtb for bll bbnds bt tiis x,y position
+                    srdPix = srd.gftPixfl(sX, sY, srdPix);
                     tidx = 0;
-                    for (int z=0; z<numBands; z++, tidx += step) {
-                        val = (int)(srcPix[z]*scaleFactors[tidx]
-                                          + offsets[tidx]);
-                        // Clamp
-                        if ((val & dstMask[z]) != 0) {
-                            if (val < 0) {
-                                val = 0;
-                            } else {
-                                val = dstMax[z];
+                    for (int z=0; z<numBbnds; z++, tidx += stfp) {
+                        vbl = (int)(srdPix[z]*sdblfFbdtors[tidx]
+                                          + offsfts[tidx]);
+                        // Clbmp
+                        if ((vbl & dstMbsk[z]) != 0) {
+                            if (vbl < 0) {
+                                vbl = 0;
+                            } flsf {
+                                vbl = dstMbx[z];
                             }
                         }
-                        srcPix[z] = val;
+                        srdPix[z] = vbl;
 
                     }
 
-                    // Put it back for all bands
-                    dst.setPixel(dX, dY, srcPix);
+                    // Put it bbdk for bll bbnds
+                    dst.sftPixfl(dX, dY, srdPix);
                 }
             }
         }
-        return dst;
+        rfturn dst;
     }
 
     /**
-     * Returns the bounding box of the rescaled destination image.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
+     * Rfturns tif bounding box of tif rfsdblfd dfstinbtion imbgf.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-         return getBounds2D(src.getRaster());
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+         rfturn gftBounds2D(srd.gftRbstfr());
     }
 
     /**
-     * Returns the bounding box of the rescaled destination Raster.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the rescaled destination <code>Raster</code>
-     * @return the bounds of the specified <code>Raster</code>.
+     * Rfturns tif bounding box of tif rfsdblfd dfstinbtion Rbstfr.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
+     * @pbrbm srd tif rfsdblfd dfstinbtion <dodf>Rbstfr</dodf>
+     * @rfturn tif bounds of tif spfdififd <dodf>Rbstfr</dodf>.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
-        return src.getBounds();
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        rfturn srd.gftBounds();
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.
-     * @param src       Source image for the filter operation.
-     * @param destCM    ColorModel of the destination.  If null, the
-     *                  ColorModel of the source will be used.
-     * @return the zeroed-destination image.
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * bbnds.
+     * @pbrbm srd       Sourdf imbgf for tif filtfr opfrbtion.
+     * @pbrbm dfstCM    ColorModfl of tif dfstinbtion.  If null, tif
+     *                  ColorModfl of tif sourdf will bf usfd.
+     * @rfturn tif zfrofd-dfstinbtion imbgf.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
-                                                    ColorModel destCM) {
-        BufferedImage image;
-        if (destCM == null) {
-            ColorModel cm = src.getColorModel();
-            image = new BufferedImage(cm,
-                                      src.getRaster().createCompatibleWritableRaster(),
-                                      cm.isAlphaPremultiplied(),
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
+        if (dfstCM == null) {
+            ColorModfl dm = srd.gftColorModfl();
+            imbgf = nfw BufffrfdImbgf(dm,
+                                      srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(),
+                                      dm.isAlpibPrfmultiplifd(),
                                       null);
         }
-        else {
-            int w = src.getWidth();
-            int h = src.getHeight();
-            image = new BufferedImage (destCM,
-                                   destCM.createCompatibleWritableRaster(w, h),
-                                   destCM.isAlphaPremultiplied(), null);
+        flsf {
+            int w = srd.gftWidti();
+            int i = srd.gftHfigit();
+            imbgf = nfw BufffrfdImbgf (dfstCM,
+                                   dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w, i),
+                                   dfstCM.isAlpibPrfmultiplifd(), null);
         }
 
-        return image;
+        rfturn imbgf;
     }
 
     /**
-     * Creates a zeroed-destination <code>Raster</code> with the correct
-     * size and number of bands, given this source.
-     * @param src       the source <code>Raster</code>
-     * @return the zeroed-destination <code>Raster</code>.
+     * Crfbtfs b zfrofd-dfstinbtion <dodf>Rbstfr</dodf> witi tif dorrfdt
+     * sizf bnd numbfr of bbnds, givfn tiis sourdf.
+     * @pbrbm srd       tif sourdf <dodf>Rbstfr</dodf>
+     * @rfturn tif zfrofd-dfstinbtion <dodf>Rbstfr</dodf>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        return src.createCompatibleWritableRaster(src.getWidth(), src.getHeight());
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr(srd.gftWidti(), srd.gftHfigit());
     }
 
     /**
-     * Returns the location of the destination point given a
-     * point in the source.  If dstPt is non-null, it will
-     * be used to hold the return value.  Since this is not a geometric
-     * operation, the srcPt will equal the dstPt.
-     * @param srcPt a point in the source image
-     * @param dstPt the destination point or <code>null</code>
-     * @return the location of the destination point.
+     * Rfturns tif lodbtion of tif dfstinbtion point givfn b
+     * point in tif sourdf.  If dstPt is non-null, it will
+     * bf usfd to iold tif rfturn vbluf.  Sindf tiis is not b gfomftrid
+     * opfrbtion, tif srdPt will fqubl tif dstPt.
+     * @pbrbm srdPt b point in tif sourdf imbgf
+     * @pbrbm dstPt tif dfstinbtion point or <dodf>null</dodf>
+     * @rfturn tif lodbtion of tif dfstinbtion point.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = nfw Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
-        return dstPt;
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
+        rfturn dstPt;
     }
 
     /**
-     * Returns the rendering hints for this op.
-     * @return the rendering hints of this <code>RescaleOp</code>.
+     * Rfturns tif rfndfring iints for tiis op.
+     * @rfturn tif rfndfring iints of tiis <dodf>RfsdblfOp</dodf>.
      */
-    public final RenderingHints getRenderingHints() {
-        return hints;
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn iints;
     }
 }

@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.reflect.Method;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.Mftiod;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaUtilControlSize {
-    protected final static String CLIENT_PROPERTY_KEY = "JComponent.sizeVariant";
-    protected final static String SYSTEM_PROPERTY_KEY = "swing.component.sizevariant";
+publid dlbss AqubUtilControlSizf {
+    protfdtfd finbl stbtid String CLIENT_PROPERTY_KEY = "JComponfnt.sizfVbribnt";
+    protfdtfd finbl stbtid String SYSTEM_PROPERTY_KEY = "swing.domponfnt.sizfvbribnt";
 
-    interface Sizeable {
-        void applySizeFor(final JComponent c, final Size size);
+    intfrfbdf Sizfbblf {
+        void bpplySizfFor(finbl JComponfnt d, finbl Sizf sizf);
     }
 
-    protected static final RecyclableSingleton<PropertySizeListener> sizeListener = new RecyclableSingletonFromDefaultConstructor<PropertySizeListener>(PropertySizeListener.class);
-    protected static PropertySizeListener getSizeListener() {
-        return sizeListener.get();
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<PropfrtySizfListfnfr> sizfListfnfr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<PropfrtySizfListfnfr>(PropfrtySizfListfnfr.dlbss);
+    protfdtfd stbtid PropfrtySizfListfnfr gftSizfListfnfr() {
+        rfturn sizfListfnfr.gft();
     }
 
-    protected static void addSizePropertyListener(final JComponent c) {
-        c.addPropertyChangeListener(CLIENT_PROPERTY_KEY, getSizeListener());
-        PropertySizeListener.applyComponentSize(c, c.getClientProperty(CLIENT_PROPERTY_KEY));
+    protfdtfd stbtid void bddSizfPropfrtyListfnfr(finbl JComponfnt d) {
+        d.bddPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, gftSizfListfnfr());
+        PropfrtySizfListfnfr.bpplyComponfntSizf(d, d.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
     }
 
-    protected static void removeSizePropertyListener(final JComponent c) {
-        c.removePropertyChangeListener(CLIENT_PROPERTY_KEY, getSizeListener());
+    protfdtfd stbtid void rfmovfSizfPropfrtyListfnfr(finbl JComponfnt d) {
+        d.rfmovfPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, gftSizfListfnfr());
     }
 
-    private static JRSUIConstants.Size getSizeFromString(final String name) {
-        if ("regular".equalsIgnoreCase(name)) return Size.REGULAR;
-        if ("small".equalsIgnoreCase(name)) return Size.SMALL;
-        if ("mini".equalsIgnoreCase(name)) return Size.MINI;
-        if ("large".equalsIgnoreCase(name)) return Size.LARGE;
-        return null;
+    privbtf stbtid JRSUIConstbnts.Sizf gftSizfFromString(finbl String nbmf) {
+        if ("rfgulbr".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.REGULAR;
+        if ("smbll".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.SMALL;
+        if ("mini".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.MINI;
+        if ("lbrgf".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.LARGE;
+        rfturn null;
     }
 
-    private static Size getDefaultSize() {
-        final String sizeProperty = java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction(SYSTEM_PROPERTY_KEY));
-        final JRSUIConstants.Size size = getSizeFromString(sizeProperty);
-        if (size != null) return size;
-        return JRSUIConstants.Size.REGULAR;
+    privbtf stbtid Sizf gftDffbultSizf() {
+        finbl String sizfPropfrty = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(SYSTEM_PROPERTY_KEY));
+        finbl JRSUIConstbnts.Sizf sizf = gftSizfFromString(sizfPropfrty);
+        if (sizf != null) rfturn sizf;
+        rfturn JRSUIConstbnts.Sizf.REGULAR;
     }
 
-    protected final static JRSUIConstants.Size defaultSize = getDefaultSize();
-    protected static JRSUIConstants.Size getUserSizeFrom(final JComponent c) {
-        final Object sizeProp = c.getClientProperty(CLIENT_PROPERTY_KEY);
-        if (sizeProp == null) return defaultSize;
-        final Size size = getSizeFromString(sizeProp.toString());
-        if (size == null) return Size.REGULAR;
-        return size;
+    protfdtfd finbl stbtid JRSUIConstbnts.Sizf dffbultSizf = gftDffbultSizf();
+    protfdtfd stbtid JRSUIConstbnts.Sizf gftUsfrSizfFrom(finbl JComponfnt d) {
+        finbl Objfdt sizfProp = d.gftClifntPropfrty(CLIENT_PROPERTY_KEY);
+        if (sizfProp == null) rfturn dffbultSizf;
+        finbl Sizf sizf = gftSizfFromString(sizfProp.toString());
+        if (sizf == null) rfturn Sizf.REGULAR;
+        rfturn sizf;
     }
 
-    protected static JRSUIConstants.Size applySizeForControl(final JComponent c, final AquaPainter<? extends JRSUIState> painter) {
-        final JRSUIConstants.Size sizeFromUser = getUserSizeFrom(c);
-        final JRSUIConstants.Size size = sizeFromUser == null ? JRSUIConstants.Size.REGULAR : sizeFromUser;
-        painter.state.set(size);
-        return size;
+    protfdtfd stbtid JRSUIConstbnts.Sizf bpplySizfForControl(finbl JComponfnt d, finbl AqubPbintfr<? fxtfnds JRSUIStbtf> pbintfr) {
+        finbl JRSUIConstbnts.Sizf sizfFromUsfr = gftUsfrSizfFrom(d);
+        finbl JRSUIConstbnts.Sizf sizf = sizfFromUsfr == null ? JRSUIConstbnts.Sizf.REGULAR : sizfFromUsfr;
+        pbintfr.stbtf.sft(sizf);
+        rfturn sizf;
     }
 
-    protected static Font getFontForSize(final Component c, final JRSUIConstants.Size size) {
-        final Font initialFont = c.getFont();
+    protfdtfd stbtid Font gftFontForSizf(finbl Componfnt d, finbl JRSUIConstbnts.Sizf sizf) {
+        finbl Font initiblFont = d.gftFont();
 
-        if (size == null || !(initialFont instanceof UIResource)) return initialFont;
+        if (sizf == null || !(initiblFont instbndfof UIRfsourdf)) rfturn initiblFont;
 
-        if (size == JRSUIConstants.Size.MINI) return initialFont.deriveFont(AquaFonts.getMiniControlTextFont().getSize2D());
-        if (size == JRSUIConstants.Size.SMALL) return initialFont.deriveFont(AquaFonts.getSmallControlTextFont().getSize2D());
+        if (sizf == JRSUIConstbnts.Sizf.MINI) rfturn initiblFont.dfrivfFont(AqubFonts.gftMiniControlTfxtFont().gftSizf2D());
+        if (sizf == JRSUIConstbnts.Sizf.SMALL) rfturn initiblFont.dfrivfFont(AqubFonts.gftSmbllControlTfxtFont().gftSizf2D());
 
-        return initialFont.deriveFont(AquaFonts.getControlTextFont().getSize2D());
+        rfturn initiblFont.dfrivfFont(AqubFonts.gftControlTfxtFont().gftSizf2D());
     }
 
-    private static void applyBorderForSize(final JComponent c, final Size size) {
-        final Border border = c.getBorder();
-        if (!(border instanceof AquaBorder)) return;
-        final AquaBorder aquaBorder = (AquaBorder)border;
+    privbtf stbtid void bpplyBordfrForSizf(finbl JComponfnt d, finbl Sizf sizf) {
+        finbl Bordfr bordfr = d.gftBordfr();
+        if (!(bordfr instbndfof AqubBordfr)) rfturn;
+        finbl AqubBordfr bqubBordfr = (AqubBordfr)bordfr;
 
-        if (aquaBorder.sizeVariant.size == size) return;
-        final AquaBorder derivedBorder = aquaBorder.deriveBorderForSize(size);
-        if (derivedBorder == null) return;
+        if (bqubBordfr.sizfVbribnt.sizf == sizf) rfturn;
+        finbl AqubBordfr dfrivfdBordfr = bqubBordfr.dfrivfBordfrForSizf(sizf);
+        if (dfrivfdBordfr == null) rfturn;
 
-        c.setBorder(derivedBorder);
+        d.sftBordfr(dfrivfdBordfr);
     }
 
-    // call JComponent.getUI() if it exists, then call Sizeable.applySizeFor() if the UI is "Sizeable"
-    // next best thing to -respondsToSelector: :-P
-    private static void applyUISizing(final JComponent c, final Size size) {
+    // dbll JComponfnt.gftUI() if it fxists, tifn dbll Sizfbblf.bpplySizfFor() if tif UI is "Sizfbblf"
+    // nfxt bfst tiing to -rfspondsToSflfdtor: :-P
+    privbtf stbtid void bpplyUISizing(finbl JComponfnt d, finbl Sizf sizf) {
         try {
-            // see if this component has a "getUI" method
-            final Class<? extends JComponent> clazz = c.getClass();
-            final Method getUIMethod = clazz.getMethod("getUI", new Class<?>[0]);
+            // sff if tiis domponfnt ibs b "gftUI" mftiod
+            finbl Clbss<? fxtfnds JComponfnt> dlbzz = d.gftClbss();
+            finbl Mftiod gftUIMftiod = dlbzz.gftMftiod("gftUI", nfw Clbss<?>[0]);
 
-            // see if that UI is one of ours that understands sizing
-            final Object ui = getUIMethod.invoke(c, new Object[0]);
-            if (!(ui instanceof Sizeable)) return;
+            // sff if tibt UI is onf of ours tibt undfrstbnds sizing
+            finbl Objfdt ui = gftUIMftiod.invokf(d, nfw Objfdt[0]);
+            if (!(ui instbndfof Sizfbblf)) rfturn;
 
-            // size it!
-            final Sizeable sizeable = (Sizeable)ui;
-            sizeable.applySizeFor(c, size);
-        } catch (final Throwable e) { return; }
+            // sizf it!
+            finbl Sizfbblf sizfbblf = (Sizfbblf)ui;
+            sizfbblf.bpplySizfFor(d, sizf);
+        } dbtdi (finbl Tirowbblf f) { rfturn; }
     }
 
-    protected static class PropertySizeListener implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent evt) {
-            final String key = evt.getPropertyName();
-            if (!CLIENT_PROPERTY_KEY.equalsIgnoreCase(key)) return;
+    protfdtfd stbtid dlbss PropfrtySizfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+            finbl String kfy = fvt.gftPropfrtyNbmf();
+            if (!CLIENT_PROPERTY_KEY.fqublsIgnorfCbsf(kfy)) rfturn;
 
-            final Object source = evt.getSource();
-            if (!(source instanceof JComponent)) return;
+            finbl Objfdt sourdf = fvt.gftSourdf();
+            if (!(sourdf instbndfof JComponfnt)) rfturn;
 
-            final JComponent c = (JComponent)source;
-            applyComponentSize(c, evt.getNewValue());
+            finbl JComponfnt d = (JComponfnt)sourdf;
+            bpplyComponfntSizf(d, fvt.gftNfwVbluf());
         }
 
-        protected static void applyComponentSize(final JComponent c, final Object value) {
-            Size size = getSizeFromString(value == null ? null : value.toString());
-            if (size == null) {
-                size = getUserSizeFrom(c);
-                if (size == Size.REGULAR) return;
+        protfdtfd stbtid void bpplyComponfntSizf(finbl JComponfnt d, finbl Objfdt vbluf) {
+            Sizf sizf = gftSizfFromString(vbluf == null ? null : vbluf.toString());
+            if (sizf == null) {
+                sizf = gftUsfrSizfFrom(d);
+                if (sizf == Sizf.REGULAR) rfturn;
             }
 
-            applyBorderForSize(c, size);
+            bpplyBordfrForSizf(d, sizf);
 
-            applyUISizing(c, size);
+            bpplyUISizing(d, sizf);
 
-            final Font priorFont = c.getFont();
-            if (!(priorFont instanceof FontUIResource)) return;
-            c.setFont(getFontForSize(c, size));
+            finbl Font priorFont = d.gftFont();
+            if (!(priorFont instbndfof FontUIRfsourdf)) rfturn;
+            d.sftFont(gftFontForSizf(d, sizf));
         }
     }
 
-    public static class SizeDescriptor {
-        SizeVariant regular;
-        SizeVariant small;
-        SizeVariant mini;
+    publid stbtid dlbss SizfDfsdriptor {
+        SizfVbribnt rfgulbr;
+        SizfVbribnt smbll;
+        SizfVbribnt mini;
 
-        public SizeDescriptor(final SizeVariant variant) {
-            regular = deriveRegular(variant);
-            small = deriveSmall(new SizeVariant(regular));
-            mini = deriveMini(new SizeVariant(small));
+        publid SizfDfsdriptor(finbl SizfVbribnt vbribnt) {
+            rfgulbr = dfrivfRfgulbr(vbribnt);
+            smbll = dfrivfSmbll(nfw SizfVbribnt(rfgulbr));
+            mini = dfrivfMini(nfw SizfVbribnt(smbll));
         }
 
-        public SizeVariant deriveRegular(final SizeVariant v) {
-            v.size = Size.REGULAR;
-            return v;
+        publid SizfVbribnt dfrivfRfgulbr(finbl SizfVbribnt v) {
+            v.sizf = Sizf.REGULAR;
+            rfturn v;
         }
 
-        public SizeVariant deriveSmall(final SizeVariant v) {
-            v.size = Size.SMALL;
-            return v;
+        publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) {
+            v.sizf = Sizf.SMALL;
+            rfturn v;
         }
 
-        public SizeVariant deriveMini(final SizeVariant v) {
-            v.size = Size.MINI;
-            return v;
+        publid SizfVbribnt dfrivfMini(finbl SizfVbribnt v) {
+            v.sizf = Sizf.MINI;
+            rfturn v;
         }
 
-        public SizeVariant get(final JComponent c) {
-            if (c == null) return regular;
-            return get(getUserSizeFrom(c));
+        publid SizfVbribnt gft(finbl JComponfnt d) {
+            if (d == null) rfturn rfgulbr;
+            rfturn gft(gftUsfrSizfFrom(d));
         }
 
-        public SizeVariant get(final Size size) {
-            if (size == Size.REGULAR) return regular;
-            if (size == Size.SMALL) return small;
-            if (size == Size.MINI) return mini;
-            return regular;
+        publid SizfVbribnt gft(finbl Sizf sizf) {
+            if (sizf == Sizf.REGULAR) rfturn rfgulbr;
+            if (sizf == Sizf.SMALL) rfturn smbll;
+            if (sizf == Sizf.MINI) rfturn mini;
+            rfturn rfgulbr;
         }
 
-        public String toString() {
-            return "regular[" + regular + "] small[" + small + "] mini[" + mini + "]";
+        publid String toString() {
+            rfturn "rfgulbr[" + rfgulbr + "] smbll[" + smbll + "] mini[" + mini + "]";
         }
     }
 
-    public static class SizeVariant {
-        Size size = Size.REGULAR;
-        Insets insets = new InsetsUIResource(0, 0, 0, 0);
-        Insets margins = new InsetsUIResource(0, 0, 0, 0);
-        Float fontSize;
+    publid stbtid dlbss SizfVbribnt {
+        Sizf sizf = Sizf.REGULAR;
+        Insfts insfts = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        Insfts mbrgins = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        Flobt fontSizf;
         int w = 0;
-        int h = 0;
-    //    Integer textBaseline;
+        int i = 0;
+    //    Intfgfr tfxtBbsflinf;
 
-        public SizeVariant() { }
+        publid SizfVbribnt() { }
 
-        public SizeVariant(final int minWidth, final int minHeight) {
-            this.w = minWidth;
-            this.h = minHeight;
+        publid SizfVbribnt(finbl int minWidti, finbl int minHfigit) {
+            tiis.w = minWidti;
+            tiis.i = minHfigit;
         }
 
-        public SizeVariant(final SizeVariant desc){
-            this.size = desc.size;
-            this.insets = new InsetsUIResource(desc.insets.top, desc.insets.left, desc.insets.bottom, desc.insets.right);
-            this.margins = new InsetsUIResource(desc.margins.top, desc.margins.left, desc.margins.bottom, desc.margins.right);
-            this.fontSize = desc.fontSize;
-            this.w = desc.w;
-            this.h = desc.h;
-    //        this.textBaseline = desc.textBaseline;
+        publid SizfVbribnt(finbl SizfVbribnt dfsd){
+            tiis.sizf = dfsd.sizf;
+            tiis.insfts = nfw InsftsUIRfsourdf(dfsd.insfts.top, dfsd.insfts.lfft, dfsd.insfts.bottom, dfsd.insfts.rigit);
+            tiis.mbrgins = nfw InsftsUIRfsourdf(dfsd.mbrgins.top, dfsd.mbrgins.lfft, dfsd.mbrgins.bottom, dfsd.mbrgins.rigit);
+            tiis.fontSizf = dfsd.fontSizf;
+            tiis.w = dfsd.w;
+            tiis.i = dfsd.i;
+    //        tiis.tfxtBbsflinf = dfsd.tfxtBbsflinf;
         }
 
-        public SizeVariant replaceInsets(final String insetName) {
-            this.insets = UIManager.getInsets(insetName);
-            return this;
+        publid SizfVbribnt rfplbdfInsfts(finbl String insftNbmf) {
+            tiis.insfts = UIMbnbgfr.gftInsfts(insftNbmf);
+            rfturn tiis;
         }
 
-        public SizeVariant replaceInsets(final Insets i) {
-            this.insets = new InsetsUIResource(i.top, i.left, i.bottom, i.right);
-            return this;
+        publid SizfVbribnt rfplbdfInsfts(finbl Insfts i) {
+            tiis.insfts = nfw InsftsUIRfsourdf(i.top, i.lfft, i.bottom, i.rigit);
+            rfturn tiis;
         }
 
-        public SizeVariant alterInsets(final int top, final int left, final int bottom, final int right) {
-            insets = generateInsets(insets, top, left, bottom, right);
-            return this;
+        publid SizfVbribnt bltfrInsfts(finbl int top, finbl int lfft, finbl int bottom, finbl int rigit) {
+            insfts = gfnfrbtfInsfts(insfts, top, lfft, bottom, rigit);
+            rfturn tiis;
         }
 
-        public SizeVariant replaceMargins(final String marginName) {
-            this.margins = UIManager.getInsets(marginName);
-            return this;
+        publid SizfVbribnt rfplbdfMbrgins(finbl String mbrginNbmf) {
+            tiis.mbrgins = UIMbnbgfr.gftInsfts(mbrginNbmf);
+            rfturn tiis;
         }
 
-        public SizeVariant alterMargins(final int top, final int left, final int bottom, final int right) {
-            margins = generateInsets(margins, top, left, bottom, right);
-            return this;
+        publid SizfVbribnt bltfrMbrgins(finbl int top, finbl int lfft, finbl int bottom, finbl int rigit) {
+            mbrgins = gfnfrbtfInsfts(mbrgins, top, lfft, bottom, rigit);
+            rfturn tiis;
         }
 
-        public SizeVariant alterFontSize(final float newSize) {
-            final float oldSize = fontSize == null ? 0.0f : fontSize.floatValue();
-            fontSize = new Float(newSize + oldSize);
-            return this;
+        publid SizfVbribnt bltfrFontSizf(finbl flobt nfwSizf) {
+            finbl flobt oldSizf = fontSizf == null ? 0.0f : fontSizf.flobtVbluf();
+            fontSizf = nfw Flobt(nfwSizf + oldSizf);
+            rfturn tiis;
         }
 
-        public SizeVariant alterMinSize(final int width, final int height) {
-            this.w += width; this.h += height;
-            return this;
+        publid SizfVbribnt bltfrMinSizf(finbl int widti, finbl int ifigit) {
+            tiis.w += widti; tiis.i += ifigit;
+            rfturn tiis;
         }
 
-//        public SizeVariant alterTextBaseline(final int baseline) {
-//            final int oldSize = textBaseline == null ? 0 : textBaseline.intValue();
-//            textBaseline = new Integer(baseline + oldSize);
-//            return this;
+//        publid SizfVbribnt bltfrTfxtBbsflinf(finbl int bbsflinf) {
+//            finbl int oldSizf = tfxtBbsflinf == null ? 0 : tfxtBbsflinf.intVbluf();
+//            tfxtBbsflinf = nfw Intfgfr(bbsflinf + oldSizf);
+//            rfturn tiis;
 //        }
 
-        static Insets generateInsets(final Insets i, final int top, final int left, final int bottom, final int right) {
-            if (i == null) return new InsetsUIResource(top, left, bottom, right);
+        stbtid Insfts gfnfrbtfInsfts(finbl Insfts i, finbl int top, finbl int lfft, finbl int bottom, finbl int rigit) {
+            if (i == null) rfturn nfw InsftsUIRfsourdf(top, lfft, bottom, rigit);
             i.top += top;
-            i.left += left;
+            i.lfft += lfft;
             i.bottom += bottom;
-            i.right += right;
-            return i;
+            i.rigit += rigit;
+            rfturn i;
         }
 
-        public String toString() {
-            return "insets:" + insets + ", margins:" + margins + ", fontSize:" + fontSize;// + ", textBaseline:" + textBaseline;
+        publid String toString() {
+            rfturn "insfts:" + insfts + ", mbrgins:" + mbrgins + ", fontSizf:" + fontSizf;// + ", tfxtBbsflinf:" + tfxtBbsflinf;
         }
     }
 }

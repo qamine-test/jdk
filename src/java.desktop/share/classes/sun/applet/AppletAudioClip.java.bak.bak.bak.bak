@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.bpplft.AudioClip;
+
+import dom.sun.mfdib.sound.JbvbSoundAudioClip;
+
+
+/**
+ * Applft budio dlip;
+ *
+ * @buthor Arthur vbn Hoff, Kbrb Kytlf
+ */
+
+publid dlbss ApplftAudioClip implfmfnts AudioClip {
+
+    // url thbt this AudioClip is bbsfd on
+    privbtf URL url = null;
+
+    // thf budio dlip implfmfntbtion
+    privbtf AudioClip budioClip = null;
+
+    boolfbn DEBUG = fblsf /*truf*/;
+
+    /**
+     * Construdts bn ApplftAudioClip from bn URL.
+     */
+    publid ApplftAudioClip(URL url) {
+
+        // storf thf url
+        this.url = url;
+
+        try {
+            // drfbtf b strfbm from thf url, bnd usf it
+            // in thf dlip.
+            InputStrfbm in = url.opfnStrfbm();
+            drfbtfApplftAudioClip(in);
+
+        } dbtdh (IOExdfption f) {
+                /* just qufll it */
+            if (DEBUG) {
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip" + f);
+            }
+        }
+    }
+
+    /**
+     * Construdts bn ApplftAudioClip from b URLConnfdtion.
+     */
+    publid ApplftAudioClip(URLConnfdtion ud) {
+
+        try {
+            // drfbtf b strfbm from thf url, bnd usf it
+            // in thf dlip.
+            drfbtfApplftAudioClip(ud.gftInputStrfbm());
+
+        } dbtdh (IOExdfption f) {
+                /* just qufll it */
+            if (DEBUG) {
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip" + f);
+            }
+        }
+    }
+
+
+    /**
+     * For donstrudting dirfdtly from Jbr fntrifs, or bny othfr
+     * rbw Audio dbtb. Notf thbt thf dbtb providfd must indludf thf formbt
+     * hfbdfr.
+     */
+    publid ApplftAudioClip(bytf [] dbtb) {
+
+        try {
+
+            // donstrudt b strfbm from thf bytf brrby
+            InputStrfbm in = nfw BytfArrbyInputStrfbm(dbtb);
+
+            drfbtfApplftAudioClip(in);
+
+        } dbtdh (IOExdfption f) {
+                /* just qufll it */
+            if (DEBUG) {
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip " + f);
+            }
+        }
+    }
+
+
+    /*
+     * Dofs thf rfbl work of drfbting bn ApplftAudioClip from bn InputStrfbm.
+     * This fundtion is usfd by both donstrudtors.
+     */
+    void drfbtfApplftAudioClip(InputStrfbm in) throws IOExdfption {
+
+        try {
+            budioClip = nfw JbvbSoundAudioClip(in);
+        } dbtdh (Exdfption f3) {
+            // no mbttfr whbt hbppfnfd, wf throw bn IOExdfption to bvoid dhbnging thf intfrfbdfs....
+            throw nfw IOExdfption("Fbilfd to donstrudt thf AudioClip: " + f3);
+        }
+    }
+
+
+    publid syndhronizfd void plby() {
+
+                if (budioClip != null)
+                        budioClip.plby();
+    }
+
+
+    publid syndhronizfd void loop() {
+
+                if (budioClip != null)
+                        budioClip.loop();
+    }
+
+    publid syndhronizfd void stop() {
+
+                if (budioClip != null)
+                        budioClip.stop();
+    }
+}

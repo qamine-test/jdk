@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "GDIHashtable.h"
-#include "awt_GDIObject.h"
+#indludf "GDIHbsitbblf.i"
+#indludf "bwt_GDIObjfdt.i"
 
-GDIHashtable::BatchDestructionManager GDIHashtable::manager;
+GDIHbsitbblf::BbtdiDfstrudtionMbnbgfr GDIHbsitbblf::mbnbgfr;
 
 /*
- * The order of monitor entrance is BatchDestructionManager->List->Hashtable.
- * GDIHashtable::put() and GDIHashtable::release() are designed to be called
- * only when we are synchronized on the BatchDestructionManager lock.
+ * Tif ordfr of monitor fntrbndf is BbtdiDfstrudtionMbnbgfr->List->Hbsitbblf.
+ * GDIHbsitbblf::put() bnd GDIHbsitbblf::rflfbsf() brf dfsignfd to bf dbllfd
+ * only wifn wf brf syndironizfd on tif BbtdiDfstrudtionMbnbgfr lodk.
  */
 
-void* GDIHashtable::put(void* key, void* value) {
-    manager.decrementCounter();
-    return Hashtable::put(key, value);
+void* GDIHbsitbblf::put(void* kfy, void* vbluf) {
+    mbnbgfr.dfdrfmfntCountfr();
+    rfturn Hbsitbblf::put(kfy, vbluf);
 }
 
-void GDIHashtable::release(void* key) {
-    if (!manager.isBatchingEnabled()) {
-        void* value = remove(key);
-        DASSERT(value != NULL);
-        m_deleteProc(value);
+void GDIHbsitbblf::rflfbsf(void* kfy) {
+    if (!mbnbgfr.isBbtdiingEnbblfd()) {
+        void* vbluf = rfmovf(kfy);
+        DASSERT(vbluf != NULL);
+        m_dflftfProd(vbluf);
     }
 }
 
-void GDIHashtable::flush() {
+void GDIHbsitbblf::flusi() {
 
-    CriticalSection::Lock l(lock);
+    CritidblSfdtion::Lodk l(lodk);
 
-    for (int i = capacity; i-- > 0;) {
-        HashtableEntry* prev = NULL;
-        for (HashtableEntry* e = table[i] ; e != NULL ; ) {
-            AwtGDIObject* pGDIObject = (AwtGDIObject*)e->value;
-            if (pGDIObject->GetRefCount() <= 0) {
-                if (prev != NULL) {
-                    prev->next = e->next;
-                } else {
-                    table[i] = e->next;
+    for (int i = dbpbdity; i-- > 0;) {
+        HbsitbblfEntry* prfv = NULL;
+        for (HbsitbblfEntry* f = tbblf[i] ; f != NULL ; ) {
+            AwtGDIObjfdt* pGDIObjfdt = (AwtGDIObjfdt*)f->vbluf;
+            if (pGDIObjfdt->GftRffCount() <= 0) {
+                if (prfv != NULL) {
+                    prfv->nfxt = f->nfxt;
+                } flsf {
+                    tbblf[i] = f->nfxt;
                 }
-                count--;
-                HashtableEntry* next = e->next;
-                if (m_deleteProc) {
-                    (*m_deleteProc)(e->value);
+                dount--;
+                HbsitbblfEntry* nfxt = f->nfxt;
+                if (m_dflftfProd) {
+                    (*m_dflftfProd)(f->vbluf);
                 }
-                delete e;
-                e = next;
-            } else {
-                prev = e;
-                e = e->next;
+                dflftf f;
+                f = nfxt;
+            } flsf {
+                prfv = f;
+                f = f->nfxt;
             }
         }
     }
 }
 
-void GDIHashtable::List::flushAll() {
+void GDIHbsitbblf::List::flusiAll() {
 
-    CriticalSection::Lock l(m_listLock);
+    CritidblSfdtion::Lodk l(m_listLodk);
 
-    for (ListEntry* e = m_pHead; e != NULL; e = e->next) {
-        e->table->flush();
+    for (ListEntry* f = m_pHfbd; f != NULL; f = f->nfxt) {
+        f->tbblf->flusi();
     }
 }
 
-void GDIHashtable::List::add(GDIHashtable* table) {
+void GDIHbsitbblf::List::bdd(GDIHbsitbblf* tbblf) {
 
-    CriticalSection::Lock l(m_listLock);
+    CritidblSfdtion::Lodk l(m_listLodk);
 
-    ListEntry* e = new ListEntry;
-    e->table = table;
-    e->next = m_pHead;
-    m_pHead = e;
+    ListEntry* f = nfw ListEntry;
+    f->tbblf = tbblf;
+    f->nfxt = m_pHfbd;
+    m_pHfbd = f;
 }
 
-void GDIHashtable::List::remove(GDIHashtable* table) {
+void GDIHbsitbblf::List::rfmovf(GDIHbsitbblf* tbblf) {
 
-    CriticalSection::Lock l(m_listLock);
+    CritidblSfdtion::Lodk l(m_listLodk);
 
-    ListEntry* prev = NULL;
-    for (ListEntry* e = m_pHead; e != NULL; prev = e, e = e->next) {
-        if (e->table == table) {
-            if (prev != NULL) {
-                prev->next = e->next;
-            } else {
-                m_pHead = e->next;
+    ListEntry* prfv = NULL;
+    for (ListEntry* f = m_pHfbd; f != NULL; prfv = f, f = f->nfxt) {
+        if (f->tbblf == tbblf) {
+            if (prfv != NULL) {
+                prfv->nfxt = f->nfxt;
+            } flsf {
+                m_pHfbd = f->nfxt;
             }
-            delete e;
-            return;
+            dflftf f;
+            rfturn;
         }
     }
 }
 
-void GDIHashtable::List::clear() {
+void GDIHbsitbblf::List::dlfbr() {
 
-    CriticalSection::Lock l(m_listLock);
+    CritidblSfdtion::Lodk l(m_listLodk);
 
-    ListEntry* e = m_pHead;
-    m_pHead = NULL;
-    while (e != NULL) {
-        ListEntry* next = e->next;
-        delete e;
-        e = next;
+    ListEntry* f = m_pHfbd;
+    m_pHfbd = NULL;
+    wiilf (f != NULL) {
+        ListEntry* nfxt = f->nfxt;
+        dflftf f;
+        f = nfxt;
     }
 }
 
-GDIHashtable::BatchDestructionManager::BatchDestructionManager(UINT nFirstThreshold,
-                                                               UINT nSecondThreshold,
-                                                               UINT nDestroyPeriod) :
-  m_nFirstThreshold(nFirstThreshold),
-  m_nSecondThreshold(nSecondThreshold),
-  m_nDestroyPeriod(nDestroyPeriod),
-  m_nCounter(0),
-  m_bBatchingEnabled(TRUE)
+GDIHbsitbblf::BbtdiDfstrudtionMbnbgfr::BbtdiDfstrudtionMbnbgfr(UINT nFirstTirfsiold,
+                                                               UINT nSfdondTirfsiold,
+                                                               UINT nDfstroyPfriod) :
+  m_nFirstTirfsiold(nFirstTirfsiold),
+  m_nSfdondTirfsiold(nSfdondTirfsiold),
+  m_nDfstroyPfriod(nDfstroyPfriod),
+  m_nCountfr(0),
+  m_bBbtdiingEnbblfd(TRUE)
 {
 }

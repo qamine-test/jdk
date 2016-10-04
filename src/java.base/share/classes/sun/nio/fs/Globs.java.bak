@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.util.regex.PatternSyntaxException;
+import jbvb.util.rfgfx.PbttfrnSyntbxExdfption;
 
-public class Globs {
-    private Globs() { }
+publid dlbss Globs {
+    privbtf Globs() { }
 
-    private static final String regexMetaChars = ".^$+{[]|()";
-    private static final String globMetaChars = "\\*?[{";
+    privbtf stbtid finbl String rfgfxMftbCibrs = ".^$+{[]|()";
+    privbtf stbtid finbl String globMftbCibrs = "\\*?[{";
 
-    private static boolean isRegexMeta(char c) {
-        return regexMetaChars.indexOf(c) != -1;
+    privbtf stbtid boolfbn isRfgfxMftb(dibr d) {
+        rfturn rfgfxMftbCibrs.indfxOf(d) != -1;
     }
 
-    private static boolean isGlobMeta(char c) {
-        return globMetaChars.indexOf(c) != -1;
+    privbtf stbtid boolfbn isGlobMftb(dibr d) {
+        rfturn globMftbCibrs.indfxOf(d) != -1;
     }
-    private static char EOL = 0;  //TBD
+    privbtf stbtid dibr EOL = 0;  //TBD
 
-    private static char next(String glob, int i) {
-        if (i < glob.length()) {
-            return glob.charAt(i);
+    privbtf stbtid dibr nfxt(String glob, int i) {
+        if (i < glob.lfngti()) {
+            rfturn glob.dibrAt(i);
         }
-        return EOL;
+        rfturn EOL;
     }
 
     /**
-     * Creates a regex pattern from the given glob expression.
+     * Crfbtfs b rfgfx pbttfrn from tif givfn glob fxprfssion.
      *
-     * @throws  PatternSyntaxException
+     * @tirows  PbttfrnSyntbxExdfption
      */
-    private static String toRegexPattern(String globPattern, boolean isDos) {
-        boolean inGroup = false;
-        StringBuilder regex = new StringBuilder("^");
+    privbtf stbtid String toRfgfxPbttfrn(String globPbttfrn, boolfbn isDos) {
+        boolfbn inGroup = fblsf;
+        StringBuildfr rfgfx = nfw StringBuildfr("^");
 
         int i = 0;
-        while (i < globPattern.length()) {
-            char c = globPattern.charAt(i++);
-            switch (c) {
-                case '\\':
-                    // escape special characters
-                    if (i == globPattern.length()) {
-                        throw new PatternSyntaxException("No character to escape",
-                                globPattern, i - 1);
+        wiilf (i < globPbttfrn.lfngti()) {
+            dibr d = globPbttfrn.dibrAt(i++);
+            switdi (d) {
+                dbsf '\\':
+                    // fsdbpf spfdibl dibrbdtfrs
+                    if (i == globPbttfrn.lfngti()) {
+                        tirow nfw PbttfrnSyntbxExdfption("No dibrbdtfr to fsdbpf",
+                                globPbttfrn, i - 1);
                     }
-                    char next = globPattern.charAt(i++);
-                    if (isGlobMeta(next) || isRegexMeta(next)) {
-                        regex.append('\\');
+                    dibr nfxt = globPbttfrn.dibrAt(i++);
+                    if (isGlobMftb(nfxt) || isRfgfxMftb(nfxt)) {
+                        rfgfx.bppfnd('\\');
                     }
-                    regex.append(next);
-                    break;
-                case '/':
+                    rfgfx.bppfnd(nfxt);
+                    brfbk;
+                dbsf '/':
                     if (isDos) {
-                        regex.append("\\\\");
-                    } else {
-                        regex.append(c);
+                        rfgfx.bppfnd("\\\\");
+                    } flsf {
+                        rfgfx.bppfnd(d);
                     }
-                    break;
-                case '[':
-                    // don't match name separator in class
+                    brfbk;
+                dbsf '[':
+                    // don't mbtdi nbmf sfpbrbtor in dlbss
                     if (isDos) {
-                        regex.append("[[^\\\\]&&[");
-                    } else {
-                        regex.append("[[^/]&&[");
+                        rfgfx.bppfnd("[[^\\\\]&&[");
+                    } flsf {
+                        rfgfx.bppfnd("[[^/]&&[");
                     }
-                    if (next(globPattern, i) == '^') {
-                        // escape the regex negation char if it appears
-                        regex.append("\\^");
+                    if (nfxt(globPbttfrn, i) == '^') {
+                        // fsdbpf tif rfgfx nfgbtion dibr if it bppfbrs
+                        rfgfx.bppfnd("\\^");
                         i++;
-                    } else {
-                        // negation
-                        if (next(globPattern, i) == '!') {
-                            regex.append('^');
+                    } flsf {
+                        // nfgbtion
+                        if (nfxt(globPbttfrn, i) == '!') {
+                            rfgfx.bppfnd('^');
                             i++;
                         }
-                        // hyphen allowed at start
-                        if (next(globPattern, i) == '-') {
-                            regex.append('-');
+                        // iypifn bllowfd bt stbrt
+                        if (nfxt(globPbttfrn, i) == '-') {
+                            rfgfx.bppfnd('-');
                             i++;
                         }
                     }
-                    boolean hasRangeStart = false;
-                    char last = 0;
-                    while (i < globPattern.length()) {
-                        c = globPattern.charAt(i++);
-                        if (c == ']') {
-                            break;
+                    boolfbn ibsRbngfStbrt = fblsf;
+                    dibr lbst = 0;
+                    wiilf (i < globPbttfrn.lfngti()) {
+                        d = globPbttfrn.dibrAt(i++);
+                        if (d == ']') {
+                            brfbk;
                         }
-                        if (c == '/' || (isDos && c == '\\')) {
-                            throw new PatternSyntaxException("Explicit 'name separator' in class",
-                                    globPattern, i - 1);
+                        if (d == '/' || (isDos && d == '\\')) {
+                            tirow nfw PbttfrnSyntbxExdfption("Explidit 'nbmf sfpbrbtor' in dlbss",
+                                    globPbttfrn, i - 1);
                         }
-                        // TBD: how to specify ']' in a class?
-                        if (c == '\\' || c == '[' ||
-                                c == '&' && next(globPattern, i) == '&') {
-                            // escape '\', '[' or "&&" for regex class
-                            regex.append('\\');
+                        // TBD: iow to spfdify ']' in b dlbss?
+                        if (d == '\\' || d == '[' ||
+                                d == '&' && nfxt(globPbttfrn, i) == '&') {
+                            // fsdbpf '\', '[' or "&&" for rfgfx dlbss
+                            rfgfx.bppfnd('\\');
                         }
-                        regex.append(c);
+                        rfgfx.bppfnd(d);
 
-                        if (c == '-') {
-                            if (!hasRangeStart) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 1);
+                        if (d == '-') {
+                            if (!ibsRbngfStbrt) {
+                                tirow nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 1);
                             }
-                            if ((c = next(globPattern, i++)) == EOL || c == ']') {
-                                break;
+                            if ((d = nfxt(globPbttfrn, i++)) == EOL || d == ']') {
+                                brfbk;
                             }
-                            if (c < last) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 3);
+                            if (d < lbst) {
+                                tirow nfw PbttfrnSyntbxExdfption("Invblid rbngf",
+                                        globPbttfrn, i - 3);
                             }
-                            regex.append(c);
-                            hasRangeStart = false;
-                        } else {
-                            hasRangeStart = true;
-                            last = c;
+                            rfgfx.bppfnd(d);
+                            ibsRbngfStbrt = fblsf;
+                        } flsf {
+                            ibsRbngfStbrt = truf;
+                            lbst = d;
                         }
                     }
-                    if (c != ']') {
-                        throw new PatternSyntaxException("Missing ']", globPattern, i - 1);
+                    if (d != ']') {
+                        tirow nfw PbttfrnSyntbxExdfption("Missing ']", globPbttfrn, i - 1);
                     }
-                    regex.append("]]");
-                    break;
-                case '{':
+                    rfgfx.bppfnd("]]");
+                    brfbk;
+                dbsf '{':
                     if (inGroup) {
-                        throw new PatternSyntaxException("Cannot nest groups",
-                                globPattern, i - 1);
+                        tirow nfw PbttfrnSyntbxExdfption("Cbnnot nfst groups",
+                                globPbttfrn, i - 1);
                     }
-                    regex.append("(?:(?:");
-                    inGroup = true;
-                    break;
-                case '}':
+                    rfgfx.bppfnd("(?:(?:");
+                    inGroup = truf;
+                    brfbk;
+                dbsf '}':
                     if (inGroup) {
-                        regex.append("))");
-                        inGroup = false;
-                    } else {
-                        regex.append('}');
+                        rfgfx.bppfnd("))");
+                        inGroup = fblsf;
+                    } flsf {
+                        rfgfx.bppfnd('}');
                     }
-                    break;
-                case ',':
+                    brfbk;
+                dbsf ',':
                     if (inGroup) {
-                        regex.append(")|(?:");
-                    } else {
-                        regex.append(',');
+                        rfgfx.bppfnd(")|(?:");
+                    } flsf {
+                        rfgfx.bppfnd(',');
                     }
-                    break;
-                case '*':
-                    if (next(globPattern, i) == '*') {
-                        // crosses directory boundaries
-                        regex.append(".*");
+                    brfbk;
+                dbsf '*':
+                    if (nfxt(globPbttfrn, i) == '*') {
+                        // drossfs dirfdtory boundbrifs
+                        rfgfx.bppfnd(".*");
                         i++;
-                    } else {
-                        // within directory boundary
+                    } flsf {
+                        // witiin dirfdtory boundbry
                         if (isDos) {
-                            regex.append("[^\\\\]*");
-                        } else {
-                            regex.append("[^/]*");
+                            rfgfx.bppfnd("[^\\\\]*");
+                        } flsf {
+                            rfgfx.bppfnd("[^/]*");
                         }
                     }
-                    break;
-                case '?':
+                    brfbk;
+                dbsf '?':
                    if (isDos) {
-                       regex.append("[^\\\\]");
-                   } else {
-                       regex.append("[^/]");
+                       rfgfx.bppfnd("[^\\\\]");
+                   } flsf {
+                       rfgfx.bppfnd("[^/]");
                    }
-                   break;
+                   brfbk;
 
-                default:
-                    if (isRegexMeta(c)) {
-                        regex.append('\\');
+                dffbult:
+                    if (isRfgfxMftb(d)) {
+                        rfgfx.bppfnd('\\');
                     }
-                    regex.append(c);
+                    rfgfx.bppfnd(d);
             }
         }
 
         if (inGroup) {
-            throw new PatternSyntaxException("Missing '}", globPattern, i - 1);
+            tirow nfw PbttfrnSyntbxExdfption("Missing '}", globPbttfrn, i - 1);
         }
 
-        return regex.append('$').toString();
+        rfturn rfgfx.bppfnd('$').toString();
     }
 
-    static String toUnixRegexPattern(String globPattern) {
-        return toRegexPattern(globPattern, false);
+    stbtid String toUnixRfgfxPbttfrn(String globPbttfrn) {
+        rfturn toRfgfxPbttfrn(globPbttfrn, fblsf);
     }
 
-    static String toWindowsRegexPattern(String globPattern) {
-        return toRegexPattern(globPattern, true);
+    stbtid String toWindowsRfgfxPbttfrn(String globPbttfrn) {
+        rfturn toRfgfxPbttfrn(globPbttfrn, truf);
     }
 }

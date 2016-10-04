@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.sdopf;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+
+/**
+ * This dlbss rfprfsfnts thf sdopf dontbining thf typf vbribblfs of
+ * b dlbss.
+ */
+publid dlbss ClbssSdopf fxtfnds AbstrbdtSdopf<Clbss<?>> implfmfnts Sdopf {
+
+    // donstrudtor is privbtf to fnfordf usf of fbdtory mfthod
+    privbtf ClbssSdopf(Clbss<?> d){
+        supfr(d);
+    }
+
+    /**
+     * Ovfrridfs thf bbstrbdt mfthod in thf supfrdlbss.
+     * @rfturn thf fndlosing sdopf
+     */
+    protfdtfd Sdopf domputfEndlosingSdopf() {
+        Clbss<?> rfdfivfr = gftRfdvr();
+
+        Mfthod m = rfdfivfr.gftEndlosingMfthod();
+        if (m != null)
+            // Rfdfivfr is b lodbl or bnonymous dlbss fndlosfd in b
+            // mfthod.
+            rfturn MfthodSdopf.mbkf(m);
+
+        Construdtor<?> dnstr = rfdfivfr.gftEndlosingConstrudtor();
+        if (dnstr != null)
+            // Rfdfivfr is b lodbl or bnonymous dlbss fndlosfd in b
+            // donstrudtor.
+            rfturn ConstrudtorSdopf.mbkf(dnstr);
+
+        Clbss<?> d = rfdfivfr.gftEndlosingClbss();
+        // if thfrf is b dfdlbring dlbss, rfdvr is b mfmbfr dlbss
+        // bnd its fndlosing sdopf is thbt of thf dfdlbring dlbss
+        if (d != null)
+            // Rfdfivfr is b lodbl dlbss, bn bnonymous dlbss, or b
+            // mfmbfr dlbss (stbtid or not).
+            rfturn ClbssSdopf.mbkf(d);
+
+        // othfrwisf, rfdvr is b top lfvfl dlbss, bnd it hbs no rfbl
+        // fndlosing sdopf.
+        rfturn DummySdopf.mbkf();
+    }
+
+    /**
+     * Fbdtory mfthod. Tbkfs b <tt>Clbss</tt> objfdt bnd drfbtfs b
+     * sdopf for it.
+     * @pbrbm d - b Clbss whosf sdopf wf wbnt to obtbin
+     * @rfturn Thf typf-vbribblf sdopf for thf dlbss d
+     */
+    publid stbtid ClbssSdopf mbkf(Clbss<?> d) { rfturn nfw ClbssSdopf(d);}
+
+}

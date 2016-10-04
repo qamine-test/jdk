@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,557 +59,557 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
 
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Locale;
+import jbvb.timf.dirono.Cironology;
+import jbvb.timf.dirono.IsoCironology;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Lodblf;
 
 /**
- * A month-of-year, such as 'July'.
+ * A monti-of-yfbr, sudi bs 'July'.
  * <p>
- * {@code Month} is an enum representing the 12 months of the year -
- * January, February, March, April, May, June, July, August, September, October,
- * November and December.
+ * {@dodf Monti} is bn fnum rfprfsfnting tif 12 montis of tif yfbr -
+ * Jbnubry, Ffbrubry, Mbrdi, April, Mby, Junf, July, August, Sfptfmbfr, Odtobfr,
+ * Novfmbfr bnd Dfdfmbfr.
  * <p>
- * In addition to the textual enum name, each month-of-year has an {@code int} value.
- * The {@code int} value follows normal usage and the ISO-8601 standard,
- * from 1 (January) to 12 (December). It is recommended that applications use the enum
- * rather than the {@code int} value to ensure code clarity.
+ * In bddition to tif tfxtubl fnum nbmf, fbdi monti-of-yfbr ibs bn {@dodf int} vbluf.
+ * Tif {@dodf int} vbluf follows normbl usbgf bnd tif ISO-8601 stbndbrd,
+ * from 1 (Jbnubry) to 12 (Dfdfmbfr). It is rfdommfndfd tibt bpplidbtions usf tif fnum
+ * rbtifr tibn tif {@dodf int} vbluf to fnsurf dodf dlbrity.
  * <p>
- * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code Month}.
- * Use {@code getValue()} instead.</b>
+ * <b>Do not usf {@dodf ordinbl()} to obtbin tif numfrid rfprfsfntbtion of {@dodf Monti}.
+ * Usf {@dodf gftVbluf()} instfbd.</b>
  * <p>
- * This enum represents a common concept that is found in many calendar systems.
- * As such, this enum may be used by any calendar system that has the month-of-year
- * concept defined exactly equivalent to the ISO-8601 calendar system.
+ * Tiis fnum rfprfsfnts b dommon dondfpt tibt is found in mbny dblfndbr systfms.
+ * As sudi, tiis fnum mby bf usfd by bny dblfndbr systfm tibt ibs tif monti-of-yfbr
+ * dondfpt dffinfd fxbdtly fquivblfnt to tif ISO-8601 dblfndbr systfm.
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is bn immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum Month implements TemporalAccessor, TemporalAdjuster {
+publid fnum Monti implfmfnts TfmporblAddfssor, TfmporblAdjustfr {
 
     /**
-     * The singleton instance for the month of January with 31 days.
-     * This has the numeric value of {@code 1}.
+     * Tif singlfton instbndf for tif monti of Jbnubry witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 1}.
      */
     JANUARY,
     /**
-     * The singleton instance for the month of February with 28 days, or 29 in a leap year.
-     * This has the numeric value of {@code 2}.
+     * Tif singlfton instbndf for tif monti of Ffbrubry witi 28 dbys, or 29 in b lfbp yfbr.
+     * Tiis ibs tif numfrid vbluf of {@dodf 2}.
      */
     FEBRUARY,
     /**
-     * The singleton instance for the month of March with 31 days.
-     * This has the numeric value of {@code 3}.
+     * Tif singlfton instbndf for tif monti of Mbrdi witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 3}.
      */
     MARCH,
     /**
-     * The singleton instance for the month of April with 30 days.
-     * This has the numeric value of {@code 4}.
+     * Tif singlfton instbndf for tif monti of April witi 30 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 4}.
      */
     APRIL,
     /**
-     * The singleton instance for the month of May with 31 days.
-     * This has the numeric value of {@code 5}.
+     * Tif singlfton instbndf for tif monti of Mby witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 5}.
      */
     MAY,
     /**
-     * The singleton instance for the month of June with 30 days.
-     * This has the numeric value of {@code 6}.
+     * Tif singlfton instbndf for tif monti of Junf witi 30 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 6}.
      */
     JUNE,
     /**
-     * The singleton instance for the month of July with 31 days.
-     * This has the numeric value of {@code 7}.
+     * Tif singlfton instbndf for tif monti of July witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 7}.
      */
     JULY,
     /**
-     * The singleton instance for the month of August with 31 days.
-     * This has the numeric value of {@code 8}.
+     * Tif singlfton instbndf for tif monti of August witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 8}.
      */
     AUGUST,
     /**
-     * The singleton instance for the month of September with 30 days.
-     * This has the numeric value of {@code 9}.
+     * Tif singlfton instbndf for tif monti of Sfptfmbfr witi 30 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 9}.
      */
     SEPTEMBER,
     /**
-     * The singleton instance for the month of October with 31 days.
-     * This has the numeric value of {@code 10}.
+     * Tif singlfton instbndf for tif monti of Odtobfr witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 10}.
      */
     OCTOBER,
     /**
-     * The singleton instance for the month of November with 30 days.
-     * This has the numeric value of {@code 11}.
+     * Tif singlfton instbndf for tif monti of Novfmbfr witi 30 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 11}.
      */
     NOVEMBER,
     /**
-     * The singleton instance for the month of December with 31 days.
-     * This has the numeric value of {@code 12}.
+     * Tif singlfton instbndf for tif monti of Dfdfmbfr witi 31 dbys.
+     * Tiis ibs tif numfrid vbluf of {@dodf 12}.
      */
     DECEMBER;
     /**
-     * Private cache of all the constants.
+     * Privbtf dbdif of bll tif donstbnts.
      */
-    private static final Month[] ENUMS = Month.values();
+    privbtf stbtid finbl Monti[] ENUMS = Monti.vblufs();
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Month} from an {@code int} value.
+     * Obtbins bn instbndf of {@dodf Monti} from bn {@dodf int} vbluf.
      * <p>
-     * {@code Month} is an enum representing the 12 months of the year.
-     * This factory allows the enum to be obtained from the {@code int} value.
-     * The {@code int} value follows the ISO-8601 standard, from 1 (January) to 12 (December).
+     * {@dodf Monti} is bn fnum rfprfsfnting tif 12 montis of tif yfbr.
+     * Tiis fbdtory bllows tif fnum to bf obtbinfd from tif {@dodf int} vbluf.
+     * Tif {@dodf int} vbluf follows tif ISO-8601 stbndbrd, from 1 (Jbnubry) to 12 (Dfdfmbfr).
      *
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @return the month-of-year, not null
-     * @throws DateTimeException if the month-of-year is invalid
+     * @pbrbm monti  tif monti-of-yfbr to rfprfsfnt, from 1 (Jbnubry) to 12 (Dfdfmbfr)
+     * @rfturn tif monti-of-yfbr, not null
+     * @tirows DbtfTimfExdfption if tif monti-of-yfbr is invblid
      */
-    public static Month of(int month) {
-        if (month < 1 || month > 12) {
-            throw new DateTimeException("Invalid value for MonthOfYear: " + month);
+    publid stbtid Monti of(int monti) {
+        if (monti < 1 || monti > 12) {
+            tirow nfw DbtfTimfExdfption("Invblid vbluf for MontiOfYfbr: " + monti);
         }
-        return ENUMS[month - 1];
+        rfturn ENUMS[monti - 1];
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Month} from a temporal object.
+     * Obtbins bn instbndf of {@dodf Monti} from b tfmporbl objfdt.
      * <p>
-     * This obtains a month based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code Month}.
+     * Tiis obtbins b monti bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf Monti}.
      * <p>
-     * The conversion extracts the {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} field.
-     * The extraction is only permitted if the temporal object has an ISO
-     * chronology, or can be converted to a {@code LocalDate}.
+     * Tif donvfrsion fxtrbdts tif {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} fifld.
+     * Tif fxtrbdtion is only pfrmittfd if tif tfmporbl objfdt ibs bn ISO
+     * dironology, or dbn bf donvfrtfd to b {@dodf LodblDbtf}.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code Month::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf Monti::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the month-of-year, not null
-     * @throws DateTimeException if unable to convert to a {@code Month}
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif monti-of-yfbr, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf Monti}
      */
-    public static Month from(TemporalAccessor temporal) {
-        if (temporal instanceof Month) {
-            return (Month) temporal;
+    publid stbtid Monti from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof Monti) {
+            rfturn (Monti) tfmporbl;
         }
         try {
-            if (IsoChronology.INSTANCE.equals(Chronology.from(temporal)) == false) {
-                temporal = LocalDate.from(temporal);
+            if (IsoCironology.INSTANCE.fqubls(Cironology.from(tfmporbl)) == fblsf) {
+                tfmporbl = LodblDbtf.from(tfmporbl);
             }
-            return of(temporal.get(MONTH_OF_YEAR));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain Month from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            rfturn of(tfmporbl.gft(MONTH_OF_YEAR));
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin Monti from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the month-of-year {@code int} value.
+     * Gfts tif monti-of-yfbr {@dodf int} vbluf.
      * <p>
-     * The values are numbered following the ISO-8601 standard,
-     * from 1 (January) to 12 (December).
+     * Tif vblufs brf numbfrfd following tif ISO-8601 stbndbrd,
+     * from 1 (Jbnubry) to 12 (Dfdfmbfr).
      *
-     * @return the month-of-year, from 1 (January) to 12 (December)
+     * @rfturn tif monti-of-yfbr, from 1 (Jbnubry) to 12 (Dfdfmbfr)
      */
-    public int getValue() {
-        return ordinal() + 1;
+    publid int gftVbluf() {
+        rfturn ordinbl() + 1;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation, such as 'Jan' or 'December'.
+     * Gfts tif tfxtubl rfprfsfntbtion, sudi bs 'Jbn' or 'Dfdfmbfr'.
      * <p>
-     * This returns the textual name used to identify the month-of-year,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * Tiis rfturns tif tfxtubl nbmf usfd to idfntify tif monti-of-yfbr,
+     * suitbblf for prfsfntbtion to tif usfr.
+     * Tif pbrbmftfrs dontrol tif stylf of tif rfturnfd tfxt bnd tif lodblf.
      * <p>
-     * If no textual mapping is found then the {@link #getValue() numeric value} is returned.
+     * If no tfxtubl mbpping is found tifn tif {@link #gftVbluf() numfrid vbluf} is rfturnfd.
      *
-     * @param style  the length of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the month-of-year, not null
+     * @pbrbm stylf  tif lfngti of tif tfxt rfquirfd, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif tfxt vbluf of tif monti-of-yfbr, not null
      */
-    public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(MONTH_OF_YEAR, style).toFormatter(locale).format(this);
+    publid String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndTfxt(MONTH_OF_YEAR, stylf).toFormbttfr(lodblf).formbt(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified field is supported.
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This checks if this month-of-year can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * Tiis difdks if tiis monti-of-yfbr dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mftiods will tirow bn fxdfption.
      * <p>
-     * If the field is {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} then
-     * this method returns true.
-     * All other {@code ChronoField} instances will return false.
+     * If tif fifld is {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} tifn
+     * tiis mftiod rfturns truf.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this month-of-year, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis monti-of-yfbr, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == MONTH_OF_YEAR;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            rfturn fifld == MONTH_OF_YEAR;
         }
-        return field != null && field.isSupportedBy(this);
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
     /**
-     * Gets the range of valid values for the specified field.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This month is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis monti is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} then the
-     * range of the month-of-year, from 1 to 12, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} tifn tif
+     * rbngf of tif monti-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
      */
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field == MONTH_OF_YEAR) {
-            return field.range();
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn fifld.rbngf();
         }
-        return TemporalAccessor.super.range(field);
+        rfturn TfmporblAddfssor.supfr.rbngf(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this month-of-year as an {@code int}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis monti-of-yfbr bs bn {@dodf int}.
      * <p>
-     * This queries this month for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis monti for tif vbluf of tif spfdififd fifld.
+     * Tif rfturnfd vbluf will blwbys bf witiin tif vblid rbngf of vblufs for tif fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} then the
-     * value of the month-of-year, from 1 to 12, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} tifn tif
+     * vbluf of tif monti-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field, within the valid range of values
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld, witiin tif vblid rbngf of vblufs
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd or
+     *         tif vbluf is outsidf tif rbngf of vblid vblufs for tif fifld
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd or
+     *         tif rbngf of vblufs fxdffds bn {@dodf int}
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public int get(TemporalField field) {
-        if (field == MONTH_OF_YEAR) {
-            return getValue();
+    @Ovfrridf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn gftVbluf();
         }
-        return TemporalAccessor.super.get(field);
+        rfturn TfmporblAddfssor.supfr.gft(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this month-of-year as a {@code long}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis monti-of-yfbr bs b {@dodf long}.
      * <p>
-     * This queries this month for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis monti for tif vbluf of tif spfdififd fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} then the
-     * value of the month-of-year, from 1 to 12, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} tifn tif
+     * vbluf of tif monti-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public long getLong(TemporalField field) {
-        if (field == MONTH_OF_YEAR) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn gftVbluf();
+        } flsf if (fifld instbndfof CironoFifld) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the month-of-year that is the specified number of quarters after this one.
+     * Rfturns tif monti-of-yfbr tibt is tif spfdififd numbfr of qubrtfrs bftfr tiis onf.
      * <p>
-     * The calculation rolls around the end of the year from December to January.
-     * The specified period may be negative.
+     * Tif dbldulbtion rolls bround tif fnd of tif yfbr from Dfdfmbfr to Jbnubry.
+     * Tif spfdififd pfriod mby bf nfgbtivf.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param months  the months to add, positive or negative
-     * @return the resulting month, not null
+     * @pbrbm montis  tif montis to bdd, positivf or nfgbtivf
+     * @rfturn tif rfsulting monti, not null
      */
-    public Month plus(long months) {
-        int amount = (int) (months % 12);
-        return ENUMS[(ordinal() + (amount + 12)) % 12];
+    publid Monti plus(long montis) {
+        int bmount = (int) (montis % 12);
+        rfturn ENUMS[(ordinbl() + (bmount + 12)) % 12];
     }
 
     /**
-     * Returns the month-of-year that is the specified number of months before this one.
+     * Rfturns tif monti-of-yfbr tibt is tif spfdififd numbfr of montis bfforf tiis onf.
      * <p>
-     * The calculation rolls around the start of the year from January to December.
-     * The specified period may be negative.
+     * Tif dbldulbtion rolls bround tif stbrt of tif yfbr from Jbnubry to Dfdfmbfr.
+     * Tif spfdififd pfriod mby bf nfgbtivf.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param months  the months to subtract, positive or negative
-     * @return the resulting month, not null
+     * @pbrbm montis  tif montis to subtrbdt, positivf or nfgbtivf
+     * @rfturn tif rfsulting monti, not null
      */
-    public Month minus(long months) {
-        return plus(-(months % 12));
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Gets the length of this month in days.
-     * <p>
-     * This takes a flag to determine whether to return the length for a leap year or not.
-     * <p>
-     * February has 28 days in a standard year and 29 days in a leap year.
-     * April, June, September and November have 30 days.
-     * All other months have 31 days.
-     *
-     * @param leapYear  true if the length is required for a leap year
-     * @return the length of this month in days, from 28 to 31
-     */
-    public int length(boolean leapYear) {
-        switch (this) {
-            case FEBRUARY:
-                return (leapYear ? 29 : 28);
-            case APRIL:
-            case JUNE:
-            case SEPTEMBER:
-            case NOVEMBER:
-                return 30;
-            default:
-                return 31;
-        }
-    }
-
-    /**
-     * Gets the minimum length of this month in days.
-     * <p>
-     * February has a minimum length of 28 days.
-     * April, June, September and November have 30 days.
-     * All other months have 31 days.
-     *
-     * @return the minimum length of this month in days, from 28 to 31
-     */
-    public int minLength() {
-        switch (this) {
-            case FEBRUARY:
-                return 28;
-            case APRIL:
-            case JUNE:
-            case SEPTEMBER:
-            case NOVEMBER:
-                return 30;
-            default:
-                return 31;
-        }
-    }
-
-    /**
-     * Gets the maximum length of this month in days.
-     * <p>
-     * February has a maximum length of 29 days.
-     * April, June, September and November have 30 days.
-     * All other months have 31 days.
-     *
-     * @return the maximum length of this month in days, from 29 to 31
-     */
-    public int maxLength() {
-        switch (this) {
-            case FEBRUARY:
-                return 29;
-            case APRIL:
-            case JUNE:
-            case SEPTEMBER:
-            case NOVEMBER:
-                return 30;
-            default:
-                return 31;
-        }
+    publid Monti minus(long montis) {
+        rfturn plus(-(montis % 12));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the day-of-year corresponding to the first day of this month.
+     * Gfts tif lfngti of tiis monti in dbys.
      * <p>
-     * This returns the day-of-year that this month begins on, using the leap
-     * year flag to determine the length of February.
+     * Tiis tbkfs b flbg to dftfrminf wiftifr to rfturn tif lfngti for b lfbp yfbr or not.
+     * <p>
+     * Ffbrubry ibs 28 dbys in b stbndbrd yfbr bnd 29 dbys in b lfbp yfbr.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr ibvf 30 dbys.
+     * All otifr montis ibvf 31 dbys.
      *
-     * @param leapYear  true if the length is required for a leap year
-     * @return the day of year corresponding to the first day of this month, from 1 to 336
+     * @pbrbm lfbpYfbr  truf if tif lfngti is rfquirfd for b lfbp yfbr
+     * @rfturn tif lfngti of tiis monti in dbys, from 28 to 31
      */
-    public int firstDayOfYear(boolean leapYear) {
-        int leap = leapYear ? 1 : 0;
-        switch (this) {
-            case JANUARY:
-                return 1;
-            case FEBRUARY:
-                return 32;
-            case MARCH:
-                return 60 + leap;
-            case APRIL:
-                return 91 + leap;
-            case MAY:
-                return 121 + leap;
-            case JUNE:
-                return 152 + leap;
-            case JULY:
-                return 182 + leap;
-            case AUGUST:
-                return 213 + leap;
-            case SEPTEMBER:
-                return 244 + leap;
-            case OCTOBER:
-                return 274 + leap;
-            case NOVEMBER:
-                return 305 + leap;
-            case DECEMBER:
-            default:
-                return 335 + leap;
+    publid int lfngti(boolfbn lfbpYfbr) {
+        switdi (tiis) {
+            dbsf FEBRUARY:
+                rfturn (lfbpYfbr ? 29 : 28);
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
         }
     }
 
     /**
-     * Gets the month corresponding to the first month of this quarter.
+     * Gfts tif minimum lfngti of tiis monti in dbys.
      * <p>
-     * The year can be divided into four quarters.
-     * This method returns the first month of the quarter for the base month.
-     * January, February and March return January.
-     * April, May and June return April.
-     * July, August and September return July.
-     * October, November and December return October.
+     * Ffbrubry ibs b minimum lfngti of 28 dbys.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr ibvf 30 dbys.
+     * All otifr montis ibvf 31 dbys.
      *
-     * @return the first month of the quarter corresponding to this month, not null
+     * @rfturn tif minimum lfngti of tiis monti in dbys, from 28 to 31
      */
-    public Month firstMonthOfQuarter() {
-        return ENUMS[(ordinal() / 3) * 3];
+    publid int minLfngti() {
+        switdi (tiis) {
+            dbsf FEBRUARY:
+                rfturn 28;
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
+        }
+    }
+
+    /**
+     * Gfts tif mbximum lfngti of tiis monti in dbys.
+     * <p>
+     * Ffbrubry ibs b mbximum lfngti of 29 dbys.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr ibvf 30 dbys.
+     * All otifr montis ibvf 31 dbys.
+     *
+     * @rfturn tif mbximum lfngti of tiis monti in dbys, from 29 to 31
+     */
+    publid int mbxLfngti() {
+        switdi (tiis) {
+            dbsf FEBRUARY:
+                rfturn 29;
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
+        }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this month-of-year using the specified query.
+     * Gfts tif dby-of-yfbr dorrfsponding to tif first dby of tiis monti.
      * <p>
-     * This queries this month-of-year using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
-     * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * Tiis rfturns tif dby-of-yfbr tibt tiis monti bfgins on, using tif lfbp
+     * yfbr flbg to dftfrminf tif lfngti of Ffbrubry.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm lfbpYfbr  truf if tif lfngti is rfquirfd for b lfbp yfbr
+     * @rfturn tif dby of yfbr dorrfsponding to tif first dby of tiis monti, from 1 to 336
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
-            return (R) MONTHS;
+    publid int firstDbyOfYfbr(boolfbn lfbpYfbr) {
+        int lfbp = lfbpYfbr ? 1 : 0;
+        switdi (tiis) {
+            dbsf JANUARY:
+                rfturn 1;
+            dbsf FEBRUARY:
+                rfturn 32;
+            dbsf MARCH:
+                rfturn 60 + lfbp;
+            dbsf APRIL:
+                rfturn 91 + lfbp;
+            dbsf MAY:
+                rfturn 121 + lfbp;
+            dbsf JUNE:
+                rfturn 152 + lfbp;
+            dbsf JULY:
+                rfturn 182 + lfbp;
+            dbsf AUGUST:
+                rfturn 213 + lfbp;
+            dbsf SEPTEMBER:
+                rfturn 244 + lfbp;
+            dbsf OCTOBER:
+                rfturn 274 + lfbp;
+            dbsf NOVEMBER:
+                rfturn 305 + lfbp;
+            dbsf DECEMBER:
+            dffbult:
+                rfturn 335 + lfbp;
         }
-        return TemporalAccessor.super.query(query);
     }
 
     /**
-     * Adjusts the specified temporal object to have this month-of-year.
+     * Gfts tif monti dorrfsponding to tif first monti of tiis qubrtfr.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the month-of-year changed to be the same as this.
-     * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#MONTH_OF_YEAR} as the field.
-     * If the specified temporal object does not use the ISO calendar system then
-     * a {@code DateTimeException} is thrown.
-     * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisMonth.adjustInto(temporal);
-     *   temporal = temporal.with(thisMonth);
-     * </pre>
-     * <p>
-     * For example, given a date in May, the following are output:
-     * <pre>
-     *   dateInMay.with(JANUARY);    // four months earlier
-     *   dateInMay.with(APRIL);      // one months earlier
-     *   dateInMay.with(MAY);        // same date
-     *   dateInMay.with(JUNE);       // one month later
-     *   dateInMay.with(DECEMBER);   // seven months later
-     * </pre>
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tif yfbr dbn bf dividfd into four qubrtfrs.
+     * Tiis mftiod rfturns tif first monti of tif qubrtfr for tif bbsf monti.
+     * Jbnubry, Ffbrubry bnd Mbrdi rfturn Jbnubry.
+     * April, Mby bnd Junf rfturn April.
+     * July, August bnd Sfptfmbfr rfturn July.
+     * Odtobfr, Novfmbfr bnd Dfdfmbfr rfturn Odtobfr.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
+     * @rfturn tif first monti of tif qubrtfr dorrfsponding to tiis monti, not null
      */
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
+    publid Monti firstMontiOfQubrtfr() {
+        rfturn ENUMS[(ordinbl() / 3) * 3];
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Qufrifs tiis monti-of-yfbr using tif spfdififd qufry.
+     * <p>
+     * Tiis qufrifs tiis monti-of-yfbr using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
+     * <p>
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
+     *
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
+     */
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.dironology()) {
+            rfturn (R) IsoCironology.INSTANCE;
+        } flsf if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) MONTHS;
         }
-        return temporal.with(MONTH_OF_YEAR, getValue());
+        rfturn TfmporblAddfssor.supfr.qufry(qufry);
+    }
+
+    /**
+     * Adjusts tif spfdififd tfmporbl objfdt to ibvf tiis monti-of-yfbr.
+     * <p>
+     * Tiis rfturns b tfmporbl objfdt of tif sbmf obsfrvbblf typf bs tif input
+     * witi tif monti-of-yfbr dibngfd to bf tif sbmf bs tiis.
+     * <p>
+     * Tif bdjustmfnt is fquivblfnt to using {@link Tfmporbl#witi(TfmporblFifld, long)}
+     * pbssing {@link CironoFifld#MONTH_OF_YEAR} bs tif fifld.
+     * If tif spfdififd tfmporbl objfdt dofs not usf tif ISO dblfndbr systfm tifn
+     * b {@dodf DbtfTimfExdfption} is tirown.
+     * <p>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf tif dblling pbttfrn by using
+     * {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisMonti.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisMonti);
+     * </prf>
+     * <p>
+     * For fxbmplf, givfn b dbtf in Mby, tif following brf output:
+     * <prf>
+     *   dbtfInMby.witi(JANUARY);    // four montis fbrlifr
+     *   dbtfInMby.witi(APRIL);      // onf montis fbrlifr
+     *   dbtfInMby.witi(MAY);        // sbmf dbtf
+     *   dbtfInMby.witi(JUNE);       // onf monti lbtfr
+     *   dbtfInMby.witi(DECEMBER);   // sfvfn montis lbtfr
+     * </prf>
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm tfmporbl  tif tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn tif bdjustfd objfdt, not null
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        if (Cironology.from(tfmporbl).fqubls(IsoCironology.INSTANCE) == fblsf) {
+            tirow nfw DbtfTimfExdfption("Adjustmfnt only supportfd on ISO dbtf-timf");
+        }
+        rfturn tfmporbl.witi(MONTH_OF_YEAR, gftVbluf());
     }
 
 }

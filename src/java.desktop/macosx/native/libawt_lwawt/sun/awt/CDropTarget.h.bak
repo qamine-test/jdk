@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef CDropTarget_h
-#define CDropTarget_h
+#ifndff CDropTbrgft_i
+#dffinf CDropTbrgft_i
 
-#import <AppKit/AppKit.h>
-#import <jni.h>
+#import <AppKit/AppKit.i>
+#import <jni.i>
 
-@class ControlModel;
+@dlbss ControlModfl;
 
-@class CDropTarget;
+@dlbss CDropTbrgft;
 
-@protocol CDropTargetHolder
-- (void) setDropTarget:(CDropTarget *)target;
-@end
+@protodol CDropTbrgftHoldfr
+- (void) sftDropTbrgft:(CDropTbrgft *)tbrgft;
+@fnd
 
-@interface CDropTarget : NSObject {
-@private
-    NSView<CDropTargetHolder>* fView;
-    jobject            fComponent;
-    jobject            fDropTarget;
-    jobject            fDropTargetContextPeer;
+@intfrfbdf CDropTbrgft : NSObjfdt {
+@privbtf
+    NSVifw<CDropTbrgftHoldfr>* fVifw;
+    jobjfdt            fComponfnt;
+    jobjfdt            fDropTbrgft;
+    jobjfdt            fDropTbrgftContfxtPffr;
 }
 
-+ (CDropTarget *) currentDropTarget;
++ (CDropTbrgft *) durrfntDropTbrgft;
 
-// Common methods:
-- (id)init:(jobject)dropTarget component:(jobject)jcomponent control:(id)control;
-- (void)controlModelControlValid;
-- (void)removeFromView:(JNIEnv *)env;
+// Common mftiods:
+- (id)init:(jobjfdt)dropTbrgft domponfnt:(jobjfdt)jdomponfnt dontrol:(id)dontrol;
+- (void)dontrolModflControlVblid;
+- (void)rfmovfFromVifw:(JNIEnv *)fnv;
 
-- (NSInteger)getDraggingSequenceNumber;
-- (jobject)copyDraggingDataForFormat:(jlong)format;
-- (void)javaDraggingEnded:(jlong)draggingSequenceNumber success:(BOOL)jsuccess action:(jint)jdropaction;
+- (NSIntfgfr)gftDrbggingSfqufndfNumbfr;
+- (jobjfdt)dopyDrbggingDbtbForFormbt:(jlong)formbt;
+- (void)jbvbDrbggingEndfd:(jlong)drbggingSfqufndfNumbfr suddfss:(BOOL)jsuddfss bdtion:(jint)jdropbdtion;
 
-// dnd APIs (see AppKit/NSDragging.h, NSDraggingDestination):
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender;
-- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender;
-- (void)draggingExited:(id <NSDraggingInfo>)sender;
-- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender;
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender;
-- (void)concludeDragOperation:(id <NSDraggingInfo>)sender;
-- (void)draggingEnded:(id <NSDraggingInfo>)sender;
+// dnd APIs (sff AppKit/NSDrbgging.i, NSDrbggingDfstinbtion):
+- (NSDrbgOpfrbtion)drbggingEntfrfd:(id <NSDrbggingInfo>)sfndfr;
+- (NSDrbgOpfrbtion)drbggingUpdbtfd:(id <NSDrbggingInfo>)sfndfr;
+- (void)drbggingExitfd:(id <NSDrbggingInfo>)sfndfr;
+- (BOOL)prfpbrfForDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr;
+- (BOOL)pfrformDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr;
+- (void)dondludfDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr;
+- (void)drbggingEndfd:(id <NSDrbggingInfo>)sfndfr;
 
-- (jint)currentJavaActions;
+- (jint)durrfntJbvbAdtions;
 
-@end
+@fnd
 
-#endif // CDropTarget_h
+#fndif // CDropTbrgft_i

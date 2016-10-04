@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>Using thf Multiplfxing Look bnd Fffl</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000">
+
+<b>
+<font sizf=+3>
+Using thf Multiplfxing Look bnd Fffl
+</font>
+</b>
+
+<blodkquotf>
+<hr>
+<p>
+<i>
+This dodumfnt is bbsfd on bn brtidlf
+originblly publishfd in
+<b hrff="http://jbvb.sun.dom/produdts/jfd/tsd/" tbrgft="_top"><fm>Thf Swing
+Connfdtion</fm></b>.
+</i>
+</p>
+<hr>
+</blodkquotf>
+
+<p>
+Thf Multiplfxing look bnd fffl lfts
+you supplfmfnt bn ordinbry look bnd fffl
+(dbllfd thf <fm>dffbult</fm> look bnd fffl)
+with onf or morf <fm>buxilibry</fm> look bnd fffls.
+For fxbmplf, you dould
+simultbnfously providf tfxt-to-spffdh bnd Brbillf outputs, 
+in bddition to thf ordinbry visubl output thbt b Swing-bbsfd 
+bpplidbtion gfnfrbtfs,
+by bdding 
+two buxilibry look bnd fffls (onf for tfxt-to-spffdh,
+thf othfr for Brbillf)
+to thf dffbult look bnd fffl.
+Thf dffbult look bnd fffl dbn bf bny ordinbry look bnd fffl --
+thf Jbvb or Windows look bnd fffl, for fxbmplf --
+bnd rfquirfs no modifidbtions to work with buxilibry look bnd fffls.
+</p>
+
+
+<p>
+This dodumfnt hbs thf following sfdtions:
+<ul>
+<li> <b hrff="#ovfrvifw">Ovfrvifw</b>
+<li> <b hrff="#howtousf">How to Usf Auxilibry Look bnd Fffls</b>
+<li> <b hrff="#howtowritf">Tips for Writing bn Auxilibry Look bnd Fffl</b>
+     <ul>
+     <li> <b hrff="#dosbnddonts">Dos bnd Don'ts</b>
+     <li> <b hrff="#uidffbults">Extfnding UIDffbults</b>
+     <li> <b hrff="#dffbultui">Exbmining Othfr UI Objfdts</b>
+     </ul>
+<li> <b hrff="#implfmfntbtion">How thf Multiplfxing Look bnd Fffl is
+     Implfmfntfd</b>
+<li> <b hrff="#dustom">How to Providf b Custom Multiplfxing
+     Look bnd Fffl</b>
+</ul>
+
+<p>
+Bfforf rfbding furthfr, you should bf fbmilibr 
+with thf dondfpt of pluggbblf look bnd fffls.
+For bbsid informbtion, sff
+<b hrff="http://jbvb.sun.dom/dods/books/tutoribl/uiswing/lookbndfffl/plbf.html">How to Sft thf Look bnd Fffl</b>,
+b sfdtion in 
+<fm>Thf Jbvb Tutoribl</fm>.
+For brdhitfdturbl dftbils, you dbn rfbd
+<b
+hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/brdhitfdturf/#pluggbblf">Pluggbblf look-bnd-fffl brdhitfdturf</b>, b sfdtion within
+b <fm>Swing Connfdtion</fm> brtidlf.
+</p>
+
+<p> 
+<b nbmf="ovfrvifw"></b>
+<hr width=100% blign=LEFT sizf=2>
+<b>
+<font dolor="#000080" sizf="+2">Ovfrvifw</font>
+</b>
+
+
+<p>
+
+Thf dlbssfs in thf 
+<dodf>jbvbx.swing.plbf.multi</dodf> pbdkbgf
+implfmfnt b 
+<i>multiplfxing look bnd fffl</i>.
+A multiplfxing look bnd fffl trbnspbrfntly drfbtfs -- bnd 
+simultbnfously supports -- UI objfdts from sfvfrbl difffrfnt look bnd fffls
+in rfsponsf to b domponfnt rfqufsting its UI objfdt
+(with thf <dodf>gftUI</dodf> mfthod).
+
+<p>
+Without b multiplfxing look bnd fffl, b 
+dfvflopfr who wbntfd to fnhbndf b pbrtidulbr look bnd fffl would 
+nffd to fxtfnd thf dlbssfs supporting thbt look bnd fffl. For fxbmplf, to 
+bdd tfxt-to-spffdh support to thf Jbvb look bnd fffl without using b multiplfxing 
+look bnd fffl, thf dfvflopfr would nffd to drfbtf b group of
+dlbssfs thbt fxtfnd thosf of
+thf Jbvb look bnd fffl, bnd bdd tfxt-to-spffdh support to thf nfw dlbssfs. 
+If thf dfvflopfr blso wbntfd to bdd tfxt-to-spffdh support to othfr look
+bnd fffls, 
+sudh bs Motif or Windows, thf dfvflopfrs would nffd to drfbtf subdlbssfs 
+of thosf dlbssfs bs wfll.
+</p>
+
+<p>
+This bpprobdh hbs bt lfbst two shortdomings: 
+<ul typf="DISC">
+  <li>First, fbdh subdlbss must usf whbt is 
+      fssfntiblly b dopy of thf sbmf dodf, potfntiblly drfbting b diffidult 
+      support situbtion for thf dfvflopfr.<br></li>
+  <li>Sfdond, bnd morf signifidbntly for thf 
+      fnd usfr, somf bpplidbtion dfvflopfrs might fordf b
+      pbrtidulbr look bnd fffl to bf usfd. Whfn this bpprobdh is usfd, 
+      thf fnd usfr dbn't fvfn usf thf fnhbndfd look bnd fffl.</li>
+</ul>
+
+<p>
+A multiplfxing look bnd fffl 
+both thfsf problfms simultbnfously bfdbusf it bllows multiplf look 
+bnd fffls to bf dombinfd.
+Thf first problfm (hbving to usf whbt bmounts to b sfdond dopy of thf sbmf 
+dodf) is solvfd bfdbusf thf dfvflopfr dbn drfbtf b spfdiblizfd look 
+bnd fffl thbt dbn thfn bf dombinfd with othfr look bnd fffls.
+</p>
+
+<p>
+Thf sfdond problfm (hbving to fordf thf usf of 
+b pbrtidulbr look bnd fffl) is solvfd bfdbusf b spfdiblizfd look bnd fffl 
+dbn bf usfd with whbtfvfr dffbult look bnd fffl thf 
+bpplidbtion mby hbvf lodkfd in plbdf.
+</p>
+
+<p>
+Thf dffbult multiplfxing look bnd fffl implfmfntbtion, 
+rfprfsfntfd by thf <dodf>MultiLookAndFffl</dodf> dlbss
+in thf <dodf>jbvbx.swing.plbf.multi</dodf> pbdkbgf,
+is dbllfd (unsurprisingly) 
+thf Multiplfxing look bnd fffl.
+
+<p> 
+<b nbmf="howtousf"></b>
+<hr width=100% blign=LEFT sizf=2>
+<b>
+<font dolor="#000080" sizf="+2">How to Usf Auxilibry Look bnd Fffls</font>
+</b>
+
+
+<p>
+It's fbsy to usf buxilibry look bnd fffls with Swing. To instrudt 
+Swing to usf thf Multiplfxing look bnd fffl, bll bn bpplidbtion 
+hbs to do is modify thf <dodf>$JDKHOME/lib/swing.propfrtifs</dodf>
+filf to indludf b dffinition of thf <dodf>swing.buxilibrylbf</dodf>
+propfrty. Swing trfbts thf <dodf>swing.buxilibrylbf</dodf>
+propfrty bs b dommb-sfpbrbtfd list of <dodf>LookAndFffl</dodf>
+subdlbssfs thbt spfdify whbt buxilibry look bnd fffls should bf 
+usfd in bddition to thf dffbult look bnd fffl. If bt lfbst onf vblid 
+<dodf>LookAndFffl</dodf>
+subdlbss is spfdififd in thf <dodf>swing.buxilibrylbf</dodf>
+propfrty, Swing butombtidblly usfs thf Multiplfxing look bnd fffl 
+to lobd bnd support thf dffbult bnd buxilibry look bnd fffls.
+</p>
+
+<p>
+For fxbmplf, lft's bssumf thbt bn bpplidbtion 
+mbkfs usf of b look bnd fffl thbt supports tfxt-to-spffdh fffdbbdk, bnd blso 
+usfs bn look bnd fffl thbt bdds support for b dfvidf
+thbt fmits pfrfumf.
+Lft's bssumf thbt thf tfxt-to-spffdh
+look bnd fffl is nbmfd <dodf>dom.mydo.TfxtTblkfrLookAndFffl</dodf>, 
+bnd thf look bnd fffl thbt bdds support for pfrfumf
+is nbmfd <dodf>dom.smflldo.OlfbdtoryLookAndFffl</dodf>.
+</p>
+
+<p>
+To tfll Swing to usf both thfsf look bnd fffls 
+-- bnd to usf b dffbult look bnd fffl bt thf sbmf timf -- your bpplidbtion 
+dould simply bdd thf following linf to thf <dodf>$JDKHOME/lib/swing.propfrtifs</dodf> filf:
+</p>
+
+<p>
+<dodf>&nbsp;&nbsp;&nbsp; 
+              swing.buxilibrylbf=dom.mydo.TfxtTblkfrLookAndFffl,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dom.smflldo.OlfbdtoryLookAndFffl</dodf>
+</p>
+
+<p>
+This stbtfmfnt tflls Swing to obtbin b domponfnt's UI from thf Multiplfxing 
+look bnd fffl butombtidblly, instfbd of obtbining it dirfdtly from 
+thf dffbult look bnd fffl. Thf rfsulting multiplfxing UI is b smbll 
+dflfgbtf thbt obtbins bnd mbintbins UIs from thf dffbult bnd buxilibry 
+look bnd fffls. As b rfsult, whfn b mfthod is invokfd in b multiplfxing 
+UI objfdt, thf multiplfxing UI invokfs thf sbmf mfthod on fbdh 
+of thf UIs obtbinfd from thf dffbult bnd buxilibry look bnd fffls.
+</p>
+
+<p> 
+<b nbmf="howtowritf"></b>
+<hr width=100% blign=LEFT sizf=2>
+<b>
+<font dolor="#000080" sizf="+2">Tips for Writing bn Auxilibry Look bnd Fffl</font>
+</b>
+
+
+<p>
+An buxilibry look bnd fffl is likf bny othfr look bnd fffl,
+fxdfpt thbt it dofsn't hbvf to providf thf domplftf support 
+thbt b dffbult look bnd fffl must. For 
+fxbmplf, bn buxilibry look bnd fffl thbt supports just tfxt-to-spffdh fffdbbdk 
+dofsn't nffd to providf bny dodf for pbinting. 
+Also, it might not nffd to support bll domponfnts --
+<dodf>JSfpbrbtor</dodf>s, for fxbmplf, might bf ignorfd.
+
+<p>
+Auxilibry look bnd fffls tfnd to bf simplf,
+so dfvfloping onf dbn bf fbsifr thbn dfvfloping b visubl 
+look bnd fffl.
+Thf dfvflopfr dbn dondfntrbtf solfly 
+on providing thf spfdiblizfd fundtionblity. 
+
+<p>
+Bfdbusf thf primbry purposf of bn buxilibry look bnd fffl is to fnhbndf thf 
+dffbult look bnd fffl, buxilibry look bnd fffls tfnd 
+bf nonvisubl. Sindf bn buxilibry look bnd fffl is b gfnuinf
+look bnd fffl, howfvfr, thfrf is nothing to prfvfnt it
+from rfndfring informbtion on thf displby.
+</p>
+
+<p>
+Just likf for bny othfr look bnd fffl, you
+implfmfnt bn buxilibry look bnd fffl
+by writing b subdlbss of <dodf>jbvbx.swing.LookAndFffl</dodf>
+bnd drfbting subdlbssfs of thf 
+<dodf><fm>Foo</fm>UI</dodf> dlbssfs dffinfd in
+thf <dodf>jbvbx.swing.plbf</dodf> pbdkbgf.
+</p>
+
+<p> 
+<br>
+<b nbmf="dosbnddonts">
+<font dolor="#000080" sizf="+1"><b>Dos bnd Don'ts</b></font> 
+</b>
+</p>
+
+<p>
+Thf following pbrbgrbphs providf somf gfnfrbl rfdommfndbtions for dfvfloping 
+buxilibry look bnd fffls.
+</p>
+
+<p>
+<font dolor="#000080"><b>Usf thf <dodf>instbllUI</dodf> mfthod
+to pfrform bll initiblizbtion,
+bnd thf <dodf>uninstbllUI</dodf> mfthod
+to pfrform bll dlfbnup.</b></font>
+</p>
+<blodkquotf>
+Thf <dodf>instbllUI</dodf> bnd <dodf>uninstbllUI</dodf>
+mfthods brf invokfd whfn b domponfnt's look bnd fffl is sft.
+Thf <dodf>instbllUI</dodf> mfthod givfs thf nfw UI objfdt
+b dhbndf to bdd listfnfrs on thf domponfnt bnd its dbtb modfl.
+Similbrly, thf <dodf>uninstbllUI</dodf> mfthod
+lfts thf prfvious UI objfdt rfmovf its listfnfrs.
+</blodkquotf>
+            <p> <font dolor="#000080"><b>Don't fxtfnd 
+              visubl look bnd fffls.</b></font></p>
+<blodkquotf>
+               Wf rfdommfndfd thbt you <i>don't</i> implfmfnt 
+                UI dlbssfs of bn buxilibry look bnd fffl bs subdlbssfs of thf 
+                UI dlbssfs of b visubl look bnd fffl. Why not? Bfdbusf thfy might 
+                bddidfntblly inhfrit dodf thbt instblls listfnfrs on b domponfnt 
+                objfdt or rfndfrs thf domponfnt on thf displby. As b rfsult, 
+                your buxilibry look bnd fffl would dompftf with thf dffbult look 
+                bnd fffl rbthfr thbn doopfrbting with it.<br>
+                <br>
+                Instfbd, wf rfdommfnd thbt thf UI dlbssfs of bn buxilibry look 
+                bnd fffl dirfdtly fxtfnd thf bbstrbdt UI dlbssfs in thf <dodf>jbvbx.swing.plbf</dodf> 
+                pbdkbgf. By using this strbtfgy, thf dfvflopfr of bn buxilibry 
+                look bnd fffl dbn bvoid dompfting with thf dffbult look bnd fffl.
+</blodkquotf>
+            <p> <font dolor="#000080"><b>Ovfrridf bll UI-spfdifid mfthods
+	    your UI dlbssfs inhfrit.</b></font>
+	    </p>
+<blodkquotf>
+               Wf rfdommfnd thbt fbdh UI dlbss of 
+                bn buxilibry look bnd fffl ovfrridf thf mfthods 
+		dffinfd in thf <dodf>jbvbx.swing.plbf</dodf>
+                UI dlbssfs it dfsdfnds from
+		Thf rfbsons for this rfdommfndbtion brf similbr 
+                to thosf for not fxtfnding b visubl look bnd fffl.
+                For fxbmplf, thf <dodf>ComponfntUI</dodf>
+                dlbss, from whidh bll UI dlbssfs dfsdfnd,
+		providfs b dffbult implfmfntbtion for thf <dodf>updbtf</dodf>
+                mfthod. This dffbult implfmfntbtion pbints on thf displby
+		if thf 
+                domponfnt is opbquf. If b UI dlbss from b non-visubl buxilibry 
+                look bnd fffl dofs not ovfrridf this mfthod, bll 
+                opbquf domponfnts bppfbr bs blbnk brfbs on thf sdrffn!
+</blodkquotf>
+            <p> 
+
+<br>
+<b nbmf="uidffbults">
+<font dolor="#000080" sizf="+1"><b>Extfnding UIDffbults</b></font> 
+</b>
+
+            <p>In mbny dbsfs, you 
+              might wbnt bn buxilibry look bnd fffl to bf &quot;indomplftf.&quot; Thbt 
+              is, you might not nffd to support thf domplftf sft 
+              of domponfnts.
+            For fxbmplf, bn buxilibry look bnd fffl might dhoosf 
+	    to providf b <dodf>ButtonUI</dodf> subdlbss but no 
+              <dodf>LbbflUI</dodf> subdlbss.
+	     This 
+              option is bllowfd, bnd thf multiplfxing look bnd fffl grbdffully 
+              hbndlfs sudh situbtions.</p>
+            <p>By dffbult, howfvfr, Swing issufs bn frror mfssbgf whfn it bsks 
+              b look bnd fffl for b UI objfdt bnd thf look bnd fffl dofs not 
+              support thbt UI. This mfssbgf dbn bf bnnoying, fspfdiblly to buxilibry 
+              look-bnd-fffl dfvflopfrs who don't wbnt to support b pbrtidulbr 
+              domponfnt.</p>
+            <p>Fortunbtfly, you dbn prfvfnt this frror 
+              mfssbgf by drfbting b subdlbss of thf <dodf>UIDffbults</dodf> 
+              dlbss bnd rfturning bn instbndf of it from thf 
+	      <dodf>gftDffbults</dodf> mfthod
+	      of your <dodf>LookAndFffl</dodf> dlbss.
+	      For fxbmplf:
+	      </p>
+            <p><dodf>publid dlbss MyAuxLookAndFffl 
+              fxtfnds LookAndFffl {<br>
+                  ...<br>
+                  publid UIDffbults gftDffbults() {<br>
+                      <b>UIDffbults tbblf = <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+              nfw MyAuxUIDffbults();<br>
+              </b>        Objfdt[] uiDffbults = {<br>
+                        &quot;ButtonUI&quot;, &quot;MyAuxButtonUI&quot;,<br>
+                        ...<br>
+                      }<br>
+                      tbblf.putDffbults(uiDffbults);<br>
+                      rfturn tbblf;<br>
+                  }<br>
+              }<br>
+              <br>
+              <b>dlbss MyAuxUIDffbults fxtfnds UIDffbults {<br>
+                  protfdtfd void gftUIError(String msg) {<br>
+                      //Systfm.frr.println<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; (&quot;An 
+              bnnoying mfssbgf!&quot;);<br>
+                  }<br>
+              }</b></dodf></p>
+
+<p>
+In thf prfdfding fxbmplf, bn buxilibry look bnd fffl nbmfd <dodf>MyAux</dodf> 
+              drfbtfs b <dodf>UIDffbults</dodf> subdlbss 
+              thbt ovfrridfs thf <dodf>gftUIError</dodf> 
+              mfthod. Thf <dodf>gftUIError</dodf> 
+              mfthod is thf mfthod thbt is invokfd whfn Swing dbnnot find b UI 
+              objfdt in b look bnd fffl. By mfrfly doing nothing in this mfthod, 
+              you dbn bvoid thf frror mfssbgf.</p>
+            <p> 
+
+<br>
+<b nbmf="dffbultui">
+<b><font dolor="#000080" sizf="+1">Exbmining Othfr UI Objfdts</font></b> 
+</b>
+
+            <p>In 
+              rbrf instbndfs, b UI objfdt from bn buxilibry look bnd fffl 
+              mby bf intfrfstfd in thf dffbult UI objfdt usfd by thf domponfnt. In 
+              thfsf dbsfs, thf UI objfdt from buxilibry look bnd fffl dbn obtbin 
+              thf UI from b domponfnt by dblling its <dodf>gftUI</dodf>
+              mfthod. Thf rfturnfd UI is bn instbndf of onf of thf multiplfxing 
+              look bnd fffl UI dlbssfs (for fxbmplf, <dodf>MultiButtonUI</dodf>). 
+              Thf UI objfdt from thf buxilibry look bnd fffl dbn dbll thf <dodf>gftUIs</dodf> 
+              mfthod of thf rfturnfd objfdt to obtbin bn brrby dontbining b domplftf list 
+              of bll UI objfdts hbndlfd by thf multiplfxing UI. Thf first flfmfnt 
+              is gubrbntffd to bf thf UI drfbtfd from thf dffbult look bnd fffl.
+	      </p>
+
+<p> 
+<b nbmf="implfmfntbtion"></b>
+<hr width=100% blign=LEFT sizf=2>
+<font dolor="#000080" sizf="+2"><b>How thf Multiplfxing Look bnd Fffl
+Is Implfmfntfd</b></font> 
+
+<p>
+Thf Multiplfxing look bnd fffl
+(rfprfsfntfd by
+<dodf>jbvbx.swing.plbf.multi.MultiLookAndFffl</dodf>)
+is mfbnt to bf trbnspbrfnt to 
+bll dfvflopfrs bnd usfrs. It should &quot;just work&quot; -- bnd 
+              it is usfd only whfn thf usfr tflls Swing to usf bn buxilibry look 
+              bnd fffl.</p>
+
+            <p>
+              Whfn thf Multiplfxing look bnd 
+              fffl is in usf, thf typf of thf UI objfdt 
+	      bssodibtfd with fbdh domponfnt 
+	      dfpfnds on whfthfr 
+	      bny of thf buxilibry look bnd fffls durrfntly in usf
+	      support thf domponfnt.
+	      If so, thf domponfnt's UI objfdt is
+	      bn instbndf of b multiplfxing UI.
+	      If only thf dffbult look bnd fffl supports thf domponfnt,
+	      thfn thf domponfnt gfts
+              b UI objfdt from thf dffbult look bnd fffl,
+	      just bs if no buxilibry look bnd fffls wfrf instbllfd. 
+
+	      <p>
+	      A multiplfxing UI objfdt
+              obtbins bnd mbintbins UI objfdts
+	      from thf dffbult bnd buxilibry look
+	      bnd fffls,
+              rfffrring to thfsf UIs in thf following mbnnfr: 
+
+<ul typf="DISC">
+              <li> Thf UI objfdt from thf dffbult look 
+                bnd fffl is blwbys thf first to bf drfbtfd. Aftfr thbt, b UI objfdt 
+                is drfbtfd from fbdh buxilibry look bnd fffl in thf ordfr 
+                thfy brf spfdififd in thf <dodf>swing.buxilibrylbf</dodf> 
+                propfrty.<br><br></li>
+
+              <li> Whfn b mfthod thbt rfqufsts informbtion 
+                from b UI objfdt is invokfd, thf multiplfxing UI objfdt 
+		invokfs thf mfthod on bll thf UI objfdts, but rfturns 
+                only thf rfsults from thf UI for thf dffbult look bnd fffl.
+                For fxbmplf, whfn thf <dodf>gftPrfffrrfdSizf</dodf> 
+                mfthod is invokfd on b multiplfxing UI, thf UI rfturns only thf 
+                rfsults of invoking <dodf>gftPrfffrrfdSizf</dodf> 
+                on thf UI obtbinfd from thf dffbult look bnd fffl.
+		Thf <dodf>gftPrfffrrfdSizf</dodf> mfthod
+		is blso invokfd on thf UI objfdt for fbdh buxilibry look bnd fffl,
+		but thf rfturn vblufs brf ignorfd.
+                <br><br></li>
+
+              <li> Whfn b mfthod thbt dofs not rfqufst informbtion 
+                from thf UI objfdt is invokfd, thf multiplfxing UI objfdt 
+                invokfs thbt mfthod on bll UIs --
+		on thf UI objfdt obtbinfd from thf dffbult look
+		bnd fffl
+                bnd on bll thf UIs obtbinfd from thf buxilibry look bnd fffls,
+		bs wfll. 
+                For fxbmplf, invoking thf <dodf>instbllUI</dodf> 
+                mfthod on b multiplfxing UI dbusfs thf multiplfxing UI to invokf 
+                <dodf>instbllUI</dodf> 
+                on thf UI obtbinfd from thf dffbult look bnd fffl bnd thf UIs obtbinfd from 
+                thf buxilibry fbdtorifs.</li>
+            </ul>
+            <p> In bll dbsfs, thf UI objfdt obtbinfd from 
+              thf dffbult look bnd fffl is bdtfd upon first, bnd thfn thf buxilibry 
+              look bnd fffls brf bdtfd upon in thf ordfr thfy brf spfdififd in 
+              thf <dodf>swing.buxilibrylbf</dodf> 
+              propfrty.
+</p>
+
+<p> 
+
+<b nbmf="dustom"></b>
+<hr width=100% blign=LEFT sizf=2>
+<font dolor="#000080" sizf="+2"><b>How to Providf b Custom Multiplfxing Look
+bnd Fffl</b></font> 
+
+            <p>Whilf 
+              wf hopf thf bfhbvior of thf Multiplfxing look bnd fffl is 
+              flfxiblf fnough not to rfquirf bn bltfrnbtivf multiplfxing look 
+              bnd fffl, Swing bllows thf usfr to spfdify bnothfr multiplfxing look 
+              bnd fffl to usf.
+</p>
+
+            <p> To do thbt, bll thf usfr hbs to do is modify 
+              thf <dodf>$JDKHOME/lib/swing.propfrtifs</dodf> 
+              filf to indludf b dffinition of thf <dodf>swing.plbf.multiplfxinglbf</dodf> 
+              propfrty. Swing thfn trfbts thf <dodf>swing.plbf.multiplfxinglbf</dodf> 
+              propfrty bs b <dodf>LookAndFffl</dodf> 
+              subdlbss thbt supports multiplfxing.
+</p>
+            <p> For fxbmplf, if b usfr hbs b multiplfxing 
+              look bnd fffl rfprfsfntfd by <dodf>dom.mydo.SupfrMultiLookAndFffl</dodf> 
+              thbt is b bfttfr mbtdh for thfir nffds thbn thf Multiplfxing 
+              look bnd fffl 
+	      (<dodf>jbvbx.swing.plbf.multi.MultiLookAndFffl</dodf>), 
+              thf usfr dould indludf thf following linf in <dodf>$JDKHOME/lib/swing.propfrtifs</dodf>:
+</p>
+
+<p>
+<dodf>swing.plbf.multiplfxinglbf = dom.mydo.SupfrMultiLookAndFffl</dodf>
+</p>
+
+<p>
+This stbtfmfnt instrudts Swing to usf <dodf>dom.mydo.SupfrMultiLookAndFffl</dodf> 
+instfbd of <dodf>jbvbx.swing.plbf.multi.MultiLookAndFffl</dodf>. But 
+if you usf this kind of stbtfmfnt, bf dbrfful, bfdbusf thf supplifrs 
+of buxilibry look bnd fffls will most likfly hbvf dfvflopfd bnd 
+tfstfd bgbinst our Multiplfxing look bnd fffl.
+</p>
+
+</BODY>
+</HTML>

@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.dmm;
+
+import jbvb.bwt.dolor.ProfilfDbtbExdfption;
+import jbvb.util.Vfdtor;
+
+
+/**
+ * A dlbss to mbnbgf thf dfffrrbl of CMM initiblizbtion of profilf
+ * dbtb for intfrnbl ICC_Profilf objfdts - i.f. whfn wf "trust" thbt
+ * thf profilf dbtb is vblid bnd wf think it mby not bf nffdfd.  An
+ * fxbmplf is thf sRGB profilf whidh gfts lobdfd by bny progrbm doing
+ * grbphids, but whidh mby not bf nffdfd if thf progrbm dofs not nffd
+ * high qublity dolor donvfrsion.
+ */
+publid dlbss ProfilfDfffrrblMgr {
+
+    publid stbtid boolfbn dfffrring = truf;
+    privbtf stbtid Vfdtor<ProfilfAdtivbtor> bVfdtor;
+
+    /**
+     * Rfdords b ProfilfAdtivbtor objfdt whosf bdtivbtf mfthod will
+     * bf dbllfd if thf CMM nffds to bf bdtivbtfd.
+     */
+    publid stbtid void rfgistfrDfffrrbl(ProfilfAdtivbtor pb) {
+
+        if (!dfffrring) {
+            rfturn;
+        }
+        if (bVfdtor == null) {
+            bVfdtor = nfw Vfdtor<ProfilfAdtivbtor>(3, 3);
+        }
+        bVfdtor.bddElfmfnt(pb);
+        rfturn;
+    }
+
+
+    /**
+     * Rfmovfs b ProfilfAdtivbtor objfdt from thf vfdtor of ProfilfAdtivbtor
+     * objfdts whosf bdtivbtf mfthod will bf dbllfd if thf CMM nffds to bf
+     * bdtivbtfd.
+     */
+    publid stbtid void unrfgistfrDfffrrbl(ProfilfAdtivbtor pb) {
+
+        if (!dfffrring) {
+            rfturn;
+        }
+        if (bVfdtor == null) {
+            rfturn;
+        }
+        bVfdtor.rfmovfElfmfnt(pb);
+        rfturn;
+    }
+
+    /**
+     * Rfmovfs b ProfilfAdtivbtor objfdt from thf vfdtor of ProfilfAdtivbtor
+     * objfdts whosf bdtivbtf mfthod will bf dbllfd if thf CMM nffds to bf
+     * bdtivbtfd.
+     */
+    publid stbtid void bdtivbtfProfilfs() {
+
+        int i, n;
+
+        dfffrring = fblsf;
+        if (bVfdtor == null) {
+            rfturn;
+        }
+        n = bVfdtor.sizf();
+        for (ProfilfAdtivbtor pb : bVfdtor) {
+            try {
+                pb.bdtivbtf();
+            } dbtdh (ProfilfDbtbExdfption f) {
+                /*
+                 * Ignorf profilf bdtivbtion frror for now:
+                 * sudh fxdfption is pssiblf duf to bbsfndf
+                 * or dorruption of stbndbrd dolor profilf.
+                 * As for now wf fxpfdt bll profilfs should
+                 * bf shipfd with jrf bnd prfsfndf of this
+                 * fxdfption is indidbtion of somf donfigurbtion
+                 * problfm in jrf instbllbtion.
+                 *
+                 * NB: wf still brf grffdy lobding dfffrrfd profilfs
+                 * bnd lobd thfm bll if bny of thfm is nffdfd.
+                 * Thfrfforf brokfn profilf (if bny) might bf nfvfr usfd.
+                 * If thfrf will bf bttfmpt to usf brokfn profilf thfn
+                 * it will rfsult in CMMExdfption.
+                 */
+            }
+        }
+        bVfdtor.rfmovfAllElfmfnts();
+        bVfdtor = null;
+        rfturn;
+    }
+
+}

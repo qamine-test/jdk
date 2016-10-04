@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-// java import
-import java.io.Serializable;
+// jbvb import
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Allows a query to be performed in the context of a specific MBean server.
+ * Allows b qufry to bf pfrformfd in tif dontfxt of b spfdifid MBfbn sfrvfr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class QueryEval implements Serializable {
+publid bbstrbdt dlbss QufryEvbl implfmfnts Sfriblizbblf {
 
-    /* Serial version */
-    private static final long serialVersionUID = 2675899265640874796L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2675899265640874796L;
 
-    private static ThreadLocal<MBeanServer> server =
-        new InheritableThreadLocal<MBeanServer>();
+    privbtf stbtid TirfbdLodbl<MBfbnSfrvfr> sfrvfr =
+        nfw InifritbblfTirfbdLodbl<MBfbnSfrvfr>();
 
     /**
-     * <p>Sets the MBean server on which the query is to be performed.
-     * The setting is valid for the thread performing the set.
-     * It is copied to any threads created by that thread at the moment
-     * of their creation.</p>
+     * <p>Sfts tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
+     * Tif sftting is vblid for tif tirfbd pfrforming tif sft.
+     * It is dopifd to bny tirfbds drfbtfd by tibt tirfbd bt tif momfnt
+     * of tifir drfbtion.</p>
      *
-     * <p>For historical reasons, this method is not static, but its
-     * behavior does not depend on the instance on which it is
-     * called.</p>
+     * <p>For iistoridbl rfbsons, tiis mftiod is not stbtid, but its
+     * bfibvior dofs not dfpfnd on tif instbndf on wiidi it is
+     * dbllfd.</p>
      *
-     * @param s The MBean server on which the query is to be performed.
+     * @pbrbm s Tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
      *
-     * @see #getMBeanServer
+     * @sff #gftMBfbnSfrvfr
      */
-    public void setMBeanServer(MBeanServer s) {
-        server.set(s);
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        sfrvfr.sft(s);
     }
 
     /**
-     * <p>Return the MBean server that was most recently given to the
-     * {@link #setMBeanServer setMBeanServer} method by this thread.
-     * If this thread never called that method, the result is the
-     * value its parent thread would have obtained from
-     * <code>getMBeanServer</code> at the moment of the creation of
-     * this thread, or null if there is no parent thread.</p>
+     * <p>Rfturn tif MBfbn sfrvfr tibt wbs most rfdfntly givfn to tif
+     * {@link #sftMBfbnSfrvfr sftMBfbnSfrvfr} mftiod by tiis tirfbd.
+     * If tiis tirfbd nfvfr dbllfd tibt mftiod, tif rfsult is tif
+     * vbluf its pbrfnt tirfbd would ibvf obtbinfd from
+     * <dodf>gftMBfbnSfrvfr</dodf> bt tif momfnt of tif drfbtion of
+     * tiis tirfbd, or null if tifrf is no pbrfnt tirfbd.</p>
      *
-     * @return the MBean server.
+     * @rfturn tif MBfbn sfrvfr.
      *
-     * @see #setMBeanServer
+     * @sff #sftMBfbnSfrvfr
      *
      */
-    public static MBeanServer getMBeanServer() {
-        return server.get();
+    publid stbtid MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn sfrvfr.gft();
     }
 }

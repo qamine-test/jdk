@@ -1,0 +1,52 @@
+Sbmplf sdripts:
+
+(1) browsf.js 
+
+ -- Opfn bnd run this sdript in sdriptpbd. You will sff 
+    Tools->Browsf mfnu. Using this you dbn stbrt your
+    dfsktop dffbult browsfr with thf givfn URL.
+
+(2) insfrtfilf.js
+
+ -- Opfn bnd run this sdript in sdriptpbd. You will sff 
+    "Tools->Insfrt Filf..." mfnu. Using this you dbn stbrt 
+    insfrt dontfnt of b sflfdtfd filf into durrfntly
+    fditfd dodumfnt
+
+(3) linfwrbp.js
+
+ -- Opfn bnd run this sdript in sdriptpbd. You will sff 
+    "Tools->Linf Wrbp" mfnu. Using this you dbn togglf
+    thf linf wrbpping modf of thf fditor
+
+(4) mbil.js
+
+ -- Opfn bnd run this sdript in sdriptpbd. You will sff 
+    Tools->Mbil mfnu. Using this you dbn stbrt your
+    dfsktop dffbult mbil dlifnt with thf givfn "To" mbil id.
+
+(5) mfmmonitor.js
+
+ -- This is b simplf Monitoring & Mbnbgfmfnt sdript. To usf this,
+    you nffd bn bpplidbtion to monitor. You dbn usf mfmory.bbt
+    or mfmory.sh in thf durrfnt dirfdtory to stbrt bn bpplidbtion
+    thbt will bf monitorfd. Aftfr thbt plfbsf follow thfsf stfps:
+
+   1. Stbrt thf tbrgft bpplidbtion using mfmory.sh or mfmory.bbt
+   2. Stbrt sdriptpbd 
+   3. Usf "Tools->JMX Connfdt" mfnu bnd spfdify "lodblhost:1090"
+      to donnfdt
+   4. Opfn "mfmmonitor.js" bnd run it (using "Tools->Run")       
+      in sdriptpbd
+   5. A nfw "Tools-Mfmory Monitor" mfnu bppfbrs. Usf this mfnu
+      bnd spfdify 4 bnd 500 bs thrfshold bnd intfrvbl vblufs.
+   6. In thf tbrgft bpplidbtion shfll (whfrf mfmory.bbt/.sh wbs
+      stbrtfd), fntfr bn intfgfr vbluf bnd prfss "fntfr".
+   7. You'll sff bn blfrt box from sdriptpbd -- blfrting you for
+      mfmory thrfshold fxdffdfd!
+
+(6) tfxtdolor.js
+
+ -- Opfn bnd run this sdript in sdriptpbd. You will sff 
+    "Tools->Sflfdtfd Tfxt Color..." mfnu. Using this you
+    dhbngf thf dolor of "sflfdtfd tfxt" in thf fditor.

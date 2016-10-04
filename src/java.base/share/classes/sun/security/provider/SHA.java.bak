@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import static sun.security.provider.ByteArrayAccess.*;
+import stbtid sun.sfdurity.providfr.BytfArrbyAddfss.*;
 
 /**
- * This class implements the Secure Hash Algorithm (SHA) developed by
- * the National Institute of Standards and Technology along with the
- * National Security Agency.  This is the updated version of SHA
- * fip-180 as superseded by fip-180-1.
+ * Tiis dlbss implfmfnts tif Sfdurf Hbsi Algoritim (SHA) dfvflopfd by
+ * tif Nbtionbl Institutf of Stbndbrds bnd Tfdinology blong witi tif
+ * Nbtionbl Sfdurity Agfndy.  Tiis is tif updbtfd vfrsion of SHA
+ * fip-180 bs supfrsfdfd by fip-180-1.
  *
- * <p>It implement JavaSecurity MessageDigest, and can be used by in
- * the Java Security framework, as a pluggable implementation, as a
- * filter for the digest stream classes.
+ * <p>It implfmfnt JbvbSfdurity MfssbgfDigfst, bnd dbn bf usfd by in
+ * tif Jbvb Sfdurity frbmfwork, bs b pluggbblf implfmfntbtion, bs b
+ * filtfr for tif digfst strfbm dlbssfs.
  *
- * @author      Roger Riggs
- * @author      Benjamin Renaud
- * @author      Andreas Sterbenz
+ * @butior      Rogfr Riggs
+ * @butior      Bfnjbmin Rfnbud
+ * @butior      Andrfbs Stfrbfnz
  */
-public final class SHA extends DigestBase {
+publid finbl dlbss SHA fxtfnds DigfstBbsf {
 
-    // Buffer of int's and count of characters accumulated
-    // 64 bytes are included in each hash block so the low order
-    // bits of count are used to know how to pack the bytes into ints
-    // and to know when to compute the block and start the next one.
-    private int[] W;
+    // Bufffr of int's bnd dount of dibrbdtfrs bddumulbtfd
+    // 64 bytfs brf indludfd in fbdi ibsi blodk so tif low ordfr
+    // bits of dount brf usfd to know iow to pbdk tif bytfs into ints
+    // bnd to know wifn to domputf tif blodk bnd stbrt tif nfxt onf.
+    privbtf int[] W;
 
-    // state of this
-    private int[] state;
+    // stbtf of tiis
+    privbtf int[] stbtf;
 
     /**
-     * Creates a new SHA object.
+     * Crfbtfs b nfw SHA objfdt.
      */
-    public SHA() {
-        super("SHA-1", 20, 64);
-        state = new int[5];
-        W = new int[80];
-        implReset();
+    publid SHA() {
+        supfr("SHA-1", 20, 64);
+        stbtf = nfw int[5];
+        W = nfw int[80];
+        implRfsft();
     }
 
     /*
-     * Clones this object.
+     * Clonfs tiis objfdt.
      */
-    public Object clone() throws CloneNotSupportedException {
-        SHA copy = (SHA) super.clone();
-        copy.state = copy.state.clone();
-        copy.W = new int[80];
-        return copy;
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        SHA dopy = (SHA) supfr.dlonf();
+        dopy.stbtf = dopy.stbtf.dlonf();
+        dopy.W = nfw int[80];
+        rfturn dopy;
     }
 
     /**
-     * Resets the buffers and hash value to start a new hash.
+     * Rfsfts tif bufffrs bnd ibsi vbluf to stbrt b nfw ibsi.
      */
-    void implReset() {
-        state[0] = 0x67452301;
-        state[1] = 0xefcdab89;
-        state[2] = 0x98badcfe;
-        state[3] = 0x10325476;
-        state[4] = 0xc3d2e1f0;
+    void implRfsft() {
+        stbtf[0] = 0x67452301;
+        stbtf[1] = 0xffddbb89;
+        stbtf[2] = 0x98bbddff;
+        stbtf[3] = 0x10325476;
+        stbtf[4] = 0xd3d2f1f0;
     }
 
     /**
-     * Computes the final hash and copies the 20 bytes to the output array.
+     * Computfs tif finbl ibsi bnd dopifs tif 20 bytfs to tif output brrby.
      */
-    void implDigest(byte[] out, int ofs) {
-        long bitsProcessed = bytesProcessed << 3;
+    void implDigfst(bytf[] out, int ofs) {
+        long bitsProdfssfd = bytfsProdfssfd << 3;
 
-        int index = (int)bytesProcessed & 0x3f;
-        int padLen = (index < 56) ? (56 - index) : (120 - index);
-        engineUpdate(padding, 0, padLen);
+        int indfx = (int)bytfsProdfssfd & 0x3f;
+        int pbdLfn = (indfx < 56) ? (56 - indfx) : (120 - indfx);
+        fnginfUpdbtf(pbdding, 0, pbdLfn);
 
-        i2bBig4((int)(bitsProcessed >>> 32), buffer, 56);
-        i2bBig4((int)bitsProcessed, buffer, 60);
-        implCompress(buffer, 0);
+        i2bBig4((int)(bitsProdfssfd >>> 32), bufffr, 56);
+        i2bBig4((int)bitsProdfssfd, bufffr, 60);
+        implComprfss(bufffr, 0);
 
-        i2bBig(state, 0, out, ofs, 20);
+        i2bBig(stbtf, 0, out, ofs, 20);
     }
 
-    // Constants for each round
-    private final static int round1_kt = 0x5a827999;
-    private final static int round2_kt = 0x6ed9eba1;
-    private final static int round3_kt = 0x8f1bbcdc;
-    private final static int round4_kt = 0xca62c1d6;
+    // Constbnts for fbdi round
+    privbtf finbl stbtid int round1_kt = 0x5b827999;
+    privbtf finbl stbtid int round2_kt = 0x6fd9fbb1;
+    privbtf finbl stbtid int round3_kt = 0x8f1bbddd;
+    privbtf finbl stbtid int round4_kt = 0xdb62d1d6;
 
     /**
-     * Compute a the hash for the current block.
+     * Computf b tif ibsi for tif durrfnt blodk.
      *
-     * This is in the same vein as Peter Gutmann's algorithm listed in
-     * the back of Applied Cryptography, Compact implementation of
-     * "old" NIST Secure Hash Algorithm.
+     * Tiis is in tif sbmf vfin bs Pftfr Gutmbnn's blgoritim listfd in
+     * tif bbdk of Applifd Cryptogrbpiy, Compbdt implfmfntbtion of
+     * "old" NIST Sfdurf Hbsi Algoritim.
      */
-    void implCompress(byte[] buf, int ofs) {
+    void implComprfss(bytf[] buf, int ofs) {
         b2iBig64(buf, ofs, W);
 
-        // The first 16 ints have the byte stream, compute the rest of
-        // the buffer
+        // Tif first 16 ints ibvf tif bytf strfbm, domputf tif rfst of
+        // tif bufffr
         for (int t = 16; t <= 79; t++) {
-            int temp = W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16];
-            W[t] = (temp << 1) | (temp >>> 31);
+            int tfmp = W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16];
+            W[t] = (tfmp << 1) | (tfmp >>> 31);
         }
 
-        int a = state[0];
-        int b = state[1];
-        int c = state[2];
-        int d = state[3];
-        int e = state[4];
+        int b = stbtf[0];
+        int b = stbtf[1];
+        int d = stbtf[2];
+        int d = stbtf[3];
+        int f = stbtf[4];
 
         // Round 1
         for (int i = 0; i < 20; i++) {
-            int temp = ((a<<5) | (a>>>(32-5))) +
-                ((b&c)|((~b)&d))+ e + W[i] + round1_kt;
-            e = d;
-            d = c;
-            c = ((b<<30) | (b>>>(32-30)));
-            b = a;
-            a = temp;
+            int tfmp = ((b<<5) | (b>>>(32-5))) +
+                ((b&d)|((~b)&d))+ f + W[i] + round1_kt;
+            f = d;
+            d = d;
+            d = ((b<<30) | (b>>>(32-30)));
+            b = b;
+            b = tfmp;
         }
 
         // Round 2
         for (int i = 20; i < 40; i++) {
-            int temp = ((a<<5) | (a>>>(32-5))) +
-                (b ^ c ^ d) + e + W[i] + round2_kt;
-            e = d;
-            d = c;
-            c = ((b<<30) | (b>>>(32-30)));
-            b = a;
-            a = temp;
+            int tfmp = ((b<<5) | (b>>>(32-5))) +
+                (b ^ d ^ d) + f + W[i] + round2_kt;
+            f = d;
+            d = d;
+            d = ((b<<30) | (b>>>(32-30)));
+            b = b;
+            b = tfmp;
         }
 
         // Round 3
         for (int i = 40; i < 60; i++) {
-            int temp = ((a<<5) | (a>>>(32-5))) +
-                ((b&c)|(b&d)|(c&d)) + e + W[i] + round3_kt;
-            e = d;
-            d = c;
-            c = ((b<<30) | (b>>>(32-30)));
-            b = a;
-            a = temp;
+            int tfmp = ((b<<5) | (b>>>(32-5))) +
+                ((b&d)|(b&d)|(d&d)) + f + W[i] + round3_kt;
+            f = d;
+            d = d;
+            d = ((b<<30) | (b>>>(32-30)));
+            b = b;
+            b = tfmp;
         }
 
         // Round 4
         for (int i = 60; i < 80; i++) {
-            int temp = ((a<<5) | (a>>>(32-5))) +
-                (b ^ c ^ d) + e + W[i] + round4_kt;
-            e = d;
-            d = c;
-            c = ((b<<30) | (b>>>(32-30)));
-            b = a;
-            a = temp;
+            int tfmp = ((b<<5) | (b>>>(32-5))) +
+                (b ^ d ^ d) + f + W[i] + round4_kt;
+            f = d;
+            d = d;
+            d = ((b<<30) | (b>>>(32-30)));
+            b = b;
+            b = tfmp;
         }
-        state[0] += a;
-        state[1] += b;
-        state[2] += c;
-        state[3] += d;
-        state[4] += e;
+        stbtf[0] += b;
+        stbtf[1] += b;
+        stbtf[2] += d;
+        stbtf[3] += d;
+        stbtf[4] += f;
     }
 
 }

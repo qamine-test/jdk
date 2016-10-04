@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * This class is an input stream filter that provides the added
- * functionality of keeping track of the current line number.
+ * Tiis dlbss is bn input strfbm filtfr tibt providfs tif bddfd
+ * fundtionblity of kffping trbdk of tif durrfnt linf numbfr.
  * <p>
- * A line is a sequence of bytes ending with a carriage return
- * character ({@code '\u005Cr'}), a newline character
- * ({@code '\u005Cn'}), or a carriage return character followed
- * immediately by a linefeed character. In all three cases, the line
- * terminating character(s) are returned as a single newline character.
+ * A linf is b sfqufndf of bytfs fnding witi b dbrribgf rfturn
+ * dibrbdtfr ({@dodf '\u005Cr'}), b nfwlinf dibrbdtfr
+ * ({@dodf '\u005Cn'}), or b dbrribgf rfturn dibrbdtfr followfd
+ * immfdibtfly by b linffffd dibrbdtfr. In bll tirff dbsfs, tif linf
+ * tfrminbting dibrbdtfr(s) brf rfturnfd bs b singlf nfwlinf dibrbdtfr.
  * <p>
- * The line number begins at {@code 0}, and is incremented by
- * {@code 1} when a {@code read} returns a newline character.
+ * Tif linf numbfr bfgins bt {@dodf 0}, bnd is indrfmfntfd by
+ * {@dodf 1} wifn b {@dodf rfbd} rfturns b nfwlinf dibrbdtfr.
  *
- * @author     Arthur van Hoff
- * @see        java.io.LineNumberReader
- * @since      1.0
- * @deprecated This class incorrectly assumes that bytes adequately represent
- *             characters.  As of JDK&nbsp;1.1, the preferred way to operate on
- *             character streams is via the new character-stream classes, which
- *             include a class for counting line numbers.
+ * @butior     Artiur vbn Hoff
+ * @sff        jbvb.io.LinfNumbfrRfbdfr
+ * @sindf      1.0
+ * @dfprfdbtfd Tiis dlbss indorrfdtly bssumfs tibt bytfs bdfqubtfly rfprfsfnt
+ *             dibrbdtfrs.  As of JDK&nbsp;1.1, tif prfffrrfd wby to opfrbtf on
+ *             dibrbdtfr strfbms is vib tif nfw dibrbdtfr-strfbm dlbssfs, wiidi
+ *             indludf b dlbss for dounting linf numbfrs.
  */
-@Deprecated
-public
-class LineNumberInputStream extends FilterInputStream {
-    int pushBack = -1;
-    int lineNumber;
-    int markLineNumber;
-    int markPushBack = -1;
+@Dfprfdbtfd
+publid
+dlbss LinfNumbfrInputStrfbm fxtfnds FiltfrInputStrfbm {
+    int pusiBbdk = -1;
+    int linfNumbfr;
+    int mbrkLinfNumbfr;
+    int mbrkPusiBbdk = -1;
 
     /**
-     * Constructs a newline number input stream that reads its input
-     * from the specified input stream.
+     * Construdts b nfwlinf numbfr input strfbm tibt rfbds its input
+     * from tif spfdififd input strfbm.
      *
-     * @param      in   the underlying input stream.
+     * @pbrbm      in   tif undfrlying input strfbm.
      */
-    public LineNumberInputStream(InputStream in) {
-        super(in);
+    publid LinfNumbfrInputStrfbm(InputStrfbm in) {
+        supfr(in);
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an {@code int} in the range
-     * {@code 0} to {@code 255}. If no byte is available
-     * because the end of the stream has been reached, the value
-     * {@code -1} is returned. This method blocks until input data
-     * is available, the end of the stream is detected, or an exception
-     * is thrown.
+     * Rfbds tif nfxt bytf of dbtb from tiis input strfbm. Tif vbluf
+     * bytf is rfturnfd bs bn {@dodf int} in tif rbngf
+     * {@dodf 0} to {@dodf 255}. If no bytf is bvbilbblf
+     * bfdbusf tif fnd of tif strfbm ibs bffn rfbdifd, tif vbluf
+     * {@dodf -1} is rfturnfd. Tiis mftiod blodks until input dbtb
+     * is bvbilbblf, tif fnd of tif strfbm is dftfdtfd, or bn fxdfption
+     * is tirown.
      * <p>
-     * The {@code read} method of
-     * {@code LineNumberInputStream} calls the {@code read}
-     * method of the underlying input stream. It checks for carriage
-     * returns and newline characters in the input, and modifies the
-     * current line number as appropriate. A carriage-return character or
-     * a carriage return followed by a newline character are both
-     * converted into a single newline character.
+     * Tif {@dodf rfbd} mftiod of
+     * {@dodf LinfNumbfrInputStrfbm} dblls tif {@dodf rfbd}
+     * mftiod of tif undfrlying input strfbm. It difdks for dbrribgf
+     * rfturns bnd nfwlinf dibrbdtfrs in tif input, bnd modififs tif
+     * durrfnt linf numbfr bs bppropribtf. A dbrribgf-rfturn dibrbdtfr or
+     * b dbrribgf rfturn followfd by b nfwlinf dibrbdtfr brf boti
+     * donvfrtfd into b singlf nfwlinf dibrbdtfr.
      *
-     * @return     the next byte of data, or {@code -1} if the end of this
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.LineNumberInputStream#getLineNumber()
+     * @rfturn     tif nfxt bytf of dbtb, or {@dodf -1} if tif fnd of tiis
+     *             strfbm is rfbdifd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
+     * @sff        jbvb.io.LinfNumbfrInputStrfbm#gftLinfNumbfr()
      */
-    @SuppressWarnings("fallthrough")
-    public int read() throws IOException {
-        int c = pushBack;
+    @SupprfssWbrnings("fblltirougi")
+    publid int rfbd() tirows IOExdfption {
+        int d = pusiBbdk;
 
-        if (c != -1) {
-            pushBack = -1;
-        } else {
-            c = in.read();
+        if (d != -1) {
+            pusiBbdk = -1;
+        } flsf {
+            d = in.rfbd();
         }
 
-        switch (c) {
-          case '\r':
-            pushBack = in.read();
-            if (pushBack == '\n') {
-                pushBack = -1;
+        switdi (d) {
+          dbsf '\r':
+            pusiBbdk = in.rfbd();
+            if (pusiBbdk == '\n') {
+                pusiBbdk = -1;
             }
-          case '\n':
-            lineNumber++;
-            return '\n';
+          dbsf '\n':
+            linfNumbfr++;
+            rfturn '\n';
         }
-        return c;
+        rfturn d;
     }
 
     /**
-     * Reads up to {@code len} bytes of data from this input stream
-     * into an array of bytes. This method blocks until some input is available.
+     * Rfbds up to {@dodf lfn} bytfs of dbtb from tiis input strfbm
+     * into bn brrby of bytfs. Tiis mftiod blodks until somf input is bvbilbblf.
      * <p>
-     * The {@code read} method of
-     * {@code LineNumberInputStream} repeatedly calls the
-     * {@code read} method of zero arguments to fill in the byte array.
+     * Tif {@dodf rfbd} mftiod of
+     * {@dodf LinfNumbfrInputStrfbm} rfpfbtfdly dblls tif
+     * {@dodf rfbd} mftiod of zfro brgumfnts to fill in tif bytf brrby.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset of the data.
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             {@code -1} if there is no more data because the end of
-     *             this stream has been reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.LineNumberInputStream#read()
+     * @pbrbm      b     tif bufffr into wiidi tif dbtb is rfbd.
+     * @pbrbm      off   tif stbrt offsft of tif dbtb.
+     * @pbrbm      lfn   tif mbximum numbfr of bytfs rfbd.
+     * @rfturn     tif totbl numbfr of bytfs rfbd into tif bufffr, or
+     *             {@dodf -1} if tifrf is no morf dbtb bfdbusf tif fnd of
+     *             tiis strfbm ibs bffn rfbdifd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.LinfNumbfrInputStrfbm#rfbd()
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException();
-        } else if ((off < 0) || (off > b.length) || (len < 0) ||
-                   ((off + len) > b.length) || ((off + len) < 0)) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+            tirow nfw NullPointfrExdfption();
+        } flsf if ((off < 0) || (off > b.lfngti) || (lfn < 0) ||
+                   ((off + lfn) > b.lfngti) || ((off + lfn) < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
 
-        int c = read();
-        if (c == -1) {
-            return -1;
+        int d = rfbd();
+        if (d == -1) {
+            rfturn -1;
         }
-        b[off] = (byte)c;
+        b[off] = (bytf)d;
 
         int i = 1;
         try {
-            for (; i < len ; i++) {
-                c = read();
-                if (c == -1) {
-                    break;
+            for (; i < lfn ; i++) {
+                d = rfbd();
+                if (d == -1) {
+                    brfbk;
                 }
                 if (b != null) {
-                    b[off + i] = (byte)c;
+                    b[off + i] = (bytf)d;
                 }
             }
-        } catch (IOException ee) {
+        } dbtdi (IOExdfption ff) {
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Skips over and discards {@code n} bytes of data from this
-     * input stream. The {@code skip} method may, for a variety of
-     * reasons, end up skipping over some smaller number of bytes,
-     * possibly {@code 0}. The actual number of bytes skipped is
-     * returned.  If {@code n} is negative, no bytes are skipped.
+     * Skips ovfr bnd disdbrds {@dodf n} bytfs of dbtb from tiis
+     * input strfbm. Tif {@dodf skip} mftiod mby, for b vbrifty of
+     * rfbsons, fnd up skipping ovfr somf smbllfr numbfr of bytfs,
+     * possibly {@dodf 0}. Tif bdtubl numbfr of bytfs skippfd is
+     * rfturnfd.  If {@dodf n} is nfgbtivf, no bytfs brf skippfd.
      * <p>
-     * The {@code skip} method of {@code LineNumberInputStream} creates
-     * a byte array and then repeatedly reads into it until
-     * {@code n} bytes have been read or the end of the stream has
-     * been reached.
+     * Tif {@dodf skip} mftiod of {@dodf LinfNumbfrInputStrfbm} drfbtfs
+     * b bytf brrby bnd tifn rfpfbtfdly rfbds into it until
+     * {@dodf n} bytfs ibvf bffn rfbd or tif fnd of tif strfbm ibs
+     * bffn rfbdifd.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @pbrbm      n   tif numbfr of bytfs to bf skippfd.
+     * @rfturn     tif bdtubl numbfr of bytfs skippfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
      */
-    public long skip(long n) throws IOException {
-        int chunk = 2048;
-        long remaining = n;
-        byte data[];
+    publid long skip(long n) tirows IOExdfption {
+        int diunk = 2048;
+        long rfmbining = n;
+        bytf dbtb[];
         int nr;
 
         if (n <= 0) {
-            return 0;
+            rfturn 0;
         }
 
-        data = new byte[chunk];
-        while (remaining > 0) {
-            nr = read(data, 0, (int) Math.min(chunk, remaining));
+        dbtb = nfw bytf[diunk];
+        wiilf (rfmbining > 0) {
+            nr = rfbd(dbtb, 0, (int) Mbti.min(diunk, rfmbining));
             if (nr < 0) {
-                break;
+                brfbk;
             }
-            remaining -= nr;
+            rfmbining -= nr;
         }
 
-        return n - remaining;
+        rfturn n - rfmbining;
     }
 
     /**
-     * Sets the line number to the specified argument.
+     * Sfts tif linf numbfr to tif spfdififd brgumfnt.
      *
-     * @param      lineNumber   the new line number.
-     * @see #getLineNumber
+     * @pbrbm      linfNumbfr   tif nfw linf numbfr.
+     * @sff #gftLinfNumbfr
      */
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
+    publid void sftLinfNumbfr(int linfNumbfr) {
+        tiis.linfNumbfr = linfNumbfr;
     }
 
     /**
-     * Returns the current line number.
+     * Rfturns tif durrfnt linf numbfr.
      *
-     * @return     the current line number.
-     * @see #setLineNumber
+     * @rfturn     tif durrfnt linf numbfr.
+     * @sff #sftLinfNumbfr
      */
-    public int getLineNumber() {
-        return lineNumber;
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
     }
 
 
     /**
-     * Returns the number of bytes that can be read from this input
-     * stream without blocking.
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd from tiis input
+     * strfbm witiout blodking.
      * <p>
-     * Note that if the underlying input stream is able to supply
-     * <i>k</i> input characters without blocking, the
-     * {@code LineNumberInputStream} can guarantee only to provide
-     * <i>k</i>/2 characters without blocking, because the
-     * <i>k</i> characters from the underlying input stream might
-     * consist of <i>k</i>/2 pairs of {@code '\u005Cr'} and
-     * {@code '\u005Cn'}, which are converted to just
-     * <i>k</i>/2 {@code '\u005Cn'} characters.
+     * Notf tibt if tif undfrlying input strfbm is bblf to supply
+     * <i>k</i> input dibrbdtfrs witiout blodking, tif
+     * {@dodf LinfNumbfrInputStrfbm} dbn gubrbntff only to providf
+     * <i>k</i>/2 dibrbdtfrs witiout blodking, bfdbusf tif
+     * <i>k</i> dibrbdtfrs from tif undfrlying input strfbm migit
+     * donsist of <i>k</i>/2 pbirs of {@dodf '\u005Cr'} bnd
+     * {@dodf '\u005Cn'}, wiidi brf donvfrtfd to just
+     * <i>k</i>/2 {@dodf '\u005Cn'} dibrbdtfrs.
      *
-     * @return     the number of bytes that can be read from this input stream
-     *             without blocking.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @rfturn     tif numbfr of bytfs tibt dbn bf rfbd from tiis input strfbm
+     *             witiout blodking.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
      */
-    public int available() throws IOException {
-        return (pushBack == -1) ? super.available()/2 : super.available()/2 + 1;
+    publid int bvbilbblf() tirows IOExdfption {
+        rfturn (pusiBbdk == -1) ? supfr.bvbilbblf()/2 : supfr.bvbilbblf()/2 + 1;
     }
 
     /**
-     * Marks the current position in this input stream. A subsequent
-     * call to the {@code reset} method repositions this stream at
-     * the last marked position so that subsequent reads re-read the same bytes.
+     * Mbrks tif durrfnt position in tiis input strfbm. A subsfqufnt
+     * dbll to tif {@dodf rfsft} mftiod rfpositions tiis strfbm bt
+     * tif lbst mbrkfd position so tibt subsfqufnt rfbds rf-rfbd tif sbmf bytfs.
      * <p>
-     * The {@code mark} method of
-     * {@code LineNumberInputStream} remembers the current line
-     * number in a private variable, and then calls the {@code mark}
-     * method of the underlying input stream.
+     * Tif {@dodf mbrk} mftiod of
+     * {@dodf LinfNumbfrInputStrfbm} rfmfmbfrs tif durrfnt linf
+     * numbfr in b privbtf vbribblf, bnd tifn dblls tif {@dodf mbrk}
+     * mftiod of tif undfrlying input strfbm.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.LineNumberInputStream#reset()
+     * @pbrbm   rfbdlimit   tif mbximum limit of bytfs tibt dbn bf rfbd bfforf
+     *                      tif mbrk position bfdomfs invblid.
+     * @sff     jbvb.io.FiltfrInputStrfbm#in
+     * @sff     jbvb.io.LinfNumbfrInputStrfbm#rfsft()
      */
-    public void mark(int readlimit) {
-        markLineNumber = lineNumber;
-        markPushBack   = pushBack;
-        in.mark(readlimit);
+    publid void mbrk(int rfbdlimit) {
+        mbrkLinfNumbfr = linfNumbfr;
+        mbrkPusiBbdk   = pusiBbdk;
+        in.mbrk(rfbdlimit);
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * {@code mark} method was last called on this input stream.
+     * Rfpositions tiis strfbm to tif position bt tif timf tif
+     * {@dodf mbrk} mftiod wbs lbst dbllfd on tiis input strfbm.
      * <p>
-     * The {@code reset} method of
-     * {@code LineNumberInputStream} resets the line number to be
-     * the line number at the time the {@code mark} method was
-     * called, and then calls the {@code reset} method of the
-     * underlying input stream.
+     * Tif {@dodf rfsft} mftiod of
+     * {@dodf LinfNumbfrInputStrfbm} rfsfts tif linf numbfr to bf
+     * tif linf numbfr bt tif timf tif {@dodf mbrk} mftiod wbs
+     * dbllfd, bnd tifn dblls tif {@dodf rfsft} mftiod of tif
+     * undfrlying input strfbm.
      * <p>
-     * Stream marks are intended to be used in
-     * situations where you need to read ahead a little to see what's in
-     * the stream. Often this is most easily done by invoking some
-     * general parser. If the stream is of the type handled by the
-     * parser, it just chugs along happily. If the stream is not of
-     * that type, the parser should toss an exception when it fails,
-     * which, if it happens within readlimit bytes, allows the outer
-     * code to reset the stream and try another parser.
+     * Strfbm mbrks brf intfndfd to bf usfd in
+     * situbtions wifrf you nffd to rfbd bifbd b littlf to sff wibt's in
+     * tif strfbm. Oftfn tiis is most fbsily donf by invoking somf
+     * gfnfrbl pbrsfr. If tif strfbm is of tif typf ibndlfd by tif
+     * pbrsfr, it just diugs blong ibppily. If tif strfbm is not of
+     * tibt typf, tif pbrsfr siould toss bn fxdfption wifn it fbils,
+     * wiidi, if it ibppfns witiin rfbdlimit bytfs, bllows tif outfr
+     * dodf to rfsft tif strfbm bnd try bnotifr pbrsfr.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.LineNumberInputStream#mark(int)
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
+     * @sff        jbvb.io.LinfNumbfrInputStrfbm#mbrk(int)
      */
-    public void reset() throws IOException {
-        lineNumber = markLineNumber;
-        pushBack   = markPushBack;
-        in.reset();
+    publid void rfsft() tirows IOExdfption {
+        linfNumbfr = mbrkLinfNumbfr;
+        pusiBbdk   = mbrkPusiBbdk;
+        in.rfsft();
     }
 }

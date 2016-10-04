@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: RftrifvblMfthod.jbvb,v 1.8 2005/05/10 16:35:35 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
+
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.URIRfffrfndf;
+import jbvbx.xml.drypto.URIRfffrfndfExdfption;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvb.util.List;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>RftrifvblMfthod</dodf> flfmfnt bs
+ * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * A <dodf>RftrifvblMfthod</dodf> objfdt is usfd to donvfy b rfffrfndf to
+ * <dodf>KfyInfo</dodf> informbtion thbt is storfd bt bnothfr lodbtion.
+ * Thf XML sdhfmb dffinition is dffinfd bs:
+ *
+ * <prf>
+ *   &lt;flfmfnt nbmf="RftrifvblMfthod" typf="ds:RftrifvblMfthodTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="RftrifvblMfthodTypf"&gt;
+ *     &lt;sfqufndf&gt;
+ *       &lt;flfmfnt nbmf="Trbnsforms" typf="ds:TrbnsformsTypf" minOddurs="0"/&gt;
+ *     &lt;/sfqufndf&gt;
+ *     &lt;bttributf nbmf="URI" typf="bnyURI"/&gt;
+ *     &lt;bttributf nbmf="Typf" typf="bnyURI" usf="optionbl"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </prf>
+ *
+ * A <dodf>RftrifvblMfthod</dodf> instbndf mby bf drfbtfd by invoking onf of thf
+ * {@link KfyInfoFbdtory#nfwRftrifvblMfthod nfwRftrifvblMfthod} mfthods
+ * of thf {@link KfyInfoFbdtory} dlbss, bnd pbssing it thf URI
+ * idfntifying thf lodbtion of thf KfyInfo, bn optionbl typf URI idfntifying
+ * thf typf of KfyInfo, bnd bn optionbl list of {@link Trbnsform}s; for fxbmplf:
+ * <prf>
+ *   KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ *   RftrifvblMfthod rm = fbdtory.nfwRftrifvblMfthod
+ *      ("#KfyVbluf-1", KfyVbluf.DSA_TYPE, Collfdtions.singlftonList(Trbnsform.BASE64));
+ * </prf>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwRftrifvblMfthod(String)
+ * @sff KfyInfoFbdtory#nfwRftrifvblMfthod(String, String, List)
+ */
+publid intfrfbdf RftrifvblMfthod fxtfnds URIRfffrfndf, XMLStrudturf {
+
+    /**
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of {@link Trbnsform}s of this <dodf>RftrifvblMfthod</dodf>.
+     *
+     * @rfturn bn unmodifibblf list of <dodf>Trbnsform</dodf> objfdts (mby bf
+     *    fmpty but nfvfr <dodf>null</dodf>).
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    List gftTrbnsforms();
+
+    /**
+     * Rfturns thf URI of thf rfffrfndfd <dodf>KfyInfo</dodf> informbtion.
+     *
+     * @rfturn thf URI of thf rfffrfndfd <dodf>KfyInfo</dodf> informbtion in
+     *    RFC 2396 formbt (nfvfr <dodf>null</dodf>)
+     */
+    String gftURI();
+
+   /**
+    * Dfrfffrfndfs thf <dodf>KfyInfo</dodf> informbtion rfffrfndfd by this
+    * <dodf>RftrifvblMfthod</dodf> bnd bpplifs thf spfdififd
+    * <dodf>Trbnsform</dodf>s.
+    *
+    * @pbrbm dontfxt bn <dodf>XMLCryptoContfxt</dodf> thbt mby dontbin
+    *    bdditionbl usfful informbtion for dfrfffrfnding thf URI. Thf
+    *    dontfxt's <dodf>bbsfURI</dodf> bnd <dodf>dfrfffrfndfr</dodf>
+    *    pbrbmftfrs (if spfdififd) brf usfd to rfsolvf bnd dfrfffrfndf this
+    *    <dodf>RftrifvblMfthod</dodf>
+    * @rfturn b <dodf>Dbtb</dodf> objfdt rfprfsfnting thf rbw dontfnts of thf
+    *    <dodf>KfyInfo</dodf> informbtion rfffrfndfd by this
+    *    <dodf>RftrifvblMfthod</dodf>. It is thf dbllfr's rfsponsibility to
+    *    donvfrt thf rfturnfd dbtb to bn bppropribtf
+    *    <dodf>KfyInfo</dodf> objfdt.
+    * @throws NullPointfrExdfption if <dodf>dontfxt</dodf> is <dodf>null</dodf>
+    * @throws URIRfffrfndfExdfption if thfrf is bn frror whilf dfrfffrfnding
+    */
+    Dbtb dfrfffrfndf(XMLCryptoContfxt dontfxt) throws URIRfffrfndfExdfption;
+}

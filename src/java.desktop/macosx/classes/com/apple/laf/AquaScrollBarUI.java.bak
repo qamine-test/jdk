@@ -1,665 +1,665 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.Timer;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.Timfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.ScrollBarState;
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.SdrollBbrStbtf;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
 
-public class AquaScrollBarUI extends ScrollBarUI {
-    private static final int kInitialDelay = 300;
-    private static final int kNormalDelay = 100;
+publid dlbss AqubSdrollBbrUI fxtfnds SdrollBbrUI {
+    privbtf stbtid finbl int kInitiblDflby = 300;
+    privbtf stbtid finbl int kNormblDflby = 100;
 
-    // when we make small and mini scrollbars, this will no longer be a constant
-    static final int MIN_ARROW_COLLAPSE_SIZE = 64;
+    // wifn wf mbkf smbll bnd mini sdrollbbrs, tiis will no longfr bf b donstbnt
+    stbtid finbl int MIN_ARROW_COLLAPSE_SIZE = 64;
 
-    // tracking state
-    protected boolean fIsDragging;
-    protected Timer fScrollTimer;
-    protected ScrollListener fScrollListener;
-    protected TrackListener fTrackListener;
-    protected Hit fTrackHighlight = Hit.NONE;
-    protected Hit fMousePart = Hit.NONE; // Which arrow (if any) we moused pressed down in (used by arrow drag tracking)
+    // trbdking stbtf
+    protfdtfd boolfbn fIsDrbgging;
+    protfdtfd Timfr fSdrollTimfr;
+    protfdtfd SdrollListfnfr fSdrollListfnfr;
+    protfdtfd TrbdkListfnfr fTrbdkListfnfr;
+    protfdtfd Hit fTrbdkHigiligit = Hit.NONE;
+    protfdtfd Hit fMousfPbrt = Hit.NONE; // Wiidi brrow (if bny) wf mousfd prfssfd down in (usfd by brrow drbg trbdking)
 
-    protected JScrollBar fScrollBar;
-    protected ModelListener fModelListener;
-    protected PropertyChangeListener fPropertyChangeListener;
+    protfdtfd JSdrollBbr fSdrollBbr;
+    protfdtfd ModflListfnfr fModflListfnfr;
+    protfdtfd PropfrtyCibngfListfnfr fPropfrtyCibngfListfnfr;
 
-    protected final AquaPainter<ScrollBarState> painter = AquaPainter.create(JRSUIStateFactory.getScrollBar());
+    protfdtfd finbl AqubPbintfr<SdrollBbrStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftSdrollBbr());
 
-    // Create PLAF
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaScrollBarUI();
+    // Crfbtf PLAF
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubSdrollBbrUI();
     }
 
-    public AquaScrollBarUI() { }
+    publid AqubSdrollBbrUI() { }
 
-    public void installUI(final JComponent c) {
-        fScrollBar = (JScrollBar)c;
-        installListeners();
-        configureScrollBarColors();
+    publid void instbllUI(finbl JComponfnt d) {
+        fSdrollBbr = (JSdrollBbr)d;
+        instbllListfnfrs();
+        donfigurfSdrollBbrColors();
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallListeners();
-        fScrollBar = null;
+    publid void uninstbllUI(finbl JComponfnt d) {
+        uninstbllListfnfrs();
+        fSdrollBbr = null;
     }
 
-    protected void configureScrollBarColors() {
-        LookAndFeel.installColors(fScrollBar, "ScrollBar.background", "ScrollBar.foreground");
+    protfdtfd void donfigurfSdrollBbrColors() {
+        LookAndFffl.instbllColors(fSdrollBbr, "SdrollBbr.bbdkground", "SdrollBbr.forfground");
     }
 
-    protected TrackListener createTrackListener() {
-        return new TrackListener();
+    protfdtfd TrbdkListfnfr drfbtfTrbdkListfnfr() {
+        rfturn nfw TrbdkListfnfr();
     }
 
-    protected ScrollListener createScrollListener() {
-        return new ScrollListener();
+    protfdtfd SdrollListfnfr drfbtfSdrollListfnfr() {
+        rfturn nfw SdrollListfnfr();
     }
 
-    protected void installListeners() {
-        fTrackListener = createTrackListener();
-        fModelListener = createModelListener();
-        fPropertyChangeListener = createPropertyChangeListener();
-        fScrollBar.addMouseListener(fTrackListener);
-        fScrollBar.addMouseMotionListener(fTrackListener);
-        fScrollBar.getModel().addChangeListener(fModelListener);
-        fScrollBar.addPropertyChangeListener(fPropertyChangeListener);
-        fScrollListener = createScrollListener();
-        fScrollTimer = new Timer(kNormalDelay, fScrollListener);
-        fScrollTimer.setInitialDelay(kInitialDelay); // default InitialDelay?
+    protfdtfd void instbllListfnfrs() {
+        fTrbdkListfnfr = drfbtfTrbdkListfnfr();
+        fModflListfnfr = drfbtfModflListfnfr();
+        fPropfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        fSdrollBbr.bddMousfListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.bddMousfMotionListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.gftModfl().bddCibngfListfnfr(fModflListfnfr);
+        fSdrollBbr.bddPropfrtyCibngfListfnfr(fPropfrtyCibngfListfnfr);
+        fSdrollListfnfr = drfbtfSdrollListfnfr();
+        fSdrollTimfr = nfw Timfr(kNormblDflby, fSdrollListfnfr);
+        fSdrollTimfr.sftInitiblDflby(kInitiblDflby); // dffbult InitiblDflby?
     }
 
-    protected void uninstallListeners() {
-        fScrollTimer.stop();
-        fScrollTimer = null;
-        fScrollBar.getModel().removeChangeListener(fModelListener);
-        fScrollBar.removeMouseListener(fTrackListener);
-        fScrollBar.removeMouseMotionListener(fTrackListener);
-        fScrollBar.removePropertyChangeListener(fPropertyChangeListener);
+    protfdtfd void uninstbllListfnfrs() {
+        fSdrollTimfr.stop();
+        fSdrollTimfr = null;
+        fSdrollBbr.gftModfl().rfmovfCibngfListfnfr(fModflListfnfr);
+        fSdrollBbr.rfmovfMousfListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.rfmovfMousfMotionListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.rfmovfPropfrtyCibngfListfnfr(fPropfrtyCibngfListfnfr);
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new PropertyChangeHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn nfw PropfrtyCibngfHbndlfr();
     }
 
-    protected ModelListener createModelListener() {
-        return new ModelListener();
+    protfdtfd ModflListfnfr drfbtfModflListfnfr() {
+        rfturn nfw ModflListfnfr();
     }
 
-    protected void syncState(final JComponent c) {
-        final ScrollBarState scrollBarState = painter.state;
-        scrollBarState.set(isHorizontal() ? Orientation.HORIZONTAL : Orientation.VERTICAL);
+    protfdtfd void syndStbtf(finbl JComponfnt d) {
+        finbl SdrollBbrStbtf sdrollBbrStbtf = pbintfr.stbtf;
+        sdrollBbrStbtf.sft(isHorizontbl() ? Orifntbtion.HORIZONTAL : Orifntbtion.VERTICAL);
 
-        final float trackExtent = fScrollBar.getMaximum() - fScrollBar.getMinimum() - fScrollBar.getModel().getExtent();
-        if (trackExtent <= 0.0f) {
-            scrollBarState.set(NothingToScroll.YES);
-            return;
+        finbl flobt trbdkExtfnt = fSdrollBbr.gftMbximum() - fSdrollBbr.gftMinimum() - fSdrollBbr.gftModfl().gftExtfnt();
+        if (trbdkExtfnt <= 0.0f) {
+            sdrollBbrStbtf.sft(NotiingToSdroll.YES);
+            rfturn;
         }
 
-        final ScrollBarPart pressedPart = getPressedPart();
-        scrollBarState.set(pressedPart);
-        scrollBarState.set(getState(c, pressedPart));
-        scrollBarState.set(NothingToScroll.NO);
-        scrollBarState.setValue((fScrollBar.getValue() - fScrollBar.getMinimum()) / trackExtent);
-        scrollBarState.setThumbStart(getThumbStart());
-        scrollBarState.setThumbPercent(getThumbPercent());
-        scrollBarState.set(shouldShowArrows() ? ShowArrows.YES : ShowArrows.NO);
+        finbl SdrollBbrPbrt prfssfdPbrt = gftPrfssfdPbrt();
+        sdrollBbrStbtf.sft(prfssfdPbrt);
+        sdrollBbrStbtf.sft(gftStbtf(d, prfssfdPbrt));
+        sdrollBbrStbtf.sft(NotiingToSdroll.NO);
+        sdrollBbrStbtf.sftVbluf((fSdrollBbr.gftVbluf() - fSdrollBbr.gftMinimum()) / trbdkExtfnt);
+        sdrollBbrStbtf.sftTiumbStbrt(gftTiumbStbrt());
+        sdrollBbrStbtf.sftTiumbPfrdfnt(gftTiumbPfrdfnt());
+        sdrollBbrStbtf.sft(siouldSiowArrows() ? SiowArrows.YES : SiowArrows.NO);
     }
 
-    public void paint(final Graphics g, final JComponent c) {
-        syncState(c);
-        painter.paint(g, c, 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        syndStbtf(d);
+        pbintfr.pbint(g, d, 0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit());
     }
 
-    protected State getState(final JComponent c, final ScrollBarPart pressedPart) {
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        if (!c.isEnabled()) return State.INACTIVE;
-        if (pressedPart != ScrollBarPart.NONE) return State.PRESSED;
-        return State.ACTIVE;
+    protfdtfd Stbtf gftStbtf(finbl JComponfnt d, finbl SdrollBbrPbrt prfssfdPbrt) {
+        if (!AqubFodusHbndlfr.isAdtivf(d)) rfturn Stbtf.INACTIVE;
+        if (!d.isEnbblfd()) rfturn Stbtf.INACTIVE;
+        if (prfssfdPbrt != SdrollBbrPbrt.NONE) rfturn Stbtf.PRESSED;
+        rfturn Stbtf.ACTIVE;
     }
 
-    static final RecyclableSingleton<Map<Hit, ScrollBarPart>> hitToPressedPartMap = new RecyclableSingleton<Map<Hit,ScrollBarPart>>(){
-        @Override
-        protected Map<Hit, ScrollBarPart> getInstance() {
-            final Map<Hit, ScrollBarPart> map = new HashMap<Hit, ScrollBarPart>(7);
-            map.put(ScrollBarHit.ARROW_MAX, ScrollBarPart.ARROW_MAX);
-            map.put(ScrollBarHit.ARROW_MIN, ScrollBarPart.ARROW_MIN);
-            map.put(ScrollBarHit.ARROW_MAX_INSIDE, ScrollBarPart.ARROW_MAX_INSIDE);
-            map.put(ScrollBarHit.ARROW_MIN_INSIDE, ScrollBarPart.ARROW_MIN_INSIDE);
-            map.put(ScrollBarHit.TRACK_MAX, ScrollBarPart.TRACK_MAX);
-            map.put(ScrollBarHit.TRACK_MIN, ScrollBarPart.TRACK_MIN);
-            map.put(ScrollBarHit.THUMB, ScrollBarPart.THUMB);
-            return map;
+    stbtid finbl RfdydlbblfSinglfton<Mbp<Hit, SdrollBbrPbrt>> iitToPrfssfdPbrtMbp = nfw RfdydlbblfSinglfton<Mbp<Hit,SdrollBbrPbrt>>(){
+        @Ovfrridf
+        protfdtfd Mbp<Hit, SdrollBbrPbrt> gftInstbndf() {
+            finbl Mbp<Hit, SdrollBbrPbrt> mbp = nfw HbsiMbp<Hit, SdrollBbrPbrt>(7);
+            mbp.put(SdrollBbrHit.ARROW_MAX, SdrollBbrPbrt.ARROW_MAX);
+            mbp.put(SdrollBbrHit.ARROW_MIN, SdrollBbrPbrt.ARROW_MIN);
+            mbp.put(SdrollBbrHit.ARROW_MAX_INSIDE, SdrollBbrPbrt.ARROW_MAX_INSIDE);
+            mbp.put(SdrollBbrHit.ARROW_MIN_INSIDE, SdrollBbrPbrt.ARROW_MIN_INSIDE);
+            mbp.put(SdrollBbrHit.TRACK_MAX, SdrollBbrPbrt.TRACK_MAX);
+            mbp.put(SdrollBbrHit.TRACK_MIN, SdrollBbrPbrt.TRACK_MIN);
+            mbp.put(SdrollBbrHit.THUMB, SdrollBbrPbrt.THUMB);
+            rfturn mbp;
         }
     };
-    protected ScrollBarPart getPressedPart() {
-        if (!fTrackListener.fInArrows || !fTrackListener.fStillInArrow) return ScrollBarPart.NONE;
-        final ScrollBarPart pressedPart = hitToPressedPartMap.get().get(fMousePart);
-        if (pressedPart == null) return ScrollBarPart.NONE;
-        return pressedPart;
+    protfdtfd SdrollBbrPbrt gftPrfssfdPbrt() {
+        if (!fTrbdkListfnfr.fInArrows || !fTrbdkListfnfr.fStillInArrow) rfturn SdrollBbrPbrt.NONE;
+        finbl SdrollBbrPbrt prfssfdPbrt = iitToPrfssfdPbrtMbp.gft().gft(fMousfPbrt);
+        if (prfssfdPbrt == null) rfturn SdrollBbrPbrt.NONE;
+        rfturn prfssfdPbrt;
     }
 
-    protected boolean shouldShowArrows() {
-        return MIN_ARROW_COLLAPSE_SIZE < (isHorizontal() ? fScrollBar.getWidth() : fScrollBar.getHeight());
+    protfdtfd boolfbn siouldSiowArrows() {
+        rfturn MIN_ARROW_COLLAPSE_SIZE < (isHorizontbl() ? fSdrollBbr.gftWidti() : fSdrollBbr.gftHfigit());
     }
 
-    // Layout Methods
-    // Layout is controlled by the user in the Appearance Control Panel
-    // Theme will redraw correctly for the current layout
-    public void layoutContainer(final Container fScrollBarContainer) {
-        fScrollBar.repaint();
-        fScrollBar.revalidate();
+    // Lbyout Mftiods
+    // Lbyout is dontrollfd by tif usfr in tif Appfbrbndf Control Pbnfl
+    // Tifmf will rfdrbw dorrfdtly for tif durrfnt lbyout
+    publid void lbyoutContbinfr(finbl Contbinfr fSdrollBbrContbinfr) {
+        fSdrollBbr.rfpbint();
+        fSdrollBbr.rfvblidbtf();
     }
 
-    protected Rectangle getTrackBounds() {
-        return new Rectangle(0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    protfdtfd Rfdtbnglf gftTrbdkBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit());
     }
 
-    protected Rectangle getDragBounds() {
-        return new Rectangle(0, 0, fScrollBar.getWidth(), fScrollBar.getHeight());
+    protfdtfd Rfdtbnglf gftDrbgBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit());
     }
 
-    protected void startTimer(final boolean initial) {
-        fScrollTimer.setInitialDelay(initial ? kInitialDelay : kNormalDelay); // default InitialDelay?
-        fScrollTimer.start();
+    protfdtfd void stbrtTimfr(finbl boolfbn initibl) {
+        fSdrollTimfr.sftInitiblDflby(initibl ? kInitiblDflby : kNormblDflby); // dffbult InitiblDflby?
+        fSdrollTimfr.stbrt();
     }
 
-    protected void scrollByBlock(final int direction) {
-        synchronized(fScrollBar) {
-            final int oldValue = fScrollBar.getValue();
-            final int blockIncrement = fScrollBar.getBlockIncrement(direction);
-            final int delta = blockIncrement * ((direction > 0) ? +1 : -1);
+    protfdtfd void sdrollByBlodk(finbl int dirfdtion) {
+        syndironizfd(fSdrollBbr) {
+            finbl int oldVbluf = fSdrollBbr.gftVbluf();
+            finbl int blodkIndrfmfnt = fSdrollBbr.gftBlodkIndrfmfnt(dirfdtion);
+            finbl int dfltb = blodkIndrfmfnt * ((dirfdtion > 0) ? +1 : -1);
 
-            fScrollBar.setValue(oldValue + delta);
-            fTrackHighlight = direction > 0 ? ScrollBarHit.TRACK_MAX : ScrollBarHit.TRACK_MIN;
-            fScrollBar.repaint();
-            fScrollListener.setDirection(direction);
-            fScrollListener.setScrollByBlock(true);
+            fSdrollBbr.sftVbluf(oldVbluf + dfltb);
+            fTrbdkHigiligit = dirfdtion > 0 ? SdrollBbrHit.TRACK_MAX : SdrollBbrHit.TRACK_MIN;
+            fSdrollBbr.rfpbint();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(truf);
         }
     }
 
-    protected void scrollByUnit(final int direction) {
-        synchronized(fScrollBar) {
-            int delta = fScrollBar.getUnitIncrement(direction);
-            if (direction <= 0) delta = -delta;
+    protfdtfd void sdrollByUnit(finbl int dirfdtion) {
+        syndironizfd(fSdrollBbr) {
+            int dfltb = fSdrollBbr.gftUnitIndrfmfnt(dirfdtion);
+            if (dirfdtion <= 0) dfltb = -dfltb;
 
-            fScrollBar.setValue(delta + fScrollBar.getValue());
-            fScrollBar.repaint();
-            fScrollListener.setDirection(direction);
-            fScrollListener.setScrollByBlock(false);
+            fSdrollBbr.sftVbluf(dfltb + fSdrollBbr.gftVbluf());
+            fSdrollBbr.rfpbint();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(fblsf);
         }
     }
 
-    protected Hit getPartHit(final int x, final int y) {
-        syncState(fScrollBar);
-        return JRSUIUtils.HitDetection.getHitForPoint(painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), x, y);
+    protfdtfd Hit gftPbrtHit(finbl int x, finbl int y) {
+        syndStbtf(fSdrollBbr);
+        rfturn JRSUIUtils.HitDftfdtion.gftHitForPoint(pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit(), x, y);
     }
 
-    protected class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String propertyName = e.getPropertyName();
+    protfdtfd dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+            finbl String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-            if ("model".equals(propertyName)) {
-                final BoundedRangeModel oldModel = (BoundedRangeModel)e.getOldValue();
-                final BoundedRangeModel newModel = (BoundedRangeModel)e.getNewValue();
-                oldModel.removeChangeListener(fModelListener);
-                newModel.addChangeListener(fModelListener);
-                fScrollBar.repaint();
-                fScrollBar.revalidate();
-            } else if (AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(propertyName)) {
-                fScrollBar.repaint();
+            if ("modfl".fqubls(propfrtyNbmf)) {
+                finbl BoundfdRbngfModfl oldModfl = (BoundfdRbngfModfl)f.gftOldVbluf();
+                finbl BoundfdRbngfModfl nfwModfl = (BoundfdRbngfModfl)f.gftNfwVbluf();
+                oldModfl.rfmovfCibngfListfnfr(fModflListfnfr);
+                nfwModfl.bddCibngfListfnfr(fModflListfnfr);
+                fSdrollBbr.rfpbint();
+                fSdrollBbr.rfvblidbtf();
+            } flsf if (AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(propfrtyNbmf)) {
+                fSdrollBbr.rfpbint();
             }
         }
     }
 
-    protected class ModelListener implements ChangeListener {
-        public void stateChanged(final ChangeEvent e) {
-            layoutContainer(fScrollBar);
+    protfdtfd dlbss ModflListfnfr implfmfnts CibngfListfnfr {
+        publid void stbtfCibngfd(finbl CibngfEvfnt f) {
+            lbyoutContbinfr(fSdrollBbr);
         }
     }
 
-    // Track mouse drags.
-    protected class TrackListener extends MouseAdapter implements MouseMotionListener {
-        protected transient int fCurrentMouseX, fCurrentMouseY;
-        protected transient boolean fInArrows; // are we currently tracking arrows?
-        protected transient boolean fStillInArrow = false; // Whether mouse is in an arrow during arrow tracking
-        protected transient boolean fStillInTrack = false; // Whether mouse is in the track during pageup/down tracking
-        protected transient int fFirstMouseX, fFirstMouseY, fFirstValue; // Values for getValueFromOffset
+    // Trbdk mousf drbgs.
+    protfdtfd dlbss TrbdkListfnfr fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr {
+        protfdtfd trbnsifnt int fCurrfntMousfX, fCurrfntMousfY;
+        protfdtfd trbnsifnt boolfbn fInArrows; // brf wf durrfntly trbdking brrows?
+        protfdtfd trbnsifnt boolfbn fStillInArrow = fblsf; // Wiftifr mousf is in bn brrow during brrow trbdking
+        protfdtfd trbnsifnt boolfbn fStillInTrbdk = fblsf; // Wiftifr mousf is in tif trbdk during pbgfup/down trbdking
+        protfdtfd trbnsifnt int fFirstMousfX, fFirstMousfY, fFirstVbluf; // Vblufs for gftVblufFromOffsft
 
-        public void mouseReleased(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        publid void mousfRflfbsfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
             if (fInArrows) {
-                mouseReleasedInArrows(e);
-            } else {
-                mouseReleasedInTrack(e);
+                mousfRflfbsfdInArrows(f);
+            } flsf {
+                mousfRflfbsfdInTrbdk(f);
             }
 
-            fInArrows = false;
-            fStillInArrow = false;
-            fStillInTrack = false;
+            fInArrows = fblsf;
+            fStillInArrow = fblsf;
+            fStillInTrbdk = fblsf;
 
-            fScrollBar.repaint();
-            fScrollBar.revalidate();
+            fSdrollBbr.rfpbint();
+            fSdrollBbr.rfvblidbtf();
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
 
-            final Hit part = getPartHit(e.getX(), e.getY());
-            fInArrows = HitUtil.isArrow(part);
+            finbl Hit pbrt = gftPbrtHit(f.gftX(), f.gftY());
+            fInArrows = HitUtil.isArrow(pbrt);
             if (fInArrows) {
-                mousePressedInArrows(e, part);
-            } else {
-                if (part == Hit.NONE) {
-                    fTrackHighlight = Hit.NONE;
-                } else {
-                    mousePressedInTrack(e, part);
+                mousfPrfssfdInArrows(f, pbrt);
+            } flsf {
+                if (pbrt == Hit.NONE) {
+                    fTrbdkHigiligit = Hit.NONE;
+                } flsf {
+                    mousfPrfssfdInTrbdk(f, pbrt);
                 }
             }
         }
 
-        public void mouseDragged(final MouseEvent e) {
-            if (!fScrollBar.isEnabled()) return;
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
 
             if (fInArrows) {
-                mouseDraggedInArrows(e);
-            } else if (fIsDragging) {
-                mouseDraggedInTrack(e);
-            } else {
-                // In pageup/down zones
+                mousfDrbggfdInArrows(f);
+            } flsf if (fIsDrbgging) {
+                mousfDrbggfdInTrbdk(f);
+            } flsf {
+                // In pbgfup/down zonfs
 
-                // check that thumb has not been scrolled under the mouse cursor
-                final Hit previousPart = getPartHit(fCurrentMouseX, fCurrentMouseY);
-                if (!HitUtil.isTrack(previousPart)) {
-                    fStillInTrack = false;
+                // difdk tibt tiumb ibs not bffn sdrollfd undfr tif mousf dursor
+                finbl Hit prfviousPbrt = gftPbrtHit(fCurrfntMousfX, fCurrfntMousfY);
+                if (!HitUtil.isTrbdk(prfviousPbrt)) {
+                    fStillInTrbdk = fblsf;
                 }
 
-                fCurrentMouseX = e.getX();
-                fCurrentMouseY = e.getY();
+                fCurrfntMousfX = f.gftX();
+                fCurrfntMousfY = f.gftY();
 
-                final Hit part = getPartHit(e.getX(), e.getY());
-                final boolean temp = HitUtil.isTrack(part);
-                if (temp == fStillInTrack) return;
+                finbl Hit pbrt = gftPbrtHit(f.gftX(), f.gftY());
+                finbl boolfbn tfmp = HitUtil.isTrbdk(pbrt);
+                if (tfmp == fStillInTrbdk) rfturn;
 
-                fStillInTrack = temp;
-                if (!fStillInTrack) {
-                    fScrollTimer.stop();
-                } else {
-                    fScrollListener.actionPerformed(new ActionEvent(fScrollTimer, 0, ""));
-                    startTimer(false);
+                fStillInTrbdk = tfmp;
+                if (!fStillInTrbdk) {
+                    fSdrollTimfr.stop();
+                } flsf {
+                    fSdrollListfnfr.bdtionPfrformfd(nfw AdtionEvfnt(fSdrollTimfr, 0, ""));
+                    stbrtTimfr(fblsf);
                 }
             }
         }
 
-        int getValueFromOffset(final int xOffset, final int yOffset, final int firstValue) {
-            final boolean isHoriz = isHorizontal();
+        int gftVblufFromOffsft(finbl int xOffsft, finbl int yOffsft, finbl int firstVbluf) {
+            finbl boolfbn isHoriz = isHorizontbl();
 
-            // find the amount of pixels we've moved x & y (we only care about one)
-            final int offsetWeCareAbout = isHoriz ? xOffset : yOffset;
+            // find tif bmount of pixfls wf'vf movfd x & y (wf only dbrf bbout onf)
+            finbl int offsftWfCbrfAbout = isHoriz ? xOffsft : yOffsft;
 
-            // now based on that floating point percentage compute the real scroller value.
-            final int visibleAmt = fScrollBar.getVisibleAmount();
-            final int max = fScrollBar.getMaximum();
-            final int min = fScrollBar.getMinimum();
-            final int extent = max - min;
+            // now bbsfd on tibt flobting point pfrdfntbgf domputf tif rfbl sdrollfr vbluf.
+            finbl int visiblfAmt = fSdrollBbr.gftVisiblfAmount();
+            finbl int mbx = fSdrollBbr.gftMbximum();
+            finbl int min = fSdrollBbr.gftMinimum();
+            finbl int fxtfnt = mbx - min;
 
-            // ask native to tell us what the new float that is a ratio of how much scrollable area
-            // we have moved (not the thumb area, just the scrollable). If the
-            // scroller goes 0-100 with a visible area of 20 we are getting a ratio of the
-            // remaining 80.
-            syncState(fScrollBar);
-            final double offsetChange = JRSUIUtils.ScrollBar.getNativeOffsetChange(painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), offsetWeCareAbout, visibleAmt, extent);
+            // bsk nbtivf to tfll us wibt tif nfw flobt tibt is b rbtio of iow mudi sdrollbblf brfb
+            // wf ibvf movfd (not tif tiumb brfb, just tif sdrollbblf). If tif
+            // sdrollfr gofs 0-100 witi b visiblf brfb of 20 wf brf gftting b rbtio of tif
+            // rfmbining 80.
+            syndStbtf(fSdrollBbr);
+            finbl doublf offsftCibngf = JRSUIUtils.SdrollBbr.gftNbtivfOffsftCibngf(pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit(), offsftWfCbrfAbout, visiblfAmt, fxtfnt);
 
-            // the scrollable area is the extent - visible amount;
-            final int scrollableArea = extent - visibleAmt;
+            // tif sdrollbblf brfb is tif fxtfnt - visiblf bmount;
+            finbl int sdrollbblfArfb = fxtfnt - visiblfAmt;
 
-            final int changeByValue = (int)(offsetChange * scrollableArea);
-            int newValue = firstValue + changeByValue;
-            newValue = Math.max(min, newValue);
-            newValue = Math.min((max - visibleAmt), newValue);
-            return newValue;
+            finbl int dibngfByVbluf = (int)(offsftCibngf * sdrollbblfArfb);
+            int nfwVbluf = firstVbluf + dibngfByVbluf;
+            nfwVbluf = Mbti.mbx(min, nfwVbluf);
+            nfwVbluf = Mbti.min((mbx - visiblfAmt), nfwVbluf);
+            rfturn nfwVbluf;
         }
 
         /**
-         * Arrow Listeners
+         * Arrow Listfnfrs
          */
-        // Because we are handling both mousePressed and Actions
-        // we need to make sure we don't fire under both conditions.
-        // (keyfocus on scrollbars causes action without mousePress
-        void mousePressedInArrows(final MouseEvent e, final Hit part) {
-            final int direction = HitUtil.isIncrement(part) ? 1 : -1;
+        // Bfdbusf wf brf ibndling boti mousfPrfssfd bnd Adtions
+        // wf nffd to mbkf surf wf don't firf undfr boti donditions.
+        // (kfyfodus on sdrollbbrs dbusfs bdtion witiout mousfPrfss
+        void mousfPrfssfdInArrows(finbl MousfEvfnt f, finbl Hit pbrt) {
+            finbl int dirfdtion = HitUtil.isIndrfmfnt(pbrt) ? 1 : -1;
 
-            fStillInArrow = true;
-            scrollByUnit(direction);
-            fScrollTimer.stop();
-            fScrollListener.setDirection(direction);
-            fScrollListener.setScrollByBlock(false);
+            fStillInArrow = truf;
+            sdrollByUnit(dirfdtion);
+            fSdrollTimfr.stop();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(fblsf);
 
-            fMousePart = part;
-            startTimer(true);
+            fMousfPbrt = pbrt;
+            stbrtTimfr(truf);
         }
 
-        void mouseReleasedInArrows(final MouseEvent e) {
-            fScrollTimer.stop();
-            fMousePart = Hit.NONE;
-            fScrollBar.setValueIsAdjusting(false);
+        void mousfRflfbsfdInArrows(finbl MousfEvfnt f) {
+            fSdrollTimfr.stop();
+            fMousfPbrt = Hit.NONE;
+            fSdrollBbr.sftVblufIsAdjusting(fblsf);
         }
 
-        void mouseDraggedInArrows(final MouseEvent e) {
-            final Hit whichPart = getPartHit(e.getX(), e.getY());
+        void mousfDrbggfdInArrows(finbl MousfEvfnt f) {
+            finbl Hit wiidiPbrt = gftPbrtHit(f.gftX(), f.gftY());
 
-            if ((fMousePart == whichPart) && fStillInArrow) return; // Nothing has changed, so return
+            if ((fMousfPbrt == wiidiPbrt) && fStillInArrow) rfturn; // Notiing ibs dibngfd, so rfturn
 
-            if (fMousePart != whichPart && !HitUtil.isArrow(whichPart)) {
-                // The mouse is not over the arrow we mouse pressed in, so stop the timer and mark as
-                // not being in the arrow
-                fScrollTimer.stop();
-                fStillInArrow = false;
-                fScrollBar.repaint();
-            } else {
-                // We are in the arrow we mouse pressed down in originally, but the timer was stopped so we need
-                // to start it up again.
-                fMousePart = whichPart;
-                fScrollListener.setDirection(HitUtil.isIncrement(whichPart) ? 1 : -1);
-                fStillInArrow = true;
-                fScrollListener.actionPerformed(new ActionEvent(fScrollTimer, 0, ""));
-                startTimer(false);
+            if (fMousfPbrt != wiidiPbrt && !HitUtil.isArrow(wiidiPbrt)) {
+                // Tif mousf is not ovfr tif brrow wf mousf prfssfd in, so stop tif timfr bnd mbrk bs
+                // not bfing in tif brrow
+                fSdrollTimfr.stop();
+                fStillInArrow = fblsf;
+                fSdrollBbr.rfpbint();
+            } flsf {
+                // Wf brf in tif brrow wf mousf prfssfd down in originblly, but tif timfr wbs stoppfd so wf nffd
+                // to stbrt it up bgbin.
+                fMousfPbrt = wiidiPbrt;
+                fSdrollListfnfr.sftDirfdtion(HitUtil.isIndrfmfnt(wiidiPbrt) ? 1 : -1);
+                fStillInArrow = truf;
+                fSdrollListfnfr.bdtionPfrformfd(nfw AdtionEvfnt(fSdrollTimfr, 0, ""));
+                stbrtTimfr(fblsf);
             }
 
-            fScrollBar.repaint();
+            fSdrollBbr.rfpbint();
         }
 
-        void mouseReleasedInTrack(final MouseEvent e) {
-            if (fTrackHighlight != Hit.NONE) {
-                fScrollBar.repaint();
+        void mousfRflfbsfdInTrbdk(finbl MousfEvfnt f) {
+            if (fTrbdkHigiligit != Hit.NONE) {
+                fSdrollBbr.rfpbint();
             }
 
-            fTrackHighlight = Hit.NONE;
-            fIsDragging = false;
-            fScrollTimer.stop();
-            fScrollBar.setValueIsAdjusting(false);
+            fTrbdkHigiligit = Hit.NONE;
+            fIsDrbgging = fblsf;
+            fSdrollTimfr.stop();
+            fSdrollBbr.sftVblufIsAdjusting(fblsf);
         }
 
         /**
-         * Adjust the fScrollBars value based on the result of hitTestTrack
+         * Adjust tif fSdrollBbrs vbluf bbsfd on tif rfsult of iitTfstTrbdk
          */
-        void mousePressedInTrack(final MouseEvent e, final Hit part) {
-            fScrollBar.setValueIsAdjusting(true);
+        void mousfPrfssfdInTrbdk(finbl MousfEvfnt f, finbl Hit pbrt) {
+            fSdrollBbr.sftVblufIsAdjusting(truf);
 
-            // If option-click, toggle scroll-to-here
-            boolean shouldScrollToHere = (part != ScrollBarHit.THUMB) && JRSUIUtils.ScrollBar.useScrollToClick();
-            if (e.isAltDown()) shouldScrollToHere = !shouldScrollToHere;
+            // If option-dlidk, togglf sdroll-to-ifrf
+            boolfbn siouldSdrollToHfrf = (pbrt != SdrollBbrHit.THUMB) && JRSUIUtils.SdrollBbr.usfSdrollToClidk();
+            if (f.isAltDown()) siouldSdrollToHfrf = !siouldSdrollToHfrf;
 
-            // pretend the mouse was dragged from a point in the current thumb to the current mouse point in one big jump
-            if (shouldScrollToHere) {
-                final Point p = getScrollToHereStartPoint(e.getX(), e.getY());
-                fFirstMouseX = p.x;
-                fFirstMouseY = p.y;
-                fFirstValue = fScrollBar.getValue();
-                moveToMouse(e);
+            // prftfnd tif mousf wbs drbggfd from b point in tif durrfnt tiumb to tif durrfnt mousf point in onf big jump
+            if (siouldSdrollToHfrf) {
+                finbl Point p = gftSdrollToHfrfStbrtPoint(f.gftX(), f.gftY());
+                fFirstMousfX = p.x;
+                fFirstMousfY = p.y;
+                fFirstVbluf = fSdrollBbr.gftVbluf();
+                movfToMousf(f);
 
-                // OK, now we're in the thumb - any subsequent dragging should move it
-                fTrackHighlight = ScrollBarHit.THUMB;
-                fIsDragging = true;
-                return;
+                // OK, now wf'rf in tif tiumb - bny subsfqufnt drbgging siould movf it
+                fTrbdkHigiligit = SdrollBbrHit.THUMB;
+                fIsDrbgging = truf;
+                rfturn;
             }
 
-            fCurrentMouseX = e.getX();
-            fCurrentMouseY = e.getY();
+            fCurrfntMousfX = f.gftX();
+            fCurrfntMousfY = f.gftY();
 
-            int direction = 0;
-            if (part == ScrollBarHit.TRACK_MIN) {
-                fTrackHighlight = ScrollBarHit.TRACK_MIN;
-                direction = -1;
-            } else if (part == ScrollBarHit.TRACK_MAX) {
-                fTrackHighlight = ScrollBarHit.TRACK_MAX;
-                direction = 1;
-            } else {
-                fFirstValue = fScrollBar.getValue();
-                fFirstMouseX = fCurrentMouseX;
-                fFirstMouseY = fCurrentMouseY;
-                fTrackHighlight = ScrollBarHit.THUMB;
-                fIsDragging = true;
-                return;
+            int dirfdtion = 0;
+            if (pbrt == SdrollBbrHit.TRACK_MIN) {
+                fTrbdkHigiligit = SdrollBbrHit.TRACK_MIN;
+                dirfdtion = -1;
+            } flsf if (pbrt == SdrollBbrHit.TRACK_MAX) {
+                fTrbdkHigiligit = SdrollBbrHit.TRACK_MAX;
+                dirfdtion = 1;
+            } flsf {
+                fFirstVbluf = fSdrollBbr.gftVbluf();
+                fFirstMousfX = fCurrfntMousfX;
+                fFirstMousfY = fCurrfntMousfY;
+                fTrbdkHigiligit = SdrollBbrHit.THUMB;
+                fIsDrbgging = truf;
+                rfturn;
             }
 
-            fIsDragging = false;
-            fStillInTrack = true;
+            fIsDrbgging = fblsf;
+            fStillInTrbdk = truf;
 
-            scrollByBlock(direction);
-            // Check the new location of the thumb
-            // stop scrolling if the thumb is under the mouse??
+            sdrollByBlodk(dirfdtion);
+            // Cifdk tif nfw lodbtion of tif tiumb
+            // stop sdrolling if tif tiumb is undfr tif mousf??
 
-            final Hit newPart = getPartHit(fCurrentMouseX, fCurrentMouseY);
-            if (newPart == ScrollBarHit.TRACK_MIN || newPart == ScrollBarHit.TRACK_MAX) {
-                fScrollTimer.stop();
-                fScrollListener.setDirection(((newPart == ScrollBarHit.TRACK_MAX) ? 1 : -1));
-                fScrollListener.setScrollByBlock(true);
-                startTimer(true);
+            finbl Hit nfwPbrt = gftPbrtHit(fCurrfntMousfX, fCurrfntMousfY);
+            if (nfwPbrt == SdrollBbrHit.TRACK_MIN || nfwPbrt == SdrollBbrHit.TRACK_MAX) {
+                fSdrollTimfr.stop();
+                fSdrollListfnfr.sftDirfdtion(((nfwPbrt == SdrollBbrHit.TRACK_MAX) ? 1 : -1));
+                fSdrollListfnfr.sftSdrollByBlodk(truf);
+                stbrtTimfr(truf);
             }
         }
 
         /**
-         * Set the models value to the position of the top/left
-         * of the thumb relative to the origin of the track.
+         * Sft tif modfls vbluf to tif position of tif top/lfft
+         * of tif tiumb rflbtivf to tif origin of tif trbdk.
          */
-        void mouseDraggedInTrack(final MouseEvent e) {
-            moveToMouse(e);
+        void mousfDrbggfdInTrbdk(finbl MousfEvfnt f) {
+            movfToMousf(f);
         }
 
-        // For normal mouse dragging or click-to-here
-        // fCurrentMouseX, fCurrentMouseY, and fFirstValue must be set
-        void moveToMouse(final MouseEvent e) {
-            fCurrentMouseX = e.getX();
-            fCurrentMouseY = e.getY();
+        // For normbl mousf drbgging or dlidk-to-ifrf
+        // fCurrfntMousfX, fCurrfntMousfY, bnd fFirstVbluf must bf sft
+        void movfToMousf(finbl MousfEvfnt f) {
+            fCurrfntMousfX = f.gftX();
+            fCurrfntMousfY = f.gftY();
 
-            final int oldValue = fScrollBar.getValue();
-            final int newValue = getValueFromOffset(fCurrentMouseX - fFirstMouseX, fCurrentMouseY - fFirstMouseY, fFirstValue);
-            if (newValue == oldValue) return;
+            finbl int oldVbluf = fSdrollBbr.gftVbluf();
+            finbl int nfwVbluf = gftVblufFromOffsft(fCurrfntMousfX - fFirstMousfX, fCurrfntMousfY - fFirstMousfY, fFirstVbluf);
+            if (nfwVbluf == oldVbluf) rfturn;
 
-            fScrollBar.setValue(newValue);
-            final Rectangle dirtyRect = getTrackBounds();
-            fScrollBar.repaint(dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
+            fSdrollBbr.sftVbluf(nfwVbluf);
+            finbl Rfdtbnglf dirtyRfdt = gftTrbdkBounds();
+            fSdrollBbr.rfpbint(dirtyRfdt.x, dirtyRfdt.y, dirtyRfdt.widti, dirtyRfdt.ifigit);
         }
     }
 
     /**
-     * Listener for scrolling events initiated in the ScrollPane.
+     * Listfnfr for sdrolling fvfnts initibtfd in tif SdrollPbnf.
      */
-    protected class ScrollListener implements ActionListener {
-        boolean fUseBlockIncrement;
-        int fDirection = 1;
+    protfdtfd dlbss SdrollListfnfr implfmfnts AdtionListfnfr {
+        boolfbn fUsfBlodkIndrfmfnt;
+        int fDirfdtion = 1;
 
-        void setDirection(final int direction) {
-            this.fDirection = direction;
+        void sftDirfdtion(finbl int dirfdtion) {
+            tiis.fDirfdtion = dirfdtion;
         }
 
-        void setScrollByBlock(final boolean block) {
-            this.fUseBlockIncrement = block;
+        void sftSdrollByBlodk(finbl boolfbn blodk) {
+            tiis.fUsfBlodkIndrfmfnt = blodk;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            if (fUseBlockIncrement) {
-                Hit newPart = getPartHit(fTrackListener.fCurrentMouseX, fTrackListener.fCurrentMouseY);
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (fUsfBlodkIndrfmfnt) {
+                Hit nfwPbrt = gftPbrtHit(fTrbdkListfnfr.fCurrfntMousfX, fTrbdkListfnfr.fCurrfntMousfY);
 
-                if (newPart == ScrollBarHit.TRACK_MIN || newPart == ScrollBarHit.TRACK_MAX) {
-                    final int newDirection = (newPart == ScrollBarHit.TRACK_MAX ? 1 : -1);
-                    if (fDirection != newDirection) {
-                        fDirection = newDirection;
+                if (nfwPbrt == SdrollBbrHit.TRACK_MIN || nfwPbrt == SdrollBbrHit.TRACK_MAX) {
+                    finbl int nfwDirfdtion = (nfwPbrt == SdrollBbrHit.TRACK_MAX ? 1 : -1);
+                    if (fDirfdtion != nfwDirfdtion) {
+                        fDirfdtion = nfwDirfdtion;
                     }
                 }
 
-                scrollByBlock(fDirection);
-                newPart = getPartHit(fTrackListener.fCurrentMouseX, fTrackListener.fCurrentMouseY);
+                sdrollByBlodk(fDirfdtion);
+                nfwPbrt = gftPbrtHit(fTrbdkListfnfr.fCurrfntMousfX, fTrbdkListfnfr.fCurrfntMousfY);
 
-                if (newPart == ScrollBarHit.THUMB) {
-                    ((Timer)e.getSource()).stop();
+                if (nfwPbrt == SdrollBbrHit.THUMB) {
+                    ((Timfr)f.gftSourdf()).stop();
                 }
-            } else {
-                scrollByUnit(fDirection);
+            } flsf {
+                sdrollByUnit(fDirfdtion);
             }
 
-            if (fDirection > 0 && fScrollBar.getValue() + fScrollBar.getVisibleAmount() >= fScrollBar.getMaximum()) {
-                ((Timer)e.getSource()).stop();
-            } else if (fDirection < 0 && fScrollBar.getValue() <= fScrollBar.getMinimum()) {
-                ((Timer)e.getSource()).stop();
+            if (fDirfdtion > 0 && fSdrollBbr.gftVbluf() + fSdrollBbr.gftVisiblfAmount() >= fSdrollBbr.gftMbximum()) {
+                ((Timfr)f.gftSourdf()).stop();
+            } flsf if (fDirfdtion < 0 && fSdrollBbr.gftVbluf() <= fSdrollBbr.gftMinimum()) {
+                ((Timfr)f.gftSourdf()).stop();
             }
         }
     }
 
-    float getThumbStart() {
-        final int max = fScrollBar.getMaximum();
-        final int min = fScrollBar.getMinimum();
-        final int extent = max - min;
-        if (extent <= 0) return 0f;
+    flobt gftTiumbStbrt() {
+        finbl int mbx = fSdrollBbr.gftMbximum();
+        finbl int min = fSdrollBbr.gftMinimum();
+        finbl int fxtfnt = mbx - min;
+        if (fxtfnt <= 0) rfturn 0f;
 
-        return (float)(fScrollBar.getValue() - fScrollBar.getMinimum()) / (float)extent;
+        rfturn (flobt)(fSdrollBbr.gftVbluf() - fSdrollBbr.gftMinimum()) / (flobt)fxtfnt;
     }
 
-    float getThumbPercent() {
-        final int visible = fScrollBar.getVisibleAmount();
-        final int max = fScrollBar.getMaximum();
-        final int min = fScrollBar.getMinimum();
-        final int extent = max - min;
-        if (extent <= 0) return 0f;
+    flobt gftTiumbPfrdfnt() {
+        finbl int visiblf = fSdrollBbr.gftVisiblfAmount();
+        finbl int mbx = fSdrollBbr.gftMbximum();
+        finbl int min = fSdrollBbr.gftMinimum();
+        finbl int fxtfnt = mbx - min;
+        if (fxtfnt <= 0) rfturn 0f;
 
-        return (float)visible / (float)extent;
+        rfturn (flobt)visiblf / (flobt)fxtfnt;
     }
 
     /**
-     * A scrollbar's preferred width is 16 by a reasonable size to hold
-     * the arrows
+     * A sdrollbbr's prfffrrfd widti is 16 by b rfbsonbblf sizf to iold
+     * tif brrows
      *
-     * @param c The JScrollBar that's delegating this method to us.
-     * @return The preferred size of a Basic JScrollBar.
-     * @see #getMaximumSize
-     * @see #getMinimumSize
+     * @pbrbm d Tif JSdrollBbr tibt's dflfgbting tiis mftiod to us.
+     * @rfturn Tif prfffrrfd sizf of b Bbsid JSdrollBbr.
+     * @sff #gftMbximumSizf
+     * @sff #gftMinimumSizf
      */
-    public Dimension getPreferredSize(final JComponent c) {
-        return isHorizontal() ? new Dimension(96, 15) : new Dimension(15, 96);
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        rfturn isHorizontbl() ? nfw Dimfnsion(96, 15) : nfw Dimfnsion(15, 96);
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
-        return isHorizontal() ? new Dimension(54, 15) : new Dimension(15, 54);
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        rfturn isHorizontbl() ? nfw Dimfnsion(54, 15) : nfw Dimfnsion(15, 54);
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion gftMbximumSizf(finbl JComponfnt d) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
-    boolean isHorizontal() {
-        return fScrollBar.getOrientation() == Adjustable.HORIZONTAL;
+    boolfbn isHorizontbl() {
+        rfturn fSdrollBbr.gftOrifntbtion() == Adjustbblf.HORIZONTAL;
     }
 
-    // only do scroll-to-here for page up and page down regions, when the option key is pressed
-    // This gets the point where the mouse would have been clicked in the current thumb
-    // so we can pretend the mouse was dragged to the current mouse point in one big jump
-    Point getScrollToHereStartPoint(final int clickPosX, final int clickPosY) {
-        // prepare the track rectangle and limit rectangle so we can do our calculations
-        final Rectangle limitRect = getDragBounds(); // GetThemeTrackDragRect
+    // only do sdroll-to-ifrf for pbgf up bnd pbgf down rfgions, wifn tif option kfy is prfssfd
+    // Tiis gfts tif point wifrf tif mousf would ibvf bffn dlidkfd in tif durrfnt tiumb
+    // so wf dbn prftfnd tif mousf wbs drbggfd to tif durrfnt mousf point in onf big jump
+    Point gftSdrollToHfrfStbrtPoint(finbl int dlidkPosX, finbl int dlidkPosY) {
+        // prfpbrf tif trbdk rfdtbnglf bnd limit rfdtbnglf so wf dbn do our dbldulbtions
+        finbl Rfdtbnglf limitRfdt = gftDrbgBounds(); // GftTifmfTrbdkDrbgRfdt
 
-        // determine the bounding rectangle for our thumb region
-        syncState(fScrollBar);
-        double[] rect = new double[4];
-        JRSUIUtils.ScrollBar.getPartBounds(rect, painter.getControl(), 0, 0, fScrollBar.getWidth(), fScrollBar.getHeight(), ScrollBarPart.THUMB);
-        final Rectangle r = new Rectangle((int)rect[0], (int)rect[1], (int)rect[2], (int)rect[3]);
+        // dftfrminf tif bounding rfdtbnglf for our tiumb rfgion
+        syndStbtf(fSdrollBbr);
+        doublf[] rfdt = nfw doublf[4];
+        JRSUIUtils.SdrollBbr.gftPbrtBounds(rfdt, pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidti(), fSdrollBbr.gftHfigit(), SdrollBbrPbrt.THUMB);
+        finbl Rfdtbnglf r = nfw Rfdtbnglf((int)rfdt[0], (int)rfdt[1], (int)rfdt[2], (int)rfdt[3]);
 
-        // figure out the scroll-to-here start location based on our orientation, the
-        // click position, and where it must be in the thumb to travel to the endpoints
-        // properly.
-        final Point startPoint = new Point(clickPosX, clickPosY);
+        // figurf out tif sdroll-to-ifrf stbrt lodbtion bbsfd on our orifntbtion, tif
+        // dlidk position, bnd wifrf it must bf in tif tiumb to trbvfl to tif fndpoints
+        // propfrly.
+        finbl Point stbrtPoint = nfw Point(dlidkPosX, dlidkPosY);
 
-        if (isHorizontal()) {
-            final int halfWidth = r.width / 2;
-            final int limitRectRight = limitRect.x + limitRect.width;
+        if (isHorizontbl()) {
+            finbl int iblfWidti = r.widti / 2;
+            finbl int limitRfdtRigit = limitRfdt.x + limitRfdt.widti;
 
-            if (clickPosX + halfWidth > limitRectRight) {
-                // Up against right edge
-                startPoint.x = r.x + r.width - limitRectRight - clickPosX - 1;
-            } else if (clickPosX - halfWidth < limitRect.x) {
-                // Up against left edge
-                startPoint.x = r.x + clickPosX - limitRect.x;
-            } else {
-                // Center the thumb
-                startPoint.x = r.x + halfWidth;
+            if (dlidkPosX + iblfWidti > limitRfdtRigit) {
+                // Up bgbinst rigit fdgf
+                stbrtPoint.x = r.x + r.widti - limitRfdtRigit - dlidkPosX - 1;
+            } flsf if (dlidkPosX - iblfWidti < limitRfdt.x) {
+                // Up bgbinst lfft fdgf
+                stbrtPoint.x = r.x + dlidkPosX - limitRfdt.x;
+            } flsf {
+                // Cfntfr tif tiumb
+                stbrtPoint.x = r.x + iblfWidti;
             }
 
-            // Pretend clicked in middle of indicator vertically
-            startPoint.y = (r.y + r.height) / 2;
-            return startPoint;
+            // Prftfnd dlidkfd in middlf of indidbtor vfrtidblly
+            stbrtPoint.y = (r.y + r.ifigit) / 2;
+            rfturn stbrtPoint;
         }
 
-        final int halfHeight = r.height / 2;
-        final int limitRectBottom = limitRect.y + limitRect.height;
+        finbl int iblfHfigit = r.ifigit / 2;
+        finbl int limitRfdtBottom = limitRfdt.y + limitRfdt.ifigit;
 
-        if (clickPosY + halfHeight > limitRectBottom) {
-            // Up against bottom edge
-            startPoint.y = r.y + r.height - limitRectBottom - clickPosY - 1;
-        } else if (clickPosY - halfHeight < limitRect.y) {
-            // Up against top edge
-            startPoint.y = r.y + clickPosY - limitRect.y;
-        } else {
-            // Center the thumb
-            startPoint.y = r.y + halfHeight;
+        if (dlidkPosY + iblfHfigit > limitRfdtBottom) {
+            // Up bgbinst bottom fdgf
+            stbrtPoint.y = r.y + r.ifigit - limitRfdtBottom - dlidkPosY - 1;
+        } flsf if (dlidkPosY - iblfHfigit < limitRfdt.y) {
+            // Up bgbinst top fdgf
+            stbrtPoint.y = r.y + dlidkPosY - limitRfdt.y;
+        } flsf {
+            // Cfntfr tif tiumb
+            stbrtPoint.y = r.y + iblfHfigit;
         }
 
-        // Pretend clicked in middle of indicator horizontally
-        startPoint.x = (r.x + r.width) / 2;
+        // Prftfnd dlidkfd in middlf of indidbtor iorizontblly
+        stbrtPoint.x = (r.x + r.widti) / 2;
 
-        return startPoint;
+        rfturn stbrtPoint;
     }
 
-    static class HitUtil {
-        static boolean isIncrement(final Hit hit) {
-            return (hit == ScrollBarHit.ARROW_MAX) || (hit == ScrollBarHit.ARROW_MAX_INSIDE);
+    stbtid dlbss HitUtil {
+        stbtid boolfbn isIndrfmfnt(finbl Hit iit) {
+            rfturn (iit == SdrollBbrHit.ARROW_MAX) || (iit == SdrollBbrHit.ARROW_MAX_INSIDE);
         }
 
-        static boolean isDecrement(final Hit hit) {
-            return (hit == ScrollBarHit.ARROW_MIN) || (hit == ScrollBarHit.ARROW_MIN_INSIDE);
+        stbtid boolfbn isDfdrfmfnt(finbl Hit iit) {
+            rfturn (iit == SdrollBbrHit.ARROW_MIN) || (iit == SdrollBbrHit.ARROW_MIN_INSIDE);
         }
 
-        static boolean isArrow(final Hit hit) {
-            return isIncrement(hit) || isDecrement(hit);
+        stbtid boolfbn isArrow(finbl Hit iit) {
+            rfturn isIndrfmfnt(iit) || isDfdrfmfnt(iit);
         }
 
-        static boolean isTrack(final Hit hit) {
-            return (hit == ScrollBarHit.TRACK_MAX) || (hit == ScrollBarHit.TRACK_MIN);
+        stbtid boolfbn isTrbdk(finbl Hit iit) {
+            rfturn (iit == SdrollBbrHit.TRACK_MAX) || (iit == SdrollBbrHit.TRACK_MIN);
         }
     }
 }

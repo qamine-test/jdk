@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
- * Copyright 2013 SAP AG. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit 2013 SAP AG. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-// Based on 'LinuxAttachProvider.java'. All occurrences of the string
-// "Linux" have been textually replaced by "Aix" to avoid confusion.
+// Bbsfd on 'LinuxAttbdiProvidfr.jbvb'. All oddurrfndfs of tif string
+// "Linux" ibvf bffn tfxtublly rfplbdfd by "Aix" to bvoid donfusion.
 
 /*
- * An AttachProvider implementation for Aix that uses a UNIX domain
- * socket.
+ * An AttbdiProvidfr implfmfntbtion for Aix tibt usfs b UNIX dombin
+ * sodkft.
  */
-public class AixAttachProvider extends HotSpotAttachProvider {
+publid dlbss AixAttbdiProvidfr fxtfnds HotSpotAttbdiProvidfr {
 
-    // perf counter for the JVM version
-    private static final String JVM_VERSION = "java.property.java.vm.version";
+    // pfrf dountfr for tif JVM vfrsion
+    privbtf stbtid finbl String JVM_VERSION = "jbvb.propfrty.jbvb.vm.vfrsion";
 
-    public AixAttachProvider() {
+    publid AixAttbdiProvidfr() {
     }
 
-    public String name() {
-        return "sun";
+    publid String nbmf() {
+        rfturn "sun";
     }
 
-    public String type() {
-        return "socket";
+    publid String typf() {
+        rfturn "sodkft";
     }
 
-    public VirtualMachine attachVirtualMachine(String vmid)
-        throws AttachNotSupportedException, IOException
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(String vmid)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        checkAttachPermission();
+        difdkAttbdiPfrmission();
 
-        // AttachNotSupportedException will be thrown if the target VM can be determined
-        // to be not attachable.
-        testAttachable(vmid);
+        // AttbdiNotSupportfdExdfption will bf tirown if tif tbrgft VM dbn bf dftfrminfd
+        // to bf not bttbdibblf.
+        tfstAttbdibblf(vmid);
 
-        return new AixVirtualMachine(this, vmid);
+        rfturn nfw AixVirtublMbdiinf(tiis, vmid);
     }
 
-    public VirtualMachine attachVirtualMachine(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        if (vmd.provider() != this) {
-            throw new AttachNotSupportedException("provider mismatch");
+        if (vmd.providfr() != tiis) {
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
         }
-        // To avoid re-checking if the VM if attachable, we check if the descriptor
-        // is for a hotspot VM - these descriptors are created by the listVirtualMachines
-        // implementation which only returns a list of attachable VMs.
-        if (vmd instanceof HotSpotVirtualMachineDescriptor) {
-            assert ((HotSpotVirtualMachineDescriptor)vmd).isAttachable();
-            checkAttachPermission();
-            return new AixVirtualMachine(this, vmd.id());
-        } else {
-            return attachVirtualMachine(vmd.id());
+        // To bvoid rf-difdking if tif VM if bttbdibblf, wf difdk if tif dfsdriptor
+        // is for b iotspot VM - tifsf dfsdriptors brf drfbtfd by tif listVirtublMbdiinfs
+        // implfmfntbtion wiidi only rfturns b list of bttbdibblf VMs.
+        if (vmd instbndfof HotSpotVirtublMbdiinfDfsdriptor) {
+            bssfrt ((HotSpotVirtublMbdiinfDfsdriptor)vmd).isAttbdibblf();
+            difdkAttbdiPfrmission();
+            rfturn nfw AixVirtublMbdiinf(tiis, vmd.id());
+        } flsf {
+            rfturn bttbdiVirtublMbdiinf(vmd.id());
         }
     }
 

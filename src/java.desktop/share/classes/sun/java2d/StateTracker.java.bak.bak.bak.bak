@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+/**
+ * This intfrfbdf is usfd to trbdk dhbngfs to thf domplfx dbtb of bn
+ * objfdt thbt implfmfnts thf StbtfTrbdkbblf intfrfbdf.
+ * <p>
+ * Thf usbgf pbttfrn for dodf bddfssing thf trbdkbblf dbtb is bs follows:
+ * <prf>
+ *     StbtfTrbdkbblf trbdkfdobjfdt;
+ *     MyInfo dbdhfddbtb;
+ *     StbtfTrbdkfr dbdhftrbdkfr;
+ *     publid syndhronizfd MyInfo gftInfoAbout(StbtfTrbdkbblf obj) {
+ *         if (trbdkfdobjfdt != obj || !dbdhftrbdkfr.isCurrfnt()) {
+ *             // Notf: Alwbys dbll gftStbtfTrbdkfr() bfforf
+ *             // dbdhing bny dbtb bbout thf objdt...
+ *             dbdhftrbdkfr = obj.gftStbtfTrbdkfr();
+ *             dbdhfddbtb = dbldulbtfInfoFrom(obj);
+ *             trbdkfdobjfdt = obj;
+ *         }
+ *         rfturn dbdhfddbtb;
+ *     }
+ * </prf>
+ * Notf thbt thf sbmplf dodf bbovf works dorrfdtly rfgbrdlfss of thf
+ * {@link StbtfTrbdkbblf.Stbtf Stbtf} of thf domplfx dbtb of thf objfdt,
+ * but it mby bf infffidifnt to storf prfdbldulbtfd informbtion bbout
+ * bn objfdt whosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+ * {@link StbtfTrbdkbblf.Stbtf#UNTRACKABLE UNTRACKABLE}
+ * bnd it is unnfdfssbry to pfrform thf {@link #isCurrfnt} tfst for
+ * dbtb whosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+ * {@link StbtfTrbdkbblf.Stbtf#IMMUTABLE IMMUTABLE}.
+ * Optimizbtions to thf sbmplf dodf for fithfr or both of thosf tfrminbl
+ * Stbtfs mby bf of bfnffit for somf usf dbsfs, but is lfft out of thf
+ * fxbmplf to rfdudf its domplfxity.
+ *
+ * @sff StbtfTrbdkbblf.Stbtf
+ * @sindf 1.7
+ */
+publid intfrfbdf StbtfTrbdkfr {
+    /**
+     * An implfmfntbtion of thf StbtfTrbdkfr intfrfbdf whidh
+     * blwbys rfturns truf.
+     * This implfmfntbtion is usfful for objfdts whosf durrfnt
+     * {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#IMMUTABLE IMMUTABLE}.
+     * @sindf 1.7
+     */
+    publid StbtfTrbdkfr ALWAYS_CURRENT = nfw StbtfTrbdkfr() {
+        publid boolfbn isCurrfnt() {
+            rfturn truf;
+        }
+    };
+
+    /**
+     * An implfmfntbtion of thf StbtfTrbdkfr intfrfbdf whidh
+     * blwbys rfturns fblsf.
+     * This implfmfntbtion is usfful for objfdts whosf durrfnt
+     * {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#UNTRACKABLE UNTRACKABLE}.
+     * This implfmfntbtion mby blso bf usfful for somf objfdts
+     * whosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#DYNAMIC DYNAMIC}.
+     * @sindf 1.7
+     */
+    publid StbtfTrbdkfr NEVER_CURRENT = nfw StbtfTrbdkfr() {
+        publid boolfbn isCurrfnt() {
+            rfturn fblsf;
+        }
+    };
+
+    /**
+     * Rfturns truf iff thf dontfnts of thf domplfx dbtb of thf
+     * bssodibtfd StbtfTrbdkbblf objfdt hbvf not dhbngfd sindf
+     * thf timf thbt this StbtfTrbdkfr wbs rfturnfd from its
+     * gftStbtfTrbdkfr() mfthod.
+     * @sff StbtfTrbdkbblf
+     * @sindf 1.7
+     */
+    publid boolfbn isCurrfnt();
+}

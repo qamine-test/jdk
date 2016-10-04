@@ -1,570 +1,570 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.ColorModel;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 /**
- * This class is an implementation of the ImageProducer interface which
- * uses an array to produce pixel values for an Image.  Here is an example
- * which calculates a 100x100 image representing a fade from black to blue
- * along the X axis and a fade from black to red along the Y axis:
- * <pre>{@code
+ * Tiis dlbss is bn implfmfntbtion of tif ImbgfProdudfr intfrfbdf wiidi
+ * usfs bn brrby to produdf pixfl vblufs for bn Imbgf.  Hfrf is bn fxbmplf
+ * wiidi dbldulbtfs b 100x100 imbgf rfprfsfnting b fbdf from blbdk to bluf
+ * blong tif X bxis bnd b fbdf from blbdk to rfd blong tif Y bxis:
+ * <prf>{@dodf
  *
  *      int w = 100;
- *      int h = 100;
- *      int pix[] = new int[w * h];
- *      int index = 0;
- *      for (int y = 0; y < h; y++) {
- *          int red = (y * 255) / (h - 1);
+ *      int i = 100;
+ *      int pix[] = nfw int[w * i];
+ *      int indfx = 0;
+ *      for (int y = 0; y < i; y++) {
+ *          int rfd = (y * 255) / (i - 1);
  *          for (int x = 0; x < w; x++) {
- *              int blue = (x * 255) / (w - 1);
- *              pix[index++] = (255 << 24) | (red << 16) | blue;
+ *              int bluf = (x * 255) / (w - 1);
+ *              pix[indfx++] = (255 << 24) | (rfd << 16) | bluf;
  *          }
  *      }
- *      Image img = createImage(new MemoryImageSource(w, h, pix, 0, w));
+ *      Imbgf img = drfbtfImbgf(nfw MfmoryImbgfSourdf(w, i, pix, 0, w));
  *
- * }</pre>
- * The MemoryImageSource is also capable of managing a memory image which
- * varies over time to allow animation or custom rendering.  Here is an
- * example showing how to set up the animation source and signal changes
- * in the data (adapted from the MemoryAnimationSourceDemo by Garth Dickie):
- * <pre>{@code
+ * }</prf>
+ * Tif MfmoryImbgfSourdf is blso dbpbblf of mbnbging b mfmory imbgf wiidi
+ * vbrifs ovfr timf to bllow bnimbtion or dustom rfndfring.  Hfrf is bn
+ * fxbmplf siowing iow to sft up tif bnimbtion sourdf bnd signbl dibngfs
+ * in tif dbtb (bdbptfd from tif MfmoryAnimbtionSourdfDfmo by Gbrti Didkif):
+ * <prf>{@dodf
  *
- *      int pixels[];
- *      MemoryImageSource source;
+ *      int pixfls[];
+ *      MfmoryImbgfSourdf sourdf;
  *
- *      public void init() {
- *          int width = 50;
- *          int height = 50;
- *          int size = width * height;
- *          pixels = new int[size];
+ *      publid void init() {
+ *          int widti = 50;
+ *          int ifigit = 50;
+ *          int sizf = widti * ifigit;
+ *          pixfls = nfw int[sizf];
  *
- *          int value = getBackground().getRGB();
- *          for (int i = 0; i < size; i++) {
- *              pixels[i] = value;
+ *          int vbluf = gftBbdkground().gftRGB();
+ *          for (int i = 0; i < sizf; i++) {
+ *              pixfls[i] = vbluf;
  *          }
  *
- *          source = new MemoryImageSource(width, height, pixels, 0, width);
- *          source.setAnimated(true);
- *          image = createImage(source);
+ *          sourdf = nfw MfmoryImbgfSourdf(widti, ifigit, pixfls, 0, widti);
+ *          sourdf.sftAnimbtfd(truf);
+ *          imbgf = drfbtfImbgf(sourdf);
  *      }
  *
- *      public void run() {
- *          Thread me = Thread.currentThread( );
- *          me.setPriority(Thread.MIN_PRIORITY);
+ *      publid void run() {
+ *          Tirfbd mf = Tirfbd.durrfntTirfbd( );
+ *          mf.sftPriority(Tirfbd.MIN_PRIORITY);
  *
- *          while (true) {
+ *          wiilf (truf) {
  *              try {
- *                  Thread.sleep(10);
- *              } catch( InterruptedException e ) {
- *                  return;
+ *                  Tirfbd.slffp(10);
+ *              } dbtdi( IntfrruptfdExdfption f ) {
+ *                  rfturn;
  *              }
  *
- *              // Modify the values in the pixels array at (x, y, w, h)
+ *              // Modify tif vblufs in tif pixfls brrby bt (x, y, w, i)
  *
- *              // Send the new data to the interested ImageConsumers
- *              source.newPixels(x, y, w, h);
+ *              // Sfnd tif nfw dbtb to tif intfrfstfd ImbgfConsumfrs
+ *              sourdf.nfwPixfls(x, y, w, i);
  *          }
  *      }
  *
- * }</pre>
+ * }</prf>
  *
- * @see ImageProducer
+ * @sff ImbgfProdudfr
  *
- * @author      Jim Graham
- * @author      Animation capabilities inspired by the
- *              MemoryAnimationSource class written by Garth Dickie
+ * @butior      Jim Grbibm
+ * @butior      Animbtion dbpbbilitifs inspirfd by tif
+ *              MfmoryAnimbtionSourdf dlbss writtfn by Gbrti Didkif
  */
-public class MemoryImageSource implements ImageProducer {
-    int width;
-    int height;
-    ColorModel model;
-    Object pixels;
-    int pixeloffset;
-    int pixelscan;
-    Hashtable<?, ?> properties;
-    Vector<ImageConsumer> theConsumers = new Vector<>();
-    boolean animating;
-    boolean fullbuffers;
+publid dlbss MfmoryImbgfSourdf implfmfnts ImbgfProdudfr {
+    int widti;
+    int ifigit;
+    ColorModfl modfl;
+    Objfdt pixfls;
+    int pixfloffsft;
+    int pixflsdbn;
+    Hbsitbblf<?, ?> propfrtifs;
+    Vfdtor<ImbgfConsumfr> tifConsumfrs = nfw Vfdtor<>();
+    boolfbn bnimbting;
+    boolfbn fullbufffrs;
 
     /**
-     * Constructs an ImageProducer object which uses an array of bytes
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of bytfs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm dm tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             byte[] pix, int off, int scan) {
-        initialize(w, h, cm, (Object) pix, off, scan, null);
+    publid MfmoryImbgfSourdf(int w, int i, ColorModfl dm,
+                             bytf[] pix, int off, int sdbn) {
+        initiblizf(w, i, dm, (Objfdt) pix, off, sdbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of bytes
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of bytfs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm dm tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @pbrbm props b list of propfrtifs tibt tif <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             byte[] pix, int off, int scan,
-                             Hashtable<?,?> props)
+    publid MfmoryImbgfSourdf(int w, int i, ColorModfl dm,
+                             bytf[] pix, int off, int sdbn,
+                             Hbsitbblf<?,?> props)
     {
-        initialize(w, h, cm, (Object) pix, off, scan, props);
+        initiblizf(w, i, dm, (Objfdt) pix, off, sdbn, props);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of intfgfrs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm dm tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             int[] pix, int off, int scan) {
-        initialize(w, h, cm, (Object) pix, off, scan, null);
+    publid MfmoryImbgfSourdf(int w, int i, ColorModfl dm,
+                             int[] pix, int off, int sdbn) {
+        initiblizf(w, i, dm, (Objfdt) pix, off, sdbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param cm the specified <code>ColorModel</code>
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of intfgfrs
+     * to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm dm tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @pbrbm props b list of propfrtifs tibt tif <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
      */
-    public MemoryImageSource(int w, int h, ColorModel cm,
-                             int[] pix, int off, int scan,
-                             Hashtable<?,?> props)
+    publid MfmoryImbgfSourdf(int w, int i, ColorModfl dm,
+                             int[] pix, int off, int sdbn,
+                             Hbsitbblf<?,?> props)
     {
-        initialize(w, h, cm, (Object) pix, off, scan, props);
+        initiblizf(w, i, dm, (Objfdt) pix, off, sdbn, props);
     }
 
-    private void initialize(int w, int h, ColorModel cm,
-                            Object pix, int off, int scan, Hashtable<?,?> props) {
-        width = w;
-        height = h;
-        model = cm;
-        pixels = pix;
-        pixeloffset = off;
-        pixelscan = scan;
+    privbtf void initiblizf(int w, int i, ColorModfl dm,
+                            Objfdt pix, int off, int sdbn, Hbsitbblf<?,?> props) {
+        widti = w;
+        ifigit = i;
+        modfl = dm;
+        pixfls = pix;
+        pixfloffsft = off;
+        pixflsdbn = sdbn;
         if (props == null) {
-            props = new Hashtable<>();
+            props = nfw Hbsitbblf<>();
         }
-        properties = props;
+        propfrtifs = props;
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * in the default RGB ColorModel to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @see java.awt.Component#createImage
-     * @see ColorModel#getRGBdefault
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of intfgfrs
+     * in tif dffbult RGB ColorModfl to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public MemoryImageSource(int w, int h, int pix[], int off, int scan) {
-        initialize(w, h, ColorModel.getRGBdefault(),
-                   (Object) pix, off, scan, null);
+    publid MfmoryImbgfSourdf(int w, int i, int pix[], int off, int sdbn) {
+        initiblizf(w, i, ColorModfl.gftRGBdffbult(),
+                   (Objfdt) pix, off, sdbn, null);
     }
 
     /**
-     * Constructs an ImageProducer object which uses an array of integers
-     * in the default RGB ColorModel to produce data for an Image object.
-     * @param w the width of the rectangle of pixels
-     * @param h the height of the rectangle of pixels
-     * @param pix an array of pixels
-     * @param off the offset into the array of where to store the
-     *        first pixel
-     * @param scan the distance from one row of pixels to the next in
-     *        the array
-     * @param props a list of properties that the <code>ImageProducer</code>
-     *        uses to process an image
-     * @see java.awt.Component#createImage
-     * @see ColorModel#getRGBdefault
+     * Construdts bn ImbgfProdudfr objfdt wiidi usfs bn brrby of intfgfrs
+     * in tif dffbult RGB ColorModfl to produdf dbtb for bn Imbgf objfdt.
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls
+     * @pbrbm pix bn brrby of pixfls
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif
+     *        first pixfl
+     * @pbrbm sdbn tif distbndf from onf row of pixfls to tif nfxt in
+     *        tif brrby
+     * @pbrbm props b list of propfrtifs tibt tif <dodf>ImbgfProdudfr</dodf>
+     *        usfs to prodfss bn imbgf
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public MemoryImageSource(int w, int h, int pix[], int off, int scan,
-                             Hashtable<?,?> props)
+    publid MfmoryImbgfSourdf(int w, int i, int pix[], int off, int sdbn,
+                             Hbsitbblf<?,?> props)
     {
-        initialize(w, h, ColorModel.getRGBdefault(),
-                   (Object) pix, off, scan, props);
+        initiblizf(w, i, ColorModfl.gftRGBdffbult(),
+                   (Objfdt) pix, off, sdbn, props);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @throws NullPointerException if the specified
-     *           <code>ImageConsumer</code> is null
-     * @see ImageConsumer
+     * Adds bn ImbgfConsumfr to tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @tirows NullPointfrExdfption if tif spfdififd
+     *           <dodf>ImbgfConsumfr</dodf> is null
+     * @sff ImbgfConsumfr
      */
-    public synchronized void addConsumer(ImageConsumer ic) {
-        if (theConsumers.contains(ic)) {
-            return;
+    publid syndironizfd void bddConsumfr(ImbgfConsumfr id) {
+        if (tifConsumfrs.dontbins(id)) {
+            rfturn;
         }
-        theConsumers.addElement(ic);
+        tifConsumfrs.bddElfmfnt(id);
         try {
-            initConsumer(ic);
-            sendPixels(ic, 0, 0, width, height);
-            if (isConsumer(ic)) {
-                ic.imageComplete(animating
-                                 ? ImageConsumer.SINGLEFRAMEDONE
-                                 : ImageConsumer.STATICIMAGEDONE);
-                if (!animating && isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.IMAGEERROR);
-                    removeConsumer(ic);
+            initConsumfr(id);
+            sfndPixfls(id, 0, 0, widti, ifigit);
+            if (isConsumfr(id)) {
+                id.imbgfComplftf(bnimbting
+                                 ? ImbgfConsumfr.SINGLEFRAMEDONE
+                                 : ImbgfConsumfr.STATICIMAGEDONE);
+                if (!bnimbting && isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+                    rfmovfConsumfr(id);
                 }
             }
-        } catch (Exception e) {
-            if (isConsumer(ic)) {
-                ic.imageComplete(ImageConsumer.IMAGEERROR);
+        } dbtdi (Exdfption f) {
+            if (isConsumfr(id)) {
+                id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
             }
         }
     }
 
     /**
-     * Determines if an ImageConsumer is on the list of consumers currently
-     * interested in data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @return <code>true</code> if the <code>ImageConsumer</code>
-     * is on the list; <code>false</code> otherwise.
-     * @see ImageConsumer
+     * Dftfrminfs if bn ImbgfConsumfr is on tif list of donsumfrs durrfntly
+     * intfrfstfd in dbtb for tiis imbgf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn <dodf>truf</dodf> if tif <dodf>ImbgfConsumfr</dodf>
+     * is on tif list; <dodf>fblsf</dodf> otifrwisf.
+     * @sff ImbgfConsumfr
      */
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return theConsumers.contains(ic);
+    publid syndironizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn tifConsumfrs.dontbins(id);
     }
 
     /**
-     * Removes an ImageConsumer from the list of consumers interested in
-     * data for this image.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer
+     * Rfmovfs bn ImbgfConsumfr from tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr
      */
-    public synchronized void removeConsumer(ImageConsumer ic) {
-        theConsumers.removeElement(ic);
+    publid syndironizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        tifConsumfrs.rfmovfElfmfnt(id);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image and immediately starts delivery of the
-     * image data through the ImageConsumer interface.
-     * @param ic the specified <code>ImageConsumer</code>
-     * image data through the ImageConsumer interface.
-     * @see ImageConsumer
+     * Adds bn ImbgfConsumfr to tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf bnd immfdibtfly stbrts dflivfry of tif
+     * imbgf dbtb tirougi tif ImbgfConsumfr intfrfbdf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * imbgf dbtb tirougi tif ImbgfConsumfr intfrfbdf.
+     * @sff ImbgfConsumfr
      */
-    public void startProduction(ImageConsumer ic) {
-        addConsumer(ic);
+    publid void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id);
     }
 
     /**
-     * Requests that a given ImageConsumer have the image data delivered
-     * one more time in top-down, left-right order.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer
+     * Rfqufsts tibt b givfn ImbgfConsumfr ibvf tif imbgf dbtb dflivfrfd
+     * onf morf timf in top-down, lfft-rigit ordfr.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
-        // Ignored.  The data is either single frame and already in TDLR
-        // format or it is multi-frame and TDLR resends aren't critical.
+    publid void rfqufstTopDownLfftRigitRfsfnd(ImbgfConsumfr id) {
+        // Ignorfd.  Tif dbtb is fitifr singlf frbmf bnd blrfbdy in TDLR
+        // formbt or it is multi-frbmf bnd TDLR rfsfnds brfn't dritidbl.
     }
 
     /**
-     * Changes this memory image into a multi-frame animation or a
-     * single-frame static image depending on the animated parameter.
-     * <p>This method should be called immediately after the
-     * MemoryImageSource is constructed and before an image is
-     * created with it to ensure that all ImageConsumers will
-     * receive the correct multi-frame data.  If an ImageConsumer
-     * is added to this ImageProducer before this flag is set then
-     * that ImageConsumer will see only a snapshot of the pixel
-     * data that was available when it connected.
-     * @param animated <code>true</code> if the image is a
-     *       multi-frame animation
+     * Cibngfs tiis mfmory imbgf into b multi-frbmf bnimbtion or b
+     * singlf-frbmf stbtid imbgf dfpfnding on tif bnimbtfd pbrbmftfr.
+     * <p>Tiis mftiod siould bf dbllfd immfdibtfly bftfr tif
+     * MfmoryImbgfSourdf is donstrudtfd bnd bfforf bn imbgf is
+     * drfbtfd witi it to fnsurf tibt bll ImbgfConsumfrs will
+     * rfdfivf tif dorrfdt multi-frbmf dbtb.  If bn ImbgfConsumfr
+     * is bddfd to tiis ImbgfProdudfr bfforf tiis flbg is sft tifn
+     * tibt ImbgfConsumfr will sff only b snbpsiot of tif pixfl
+     * dbtb tibt wbs bvbilbblf wifn it donnfdtfd.
+     * @pbrbm bnimbtfd <dodf>truf</dodf> if tif imbgf is b
+     *       multi-frbmf bnimbtion
      */
-    public synchronized void setAnimated(boolean animated) {
-        this.animating = animated;
-        if (!animating) {
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
-                ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
-                if (isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.IMAGEERROR);
+    publid syndironizfd void sftAnimbtfd(boolfbn bnimbtfd) {
+        tiis.bnimbting = bnimbtfd;
+        if (!bnimbting) {
+            Enumfrbtion<ImbgfConsumfr> fnum_ = tifConsumfrs.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                id.imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE);
+                if (isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
                 }
             }
-            theConsumers.removeAllElements();
+            tifConsumfrs.rfmovfAllElfmfnts();
         }
     }
 
     /**
-     * Specifies whether this animated memory image should always be
-     * updated by sending the complete buffer of pixels whenever
-     * there is a change.
-     * This flag is ignored if the animation flag is not turned on
-     * through the setAnimated() method.
-     * <p>This method should be called immediately after the
-     * MemoryImageSource is constructed and before an image is
-     * created with it to ensure that all ImageConsumers will
-     * receive the correct pixel delivery hints.
-     * @param fullbuffers <code>true</code> if the complete pixel
-     *             buffer should always
-     * be sent
-     * @see #setAnimated
+     * Spfdififs wiftifr tiis bnimbtfd mfmory imbgf siould blwbys bf
+     * updbtfd by sfnding tif domplftf bufffr of pixfls wifnfvfr
+     * tifrf is b dibngf.
+     * Tiis flbg is ignorfd if tif bnimbtion flbg is not turnfd on
+     * tirougi tif sftAnimbtfd() mftiod.
+     * <p>Tiis mftiod siould bf dbllfd immfdibtfly bftfr tif
+     * MfmoryImbgfSourdf is donstrudtfd bnd bfforf bn imbgf is
+     * drfbtfd witi it to fnsurf tibt bll ImbgfConsumfrs will
+     * rfdfivf tif dorrfdt pixfl dflivfry iints.
+     * @pbrbm fullbufffrs <dodf>truf</dodf> if tif domplftf pixfl
+     *             bufffr siould blwbys
+     * bf sfnt
+     * @sff #sftAnimbtfd
      */
-    public synchronized void setFullBufferUpdates(boolean fullbuffers) {
-        if (this.fullbuffers == fullbuffers) {
-            return;
+    publid syndironizfd void sftFullBufffrUpdbtfs(boolfbn fullbufffrs) {
+        if (tiis.fullbufffrs == fullbufffrs) {
+            rfturn;
         }
-        this.fullbuffers = fullbuffers;
-        if (animating) {
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
-                ic.setHints(fullbuffers
-                            ? (ImageConsumer.TOPDOWNLEFTRIGHT |
-                               ImageConsumer.COMPLETESCANLINES)
-                            : ImageConsumer.RANDOMPIXELORDER);
+        tiis.fullbufffrs = fullbufffrs;
+        if (bnimbting) {
+            Enumfrbtion<ImbgfConsumfr> fnum_ = tifConsumfrs.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                id.sftHints(fullbufffrs
+                            ? (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                               ImbgfConsumfr.COMPLETESCANLINES)
+                            : ImbgfConsumfr.RANDOMPIXELORDER);
             }
         }
     }
 
     /**
-     * Sends a whole new buffer of pixels to any ImageConsumers that
-     * are currently interested in the data for this image and notify
-     * them that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see ImageConsumer
-     * @see #setAnimated
+     * Sfnds b wiolf nfw bufffr of pixfls to bny ImbgfConsumfrs tibt
+     * brf durrfntly intfrfstfd in tif dbtb for tiis imbgf bnd notify
+     * tifm tibt bn bnimbtion frbmf is domplftf.
+     * Tiis mftiod only ibs ffffdt if tif bnimbtion flbg ibs bffn
+     * turnfd on tirougi tif sftAnimbtfd() mftiod.
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
      */
-    public void newPixels() {
-        newPixels(0, 0, width, height, true);
+    publid void nfwPixfls() {
+        nfwPixfls(0, 0, widti, ifigit, truf);
     }
 
     /**
-     * Sends a rectangular region of the buffer of pixels to any
-     * ImageConsumers that are currently interested in the data for
-     * this image and notify them that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * If the full buffer update flag was turned on with the
-     * setFullBufferUpdates() method then the rectangle parameters
-     * will be ignored and the entire buffer will always be sent.
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to be sent
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to be sent
-     * @param w the width of the rectangle of pixels to be sent
-     * @param h the height of the rectangle of pixels to be sent
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see ImageConsumer
-     * @see #setAnimated
-     * @see #setFullBufferUpdates
+     * Sfnds b rfdtbngulbr rfgion of tif bufffr of pixfls to bny
+     * ImbgfConsumfrs tibt brf durrfntly intfrfstfd in tif dbtb for
+     * tiis imbgf bnd notify tifm tibt bn bnimbtion frbmf is domplftf.
+     * Tiis mftiod only ibs ffffdt if tif bnimbtion flbg ibs bffn
+     * turnfd on tirougi tif sftAnimbtfd() mftiod.
+     * If tif full bufffr updbtf flbg wbs turnfd on witi tif
+     * sftFullBufffrUpdbtfs() mftiod tifn tif rfdtbnglf pbrbmftfrs
+     * will bf ignorfd bnd tif fntirf bufffr will blwbys bf sfnt.
+     * @pbrbm x tif x doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm y tif y doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to bf sfnt
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
+     * @sff #sftFullBufffrUpdbtfs
      */
-    public synchronized void newPixels(int x, int y, int w, int h) {
-        newPixels(x, y, w, h, true);
+    publid syndironizfd void nfwPixfls(int x, int y, int w, int i) {
+        nfwPixfls(x, y, w, i, truf);
     }
 
     /**
-     * Sends a rectangular region of the buffer of pixels to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * If the framenotify parameter is true then the consumers are
-     * also notified that an animation frame is complete.
-     * This method only has effect if the animation flag has been
-     * turned on through the setAnimated() method.
-     * If the full buffer update flag was turned on with the
-     * setFullBufferUpdates() method then the rectangle parameters
-     * will be ignored and the entire buffer will always be sent.
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to be sent
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to be sent
-     * @param w the width of the rectangle of pixels to be sent
-     * @param h the height of the rectangle of pixels to be sent
-     * @param framenotify <code>true</code> if the consumers should be sent a
-     * {@link ImageConsumer#SINGLEFRAMEDONE SINGLEFRAMEDONE} notification
-     * @see ImageConsumer
-     * @see #setAnimated
-     * @see #setFullBufferUpdates
+     * Sfnds b rfdtbngulbr rfgion of tif bufffr of pixfls to bny
+     * ImbgfConsumfrs tibt brf durrfntly intfrfstfd in tif dbtb for
+     * tiis imbgf.
+     * If tif frbmfnotify pbrbmftfr is truf tifn tif donsumfrs brf
+     * blso notififd tibt bn bnimbtion frbmf is domplftf.
+     * Tiis mftiod only ibs ffffdt if tif bnimbtion flbg ibs bffn
+     * turnfd on tirougi tif sftAnimbtfd() mftiod.
+     * If tif full bufffr updbtf flbg wbs turnfd on witi tif
+     * sftFullBufffrUpdbtfs() mftiod tifn tif rfdtbnglf pbrbmftfrs
+     * will bf ignorfd bnd tif fntirf bufffr will blwbys bf sfnt.
+     * @pbrbm x tif x doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm y tif y doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to bf sfnt
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to bf sfnt
+     * @pbrbm frbmfnotify <dodf>truf</dodf> if tif donsumfrs siould bf sfnt b
+     * {@link ImbgfConsumfr#SINGLEFRAMEDONE SINGLEFRAMEDONE} notifidbtion
+     * @sff ImbgfConsumfr
+     * @sff #sftAnimbtfd
+     * @sff #sftFullBufffrUpdbtfs
      */
-    public synchronized void newPixels(int x, int y, int w, int h,
-                                       boolean framenotify) {
-        if (animating) {
-            if (fullbuffers) {
+    publid syndironizfd void nfwPixfls(int x, int y, int w, int i,
+                                       boolfbn frbmfnotify) {
+        if (bnimbting) {
+            if (fullbufffrs) {
                 x = y = 0;
-                w = width;
-                h = height;
-            } else {
+                w = widti;
+                i = ifigit;
+            } flsf {
                 if (x < 0) {
                     w += x;
                     x = 0;
                 }
-                if (x + w > width) {
-                    w = width - x;
+                if (x + w > widti) {
+                    w = widti - x;
                 }
                 if (y < 0) {
-                    h += y;
+                    i += y;
                     y = 0;
                 }
-                if (y + h > height) {
-                    h = height - y;
+                if (y + i > ifigit) {
+                    i = ifigit - y;
                 }
             }
-            if ((w <= 0 || h <= 0) && !framenotify) {
-                return;
+            if ((w <= 0 || i <= 0) && !frbmfnotify) {
+                rfturn;
             }
-            Enumeration<ImageConsumer> enum_ = theConsumers.elements();
-            while (enum_.hasMoreElements()) {
-                ImageConsumer ic = enum_.nextElement();
-                if (w > 0 && h > 0) {
-                    sendPixels(ic, x, y, w, h);
+            Enumfrbtion<ImbgfConsumfr> fnum_ = tifConsumfrs.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                ImbgfConsumfr id = fnum_.nfxtElfmfnt();
+                if (w > 0 && i > 0) {
+                    sfndPixfls(id, x, y, w, i);
                 }
-                if (framenotify && isConsumer(ic)) {
-                    ic.imageComplete(ImageConsumer.SINGLEFRAMEDONE);
+                if (frbmfnotify && isConsumfr(id)) {
+                    id.imbgfComplftf(ImbgfConsumfr.SINGLEFRAMEDONE);
                 }
             }
         }
     }
 
     /**
-     * Changes to a new byte array to hold the pixels for this image.
-     * If the animation flag has been turned on through the setAnimated()
-     * method, then the new pixels will be immediately delivered to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * @param newpix the new pixel array
-     * @param newmodel the specified <code>ColorModel</code>
-     * @param offset the offset into the array
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see #setAnimated
+     * Cibngfs to b nfw bytf brrby to iold tif pixfls for tiis imbgf.
+     * If tif bnimbtion flbg ibs bffn turnfd on tirougi tif sftAnimbtfd()
+     * mftiod, tifn tif nfw pixfls will bf immfdibtfly dflivfrfd to bny
+     * ImbgfConsumfrs tibt brf durrfntly intfrfstfd in tif dbtb for
+     * tiis imbgf.
+     * @pbrbm nfwpix tif nfw pixfl brrby
+     * @pbrbm nfwmodfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm offsft tif offsft into tif brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif brrby
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff #sftAnimbtfd
      */
-    public synchronized void newPixels(byte[] newpix, ColorModel newmodel,
-                                       int offset, int scansize) {
-        this.pixels = newpix;
-        this.model = newmodel;
-        this.pixeloffset = offset;
-        this.pixelscan = scansize;
-        newPixels();
+    publid syndironizfd void nfwPixfls(bytf[] nfwpix, ColorModfl nfwmodfl,
+                                       int offsft, int sdbnsizf) {
+        tiis.pixfls = nfwpix;
+        tiis.modfl = nfwmodfl;
+        tiis.pixfloffsft = offsft;
+        tiis.pixflsdbn = sdbnsizf;
+        nfwPixfls();
     }
 
     /**
-     * Changes to a new int array to hold the pixels for this image.
-     * If the animation flag has been turned on through the setAnimated()
-     * method, then the new pixels will be immediately delivered to any
-     * ImageConsumers that are currently interested in the data for
-     * this image.
-     * @param newpix the new pixel array
-     * @param newmodel the specified <code>ColorModel</code>
-     * @param offset the offset into the array
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see #newPixels(int, int, int, int, boolean)
-     * @see #setAnimated
+     * Cibngfs to b nfw int brrby to iold tif pixfls for tiis imbgf.
+     * If tif bnimbtion flbg ibs bffn turnfd on tirougi tif sftAnimbtfd()
+     * mftiod, tifn tif nfw pixfls will bf immfdibtfly dflivfrfd to bny
+     * ImbgfConsumfrs tibt brf durrfntly intfrfstfd in tif dbtb for
+     * tiis imbgf.
+     * @pbrbm nfwpix tif nfw pixfl brrby
+     * @pbrbm nfwmodfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm offsft tif offsft into tif brrby
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif brrby
+     * @sff #nfwPixfls(int, int, int, int, boolfbn)
+     * @sff #sftAnimbtfd
      */
-    public synchronized void newPixels(int[] newpix, ColorModel newmodel,
-                                       int offset, int scansize) {
-        this.pixels = newpix;
-        this.model = newmodel;
-        this.pixeloffset = offset;
-        this.pixelscan = scansize;
-        newPixels();
+    publid syndironizfd void nfwPixfls(int[] nfwpix, ColorModfl nfwmodfl,
+                                       int offsft, int sdbnsizf) {
+        tiis.pixfls = nfwpix;
+        tiis.modfl = nfwmodfl;
+        tiis.pixfloffsft = offsft;
+        tiis.pixflsdbn = sdbnsizf;
+        nfwPixfls();
     }
 
-    private void initConsumer(ImageConsumer ic) {
-        if (isConsumer(ic)) {
-            ic.setDimensions(width, height);
+    privbtf void initConsumfr(ImbgfConsumfr id) {
+        if (isConsumfr(id)) {
+            id.sftDimfnsions(widti, ifigit);
         }
-        if (isConsumer(ic)) {
-            ic.setProperties(properties);
+        if (isConsumfr(id)) {
+            id.sftPropfrtifs(propfrtifs);
         }
-        if (isConsumer(ic)) {
-            ic.setColorModel(model);
+        if (isConsumfr(id)) {
+            id.sftColorModfl(modfl);
         }
-        if (isConsumer(ic)) {
-            ic.setHints(animating
-                        ? (fullbuffers
-                           ? (ImageConsumer.TOPDOWNLEFTRIGHT |
-                              ImageConsumer.COMPLETESCANLINES)
-                           : ImageConsumer.RANDOMPIXELORDER)
-                        : (ImageConsumer.TOPDOWNLEFTRIGHT |
-                           ImageConsumer.COMPLETESCANLINES |
-                           ImageConsumer.SINGLEPASS |
-                           ImageConsumer.SINGLEFRAME));
+        if (isConsumfr(id)) {
+            id.sftHints(bnimbting
+                        ? (fullbufffrs
+                           ? (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                              ImbgfConsumfr.COMPLETESCANLINES)
+                           : ImbgfConsumfr.RANDOMPIXELORDER)
+                        : (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                           ImbgfConsumfr.COMPLETESCANLINES |
+                           ImbgfConsumfr.SINGLEPASS |
+                           ImbgfConsumfr.SINGLEFRAME));
         }
     }
 
-    private void sendPixels(ImageConsumer ic, int x, int y, int w, int h) {
-        int off = pixeloffset + pixelscan * y + x;
-        if (isConsumer(ic)) {
-            if (pixels instanceof byte[]) {
-                ic.setPixels(x, y, w, h, model,
-                             ((byte[]) pixels), off, pixelscan);
-            } else {
-                ic.setPixels(x, y, w, h, model,
-                             ((int[]) pixels), off, pixelscan);
+    privbtf void sfndPixfls(ImbgfConsumfr id, int x, int y, int w, int i) {
+        int off = pixfloffsft + pixflsdbn * y + x;
+        if (isConsumfr(id)) {
+            if (pixfls instbndfof bytf[]) {
+                id.sftPixfls(x, y, w, i, modfl,
+                             ((bytf[]) pixfls), off, pixflsdbn);
+            } flsf {
+                id.sftPixfls(x, y, w, i, modfl,
+                             ((int[]) pixfls), off, pixflsdbn);
             }
         }
     }

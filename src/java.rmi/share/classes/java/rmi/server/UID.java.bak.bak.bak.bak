@@ -1,0 +1,269 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.SfdurfRbndom;
+
+/**
+ * A <dodf>UID</dodf> rfprfsfnts bn idfntififr thbt is uniquf ovfr timf
+ * with rfspfdt to thf host it is gfnfrbtfd on, or onf of 2<sup>16</sup>
+ * "wfll-known" idfntififrs.
+ *
+ * <p>Thf {@link #UID()} donstrudtor dbn bf usfd to gfnfrbtf bn
+ * idfntififr thbt is uniquf ovfr timf with rfspfdt to thf host it is
+ * gfnfrbtfd on.  Thf {@link #UID(short)} donstrudtor dbn bf usfd to
+ * drfbtf onf of 2<sup>16</sup> wfll-known idfntififrs.
+ *
+ * <p>A <dodf>UID</dodf> instbndf dontbins thrff primitivf vblufs:
+ * <ul>
+ * <li><dodf>uniquf</dodf>, bn <dodf>int</dodf> thbt uniqufly idfntififs
+ * thf VM thbt this <dodf>UID</dodf> wbs gfnfrbtfd in, with rfspfdt to its
+ * host bnd bt thf timf rfprfsfntfd by thf <dodf>timf</dodf> vbluf (bn
+ * fxbmplf implfmfntbtion of thf <dodf>uniquf</dodf> vbluf would bf b
+ * prodfss idfntififr),
+ *  or zfro for b wfll-known <dodf>UID</dodf>
+ * <li><dodf>timf</dodf>, b <dodf>long</dodf> fqubl to b timf (bs rfturnfd
+ * by {@link Systfm#durrfntTimfMillis()}) bt whidh thf VM thbt this
+ * <dodf>UID</dodf> wbs gfnfrbtfd in wbs blivf,
+ * or zfro for b wfll-known <dodf>UID</dodf>
+ * <li><dodf>dount</dodf>, b <dodf>short</dodf> to distinguish
+ * <dodf>UID</dodf>s gfnfrbtfd in thf sbmf VM with thf sbmf
+ * <dodf>timf</dodf> vbluf
+ * </ul>
+ *
+ * <p>An indfpfndfntly gfnfrbtfd <dodf>UID</dodf> instbndf is uniquf
+ * ovfr timf with rfspfdt to thf host it is gfnfrbtfd on bs long bs
+ * thf host rfquirfs morf thbn onf millisfdond to rfboot bnd its systfm
+ * dlodk is nfvfr sft bbdkwbrd.  A globblly uniquf idfntififr dbn bf
+ * donstrudtfd by pbiring b <dodf>UID</dodf> instbndf with b uniquf host
+ * idfntififr, sudh bs bn IP bddrfss.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Pftfr Jonfs
+ * @sindf       1.1
+ */
+publid finbl dlbss UID implfmfnts Sfriblizbblf {
+
+    privbtf stbtid int hostUniquf;
+    privbtf stbtid boolfbn hostUniqufSft = fblsf;
+
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid long lbstTimf = Systfm.durrfntTimfMillis();
+    privbtf stbtid short lbstCount = Short.MIN_VALUE;
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1086053664494604050L;
+
+    /**
+     * numbfr thbt uniqufly idfntififs thf VM thbt this <dodf>UID</dodf>
+     * wbs gfnfrbtfd in with rfspfdt to its host bnd bt thf givfn timf
+     * @sfribl
+     */
+    privbtf finbl int uniquf;
+
+    /**
+     * b timf (bs rfturnfd by {@link Systfm#durrfntTimfMillis()}) bt whidh
+     * thf VM thbt this <dodf>UID</dodf> wbs gfnfrbtfd in wbs blivf
+     * @sfribl
+     */
+    privbtf finbl long timf;
+
+    /**
+     * 16-bit numbfr to distinguish <dodf>UID</dodf> instbndfs drfbtfd
+     * in thf sbmf VM with thf sbmf timf vbluf
+     * @sfribl
+     */
+    privbtf finbl short dount;
+
+    /**
+     * Gfnfrbtfs b <dodf>UID</dodf> thbt is uniquf ovfr timf with
+     * rfspfdt to thf host thbt it wbs gfnfrbtfd on.
+     */
+    publid UID() {
+
+        syndhronizfd (lodk) {
+            if (!hostUniqufSft) {
+                hostUniquf = (nfw SfdurfRbndom()).nfxtInt();
+                hostUniqufSft = truf;
+            }
+            uniquf = hostUniquf;
+            if (lbstCount == Short.MAX_VALUE) {
+                boolfbn intfrruptfd = Thrfbd.intfrruptfd();
+                boolfbn donf = fblsf;
+                whilf (!donf) {
+                    long now = Systfm.durrfntTimfMillis();
+                    if (now == lbstTimf) {
+                        // wbit for timf to dhbngf
+                        try {
+                            Thrfbd.slffp(1);
+                        } dbtdh (IntfrruptfdExdfption f) {
+                            intfrruptfd = truf;
+                        }
+                    } flsf {
+                        // If systfm timf hbs gonf bbdkwbrds indrfbsf
+                        // originbl by 1ms to mbintbin uniqufnfss
+                        lbstTimf = (now < lbstTimf) ? lbstTimf+1 : now;
+                        lbstCount = Short.MIN_VALUE;
+                        donf = truf;
+                    }
+                }
+                if (intfrruptfd) {
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+                }
+            }
+            timf = lbstTimf;
+            dount = lbstCount++;
+        }
+    }
+
+    /**
+     * Crfbtfs b "wfll-known" <dodf>UID</dodf>.
+     *
+     * Thfrf brf 2<sup>16</sup> possiblf sudh wfll-known ids.
+     *
+     * <p>A <dodf>UID</dodf> drfbtfd vib this donstrudtor will not
+     * dlbsh with bny <dodf>UID</dodf>s gfnfrbtfd vib thf no-brg
+     * donstrudtor.
+     *
+     * @pbrbm   num numbfr for wfll-known <dodf>UID</dodf>
+     */
+    publid UID(short num) {
+        uniquf = 0;
+        timf = 0;
+        dount = num;
+    }
+
+    /**
+     * Construdts b <dodf>UID</dodf> givfn dbtb rfbd from b strfbm.
+     */
+    privbtf UID(int uniquf, long timf, short dount) {
+        this.uniquf = uniquf;
+        this.timf = timf;
+        this.dount = dount;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>UID</dodf>.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>UID</dodf>
+     */
+    publid int hbshCodf() {
+        rfturn (int) timf + (int) dount;
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this <dodf>UID</dodf> for
+     * fqublity.
+     *
+     * This mfthod rfturns <dodf>truf</dodf> if bnd only if thf
+     * spfdififd objfdt is b <dodf>UID</dodf> instbndf with thf sbmf
+     * <dodf>uniquf</dodf>, <dodf>timf</dodf>, bnd <dodf>dount</dodf>
+     * vblufs bs this onf.
+     *
+     * @pbrbm   obj thf objfdt to dompbrf this <dodf>UID</dodf> to
+     *
+     * @rfturn  <dodf>truf</dodf> if thf givfn objfdt is fquivblfnt to
+     * this onf, bnd <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof UID) {
+            UID uid = (UID) obj;
+            rfturn (uniquf == uid.uniquf &&
+                    dount == uid.dount &&
+                    timf == uid.timf);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>UID</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>UID</dodf>
+     */
+    publid String toString() {
+        rfturn Intfgfr.toString(uniquf,16) + ":" +
+            Long.toString(timf,16) + ":" +
+            Intfgfr.toString(dount,16);
+    }
+
+    /**
+     * Mbrshbls b binbry rfprfsfntbtion of this <dodf>UID</dodf> to
+     * b <dodf>DbtbOutput</dodf> instbndf.
+     *
+     * <p>Spfdifidblly, this mfthod first invokfs thf givfn strfbm's
+     * {@link DbtbOutput#writfInt(int)} mfthod with this <dodf>UID</dodf>'s
+     * <dodf>uniquf</dodf> vbluf, thfn it invokfs thf strfbm's
+     * {@link DbtbOutput#writfLong(long)} mfthod with this <dodf>UID</dodf>'s
+     * <dodf>timf</dodf> vbluf, bnd thfn it invokfs thf strfbm's
+     * {@link DbtbOutput#writfShort(int)} mfthod with this <dodf>UID</dodf>'s
+     * <dodf>dount</dodf> vbluf.
+     *
+     * @pbrbm   out thf <dodf>DbtbOutput</dodf> instbndf to writf
+     * this <dodf>UID</dodf> to
+     *
+     * @throws  IOExdfption if bn I/O frror oddurs whilf pfrforming
+     * this opfrbtion
+     */
+    publid void writf(DbtbOutput out) throws IOExdfption {
+        out.writfInt(uniquf);
+        out.writfLong(timf);
+        out.writfShort(dount);
+    }
+
+    /**
+     * Construdts bnd rfturns b nfw <dodf>UID</dodf> instbndf by
+     * unmbrshblling b binbry rfprfsfntbtion from bn
+     * <dodf>DbtbInput</dodf> instbndf.
+     *
+     * <p>Spfdifidblly, this mfthod first invokfs thf givfn strfbm's
+     * {@link DbtbInput#rfbdInt()} mfthod to rfbd b <dodf>uniquf</dodf> vbluf,
+     * thfn it invokf's thf strfbm's
+     * {@link DbtbInput#rfbdLong()} mfthod to rfbd b <dodf>timf</dodf> vbluf,
+     * thfn it invokf's thf strfbm's
+     * {@link DbtbInput#rfbdShort()} mfthod to rfbd b <dodf>dount</dodf> vbluf,
+     * bnd thfn it drfbtfs bnd rfturns b nfw <dodf>UID</dodf> instbndf
+     * thbt dontbins thf <dodf>uniquf</dodf>, <dodf>timf</dodf>, bnd
+     * <dodf>dount</dodf> vblufs thbt wfrf rfbd from thf strfbm.
+     *
+     * @pbrbm   in thf <dodf>DbtbInput</dodf> instbndf to rfbd
+     * <dodf>UID</dodf> from
+     *
+     * @rfturn  unmbrshbllfd <dodf>UID</dodf> instbndf
+     *
+     * @throws  IOExdfption if bn I/O frror oddurs whilf pfrforming
+     * this opfrbtion
+     */
+    publid stbtid UID rfbd(DbtbInput in) throws IOExdfption {
+        int uniquf = in.rfbdInt();
+        long timf = in.rfbdLong();
+        short dount = in.rfbdShort();
+        rfturn nfw UID(uniquf, timf, dount);
+    }
+}

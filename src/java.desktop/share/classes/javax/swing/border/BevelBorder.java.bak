@@ -1,322 +1,322 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Component;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * A class which implements a simple two-line bevel border.
+ * A dlbss wiidi implfmfnts b simplf two-linf bfvfl bordfr.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
+ * @butior Dbvid Klobb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BevelBorder extends AbstractBorder
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr
 {
-    /** Raised bevel type. */
-    public static final int RAISED  = 0;
-    /** Lowered bevel type. */
-    public static final int LOWERED = 1;
+    /** Rbisfd bfvfl typf. */
+    publid stbtid finbl int RAISED  = 0;
+    /** Lowfrfd bfvfl typf. */
+    publid stbtid finbl int LOWERED = 1;
 
-    protected int bevelType;
-    protected Color highlightOuter;
-    protected Color highlightInner;
-    protected Color shadowInner;
-    protected Color shadowOuter;
+    protfdtfd int bfvflTypf;
+    protfdtfd Color iigiligitOutfr;
+    protfdtfd Color iigiligitInnfr;
+    protfdtfd Color sibdowInnfr;
+    protfdtfd Color sibdowOutfr;
 
     /**
-     * Creates a bevel border with the specified type and whose
-     * colors will be derived from the background color of the
-     * component passed into the paintBorder method.
-     * @param bevelType the type of bevel for the border
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf bnd wiosf
+     * dolors will bf dfrivfd from tif bbdkground dolor of tif
+     * domponfnt pbssfd into tif pbintBordfr mftiod.
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
      */
-    public BevelBorder(int bevelType) {
-        this.bevelType = bevelType;
+    publid BfvflBordfr(int bfvflTypf) {
+        tiis.bfvflTypf = bfvflTypf;
     }
 
     /**
-     * Creates a bevel border with the specified type, highlight and
-     * shadow colors.
-     * @param bevelType the type of bevel for the border
-     * @param highlight the color to use for the bevel highlight
-     * @param shadow the color to use for the bevel shadow
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * sibdow dolors.
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm iigiligit tif dolor to usf for tif bfvfl iigiligit
+     * @pbrbm sibdow tif dolor to usf for tif bfvfl sibdow
      */
-    public BevelBorder(int bevelType, Color highlight, Color shadow) {
-        this(bevelType, highlight.brighter(), highlight, shadow, shadow.brighter());
+    publid BfvflBordfr(int bfvflTypf, Color iigiligit, Color sibdow) {
+        tiis(bfvflTypf, iigiligit.brigitfr(), iigiligit, sibdow, sibdow.brigitfr());
     }
 
     /**
-     * Creates a bevel border with the specified type, highlight and
-     * shadow colors.
+     * Crfbtfs b bfvfl bordfr witi tif spfdififd typf, iigiligit bnd
+     * sibdow dolors.
      *
-     * @param bevelType the type of bevel for the border
-     * @param highlightOuterColor the color to use for the bevel outer highlight
-     * @param highlightInnerColor the color to use for the bevel inner highlight
-     * @param shadowOuterColor the color to use for the bevel outer shadow
-     * @param shadowInnerColor the color to use for the bevel inner shadow
+     * @pbrbm bfvflTypf tif typf of bfvfl for tif bordfr
+     * @pbrbm iigiligitOutfrColor tif dolor to usf for tif bfvfl outfr iigiligit
+     * @pbrbm iigiligitInnfrColor tif dolor to usf for tif bfvfl innfr iigiligit
+     * @pbrbm sibdowOutfrColor tif dolor to usf for tif bfvfl outfr sibdow
+     * @pbrbm sibdowInnfrColor tif dolor to usf for tif bfvfl innfr sibdow
      */
-    @ConstructorProperties({"bevelType", "highlightOuterColor", "highlightInnerColor", "shadowOuterColor", "shadowInnerColor"})
-    public BevelBorder(int bevelType, Color highlightOuterColor,
-                       Color highlightInnerColor, Color shadowOuterColor,
-                       Color shadowInnerColor) {
-        this(bevelType);
-        this.highlightOuter = highlightOuterColor;
-        this.highlightInner = highlightInnerColor;
-        this.shadowOuter = shadowOuterColor;
-        this.shadowInner = shadowInnerColor;
+    @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+    publid BfvflBordfr(int bfvflTypf, Color iigiligitOutfrColor,
+                       Color iigiligitInnfrColor, Color sibdowOutfrColor,
+                       Color sibdowInnfrColor) {
+        tiis(bfvflTypf);
+        tiis.iigiligitOutfr = iigiligitOutfrColor;
+        tiis.iigiligitInnfr = iigiligitInnfrColor;
+        tiis.sibdowOutfr = sibdowOutfrColor;
+        tiis.sibdowInnfr = sibdowInnfrColor;
     }
 
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * position bnd sizf.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        if (bevelType == RAISED) {
-             paintRaisedBevel(c, g, x, y, width, height);
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+        if (bfvflTypf == RAISED) {
+             pbintRbisfdBfvfl(d, g, x, y, widti, ifigit);
 
-        } else if (bevelType == LOWERED) {
-             paintLoweredBevel(c, g, x, y, width, height);
+        } flsf if (bfvflTypf == LOWERED) {
+             pbintLowfrfdBfvfl(d, g, x, y, widti, ifigit);
         }
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        insets.set(2, 2, 2, 2);
-        return insets;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.sft(2, 2, 2, 2);
+        rfturn insfts;
     }
 
     /**
-     * Returns the outer highlight color of the bevel border
-     * when rendered on the specified component.  If no highlight
-     * color was specified at instantiation, the highlight color
-     * is derived from the specified component's background color.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the highlight may be derived
-     * @return the outer highlight {@code Color}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @rfturn tif outfr iigiligit {@dodf Color}
+     * @sindf 1.3
      */
-    public Color getHighlightOuterColor(Component c)   {
-        Color highlight = getHighlightOuterColor();
-        return highlight != null? highlight :
-                                       c.getBackground().brighter().brighter();
+    publid Color gftHigiligitOutfrColor(Componfnt d)   {
+        Color iigiligit = gftHigiligitOutfrColor();
+        rfturn iigiligit != null? iigiligit :
+                                       d.gftBbdkground().brigitfr().brigitfr();
     }
 
     /**
-     * Returns the inner highlight color of the bevel border
-     * when rendered on the specified component.  If no highlight
-     * color was specified at instantiation, the highlight color
-     * is derived from the specified component's background color.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the highlight may be derived
-     * @return the inner highlight {@code Color}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @rfturn tif innfr iigiligit {@dodf Color}
+     * @sindf 1.3
      */
-    public Color getHighlightInnerColor(Component c)   {
-        Color highlight = getHighlightInnerColor();
-        return highlight != null? highlight :
-                                       c.getBackground().brighter();
+    publid Color gftHigiligitInnfrColor(Componfnt d)   {
+        Color iigiligit = gftHigiligitInnfrColor();
+        rfturn iigiligit != null? iigiligit :
+                                       d.gftBbdkground().brigitfr();
     }
 
     /**
-     * Returns the inner shadow color of the bevel border
-     * when rendered on the specified component.  If no shadow
-     * color was specified at instantiation, the shadow color
-     * is derived from the specified component's background color.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the shadow may be derived
-     * @return the inner shadow {@code Color}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @rfturn tif innfr sibdow {@dodf Color}
+     * @sindf 1.3
      */
-    public Color getShadowInnerColor(Component c)      {
-        Color shadow = getShadowInnerColor();
-        return shadow != null? shadow :
-                                    c.getBackground().darker();
+    publid Color gftSibdowInnfrColor(Componfnt d)      {
+        Color sibdow = gftSibdowInnfrColor();
+        rfturn sibdow != null? sibdow :
+                                    d.gftBbdkground().dbrkfr();
     }
 
     /**
-     * Returns the outer shadow color of the bevel border
-     * when rendered on the specified component.  If no shadow
-     * color was specified at instantiation, the shadow color
-     * is derived from the specified component's background color.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the shadow may be derived
-     * @return the outer shadow {@code Color}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @rfturn tif outfr sibdow {@dodf Color}
+     * @sindf 1.3
      */
-    public Color getShadowOuterColor(Component c)      {
-        Color shadow = getShadowOuterColor();
-        return shadow != null? shadow :
-                                    c.getBackground().darker().darker();
+    publid Color gftSibdowOutfrColor(Componfnt d)      {
+        Color sibdow = gftSibdowOutfrColor();
+        rfturn sibdow != null? sibdow :
+                                    d.gftBbdkground().dbrkfr().dbrkfr();
     }
 
     /**
-     * Returns the outer highlight color of the bevel border.
-     * Will return null if no highlight color was specified
-     * at instantiation.
+     * Rfturns tif outfr iigiligit dolor of tif bfvfl bordfr.
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the outer highlight {@code Color} or {@code null} if no highlight
-     *         color was specified
-     * @since 1.3
+     * @rfturn tif outfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     *         dolor wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getHighlightOuterColor()   {
-        return highlightOuter;
+    publid Color gftHigiligitOutfrColor()   {
+        rfturn iigiligitOutfr;
     }
 
     /**
-     * Returns the inner highlight color of the bevel border.
-     * Will return null if no highlight color was specified
-     * at instantiation.
+     * Rfturns tif innfr iigiligit dolor of tif bfvfl bordfr.
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the inner highlight {@code Color} or {@code null} if no highlight
-     *         color was specified
-     * @since 1.3
+     * @rfturn tif innfr iigiligit {@dodf Color} or {@dodf null} if no iigiligit
+     *         dolor wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getHighlightInnerColor()   {
-        return highlightInner;
+    publid Color gftHigiligitInnfrColor()   {
+        rfturn iigiligitInnfr;
     }
 
     /**
-     * Returns the inner shadow color of the bevel border.
-     * Will return null if no shadow color was specified
-     * at instantiation.
+     * Rfturns tif innfr sibdow dolor of tif bfvfl bordfr.
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the inner shadow {@code Color} or {@code null} if no shadow color
-     *         was specified
-     * @since 1.3
+     * @rfturn tif innfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     *         wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getShadowInnerColor()      {
-        return shadowInner;
+    publid Color gftSibdowInnfrColor()      {
+        rfturn sibdowInnfr;
     }
 
     /**
-     * Returns the outer shadow color of the bevel border.
-     * Will return null if no shadow color was specified
-     * at instantiation.
+     * Rfturns tif outfr sibdow dolor of tif bfvfl bordfr.
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the outer shadow {@code Color} or {@code null} if no shadow color
-     *         was specified
-     * @since 1.3
+     * @rfturn tif outfr sibdow {@dodf Color} or {@dodf null} if no sibdow dolor
+     *         wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getShadowOuterColor()      {
-        return shadowOuter;
+    publid Color gftSibdowOutfrColor()      {
+        rfturn sibdowOutfr;
     }
 
     /**
-     * Returns the type of the bevel border.
+     * Rfturns tif typf of tif bfvfl bordfr.
      *
-     * @return the bevel border type, either {@code RAISED} or {@code LOWERED}
+     * @rfturn tif bfvfl bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
      */
-    public int getBevelType()       {
-        return bevelType;
+    publid int gftBfvflTypf()       {
+        rfturn bfvflTypf;
     }
 
     /**
-     * Returns whether or not the border is opaque. This implementation
-     * returns {@code true}.
+     * Rfturns wiftifr or not tif bordfr is opbquf. Tiis implfmfntbtion
+     * rfturns {@dodf truf}.
      *
-     * @return true
+     * @rfturn truf
      */
-    public boolean isBorderOpaque() { return true; }
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
 
-    protected void paintRaisedBevel(Component c, Graphics g, int x, int y,
-                                    int width, int height)  {
-        Color oldColor = g.getColor();
-        int h = height;
-        int w = width;
+    protfdtfd void pbintRbisfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+                                    int widti, int ifigit)  {
+        Color oldColor = g.gftColor();
+        int i = ifigit;
+        int w = widti;
 
-        g.translate(x, y);
+        g.trbnslbtf(x, y);
 
-        g.setColor(getHighlightOuterColor(c));
-        g.drawLine(0, 0, 0, h-2);
-        g.drawLine(1, 0, w-2, 0);
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.drbwLinf(0, 0, 0, i-2);
+        g.drbwLinf(1, 0, w-2, 0);
 
-        g.setColor(getHighlightInnerColor(c));
-        g.drawLine(1, 1, 1, h-3);
-        g.drawLine(2, 1, w-3, 1);
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.drbwLinf(1, 1, 1, i-3);
+        g.drbwLinf(2, 1, w-3, 1);
 
-        g.setColor(getShadowOuterColor(c));
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, 0, w-1, h-2);
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(w-1, 0, w-1, i-2);
 
-        g.setColor(getShadowInnerColor(c));
-        g.drawLine(1, h-2, w-2, h-2);
-        g.drawLine(w-2, 1, w-2, h-3);
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.drbwLinf(1, i-2, w-2, i-2);
+        g.drbwLinf(w-2, 1, w-2, i-3);
 
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
 
     }
 
-    protected void paintLoweredBevel(Component c, Graphics g, int x, int y,
-                                        int width, int height)  {
-        Color oldColor = g.getColor();
-        int h = height;
-        int w = width;
+    protfdtfd void pbintLowfrfdBfvfl(Componfnt d, Grbpiids g, int x, int y,
+                                        int widti, int ifigit)  {
+        Color oldColor = g.gftColor();
+        int i = ifigit;
+        int w = widti;
 
-        g.translate(x, y);
+        g.trbnslbtf(x, y);
 
-        g.setColor(getShadowInnerColor(c));
-        g.drawLine(0, 0, 0, h-1);
-        g.drawLine(1, 0, w-1, 0);
+        g.sftColor(gftSibdowInnfrColor(d));
+        g.drbwLinf(0, 0, 0, i-1);
+        g.drbwLinf(1, 0, w-1, 0);
 
-        g.setColor(getShadowOuterColor(c));
-        g.drawLine(1, 1, 1, h-2);
-        g.drawLine(2, 1, w-2, 1);
+        g.sftColor(gftSibdowOutfrColor(d));
+        g.drbwLinf(1, 1, 1, i-2);
+        g.drbwLinf(2, 1, w-2, 1);
 
-        g.setColor(getHighlightOuterColor(c));
-        g.drawLine(1, h-1, w-1, h-1);
-        g.drawLine(w-1, 1, w-1, h-2);
+        g.sftColor(gftHigiligitOutfrColor(d));
+        g.drbwLinf(1, i-1, w-1, i-1);
+        g.drbwLinf(w-1, 1, w-1, i-2);
 
-        g.setColor(getHighlightInnerColor(c));
-        g.drawLine(2, h-2, w-2, h-2);
-        g.drawLine(w-2, 2, w-2, h-3);
+        g.sftColor(gftHigiligitInnfrColor(d));
+        g.drbwLinf(2, i-2, w-2, i-2);
+        g.drbwLinf(w-2, 2, w-2, i-3);
 
-        g.translate(-x, -y);
-        g.setColor(oldColor);
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
 
     }
 

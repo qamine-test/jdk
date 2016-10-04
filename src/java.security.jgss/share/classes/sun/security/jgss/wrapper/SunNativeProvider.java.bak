@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.wrapper;
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
 
-import java.util.HashMap;
-import java.security.Provider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import org.ietf.jgss.Oid;
-import sun.security.action.PutAllAction;
+import jbvb.util.HbsiMbp;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import org.iftf.jgss.Oid;
+import sun.sfdurity.bdtion.PutAllAdtion;
 
 /**
- * Defines the Sun NativeGSS provider for plugging in the
- * native GSS mechanisms to Java GSS.
+ * Dffinfs tif Sun NbtivfGSS providfr for plugging in tif
+ * nbtivf GSS mfdibnisms to Jbvb GSS.
  *
- * List of supported mechanisms depends on the local
- * machine configuration.
+ * List of supportfd mfdibnisms dfpfnds on tif lodbl
+ * mbdiinf donfigurbtion.
  *
- * @author Yu-Ching Valerie Peng
+ * @butior Yu-Ciing Vblfrif Pfng
  */
 
-public final class SunNativeProvider extends Provider {
+publid finbl dlbss SunNbtivfProvidfr fxtfnds Providfr {
 
-    private static final long serialVersionUID = -238911724858694204L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -238911724858694204L;
 
-    private static final String NAME = "SunNativeGSS";
-    private static final String INFO = "Sun Native GSS provider";
-    private static final String MF_CLASS =
-        "sun.security.jgss.wrapper.NativeGSSFactory";
-    private static final String LIB_PROP = "sun.security.jgss.lib";
-    private static final String DEBUG_PROP = "sun.security.nativegss.debug";
-    private static HashMap<String, String> MECH_MAP;
-    static final Provider INSTANCE = new SunNativeProvider();
-    static boolean DEBUG;
-    static void debug(String message) {
+    privbtf stbtid finbl String NAME = "SunNbtivfGSS";
+    privbtf stbtid finbl String INFO = "Sun Nbtivf GSS providfr";
+    privbtf stbtid finbl String MF_CLASS =
+        "sun.sfdurity.jgss.wrbppfr.NbtivfGSSFbdtory";
+    privbtf stbtid finbl String LIB_PROP = "sun.sfdurity.jgss.lib";
+    privbtf stbtid finbl String DEBUG_PROP = "sun.sfdurity.nbtivfgss.dfbug";
+    privbtf stbtid HbsiMbp<String, String> MECH_MAP;
+    stbtid finbl Providfr INSTANCE = nfw SunNbtivfProvidfr();
+    stbtid boolfbn DEBUG;
+    stbtid void dfbug(String mfssbgf) {
         if (DEBUG) {
-            if (message == null) {
-                throw new NullPointerException();
+            if (mfssbgf == null) {
+                tirow nfw NullPointfrExdfption();
             }
-            System.out.println(NAME + ": " + message);
+            Systfm.out.println(NAME + ": " + mfssbgf);
         }
     }
 
-    static {
+    stbtid {
         MECH_MAP =
-            AccessController.doPrivileged(
-                new PrivilegedAction<HashMap<String, String>>() {
-                    public HashMap<String, String> run() {
-                        DEBUG = Boolean.parseBoolean
-                            (System.getProperty(DEBUG_PROP));
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<HbsiMbp<String, String>>() {
+                    publid HbsiMbp<String, String> run() {
+                        DEBUG = Boolfbn.pbrsfBoolfbn
+                            (Systfm.gftPropfrty(DEBUG_PROP));
                         try {
-                            System.loadLibrary("j2gss");
-                        } catch (Error err) {
-                            debug("No j2gss library found!");
-                            if (DEBUG) err.printStackTrace();
-                            return null;
+                            Systfm.lobdLibrbry("j2gss");
+                        } dbtdi (Error frr) {
+                            dfbug("No j2gss librbry found!");
+                            if (DEBUG) frr.printStbdkTrbdf();
+                            rfturn null;
                         }
-                        String gssLibs[] = new String[0];
-                        String defaultLib = System.getProperty(LIB_PROP);
-                        if (defaultLib == null || defaultLib.trim().equals("")) {
-                            String osname = System.getProperty("os.name");
-                            if (osname.startsWith("SunOS")) {
-                                gssLibs = new String[]{ "libgss.so" };
-                            } else if (osname.startsWith("Linux")) {
-                                gssLibs = new String[]{
-                                    "libgssapi.so",
-                                    "libgssapi_krb5.so",
-                                    "libgssapi_krb5.so.2",
+                        String gssLibs[] = nfw String[0];
+                        String dffbultLib = Systfm.gftPropfrty(LIB_PROP);
+                        if (dffbultLib == null || dffbultLib.trim().fqubls("")) {
+                            String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                            if (osnbmf.stbrtsWiti("SunOS")) {
+                                gssLibs = nfw String[]{ "libgss.so" };
+                            } flsf if (osnbmf.stbrtsWiti("Linux")) {
+                                gssLibs = nfw String[]{
+                                    "libgssbpi.so",
+                                    "libgssbpi_krb5.so",
+                                    "libgssbpi_krb5.so.2",
                                 };
-                            } else if (osname.contains("OS X")) {
-                                gssLibs = new String[]{
-                                    "libgssapi_krb5.dylib",
-                                    "/usr/lib/sasl2/libgssapiv2.2.so",
+                            } flsf if (osnbmf.dontbins("OS X")) {
+                                gssLibs = nfw String[]{
+                                    "libgssbpi_krb5.dylib",
+                                    "/usr/lib/sbsl2/libgssbpiv2.2.so",
                                };
                             }
-                        } else {
-                            gssLibs = new String[]{ defaultLib };
+                        } flsf {
+                            gssLibs = nfw String[]{ dffbultLib };
                         }
-                        for (String libName: gssLibs) {
-                            if (GSSLibStub.init(libName, DEBUG)) {
-                                debug("Loaded GSS library: " + libName);
-                                Oid[] mechs = GSSLibStub.indicateMechs();
-                                HashMap<String, String> map =
-                                            new HashMap<String, String>();
-                                for (int i = 0; i < mechs.length; i++) {
-                                    debug("Native MF for " + mechs[i]);
-                                    map.put("GssApiMechanism." + mechs[i],
+                        for (String libNbmf: gssLibs) {
+                            if (GSSLibStub.init(libNbmf, DEBUG)) {
+                                dfbug("Lobdfd GSS librbry: " + libNbmf);
+                                Oid[] mfdis = GSSLibStub.indidbtfMfdis();
+                                HbsiMbp<String, String> mbp =
+                                            nfw HbsiMbp<String, String>();
+                                for (int i = 0; i < mfdis.lfngti; i++) {
+                                    dfbug("Nbtivf MF for " + mfdis[i]);
+                                    mbp.put("GssApiMfdibnism." + mfdis[i],
                                             MF_CLASS);
                                 }
-                                return map;
+                                rfturn mbp;
                             }
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
     }
 
-    public SunNativeProvider() {
-        /* We are the Sun NativeGSS provider */
-        super(NAME, 1.9d, INFO);
+    publid SunNbtivfProvidfr() {
+        /* Wf brf tif Sun NbtivfGSS providfr */
+        supfr(NAME, 1.9d, INFO);
 
         if (MECH_MAP != null) {
-            AccessController.doPrivileged(new PutAllAction(this, MECH_MAP));
+            AddfssControllfr.doPrivilfgfd(nfw PutAllAdtion(tiis, MECH_MAP));
         }
     }
 }

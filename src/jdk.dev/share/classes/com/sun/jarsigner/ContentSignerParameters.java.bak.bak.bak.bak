@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbrsignfr;
+
+import jbvb.nft.URI;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.zip.ZipFilf;
+
+/**
+ * This intfrfbdf fndbpsulbtfs thf pbrbmftfrs for b ContfntSignfr objfdt.
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ */
+@jdk.Exportfd
+publid intfrfbdf ContfntSignfrPbrbmftfrs {
+
+    /**
+     * Rftrifvfs thf dommbnd-linf brgumfnts pbssfd to thf jbrsignfr tool.
+     *
+     * @rfturn Thf dommbnd-linf brgumfnts. Mby bf null.
+     */
+    publid String[] gftCommbndLinf();
+
+    /**
+     * Rftrifvfs thf idfntififr for b Timfstbmping Authority (TSA).
+     *
+     * @rfturn Thf TSA idfntififr. Mby bf null.
+     */
+    publid URI gftTimfstbmpingAuthority();
+
+    /**
+     * Rftrifvfs thf dfrtifidbtf for b Timfstbmping Authority (TSA).
+     *
+     * @rfturn Thf TSA dfrtifidbtf. Mby bf null.
+     */
+    publid X509Cfrtifidbtf gftTimfstbmpingAuthorityCfrtifidbtf();
+
+    /**
+     * Rftrifvfs thf TSAPolidyID for b Timfstbmping Authority (TSA).
+     *
+     * @rfturn Thf TSAPolidyID. Mby bf null.
+     */
+    publid dffbult String gftTSAPolidyID() {
+        rfturn null;
+    }
+
+    /**
+     * Rftrfivfs thf mfssbgf digfst blgorithm thbt is usfd to gfnfrbtf
+     * thf mfssbgf imprint to bf sfnt to thf TSA sfrvfr.
+     *
+     * @sindf 1.9
+     * @rfturn Thf non-null string of thf mfssbgf digfst blgorithm nbmf.
+     */
+    publid dffbult String gftTSADigfstAlg() {
+        rfturn "SHA-256";
+    }
+
+    /**
+     * Rftrifvfs thf JAR filf's signbturf.
+     *
+     * @rfturn Thf non-null brrby of signbturf bytfs.
+     */
+    publid bytf[] gftSignbturf();
+
+    /**
+     * Rftrifvfs thf nbmf of thf signbturf blgorithm.
+     *
+     * @rfturn Thf non-null string nbmf of thf signbturf blgorithm.
+     */
+    publid String gftSignbturfAlgorithm();
+
+    /**
+     * Rftrifvfs thf signfr's X.509 dfrtifidbtf dhbin.
+     *
+     * @rfturn Thf non-null brrby of X.509 publid-kfy dfrtifidbtfs.
+     */
+    publid X509Cfrtifidbtf[] gftSignfrCfrtifidbtfChbin();
+
+    /**
+     * Rftrifvfs thf dontfnt thbt wbs signfd.
+     * Thf dontfnt is thf JAR filf's signbturf filf.
+     *
+     * @rfturn Thf dontfnt bytfs. Mby bf null.
+     */
+    publid bytf[] gftContfnt();
+
+    /**
+     * Rftrifvfs thf originbl sourdf ZIP filf bfforf it wbs signfd.
+     *
+     * @rfturn Thf originbl ZIP filf. Mby bf null.
+     */
+    publid ZipFilf gftSourdf();
+}

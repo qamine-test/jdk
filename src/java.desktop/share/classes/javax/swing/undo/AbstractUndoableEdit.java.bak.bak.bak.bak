@@ -1,0 +1,279 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.undo;
+
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.UIMbnbgfr;
+
+/**
+ * An bbstrbdt implfmfntbtion of <dodf>UndobblfEdit</dodf>,
+ * implfmfnting simplf rfsponsfs to bll boolfbn mfthods in
+ * thbt intfrfbdf.
+ *
+ * @buthor Rby Rybn
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss AbstrbdtUndobblfEdit implfmfnts UndobblfEdit, Sfriblizbblf {
+
+    /**
+     * String rfturnfd by <dodf>gftUndoPrfsfntbtionNbmf</dodf>;
+     * bs of Jbvb 2 plbtform v1.3.1 this fifld is no longfr usfd. This vbluf
+     * is now lodblizfd bnd domfs from thf dffbults tbblf with kfy
+     * <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf>.
+     *
+     * @sff jbvbx.swing.UIDffbults
+     */
+    protfdtfd stbtid finbl String UndoNbmf = "Undo";
+
+    /**
+     * String rfturnfd by <dodf>gftRfdoPrfsfntbtionNbmf</dodf>;
+     * bs of Jbvb 2 plbtform v1.3.1 this fifld is no longfr usfd. This vbluf
+     * is now lodblizfd bnd domfs from thf dffbults tbblf with kfy
+     * <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf>.
+     *
+     * @sff jbvbx.swing.UIDffbults
+     */
+    protfdtfd stbtid finbl String RfdoNbmf = "Rfdo";
+
+    /**
+     * Dffbults to truf; bfdomfs fblsf if this fdit is undonf, truf
+     * bgbin if it is rfdonf.
+     */
+    boolfbn hbsBffnDonf;
+
+    /**
+     * Truf if this fdit hbs not rfdfivfd <dodf>dif</dodf>; dffbults
+     * to <dodf>truf</dodf>.
+     */
+    boolfbn blivf;
+
+    /**
+     * Crfbtfs bn <dodf>AbstrbdtUndobblfEdit</dodf> whidh dffbults
+     * <dodf>hbsBffnDonf</dodf> bnd <dodf>blivf</dodf> to <dodf>truf</dodf>.
+     */
+    publid AbstrbdtUndobblfEdit() {
+        supfr();
+
+        hbsBffnDonf = truf;
+        blivf = truf;
+    }
+
+    /**
+     * Sfts <dodf>blivf</dodf> to fblsf. Notf thbt this
+     * is b onf wby opfrbtion; dfbd fdits dbnnot bf rfsurrfdtfd.
+     * Sfnding <dodf>undo</dodf> or <dodf>rfdo</dodf> to
+     * b dfbd fdit rfsults in bn fxdfption bfing thrown.
+     *
+     * <p>Typidblly bn fdit is killfd whfn it is donsolidbtfd by
+     * bnothfr fdit's <dodf>bddEdit</dodf> or <dodf>rfplbdfEdit</dodf>
+     * mfthod, or whfn it is dfqufufd from bn <dodf>UndoMbnbgfr</dodf>.
+     */
+    publid void dif() {
+        blivf = fblsf;
+    }
+
+    /**
+     * Throws <dodf>CbnnotUndoExdfption</dodf> if <dodf>dbnUndo</dodf>
+     * rfturns <dodf>fblsf</dodf>. Sfts <dodf>hbsBffnDonf</dodf>
+     * to <dodf>fblsf</dodf>. Subdlbssfs should ovfrridf to undo thf
+     * opfrbtion rfprfsfntfd by this fdit. Ovfrridf should bfgin with
+     * b dbll to supfr.
+     *
+     * @fxdfption CbnnotUndoExdfption if <dodf>dbnUndo</dodf>
+     *    rfturns <dodf>fblsf</dodf>
+     * @sff     #dbnUndo
+     */
+    publid void undo() throws CbnnotUndoExdfption {
+        if (!dbnUndo()) {
+            throw nfw CbnnotUndoExdfption();
+        }
+        hbsBffnDonf = fblsf;
+    }
+
+    /**
+     * Rfturns truf if this fdit is <dodf>blivf</dodf>
+     * bnd <dodf>hbsBffnDonf</dodf> is <dodf>truf</dodf>.
+     *
+     * @rfturn truf if this fdit is <dodf>blivf</dodf>
+     *    bnd <dodf>hbsBffnDonf</dodf> is <dodf>truf</dodf>
+     *
+     * @sff     #dif
+     * @sff     #undo
+     * @sff     #rfdo
+     */
+    publid boolfbn dbnUndo() {
+        rfturn blivf && hbsBffnDonf;
+    }
+
+    /**
+     * Throws <dodf>CbnnotRfdoExdfption</dodf> if <dodf>dbnRfdo</dodf>
+     * rfturns fblsf. Sfts <dodf>hbsBffnDonf</dodf> to <dodf>truf</dodf>.
+     * Subdlbssfs should ovfrridf to rfdo thf opfrbtion rfprfsfntfd by
+     * this fdit. Ovfrridf should bfgin with b dbll to supfr.
+     *
+     * @fxdfption CbnnotRfdoExdfption if <dodf>dbnRfdo</dodf>
+     *     rfturns <dodf>fblsf</dodf>
+     * @sff     #dbnRfdo
+     */
+    publid void rfdo() throws CbnnotRfdoExdfption {
+        if (!dbnRfdo()) {
+            throw nfw CbnnotRfdoExdfption();
+        }
+        hbsBffnDonf = truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this fdit is <dodf>blivf</dodf>
+     * bnd <dodf>hbsBffnDonf</dodf> is <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if this fdit is <dodf>blivf</dodf>
+     *   bnd <dodf>hbsBffnDonf</dodf> is <dodf>fblsf</dodf>
+     * @sff     #dif
+     * @sff     #undo
+     * @sff     #rfdo
+     */
+    publid boolfbn dbnRfdo() {
+        rfturn blivf && !hbsBffnDonf;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns fblsf.
+     *
+     * @pbrbm bnEdit thf fdit to bf bddfd
+     * @rfturn fblsf
+     *
+     * @sff UndobblfEdit#bddEdit
+     */
+    publid boolfbn bddEdit(UndobblfEdit bnEdit) {
+        rfturn fblsf;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns fblsf.
+     *
+     * @pbrbm bnEdit thf fdit to rfplbdf
+     * @rfturn fblsf
+     *
+     * @sff UndobblfEdit#rfplbdfEdit
+     */
+    publid boolfbn rfplbdfEdit(UndobblfEdit bnEdit) {
+        rfturn fblsf;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns truf.
+     *
+     * @rfturn truf
+     * @sff UndobblfEdit#isSignifidbnt
+     */
+    publid boolfbn isSignifidbnt() {
+        rfturn truf;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns "". Usfd by
+     * <dodf>gftUndoPrfsfntbtionNbmf</dodf> bnd
+     * <dodf>gftRfdoPrfsfntbtionNbmf</dodf> to
+     * donstrudt thf strings thfy rfturn. Subdlbssfs should ovfrridf to
+     * rfturn bn bppropribtf dfsdription of thf opfrbtion this fdit
+     * rfprfsfnts.
+     *
+     * @rfturn thf fmpty string ""
+     *
+     * @sff     #gftUndoPrfsfntbtionNbmf
+     * @sff     #gftRfdoPrfsfntbtionNbmf
+     */
+    publid String gftPrfsfntbtionNbmf() {
+        rfturn "";
+    }
+
+    /**
+     * Rftrfivfs thf vbluf from thf dffbults tbblf with kfy
+     * <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf> bnd rfturns
+     * thbt vbluf followfd by b spbdf, followfd by
+     * <dodf>gftPrfsfntbtionNbmf</dodf>.
+     * If <dodf>gftPrfsfntbtionNbmf</dodf> rfturns "",
+     * thfn thf dffbults vbluf is rfturnfd blonf.
+     *
+     * @rfturn thf vbluf from thf dffbults tbblf with kfy
+     *    <dodf>AbstrbdtUndobblfEdit.undoTfxt</dodf>, followfd
+     *    by b spbdf, followfd by <dodf>gftPrfsfntbtionNbmf</dodf>
+     *    unlfss <dodf>gftPrfsfntbtionNbmf</dodf> is "" in whidh
+     *    dbsf, thf dffbults vbluf is rfturnfd blonf.
+     * @sff #gftPrfsfntbtionNbmf
+     */
+    publid String gftUndoPrfsfntbtionNbmf() {
+        String nbmf = gftPrfsfntbtionNbmf();
+        if (!"".fqubls(nbmf)) {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.undoTfxt") +
+                " " + nbmf;
+        } flsf {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.undoTfxt");
+        }
+
+        rfturn nbmf;
+    }
+
+    /**
+     * Rftrfivfs thf vbluf from thf dffbults tbblf with kfy
+     * <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf> bnd rfturns
+     * thbt vbluf followfd by b spbdf, followfd by
+     * <dodf>gftPrfsfntbtionNbmf</dodf>.
+     * If <dodf>gftPrfsfntbtionNbmf</dodf> rfturns "",
+     * thfn thf dffbults vbluf is rfturnfd blonf.
+     *
+     * @rfturn thf vbluf from thf dffbults tbblf with kfy
+     *    <dodf>AbstrbdtUndobblfEdit.rfdoTfxt</dodf>, followfd
+     *    by b spbdf, followfd by <dodf>gftPrfsfntbtionNbmf</dodf>
+     *    unlfss <dodf>gftPrfsfntbtionNbmf</dodf> is "" in whidh
+     *    dbsf, thf dffbults vbluf is rfturnfd blonf.
+     * @sff #gftPrfsfntbtionNbmf
+     */
+    publid String gftRfdoPrfsfntbtionNbmf() {
+        String nbmf = gftPrfsfntbtionNbmf();
+        if (!"".fqubls(nbmf)) {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.rfdoTfxt") +
+                " " + nbmf;
+        } flsf {
+            nbmf = UIMbnbgfr.gftString("AbstrbdtUndobblfEdit.rfdoTfxt");
+        }
+
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     */
+    publid String toString()
+    {
+        rfturn supfr.toString()
+            + " hbsBffnDonf: " + hbsBffnDonf
+            + " blivf: " + blivf;
+    }
+}

@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.HttpsURLConnection
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.HttpsURLConnfdtion
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.IOException;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.io.IOExdfption;
+import jbvbx.nft.SodkftFbdtory;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
 
-import javax.security.cert.X509Certificate;
+import jbvbx.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * HTTP URL connection with support for HTTPS-specific features. See
- * <A HREF="http://www.w3.org/pub/WWW/Protocols/"> the spec </A> for
- * details.
+ * HTTP URL donnfdtion witi support for HTTPS-spfdifid ffbturfs. Sff
+ * <A HREF="ittp://www.w3.org/pub/WWW/Protodols/"> tif spfd </A> for
+ * dftbils.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.HttpsURLConnection}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.HttpsURLConnfdtion}.
  */
-@Deprecated
-abstract public
-class HttpsURLConnection extends HttpURLConnection
+@Dfprfdbtfd
+bbstrbdt publid
+dlbss HttpsURLConnfdtion fxtfnds HttpURLConnfdtion
 {
     /*
-     * Initialize an HTTPS URLConnection ... could check that the URL
-     * is an "https" URL, and that the handler is also an HTTPS one,
-     * but that's established by other code in this package.
-     * @param url the URL
+     * Initiblizf bn HTTPS URLConnfdtion ... dould difdk tibt tif URL
+     * is bn "ittps" URL, bnd tibt tif ibndlfr is blso bn HTTPS onf,
+     * but tibt's fstbblisifd by otifr dodf in tiis pbdkbgf.
+     * @pbrbm url tif URL
      */
-    public HttpsURLConnection(URL url) throws IOException {
-        super(url);
+    publid HttpsURLConnfdtion(URL url) tirows IOExdfption {
+        supfr(url);
     }
 
     /**
-     * Returns the cipher suite in use on this connection.
-     * @return the cipher suite
+     * Rfturns tif dipifr suitf in usf on tiis donnfdtion.
+     * @rfturn tif dipifr suitf
      */
-    public abstract String getCipherSuite();
+    publid bbstrbdt String gftCipifrSuitf();
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
-     * @return the server certificate chain
+     * Rfturns tif sfrvfr's X.509 dfrtifidbtf dibin, or null if
+     * tif sfrvfr did not butifntidbtf.
+     * @rfturn tif sfrvfr dfrtifidbtf dibin
      */
-    public abstract X509Certificate [] getServerCertificateChain();
+    publid bbstrbdt X509Cfrtifidbtf [] gftSfrvfrCfrtifidbtfCibin();
 
     /**
-     * HostnameVerifier provides a callback mechanism so that
-     * implementers of this interface can supply a policy for
-     * handling the case where the host to connect to and
-     * the server name from the certificate mismatch.
+     * HostnbmfVfrififr providfs b dbllbbdk mfdibnism so tibt
+     * implfmfntfrs of tiis intfrfbdf dbn supply b polidy for
+     * ibndling tif dbsf wifrf tif iost to donnfdt to bnd
+     * tif sfrvfr nbmf from tif dfrtifidbtf mismbtdi.
      *
-     * The default implementation will deny such connections.
+     * Tif dffbult implfmfntbtion will dfny sudi donnfdtions.
      */
-    private static HostnameVerifier defaultHostnameVerifier =
-        new HostnameVerifier() {
-            public boolean verify(String urlHostname, String certHostname) {
-                return false;
+    privbtf stbtid HostnbmfVfrififr dffbultHostnbmfVfrififr =
+        nfw HostnbmfVfrififr() {
+            publid boolfbn vfrify(String urlHostnbmf, String dfrtHostnbmf) {
+                rfturn fblsf;
             }
         };
 
-    protected HostnameVerifier hostnameVerifier = defaultHostnameVerifier;
+    protfdtfd HostnbmfVfrififr iostnbmfVfrififr = dffbultHostnbmfVfrififr;
 
     /**
-     * Sets the default HostnameVerifier inherited when an instance
-     * of this class is created.
-     * @param v the default host name verifier
+     * Sfts tif dffbult HostnbmfVfrififr inifritfd wifn bn instbndf
+     * of tiis dlbss is drfbtfd.
+     * @pbrbm v tif dffbult iost nbmf vfrififr
      */
-    public static void setDefaultHostnameVerifier(HostnameVerifier v) {
+    publid stbtid void sftDffbultHostnbmfVfrififr(HostnbmfVfrififr v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no default HostnameVerifier specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no dffbult HostnbmfVfrififr spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new SSLPermission("setHostnameVerifier"));
+            sm.difdkPfrmission(nfw SSLPfrmission("sftHostnbmfVfrififr"));
         }
-        defaultHostnameVerifier = v;
+        dffbultHostnbmfVfrififr = v;
     }
 
     /**
-     * Gets the default HostnameVerifier.
-     * @return the default host name verifier
+     * Gfts tif dffbult HostnbmfVfrififr.
+     * @rfturn tif dffbult iost nbmf vfrififr
      */
-    public static HostnameVerifier getDefaultHostnameVerifier() {
-        return defaultHostnameVerifier;
+    publid stbtid HostnbmfVfrififr gftDffbultHostnbmfVfrififr() {
+        rfturn dffbultHostnbmfVfrififr;
     }
 
     /**
-     * Sets the HostnameVerifier.
-     * @param v the host name verifier
+     * Sfts tif HostnbmfVfrififr.
+     * @pbrbm v tif iost nbmf vfrififr
      */
-    public void setHostnameVerifier(HostnameVerifier v) {
+    publid void sftHostnbmfVfrififr(HostnbmfVfrififr v) {
         if (v == null) {
-            throw new IllegalArgumentException(
-                "no HostnameVerifier specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no HostnbmfVfrififr spfdififd");
         }
 
-        hostnameVerifier = v;
+        iostnbmfVfrififr = v;
     }
 
     /**
-     * Gets the HostnameVerifier.
-     * @return the host name verifier
+     * Gfts tif HostnbmfVfrififr.
+     * @rfturn tif iost nbmf vfrififr
      */
-    public HostnameVerifier getHostnameVerifier() {
-        return hostnameVerifier;
+    publid HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn iostnbmfVfrififr;
     }
 
-    private static SSLSocketFactory defaultSSLSocketFactory = null;
+    privbtf stbtid SSLSodkftFbdtory dffbultSSLSodkftFbdtory = null;
 
-    private SSLSocketFactory sslSocketFactory = getDefaultSSLSocketFactory();
+    privbtf SSLSodkftFbdtory sslSodkftFbdtory = gftDffbultSSLSodkftFbdtory();
 
     /**
-     * Sets the default SSL socket factory inherited when an instance
-     * of this class is created.
-     * @param sf the default SSL socket factory
+     * Sfts tif dffbult SSL sodkft fbdtory inifritfd wifn bn instbndf
+     * of tiis dlbss is drfbtfd.
+     * @pbrbm sf tif dffbult SSL sodkft fbdtory
      */
-    public static void setDefaultSSLSocketFactory(SSLSocketFactory sf) {
+    publid stbtid void sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no default SSLSocketFactory specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no dffbult SSLSodkftFbdtory spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.difdkSftFbdtory();
         }
-        defaultSSLSocketFactory = sf;
+        dffbultSSLSodkftFbdtory = sf;
     }
 
     /**
-     * Gets the default SSL socket factory.
-     * @return the default SSL socket factory
+     * Gfts tif dffbult SSL sodkft fbdtory.
+     * @rfturn tif dffbult SSL sodkft fbdtory
      */
-    public static SSLSocketFactory getDefaultSSLSocketFactory() {
-        if (defaultSSLSocketFactory == null) {
-            defaultSSLSocketFactory =
-                (SSLSocketFactory)SSLSocketFactory.getDefault();
+    publid stbtid SSLSodkftFbdtory gftDffbultSSLSodkftFbdtory() {
+        if (dffbultSSLSodkftFbdtory == null) {
+            dffbultSSLSodkftFbdtory =
+                (SSLSodkftFbdtory)SSLSodkftFbdtory.gftDffbult();
         }
-        return defaultSSLSocketFactory;
+        rfturn dffbultSSLSodkftFbdtory;
     }
 
     /**
-     * Sets the SSL socket factory.
-     * @param sf the SSL socket factory
+     * Sfts tif SSL sodkft fbdtory.
+     * @pbrbm sf tif SSL sodkft fbdtory
      */
-    public void setSSLSocketFactory(SSLSocketFactory sf) {
+    publid void sftSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
         if (sf == null) {
-            throw new IllegalArgumentException(
-                "no SSLSocketFactory specified");
+            tirow nfw IllfgblArgumfntExdfption(
+                "no SSLSodkftFbdtory spfdififd");
         }
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkSetFactory();
+            sm.difdkSftFbdtory();
         }
 
-        sslSocketFactory = sf;
+        sslSodkftFbdtory = sf;
     }
 
     /**
-     * Gets the SSL socket factory.
-     * @return the SSL socket factory
+     * Gfts tif SSL sodkft fbdtory.
+     * @rfturn tif SSL sodkft fbdtory
      */
-    public SSLSocketFactory getSSLSocketFactory() {
-        return sslSocketFactory;
+    publid SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn sslSodkftFbdtory;
     }
 }

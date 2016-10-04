@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.lbng.bnnotbtion.Dodumfntfd;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.Tbrgft;
+
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.TYPE;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME;
+
+/**
+ * An bnnotbtion usfd to spfdify somf dlbss-rflbtfd informbtion
+ * for thf butombtidblly gfnfrbtfd {@link BfbnInfo} dlbssfs.
+ * This bnnotbtion is not usfd if thf bnnotbtfd dlbss
+ * hbs b dorrfsponding usfr-dffinfd {@dodf BfbnInfo} dlbss,
+ * whidh dofs not imply thf butombtid bnblysis.
+ *
+ * @sff BfbnInfo#gftBfbnDfsdriptor
+ * @sindf 1.9
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+@Dodumfntfd
+@Tbrgft({TYPE})
+@Rftfntion(RUNTIME)
+publid @intfrfbdf JbvbBfbn {
+    /**
+     * Thf {@link BfbnDfsdriptor#gftShortDfsdription short dfsdription}
+     * for thf {@link BfbnInfo#gftBfbnDfsdriptor bfbn dfsdriptor}
+     * of thf bnnotbtfd dlbss.
+     *
+     * @rfturn thf bfbn dfsdription,
+     *         or bn fmpty string if thf dfsdription is not sft.
+     */
+    String dfsdription() dffbult "";
+
+    /**
+     * Thf nbmf of thf dffbult propfrty is usfd to dbldulbtf its
+     * {@link BfbnInfo#gftDffbultPropfrtyIndfx indfx} in thf
+     * {@link BfbnInfo#gftPropfrtyDfsdriptors brrby} of propfrtifs
+     * dffinfd in thf bnnotbtfd dlbss. If thf nbmf is not sft or
+     * thf bnnotbtfd dlbss dofs not dffinf b propfrty
+     * with thf spfdififd nbmf, thf dffbult propfrty indfx
+     * will bf dbldulbtfd butombtidblly by thf
+     * {@link Introspfdtor} dfpfnding on its stbtf.
+     *
+     * @rfturn thf nbmf of thf dffbult propfrty,
+     *         or bn fmpty string if thf nbmf is not sft.
+     */
+    String dffbultPropfrty() dffbult "";
+
+    /**
+     * Thf nbmf of thf dffbult fvfnt sft is usfd to dbldulbtf its
+     * {@link BfbnInfo#gftDffbultEvfntIndfx indfx} in thf
+     * {@link BfbnInfo#gftEvfntSftDfsdriptors brrby} of fvfnt sfts
+     * dffinfd in thf bnnotbtfd dlbss. If thf nbmf is not sft or
+     * thf bnnotbtfd dlbss dofs not dffinf bn fvfnt sft
+     * with thf spfdififd nbmf, thf dffbult fvfnt sft indfx
+     * will bf dbldulbtfd butombtidblly by thf
+     * {@link Introspfdtor} dfpfnding on its stbtf.
+     *
+     * @rfturn thf nbmf of thf dffbult fvfnt sft,
+     *         or bn fmpty string if thf nbmf is not sft.
+     */
+    String dffbultEvfntSft() dffbult "";
+}

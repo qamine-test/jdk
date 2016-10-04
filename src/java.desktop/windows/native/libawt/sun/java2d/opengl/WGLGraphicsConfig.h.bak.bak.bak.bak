@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2004, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff WGLGrbphidsConfig_h_Indludfd
+#dffinf WGLGrbphidsConfig_h_Indludfd
+
+#indludf "jni.h"
+#indludf "J2D_GL/gl.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "OGLContfxt.h"
+
+/**
+ * Thf WGLGrbphidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn WGLGrbphidsConfig (pixfl formbt).
+ *
+ *     jint sdrffn, pixfmt;
+ * Thf sdrffn bnd PixflFormbt for thf bssodibtfd WGLGrbphidsConfig.
+ *
+ *     OGLContfxt *dontfxt;
+ * Thf dontfxt bssodibtfd with this WGLGrbphidsConfig.
+ */
+typfdff strudt _WGLGrbphidsConfigInfo {
+    jint       sdrffn;
+    jint       pixfmt;
+    OGLContfxt *dontfxt;
+} WGLGrbphidsConfigInfo;
+
+/**
+ * Thf WGLCtxInfo strudturf dontbins thf nbtivf WGLContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by thf plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
+ *
+ *     HGLRC dontfxt;
+ * Thf dorf nbtivf WGL dontfxt.  Rfndfring dommbnds hbvf no ffffdt until b
+ * dontfxt is mbdf durrfnt (bdtivf).
+ *
+ *     HPBUFFERARB sdrbtdhSurfbdf;
+ *     HDC         sdrbtdhSurfbdfDC;
+ * Thf sdrbtdh surfbdf (bnd its bssodibtfd HDC), whidh brf usfd to mbkf b
+ * dontfxt durrfnt whfn wf do not othfrwisf hbvf b rfffrfndf to bn OpfnGL
+ * surfbdf for thf purposfs of mbking b dontfxt durrfnt.
+ */
+typfdff strudt _WGLCtxInfo {
+    HGLRC       dontfxt;
+    HPBUFFERARB sdrbtdhSurfbdf;
+    HDC         sdrbtdhSurfbdfDC;
+} WGLCtxInfo;
+
+/**
+ * Utility mfthods
+ */
+HWND WGLGC_CrfbtfSdrbtdhWindow(jint sdrffnnum);
+
+/**
+ * REMIND: idfblly, this would bf dfdlbrfd in AwtComponfnt.h, but indluding
+ *         thbt C++ hfbdfr filf from C sourdf filfs dbusfs problfms...
+ */
+fxtfrn HWND AwtComponfnt_GftHWnd(JNIEnv *fnv, jlong pDbtb);
+
+#fndif /* WGLGrbphidsConfig_h_Indludfd */

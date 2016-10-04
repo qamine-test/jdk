@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.runtime;
+pbdkbgf sun.rmi.runtimf;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.util.SecurityConstants;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * A PrivilegedAction for creating a new thread conveniently with an
- * AccessController.doPrivileged construct.
+ * A PrivilfgfdAdtion for drfbting b nfw tirfbd donvfnifntly witi bn
+ * AddfssControllfr.doPrivilfgfd donstrudt.
  *
- * All constructors allow the choice of the Runnable for the new
- * thread to execute, the name of the new thread (which will be
- * prefixed with "RMI "), and whether or not it will be a daemon
- * thread.
+ * All donstrudtors bllow tif dioidf of tif Runnbblf for tif nfw
+ * tirfbd to fxfdutf, tif nbmf of tif nfw tirfbd (wiidi will bf
+ * prffixfd witi "RMI "), bnd wiftifr or not it will bf b dbfmon
+ * tirfbd.
  *
- * The new thread may be created in the system thread group (the root
- * of the thread group tree) or an internally created non-system
- * thread group, as specified at construction of this class.
+ * Tif nfw tirfbd mby bf drfbtfd in tif systfm tirfbd group (tif root
+ * of tif tirfbd group trff) or bn intfrnblly drfbtfd non-systfm
+ * tirfbd group, bs spfdififd bt donstrudtion of tiis dlbss.
  *
- * The new thread will have the system class loader as its initial
- * context class loader (that is, its context class loader will NOT be
- * inherited from the current thread).
+ * Tif nfw tirfbd will ibvf tif systfm dlbss lobdfr bs its initibl
+ * dontfxt dlbss lobdfr (tibt is, its dontfxt dlbss lobdfr will NOT bf
+ * inifritfd from tif durrfnt tirfbd).
  *
- * @author      Peter Jones
+ * @butior      Pftfr Jonfs
  **/
-public final class NewThreadAction implements PrivilegedAction<Thread> {
+publid finbl dlbss NfwTirfbdAdtion implfmfnts PrivilfgfdAdtion<Tirfbd> {
 
-    /** cached reference to the system (root) thread group */
-    static final ThreadGroup systemThreadGroup =
-        AccessController.doPrivileged(new PrivilegedAction<ThreadGroup>() {
-            public ThreadGroup run() {
-                ThreadGroup group = Thread.currentThread().getThreadGroup();
-                ThreadGroup parent;
-                while ((parent = group.getParent()) != null) {
-                    group = parent;
+    /** dbdifd rfffrfndf to tif systfm (root) tirfbd group */
+    stbtid finbl TirfbdGroup systfmTirfbdGroup =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+            publid TirfbdGroup run() {
+                TirfbdGroup group = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                TirfbdGroup pbrfnt;
+                wiilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                    group = pbrfnt;
                 }
-                return group;
+                rfturn group;
             }
         });
 
     /**
-     * special child of the system thread group for running tasks that
-     * may execute user code, so that the security policy for threads in
-     * the system thread group will not apply
+     * spfdibl diild of tif systfm tirfbd group for running tbsks tibt
+     * mby fxfdutf usfr dodf, so tibt tif sfdurity polidy for tirfbds in
+     * tif systfm tirfbd group will not bpply
      */
-    static final ThreadGroup userThreadGroup =
-        AccessController.doPrivileged(new PrivilegedAction<ThreadGroup>() {
-            public ThreadGroup run() {
-                return new ThreadGroup(systemThreadGroup, "RMI Runtime");
+    stbtid finbl TirfbdGroup usfrTirfbdGroup =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<TirfbdGroup>() {
+            publid TirfbdGroup run() {
+                rfturn nfw TirfbdGroup(systfmTirfbdGroup, "RMI Runtimf");
             }
         });
 
-    private final ThreadGroup group;
-    private final Runnable runnable;
-    private final String name;
-    private final boolean daemon;
+    privbtf finbl TirfbdGroup group;
+    privbtf finbl Runnbblf runnbblf;
+    privbtf finbl String nbmf;
+    privbtf finbl boolfbn dbfmon;
 
-    NewThreadAction(ThreadGroup group, Runnable runnable,
-                    String name, boolean daemon)
+    NfwTirfbdAdtion(TirfbdGroup group, Runnbblf runnbblf,
+                    String nbmf, boolfbn dbfmon)
     {
-        this.group = group;
-        this.runnable = runnable;
-        this.name = name;
-        this.daemon = daemon;
+        tiis.group = group;
+        tiis.runnbblf = runnbblf;
+        tiis.nbmf = nbmf;
+        tiis.dbfmon = dbfmon;
     }
 
     /**
-     * Creates an action that will create a new thread in the
-     * system thread group.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd in tif
+     * systfm tirfbd group.
      *
-     * @param   runnable the Runnable for the new thread to execute
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
      *
-     * @param   name the name of the new thread
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
      *
-     * @param   daemon if true, new thread will be a daemon thread;
-     * if false, new thread will not be a daemon thread
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
      */
-    public NewThreadAction(Runnable runnable, String name, boolean daemon) {
-        this(systemThreadGroup, runnable, name, daemon);
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon) {
+        tiis(systfmTirfbdGroup, runnbblf, nbmf, dbfmon);
     }
 
     /**
-     * Creates an action that will create a new thread.
+     * Crfbtfs bn bdtion tibt will drfbtf b nfw tirfbd.
      *
-     * @param   runnable the Runnable for the new thread to execute
+     * @pbrbm   runnbblf tif Runnbblf for tif nfw tirfbd to fxfdutf
      *
-     * @param   name the name of the new thread
+     * @pbrbm   nbmf tif nbmf of tif nfw tirfbd
      *
-     * @param   daemon if true, new thread will be a daemon thread;
-     * if false, new thread will not be a daemon thread
+     * @pbrbm   dbfmon if truf, nfw tirfbd will bf b dbfmon tirfbd;
+     * if fblsf, nfw tirfbd will not bf b dbfmon tirfbd
      *
-     * @param   user if true, thread will be created in a non-system
-     * thread group; if false, thread will be created in the system
-     * thread group
+     * @pbrbm   usfr if truf, tirfbd will bf drfbtfd in b non-systfm
+     * tirfbd group; if fblsf, tirfbd will bf drfbtfd in tif systfm
+     * tirfbd group
      */
-    public NewThreadAction(Runnable runnable, String name, boolean daemon,
-                           boolean user)
+    publid NfwTirfbdAdtion(Runnbblf runnbblf, String nbmf, boolfbn dbfmon,
+                           boolfbn usfr)
     {
-        this(user ? userThreadGroup : systemThreadGroup,
-             runnable, name, daemon);
+        tiis(usfr ? usfrTirfbdGroup : systfmTirfbdGroup,
+             runnbblf, nbmf, dbfmon);
     }
 
-    public Thread run() {
-        SecurityManager sm = System.getSecurityManager();
+    publid Tirfbd run() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
         }
-        Thread t = new Thread(group, runnable, "RMI " + name);
-        t.setContextClassLoader(ClassLoader.getSystemClassLoader());
-        t.setDaemon(daemon);
-        return t;
+        Tirfbd t = nfw Tirfbd(group, runnbblf, "RMI " + nbmf);
+        t.sftContfxtClbssLobdfr(ClbssLobdfr.gftSystfmClbssLobdfr());
+        t.sftDbfmon(dbfmon);
+        rfturn t;
     }
 }

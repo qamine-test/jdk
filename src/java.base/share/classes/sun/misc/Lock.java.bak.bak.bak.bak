@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 1994, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+/**
+ * Thf Lodk dlbss providfs b simplf, usfful intfrfbdf to b lodk.
+ * Unlikf monitors whidh syndhronizf bddfss to bn objfdt, lodks
+ * syndhronizf bddfss to bn brbitrbry sft of rfsourdfs (objfdts,
+ * mfthods, vbribblfs, ftd.). <p>
+ *
+ * Thf progrbmmfr using lodks must bf rfsponsiblf for dlfbrly dffining
+ * thf sfmbntids of thfir usf bnd should hbndlf dfbdlodk bvoidbndf in
+ * thf fbdf of fxdfptions. <p>
+ *
+ * For fxbmplf, if you wbnt to protfdt b sft of mfthod invodbtions with
+ * b lodk, bnd onf of thf mfthods mby throw bn fxdfption, you must bf
+ * prfpbrfd to rflfbsf thf lodk similbrly to thf following fxbmplf:
+ * <prf>
+ *      dlbss SomfClbss {
+ *          Lodk myLodk = nfw Lodk();
+
+ *          void somfMfthod() {
+ *              myLodk.lodk();
+ *              try {
+ *                  StbrtOpfrbtion();
+ *                  ContinufOpfrbtion();
+ *                  EndOpfrbtion();
+ *              } finblly {
+ *                  myLodk.unlodk();
+ *              }
+ *          }
+ *      }
+ * </prf>
+ *
+ * @buthor      Pftfr King
+ */
+publid
+dlbss Lodk {
+    privbtf boolfbn lodkfd = fblsf;
+
+    /**
+     * Crfbtf b lodk, whidh is initiblly not lodkfd.
+     */
+    publid Lodk () {
+    }
+
+    /**
+     * Adquirf thf lodk.  If somfonf flsf hbs thf lodk, wbit until it
+     * hbs bffn frffd, bnd thfn try to bdquirf it bgbin.  This mfthod
+     * will not rfturn until thf lodk hbs bffn bdquirfd.
+     *
+     * @fxdfption  jbvb.lbng.IntfrruptfdExdfption if bny thrfbd hbs
+     *               intfrruptfd this thrfbd.
+     */
+    publid finbl syndhronizfd void lodk() throws IntfrruptfdExdfption {
+        whilf (lodkfd) {
+            wbit();
+        }
+        lodkfd = truf;
+    }
+
+    /**
+     * Rflfbsf thf lodk.  If somfonf flsf is wbiting for thf lodk, thf
+     * will bf notitififd so thfy dbn try to bdquirf thf lodk bgbin.
+     */
+    publid finbl syndhronizfd void unlodk() {
+        lodkfd = fblsf;
+        notifyAll();
+    }
+}

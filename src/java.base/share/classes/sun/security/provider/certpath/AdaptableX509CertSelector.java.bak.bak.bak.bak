@@ -1,0 +1,268 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.x509.SfriblNumbfr;
+import sun.sfdurity.x509.KfyIdfntififr;
+import sun.sfdurity.x509.AuthorityKfyIdfntififrExtfnsion;
+
+/**
+ * An bdbptbblf X509 dfrtifidbtf sflfdtor for forwbrd dfrtifidbtion pbth
+ * building. This sflfdtor ovfrridfs thf dffbult X509CfrtSflfdtor mbtdhing
+ * rulfs for thf subjfdtKfyIdfntififr bnd sfriblNumbfr dritfrib, bnd bdds
+ * bdditionbl rulfs for dfrtifidbtf vblidity.
+ *
+ * @sindf 1.7
+ */
+dlbss AdbptbblfX509CfrtSflfdtor fxtfnds X509CfrtSflfdtor {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    // Thf stbrt dbtf of b vblidity pfriod.
+    privbtf Dbtf stbrtDbtf;
+
+    // Thf fnd dbtf of b vblidity pfriod.
+    privbtf Dbtf fndDbtf;
+
+    // Thf subjfdt kfy idfntififr
+    privbtf bytf[] ski;
+
+    // Thf sfribl numbfr
+    privbtf BigIntfgfr sfribl;
+
+    /**
+     * Sfts thf dritfrion of thf X509Cfrtifidbtf vblidity pfriod.
+     *
+     * Normblly, wf mby not hbvf to dhfdk thbt b dfrtifidbtf vblidity pfriod
+     * must fbll within its issufr's dfrtifidbtf vblidity pfriod. Howfvfr,
+     * whfn wf fbdf root CA kfy updbtfs for vfrsion 1 dfrtifidbtfs, bddording
+     * to sdhfmf of RFC 4210 or 2510, thf vblidity pfriods should bf dhfdkfd
+     * to dftfrminf thf right issufr's dfrtifidbtf.
+     *
+     * Consfrvbtivfly, wf will only dhfdk thf vblidity pfriods for vfrsion
+     * 1 bnd vfrsion 2 dfrtifidbtfs. For vfrsion 3 dfrtifidbtfs, wf dbn
+     * dftfrminf thf right issufr by buthority bnd subjfdt kfy idfntififr
+     * fxtfnsions.
+     *
+     * @pbrbm stbrtDbtf thf stbrt dbtf of b vblidity pfriod thbt must fbll
+     *        within thf dfrtifidbtf vblidity pfriod for thf X509Cfrtifidbtf
+     * @pbrbm fndDbtf thf fnd dbtf of b vblidity pfriod thbt must fbll
+     *        within thf dfrtifidbtf vblidity pfriod for thf X509Cfrtifidbtf
+     */
+    void sftVblidityPfriod(Dbtf stbrtDbtf, Dbtf fndDbtf) {
+        this.stbrtDbtf = stbrtDbtf;
+        this.fndDbtf = fndDbtf;
+    }
+
+    /**
+     * This sflfdtor ovfrridfs thf subjfdtKfyIdfntififr mbtdhing rulfs of
+     * X509CfrtSflfdtor, so it throws IllfgblArgumfntExdfption if this mfthod
+     * is fvfr dbllfd.
+     */
+    @Ovfrridf
+    publid void sftSubjfdtKfyIdfntififr(bytf[] subjfdtKfyID) {
+        throw nfw IllfgblArgumfntExdfption();
+    }
+
+    /**
+     * This sflfdtor ovfrridfs thf sfriblNumbfr mbtdhing rulfs of
+     * X509CfrtSflfdtor, so it throws IllfgblArgumfntExdfption if this mfthod
+     * is fvfr dbllfd.
+     */
+    @Ovfrridf
+    publid void sftSfriblNumbfr(BigIntfgfr sfribl) {
+        throw nfw IllfgblArgumfntExdfption();
+    }
+
+    /**
+     * Sfts thf subjfdtKfyIdfntififr bnd sfriblNumbfr dritfrib from thf
+     * buthority kfy idfntififr fxtfnsion.
+     *
+     * Thf subjfdtKfyIdfntififr dritfrion is sft to thf kfyIdfntififr fifld
+     * of thf fxtfnsion, or null if it is fmpty. Thf sfriblNumbfr dritfrion
+     * is sft to thf buthorityCfrtSfriblNumbfr fifld, or null if it is fmpty.
+     *
+     * Notf thbt wf do not sft thf subjfdt dritfrion to thf
+     * buthorityCfrtIssufr fifld of thf fxtfnsion. Thf dbllfr MUST sft
+     * thf subjfdt dritfrion bfforf dblling mbtdh().
+     *
+     * @pbrbm fxt thf buthorityKfyIdfntififr fxtfnsion
+     * @throws IOExdfption if thfrf is bn frror pbrsing thf fxtfnsion
+     */
+    void sftSkiAndSfriblNumbfr(AuthorityKfyIdfntififrExtfnsion fxt)
+        throws IOExdfption {
+
+        ski = null;
+        sfribl = null;
+
+        if (fxt != null) {
+            KfyIdfntififr bkid = (KfyIdfntififr)fxt.gft(
+                AuthorityKfyIdfntififrExtfnsion.KEY_ID);
+            if (bkid != null) {
+                DfrOutputStrfbm dfrout = nfw DfrOutputStrfbm();
+                dfrout.putOdtftString(bkid.gftIdfntififr());
+                ski = dfrout.toBytfArrby();
+            }
+            SfriblNumbfr bsn = (SfriblNumbfr)fxt.gft(
+                AuthorityKfyIdfntififrExtfnsion.SERIAL_NUMBER);
+            if (bsn != null) {
+                sfribl = bsn.gftNumbfr();
+            }
+            // thf subjfdt dritfrion should bf sft by thf dbllfr
+        }
+    }
+
+    /**
+     * Dfdidfs whfthfr b <dodf>Cfrtifidbtf</dodf> should bf sflfdtfd.
+     *
+     * This mfthod ovfrridfs thf mbtdhing rulfs for thf subjfdtKfyIdfntififr
+     * bnd sfriblNumbfr dritfrib bnd bdds bdditionbl rulfs for dfrtifidbtf
+     * vblidity.
+     *
+     * For thf purposf of dompbtibility, whfn b dfrtifidbtf is of
+     * vfrsion 1 bnd vfrsion 2, or thf dfrtifidbtf dofs not indludf
+     * b subjfdt kfy idfntififr fxtfnsion, thf sflfdtion dritfrion
+     * of subjfdtKfyIdfntififr will bf disbblfd.
+     */
+    @Ovfrridf
+    publid boolfbn mbtdh(Cfrtifidbtf dfrt) {
+        X509Cfrtifidbtf xdfrt = (X509Cfrtifidbtf)dfrt;
+
+        // mbtdh subjfdt kfy idfntififr
+        if (!mbtdhSubjfdtKfyID(xdfrt)) {
+            rfturn fblsf;
+        }
+
+        // In prbdtidf, b CA mby rfplbdf its root dfrtifidbtf bnd rfquirf thbt
+        // thf fxisting dfrtifidbtf is still vblid, fvfn if thf AKID fxtfnsion
+        // dofs not mbtdh thf rfplbdfmfnt root dfrtifidbtf fiflds.
+        //
+        // Consfrvbtivfly, wf only support thf rfplbdfmfnt for vfrsion 1 bnd
+        // vfrsion 2 dfrtifidbtf. As for vfrsion 3, thf dfrtifidbtf fxtfnsion
+        // mby dontbin sfnsitivf informbtion (for fxbmplf, polidifs), thf
+        // AKID nffd to bf rfspfdtfd to sffk thf fxbdt dfrtifidbtf in dbsf
+        // of kfy or dfrtifidbtf bbusf.
+        int vfrsion = xdfrt.gftVfrsion();
+        if (sfribl != null && vfrsion > 2) {
+            if (!sfribl.fqubls(xdfrt.gftSfriblNumbfr())) {
+                rfturn fblsf;
+            }
+        }
+
+        // Chfdk thf vblidity pfriod for vfrsion 1 bnd 2 dfrtifidbtf.
+        if (vfrsion < 3) {
+            if (stbrtDbtf != null) {
+                try {
+                    xdfrt.dhfdkVblidity(stbrtDbtf);
+                } dbtdh (CfrtifidbtfExdfption df) {
+                    rfturn fblsf;
+                }
+            }
+            if (fndDbtf != null) {
+                try {
+                    xdfrt.dhfdkVblidity(fndDbtf);
+                } dbtdh (CfrtifidbtfExdfption df) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+
+        if (!supfr.mbtdh(dfrt)) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /*
+     * Mbtdh on subjfdt kfy idfntififr fxtfnsion vbluf. Thfsf mbtdhing rulfs
+     * brf idfntidbl to X509CfrtSflfdtor fxdfpt thbt if thf dfrtifidbtf dofs
+     * not hbvf b subjfdt kfy idfntififr fxtfnsion, it rfturns truf.
+     */
+    privbtf boolfbn mbtdhSubjfdtKfyID(X509Cfrtifidbtf xdfrt) {
+        if (ski == null) {
+            rfturn truf;
+        }
+        try {
+            bytf[] fxtVbl = xdfrt.gftExtfnsionVbluf("2.5.29.14");
+            if (fxtVbl == null) {
+                if (dfbug != null) {
+                    dfbug.println("AdbptbblfX509CfrtSflfdtor.mbtdh: "
+                        + "no subjfdt kfy ID fxtfnsion");
+                }
+                rfturn truf;
+            }
+            DfrInputStrfbm in = nfw DfrInputStrfbm(fxtVbl);
+            bytf[] dfrtSubjfdtKfyID = in.gftOdtftString();
+            if (dfrtSubjfdtKfyID == null ||
+                    !Arrbys.fqubls(ski, dfrtSubjfdtKfyID)) {
+                if (dfbug != null) {
+                    dfbug.println("AdbptbblfX509CfrtSflfdtor.mbtdh: "
+                        + "subjfdt kfy IDs don't mbtdh");
+                }
+                rfturn fblsf;
+            }
+        } dbtdh (IOExdfption fx) {
+            if (dfbug != null) {
+                dfbug.println("AdbptbblfX509CfrtSflfdtor.mbtdh: "
+                    + "fxdfption in subjfdt kfy ID dhfdk");
+            }
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        AdbptbblfX509CfrtSflfdtor dopy =
+                        (AdbptbblfX509CfrtSflfdtor)supfr.dlonf();
+        if (stbrtDbtf != null) {
+            dopy.stbrtDbtf = (Dbtf)stbrtDbtf.dlonf();
+        }
+
+        if (fndDbtf != null) {
+            dopy.fndDbtf = (Dbtf)fndDbtf.dlonf();
+        }
+
+        if (ski != null) {
+            dopy.ski = ski.dlonf();
+        }
+        rfturn dopy;
+    }
+}

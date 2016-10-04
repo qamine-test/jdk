@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto.spec;
+pbdkbgf jbvbx.drypto.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * This class specifies the parameters used with the
- * <a href="http://www.ietf.org/rfc/rfc2040.txt"><i>RC5</i></a>
- * algorithm.
+ * Tiis dlbss spfdififs tif pbrbmftfrs usfd witi tif
+ * <b irff="ittp://www.iftf.org/rfd/rfd2040.txt"><i>RC5</i></b>
+ * blgoritim.
  *
- * <p> The parameters consist of a version number, a rounds count, a word
- * size, and optionally an initialization vector (IV) (only in feedback mode).
+ * <p> Tif pbrbmftfrs donsist of b vfrsion numbfr, b rounds dount, b word
+ * sizf, bnd optionblly bn initiblizbtion vfdtor (IV) (only in fffdbbdk modf).
  *
- * <p> This class can be used to initialize a <code>Cipher</code> object that
- * implements the <i>RC5</i> algorithm as supplied by
- * <a href="http://www.rsasecurity.com">RSA Security Inc.</a>,
- * or any parties authorized by RSA Security.
+ * <p> Tiis dlbss dbn bf usfd to initiblizf b <dodf>Cipifr</dodf> objfdt tibt
+ * implfmfnts tif <i>RC5</i> blgoritim bs supplifd by
+ * <b irff="ittp://www.rsbsfdurity.dom">RSA Sfdurity Ind.</b>,
+ * or bny pbrtifs butiorizfd by RSA Sfdurity.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class RC5ParameterSpec implements AlgorithmParameterSpec {
+publid dlbss RC5PbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private byte[] iv = null;
-    private int version;
-    private int rounds;
-    private int wordSize; // the word size in bits
+    privbtf bytf[] iv = null;
+    privbtf int vfrsion;
+    privbtf int rounds;
+    privbtf int wordSizf; // tif word sizf in bits
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds and word size (in bits).
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds bnd word sizf (in bits).
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize) {
-        this.version = version;
-        this.rounds = rounds;
-        this.wordSize = wordSize;
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf) {
+        tiis.vfrsion = vfrsion;
+        tiis.rounds = rounds;
+        tiis.wordSizf = wordSizf;
     }
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds, word size (in bits), and IV.
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds, word sizf (in bits), bnd IV.
      *
-     * <p> Note that the size of the IV (block size) must be twice the word
-     * size. The bytes that constitute the IV are those between
-     * <code>iv[0]</code> and <code>iv[2*(wordSize/8)-1]</code> inclusive.
+     * <p> Notf tibt tif sizf of tif IV (blodk sizf) must bf twidf tif word
+     * sizf. Tif bytfs tibt donstitutf tif IV brf tiosf bftwffn
+     * <dodf>iv[0]</dodf> bnd <dodf>iv[2*(wordSizf/8)-1]</dodf> indlusivf.
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
-     * @param iv the buffer with the IV. The first <code>2*(wordSize/8)
-     * </code> bytes of the buffer are copied to protect against subsequent
-     * modification.
-     * @exception IllegalArgumentException if <code>iv</code> is
-     * <code>null</code> or {@code (iv.length < 2 * (wordSize / 8))}
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
+     * @pbrbm iv tif bufffr witi tif IV. Tif first <dodf>2*(wordSizf/8)
+     * </dodf> bytfs of tif bufffr brf dopifd to protfdt bgbinst subsfqufnt
+     * modifidbtion.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is
+     * <dodf>null</dodf> or {@dodf (iv.lfngti < 2 * (wordSizf / 8))}
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize, byte[] iv) {
-        this(version, rounds, wordSize, iv, 0);
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf, bytf[] iv) {
+        tiis(vfrsion, rounds, wordSizf, iv, 0);
     }
 
     /**
-     * Constructs a parameter set for RC5 from the given version, number of
-     * rounds, word size (in bits), and IV.
+     * Construdts b pbrbmftfr sft for RC5 from tif givfn vfrsion, numbfr of
+     * rounds, word sizf (in bits), bnd IV.
      *
-     * <p> The IV is taken from <code>iv</code>, starting at
-     * <code>offset</code> inclusive.
-     * Note that the size of the IV (block size), starting at
-     * <code>offset</code> inclusive, must be twice the word size.
-     * The bytes that constitute the IV are those between
-     * <code>iv[offset]</code> and <code>iv[offset+2*(wordSize/8)-1]</code>
-     * inclusive.
+     * <p> Tif IV is tbkfn from <dodf>iv</dodf>, stbrting bt
+     * <dodf>offsft</dodf> indlusivf.
+     * Notf tibt tif sizf of tif IV (blodk sizf), stbrting bt
+     * <dodf>offsft</dodf> indlusivf, must bf twidf tif word sizf.
+     * Tif bytfs tibt donstitutf tif IV brf tiosf bftwffn
+     * <dodf>iv[offsft]</dodf> bnd <dodf>iv[offsft+2*(wordSizf/8)-1]</dodf>
+     * indlusivf.
      *
-     * @param version the version.
-     * @param rounds the number of rounds.
-     * @param wordSize the word size in bits.
-     * @param iv the buffer with the IV. The first <code>2*(wordSize/8)
-     * </code> bytes of the buffer beginning at <code>offset</code>
-     * inclusive are copied to protect against subsequent modification.
-     * @param offset the offset in <code>iv</code> where the IV starts.
-     * @exception IllegalArgumentException if <code>iv</code> is
-     * <code>null</code> or
-     * {@code (iv.length - offset < 2 * (wordSize / 8))}
+     * @pbrbm vfrsion tif vfrsion.
+     * @pbrbm rounds tif numbfr of rounds.
+     * @pbrbm wordSizf tif word sizf in bits.
+     * @pbrbm iv tif bufffr witi tif IV. Tif first <dodf>2*(wordSizf/8)
+     * </dodf> bytfs of tif bufffr bfginning bt <dodf>offsft</dodf>
+     * indlusivf brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft tif offsft in <dodf>iv</dodf> wifrf tif IV stbrts.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is
+     * <dodf>null</dodf> or
+     * {@dodf (iv.lfngti - offsft < 2 * (wordSizf / 8))}
      */
-    public RC5ParameterSpec(int version, int rounds, int wordSize,
-                            byte[] iv, int offset) {
-        this.version = version;
-        this.rounds = rounds;
-        this.wordSize = wordSize;
-        if (iv == null) throw new IllegalArgumentException("IV missing");
-        int blockSize = (wordSize / 8) * 2;
-        if (iv.length - offset < blockSize) {
-            throw new IllegalArgumentException("IV too short");
+    publid RC5PbrbmftfrSpfd(int vfrsion, int rounds, int wordSizf,
+                            bytf[] iv, int offsft) {
+        tiis.vfrsion = vfrsion;
+        tiis.rounds = rounds;
+        tiis.wordSizf = wordSizf;
+        if (iv == null) tirow nfw IllfgblArgumfntExdfption("IV missing");
+        int blodkSizf = (wordSizf / 8) * 2;
+        if (iv.lfngti - offsft < blodkSizf) {
+            tirow nfw IllfgblArgumfntExdfption("IV too siort");
         }
-        this.iv = new byte[blockSize];
-        System.arraycopy(iv, offset, this.iv, 0, blockSize);
+        tiis.iv = nfw bytf[blodkSizf];
+        Systfm.brrbydopy(iv, offsft, tiis.iv, 0, blodkSizf);
     }
 
     /**
-     * Returns the version.
+     * Rfturns tif vfrsion.
      *
-     * @return the version.
+     * @rfturn tif vfrsion.
      */
-    public int getVersion() {
-        return this.version;
+    publid int gftVfrsion() {
+        rfturn tiis.vfrsion;
     }
 
     /**
-     * Returns the number of rounds.
+     * Rfturns tif numbfr of rounds.
      *
-     * @return the number of rounds.
+     * @rfturn tif numbfr of rounds.
      */
-    public int getRounds() {
-        return this.rounds;
+    publid int gftRounds() {
+        rfturn tiis.rounds;
     }
 
     /**
-     * Returns the word size in bits.
+     * Rfturns tif word sizf in bits.
      *
-     * @return the word size in bits.
+     * @rfturn tif word sizf in bits.
      */
-    public int getWordSize() {
-        return this.wordSize;
+    publid int gftWordSizf() {
+        rfturn tiis.wordSizf;
     }
 
     /**
-     * Returns the IV or null if this parameter set does not contain an IV.
+     * Rfturns tif IV or null if tiis pbrbmftfr sft dofs not dontbin bn IV.
      *
-     * @return the IV or null if this parameter set does not contain an IV.
-     * Returns a new array each time this method is called.
+     * @rfturn tif IV or null if tiis pbrbmftfr sft dofs not dontbin bn IV.
+     * Rfturns b nfw brrby fbdi timf tiis mftiod is dbllfd.
      */
-    public byte[] getIV() {
-        return (iv == null? null:iv.clone());
+    publid bytf[] gftIV() {
+        rfturn (iv == null? null:iv.dlonf());
     }
 
    /**
-     * Tests for equality between the specified object and this
-     * object. Two RC5ParameterSpec objects are considered equal if their
-     * version numbers, number of rounds, word sizes, and IVs are equal.
-     * (Two IV references are considered equal if both are <tt>null</tt>.)
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * objfdt. Two RC5PbrbmftfrSpfd objfdts brf donsidfrfd fqubl if tifir
+     * vfrsion numbfrs, numbfr of rounds, word sizfs, bnd IVs brf fqubl.
+     * (Two IV rfffrfndfs brf donsidfrfd fqubl if boti brf <tt>null</tt>.)
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if the objects are considered equal, false if
-     * <code>obj</code> is null or otherwise.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf if
+     * <dodf>obj</dodf> is null or otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (!(obj instanceof RC5ParameterSpec)) {
-            return false;
+        if (!(obj instbndfof RC5PbrbmftfrSpfd)) {
+            rfturn fblsf;
         }
-        RC5ParameterSpec other = (RC5ParameterSpec) obj;
+        RC5PbrbmftfrSpfd otifr = (RC5PbrbmftfrSpfd) obj;
 
-        return ((version == other.version) &&
-                (rounds == other.rounds) &&
-                (wordSize == other.wordSize) &&
-                java.util.Arrays.equals(iv, other.iv));
+        rfturn ((vfrsion == otifr.vfrsion) &&
+                (rounds == otifr.rounds) &&
+                (wordSizf == otifr.wordSizf) &&
+                jbvb.util.Arrbys.fqubls(iv, otifr.iv));
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.
+     * Objfdts tibt brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
-        int retval = 0;
+    publid int ibsiCodf() {
+        int rftvbl = 0;
         if (iv != null) {
-            for (int i = 1; i < iv.length; i++) {
-                retval += iv[i] * i;
+            for (int i = 1; i < iv.lfngti; i++) {
+                rftvbl += iv[i] * i;
             }
         }
-        retval += (version + rounds + wordSize);
-        return retval;
+        rftvbl += (vfrsion + rounds + wordSizf);
+        rfturn rftvbl;
     }
 }

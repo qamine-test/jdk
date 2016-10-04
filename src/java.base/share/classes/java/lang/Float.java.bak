@@ -1,961 +1,961 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import sun.misc.FloatingDecimal;
-import sun.misc.FloatConsts;
-import sun.misc.DoubleConsts;
+import sun.misd.FlobtingDfdimbl;
+import sun.misd.FlobtConsts;
+import sun.misd.DoublfConsts;
 
 /**
- * The {@code Float} class wraps a value of primitive type
- * {@code float} in an object. An object of type
- * {@code Float} contains a single field whose type is
- * {@code float}.
+ * Tif {@dodf Flobt} dlbss wrbps b vbluf of primitivf typf
+ * {@dodf flobt} in bn objfdt. An objfdt of typf
+ * {@dodf Flobt} dontbins b singlf fifld wiosf typf is
+ * {@dodf flobt}.
  *
- * <p>In addition, this class provides several methods for converting a
- * {@code float} to a {@code String} and a
- * {@code String} to a {@code float}, as well as other
- * constants and methods useful when dealing with a
- * {@code float}.
+ * <p>In bddition, tiis dlbss providfs sfvfrbl mftiods for donvfrting b
+ * {@dodf flobt} to b {@dodf String} bnd b
+ * {@dodf String} to b {@dodf flobt}, bs wfll bs otifr
+ * donstbnts bnd mftiods usfful wifn dfbling witi b
+ * {@dodf flobt}.
  *
- * @author  Lee Boynton
- * @author  Arthur van Hoff
- * @author  Joseph D. Darcy
- * @since 1.0
+ * @butior  Lff Boynton
+ * @butior  Artiur vbn Hoff
+ * @butior  Josfpi D. Dbrdy
+ * @sindf 1.0
  */
-public final class Float extends Number implements Comparable<Float> {
+publid finbl dlbss Flobt fxtfnds Numbfr implfmfnts Compbrbblf<Flobt> {
     /**
-     * A constant holding the positive infinity of type
-     * {@code float}. It is equal to the value returned by
-     * {@code Float.intBitsToFloat(0x7f800000)}.
+     * A donstbnt iolding tif positivf infinity of typf
+     * {@dodf flobt}. It is fqubl to tif vbluf rfturnfd by
+     * {@dodf Flobt.intBitsToFlobt(0x7f800000)}.
      */
-    public static final float POSITIVE_INFINITY = 1.0f / 0.0f;
+    publid stbtid finbl flobt POSITIVE_INFINITY = 1.0f / 0.0f;
 
     /**
-     * A constant holding the negative infinity of type
-     * {@code float}. It is equal to the value returned by
-     * {@code Float.intBitsToFloat(0xff800000)}.
+     * A donstbnt iolding tif nfgbtivf infinity of typf
+     * {@dodf flobt}. It is fqubl to tif vbluf rfturnfd by
+     * {@dodf Flobt.intBitsToFlobt(0xff800000)}.
      */
-    public static final float NEGATIVE_INFINITY = -1.0f / 0.0f;
+    publid stbtid finbl flobt NEGATIVE_INFINITY = -1.0f / 0.0f;
 
     /**
-     * A constant holding a Not-a-Number (NaN) value of type
-     * {@code float}.  It is equivalent to the value returned by
-     * {@code Float.intBitsToFloat(0x7fc00000)}.
+     * A donstbnt iolding b Not-b-Numbfr (NbN) vbluf of typf
+     * {@dodf flobt}.  It is fquivblfnt to tif vbluf rfturnfd by
+     * {@dodf Flobt.intBitsToFlobt(0x7fd00000)}.
      */
-    public static final float NaN = 0.0f / 0.0f;
+    publid stbtid finbl flobt NbN = 0.0f / 0.0f;
 
     /**
-     * A constant holding the largest positive finite value of type
-     * {@code float}, (2-2<sup>-23</sup>)&middot;2<sup>127</sup>.
-     * It is equal to the hexadecimal floating-point literal
-     * {@code 0x1.fffffeP+127f} and also equal to
-     * {@code Float.intBitsToFloat(0x7f7fffff)}.
+     * A donstbnt iolding tif lbrgfst positivf finitf vbluf of typf
+     * {@dodf flobt}, (2-2<sup>-23</sup>)&middot;2<sup>127</sup>.
+     * It is fqubl to tif ifxbdfdimbl flobting-point litfrbl
+     * {@dodf 0x1.ffffffP+127f} bnd blso fqubl to
+     * {@dodf Flobt.intBitsToFlobt(0x7f7fffff)}.
      */
-    public static final float MAX_VALUE = 0x1.fffffeP+127f; // 3.4028235e+38f
+    publid stbtid finbl flobt MAX_VALUE = 0x1.ffffffP+127f; // 3.4028235f+38f
 
     /**
-     * A constant holding the smallest positive normal value of type
-     * {@code float}, 2<sup>-126</sup>.  It is equal to the
-     * hexadecimal floating-point literal {@code 0x1.0p-126f} and also
-     * equal to {@code Float.intBitsToFloat(0x00800000)}.
+     * A donstbnt iolding tif smbllfst positivf normbl vbluf of typf
+     * {@dodf flobt}, 2<sup>-126</sup>.  It is fqubl to tif
+     * ifxbdfdimbl flobting-point litfrbl {@dodf 0x1.0p-126f} bnd blso
+     * fqubl to {@dodf Flobt.intBitsToFlobt(0x00800000)}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final float MIN_NORMAL = 0x1.0p-126f; // 1.17549435E-38f
+    publid stbtid finbl flobt MIN_NORMAL = 0x1.0p-126f; // 1.17549435E-38f
 
     /**
-     * A constant holding the smallest positive nonzero value of type
-     * {@code float}, 2<sup>-149</sup>. It is equal to the
-     * hexadecimal floating-point literal {@code 0x0.000002P-126f}
-     * and also equal to {@code Float.intBitsToFloat(0x1)}.
+     * A donstbnt iolding tif smbllfst positivf nonzfro vbluf of typf
+     * {@dodf flobt}, 2<sup>-149</sup>. It is fqubl to tif
+     * ifxbdfdimbl flobting-point litfrbl {@dodf 0x0.000002P-126f}
+     * bnd blso fqubl to {@dodf Flobt.intBitsToFlobt(0x1)}.
      */
-    public static final float MIN_VALUE = 0x0.000002P-126f; // 1.4e-45f
+    publid stbtid finbl flobt MIN_VALUE = 0x0.000002P-126f; // 1.4f-45f
 
     /**
-     * Maximum exponent a finite {@code float} variable may have.  It
-     * is equal to the value returned by {@code
-     * Math.getExponent(Float.MAX_VALUE)}.
+     * Mbximum fxponfnt b finitf {@dodf flobt} vbribblf mby ibvf.  It
+     * is fqubl to tif vbluf rfturnfd by {@dodf
+     * Mbti.gftExponfnt(Flobt.MAX_VALUE)}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int MAX_EXPONENT = 127;
+    publid stbtid finbl int MAX_EXPONENT = 127;
 
     /**
-     * Minimum exponent a normalized {@code float} variable may have.
-     * It is equal to the value returned by {@code
-     * Math.getExponent(Float.MIN_NORMAL)}.
+     * Minimum fxponfnt b normblizfd {@dodf flobt} vbribblf mby ibvf.
+     * It is fqubl to tif vbluf rfturnfd by {@dodf
+     * Mbti.gftExponfnt(Flobt.MIN_NORMAL)}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static final int MIN_EXPONENT = -126;
+    publid stbtid finbl int MIN_EXPONENT = -126;
 
     /**
-     * The number of bits used to represent a {@code float} value.
+     * Tif numbfr of bits usfd to rfprfsfnt b {@dodf flobt} vbluf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final int SIZE = 32;
+    publid stbtid finbl int SIZE = 32;
 
     /**
-     * The number of bytes used to represent a {@code float} value.
+     * Tif numbfr of bytfs usfd to rfprfsfnt b {@dodf flobt} vbluf.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public static final int BYTES = SIZE / Byte.SIZE;
+    publid stbtid finbl int BYTES = SIZE / Bytf.SIZE;
 
     /**
-     * The {@code Class} instance representing the primitive type
-     * {@code float}.
+     * Tif {@dodf Clbss} instbndf rfprfsfnting tif primitivf typf
+     * {@dodf flobt}.
      *
-     * @since 1.1
+     * @sindf 1.1
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Float> TYPE = (Class<Float>) Class.getPrimitiveClass("float");
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid finbl Clbss<Flobt> TYPE = (Clbss<Flobt>) Clbss.gftPrimitivfClbss("flobt");
 
     /**
-     * Returns a string representation of the {@code float}
-     * argument. All characters mentioned below are ASCII characters.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf flobt}
+     * brgumfnt. All dibrbdtfrs mfntionfd bflow brf ASCII dibrbdtfrs.
      * <ul>
-     * <li>If the argument is NaN, the result is the string
-     * "{@code NaN}".
-     * <li>Otherwise, the result is a string that represents the sign and
-     *     magnitude (absolute value) of the argument. If the sign is
-     *     negative, the first character of the result is
-     *     '{@code -}' ({@code '\u005Cu002D'}); if the sign is
-     *     positive, no sign character appears in the result. As for
-     *     the magnitude <i>m</i>:
+     * <li>If tif brgumfnt is NbN, tif rfsult is tif string
+     * "{@dodf NbN}".
+     * <li>Otifrwisf, tif rfsult is b string tibt rfprfsfnts tif sign bnd
+     *     mbgnitudf (bbsolutf vbluf) of tif brgumfnt. If tif sign is
+     *     nfgbtivf, tif first dibrbdtfr of tif rfsult is
+     *     '{@dodf -}' ({@dodf '\u005Cu002D'}); if tif sign is
+     *     positivf, no sign dibrbdtfr bppfbrs in tif rfsult. As for
+     *     tif mbgnitudf <i>m</i>:
      * <ul>
-     * <li>If <i>m</i> is infinity, it is represented by the characters
-     *     {@code "Infinity"}; thus, positive infinity produces
-     *     the result {@code "Infinity"} and negative infinity
-     *     produces the result {@code "-Infinity"}.
-     * <li>If <i>m</i> is zero, it is represented by the characters
-     *     {@code "0.0"}; thus, negative zero produces the result
-     *     {@code "-0.0"} and positive zero produces the result
-     *     {@code "0.0"}.
-     * <li> If <i>m</i> is greater than or equal to 10<sup>-3</sup> but
-     *      less than 10<sup>7</sup>, then it is represented as the
-     *      integer part of <i>m</i>, in decimal form with no leading
-     *      zeroes, followed by '{@code .}'
-     *      ({@code '\u005Cu002E'}), followed by one or more
-     *      decimal digits representing the fractional part of
+     * <li>If <i>m</i> is infinity, it is rfprfsfntfd by tif dibrbdtfrs
+     *     {@dodf "Infinity"}; tius, positivf infinity produdfs
+     *     tif rfsult {@dodf "Infinity"} bnd nfgbtivf infinity
+     *     produdfs tif rfsult {@dodf "-Infinity"}.
+     * <li>If <i>m</i> is zfro, it is rfprfsfntfd by tif dibrbdtfrs
+     *     {@dodf "0.0"}; tius, nfgbtivf zfro produdfs tif rfsult
+     *     {@dodf "-0.0"} bnd positivf zfro produdfs tif rfsult
+     *     {@dodf "0.0"}.
+     * <li> If <i>m</i> is grfbtfr tibn or fqubl to 10<sup>-3</sup> but
+     *      lfss tibn 10<sup>7</sup>, tifn it is rfprfsfntfd bs tif
+     *      intfgfr pbrt of <i>m</i>, in dfdimbl form witi no lfbding
+     *      zfrofs, followfd by '{@dodf .}'
+     *      ({@dodf '\u005Cu002E'}), followfd by onf or morf
+     *      dfdimbl digits rfprfsfnting tif frbdtionbl pbrt of
      *      <i>m</i>.
-     * <li> If <i>m</i> is less than 10<sup>-3</sup> or greater than or
-     *      equal to 10<sup>7</sup>, then it is represented in
-     *      so-called "computerized scientific notation." Let <i>n</i>
-     *      be the unique integer such that 10<sup><i>n</i> </sup>&le;
-     *      <i>m</i> {@literal <} 10<sup><i>n</i>+1</sup>; then let <i>a</i>
-     *      be the mathematically exact quotient of <i>m</i> and
-     *      10<sup><i>n</i></sup> so that 1 &le; <i>a</i> {@literal <} 10.
-     *      The magnitude is then represented as the integer part of
-     *      <i>a</i>, as a single decimal digit, followed by
-     *      '{@code .}' ({@code '\u005Cu002E'}), followed by
-     *      decimal digits representing the fractional part of
-     *      <i>a</i>, followed by the letter '{@code E}'
-     *      ({@code '\u005Cu0045'}), followed by a representation
-     *      of <i>n</i> as a decimal integer, as produced by the
-     *      method {@link java.lang.Integer#toString(int)}.
+     * <li> If <i>m</i> is lfss tibn 10<sup>-3</sup> or grfbtfr tibn or
+     *      fqubl to 10<sup>7</sup>, tifn it is rfprfsfntfd in
+     *      so-dbllfd "domputfrizfd sdifntifid notbtion." Lft <i>n</i>
+     *      bf tif uniquf intfgfr sudi tibt 10<sup><i>n</i> </sup>&lf;
+     *      <i>m</i> {@litfrbl <} 10<sup><i>n</i>+1</sup>; tifn lft <i>b</i>
+     *      bf tif mbtifmbtidblly fxbdt quotifnt of <i>m</i> bnd
+     *      10<sup><i>n</i></sup> so tibt 1 &lf; <i>b</i> {@litfrbl <} 10.
+     *      Tif mbgnitudf is tifn rfprfsfntfd bs tif intfgfr pbrt of
+     *      <i>b</i>, bs b singlf dfdimbl digit, followfd by
+     *      '{@dodf .}' ({@dodf '\u005Cu002E'}), followfd by
+     *      dfdimbl digits rfprfsfnting tif frbdtionbl pbrt of
+     *      <i>b</i>, followfd by tif lfttfr '{@dodf E}'
+     *      ({@dodf '\u005Cu0045'}), followfd by b rfprfsfntbtion
+     *      of <i>n</i> bs b dfdimbl intfgfr, bs produdfd by tif
+     *      mftiod {@link jbvb.lbng.Intfgfr#toString(int)}.
      *
      * </ul>
      * </ul>
-     * How many digits must be printed for the fractional part of
-     * <i>m</i> or <i>a</i>? There must be at least one digit
-     * to represent the fractional part, and beyond that as many, but
-     * only as many, more digits as are needed to uniquely distinguish
-     * the argument value from adjacent values of type
-     * {@code float}. That is, suppose that <i>x</i> is the
-     * exact mathematical value represented by the decimal
-     * representation produced by this method for a finite nonzero
-     * argument <i>f</i>. Then <i>f</i> must be the {@code float}
-     * value nearest to <i>x</i>; or, if two {@code float} values are
-     * equally close to <i>x</i>, then <i>f</i> must be one of
-     * them and the least significant bit of the significand of
-     * <i>f</i> must be {@code 0}.
+     * How mbny digits must bf printfd for tif frbdtionbl pbrt of
+     * <i>m</i> or <i>b</i>? Tifrf must bf bt lfbst onf digit
+     * to rfprfsfnt tif frbdtionbl pbrt, bnd bfyond tibt bs mbny, but
+     * only bs mbny, morf digits bs brf nffdfd to uniqufly distinguisi
+     * tif brgumfnt vbluf from bdjbdfnt vblufs of typf
+     * {@dodf flobt}. Tibt is, supposf tibt <i>x</i> is tif
+     * fxbdt mbtifmbtidbl vbluf rfprfsfntfd by tif dfdimbl
+     * rfprfsfntbtion produdfd by tiis mftiod for b finitf nonzfro
+     * brgumfnt <i>f</i>. Tifn <i>f</i> must bf tif {@dodf flobt}
+     * vbluf nfbrfst to <i>x</i>; or, if two {@dodf flobt} vblufs brf
+     * fqublly dlosf to <i>x</i>, tifn <i>f</i> must bf onf of
+     * tifm bnd tif lfbst signifidbnt bit of tif signifidbnd of
+     * <i>f</i> must bf {@dodf 0}.
      *
-     * <p>To create localized string representations of a floating-point
-     * value, use subclasses of {@link java.text.NumberFormat}.
+     * <p>To drfbtf lodblizfd string rfprfsfntbtions of b flobting-point
+     * vbluf, usf subdlbssfs of {@link jbvb.tfxt.NumbfrFormbt}.
      *
-     * @param   f   the float to be converted.
-     * @return a string representation of the argument.
+     * @pbrbm   f   tif flobt to bf donvfrtfd.
+     * @rfturn b string rfprfsfntbtion of tif brgumfnt.
      */
-    public static String toString(float f) {
-        return FloatingDecimal.toJavaFormatString(f);
+    publid stbtid String toString(flobt f) {
+        rfturn FlobtingDfdimbl.toJbvbFormbtString(f);
     }
 
     /**
-     * Returns a hexadecimal string representation of the
-     * {@code float} argument. All characters mentioned below are
-     * ASCII characters.
+     * Rfturns b ifxbdfdimbl string rfprfsfntbtion of tif
+     * {@dodf flobt} brgumfnt. All dibrbdtfrs mfntionfd bflow brf
+     * ASCII dibrbdtfrs.
      *
      * <ul>
-     * <li>If the argument is NaN, the result is the string
-     *     "{@code NaN}".
-     * <li>Otherwise, the result is a string that represents the sign and
-     * magnitude (absolute value) of the argument. If the sign is negative,
-     * the first character of the result is '{@code -}'
-     * ({@code '\u005Cu002D'}); if the sign is positive, no sign character
-     * appears in the result. As for the magnitude <i>m</i>:
+     * <li>If tif brgumfnt is NbN, tif rfsult is tif string
+     *     "{@dodf NbN}".
+     * <li>Otifrwisf, tif rfsult is b string tibt rfprfsfnts tif sign bnd
+     * mbgnitudf (bbsolutf vbluf) of tif brgumfnt. If tif sign is nfgbtivf,
+     * tif first dibrbdtfr of tif rfsult is '{@dodf -}'
+     * ({@dodf '\u005Cu002D'}); if tif sign is positivf, no sign dibrbdtfr
+     * bppfbrs in tif rfsult. As for tif mbgnitudf <i>m</i>:
      *
      * <ul>
-     * <li>If <i>m</i> is infinity, it is represented by the string
-     * {@code "Infinity"}; thus, positive infinity produces the
-     * result {@code "Infinity"} and negative infinity produces
-     * the result {@code "-Infinity"}.
+     * <li>If <i>m</i> is infinity, it is rfprfsfntfd by tif string
+     * {@dodf "Infinity"}; tius, positivf infinity produdfs tif
+     * rfsult {@dodf "Infinity"} bnd nfgbtivf infinity produdfs
+     * tif rfsult {@dodf "-Infinity"}.
      *
-     * <li>If <i>m</i> is zero, it is represented by the string
-     * {@code "0x0.0p0"}; thus, negative zero produces the result
-     * {@code "-0x0.0p0"} and positive zero produces the result
-     * {@code "0x0.0p0"}.
+     * <li>If <i>m</i> is zfro, it is rfprfsfntfd by tif string
+     * {@dodf "0x0.0p0"}; tius, nfgbtivf zfro produdfs tif rfsult
+     * {@dodf "-0x0.0p0"} bnd positivf zfro produdfs tif rfsult
+     * {@dodf "0x0.0p0"}.
      *
-     * <li>If <i>m</i> is a {@code float} value with a
-     * normalized representation, substrings are used to represent the
-     * significand and exponent fields.  The significand is
-     * represented by the characters {@code "0x1."}
-     * followed by a lowercase hexadecimal representation of the rest
-     * of the significand as a fraction.  Trailing zeros in the
-     * hexadecimal representation are removed unless all the digits
-     * are zero, in which case a single zero is used. Next, the
-     * exponent is represented by {@code "p"} followed
-     * by a decimal string of the unbiased exponent as if produced by
-     * a call to {@link Integer#toString(int) Integer.toString} on the
-     * exponent value.
+     * <li>If <i>m</i> is b {@dodf flobt} vbluf witi b
+     * normblizfd rfprfsfntbtion, substrings brf usfd to rfprfsfnt tif
+     * signifidbnd bnd fxponfnt fiflds.  Tif signifidbnd is
+     * rfprfsfntfd by tif dibrbdtfrs {@dodf "0x1."}
+     * followfd by b lowfrdbsf ifxbdfdimbl rfprfsfntbtion of tif rfst
+     * of tif signifidbnd bs b frbdtion.  Trbiling zfros in tif
+     * ifxbdfdimbl rfprfsfntbtion brf rfmovfd unlfss bll tif digits
+     * brf zfro, in wiidi dbsf b singlf zfro is usfd. Nfxt, tif
+     * fxponfnt is rfprfsfntfd by {@dodf "p"} followfd
+     * by b dfdimbl string of tif unbibsfd fxponfnt bs if produdfd by
+     * b dbll to {@link Intfgfr#toString(int) Intfgfr.toString} on tif
+     * fxponfnt vbluf.
      *
-     * <li>If <i>m</i> is a {@code float} value with a subnormal
-     * representation, the significand is represented by the
-     * characters {@code "0x0."} followed by a
-     * hexadecimal representation of the rest of the significand as a
-     * fraction.  Trailing zeros in the hexadecimal representation are
-     * removed. Next, the exponent is represented by
-     * {@code "p-126"}.  Note that there must be at
-     * least one nonzero digit in a subnormal significand.
+     * <li>If <i>m</i> is b {@dodf flobt} vbluf witi b subnormbl
+     * rfprfsfntbtion, tif signifidbnd is rfprfsfntfd by tif
+     * dibrbdtfrs {@dodf "0x0."} followfd by b
+     * ifxbdfdimbl rfprfsfntbtion of tif rfst of tif signifidbnd bs b
+     * frbdtion.  Trbiling zfros in tif ifxbdfdimbl rfprfsfntbtion brf
+     * rfmovfd. Nfxt, tif fxponfnt is rfprfsfntfd by
+     * {@dodf "p-126"}.  Notf tibt tifrf must bf bt
+     * lfbst onf nonzfro digit in b subnormbl signifidbnd.
      *
      * </ul>
      *
      * </ul>
      *
-     * <table border>
-     * <caption>Examples</caption>
-     * <tr><th>Floating-point Value</th><th>Hexadecimal String</th>
-     * <tr><td>{@code 1.0}</td> <td>{@code 0x1.0p0}</td>
-     * <tr><td>{@code -1.0}</td>        <td>{@code -0x1.0p0}</td>
-     * <tr><td>{@code 2.0}</td> <td>{@code 0x1.0p1}</td>
-     * <tr><td>{@code 3.0}</td> <td>{@code 0x1.8p1}</td>
-     * <tr><td>{@code 0.5}</td> <td>{@code 0x1.0p-1}</td>
-     * <tr><td>{@code 0.25}</td>        <td>{@code 0x1.0p-2}</td>
-     * <tr><td>{@code Float.MAX_VALUE}</td>
-     *     <td>{@code 0x1.fffffep127}</td>
-     * <tr><td>{@code Minimum Normal Value}</td>
-     *     <td>{@code 0x1.0p-126}</td>
-     * <tr><td>{@code Maximum Subnormal Value}</td>
-     *     <td>{@code 0x0.fffffep-126}</td>
-     * <tr><td>{@code Float.MIN_VALUE}</td>
-     *     <td>{@code 0x0.000002p-126}</td>
-     * </table>
-     * @param   f   the {@code float} to be converted.
-     * @return a hex string representation of the argument.
-     * @since 1.5
-     * @author Joseph D. Darcy
+     * <tbblf bordfr>
+     * <dbption>Exbmplfs</dbption>
+     * <tr><ti>Flobting-point Vbluf</ti><ti>Hfxbdfdimbl String</ti>
+     * <tr><td>{@dodf 1.0}</td> <td>{@dodf 0x1.0p0}</td>
+     * <tr><td>{@dodf -1.0}</td>        <td>{@dodf -0x1.0p0}</td>
+     * <tr><td>{@dodf 2.0}</td> <td>{@dodf 0x1.0p1}</td>
+     * <tr><td>{@dodf 3.0}</td> <td>{@dodf 0x1.8p1}</td>
+     * <tr><td>{@dodf 0.5}</td> <td>{@dodf 0x1.0p-1}</td>
+     * <tr><td>{@dodf 0.25}</td>        <td>{@dodf 0x1.0p-2}</td>
+     * <tr><td>{@dodf Flobt.MAX_VALUE}</td>
+     *     <td>{@dodf 0x1.ffffffp127}</td>
+     * <tr><td>{@dodf Minimum Normbl Vbluf}</td>
+     *     <td>{@dodf 0x1.0p-126}</td>
+     * <tr><td>{@dodf Mbximum Subnormbl Vbluf}</td>
+     *     <td>{@dodf 0x0.ffffffp-126}</td>
+     * <tr><td>{@dodf Flobt.MIN_VALUE}</td>
+     *     <td>{@dodf 0x0.000002p-126}</td>
+     * </tbblf>
+     * @pbrbm   f   tif {@dodf flobt} to bf donvfrtfd.
+     * @rfturn b ifx string rfprfsfntbtion of tif brgumfnt.
+     * @sindf 1.5
+     * @butior Josfpi D. Dbrdy
      */
-    public static String toHexString(float f) {
-        if (Math.abs(f) < FloatConsts.MIN_NORMAL
-            &&  f != 0.0f ) {// float subnormal
-            // Adjust exponent to create subnormal double, then
-            // replace subnormal double exponent with subnormal float
-            // exponent
-            String s = Double.toHexString(Math.scalb((double)f,
+    publid stbtid String toHfxString(flobt f) {
+        if (Mbti.bbs(f) < FlobtConsts.MIN_NORMAL
+            &&  f != 0.0f ) {// flobt subnormbl
+            // Adjust fxponfnt to drfbtf subnormbl doublf, tifn
+            // rfplbdf subnormbl doublf fxponfnt witi subnormbl flobt
+            // fxponfnt
+            String s = Doublf.toHfxString(Mbti.sdblb((doublf)f,
                                                      /* -1022+126 */
-                                                     DoubleConsts.MIN_EXPONENT-
-                                                     FloatConsts.MIN_EXPONENT));
-            return s.replaceFirst("p-1022$", "p-126");
+                                                     DoublfConsts.MIN_EXPONENT-
+                                                     FlobtConsts.MIN_EXPONENT));
+            rfturn s.rfplbdfFirst("p-1022$", "p-126");
         }
-        else // double string will be the same as float string
-            return Double.toHexString(f);
+        flsf // doublf string will bf tif sbmf bs flobt string
+            rfturn Doublf.toHfxString(f);
     }
 
     /**
-     * Returns a {@code Float} object holding the
-     * {@code float} value represented by the argument string
-     * {@code s}.
+     * Rfturns b {@dodf Flobt} objfdt iolding tif
+     * {@dodf flobt} vbluf rfprfsfntfd by tif brgumfnt string
+     * {@dodf s}.
      *
-     * <p>If {@code s} is {@code null}, then a
-     * {@code NullPointerException} is thrown.
+     * <p>If {@dodf s} is {@dodf null}, tifn b
+     * {@dodf NullPointfrExdfption} is tirown.
      *
-     * <p>Leading and trailing whitespace characters in {@code s}
-     * are ignored.  Whitespace is removed as if by the {@link
-     * String#trim} method; that is, both ASCII space and control
-     * characters are removed. The rest of {@code s} should
-     * constitute a <i>FloatValue</i> as described by the lexical
-     * syntax rules:
+     * <p>Lfbding bnd trbiling wiitfspbdf dibrbdtfrs in {@dodf s}
+     * brf ignorfd.  Wiitfspbdf is rfmovfd bs if by tif {@link
+     * String#trim} mftiod; tibt is, boti ASCII spbdf bnd dontrol
+     * dibrbdtfrs brf rfmovfd. Tif rfst of {@dodf s} siould
+     * donstitutf b <i>FlobtVbluf</i> bs dfsdribfd by tif lfxidbl
+     * syntbx rulfs:
      *
-     * <blockquote>
+     * <blodkquotf>
      * <dl>
-     * <dt><i>FloatValue:</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code NaN}
-     * <dd><i>Sign<sub>opt</sub></i> {@code Infinity}
-     * <dd><i>Sign<sub>opt</sub> FloatingPointLiteral</i>
-     * <dd><i>Sign<sub>opt</sub> HexFloatingPointLiteral</i>
-     * <dd><i>SignedInteger</i>
+     * <dt><i>FlobtVbluf:</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf NbN}
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf Infinity}
+     * <dd><i>Sign<sub>opt</sub> FlobtingPointLitfrbl</i>
+     * <dd><i>Sign<sub>opt</sub> HfxFlobtingPointLitfrbl</i>
+     * <dd><i>SignfdIntfgfr</i>
      * </dl>
      *
      * <dl>
-     * <dt><i>HexFloatingPointLiteral</i>:
-     * <dd> <i>HexSignificand BinaryExponent FloatTypeSuffix<sub>opt</sub></i>
+     * <dt><i>HfxFlobtingPointLitfrbl</i>:
+     * <dd> <i>HfxSignifidbnd BinbryExponfnt FlobtTypfSuffix<sub>opt</sub></i>
      * </dl>
      *
      * <dl>
-     * <dt><i>HexSignificand:</i>
-     * <dd><i>HexNumeral</i>
-     * <dd><i>HexNumeral</i> {@code .}
-     * <dd>{@code 0x} <i>HexDigits<sub>opt</sub>
-     *     </i>{@code .}<i> HexDigits</i>
-     * <dd>{@code 0X}<i> HexDigits<sub>opt</sub>
-     *     </i>{@code .} <i>HexDigits</i>
+     * <dt><i>HfxSignifidbnd:</i>
+     * <dd><i>HfxNumfrbl</i>
+     * <dd><i>HfxNumfrbl</i> {@dodf .}
+     * <dd>{@dodf 0x} <i>HfxDigits<sub>opt</sub>
+     *     </i>{@dodf .}<i> HfxDigits</i>
+     * <dd>{@dodf 0X}<i> HfxDigits<sub>opt</sub>
+     *     </i>{@dodf .} <i>HfxDigits</i>
      * </dl>
      *
      * <dl>
-     * <dt><i>BinaryExponent:</i>
-     * <dd><i>BinaryExponentIndicator SignedInteger</i>
+     * <dt><i>BinbryExponfnt:</i>
+     * <dd><i>BinbryExponfntIndidbtor SignfdIntfgfr</i>
      * </dl>
      *
      * <dl>
-     * <dt><i>BinaryExponentIndicator:</i>
-     * <dd>{@code p}
-     * <dd>{@code P}
+     * <dt><i>BinbryExponfntIndidbtor:</i>
+     * <dd>{@dodf p}
+     * <dd>{@dodf P}
      * </dl>
      *
-     * </blockquote>
+     * </blodkquotf>
      *
-     * where <i>Sign</i>, <i>FloatingPointLiteral</i>,
-     * <i>HexNumeral</i>, <i>HexDigits</i>, <i>SignedInteger</i> and
-     * <i>FloatTypeSuffix</i> are as defined in the lexical structure
-     * sections of
-     * <cite>The Java&trade; Language Specification</cite>,
-     * except that underscores are not accepted between digits.
-     * If {@code s} does not have the form of
-     * a <i>FloatValue</i>, then a {@code NumberFormatException}
-     * is thrown. Otherwise, {@code s} is regarded as
-     * representing an exact decimal value in the usual
-     * "computerized scientific notation" or as an exact
-     * hexadecimal value; this exact numerical value is then
-     * conceptually converted to an "infinitely precise"
-     * binary value that is then rounded to type {@code float}
-     * by the usual round-to-nearest rule of IEEE 754 floating-point
-     * arithmetic, which includes preserving the sign of a zero
-     * value.
+     * wifrf <i>Sign</i>, <i>FlobtingPointLitfrbl</i>,
+     * <i>HfxNumfrbl</i>, <i>HfxDigits</i>, <i>SignfdIntfgfr</i> bnd
+     * <i>FlobtTypfSuffix</i> brf bs dffinfd in tif lfxidbl strudturf
+     * sfdtions of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>,
+     * fxdfpt tibt undfrsdorfs brf not bddfptfd bftwffn digits.
+     * If {@dodf s} dofs not ibvf tif form of
+     * b <i>FlobtVbluf</i>, tifn b {@dodf NumbfrFormbtExdfption}
+     * is tirown. Otifrwisf, {@dodf s} is rfgbrdfd bs
+     * rfprfsfnting bn fxbdt dfdimbl vbluf in tif usubl
+     * "domputfrizfd sdifntifid notbtion" or bs bn fxbdt
+     * ifxbdfdimbl vbluf; tiis fxbdt numfridbl vbluf is tifn
+     * dondfptublly donvfrtfd to bn "infinitfly prfdisf"
+     * binbry vbluf tibt is tifn roundfd to typf {@dodf flobt}
+     * by tif usubl round-to-nfbrfst rulf of IEEE 754 flobting-point
+     * britimftid, wiidi indludfs prfsfrving tif sign of b zfro
+     * vbluf.
      *
-     * Note that the round-to-nearest rule also implies overflow and
-     * underflow behaviour; if the exact value of {@code s} is large
-     * enough in magnitude (greater than or equal to ({@link
-     * #MAX_VALUE} + {@link Math#ulp(float) ulp(MAX_VALUE)}/2),
-     * rounding to {@code float} will result in an infinity and if the
-     * exact value of {@code s} is small enough in magnitude (less
-     * than or equal to {@link #MIN_VALUE}/2), rounding to float will
-     * result in a zero.
+     * Notf tibt tif round-to-nfbrfst rulf blso implifs ovfrflow bnd
+     * undfrflow bfibviour; if tif fxbdt vbluf of {@dodf s} is lbrgf
+     * fnougi in mbgnitudf (grfbtfr tibn or fqubl to ({@link
+     * #MAX_VALUE} + {@link Mbti#ulp(flobt) ulp(MAX_VALUE)}/2),
+     * rounding to {@dodf flobt} will rfsult in bn infinity bnd if tif
+     * fxbdt vbluf of {@dodf s} is smbll fnougi in mbgnitudf (lfss
+     * tibn or fqubl to {@link #MIN_VALUE}/2), rounding to flobt will
+     * rfsult in b zfro.
      *
-     * Finally, after rounding a {@code Float} object representing
-     * this {@code float} value is returned.
+     * Finblly, bftfr rounding b {@dodf Flobt} objfdt rfprfsfnting
+     * tiis {@dodf flobt} vbluf is rfturnfd.
      *
-     * <p>To interpret localized string representations of a
-     * floating-point value, use subclasses of {@link
-     * java.text.NumberFormat}.
+     * <p>To intfrprft lodblizfd string rfprfsfntbtions of b
+     * flobting-point vbluf, usf subdlbssfs of {@link
+     * jbvb.tfxt.NumbfrFormbt}.
      *
-     * <p>Note that trailing format specifiers, specifiers that
-     * determine the type of a floating-point literal
-     * ({@code 1.0f} is a {@code float} value;
-     * {@code 1.0d} is a {@code double} value), do
-     * <em>not</em> influence the results of this method.  In other
-     * words, the numerical value of the input string is converted
-     * directly to the target floating-point type.  In general, the
-     * two-step sequence of conversions, string to {@code double}
-     * followed by {@code double} to {@code float}, is
-     * <em>not</em> equivalent to converting a string directly to
-     * {@code float}.  For example, if first converted to an
-     * intermediate {@code double} and then to
-     * {@code float}, the string<br>
-     * {@code "1.00000017881393421514957253748434595763683319091796875001d"}<br>
-     * results in the {@code float} value
-     * {@code 1.0000002f}; if the string is converted directly to
-     * {@code float}, <code>1.000000<b>1</b>f</code> results.
+     * <p>Notf tibt trbiling formbt spfdififrs, spfdififrs tibt
+     * dftfrminf tif typf of b flobting-point litfrbl
+     * ({@dodf 1.0f} is b {@dodf flobt} vbluf;
+     * {@dodf 1.0d} is b {@dodf doublf} vbluf), do
+     * <fm>not</fm> influfndf tif rfsults of tiis mftiod.  In otifr
+     * words, tif numfridbl vbluf of tif input string is donvfrtfd
+     * dirfdtly to tif tbrgft flobting-point typf.  In gfnfrbl, tif
+     * two-stfp sfqufndf of donvfrsions, string to {@dodf doublf}
+     * followfd by {@dodf doublf} to {@dodf flobt}, is
+     * <fm>not</fm> fquivblfnt to donvfrting b string dirfdtly to
+     * {@dodf flobt}.  For fxbmplf, if first donvfrtfd to bn
+     * intfrmfdibtf {@dodf doublf} bnd tifn to
+     * {@dodf flobt}, tif string<br>
+     * {@dodf "1.00000017881393421514957253748434595763683319091796875001d"}<br>
+     * rfsults in tif {@dodf flobt} vbluf
+     * {@dodf 1.0000002f}; if tif string is donvfrtfd dirfdtly to
+     * {@dodf flobt}, <dodf>1.000000<b>1</b>f</dodf> rfsults.
      *
-     * <p>To avoid calling this method on an invalid string and having
-     * a {@code NumberFormatException} be thrown, the documentation
-     * for {@link Double#valueOf Double.valueOf} lists a regular
-     * expression which can be used to screen the input.
+     * <p>To bvoid dblling tiis mftiod on bn invblid string bnd ibving
+     * b {@dodf NumbfrFormbtExdfption} bf tirown, tif dodumfntbtion
+     * for {@link Doublf#vblufOf Doublf.vblufOf} lists b rfgulbr
+     * fxprfssion wiidi dbn bf usfd to sdrffn tif input.
      *
-     * @param   s   the string to be parsed.
-     * @return  a {@code Float} object holding the value
-     *          represented by the {@code String} argument.
-     * @throws  NumberFormatException  if the string does not contain a
-     *          parsable number.
+     * @pbrbm   s   tif string to bf pbrsfd.
+     * @rfturn  b {@dodf Flobt} objfdt iolding tif vbluf
+     *          rfprfsfntfd by tif {@dodf String} brgumfnt.
+     * @tirows  NumbfrFormbtExdfption  if tif string dofs not dontbin b
+     *          pbrsbblf numbfr.
      */
-    public static Float valueOf(String s) throws NumberFormatException {
-        return new Float(parseFloat(s));
+    publid stbtid Flobt vblufOf(String s) tirows NumbfrFormbtExdfption {
+        rfturn nfw Flobt(pbrsfFlobt(s));
     }
 
     /**
-     * Returns a {@code Float} instance representing the specified
-     * {@code float} value.
-     * If a new {@code Float} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Float(float)}, as this method is likely to yield
-     * significantly better space and time performance by caching
-     * frequently requested values.
+     * Rfturns b {@dodf Flobt} instbndf rfprfsfnting tif spfdififd
+     * {@dodf flobt} vbluf.
+     * If b nfw {@dodf Flobt} instbndf is not rfquirfd, tiis mftiod
+     * siould gfnfrblly bf usfd in prfffrfndf to tif donstrudtor
+     * {@link #Flobt(flobt)}, bs tiis mftiod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf by dbdiing
+     * frfqufntly rfqufstfd vblufs.
      *
-     * @param  f a float value.
-     * @return a {@code Float} instance representing {@code f}.
-     * @since  1.5
+     * @pbrbm  f b flobt vbluf.
+     * @rfturn b {@dodf Flobt} instbndf rfprfsfnting {@dodf f}.
+     * @sindf  1.5
      */
-    public static Float valueOf(float f) {
-        return new Float(f);
+    publid stbtid Flobt vblufOf(flobt f) {
+        rfturn nfw Flobt(f);
     }
 
     /**
-     * Returns a new {@code float} initialized to the value
-     * represented by the specified {@code String}, as performed
-     * by the {@code valueOf} method of class {@code Float}.
+     * Rfturns b nfw {@dodf flobt} initiblizfd to tif vbluf
+     * rfprfsfntfd by tif spfdififd {@dodf String}, bs pfrformfd
+     * by tif {@dodf vblufOf} mftiod of dlbss {@dodf Flobt}.
      *
-     * @param  s the string to be parsed.
-     * @return the {@code float} value represented by the string
-     *         argument.
-     * @throws NullPointerException  if the string is null
-     * @throws NumberFormatException if the string does not contain a
-     *               parsable {@code float}.
-     * @see    java.lang.Float#valueOf(String)
-     * @since 1.2
+     * @pbrbm  s tif string to bf pbrsfd.
+     * @rfturn tif {@dodf flobt} vbluf rfprfsfntfd by tif string
+     *         brgumfnt.
+     * @tirows NullPointfrExdfption  if tif string is null
+     * @tirows NumbfrFormbtExdfption if tif string dofs not dontbin b
+     *               pbrsbblf {@dodf flobt}.
+     * @sff    jbvb.lbng.Flobt#vblufOf(String)
+     * @sindf 1.2
      */
-    public static float parseFloat(String s) throws NumberFormatException {
-        return FloatingDecimal.parseFloat(s);
+    publid stbtid flobt pbrsfFlobt(String s) tirows NumbfrFormbtExdfption {
+        rfturn FlobtingDfdimbl.pbrsfFlobt(s);
     }
 
     /**
-     * Returns {@code true} if the specified number is a
-     * Not-a-Number (NaN) value, {@code false} otherwise.
+     * Rfturns {@dodf truf} if tif spfdififd numbfr is b
+     * Not-b-Numbfr (NbN) vbluf, {@dodf fblsf} otifrwisf.
      *
-     * @param   v   the value to be tested.
-     * @return  {@code true} if the argument is NaN;
-     *          {@code false} otherwise.
+     * @pbrbm   v   tif vbluf to bf tfstfd.
+     * @rfturn  {@dodf truf} if tif brgumfnt is NbN;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public static boolean isNaN(float v) {
-        return (v != v);
+    publid stbtid boolfbn isNbN(flobt v) {
+        rfturn (v != v);
     }
 
     /**
-     * Returns {@code true} if the specified number is infinitely
-     * large in magnitude, {@code false} otherwise.
+     * Rfturns {@dodf truf} if tif spfdififd numbfr is infinitfly
+     * lbrgf in mbgnitudf, {@dodf fblsf} otifrwisf.
      *
-     * @param   v   the value to be tested.
-     * @return  {@code true} if the argument is positive infinity or
-     *          negative infinity; {@code false} otherwise.
+     * @pbrbm   v   tif vbluf to bf tfstfd.
+     * @rfturn  {@dodf truf} if tif brgumfnt is positivf infinity or
+     *          nfgbtivf infinity; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isInfinite(float v) {
-        return (v == POSITIVE_INFINITY) || (v == NEGATIVE_INFINITY);
+    publid stbtid boolfbn isInfinitf(flobt v) {
+        rfturn (v == POSITIVE_INFINITY) || (v == NEGATIVE_INFINITY);
     }
 
 
     /**
-     * Returns {@code true} if the argument is a finite floating-point
-     * value; returns {@code false} otherwise (for NaN and infinity
-     * arguments).
+     * Rfturns {@dodf truf} if tif brgumfnt is b finitf flobting-point
+     * vbluf; rfturns {@dodf fblsf} otifrwisf (for NbN bnd infinity
+     * brgumfnts).
      *
-     * @param f the {@code float} value to be tested
-     * @return {@code true} if the argument is a finite
-     * floating-point value, {@code false} otherwise.
-     * @since 1.8
+     * @pbrbm f tif {@dodf flobt} vbluf to bf tfstfd
+     * @rfturn {@dodf truf} if tif brgumfnt is b finitf
+     * flobting-point vbluf, {@dodf fblsf} otifrwisf.
+     * @sindf 1.8
      */
-     public static boolean isFinite(float f) {
-        return Math.abs(f) <= FloatConsts.MAX_VALUE;
+     publid stbtid boolfbn isFinitf(flobt f) {
+        rfturn Mbti.bbs(f) <= FlobtConsts.MAX_VALUE;
     }
 
     /**
-     * The value of the Float.
+     * Tif vbluf of tif Flobt.
      *
-     * @serial
+     * @sfribl
      */
-    private final float value;
+    privbtf finbl flobt vbluf;
 
     /**
-     * Constructs a newly allocated {@code Float} object that
-     * represents the primitive {@code float} argument.
+     * Construdts b nfwly bllodbtfd {@dodf Flobt} objfdt tibt
+     * rfprfsfnts tif primitivf {@dodf flobt} brgumfnt.
      *
-     * @param   value   the value to be represented by the {@code Float}.
+     * @pbrbm   vbluf   tif vbluf to bf rfprfsfntfd by tif {@dodf Flobt}.
      */
-    public Float(float value) {
-        this.value = value;
+    publid Flobt(flobt vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Constructs a newly allocated {@code Float} object that
-     * represents the argument converted to type {@code float}.
+     * Construdts b nfwly bllodbtfd {@dodf Flobt} objfdt tibt
+     * rfprfsfnts tif brgumfnt donvfrtfd to typf {@dodf flobt}.
      *
-     * @param   value   the value to be represented by the {@code Float}.
+     * @pbrbm   vbluf   tif vbluf to bf rfprfsfntfd by tif {@dodf Flobt}.
      */
-    public Float(double value) {
-        this.value = (float)value;
+    publid Flobt(doublf vbluf) {
+        tiis.vbluf = (flobt)vbluf;
     }
 
     /**
-     * Constructs a newly allocated {@code Float} object that
-     * represents the floating-point value of type {@code float}
-     * represented by the string. The string is converted to a
-     * {@code float} value as if by the {@code valueOf} method.
+     * Construdts b nfwly bllodbtfd {@dodf Flobt} objfdt tibt
+     * rfprfsfnts tif flobting-point vbluf of typf {@dodf flobt}
+     * rfprfsfntfd by tif string. Tif string is donvfrtfd to b
+     * {@dodf flobt} vbluf bs if by tif {@dodf vblufOf} mftiod.
      *
-     * @param      s   a string to be converted to a {@code Float}.
-     * @throws  NumberFormatException  if the string does not contain a
-     *               parsable number.
-     * @see        java.lang.Float#valueOf(java.lang.String)
+     * @pbrbm      s   b string to bf donvfrtfd to b {@dodf Flobt}.
+     * @tirows  NumbfrFormbtExdfption  if tif string dofs not dontbin b
+     *               pbrsbblf numbfr.
+     * @sff        jbvb.lbng.Flobt#vblufOf(jbvb.lbng.String)
      */
-    public Float(String s) throws NumberFormatException {
-        value = parseFloat(s);
+    publid Flobt(String s) tirows NumbfrFormbtExdfption {
+        vbluf = pbrsfFlobt(s);
     }
 
     /**
-     * Returns {@code true} if this {@code Float} value is a
-     * Not-a-Number (NaN), {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf Flobt} vbluf is b
+     * Not-b-Numbfr (NbN), {@dodf fblsf} otifrwisf.
      *
-     * @return  {@code true} if the value represented by this object is
-     *          NaN; {@code false} otherwise.
+     * @rfturn  {@dodf truf} if tif vbluf rfprfsfntfd by tiis objfdt is
+     *          NbN; {@dodf fblsf} otifrwisf.
      */
-    public boolean isNaN() {
-        return isNaN(value);
+    publid boolfbn isNbN() {
+        rfturn isNbN(vbluf);
     }
 
     /**
-     * Returns {@code true} if this {@code Float} value is
-     * infinitely large in magnitude, {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf Flobt} vbluf is
+     * infinitfly lbrgf in mbgnitudf, {@dodf fblsf} otifrwisf.
      *
-     * @return  {@code true} if the value represented by this object is
-     *          positive infinity or negative infinity;
-     *          {@code false} otherwise.
+     * @rfturn  {@dodf truf} if tif vbluf rfprfsfntfd by tiis objfdt is
+     *          positivf infinity or nfgbtivf infinity;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public boolean isInfinite() {
-        return isInfinite(value);
+    publid boolfbn isInfinitf() {
+        rfturn isInfinitf(vbluf);
     }
 
     /**
-     * Returns a string representation of this {@code Float} object.
-     * The primitive {@code float} value represented by this object
-     * is converted to a {@code String} exactly as if by the method
-     * {@code toString} of one argument.
+     * Rfturns b string rfprfsfntbtion of tiis {@dodf Flobt} objfdt.
+     * Tif primitivf {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
+     * is donvfrtfd to b {@dodf String} fxbdtly bs if by tif mftiod
+     * {@dodf toString} of onf brgumfnt.
      *
-     * @return  a {@code String} representation of this object.
-     * @see java.lang.Float#toString(float)
+     * @rfturn  b {@dodf String} rfprfsfntbtion of tiis objfdt.
+     * @sff jbvb.lbng.Flobt#toString(flobt)
      */
-    public String toString() {
-        return Float.toString(value);
+    publid String toString() {
+        rfturn Flobt.toString(vbluf);
     }
 
     /**
-     * Returns the value of this {@code Float} as a {@code byte} after
-     * a narrowing primitive conversion.
+     * Rfturns tif vbluf of tiis {@dodf Flobt} bs b {@dodf bytf} bftfr
+     * b nbrrowing primitivf donvfrsion.
      *
-     * @return  the {@code float} value represented by this object
-     *          converted to type {@code byte}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @rfturn  tif {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
+     *          donvfrtfd to typf {@dodf bytf}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
      */
-    public byte byteValue() {
-        return (byte)value;
+    publid bytf bytfVbluf() {
+        rfturn (bytf)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Float} as a {@code short}
-     * after a narrowing primitive conversion.
+     * Rfturns tif vbluf of tiis {@dodf Flobt} bs b {@dodf siort}
+     * bftfr b nbrrowing primitivf donvfrsion.
      *
-     * @return  the {@code float} value represented by this object
-     *          converted to type {@code short}
-     * @jls 5.1.3 Narrowing Primitive Conversions
-     * @since 1.1
+     * @rfturn  tif {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
+     *          donvfrtfd to typf {@dodf siort}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     * @sindf 1.1
      */
-    public short shortValue() {
-        return (short)value;
+    publid siort siortVbluf() {
+        rfturn (siort)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Float} as an {@code int} after
-     * a narrowing primitive conversion.
+     * Rfturns tif vbluf of tiis {@dodf Flobt} bs bn {@dodf int} bftfr
+     * b nbrrowing primitivf donvfrsion.
      *
-     * @return  the {@code float} value represented by this object
-     *          converted to type {@code int}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @rfturn  tif {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
+     *          donvfrtfd to typf {@dodf int}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
      */
-    public int intValue() {
-        return (int)value;
+    publid int intVbluf() {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Returns value of this {@code Float} as a {@code long} after a
-     * narrowing primitive conversion.
+     * Rfturns vbluf of tiis {@dodf Flobt} bs b {@dodf long} bftfr b
+     * nbrrowing primitivf donvfrsion.
      *
-     * @return  the {@code float} value represented by this object
-     *          converted to type {@code long}
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * @rfturn  tif {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
+     *          donvfrtfd to typf {@dodf long}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
      */
-    public long longValue() {
-        return (long)value;
+    publid long longVbluf() {
+        rfturn (long)vbluf;
     }
 
     /**
-     * Returns the {@code float} value of this {@code Float} object.
+     * Rfturns tif {@dodf flobt} vbluf of tiis {@dodf Flobt} objfdt.
      *
-     * @return the {@code float} value represented by this object
+     * @rfturn tif {@dodf flobt} vbluf rfprfsfntfd by tiis objfdt
      */
-    public float floatValue() {
-        return value;
+    publid flobt flobtVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the value of this {@code Float} as a {@code double}
-     * after a widening primitive conversion.
+     * Rfturns tif vbluf of tiis {@dodf Flobt} bs b {@dodf doublf}
+     * bftfr b widfning primitivf donvfrsion.
      *
-     * @return the {@code float} value represented by this
-     *         object converted to type {@code double}
-     * @jls 5.1.2 Widening Primitive Conversions
+     * @rfturn tif {@dodf flobt} vbluf rfprfsfntfd by tiis
+     *         objfdt donvfrtfd to typf {@dodf doublf}
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public double doubleValue() {
-        return (double)value;
+    publid doublf doublfVbluf() {
+        rfturn (doublf)vbluf;
     }
 
     /**
-     * Returns a hash code for this {@code Float} object. The
-     * result is the integer bit representation, exactly as produced
-     * by the method {@link #floatToIntBits(float)}, of the primitive
-     * {@code float} value represented by this {@code Float}
-     * object.
+     * Rfturns b ibsi dodf for tiis {@dodf Flobt} objfdt. Tif
+     * rfsult is tif intfgfr bit rfprfsfntbtion, fxbdtly bs produdfd
+     * by tif mftiod {@link #flobtToIntBits(flobt)}, of tif primitivf
+     * {@dodf flobt} vbluf rfprfsfntfd by tiis {@dodf Flobt}
+     * objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    @Override
-    public int hashCode() {
-        return Float.hashCode(value);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Flobt.ibsiCodf(vbluf);
     }
 
     /**
-     * Returns a hash code for a {@code float} value; compatible with
-     * {@code Float.hashCode()}.
+     * Rfturns b ibsi dodf for b {@dodf flobt} vbluf; dompbtiblf witi
+     * {@dodf Flobt.ibsiCodf()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code float} value.
-     * @since 1.8
+     * @pbrbm vbluf tif vbluf to ibsi
+     * @rfturn b ibsi dodf vbluf for b {@dodf flobt} vbluf.
+     * @sindf 1.8
      */
-    public static int hashCode(float value) {
-        return floatToIntBits(value);
+    publid stbtid int ibsiCodf(flobt vbluf) {
+        rfturn flobtToIntBits(vbluf);
     }
 
     /**
 
-     * Compares this object against the specified object.  The result
-     * is {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Float} object that
-     * represents a {@code float} with the same value as the
-     * {@code float} represented by this object. For this
-     * purpose, two {@code float} values are considered to be the
-     * same if and only if the method {@link #floatToIntBits(float)}
-     * returns the identical {@code int} value when applied to
-     * each.
+     * Compbrfs tiis objfdt bgbinst tif spfdififd objfdt.  Tif rfsult
+     * is {@dodf truf} if bnd only if tif brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Flobt} objfdt tibt
+     * rfprfsfnts b {@dodf flobt} witi tif sbmf vbluf bs tif
+     * {@dodf flobt} rfprfsfntfd by tiis objfdt. For tiis
+     * purposf, two {@dodf flobt} vblufs brf donsidfrfd to bf tif
+     * sbmf if bnd only if tif mftiod {@link #flobtToIntBits(flobt)}
+     * rfturns tif idfntidbl {@dodf int} vbluf wifn bpplifd to
+     * fbdi.
      *
-     * <p>Note that in most cases, for two instances of class
-     * {@code Float}, {@code f1} and {@code f2}, the value
-     * of {@code f1.equals(f2)} is {@code true} if and only if
+     * <p>Notf tibt in most dbsfs, for two instbndfs of dlbss
+     * {@dodf Flobt}, {@dodf f1} bnd {@dodf f2}, tif vbluf
+     * of {@dodf f1.fqubls(f2)} is {@dodf truf} if bnd only if
      *
-     * <blockquote><pre>
-     *   f1.floatValue() == f2.floatValue()
-     * </pre></blockquote>
+     * <blodkquotf><prf>
+     *   f1.flobtVbluf() == f2.flobtVbluf()
+     * </prf></blodkquotf>
      *
-     * <p>also has the value {@code true}. However, there are two exceptions:
+     * <p>blso ibs tif vbluf {@dodf truf}. Howfvfr, tifrf brf two fxdfptions:
      * <ul>
-     * <li>If {@code f1} and {@code f2} both represent
-     *     {@code Float.NaN}, then the {@code equals} method returns
-     *     {@code true}, even though {@code Float.NaN==Float.NaN}
-     *     has the value {@code false}.
-     * <li>If {@code f1} represents {@code +0.0f} while
-     *     {@code f2} represents {@code -0.0f}, or vice
-     *     versa, the {@code equal} test has the value
-     *     {@code false}, even though {@code 0.0f==-0.0f}
-     *     has the value {@code true}.
+     * <li>If {@dodf f1} bnd {@dodf f2} boti rfprfsfnt
+     *     {@dodf Flobt.NbN}, tifn tif {@dodf fqubls} mftiod rfturns
+     *     {@dodf truf}, fvfn tiougi {@dodf Flobt.NbN==Flobt.NbN}
+     *     ibs tif vbluf {@dodf fblsf}.
+     * <li>If {@dodf f1} rfprfsfnts {@dodf +0.0f} wiilf
+     *     {@dodf f2} rfprfsfnts {@dodf -0.0f}, or vidf
+     *     vfrsb, tif {@dodf fqubl} tfst ibs tif vbluf
+     *     {@dodf fblsf}, fvfn tiougi {@dodf 0.0f==-0.0f}
+     *     ibs tif vbluf {@dodf truf}.
      * </ul>
      *
-     * This definition allows hash tables to operate properly.
+     * Tiis dffinition bllows ibsi tbblfs to opfrbtf propfrly.
      *
-     * @param obj the object to be compared
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.lang.Float#floatToIntBits(float)
+     * @pbrbm obj tif objfdt to bf dompbrfd
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
+     * @sff jbvb.lbng.Flobt#flobtToIntBits(flobt)
      */
-    public boolean equals(Object obj) {
-        return (obj instanceof Float)
-               && (floatToIntBits(((Float)obj).value) == floatToIntBits(value));
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof Flobt)
+               && (flobtToIntBits(((Flobt)obj).vbluf) == flobtToIntBits(vbluf));
     }
 
     /**
-     * Returns a representation of the specified floating-point value
-     * according to the IEEE 754 floating-point "single format" bit
-     * layout.
+     * Rfturns b rfprfsfntbtion of tif spfdififd flobting-point vbluf
+     * bddording to tif IEEE 754 flobting-point "singlf formbt" bit
+     * lbyout.
      *
-     * <p>Bit 31 (the bit that is selected by the mask
-     * {@code 0x80000000}) represents the sign of the floating-point
-     * number.
-     * Bits 30-23 (the bits that are selected by the mask
-     * {@code 0x7f800000}) represent the exponent.
-     * Bits 22-0 (the bits that are selected by the mask
-     * {@code 0x007fffff}) represent the significand (sometimes called
-     * the mantissa) of the floating-point number.
+     * <p>Bit 31 (tif bit tibt is sflfdtfd by tif mbsk
+     * {@dodf 0x80000000}) rfprfsfnts tif sign of tif flobting-point
+     * numbfr.
+     * Bits 30-23 (tif bits tibt brf sflfdtfd by tif mbsk
+     * {@dodf 0x7f800000}) rfprfsfnt tif fxponfnt.
+     * Bits 22-0 (tif bits tibt brf sflfdtfd by tif mbsk
+     * {@dodf 0x007fffff}) rfprfsfnt tif signifidbnd (somftimfs dbllfd
+     * tif mbntissb) of tif flobting-point numbfr.
      *
-     * <p>If the argument is positive infinity, the result is
-     * {@code 0x7f800000}.
+     * <p>If tif brgumfnt is positivf infinity, tif rfsult is
+     * {@dodf 0x7f800000}.
      *
-     * <p>If the argument is negative infinity, the result is
-     * {@code 0xff800000}.
+     * <p>If tif brgumfnt is nfgbtivf infinity, tif rfsult is
+     * {@dodf 0xff800000}.
      *
-     * <p>If the argument is NaN, the result is {@code 0x7fc00000}.
+     * <p>If tif brgumfnt is NbN, tif rfsult is {@dodf 0x7fd00000}.
      *
-     * <p>In all cases, the result is an integer that, when given to the
-     * {@link #intBitsToFloat(int)} method, will produce a floating-point
-     * value the same as the argument to {@code floatToIntBits}
-     * (except all NaN values are collapsed to a single
-     * "canonical" NaN value).
+     * <p>In bll dbsfs, tif rfsult is bn intfgfr tibt, wifn givfn to tif
+     * {@link #intBitsToFlobt(int)} mftiod, will produdf b flobting-point
+     * vbluf tif sbmf bs tif brgumfnt to {@dodf flobtToIntBits}
+     * (fxdfpt bll NbN vblufs brf dollbpsfd to b singlf
+     * "dbnonidbl" NbN vbluf).
      *
-     * @param   value   a floating-point number.
-     * @return the bits that represent the floating-point number.
+     * @pbrbm   vbluf   b flobting-point numbfr.
+     * @rfturn tif bits tibt rfprfsfnt tif flobting-point numbfr.
      */
-    public static int floatToIntBits(float value) {
-        if (!isNaN(value)) {
-            return floatToRawIntBits(value);
+    publid stbtid int flobtToIntBits(flobt vbluf) {
+        if (!isNbN(vbluf)) {
+            rfturn flobtToRbwIntBits(vbluf);
         }
-        return 0x7fc00000;
+        rfturn 0x7fd00000;
     }
 
     /**
-     * Returns a representation of the specified floating-point value
-     * according to the IEEE 754 floating-point "single format" bit
-     * layout, preserving Not-a-Number (NaN) values.
+     * Rfturns b rfprfsfntbtion of tif spfdififd flobting-point vbluf
+     * bddording to tif IEEE 754 flobting-point "singlf formbt" bit
+     * lbyout, prfsfrving Not-b-Numbfr (NbN) vblufs.
      *
-     * <p>Bit 31 (the bit that is selected by the mask
-     * {@code 0x80000000}) represents the sign of the floating-point
-     * number.
-     * Bits 30-23 (the bits that are selected by the mask
-     * {@code 0x7f800000}) represent the exponent.
-     * Bits 22-0 (the bits that are selected by the mask
-     * {@code 0x007fffff}) represent the significand (sometimes called
-     * the mantissa) of the floating-point number.
+     * <p>Bit 31 (tif bit tibt is sflfdtfd by tif mbsk
+     * {@dodf 0x80000000}) rfprfsfnts tif sign of tif flobting-point
+     * numbfr.
+     * Bits 30-23 (tif bits tibt brf sflfdtfd by tif mbsk
+     * {@dodf 0x7f800000}) rfprfsfnt tif fxponfnt.
+     * Bits 22-0 (tif bits tibt brf sflfdtfd by tif mbsk
+     * {@dodf 0x007fffff}) rfprfsfnt tif signifidbnd (somftimfs dbllfd
+     * tif mbntissb) of tif flobting-point numbfr.
      *
-     * <p>If the argument is positive infinity, the result is
-     * {@code 0x7f800000}.
+     * <p>If tif brgumfnt is positivf infinity, tif rfsult is
+     * {@dodf 0x7f800000}.
      *
-     * <p>If the argument is negative infinity, the result is
-     * {@code 0xff800000}.
+     * <p>If tif brgumfnt is nfgbtivf infinity, tif rfsult is
+     * {@dodf 0xff800000}.
      *
-     * <p>If the argument is NaN, the result is the integer representing
-     * the actual NaN value.  Unlike the {@code floatToIntBits}
-     * method, {@code floatToRawIntBits} does not collapse all the
-     * bit patterns encoding a NaN to a single "canonical"
-     * NaN value.
+     * <p>If tif brgumfnt is NbN, tif rfsult is tif intfgfr rfprfsfnting
+     * tif bdtubl NbN vbluf.  Unlikf tif {@dodf flobtToIntBits}
+     * mftiod, {@dodf flobtToRbwIntBits} dofs not dollbpsf bll tif
+     * bit pbttfrns fndoding b NbN to b singlf "dbnonidbl"
+     * NbN vbluf.
      *
-     * <p>In all cases, the result is an integer that, when given to the
-     * {@link #intBitsToFloat(int)} method, will produce a
-     * floating-point value the same as the argument to
-     * {@code floatToRawIntBits}.
+     * <p>In bll dbsfs, tif rfsult is bn intfgfr tibt, wifn givfn to tif
+     * {@link #intBitsToFlobt(int)} mftiod, will produdf b
+     * flobting-point vbluf tif sbmf bs tif brgumfnt to
+     * {@dodf flobtToRbwIntBits}.
      *
-     * @param   value   a floating-point number.
-     * @return the bits that represent the floating-point number.
-     * @since 1.3
+     * @pbrbm   vbluf   b flobting-point numbfr.
+     * @rfturn tif bits tibt rfprfsfnt tif flobting-point numbfr.
+     * @sindf 1.3
      */
-    public static native int floatToRawIntBits(float value);
+    publid stbtid nbtivf int flobtToRbwIntBits(flobt vbluf);
 
     /**
-     * Returns the {@code float} value corresponding to a given
-     * bit representation.
-     * The argument is considered to be a representation of a
-     * floating-point value according to the IEEE 754 floating-point
-     * "single format" bit layout.
+     * Rfturns tif {@dodf flobt} vbluf dorrfsponding to b givfn
+     * bit rfprfsfntbtion.
+     * Tif brgumfnt is donsidfrfd to bf b rfprfsfntbtion of b
+     * flobting-point vbluf bddording to tif IEEE 754 flobting-point
+     * "singlf formbt" bit lbyout.
      *
-     * <p>If the argument is {@code 0x7f800000}, the result is positive
+     * <p>If tif brgumfnt is {@dodf 0x7f800000}, tif rfsult is positivf
      * infinity.
      *
-     * <p>If the argument is {@code 0xff800000}, the result is negative
+     * <p>If tif brgumfnt is {@dodf 0xff800000}, tif rfsult is nfgbtivf
      * infinity.
      *
-     * <p>If the argument is any value in the range
-     * {@code 0x7f800001} through {@code 0x7fffffff} or in
-     * the range {@code 0xff800001} through
-     * {@code 0xffffffff}, the result is a NaN.  No IEEE 754
-     * floating-point operation provided by Java can distinguish
-     * between two NaN values of the same type with different bit
-     * patterns.  Distinct values of NaN are only distinguishable by
-     * use of the {@code Float.floatToRawIntBits} method.
+     * <p>If tif brgumfnt is bny vbluf in tif rbngf
+     * {@dodf 0x7f800001} tirougi {@dodf 0x7fffffff} or in
+     * tif rbngf {@dodf 0xff800001} tirougi
+     * {@dodf 0xffffffff}, tif rfsult is b NbN.  No IEEE 754
+     * flobting-point opfrbtion providfd by Jbvb dbn distinguisi
+     * bftwffn two NbN vblufs of tif sbmf typf witi difffrfnt bit
+     * pbttfrns.  Distindt vblufs of NbN brf only distinguisibblf by
+     * usf of tif {@dodf Flobt.flobtToRbwIntBits} mftiod.
      *
-     * <p>In all other cases, let <i>s</i>, <i>e</i>, and <i>m</i> be three
-     * values that can be computed from the argument:
+     * <p>In bll otifr dbsfs, lft <i>s</i>, <i>f</i>, bnd <i>m</i> bf tirff
+     * vblufs tibt dbn bf domputfd from tif brgumfnt:
      *
-     * <blockquote><pre>{@code
+     * <blodkquotf><prf>{@dodf
      * int s = ((bits >> 31) == 0) ? 1 : -1;
-     * int e = ((bits >> 23) & 0xff);
-     * int m = (e == 0) ?
+     * int f = ((bits >> 23) & 0xff);
+     * int m = (f == 0) ?
      *                 (bits & 0x7fffff) << 1 :
      *                 (bits & 0x7fffff) | 0x800000;
-     * }</pre></blockquote>
+     * }</prf></blodkquotf>
      *
-     * Then the floating-point result equals the value of the mathematical
-     * expression <i>s</i>&middot;<i>m</i>&middot;2<sup><i>e</i>-150</sup>.
+     * Tifn tif flobting-point rfsult fqubls tif vbluf of tif mbtifmbtidbl
+     * fxprfssion <i>s</i>&middot;<i>m</i>&middot;2<sup><i>f</i>-150</sup>.
      *
-     * <p>Note that this method may not be able to return a
-     * {@code float} NaN with exactly same bit pattern as the
-     * {@code int} argument.  IEEE 754 distinguishes between two
-     * kinds of NaNs, quiet NaNs and <i>signaling NaNs</i>.  The
-     * differences between the two kinds of NaN are generally not
-     * visible in Java.  Arithmetic operations on signaling NaNs turn
-     * them into quiet NaNs with a different, but often similar, bit
-     * pattern.  However, on some processors merely copying a
-     * signaling NaN also performs that conversion.  In particular,
-     * copying a signaling NaN to return it to the calling method may
-     * perform this conversion.  So {@code intBitsToFloat} may
-     * not be able to return a {@code float} with a signaling NaN
-     * bit pattern.  Consequently, for some {@code int} values,
-     * {@code floatToRawIntBits(intBitsToFloat(start))} may
-     * <i>not</i> equal {@code start}.  Moreover, which
-     * particular bit patterns represent signaling NaNs is platform
-     * dependent; although all NaN bit patterns, quiet or signaling,
-     * must be in the NaN range identified above.
+     * <p>Notf tibt tiis mftiod mby not bf bblf to rfturn b
+     * {@dodf flobt} NbN witi fxbdtly sbmf bit pbttfrn bs tif
+     * {@dodf int} brgumfnt.  IEEE 754 distinguisifs bftwffn two
+     * kinds of NbNs, quift NbNs bnd <i>signbling NbNs</i>.  Tif
+     * difffrfndfs bftwffn tif two kinds of NbN brf gfnfrblly not
+     * visiblf in Jbvb.  Aritimftid opfrbtions on signbling NbNs turn
+     * tifm into quift NbNs witi b difffrfnt, but oftfn similbr, bit
+     * pbttfrn.  Howfvfr, on somf prodfssors mfrfly dopying b
+     * signbling NbN blso pfrforms tibt donvfrsion.  In pbrtidulbr,
+     * dopying b signbling NbN to rfturn it to tif dblling mftiod mby
+     * pfrform tiis donvfrsion.  So {@dodf intBitsToFlobt} mby
+     * not bf bblf to rfturn b {@dodf flobt} witi b signbling NbN
+     * bit pbttfrn.  Consfqufntly, for somf {@dodf int} vblufs,
+     * {@dodf flobtToRbwIntBits(intBitsToFlobt(stbrt))} mby
+     * <i>not</i> fqubl {@dodf stbrt}.  Morfovfr, wiidi
+     * pbrtidulbr bit pbttfrns rfprfsfnt signbling NbNs is plbtform
+     * dfpfndfnt; bltiougi bll NbN bit pbttfrns, quift or signbling,
+     * must bf in tif NbN rbngf idfntififd bbovf.
      *
-     * @param   bits   an integer.
-     * @return  the {@code float} floating-point value with the same bit
-     *          pattern.
+     * @pbrbm   bits   bn intfgfr.
+     * @rfturn  tif {@dodf flobt} flobting-point vbluf witi tif sbmf bit
+     *          pbttfrn.
      */
-    public static native float intBitsToFloat(int bits);
+    publid stbtid nbtivf flobt intBitsToFlobt(int bits);
 
     /**
-     * Compares two {@code Float} objects numerically.  There are
-     * two ways in which comparisons performed by this method differ
-     * from those performed by the Java language numerical comparison
-     * operators ({@code <, <=, ==, >=, >}) when
-     * applied to primitive {@code float} values:
+     * Compbrfs two {@dodf Flobt} objfdts numfridblly.  Tifrf brf
+     * two wbys in wiidi dompbrisons pfrformfd by tiis mftiod difffr
+     * from tiosf pfrformfd by tif Jbvb lbngubgf numfridbl dompbrison
+     * opfrbtors ({@dodf <, <=, ==, >=, >}) wifn
+     * bpplifd to primitivf {@dodf flobt} vblufs:
      *
      * <ul><li>
-     *          {@code Float.NaN} is considered by this method to
-     *          be equal to itself and greater than all other
-     *          {@code float} values
-     *          (including {@code Float.POSITIVE_INFINITY}).
+     *          {@dodf Flobt.NbN} is donsidfrfd by tiis mftiod to
+     *          bf fqubl to itsflf bnd grfbtfr tibn bll otifr
+     *          {@dodf flobt} vblufs
+     *          (indluding {@dodf Flobt.POSITIVE_INFINITY}).
      * <li>
-     *          {@code 0.0f} is considered by this method to be greater
-     *          than {@code -0.0f}.
+     *          {@dodf 0.0f} is donsidfrfd by tiis mftiod to bf grfbtfr
+     *          tibn {@dodf -0.0f}.
      * </ul>
      *
-     * This ensures that the <i>natural ordering</i> of {@code Float}
-     * objects imposed by this method is <i>consistent with equals</i>.
+     * Tiis fnsurfs tibt tif <i>nbturbl ordfring</i> of {@dodf Flobt}
+     * objfdts imposfd by tiis mftiod is <i>donsistfnt witi fqubls</i>.
      *
-     * @param   anotherFloat   the {@code Float} to be compared.
-     * @return  the value {@code 0} if {@code anotherFloat} is
-     *          numerically equal to this {@code Float}; a value
-     *          less than {@code 0} if this {@code Float}
-     *          is numerically less than {@code anotherFloat};
-     *          and a value greater than {@code 0} if this
-     *          {@code Float} is numerically greater than
-     *          {@code anotherFloat}.
+     * @pbrbm   bnotifrFlobt   tif {@dodf Flobt} to bf dompbrfd.
+     * @rfturn  tif vbluf {@dodf 0} if {@dodf bnotifrFlobt} is
+     *          numfridblly fqubl to tiis {@dodf Flobt}; b vbluf
+     *          lfss tibn {@dodf 0} if tiis {@dodf Flobt}
+     *          is numfridblly lfss tibn {@dodf bnotifrFlobt};
+     *          bnd b vbluf grfbtfr tibn {@dodf 0} if tiis
+     *          {@dodf Flobt} is numfridblly grfbtfr tibn
+     *          {@dodf bnotifrFlobt}.
      *
-     * @since   1.2
-     * @see Comparable#compareTo(Object)
+     * @sindf   1.2
+     * @sff Compbrbblf#dompbrfTo(Objfdt)
      */
-    public int compareTo(Float anotherFloat) {
-        return Float.compare(value, anotherFloat.value);
+    publid int dompbrfTo(Flobt bnotifrFlobt) {
+        rfturn Flobt.dompbrf(vbluf, bnotifrFlobt.vbluf);
     }
 
     /**
-     * Compares the two specified {@code float} values. The sign
-     * of the integer value returned is the same as that of the
-     * integer that would be returned by the call:
-     * <pre>
-     *    new Float(f1).compareTo(new Float(f2))
-     * </pre>
+     * Compbrfs tif two spfdififd {@dodf flobt} vblufs. Tif sign
+     * of tif intfgfr vbluf rfturnfd is tif sbmf bs tibt of tif
+     * intfgfr tibt would bf rfturnfd by tif dbll:
+     * <prf>
+     *    nfw Flobt(f1).dompbrfTo(nfw Flobt(f2))
+     * </prf>
      *
-     * @param   f1        the first {@code float} to compare.
-     * @param   f2        the second {@code float} to compare.
-     * @return  the value {@code 0} if {@code f1} is
-     *          numerically equal to {@code f2}; a value less than
-     *          {@code 0} if {@code f1} is numerically less than
-     *          {@code f2}; and a value greater than {@code 0}
-     *          if {@code f1} is numerically greater than
-     *          {@code f2}.
-     * @since 1.4
+     * @pbrbm   f1        tif first {@dodf flobt} to dompbrf.
+     * @pbrbm   f2        tif sfdond {@dodf flobt} to dompbrf.
+     * @rfturn  tif vbluf {@dodf 0} if {@dodf f1} is
+     *          numfridblly fqubl to {@dodf f2}; b vbluf lfss tibn
+     *          {@dodf 0} if {@dodf f1} is numfridblly lfss tibn
+     *          {@dodf f2}; bnd b vbluf grfbtfr tibn {@dodf 0}
+     *          if {@dodf f1} is numfridblly grfbtfr tibn
+     *          {@dodf f2}.
+     * @sindf 1.4
      */
-    public static int compare(float f1, float f2) {
+    publid stbtid int dompbrf(flobt f1, flobt f2) {
         if (f1 < f2)
-            return -1;           // Neither val is NaN, thisVal is smaller
+            rfturn -1;           // Nfitifr vbl is NbN, tiisVbl is smbllfr
         if (f1 > f2)
-            return 1;            // Neither val is NaN, thisVal is larger
+            rfturn 1;            // Nfitifr vbl is NbN, tiisVbl is lbrgfr
 
-        // Cannot use floatToRawIntBits because of possibility of NaNs.
-        int thisBits    = Float.floatToIntBits(f1);
-        int anotherBits = Float.floatToIntBits(f2);
+        // Cbnnot usf flobtToRbwIntBits bfdbusf of possibility of NbNs.
+        int tiisBits    = Flobt.flobtToIntBits(f1);
+        int bnotifrBits = Flobt.flobtToIntBits(f2);
 
-        return (thisBits == anotherBits ?  0 : // Values are equal
-                (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
-                 1));                          // (0.0, -0.0) or (NaN, !NaN)
+        rfturn (tiisBits == bnotifrBits ?  0 : // Vblufs brf fqubl
+                (tiisBits < bnotifrBits ? -1 : // (-0.0, 0.0) or (!NbN, NbN)
+                 1));                          // (0.0, -0.0) or (NbN, !NbN)
     }
 
     /**
-     * Adds two {@code float} values together as per the + operator.
+     * Adds two {@dodf flobt} vblufs togftifr bs pfr tif + opfrbtor.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the sum of {@code a} and {@code b}
-     * @jls 4.2.4 Floating-Point Operations
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn tif sum of {@dodf b} bnd {@dodf b}
+     * @jls 4.2.4 Flobting-Point Opfrbtions
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static float sum(float a, float b) {
-        return a + b;
+    publid stbtid flobt sum(flobt b, flobt b) {
+        rfturn b + b;
     }
 
     /**
-     * Returns the greater of two {@code float} values
-     * as if by calling {@link Math#max(float, float) Math.max}.
+     * Rfturns tif grfbtfr of two {@dodf flobt} vblufs
+     * bs if by dblling {@link Mbti#mbx(flobt, flobt) Mbti.mbx}.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the greater of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn tif grfbtfr of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static float max(float a, float b) {
-        return Math.max(a, b);
+    publid stbtid flobt mbx(flobt b, flobt b) {
+        rfturn Mbti.mbx(b, b);
     }
 
     /**
-     * Returns the smaller of two {@code float} values
-     * as if by calling {@link Math#min(float, float) Math.min}.
+     * Rfturns tif smbllfr of two {@dodf flobt} vblufs
+     * bs if by dblling {@link Mbti#min(flobt, flobt) Mbti.min}.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the smaller of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn tif smbllfr of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static float min(float a, float b) {
-        return Math.min(a, b);
+    publid stbtid flobt min(flobt b, flobt b) {
+        rfturn Mbti.min(b, b);
     }
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -2671257302660747028L;
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2671257302660747028L;
 }

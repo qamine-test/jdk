@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.AWTPermission;
-import java.awt.DisplayMode;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.Insets;
-import java.awt.Window;
-import java.util.Objects;
+import jbvb.bwt.AWTPfrmission;
+import jbvb.bwt.DisplbyModf;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Window;
+import jbvb.util.Objfdts;
 
-import sun.java2d.opengl.CGLGraphicsConfig;
+import sun.jbvb2d.opfngl.CGLGrbpiidsConfig;
 
-public final class CGraphicsDevice extends GraphicsDevice
-        implements DisplayChangedListener {
+publid finbl dlbss CGrbpiidsDfvidf fxtfnds GrbpiidsDfvidf
+        implfmfnts DisplbyCibngfdListfnfr {
 
     /**
-     * CoreGraphics display ID. This identifier can become non-valid at any time
-     * therefore methods, which is using this id should be ready to it.
+     * CorfGrbpiids displby ID. Tiis idfntififr dbn bfdomf non-vblid bt bny timf
+     * tifrfforf mftiods, wiidi is using tiis id siould bf rfbdy to it.
      */
-    private volatile int displayID;
-    private volatile Insets screenInsets;
-    private volatile double xResolution;
-    private volatile double yResolution;
-    private volatile int scale;
+    privbtf volbtilf int displbyID;
+    privbtf volbtilf Insfts sdrffnInsfts;
+    privbtf volbtilf doublf xRfsolution;
+    privbtf volbtilf doublf yRfsolution;
+    privbtf volbtilf int sdblf;
 
-    // Array of all GraphicsConfig instances for this device
-    private final GraphicsConfiguration[] configs;
+    // Arrby of bll GrbpiidsConfig instbndfs for tiis dfvidf
+    privbtf finbl GrbpiidsConfigurbtion[] donfigs;
 
-    // Default config (temporarily hard coded)
-    private final int DEFAULT_CONFIG = 0;
+    // Dffbult donfig (tfmporbrily ibrd dodfd)
+    privbtf finbl int DEFAULT_CONFIG = 0;
 
-    private static AWTPermission fullScreenExclusivePermission;
+    privbtf stbtid AWTPfrmission fullSdrffnExdlusivfPfrmission;
 
-    // Save/restore DisplayMode for the Full Screen mode
-    private DisplayMode originalMode;
+    // Sbvf/rfstorf DisplbyModf for tif Full Sdrffn modf
+    privbtf DisplbyModf originblModf;
 
-    public CGraphicsDevice(final int displayID) {
-        this.displayID = displayID;
-        configs = new GraphicsConfiguration[] {
-            CGLGraphicsConfig.getConfig(this, 0)
+    publid CGrbpiidsDfvidf(finbl int displbyID) {
+        tiis.displbyID = displbyID;
+        donfigs = nfw GrbpiidsConfigurbtion[] {
+            CGLGrbpiidsConfig.gftConfig(tiis, 0)
         };
     }
 
     /**
-     * Returns CGDirectDisplayID, which is the same id as @"NSScreenNumber" in
-     * NSScreen.
+     * Rfturns CGDirfdtDisplbyID, wiidi is tif sbmf id bs @"NSSdrffnNumbfr" in
+     * NSSdrffn.
      *
-     * @return CoreGraphics display id.
+     * @rfturn CorfGrbpiids displby id.
      */
-    public int getCGDisplayID() {
-        return displayID;
+    publid int gftCGDisplbyID() {
+        rfturn displbyID;
     }
 
     /**
-     * Return a list of all configurations.
+     * Rfturn b list of bll donfigurbtions.
      */
-    @Override
-    public GraphicsConfiguration[] getConfigurations() {
-        return configs.clone();
+    @Ovfrridf
+    publid GrbpiidsConfigurbtion[] gftConfigurbtions() {
+        rfturn donfigs.dlonf();
     }
 
     /**
-     * Return the default configuration.
+     * Rfturn tif dffbult donfigurbtion.
      */
-    @Override
-    public GraphicsConfiguration getDefaultConfiguration() {
-        return configs[DEFAULT_CONFIG];
+    @Ovfrridf
+    publid GrbpiidsConfigurbtion gftDffbultConfigurbtion() {
+        rfturn donfigs[DEFAULT_CONFIG];
     }
 
     /**
-     * Return a human-readable screen description.
+     * Rfturn b iumbn-rfbdbblf sdrffn dfsdription.
      */
-    @Override
-    public String getIDstring() {
-        return "Display " + displayID;
+    @Ovfrridf
+    publid String gftIDstring() {
+        rfturn "Displby " + displbyID;
     }
 
     /**
-     * Returns the type of the graphics device.
-     * @see #TYPE_RASTER_SCREEN
-     * @see #TYPE_PRINTER
-     * @see #TYPE_IMAGE_BUFFER
+     * Rfturns tif typf of tif grbpiids dfvidf.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
      */
-    @Override
-    public int getType() {
-        return TYPE_RASTER_SCREEN;
+    @Ovfrridf
+    publid int gftTypf() {
+        rfturn TYPE_RASTER_SCREEN;
     }
 
-    public double getXResolution() {
-        return xResolution;
+    publid doublf gftXRfsolution() {
+        rfturn xRfsolution;
     }
 
-    public double getYResolution() {
-        return yResolution;
+    publid doublf gftYRfsolution() {
+        rfturn yRfsolution;
     }
 
-    public Insets getScreenInsets() {
-        return screenInsets;
+    publid Insfts gftSdrffnInsfts() {
+        rfturn sdrffnInsfts;
     }
 
-    public int getScaleFactor() {
-        return scale;
+    publid int gftSdblfFbdtor() {
+        rfturn sdblf;
     }
 
-    public void invalidate(final int defaultDisplayID) {
-        displayID = defaultDisplayID;
+    publid void invblidbtf(finbl int dffbultDisplbyID) {
+        displbyID = dffbultDisplbyID;
     }
 
-    @Override
-    public void displayChanged() {
-        xResolution = nativeGetXResolution(displayID);
-        yResolution = nativeGetYResolution(displayID);
-        screenInsets = nativeGetScreenInsets(displayID);
-        scale = (int) nativeGetScaleFactor(displayID);
-        //TODO configs/fullscreenWindow/modes?
+    @Ovfrridf
+    publid void displbyCibngfd() {
+        xRfsolution = nbtivfGftXRfsolution(displbyID);
+        yRfsolution = nbtivfGftYRfsolution(displbyID);
+        sdrffnInsfts = nbtivfGftSdrffnInsfts(displbyID);
+        sdblf = (int) nbtivfGftSdblfFbdtor(displbyID);
+        //TODO donfigs/fullsdrffnWindow/modfs?
     }
 
-    @Override
-    public void paletteChanged() {
-        // devices do not need to react to this event.
+    @Ovfrridf
+    publid void pblfttfCibngfd() {
+        // dfvidfs do not nffd to rfbdt to tiis fvfnt.
     }
 
     /**
-     * Enters full-screen mode, or returns to windowed mode.
+     * Entfrs full-sdrffn modf, or rfturns to windowfd modf.
      */
-    @Override
-    public synchronized void setFullScreenWindow(Window w) {
-        Window old = getFullScreenWindow();
+    @Ovfrridf
+    publid syndironizfd void sftFullSdrffnWindow(Window w) {
+        Window old = gftFullSdrffnWindow();
         if (w == old) {
-            return;
+            rfturn;
         }
 
-        boolean fsSupported = isFullScreenSupported();
+        boolfbn fsSupportfd = isFullSdrffnSupportfd();
 
-        if (fsSupported && old != null) {
-            // enter windowed mode and restore original display mode
-            exitFullScreenExclusive(old);
-            if (originalMode != null) {
-                setDisplayMode(originalMode);
-                originalMode = null;
+        if (fsSupportfd && old != null) {
+            // fntfr windowfd modf bnd rfstorf originbl displby modf
+            fxitFullSdrffnExdlusivf(old);
+            if (originblModf != null) {
+                sftDisplbyModf(originblModf);
+                originblModf = null;
             }
         }
 
-        super.setFullScreenWindow(w);
+        supfr.sftFullSdrffnWindow(w);
 
-        if (fsSupported && w != null) {
-            if (isDisplayChangeSupported()) {
-                originalMode = getDisplayMode();
+        if (fsSupportfd && w != null) {
+            if (isDisplbyCibngfSupportfd()) {
+                originblModf = gftDisplbyModf();
             }
-            // enter fullscreen mode
-            enterFullScreenExclusive(w);
+            // fntfr fullsdrffn modf
+            fntfrFullSdrffnExdlusivf(w);
         }
     }
 
     /**
-     * Returns true if this GraphicsDevice supports
-     * full-screen exclusive mode and false otherwise.
+     * Rfturns truf if tiis GrbpiidsDfvidf supports
+     * full-sdrffn fxdlusivf modf bnd fblsf otifrwisf.
      */
-    @Override
-    public boolean isFullScreenSupported() {
-        return isFSExclusiveModeAllowed();
+    @Ovfrridf
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn isFSExdlusivfModfAllowfd();
     }
 
-    private static boolean isFSExclusiveModeAllowed() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            if (fullScreenExclusivePermission == null) {
-                fullScreenExclusivePermission =
-                    new AWTPermission("fullScreenExclusive");
+    privbtf stbtid boolfbn isFSExdlusivfModfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (fullSdrffnExdlusivfPfrmission == null) {
+                fullSdrffnExdlusivfPfrmission =
+                    nfw AWTPfrmission("fullSdrffnExdlusivf");
             }
             try {
-                security.checkPermission(fullScreenExclusivePermission);
-            } catch (SecurityException e) {
-                return false;
+                sfdurity.difdkPfrmission(fullSdrffnExdlusivfPfrmission);
+            } dbtdi (SfdurityExdfption f) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private static void enterFullScreenExclusive(Window w) {
-        FullScreenCapable peer = (FullScreenCapable)w.getPeer();
-        if (peer != null) {
-            peer.enterFullScreenMode();
+    privbtf stbtid void fntfrFullSdrffnExdlusivf(Window w) {
+        FullSdrffnCbpbblf pffr = (FullSdrffnCbpbblf)w.gftPffr();
+        if (pffr != null) {
+            pffr.fntfrFullSdrffnModf();
         }
     }
 
-    private static void exitFullScreenExclusive(Window w) {
-        FullScreenCapable peer = (FullScreenCapable)w.getPeer();
-        if (peer != null) {
-            peer.exitFullScreenMode();
+    privbtf stbtid void fxitFullSdrffnExdlusivf(Window w) {
+        FullSdrffnCbpbblf pffr = (FullSdrffnCbpbblf)w.gftPffr();
+        if (pffr != null) {
+            pffr.fxitFullSdrffnModf();
         }
     }
 
-    @Override
-    public boolean isDisplayChangeSupported() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isDisplbyCibngfSupportfd() {
+        rfturn truf;
     }
 
-    @Override
-    public void setDisplayMode(final DisplayMode dm) {
+    @Ovfrridf
+    publid void sftDisplbyModf(finbl DisplbyModf dm) {
         if (dm == null) {
-            throw new IllegalArgumentException("Invalid display mode");
+            tirow nfw IllfgblArgumfntExdfption("Invblid displby modf");
         }
-        if (!Objects.equals(dm, getDisplayMode())) {
-            nativeSetDisplayMode(displayID, dm.getWidth(), dm.getHeight(),
-                    dm.getBitDepth(), dm.getRefreshRate());
-            if (isFullScreenSupported() && getFullScreenWindow() != null) {
-                getFullScreenWindow().setSize(dm.getWidth(), dm.getHeight());
+        if (!Objfdts.fqubls(dm, gftDisplbyModf())) {
+            nbtivfSftDisplbyModf(displbyID, dm.gftWidti(), dm.gftHfigit(),
+                    dm.gftBitDfpti(), dm.gftRffrfsiRbtf());
+            if (isFullSdrffnSupportfd() && gftFullSdrffnWindow() != null) {
+                gftFullSdrffnWindow().sftSizf(dm.gftWidti(), dm.gftHfigit());
             }
         }
     }
 
-    @Override
-    public DisplayMode getDisplayMode() {
-        return nativeGetDisplayMode(displayID);
+    @Ovfrridf
+    publid DisplbyModf gftDisplbyModf() {
+        rfturn nbtivfGftDisplbyModf(displbyID);
     }
 
-    @Override
-    public DisplayMode[] getDisplayModes() {
-        return nativeGetDisplayModes(displayID);
+    @Ovfrridf
+    publid DisplbyModf[] gftDisplbyModfs() {
+        rfturn nbtivfGftDisplbyModfs(displbyID);
     }
 
-    private static native double nativeGetScaleFactor(int displayID);
+    privbtf stbtid nbtivf doublf nbtivfGftSdblfFbdtor(int displbyID);
 
-    private static native void nativeSetDisplayMode(int displayID, int w, int h, int bpp, int refrate);
+    privbtf stbtid nbtivf void nbtivfSftDisplbyModf(int displbyID, int w, int i, int bpp, int rffrbtf);
 
-    private static native DisplayMode nativeGetDisplayMode(int displayID);
+    privbtf stbtid nbtivf DisplbyModf nbtivfGftDisplbyModf(int displbyID);
 
-    private static native DisplayMode[] nativeGetDisplayModes(int displayID);
+    privbtf stbtid nbtivf DisplbyModf[] nbtivfGftDisplbyModfs(int displbyID);
 
-    private static native double nativeGetXResolution(int displayID);
+    privbtf stbtid nbtivf doublf nbtivfGftXRfsolution(int displbyID);
 
-    private static native double nativeGetYResolution(int displayID);
+    privbtf stbtid nbtivf doublf nbtivfGftYRfsolution(int displbyID);
 
-    private static native Insets nativeGetScreenInsets(int displayID);
+    privbtf stbtid nbtivf Insfts nbtivfGftSdrffnInsfts(int displbyID);
 }

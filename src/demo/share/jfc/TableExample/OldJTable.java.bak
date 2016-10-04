@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,235 +30,235 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.util.EventObject;
-import java.util.List;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
+import jbvb.util.EvfntObjfdt;
+import jbvb.util.List;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.tbblf.DffbultTbblfModfl;
+import jbvbx.swing.tbblf.TbblfCfllEditor;
+import jbvbx.swing.tbblf.TbblfCfllRfndfrfr;
+import jbvbx.swing.tbblf.TbblfColumn;
 
 
 /**
- *  The OldJTable is an unsupported class containing some methods that were
- *  deleted from the JTable between releases 0.6 and 0.7
+ *  Tif OldJTbblf is bn unsupportfd dlbss dontbining somf mftiods tibt wfrf
+ *  dflftfd from tif JTbblf bftwffn rflfbsfs 0.6 bnd 0.7
  */
-@SuppressWarnings("serial")
-public class OldJTable extends JTable
+@SupprfssWbrnings("sfribl")
+publid dlbss OldJTbblf fxtfnds JTbblf
 {
    /*
-    *  A new convenience method returning the index of the column in the
-    *  co-ordinate space of the view.
+    *  A nfw donvfnifndf mftiod rfturning tif indfx of tif dolumn in tif
+    *  do-ordinbtf spbdf of tif vifw.
     */
-    public int getColumnIndex(Object identifier) {
-        return getColumnModel().getColumnIndex(identifier);
+    publid int gftColumnIndfx(Objfdt idfntififr) {
+        rfturn gftColumnModfl().gftColumnIndfx(idfntififr);
     }
 
 //
-//  Methods deleted from the JTable because they only work with the
-//  DefaultTableModel.
+//  Mftiods dflftfd from tif JTbblf bfdbusf tify only work witi tif
+//  DffbultTbblfModfl.
 //
 
-    public TableColumn addColumn(Object columnIdentifier, int width) {
-        return addColumn(columnIdentifier, width, null, null, null);
+    publid TbblfColumn bddColumn(Objfdt dolumnIdfntififr, int widti) {
+        rfturn bddColumn(dolumnIdfntififr, widti, null, null, null);
     }
 
-    public TableColumn addColumn(Object columnIdentifier, List columnData) {
-        return addColumn(columnIdentifier, -1, null, null, columnData);
+    publid TbblfColumn bddColumn(Objfdt dolumnIdfntififr, List dolumnDbtb) {
+        rfturn bddColumn(dolumnIdfntififr, -1, null, null, dolumnDbtb);
     }
 
-    // Override the new JTable implementation - it will not add a column to the
-    // DefaultTableModel.
-    public TableColumn addColumn(Object columnIdentifier, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor) {
-        return addColumn(columnIdentifier, width, renderer, editor, null);
+    // Ovfrridf tif nfw JTbblf implfmfntbtion - it will not bdd b dolumn to tif
+    // DffbultTbblfModfl.
+    publid TbblfColumn bddColumn(Objfdt dolumnIdfntififr, int widti,
+                                 TbblfCfllRfndfrfr rfndfrfr,
+                                 TbblfCfllEditor fditor) {
+        rfturn bddColumn(dolumnIdfntififr, widti, rfndfrfr, fditor, null);
     }
 
-    public TableColumn addColumn(Object columnIdentifier, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor, List columnData) {
-        checkDefaultTableModel();
+    publid TbblfColumn bddColumn(Objfdt dolumnIdfntififr, int widti,
+                                 TbblfCfllRfndfrfr rfndfrfr,
+                                 TbblfCfllEditor fditor, List dolumnDbtb) {
+        difdkDffbultTbblfModfl();
 
-        // Set up the model side first
-        DefaultTableModel m = (DefaultTableModel)getModel();
-        m.addColumn(columnIdentifier, columnData.toArray());
+        // Sft up tif modfl sidf first
+        DffbultTbblfModfl m = (DffbultTbblfModfl)gftModfl();
+        m.bddColumn(dolumnIdfntififr, dolumnDbtb.toArrby());
 
-        // The column will have been added to the end, so the index of the
-        // column in the model is the last element.
-        TableColumn newColumn = new TableColumn(
-                m.getColumnCount()-1, width, renderer, editor);
-        super.addColumn(newColumn);
-        return newColumn;
+        // Tif dolumn will ibvf bffn bddfd to tif fnd, so tif indfx of tif
+        // dolumn in tif modfl is tif lbst flfmfnt.
+        TbblfColumn nfwColumn = nfw TbblfColumn(
+                m.gftColumnCount()-1, widti, rfndfrfr, fditor);
+        supfr.bddColumn(nfwColumn);
+        rfturn nfwColumn;
     }
 
-    // Not possilble to make this work the same way ... change it so that
-    // it does not delete columns from the model.
-    public void removeColumn(Object columnIdentifier) {
-        super.removeColumn(getColumn(columnIdentifier));
+    // Not possilblf to mbkf tiis work tif sbmf wby ... dibngf it so tibt
+    // it dofs not dflftf dolumns from tif modfl.
+    publid void rfmovfColumn(Objfdt dolumnIdfntififr) {
+        supfr.rfmovfColumn(gftColumn(dolumnIdfntififr));
     }
 
-    public void addRow(Object[] rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).addRow(rowData);
+    publid void bddRow(Objfdt[] rowDbtb) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).bddRow(rowDbtb);
     }
 
-    public void addRow(List rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).addRow(rowData.toArray());
+    publid void bddRow(List rowDbtb) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).bddRow(rowDbtb.toArrby());
     }
 
-    public void removeRow(int rowIndex) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).removeRow(rowIndex);
+    publid void rfmovfRow(int rowIndfx) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).rfmovfRow(rowIndfx);
     }
 
-    public void moveRow(int startIndex, int endIndex, int toIndex) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).moveRow(startIndex, endIndex, toIndex);
+    publid void movfRow(int stbrtIndfx, int fndIndfx, int toIndfx) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).movfRow(stbrtIndfx, fndIndfx, toIndfx);
     }
 
-    public void insertRow(int rowIndex, Object[] rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).insertRow(rowIndex, rowData);
+    publid void insfrtRow(int rowIndfx, Objfdt[] rowDbtb) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).insfrtRow(rowIndfx, rowDbtb);
     }
 
-    public void insertRow(int rowIndex, List rowData) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).insertRow(rowIndex, rowData.toArray());
+    publid void insfrtRow(int rowIndfx, List rowDbtb) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).insfrtRow(rowIndfx, rowDbtb.toArrby());
     }
 
-    public void setNumRows(int newSize) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setNumRows(newSize);
+    publid void sftNumRows(int nfwSizf) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).sftNumRows(nfwSizf);
     }
 
-    public void setDataVector(Object[][] newData, List columnIds) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setDataVector(
-                newData, columnIds.toArray());
+    publid void sftDbtbVfdtor(Objfdt[][] nfwDbtb, List dolumnIds) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).sftDbtbVfdtor(
+                nfwDbtb, dolumnIds.toArrby());
     }
 
-    public void setDataVector(Object[][] newData, Object[] columnIds) {
-        checkDefaultTableModel();
-        ((DefaultTableModel)getModel()).setDataVector(newData, columnIds);
+    publid void sftDbtbVfdtor(Objfdt[][] nfwDbtb, Objfdt[] dolumnIds) {
+        difdkDffbultTbblfModfl();
+        ((DffbultTbblfModfl)gftModfl()).sftDbtbVfdtor(nfwDbtb, dolumnIds);
     }
 
-    protected void checkDefaultTableModel() {
-        if(!(dataModel instanceof DefaultTableModel))
-            throw new InternalError("In order to use this method, the data model must be an instance of DefaultTableModel.");
+    protfdtfd void difdkDffbultTbblfModfl() {
+        if(!(dbtbModfl instbndfof DffbultTbblfModfl))
+            tirow nfw IntfrnblError("In ordfr to usf tiis mftiod, tif dbtb modfl must bf bn instbndf of DffbultTbblfModfl.");
     }
 
 //
-//  Methods removed from JTable in the move from identifiers to ints.
+//  Mftiods rfmovfd from JTbblf in tif movf from idfntififrs to ints.
 //
 
-    public Object getValueAt(Object columnIdentifier, int rowIndex) {
-        return super.getValueAt(rowIndex, getColumnIndex(columnIdentifier));
+    publid Objfdt gftVblufAt(Objfdt dolumnIdfntififr, int rowIndfx) {
+        rfturn supfr.gftVblufAt(rowIndfx, gftColumnIndfx(dolumnIdfntififr));
     }
 
-    public boolean isCellEditable(Object columnIdentifier, int rowIndex) {
-        return super.isCellEditable(rowIndex, getColumnIndex(columnIdentifier));
+    publid boolfbn isCfllEditbblf(Objfdt dolumnIdfntififr, int rowIndfx) {
+        rfturn supfr.isCfllEditbblf(rowIndfx, gftColumnIndfx(dolumnIdfntififr));
     }
 
-    public void setValueAt(Object aValue, Object columnIdentifier, int rowIndex) {
-        super.setValueAt(aValue, rowIndex, getColumnIndex(columnIdentifier));
+    publid void sftVblufAt(Objfdt bVbluf, Objfdt dolumnIdfntififr, int rowIndfx) {
+        supfr.sftVblufAt(bVbluf, rowIndfx, gftColumnIndfx(dolumnIdfntififr));
     }
 
-    public boolean editColumnRow(Object identifier, int row) {
-        return super.editCellAt(row, getColumnIndex(identifier));
+    publid boolfbn fditColumnRow(Objfdt idfntififr, int row) {
+        rfturn supfr.fditCfllAt(row, gftColumnIndfx(idfntififr));
     }
 
-    public void moveColumn(Object columnIdentifier, Object targetColumnIdentifier) {
-        moveColumn(getColumnIndex(columnIdentifier),
-                   getColumnIndex(targetColumnIdentifier));
+    publid void movfColumn(Objfdt dolumnIdfntififr, Objfdt tbrgftColumnIdfntififr) {
+        movfColumn(gftColumnIndfx(dolumnIdfntififr),
+                   gftColumnIndfx(tbrgftColumnIdfntififr));
     }
 
-    public boolean isColumnSelected(Object identifier) {
-        return isColumnSelected(getColumnIndex(identifier));
+    publid boolfbn isColumnSflfdtfd(Objfdt idfntififr) {
+        rfturn isColumnSflfdtfd(gftColumnIndfx(idfntififr));
     }
 
-    public TableColumn addColumn(int modelColumn, int width) {
-        return addColumn(modelColumn, width, null, null);
+    publid TbblfColumn bddColumn(int modflColumn, int widti) {
+        rfturn bddColumn(modflColumn, widti, null, null);
     }
 
-    public TableColumn addColumn(int modelColumn) {
-        return addColumn(modelColumn, 75, null, null);
+    publid TbblfColumn bddColumn(int modflColumn) {
+        rfturn bddColumn(modflColumn, 75, null, null);
     }
 
     /**
-     *  Creates a new column with <I>modelColumn</I>, <I>width</I>,
-     *  <I>renderer</I>, and <I>editor</I> and adds it to the end of
-     *  the JTable's array of columns. This method also retrieves the
-     *  name of the column using the model's <I>getColumnName(modelColumn)</I>
-     *  method, and sets the both the header value and the identifier
-     *  for this TableColumn accordingly.
+     *  Crfbtfs b nfw dolumn witi <I>modflColumn</I>, <I>widti</I>,
+     *  <I>rfndfrfr</I>, bnd <I>fditor</I> bnd bdds it to tif fnd of
+     *  tif JTbblf's brrby of dolumns. Tiis mftiod blso rftrifvfs tif
+     *  nbmf of tif dolumn using tif modfl's <I>gftColumnNbmf(modflColumn)</I>
+     *  mftiod, bnd sfts tif boti tif ifbdfr vbluf bnd tif idfntififr
+     *  for tiis TbblfColumn bddordingly.
      *  <p>
-     *  The <I>modelColumn</I> is the index of the column in the model which
-     *  will supply the data for this column in the table. This, like the
-     *  <I>columnIdentifier</I> in previous releases, does not change as the
-     *  columns are moved in the view.
+     *  Tif <I>modflColumn</I> is tif indfx of tif dolumn in tif modfl wiidi
+     *  will supply tif dbtb for tiis dolumn in tif tbblf. Tiis, likf tif
+     *  <I>dolumnIdfntififr</I> in prfvious rflfbsfs, dofs not dibngf bs tif
+     *  dolumns brf movfd in tif vifw.
      *  <p>
-     *  For the rest of the JTable API, and all of its associated classes,
-     *  columns are referred to in the co-ordinate system of the view, the
-     *  index of the column in the model is kept inside the TableColumn
-     *  and is used only to retrieve the information from the appropraite
-     *  column in the model.
+     *  For tif rfst of tif JTbblf API, bnd bll of its bssodibtfd dlbssfs,
+     *  dolumns brf rfffrrfd to in tif do-ordinbtf systfm of tif vifw, tif
+     *  indfx of tif dolumn in tif modfl is kfpt insidf tif TbblfColumn
+     *  bnd is usfd only to rftrifvf tif informbtion from tif bpproprbitf
+     *  dolumn in tif modfl.
      *  <p>
      *
-     *  @param  modelColumn     The index of the column in the model
-     *  @param  width           The new column's width.  Or -1 to use
-     *                          the default width
-     *  @param  renderer        The renderer used with the new column.
-     *                          Or null to use the default renderer.
-     *  @param  editor          The editor used with the new column.
-     *                          Or null to use the default editor.
+     *  @pbrbm  modflColumn     Tif indfx of tif dolumn in tif modfl
+     *  @pbrbm  widti           Tif nfw dolumn's widti.  Or -1 to usf
+     *                          tif dffbult widti
+     *  @pbrbm  rfndfrfr        Tif rfndfrfr usfd witi tif nfw dolumn.
+     *                          Or null to usf tif dffbult rfndfrfr.
+     *  @pbrbm  fditor          Tif fditor usfd witi tif nfw dolumn.
+     *                          Or null to usf tif dffbult fditor.
      */
-    public TableColumn addColumn(int modelColumn, int width,
-                                 TableCellRenderer renderer,
-                                 TableCellEditor editor) {
-        TableColumn newColumn = new TableColumn(
-                modelColumn, width, renderer, editor);
-        addColumn(newColumn);
-        return newColumn;
+    publid TbblfColumn bddColumn(int modflColumn, int widti,
+                                 TbblfCfllRfndfrfr rfndfrfr,
+                                 TbblfCfllEditor fditor) {
+        TbblfColumn nfwColumn = nfw TbblfColumn(
+                modflColumn, widti, rfndfrfr, fditor);
+        bddColumn(nfwColumn);
+        rfturn nfwColumn;
     }
 
 //
-//  Methods that had their arguments switched.
+//  Mftiods tibt ibd tifir brgumfnts switdifd.
 //
 
-// These won't work with the new table package.
+// Tifsf won't work witi tif nfw tbblf pbdkbgf.
 
 /*
-    public Object getValueAt(int columnIndex, int rowIndex) {
-        return super.getValueAt(rowIndex, columnIndex);
+    publid Objfdt gftVblufAt(int dolumnIndfx, int rowIndfx) {
+        rfturn supfr.gftVblufAt(rowIndfx, dolumnIndfx);
     }
 
-    public boolean isCellEditable(int columnIndex, int rowIndex) {
-        return super.isCellEditable(rowIndex, columnIndex);
+    publid boolfbn isCfllEditbblf(int dolumnIndfx, int rowIndfx) {
+        rfturn supfr.isCfllEditbblf(rowIndfx, dolumnIndfx);
     }
 
-    public void setValueAt(Object aValue, int columnIndex, int rowIndex) {
-        super.setValueAt(aValue, rowIndex, columnIndex);
+    publid void sftVblufAt(Objfdt bVbluf, int dolumnIndfx, int rowIndfx) {
+        supfr.sftVblufAt(bVbluf, rowIndfx, dolumnIndfx);
     }
 */
 
-    public boolean editColumnRow(int columnIndex, int rowIndex) {
-        return super.editCellAt(rowIndex, columnIndex);
+    publid boolfbn fditColumnRow(int dolumnIndfx, int rowIndfx) {
+        rfturn supfr.fditCfllAt(rowIndfx, dolumnIndfx);
     }
 
-    public boolean editColumnRow(int columnIndex, int rowIndex, EventObject e){
-        return super.editCellAt(rowIndex, columnIndex, e);
+    publid boolfbn fditColumnRow(int dolumnIndfx, int rowIndfx, EvfntObjfdt f){
+        rfturn supfr.fditCfllAt(rowIndfx, dolumnIndfx, f);
     }
 
 
-}  // End Of Class OldJTable
+}  // End Of Clbss OldJTbblf

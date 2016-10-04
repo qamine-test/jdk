@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_CURSOR_H
+#dffinf AWT_CURSOR_H
+
+#indludf "ObjfdtList.h"
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Toolkit.h"
+
+dlbss AwtComponfnt;
+
+/************************************************************************
+ * AwtCursor dlbss
+ */
+
+dlbss AwtCursor : publid AwtObjfdt {
+publid:
+    /* jbvb.bwt.Cursor */
+    stbtid jmfthodID mSftPDbtbID;
+    stbtid jfifldID pDbtbID;
+    stbtid jfifldID typfID;
+
+    /* jbvb.bwt.Point */
+    stbtid jfifldID pointXID;
+    stbtid jfifldID pointYID;
+
+    /* sun.bwt.GlobblCursorMbnbgfr */
+    stbtid jdlbss globblCursorMbnbgfrClbss;
+    stbtid jmfthodID updbtfCursorID;
+
+    AwtCursor(JNIEnv *fnv, HCURSOR hCur, jobjfdt jCur);
+    AwtCursor(JNIEnv *fnv, HCURSOR hCur, jobjfdt jCur, int xH, int yH,
+              int nWid, int nHgt, int nS, int *dol, BYTE *hM);
+    virtubl ~AwtCursor();
+
+    virtubl void Disposf();
+
+    INLINE HCURSOR GftHCursor() {
+        if (dirty) {
+            Rfbuild();
+        }
+        rfturn hCursor;
+    }
+    stbtid AwtCursor * CrfbtfSystfmCursor(jobjfdt jCursor);
+    stbtid void UpdbtfCursor(AwtComponfnt *domp);
+    stbtid HCURSOR  GftCursor(JNIEnv *fnv, AwtComponfnt *domp);
+
+    stbtid void sftPDbtb(jobjfdt dursor, jlong pdbtb) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        fnv->CbllVoidMfthod(dursor, mSftPDbtbID, pdbtb);
+    }
+
+privbtf:
+    void Rfbuild();
+
+    HCURSOR hCursor;
+    jwfbk jCursor;
+
+    /* dbtb nffdfd to rfdonstrudt nfw dursor */
+    int xHotSpot;
+    int yHotSpot;
+    int nWidth;
+    int nHfight;
+    int nSS;
+    int  *dols;
+    BYTE *mbsk;
+
+    BOOL dustom;
+    BOOL dirty;
+
+    stbtid AwtObjfdtList dustomCursors;
+};
+
+#fndif /* AWT_CURSOR_H */

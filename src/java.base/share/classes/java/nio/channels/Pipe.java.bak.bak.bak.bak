@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.spi.*;
+
+
+/**
+ * A pbir of dhbnnfls thbt implfmfnts b unidirfdtionbl pipf.
+ *
+ * <p> A pipf donsists of b pbir of dhbnnfls: A writbblf {@link
+ * Pipf.SinkChbnnfl sink} dhbnnfl bnd b rfbdbblf {@link Pipf.SourdfChbnnfl sourdf}
+ * dhbnnfl.  Ondf somf bytfs brf writtfn to thf sink dhbnnfl thfy dbn bf rfbd
+ * from sourdf dhbnnfl in fxbdtlyAthf ordfr in whidh thfy wfrf writtfn.
+ *
+ * <p> Whfthfr or not b thrfbd writing bytfs to b pipf will blodk until bnothfr
+ * thrfbd rfbds thosf bytfs, or somf prfviously-writtfn bytfs, from thf pipf is
+ * systfm-dfpfndfnt bnd thfrfforf unspfdififd.  Mbny pipf implfmfntbtions will
+ * bufffr up to b dfrtbin numbfr of bytfs bftwffn thf sink bnd sourdf dhbnnfls,
+ * but sudh bufffring should not bf bssumfd.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss Pipf {
+
+    /**
+     * A dhbnnfl rfprfsfnting thf rfbdbblf fnd of b {@link Pipf}.
+     *
+     * @sindf 1.4
+     */
+    publid stbtid bbstrbdt dlbss SourdfChbnnfl
+        fxtfnds AbstrbdtSflfdtbblfChbnnfl
+        implfmfnts RfbdbblfBytfChbnnfl, SdbttfringBytfChbnnfl
+    {
+        /**
+         * Construdts b nfw instbndf of this dlbss.
+         *
+         * @pbrbm  providfr
+         *         Thf sflfdtor providfr
+         */
+        protfdtfd SourdfChbnnfl(SflfdtorProvidfr providfr) {
+            supfr(providfr);
+        }
+
+        /**
+         * Rfturns bn opfrbtion sft idfntifying this dhbnnfl's supportfd
+         * opfrbtions.
+         *
+         * <p> Pipf-sourdf dhbnnfls only support rfbding, so this mfthod
+         * rfturns {@link SflfdtionKfy#OP_READ}.  </p>
+         *
+         * @rfturn  Thf vblid-opfrbtion sft
+         */
+        publid finbl int vblidOps() {
+            rfturn SflfdtionKfy.OP_READ;
+        }
+
+    }
+
+    /**
+     * A dhbnnfl rfprfsfnting thf writbblf fnd of b {@link Pipf}.
+     *
+     * @sindf 1.4
+     */
+    publid stbtid bbstrbdt dlbss SinkChbnnfl
+        fxtfnds AbstrbdtSflfdtbblfChbnnfl
+        implfmfnts WritbblfBytfChbnnfl, GbthfringBytfChbnnfl
+    {
+        /**
+         * Initiblizfs b nfw instbndf of this dlbss.
+         *
+         * @pbrbm  providfr
+         *         Thf sflfdtor providfr
+         */
+        protfdtfd SinkChbnnfl(SflfdtorProvidfr providfr) {
+            supfr(providfr);
+        }
+
+        /**
+         * Rfturns bn opfrbtion sft idfntifying this dhbnnfl's supportfd
+         * opfrbtions.
+         *
+         * <p> Pipf-sink dhbnnfls only support writing, so this mfthod rfturns
+         * {@link SflfdtionKfy#OP_WRITE}.  </p>
+         *
+         * @rfturn  Thf vblid-opfrbtion sft
+         */
+        publid finbl int vblidOps() {
+            rfturn SflfdtionKfy.OP_WRITE;
+        }
+
+    }
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd Pipf() { }
+
+    /**
+     * Rfturns this pipf's sourdf dhbnnfl.
+     *
+     * @rfturn  This pipf's sourdf dhbnnfl
+     */
+    publid bbstrbdt SourdfChbnnfl sourdf();
+
+    /**
+     * Rfturns this pipf's sink dhbnnfl.
+     *
+     * @rfturn  This pipf's sink dhbnnfl
+     */
+    publid bbstrbdt SinkChbnnfl sink();
+
+    /**
+     * Opfns b pipf.
+     *
+     * <p> Thf nfw pipf is drfbtfd by invoking thf {@link
+     * jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr#opfnPipf opfnPipf} mfthod of thf
+     * systfm-widf dffbult {@link jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr}
+     * objfdt.  </p>
+     *
+     * @rfturn  A nfw pipf
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid stbtid Pipf opfn() throws IOExdfption {
+        rfturn SflfdtorProvidfr.providfr().opfnPipf();
+    }
+
+}

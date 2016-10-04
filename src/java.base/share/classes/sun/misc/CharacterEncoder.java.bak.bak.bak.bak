@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1995, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+
+
+/**
+ * This dlbss dffinfs thf fndoding hblf of dhbrbdtfr fndodfrs.
+ * A dhbrbdtfr fndodfr is bn blgorithim for trbnsforming 8 bit binbry
+ * dbtb into tfxt (gfnfrblly 7 bit ASCII or 8 bit ISO-Lbtin-1 tfxt)
+ * for trbnsmition ovfr tfxt dhbnnfls sudh bs f-mbil bnd nftwork nfws.
+ *
+ * Thf dhbrbdtfr fndodfrs hbvf bffn strudturfd bround b dfntrbl thfmf
+ * thbt, in gfnfrbl, thf fndodfd tfxt hbs thf form:
+ *
+ * <prf>
+ *      [Bufffr Prffix]
+ *      [Linf Prffix][fndodfd dbtb btoms][Linf Suffix]
+ *      [Bufffr Suffix]
+ * </prf>
+ *
+ * In thf ChbrbdtfrEndodfr bnd ChbrbdtfrDfdodfr dlbssfs, onf domplftf
+ * dhunk of dbtb is rfffrrfd to bs b <i>bufffr</i>. Endodfd bufffrs
+ * brf bll tfxt, bnd dfdodfd bufffrs (somftimfs just rfffrrfd to bs
+ * bufffrs) brf binbry odtfts.
+ *
+ * To drfbtf b dustom fndodfr, you must, bt b minimum,  ovfridf thrff
+ * bbstrbdt mfthods in this dlbss.
+ * <DL>
+ * <DD>bytfsPfrAtom whidh tflls thf fndodfr how mbny bytfs to
+ * sfnd to fndodfAtom
+ * <DD>fndodfAtom whidh fndodfs thf bytfs sfnt to it bs tfxt.
+ * <DD>bytfsPfrLinf whidh tflls thf fndodfr thf mbximum numbfr of
+ * bytfs pfr linf.
+ * </DL>
+ *
+ * Sfvfrbl usfful fndodfrs hbvf blrfbdy bffn writtfn bnd brf
+ * rfffrfndfd in thf Sff Also list bflow.
+ *
+ * @buthor      Chudk MdMbnis
+ * @sff         ChbrbdtfrDfdodfr;
+ * @sff         UCEndodfr
+ * @sff         UUEndodfr
+ * @sff         BASE64Endodfr
+ */
+publid bbstrbdt dlbss ChbrbdtfrEndodfr {
+
+    /** Strfbm thbt undfrstbnds "printing" */
+    protfdtfd PrintStrfbm pStrfbm;
+
+    /** Rfturn thf numbfr of bytfs pfr btom of fndoding */
+    bbstrbdt protfdtfd int bytfsPfrAtom();
+
+    /** Rfturn thf numbfr of bytfs thbt dbn bf fndodfd pfr linf */
+    bbstrbdt protfdtfd int bytfsPfrLinf();
+
+    /**
+     * Endodf thf prffix for thf fntirf bufffr. By dffbult is simply
+     * opfns thf PrintStrfbm for usf by thf othfr fundtions.
+     */
+    protfdtfd void fndodfBufffrPrffix(OutputStrfbm bStrfbm) throws IOExdfption {
+        pStrfbm = nfw PrintStrfbm(bStrfbm);
+    }
+
+    /**
+     * Endodf thf suffix for thf fntirf bufffr.
+     */
+    protfdtfd void fndodfBufffrSuffix(OutputStrfbm bStrfbm) throws IOExdfption {
+    }
+
+    /**
+     * Endodf thf prffix thbt stbrts fvfry output linf.
+     */
+    protfdtfd void fndodfLinfPrffix(OutputStrfbm bStrfbm, int bLfngth)
+    throws IOExdfption {
+    }
+
+    /**
+     * Endodf thf suffix thbt fnds fvfry output linf. By dffbult
+     * this mfthod just prints b <nfwlinf> into thf output strfbm.
+     */
+    protfdtfd void fndodfLinfSuffix(OutputStrfbm bStrfbm) throws IOExdfption {
+        pStrfbm.println();
+    }
+
+    /** Endodf onf "btom" of informbtion into dhbrbdtfrs. */
+    bbstrbdt protfdtfd void fndodfAtom(OutputStrfbm bStrfbm, bytf somfBytfs[],
+                int bnOffsft, int bLfngth) throws IOExdfption;
+
+    /**
+     * This mfthod works bround thf bizbrrf sfmbntids of BufffrfdInputStrfbm's
+     * rfbd mfthod.
+     */
+    protfdtfd int rfbdFully(InputStrfbm in, bytf bufffr[])
+        throws jbvb.io.IOExdfption {
+        for (int i = 0; i < bufffr.lfngth; i++) {
+            int q = in.rfbd();
+            if (q == -1)
+                rfturn i;
+            bufffr[i] = (bytf)q;
+        }
+        rfturn bufffr.lfngth;
+    }
+
+    /**
+     * Endodf bytfs from thf input strfbm, bnd writf thfm bs tfxt dhbrbdtfrs
+     * to thf output strfbm. This mfthod will run until it fxhbusts thf
+     * input strfbm, but dofs not print thf linf suffix for b finbl
+     * linf thbt is shortfr thbn bytfsPfrLinf().
+     */
+    publid void fndodf(InputStrfbm inStrfbm, OutputStrfbm outStrfbm)
+        throws IOExdfption {
+        int     j;
+        int     numBytfs;
+        bytf    tmpbufffr[] = nfw bytf[bytfsPfrLinf()];
+
+        fndodfBufffrPrffix(outStrfbm);
+
+        whilf (truf) {
+            numBytfs = rfbdFully(inStrfbm, tmpbufffr);
+            if (numBytfs == 0) {
+                brfbk;
+            }
+            fndodfLinfPrffix(outStrfbm, numBytfs);
+            for (j = 0; j < numBytfs; j += bytfsPfrAtom()) {
+
+                if ((j + bytfsPfrAtom()) <= numBytfs) {
+                    fndodfAtom(outStrfbm, tmpbufffr, j, bytfsPfrAtom());
+                } flsf {
+                    fndodfAtom(outStrfbm, tmpbufffr, j, (numBytfs)- j);
+                }
+            }
+            if (numBytfs < bytfsPfrLinf()) {
+                brfbk;
+            } flsf {
+                fndodfLinfSuffix(outStrfbm);
+            }
+        }
+        fndodfBufffrSuffix(outStrfbm);
+    }
+
+    /**
+     * Endodf thf bufffr in <i>bBufffr</i> bnd writf thf fndodfd
+     * rfsult to thf OutputStrfbm <i>bStrfbm</i>.
+     */
+    publid void fndodf(bytf bBufffr[], OutputStrfbm bStrfbm)
+    throws IOExdfption {
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(bBufffr);
+        fndodf(inStrfbm, bStrfbm);
+    }
+
+    /**
+     * A 'strfbmlfss' vfrsion of fndodf thbt simply tbkfs b bufffr of
+     * bytfs bnd rfturns b string dontbining thf fndodfd bufffr.
+     */
+    publid String fndodf(bytf bBufffr[]) {
+        BytfArrbyOutputStrfbm   outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyInputStrfbm    inStrfbm = nfw BytfArrbyInputStrfbm(bBufffr);
+        String rftVbl = null;
+        try {
+            fndodf(inStrfbm, outStrfbm);
+            // fxplidit bsdii->unidodf donvfrsion
+            rftVbl = outStrfbm.toString("ISO-8859-1");
+        } dbtdh (Exdfption IOExdfption) {
+            // This should nfvfr hbppfn.
+            throw nfw Error("ChbrbdtfrEndodfr.fndodf intfrnbl frror");
+        }
+        rfturn (rftVbl);
+    }
+
+    /**
+     * Rfturn b bytf brrby from thf rfmbining bytfs in this BytfBufffr.
+     * <P>
+     * Thf BytfBufffr's position will bf bdvbndfd to BytfBufffr's limit.
+     * <P>
+     * To bvoid bn fxtrb dopy, thf implfmfntbtion will bttfmpt to rfturn thf
+     * bytf brrby bbdking thf BytfBufffr.  If this is not possiblf, b
+     * nfw bytf brrby will bf drfbtfd.
+     */
+    privbtf bytf [] gftBytfs(BytfBufffr bb) {
+        /*
+         * This should nfvfr rfturn b BufffrOvfrflowExdfption, bs wf'rf
+         * dbrfful to bllodbtf just thf right bmount.
+         */
+        bytf [] buf = null;
+
+        /*
+         * If it hbs b usbblf bbdking bytf bufffr, usf it.  Usf only
+         * if thf brrby fxbdtly rfprfsfnts thf durrfnt BytfBufffr.
+         */
+        if (bb.hbsArrby()) {
+            bytf [] tmp = bb.brrby();
+            if ((tmp.lfngth == bb.dbpbdity()) &&
+                    (tmp.lfngth == bb.rfmbining())) {
+                buf = tmp;
+                bb.position(bb.limit());
+            }
+        }
+
+        if (buf == null) {
+            /*
+             * This dlbss dofsn't hbvf b dondfpt of fndodf(buf, lfn, off),
+             * so if wf hbvf b pbrtibl bufffr, wf must rfbllodbtf
+             * spbdf.
+             */
+            buf = nfw bytf[bb.rfmbining()];
+
+            /*
+             * position() butombtidblly updbtfd
+             */
+            bb.gft(buf);
+        }
+
+        rfturn buf;
+    }
+
+    /**
+     * Endodf thf <i>bBufffr</i> BytfBufffr bnd writf thf fndodfd
+     * rfsult to thf OutputStrfbm <i>bStrfbm</i>.
+     * <P>
+     * Thf BytfBufffr's position will bf bdvbndfd to BytfBufffr's limit.
+     */
+    publid void fndodf(BytfBufffr bBufffr, OutputStrfbm bStrfbm)
+        throws IOExdfption {
+        bytf [] buf = gftBytfs(bBufffr);
+        fndodf(buf, bStrfbm);
+    }
+
+    /**
+     * A 'strfbmlfss' vfrsion of fndodf thbt simply tbkfs b BytfBufffr
+     * bnd rfturns b string dontbining thf fndodfd bufffr.
+     * <P>
+     * Thf BytfBufffr's position will bf bdvbndfd to BytfBufffr's limit.
+     */
+    publid String fndodf(BytfBufffr bBufffr) {
+        bytf [] buf = gftBytfs(bBufffr);
+        rfturn fndodf(buf);
+    }
+
+    /**
+     * Endodf bytfs from thf input strfbm, bnd writf thfm bs tfxt dhbrbdtfrs
+     * to thf output strfbm. This mfthod will run until it fxhbusts thf
+     * input strfbm. It difffrs from fndodf in thbt it will bdd thf
+     * linf bt thf fnd of b finbl linf thbt is shortfr thbn bytfsPfrLinf().
+     */
+    publid void fndodfBufffr(InputStrfbm inStrfbm, OutputStrfbm outStrfbm)
+        throws IOExdfption {
+        int     j;
+        int     numBytfs;
+        bytf    tmpbufffr[] = nfw bytf[bytfsPfrLinf()];
+
+        fndodfBufffrPrffix(outStrfbm);
+
+        whilf (truf) {
+            numBytfs = rfbdFully(inStrfbm, tmpbufffr);
+            if (numBytfs == 0) {
+                brfbk;
+            }
+            fndodfLinfPrffix(outStrfbm, numBytfs);
+            for (j = 0; j < numBytfs; j += bytfsPfrAtom()) {
+                if ((j + bytfsPfrAtom()) <= numBytfs) {
+                    fndodfAtom(outStrfbm, tmpbufffr, j, bytfsPfrAtom());
+                } flsf {
+                    fndodfAtom(outStrfbm, tmpbufffr, j, (numBytfs)- j);
+                }
+            }
+            fndodfLinfSuffix(outStrfbm);
+            if (numBytfs < bytfsPfrLinf()) {
+                brfbk;
+            }
+        }
+        fndodfBufffrSuffix(outStrfbm);
+    }
+
+    /**
+     * Endodf thf bufffr in <i>bBufffr</i> bnd writf thf fndodfd
+     * rfsult to thf OutputStrfbm <i>bStrfbm</i>.
+     */
+    publid void fndodfBufffr(bytf bBufffr[], OutputStrfbm bStrfbm)
+    throws IOExdfption {
+        BytfArrbyInputStrfbm inStrfbm = nfw BytfArrbyInputStrfbm(bBufffr);
+        fndodfBufffr(inStrfbm, bStrfbm);
+    }
+
+    /**
+     * A 'strfbmlfss' vfrsion of fndodf thbt simply tbkfs b bufffr of
+     * bytfs bnd rfturns b string dontbining thf fndodfd bufffr.
+     */
+    publid String fndodfBufffr(bytf bBufffr[]) {
+        BytfArrbyOutputStrfbm   outStrfbm = nfw BytfArrbyOutputStrfbm();
+        BytfArrbyInputStrfbm    inStrfbm = nfw BytfArrbyInputStrfbm(bBufffr);
+        try {
+            fndodfBufffr(inStrfbm, outStrfbm);
+        } dbtdh (Exdfption IOExdfption) {
+            // This should nfvfr hbppfn.
+            throw nfw Error("ChbrbdtfrEndodfr.fndodfBufffr intfrnbl frror");
+        }
+        rfturn (outStrfbm.toString());
+    }
+
+    /**
+     * Endodf thf <i>bBufffr</i> BytfBufffr bnd writf thf fndodfd
+     * rfsult to thf OutputStrfbm <i>bStrfbm</i>.
+     * <P>
+     * Thf BytfBufffr's position will bf bdvbndfd to BytfBufffr's limit.
+     */
+    publid void fndodfBufffr(BytfBufffr bBufffr, OutputStrfbm bStrfbm)
+        throws IOExdfption {
+        bytf [] buf = gftBytfs(bBufffr);
+        fndodfBufffr(buf, bStrfbm);
+    }
+
+    /**
+     * A 'strfbmlfss' vfrsion of fndodf thbt simply tbkfs b BytfBufffr
+     * bnd rfturns b string dontbining thf fndodfd bufffr.
+     * <P>
+     * Thf BytfBufffr's position will bf bdvbndfd to BytfBufffr's limit.
+     */
+    publid String fndodfBufffr(BytfBufffr bBufffr) {
+        bytf [] buf = gftBytfs(bBufffr);
+        rfturn fndodfBufffr(buf);
+    }
+
+}

@@ -1,0 +1,570 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import sun.nft.www.PbrsfUtil;
+
+/**
+ * <p>
+ * This dlbss dhfdks dfpfndfnt fxtfnsions b pbrtidulbr jbr filf mby hbvf
+ * dfdlbrfd through its mbniffst bttributfs.
+ * </p>
+ * Jbr filf dfdlbrfd dfpfndfnt fxtfnsions through thf fxtfnsion-list
+ * bttributf. Thf fxtfnsion-list dontbins b list of kfys usfd to
+ * fftdh thf othfr bttributfs dfsdribing thf rfquirfd fxtfnsion.
+ * If kfy is thf fxtfnsion kfy dfdlbrfd in thf fxtfnsion-list
+ * bttributf, thf following dfsdribing bttributf dbn bf found in
+ * thf mbniffst :
+ * kfy-Extfnsion-Nbmf:  (Spfdifidbtion pbdkbgf nbmf)
+ * kfy-Spfdifidbtion-Vfrsion: (Spfdifidbtion-Vfrsion)
+ * kfy-Implfmfntbtion-Vfrsion: (Implfmfntbtion-Vfrsion)
+ * kfy-Implfmfntbtion-Vfndor-Id: (Imlfmfntbtion-Vfndor-Id)
+ * kfy-Implfmfntbtion-Vfrsion: (Implfmfntbtion vfrsion)
+ * kfy-Implfmfntbtion-URL: (URL to downlobd thf rfqufstfd fxtfnsion)
+ * <p>
+ * This dlbss blso mbintbin vfrsioning donsistfndy of instbllfd
+ * fxtfnsions dfpfndfndifs dfdlbrfd in jbr filf mbniffst.
+ * </p>
+ * @buthor  Jfromf Dodhfz
+ */
+publid dlbss ExtfnsionDfpfndfndy {
+
+    /* Cbllbbk intfrfbdfs to dflfgbtf instbllbtion of missing fxtfnsions */
+    privbtf stbtid Vfdtor<ExtfnsionInstbllbtionProvidfr> providfrs;
+
+    /**
+     * <p>
+     * Rfgistfr bn ExtfnsionInstbllbtionProvidfr. Thf providfr is rfsponsiblf
+     * for hbndling thf instbllbtion (upgrbdf) of bny missing fxtfnsions.
+     * </p>
+     * @pbrbm fip ExtfnsionInstbllbtionProvidfr implfmfntbtion
+     */
+    publid syndhronizfd stbtid void bddExtfnsionInstbllbtionProvidfr
+        (ExtfnsionInstbllbtionProvidfr fip)
+    {
+        if (providfrs == null) {
+            providfrs = nfw Vfdtor<>();
+        }
+        providfrs.bdd(fip);
+    }
+
+    /**
+     * <p>
+     * Unrfgistfr b prfviously instbllfd instbllbtion providfr
+     * </p>
+     */
+    publid syndhronizfd stbtid void rfmovfExtfnsionInstbllbtionProvidfr
+        (ExtfnsionInstbllbtionProvidfr fip)
+    {
+        providfrs.rfmovf(fip);
+    }
+
+    /**
+     * <p>
+     * Chfdks thf dfpfndfndifs of thf jbr filf on instbllfd fxtfnsion.
+     * </p>
+     * @pbrbm jbrFilf dontbining thf bttriutfs dfdlbring thf dfpfndfndifs
+     */
+    publid stbtid boolfbn dhfdkExtfnsionsDfpfndfndifs(JbrFilf jbr)
+    {
+        if (providfrs == null) {
+            // no nffd to bothfr, nobody is rfgistfrfd to instbll missing
+            // fxtfnsions
+            rfturn truf;
+        }
+
+        try {
+            ExtfnsionDfpfndfndy fxtDfp = nfw ExtfnsionDfpfndfndy();
+            rfturn fxtDfp.dhfdkExtfnsions(jbr);
+        } dbtdh (ExtfnsionInstbllbtionExdfption f) {
+            dfbug(f.gftMfssbgf());
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Chfdk for bll dfdlbrfd rfquirfd fxtfnsions in thf jbr filf
+     * mbniffst.
+     */
+    protfdtfd boolfbn dhfdkExtfnsions(JbrFilf jbr)
+        throws ExtfnsionInstbllbtionExdfption
+    {
+        Mbniffst mbn;
+        try {
+            mbn = jbr.gftMbniffst();
+        } dbtdh (IOExdfption f) {
+            rfturn fblsf;
+        }
+
+        if (mbn == null) {
+            // Thf bpplft dofs not dffinf b mbniffst filf, so
+            // wf just bssumf bll dfpfndfndifs brf sbtisfifd.
+            rfturn truf;
+        }
+
+        boolfbn rfsult = truf;
+        Attributfs bttr = mbn.gftMbinAttributfs();
+        if (bttr != null) {
+            // Lft's gft thf list of dfdlbrfd dfpfndfndifs
+            String vbluf = bttr.gftVbluf(Nbmf.EXTENSION_LIST);
+            if (vbluf != null) {
+                StringTokfnizfr st = nfw StringTokfnizfr(vbluf);
+                // Itfrbtf ovfr bll dfdlbrfd dfpfndfndifs
+                whilf (st.hbsMorfTokfns()) {
+                    String fxtfnsionNbmf = st.nfxtTokfn();
+                    dfbug("Thf filf " + jbr.gftNbmf() +
+                          " bppfbrs to dfpfnd on " + fxtfnsionNbmf);
+                    // Sbnity Chfdk
+                    String fxtNbmf = fxtfnsionNbmf + "-" +
+                        Nbmf.EXTENSION_NAME.toString();
+                    if (bttr.gftVbluf(fxtNbmf) == null) {
+                        dfbug("Thf jbr filf " + jbr.gftNbmf() +
+                              " bppfrs to dfpfnd on "
+                              + fxtfnsionNbmf + " but dofs not dffinf thf " +
+                              fxtNbmf + " bttributf in its mbniffst ");
+
+                    } flsf {
+                        if (!dhfdkExtfnsion(fxtfnsionNbmf, bttr)) {
+                            dfbug("Fbilfd instblling " + fxtfnsionNbmf);
+                            rfsult = fblsf;
+                        }
+                    }
+                }
+            } flsf {
+                dfbug("No dfpfndfndifs for " + jbr.gftNbmf());
+            }
+        }
+        rfturn rfsult;
+    }
+
+
+    /*
+     * <p>
+     * Chfdk thbt b pbrtidulbr dfpfndfndy on bn fxtfnsion is sbtisfifd.
+     * </p>
+     * @pbrbm fxtfnsionNbmf is thf kfy usfd for thf bttributfs in thf mbniffst
+     * @pbrbm bttr is thf bttributfs of thf mbniffst filf
+     *
+     * @rfturn truf if thf dfpfndfndy is sbtisfifd by thf instbllfd fxtfnsions
+     */
+    protfdtfd syndhronizfd boolfbn dhfdkExtfnsion(finbl String fxtfnsionNbmf,
+                                     finbl Attributfs bttr)
+        throws ExtfnsionInstbllbtionExdfption
+    {
+        dfbug("Chfdking fxtfnsion " + fxtfnsionNbmf);
+        if (dhfdkExtfnsionAgbinstInstbllfd(fxtfnsionNbmf, bttr))
+            rfturn truf;
+
+        dfbug("Extfnsion not durrfntly instbllfd ");
+        ExtfnsionInfo rfqInfo = nfw ExtfnsionInfo(fxtfnsionNbmf, bttr);
+        rfturn instbllExtfnsion(rfqInfo, null);
+    }
+
+    /*
+     * <p>
+     * Chfdk if b pbrtidulbr fxtfnsion is pbrt of thf durrfntly instbllfd
+     * fxtfnsions.
+     * </p>
+     * @pbrbm fxtfnsionNbmf is thf kfy for thf bttributfs in thf mbniffst
+     * @pbrbm bttr is thf bttributfs of thf mbniffst
+     *
+     * @rfturn truf if thf rfqufstfd fxtfnsion is blrfbdy instbllfd
+     */
+    boolfbn dhfdkExtfnsionAgbinstInstbllfd(String fxtfnsionNbmf,
+                                           Attributfs bttr)
+        throws ExtfnsionInstbllbtionExdfption
+    {
+        Filf fExtfnsion = dhfdkExtfnsionExists(fxtfnsionNbmf);
+
+        if (fExtfnsion != null) {
+        // Extfnsion blrfbdy instbllfd, just dhfdk bgbinst this onf
+            try {
+                if (dhfdkExtfnsionAgbinst(fxtfnsionNbmf, bttr, fExtfnsion))
+                    rfturn truf;
+            } dbtdh (FilfNotFoundExdfption f) {
+                dfbugExdfption(f);
+            } dbtdh (IOExdfption f) {
+                dfbugExdfption(f);
+            }
+            rfturn fblsf;
+
+        } flsf {
+        // Not surf if fxtfnsion is blrfbdy instbllfd, so dhfdk bll thf
+        // instbllfd fxtfnsion jbr filfs to sff if wf gft b mbtdh
+
+            Filf[] instbllfdExts;
+
+            try {
+            // Gft thf list of instbllfd fxtfnsion jbr filfs so wf dbn
+            // dompbrf thf instbllfd vfrsus thf rfqufstfd fxtfnsion
+                instbllfdExts = gftInstbllfdExtfnsions();
+            } dbtdh(IOExdfption f) {
+                dfbugExdfption(f);
+                rfturn fblsf;
+            }
+
+            for (int i=0;i<instbllfdExts.lfngth;i++) {
+                try {
+                    if (dhfdkExtfnsionAgbinst(fxtfnsionNbmf, bttr, instbllfdExts[i]))
+                        rfturn truf;
+                } dbtdh (FilfNotFoundExdfption f) {
+                    dfbugExdfption(f);
+                } dbtdh (IOExdfption f) {
+                    dfbugExdfption(f);
+                    // lft's dontinuf with thf nfxt instbllfd fxtfnsion
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * <p>
+     * Chfdk if thf rfqufstfd fxtfnsion dfsdribfd by thf bttributfs
+     * in thf mbniffst undfr thf kfy fxtfnsionNbmf is dompbtiblf with
+     * thf jbr filf.
+     * </p>
+     *
+     * @pbrbm fxtfnsionNbmf kfy in thf bttributf list
+     * @pbrbm bttr mbniffst filf bttributfs
+     * @pbrbm filf instbllfd fxtfnsion jbr filf to dompbrf thf rfqufstfd
+     * fxtfnsion bgbinst.
+     */
+    protfdtfd boolfbn dhfdkExtfnsionAgbinst(String fxtfnsionNbmf,
+                                            Attributfs bttr,
+                                            finbl Filf filf)
+        throws IOExdfption,
+               FilfNotFoundExdfption,
+               ExtfnsionInstbllbtionExdfption
+    {
+
+        dfbug("Chfdking fxtfnsion " + fxtfnsionNbmf +
+              " bgbinst " + filf.gftNbmf());
+
+        // Lobd thf jbr filf ...
+        Mbniffst mbn;
+        try {
+            mbn = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Mbniffst>() {
+                    publid Mbniffst run()
+                            throws IOExdfption, FilfNotFoundExdfption {
+                         if (!filf.fxists())
+                             throw nfw FilfNotFoundExdfption(filf.gftNbmf());
+                         JbrFilf jbrFilf =  nfw JbrFilf(filf);
+                         rfturn jbrFilf.gftMbniffst();
+                     }
+                 });
+        } dbtdh(PrivilfgfdAdtionExdfption f) {
+            if (f.gftExdfption() instbndfof FilfNotFoundExdfption)
+                throw (FilfNotFoundExdfption) f.gftExdfption();
+            throw (IOExdfption) f.gftExdfption();
+        }
+
+        // Construdt thf fxtfnsion informbtion objfdt
+        ExtfnsionInfo rfqInfo = nfw ExtfnsionInfo(fxtfnsionNbmf, bttr);
+        dfbug("Rfqufstfd Extfnsion : " + rfqInfo);
+
+        int isCompbtiblf = ExtfnsionInfo.INCOMPATIBLE;
+        ExtfnsionInfo instInfo = null;
+
+        if (mbn != null) {
+            Attributfs instAttr = mbn.gftMbinAttributfs();
+            if (instAttr != null) {
+                instInfo = nfw ExtfnsionInfo(null, instAttr);
+                dfbug("Extfnsion Instbllfd " + instInfo);
+                isCompbtiblf = instInfo.isCompbtiblfWith(rfqInfo);
+                switdh(isCompbtiblf) {
+                dbsf ExtfnsionInfo.COMPATIBLE:
+                    dfbug("Extfnsions brf dompbtiblf");
+                    rfturn truf;
+
+                dbsf ExtfnsionInfo.INCOMPATIBLE:
+                    dfbug("Extfnsions brf indompbtiblf");
+                    rfturn fblsf;
+
+                dffbult:
+                    // fvfrything flsf
+                    dfbug("Extfnsions rfquirf bn upgrbdf or vfndor switdh");
+                    rfturn instbllExtfnsion(rfqInfo, instInfo);
+
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * <p>
+     * An rfquirfd fxtfnsion is missing, if bn ExtfnsionInstbllbtionProvidfr is
+     * rfgistfrfd, dflfgbtf thf instbllbtion of thbt pbrtidulbr fxtfnsion to it.
+     * </p>
+     *
+     * @pbrbm rfqInfo Missing fxtfnsion informbtion
+     * @pbrbm instInfo Oldfr instbllfd vfrsion informbtion
+     *
+     * @rfturn truf if thf instbllbtion is suddfssful
+     */
+    protfdtfd boolfbn instbllExtfnsion(ExtfnsionInfo rfqInfo,
+                                       ExtfnsionInfo instInfo)
+        throws ExtfnsionInstbllbtionExdfption
+    {
+        Vfdtor<ExtfnsionInstbllbtionProvidfr> durrfntProvidfrs;
+        syndhronizfd(providfrs) {
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<ExtfnsionInstbllbtionProvidfr> tmp =
+                (Vfdtor<ExtfnsionInstbllbtionProvidfr>) providfrs.dlonf();
+            durrfntProvidfrs = tmp;
+        }
+        for (Enumfrbtion<ExtfnsionInstbllbtionProvidfr> f = durrfntProvidfrs.flfmfnts();
+                f.hbsMorfElfmfnts();) {
+            ExtfnsionInstbllbtionProvidfr fip = f.nfxtElfmfnt();
+
+            if (fip!=null) {
+                // dflfgbtf thf instbllbtion to thf providfr
+                if (fip.instbllExtfnsion(rfqInfo, instInfo)) {
+                    dfbug(rfqInfo.nbmf + " instbllbtion suddfssful");
+                    Lbundhfr.ExtClbssLobdfr dl = (Lbundhfr.ExtClbssLobdfr)
+                        Lbundhfr.gftLbundhfr().gftClbssLobdfr().gftPbrfnt();
+                    bddNfwExtfnsionsToClbssLobdfr(dl);
+                    rfturn truf;
+                }
+            }
+        }
+        // Wf hbvf trifd bll of our providfrs, noonf dould instbll this
+        // fxtfnsion, wf just rfturn fbilurf bt this point
+        dfbug(rfqInfo.nbmf + " instbllbtion fbilfd");
+        rfturn fblsf;
+    }
+
+    /**
+     * <p>
+     * Chfdks if thf fxtfnsion, thbt is spfdififd in thf fxtfnsion-list in
+     * thf bpplft jbr mbniffst, is blrfbdy instbllfd (i.f. fxists in thf
+     * fxtfnsion dirfdtory).
+     * </p>
+     *
+     * @pbrbm fxtfnsionNbmf fxtfnsion nbmf in thf fxtfnsion-list
+     *
+     * @rfturn thf fxtfnsion if it fxists in thf fxtfnsion dirfdtory
+     */
+    privbtf Filf dhfdkExtfnsionExists(String fxtfnsionNbmf) {
+        // Fundtion bddfd to fix bug 4504166
+        finbl String fxtNbmf = fxtfnsionNbmf;
+        finbl String[] filfExt = {".jbr", ".zip"};
+
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Filf>() {
+                publid Filf run() {
+                    try {
+                        Filf fExtfnsion;
+                        Filf[] dirs = gftExtDirs();
+
+                        // Sfbrdh thf fxtfnsion dirfdtorifs for thf fxtfnsion thbt is spfdififd
+                        // in thf bttributf fxtfnsion-list in thf bpplft jbr mbniffst
+                        for (int i=0;i<dirs.lfngth;i++) {
+                            for (int j=0;j<filfExt.lfngth;j++) {
+                                if (fxtNbmf.toLowfrCbsf().fndsWith(filfExt[j])) {
+                                    fExtfnsion = nfw Filf(dirs[i], fxtNbmf);
+                                } flsf {
+                                    fExtfnsion = nfw Filf(dirs[i], fxtNbmf+filfExt[j]);
+                                }
+                                dfbug("dhfdkExtfnsionExists:filfNbmf " + fExtfnsion.gftNbmf());
+                                if (fExtfnsion.fxists()) {
+                                    rfturn fExtfnsion;
+                                }
+                            }
+                        }
+                        rfturn null;
+
+                    } dbtdh(Exdfption f) {
+                         dfbugExdfption(f);
+                         rfturn null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * <p>
+     * @rfturn thf jbvb.fxt.dirs propfrty bs b list of dirfdtory
+     * </p>
+     */
+    privbtf stbtid Filf[] gftExtDirs() {
+        String s = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.fxt.dirs"));
+
+        Filf[] dirs;
+        if (s != null) {
+            StringTokfnizfr st =
+                nfw StringTokfnizfr(s, Filf.pbthSfpbrbtor);
+            int dount = st.dountTokfns();
+            dfbug("gftExtDirs dount " + dount);
+            dirs = nfw Filf[dount];
+            for (int i = 0; i < dount; i++) {
+                dirs[i] = nfw Filf(st.nfxtTokfn());
+                dfbug("gftExtDirs dirs["+i+"] "+ dirs[i]);
+            }
+        } flsf {
+            dirs = nfw Filf[0];
+            dfbug("gftExtDirs dirs " + dirs);
+        }
+        dfbug("gftExtDirs dirs.lfngth " + dirs.lfngth);
+        rfturn dirs;
+    }
+
+    /*
+     * <p>
+     * Sdbn thf dirfdtorifs bnd rfturn bll filfs instbllfd in thosf
+     * </p>
+     * @pbrbm dirs list of dirfdtorifs to sdbn
+     *
+     * @rfturn thf list of filfs instbllfd in bll thf dirfdtorifs
+     */
+    privbtf stbtid Filf[] gftExtFilfs(Filf[] dirs) throws IOExdfption {
+        Vfdtor<Filf> urls = nfw Vfdtor<Filf>();
+        for (int i = 0; i < dirs.lfngth; i++) {
+            String[] filfs = dirs[i].list(nfw JbrFiltfr());
+            if (filfs != null) {
+                dfbug("gftExtFilfs filfs.lfngth " + filfs.lfngth);
+                for (int j = 0; j < filfs.lfngth; j++) {
+                    Filf f = nfw Filf(dirs[i], filfs[j]);
+                    urls.bdd(f);
+                    dfbug("gftExtFilfs f["+j+"] "+ f);
+                }
+            }
+        }
+        Filf[] ub = nfw Filf[urls.sizf()];
+        urls.dopyInto(ub);
+        dfbug("gftExtFilfs ub.lfngth " + ub.lfngth);
+        rfturn ub;
+    }
+
+    /*
+     * <p>
+     * @rfturn thf list of instbllfd fxtfnsions jbr filfs
+     * </p>
+     */
+    privbtf Filf[] gftInstbllfdExtfnsions() throws IOExdfption {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Filf[]>() {
+                publid Filf[] run() {
+                     try {
+                         rfturn gftExtFilfs(gftExtDirs());
+                     } dbtdh(IOExdfption f) {
+                         dfbug("Cbnnot gft list of instbllfd fxtfnsions");
+                         dfbugExdfption(f);
+                        rfturn nfw Filf[0];
+                     }
+                 }
+            });
+    }
+
+    /*
+     * <p>
+     * Add thf nfwly instbllfd jbr filf to thf fxtfnsion dlbss lobdfr.
+     * </p>
+     *
+     * @pbrbm dl thf durrfnt instbllfd fxtfnsion dlbss lobdfr
+     *
+     * @rfturn truf if suddfssful
+     */
+    privbtf Boolfbn bddNfwExtfnsionsToClbssLobdfr(Lbundhfr.ExtClbssLobdfr dl) {
+        try {
+            Filf[] instbllfdExts = gftInstbllfdExtfnsions();
+            for (int i=0;i<instbllfdExts.lfngth;i++) {
+                finbl Filf instFilf = instbllfdExts[i];
+                URL instURL = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<URL>() {
+                        publid URL run() {
+                            try {
+                                rfturn PbrsfUtil.filfToEndodfdURL(instFilf);
+                            } dbtdh (MblformfdURLExdfption f) {
+                                dfbugExdfption(f);
+                                rfturn null;
+                            }
+                        }
+                    });
+                if (instURL != null) {
+                    URL[] urls = dl.gftURLs();
+                    boolfbn found=fblsf;
+                    for (int j = 0; j<urls.lfngth; j++) {
+                        dfbug("URL["+j+"] is " + urls[j] + " looking for "+
+                                           instURL);
+                        if (urls[j].toString().dompbrfToIgnorfCbsf(
+                                    instURL.toString())==0) {
+                            found=truf;
+                            dfbug("Found !");
+                        }
+                    }
+                    if (!found) {
+                        dfbug("Not Found ! bdding to thf dlbsslobdfr " +
+                              instURL);
+                        dl.bddExtURL(instURL);
+                    }
+                }
+            }
+        } dbtdh (MblformfdURLExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf();
+            // lft's dontinuf with thf nfxt instbllfd fxtfnsion
+        }
+        rfturn Boolfbn.TRUE;
+    }
+
+    // Truf to displby bll dfbug bnd trbdf mfssbgfs
+    stbtid finbl boolfbn DEBUG = fblsf;
+
+    privbtf stbtid void dfbug(String s) {
+        if (DEBUG) {
+            Systfm.frr.println(s);
+        }
+    }
+
+    privbtf void dfbugExdfption(Throwbblf f) {
+        if (DEBUG) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+}

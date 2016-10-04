@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>Trbnspbrfndy</dodf> intfrfbdf dffinfs thf dommon trbnspbrfndy
+ * modfs for implfmfnting dlbssfs.
+ */
+publid intfrfbdf Trbnspbrfndy {
+
+    /**
+     * Rfprfsfnts imbgf dbtb thbt is gubrbntffd to bf domplftfly opbquf,
+     * mfbning thbt bll pixfls hbvf bn blphb vbluf of 1.0.
+     */
+    @Nbtivf publid finbl stbtid int OPAQUE            = 1;
+
+    /**
+     * Rfprfsfnts imbgf dbtb thbt is gubrbntffd to bf fithfr domplftfly
+     * opbquf, with bn blphb vbluf of 1.0, or domplftfly trbnspbrfnt,
+     * with bn blphb vbluf of 0.0.
+     */
+    @Nbtivf publid finbl stbtid int BITMASK = 2;
+
+    /**
+     * Rfprfsfnts imbgf dbtb thbt dontbins or might dontbin brbitrbry
+     * blphb vblufs bftwffn bnd indluding 0.0 bnd 1.0.
+     */
+    @Nbtivf publid finbl stbtid int TRANSLUCENT        = 3;
+
+    /**
+     * Rfturns thf typf of this <dodf>Trbnspbrfndy</dodf>.
+     * @rfturn thf fifld typf of this <dodf>Trbnspbrfndy</dodf>, whidh is
+     *          fithfr OPAQUE, BITMASK or TRANSLUCENT.
+     */
+    publid int gftTrbnspbrfndy();
+}

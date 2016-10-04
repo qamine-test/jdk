@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.https;
+pbdkbgf sun.nft.www.protodol.ittps;
 
-import java.net.URL;
-import java.net.Proxy;
-import java.io.IOException;
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.io.IOExdfption;
 
 /**
- * This class was introduced to provide an additional level of
- * abstraction between javax.net.ssl.HttpURLConnection and
- * com.sun.net.ssl.HttpURLConnection objects. <p>
+ * Tiis dlbss wbs introdudfd to providf bn bdditionbl lfvfl of
+ * bbstrbdtion bftwffn jbvbx.nft.ssl.HttpURLConnfdtion bnd
+ * dom.sun.nft.ssl.HttpURLConnfdtion objfdts. <p>
  *
- * javax.net.ssl.HttpURLConnection is used in the new sun.net version
- * of protocol implementation (this one)
- * com.sun.net.ssl.HttpURLConnection is used in the com.sun version.
+ * jbvbx.nft.ssl.HttpURLConnfdtion is usfd in tif nfw sun.nft vfrsion
+ * of protodol implfmfntbtion (tiis onf)
+ * dom.sun.nft.ssl.HttpURLConnfdtion is usfd in tif dom.sun vfrsion.
  *
  */
-public class DelegateHttpsURLConnection extends AbstractDelegateHttpsURLConnection {
+publid dlbss DflfgbtfHttpsURLConnfdtion fxtfnds AbstrbdtDflfgbtfHttpsURLConnfdtion {
 
-    // we need a reference to the HttpsURLConnection to get
-    // the properties set there
-    // we also need it to be public so that it can be referenced
-    // from sun.net.www.protocol.http.HttpURLConnection
-    // this is for ResponseCache.put(URI, URLConnection)
-    // second parameter needs to be cast to javax.net.ssl.HttpsURLConnection
-    // instead of AbstractDelegateHttpsURLConnection
-    public javax.net.ssl.HttpsURLConnection httpsURLConnection;
+    // wf nffd b rfffrfndf to tif HttpsURLConnfdtion to gft
+    // tif propfrtifs sft tifrf
+    // wf blso nffd it to bf publid so tibt it dbn bf rfffrfndfd
+    // from sun.nft.www.protodol.ittp.HttpURLConnfdtion
+    // tiis is for RfsponsfCbdif.put(URI, URLConnfdtion)
+    // sfdond pbrbmftfr nffds to bf dbst to jbvbx.nft.ssl.HttpsURLConnfdtion
+    // instfbd of AbstrbdtDflfgbtfHttpsURLConnfdtion
+    publid jbvbx.nft.ssl.HttpsURLConnfdtion ittpsURLConnfdtion;
 
-    DelegateHttpsURLConnection(URL url,
-            sun.net.www.protocol.http.Handler handler,
-            javax.net.ssl.HttpsURLConnection httpsURLConnection)
-            throws IOException {
-        this(url, null, handler, httpsURLConnection);
+    DflfgbtfHttpsURLConnfdtion(URL url,
+            sun.nft.www.protodol.ittp.Hbndlfr ibndlfr,
+            jbvbx.nft.ssl.HttpsURLConnfdtion ittpsURLConnfdtion)
+            tirows IOExdfption {
+        tiis(url, null, ibndlfr, ittpsURLConnfdtion);
     }
 
-    DelegateHttpsURLConnection(URL url, Proxy p,
-            sun.net.www.protocol.http.Handler handler,
-            javax.net.ssl.HttpsURLConnection httpsURLConnection)
-            throws IOException {
-        super(url, p, handler);
-        this.httpsURLConnection = httpsURLConnection;
+    DflfgbtfHttpsURLConnfdtion(URL url, Proxy p,
+            sun.nft.www.protodol.ittp.Hbndlfr ibndlfr,
+            jbvbx.nft.ssl.HttpsURLConnfdtion ittpsURLConnfdtion)
+            tirows IOExdfption {
+        supfr(url, p, ibndlfr);
+        tiis.ittpsURLConnfdtion = ittpsURLConnfdtion;
     }
 
-    protected javax.net.ssl.SSLSocketFactory getSSLSocketFactory() {
-        return httpsURLConnection.getSSLSocketFactory();
+    protfdtfd jbvbx.nft.ssl.SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn ittpsURLConnfdtion.gftSSLSodkftFbdtory();
     }
 
-    protected javax.net.ssl.HostnameVerifier getHostnameVerifier() {
-        return httpsURLConnection.getHostnameVerifier();
+    protfdtfd jbvbx.nft.ssl.HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn ittpsURLConnfdtion.gftHostnbmfVfrififr();
     }
 
     /*
-     * Called by layered delegator's finalize() method to handle closing
-     * the underlying object.
+     * Cbllfd by lbyfrfd dflfgbtor's finblizf() mftiod to ibndlf dlosing
+     * tif undfrlying objfdt.
      */
-    protected void dispose() throws Throwable {
-        super.finalize();
+    protfdtfd void disposf() tirows Tirowbblf {
+        supfr.finblizf();
     }
 }

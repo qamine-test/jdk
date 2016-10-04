@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfFifldUpdbtfr;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * A tokfn rfprfsfnting thf rfgistrbtion of b {@link SflfdtbblfChbnnfl} with b
+ * {@link Sflfdtor}.
+ *
+ * <p> A sflfdtion kfy is drfbtfd fbdh timf b dhbnnfl is rfgistfrfd with b
+ * sflfdtor.  A kfy rfmbins vblid until it is <i>dbndfllfd</i> by invoking its
+ * {@link #dbndfl dbndfl} mfthod, by dlosing its dhbnnfl, or by dlosing its
+ * sflfdtor.  Cbndflling b kfy dofs not immfdibtfly rfmovf it from its
+ * sflfdtor; it is instfbd bddfd to thf sflfdtor's <b
+ * hrff="Sflfdtor.html#ks"><i>dbndfllfd-kfy sft</i></b> for rfmovbl during thf
+ * nfxt sflfdtion opfrbtion.  Thf vblidity of b kfy mby bf tfstfd by invoking
+ * its {@link #isVblid isVblid} mfthod.
+ *
+ * <b nbmf="opsfts"></b>
+ *
+ * <p> A sflfdtion kfy dontbins two <i>opfrbtion sfts</i> rfprfsfntfd bs
+ * intfgfr vblufs.  Ebdh bit of bn opfrbtion sft dfnotfs b dbtfgory of
+ * sflfdtbblf opfrbtions thbt brf supportfd by thf kfy's dhbnnfl.
+ *
+ * <ul>
+ *
+ *   <li><p> Thf <i>intfrfst sft</i> dftfrminfs whidh opfrbtion dbtfgorifs will
+ *   bf tfstfd for rfbdinfss thf nfxt timf onf of thf sflfdtor's sflfdtion
+ *   mfthods is invokfd.  Thf intfrfst sft is initiblizfd with thf vbluf givfn
+ *   whfn thf kfy is drfbtfd; it mby lbtfr bf dhbngfd vib thf {@link
+ *   #intfrfstOps(int)} mfthod. </p></li>
+ *
+ *   <li><p> Thf <i>rfbdy sft</i> idfntififs thf opfrbtion dbtfgorifs for whidh
+ *   thf kfy's dhbnnfl hbs bffn dftfdtfd to bf rfbdy by thf kfy's sflfdtor.
+ *   Thf rfbdy sft is initiblizfd to zfro whfn thf kfy is drfbtfd; it mby lbtfr
+ *   bf updbtfd by thf sflfdtor during b sflfdtion opfrbtion, but it dbnnot bf
+ *   updbtfd dirfdtly. </p></li>
+ *
+ * </ul>
+ *
+ * <p> Thbt b sflfdtion kfy's rfbdy sft indidbtfs thbt its dhbnnfl is rfbdy for
+ * somf opfrbtion dbtfgory is b hint, but not b gubrbntff, thbt bn opfrbtion in
+ * sudh b dbtfgory mby bf pfrformfd by b thrfbd without dbusing thf thrfbd to
+ * blodk.  A rfbdy sft is most likfly to bf bddurbtf immfdibtfly bftfr thf
+ * domplftion of b sflfdtion opfrbtion.  It is likfly to bf mbdf inbddurbtf by
+ * fxtfrnbl fvfnts bnd by I/O opfrbtions thbt brf invokfd upon thf
+ * dorrfsponding dhbnnfl.
+ *
+ * <p> This dlbss dffinfs bll known opfrbtion-sft bits, but prfdisfly whidh
+ * bits brf supportfd by b givfn dhbnnfl dfpfnds upon thf typf of thf dhbnnfl.
+ * Ebdh subdlbss of {@link SflfdtbblfChbnnfl} dffinfs bn {@link
+ * SflfdtbblfChbnnfl#vblidOps() vblidOps()} mfthod whidh rfturns b sft
+ * idfntifying just thosf opfrbtions thbt brf supportfd by thf dhbnnfl.  An
+ * bttfmpt to sft or tfst bn opfrbtion-sft bit thbt is not supportfd by b kfy's
+ * dhbnnfl will rfsult in bn bppropribtf run-timf fxdfption.
+ *
+ * <p> It is oftfn nfdfssbry to bssodibtf somf bpplidbtion-spfdifid dbtb with b
+ * sflfdtion kfy, for fxbmplf bn objfdt thbt rfprfsfnts thf stbtf of b
+ * highfr-lfvfl protodol bnd hbndlfs rfbdinfss notifidbtions in ordfr to
+ * implfmfnt thbt protodol.  Sflfdtion kfys thfrfforf support thf
+ * <i>bttbdhmfnt</i> of b singlf brbitrbry objfdt to b kfy.  An objfdt dbn bf
+ * bttbdhfd vib thf {@link #bttbdh bttbdh} mfthod bnd thfn lbtfr rftrifvfd vib
+ * thf {@link #bttbdhmfnt() bttbdhmfnt} mfthod.
+ *
+ * <p> Sflfdtion kfys brf sbff for usf by multiplf dondurrfnt thrfbds.  Thf
+ * opfrbtions of rfbding bnd writing thf intfrfst sft will, in gfnfrbl, bf
+ * syndhronizfd with dfrtbin opfrbtions of thf sflfdtor.  Exbdtly how this
+ * syndhronizbtion is pfrformfd is implfmfntbtion-dfpfndfnt: In b nbivf
+ * implfmfntbtion, rfbding or writing thf intfrfst sft mby blodk indffinitfly
+ * if b sflfdtion opfrbtion is blrfbdy in progrfss; in b high-pfrformbndf
+ * implfmfntbtion, rfbding or writing thf intfrfst sft mby blodk briffly, if bt
+ * bll.  In bny dbsf, b sflfdtion opfrbtion will blwbys usf thf intfrfst-sft
+ * vbluf thbt wbs durrfnt bt thf momfnt thbt thf opfrbtion bfgbn.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ *
+ * @sff SflfdtbblfChbnnfl
+ * @sff Sflfdtor
+ */
+
+publid bbstrbdt dlbss SflfdtionKfy {
+
+    /**
+     * Construdts bn instbndf of this dlbss.
+     */
+    protfdtfd SflfdtionKfy() { }
+
+
+    // -- Chbnnfl bnd sflfdtor opfrbtions --
+
+    /**
+     * Rfturns thf dhbnnfl for whidh this kfy wbs drfbtfd.  This mfthod will
+     * dontinuf to rfturn thf dhbnnfl fvfn bftfr thf kfy is dbndfllfd.
+     *
+     * @rfturn  This kfy's dhbnnfl
+     */
+    publid bbstrbdt SflfdtbblfChbnnfl dhbnnfl();
+
+    /**
+     * Rfturns thf sflfdtor for whidh this kfy wbs drfbtfd.  This mfthod will
+     * dontinuf to rfturn thf sflfdtor fvfn bftfr thf kfy is dbndfllfd.
+     *
+     * @rfturn  This kfy's sflfdtor
+     */
+    publid bbstrbdt Sflfdtor sflfdtor();
+
+    /**
+     * Tflls whfthfr or not this kfy is vblid.
+     *
+     * <p> A kfy is vblid upon drfbtion bnd rfmbins so until it is dbndfllfd,
+     * its dhbnnfl is dlosfd, or its sflfdtor is dlosfd.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this kfy is vblid
+     */
+    publid bbstrbdt boolfbn isVblid();
+
+    /**
+     * Rfqufsts thbt thf rfgistrbtion of this kfy's dhbnnfl with its sflfdtor
+     * bf dbndfllfd.  Upon rfturn thf kfy will bf invblid bnd will hbvf bffn
+     * bddfd to its sflfdtor's dbndfllfd-kfy sft.  Thf kfy will bf rfmovfd from
+     * bll of thf sflfdtor's kfy sfts during thf nfxt sflfdtion opfrbtion.
+     *
+     * <p> If this kfy hbs blrfbdy bffn dbndfllfd thfn invoking this mfthod hbs
+     * no ffffdt.  Ondf dbndfllfd, b kfy rfmbins forfvfr invblid. </p>
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  It syndhronizfs on thf
+     * sflfdtor's dbndfllfd-kfy sft, bnd thfrfforf mby blodk briffly if invokfd
+     * dondurrfntly with b dbndfllbtion or sflfdtion opfrbtion involving thf
+     * sbmf sflfdtor.  </p>
+     */
+    publid bbstrbdt void dbndfl();
+
+
+    // -- Opfrbtion-sft bddfssors --
+
+    /**
+     * Rftrifvfs this kfy's intfrfst sft.
+     *
+     * <p> It is gubrbntffd thbt thf rfturnfd sft will only dontbin opfrbtion
+     * bits thbt brf vblid for this kfy's dhbnnfl.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  Whfthfr or not it blodks,
+     * bnd for how long, is implfmfntbtion-dfpfndfnt.  </p>
+     *
+     * @rfturn  This kfy's intfrfst sft
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid bbstrbdt int intfrfstOps();
+
+    /**
+     * Sfts this kfy's intfrfst sft to thf givfn vbluf.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  Whfthfr or not it blodks,
+     * bnd for how long, is implfmfntbtion-dfpfndfnt.  </p>
+     *
+     * @pbrbm  ops  Thf nfw intfrfst sft
+     *
+     * @rfturn  This sflfdtion kfy
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If b bit in thf sft dofs not dorrfspond to bn opfrbtion thbt
+     *          is supportfd by this kfy's dhbnnfl, thbt is, if
+     *          {@dodf (ops & ~dhbnnfl().vblidOps()) != 0}
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid bbstrbdt SflfdtionKfy intfrfstOps(int ops);
+
+    /**
+     * Rftrifvfs this kfy's rfbdy-opfrbtion sft.
+     *
+     * <p> It is gubrbntffd thbt thf rfturnfd sft will only dontbin opfrbtion
+     * bits thbt brf vblid for this kfy's dhbnnfl.  </p>
+     *
+     * @rfturn  This kfy's rfbdy-opfrbtion sft
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid bbstrbdt int rfbdyOps();
+
+
+    // -- Opfrbtion bits bnd bit-tfsting donvfnifndf mfthods --
+
+    /**
+     * Opfrbtion-sft bit for rfbd opfrbtions.
+     *
+     * <p> Supposf thbt b sflfdtion kfy's intfrfst sft dontbins
+     * <tt>OP_READ</tt> bt thf stbrt of b <b
+     * hrff="Sflfdtor.html#sflop">sflfdtion opfrbtion</b>.  If thf sflfdtor
+     * dftfdts thbt thf dorrfsponding dhbnnfl is rfbdy for rfbding, hbs rfbdhfd
+     * fnd-of-strfbm, hbs bffn rfmotfly shut down for furthfr rfbding, or hbs
+     * bn frror pfnding, thfn it will bdd <tt>OP_READ</tt> to thf kfy's
+     * rfbdy-opfrbtion sft bnd bdd thf kfy to its sflfdtfd-kfy&nbsp;sft.  </p>
+     */
+    publid stbtid finbl int OP_READ = 1 << 0;
+
+    /**
+     * Opfrbtion-sft bit for writf opfrbtions.
+     *
+     * <p> Supposf thbt b sflfdtion kfy's intfrfst sft dontbins
+     * <tt>OP_WRITE</tt> bt thf stbrt of b <b
+     * hrff="Sflfdtor.html#sflop">sflfdtion opfrbtion</b>.  If thf sflfdtor
+     * dftfdts thbt thf dorrfsponding dhbnnfl is rfbdy for writing, hbs bffn
+     * rfmotfly shut down for furthfr writing, or hbs bn frror pfnding, thfn it
+     * will bdd <tt>OP_WRITE</tt> to thf kfy's rfbdy sft bnd bdd thf kfy to its
+     * sflfdtfd-kfy&nbsp;sft.  </p>
+     */
+    publid stbtid finbl int OP_WRITE = 1 << 2;
+
+    /**
+     * Opfrbtion-sft bit for sodkft-donnfdt opfrbtions.
+     *
+     * <p> Supposf thbt b sflfdtion kfy's intfrfst sft dontbins
+     * <tt>OP_CONNECT</tt> bt thf stbrt of b <b
+     * hrff="Sflfdtor.html#sflop">sflfdtion opfrbtion</b>.  If thf sflfdtor
+     * dftfdts thbt thf dorrfsponding sodkft dhbnnfl is rfbdy to domplftf its
+     * donnfdtion sfqufndf, or hbs bn frror pfnding, thfn it will bdd
+     * <tt>OP_CONNECT</tt> to thf kfy's rfbdy sft bnd bdd thf kfy to its
+     * sflfdtfd-kfy&nbsp;sft.  </p>
+     */
+    publid stbtid finbl int OP_CONNECT = 1 << 3;
+
+    /**
+     * Opfrbtion-sft bit for sodkft-bddfpt opfrbtions.
+     *
+     * <p> Supposf thbt b sflfdtion kfy's intfrfst sft dontbins
+     * <tt>OP_ACCEPT</tt> bt thf stbrt of b <b
+     * hrff="Sflfdtor.html#sflop">sflfdtion opfrbtion</b>.  If thf sflfdtor
+     * dftfdts thbt thf dorrfsponding sfrvfr-sodkft dhbnnfl is rfbdy to bddfpt
+     * bnothfr donnfdtion, or hbs bn frror pfnding, thfn it will bdd
+     * <tt>OP_ACCEPT</tt> to thf kfy's rfbdy sft bnd bdd thf kfy to its
+     * sflfdtfd-kfy&nbsp;sft.  </p>
+     */
+    publid stbtid finbl int OP_ACCEPT = 1 << 4;
+
+    /**
+     * Tfsts whfthfr this kfy's dhbnnfl is rfbdy for rfbding.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>k.isRfbdbblf()</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>{@dodf
+     * k.rfbdyOps() & OP_READ != 0
+     * }</prf></blodkquotf>
+     *
+     * <p> If this kfy's dhbnnfl dofs not support rfbd opfrbtions thfn this
+     * mfthod blwbys rfturns <tt>fblsf</tt>.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if,
+                {@dodf rfbdyOps() & OP_READ} is nonzfro
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid finbl boolfbn isRfbdbblf() {
+        rfturn (rfbdyOps() & OP_READ) != 0;
+    }
+
+    /**
+     * Tfsts whfthfr this kfy's dhbnnfl is rfbdy for writing.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>k.isWritbblf()</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>{@dodf
+     * k.rfbdyOps() & OP_WRITE != 0
+     * }</prf></blodkquotf>
+     *
+     * <p> If this kfy's dhbnnfl dofs not support writf opfrbtions thfn this
+     * mfthod blwbys rfturns <tt>fblsf</tt>.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if,
+     *          {@dodf rfbdyOps() & OP_WRITE} is nonzfro
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid finbl boolfbn isWritbblf() {
+        rfturn (rfbdyOps() & OP_WRITE) != 0;
+    }
+
+    /**
+     * Tfsts whfthfr this kfy's dhbnnfl hbs fithfr finishfd, or fbilfd to
+     * finish, its sodkft-donnfdtion opfrbtion.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>k.isConnfdtbblf()</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>{@dodf
+     * k.rfbdyOps() & OP_CONNECT != 0
+     * }</prf></blodkquotf>
+     *
+     * <p> If this kfy's dhbnnfl dofs not support sodkft-donnfdt opfrbtions
+     * thfn this mfthod blwbys rfturns <tt>fblsf</tt>.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if,
+     *          {@dodf rfbdyOps() & OP_CONNECT} is nonzfro
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid finbl boolfbn isConnfdtbblf() {
+        rfturn (rfbdyOps() & OP_CONNECT) != 0;
+    }
+
+    /**
+     * Tfsts whfthfr this kfy's dhbnnfl is rfbdy to bddfpt b nfw sodkft
+     * donnfdtion.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>k.isAddfptbblf()</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf fxprfssion
+     *
+     * <blodkquotf><prf>{@dodf
+     * k.rfbdyOps() & OP_ACCEPT != 0
+     * }</prf></blodkquotf>
+     *
+     * <p> If this kfy's dhbnnfl dofs not support sodkft-bddfpt opfrbtions thfn
+     * this mfthod blwbys rfturns <tt>fblsf</tt>.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if,
+     *          {@dodf rfbdyOps() & OP_ACCEPT} is nonzfro
+     *
+     * @throws  CbndfllfdKfyExdfption
+     *          If this kfy hbs bffn dbndfllfd
+     */
+    publid finbl boolfbn isAddfptbblf() {
+        rfturn (rfbdyOps() & OP_ACCEPT) != 0;
+    }
+
+
+    // -- Attbdhmfnts --
+
+    privbtf volbtilf Objfdt bttbdhmfnt = null;
+
+    privbtf stbtid finbl AtomidRfffrfndfFifldUpdbtfr<SflfdtionKfy,Objfdt>
+        bttbdhmfntUpdbtfr = AtomidRfffrfndfFifldUpdbtfr.nfwUpdbtfr(
+            SflfdtionKfy.dlbss, Objfdt.dlbss, "bttbdhmfnt"
+        );
+
+    /**
+     * Attbdhfs thf givfn objfdt to this kfy.
+     *
+     * <p> An bttbdhfd objfdt mby lbtfr bf rftrifvfd vib thf {@link #bttbdhmfnt()
+     * bttbdhmfnt} mfthod.  Only onf objfdt mby bf bttbdhfd bt b timf; invoking
+     * this mfthod dbusfs bny prfvious bttbdhmfnt to bf disdbrdfd.  Thf durrfnt
+     * bttbdhmfnt mby bf disdbrdfd by bttbdhing <tt>null</tt>.  </p>
+     *
+     * @pbrbm  ob
+     *         Thf objfdt to bf bttbdhfd; mby bf <tt>null</tt>
+     *
+     * @rfturn  Thf prfviously-bttbdhfd objfdt, if bny,
+     *          othfrwisf <tt>null</tt>
+     */
+    publid finbl Objfdt bttbdh(Objfdt ob) {
+        rfturn bttbdhmfntUpdbtfr.gftAndSft(this, ob);
+    }
+
+    /**
+     * Rftrifvfs thf durrfnt bttbdhmfnt.
+     *
+     * @rfturn  Thf objfdt durrfntly bttbdhfd to this kfy,
+     *          or <tt>null</tt> if thfrf is no bttbdhmfnt
+     */
+    publid finbl Objfdt bttbdhmfnt() {
+        rfturn bttbdhmfnt;
+    }
+
+}

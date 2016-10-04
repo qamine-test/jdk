@@ -1,0 +1,979 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Componfnt dfdorbtor thbt implfmfnts thf vifw intfrfbdf
+ * for form flfmfnts, &lt;input&gt;, &lt;tfxtbrfb&gt;,
+ * bnd &lt;sflfdt&gt;.  Thf modfl for thf domponfnt is storfd
+ * bs bn bttributf of thf thf flfmfnt (using StylfConstbnts.ModflAttributf),
+ * bnd is usfd to build thf domponfnt of thf vifw.  Thf typf
+ * of thf modfl is bssumfd to of thf typf thbt would bf sft by
+ * <dodf>HTMLDodumfnt.HTMLRfbdfr.FormAdtion</dodf>.  If thfrf brf
+ * multiplf vifws mbppfd ovfr thf dodumfnt, thfy will shbrf thf
+ * fmbfddfd domponfnt modfls.
+ * <p>
+ * Thf following tbblf shows whbt domponfnts gft built
+ * by this vifw.
+ * <tbblf summbry="shows whbt domponfnts gft built by this vifw">
+ * <tr>
+ *   <th>Elfmfnt Typf</th>
+ *   <th>Componfnt built</th>
+ * </tr>
+ * <tr>
+ *   <td>input, typf button</td>
+ *   <td>JButton</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf dhfdkbox</td>
+ *   <td>JChfdkBox</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf imbgf</td>
+ *   <td>JButton</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf pbssword</td>
+ *   <td>JPbsswordFifld</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf rbdio</td>
+ *   <td>JRbdioButton</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf rfsft</td>
+ *   <td>JButton</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf submit</td>
+ *   <td>JButton</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf tfxt</td>
+ *   <td>JTfxtFifld</td>
+ * </tr>
+ * <tr>
+ *   <td>sflfdt, sizf &gt; 1 or multiplf bttributf dffinfd</td>
+ *   <td>JList in b JSdrollPbnf</td>
+ * </tr>
+ * <tr>
+ *   <td>sflfdt, sizf unspfdififd or 1</td>
+ *   <td>JComboBox</td>
+ * </tr>
+ * <tr>
+ *   <td>tfxtbrfb</td>
+ *   <td>JTfxtArfb in b JSdrollPbnf</td>
+ * </tr>
+ * <tr>
+ *   <td>input, typf filf</td>
+ *   <td>JTfxtFifld</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @buthor Timothy Prinzing
+ * @buthor Sunitb Mbni
+ */
+publid dlbss FormVifw fxtfnds ComponfntVifw implfmfnts AdtionListfnfr {
+
+    /**
+     * If b vbluf bttributf is not spfdififd for b FORM input flfmfnt
+     * of typf "submit", thfn this dffbult string is usfd.
+     *
+     * @dfprfdbtfd As of 1.3, vbluf now domfs from UIMbnbgfr propfrty
+     *             FormVifw.submitButtonTfxt
+     */
+    @Dfprfdbtfd
+    publid stbtid finbl String SUBMIT = nfw String("Submit Qufry");
+    /**
+     * If b vbluf bttributf is not spfdififd for b FORM input flfmfnt
+     * of typf "rfsft", thfn this dffbult string is usfd.
+     *
+     * @dfprfdbtfd As of 1.3, vbluf domfs from UIMbnbgfr UIMbnbgfr propfrty
+     *             FormVifw.rfsftButtonTfxt
+     */
+    @Dfprfdbtfd
+    publid stbtid finbl String RESET = nfw String("Rfsft");
+
+    /**
+     * Dodumfnt bttributf nbmf for storing POST dbtb. JEditorPbnf.gftPostDbtb()
+     * usfs thf sbmf nbmf, should bf kfpt in synd.
+     */
+    finbl stbtid String PostDbtbPropfrty = "jbvbx.swing.JEditorPbnf.postdbtb";
+
+    /**
+     * Usfd to indidbtf if thf mbximum spbn should bf thf sbmf bs thf
+     * prfffrrfd spbn. This is usfd so thbt thf Componfnt's sizf dofsn't
+     * dhbngf if thfrf is fxtrb room on b linf. Thf first bit is usfd for
+     * thf X dirfdtion, bnd thf sfdond for thf y dirfdtion.
+     */
+    privbtf short mbxIsPrfffrrfd;
+
+    /**
+     * Crfbtfs b nfw FormVifw objfdt.
+     *
+     * @pbrbm flfm thf flfmfnt to dfdorbtf
+     */
+    publid FormVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Crfbtf thf domponfnt.  This is bbsidblly b
+     * big switdh stbtfmfnt bbsfd upon thf tbg typf
+     * bnd html bttributfs of thf bssodibtfd flfmfnt.
+     */
+    protfdtfd Componfnt drfbtfComponfnt() {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        HTML.Tbg t = (HTML.Tbg)
+            bttr.gftAttributf(StylfConstbnts.NbmfAttributf);
+        JComponfnt d = null;
+        Objfdt modfl = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+
+        // Rfmovf listfnfrs prfviously rfgistfrfd in shbrfd modfl
+        // whfn b nfw UI domponfnt is rfplbdfd.  Sff bug 7189299.
+        rfmovfStblfListfnfrForModfl(modfl);
+        if (t == HTML.Tbg.INPUT) {
+            d = drfbtfInputComponfnt(bttr, modfl);
+        } flsf if (t == HTML.Tbg.SELECT) {
+
+            if (modfl instbndfof OptionListModfl) {
+                @SupprfssWbrnings("undhfdkfd")
+                JList<?> list = nfw JList<>((ListModfl) modfl);
+                int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                         HTML.Attributf.SIZE,
+                                                         1);
+                list.sftVisiblfRowCount(sizf);
+                list.sftSflfdtionModfl((ListSflfdtionModfl)modfl);
+                d = nfw JSdrollPbnf(list);
+            } flsf {
+                @SupprfssWbrnings("undhfdkfd")
+                JComboBox<?> tmp = nfw JComboBox<>((ComboBoxModfl) modfl);
+                d = tmp;
+                mbxIsPrfffrrfd = 3;
+            }
+        } flsf if (t == HTML.Tbg.TEXTAREA) {
+            JTfxtArfb brfb = nfw JTfxtArfb((Dodumfnt) modfl);
+            int rows = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.ROWS,
+                                                     1);
+            brfb.sftRows(rows);
+            int dols = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.COLS,
+                                                     20);
+            mbxIsPrfffrrfd = 3;
+            brfb.sftColumns(dols);
+            d = nfw JSdrollPbnf(brfb,
+                                JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                                JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+        }
+
+        if (d != null) {
+            d.sftAlignmfntY(1.0f);
+        }
+        rfturn d;
+    }
+
+
+    /**
+     * Crfbtfs b domponfnt for bn &lt;INPUT&gt; flfmfnt bbsfd on thf
+     * vbluf of thf "typf" bttributf.
+     *
+     * @pbrbm sft of bttributfs bssodibtfd with thf &lt;INPUT&gt; flfmfnt.
+     * @pbrbm modfl thf vbluf of thf StylfConstbnts.ModflAttributf
+     * @rfturn thf domponfnt.
+     */
+    privbtf JComponfnt drfbtfInputComponfnt(AttributfSft bttr, Objfdt modfl) {
+        JComponfnt d = null;
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
+
+        if (typf.fqubls("submit") || typf.fqubls("rfsft")) {
+            String vbluf = (String)
+                bttr.gftAttributf(HTML.Attributf.VALUE);
+            if (vbluf == null) {
+                if (typf.fqubls("submit")) {
+                    vbluf = UIMbnbgfr.gftString("FormVifw.submitButtonTfxt");
+                } flsf {
+                    vbluf = UIMbnbgfr.gftString("FormVifw.rfsftButtonTfxt");
+                }
+            }
+            JButton button = nfw JButton(vbluf);
+            if (modfl != null) {
+                button.sftModfl((ButtonModfl)modfl);
+                button.bddAdtionListfnfr(this);
+            }
+            d = button;
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("imbgf")) {
+            String srdAtt = (String) bttr.gftAttributf(HTML.Attributf.SRC);
+            JButton button;
+            try {
+                URL bbsf = ((HTMLDodumfnt)gftElfmfnt().gftDodumfnt()).gftBbsf();
+                URL srdURL = nfw URL(bbsf, srdAtt);
+                Idon idon = nfw ImbgfIdon(srdURL);
+                button  = nfw JButton(idon);
+            } dbtdh (MblformfdURLExdfption f) {
+                button = nfw JButton(srdAtt);
+            }
+            if (modfl != null) {
+                button.sftModfl((ButtonModfl)modfl);
+                button.bddMousfListfnfr(nfw MousfEvfntListfnfr());
+            }
+            d = button;
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("dhfdkbox")) {
+            d = nfw JChfdkBox();
+            if (modfl != null) {
+                ((JChfdkBox)d).sftModfl((JTogglfButton.TogglfButtonModfl) modfl);
+            }
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("rbdio")) {
+            d = nfw JRbdioButton();
+            if (modfl != null) {
+                ((JRbdioButton)d).sftModfl((JTogglfButton.TogglfButtonModfl)modfl);
+            }
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("tfxt")) {
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.SIZE,
+                                                     -1);
+            JTfxtFifld fifld;
+            if (sizf > 0) {
+                fifld = nfw JTfxtFifld();
+                fifld.sftColumns(sizf);
+            }
+            flsf {
+                fifld = nfw JTfxtFifld();
+                fifld.sftColumns(20);
+            }
+            d = fifld;
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt) modfl);
+            }
+            fifld.bddAdtionListfnfr(this);
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("pbssword")) {
+            JPbsswordFifld fifld = nfw JPbsswordFifld();
+            d = fifld;
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt) modfl);
+            }
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.SIZE,
+                                                     -1);
+            fifld.sftColumns((sizf > 0) ? sizf : 20);
+            fifld.bddAdtionListfnfr(this);
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("filf")) {
+            JTfxtFifld fifld = nfw JTfxtFifld();
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt)modfl);
+            }
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr, HTML.Attributf.SIZE,
+                                                     -1);
+            fifld.sftColumns((sizf > 0) ? sizf : 20);
+            JButton browsfButton = nfw JButton(UIMbnbgfr.gftString
+                                           ("FormVifw.browsfFilfButtonTfxt"));
+            Box box = Box.drfbtfHorizontblBox();
+            box.bdd(fifld);
+            box.bdd(Box.drfbtfHorizontblStrut(5));
+            box.bdd(browsfButton);
+            browsfButton.bddAdtionListfnfr(nfw BrowsfFilfAdtion(
+                                           bttr, (Dodumfnt)modfl));
+            d = box;
+            mbxIsPrfffrrfd = 3;
+        }
+        rfturn d;
+    }
+
+    privbtf void rfmovfStblfListfnfrForModfl(Objfdt modfl) {
+        if (modfl instbndfof DffbultButtonModfl) {
+            // dbsf of JButton whosf modfl is DffbultButtonModfl
+            // Nffd to rfmovf stblf AdtionListfnfr, ChbngfListfnfr bnd
+            // ItfmListfnfr thbt brf instbndf of AbstrbdtButton$Hbndlfr.
+            DffbultButtonModfl buttonModfl = (DffbultButtonModfl) modfl;
+            String listfnfrClbss = "jbvbx.swing.AbstrbdtButton$Hbndlfr";
+            for (AdtionListfnfr listfnfr : buttonModfl.gftAdtionListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfAdtionListfnfr(listfnfr);
+                }
+            }
+            for (ChbngfListfnfr listfnfr : buttonModfl.gftChbngfListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfChbngfListfnfr(listfnfr);
+                }
+            }
+            for (ItfmListfnfr listfnfr : buttonModfl.gftItfmListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfItfmListfnfr(listfnfr);
+                }
+            }
+        } flsf if (modfl instbndfof AbstrbdtListModfl) {
+            // dbsf of JComboBox bnd JList
+            // For JList, thf stblf ListDbtbListfnfr is instbndf
+            // BbsidListUI$Hbndlfr.
+            // For JComboBox, thfrf brf 2 stblf ListDbtbListfnfrs, whidh brf
+            // BbsidListUI$Hbndlfr bnd BbsidComboBoxUI$Hbndlfr.
+            @SupprfssWbrnings("undhfdkfd")
+            AbstrbdtListModfl<?> listModfl = (AbstrbdtListModfl) modfl;
+            String listfnfrClbss1 =
+                    "jbvbx.swing.plbf.bbsid.BbsidListUI$Hbndlfr";
+            String listfnfrClbss2 =
+                    "jbvbx.swing.plbf.bbsid.BbsidComboBoxUI$Hbndlfr";
+            for (ListDbtbListfnfr listfnfr : listModfl.gftListDbtbListfnfrs()) {
+                if (listfnfrClbss1.fqubls(listfnfr.gftClbss().gftNbmf())
+                        || listfnfrClbss2.fqubls(listfnfr.gftClbss().gftNbmf()))
+                {
+                    listModfl.rfmovfListDbtbListfnfr(listfnfr);
+                }
+            }
+        } flsf if (modfl instbndfof AbstrbdtDodumfnt) {
+            // dbsf of JPbsswordFifld, JTfxtFifld bnd JTfxtArfb
+            // All hbvf 2 stblf DodumfntListfnfrs.
+            String listfnfrClbss1 =
+                    "jbvbx.swing.plbf.bbsid.BbsidTfxtUI$UpdbtfHbndlfr";
+            String listfnfrClbss2 =
+                    "jbvbx.swing.tfxt.DffbultCbrft$Hbndlfr";
+            AbstrbdtDodumfnt dodModfl = (AbstrbdtDodumfnt) modfl;
+            for (DodumfntListfnfr listfnfr : dodModfl.gftDodumfntListfnfrs()) {
+                if (listfnfrClbss1.fqubls(listfnfr.gftClbss().gftNbmf())
+                        || listfnfrClbss2.fqubls(listfnfr.gftClbss().gftNbmf()))
+                {
+                    dodModfl.rfmovfDodumfntListfnfr(listfnfr);
+                }
+            }
+        }
+    }
+
+    /**
+     * Dftfrminfs thf mbximum spbn for this vifw blong bn
+     * bxis. For dfrtbin domponfnts, thf mbximum bnd prfffrrfd spbn brf thf
+     * sbmf. For othfrs this will rfturn thf vbluf
+     * rfturnfd by Componfnt.gftMbximumSizf blong thf
+     * bxis of intfrfst.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly thf vifw is told to rfndfr into thf spbn
+     *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
+     *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
+     */
+    publid flobt gftMbximumSpbn(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.X_AXIS:
+            if ((mbxIsPrfffrrfd & 1) == 1) {
+                supfr.gftMbximumSpbn(bxis);
+                rfturn gftPrfffrrfdSpbn(bxis);
+            }
+            rfturn supfr.gftMbximumSpbn(bxis);
+        dbsf Vifw.Y_AXIS:
+            if ((mbxIsPrfffrrfd & 2) == 2) {
+                supfr.gftMbximumSpbn(bxis);
+                rfturn gftPrfffrrfdSpbn(bxis);
+            }
+            rfturn supfr.gftMbximumSpbn(bxis);
+        dffbult:
+            brfbk;
+        }
+        rfturn supfr.gftMbximumSpbn(bxis);
+    }
+
+
+    /**
+     * Rfsponsiblf for prodfssing thf AdtionEvfnt.
+     * If thf flfmfnt bssodibtfd with thf FormVifw,
+     * hbs b typf of "submit", "rfsft", "tfxt" or "pbssword"
+     * thfn thf bdtion is prodfssfd.  In thf dbsf of b "submit"
+     * thf form is submittfd.  In thf dbsf of b "rfsft"
+     * thf form is rfsft to its originbl stbtf.
+     * In thf dbsf of "tfxt" or "pbssword", if thf
+     * flfmfnt is thf lbst onf of typf "tfxt" or "pbssword",
+     * thf form is submittfd.  Othfrwisf, fodus is trbnsffrrfd
+     * to thf nfxt domponfnt in thf form.
+     *
+     * @pbrbm fvt thf AdtionEvfnt.
+     */
+    publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+        Elfmfnt flfmfnt = gftElfmfnt();
+        StringBuildfr dbtbBufffr = nfw StringBuildfr();
+        HTMLDodumfnt dod = (HTMLDodumfnt)gftDodumfnt();
+        AttributfSft bttr = flfmfnt.gftAttributfs();
+
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
+
+        if (typf.fqubls("submit")) {
+            gftFormDbtb(dbtbBufffr);
+            submitDbtb(dbtbBufffr.toString());
+        } flsf if (typf.fqubls("rfsft")) {
+            rfsftForm();
+        } flsf if (typf.fqubls("tfxt") || typf.fqubls("pbssword")) {
+            if (isLbstTfxtOrPbsswordFifld()) {
+                gftFormDbtb(dbtbBufffr);
+                submitDbtb(dbtbBufffr.toString());
+            } flsf {
+                gftComponfnt().trbnsffrFodus();
+            }
+        }
+    }
+
+
+    /**
+     * This mfthod is rfsponsiblf for submitting thf form dbtb.
+     * A thrfbd is forkfd to undfrtbkf thf submission.
+     *
+     * @pbrbm dbtb dbtb to submit
+     */
+    protfdtfd void submitDbtb(String dbtb) {
+        Elfmfnt form = gftFormElfmfnt();
+        AttributfSft bttrs = form.gftAttributfs();
+        HTMLDodumfnt dod = (HTMLDodumfnt) form.gftDodumfnt();
+        URL bbsf = dod.gftBbsf();
+
+        String tbrgft = (String) bttrs.gftAttributf(HTML.Attributf.TARGET);
+        if (tbrgft == null) {
+            tbrgft = "_sflf";
+        }
+
+        String mfthod = (String) bttrs.gftAttributf(HTML.Attributf.METHOD);
+        if (mfthod == null) {
+            mfthod = "GET";
+        }
+        mfthod = mfthod.toLowfrCbsf();
+        boolfbn isPostMfthod = mfthod.fqubls("post");
+        if (isPostMfthod) {
+            storfPostDbtb(dod, tbrgft, dbtb);
+        }
+
+        String bdtion = (String) bttrs.gftAttributf(HTML.Attributf.ACTION);
+        URL bdtionURL;
+        try {
+            bdtionURL = (bdtion == null)
+                ? nfw URL(bbsf.gftProtodol(), bbsf.gftHost(),
+                                        bbsf.gftPort(), bbsf.gftFilf())
+                : nfw URL(bbsf, bdtion);
+            if (!isPostMfthod) {
+                String qufry = dbtb.toString();
+                bdtionURL = nfw URL(bdtionURL + "?" + qufry);
+            }
+        } dbtdh (MblformfdURLExdfption f) {
+            bdtionURL = null;
+        }
+        finbl JEditorPbnf d = (JEditorPbnf) gftContbinfr();
+        HTMLEditorKit kit = (HTMLEditorKit) d.gftEditorKit();
+
+        FormSubmitEvfnt formEvfnt = null;
+        if (!kit.isAutoFormSubmission() || dod.isFrbmfDodumfnt()) {
+            FormSubmitEvfnt.MfthodTypf mfthodTypf = isPostMfthod
+                    ? FormSubmitEvfnt.MfthodTypf.POST
+                    : FormSubmitEvfnt.MfthodTypf.GET;
+            formEvfnt = nfw FormSubmitEvfnt(
+                    FormVifw.this, HypfrlinkEvfnt.EvfntTypf.ACTIVATED,
+                    bdtionURL, form, tbrgft, mfthodTypf, dbtb);
+
+        }
+        // sftPbgf() mby tbkf signifidbnt timf so sdhfdulf it to run lbtfr.
+        finbl FormSubmitEvfnt fsf = formEvfnt;
+        finbl URL url = bdtionURL;
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                if (fsf != null) {
+                    d.firfHypfrlinkUpdbtf(fsf);
+                } flsf {
+                    try {
+                        d.sftPbgf(url);
+                    } dbtdh (IOExdfption f) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(d);
+                    }
+                }
+            }
+        });
+    }
+
+    privbtf void storfPostDbtb(HTMLDodumfnt dod, String tbrgft, String dbtb) {
+
+        /* POST dbtb is storfd into thf dodumfnt propfrty nbmfd by donstbnt
+         * PostDbtbPropfrty from whfrf it is lbtfr rftrifvfd by mfthod
+         * JEditorPbnf.gftPostDbtb().  If thf durrfnt dodumfnt is in b frbmf,
+         * thf dbtb is initiblly put into thf toplfvfl (frbmfsft) dodumfnt
+         * propfrty (nbmfd <PostDbtbPropfrty>.<Tbrgft frbmf nbmf>).  It is thf
+         * rfsponsibility of FrbmfVifw whidh updbtfs thf tbrgft frbmf
+         * to movf dbtb from thf frbmfsft dodumfnt propfrty into thf frbmf
+         * dodumfnt propfrty.
+         */
+
+        Dodumfnt propDod = dod;
+        String propNbmf = PostDbtbPropfrty;
+
+        if (dod.isFrbmfDodumfnt()) {
+            // find thf top-most JEditorPbnf holding thf frbmfsft vifw.
+            FrbmfVifw.FrbmfEditorPbnf p =
+                    (FrbmfVifw.FrbmfEditorPbnf) gftContbinfr();
+            FrbmfVifw v = p.gftFrbmfVifw();
+            JEditorPbnf d = v.gftOutfrmostJEditorPbnf();
+            if (d != null) {
+                propDod = d.gftDodumfnt();
+                propNbmf += ("." + tbrgft);
+            }
+        }
+
+        propDod.putPropfrty(propNbmf, dbtb);
+    }
+
+    /**
+     * MousfEvfntListfnfr dlbss to hbndlf form submissions whfn
+     * bn input with typf fqubl to imbgf is dlidkfd on.
+     * A MousfListfnfr is nfdfssbry sindf blong with thf imbgf
+     * dbtb thf doordinbtfs bssodibtfd with thf mousf dlidk
+     * nffd to bf submittfd.
+     */
+    protfdtfd dlbss MousfEvfntListfnfr fxtfnds MousfAdbptfr {
+
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {
+            String imbgfDbtb = gftImbgfDbtb(fvt.gftPoint());
+            imbgfSubmit(imbgfDbtb);
+        }
+    }
+
+    /**
+     * This mfthod is dbllfd to submit b form in rfsponsf
+     * to b dlidk on bn imbgf -- bn &lt;INPUT&gt; form
+     * flfmfnt of typf "imbgf".
+     *
+     * @pbrbm imbgfDbtb thf mousf dlidk doordinbtfs.
+     */
+    protfdtfd void imbgfSubmit(String imbgfDbtb) {
+
+        StringBuildfr dbtbBufffr = nfw StringBuildfr();
+        Elfmfnt flfm = gftElfmfnt();
+        HTMLDodumfnt hdod = (HTMLDodumfnt)flfm.gftDodumfnt();
+        gftFormDbtb(dbtbBufffr);
+        if (dbtbBufffr.lfngth() > 0) {
+            dbtbBufffr.bppfnd('&');
+        }
+        dbtbBufffr.bppfnd(imbgfDbtb);
+        submitDbtb(dbtbBufffr.toString());
+        rfturn;
+    }
+
+    /**
+     * Extrbdts thf vbluf of thf nbmf bttributf
+     * bssodibtfd with thf input flfmfnt of typf
+     * imbgf.  If nbmf is dffinfd it is fndodfd using
+     * thf URLEndodfr.fndodf() mfthod bnd thf
+     * imbgf dbtb is rfturnfd in thf following formbt:
+     *      nbmf + ".x" +"="+ x +"&"+ nbmf +".y"+"="+ y
+     * othfrwisf,
+     *      "x="+ x +"&y="+ y
+     *
+     * @pbrbm point bssodibtfd with thf mousf dlidk.
+     * @rfturn thf imbgf dbtb.
+     */
+    privbtf String gftImbgfDbtb(Point point) {
+
+        String mousfCoords = point.x + ":" + point.y;
+        int sfp = mousfCoords.indfxOf(':');
+        String x = mousfCoords.substring(0, sfp);
+        String y = mousfCoords.substring(++sfp);
+        String nbmf = (String) gftElfmfnt().gftAttributfs().gftAttributf(HTML.Attributf.NAME);
+
+        String dbtb;
+        if (nbmf == null || nbmf.fqubls("")) {
+            dbtb = "x="+ x +"&y="+ y;
+        } flsf {
+            nbmf = URLEndodfr.fndodf(nbmf);
+            dbtb = nbmf + ".x" +"="+ x +"&"+ nbmf +".y"+"="+ y;
+        }
+        rfturn dbtb;
+    }
+
+
+    /**
+     * Thf following mfthods providf fundtionblity rfquirfd to
+     * itfrbtf ovfr b thf flfmfnts of thf form bnd in thf dbsf
+     * of b form submission, fxtrbdt thf dbtb from fbdh modfl
+     * thbt is bssodibtfd with fbdh form flfmfnt, bnd in thf
+     * dbsf of rfsft, rfinitiblizf thf fbdh modfl to its
+     * initibl stbtf.
+     */
+
+
+    /**
+     * Rfturns thf Elfmfnt rfprfsfnting thf <dodf>FORM</dodf>.
+     */
+    privbtf Elfmfnt gftFormElfmfnt() {
+        Elfmfnt flfm = gftElfmfnt();
+        whilf (flfm != null) {
+            if (flfm.gftAttributfs().gftAttributf
+                (StylfConstbnts.NbmfAttributf) == HTML.Tbg.FORM) {
+                rfturn flfm;
+            }
+            flfm = flfm.gftPbrfntElfmfnt();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Itfrbtfs ovfr thf
+     * flfmfnt hifrbrdhy, fxtrbdting dbtb from thf
+     * modfls bssodibtfd with thf rflfvbnt form flfmfnts.
+     * "Rflfvbnt" mfbns thf form flfmfnts thbt brf pbrt
+     * of thf sbmf form whosf flfmfnt triggfrfd thf submit
+     * bdtion.
+     *
+     * @pbrbm bufffr        thf bufffr thbt dontbins thbt dbtb to submit
+     * @pbrbm tbrgftElfmfnt thf flfmfnt thbt triggfrfd thf
+     *                      form submission
+     */
+    privbtf void gftFormDbtb(StringBuildfr bufffr) {
+        Elfmfnt formE = gftFormElfmfnt();
+        if (formE != null) {
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(formE);
+            Elfmfnt nfxt;
+
+            whilf ((nfxt = it.nfxt()) != null) {
+                if (isControl(nfxt)) {
+                    String typf = (String)nfxt.gftAttributfs().gftAttributf
+                                       (HTML.Attributf.TYPE);
+
+                    if (typf != null && typf.fqubls("submit") &&
+                        nfxt != gftElfmfnt()) {
+                        // do nothing - this submit is not thf triggfr
+                    } flsf if (typf == null || !typf.fqubls("imbgf")) {
+                        // imbgfs only rfsult in dbtb if thfy triggfrfd
+                        // thf submit bnd thfy rfquirf thbt thf mousf dlidk
+                        // doords bf bppfndfd to thf dbtb.  Hfndf its
+                        // prodfssing is hbndlfd by thf vifw.
+                        lobdElfmfntDbtbIntoBufffr(nfxt, bufffr);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Lobds thf dbtb
+     * bssodibtfd with thf flfmfnt into thf bufffr.
+     * Thf formbt in whidh dbtb is bppfndfd dfpfnds
+     * on thf typf of thf form flfmfnt.  Essfntiblly
+     * dbtb is lobdfd in nbmf/vbluf pbirs.
+     *
+     */
+    privbtf void lobdElfmfntDbtbIntoBufffr(Elfmfnt flfm, StringBuildfr bufffr) {
+
+        AttributfSft bttr = flfm.gftAttributfs();
+        String nbmf = (String)bttr.gftAttributf(HTML.Attributf.NAME);
+        if (nbmf == null) {
+            rfturn;
+        }
+        String vbluf = null;
+        HTML.Tbg tbg = (HTML.Tbg)flfm.gftAttributfs().gftAttributf
+                                  (StylfConstbnts.NbmfAttributf);
+
+        if (tbg == HTML.Tbg.INPUT) {
+            vbluf = gftInputElfmfntDbtb(bttr);
+        } flsf if (tbg ==  HTML.Tbg.TEXTAREA) {
+            vbluf = gftTfxtArfbDbtb(bttr);
+        } flsf if (tbg == HTML.Tbg.SELECT) {
+            lobdSflfdtDbtb(bttr, bufffr);
+        }
+
+        if (nbmf != null && vbluf != null) {
+            bppfndBufffr(bufffr, nbmf, vbluf);
+        }
+    }
+
+
+    /**
+     * Rfturns thf dbtb bssodibtfd with bn &lt;INPUT&gt; form
+     * flfmfnt.  Thf vbluf of "typf" bttributfs is
+     * usfd to dftfrminf thf typf of thf modfl bssodibtfd
+     * with thf flfmfnt bnd thfn thf rflfvbnt dbtb is
+     * fxtrbdtfd.
+     */
+    privbtf String gftInputElfmfntDbtb(AttributfSft bttr) {
+
+        Objfdt modfl = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
+        String vbluf = null;
+
+        if (typf.fqubls("tfxt") || typf.fqubls("pbssword")) {
+            Dodumfnt dod = (Dodumfnt)modfl;
+            try {
+                vbluf = dod.gftTfxt(0, dod.gftLfngth());
+            } dbtdh (BbdLodbtionExdfption f) {
+                vbluf = null;
+            }
+        } flsf if (typf.fqubls("submit") || typf.fqubls("hiddfn")) {
+            vbluf = (String) bttr.gftAttributf(HTML.Attributf.VALUE);
+            if (vbluf == null) {
+                vbluf = "";
+            }
+        } flsf if (typf.fqubls("rbdio") || typf.fqubls("dhfdkbox")) {
+            ButtonModfl m = (ButtonModfl)modfl;
+            if (m.isSflfdtfd()) {
+                vbluf = (String) bttr.gftAttributf(HTML.Attributf.VALUE);
+                if (vbluf == null) {
+                    vbluf = "on";
+                }
+            }
+        } flsf if (typf.fqubls("filf")) {
+            Dodumfnt dod = (Dodumfnt)modfl;
+            String pbth;
+
+            try {
+                pbth = dod.gftTfxt(0, dod.gftLfngth());
+            } dbtdh (BbdLodbtionExdfption f) {
+                pbth = null;
+            }
+            if (pbth != null && pbth.lfngth() > 0) {
+                vbluf = pbth;
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf dbtb bssodibtfd with thf &lt;TEXTAREA&gt; form
+     * flfmfnt.  This is donf by gftting thf tfxt storfd in thf
+     * Dodumfnt modfl.
+     */
+    privbtf String gftTfxtArfbDbtb(AttributfSft bttr) {
+        Dodumfnt dod = (Dodumfnt)bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+        try {
+            rfturn dod.gftTfxt(0, dod.gftLfngth());
+        } dbtdh (BbdLodbtionExdfption f) {
+            rfturn null;
+        }
+    }
+
+
+    /**
+     * Lobds thf bufffr with thf dbtb bssodibtfd with thf Sflfdt
+     * form flfmfnt.  Bbsidblly, only itfms thbt brf sflfdtfd
+     * bnd hbvf thfir nbmf bttributf sft brf bddfd to thf bufffr.
+     */
+    privbtf void lobdSflfdtDbtb(AttributfSft bttr, StringBuildfr bufffr) {
+
+        String nbmf = (String)bttr.gftAttributf(HTML.Attributf.NAME);
+        if (nbmf == null) {
+            rfturn;
+        }
+        Objfdt m = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+        if (m instbndfof OptionListModfl) {
+            @SupprfssWbrnings("undhfdkfd")
+            OptionListModfl<Option> modfl = (OptionListModfl<Option>) m;
+
+            for (int i = 0; i < modfl.gftSizf(); i++) {
+                if (modfl.isSflfdtfdIndfx(i)) {
+                    Option option = modfl.gftElfmfntAt(i);
+                    bppfndBufffr(bufffr, nbmf, option.gftVbluf());
+                }
+            }
+        } flsf if (m instbndfof ComboBoxModfl) {
+            @SupprfssWbrnings("undhfdkfd")
+            ComboBoxModfl<?> modfl = (ComboBoxModfl)m;
+            Option option = (Option)modfl.gftSflfdtfdItfm();
+            if (option != null) {
+                bppfndBufffr(bufffr, nbmf, option.gftVbluf());
+            }
+        }
+    }
+
+    /**
+     * Appfnds nbmf / vbluf pbirs into thf
+     * bufffr.  Both nbmfs bnd vblufs brf fndodfd using thf
+     * URLEndodfr.fndodf() mfthod bfforf bfing bddfd to thf
+     * bufffr.
+     */
+    privbtf void bppfndBufffr(StringBuildfr bufffr, String nbmf, String vbluf) {
+        if (bufffr.lfngth() > 0) {
+            bufffr.bppfnd('&');
+        }
+        String fndodfdNbmf = URLEndodfr.fndodf(nbmf);
+        bufffr.bppfnd(fndodfdNbmf);
+        bufffr.bppfnd('=');
+        String fndodfdVbluf = URLEndodfr.fndodf(vbluf);
+        bufffr.bppfnd(fndodfdVbluf);
+    }
+
+    /**
+     * Rfturns truf if thf Elfmfnt <dodf>flfm</dodf> rfprfsfnts b dontrol.
+     */
+    privbtf boolfbn isControl(Elfmfnt flfm) {
+        rfturn flfm.isLfbf();
+    }
+
+    /**
+     * Itfrbtfs ovfr thf flfmfnt hifrbrdhy to dftfrminf if
+     * thf flfmfnt pbrbmftfr, whidh is bssumfd to bf bn
+     * &lt;INPUT&gt; flfmfnt of typf pbssword or tfxt, is thf lbst
+     * onf of fithfr kind, in thf form to whidh it bflongs.
+     */
+    boolfbn isLbstTfxtOrPbsswordFifld() {
+        Elfmfnt pbrfnt = gftFormElfmfnt();
+        Elfmfnt flfm = gftElfmfnt();
+
+        if (pbrfnt != null) {
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(pbrfnt);
+            Elfmfnt nfxt;
+            boolfbn found = fblsf;
+
+            whilf ((nfxt = it.nfxt()) != null) {
+                if (nfxt == flfm) {
+                    found = truf;
+                }
+                flsf if (found && isControl(nfxt)) {
+                    AttributfSft flfmAttr = nfxt.gftAttributfs();
+
+                    if (HTMLDodumfnt.mbtdhNbmfAttributf
+                                     (flfmAttr, HTML.Tbg.INPUT)) {
+                        String typf = (String)flfmAttr.gftAttributf
+                                                  (HTML.Attributf.TYPE);
+
+                        if ("tfxt".fqubls(typf) || "pbssword".fqubls(typf)) {
+                            rfturn fblsf;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfsfts thf form
+     * to its initibl stbtf by rfinitiblizing thf modfls
+     * bssodibtfd with fbdh form flfmfnt to thfir initibl
+     * vblufs.
+     *
+     * pbrbm flfm thf flfmfnt thbt triggfrfd thf rfsft
+     */
+    void rfsftForm() {
+        Elfmfnt pbrfnt = gftFormElfmfnt();
+
+        if (pbrfnt != null) {
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(pbrfnt);
+            Elfmfnt nfxt;
+
+            whilf((nfxt = it.nfxt()) != null) {
+                if (isControl(nfxt)) {
+                    AttributfSft flfmAttr = nfxt.gftAttributfs();
+                    Objfdt m = flfmAttr.gftAttributf(StylfConstbnts.
+                                                     ModflAttributf);
+                    if (m instbndfof TfxtArfbDodumfnt) {
+                        TfxtArfbDodumfnt dod = (TfxtArfbDodumfnt)m;
+                        dod.rfsft();
+                    } flsf if (m instbndfof PlbinDodumfnt) {
+                        try {
+                            PlbinDodumfnt dod =  (PlbinDodumfnt)m;
+                            dod.rfmovf(0, dod.gftLfngth());
+                            if (HTMLDodumfnt.mbtdhNbmfAttributf
+                                             (flfmAttr, HTML.Tbg.INPUT)) {
+                                String vbluf = (String)flfmAttr.
+                                           gftAttributf(HTML.Attributf.VALUE);
+                                if (vbluf != null) {
+                                    dod.insfrtString(0, vbluf, null);
+                                }
+                            }
+                        } dbtdh (BbdLodbtionExdfption f) {
+                        }
+                    } flsf if (m instbndfof OptionListModfl) {
+                        @SupprfssWbrnings("undhfdkfd")
+                        OptionListModfl<?> modfl = (OptionListModfl) m;
+                        int sizf = modfl.gftSizf();
+                        for (int i = 0; i < sizf; i++) {
+                            modfl.rfmovfIndfxIntfrvbl(i, i);
+                        }
+                        BitSft sflfdtionRbngf = modfl.gftInitiblSflfdtion();
+                        for (int i = 0; i < sflfdtionRbngf.sizf(); i++) {
+                            if (sflfdtionRbngf.gft(i)) {
+                                modfl.bddSflfdtionIntfrvbl(i, i);
+                            }
+                        }
+                    } flsf if (m instbndfof OptionComboBoxModfl) {
+                        @SupprfssWbrnings("undhfdkfd")
+                        OptionComboBoxModfl<?> modfl = (OptionComboBoxModfl) m;
+                        Option option = modfl.gftInitiblSflfdtion();
+                        if (option != null) {
+                            modfl.sftSflfdtfdItfm(option);
+                        }
+                    } flsf if (m instbndfof JTogglfButton.TogglfButtonModfl) {
+                        boolfbn dhfdkfd = ((String)flfmAttr.gftAttributf
+                                           (HTML.Attributf.CHECKED) != null);
+                        JTogglfButton.TogglfButtonModfl modfl =
+                                        (JTogglfButton.TogglfButtonModfl)m;
+                        modfl.sftSflfdtfd(dhfdkfd);
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * BrowsfFilfAdtion is usfd for input typf == filf. Whfn thf usfr
+     * dlidks thf button b JFilfChoosfr is brought up bllowing thf usfr
+     * to sflfdt b filf in thf filf systfm. Thf rfsulting pbth to thf sflfdtfd
+     * filf is sft in thf tfxt fifld (bdtublly bn instbndf of Dodumfnt).
+     */
+    privbtf dlbss BrowsfFilfAdtion implfmfnts AdtionListfnfr {
+        privbtf AttributfSft bttrs;
+        privbtf Dodumfnt modfl;
+
+        BrowsfFilfAdtion(AttributfSft bttrs, Dodumfnt modfl) {
+            this.bttrs = bttrs;
+            this.modfl = modfl;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+            // PENDING: Whfn mimf support is bddfd to JFilfChoosfr usf thf
+            // bddfpt vbluf of bttrs.
+            JFilfChoosfr fd = nfw JFilfChoosfr();
+            fd.sftMultiSflfdtionEnbblfd(fblsf);
+            if (fd.showOpfnDiblog(gftContbinfr()) ==
+                  JFilfChoosfr.APPROVE_OPTION) {
+                Filf sflfdtfd = fd.gftSflfdtfdFilf();
+
+                if (sflfdtfd != null) {
+                    try {
+                        if (modfl.gftLfngth() > 0) {
+                            modfl.rfmovf(0, modfl.gftLfngth());
+                        }
+                        modfl.insfrtString(0, sflfdtfd.gftPbth(), null);
+                    } dbtdh (BbdLodbtionExdfption blf) {}
+                }
+            }
+        }
+    }
+}

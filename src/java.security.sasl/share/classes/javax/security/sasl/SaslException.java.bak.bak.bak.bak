@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss rfprfsfnts bn frror thbt hbs oddurrfd whfn using SASL.
+ *
+ * @sindf 1.5
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Rob Wfltmbn
+ */
+
+publid dlbss SbslExdfption fxtfnds IOExdfption {
+    /**
+     * Thf possibly null root dbusf fxdfption.
+     * @sfribl
+     */
+    // Rfquirfd for sfriblizbtion intfropfrbbility with JSR 28
+    privbtf Throwbblf _fxdfption;
+
+    /**
+     * Construdts b nfw instbndf of {@dodf SbslExdfption}.
+     * Thf root fxdfption bnd thf dftbilfd mfssbgf brf null.
+     */
+    publid SbslExdfption () {
+        supfr();
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf SbslExdfption} with b dftbilfd mfssbgf.
+     * Thf root fxdfption is null.
+     * @pbrbm dftbil A possibly null string dontbining dftbils of thf fxdfption.
+     *
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     */
+    publid SbslExdfption (String dftbil) {
+        supfr(dftbil);
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf SbslExdfption} with b dftbilfd mfssbgf
+     * bnd b root fxdfption.
+     * For fxbmplf, b SbslExdfption might rfsult from b problfm with
+     * thf dbllbbdk hbndlfr, whidh might throw b NoSudhCbllbbdkExdfption if
+     * it dofs not support thf rfqufstfd dbllbbdk, or throw bn IOExdfption
+     * if it hbd problfms obtbining dbtb for thf dbllbbdk. Thf
+     * SbslExdfption's root fxdfption would bf thfn bf thf fxdfption thrown
+     * by thf dbllbbdk hbndlfr.
+     *
+     * @pbrbm dftbil A possibly null string dontbining dftbils of thf fxdfption.
+     * @pbrbm fx A possibly null root fxdfption thbt dbusfd this fxdfption.
+     *
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     * @sff #gftCbusf
+     */
+    publid SbslExdfption (String dftbil, Throwbblf fx) {
+        supfr(dftbil);
+        if (fx != null) {
+            initCbusf(fx);
+        }
+    }
+
+    /*
+     * Ovfrridf Throwbblf.gftCbusf() to fnsurf dfsfriblizfd objfdt from
+     * JSR 28 would rfturn sbmf vbluf for gftCbusf() (i.f., _fxdfption).
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn _fxdfption;
+    }
+
+    /*
+     * Ovfrridf Throwbblf.initCbusf() to mbtdh gftCbusf() by updbting
+     * _fxdfption bs wfll.
+     */
+    publid Throwbblf initCbusf(Throwbblf dbusf) {
+        supfr.initCbusf(dbusf);
+        _fxdfption = dbusf;
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this fxdfption.
+     * Thf string rfprfsfntbtion dontbins
+     * this fxdfption's dlbss nbmf, its dftbilfd mfssbgf, bnd if
+     * it hbs b root fxdfption, thf string rfprfsfntbtion of thf root
+     * fxdfption. This string rfprfsfntbtion
+     * is mfbnt for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     * @rfturn Thf non-null string rfprfsfntbtion of this fxdfption.
+     * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+     */
+    // Ovfrridf Throwbblf.toString() to donform to JSR 28
+    publid String toString() {
+        String bnswfr = supfr.toString();
+        if (_fxdfption != null && _fxdfption != this) {
+            bnswfr += " [Cbusfd by " + _fxdfption.toString() + "]";
+        }
+        rfturn bnswfr;
+    }
+
+    /** Usf sfriblVfrsionUID from JSR 28 RI for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4579784287983423626L;
+}

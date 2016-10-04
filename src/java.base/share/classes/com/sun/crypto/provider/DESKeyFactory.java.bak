@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactorySpi;
-import javax.crypto.spec.DESKeySpec;
-import java.security.InvalidKeyException;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfyFbdtorySpi;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
 
 /**
- * This class implements the DES key factory of the Sun provider.
+ * Tiis dlbss implfmfnts tif DES kfy fbdtory of tif Sun providfr.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
 
-public final class DESKeyFactory extends SecretKeyFactorySpi {
+publid finbl dlbss DESKfyFbdtory fxtfnds SfdrftKfyFbdtorySpi {
 
     /**
-     * Empty constructor
+     * Empty donstrudtor
      */
-    public DESKeyFactory() {
+    publid DESKfyFbdtory() {
     }
 
     /**
-     * Generates a <code>SecretKey</code> object from the provided key
-     * specification (key material).
+     * Gfnfrbtfs b <dodf>SfdrftKfy</dodf> objfdt from tif providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the secret key
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif sfdrft kfy
      *
-     * @return the secret key
+     * @rfturn tif sfdrft kfy
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b publid kfy.
      */
-    protected SecretKey engineGenerateSecret(KeySpec keySpec)
-        throws InvalidKeySpecException {
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(KfySpfd kfySpfd)
+        tirows InvblidKfySpfdExdfption {
 
         try {
-            if (keySpec instanceof DESKeySpec) {
-                return new DESKey(((DESKeySpec)keySpec).getKey());
+            if (kfySpfd instbndfof DESKfySpfd) {
+                rfturn nfw DESKfy(((DESKfySpfd)kfySpfd).gftKfy());
             }
 
-            if (keySpec instanceof SecretKeySpec) {
-                return new DESKey(((SecretKeySpec)keySpec).getEncoded());
+            if (kfySpfd instbndfof SfdrftKfySpfd) {
+                rfturn nfw DESKfy(((SfdrftKfySpfd)kfySpfd).gftEndodfd());
             }
 
-            throw new InvalidKeySpecException(
-                    "Inappropriate key specification");
+            tirow nfw InvblidKfySpfdExdfption(
+                    "Inbppropribtf kfy spfdifidbtion");
 
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException(e.getMessage());
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns a specification (key material) of the given key
-     * in the requested format.
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of tif givfn kfy
+     * in tif rfqufstfd formbt.
      *
-     * @param key the key
+     * @pbrbm kfy tif kfy
      *
-     * @param keySpec the requested format in which the key material shall be
-     * returned
+     * @pbrbm kfySpfd tif rfqufstfd formbt in wiidi tif kfy mbtfribl sibll bf
+     * rfturnfd
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @rfturn tif undfrlying kfy spfdifidbtion (kfy mbtfribl) in tif
+     * rfqufstfd formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @fxdfption InvblidKfySpfdExdfption if tif rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for tif givfn kfy, or tif givfn kfy dbnnot bf prodfssfd
+     * (f.g., tif givfn kfy ibs bn unrfdognizfd blgoritim or formbt).
      */
-    protected KeySpec engineGetKeySpec(SecretKey key, Class<?> keySpec)
-        throws InvalidKeySpecException {
+    protfdtfd KfySpfd fnginfGftKfySpfd(SfdrftKfy kfy, Clbss<?> kfySpfd)
+        tirows InvblidKfySpfdExdfption {
 
         try {
 
-            if ((key instanceof SecretKey)
-                && (key.getAlgorithm().equalsIgnoreCase("DES"))
-                && (key.getFormat().equalsIgnoreCase("RAW"))) {
+            if ((kfy instbndfof SfdrftKfy)
+                && (kfy.gftAlgoritim().fqublsIgnorfCbsf("DES"))
+                && (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
 
-                // Check if requested key spec is amongst the valid ones
-                if ((keySpec != null) &&
-                    DESKeySpec.class.isAssignableFrom(keySpec)) {
-                    return new DESKeySpec(key.getEncoded());
+                // Cifdk if rfqufstfd kfy spfd is bmongst tif vblid onfs
+                if ((kfySpfd != null) &&
+                    DESKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                    rfturn nfw DESKfySpfd(kfy.gftEndodfd());
 
-                } else {
-                    throw new InvalidKeySpecException
-                        ("Inappropriate key specification");
+                } flsf {
+                    tirow nfw InvblidKfySpfdExdfption
+                        ("Inbppropribtf kfy spfdifidbtion");
                 }
 
-            } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key format/algorithm");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy formbt/blgoritim");
             }
 
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException("Secret key has wrong size");
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption("Sfdrft kfy ibs wrong sizf");
         }
     }
 
     /**
-     * Translates a <code>SecretKey</code> object, whose provider may be
-     * unknown or potentially untrusted, into a corresponding
-     * <code>SecretKey</code> object of this key factory.
+     * Trbnslbtfs b <dodf>SfdrftKfy</dodf> objfdt, wiosf providfr mby bf
+     * unknown or potfntiblly untrustfd, into b dorrfsponding
+     * <dodf>SfdrftKfy</dodf> objfdt of tiis kfy fbdtory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm kfy tif kfy wiosf providfr is unknown or untrustfd
      *
-     * @return the translated key
+     * @rfturn tif trbnslbtfd kfy
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy dbnnot bf prodfssfd by
+     * tiis kfy fbdtory.
      */
-    protected SecretKey engineTranslateKey(SecretKey key)
-        throws InvalidKeyException {
+    protfdtfd SfdrftKfy fnginfTrbnslbtfKfy(SfdrftKfy kfy)
+        tirows InvblidKfyExdfption {
 
         try {
 
-            if ((key != null) &&
-                (key.getAlgorithm().equalsIgnoreCase("DES")) &&
-                (key.getFormat().equalsIgnoreCase("RAW"))) {
+            if ((kfy != null) &&
+                (kfy.gftAlgoritim().fqublsIgnorfCbsf("DES")) &&
+                (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
 
-                // Check if key originates from this factory
-                if (key instanceof com.sun.crypto.provider.DESKey) {
-                    return key;
+                // Cifdk if kfy originbtfs from tiis fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.DESKfy) {
+                    rfturn kfy;
                 }
-                // Convert key to spec
-                DESKeySpec desKeySpec
-                    = (DESKeySpec)engineGetKeySpec(key, DESKeySpec.class);
-                // Create key from spec, and return it
-                return engineGenerateSecret(desKeySpec);
+                // Convfrt kfy to spfd
+                DESKfySpfd dfsKfySpfd
+                    = (DESKfySpfd)fnginfGftKfySpfd(kfy, DESKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfSfdrft(dfsKfySpfd);
 
-            } else {
-                throw new InvalidKeyException
-                    ("Inappropriate key format/algorithm");
+            } flsf {
+                tirow nfw InvblidKfyExdfption
+                    ("Inbppropribtf kfy formbt/blgoritim");
             }
 
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException("Cannot translate key");
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            tirow nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy");
         }
     }
 }

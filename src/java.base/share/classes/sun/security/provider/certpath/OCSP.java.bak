@@ -1,364 +1,364 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.CRLReason;
-import java.security.cert.Extension;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.sfdurity.dfrt.Extfnsion;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import static sun.security.provider.certpath.OCSPResponse.*;
-import sun.security.action.GetIntegerAction;
-import sun.security.util.Debug;
-import sun.security.util.ObjectIdentifier;
-import sun.security.x509.AccessDescription;
-import sun.security.x509.AuthorityInfoAccessExtension;
-import sun.security.x509.GeneralName;
-import sun.security.x509.GeneralNameInterface;
-import sun.security.x509.URIName;
-import sun.security.x509.X509CertImpl;
+import stbtid sun.sfdurity.providfr.dfrtpbti.OCSPRfsponsf.*;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.AddfssDfsdription;
+import sun.sfdurity.x509.AutiorityInfoAddfssExtfnsion;
+import sun.sfdurity.x509.GfnfrblNbmf;
+import sun.sfdurity.x509.GfnfrblNbmfIntfrfbdf;
+import sun.sfdurity.x509.URINbmf;
+import sun.sfdurity.x509.X509CfrtImpl;
 
 /**
- * This is a class that checks the revocation status of a certificate(s) using
- * OCSP. It is not a PKIXCertPathChecker and therefore can be used outside of
- * the CertPathValidator framework. It is useful when you want to
- * just check the revocation status of a certificate, and you don't want to
- * incur the overhead of validating all of the certificates in the
- * associated certificate chain.
+ * Tiis is b dlbss tibt difdks tif rfvodbtion stbtus of b dfrtifidbtf(s) using
+ * OCSP. It is not b PKIXCfrtPbtiCifdkfr bnd tifrfforf dbn bf usfd outsidf of
+ * tif CfrtPbtiVblidbtor frbmfwork. It is usfful wifn you wbnt to
+ * just difdk tif rfvodbtion stbtus of b dfrtifidbtf, bnd you don't wbnt to
+ * indur tif ovfrifbd of vblidbting bll of tif dfrtifidbtfs in tif
+ * bssodibtfd dfrtifidbtf dibin.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class OCSP {
+publid finbl dlbss OCSP {
 
-    static final ObjectIdentifier NONCE_EXTENSION_OID =
-        ObjectIdentifier.newInternal(new int[]{ 1, 3, 6, 1, 5, 5, 7, 48, 1, 2});
+    stbtid finbl ObjfdtIdfntififr NONCE_EXTENSION_OID =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{ 1, 3, 6, 1, 5, 5, 7, 48, 1, 2});
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
-    private static final int DEFAULT_CONNECT_TIMEOUT = 15000;
-
-    /**
-     * Integer value indicating the timeout length, in seconds, to be
-     * used for the OCSP check. A timeout of zero is interpreted as
-     * an infinite timeout.
-     */
-    private static final int CONNECT_TIMEOUT = initializeTimeout();
+    privbtf stbtid finbl int DEFAULT_CONNECT_TIMEOUT = 15000;
 
     /**
-     * Initialize the timeout length by getting the OCSP timeout
-     * system property. If the property has not been set, or if its
-     * value is negative, set the timeout length to the default.
+     * Intfgfr vbluf indidbting tif timfout lfngti, in sfdonds, to bf
+     * usfd for tif OCSP difdk. A timfout of zfro is intfrprftfd bs
+     * bn infinitf timfout.
      */
-    private static int initializeTimeout() {
-        Integer tmp = java.security.AccessController.doPrivileged(
-                new GetIntegerAction("com.sun.security.ocsp.timeout"));
+    privbtf stbtid finbl int CONNECT_TIMEOUT = initiblizfTimfout();
+
+    /**
+     * Initiblizf tif timfout lfngti by gftting tif OCSP timfout
+     * systfm propfrty. If tif propfrty ibs not bffn sft, or if its
+     * vbluf is nfgbtivf, sft tif timfout lfngti to tif dffbult.
+     */
+    privbtf stbtid int initiblizfTimfout() {
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("dom.sun.sfdurity.odsp.timfout"));
         if (tmp == null || tmp < 0) {
-            return DEFAULT_CONNECT_TIMEOUT;
+            rfturn DEFAULT_CONNECT_TIMEOUT;
         }
-        // Convert to milliseconds, as the system property will be
-        // specified in seconds
-        return tmp * 1000;
+        // Convfrt to millisfdonds, bs tif systfm propfrty will bf
+        // spfdififd in sfdonds
+        rfturn tmp * 1000;
     }
 
-    private OCSP() {}
+    privbtf OCSP() {}
 
     /**
-     * Obtains the revocation status of a certificate using OCSP using the most
-     * common defaults. The OCSP responder URI is retrieved from the
-     * certificate's AIA extension. The OCSP responder certificate is assumed
-     * to be the issuer's certificate (or issued by the issuer CA).
+     * Obtbins tif rfvodbtion stbtus of b dfrtifidbtf using OCSP using tif most
+     * dommon dffbults. Tif OCSP rfspondfr URI is rftrifvfd from tif
+     * dfrtifidbtf's AIA fxtfnsion. Tif OCSP rfspondfr dfrtifidbtf is bssumfd
+     * to bf tif issufr's dfrtifidbtf (or issufd by tif issufr CA).
      *
-     * @param cert the certificate to be checked
-     * @param issuerCert the issuer certificate
-     * @return the RevocationStatus
-     * @throws IOException if there is an exception connecting to or
-     *    communicating with the OCSP responder
-     * @throws CertPathValidatorException if an exception occurs while
-     *    encoding the OCSP Request or validating the OCSP Response
+     * @pbrbm dfrt tif dfrtifidbtf to bf difdkfd
+     * @pbrbm issufrCfrt tif issufr dfrtifidbtf
+     * @rfturn tif RfvodbtionStbtus
+     * @tirows IOExdfption if tifrf is bn fxdfption donnfdting to or
+     *    dommunidbting witi tif OCSP rfspondfr
+     * @tirows CfrtPbtiVblidbtorExdfption if bn fxdfption oddurs wiilf
+     *    fndoding tif OCSP Rfqufst or vblidbting tif OCSP Rfsponsf
      */
-    public static RevocationStatus check(X509Certificate cert,
-                                         X509Certificate issuerCert)
-        throws IOException, CertPathValidatorException {
-        CertId certId = null;
-        URI responderURI = null;
+    publid stbtid RfvodbtionStbtus difdk(X509Cfrtifidbtf dfrt,
+                                         X509Cfrtifidbtf issufrCfrt)
+        tirows IOExdfption, CfrtPbtiVblidbtorExdfption {
+        CfrtId dfrtId = null;
+        URI rfspondfrURI = null;
         try {
-            X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-            responderURI = getResponderURI(certImpl);
-            if (responderURI == null) {
-                throw new CertPathValidatorException
-                    ("No OCSP Responder URI in certificate");
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            rfspondfrURI = gftRfspondfrURI(dfrtImpl);
+            if (rfspondfrURI == null) {
+                tirow nfw CfrtPbtiVblidbtorExdfption
+                    ("No OCSP Rfspondfr URI in dfrtifidbtf");
             }
-            certId = new CertId(issuerCert, certImpl.getSerialNumberObject());
-        } catch (CertificateException | IOException e) {
-            throw new CertPathValidatorException
-                ("Exception while encoding OCSPRequest", e);
+            dfrtId = nfw CfrtId(issufrCfrt, dfrtImpl.gftSfriblNumbfrObjfdt());
+        } dbtdi (CfrtifidbtfExdfption | IOExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                ("Exdfption wiilf fndoding OCSPRfqufst", f);
         }
-        OCSPResponse ocspResponse = check(Collections.singletonList(certId),
-            responderURI, issuerCert, null, null,
-            Collections.<Extension>emptyList());
-        return (RevocationStatus)ocspResponse.getSingleResponse(certId);
-    }
-
-    /**
-     * Obtains the revocation status of a certificate using OCSP.
-     *
-     * @param cert the certificate to be checked
-     * @param issuerCert the issuer certificate
-     * @param responderURI the URI of the OCSP responder
-     * @param responderCert the OCSP responder's certificate
-     * @param date the time the validity of the OCSP responder's certificate
-     *    should be checked against. If null, the current time is used.
-     * @return the RevocationStatus
-     * @throws IOException if there is an exception connecting to or
-     *    communicating with the OCSP responder
-     * @throws CertPathValidatorException if an exception occurs while
-     *    encoding the OCSP Request or validating the OCSP Response
-     */
-    public static RevocationStatus check(X509Certificate cert,
-                                         X509Certificate issuerCert,
-                                         URI responderURI,
-                                         X509Certificate responderCert,
-                                         Date date)
-        throws IOException, CertPathValidatorException
-    {
-        return check(cert, issuerCert, responderURI, responderCert, date,
-                     Collections.<Extension>emptyList());
-    }
-
-    // Called by com.sun.deploy.security.TrustDecider
-    public static RevocationStatus check(X509Certificate cert,
-                                         X509Certificate issuerCert,
-                                         URI responderURI,
-                                         X509Certificate responderCert,
-                                         Date date, List<Extension> extensions)
-        throws IOException, CertPathValidatorException
-    {
-        CertId certId = null;
-        try {
-            X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-            certId = new CertId(issuerCert, certImpl.getSerialNumberObject());
-        } catch (CertificateException | IOException e) {
-            throw new CertPathValidatorException
-                ("Exception while encoding OCSPRequest", e);
-        }
-        OCSPResponse ocspResponse = check(Collections.singletonList(certId),
-            responderURI, issuerCert, responderCert, date, extensions);
-        return (RevocationStatus) ocspResponse.getSingleResponse(certId);
+        OCSPRfsponsf odspRfsponsf = difdk(Collfdtions.singlftonList(dfrtId),
+            rfspondfrURI, issufrCfrt, null, null,
+            Collfdtions.<Extfnsion>fmptyList());
+        rfturn (RfvodbtionStbtus)odspRfsponsf.gftSinglfRfsponsf(dfrtId);
     }
 
     /**
-     * Checks the revocation status of a list of certificates using OCSP.
+     * Obtbins tif rfvodbtion stbtus of b dfrtifidbtf using OCSP.
      *
-     * @param certs the CertIds to be checked
-     * @param responderURI the URI of the OCSP responder
-     * @param issuerCert the issuer's certificate
-     * @param responderCert the OCSP responder's certificate
-     * @param date the time the validity of the OCSP responder's certificate
-     *    should be checked against. If null, the current time is used.
-     * @return the OCSPResponse
-     * @throws IOException if there is an exception connecting to or
-     *    communicating with the OCSP responder
-     * @throws CertPathValidatorException if an exception occurs while
-     *    encoding the OCSP Request or validating the OCSP Response
+     * @pbrbm dfrt tif dfrtifidbtf to bf difdkfd
+     * @pbrbm issufrCfrt tif issufr dfrtifidbtf
+     * @pbrbm rfspondfrURI tif URI of tif OCSP rfspondfr
+     * @pbrbm rfspondfrCfrt tif OCSP rfspondfr's dfrtifidbtf
+     * @pbrbm dbtf tif timf tif vblidity of tif OCSP rfspondfr's dfrtifidbtf
+     *    siould bf difdkfd bgbinst. If null, tif durrfnt timf is usfd.
+     * @rfturn tif RfvodbtionStbtus
+     * @tirows IOExdfption if tifrf is bn fxdfption donnfdting to or
+     *    dommunidbting witi tif OCSP rfspondfr
+     * @tirows CfrtPbtiVblidbtorExdfption if bn fxdfption oddurs wiilf
+     *    fndoding tif OCSP Rfqufst or vblidbting tif OCSP Rfsponsf
      */
-    static OCSPResponse check(List<CertId> certIds, URI responderURI,
-                              X509Certificate issuerCert,
-                              X509Certificate responderCert, Date date,
-                              List<Extension> extensions)
-        throws IOException, CertPathValidatorException
+    publid stbtid RfvodbtionStbtus difdk(X509Cfrtifidbtf dfrt,
+                                         X509Cfrtifidbtf issufrCfrt,
+                                         URI rfspondfrURI,
+                                         X509Cfrtifidbtf rfspondfrCfrt,
+                                         Dbtf dbtf)
+        tirows IOExdfption, CfrtPbtiVblidbtorExdfption
     {
-        byte[] bytes = null;
-        OCSPRequest request = null;
+        rfturn difdk(dfrt, issufrCfrt, rfspondfrURI, rfspondfrCfrt, dbtf,
+                     Collfdtions.<Extfnsion>fmptyList());
+    }
+
+    // Cbllfd by dom.sun.dfploy.sfdurity.TrustDfdidfr
+    publid stbtid RfvodbtionStbtus difdk(X509Cfrtifidbtf dfrt,
+                                         X509Cfrtifidbtf issufrCfrt,
+                                         URI rfspondfrURI,
+                                         X509Cfrtifidbtf rfspondfrCfrt,
+                                         Dbtf dbtf, List<Extfnsion> fxtfnsions)
+        tirows IOExdfption, CfrtPbtiVblidbtorExdfption
+    {
+        CfrtId dfrtId = null;
         try {
-            request = new OCSPRequest(certIds, extensions);
-            bytes = request.encodeBytes();
-        } catch (IOException ioe) {
-            throw new CertPathValidatorException
-                ("Exception while encoding OCSPRequest", ioe);
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            dfrtId = nfw CfrtId(issufrCfrt, dfrtImpl.gftSfriblNumbfrObjfdt());
+        } dbtdi (CfrtifidbtfExdfption | IOExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                ("Exdfption wiilf fndoding OCSPRfqufst", f);
+        }
+        OCSPRfsponsf odspRfsponsf = difdk(Collfdtions.singlftonList(dfrtId),
+            rfspondfrURI, issufrCfrt, rfspondfrCfrt, dbtf, fxtfnsions);
+        rfturn (RfvodbtionStbtus) odspRfsponsf.gftSinglfRfsponsf(dfrtId);
+    }
+
+    /**
+     * Cifdks tif rfvodbtion stbtus of b list of dfrtifidbtfs using OCSP.
+     *
+     * @pbrbm dfrts tif CfrtIds to bf difdkfd
+     * @pbrbm rfspondfrURI tif URI of tif OCSP rfspondfr
+     * @pbrbm issufrCfrt tif issufr's dfrtifidbtf
+     * @pbrbm rfspondfrCfrt tif OCSP rfspondfr's dfrtifidbtf
+     * @pbrbm dbtf tif timf tif vblidity of tif OCSP rfspondfr's dfrtifidbtf
+     *    siould bf difdkfd bgbinst. If null, tif durrfnt timf is usfd.
+     * @rfturn tif OCSPRfsponsf
+     * @tirows IOExdfption if tifrf is bn fxdfption donnfdting to or
+     *    dommunidbting witi tif OCSP rfspondfr
+     * @tirows CfrtPbtiVblidbtorExdfption if bn fxdfption oddurs wiilf
+     *    fndoding tif OCSP Rfqufst or vblidbting tif OCSP Rfsponsf
+     */
+    stbtid OCSPRfsponsf difdk(List<CfrtId> dfrtIds, URI rfspondfrURI,
+                              X509Cfrtifidbtf issufrCfrt,
+                              X509Cfrtifidbtf rfspondfrCfrt, Dbtf dbtf,
+                              List<Extfnsion> fxtfnsions)
+        tirows IOExdfption, CfrtPbtiVblidbtorExdfption
+    {
+        bytf[] bytfs = null;
+        OCSPRfqufst rfqufst = null;
+        try {
+            rfqufst = nfw OCSPRfqufst(dfrtIds, fxtfnsions);
+            bytfs = rfqufst.fndodfBytfs();
+        } dbtdi (IOExdfption iof) {
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                ("Exdfption wiilf fndoding OCSPRfqufst", iof);
         }
 
-        InputStream in = null;
-        OutputStream out = null;
-        byte[] response = null;
+        InputStrfbm in = null;
+        OutputStrfbm out = null;
+        bytf[] rfsponsf = null;
         try {
-            URL url = responderURI.toURL();
-            if (debug != null) {
-                debug.println("connecting to OCSP service at: " + url);
+            URL url = rfspondfrURI.toURL();
+            if (dfbug != null) {
+                dfbug.println("donnfdting to OCSP sfrvidf bt: " + url);
             }
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setConnectTimeout(CONNECT_TIMEOUT);
-            con.setReadTimeout(CONNECT_TIMEOUT);
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty
-                ("Content-type", "application/ocsp-request");
-            con.setRequestProperty
-                ("Content-length", String.valueOf(bytes.length));
-            out = con.getOutputStream();
-            out.write(bytes);
-            out.flush();
-            // Check the response
-            if (debug != null &&
-                con.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                debug.println("Received HTTP error: " + con.getResponseCode()
-                    + " - " + con.getResponseMessage());
+            HttpURLConnfdtion don = (HttpURLConnfdtion)url.opfnConnfdtion();
+            don.sftConnfdtTimfout(CONNECT_TIMEOUT);
+            don.sftRfbdTimfout(CONNECT_TIMEOUT);
+            don.sftDoOutput(truf);
+            don.sftDoInput(truf);
+            don.sftRfqufstMftiod("POST");
+            don.sftRfqufstPropfrty
+                ("Contfnt-typf", "bpplidbtion/odsp-rfqufst");
+            don.sftRfqufstPropfrty
+                ("Contfnt-lfngti", String.vblufOf(bytfs.lfngti));
+            out = don.gftOutputStrfbm();
+            out.writf(bytfs);
+            out.flusi();
+            // Cifdk tif rfsponsf
+            if (dfbug != null &&
+                don.gftRfsponsfCodf() != HttpURLConnfdtion.HTTP_OK) {
+                dfbug.println("Rfdfivfd HTTP frror: " + don.gftRfsponsfCodf()
+                    + " - " + don.gftRfsponsfMfssbgf());
             }
-            in = con.getInputStream();
-            int contentLength = con.getContentLength();
-            if (contentLength == -1) {
-                contentLength = Integer.MAX_VALUE;
+            in = don.gftInputStrfbm();
+            int dontfntLfngti = don.gftContfntLfngti();
+            if (dontfntLfngti == -1) {
+                dontfntLfngti = Intfgfr.MAX_VALUE;
             }
-            response = new byte[contentLength > 2048 ? 2048 : contentLength];
-            int total = 0;
-            while (total < contentLength) {
-                int count = in.read(response, total, response.length - total);
-                if (count < 0)
-                    break;
+            rfsponsf = nfw bytf[dontfntLfngti > 2048 ? 2048 : dontfntLfngti];
+            int totbl = 0;
+            wiilf (totbl < dontfntLfngti) {
+                int dount = in.rfbd(rfsponsf, totbl, rfsponsf.lfngti - totbl);
+                if (dount < 0)
+                    brfbk;
 
-                total += count;
-                if (total >= response.length && total < contentLength) {
-                    response = Arrays.copyOf(response, total * 2);
+                totbl += dount;
+                if (totbl >= rfsponsf.lfngti && totbl < dontfntLfngti) {
+                    rfsponsf = Arrbys.dopyOf(rfsponsf, totbl * 2);
                 }
             }
-            response = Arrays.copyOf(response, total);
-        } catch (IOException ioe) {
-            throw new CertPathValidatorException(
-                "Unable to determine revocation status due to network error",
-                ioe, null, -1, BasicReason.UNDETERMINED_REVOCATION_STATUS);
-        } finally {
+            rfsponsf = Arrbys.dopyOf(rfsponsf, totbl);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "Unbblf to dftfrminf rfvodbtion stbtus duf to nftwork frror",
+                iof, null, -1, BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
+        } finblly {
             if (in != null) {
                 try {
-                    in.close();
-                } catch (IOException ioe) {
-                    throw ioe;
+                    in.dlosf();
+                } dbtdi (IOExdfption iof) {
+                    tirow iof;
                 }
             }
             if (out != null) {
                 try {
-                    out.close();
-                } catch (IOException ioe) {
-                    throw ioe;
+                    out.dlosf();
+                } dbtdi (IOExdfption iof) {
+                    tirow iof;
                 }
             }
         }
 
-        OCSPResponse ocspResponse = null;
+        OCSPRfsponsf odspRfsponsf = null;
         try {
-            ocspResponse = new OCSPResponse(response);
-        } catch (IOException ioe) {
-            // response decoding exception
-            throw new CertPathValidatorException(ioe);
+            odspRfsponsf = nfw OCSPRfsponsf(rfsponsf);
+        } dbtdi (IOExdfption iof) {
+            // rfsponsf dfdoding fxdfption
+            tirow nfw CfrtPbtiVblidbtorExdfption(iof);
         }
 
-        // verify the response
-        ocspResponse.verify(certIds, issuerCert, responderCert, date,
-            request.getNonce());
+        // vfrify tif rfsponsf
+        odspRfsponsf.vfrify(dfrtIds, issufrCfrt, rfspondfrCfrt, dbtf,
+            rfqufst.gftNondf());
 
-        return ocspResponse;
+        rfturn odspRfsponsf;
     }
 
     /**
-     * Returns the URI of the OCSP Responder as specified in the
-     * certificate's Authority Information Access extension, or null if
-     * not specified.
+     * Rfturns tif URI of tif OCSP Rfspondfr bs spfdififd in tif
+     * dfrtifidbtf's Autiority Informbtion Addfss fxtfnsion, or null if
+     * not spfdififd.
      *
-     * @param cert the certificate
-     * @return the URI of the OCSP Responder, or null if not specified
+     * @pbrbm dfrt tif dfrtifidbtf
+     * @rfturn tif URI of tif OCSP Rfspondfr, or null if not spfdififd
      */
-    // Called by com.sun.deploy.security.TrustDecider
-    public static URI getResponderURI(X509Certificate cert) {
+    // Cbllfd by dom.sun.dfploy.sfdurity.TrustDfdidfr
+    publid stbtid URI gftRfspondfrURI(X509Cfrtifidbtf dfrt) {
         try {
-            return getResponderURI(X509CertImpl.toImpl(cert));
-        } catch (CertificateException ce) {
-            // treat this case as if the cert had no extension
-            return null;
+            rfturn gftRfspondfrURI(X509CfrtImpl.toImpl(dfrt));
+        } dbtdi (CfrtifidbtfExdfption df) {
+            // trfbt tiis dbsf bs if tif dfrt ibd no fxtfnsion
+            rfturn null;
         }
     }
 
-    static URI getResponderURI(X509CertImpl certImpl) {
+    stbtid URI gftRfspondfrURI(X509CfrtImpl dfrtImpl) {
 
-        // Examine the certificate's AuthorityInfoAccess extension
-        AuthorityInfoAccessExtension aia =
-            certImpl.getAuthorityInfoAccessExtension();
-        if (aia == null) {
-            return null;
+        // Exbminf tif dfrtifidbtf's AutiorityInfoAddfss fxtfnsion
+        AutiorityInfoAddfssExtfnsion bib =
+            dfrtImpl.gftAutiorityInfoAddfssExtfnsion();
+        if (bib == null) {
+            rfturn null;
         }
 
-        List<AccessDescription> descriptions = aia.getAccessDescriptions();
-        for (AccessDescription description : descriptions) {
-            if (description.getAccessMethod().equals((Object)
-                AccessDescription.Ad_OCSP_Id)) {
+        List<AddfssDfsdription> dfsdriptions = bib.gftAddfssDfsdriptions();
+        for (AddfssDfsdription dfsdription : dfsdriptions) {
+            if (dfsdription.gftAddfssMftiod().fqubls((Objfdt)
+                AddfssDfsdription.Ad_OCSP_Id)) {
 
-                GeneralName generalName = description.getAccessLocation();
-                if (generalName.getType() == GeneralNameInterface.NAME_URI) {
-                    URIName uri = (URIName) generalName.getName();
-                    return uri.getURI();
+                GfnfrblNbmf gfnfrblNbmf = dfsdription.gftAddfssLodbtion();
+                if (gfnfrblNbmf.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_URI) {
+                    URINbmf uri = (URINbmf) gfnfrblNbmf.gftNbmf();
+                    rfturn uri.gftURI();
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * The Revocation Status of a certificate.
+     * Tif Rfvodbtion Stbtus of b dfrtifidbtf.
      */
-    public static interface RevocationStatus {
-        public enum CertStatus { GOOD, REVOKED, UNKNOWN };
+    publid stbtid intfrfbdf RfvodbtionStbtus {
+        publid fnum CfrtStbtus { GOOD, REVOKED, UNKNOWN };
 
         /**
-         * Returns the revocation status.
+         * Rfturns tif rfvodbtion stbtus.
          */
-        CertStatus getCertStatus();
+        CfrtStbtus gftCfrtStbtus();
         /**
-         * Returns the time when the certificate was revoked, or null
-         * if it has not been revoked.
+         * Rfturns tif timf wifn tif dfrtifidbtf wbs rfvokfd, or null
+         * if it ibs not bffn rfvokfd.
          */
-        Date getRevocationTime();
+        Dbtf gftRfvodbtionTimf();
         /**
-         * Returns the reason the certificate was revoked, or null if it
-         * has not been revoked.
+         * Rfturns tif rfbson tif dfrtifidbtf wbs rfvokfd, or null if it
+         * ibs not bffn rfvokfd.
          */
-        CRLReason getRevocationReason();
+        CRLRfbson gftRfvodbtionRfbson();
 
         /**
-         * Returns a Map of additional extensions.
+         * Rfturns b Mbp of bdditionbl fxtfnsions.
          */
-        Map<String, Extension> getSingleExtensions();
+        Mbp<String, Extfnsion> gftSinglfExtfnsions();
     }
 }

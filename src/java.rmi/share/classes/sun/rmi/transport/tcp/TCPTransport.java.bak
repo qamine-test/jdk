@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.RemoteException;
-import java.rmi.server.ExportException;
-import java.rmi.server.LogStream;
-import java.rmi.server.RMIFailureHandler;
-import java.rmi.server.RMISocketFactory;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.UID;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.DGCAckHandler;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.StreamRemoteCall;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.Transport;
-import sun.rmi.transport.TransportConstants;
-import sun.rmi.transport.proxy.HttpReceiveSocket;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.UndfdlbrfdTirowbblfExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.ExportExdfption;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.RMIFbilurfHbndlfr;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.rmi.sfrvfr.UID;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.SyndironousQufuf;
+import jbvb.util.dondurrfnt.TirfbdFbdtory;
+import jbvb.util.dondurrfnt.TirfbdPoolExfdutor;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.trbnsport.Cibnnfl;
+import sun.rmi.trbnsport.Connfdtion;
+import sun.rmi.trbnsport.DGCAdkHbndlfr;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.StrfbmRfmotfCbll;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.Trbnsport;
+import sun.rmi.trbnsport.TrbnsportConstbnts;
+import sun.rmi.trbnsport.proxy.HttpRfdfivfSodkft;
 
 /**
- * TCPTransport is the socket-based implementation of the RMI Transport
- * abstraction.
+ * TCPTrbnsport is tif sodkft-bbsfd implfmfntbtion of tif RMI Trbnsport
+ * bbstrbdtion.
  *
- * @author Ann Wollrath
- * @author Peter Jones
+ * @butior Ann Wollrbti
+ * @butior Pftfr Jonfs
  */
-@SuppressWarnings("deprecation")
-public class TCPTransport extends Transport {
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss TCPTrbnsport fxtfnds Trbnsport {
 
-    /* tcp package log */
-    static final Log tcpLog = Log.getLog("sun.rmi.transport.tcp", "tcp",
-        LogStream.parseLevel(AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.transport.tcp.logLevel"))));
+    /* tdp pbdkbgf log */
+    stbtid finbl Log tdpLog = Log.gftLog("sun.rmi.trbnsport.tdp", "tdp",
+        LogStrfbm.pbrsfLfvfl(AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.tdp.logLfvfl"))));
 
-    /** maximum number of connection handler threads */
-    private static final int maxConnectionThreads =     // default no limit
-        AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.maxConnectionThreads",
-                               Integer.MAX_VALUE));
+    /** mbximum numbfr of donnfdtion ibndlfr tirfbds */
+    privbtf stbtid finbl int mbxConnfdtionTirfbds =     // dffbult no limit
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.mbxConnfdtionTirfbds",
+                               Intfgfr.MAX_VALUE));
 
-    /** keep alive time for idle connection handler threads */
-    private static final long threadKeepAliveTime =     // default 1 minute
-        AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.transport.tcp.threadKeepAliveTime", 60000));
+    /** kffp blivf timf for idlf donnfdtion ibndlfr tirfbds */
+    privbtf stbtid finbl long tirfbdKffpAlivfTimf =     // dffbult 1 minutf
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.trbnsport.tdp.tirfbdKffpAlivfTimf", 60000));
 
-    /** thread pool for connection handlers */
-    private static final ExecutorService connectionThreadPool =
-        new ThreadPoolExecutor(0, maxConnectionThreads,
-            threadKeepAliveTime, TimeUnit.MILLISECONDS,
-            new SynchronousQueue<Runnable>(),
-            new ThreadFactory() {
-                public Thread newThread(Runnable runnable) {
-                    return AccessController.doPrivileged(new NewThreadAction(
-                        runnable, "TCP Connection(idle)", true, true));
+    /** tirfbd pool for donnfdtion ibndlfrs */
+    privbtf stbtid finbl ExfdutorSfrvidf donnfdtionTirfbdPool =
+        nfw TirfbdPoolExfdutor(0, mbxConnfdtionTirfbds,
+            tirfbdKffpAlivfTimf, TimfUnit.MILLISECONDS,
+            nfw SyndironousQufuf<Runnbblf>(),
+            nfw TirfbdFbdtory() {
+                publid Tirfbd nfwTirfbd(Runnbblf runnbblf) {
+                    rfturn AddfssControllfr.doPrivilfgfd(nfw NfwTirfbdAdtion(
+                        runnbblf, "TCP Connfdtion(idlf)", truf, truf));
                 }
             });
 
-    /** total connections handled */
-    private static final AtomicInteger connectionCount = new AtomicInteger(0);
+    /** totbl donnfdtions ibndlfd */
+    privbtf stbtid finbl AtomidIntfgfr donnfdtionCount = nfw AtomidIntfgfr(0);
 
-    /** client host for the current thread's connection */
-    private static final ThreadLocal<ConnectionHandler>
-        threadConnectionHandler = new ThreadLocal<>();
+    /** dlifnt iost for tif durrfnt tirfbd's donnfdtion */
+    privbtf stbtid finbl TirfbdLodbl<ConnfdtionHbndlfr>
+        tirfbdConnfdtionHbndlfr = nfw TirfbdLodbl<>();
 
-    /** endpoints for this transport */
-    private final LinkedList<TCPEndpoint> epList;
-    /** number of objects exported on this transport */
-    private int exportCount = 0;
-    /** server socket for this transport */
-    private ServerSocket server = null;
-    /** table mapping endpoints to channels */
-    private final Map<TCPEndpoint,Reference<TCPChannel>> channelTable =
-        new WeakHashMap<>();
+    /** fndpoints for tiis trbnsport */
+    privbtf finbl LinkfdList<TCPEndpoint> fpList;
+    /** numbfr of objfdts fxportfd on tiis trbnsport */
+    privbtf int fxportCount = 0;
+    /** sfrvfr sodkft for tiis trbnsport */
+    privbtf SfrvfrSodkft sfrvfr = null;
+    /** tbblf mbpping fndpoints to dibnnfls */
+    privbtf finbl Mbp<TCPEndpoint,Rfffrfndf<TCPCibnnfl>> dibnnflTbblf =
+        nfw WfbkHbsiMbp<>();
 
-    static final RMISocketFactory defaultSocketFactory =
-        RMISocketFactory.getDefaultSocketFactory();
+    stbtid finbl RMISodkftFbdtory dffbultSodkftFbdtory =
+        RMISodkftFbdtory.gftDffbultSodkftFbdtory();
 
-    /** number of milliseconds in accepted-connection timeout.
-     * Warning: this should be greater than 15 seconds (the client-side
-     * timeout), and defaults to 2 hours.
-     * The maximum representable value is slightly more than 24 days
-     * and 20 hours.
+    /** numbfr of millisfdonds in bddfptfd-donnfdtion timfout.
+     * Wbrning: tiis siould bf grfbtfr tibn 15 sfdonds (tif dlifnt-sidf
+     * timfout), bnd dffbults to 2 iours.
+     * Tif mbximum rfprfsfntbblf vbluf is sligitly morf tibn 24 dbys
+     * bnd 20 iours.
      */
-    private static final int connectionReadTimeout =    // default 2 hours
-        AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.readTimeout", 2 * 3600 * 1000));
+    privbtf stbtid finbl int donnfdtionRfbdTimfout =    // dffbult 2 iours
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+            Intfgfr.gftIntfgfr("sun.rmi.trbnsport.tdp.rfbdTimfout", 2 * 3600 * 1000));
 
     /**
-     * Constructs a TCPTransport.
+     * Construdts b TCPTrbnsport.
      */
-    TCPTransport(LinkedList<TCPEndpoint> epList)  {
-        // assert ((epList.size() != null) && (epList.size() >= 1))
-        this.epList = epList;
-        if (tcpLog.isLoggable(Log.BRIEF)) {
-            tcpLog.log(Log.BRIEF, "Version = " +
-                TransportConstants.Version + ", ep = " + getEndpoint());
+    TCPTrbnsport(LinkfdList<TCPEndpoint> fpList)  {
+        // bssfrt ((fpList.sizf() != null) && (fpList.sizf() >= 1))
+        tiis.fpList = fpList;
+        if (tdpLog.isLoggbblf(Log.BRIEF)) {
+            tdpLog.log(Log.BRIEF, "Vfrsion = " +
+                TrbnsportConstbnts.Vfrsion + ", fp = " + gftEndpoint());
         }
     }
 
     /**
-     * Closes all cached connections in every channel subordinated to this
-     * transport.  Currently, this only closes outgoing connections.
+     * Closfs bll dbdifd donnfdtions in fvfry dibnnfl subordinbtfd to tiis
+     * trbnsport.  Currfntly, tiis only dlosfs outgoing donnfdtions.
      */
-    public void shedConnectionCaches() {
-        List<TCPChannel> channels;
-        synchronized (channelTable) {
-            channels = new ArrayList<TCPChannel>(channelTable.values().size());
-            for (Reference<TCPChannel> ref : channelTable.values()) {
-                TCPChannel ch = ref.get();
-                if (ch != null) {
-                    channels.add(ch);
+    publid void sifdConnfdtionCbdifs() {
+        List<TCPCibnnfl> dibnnfls;
+        syndironizfd (dibnnflTbblf) {
+            dibnnfls = nfw ArrbyList<TCPCibnnfl>(dibnnflTbblf.vblufs().sizf());
+            for (Rfffrfndf<TCPCibnnfl> rff : dibnnflTbblf.vblufs()) {
+                TCPCibnnfl di = rff.gft();
+                if (di != null) {
+                    dibnnfls.bdd(di);
                 }
             }
         }
-        for (TCPChannel channel : channels) {
-            channel.shedCache();
+        for (TCPCibnnfl dibnnfl : dibnnfls) {
+            dibnnfl.sifdCbdif();
         }
     }
 
     /**
-     * Returns a <I>Channel</I> that generates connections to the
-     * endpoint <I>ep</I>. A Channel is an object that creates and
-     * manages connections of a particular type to some particular
-     * address space.
-     * @param ep the endpoint to which connections will be generated.
-     * @return the channel or null if the transport cannot
-     * generate connections to this endpoint
+     * Rfturns b <I>Cibnnfl</I> tibt gfnfrbtfs donnfdtions to tif
+     * fndpoint <I>fp</I>. A Cibnnfl is bn objfdt tibt drfbtfs bnd
+     * mbnbgfs donnfdtions of b pbrtidulbr typf to somf pbrtidulbr
+     * bddrfss spbdf.
+     * @pbrbm fp tif fndpoint to wiidi donnfdtions will bf gfnfrbtfd.
+     * @rfturn tif dibnnfl or null if tif trbnsport dbnnot
+     * gfnfrbtf donnfdtions to tiis fndpoint
      */
-    public TCPChannel getChannel(Endpoint ep) {
-        TCPChannel ch = null;
-        if (ep instanceof TCPEndpoint) {
-            synchronized (channelTable) {
-                Reference<TCPChannel> ref = channelTable.get(ep);
-                if (ref != null) {
-                    ch = ref.get();
+    publid TCPCibnnfl gftCibnnfl(Endpoint fp) {
+        TCPCibnnfl di = null;
+        if (fp instbndfof TCPEndpoint) {
+            syndironizfd (dibnnflTbblf) {
+                Rfffrfndf<TCPCibnnfl> rff = dibnnflTbblf.gft(fp);
+                if (rff != null) {
+                    di = rff.gft();
                 }
-                if (ch == null) {
-                    TCPEndpoint tcpEndpoint = (TCPEndpoint) ep;
-                    ch = new TCPChannel(this, tcpEndpoint);
-                    channelTable.put(tcpEndpoint,
-                                     new WeakReference<TCPChannel>(ch));
+                if (di == null) {
+                    TCPEndpoint tdpEndpoint = (TCPEndpoint) fp;
+                    di = nfw TCPCibnnfl(tiis, tdpEndpoint);
+                    dibnnflTbblf.put(tdpEndpoint,
+                                     nfw WfbkRfffrfndf<TCPCibnnfl>(di));
                 }
             }
         }
-        return ch;
+        rfturn di;
     }
 
     /**
-     * Removes the <I>Channel</I> that generates connections to the
-     * endpoint <I>ep</I>.
+     * Rfmovfs tif <I>Cibnnfl</I> tibt gfnfrbtfs donnfdtions to tif
+     * fndpoint <I>fp</I>.
      */
-    public void free(Endpoint ep) {
-        if (ep instanceof TCPEndpoint) {
-            synchronized (channelTable) {
-                Reference<TCPChannel> ref = channelTable.remove(ep);
-                if (ref != null) {
-                    TCPChannel channel = ref.get();
-                    if (channel != null) {
-                        channel.shedCache();
+    publid void frff(Endpoint fp) {
+        if (fp instbndfof TCPEndpoint) {
+            syndironizfd (dibnnflTbblf) {
+                Rfffrfndf<TCPCibnnfl> rff = dibnnflTbblf.rfmovf(fp);
+                if (rff != null) {
+                    TCPCibnnfl dibnnfl = rff.gft();
+                    if (dibnnfl != null) {
+                        dibnnfl.sifdCbdif();
                     }
                 }
             }
@@ -222,645 +222,645 @@ public class TCPTransport extends Transport {
     }
 
     /**
-     * Export the object so that it can accept incoming calls.
+     * Export tif objfdt so tibt it dbn bddfpt indoming dblls.
      */
-    public void exportObject(Target target) throws RemoteException {
+    publid void fxportObjfdt(Tbrgft tbrgft) tirows RfmotfExdfption {
         /*
-         * Ensure that a server socket is listening, and count this
-         * export while synchronized to prevent the server socket from
-         * being closed due to concurrent unexports.
+         * Ensurf tibt b sfrvfr sodkft is listfning, bnd dount tiis
+         * fxport wiilf syndironizfd to prfvfnt tif sfrvfr sodkft from
+         * bfing dlosfd duf to dondurrfnt unfxports.
          */
-        synchronized (this) {
-            listen();
-            exportCount++;
+        syndironizfd (tiis) {
+            listfn();
+            fxportCount++;
         }
 
         /*
-         * Try to add the Target to the exported object table; keep
-         * counting this export (to keep server socket open) only if
-         * that succeeds.
+         * Try to bdd tif Tbrgft to tif fxportfd objfdt tbblf; kffp
+         * dounting tiis fxport (to kffp sfrvfr sodkft opfn) only if
+         * tibt suddffds.
          */
-        boolean ok = false;
+        boolfbn ok = fblsf;
         try {
-            super.exportObject(target);
-            ok = true;
-        } finally {
+            supfr.fxportObjfdt(tbrgft);
+            ok = truf;
+        } finblly {
             if (!ok) {
-                synchronized (this) {
-                    decrementExportCount();
+                syndironizfd (tiis) {
+                    dfdrfmfntExportCount();
                 }
             }
         }
     }
 
-    protected synchronized void targetUnexported() {
-        decrementExportCount();
+    protfdtfd syndironizfd void tbrgftUnfxportfd() {
+        dfdrfmfntExportCount();
     }
 
     /**
-     * Decrements the count of exported objects, closing the current
-     * server socket if the count reaches zero.
+     * Dfdrfmfnts tif dount of fxportfd objfdts, dlosing tif durrfnt
+     * sfrvfr sodkft if tif dount rfbdifs zfro.
      **/
-    private void decrementExportCount() {
-        assert Thread.holdsLock(this);
-        exportCount--;
-        if (exportCount == 0 && getEndpoint().getListenPort() != 0) {
-            ServerSocket ss = server;
-            server = null;
+    privbtf void dfdrfmfntExportCount() {
+        bssfrt Tirfbd.ioldsLodk(tiis);
+        fxportCount--;
+        if (fxportCount == 0 && gftEndpoint().gftListfnPort() != 0) {
+            SfrvfrSodkft ss = sfrvfr;
+            sfrvfr = null;
             try {
-                ss.close();
-            } catch (IOException e) {
+                ss.dlosf();
+            } dbtdi (IOExdfption f) {
             }
         }
     }
 
     /**
-     * Verify that the current access control context has permission to
-     * accept the connection being dispatched by the current thread.
+     * Vfrify tibt tif durrfnt bddfss dontrol dontfxt ibs pfrmission to
+     * bddfpt tif donnfdtion bfing dispbtdifd by tif durrfnt tirfbd.
      */
-    protected void checkAcceptPermission(AccessControlContext acc) {
-        SecurityManager sm = System.getSecurityManager();
+    protfdtfd void difdkAddfptPfrmission(AddfssControlContfxt bdd) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null) {
-            return;
+            rfturn;
         }
-        ConnectionHandler h = threadConnectionHandler.get();
-        if (h == null) {
-            throw new Error(
-                "checkAcceptPermission not in ConnectionHandler thread");
+        ConnfdtionHbndlfr i = tirfbdConnfdtionHbndlfr.gft();
+        if (i == null) {
+            tirow nfw Error(
+                "difdkAddfptPfrmission not in ConnfdtionHbndlfr tirfbd");
         }
-        h.checkAcceptPermission(sm, acc);
+        i.difdkAddfptPfrmission(sm, bdd);
     }
 
-    private TCPEndpoint getEndpoint() {
-        synchronized (epList) {
-            return epList.getLast();
+    privbtf TCPEndpoint gftEndpoint() {
+        syndironizfd (fpList) {
+            rfturn fpList.gftLbst();
         }
     }
 
     /**
-     * Listen on transport's endpoint.
+     * Listfn on trbnsport's fndpoint.
      */
-    private void listen() throws RemoteException {
-        assert Thread.holdsLock(this);
-        TCPEndpoint ep = getEndpoint();
-        int port = ep.getPort();
+    privbtf void listfn() tirows RfmotfExdfption {
+        bssfrt Tirfbd.ioldsLodk(tiis);
+        TCPEndpoint fp = gftEndpoint();
+        int port = fp.gftPort();
 
-        if (server == null) {
-            if (tcpLog.isLoggable(Log.BRIEF)) {
-                tcpLog.log(Log.BRIEF,
-                    "(port " + port + ") create server socket");
+        if (sfrvfr == null) {
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF,
+                    "(port " + port + ") drfbtf sfrvfr sodkft");
             }
 
             try {
-                server = ep.newServerSocket();
+                sfrvfr = fp.nfwSfrvfrSodkft();
                 /*
-                 * Don't retry ServerSocket if creation fails since
-                 * "port in use" will cause export to hang if an
-                 * RMIFailureHandler is not installed.
+                 * Don't rftry SfrvfrSodkft if drfbtion fbils sindf
+                 * "port in usf" will dbusf fxport to ibng if bn
+                 * RMIFbilurfHbndlfr is not instbllfd.
                  */
-                Thread t = AccessController.doPrivileged(
-                    new NewThreadAction(new AcceptLoop(server),
-                                        "TCP Accept-" + port, true));
-                t.start();
-            } catch (java.net.BindException e) {
-                throw new ExportException("Port already in use: " + port, e);
-            } catch (IOException e) {
-                throw new ExportException("Listen failed on port: " + port, e);
+                Tirfbd t = AddfssControllfr.doPrivilfgfd(
+                    nfw NfwTirfbdAdtion(nfw AddfptLoop(sfrvfr),
+                                        "TCP Addfpt-" + port, truf));
+                t.stbrt();
+            } dbtdi (jbvb.nft.BindExdfption f) {
+                tirow nfw ExportExdfption("Port blrfbdy in usf: " + port, f);
+            } dbtdi (IOExdfption f) {
+                tirow nfw ExportExdfption("Listfn fbilfd on port: " + port, f);
             }
 
-        } else {
-            // otherwise verify security access to existing server socket
-            SecurityManager sm = System.getSecurityManager();
+        } flsf {
+            // otifrwisf vfrify sfdurity bddfss to fxisting sfrvfr sodkft
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkListen(port);
+                sm.difdkListfn(port);
             }
         }
     }
 
     /**
-     * Worker for accepting connections from a server socket.
+     * Workfr for bddfpting donnfdtions from b sfrvfr sodkft.
      **/
-    private class AcceptLoop implements Runnable {
+    privbtf dlbss AddfptLoop implfmfnts Runnbblf {
 
-        private final ServerSocket serverSocket;
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
 
-        // state for throttling loop on exceptions (local to accept thread)
-        private long lastExceptionTime = 0L;
-        private int recentExceptionCount;
+        // stbtf for tirottling loop on fxdfptions (lodbl to bddfpt tirfbd)
+        privbtf long lbstExdfptionTimf = 0L;
+        privbtf int rfdfntExdfptionCount;
 
-        AcceptLoop(ServerSocket serverSocket) {
-            this.serverSocket = serverSocket;
+        AddfptLoop(SfrvfrSodkft sfrvfrSodkft) {
+            tiis.sfrvfrSodkft = sfrvfrSodkft;
         }
 
-        public void run() {
+        publid void run() {
             try {
-                executeAcceptLoop();
-            } finally {
+                fxfdutfAddfptLoop();
+            } finblly {
                 try {
                     /*
-                     * Only one accept loop is started per server
-                     * socket, so after no more connections will be
-                     * accepted, ensure that the server socket is no
-                     * longer listening.
+                     * Only onf bddfpt loop is stbrtfd pfr sfrvfr
+                     * sodkft, so bftfr no morf donnfdtions will bf
+                     * bddfptfd, fnsurf tibt tif sfrvfr sodkft is no
+                     * longfr listfning.
                      */
-                    serverSocket.close();
-                } catch (IOException e) {
+                    sfrvfrSodkft.dlosf();
+                } dbtdi (IOExdfption f) {
                 }
             }
         }
 
         /**
-         * Accepts connections from the server socket and executes
-         * handlers for them in the thread pool.
+         * Addfpts donnfdtions from tif sfrvfr sodkft bnd fxfdutfs
+         * ibndlfrs for tifm in tif tirfbd pool.
          **/
-        private void executeAcceptLoop() {
-            if (tcpLog.isLoggable(Log.BRIEF)) {
-                tcpLog.log(Log.BRIEF, "listening on port " +
-                           getEndpoint().getPort());
+        privbtf void fxfdutfAddfptLoop() {
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF, "listfning on port " +
+                           gftEndpoint().gftPort());
             }
 
-            while (true) {
-                Socket socket = null;
+            wiilf (truf) {
+                Sodkft sodkft = null;
                 try {
-                    socket = serverSocket.accept();
+                    sodkft = sfrvfrSodkft.bddfpt();
 
                     /*
-                     * Find client host name (or "0.0.0.0" if unknown)
+                     * Find dlifnt iost nbmf (or "0.0.0.0" if unknown)
                      */
-                    InetAddress clientAddr = socket.getInetAddress();
-                    String clientHost = (clientAddr != null
-                                         ? clientAddr.getHostAddress()
+                    InftAddrfss dlifntAddr = sodkft.gftInftAddrfss();
+                    String dlifntHost = (dlifntAddr != null
+                                         ? dlifntAddr.gftHostAddrfss()
                                          : "0.0.0.0");
 
                     /*
-                     * Execute connection handler in the thread pool,
-                     * which uses non-system threads.
+                     * Exfdutf donnfdtion ibndlfr in tif tirfbd pool,
+                     * wiidi usfs non-systfm tirfbds.
                      */
                     try {
-                        connectionThreadPool.execute(
-                            new ConnectionHandler(socket, clientHost));
-                    } catch (RejectedExecutionException e) {
-                        closeSocket(socket);
-                        tcpLog.log(Log.BRIEF,
-                                   "rejected connection from " + clientHost);
+                        donnfdtionTirfbdPool.fxfdutf(
+                            nfw ConnfdtionHbndlfr(sodkft, dlifntHost));
+                    } dbtdi (RfjfdtfdExfdutionExdfption f) {
+                        dlosfSodkft(sodkft);
+                        tdpLog.log(Log.BRIEF,
+                                   "rfjfdtfd donnfdtion from " + dlifntHost);
                     }
 
-                } catch (Throwable t) {
+                } dbtdi (Tirowbblf t) {
                     try {
                         /*
-                         * If the server socket has been closed, such
-                         * as because there are no more exported
-                         * objects, then we expect accept to throw an
-                         * exception, so just terminate normally.
+                         * If tif sfrvfr sodkft ibs bffn dlosfd, sudi
+                         * bs bfdbusf tifrf brf no morf fxportfd
+                         * objfdts, tifn wf fxpfdt bddfpt to tirow bn
+                         * fxdfption, so just tfrminbtf normblly.
                          */
-                        if (serverSocket.isClosed()) {
-                            break;
+                        if (sfrvfrSodkft.isClosfd()) {
+                            brfbk;
                         }
 
                         try {
-                            if (tcpLog.isLoggable(Level.WARNING)) {
-                                tcpLog.log(Level.WARNING,
-                                           "accept loop for " + serverSocket +
-                                           " throws", t);
+                            if (tdpLog.isLoggbblf(Lfvfl.WARNING)) {
+                                tdpLog.log(Lfvfl.WARNING,
+                                           "bddfpt loop for " + sfrvfrSodkft +
+                                           " tirows", t);
                             }
-                        } catch (Throwable tt) {
+                        } dbtdi (Tirowbblf tt) {
                         }
-                    } finally {
+                    } finblly {
                         /*
-                         * Always close the accepted socket (if any)
-                         * if an exception occurs, but only after
-                         * logging an unexpected exception.
+                         * Alwbys dlosf tif bddfptfd sodkft (if bny)
+                         * if bn fxdfption oddurs, but only bftfr
+                         * logging bn unfxpfdtfd fxdfption.
                          */
-                        if (socket != null) {
-                            closeSocket(socket);
+                        if (sodkft != null) {
+                            dlosfSodkft(sodkft);
                         }
                     }
 
                     /*
-                     * In case we're running out of file descriptors,
-                     * release resources held in caches.
+                     * In dbsf wf'rf running out of filf dfsdriptors,
+                     * rflfbsf rfsourdfs ifld in dbdifs.
                      */
-                    if (!(t instanceof SecurityException)) {
+                    if (!(t instbndfof SfdurityExdfption)) {
                         try {
-                            TCPEndpoint.shedConnectionCaches();
-                        } catch (Throwable tt) {
+                            TCPEndpoint.sifdConnfdtionCbdifs();
+                        } dbtdi (Tirowbblf tt) {
                         }
                     }
 
                     /*
-                     * A NoClassDefFoundError can occur if no file
-                     * descriptors are available, in which case this
-                     * loop should not terminate.
+                     * A NoClbssDffFoundError dbn oddur if no filf
+                     * dfsdriptors brf bvbilbblf, in wiidi dbsf tiis
+                     * loop siould not tfrminbtf.
                      */
-                    if (t instanceof Exception ||
-                        t instanceof OutOfMemoryError ||
-                        t instanceof NoClassDefFoundError)
+                    if (t instbndfof Exdfption ||
+                        t instbndfof OutOfMfmoryError ||
+                        t instbndfof NoClbssDffFoundError)
                     {
-                        if (!continueAfterAcceptFailure(t)) {
-                            return;
+                        if (!dontinufAftfrAddfptFbilurf(t)) {
+                            rfturn;
                         }
-                        // continue loop
-                    } else if (t instanceof Error) {
-                        throw (Error) t;
-                    } else {
-                        throw new UndeclaredThrowableException(t);
+                        // dontinuf loop
+                    } flsf if (t instbndfof Error) {
+                        tirow (Error) t;
+                    } flsf {
+                        tirow nfw UndfdlbrfdTirowbblfExdfption(t);
                     }
                 }
             }
         }
 
         /**
-         * Returns true if the accept loop should continue after the
-         * specified exception has been caught, or false if the accept
-         * loop should terminate (closing the server socket).  If
-         * there is an RMIFailureHandler, this method returns the
-         * result of passing the specified exception to it; otherwise,
-         * this method always returns true, after sleeping to throttle
-         * the accept loop if necessary.
+         * Rfturns truf if tif bddfpt loop siould dontinuf bftfr tif
+         * spfdififd fxdfption ibs bffn dbugit, or fblsf if tif bddfpt
+         * loop siould tfrminbtf (dlosing tif sfrvfr sodkft).  If
+         * tifrf is bn RMIFbilurfHbndlfr, tiis mftiod rfturns tif
+         * rfsult of pbssing tif spfdififd fxdfption to it; otifrwisf,
+         * tiis mftiod blwbys rfturns truf, bftfr slffping to tirottlf
+         * tif bddfpt loop if nfdfssbry.
          **/
-        private boolean continueAfterAcceptFailure(Throwable t) {
-            RMIFailureHandler fh = RMISocketFactory.getFailureHandler();
-            if (fh != null) {
-                return fh.failure(t instanceof Exception ? (Exception) t :
-                                  new InvocationTargetException(t));
-            } else {
-                throttleLoopOnException();
-                return true;
+        privbtf boolfbn dontinufAftfrAddfptFbilurf(Tirowbblf t) {
+            RMIFbilurfHbndlfr fi = RMISodkftFbdtory.gftFbilurfHbndlfr();
+            if (fi != null) {
+                rfturn fi.fbilurf(t instbndfof Exdfption ? (Exdfption) t :
+                                  nfw InvodbtionTbrgftExdfption(t));
+            } flsf {
+                tirottlfLoopOnExdfption();
+                rfturn truf;
             }
         }
 
         /**
-         * Throttles the accept loop after an exception has been
-         * caught: if a burst of 10 exceptions in 5 seconds occurs,
-         * then wait for 10 seconds to curb busy CPU usage.
+         * Tirottlfs tif bddfpt loop bftfr bn fxdfption ibs bffn
+         * dbugit: if b burst of 10 fxdfptions in 5 sfdonds oddurs,
+         * tifn wbit for 10 sfdonds to durb busy CPU usbgf.
          **/
-        private void throttleLoopOnException() {
-            long now = System.currentTimeMillis();
-            if (lastExceptionTime == 0L || (now - lastExceptionTime) > 5000) {
-                // last exception was long ago (or this is the first)
-                lastExceptionTime = now;
-                recentExceptionCount = 0;
-            } else {
-                // exception burst window was started recently
-                if (++recentExceptionCount >= 10) {
+        privbtf void tirottlfLoopOnExdfption() {
+            long now = Systfm.durrfntTimfMillis();
+            if (lbstExdfptionTimf == 0L || (now - lbstExdfptionTimf) > 5000) {
+                // lbst fxdfption wbs long bgo (or tiis is tif first)
+                lbstExdfptionTimf = now;
+                rfdfntExdfptionCount = 0;
+            } flsf {
+                // fxdfption burst window wbs stbrtfd rfdfntly
+                if (++rfdfntExdfptionCount >= 10) {
                     try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException ignore) {
+                        Tirfbd.slffp(10000);
+                    } dbtdi (IntfrruptfdExdfption ignorf) {
                     }
                 }
             }
         }
     }
 
-    /** close socket and eat exception */
-    private static void closeSocket(Socket sock) {
+    /** dlosf sodkft bnd fbt fxdfption */
+    privbtf stbtid void dlosfSodkft(Sodkft sodk) {
         try {
-            sock.close();
-        } catch (IOException ex) {
-            // eat exception
+            sodk.dlosf();
+        } dbtdi (IOExdfption fx) {
+            // fbt fxdfption
         }
     }
 
     /**
-     * handleMessages decodes transport operations and handles messages
-     * appropriately.  If an exception occurs during message handling,
-     * the socket is closed.
+     * ibndlfMfssbgfs dfdodfs trbnsport opfrbtions bnd ibndlfs mfssbgfs
+     * bppropribtfly.  If bn fxdfption oddurs during mfssbgf ibndling,
+     * tif sodkft is dlosfd.
      */
-    void handleMessages(Connection conn, boolean persistent) {
-        int port = getEndpoint().getPort();
+    void ibndlfMfssbgfs(Connfdtion donn, boolfbn pfrsistfnt) {
+        int port = gftEndpoint().gftPort();
 
         try {
-            DataInputStream in = new DataInputStream(conn.getInputStream());
+            DbtbInputStrfbm in = nfw DbtbInputStrfbm(donn.gftInputStrfbm());
             do {
-                int op = in.read();     // transport op
+                int op = in.rfbd();     // trbnsport op
                 if (op == -1) {
-                    if (tcpLog.isLoggable(Log.BRIEF)) {
-                        tcpLog.log(Log.BRIEF, "(port " +
-                            port + ") connection closed");
+                    if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                        tdpLog.log(Log.BRIEF, "(port " +
+                            port + ") donnfdtion dlosfd");
                     }
-                    break;
+                    brfbk;
                 }
 
-                if (tcpLog.isLoggable(Log.BRIEF)) {
-                    tcpLog.log(Log.BRIEF, "(port " + port +
+                if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                    tdpLog.log(Log.BRIEF, "(port " + port +
                         ") op = " + op);
                 }
 
-                switch (op) {
-                case TransportConstants.Call:
-                    // service incoming RMI call
-                    RemoteCall call = new StreamRemoteCall(conn);
-                    if (serviceCall(call) == false)
-                        return;
-                    break;
+                switdi (op) {
+                dbsf TrbnsportConstbnts.Cbll:
+                    // sfrvidf indoming RMI dbll
+                    RfmotfCbll dbll = nfw StrfbmRfmotfCbll(donn);
+                    if (sfrvidfCbll(dbll) == fblsf)
+                        rfturn;
+                    brfbk;
 
-                case TransportConstants.Ping:
-                    // send ack for ping
-                    DataOutputStream out =
-                        new DataOutputStream(conn.getOutputStream());
-                    out.writeByte(TransportConstants.PingAck);
-                    conn.releaseOutputStream();
-                    break;
+                dbsf TrbnsportConstbnts.Ping:
+                    // sfnd bdk for ping
+                    DbtbOutputStrfbm out =
+                        nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+                    out.writfBytf(TrbnsportConstbnts.PingAdk);
+                    donn.rflfbsfOutputStrfbm();
+                    brfbk;
 
-                case TransportConstants.DGCAck:
-                    DGCAckHandler.received(UID.read(in));
-                    break;
+                dbsf TrbnsportConstbnts.DGCAdk:
+                    DGCAdkHbndlfr.rfdfivfd(UID.rfbd(in));
+                    brfbk;
 
-                default:
-                    throw new IOException("unknown transport op " + op);
+                dffbult:
+                    tirow nfw IOExdfption("unknown trbnsport op " + op);
                 }
-            } while (persistent);
+            } wiilf (pfrsistfnt);
 
-        } catch (IOException e) {
-            // exception during processing causes connection to close (below)
-            if (tcpLog.isLoggable(Log.BRIEF)) {
-                tcpLog.log(Log.BRIEF, "(port " + port +
-                    ") exception: ", e);
+        } dbtdi (IOExdfption f) {
+            // fxdfption during prodfssing dbusfs donnfdtion to dlosf (bflow)
+            if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                tdpLog.log(Log.BRIEF, "(port " + port +
+                    ") fxdfption: ", f);
             }
-        } finally {
+        } finblly {
             try {
-                conn.close();
-            } catch (IOException ex) {
-                // eat exception
+                donn.dlosf();
+            } dbtdi (IOExdfption fx) {
+                // fbt fxdfption
             }
         }
     }
 
     /**
-     * Returns the client host for the current thread's connection.  Throws
-     * ServerNotActiveException if no connection is active for this thread.
+     * Rfturns tif dlifnt iost for tif durrfnt tirfbd's donnfdtion.  Tirows
+     * SfrvfrNotAdtivfExdfption if no donnfdtion is bdtivf for tiis tirfbd.
      */
-    public static String getClientHost() throws ServerNotActiveException {
-        ConnectionHandler h = threadConnectionHandler.get();
-        if (h != null) {
-            return h.getClientHost();
-        } else {
-            throw new ServerNotActiveException("not in a remote call");
+    publid stbtid String gftClifntHost() tirows SfrvfrNotAdtivfExdfption {
+        ConnfdtionHbndlfr i = tirfbdConnfdtionHbndlfr.gft();
+        if (i != null) {
+            rfturn i.gftClifntHost();
+        } flsf {
+            tirow nfw SfrvfrNotAdtivfExdfption("not in b rfmotf dbll");
         }
     }
 
     /**
-     * Services messages on accepted connection
+     * Sfrvidfs mfssbgfs on bddfptfd donnfdtion
      */
-    private class ConnectionHandler implements Runnable {
+    privbtf dlbss ConnfdtionHbndlfr implfmfnts Runnbblf {
 
-        /** int value of "POST" in ASCII (Java's specified data formats
-         *  make this once-reviled tactic again socially acceptable) */
-        private static final int POST = 0x504f5354;
+        /** int vbluf of "POST" in ASCII (Jbvb's spfdififd dbtb formbts
+         *  mbkf tiis ondf-rfvilfd tbdtid bgbin sodiblly bddfptbblf) */
+        privbtf stbtid finbl int POST = 0x504f5354;
 
-        /** most recently accept-authorized AccessControlContext */
-        private AccessControlContext okContext;
-        /** cache of accept-authorized AccessControlContexts */
-        private Map<AccessControlContext,
-                    Reference<AccessControlContext>> authCache;
-        /** security manager which authorized contexts in authCache */
-        private SecurityManager cacheSecurityManager = null;
+        /** most rfdfntly bddfpt-butiorizfd AddfssControlContfxt */
+        privbtf AddfssControlContfxt okContfxt;
+        /** dbdif of bddfpt-butiorizfd AddfssControlContfxts */
+        privbtf Mbp<AddfssControlContfxt,
+                    Rfffrfndf<AddfssControlContfxt>> butiCbdif;
+        /** sfdurity mbnbgfr wiidi butiorizfd dontfxts in butiCbdif */
+        privbtf SfdurityMbnbgfr dbdifSfdurityMbnbgfr = null;
 
-        private Socket socket;
-        private String remoteHost;
+        privbtf Sodkft sodkft;
+        privbtf String rfmotfHost;
 
-        ConnectionHandler(Socket socket, String remoteHost) {
-            this.socket = socket;
-            this.remoteHost = remoteHost;
+        ConnfdtionHbndlfr(Sodkft sodkft, String rfmotfHost) {
+            tiis.sodkft = sodkft;
+            tiis.rfmotfHost = rfmotfHost;
         }
 
-        String getClientHost() {
-            return remoteHost;
+        String gftClifntHost() {
+            rfturn rfmotfHost;
         }
 
         /**
-         * Verify that the given AccessControlContext has permission to
-         * accept this connection.
+         * Vfrify tibt tif givfn AddfssControlContfxt ibs pfrmission to
+         * bddfpt tiis donnfdtion.
          */
-        void checkAcceptPermission(SecurityManager sm,
-                                   AccessControlContext acc)
+        void difdkAddfptPfrmission(SfdurityMbnbgfr sm,
+                                   AddfssControlContfxt bdd)
         {
             /*
-             * Note: no need to synchronize on cache-related fields, since this
-             * method only gets called from the ConnectionHandler's thread.
+             * Notf: no nffd to syndironizf on dbdif-rflbtfd fiflds, sindf tiis
+             * mftiod only gfts dbllfd from tif ConnfdtionHbndlfr's tirfbd.
              */
-            if (sm != cacheSecurityManager) {
-                okContext = null;
-                authCache = new WeakHashMap<AccessControlContext,
-                                            Reference<AccessControlContext>>();
-                cacheSecurityManager = sm;
+            if (sm != dbdifSfdurityMbnbgfr) {
+                okContfxt = null;
+                butiCbdif = nfw WfbkHbsiMbp<AddfssControlContfxt,
+                                            Rfffrfndf<AddfssControlContfxt>>();
+                dbdifSfdurityMbnbgfr = sm;
             }
-            if (acc.equals(okContext) || authCache.containsKey(acc)) {
-                return;
+            if (bdd.fqubls(okContfxt) || butiCbdif.dontbinsKfy(bdd)) {
+                rfturn;
             }
-            InetAddress addr = socket.getInetAddress();
-            String host = (addr != null) ? addr.getHostAddress() : "*";
+            InftAddrfss bddr = sodkft.gftInftAddrfss();
+            String iost = (bddr != null) ? bddr.gftHostAddrfss() : "*";
 
-            sm.checkAccept(host, socket.getPort());
+            sm.difdkAddfpt(iost, sodkft.gftPort());
 
-            authCache.put(acc, new SoftReference<AccessControlContext>(acc));
-            okContext = acc;
+            butiCbdif.put(bdd, nfw SoftRfffrfndf<AddfssControlContfxt>(bdd));
+            okContfxt = bdd;
         }
 
-        public void run() {
-            Thread t = Thread.currentThread();
-            String name = t.getName();
+        publid void run() {
+            Tirfbd t = Tirfbd.durrfntTirfbd();
+            String nbmf = t.gftNbmf();
             try {
-                t.setName("RMI TCP Connection(" +
-                          connectionCount.incrementAndGet() +
-                          ")-" + remoteHost);
+                t.sftNbmf("RMI TCP Connfdtion(" +
+                          donnfdtionCount.indrfmfntAndGft() +
+                          ")-" + rfmotfHost);
                 run0();
-            } finally {
-                t.setName(name);
+            } finblly {
+                t.sftNbmf(nbmf);
             }
         }
 
-        private void run0() {
-            TCPEndpoint endpoint = getEndpoint();
-            int port = endpoint.getPort();
+        privbtf void run0() {
+            TCPEndpoint fndpoint = gftEndpoint();
+            int port = fndpoint.gftPort();
 
-            threadConnectionHandler.set(this);
+            tirfbdConnfdtionHbndlfr.sft(tiis);
 
-            // set socket to disable Nagle's algorithm (always send
-            // immediately)
-            // TBD: should this be left up to socket factory instead?
+            // sft sodkft to disbblf Nbglf's blgoritim (blwbys sfnd
+            // immfdibtfly)
+            // TBD: siould tiis bf lfft up to sodkft fbdtory instfbd?
             try {
-                socket.setTcpNoDelay(true);
-            } catch (Exception e) {
-                // if we fail to set this, ignore and proceed anyway
+                sodkft.sftTdpNoDflby(truf);
+            } dbtdi (Exdfption f) {
+                // if wf fbil to sft tiis, ignorf bnd prodffd bnywby
             }
-            // set socket to timeout after excessive idle time
+            // sft sodkft to timfout bftfr fxdfssivf idlf timf
             try {
-                if (connectionReadTimeout > 0)
-                    socket.setSoTimeout(connectionReadTimeout);
-            } catch (Exception e) {
-                // too bad, continue anyway
+                if (donnfdtionRfbdTimfout > 0)
+                    sodkft.sftSoTimfout(donnfdtionRfbdTimfout);
+            } dbtdi (Exdfption f) {
+                // too bbd, dontinuf bnywby
             }
 
             try {
-                InputStream sockIn = socket.getInputStream();
-                InputStream bufIn = sockIn.markSupported()
-                        ? sockIn
-                        : new BufferedInputStream(sockIn);
+                InputStrfbm sodkIn = sodkft.gftInputStrfbm();
+                InputStrfbm bufIn = sodkIn.mbrkSupportfd()
+                        ? sodkIn
+                        : nfw BufffrfdInputStrfbm(sodkIn);
 
-                // Read magic (or HTTP wrapper)
-                bufIn.mark(4);
-                DataInputStream in = new DataInputStream(bufIn);
-                int magic = in.readInt();
+                // Rfbd mbgid (or HTTP wrbppfr)
+                bufIn.mbrk(4);
+                DbtbInputStrfbm in = nfw DbtbInputStrfbm(bufIn);
+                int mbgid = in.rfbdInt();
 
-                if (magic == POST) {
-                    tcpLog.log(Log.BRIEF, "decoding HTTP-wrapped call");
+                if (mbgid == POST) {
+                    tdpLog.log(Log.BRIEF, "dfdoding HTTP-wrbppfd dbll");
 
-                    // It's really a HTTP-wrapped request.  Repackage
-                    // the socket in a HttpReceiveSocket, reinitialize
-                    // sockIn and in, and reread magic.
-                    bufIn.reset();      // unread "POST"
+                    // It's rfblly b HTTP-wrbppfd rfqufst.  Rfpbdkbgf
+                    // tif sodkft in b HttpRfdfivfSodkft, rfinitiblizf
+                    // sodkIn bnd in, bnd rfrfbd mbgid.
+                    bufIn.rfsft();      // unrfbd "POST"
 
                     try {
-                        socket = new HttpReceiveSocket(socket, bufIn, null);
-                        remoteHost = "0.0.0.0";
-                        sockIn = socket.getInputStream();
-                        bufIn = new BufferedInputStream(sockIn);
-                        in = new DataInputStream(bufIn);
-                        magic = in.readInt();
+                        sodkft = nfw HttpRfdfivfSodkft(sodkft, bufIn, null);
+                        rfmotfHost = "0.0.0.0";
+                        sodkIn = sodkft.gftInputStrfbm();
+                        bufIn = nfw BufffrfdInputStrfbm(sodkIn);
+                        in = nfw DbtbInputStrfbm(bufIn);
+                        mbgid = in.rfbdInt();
 
-                    } catch (IOException e) {
-                        throw new RemoteException("Error HTTP-unwrapping call",
-                                                  e);
+                    } dbtdi (IOExdfption f) {
+                        tirow nfw RfmotfExdfption("Error HTTP-unwrbpping dbll",
+                                                  f);
                     }
                 }
-                // bufIn's mark will invalidate itself when it overflows
-                // so it doesn't have to be turned off
+                // bufIn's mbrk will invblidbtf itsflf wifn it ovfrflows
+                // so it dofsn't ibvf to bf turnfd off
 
-                // read and verify transport header
-                short version = in.readShort();
-                if (magic != TransportConstants.Magic ||
-                    version != TransportConstants.Version) {
-                    // protocol mismatch detected...
-                    // just close socket: this would recurse if we marshal an
-                    // exception to the client and the protocol at other end
-                    // doesn't match.
-                    closeSocket(socket);
-                    return;
+                // rfbd bnd vfrify trbnsport ifbdfr
+                siort vfrsion = in.rfbdSiort();
+                if (mbgid != TrbnsportConstbnts.Mbgid ||
+                    vfrsion != TrbnsportConstbnts.Vfrsion) {
+                    // protodol mismbtdi dftfdtfd...
+                    // just dlosf sodkft: tiis would rfdursf if wf mbrsibl bn
+                    // fxdfption to tif dlifnt bnd tif protodol bt otifr fnd
+                    // dofsn't mbtdi.
+                    dlosfSodkft(sodkft);
+                    rfturn;
                 }
 
-                OutputStream sockOut = socket.getOutputStream();
-                BufferedOutputStream bufOut =
-                    new BufferedOutputStream(sockOut);
-                DataOutputStream out = new DataOutputStream(bufOut);
+                OutputStrfbm sodkOut = sodkft.gftOutputStrfbm();
+                BufffrfdOutputStrfbm bufOut =
+                    nfw BufffrfdOutputStrfbm(sodkOut);
+                DbtbOutputStrfbm out = nfw DbtbOutputStrfbm(bufOut);
 
-                int remotePort = socket.getPort();
+                int rfmotfPort = sodkft.gftPort();
 
-                if (tcpLog.isLoggable(Log.BRIEF)) {
-                    tcpLog.log(Log.BRIEF, "accepted socket from [" +
-                                     remoteHost + ":" + remotePort + "]");
+                if (tdpLog.isLoggbblf(Log.BRIEF)) {
+                    tdpLog.log(Log.BRIEF, "bddfptfd sodkft from [" +
+                                     rfmotfHost + ":" + rfmotfPort + "]");
                 }
 
-                TCPEndpoint ep;
-                TCPChannel ch;
-                TCPConnection conn;
+                TCPEndpoint fp;
+                TCPCibnnfl di;
+                TCPConnfdtion donn;
 
-                // send ack (or nack) for protocol
-                byte protocol = in.readByte();
-                switch (protocol) {
-                case TransportConstants.SingleOpProtocol:
-                    // no ack for protocol
+                // sfnd bdk (or nbdk) for protodol
+                bytf protodol = in.rfbdBytf();
+                switdi (protodol) {
+                dbsf TrbnsportConstbnts.SinglfOpProtodol:
+                    // no bdk for protodol
 
-                    // create dummy channel for receiving messages
-                    ep = new TCPEndpoint(remoteHost, socket.getLocalPort(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    ch = new TCPChannel(TCPTransport.this, ep);
-                    conn = new TCPConnection(ch, socket, bufIn, bufOut);
+                    // drfbtf dummy dibnnfl for rfdfiving mfssbgfs
+                    fp = nfw TCPEndpoint(rfmotfHost, sodkft.gftLodblPort(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    di = nfw TCPCibnnfl(TCPTrbnsport.tiis, fp);
+                    donn = nfw TCPConnfdtion(di, sodkft, bufIn, bufOut);
 
-                    // read input messages
-                    handleMessages(conn, false);
-                    break;
+                    // rfbd input mfssbgfs
+                    ibndlfMfssbgfs(donn, fblsf);
+                    brfbk;
 
-                case TransportConstants.StreamProtocol:
-                    // send ack
-                    out.writeByte(TransportConstants.ProtocolAck);
+                dbsf TrbnsportConstbnts.StrfbmProtodol:
+                    // sfnd bdk
+                    out.writfBytf(TrbnsportConstbnts.ProtodolAdk);
 
-                    // suggest endpoint (in case client doesn't know host name)
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
-                        tcpLog.log(Log.VERBOSE, "(port " + port +
-                            ") " + "suggesting " + remoteHost + ":" +
-                            remotePort);
+                    // suggfst fndpoint (in dbsf dlifnt dofsn't know iost nbmf)
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") " + "suggfsting " + rfmotfHost + ":" +
+                            rfmotfPort);
                     }
 
-                    out.writeUTF(remoteHost);
-                    out.writeInt(remotePort);
-                    out.flush();
+                    out.writfUTF(rfmotfHost);
+                    out.writfInt(rfmotfPort);
+                    out.flusi();
 
-                    // read and discard (possibly bogus) endpoint
-                    // REMIND: would be faster to read 2 bytes then skip N+4
-                    String clientHost = in.readUTF();
-                    int    clientPort = in.readInt();
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
-                        tcpLog.log(Log.VERBOSE, "(port " + port +
-                            ") client using " + clientHost + ":" + clientPort);
+                    // rfbd bnd disdbrd (possibly bogus) fndpoint
+                    // REMIND: would bf fbstfr to rfbd 2 bytfs tifn skip N+4
+                    String dlifntHost = in.rfbdUTF();
+                    int    dlifntPort = in.rfbdInt();
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") dlifnt using " + dlifntHost + ":" + dlifntPort);
                     }
 
-                    // create dummy channel for receiving messages
-                    // (why not use clientHost and clientPort?)
-                    ep = new TCPEndpoint(remoteHost, socket.getLocalPort(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    ch = new TCPChannel(TCPTransport.this, ep);
-                    conn = new TCPConnection(ch, socket, bufIn, bufOut);
+                    // drfbtf dummy dibnnfl for rfdfiving mfssbgfs
+                    // (wiy not usf dlifntHost bnd dlifntPort?)
+                    fp = nfw TCPEndpoint(rfmotfHost, sodkft.gftLodblPort(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    di = nfw TCPCibnnfl(TCPTrbnsport.tiis, fp);
+                    donn = nfw TCPConnfdtion(di, sodkft, bufIn, bufOut);
 
-                    // read input messages
-                    handleMessages(conn, true);
-                    break;
+                    // rfbd input mfssbgfs
+                    ibndlfMfssbgfs(donn, truf);
+                    brfbk;
 
-                case TransportConstants.MultiplexProtocol:
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
-                        tcpLog.log(Log.VERBOSE, "(port " + port +
-                            ") accepting multiplex protocol");
+                dbsf TrbnsportConstbnts.MultiplfxProtodol:
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") bddfpting multiplfx protodol");
                     }
 
-                    // send ack
-                    out.writeByte(TransportConstants.ProtocolAck);
+                    // sfnd bdk
+                    out.writfBytf(TrbnsportConstbnts.ProtodolAdk);
 
-                    // suggest endpoint (in case client doesn't already have one)
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
-                        tcpLog.log(Log.VERBOSE, "(port " + port +
-                            ") suggesting " + remoteHost + ":" + remotePort);
+                    // suggfst fndpoint (in dbsf dlifnt dofsn't blrfbdy ibvf onf)
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " + port +
+                            ") suggfsting " + rfmotfHost + ":" + rfmotfPort);
                     }
 
-                    out.writeUTF(remoteHost);
-                    out.writeInt(remotePort);
-                    out.flush();
+                    out.writfUTF(rfmotfHost);
+                    out.writfInt(rfmotfPort);
+                    out.flusi();
 
-                    // read endpoint client has decided to use
-                    ep = new TCPEndpoint(in.readUTF(), in.readInt(),
-                                         endpoint.getClientSocketFactory(),
-                                         endpoint.getServerSocketFactory());
-                    if (tcpLog.isLoggable(Log.VERBOSE)) {
-                        tcpLog.log(Log.VERBOSE, "(port " +
-                            port + ") client using " +
-                            ep.getHost() + ":" + ep.getPort());
+                    // rfbd fndpoint dlifnt ibs dfdidfd to usf
+                    fp = nfw TCPEndpoint(in.rfbdUTF(), in.rfbdInt(),
+                                         fndpoint.gftClifntSodkftFbdtory(),
+                                         fndpoint.gftSfrvfrSodkftFbdtory());
+                    if (tdpLog.isLoggbblf(Log.VERBOSE)) {
+                        tdpLog.log(Log.VERBOSE, "(port " +
+                            port + ") dlifnt using " +
+                            fp.gftHost() + ":" + fp.gftPort());
                     }
 
-                    ConnectionMultiplexer multiplexer;
-                    synchronized (channelTable) {
-                        // create or find channel for this endpoint
-                        ch = getChannel(ep);
-                        multiplexer =
-                            new ConnectionMultiplexer(ch, bufIn, sockOut,
-                                                      false);
-                        ch.useMultiplexer(multiplexer);
+                    ConnfdtionMultiplfxfr multiplfxfr;
+                    syndironizfd (dibnnflTbblf) {
+                        // drfbtf or find dibnnfl for tiis fndpoint
+                        di = gftCibnnfl(fp);
+                        multiplfxfr =
+                            nfw ConnfdtionMultiplfxfr(di, bufIn, sodkOut,
+                                                      fblsf);
+                        di.usfMultiplfxfr(multiplfxfr);
                     }
-                    multiplexer.run();
-                    break;
+                    multiplfxfr.run();
+                    brfbk;
 
-                default:
-                    // protocol not understood, send nack and close socket
-                    out.writeByte(TransportConstants.ProtocolNack);
-                    out.flush();
-                    break;
+                dffbult:
+                    // protodol not undfrstood, sfnd nbdk bnd dlosf sodkft
+                    out.writfBytf(TrbnsportConstbnts.ProtodolNbdk);
+                    out.flusi();
+                    brfbk;
                 }
 
-            } catch (IOException e) {
-                // socket in unknown state: destroy socket
-                tcpLog.log(Log.BRIEF, "terminated with exception:", e);
-            } finally {
-                closeSocket(socket);
+            } dbtdi (IOExdfption f) {
+                // sodkft in unknown stbtf: dfstroy sodkft
+                tdpLog.log(Log.BRIEF, "tfrminbtfd witi fxdfption:", f);
+            } finblly {
+                dlosfSodkft(sodkft);
             }
         }
     }

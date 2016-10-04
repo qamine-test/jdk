@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-public final class Utility {
+publid finbl dlbss Utility {
 
     /**
-     * Convenience utility to compare two Object[]s
-     * Ought to be in System.
-     * @param len the length to compare.
-     * The start indices and start+len must be valid.
+     * Convfnifndf utility to dompbrf two Objfdt[]s
+     * Ougit to bf in Systfm.
+     * @pbrbm lfn tif lfngti to dompbrf.
+     * Tif stbrt indidfs bnd stbrt+lfn must bf vblid.
      */
-    public final static boolean arrayRegionMatches(char[] source, int sourceStart,
-                                            char[] target, int targetStart,
-                                            int len)
+    publid finbl stbtid boolfbn brrbyRfgionMbtdifs(dibr[] sourdf, int sourdfStbrt,
+                                            dibr[] tbrgft, int tbrgftStbrt,
+                                            int lfn)
     {
-        int sourceEnd = sourceStart + len;
-        int delta = targetStart - sourceStart;
-        for (int i = sourceStart; i < sourceEnd; i++) {
-            if (source[i]!=target[i + delta])
-            return false;
+        int sourdfEnd = sourdfStbrt + lfn;
+        int dfltb = tbrgftStbrt - sourdfStbrt;
+        for (int i = sourdfStbrt; i < sourdfEnd; i++) {
+            if (sourdf[i]!=tbrgft[i + dfltb])
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Convert characters outside the range U+0020 to U+007F to
-     * Unicode escapes, and convert backslash to a double backslash.
+     * Convfrt dibrbdtfrs outsidf tif rbngf U+0020 to U+007F to
+     * Unidodf fsdbpfs, bnd donvfrt bbdkslbsi to b doublf bbdkslbsi.
      */
-    public static final String escape(String s) {
-        StringBuffer buf = new StringBuffer();
-        for (int i=0; i<s.length(); ) {
-            int c = UTF16.charAt(s, i);
-            i += UTF16.getCharCount(c);
-            if (c >= ' ' && c <= 0x007F) {
-                if (c == '\\') {
-                    buf.append("\\\\"); // That is, "\\"
-                } else {
-                    buf.append((char)c);
+    publid stbtid finbl String fsdbpf(String s) {
+        StringBufffr buf = nfw StringBufffr();
+        for (int i=0; i<s.lfngti(); ) {
+            int d = UTF16.dibrAt(s, i);
+            i += UTF16.gftCibrCount(d);
+            if (d >= ' ' && d <= 0x007F) {
+                if (d == '\\') {
+                    buf.bppfnd("\\\\"); // Tibt is, "\\"
+                } flsf {
+                    buf.bppfnd((dibr)d);
                 }
-            } else {
-                boolean four = c <= 0xFFFF;
-                buf.append(four ? "\\u" : "\\U");
-                hex(c, four ? 4 : 8, buf);
+            } flsf {
+                boolfbn four = d <= 0xFFFF;
+                buf.bppfnd(four ? "\\u" : "\\U");
+                ifx(d, four ? 4 : 8, buf);
             }
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
-    /* This map must be in ASCENDING ORDER OF THE ESCAPE CODE */
-    static private final char[] UNESCAPE_MAP = {
+    /* Tiis mbp must bf in ASCENDING ORDER OF THE ESCAPE CODE */
+    stbtid privbtf finbl dibr[] UNESCAPE_MAP = {
         /*"   0x22, 0x22 */
         /*'   0x27, 0x27 */
         /*?   0x3F, 0x3F */
         /*\   0x5C, 0x5C */
-        /*a*/ 0x61, 0x07,
+        /*b*/ 0x61, 0x07,
         /*b*/ 0x62, 0x08,
-        /*e*/ 0x65, 0x1b,
-        /*f*/ 0x66, 0x0c,
-        /*n*/ 0x6E, 0x0a,
+        /*f*/ 0x65, 0x1b,
+        /*f*/ 0x66, 0x0d,
+        /*n*/ 0x6E, 0x0b,
         /*r*/ 0x72, 0x0d,
         /*t*/ 0x74, 0x09,
         /*v*/ 0x76, 0x0b
     };
 
     /**
-     * Convert an escape to a 32-bit code point value.  We attempt
-     * to parallel the icu4c unescapeAt() function.
-     * @param offset16 an array containing offset to the character
-     * <em>after</em> the backslash.  Upon return offset16[0] will
-     * be updated to point after the escape sequence.
-     * @return character value from 0 to 10FFFF, or -1 on error.
+     * Convfrt bn fsdbpf to b 32-bit dodf point vbluf.  Wf bttfmpt
+     * to pbrbllfl tif idu4d unfsdbpfAt() fundtion.
+     * @pbrbm offsft16 bn brrby dontbining offsft to tif dibrbdtfr
+     * <fm>bftfr</fm> tif bbdkslbsi.  Upon rfturn offsft16[0] will
+     * bf updbtfd to point bftfr tif fsdbpf sfqufndf.
+     * @rfturn dibrbdtfr vbluf from 0 to 10FFFF, or -1 on frror.
      */
-    public static int unescapeAt(String s, int[] offset16) {
-        int c;
-        int result = 0;
+    publid stbtid int unfsdbpfAt(String s, int[] offsft16) {
+        int d;
+        int rfsult = 0;
         int n = 0;
         int minDig = 0;
-        int maxDig = 0;
-        int bitsPerDigit = 4;
+        int mbxDig = 0;
+        int bitsPfrDigit = 4;
         int dig;
         int i;
-        boolean braces = false;
+        boolfbn brbdfs = fblsf;
 
-        /* Check that offset is in range */
-        int offset = offset16[0];
-        int length = s.length();
-        if (offset < 0 || offset >= length) {
-            return -1;
+        /* Cifdk tibt offsft is in rbngf */
+        int offsft = offsft16[0];
+        int lfngti = s.lfngti();
+        if (offsft < 0 || offsft >= lfngti) {
+            rfturn -1;
         }
 
-        /* Fetch first UChar after '\\' */
-        c = UTF16.charAt(s, offset);
-        offset += UTF16.getCharCount(c);
+        /* Fftdi first UCibr bftfr '\\' */
+        d = UTF16.dibrAt(s, offsft);
+        offsft += UTF16.gftCibrCount(d);
 
-        /* Convert hexadecimal and octal escapes */
-        switch (c) {
-        case 'u':
-            minDig = maxDig = 4;
-            break;
-        case 'U':
-            minDig = maxDig = 8;
-            break;
-        case 'x':
+        /* Convfrt ifxbdfdimbl bnd odtbl fsdbpfs */
+        switdi (d) {
+        dbsf 'u':
+            minDig = mbxDig = 4;
+            brfbk;
+        dbsf 'U':
+            minDig = mbxDig = 8;
+            brfbk;
+        dbsf 'x':
             minDig = 1;
-            if (offset < length && UTF16.charAt(s, offset) == 0x7B /*{*/) {
-                ++offset;
-                braces = true;
-                maxDig = 8;
-            } else {
-                maxDig = 2;
+            if (offsft < lfngti && UTF16.dibrAt(s, offsft) == 0x7B /*{*/) {
+                ++offsft;
+                brbdfs = truf;
+                mbxDig = 8;
+            } flsf {
+                mbxDig = 2;
             }
-            break;
-        default:
-            dig = UCharacter.digit(c, 8);
+            brfbk;
+        dffbult:
+            dig = UCibrbdtfr.digit(d, 8);
             if (dig >= 0) {
                 minDig = 1;
-                maxDig = 3;
-                n = 1; /* Already have first octal digit */
-                bitsPerDigit = 3;
-                result = dig;
+                mbxDig = 3;
+                n = 1; /* Alrfbdy ibvf first odtbl digit */
+                bitsPfrDigit = 3;
+                rfsult = dig;
             }
-            break;
+            brfbk;
         }
         if (minDig != 0) {
-            while (offset < length && n < maxDig) {
-                c = UTF16.charAt(s, offset);
-                dig = UCharacter.digit(c, (bitsPerDigit == 3) ? 8 : 16);
+            wiilf (offsft < lfngti && n < mbxDig) {
+                d = UTF16.dibrAt(s, offsft);
+                dig = UCibrbdtfr.digit(d, (bitsPfrDigit == 3) ? 8 : 16);
                 if (dig < 0) {
-                    break;
+                    brfbk;
                 }
-                result = (result << bitsPerDigit) | dig;
-                offset += UTF16.getCharCount(c);
+                rfsult = (rfsult << bitsPfrDigit) | dig;
+                offsft += UTF16.gftCibrCount(d);
                 ++n;
             }
             if (n < minDig) {
-                return -1;
+                rfturn -1;
             }
-            if (braces) {
-                if (c != 0x7D /*}*/) {
-                    return -1;
+            if (brbdfs) {
+                if (d != 0x7D /*}*/) {
+                    rfturn -1;
                 }
-                ++offset;
+                ++offsft;
             }
-            if (result < 0 || result >= 0x110000) {
-                return -1;
+            if (rfsult < 0 || rfsult >= 0x110000) {
+                rfturn -1;
             }
-            // If an escape sequence specifies a lead surrogate, see
-            // if there is a trail surrogate after it, either as an
-            // escape or as a literal.  If so, join them up into a
-            // supplementary.
-            if (offset < length &&
-                UTF16.isLeadSurrogate((char) result)) {
-                int ahead = offset+1;
-                c = s.charAt(offset); // [sic] get 16-bit code unit
-                if (c == '\\' && ahead < length) {
-                    int o[] = new int[] { ahead };
-                    c = unescapeAt(s, o);
-                    ahead = o[0];
+            // If bn fsdbpf sfqufndf spfdififs b lfbd surrogbtf, sff
+            // if tifrf is b trbil surrogbtf bftfr it, fitifr bs bn
+            // fsdbpf or bs b litfrbl.  If so, join tifm up into b
+            // supplfmfntbry.
+            if (offsft < lfngti &&
+                UTF16.isLfbdSurrogbtf((dibr) rfsult)) {
+                int bifbd = offsft+1;
+                d = s.dibrAt(offsft); // [sid] gft 16-bit dodf unit
+                if (d == '\\' && bifbd < lfngti) {
+                    int o[] = nfw int[] { bifbd };
+                    d = unfsdbpfAt(s, o);
+                    bifbd = o[0];
                 }
-                if (UTF16.isTrailSurrogate((char) c)) {
-                    offset = ahead;
-                result = UCharacterProperty.getRawSupplementary(
-                                  (char) result, (char) c);
+                if (UTF16.isTrbilSurrogbtf((dibr) d)) {
+                    offsft = bifbd;
+                rfsult = UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                  (dibr) rfsult, (dibr) d);
                 }
             }
-            offset16[0] = offset;
-            return result;
+            offsft16[0] = offsft;
+            rfturn rfsult;
         }
 
-        /* Convert C-style escapes in table */
-        for (i=0; i<UNESCAPE_MAP.length; i+=2) {
-            if (c == UNESCAPE_MAP[i]) {
-                offset16[0] = offset;
-                return UNESCAPE_MAP[i+1];
-            } else if (c < UNESCAPE_MAP[i]) {
-                break;
+        /* Convfrt C-stylf fsdbpfs in tbblf */
+        for (i=0; i<UNESCAPE_MAP.lfngti; i+=2) {
+            if (d == UNESCAPE_MAP[i]) {
+                offsft16[0] = offsft;
+                rfturn UNESCAPE_MAP[i+1];
+            } flsf if (d < UNESCAPE_MAP[i]) {
+                brfbk;
             }
         }
 
-        /* Map \cX to control-X: X & 0x1F */
-        if (c == 'c' && offset < length) {
-            c = UTF16.charAt(s, offset);
-            offset16[0] = offset + UTF16.getCharCount(c);
-            return 0x1F & c;
+        /* Mbp \dX to dontrol-X: X & 0x1F */
+        if (d == 'd' && offsft < lfngti) {
+            d = UTF16.dibrAt(s, offsft);
+            offsft16[0] = offsft + UTF16.gftCibrCount(d);
+            rfturn 0x1F & d;
         }
 
-        /* If no special forms are recognized, then consider
-         * the backslash to generically escape the next character. */
-        offset16[0] = offset;
-        return c;
+        /* If no spfdibl forms brf rfdognizfd, tifn donsidfr
+         * tif bbdkslbsi to gfnfridblly fsdbpf tif nfxt dibrbdtfr. */
+        offsft16[0] = offsft;
+        rfturn d;
     }
 
     /**
-     * Convert a integer to size width hex uppercase digits.
-     * E.g., hex('a', 4, str) => "0041".
-     * Append the output to the given StringBuffer.
-     * If width is too small to fit, nothing will be appended to output.
+     * Convfrt b intfgfr to sizf widti ifx uppfrdbsf digits.
+     * E.g., ifx('b', 4, str) => "0041".
+     * Appfnd tif output to tif givfn StringBufffr.
+     * If widti is too smbll to fit, notiing will bf bppfndfd to output.
      */
-    public static StringBuffer hex(int ch, int width, StringBuffer output) {
-        return appendNumber(output, ch, 16, width);
+    publid stbtid StringBufffr ifx(int di, int widti, StringBufffr output) {
+        rfturn bppfndNumbfr(output, di, 16, widti);
     }
 
     /**
-     * Convert a integer to size width (minimum) hex uppercase digits.
-     * E.g., hex('a', 4, str) => "0041".  If the integer requires more
-     * than width digits, more will be used.
+     * Convfrt b intfgfr to sizf widti (minimum) ifx uppfrdbsf digits.
+     * E.g., ifx('b', 4, str) => "0041".  If tif intfgfr rfquirfs morf
+     * tibn widti digits, morf will bf usfd.
      */
-    public static String hex(int ch, int width) {
-        StringBuffer buf = new StringBuffer();
-        return appendNumber(buf, ch, 16, width).toString();
+    publid stbtid String ifx(int di, int widti) {
+        StringBufffr buf = nfw StringBufffr();
+        rfturn bppfndNumbfr(buf, di, 16, widti).toString();
     }
 
     /**
-     * Skip over a sequence of zero or more white space characters
-     * at pos.  Return the index of the first non-white-space character
-     * at or after pos, or str.length(), if there is none.
+     * Skip ovfr b sfqufndf of zfro or morf wiitf spbdf dibrbdtfrs
+     * bt pos.  Rfturn tif indfx of tif first non-wiitf-spbdf dibrbdtfr
+     * bt or bftfr pos, or str.lfngti(), if tifrf is nonf.
      */
-    public static int skipWhitespace(String str, int pos) {
-        while (pos < str.length()) {
-            int c = UTF16.charAt(str, pos);
-            if (!UCharacterProperty.isRuleWhiteSpace(c)) {
-                break;
+    publid stbtid int skipWiitfspbdf(String str, int pos) {
+        wiilf (pos < str.lfngti()) {
+            int d = UTF16.dibrAt(str, pos);
+            if (!UCibrbdtfrPropfrty.isRulfWiitfSpbdf(d)) {
+                brfbk;
             }
-            pos += UTF16.getCharCount(c);
+            pos += UTF16.gftCibrCount(d);
         }
-        return pos;
+        rfturn pos;
     }
 
-    static final char DIGITS[] = {
+    stbtid finbl dibr DIGITS[] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -269,117 +269,117 @@ public final class Utility {
     };
 
     /**
-     * Append the digits of a positive integer to the given
-     * <code>StringBuffer</code> in the given radix. This is
-     * done recursively since it is easiest to generate the low-
-     * order digit first, but it must be appended last.
+     * Appfnd tif digits of b positivf intfgfr to tif givfn
+     * <dodf>StringBufffr</dodf> in tif givfn rbdix. Tiis is
+     * donf rfdursivfly sindf it is fbsifst to gfnfrbtf tif low-
+     * ordfr digit first, but it must bf bppfndfd lbst.
      *
-     * @param result is the <code>StringBuffer</code> to append to
-     * @param n is the positive integer
-     * @param radix is the radix, from 2 to 36 inclusive
-     * @param minDigits is the minimum number of digits to append.
+     * @pbrbm rfsult is tif <dodf>StringBufffr</dodf> to bppfnd to
+     * @pbrbm n is tif positivf intfgfr
+     * @pbrbm rbdix is tif rbdix, from 2 to 36 indlusivf
+     * @pbrbm minDigits is tif minimum numbfr of digits to bppfnd.
      */
-    private static void recursiveAppendNumber(StringBuffer result, int n,
-                                                int radix, int minDigits)
+    privbtf stbtid void rfdursivfAppfndNumbfr(StringBufffr rfsult, int n,
+                                                int rbdix, int minDigits)
     {
-        int digit = n % radix;
+        int digit = n % rbdix;
 
-        if (n >= radix || minDigits > 1) {
-            recursiveAppendNumber(result, n / radix, radix, minDigits - 1);
+        if (n >= rbdix || minDigits > 1) {
+            rfdursivfAppfndNumbfr(rfsult, n / rbdix, rbdix, minDigits - 1);
         }
 
-        result.append(DIGITS[digit]);
+        rfsult.bppfnd(DIGITS[digit]);
     }
 
     /**
-     * Append a number to the given StringBuffer in the given radix.
-     * Standard digits '0'-'9' are used and letters 'A'-'Z' for
-     * radices 11 through 36.
-     * @param result the digits of the number are appended here
-     * @param n the number to be converted to digits; may be negative.
-     * If negative, a '-' is prepended to the digits.
-     * @param radix a radix from 2 to 36 inclusive.
-     * @param minDigits the minimum number of digits, not including
-     * any '-', to produce.  Values less than 2 have no effect.  One
-     * digit is always emitted regardless of this parameter.
-     * @return a reference to result
+     * Appfnd b numbfr to tif givfn StringBufffr in tif givfn rbdix.
+     * Stbndbrd digits '0'-'9' brf usfd bnd lfttfrs 'A'-'Z' for
+     * rbdidfs 11 tirougi 36.
+     * @pbrbm rfsult tif digits of tif numbfr brf bppfndfd ifrf
+     * @pbrbm n tif numbfr to bf donvfrtfd to digits; mby bf nfgbtivf.
+     * If nfgbtivf, b '-' is prfpfndfd to tif digits.
+     * @pbrbm rbdix b rbdix from 2 to 36 indlusivf.
+     * @pbrbm minDigits tif minimum numbfr of digits, not indluding
+     * bny '-', to produdf.  Vblufs lfss tibn 2 ibvf no ffffdt.  Onf
+     * digit is blwbys fmittfd rfgbrdlfss of tiis pbrbmftfr.
+     * @rfturn b rfffrfndf to rfsult
      */
-    public static StringBuffer appendNumber(StringBuffer result, int n,
-                                             int radix, int minDigits)
-        throws IllegalArgumentException
+    publid stbtid StringBufffr bppfndNumbfr(StringBufffr rfsult, int n,
+                                             int rbdix, int minDigits)
+        tirows IllfgblArgumfntExdfption
     {
-        if (radix < 2 || radix > 36) {
-            throw new IllegalArgumentException("Illegal radix " + radix);
+        if (rbdix < 2 || rbdix > 36) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl rbdix " + rbdix);
         }
 
 
-        int abs = n;
+        int bbs = n;
 
         if (n < 0) {
-            abs = -n;
-            result.append("-");
+            bbs = -n;
+            rfsult.bppfnd("-");
         }
 
-        recursiveAppendNumber(result, abs, radix, minDigits);
+        rfdursivfAppfndNumbfr(rfsult, bbs, rbdix, minDigits);
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Return true if the character is NOT printable ASCII.  The tab,
-     * newline and linefeed characters are considered unprintable.
+     * Rfturn truf if tif dibrbdtfr is NOT printbblf ASCII.  Tif tbb,
+     * nfwlinf bnd linffffd dibrbdtfrs brf donsidfrfd unprintbblf.
      */
-    public static boolean isUnprintable(int c) {
-        return !(c >= 0x20 && c <= 0x7E);
+    publid stbtid boolfbn isUnprintbblf(int d) {
+        rfturn !(d >= 0x20 && d <= 0x7E);
     }
 
     /**
-     * Escape unprintable characters using <backslash>uxxxx notation
-     * for U+0000 to U+FFFF and <backslash>Uxxxxxxxx for U+10000 and
-     * above.  If the character is printable ASCII, then do nothing
-     * and return FALSE.  Otherwise, append the escaped notation and
-     * return TRUE.
+     * Esdbpf unprintbblf dibrbdtfrs using <bbdkslbsi>uxxxx notbtion
+     * for U+0000 to U+FFFF bnd <bbdkslbsi>Uxxxxxxxx for U+10000 bnd
+     * bbovf.  If tif dibrbdtfr is printbblf ASCII, tifn do notiing
+     * bnd rfturn FALSE.  Otifrwisf, bppfnd tif fsdbpfd notbtion bnd
+     * rfturn TRUE.
      */
-    public static boolean escapeUnprintable(StringBuffer result, int c) {
-        if (isUnprintable(c)) {
-            result.append('\\');
-            if ((c & ~0xFFFF) != 0) {
-                result.append('U');
-                result.append(DIGITS[0xF&(c>>28)]);
-                result.append(DIGITS[0xF&(c>>24)]);
-                result.append(DIGITS[0xF&(c>>20)]);
-                result.append(DIGITS[0xF&(c>>16)]);
-            } else {
-                result.append('u');
+    publid stbtid boolfbn fsdbpfUnprintbblf(StringBufffr rfsult, int d) {
+        if (isUnprintbblf(d)) {
+            rfsult.bppfnd('\\');
+            if ((d & ~0xFFFF) != 0) {
+                rfsult.bppfnd('U');
+                rfsult.bppfnd(DIGITS[0xF&(d>>28)]);
+                rfsult.bppfnd(DIGITS[0xF&(d>>24)]);
+                rfsult.bppfnd(DIGITS[0xF&(d>>20)]);
+                rfsult.bppfnd(DIGITS[0xF&(d>>16)]);
+            } flsf {
+                rfsult.bppfnd('u');
             }
-            result.append(DIGITS[0xF&(c>>12)]);
-            result.append(DIGITS[0xF&(c>>8)]);
-            result.append(DIGITS[0xF&(c>>4)]);
-            result.append(DIGITS[0xF&c]);
-            return true;
+            rfsult.bppfnd(DIGITS[0xF&(d>>12)]);
+            rfsult.bppfnd(DIGITS[0xF&(d>>8)]);
+            rfsult.bppfnd(DIGITS[0xF&(d>>4)]);
+            rfsult.bppfnd(DIGITS[0xF&d]);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-    * Similar to StringBuffer.getChars, version 1.3.
-    * Since JDK 1.2 implements StringBuffer.getChars differently, this method
-    * is here to provide consistent results.
-    * To be removed after JDK 1.2 ceased to be the reference platform.
-    * @param src source string buffer
-    * @param srcBegin offset to the start of the src to retrieve from
-    * @param srcEnd offset to the end of the src to retrieve from
-    * @param dst char array to store the retrieved chars
-    * @param dstBegin offset to the start of the destination char array to
-    *                 store the retrieved chars
+    * Similbr to StringBufffr.gftCibrs, vfrsion 1.3.
+    * Sindf JDK 1.2 implfmfnts StringBufffr.gftCibrs difffrfntly, tiis mftiod
+    * is ifrf to providf donsistfnt rfsults.
+    * To bf rfmovfd bftfr JDK 1.2 dfbsfd to bf tif rfffrfndf plbtform.
+    * @pbrbm srd sourdf string bufffr
+    * @pbrbm srdBfgin offsft to tif stbrt of tif srd to rftrifvf from
+    * @pbrbm srdEnd offsft to tif fnd of tif srd to rftrifvf from
+    * @pbrbm dst dibr brrby to storf tif rftrifvfd dibrs
+    * @pbrbm dstBfgin offsft to tif stbrt of tif dfstinbtion dibr brrby to
+    *                 storf tif rftrifvfd dibrs
     */
-    public static void getChars(StringBuffer src, int srcBegin, int srcEnd,
-                                char dst[], int dstBegin)
+    publid stbtid void gftCibrs(StringBufffr srd, int srdBfgin, int srdEnd,
+                                dibr dst[], int dstBfgin)
     {
-        if (srcBegin == srcEnd) {
-            return;
+        if (srdBfgin == srdEnd) {
+            rfturn;
         }
-        src.getChars(srcBegin, srcEnd, dst, dstBegin);
+        srd.gftCibrs(srdBfgin, srdEnd, dst, dstBfgin);
     }
 
 }

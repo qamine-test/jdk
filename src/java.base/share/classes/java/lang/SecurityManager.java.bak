@@ -1,1693 +1,1693 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.security.*;
-import java.io.FileDescriptor;
-import java.io.File;
-import java.io.FilePermission;
-import java.util.PropertyPermission;
-import java.lang.RuntimePermission;
-import java.net.SocketPermission;
-import java.net.NetPermission;
-import java.util.Hashtable;
-import java.net.InetAddress;
-import java.lang.reflect.*;
-import java.net.URL;
+import jbvb.sfdurity.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.lbng.RuntimfPfrmission;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.NftPfrmission;
+import jbvb.util.Hbsitbblf;
+import jbvb.nft.InftAddrfss;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nft.URL;
 
-import sun.reflect.CallerSensitive;
-import sun.security.util.SecurityConstants;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * The security manager is a class that allows
- * applications to implement a security policy. It allows an
- * application to determine, before performing a possibly unsafe or
- * sensitive operation, what the operation is and whether
- * it is being attempted in a security context that allows the
- * operation to be performed. The
- * application can allow or disallow the operation.
+ * Tif sfdurity mbnbgfr is b dlbss tibt bllows
+ * bpplidbtions to implfmfnt b sfdurity polidy. It bllows bn
+ * bpplidbtion to dftfrminf, bfforf pfrforming b possibly unsbff or
+ * sfnsitivf opfrbtion, wibt tif opfrbtion is bnd wiftifr
+ * it is bfing bttfmptfd in b sfdurity dontfxt tibt bllows tif
+ * opfrbtion to bf pfrformfd. Tif
+ * bpplidbtion dbn bllow or disbllow tif opfrbtion.
  * <p>
- * The <code>SecurityManager</code> class contains many methods with
- * names that begin with the word <code>check</code>. These methods
- * are called by various methods in the Java libraries before those
- * methods perform certain potentially sensitive operations. The
- * invocation of such a <code>check</code> method typically looks like this:
- * <blockquote><pre>
- *     SecurityManager security = System.getSecurityManager();
- *     if (security != null) {
- *         security.check<i>XXX</i>(argument, &nbsp;.&nbsp;.&nbsp;.&nbsp;);
+ * Tif <dodf>SfdurityMbnbgfr</dodf> dlbss dontbins mbny mftiods witi
+ * nbmfs tibt bfgin witi tif word <dodf>difdk</dodf>. Tifsf mftiods
+ * brf dbllfd by vbrious mftiods in tif Jbvb librbrifs bfforf tiosf
+ * mftiods pfrform dfrtbin potfntiblly sfnsitivf opfrbtions. Tif
+ * invodbtion of sudi b <dodf>difdk</dodf> mftiod typidblly looks likf tiis:
+ * <blodkquotf><prf>
+ *     SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+ *     if (sfdurity != null) {
+ *         sfdurity.difdk<i>XXX</i>(brgumfnt, &nbsp;.&nbsp;.&nbsp;.&nbsp;);
  *     }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  * <p>
- * The security manager is thereby given an opportunity to prevent
- * completion of the operation by throwing an exception. A security
- * manager routine simply returns if the operation is permitted, but
- * throws a <code>SecurityException</code> if the operation is not
- * permitted.
+ * Tif sfdurity mbnbgfr is tifrfby givfn bn opportunity to prfvfnt
+ * domplftion of tif opfrbtion by tirowing bn fxdfption. A sfdurity
+ * mbnbgfr routinf simply rfturns if tif opfrbtion is pfrmittfd, but
+ * tirows b <dodf>SfdurityExdfption</dodf> if tif opfrbtion is not
+ * pfrmittfd.
  * <p>
- * The current security manager is set by the
- * <code>setSecurityManager</code> method in class
- * <code>System</code>. The current security manager is obtained
- * by the <code>getSecurityManager</code> method.
+ * Tif durrfnt sfdurity mbnbgfr is sft by tif
+ * <dodf>sftSfdurityMbnbgfr</dodf> mftiod in dlbss
+ * <dodf>Systfm</dodf>. Tif durrfnt sfdurity mbnbgfr is obtbinfd
+ * by tif <dodf>gftSfdurityMbnbgfr</dodf> mftiod.
  * <p>
- * The special method
- * {@link SecurityManager#checkPermission(java.security.Permission)}
- * determines whether an access request indicated by a specified
- * permission should be granted or denied. The
- * default implementation calls
+ * Tif spfdibl mftiod
+ * {@link SfdurityMbnbgfr#difdkPfrmission(jbvb.sfdurity.Pfrmission)}
+ * dftfrminfs wiftifr bn bddfss rfqufst indidbtfd by b spfdififd
+ * pfrmission siould bf grbntfd or dfnifd. Tif
+ * dffbult implfmfntbtion dblls
  *
- * <pre>
- *   AccessController.checkPermission(perm);
- * </pre>
- *
- * <p>
- * If a requested access is allowed,
- * <code>checkPermission</code> returns quietly. If denied, a
- * <code>SecurityException</code> is thrown.
- * <p>
- * As of Java 2 SDK v1.2, the default implementation of each of the other
- * <code>check</code> methods in <code>SecurityManager</code> is to
- * call the <code>SecurityManager checkPermission</code> method
- * to determine if the calling thread has permission to perform the requested
- * operation.
- * <p>
- * Note that the <code>checkPermission</code> method with
- * just a single permission argument always performs security checks
- * within the context of the currently executing thread.
- * Sometimes a security check that should be made within a given context
- * will actually need to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
- * The {@link SecurityManager#getSecurityContext getSecurityContext} method
- * and the {@link SecurityManager#checkPermission(java.security.Permission,
- * java.lang.Object) checkPermission}
- * method that includes a context argument are provided
- * for this situation. The
- * <code>getSecurityContext</code> method returns a "snapshot"
- * of the current calling context. (The default implementation
- * returns an AccessControlContext object.) A sample call is
- * the following:
- *
- * <pre>
- *   Object context = null;
- *   SecurityManager sm = System.getSecurityManager();
- *   if (sm != null) context = sm.getSecurityContext();
- * </pre>
+ * <prf>
+ *   AddfssControllfr.difdkPfrmission(pfrm);
+ * </prf>
  *
  * <p>
- * The <code>checkPermission</code> method
- * that takes a context object in addition to a permission
- * makes access decisions based on that context,
- * rather than on that of the current execution thread.
- * Code within a different context can thus call that method,
- * passing the permission and the
- * previously-saved context object. A sample call, using the
- * SecurityManager <code>sm</code> obtained as in the previous example,
- * is the following:
- *
- * <pre>
- *   if (sm != null) sm.checkPermission(permission, context);
- * </pre>
- *
- * <p>Permissions fall into these categories: File, Socket, Net,
- * Security, Runtime, Property, AWT, Reflect, and Serializable.
- * The classes managing these various
- * permission categories are <code>java.io.FilePermission</code>,
- * <code>java.net.SocketPermission</code>,
- * <code>java.net.NetPermission</code>,
- * <code>java.security.SecurityPermission</code>,
- * <code>java.lang.RuntimePermission</code>,
- * <code>java.util.PropertyPermission</code>,
- * <code>java.awt.AWTPermission</code>,
- * <code>java.lang.reflect.ReflectPermission</code>, and
- * <code>java.io.SerializablePermission</code>.
- *
- * <p>All but the first two (FilePermission and SocketPermission) are
- * subclasses of <code>java.security.BasicPermission</code>, which itself
- * is an abstract subclass of the
- * top-level class for permissions, which is
- * <code>java.security.Permission</code>. BasicPermission defines the
- * functionality needed for all permissions that contain a name
- * that follows the hierarchical property naming convention
- * (for example, "exitVM", "setFactory", "queuePrintJob", etc).
- * An asterisk
- * may appear at the end of the name, following a ".", or by itself, to
- * signify a wildcard match. For example: "a.*" or "*" is valid,
- * "*a" or "a*b" is not valid.
- *
- * <p>FilePermission and SocketPermission are subclasses of the
- * top-level class for permissions
- * (<code>java.security.Permission</code>). Classes like these
- * that have a more complicated name syntax than that used by
- * BasicPermission subclass directly from Permission rather than from
- * BasicPermission. For example,
- * for a <code>java.io.FilePermission</code> object, the permission name is
- * the path name of a file (or directory).
- *
- * <p>Some of the permission classes have an "actions" list that tells
- * the actions that are permitted for the object.  For example,
- * for a <code>java.io.FilePermission</code> object, the actions list
- * (such as "read, write") specifies which actions are granted for the
- * specified file (or for files in the specified directory).
- *
- * <p>Other permission classes are for "named" permissions -
- * ones that contain a name but no actions list; you either have the
- * named permission or you don't.
- *
- * <p>Note: There is also a <code>java.security.AllPermission</code>
- * permission that implies all permissions. It exists to simplify the work
- * of system administrators who might need to perform multiple
- * tasks that require all (or numerous) permissions.
+ * If b rfqufstfd bddfss is bllowfd,
+ * <dodf>difdkPfrmission</dodf> rfturns quiftly. If dfnifd, b
+ * <dodf>SfdurityExdfption</dodf> is tirown.
  * <p>
- * See <a href ="../../../technotes/guides/security/permissions.html">
- * Permissions in the JDK</a> for permission-related information.
- * This document includes, for example, a table listing the various SecurityManager
- * <code>check</code> methods and the permission(s) the default
- * implementation of each such method requires.
- * It also contains a table of all the version 1.2 methods
- * that require permissions, and for each such method tells
- * which permission it requires.
+ * As of Jbvb 2 SDK v1.2, tif dffbult implfmfntbtion of fbdi of tif otifr
+ * <dodf>difdk</dodf> mftiods in <dodf>SfdurityMbnbgfr</dodf> is to
+ * dbll tif <dodf>SfdurityMbnbgfr difdkPfrmission</dodf> mftiod
+ * to dftfrminf if tif dblling tirfbd ibs pfrmission to pfrform tif rfqufstfd
+ * opfrbtion.
  * <p>
- * For more information about <code>SecurityManager</code> changes made in
- * the JDK and advice regarding porting of 1.1-style security managers,
- * see the <a href="../../../technotes/guides/security/index.html">security documentation</a>.
+ * Notf tibt tif <dodf>difdkPfrmission</dodf> mftiod witi
+ * just b singlf pfrmission brgumfnt blwbys pfrforms sfdurity difdks
+ * witiin tif dontfxt of tif durrfntly fxfduting tirfbd.
+ * Somftimfs b sfdurity difdk tibt siould bf mbdf witiin b givfn dontfxt
+ * will bdtublly nffd to bf donf from witiin b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from witiin b workfr tirfbd).
+ * Tif {@link SfdurityMbnbgfr#gftSfdurityContfxt gftSfdurityContfxt} mftiod
+ * bnd tif {@link SfdurityMbnbgfr#difdkPfrmission(jbvb.sfdurity.Pfrmission,
+ * jbvb.lbng.Objfdt) difdkPfrmission}
+ * mftiod tibt indludfs b dontfxt brgumfnt brf providfd
+ * for tiis situbtion. Tif
+ * <dodf>gftSfdurityContfxt</dodf> mftiod rfturns b "snbpsiot"
+ * of tif durrfnt dblling dontfxt. (Tif dffbult implfmfntbtion
+ * rfturns bn AddfssControlContfxt objfdt.) A sbmplf dbll is
+ * tif following:
  *
- * @author  Arthur van Hoff
- * @author  Roland Schemers
+ * <prf>
+ *   Objfdt dontfxt = null;
+ *   SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+ *   if (sm != null) dontfxt = sm.gftSfdurityContfxt();
+ * </prf>
  *
- * @see     java.lang.ClassLoader
- * @see     java.lang.SecurityException
- * @see     java.lang.System#getSecurityManager() getSecurityManager
- * @see     java.lang.System#setSecurityManager(java.lang.SecurityManager)
- *  setSecurityManager
- * @see     java.security.AccessController AccessController
- * @see     java.security.AccessControlContext AccessControlContext
- * @see     java.security.AccessControlException AccessControlException
- * @see     java.security.Permission
- * @see     java.security.BasicPermission
- * @see     java.io.FilePermission
- * @see     java.net.SocketPermission
- * @see     java.util.PropertyPermission
- * @see     java.lang.RuntimePermission
- * @see     java.awt.AWTPermission
- * @see     java.security.Policy Policy
- * @see     java.security.SecurityPermission SecurityPermission
- * @see     java.security.ProtectionDomain
+ * <p>
+ * Tif <dodf>difdkPfrmission</dodf> mftiod
+ * tibt tbkfs b dontfxt objfdt in bddition to b pfrmission
+ * mbkfs bddfss dfdisions bbsfd on tibt dontfxt,
+ * rbtifr tibn on tibt of tif durrfnt fxfdution tirfbd.
+ * Codf witiin b difffrfnt dontfxt dbn tius dbll tibt mftiod,
+ * pbssing tif pfrmission bnd tif
+ * prfviously-sbvfd dontfxt objfdt. A sbmplf dbll, using tif
+ * SfdurityMbnbgfr <dodf>sm</dodf> obtbinfd bs in tif prfvious fxbmplf,
+ * is tif following:
  *
- * @since   1.0
+ * <prf>
+ *   if (sm != null) sm.difdkPfrmission(pfrmission, dontfxt);
+ * </prf>
+ *
+ * <p>Pfrmissions fbll into tifsf dbtfgorifs: Filf, Sodkft, Nft,
+ * Sfdurity, Runtimf, Propfrty, AWT, Rfflfdt, bnd Sfriblizbblf.
+ * Tif dlbssfs mbnbging tifsf vbrious
+ * pfrmission dbtfgorifs brf <dodf>jbvb.io.FilfPfrmission</dodf>,
+ * <dodf>jbvb.nft.SodkftPfrmission</dodf>,
+ * <dodf>jbvb.nft.NftPfrmission</dodf>,
+ * <dodf>jbvb.sfdurity.SfdurityPfrmission</dodf>,
+ * <dodf>jbvb.lbng.RuntimfPfrmission</dodf>,
+ * <dodf>jbvb.util.PropfrtyPfrmission</dodf>,
+ * <dodf>jbvb.bwt.AWTPfrmission</dodf>,
+ * <dodf>jbvb.lbng.rfflfdt.RfflfdtPfrmission</dodf>, bnd
+ * <dodf>jbvb.io.SfriblizbblfPfrmission</dodf>.
+ *
+ * <p>All but tif first two (FilfPfrmission bnd SodkftPfrmission) brf
+ * subdlbssfs of <dodf>jbvb.sfdurity.BbsidPfrmission</dodf>, wiidi itsflf
+ * is bn bbstrbdt subdlbss of tif
+ * top-lfvfl dlbss for pfrmissions, wiidi is
+ * <dodf>jbvb.sfdurity.Pfrmission</dodf>. BbsidPfrmission dffinfs tif
+ * fundtionblity nffdfd for bll pfrmissions tibt dontbin b nbmf
+ * tibt follows tif iifrbrdiidbl propfrty nbming donvfntion
+ * (for fxbmplf, "fxitVM", "sftFbdtory", "qufufPrintJob", ftd).
+ * An bstfrisk
+ * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdi. For fxbmplf: "b.*" or "*" is vblid,
+ * "*b" or "b*b" is not vblid.
+ *
+ * <p>FilfPfrmission bnd SodkftPfrmission brf subdlbssfs of tif
+ * top-lfvfl dlbss for pfrmissions
+ * (<dodf>jbvb.sfdurity.Pfrmission</dodf>). Clbssfs likf tifsf
+ * tibt ibvf b morf domplidbtfd nbmf syntbx tibn tibt usfd by
+ * BbsidPfrmission subdlbss dirfdtly from Pfrmission rbtifr tibn from
+ * BbsidPfrmission. For fxbmplf,
+ * for b <dodf>jbvb.io.FilfPfrmission</dodf> objfdt, tif pfrmission nbmf is
+ * tif pbti nbmf of b filf (or dirfdtory).
+ *
+ * <p>Somf of tif pfrmission dlbssfs ibvf bn "bdtions" list tibt tflls
+ * tif bdtions tibt brf pfrmittfd for tif objfdt.  For fxbmplf,
+ * for b <dodf>jbvb.io.FilfPfrmission</dodf> objfdt, tif bdtions list
+ * (sudi bs "rfbd, writf") spfdififs wiidi bdtions brf grbntfd for tif
+ * spfdififd filf (or for filfs in tif spfdififd dirfdtory).
+ *
+ * <p>Otifr pfrmission dlbssfs brf for "nbmfd" pfrmissions -
+ * onfs tibt dontbin b nbmf but no bdtions list; you fitifr ibvf tif
+ * nbmfd pfrmission or you don't.
+ *
+ * <p>Notf: Tifrf is blso b <dodf>jbvb.sfdurity.AllPfrmission</dodf>
+ * pfrmission tibt implifs bll pfrmissions. It fxists to simplify tif work
+ * of systfm bdministrbtors wio migit nffd to pfrform multiplf
+ * tbsks tibt rfquirf bll (or numfrous) pfrmissions.
+ * <p>
+ * Sff <b irff ="../../../tfdinotfs/guidfs/sfdurity/pfrmissions.itml">
+ * Pfrmissions in tif JDK</b> for pfrmission-rflbtfd informbtion.
+ * Tiis dodumfnt indludfs, for fxbmplf, b tbblf listing tif vbrious SfdurityMbnbgfr
+ * <dodf>difdk</dodf> mftiods bnd tif pfrmission(s) tif dffbult
+ * implfmfntbtion of fbdi sudi mftiod rfquirfs.
+ * It blso dontbins b tbblf of bll tif vfrsion 1.2 mftiods
+ * tibt rfquirf pfrmissions, bnd for fbdi sudi mftiod tflls
+ * wiidi pfrmission it rfquirfs.
+ * <p>
+ * For morf informbtion bbout <dodf>SfdurityMbnbgfr</dodf> dibngfs mbdf in
+ * tif JDK bnd bdvidf rfgbrding porting of 1.1-stylf sfdurity mbnbgfrs,
+ * sff tif <b irff="../../../tfdinotfs/guidfs/sfdurity/indfx.itml">sfdurity dodumfntbtion</b>.
+ *
+ * @butior  Artiur vbn Hoff
+ * @butior  Rolbnd Sdifmfrs
+ *
+ * @sff     jbvb.lbng.ClbssLobdfr
+ * @sff     jbvb.lbng.SfdurityExdfption
+ * @sff     jbvb.lbng.Systfm#gftSfdurityMbnbgfr() gftSfdurityMbnbgfr
+ * @sff     jbvb.lbng.Systfm#sftSfdurityMbnbgfr(jbvb.lbng.SfdurityMbnbgfr)
+ *  sftSfdurityMbnbgfr
+ * @sff     jbvb.sfdurity.AddfssControllfr AddfssControllfr
+ * @sff     jbvb.sfdurity.AddfssControlContfxt AddfssControlContfxt
+ * @sff     jbvb.sfdurity.AddfssControlExdfption AddfssControlExdfption
+ * @sff     jbvb.sfdurity.Pfrmission
+ * @sff     jbvb.sfdurity.BbsidPfrmission
+ * @sff     jbvb.io.FilfPfrmission
+ * @sff     jbvb.nft.SodkftPfrmission
+ * @sff     jbvb.util.PropfrtyPfrmission
+ * @sff     jbvb.lbng.RuntimfPfrmission
+ * @sff     jbvb.bwt.AWTPfrmission
+ * @sff     jbvb.sfdurity.Polidy Polidy
+ * @sff     jbvb.sfdurity.SfdurityPfrmission SfdurityPfrmission
+ * @sff     jbvb.sfdurity.ProtfdtionDombin
+ *
+ * @sindf   1.0
  */
-public
-class SecurityManager {
+publid
+dlbss SfdurityMbnbgfr {
 
     /**
-     * This field is <code>true</code> if there is a security check in
-     * progress; <code>false</code> otherwise.
+     * Tiis fifld is <dodf>truf</dodf> if tifrf is b sfdurity difdk in
+     * progrfss; <dodf>fblsf</dodf> otifrwisf.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      */
-    @Deprecated
-    protected boolean inCheck;
+    @Dfprfdbtfd
+    protfdtfd boolfbn inCifdk;
 
     /*
-     * Have we been initialized. Effective against finalizer attacks.
+     * Hbvf wf bffn initiblizfd. Efffdtivf bgbinst finblizfr bttbdks.
      */
-    private boolean initialized = false;
+    privbtf boolfbn initiblizfd = fblsf;
 
 
     /**
-     * returns true if the current context has been granted AllPermission
+     * rfturns truf if tif durrfnt dontfxt ibs bffn grbntfd AllPfrmission
      */
-    private boolean hasAllPermission() {
+    privbtf boolfbn ibsAllPfrmission() {
         try {
-            checkPermission(SecurityConstants.ALL_PERMISSION);
-            return true;
-        } catch (SecurityException se) {
-            return false;
+            difdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
+            rfturn truf;
+        } dbtdi (SfdurityExdfption sf) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Tests if there is a security check in progress.
+     * Tfsts if tifrf is b sfdurity difdk in progrfss.
      *
-     * @return the value of the <code>inCheck</code> field. This field
-     *          should contain <code>true</code> if a security check is
-     *          in progress,
-     *          <code>false</code> otherwise.
-     * @see     java.lang.SecurityManager#inCheck
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @rfturn tif vbluf of tif <dodf>inCifdk</dodf> fifld. Tiis fifld
+     *          siould dontbin <dodf>truf</dodf> if b sfdurity difdk is
+     *          in progrfss,
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#inCifdk
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      */
-    @Deprecated
-    public boolean getInCheck() {
-        return inCheck;
+    @Dfprfdbtfd
+    publid boolfbn gftInCifdk() {
+        rfturn inCifdk;
     }
 
     /**
-     * Constructs a new <code>SecurityManager</code>.
+     * Construdts b nfw <dodf>SfdurityMbnbgfr</dodf>.
      *
-     * <p> If there is a security manager already installed, this method first
-     * calls the security manager's <code>checkPermission</code> method
-     * with the <code>RuntimePermission("createSecurityManager")</code>
-     * permission to ensure the calling thread has permission to create a new
-     * security manager.
-     * This may result in throwing a <code>SecurityException</code>.
+     * <p> If tifrf is b sfdurity mbnbgfr blrfbdy instbllfd, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's <dodf>difdkPfrmission</dodf> mftiod
+     * witi tif <dodf>RuntimfPfrmission("drfbtfSfdurityMbnbgfr")</dodf>
+     * pfrmission to fnsurf tif dblling tirfbd ibs pfrmission to drfbtf b nfw
+     * sfdurity mbnbgfr.
+     * Tiis mby rfsult in tirowing b <dodf>SfdurityExdfption</dodf>.
      *
-     * @exception  java.lang.SecurityException if a security manager already
-     *             exists and its <code>checkPermission</code> method
-     *             doesn't allow creation of a new security manager.
-     * @see        java.lang.System#getSecurityManager()
-     * @see        #checkPermission(java.security.Permission) checkPermission
-     * @see java.lang.RuntimePermission
+     * @fxdfption  jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr blrfbdy
+     *             fxists bnd its <dodf>difdkPfrmission</dodf> mftiod
+     *             dofsn't bllow drfbtion of b nfw sfdurity mbnbgfr.
+     * @sff        jbvb.lbng.Systfm#gftSfdurityMbnbgfr()
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      */
-    public SecurityManager() {
-        synchronized(SecurityManager.class) {
-            SecurityManager sm = System.getSecurityManager();
+    publid SfdurityMbnbgfr() {
+        syndironizfd(SfdurityMbnbgfr.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                // ask the currently installed security manager if we
-                // can create a new one.
-                sm.checkPermission(new RuntimePermission
-                                   ("createSecurityManager"));
+                // bsk tif durrfntly instbllfd sfdurity mbnbgfr if wf
+                // dbn drfbtf b nfw onf.
+                sm.difdkPfrmission(nfw RuntimfPfrmission
+                                   ("drfbtfSfdurityMbnbgfr"));
             }
-            initialized = true;
+            initiblizfd = truf;
         }
     }
 
     /**
-     * Returns the current execution stack as an array of classes.
+     * Rfturns tif durrfnt fxfdution stbdk bs bn brrby of dlbssfs.
      * <p>
-     * The length of the array is the number of methods on the execution
-     * stack. The element at index <code>0</code> is the class of the
-     * currently executing method, the element at index <code>1</code> is
-     * the class of that method's caller, and so on.
+     * Tif lfngti of tif brrby is tif numbfr of mftiods on tif fxfdution
+     * stbdk. Tif flfmfnt bt indfx <dodf>0</dodf> is tif dlbss of tif
+     * durrfntly fxfduting mftiod, tif flfmfnt bt indfx <dodf>1</dodf> is
+     * tif dlbss of tibt mftiod's dbllfr, bnd so on.
      *
-     * @return  the execution stack.
+     * @rfturn  tif fxfdution stbdk.
      */
-    protected native Class<?>[] getClassContext();
+    protfdtfd nbtivf Clbss<?>[] gftClbssContfxt();
 
     /**
-     * Returns the class loader of the most recently executing method from
-     * a class defined using a non-system class loader. A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Rfturns tif dlbss lobdfr of tif most rfdfntly fxfduting mftiod from
+     * b dlbss dffinfd using b non-systfm dlbss lobdfr. A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr tibt is not fqubl to
+     * tif systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
      * <p>
-     * This method will return
-     * <code>null</code> in the following three cases:
+     * Tiis mftiod will rfturn
+     * <dodf>null</dodf> in tif following tirff dbsfs:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk up to tif first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A dbll to <dodf>difdkPfrmission</dodf> witi
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
      *
      * </ol>
      *
-     * @return  the class loader of the most recent occurrence on the stack
-     *          of a method from a class defined using a non-system class
-     *          loader.
+     * @rfturn  tif dlbss lobdfr of tif most rfdfnt oddurrfndf on tif stbdk
+     *          of b mftiod from b dlbss dffinfd using b non-systfm dlbss
+     *          lobdfr.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      *
-     * @see  java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see  #checkPermission(java.security.Permission) checkPermission
+     * @sff  jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff  #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    protected ClassLoader currentClassLoader() {
-        ClassLoader cl = currentClassLoader0();
-        if ((cl != null) && hasAllPermission())
-            cl = null;
-        return cl;
+    @Dfprfdbtfd
+    protfdtfd ClbssLobdfr durrfntClbssLobdfr() {
+        ClbssLobdfr dl = durrfntClbssLobdfr0();
+        if ((dl != null) && ibsAllPfrmission())
+            dl = null;
+        rfturn dl;
     }
 
-    private native ClassLoader currentClassLoader0();
+    privbtf nbtivf ClbssLobdfr durrfntClbssLobdfr0();
 
     /**
-     * Returns the class of the most recently executing method from
-     * a class defined using a non-system class loader. A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Rfturns tif dlbss of tif most rfdfntly fxfduting mftiod from
+     * b dlbss dffinfd using b non-systfm dlbss lobdfr. A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr tibt is not fqubl to
+     * tif systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
      * <p>
-     * This method will return
-     * <code>null</code> in the following three cases:
+     * Tiis mftiod will rfturn
+     * <dodf>null</dodf> in tif following tirff dbsfs:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk up to tif first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A dbll to <dodf>difdkPfrmission</dodf> witi
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
      *
      * </ol>
      *
-     * @return  the class  of the most recent occurrence on the stack
-     *          of a method from a class defined using a non-system class
-     *          loader.
+     * @rfturn  tif dlbss  of tif most rfdfnt oddurrfndf on tif stbdk
+     *          of b mftiod from b dlbss dffinfd using b non-systfm dlbss
+     *          lobdfr.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      *
-     * @see  java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see  #checkPermission(java.security.Permission) checkPermission
+     * @sff  jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff  #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    protected Class<?> currentLoadedClass() {
-        Class<?> c = currentLoadedClass0();
-        if ((c != null) && hasAllPermission())
-            c = null;
-        return c;
+    @Dfprfdbtfd
+    protfdtfd Clbss<?> durrfntLobdfdClbss() {
+        Clbss<?> d = durrfntLobdfdClbss0();
+        if ((d != null) && ibsAllPfrmission())
+            d = null;
+        rfturn d;
     }
 
     /**
-     * Returns the stack depth of the specified class.
+     * Rfturns tif stbdk dfpti of tif spfdififd dlbss.
      *
-     * @param   name   the fully qualified name of the class to search for.
-     * @return  the depth on the stack frame of the first occurrence of a
-     *          method from a class with the specified name;
-     *          <code>-1</code> if such a frame cannot be found.
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @pbrbm   nbmf   tif fully qublififd nbmf of tif dlbss to sfbrdi for.
+     * @rfturn  tif dfpti on tif stbdk frbmf of tif first oddurrfndf of b
+     *          mftiod from b dlbss witi tif spfdififd nbmf;
+     *          <dodf>-1</dodf> if sudi b frbmf dbnnot bf found.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      *
      */
-    @Deprecated
-    protected native int classDepth(String name);
+    @Dfprfdbtfd
+    protfdtfd nbtivf int dlbssDfpti(String nbmf);
 
     /**
-     * Returns the stack depth of the most recently executing method
-     * from a class defined using a non-system class loader.  A non-system
-     * class loader is defined as being a class loader that is not equal to
-     * the system class loader (as returned
-     * by {@link ClassLoader#getSystemClassLoader}) or one of its ancestors.
+     * Rfturns tif stbdk dfpti of tif most rfdfntly fxfduting mftiod
+     * from b dlbss dffinfd using b non-systfm dlbss lobdfr.  A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr tibt is not fqubl to
+     * tif systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
      * <p>
-     * This method will return
-     * -1 in the following three cases:
+     * Tiis mftiod will rfturn
+     * -1 in tif following tirff dbsfs:
      * <ol>
-     *   <li>All methods on the execution stack are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li>All methods on the execution stack up to the first
-     *   "privileged" caller
-     *   (see {@link java.security.AccessController#doPrivileged})
-     *   are from classes
-     *   defined using the system class loader or one of its ancestors.
+     *   <li>All mftiods on tif fxfdution stbdk up to tif first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using tif systfm dlbss lobdfr or onf of its bndfstors.
      *
-     *   <li> A call to <code>checkPermission</code> with
-     *   <code>java.security.AllPermission</code> does not
-     *   result in a SecurityException.
+     *   <li> A dbll to <dodf>difdkPfrmission</dodf> witi
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
      *
      * </ol>
      *
-     * @return the depth on the stack frame of the most recent occurrence of
-     *          a method from a class defined using a non-system class loader.
+     * @rfturn tif dfpti on tif stbdk frbmf of tif most rfdfnt oddurrfndf of
+     *          b mftiod from b dlbss dffinfd using b non-systfm dlbss lobdfr.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      *
-     * @see   java.lang.ClassLoader#getSystemClassLoader() getSystemClassLoader
-     * @see   #checkPermission(java.security.Permission) checkPermission
+     * @sff   jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff   #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    protected int classLoaderDepth() {
-        int depth = classLoaderDepth0();
-        if (depth != -1) {
-            if (hasAllPermission())
-                depth = -1;
-            else
-                depth--; // make sure we don't include ourself
+    @Dfprfdbtfd
+    protfdtfd int dlbssLobdfrDfpti() {
+        int dfpti = dlbssLobdfrDfpti0();
+        if (dfpti != -1) {
+            if (ibsAllPfrmission())
+                dfpti = -1;
+            flsf
+                dfpti--; // mbkf surf wf don't indludf oursflf
         }
-        return depth;
+        rfturn dfpti;
     }
 
-    private native int classLoaderDepth0();
+    privbtf nbtivf int dlbssLobdfrDfpti0();
 
     /**
-     * Tests if a method from a class with the specified
-     *         name is on the execution stack.
+     * Tfsts if b mftiod from b dlbss witi tif spfdififd
+     *         nbmf is on tif fxfdution stbdk.
      *
-     * @param  name   the fully qualified name of the class.
-     * @return <code>true</code> if a method from a class with the specified
-     *         name is on the execution stack; <code>false</code> otherwise.
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
+     * @pbrbm  nbmf   tif fully qublififd nbmf of tif dlbss.
+     * @rfturn <dodf>truf</dodf> if b mftiod from b dlbss witi tif spfdififd
+     *         nbmf is on tif fxfdution stbdk; <dodf>fblsf</dodf> otifrwisf.
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
      */
-    @Deprecated
-    protected boolean inClass(String name) {
-        return classDepth(name) >= 0;
+    @Dfprfdbtfd
+    protfdtfd boolfbn inClbss(String nbmf) {
+        rfturn dlbssDfpti(nbmf) >= 0;
     }
 
     /**
-     * Basically, tests if a method from a class defined using a
-     *          class loader is on the execution stack.
+     * Bbsidblly, tfsts if b mftiod from b dlbss dffinfd using b
+     *          dlbss lobdfr is on tif fxfdution stbdk.
      *
-     * @return  <code>true</code> if a call to <code>currentClassLoader</code>
-     *          has a non-null return value.
+     * @rfturn  <dodf>truf</dodf> if b dbll to <dodf>durrfntClbssLobdfr</dodf>
+     *          ibs b non-null rfturn vbluf.
      *
-     * @deprecated This type of security checking is not recommended.
-     *  It is recommended that the <code>checkPermission</code>
-     *  call be used instead.
-     * @see        #currentClassLoader() currentClassLoader
+     * @dfprfdbtfd Tiis typf of sfdurity difdking is not rfdommfndfd.
+     *  It is rfdommfndfd tibt tif <dodf>difdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     * @sff        #durrfntClbssLobdfr() durrfntClbssLobdfr
      */
-    @Deprecated
-    protected boolean inClassLoader() {
-        return currentClassLoader() != null;
+    @Dfprfdbtfd
+    protfdtfd boolfbn inClbssLobdfr() {
+        rfturn durrfntClbssLobdfr() != null;
     }
 
     /**
-     * Creates an object that encapsulates the current execution
-     * environment. The result of this method is used, for example, by the
-     * three-argument <code>checkConnect</code> method and by the
-     * two-argument <code>checkRead</code> method.
-     * These methods are needed because a trusted method may be called
-     * on to read a file or open a socket on behalf of another method.
-     * The trusted method needs to determine if the other (possibly
-     * untrusted) method would be allowed to perform the operation on its
+     * Crfbtfs bn objfdt tibt fndbpsulbtfs tif durrfnt fxfdution
+     * fnvironmfnt. Tif rfsult of tiis mftiod is usfd, for fxbmplf, by tif
+     * tirff-brgumfnt <dodf>difdkConnfdt</dodf> mftiod bnd by tif
+     * two-brgumfnt <dodf>difdkRfbd</dodf> mftiod.
+     * Tifsf mftiods brf nffdfd bfdbusf b trustfd mftiod mby bf dbllfd
+     * on to rfbd b filf or opfn b sodkft on bfiblf of bnotifr mftiod.
+     * Tif trustfd mftiod nffds to dftfrminf if tif otifr (possibly
+     * untrustfd) mftiod would bf bllowfd to pfrform tif opfrbtion on its
      * own.
-     * <p> The default implementation of this method is to return
-     * an <code>AccessControlContext</code> object.
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is to rfturn
+     * bn <dodf>AddfssControlContfxt</dodf> objfdt.
      *
-     * @return  an implementation-dependent object that encapsulates
-     *          sufficient information about the current execution environment
-     *          to perform some security checks later.
-     * @see     java.lang.SecurityManager#checkConnect(java.lang.String, int,
-     *   java.lang.Object) checkConnect
-     * @see     java.lang.SecurityManager#checkRead(java.lang.String,
-     *   java.lang.Object) checkRead
-     * @see     java.security.AccessControlContext AccessControlContext
+     * @rfturn  bn implfmfntbtion-dfpfndfnt objfdt tibt fndbpsulbtfs
+     *          suffidifnt informbtion bbout tif durrfnt fxfdution fnvironmfnt
+     *          to pfrform somf sfdurity difdks lbtfr.
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#difdkConnfdt(jbvb.lbng.String, int,
+     *   jbvb.lbng.Objfdt) difdkConnfdt
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String,
+     *   jbvb.lbng.Objfdt) difdkRfbd
+     * @sff     jbvb.sfdurity.AddfssControlContfxt AddfssControlContfxt
      */
-    public Object getSecurityContext() {
-        return AccessController.getContext();
+    publid Objfdt gftSfdurityContfxt() {
+        rfturn AddfssControllfr.gftContfxt();
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the requested
-     * access, specified by the given permission, is not permitted based
-     * on the security policy currently in effect.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif rfqufstfd
+     * bddfss, spfdififd by tif givfn pfrmission, is not pfrmittfd bbsfd
+     * on tif sfdurity polidy durrfntly in ffffdt.
      * <p>
-     * This method calls <code>AccessController.checkPermission</code>
-     * with the given permission.
+     * Tiis mftiod dblls <dodf>AddfssControllfr.difdkPfrmission</dodf>
+     * witi tif givfn pfrmission.
      *
-     * @param     perm   the requested permission.
-     * @exception SecurityException if access is not permitted based on
-     *            the current security policy.
-     * @exception NullPointerException if the permission argument is
-     *            <code>null</code>.
-     * @since     1.2
+     * @pbrbm     pfrm   tif rfqufstfd pfrmission.
+     * @fxdfption SfdurityExdfption if bddfss is not pfrmittfd bbsfd on
+     *            tif durrfnt sfdurity polidy.
+     * @fxdfption NullPointfrExdfption if tif pfrmission brgumfnt is
+     *            <dodf>null</dodf>.
+     * @sindf     1.2
      */
-    public void checkPermission(Permission perm) {
-        java.security.AccessController.checkPermission(perm);
+    publid void difdkPfrmission(Pfrmission pfrm) {
+        jbvb.sfdurity.AddfssControllfr.difdkPfrmission(pfrm);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is denied access to the resource
-     * specified by the given permission.
-     * The context must be a security
-     * context returned by a previous call to
-     * <code>getSecurityContext</code> and the access control
-     * decision is based upon the configured security policy for
-     * that security context.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * spfdififd sfdurity dontfxt is dfnifd bddfss to tif rfsourdf
+     * spfdififd by tif givfn pfrmission.
+     * Tif dontfxt must bf b sfdurity
+     * dontfxt rfturnfd by b prfvious dbll to
+     * <dodf>gftSfdurityContfxt</dodf> bnd tif bddfss dontrol
+     * dfdision is bbsfd upon tif donfigurfd sfdurity polidy for
+     * tibt sfdurity dontfxt.
      * <p>
-     * If <code>context</code> is an instance of
-     * <code>AccessControlContext</code> then the
-     * <code>AccessControlContext.checkPermission</code> method is
-     * invoked with the specified permission.
+     * If <dodf>dontfxt</dodf> is bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> tifn tif
+     * <dodf>AddfssControlContfxt.difdkPfrmission</dodf> mftiod is
+     * invokfd witi tif spfdififd pfrmission.
      * <p>
-     * If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
-     * <code>SecurityException</code> is thrown.
+     * If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> tifn b
+     * <dodf>SfdurityExdfption</dodf> is tirown.
      *
-     * @param      perm      the specified permission
-     * @param      context   a system-dependent security context.
-     * @exception  SecurityException  if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or is denied access to the
-     *             resource specified by the given permission.
-     * @exception  NullPointerException if the permission argument is
-     *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see java.security.AccessControlContext#checkPermission(java.security.Permission)
-     * @since      1.2
+     * @pbrbm      pfrm      tif spfdififd pfrmission
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption  if tif spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or is dfnifd bddfss to tif
+     *             rfsourdf spfdififd by tif givfn pfrmission.
+     * @fxdfption  NullPointfrExdfption if tif pfrmission brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff jbvb.sfdurity.AddfssControlContfxt#difdkPfrmission(jbvb.sfdurity.Pfrmission)
+     * @sindf      1.2
      */
-    public void checkPermission(Permission perm, Object context) {
-        if (context instanceof AccessControlContext) {
-            ((AccessControlContext)context).checkPermission(perm);
-        } else {
-            throw new SecurityException();
+    publid void difdkPfrmission(Pfrmission pfrm, Objfdt dontfxt) {
+        if (dontfxt instbndfof AddfssControlContfxt) {
+            ((AddfssControlContfxt)dontfxt).difdkPfrmission(pfrm);
+        } flsf {
+            tirow nfw SfdurityExdfption();
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to create a new class loader.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to drfbtf b nfw dlbss lobdfr.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("createClassLoader")</code>
-     * permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("drfbtfClbssLobdfr")</dodf>
+     * pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkCreateClassLoader</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkCrfbtfClbssLobdfr</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @exception SecurityException if the calling thread does not
-     *             have permission
-     *             to create a new class loader.
-     * @see        java.lang.ClassLoader#ClassLoader()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not
+     *             ibvf pfrmission
+     *             to drfbtf b nfw dlbss lobdfr.
+     * @sff        jbvb.lbng.ClbssLobdfr#ClbssLobdfr()
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkCreateClassLoader() {
-        checkPermission(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+    publid void difdkCrfbtfClbssLobdfr() {
+        difdkPfrmission(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
     }
 
     /**
-     * reference to the root thread group, used for the checkAccess
-     * methods.
+     * rfffrfndf to tif root tirfbd group, usfd for tif difdkAddfss
+     * mftiods.
      */
 
-    private static ThreadGroup rootGroup = getRootGroup();
+    privbtf stbtid TirfbdGroup rootGroup = gftRootGroup();
 
-    private static ThreadGroup getRootGroup() {
-        ThreadGroup root =  Thread.currentThread().getThreadGroup();
-        while (root.getParent() != null) {
-            root = root.getParent();
+    privbtf stbtid TirfbdGroup gftRootGroup() {
+        TirfbdGroup root =  Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+        wiilf (root.gftPbrfnt() != null) {
+            root = root.gftPbrfnt();
         }
-        return root;
+        rfturn root;
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to modify the thread argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to modify tif tirfbd brgumfnt.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>stop</code>, <code>suspend</code>, <code>resume</code>,
-     * <code>setPriority</code>, <code>setName</code>, and
-     * <code>setDaemon</code> methods of class <code>Thread</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by tif
+     * <dodf>stop</dodf>, <dodf>suspfnd</dodf>, <dodf>rfsumf</dodf>,
+     * <dodf>sftPriority</dodf>, <dodf>sftNbmf</dodf>, bnd
+     * <dodf>sftDbfmon</dodf> mftiods of dlbss <dodf>Tirfbd</dodf>.
      * <p>
-     * If the thread argument is a system thread (belongs to
-     * the thread group with a <code>null</code> parent) then
-     * this method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("modifyThread")</code> permission.
-     * If the thread argument is <i>not</i> a system thread,
-     * this method just returns silently.
+     * If tif tirfbd brgumfnt is b systfm tirfbd (bflongs to
+     * tif tirfbd group witi b <dodf>null</dodf> pbrfnt) tifn
+     * tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("modifyTirfbd")</dodf> pfrmission.
+     * If tif tirfbd brgumfnt is <i>not</i> b systfm tirfbd,
+     * tiis mftiod just rfturns silfntly.
      * <p>
-     * Applications that want a stricter policy should override this
-     * method. If this method is overridden, the method that overrides
-     * it should additionally check to see if the calling thread has the
-     * <code>RuntimePermission("modifyThread")</code> permission, and
-     * if so, return silently. This is to ensure that code granted
-     * that permission (such as the JDK itself) is allowed to
-     * manipulate any thread.
+     * Applidbtions tibt wbnt b stridtfr polidy siould ovfrridf tiis
+     * mftiod. If tiis mftiod is ovfrriddfn, tif mftiod tibt ovfrridfs
+     * it siould bdditionblly difdk to sff if tif dblling tirfbd ibs tif
+     * <dodf>RuntimfPfrmission("modifyTirfbd")</dodf> pfrmission, bnd
+     * if so, rfturn silfntly. Tiis is to fnsurf tibt dodf grbntfd
+     * tibt pfrmission (sudi bs tif JDK itsflf) is bllowfd to
+     * mbnipulbtf bny tirfbd.
      * <p>
-     * If this method is overridden, then
-     * <code>super.checkAccess</code> should
-     * be called by the first statement in the overridden method, or the
-     * equivalent security check should be placed in the overridden method.
+     * If tiis mftiod is ovfrriddfn, tifn
+     * <dodf>supfr.difdkAddfss</dodf> siould
+     * bf dbllfd by tif first stbtfmfnt in tif ovfrriddfn mftiod, or tif
+     * fquivblfnt sfdurity difdk siould bf plbdfd in tif ovfrriddfn mftiod.
      *
-     * @param      t   the thread to be checked.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to modify the thread.
-     * @exception  NullPointerException if the thread argument is
-     *             <code>null</code>.
-     * @see        java.lang.Thread#resume() resume
-     * @see        java.lang.Thread#setDaemon(boolean) setDaemon
-     * @see        java.lang.Thread#setName(java.lang.String) setName
-     * @see        java.lang.Thread#setPriority(int) setPriority
-     * @see        java.lang.Thread#stop() stop
-     * @see        java.lang.Thread#suspend() suspend
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      t   tif tirfbd to bf difdkfd.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to modify tif tirfbd.
+     * @fxdfption  NullPointfrExdfption if tif tirfbd brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.Tirfbd#rfsumf() rfsumf
+     * @sff        jbvb.lbng.Tirfbd#sftDbfmon(boolfbn) sftDbfmon
+     * @sff        jbvb.lbng.Tirfbd#sftNbmf(jbvb.lbng.String) sftNbmf
+     * @sff        jbvb.lbng.Tirfbd#sftPriority(int) sftPriority
+     * @sff        jbvb.lbng.Tirfbd#stop() stop
+     * @sff        jbvb.lbng.Tirfbd#suspfnd() suspfnd
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkAccess(Thread t) {
+    publid void difdkAddfss(Tirfbd t) {
         if (t == null) {
-            throw new NullPointerException("thread can't be null");
+            tirow nfw NullPointfrExdfption("tirfbd dbn't bf null");
         }
-        if (t.getThreadGroup() == rootGroup) {
-            checkPermission(SecurityConstants.MODIFY_THREAD_PERMISSION);
-        } else {
-            // just return
+        if (t.gftTirfbdGroup() == rootGroup) {
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREAD_PERMISSION);
+        } flsf {
+            // just rfturn
         }
     }
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to modify the thread group argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to modify tif tirfbd group brgumfnt.
      * <p>
-     * This method is invoked for the current security manager when a
-     * new child thread or child thread group is created, and by the
-     * <code>setDaemon</code>, <code>setMaxPriority</code>,
-     * <code>stop</code>, <code>suspend</code>, <code>resume</code>, and
-     * <code>destroy</code> methods of class <code>ThreadGroup</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr wifn b
+     * nfw diild tirfbd or diild tirfbd group is drfbtfd, bnd by tif
+     * <dodf>sftDbfmon</dodf>, <dodf>sftMbxPriority</dodf>,
+     * <dodf>stop</dodf>, <dodf>suspfnd</dodf>, <dodf>rfsumf</dodf>, bnd
+     * <dodf>dfstroy</dodf> mftiods of dlbss <dodf>TirfbdGroup</dodf>.
      * <p>
-     * If the thread group argument is the system thread group (
-     * has a <code>null</code> parent) then
-     * this method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("modifyThreadGroup")</code> permission.
-     * If the thread group argument is <i>not</i> the system thread group,
-     * this method just returns silently.
+     * If tif tirfbd group brgumfnt is tif systfm tirfbd group (
+     * ibs b <dodf>null</dodf> pbrfnt) tifn
+     * tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("modifyTirfbdGroup")</dodf> pfrmission.
+     * If tif tirfbd group brgumfnt is <i>not</i> tif systfm tirfbd group,
+     * tiis mftiod just rfturns silfntly.
      * <p>
-     * Applications that want a stricter policy should override this
-     * method. If this method is overridden, the method that overrides
-     * it should additionally check to see if the calling thread has the
-     * <code>RuntimePermission("modifyThreadGroup")</code> permission, and
-     * if so, return silently. This is to ensure that code granted
-     * that permission (such as the JDK itself) is allowed to
-     * manipulate any thread.
+     * Applidbtions tibt wbnt b stridtfr polidy siould ovfrridf tiis
+     * mftiod. If tiis mftiod is ovfrriddfn, tif mftiod tibt ovfrridfs
+     * it siould bdditionblly difdk to sff if tif dblling tirfbd ibs tif
+     * <dodf>RuntimfPfrmission("modifyTirfbdGroup")</dodf> pfrmission, bnd
+     * if so, rfturn silfntly. Tiis is to fnsurf tibt dodf grbntfd
+     * tibt pfrmission (sudi bs tif JDK itsflf) is bllowfd to
+     * mbnipulbtf bny tirfbd.
      * <p>
-     * If this method is overridden, then
-     * <code>super.checkAccess</code> should
-     * be called by the first statement in the overridden method, or the
-     * equivalent security check should be placed in the overridden method.
+     * If tiis mftiod is ovfrriddfn, tifn
+     * <dodf>supfr.difdkAddfss</dodf> siould
+     * bf dbllfd by tif first stbtfmfnt in tif ovfrriddfn mftiod, or tif
+     * fquivblfnt sfdurity difdk siould bf plbdfd in tif ovfrriddfn mftiod.
      *
-     * @param      g   the thread group to be checked.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to modify the thread group.
-     * @exception  NullPointerException if the thread group argument is
-     *             <code>null</code>.
-     * @see        java.lang.ThreadGroup#destroy() destroy
-     * @see        java.lang.ThreadGroup#resume() resume
-     * @see        java.lang.ThreadGroup#setDaemon(boolean) setDaemon
-     * @see        java.lang.ThreadGroup#setMaxPriority(int) setMaxPriority
-     * @see        java.lang.ThreadGroup#stop() stop
-     * @see        java.lang.ThreadGroup#suspend() suspend
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      g   tif tirfbd group to bf difdkfd.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to modify tif tirfbd group.
+     * @fxdfption  NullPointfrExdfption if tif tirfbd group brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.TirfbdGroup#dfstroy() dfstroy
+     * @sff        jbvb.lbng.TirfbdGroup#rfsumf() rfsumf
+     * @sff        jbvb.lbng.TirfbdGroup#sftDbfmon(boolfbn) sftDbfmon
+     * @sff        jbvb.lbng.TirfbdGroup#sftMbxPriority(int) sftMbxPriority
+     * @sff        jbvb.lbng.TirfbdGroup#stop() stop
+     * @sff        jbvb.lbng.TirfbdGroup#suspfnd() suspfnd
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkAccess(ThreadGroup g) {
+    publid void difdkAddfss(TirfbdGroup g) {
         if (g == null) {
-            throw new NullPointerException("thread group can't be null");
+            tirow nfw NullPointfrExdfption("tirfbd group dbn't bf null");
         }
         if (g == rootGroup) {
-            checkPermission(SecurityConstants.MODIFY_THREADGROUP_PERMISSION);
-        } else {
-            // just return
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+        } flsf {
+            // just rfturn
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to cause the Java Virtual Machine to
-     * halt with the specified status code.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to dbusf tif Jbvb Virtubl Mbdiinf to
+     * iblt witi tif spfdififd stbtus dodf.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>exit</code> method of class <code>Runtime</code>. A status
-     * of <code>0</code> indicates success; other values indicate various
-     * errors.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by tif
+     * <dodf>fxit</dodf> mftiod of dlbss <dodf>Runtimf</dodf>. A stbtus
+     * of <dodf>0</dodf> indidbtfs suddfss; otifr vblufs indidbtf vbrious
+     * frrors.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("exitVM."+status)</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("fxitVM."+stbtus)</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkExit</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkExit</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      status   the exit status.
-     * @exception SecurityException if the calling thread does not have
-     *              permission to halt the Java Virtual Machine with
-     *              the specified status.
-     * @see        java.lang.Runtime#exit(int) exit
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      stbtus   tif fxit stbtus.
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf
+     *              pfrmission to iblt tif Jbvb Virtubl Mbdiinf witi
+     *              tif spfdififd stbtus.
+     * @sff        jbvb.lbng.Runtimf#fxit(int) fxit
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkExit(int status) {
-        checkPermission(new RuntimePermission("exitVM."+status));
+    publid void difdkExit(int stbtus) {
+        difdkPfrmission(nfw RuntimfPfrmission("fxitVM."+stbtus));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to create a subprocess.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to drfbtf b subprodfss.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>exec</code> methods of class <code>Runtime</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by tif
+     * <dodf>fxfd</dodf> mftiods of dlbss <dodf>Runtimf</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>FilePermission(cmd,"execute")</code> permission
-     * if cmd is an absolute path, otherwise it calls
-     * <code>checkPermission</code> with
-     * <code>FilePermission("&lt;&lt;ALL FILES&gt;&gt;","execute")</code>.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>FilfPfrmission(dmd,"fxfdutf")</dodf> pfrmission
+     * if dmd is bn bbsolutf pbti, otifrwisf it dblls
+     * <dodf>difdkPfrmission</dodf> witi
+     * <dodf>FilfPfrmission("&lt;&lt;ALL FILES&gt;&gt;","fxfdutf")</dodf>.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkExec</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkExfd</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      cmd   the specified system command.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to create a subprocess.
-     * @exception  NullPointerException if the <code>cmd</code> argument is
-     *             <code>null</code>.
-     * @see     java.lang.Runtime#exec(java.lang.String)
-     * @see     java.lang.Runtime#exec(java.lang.String, java.lang.String[])
-     * @see     java.lang.Runtime#exec(java.lang.String[])
-     * @see     java.lang.Runtime#exec(java.lang.String[], java.lang.String[])
-     * @see     #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      dmd   tif spfdififd systfm dommbnd.
+     * @fxdfption  SfdurityExdfption if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to drfbtf b subprodfss.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>dmd</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String)
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String, jbvb.lbng.String[])
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String[])
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String[], jbvb.lbng.String[])
+     * @sff     #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkExec(String cmd) {
-        File f = new File(cmd);
-        if (f.isAbsolute()) {
-            checkPermission(new FilePermission(cmd,
-                SecurityConstants.FILE_EXECUTE_ACTION));
-        } else {
-            checkPermission(new FilePermission("<<ALL FILES>>",
-                SecurityConstants.FILE_EXECUTE_ACTION));
+    publid void difdkExfd(String dmd) {
+        Filf f = nfw Filf(dmd);
+        if (f.isAbsolutf()) {
+            difdkPfrmission(nfw FilfPfrmission(dmd,
+                SfdurityConstbnts.FILE_EXECUTE_ACTION));
+        } flsf {
+            difdkPfrmission(nfw FilfPfrmission("<<ALL FILES>>",
+                SfdurityConstbnts.FILE_EXECUTE_ACTION));
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to dynamic link the library code
-     * specified by the string argument file. The argument is either a
-     * simple library name or a complete filename.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to dynbmid link tif librbry dodf
+     * spfdififd by tif string brgumfnt filf. Tif brgumfnt is fitifr b
+     * simplf librbry nbmf or b domplftf filfnbmf.
      * <p>
-     * This method is invoked for the current security manager by
-     * methods <code>load</code> and <code>loadLibrary</code> of class
-     * <code>Runtime</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by
+     * mftiods <dodf>lobd</dodf> bnd <dodf>lobdLibrbry</dodf> of dlbss
+     * <dodf>Runtimf</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("loadLibrary."+lib)</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("lobdLibrbry."+lib)</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkLink</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkLink</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      lib   the name of the library.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to dynamically link the library.
-     * @exception  NullPointerException if the <code>lib</code> argument is
-     *             <code>null</code>.
-     * @see        java.lang.Runtime#load(java.lang.String)
-     * @see        java.lang.Runtime#loadLibrary(java.lang.String)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      lib   tif nbmf of tif librbry.
+     * @fxdfption  SfdurityExdfption if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to dynbmidblly link tif librbry.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>lib</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.Runtimf#lobd(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Runtimf#lobdLibrbry(jbvb.lbng.String)
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkLink(String lib) {
+    publid void difdkLink(String lib) {
         if (lib == null) {
-            throw new NullPointerException("library can't be null");
+            tirow nfw NullPointfrExdfption("librbry dbn't bf null");
         }
-        checkPermission(new RuntimePermission("loadLibrary."+lib));
+        difdkPfrmission(nfw RuntimfPfrmission("lobdLibrbry."+lib));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to read from the specified file
-     * descriptor.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to rfbd from tif spfdififd filf
+     * dfsdriptor.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("readFileDescriptor")</code>
-     * permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("rfbdFilfDfsdriptor")</dodf>
+     * pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkRfbd</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      fd   the system-dependent file descriptor.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified file descriptor.
-     * @exception  NullPointerException if the file descriptor argument is
-     *             <code>null</code>.
-     * @see        java.io.FileDescriptor
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      fd   tif systfm-dfpfndfnt filf dfsdriptor.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd filf dfsdriptor.
+     * @fxdfption  NullPointfrExdfption if tif filf dfsdriptor brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.FilfDfsdriptor
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkRead(FileDescriptor fd) {
+    publid void difdkRfbd(FilfDfsdriptor fd) {
         if (fd == null) {
-            throw new NullPointerException("file descriptor can't be null");
+            tirow nfw NullPointfrExdfption("filf dfsdriptor dbn't bf null");
         }
-        checkPermission(new RuntimePermission("readFileDescriptor"));
+        difdkPfrmission(nfw RuntimfPfrmission("rfbdFilfDfsdriptor"));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to read the file specified by the
-     * string argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to rfbd tif filf spfdififd by tif
+     * string brgumfnt.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>FilePermission(file,"read")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>FilfPfrmission(filf,"rfbd")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkRfbd</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      file   the system-dependent file name.
-     * @exception  SecurityException if the calling thread does not have
-     *             permission to access the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
-     *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      filf   tif systfm-dfpfndfnt filf nbmf.
+     * @fxdfption  SfdurityExdfption if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkRead(String file) {
-        checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_READ_ACTION));
+    publid void difdkRfbd(String filf) {
+        difdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_READ_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is not allowed to read the file
-     * specified by the string argument. The context must be a security
-     * context returned by a previous call to
-     * <code>getSecurityContext</code>.
-     * <p> If <code>context</code> is an instance of
-     * <code>AccessControlContext</code> then the
-     * <code>AccessControlContext.checkPermission</code> method will
-     * be invoked with the <code>FilePermission(file,"read")</code> permission.
-     * <p> If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
-     * <code>SecurityException</code> is thrown.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * spfdififd sfdurity dontfxt is not bllowfd to rfbd tif filf
+     * spfdififd by tif string brgumfnt. Tif dontfxt must bf b sfdurity
+     * dontfxt rfturnfd by b prfvious dbll to
+     * <dodf>gftSfdurityContfxt</dodf>.
+     * <p> If <dodf>dontfxt</dodf> is bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> tifn tif
+     * <dodf>AddfssControlContfxt.difdkPfrmission</dodf> mftiod will
+     * bf invokfd witi tif <dodf>FilfPfrmission(filf,"rfbd")</dodf> pfrmission.
+     * <p> If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> tifn b
+     * <dodf>SfdurityExdfption</dodf> is tirown.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkRead</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkRfbd</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      file      the system-dependent filename.
-     * @param      context   a system-dependent security context.
-     * @exception  SecurityException  if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or does not have permission
-     *             to read the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
-     *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see        java.security.AccessControlContext#checkPermission(java.security.Permission)
+     * @pbrbm      filf      tif systfm-dfpfndfnt filfnbmf.
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption  if tif spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or dofs not ibvf pfrmission
+     *             to rfbd tif spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff        jbvb.sfdurity.AddfssControlContfxt#difdkPfrmission(jbvb.sfdurity.Pfrmission)
      */
-    public void checkRead(String file, Object context) {
-        checkPermission(
-            new FilePermission(file, SecurityConstants.FILE_READ_ACTION),
-            context);
+    publid void difdkRfbd(String filf, Objfdt dontfxt) {
+        difdkPfrmission(
+            nfw FilfPfrmission(filf, SfdurityConstbnts.FILE_READ_ACTION),
+            dontfxt);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to write to the specified file
-     * descriptor.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to writf to tif spfdififd filf
+     * dfsdriptor.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("writeFileDescriptor")</code>
-     * permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("writfFilfDfsdriptor")</dodf>
+     * pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkWrite</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkWritf</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      fd   the system-dependent file descriptor.
-     * @exception SecurityException  if the calling thread does not have
-     *             permission to access the specified file descriptor.
-     * @exception  NullPointerException if the file descriptor argument is
-     *             <code>null</code>.
-     * @see        java.io.FileDescriptor
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      fd   tif systfm-dfpfndfnt filf dfsdriptor.
+     * @fxdfption SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd filf dfsdriptor.
+     * @fxdfption  NullPointfrExdfption if tif filf dfsdriptor brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.FilfDfsdriptor
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkWrite(FileDescriptor fd) {
+    publid void difdkWritf(FilfDfsdriptor fd) {
         if (fd == null) {
-            throw new NullPointerException("file descriptor can't be null");
+            tirow nfw NullPointfrExdfption("filf dfsdriptor dbn't bf null");
         }
-        checkPermission(new RuntimePermission("writeFileDescriptor"));
+        difdkPfrmission(nfw RuntimfPfrmission("writfFilfDfsdriptor"));
 
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to write to the file specified by
-     * the string argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to writf to tif filf spfdififd by
+     * tif string brgumfnt.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>FilePermission(file,"write")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>FilfPfrmission(filf,"writf")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkWrite</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkWritf</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      file   the system-dependent filename.
-     * @exception  SecurityException  if the calling thread does not
-     *             have permission to access the specified file.
-     * @exception  NullPointerException if the <code>file</code> argument is
-     *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      filf   tif systfm-dfpfndfnt filfnbmf.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not
+     *             ibvf pfrmission to bddfss tif spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkWrite(String file) {
-        checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_WRITE_ACTION));
+    publid void difdkWritf(String filf) {
+        difdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_WRITE_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to delete the specified file.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to dflftf tif spfdififd filf.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>delete</code> method of class <code>File</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by tif
+     * <dodf>dflftf</dodf> mftiod of dlbss <dodf>Filf</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>FilePermission(file,"delete")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>FilfPfrmission(filf,"dflftf")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkDelete</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkDflftf</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      file   the system-dependent filename.
-     * @exception  SecurityException if the calling thread does not
-     *             have permission to delete the file.
-     * @exception  NullPointerException if the <code>file</code> argument is
-     *             <code>null</code>.
-     * @see        java.io.File#delete()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      filf   tif systfm-dfpfndfnt filfnbmf.
+     * @fxdfption  SfdurityExdfption if tif dblling tirfbd dofs not
+     *             ibvf pfrmission to dflftf tif filf.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.Filf#dflftf()
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkDelete(String file) {
-        checkPermission(new FilePermission(file,
-            SecurityConstants.FILE_DELETE_ACTION));
+    publid void difdkDflftf(String filf) {
+        difdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_DELETE_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to open a socket connection to the
-     * specified host and port number.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to opfn b sodkft donnfdtion to tif
+     * spfdififd iost bnd port numbfr.
      * <p>
-     * A port number of <code>-1</code> indicates that the calling
-     * method is attempting to determine the IP address of the specified
-     * host name.
+     * A port numbfr of <dodf>-1</dodf> indidbtfs tibt tif dblling
+     * mftiod is bttfmpting to dftfrminf tif IP bddrfss of tif spfdififd
+     * iost nbmf.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>SocketPermission(host+":"+port,"connect")</code> permission if
-     * the port is not equal to -1. If the port is equal to -1, then
-     * it calls <code>checkPermission</code> with the
-     * <code>SocketPermission(host,"resolve")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>SodkftPfrmission(iost+":"+port,"donnfdt")</dodf> pfrmission if
+     * tif port is not fqubl to -1. If tif port is fqubl to -1, tifn
+     * it dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>SodkftPfrmission(iost,"rfsolvf")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkConnect</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkConnfdt</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      host   the host name port to connect to.
-     * @param      port   the protocol port to connect to.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to open a socket connection to the specified
-     *               <code>host</code> and <code>port</code>.
-     * @exception  NullPointerException if the <code>host</code> argument is
-     *             <code>null</code>.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      iost   tif iost nbmf port to donnfdt to.
+     * @pbrbm      port   tif protodol port to donnfdt to.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to opfn b sodkft donnfdtion to tif spfdififd
+     *               <dodf>iost</dodf> bnd <dodf>port</dodf>.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>iost</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkConnect(String host, int port) {
-        if (host == null) {
-            throw new NullPointerException("host can't be null");
+    publid void difdkConnfdt(String iost, int port) {
+        if (iost == null) {
+            tirow nfw NullPointfrExdfption("iost dbn't bf null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
-            host = "[" + host + "]";
+        if (!iost.stbrtsWiti("[") && iost.indfxOf(':') != -1) {
+            iost = "[" + iost + "]";
         }
         if (port == -1) {
-            checkPermission(new SocketPermission(host,
-                SecurityConstants.SOCKET_RESOLVE_ACTION));
-        } else {
-            checkPermission(new SocketPermission(host+":"+port,
-                SecurityConstants.SOCKET_CONNECT_ACTION));
+            difdkPfrmission(nfw SodkftPfrmission(iost,
+                SfdurityConstbnts.SOCKET_RESOLVE_ACTION));
+        } flsf {
+            difdkPfrmission(nfw SodkftPfrmission(iost+":"+port,
+                SfdurityConstbnts.SOCKET_CONNECT_ACTION));
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * specified security context is not allowed to open a socket
-     * connection to the specified host and port number.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * spfdififd sfdurity dontfxt is not bllowfd to opfn b sodkft
+     * donnfdtion to tif spfdififd iost bnd port numbfr.
      * <p>
-     * A port number of <code>-1</code> indicates that the calling
-     * method is attempting to determine the IP address of the specified
-     * host name.
-     * <p> If <code>context</code> is not an instance of
-     * <code>AccessControlContext</code> then a
-     * <code>SecurityException</code> is thrown.
+     * A port numbfr of <dodf>-1</dodf> indidbtfs tibt tif dblling
+     * mftiod is bttfmpting to dftfrminf tif IP bddrfss of tif spfdififd
+     * iost nbmf.
+     * <p> If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> tifn b
+     * <dodf>SfdurityExdfption</dodf> is tirown.
      * <p>
-     * Otherwise, the port number is checked. If it is not equal
-     * to -1, the <code>context</code>'s <code>checkPermission</code>
-     * method is called with a
-     * <code>SocketPermission(host+":"+port,"connect")</code> permission.
-     * If the port is equal to -1, then
-     * the <code>context</code>'s <code>checkPermission</code> method
-     * is called with a
-     * <code>SocketPermission(host,"resolve")</code> permission.
+     * Otifrwisf, tif port numbfr is difdkfd. If it is not fqubl
+     * to -1, tif <dodf>dontfxt</dodf>'s <dodf>difdkPfrmission</dodf>
+     * mftiod is dbllfd witi b
+     * <dodf>SodkftPfrmission(iost+":"+port,"donnfdt")</dodf> pfrmission.
+     * If tif port is fqubl to -1, tifn
+     * tif <dodf>dontfxt</dodf>'s <dodf>difdkPfrmission</dodf> mftiod
+     * is dbllfd witi b
+     * <dodf>SodkftPfrmission(iost,"rfsolvf")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkConnect</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkConnfdt</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      host      the host name port to connect to.
-     * @param      port      the protocol port to connect to.
-     * @param      context   a system-dependent security context.
-     * @exception  SecurityException if the specified security context
-     *             is not an instance of <code>AccessControlContext</code>
-     *             (e.g., is <code>null</code>), or does not have permission
-     *             to open a socket connection to the specified
-     *             <code>host</code> and <code>port</code>.
-     * @exception  NullPointerException if the <code>host</code> argument is
-     *             <code>null</code>.
-     * @see        java.lang.SecurityManager#getSecurityContext()
-     * @see        java.security.AccessControlContext#checkPermission(java.security.Permission)
+     * @pbrbm      iost      tif iost nbmf port to donnfdt to.
+     * @pbrbm      port      tif protodol port to donnfdt to.
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption if tif spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or dofs not ibvf pfrmission
+     *             to opfn b sodkft donnfdtion to tif spfdififd
+     *             <dodf>iost</dodf> bnd <dodf>port</dodf>.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>iost</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff        jbvb.sfdurity.AddfssControlContfxt#difdkPfrmission(jbvb.sfdurity.Pfrmission)
      */
-    public void checkConnect(String host, int port, Object context) {
-        if (host == null) {
-            throw new NullPointerException("host can't be null");
+    publid void difdkConnfdt(String iost, int port, Objfdt dontfxt) {
+        if (iost == null) {
+            tirow nfw NullPointfrExdfption("iost dbn't bf null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
-            host = "[" + host + "]";
+        if (!iost.stbrtsWiti("[") && iost.indfxOf(':') != -1) {
+            iost = "[" + iost + "]";
         }
         if (port == -1)
-            checkPermission(new SocketPermission(host,
-                SecurityConstants.SOCKET_RESOLVE_ACTION),
-                context);
-        else
-            checkPermission(new SocketPermission(host+":"+port,
-                SecurityConstants.SOCKET_CONNECT_ACTION),
-                context);
+            difdkPfrmission(nfw SodkftPfrmission(iost,
+                SfdurityConstbnts.SOCKET_RESOLVE_ACTION),
+                dontfxt);
+        flsf
+            difdkPfrmission(nfw SodkftPfrmission(iost+":"+port,
+                SfdurityConstbnts.SOCKET_CONNECT_ACTION),
+                dontfxt);
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to wait for a connection request on
-     * the specified local port number.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to wbit for b donnfdtion rfqufst on
+     * tif spfdififd lodbl port numbfr.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>SocketPermission("localhost:"+port,"listen")</code>.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>SodkftPfrmission("lodbliost:"+port,"listfn")</dodf>.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkListen</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkListfn</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      port   the local port.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to listen on the specified port.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      port   tif lodbl port.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to listfn on tif spfdififd port.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkListen(int port) {
-        checkPermission(new SocketPermission("localhost:"+port,
-            SecurityConstants.SOCKET_LISTEN_ACTION));
+    publid void difdkListfn(int port) {
+        difdkPfrmission(nfw SodkftPfrmission("lodbliost:"+port,
+            SfdurityConstbnts.SOCKET_LISTEN_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not permitted to accept a socket connection from
-     * the specified host and port number.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not pfrmittfd to bddfpt b sodkft donnfdtion from
+     * tif spfdififd iost bnd port numbfr.
      * <p>
-     * This method is invoked for the current security manager by the
-     * <code>accept</code> method of class <code>ServerSocket</code>.
+     * Tiis mftiod is invokfd for tif durrfnt sfdurity mbnbgfr by tif
+     * <dodf>bddfpt</dodf> mftiod of dlbss <dodf>SfrvfrSodkft</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>SocketPermission(host+":"+port,"accept")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>SodkftPfrmission(iost+":"+port,"bddfpt")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkAccept</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkAddfpt</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      host   the host name of the socket connection.
-     * @param      port   the port number of the socket connection.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to accept the connection.
-     * @exception  NullPointerException if the <code>host</code> argument is
-     *             <code>null</code>.
-     * @see        java.net.ServerSocket#accept()
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      iost   tif iost nbmf of tif sodkft donnfdtion.
+     * @pbrbm      port   tif port numbfr of tif sodkft donnfdtion.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfpt tif donnfdtion.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>iost</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.nft.SfrvfrSodkft#bddfpt()
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkAccept(String host, int port) {
-        if (host == null) {
-            throw new NullPointerException("host can't be null");
+    publid void difdkAddfpt(String iost, int port) {
+        if (iost == null) {
+            tirow nfw NullPointfrExdfption("iost dbn't bf null");
         }
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
-            host = "[" + host + "]";
+        if (!iost.stbrtsWiti("[") && iost.indfxOf(':') != -1) {
+            iost = "[" + iost + "]";
         }
-        checkPermission(new SocketPermission(host+":"+port,
-            SecurityConstants.SOCKET_ACCEPT_ACTION));
+        difdkPfrmission(nfw SodkftPfrmission(iost+":"+port,
+            SfdurityConstbnts.SOCKET_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to use
-     * (join/leave/send/receive) IP multicast.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to usf
+     * (join/lfbvf/sfnd/rfdfivf) IP multidbst.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>java.net.SocketPermission(maddr.getHostAddress(),
-     * "accept,connect")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>jbvb.nft.SodkftPfrmission(mbddr.gftHostAddrfss(),
+     * "bddfpt,donnfdt")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkMulticast</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkMultidbst</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      maddr  Internet group address to be used.
-     * @exception  SecurityException  if the calling thread is not allowed to
-     *  use (join/leave/send/receive) IP multicast.
-     * @exception  NullPointerException if the address argument is
-     *             <code>null</code>.
-     * @since      1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      mbddr  Intfrnft group bddrfss to bf usfd.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd is not bllowfd to
+     *  usf (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * @fxdfption  NullPointfrExdfption if tif bddrfss brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sindf      1.1
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkMulticast(InetAddress maddr) {
-        String host = maddr.getHostAddress();
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
-            host = "[" + host + "]";
+    publid void difdkMultidbst(InftAddrfss mbddr) {
+        String iost = mbddr.gftHostAddrfss();
+        if (!iost.stbrtsWiti("[") && iost.indfxOf(':') != -1) {
+            iost = "[" + iost + "]";
         }
-        checkPermission(new SocketPermission(host,
-            SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+        difdkPfrmission(nfw SodkftPfrmission(iost,
+            SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to use
-     * (join/leave/send/receive) IP multicast.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to usf
+     * (join/lfbvf/sfnd/rfdfivf) IP multidbst.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>java.net.SocketPermission(maddr.getHostAddress(),
-     * "accept,connect")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>jbvb.nft.SodkftPfrmission(mbddr.gftHostAddrfss(),
+     * "bddfpt,donnfdt")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkMulticast</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkMultidbst</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      maddr  Internet group address to be used.
-     * @param      ttl        value in use, if it is multicast send.
-     * Note: this particular implementation does not use the ttl
-     * parameter.
-     * @exception  SecurityException  if the calling thread is not allowed to
-     *  use (join/leave/send/receive) IP multicast.
-     * @exception  NullPointerException if the address argument is
-     *             <code>null</code>.
-     * @since      1.1
-     * @deprecated Use #checkPermission(java.security.Permission) instead
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      mbddr  Intfrnft group bddrfss to bf usfd.
+     * @pbrbm      ttl        vbluf in usf, if it is multidbst sfnd.
+     * Notf: tiis pbrtidulbr implfmfntbtion dofs not usf tif ttl
+     * pbrbmftfr.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd is not bllowfd to
+     *  usf (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * @fxdfption  NullPointfrExdfption if tif bddrfss brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sindf      1.1
+     * @dfprfdbtfd Usf #difdkPfrmission(jbvb.sfdurity.Pfrmission) instfbd
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    public void checkMulticast(InetAddress maddr, byte ttl) {
-        String host = maddr.getHostAddress();
-        if (!host.startsWith("[") && host.indexOf(':') != -1) {
-            host = "[" + host + "]";
+    @Dfprfdbtfd
+    publid void difdkMultidbst(InftAddrfss mbddr, bytf ttl) {
+        String iost = mbddr.gftHostAddrfss();
+        if (!iost.stbrtsWiti("[") && iost.indfxOf(':') != -1) {
+            iost = "[" + iost + "]";
         }
-        checkPermission(new SocketPermission(host,
-            SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+        difdkPfrmission(nfw SodkftPfrmission(iost,
+            SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access or modify the system
-     * properties.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss or modify tif systfm
+     * propfrtifs.
      * <p>
-     * This method is used by the <code>getProperties</code> and
-     * <code>setProperties</code> methods of class <code>System</code>.
+     * Tiis mftiod is usfd by tif <dodf>gftPropfrtifs</dodf> bnd
+     * <dodf>sftPropfrtifs</dodf> mftiods of dlbss <dodf>Systfm</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>PropertyPermission("*", "read,write")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>PropfrtyPfrmission("*", "rfbd,writf")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkPropertiesAccess</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkPropfrtifsAddfss</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access or modify the system properties.
-     * @see        java.lang.System#getProperties()
-     * @see        java.lang.System#setProperties(java.util.Properties)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss or modify tif systfm propfrtifs.
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
+     * @sff        jbvb.lbng.Systfm#sftPropfrtifs(jbvb.util.Propfrtifs)
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkPropertiesAccess() {
-        checkPermission(new PropertyPermission("*",
-            SecurityConstants.PROPERTY_RW_ACTION));
+    publid void difdkPropfrtifsAddfss() {
+        difdkPfrmission(nfw PropfrtyPfrmission("*",
+            SfdurityConstbnts.PROPERTY_RW_ACTION));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access the system property with
-     * the specified <code>key</code> name.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss tif systfm propfrty witi
+     * tif spfdififd <dodf>kfy</dodf> nbmf.
      * <p>
-     * This method is used by the <code>getProperty</code> method of
-     * class <code>System</code>.
+     * Tiis mftiod is usfd by tif <dodf>gftPropfrty</dodf> mftiod of
+     * dlbss <dodf>Systfm</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>PropertyPermission(key, "read")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>PropfrtyPfrmission(kfy, "rfbd")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkPropertyAccess</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkPropfrtyAddfss</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param      key   a system property key.
+     * @pbrbm      kfy   b systfm propfrty kfy.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified system property.
-     * @exception  NullPointerException if the <code>key</code> argument is
-     *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>kfy</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
      *
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkPropertyAccess(String key) {
-        checkPermission(new PropertyPermission(key,
-            SecurityConstants.PROPERTY_READ_ACTION));
+    publid void difdkPropfrtyAddfss(String kfy) {
+        difdkPfrmission(nfw PropfrtyPfrmission(kfy,
+            SfdurityConstbnts.PROPERTY_READ_ACTION));
     }
 
     /**
-     * Returns {@code true} if the calling thread has {@code AllPermission}.
+     * Rfturns {@dodf truf} if tif dblling tirfbd ibs {@dodf AllPfrmission}.
      *
-     * @param      window   not used except to check if it is {@code null}.
-     * @return     {@code true} if the calling thread has {@code AllPermission}.
-     * @exception  NullPointerException if the {@code window} argument is
-     *             {@code null}.
-     * @deprecated This method was originally used to check if the calling thread
-     *             was trusted to bring up a top-level window. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("showWindowWithoutWarningBanner")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      window   not usfd fxdfpt to difdk if it is {@dodf null}.
+     * @rfturn     {@dodf truf} if tif dblling tirfbd ibs {@dodf AllPfrmission}.
+     * @fxdfption  NullPointfrExdfption if tif {@dodf window} brgumfnt is
+     *             {@dodf null}.
+     * @dfprfdbtfd Tiis mftiod wbs originblly usfd to difdk if tif dblling tirfbd
+     *             wbs trustfd to bring up b top-lfvfl window. Tif mftiod ibs bffn
+     *             obsolftfd bnd dodf siould instfbd usf {@link #difdkPfrmission}
+     *             to difdk {@dodf AWTPfrmission("siowWindowWitioutWbrningBbnnfr")}.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    public boolean checkTopLevelWindow(Object window) {
+    @Dfprfdbtfd
+    publid boolfbn difdkTopLfvflWindow(Objfdt window) {
         if (window == null) {
-            throw new NullPointerException("window can't be null");
+            tirow nfw NullPointfrExdfption("window dbn't bf null");
         }
-        return hasAllPermission();
+        rfturn ibsAllPfrmission();
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to initiate a print job request.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to initibtf b print job rfqufst.
      * <p>
-     * This method calls
-     * <code>checkPermission</code> with the
-     * <code>RuntimePermission("queuePrintJob")</code> permission.
+     * Tiis mftiod dblls
+     * <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("qufufPrintJob")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkPrintJobAccess</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkPrintJobAddfss</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to initiate a print job request.
-     * @since   1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to initibtf b print job rfqufst.
+     * @sindf   1.1
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkPrintJobAccess() {
-        checkPermission(new RuntimePermission("queuePrintJob"));
+    publid void difdkPrintJobAddfss() {
+        difdkPfrmission(nfw RuntimfPfrmission("qufufPrintJob"));
     }
 
     /**
-     * Throws {@code SecurityException} if the calling thread does
-     * not have {@code AllPermission}.
+     * Tirows {@dodf SfdurityExdfption} if tif dblling tirfbd dofs
+     * not ibvf {@dodf AllPfrmission}.
      *
-     * @since   1.1
-     * @exception  SecurityException  if the calling thread does not have
-     *             {@code AllPermission}
-     * @deprecated This method was originally used to check if the calling
-     *             thread could access the system clipboard. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("accessClipboard")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             {@dodf AllPfrmission}
+     * @dfprfdbtfd Tiis mftiod wbs originblly usfd to difdk if tif dblling
+     *             tirfbd dould bddfss tif systfm dlipbobrd. Tif mftiod ibs bffn
+     *             obsolftfd bnd dodf siould instfbd usf {@link #difdkPfrmission}
+     *             to difdk {@dodf AWTPfrmission("bddfssClipbobrd")}.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    public void checkSystemClipboardAccess() {
-        checkPermission(SecurityConstants.ALL_PERMISSION);
+    @Dfprfdbtfd
+    publid void difdkSystfmClipbobrdAddfss() {
+        difdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
     }
 
     /**
-     * Throws {@code SecurityException} if the calling thread does
-     * not have {@code AllPermission}.
+     * Tirows {@dodf SfdurityExdfption} if tif dblling tirfbd dofs
+     * not ibvf {@dodf AllPfrmission}.
      *
-     * @since   1.1
-     * @exception  SecurityException  if the calling thread does not have
-     *             {@code AllPermission}
-     * @deprecated This method was originally used to check if the calling
-     *             thread could access the AWT event queue. The method has been
-     *             obsoleted and code should instead use {@link #checkPermission}
-     *             to check {@code AWTPermission("accessEventQueue")}.
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             {@dodf AllPfrmission}
+     * @dfprfdbtfd Tiis mftiod wbs originblly usfd to difdk if tif dblling
+     *             tirfbd dould bddfss tif AWT fvfnt qufuf. Tif mftiod ibs bffn
+     *             obsolftfd bnd dodf siould instfbd usf {@link #difdkPfrmission}
+     *             to difdk {@dodf AWTPfrmission("bddfssEvfntQufuf")}.
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    public void checkAwtEventQueueAccess() {
-        checkPermission(SecurityConstants.ALL_PERMISSION);
+    @Dfprfdbtfd
+    publid void difdkAwtEvfntQufufAddfss() {
+        difdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
     }
 
     /*
-     * We have an initial invalid bit (initially false) for the class
-     * variables which tell if the cache is valid.  If the underlying
-     * java.security.Security property changes via setProperty(), the
-     * Security class uses reflection to change the variable and thus
-     * invalidate the cache.
+     * Wf ibvf bn initibl invblid bit (initiblly fblsf) for tif dlbss
+     * vbribblfs wiidi tfll if tif dbdif is vblid.  If tif undfrlying
+     * jbvb.sfdurity.Sfdurity propfrty dibngfs vib sftPropfrty(), tif
+     * Sfdurity dlbss usfs rfflfdtion to dibngf tif vbribblf bnd tius
+     * invblidbtf tif dbdif.
      *
-     * Locking is handled by synchronization to the
-     * packageAccessLock/packageDefinitionLock objects.  They are only
-     * used in this class.
+     * Lodking is ibndlfd by syndironizbtion to tif
+     * pbdkbgfAddfssLodk/pbdkbgfDffinitionLodk objfdts.  Tify brf only
+     * usfd in tiis dlbss.
      *
-     * Note that cache invalidation as a result of the property change
-     * happens without using these locks, so there may be a delay between
-     * when a thread updates the property and when other threads updates
-     * the cache.
+     * Notf tibt dbdif invblidbtion bs b rfsult of tif propfrty dibngf
+     * ibppfns witiout using tifsf lodks, so tifrf mby bf b dflby bftwffn
+     * wifn b tirfbd updbtfs tif propfrty bnd wifn otifr tirfbds updbtfs
+     * tif dbdif.
      */
-    private static boolean packageAccessValid = false;
-    private static String[] packageAccess;
-    private static final Object packageAccessLock = new Object();
+    privbtf stbtid boolfbn pbdkbgfAddfssVblid = fblsf;
+    privbtf stbtid String[] pbdkbgfAddfss;
+    privbtf stbtid finbl Objfdt pbdkbgfAddfssLodk = nfw Objfdt();
 
-    private static boolean packageDefinitionValid = false;
-    private static String[] packageDefinition;
-    private static final Object packageDefinitionLock = new Object();
+    privbtf stbtid boolfbn pbdkbgfDffinitionVblid = fblsf;
+    privbtf stbtid String[] pbdkbgfDffinition;
+    privbtf stbtid finbl Objfdt pbdkbgfDffinitionLodk = nfw Objfdt();
 
-    private static String[] getPackages(String p) {
-        String packages[] = null;
-        if (p != null && !p.equals("")) {
-            java.util.StringTokenizer tok =
-                new java.util.StringTokenizer(p, ",");
-            int n = tok.countTokens();
+    privbtf stbtid String[] gftPbdkbgfs(String p) {
+        String pbdkbgfs[] = null;
+        if (p != null && !p.fqubls("")) {
+            jbvb.util.StringTokfnizfr tok =
+                nfw jbvb.util.StringTokfnizfr(p, ",");
+            int n = tok.dountTokfns();
             if (n > 0) {
-                packages = new String[n];
+                pbdkbgfs = nfw String[n];
                 int i = 0;
-                while (tok.hasMoreElements()) {
-                    String s = tok.nextToken().trim();
-                    packages[i++] = s;
+                wiilf (tok.ibsMorfElfmfnts()) {
+                    String s = tok.nfxtTokfn().trim();
+                    pbdkbgfs[i++] = s;
                 }
             }
         }
 
-        if (packages == null)
-            packages = new String[0];
-        return packages;
+        if (pbdkbgfs == null)
+            pbdkbgfs = nfw String[0];
+        rfturn pbdkbgfs;
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access the package specified by
-     * the argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss tif pbdkbgf spfdififd by
+     * tif brgumfnt.
      * <p>
-     * This method is used by the <code>loadClass</code> method of class
-     * loaders.
+     * Tiis mftiod is usfd by tif <dodf>lobdClbss</dodf> mftiod of dlbss
+     * lobdfrs.
      * <p>
-     * This method first gets a list of
-     * restricted packages by obtaining a comma-separated list from
-     * a call to
-     * <code>java.security.Security.getProperty("package.access")</code>,
-     * and checks to see if <code>pkg</code> starts with or equals
-     * any of the restricted packages. If it does, then
-     * <code>checkPermission</code> gets called with the
-     * <code>RuntimePermission("accessClassInPackage."+pkg)</code>
-     * permission.
+     * Tiis mftiod first gfts b list of
+     * rfstridtfd pbdkbgfs by obtbining b dommb-sfpbrbtfd list from
+     * b dbll to
+     * <dodf>jbvb.sfdurity.Sfdurity.gftPropfrty("pbdkbgf.bddfss")</dodf>,
+     * bnd difdks to sff if <dodf>pkg</dodf> stbrts witi or fqubls
+     * bny of tif rfstridtfd pbdkbgfs. If it dofs, tifn
+     * <dodf>difdkPfrmission</dodf> gfts dbllfd witi tif
+     * <dodf>RuntimfPfrmission("bddfssClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
      * <p>
-     * If this method is overridden, then
-     * <code>super.checkPackageAccess</code> should be called
-     * as the first line in the overridden method.
+     * If tiis mftiod is ovfrriddfn, tifn
+     * <dodf>supfr.difdkPbdkbgfAddfss</dodf> siould bf dbllfd
+     * bs tif first linf in tif ovfrriddfn mftiod.
      *
-     * @param      pkg   the package name.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to access the specified package.
-     * @exception  NullPointerException if the package name argument is
-     *             <code>null</code>.
-     * @see        java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-     *  loadClass
-     * @see        java.security.Security#getProperty getProperty
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      pkg   tif pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd pbdkbgf.
+     * @fxdfption  NullPointfrExdfption if tif pbdkbgf nbmf brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+     *  lobdClbss
+     * @sff        jbvb.sfdurity.Sfdurity#gftPropfrty gftPropfrty
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkPackageAccess(String pkg) {
+    publid void difdkPbdkbgfAddfss(String pkg) {
         if (pkg == null) {
-            throw new NullPointerException("package name can't be null");
+            tirow nfw NullPointfrExdfption("pbdkbgf nbmf dbn't bf null");
         }
 
         String[] pkgs;
-        synchronized (packageAccessLock) {
+        syndironizfd (pbdkbgfAddfssLodk) {
             /*
-             * Do we need to update our property array?
+             * Do wf nffd to updbtf our propfrty brrby?
              */
-            if (!packageAccessValid) {
-                String tmpPropertyStr =
-                    AccessController.doPrivileged(
-                        new PrivilegedAction<String>() {
-                            public String run() {
-                                return java.security.Security.getProperty(
-                                    "package.access");
+            if (!pbdkbgfAddfssVblid) {
+                String tmpPropfrtyStr =
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                rfturn jbvb.sfdurity.Sfdurity.gftPropfrty(
+                                    "pbdkbgf.bddfss");
                             }
                         }
                     );
-                packageAccess = getPackages(tmpPropertyStr);
-                packageAccessValid = true;
+                pbdkbgfAddfss = gftPbdkbgfs(tmpPropfrtyStr);
+                pbdkbgfAddfssVblid = truf;
             }
 
-            // Using a snapshot of packageAccess -- don't care if static field
-            // changes afterwards; array contents won't change.
-            pkgs = packageAccess;
+            // Using b snbpsiot of pbdkbgfAddfss -- don't dbrf if stbtid fifld
+            // dibngfs bftfrwbrds; brrby dontfnts won't dibngf.
+            pkgs = pbdkbgfAddfss;
         }
 
         /*
-         * Traverse the list of packages, check for any matches.
+         * Trbvfrsf tif list of pbdkbgfs, difdk for bny mbtdifs.
          */
-        for (String restrictedPkg : pkgs) {
-            if (pkg.startsWith(restrictedPkg) || restrictedPkg.equals(pkg + ".")) {
-                checkPermission(
-                    new RuntimePermission("accessClassInPackage." + pkg));
-                break;  // No need to continue; only need to check this once
+        for (String rfstridtfdPkg : pkgs) {
+            if (pkg.stbrtsWiti(rfstridtfdPkg) || rfstridtfdPkg.fqubls(pkg + ".")) {
+                difdkPfrmission(
+                    nfw RuntimfPfrmission("bddfssClbssInPbdkbgf." + pkg));
+                brfbk;  // No nffd to dontinuf; only nffd to difdk tiis ondf
             }
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to define classes in the package
-     * specified by the argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to dffinf dlbssfs in tif pbdkbgf
+     * spfdififd by tif brgumfnt.
      * <p>
-     * This method is used by the <code>loadClass</code> method of some
-     * class loaders.
+     * Tiis mftiod is usfd by tif <dodf>lobdClbss</dodf> mftiod of somf
+     * dlbss lobdfrs.
      * <p>
-     * This method first gets a list of restricted packages by
-     * obtaining a comma-separated list from a call to
-     * <code>java.security.Security.getProperty("package.definition")</code>,
-     * and checks to see if <code>pkg</code> starts with or equals
-     * any of the restricted packages. If it does, then
-     * <code>checkPermission</code> gets called with the
-     * <code>RuntimePermission("defineClassInPackage."+pkg)</code>
-     * permission.
+     * Tiis mftiod first gfts b list of rfstridtfd pbdkbgfs by
+     * obtbining b dommb-sfpbrbtfd list from b dbll to
+     * <dodf>jbvb.sfdurity.Sfdurity.gftPropfrty("pbdkbgf.dffinition")</dodf>,
+     * bnd difdks to sff if <dodf>pkg</dodf> stbrts witi or fqubls
+     * bny of tif rfstridtfd pbdkbgfs. If it dofs, tifn
+     * <dodf>difdkPfrmission</dodf> gfts dbllfd witi tif
+     * <dodf>RuntimfPfrmission("dffinfClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
      * <p>
-     * If this method is overridden, then
-     * <code>super.checkPackageDefinition</code> should be called
-     * as the first line in the overridden method.
+     * If tiis mftiod is ovfrriddfn, tifn
+     * <dodf>supfr.difdkPbdkbgfDffinition</dodf> siould bf dbllfd
+     * bs tif first linf in tif ovfrriddfn mftiod.
      *
-     * @param      pkg   the package name.
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to define classes in the specified package.
-     * @see        java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-     * @see        java.security.Security#getProperty getProperty
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @pbrbm      pkg   tif pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to dffinf dlbssfs in tif spfdififd pbdkbgf.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+     * @sff        jbvb.sfdurity.Sfdurity#gftPropfrty gftPropfrty
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkPackageDefinition(String pkg) {
+    publid void difdkPbdkbgfDffinition(String pkg) {
         if (pkg == null) {
-            throw new NullPointerException("package name can't be null");
+            tirow nfw NullPointfrExdfption("pbdkbgf nbmf dbn't bf null");
         }
 
         String[] pkgs;
-        synchronized (packageDefinitionLock) {
+        syndironizfd (pbdkbgfDffinitionLodk) {
             /*
-             * Do we need to update our property array?
+             * Do wf nffd to updbtf our propfrty brrby?
              */
-            if (!packageDefinitionValid) {
-                String tmpPropertyStr =
-                    AccessController.doPrivileged(
-                        new PrivilegedAction<String>() {
-                            public String run() {
-                                return java.security.Security.getProperty(
-                                    "package.definition");
+            if (!pbdkbgfDffinitionVblid) {
+                String tmpPropfrtyStr =
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                rfturn jbvb.sfdurity.Sfdurity.gftPropfrty(
+                                    "pbdkbgf.dffinition");
                             }
                         }
                     );
-                packageDefinition = getPackages(tmpPropertyStr);
-                packageDefinitionValid = true;
+                pbdkbgfDffinition = gftPbdkbgfs(tmpPropfrtyStr);
+                pbdkbgfDffinitionVblid = truf;
             }
-            // Using a snapshot of packageDefinition -- don't care if static
-            // field changes afterwards; array contents won't change.
-            pkgs = packageDefinition;
+            // Using b snbpsiot of pbdkbgfDffinition -- don't dbrf if stbtid
+            // fifld dibngfs bftfrwbrds; brrby dontfnts won't dibngf.
+            pkgs = pbdkbgfDffinition;
         }
 
         /*
-         * Traverse the list of packages, check for any matches.
+         * Trbvfrsf tif list of pbdkbgfs, difdk for bny mbtdifs.
          */
-        for (String restrictedPkg : pkgs) {
-            if (pkg.startsWith(restrictedPkg) || restrictedPkg.equals(pkg + ".")) {
-                checkPermission(
-                    new RuntimePermission("defineClassInPackage." + pkg));
-                break; // No need to continue; only need to check this once
+        for (String rfstridtfdPkg : pkgs) {
+            if (pkg.stbrtsWiti(rfstridtfdPkg) || rfstridtfdPkg.fqubls(pkg + ".")) {
+                difdkPfrmission(
+                    nfw RuntimfPfrmission("dffinfClbssInPbdkbgf." + pkg));
+                brfbk; // No nffd to dontinuf; only nffd to difdk tiis ondf
             }
         }
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to set the socket factory used by
-     * <code>ServerSocket</code> or <code>Socket</code>, or the stream
-     * handler factory used by <code>URL</code>.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to sft tif sodkft fbdtory usfd by
+     * <dodf>SfrvfrSodkft</dodf> or <dodf>Sodkft</dodf>, or tif strfbm
+     * ibndlfr fbdtory usfd by <dodf>URL</dodf>.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>RuntimePermission("setFactory")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("sftFbdtory")</dodf> pfrmission.
      * <p>
-     * If you override this method, then you should make a call to
-     * <code>super.checkSetFactory</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkSftFbdtory</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @exception  SecurityException  if the calling thread does not have
-     *             permission to specify a socket factory or a stream
-     *             handler factory.
+     * @fxdfption  SfdurityExdfption  if tif dblling tirfbd dofs not ibvf
+     *             pfrmission to spfdify b sodkft fbdtory or b strfbm
+     *             ibndlfr fbdtory.
      *
-     * @see        java.net.ServerSocket#setSocketFactory(java.net.SocketImplFactory) setSocketFactory
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory) setSocketImplFactory
-     * @see        java.net.URL#setURLStreamHandlerFactory(java.net.URLStreamHandlerFactory) setURLStreamHandlerFactory
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sff        jbvb.nft.SfrvfrSodkft#sftSodkftFbdtory(jbvb.nft.SodkftImplFbdtory) sftSodkftFbdtory
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory) sftSodkftImplFbdtory
+     * @sff        jbvb.nft.URL#sftURLStrfbmHbndlfrFbdtory(jbvb.nft.URLStrfbmHbndlfrFbdtory) sftURLStrfbmHbndlfrFbdtory
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkSetFactory() {
-        checkPermission(new RuntimePermission("setFactory"));
+    publid void difdkSftFbdtory() {
+        difdkPfrmission(nfw RuntimfPfrmission("sftFbdtory"));
     }
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access members.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss mfmbfrs.
      * <p>
-     * The default policy is to allow access to PUBLIC members, as well
-     * as access to classes that have the same class loader as the caller.
-     * In all other cases, this method calls <code>checkPermission</code>
-     * with the <code>RuntimePermission("accessDeclaredMembers")
-     * </code> permission.
+     * Tif dffbult polidy is to bllow bddfss to PUBLIC mfmbfrs, bs wfll
+     * bs bddfss to dlbssfs tibt ibvf tif sbmf dlbss lobdfr bs tif dbllfr.
+     * In bll otifr dbsfs, tiis mftiod dblls <dodf>difdkPfrmission</dodf>
+     * witi tif <dodf>RuntimfPfrmission("bddfssDfdlbrfdMfmbfrs")
+     * </dodf> pfrmission.
      * <p>
-     * If this method is overridden, then a call to
-     * <code>super.checkMemberAccess</code> cannot be made,
-     * as the default implementation of <code>checkMemberAccess</code>
-     * relies on the code being checked being at a stack depth of
+     * If tiis mftiod is ovfrriddfn, tifn b dbll to
+     * <dodf>supfr.difdkMfmbfrAddfss</dodf> dbnnot bf mbdf,
+     * bs tif dffbult implfmfntbtion of <dodf>difdkMfmbfrAddfss</dodf>
+     * rflifs on tif dodf bfing difdkfd bfing bt b stbdk dfpti of
      * 4.
      *
-     * @param clazz the class that reflection is to be performed on.
+     * @pbrbm dlbzz tif dlbss tibt rfflfdtion is to bf pfrformfd on.
      *
-     * @param which type of access, PUBLIC or DECLARED.
+     * @pbrbm wiidi typf of bddfss, PUBLIC or DECLARED.
      *
-     * @exception  SecurityException if the caller does not have
-     *             permission to access members.
-     * @exception  NullPointerException if the <code>clazz</code> argument is
-     *             <code>null</code>.
+     * @fxdfption  SfdurityExdfption if tif dbllfr dofs not ibvf
+     *             pfrmission to bddfss mfmbfrs.
+     * @fxdfption  NullPointfrExdfption if tif <dodf>dlbzz</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
      *
-     * @deprecated This method relies on the caller being at a stack depth
-     *             of 4 which is error-prone and cannot be enforced by the runtime.
-     *             Users of this method should instead invoke {@link #checkPermission}
-     *             directly.  This method will be changed in a future release
-     *             to check the permission {@code java.security.AllPermission}.
+     * @dfprfdbtfd Tiis mftiod rflifs on tif dbllfr bfing bt b stbdk dfpti
+     *             of 4 wiidi is frror-pronf bnd dbnnot bf fnfordfd by tif runtimf.
+     *             Usfrs of tiis mftiod siould instfbd invokf {@link #difdkPfrmission}
+     *             dirfdtly.  Tiis mftiod will bf dibngfd in b futurf rflfbsf
+     *             to difdk tif pfrmission {@dodf jbvb.sfdurity.AllPfrmission}.
      *
-     * @see java.lang.reflect.Member
-     * @since 1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sff jbvb.lbng.rfflfdt.Mfmbfr
+     * @sindf 1.1
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    @Deprecated
-    @CallerSensitive
-    public void checkMemberAccess(Class<?> clazz, int which) {
-        if (clazz == null) {
-            throw new NullPointerException("class can't be null");
+    @Dfprfdbtfd
+    @CbllfrSfnsitivf
+    publid void difdkMfmbfrAddfss(Clbss<?> dlbzz, int wiidi) {
+        if (dlbzz == null) {
+            tirow nfw NullPointfrExdfption("dlbss dbn't bf null");
         }
-        if (which != Member.PUBLIC) {
-            Class<?> stack[] = getClassContext();
+        if (wiidi != Mfmbfr.PUBLIC) {
+            Clbss<?> stbdk[] = gftClbssContfxt();
             /*
-             * stack depth of 4 should be the caller of one of the
-             * methods in java.lang.Class that invoke checkMember
-             * access. The stack should look like:
+             * stbdk dfpti of 4 siould bf tif dbllfr of onf of tif
+             * mftiods in jbvb.lbng.Clbss tibt invokf difdkMfmbfr
+             * bddfss. Tif stbdk siould look likf:
              *
-             * someCaller                        [3]
-             * java.lang.Class.someReflectionAPI [2]
-             * java.lang.Class.checkMemberAccess [1]
-             * SecurityManager.checkMemberAccess [0]
+             * somfCbllfr                        [3]
+             * jbvb.lbng.Clbss.somfRfflfdtionAPI [2]
+             * jbvb.lbng.Clbss.difdkMfmbfrAddfss [1]
+             * SfdurityMbnbgfr.difdkMfmbfrAddfss [0]
              *
              */
-            if ((stack.length<4) ||
-                (stack[3].getClassLoader() != clazz.getClassLoader())) {
-                checkPermission(SecurityConstants.CHECK_MEMBER_ACCESS_PERMISSION);
+            if ((stbdk.lfngti<4) ||
+                (stbdk[3].gftClbssLobdfr() != dlbzz.gftClbssLobdfr())) {
+                difdkPfrmission(SfdurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
             }
         }
     }
 
     /**
-     * Determines whether the permission with the specified permission target
-     * name should be granted or denied.
+     * Dftfrminfs wiftifr tif pfrmission witi tif spfdififd pfrmission tbrgft
+     * nbmf siould bf grbntfd or dfnifd.
      *
-     * <p> If the requested permission is allowed, this method returns
-     * quietly. If denied, a SecurityException is raised.
+     * <p> If tif rfqufstfd pfrmission is bllowfd, tiis mftiod rfturns
+     * quiftly. If dfnifd, b SfdurityExdfption is rbisfd.
      *
-     * <p> This method creates a <code>SecurityPermission</code> object for
-     * the given permission target name and calls <code>checkPermission</code>
-     * with it.
+     * <p> Tiis mftiod drfbtfs b <dodf>SfdurityPfrmission</dodf> objfdt for
+     * tif givfn pfrmission tbrgft nbmf bnd dblls <dodf>difdkPfrmission</dodf>
+     * witi it.
      *
-     * <p> See the documentation for
-     * <code>{@link java.security.SecurityPermission}</code> for
-     * a list of possible permission target names.
+     * <p> Sff tif dodumfntbtion for
+     * <dodf>{@link jbvb.sfdurity.SfdurityPfrmission}</dodf> for
+     * b list of possiblf pfrmission tbrgft nbmfs.
      *
-     * <p> If you override this method, then you should make a call to
-     * <code>super.checkSecurityAccess</code>
-     * at the point the overridden method would normally throw an
-     * exception.
+     * <p> If you ovfrridf tiis mftiod, tifn you siould mbkf b dbll to
+     * <dodf>supfr.difdkSfdurityAddfss</dodf>
+     * bt tif point tif ovfrriddfn mftiod would normblly tirow bn
+     * fxdfption.
      *
-     * @param target the target name of the <code>SecurityPermission</code>.
+     * @pbrbm tbrgft tif tbrgft nbmf of tif <dodf>SfdurityPfrmission</dodf>.
      *
-     * @exception SecurityException if the calling thread does not have
-     * permission for the requested access.
-     * @exception NullPointerException if <code>target</code> is null.
-     * @exception IllegalArgumentException if <code>target</code> is empty.
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf
+     * pfrmission for tif rfqufstfd bddfss.
+     * @fxdfption NullPointfrExdfption if <dodf>tbrgft</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>tbrgft</dodf> is fmpty.
      *
-     * @since   1.1
-     * @see        #checkPermission(java.security.Permission) checkPermission
+     * @sindf   1.1
+     * @sff        #difdkPfrmission(jbvb.sfdurity.Pfrmission) difdkPfrmission
      */
-    public void checkSecurityAccess(String target) {
-        checkPermission(new SecurityPermission(target));
+    publid void difdkSfdurityAddfss(String tbrgft) {
+        difdkPfrmission(nfw SfdurityPfrmission(tbrgft));
     }
 
-    private native Class<?> currentLoadedClass0();
+    privbtf nbtivf Clbss<?> durrfntLobdfdClbss0();
 
     /**
-     * Returns the thread group into which to instantiate any new
-     * thread being created at the time this is being called.
-     * By default, it returns the thread group of the current
-     * thread. This should be overridden by a specific security
-     * manager to return the appropriate thread group.
+     * Rfturns tif tirfbd group into wiidi to instbntibtf bny nfw
+     * tirfbd bfing drfbtfd bt tif timf tiis is bfing dbllfd.
+     * By dffbult, it rfturns tif tirfbd group of tif durrfnt
+     * tirfbd. Tiis siould bf ovfrriddfn by b spfdifid sfdurity
+     * mbnbgfr to rfturn tif bppropribtf tirfbd group.
      *
-     * @return  ThreadGroup that new threads are instantiated into
-     * @since   1.1
-     * @see     java.lang.ThreadGroup
+     * @rfturn  TirfbdGroup tibt nfw tirfbds brf instbntibtfd into
+     * @sindf   1.1
+     * @sff     jbvb.lbng.TirfbdGroup
      */
-    public ThreadGroup getThreadGroup() {
-        return Thread.currentThread().getThreadGroup();
+    publid TirfbdGroup gftTirfbdGroup() {
+        rfturn Tirfbd.durrfntTirfbd().gftTirfbdGroup();
     }
 
 }

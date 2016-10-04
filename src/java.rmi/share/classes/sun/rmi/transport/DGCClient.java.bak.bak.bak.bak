@@ -1,0 +1,803 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.lbng.rff.PhbntomRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.rmi.ConnfdtExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.dgd.DGC;
+import jbvb.rmi.dgd.Lfbsf;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.ObjID;
+import sun.misd.GC;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.Util;
+
+/**
+ * DGCClifnt implfmfnts thf dlifnt-sidf of thf RMI distributfd gbrbbgf
+ * dollfdtion systfm.
+ *
+ * Thf fxtfrnbl intfrfbdf to DGCClifnt is thf "rfgistfrRffs" mfthod.
+ * Whfn b LivfRff to b rfmotf objfdt fntfrs thf VM, it nffds to bf
+ * rfgistfrfd with thf DGCClifnt to pbrtidipbtf in distributfd gbrbbgf
+ * dollfdtion.
+ *
+ * Whfn thf first LivfRff to b pbrtidulbr rfmotf objfdt is rfgistfrfd,
+ * b "dirty" dbll is mbdf to thf sfrvfr-sidf distributfd gbrbbgf
+ * dollfdtor for thf rfmotf objfdt, whidh rfturns b lfbsf gubrbntffing
+ * thbt thf sfrvfr-sidf DGC will not dollfdt thf rfmotf objfdt for b
+ * dfrtbin pfriod of timf.  Whilf LivfRff instbndfs to rfmotf objfdts
+ * on b pbrtidulbr sfrvfr fxist, thf DGCClifnt pfriodidblly sfnds morf
+ * "dirty" dblls to rfnfw its lfbsf.
+ *
+ * Thf DGCClifnt trbdks thf lodbl rfbdhbbility of rfgistfrfd LivfRff
+ * instbndfs (using phbntom rfffrfndfs).  Whfn thf LivfRff instbndf
+ * for b pbrtidulbr rfmotf objfdt bfdomfs gbrbbgf dollfdtfd lodblly,
+ * b "dlfbn" dbll is mbdf to thf sfrvfr-sidf distributfd gbrbbgf
+ * dollfdtor, indidbting thbt thf sfrvfr no longfr nffds to kffp thf
+ * rfmotf objfdt blivf for this dlifnt.
+ *
+ * @sff jbvb.rmi.dgd.DGC, sun.rmi.trbnsport.DGCImpl
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ */
+finbl dlbss DGCClifnt {
+
+    /** nfxt sfqufndf numbfr for DGC dblls (bddfss syndhronizfd on dlbss) */
+    privbtf stbtid long nfxtSfqufndfNum = Long.MIN_VALUE;
+
+    /** uniquf idfntififr for this VM bs b dlifnt of DGC */
+    privbtf stbtid VMID vmid = nfw VMID();
+
+    /** lfbsf durbtion to rfqufst (usublly ignorfd by sfrvfr) */
+    privbtf stbtid finbl long lfbsfVbluf =              // dffbult 10 minutfs
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("jbvb.rmi.dgd.lfbsfVbluf", 600000));
+
+    /** mbximum intfrvbl bftwffn rftrifs of fbilfd dlfbn dblls */
+    privbtf stbtid finbl long dlfbnIntfrvbl =           // dffbult 3 minutfs
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.dgd.dlfbnIntfrvbl", 180000));
+
+    /** mbximum intfrvbl bftwffn domplftf gbrbbgf dollfdtions of lodbl hfbp */
+    privbtf stbtid finbl long gdIntfrvbl =              // dffbult 1 hour
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.dgd.dlifnt.gdIntfrvbl", 3600000));
+
+    /** minimum rftry dount for dirty dblls thbt fbil */
+    privbtf stbtid finbl int dirtyFbilurfRftrifs = 5;
+
+    /** rftry dount for dlfbn dblls thbt fbil with ConnfdtExdfption */
+    privbtf stbtid finbl int dlfbnFbilurfRftrifs = 5;
+
+    /** donstbnt fmpty ObjID brrby for lfbsf rfnfwbl optimizbtion */
+    privbtf stbtid finbl ObjID[] fmptyObjIDArrby = nfw ObjID[0];
+
+    /** ObjID for sfrvfr-sidf DGC objfdt */
+    privbtf stbtid finbl ObjID dgdID = nfw ObjID(ObjID.DGC_ID);
+
+    /*
+     * Disbllow bnyonf from drfbting onf of thfsf.
+     */
+    privbtf DGCClifnt() {}
+
+    /**
+     * Rfgistfr thf LivfRff instbndfs in thf supplifd list to pbrtidipbtf
+     * in distributfd gbrbbgf dollfdtion.
+     *
+     * All of thf LivfRffs in thf list must bf for rfmotf objfdts bt thf
+     * givfn fndpoint.
+     */
+    stbtid void rfgistfrRffs(Endpoint fp, List<LivfRff> rffs) {
+        /*
+         * Look up thf givfn fndpoint bnd rfgistfr thf rffs with it.
+         * Thf rftrifvfd fntry mby gft rfmovfd from thf globbl fndpoint
+         * tbblf bfforf EndpointEntry.rfgistfrRffs() is bblf to bdquirf
+         * its lodk; in this fvfnt, it rfturns fblsf, bnd wf loop bnd
+         * try bgbin.
+         */
+        EndpointEntry fpEntry;
+        do {
+            fpEntry = EndpointEntry.lookup(fp);
+        } whilf (!fpEntry.rfgistfrRffs(rffs));
+    }
+
+    /**
+     * Gft thf nfxt sfqufndf numbfr to bf usfd for b dirty or dlfbn
+     * opfrbtion from this VM.  This mfthod should only bf dbllfd whilf
+     * syndhronizfd on thf EndpointEntry whosf dbtb strudturfs thf
+     * opfrbtion bfffdts.
+     */
+    privbtf stbtid syndhronizfd long gftNfxtSfqufndfNum() {
+        rfturn nfxtSfqufndfNum++;
+    }
+
+    /**
+     * Givfn thf lfngth of b lfbsf bnd thf timf thbt it wbs grbntfd,
+     * domputf thf bbsolutf timf bt whidh it should bf rfnfwfd, giving
+     * room for rfbsonbblf domputbtionbl bnd dommunidbtion dflbys.
+     */
+    privbtf stbtid long domputfRfnfwTimf(long grbntTimf, long durbtion) {
+        /*
+         * REMIND: This blgorithm should bf morf sophistidbtfd, wbiting
+         * b longfr frbdtion of thf lfbsf durbtion for longfr lfbsfs.
+         */
+        rfturn grbntTimf + (durbtion / 2);
+    }
+
+    /**
+     * EndpointEntry fndbpsulbtfs thf dlifnt-sidf DGC informbtion spfdifid
+     * to b pbrtidulbr Endpoint.  Of most signifidbndf is thf tbblf thbt
+     * mbps LivfRff vbluf to RffEntry objfdts bnd thf rfnfw/dlfbn thrfbd
+     * thbt hbndlfs bsyndhronous dlifnt-sidf DGC opfrbtions.
+     */
+    privbtf stbtid dlbss EndpointEntry {
+
+        /** thf fndpoint thbt this fntry is for */
+        privbtf Endpoint fndpoint;
+        /** synthfsizfd rfffrfndf to thf rfmotf sfrvfr-sidf DGC */
+        privbtf DGC dgd;
+
+        /** tbblf of rffs hfld for fndpoint: mbps LivfRff to RffEntry */
+        privbtf Mbp<LivfRff, RffEntry> rffTbblf = nfw HbshMbp<>(5);
+        /** sft of RffEntry instbndfs from lbst (fbilfd) dirty dbll */
+        privbtf Sft<RffEntry> invblidRffs = nfw HbshSft<>(5);
+
+        /** truf if this fntry hbs bffn rfmovfd from thf globbl tbblf */
+        privbtf boolfbn rfmovfd = fblsf;
+
+        /** bbsolutf timf to rfnfw durrfnt lfbsf to this fndpoint */
+        privbtf long rfnfwTimf = Long.MAX_VALUE;
+        /** bbsolutf timf durrfnt lfbsf to this fndpoint will fxpirf */
+        privbtf long fxpirbtionTimf = Long.MIN_VALUE;
+        /** dount of rfdfnt dirty dblls thbt hbvf fbilfd */
+        privbtf int dirtyFbilurfs = 0;
+        /** bbsolutf timf of first rfdfnt fbilfd dirty dbll */
+        privbtf long dirtyFbilurfStbrtTimf;
+        /** (bvfrbgf) flbpsfd timf for rfdfnt fbilfd dirty dblls */
+        privbtf long dirtyFbilurfDurbtion;
+
+        /** rfnfw/dlfbn thrfbd for hbndling lfbsf rfnfwbls bnd dlfbn dblls */
+        privbtf Thrfbd rfnfwClfbnThrfbd;
+        /** truf if rfnfw/dlfbn thrfbd mby bf intfrruptfd */
+        privbtf boolfbn intfrruptiblf = fblsf;
+
+        /** rfffrfndf qufuf for phbntom rfffrfndfs */
+        privbtf RfffrfndfQufuf<LivfRff> rffQufuf = nfw RfffrfndfQufuf<>();
+        /** sft of dlfbn dblls thbt nffd to bf mbdf */
+        privbtf Sft<ClfbnRfqufst> pfndingClfbns = nfw HbshSft<>(5);
+
+        /** globbl fndpoint tbblf: mbps Endpoint to EndpointEntry */
+        privbtf stbtid Mbp<Endpoint,EndpointEntry> fndpointTbblf = nfw HbshMbp<>(5);
+        /** hbndlf for GC lbtfndy rfqufst (for futurf dbndfllbtion) */
+        privbtf stbtid GC.LbtfndyRfqufst gdLbtfndyRfqufst = null;
+
+        /**
+         * Look up thf EndpointEntry for thf givfn Endpoint.  An fntry is
+         * drfbtfd if onf dofs not blrfbdy fxist.
+         */
+        publid stbtid EndpointEntry lookup(Endpoint fp) {
+            syndhronizfd (fndpointTbblf) {
+                EndpointEntry fntry = fndpointTbblf.gft(fp);
+                if (fntry == null) {
+                    fntry = nfw EndpointEntry(fp);
+                    fndpointTbblf.put(fp, fntry);
+                    /*
+                     * Whilf wf brf trbdking livf rfmotf rfffrfndfs rfgistfrfd
+                     * in this VM, rfqufst b mbximum lbtfndy for inspfdting thf
+                     * fntirf hfbp from thf lodbl gbrbbgf dollfdtor, to plbdf
+                     * bn uppfr bound on thf timf to disdovfr rfmotf rfffrfndfs
+                     * thbt hbvf bfdomf unrfbdhbblf (sff bugid 4171278).
+                     */
+                    if (gdLbtfndyRfqufst == null) {
+                        gdLbtfndyRfqufst = GC.rfqufstLbtfndy(gdIntfrvbl);
+                    }
+                }
+                rfturn fntry;
+            }
+        }
+
+        privbtf EndpointEntry(finbl Endpoint fndpoint) {
+            this.fndpoint = fndpoint;
+            try {
+                LivfRff dgdRff = nfw LivfRff(dgdID, fndpoint, fblsf);
+                dgd = (DGC) Util.drfbtfProxy(DGCImpl.dlbss,
+                                             nfw UnidbstRff(dgdRff), truf);
+            } dbtdh (RfmotfExdfption f) {
+                throw nfw Error("intfrnbl frror drfbting DGC stub");
+            }
+            rfnfwClfbnThrfbd =  AddfssControllfr.doPrivilfgfd(
+                nfw NfwThrfbdAdtion(nfw RfnfwClfbnThrfbd(),
+                                    "RfnfwClfbn-" + fndpoint, truf));
+            rfnfwClfbnThrfbd.stbrt();
+        }
+
+        /**
+         * Rfgistfr thf LivfRff instbndfs in thf supplifd list to pbrtidipbtf
+         * in distributfd gbrbbgf dollfdtion.
+         *
+         * This mfthod rfturns fblsf if this fntry wbs rfmovfd from thf
+         * globbl fndpoint tbblf (bfdbusf it wbs fmpty) bfforf thfsf rffs
+         * dould bf rfgistfrfd.  In thbt dbsf, b nfw EndpointEntry nffds
+         * to bf lookfd up.
+         *
+         * This mfthod must NOT bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        publid boolfbn rfgistfrRffs(List<LivfRff> rffs) {
+            bssfrt !Thrfbd.holdsLodk(this);
+
+            Sft<RffEntry> rffsToDirty = null;     // fntrifs for rffs nffding dirty
+            long sfqufndfNum;           // sfqufndf numbfr for dirty dbll
+
+            syndhronizfd (this) {
+                if (rfmovfd) {
+                    rfturn fblsf;
+                }
+
+                Itfrbtor<LivfRff> itfr = rffs.itfrbtor();
+                whilf (itfr.hbsNfxt()) {
+                    LivfRff rff = itfr.nfxt();
+                    bssfrt rff.gftEndpoint().fqubls(fndpoint);
+
+                    RffEntry rffEntry = rffTbblf.gft(rff);
+                    if (rffEntry == null) {
+                        LivfRff rffClonf = (LivfRff) rff.dlonf();
+                        rffEntry = nfw RffEntry(rffClonf);
+                        rffTbblf.put(rffClonf, rffEntry);
+                        if (rffsToDirty == null) {
+                            rffsToDirty = nfw HbshSft<>(5);
+                        }
+                        rffsToDirty.bdd(rffEntry);
+                    }
+
+                    rffEntry.bddInstbndfToRffSft(rff);
+                }
+
+                if (rffsToDirty == null) {
+                    rfturn truf;
+                }
+
+                rffsToDirty.bddAll(invblidRffs);
+                invblidRffs.dlfbr();
+
+                sfqufndfNum = gftNfxtSfqufndfNum();
+            }
+
+            mbkfDirtyCbll(rffsToDirty, sfqufndfNum);
+            rfturn truf;
+        }
+
+        /**
+         * Rfmovf thf givfn RffEntry from thf rff tbblf.  If thbt mbkfs
+         * thf rff tbblf fmpty, rfmovf this fntry from thf globbl fndpoint
+         * tbblf.
+         *
+         * This mfthod must ONLY bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        privbtf void rfmovfRffEntry(RffEntry rffEntry) {
+            bssfrt Thrfbd.holdsLodk(this);
+            bssfrt !rfmovfd;
+            bssfrt rffTbblf.dontbinsKfy(rffEntry.gftRff());
+
+            rffTbblf.rfmovf(rffEntry.gftRff());
+            invblidRffs.rfmovf(rffEntry);
+            if (rffTbblf.isEmpty()) {
+                syndhronizfd (fndpointTbblf) {
+                    fndpointTbblf.rfmovf(fndpoint);
+                    Trbnsport trbnsport = fndpoint.gftOutboundTrbnsport();
+                    trbnsport.frff(fndpoint);
+                    /*
+                     * If thfrf brf no longfr bny livf rfmotf rfffrfndfs
+                     * rfgistfrfd, wf brf no longfr dondfrnfd with thf
+                     * lbtfndy of lodbl gbrbbgf dollfdtion hfrf.
+                     */
+                    if (fndpointTbblf.isEmpty()) {
+                        bssfrt gdLbtfndyRfqufst != null;
+                        gdLbtfndyRfqufst.dbndfl();
+                        gdLbtfndyRfqufst = null;
+                    }
+                    rfmovfd = truf;
+                }
+            }
+        }
+
+        /**
+         * Mbkf b DGC dirty dbll to this fntry's fndpoint, for thf ObjIDs
+         * dorrfsponding to thf givfn sft of rffs bnd with thf givfn
+         * sfqufndf numbfr.
+         *
+         * This mfthod must NOT bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        privbtf void mbkfDirtyCbll(Sft<RffEntry> rffEntrifs, long sfqufndfNum) {
+            bssfrt !Thrfbd.holdsLodk(this);
+
+            ObjID[] ids;
+            if (rffEntrifs != null) {
+                ids = drfbtfObjIDArrby(rffEntrifs);
+            } flsf {
+                ids = fmptyObjIDArrby;
+            }
+
+            long stbrtTimf = Systfm.durrfntTimfMillis();
+            try {
+                Lfbsf lfbsf =
+                    dgd.dirty(ids, sfqufndfNum, nfw Lfbsf(vmid, lfbsfVbluf));
+                long durbtion = lfbsf.gftVbluf();
+
+                long nfwRfnfwTimf = domputfRfnfwTimf(stbrtTimf, durbtion);
+                long nfwExpirbtionTimf = stbrtTimf + durbtion;
+
+                syndhronizfd (this) {
+                    dirtyFbilurfs = 0;
+                    sftRfnfwTimf(nfwRfnfwTimf);
+                    fxpirbtionTimf = nfwExpirbtionTimf;
+                }
+
+            } dbtdh (Exdfption f) {
+                long fndTimf = Systfm.durrfntTimfMillis();
+
+                syndhronizfd (this) {
+                    dirtyFbilurfs++;
+
+                    if (dirtyFbilurfs == 1) {
+                        /*
+                         * If this wbs thf first rfdfnt fbilfd dirty dbll,
+                         * rfsdhfdulf bnothfr onf immfdibtfly, in dbsf thfrf
+                         * wbs just b trbnsifnt nftwork problfm, bnd rfmfmbfr
+                         * thf stbrt timf bnd durbtion of this bttfmpt for
+                         * futurf dbldulbtions of thf dflbys bftwffn rftrifs.
+                         */
+                        dirtyFbilurfStbrtTimf = stbrtTimf;
+                        dirtyFbilurfDurbtion = fndTimf - stbrtTimf;
+                        sftRfnfwTimf(fndTimf);
+                    } flsf {
+                        /*
+                         * For fbdh suddfssivf fbilfd dirty dbll, wbit for b
+                         * (binbry) fxponfntiblly indrfbsing dflby bfforf
+                         * rftrying, to bvoid nftwork dongfstion.
+                         */
+                        int n = dirtyFbilurfs - 2;
+                        if (n == 0) {
+                            /*
+                             * Cbldulbtf thf initibl rftry dflby from thf
+                             * bvfrbgf timf flbpsfd for fbdh of thf first
+                             * two fbilfd dirty dblls.  Thf rfsult must bf
+                             * bt lfbst 1000ms, to prfvfnt b tight loop.
+                             */
+                            dirtyFbilurfDurbtion =
+                                Mbth.mbx((dirtyFbilurfDurbtion +
+                                          (fndTimf - stbrtTimf)) >> 1, 1000);
+                        }
+                        long nfwRfnfwTimf =
+                            fndTimf + (dirtyFbilurfDurbtion << n);
+
+                        /*
+                         * Continuf if thf lbst known hfld lfbsf hbs not
+                         * fxpirfd, or flsf bt lfbst b fixfd numbfr of timfs,
+                         * or bt lfbst until wf'vf trifd for b fixfd bmount
+                         * of timf (thf dffbult lfbsf vbluf wf rfqufst).
+                         */
+                        if (nfwRfnfwTimf < fxpirbtionTimf ||
+                            dirtyFbilurfs < dirtyFbilurfRftrifs ||
+                            nfwRfnfwTimf < dirtyFbilurfStbrtTimf + lfbsfVbluf)
+                        {
+                            sftRfnfwTimf(nfwRfnfwTimf);
+                        } flsf {
+                            /*
+                             * Givf up: postponf lfbsf rfnfwbls until nfxt
+                             * rff is rfgistfrfd for this fndpoint.
+                             */
+                            sftRfnfwTimf(Long.MAX_VALUE);
+                        }
+                    }
+
+                    if (rffEntrifs != null) {
+                        /*
+                         * Add bll of thfsf rffs to thf sft of rffs for this
+                         * fndpoint thbt mby bf invblid (this VM mby not bf in
+                         * thf sfrvfr's rfffrfndfd sft), so thbt wf will
+                         * bttfmpt to fxpliditly dirty thfm bgbin in thf
+                         * futurf.
+                         */
+                        invblidRffs.bddAll(rffEntrifs);
+
+                        /*
+                         * Rfdord thbt b dirty dbll hbs fbilfd for bll of thfsf
+                         * rffs, so thbt dlfbn dblls for thfm in thf futurf
+                         * will bf strong.
+                         */
+                        Itfrbtor<RffEntry> itfr = rffEntrifs.itfrbtor();
+                        whilf (itfr.hbsNfxt()) {
+                            RffEntry rffEntry = itfr.nfxt();
+                            rffEntry.mbrkDirtyFbilfd();
+                        }
+                    }
+
+                    /*
+                     * If thf lbst known hfld lfbsf will hbvf fxpirfd bfforf
+                     * thf nfxt rfnfwbl, bll rffs might bf invblid.
+                     */
+                    if (rfnfwTimf >= fxpirbtionTimf) {
+                        invblidRffs.bddAll(rffTbblf.vblufs());
+                    }
+                }
+            }
+        }
+
+        /**
+         * Sft thf bbsolutf timf bt whidh thf lfbsf for this fntry should
+         * bf rfnfwfd.
+         *
+         * This mfthod must ONLY bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        privbtf void sftRfnfwTimf(long nfwRfnfwTimf) {
+            bssfrt Thrfbd.holdsLodk(this);
+
+            if (nfwRfnfwTimf < rfnfwTimf) {
+                rfnfwTimf = nfwRfnfwTimf;
+                if (intfrruptiblf) {
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<Void>() {
+                            publid Void run() {
+                            rfnfwClfbnThrfbd.intfrrupt();
+                            rfturn null;
+                        }
+                    });
+                }
+            } flsf {
+                rfnfwTimf = nfwRfnfwTimf;
+            }
+        }
+
+        /**
+         * RfnfwClfbnThrfbd hbndlfs thf bsyndhronous dlifnt-sidf DGC bdtivity
+         * for this fntry: rfnfwing thf lfbsfs bnd mbking dlfbn dblls.
+         */
+        privbtf dlbss RfnfwClfbnThrfbd implfmfnts Runnbblf {
+
+            publid void run() {
+                do {
+                    long timfToWbit;
+                    RffEntry.PhbntomLivfRff phbntom = null;
+                    boolfbn nffdRfnfwbl = fblsf;
+                    Sft<RffEntry> rffsToDirty = null;
+                    long sfqufndfNum = Long.MIN_VALUE;
+
+                    syndhronizfd (EndpointEntry.this) {
+                        /*
+                         * Cbldulbtf timf to blodk (wbiting for phbntom
+                         * rfffrfndf notifidbtions).  It is thf timf until thf
+                         * lfbsf rfnfwbl should bf donf, boundfd on thf low
+                         * fnd by 1 ms so thbt thf rfffrfndf qufuf will blwbys
+                         * gft prodfssfd, bnd if thfrf brf pfnding dlfbn
+                         * rfqufsts (rfmbining bfdbusf somf dlfbn dblls
+                         * fbilfd), boundfd on thf high fnd by thf mbximum
+                         * dlfbn dbll rftry intfrvbl.
+                         */
+                        long timfUntilRfnfw =
+                            rfnfwTimf - Systfm.durrfntTimfMillis();
+                        timfToWbit = Mbth.mbx(timfUntilRfnfw, 1);
+                        if (!pfndingClfbns.isEmpty()) {
+                            timfToWbit = Mbth.min(timfToWbit, dlfbnIntfrvbl);
+                        }
+
+                        /*
+                         * Sft flbg indidbting thbt it is OK to intfrrupt this
+                         * thrfbd now, sudh bs if b fbrlifr lfbsf rfnfwbl timf
+                         * is sft, bfdbusf wf brf only going to bf blodking
+                         * bnd dbn dfbl with intfrrupts.
+                         */
+                        intfrruptiblf = truf;
+                    }
+
+                    try {
+                        /*
+                         * Wbit for thf durbtion dbldulbtfd bbovf for bny of
+                         * our phbntom rfffrfndfs to bf fnqufufd.
+                         */
+                        phbntom = (RffEntry.PhbntomLivfRff)
+                            rffQufuf.rfmovf(timfToWbit);
+                    } dbtdh (IntfrruptfdExdfption f) {
+                    }
+
+                    syndhronizfd (EndpointEntry.this) {
+                        /*
+                         * Sft flbg indidbting thbt it is NOT OK to intfrrupt
+                         * this thrfbd now, bfdbusf wf mby bf undfrtbking I/O
+                         * opfrbtions thbt should not bf intfrruptfd (bnd wf
+                         * will not bf blodking brbitrbrily).
+                         */
+                        intfrruptiblf = fblsf;
+                        Thrfbd.intfrruptfd();   // dlfbr intfrruptfd stbtf
+
+                        /*
+                         * If thfrf wbs b phbntom rfffrfndf fnqufufd, prodfss
+                         * it bnd bll thf rfst on thf qufuf, gfnfrbting
+                         * dlfbn rfqufsts bs nfdfssbry.
+                         */
+                        if (phbntom != null) {
+                            prodfssPhbntomRffs(phbntom);
+                        }
+
+                        /*
+                         * Chfdk if it is timf to rfnfw this fntry's lfbsf.
+                         */
+                        long durrfntTimf = Systfm.durrfntTimfMillis();
+                        if (durrfntTimf > rfnfwTimf) {
+                            nffdRfnfwbl = truf;
+                            if (!invblidRffs.isEmpty()) {
+                                rffsToDirty = invblidRffs;
+                                invblidRffs = nfw HbshSft<>(5);
+                            }
+                            sfqufndfNum = gftNfxtSfqufndfNum();
+                        }
+                    }
+
+                    if (nffdRfnfwbl) {
+                        mbkfDirtyCbll(rffsToDirty, sfqufndfNum);
+                    }
+
+                    if (!pfndingClfbns.isEmpty()) {
+                        mbkfClfbnCblls();
+                    }
+                } whilf (!rfmovfd || !pfndingClfbns.isEmpty());
+            }
+        }
+
+        /**
+         * Prodfss thf notifidbtion of thf givfn phbntom rfffrfndf bnd bny
+         * othfrs thbt brf on this fntry's rfffrfndf qufuf.  Ebdh phbntom
+         * rfffrfndf is rfmovfd from its RffEntry's rff sft.  All rff
+         * fntrifs thbt hbvf no morf rfgistfrfd instbndfs brf dollfdtfd
+         * into up to two bbtdhfd dlfbn dbll rfqufsts: onf for rffs
+         * rfquiring b "strong" dlfbn dbll, bnd onf for thf rfst.
+         *
+         * This mfthod must ONLY bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        privbtf void prodfssPhbntomRffs(RffEntry.PhbntomLivfRff phbntom) {
+            bssfrt Thrfbd.holdsLodk(this);
+
+            Sft<RffEntry> strongClfbns = null;
+            Sft<RffEntry> normblClfbns = null;
+
+            do {
+                RffEntry rffEntry = phbntom.gftRffEntry();
+                rffEntry.rfmovfInstbndfFromRffSft(phbntom);
+                if (rffEntry.isRffSftEmpty()) {
+                    if (rffEntry.hbsDirtyFbilfd()) {
+                        if (strongClfbns == null) {
+                            strongClfbns = nfw HbshSft<>(5);
+                        }
+                        strongClfbns.bdd(rffEntry);
+                    } flsf {
+                        if (normblClfbns == null) {
+                            normblClfbns = nfw HbshSft<>(5);
+                        }
+                        normblClfbns.bdd(rffEntry);
+                    }
+                    rfmovfRffEntry(rffEntry);
+                }
+            } whilf ((phbntom =
+                (RffEntry.PhbntomLivfRff) rffQufuf.poll()) != null);
+
+            if (strongClfbns != null) {
+                pfndingClfbns.bdd(
+                    nfw ClfbnRfqufst(drfbtfObjIDArrby(strongClfbns),
+                                     gftNfxtSfqufndfNum(), truf));
+            }
+            if (normblClfbns != null) {
+                pfndingClfbns.bdd(
+                    nfw ClfbnRfqufst(drfbtfObjIDArrby(normblClfbns),
+                                     gftNfxtSfqufndfNum(), fblsf));
+            }
+        }
+
+        /**
+         * ClfbnRfqufst holds thf dbtb for thf pbrbmftfrs of b dlfbn dbll
+         * thbt nffds to bf mbdf.
+         */
+        privbtf stbtid dlbss ClfbnRfqufst {
+
+            finbl ObjID[] objIDs;
+            finbl long sfqufndfNum;
+            finbl boolfbn strong;
+
+            /** how mbny timfs this rfqufst hbs fbilfd */
+            int fbilurfs = 0;
+
+            ClfbnRfqufst(ObjID[] objIDs, long sfqufndfNum, boolfbn strong) {
+                this.objIDs = objIDs;
+                this.sfqufndfNum = sfqufndfNum;
+                this.strong = strong;
+            }
+        }
+
+        /**
+         * Mbkf bll of thf dlfbn dblls dfsdribfd by thf dlfbn rfqufsts in
+         * this fntry's sft of "pfnding dlfbns".  Clfbn rfqufsts for dlfbn
+         * dblls thbt suddffd brf rfmovfd from thf "pfnding dlfbns" sft.
+         *
+         * This mfthod must NOT bf dbllfd whilf syndhronizfd on this fntry.
+         */
+        privbtf void mbkfClfbnCblls() {
+            bssfrt !Thrfbd.holdsLodk(this);
+
+            Itfrbtor<ClfbnRfqufst> itfr = pfndingClfbns.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                ClfbnRfqufst rfqufst = itfr.nfxt();
+                try {
+                    dgd.dlfbn(rfqufst.objIDs, rfqufst.sfqufndfNum, vmid,
+                              rfqufst.strong);
+                    itfr.rfmovf();
+                } dbtdh (Exdfption f) {
+                    /*
+                     * Mbny typfs of fxdfptions hfrf dould hbvf bffn
+                     * dbusfd by b trbnsifnt fbilurf, so try bgbin b
+                     * ffw timfs, but not forfvfr.
+                     */
+                    if (++rfqufst.fbilurfs >= dlfbnFbilurfRftrifs) {
+                        itfr.rfmovf();
+                    }
+                }
+            }
+        }
+
+        /**
+         * Crfbtf bn brrby of ObjIDs (nffdfd for thf DGC rfmotf dblls)
+         * from thf ids in thf givfn sft of rffs.
+         */
+        privbtf stbtid ObjID[] drfbtfObjIDArrby(Sft<RffEntry> rffEntrifs) {
+            ObjID[] ids = nfw ObjID[rffEntrifs.sizf()];
+            Itfrbtor<RffEntry> itfr = rffEntrifs.itfrbtor();
+            for (int i = 0; i < ids.lfngth; i++) {
+                ids[i] = itfr.nfxt().gftRff().gftObjID();
+            }
+            rfturn ids;
+        }
+
+        /**
+         * RffEntry fndbpsulbtfs thf dlifnt-sidf DGC informbtion spfdifid
+         * to b pbrtidulbr LivfRff vbluf.  In pbrtidulbr, it dontbins b
+         * sft of phbntom rfffrfndfs to bll of thf instbndfs of thf LivfRff
+         * vbluf rfgistfrfd in thf systfm (but not gbrbbgf dollfdtfd
+         * lodblly).
+         */
+        privbtf dlbss RffEntry {
+
+            /** LivfRff vbluf for this fntry (not b rfgistfrfd instbndf) */
+            privbtf LivfRff rff;
+            /** sft of phbntom rfffrfndfs to rfgistfrfd instbndfs */
+            privbtf Sft<PhbntomLivfRff> rffSft = nfw HbshSft<>(5);
+            /** truf if b dirty dbll dontbining this rff hbs fbilfd */
+            privbtf boolfbn dirtyFbilfd = fblsf;
+
+            publid RffEntry(LivfRff rff) {
+                this.rff = rff;
+            }
+
+            /**
+             * Rfturn thf LivfRff vbluf for this fntry (not b rfgistfrfd
+             * instbndf).
+             */
+            publid LivfRff gftRff() {
+                rfturn rff;
+            }
+
+            /**
+             * Add b LivfRff to thf sft of rfgistfrfd instbndfs for this fntry.
+             *
+             * This mfthod must ONLY bf invokfd whilf syndhronizfd on this
+             * RffEntry's EndpointEntry.
+             */
+            publid void bddInstbndfToRffSft(LivfRff rff) {
+                bssfrt Thrfbd.holdsLodk(EndpointEntry.this);
+                bssfrt rff.fqubls(this.rff);
+
+                /*
+                 * Only kffp b phbntom rfffrfndf to thf rfgistfrfd instbndf,
+                 * so thbt it dbn bf gbrbbgf dollfdtfd normblly (bnd wf dbn bf
+                 * notififd whfn thbt hbppfns).
+                 */
+                rffSft.bdd(nfw PhbntomLivfRff(rff));
+            }
+
+            /**
+             * Rfmovf b PhbntomLivfRff from thf sft of rfgistfrfd instbndfs.
+             *
+             * This mfthod must ONLY bf invokfd whilf syndhronizfd on this
+             * RffEntry's EndpointEntry.
+             */
+            publid void rfmovfInstbndfFromRffSft(PhbntomLivfRff phbntom) {
+                bssfrt Thrfbd.holdsLodk(EndpointEntry.this);
+                bssfrt rffSft.dontbins(phbntom);
+                rffSft.rfmovf(phbntom);
+            }
+
+            /**
+             * Rfturn truf if thfrf brf no rfgistfrfd LivfRff instbndfs for
+             * this fntry still rfbdhbblf in this VM.
+             *
+             * This mfthod must ONLY bf invokfd whilf syndhronizfd on this
+             * RffEntry's EndpointEntry.
+             */
+            publid boolfbn isRffSftEmpty() {
+                bssfrt Thrfbd.holdsLodk(EndpointEntry.this);
+                rfturn rffSft.sizf() == 0;
+            }
+
+            /**
+             * Rfdord thbt b dirty dbll thbt fxpliditly dontbinfd this
+             * fntry's rff hbs fbilfd.
+             *
+             * This mfthod must ONLY bf invokfd whilf syndhronizfd on this
+             * RffEntry's EndpointEntry.
+             */
+            publid void mbrkDirtyFbilfd() {
+                bssfrt Thrfbd.holdsLodk(EndpointEntry.this);
+                dirtyFbilfd = truf;
+            }
+
+            /**
+             * Rfturn truf if b dirty dbll thbt fxpliditly dontbinfd this
+             * fntry's rff hbs fbilfd (bnd thfrfforf b dlfbn dbll for this
+             * rff nffds to bf mbrkfd "strong").
+             *
+             * This mfthod must ONLY bf invokfd whilf syndhronizfd on this
+             * RffEntry's EndpointEntry.
+             */
+            publid boolfbn hbsDirtyFbilfd() {
+                bssfrt Thrfbd.holdsLodk(EndpointEntry.this);
+                rfturn dirtyFbilfd;
+            }
+
+            /**
+             * PhbntomLivfRff is b PhbntomRfffrfndf to b LivfRff instbndf,
+             * usfd to dftfdt whfn thf LivfRff bfdomfs pfrmbnfntly
+             * unrfbdhbblf in this VM.
+             */
+            privbtf dlbss PhbntomLivfRff fxtfnds PhbntomRfffrfndf<LivfRff> {
+
+                publid PhbntomLivfRff(LivfRff rff) {
+                    supfr(rff, EndpointEntry.this.rffQufuf);
+                }
+
+                publid RffEntry gftRffEntry() {
+                    rfturn RffEntry.this;
+                }
+            }
+        }
+    }
+}

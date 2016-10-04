@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+import jbvb.sfdurity.bdl.Pfrmission;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.UnknownHostExdfption;
+
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.AdlEntry;
+
+
+/**
+ * Rfprfsfnt onf fntry in thf Addfss Control List (ACL).
+ * This ACL fntry objfdt dontbins b pfrmission bssodibtfd with b pbrtidulbr prindipbl.
+ * (A prindipbl rfprfsfnts bn fntity sudh bs bn individubl mbdhinf or b group).
+ *
+ * @sff jbvb.sfdurity.bdl.AdlEntry
+ */
+
+dlbss AdlEntryImpl implfmfnts AdlEntry, Sfriblizbblf {
+  privbtf stbtid finbl long sfriblVfrsionUID = -5047185131260073216L;
+
+  privbtf AdlEntryImpl (AdlEntryImpl i) throws UnknownHostExdfption {
+        sftPrindipbl(i.gftPrindipbl());
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
+
+        for (Enumfrbtion<String> fn = i.dommunitifs(); fn.hbsMorfElfmfnts();){
+          bddCommunity(fn.nfxtElfmfnt());
+        }
+
+        for (Enumfrbtion<Pfrmission> fn = i.pfrmissions(); fn.hbsMorfElfmfnts();){
+          bddPfrmission(fn.nfxtElfmfnt());
+        }
+        if (i.isNfgbtivf()) sftNfgbtivfPfrmissions();
+  }
+
+  /**
+   * Contrudts bn fmpty ACL fntry.
+   */
+  publid AdlEntryImpl (){
+        prind = null;
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
+  }
+
+  /**
+   * Construdts bn ACL fntry with b spfdififd prindipbl.
+   *
+   * @pbrbm p thf prindipbl to bf sft for this fntry.
+   */
+  publid AdlEntryImpl (Prindipbl p) throws UnknownHostExdfption {
+        prind = p;
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
+  }
+
+  /**
+   * Clonfs this ACL fntry.
+   *
+   * @rfturn b dlonf of this ACL fntry.
+   */
+  publid Objfdt dlonf() {
+        AdlEntryImpl i;
+        try {
+          i = nfw AdlEntryImpl(this);
+        }dbtdh (UnknownHostExdfption f) {
+          i = null;
+        }
+        rfturn (Objfdt) i;
+  }
+
+  /**
+   * Rfturns truf if this is b nfgbtivf ACL fntry (onf dfnying thf bssodibtfd prindipbl
+   * thf sft of pfrmissions in thf fntry), fblsf othfrwisf.
+   *
+   * @rfturn truf if this is b nfgbtivf ACL fntry, fblsf if it's not.
+   */
+  publid boolfbn isNfgbtivf(){
+        rfturn nfg;
+  }
+
+  /**
+   * Adds thf spfdififd pfrmission to this ACL fntry. Notf: An fntry dbn
+   * hbvf multiplf pfrmissions.
+   *
+   * @pbrbm pfrm thf pfrmission to bf bssodibtfd with thf prindipbl in this
+   *        fntry
+   * @rfturn truf if thf pfrmission is rfmovfd, fblsf if thf pfrmission wbs
+   *         not pbrt of this fntry's pfrmission sft.
+   *
+   */
+  publid boolfbn bddPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        if (pfrmList.dontbins(pfrm)) rfturn fblsf;
+        pfrmList.bddElfmfnt(pfrm);
+        rfturn truf;
+  }
+
+  /**
+   * Rfmovfs thf spfdififd pfrmission from this ACL fntry.
+   *
+   * @pbrbm pfrm thf pfrmission to bf rfmovfd from this fntry.
+   * @rfturn truf if thf pfrmission is rfmovfd, fblsf if thf pfrmission
+   *         wbs not pbrt of this fntry's pfrmission sft.
+   */
+  publid boolfbn rfmovfPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        if (!pfrmList.dontbins(pfrm)) rfturn fblsf;
+        pfrmList.rfmovfElfmfnt(pfrm);
+        rfturn truf;
+  }
+
+  /**
+   * Chfdks if thf spfdififd pfrmission is pbrt of thf pfrmission sft in
+   * this fntry.
+   *
+   * @pbrbm pfrm thf pfrmission to bf dhfdkfd for.
+   * @rfturn truf if thf pfrmission is pbrt of thf pfrmission sft in this
+   *         fntry, fblsf othfrwisf.
+   */
+
+  publid boolfbn dhfdkPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        rfturn (pfrmList.dontbins(pfrm));
+  }
+
+  /**
+   * Rfturns bn fnumfrbtion of thf pfrmissions in this ACL fntry.
+   *
+   * @rfturn bn fnumfrbtion of thf pfrmissions in this ACL fntry.
+   */
+  publid Enumfrbtion<Pfrmission> pfrmissions(){
+        rfturn pfrmList.flfmfnts();
+  }
+
+  /**
+   * Sfts this ACL fntry to bf b nfgbtivf onf. Thbt is, thf bssodibtfd prindipbl
+   * (f.g., b usfr or b group) will bf dfnifd thf pfrmission sft spfdififd in thf
+   * fntry. Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b nfgbtivf
+   * fntry only if this sftNfgbtivfPfrmissions mfthod is dbllfd on it.
+   *
+   * Not Implfmfntfd.
+   */
+  publid void sftNfgbtivfPfrmissions(){
+        nfg = truf;
+  }
+
+  /**
+   * Rfturns thf prindipbl for whidh pfrmissions brf grbntfd or dfnifd by this ACL
+   * fntry. Rfturns null if thfrf is no prindipbl sft for this fntry yft.
+   *
+   * @rfturn thf prindipbl bssodibtfd with this fntry.
+   */
+  publid Prindipbl gftPrindipbl(){
+        rfturn prind;
+  }
+
+  /**
+   * Spfdififs thf prindipbl for whidh pfrmissions brf grbntfd or dfnifd by
+   * this ACL fntry. If b prindipbl wbs blrfbdy sft for this ACL fntry,
+   * fblsf is rfturnfd, othfrwisf truf is rfturnfd.
+   *
+   * @pbrbm p thf prindipbl to bf sft for this fntry.
+   * @rfturn truf if thf prindipbl is sft, fblsf if thfrf wbs blrfbdy b
+   *         prindipbl sft for this fntry.
+   */
+  publid boolfbn sftPrindipbl(Prindipbl p) {
+        if (prind != null )
+          rfturn fblsf;
+        prind = p;
+        rfturn truf;
+  }
+
+  /**
+   * Rfturns b string rfprfsfntbtion of thf dontfnts of this ACL fntry.
+   *
+   * @rfturn b string rfprfsfntbtion of thf dontfnts.
+   */
+  publid String toString(){
+        rfturn "AdlEntry:"+prind.toString();
+  }
+
+  /**
+   * Rfturns bn fnumfrbtion of thf dommunitifs in this ACL fntry.
+   *
+   * @rfturn bn fnumfrbtion of thf dommunitifs in this ACL fntry.
+   */
+  publid Enumfrbtion<String> dommunitifs(){
+        rfturn dommList.flfmfnts();
+  }
+
+  /**
+   * Adds thf spfdififd dommunity to this ACL fntry. Notf: An fntry dbn
+   * hbvf multiplf dommunitifs.
+   *
+   * @pbrbm domm thf dommunity to bf bssodibtfd with thf prindipbl
+   *        in this fntry.
+   * @rfturn truf if thf dommunity wbs bddfd, fblsf if thf dommunity wbs
+   *         blrfbdy pbrt of this fntry's dommunity sft.
+   */
+  publid boolfbn bddCommunity(String domm){
+        if (dommList.dontbins(domm)) rfturn fblsf;
+        dommList.bddElfmfnt(domm);
+        rfturn truf;
+  }
+
+  /**
+   * Rfmovfs thf spfdififd dommunity from this ACL fntry.
+   *
+   * @pbrbm domm thf dommunity  to bf rfmovfd from this fntry.
+   * @rfturn truf if thf dommunity is rfmovfd, fblsf if thf dommunity wbs
+   *         not pbrt of this fntry's dommunity sft.
+   */
+  publid boolfbn rfmovfCommunity(String domm){
+        if (!dommList.dontbins(domm)) rfturn fblsf;
+        dommList.rfmovfElfmfnt(domm);
+        rfturn truf;
+  }
+
+  /**
+   * Chfdks if thf spfdififd dommunity is pbrt of thf dommunity sft in this
+   * fntry.
+   *
+   * @pbrbm  domm thf dommunity to bf dhfdkfd for.
+   * @rfturn truf if thf dommunity is pbrt of thf dommunity sft in this
+   *         fntry, fblsf othfrwisf.
+   */
+  publid boolfbn dhfdkCommunity(String domm){
+        rfturn (dommList.dontbins(domm));
+  }
+
+  privbtf Prindipbl prind = null;
+  privbtf boolfbn nfg     = fblsf;
+  privbtf Vfdtor<Pfrmission> pfrmList = null;
+  privbtf Vfdtor<String> dommList = null;
+}

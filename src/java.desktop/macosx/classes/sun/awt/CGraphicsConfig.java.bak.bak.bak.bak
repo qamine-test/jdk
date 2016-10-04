@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.CGLLbyfr;
+import sun.lwbwt.LWGrbphidsConfig;
+import sun.lwbwt.mbdosx.CPlbtformVifw;
+
+publid bbstrbdt dlbss CGrbphidsConfig fxtfnds GrbphidsConfigurbtion
+        implfmfnts LWGrbphidsConfig {
+
+    privbtf finbl CGrbphidsDfvidf dfvidf;
+    privbtf ColorModfl dolorModfl;
+
+    protfdtfd CGrbphidsConfig(CGrbphidsDfvidf dfvidf) {
+        this.dfvidf = dfvidf;
+    }
+
+    @Ovfrridf
+    publid BufffrfdImbgf drfbtfCompbtiblfImbgf(int width, int hfight) {
+        throw nfw UnsupportfdOpfrbtionExdfption("not implfmfntfd");
+    }
+
+    privbtf stbtid nbtivf Rfdtbnglf2D nbtivfGftBounds(int sdrffn);
+
+    @Ovfrridf
+    publid Rfdtbnglf gftBounds() {
+        finbl Rfdtbnglf2D nbtivfBounds = nbtivfGftBounds(dfvidf.gftCGDisplbyID());
+        rfturn nbtivfBounds.gftBounds(); // dofs intfgfr rounding
+    }
+
+    @Ovfrridf
+    publid ColorModfl gftColorModfl() {
+        if (dolorModfl == null) {
+            dolorModfl = gftColorModfl(Trbnspbrfndy.OPAQUE);
+        }
+        rfturn dolorModfl;
+    }
+
+    @Ovfrridf
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        throw nfw UnsupportfdOpfrbtionExdfption("not implfmfntfd");
+    }
+
+    @Ovfrridf
+    publid AffinfTrbnsform gftDffbultTrbnsform() {
+        rfturn nfw AffinfTrbnsform();
+    }
+
+    @Ovfrridf
+    publid CGrbphidsDfvidf gftDfvidf() {
+        rfturn dfvidf;
+    }
+
+    @Ovfrridf
+    publid AffinfTrbnsform gftNormblizingTrbnsform() {
+        doublf xsdblf = dfvidf.gftXRfsolution() / 72.0;
+        doublf ysdblf = dfvidf.gftYRfsolution() / 72.0;
+        rfturn nfw AffinfTrbnsform(xsdblf, 0.0, 0.0, ysdblf, 0.0, 0.0);
+    }
+
+    /**
+     * Crfbtfs b nfw SurfbdfDbtb thbt will bf bssodibtfd with thf givfn
+     * LWWindowPffr.
+     */
+    publid bbstrbdt SurfbdfDbtb drfbtfSurfbdfDbtb(CPlbtformVifw pVifw);
+
+    /**
+     * Crfbtfs b nfw SurfbdfDbtb thbt will bf bssodibtfd with thf givfn
+     * CGLLbyfr.
+     */
+    publid bbstrbdt SurfbdfDbtb drfbtfSurfbdfDbtb(CGLLbyfr lbyfr);
+
+    @Ovfrridf
+    publid finbl boolfbn isTrbnsludfndyCbpbblf() {
+        //wf know for surf wf hbvf dbpbblf donfig :)
+        rfturn truf;
+    }
+}

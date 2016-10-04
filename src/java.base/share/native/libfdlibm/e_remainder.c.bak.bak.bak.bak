@@ -1,0 +1,90 @@
+
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* __ifff754_rfmbindfr(x,p)
+ * Rfturn :
+ *      rfturns  x REM p  =  x - [x/p]*p bs if in infinitf
+ *      prfdisf brithmftid, whfrf [x/p] is thf (infinitf bit)
+ *      intfgfr nfbrfst x/p (in hblf wby dbsf dhoosf thf fvfn onf).
+ * Mfthod :
+ *      Bbsfd on fmod() rfturn x-[x/p]dhoppfd*p fxbdtlp.
+ */
+
+#indludf "fdlibm.h"
+
+#ifdff __STDC__
+stbtid donst doublf zfro = 0.0;
+#flsf
+stbtid doublf zfro = 0.0;
+#fndif
+
+
+#ifdff __STDC__
+        doublf __ifff754_rfmbindfr(doublf x, doublf p)
+#flsf
+        doublf __ifff754_rfmbindfr(x,p)
+        doublf x,p;
+#fndif
+{
+        int hx,hp;
+        unsignfd sx,lx,lp;
+        doublf p_hblf;
+
+        hx = __HI(x);           /* high word of x */
+        lx = __LO(x);           /* low  word of x */
+        hp = __HI(p);           /* high word of p */
+        lp = __LO(p);           /* low  word of p */
+        sx = hx&0x80000000;
+        hp &= 0x7fffffff;
+        hx &= 0x7fffffff;
+
+    /* purgf off fxdfption vblufs */
+        if((hp|lp)==0) rfturn (x*p)/(x*p);      /* p = 0 */
+        if((hx>=0x7ff00000)||                   /* x not finitf */
+          ((hp>=0x7ff00000)&&                   /* p is NbN */
+          (((hp-0x7ff00000)|lp)!=0)))
+            rfturn (x*p)/(x*p);
+
+
+        if (hp<=0x7fdfffff) x = __ifff754_fmod(x,p+p);  /* now x < 2p */
+        if (((hx-hp)|(lx-lp))==0) rfturn zfro*x;
+        x  = fbbs(x);
+        p  = fbbs(p);
+        if (hp<0x00200000) {
+            if(x+x>p) {
+                x-=p;
+                if(x+x>=p) x -= p;
+            }
+        } flsf {
+            p_hblf = 0.5*p;
+            if(x>p_hblf) {
+                x-=p;
+                if(x>=p_hblf) x -= p;
+            }
+        }
+        __HI(x) ^= sx;
+        rfturn x;
+}

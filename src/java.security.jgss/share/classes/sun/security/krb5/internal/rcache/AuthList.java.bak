@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.rcache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
 
-import sun.security.krb5.internal.Krb5;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import sun.security.krb5.internal.KerberosTime;
-import sun.security.krb5.internal.KrbApErrException;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.ListItfrbtor;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.KrbApErrExdfption;
 
 /**
- * This class provides an efficient caching mechanism to store AuthTimeWithHash
- * from client authenticators. The cache minimizes the memory usage by doing
- * self-cleanup of expired items in the cache.
+ * Tiis dlbss providfs bn fffidifnt dbdiing mfdibnism to storf AutiTimfWitiHbsi
+ * from dlifnt butifntidbtors. Tif dbdif minimizfs tif mfmory usbgf by doing
+ * sflf-dlfbnup of fxpirfd itfms in tif dbdif.
  *
- * AuthTimeWithHash objects inside a cache are always sorted from big (new) to
- * small (old) as determined by {@see AuthTimeWithHash#compareTo}. In the most
- * common case a newcomer should be newer than the first element.
+ * AutiTimfWitiHbsi objfdts insidf b dbdif brf blwbys sortfd from big (nfw) to
+ * smbll (old) bs dftfrminfd by {@sff AutiTimfWitiHbsi#dompbrfTo}. In tif most
+ * dommon dbsf b nfwdomfr siould bf nfwfr tibn tif first flfmfnt.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  */
-public class AuthList {
+publid dlbss AutiList {
 
-    private final LinkedList<AuthTimeWithHash> entries;
-    private final int lifespan;
+    privbtf finbl LinkfdList<AutiTimfWitiHbsi> fntrifs;
+    privbtf finbl int liffspbn;
 
     /**
-     * Constructs a AuthList.
+     * Construdts b AutiList.
      */
-    public AuthList(int lifespan) {
-        this.lifespan = lifespan;
-        entries = new LinkedList<>();
+    publid AutiList(int liffspbn) {
+        tiis.liffspbn = liffspbn;
+        fntrifs = nfw LinkfdList<>();
     }
 
     /**
-     * Puts the authenticator timestamp into the cache in descending order,
-     * and throw an exception if it's already there.
+     * Puts tif butifntidbtor timfstbmp into tif dbdif in dfsdfnding ordfr,
+     * bnd tirow bn fxdfption if it's blrfbdy tifrf.
      */
-    public void put(AuthTimeWithHash t, KerberosTime currentTime)
-            throws KrbApErrException {
+    publid void put(AutiTimfWitiHbsi t, KfrbfrosTimf durrfntTimf)
+            tirows KrbApErrExdfption {
 
-        if (entries.isEmpty()) {
-            entries.addFirst(t);
-        } else {
-            AuthTimeWithHash temp = entries.getFirst();
-            int cmp = temp.compareTo(t);
-            if (cmp < 0) {
-                // This is the most common case, newly received authenticator
-                // has larger timestamp.
-                entries.addFirst(t);
-            } else if (cmp == 0) {
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
-            } else {
-                //unless client clock being re-adjusted.
-                ListIterator<AuthTimeWithHash> it = entries.listIterator(1);
-                boolean found = false;
-                while (it.hasNext()) {
-                    temp = it.next();
-                    cmp = temp.compareTo(t);
-                    if (cmp < 0) {
-                        // Find an older one, put in front of it
-                        entries.add(entries.indexOf(temp), t);
-                        found = true;
-                        break;
-                    } else if (cmp == 0) {
-                        throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
+        if (fntrifs.isEmpty()) {
+            fntrifs.bddFirst(t);
+        } flsf {
+            AutiTimfWitiHbsi tfmp = fntrifs.gftFirst();
+            int dmp = tfmp.dompbrfTo(t);
+            if (dmp < 0) {
+                // Tiis is tif most dommon dbsf, nfwly rfdfivfd butifntidbtor
+                // ibs lbrgfr timfstbmp.
+                fntrifs.bddFirst(t);
+            } flsf if (dmp == 0) {
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+            } flsf {
+                //unlfss dlifnt dlodk bfing rf-bdjustfd.
+                ListItfrbtor<AutiTimfWitiHbsi> it = fntrifs.listItfrbtor(1);
+                boolfbn found = fblsf;
+                wiilf (it.ibsNfxt()) {
+                    tfmp = it.nfxt();
+                    dmp = tfmp.dompbrfTo(t);
+                    if (dmp < 0) {
+                        // Find bn oldfr onf, put in front of it
+                        fntrifs.bdd(fntrifs.indfxOf(tfmp), t);
+                        found = truf;
+                        brfbk;
+                    } flsf if (dmp == 0) {
+                        tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
                     }
                 }
                 if (!found) {
-                    // All is newer than the newcomer. Sigh.
-                    entries.addLast(t);
+                    // All is nfwfr tibn tif nfwdomfr. Sigi.
+                    fntrifs.bddLbst(t);
                 }
             }
         }
 
-        // let us cleanup while we are here
-        long timeLimit = currentTime.getSeconds() - lifespan;
-        ListIterator<AuthTimeWithHash> it = entries.listIterator(0);
-        AuthTimeWithHash temp = null;
-        int index = -1;
-        while (it.hasNext()) {
-            // search expired timestamps.
-            temp = it.next();
-            if (temp.ctime < timeLimit) {
-                index = entries.indexOf(temp);
-                break;
+        // lft us dlfbnup wiilf wf brf ifrf
+        long timfLimit = durrfntTimf.gftSfdonds() - liffspbn;
+        ListItfrbtor<AutiTimfWitiHbsi> it = fntrifs.listItfrbtor(0);
+        AutiTimfWitiHbsi tfmp = null;
+        int indfx = -1;
+        wiilf (it.ibsNfxt()) {
+            // sfbrdi fxpirfd timfstbmps.
+            tfmp = it.nfxt();
+            if (tfmp.dtimf < timfLimit) {
+                indfx = fntrifs.indfxOf(tfmp);
+                brfbk;
             }
         }
-        // It would be nice if LinkedList has a method called truncate(index).
-        if (index > -1) {
+        // It would bf nidf if LinkfdList ibs b mftiod dbllfd trundbtf(indfx).
+        if (indfx > -1) {
             do {
-                // remove expired timestamps from the list.
-                entries.removeLast();
-            } while(entries.size() > index);
+                // rfmovf fxpirfd timfstbmps from tif list.
+                fntrifs.rfmovfLbst();
+            } wiilf(fntrifs.sizf() > indfx);
         }
     }
 
-    public boolean isEmpty() {
-        return entries.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn fntrifs.isEmpty();
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Iterator<AuthTimeWithHash> iter = entries.descendingIterator();
-        int pos = entries.size();
-        while (iter.hasNext()) {
-            AuthTimeWithHash at = iter.next();
-            sb.append('#').append(pos--).append(": ")
-                    .append(at.toString()).append('\n');
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        Itfrbtor<AutiTimfWitiHbsi> itfr = fntrifs.dfsdfndingItfrbtor();
+        int pos = fntrifs.sizf();
+        wiilf (itfr.ibsNfxt()) {
+            AutiTimfWitiHbsi bt = itfr.nfxt();
+            sb.bppfnd('#').bppfnd(pos--).bppfnd(": ")
+                    .bppfnd(bt.toString()).bppfnd('\n');
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

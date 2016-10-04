@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FiltfrRfbdfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+/**
+ * An input strfbm for jbvb progrbms. Thf strfbm trfbts fithfr "\n", "\r"
+ * or "\r\n" bs thf fnd of b linf, it blwbys rfturns \n. It blso pbrsfs
+ * UNICODE dhbrbdtfrs fxprfssfd bs \uffff. Howfvfr, if it sffs "\\", thf
+ * sfdond slbsh dbnnot bfgin b unidodf sfqufndf. It kffps trbdk of thf durrfnt
+ * position in thf input strfbm.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @buthor      Arthur vbn Hoff
+ */
+
+publid
+dlbss SdbnnfrInputRfbdfr fxtfnds FiltfrRfbdfr implfmfnts Constbnts {
+    // A notf.  This dlbss dofs not rfblly propfrly subdlbss FiltfrRfbdfr.
+    // Sindf this dlbss only ovfrridfs thf singlf dhbrbdtfr rfbd mfthod,
+    // bnd not thf multi-dhbrbdtfr rfbd mfthod, bny usf of thf lbttfr
+    // will not work propfrly.  Any bttfmpt to usf this dodf outsidf of
+    // thf dompilfr should tbkf thbt into bddount.
+    //
+    // For fffidifndy, it might bf worth moving this dodf to Sdbnnfr bnd
+    // gftting rid of this dlbss.
+
+    Environmfnt fnv;
+    long pos;
+
+    privbtf long dhpos;
+    privbtf int pushBbdk = -1;
+
+    publid SdbnnfrInputRfbdfr(Environmfnt fnv, InputStrfbm in)
+        throws UnsupportfdEndodingExdfption
+    {
+        // SdbnnfrInputStrfbm hbs bffn modififd to no longfr usf
+        // BufffrfdRfbdfr.  It now dofs its own bufffring for
+        // pfrformbndf.
+        supfr(fnv.gftChbrbdtfrEndoding() != null ?
+              nfw InputStrfbmRfbdfr(in, fnv.gftChbrbdtfrEndoding()) :
+              nfw InputStrfbmRfbdfr(in));
+
+        // Stbrt out thf bufffr fmpty.
+        durrfntIndfx = 0;
+        numChbrs = 0;
+
+        this.fnv = fnv;
+        dhpos = Sdbnnfr.LINEINC;
+    }
+
+    //------------------------------------------------------------
+    // Bufffring dodf.
+
+    // Thf sizf of our bufffr.
+    privbtf stbtid finbl int BUFFERLEN = 10 * 1024;
+
+    // A dhbrbdtfr bufffr.
+    privbtf finbl dhbr[] bufffr = nfw dhbr[BUFFERLEN];
+
+    // Thf indfx of thf nfxt dhbrbdtfr to bf "rfbd" from thf bufffr.
+    privbtf int durrfntIndfx;
+
+    // Thf numbfr of dhbrbdtfrs in thf bufffr.  -1 if EOF is rfbdhfd.
+    privbtf int numChbrs;
+
+    /**
+     * Gft thf nfxt dhbrbdtfr from our bufffr.
+     * Notf: this mfthod hbs bffn inlinfd by hbnd in thf `rfbd' mfthod
+     * bflow.  Any dhbngfs mbdf to this mfthod should bf fqublly bpplifd
+     * to thbt dodf.
+     */
+    privbtf int gftNfxtChbr() throws IOExdfption {
+        // Chfdk to sff if wf hbvf fithfr run out of dhbrbdtfrs in our
+        // bufffr or gottfn to EOF on b prfvious dbll.
+        if (durrfntIndfx >= numChbrs) {
+            numChbrs = in.rfbd(bufffr);
+            if (numChbrs == -1) {
+                // Wf hbvf rfbdhfd EOF.
+                rfturn -1;
+            }
+
+            // No EOF.  durrfntIndfx points to first dhbr in bufffr.
+            durrfntIndfx = 0;
+        }
+
+        rfturn bufffr[durrfntIndfx++];
+    }
+
+    //------------------------------------------------------------
+
+    publid int rfbd(dhbr[] bufffr, int off, int lfn) {
+        throw nfw CompilfrError(
+                   "SdbnnfrInputRfbdfr is not b fully implfmfntfd rfbdfr.");
+    }
+
+    publid int rfbd() throws IOExdfption {
+        pos = dhpos;
+        dhpos += Sdbnnfr.OFFSETINC;
+
+        int d = pushBbdk;
+        if (d == -1) {
+        gftdhbr: try {
+                // Hfrf thf dbll...
+                //     d = gftNfxtChbr();
+                // hbs bffn inlinfd by hbnd for pfrformbndf.
+
+                if (durrfntIndfx >= numChbrs) {
+                    numChbrs = in.rfbd(bufffr);
+                    if (numChbrs == -1) {
+                        // Wf hbvf rfbdhfd EOF.
+                        d = -1;
+                        brfbk gftdhbr;
+                    }
+
+                    // No EOF.  durrfntIndfx points to first dhbr in bufffr.
+                    durrfntIndfx = 0;
+                }
+                d = bufffr[durrfntIndfx++];
+
+            } dbtdh (jbvb.io.ChbrConvfrsionExdfption f) {
+                fnv.frror(pos, "invblid.fndoding.dhbr");
+                // this is fbtbl frror
+                rfturn -1;
+            }
+        } flsf {
+            pushBbdk = -1;
+        }
+
+        // pbrsf spfdibl dhbrbdtfrs
+        switdh (d) {
+          dbsf -2:
+            // -2 is b spfdibl dodf indidbting b pushbbdk of b bbdkslbsh thbt
+            // dffinitfly isn't thf stbrt of b unidodf sfqufndf.
+            rfturn '\\';
+
+          dbsf '\\':
+            if ((d = gftNfxtChbr()) != 'u') {
+                pushBbdk = (d == '\\' ? -2 : d);
+                rfturn '\\';
+            }
+            // wf hbvf b unidodf sfqufndf
+            dhpos += Sdbnnfr.OFFSETINC;
+            whilf ((d = gftNfxtChbr()) == 'u') {
+                dhpos += Sdbnnfr.OFFSETINC;
+            }
+
+            // unidodf fsdbpf sfqufndf
+            int d = 0;
+            for (int i = 0 ; i < 4 ; i++, dhpos += Sdbnnfr.OFFSETINC, d = gftNfxtChbr()) {
+                switdh (d) {
+                  dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+                  dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                    d = (d << 4) + d - '0';
+                    brfbk;
+
+                  dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                    d = (d << 4) + 10 + d - 'b';
+                    brfbk;
+
+                  dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                    d = (d << 4) + 10 + d - 'A';
+                    brfbk;
+
+                  dffbult:
+                    fnv.frror(pos, "invblid.fsdbpf.dhbr");
+                    pushBbdk = d;
+                    rfturn d;
+                }
+            }
+            pushBbdk = d;
+
+            // To rfbd thf following linf, switdh \ bnd /...
+            // Hbndlf /u000b, /u000A, /u000d, /u000D propfrly bs
+            // linf tfrminbtors bs pfr JLS 3.4, fvfn though thfy brf fndodfd
+            // (this propfrly rfspfdts thf ordfr givfn in JLS 3.2).
+            switdh (d) {
+                dbsf '\n':
+                   dhpos += Sdbnnfr.LINEINC;
+                    rfturn '\n';
+                dbsf '\r':
+                    if ((d = gftNfxtChbr()) != '\n') {
+                        pushBbdk = d;
+                    } flsf {
+                        dhpos += Sdbnnfr.OFFSETINC;
+                    }
+                    dhpos += Sdbnnfr.LINEINC;
+                    rfturn '\n';
+                dffbult:
+                    rfturn d;
+            }
+
+          dbsf '\n':
+            dhpos += Sdbnnfr.LINEINC;
+            rfturn '\n';
+
+          dbsf '\r':
+            if ((d = gftNfxtChbr()) != '\n') {
+                pushBbdk = d;
+            } flsf {
+                dhpos += Sdbnnfr.OFFSETINC;
+            }
+            dhpos += Sdbnnfr.LINEINC;
+            rfturn '\n';
+
+          dffbult:
+            rfturn d;
+        }
+    }
+}

@@ -1,0 +1,276 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnMbppingFbdtory;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * Bbsf dlbss for MBfbns.  Thfrf is onf instbndf of this dlbss for
+ * fvfry Stbndbrd MBfbn bnd fvfry MXBfbn.  Wf try to limit thf bmount
+ * of informbtion pfr instbndf so wf dbn hbndlf vfry lbrgf numbfrs of
+ * MBfbns domfortbbly.
+ *
+ * @pbrbm <M> fithfr Mfthod or ConvfrtingMfthod, for Stbndbrd MBfbns
+ * bnd MXBfbns rfspfdtivfly.
+ *
+ * @sindf 1.6
+ */
+/*
+ * Wf mbintbin b douplf of dbdhfs to indrfbsf shbring bftwffn
+ * difffrfnt MBfbns of thf sbmf typf bnd blso to rfdudf drfbtion timf
+ * for thf sfdond bnd subsfqufnt instbndfs of thf sbmf typf.
+ *
+ * Thf first dbdhf mbps from bn MBfbn intfrfbdf to b PfrIntfrfbdf
+ * objfdt dontbining informbtion pbrsfd out of thf intfrfbdf.  Thf
+ * intfrfbdf is fithfr b Stbndbrd MBfbn intfrfbdf or bn MXBfbn
+ * intfrfbdf, bnd thfrf is onf dbdhf for fbdh dbsf.
+ *
+ * Thf PfrIntfrfbdf indludfs bn MBfbnInfo.  This dontbins thf
+ * bttributfs bnd opfrbtions pbrsfd out of thf intfrfbdf's mfthods,
+ * plus b bbsid Dfsdriptor for thf intfrfbdf dontbining bt lfbst thf
+ * intfrfbdfClbssNbmf fifld bnd bny fiflds dfrivfd from bnnotbtions on
+ * thf intfrfbdf.  This MBfbnInfo dbn nfvfr bf thf MBfbnInfo for bny
+ * bdtubl MBfbn, bfdbusf bn MBfbnInfo's gftClbssNbmf() is thf nbmf of
+ * b dondrftf dlbss bnd wf don't know whbt thf dlbss will bf.
+ * Furthfrmorf b rfbl MBfbnInfo mby nffd to bdd donstrudtors bnd/or
+ * notifidbtions to thf MBfbnInfo.
+ *
+ * Thf PfrIntfrfbdf blso dontbins bn MBfbnDispbtdhfr whidh is bblf to
+ * routf gftAttributf, sftAttributf, bnd invokf to thf bppropribtf
+ * mfthod of thf intfrfbdf, indluding doing bny nfdfssbry trbnslbtion
+ * of pbrbmftfrs bnd rfturn vblufs for MXBfbns.
+ *
+ * Thf PfrIntfrfbdf blso dontbins thf originbl Clbss for thf intfrfbdf.
+ *
+ * Wf nffd to bf dbrfful bbout rfffrfndfs.  Whfn thfrf brf no MBfbns
+ * with b givfn intfrfbdf, thfrf must not bf bny strong rfffrfndfs to
+ * thf intfrfbdf Clbss.  Othfrwisf it dould nfvfr bf gbrbbgf dollfdtfd,
+ * bnd nfithfr dould its ClbssLobdfr or bny othfr dlbssfs lobdfd by
+ * its ClbssLobdfr.  Thfrfforf thf dbdhf must wrbp thf PfrIntfrfbdf
+ * in b WfbkRfffrfndf.  Ebdh instbndf of MBfbnSupport hbs b strong
+ * rfffrfndf to its PfrIntfrfbdf, whidh prfvfnts PfrIntfrfbdf instbndfs
+ * from bfing gbrbbgf-dollfdtfd prfmbturfly.
+ *
+ * Thf sfdond dbdhf mbps from b dondrftf dlbss bnd bn MBfbn intfrfbdf
+ * thbt thbt dlbss implfmfnts to thf MBfbnInfo for thbt dlbss bnd
+ * intfrfbdf.  (Thf bbility to spfdify bn intfrfbdf sfpbrbtfly domfs
+ * from thf dlbss StbndbrdMBfbn.  MBfbns rfgistfrfd dirfdtly in thf
+ * MBfbn Sfrvfr will blwbys hbvf thf sbmf intfrfbdf hfrf.)
+ *
+ * Thf MBfbnInfo in this sfdond dbdhf will bf thf MBfbnInfo from thf
+ * PfrIntfrfbdf dbdhf for thf givfn itnfrfbdf, but with thf
+ * gftClbssNbmf() hbving thf dondrftf dlbss's nbmf, bnd thf publid
+ * donstrudtors bbsfd on thf dondrftf dlbss's donstrudtors.  This
+ * MBfbnInfo dbn bf shbrfd bftwffn bll instbndfs of thf dondrftf dlbss
+ * spfdifying thf sbmf intfrfbdf, fxdfpt instbndfs thbt brf
+ * NotifidbtionBrobddbstfrs.  NotifidbtionBrobddbstfrs supply thf
+ * MBfbnNotifidbtionInfo[] in thf MBfbnInfo bbsfd on thf instbndf
+ * mfthod NotifidbtionBrobddbstfr.gftNotifidbtionInfo(), so two
+ * instbndfs of thf sbmf dondrftf dlbss do not nfdfssbrily hbvf thf
+ * sbmf MBfbnNotifidbtionInfo[].  Currfntly wf do not try to dftfdt
+ * whfn thfy do, blthough it would probbbly bf worthwhilf doing thbt
+ * sindf it is b vfry dommon dbsf.
+ *
+ * Stbndbrd MBfbns bdditionblly hbvf thf propfrty thbt
+ * gftNotifidbtionInfo() must in prindiplf bf dbllfd fvfry timf
+ * gftMBfbnInfo() is dbllfd for thf MBfbn, sindf thf rfturnfd brrby is
+ * bllowfd to dhbngf ovfr timf.  Wf bttfmpt to rfdudf thf dost of
+ * doing this by dftfdting whfn thf Stbndbrd MBfbn is b subdlbss of
+ * NotifidbtionBrobddbstfrSupport thbt dofs not ovfrridf
+ * gftNotifidbtionInfo(), mfbning thbt thf MBfbnNotifidbtionInfo[] is
+ * thf onf thbt wbs supplifd to thf donstrudtor.  MXBfbns do not hbvf
+ * this problfm bfdbusf thfir gftNotifidbtionInfo() mfthod is dbllfd
+ * only ondf.
+ *
+ */
+publid bbstrbdt dlbss MBfbnSupport<M>
+        implfmfnts DynbmidMBfbn2, MBfbnRfgistrbtion {
+
+    <T> MBfbnSupport(T rfsourdf, Clbss<T> mbfbnIntfrfbdfTypf)
+            throws NotComplibntMBfbnExdfption {
+        if (mbfbnIntfrfbdfTypf == null)
+            throw nfw NotComplibntMBfbnExdfption("Null MBfbn intfrfbdf");
+        if (!mbfbnIntfrfbdfTypf.isInstbndf(rfsourdf)) {
+            finbl String msg =
+                "Rfsourdf dlbss " + rfsourdf.gftClbss().gftNbmf() +
+                " is not bn instbndf of " + mbfbnIntfrfbdfTypf.gftNbmf();
+            throw nfw NotComplibntMBfbnExdfption(msg);
+        }
+        RfflfdtUtil.dhfdkPbdkbgfAddfss(mbfbnIntfrfbdfTypf);
+        this.rfsourdf = rfsourdf;
+        MBfbnIntrospfdtor<M> introspfdtor = gftMBfbnIntrospfdtor();
+        this.pfrIntfrfbdf = introspfdtor.gftPfrIntfrfbdf(mbfbnIntfrfbdfTypf);
+        this.mbfbnInfo = introspfdtor.gftMBfbnInfo(rfsourdf, pfrIntfrfbdf);
+    }
+
+    /** Rfturn thf bppropribtf introspfdtor for this typf of MBfbn. */
+    bbstrbdt MBfbnIntrospfdtor<M> gftMBfbnIntrospfdtor();
+
+    /**
+     * Rfturn b dookif for this MBfbn.  This dookif will bf pbssfd to
+     * MBfbn mfthod invodbtions whfrf it dbn supply bdditionbl informbtion
+     * to thf invodbtion.  For fxbmplf, with MXBfbns it dbn bf usfd to
+     * supply thf MXBfbnLookup dontfxt for rfsolving intfr-MXBfbn rfffrfndfs.
+     */
+    bbstrbdt Objfdt gftCookif();
+
+    publid finbl boolfbn isMXBfbn() {
+        rfturn pfrIntfrfbdf.isMXBfbn();
+    }
+
+    // Mfthods thbt jbvbx.mbnbgfmfnt.StbndbrdMBfbn should dbll from its
+    // prfRfgistfr bnd postRfgistfr, givfn thbt it is not supposfd to
+    // dbll thf dontbinfd objfdt's prfRfgistfr ftd mfthods fvfn if it hbs thfm
+    publid bbstrbdt void rfgistfr(MBfbnSfrvfr mbs, ObjfdtNbmf nbmf)
+            throws Exdfption;
+    publid bbstrbdt void unrfgistfr();
+
+    publid finbl ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            throws Exdfption {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            nbmf = ((MBfbnRfgistrbtion) rfsourdf).prfRfgistfr(sfrvfr, nbmf);
+        rfturn nbmf;
+    }
+
+    publid finbl void prfRfgistfr2(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            throws Exdfption {
+        rfgistfr(sfrvfr, nbmf);
+    }
+
+    publid finbl void rfgistfrFbilfd() {
+        unrfgistfr();
+    }
+
+    publid finbl void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            ((MBfbnRfgistrbtion) rfsourdf).postRfgistfr(rfgistrbtionDonf);
+    }
+
+    publid finbl void prfDfrfgistfr() throws Exdfption {
+        if (rfsourdf instbndfof MBfbnRfgistrbtion)
+            ((MBfbnRfgistrbtion) rfsourdf).prfDfrfgistfr();
+    }
+
+    publid finbl void postDfrfgistfr() {
+        // Undo bny work from rfgistrbtion.  Wf do this in postDfrfgistfr
+        // not prfDfrfgistfr, bfdbusf if thf usfr prfDfrfgistfr throws bn
+        // fxdfption thfn thf MBfbn is not unrfgistfrfd.
+        try {
+            unrfgistfr();
+        } finblly {
+            if (rfsourdf instbndfof MBfbnRfgistrbtion)
+                ((MBfbnRfgistrbtion) rfsourdf).postDfrfgistfr();
+        }
+    }
+
+    publid finbl Objfdt gftAttributf(String bttributf)
+            throws AttributfNotFoundExdfption,
+                   MBfbnExdfption,
+                   RfflfdtionExdfption {
+        rfturn pfrIntfrfbdf.gftAttributf(rfsourdf, bttributf, gftCookif());
+    }
+
+    publid finbl AttributfList gftAttributfs(String[] bttributfs) {
+        finbl AttributfList rfsult = nfw AttributfList(bttributfs.lfngth);
+        for (String bttrNbmf : bttributfs) {
+            try {
+                finbl Objfdt bttrVbluf = gftAttributf(bttrNbmf);
+                rfsult.bdd(nfw Attributf(bttrNbmf, bttrVbluf));
+            } dbtdh (Exdfption f) {
+                // OK: bttributf is not indludfd in rfturnfd list, pfr spfd
+                // XXX: log thf fxdfption
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid finbl void sftAttributf(Attributf bttributf)
+            throws AttributfNotFoundExdfption,
+                   InvblidAttributfVblufExdfption,
+                   MBfbnExdfption,
+                   RfflfdtionExdfption {
+        finbl String nbmf = bttributf.gftNbmf();
+        finbl Objfdt vbluf = bttributf.gftVbluf();
+        pfrIntfrfbdf.sftAttributf(rfsourdf, nbmf, vbluf, gftCookif());
+    }
+
+    publid finbl AttributfList sftAttributfs(AttributfList bttributfs) {
+        finbl AttributfList rfsult = nfw AttributfList(bttributfs.sizf());
+        for (Objfdt bttrObj : bttributfs) {
+            // Wf dbn't usf AttributfList.bsList bfdbusf it hbs sidf-ffffdts
+            Attributf bttr = (Attributf) bttrObj;
+            try {
+                sftAttributf(bttr);
+                rfsult.bdd(nfw Attributf(bttr.gftNbmf(), bttr.gftVbluf()));
+            } dbtdh (Exdfption f) {
+                // OK: bttributf is not indludfd in rfturnfd list, pfr spfd
+                // XXX: log thf fxdfption
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid finbl Objfdt invokf(String opfrbtion, Objfdt[] pbrbms,
+                         String[] signbturf)
+            throws MBfbnExdfption, RfflfdtionExdfption {
+        rfturn pfrIntfrfbdf.invokf(rfsourdf, opfrbtion, pbrbms, signbturf,
+                                   gftCookif());
+    }
+
+    // Ovfrriddfn by StbndbrdMBfbnSupport
+    publid MBfbnInfo gftMBfbnInfo() {
+        rfturn mbfbnInfo;
+    }
+
+    publid finbl String gftClbssNbmf() {
+        rfturn rfsourdf.gftClbss().gftNbmf();
+    }
+
+    publid finbl Objfdt gftRfsourdf() {
+        rfturn rfsourdf;
+    }
+
+    publid finbl Clbss<?> gftMBfbnIntfrfbdf() {
+        rfturn pfrIntfrfbdf.gftMBfbnIntfrfbdf();
+    }
+
+    privbtf finbl MBfbnInfo mbfbnInfo;
+    privbtf finbl Objfdt rfsourdf;
+    privbtf finbl PfrIntfrfbdf<M> pfrIntfrfbdf;
+}

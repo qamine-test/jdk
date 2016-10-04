@@ -1,1360 +1,1360 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.ScrollbarPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.pffr.SdrollbbrPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
 
 
 /**
- * The <code>Scrollbar</code> class embodies a scroll bar, a
- * familiar user-interface object. A scroll bar provides a
- * convenient means for allowing a user to select from a
- * range of values. The following three vertical
- * scroll bars could be used as slider controls to pick
- * the red, green, and blue components of a color:
+ * Tif <dodf>Sdrollbbr</dodf> dlbss fmbodifs b sdroll bbr, b
+ * fbmilibr usfr-intfrfbdf objfdt. A sdroll bbr providfs b
+ * donvfnifnt mfbns for bllowing b usfr to sflfdt from b
+ * rbngf of vblufs. Tif following tirff vfrtidbl
+ * sdroll bbrs dould bf usfd bs slidfr dontrols to pidk
+ * tif rfd, grffn, bnd bluf domponfnts of b dolor:
  * <p>
- * <img src="doc-files/Scrollbar-1.gif" alt="Image shows 3 vertical sliders, side-by-side."
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/Sdrollbbr-1.gif" blt="Imbgf siows 3 vfrtidbl slidfrs, sidf-by-sidf."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * Each scroll bar in this example could be created with
- * code similar to the following:
+ * Ebdi sdroll bbr in tiis fxbmplf dould bf drfbtfd witi
+ * dodf similbr to tif following:
  *
- * <hr><blockquote><pre>
- * redSlider=new Scrollbar(Scrollbar.VERTICAL, 0, 1, 0, 255);
- * add(redSlider);
- * </pre></blockquote><hr>
+ * <ir><blodkquotf><prf>
+ * rfdSlidfr=nfw Sdrollbbr(Sdrollbbr.VERTICAL, 0, 1, 0, 255);
+ * bdd(rfdSlidfr);
+ * </prf></blodkquotf><ir>
  * <p>
- * Alternatively, a scroll bar can represent a range of values. For
- * example, if a scroll bar is used for scrolling through text, the
- * width of the "bubble" (also called the "thumb" or "scroll box")
- * can be used to represent the amount of text that is visible.
- * Here is an example of a scroll bar that represents a range:
+ * Altfrnbtivfly, b sdroll bbr dbn rfprfsfnt b rbngf of vblufs. For
+ * fxbmplf, if b sdroll bbr is usfd for sdrolling tirougi tfxt, tif
+ * widti of tif "bubblf" (blso dbllfd tif "tiumb" or "sdroll box")
+ * dbn bf usfd to rfprfsfnt tif bmount of tfxt tibt is visiblf.
+ * Hfrf is bn fxbmplf of b sdroll bbr tibt rfprfsfnts b rbngf:
  * <p>
- * <img src="doc-files/Scrollbar-2.gif"
- * alt="Image shows horizontal slider with starting range of 0 and ending range of 300. The slider thumb is labeled 60."
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/Sdrollbbr-2.gif"
+ * blt="Imbgf siows iorizontbl slidfr witi stbrting rbngf of 0 bnd fnding rbngf of 300. Tif slidfr tiumb is lbbflfd 60."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * The value range represented by the bubble in this example
- * is the <em>visible amount</em>. The horizontal scroll bar
- * in this example could be created with code like the following:
+ * Tif vbluf rbngf rfprfsfntfd by tif bubblf in tiis fxbmplf
+ * is tif <fm>visiblf bmount</fm>. Tif iorizontbl sdroll bbr
+ * in tiis fxbmplf dould bf drfbtfd witi dodf likf tif following:
  *
- * <hr><blockquote><pre>
- * ranger = new Scrollbar(Scrollbar.HORIZONTAL, 0, 60, 0, 300);
- * add(ranger);
- * </pre></blockquote><hr>
+ * <ir><blodkquotf><prf>
+ * rbngfr = nfw Sdrollbbr(Sdrollbbr.HORIZONTAL, 0, 60, 0, 300);
+ * bdd(rbngfr);
+ * </prf></blodkquotf><ir>
  * <p>
- * Note that the actual maximum value of the scroll bar is the
- * <code>maximum</code> minus the <code>visible amount</code>.
- * In the previous example, because the <code>maximum</code> is
- * 300 and the <code>visible amount</code> is 60, the actual maximum
- * value is 240.  The range of the scrollbar track is 0 - 300.
- * The left side of the bubble indicates the value of the
- * scroll bar.
+ * Notf tibt tif bdtubl mbximum vbluf of tif sdroll bbr is tif
+ * <dodf>mbximum</dodf> minus tif <dodf>visiblf bmount</dodf>.
+ * In tif prfvious fxbmplf, bfdbusf tif <dodf>mbximum</dodf> is
+ * 300 bnd tif <dodf>visiblf bmount</dodf> is 60, tif bdtubl mbximum
+ * vbluf is 240.  Tif rbngf of tif sdrollbbr trbdk is 0 - 300.
+ * Tif lfft sidf of tif bubblf indidbtfs tif vbluf of tif
+ * sdroll bbr.
  * <p>
- * Normally, the user changes the value of the scroll bar by
- * making a gesture with the mouse. For example, the user can
- * drag the scroll bar's bubble up and down, or click in the
- * scroll bar's unit increment or block increment areas. Keyboard
- * gestures can also be mapped to the scroll bar. By convention,
- * the <b>Page&nbsp;Up</b> and <b>Page&nbsp;Down</b>
- * keys are equivalent to clicking in the scroll bar's block
- * increment and block decrement areas.
+ * Normblly, tif usfr dibngfs tif vbluf of tif sdroll bbr by
+ * mbking b gfsturf witi tif mousf. For fxbmplf, tif usfr dbn
+ * drbg tif sdroll bbr's bubblf up bnd down, or dlidk in tif
+ * sdroll bbr's unit indrfmfnt or blodk indrfmfnt brfbs. Kfybobrd
+ * gfsturfs dbn blso bf mbppfd to tif sdroll bbr. By donvfntion,
+ * tif <b>Pbgf&nbsp;Up</b> bnd <b>Pbgf&nbsp;Down</b>
+ * kfys brf fquivblfnt to dlidking in tif sdroll bbr's blodk
+ * indrfmfnt bnd blodk dfdrfmfnt brfbs.
  * <p>
- * When the user changes the value of the scroll bar, the scroll bar
- * receives an instance of <code>AdjustmentEvent</code>.
- * The scroll bar processes this event, passing it along to
- * any registered listeners.
+ * Wifn tif usfr dibngfs tif vbluf of tif sdroll bbr, tif sdroll bbr
+ * rfdfivfs bn instbndf of <dodf>AdjustmfntEvfnt</dodf>.
+ * Tif sdroll bbr prodfssfs tiis fvfnt, pbssing it blong to
+ * bny rfgistfrfd listfnfrs.
  * <p>
- * Any object that wishes to be notified of changes to the
- * scroll bar's value should implement
- * <code>AdjustmentListener</code>, an interface defined in
- * the package <code>java.awt.event</code>.
- * Listeners can be added and removed dynamically by calling
- * the methods <code>addAdjustmentListener</code> and
- * <code>removeAdjustmentListener</code>.
+ * Any objfdt tibt wisifs to bf notififd of dibngfs to tif
+ * sdroll bbr's vbluf siould implfmfnt
+ * <dodf>AdjustmfntListfnfr</dodf>, bn intfrfbdf dffinfd in
+ * tif pbdkbgf <dodf>jbvb.bwt.fvfnt</dodf>.
+ * Listfnfrs dbn bf bddfd bnd rfmovfd dynbmidblly by dblling
+ * tif mftiods <dodf>bddAdjustmfntListfnfr</dodf> bnd
+ * <dodf>rfmovfAdjustmfntListfnfr</dodf>.
  * <p>
- * The <code>AdjustmentEvent</code> class defines five types
- * of adjustment event, listed here:
- *
- * <ul>
- * <li><code>AdjustmentEvent.TRACK</code> is sent out when the
- * user drags the scroll bar's bubble.
- * <li><code>AdjustmentEvent.UNIT_INCREMENT</code> is sent out
- * when the user clicks in the left arrow of a horizontal scroll
- * bar, or the top arrow of a vertical scroll bar, or makes the
- * equivalent gesture from the keyboard.
- * <li><code>AdjustmentEvent.UNIT_DECREMENT</code> is sent out
- * when the user clicks in the right arrow of a horizontal scroll
- * bar, or the bottom arrow of a vertical scroll bar, or makes the
- * equivalent gesture from the keyboard.
- * <li><code>AdjustmentEvent.BLOCK_INCREMENT</code> is sent out
- * when the user clicks in the track, to the left of the bubble
- * on a horizontal scroll bar, or above the bubble on a vertical
- * scroll bar. By convention, the <b>Page&nbsp;Up</b>
- * key is equivalent, if the user is using a keyboard that
- * defines a <b>Page&nbsp;Up</b> key.
- * <li><code>AdjustmentEvent.BLOCK_DECREMENT</code> is sent out
- * when the user clicks in the track, to the right of the bubble
- * on a horizontal scroll bar, or below the bubble on a vertical
- * scroll bar. By convention, the <b>Page&nbsp;Down</b>
- * key is equivalent, if the user is using a keyboard that
- * defines a <b>Page&nbsp;Down</b> key.
- * </ul>
- * <p>
- * The JDK&nbsp;1.0 event system is supported for backwards
- * compatibility, but its use with newer versions of the platform is
- * discouraged. The five types of adjustment events introduced
- * with JDK&nbsp;1.1 correspond to the five event types
- * that are associated with scroll bars in previous platform versions.
- * The following list gives the adjustment event type,
- * and the corresponding JDK&nbsp;1.0 event type it replaces.
+ * Tif <dodf>AdjustmfntEvfnt</dodf> dlbss dffinfs fivf typfs
+ * of bdjustmfnt fvfnt, listfd ifrf:
  *
  * <ul>
- * <li><code>AdjustmentEvent.TRACK</code> replaces
- * <code>Event.SCROLL_ABSOLUTE</code>
- * <li><code>AdjustmentEvent.UNIT_INCREMENT</code> replaces
- * <code>Event.SCROLL_LINE_UP</code>
- * <li><code>AdjustmentEvent.UNIT_DECREMENT</code> replaces
- * <code>Event.SCROLL_LINE_DOWN</code>
- * <li><code>AdjustmentEvent.BLOCK_INCREMENT</code> replaces
- * <code>Event.SCROLL_PAGE_UP</code>
- * <li><code>AdjustmentEvent.BLOCK_DECREMENT</code> replaces
- * <code>Event.SCROLL_PAGE_DOWN</code>
+ * <li><dodf>AdjustmfntEvfnt.TRACK</dodf> is sfnt out wifn tif
+ * usfr drbgs tif sdroll bbr's bubblf.
+ * <li><dodf>AdjustmfntEvfnt.UNIT_INCREMENT</dodf> is sfnt out
+ * wifn tif usfr dlidks in tif lfft brrow of b iorizontbl sdroll
+ * bbr, or tif top brrow of b vfrtidbl sdroll bbr, or mbkfs tif
+ * fquivblfnt gfsturf from tif kfybobrd.
+ * <li><dodf>AdjustmfntEvfnt.UNIT_DECREMENT</dodf> is sfnt out
+ * wifn tif usfr dlidks in tif rigit brrow of b iorizontbl sdroll
+ * bbr, or tif bottom brrow of b vfrtidbl sdroll bbr, or mbkfs tif
+ * fquivblfnt gfsturf from tif kfybobrd.
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_INCREMENT</dodf> is sfnt out
+ * wifn tif usfr dlidks in tif trbdk, to tif lfft of tif bubblf
+ * on b iorizontbl sdroll bbr, or bbovf tif bubblf on b vfrtidbl
+ * sdroll bbr. By donvfntion, tif <b>Pbgf&nbsp;Up</b>
+ * kfy is fquivblfnt, if tif usfr is using b kfybobrd tibt
+ * dffinfs b <b>Pbgf&nbsp;Up</b> kfy.
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_DECREMENT</dodf> is sfnt out
+ * wifn tif usfr dlidks in tif trbdk, to tif rigit of tif bubblf
+ * on b iorizontbl sdroll bbr, or bflow tif bubblf on b vfrtidbl
+ * sdroll bbr. By donvfntion, tif <b>Pbgf&nbsp;Down</b>
+ * kfy is fquivblfnt, if tif usfr is using b kfybobrd tibt
+ * dffinfs b <b>Pbgf&nbsp;Down</b> kfy.
  * </ul>
  * <p>
- * <b>Note</b>: We recommend using a <code>Scrollbar</code>
- * for value selection only.  If you want to implement
- * a scrollable component inside a container, we recommend you use
- * a {@link ScrollPane ScrollPane}. If you use a
- * <code>Scrollbar</code> for this purpose, you are likely to
- * encounter issues with painting, key handling, sizing and
+ * Tif JDK&nbsp;1.0 fvfnt systfm is supportfd for bbdkwbrds
+ * dompbtibility, but its usf witi nfwfr vfrsions of tif plbtform is
+ * disdourbgfd. Tif fivf typfs of bdjustmfnt fvfnts introdudfd
+ * witi JDK&nbsp;1.1 dorrfspond to tif fivf fvfnt typfs
+ * tibt brf bssodibtfd witi sdroll bbrs in prfvious plbtform vfrsions.
+ * Tif following list givfs tif bdjustmfnt fvfnt typf,
+ * bnd tif dorrfsponding JDK&nbsp;1.0 fvfnt typf it rfplbdfs.
+ *
+ * <ul>
+ * <li><dodf>AdjustmfntEvfnt.TRACK</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_ABSOLUTE</dodf>
+ * <li><dodf>AdjustmfntEvfnt.UNIT_INCREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_LINE_UP</dodf>
+ * <li><dodf>AdjustmfntEvfnt.UNIT_DECREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_LINE_DOWN</dodf>
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_INCREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_PAGE_UP</dodf>
+ * <li><dodf>AdjustmfntEvfnt.BLOCK_DECREMENT</dodf> rfplbdfs
+ * <dodf>Evfnt.SCROLL_PAGE_DOWN</dodf>
+ * </ul>
+ * <p>
+ * <b>Notf</b>: Wf rfdommfnd using b <dodf>Sdrollbbr</dodf>
+ * for vbluf sflfdtion only.  If you wbnt to implfmfnt
+ * b sdrollbblf domponfnt insidf b dontbinfr, wf rfdommfnd you usf
+ * b {@link SdrollPbnf SdrollPbnf}. If you usf b
+ * <dodf>Sdrollbbr</dodf> for tiis purposf, you brf likfly to
+ * fndountfr issufs witi pbinting, kfy ibndling, sizing bnd
  * positioning.
  *
- * @author      Sami Shaio
- * @see         java.awt.event.AdjustmentEvent
- * @see         java.awt.event.AdjustmentListener
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.fvfnt.AdjustmfntEvfnt
+ * @sff         jbvb.bwt.fvfnt.AdjustmfntListfnfr
+ * @sindf       1.0
  */
-public class Scrollbar extends Component implements Adjustable, Accessible {
+publid dlbss Sdrollbbr fxtfnds Componfnt implfmfnts Adjustbblf, Addfssiblf {
 
     /**
-     * A constant that indicates a horizontal scroll bar.
+     * A donstbnt tibt indidbtfs b iorizontbl sdroll bbr.
      */
-    public static final int     HORIZONTAL = 0;
+    publid stbtid finbl int     HORIZONTAL = 0;
 
     /**
-     * A constant that indicates a vertical scroll bar.
+     * A donstbnt tibt indidbtfs b vfrtidbl sdroll bbr.
      */
-    public static final int     VERTICAL   = 1;
+    publid stbtid finbl int     VERTICAL   = 1;
 
     /**
-     * The value of the <code>Scrollbar</code>.
-     * This property must be greater than or equal to <code>minimum</code>
-     * and less than or equal to
-     * <code>maximum - visibleAmount</code>
+     * Tif vbluf of tif <dodf>Sdrollbbr</dodf>.
+     * Tiis propfrty must bf grfbtfr tibn or fqubl to <dodf>minimum</dodf>
+     * bnd lfss tibn or fqubl to
+     * <dodf>mbximum - visiblfAmount</dodf>
      *
-     * @serial
-     * @see #getValue
-     * @see #setValue
+     * @sfribl
+     * @sff #gftVbluf
+     * @sff #sftVbluf
      */
-    int value;
+    int vbluf;
 
     /**
-     * The maximum value of the <code>Scrollbar</code>.
-     * This value must be greater than the <code>minimum</code>
-     * value.<br>
+     * Tif mbximum vbluf of tif <dodf>Sdrollbbr</dodf>.
+     * Tiis vbluf must bf grfbtfr tibn tif <dodf>minimum</dodf>
+     * vbluf.<br>
      *
-     * @serial
-     * @see #getMaximum
-     * @see #setMaximum
+     * @sfribl
+     * @sff #gftMbximum
+     * @sff #sftMbximum
      */
-    int maximum;
+    int mbximum;
 
     /**
-     * The minimum value of the <code>Scrollbar</code>.
-     * This value must be less than the <code>maximum</code>
-     * value.<br>
+     * Tif minimum vbluf of tif <dodf>Sdrollbbr</dodf>.
+     * Tiis vbluf must bf lfss tibn tif <dodf>mbximum</dodf>
+     * vbluf.<br>
      *
-     * @serial
-     * @see #getMinimum
-     * @see #setMinimum
+     * @sfribl
+     * @sff #gftMinimum
+     * @sff #sftMinimum
      */
     int minimum;
 
     /**
-     * The size of the <code>Scrollbar</code>'s bubble.
-     * When a scroll bar is used to select a range of values,
-     * the visibleAmount represents the size of this range.
-     * Depending on platform, this may be visually indicated
-     * by the size of the bubble.
+     * Tif sizf of tif <dodf>Sdrollbbr</dodf>'s bubblf.
+     * Wifn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * tif visiblfAmount rfprfsfnts tif sizf of tiis rbngf.
+     * Dfpfnding on plbtform, tiis mby bf visublly indidbtfd
+     * by tif sizf of tif bubblf.
      *
-     * @serial
-     * @see #getVisibleAmount
-     * @see #setVisibleAmount
+     * @sfribl
+     * @sff #gftVisiblfAmount
+     * @sff #sftVisiblfAmount
      */
-    int visibleAmount;
+    int visiblfAmount;
 
     /**
-     * The <code>Scrollbar</code>'s orientation--being either horizontal
-     * or vertical.
-     * This value should be specified when the scrollbar is created.<BR>
-     * orientation can be either : <code>VERTICAL</code> or
-     * <code>HORIZONTAL</code> only.
+     * Tif <dodf>Sdrollbbr</dodf>'s orifntbtion--bfing fitifr iorizontbl
+     * or vfrtidbl.
+     * Tiis vbluf siould bf spfdififd wifn tif sdrollbbr is drfbtfd.<BR>
+     * orifntbtion dbn bf fitifr : <dodf>VERTICAL</dodf> or
+     * <dodf>HORIZONTAL</dodf> only.
      *
-     * @serial
-     * @see #getOrientation
-     * @see #setOrientation
+     * @sfribl
+     * @sff #gftOrifntbtion
+     * @sff #sftOrifntbtion
      */
-    int orientation;
+    int orifntbtion;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a line.
-     * This value must be greater than zero.
+     * Tif bmount by wiidi tif sdrollbbr vbluf will dibngf wifn going
+     * up or down by b linf.
+     * Tiis vbluf must bf grfbtfr tibn zfro.
      *
-     * @serial
-     * @see #getLineIncrement
-     * @see #setLineIncrement
+     * @sfribl
+     * @sff #gftLinfIndrfmfnt
+     * @sff #sftLinfIndrfmfnt
      */
-    int lineIncrement = 1;
+    int linfIndrfmfnt = 1;
 
     /**
-     * The amount by which the scrollbar value will change when going
-     * up or down by a page.
-     * This value must be greater than zero.
+     * Tif bmount by wiidi tif sdrollbbr vbluf will dibngf wifn going
+     * up or down by b pbgf.
+     * Tiis vbluf must bf grfbtfr tibn zfro.
      *
-     * @serial
-     * @see #getPageIncrement
-     * @see #setPageIncrement
+     * @sfribl
+     * @sff #gftPbgfIndrfmfnt
+     * @sff #sftPbgfIndrfmfnt
      */
-    int pageIncrement = 10;
+    int pbgfIndrfmfnt = 10;
 
     /**
-     * The adjusting status of the <code>Scrollbar</code>.
-     * True if the value is in the process of changing as a result of
-     * actions being taken by the user.
+     * Tif bdjusting stbtus of tif <dodf>Sdrollbbr</dodf>.
+     * Truf if tif vbluf is in tif prodfss of dibnging bs b rfsult of
+     * bdtions bfing tbkfn by tif usfr.
      *
-     * @see #getValueIsAdjusting
-     * @see #setValueIsAdjusting
-     * @since 1.4
+     * @sff #gftVblufIsAdjusting
+     * @sff #sftVblufIsAdjusting
+     * @sindf 1.4
      */
-    transient boolean isAdjusting;
+    trbnsifnt boolfbn isAdjusting;
 
-    transient AdjustmentListener adjustmentListener;
+    trbnsifnt AdjustmfntListfnfr bdjustmfntListfnfr;
 
-    private static final String base = "scrollbar";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "sdrollbbr";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 8451667562882310543L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8451667562882310543L;
 
     /**
-     * Initialize JNI field and method IDs.
+     * Initiblizf JNI fifld bnd mftiod IDs.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new vertical scroll bar.
-     * The default properties of the scroll bar are listed in
-     * the following table:
+     * Construdts b nfw vfrtidbl sdroll bbr.
+     * Tif dffbult propfrtifs of tif sdroll bbr brf listfd in
+     * tif following tbblf:
      *
-     * <table border=1 summary="Scrollbar default properties">
+     * <tbblf bordfr=1 summbry="Sdrollbbr dffbult propfrtifs">
      * <tr>
-     *   <th>Property</th>
-     *   <th>Description</th>
-     *   <th>Default Value</th>
+     *   <ti>Propfrty</ti>
+     *   <ti>Dfsdription</ti>
+     *   <ti>Dffbult Vbluf</ti>
      * </tr>
      * <tr>
-     *   <td>orientation</td>
-     *   <td>indicates whether the scroll bar is vertical
-     *   <br>or horizontal</td>
-     *   <td><code>Scrollbar.VERTICAL</code></td>
+     *   <td>orifntbtion</td>
+     *   <td>indidbtfs wiftifr tif sdroll bbr is vfrtidbl
+     *   <br>or iorizontbl</td>
+     *   <td><dodf>Sdrollbbr.VERTICAL</dodf></td>
      * </tr>
      * <tr>
-     *   <td>value</td>
-     *   <td>value which controls the location
-     *   <br>of the scroll bar's bubble</td>
+     *   <td>vbluf</td>
+     *   <td>vbluf wiidi dontrols tif lodbtion
+     *   <br>of tif sdroll bbr's bubblf</td>
      *   <td>0</td>
      * </tr>
      * <tr>
-     *   <td>visible amount</td>
-     *   <td>visible amount of the scroll bar's range,
-     *   <br>typically represented by the size of the
-     *   <br>scroll bar's bubble</td>
+     *   <td>visiblf bmount</td>
+     *   <td>visiblf bmount of tif sdroll bbr's rbngf,
+     *   <br>typidblly rfprfsfntfd by tif sizf of tif
+     *   <br>sdroll bbr's bubblf</td>
      *   <td>10</td>
      * </tr>
      * <tr>
      *   <td>minimum</td>
-     *   <td>minimum value of the scroll bar</td>
+     *   <td>minimum vbluf of tif sdroll bbr</td>
      *   <td>0</td>
      * </tr>
      * <tr>
-     *   <td>maximum</td>
-     *   <td>maximum value of the scroll bar</td>
+     *   <td>mbximum</td>
+     *   <td>mbximum vbluf of tif sdroll bbr</td>
      *   <td>100</td>
      * </tr>
      * <tr>
-     *   <td>unit increment</td>
-     *   <td>amount the value changes when the
-     *   <br>Line Up or Line Down key is pressed,
-     *   <br>or when the end arrows of the scrollbar
-     *   <br>are clicked </td>
+     *   <td>unit indrfmfnt</td>
+     *   <td>bmount tif vbluf dibngfs wifn tif
+     *   <br>Linf Up or Linf Down kfy is prfssfd,
+     *   <br>or wifn tif fnd brrows of tif sdrollbbr
+     *   <br>brf dlidkfd </td>
      *   <td>1</td>
      * </tr>
      * <tr>
-     *   <td>block increment</td>
-     *   <td>amount the value changes when the
-     *   <br>Page Up or Page Down key is pressed,
-     *   <br>or when the scrollbar track is clicked
-     *   <br>on either side of the bubble </td>
+     *   <td>blodk indrfmfnt</td>
+     *   <td>bmount tif vbluf dibngfs wifn tif
+     *   <br>Pbgf Up or Pbgf Down kfy is prfssfd,
+     *   <br>or wifn tif sdrollbbr trbdk is dlidkfd
+     *   <br>on fitifr sidf of tif bubblf </td>
      *   <td>10</td>
      * </tr>
-     * </table>
+     * </tbblf>
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Scrollbar() throws HeadlessException {
-        this(VERTICAL, 0, 10, 0, 100);
+    publid Sdrollbbr() tirows HfbdlfssExdfption {
+        tiis(VERTICAL, 0, 10, 0, 100);
     }
 
     /**
-     * Constructs a new scroll bar with the specified orientation.
+     * Construdts b nfw sdroll bbr witi tif spfdififd orifntbtion.
      * <p>
-     * The <code>orientation</code> argument must take one of the two
-     * values <code>Scrollbar.HORIZONTAL</code>,
-     * or <code>Scrollbar.VERTICAL</code>,
-     * indicating a horizontal or vertical scroll bar, respectively.
+     * Tif <dodf>orifntbtion</dodf> brgumfnt must tbkf onf of tif two
+     * vblufs <dodf>Sdrollbbr.HORIZONTAL</dodf>,
+     * or <dodf>Sdrollbbr.VERTICAL</dodf>,
+     * indidbting b iorizontbl or vfrtidbl sdroll bbr, rfspfdtivfly.
      *
-     * @param       orientation   indicates the orientation of the scroll bar
-     * @exception   IllegalArgumentException    when an illegal value for
-     *                    the <code>orientation</code> argument is supplied
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm       orifntbtion   indidbtfs tif orifntbtion of tif sdroll bbr
+     * @fxdfption   IllfgblArgumfntExdfption    wifn bn illfgbl vbluf for
+     *                    tif <dodf>orifntbtion</dodf> brgumfnt is supplifd
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Scrollbar(int orientation) throws HeadlessException {
-        this(orientation, 0, 10, 0, 100);
+    publid Sdrollbbr(int orifntbtion) tirows HfbdlfssExdfption {
+        tiis(orifntbtion, 0, 10, 0, 100);
     }
 
     /**
-     * Constructs a new scroll bar with the specified orientation,
-     * initial value, visible amount, and minimum and maximum values.
+     * Construdts b nfw sdroll bbr witi tif spfdififd orifntbtion,
+     * initibl vbluf, visiblf bmount, bnd minimum bnd mbximum vblufs.
      * <p>
-     * The <code>orientation</code> argument must take one of the two
-     * values <code>Scrollbar.HORIZONTAL</code>,
-     * or <code>Scrollbar.VERTICAL</code>,
-     * indicating a horizontal or vertical scroll bar, respectively.
+     * Tif <dodf>orifntbtion</dodf> brgumfnt must tbkf onf of tif two
+     * vblufs <dodf>Sdrollbbr.HORIZONTAL</dodf>,
+     * or <dodf>Sdrollbbr.VERTICAL</dodf>,
+     * indidbting b iorizontbl or vfrtidbl sdroll bbr, rfspfdtivfly.
      * <p>
-     * The parameters supplied to this constructor are subject to the
-     * constraints described in {@link #setValues(int, int, int, int)}.
+     * Tif pbrbmftfrs supplifd to tiis donstrudtor brf subjfdt to tif
+     * donstrbints dfsdribfd in {@link #sftVblufs(int, int, int, int)}.
      *
-     * @param     orientation   indicates the orientation of the scroll bar.
-     * @param     value     the initial value of the scroll bar
-     * @param     visible   the visible amount of the scroll bar, typically
-     *                      represented by the size of the bubble
-     * @param     minimum   the minimum value of the scroll bar
-     * @param     maximum   the maximum value of the scroll bar
-     * @exception IllegalArgumentException    when an illegal value for
-     *                    the <code>orientation</code> argument is supplied
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see #setValues
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm     orifntbtion   indidbtfs tif orifntbtion of tif sdroll bbr.
+     * @pbrbm     vbluf     tif initibl vbluf of tif sdroll bbr
+     * @pbrbm     visiblf   tif visiblf bmount of tif sdroll bbr, typidblly
+     *                      rfprfsfntfd by tif sizf of tif bubblf
+     * @pbrbm     minimum   tif minimum vbluf of tif sdroll bbr
+     * @pbrbm     mbximum   tif mbximum vbluf of tif sdroll bbr
+     * @fxdfption IllfgblArgumfntExdfption    wifn bn illfgbl vbluf for
+     *                    tif <dodf>orifntbtion</dodf> brgumfnt is supplifd
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff #sftVblufs
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Scrollbar(int orientation, int value, int visible, int minimum,
-        int maximum) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        switch (orientation) {
-          case HORIZONTAL:
-          case VERTICAL:
-            this.orientation = orientation;
-            break;
-          default:
-            throw new IllegalArgumentException("illegal scrollbar orientation");
+    publid Sdrollbbr(int orifntbtion, int vbluf, int visiblf, int minimum,
+        int mbximum) tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        switdi (orifntbtion) {
+          dbsf HORIZONTAL:
+          dbsf VERTICAL:
+            tiis.orifntbtion = orifntbtion;
+            brfbk;
+          dffbult:
+            tirow nfw IllfgblArgumfntExdfption("illfgbl sdrollbbr orifntbtion");
         }
-        setValues(value, visible, minimum, maximum);
+        sftVblufs(vbluf, visiblf, minimum, mbximum);
     }
 
     /**
-     * Constructs a name for this component.  Called by <code>getName</code>
-     * when the name is <code>null</code>.
+     * Construdts b nbmf for tiis domponfnt.  Cbllfd by <dodf>gftNbmf</dodf>
+     * wifn tif nbmf is <dodf>null</dodf>.
      */
-    String constructComponentName() {
-        synchronized (Scrollbar.class) {
-            return base + nameCounter++;
-        }
-    }
-
-    /**
-     * Creates the <code>Scrollbar</code>'s peer.  The peer allows you to modify
-     * the appearance of the <code>Scrollbar</code> without changing any of its
-     * functionality.
-     */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (peer == null)
-                peer = getToolkit().createScrollbar(this);
-            super.addNotify();
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Sdrollbbr.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Returns the orientation of this scroll bar.
-     *
-     * @return    the orientation of this scroll bar, either
-     *               <code>Scrollbar.HORIZONTAL</code> or
-     *               <code>Scrollbar.VERTICAL</code>
-     * @see       java.awt.Scrollbar#setOrientation
+     * Crfbtfs tif <dodf>Sdrollbbr</dodf>'s pffr.  Tif pffr bllows you to modify
+     * tif bppfbrbndf of tif <dodf>Sdrollbbr</dodf> witiout dibnging bny of its
+     * fundtionblity.
      */
-    public int getOrientation() {
-        return orientation;
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfSdrollbbr(tiis);
+            supfr.bddNotify();
+        }
     }
 
     /**
-     * Sets the orientation for this scroll bar.
+     * Rfturns tif orifntbtion of tiis sdroll bbr.
      *
-     * @param orientation  the orientation of this scroll bar, either
-     *               <code>Scrollbar.HORIZONTAL</code> or
-     *               <code>Scrollbar.VERTICAL</code>
-     * @see       java.awt.Scrollbar#getOrientation
-     * @exception   IllegalArgumentException  if the value supplied
-     *                   for <code>orientation</code> is not a
-     *                   legal value
-     * @since     1.1
+     * @rfturn    tif orifntbtion of tiis sdroll bbr, fitifr
+     *               <dodf>Sdrollbbr.HORIZONTAL</dodf> or
+     *               <dodf>Sdrollbbr.VERTICAL</dodf>
+     * @sff       jbvb.bwt.Sdrollbbr#sftOrifntbtion
      */
-    public void setOrientation(int orientation) {
-        synchronized (getTreeLock()) {
-            if (orientation == this.orientation) {
-                return;
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
+    }
+
+    /**
+     * Sfts tif orifntbtion for tiis sdroll bbr.
+     *
+     * @pbrbm orifntbtion  tif orifntbtion of tiis sdroll bbr, fitifr
+     *               <dodf>Sdrollbbr.HORIZONTAL</dodf> or
+     *               <dodf>Sdrollbbr.VERTICAL</dodf>
+     * @sff       jbvb.bwt.Sdrollbbr#gftOrifntbtion
+     * @fxdfption   IllfgblArgumfntExdfption  if tif vbluf supplifd
+     *                   for <dodf>orifntbtion</dodf> is not b
+     *                   lfgbl vbluf
+     * @sindf     1.1
+     */
+    publid void sftOrifntbtion(int orifntbtion) {
+        syndironizfd (gftTrffLodk()) {
+            if (orifntbtion == tiis.orifntbtion) {
+                rfturn;
             }
-            switch (orientation) {
-                case HORIZONTAL:
-                case VERTICAL:
-                    this.orientation = orientation;
-                    break;
-                default:
-                    throw new IllegalArgumentException("illegal scrollbar orientation");
+            switdi (orifntbtion) {
+                dbsf HORIZONTAL:
+                dbsf VERTICAL:
+                    tiis.orifntbtion = orifntbtion;
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblArgumfntExdfption("illfgbl sdrollbbr orifntbtion");
             }
-            /* Create a new peer with the specified orientation. */
-            if (peer != null) {
-                removeNotify();
-                addNotify();
-                invalidate();
+            /* Crfbtf b nfw pffr witi tif spfdififd orifntbtion. */
+            if (pffr != null) {
+                rfmovfNotify();
+                bddNotify();
+                invblidbtf();
             }
         }
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.HORIZONTAL : AccessibleState.VERTICAL),
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL));
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((orifntbtion == VERTICAL)
+                     ? AddfssiblfStbtf.HORIZONTAL : AddfssiblfStbtf.VERTICAL),
+                    ((orifntbtion == VERTICAL)
+                     ? AddfssiblfStbtf.VERTICAL : AddfssiblfStbtf.HORIZONTAL));
         }
     }
 
     /**
-     * Gets the current value of this scroll bar.
+     * Gfts tif durrfnt vbluf of tiis sdroll bbr.
      *
-     * @return      the current value of this scroll bar
-     * @see         java.awt.Scrollbar#getMinimum
-     * @see         java.awt.Scrollbar#getMaximum
+     * @rfturn      tif durrfnt vbluf of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
      */
-    public int getValue() {
-        return value;
+    publid int gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Sets the value of this scroll bar to the specified value.
+     * Sfts tif vbluf of tiis sdroll bbr to tif spfdififd vbluf.
      * <p>
-     * If the value supplied is less than the current <code>minimum</code>
-     * or greater than the current <code>maximum - visibleAmount</code>,
-     * then either <code>minimum</code> or <code>maximum - visibleAmount</code>
-     * is substituted, as appropriate.
+     * If tif vbluf supplifd is lfss tibn tif durrfnt <dodf>minimum</dodf>
+     * or grfbtfr tibn tif durrfnt <dodf>mbximum - visiblfAmount</dodf>,
+     * tifn fitifr <dodf>minimum</dodf> or <dodf>mbximum - visiblfAmount</dodf>
+     * is substitutfd, bs bppropribtf.
      * <p>
-     * Normally, a program should change a scroll bar's
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm siould dibngf b sdroll bbr's
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Tif <dodf>sftVblufs</dodf> mftiod simultbnfously
+     * bnd syndironously sfts tif minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so tibt tify brf
+     * mutublly donsistfnt.
      * <p>
-     * Calling this method does not fire an
-     * <code>AdjustmentEvent</code>.
+     * Cblling tiis mftiod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
      *
-     * @param       newValue   the new value of the scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMinimum
-     * @see         java.awt.Scrollbar#getMaximum
+     * @pbrbm       nfwVbluf   tif nfw vbluf of tif sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
      */
-    public void setValue(int newValue) {
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(newValue, visibleAmount, minimum, maximum);
+    publid void sftVbluf(int nfwVbluf) {
+        // Usf sftVblufs so tibt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(nfwVbluf, visiblfAmount, minimum, mbximum);
     }
 
     /**
-     * Gets the minimum value of this scroll bar.
+     * Gfts tif minimum vbluf of tiis sdroll bbr.
      *
-     * @return      the minimum value of this scroll bar
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMaximum
+     * @rfturn      tif minimum vbluf of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMbximum
      */
-    public int getMinimum() {
-        return minimum;
+    publid int gftMinimum() {
+        rfturn minimum;
     }
 
     /**
-     * Sets the minimum value of this scroll bar.
+     * Sfts tif minimum vbluf of tiis sdroll bbr.
      * <p>
-     * When <code>setMinimum</code> is called, the minimum value
-     * is changed, and other values (including the maximum, the
-     * visible amount, and the current scroll bar value)
-     * are changed to be consistent with the new minimum.
+     * Wifn <dodf>sftMinimum</dodf> is dbllfd, tif minimum vbluf
+     * is dibngfd, bnd otifr vblufs (indluding tif mbximum, tif
+     * visiblf bmount, bnd tif durrfnt sdroll bbr vbluf)
+     * brf dibngfd to bf donsistfnt witi tif nfw minimum.
      * <p>
-     * Normally, a program should change a scroll bar's minimum
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm siould dibngf b sdroll bbr's minimum
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Tif <dodf>sftVblufs</dodf> mftiod simultbnfously
+     * bnd syndironously sfts tif minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so tibt tify brf
+     * mutublly donsistfnt.
      * <p>
-     * Note that setting the minimum value to <code>Integer.MAX_VALUE</code>
-     * will result in the new minimum value being set to
-     * <code>Integer.MAX_VALUE - 1</code>.
+     * Notf tibt sftting tif minimum vbluf to <dodf>Intfgfr.MAX_VALUE</dodf>
+     * will rfsult in tif nfw minimum vbluf bfing sft to
+     * <dodf>Intfgfr.MAX_VALUE - 1</dodf>.
      *
-     * @param       newMinimum   the new minimum value for this scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#setMaximum
-     * @since       1.1
+     * @pbrbm       nfwMinimum   tif nfw minimum vbluf for tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#sftMbximum
+     * @sindf       1.1
      */
-    public void setMinimum(int newMinimum) {
-        // No checks are necessary in this method since minimum is
-        // the first variable checked in the setValues function.
+    publid void sftMinimum(int nfwMinimum) {
+        // No difdks brf nfdfssbry in tiis mftiod sindf minimum is
+        // tif first vbribblf difdkfd in tif sftVblufs fundtion.
 
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, visibleAmount, newMinimum, maximum);
+        // Usf sftVblufs so tibt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, visiblfAmount, nfwMinimum, mbximum);
     }
 
     /**
-     * Gets the maximum value of this scroll bar.
+     * Gfts tif mbximum vbluf of tiis sdroll bbr.
      *
-     * @return      the maximum value of this scroll bar
-     * @see         java.awt.Scrollbar#getValue
-     * @see         java.awt.Scrollbar#getMinimum
+     * @rfturn      tif mbximum vbluf of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#gftVbluf
+     * @sff         jbvb.bwt.Sdrollbbr#gftMinimum
      */
-    public int getMaximum() {
-        return maximum;
+    publid int gftMbximum() {
+        rfturn mbximum;
     }
 
     /**
-     * Sets the maximum value of this scroll bar.
+     * Sfts tif mbximum vbluf of tiis sdroll bbr.
      * <p>
-     * When <code>setMaximum</code> is called, the maximum value
-     * is changed, and other values (including the minimum, the
-     * visible amount, and the current scroll bar value)
-     * are changed to be consistent with the new maximum.
+     * Wifn <dodf>sftMbximum</dodf> is dbllfd, tif mbximum vbluf
+     * is dibngfd, bnd otifr vblufs (indluding tif minimum, tif
+     * visiblf bmount, bnd tif durrfnt sdroll bbr vbluf)
+     * brf dibngfd to bf donsistfnt witi tif nfw mbximum.
      * <p>
-     * Normally, a program should change a scroll bar's maximum
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm siould dibngf b sdroll bbr's mbximum
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Tif <dodf>sftVblufs</dodf> mftiod simultbnfously
+     * bnd syndironously sfts tif minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so tibt tify brf
+     * mutublly donsistfnt.
      * <p>
-     * Note that setting the maximum value to <code>Integer.MIN_VALUE</code>
-     * will result in the new maximum value being set to
-     * <code>Integer.MIN_VALUE + 1</code>.
+     * Notf tibt sftting tif mbximum vbluf to <dodf>Intfgfr.MIN_VALUE</dodf>
+     * will rfsult in tif nfw mbximum vbluf bfing sft to
+     * <dodf>Intfgfr.MIN_VALUE + 1</dodf>.
      *
-     * @param       newMaximum   the new maximum value
-     *                     for this scroll bar
-     * @see         java.awt.Scrollbar#setValues
-     * @see         java.awt.Scrollbar#setMinimum
-     * @since       1.1
+     * @pbrbm       nfwMbximum   tif nfw mbximum vbluf
+     *                     for tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sff         jbvb.bwt.Sdrollbbr#sftMinimum
+     * @sindf       1.1
      */
-    public void setMaximum(int newMaximum) {
-        // minimum is checked first in setValues, so we need to
-        // enforce minimum and maximum checks here.
-        if (newMaximum == Integer.MIN_VALUE) {
-            newMaximum = Integer.MIN_VALUE + 1;
+    publid void sftMbximum(int nfwMbximum) {
+        // minimum is difdkfd first in sftVblufs, so wf nffd to
+        // fnfordf minimum bnd mbximum difdks ifrf.
+        if (nfwMbximum == Intfgfr.MIN_VALUE) {
+            nfwMbximum = Intfgfr.MIN_VALUE + 1;
         }
 
-        if (minimum >= newMaximum) {
-            minimum = newMaximum - 1;
+        if (minimum >= nfwMbximum) {
+            minimum = nfwMbximum - 1;
         }
 
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, visibleAmount, minimum, newMaximum);
+        // Usf sftVblufs so tibt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, visiblfAmount, minimum, nfwMbximum);
     }
 
     /**
-     * Gets the visible amount of this scroll bar.
+     * Gfts tif visiblf bmount of tiis sdroll bbr.
      * <p>
-     * When a scroll bar is used to select a range of values,
-     * the visible amount is used to represent the range of values
-     * that are currently visible.  The size of the scroll bar's
-     * bubble (also called a thumb or scroll box), usually gives a
-     * visual representation of the relationship of the visible
-     * amount to the range of the scroll bar.
-     * Note that depending on platform, the value of the visible amount property
-     * may not be visually indicated by the size of the bubble.
+     * Wifn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * tif visiblf bmount is usfd to rfprfsfnt tif rbngf of vblufs
+     * tibt brf durrfntly visiblf.  Tif sizf of tif sdroll bbr's
+     * bubblf (blso dbllfd b tiumb or sdroll box), usublly givfs b
+     * visubl rfprfsfntbtion of tif rflbtionsiip of tif visiblf
+     * bmount to tif rbngf of tif sdroll bbr.
+     * Notf tibt dfpfnding on plbtform, tif vbluf of tif visiblf bmount propfrty
+     * mby not bf visublly indidbtfd by tif sizf of tif bubblf.
      * <p>
-     * The scroll bar's bubble may not be displayed when it is not
-     * moveable (e.g. when it takes up the entire length of the
-     * scroll bar's track, or when the scroll bar is disabled).
-     * Whether the bubble is displayed or not will not affect
-     * the value returned by <code>getVisibleAmount</code>.
+     * Tif sdroll bbr's bubblf mby not bf displbyfd wifn it is not
+     * movfbblf (f.g. wifn it tbkfs up tif fntirf lfngti of tif
+     * sdroll bbr's trbdk, or wifn tif sdroll bbr is disbblfd).
+     * Wiftifr tif bubblf is displbyfd or not will not bfffdt
+     * tif vbluf rfturnfd by <dodf>gftVisiblfAmount</dodf>.
      *
-     * @return      the visible amount of this scroll bar
-     * @see         java.awt.Scrollbar#setVisibleAmount
-     * @since       1.1
+     * @rfturn      tif visiblf bmount of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftVisiblfAmount
+     * @sindf       1.1
      */
-    public int getVisibleAmount() {
-        return getVisible();
+    publid int gftVisiblfAmount() {
+        rfturn gftVisiblf();
     }
 
     /**
-     * Returns the visible amount of this scroll bar.
+     * Rfturns tif visiblf bmount of tiis sdroll bbr.
      *
-     * @return the visible amount of this scroll bar
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getVisibleAmount()</code>.
+     * @rfturn tif visiblf bmount of tiis sdroll bbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftVisiblfAmount()</dodf>.
      */
-    @Deprecated
-    public int getVisible() {
-        return visibleAmount;
+    @Dfprfdbtfd
+    publid int gftVisiblf() {
+        rfturn visiblfAmount;
     }
 
     /**
-     * Sets the visible amount of this scroll bar.
+     * Sfts tif visiblf bmount of tiis sdroll bbr.
      * <p>
-     * When a scroll bar is used to select a range of values,
-     * the visible amount is used to represent the range of values
-     * that are currently visible.  The size of the scroll bar's
-     * bubble (also called a thumb or scroll box), usually gives a
-     * visual representation of the relationship of the visible
-     * amount to the range of the scroll bar.
-     * Note that depending on platform, the value of the visible amount property
-     * may not be visually indicated by the size of the bubble.
+     * Wifn b sdroll bbr is usfd to sflfdt b rbngf of vblufs,
+     * tif visiblf bmount is usfd to rfprfsfnt tif rbngf of vblufs
+     * tibt brf durrfntly visiblf.  Tif sizf of tif sdroll bbr's
+     * bubblf (blso dbllfd b tiumb or sdroll box), usublly givfs b
+     * visubl rfprfsfntbtion of tif rflbtionsiip of tif visiblf
+     * bmount to tif rbngf of tif sdroll bbr.
+     * Notf tibt dfpfnding on plbtform, tif vbluf of tif visiblf bmount propfrty
+     * mby not bf visublly indidbtfd by tif sizf of tif bubblf.
      * <p>
-     * The scroll bar's bubble may not be displayed when it is not
-     * moveable (e.g. when it takes up the entire length of the
-     * scroll bar's track, or when the scroll bar is disabled).
-     * Whether the bubble is displayed or not will not affect
-     * the value returned by <code>getVisibleAmount</code>.
+     * Tif sdroll bbr's bubblf mby not bf displbyfd wifn it is not
+     * movfbblf (f.g. wifn it tbkfs up tif fntirf lfngti of tif
+     * sdroll bbr's trbdk, or wifn tif sdroll bbr is disbblfd).
+     * Wiftifr tif bubblf is displbyfd or not will not bfffdt
+     * tif vbluf rfturnfd by <dodf>gftVisiblfAmount</dodf>.
      * <p>
-     * If the visible amount supplied is less than <code>one</code>
-     * or greater than the current <code>maximum - minimum</code>,
-     * then either <code>one</code> or <code>maximum - minimum</code>
-     * is substituted, as appropriate.
+     * If tif visiblf bmount supplifd is lfss tibn <dodf>onf</dodf>
+     * or grfbtfr tibn tif durrfnt <dodf>mbximum - minimum</dodf>,
+     * tifn fitifr <dodf>onf</dodf> or <dodf>mbximum - minimum</dodf>
+     * is substitutfd, bs bppropribtf.
      * <p>
-     * Normally, a program should change a scroll bar's
-     * value only by calling <code>setValues</code>.
-     * The <code>setValues</code> method simultaneously
-     * and synchronously sets the minimum, maximum, visible amount,
-     * and value properties of a scroll bar, so that they are
-     * mutually consistent.
+     * Normblly, b progrbm siould dibngf b sdroll bbr's
+     * vbluf only by dblling <dodf>sftVblufs</dodf>.
+     * Tif <dodf>sftVblufs</dodf> mftiod simultbnfously
+     * bnd syndironously sfts tif minimum, mbximum, visiblf bmount,
+     * bnd vbluf propfrtifs of b sdroll bbr, so tibt tify brf
+     * mutublly donsistfnt.
      *
-     * @param       newAmount the new visible amount
-     * @see         java.awt.Scrollbar#getVisibleAmount
-     * @see         java.awt.Scrollbar#setValues
-     * @since       1.1
+     * @pbrbm       nfwAmount tif nfw visiblf bmount
+     * @sff         jbvb.bwt.Sdrollbbr#gftVisiblfAmount
+     * @sff         jbvb.bwt.Sdrollbbr#sftVblufs
+     * @sindf       1.1
      */
-    public void setVisibleAmount(int newAmount) {
-        // Use setValues so that a consistent policy relating
-        // minimum, maximum, visible amount, and value is enforced.
-        setValues(value, newAmount, minimum, maximum);
+    publid void sftVisiblfAmount(int nfwAmount) {
+        // Usf sftVblufs so tibt b donsistfnt polidy rflbting
+        // minimum, mbximum, visiblf bmount, bnd vbluf is fnfordfd.
+        sftVblufs(vbluf, nfwAmount, minimum, mbximum);
     }
 
     /**
-     * Sets the unit increment for this scroll bar.
+     * Sfts tif unit indrfmfnt for tiis sdroll bbr.
      * <p>
-     * The unit increment is the value that is added or subtracted
-     * when the user activates the unit increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The unit increment must be greater than zero.
-     * Attepts to set the unit increment to a value lower than 1
-     * will result in a value of 1 being set.
+     * Tif unit indrfmfnt is tif vbluf tibt is bddfd or subtrbdtfd
+     * wifn tif usfr bdtivbtfs tif unit indrfmfnt brfb of tif
+     * sdroll bbr, gfnfrblly tirougi b mousf or kfybobrd gfsturf
+     * tibt tif sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Tif unit indrfmfnt must bf grfbtfr tibn zfro.
+     * Attfpts to sft tif unit indrfmfnt to b vbluf lowfr tibn 1
+     * will rfsult in b vbluf of 1 bfing sft.
      * <p>
-     * In some operating systems, this property
-     * can be ignored by the underlying controls.
+     * In somf opfrbting systfms, tiis propfrty
+     * dbn bf ignorfd by tif undfrlying dontrols.
      *
-     * @param        v  the amount by which to increment or decrement
-     *                         the scroll bar's value
-     * @see          java.awt.Scrollbar#getUnitIncrement
-     * @since        1.1
+     * @pbrbm        v  tif bmount by wiidi to indrfmfnt or dfdrfmfnt
+     *                         tif sdroll bbr's vbluf
+     * @sff          jbvb.bwt.Sdrollbbr#gftUnitIndrfmfnt
+     * @sindf        1.1
      */
-    public void setUnitIncrement(int v) {
-        setLineIncrement(v);
+    publid void sftUnitIndrfmfnt(int v) {
+        sftLinfIndrfmfnt(v);
     }
 
     /**
-     * Sets the unit increment for this scroll bar.
+     * Sfts tif unit indrfmfnt for tiis sdroll bbr.
      *
-     * @param  v the increment value
+     * @pbrbm  v tif indrfmfnt vbluf
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setUnitIncrement(int)</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftUnitIndrfmfnt(int)</dodf>.
      */
-    @Deprecated
-    public synchronized void setLineIncrement(int v) {
+    @Dfprfdbtfd
+    publid syndironizfd void sftLinfIndrfmfnt(int v) {
         int tmp = (v < 1) ? 1 : v;
 
-        if (lineIncrement == tmp) {
-            return;
+        if (linfIndrfmfnt == tmp) {
+            rfturn;
         }
-        lineIncrement = tmp;
+        linfIndrfmfnt = tmp;
 
-        ScrollbarPeer peer = (ScrollbarPeer)this.peer;
-        if (peer != null) {
-            peer.setLineIncrement(lineIncrement);
+        SdrollbbrPffr pffr = (SdrollbbrPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftLinfIndrfmfnt(linfIndrfmfnt);
         }
     }
 
     /**
-     * Gets the unit increment for this scrollbar.
+     * Gfts tif unit indrfmfnt for tiis sdrollbbr.
      * <p>
-     * The unit increment is the value that is added or subtracted
-     * when the user activates the unit increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The unit increment must be greater than zero.
+     * Tif unit indrfmfnt is tif vbluf tibt is bddfd or subtrbdtfd
+     * wifn tif usfr bdtivbtfs tif unit indrfmfnt brfb of tif
+     * sdroll bbr, gfnfrblly tirougi b mousf or kfybobrd gfsturf
+     * tibt tif sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Tif unit indrfmfnt must bf grfbtfr tibn zfro.
      * <p>
-     * In some operating systems, this property
-     * can be ignored by the underlying controls.
+     * In somf opfrbting systfms, tiis propfrty
+     * dbn bf ignorfd by tif undfrlying dontrols.
      *
-     * @return      the unit increment of this scroll bar
-     * @see         java.awt.Scrollbar#setUnitIncrement
-     * @since       1.1
+     * @rfturn      tif unit indrfmfnt of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftUnitIndrfmfnt
+     * @sindf       1.1
      */
-    public int getUnitIncrement() {
-        return getLineIncrement();
+    publid int gftUnitIndrfmfnt() {
+        rfturn gftLinfIndrfmfnt();
     }
 
     /**
-     * Returns the unit increment for this scrollbar.
+     * Rfturns tif unit indrfmfnt for tiis sdrollbbr.
      *
-     * @return the unit increment for this scrollbar
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getUnitIncrement()</code>.
+     * @rfturn tif unit indrfmfnt for tiis sdrollbbr
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftUnitIndrfmfnt()</dodf>.
      */
-    @Deprecated
-    public int getLineIncrement() {
-        return lineIncrement;
+    @Dfprfdbtfd
+    publid int gftLinfIndrfmfnt() {
+        rfturn linfIndrfmfnt;
     }
 
     /**
-     * Sets the block increment for this scroll bar.
+     * Sfts tif blodk indrfmfnt for tiis sdroll bbr.
      * <p>
-     * The block increment is the value that is added or subtracted
-     * when the user activates the block increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The block increment must be greater than zero.
-     * Attepts to set the block increment to a value lower than 1
-     * will result in a value of 1 being set.
+     * Tif blodk indrfmfnt is tif vbluf tibt is bddfd or subtrbdtfd
+     * wifn tif usfr bdtivbtfs tif blodk indrfmfnt brfb of tif
+     * sdroll bbr, gfnfrblly tirougi b mousf or kfybobrd gfsturf
+     * tibt tif sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Tif blodk indrfmfnt must bf grfbtfr tibn zfro.
+     * Attfpts to sft tif blodk indrfmfnt to b vbluf lowfr tibn 1
+     * will rfsult in b vbluf of 1 bfing sft.
      *
-     * @param        v  the amount by which to increment or decrement
-     *                         the scroll bar's value
-     * @see          java.awt.Scrollbar#getBlockIncrement
-     * @since        1.1
+     * @pbrbm        v  tif bmount by wiidi to indrfmfnt or dfdrfmfnt
+     *                         tif sdroll bbr's vbluf
+     * @sff          jbvb.bwt.Sdrollbbr#gftBlodkIndrfmfnt
+     * @sindf        1.1
      */
-    public void setBlockIncrement(int v) {
-        setPageIncrement(v);
+    publid void sftBlodkIndrfmfnt(int v) {
+        sftPbgfIndrfmfnt(v);
     }
 
     /**
-     * Sets the block increment for this scroll bar.
+     * Sfts tif blodk indrfmfnt for tiis sdroll bbr.
      *
-     * @param  v the block increment
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setBlockIncrement()</code>.
+     * @pbrbm  v tif blodk indrfmfnt
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftBlodkIndrfmfnt()</dodf>.
      */
-    @Deprecated
-    public synchronized void setPageIncrement(int v) {
+    @Dfprfdbtfd
+    publid syndironizfd void sftPbgfIndrfmfnt(int v) {
         int tmp = (v < 1) ? 1 : v;
 
-        if (pageIncrement == tmp) {
-            return;
+        if (pbgfIndrfmfnt == tmp) {
+            rfturn;
         }
-        pageIncrement = tmp;
+        pbgfIndrfmfnt = tmp;
 
-        ScrollbarPeer peer = (ScrollbarPeer)this.peer;
-        if (peer != null) {
-            peer.setPageIncrement(pageIncrement);
+        SdrollbbrPffr pffr = (SdrollbbrPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftPbgfIndrfmfnt(pbgfIndrfmfnt);
         }
     }
 
     /**
-     * Gets the block increment of this scroll bar.
+     * Gfts tif blodk indrfmfnt of tiis sdroll bbr.
      * <p>
-     * The block increment is the value that is added or subtracted
-     * when the user activates the block increment area of the
-     * scroll bar, generally through a mouse or keyboard gesture
-     * that the scroll bar receives as an adjustment event.
-     * The block increment must be greater than zero.
+     * Tif blodk indrfmfnt is tif vbluf tibt is bddfd or subtrbdtfd
+     * wifn tif usfr bdtivbtfs tif blodk indrfmfnt brfb of tif
+     * sdroll bbr, gfnfrblly tirougi b mousf or kfybobrd gfsturf
+     * tibt tif sdroll bbr rfdfivfs bs bn bdjustmfnt fvfnt.
+     * Tif blodk indrfmfnt must bf grfbtfr tibn zfro.
      *
-     * @return      the block increment of this scroll bar
-     * @see         java.awt.Scrollbar#setBlockIncrement
-     * @since       1.1
+     * @rfturn      tif blodk indrfmfnt of tiis sdroll bbr
+     * @sff         jbvb.bwt.Sdrollbbr#sftBlodkIndrfmfnt
+     * @sindf       1.1
      */
-    public int getBlockIncrement() {
-        return getPageIncrement();
+    publid int gftBlodkIndrfmfnt() {
+        rfturn gftPbgfIndrfmfnt();
     }
 
     /**
-     * Returns the block increment of this scroll bar.
+     * Rfturns tif blodk indrfmfnt of tiis sdroll bbr.
      *
-     * @return the block increment of this scroll bar
+     * @rfturn tif blodk indrfmfnt of tiis sdroll bbr
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getBlockIncrement()</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftBlodkIndrfmfnt()</dodf>.
      */
-    @Deprecated
-    public int getPageIncrement() {
-        return pageIncrement;
+    @Dfprfdbtfd
+    publid int gftPbgfIndrfmfnt() {
+        rfturn pbgfIndrfmfnt;
     }
 
     /**
-     * Sets the values of four properties for this scroll bar:
-     * <code>value</code>, <code>visibleAmount</code>,
-     * <code>minimum</code>, and <code>maximum</code>.
-     * If the values supplied for these properties are inconsistent
-     * or incorrect, they will be changed to ensure consistency.
+     * Sfts tif vblufs of four propfrtifs for tiis sdroll bbr:
+     * <dodf>vbluf</dodf>, <dodf>visiblfAmount</dodf>,
+     * <dodf>minimum</dodf>, bnd <dodf>mbximum</dodf>.
+     * If tif vblufs supplifd for tifsf propfrtifs brf indonsistfnt
+     * or indorrfdt, tify will bf dibngfd to fnsurf donsistfndy.
      * <p>
-     * This method simultaneously and synchronously sets the values
-     * of four scroll bar properties, assuring that the values of
-     * these properties are mutually consistent. It enforces the
-     * following constraints:
-     * <code>maximum</code> must be greater than <code>minimum</code>,
-     * <code>maximum - minimum</code> must not be greater
-     *     than <code>Integer.MAX_VALUE</code>,
-     * <code>visibleAmount</code> must be greater than zero.
-     * <code>visibleAmount</code> must not be greater than
-     *     <code>maximum - minimum</code>,
-     * <code>value</code> must not be less than <code>minimum</code>,
-     * and <code>value</code> must not be greater than
-     *     <code>maximum - visibleAmount</code>
+     * Tiis mftiod simultbnfously bnd syndironously sfts tif vblufs
+     * of four sdroll bbr propfrtifs, bssuring tibt tif vblufs of
+     * tifsf propfrtifs brf mutublly donsistfnt. It fnfordfs tif
+     * following donstrbints:
+     * <dodf>mbximum</dodf> must bf grfbtfr tibn <dodf>minimum</dodf>,
+     * <dodf>mbximum - minimum</dodf> must not bf grfbtfr
+     *     tibn <dodf>Intfgfr.MAX_VALUE</dodf>,
+     * <dodf>visiblfAmount</dodf> must bf grfbtfr tibn zfro.
+     * <dodf>visiblfAmount</dodf> must not bf grfbtfr tibn
+     *     <dodf>mbximum - minimum</dodf>,
+     * <dodf>vbluf</dodf> must not bf lfss tibn <dodf>minimum</dodf>,
+     * bnd <dodf>vbluf</dodf> must not bf grfbtfr tibn
+     *     <dodf>mbximum - visiblfAmount</dodf>
      * <p>
-     * Calling this method does not fire an
-     * <code>AdjustmentEvent</code>.
+     * Cblling tiis mftiod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
      *
-     * @param      value is the position in the current window
-     * @param      visible is the visible amount of the scroll bar
-     * @param      minimum is the minimum value of the scroll bar
-     * @param      maximum is the maximum value of the scroll bar
-     * @see        #setMinimum
-     * @see        #setMaximum
-     * @see        #setVisibleAmount
-     * @see        #setValue
+     * @pbrbm      vbluf is tif position in tif durrfnt window
+     * @pbrbm      visiblf is tif visiblf bmount of tif sdroll bbr
+     * @pbrbm      minimum is tif minimum vbluf of tif sdroll bbr
+     * @pbrbm      mbximum is tif mbximum vbluf of tif sdroll bbr
+     * @sff        #sftMinimum
+     * @sff        #sftMbximum
+     * @sff        #sftVisiblfAmount
+     * @sff        #sftVbluf
      */
-    public void setValues(int value, int visible, int minimum, int maximum) {
-        int oldValue;
-        synchronized (this) {
-            if (minimum == Integer.MAX_VALUE) {
-                minimum = Integer.MAX_VALUE - 1;
+    publid void sftVblufs(int vbluf, int visiblf, int minimum, int mbximum) {
+        int oldVbluf;
+        syndironizfd (tiis) {
+            if (minimum == Intfgfr.MAX_VALUE) {
+                minimum = Intfgfr.MAX_VALUE - 1;
             }
-            if (maximum <= minimum) {
-                maximum = minimum + 1;
-            }
-
-            long maxMinusMin = (long) maximum - (long) minimum;
-            if (maxMinusMin > Integer.MAX_VALUE) {
-                maxMinusMin = Integer.MAX_VALUE;
-                maximum = minimum + (int) maxMinusMin;
-            }
-            if (visible > (int) maxMinusMin) {
-                visible = (int) maxMinusMin;
-            }
-            if (visible < 1) {
-                visible = 1;
+            if (mbximum <= minimum) {
+                mbximum = minimum + 1;
             }
 
-            if (value < minimum) {
-                value = minimum;
+            long mbxMinusMin = (long) mbximum - (long) minimum;
+            if (mbxMinusMin > Intfgfr.MAX_VALUE) {
+                mbxMinusMin = Intfgfr.MAX_VALUE;
+                mbximum = minimum + (int) mbxMinusMin;
             }
-            if (value > maximum - visible) {
-                value = maximum - visible;
+            if (visiblf > (int) mbxMinusMin) {
+                visiblf = (int) mbxMinusMin;
+            }
+            if (visiblf < 1) {
+                visiblf = 1;
             }
 
-            oldValue = this.value;
-            this.value = value;
-            this.visibleAmount = visible;
-            this.minimum = minimum;
-            this.maximum = maximum;
-            ScrollbarPeer peer = (ScrollbarPeer)this.peer;
-            if (peer != null) {
-                peer.setValues(value, visibleAmount, minimum, maximum);
+            if (vbluf < minimum) {
+                vbluf = minimum;
+            }
+            if (vbluf > mbximum - visiblf) {
+                vbluf = mbximum - visiblf;
+            }
+
+            oldVbluf = tiis.vbluf;
+            tiis.vbluf = vbluf;
+            tiis.visiblfAmount = visiblf;
+            tiis.minimum = minimum;
+            tiis.mbximum = mbximum;
+            SdrollbbrPffr pffr = (SdrollbbrPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftVblufs(vbluf, visiblfAmount, minimum, mbximum);
             }
         }
 
-        if ((oldValue != value) && (accessibleContext != null))  {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(value));
+        if ((oldVbluf != vbluf) && (bddfssiblfContfxt != null))  {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(vbluf));
         }
     }
 
     /**
-     * Returns true if the value is in the process of changing as a
-     * result of actions being taken by the user.
+     * Rfturns truf if tif vbluf is in tif prodfss of dibnging bs b
+     * rfsult of bdtions bfing tbkfn by tif usfr.
      *
-     * @return the value of the <code>valueIsAdjusting</code> property
-     * @see #setValueIsAdjusting
-     * @since 1.4
+     * @rfturn tif vbluf of tif <dodf>vblufIsAdjusting</dodf> propfrty
+     * @sff #sftVblufIsAdjusting
+     * @sindf 1.4
      */
-    public boolean getValueIsAdjusting() {
-        return isAdjusting;
+    publid boolfbn gftVblufIsAdjusting() {
+        rfturn isAdjusting;
     }
 
     /**
-     * Sets the <code>valueIsAdjusting</code> property.
+     * Sfts tif <dodf>vblufIsAdjusting</dodf> propfrty.
      *
-     * @param b new adjustment-in-progress status
-     * @see #getValueIsAdjusting
-     * @since 1.4
+     * @pbrbm b nfw bdjustmfnt-in-progrfss stbtus
+     * @sff #gftVblufIsAdjusting
+     * @sindf 1.4
      */
-    public void setValueIsAdjusting(boolean b) {
-        boolean oldValue;
+    publid void sftVblufIsAdjusting(boolfbn b) {
+        boolfbn oldVbluf;
 
-        synchronized (this) {
-            oldValue = isAdjusting;
+        syndironizfd (tiis) {
+            oldVbluf = isAdjusting;
             isAdjusting = b;
         }
 
-        if ((oldValue != b) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue) ? AccessibleState.BUSY : null),
-                    ((b) ? AccessibleState.BUSY : null));
+        if ((oldVbluf != b) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((oldVbluf) ? AddfssiblfStbtf.BUSY : null),
+                    ((b) ? AddfssiblfStbtf.BUSY : null));
         }
     }
 
 
 
     /**
-     * Adds the specified adjustment listener to receive instances of
-     * <code>AdjustmentEvent</code> from this scroll bar.
-     * If l is <code>null</code>, no exception is thrown and no
-     * action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds tif spfdififd bdjustmfnt listfnfr to rfdfivf instbndfs of
+     * <dodf>AdjustmfntEvfnt</dodf> from tiis sdroll bbr.
+     * If l is <dodf>null</dodf>, no fxdfption is tirown bnd no
+     * bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param        l the adjustment listener
-     * @see          #removeAdjustmentListener
-     * @see          #getAdjustmentListeners
-     * @see          java.awt.event.AdjustmentEvent
-     * @see          java.awt.event.AdjustmentListener
-     * @since        1.1
+     * @pbrbm        l tif bdjustmfnt listfnfr
+     * @sff          #rfmovfAdjustmfntListfnfr
+     * @sff          #gftAdjustmfntListfnfrs
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf        1.1
      */
-    public synchronized void addAdjustmentListener(AdjustmentListener l) {
+    publid syndironizfd void bddAdjustmfntListfnfr(AdjustmfntListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        adjustmentListener = AWTEventMulticaster.add(adjustmentListener, l);
-        newEventsOnly = true;
+        bdjustmfntListfnfr = AWTEvfntMultidbstfr.bdd(bdjustmfntListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified adjustment listener so that it no longer
-     * receives instances of <code>AdjustmentEvent</code> from this scroll bar.
-     * If l is <code>null</code>, no exception is thrown and no action
-     * is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd bdjustmfnt listfnfr so tibt it no longfr
+     * rfdfivfs instbndfs of <dodf>AdjustmfntEvfnt</dodf> from tiis sdroll bbr.
+     * If l is <dodf>null</dodf>, no fxdfption is tirown bnd no bdtion
+     * is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param           l    the adjustment listener
-     * @see             #addAdjustmentListener
-     * @see             #getAdjustmentListeners
-     * @see             java.awt.event.AdjustmentEvent
-     * @see             java.awt.event.AdjustmentListener
-     * @since           1.1
+     * @pbrbm           l    tif bdjustmfnt listfnfr
+     * @sff             #bddAdjustmfntListfnfr
+     * @sff             #gftAdjustmfntListfnfrs
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf           1.1
      */
-    public synchronized void removeAdjustmentListener(AdjustmentListener l) {
+    publid syndironizfd void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        adjustmentListener = AWTEventMulticaster.remove(adjustmentListener, l);
+        bdjustmfntListfnfr = AWTEvfntMultidbstfr.rfmovf(bdjustmfntListfnfr, l);
     }
 
     /**
-     * Returns an array of all the adjustment listeners
-     * registered on this scrollbar.
+     * Rfturns bn brrby of bll tif bdjustmfnt listfnfrs
+     * rfgistfrfd on tiis sdrollbbr.
      *
-     * @return all of this scrollbar's <code>AdjustmentListener</code>s
-     *         or an empty array if no adjustment
-     *         listeners are currently registered
-     * @see             #addAdjustmentListener
-     * @see             #removeAdjustmentListener
-     * @see             java.awt.event.AdjustmentEvent
-     * @see             java.awt.event.AdjustmentListener
-     * @since 1.4
+     * @rfturn bll of tiis sdrollbbr's <dodf>AdjustmfntListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdjustmfnt
+     *         listfnfrs brf durrfntly rfgistfrfd
+     * @sff             #bddAdjustmfntListfnfr
+     * @sff             #rfmovfAdjustmfntListfnfr
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff             jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sindf 1.4
      */
-    public synchronized AdjustmentListener[] getAdjustmentListeners() {
-        return getListeners(AdjustmentListener.class);
+    publid syndironizfd AdjustmfntListfnfr[] gftAdjustmfntListfnfrs() {
+        rfturn gftListfnfrs(AdjustmfntListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Scrollbar</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Sdrollbbr</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,  such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Scrollbar</code> <code>c</code>
-     * for its mouse listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl,  sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Sdrollbbr</dodf> <dodf>d</dodf>
+     * for its mousf listfnfrs witi tif following dodf:
      *
-     * <pre>MouseListener[] mls = (MouseListener[])(c.getListeners(MouseListener.class));</pre>
+     * <prf>MousfListfnfr[] mls = (MousfListfnfr[])(d.gftListfnfrs(MousfListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis domponfnt,
+     *          or bn fmpty brrby if no sudi listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == AdjustmentListener.class) {
-            l = adjustmentListener;
-        } else {
-            return super.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdjustmfntListfnfr.dlbss) {
+            l = bdjustmfntListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED) {
-            if ((eventMask & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 ||
-                adjustmentListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.ADJUSTMENT_EVENT_MASK) != 0 ||
+                bdjustmfntListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes events on this scroll bar. If the event is an
-     * instance of <code>AdjustmentEvent</code>, it invokes the
-     * <code>processAdjustmentEvent</code> method.
-     * Otherwise, it invokes its superclass's
-     * <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts on tiis sdroll bbr. If tif fvfnt is bn
+     * instbndf of <dodf>AdjustmfntEvfnt</dodf>, it invokfs tif
+     * <dodf>prodfssAdjustmfntEvfnt</dodf> mftiod.
+     * Otifrwisf, it invokfs its supfrdlbss's
+     * <dodf>prodfssEvfnt</dodf> mftiod.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param        e the event
-     * @see          java.awt.event.AdjustmentEvent
-     * @see          java.awt.Scrollbar#processAdjustmentEvent
-     * @since        1.1
+     * @pbrbm        f tif fvfnt
+     * @sff          jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff          jbvb.bwt.Sdrollbbr#prodfssAdjustmfntEvfnt
+     * @sindf        1.1
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof AdjustmentEvent) {
-            processAdjustmentEvent((AdjustmentEvent)e);
-            return;
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdjustmfntEvfnt) {
+            prodfssAdjustmfntEvfnt((AdjustmfntEvfnt)f);
+            rfturn;
         }
-        super.processEvent(e);
+        supfr.prodfssEvfnt(f);
     }
 
     /**
-     * Processes adjustment events occurring on this
-     * scrollbar by dispatching them to any registered
-     * <code>AdjustmentListener</code> objects.
+     * Prodfssfs bdjustmfnt fvfnts oddurring on tiis
+     * sdrollbbr by dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>AdjustmfntListfnfr</dodf> objfdts.
      * <p>
-     * This method is not called unless adjustment events are
-     * enabled for this component. Adjustment events are enabled
-     * when one of the following occurs:
+     * Tiis mftiod is not dbllfd unlfss bdjustmfnt fvfnts brf
+     * fnbblfd for tiis domponfnt. Adjustmfnt fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
      * <ul>
-     * <li>An <code>AdjustmentListener</code> object is registered
-     * via <code>addAdjustmentListener</code>.
-     * <li>Adjustment events are enabled via <code>enableEvents</code>.
+     * <li>An <dodf>AdjustmfntListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdjustmfntListfnfr</dodf>.
+     * <li>Adjustmfnt fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the adjustment event
-     * @see         java.awt.event.AdjustmentEvent
-     * @see         java.awt.event.AdjustmentListener
-     * @see         java.awt.Scrollbar#addAdjustmentListener
-     * @see         java.awt.Component#enableEvents
-     * @since       1.1
+     * @pbrbm       f tif bdjustmfnt fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdjustmfntEvfnt
+     * @sff         jbvb.bwt.fvfnt.AdjustmfntListfnfr
+     * @sff         jbvb.bwt.Sdrollbbr#bddAdjustmfntListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected void processAdjustmentEvent(AdjustmentEvent e) {
-        AdjustmentListener listener = adjustmentListener;
-        if (listener != null) {
-            listener.adjustmentValueChanged(e);
+    protfdtfd void prodfssAdjustmfntEvfnt(AdjustmfntEvfnt f) {
+        AdjustmfntListfnfr listfnfr = bdjustmfntListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdjustmfntVblufCibngfd(f);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Scrollbar</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Sdrollbbr</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return      the parameter string of this scroll bar
+     * @rfturn      tif pbrbmftfr string of tiis sdroll bbr
      */
-    protected String paramString() {
-        return super.paramString() +
-            ",val=" + value +
-            ",vis=" + visibleAmount +
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString() +
+            ",vbl=" + vbluf +
+            ",vis=" + visiblfAmount +
             ",min=" + minimum +
-            ",max=" + maximum +
-            ((orientation == VERTICAL) ? ",vert" : ",horz") +
+            ",mbx=" + mbximum +
+            ((orifntbtion == VERTICAL) ? ",vfrt" : ",iorz") +
             ",isAdjusting=" + isAdjusting;
     }
 
 
-    /* Serialization support.
+    /* Sfriblizbtion support.
      */
 
     /**
-     * The scroll bar's serialized Data Version.
+     * Tif sdroll bbr's sfriblizfd Dbtb Vfrsion.
      *
-     * @serial
+     * @sfribl
      */
-    private int scrollbarSerializedDataVersion = 1;
+    privbtf int sdrollbbrSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>AdjustmentListeners</code>
-     * as optional data. The non-serializable listeners are
-     * detected and no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>AdjustmfntListfnfrs</dodf>
+     * bs optionbl dbtb. Tif non-sfriblizbblf listfnfrs brf
+     * dftfdtfd bnd no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>adjustmentListenerK</code> indicating an
-     *     <code>AdjustmentListener</code> object
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf> indidbtfs
+     *   tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>bdjustmfntListfnfrK</dodf> indidbting bn
+     *     <dodf>AdjustmfntListfnfr</dodf> objfdt
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#adjustmentListenerK
-     * @see #readObject(ObjectInputStream)
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#bdjustmfntListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
     {
-      s.defaultWriteObject();
+      s.dffbultWritfObjfdt();
 
-      AWTEventMulticaster.save(s, adjustmentListenerK, adjustmentListener);
-      s.writeObject(null);
+      AWTEvfntMultidbstfr.sbvf(s, bdjustmfntListfnfrK, bdjustmfntListfnfr);
+      s.writfObjfdt(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if
-     * it isn't <code>null</code> adds a listener to
-     * receive adjustment events fired by the
-     * <code>Scrollbar</code>.
-     * Unrecognized keys or values will be ignored.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if
+     * it isn't <dodf>null</dodf> bdds b listfnfr to
+     * rfdfivf bdjustmfnt fvfnts firfd by tif
+     * <dodf>Sdrollbbr</dodf>.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbpiidsEnvironmfnt.difdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
 
-      Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
-        String key = ((String)keyOrNull).intern();
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
 
-        if (adjustmentListenerK == key)
-          addAdjustmentListener((AdjustmentListener)(s.readObject()));
+        if (bdjustmfntListfnfrK == kfy)
+          bddAdjustmfntListfnfr((AdjustmfntListfnfr)(s.rfbdObjfdt()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
       }
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>Scrollbar</code>. For scrollbars, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTScrollBar</code>. A new
-     * <code>AccessibleAWTScrollBar</code> instance is created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>Sdrollbbr</dodf>. For sdrollbbrs, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfAWTSdrollBbr</dodf>. A nfw
+     * <dodf>AddfssiblfAWTSdrollBbr</dodf> instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleAWTScrollBar</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>ScrollBar</code>
-     * @since 1.3
+     * @rfturn bn <dodf>AddfssiblfAWTSdrollBbr</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>SdrollBbr</dodf>
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTScrollBar();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTSdrollBbr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Scrollbar</code> class.  It provides an implementation of
-     * the Java Accessibility API appropriate to scrollbar
-     * user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Sdrollbbr</dodf> dlbss.  It providfs bn implfmfntbtion of
+     * tif Jbvb Addfssibility API bppropribtf to sdrollbbr
+     * usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTScrollBar extends AccessibleAWTComponent
-        implements AccessibleValue
+    protfdtfd dlbss AddfssiblfAWTSdrollBbr fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfVbluf
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -344337268523697807L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -344337268523697807L;
 
         /**
-         * Get the state set of this object.
+         * Gft tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of <code>AccessibleState</code>
-         *     containing the current state of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of <dodf>AddfssiblfStbtf</dodf>
+         *     dontbining tif durrfnt stbtf of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftVblufIsAdjusting()) {
+                stbtfs.bdd(AddfssiblfStbtf.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
-            } else {
-                states.add(AccessibleState.HORIZONTAL);
+            if (gftOrifntbtion() == VERTICAL) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
             }
-            return states;
+            rfturn stbtfs;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of <code>AccessibleRole</code>
-         *     describing the role of the object
+         * @rfturn bn instbndf of <dodf>AddfssiblfRolf</dodf>
+         *     dfsdribing tif rolf of tif objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.SCROLL_BAR;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SCROLL_BAR;
         }
 
         /**
-         * Get the <code>AccessibleValue</code> associated with this
-         * object.  In the implementation of the Java Accessibility
-         * API for this class, return this object, which is
-         * responsible for implementing the
-         * <code>AccessibleValue</code> interface on behalf of itself.
+         * Gft tif <dodf>AddfssiblfVbluf</dodf> bssodibtfd witi tiis
+         * objfdt.  In tif implfmfntbtion of tif Jbvb Addfssibility
+         * API for tiis dlbss, rfturn tiis objfdt, wiidi is
+         * rfsponsiblf for implfmfnting tif
+         * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Get the accessible value of this object.
+         * Gft tif bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The current value of this object.
+         * @rfturn Tif durrfnt vbluf of tiis objfdt.
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftVbluf());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set.
+         * @rfturn Truf if tif vbluf wbs sft.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            if (n instanceof Integer) {
-                setValue(n.intValue());
-                return true;
-            } else {
-                return false;
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            if (n instbndfof Intfgfr) {
+                sftVbluf(n.intVbluf());
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
 
         /**
-         * Get the minimum accessible value of this object.
+         * Gft tif minimum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The minimum value of this object.
+         * @rfturn Tif minimum vbluf of tiis objfdt.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMinimum());
         }
 
         /**
-         * Get the maximum accessible value of this object.
+         * Gft tif mbximum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The maximum value of this object.
+         * @rfturn Tif mbximum vbluf of tiis objfdt.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(getMaximum());
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMbximum());
         }
 
-    } // AccessibleAWTScrollBar
+    } // AddfssiblfAWTSdrollBbr
 
 }

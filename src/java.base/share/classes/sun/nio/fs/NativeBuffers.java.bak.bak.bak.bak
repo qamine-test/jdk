@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import sun.misd.Unsbff;
+
+/**
+ * Fbdtory for nbtivf bufffrs.
+ */
+
+dlbss NbtivfBufffrs {
+    privbtf NbtivfBufffrs() { }
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    privbtf stbtid finbl int TEMP_BUF_POOL_SIZE = 3;
+    privbtf stbtid ThrfbdLodbl<NbtivfBufffr[]> thrfbdLodbl =
+        nfw ThrfbdLodbl<NbtivfBufffr[]>();
+
+    /**
+     * Allodbtfs b nbtivf bufffr, of bt lfbst thf givfn sizf, from thf hfbp.
+     */
+    stbtid NbtivfBufffr bllodNbtivfBufffr(int sizf) {
+        // Mbkf b nfw onf of bt lfbst 2k
+        if (sizf < 2048) sizf = 2048;
+        rfturn nfw NbtivfBufffr(sizf);
+    }
+
+    /**
+     * Rfturns b nbtivf bufffr, of bt lfbst thf givfn sizf, from thf thrfbd
+     * lodbl dbdhf.
+     */
+    stbtid NbtivfBufffr gftNbtivfBufffrFromCbdhf(int sizf) {
+        // rfturn from dbdhf if possiblf
+        NbtivfBufffr[] bufffrs = thrfbdLodbl.gft();
+        if (bufffrs != null) {
+            for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
+                NbtivfBufffr bufffr = bufffrs[i];
+                if (bufffr != null && bufffr.sizf() >= sizf) {
+                    bufffrs[i] = null;
+                    rfturn bufffr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b nbtivf bufffr, of bt lfbst thf givfn sizf. Thf nbtivf bufffr
+     * is tbkfn from thf thrfbd lodbl dbdhf if possiblf; othfrwisf it is
+     * bllodbtfd from thf hfbp.
+     */
+    stbtid NbtivfBufffr gftNbtivfBufffr(int sizf) {
+        NbtivfBufffr bufffr = gftNbtivfBufffrFromCbdhf(sizf);
+        if (bufffr != null) {
+            bufffr.sftOwnfr(null);
+            rfturn bufffr;
+        } flsf {
+            rfturn bllodNbtivfBufffr(sizf);
+        }
+    }
+
+    /**
+     * Rflfbsfs thf givfn bufffr. If thfrf is spbdf in thf thrfbd lodbl dbdhf
+     * thfn thf bufffr gofs into thf dbdhf; othfrwisf thf mfmory is dfbllodbtfd.
+     */
+    stbtid void rflfbsfNbtivfBufffr(NbtivfBufffr bufffr) {
+        // drfbtf dbdhf if it dofsn't fxist
+        NbtivfBufffr[] bufffrs = thrfbdLodbl.gft();
+        if (bufffrs == null) {
+            bufffrs = nfw NbtivfBufffr[TEMP_BUF_POOL_SIZE];
+            bufffrs[0] = bufffr;
+            thrfbdLodbl.sft(bufffrs);
+            rfturn;
+        }
+        // Put it in bn fmpty slot if sudh fxists
+        for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
+            if (bufffrs[i] == null) {
+                bufffrs[i] = bufffr;
+                rfturn;
+            }
+        }
+        // Othfrwisf rfplbdf b smbllfr onf in thf dbdhf if sudh fxists
+        for (int i=0; i<TEMP_BUF_POOL_SIZE; i++) {
+            NbtivfBufffr fxisting = bufffrs[i];
+            if (fxisting.sizf() < bufffr.sizf()) {
+                fxisting.dlfbnfr().dlfbn();
+                bufffrs[i] = bufffr;
+                rfturn;
+            }
+        }
+
+        // frff it
+        bufffr.dlfbnfr().dlfbn();
+    }
+
+    /**
+     * Copifs b bytf brrby bnd zfro tfrminbtor into b givfn nbtivf bufffr.
+     */
+    stbtid void dopyCStringToNbtivfBufffr(bytf[] dstr, NbtivfBufffr bufffr) {
+        long offsft = Unsbff.ARRAY_BYTE_BASE_OFFSET;
+        long lfn = dstr.lfngth;
+        bssfrt bufffr.sizf() >= (lfn + 1);
+        unsbff.dopyMfmory(dstr, offsft, null, bufffr.bddrfss(), lfn);
+        unsbff.putBytf(bufffr.bddrfss() + lfn, (bytf)0);
+    }
+
+    /**
+     * Copifs b bytf brrby bnd zfro tfrminbtor into b nbtivf bufffr, rfturning
+     * thf bufffr.
+     */
+    stbtid NbtivfBufffr bsNbtivfBufffr(bytf[] dstr) {
+        NbtivfBufffr bufffr = gftNbtivfBufffr(dstr.lfngth+1);
+        dopyCStringToNbtivfBufffr(dstr, bufffr);
+        rfturn bufffr;
+    }
+}

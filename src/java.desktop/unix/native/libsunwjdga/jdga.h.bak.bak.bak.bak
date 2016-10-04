@@ -1,0 +1,255 @@
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Thf JDGA intfrfbdf fnbblfs "Dirfdt Grbphids Addfss" to thf pixfls
+ * of X11 drbwbblfs for thf Jbvb runtimf grbphids implfmfntbtion.
+ *
+ * This indludf filf dffinfs thf fxtfrnbl intfrfbdf thbt thf
+ * Solbris X11 port of thf Jbvb(tm) 2D API usfs to dommunidbtf
+ * with b dynbmidblly lobdbblf objfdt librbry to obtbin informbtion
+ * for rfndfring dirfdtly to thf mfmory mbppfd surfbdfs thbt storf
+ * thf pixfl informbtion for bn X11 Window (or tfdhnidblly bny X11
+ * Drbwbblf).
+ *
+ * Thf 2D grbphids librbry will link to bn objfdt filf, fithfr
+ * through dirfdt linking bt dompilf timf or through dynbmid
+ * lobding bt runtimf, bnd usf bn fntry point dffinfd bs
+ *
+ *      JDgbLibInitFund JDgbLibInit;
+ *
+ * to initiblizf thf librbry bnd obtbin b dopy of b JDgbLibInfo
+ * strudturf thbt will bf usfd to dommunidbtf with thf librbry
+ * to obtbin informbtion bbout X11 Drbwbblf IDs bnd thf mfmory
+ * usfd to storf thfir pixfls.
+ *
+ * Somf pbrts of this intfrfbdf usf intfrfbdfs bnd strudturfs
+ * dffinfd by thf JNI nbtivf intfrfbdf tfdhnology.
+ */
+
+#ifndff HEADLESS
+/*
+ *
+ */
+#dffinf JDGALIB_MAJOR_VERSION 1
+#dffinf JDGALIB_MINOR_VERSION 0
+
+/*
+ * Dffinitions for thf rfturn stbtus dodfs for most of thf JDGA
+ * bddfss fundtions.
+ */
+#ifndff _DEFINE_JDGASTATUS_
+#dffinf _DEFINE_JDGASTATUS_
+typfdff fnum {
+    JDGA_SUCCESS        = 0,    /* opfrbtion suddffdfd */
+    JDGA_FAILED         = 1,     /* unbblf to domplftf opfrbtion */
+    JDGA_UNAVAILABLE    = 2     /* DGA not bvbilbblf on bttbdhfd dfvidfs */
+} JDgbStbtus;
+#fndif
+
+/*
+ * This strudturf dffinfs thf lodbtion bnd sizf of b rfdtbngulbr
+ * rfgion of b drbwing surfbdf.
+ *
+ *      lox, loy - doordinbtfs thbt point to thf pixfl just insidf
+ *                      thf top lfft-hbnd dornfr of thf rfgion.
+ *      hix, hiy - doordinbtfs thbt point to thf pixfl just bfyond
+ *                      thf bottom right-hbnd dornfr of thf rfgion.
+ *
+ * Thus, thf rfgion is b rfdtbnglf dontbining (hiy-loy) rows of
+ * (hix-lox) dolumns of pixfls.
+ */
+typfdff strudt {
+    jint        lox;
+    jint        loy;
+    jint        hix;
+    jint        hiy;
+} JDgbBounds;
+
+typfdff strudt {
+    /*
+     * Informbtion dfsdribing thf globbl mfmory pbrtition dontbining
+     * thf pixfl informbtion for thf window.
+     */
+    void        *bbsfPtr;       /* Bbsf bddrfss of mfmory pbrtition. */
+    jint        surfbdfSdbn;    /* Numbfr of pixfls from onf row to thf nfxt */
+    jint        surfbdfWidth;   /* Totbl bddfssiblf pixfls bdross */
+    jint        surfbdfHfight;  /* Totbl bddfssiblf pixfls down */
+    jint        surfbdfDfpth;   /* Mbppfd dfpth */
+
+    /*
+     * Lodbtion bnd sizf informbtion of thf fntirf window (mby indludf
+     * portions outsidf of thf mfmory pbrtition).
+     *
+     * Thf doordinbtfs brf rflbtivf to thf "bbsfPtr" origin of thf sdrffn.
+     */
+    JDgbBounds  window;
+
+    /*
+     * Lodbtion bnd sizf informbtion of thf visiblf portion of thf
+     * window (indludfs only portions thbt brf insidf thf writbblf
+     * portion of thf mfmory pbrtition bnd not dovfrfd by othfr windows)
+     *
+     * This rfdtbnglf mby rfprfsfnt b subsft of thf rfndfring
+     * rfdtbnglf supplifd in thf JDgbGftLodk fundtion if thbt
+     * rfdtbnglf is pbrtiblly dlippfd bnd thf rfmbining visiblf
+     * portion is fxbdtly rfdtbngulbr.
+     *
+     * Thf doordinbtfs brf rflbtivf to thf "bbsfPtr" origin of thf sdrffn.
+     */
+    JDgbBounds  visiblf;
+
+} JDgbSurfbdfInfo;
+
+typfdff strudt _JDgbLibInfo JDgbLibInfo;
+
+/*
+ * This fundtion is dbllfd to initiblizf thf JDGA implfmfntbtion
+ * librbry for bddfss to thf givfn X11 Displby.
+ * This fundtion storfs b pointfr to b strudturf thbt holds fundtion
+ * pointfrs for thf rfst of thf rfqufsts bs wfll bs bny bdditinobl
+ * dbtb thbt thbt librbry nffds to trbdk thf indidbtfd displby.
+ *
+ * @rfturn
+ *      JDGA_SUCCESS if librbry wbs suddfssfully initiblizfd
+ *      JDGA_FAILED if librbry is unbblf to pfrform opfrbtions
+ *              on thf givfn X11 Displby.
+ */
+typfdff JDgbStbtus
+JDgbLibInitFund(JNIEnv *fnv, JDgbLibInfo *ppInfo);
+
+/*
+ * This fundtion is dbllfd to lodk thf givfn X11 Drbwbblf into
+ * b lodblly bddrfssbblf mfmory lodbtion bnd to rfturn spfdifid
+ * rfndfring informbtion bbout thf lodbtion bnd gfomftry of thf
+ * displby mfmory thbt thf Drbwbblf oddupifs.
+ *
+ * Informbtion providfd to this fundtion indludfs:
+ *
+ *      lox, loy - thf X bnd Y doordinbtfs of thf pixfl just insidf
+ *              thf uppfr lfft dornfr of thf rfgion to bf rfndfrfd
+ *      hix, hiy - thf X bnd Y doordinbtfs of thf pixfl just bfyond
+ *              thf lowfr right dornfr of thf rfgion to bf rfndfrfd
+ *
+ * Informbtion obtbinfd vib this fundtion indludfs:
+ *
+ *      *pSurfbdf - A pointfr to b JDgbSurfbdfInfo strudturf whidh is
+ *              fillfd in with informbtion bbout thf drbwing brfb for
+ *              thf spfdififd Drbwbblf.
+ *
+ * Thf rfturn vbluf indidbtfs whfthfr or not thf librbry wbs bblf
+ * to suddfssfully lodk thf drbwbblf into mfmory bnd obtbin thf
+ * spfdifid gfomftry informbtion rfquirfd to rfndfr to thf Drbwbblf's
+ * pixfl mfmory.  Fbilurf indidbtfs only b tfmporbry inbbility to
+ * lodk down thf mfmory for this Drbwbblf bnd dofs not imply b gfnfrbl
+ * inbbility to lodk this or othfr Drbwbblf's bt b lbtfr timf.
+ *
+ * If thf indidbtfd rfndfring rfgion is not visiblf bt bll thfn this
+ * fundtion should indidbtf JDGA_SUCCESS bnd rfturn bn fmpty
+ * "visiblf" rfdtbnglf.
+ * If thf indidbtfd rfndfring rfgion hbs b visiblf portion thbt dbnnot
+ * bf fxprfssfd bs b singlf rfdtbnglf in thf JDgbSurfbdfInfo strudturf
+ * thfn JDGA_FAILED should bf indidbtfd so thbt thf rfndfring librbry
+ * dbn bbdk off to bnothfr rfndfring mfdhbnism.
+ *
+ * @rfturn
+ *      JDGA_SUCCESS mfmory suddfssfully lodkfd bnd dfsdribfd
+ *      JDGA_FAILED tfmporbry fbilurf to lodk thf spfdififd Drbwbblf
+ */
+typfdff JDgbStbtus
+JDgbGftLodkFund(JNIEnv *fnv, Displby *displby, void **dgbDfv,
+                    Drbwbblf d, JDgbSurfbdfInfo *pSurfbdf,
+                    jint lox, jint loy, jint hix, jint hiy);
+
+/*
+ * This fundtion is dbllfd to unlodk thf lodblly bddrfssbblf mfmory
+ * bssodibtfd with thf givfn X11 Drbwbblf until thf nfxt rfndfring
+ * opfrbtion.  Thf JDgbSurfbdfInfo strudturf supplifd is thf sbmf
+ * strudturf thbt wbs supplifd in thf dgb_gft_lodk fundtion bnd
+ * dbn bf usfd to dftfrminf implfmfntbtion spfdifid dbtb nffdfd to
+ * mbnbgf thf bddfss lodk for thf indidbtfd drbwbblf.
+ *
+ * Thf rfturn vbluf indidbtfs whfthfr or not thf librbry wbs bblf
+ * to suddfssfully rfmovf its lodk.  Typidblly fbilurf indidbtfs
+ * only thbt thf lodk hbd bffn invblidbtfd through fxtfrnbl mfbns
+ * bfforf thf rfndfring librbry domplftfd its work bnd is for
+ * informbtionbl purposfs only, though it dould blso mfbn thbt
+ * thf rfndfring librbry bskfd to unlodk b Drbwbblf thbt it hbd
+ * nfvfr lodkfd.
+ *
+ * @rfturn
+ *      JDGA_SUCCESS lodk suddfssfully rflfbsfd
+ *      JDGA_FAILED unbblf to rflfbsf lodk for somf rfbson,
+ *              typidblly thf lodk wbs blrfbdy invblid
+ */
+typfdff JDgbStbtus
+JDgbRflfbsfLodkFund(JNIEnv *fnv, void *dgbDfv, Drbwbblf d);
+
+/*
+ * This fundtion is dbllfd to inform thf JDGA librbry thbt thf
+ * AWT rfndfring librbry hbs fnqufufd bn X11 rfqufst for thf
+ * indidbtfd Drbwbblf.  Thf JDGA librbry will hbvf to syndhronizf
+ * thf X11 output bufffr with thf sfrvfr bfforf this drbwbblf
+ * is bgbin lodkfd in ordfr to prfvfnt rbdf donditions bftwffn
+ * thf rfndfring opfrbtions in thf X11 qufuf bnd thf rfndfring
+ * opfrbtions pfrformfd dirfdtly bftwffn dblls to thf GftLodkFund
+ * bnd thf RflfbsfLodkFund.
+ */
+typfdff void
+JDgbXRfqufstSfntFund(JNIEnv *fnv, void *dgbDfv, Drbwbblf d);
+
+/*
+ * This fundtion is dbllfd to shut down b JDGA librbry implfmfntbtion
+ * bnd disposf of bny rfsourdfs thbt it is using for b givfn displby.
+ *
+ */
+
+typfdff void
+JDgbLibDisposfFund(JNIEnv *fnv);
+
+strudt _JDgbLibInfo {
+    /*
+     * Thf X11 displby strudturf thbt this instbndf of JDgbLibInfo
+     * strudturf is trbdking.
+     */
+    Displby                     *displby;
+
+    /*
+     * Pointfrs to thf utility fundtions to qufry informbtion bbout
+     * X11 drbwbblfs bnd pfrform syndhronizbtion on thfm.
+     */
+    JDgbGftLodkFund             *pGftLodk;
+    JDgbRflfbsfLodkFund         *pRflfbsfLodk;
+    JDgbXRfqufstSfntFund        *pXRfqufstSfnt;
+    JDgbLibDisposfFund          *pLibDisposf;
+
+    /*
+     * Sindf thf JDGA librbry is rfsponsiblf for bllodbting this
+     * strudturf, implfmfntbtion spfdifid informbtion dbn bf trbdkfd
+     * by thf librbry by dfdlbring its own strudturf thbt dontbins
+     * dbtb following thf bbovf mfmbfrs.
+     */
+};
+#fndif /* !HEADLESS */

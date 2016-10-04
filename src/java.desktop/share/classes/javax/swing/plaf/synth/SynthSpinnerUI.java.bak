@@ -1,469 +1,469 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicSpinnerUI;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidSpinnfrUI;
+import jbvb.bfbns.*;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSpinner}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JSpinnfr}.
  *
- * @author Hans Muller
- * @author Joshua Outwater
- * @since 1.7
+ * @butior Hbns Mullfr
+ * @butior Josiub Outwbtfr
+ * @sindf 1.7
  */
-public class SynthSpinnerUI extends BasicSpinnerUI
-                            implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+publid dlbss SyntiSpinnfrUI fxtfnds BbsidSpinnfrUI
+                            implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
     /**
-     * A FocusListener implementation which causes the entire spinner to be
-     * repainted whenever the editor component (typically a text field) becomes
-     * focused, or loses focus. This is necessary because since SynthSpinnerUI
-     * is composed of an editor and two buttons, it is necessary that all three
-     * components indicate that they are "focused" so that they can be drawn
-     * appropriately. The repaint is used to ensure that the buttons are drawn
-     * in the new focused or unfocused state, mirroring that of the editor.
+     * A FodusListfnfr implfmfntbtion wiidi dbusfs tif fntirf spinnfr to bf
+     * rfpbintfd wifnfvfr tif fditor domponfnt (typidblly b tfxt fifld) bfdomfs
+     * fodusfd, or losfs fodus. Tiis is nfdfssbry bfdbusf sindf SyntiSpinnfrUI
+     * is domposfd of bn fditor bnd two buttons, it is nfdfssbry tibt bll tirff
+     * domponfnts indidbtf tibt tify brf "fodusfd" so tibt tify dbn bf drbwn
+     * bppropribtfly. Tif rfpbint is usfd to fnsurf tibt tif buttons brf drbwn
+     * in tif nfw fodusfd or unfodusfd stbtf, mirroring tibt of tif fditor.
      */
-    private EditorFocusHandler editorFocusHandler = new EditorFocusHandler();
+    privbtf EditorFodusHbndlfr fditorFodusHbndlfr = nfw EditorFodusHbndlfr();
 
     /**
-     * Returns a new instance of SynthSpinnerUI.
+     * Rfturns b nfw instbndf of SyntiSpinnfrUI.
      *
-     * @param c the JSpinner (not used)
-     * @see ComponentUI#createUI
-     * @return a new SynthSpinnerUI object
+     * @pbrbm d tif JSpinnfr (not usfd)
+     * @sff ComponfntUI#drfbtfUI
+     * @rfturn b nfw SyntiSpinnfrUI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthSpinnerUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiSpinnfrUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        spinner.addPropertyChangeListener(this);
-        JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        spinnfr.bddPropfrtyCibngfListfnfr(tiis);
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
             if (tf != null) {
-                tf.addFocusListener(editorFocusHandler);
+                tf.bddFodusListfnfr(fditorFodusHbndlfr);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        spinner.removePropertyChangeListener(this);
-        JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        spinnfr.rfmovfPropfrtyCibngfListfnfr(tiis);
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
             if (tf != null) {
-                tf.removeFocusListener(editorFocusHandler);
+                tf.rfmovfFodusListfnfr(fditorFodusHbndlfr);
             }
         }
     }
 
     /**
-     * Initializes the <code>JSpinner</code> <code>border</code>,
-     * <code>foreground</code>, and <code>background</code>, properties
-     * based on the corresponding "Spinner.*" properties from defaults table.
-     * The <code>JSpinners</code> layout is set to the value returned by
-     * <code>createLayout</code>.  This method is called by <code>installUI</code>.
+     * Initiblizfs tif <dodf>JSpinnfr</dodf> <dodf>bordfr</dodf>,
+     * <dodf>forfground</dodf>, bnd <dodf>bbdkground</dodf>, propfrtifs
+     * bbsfd on tif dorrfsponding "Spinnfr.*" propfrtifs from dffbults tbblf.
+     * Tif <dodf>JSpinnfrs</dodf> lbyout is sft to tif vbluf rfturnfd by
+     * <dodf>drfbtfLbyout</dodf>.  Tiis mftiod is dbllfd by <dodf>instbllUI</dodf>.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
-     * @see #createLayout
-     * @see LookAndFeel#installBorder
-     * @see LookAndFeel#installColors
+     * @sff #uninstbllDffbults
+     * @sff #instbllUI
+     * @sff #drfbtfLbyout
+     * @sff LookAndFffl#instbllBordfr
+     * @sff LookAndFffl#instbllColors
      */
-    @Override
-    protected void installDefaults() {
-        LayoutManager layout = spinner.getLayout();
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        LbyoutMbnbgfr lbyout = spinnfr.gftLbyout();
 
-        if (layout == null || layout instanceof UIResource) {
-            spinner.setLayout(createLayout());
+        if (lbyout == null || lbyout instbndfof UIRfsourdf) {
+            spinnfr.sftLbyout(drfbtfLbyout());
         }
-        updateStyle(spinner);
+        updbtfStylf(spinnfr);
     }
 
 
-    private void updateStyle(JSpinner c) {
-        SynthContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            if (oldStyle != null) {
-                // Only call installKeyboardActions as uninstall is not
-                // public.
-                installKeyboardActions();
+    privbtf void updbtfStylf(JSpinnfr d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            if (oldStylf != null) {
+                // Only dbll instbllKfybobrdAdtions bs uninstbll is not
+                // publid.
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
 
     /**
-     * Sets the <code>JSpinner's</code> layout manager to null.  This
-     * method is called by <code>uninstallUI</code>.
+     * Sfts tif <dodf>JSpinnfr's</dodf> lbyout mbnbgfr to null.  Tiis
+     * mftiod is dbllfd by <dodf>uninstbllUI</dodf>.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
+     * @sff #instbllDffbults
+     * @sff #uninstbllUI
      */
-    @Override
-    protected void uninstallDefaults() {
-        if (spinner.getLayout() instanceof UIResource) {
-            spinner.setLayout(null);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        if (spinnfr.gftLbyout() instbndfof UIRfsourdf) {
+            spinnfr.sftLbyout(null);
         }
 
-        SynthContext context = getContext(spinner, ENABLED);
+        SyntiContfxt dontfxt = gftContfxt(spinnfr, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected LayoutManager createLayout() {
-        return new SpinnerLayout();
+    @Ovfrridf
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn nfw SpinnfrLbyout();
     }
 
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected Component createPreviousButton() {
-        JButton b = new SynthArrowButton(SwingConstants.SOUTH);
-        b.setName("Spinner.previousButton");
-        installPreviousButtonListeners(b);
-        return b;
+    @Ovfrridf
+    protfdtfd Componfnt drfbtfPrfviousButton() {
+        JButton b = nfw SyntiArrowButton(SwingConstbnts.SOUTH);
+        b.sftNbmf("Spinnfr.prfviousButton");
+        instbllPrfviousButtonListfnfrs(b);
+        rfturn b;
     }
 
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected Component createNextButton() {
-        JButton b = new SynthArrowButton(SwingConstants.NORTH);
-        b.setName("Spinner.nextButton");
-        installNextButtonListeners(b);
-        return b;
+    @Ovfrridf
+    protfdtfd Componfnt drfbtfNfxtButton() {
+        JButton b = nfw SyntiArrowButton(SwingConstbnts.NORTH);
+        b.sftNbmf("Spinnfr.nfxtButton");
+        instbllNfxtButtonListfnfrs(b);
+        rfturn b;
     }
 
 
     /**
-     * This method is called by installUI to get the editor component
-     * of the <code>JSpinner</code>.  By default it just returns
-     * <code>JSpinner.getEditor()</code>.  Subclasses can override
-     * <code>createEditor</code> to return a component that contains
-     * the spinner's editor or null, if they're going to handle adding
-     * the editor to the <code>JSpinner</code> in an
-     * <code>installUI</code> override.
+     * Tiis mftiod is dbllfd by instbllUI to gft tif fditor domponfnt
+     * of tif <dodf>JSpinnfr</dodf>.  By dffbult it just rfturns
+     * <dodf>JSpinnfr.gftEditor()</dodf>.  Subdlbssfs dbn ovfrridf
+     * <dodf>drfbtfEditor</dodf> to rfturn b domponfnt tibt dontbins
+     * tif spinnfr's fditor or null, if tify'rf going to ibndlf bdding
+     * tif fditor to tif <dodf>JSpinnfr</dodf> in bn
+     * <dodf>instbllUI</dodf> ovfrridf.
      * <p>
-     * Typically this method would be overridden to wrap the editor
-     * with a container with a custom border, since one can't assume
-     * that the editors border can be set directly.
+     * Typidblly tiis mftiod would bf ovfrriddfn to wrbp tif fditor
+     * witi b dontbinfr witi b dustom bordfr, sindf onf dbn't bssumf
+     * tibt tif fditors bordfr dbn bf sft dirfdtly.
      * <p>
-     * The <code>replaceEditor</code> method is called when the spinners
-     * editor is changed with <code>JSpinner.setEditor</code>.  If you've
-     * overriden this method, then you'll probably want to override
-     * <code>replaceEditor</code> as well.
+     * Tif <dodf>rfplbdfEditor</dodf> mftiod is dbllfd wifn tif spinnfrs
+     * fditor is dibngfd witi <dodf>JSpinnfr.sftEditor</dodf>.  If you'vf
+     * ovfrridfn tiis mftiod, tifn you'll probbbly wbnt to ovfrridf
+     * <dodf>rfplbdfEditor</dodf> bs wfll.
      *
-     * @return the JSpinners editor JComponent, spinner.getEditor() by default
-     * @see #installUI
-     * @see #replaceEditor
-     * @see JSpinner#getEditor
+     * @rfturn tif JSpinnfrs fditor JComponfnt, spinnfr.gftEditor() by dffbult
+     * @sff #instbllUI
+     * @sff #rfplbdfEditor
+     * @sff JSpinnfr#gftEditor
      */
-    @Override
-    protected JComponent createEditor() {
-        JComponent editor = spinner.getEditor();
-        editor.setName("Spinner.editor");
-        updateEditorAlignment(editor);
-        return editor;
+    @Ovfrridf
+    protfdtfd JComponfnt drfbtfEditor() {
+        JComponfnt fditor = spinnfr.gftEditor();
+        fditor.sftNbmf("Spinnfr.fditor");
+        updbtfEditorAlignmfnt(fditor);
+        rfturn fditor;
     }
 
 
     /**
-     * Called by the <code>PropertyChangeListener</code> when the
-     * <code>JSpinner</code> editor property changes.  It's the responsibility
-     * of this method to remove the old editor and add the new one.  By
-     * default this operation is just:
-     * <pre>
-     * spinner.remove(oldEditor);
-     * spinner.add(newEditor, "Editor");
-     * </pre>
-     * The implementation of <code>replaceEditor</code> should be coordinated
-     * with the <code>createEditor</code> method.
+     * Cbllfd by tif <dodf>PropfrtyCibngfListfnfr</dodf> wifn tif
+     * <dodf>JSpinnfr</dodf> fditor propfrty dibngfs.  It's tif rfsponsibility
+     * of tiis mftiod to rfmovf tif old fditor bnd bdd tif nfw onf.  By
+     * dffbult tiis opfrbtion is just:
+     * <prf>
+     * spinnfr.rfmovf(oldEditor);
+     * spinnfr.bdd(nfwEditor, "Editor");
+     * </prf>
+     * Tif implfmfntbtion of <dodf>rfplbdfEditor</dodf> siould bf doordinbtfd
+     * witi tif <dodf>drfbtfEditor</dodf> mftiod.
      *
-     * @see #createEditor
-     * @see #createPropertyChangeListener
+     * @sff #drfbtfEditor
+     * @sff #drfbtfPropfrtyCibngfListfnfr
      */
-    @Override
-    protected void replaceEditor(JComponent oldEditor, JComponent newEditor) {
-        spinner.remove(oldEditor);
-        spinner.add(newEditor, "Editor");
-        if (oldEditor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)oldEditor).getTextField();
+    @Ovfrridf
+    protfdtfd void rfplbdfEditor(JComponfnt oldEditor, JComponfnt nfwEditor) {
+        spinnfr.rfmovf(oldEditor);
+        spinnfr.bdd(nfwEditor, "Editor");
+        if (oldEditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)oldEditor).gftTfxtFifld();
             if (tf != null) {
-                tf.removeFocusListener(editorFocusHandler);
+                tf.rfmovfFodusListfnfr(fditorFodusHbndlfr);
             }
         }
-        if (newEditor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)newEditor).getTextField();
+        if (nfwEditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)nfwEditor).gftTfxtFifld();
             if (tf != null) {
-                tf.addFocusListener(editorFocusHandler);
+                tf.bddFodusListfnfr(fditorFodusHbndlfr);
             }
         }
     }
 
-    private void updateEditorAlignment(JComponent editor) {
-        if (editor instanceof JSpinner.DefaultEditor) {
-            SynthContext context = getContext(spinner);
-            Integer alignment = (Integer)context.getStyle().get(
-                    context, "Spinner.editorAlignment");
-            JTextField text = ((JSpinner.DefaultEditor)editor).getTextField();
-            if (alignment != null) {
-                text.setHorizontalAlignment(alignment);
+    privbtf void updbtfEditorAlignmfnt(JComponfnt fditor) {
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            SyntiContfxt dontfxt = gftContfxt(spinnfr);
+            Intfgfr blignmfnt = (Intfgfr)dontfxt.gftStylf().gft(
+                    dontfxt, "Spinnfr.fditorAlignmfnt");
+            JTfxtFifld tfxt = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+            if (blignmfnt != null) {
+                tfxt.sftHorizontblAlignmfnt(blignmfnt);
 
             }
-            // copy across the sizeVariant property to the editor
-            text.putClientProperty("JComponent.sizeVariant",
-                    spinner.getClientProperty("JComponent.sizeVariant"));
+            // dopy bdross tif sizfVbribnt propfrty to tif fditor
+            tfxt.putClifntPropfrty("JComponfnt.sizfVbribnt",
+                    spinnfr.gftClifntPropfrty("JComponfnt.sizfVbribnt"));
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSpinnerBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintSpinnfrBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints tif spfdififd domponfnt. Tiis implfmfntbtion dofs notiing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintSpinnerBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintSpinnfrBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * A simple layout manager for the editor and the next/previous buttons.
-     * See the SynthSpinnerUI javadoc for more information about exactly
-     * how the components are arranged.
+     * A simplf lbyout mbnbgfr for tif fditor bnd tif nfxt/prfvious buttons.
+     * Sff tif SyntiSpinnfrUI jbvbdod for morf informbtion bbout fxbdtly
+     * iow tif domponfnts brf brrbngfd.
      */
-    private static class SpinnerLayout implements LayoutManager, UIResource
+    privbtf stbtid dlbss SpinnfrLbyout implfmfnts LbyoutMbnbgfr, UIRfsourdf
     {
-        private Component nextButton = null;
-        private Component previousButton = null;
-        private Component editor = null;
+        privbtf Componfnt nfxtButton = null;
+        privbtf Componfnt prfviousButton = null;
+        privbtf Componfnt fditor = null;
 
-        public void addLayoutComponent(String name, Component c) {
-            if ("Next".equals(name)) {
-                nextButton = c;
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {
+            if ("Nfxt".fqubls(nbmf)) {
+                nfxtButton = d;
             }
-            else if ("Previous".equals(name)) {
-                previousButton = c;
+            flsf if ("Prfvious".fqubls(nbmf)) {
+                prfviousButton = d;
             }
-            else if ("Editor".equals(name)) {
-                editor = c;
+            flsf if ("Editor".fqubls(nbmf)) {
+                fditor = d;
             }
         }
 
-        public void removeLayoutComponent(Component c) {
-            if (c == nextButton) {
-                nextButton = null;
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {
+            if (d == nfxtButton) {
+                nfxtButton = null;
             }
-            else if (c == previousButton) {
-                previousButton = null;
+            flsf if (d == prfviousButton) {
+                prfviousButton = null;
             }
-            else if (c == editor) {
-                editor = null;
+            flsf if (d == fditor) {
+                fditor = null;
             }
         }
 
-        private Dimension preferredSize(Component c) {
-            return (c == null) ? new Dimension(0, 0) : c.getPreferredSize();
+        privbtf Dimfnsion prfffrrfdSizf(Componfnt d) {
+            rfturn (d == null) ? nfw Dimfnsion(0, 0) : d.gftPrfffrrfdSizf();
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension nextD = preferredSize(nextButton);
-            Dimension previousD = preferredSize(previousButton);
-            Dimension editorD = preferredSize(editor);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            Dimfnsion fditorD = prfffrrfdSizf(fditor);
 
-            /* Force the editors height to be a multiple of 2
+            /* Fordf tif fditors ifigit to bf b multiplf of 2
              */
-            editorD.height = ((editorD.height + 1) / 2) * 2;
+            fditorD.ifigit = ((fditorD.ifigit + 1) / 2) * 2;
 
-            Dimension size = new Dimension(editorD.width, editorD.height);
-            size.width += Math.max(nextD.width, previousD.width);
-            Insets insets = parent.getInsets();
-            size.width += insets.left + insets.right;
-            size.height += insets.top + insets.bottom;
-            return size;
+            Dimfnsion sizf = nfw Dimfnsion(fditorD.widti, fditorD.ifigit);
+            sizf.widti += Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            Insfts insfts = pbrfnt.gftInsfts();
+            sizf.widti += insfts.lfft + insfts.rigit;
+            sizf.ifigit += insfts.top + insfts.bottom;
+            rfturn sizf;
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return preferredLayoutSize(parent);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            rfturn prfffrrfdLbyoutSizf(pbrfnt);
         }
 
-        private void setBounds(Component c, int x, int y, int width, int height) {
-            if (c != null) {
-                c.setBounds(x, y, width, height);
+        privbtf void sftBounds(Componfnt d, int x, int y, int widti, int ifigit) {
+            if (d != null) {
+                d.sftBounds(x, y, widti, ifigit);
             }
         }
 
-        public void layoutContainer(Container parent) {
-            Insets insets = parent.getInsets();
-            int availWidth = parent.getWidth() - (insets.left + insets.right);
-            int availHeight = parent.getHeight() - (insets.top + insets.bottom);
-            Dimension nextD = preferredSize(nextButton);
-            Dimension previousD = preferredSize(previousButton);
-            int nextHeight = availHeight / 2;
-            int previousHeight = availHeight - nextHeight;
-            int buttonsWidth = Math.max(nextD.width, previousD.width);
-            int editorWidth = availWidth - buttonsWidth;
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int bvbilWidti = pbrfnt.gftWidti() - (insfts.lfft + insfts.rigit);
+            int bvbilHfigit = pbrfnt.gftHfigit() - (insfts.top + insfts.bottom);
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            int nfxtHfigit = bvbilHfigit / 2;
+            int prfviousHfigit = bvbilHfigit - nfxtHfigit;
+            int buttonsWidti = Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            int fditorWidti = bvbilWidti - buttonsWidti;
 
-            /* Deal with the spinners componentOrientation property.
+            /* Dfbl witi tif spinnfrs domponfntOrifntbtion propfrty.
              */
-            int editorX, buttonsX;
-            if (parent.getComponentOrientation().isLeftToRight()) {
-                editorX = insets.left;
-                buttonsX = editorX + editorWidth;
+            int fditorX, buttonsX;
+            if (pbrfnt.gftComponfntOrifntbtion().isLfftToRigit()) {
+                fditorX = insfts.lfft;
+                buttonsX = fditorX + fditorWidti;
             }
-            else {
-                buttonsX = insets.left;
-                editorX = buttonsX + buttonsWidth;
+            flsf {
+                buttonsX = insfts.lfft;
+                fditorX = buttonsX + buttonsWidti;
             }
 
-            int previousY = insets.top + nextHeight;
-            setBounds(editor, editorX, insets.top, editorWidth, availHeight);
-            setBounds(nextButton, buttonsX, insets.top, buttonsWidth, nextHeight);
-            setBounds(previousButton, buttonsX, previousY, buttonsWidth, previousHeight);
+            int prfviousY = insfts.top + nfxtHfigit;
+            sftBounds(fditor, fditorX, insfts.top, fditorWidti, bvbilHfigit);
+            sftBounds(nfxtButton, buttonsX, insfts.top, buttonsWidti, nfxtHfigit);
+            sftBounds(prfviousButton, buttonsX, prfviousY, buttonsWidti, prfviousHfigit);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        JSpinner spinner = (JSpinner)(e.getSource());
-        SpinnerUI spinnerUI = spinner.getUI();
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        JSpinnfr spinnfr = (JSpinnfr)(f.gftSourdf());
+        SpinnfrUI spinnfrUI = spinnfr.gftUI();
 
-        if (spinnerUI instanceof SynthSpinnerUI) {
-            SynthSpinnerUI ui = (SynthSpinnerUI)spinnerUI;
+        if (spinnfrUI instbndfof SyntiSpinnfrUI) {
+            SyntiSpinnfrUI ui = (SyntiSpinnfrUI)spinnfrUI;
 
-            if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-                ui.updateStyle(spinner);
+            if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+                ui.updbtfStylf(spinnfr);
             }
         }
     }
 
-    /** Listen to editor text field focus changes and repaint whole spinner */
-    private class EditorFocusHandler implements FocusListener{
-        /** Invoked when a editor text field gains the keyboard focus. */
-        @Override public void focusGained(FocusEvent e) {
-            spinner.repaint();
+    /** Listfn to fditor tfxt fifld fodus dibngfs bnd rfpbint wiolf spinnfr */
+    privbtf dlbss EditorFodusHbndlfr implfmfnts FodusListfnfr{
+        /** Invokfd wifn b fditor tfxt fifld gbins tif kfybobrd fodus. */
+        @Ovfrridf publid void fodusGbinfd(FodusEvfnt f) {
+            spinnfr.rfpbint();
         }
 
-        /** Invoked when a editor text field loses the keyboard focus. */
-        @Override public void focusLost(FocusEvent e) {
-            spinner.repaint();
+        /** Invokfd wifn b fditor tfxt fifld losfs tif kfybobrd fodus. */
+        @Ovfrridf publid void fodusLost(FodusEvfnt f) {
+            spinnfr.rfpbint();
         }
     }
 }

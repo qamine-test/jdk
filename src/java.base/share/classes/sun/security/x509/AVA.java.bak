@@ -1,1356 +1,1356 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.security.AccessController;
-import java.text.Normalizer;
-import java.util.*;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.tfxt.Normblizfr;
+import jbvb.util.*;
 
-import sun.security.action.GetBooleanAction;
-import sun.security.util.*;
-import sun.security.pkcs.PKCS9Attribute;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.util.*;
+import sun.sfdurity.pkds.PKCS9Attributf;
 
 
 /**
- * X.500 Attribute-Value-Assertion (AVA):  an attribute, as identified by
- * some attribute ID, has some particular value.  Values are as a rule ASN.1
- * printable strings.  A conventional set of type IDs is recognized when
- * parsing (and generating) RFC 1779, 2253 or 4514 syntax strings.
+ * X.500 Attributf-Vbluf-Assfrtion (AVA):  bn bttributf, bs idfntififd by
+ * somf bttributf ID, ibs somf pbrtidulbr vbluf.  Vblufs brf bs b rulf ASN.1
+ * printbblf strings.  A donvfntionbl sft of typf IDs is rfdognizfd wifn
+ * pbrsing (bnd gfnfrbting) RFC 1779, 2253 or 4514 syntbx strings.
  *
- * <P>AVAs are components of X.500 relative names.  Think of them as being
- * individual fields of a database record.  The attribute ID is how you
- * identify the field, and the value is part of a particular record.
+ * <P>AVAs brf domponfnts of X.500 rflbtivf nbmfs.  Tiink of tifm bs bfing
+ * individubl fiflds of b dbtbbbsf rfdord.  Tif bttributf ID is iow you
+ * idfntify tif fifld, bnd tif vbluf is pbrt of b pbrtidulbr rfdord.
  * <p>
- * Note that instances of this class are immutable.
+ * Notf tibt instbndfs of tiis dlbss brf immutbblf.
  *
- * @see X500Name
- * @see RDN
+ * @sff X500Nbmf
+ * @sff RDN
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class AVA implements DerEncoder {
+publid dlbss AVA implfmfnts DfrEndodfr {
 
-    private static final Debug debug = Debug.getInstance("x509", "\t[AVA]");
-    // See CR 6391482: if enabled this flag preserves the old but incorrect
-    // PrintableString encoding for DomainComponent. It may need to be set to
-    // avoid breaking preexisting certificates generated with sun.security APIs.
-    private static final boolean PRESERVE_OLD_DC_ENCODING =
-        AccessController.doPrivileged(new GetBooleanAction
-            ("com.sun.security.preserveOldDCEncoding"));
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("x509", "\t[AVA]");
+    // Sff CR 6391482: if fnbblfd tiis flbg prfsfrvfs tif old but indorrfdt
+    // PrintbblfString fndoding for DombinComponfnt. It mby nffd to bf sft to
+    // bvoid brfbking prffxisting dfrtifidbtfs gfnfrbtfd witi sun.sfdurity APIs.
+    privbtf stbtid finbl boolfbn PRESERVE_OLD_DC_ENCODING =
+        AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion
+            ("dom.sun.sfdurity.prfsfrvfOldDCEndoding"));
 
     /**
-     * DEFAULT format allows both RFC1779 and RFC2253 syntax and
-     * additional keywords.
+     * DEFAULT formbt bllows boti RFC1779 bnd RFC2253 syntbx bnd
+     * bdditionbl kfywords.
      */
-    final static int DEFAULT = 1;
+    finbl stbtid int DEFAULT = 1;
     /**
-     * RFC1779 specifies format according to RFC1779.
+     * RFC1779 spfdififs formbt bddording to RFC1779.
      */
-    final static int RFC1779 = 2;
+    finbl stbtid int RFC1779 = 2;
     /**
-     * RFC2253 specifies format according to RFC2253.
+     * RFC2253 spfdififs formbt bddording to RFC2253.
      */
-    final static int RFC2253 = 3;
+    finbl stbtid int RFC2253 = 3;
 
-    // currently not private, accessed directly from RDN
-    final ObjectIdentifier oid;
-    final DerValue value;
+    // durrfntly not privbtf, bddfssfd dirfdtly from RDN
+    finbl ObjfdtIdfntififr oid;
+    finbl DfrVbluf vbluf;
 
     /*
-     * If the value has any of these characters in it, it must be quoted.
-     * Backslash and quote characters must also be individually escaped.
-     * Leading and trailing spaces, also multiple internal spaces, also
-     * call for quoting the whole string.
+     * If tif vbluf ibs bny of tifsf dibrbdtfrs in it, it must bf quotfd.
+     * Bbdkslbsi bnd quotf dibrbdtfrs must blso bf individublly fsdbpfd.
+     * Lfbding bnd trbiling spbdfs, blso multiplf intfrnbl spbdfs, blso
+     * dbll for quoting tif wiolf string.
      */
-    private static final String specialChars1779 = ",=\n+<>#;\\\"";
+    privbtf stbtid finbl String spfdiblCibrs1779 = ",=\n+<>#;\\\"";
 
     /*
-     * In RFC2253, if the value has any of these characters in it, it
-     * must be quoted by a preceding \.
+     * In RFC2253, if tif vbluf ibs bny of tifsf dibrbdtfrs in it, it
+     * must bf quotfd by b prfdfding \.
      */
-    private static final String specialChars2253 = ",=+<>#;\\\"";
+    privbtf stbtid finbl String spfdiblCibrs2253 = ",=+<>#;\\\"";
 
     /*
-     * includes special chars from RFC1779 and RFC2253, as well as ' ' from
+     * indludfs spfdibl dibrs from RFC1779 bnd RFC2253, bs wfll bs ' ' from
      * RFC 4514.
      */
-    private static final String specialCharsDefault = ",=\n+<>#;\\\" ";
-    private static final String escapedDefault = ",+<>;\"";
+    privbtf stbtid finbl String spfdiblCibrsDffbult = ",=\n+<>#;\\\" ";
+    privbtf stbtid finbl String fsdbpfdDffbult = ",+<>;\"";
 
     /*
-     * Values that aren't printable strings are emitted as BER-encoded
-     * hex data.
+     * Vblufs tibt brfn't printbblf strings brf fmittfd bs BER-fndodfd
+     * ifx dbtb.
      */
-    private static final String hexDigits = "0123456789ABCDEF";
+    privbtf stbtid finbl String ifxDigits = "0123456789ABCDEF";
 
-    public AVA(ObjectIdentifier type, DerValue val) {
-        if ((type == null) || (val == null)) {
-            throw new NullPointerException();
+    publid AVA(ObjfdtIdfntififr typf, DfrVbluf vbl) {
+        if ((typf == null) || (vbl == null)) {
+            tirow nfw NullPointfrExdfption();
         }
-        oid = type;
-        value = val;
+        oid = typf;
+        vbluf = vbl;
     }
 
     /**
-     * Parse an RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
-     * or perhaps with quotes.  Not all defined AVA tags are supported;
-     * of current note are X.400 related ones (PRMD, ADMD, etc).
+     * Pbrsf bn RFC 1779, 2253 or 4514 stylf AVA string:  CN=fff fif fof fum
+     * or pfribps witi quotfs.  Not bll dffinfd AVA tbgs brf supportfd;
+     * of durrfnt notf brf X.400 rflbtfd onfs (PRMD, ADMD, ftd).
      *
-     * This terminates at unescaped AVA separators ("+") or RDN
-     * separators (",", ";"), and removes cosmetic whitespace at the end of
-     * values.
+     * Tiis tfrminbtfs bt unfsdbpfd AVA sfpbrbtors ("+") or RDN
+     * sfpbrbtors (",", ";"), bnd rfmovfs dosmftid wiitfspbdf bt tif fnd of
+     * vblufs.
      */
-    AVA(Reader in) throws IOException {
-        this(in, DEFAULT);
+    AVA(Rfbdfr in) tirows IOExdfption {
+        tiis(in, DEFAULT);
     }
 
     /**
-     * Parse an RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
-     * or perhaps with quotes. Additional keywords can be specified in the
-     * keyword/OID map.
+     * Pbrsf bn RFC 1779, 2253 or 4514 stylf AVA string:  CN=fff fif fof fum
+     * or pfribps witi quotfs. Additionbl kfywords dbn bf spfdififd in tif
+     * kfyword/OID mbp.
      *
-     * This terminates at unescaped AVA separators ("+") or RDN
-     * separators (",", ";"), and removes cosmetic whitespace at the end of
-     * values.
+     * Tiis tfrminbtfs bt unfsdbpfd AVA sfpbrbtors ("+") or RDN
+     * sfpbrbtors (",", ";"), bnd rfmovfs dosmftid wiitfspbdf bt tif fnd of
+     * vblufs.
      */
-    AVA(Reader in, Map<String, String> keywordMap) throws IOException {
-        this(in, DEFAULT, keywordMap);
+    AVA(Rfbdfr in, Mbp<String, String> kfywordMbp) tirows IOExdfption {
+        tiis(in, DEFAULT, kfywordMbp);
     }
 
     /**
-     * Parse an AVA string formatted according to format.
+     * Pbrsf bn AVA string formbttfd bddording to formbt.
      */
-    AVA(Reader in, int format) throws IOException {
-        this(in, format, Collections.<String, String>emptyMap());
+    AVA(Rfbdfr in, int formbt) tirows IOExdfption {
+        tiis(in, formbt, Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Parse an AVA string formatted according to format.
+     * Pbrsf bn AVA string formbttfd bddording to formbt.
      *
-     * @param in Reader containing AVA String
-     * @param format parsing format
-     * @param keywordMap a Map where a keyword String maps to a corresponding
-     *   OID String. Each AVA keyword will be mapped to the corresponding OID.
-     *   If an entry does not exist, it will fallback to the builtin
-     *   keyword/OID mapping.
-     * @throws IOException if the AVA String is not valid in the specified
-     *   format or an OID String from the keywordMap is improperly formatted
+     * @pbrbm in Rfbdfr dontbining AVA String
+     * @pbrbm formbt pbrsing formbt
+     * @pbrbm kfywordMbp b Mbp wifrf b kfyword String mbps to b dorrfsponding
+     *   OID String. Ebdi AVA kfyword will bf mbppfd to tif dorrfsponding OID.
+     *   If bn fntry dofs not fxist, it will fbllbbdk to tif builtin
+     *   kfyword/OID mbpping.
+     * @tirows IOExdfption if tif AVA String is not vblid in tif spfdififd
+     *   formbt or bn OID String from tif kfywordMbp is impropfrly formbttfd
      */
-    AVA(Reader in, int format, Map<String, String> keywordMap)
-        throws IOException {
-        // assume format is one of DEFAULT or RFC2253
+    AVA(Rfbdfr in, int formbt, Mbp<String, String> kfywordMbp)
+        tirows IOExdfption {
+        // bssumf formbt is onf of DEFAULT or RFC2253
 
-        StringBuilder   temp = new StringBuilder();
-        int             c;
+        StringBuildfr   tfmp = nfw StringBuildfr();
+        int             d;
 
         /*
-         * First get the keyword indicating the attribute's type,
-         * and map it to the appropriate OID.
+         * First gft tif kfyword indidbting tif bttributf's typf,
+         * bnd mbp it to tif bppropribtf OID.
          */
-        while (true) {
-            c = readChar(in, "Incorrect AVA format");
-            if (c == '=') {
-                break;
+        wiilf (truf) {
+            d = rfbdCibr(in, "Indorrfdt AVA formbt");
+            if (d == '=') {
+                brfbk;
             }
-            temp.append((char)c);
+            tfmp.bppfnd((dibr)d);
         }
 
-        oid = AVAKeyword.getOID(temp.toString(), format, keywordMap);
+        oid = AVAKfyword.gftOID(tfmp.toString(), formbt, kfywordMbp);
 
         /*
-         * Now parse the value.  "#hex", a quoted string, or a string
-         * terminated by "+", ",", ";".  Whitespace before or after
-         * the value is stripped away unless format is RFC2253.
+         * Now pbrsf tif vbluf.  "#ifx", b quotfd string, or b string
+         * tfrminbtfd by "+", ",", ";".  Wiitfspbdf bfforf or bftfr
+         * tif vbluf is strippfd bwby unlfss formbt is RFC2253.
          */
-        temp.setLength(0);
-        if (format == RFC2253) {
-            // read next character
-            c = in.read();
-            if (c == ' ') {
-                throw new IOException("Incorrect AVA RFC2253 format - " +
-                                      "leading space must be escaped");
+        tfmp.sftLfngti(0);
+        if (formbt == RFC2253) {
+            // rfbd nfxt dibrbdtfr
+            d = in.rfbd();
+            if (d == ' ') {
+                tirow nfw IOExdfption("Indorrfdt AVA RFC2253 formbt - " +
+                                      "lfbding spbdf must bf fsdbpfd");
             }
-        } else {
-            // read next character skipping whitespace
+        } flsf {
+            // rfbd nfxt dibrbdtfr skipping wiitfspbdf
             do {
-                c = in.read();
-            } while ((c == ' ') || (c == '\n'));
+                d = in.rfbd();
+            } wiilf ((d == ' ') || (d == '\n'));
         }
-        if (c == -1) {
-            // empty value
-            value = new DerValue("");
-            return;
+        if (d == -1) {
+            // fmpty vbluf
+            vbluf = nfw DfrVbluf("");
+            rfturn;
         }
 
-        if (c == '#') {
-            value = parseHexString(in, format);
-        } else if ((c == '"') && (format != RFC2253)) {
-            value = parseQuotedString(in, temp);
-        } else {
-            value = parseString(in, c, format, temp);
+        if (d == '#') {
+            vbluf = pbrsfHfxString(in, formbt);
+        } flsf if ((d == '"') && (formbt != RFC2253)) {
+            vbluf = pbrsfQuotfdString(in, tfmp);
+        } flsf {
+            vbluf = pbrsfString(in, d, formbt, tfmp);
         }
     }
 
     /**
-     * Get the ObjectIdentifier of this AVA.
+     * Gft tif ObjfdtIdfntififr of tiis AVA.
      */
-    public ObjectIdentifier getObjectIdentifier() {
-        return oid;
+    publid ObjfdtIdfntififr gftObjfdtIdfntififr() {
+        rfturn oid;
     }
 
     /**
-     * Get the value of this AVA as a DerValue.
+     * Gft tif vbluf of tiis AVA bs b DfrVbluf.
      */
-    public DerValue getDerValue() {
-        return value;
+    publid DfrVbluf gftDfrVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Get the value of this AVA as a String.
+     * Gft tif vbluf of tiis AVA bs b String.
      *
-     * @exception RuntimeException if we could not obtain the string form
-     *    (should not occur)
+     * @fxdfption RuntimfExdfption if wf dould not obtbin tif string form
+     *    (siould not oddur)
      */
-    public String getValueString() {
+    publid String gftVblufString() {
         try {
-            String s = value.getAsString();
+            String s = vbluf.gftAsString();
             if (s == null) {
-                throw new RuntimeException("AVA string is null");
+                tirow nfw RuntimfExdfption("AVA string is null");
             }
-            return s;
-        } catch (IOException e) {
-            // should not occur
-            throw new RuntimeException("AVA error: " + e, e);
+            rfturn s;
+        } dbtdi (IOExdfption f) {
+            // siould not oddur
+            tirow nfw RuntimfExdfption("AVA frror: " + f, f);
         }
     }
 
-    private static DerValue parseHexString
-        (Reader in, int format) throws IOException {
+    privbtf stbtid DfrVbluf pbrsfHfxString
+        (Rfbdfr in, int formbt) tirows IOExdfption {
 
-        int c;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte b = 0;
-        int cNdx = 0;
-        while (true) {
-            c = in.read();
+        int d;
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        bytf b = 0;
+        int dNdx = 0;
+        wiilf (truf) {
+            d = in.rfbd();
 
-            if (isTerminator(c, format)) {
-                break;
+            if (isTfrminbtor(d, formbt)) {
+                brfbk;
             }
 
-            int cVal = hexDigits.indexOf(Character.toUpperCase((char)c));
+            int dVbl = ifxDigits.indfxOf(Cibrbdtfr.toUppfrCbsf((dibr)d));
 
-            if (cVal == -1) {
-                throw new IOException("AVA parse, invalid hex " +
-                                              "digit: "+ (char)c);
+            if (dVbl == -1) {
+                tirow nfw IOExdfption("AVA pbrsf, invblid ifx " +
+                                              "digit: "+ (dibr)d);
             }
 
-            if ((cNdx % 2) == 1) {
-                b = (byte)((b * 16) + (byte)(cVal));
-                baos.write(b);
-            } else {
-                b = (byte)(cVal);
+            if ((dNdx % 2) == 1) {
+                b = (bytf)((b * 16) + (bytf)(dVbl));
+                bbos.writf(b);
+            } flsf {
+                b = (bytf)(dVbl);
             }
-            cNdx++;
+            dNdx++;
         }
 
-        // throw exception if no hex digits
-        if (cNdx == 0) {
-            throw new IOException("AVA parse, zero hex digits");
+        // tirow fxdfption if no ifx digits
+        if (dNdx == 0) {
+            tirow nfw IOExdfption("AVA pbrsf, zfro ifx digits");
         }
 
-        // throw exception if odd number of hex digits
-        if (cNdx % 2 == 1) {
-            throw new IOException("AVA parse, odd number of hex digits");
+        // tirow fxdfption if odd numbfr of ifx digits
+        if (dNdx % 2 == 1) {
+            tirow nfw IOExdfption("AVA pbrsf, odd numbfr of ifx digits");
         }
 
-        return new DerValue(baos.toByteArray());
+        rfturn nfw DfrVbluf(bbos.toBytfArrby());
     }
 
-    private DerValue parseQuotedString
-        (Reader in, StringBuilder temp) throws IOException {
+    privbtf DfrVbluf pbrsfQuotfdString
+        (Rfbdfr in, StringBuildfr tfmp) tirows IOExdfption {
 
-        // RFC1779 specifies that an entire RDN may be enclosed in double
-        // quotes. In this case the syntax is any sequence of
-        // backslash-specialChar, backslash-backslash,
-        // backslash-doublequote, or character other than backslash or
-        // doublequote.
-        int c = readChar(in, "Quoted string did not end in quote");
+        // RFC1779 spfdififs tibt bn fntirf RDN mby bf fndlosfd in doublf
+        // quotfs. In tiis dbsf tif syntbx is bny sfqufndf of
+        // bbdkslbsi-spfdiblCibr, bbdkslbsi-bbdkslbsi,
+        // bbdkslbsi-doublfquotf, or dibrbdtfr otifr tibn bbdkslbsi or
+        // doublfquotf.
+        int d = rfbdCibr(in, "Quotfd string did not fnd in quotf");
 
-        List<Byte> embeddedHex = new ArrayList<Byte>();
-        boolean isPrintableString = true;
-        while (c != '"') {
-            if (c == '\\') {
-                c = readChar(in, "Quoted string did not end in quote");
+        List<Bytf> fmbfddfdHfx = nfw ArrbyList<Bytf>();
+        boolfbn isPrintbblfString = truf;
+        wiilf (d != '"') {
+            if (d == '\\') {
+                d = rfbdCibr(in, "Quotfd string did not fnd in quotf");
 
-                // check for embedded hex pairs
-                Byte hexByte = null;
-                if ((hexByte = getEmbeddedHexPair(c, in)) != null) {
+                // difdk for fmbfddfd ifx pbirs
+                Bytf ifxBytf = null;
+                if ((ifxBytf = gftEmbfddfdHfxPbir(d, in)) != null) {
 
-                    // always encode AVAs with embedded hex as UTF8
-                    isPrintableString = false;
+                    // blwbys fndodf AVAs witi fmbfddfd ifx bs UTF8
+                    isPrintbblfString = fblsf;
 
-                    // append consecutive embedded hex
-                    // as single string later
-                    embeddedHex.add(hexByte);
-                    c = in.read();
-                    continue;
+                    // bppfnd donsfdutivf fmbfddfd ifx
+                    // bs singlf string lbtfr
+                    fmbfddfdHfx.bdd(ifxBytf);
+                    d = in.rfbd();
+                    dontinuf;
                 }
 
-                if (specialChars1779.indexOf((char)c) < 0) {
-                    throw new IOException
-                        ("Invalid escaped character in AVA: " +
-                        (char)c);
+                if (spfdiblCibrs1779.indfxOf((dibr)d) < 0) {
+                    tirow nfw IOExdfption
+                        ("Invblid fsdbpfd dibrbdtfr in AVA: " +
+                        (dibr)d);
                 }
             }
 
-            // add embedded hex bytes before next char
-            if (embeddedHex.size() > 0) {
-                String hexString = getEmbeddedHexString(embeddedHex);
-                temp.append(hexString);
-                embeddedHex.clear();
+            // bdd fmbfddfd ifx bytfs bfforf nfxt dibr
+            if (fmbfddfdHfx.sizf() > 0) {
+                String ifxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+                tfmp.bppfnd(ifxString);
+                fmbfddfdHfx.dlfbr();
             }
 
-            // check for non-PrintableString chars
-            isPrintableString &= DerValue.isPrintableStringChar((char)c);
-            temp.append((char)c);
-            c = readChar(in, "Quoted string did not end in quote");
+            // difdk for non-PrintbblfString dibrs
+            isPrintbblfString &= DfrVbluf.isPrintbblfStringCibr((dibr)d);
+            tfmp.bppfnd((dibr)d);
+            d = rfbdCibr(in, "Quotfd string did not fnd in quotf");
         }
 
-        // add trailing embedded hex bytes
-        if (embeddedHex.size() > 0) {
-            String hexString = getEmbeddedHexString(embeddedHex);
-            temp.append(hexString);
-            embeddedHex.clear();
+        // bdd trbiling fmbfddfd ifx bytfs
+        if (fmbfddfdHfx.sizf() > 0) {
+            String ifxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+            tfmp.bppfnd(ifxString);
+            fmbfddfdHfx.dlfbr();
         }
 
         do {
-            c = in.read();
-        } while ((c == '\n') || (c == ' '));
-        if (c != -1) {
-            throw new IOException("AVA had characters other than "
-                    + "whitespace after terminating quote");
+            d = in.rfbd();
+        } wiilf ((d == '\n') || (d == ' '));
+        if (d != -1) {
+            tirow nfw IOExdfption("AVA ibd dibrbdtfrs otifr tibn "
+                    + "wiitfspbdf bftfr tfrminbting quotf");
         }
 
-        // encode as PrintableString unless value contains
-        // non-PrintableString chars
-        if (this.oid.equals((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
-            (this.oid.equals((Object)X500Name.DOMAIN_COMPONENT_OID) &&
-                PRESERVE_OLD_DC_ENCODING == false)) {
-            // EmailAddress and DomainComponent must be IA5String
-            return new DerValue(DerValue.tag_IA5String,
-                                        temp.toString().trim());
-        } else if (isPrintableString) {
-            return new DerValue(temp.toString().trim());
-        } else {
-            return new DerValue(DerValue.tag_UTF8String,
-                                        temp.toString().trim());
+        // fndodf bs PrintbblfString unlfss vbluf dontbins
+        // non-PrintbblfString dibrs
+        if (tiis.oid.fqubls((Objfdt)PKCS9Attributf.EMAIL_ADDRESS_OID) ||
+            (tiis.oid.fqubls((Objfdt)X500Nbmf.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblsf)) {
+            // EmbilAddrfss bnd DombinComponfnt must bf IA5String
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_IA5String,
+                                        tfmp.toString().trim());
+        } flsf if (isPrintbblfString) {
+            rfturn nfw DfrVbluf(tfmp.toString().trim());
+        } flsf {
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_UTF8String,
+                                        tfmp.toString().trim());
         }
     }
 
-    private DerValue parseString
-        (Reader in, int c, int format, StringBuilder temp) throws IOException {
+    privbtf DfrVbluf pbrsfString
+        (Rfbdfr in, int d, int formbt, StringBuildfr tfmp) tirows IOExdfption {
 
-        List<Byte> embeddedHex = new ArrayList<>();
-        boolean isPrintableString = true;
-        boolean escape = false;
-        boolean leadingChar = true;
-        int spaceCount = 0;
+        List<Bytf> fmbfddfdHfx = nfw ArrbyList<>();
+        boolfbn isPrintbblfString = truf;
+        boolfbn fsdbpf = fblsf;
+        boolfbn lfbdingCibr = truf;
+        int spbdfCount = 0;
         do {
-            escape = false;
-            if (c == '\\') {
-                escape = true;
-                c = readChar(in, "Invalid trailing backslash");
+            fsdbpf = fblsf;
+            if (d == '\\') {
+                fsdbpf = truf;
+                d = rfbdCibr(in, "Invblid trbiling bbdkslbsi");
 
-                // check for embedded hex pairs
-                Byte hexByte = null;
-                if ((hexByte = getEmbeddedHexPair(c, in)) != null) {
+                // difdk for fmbfddfd ifx pbirs
+                Bytf ifxBytf = null;
+                if ((ifxBytf = gftEmbfddfdHfxPbir(d, in)) != null) {
 
-                    // always encode AVAs with embedded hex as UTF8
-                    isPrintableString = false;
+                    // blwbys fndodf AVAs witi fmbfddfd ifx bs UTF8
+                    isPrintbblfString = fblsf;
 
-                    // append consecutive embedded hex
-                    // as single string later
-                    embeddedHex.add(hexByte);
-                    c = in.read();
-                    leadingChar = false;
-                    continue;
+                    // bppfnd donsfdutivf fmbfddfd ifx
+                    // bs singlf string lbtfr
+                    fmbfddfdHfx.bdd(ifxBytf);
+                    d = in.rfbd();
+                    lfbdingCibr = fblsf;
+                    dontinuf;
                 }
 
-                // check if character was improperly escaped
-                if (format == DEFAULT &&
-                       specialCharsDefault.indexOf((char)c) == -1) {
-                    throw new IOException
-                        ("Invalid escaped character in AVA: '" +
-                        (char)c + "'");
-                } else if (format == RFC2253) {
-                    if (c == ' ') {
-                        // only leading/trailing space can be escaped
-                        if (!leadingChar && !trailingSpace(in)) {
-                            throw new IOException
-                                    ("Invalid escaped space character " +
-                                    "in AVA.  Only a leading or trailing " +
-                                    "space character can be escaped.");
+                // difdk if dibrbdtfr wbs impropfrly fsdbpfd
+                if (formbt == DEFAULT &&
+                       spfdiblCibrsDffbult.indfxOf((dibr)d) == -1) {
+                    tirow nfw IOExdfption
+                        ("Invblid fsdbpfd dibrbdtfr in AVA: '" +
+                        (dibr)d + "'");
+                } flsf if (formbt == RFC2253) {
+                    if (d == ' ') {
+                        // only lfbding/trbiling spbdf dbn bf fsdbpfd
+                        if (!lfbdingCibr && !trbilingSpbdf(in)) {
+                            tirow nfw IOExdfption
+                                    ("Invblid fsdbpfd spbdf dibrbdtfr " +
+                                    "in AVA.  Only b lfbding or trbiling " +
+                                    "spbdf dibrbdtfr dbn bf fsdbpfd.");
                         }
-                    } else if (c == '#') {
-                        // only leading '#' can be escaped
-                        if (!leadingChar) {
-                            throw new IOException
-                                ("Invalid escaped '#' character in AVA.  " +
-                                "Only a leading '#' can be escaped.");
+                    } flsf if (d == '#') {
+                        // only lfbding '#' dbn bf fsdbpfd
+                        if (!lfbdingCibr) {
+                            tirow nfw IOExdfption
+                                ("Invblid fsdbpfd '#' dibrbdtfr in AVA.  " +
+                                "Only b lfbding '#' dbn bf fsdbpfd.");
                         }
-                    } else if (specialChars2253.indexOf((char)c) == -1) {
-                        throw new IOException
-                                ("Invalid escaped character in AVA: '" +
-                                (char)c + "'");
+                    } flsf if (spfdiblCibrs2253.indfxOf((dibr)d) == -1) {
+                        tirow nfw IOExdfption
+                                ("Invblid fsdbpfd dibrbdtfr in AVA: '" +
+                                (dibr)d + "'");
                     }
                 }
-            } else {
-                // check if character should have been escaped
-                if (format == RFC2253) {
-                    if (specialChars2253.indexOf((char)c) != -1) {
-                        throw new IOException
-                                ("Character '" + (char)c +
-                                 "' in AVA appears without escape");
+            } flsf {
+                // difdk if dibrbdtfr siould ibvf bffn fsdbpfd
+                if (formbt == RFC2253) {
+                    if (spfdiblCibrs2253.indfxOf((dibr)d) != -1) {
+                        tirow nfw IOExdfption
+                                ("Cibrbdtfr '" + (dibr)d +
+                                 "' in AVA bppfbrs witiout fsdbpf");
                     }
-                } else if (escapedDefault.indexOf((char)c) != -1) {
-                    throw new IOException
-                            ("Character '" + (char)c +
-                            "' in AVA appears without escape");
+                } flsf if (fsdbpfdDffbult.indfxOf((dibr)d) != -1) {
+                    tirow nfw IOExdfption
+                            ("Cibrbdtfr '" + (dibr)d +
+                            "' in AVA bppfbrs witiout fsdbpf");
                 }
             }
 
-            // add embedded hex bytes before next char
-            if (embeddedHex.size() > 0) {
-                // add space(s) before embedded hex bytes
-                for (int i = 0; i < spaceCount; i++) {
-                    temp.append(" ");
+            // bdd fmbfddfd ifx bytfs bfforf nfxt dibr
+            if (fmbfddfdHfx.sizf() > 0) {
+                // bdd spbdf(s) bfforf fmbfddfd ifx bytfs
+                for (int i = 0; i < spbdfCount; i++) {
+                    tfmp.bppfnd(" ");
                 }
-                spaceCount = 0;
+                spbdfCount = 0;
 
-                String hexString = getEmbeddedHexString(embeddedHex);
-                temp.append(hexString);
-                embeddedHex.clear();
+                String ifxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+                tfmp.bppfnd(ifxString);
+                fmbfddfdHfx.dlfbr();
             }
 
-            // check for non-PrintableString chars
-            isPrintableString &= DerValue.isPrintableStringChar((char)c);
-            if (c == ' ' && escape == false) {
-                // do not add non-escaped spaces yet
-                // (non-escaped trailing spaces are ignored)
-                spaceCount++;
-            } else {
-                // add space(s)
-                for (int i = 0; i < spaceCount; i++) {
-                    temp.append(" ");
+            // difdk for non-PrintbblfString dibrs
+            isPrintbblfString &= DfrVbluf.isPrintbblfStringCibr((dibr)d);
+            if (d == ' ' && fsdbpf == fblsf) {
+                // do not bdd non-fsdbpfd spbdfs yft
+                // (non-fsdbpfd trbiling spbdfs brf ignorfd)
+                spbdfCount++;
+            } flsf {
+                // bdd spbdf(s)
+                for (int i = 0; i < spbdfCount; i++) {
+                    tfmp.bppfnd(" ");
                 }
-                spaceCount = 0;
-                temp.append((char)c);
+                spbdfCount = 0;
+                tfmp.bppfnd((dibr)d);
             }
-            c = in.read();
-            leadingChar = false;
-        } while (isTerminator(c, format) == false);
+            d = in.rfbd();
+            lfbdingCibr = fblsf;
+        } wiilf (isTfrminbtor(d, formbt) == fblsf);
 
-        if (format == RFC2253 && spaceCount > 0) {
-            throw new IOException("Incorrect AVA RFC2253 format - " +
-                                        "trailing space must be escaped");
+        if (formbt == RFC2253 && spbdfCount > 0) {
+            tirow nfw IOExdfption("Indorrfdt AVA RFC2253 formbt - " +
+                                        "trbiling spbdf must bf fsdbpfd");
         }
 
-        // add trailing embedded hex bytes
-        if (embeddedHex.size() > 0) {
-            String hexString = getEmbeddedHexString(embeddedHex);
-            temp.append(hexString);
-            embeddedHex.clear();
+        // bdd trbiling fmbfddfd ifx bytfs
+        if (fmbfddfdHfx.sizf() > 0) {
+            String ifxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+            tfmp.bppfnd(ifxString);
+            fmbfddfdHfx.dlfbr();
         }
 
-        // encode as PrintableString unless value contains
-        // non-PrintableString chars
-        if (this.oid.equals((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
-            (this.oid.equals((Object)X500Name.DOMAIN_COMPONENT_OID) &&
-                PRESERVE_OLD_DC_ENCODING == false)) {
-            // EmailAddress and DomainComponent must be IA5String
-            return new DerValue(DerValue.tag_IA5String, temp.toString());
-        } else if (isPrintableString) {
-            return new DerValue(temp.toString());
-        } else {
-            return new DerValue(DerValue.tag_UTF8String, temp.toString());
+        // fndodf bs PrintbblfString unlfss vbluf dontbins
+        // non-PrintbblfString dibrs
+        if (tiis.oid.fqubls((Objfdt)PKCS9Attributf.EMAIL_ADDRESS_OID) ||
+            (tiis.oid.fqubls((Objfdt)X500Nbmf.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblsf)) {
+            // EmbilAddrfss bnd DombinComponfnt must bf IA5String
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_IA5String, tfmp.toString());
+        } flsf if (isPrintbblfString) {
+            rfturn nfw DfrVbluf(tfmp.toString());
+        } flsf {
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_UTF8String, tfmp.toString());
         }
     }
 
-    private static Byte getEmbeddedHexPair(int c1, Reader in)
-        throws IOException {
+    privbtf stbtid Bytf gftEmbfddfdHfxPbir(int d1, Rfbdfr in)
+        tirows IOExdfption {
 
-        if (hexDigits.indexOf(Character.toUpperCase((char)c1)) >= 0) {
-            int c2 = readChar(in, "unexpected EOF - " +
-                        "escaped hex value must include two valid digits");
+        if (ifxDigits.indfxOf(Cibrbdtfr.toUppfrCbsf((dibr)d1)) >= 0) {
+            int d2 = rfbdCibr(in, "unfxpfdtfd EOF - " +
+                        "fsdbpfd ifx vbluf must indludf two vblid digits");
 
-            if (hexDigits.indexOf(Character.toUpperCase((char)c2)) >= 0) {
-                int hi = Character.digit((char)c1, 16);
-                int lo = Character.digit((char)c2, 16);
-                return (byte)((hi<<4) + lo);
-            } else {
-                throw new IOException
-                        ("escaped hex value must include two valid digits");
+            if (ifxDigits.indfxOf(Cibrbdtfr.toUppfrCbsf((dibr)d2)) >= 0) {
+                int ii = Cibrbdtfr.digit((dibr)d1, 16);
+                int lo = Cibrbdtfr.digit((dibr)d2, 16);
+                rfturn (bytf)((ii<<4) + lo);
+            } flsf {
+                tirow nfw IOExdfption
+                        ("fsdbpfd ifx vbluf must indludf two vblid digits");
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private static String getEmbeddedHexString(List<Byte> hexList)
-                                                throws IOException {
-        int n = hexList.size();
-        byte[] hexBytes = new byte[n];
+    privbtf stbtid String gftEmbfddfdHfxString(List<Bytf> ifxList)
+                                                tirows IOExdfption {
+        int n = ifxList.sizf();
+        bytf[] ifxBytfs = nfw bytf[n];
         for (int i = 0; i < n; i++) {
-                hexBytes[i] = hexList.get(i).byteValue();
+                ifxBytfs[i] = ifxList.gft(i).bytfVbluf();
         }
-        return new String(hexBytes, "UTF8");
+        rfturn nfw String(ifxBytfs, "UTF8");
     }
 
-    private static boolean isTerminator(int ch, int format) {
-        switch (ch) {
-        case -1:
-        case '+':
-        case ',':
-            return true;
-        case ';':
-            return format != RFC2253;
-        default:
-            return false;
+    privbtf stbtid boolfbn isTfrminbtor(int di, int formbt) {
+        switdi (di) {
+        dbsf -1:
+        dbsf '+':
+        dbsf ',':
+            rfturn truf;
+        dbsf ';':
+            rfturn formbt != RFC2253;
+        dffbult:
+            rfturn fblsf;
         }
     }
 
-    private static int readChar(Reader in, String errMsg) throws IOException {
-        int c = in.read();
-        if (c == -1) {
-            throw new IOException(errMsg);
+    privbtf stbtid int rfbdCibr(Rfbdfr in, String frrMsg) tirows IOExdfption {
+        int d = in.rfbd();
+        if (d == -1) {
+            tirow nfw IOExdfption(frrMsg);
         }
-        return c;
+        rfturn d;
     }
 
-    private static boolean trailingSpace(Reader in) throws IOException {
+    privbtf stbtid boolfbn trbilingSpbdf(Rfbdfr in) tirows IOExdfption {
 
-        boolean trailing = false;
+        boolfbn trbiling = fblsf;
 
-        if (!in.markSupported()) {
-            // oh well
-            return true;
-        } else {
-            // make readAheadLimit huge -
-            // in practice, AVA was passed a StringReader from X500Name,
-            // and StringReader ignores readAheadLimit anyways
-            in.mark(9999);
-            while (true) {
-                int nextChar = in.read();
-                if (nextChar == -1) {
-                    trailing = true;
-                    break;
-                } else if (nextChar == ' ') {
-                    continue;
-                } else if (nextChar == '\\') {
-                    int followingChar = in.read();
-                    if (followingChar != ' ') {
-                        trailing = false;
-                        break;
+        if (!in.mbrkSupportfd()) {
+            // oi wfll
+            rfturn truf;
+        } flsf {
+            // mbkf rfbdAifbdLimit iugf -
+            // in prbdtidf, AVA wbs pbssfd b StringRfbdfr from X500Nbmf,
+            // bnd StringRfbdfr ignorfs rfbdAifbdLimit bnywbys
+            in.mbrk(9999);
+            wiilf (truf) {
+                int nfxtCibr = in.rfbd();
+                if (nfxtCibr == -1) {
+                    trbiling = truf;
+                    brfbk;
+                } flsf if (nfxtCibr == ' ') {
+                    dontinuf;
+                } flsf if (nfxtCibr == '\\') {
+                    int followingCibr = in.rfbd();
+                    if (followingCibr != ' ') {
+                        trbiling = fblsf;
+                        brfbk;
                     }
-                } else {
-                    trailing = false;
-                    break;
+                } flsf {
+                    trbiling = fblsf;
+                    brfbk;
                 }
             }
 
-            in.reset();
-            return trailing;
+            in.rfsft();
+            rfturn trbiling;
         }
     }
 
-    AVA(DerValue derval) throws IOException {
-        // Individual attribute value assertions are SEQUENCE of two values.
-        // That'd be a "struct" outside of ASN.1.
-        if (derval.tag != DerValue.tag_Sequence) {
-            throw new IOException("AVA not a sequence");
+    AVA(DfrVbluf dfrvbl) tirows IOExdfption {
+        // Individubl bttributf vbluf bssfrtions brf SEQUENCE of two vblufs.
+        // Tibt'd bf b "strudt" outsidf of ASN.1.
+        if (dfrvbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("AVA not b sfqufndf");
         }
-        oid = X500Name.intern(derval.data.getOID());
-        value = derval.data.getDerValue();
+        oid = X500Nbmf.intfrn(dfrvbl.dbtb.gftOID());
+        vbluf = dfrvbl.dbtb.gftDfrVbluf();
 
-        if (derval.data.available() != 0) {
-            throw new IOException("AVA, extra bytes = "
-                + derval.data.available());
+        if (dfrvbl.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("AVA, fxtrb bytfs = "
+                + dfrvbl.dbtb.bvbilbblf());
         }
     }
 
-    AVA(DerInputStream in) throws IOException {
-        this(in.getDerValue());
+    AVA(DfrInputStrfbm in) tirows IOExdfption {
+        tiis(in.gftDfrVbluf());
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof AVA == false) {
-            return false;
+        if (obj instbndfof AVA == fblsf) {
+            rfturn fblsf;
         }
-        AVA other = (AVA)obj;
-        return this.toRFC2253CanonicalString().equals
-                                (other.toRFC2253CanonicalString());
+        AVA otifr = (AVA)obj;
+        rfturn tiis.toRFC2253CbnonidblString().fqubls
+                                (otifr.toRFC2253CbnonidblString());
     }
 
     /**
-     * Returns a hashcode for this AVA.
+     * Rfturns b ibsidodf for tiis AVA.
      *
-     * @return a hashcode for this AVA.
+     * @rfturn b ibsidodf for tiis AVA.
      */
-    public int hashCode() {
-        return toRFC2253CanonicalString().hashCode();
+    publid int ibsiCodf() {
+        rfturn toRFC2253CbnonidblString().ibsiCodf();
     }
 
     /*
-     * AVAs are encoded as a SEQUENCE of two elements.
+     * AVAs brf fndodfd bs b SEQUENCE of two flfmfnts.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        derEncode(out);
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        dfrEndodf(out);
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER fndodf tiis objfdt onto bn output strfbm.
+     * Implfmfnts tif <dodf>DfrEndodfr</dodf> intfrfbdf.
      *
-     * @param out
-     * the output stream on which to write the DER encoding.
+     * @pbrbm out
+     * tif output strfbm on wiidi to writf tif DER fndoding.
      *
-     * @exception IOException on encoding error.
+     * @fxdfption IOExdfption on fndoding frror.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        DerOutputStream         tmp = new DerOutputStream();
-        DerOutputStream         tmp2 = new DerOutputStream();
+    publid void dfrEndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm         tmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm         tmp2 = nfw DfrOutputStrfbm();
 
         tmp.putOID(oid);
-        value.encode(tmp);
-        tmp2.write(DerValue.tag_Sequence, tmp);
-        out.write(tmp2.toByteArray());
+        vbluf.fndodf(tmp);
+        tmp2.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        out.writf(tmp2.toBytfArrby());
     }
 
-    private String toKeyword(int format, Map<String, String> oidMap) {
-        return AVAKeyword.getKeyword(oid, format, oidMap);
-    }
-
-    /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions.
-     */
-    public String toString() {
-        return toKeywordValueString
-            (toKeyword(DEFAULT, Collections.<String, String>emptyMap()));
+    privbtf String toKfyword(int formbt, Mbp<String, String> oidMbp) {
+        rfturn AVAKfyword.gftKfyword(oid, formbt, oidMbp);
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions. It only
-     * emits standardised keywords.
+     * Rfturns b printbblf form of tiis bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions.
      */
-    public String toRFC1779String() {
-        return toRFC1779String(Collections.<String, String>emptyMap());
+    publid String toString() {
+        rfturn toKfywordVblufString
+            (toKfyword(DEFAULT, Collfdtions.<String, String>fmptyMbp()));
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions. It
-     * emits standardised keywords, as well as keywords contained in the
-     * OID/keyword map.
+     * Rfturns b printbblf form of tiis bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions. It only
+     * fmits stbndbrdisfd kfywords.
      */
-    public String toRFC1779String(Map<String, String> oidMap) {
-        return toKeywordValueString(toKeyword(RFC1779, oidMap));
+    publid String toRFC1779String() {
+        rfturn toRFC1779String(Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 2253
-     * syntax for individual attribute/value assertions. It only
-     * emits standardised keywords.
+     * Rfturns b printbblf form of tiis bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions. It
+     * fmits stbndbrdisfd kfywords, bs wfll bs kfywords dontbinfd in tif
+     * OID/kfyword mbp.
      */
-    public String toRFC2253String() {
-        return toRFC2253String(Collections.<String, String>emptyMap());
+    publid String toRFC1779String(Mbp<String, String> oidMbp) {
+        rfturn toKfywordVblufString(toKfyword(RFC1779, oidMbp));
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 2253
-     * syntax for individual attribute/value assertions. It
-     * emits standardised keywords, as well as keywords contained in the
-     * OID/keyword map.
+     * Rfturns b printbblf form of tiis bttributf, using RFC 2253
+     * syntbx for individubl bttributf/vbluf bssfrtions. It only
+     * fmits stbndbrdisfd kfywords.
      */
-    public String toRFC2253String(Map<String, String> oidMap) {
+    publid String toRFC2253String() {
+        rfturn toRFC2253String(Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Rfturns b printbblf form of tiis bttributf, using RFC 2253
+     * syntbx for individubl bttributf/vbluf bssfrtions. It
+     * fmits stbndbrdisfd kfywords, bs wfll bs kfywords dontbinfd in tif
+     * OID/kfyword mbp.
+     */
+    publid String toRFC2253String(Mbp<String, String> oidMbp) {
         /*
-         * Section 2.3: The AttributeTypeAndValue is encoded as the string
-         * representation of the AttributeType, followed by an equals character
-         * ('=' ASCII 61), followed by the string representation of the
-         * AttributeValue. The encoding of the AttributeValue is given in
-         * section 2.4.
+         * Sfdtion 2.3: Tif AttributfTypfAndVbluf is fndodfd bs tif string
+         * rfprfsfntbtion of tif AttributfTypf, followfd by bn fqubls dibrbdtfr
+         * ('=' ASCII 61), followfd by tif string rfprfsfntbtion of tif
+         * AttributfVbluf. Tif fndoding of tif AttributfVbluf is givfn in
+         * sfdtion 2.4.
          */
-        StringBuilder typeAndValue = new StringBuilder(100);
-        typeAndValue.append(toKeyword(RFC2253, oidMap));
-        typeAndValue.append('=');
+        StringBuildfr typfAndVbluf = nfw StringBuildfr(100);
+        typfAndVbluf.bppfnd(toKfyword(RFC2253, oidMbp));
+        typfAndVbluf.bppfnd('=');
 
         /*
-         * Section 2.4: Converting an AttributeValue from ASN.1 to a String.
-         * If the AttributeValue is of a type which does not have a string
-         * representation defined for it, then it is simply encoded as an
-         * octothorpe character ('#' ASCII 35) followed by the hexadecimal
-         * representation of each of the bytes of the BER encoding of the X.500
-         * AttributeValue.  This form SHOULD be used if the AttributeType is of
-         * the dotted-decimal form.
+         * Sfdtion 2.4: Convfrting bn AttributfVbluf from ASN.1 to b String.
+         * If tif AttributfVbluf is of b typf wiidi dofs not ibvf b string
+         * rfprfsfntbtion dffinfd for it, tifn it is simply fndodfd bs bn
+         * odtotiorpf dibrbdtfr ('#' ASCII 35) followfd by tif ifxbdfdimbl
+         * rfprfsfntbtion of fbdi of tif bytfs of tif BER fndoding of tif X.500
+         * AttributfVbluf.  Tiis form SHOULD bf usfd if tif AttributfTypf is of
+         * tif dottfd-dfdimbl form.
          */
-        if ((typeAndValue.charAt(0) >= '0' && typeAndValue.charAt(0) <= '9') ||
-            !isDerString(value, false))
+        if ((typfAndVbluf.dibrAt(0) >= '0' && typfAndVbluf.dibrAt(0) <= '9') ||
+            !isDfrString(vbluf, fblsf))
         {
-            byte[] data = null;
+            bytf[] dbtb = null;
             try {
-                data = value.toByteArray();
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                dbtb = vbluf.toBytfArrby();
+            } dbtdi (IOExdfption if) {
+                tirow nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
             }
-            typeAndValue.append('#');
-            for (int j = 0; j < data.length; j++) {
-                byte b = data[j];
-                typeAndValue.append(Character.forDigit(0xF & (b >>> 4), 16));
-                typeAndValue.append(Character.forDigit(0xF & b, 16));
+            typfAndVbluf.bppfnd('#');
+            for (int j = 0; j < dbtb.lfngti; j++) {
+                bytf b = dbtb[j];
+                typfAndVbluf.bppfnd(Cibrbdtfr.forDigit(0xF & (b >>> 4), 16));
+                typfAndVbluf.bppfnd(Cibrbdtfr.forDigit(0xF & b, 16));
             }
-        } else {
+        } flsf {
             /*
-             * 2.4 (cont): Otherwise, if the AttributeValue is of a type which
-             * has a string representation, the value is converted first to a
-             * UTF-8 string according to its syntax specification.
+             * 2.4 (dont): Otifrwisf, if tif AttributfVbluf is of b typf wiidi
+             * ibs b string rfprfsfntbtion, tif vbluf is donvfrtfd first to b
+             * UTF-8 string bddording to its syntbx spfdifidbtion.
              *
-             * NOTE: this implementation only emits DirectoryStrings of the
-             * types returned by isDerString().
+             * NOTE: tiis implfmfntbtion only fmits DirfdtoryStrings of tif
+             * typfs rfturnfd by isDfrString().
              */
-            String valStr = null;
+            String vblStr = null;
             try {
-                valStr = new String(value.getDataBytes(), "UTF8");
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                vblStr = nfw String(vbluf.gftDbtbBytfs(), "UTF8");
+            } dbtdi (IOExdfption if) {
+                tirow nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
             }
 
             /*
-             * 2.4 (cont): If the UTF-8 string does not have any of the
-             * following characters which need escaping, then that string can be
-             * used as the string representation of the value.
+             * 2.4 (dont): If tif UTF-8 string dofs not ibvf bny of tif
+             * following dibrbdtfrs wiidi nffd fsdbping, tifn tibt string dbn bf
+             * usfd bs tif string rfprfsfntbtion of tif vbluf.
              *
-             *   o   a space or "#" character occurring at the beginning of the
+             *   o   b spbdf or "#" dibrbdtfr oddurring bt tif bfginning of tif
              *       string
-             *   o   a space character occurring at the end of the string
-             *   o   one of the characters ",", "+", """, "\", "<", ">" or ";"
+             *   o   b spbdf dibrbdtfr oddurring bt tif fnd of tif string
+             *   o   onf of tif dibrbdtfrs ",", "+", """, "\", "<", ">" or ";"
              *
-             * Implementations MAY escape other characters.
+             * Implfmfntbtions MAY fsdbpf otifr dibrbdtfrs.
              *
-             * NOTE: this implementation also recognizes "=" and "#" as
-             * characters which need escaping, and null which is escaped as
-             * '\00' (see RFC 4514).
+             * NOTE: tiis implfmfntbtion blso rfdognizfs "=" bnd "#" bs
+             * dibrbdtfrs wiidi nffd fsdbping, bnd null wiidi is fsdbpfd bs
+             * '\00' (sff RFC 4514).
              *
-             * If a character to be escaped is one of the list shown above, then
-             * it is prefixed by a backslash ('\' ASCII 92).
+             * If b dibrbdtfr to bf fsdbpfd is onf of tif list siown bbovf, tifn
+             * it is prffixfd by b bbdkslbsi ('\' ASCII 92).
              *
-             * Otherwise the character to be escaped is replaced by a backslash
-             * and two hex digits, which form a single byte in the code of the
-             * character.
+             * Otifrwisf tif dibrbdtfr to bf fsdbpfd is rfplbdfd by b bbdkslbsi
+             * bnd two ifx digits, wiidi form b singlf bytf in tif dodf of tif
+             * dibrbdtfr.
              */
-            final String escapees = ",=+<>#;\"\\";
-            StringBuilder sbuffer = new StringBuilder();
+            finbl String fsdbpffs = ",=+<>#;\"\\";
+            StringBuildfr sbufffr = nfw StringBuildfr();
 
-            for (int i = 0; i < valStr.length(); i++) {
-                char c = valStr.charAt(i);
-                if (DerValue.isPrintableStringChar(c) ||
-                    escapees.indexOf(c) >= 0) {
+            for (int i = 0; i < vblStr.lfngti(); i++) {
+                dibr d = vblStr.dibrAt(i);
+                if (DfrVbluf.isPrintbblfStringCibr(d) ||
+                    fsdbpffs.indfxOf(d) >= 0) {
 
-                    // escape escapees
-                    if (escapees.indexOf(c) >= 0) {
-                        sbuffer.append('\\');
+                    // fsdbpf fsdbpffs
+                    if (fsdbpffs.indfxOf(d) >= 0) {
+                        sbufffr.bppfnd('\\');
                     }
 
-                    // append printable/escaped char
-                    sbuffer.append(c);
+                    // bppfnd printbblf/fsdbpfd dibr
+                    sbufffr.bppfnd(d);
 
-                } else if (c == '\u0000') {
-                    // escape null character
-                    sbuffer.append("\\00");
+                } flsf if (d == '\u0000') {
+                    // fsdbpf null dibrbdtfr
+                    sbufffr.bppfnd("\\00");
 
-                } else if (debug != null && Debug.isOn("ava")) {
+                } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
 
-                    // embed non-printable/non-escaped char
-                    // as escaped hex pairs for debugging
-                    byte[] valueBytes = null;
+                    // fmbfd non-printbblf/non-fsdbpfd dibr
+                    // bs fsdbpfd ifx pbirs for dfbugging
+                    bytf[] vblufBytfs = null;
                     try {
-                        valueBytes = Character.toString(c).getBytes("UTF8");
-                    } catch (IOException ie) {
-                        throw new IllegalArgumentException
-                                        ("DER Value conversion");
+                        vblufBytfs = Cibrbdtfr.toString(d).gftBytfs("UTF8");
+                    } dbtdi (IOExdfption if) {
+                        tirow nfw IllfgblArgumfntExdfption
+                                        ("DER Vbluf donvfrsion");
                     }
-                    for (int j = 0; j < valueBytes.length; j++) {
-                        sbuffer.append('\\');
-                        char hexChar = Character.forDigit
-                                (0xF & (valueBytes[j] >>> 4), 16);
-                        sbuffer.append(Character.toUpperCase(hexChar));
-                        hexChar = Character.forDigit
-                                (0xF & (valueBytes[j]), 16);
-                        sbuffer.append(Character.toUpperCase(hexChar));
+                    for (int j = 0; j < vblufBytfs.lfngti; j++) {
+                        sbufffr.bppfnd('\\');
+                        dibr ifxCibr = Cibrbdtfr.forDigit
+                                (0xF & (vblufBytfs[j] >>> 4), 16);
+                        sbufffr.bppfnd(Cibrbdtfr.toUppfrCbsf(ifxCibr));
+                        ifxCibr = Cibrbdtfr.forDigit
+                                (0xF & (vblufBytfs[j]), 16);
+                        sbufffr.bppfnd(Cibrbdtfr.toUppfrCbsf(ifxCibr));
                     }
-                } else {
+                } flsf {
 
-                    // append non-printable/non-escaped char
-                    sbuffer.append(c);
+                    // bppfnd non-printbblf/non-fsdbpfd dibr
+                    sbufffr.bppfnd(d);
                 }
             }
 
-            char[] chars = sbuffer.toString().toCharArray();
-            sbuffer = new StringBuilder();
+            dibr[] dibrs = sbufffr.toString().toCibrArrby();
+            sbufffr = nfw StringBuildfr();
 
-            // Find leading and trailing whitespace.
-            int lead;   // index of first char that is not leading whitespace
-            for (lead = 0; lead < chars.length; lead++) {
-                if (chars[lead] != ' ' && chars[lead] != '\r') {
-                    break;
+            // Find lfbding bnd trbiling wiitfspbdf.
+            int lfbd;   // indfx of first dibr tibt is not lfbding wiitfspbdf
+            for (lfbd = 0; lfbd < dibrs.lfngti; lfbd++) {
+                if (dibrs[lfbd] != ' ' && dibrs[lfbd] != '\r') {
+                    brfbk;
                 }
             }
-            int trail;  // index of last char that is not trailing whitespace
-            for (trail = chars.length - 1; trail >= 0; trail--) {
-                if (chars[trail] != ' ' && chars[trail] != '\r') {
-                    break;
+            int trbil;  // indfx of lbst dibr tibt is not trbiling wiitfspbdf
+            for (trbil = dibrs.lfngti - 1; trbil >= 0; trbil--) {
+                if (dibrs[trbil] != ' ' && dibrs[trbil] != '\r') {
+                    brfbk;
                 }
             }
 
-            // escape leading and trailing whitespace
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
-                if (i < lead || i > trail) {
-                    sbuffer.append('\\');
+            // fsdbpf lfbding bnd trbiling wiitfspbdf
+            for (int i = 0; i < dibrs.lfngti; i++) {
+                dibr d = dibrs[i];
+                if (i < lfbd || i > trbil) {
+                    sbufffr.bppfnd('\\');
                 }
-                sbuffer.append(c);
+                sbufffr.bppfnd(d);
             }
-            typeAndValue.append(sbuffer.toString());
+            typfAndVbluf.bppfnd(sbufffr.toString());
         }
-        return typeAndValue.toString();
+        rfturn typfAndVbluf.toString();
     }
 
-    public String toRFC2253CanonicalString() {
+    publid String toRFC2253CbnonidblString() {
         /*
-         * Section 2.3: The AttributeTypeAndValue is encoded as the string
-         * representation of the AttributeType, followed by an equals character
-         * ('=' ASCII 61), followed by the string representation of the
-         * AttributeValue. The encoding of the AttributeValue is given in
-         * section 2.4.
+         * Sfdtion 2.3: Tif AttributfTypfAndVbluf is fndodfd bs tif string
+         * rfprfsfntbtion of tif AttributfTypf, followfd by bn fqubls dibrbdtfr
+         * ('=' ASCII 61), followfd by tif string rfprfsfntbtion of tif
+         * AttributfVbluf. Tif fndoding of tif AttributfVbluf is givfn in
+         * sfdtion 2.4.
          */
-        StringBuilder typeAndValue = new StringBuilder(40);
-        typeAndValue.append
-            (toKeyword(RFC2253, Collections.<String, String>emptyMap()));
-        typeAndValue.append('=');
+        StringBuildfr typfAndVbluf = nfw StringBuildfr(40);
+        typfAndVbluf.bppfnd
+            (toKfyword(RFC2253, Collfdtions.<String, String>fmptyMbp()));
+        typfAndVbluf.bppfnd('=');
 
         /*
-         * Section 2.4: Converting an AttributeValue from ASN.1 to a String.
-         * If the AttributeValue is of a type which does not have a string
-         * representation defined for it, then it is simply encoded as an
-         * octothorpe character ('#' ASCII 35) followed by the hexadecimal
-         * representation of each of the bytes of the BER encoding of the X.500
-         * AttributeValue.  This form SHOULD be used if the AttributeType is of
-         * the dotted-decimal form.
+         * Sfdtion 2.4: Convfrting bn AttributfVbluf from ASN.1 to b String.
+         * If tif AttributfVbluf is of b typf wiidi dofs not ibvf b string
+         * rfprfsfntbtion dffinfd for it, tifn it is simply fndodfd bs bn
+         * odtotiorpf dibrbdtfr ('#' ASCII 35) followfd by tif ifxbdfdimbl
+         * rfprfsfntbtion of fbdi of tif bytfs of tif BER fndoding of tif X.500
+         * AttributfVbluf.  Tiis form SHOULD bf usfd if tif AttributfTypf is of
+         * tif dottfd-dfdimbl form.
          */
-        if ((typeAndValue.charAt(0) >= '0' && typeAndValue.charAt(0) <= '9') ||
-            !isDerString(value, true))
+        if ((typfAndVbluf.dibrAt(0) >= '0' && typfAndVbluf.dibrAt(0) <= '9') ||
+            !isDfrString(vbluf, truf))
         {
-            byte[] data = null;
+            bytf[] dbtb = null;
             try {
-                data = value.toByteArray();
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                dbtb = vbluf.toBytfArrby();
+            } dbtdi (IOExdfption if) {
+                tirow nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
             }
-            typeAndValue.append('#');
-            for (int j = 0; j < data.length; j++) {
-                byte b = data[j];
-                typeAndValue.append(Character.forDigit(0xF & (b >>> 4), 16));
-                typeAndValue.append(Character.forDigit(0xF & b, 16));
+            typfAndVbluf.bppfnd('#');
+            for (int j = 0; j < dbtb.lfngti; j++) {
+                bytf b = dbtb[j];
+                typfAndVbluf.bppfnd(Cibrbdtfr.forDigit(0xF & (b >>> 4), 16));
+                typfAndVbluf.bppfnd(Cibrbdtfr.forDigit(0xF & b, 16));
             }
-        } else {
+        } flsf {
             /*
-             * 2.4 (cont): Otherwise, if the AttributeValue is of a type which
-             * has a string representation, the value is converted first to a
-             * UTF-8 string according to its syntax specification.
+             * 2.4 (dont): Otifrwisf, if tif AttributfVbluf is of b typf wiidi
+             * ibs b string rfprfsfntbtion, tif vbluf is donvfrtfd first to b
+             * UTF-8 string bddording to its syntbx spfdifidbtion.
              *
-             * NOTE: this implementation only emits DirectoryStrings of the
-             * types returned by isDerString().
+             * NOTE: tiis implfmfntbtion only fmits DirfdtoryStrings of tif
+             * typfs rfturnfd by isDfrString().
              */
-            String valStr = null;
+            String vblStr = null;
             try {
-                valStr = new String(value.getDataBytes(), "UTF8");
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                vblStr = nfw String(vbluf.gftDbtbBytfs(), "UTF8");
+            } dbtdi (IOExdfption if) {
+                tirow nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
             }
 
             /*
-             * 2.4 (cont): If the UTF-8 string does not have any of the
-             * following characters which need escaping, then that string can be
-             * used as the string representation of the value.
+             * 2.4 (dont): If tif UTF-8 string dofs not ibvf bny of tif
+             * following dibrbdtfrs wiidi nffd fsdbping, tifn tibt string dbn bf
+             * usfd bs tif string rfprfsfntbtion of tif vbluf.
              *
-             *   o   a space or "#" character occurring at the beginning of the
+             *   o   b spbdf or "#" dibrbdtfr oddurring bt tif bfginning of tif
              *       string
-             *   o   a space character occurring at the end of the string
+             *   o   b spbdf dibrbdtfr oddurring bt tif fnd of tif string
              *
-             *   o   one of the characters ",", "+", """, "\", "<", ">" or ";"
+             *   o   onf of tif dibrbdtfrs ",", "+", """, "\", "<", ">" or ";"
              *
-             * If a character to be escaped is one of the list shown above, then
-             * it is prefixed by a backslash ('\' ASCII 92).
+             * If b dibrbdtfr to bf fsdbpfd is onf of tif list siown bbovf, tifn
+             * it is prffixfd by b bbdkslbsi ('\' ASCII 92).
              *
-             * Otherwise the character to be escaped is replaced by a backslash
-             * and two hex digits, which form a single byte in the code of the
-             * character.
+             * Otifrwisf tif dibrbdtfr to bf fsdbpfd is rfplbdfd by b bbdkslbsi
+             * bnd two ifx digits, wiidi form b singlf bytf in tif dodf of tif
+             * dibrbdtfr.
              */
-            final String escapees = ",+<>;\"\\";
-            StringBuilder sbuffer = new StringBuilder();
-            boolean previousWhite = false;
+            finbl String fsdbpffs = ",+<>;\"\\";
+            StringBuildfr sbufffr = nfw StringBuildfr();
+            boolfbn prfviousWiitf = fblsf;
 
-            for (int i = 0; i < valStr.length(); i++) {
-                char c = valStr.charAt(i);
+            for (int i = 0; i < vblStr.lfngti(); i++) {
+                dibr d = vblStr.dibrAt(i);
 
-                if (DerValue.isPrintableStringChar(c) ||
-                    escapees.indexOf(c) >= 0 ||
-                    (i == 0 && c == '#')) {
+                if (DfrVbluf.isPrintbblfStringCibr(d) ||
+                    fsdbpffs.indfxOf(d) >= 0 ||
+                    (i == 0 && d == '#')) {
 
-                    // escape leading '#' and escapees
-                    if ((i == 0 && c == '#') || escapees.indexOf(c) >= 0) {
-                        sbuffer.append('\\');
+                    // fsdbpf lfbding '#' bnd fsdbpffs
+                    if ((i == 0 && d == '#') || fsdbpffs.indfxOf(d) >= 0) {
+                        sbufffr.bppfnd('\\');
                     }
 
-                    // convert multiple whitespace to single whitespace
-                    if (!Character.isWhitespace(c)) {
-                        previousWhite = false;
-                        sbuffer.append(c);
-                    } else {
-                        if (previousWhite == false) {
-                            // add single whitespace
-                            previousWhite = true;
-                            sbuffer.append(c);
-                        } else {
-                            // ignore subsequent consecutive whitespace
-                            continue;
+                    // donvfrt multiplf wiitfspbdf to singlf wiitfspbdf
+                    if (!Cibrbdtfr.isWiitfspbdf(d)) {
+                        prfviousWiitf = fblsf;
+                        sbufffr.bppfnd(d);
+                    } flsf {
+                        if (prfviousWiitf == fblsf) {
+                            // bdd singlf wiitfspbdf
+                            prfviousWiitf = truf;
+                            sbufffr.bppfnd(d);
+                        } flsf {
+                            // ignorf subsfqufnt donsfdutivf wiitfspbdf
+                            dontinuf;
                         }
                     }
 
-                } else if (debug != null && Debug.isOn("ava")) {
+                } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
 
-                    // embed non-printable/non-escaped char
-                    // as escaped hex pairs for debugging
+                    // fmbfd non-printbblf/non-fsdbpfd dibr
+                    // bs fsdbpfd ifx pbirs for dfbugging
 
-                    previousWhite = false;
+                    prfviousWiitf = fblsf;
 
-                    byte valueBytes[] = null;
+                    bytf vblufBytfs[] = null;
                     try {
-                        valueBytes = Character.toString(c).getBytes("UTF8");
-                    } catch (IOException ie) {
-                        throw new IllegalArgumentException
-                                        ("DER Value conversion");
+                        vblufBytfs = Cibrbdtfr.toString(d).gftBytfs("UTF8");
+                    } dbtdi (IOExdfption if) {
+                        tirow nfw IllfgblArgumfntExdfption
+                                        ("DER Vbluf donvfrsion");
                     }
-                    for (int j = 0; j < valueBytes.length; j++) {
-                        sbuffer.append('\\');
-                        sbuffer.append(Character.forDigit
-                                        (0xF & (valueBytes[j] >>> 4), 16));
-                        sbuffer.append(Character.forDigit
-                                        (0xF & (valueBytes[j]), 16));
+                    for (int j = 0; j < vblufBytfs.lfngti; j++) {
+                        sbufffr.bppfnd('\\');
+                        sbufffr.bppfnd(Cibrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j] >>> 4), 16));
+                        sbufffr.bppfnd(Cibrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j]), 16));
                     }
-                } else {
+                } flsf {
 
-                    // append non-printable/non-escaped char
+                    // bppfnd non-printbblf/non-fsdbpfd dibr
 
-                    previousWhite = false;
-                    sbuffer.append(c);
+                    prfviousWiitf = fblsf;
+                    sbufffr.bppfnd(d);
                 }
             }
 
-            // remove leading and trailing whitespace from value
-            typeAndValue.append(sbuffer.toString().trim());
+            // rfmovf lfbding bnd trbiling wiitfspbdf from vbluf
+            typfAndVbluf.bppfnd(sbufffr.toString().trim());
         }
 
-        String canon = typeAndValue.toString();
-        canon = canon.toUpperCase(Locale.US).toLowerCase(Locale.US);
-        return Normalizer.normalize(canon, Normalizer.Form.NFKD);
+        String dbnon = typfAndVbluf.toString();
+        dbnon = dbnon.toUppfrCbsf(Lodblf.US).toLowfrCbsf(Lodblf.US);
+        rfturn Normblizfr.normblizf(dbnon, Normblizfr.Form.NFKD);
     }
 
     /*
-     * Return true if DerValue can be represented as a String.
+     * Rfturn truf if DfrVbluf dbn bf rfprfsfntfd bs b String.
      */
-    private static boolean isDerString(DerValue value, boolean canonical) {
-        if (canonical) {
-            switch (value.tag) {
-                case DerValue.tag_PrintableString:
-                case DerValue.tag_UTF8String:
-                    return true;
-                default:
-                    return false;
+    privbtf stbtid boolfbn isDfrString(DfrVbluf vbluf, boolfbn dbnonidbl) {
+        if (dbnonidbl) {
+            switdi (vbluf.tbg) {
+                dbsf DfrVbluf.tbg_PrintbblfString:
+                dbsf DfrVbluf.tbg_UTF8String:
+                    rfturn truf;
+                dffbult:
+                    rfturn fblsf;
             }
-        } else {
-            switch (value.tag) {
-                case DerValue.tag_PrintableString:
-                case DerValue.tag_T61String:
-                case DerValue.tag_IA5String:
-                case DerValue.tag_GeneralString:
-                case DerValue.tag_BMPString:
-                case DerValue.tag_UTF8String:
-                    return true;
-                default:
-                    return false;
+        } flsf {
+            switdi (vbluf.tbg) {
+                dbsf DfrVbluf.tbg_PrintbblfString:
+                dbsf DfrVbluf.tbg_T61String:
+                dbsf DfrVbluf.tbg_IA5String:
+                dbsf DfrVbluf.tbg_GfnfrblString:
+                dbsf DfrVbluf.tbg_BMPString:
+                dbsf DfrVbluf.tbg_UTF8String:
+                    rfturn truf;
+                dffbult:
+                    rfturn fblsf;
             }
         }
     }
 
-    boolean hasRFC2253Keyword() {
-        return AVAKeyword.hasKeyword(oid, RFC2253);
+    boolfbn ibsRFC2253Kfyword() {
+        rfturn AVAKfyword.ibsKfyword(oid, RFC2253);
     }
 
-    private String toKeywordValueString(String keyword) {
+    privbtf String toKfywordVblufString(String kfyword) {
         /*
-         * Construct the value with as little copying and garbage
-         * production as practical.  First the keyword (mandatory),
-         * then the equals sign, finally the value.
+         * Construdt tif vbluf witi bs littlf dopying bnd gbrbbgf
+         * produdtion bs prbdtidbl.  First tif kfyword (mbndbtory),
+         * tifn tif fqubls sign, finblly tif vbluf.
          */
-        StringBuilder   retval = new StringBuilder(40);
+        StringBuildfr   rftvbl = nfw StringBuildfr(40);
 
-        retval.append(keyword);
-        retval.append("=");
+        rftvbl.bppfnd(kfyword);
+        rftvbl.bppfnd("=");
 
         try {
-            String valStr = value.getAsString();
+            String vblStr = vbluf.gftAsString();
 
-            if (valStr == null) {
+            if (vblStr == null) {
 
-                // rfc1779 specifies that attribute values associated
-                // with non-standard keyword attributes may be represented
-                // using the hex format below.  This will be used only
-                // when the value is not a string type
+                // rfd1779 spfdififs tibt bttributf vblufs bssodibtfd
+                // witi non-stbndbrd kfyword bttributfs mby bf rfprfsfntfd
+                // using tif ifx formbt bflow.  Tiis will bf usfd only
+                // wifn tif vbluf is not b string typf
 
-                byte    data [] = value.toByteArray();
+                bytf    dbtb [] = vbluf.toBytfArrby();
 
-                retval.append('#');
-                for (int i = 0; i < data.length; i++) {
-                    retval.append(hexDigits.charAt((data [i] >> 4) & 0x0f));
-                    retval.append(hexDigits.charAt(data [i] & 0x0f));
+                rftvbl.bppfnd('#');
+                for (int i = 0; i < dbtb.lfngti; i++) {
+                    rftvbl.bppfnd(ifxDigits.dibrAt((dbtb [i] >> 4) & 0x0f));
+                    rftvbl.bppfnd(ifxDigits.dibrAt(dbtb [i] & 0x0f));
                 }
 
-            } else {
+            } flsf {
 
-                boolean quoteNeeded = false;
-                StringBuilder sbuffer = new StringBuilder();
-                boolean previousWhite = false;
-                final String escapees = ",+=\n<>#;\\\"";
+                boolfbn quotfNffdfd = fblsf;
+                StringBuildfr sbufffr = nfw StringBuildfr();
+                boolfbn prfviousWiitf = fblsf;
+                finbl String fsdbpffs = ",+=\n<>#;\\\"";
 
                 /*
-                 * Special characters (e.g. AVA list separators) cause strings
-                 * to need quoting, or at least escaping.  So do leading or
-                 * trailing spaces, and multiple internal spaces.
+                 * Spfdibl dibrbdtfrs (f.g. AVA list sfpbrbtors) dbusf strings
+                 * to nffd quoting, or bt lfbst fsdbping.  So do lfbding or
+                 * trbiling spbdfs, bnd multiplf intfrnbl spbdfs.
                  */
-                int length = valStr.length();
-                boolean alreadyQuoted =
-                    (length > 1 && valStr.charAt(0) == '\"'
-                     && valStr.charAt(length - 1) == '\"');
+                int lfngti = vblStr.lfngti();
+                boolfbn blrfbdyQuotfd =
+                    (lfngti > 1 && vblStr.dibrAt(0) == '\"'
+                     && vblStr.dibrAt(lfngti - 1) == '\"');
 
-                for (int i = 0; i < length; i++) {
-                    char c = valStr.charAt(i);
-                    if (alreadyQuoted && (i == 0 || i == length - 1)) {
-                        sbuffer.append(c);
-                        continue;
+                for (int i = 0; i < lfngti; i++) {
+                    dibr d = vblStr.dibrAt(i);
+                    if (blrfbdyQuotfd && (i == 0 || i == lfngti - 1)) {
+                        sbufffr.bppfnd(d);
+                        dontinuf;
                     }
-                    if (DerValue.isPrintableStringChar(c) ||
-                        escapees.indexOf(c) >= 0) {
+                    if (DfrVbluf.isPrintbblfStringCibr(d) ||
+                        fsdbpffs.indfxOf(d) >= 0) {
 
-                        // quote if leading whitespace or special chars
-                        if (!quoteNeeded &&
-                            ((i == 0 && (c == ' ' || c == '\n')) ||
-                                escapees.indexOf(c) >= 0)) {
-                            quoteNeeded = true;
+                        // quotf if lfbding wiitfspbdf or spfdibl dibrs
+                        if (!quotfNffdfd &&
+                            ((i == 0 && (d == ' ' || d == '\n')) ||
+                                fsdbpffs.indfxOf(d) >= 0)) {
+                            quotfNffdfd = truf;
                         }
 
-                        // quote if multiple internal whitespace
-                        if (!(c == ' ' || c == '\n')) {
-                            // escape '"' and '\'
-                            if (c == '"' || c == '\\') {
-                                sbuffer.append('\\');
+                        // quotf if multiplf intfrnbl wiitfspbdf
+                        if (!(d == ' ' || d == '\n')) {
+                            // fsdbpf '"' bnd '\'
+                            if (d == '"' || d == '\\') {
+                                sbufffr.bppfnd('\\');
                             }
-                            previousWhite = false;
-                        } else {
-                            if (!quoteNeeded && previousWhite) {
-                                quoteNeeded = true;
+                            prfviousWiitf = fblsf;
+                        } flsf {
+                            if (!quotfNffdfd && prfviousWiitf) {
+                                quotfNffdfd = truf;
                             }
-                            previousWhite = true;
+                            prfviousWiitf = truf;
                         }
 
-                        sbuffer.append(c);
+                        sbufffr.bppfnd(d);
 
-                    } else if (debug != null && Debug.isOn("ava")) {
+                    } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
 
-                        // embed non-printable/non-escaped char
-                        // as escaped hex pairs for debugging
+                        // fmbfd non-printbblf/non-fsdbpfd dibr
+                        // bs fsdbpfd ifx pbirs for dfbugging
 
-                        previousWhite = false;
+                        prfviousWiitf = fblsf;
 
-                        // embed escaped hex pairs
-                        byte[] valueBytes =
-                                Character.toString(c).getBytes("UTF8");
-                        for (int j = 0; j < valueBytes.length; j++) {
-                            sbuffer.append('\\');
-                            char hexChar = Character.forDigit
-                                        (0xF & (valueBytes[j] >>> 4), 16);
-                            sbuffer.append(Character.toUpperCase(hexChar));
-                            hexChar = Character.forDigit
-                                        (0xF & (valueBytes[j]), 16);
-                            sbuffer.append(Character.toUpperCase(hexChar));
+                        // fmbfd fsdbpfd ifx pbirs
+                        bytf[] vblufBytfs =
+                                Cibrbdtfr.toString(d).gftBytfs("UTF8");
+                        for (int j = 0; j < vblufBytfs.lfngti; j++) {
+                            sbufffr.bppfnd('\\');
+                            dibr ifxCibr = Cibrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j] >>> 4), 16);
+                            sbufffr.bppfnd(Cibrbdtfr.toUppfrCbsf(ifxCibr));
+                            ifxCibr = Cibrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j]), 16);
+                            sbufffr.bppfnd(Cibrbdtfr.toUppfrCbsf(ifxCibr));
                         }
-                    } else {
+                    } flsf {
 
-                        // append non-printable/non-escaped char
+                        // bppfnd non-printbblf/non-fsdbpfd dibr
 
-                        previousWhite = false;
-                        sbuffer.append(c);
+                        prfviousWiitf = fblsf;
+                        sbufffr.bppfnd(d);
                     }
                 }
 
-                // quote if trailing whitespace
-                if (sbuffer.length() > 0) {
-                    char trailChar = sbuffer.charAt(sbuffer.length() - 1);
-                    if (trailChar == ' ' || trailChar == '\n') {
-                        quoteNeeded = true;
+                // quotf if trbiling wiitfspbdf
+                if (sbufffr.lfngti() > 0) {
+                    dibr trbilCibr = sbufffr.dibrAt(sbufffr.lfngti() - 1);
+                    if (trbilCibr == ' ' || trbilCibr == '\n') {
+                        quotfNffdfd = truf;
                     }
                 }
 
-                // Emit the string ... quote it if needed
-                // if string is already quoted, don't re-quote
-                if (!alreadyQuoted && quoteNeeded) {
-                    retval.append("\"" + sbuffer.toString() + "\"");
-                } else {
-                    retval.append(sbuffer.toString());
+                // Emit tif string ... quotf it if nffdfd
+                // if string is blrfbdy quotfd, don't rf-quotf
+                if (!blrfbdyQuotfd && quotfNffdfd) {
+                    rftvbl.bppfnd("\"" + sbufffr.toString() + "\"");
+                } flsf {
+                    rftvbl.bppfnd(sbufffr.toString());
                 }
             }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("DER Value conversion");
+        } dbtdi (IOExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
         }
 
-        return retval.toString();
+        rfturn rftvbl.toString();
     }
 
 }
 
 /**
- * Helper class that allows conversion from String to ObjectIdentifier and
- * vice versa according to RFC1779, RFC2253, and an augmented version of
- * those standards.
+ * Hflpfr dlbss tibt bllows donvfrsion from String to ObjfdtIdfntififr bnd
+ * vidf vfrsb bddording to RFC1779, RFC2253, bnd bn bugmfntfd vfrsion of
+ * tiosf stbndbrds.
  */
-class AVAKeyword {
+dlbss AVAKfyword {
 
-    private static final Map<ObjectIdentifier,AVAKeyword> oidMap;
-    private static final Map<String,AVAKeyword> keywordMap;
+    privbtf stbtid finbl Mbp<ObjfdtIdfntififr,AVAKfyword> oidMbp;
+    privbtf stbtid finbl Mbp<String,AVAKfyword> kfywordMbp;
 
-    private String keyword;
-    private ObjectIdentifier oid;
-    private boolean rfc1779Compliant, rfc2253Compliant;
+    privbtf String kfyword;
+    privbtf ObjfdtIdfntififr oid;
+    privbtf boolfbn rfd1779Complibnt, rfd2253Complibnt;
 
-    private AVAKeyword(String keyword, ObjectIdentifier oid,
-               boolean rfc1779Compliant, boolean rfc2253Compliant) {
-        this.keyword = keyword;
-        this.oid = oid;
-        this.rfc1779Compliant = rfc1779Compliant;
-        this.rfc2253Compliant = rfc2253Compliant;
+    privbtf AVAKfyword(String kfyword, ObjfdtIdfntififr oid,
+               boolfbn rfd1779Complibnt, boolfbn rfd2253Complibnt) {
+        tiis.kfyword = kfyword;
+        tiis.oid = oid;
+        tiis.rfd1779Complibnt = rfd1779Complibnt;
+        tiis.rfd2253Complibnt = rfd2253Complibnt;
 
-        // register it
-        oidMap.put(oid, this);
-        keywordMap.put(keyword, this);
+        // rfgistfr it
+        oidMbp.put(oid, tiis);
+        kfywordMbp.put(kfyword, tiis);
     }
 
-    private boolean isCompliant(int standard) {
-        switch (standard) {
-        case AVA.RFC1779:
-            return rfc1779Compliant;
-        case AVA.RFC2253:
-            return rfc2253Compliant;
-        case AVA.DEFAULT:
-            return true;
-        default:
-            // should not occur, internal error
-            throw new IllegalArgumentException("Invalid standard " + standard);
+    privbtf boolfbn isComplibnt(int stbndbrd) {
+        switdi (stbndbrd) {
+        dbsf AVA.RFC1779:
+            rfturn rfd1779Complibnt;
+        dbsf AVA.RFC2253:
+            rfturn rfd2253Complibnt;
+        dbsf AVA.DEFAULT:
+            rfturn truf;
+        dffbult:
+            // siould not oddur, intfrnbl frror
+            tirow nfw IllfgblArgumfntExdfption("Invblid stbndbrd " + stbndbrd);
         }
     }
 
     /**
-     * Get an object identifier representing the specified keyword (or
-     * string encoded object identifier) in the given standard.
+     * Gft bn objfdt idfntififr rfprfsfnting tif spfdififd kfyword (or
+     * string fndodfd objfdt idfntififr) in tif givfn stbndbrd.
      *
-     * @param keywordMap a Map where a keyword String maps to a corresponding
-     *   OID String. Each AVA keyword will be mapped to the corresponding OID.
-     *   If an entry does not exist, it will fallback to the builtin
-     *   keyword/OID mapping.
-     * @throws IOException If the keyword is not valid in the specified standard
-     *   or the OID String to which a keyword maps to is improperly formatted.
+     * @pbrbm kfywordMbp b Mbp wifrf b kfyword String mbps to b dorrfsponding
+     *   OID String. Ebdi AVA kfyword will bf mbppfd to tif dorrfsponding OID.
+     *   If bn fntry dofs not fxist, it will fbllbbdk to tif builtin
+     *   kfyword/OID mbpping.
+     * @tirows IOExdfption If tif kfyword is not vblid in tif spfdififd stbndbrd
+     *   or tif OID String to wiidi b kfyword mbps to is impropfrly formbttfd.
      */
-    static ObjectIdentifier getOID
-        (String keyword, int standard, Map<String, String> extraKeywordMap)
-            throws IOException {
+    stbtid ObjfdtIdfntififr gftOID
+        (String kfyword, int stbndbrd, Mbp<String, String> fxtrbKfywordMbp)
+            tirows IOExdfption {
 
-        keyword = keyword.toUpperCase(Locale.ENGLISH);
-        if (standard == AVA.RFC2253) {
-            if (keyword.startsWith(" ") || keyword.endsWith(" ")) {
-                throw new IOException("Invalid leading or trailing space " +
-                        "in keyword \"" + keyword + "\"");
+        kfyword = kfyword.toUppfrCbsf(Lodblf.ENGLISH);
+        if (stbndbrd == AVA.RFC2253) {
+            if (kfyword.stbrtsWiti(" ") || kfyword.fndsWiti(" ")) {
+                tirow nfw IOExdfption("Invblid lfbding or trbiling spbdf " +
+                        "in kfyword \"" + kfyword + "\"");
             }
-        } else {
-            keyword = keyword.trim();
+        } flsf {
+            kfyword = kfyword.trim();
         }
 
-        // check user-specified keyword map first, then fallback to built-in
-        // map
-        String oidString = extraKeywordMap.get(keyword);
+        // difdk usfr-spfdififd kfyword mbp first, tifn fbllbbdk to built-in
+        // mbp
+        String oidString = fxtrbKfywordMbp.gft(kfyword);
         if (oidString == null) {
-            AVAKeyword ak = keywordMap.get(keyword);
-            if ((ak != null) && ak.isCompliant(standard)) {
-                return ak.oid;
+            AVAKfyword bk = kfywordMbp.gft(kfyword);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                rfturn bk.oid;
             }
-        } else {
-            return new ObjectIdentifier(oidString);
+        } flsf {
+            rfturn nfw ObjfdtIdfntififr(oidString);
         }
 
-        // no keyword found, check if OID string
-        if (standard == AVA.DEFAULT && keyword.startsWith("OID.")) {
-            keyword = keyword.substring(4);
+        // no kfyword found, difdk if OID string
+        if (stbndbrd == AVA.DEFAULT && kfyword.stbrtsWiti("OID.")) {
+            kfyword = kfyword.substring(4);
         }
 
-        boolean number = false;
-        if (keyword.length() != 0) {
-            char ch = keyword.charAt(0);
-            if ((ch >= '0') && (ch <= '9')) {
-                number = true;
+        boolfbn numbfr = fblsf;
+        if (kfyword.lfngti() != 0) {
+            dibr di = kfyword.dibrAt(0);
+            if ((di >= '0') && (di <= '9')) {
+                numbfr = truf;
             }
         }
-        if (number == false) {
-            throw new IOException("Invalid keyword \"" + keyword + "\"");
+        if (numbfr == fblsf) {
+            tirow nfw IOExdfption("Invblid kfyword \"" + kfyword + "\"");
         }
-        return new ObjectIdentifier(keyword);
+        rfturn nfw ObjfdtIdfntififr(kfyword);
     }
 
     /**
-     * Get a keyword for the given ObjectIdentifier according to standard.
-     * If no keyword is available, the ObjectIdentifier is encoded as a
+     * Gft b kfyword for tif givfn ObjfdtIdfntififr bddording to stbndbrd.
+     * If no kfyword is bvbilbblf, tif ObjfdtIdfntififr is fndodfd bs b
      * String.
      */
-    static String getKeyword(ObjectIdentifier oid, int standard) {
-        return getKeyword
-            (oid, standard, Collections.<String, String>emptyMap());
+    stbtid String gftKfyword(ObjfdtIdfntififr oid, int stbndbrd) {
+        rfturn gftKfyword
+            (oid, stbndbrd, Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Get a keyword for the given ObjectIdentifier according to standard.
-     * Checks the extraOidMap for a keyword first, then falls back to the
-     * builtin/default set. If no keyword is available, the ObjectIdentifier
-     * is encoded as a String.
+     * Gft b kfyword for tif givfn ObjfdtIdfntififr bddording to stbndbrd.
+     * Cifdks tif fxtrbOidMbp for b kfyword first, tifn fblls bbdk to tif
+     * builtin/dffbult sft. If no kfyword is bvbilbblf, tif ObjfdtIdfntififr
+     * is fndodfd bs b String.
      */
-    static String getKeyword
-        (ObjectIdentifier oid, int standard, Map<String, String> extraOidMap) {
+    stbtid String gftKfyword
+        (ObjfdtIdfntififr oid, int stbndbrd, Mbp<String, String> fxtrbOidMbp) {
 
-        // check extraOidMap first, then fallback to built-in map
+        // difdk fxtrbOidMbp first, tifn fbllbbdk to built-in mbp
         String oidString = oid.toString();
-        String keywordString = extraOidMap.get(oidString);
-        if (keywordString == null) {
-            AVAKeyword ak = oidMap.get(oid);
-            if ((ak != null) && ak.isCompliant(standard)) {
-                return ak.keyword;
+        String kfywordString = fxtrbOidMbp.gft(oidString);
+        if (kfywordString == null) {
+            AVAKfyword bk = oidMbp.gft(oid);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                rfturn bk.kfyword;
             }
-        } else {
-            if (keywordString.length() == 0) {
-                throw new IllegalArgumentException("keyword cannot be empty");
+        } flsf {
+            if (kfywordString.lfngti() == 0) {
+                tirow nfw IllfgblArgumfntExdfption("kfyword dbnnot bf fmpty");
             }
-            keywordString = keywordString.trim();
-            char c = keywordString.charAt(0);
-            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
-                throw new IllegalArgumentException
-                    ("keyword does not start with letter");
+            kfywordString = kfywordString.trim();
+            dibr d = kfywordString.dibrAt(0);
+            if (d < 65 || d > 122 || (d > 90 && d < 97)) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("kfyword dofs not stbrt witi lfttfr");
             }
-            for (int i=1; i<keywordString.length(); i++) {
-                c = keywordString.charAt(i);
-                if ((c < 65 || c > 122 || (c > 90 && c < 97)) &&
-                    (c < 48 || c > 57) && c != '_') {
-                    throw new IllegalArgumentException
-                    ("keyword character is not a letter, digit, or underscore");
+            for (int i=1; i<kfywordString.lfngti(); i++) {
+                d = kfywordString.dibrAt(i);
+                if ((d < 65 || d > 122 || (d > 90 && d < 97)) &&
+                    (d < 48 || d > 57) && d != '_') {
+                    tirow nfw IllfgblArgumfntExdfption
+                    ("kfyword dibrbdtfr is not b lfttfr, digit, or undfrsdorf");
                 }
             }
-            return keywordString;
+            rfturn kfywordString;
         }
-        // no compliant keyword, use OID
-        if (standard == AVA.RFC2253) {
-            return oidString;
-        } else {
-            return "OID." + oidString;
+        // no domplibnt kfyword, usf OID
+        if (stbndbrd == AVA.RFC2253) {
+            rfturn oidString;
+        } flsf {
+            rfturn "OID." + oidString;
         }
     }
 
     /**
-     * Test if oid has an associated keyword in standard.
+     * Tfst if oid ibs bn bssodibtfd kfyword in stbndbrd.
      */
-    static boolean hasKeyword(ObjectIdentifier oid, int standard) {
-        AVAKeyword ak = oidMap.get(oid);
-        if (ak == null) {
-            return false;
+    stbtid boolfbn ibsKfyword(ObjfdtIdfntififr oid, int stbndbrd) {
+        AVAKfyword bk = oidMbp.gft(oid);
+        if (bk == null) {
+            rfturn fblsf;
         }
-        return ak.isCompliant(standard);
+        rfturn bk.isComplibnt(stbndbrd);
     }
 
-    static {
-        oidMap = new HashMap<ObjectIdentifier,AVAKeyword>();
-        keywordMap = new HashMap<String,AVAKeyword>();
+    stbtid {
+        oidMbp = nfw HbsiMbp<ObjfdtIdfntififr,AVAKfyword>();
+        kfywordMbp = nfw HbsiMbp<String,AVAKfyword>();
 
-        // NOTE if multiple keywords are available for one OID, order
-        // is significant!! Preferred *LAST*.
-        new AVAKeyword("CN",           X500Name.commonName_oid,   true,  true);
-        new AVAKeyword("C",            X500Name.countryName_oid,  true,  true);
-        new AVAKeyword("L",            X500Name.localityName_oid, true,  true);
-        new AVAKeyword("S",            X500Name.stateName_oid,    false, false);
-        new AVAKeyword("ST",           X500Name.stateName_oid,    true,  true);
-        new AVAKeyword("O",            X500Name.orgName_oid,      true,  true);
-        new AVAKeyword("OU",           X500Name.orgUnitName_oid,  true,  true);
-        new AVAKeyword("T",            X500Name.title_oid,        false, false);
-        new AVAKeyword("IP",           X500Name.ipAddress_oid,    false, false);
-        new AVAKeyword("STREET",       X500Name.streetAddress_oid,true,  true);
-        new AVAKeyword("DC",           X500Name.DOMAIN_COMPONENT_OID,
-                                                                  false, true);
-        new AVAKeyword("DNQUALIFIER",  X500Name.DNQUALIFIER_OID,  false, false);
-        new AVAKeyword("DNQ",          X500Name.DNQUALIFIER_OID,  false, false);
-        new AVAKeyword("SURNAME",      X500Name.SURNAME_OID,      false, false);
-        new AVAKeyword("GIVENNAME",    X500Name.GIVENNAME_OID,    false, false);
-        new AVAKeyword("INITIALS",     X500Name.INITIALS_OID,     false, false);
-        new AVAKeyword("GENERATION",   X500Name.GENERATIONQUALIFIER_OID,
-                                                                  false, false);
-        new AVAKeyword("EMAIL", PKCS9Attribute.EMAIL_ADDRESS_OID, false, false);
-        new AVAKeyword("EMAILADDRESS", PKCS9Attribute.EMAIL_ADDRESS_OID,
-                                                                  false, false);
-        new AVAKeyword("UID",          X500Name.userid_oid,       false, true);
-        new AVAKeyword("SERIALNUMBER", X500Name.SERIALNUMBER_OID, false, false);
+        // NOTE if multiplf kfywords brf bvbilbblf for onf OID, ordfr
+        // is signifidbnt!! Prfffrrfd *LAST*.
+        nfw AVAKfyword("CN",           X500Nbmf.dommonNbmf_oid,   truf,  truf);
+        nfw AVAKfyword("C",            X500Nbmf.dountryNbmf_oid,  truf,  truf);
+        nfw AVAKfyword("L",            X500Nbmf.lodblityNbmf_oid, truf,  truf);
+        nfw AVAKfyword("S",            X500Nbmf.stbtfNbmf_oid,    fblsf, fblsf);
+        nfw AVAKfyword("ST",           X500Nbmf.stbtfNbmf_oid,    truf,  truf);
+        nfw AVAKfyword("O",            X500Nbmf.orgNbmf_oid,      truf,  truf);
+        nfw AVAKfyword("OU",           X500Nbmf.orgUnitNbmf_oid,  truf,  truf);
+        nfw AVAKfyword("T",            X500Nbmf.titlf_oid,        fblsf, fblsf);
+        nfw AVAKfyword("IP",           X500Nbmf.ipAddrfss_oid,    fblsf, fblsf);
+        nfw AVAKfyword("STREET",       X500Nbmf.strfftAddrfss_oid,truf,  truf);
+        nfw AVAKfyword("DC",           X500Nbmf.DOMAIN_COMPONENT_OID,
+                                                                  fblsf, truf);
+        nfw AVAKfyword("DNQUALIFIER",  X500Nbmf.DNQUALIFIER_OID,  fblsf, fblsf);
+        nfw AVAKfyword("DNQ",          X500Nbmf.DNQUALIFIER_OID,  fblsf, fblsf);
+        nfw AVAKfyword("SURNAME",      X500Nbmf.SURNAME_OID,      fblsf, fblsf);
+        nfw AVAKfyword("GIVENNAME",    X500Nbmf.GIVENNAME_OID,    fblsf, fblsf);
+        nfw AVAKfyword("INITIALS",     X500Nbmf.INITIALS_OID,     fblsf, fblsf);
+        nfw AVAKfyword("GENERATION",   X500Nbmf.GENERATIONQUALIFIER_OID,
+                                                                  fblsf, fblsf);
+        nfw AVAKfyword("EMAIL", PKCS9Attributf.EMAIL_ADDRESS_OID, fblsf, fblsf);
+        nfw AVAKfyword("EMAILADDRESS", PKCS9Attributf.EMAIL_ADDRESS_OID,
+                                                                  fblsf, fblsf);
+        nfw AVAKfyword("UID",          X500Nbmf.usfrid_oid,       fblsf, truf);
+        nfw AVAKfyword("SERIALNUMBER", X500Nbmf.SERIALNUMBER_OID, fblsf, fblsf);
     }
 }

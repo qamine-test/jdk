@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.util.Objects;
+import jbvb.util.Objfdts;
 
 
 /**
- * Describes an argument of an operation exposed by an MBean.
- * Instances of this class are immutable.  Subclasses may be mutable
- * but this is not recommended.
+ * Dfsdribfs bn brgumfnt of bn opfrbtion fxposfd by bn MBfbn.
+ * Instbndfs of tiis dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf
+ * but tiis is not rfdommfndfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
+publid dlbss MBfbnPbrbmftfrInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
 
-    /* Serial version */
-    static final long serialVersionUID = 7432616882776782338L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 7432616882776782338L;
 
-    /* All zero-length arrays are interchangeable. */
-    static final MBeanParameterInfo[] NO_PARAMS = new MBeanParameterInfo[0];
+    /* All zfro-lfngti brrbys brf intfrdibngfbblf. */
+    stbtid finbl MBfbnPbrbmftfrInfo[] NO_PARAMS = nfw MBfbnPbrbmftfrInfo[0];
 
     /**
-     * @serial The type or class name of the data.
+     * @sfribl Tif typf or dlbss nbmf of tif dbtb.
      */
-    private final String type;
+    privbtf finbl String typf;
 
 
     /**
-     * Constructs an <CODE>MBeanParameterInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt.
      *
-     * @param name The name of the data
-     * @param type The type or class name of the data
-     * @param description A human readable description of the data. Optional.
+     * @pbrbm nbmf Tif nbmf of tif dbtb
+     * @pbrbm typf Tif typf or dlbss nbmf of tif dbtb
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif dbtb. Optionbl.
      */
-    public MBeanParameterInfo(String name,
-                              String type,
-                              String description) {
-        this(name, type, description, (Descriptor) null);
+    publid MBfbnPbrbmftfrInfo(String nbmf,
+                              String typf,
+                              String dfsdription) {
+        tiis(nbmf, typf, dfsdription, (Dfsdriptor) null);
     }
 
     /**
-     * Constructs an <CODE>MBeanParameterInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt.
      *
-     * @param name The name of the data
-     * @param type The type or class name of the data
-     * @param description A human readable description of the data. Optional.
-     * @param descriptor The descriptor for the operation.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbmf Tif nbmf of tif dbtb
+     * @pbrbm typf Tif typf or dlbss nbmf of tif dbtb
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif dbtb. Optionbl.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif opfrbtion.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanParameterInfo(String name,
-                              String type,
-                              String description,
-                              Descriptor descriptor) {
-        super(name, description, descriptor);
+    publid MBfbnPbrbmftfrInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
 
-        this.type = type;
+        tiis.typf = typf;
     }
 
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
-     * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * <p>Rfturns b sibllow dlonf of tiis instbndf.
+     * Tif dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * tius dblling tif dffbult nbtivf sibllow dloning mfdibnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of
-     * interest to subclasses.</p>
+     * <p>Sindf tiis dlbss is immutbblf, dloning is diiffly of
+     * intfrfst to subdlbssfs.</p>
      */
-     public Object clone () {
+     publid Objfdt dlonf () {
          try {
-             return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
-             return null;
+             rfturn supfr.dlonf() ;
+         } dbtdi (ClonfNotSupportfdExdfption f) {
+             // siould not ibppfn bs tiis dlbss is dlonfbblf
+             rfturn null;
          }
      }
 
     /**
-     * Returns the type or class name of the data.
+     * Rfturns tif typf or dlbss nbmf of tif dbtb.
      *
-     * @return the type string.
+     * @rfturn tif typf string.
      */
-    public String getType() {
-        return type;
+    publid String gftTypf() {
+        rfturn typf;
     }
 
-    public String toString() {
-        return
-            getClass().getName() + "[" +
-            "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
-            "type=" + getType() + ", " +
-            "descriptor=" + getDescriptor() +
+    publid String toString() {
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "typf=" + gftTypf() + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanParameterInfo to another.
+     * Compbrf tiis MBfbnPbrbmftfrInfo to bnotifr.
      *
-     * @param o the object to compare to.
+     * @pbrbm o tif objfdt to dompbrf to.
      *
-     * @return true if and only if <code>o</code> is an MBeanParameterInfo such
-     * that its {@link #getName()}, {@link #getType()},
-     * {@link #getDescriptor()}, and {@link
-     * #getDescription()} values are equal (not necessarily identical)
-     * to those of this MBeanParameterInfo.
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnPbrbmftfrInfo sudi
+     * tibt its {@link #gftNbmf()}, {@link #gftTypf()},
+     * {@link #gftDfsdriptor()}, bnd {@link
+     * #gftDfsdription()} vblufs brf fqubl (not nfdfssbrily idfntidbl)
+     * to tiosf of tiis MBfbnPbrbmftfrInfo.
      */
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof MBeanParameterInfo))
-            return false;
-        MBeanParameterInfo p = (MBeanParameterInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getType(), getType()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof MBfbnPbrbmftfrInfo))
+            rfturn fblsf;
+        MBfbnPbrbmftfrInfo p = (MBfbnPbrbmftfrInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftTypf(), gftTypf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()));
     }
 
-    public int hashCode() {
-        return Objects.hash(getName(), getType());
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(gftNbmf(), gftTypf());
     }
 }

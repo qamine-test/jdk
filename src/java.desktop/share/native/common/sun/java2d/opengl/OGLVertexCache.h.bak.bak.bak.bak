@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLVfrtfxCbdhf_h_Indludfd
+#dffinf OGLVfrtfxCbdhf_h_Indludfd
+
+#indludf "j2d_md.h"
+#indludf "OGLContfxt.h"
+
+/**
+ * Constbnts thbt dontrol thf sizf of thf vfrtfx dbdhf.
+ */
+#dffinf OGLVC_MAX_INDEX         1024
+
+/**
+ * Constbnts thbt dontrol thf sizf of thf tfxturf tilf dbdhf usfd for
+ * mbsk opfrbtions.
+ */
+#dffinf OGLVC_MASK_CACHE_TILE_WIDTH       32
+#dffinf OGLVC_MASK_CACHE_TILE_HEIGHT      32
+#dffinf OGLVC_MASK_CACHE_TILE_SIZE \
+   (OGLVC_MASK_CACHE_TILE_WIDTH * OGLVC_MASK_CACHE_TILE_HEIGHT)
+
+#dffinf OGLVC_MASK_CACHE_WIDTH_IN_TILES   8
+#dffinf OGLVC_MASK_CACHE_HEIGHT_IN_TILES  4
+
+#dffinf OGLVC_MASK_CACHE_WIDTH_IN_TEXELS \
+   (OGLVC_MASK_CACHE_TILE_WIDTH * OGLVC_MASK_CACHE_WIDTH_IN_TILES)
+#dffinf OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS \
+   (OGLVC_MASK_CACHE_TILE_HEIGHT * OGLVC_MASK_CACHE_HEIGHT_IN_TILES)
+
+/*
+ * Wf rfsfrvf onf (fully opbquf) tilf in thf uppfr-right dornfr for
+ * opfrbtions whfrf thf mbsk is null.
+ */
+#dffinf OGLVC_MASK_CACHE_MAX_INDEX \
+   ((OGLVC_MASK_CACHE_WIDTH_IN_TILES * OGLVC_MASK_CACHE_HEIGHT_IN_TILES) - 1)
+#dffinf OGLVC_MASK_CACHE_SPECIAL_TILE_X \
+   (OGLVC_MASK_CACHE_WIDTH_IN_TEXELS - OGLVC_MASK_CACHE_TILE_WIDTH)
+#dffinf OGLVC_MASK_CACHE_SPECIAL_TILE_Y \
+   (OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS - OGLVC_MASK_CACHE_TILE_HEIGHT)
+
+/**
+ * Exportfd mfthods.
+ */
+jboolfbn OGLVfrtfxCbdhf_InitVfrtfxCbdhf(OGLContfxt *ogld);
+void OGLVfrtfxCbdhf_FlushVfrtfxCbdhf();
+void OGLVfrtfxCbdhf_RfstorfColorStbtf(OGLContfxt *ogld);
+
+void OGLVfrtfxCbdhf_EnbblfMbskCbdhf(OGLContfxt *ogld);
+void OGLVfrtfxCbdhf_DisbblfMbskCbdhf(OGLContfxt *ogld);
+void OGLVfrtfxCbdhf_AddMbskQubd(OGLContfxt *ogld,
+                                jint srdx, jint srdy,
+                                jint dstx, jint dsty,
+                                jint width, jint hfight,
+                                jint mbsksdbn, void *mbsk);
+
+void OGLVfrtfxCbdhf_AddGlyphQubd(OGLContfxt *ogld,
+                                 jflobt tx1, jflobt ty1,
+                                 jflobt tx2, jflobt ty2,
+                                 jflobt dx1, jflobt dy1,
+                                 jflobt dx2, jflobt dy2);
+
+#fndif /* OGLVfrtfxCbdhf_h_Indludfd */

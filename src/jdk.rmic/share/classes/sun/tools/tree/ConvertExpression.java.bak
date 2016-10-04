@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ConvertExpression extends UnaryExpression {
+publid
+dlbss ConvfrtExprfssion fxtfnds UnbryExprfssion {
     /**
-     * Constructor
+     * Construdtor
      */
-    public ConvertExpression(long where, Type type, Expression right) {
-        super(CONVERT, where, type, right);
+    publid ConvfrtExprfssion(long wifrf, Typf typf, Exprfssion rigit) {
+        supfr(CONVERT, wifrf, typf, rigit);
     }
 
     /**
-     * Check the value
+     * Cifdk tif vbluf
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        return right.checkValue(env, ctx, vset, exp);
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn rigit.difdkVbluf(fnv, dtx, vsft, fxp);
     }
 
     /**
      * Simplify
      */
-    Expression simplify() {
-        switch (right.op) {
-          case BYTEVAL:
-          case CHARVAL:
-          case SHORTVAL:
-          case INTVAL: {
-            int value = ((IntegerExpression)right).value;
-            switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+    Exprfssion simplify() {
+        switdi (rigit.op) {
+          dbsf BYTEVAL:
+          dbsf CHARVAL:
+          dbsf SHORTVAL:
+          dbsf INTVAL: {
+            int vbluf = ((IntfgfrExprfssion)rigit).vbluf;
+            switdi (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(rigit.wifrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw CibrExprfssion(rigit.wifrf, (dibr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw SiortExprfssion(rigit.wifrf, (siort)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(rigit.wifrf, vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(rigit.wifrf, (long)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(rigit.wifrf, (flobt)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(rigit.wifrf, (doublf)vbluf);
             }
-            break;
+            brfbk;
           }
-          case LONGVAL: {
-            long value = ((LongExpression)right).value;
-            switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+          dbsf LONGVAL: {
+            long vbluf = ((LongExprfssion)rigit).vbluf;
+            switdi (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(rigit.wifrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw CibrExprfssion(rigit.wifrf, (dibr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw SiortExprfssion(rigit.wifrf, (siort)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(rigit.wifrf, (int)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(rigit.wifrf, (flobt)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(rigit.wifrf, (doublf)vbluf);
             }
-            break;
+            brfbk;
           }
-          case FLOATVAL: {
-            float value = ((FloatExpression)right).value;
-            switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+          dbsf FLOATVAL: {
+            flobt vbluf = ((FlobtExprfssion)rigit).vbluf;
+            switdi (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(rigit.wifrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw CibrExprfssion(rigit.wifrf, (dibr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw SiortExprfssion(rigit.wifrf, (siort)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(rigit.wifrf, (int)vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(rigit.wifrf, (long)vbluf);
+              dbsf TC_DOUBLE:   rfturn nfw DoublfExprfssion(rigit.wifrf, (doublf)vbluf);
             }
-            break;
+            brfbk;
           }
-          case DOUBLEVAL: {
-            double value = ((DoubleExpression)right).value;
-            switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
+          dbsf DOUBLEVAL: {
+            doublf vbluf = ((DoublfExprfssion)rigit).vbluf;
+            switdi (typf.gftTypfCodf()) {
+              dbsf TC_BYTE:     rfturn nfw BytfExprfssion(rigit.wifrf, (bytf)vbluf);
+              dbsf TC_CHAR:     rfturn nfw CibrExprfssion(rigit.wifrf, (dibr)vbluf);
+              dbsf TC_SHORT:    rfturn nfw SiortExprfssion(rigit.wifrf, (siort)vbluf);
+              dbsf TC_INT:      rfturn nfw IntExprfssion(rigit.wifrf, (int)vbluf);
+              dbsf TC_LONG:     rfturn nfw LongExprfssion(rigit.wifrf, (long)vbluf);
+              dbsf TC_FLOAT:    rfturn nfw FlobtExprfssion(rigit.wifrf, (flobt)vbluf);
             }
-            break;
+            brfbk;
           }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Cifdk if tif fxprfssion is fqubl to b vbluf
      */
-    public boolean equals(int i) {
-        return right.equals(i);
+    publid boolfbn fqubls(int i) {
+        rfturn rigit.fqubls(i);
     }
-    public boolean equals(boolean b) {
-        return right.equals(b);
+    publid boolfbn fqubls(boolfbn b) {
+        rfturn rigit.fqubls(b);
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        // super.inline throws away the op.
-        // This is sometimes incorrect, since casts can have side effects.
-        if (right.type.inMask(TM_REFERENCE) && type.inMask(TM_REFERENCE)) {
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        // supfr.inlinf tirows bwby tif op.
+        // Tiis is somftimfs indorrfdt, sindf dbsts dbn ibvf sidf ffffdts.
+        if (rigit.typf.inMbsk(TM_REFERENCE) && typf.inMbsk(TM_REFERENCE)) {
             try {
-                if (!env.implicitCast(right.type, type))
-                    return inlineValue(env, ctx);
-            } catch (ClassNotFound e) {
-                throw new CompilerError(e);
+                if (!fnv.impliditCbst(rigit.typf, typf))
+                    rfturn inlinfVbluf(fnv, dtx);
+            } dbtdi (ClbssNotFound f) {
+                tirow nfw CompilfrError(f);
             }
         }
-        return super.inline(env, ctx);
+        rfturn supfr.inlinf(fnv, dtx);
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        right.codeValue(env, ctx, asm);
-        codeConversion(env, ctx, asm, right.type, type);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        rigit.dodfVbluf(fnv, dtx, bsm);
+        dodfConvfrsion(fnv, dtx, bsm, rigit.typf, typf);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " " + type.toString() + " ");
-        right.print(out);
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " " + typf.toString() + " ");
+        rigit.print(out);
         out.print(")");
     }
 }

@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.shell;
+pbdkbgf sun.bwt.sifll;
 
-import javax.swing.*;
-import java.util.Comparator;
+import jbvbx.swing.*;
+import jbvb.util.Compbrbtor;
 
-public class ShellFolderColumnInfo {
-    private String title;
-    private Integer width;
-    private boolean visible;
+publid dlbss SifllFoldfrColumnInfo {
+    privbtf String titlf;
+    privbtf Intfgfr widti;
+    privbtf boolfbn visiblf;
     /**
-     * Allowed values are {@link SwingConstants#LEFT}, {@link SwingConstants#RIGHT}, {@link SwingConstants#LEADING},
-     * {@link SwingConstants#TRAILING}, {@link SwingConstants#CENTER}
+     * Allowfd vblufs brf {@link SwingConstbnts#LEFT}, {@link SwingConstbnts#RIGHT}, {@link SwingConstbnts#LEADING},
+     * {@link SwingConstbnts#TRAILING}, {@link SwingConstbnts#CENTER}
      */
-    private Integer alignment;
-    private SortOrder sortOrder;
-    private Comparator<?> comparator;
+    privbtf Intfgfr blignmfnt;
+    privbtf SortOrdfr sortOrdfr;
+    privbtf Compbrbtor<?> dompbrbtor;
     /**
-     * <code>false</code> (default) if the {@link comparator} expects folders as arguments,
-     * and <code>true</code> if folder's column values. The first option is used default for comparison
-     * on Windows and also for separating files from directories when sorting using
-     * ShellFolderManager's inner comparator.
+     * <dodf>fblsf</dodf> (dffbult) if tif {@link dompbrbtor} fxpfdts foldfrs bs brgumfnts,
+     * bnd <dodf>truf</dodf> if foldfr's dolumn vblufs. Tif first option is usfd dffbult for dompbrison
+     * on Windows bnd blso for sfpbrbting filfs from dirfdtorifs wifn sorting using
+     * SifllFoldfrMbnbgfr's innfr dompbrbtor.
      */
-    private boolean compareByColumn;
+    privbtf boolfbn dompbrfByColumn;
 
-    public ShellFolderColumnInfo(String title, Integer width,
-                                 Integer alignment, boolean visible,
-                                 SortOrder sortOrder, Comparator<?> comparator,
-                                 boolean compareByColumn) {
-        this.title = title;
-        this.width = width;
-        this.alignment = alignment;
-        this.visible = visible;
-        this.sortOrder = sortOrder;
-        this.comparator = comparator;
-        this.compareByColumn = compareByColumn;
+    publid SifllFoldfrColumnInfo(String titlf, Intfgfr widti,
+                                 Intfgfr blignmfnt, boolfbn visiblf,
+                                 SortOrdfr sortOrdfr, Compbrbtor<?> dompbrbtor,
+                                 boolfbn dompbrfByColumn) {
+        tiis.titlf = titlf;
+        tiis.widti = widti;
+        tiis.blignmfnt = blignmfnt;
+        tiis.visiblf = visiblf;
+        tiis.sortOrdfr = sortOrdfr;
+        tiis.dompbrbtor = dompbrbtor;
+        tiis.dompbrfByColumn = dompbrfByColumn;
     }
 
-    public ShellFolderColumnInfo(String title, Integer width,
-                                 Integer alignment, boolean visible,
-                                 SortOrder sortOrder, Comparator<?> comparator) {
-        this(title, width, alignment, visible, sortOrder, comparator, false);
+    publid SifllFoldfrColumnInfo(String titlf, Intfgfr widti,
+                                 Intfgfr blignmfnt, boolfbn visiblf,
+                                 SortOrdfr sortOrdfr, Compbrbtor<?> dompbrbtor) {
+        tiis(titlf, widti, blignmfnt, visiblf, sortOrdfr, dompbrbtor, fblsf);
     }
 
     /**
-     * This constructor is used by native code when getting column set for
-     * a folder under Windows
+     * Tiis donstrudtor is usfd by nbtivf dodf wifn gftting dolumn sft for
+     * b foldfr undfr Windows
      */
-    public ShellFolderColumnInfo(String title, int width, int alignment,
-                                 boolean visible) {
-        this(title, width, alignment, visible, null, null);
+    publid SifllFoldfrColumnInfo(String titlf, int widti, int blignmfnt,
+                                 boolfbn visiblf) {
+        tiis(titlf, widti, blignmfnt, visiblf, null, null);
     }
 
-    public String getTitle() {
-        return title;
+    publid String gftTitlf() {
+        rfturn titlf;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    publid void sftTitlf(String titlf) {
+        tiis.titlf = titlf;
     }
 
-    public Integer getWidth() {
-        return width;
+    publid Intfgfr gftWidti() {
+        rfturn widti;
     }
 
-    public void setWidth(Integer width) {
-        this.width = width;
+    publid void sftWidti(Intfgfr widti) {
+        tiis.widti = widti;
     }
 
-    public Integer getAlignment() {
-        return alignment;
+    publid Intfgfr gftAlignmfnt() {
+        rfturn blignmfnt;
     }
 
-    public void setAlignment(Integer alignment) {
-        this.alignment = alignment;
+    publid void sftAlignmfnt(Intfgfr blignmfnt) {
+        tiis.blignmfnt = blignmfnt;
     }
 
-    public boolean isVisible() {
-        return visible;
+    publid boolfbn isVisiblf() {
+        rfturn visiblf;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    publid void sftVisiblf(boolfbn visiblf) {
+        tiis.visiblf = visiblf;
     }
 
-    public SortOrder getSortOrder() {
-        return sortOrder;
+    publid SortOrdfr gftSortOrdfr() {
+        rfturn sortOrdfr;
     }
 
-    public void setSortOrder(SortOrder sortOrder) {
-        this.sortOrder = sortOrder;
+    publid void sftSortOrdfr(SortOrdfr sortOrdfr) {
+        tiis.sortOrdfr = sortOrdfr;
     }
 
-    public Comparator<?> getComparator() {
-        return comparator;
+    publid Compbrbtor<?> gftCompbrbtor() {
+        rfturn dompbrbtor;
     }
 
-    public void setComparator(Comparator<?> comparator) {
-        this.comparator = comparator;
+    publid void sftCompbrbtor(Compbrbtor<?> dompbrbtor) {
+        tiis.dompbrbtor = dompbrbtor;
     }
 
-    public boolean isCompareByColumn() {
-        return compareByColumn;
+    publid boolfbn isCompbrfByColumn() {
+        rfturn dompbrfByColumn;
     }
 
-    public void setCompareByColumn(boolean compareByColumn) {
-        this.compareByColumn = compareByColumn;
+    publid void sftCompbrfByColumn(boolfbn dompbrfByColumn) {
+        tiis.dompbrfByColumn = dompbrfByColumn;
     }
 }

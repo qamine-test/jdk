@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <fcntl.h>
+#indludf <stdlib.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <unistd.i>
+#indludf <fdntl.i>
 
-#include "jni.h"
+#indludf "jni.i"
 
-#include "jni.h"
-#include "jni_util.h"
-#include "net_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
 
-#include "sun_nio_ch_InheritedChannel.h"
+#indludf "sun_nio_di_InifritfdCibnnfl.i"
 
-static int matchFamily(struct sockaddr *sa) {
-    int family = sa->sa_family;
-#ifdef AF_INET6
-    if (ipv6_available()) {
-        return (family == AF_INET6);
+stbtid int mbtdiFbmily(strudt sodkbddr *sb) {
+    int fbmily = sb->sb_fbmily;
+#ifdff AF_INET6
+    if (ipv6_bvbilbblf()) {
+        rfturn (fbmily == AF_INET6);
     }
-#endif
-    return (family == AF_INET);
+#fndif
+    rfturn (fbmily == AF_INET);
 }
 
-JNIEXPORT jobject JNICALL
-Java_sun_nio_ch_InheritedChannel_peerAddress0(JNIEnv *env, jclass cla, jint fd)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nio_di_InifritfdCibnnfl_pffrAddrfss0(JNIEnv *fnv, jdlbss dlb, jint fd)
 {
-    struct sockaddr *sa;
-    socklen_t sa_len;
-    jobject remote_ia = NULL;
-    jint remote_port;
+    strudt sodkbddr *sb;
+    sodklfn_t sb_lfn;
+    jobjfdt rfmotf_ib = NULL;
+    jint rfmotf_port;
 
-    NET_AllocSockaddr(&sa, (int *)&sa_len);
-    if (getpeername(fd, sa, &sa_len) == 0) {
-        if (matchFamily(sa)) {
-            remote_ia = NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
+    NET_AllodSodkbddr(&sb, (int *)&sb_lfn);
+    if (gftpffrnbmf(fd, sb, &sb_lfn) == 0) {
+        if (mbtdiFbmily(sb)) {
+            rfmotf_ib = NET_SodkbddrToInftAddrfss(fnv, sb, (int *)&rfmotf_port);
         }
     }
-    free((void *)sa);
+    frff((void *)sb);
 
-    return remote_ia;
+    rfturn rfmotf_ib;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_peerPort0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_di_InifritfdCibnnfl_pffrPort0(JNIEnv *fnv, jdlbss dlb, jint fd)
 {
-    struct sockaddr *sa;
-    socklen_t sa_len;
-    jint remote_port = -1;
+    strudt sodkbddr *sb;
+    sodklfn_t sb_lfn;
+    jint rfmotf_port = -1;
 
-    NET_AllocSockaddr(&sa, (int *)&sa_len);
-    if (getpeername(fd, sa, &sa_len) == 0) {
-        if (matchFamily(sa)) {
-            NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
+    NET_AllodSodkbddr(&sb, (int *)&sb_lfn);
+    if (gftpffrnbmf(fd, sb, &sb_lfn) == 0) {
+        if (mbtdiFbmily(sb)) {
+            NET_SodkbddrToInftAddrfss(fnv, sb, (int *)&rfmotf_port);
         }
     }
-    free((void *)sa);
+    frff((void *)sb);
 
-    return remote_port;
+    rfturn rfmotf_port;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_soType0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_di_InifritfdCibnnfl_soTypf0(JNIEnv *fnv, jdlbss dlb, jint fd)
 {
-    int sotype;
-    socklen_t arglen=sizeof(sotype);
-    if (getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &arglen) == 0) {
-        if (sotype == SOCK_STREAM)
-            return sun_nio_ch_InheritedChannel_SOCK_STREAM;
-        if (sotype == SOCK_DGRAM)
-            return sun_nio_ch_InheritedChannel_SOCK_DGRAM;
+    int sotypf;
+    sodklfn_t brglfn=sizfof(sotypf);
+    if (gftsodkopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotypf, &brglfn) == 0) {
+        if (sotypf == SOCK_STREAM)
+            rfturn sun_nio_di_InifritfdCibnnfl_SOCK_STREAM;
+        if (sotypf == SOCK_DGRAM)
+            rfturn sun_nio_di_InifritfdCibnnfl_SOCK_DGRAM;
     }
-    return sun_nio_ch_InheritedChannel_UNKNOWN;
+    rfturn sun_nio_di_InifritfdCibnnfl_UNKNOWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_dup(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_di_InifritfdCibnnfl_dup(JNIEnv *fnv, jdlbss dlb, jint fd)
 {
-   int newfd = dup(fd);
-   if (newfd < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "dup failed");
+   int nfwfd = dup(fd);
+   if (nfwfd < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "dup fbilfd");
    }
-   return (jint)newfd;
+   rfturn (jint)nfwfd;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_InheritedChannel_dup2(JNIEnv *env, jclass cla, jint fd, jint fd2)
+Jbvb_sun_nio_di_InifritfdCibnnfl_dup2(JNIEnv *fnv, jdlbss dlb, jint fd, jint fd2)
 {
    if (dup2(fd, fd2) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "dup2 failed");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "dup2 fbilfd");
    }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_InheritedChannel_open0(JNIEnv *env, jclass cla, jstring path, jint oflag)
+Jbvb_sun_nio_di_InifritfdCibnnfl_opfn0(JNIEnv *fnv, jdlbss dlb, jstring pbti, jint oflbg)
 {
-    const char* str;
-    int oflag_actual;
+    donst dibr* str;
+    int oflbg_bdtubl;
 
-    /* convert to OS specific value */
-    switch (oflag) {
-        case sun_nio_ch_InheritedChannel_O_RDWR :
-            oflag_actual = O_RDWR;
-            break;
-        case sun_nio_ch_InheritedChannel_O_RDONLY :
-            oflag_actual = O_RDONLY;
-            break;
-        case sun_nio_ch_InheritedChannel_O_WRONLY :
-            oflag_actual = O_WRONLY;
-            break;
-        default :
-            JNU_ThrowInternalError(env, "Unrecognized file mode");
-            return -1;
+    /* donvfrt to OS spfdifid vbluf */
+    switdi (oflbg) {
+        dbsf sun_nio_di_InifritfdCibnnfl_O_RDWR :
+            oflbg_bdtubl = O_RDWR;
+            brfbk;
+        dbsf sun_nio_di_InifritfdCibnnfl_O_RDONLY :
+            oflbg_bdtubl = O_RDONLY;
+            brfbk;
+        dbsf sun_nio_di_InifritfdCibnnfl_O_WRONLY :
+            oflbg_bdtubl = O_WRONLY;
+            brfbk;
+        dffbult :
+            JNU_TirowIntfrnblError(fnv, "Unrfdognizfd filf modf");
+            rfturn -1;
     }
 
-    str = JNU_GetStringPlatformChars(env, path, NULL);
+    str = JNU_GftStringPlbtformCibrs(fnv, pbti, NULL);
     if (str == NULL) {
-        return (jint)-1;
-    } else {
-        int fd = open(str, oflag_actual);
+        rfturn (jint)-1;
+    } flsf {
+        int fd = opfn(str, oflbg_bdtubl);
         if (fd < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, str);
+            JNU_TirowIOExdfptionWitiLbstError(fnv, str);
         }
-        JNU_ReleaseStringPlatformChars(env, path, str);
-        return (jint)fd;
+        JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, str);
+        rfturn (jint)fd;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_InheritedChannel_close0(JNIEnv *env, jclass cla, jint fd)
+Jbvb_sun_nio_di_InifritfdCibnnfl_dlosf0(JNIEnv *fnv, jdlbss dlb, jint fd)
 {
-    if (close(fd) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "close failed");
+    if (dlosf(fd) < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "dlosf fbilfd");
     }
 }

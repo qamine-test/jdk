@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.util.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.util.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
-class ContextList {
+dlbss ContfxtList {
 
-    final static int MAX_CONTEXTS = 50;
+    finbl stbtid int MAX_CONTEXTS = 50;
 
-    LinkedList<HttpContextImpl> list = new LinkedList<HttpContextImpl>();
+    LinkfdList<HttpContfxtImpl> list = nfw LinkfdList<HttpContfxtImpl>();
 
-    public synchronized void add (HttpContextImpl ctx) {
-        assert ctx.getPath() != null;
-        list.add (ctx);
+    publid syndironizfd void bdd (HttpContfxtImpl dtx) {
+        bssfrt dtx.gftPbti() != null;
+        list.bdd (dtx);
     }
 
-    public synchronized int size () {
-        return list.size();
+    publid syndironizfd int sizf () {
+        rfturn list.sizf();
     }
 
-   /* initially contexts are located only by protocol:path.
-    * Context with longest prefix matches (currently case-sensitive)
+   /* initiblly dontfxts brf lodbtfd only by protodol:pbti.
+    * Contfxt witi longfst prffix mbtdifs (durrfntly dbsf-sfnsitivf)
     */
-    synchronized HttpContextImpl findContext (String protocol, String path) {
-        return findContext (protocol, path, false);
+    syndironizfd HttpContfxtImpl findContfxt (String protodol, String pbti) {
+        rfturn findContfxt (protodol, pbti, fblsf);
     }
 
-    synchronized HttpContextImpl findContext (String protocol, String path, boolean exact) {
-        protocol = protocol.toLowerCase();
-        String longest = "";
-        HttpContextImpl lc = null;
-        for (HttpContextImpl ctx: list) {
-            if (!ctx.getProtocol().equals(protocol)) {
-                continue;
+    syndironizfd HttpContfxtImpl findContfxt (String protodol, String pbti, boolfbn fxbdt) {
+        protodol = protodol.toLowfrCbsf();
+        String longfst = "";
+        HttpContfxtImpl ld = null;
+        for (HttpContfxtImpl dtx: list) {
+            if (!dtx.gftProtodol().fqubls(protodol)) {
+                dontinuf;
             }
-            String cpath = ctx.getPath();
-            if (exact && !cpath.equals (path)) {
-                continue;
-            } else if (!exact && !path.startsWith(cpath)) {
-                continue;
+            String dpbti = dtx.gftPbti();
+            if (fxbdt && !dpbti.fqubls (pbti)) {
+                dontinuf;
+            } flsf if (!fxbdt && !pbti.stbrtsWiti(dpbti)) {
+                dontinuf;
             }
-            if (cpath.length() > longest.length()) {
-                longest = cpath;
-                lc = ctx;
+            if (dpbti.lfngti() > longfst.lfngti()) {
+                longfst = dpbti;
+                ld = dtx;
             }
         }
-        return lc;
+        rfturn ld;
     }
 
-    public synchronized void remove (String protocol, String path)
-        throws IllegalArgumentException
+    publid syndironizfd void rfmovf (String protodol, String pbti)
+        tirows IllfgblArgumfntExdfption
     {
-        HttpContextImpl ctx = findContext (protocol, path, true);
-        if (ctx == null) {
-            throw new IllegalArgumentException ("cannot remove element from list");
+        HttpContfxtImpl dtx = findContfxt (protodol, pbti, truf);
+        if (dtx == null) {
+            tirow nfw IllfgblArgumfntExdfption ("dbnnot rfmovf flfmfnt from list");
         }
-        list.remove (ctx);
+        list.rfmovf (dtx);
     }
 
-    public synchronized void remove (HttpContextImpl context)
-        throws IllegalArgumentException
+    publid syndironizfd void rfmovf (HttpContfxtImpl dontfxt)
+        tirows IllfgblArgumfntExdfption
     {
-        for (HttpContextImpl ctx: list) {
-            if (ctx.equals (context)) {
-                list.remove (ctx);
-                return;
+        for (HttpContfxtImpl dtx: list) {
+            if (dtx.fqubls (dontfxt)) {
+                list.rfmovf (dtx);
+                rfturn;
             }
         }
-        throw new IllegalArgumentException ("no such context in list");
+        tirow nfw IllfgblArgumfntExdfption ("no sudi dontfxt in list");
     }
 }

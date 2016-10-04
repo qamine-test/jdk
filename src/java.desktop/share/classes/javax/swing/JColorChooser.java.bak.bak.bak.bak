@@ -1,0 +1,770 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvbx.swing.dolordhoosfr.*;
+import jbvbx.swing.plbf.ColorChoosfrUI;
+import jbvbx.bddfssibility.*;
+
+import sun.swing.SwingUtilitifs2;
+
+
+/**
+ * <dodf>JColorChoosfr</dodf> providfs b pbnf of dontrols dfsignfd to bllow
+ * b usfr to mbnipulbtf bnd sflfdt b dolor.
+ * For informbtion bbout using dolor dhoosfrs, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/dolordhoosfr.html">How to Usf Color Choosfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * <p>
+ *
+ * This dlbss providfs thrff lfvfls of API:
+ * <ol>
+ * <li>A stbtid donvfnifndf mfthod whidh shows b modbl dolor-dhoosfr
+ * diblog bnd rfturns thf dolor sflfdtfd by thf usfr.
+ * <li>A stbtid donvfnifndf mfthod for drfbting b dolor-dhoosfr diblog
+ * whfrf <dodf>AdtionListfnfrs</dodf> dbn bf spfdififd to bf invokfd whfn
+ * thf usfr prfssfs onf of thf diblog buttons.
+ * <li>Thf bbility to drfbtf instbndfs of <dodf>JColorChoosfr</dodf> pbnfs
+ * dirfdtly (within bny dontbinfr). <dodf>PropfrtyChbngf</dodf> listfnfrs
+ * dbn bf bddfd to dftfdt whfn thf durrfnt "dolor" propfrty dhbngfs.
+ * </ol>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ *
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A domponfnt thbt supports sflfdting b Color.
+ *
+ *
+ * @buthor Jbmfs Gosling
+ * @buthor Amy Fowlfr
+ * @buthor Stfvf Wilson
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JColorChoosfr fxtfnds JComponfnt implfmfnts Addfssiblf {
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "ColorChoosfrUI";
+
+    privbtf ColorSflfdtionModfl sflfdtionModfl;
+
+    privbtf JComponfnt prfvifwPbnfl = ColorChoosfrComponfntFbdtory.gftPrfvifwPbnfl();
+
+    privbtf AbstrbdtColorChoosfrPbnfl[] dhoosfrPbnfls = nfw AbstrbdtColorChoosfrPbnfl[0];
+
+    privbtf boolfbn drbgEnbblfd;
+
+    /**
+     * Thf sflfdtion modfl propfrty nbmf.
+     */
+    publid stbtid finbl String      SELECTION_MODEL_PROPERTY = "sflfdtionModfl";
+
+    /**
+     * Thf prfvifw pbnfl propfrty nbmf.
+     */
+    publid stbtid finbl String      PREVIEW_PANEL_PROPERTY = "prfvifwPbnfl";
+
+    /**
+     * Thf dhoosfrPbnfl brrby propfrty nbmf.
+     */
+    publid stbtid finbl String      CHOOSER_PANELS_PROPERTY = "dhoosfrPbnfls";
+
+
+    /**
+     * Shows b modbl dolor-dhoosfr diblog bnd blodks until thf
+     * diblog is hiddfn.  If thf usfr prfssfs thf "OK" button, thfn
+     * this mfthod hidfs/disposfs thf diblog bnd rfturns thf sflfdtfd dolor.
+     * If thf usfr prfssfs thf "Cbndfl" button or dlosfs thf diblog without
+     * prfssing "OK", thfn this mfthod hidfs/disposfs thf diblog bnd rfturns
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm domponfnt    thf pbrfnt <dodf>Componfnt</dodf> for thf diblog
+     * @pbrbm titlf        thf String dontbining thf diblog's titlf
+     * @pbrbm initiblColor thf initibl Color sft whfn thf dolor-dhoosfr is shown
+     * @rfturn thf sflfdtfd dolor or <dodf>null</dodf> if thf usfr optfd out
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid Color showDiblog(Componfnt domponfnt,
+        String titlf, Color initiblColor) throws HfbdlfssExdfption {
+
+        finbl JColorChoosfr pbnf = nfw JColorChoosfr(initiblColor != null?
+                                               initiblColor : Color.whitf);
+
+        ColorTrbdkfr ok = nfw ColorTrbdkfr(pbnf);
+        JDiblog diblog = drfbtfDiblog(domponfnt, titlf, truf, pbnf, ok, null);
+
+        diblog.bddComponfntListfnfr(nfw ColorChoosfrDiblog.DisposfOnClosf());
+
+        diblog.show(); // blodks until usfr brings diblog down...
+
+        rfturn ok.gftColor();
+    }
+
+
+    /**
+     * Crfbtfs bnd rfturns b nfw diblog dontbining thf spfdififd
+     * <dodf>ColorChoosfr</dodf> pbnf blong with "OK", "Cbndfl", bnd "Rfsft"
+     * buttons. If thf "OK" or "Cbndfl" buttons brf prfssfd, thf diblog is
+     * butombtidblly hiddfn (but not disposfd).  If thf "Rfsft"
+     * button is prfssfd, thf dolor-dhoosfr's dolor will bf rfsft to thf
+     * dolor whidh wbs sft thf lbst timf <dodf>show</dodf> wbs invokfd on thf
+     * diblog bnd thf diblog will rfmbin showing.
+     *
+     * @pbrbm d              thf pbrfnt domponfnt for thf diblog
+     * @pbrbm titlf          thf titlf for thf diblog
+     * @pbrbm modbl          b boolfbn. Whfn truf, thf rfmbindfr of thf progrbm
+     *                       is inbdtivf until thf diblog is dlosfd.
+     * @pbrbm dhoosfrPbnf    thf dolor-dhoosfr to bf plbdfd insidf thf diblog
+     * @pbrbm okListfnfr     thf AdtionListfnfr invokfd whfn "OK" is prfssfd
+     * @pbrbm dbndflListfnfr thf AdtionListfnfr invokfd whfn "Cbndfl" is prfssfd
+     * @rfturn b nfw diblog dontbining thf dolor-dhoosfr pbnf
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid JDiblog drfbtfDiblog(Componfnt d, String titlf, boolfbn modbl,
+        JColorChoosfr dhoosfrPbnf, AdtionListfnfr okListfnfr,
+        AdtionListfnfr dbndflListfnfr) throws HfbdlfssExdfption {
+
+        Window window = JOptionPbnf.gftWindowForComponfnt(d);
+        ColorChoosfrDiblog diblog;
+        if (window instbndfof Frbmf) {
+            diblog = nfw ColorChoosfrDiblog((Frbmf)window, titlf, modbl, d, dhoosfrPbnf,
+                                            okListfnfr, dbndflListfnfr);
+        } flsf {
+            diblog = nfw ColorChoosfrDiblog((Diblog)window, titlf, modbl, d, dhoosfrPbnf,
+                                            okListfnfr, dbndflListfnfr);
+        }
+        diblog.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(titlf);
+        rfturn diblog;
+    }
+
+    /**
+     * Crfbtfs b dolor dhoosfr pbnf with bn initibl dolor of whitf.
+     */
+    publid JColorChoosfr() {
+        this(Color.whitf);
+    }
+
+    /**
+     * Crfbtfs b dolor dhoosfr pbnf with thf spfdififd initibl dolor.
+     *
+     * @pbrbm initiblColor thf initibl dolor sft in thf dhoosfr
+     */
+    publid JColorChoosfr(Color initiblColor) {
+        this( nfw DffbultColorSflfdtionModfl(initiblColor) );
+
+    }
+
+    /**
+     * Crfbtfs b dolor dhoosfr pbnf with thf spfdififd
+     * <dodf>ColorSflfdtionModfl</dodf>.
+     *
+     * @pbrbm modfl thf <dodf>ColorSflfdtionModfl</dodf> to bf usfd
+     */
+    publid JColorChoosfr(ColorSflfdtionModfl modfl) {
+        sflfdtionModfl = modfl;
+        updbtfUI();
+        drbgEnbblfd = fblsf;
+    }
+
+    /**
+     * Rfturns thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf <dodf>ColorChoosfrUI</dodf> objfdt thbt rfndfrs
+     *          this domponfnt
+     */
+    publid ColorChoosfrUI gftUI() {
+        rfturn (ColorChoosfrUI)ui;
+    }
+
+    /**
+     * Sfts thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf <dodf>ColorChoosfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     *
+     * @bfbninfo
+     *       bound: truf
+     *      hiddfn: truf
+     * dfsdription: Thf UI objfdt thbt implfmfnts thf dolor dhoosfr's LookAndFffl.
+     */
+    publid void sftUI(ColorChoosfrUI ui) {
+        supfr.sftUI(ui);
+    }
+
+    /**
+     * Notifidbtion from thf <dodf>UIMbnbgfr</dodf> thbt thf L&bmp;F hbs dhbngfd.
+     * Rfplbdfs thf durrfnt UI objfdt with thf lbtfst vfrsion from thf
+     * <dodf>UIMbnbgfr</dodf>.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ColorChoosfrUI)UIMbnbgfr.gftUI(this));
+    }
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "ColorChoosfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+    /**
+     * Gfts thf durrfnt dolor vbluf from thf dolor dhoosfr.
+     * By dffbult, this dflfgbtfs to thf modfl.
+     *
+     * @rfturn thf durrfnt dolor vbluf of thf dolor dhoosfr
+     */
+    publid Color gftColor() {
+        rfturn sflfdtionModfl.gftSflfdtfdColor();
+    }
+
+    /**
+     * Sfts thf durrfnt dolor of thf dolor dhoosfr to thf spfdififd dolor.
+     * Thf <dodf>ColorSflfdtionModfl</dodf> will firf b <dodf>ChbngfEvfnt</dodf>
+     * @pbrbm dolor thf dolor to bf sft in thf dolor dhoosfr
+     * @sff JComponfnt#bddPropfrtyChbngfListfnfr
+     *
+     * @bfbninfo
+     *       bound: fblsf
+     *      hiddfn: fblsf
+     * dfsdription: Thf durrfnt dolor thf dhoosfr is to displby.
+     */
+    publid void sftColor(Color dolor) {
+        sflfdtionModfl.sftSflfdtfdColor(dolor);
+
+    }
+
+    /**
+     * Sfts thf durrfnt dolor of thf dolor dhoosfr to thf
+     * spfdififd RGB dolor.  Notf thbt thf vblufs of rfd, grffn,
+     * bnd bluf should bf bftwffn thf numbfrs 0 bnd 255, indlusivf.
+     *
+     * @pbrbm r   bn int spfdifying thf bmount of Rfd
+     * @pbrbm g   bn int spfdifying thf bmount of Grffn
+     * @pbrbm b   bn int spfdifying thf bmount of Bluf
+     * @fxdfption IllfgblArgumfntExdfption if r,g,b vblufs brf out of rbngf
+     * @sff jbvb.bwt.Color
+     */
+    publid void sftColor(int r, int g, int b) {
+        sftColor(nfw Color(r,g,b));
+    }
+
+    /**
+     * Sfts thf durrfnt dolor of thf dolor dhoosfr to thf
+     * spfdififd dolor.
+     *
+     * @pbrbm d bn intfgfr vbluf thbt sfts thf durrfnt dolor in thf dhoosfr
+     *          whfrf thf low-ordfr 8 bits spfdify thf Bluf vbluf,
+     *          thf nfxt 8 bits spfdify thf Grffn vbluf, bnd thf 8 bits
+     *          bbovf thbt spfdify thf Rfd vbluf.
+     */
+    publid void sftColor(int d) {
+        sftColor((d >> 16) & 0xFF, (d >> 8) & 0xFF, d & 0xFF);
+    }
+
+    /**
+     * Sfts thf <dodf>drbgEnbblfd</dodf> propfrty,
+     * whidh must bf <dodf>truf</dodf> to fnbblf
+     * butombtid drbg hbndling (thf first pbrt of drbg bnd drop)
+     * on this domponfnt.
+     * Thf <dodf>trbnsffrHbndlfr</dodf> propfrty nffds to bf sft
+     * to b non-<dodf>null</dodf> vbluf for thf drbg to do
+     * bnything.  Thf dffbult vbluf of thf <dodf>drbgEnbblfd</dodf>
+     * propfrty
+     * is <dodf>fblsf</dodf>.
+     *
+     * <p>
+     *
+     * Whfn butombtid drbg hbndling is fnbblfd,
+     * most look bnd fffls bfgin b drbg-bnd-drop opfrbtion
+     * whfn thf usfr prfssfs thf mousf button ovfr thf prfvifw pbnfl.
+     * Somf look bnd fffls might not support butombtid drbg bnd drop;
+     * thfy will ignorf this propfrty.  You dbn work bround sudh
+     * look bnd fffls by modifying thf domponfnt
+     * to dirfdtly dbll thf <dodf>fxportAsDrbg</dodf> mfthod of b
+     * <dodf>TrbnsffrHbndlfr</dodf>.
+     *
+     * @pbrbm b thf vbluf to sft thf <dodf>drbgEnbblfd</dodf> propfrty to
+     * @fxdfption HfbdlfssExdfption if
+     *            <dodf>b</dodf> is <dodf>truf</dodf> bnd
+     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf>
+     *            rfturns <dodf>truf</dodf>
+     *
+     * @sindf 1.4
+     *
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #gftDrbgEnbblfd
+     * @sff #sftTrbnsffrHbndlfr
+     * @sff TrbnsffrHbndlfr
+     *
+     * @bfbninfo
+     *  dfsdription: Dftfrminfs whfthfr butombtid drbg hbndling is fnbblfd.
+     *        bound: fblsf
+     */
+    publid void sftDrbgEnbblfd(boolfbn b) {
+        if (b && GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+        drbgEnbblfd = b;
+    }
+
+    /**
+     * Gfts thf vbluf of thf <dodf>drbgEnbblfd</dodf> propfrty.
+     *
+     * @rfturn  thf vbluf of thf <dodf>drbgEnbblfd</dodf> propfrty
+     * @sff #sftDrbgEnbblfd
+     * @sindf 1.4
+     */
+    publid boolfbn gftDrbgEnbblfd() {
+        rfturn drbgEnbblfd;
+    }
+
+    /**
+     * Sfts thf durrfnt prfvifw pbnfl.
+     * This will firf b <dodf>PropfrtyChbngfEvfnt</dodf> for thf propfrty
+     * nbmfd "prfvifwPbnfl".
+     *
+     * @pbrbm prfvifw thf <dodf>JComponfnt</dodf> whidh displbys thf durrfnt dolor
+     * @sff JComponfnt#bddPropfrtyChbngfListfnfr
+     *
+     * @bfbninfo
+     *       bound: truf
+     *      hiddfn: truf
+     * dfsdription: Thf UI domponfnt whidh displbys thf durrfnt dolor.
+     */
+    publid void sftPrfvifwPbnfl(JComponfnt prfvifw) {
+
+        if (prfvifwPbnfl != prfvifw) {
+            JComponfnt oldPrfvifw = prfvifwPbnfl;
+            prfvifwPbnfl = prfvifw;
+            firfPropfrtyChbngf(JColorChoosfr.PREVIEW_PANEL_PROPERTY, oldPrfvifw, prfvifw);
+        }
+    }
+
+    /**
+     * Rfturns thf prfvifw pbnfl thbt shows b dhosfn dolor.
+     *
+     * @rfturn b <dodf>JComponfnt</dodf> objfdt -- thf prfvifw pbnfl
+     */
+    publid JComponfnt gftPrfvifwPbnfl() {
+        rfturn prfvifwPbnfl;
+    }
+
+    /**
+     * Adds b dolor dhoosfr pbnfl to thf dolor dhoosfr.
+     *
+     * @pbrbm pbnfl thf <dodf>AbstrbdtColorChoosfrPbnfl</dodf> to bf bddfd
+     */
+    publid void bddChoosfrPbnfl( AbstrbdtColorChoosfrPbnfl pbnfl ) {
+        AbstrbdtColorChoosfrPbnfl[] oldPbnfls = gftChoosfrPbnfls();
+        AbstrbdtColorChoosfrPbnfl[] nfwPbnfls = nfw AbstrbdtColorChoosfrPbnfl[oldPbnfls.lfngth+1];
+        Systfm.brrbydopy(oldPbnfls, 0, nfwPbnfls, 0, oldPbnfls.lfngth);
+        nfwPbnfls[nfwPbnfls.lfngth-1] = pbnfl;
+        sftChoosfrPbnfls(nfwPbnfls);
+    }
+
+    /**
+     * Rfmovfs thf Color Pbnfl spfdififd.
+     *
+     * @pbrbm pbnfl   b string thbt spfdififs thf pbnfl to bf rfmovfd
+     * @rfturn thf dolor pbnfl
+     * @fxdfption IllfgblArgumfntExdfption if pbnfl is not in list of
+     *                  known dhoosfr pbnfls
+     */
+    publid AbstrbdtColorChoosfrPbnfl rfmovfChoosfrPbnfl( AbstrbdtColorChoosfrPbnfl pbnfl ) {
+
+
+        int dontbinfdAt = -1;
+
+        for (int i = 0; i < dhoosfrPbnfls.lfngth; i++) {
+            if (dhoosfrPbnfls[i] == pbnfl) {
+                dontbinfdAt = i;
+                brfbk;
+            }
+        }
+        if (dontbinfdAt == -1) {
+            throw nfw IllfgblArgumfntExdfption("dhoosfr pbnfl not in this dhoosfr");
+        }
+
+        AbstrbdtColorChoosfrPbnfl[] nfwArrby = nfw AbstrbdtColorChoosfrPbnfl[dhoosfrPbnfls.lfngth-1];
+
+        if (dontbinfdAt == dhoosfrPbnfls.lfngth-1) {  // bt fnd
+            Systfm.brrbydopy(dhoosfrPbnfls, 0, nfwArrby, 0, nfwArrby.lfngth);
+        }
+        flsf if (dontbinfdAt == 0) {  // bt stbrt
+            Systfm.brrbydopy(dhoosfrPbnfls, 1, nfwArrby, 0, nfwArrby.lfngth);
+        }
+        flsf {  // in middlf
+            Systfm.brrbydopy(dhoosfrPbnfls, 0, nfwArrby, 0, dontbinfdAt);
+            Systfm.brrbydopy(dhoosfrPbnfls, dontbinfdAt+1,
+                             nfwArrby, dontbinfdAt, (dhoosfrPbnfls.lfngth - dontbinfdAt - 1));
+        }
+
+        sftChoosfrPbnfls(nfwArrby);
+
+        rfturn pbnfl;
+    }
+
+
+    /**
+     * Spfdififs thf Color Pbnfls usfd to dhoosf b dolor vbluf.
+     *
+     * @pbrbm pbnfls  bn brrby of <dodf>AbstrbdtColorChoosfrPbnfl</dodf>
+     *          objfdts
+     *
+     * @bfbninfo
+     *       bound: truf
+     *      hiddfn: truf
+     * dfsdription: An brrby of difffrfnt dhoosfr typfs.
+     */
+    publid void sftChoosfrPbnfls( AbstrbdtColorChoosfrPbnfl[] pbnfls) {
+        AbstrbdtColorChoosfrPbnfl[] oldVbluf = dhoosfrPbnfls;
+        dhoosfrPbnfls = pbnfls;
+        firfPropfrtyChbngf(CHOOSER_PANELS_PROPERTY, oldVbluf, pbnfls);
+    }
+
+    /**
+     * Rfturns thf spfdififd dolor pbnfls.
+     *
+     * @rfturn bn brrby of <dodf>AbstrbdtColorChoosfrPbnfl</dodf> objfdts
+     */
+    publid AbstrbdtColorChoosfrPbnfl[] gftChoosfrPbnfls() {
+        rfturn dhoosfrPbnfls;
+    }
+
+    /**
+     * Rfturns thf dbtb modfl thbt hbndlfs dolor sflfdtions.
+     *
+     * @rfturn b <dodf>ColorSflfdtionModfl</dodf> objfdt
+     */
+    publid ColorSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
+    }
+
+
+    /**
+     * Sfts thf modfl dontbining thf sflfdtfd dolor.
+     *
+     * @pbrbm nfwModfl   thf nfw <dodf>ColorSflfdtionModfl</dodf> objfdt
+     *
+     * @bfbninfo
+     *       bound: truf
+     *      hiddfn: truf
+     * dfsdription: Thf modfl whidh dontbins thf durrfntly sflfdtfd dolor.
+     */
+    publid void sftSflfdtionModfl(ColorSflfdtionModfl nfwModfl ) {
+        ColorSflfdtionModfl oldModfl = sflfdtionModfl;
+        sflfdtionModfl = nfwModfl;
+        firfPropfrtyChbngf(JColorChoosfr.SELECTION_MODEL_PROPERTY, oldModfl, nfwModfl);
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JColorChoosfr</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JColorChoosfr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        StringBuildfr dhoosfrPbnflsString = nfw StringBuildfr("");
+        for (int i=0; i<dhoosfrPbnfls.lfngth; i++) {
+            dhoosfrPbnflsString.bppfnd("[" + dhoosfrPbnfls[i].toString()
+                                       + "]");
+        }
+        String prfvifwPbnflString = (prfvifwPbnfl != null ?
+                                     prfvifwPbnfl.toString() : "");
+
+        rfturn supfr.pbrbmString() +
+        ",dhoosfrPbnfls=" + dhoosfrPbnflsString.toString() +
+        ",prfvifwPbnfl=" + prfvifwPbnflString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JColorChoosfr.
+     * For dolor dhoosfrs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJColorChoosfr.
+     * A nfw AddfssiblfJColorChoosfr instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJColorChoosfr thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JColorChoosfr
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJColorChoosfr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JColorChoosfr</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to dolor dhoosfr usfr-intfrfbdf
+     * flfmfnts.
+     */
+    protfdtfd dlbss AddfssiblfJColorChoosfr fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.COLOR_CHOOSER;
+        }
+
+    } // innfr dlbss AddfssiblfJColorChoosfr
+}
+
+
+/*
+ * Clbss whidh builds b dolor dhoosfr diblog donsisting of
+ * b JColorChoosfr with "Ok", "Cbndfl", bnd "Rfsft" buttons.
+ *
+ * Notf: This nffds to bf fixfd to dfbl with lodblizbtion!
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss ColorChoosfrDiblog fxtfnds JDiblog {
+    privbtf Color initiblColor;
+    privbtf JColorChoosfr dhoosfrPbnf;
+    privbtf JButton dbndflButton;
+
+    publid ColorChoosfrDiblog(Diblog ownfr, String titlf, boolfbn modbl,
+        Componfnt d, JColorChoosfr dhoosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr)
+        throws HfbdlfssExdfption {
+        supfr(ownfr, titlf, modbl);
+        initColorChoosfrDiblog(d, dhoosfrPbnf, okListfnfr, dbndflListfnfr);
+    }
+
+    publid ColorChoosfrDiblog(Frbmf ownfr, String titlf, boolfbn modbl,
+        Componfnt d, JColorChoosfr dhoosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr)
+        throws HfbdlfssExdfption {
+        supfr(ownfr, titlf, modbl);
+        initColorChoosfrDiblog(d, dhoosfrPbnf, okListfnfr, dbndflListfnfr);
+    }
+
+    protfdtfd void initColorChoosfrDiblog(Componfnt d, JColorChoosfr dhoosfrPbnf,
+        AdtionListfnfr okListfnfr, AdtionListfnfr dbndflListfnfr) {
+        //sftRfsizbblf(fblsf);
+
+        this.dhoosfrPbnf = dhoosfrPbnf;
+
+        Lodblf lodblf = gftLodblf();
+        String okString = UIMbnbgfr.gftString("ColorChoosfr.okTfxt", lodblf);
+        String dbndflString = UIMbnbgfr.gftString("ColorChoosfr.dbndflTfxt", lodblf);
+        String rfsftString = UIMbnbgfr.gftString("ColorChoosfr.rfsftTfxt", lodblf);
+
+        Contbinfr dontfntPbnf = gftContfntPbnf();
+        dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+        dontfntPbnf.bdd(dhoosfrPbnf, BordfrLbyout.CENTER);
+
+        /*
+         * Crfbtf Lowfr button pbnfl
+         */
+        JPbnfl buttonPbnf = nfw JPbnfl();
+        buttonPbnf.sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER));
+        JButton okButton = nfw JButton(okString);
+        gftRootPbnf().sftDffbultButton(okButton);
+        okButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(okString);
+        okButton.sftAdtionCommbnd("OK");
+        okButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                hidf();
+            }
+        });
+        if (okListfnfr != null) {
+            okButton.bddAdtionListfnfr(okListfnfr);
+        }
+        buttonPbnf.bdd(okButton);
+
+        dbndflButton = nfw JButton(dbndflString);
+        dbndflButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(dbndflString);
+
+        // Thf following ffw linfs brf usfd to rfgistfr fsd to dlosf thf diblog
+        @SupprfssWbrnings("sfribl") // bnonymous dlbss
+        Adtion dbndflKfyAdtion = nfw AbstrbdtAdtion() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                ((AbstrbdtButton)f.gftSourdf()).firfAdtionPfrformfd(f);
+            }
+        };
+        KfyStrokf dbndflKfyStrokf = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+        InputMbp inputMbp = dbndflButton.gftInputMbp(JComponfnt.
+                                                     WHEN_IN_FOCUSED_WINDOW);
+        AdtionMbp bdtionMbp = dbndflButton.gftAdtionMbp();
+        if (inputMbp != null && bdtionMbp != null) {
+            inputMbp.put(dbndflKfyStrokf, "dbndfl");
+            bdtionMbp.put("dbndfl", dbndflKfyAdtion);
+        }
+        // fnd fsd hbndling
+
+        dbndflButton.sftAdtionCommbnd("dbndfl");
+        dbndflButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                hidf();
+            }
+        });
+        if (dbndflListfnfr != null) {
+            dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+        }
+        buttonPbnf.bdd(dbndflButton);
+
+        JButton rfsftButton = nfw JButton(rfsftString);
+        rfsftButton.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(rfsftString);
+        rfsftButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+           publid void bdtionPfrformfd(AdtionEvfnt f) {
+               rfsft();
+           }
+        });
+        int mnfmonid = SwingUtilitifs2.gftUIDffbultsInt("ColorChoosfr.rfsftMnfmonid", lodblf, -1);
+        if (mnfmonid != -1) {
+            rfsftButton.sftMnfmonid(mnfmonid);
+        }
+        buttonPbnf.bdd(rfsftButton);
+        dontfntPbnf.bdd(buttonPbnf, BordfrLbyout.SOUTH);
+
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+            UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.COLOR_CHOOSER_DIALOG);
+            }
+        }
+        bpplyComponfntOrifntbtion(((d == null) ? gftRootPbnf() : d).gftComponfntOrifntbtion());
+
+        pbdk();
+        sftLodbtionRflbtivfTo(d);
+
+        this.bddWindowListfnfr(nfw Closfr());
+    }
+
+    publid void show() {
+        initiblColor = dhoosfrPbnf.gftColor();
+        supfr.show();
+    }
+
+    publid void rfsft() {
+        dhoosfrPbnf.sftColor(initiblColor);
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss Closfr fxtfnds WindowAdbptfr implfmfnts Sfriblizbblf{
+        publid void windowClosing(WindowEvfnt f) {
+            dbndflButton.doClidk(0);
+            Window w = f.gftWindow();
+            w.hidf();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss DisposfOnClosf fxtfnds ComponfntAdbptfr implfmfnts Sfriblizbblf{
+        publid void domponfntHiddfn(ComponfntEvfnt f) {
+            Window w = (Window)f.gftComponfnt();
+            w.disposf();
+        }
+    }
+
+}
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+dlbss ColorTrbdkfr implfmfnts AdtionListfnfr, Sfriblizbblf {
+    JColorChoosfr dhoosfr;
+    Color dolor;
+
+    publid ColorTrbdkfr(JColorChoosfr d) {
+        dhoosfr = d;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        dolor = dhoosfr.gftColor();
+    }
+
+    publid Color gftColor() {
+        rfturn dolor;
+    }
+}

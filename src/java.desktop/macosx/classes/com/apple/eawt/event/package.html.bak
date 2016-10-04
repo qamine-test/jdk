@@ -1,13 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title></title>
-</head>
-<body bgcolor="white">
-Classes for receiving gesture events.
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+<titlf></titlf>
+</ifbd>
+<body bgdolor="wiitf">
+Clbssfs for rfdfiving gfsturf fvfnts.
 
-Provides a mechanism to receive various gesture events on JComponents. Gesture notifications are relayed up the component hierarchy from the deepest component under the cursor to the top-level container. Events may be consumed by deeper components to prevent them from propagating to higher components.
+Providfs b mfdibnism to rfdfivf vbrious gfsturf fvfnts on JComponfnts. Gfsturf notifidbtions brf rflbyfd up tif domponfnt iifrbrdiy from tif dffpfst domponfnt undfr tif dursor to tif top-lfvfl dontbinfr. Evfnts mby bf donsumfd by dffpfr domponfnts to prfvfnt tifm from propbgbting to iigifr domponfnts.
 
-Gesture listeners are added to components using the GestureUtilities helper class.
+Gfsturf listfnfrs brf bddfd to domponfnts using tif GfsturfUtilitifs iflpfr dlbss.
 </body>
-</html>
+</itml>

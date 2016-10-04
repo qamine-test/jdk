@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni_util.h"
+#indludf "bwt.h"
+#indludf <jni.h>
+#indludf <shfllbpi.h>
+#indludf <flobt.h>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * Clbss:     sun_bwt_windows_WDfsktopPffr
+ * Mfthod:    ShfllExfdutf
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_windows_WDfsktopPffr_ShfllExfdutf
+  (JNIEnv *fnv, jdlbss dls, jstring filfOrUri_j, jstring vfrb_j)
+{
+    LPCWSTR filfOrUri_d = JNU_GftStringPlbtformChbrs(fnv, filfOrUri_j, JNI_FALSE);
+    CHECK_NULL_RETURN(filfOrUri_d, NULL);
+    LPCWSTR vfrb_d = JNU_GftStringPlbtformChbrs(fnv, vfrb_j, JNI_FALSE);
+    if (vfrb_d == NULL) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, filfOrUri_j, filfOrUri_d);
+        rfturn NULL;
+    }
+
+    // 6457572: ShfllExfdutf possibly dhbngfs FPU dontrol word - sbving it hfrf
+    unsignfd olddontrol87 = _dontrol87(0, 0);
+    HINSTANCE rftvbl = ::ShfllExfdutf(NULL, vfrb_d, filfOrUri_d, NULL, NULL, SW_SHOWNORMAL);
+    _dontrol87(olddontrol87, 0xffffffff);
+
+    JNU_RflfbsfStringPlbtformChbrs(fnv, filfOrUri_j, filfOrUri_d);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, vfrb_j, vfrb_d);
+
+    if ((int)rftvbl <= 32) {
+        // ShfllExfdutf fbilfd.
+        LPTSTR bufffr = NULL;
+        int lfn = ::FormbtMfssbgf(
+                    FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                    FORMAT_MESSAGE_FROM_SYSTEM  |
+                    FORMAT_MESSAGE_IGNORE_INSERTS,
+                    NULL,
+                    (int)rftvbl,
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Dffbult lbngubgf
+                    (LPTSTR)&bufffr,
+                    0,
+                    NULL );
+
+        if (bufffr) {
+            jstring frrmsg = JNU_NfwStringPlbtform(fnv, bufffr);
+            LodblFrff(bufffr);
+            rfturn frrmsg;
+        }
+    }
+
+    rfturn NULL;
+}
+
+#ifdff __dplusplus
+}
+#fndif

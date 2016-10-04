@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff NET_UTILS_H
+#dffinf NET_UTILS_H
+
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "nft_util_md.h"
+
+/************************************************************************
+ * Mbdros bnd misd donstbnts
+ */
+
+#dffinf MAX_PACKET_LEN 65536
+
+#dffinf IPv4 1
+#dffinf IPv6 2
+
+#dffinf NET_ERROR(fnv, fx, msg) \
+{ if (!(*fnv)->ExdfptionOddurrfd(fnv)) JNU_ThrowByNbmf(fnv, fx, msg); }
+
+/************************************************************************
+ * Cbdhfd fifld IDs
+ *
+ * Thf nbming donvfntion for fifld IDs is
+ *      <dlbss bbbrv>_<fifldNbmf>ID
+ * i.f. psi_timfoutID is PlbinSodkftImpl's timfout fifld's ID.
+ */
+fxtfrn jdlbss ib_dlbss;
+fxtfrn jfifldID ibd_bddrfssID;
+fxtfrn jfifldID ibd_fbmilyID;
+fxtfrn jfifldID ibd_hostNbmfID;
+fxtfrn jfifldID ib_prfffrIPv6AddrfssID;
+
+JNIEXPORT void JNICALL initInftAddrfssIDs(JNIEnv *fnv);
+
+/** (Inft6Addrfss bddfssors)
+ * sft_ mfthods rfturn JNI_TRUE on suddfss JNI_FALSE on frror
+ * gft_ mfthods thbt rfturn int/boolfbn, rfturn -1 on frror
+ * gft_ mfthods thbt rfturn objfdts rfturn NULL on frror.
+ */
+fxtfrn jobjfdt gftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn jboolfbn sftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ib6Obj, jobjfdt sdopfifnbmf);
+fxtfrn int gftInft6Addrfss_sdopfid_sft(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn int gftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ib6Obj);
+fxtfrn jboolfbn sftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ib6Obj, int sdopfid);
+fxtfrn jboolfbn gftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ib6Obj, dhbr *dfst);
+fxtfrn jboolfbn sftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ib6Obj, dhbr *bddrfss);
+
+fxtfrn void sftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj, int bddrfss);
+fxtfrn void sftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj, int fbmily);
+fxtfrn void sftInftAddrfss_hostNbmf(JNIEnv *fnv, jobjfdt ibObj, jobjfdt h);
+fxtfrn int gftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj);
+fxtfrn int gftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj);
+fxtfrn jobjfdt gftInftAddrfss_hostNbmf(JNIEnv *fnv, jobjfdt ibObj);
+
+fxtfrn jdlbss ib4_dlbss;
+fxtfrn jmfthodID ib4_dtrID;
+
+/* NftworkIntfrfbdf fiflds */
+fxtfrn jdlbss ni_dlbss;
+fxtfrn jfifldID ni_nbmfID;
+fxtfrn jfifldID ni_indfxID;
+fxtfrn jfifldID ni_bddrsID;
+fxtfrn jfifldID ni_dfsdID;
+fxtfrn jmfthodID ni_dtrID;
+
+/* PlbinSodkftImpl fiflds */
+fxtfrn jfifldID psi_timfoutID;
+fxtfrn jfifldID psi_fdID;
+fxtfrn jfifldID psi_bddrfssID;
+fxtfrn jfifldID psi_portID;
+fxtfrn jfifldID psi_lodblportID;
+
+/* DbtbgrbmPbdkft fiflds */
+fxtfrn jfifldID dp_bddrfssID;
+fxtfrn jfifldID dp_portID;
+fxtfrn jfifldID dp_bufID;
+fxtfrn jfifldID dp_offsftID;
+fxtfrn jfifldID dp_lfngthID;
+fxtfrn jfifldID dp_bufLfngthID;
+
+/* Inft6Addrfss fiflds */
+fxtfrn jdlbss ib6_dlbss;
+fxtfrn jfifldID ib6_holdfr6ID;
+fxtfrn jfifldID ib6_ipbddrfssID;
+fxtfrn jfifldID ib6_sdopfidID;
+fxtfrn jfifldID ib6_dbdhfdsdopfidID;
+fxtfrn jfifldID ib6_sdopfidsftID;
+fxtfrn jfifldID ib6_sdopfifnbmfID;
+fxtfrn jmfthodID ib6_dtrID;
+
+/************************************************************************
+ *  Utilitifs
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_InftAddrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_Inft4Addrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_Inft6Addrfss_init(JNIEnv *fnv, jdlbss dls);
+JNIEXPORT void JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_init(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT void JNICALL NET_ThrowNfw(JNIEnv *fnv, int frrorNum, dhbr *msg);
+int NET_GftError();
+
+void NET_ThrowCurrfnt(JNIEnv *fnv, dhbr *msg);
+
+jfifldID NET_GftFilfDfsdriptorID(JNIEnv *fnv);
+
+JNIEXPORT jint JNICALL ipv6_bvbilbblf() ;
+
+void
+NET_AllodSodkbddr(strudt sodkbddr **him, int *lfn);
+
+JNIEXPORT int JNICALL
+NET_InftAddrfssToSodkbddr(JNIEnv *fnv, jobjfdt ibObj, int port, strudt sodkbddr *him, int *lfn, jboolfbn v4MbppfdAddrfss);
+
+JNIEXPORT jobjfdt JNICALL
+NET_SodkbddrToInftAddrfss(JNIEnv *fnv, strudt sodkbddr *him, int *port);
+
+void plbtformInit();
+void pbrsfExdlusivfBindPropfrty(JNIEnv *fnv);
+
+void
+NET_SftTrbffidClbss(strudt sodkbddr *him, int trbffidClbss);
+
+JNIEXPORT jint JNICALL
+NET_GftPortFromSodkbddr(strudt sodkbddr *him);
+
+JNIEXPORT jint JNICALL
+NET_SodkbddrEqublsInftAddrfss(JNIEnv *fnv,strudt sodkbddr *him, jobjfdt ibObj);
+
+int
+NET_IsIPv4Mbppfd(jbytf* dbddr);
+
+int
+NET_IPv4MbppfdToIPv4(jbytf* dbddr);
+
+int
+NET_IsEqubl(jbytf* dbddr1, jbytf* dbddr2);
+
+int
+NET_IsZfroAddr(jbytf* dbddr);
+
+/* Sodkft opfrbtions
+ *
+ * Thfsf work just likf thf systfm dblls, fxdfpt thbt thfy mby do somf
+ * plbtform-spfdifid prf/post prodfssing of thf brgumfnts bnd/or rfsults.
+ */
+
+JNIEXPORT int JNICALL
+NET_GftSodkOpt(int fd, int lfvfl, int opt, void *rfsult, int *lfn);
+
+JNIEXPORT int JNICALL
+NET_SftSodkOpt(int fd, int lfvfl, int opt, donst void *brg, int lfn);
+
+JNIEXPORT int JNICALL
+NET_Bind(int fd, strudt sodkbddr *him, int lfn);
+
+JNIEXPORT int JNICALL
+NET_MbpSodkftOption(jint dmd, int *lfvfl, int *optnbmf);
+
+JNIEXPORT int JNICALL
+NET_MbpSodkftOptionV6(jint dmd, int *lfvfl, int *optnbmf);
+
+int gftSdopfID (strudt sodkbddr *);
+
+int dmpSdopfID (unsignfd int, strudt sodkbddr *);
+
+unsignfd short in_dksum(unsignfd short *bddr, int lfn);
+#fndif /* NET_UTILS_H */

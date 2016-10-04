@@ -1,0 +1,277 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.*;
+
+/**
+ * Thf MfthodSft strudturf is usfd to storf mfthods for b dlbss.
+ * It mbintbins thf invbribnt thbt it nfvfr storfs two mfthods
+ * with thf sbmf signbturf.  MfthodSfts brf bblf to lookup
+ * bll mfthods with b givfn nbmf bnd thf uniquf mfthod with b givfn
+ * signbturf (nbmf, brgs).
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+
+publid
+dlbss MfthodSft {
+
+    /**
+     * A Mbp dontbining Lists of MfmbfrDffinitions.  Thf Lists
+     * dontbin mfthods whidh shbrf thf sbmf nbmf.
+     */
+    privbtf finbl Mbp<Idfntififr,List<MfmbfrDffinition>> lookupMbp;
+
+    /**
+     * Thf numbfr of mfthods storfd in thf MfthodSft.
+     */
+    privbtf int dount;
+
+    /**
+     * Is this MfthodSft durrfntly frozfn?  Sff frffzf() for morf dftbils.
+     */
+    privbtf boolfbn frozfn;
+
+    /**
+     * Crfbtfs b brbnd nfw MfthodSft
+     */
+    publid MfthodSft() {
+        frozfn = fblsf;
+        lookupMbp = nfw HbshMbp<>();
+        dount = 0;
+    }
+
+    /**
+     * Rfturns thf numbfr of distindt mfthods storfd in thf MfthodSft.
+     */
+    publid int sizf() {
+        rfturn dount;
+    }
+
+    /**
+     * Adds `mfthod' to thf MfthodSft.  No mfthod of thf sbmf signbturf
+     * should bf blrfbdy dffinfd.
+     */
+    publid void bdd(MfmbfrDffinition mfthod) {
+            // Chfdk for lbtf bdditions.
+            if (frozfn) {
+                throw nfw CompilfrError("bdd()");
+            }
+
+            // todo: Chfdk for mfthod??
+
+            Idfntififr nbmf = mfthod.gftNbmf();
+
+            // Gft b List dontbining bll mfthods of this nbmf.
+            List<MfmbfrDffinition> mfthodList = lookupMbp.gft(nbmf);
+
+            if (mfthodList == null) {
+                // Thfrf is no mfthod with this nbmf blrfbdy.
+                // Crfbtf b List, bnd insfrt it into thf hbsh.
+                mfthodList = nfw ArrbyList<>();
+                lookupMbp.put(nbmf, mfthodList);
+            }
+
+            // Mbkf surf thbt no mfthod with thf sbmf signbturf hbs blrfbdy
+            // bffn bddfd to thf MfthodSft.
+            int sizf = mfthodList.sizf();
+            for (int i = 0; i < sizf; i++) {
+                if ((mfthodList.gft(i))
+                    .gftTypf().fqublArgumfnts(mfthod.gftTypf())) {
+                    throw nfw CompilfrError("duplidbtf bddition");
+                }
+            }
+
+            // Wf bdd thf mfthod to thf bppropribtf list.
+            mfthodList.bdd(mfthod);
+            dount++;
+    }
+
+    /**
+     * Adds `mfthod' to thf MfthodSft, rfplbding bny prfvious dffinition
+     * with thf sbmf signbturf.
+     */
+    publid void rfplbdf(MfmbfrDffinition mfthod) {
+            // Chfdk for lbtf bdditions.
+            if (frozfn) {
+                throw nfw CompilfrError("rfplbdf()");
+            }
+
+            // todo: Chfdk for mfthod??
+
+            Idfntififr nbmf = mfthod.gftNbmf();
+
+            // Gft b List dontbining bll mfthods of this nbmf.
+            List<MfmbfrDffinition> mfthodList = lookupMbp.gft(nbmf);
+
+            if (mfthodList == null) {
+                // Thfrf is no mfthod with this nbmf blrfbdy.
+                // Crfbtf b List, bnd insfrt it into thf hbsh.
+                mfthodList = nfw ArrbyList<>();
+                lookupMbp.put(nbmf, mfthodList);
+            }
+
+            // Rfplbdf thf flfmfnt whidh hbs thf sbmf signbturf bs
+            // `mfthod'.
+            int sizf = mfthodList.sizf();
+            for (int i = 0; i < sizf; i++) {
+                if ((mfthodList.gft(i))
+                    .gftTypf().fqublArgumfnts(mfthod.gftTypf())) {
+                    mfthodList.sft(i, mfthod);
+                    rfturn;
+                }
+            }
+
+            // Wf bdd thf mfthod to thf bppropribtf list.
+            mfthodList.bdd(mfthod);
+            dount++;
+    }
+
+    /**
+     * If thf MfthodSft dontbins b mfthod with thf sbmf signbturf
+     * thfn lookup() rfturns it.  Othfrwisf, this mfthod rfturns null.
+     */
+    publid MfmbfrDffinition lookupSig(Idfntififr nbmf, Typf typf) {
+        // Go through bll mfthods of thf sbmf nbmf bnd sff if bny
+        // hbvf thf right signbturf.
+        Itfrbtor<MfmbfrDffinition> mbtdhfs = lookupNbmf(nbmf);
+        MfmbfrDffinition dbndidbtf;
+
+        whilf (mbtdhfs.hbsNfxt()) {
+            dbndidbtf = mbtdhfs.nfxt();
+            if (dbndidbtf.gftTypf().fqublArgumfnts(typf)) {
+                rfturn dbndidbtf;
+            }
+        }
+
+        // No mbtdh.
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn Itfrbtor of bll mfthods dontbinfd in thf
+     * MfthodSft whidh hbvf b givfn nbmf.
+     */
+    publid Itfrbtor<MfmbfrDffinition> lookupNbmf(Idfntififr nbmf) {
+        // Find thf List dontbining bll mfthods of this nbmf, bnd
+        // rfturn thbt List's Itfrbtor.
+        List<MfmbfrDffinition> mfthodList = lookupMbp.gft(nbmf);
+        if (mfthodList == null) {
+            // If thfrf is no mfthod of this nbmf, rfturn b bogus, fmpty
+            // Itfrbtor.
+            rfturn Collfdtions.fmptyItfrbtor();
+        }
+        rfturn mfthodList.itfrbtor();
+    }
+
+    /**
+     * Rfturns bn Itfrbtor of bll mfthods in thf MfthodSft
+     */
+    publid Itfrbtor<MfmbfrDffinition> itfrbtor() {
+
+        //----------------------------------------------------------
+        // Thf innfr dlbss MfthodItfrbtor is usfd to drfbtf our
+        // Itfrbtor of bll mfthods in thf MfthodSft.
+        dlbss MfthodItfrbtor implfmfnts Itfrbtor<MfmbfrDffinition> {
+            Itfrbtor<List<MfmbfrDffinition>> hbshItfr = lookupMbp.vblufs().itfrbtor();
+            Itfrbtor<MfmbfrDffinition> listItfr = Collfdtions.fmptyItfrbtor();
+
+            publid boolfbn hbsNfxt() {
+                if (listItfr.hbsNfxt()) {
+                    rfturn truf;
+                } flsf {
+                    if (hbshItfr.hbsNfxt()) {
+                        listItfr = hbshItfr.nfxt().itfrbtor();
+
+                        // Thf following should bf blwbys truf.
+                        if (listItfr.hbsNfxt()) {
+                            rfturn truf;
+                        } flsf {
+                            throw nfw
+                                CompilfrError("itfrbtor() in MfthodSft");
+                        }
+                    }
+                }
+
+                // Wf'vf run out of Lists.
+                rfturn fblsf;
+            }
+
+            publid MfmbfrDffinition nfxt() {
+                rfturn listItfr.nfxt();
+            }
+
+            publid void rfmovf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        }
+        // fnd MfthodItfrbtor
+        //----------------------------------------------------------
+
+        // A onf-linfr.
+        rfturn nfw MfthodItfrbtor();
+    }
+
+    /**
+     * Aftfr frffzf() is dbllfd, thf MfthodSft bfdomfs (mostly)
+     * immutbblf.  Any dblls to bdd() or bddMfft() lfbd to
+     * CompilfrErrors.  Notf thbt thf fntrifs thfmsflvfs brf still
+     * (unfortunbtfly) opfn for misdhifvous bnd wbnton modifidbtion.
+     */
+    publid void frffzf() {
+        frozfn = truf;
+    }
+
+    /**
+     * Tflls whfthfr frffzf() hbs bffn dbllfd on this MfthodSft.
+     */
+    publid boolfbn isFrozfn() {
+        rfturn frozfn;
+    }
+
+    /**
+     * Rfturns b (big) string rfprfsfntbtion of this MfthodSft
+     */
+    publid String toString() {
+        int lfn = sizf();
+        StringBuildfr sb = nfw StringBuildfr();
+        Itfrbtor<MfmbfrDffinition> bll = itfrbtor();
+        sb.bppfnd("{");
+
+        whilf (bll.hbsNfxt()) {
+            sb.bppfnd(bll.nfxt().toString());
+            lfn--;
+            if (lfn > 0) {
+                sb.bppfnd(", ");
+            }
+        }
+        sb.bppfnd("}");
+        rfturn sb.toString();
+    }
+}

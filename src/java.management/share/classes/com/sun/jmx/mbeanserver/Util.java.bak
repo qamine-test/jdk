@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-public class Util {
-    public static ObjectName newObjectName(String string) {
+publid dlbss Util {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
         try {
-            return new ObjectName(string);
-        } catch (MalformedObjectNameException e) {
-            throw new IllegalArgumentException(e);
+            rfturn nfw ObjfdtNbmf(string);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
-    static <K, V> Map<K, V> newMap() {
-        return new HashMap<K, V>();
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+        rfturn nfw HbsiMbp<K, V>();
     }
 
-    static <K, V> Map<K, V> newSynchronizedMap() {
-        return Collections.synchronizedMap(Util.<K, V>newMap());
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdMbp() {
+        rfturn Collfdtions.syndironizfdMbp(Util.<K, V>nfwMbp());
     }
 
-    static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
-        return new IdentityHashMap<K, V>();
+    stbtid <K, V> IdfntityHbsiMbp<K, V> nfwIdfntityHbsiMbp() {
+        rfturn nfw IdfntityHbsiMbp<K, V>();
     }
 
-    static <K, V> Map<K, V> newSynchronizedIdentityHashMap() {
-        Map<K, V> map = newIdentityHashMap();
-        return Collections.synchronizedMap(map);
+    stbtid <K, V> Mbp<K, V> nfwSyndironizfdIdfntityHbsiMbp() {
+        Mbp<K, V> mbp = nfwIdfntityHbsiMbp();
+        rfturn Collfdtions.syndironizfdMbp(mbp);
     }
 
-    static <K, V> SortedMap<K, V> newSortedMap() {
-        return new TreeMap<K, V>();
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+        rfturn nfw TrffMbp<K, V>();
     }
 
-    static <K, V> SortedMap<K, V> newSortedMap(Comparator<? super K> comp) {
-        return new TreeMap<K, V>(comp);
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+        rfturn nfw TrffMbp<K, V>(domp);
     }
 
-    static <K, V> Map<K, V> newInsertionOrderMap() {
-        return new LinkedHashMap<K, V>();
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+        rfturn nfw LinkfdHbsiMbp<K, V>();
     }
 
-    static <E> Set<E> newSet() {
-        return new HashSet<E>();
+    stbtid <E> Sft<E> nfwSft() {
+        rfturn nfw HbsiSft<E>();
     }
 
-    static <E> Set<E> newSet(Collection<E> c) {
-        return new HashSet<E>(c);
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+        rfturn nfw HbsiSft<E>(d);
     }
 
-    static <E> List<E> newList() {
-        return new ArrayList<E>();
+    stbtid <E> List<E> nfwList() {
+        rfturn nfw ArrbyList<E>();
     }
 
-    static <E> List<E> newList(Collection<E> c) {
-        return new ArrayList<E>(c);
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+        rfturn nfw ArrbyList<E>(d);
     }
 
-    /* This method can be used by code that is deliberately violating the
-     * allowed checked casts.  Rather than marking the whole method containing
-     * the code with @SuppressWarnings, you can use a call to this method for
-     * the exact place where you need to escape the constraints.  Typically
-     * you will "import static" this method and then write either
-     *    X x = cast(y);
-     * or, if that doesn't work (e.g. X is a type variable)
-     *    Util.<X>cast(y);
+    /* Tiis mftiod dbn bf usfd by dodf tibt is dflibfrbtfly violbting tif
+     * bllowfd difdkfd dbsts.  Rbtifr tibn mbrking tif wiolf mftiod dontbining
+     * tif dodf witi @SupprfssWbrnings, you dbn usf b dbll to tiis mftiod for
+     * tif fxbdt plbdf wifrf you nffd to fsdbpf tif donstrbints.  Typidblly
+     * you will "import stbtid" tiis mftiod bnd tifn writf fitifr
+     *    X x = dbst(y);
+     * or, if tibt dofsn't work (f.g. X is b typf vbribblf)
+     *    Util.<X>dbst(y);
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T cast(Object x) {
-        return (T) x;
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> T dbst(Objfdt x) {
+        rfturn (T) x;
     }
 
     /**
-     * Computes a descriptor hashcode from its names and values.
-     * @param names  the sorted array of descriptor names.
-     * @param values the array of descriptor values.
-     * @return a hash code value, as described in {@link #hashCode(Descriptor)}
+     * Computfs b dfsdriptor ibsidodf from its nbmfs bnd vblufs.
+     * @pbrbm nbmfs  tif sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm vblufs tif brrby of dfsdriptor vblufs.
+     * @rfturn b ibsi dodf vbluf, bs dfsdribfd in {@link #ibsiCodf(Dfsdriptor)}
      */
-    public static int hashCode(String[] names, Object[] values) {
-        int hash = 0;
-        for (int i = 0; i < names.length; i++) {
-            Object v = values[i];
-            int h;
+    publid stbtid int ibsiCodf(String[] nbmfs, Objfdt[] vblufs) {
+        int ibsi = 0;
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            Objfdt v = vblufs[i];
+            int i;
             if (v == null) {
-                h = 0;
-            } else if (v instanceof Object[]) {
-                h = Arrays.deepHashCode((Object[]) v);
-            } else if (v.getClass().isArray()) {
-                h = Arrays.deepHashCode(new Object[]{v}) - 31;
-            // hashcode of a list containing just v is
-            // v.hashCode() + 31, see List.hashCode()
-            } else {
-                h = v.hashCode();
+                i = 0;
+            } flsf if (v instbndfof Objfdt[]) {
+                i = Arrbys.dffpHbsiCodf((Objfdt[]) v);
+            } flsf if (v.gftClbss().isArrby()) {
+                i = Arrbys.dffpHbsiCodf(nfw Objfdt[]{v}) - 31;
+            // ibsidodf of b list dontbining just v is
+            // v.ibsiCodf() + 31, sff List.ibsiCodf()
+            } flsf {
+                i = v.ibsiCodf();
             }
-            hash += names[i].toLowerCase().hashCode() ^ h;
+            ibsi += nbmfs[i].toLowfrCbsf().ibsiCodf() ^ i;
         }
-        return hash;
+        rfturn ibsi;
     }
 
-    /** Match a part of a string against a shell-style pattern.
-        The only pattern characters recognized are <code>?</code>,
-        standing for any one character,
-        and <code>*</code>, standing for any string of
-        characters, including the empty string. For instance,
-        {@code wildmatch("sandwich","sa?d*ch",1,4,1,4)} will match
-        {@code "and"} against {@code "a?d"}.
+    /** Mbtdi b pbrt of b string bgbinst b sifll-stylf pbttfrn.
+        Tif only pbttfrn dibrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        stbnding for bny onf dibrbdtfr,
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfrs, indluding tif fmpty string. For instbndf,
+        {@dodf wildmbtdi("sbndwidi","sb?d*di",1,4,1,4)} will mbtdi
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
 
-        @param str  the string containing the sequence to match.
-        @param pat  a string containing a pattern to match the sub string
-                    against.
-        @param stri   the index in the string at which matching should begin.
-        @param strend the index in the string at which the matching should
-                      end.
-        @param pati   the index in the pattern at which matching should begin.
-        @param patend the index in the pattern at which the matching should
-                      end.
+        @pbrbm str  tif string dontbining tif sfqufndf to mbtdi.
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdi tif sub string
+                    bgbinst.
+        @pbrbm stri   tif indfx in tif string bt wiidi mbtdiing siould bfgin.
+        @pbrbm strfnd tif indfx in tif string bt wiidi tif mbtdiing siould
+                      fnd.
+        @pbrbm pbti   tif indfx in tif pbttfrn bt wiidi mbtdiing siould bfgin.
+        @pbrbm pbtfnd tif indfx in tif pbttfrn bt wiidi tif mbtdiing siould
+                      fnd.
 
-        @return true if and only if the string matches the pattern.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
     */
-    /* The algorithm is a classical one.  We advance pointers in
-       parallel through str and pat.  If we encounter a star in pat,
-       we remember its position and continue advancing.  If at any
-       stage we get a mismatch between str and pat, we look to see if
-       there is a remembered star.  If not, we fail.  If so, we
-       retreat pat to just past that star and str to the position
-       after the last one we tried, and we let the match advance
-       again.
+    /* Tif blgoritim is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+       pbrbllfl tirougi str bnd pbt.  If wf fndountfr b stbr in pbt,
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       stbgf wf gft b mismbtdi bftwffn str bnd pbt, wf look to sff if
+       tifrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       rftrfbt pbt to just pbst tibt stbr bnd str to tif position
+       bftfr tif lbst onf wf trifd, bnd wf lft tif mbtdi bdvbndf
+       bgbin.
 
-       Even though there is only one remembered star position, the
-       algorithm works when there are several stars in the pattern.
-       When we encounter the second star, we forget the first one.
-       This is OK, because if we get to the second star in A*B*C
-       (where A etc are arbitrary strings), we have already seen AXB.
-       We're therefore setting up a match of *C against the remainder
-       of the string, which will match if that remainder looks like
-       YC, so the whole string looks like AXBYC.
+       Evfn tiougi tifrf is only onf rfmfmbfrfd stbr position, tif
+       blgoritim works wifn tifrf brf sfvfrbl stbrs in tif pbttfrn.
+       Wifn wf fndountfr tif sfdond stbr, wf forgft tif first onf.
+       Tiis is OK, bfdbusf if wf gft to tif sfdond stbr in A*B*C
+       (wifrf A ftd brf brbitrbry strings), wf ibvf blrfbdy sffn AXB.
+       Wf'rf tifrfforf sftting up b mbtdi of *C bgbinst tif rfmbindfr
+       of tif string, wiidi will mbtdi if tibt rfmbindfr looks likf
+       YC, so tif wiolf string looks likf AXBYC.
     */
-    private static boolean wildmatch(final String str, final String pat,
-            int stri, final int strend, int pati, final int patend) {
+    privbtf stbtid boolfbn wildmbtdi(finbl String str, finbl String pbt,
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
 
-        // System.out.println("matching "+pat.substring(pati,patend)+
-        //        " against "+str.substring(stri, strend));
-        int starstri; // index for backtrack if "*" attempt fails
-        int starpati; // index for backtrack if "*" attempt fails, +1
+        // Systfm.out.println("mbtdiing "+pbt.substring(pbti,pbtfnd)+
+        //        " bgbinst "+str.substring(stri, strfnd));
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
 
-        starstri = starpati = -1;
+        stbrstri = stbrpbti = -1;
 
-        /* On each pass through this loop, we either advance pati,
-           or we backtrack pati and advance starstri.  Since starstri
-           is only ever assigned from pati, the loop must terminate.  */
-        while (true) {
-            if (pati < patend) {
-                final char patc = pat.charAt(pati);
-                switch (patc) {
-                case '?':
-                    if (stri == strend)
-                        break;
+        /* On fbdi pbss tirougi tiis loop, wf fitifr bdvbndf pbti,
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           is only fvfr bssignfd from pbti, tif loop must tfrminbtf.  */
+        wiilf (truf) {
+            if (pbti < pbtfnd) {
+                finbl dibr pbtd = pbt.dibrAt(pbti);
+                switdi (pbtd) {
+                dbsf '?':
+                    if (stri == strfnd)
+                        brfbk;
                     stri++;
-                    pati++;
-                    continue;
-                case '*':
-                    pati++;
-                    starpati = pati;
-                    starstri = stri;
-                    continue;
-                default:
-                    if (stri < strend && str.charAt(stri) == patc) {
+                    pbti++;
+                    dontinuf;
+                dbsf '*':
+                    pbti++;
+                    stbrpbti = pbti;
+                    stbrstri = stri;
+                    dontinuf;
+                dffbult:
+                    if (stri < strfnd && str.dibrAt(stri) == pbtd) {
                         stri++;
-                        pati++;
-                        continue;
+                        pbti++;
+                        dontinuf;
                     }
-                    break;
+                    brfbk;
                 }
-            } else if (stri == strend)
-                return true;
+            } flsf if (stri == strfnd)
+                rfturn truf;
 
-            // Mismatched, can we backtrack to a "*"?
-            if (starpati < 0 || starstri == strend)
-                return false;
+            // Mismbtdifd, dbn wf bbdktrbdk to b "*"?
+            if (stbrpbti < 0 || stbrstri == strfnd)
+                rfturn fblsf;
 
-            // Retry the match one position later in str
-            pati = starpati;
-            starstri++;
-            stri = starstri;
+            // Rftry tif mbtdi onf position lbtfr in str
+            pbti = stbrpbti;
+            stbrstri++;
+            stri = stbrstri;
         }
     }
 
-    /** Match a string against a shell-style pattern.  The only pattern
-        characters recognized are <code>?</code>, standing for any one
-        character, and <code>*</code>, standing for any string of
-        characters, including the empty string.
+    /** Mbtdi b string bgbinst b sifll-stylf pbttfrn.  Tif only pbttfrn
+        dibrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dibrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dibrbdtfrs, indluding tif fmpty string.
 
-        @param str the string to match.
-        @param pat the pattern to match the string against.
+        @pbrbm str tif string to mbtdi.
+        @pbrbm pbt tif pbttfrn to mbtdi tif string bgbinst.
 
-        @return true if and only if the string matches the pattern.
+        @rfturn truf if bnd only if tif string mbtdifs tif pbttfrn.
     */
-    public static boolean wildmatch(String str, String pat) {
-        return wildmatch(str,pat,0,str.length(),0,pat.length());
+    publid stbtid boolfbn wildmbtdi(String str, String pbt) {
+        rfturn wildmbtdi(str,pbt,0,str.lfngti(),0,pbt.lfngti());
     }
 }

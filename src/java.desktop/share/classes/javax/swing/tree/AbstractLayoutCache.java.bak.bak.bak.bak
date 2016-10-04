@@ -1,0 +1,538 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvbx.swing.fvfnt.TrffModflEvfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss AbstrbdtLbyoutCbdhf implfmfnts RowMbppfr {
+    /** Objfdt rfsponsiblf for gftting thf sizf of b nodf. */
+    protfdtfd NodfDimfnsions     nodfDimfnsions;
+
+    /** Modfl providing informbtion. */
+    protfdtfd TrffModfl          trffModfl;
+
+    /** Sflfdtion modfl. */
+    protfdtfd TrffSflfdtionModfl trffSflfdtionModfl;
+
+    /**
+     * Truf if thf root nodf is displbyfd, fblsf if its dhildrfn brf
+     * thf highfst visiblf nodfs.
+     */
+    protfdtfd boolfbn            rootVisiblf;
+
+    /**
+      * Hfight to usf for fbdh row.  If this is &lt;= 0 thf rfndfrfr will bf
+      * usfd to dftfrminf thf hfight for fbdh row.
+      */
+    protfdtfd int                rowHfight;
+
+
+    /**
+     * Sfts thf rfndfrfr thbt is rfsponsiblf for drbwing nodfs in thf trff
+     * bnd whidh is thfrfforf rfsponsiblf for dbldulbting thf dimfnsions of
+     * individubl nodfs.
+     *
+     * @pbrbm nd b <dodf>NodfDimfnsions</dodf> objfdt
+     */
+    publid void sftNodfDimfnsions(NodfDimfnsions nd) {
+        this.nodfDimfnsions = nd;
+    }
+
+    /**
+     * Rfturns thf objfdt thbt rfndfrs nodfs in thf trff, bnd whidh is
+     * rfsponsiblf for dbldulbting thf dimfnsions of individubl nodfs.
+     *
+     * @rfturn thf <dodf>NodfDimfnsions</dodf> objfdt
+     */
+    publid NodfDimfnsions gftNodfDimfnsions() {
+        rfturn nodfDimfnsions;
+    }
+
+    /**
+     * Sfts thf <dodf>TrffModfl</dodf> thbt will providf thf dbtb.
+     *
+     * @pbrbm nfwModfl thf <dodf>TrffModfl</dodf> thbt is to
+     *          providf thf dbtb
+     */
+    publid void sftModfl(TrffModfl nfwModfl) {
+        trffModfl = nfwModfl;
+    }
+
+    /**
+     * Rfturns thf <dodf>TrffModfl</dodf> thbt is providing thf dbtb.
+     *
+     * @rfturn thf <dodf>TrffModfl</dodf> thbt is providing thf dbtb
+     */
+    publid TrffModfl gftModfl() {
+        rfturn trffModfl;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf root nodf from
+     * thf <dodf>TrffModfl</dodf> is visiblf.
+     *
+     * @pbrbm rootVisiblf truf if thf root nodf of thf trff is to bf displbyfd
+     * @sff #rootVisiblf
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Whfthfr or not thf root nodf
+     *               from thf TrffModfl is visiblf.
+     */
+    publid void sftRootVisiblf(boolfbn rootVisiblf) {
+        this.rootVisiblf = rootVisiblf;
+    }
+
+    /**
+     * Rfturns truf if thf root nodf of thf trff is displbyfd.
+     *
+     * @rfturn truf if thf root nodf of thf trff is displbyfd
+     * @sff #rootVisiblf
+     */
+    publid boolfbn isRootVisiblf() {
+        rfturn rootVisiblf;
+    }
+
+    /**
+     * Sfts thf hfight of fbdh dfll.  If thf spfdififd vbluf
+     * is lfss thbn or fqubl to zfro thf durrfnt dfll rfndfrfr is
+     * qufrifd for fbdh row's hfight.
+     *
+     * @pbrbm rowHfight thf hfight of fbdh dfll, in pixfls
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf hfight of fbdh dfll.
+     */
+    publid void sftRowHfight(int rowHfight) {
+        this.rowHfight = rowHfight;
+    }
+
+    /**
+     * Rfturns thf hfight of fbdh row.  If thf rfturnfd vbluf is lfss thbn
+     * or fqubl to 0 thf hfight for fbdh row is dftfrminfd by thf
+     * rfndfrfr.
+     *
+     * @rfturn thf hfight of fbdh row
+     */
+    publid int gftRowHfight() {
+        rfturn rowHfight;
+    }
+
+    /**
+     * Sfts thf <dodf>TrffSflfdtionModfl</dodf> usfd to mbnbgf thf
+     * sflfdtion to nfw LSM.
+     *
+     * @pbrbm nfwLSM  thf nfw <dodf>TrffSflfdtionModfl</dodf>
+     */
+    publid void sftSflfdtionModfl(TrffSflfdtionModfl nfwLSM) {
+        if(trffSflfdtionModfl != null)
+            trffSflfdtionModfl.sftRowMbppfr(null);
+        trffSflfdtionModfl = nfwLSM;
+        if(trffSflfdtionModfl != null)
+            trffSflfdtionModfl.sftRowMbppfr(this);
+    }
+
+    /**
+     * Rfturns thf modfl usfd to mbintbin thf sflfdtion.
+     *
+     * @rfturn thf <dodf>trffSflfdtionModfl</dodf>
+     */
+    publid TrffSflfdtionModfl gftSflfdtionModfl() {
+        rfturn trffSflfdtionModfl;
+    }
+
+    /**
+     * Rfturns thf prfffrrfd hfight.
+     *
+     * @rfturn thf prfffrrfd hfight
+     */
+    publid int gftPrfffrrfdHfight() {
+        // Gft thf hfight
+        int           rowCount = gftRowCount();
+
+        if(rowCount > 0) {
+            Rfdtbnglf     bounds = gftBounds(gftPbthForRow(rowCount - 1),
+                                             null);
+
+            if(bounds != null)
+                rfturn bounds.y + bounds.hfight;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf prfffrrfd width for thf pbssfd in rfgion.
+     * Thf rfgion is dffinfd by thf pbth dlosfst to
+     * <dodf>(bounds.x, bounds.y)</dodf> bnd
+     * fnds bt <dodf>bounds.hfight + bounds.y</dodf>.
+     * If <dodf>bounds</dodf> is <dodf>null</dodf>,
+     * thf prfffrrfd width for bll thf nodfs
+     * will bf rfturnfd (bnd this mby bf b VERY fxpfnsivf
+     * domputbtion).
+     *
+     * @pbrbm bounds thf rfgion bfing qufrifd
+     * @rfturn thf prfffrrfd width for thf pbssfd in rfgion
+     */
+    publid int gftPrfffrrfdWidth(Rfdtbnglf bounds) {
+        int           rowCount = gftRowCount();
+
+        if(rowCount > 0) {
+            // Gft thf width
+            TrffPbth      firstPbth;
+            int           fndY;
+
+            if(bounds == null) {
+                firstPbth = gftPbthForRow(0);
+                fndY = Intfgfr.MAX_VALUE;
+            }
+            flsf {
+                firstPbth = gftPbthClosfstTo(bounds.x, bounds.y);
+                fndY = bounds.hfight + bounds.y;
+            }
+
+            Enumfrbtion<TrffPbth> pbths = gftVisiblfPbthsFrom(firstPbth);
+
+            if(pbths != null && pbths.hbsMorfElfmfnts()) {
+                Rfdtbnglf   pBounds = gftBounds(pbths.nfxtElfmfnt(),
+                                                null);
+                int         width;
+
+                if(pBounds != null) {
+                    width = pBounds.x + pBounds.width;
+                    if (pBounds.y >= fndY) {
+                        rfturn width;
+                    }
+                }
+                flsf
+                    width = 0;
+                whilf (pBounds != null && pbths.hbsMorfElfmfnts()) {
+                    pBounds = gftBounds(pbths.nfxtElfmfnt(),
+                                        pBounds);
+                    if (pBounds != null && pBounds.y < fndY) {
+                        width = Mbth.mbx(width, pBounds.x + pBounds.width);
+                    }
+                    flsf {
+                        pBounds = null;
+                    }
+                }
+                rfturn width;
+            }
+        }
+        rfturn 0;
+    }
+
+    //
+    // Abstrbdt mfthods thbt must bf implfmfntfd to bf dondrftf.
+    //
+
+    /**
+      * Rfturns truf if thf vbluf idfntififd by row is durrfntly fxpbndfd.
+      *
+      * @pbrbm pbth TrffPbth to dhfdk
+      * @rfturn whfthfr TrffPbth is fxpbndfd
+      */
+    publid bbstrbdt boolfbn isExpbndfd(TrffPbth pbth);
+
+    /**
+     * Rfturns b rfdtbnglf giving thf bounds nffdfd to drbw pbth.
+     *
+     * @pbrbm pbth     b <dodf>TrffPbth</dodf> spfdifying b nodf
+     * @pbrbm plbdfIn  b <dodf>Rfdtbnglf</dodf> objfdt giving thf
+     *          bvbilbblf spbdf
+     * @rfturn b <dodf>Rfdtbnglf</dodf> objfdt spfdifying thf spbdf to bf usfd
+     */
+    publid bbstrbdt Rfdtbnglf gftBounds(TrffPbth pbth, Rfdtbnglf plbdfIn);
+
+    /**
+      * Rfturns thf pbth for pbssfd in row.  If row is not visiblf
+      * <dodf>null</dodf> is rfturnfd.
+      *
+      * @pbrbm row  thf row bfing qufrifd
+      * @rfturn thf <dodf>TrffPbth</dodf> for thf givfn row
+      */
+    publid bbstrbdt TrffPbth gftPbthForRow(int row);
+
+    /**
+      * Rfturns thf row thbt thf lbst itfm idfntififd in pbth is visiblf
+      * bt.  Will rfturn -1 if bny of thf flfmfnts in pbth brf not
+      * durrfntly visiblf.
+      *
+      * @pbrbm pbth thf <dodf>TrffPbth</dodf> bfing qufrifd
+      * @rfturn thf row whfrf thf lbst itfm in pbth is visiblf or -1
+      *         if bny flfmfnts in pbth brfn't durrfntly visiblf
+      */
+    publid bbstrbdt int gftRowForPbth(TrffPbth pbth);
+
+    /**
+      * Rfturns thf pbth to thf nodf thbt is dlosfst to x,y.  If
+      * thfrf is nothing durrfntly visiblf this will rfturn <dodf>null</dodf>,
+      * othfrwisf it'll blwbys rfturn b vblid pbth.
+      * If you nffd to tfst if thf
+      * rfturnfd objfdt is fxbdtly bt x, y you should gft thf bounds for
+      * thf rfturnfd pbth bnd tfst x, y bgbinst thbt.
+      *
+      * @pbrbm x thf horizontbl domponfnt of thf dfsirfd lodbtion
+      * @pbrbm y thf vfrtidbl domponfnt of thf dfsirfd lodbtion
+      * @rfturn thf <dodf>TrffPbth</dodf> dlosfst to thf spfdififd point
+      */
+    publid bbstrbdt TrffPbth gftPbthClosfstTo(int x, int y);
+
+    /**
+     * Rfturns bn <dodf>Enumfrbtor</dodf> thbt indrfmfnts ovfr thf visiblf
+     * pbths stbrting bt thf pbssfd in lodbtion. Thf ordfring of thf
+     * fnumfrbtion is bbsfd on how thf pbths brf displbyfd.
+     * Thf first flfmfnt of thf rfturnfd fnumfrbtion will bf pbth,
+     * unlfss it isn't visiblf,
+     * in whidh dbsf <dodf>null</dodf> will bf rfturnfd.
+     *
+     * @pbrbm pbth thf stbrting lodbtion for thf fnumfrbtion
+     * @rfturn thf <dodf>Enumfrbtor</dodf> stbrting bt thf dfsirfd lodbtion
+     */
+    publid bbstrbdt Enumfrbtion<TrffPbth> gftVisiblfPbthsFrom(TrffPbth pbth);
+
+    /**
+     * Rfturns thf numbfr of visiblf dhildrfn for row.
+     *
+     * @pbrbm pbth  thf pbth bfing qufrifd
+     * @rfturn thf numbfr of visiblf dhildrfn for thf spfdififd pbth
+     */
+    publid bbstrbdt int gftVisiblfChildCount(TrffPbth pbth);
+
+    /**
+     * Mbrks thf pbth <dodf>pbth</dodf> fxpbndfd stbtf to
+     * <dodf>isExpbndfd</dodf>.
+     *
+     * @pbrbm pbth  thf pbth bfing fxpbndfd or dollbpsfd
+     * @pbrbm isExpbndfd truf if thf pbth should bf fxpbndfd, fblsf othfrwisf
+     */
+    publid bbstrbdt void sftExpbndfdStbtf(TrffPbth pbth, boolfbn isExpbndfd);
+
+    /**
+     * Rfturns truf if thf pbth is fxpbndfd, bnd visiblf.
+     *
+     * @pbrbm pbth  thf pbth bfing qufrifd
+     * @rfturn truf if thf pbth is fxpbndfd bnd visiblf, fblsf othfrwisf
+     */
+    publid bbstrbdt boolfbn gftExpbndfdStbtf(TrffPbth pbth);
+
+    /**
+     * Numbfr of rows bfing displbyfd.
+     *
+     * @rfturn thf numbfr of rows bfing displbyfd
+     */
+    publid bbstrbdt int gftRowCount();
+
+    /**
+     * Informs thf <dodf>TrffStbtf</dodf> thbt it nffds to rfdbldulbtf
+     * bll thf sizfs it is rfffrfnding.
+     */
+    publid bbstrbdt void invblidbtfSizfs();
+
+    /**
+     * Instrudts thf <dodf>LbyoutCbdhf</dodf> thbt thf bounds for
+     * <dodf>pbth</dodf> brf invblid, bnd nffd to bf updbtfd.
+     *
+     * @pbrbm pbth thf pbth bfing updbtfd
+     */
+    publid bbstrbdt void invblidbtfPbthBounds(TrffPbth pbth);
+
+    //
+    // TrffModflListfnfr mfthods
+    // AbstrbdtTrffStbtf dofs not dirfdtly bfdomf b TrffModflListfnfr on
+    // thf modfl, it is up to somf othfr objfdt to forwbrd thfsf mfthods.
+    //
+
+    /**
+     * <p>
+     * Invokfd bftfr b nodf (or b sft of siblings) hbs dhbngfd in somf
+     * wby. Thf nodf(s) hbvf not dhbngfd lodbtions in thf trff or
+     * bltfrfd thfir dhildrfn brrbys, but othfr bttributfs hbvf
+     * dhbngfd bnd mby bfffdt prfsfntbtion. Exbmplf: thf nbmf of b
+     * filf hbs dhbngfd, but it is in thf sbmf lodbtion in thf filf
+     * systfm.</p>
+     *
+     * <p>f.pbth() rfturns thf pbth thf pbrfnt of thf dhbngfd nodf(s).</p>
+     *
+     * <p>f.dhildIndidfs() rfturns thf indfx(fs) of thf dhbngfd nodf(s).</p>
+     *
+     * @pbrbm f  thf <dodf>TrffModflEvfnt</dodf>
+     */
+    publid bbstrbdt void trffNodfsChbngfd(TrffModflEvfnt f);
+
+    /**
+     * <p>Invokfd bftfr nodfs hbvf bffn insfrtfd into thf trff.</p>
+     *
+     * <p>f.pbth() rfturns thf pbrfnt of thf nfw nodfs</p>
+     * <p>f.dhildIndidfs() rfturns thf indidfs of thf nfw nodfs in
+     * bsdfnding ordfr.</p>
+     *
+     * @pbrbm f thf <dodf>TrffModflEvfnt</dodf>
+     */
+    publid bbstrbdt void trffNodfsInsfrtfd(TrffModflEvfnt f);
+
+    /**
+     * <p>Invokfd bftfr nodfs hbvf bffn rfmovfd from thf trff.  Notf thbt
+     * if b subtrff is rfmovfd from thf trff, this mfthod mby only bf
+     * invokfd ondf for thf root of thf rfmovfd subtrff, not ondf for
+     * fbdh individubl sft of siblings rfmovfd.</p>
+     *
+     * <p>f.pbth() rfturns thf formfr pbrfnt of thf dflftfd nodfs.</p>
+     *
+     * <p>f.dhildIndidfs() rfturns thf indidfs thf nodfs hbd bfforf thfy wfrf dflftfd in bsdfnding ordfr.</p>
+     *
+     * @pbrbm f thf <dodf>TrffModflEvfnt</dodf>
+     */
+    publid bbstrbdt void trffNodfsRfmovfd(TrffModflEvfnt f);
+
+    /**
+     * <p>Invokfd bftfr thf trff hbs drbstidblly dhbngfd strudturf from b
+     * givfn nodf down.  If thf pbth rfturnfd by <dodf>f.gftPbth()</dodf>
+     * is of lfngth onf bnd thf first flfmfnt dofs not idfntify thf
+     * durrfnt root nodf thf first flfmfnt should bfdomf thf nfw root
+     * of thf trff.</p>
+     *
+     * <p>f.pbth() holds thf pbth to thf nodf.</p>
+     * <p>f.dhildIndidfs() rfturns null.</p>
+     *
+     * @pbrbm f thf <dodf>TrffModflEvfnt</dodf>
+     */
+    publid bbstrbdt void trffStrudturfChbngfd(TrffModflEvfnt f);
+
+    //
+    // RowMbppfr
+    //
+
+    /**
+     * Rfturns thf rows thbt thf <dodf>TrffPbth</dodf> instbndfs in
+     * <dodf>pbth</dodf> brf bfing displbyfd bt.
+     * This mfthod should rfturn bn brrby of thf sbmf lfngth bs thbt pbssfd
+     * in, bnd if onf of thf <dodf>TrffPbths</dodf>
+     * in <dodf>pbth</dodf> is not vblid its fntry in thf brrby should
+     * bf sft to -1.
+     *
+     * @pbrbm pbths thf brrby of <dodf>TrffPbth</dodf>s bfing qufrifd
+     * @rfturn bn brrby of thf sbmf lfngth thbt is pbssfd in dontbining
+     *          thf rows thbt fbdh dorrfsponding whfrf fbdh
+     *          <dodf>TrffPbth</dodf> is displbyfd; if <dodf>pbths</dodf>
+     *          is <dodf>null</dodf>, <dodf>null</dodf> is rfturnfd
+     */
+    publid int[] gftRowsForPbths(TrffPbth[] pbths) {
+        if(pbths == null)
+            rfturn null;
+
+        int               numPbths = pbths.lfngth;
+        int[]             rows = nfw int[numPbths];
+
+        for(int dountfr = 0; dountfr < numPbths; dountfr++)
+            rows[dountfr] = gftRowForPbth(pbths[dountfr]);
+        rfturn rows;
+    }
+
+    //
+    // Lodbl mfthods thbt subdlbssfrs mby wish to usf thbt brf primbrly
+    // donvfnifndf mfthods.
+    //
+
+    /**
+     * Rfturns, by rfffrfndf in <dodf>plbdfIn</dodf>,
+     * thf sizf nffdfd to rfprfsfnt <dodf>vbluf</dodf>.
+     * If <dodf>inPlbdf</dodf> is <dodf>null</dodf>, b nfwly drfbtfd
+     * <dodf>Rfdtbnglf</dodf> should bf rfturnfd, othfrwisf thf vbluf
+     * should bf plbdfd in <dodf>inPlbdf</dodf> bnd rfturnfd. This will
+     * rfturn <dodf>null</dodf> if thfrf is no rfndfrfr.
+     *
+     * @pbrbm vbluf thf <dodf>vbluf</dodf> to bf rfprfsfntfd
+     * @pbrbm row  row bfing qufrifd
+     * @pbrbm dfpth thf dfpth of thf row
+     * @pbrbm fxpbndfd truf if row is fxpbndfd, fblsf othfrwisf
+     * @pbrbm plbdfIn  b <dodf>Rfdtbnglf</dodf> dontbining thf sizf nffdfd
+     *          to rfprfsfnt <dodf>vbluf</dodf>
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining thf nodf dimfnsions,
+     *          or <dodf>null</dodf> if nodf hbs no dimfnsion
+     */
+    protfdtfd Rfdtbnglf gftNodfDimfnsions(Objfdt vbluf, int row, int dfpth,
+                                          boolfbn fxpbndfd,
+                                          Rfdtbnglf plbdfIn) {
+        NodfDimfnsions            nd = gftNodfDimfnsions();
+
+        if(nd != null) {
+            rfturn nd.gftNodfDimfnsions(vbluf, row, dfpth, fxpbndfd, plbdfIn);
+        }
+        rfturn null;
+    }
+
+    /**
+      * Rfturns truf if thf hfight of fbdh row is b fixfd sizf.
+      *
+      * @rfturn whfthfr thf hfight of fbdh row is b fixfd sizf
+      */
+    protfdtfd boolfbn isFixfdRowHfight() {
+        rfturn (rowHfight > 0);
+    }
+
+
+    /**
+     * Usfd by <dodf>AbstrbdtLbyoutCbdhf</dodf> to dftfrminf thf sizf
+     * bnd x origin of b pbrtidulbr nodf.
+     */
+    stbtid publid bbstrbdt dlbss NodfDimfnsions {
+        /**
+         * Rfturns, by rfffrfndf in bounds, thf sizf bnd x origin to
+         * plbdf vbluf bt. Thf dblling mfthod is rfsponsiblf for dftfrmining
+         * thf Y lodbtion. If bounds is <dodf>null</dodf>, b nfwly drfbtfd
+         * <dodf>Rfdtbnglf</dodf> should bf rfturnfd,
+         * othfrwisf thf vbluf should bf plbdfd in bounds bnd rfturnfd.
+         *
+         * @pbrbm vbluf thf <dodf>vbluf</dodf> to bf rfprfsfntfd
+         * @pbrbm row row bfing qufrifd
+         * @pbrbm dfpth thf dfpth of thf row
+         * @pbrbm fxpbndfd truf if row is fxpbndfd, fblsf othfrwisf
+         * @pbrbm bounds  b <dodf>Rfdtbnglf</dodf> dontbining thf sizf nffdfd
+         *              to rfprfsfnt <dodf>vbluf</dodf>
+         * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining thf nodf dimfnsions,
+         *              or <dodf>null</dodf> if nodf hbs no dimfnsion
+         */
+        publid bbstrbdt Rfdtbnglf gftNodfDimfnsions(Objfdt vbluf, int row,
+                                                    int dfpth,
+                                                    boolfbn fxpbndfd,
+                                                    Rfdtbnglf bounds);
+    }
+}

@@ -1,261 +1,261 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.HashMap;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.HbsiMbp;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * This class is an abstract class for a child KeyInfo Element.
+ * Tiis dlbss is bn bbstrbdt dlbss for b diild KfyInfo Elfmfnt.
  *
- * If you want the your KeyResolver, at firstly you must extend this class, and register
- * as following in config.xml
+ * If you wbnt tif your KfyRfsolvfr, bt firstly you must fxtfnd tiis dlbss, bnd rfgistfr
+ * bs following in donfig.xml
  * <PRE>
- *  &lt;KeyResolver URI="http://www.w3.org/2000/09/xmldsig#KeyValue"
- *   JAVACLASS="MyPackage.MyKeyValueImpl"//gt;
+ *  &lt;KfyRfsolvfr URI="ittp://www.w3.org/2000/09/xmldsig#KfyVbluf"
+ *   JAVACLASS="MyPbdkbgf.MyKfyVblufImpl"//gt;
  * </PRE>
  */
-public abstract class KeyResolverSpi {
+publid bbstrbdt dlbss KfyRfsolvfrSpi {
 
-    /** Field properties */
-    protected java.util.Map<String, String> properties = null;
+    /** Fifld propfrtifs */
+    protfdtfd jbvb.util.Mbp<String, String> propfrtifs = null;
 
-    protected boolean globalResolver = false;
+    protfdtfd boolfbn globblRfsolvfr = fblsf;
 
-    protected boolean secureValidation;
+    protfdtfd boolfbn sfdurfVblidbtion;
 
     /**
-     * Set whether secure validation is enabled or not. The default is false.
+     * Sft wiftifr sfdurf vblidbtion is fnbblfd or not. Tif dffbult is fblsf.
      */
-    public void setSecureValidation(boolean secureValidation) {
-        this.secureValidation = secureValidation;
+    publid void sftSfdurfVblidbtion(boolfbn sfdurfVblidbtion) {
+        tiis.sfdurfVblidbtion = sfdurfVblidbtion;
     }
 
     /**
-     * This method returns whether the KeyResolverSpi is able to perform the requested action.
+     * Tiis mftiod rfturns wiftifr tif KfyRfsolvfrSpi is bblf to pfrform tif rfqufstfd bdtion.
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return whether the KeyResolverSpi is able to perform the requested action.
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn wiftifr tif KfyRfsolvfrSpi is bblf to pfrform tif rfqufstfd bdtion.
      */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        throw new UnsupportedOperationException();
+    publid boolfbn fnginfCbnRfsolvf(Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Method engineResolvePublicKey
+     * Mftiod fnginfRfsolvfPublidKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved public key from the registered from the element.
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd publid kfy from tif rfgistfrfd from tif flfmfnt.
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public PublicKey engineResolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        throw new UnsupportedOperationException();
+    publid PublidKfy fnginfRfsolvfPublidKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     };
 
     /**
-     * Method engineLookupAndResolvePublicKey
+     * Mftiod fnginfLookupAndRfsolvfPublidKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved public key from the registered from the element.
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd publid kfy from tif rfgistfrfd from tif flfmfnt.
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        KeyResolverSpi tmp = cloneIfNeeded();
-        if (!tmp.engineCanResolve(element, baseURI, storage)) {
-            return null;
+    publid PublidKfy fnginfLookupAndRfsolvfPublidKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        KfyRfsolvfrSpi tmp = dlonfIfNffdfd();
+        if (!tmp.fnginfCbnRfsolvf(flfmfnt, bbsfURI, storbgf)) {
+            rfturn null;
         }
-        return tmp.engineResolvePublicKey(element, baseURI, storage);
+        rfturn tmp.fnginfRfsolvfPublidKfy(flfmfnt, bbsfURI, storbgf);
     }
 
-    private KeyResolverSpi cloneIfNeeded() throws KeyResolverException {
-        KeyResolverSpi tmp = this;
-        if (globalResolver) {
+    privbtf KfyRfsolvfrSpi dlonfIfNffdfd() tirows KfyRfsolvfrExdfption {
+        KfyRfsolvfrSpi tmp = tiis;
+        if (globblRfsolvfr) {
             try {
-                tmp = getClass().newInstance();
-            } catch (InstantiationException e) {
-                throw new KeyResolverException("", e);
-            } catch (IllegalAccessException e) {
-                throw new KeyResolverException("", e);
+                tmp = gftClbss().nfwInstbndf();
+            } dbtdi (InstbntibtionExdfption f) {
+                tirow nfw KfyRfsolvfrExdfption("", f);
+            } dbtdi (IllfgblAddfssExdfption f) {
+                tirow nfw KfyRfsolvfrExdfption("", f);
             }
         }
-        return tmp;
+        rfturn tmp;
     }
 
     /**
-     * Method engineResolveCertificate
+     * Mftiod fnginfRfsolvfCfrtifidbtf
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved X509Certificate key from the registered from the elements
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd X509Cfrtifidbtf kfy from tif rfgistfrfd from tif flfmfnts
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public X509Certificate engineResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException{
-        throw new UnsupportedOperationException();
+    publid X509Cfrtifidbtf fnginfRfsolvfX509Cfrtifidbtf(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption{
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     };
 
     /**
-     * Method engineLookupResolveX509Certificate
+     * Mftiod fnginfLookupRfsolvfX509Cfrtifidbtf
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved X509Certificate key from the registered from the elements
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd X509Cfrtifidbtf kfy from tif rfgistfrfd from tif flfmfnts
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        KeyResolverSpi tmp = cloneIfNeeded();
-        if (!tmp.engineCanResolve(element, baseURI, storage)) {
-            return null;
+    publid X509Cfrtifidbtf fnginfLookupRfsolvfX509Cfrtifidbtf(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        KfyRfsolvfrSpi tmp = dlonfIfNffdfd();
+        if (!tmp.fnginfCbnRfsolvf(flfmfnt, bbsfURI, storbgf)) {
+            rfturn null;
         }
-        return tmp.engineResolveX509Certificate(element, baseURI, storage);
+        rfturn tmp.fnginfRfsolvfX509Cfrtifidbtf(flfmfnt, bbsfURI, storbgf);
 
     }
     /**
-     * Method engineResolveSecretKey
+     * Mftiod fnginfRfsolvfSfdrftKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved SecretKey key from the registered from the elements
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd SfdrftKfy kfy from tif rfgistfrfd from tif flfmfnts
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public SecretKey engineResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException{
-        throw new UnsupportedOperationException();
+    publid SfdrftKfy fnginfRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption{
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     };
 
     /**
-     * Method engineLookupAndResolveSecretKey
+     * Mftiod fnginfLookupAndRfsolvfSfdrftKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved SecretKey key from the registered from the elements
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd SfdrftKfy kfy from tif rfgistfrfd from tif flfmfnts
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public SecretKey engineLookupAndResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        KeyResolverSpi tmp = cloneIfNeeded();
-        if (!tmp.engineCanResolve(element, baseURI, storage)) {
-            return null;
+    publid SfdrftKfy fnginfLookupAndRfsolvfSfdrftKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        KfyRfsolvfrSpi tmp = dlonfIfNffdfd();
+        if (!tmp.fnginfCbnRfsolvf(flfmfnt, bbsfURI, storbgf)) {
+            rfturn null;
         }
-        return tmp.engineResolveSecretKey(element, baseURI, storage);
+        rfturn tmp.fnginfRfsolvfSfdrftKfy(flfmfnt, bbsfURI, storbgf);
     }
 
     /**
-     * Method engineLookupAndResolvePrivateKey
+     * Mftiod fnginfLookupAndRfsolvfPrivbtfKfy
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved PrivateKey key from the registered from the elements
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm storbgf
+     * @rfturn rfsolvfd PrivbtfKfy kfy from tif rfgistfrfd from tif flfmfnts
      *
-     * @throws KeyResolverException
+     * @tirows KfyRfsolvfrExdfption
      */
-    public PrivateKey engineLookupAndResolvePrivateKey(
-        Element element, String baseURI, StorageResolver storage
-    ) throws KeyResolverException {
-        // This method was added later, it has no equivalent
-        // engineResolvePrivateKey() in the old API.
-        // We cannot throw UnsupportedOperationException because
-        // KeyResolverSpi implementations who don't know about
-        // this method would stop the search too early.
-        return null;
+    publid PrivbtfKfy fnginfLookupAndRfsolvfPrivbtfKfy(
+        Elfmfnt flfmfnt, String bbsfURI, StorbgfRfsolvfr storbgf
+    ) tirows KfyRfsolvfrExdfption {
+        // Tiis mftiod wbs bddfd lbtfr, it ibs no fquivblfnt
+        // fnginfRfsolvfPrivbtfKfy() in tif old API.
+        // Wf dbnnot tirow UnsupportfdOpfrbtionExdfption bfdbusf
+        // KfyRfsolvfrSpi implfmfntbtions wio don't know bbout
+        // tiis mftiod would stop tif sfbrdi too fbrly.
+        rfturn null;
     }
 
     /**
-     * Method engineSetProperty
+     * Mftiod fnginfSftPropfrty
      *
-     * @param key
-     * @param value
+     * @pbrbm kfy
+     * @pbrbm vbluf
      */
-    public void engineSetProperty(String key, String value) {
-        if (properties == null) {
-            properties = new HashMap<String, String>();
+    publid void fnginfSftPropfrty(String kfy, String vbluf) {
+        if (propfrtifs == null) {
+            propfrtifs = nfw HbsiMbp<String, String>();
         }
-        properties.put(key, value);
+        propfrtifs.put(kfy, vbluf);
     }
 
     /**
-     * Method engineGetProperty
+     * Mftiod fnginfGftPropfrty
      *
-     * @param key
-     * @return obtain the property appointed by key
+     * @pbrbm kfy
+     * @rfturn obtbin tif propfrty bppointfd by kfy
      */
-    public String engineGetProperty(String key) {
-        if (properties == null) {
-            return null;
+    publid String fnginfGftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
         }
 
-        return properties.get(key);
+        rfturn propfrtifs.gft(kfy);
     }
 
     /**
-     * Method understandsProperty
+     * Mftiod undfrstbndsPropfrty
      *
-     * @param propertyToTest
-     * @return true if understood the property
+     * @pbrbm propfrtyToTfst
+     * @rfturn truf if undfrstood tif propfrty
      */
-    public boolean understandsProperty(String propertyToTest) {
-        if (properties == null) {
-            return false;
+    publid boolfbn undfrstbndsPropfrty(String propfrtyToTfst) {
+        if (propfrtifs == null) {
+            rfturn fblsf;
         }
 
-        return properties.get(propertyToTest) != null;
+        rfturn propfrtifs.gft(propfrtyToTfst) != null;
     }
 
-    public void setGlobalResolver(boolean globalResolver) {
-        this.globalResolver = globalResolver;
+    publid void sftGlobblRfsolvfr(boolfbn globblRfsolvfr) {
+        tiis.globblRfsolvfr = globblRfsolvfr;
     }
 
 }

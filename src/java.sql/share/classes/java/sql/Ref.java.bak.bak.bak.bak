@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Thf mbpping in thf Jbvb progrbmming lbngubgf of bn SQL <dodf>REF</dodf>
+ * vbluf, whidh is b rfffrfndf to bn SQL strudturfd typf vbluf in thf dbtbbbsf.
+ * <P>
+ * SQL <dodf>REF</dodf> vblufs brf storfd in b tbblf thbt dontbins
+ * instbndfs of b rfffrfndfbblf SQL strudturfd typf, bnd fbdh <dodf>REF</dodf>
+ * vbluf is b uniquf idfntififr for onf instbndf in thbt tbblf.
+ * An SQL <dodf>REF</dodf> vbluf mby bf usfd in plbdf of thf
+ * SQL strudturfd typf it rfffrfndfs, fithfr bs b dolumn vbluf in b
+ * tbblf or bn bttributf vbluf in b strudturfd typf.
+ * <P>
+ * Bfdbusf bn SQL <dodf>REF</dodf> vbluf is b logidbl pointfr to bn
+ * SQL strudturfd typf, b <dodf>Rff</dodf> objfdt is by dffbult blso b logidbl
+ * pointfr. Thus, rftrifving bn SQL <dodf>REF</dodf> vbluf bs
+ * b <dodf>Rff</dodf> objfdt dofs not mbtfriblizf
+ * thf bttributfs of thf strudturfd typf on thf dlifnt.
+ * <P>
+ * A <dodf>Rff</dodf> objfdt dbn bf storfd in thf dbtbbbsf using thf
+ * <dodf>PrfpbrfdStbtfmfnt.sftRff</dodf> mfthod.
+  * <p>
+ * All mfthods on thf <dodf>Rff</dodf> intfrfbdf must bf fully implfmfntfd if thf
+ * JDBC drivfr supports thf dbtb typf.
+ *
+ * @sff Strudt
+ * @sindf 1.2
+ */
+publid intfrfbdf Rff {
+
+    /**
+     * Rftrifvfs thf fully-qublififd SQL nbmf of thf SQL strudturfd typf thbt
+     * this <dodf>Rff</dodf> objfdt rfffrfndfs.
+     *
+     * @rfturn thf fully-qublififd SQL nbmf of thf rfffrfndfd SQL strudturfd typf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.2
+     */
+    String gftBbsfTypfNbmf() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf rfffrfndfd objfdt bnd mbps it to b Jbvb typf
+     * using thf givfn typf mbp.
+     *
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt thbt dontbins
+     *        thf mbpping to usf (thf fully-qublififd nbmf of thf SQL
+     *        strudturfd typf bfing rfffrfndfd bnd thf dlbss objfdt for
+     *        <dodf>SQLDbtb</dodf> implfmfntbtion to whidh thf SQL
+     *        strudturfd typf will bf mbppfd)
+     * @rfturn  b Jbvb <dodf>Objfdt</dodf> thbt is thf dustom mbpping for
+     *          thf SQL strudturfd typf to whidh this <dodf>Rff</dodf>
+     *          objfdt rfffrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.4
+     * @sff #sftObjfdt
+     */
+    Objfdt gftObjfdt(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLExdfption;
+
+
+    /**
+     * Rftrifvfs thf SQL strudturfd typf instbndf rfffrfndfd by
+     * this <dodf>Rff</dodf> objfdt.  If thf donnfdtion's typf mbp hbs bn fntry
+     * for thf strudturfd typf, thf instbndf will bf dustom mbppfd to
+     * thf Jbvb dlbss indidbtfd in thf typf mbp.  Othfrwisf, thf
+     * strudturfd typf instbndf will bf mbppfd to b <dodf>Strudt</dodf> objfdt.
+     *
+     * @rfturn  b Jbvb <dodf>Objfdt</dodf> thbt is thf mbpping for
+     *          thf SQL strudturfd typf to whidh this <dodf>Rff</dodf>
+     *          objfdt rfffrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.4
+     * @sff #sftObjfdt
+     */
+    Objfdt gftObjfdt() throws SQLExdfption;
+
+    /**
+     * Sfts thf strudturfd typf vbluf thbt this <dodf>Rff</dodf>
+     * objfdt rfffrfndfs to thf givfn instbndf of <dodf>Objfdt</dodf>.
+     * Thf drivfr donvfrts this to bn SQL strudturfd typf whfn it
+     * sfnds it to thf dbtbbbsf.
+     *
+     * @pbrbm vbluf bn <dodf>Objfdt</dodf> rfprfsfnting thf SQL
+     *        strudturfd typf instbndf thbt this
+     *        <dodf>Rff</dodf> objfdt will rfffrfndf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.4
+     * @sff #gftObjfdt()
+     * @sff #gftObjfdt(Mbp)
+     * @sff PrfpbrfdStbtfmfnt#sftObjfdt(int, Objfdt)
+     * @sff CbllbblfStbtfmfnt#sftObjfdt(String, Objfdt)
+     */
+    void sftObjfdt(Objfdt vbluf) throws SQLExdfption;
+
+}

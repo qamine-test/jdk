@@ -1,0 +1,677 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+
+import jbvb.sfdurity.Providfr.Sfrvidf;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
+
+/**
+ * This dlbss providfs b dryptogrbphidblly strong rbndom numbfr
+ * gfnfrbtor (RNG).
+ *
+ * <p>A dryptogrbphidblly strong rbndom numbfr
+ * minimblly domplifs with thf stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * spfdififd in <b hrff="http://dsrd.nist.gov/dryptvbl/140-2.htm">
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbphid Modulfs</i></b>,
+ * sfdtion 4.9.1.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Thfrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * dryptogrbphidblly strong, bs dfsdribfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd1750.txt">
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
+ *
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib thf
+ * no-brgumfnt donstrudtor or onf of thf {@dodf gftInstbndf} mfthods:
+ *
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ * </prf>
+ *
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in thf form of b psfudo-rbndom
+ * numbfr gfnfrbtor (PRNG), whidh mfbns thfy usf b dftfrministid blgorithm
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * Othfr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * bnd yft othfrs mby usf b dombinbtion of both tfdhniqufs.
+ *
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf thf following mfthods
+ * to rftrifvf rbndom bytfs:
+ *
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      bytf bytfs[] = nfw bytf[20];
+ *      rbndom.nfxtBytfs(bytfs);
+ * </prf>
+ *
+ * <p> Cbllfrs mby blso invokf thf {@dodf gfnfrbtfSffd} mfthod
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd othfr rbndom numbfr
+ * gfnfrbtors, for fxbmplf):
+ * <prf>
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ * </prf>
+ *
+ * Notf: Dfpfnding on thf implfmfntbtion, thf {@dodf gfnfrbtfSffd} bnd
+ * {@dodf nfxtBytfs} mfthods mby blodk bs fntropy is bfing gbthfrfd,
+ * for fxbmplf, if thfy nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * opfrbting systfms.
+ *
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.util.Rbndom
+ *
+ * @buthor Bfnjbmin Rfnbud
+ * @buthor Josh Blodh
+ */
+
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
+
+    /**
+     * Thf providfr.
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf Providfr providfr = null;
+
+    /**
+     * Thf providfr implfmfntbtion.
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
+
+    /*
+     * Thf blgorithm nbmf of null if unknown.
+     *
+     * @sfribl
+     * @sindf 1.5
+     */
+    privbtf String blgorithm;
+
+    // Sffd Gfnfrbtor
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
+
+    /**
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting thf
+     * dffbult rbndom numbfr blgorithm.
+     *
+     * <p> This donstrudtor trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
+     * SfdurfRbndomSpi implfmfntbtion from thf first
+     * Providfr thbt supports b SfdurfRbndom (RNG) blgorithm is rfturnfd.
+     * If nonf of thf Providfrs support b RNG blgorithm,
+     * thfn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p> Sff thf SfdurfRbndom sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
+     *
+     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
+     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
+     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
+     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
+     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     */
+    publid SfdurfRbndom() {
+        /*
+         * This dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * to our own {@dodf sftSffd} mfthod, whidh will rfturn
+         * immfdibtfly whfn it is pbssfd zfro.
+         */
+        supfr(0);
+        gftDffbultPRNG(fblsf, null);
+    }
+
+    /**
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting thf
+     * dffbult rbndom numbfr blgorithm.
+     * Thf SfdurfRbndom instbndf is sffdfd with thf spfdififd sffd bytfs.
+     *
+     * <p> This donstrudtor trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
+     * SfdurfRbndomSpi implfmfntbtion from thf first
+     * Providfr thbt supports b SfdurfRbndom (RNG) blgorithm is rfturnfd.
+     * If nonf of thf Providfrs support b RNG blgorithm,
+     * thfn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p> Sff thf SfdurfRbndom sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
+     *
+     * @pbrbm sffd thf sffd.
+     */
+    publid SfdurfRbndom(bytf sffd[]) {
+        supfr(0);
+        gftDffbultPRNG(truf, sffd);
+    }
+
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+        String prng = gftPrngAlgorithm();
+        if (prng == null) {
+            // bummfr, gft thf SUN implfmfntbtion
+            prng = "SHA1PRNG";
+            this.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            this.providfr = Providfrs.gftSunProvidfr();
+            if (sftSffd) {
+                this.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+            }
+        } flsf {
+            try {
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                this.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                this.providfr = rbndom.gftProvidfr();
+                if (sftSffd) {
+                    this.sfdurfRbndomSpi.fnginfSftSffd(sffd);
+                }
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                // nfvfr hbppfns, bfdbusf wf mbdf surf thf blgorithm fxists
+                throw nfw RuntimfExdfption(nsbf);
+            }
+        }
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // SfdurfRbndomSpi. Thfy will blso go through this dodf pbth bfdbusf
+        // thfy must dbll b SfdurfRbndom donstrudtor bs it is thfir supfrdlbss.
+        // If wf brf dfbling with sudh bn implfmfntbtion, do not sft thf
+        // blgorithm vbluf bs it would bf inbddurbtf.
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+            this.blgorithm = prng;
+        }
+    }
+
+    /**
+     * Crfbtfs b SfdurfRbndom objfdt.
+     *
+     * @pbrbm sfdurfRbndomSpi thf SfdurfRbndom implfmfntbtion.
+     * @pbrbm providfr thf providfr.
+     */
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+                           Providfr providfr) {
+        this(sfdurfRbndomSpi, providfr, null);
+    }
+
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+            String blgorithm) {
+        supfr(0);
+        this.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        this.providfr = providfr;
+        this.blgorithm = blgorithm;
+    }
+
+    /**
+     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting thf
+     * SfdurfRbndomSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd blgorithm is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
+     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
+     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
+     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
+     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     *
+     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
+     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
+     *
+     * @rfturn thf nfw SfdurfRbndom objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
+     *          SfdurfRbndomSpi implfmfntbtion for thf
+     *          spfdififd blgorithm.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.2
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgorithm);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+     *
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting thf
+     * SfdurfRbndomSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
+     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
+     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
+     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
+     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     *
+     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
+     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf nbmf of thf providfr.
+     *
+     * @rfturn thf nfw SfdurfRbndom objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not
+     *          bvbilbblf from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf providfr nbmf is null
+     *          or fmpty.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.2
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm, String providfr)
+            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgorithm, providfr);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns b SfdurfRbndom objfdt thbt implfmfnts thf spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgorithm.
+     *
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting thf
+     * SfdurfRbndomSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * <p> Thf rfturnfd SfdurfRbndom objfdt hbs not bffn sffdfd.  To sffd thf
+     * rfturnfd objfdt, dbll thf {@dodf sftSffd} mfthod.
+     * If {@dodf sftSffd} is not dbllfd, thf first dbll to
+     * {@dodf nfxtBytfs} will fordf thf SfdurfRbndom objfdt to sffd itsflf.
+     * This sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     *
+     * @pbrbm blgorithm thf nbmf of thf RNG blgorithm.
+     * Sff thf SfdurfRbndom sfdtion in thf <b hrff=
+     * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#SfdurfRbndom">
+     * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgorithm nbmfs.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn thf nfw SfdurfRbndom objfdt.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for thf spfdififd blgorithm is not bvbilbblf
+     *          from thf spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd providfr is null.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.4
+     */
+    publid stbtid SfdurfRbndom gftInstbndf(String blgorithm,
+            Providfr providfr) throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgorithm, providfr);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgorithm);
+    }
+
+    /**
+     * Rfturns thf SfdurfRbndomSpi of this SfdurfRbndom objfdt.
+     */
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+        rfturn sfdurfRbndomSpi;
+    }
+
+    /**
+     * Rfturns thf providfr of this SfdurfRbndom objfdt.
+     *
+     * @rfturn thf providfr of this SfdurfRbndom objfdt.
+     */
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf blgorithm implfmfntfd by this SfdurfRbndom
+     * objfdt.
+     *
+     * @rfturn thf nbmf of thf blgorithm or {@dodf unknown}
+     *          if thf blgorithm nbmf dbnnot bf dftfrminfd.
+     * @sindf 1.5
+     */
+    publid String gftAlgorithm() {
+        rfturn (blgorithm != null) ? blgorithm : "unknown";
+    }
+
+    /**
+     * Rfsffds this rbndom objfdt. Thf givfn sffd supplfmfnts, rbthfr thbn
+     * rfplbdfs, thf fxisting sffd. Thus, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
+     *
+     * @pbrbm sffd thf sffd.
+     *
+     * @sff #gftSffd
+     */
+    syndhronizfd publid void sftSffd(bytf[] sffd) {
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
+    }
+
+    /**
+     * Rfsffds this rbndom objfdt, using thf fight bytfs dontbinfd
+     * in thf givfn {@dodf long sffd}. Thf givfn sffd supplfmfnts,
+     * rbthfr thbn rfplbdfs, thf fxisting sffd. Thus, rfpfbtfd dblls
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
+     *
+     * <p>This mfthod is dffinfd for dompbtibility with
+     * {@dodf jbvb.util.Rbndom}.
+     *
+     * @pbrbm sffd thf sffd.
+     *
+     * @sff #gftSffd
+     */
+    @Ovfrridf
+    publid void sftSffd(long sffd) {
+        /*
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny othfr dblls
+         * unfortunbtf fnough to bf pbssing 0).  It's dritidbl thbt wf
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst hbs not
+         * yft bffn initiblizfd bt thbt point.
+         */
+        if (sffd != 0) {
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     *
+     * <p> If b dbll to {@dodf sftSffd} hbd not oddurrfd prfviously,
+     * thf first dbll to this mfthod fordfs this SfdurfRbndom objfdt
+     * to sffd itsflf.  This sflf-sffding will not oddur if
+     * {@dodf sftSffd} wbs prfviously dbllfd.
+     *
+     * @pbrbm bytfs thf brrby to bf fillfd in with rbndom bytfs.
+     */
+    @Ovfrridf
+    syndhronizfd publid void nfxtBytfs(bytf[] bytfs) {
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
+    }
+
+    /**
+     * Gfnfrbtfs bn intfgfr dontbining thf usfr-spfdififd numbfr of
+     * psfudo-rbndom bits (right justififd, with lfbding zfros).  This
+     * mfthod ovfrridfs b {@dodf jbvb.util.Rbndom} mfthod, bnd sfrvfs
+     * to providf b sourdf of rbndom bits to bll of thf mfthods inhfritfd
+     * from thbt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
+     *
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, whfrf
+     * {@dodf 0 <= numBits <= 32}.
+     *
+     * @rfturn bn {@dodf int} dontbining thf usfr-spfdififd numbfr
+     * of psfudo-rbndom bits (right justififd, with lfbding zfros).
+     */
+    @Ovfrridf
+    finbl protfdtfd int nfxt(int numBits) {
+        int numBytfs = (numBits+7)/8;
+        bytf b[] = nfw bytf[numBytfs];
+        int nfxt = 0;
+
+        nfxtBytfs(b);
+        for (int i = 0; i < numBytfs; i++) {
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
+        }
+
+        rfturn nfxt >>> (numBytfs*8 - numBits);
+    }
+
+    /**
+     * Rfturns thf givfn numbfr of sffd bytfs, domputfd using thf sffd
+     * gfnfrbtion blgorithm thbt this dlbss usfs to sffd itsflf.  This
+     * dbll mby bf usfd to sffd othfr rbndom numbfr gfnfrbtors.
+     *
+     * <p>This mfthod is only indludfd for bbdkwbrds dompbtibility.
+     * Thf dbllfr is fndourbgfd to usf onf of thf bltfrnbtivf
+     * {@dodf gftInstbndf} mfthods to obtbin b SfdurfRbndom objfdt, bnd
+     * thfn dbll thf {@dodf gfnfrbtfSffd} mfthod to obtbin sffd bytfs
+     * from thbt objfdt.
+     *
+     * @pbrbm numBytfs thf numbfr of sffd bytfs to gfnfrbtf.
+     *
+     * @rfturn thf sffd bytfs.
+     *
+     * @sff #sftSffd
+     */
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+        if (sffdGfnfrbtor == null) {
+            sffdGfnfrbtor = nfw SfdurfRbndom();
+        }
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
+    }
+
+    /**
+     * Rfturns thf givfn numbfr of sffd bytfs, domputfd using thf sffd
+     * gfnfrbtion blgorithm thbt this dlbss usfs to sffd itsflf.  This
+     * dbll mby bf usfd to sffd othfr rbndom numbfr gfnfrbtors.
+     *
+     * @pbrbm numBytfs thf numbfr of sffd bytfs to gfnfrbtf.
+     *
+     * @rfturn thf sffd bytfs.
+     */
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
+    }
+
+    /**
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
+     */
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+        bytf[] rftVbl = nfw bytf[8];
+
+        for (int i = 0; i < 8; i++) {
+            rftVbl[i] = (bytf) l;
+            l >>= 8;
+        }
+
+        rfturn rftVbl;
+    }
+
+    /**
+     * Gfts b dffbult PRNG blgorithm by looking through bll rfgistfrfd
+     * providfrs. Rfturns thf first PRNG blgorithm of thf first providfr thbt
+     * hbs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of thf
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
+     */
+    privbtf stbtid String gftPrngAlgorithm() {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                    rfturn s.gftAlgorithm();
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /*
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is hfbvy.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
+     */
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
+        /*
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Allow for prfpfndfd/bppfndfd whitfspbdf bftwffn fntrifs.
+         *
+         * Cbpturf groups:
+         *     1 - blg
+         *     2 - :prov (optionbl)
+         *     3 - prov (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
+         */
+        privbtf stbtid Pbttfrn pbttfrn =
+            Pbttfrn.dompilf(
+                "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
+    }
+
+    /**
+     * Rfturns b {@dodf SfdurfRbndom} objfdt thbt wbs sflfdtfd by using
+     * thf blgorithms/providfrs spfdififd in thf {@dodf
+     * sfdurfrbndom.strongAlgorithms} {@link Sfdurity} propfrty.
+     * <p>
+     * Somf situbtions rfquirf strong rbndom vblufs, sudh bs whfn
+     * drfbting high-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * kfys.  To hflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * implfmfntbtions in thf {@dodf sfdurfrbndom.strongAlgorithms}
+     * Sfdurity propfrty.
+     * <p>
+     * Evfry implfmfntbtion of thf Jbvb plbtform is rfquirfd to
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
+     *
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * by thf {@dodf sfdurfrbndom.strongAlgorithms} Sfdurity propfrty
+     *
+     * @throws NoSudhAlgorithmExdfption if no blgorithm is bvbilbblf
+     *
+     * @sff Sfdurity#gftPropfrty(String)
+     *
+     * @sindf 1.8
+     */
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+            throws NoSudhAlgorithmExdfption {
+
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(
+                        "sfdurfrbndom.strongAlgorithms");
+                }
+            });
+
+        if ((propfrty == null) || (propfrty.lfngth() == 0)) {
+            throw nfw NoSudhAlgorithmExdfption(
+                "Null/fmpty sfdurfrbndom.strongAlgorithms Sfdurity Propfrty");
+        }
+
+        String rfmbindfr = propfrty;
+        whilf (rfmbindfr != null) {
+            Mbtdhfr m;
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdhfr(
+                    rfmbindfr)).mbtdhfs()) {
+
+                String blg = m.group(1);
+                String prov = m.group(3);
+
+                try {
+                    if (prov == null) {
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                    } flsf {
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
+                    }
+                } dbtdh (NoSudhAlgorithmExdfption |
+                        NoSudhProvidfrExdfption f) {
+                }
+                rfmbindfr = m.group(5);
+            } flsf {
+                rfmbindfr = null;
+            }
+        }
+
+        throw nfw NoSudhAlgorithmExdfption(
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
+    }
+
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf with JDK1.1
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
+
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
+    /**
+     * @sfribl
+     */
+    privbtf bytf[] stbtf;
+    /**
+     * @sfribl
+     */
+    privbtf MfssbgfDigfst digfst = null;
+    /**
+     * @sfribl
+     *
+     * Wf know thbt thf MfssbgfDigfst dlbss dofs not implfmfnt
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf this fifld is no longfr
+     * usfd, it will blwbys bf NULL bnd won't bfffdt thf sfriblizbtion
+     * of thf SfdurfRbndom dlbss itsflf.
+     */
+    privbtf bytf[] rbndomBytfs;
+    /**
+     * @sfribl
+     */
+    privbtf int rbndomBytfsUsfd;
+    /**
+     * @sfribl
+     */
+    privbtf long dountfr;
+}

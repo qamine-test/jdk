@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
+
+/**
+ * Implfmfnts thf ASN.1 ETYPE-INFO-ENTRY typf.
+ *
+ * ETYPE-INFO2-ENTRY    ::= SEQUENCE {
+ *          ftypf       [0] Int32,
+ *          sblt        [1] KfrbfrosString OPTIONAL,
+ *          s2kpbrbms   [2] OCTET STRING OPTIONAL
+ * }
+ *
+ * @buthor Sffmb Mblkbni
+ */
+
+publid dlbss ETypfInfo2 {
+
+    privbtf int ftypf;
+    privbtf String sbltStr = null;
+    privbtf bytf[] s2kpbrbms = null;
+
+    privbtf stbtid finbl bytf TAG_TYPE = 0;
+    privbtf stbtid finbl bytf TAG_VALUE1 = 1;
+    privbtf stbtid finbl bytf TAG_VALUE2 = 2;
+
+    privbtf ETypfInfo2() {
+    }
+
+    publid ETypfInfo2(int ftypf, String sblt, bytf[] s2kpbrbms) {
+        this.ftypf = ftypf;
+        this.sbltStr = sblt;
+        if (s2kpbrbms != null) {
+            this.s2kpbrbms = s2kpbrbms.dlonf();
+        }
+    }
+
+    publid Objfdt dlonf() {
+        ETypfInfo2 ftypfInfo2 = nfw ETypfInfo2();
+        ftypfInfo2.ftypf = ftypf;
+        ftypfInfo2.sbltStr = sbltStr;
+        if (s2kpbrbms != null) {
+            ftypfInfo2.s2kpbrbms = nfw bytf[s2kpbrbms.lfngth];
+            Systfm.brrbydopy(s2kpbrbms, 0, ftypfInfo2.s2kpbrbms,
+                                0, s2kpbrbms.lfngth);
+        }
+        rfturn ftypfInfo2;
+    }
+
+    /**
+     * Construdts b ETypfInfo2 objfdt.
+     * @pbrbm fndoding b DER-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     *            ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid ETypfInfo2(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr = null;
+
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        // ftypf
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00) {
+            this.ftypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        }
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+
+        // sblt
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            if ((fndoding.gftDbtb().pffkBytf() & 0x1F) == 0x01) {
+                dfr = fndoding.gftDbtb().gftDfrVbluf();
+                this.sbltStr = nfw KfrbfrosString(
+                        dfr.gftDbtb().gftDfrVbluf()).toString();
+            }
+        }
+
+        // s2kpbrbms
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            if ((fndoding.gftDbtb().pffkBytf() & 0x1F) == 0x02) {
+                dfr = fndoding.gftDbtb().gftDfrVbluf();
+                this.s2kpbrbms = dfr.gftDbtb().gftOdtftString();
+            }
+        }
+
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+    }
+
+    /**
+     * Endodfs this objfdt to bn OutputStrfbm.
+     *
+     * @rfturn bytf brrby of thf fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @fxdfption Asn1Exdfption on fndoding frrors.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+
+        tfmp.putIntfgfr(ftypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                                        TAG_TYPE), tfmp);
+
+        if (sbltStr != null) {
+            tfmp = nfw DfrOutputStrfbm();
+            tfmp.putDfrVbluf(nfw KfrbfrosString(sbltStr).toDfrVbluf());
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                                        TAG_VALUE1), tfmp);
+        }
+        if (s2kpbrbms != null) {
+            tfmp = nfw DfrOutputStrfbm();
+            tfmp.putOdtftString(s2kpbrbms);
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                                        TAG_VALUE2), tfmp);
+        }
+
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    // bddfssor mfthods
+    publid int gftETypf() {
+        rfturn ftypf;
+    }
+
+    publid String gftSblt() {
+        rfturn sbltStr;
+    }
+
+    publid bytf[] gftPbrbms() {
+        rfturn ((s2kpbrbms == null) ? null : s2kpbrbms.dlonf());
+    }
+
+}

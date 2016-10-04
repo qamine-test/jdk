@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+// jbvb import
+//
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.mbth.BigDfdimbl;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+
+// jmx import
+//
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+
+/**
+ * Thf <dodf>SimplfTypf</dodf> dlbss is thf <i>opfn typf</i> dlbss whosf instbndfs dfsdribf
+ * bll <i>opfn dbtb</i> vblufs whidh brf nfithfr brrbys,
+ * nor {@link CompositfDbtb CompositfDbtb} vblufs,
+ * nor {@link TbbulbrDbtb TbbulbrDbtb} vblufs.
+ * It prfdffinfs bll its possiblf instbndfs bs stbtid fiflds, bnd hbs no publid donstrudtor.
+ * <p>
+ * Givfn b <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf Jbvb dlbss nbmf is <i>dlbssNbmf</i>,
+ * thf intfrnbl fiflds dorrfsponding to thf nbmf bnd dfsdription of this <dodf>SimplfTypf</dodf> instbndf
+ * brf blso sft to <i>dlbssNbmf</i>.
+ * In othfr words, its mfthods <dodf>gftClbssNbmf</dodf>, <dodf>gftTypfNbmf</dodf> bnd <dodf>gftDfsdription</dodf>
+ * bll rfturn thf sbmf string vbluf <i>dlbssNbmf</i>.
+ *
+ * @sindf 1.5
+ */
+publid finbl dlbss SimplfTypf<T> fxtfnds OpfnTypf<T> {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 2215577471957694503L;
+
+    // SimplfTypf instbndfs.
+    // IF YOU ADD A SimplfTypf, YOU MUST UPDATE OpfnTypf bnd typfArrby
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Void</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Void> VOID =
+        nfw SimplfTypf<Void>(Void.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Boolfbn</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Boolfbn> BOOLEAN =
+        nfw SimplfTypf<Boolfbn>(Boolfbn.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Chbrbdtfr</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Chbrbdtfr> CHARACTER =
+        nfw SimplfTypf<Chbrbdtfr>(Chbrbdtfr.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Bytf</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Bytf> BYTE =
+        nfw SimplfTypf<Bytf>(Bytf.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Short</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Short> SHORT =
+        nfw SimplfTypf<Short>(Short.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Intfgfr</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Intfgfr> INTEGER =
+        nfw SimplfTypf<Intfgfr>(Intfgfr.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Long</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Long> LONG =
+        nfw SimplfTypf<Long>(Long.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Flobt</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Flobt> FLOAT =
+        nfw SimplfTypf<Flobt>(Flobt.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.Doublf</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Doublf> DOUBLE =
+        nfw SimplfTypf<Doublf>(Doublf.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.lbng.String</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<String> STRING =
+        nfw SimplfTypf<String>(String.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.mbth.BigDfdimbl</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<BigDfdimbl> BIGDECIMAL =
+        nfw SimplfTypf<BigDfdimbl>(BigDfdimbl.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.mbth.BigIntfgfr</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<BigIntfgfr> BIGINTEGER =
+        nfw SimplfTypf<BigIntfgfr>(BigIntfgfr.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvb.util.Dbtf</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<Dbtf> DATE =
+        nfw SimplfTypf<Dbtf>(Dbtf.dlbss);
+
+    /**
+     * Thf <dodf>SimplfTypf</dodf> instbndf dfsdribing vblufs whosf
+     * Jbvb dlbss nbmf is <dodf>jbvbx.mbnbgfmfnt.ObjfdtNbmf</dodf>.
+     */
+    publid stbtid finbl SimplfTypf<ObjfdtNbmf> OBJECTNAME =
+        nfw SimplfTypf<ObjfdtNbmf>(ObjfdtNbmf.dlbss);
+
+    privbtf stbtid finbl SimplfTypf<?>[] typfArrby = {
+        VOID, BOOLEAN, CHARACTER, BYTE, SHORT, INTEGER, LONG, FLOAT,
+        DOUBLE, STRING, BIGDECIMAL, BIGINTEGER, DATE, OBJECTNAME,
+    };
+
+
+    privbtf trbnsifnt Intfgfr myHbshCodf = null;        // As this instbndf is immutbblf, thfsf two vblufs
+    privbtf trbnsifnt String  myToString = null;        // nffd only bf dbldulbtfd ondf.
+
+
+    /* *** Construdtor *** */
+
+    privbtf SimplfTypf(Clbss<T> vblufClbss) {
+        supfr(vblufClbss.gftNbmf(), vblufClbss.gftNbmf(), vblufClbss.gftNbmf(),
+              fblsf);
+    }
+
+
+    /* *** SimplfTypf spfdifid informbtion mfthods *** */
+
+    /**
+     * Tfsts whfthfr <vbr>obj</vbr> is b vbluf for this
+     * <dodf>SimplfTypf</dodf> instbndf.  <p> This mfthod rfturns
+     * <dodf>truf</dodf> if bnd only if <vbr>obj</vbr> is not null bnd
+     * <vbr>obj</vbr>'s dlbss nbmf is thf sbmf bs thf dlbssNbmf fifld
+     * dffinfd for this <dodf>SimplfTypf</dodf> instbndf (if thf dlbss
+     * nbmf rfturnfd by thf {@link OpfnTypf#gftClbssNbmf()
+     * gftClbssNbmf} mfthod).
+     *
+     * @pbrbm obj thf objfdt to bf tfstfd.
+     *
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for this
+     * <dodf>SimplfTypf</dodf> instbndf.
+     */
+    publid boolfbn isVbluf(Objfdt obj) {
+
+        // if obj is null, rfturn fblsf
+        //
+        if (obj == null) {
+            rfturn fblsf;
+        }
+
+        // Tfst if obj's dlbss nbmf is thf sbmf bs for this instbndf
+        //
+        rfturn this.gftClbssNbmf().fqubls(obj.gftClbss().gftNbmf());
+    }
+
+
+    /* *** Mfthods ovfrridfn from dlbss Objfdt *** */
+
+    /**
+     * Compbrfs thf spfdififd <dodf>obj</dodf> pbrbmftfr with this <dodf>SimplfTypf</dodf> instbndf for fqublity.
+     * <p>
+     * Two <dodf>SimplfTypf</dodf> instbndfs brf fqubl if bnd only if thfir
+     * {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthods rfturn thf sbmf vbluf.
+     *
+     * @pbrbm  obj  thf objfdt to bf dompbrfd for fqublity with this <dodf>SimplfTypf</dodf> instbndf;
+     *              if <vbr>obj</vbr> is <dodf>null</dodf> or is not bn instbndf of thf dlbss <dodf>SimplfTypf</dodf>,
+     *              <dodf>fqubls</dodf> rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn  <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to this <dodf>SimplfTypf</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        /* If it wfrfn't for rfbdRfplbdf(), wf dould rfplbdf this mfthod
+           with just:
+           rfturn (this == obj);
+        */
+
+        if (!(obj instbndfof SimplfTypf<?>))
+            rfturn fblsf;
+
+        SimplfTypf<?> othfr = (SimplfTypf<?>) obj;
+
+        // Tfst if othfr's dlbssNbmf fifld is thf sbmf bs for this instbndf
+        //
+        rfturn this.gftClbssNbmf().fqubls(othfr.gftClbssNbmf());
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>SimplfTypf</dodf> instbndf.
+     * Thf hbsh dodf of b <dodf>SimplfTypf</dodf> instbndf is thf thf hbsh dodf of
+     * thf string vbluf rfturnfd by thf {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthod.
+     * <p>
+     * As <dodf>SimplfTypf</dodf> instbndfs brf immutbblf, thf hbsh dodf for this instbndf is dbldulbtfd ondf,
+     * on thf first dbll to <dodf>hbshCodf</dodf>, bnd thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>SimplfTypf</dodf> instbndf
+     */
+    publid int hbshCodf() {
+
+        // Cbldulbtf thf hbsh dodf vbluf if it hbs not yft bffn donf (if 1st dbll to hbshCodf())
+        //
+        if (myHbshCodf == null) {
+            myHbshCodf = Intfgfr.vblufOf(this.gftClbssNbmf().hbshCodf());
+        }
+
+        // rfturn blwbys thf sbmf hbsh dodf for this instbndf (immutbblf)
+        //
+        rfturn myHbshCodf.intVbluf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>SimplfTypf</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of
+     * thf nbmf of this dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf</dodf>) bnd thf typf nbmf
+     * for this instbndf (whidh is thf jbvb dlbss nbmf of thf vblufs this <dodf>SimplfTypf</dodf> instbndf rfprfsfnts).
+     * <p>
+     * As <dodf>SimplfTypf</dodf> instbndfs brf immutbblf, thf string rfprfsfntbtion for this instbndf is dbldulbtfd ondf,
+     * on thf first dbll to <dodf>toString</dodf>, bnd thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>SimplfTypf</dodf> instbndf
+     */
+    publid String toString() {
+
+        // Cbldulbtf thf string rfprfsfntbtion if it hbs not yft bffn donf (if 1st dbll to toString())
+        //
+        if (myToString == null) {
+            myToString = this.gftClbss().gftNbmf()+ "(nbmf="+ gftTypfNbmf() +")";
+        }
+
+        // rfturn blwbys thf sbmf string rfprfsfntbtion for this instbndf (immutbblf)
+        //
+        rfturn myToString;
+    }
+
+    privbtf stbtid finbl Mbp<SimplfTypf<?>,SimplfTypf<?>> dbnonidblTypfs =
+        nfw HbshMbp<SimplfTypf<?>,SimplfTypf<?>>();
+    stbtid {
+        for (int i = 0; i < typfArrby.lfngth; i++) {
+            finbl SimplfTypf<?> typf = typfArrby[i];
+            dbnonidblTypfs.put(typf, typf);
+        }
+    }
+
+    /**
+     * Rfplbdf bn objfdt rfbd from bn {@link
+     * jbvb.io.ObjfdtInputStrfbm} with thf uniquf instbndf for thbt
+     * vbluf.
+     *
+     * @rfturn thf rfplbdfmfnt objfdt.
+     *
+     * @fxdfption ObjfdtStrfbmExdfption if thf rfbd objfdt dbnnot bf
+     * rfsolvfd.
+     */
+    publid Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+        finbl SimplfTypf<?> dbnonidbl = dbnonidblTypfs.gft(this);
+        if (dbnonidbl == null) {
+            // Should not hbppfn
+            throw nfw InvblidObjfdtExdfption("Invblid SimplfTypf: " + this);
+        }
+        rfturn dbnonidbl;
+    }
+}

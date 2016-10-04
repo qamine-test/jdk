@@ -1,355 +1,355 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import sun.awt.SunHints;
-import java.lang.ref.WeakReference;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import sun.bwt.SunHints;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * The {@code RenderingHints} class defines and manages collections of
- * keys and associated values which allow an application to provide input
- * into the choice of algorithms used by other classes which perform
- * rendering and image manipulation services.
- * The {@link java.awt.Graphics2D} class, and classes that implement
- * {@link java.awt.image.BufferedImageOp} and
- * {@link java.awt.image.RasterOp} all provide methods to get and
- * possibly to set individual or groups of {@code RenderingHints}
- * keys and their associated values.
- * When those implementations perform any rendering or image manipulation
- * operations they should examine the values of any {@code RenderingHints}
- * that were requested by the caller and tailor the algorithms used
- * accordingly and to the best of their ability.
+ * Tif {@dodf RfndfringHints} dlbss dffinfs bnd mbnbgfs dollfdtions of
+ * kfys bnd bssodibtfd vblufs wiidi bllow bn bpplidbtion to providf input
+ * into tif dioidf of blgoritims usfd by otifr dlbssfs wiidi pfrform
+ * rfndfring bnd imbgf mbnipulbtion sfrvidfs.
+ * Tif {@link jbvb.bwt.Grbpiids2D} dlbss, bnd dlbssfs tibt implfmfnt
+ * {@link jbvb.bwt.imbgf.BufffrfdImbgfOp} bnd
+ * {@link jbvb.bwt.imbgf.RbstfrOp} bll providf mftiods to gft bnd
+ * possibly to sft individubl or groups of {@dodf RfndfringHints}
+ * kfys bnd tifir bssodibtfd vblufs.
+ * Wifn tiosf implfmfntbtions pfrform bny rfndfring or imbgf mbnipulbtion
+ * opfrbtions tify siould fxbminf tif vblufs of bny {@dodf RfndfringHints}
+ * tibt wfrf rfqufstfd by tif dbllfr bnd tbilor tif blgoritims usfd
+ * bddordingly bnd to tif bfst of tifir bbility.
  * <p>
- * Note that since these keys and values are <i>hints</i>, there is
- * no requirement that a given implementation supports all possible
- * choices indicated below or that it can respond to requests to
- * modify its choice of algorithm.
- * The values of the various hint keys may also interact such that
- * while all variants of a given key are supported in one situation,
- * the implementation may be more restricted when the values associated
- * with other keys are modified.
- * For example, some implementations may be able to provide several
- * types of dithering when the antialiasing hint is turned off, but
- * have little control over dithering when antialiasing is on.
- * The full set of supported keys and hints may also vary by destination
- * since runtimes may use different underlying modules to render to
- * the screen, or to {@link java.awt.image.BufferedImage} objects,
- * or while printing.
+ * Notf tibt sindf tifsf kfys bnd vblufs brf <i>iints</i>, tifrf is
+ * no rfquirfmfnt tibt b givfn implfmfntbtion supports bll possiblf
+ * dioidfs indidbtfd bflow or tibt it dbn rfspond to rfqufsts to
+ * modify its dioidf of blgoritim.
+ * Tif vblufs of tif vbrious iint kfys mby blso intfrbdt sudi tibt
+ * wiilf bll vbribnts of b givfn kfy brf supportfd in onf situbtion,
+ * tif implfmfntbtion mby bf morf rfstridtfd wifn tif vblufs bssodibtfd
+ * witi otifr kfys brf modififd.
+ * For fxbmplf, somf implfmfntbtions mby bf bblf to providf sfvfrbl
+ * typfs of ditifring wifn tif bntiblibsing iint is turnfd off, but
+ * ibvf littlf dontrol ovfr ditifring wifn bntiblibsing is on.
+ * Tif full sft of supportfd kfys bnd iints mby blso vbry by dfstinbtion
+ * sindf runtimfs mby usf difffrfnt undfrlying modulfs to rfndfr to
+ * tif sdrffn, or to {@link jbvb.bwt.imbgf.BufffrfdImbgf} objfdts,
+ * or wiilf printing.
  * <p>
- * Implementations are free to ignore the hints completely, but should
- * try to use an implementation algorithm that is as close as possible
- * to the request.
- * If an implementation supports a given algorithm when any value is used
- * for an associated hint key, then minimally it must do so when the
- * value for that key is the exact value that specifies the algorithm.
+ * Implfmfntbtions brf frff to ignorf tif iints domplftfly, but siould
+ * try to usf bn implfmfntbtion blgoritim tibt is bs dlosf bs possiblf
+ * to tif rfqufst.
+ * If bn implfmfntbtion supports b givfn blgoritim wifn bny vbluf is usfd
+ * for bn bssodibtfd iint kfy, tifn minimblly it must do so wifn tif
+ * vbluf for tibt kfy is tif fxbdt vbluf tibt spfdififs tif blgoritim.
  * <p>
- * The keys used to control the hints are all special values that
- * subclass the associated {@link RenderingHints.Key} class.
- * Many common hints are expressed below as static constants in this
- * class, but the list is not meant to be exhaustive.
- * Other hints may be created by other packages by defining new objects
- * which subclass the {@code Key} class and defining the associated values.
+ * Tif kfys usfd to dontrol tif iints brf bll spfdibl vblufs tibt
+ * subdlbss tif bssodibtfd {@link RfndfringHints.Kfy} dlbss.
+ * Mbny dommon iints brf fxprfssfd bflow bs stbtid donstbnts in tiis
+ * dlbss, but tif list is not mfbnt to bf fxibustivf.
+ * Otifr iints mby bf drfbtfd by otifr pbdkbgfs by dffining nfw objfdts
+ * wiidi subdlbss tif {@dodf Kfy} dlbss bnd dffining tif bssodibtfd vblufs.
  */
-public class RenderingHints
-    implements Map<Object,Object>, Cloneable
+publid dlbss RfndfringHints
+    implfmfnts Mbp<Objfdt,Objfdt>, Clonfbblf
 {
     /**
-     * Defines the base type of all keys used along with the
-     * {@link RenderingHints} class to control various
-     * algorithm choices in the rendering and imaging pipelines.
-     * Instances of this class are immutable and unique which
-     * means that tests for matches can be made using the
-     * {@code ==} operator instead of the more expensive
-     * {@code equals()} method.
+     * Dffinfs tif bbsf typf of bll kfys usfd blong witi tif
+     * {@link RfndfringHints} dlbss to dontrol vbrious
+     * blgoritim dioidfs in tif rfndfring bnd imbging pipflinfs.
+     * Instbndfs of tiis dlbss brf immutbblf bnd uniquf wiidi
+     * mfbns tibt tfsts for mbtdifs dbn bf mbdf using tif
+     * {@dodf ==} opfrbtor instfbd of tif morf fxpfnsivf
+     * {@dodf fqubls()} mftiod.
      */
-    public abstract static class Key {
-        private static HashMap<Object,Object> identitymap = new HashMap<>(17);
+    publid bbstrbdt stbtid dlbss Kfy {
+        privbtf stbtid HbsiMbp<Objfdt,Objfdt> idfntitymbp = nfw HbsiMbp<>(17);
 
-        private String getIdentity() {
-            // Note that the identity string is dependent on 3 variables:
-            //     - the name of the subclass of Key
-            //     - the identityHashCode of the subclass of Key
-            //     - the integer key of the Key
-            // It is theoretically possible for 2 distinct keys to collide
-            // along all 3 of those attributes in the context of multiple
-            // class loaders, but that occurrence will be extremely rare and
-            // we account for that possibility below in the recordIdentity
-            // method by slightly relaxing our uniqueness guarantees if we
-            // end up in that situation.
-            return getClass().getName()+"@"+
-                Integer.toHexString(System.identityHashCode(getClass()))+":"+
-                Integer.toHexString(privatekey);
+        privbtf String gftIdfntity() {
+            // Notf tibt tif idfntity string is dfpfndfnt on 3 vbribblfs:
+            //     - tif nbmf of tif subdlbss of Kfy
+            //     - tif idfntityHbsiCodf of tif subdlbss of Kfy
+            //     - tif intfgfr kfy of tif Kfy
+            // It is tiforftidblly possiblf for 2 distindt kfys to dollidf
+            // blong bll 3 of tiosf bttributfs in tif dontfxt of multiplf
+            // dlbss lobdfrs, but tibt oddurrfndf will bf fxtrfmfly rbrf bnd
+            // wf bddount for tibt possibility bflow in tif rfdordIdfntity
+            // mftiod by sligitly rflbxing our uniqufnfss gubrbntffs if wf
+            // fnd up in tibt situbtion.
+            rfturn gftClbss().gftNbmf()+"@"+
+                Intfgfr.toHfxString(Systfm.idfntityHbsiCodf(gftClbss()))+":"+
+                Intfgfr.toHfxString(privbtfkfy);
         }
 
-        private synchronized static void recordIdentity(Key k) {
-            Object identity = k.getIdentity();
-            Object otherref = identitymap.get(identity);
-            if (otherref != null) {
-                Key otherkey = (Key) ((WeakReference) otherref).get();
-                if (otherkey != null && otherkey.getClass() == k.getClass()) {
-                    throw new IllegalArgumentException(identity+
-                                                       " already registered");
+        privbtf syndironizfd stbtid void rfdordIdfntity(Kfy k) {
+            Objfdt idfntity = k.gftIdfntity();
+            Objfdt otifrrff = idfntitymbp.gft(idfntity);
+            if (otifrrff != null) {
+                Kfy otifrkfy = (Kfy) ((WfbkRfffrfndf) otifrrff).gft();
+                if (otifrkfy != null && otifrkfy.gftClbss() == k.gftClbss()) {
+                    tirow nfw IllfgblArgumfntExdfption(idfntity+
+                                                       " blrfbdy rfgistfrfd");
                 }
-                // Note that this system can fail in a mostly harmless
-                // way.  If we end up generating the same identity
-                // String for 2 different classes (a very rare case)
-                // then we correctly avoid throwing the exception above,
-                // but we are about to drop through to a statement that
-                // will replace the entry for the old Key subclass with
-                // an entry for the new Key subclass.  At that time the
-                // old subclass will be vulnerable to someone generating
-                // a duplicate Key instance for it.  We could bail out
-                // of the method here and let the old identity keep its
-                // record in the map, but we are more likely to see a
-                // duplicate key go by for the new class than the old
-                // one since the new one is probably still in the
-                // initialization stage.  In either case, the probability
-                // of loading 2 classes in the same VM with the same name
-                // and identityHashCode should be nearly impossible.
+                // Notf tibt tiis systfm dbn fbil in b mostly ibrmlfss
+                // wby.  If wf fnd up gfnfrbting tif sbmf idfntity
+                // String for 2 difffrfnt dlbssfs (b vfry rbrf dbsf)
+                // tifn wf dorrfdtly bvoid tirowing tif fxdfption bbovf,
+                // but wf brf bbout to drop tirougi to b stbtfmfnt tibt
+                // will rfplbdf tif fntry for tif old Kfy subdlbss witi
+                // bn fntry for tif nfw Kfy subdlbss.  At tibt timf tif
+                // old subdlbss will bf vulnfrbblf to somfonf gfnfrbting
+                // b duplidbtf Kfy instbndf for it.  Wf dould bbil out
+                // of tif mftiod ifrf bnd lft tif old idfntity kffp its
+                // rfdord in tif mbp, but wf brf morf likfly to sff b
+                // duplidbtf kfy go by for tif nfw dlbss tibn tif old
+                // onf sindf tif nfw onf is probbbly still in tif
+                // initiblizbtion stbgf.  In fitifr dbsf, tif probbbility
+                // of lobding 2 dlbssfs in tif sbmf VM witi tif sbmf nbmf
+                // bnd idfntityHbsiCodf siould bf nfbrly impossiblf.
             }
-            // Note: Use a weak reference to avoid holding on to extra
-            // objects and classes after they should be unloaded.
-            identitymap.put(identity, new WeakReference<Key>(k));
+            // Notf: Usf b wfbk rfffrfndf to bvoid iolding on to fxtrb
+            // objfdts bnd dlbssfs bftfr tify siould bf unlobdfd.
+            idfntitymbp.put(idfntity, nfw WfbkRfffrfndf<Kfy>(k));
         }
 
-        private int privatekey;
+        privbtf int privbtfkfy;
 
         /**
-         * Construct a key using the indicated private key.  Each
-         * subclass of Key maintains its own unique domain of integer
-         * keys.  No two objects with the same integer key and of the
-         * same specific subclass can be constructed.  An exception
-         * will be thrown if an attempt is made to construct another
-         * object of a given class with the same integer key as a
-         * pre-existing instance of that subclass of Key.
-         * @param privatekey the specified key
+         * Construdt b kfy using tif indidbtfd privbtf kfy.  Ebdi
+         * subdlbss of Kfy mbintbins its own uniquf dombin of intfgfr
+         * kfys.  No two objfdts witi tif sbmf intfgfr kfy bnd of tif
+         * sbmf spfdifid subdlbss dbn bf donstrudtfd.  An fxdfption
+         * will bf tirown if bn bttfmpt is mbdf to donstrudt bnotifr
+         * objfdt of b givfn dlbss witi tif sbmf intfgfr kfy bs b
+         * prf-fxisting instbndf of tibt subdlbss of Kfy.
+         * @pbrbm privbtfkfy tif spfdififd kfy
          */
-        protected Key(int privatekey) {
-            this.privatekey = privatekey;
-            recordIdentity(this);
-        }
-
-        /**
-         * Returns true if the specified object is a valid value
-         * for this Key.
-         * @param val the <code>Object</code> to test for validity
-         * @return <code>true</code> if <code>val</code> is valid;
-         *         <code>false</code> otherwise.
-         */
-        public abstract boolean isCompatibleValue(Object val);
-
-        /**
-         * Returns the private integer key that the subclass
-         * instantiated this Key with.
-         * @return the private integer key that the subclass
-         * instantiated this Key with.
-         */
-        protected final int intKey() {
-            return privatekey;
+        protfdtfd Kfy(int privbtfkfy) {
+            tiis.privbtfkfy = privbtfkfy;
+            rfdordIdfntity(tiis);
         }
 
         /**
-         * The hash code for all Key objects will be the same as the
-         * system identity code of the object as defined by the
-         * System.identityHashCode() method.
+         * Rfturns truf if tif spfdififd objfdt is b vblid vbluf
+         * for tiis Kfy.
+         * @pbrbm vbl tif <dodf>Objfdt</dodf> to tfst for vblidity
+         * @rfturn <dodf>truf</dodf> if <dodf>vbl</dodf> is vblid;
+         *         <dodf>fblsf</dodf> otifrwisf.
          */
-        public final int hashCode() {
-            return super.hashCode();
+        publid bbstrbdt boolfbn isCompbtiblfVbluf(Objfdt vbl);
+
+        /**
+         * Rfturns tif privbtf intfgfr kfy tibt tif subdlbss
+         * instbntibtfd tiis Kfy witi.
+         * @rfturn tif privbtf intfgfr kfy tibt tif subdlbss
+         * instbntibtfd tiis Kfy witi.
+         */
+        protfdtfd finbl int intKfy() {
+            rfturn privbtfkfy;
         }
 
         /**
-         * The equals method for all Key objects will return the same
-         * result as the equality operator '=='.
+         * Tif ibsi dodf for bll Kfy objfdts will bf tif sbmf bs tif
+         * systfm idfntity dodf of tif objfdt bs dffinfd by tif
+         * Systfm.idfntityHbsiCodf() mftiod.
          */
-        public final boolean equals(Object o) {
-            return this == o;
+        publid finbl int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
+        }
+
+        /**
+         * Tif fqubls mftiod for bll Kfy objfdts will rfturn tif sbmf
+         * rfsult bs tif fqublity opfrbtor '=='.
+         */
+        publid finbl boolfbn fqubls(Objfdt o) {
+            rfturn tiis == o;
         }
     }
 
-    HashMap<Object,Object> hintmap = new HashMap<>(7);
+    HbsiMbp<Objfdt,Objfdt> iintmbp = nfw HbsiMbp<>(7);
 
     /**
-     * Antialiasing hint key.
-     * The {@code ANTIALIASING} hint controls whether or not the
-     * geometry rendering methods of a {@link Graphics2D} object
-     * will attempt to reduce aliasing artifacts along the edges
-     * of shapes.
+     * Antiblibsing iint kfy.
+     * Tif {@dodf ANTIALIASING} iint dontrols wiftifr or not tif
+     * gfomftry rfndfring mftiods of b {@link Grbpiids2D} objfdt
+     * will bttfmpt to rfdudf blibsing brtifbdts blong tif fdgfs
+     * of sibpfs.
      * <p>
-     * A typical antialiasing algorithm works by blending the existing
-     * colors of the pixels along the boundary of a shape with the
-     * requested fill paint according to the estimated partial pixel
-     * coverage of the shape.
+     * A typidbl bntiblibsing blgoritim works by blfnding tif fxisting
+     * dolors of tif pixfls blong tif boundbry of b sibpf witi tif
+     * rfqufstfd fill pbint bddording to tif fstimbtfd pbrtibl pixfl
+     * dovfrbgf of tif sibpf.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_ANTIALIAS_ON}
      * <li>{@link #VALUE_ANTIALIAS_OFF}
      * <li>{@link #VALUE_ANTIALIAS_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_ANTIALIASING =
+    publid stbtid finbl Kfy KEY_ANTIALIASING =
         SunHints.KEY_ANTIALIASING;
 
     /**
-     * Antialiasing hint value -- rendering is done with antialiasing.
-     * @see #KEY_ANTIALIASING
+     * Antiblibsing iint vbluf -- rfndfring is donf witi bntiblibsing.
+     * @sff #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_ON =
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_ON =
         SunHints.VALUE_ANTIALIAS_ON;
 
     /**
-     * Antialiasing hint value -- rendering is done without antialiasing.
-     * @see #KEY_ANTIALIASING
+     * Antiblibsing iint vbluf -- rfndfring is donf witiout bntiblibsing.
+     * @sff #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_OFF =
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_OFF =
         SunHints.VALUE_ANTIALIAS_OFF;
 
     /**
-     * Antialiasing hint value -- rendering is done with a default
-     * antialiasing mode chosen by the implementation.
-     * @see #KEY_ANTIALIASING
+     * Antiblibsing iint vbluf -- rfndfring is donf witi b dffbult
+     * bntiblibsing modf diosfn by tif implfmfntbtion.
+     * @sff #KEY_ANTIALIASING
      */
-    public static final Object VALUE_ANTIALIAS_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_DEFAULT =
          SunHints.VALUE_ANTIALIAS_DEFAULT;
 
     /**
-     * Rendering hint key.
-     * The {@code RENDERING} hint is a general hint that provides
-     * a high level recommendation as to whether to bias algorithm
-     * choices more for speed or quality when evaluating tradeoffs.
-     * This hint could be consulted for any rendering or image
-     * manipulation operation, but decisions will usually honor
-     * other, more specific hints in preference to this hint.
+     * Rfndfring iint kfy.
+     * Tif {@dodf RENDERING} iint is b gfnfrbl iint tibt providfs
+     * b iigi lfvfl rfdommfndbtion bs to wiftifr to bibs blgoritim
+     * dioidfs morf for spffd or qublity wifn fvblubting trbdfoffs.
+     * Tiis iint dould bf donsultfd for bny rfndfring or imbgf
+     * mbnipulbtion opfrbtion, but dfdisions will usublly ionor
+     * otifr, morf spfdifid iints in prfffrfndf to tiis iint.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_RENDER_SPEED}
      * <li>{@link #VALUE_RENDER_QUALITY}
      * <li>{@link #VALUE_RENDER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_RENDERING =
+    publid stbtid finbl Kfy KEY_RENDERING =
          SunHints.KEY_RENDERING;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * with a preference for output speed.
-     * @see #KEY_RENDERING
+     * Rfndfring iint vbluf -- rfndfring blgoritims brf diosfn
+     * witi b prfffrfndf for output spffd.
+     * @sff #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_SPEED =
+    publid stbtid finbl Objfdt VALUE_RENDER_SPEED =
          SunHints.VALUE_RENDER_SPEED;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * with a preference for output quality.
-     * @see #KEY_RENDERING
+     * Rfndfring iint vbluf -- rfndfring blgoritims brf diosfn
+     * witi b prfffrfndf for output qublity.
+     * @sff #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_QUALITY =
+    publid stbtid finbl Objfdt VALUE_RENDER_QUALITY =
          SunHints.VALUE_RENDER_QUALITY;
 
     /**
-     * Rendering hint value -- rendering algorithms are chosen
-     * by the implementation for a good tradeoff of performance
-     * vs. quality.
-     * @see #KEY_RENDERING
+     * Rfndfring iint vbluf -- rfndfring blgoritims brf diosfn
+     * by tif implfmfntbtion for b good trbdfoff of pfrformbndf
+     * vs. qublity.
+     * @sff #KEY_RENDERING
      */
-    public static final Object VALUE_RENDER_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_RENDER_DEFAULT =
          SunHints.VALUE_RENDER_DEFAULT;
 
     /**
-     * Dithering hint key.
-     * The {@code DITHERING} hint controls how closely to approximate
-     * a color when storing into a destination with limited color
-     * resolution.
+     * Ditifring iint kfy.
+     * Tif {@dodf DITHERING} iint dontrols iow dlosfly to bpproximbtf
+     * b dolor wifn storing into b dfstinbtion witi limitfd dolor
+     * rfsolution.
      * <p>
-     * Some rendering destinations may support a limited number of
-     * color choices which may not be able to accurately represent
-     * the full spectrum of colors that can result during rendering
-     * operations.
-     * For such a destination the {@code DITHERING} hint controls
-     * whether rendering is done with a flat solid fill of a single
-     * pixel value which is the closest supported color to what was
-     * requested, or whether shapes will be filled with a pattern of
-     * colors which combine to better approximate that color.
+     * Somf rfndfring dfstinbtions mby support b limitfd numbfr of
+     * dolor dioidfs wiidi mby not bf bblf to bddurbtfly rfprfsfnt
+     * tif full spfdtrum of dolors tibt dbn rfsult during rfndfring
+     * opfrbtions.
+     * For sudi b dfstinbtion tif {@dodf DITHERING} iint dontrols
+     * wiftifr rfndfring is donf witi b flbt solid fill of b singlf
+     * pixfl vbluf wiidi is tif dlosfst supportfd dolor to wibt wbs
+     * rfqufstfd, or wiftifr sibpfs will bf fillfd witi b pbttfrn of
+     * dolors wiidi dombinf to bfttfr bpproximbtf tibt dolor.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_DITHER_DISABLE}
      * <li>{@link #VALUE_DITHER_ENABLE}
      * <li>{@link #VALUE_DITHER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_DITHERING =
+    publid stbtid finbl Kfy KEY_DITHERING =
          SunHints.KEY_DITHERING;
 
     /**
-     * Dithering hint value -- do not dither when rendering geometry.
-     * @see #KEY_DITHERING
+     * Ditifring iint vbluf -- do not ditifr wifn rfndfring gfomftry.
+     * @sff #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_DISABLE =
+    publid stbtid finbl Objfdt VALUE_DITHER_DISABLE =
          SunHints.VALUE_DITHER_DISABLE;
 
     /**
-     * Dithering hint value -- dither when rendering geometry, if needed.
-     * @see #KEY_DITHERING
+     * Ditifring iint vbluf -- ditifr wifn rfndfring gfomftry, if nffdfd.
+     * @sff #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_ENABLE =
+    publid stbtid finbl Objfdt VALUE_DITHER_ENABLE =
          SunHints.VALUE_DITHER_ENABLE;
 
     /**
-     * Dithering hint value -- use a default for dithering chosen by
-     * the implementation.
-     * @see #KEY_DITHERING
+     * Ditifring iint vbluf -- usf b dffbult for ditifring diosfn by
+     * tif implfmfntbtion.
+     * @sff #KEY_DITHERING
      */
-    public static final Object VALUE_DITHER_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_DITHER_DEFAULT =
          SunHints.VALUE_DITHER_DEFAULT;
 
     /**
-     * Text antialiasing hint key.
-     * The {@code TEXT_ANTIALIASING} hint can control the use of
-     * antialiasing algorithms for text independently of the
-     * choice used for shape rendering.
-     * Often an application may want to use antialiasing for text
-     * only and not for other shapes.
-     * Additionally, the algorithms for reducing the aliasing
-     * artifacts for text are often more sophisticated than those
-     * that have been developed for general rendering so this
-     * hint key provides additional values which can control
-     * the choices of some of those text-specific algorithms.
-     * If left in the {@code DEFAULT} state, this hint will
-     * generally defer to the value of the regular
-     * {@link #KEY_ANTIALIASING} hint key.
+     * Tfxt bntiblibsing iint kfy.
+     * Tif {@dodf TEXT_ANTIALIASING} iint dbn dontrol tif usf of
+     * bntiblibsing blgoritims for tfxt indfpfndfntly of tif
+     * dioidf usfd for sibpf rfndfring.
+     * Oftfn bn bpplidbtion mby wbnt to usf bntiblibsing for tfxt
+     * only bnd not for otifr sibpfs.
+     * Additionblly, tif blgoritims for rfduding tif blibsing
+     * brtifbdts for tfxt brf oftfn morf sopiistidbtfd tibn tiosf
+     * tibt ibvf bffn dfvflopfd for gfnfrbl rfndfring so tiis
+     * iint kfy providfs bdditionbl vblufs wiidi dbn dontrol
+     * tif dioidfs of somf of tiosf tfxt-spfdifid blgoritims.
+     * If lfft in tif {@dodf DEFAULT} stbtf, tiis iint will
+     * gfnfrblly dfffr to tif vbluf of tif rfgulbr
+     * {@link #KEY_ANTIALIASING} iint kfy.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_TEXT_ANTIALIAS_ON}
      * <li>{@link #VALUE_TEXT_ANTIALIAS_OFF}
@@ -361,941 +361,941 @@ public class RenderingHints
      * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_VBGR}
      * </ul>
      */
-    public static final Key KEY_TEXT_ANTIALIASING =
+    publid stbtid finbl Kfy KEY_TEXT_ANTIALIASING =
          SunHints.KEY_TEXT_ANTIALIASING;
 
     /**
-     * Text antialiasing hint value -- text rendering is done with
-     * some form of antialiasing.
-     * @see #KEY_TEXT_ANTIALIASING
+     * Tfxt bntiblibsing iint vbluf -- tfxt rfndfring is donf witi
+     * somf form of bntiblibsing.
+     * @sff #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_ON =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_ON =
          SunHints.VALUE_TEXT_ANTIALIAS_ON;
 
     /**
-     * Text antialiasing hint value -- text rendering is done without
-     * any form of antialiasing.
-     * @see #KEY_TEXT_ANTIALIASING
+     * Tfxt bntiblibsing iint vbluf -- tfxt rfndfring is donf witiout
+     * bny form of bntiblibsing.
+     * @sff #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_OFF =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_OFF =
          SunHints.VALUE_TEXT_ANTIALIAS_OFF;
 
     /**
-     * Text antialiasing hint value -- text rendering is done according
-     * to the {@link #KEY_ANTIALIASING} hint or a default chosen by the
-     * implementation.
-     * @see #KEY_TEXT_ANTIALIASING
+     * Tfxt bntiblibsing iint vbluf -- tfxt rfndfring is donf bddording
+     * to tif {@link #KEY_ANTIALIASING} iint or b dffbult diosfn by tif
+     * implfmfntbtion.
+     * @sff #KEY_TEXT_ANTIALIASING
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_DEFAULT =
          SunHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
 
     /**
-     * Text antialiasing hint value -- text rendering is requested to
-     * use information in the font resource which specifies for each point
-     * size whether to apply {@link #VALUE_TEXT_ANTIALIAS_ON} or
+     * Tfxt bntiblibsing iint vbluf -- tfxt rfndfring is rfqufstfd to
+     * usf informbtion in tif font rfsourdf wiidi spfdififs for fbdi point
+     * sizf wiftifr to bpply {@link #VALUE_TEXT_ANTIALIAS_ON} or
      * {@link #VALUE_TEXT_ANTIALIAS_OFF}.
      * <p>
-     * TrueType fonts typically provide this information in the 'gasp' table.
-     * In the absence of this information, the behaviour for a particular
-     * font and size is determined by implementation defaults.
+     * TrufTypf fonts typidblly providf tiis informbtion in tif 'gbsp' tbblf.
+     * In tif bbsfndf of tiis informbtion, tif bfibviour for b pbrtidulbr
+     * font bnd sizf is dftfrminfd by implfmfntbtion dffbults.
      * <p>
-     * <i>Note:</i>A font designer will typically carefully hint a font for
-     * the most common user interface point sizes. Consequently the 'gasp'
-     * table will likely specify to use only hinting at those sizes and not
-     * "smoothing". So in many cases the resulting text display is
-     * equivalent to {@code VALUE_TEXT_ANTIALIAS_OFF}.
-     * This may be unexpected but is correct.
+     * <i>Notf:</i>A font dfsignfr will typidblly dbrffully iint b font for
+     * tif most dommon usfr intfrfbdf point sizfs. Consfqufntly tif 'gbsp'
+     * tbblf will likfly spfdify to usf only iinting bt tiosf sizfs bnd not
+     * "smootiing". So in mbny dbsfs tif rfsulting tfxt displby is
+     * fquivblfnt to {@dodf VALUE_TEXT_ANTIALIAS_OFF}.
+     * Tiis mby bf unfxpfdtfd but is dorrfdt.
      * <p>
-     * Logical fonts which are composed of multiple physical fonts will for
-     * consistency will use the setting most appropriate for the overall
-     * composite font.
+     * Logidbl fonts wiidi brf domposfd of multiplf piysidbl fonts will for
+     * donsistfndy will usf tif sftting most bppropribtf for tif ovfrbll
+     * dompositf font.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_GASP =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_GASP =
          SunHints.VALUE_TEXT_ANTIALIAS_GASP;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixels in order from display
-     * left to right of R,G,B such that the horizontal subpixel resolution
-     * is three times that of the full pixel horizontal resolution (HRGB).
-     * This is the most common configuration.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
+     * Tfxt bntiblibsing iint vbluf -- rfqufst tibt tfxt bf displbyfd
+     * optimisfd for bn LCD displby witi subpixfls in ordfr from displby
+     * lfft to rigit of R,G,B sudi tibt tif iorizontbl subpixfl rfsolution
+     * is tirff timfs tibt of tif full pixfl iorizontbl rfsolution (HRGB).
+     * Tiis is tif most dommon donfigurbtion.
+     * Sflfdting tiis iint for displbys witi onf of tif otifr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
      * <p>
-     * <i>Notes:</i><br>
-     * An implementation when choosing whether to apply any of the
-     * LCD text hint values may take into account factors including requiring
-     * color depth of the destination to be at least 15 bits per pixel
-     * (ie 5 bits per color component),
-     * characteristics of a font such as whether embedded bitmaps may
-     * produce better results, or when displaying to a non-local networked
-     * display device enabling it only if suitable protocols are available,
-     * or ignoring the hint if performing very high resolution rendering
-     * or the target device is not appropriate: eg when printing.
+     * <i>Notfs:</i><br>
+     * An implfmfntbtion wifn dioosing wiftifr to bpply bny of tif
+     * LCD tfxt iint vblufs mby tbkf into bddount fbdtors indluding rfquiring
+     * dolor dfpti of tif dfstinbtion to bf bt lfbst 15 bits pfr pixfl
+     * (if 5 bits pfr dolor domponfnt),
+     * dibrbdtfristids of b font sudi bs wiftifr fmbfddfd bitmbps mby
+     * produdf bfttfr rfsults, or wifn displbying to b non-lodbl nftworkfd
+     * displby dfvidf fnbbling it only if suitbblf protodols brf bvbilbblf,
+     * or ignoring tif iint if pfrforming vfry iigi rfsolution rfndfring
+     * or tif tbrgft dfvidf is not bppropribtf: fg wifn printing.
      * <p>
-     * These hints can equally be applied when rendering to software images,
-     * but these images may not then be suitable for general export, as the
-     * text will have been rendered appropriately for a specific subpixel
-     * organisation. Also lossy images are not a good choice, nor image
-     * formats such as GIF which have limited colors.
-     * So unless the image is destined solely for rendering on a
-     * display device with the same configuration, some other text
-     * anti-aliasing hint such as
+     * Tifsf iints dbn fqublly bf bpplifd wifn rfndfring to softwbrf imbgfs,
+     * but tifsf imbgfs mby not tifn bf suitbblf for gfnfrbl fxport, bs tif
+     * tfxt will ibvf bffn rfndfrfd bppropribtfly for b spfdifid subpixfl
+     * orgbnisbtion. Also lossy imbgfs brf not b good dioidf, nor imbgf
+     * formbts sudi bs GIF wiidi ibvf limitfd dolors.
+     * So unlfss tif imbgf is dfstinfd solfly for rfndfring on b
+     * displby dfvidf witi tif sbmf donfigurbtion, somf otifr tfxt
+     * bnti-blibsing iint sudi bs
      * {@link #VALUE_TEXT_ANTIALIAS_ON}
-     * may be a better choice.
-     * <p>Selecting a value which does not match the LCD display in use
-     * will likely lead to a degradation in text quality.
-     * On display devices (ie CRTs) which do not have the same characteristics
-     * as LCD displays, the overall effect may appear similar to standard text
-     * anti-aliasing, but the quality may be degraded by color distortion.
-     * Analog connected LCD displays may also show little advantage over
-     * standard text-antialiasing and be similar to CRTs.
+     * mby bf b bfttfr dioidf.
+     * <p>Sflfdting b vbluf wiidi dofs not mbtdi tif LCD displby in usf
+     * will likfly lfbd to b dfgrbdbtion in tfxt qublity.
+     * On displby dfvidfs (if CRTs) wiidi do not ibvf tif sbmf dibrbdtfristids
+     * bs LCD displbys, tif ovfrbll ffffdt mby bppfbr similbr to stbndbrd tfxt
+     * bnti-blibsing, but tif qublity mby bf dfgrbdfd by dolor distortion.
+     * Anblog donnfdtfd LCD displbys mby blso siow littlf bdvbntbgf ovfr
+     * stbndbrd tfxt-bntiblibsing bnd bf similbr to CRTs.
      * <p>
-     * In other words for the best results use an LCD display with a digital
-     * display connector and specify the appropriate sub-pixel configuration.
+     * In otifr words for tif bfst rfsults usf bn LCD displby witi b digitbl
+     * displby donnfdtor bnd spfdify tif bppropribtf sub-pixfl donfigurbtion.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HRGB =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixels in order from display
-     * left to right of B,G,R such that the horizontal subpixel resolution
-     * is three times that of the full pixel horizontal resolution (HBGR).
-     * This is a much less common configuration than HRGB.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
-     * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * Tfxt bntiblibsing iint vbluf -- rfqufst tibt tfxt bf displbyfd
+     * optimisfd for bn LCD displby witi subpixfls in ordfr from displby
+     * lfft to rigit of B,G,R sudi tibt tif iorizontbl subpixfl rfsolution
+     * is tirff timfs tibt of tif full pixfl iorizontbl rfsolution (HBGR).
+     * Tiis is b mudi lfss dommon donfigurbtion tibn HRGB.
+     * Sflfdting tiis iint for displbys witi onf of tif otifr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on wifn tiis iint is bpplifd.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HBGR =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixel organisation from display
-     * top to bottom of R,G,B such that the vertical subpixel resolution is
-     * three times that of the full pixel vertical resolution (VRGB).
-     * Vertical orientation is very uncommon and probably mainly useful
-     * for a physically rotated display.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
-     * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * Tfxt bntiblibsing iint vbluf -- rfqufst tibt tfxt bf displbyfd
+     * optimisfd for bn LCD displby witi subpixfl orgbnisbtion from displby
+     * top to bottom of R,G,B sudi tibt tif vfrtidbl subpixfl rfsolution is
+     * tirff timfs tibt of tif full pixfl vfrtidbl rfsolution (VRGB).
+     * Vfrtidbl orifntbtion is vfry undommon bnd probbbly mbinly usfful
+     * for b piysidblly rotbtfd displby.
+     * Sflfdting tiis iint for displbys witi onf of tif otifr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on wifn tiis iint is bpplifd.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VRGB =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB;
 
     /**
-     * Text antialiasing hint value -- request that text be displayed
-     * optimised for an LCD display with subpixel organisation from display
-     * top to bottom of B,G,R such that the vertical subpixel resolution is
-     * three times that of the full pixel vertical resolution (VBGR).
-     * Vertical orientation is very uncommon and probably mainly useful
-     * for a physically rotated display.
-     * Selecting this hint for displays with one of the other LCD subpixel
-     * configurations will likely result in unfocused text.
-     * See {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
-     * for more information on when this hint is applied.
+     * Tfxt bntiblibsing iint vbluf -- rfqufst tibt tfxt bf displbyfd
+     * optimisfd for bn LCD displby witi subpixfl orgbnisbtion from displby
+     * top to bottom of B,G,R sudi tibt tif vfrtidbl subpixfl rfsolution is
+     * tirff timfs tibt of tif full pixfl vfrtidbl rfsolution (VBGR).
+     * Vfrtidbl orifntbtion is vfry undommon bnd probbbly mbinly usfful
+     * for b piysidblly rotbtfd displby.
+     * Sflfdting tiis iint for displbys witi onf of tif otifr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on wifn tiis iint is bpplifd.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VBGR =
          SunHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR;
 
 
     /**
-     * LCD text contrast rendering hint key.
-     * The value is an <code>Integer</code> object which is used as a text
-     * contrast adjustment when used in conjunction with an LCD text
-     * anti-aliasing hint such as
+     * LCD tfxt dontrbst rfndfring iint kfy.
+     * Tif vbluf is bn <dodf>Intfgfr</dodf> objfdt wiidi is usfd bs b tfxt
+     * dontrbst bdjustmfnt wifn usfd in donjundtion witi bn LCD tfxt
+     * bnti-blibsing iint sudi bs
      * {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB}.
      * <ul>
-     * <li>Values should be a positive integer in the range 100 to 250.
-     * <li>A lower value (eg 100) corresponds to higher contrast text when
-     * displaying dark text on a light background.
-     * <li>A higher value (eg 200) corresponds to lower contrast text when
-     * displaying dark text on a light background.
-     * <li>A typical useful value is in the narrow range 140-180.
-     * <li>If no value is specified, a system or implementation default value
-     * will be applied.
+     * <li>Vblufs siould bf b positivf intfgfr in tif rbngf 100 to 250.
+     * <li>A lowfr vbluf (fg 100) dorrfsponds to iigifr dontrbst tfxt wifn
+     * displbying dbrk tfxt on b ligit bbdkground.
+     * <li>A iigifr vbluf (fg 200) dorrfsponds to lowfr dontrbst tfxt wifn
+     * displbying dbrk tfxt on b ligit bbdkground.
+     * <li>A typidbl usfful vbluf is in tif nbrrow rbngf 140-180.
+     * <li>If no vbluf is spfdififd, b systfm or implfmfntbtion dffbult vbluf
+     * will bf bpplifd.
      * </ul>
-     * The default value can be expected to be adequate for most purposes,
-     * so clients should rarely need to specify a value for this hint unless
-     * they have concrete information as to an appropriate value.
-     * A higher value does not mean a higher contrast, in fact the opposite
-     * is true.
-     * The correction is applied in a similar manner to a gamma adjustment
-     * for non-linear perceptual luminance response of display systems, but
-     * does not indicate a full correction for this.
+     * Tif dffbult vbluf dbn bf fxpfdtfd to bf bdfqubtf for most purposfs,
+     * so dlifnts siould rbrfly nffd to spfdify b vbluf for tiis iint unlfss
+     * tify ibvf dondrftf informbtion bs to bn bppropribtf vbluf.
+     * A iigifr vbluf dofs not mfbn b iigifr dontrbst, in fbdt tif oppositf
+     * is truf.
+     * Tif dorrfdtion is bpplifd in b similbr mbnnfr to b gbmmb bdjustmfnt
+     * for non-linfbr pfrdfptubl luminbndf rfsponsf of displby systfms, but
+     * dofs not indidbtf b full dorrfdtion for tiis.
      *
-     * @see #KEY_TEXT_ANTIALIASING
-     * @since 1.6
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
      */
-    public static final Key KEY_TEXT_LCD_CONTRAST =
+    publid stbtid finbl Kfy KEY_TEXT_LCD_CONTRAST =
         SunHints.KEY_TEXT_ANTIALIAS_LCD_CONTRAST;
 
     /**
-     * Font fractional metrics hint key.
-     * The {@code FRACTIONALMETRICS} hint controls whether the positioning
-     * of individual character glyphs takes into account the sub-pixel
-     * accuracy of the scaled character advances of the font or whether
-     * such advance vectors are rounded to an integer number of whole
-     * device pixels.
-     * This hint only recommends how much accuracy should be used to
-     * position the glyphs and does not specify or recommend whether or
-     * not the actual rasterization or pixel bounds of the glyph should
-     * be modified to match.
+     * Font frbdtionbl mftrids iint kfy.
+     * Tif {@dodf FRACTIONALMETRICS} iint dontrols wiftifr tif positioning
+     * of individubl dibrbdtfr glypis tbkfs into bddount tif sub-pixfl
+     * bddurbdy of tif sdblfd dibrbdtfr bdvbndfs of tif font or wiftifr
+     * sudi bdvbndf vfdtors brf roundfd to bn intfgfr numbfr of wiolf
+     * dfvidf pixfls.
+     * Tiis iint only rfdommfnds iow mudi bddurbdy siould bf usfd to
+     * position tif glypis bnd dofs not spfdify or rfdommfnd wiftifr or
+     * not tif bdtubl rbstfrizbtion or pixfl bounds of tif glypi siould
+     * bf modififd to mbtdi.
      * <p>
-     * Rendering text to a low resolution device like a screen will
-     * necessarily involve a number of rounding operations as the
-     * high quality and very precise definition of the shape and
-     * metrics of the character glyphs must be matched to discrete
-     * device pixels.
-     * Ideally the positioning of glyphs during text layout would be
-     * calculated by scaling the design metrics in the font according
-     * to the point size, but then the scaled advance width will not
-     * necessarily be an integer number of pixels.
-     * If the glyphs are positioned with sub-pixel accuracy according
-     * to these scaled design metrics then the rasterization would
-     * ideally need to be adjusted for each possible sub-pixel origin.
+     * Rfndfring tfxt to b low rfsolution dfvidf likf b sdrffn will
+     * nfdfssbrily involvf b numbfr of rounding opfrbtions bs tif
+     * iigi qublity bnd vfry prfdisf dffinition of tif sibpf bnd
+     * mftrids of tif dibrbdtfr glypis must bf mbtdifd to disdrftf
+     * dfvidf pixfls.
+     * Idfblly tif positioning of glypis during tfxt lbyout would bf
+     * dbldulbtfd by sdbling tif dfsign mftrids in tif font bddording
+     * to tif point sizf, but tifn tif sdblfd bdvbndf widti will not
+     * nfdfssbrily bf bn intfgfr numbfr of pixfls.
+     * If tif glypis brf positionfd witi sub-pixfl bddurbdy bddording
+     * to tifsf sdblfd dfsign mftrids tifn tif rbstfrizbtion would
+     * idfblly nffd to bf bdjustfd for fbdi possiblf sub-pixfl origin.
      * <p>
-     * Unfortunately, scaling each glyph customized to its exact
-     * subpixel origin during text layout would be prohibitively
-     * expensive so a simplified system based on integer device
-     * positions is typically used to lay out the text.
-     * The rasterization of the glyph and the scaled advance width
-     * are both adjusted together to yield text that looks good at
-     * device resolution and has consistent integer pixel distances
-     * between glyphs that help the glyphs look uniformly and
-     * consistently spaced and readable.
+     * Unfortunbtfly, sdbling fbdi glypi dustomizfd to its fxbdt
+     * subpixfl origin during tfxt lbyout would bf proiibitivfly
+     * fxpfnsivf so b simplififd systfm bbsfd on intfgfr dfvidf
+     * positions is typidblly usfd to lby out tif tfxt.
+     * Tif rbstfrizbtion of tif glypi bnd tif sdblfd bdvbndf widti
+     * brf boti bdjustfd togftifr to yifld tfxt tibt looks good bt
+     * dfvidf rfsolution bnd ibs donsistfnt intfgfr pixfl distbndfs
+     * bftwffn glypis tibt iflp tif glypis look uniformly bnd
+     * donsistfntly spbdfd bnd rfbdbblf.
      * <p>
-     * This process of rounding advance widths for rasterized glyphs
-     * to integer distances means that the character density and the
-     * overall length of a string of text will be different from the
-     * theoretical design measurements due to the accumulation of
-     * a series of small differences in the adjusted widths of
-     * each glyph.
-     * The specific differences will be different for each glyph,
-     * some being wider and some being narrower than their theoretical
-     * design measurements.
-     * Thus the overall difference in character density and length
-     * will vary by a number of factors including the font, the
-     * specific device resolution being targeted, and the glyphs
-     * chosen to represent the string being rendered.
-     * As a result, rendering the same string at multiple device
-     * resolutions can yield widely varying metrics for whole strings.
+     * Tiis prodfss of rounding bdvbndf widtis for rbstfrizfd glypis
+     * to intfgfr distbndfs mfbns tibt tif dibrbdtfr dfnsity bnd tif
+     * ovfrbll lfngti of b string of tfxt will bf difffrfnt from tif
+     * tiforftidbl dfsign mfbsurfmfnts duf to tif bddumulbtion of
+     * b sfrifs of smbll difffrfndfs in tif bdjustfd widtis of
+     * fbdi glypi.
+     * Tif spfdifid difffrfndfs will bf difffrfnt for fbdi glypi,
+     * somf bfing widfr bnd somf bfing nbrrowfr tibn tifir tiforftidbl
+     * dfsign mfbsurfmfnts.
+     * Tius tif ovfrbll difffrfndf in dibrbdtfr dfnsity bnd lfngti
+     * will vbry by b numbfr of fbdtors indluding tif font, tif
+     * spfdifid dfvidf rfsolution bfing tbrgftfd, bnd tif glypis
+     * diosfn to rfprfsfnt tif string bfing rfndfrfd.
+     * As b rfsult, rfndfring tif sbmf string bt multiplf dfvidf
+     * rfsolutions dbn yifld widfly vbrying mftrids for wiolf strings.
      * <p>
-     * When {@code FRACTIONALMETRICS} are enabled, the true font design
-     * metrics are scaled by the point size and used for layout with
-     * sub-pixel accuracy.
-     * The average density of glyphs and total length of a long
-     * string of characters will therefore more closely match the
-     * theoretical design of the font, but readability may be affected
-     * since individual pairs of characters may not always appear to
-     * be consistent distances apart depending on how the sub-pixel
-     * accumulation of the glyph origins meshes with the device pixel
+     * Wifn {@dodf FRACTIONALMETRICS} brf fnbblfd, tif truf font dfsign
+     * mftrids brf sdblfd by tif point sizf bnd usfd for lbyout witi
+     * sub-pixfl bddurbdy.
+     * Tif bvfrbgf dfnsity of glypis bnd totbl lfngti of b long
+     * string of dibrbdtfrs will tifrfforf morf dlosfly mbtdi tif
+     * tiforftidbl dfsign of tif font, but rfbdbbility mby bf bfffdtfd
+     * sindf individubl pbirs of dibrbdtfrs mby not blwbys bppfbr to
+     * bf donsistfnt distbndfs bpbrt dfpfnding on iow tif sub-pixfl
+     * bddumulbtion of tif glypi origins mfsifs witi tif dfvidf pixfl
      * grid.
-     * Enabling this hint may be desirable when text layout is being
-     * performed that must be consistent across a wide variety of
-     * output resolutions.
-     * Specifically, this hint may be desirable in situations where
-     * the layout of text is being previewed on a low resolution
-     * device like a screen for output that will eventually be
-     * rendered on a high resolution printer or typesetting device.
+     * Enbbling tiis iint mby bf dfsirbblf wifn tfxt lbyout is bfing
+     * pfrformfd tibt must bf donsistfnt bdross b widf vbrifty of
+     * output rfsolutions.
+     * Spfdifidblly, tiis iint mby bf dfsirbblf in situbtions wifrf
+     * tif lbyout of tfxt is bfing prfvifwfd on b low rfsolution
+     * dfvidf likf b sdrffn for output tibt will fvfntublly bf
+     * rfndfrfd on b iigi rfsolution printfr or typfsftting dfvidf.
      * <p>
-     * When disabled, the scaled design metrics are rounded or adjusted
-     * to integer distances for layout.
-     * The distances between any specific pair of glyphs will be more
-     * uniform on the device, but the density and total length of long
-     * strings may no longer match the theoretical intentions of the
-     * font designer.
-     * Disabling this hint will typically produce more readable results
-     * on low resolution devices like computer monitors.
+     * Wifn disbblfd, tif sdblfd dfsign mftrids brf roundfd or bdjustfd
+     * to intfgfr distbndfs for lbyout.
+     * Tif distbndfs bftwffn bny spfdifid pbir of glypis will bf morf
+     * uniform on tif dfvidf, but tif dfnsity bnd totbl lfngti of long
+     * strings mby no longfr mbtdi tif tiforftidbl intfntions of tif
+     * font dfsignfr.
+     * Disbbling tiis iint will typidblly produdf morf rfbdbblf rfsults
+     * on low rfsolution dfvidfs likf domputfr monitors.
      * <p>
-     * The allowable values for this key are
+     * Tif bllowbblf vblufs for tiis kfy brf
      * <ul>
      * <li>{@link #VALUE_FRACTIONALMETRICS_OFF}
      * <li>{@link #VALUE_FRACTIONALMETRICS_ON}
      * <li>{@link #VALUE_FRACTIONALMETRICS_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_FRACTIONALMETRICS =
+    publid stbtid finbl Kfy KEY_FRACTIONALMETRICS =
          SunHints.KEY_FRACTIONALMETRICS;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with advance widths rounded to pixel boundaries.
-     * @see #KEY_FRACTIONALMETRICS
+     * Font frbdtionbl mftrids iint vbluf -- dibrbdtfr glypis brf
+     * positionfd witi bdvbndf widtis roundfd to pixfl boundbrifs.
+     * @sff #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_OFF =
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_OFF =
          SunHints.VALUE_FRACTIONALMETRICS_OFF;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with sub-pixel accuracy.
-     * @see #KEY_FRACTIONALMETRICS
+     * Font frbdtionbl mftrids iint vbluf -- dibrbdtfr glypis brf
+     * positionfd witi sub-pixfl bddurbdy.
+     * @sff #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_ON =
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_ON =
          SunHints.VALUE_FRACTIONALMETRICS_ON;
 
     /**
-     * Font fractional metrics hint value -- character glyphs are
-     * positioned with accuracy chosen by the implementation.
-     * @see #KEY_FRACTIONALMETRICS
+     * Font frbdtionbl mftrids iint vbluf -- dibrbdtfr glypis brf
+     * positionfd witi bddurbdy diosfn by tif implfmfntbtion.
+     * @sff #KEY_FRACTIONALMETRICS
      */
-    public static final Object VALUE_FRACTIONALMETRICS_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_DEFAULT =
          SunHints.VALUE_FRACTIONALMETRICS_DEFAULT;
 
     /**
-     * Interpolation hint key.
-     * The {@code INTERPOLATION} hint controls how image pixels are
-     * filtered or resampled during an image rendering operation.
+     * Intfrpolbtion iint kfy.
+     * Tif {@dodf INTERPOLATION} iint dontrols iow imbgf pixfls brf
+     * filtfrfd or rfsbmplfd during bn imbgf rfndfring opfrbtion.
      * <p>
-     * Implicitly images are defined to provide color samples at
-     * integer coordinate locations.
-     * When images are rendered upright with no scaling onto a
-     * destination, the choice of which image pixels map to which
-     * device pixels is obvious and the samples at the integer
-     * coordinate locations in the image are transfered to the
-     * pixels at the corresponding integer locations on the device
-     * pixel grid one for one.
-     * When images are rendered in a scaled, rotated, or otherwise
-     * transformed coordinate system, then the mapping of device
-     * pixel coordinates back to the image can raise the question
-     * of what color sample to use for the continuous coordinates
-     * that lie between the integer locations of the provided image
-     * samples.
-     * Interpolation algorithms define functions which provide a
-     * color sample for any continuous coordinate in an image based
-     * on the color samples at the surrounding integer coordinates.
+     * Impliditly imbgfs brf dffinfd to providf dolor sbmplfs bt
+     * intfgfr doordinbtf lodbtions.
+     * Wifn imbgfs brf rfndfrfd uprigit witi no sdbling onto b
+     * dfstinbtion, tif dioidf of wiidi imbgf pixfls mbp to wiidi
+     * dfvidf pixfls is obvious bnd tif sbmplfs bt tif intfgfr
+     * doordinbtf lodbtions in tif imbgf brf trbnsffrfd to tif
+     * pixfls bt tif dorrfsponding intfgfr lodbtions on tif dfvidf
+     * pixfl grid onf for onf.
+     * Wifn imbgfs brf rfndfrfd in b sdblfd, rotbtfd, or otifrwisf
+     * trbnsformfd doordinbtf systfm, tifn tif mbpping of dfvidf
+     * pixfl doordinbtfs bbdk to tif imbgf dbn rbisf tif qufstion
+     * of wibt dolor sbmplf to usf for tif dontinuous doordinbtfs
+     * tibt lif bftwffn tif intfgfr lodbtions of tif providfd imbgf
+     * sbmplfs.
+     * Intfrpolbtion blgoritims dffinf fundtions wiidi providf b
+     * dolor sbmplf for bny dontinuous doordinbtf in bn imbgf bbsfd
+     * on tif dolor sbmplfs bt tif surrounding intfgfr doordinbtfs.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR}
      * <li>{@link #VALUE_INTERPOLATION_BILINEAR}
      * <li>{@link #VALUE_INTERPOLATION_BICUBIC}
      * </ul>
      */
-    public static final Key KEY_INTERPOLATION =
+    publid stbtid finbl Kfy KEY_INTERPOLATION =
          SunHints.KEY_INTERPOLATION;
 
     /**
-     * Interpolation hint value -- the color sample of the nearest
-     * neighboring integer coordinate sample in the image is used.
-     * Conceptually the image is viewed as a grid of unit-sized
-     * square regions of color centered around the center of each
-     * image pixel.
+     * Intfrpolbtion iint vbluf -- tif dolor sbmplf of tif nfbrfst
+     * nfigiboring intfgfr doordinbtf sbmplf in tif imbgf is usfd.
+     * Condfptublly tif imbgf is vifwfd bs b grid of unit-sizfd
+     * squbrf rfgions of dolor dfntfrfd bround tif dfntfr of fbdi
+     * imbgf pixfl.
      * <p>
-     * As the image is scaled up, it will look correspondingly blocky.
-     * As the image is scaled down, the colors for source pixels will
-     * be either used unmodified, or skipped entirely in the output
-     * representation.
+     * As tif imbgf is sdblfd up, it will look dorrfspondingly blodky.
+     * As tif imbgf is sdblfd down, tif dolors for sourdf pixfls will
+     * bf fitifr usfd unmodififd, or skippfd fntirfly in tif output
+     * rfprfsfntbtion.
      *
-     * @see #KEY_INTERPOLATION
+     * @sff #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
          SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
 
     /**
-     * Interpolation hint value -- the color samples of the 4 nearest
-     * neighboring integer coordinate samples in the image are
-     * interpolated linearly to produce a color sample.
-     * Conceptually the image is viewed as a set of infinitely small
-     * point color samples which have value only at the centers of
-     * integer coordinate pixels and the space between those pixel
-     * centers is filled with linear ramps of colors that connect
-     * adjacent discrete samples in a straight line.
+     * Intfrpolbtion iint vbluf -- tif dolor sbmplfs of tif 4 nfbrfst
+     * nfigiboring intfgfr doordinbtf sbmplfs in tif imbgf brf
+     * intfrpolbtfd linfbrly to produdf b dolor sbmplf.
+     * Condfptublly tif imbgf is vifwfd bs b sft of infinitfly smbll
+     * point dolor sbmplfs wiidi ibvf vbluf only bt tif dfntfrs of
+     * intfgfr doordinbtf pixfls bnd tif spbdf bftwffn tiosf pixfl
+     * dfntfrs is fillfd witi linfbr rbmps of dolors tibt donnfdt
+     * bdjbdfnt disdrftf sbmplfs in b strbigit linf.
      * <p>
-     * As the image is scaled up, there are no blocky edges between
-     * the colors in the image as there are with
+     * As tif imbgf is sdblfd up, tifrf brf no blodky fdgfs bftwffn
+     * tif dolors in tif imbgf bs tifrf brf witi
      * {@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR NEAREST_NEIGHBOR},
-     * but the blending may show some subtle discontinuities along the
-     * horizontal and vertical edges that line up with the samples
-     * caused by a sudden change in the slope of the interpolation
-     * from one side of a sample to the other.
-     * As the image is scaled down, more image pixels have their
-     * color samples represented in the resulting output since each
-     * output pixel receives color information from up to 4 image
-     * pixels.
+     * but tif blfnding mby siow somf subtlf disdontinuitifs blong tif
+     * iorizontbl bnd vfrtidbl fdgfs tibt linf up witi tif sbmplfs
+     * dbusfd by b suddfn dibngf in tif slopf of tif intfrpolbtion
+     * from onf sidf of b sbmplf to tif otifr.
+     * As tif imbgf is sdblfd down, morf imbgf pixfls ibvf tifir
+     * dolor sbmplfs rfprfsfntfd in tif rfsulting output sindf fbdi
+     * output pixfl rfdfivfs dolor informbtion from up to 4 imbgf
+     * pixfls.
      *
-     * @see #KEY_INTERPOLATION
+     * @sff #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_BILINEAR =
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BILINEAR =
          SunHints.VALUE_INTERPOLATION_BILINEAR;
 
     /**
-     * Interpolation hint value -- the color samples of 9 nearby
-     * integer coordinate samples in the image are interpolated using
-     * a cubic function in both {@code X} and {@code Y} to produce
-     * a color sample.
-     * Conceptually the view of the image is very similar to the view
-     * used in the {@link #VALUE_INTERPOLATION_BILINEAR BILINEAR}
-     * algorithm except that the ramps of colors that connect between
-     * the samples are curved and have better continuity of slope
-     * as they cross over between sample boundaries.
+     * Intfrpolbtion iint vbluf -- tif dolor sbmplfs of 9 nfbrby
+     * intfgfr doordinbtf sbmplfs in tif imbgf brf intfrpolbtfd using
+     * b dubid fundtion in boti {@dodf X} bnd {@dodf Y} to produdf
+     * b dolor sbmplf.
+     * Condfptublly tif vifw of tif imbgf is vfry similbr to tif vifw
+     * usfd in tif {@link #VALUE_INTERPOLATION_BILINEAR BILINEAR}
+     * blgoritim fxdfpt tibt tif rbmps of dolors tibt donnfdt bftwffn
+     * tif sbmplfs brf durvfd bnd ibvf bfttfr dontinuity of slopf
+     * bs tify dross ovfr bftwffn sbmplf boundbrifs.
      * <p>
-     * As the image is scaled up, there are no blocky edges and the
-     * interpolation should appear smoother and with better depictions
-     * of any edges in the original image than with {@code BILINEAR}.
-     * As the image is scaled down, even more of the original color
-     * samples from the original image will have their color information
-     * carried through and represented.
+     * As tif imbgf is sdblfd up, tifrf brf no blodky fdgfs bnd tif
+     * intfrpolbtion siould bppfbr smootifr bnd witi bfttfr dfpidtions
+     * of bny fdgfs in tif originbl imbgf tibn witi {@dodf BILINEAR}.
+     * As tif imbgf is sdblfd down, fvfn morf of tif originbl dolor
+     * sbmplfs from tif originbl imbgf will ibvf tifir dolor informbtion
+     * dbrrifd tirougi bnd rfprfsfntfd.
      *
-     * @see #KEY_INTERPOLATION
+     * @sff #KEY_INTERPOLATION
      */
-    public static final Object VALUE_INTERPOLATION_BICUBIC =
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BICUBIC =
          SunHints.VALUE_INTERPOLATION_BICUBIC;
 
     /**
-     * Alpha interpolation hint key.
-     * The {@code ALPHA_INTERPOLATION} hint is a general hint that
-     * provides a high level recommendation as to whether to bias
-     * alpha blending algorithm choices more for speed or quality
-     * when evaluating tradeoffs.
+     * Alpib intfrpolbtion iint kfy.
+     * Tif {@dodf ALPHA_INTERPOLATION} iint is b gfnfrbl iint tibt
+     * providfs b iigi lfvfl rfdommfndbtion bs to wiftifr to bibs
+     * blpib blfnding blgoritim dioidfs morf for spffd or qublity
+     * wifn fvblubting trbdfoffs.
      * <p>
-     * This hint could control the choice of alpha blending
-     * calculations that sacrifice some precision to use fast
-     * lookup tables or lower precision SIMD instructions.
-     * This hint could also control whether or not the color
-     * and alpha values are converted into a linear color space
-     * during the calculations for a more linear visual effect
-     * at the expense of additional per-pixel calculations.
+     * Tiis iint dould dontrol tif dioidf of blpib blfnding
+     * dbldulbtions tibt sbdrifidf somf prfdision to usf fbst
+     * lookup tbblfs or lowfr prfdision SIMD instrudtions.
+     * Tiis iint dould blso dontrol wiftifr or not tif dolor
+     * bnd blpib vblufs brf donvfrtfd into b linfbr dolor spbdf
+     * during tif dbldulbtions for b morf linfbr visubl ffffdt
+     * bt tif fxpfnsf of bdditionbl pfr-pixfl dbldulbtions.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_SPEED}
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_QUALITY}
      * <li>{@link #VALUE_ALPHA_INTERPOLATION_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_ALPHA_INTERPOLATION =
+    publid stbtid finbl Kfy KEY_ALPHA_INTERPOLATION =
          SunHints.KEY_ALPHA_INTERPOLATION;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen with a preference for calculation speed.
-     * @see #KEY_ALPHA_INTERPOLATION
+     * Alpib intfrpolbtion iint vbluf -- blpib blfnding blgoritims
+     * brf diosfn witi b prfffrfndf for dbldulbtion spffd.
+     * @sff #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_SPEED =
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_SPEED =
          SunHints.VALUE_ALPHA_INTERPOLATION_SPEED;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen with a preference for precision and visual quality.
-     * @see #KEY_ALPHA_INTERPOLATION
+     * Alpib intfrpolbtion iint vbluf -- blpib blfnding blgoritims
+     * brf diosfn witi b prfffrfndf for prfdision bnd visubl qublity.
+     * @sff #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_QUALITY =
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_QUALITY =
          SunHints.VALUE_ALPHA_INTERPOLATION_QUALITY;
 
     /**
-     * Alpha interpolation hint value -- alpha blending algorithms
-     * are chosen by the implementation for a good tradeoff of
-     * performance vs. quality.
-     * @see #KEY_ALPHA_INTERPOLATION
+     * Alpib intfrpolbtion iint vbluf -- blpib blfnding blgoritims
+     * brf diosfn by tif implfmfntbtion for b good trbdfoff of
+     * pfrformbndf vs. qublity.
+     * @sff #KEY_ALPHA_INTERPOLATION
      */
-    public static final Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_DEFAULT =
          SunHints.VALUE_ALPHA_INTERPOLATION_DEFAULT;
 
     /**
-     * Color rendering hint key.
-     * The {@code COLOR_RENDERING} hint controls the accuracy of
-     * approximation and conversion when storing colors into a
-     * destination image or surface.
+     * Color rfndfring iint kfy.
+     * Tif {@dodf COLOR_RENDERING} iint dontrols tif bddurbdy of
+     * bpproximbtion bnd donvfrsion wifn storing dolors into b
+     * dfstinbtion imbgf or surfbdf.
      * <p>
-     * When a rendering or image manipulation operation produces
-     * a color value that must be stored into a destination, it
-     * must first convert that color into a form suitable for
-     * storing into the destination image or surface.
-     * Minimally, the color components must be converted to bit
-     * representations and ordered in the correct order or an
-     * index into a color lookup table must be chosen before
-     * the data can be stored into the destination memory.
-     * Without this minimal conversion, the data in the destination
-     * would likely represent random, incorrect or possibly even
-     * unsupported values.
-     * Algorithms to quickly convert the results of rendering
-     * operations into the color format of most common destinations
-     * are well known and fairly optimal to execute.
+     * Wifn b rfndfring or imbgf mbnipulbtion opfrbtion produdfs
+     * b dolor vbluf tibt must bf storfd into b dfstinbtion, it
+     * must first donvfrt tibt dolor into b form suitbblf for
+     * storing into tif dfstinbtion imbgf or surfbdf.
+     * Minimblly, tif dolor domponfnts must bf donvfrtfd to bit
+     * rfprfsfntbtions bnd ordfrfd in tif dorrfdt ordfr or bn
+     * indfx into b dolor lookup tbblf must bf diosfn bfforf
+     * tif dbtb dbn bf storfd into tif dfstinbtion mfmory.
+     * Witiout tiis minimbl donvfrsion, tif dbtb in tif dfstinbtion
+     * would likfly rfprfsfnt rbndom, indorrfdt or possibly fvfn
+     * unsupportfd vblufs.
+     * Algoritims to quidkly donvfrt tif rfsults of rfndfring
+     * opfrbtions into tif dolor formbt of most dommon dfstinbtions
+     * brf wfll known bnd fbirly optimbl to fxfdutf.
      * <p>
-     * Simply performing the most basic color format conversion to
-     * store colors into a destination can potentially ignore a
-     * difference in the calibration of the
-     * {@link java.awt.color.ColorSpace}
-     * of the source and destination or other factors such as the
-     * linearity of the gamma correction.
-     * Unless the source and destination {@code ColorSpace} are
-     * identical, to correctly perform a rendering operation with
-     * the most care taken for the accuracy of the colors being
-     * represented, the source colors should be converted to a
-     * device independent {@code ColorSpace} and the results then
-     * converted back to the destination {@code ColorSpace}.
-     * Furthermore, if calculations such as the blending of multiple
-     * source colors are to be performed during the rendering
-     * operation, greater visual clarity can be achieved if the
-     * intermediate device independent {@code ColorSpace} is
-     * chosen to have a linear relationship between the values
-     * being calculated and the perception of the human eye to
-     * the response curves of the output device.
+     * Simply pfrforming tif most bbsid dolor formbt donvfrsion to
+     * storf dolors into b dfstinbtion dbn potfntiblly ignorf b
+     * difffrfndf in tif dblibrbtion of tif
+     * {@link jbvb.bwt.dolor.ColorSpbdf}
+     * of tif sourdf bnd dfstinbtion or otifr fbdtors sudi bs tif
+     * linfbrity of tif gbmmb dorrfdtion.
+     * Unlfss tif sourdf bnd dfstinbtion {@dodf ColorSpbdf} brf
+     * idfntidbl, to dorrfdtly pfrform b rfndfring opfrbtion witi
+     * tif most dbrf tbkfn for tif bddurbdy of tif dolors bfing
+     * rfprfsfntfd, tif sourdf dolors siould bf donvfrtfd to b
+     * dfvidf indfpfndfnt {@dodf ColorSpbdf} bnd tif rfsults tifn
+     * donvfrtfd bbdk to tif dfstinbtion {@dodf ColorSpbdf}.
+     * Furtifrmorf, if dbldulbtions sudi bs tif blfnding of multiplf
+     * sourdf dolors brf to bf pfrformfd during tif rfndfring
+     * opfrbtion, grfbtfr visubl dlbrity dbn bf bdiifvfd if tif
+     * intfrmfdibtf dfvidf indfpfndfnt {@dodf ColorSpbdf} is
+     * diosfn to ibvf b linfbr rflbtionsiip bftwffn tif vblufs
+     * bfing dbldulbtfd bnd tif pfrdfption of tif iumbn fyf to
+     * tif rfsponsf durvfs of tif output dfvidf.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_COLOR_RENDER_SPEED}
      * <li>{@link #VALUE_COLOR_RENDER_QUALITY}
      * <li>{@link #VALUE_COLOR_RENDER_DEFAULT}
      * </ul>
      */
-    public static final Key KEY_COLOR_RENDERING =
+    publid stbtid finbl Kfy KEY_COLOR_RENDERING =
          SunHints.KEY_COLOR_RENDERING;
 
     /**
-     * Color rendering hint value -- perform the fastest color
-     * conversion to the format of the output device.
-     * @see #KEY_COLOR_RENDERING
+     * Color rfndfring iint vbluf -- pfrform tif fbstfst dolor
+     * donvfrsion to tif formbt of tif output dfvidf.
+     * @sff #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_SPEED =
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_SPEED =
          SunHints.VALUE_COLOR_RENDER_SPEED;
 
     /**
-     * Color rendering hint value -- perform the color conversion
-     * calculations with the highest accuracy and visual quality.
-     * @see #KEY_COLOR_RENDERING
+     * Color rfndfring iint vbluf -- pfrform tif dolor donvfrsion
+     * dbldulbtions witi tif iigifst bddurbdy bnd visubl qublity.
+     * @sff #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_QUALITY =
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_QUALITY =
          SunHints.VALUE_COLOR_RENDER_QUALITY;
 
     /**
-     * Color rendering hint value -- perform color conversion
-     * calculations as chosen by the implementation to represent
-     * the best available tradeoff between performance and
-     * accuracy.
-     * @see #KEY_COLOR_RENDERING
+     * Color rfndfring iint vbluf -- pfrform dolor donvfrsion
+     * dbldulbtions bs diosfn by tif implfmfntbtion to rfprfsfnt
+     * tif bfst bvbilbblf trbdfoff bftwffn pfrformbndf bnd
+     * bddurbdy.
+     * @sff #KEY_COLOR_RENDERING
      */
-    public static final Object VALUE_COLOR_RENDER_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_DEFAULT =
          SunHints.VALUE_COLOR_RENDER_DEFAULT;
 
     /**
-     * Stroke normalization control hint key.
-     * The {@code STROKE_CONTROL} hint controls whether a rendering
-     * implementation should or is allowed to modify the geometry
-     * of rendered shapes for various purposes.
+     * Strokf normblizbtion dontrol iint kfy.
+     * Tif {@dodf STROKE_CONTROL} iint dontrols wiftifr b rfndfring
+     * implfmfntbtion siould or is bllowfd to modify tif gfomftry
+     * of rfndfrfd sibpfs for vbrious purposfs.
      * <p>
-     * Some implementations may be able to use an optimized platform
-     * rendering library which may be faster than traditional software
-     * rendering algorithms on a given platform, but which may also
-     * not support floating point coordinates.
-     * Some implementations may also have sophisticated algorithms
-     * which perturb the coordinates of a path so that wide lines
-     * appear more uniform in width and spacing.
+     * Somf implfmfntbtions mby bf bblf to usf bn optimizfd plbtform
+     * rfndfring librbry wiidi mby bf fbstfr tibn trbditionbl softwbrf
+     * rfndfring blgoritims on b givfn plbtform, but wiidi mby blso
+     * not support flobting point doordinbtfs.
+     * Somf implfmfntbtions mby blso ibvf sopiistidbtfd blgoritims
+     * wiidi pfrturb tif doordinbtfs of b pbti so tibt widf linfs
+     * bppfbr morf uniform in widti bnd spbding.
      * <p>
-     * If an implementation performs any type of modification or
-     * "normalization" of a path, it should never move the coordinates
-     * by more than half a pixel in any direction.
+     * If bn implfmfntbtion pfrforms bny typf of modifidbtion or
+     * "normblizbtion" of b pbti, it siould nfvfr movf tif doordinbtfs
+     * by morf tibn iblf b pixfl in bny dirfdtion.
      * <p>
-     * The allowable values for this hint are
+     * Tif bllowbblf vblufs for tiis iint brf
      * <ul>
      * <li>{@link #VALUE_STROKE_NORMALIZE}
      * <li>{@link #VALUE_STROKE_PURE}
      * <li>{@link #VALUE_STROKE_DEFAULT}
      * </ul>
-     * @since 1.3
+     * @sindf 1.3
      */
-    public static final Key KEY_STROKE_CONTROL =
+    publid stbtid finbl Kfy KEY_STROKE_CONTROL =
         SunHints.KEY_STROKE_CONTROL;
 
     /**
-     * Stroke normalization control hint value -- geometry may be
-     * modified or left pure depending on the tradeoffs in a given
-     * implementation.
-     * Typically this setting allows an implementation to use a fast
-     * integer coordinate based platform rendering library, but does
-     * not specifically request normalization for uniformity or
-     * aesthetics.
+     * Strokf normblizbtion dontrol iint vbluf -- gfomftry mby bf
+     * modififd or lfft purf dfpfnding on tif trbdfoffs in b givfn
+     * implfmfntbtion.
+     * Typidblly tiis sftting bllows bn implfmfntbtion to usf b fbst
+     * intfgfr doordinbtf bbsfd plbtform rfndfring librbry, but dofs
+     * not spfdifidblly rfqufst normblizbtion for uniformity or
+     * bfstiftids.
      *
-     * @see #KEY_STROKE_CONTROL
-     * @since 1.3
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
      */
-    public static final Object VALUE_STROKE_DEFAULT =
+    publid stbtid finbl Objfdt VALUE_STROKE_DEFAULT =
         SunHints.VALUE_STROKE_DEFAULT;
 
     /**
-     * Stroke normalization control hint value -- geometry should
-     * be normalized to improve uniformity or spacing of lines and
-     * overall aesthetics.
-     * Note that different normalization algorithms may be more
-     * successful than others for given input paths.
+     * Strokf normblizbtion dontrol iint vbluf -- gfomftry siould
+     * bf normblizfd to improvf uniformity or spbding of linfs bnd
+     * ovfrbll bfstiftids.
+     * Notf tibt difffrfnt normblizbtion blgoritims mby bf morf
+     * suddfssful tibn otifrs for givfn input pbtis.
      *
-     * @see #KEY_STROKE_CONTROL
-     * @since 1.3
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
      */
-    public static final Object VALUE_STROKE_NORMALIZE =
+    publid stbtid finbl Objfdt VALUE_STROKE_NORMALIZE =
         SunHints.VALUE_STROKE_NORMALIZE;
 
     /**
-     * Stroke normalization control hint value -- geometry should
-     * be left unmodified and rendered with sub-pixel accuracy.
+     * Strokf normblizbtion dontrol iint vbluf -- gfomftry siould
+     * bf lfft unmodififd bnd rfndfrfd witi sub-pixfl bddurbdy.
      *
-     * @see #KEY_STROKE_CONTROL
-     * @since 1.3
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
      */
-    public static final Object VALUE_STROKE_PURE =
+    publid stbtid finbl Objfdt VALUE_STROKE_PURE =
         SunHints.VALUE_STROKE_PURE;
 
     /**
-     * Constructs a new object with keys and values initialized
-     * from the specified Map object which may be null.
-     * @param init a map of key/value pairs to initialize the hints
-     *          or null if the object should be empty
+     * Construdts b nfw objfdt witi kfys bnd vblufs initiblizfd
+     * from tif spfdififd Mbp objfdt wiidi mby bf null.
+     * @pbrbm init b mbp of kfy/vbluf pbirs to initiblizf tif iints
+     *          or null if tif objfdt siould bf fmpty
      */
-    public RenderingHints(Map<Key,?> init) {
+    publid RfndfringHints(Mbp<Kfy,?> init) {
         if (init != null) {
-            hintmap.putAll(init);
+            iintmbp.putAll(init);
         }
     }
 
     /**
-     * Constructs a new object with the specified key/value pair.
-     * @param key the key of the particular hint property
-     * @param value the value of the hint property specified with
-     * <code>key</code>
+     * Construdts b nfw objfdt witi tif spfdififd kfy/vbluf pbir.
+     * @pbrbm kfy tif kfy of tif pbrtidulbr iint propfrty
+     * @pbrbm vbluf tif vbluf of tif iint propfrty spfdififd witi
+     * <dodf>kfy</dodf>
      */
-    public RenderingHints(Key key, Object value) {
-        hintmap.put(key, value);
+    publid RfndfringHints(Kfy kfy, Objfdt vbluf) {
+        iintmbp.put(kfy, vbluf);
     }
 
     /**
-     * Returns the number of key-value mappings in this
-     * <code>RenderingHints</code>.
+     * Rfturns tif numbfr of kfy-vbluf mbppings in tiis
+     * <dodf>RfndfringHints</dodf>.
      *
-     * @return the number of key-value mappings in this
-     * <code>RenderingHints</code>.
+     * @rfturn tif numbfr of kfy-vbluf mbppings in tiis
+     * <dodf>RfndfringHints</dodf>.
      */
-    public int size() {
-        return hintmap.size();
+    publid int sizf() {
+        rfturn iintmbp.sizf();
     }
 
     /**
-     * Returns <code>true</code> if this
-     * <code>RenderingHints</code> contains no key-value mappings.
+     * Rfturns <dodf>truf</dodf> if tiis
+     * <dodf>RfndfringHints</dodf> dontbins no kfy-vbluf mbppings.
      *
-     * @return <code>true</code> if this
-     * <code>RenderingHints</code> contains no key-value mappings.
+     * @rfturn <dodf>truf</dodf> if tiis
+     * <dodf>RfndfringHints</dodf> dontbins no kfy-vbluf mbppings.
      */
-    public boolean isEmpty() {
-        return hintmap.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn iintmbp.isEmpty();
     }
 
     /**
-     * Returns {@code true} if this {@code RenderingHints}
-     *  contains a mapping for the specified key.
+     * Rfturns {@dodf truf} if tiis {@dodf RfndfringHints}
+     *  dontbins b mbpping for tif spfdififd kfy.
      *
-     * @param key key whose presence in this
-     * {@code RenderingHints} is to be tested.
-     * @return {@code true} if this {@code RenderingHints}
-     *          contains a mapping for the specified key.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
+     * @pbrbm kfy kfy wiosf prfsfndf in tiis
+     * {@dodf RfndfringHints} is to bf tfstfd.
+     * @rfturn {@dodf truf} if tiis {@dodf RfndfringHints}
+     *          dontbins b mbpping for tif spfdififd kfy.
+     * @fxdfption ClbssCbstExdfption if tif kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
      */
-    public boolean containsKey(Object key) {
-        return hintmap.containsKey((Key) key);
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn iintmbp.dontbinsKfy((Kfy) kfy);
     }
 
     /**
-     * Returns true if this RenderingHints maps one or more keys to the
-     * specified value.
-     * More formally, returns <code>true</code> if and only
-     * if this <code>RenderingHints</code>
-     * contains at least one mapping to a value <code>v</code> such that
-     * <pre>
-     * (value==null ? v==null : value.equals(v))
-     * </pre>.
-     * This operation will probably require time linear in the
-     * <code>RenderingHints</code> size for most implementations
-     * of <code>RenderingHints</code>.
+     * Rfturns truf if tiis RfndfringHints mbps onf or morf kfys to tif
+     * spfdififd vbluf.
+     * Morf formblly, rfturns <dodf>truf</dodf> if bnd only
+     * if tiis <dodf>RfndfringHints</dodf>
+     * dontbins bt lfbst onf mbpping to b vbluf <dodf>v</dodf> sudi tibt
+     * <prf>
+     * (vbluf==null ? v==null : vbluf.fqubls(v))
+     * </prf>.
+     * Tiis opfrbtion will probbbly rfquirf timf linfbr in tif
+     * <dodf>RfndfringHints</dodf> sizf for most implfmfntbtions
+     * of <dodf>RfndfringHints</dodf>.
      *
-     * @param value value whose presence in this
-     *          <code>RenderingHints</code> is to be tested.
-     * @return <code>true</code> if this <code>RenderingHints</code>
-     *           maps one or more keys to the specified value.
+     * @pbrbm vbluf vbluf wiosf prfsfndf in tiis
+     *          <dodf>RfndfringHints</dodf> is to bf tfstfd.
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>RfndfringHints</dodf>
+     *           mbps onf or morf kfys to tif spfdififd vbluf.
      */
-    public boolean containsValue(Object value) {
-        return hintmap.containsValue(value);
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn iintmbp.dontbinsVbluf(vbluf);
     }
 
     /**
-     * Returns the value to which the specified key is mapped.
-     * @param   key   a rendering hint key
-     * @return  the value to which the key is mapped in this object or
-     *          {@code null} if the key is not mapped to any value in
-     *          this object.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
-     * @see     #put(Object, Object)
+     * Rfturns tif vbluf to wiidi tif spfdififd kfy is mbppfd.
+     * @pbrbm   kfy   b rfndfring iint kfy
+     * @rfturn  tif vbluf to wiidi tif kfy is mbppfd in tiis objfdt or
+     *          {@dodf null} if tif kfy is not mbppfd to bny vbluf in
+     *          tiis objfdt.
+     * @fxdfption ClbssCbstExdfption if tif kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @sff     #put(Objfdt, Objfdt)
      */
-    public Object get(Object key) {
-        return hintmap.get((Key) key);
+    publid Objfdt gft(Objfdt kfy) {
+        rfturn iintmbp.gft((Kfy) kfy);
     }
 
     /**
-     * Maps the specified {@code key} to the specified
-     * {@code value} in this {@code RenderingHints} object.
-     * Neither the key nor the value can be {@code null}.
-     * The value can be retrieved by calling the {@code get} method
-     * with a key that is equal to the original key.
-     * @param      key     the rendering hint key.
-     * @param      value   the rendering hint value.
-     * @return     the previous value of the specified key in this object
-     *             or {@code null} if it did not have one.
-     * @exception NullPointerException if the key is
-     *            {@code null}.
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
-     * @exception IllegalArgumentException if the
-     *            {@link Key#isCompatibleValue(java.lang.Object)
-     *                   Key.isCompatibleValue()}
-     *            method of the specified key returns false for the
-     *            specified value
-     * @see     #get(Object)
+     * Mbps tif spfdififd {@dodf kfy} to tif spfdififd
+     * {@dodf vbluf} in tiis {@dodf RfndfringHints} objfdt.
+     * Nfitifr tif kfy nor tif vbluf dbn bf {@dodf null}.
+     * Tif vbluf dbn bf rftrifvfd by dblling tif {@dodf gft} mftiod
+     * witi b kfy tibt is fqubl to tif originbl kfy.
+     * @pbrbm      kfy     tif rfndfring iint kfy.
+     * @pbrbm      vbluf   tif rfndfring iint vbluf.
+     * @rfturn     tif prfvious vbluf of tif spfdififd kfy in tiis objfdt
+     *             or {@dodf null} if it did not ibvf onf.
+     * @fxdfption NullPointfrExdfption if tif kfy is
+     *            {@dodf null}.
+     * @fxdfption ClbssCbstExdfption if tif kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @fxdfption IllfgblArgumfntExdfption if tif
+     *            {@link Kfy#isCompbtiblfVbluf(jbvb.lbng.Objfdt)
+     *                   Kfy.isCompbtiblfVbluf()}
+     *            mftiod of tif spfdififd kfy rfturns fblsf for tif
+     *            spfdififd vbluf
+     * @sff     #gft(Objfdt)
      */
-    public Object put(Object key, Object value) {
-        if (!((Key) key).isCompatibleValue(value)) {
-            throw new IllegalArgumentException(value+
-                                               " incompatible with "+
-                                               key);
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        if (!((Kfy) kfy).isCompbtiblfVbluf(vbluf)) {
+            tirow nfw IllfgblArgumfntExdfption(vbluf+
+                                               " indompbtiblf witi "+
+                                               kfy);
         }
-        return hintmap.put((Key) key, value);
+        rfturn iintmbp.put((Kfy) kfy, vbluf);
     }
 
     /**
-     * Adds all of the keys and corresponding values from the specified
-     * <code>RenderingHints</code> object to this
-     * <code>RenderingHints</code> object. Keys that are present in
-     * this <code>RenderingHints</code> object, but not in the specified
-     * <code>RenderingHints</code> object are not affected.
-     * @param hints the set of key/value pairs to be added to this
-     * <code>RenderingHints</code> object
+     * Adds bll of tif kfys bnd dorrfsponding vblufs from tif spfdififd
+     * <dodf>RfndfringHints</dodf> objfdt to tiis
+     * <dodf>RfndfringHints</dodf> objfdt. Kfys tibt brf prfsfnt in
+     * tiis <dodf>RfndfringHints</dodf> objfdt, but not in tif spfdififd
+     * <dodf>RfndfringHints</dodf> objfdt brf not bfffdtfd.
+     * @pbrbm iints tif sft of kfy/vbluf pbirs to bf bddfd to tiis
+     * <dodf>RfndfringHints</dodf> objfdt
      */
-    public void add(RenderingHints hints) {
-        hintmap.putAll(hints.hintmap);
+    publid void bdd(RfndfringHints iints) {
+        iintmbp.putAll(iints.iintmbp);
     }
 
     /**
-     * Clears this <code>RenderingHints</code> object of all key/value
-     * pairs.
+     * Clfbrs tiis <dodf>RfndfringHints</dodf> objfdt of bll kfy/vbluf
+     * pbirs.
      */
-    public void clear() {
-        hintmap.clear();
+    publid void dlfbr() {
+        iintmbp.dlfbr();
     }
 
     /**
-     * Removes the key and its corresponding value from this
-     * {@code RenderingHints} object. This method does nothing if the
-     * key is not in this {@code RenderingHints} object.
-     * @param   key   the rendering hints key that needs to be removed
-     * @exception ClassCastException if the key can not
-     *            be cast to {@code RenderingHints.Key}
-     * @return  the value to which the key had previously been mapped in this
-     *          {@code RenderingHints} object, or {@code null}
-     *          if the key did not have a mapping.
+     * Rfmovfs tif kfy bnd its dorrfsponding vbluf from tiis
+     * {@dodf RfndfringHints} objfdt. Tiis mftiod dofs notiing if tif
+     * kfy is not in tiis {@dodf RfndfringHints} objfdt.
+     * @pbrbm   kfy   tif rfndfring iints kfy tibt nffds to bf rfmovfd
+     * @fxdfption ClbssCbstExdfption if tif kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @rfturn  tif vbluf to wiidi tif kfy ibd prfviously bffn mbppfd in tiis
+     *          {@dodf RfndfringHints} objfdt, or {@dodf null}
+     *          if tif kfy did not ibvf b mbpping.
      */
-    public Object remove(Object key) {
-        return hintmap.remove((Key) key);
+    publid Objfdt rfmovf(Objfdt kfy) {
+        rfturn iintmbp.rfmovf((Kfy) kfy);
     }
 
     /**
-     * Copies all of the mappings from the specified {@code Map}
-     * to this {@code RenderingHints}.  These mappings replace
-     * any mappings that this {@code RenderingHints} had for any
-     * of the keys currently in the specified {@code Map}.
-     * @param m the specified {@code Map}
-     * @exception ClassCastException class of a key or value
-     *          in the specified {@code Map} prevents it from being
-     *          stored in this {@code RenderingHints}.
-     * @exception IllegalArgumentException some aspect
-     *          of a key or value in the specified {@code Map}
-     *           prevents it from being stored in
-     *            this {@code RenderingHints}.
+     * Copifs bll of tif mbppings from tif spfdififd {@dodf Mbp}
+     * to tiis {@dodf RfndfringHints}.  Tifsf mbppings rfplbdf
+     * bny mbppings tibt tiis {@dodf RfndfringHints} ibd for bny
+     * of tif kfys durrfntly in tif spfdififd {@dodf Mbp}.
+     * @pbrbm m tif spfdififd {@dodf Mbp}
+     * @fxdfption ClbssCbstExdfption dlbss of b kfy or vbluf
+     *          in tif spfdififd {@dodf Mbp} prfvfnts it from bfing
+     *          storfd in tiis {@dodf RfndfringHints}.
+     * @fxdfption IllfgblArgumfntExdfption somf bspfdt
+     *          of b kfy or vbluf in tif spfdififd {@dodf Mbp}
+     *           prfvfnts it from bfing storfd in
+     *            tiis {@dodf RfndfringHints}.
      */
-    public void putAll(Map<?,?> m) {
-        // ## javac bug?
-        //if (m instanceof RenderingHints) {
-        if (RenderingHints.class.isInstance(m)) {
-            //hintmap.putAll(((RenderingHints) m).hintmap);
-            for (Map.Entry<?,?> entry : m.entrySet())
-                hintmap.put(entry.getKey(), entry.getValue());
-        } else {
-            // Funnel each key/value pair through our protected put method
-            for (Map.Entry<?,?> entry : m.entrySet())
-                put(entry.getKey(), entry.getValue());
+    publid void putAll(Mbp<?,?> m) {
+        // ## jbvbd bug?
+        //if (m instbndfof RfndfringHints) {
+        if (RfndfringHints.dlbss.isInstbndf(m)) {
+            //iintmbp.putAll(((RfndfringHints) m).iintmbp);
+            for (Mbp.Entry<?,?> fntry : m.fntrySft())
+                iintmbp.put(fntry.gftKfy(), fntry.gftVbluf());
+        } flsf {
+            // Funnfl fbdi kfy/vbluf pbir tirougi our protfdtfd put mftiod
+            for (Mbp.Entry<?,?> fntry : m.fntrySft())
+                put(fntry.gftKfy(), fntry.gftVbluf());
         }
     }
 
     /**
-     * Returns a <code>Set</code> view of the Keys contained in this
-     * <code>RenderingHints</code>.  The Set is backed by the
-     * <code>RenderingHints</code>, so changes to the
-     * <code>RenderingHints</code> are reflected in the <code>Set</code>,
-     * and vice-versa.  If the <code>RenderingHints</code> is modified
-     * while an iteration over the <code>Set</code> is in progress,
-     * the results of the iteration are undefined.  The <code>Set</code>
-     * supports element removal, which removes the corresponding
-     * mapping from the <code>RenderingHints</code>, via the
-     * <code>Iterator.remove</code>, <code>Set.remove</code>,
-     * <code>removeAll</code> <code>retainAll</code>, and
-     * <code>clear</code> operations.  It does not support
-     * the <code>add</code> or <code>addAll</code> operations.
+     * Rfturns b <dodf>Sft</dodf> vifw of tif Kfys dontbinfd in tiis
+     * <dodf>RfndfringHints</dodf>.  Tif Sft is bbdkfd by tif
+     * <dodf>RfndfringHints</dodf>, so dibngfs to tif
+     * <dodf>RfndfringHints</dodf> brf rfflfdtfd in tif <dodf>Sft</dodf>,
+     * bnd vidf-vfrsb.  If tif <dodf>RfndfringHints</dodf> is modififd
+     * wiilf bn itfrbtion ovfr tif <dodf>Sft</dodf> is in progrfss,
+     * tif rfsults of tif itfrbtion brf undffinfd.  Tif <dodf>Sft</dodf>
+     * supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding
+     * mbpping from tif <dodf>RfndfringHints</dodf>, vib tif
+     * <dodf>Itfrbtor.rfmovf</dodf>, <dodf>Sft.rfmovf</dodf>,
+     * <dodf>rfmovfAll</dodf> <dodf>rftbinAll</dodf>, bnd
+     * <dodf>dlfbr</dodf> opfrbtions.  It dofs not support
+     * tif <dodf>bdd</dodf> or <dodf>bddAll</dodf> opfrbtions.
      *
-     * @return a <code>Set</code> view of the keys contained
-     * in this <code>RenderingHints</code>.
+     * @rfturn b <dodf>Sft</dodf> vifw of tif kfys dontbinfd
+     * in tiis <dodf>RfndfringHints</dodf>.
      */
-    public Set<Object> keySet() {
-        return hintmap.keySet();
+    publid Sft<Objfdt> kfySft() {
+        rfturn iintmbp.kfySft();
     }
 
     /**
-     * Returns a <code>Collection</code> view of the values
-     * contained in this <code>RenderinHints</code>.
-     * The <code>Collection</code> is backed by the
-     * <code>RenderingHints</code>, so changes to
-     * the <code>RenderingHints</code> are reflected in
-     * the <code>Collection</code>, and vice-versa.
-     * If the <code>RenderingHints</code> is modified while
-     * an iteration over the <code>Collection</code> is
-     * in progress, the results of the iteration are undefined.
-     * The <code>Collection</code> supports element removal,
-     * which removes the corresponding mapping from the
-     * <code>RenderingHints</code>, via the
-     * <code>Iterator.remove</code>,
-     * <code>Collection.remove</code>, <code>removeAll</code>,
-     * <code>retainAll</code> and <code>clear</code> operations.
-     * It does not support the <code>add</code> or
-     * <code>addAll</code> operations.
+     * Rfturns b <dodf>Collfdtion</dodf> vifw of tif vblufs
+     * dontbinfd in tiis <dodf>RfndfrinHints</dodf>.
+     * Tif <dodf>Collfdtion</dodf> is bbdkfd by tif
+     * <dodf>RfndfringHints</dodf>, so dibngfs to
+     * tif <dodf>RfndfringHints</dodf> brf rfflfdtfd in
+     * tif <dodf>Collfdtion</dodf>, bnd vidf-vfrsb.
+     * If tif <dodf>RfndfringHints</dodf> is modififd wiilf
+     * bn itfrbtion ovfr tif <dodf>Collfdtion</dodf> is
+     * in progrfss, tif rfsults of tif itfrbtion brf undffinfd.
+     * Tif <dodf>Collfdtion</dodf> supports flfmfnt rfmovbl,
+     * wiidi rfmovfs tif dorrfsponding mbpping from tif
+     * <dodf>RfndfringHints</dodf>, vib tif
+     * <dodf>Itfrbtor.rfmovf</dodf>,
+     * <dodf>Collfdtion.rfmovf</dodf>, <dodf>rfmovfAll</dodf>,
+     * <dodf>rftbinAll</dodf> bnd <dodf>dlfbr</dodf> opfrbtions.
+     * It dofs not support tif <dodf>bdd</dodf> or
+     * <dodf>bddAll</dodf> opfrbtions.
      *
-     * @return a <code>Collection</code> view of the values
-     *          contained in this <code>RenderingHints</code>.
+     * @rfturn b <dodf>Collfdtion</dodf> vifw of tif vblufs
+     *          dontbinfd in tiis <dodf>RfndfringHints</dodf>.
      */
-    public Collection<Object> values() {
-        return hintmap.values();
+    publid Collfdtion<Objfdt> vblufs() {
+        rfturn iintmbp.vblufs();
     }
 
     /**
-     * Returns a <code>Set</code> view of the mappings contained
-     * in this <code>RenderingHints</code>.  Each element in the
-     * returned <code>Set</code> is a <code>Map.Entry</code>.
-     * The <code>Set</code> is backed by the <code>RenderingHints</code>,
-     * so changes to the <code>RenderingHints</code> are reflected
-     * in the <code>Set</code>, and vice-versa.  If the
-     * <code>RenderingHints</code> is modified while
-     * while an iteration over the <code>Set</code> is in progress,
-     * the results of the iteration are undefined.
+     * Rfturns b <dodf>Sft</dodf> vifw of tif mbppings dontbinfd
+     * in tiis <dodf>RfndfringHints</dodf>.  Ebdi flfmfnt in tif
+     * rfturnfd <dodf>Sft</dodf> is b <dodf>Mbp.Entry</dodf>.
+     * Tif <dodf>Sft</dodf> is bbdkfd by tif <dodf>RfndfringHints</dodf>,
+     * so dibngfs to tif <dodf>RfndfringHints</dodf> brf rfflfdtfd
+     * in tif <dodf>Sft</dodf>, bnd vidf-vfrsb.  If tif
+     * <dodf>RfndfringHints</dodf> is modififd wiilf
+     * wiilf bn itfrbtion ovfr tif <dodf>Sft</dodf> is in progrfss,
+     * tif rfsults of tif itfrbtion brf undffinfd.
      * <p>
-     * The entrySet returned from a <code>RenderingHints</code> object
-     * is not modifiable.
+     * Tif fntrySft rfturnfd from b <dodf>RfndfringHints</dodf> objfdt
+     * is not modifibblf.
      *
-     * @return a <code>Set</code> view of the mappings contained in
-     * this <code>RenderingHints</code>.
+     * @rfturn b <dodf>Sft</dodf> vifw of tif mbppings dontbinfd in
+     * tiis <dodf>RfndfringHints</dodf>.
      */
-    public Set<Map.Entry<Object,Object>> entrySet() {
-        return Collections.unmodifiableMap(hintmap).entrySet();
+    publid Sft<Mbp.Entry<Objfdt,Objfdt>> fntrySft() {
+        rfturn Collfdtions.unmodifibblfMbp(iintmbp).fntrySft();
     }
 
     /**
-     * Compares the specified <code>Object</code> with this
-     * <code>RenderingHints</code> for equality.
-     * Returns <code>true</code> if the specified object is also a
-     * <code>Map</code> and the two <code>Map</code> objects represent
-     * the same mappings.  More formally, two <code>Map</code> objects
-     * <code>t1</code> and <code>t2</code> represent the same mappings
-     * if <code>t1.keySet().equals(t2.keySet())</code> and for every
-     * key <code>k</code> in <code>t1.keySet()</code>,
-     * <pre>
-     * (t1.get(k)==null ? t2.get(k)==null : t1.get(k).equals(t2.get(k)))
-     * </pre>.
-     * This ensures that the <code>equals</code> method works properly across
-     * different implementations of the <code>Map</code> interface.
+     * Compbrfs tif spfdififd <dodf>Objfdt</dodf> witi tiis
+     * <dodf>RfndfringHints</dodf> for fqublity.
+     * Rfturns <dodf>truf</dodf> if tif spfdififd objfdt is blso b
+     * <dodf>Mbp</dodf> bnd tif two <dodf>Mbp</dodf> objfdts rfprfsfnt
+     * tif sbmf mbppings.  Morf formblly, two <dodf>Mbp</dodf> objfdts
+     * <dodf>t1</dodf> bnd <dodf>t2</dodf> rfprfsfnt tif sbmf mbppings
+     * if <dodf>t1.kfySft().fqubls(t2.kfySft())</dodf> bnd for fvfry
+     * kfy <dodf>k</dodf> in <dodf>t1.kfySft()</dodf>,
+     * <prf>
+     * (t1.gft(k)==null ? t2.gft(k)==null : t1.gft(k).fqubls(t2.gft(k)))
+     * </prf>.
+     * Tiis fnsurfs tibt tif <dodf>fqubls</dodf> mftiod works propfrly bdross
+     * difffrfnt implfmfntbtions of tif <dodf>Mbp</dodf> intfrfbdf.
      *
-     * @param o <code>Object</code> to be compared for equality with
-     * this <code>RenderingHints</code>.
-     * @return <code>true</code> if the specified <code>Object</code>
-     * is equal to this <code>RenderingHints</code>.
+     * @pbrbm o <dodf>Objfdt</dodf> to bf dompbrfd for fqublity witi
+     * tiis <dodf>RfndfringHints</dodf>.
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>Objfdt</dodf>
+     * is fqubl to tiis <dodf>RfndfringHints</dodf>.
      */
-    public boolean equals(Object o) {
-        if (o instanceof RenderingHints) {
-            return hintmap.equals(((RenderingHints) o).hintmap);
-        } else if (o instanceof Map) {
-            return hintmap.equals(o);
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof RfndfringHints) {
+            rfturn iintmbp.fqubls(((RfndfringHints) o).iintmbp);
+        } flsf if (o instbndfof Mbp) {
+            rfturn iintmbp.fqubls(o);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the hash code value for this <code>RenderingHints</code>.
-     * The hash code of a <code>RenderingHints</code> is defined to be
-     * the sum of the hashCodes of each <code>Entry</code> in the
-     * <code>RenderingHints</code> object's entrySet view.  This ensures that
-     * <code>t1.equals(t2)</code> implies that
-     * <code>t1.hashCode()==t2.hashCode()</code> for any two <code>Map</code>
-     * objects <code>t1</code> and <code>t2</code>, as required by the general
-     * contract of <code>Object.hashCode</code>.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>RfndfringHints</dodf>.
+     * Tif ibsi dodf of b <dodf>RfndfringHints</dodf> is dffinfd to bf
+     * tif sum of tif ibsiCodfs of fbdi <dodf>Entry</dodf> in tif
+     * <dodf>RfndfringHints</dodf> objfdt's fntrySft vifw.  Tiis fnsurfs tibt
+     * <dodf>t1.fqubls(t2)</dodf> implifs tibt
+     * <dodf>t1.ibsiCodf()==t2.ibsiCodf()</dodf> for bny two <dodf>Mbp</dodf>
+     * objfdts <dodf>t1</dodf> bnd <dodf>t2</dodf>, bs rfquirfd by tif gfnfrbl
+     * dontrbdt of <dodf>Objfdt.ibsiCodf</dodf>.
      *
-     * @return the hash code value for this <code>RenderingHints</code>.
-     * @see java.util.Map.Entry#hashCode()
-     * @see Object#hashCode()
-     * @see Object#equals(Object)
-     * @see #equals(Object)
+     * @rfturn tif ibsi dodf vbluf for tiis <dodf>RfndfringHints</dodf>.
+     * @sff jbvb.util.Mbp.Entry#ibsiCodf()
+     * @sff Objfdt#ibsiCodf()
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff #fqubls(Objfdt)
      */
-    public int hashCode() {
-        return hintmap.hashCode();
+    publid int ibsiCodf() {
+        rfturn iintmbp.ibsiCodf();
     }
 
     /**
-     * Creates a clone of this <code>RenderingHints</code> object
-     * that has the same contents as this <code>RenderingHints</code>
-     * object.
-     * @return a clone of this instance.
+     * Crfbtfs b dlonf of tiis <dodf>RfndfringHints</dodf> objfdt
+     * tibt ibs tif sbmf dontfnts bs tiis <dodf>RfndfringHints</dodf>
+     * objfdt.
+     * @rfturn b dlonf of tiis instbndf.
      */
-    @SuppressWarnings("unchecked")
-    public Object clone() {
-        RenderingHints rh;
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt dlonf() {
+        RfndfringHints ri;
         try {
-            rh = (RenderingHints) super.clone();
-            if (hintmap != null) {
-                rh.hintmap = (HashMap<Object,Object>) hintmap.clone();
+            ri = (RfndfringHints) supfr.dlonf();
+            if (iintmbp != null) {
+                ri.iintmbp = (HbsiMbp<Objfdt,Objfdt>) iintmbp.dlonf();
             }
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
 
-        return rh;
+        rfturn ri;
     }
 
     /**
-     * Returns a rather long string representation of the hashmap
-     * which contains the mappings of keys to values for this
-     * <code>RenderingHints</code> object.
-     * @return  a string representation of this object.
+     * Rfturns b rbtifr long string rfprfsfntbtion of tif ibsimbp
+     * wiidi dontbins tif mbppings of kfys to vblufs for tiis
+     * <dodf>RfndfringHints</dodf> objfdt.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
      */
-    public String toString() {
-        if (hintmap == null) {
-            return getClass().getName() + "@" +
-                Integer.toHexString(hashCode()) +
-                " (0 hints)";
+    publid String toString() {
+        if (iintmbp == null) {
+            rfturn gftClbss().gftNbmf() + "@" +
+                Intfgfr.toHfxString(ibsiCodf()) +
+                " (0 iints)";
         }
 
-        return hintmap.toString();
+        rfturn iintmbp.toString();
     }
 }

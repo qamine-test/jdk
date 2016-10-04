@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss spfdififs thf sft of pbrbmftfrs usfd with thf DSA blgorithm.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff AlgorithmPbrbmftfrSpfd
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DSAPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd,
+jbvb.sfdurity.intfrfbdfs.DSAPbrbms {
+
+    BigIntfgfr p;
+    BigIntfgfr q;
+    BigIntfgfr g;
+
+    /**
+     * Crfbtfs b nfw DSAPbrbmftfrSpfd with thf spfdififd pbrbmftfr vblufs.
+     *
+     * @pbrbm p thf primf.
+     *
+     * @pbrbm q thf sub-primf.
+     *
+     * @pbrbm g thf bbsf.
+     */
+    publid DSAPbrbmftfrSpfd(BigIntfgfr p, BigIntfgfr q, BigIntfgfr g) {
+        this.p = p;
+        this.q = q;
+        this.g = g;
+    }
+
+    /**
+     * Rfturns thf primf {@dodf p}.
+     *
+     * @rfturn thf primf {@dodf p}.
+     */
+    publid BigIntfgfr gftP() {
+        rfturn this.p;
+    }
+
+    /**
+     * Rfturns thf sub-primf {@dodf q}.
+     *
+     * @rfturn thf sub-primf {@dodf q}.
+     */
+    publid BigIntfgfr gftQ() {
+        rfturn this.q;
+    }
+
+    /**
+     * Rfturns thf bbsf {@dodf g}.
+     *
+     * @rfturn thf bbsf {@dodf g}.
+     */
+    publid BigIntfgfr gftG() {
+        rfturn this.g;
+    }
+}

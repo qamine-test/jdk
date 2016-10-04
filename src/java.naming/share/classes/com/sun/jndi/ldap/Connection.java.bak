@@ -1,979 +1,979 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.InterruptedIOException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import javax.net.ssl.SSLSocket;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvbx.nft.ssl.SSLSodkft;
 
-import javax.naming.CommunicationException;
-import javax.naming.ServiceUnavailableException;
-import javax.naming.NamingException;
-import javax.naming.InterruptedNamingException;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.SfrvidfUnbvbilbblfExdfption;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.IntfrruptfdNbmingExdfption;
 
-import javax.naming.ldap.Control;
+import jbvbx.nbming.ldbp.Control;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import sun.misc.IOUtils;
-import javax.net.SocketFactory;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.Arrbys;
+import sun.misd.IOUtils;
+import jbvbx.nft.SodkftFbdtory;
 
 /**
-  * A thread that creates a connection to an LDAP server.
-  * After the connection, the thread reads from the connection.
-  * A caller can invoke methods on the instance to read LDAP responses
-  * and to send LDAP requests.
+  * A tirfbd tibt drfbtfs b donnfdtion to bn LDAP sfrvfr.
+  * Aftfr tif donnfdtion, tif tirfbd rfbds from tif donnfdtion.
+  * A dbllfr dbn invokf mftiods on tif instbndf to rfbd LDAP rfsponsfs
+  * bnd to sfnd LDAP rfqufsts.
   * <p>
-  * There is a one-to-one correspondence between an LdapClient and
-  * a Connection. Access to Connection and its methods is only via
-  * LdapClient with two exceptions: SASL authentication and StartTLS.
-  * SASL needs to access Connection's socket IO streams (in order to do encryption
-  * of the security layer). StartTLS needs to do replace IO streams
-  * and close the IO  streams on nonfatal close. The code for SASL
-  * authentication can be treated as being the same as from LdapClient
-  * because the SASL code is only ever called from LdapClient, from
-  * inside LdapClient's synchronized authenticate() method. StartTLS is called
-  * directly by the application but should only occur when the underlying
-  * connection is quiet.
+  * Tifrf is b onf-to-onf dorrfspondfndf bftwffn bn LdbpClifnt bnd
+  * b Connfdtion. Addfss to Connfdtion bnd its mftiods is only vib
+  * LdbpClifnt witi two fxdfptions: SASL butifntidbtion bnd StbrtTLS.
+  * SASL nffds to bddfss Connfdtion's sodkft IO strfbms (in ordfr to do fndryption
+  * of tif sfdurity lbyfr). StbrtTLS nffds to do rfplbdf IO strfbms
+  * bnd dlosf tif IO  strfbms on nonfbtbl dlosf. Tif dodf for SASL
+  * butifntidbtion dbn bf trfbtfd bs bfing tif sbmf bs from LdbpClifnt
+  * bfdbusf tif SASL dodf is only fvfr dbllfd from LdbpClifnt, from
+  * insidf LdbpClifnt's syndironizfd butifntidbtf() mftiod. StbrtTLS is dbllfd
+  * dirfdtly by tif bpplidbtion but siould only oddur wifn tif undfrlying
+  * donnfdtion is quift.
   * <p>
-  * In terms of synchronization, worry about data structures
-  * used by the Connection thread because that usage might contend
-  * with calls by the main threads (i.e., those that call LdapClient).
-  * Main threads need to worry about contention with each other.
-  * Fields that Connection thread uses:
-  *     inStream - synced access and update; initialized in constructor;
-  *           referenced outside class unsync'ed (by LdapSasl) only
-  *           when connection is quiet
-  *     traceFile, traceTagIn, traceTagOut - no sync; debugging only
-  *     parent - no sync; initialized in constructor; no updates
-  *     pendingRequests - sync
-  *     pauseLock - per-instance lock;
-  *     paused - sync via pauseLock (pauseReader())
-  * Members used by main threads (LdapClient):
-  *     host, port - unsync; read-only access for StartTLS and debug messages
-  *     setBound(), setV3() - no sync; called only by LdapClient.authenticate(),
-  *             which is a sync method called only when connection is "quiet"
-  *     getMsgId() - sync
-  *     writeRequest(), removeRequest(),findRequest(), abandonOutstandingReqs() -
-  *             access to shared pendingRequests is sync
-  *     writeRequest(),  abandonRequest(), ldapUnbind() - access to outStream sync
-  *     cleanup() - sync
-  *     readReply() - access to sock sync
-  *     unpauseReader() - (indirectly via writeRequest) sync on pauseLock
-  * Members used by SASL auth (main thread):
-  *     inStream, outStream - no sync; used to construct new stream; accessed
-  *             only when conn is "quiet" and not shared
-  *     replaceStreams() - sync method
-  * Members used by StartTLS:
-  *     inStream, outStream - no sync; used to record the existing streams;
-  *             accessed only when conn is "quiet" and not shared
-  *     replaceStreams() - sync method
+  * In tfrms of syndironizbtion, worry bbout dbtb strudturfs
+  * usfd by tif Connfdtion tirfbd bfdbusf tibt usbgf migit dontfnd
+  * witi dblls by tif mbin tirfbds (i.f., tiosf tibt dbll LdbpClifnt).
+  * Mbin tirfbds nffd to worry bbout dontfntion witi fbdi otifr.
+  * Fiflds tibt Connfdtion tirfbd usfs:
+  *     inStrfbm - syndfd bddfss bnd updbtf; initiblizfd in donstrudtor;
+  *           rfffrfndfd outsidf dlbss unsynd'fd (by LdbpSbsl) only
+  *           wifn donnfdtion is quift
+  *     trbdfFilf, trbdfTbgIn, trbdfTbgOut - no synd; dfbugging only
+  *     pbrfnt - no synd; initiblizfd in donstrudtor; no updbtfs
+  *     pfndingRfqufsts - synd
+  *     pbusfLodk - pfr-instbndf lodk;
+  *     pbusfd - synd vib pbusfLodk (pbusfRfbdfr())
+  * Mfmbfrs usfd by mbin tirfbds (LdbpClifnt):
+  *     iost, port - unsynd; rfbd-only bddfss for StbrtTLS bnd dfbug mfssbgfs
+  *     sftBound(), sftV3() - no synd; dbllfd only by LdbpClifnt.butifntidbtf(),
+  *             wiidi is b synd mftiod dbllfd only wifn donnfdtion is "quift"
+  *     gftMsgId() - synd
+  *     writfRfqufst(), rfmovfRfqufst(),findRfqufst(), bbbndonOutstbndingRfqs() -
+  *             bddfss to sibrfd pfndingRfqufsts is synd
+  *     writfRfqufst(),  bbbndonRfqufst(), ldbpUnbind() - bddfss to outStrfbm synd
+  *     dlfbnup() - synd
+  *     rfbdRfply() - bddfss to sodk synd
+  *     unpbusfRfbdfr() - (indirfdtly vib writfRfqufst) synd on pbusfLodk
+  * Mfmbfrs usfd by SASL buti (mbin tirfbd):
+  *     inStrfbm, outStrfbm - no synd; usfd to donstrudt nfw strfbm; bddfssfd
+  *             only wifn donn is "quift" bnd not sibrfd
+  *     rfplbdfStrfbms() - synd mftiod
+  * Mfmbfrs usfd by StbrtTLS:
+  *     inStrfbm, outStrfbm - no synd; usfd to rfdord tif fxisting strfbms;
+  *             bddfssfd only wifn donn is "quift" bnd not sibrfd
+  *     rfplbdfStrfbms() - synd mftiod
   * <p>
-  * Handles anonymous, simple, and SASL bind for v3; anonymous and simple
+  * Hbndlfs bnonymous, simplf, bnd SASL bind for v3; bnonymous bnd simplf
   * for v2.
-  * %%% made public for access by LdapSasl %%%
+  * %%% mbdf publid for bddfss by LdbpSbsl %%%
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
-  * @author Jagane Sundar
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
+  * @butior Jbgbnf Sundbr
   */
-public final class Connection implements Runnable {
+publid finbl dlbss Connfdtion implfmfnts Runnbblf {
 
-    private static final boolean debug = false;
-    private static final int dump = 0; // > 0 r, > 1 rw
-    public static final long DEFAULT_READ_TIMEOUT_MILLIS = 15 * 1000; // 15 second timeout;
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+    privbtf stbtid finbl int dump = 0; // > 0 r, > 1 rw
+    publid stbtid finbl long DEFAULT_READ_TIMEOUT_MILLIS = 15 * 1000; // 15 sfdond timfout;
 
 
-    final private Thread worker;    // Initialized in constructor
+    finbl privbtf Tirfbd workfr;    // Initiblizfd in donstrudtor
 
-    private boolean v3 = true;       // Set in setV3()
+    privbtf boolfbn v3 = truf;       // Sft in sftV3()
 
-    final public String host;  // used by LdapClient for generating exception messages
-                         // used by StartTlsResponse when creating an SSL socket
-    final public int port;     // used by LdapClient for generating exception messages
-                         // used by StartTlsResponse when creating an SSL socket
+    finbl publid String iost;  // usfd by LdbpClifnt for gfnfrbting fxdfption mfssbgfs
+                         // usfd by StbrtTlsRfsponsf wifn drfbting bn SSL sodkft
+    finbl publid int port;     // usfd by LdbpClifnt for gfnfrbting fxdfption mfssbgfs
+                         // usfd by StbrtTlsRfsponsf wifn drfbting bn SSL sodkft
 
-    private boolean bound = false;   // Set in setBound()
+    privbtf boolfbn bound = fblsf;   // Sft in sftBound()
 
-    // All three are initialized in constructor and read-only afterwards
-    private OutputStream traceFile = null;
-    private String traceTagIn = null;
-    private String traceTagOut = null;
+    // All tirff brf initiblizfd in donstrudtor bnd rfbd-only bftfrwbrds
+    privbtf OutputStrfbm trbdfFilf = null;
+    privbtf String trbdfTbgIn = null;
+    privbtf String trbdfTbgOut = null;
 
-    // Initialized in constructor; read and used externally (LdapSasl);
-    // Updated in replaceStreams() during "quiet", unshared, period
-    public InputStream inStream;   // must be public; used by LdapSasl
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (LdbpSbsl);
+    // Updbtfd in rfplbdfStrfbms() during "quift", unsibrfd, pfriod
+    publid InputStrfbm inStrfbm;   // must bf publid; usfd by LdbpSbsl
 
-    // Initialized in constructor; read and used externally (LdapSasl);
-    // Updated in replaceOutputStream() during "quiet", unshared, period
-    public OutputStream outStream; // must be public; used by LdapSasl
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (LdbpSbsl);
+    // Updbtfd in rfplbdfOutputStrfbm() during "quift", unsibrfd, pfriod
+    publid OutputStrfbm outStrfbm; // must bf publid; usfd by LdbpSbsl
 
-    // Initialized in constructor; read and used externally (TLS) to
-    // get new IO streams; closed during cleanup
-    public Socket sock;            // for TLS
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (TLS) to
+    // gft nfw IO strfbms; dlosfd during dlfbnup
+    publid Sodkft sodk;            // for TLS
 
-    // For processing "disconnect" unsolicited notification
-    // Initialized in constructor
-    final private LdapClient parent;
+    // For prodfssing "disdonnfdt" unsoliditfd notifidbtion
+    // Initiblizfd in donstrudtor
+    finbl privbtf LdbpClifnt pbrfnt;
 
-    // Incremented and returned in sync getMsgId()
-    private int outMsgId = 0;
+    // Indrfmfntfd bnd rfturnfd in synd gftMsgId()
+    privbtf int outMsgId = 0;
 
     //
-    // The list of ldapRequests pending on this binding
+    // Tif list of ldbpRfqufsts pfnding on tiis binding
     //
-    // Accessed only within sync methods
-    private LdapRequest pendingRequests = null;
+    // Addfssfd only witiin synd mftiods
+    privbtf LdbpRfqufst pfndingRfqufsts = null;
 
-    volatile IOException closureReason = null;
-    volatile boolean useable = true;  // is Connection still useable
+    volbtilf IOExdfption dlosurfRfbson = null;
+    volbtilf boolfbn usfbblf = truf;  // is Connfdtion still usfbblf
 
-    int readTimeout;
-    int connectTimeout;
+    int rfbdTimfout;
+    int donnfdtTimfout;
 
-    // true means v3; false means v2
-    // Called in LdapClient.authenticate() (which is synchronized)
-    // when connection is "quiet" and not shared; no need to synchronize
-    void setV3(boolean v) {
+    // truf mfbns v3; fblsf mfbns v2
+    // Cbllfd in LdbpClifnt.butifntidbtf() (wiidi is syndironizfd)
+    // wifn donnfdtion is "quift" bnd not sibrfd; no nffd to syndironizf
+    void sftV3(boolfbn v) {
         v3 = v;
     }
 
-    // A BIND request has been successfully made on this connection
-    // When cleaning up, remember to do an UNBIND
-    // Called in LdapClient.authenticate() (which is synchronized)
-    // when connection is "quiet" and not shared; no need to synchronize
-    void setBound() {
-        bound = true;
+    // A BIND rfqufst ibs bffn suddfssfully mbdf on tiis donnfdtion
+    // Wifn dlfbning up, rfmfmbfr to do bn UNBIND
+    // Cbllfd in LdbpClifnt.butifntidbtf() (wiidi is syndironizfd)
+    // wifn donnfdtion is "quift" bnd not sibrfd; no nffd to syndironizf
+    void sftBound() {
+        bound = truf;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Create an LDAP Binding object and bind to a particular server
+    // Crfbtf bn LDAP Binding objfdt bnd bind to b pbrtidulbr sfrvfr
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    Connection(LdapClient parent, String host, int port, String socketFactory,
-        int connectTimeout, int readTimeout, OutputStream trace) throws NamingException {
+    Connfdtion(LdbpClifnt pbrfnt, String iost, int port, String sodkftFbdtory,
+        int donnfdtTimfout, int rfbdTimfout, OutputStrfbm trbdf) tirows NbmingExdfption {
 
-        this.host = host;
-        this.port = port;
-        this.parent = parent;
-        this.readTimeout = readTimeout;
-        this.connectTimeout = connectTimeout;
+        tiis.iost = iost;
+        tiis.port = port;
+        tiis.pbrfnt = pbrfnt;
+        tiis.rfbdTimfout = rfbdTimfout;
+        tiis.donnfdtTimfout = donnfdtTimfout;
 
-        if (trace != null) {
-            traceFile = trace;
-            traceTagIn = "<- " + host + ":" + port + "\n\n";
-            traceTagOut = "-> " + host + ":" + port + "\n\n";
+        if (trbdf != null) {
+            trbdfFilf = trbdf;
+            trbdfTbgIn = "<- " + iost + ":" + port + "\n\n";
+            trbdfTbgOut = "-> " + iost + ":" + port + "\n\n";
         }
 
         //
-        // Connect to server
+        // Connfdt to sfrvfr
         //
         try {
-            sock = createSocket(host, port, socketFactory, connectTimeout);
+            sodk = drfbtfSodkft(iost, port, sodkftFbdtory, donnfdtTimfout);
 
-            if (debug) {
-                System.err.println("Connection: opening socket: " + host + "," + port);
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: opfning sodkft: " + iost + "," + port);
             }
 
-            inStream = new BufferedInputStream(sock.getInputStream());
-            outStream = new BufferedOutputStream(sock.getOutputStream());
+            inStrfbm = nfw BufffrfdInputStrfbm(sodk.gftInputStrfbm());
+            outStrfbm = nfw BufffrfdOutputStrfbm(sodk.gftOutputStrfbm());
 
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            // realException.printStackTrace();
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            Tirowbblf rfblExdfption = f.gftTbrgftExdfption();
+            // rfblExdfption.printStbdkTrbdf();
 
-            CommunicationException ce =
-                new CommunicationException(host + ":" + port);
-            ce.setRootCause(realException);
-            throw ce;
-        } catch (Exception e) {
-            // We need to have a catch all here and
-            // ignore generic exceptions.
-            // Also catches all IO errors generated by socket creation.
-            CommunicationException ce =
-                new CommunicationException(host + ":" + port);
-            ce.setRootCause(e);
-            throw ce;
+            CommunidbtionExdfption df =
+                nfw CommunidbtionExdfption(iost + ":" + port);
+            df.sftRootCbusf(rfblExdfption);
+            tirow df;
+        } dbtdi (Exdfption f) {
+            // Wf nffd to ibvf b dbtdi bll ifrf bnd
+            // ignorf gfnfrid fxdfptions.
+            // Also dbtdifs bll IO frrors gfnfrbtfd by sodkft drfbtion.
+            CommunidbtionExdfption df =
+                nfw CommunidbtionExdfption(iost + ":" + port);
+            df.sftRootCbusf(f);
+            tirow df;
         }
 
-        worker = Obj.helper.createThread(this);
-        worker.setDaemon(true);
-        worker.start();
+        workfr = Obj.iflpfr.drfbtfTirfbd(tiis);
+        workfr.sftDbfmon(truf);
+        workfr.stbrt();
     }
 
     /*
-     * Create an InetSocketAddress using the specified hostname and port number.
+     * Crfbtf bn InftSodkftAddrfss using tif spfdififd iostnbmf bnd port numbfr.
      */
-    private InetSocketAddress createInetSocketAddress(String host, int port) {
-            return new InetSocketAddress(host, port);
+    privbtf InftSodkftAddrfss drfbtfInftSodkftAddrfss(String iost, int port) {
+            rfturn nfw InftSodkftAddrfss(iost, port);
     }
 
     /*
-     * Create a Socket object using the specified socket factory and time limit.
+     * Crfbtf b Sodkft objfdt using tif spfdififd sodkft fbdtory bnd timf limit.
      *
-     * If a timeout is supplied and unconnected sockets are supported then
-     * an unconnected socket is created and the timeout is applied when
-     * connecting the socket. If a timeout is supplied but unconnected sockets
-     * are not supported then the timeout is ignored and a connected socket
-     * is created.
+     * If b timfout is supplifd bnd undonnfdtfd sodkfts brf supportfd tifn
+     * bn undonnfdtfd sodkft is drfbtfd bnd tif timfout is bpplifd wifn
+     * donnfdting tif sodkft. If b timfout is supplifd but undonnfdtfd sodkfts
+     * brf not supportfd tifn tif timfout is ignorfd bnd b donnfdtfd sodkft
+     * is drfbtfd.
      */
-    private Socket createSocket(String host, int port, String socketFactory,
-            int connectTimeout) throws Exception {
+    privbtf Sodkft drfbtfSodkft(String iost, int port, String sodkftFbdtory,
+            int donnfdtTimfout) tirows Exdfption {
 
-        Socket socket = null;
+        Sodkft sodkft = null;
 
-        if (socketFactory != null) {
+        if (sodkftFbdtory != null) {
 
-            // create the factory
+            // drfbtf tif fbdtory
 
-            @SuppressWarnings("unchecked")
-            Class<? extends SocketFactory> socketFactoryClass =
-                (Class<? extends SocketFactory>)Obj.helper.loadClass(socketFactory);
-            Method getDefault =
-                socketFactoryClass.getMethod("getDefault", new Class<?>[]{});
-            SocketFactory factory = (SocketFactory) getDefault.invoke(null, new Object[]{});
+            @SupprfssWbrnings("undifdkfd")
+            Clbss<? fxtfnds SodkftFbdtory> sodkftFbdtoryClbss =
+                (Clbss<? fxtfnds SodkftFbdtory>)Obj.iflpfr.lobdClbss(sodkftFbdtory);
+            Mftiod gftDffbult =
+                sodkftFbdtoryClbss.gftMftiod("gftDffbult", nfw Clbss<?>[]{});
+            SodkftFbdtory fbdtory = (SodkftFbdtory) gftDffbult.invokf(null, nfw Objfdt[]{});
 
-            // create the socket
+            // drfbtf tif sodkft
 
-            if (connectTimeout > 0) {
+            if (donnfdtTimfout > 0) {
 
-                InetSocketAddress endpoint =
-                        createInetSocketAddress(host, port);
+                InftSodkftAddrfss fndpoint =
+                        drfbtfInftSodkftAddrfss(iost, port);
 
-                // unconnected socket
-                socket = factory.createSocket();
+                // undonnfdtfd sodkft
+                sodkft = fbdtory.drfbtfSodkft();
 
-                if (debug) {
-                    System.err.println("Connection: creating socket with " +
-                            "a timeout using supplied socket factory");
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft witi " +
+                            "b timfout using supplifd sodkft fbdtory");
                 }
 
-                // connected socket
-                socket.connect(endpoint, connectTimeout);
+                // donnfdtfd sodkft
+                sodkft.donnfdt(fndpoint, donnfdtTimfout);
             }
 
-            // continue (but ignore connectTimeout)
-            if (socket == null) {
-                if (debug) {
-                    System.err.println("Connection: creating socket using " +
-                        "supplied socket factory");
+            // dontinuf (but ignorf donnfdtTimfout)
+            if (sodkft == null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft using " +
+                        "supplifd sodkft fbdtory");
                 }
-                // connected socket
-                socket = factory.createSocket(host, port);
+                // donnfdtfd sodkft
+                sodkft = fbdtory.drfbtfSodkft(iost, port);
             }
-        } else {
+        } flsf {
 
-            if (connectTimeout > 0) {
+            if (donnfdtTimfout > 0) {
 
-                    InetSocketAddress endpoint = createInetSocketAddress(host, port);
+                    InftSodkftAddrfss fndpoint = drfbtfInftSodkftAddrfss(iost, port);
 
-                    socket = new Socket();
+                    sodkft = nfw Sodkft();
 
-                    if (debug) {
-                        System.err.println("Connection: creating socket with " +
-                            "a timeout");
+                    if (dfbug) {
+                        Systfm.frr.println("Connfdtion: drfbting sodkft witi " +
+                            "b timfout");
                     }
-                    socket.connect(endpoint, connectTimeout);
+                    sodkft.donnfdt(fndpoint, donnfdtTimfout);
             }
 
-            // continue (but ignore connectTimeout)
+            // dontinuf (but ignorf donnfdtTimfout)
 
-            if (socket == null) {
-                if (debug) {
-                    System.err.println("Connection: creating socket");
+            if (sodkft == null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft");
                 }
-                // connected socket
-                socket = new Socket(host, port);
+                // donnfdtfd sodkft
+                sodkft = nfw Sodkft(iost, port);
             }
         }
 
-        // For LDAP connect timeouts on LDAP over SSL connections must treat
-        // the SSL handshake following socket connection as part of the timeout.
-        // So explicitly set a socket read timeout, trigger the SSL handshake,
-        // then reset the timeout.
-        if (connectTimeout > 0 && socket instanceof SSLSocket) {
-            SSLSocket sslSocket = (SSLSocket) socket;
-            int socketTimeout = sslSocket.getSoTimeout();
+        // For LDAP donnfdt timfouts on LDAP ovfr SSL donnfdtions must trfbt
+        // tif SSL ibndsibkf following sodkft donnfdtion bs pbrt of tif timfout.
+        // So fxpliditly sft b sodkft rfbd timfout, triggfr tif SSL ibndsibkf,
+        // tifn rfsft tif timfout.
+        if (donnfdtTimfout > 0 && sodkft instbndfof SSLSodkft) {
+            SSLSodkft sslSodkft = (SSLSodkft) sodkft;
+            int sodkftTimfout = sslSodkft.gftSoTimfout();
 
-            sslSocket.setSoTimeout(connectTimeout); // reuse full timeout value
-            sslSocket.startHandshake();
-            sslSocket.setSoTimeout(socketTimeout);
+            sslSodkft.sftSoTimfout(donnfdtTimfout); // rfusf full timfout vbluf
+            sslSodkft.stbrtHbndsibkf();
+            sslSodkft.sftSoTimfout(sodkftTimfout);
         }
 
-        return socket;
+        rfturn sodkft;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Methods to IO to the LDAP server
+    // Mftiods to IO to tif LDAP sfrvfr
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    synchronized int getMsgId() {
-        return ++outMsgId;
+    syndironizfd int gftMsgId() {
+        rfturn ++outMsgId;
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId) throws IOException {
-        return writeRequest(ber, msgId, false /* pauseAfterReceipt */, -1);
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId) tirows IOExdfption {
+        rfturn writfRfqufst(bfr, msgId, fblsf /* pbusfAftfrRfdfipt */, -1);
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId,
-        boolean pauseAfterReceipt) throws IOException {
-        return writeRequest(ber, msgId, pauseAfterReceipt, -1);
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId,
+        boolfbn pbusfAftfrRfdfipt) tirows IOExdfption {
+        rfturn writfRfqufst(bfr, msgId, pbusfAftfrRfdfipt, -1);
     }
 
-    LdapRequest writeRequest(BerEncoder ber, int msgId,
-        boolean pauseAfterReceipt, int replyQueueCapacity) throws IOException {
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId,
+        boolfbn pbusfAftfrRfdfipt, int rfplyQufufCbpbdity) tirows IOExdfption {
 
-        LdapRequest req =
-            new LdapRequest(msgId, pauseAfterReceipt, replyQueueCapacity);
-        addRequest(req);
+        LdbpRfqufst rfq =
+            nfw LdbpRfqufst(msgId, pbusfAftfrRfdfipt, rfplyQufufCbpbdity);
+        bddRfqufst(rfq);
 
-        if (traceFile != null) {
-            Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(), 0, ber.getDataLen());
+        if (trbdfFilf != null) {
+            Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(), 0, bfr.gftDbtbLfn());
         }
 
 
-        // unpause reader so that it can get response
-        // NOTE: Must do this before writing request, otherwise might
-        // create a race condition where the writer unblocks its own response
-        unpauseReader();
+        // unpbusf rfbdfr so tibt it dbn gft rfsponsf
+        // NOTE: Must do tiis bfforf writing rfqufst, otifrwisf migit
+        // drfbtf b rbdf dondition wifrf tif writfr unblodks its own rfsponsf
+        unpbusfRfbdfr();
 
-        if (debug) {
-            System.err.println("Writing request to: " + outStream);
+        if (dfbug) {
+            Systfm.frr.println("Writing rfqufst to: " + outStrfbm);
         }
 
         try {
-            synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+            syndironizfd (tiis) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flusi();
             }
-        } catch (IOException e) {
-            cleanup(null, true);
-            throw (closureReason = e); // rethrow
+        } dbtdi (IOExdfption f) {
+            dlfbnup(null, truf);
+            tirow (dlosurfRfbson = f); // rftirow
         }
 
-        return req;
+        rfturn rfq;
     }
 
     /**
-     * Reads a reply; waits until one is ready.
+     * Rfbds b rfply; wbits until onf is rfbdy.
      */
-    BerDecoder readReply(LdapRequest ldr)
-            throws IOException, NamingException {
-        BerDecoder rber;
-        boolean waited = false;
+    BfrDfdodfr rfbdRfply(LdbpRfqufst ldr)
+            tirows IOExdfption, NbmingExdfption {
+        BfrDfdodfr rbfr;
+        boolfbn wbitfd = fblsf;
 
-        while (((rber = ldr.getReplyBer()) == null) && !waited) {
+        wiilf (((rbfr = ldr.gftRfplyBfr()) == null) && !wbitfd) {
             try {
-                // If socket closed, don't even try
-                synchronized (this) {
-                    if (sock == null) {
-                        throw new ServiceUnavailableException(host + ":" + port +
-                            "; socket closed");
+                // If sodkft dlosfd, don't fvfn try
+                syndironizfd (tiis) {
+                    if (sodk == null) {
+                        tirow nfw SfrvidfUnbvbilbblfExdfption(iost + ":" + port +
+                            "; sodkft dlosfd");
                     }
                 }
-                synchronized (ldr) {
-                    // check if condition has changed since our last check
-                    rber = ldr.getReplyBer();
-                    if (rber == null) {
-                        if (readTimeout > 0) {  // Socket read timeout is specified
+                syndironizfd (ldr) {
+                    // difdk if dondition ibs dibngfd sindf our lbst difdk
+                    rbfr = ldr.gftRfplyBfr();
+                    if (rbfr == null) {
+                        if (rfbdTimfout > 0) {  // Sodkft rfbd timfout is spfdififd
 
-                            // will be woken up before readTimeout only if reply is
-                            // available
-                            ldr.wait(readTimeout);
-                        } else {
-                            ldr.wait(DEFAULT_READ_TIMEOUT_MILLIS);
+                            // will bf wokfn up bfforf rfbdTimfout only if rfply is
+                            // bvbilbblf
+                            ldr.wbit(rfbdTimfout);
+                        } flsf {
+                            ldr.wbit(DEFAULT_READ_TIMEOUT_MILLIS);
                         }
-                        waited = true;
-                    } else {
-                        break;
+                        wbitfd = truf;
+                    } flsf {
+                        brfbk;
                     }
                 }
-            } catch (InterruptedException ex) {
-                throw new InterruptedNamingException(
-                    "Interrupted during LDAP operation");
+            } dbtdi (IntfrruptfdExdfption fx) {
+                tirow nfw IntfrruptfdNbmingExdfption(
+                    "Intfrruptfd during LDAP opfrbtion");
             }
         }
 
-        if ((rber == null) && waited) {
-            abandonRequest(ldr, null);
-            throw new NamingException("LDAP response read timed out, timeout used:"
-                            + readTimeout + "ms." );
+        if ((rbfr == null) && wbitfd) {
+            bbbndonRfqufst(ldr, null);
+            tirow nfw NbmingExdfption("LDAP rfsponsf rfbd timfd out, timfout usfd:"
+                            + rfbdTimfout + "ms." );
 
         }
-        return rber;
+        rfturn rbfr;
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Methods to add, find, delete, and abandon requests made to server
+    // Mftiods to bdd, find, dflftf, bnd bbbndon rfqufsts mbdf to sfrvfr
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private synchronized void addRequest(LdapRequest ldapRequest) {
+    privbtf syndironizfd void bddRfqufst(LdbpRfqufst ldbpRfqufst) {
 
-        LdapRequest ldr = pendingRequests;
+        LdbpRfqufst ldr = pfndingRfqufsts;
         if (ldr == null) {
-            pendingRequests = ldapRequest;
-            ldapRequest.next = null;
-        } else {
-            ldapRequest.next = pendingRequests;
-            pendingRequests = ldapRequest;
+            pfndingRfqufsts = ldbpRfqufst;
+            ldbpRfqufst.nfxt = null;
+        } flsf {
+            ldbpRfqufst.nfxt = pfndingRfqufsts;
+            pfndingRfqufsts = ldbpRfqufst;
         }
     }
 
-    synchronized LdapRequest findRequest(int msgId) {
+    syndironizfd LdbpRfqufst findRfqufst(int msgId) {
 
-        LdapRequest ldr = pendingRequests;
-        while (ldr != null) {
+        LdbpRfqufst ldr = pfndingRfqufsts;
+        wiilf (ldr != null) {
             if (ldr.msgId == msgId) {
-                return ldr;
+                rfturn ldr;
             }
-            ldr = ldr.next;
+            ldr = ldr.nfxt;
         }
-        return null;
+        rfturn null;
 
     }
 
-    synchronized void removeRequest(LdapRequest req) {
-        LdapRequest ldr = pendingRequests;
-        LdapRequest ldrprev = null;
+    syndironizfd void rfmovfRfqufst(LdbpRfqufst rfq) {
+        LdbpRfqufst ldr = pfndingRfqufsts;
+        LdbpRfqufst ldrprfv = null;
 
-        while (ldr != null) {
-            if (ldr == req) {
-                ldr.cancel();
+        wiilf (ldr != null) {
+            if (ldr == rfq) {
+                ldr.dbndfl();
 
-                if (ldrprev != null) {
-                    ldrprev.next = ldr.next;
-                } else {
-                    pendingRequests = ldr.next;
+                if (ldrprfv != null) {
+                    ldrprfv.nfxt = ldr.nfxt;
+                } flsf {
+                    pfndingRfqufsts = ldr.nfxt;
                 }
-                ldr.next = null;
+                ldr.nfxt = null;
             }
-            ldrprev = ldr;
-            ldr = ldr.next;
+            ldrprfv = ldr;
+            ldr = ldr.nfxt;
         }
     }
 
-    void abandonRequest(LdapRequest ldr, Control[] reqCtls) {
-        // Remove from queue
-        removeRequest(ldr);
+    void bbbndonRfqufst(LdbpRfqufst ldr, Control[] rfqCtls) {
+        // Rfmovf from qufuf
+        rfmovfRfqufst(ldr);
 
-        BerEncoder ber = new BerEncoder(256);
-        int abandonMsgId = getMsgId();
+        BfrEndodfr bfr = nfw BfrEndodfr(256);
+        int bbbndonMsgId = gftMsgId();
 
         //
-        // build the abandon request.
+        // build tif bbbndon rfqufst.
         //
         try {
-            ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                ber.encodeInt(abandonMsgId);
-                ber.encodeInt(ldr.msgId, LdapClient.LDAP_REQ_ABANDON);
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(bbbndonMsgId);
+                bfr.fndodfInt(ldr.msgId, LdbpClifnt.LDAP_REQ_ABANDON);
 
                 if (v3) {
-                    LdapClient.encodeControls(ber, reqCtls);
+                    LdbpClifnt.fndodfControls(bfr, rfqCtls);
                 }
-            ber.endSeq();
+            bfr.fndSfq();
 
-            if (traceFile != null) {
-                Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(), 0,
-                    ber.getDataLen());
+            if (trbdfFilf != null) {
+                Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(), 0,
+                    bfr.gftDbtbLfn());
             }
 
-            synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+            syndironizfd (tiis) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flusi();
             }
 
-        } catch (IOException ex) {
-            //System.err.println("ldap.abandon: " + ex);
+        } dbtdi (IOExdfption fx) {
+            //Systfm.frr.println("ldbp.bbbndon: " + fx);
         }
 
-        // Don't expect any response for the abandon request.
+        // Don't fxpfdt bny rfsponsf for tif bbbndon rfqufst.
     }
 
-    synchronized void abandonOutstandingReqs(Control[] reqCtls) {
-        LdapRequest ldr = pendingRequests;
+    syndironizfd void bbbndonOutstbndingRfqs(Control[] rfqCtls) {
+        LdbpRfqufst ldr = pfndingRfqufsts;
 
-        while (ldr != null) {
-            abandonRequest(ldr, reqCtls);
-            pendingRequests = ldr = ldr.next;
+        wiilf (ldr != null) {
+            bbbndonRfqufst(ldr, rfqCtls);
+            pfndingRfqufsts = ldr = ldr.nfxt;
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Methods to unbind from server and clear up resources when object is
-    // destroyed.
+    // Mftiods to unbind from sfrvfr bnd dlfbr up rfsourdfs wifn objfdt is
+    // dfstroyfd.
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private void ldapUnbind(Control[] reqCtls) {
+    privbtf void ldbpUnbind(Control[] rfqCtls) {
 
-        BerEncoder ber = new BerEncoder(256);
-        int unbindMsgId = getMsgId();
+        BfrEndodfr bfr = nfw BfrEndodfr(256);
+        int unbindMsgId = gftMsgId();
 
         //
-        // build the unbind request.
+        // build tif unbind rfqufst.
         //
 
         try {
 
-            ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                ber.encodeInt(unbindMsgId);
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(unbindMsgId);
                 // IMPLICIT TAGS
-                ber.encodeByte(LdapClient.LDAP_REQ_UNBIND);
-                ber.encodeByte(0);
+                bfr.fndodfBytf(LdbpClifnt.LDAP_REQ_UNBIND);
+                bfr.fndodfBytf(0);
 
                 if (v3) {
-                    LdapClient.encodeControls(ber, reqCtls);
+                    LdbpClifnt.fndodfControls(bfr, rfqCtls);
                 }
-            ber.endSeq();
+            bfr.fndSfq();
 
-            if (traceFile != null) {
-                Ber.dumpBER(traceFile, traceTagOut, ber.getBuf(),
-                    0, ber.getDataLen());
+            if (trbdfFilf != null) {
+                Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(),
+                    0, bfr.gftDbtbLfn());
             }
 
-            synchronized (this) {
-                outStream.write(ber.getBuf(), 0, ber.getDataLen());
-                outStream.flush();
+            syndironizfd (tiis) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flusi();
             }
 
-        } catch (IOException ex) {
-            //System.err.println("ldap.unbind: " + ex);
+        } dbtdi (IOExdfption fx) {
+            //Systfm.frr.println("ldbp.unbind: " + fx);
         }
 
-        // Don't expect any response for the unbind request.
+        // Don't fxpfdt bny rfsponsf for tif unbind rfqufst.
     }
 
     /**
-     * @param reqCtls Possibly null request controls that accompanies the
-     *    abandon and unbind LDAP request.
-     * @param notifyParent true means to call parent LdapClient back, notifying
-     *    it that the connection has been closed; false means not to notify
-     *    parent. If LdapClient invokes cleanup(), notifyParent should be set to
-     *    false because LdapClient already knows that it is closing
-     *    the connection. If Connection invokes cleanup(), notifyParent should be
-     *    set to true because LdapClient needs to know about the closure.
+     * @pbrbm rfqCtls Possibly null rfqufst dontrols tibt bddompbnifs tif
+     *    bbbndon bnd unbind LDAP rfqufst.
+     * @pbrbm notifyPbrfnt truf mfbns to dbll pbrfnt LdbpClifnt bbdk, notifying
+     *    it tibt tif donnfdtion ibs bffn dlosfd; fblsf mfbns not to notify
+     *    pbrfnt. If LdbpClifnt invokfs dlfbnup(), notifyPbrfnt siould bf sft to
+     *    fblsf bfdbusf LdbpClifnt blrfbdy knows tibt it is dlosing
+     *    tif donnfdtion. If Connfdtion invokfs dlfbnup(), notifyPbrfnt siould bf
+     *    sft to truf bfdbusf LdbpClifnt nffds to know bbout tif dlosurf.
      */
-    void cleanup(Control[] reqCtls, boolean notifyParent) {
-        boolean nparent = false;
+    void dlfbnup(Control[] rfqCtls, boolfbn notifyPbrfnt) {
+        boolfbn npbrfnt = fblsf;
 
-        synchronized (this) {
-            useable = false;
+        syndironizfd (tiis) {
+            usfbblf = fblsf;
 
-            if (sock != null) {
-                if (debug) {
-                    System.err.println("Connection: closing socket: " + host + "," + port);
+            if (sodk != null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: dlosing sodkft: " + iost + "," + port);
                 }
                 try {
-                    if (!notifyParent) {
-                        abandonOutstandingReqs(reqCtls);
+                    if (!notifyPbrfnt) {
+                        bbbndonOutstbndingRfqs(rfqCtls);
                     }
                     if (bound) {
-                        ldapUnbind(reqCtls);
+                        ldbpUnbind(rfqCtls);
                     }
-                } finally {
+                } finblly {
                     try {
-                        outStream.flush();
-                        sock.close();
-                        unpauseReader();
-                    } catch (IOException ie) {
-                        if (debug)
-                            System.err.println("Connection: problem closing socket: " + ie);
+                        outStrfbm.flusi();
+                        sodk.dlosf();
+                        unpbusfRfbdfr();
+                    } dbtdi (IOExdfption if) {
+                        if (dfbug)
+                            Systfm.frr.println("Connfdtion: problfm dlosing sodkft: " + if);
                     }
-                    if (!notifyParent) {
-                        LdapRequest ldr = pendingRequests;
-                        while (ldr != null) {
-                            ldr.cancel();
-                            ldr = ldr.next;
+                    if (!notifyPbrfnt) {
+                        LdbpRfqufst ldr = pfndingRfqufsts;
+                        wiilf (ldr != null) {
+                            ldr.dbndfl();
+                            ldr = ldr.nfxt;
                         }
                     }
-                    sock = null;
+                    sodk = null;
                 }
-                nparent = notifyParent;
+                npbrfnt = notifyPbrfnt;
             }
-            if (nparent) {
-                LdapRequest ldr = pendingRequests;
-                while (ldr != null) {
+            if (npbrfnt) {
+                LdbpRfqufst ldr = pfndingRfqufsts;
+                wiilf (ldr != null) {
 
-                    synchronized (ldr) {
+                    syndironizfd (ldr) {
                         ldr.notify();
-                        ldr = ldr.next;
+                        ldr = ldr.nfxt;
                     }
                 }
             }
         }
-        if (nparent) {
-            parent.processConnectionClosure();
+        if (npbrfnt) {
+            pbrfnt.prodfssConnfdtionClosurf();
         }
     }
 
 
-    // Assume everything is "quiet"
-    // "synchronize" might lead to deadlock so don't synchronize method
-    // Use streamLock instead for synchronizing update to stream
+    // Assumf fvfrytiing is "quift"
+    // "syndironizf" migit lfbd to dfbdlodk so don't syndironizf mftiod
+    // Usf strfbmLodk instfbd for syndironizing updbtf to strfbm
 
-    synchronized public void replaceStreams(InputStream newIn, OutputStream newOut) {
-        if (debug) {
-            System.err.println("Replacing " + inStream + " with: " + newIn);
-            System.err.println("Replacing " + outStream + " with: " + newOut);
+    syndironizfd publid void rfplbdfStrfbms(InputStrfbm nfwIn, OutputStrfbm nfwOut) {
+        if (dfbug) {
+            Systfm.frr.println("Rfplbding " + inStrfbm + " witi: " + nfwIn);
+            Systfm.frr.println("Rfplbding " + outStrfbm + " witi: " + nfwOut);
         }
 
-        inStream = newIn;
+        inStrfbm = nfwIn;
 
-        // Cleanup old stream
+        // Clfbnup old strfbm
         try {
-            outStream.flush();
-        } catch (IOException ie) {
-            if (debug)
-                System.err.println("Connection: cannot flush outstream: " + ie);
+            outStrfbm.flusi();
+        } dbtdi (IOExdfption if) {
+            if (dfbug)
+                Systfm.frr.println("Connfdtion: dbnnot flusi outstrfbm: " + if);
         }
 
-        // Replace stream
-        outStream = newOut;
+        // Rfplbdf strfbm
+        outStrfbm = nfwOut;
     }
 
     /**
-     * Used by Connection thread to read inStream into a local variable.
-     * This ensures that there is no contention between the main thread
-     * and the Connection thread when the main thread updates inStream.
+     * Usfd by Connfdtion tirfbd to rfbd inStrfbm into b lodbl vbribblf.
+     * Tiis fnsurfs tibt tifrf is no dontfntion bftwffn tif mbin tirfbd
+     * bnd tif Connfdtion tirfbd wifn tif mbin tirfbd updbtfs inStrfbm.
      */
-    synchronized private InputStream getInputStream() {
-        return inStream;
+    syndironizfd privbtf InputStrfbm gftInputStrfbm() {
+        rfturn inStrfbm;
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // Code for pausing/unpausing the reader thread ('worker')
+    // Codf for pbusing/unpbusing tif rfbdfr tirfbd ('workfr')
     //
     ////////////////////////////////////////////////////////////////////////////
 
     /*
-     * The main idea is to mark requests that need the reader thread to
-     * pause after getting the response. When the reader thread gets the response,
-     * it waits on a lock instead of returning to the read(). The next time a
-     * request is sent, the reader is automatically unblocked if necessary.
-     * Note that the reader must be unblocked BEFORE the request is sent.
-     * Otherwise, there is a race condition where the request is sent and
-     * the reader thread might read the response and be unblocked
-     * by writeRequest().
+     * Tif mbin idfb is to mbrk rfqufsts tibt nffd tif rfbdfr tirfbd to
+     * pbusf bftfr gftting tif rfsponsf. Wifn tif rfbdfr tirfbd gfts tif rfsponsf,
+     * it wbits on b lodk instfbd of rfturning to tif rfbd(). Tif nfxt timf b
+     * rfqufst is sfnt, tif rfbdfr is butombtidblly unblodkfd if nfdfssbry.
+     * Notf tibt tif rfbdfr must bf unblodkfd BEFORE tif rfqufst is sfnt.
+     * Otifrwisf, tifrf is b rbdf dondition wifrf tif rfqufst is sfnt bnd
+     * tif rfbdfr tirfbd migit rfbd tif rfsponsf bnd bf unblodkfd
+     * by writfRfqufst().
      *
-     * This pause gives the main thread (StartTLS or SASL) an opportunity to
-     * update the reader's state (e.g., its streams) if necessary.
-     * The assumption is that the connection will remain quiet during this pause
-     * (i.e., no intervening requests being sent).
+     * Tiis pbusf givfs tif mbin tirfbd (StbrtTLS or SASL) bn opportunity to
+     * updbtf tif rfbdfr's stbtf (f.g., its strfbms) if nfdfssbry.
+     * Tif bssumption is tibt tif donnfdtion will rfmbin quift during tiis pbusf
+     * (i.f., no intfrvfning rfqufsts bfing sfnt).
      *<p>
-     * For dealing with StartTLS close,
-     * when the read() exits either due to EOF or an exception,
-     * the reader thread checks whether there is a new stream to read from.
-     * If so, then it reattempts the read. Otherwise, the EOF or exception
-     * is processed and the reader thread terminates.
-     * In a StartTLS close, the client first replaces the SSL IO streams with
-     * plain ones and then closes the SSL socket.
-     * If the reader thread attempts to read, or was reading, from
-     * the SSL socket (that is, it got to the read BEFORE replaceStreams()),
-     * the SSL socket close will cause the reader thread to
-     * get an EOF/exception and reexamine the input stream.
-     * If the reader thread sees a new stream, it reattempts the read.
-     * If the underlying socket is still alive, then the new read will succeed.
-     * If the underlying socket has been closed also, then the new read will
-     * fail and the reader thread exits.
-     * If the reader thread attempts to read, or was reading, from the plain
-     * socket (that is, it got to the read AFTER replaceStreams()), the
-     * SSL socket close will have no effect on the reader thread.
+     * For dfbling witi StbrtTLS dlosf,
+     * wifn tif rfbd() fxits fitifr duf to EOF or bn fxdfption,
+     * tif rfbdfr tirfbd difdks wiftifr tifrf is b nfw strfbm to rfbd from.
+     * If so, tifn it rfbttfmpts tif rfbd. Otifrwisf, tif EOF or fxdfption
+     * is prodfssfd bnd tif rfbdfr tirfbd tfrminbtfs.
+     * In b StbrtTLS dlosf, tif dlifnt first rfplbdfs tif SSL IO strfbms witi
+     * plbin onfs bnd tifn dlosfs tif SSL sodkft.
+     * If tif rfbdfr tirfbd bttfmpts to rfbd, or wbs rfbding, from
+     * tif SSL sodkft (tibt is, it got to tif rfbd BEFORE rfplbdfStrfbms()),
+     * tif SSL sodkft dlosf will dbusf tif rfbdfr tirfbd to
+     * gft bn EOF/fxdfption bnd rffxbminf tif input strfbm.
+     * If tif rfbdfr tirfbd sffs b nfw strfbm, it rfbttfmpts tif rfbd.
+     * If tif undfrlying sodkft is still blivf, tifn tif nfw rfbd will suddffd.
+     * If tif undfrlying sodkft ibs bffn dlosfd blso, tifn tif nfw rfbd will
+     * fbil bnd tif rfbdfr tirfbd fxits.
+     * If tif rfbdfr tirfbd bttfmpts to rfbd, or wbs rfbding, from tif plbin
+     * sodkft (tibt is, it got to tif rfbd AFTER rfplbdfStrfbms()), tif
+     * SSL sodkft dlosf will ibvf no ffffdt on tif rfbdfr tirfbd.
      *
-     * The check for new stream is made only
-     * in the first attempt at reading a BER buffer; the reader should
-     * never be in midst of reading a buffer when a nonfatal close occurs.
-     * If this occurs, then the connection is in an inconsistent state and
-     * the safest thing to do is to shut it down.
+     * Tif difdk for nfw strfbm is mbdf only
+     * in tif first bttfmpt bt rfbding b BER bufffr; tif rfbdfr siould
+     * nfvfr bf in midst of rfbding b bufffr wifn b nonfbtbl dlosf oddurs.
+     * If tiis oddurs, tifn tif donnfdtion is in bn indonsistfnt stbtf bnd
+     * tif sbffst tiing to do is to siut it down.
      */
 
-    private Object pauseLock = new Object();  // lock for reader to wait on while paused
-    private boolean paused = false;           // paused state of reader
+    privbtf Objfdt pbusfLodk = nfw Objfdt();  // lodk for rfbdfr to wbit on wiilf pbusfd
+    privbtf boolfbn pbusfd = fblsf;           // pbusfd stbtf of rfbdfr
 
     /*
-     * Unpauses reader thread if it was paused
+     * Unpbusfs rfbdfr tirfbd if it wbs pbusfd
      */
-    private void unpauseReader() throws IOException {
-        synchronized (pauseLock) {
-            if (paused) {
-                if (debug) {
-                    System.err.println("Unpausing reader; read from: " +
-                                        inStream);
+    privbtf void unpbusfRfbdfr() tirows IOExdfption {
+        syndironizfd (pbusfLodk) {
+            if (pbusfd) {
+                if (dfbug) {
+                    Systfm.frr.println("Unpbusing rfbdfr; rfbd from: " +
+                                        inStrfbm);
                 }
-                paused = false;
-                pauseLock.notify();
+                pbusfd = fblsf;
+                pbusfLodk.notify();
             }
         }
     }
 
      /*
-     * Pauses reader so that it stops reading from the input stream.
-     * Reader blocks on pauseLock instead of read().
-     * MUST be called from within synchronized (pauseLock) clause.
+     * Pbusfs rfbdfr so tibt it stops rfbding from tif input strfbm.
+     * Rfbdfr blodks on pbusfLodk instfbd of rfbd().
+     * MUST bf dbllfd from witiin syndironizfd (pbusfLodk) dlbusf.
      */
-    private void pauseReader() throws IOException {
-        if (debug) {
-            System.err.println("Pausing reader;  was reading from: " +
-                                inStream);
+    privbtf void pbusfRfbdfr() tirows IOExdfption {
+        if (dfbug) {
+            Systfm.frr.println("Pbusing rfbdfr;  wbs rfbding from: " +
+                                inStrfbm);
         }
-        paused = true;
+        pbusfd = truf;
         try {
-            while (paused) {
-                pauseLock.wait(); // notified by unpauseReader
+            wiilf (pbusfd) {
+                pbusfLodk.wbit(); // notififd by unpbusfRfbdfr
             }
-        } catch (InterruptedException e) {
-            throw new InterruptedIOException(
-                    "Pause/unpause reader has problems.");
+        } dbtdi (IntfrruptfdExdfption f) {
+            tirow nfw IntfrruptfdIOExdfption(
+                    "Pbusf/unpbusf rfbdfr ibs problfms.");
         }
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     //
-    // The LDAP Binding thread. It does the mux/demux of multiple requests
-    // on the same TCP connection.
+    // Tif LDAP Binding tirfbd. It dofs tif mux/dfmux of multiplf rfqufsts
+    // on tif sbmf TCP donnfdtion.
     //
     ////////////////////////////////////////////////////////////////////////////
 
 
-    public void run() {
-        byte inbuf[];   // Buffer for reading incoming bytes
-        int inMsgId;    // Message id of incoming response
-        int bytesread;  // Number of bytes in inbuf
-        int br;         // Temp; number of bytes read from stream
-        int offset;     // Offset of where to store bytes in inbuf
-        int seqlen;     // Length of ASN sequence
-        int seqlenlen;  // Number of sequence length bytes
-        boolean eos;    // End of stream
-        BerDecoder retBer;    // Decoder for ASN.1 BER data from inbuf
-        InputStream in = null;
+    publid void run() {
+        bytf inbuf[];   // Bufffr for rfbding indoming bytfs
+        int inMsgId;    // Mfssbgf id of indoming rfsponsf
+        int bytfsrfbd;  // Numbfr of bytfs in inbuf
+        int br;         // Tfmp; numbfr of bytfs rfbd from strfbm
+        int offsft;     // Offsft of wifrf to storf bytfs in inbuf
+        int sfqlfn;     // Lfngti of ASN sfqufndf
+        int sfqlfnlfn;  // Numbfr of sfqufndf lfngti bytfs
+        boolfbn fos;    // End of strfbm
+        BfrDfdodfr rftBfr;    // Dfdodfr for ASN.1 BER dbtb from inbuf
+        InputStrfbm in = null;
 
         try {
-            while (true) {
+            wiilf (truf) {
                 try {
-                    // type and length (at most 128 octets for long form)
-                    inbuf = new byte[129];
+                    // typf bnd lfngti (bt most 128 odtfts for long form)
+                    inbuf = nfw bytf[129];
 
-                    offset = 0;
-                    seqlen = 0;
-                    seqlenlen = 0;
+                    offsft = 0;
+                    sfqlfn = 0;
+                    sfqlfnlfn = 0;
 
-                    in = getInputStream();
+                    in = gftInputStrfbm();
 
-                    // check that it is the beginning of a sequence
-                    bytesread = in.read(inbuf, offset, 1);
-                    if (bytesread < 0) {
-                        if (in != getInputStream()) {
-                            continue;   // a new stream to try
-                        } else {
-                            break; // EOF
+                    // difdk tibt it is tif bfginning of b sfqufndf
+                    bytfsrfbd = in.rfbd(inbuf, offsft, 1);
+                    if (bytfsrfbd < 0) {
+                        if (in != gftInputStrfbm()) {
+                            dontinuf;   // b nfw strfbm to try
+                        } flsf {
+                            brfbk; // EOF
                         }
                     }
 
-                    if (inbuf[offset++] != (Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR))
-                        continue;
+                    if (inbuf[offsft++] != (Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR))
+                        dontinuf;
 
-                    // get length of sequence
-                    bytesread = in.read(inbuf, offset, 1);
-                    if (bytesread < 0)
-                        break; // EOF
-                    seqlen = inbuf[offset++];
+                    // gft lfngti of sfqufndf
+                    bytfsrfbd = in.rfbd(inbuf, offsft, 1);
+                    if (bytfsrfbd < 0)
+                        brfbk; // EOF
+                    sfqlfn = inbuf[offsft++];
 
-                    // if high bit is on, length is encoded in the
-                    // subsequent length bytes and the number of length bytes
-                    // is equal to & 0x80 (i.e. length byte with high bit off).
-                    if ((seqlen & 0x80) == 0x80) {
-                        seqlenlen = seqlen & 0x7f;  // number of length bytes
+                    // if iigi bit is on, lfngti is fndodfd in tif
+                    // subsfqufnt lfngti bytfs bnd tif numbfr of lfngti bytfs
+                    // is fqubl to & 0x80 (i.f. lfngti bytf witi iigi bit off).
+                    if ((sfqlfn & 0x80) == 0x80) {
+                        sfqlfnlfn = sfqlfn & 0x7f;  // numbfr of lfngti bytfs
 
-                        bytesread = 0;
-                        eos = false;
+                        bytfsrfbd = 0;
+                        fos = fblsf;
 
-                        // Read all length bytes
-                        while (bytesread < seqlenlen) {
-                            br = in.read(inbuf, offset+bytesread,
-                                seqlenlen-bytesread);
+                        // Rfbd bll lfngti bytfs
+                        wiilf (bytfsrfbd < sfqlfnlfn) {
+                            br = in.rfbd(inbuf, offsft+bytfsrfbd,
+                                sfqlfnlfn-bytfsrfbd);
                             if (br < 0) {
-                                eos = true;
-                                break; // EOF
+                                fos = truf;
+                                brfbk; // EOF
                             }
-                            bytesread += br;
+                            bytfsrfbd += br;
                         }
 
-                        // end-of-stream reached before length bytes are read
-                        if (eos)
-                            break;  // EOF
+                        // fnd-of-strfbm rfbdifd bfforf lfngti bytfs brf rfbd
+                        if (fos)
+                            brfbk;  // EOF
 
-                        // Add contents of length bytes to determine length
-                        seqlen = 0;
-                        for( int i = 0; i < seqlenlen; i++) {
-                            seqlen = (seqlen << 8) + (inbuf[offset+i] & 0xff);
+                        // Add dontfnts of lfngti bytfs to dftfrminf lfngti
+                        sfqlfn = 0;
+                        for( int i = 0; i < sfqlfnlfn; i++) {
+                            sfqlfn = (sfqlfn << 8) + (inbuf[offsft+i] & 0xff);
                         }
-                        offset += bytesread;
+                        offsft += bytfsrfbd;
                     }
 
-                    // read in seqlen bytes
-                    byte[] left = IOUtils.readFully(in, seqlen, false);
-                    inbuf = Arrays.copyOf(inbuf, offset + left.length);
-                    System.arraycopy(left, 0, inbuf, offset, left.length);
-                    offset += left.length;
+                    // rfbd in sfqlfn bytfs
+                    bytf[] lfft = IOUtils.rfbdFully(in, sfqlfn, fblsf);
+                    inbuf = Arrbys.dopyOf(inbuf, offsft + lfft.lfngti);
+                    Systfm.brrbydopy(lfft, 0, inbuf, offsft, lfft.lfngti);
+                    offsft += lfft.lfngti;
 /*
 if (dump > 0) {
-System.err.println("seqlen: " + seqlen);
-System.err.println("bufsize: " + offset);
-System.err.println("bytesleft: " + bytesleft);
-System.err.println("bytesread: " + bytesread);
+Systfm.frr.println("sfqlfn: " + sfqlfn);
+Systfm.frr.println("bufsizf: " + offsft);
+Systfm.frr.println("bytfslfft: " + bytfslfft);
+Systfm.frr.println("bytfsrfbd: " + bytfsrfbd);
 }
 */
 
 
                     try {
-                        retBer = new BerDecoder(inbuf, 0, offset);
+                        rftBfr = nfw BfrDfdodfr(inbuf, 0, offsft);
 
-                        if (traceFile != null) {
-                            Ber.dumpBER(traceFile, traceTagIn, inbuf, 0, offset);
+                        if (trbdfFilf != null) {
+                            Bfr.dumpBER(trbdfFilf, trbdfTbgIn, inbuf, 0, offsft);
                         }
 
-                        retBer.parseSeq(null);
-                        inMsgId = retBer.parseInt();
-                        retBer.reset(); // reset offset
+                        rftBfr.pbrsfSfq(null);
+                        inMsgId = rftBfr.pbrsfInt();
+                        rftBfr.rfsft(); // rfsft offsft
 
-                        boolean needPause = false;
+                        boolfbn nffdPbusf = fblsf;
 
                         if (inMsgId == 0) {
-                            // Unsolicited Notification
-                            parent.processUnsolicited(retBer);
-                        } else {
-                            LdapRequest ldr = findRequest(inMsgId);
+                            // Unsoliditfd Notifidbtion
+                            pbrfnt.prodfssUnsoliditfd(rftBfr);
+                        } flsf {
+                            LdbpRfqufst ldr = findRfqufst(inMsgId);
 
                             if (ldr != null) {
 
                                 /**
-                                 * Grab pauseLock before making reply available
-                                 * to ensure that reader goes into paused state
-                                 * before writer can attempt to unpause reader
+                                 * Grbb pbusfLodk bfforf mbking rfply bvbilbblf
+                                 * to fnsurf tibt rfbdfr gofs into pbusfd stbtf
+                                 * bfforf writfr dbn bttfmpt to unpbusf rfbdfr
                                  */
-                                synchronized (pauseLock) {
-                                    needPause = ldr.addReplyBer(retBer);
-                                    if (needPause) {
+                                syndironizfd (pbusfLodk) {
+                                    nffdPbusf = ldr.bddRfplyBfr(rftBfr);
+                                    if (nffdPbusf) {
                                         /*
-                                         * Go into paused state; release
-                                         * pauseLock
+                                         * Go into pbusfd stbtf; rflfbsf
+                                         * pbusfLodk
                                          */
-                                        pauseReader();
+                                        pbusfRfbdfr();
                                     }
 
-                                    // else release pauseLock
+                                    // flsf rflfbsf pbusfLodk
                                 }
-                            } else {
-                                // System.err.println("Cannot find" +
-                                //              "LdapRequest for " + inMsgId);
+                            } flsf {
+                                // Systfm.frr.println("Cbnnot find" +
+                                //              "LdbpRfqufst for " + inMsgId);
                             }
                         }
-                    } catch (Ber.DecodeException e) {
-                        //System.err.println("Cannot parse Ber");
+                    } dbtdi (Bfr.DfdodfExdfption f) {
+                        //Systfm.frr.println("Cbnnot pbrsf Bfr");
                     }
-                } catch (IOException ie) {
-                    if (debug) {
-                        System.err.println("Connection: Inside Caught " + ie);
-                        ie.printStackTrace();
+                } dbtdi (IOExdfption if) {
+                    if (dfbug) {
+                        Systfm.frr.println("Connfdtion: Insidf Cbugit " + if);
+                        if.printStbdkTrbdf();
                     }
 
-                    if (in != getInputStream()) {
-                        // A new stream to try
-                        // Go to top of loop and continue
-                    } else {
-                        if (debug) {
-                            System.err.println("Connection: rethrowing " + ie);
+                    if (in != gftInputStrfbm()) {
+                        // A nfw strfbm to try
+                        // Go to top of loop bnd dontinuf
+                    } flsf {
+                        if (dfbug) {
+                            Systfm.frr.println("Connfdtion: rftirowing " + if);
                         }
-                        throw ie;  // rethrow exception
+                        tirow if;  // rftirow fxdfption
                     }
                 }
             }
 
-            if (debug) {
-                System.err.println("Connection: end-of-stream detected: "
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: fnd-of-strfbm dftfdtfd: "
                     + in);
             }
-        } catch (IOException ex) {
-            if (debug) {
-                System.err.println("Connection: Caught " + ex);
+        } dbtdi (IOExdfption fx) {
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: Cbugit " + fx);
             }
-            closureReason = ex;
-        } finally {
-            cleanup(null, true); // cleanup
+            dlosurfRfbson = fx;
+        } finblly {
+            dlfbnup(null, truf); // dlfbnup
         }
-        if (debug) {
-            System.err.println("Connection: Thread Exiting");
+        if (dfbug) {
+            Systfm.frr.println("Connfdtion: Tirfbd Exiting");
         }
     }
 
 
-    // This code must be uncommented to run the LdapAbandonTest.
-    /*public void sendSearchReqs(String dn, int numReqs) {
+    // Tiis dodf must bf undommfntfd to run tif LdbpAbbndonTfst.
+    /*publid void sfndSfbrdiRfqs(String dn, int numRfqs) {
         int i;
-        String attrs[] = null;
-        for(i = 1; i <= numReqs; i++) {
-            BerEncoder ber = new BerEncoder(2048);
+        String bttrs[] = null;
+        for(i = 1; i <= numRfqs; i++) {
+            BfrEndodfr bfr = nfw BfrEndodfr(2048);
 
             try {
-            ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                ber.encodeInt(i);
-                ber.beginSeq(LdapClient.LDAP_REQ_SEARCH);
-                    ber.encodeString(dn == null ? "" : dn);
-                    ber.encodeInt(0, LdapClient.LBER_ENUMERATED);
-                    ber.encodeInt(3, LdapClient.LBER_ENUMERATED);
-                    ber.encodeInt(0);
-                    ber.encodeInt(0);
-                    ber.encodeBoolean(true);
-                    LdapClient.encodeFilter(ber, "");
-                    ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-                        ber.encodeStringArray(attrs);
-                    ber.endSeq();
-                ber.endSeq();
-            ber.endSeq();
-            writeRequest(ber, i);
-            //System.err.println("wrote request " + i);
-            } catch (Exception ex) {
-            //System.err.println("ldap.search: Caught " + ex + " building req");
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(i);
+                bfr.bfginSfq(LdbpClifnt.LDAP_REQ_SEARCH);
+                    bfr.fndodfString(dn == null ? "" : dn);
+                    bfr.fndodfInt(0, LdbpClifnt.LBER_ENUMERATED);
+                    bfr.fndodfInt(3, LdbpClifnt.LBER_ENUMERATED);
+                    bfr.fndodfInt(0);
+                    bfr.fndodfInt(0);
+                    bfr.fndodfBoolfbn(truf);
+                    LdbpClifnt.fndodfFiltfr(bfr, "");
+                    bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                        bfr.fndodfStringArrby(bttrs);
+                    bfr.fndSfq();
+                bfr.fndSfq();
+            bfr.fndSfq();
+            writfRfqufst(bfr, i);
+            //Systfm.frr.println("wrotf rfqufst " + i);
+            } dbtdi (Exdfption fx) {
+            //Systfm.frr.println("ldbp.sfbrdi: Cbugit " + fx + " building rfq");
             }
 
         }

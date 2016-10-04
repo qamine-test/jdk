@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include "jvm.h"
-#include "management.h"
-#include "sun_management_ThreadImpl.h"
+#indludf <jni.i>
+#indludf "jvm.i"
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_TirfbdImpl.i"
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadContentionMonitoringEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_sftTirfbdContfntionMonitoringEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_CONTENTION_MONITORING, flag);
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_CONTENTION_MONITORING, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadCpuTimeEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_sftTirfbdCpuTimfEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_CPU_TIME, flag);
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_CPU_TIME, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadAllocatedMemoryEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_sftTirfbdAllodbtfdMfmoryEnbblfd0
+  (JNIEnv *fnv, jdlbss dls, jboolfbn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY, flag);
+    jmm_intfrfbdf->SftBoolAttributf(fnv, JMM_THREAD_ALLOCATED_MEMORY, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadInfo1
-  (JNIEnv *env, jclass cls, jlongArray ids, jint maxDepth,
-   jobjectArray infoArray)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdInfo1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jint mbxDfpti,
+   jobjfdtArrby infoArrby)
 {
-    jmm_interface->GetThreadInfo(env, ids, maxDepth, infoArray);
+    jmm_intfrfbdf->GftTirfbdInfo(fnv, ids, mbxDfpti, infoArrby);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_getThreads
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbds
+  (JNIEnv *fnv, jdlbss dls)
 {
-    return JVM_GetAllThreads(env, cls);
+    rfturn JVM_GftAllTirfbds(fnv, dls);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_ThreadImpl_getThreadTotalCpuTime0
-  (JNIEnv *env, jclass cls, jlong tid)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdTotblCpuTimf0
+  (JNIEnv *fnv, jdlbss dls, jlong tid)
 {
-    return jmm_interface->GetThreadCpuTimeWithKind(env, tid, JNI_TRUE /* user+sys */);
+    rfturn jmm_intfrfbdf->GftTirfbdCpuTimfWitiKind(fnv, tid, JNI_TRUE /* usfr+sys */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadTotalCpuTime1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray timeArray)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdTotblCpuTimf1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby timfArrby)
 {
-    jmm_interface->GetThreadCpuTimesWithKind(env, ids, timeArray,
-                                             JNI_TRUE /* user+sys */);
+    jmm_intfrfbdf->GftTirfbdCpuTimfsWitiKind(fnv, ids, timfArrby,
+                                             JNI_TRUE /* usfr+sys */);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_ThreadImpl_getThreadUserCpuTime0
-  (JNIEnv *env, jclass cls, jlong tid)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdUsfrCpuTimf0
+  (JNIEnv *fnv, jdlbss dls, jlong tid)
 {
-    return jmm_interface->GetThreadCpuTimeWithKind(env, tid, JNI_FALSE /* user */);
+    rfturn jmm_intfrfbdf->GftTirfbdCpuTimfWitiKind(fnv, tid, JNI_FALSE /* usfr */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadUserCpuTime1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray timeArray)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdUsfrCpuTimf1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby timfArrby)
 {
-    jmm_interface->GetThreadCpuTimesWithKind(env, ids, timeArray,
-                                             JNI_FALSE /* user */);
+    jmm_intfrfbdf->GftTirfbdCpuTimfsWitiKind(fnv, ids, timfArrby,
+                                             JNI_FALSE /* usfr */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadAllocatedMemory1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray sizeArray)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_gftTirfbdAllodbtfdMfmory1
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jlongArrby sizfArrby)
 {
-    jmm_interface->GetThreadAllocatedMemory(env, ids, sizeArray);
+    jmm_intfrfbdf->GftTirfbdAllodbtfdMfmory(fnv, ids, sizfArrby);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_findMonitorDeadlockedThreads0
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_findMonitorDfbdlodkfdTirfbds0
+  (JNIEnv *fnv, jdlbss dls)
 {
-    return jmm_interface->FindCircularBlockedThreads(env);
+    rfturn jmm_intfrfbdf->FindCirdulbrBlodkfdTirfbds(fnv);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_findDeadlockedThreads0
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_findDfbdlodkfdTirfbds0
+  (JNIEnv *fnv, jdlbss dls)
 {
-    return jmm_interface->FindDeadlocks(env, JNI_FALSE /* !object_monitors_only */);
-}
-
-JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_resetPeakThreadCount0
-  (JNIEnv *env, jclass cls)
-{
-    jvalue unused;
-    unused.i = 0;
-    jmm_interface->ResetStatistic(env, unused, JMM_STAT_PEAK_THREAD_COUNT);
+    rfturn jmm_intfrfbdf->FindDfbdlodks(fnv, JNI_FALSE /* !objfdt_monitors_only */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_resetContentionTimes0
-  (JNIEnv *env, jobject dummy, jlong tid)
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_rfsftPfbkTirfbdCount0
+  (JNIEnv *fnv, jdlbss dls)
 {
-    jvalue value;
-    value.j = tid;
-    jmm_interface->ResetStatistic(env, value, JMM_STAT_THREAD_CONTENTION_TIME);
+    jvbluf unusfd;
+    unusfd.i = 0;
+    jmm_intfrfbdf->RfsftStbtistid(fnv, unusfd, JMM_STAT_PEAK_THREAD_COUNT);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_dumpThreads0
-  (JNIEnv *env, jclass cls, jlongArray ids, jboolean lockedMonitors, jboolean lockedSynchronizers)
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_rfsftContfntionTimfs0
+  (JNIEnv *fnv, jobjfdt dummy, jlong tid)
 {
-    return jmm_interface->DumpThreads(env, ids, lockedMonitors, lockedSynchronizers);
+    jvbluf vbluf;
+    vbluf.j = tid;
+    jmm_intfrfbdf->RfsftStbtistid(fnv, vbluf, JMM_STAT_THREAD_CONTENTION_TIME);
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_mbnbgfmfnt_TirfbdImpl_dumpTirfbds0
+  (JNIEnv *fnv, jdlbss dls, jlongArrby ids, jboolfbn lodkfdMonitors, jboolfbn lodkfdSyndironizfrs)
+{
+    rfturn jmm_intfrfbdf->DumpTirfbds(fnv, ids, lodkfdMonitors, lodkfdSyndironizfrs);
 }

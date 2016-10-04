@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free softwbre; you cbn redistribute it bnd/or modify it
- * under the terms of the GNU Generbl Public License version 2 only, bs
- * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
- * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
- * by Orbcle in the LICENSE file thbt bccompbnied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope thbt it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
- * version 2 for more detbils (b copy is included in the LICENSE file thbt
- * bccompbnied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should hbve received b copy of the GNU Generbl Public License version
- * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
- * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
- * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-pbckbge jbvb.lbng;
+pbdkbgf jbvb.lbng;
 
-import jbvb.io.File;
+import jbvb.io.Filf;
 
-clbss ClbssLobderHelper {
+dlbss ClbssLobdfrHflpfr {
 
-    privbte ClbssLobderHelper() {}
+    privbtf ClbssLobdfrHflpfr() {}
 
     /**
-     * Returns bn blternbte pbth nbme for the given file
-     * such thbt if the originbl pbthnbme did not exist, then the
-     * file mby be locbted bt the blternbte locbtion.
-     * For most plbtforms, this behbvior is not supported bnd returns null.
+     * Rfturns bn bltfrnbtf pbti nbmf for tif givfn filf
+     * sudi tibt if tif originbl pbtinbmf did not fxist, tifn tif
+     * filf mby bf lodbtfd bt tif bltfrnbtf lodbtion.
+     * For most plbtforms, tiis bfibvior is not supportfd bnd rfturns null.
      */
-    stbtic File mbpAlternbtiveNbme(File lib) {
-        return null;
+    stbtid Filf mbpAltfrnbtivfNbmf(Filf lib) {
+        rfturn null;
     }
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.AWTError;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.security.action.GetPropertyAction;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * Factory class used to retrieve a valid FontManager instance for the current
- * platform.
+ * Fbdtory dlbss usfd to rftrifvf b vblid FontMbnbgfr instbndf for tif durrfnt
+ * plbtform.
  *
- * A default implementation is given for Linux, Solaris and Windows.
- * You can alter the behaviour of the {@link #getInstance()} method by setting
- * the {@code sun.font.fontmanager} property. For example:
- * {@code sun.font.fontmanager=sun.awt.X11FontManager}
+ * A dffbult implfmfntbtion is givfn for Linux, Solbris bnd Windows.
+ * You dbn bltfr tif bfibviour of tif {@link #gftInstbndf()} mftiod by sftting
+ * tif {@dodf sun.font.fontmbnbgfr} propfrty. For fxbmplf:
+ * {@dodf sun.font.fontmbnbgfr=sun.bwt.X11FontMbnbgfr}
  */
-public final class FontManagerFactory {
+publid finbl dlbss FontMbnbgfrFbdtory {
 
-    /** Our singleton instance. */
-    private static FontManager instance = null;
+    /** Our singlfton instbndf. */
+    privbtf stbtid FontMbnbgfr instbndf = null;
 
-    private static final String DEFAULT_CLASS;
-    static {
-        if (FontUtilities.isWindows) {
-            DEFAULT_CLASS = "sun.awt.Win32FontManager";
-        } else if (FontUtilities.isMacOSX) {
-            DEFAULT_CLASS = "sun.font.CFontManager";
-            } else {
-            DEFAULT_CLASS = "sun.awt.X11FontManager";
+    privbtf stbtid finbl String DEFAULT_CLASS;
+    stbtid {
+        if (FontUtilitifs.isWindows) {
+            DEFAULT_CLASS = "sun.bwt.Win32FontMbnbgfr";
+        } flsf if (FontUtilitifs.isMbdOSX) {
+            DEFAULT_CLASS = "sun.font.CFontMbnbgfr";
+            } flsf {
+            DEFAULT_CLASS = "sun.bwt.X11FontMbnbgfr";
             }
     }
 
     /**
-     * Get a valid FontManager implementation for the current platform.
+     * Gft b vblid FontMbnbgfr implfmfntbtion for tif durrfnt plbtform.
      *
-     * @return a valid FontManager instance for the current platform
+     * @rfturn b vblid FontMbnbgfr instbndf for tif durrfnt plbtform
      */
-    public static synchronized FontManager getInstance() {
+    publid stbtid syndironizfd FontMbnbgfr gftInstbndf() {
 
-        if (instance != null) {
-            return instance;
+        if (instbndf != null) {
+            rfturn instbndf;
         }
 
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
 
-            public Object run() {
+            publid Objfdt run() {
                 try {
-                    String fmClassName =
-                            System.getProperty("sun.font.fontmanager",
+                    String fmClbssNbmf =
+                            Systfm.gftPropfrty("sun.font.fontmbnbgfr",
                                                DEFAULT_CLASS);
-                    ClassLoader cl = ClassLoader.getSystemClassLoader();
-                    Class<?> fmClass = Class.forName(fmClassName, true, cl);
-                    instance = (FontManager) fmClass.newInstance();
-                } catch (ClassNotFoundException |
-                         InstantiationException |
-                         IllegalAccessException ex) {
-                    throw new InternalError(ex);
+                    ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    Clbss<?> fmClbss = Clbss.forNbmf(fmClbssNbmf, truf, dl);
+                    instbndf = (FontMbnbgfr) fmClbss.nfwInstbndf();
+                } dbtdi (ClbssNotFoundExdfption |
+                         InstbntibtionExdfption |
+                         IllfgblAddfssExdfption fx) {
+                    tirow nfw IntfrnblError(fx);
 
                 }
-                return null;
+                rfturn null;
             }
         });
 
-        return instance;
+        rfturn instbndf;
     }
 }

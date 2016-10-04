@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.AWTEventMulticaster;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.util.EventListener;
+import jbvb.bwt.AWTEvfntMultidbstfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.EvfntListfnfr;
 
 
 /**
- * A class extends <code>AWTEventMulticaster</code> to implement efficient and
- * thread-safe multi-cast event dispatching for the drag-and-drop events defined
- * in the java.awt.dnd package.
+ * A dlbss fxtfnds <dodf>AWTEvfntMultidbstfr</dodf> to implfmfnt fffidifnt bnd
+ * tirfbd-sbff multi-dbst fvfnt dispbtdiing for tif drbg-bnd-drop fvfnts dffinfd
+ * in tif jbvb.bwt.dnd pbdkbgf.
  *
- * @since       1.4
- * @see AWTEventMulticaster
+ * @sindf       1.4
+ * @sff AWTEvfntMultidbstfr
  */
 
-class DnDEventMulticaster extends AWTEventMulticaster
-    implements DragSourceListener, DragSourceMotionListener {
+dlbss DnDEvfntMultidbstfr fxtfnds AWTEvfntMultidbstfr
+    implfmfnts DrbgSourdfListfnfr, DrbgSourdfMotionListfnfr {
 
     /**
-     * Creates an event multicaster instance which chains listener-a
-     * with listener-b. Input parameters <code>a</code> and <code>b</code>
-     * should not be <code>null</code>, though implementations may vary in
-     * choosing whether or not to throw <code>NullPointerException</code>
-     * in that case.
+     * Crfbtfs bn fvfnt multidbstfr instbndf wiidi dibins listfnfr-b
+     * witi listfnfr-b. Input pbrbmftfrs <dodf>b</dodf> bnd <dodf>b</dodf>
+     * siould not bf <dodf>null</dodf>, tiougi implfmfntbtions mby vbry in
+     * dioosing wiftifr or not to tirow <dodf>NullPointfrExdfption</dodf>
+     * in tibt dbsf.
      *
-     * @param a listener-a
-     * @param b listener-b
+     * @pbrbm b listfnfr-b
+     * @pbrbm b listfnfr-b
      */
-    protected DnDEventMulticaster(EventListener a, EventListener b) {
-        super(a,b);
+    protfdtfd DnDEvfntMultidbstfr(EvfntListfnfr b, EvfntListfnfr b) {
+        supfr(b,b);
     }
 
     /**
-     * Handles the <code>DragSourceDragEvent</code> by invoking
-     * <code>dragEnter</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfDrbgEvfnt</dodf> by invoking
+     * <dodf>drbgEntfr</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    public void dragEnter(DragSourceDragEvent dsde) {
-        ((DragSourceListener)a).dragEnter(dsde);
-        ((DragSourceListener)b).dragEnter(dsde);
+    publid void drbgEntfr(DrbgSourdfDrbgEvfnt dsdf) {
+        ((DrbgSourdfListfnfr)b).drbgEntfr(dsdf);
+        ((DrbgSourdfListfnfr)b).drbgEntfr(dsdf);
     }
 
     /**
-     * Handles the <code>DragSourceDragEvent</code> by invoking
-     * <code>dragOver</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfDrbgEvfnt</dodf> by invoking
+     * <dodf>drbgOvfr</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    public void dragOver(DragSourceDragEvent dsde) {
-        ((DragSourceListener)a).dragOver(dsde);
-        ((DragSourceListener)b).dragOver(dsde);
+    publid void drbgOvfr(DrbgSourdfDrbgEvfnt dsdf) {
+        ((DrbgSourdfListfnfr)b).drbgOvfr(dsdf);
+        ((DrbgSourdfListfnfr)b).drbgOvfr(dsdf);
     }
 
     /**
-     * Handles the <code>DragSourceDragEvent</code> by invoking
-     * <code>dropActionChanged</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfDrbgEvfnt</dodf> by invoking
+     * <dodf>dropAdtionCibngfd</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    public void dropActionChanged(DragSourceDragEvent dsde) {
-        ((DragSourceListener)a).dropActionChanged(dsde);
-        ((DragSourceListener)b).dropActionChanged(dsde);
+    publid void dropAdtionCibngfd(DrbgSourdfDrbgEvfnt dsdf) {
+        ((DrbgSourdfListfnfr)b).dropAdtionCibngfd(dsdf);
+        ((DrbgSourdfListfnfr)b).dropAdtionCibngfd(dsdf);
     }
 
     /**
-     * Handles the <code>DragSourceEvent</code> by invoking
-     * <code>dragExit</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfEvfnt</dodf> by invoking
+     * <dodf>drbgExit</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dse the <code>DragSourceEvent</code>
+     * @pbrbm dsf tif <dodf>DrbgSourdfEvfnt</dodf>
      */
-    public void dragExit(DragSourceEvent dse) {
-        ((DragSourceListener)a).dragExit(dse);
-        ((DragSourceListener)b).dragExit(dse);
+    publid void drbgExit(DrbgSourdfEvfnt dsf) {
+        ((DrbgSourdfListfnfr)b).drbgExit(dsf);
+        ((DrbgSourdfListfnfr)b).drbgExit(dsf);
     }
 
     /**
-     * Handles the <code>DragSourceDropEvent</code> by invoking
-     * <code>dragDropEnd</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfDropEvfnt</dodf> by invoking
+     * <dodf>drbgDropEnd</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dsde the <code>DragSourceDropEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDropEvfnt</dodf>
      */
-    public void dragDropEnd(DragSourceDropEvent dsde) {
-        ((DragSourceListener)a).dragDropEnd(dsde);
-        ((DragSourceListener)b).dragDropEnd(dsde);
+    publid void drbgDropEnd(DrbgSourdfDropEvfnt dsdf) {
+        ((DrbgSourdfListfnfr)b).drbgDropEnd(dsdf);
+        ((DrbgSourdfListfnfr)b).drbgDropEnd(dsdf);
     }
 
     /**
-     * Handles the <code>DragSourceDragEvent</code> by invoking
-     * <code>dragMouseMoved</code> on listener-a and listener-b.
+     * Hbndlfs tif <dodf>DrbgSourdfDrbgEvfnt</dodf> by invoking
+     * <dodf>drbgMousfMovfd</dodf> on listfnfr-b bnd listfnfr-b.
      *
-     * @param dsde the <code>DragSourceDragEvent</code>
+     * @pbrbm dsdf tif <dodf>DrbgSourdfDrbgEvfnt</dodf>
      */
-    public void dragMouseMoved(DragSourceDragEvent dsde) {
-        ((DragSourceMotionListener)a).dragMouseMoved(dsde);
-        ((DragSourceMotionListener)b).dragMouseMoved(dsde);
+    publid void drbgMousfMovfd(DrbgSourdfDrbgEvfnt dsdf) {
+        ((DrbgSourdfMotionListfnfr)b).drbgMousfMovfd(dsdf);
+        ((DrbgSourdfMotionListfnfr)b).drbgMousfMovfd(dsdf);
     }
 
     /**
-     * Adds drag-source-listener-a with drag-source-listener-b and
-     * returns the resulting multicast listener.
+     * Adds drbg-sourdf-listfnfr-b witi drbg-sourdf-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
      *
-     * @param a drag-source-listener-a
-     * @param b drag-source-listener-b
+     * @pbrbm b drbg-sourdf-listfnfr-b
+     * @pbrbm b drbg-sourdf-listfnfr-b
      */
-    public static DragSourceListener add(DragSourceListener a,
-                                         DragSourceListener b) {
-        return (DragSourceListener)addInternal(a, b);
+    publid stbtid DrbgSourdfListfnfr bdd(DrbgSourdfListfnfr b,
+                                         DrbgSourdfListfnfr b) {
+        rfturn (DrbgSourdfListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds drag-source-motion-listener-a with drag-source-motion-listener-b and
-     * returns the resulting multicast listener.
+     * Adds drbg-sourdf-motion-listfnfr-b witi drbg-sourdf-motion-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
      *
-     * @param a drag-source-motion-listener-a
-     * @param b drag-source-motion-listener-b
+     * @pbrbm b drbg-sourdf-motion-listfnfr-b
+     * @pbrbm b drbg-sourdf-motion-listfnfr-b
      */
-    @SuppressWarnings("overloads")
-    public static DragSourceMotionListener add(DragSourceMotionListener a,
-                                               DragSourceMotionListener b) {
-        return (DragSourceMotionListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid DrbgSourdfMotionListfnfr bdd(DrbgSourdfMotionListfnfr b,
+                                               DrbgSourdfMotionListfnfr b) {
+        rfturn (DrbgSourdfMotionListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Removes the old drag-source-listener from drag-source-listener-l
-     * and returns the resulting multicast listener.
+     * Rfmovfs tif old drbg-sourdf-listfnfr from drbg-sourdf-listfnfr-l
+     * bnd rfturns tif rfsulting multidbst listfnfr.
      *
-     * @param l drag-source-listener-l
-     * @param oldl the drag-source-listener being removed
+     * @pbrbm l drbg-sourdf-listfnfr-l
+     * @pbrbm oldl tif drbg-sourdf-listfnfr bfing rfmovfd
      */
-    public static DragSourceListener remove(DragSourceListener l,
-                                            DragSourceListener oldl) {
-        return (DragSourceListener)removeInternal(l, oldl);
+    publid stbtid DrbgSourdfListfnfr rfmovf(DrbgSourdfListfnfr l,
+                                            DrbgSourdfListfnfr oldl) {
+        rfturn (DrbgSourdfListfnfr)rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old drag-source-motion-listener from
-     * drag-source-motion-listener-l and returns the resulting multicast
-     * listener.
+     * Rfmovfs tif old drbg-sourdf-motion-listfnfr from
+     * drbg-sourdf-motion-listfnfr-l bnd rfturns tif rfsulting multidbst
+     * listfnfr.
      *
-     * @param l drag-source-motion-listener-l
-     * @param ol the drag-source-motion-listener being removed
+     * @pbrbm l drbg-sourdf-motion-listfnfr-l
+     * @pbrbm ol tif drbg-sourdf-motion-listfnfr bfing rfmovfd
      */
-    @SuppressWarnings("overloads")
-    public static DragSourceMotionListener remove(DragSourceMotionListener l,
-                                                  DragSourceMotionListener ol) {
-        return (DragSourceMotionListener)removeInternal(l, ol);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid DrbgSourdfMotionListfnfr rfmovf(DrbgSourdfMotionListfnfr l,
+                                                  DrbgSourdfMotionListfnfr ol) {
+        rfturn (DrbgSourdfMotionListfnfr)rfmovfIntfrnbl(l, ol);
     }
 
     /**
-     * Returns the resulting multicast listener from adding listener-a
-     * and listener-b together.
-     * If listener-a is null, it returns listener-b;
-     * If listener-b is null, it returns listener-a
-     * If neither are null, then it creates and returns
-     * a new AWTEventMulticaster instance which chains a with b.
-     * @param a event listener-a
-     * @param b event listener-b
+     * Rfturns tif rfsulting multidbst listfnfr from bdding listfnfr-b
+     * bnd listfnfr-b togftifr.
+     * If listfnfr-b is null, it rfturns listfnfr-b;
+     * If listfnfr-b is null, it rfturns listfnfr-b
+     * If nfitifr brf null, tifn it drfbtfs bnd rfturns
+     * b nfw AWTEvfntMultidbstfr instbndf wiidi dibins b witi b.
+     * @pbrbm b fvfnt listfnfr-b
+     * @pbrbm b fvfnt listfnfr-b
      */
-    protected static EventListener addInternal(EventListener a, EventListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
-        return new DnDEventMulticaster(a, b);
+    protfdtfd stbtid EvfntListfnfr bddIntfrnbl(EvfntListfnfr b, EvfntListfnfr b) {
+        if (b == null)  rfturn b;
+        if (b == null)  rfturn b;
+        rfturn nfw DnDEvfntMultidbstfr(b, b);
     }
 
     /**
-     * Removes a listener from this multicaster and returns the
-     * resulting multicast listener.
-     * @param oldl the listener to be removed
+     * Rfmovfs b listfnfr from tiis multidbstfr bnd rfturns tif
+     * rfsulting multidbst listfnfr.
+     * @pbrbm oldl tif listfnfr to bf rfmovfd
      */
-    protected EventListener remove(EventListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
-        EventListener a2 = removeInternal(a, oldl);
-        EventListener b2 = removeInternal(b, oldl);
-        if (a2 == a && b2 == b) {
-            return this;        // it's not here
+    protfdtfd EvfntListfnfr rfmovf(EvfntListfnfr oldl) {
+        if (oldl == b)  rfturn b;
+        if (oldl == b)  rfturn b;
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        if (b2 == b && b2 == b) {
+            rfturn tiis;        // it's not ifrf
         }
-        return addInternal(a2, b2);
+        rfturn bddIntfrnbl(b2, b2);
     }
 
     /**
-     * Returns the resulting multicast listener after removing the
-     * old listener from listener-l.
-     * If listener-l equals the old listener OR listener-l is null,
-     * returns null.
-     * Else if listener-l is an instance of AWTEventMulticaster,
-     * then it removes the old listener from it.
-     * Else, returns listener l.
-     * @param l the listener being removed from
-     * @param oldl the listener being removed
+     * Rfturns tif rfsulting multidbst listfnfr bftfr rfmoving tif
+     * old listfnfr from listfnfr-l.
+     * If listfnfr-l fqubls tif old listfnfr OR listfnfr-l is null,
+     * rfturns null.
+     * Elsf if listfnfr-l is bn instbndf of AWTEvfntMultidbstfr,
+     * tifn it rfmovfs tif old listfnfr from it.
+     * Elsf, rfturns listfnfr l.
+     * @pbrbm l tif listfnfr bfing rfmovfd from
+     * @pbrbm oldl tif listfnfr bfing rfmovfd
      */
-    protected static EventListener removeInternal(EventListener l, EventListener oldl) {
+    protfdtfd stbtid EvfntListfnfr rfmovfIntfrnbl(EvfntListfnfr l, EvfntListfnfr oldl) {
         if (l == oldl || l == null) {
-            return null;
-        } else if (l instanceof DnDEventMulticaster) {
-            return ((DnDEventMulticaster)l).remove(oldl);
-        } else {
-            return l;           // it's not here
+            rfturn null;
+        } flsf if (l instbndfof DnDEvfntMultidbstfr) {
+            rfturn ((DnDEvfntMultidbstfr)l).rfmovf(oldl);
+        } flsf {
+            rfturn l;           // it's not ifrf
         }
     }
 
-    protected static void save(ObjectOutputStream s, String k, EventListener l)
-      throws IOException {
-        AWTEventMulticaster.save(s, k, l);
+    protfdtfd stbtid void sbvf(ObjfdtOutputStrfbm s, String k, EvfntListfnfr l)
+      tirows IOExdfption {
+        AWTEvfntMultidbstfr.sbvf(s, k, l);
     }
 }

@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.net.URL;
-import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.io.*;
+import jbvb.nft.URL;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.PropfrtyExpbndfr;
 
-import sun.security.jca.*;
+import sun.sfdurity.jdb.*;
 
 /**
- * <p>This class centralizes all security properties and common security
- * methods. One of its primary uses is to manage providers.
+ * <p>Tiis dlbss dfntrblizfs bll sfdurity propfrtifs bnd dommon sfdurity
+ * mftiods. Onf of its primbry usfs is to mbnbgf providfrs.
  *
- * <p>The default values of security properties are read from an
- * implementation-specific location, which is typically the properties file
- * {@code lib/security/java.security} in the Java installation directory.
+ * <p>Tif dffbult vblufs of sfdurity propfrtifs brf rfbd from bn
+ * implfmfntbtion-spfdifid lodbtion, wiidi is typidblly tif propfrtifs filf
+ * {@dodf lib/sfdurity/jbvb.sfdurity} in tif Jbvb instbllbtion dirfdtory.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
 
-public final class Security {
+publid finbl dlbss Sfdurity {
 
-    /* Are we debugging? -- for developers */
-    private static final Debug sdebug =
-                        Debug.getInstance("properties");
+    /* Arf wf dfbugging? -- for dfvflopfrs */
+    privbtf stbtid finbl Dfbug sdfbug =
+                        Dfbug.gftInstbndf("propfrtifs");
 
-    /* The java.security properties */
-    private static Properties props;
+    /* Tif jbvb.sfdurity propfrtifs */
+    privbtf stbtid Propfrtifs props;
 
-    // An element in the cache
-    private static class ProviderProperty {
-        String className;
-        Provider provider;
+    // An flfmfnt in tif dbdif
+    privbtf stbtid dlbss ProvidfrPropfrty {
+        String dlbssNbmf;
+        Providfr providfr;
     }
 
-    static {
-        // doPrivileged here because there are multiple
-        // things in initialize that might require privs.
-        // (the FileInputStream call and the File.exists call,
-        // the securityPropFile call, etc)
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                initialize();
-                return null;
+    stbtid {
+        // doPrivilfgfd ifrf bfdbusf tifrf brf multiplf
+        // tiings in initiblizf tibt migit rfquirf privs.
+        // (tif FilfInputStrfbm dbll bnd tif Filf.fxists dbll,
+        // tif sfdurityPropFilf dbll, ftd)
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                initiblizf();
+                rfturn null;
             }
         });
     }
 
-    private static void initialize() {
-        props = new Properties();
-        boolean loadedProps = false;
-        boolean overrideAll = false;
+    privbtf stbtid void initiblizf() {
+        props = nfw Propfrtifs();
+        boolfbn lobdfdProps = fblsf;
+        boolfbn ovfrridfAll = fblsf;
 
-        // first load the system properties file
-        // to determine the value of security.overridePropertiesFile
-        File propFile = securityPropFile("java.security");
-        if (propFile.exists()) {
-            InputStream is = null;
+        // first lobd tif systfm propfrtifs filf
+        // to dftfrminf tif vbluf of sfdurity.ovfrridfPropfrtifsFilf
+        Filf propFilf = sfdurityPropFilf("jbvb.sfdurity");
+        if (propFilf.fxists()) {
+            InputStrfbm is = null;
             try {
-                FileInputStream fis = new FileInputStream(propFile);
-                is = new BufferedInputStream(fis);
-                props.load(is);
-                loadedProps = true;
+                FilfInputStrfbm fis = nfw FilfInputStrfbm(propFilf);
+                is = nfw BufffrfdInputStrfbm(fis);
+                props.lobd(is);
+                lobdfdProps = truf;
 
-                if (sdebug != null) {
-                    sdebug.println("reading security properties file: " +
-                                propFile);
+                if (sdfbug != null) {
+                    sdfbug.println("rfbding sfdurity propfrtifs filf: " +
+                                propFilf);
                 }
-            } catch (IOException e) {
-                if (sdebug != null) {
-                    sdebug.println("unable to load security properties from " +
-                                propFile);
-                    e.printStackTrace();
+            } dbtdi (IOExdfption f) {
+                if (sdfbug != null) {
+                    sdfbug.println("unbblf to lobd sfdurity propfrtifs from " +
+                                propFilf);
+                    f.printStbdkTrbdf();
                 }
-            } finally {
+            } finblly {
                 if (is != null) {
                     try {
-                        is.close();
-                    } catch (IOException ioe) {
-                        if (sdebug != null) {
-                            sdebug.println("unable to close input stream");
+                        is.dlosf();
+                    } dbtdi (IOExdfption iof) {
+                        if (sdfbug != null) {
+                            sdfbug.println("unbblf to dlosf input strfbm");
                         }
                     }
                 }
             }
         }
 
-        if ("true".equalsIgnoreCase(props.getProperty
-                ("security.overridePropertiesFile"))) {
+        if ("truf".fqublsIgnorfCbsf(props.gftPropfrty
+                ("sfdurity.ovfrridfPropfrtifsFilf"))) {
 
-            String extraPropFile = System.getProperty
-                                        ("java.security.properties");
-            if (extraPropFile != null && extraPropFile.startsWith("=")) {
-                overrideAll = true;
-                extraPropFile = extraPropFile.substring(1);
+            String fxtrbPropFilf = Systfm.gftPropfrty
+                                        ("jbvb.sfdurity.propfrtifs");
+            if (fxtrbPropFilf != null && fxtrbPropFilf.stbrtsWiti("=")) {
+                ovfrridfAll = truf;
+                fxtrbPropFilf = fxtrbPropFilf.substring(1);
             }
 
-            if (overrideAll) {
-                props = new Properties();
-                if (sdebug != null) {
-                    sdebug.println
-                        ("overriding other security properties files!");
+            if (ovfrridfAll) {
+                props = nfw Propfrtifs();
+                if (sdfbug != null) {
+                    sdfbug.println
+                        ("ovfrriding otifr sfdurity propfrtifs filfs!");
                 }
             }
 
-            // now load the user-specified file so its values
-            // will win if they conflict with the earlier values
-            if (extraPropFile != null) {
-                BufferedInputStream bis = null;
+            // now lobd tif usfr-spfdififd filf so its vblufs
+            // will win if tify donflidt witi tif fbrlifr vblufs
+            if (fxtrbPropFilf != null) {
+                BufffrfdInputStrfbm bis = null;
                 try {
                     URL propURL;
 
-                    extraPropFile = PropertyExpander.expand(extraPropFile);
-                    propFile = new File(extraPropFile);
-                    if (propFile.exists()) {
-                        propURL = new URL
-                                ("file:" + propFile.getCanonicalPath());
-                    } else {
-                        propURL = new URL(extraPropFile);
+                    fxtrbPropFilf = PropfrtyExpbndfr.fxpbnd(fxtrbPropFilf);
+                    propFilf = nfw Filf(fxtrbPropFilf);
+                    if (propFilf.fxists()) {
+                        propURL = nfw URL
+                                ("filf:" + propFilf.gftCbnonidblPbti());
+                    } flsf {
+                        propURL = nfw URL(fxtrbPropFilf);
                     }
-                    bis = new BufferedInputStream(propURL.openStream());
-                    props.load(bis);
-                    loadedProps = true;
+                    bis = nfw BufffrfdInputStrfbm(propURL.opfnStrfbm());
+                    props.lobd(bis);
+                    lobdfdProps = truf;
 
-                    if (sdebug != null) {
-                        sdebug.println("reading security properties file: " +
+                    if (sdfbug != null) {
+                        sdfbug.println("rfbding sfdurity propfrtifs filf: " +
                                         propURL);
-                        if (overrideAll) {
-                            sdebug.println
-                                ("overriding other security properties files!");
+                        if (ovfrridfAll) {
+                            sdfbug.println
+                                ("ovfrriding otifr sfdurity propfrtifs filfs!");
                         }
                     }
-                } catch (Exception e) {
-                    if (sdebug != null) {
-                        sdebug.println
-                                ("unable to load security properties from " +
-                                extraPropFile);
-                        e.printStackTrace();
+                } dbtdi (Exdfption f) {
+                    if (sdfbug != null) {
+                        sdfbug.println
+                                ("unbblf to lobd sfdurity propfrtifs from " +
+                                fxtrbPropFilf);
+                        f.printStbdkTrbdf();
                     }
-                } finally {
+                } finblly {
                     if (bis != null) {
                         try {
-                            bis.close();
-                        } catch (IOException ioe) {
-                            if (sdebug != null) {
-                                sdebug.println("unable to close input stream");
+                            bis.dlosf();
+                        } dbtdi (IOExdfption iof) {
+                            if (sdfbug != null) {
+                                sdfbug.println("unbblf to dlosf input strfbm");
                             }
                         }
                     }
@@ -179,948 +179,948 @@ public final class Security {
             }
         }
 
-        if (!loadedProps) {
-            initializeStatic();
-            if (sdebug != null) {
-                sdebug.println("unable to load security properties " +
-                        "-- using defaults");
+        if (!lobdfdProps) {
+            initiblizfStbtid();
+            if (sdfbug != null) {
+                sdfbug.println("unbblf to lobd sfdurity propfrtifs " +
+                        "-- using dffbults");
             }
         }
 
     }
 
     /*
-     * Initialize to default values, if <java.home>/lib/java.security
+     * Initiblizf to dffbult vblufs, if <jbvb.iomf>/lib/jbvb.sfdurity
      * is not found.
      */
-    private static void initializeStatic() {
-        props.put("security.provider.1", "sun.security.provider.Sun");
-        props.put("security.provider.2", "sun.security.rsa.SunRsaSign");
-        props.put("security.provider.3", "com.sun.net.ssl.internal.ssl.Provider");
-        props.put("security.provider.4", "com.sun.crypto.provider.SunJCE");
-        props.put("security.provider.5", "sun.security.jgss.SunProvider");
-        props.put("security.provider.6", "com.sun.security.sasl.Provider");
+    privbtf stbtid void initiblizfStbtid() {
+        props.put("sfdurity.providfr.1", "sun.sfdurity.providfr.Sun");
+        props.put("sfdurity.providfr.2", "sun.sfdurity.rsb.SunRsbSign");
+        props.put("sfdurity.providfr.3", "dom.sun.nft.ssl.intfrnbl.ssl.Providfr");
+        props.put("sfdurity.providfr.4", "dom.sun.drypto.providfr.SunJCE");
+        props.put("sfdurity.providfr.5", "sun.sfdurity.jgss.SunProvidfr");
+        props.put("sfdurity.providfr.6", "dom.sun.sfdurity.sbsl.Providfr");
     }
 
     /**
-     * Don't let anyone instantiate this.
+     * Don't lft bnyonf instbntibtf tiis.
      */
-    private Security() {
+    privbtf Sfdurity() {
     }
 
-    private static File securityPropFile(String filename) {
-        // maybe check for a system property which will specify where to
-        // look. Someday.
-        String sep = File.separator;
-        return new File(System.getProperty("java.home") + sep + "lib" + sep +
-                        "security" + sep + filename);
+    privbtf stbtid Filf sfdurityPropFilf(String filfnbmf) {
+        // mbybf difdk for b systfm propfrty wiidi will spfdify wifrf to
+        // look. Somfdby.
+        String sfp = Filf.sfpbrbtor;
+        rfturn nfw Filf(Systfm.gftPropfrty("jbvb.iomf") + sfp + "lib" + sfp +
+                        "sfdurity" + sfp + filfnbmf);
     }
 
     /**
-     * Looks up providers, and returns the property (and its associated
-     * provider) mapping the key, if any.
-     * The order in which the providers are looked up is the
-     * provider-preference order, as specificed in the security
-     * properties file.
+     * Looks up providfrs, bnd rfturns tif propfrty (bnd its bssodibtfd
+     * providfr) mbpping tif kfy, if bny.
+     * Tif ordfr in wiidi tif providfrs brf lookfd up is tif
+     * providfr-prfffrfndf ordfr, bs spfdifidfd in tif sfdurity
+     * propfrtifs filf.
      */
-    private static ProviderProperty getProviderProperty(String key) {
-        ProviderProperty entry = null;
+    privbtf stbtid ProvidfrPropfrty gftProvidfrPropfrty(String kfy) {
+        ProvidfrPropfrty fntry = null;
 
-        List<Provider> providers = Providers.getProviderList().providers();
-        for (int i = 0; i < providers.size(); i++) {
+        List<Providfr> providfrs = Providfrs.gftProvidfrList().providfrs();
+        for (int i = 0; i < providfrs.sizf(); i++) {
 
-            String matchKey = null;
-            Provider prov = providers.get(i);
-            String prop = prov.getProperty(key);
+            String mbtdiKfy = null;
+            Providfr prov = providfrs.gft(i);
+            String prop = prov.gftPropfrty(kfy);
 
             if (prop == null) {
-                // Is there a match if we do a case-insensitive property name
-                // comparison? Let's try ...
-                for (Enumeration<Object> e = prov.keys();
-                                e.hasMoreElements() && prop == null; ) {
-                    matchKey = (String)e.nextElement();
-                    if (key.equalsIgnoreCase(matchKey)) {
-                        prop = prov.getProperty(matchKey);
-                        break;
+                // Is tifrf b mbtdi if wf do b dbsf-insfnsitivf propfrty nbmf
+                // dompbrison? Lft's try ...
+                for (Enumfrbtion<Objfdt> f = prov.kfys();
+                                f.ibsMorfElfmfnts() && prop == null; ) {
+                    mbtdiKfy = (String)f.nfxtElfmfnt();
+                    if (kfy.fqublsIgnorfCbsf(mbtdiKfy)) {
+                        prop = prov.gftPropfrty(mbtdiKfy);
+                        brfbk;
                     }
                 }
             }
 
             if (prop != null) {
-                ProviderProperty newEntry = new ProviderProperty();
-                newEntry.className = prop;
-                newEntry.provider = prov;
-                return newEntry;
+                ProvidfrPropfrty nfwEntry = nfw ProvidfrPropfrty();
+                nfwEntry.dlbssNbmf = prop;
+                nfwEntry.providfr = prov;
+                rfturn nfwEntry;
             }
         }
 
-        return entry;
+        rfturn fntry;
     }
 
     /**
-     * Returns the property (if any) mapping the key for the given provider.
+     * Rfturns tif propfrty (if bny) mbpping tif kfy for tif givfn providfr.
      */
-    private static String getProviderProperty(String key, Provider provider) {
-        String prop = provider.getProperty(key);
+    privbtf stbtid String gftProvidfrPropfrty(String kfy, Providfr providfr) {
+        String prop = providfr.gftPropfrty(kfy);
         if (prop == null) {
-            // Is there a match if we do a case-insensitive property name
-            // comparison? Let's try ...
-            for (Enumeration<Object> e = provider.keys();
-                                e.hasMoreElements() && prop == null; ) {
-                String matchKey = (String)e.nextElement();
-                if (key.equalsIgnoreCase(matchKey)) {
-                    prop = provider.getProperty(matchKey);
-                    break;
+            // Is tifrf b mbtdi if wf do b dbsf-insfnsitivf propfrty nbmf
+            // dompbrison? Lft's try ...
+            for (Enumfrbtion<Objfdt> f = providfr.kfys();
+                                f.ibsMorfElfmfnts() && prop == null; ) {
+                String mbtdiKfy = (String)f.nfxtElfmfnt();
+                if (kfy.fqublsIgnorfCbsf(mbtdiKfy)) {
+                    prop = providfr.gftPropfrty(mbtdiKfy);
+                    brfbk;
                 }
             }
         }
-        return prop;
+        rfturn prop;
     }
 
     /**
-     * Gets a specified property for an algorithm. The algorithm name
-     * should be a standard name. See the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * Gfts b spfdififd propfrty for bn blgoritim. Tif blgoritim nbmf
+     * siould bf b stbndbrd nbmf. Sff tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * One possible use is by specialized algorithm parsers, which may map
-     * classes to algorithms which they understand (much like Key parsers
+     * Onf possiblf usf is by spfdiblizfd blgoritim pbrsfrs, wiidi mby mbp
+     * dlbssfs to blgoritims wiidi tify undfrstbnd (mudi likf Kfy pbrsfrs
      * do).
      *
-     * @param algName the algorithm name.
+     * @pbrbm blgNbmf tif blgoritim nbmf.
      *
-     * @param propName the name of the property to get.
+     * @pbrbm propNbmf tif nbmf of tif propfrty to gft.
      *
-     * @return the value of the specified property.
+     * @rfturn tif vbluf of tif spfdififd propfrty.
      *
-     * @deprecated This method used to return the value of a proprietary
-     * property in the master file of the "SUN" Cryptographic Service
-     * Provider in order to determine how to parse algorithm-specific
-     * parameters. Use the new provider-based and algorithm-independent
-     * {@code AlgorithmParameters} and {@code KeyFactory} engine
-     * classes (introduced in the J2SE version 1.2 platform) instead.
+     * @dfprfdbtfd Tiis mftiod usfd to rfturn tif vbluf of b propriftbry
+     * propfrty in tif mbstfr filf of tif "SUN" Cryptogrbpiid Sfrvidf
+     * Providfr in ordfr to dftfrminf iow to pbrsf blgoritim-spfdifid
+     * pbrbmftfrs. Usf tif nfw providfr-bbsfd bnd blgoritim-indfpfndfnt
+     * {@dodf AlgoritimPbrbmftfrs} bnd {@dodf KfyFbdtory} fnginf
+     * dlbssfs (introdudfd in tif J2SE vfrsion 1.2 plbtform) instfbd.
      */
-    @Deprecated
-    public static String getAlgorithmProperty(String algName,
-                                              String propName) {
-        ProviderProperty entry = getProviderProperty("Alg." + propName
-                                                     + "." + algName);
-        if (entry != null) {
-            return entry.className;
-        } else {
-            return null;
+    @Dfprfdbtfd
+    publid stbtid String gftAlgoritimPropfrty(String blgNbmf,
+                                              String propNbmf) {
+        ProvidfrPropfrty fntry = gftProvidfrPropfrty("Alg." + propNbmf
+                                                     + "." + blgNbmf);
+        if (fntry != null) {
+            rfturn fntry.dlbssNbmf;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Adds a new provider, at a specified position. The position is
-     * the preference order in which providers are searched for
-     * requested algorithms.  The position is 1-based, that is,
-     * 1 is most preferred, followed by 2, and so on.
+     * Adds b nfw providfr, bt b spfdififd position. Tif position is
+     * tif prfffrfndf ordfr in wiidi providfrs brf sfbrdifd for
+     * rfqufstfd blgoritims.  Tif position is 1-bbsfd, tibt is,
+     * 1 is most prfffrrfd, followfd by 2, bnd so on.
      *
-     * <p>If the given provider is installed at the requested position,
-     * the provider that used to be at that position, and all providers
-     * with a position greater than {@code position}, are shifted up
-     * one position (towards the end of the list of installed providers).
+     * <p>If tif givfn providfr is instbllfd bt tif rfqufstfd position,
+     * tif providfr tibt usfd to bf bt tibt position, bnd bll providfrs
+     * witi b position grfbtfr tibn {@dodf position}, brf siiftfd up
+     * onf position (towbrds tif fnd of tif list of instbllfd providfrs).
      *
-     * <p>A provider cannot be added if it is already installed.
+     * <p>A providfr dbnnot bf bddfd if it is blrfbdy instbllfd.
      *
-     * <p>If there is a security manager, the
-     * {@link java.lang.SecurityManager#checkSecurityAccess} method is called
-     * with the {@code "insertProvider"} permission target name to see if
-     * it's ok to add a new provider. If this permission check is denied,
-     * {@code checkSecurityAccess} is called again with the
-     * {@code "insertProvider."+provider.getName()} permission target name. If
-     * both checks are denied, a {@code SecurityException} is thrown.
+     * <p>If tifrf is b sfdurity mbnbgfr, tif
+     * {@link jbvb.lbng.SfdurityMbnbgfr#difdkSfdurityAddfss} mftiod is dbllfd
+     * witi tif {@dodf "insfrtProvidfr"} pfrmission tbrgft nbmf to sff if
+     * it's ok to bdd b nfw providfr. If tiis pfrmission difdk is dfnifd,
+     * {@dodf difdkSfdurityAddfss} is dbllfd bgbin witi tif
+     * {@dodf "insfrtProvidfr."+providfr.gftNbmf()} pfrmission tbrgft nbmf. If
+     * boti difdks brf dfnifd, b {@dodf SfdurityExdfption} is tirown.
      *
-     * @param provider the provider to be added.
+     * @pbrbm providfr tif providfr to bf bddfd.
      *
-     * @param position the preference position that the caller would
-     * like for this provider.
+     * @pbrbm position tif prfffrfndf position tibt tif dbllfr would
+     * likf for tiis providfr.
      *
-     * @return the actual preference position in which the provider was
-     * added, or -1 if the provider was not added because it is
-     * already installed.
+     * @rfturn tif bdtubl prfffrfndf position in wiidi tif providfr wbs
+     * bddfd, or -1 if tif providfr wbs not bddfd bfdbusf it is
+     * blrfbdy instbllfd.
      *
-     * @throws  NullPointerException if provider is null
-     * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to add a new provider
+     * @tirows  NullPointfrExdfption if providfr is null
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr fxists bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkSfdurityAddfss} mftiod
+     *          dfnifs bddfss to bdd b nfw providfr
      *
-     * @see #getProvider
-     * @see #removeProvider
-     * @see java.security.SecurityPermission
+     * @sff #gftProvidfr
+     * @sff #rfmovfProvidfr
+     * @sff jbvb.sfdurity.SfdurityPfrmission
      */
-    public static synchronized int insertProviderAt(Provider provider,
+    publid stbtid syndironizfd int insfrtProvidfrAt(Providfr providfr,
             int position) {
-        String providerName = provider.getName();
-        checkInsertProvider(providerName);
-        ProviderList list = Providers.getFullProviderList();
-        ProviderList newList = ProviderList.insertAt(list, provider, position - 1);
-        if (list == newList) {
-            return -1;
+        String providfrNbmf = providfr.gftNbmf();
+        difdkInsfrtProvidfr(providfrNbmf);
+        ProvidfrList list = Providfrs.gftFullProvidfrList();
+        ProvidfrList nfwList = ProvidfrList.insfrtAt(list, providfr, position - 1);
+        if (list == nfwList) {
+            rfturn -1;
         }
-        Providers.setProviderList(newList);
-        return newList.getIndex(providerName) + 1;
+        Providfrs.sftProvidfrList(nfwList);
+        rfturn nfwList.gftIndfx(providfrNbmf) + 1;
     }
 
     /**
-     * Adds a provider to the next position available.
+     * Adds b providfr to tif nfxt position bvbilbblf.
      *
-     * <p>If there is a security manager, the
-     * {@link java.lang.SecurityManager#checkSecurityAccess} method is called
-     * with the {@code "insertProvider"} permission target name to see if
-     * it's ok to add a new provider. If this permission check is denied,
-     * {@code checkSecurityAccess} is called again with the
-     * {@code "insertProvider."+provider.getName()} permission target name. If
-     * both checks are denied, a {@code SecurityException} is thrown.
+     * <p>If tifrf is b sfdurity mbnbgfr, tif
+     * {@link jbvb.lbng.SfdurityMbnbgfr#difdkSfdurityAddfss} mftiod is dbllfd
+     * witi tif {@dodf "insfrtProvidfr"} pfrmission tbrgft nbmf to sff if
+     * it's ok to bdd b nfw providfr. If tiis pfrmission difdk is dfnifd,
+     * {@dodf difdkSfdurityAddfss} is dbllfd bgbin witi tif
+     * {@dodf "insfrtProvidfr."+providfr.gftNbmf()} pfrmission tbrgft nbmf. If
+     * boti difdks brf dfnifd, b {@dodf SfdurityExdfption} is tirown.
      *
-     * @param provider the provider to be added.
+     * @pbrbm providfr tif providfr to bf bddfd.
      *
-     * @return the preference position in which the provider was
-     * added, or -1 if the provider was not added because it is
-     * already installed.
+     * @rfturn tif prfffrfndf position in wiidi tif providfr wbs
+     * bddfd, or -1 if tif providfr wbs not bddfd bfdbusf it is
+     * blrfbdy instbllfd.
      *
-     * @throws  NullPointerException if provider is null
-     * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to add a new provider
+     * @tirows  NullPointfrExdfption if providfr is null
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr fxists bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkSfdurityAddfss} mftiod
+     *          dfnifs bddfss to bdd b nfw providfr
      *
-     * @see #getProvider
-     * @see #removeProvider
-     * @see java.security.SecurityPermission
+     * @sff #gftProvidfr
+     * @sff #rfmovfProvidfr
+     * @sff jbvb.sfdurity.SfdurityPfrmission
      */
-    public static int addProvider(Provider provider) {
+    publid stbtid int bddProvidfr(Providfr providfr) {
         /*
-         * We can't assign a position here because the statically
-         * registered providers may not have been installed yet.
-         * insertProviderAt() will fix that value after it has
-         * loaded the static providers.
+         * Wf dbn't bssign b position ifrf bfdbusf tif stbtidblly
+         * rfgistfrfd providfrs mby not ibvf bffn instbllfd yft.
+         * insfrtProvidfrAt() will fix tibt vbluf bftfr it ibs
+         * lobdfd tif stbtid providfrs.
          */
-        return insertProviderAt(provider, 0);
+        rfturn insfrtProvidfrAt(providfr, 0);
     }
 
     /**
-     * Removes the provider with the specified name.
+     * Rfmovfs tif providfr witi tif spfdififd nbmf.
      *
-     * <p>When the specified provider is removed, all providers located
-     * at a position greater than where the specified provider was are shifted
-     * down one position (towards the head of the list of installed
-     * providers).
+     * <p>Wifn tif spfdififd providfr is rfmovfd, bll providfrs lodbtfd
+     * bt b position grfbtfr tibn wifrf tif spfdififd providfr wbs brf siiftfd
+     * down onf position (towbrds tif ifbd of tif list of instbllfd
+     * providfrs).
      *
-     * <p>This method returns silently if the provider is not installed or
-     * if name is null.
+     * <p>Tiis mftiod rfturns silfntly if tif providfr is not instbllfd or
+     * if nbmf is null.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkSecurityAccess}
-     * method is called with the string {@code "removeProvider."+name}
-     * to see if it's ok to remove the provider.
-     * If the default implementation of {@code checkSecurityAccess}
-     * is used (i.e., that method is not overriden), then this will result in
-     * a call to the security manager's {@code checkPermission} method
-     * with a {@code SecurityPermission("removeProvider."+name)}
-     * permission.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi tif string {@dodf "rfmovfProvidfr."+nbmf}
+     * to sff if it's ok to rfmovf tif providfr.
+     * If tif dffbult implfmfntbtion of {@dodf difdkSfdurityAddfss}
+     * is usfd (i.f., tibt mftiod is not ovfrridfn), tifn tiis will rfsult in
+     * b dbll to tif sfdurity mbnbgfr's {@dodf difdkPfrmission} mftiod
+     * witi b {@dodf SfdurityPfrmission("rfmovfProvidfr."+nbmf)}
+     * pfrmission.
      *
-     * @param name the name of the provider to remove.
+     * @pbrbm nbmf tif nbmf of tif providfr to rfmovf.
      *
-     * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies
-     *          access to remove the provider
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr fxists bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkSfdurityAddfss} mftiod
+     *          dfnifs
+     *          bddfss to rfmovf tif providfr
      *
-     * @see #getProvider
-     * @see #addProvider
+     * @sff #gftProvidfr
+     * @sff #bddProvidfr
      */
-    public static synchronized void removeProvider(String name) {
-        check("removeProvider." + name);
-        ProviderList list = Providers.getFullProviderList();
-        ProviderList newList = ProviderList.remove(list, name);
-        Providers.setProviderList(newList);
+    publid stbtid syndironizfd void rfmovfProvidfr(String nbmf) {
+        difdk("rfmovfProvidfr." + nbmf);
+        ProvidfrList list = Providfrs.gftFullProvidfrList();
+        ProvidfrList nfwList = ProvidfrList.rfmovf(list, nbmf);
+        Providfrs.sftProvidfrList(nfwList);
     }
 
     /**
-     * Returns an array containing all the installed providers. The order of
-     * the providers in the array is their preference order.
+     * Rfturns bn brrby dontbining bll tif instbllfd providfrs. Tif ordfr of
+     * tif providfrs in tif brrby is tifir prfffrfndf ordfr.
      *
-     * @return an array of all the installed providers.
+     * @rfturn bn brrby of bll tif instbllfd providfrs.
      */
-    public static Provider[] getProviders() {
-        return Providers.getFullProviderList().toArray();
+    publid stbtid Providfr[] gftProvidfrs() {
+        rfturn Providfrs.gftFullProvidfrList().toArrby();
     }
 
     /**
-     * Returns the provider installed with the specified name, if
-     * any. Returns null if no provider with the specified name is
-     * installed or if name is null.
+     * Rfturns tif providfr instbllfd witi tif spfdififd nbmf, if
+     * bny. Rfturns null if no providfr witi tif spfdififd nbmf is
+     * instbllfd or if nbmf is null.
      *
-     * @param name the name of the provider to get.
+     * @pbrbm nbmf tif nbmf of tif providfr to gft.
      *
-     * @return the provider of the specified name.
+     * @rfturn tif providfr of tif spfdififd nbmf.
      *
-     * @see #removeProvider
-     * @see #addProvider
+     * @sff #rfmovfProvidfr
+     * @sff #bddProvidfr
      */
-    public static Provider getProvider(String name) {
-        return Providers.getProviderList().getProvider(name);
+    publid stbtid Providfr gftProvidfr(String nbmf) {
+        rfturn Providfrs.gftProvidfrList().gftProvidfr(nbmf);
     }
 
     /**
-     * Returns an array containing all installed providers that satisfy the
-     * specified selection criterion, or null if no such providers have been
-     * installed. The returned providers are ordered
-     * according to their
-     * {@linkplain #insertProviderAt(java.security.Provider, int) preference order}.
+     * Rfturns bn brrby dontbining bll instbllfd providfrs tibt sbtisfy tif
+     * spfdififd sflfdtion dritfrion, or null if no sudi providfrs ibvf bffn
+     * instbllfd. Tif rfturnfd providfrs brf ordfrfd
+     * bddording to tifir
+     * {@linkplbin #insfrtProvidfrAt(jbvb.sfdurity.Providfr, int) prfffrfndf ordfr}.
      *
-     * <p> A cryptographic service is always associated with a particular
-     * algorithm or type. For example, a digital signature service is
-     * always associated with a particular algorithm (e.g., DSA),
-     * and a CertificateFactory service is always associated with
-     * a particular certificate type (e.g., X.509).
+     * <p> A dryptogrbpiid sfrvidf is blwbys bssodibtfd witi b pbrtidulbr
+     * blgoritim or typf. For fxbmplf, b digitbl signbturf sfrvidf is
+     * blwbys bssodibtfd witi b pbrtidulbr blgoritim (f.g., DSA),
+     * bnd b CfrtifidbtfFbdtory sfrvidf is blwbys bssodibtfd witi
+     * b pbrtidulbr dfrtifidbtf typf (f.g., X.509).
      *
-     * <p>The selection criterion must be specified in one of the following two
-     * formats:
+     * <p>Tif sflfdtion dritfrion must bf spfdififd in onf of tif following two
+     * formbts:
      * <ul>
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>}</i>
-     * <p> The cryptographic service name must not contain any dots.
+     * <li> <i>{@litfrbl <drypto_sfrvidf>.<blgoritim_or_typf>}</i>
+     * <p> Tif dryptogrbpiid sfrvidf nbmf must not dontbin bny dots.
      * <p> A
-     * provider satisfies the specified selection criterion iff the provider
-     * implements the
-     * specified algorithm or type for the specified cryptographic service.
-     * <p> For example, "CertificateFactory.X.509"
-     * would be satisfied by any provider that supplied
-     * a CertificateFactory implementation for X.509 certificates.
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>
-     * <attribute_name>:<attribute_value>}</i>
-     * <p> The cryptographic service name must not contain any dots. There
-     * must be one or more space characters between the
-     * <i>{@literal <algorithm_or_type>}</i> and the
-     * <i>{@literal <attribute_name>}</i>.
-     *  <p> A provider satisfies this selection criterion iff the
-     * provider implements the specified algorithm or type for the specified
-     * cryptographic service and its implementation meets the
-     * constraint expressed by the specified attribute name/value pair.
-     * <p> For example, "Signature.SHA1withDSA KeySize:1024" would be
-     * satisfied by any provider that implemented
-     * the SHA1withDSA signature algorithm with a keysize of 1024 (or larger).
+     * providfr sbtisfifs tif spfdififd sflfdtion dritfrion iff tif providfr
+     * implfmfnts tif
+     * spfdififd blgoritim or typf for tif spfdififd dryptogrbpiid sfrvidf.
+     * <p> For fxbmplf, "CfrtifidbtfFbdtory.X.509"
+     * would bf sbtisfifd by bny providfr tibt supplifd
+     * b CfrtifidbtfFbdtory implfmfntbtion for X.509 dfrtifidbtfs.
+     * <li> <i>{@litfrbl <drypto_sfrvidf>.<blgoritim_or_typf>
+     * <bttributf_nbmf>:<bttributf_vbluf>}</i>
+     * <p> Tif dryptogrbpiid sfrvidf nbmf must not dontbin bny dots. Tifrf
+     * must bf onf or morf spbdf dibrbdtfrs bftwffn tif
+     * <i>{@litfrbl <blgoritim_or_typf>}</i> bnd tif
+     * <i>{@litfrbl <bttributf_nbmf>}</i>.
+     *  <p> A providfr sbtisfifs tiis sflfdtion dritfrion iff tif
+     * providfr implfmfnts tif spfdififd blgoritim or typf for tif spfdififd
+     * dryptogrbpiid sfrvidf bnd its implfmfntbtion mffts tif
+     * donstrbint fxprfssfd by tif spfdififd bttributf nbmf/vbluf pbir.
+     * <p> For fxbmplf, "Signbturf.SHA1witiDSA KfySizf:1024" would bf
+     * sbtisfifd by bny providfr tibt implfmfntfd
+     * tif SHA1witiDSA signbturf blgoritim witi b kfysizf of 1024 (or lbrgfr).
      *
      * </ul>
      *
-     * <p> See the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard cryptographic service names, standard
-     * algorithm names and standard attribute names.
+     * <p> Sff tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd dryptogrbpiid sfrvidf nbmfs, stbndbrd
+     * blgoritim nbmfs bnd stbndbrd bttributf nbmfs.
      *
-     * @param filter the criterion for selecting
-     * providers. The filter is case-insensitive.
+     * @pbrbm filtfr tif dritfrion for sflfdting
+     * providfrs. Tif filtfr is dbsf-insfnsitivf.
      *
-     * @return all the installed providers that satisfy the selection
-     * criterion, or null if no such providers have been installed.
+     * @rfturn bll tif instbllfd providfrs tibt sbtisfy tif sflfdtion
+     * dritfrion, or null if no sudi providfrs ibvf bffn instbllfd.
      *
-     * @throws InvalidParameterException
-     *         if the filter is not in the required format
-     * @throws NullPointerException if filter is null
+     * @tirows InvblidPbrbmftfrExdfption
+     *         if tif filtfr is not in tif rfquirfd formbt
+     * @tirows NullPointfrExdfption if filtfr is null
      *
-     * @see #getProviders(java.util.Map)
-     * @since 1.3
+     * @sff #gftProvidfrs(jbvb.util.Mbp)
+     * @sindf 1.3
      */
-    public static Provider[] getProviders(String filter) {
-        String key = null;
-        String value = null;
-        int index = filter.indexOf(':');
+    publid stbtid Providfr[] gftProvidfrs(String filtfr) {
+        String kfy = null;
+        String vbluf = null;
+        int indfx = filtfr.indfxOf(':');
 
-        if (index == -1) {
-            key = filter;
-            value = "";
-        } else {
-            key = filter.substring(0, index);
-            value = filter.substring(index + 1);
+        if (indfx == -1) {
+            kfy = filtfr;
+            vbluf = "";
+        } flsf {
+            kfy = filtfr.substring(0, indfx);
+            vbluf = filtfr.substring(indfx + 1);
         }
 
-        Hashtable<String, String> hashtableFilter = new Hashtable<>(1);
-        hashtableFilter.put(key, value);
+        Hbsitbblf<String, String> ibsitbblfFiltfr = nfw Hbsitbblf<>(1);
+        ibsitbblfFiltfr.put(kfy, vbluf);
 
-        return (getProviders(hashtableFilter));
+        rfturn (gftProvidfrs(ibsitbblfFiltfr));
     }
 
     /**
-     * Returns an array containing all installed providers that satisfy the
-     * specified* selection criteria, or null if no such providers have been
-     * installed. The returned providers are ordered
-     * according to their
-     * {@linkplain #insertProviderAt(java.security.Provider, int)
-     * preference order}.
+     * Rfturns bn brrby dontbining bll instbllfd providfrs tibt sbtisfy tif
+     * spfdififd* sflfdtion dritfrib, or null if no sudi providfrs ibvf bffn
+     * instbllfd. Tif rfturnfd providfrs brf ordfrfd
+     * bddording to tifir
+     * {@linkplbin #insfrtProvidfrAt(jbvb.sfdurity.Providfr, int)
+     * prfffrfndf ordfr}.
      *
-     * <p>The selection criteria are represented by a map.
-     * Each map entry represents a selection criterion.
-     * A provider is selected iff it satisfies all selection
-     * criteria. The key for any entry in such a map must be in one of the
-     * following two formats:
+     * <p>Tif sflfdtion dritfrib brf rfprfsfntfd by b mbp.
+     * Ebdi mbp fntry rfprfsfnts b sflfdtion dritfrion.
+     * A providfr is sflfdtfd iff it sbtisfifs bll sflfdtion
+     * dritfrib. Tif kfy for bny fntry in sudi b mbp must bf in onf of tif
+     * following two formbts:
      * <ul>
-     * <li> <i>{@literal <crypto_service>.<algorithm_or_type>}</i>
-     * <p> The cryptographic service name must not contain any dots.
-     * <p> The value associated with the key must be an empty string.
-     * <p> A provider
-     * satisfies this selection criterion iff the provider implements the
-     * specified algorithm or type for the specified cryptographic service.
-     * <li>  <i>{@literal <crypto_service>}.
-     * {@literal <algorithm_or_type> <attribute_name>}</i>
-     * <p> The cryptographic service name must not contain any dots. There
-     * must be one or more space characters between the
-     * <i>{@literal <algorithm_or_type>}</i>
-     * and the <i>{@literal <attribute_name>}</i>.
-     * <p> The value associated with the key must be a non-empty string.
-     * A provider satisfies this selection criterion iff the
-     * provider implements the specified algorithm or type for the specified
-     * cryptographic service and its implementation meets the
-     * constraint expressed by the specified attribute name/value pair.
+     * <li> <i>{@litfrbl <drypto_sfrvidf>.<blgoritim_or_typf>}</i>
+     * <p> Tif dryptogrbpiid sfrvidf nbmf must not dontbin bny dots.
+     * <p> Tif vbluf bssodibtfd witi tif kfy must bf bn fmpty string.
+     * <p> A providfr
+     * sbtisfifs tiis sflfdtion dritfrion iff tif providfr implfmfnts tif
+     * spfdififd blgoritim or typf for tif spfdififd dryptogrbpiid sfrvidf.
+     * <li>  <i>{@litfrbl <drypto_sfrvidf>}.
+     * {@litfrbl <blgoritim_or_typf> <bttributf_nbmf>}</i>
+     * <p> Tif dryptogrbpiid sfrvidf nbmf must not dontbin bny dots. Tifrf
+     * must bf onf or morf spbdf dibrbdtfrs bftwffn tif
+     * <i>{@litfrbl <blgoritim_or_typf>}</i>
+     * bnd tif <i>{@litfrbl <bttributf_nbmf>}</i>.
+     * <p> Tif vbluf bssodibtfd witi tif kfy must bf b non-fmpty string.
+     * A providfr sbtisfifs tiis sflfdtion dritfrion iff tif
+     * providfr implfmfnts tif spfdififd blgoritim or typf for tif spfdififd
+     * dryptogrbpiid sfrvidf bnd its implfmfntbtion mffts tif
+     * donstrbint fxprfssfd by tif spfdififd bttributf nbmf/vbluf pbir.
      * </ul>
      *
-     * <p> See the <a href=
-     * "../../../technotes/guides/security/StandardNames.html">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard cryptographic service names, standard
-     * algorithm names and standard attribute names.
+     * <p> Sff tif <b irff=
+     * "../../../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd dryptogrbpiid sfrvidf nbmfs, stbndbrd
+     * blgoritim nbmfs bnd stbndbrd bttributf nbmfs.
      *
-     * @param filter the criteria for selecting
-     * providers. The filter is case-insensitive.
+     * @pbrbm filtfr tif dritfrib for sflfdting
+     * providfrs. Tif filtfr is dbsf-insfnsitivf.
      *
-     * @return all the installed providers that satisfy the selection
-     * criteria, or null if no such providers have been installed.
+     * @rfturn bll tif instbllfd providfrs tibt sbtisfy tif sflfdtion
+     * dritfrib, or null if no sudi providfrs ibvf bffn instbllfd.
      *
-     * @throws InvalidParameterException
-     *         if the filter is not in the required format
-     * @throws NullPointerException if filter is null
+     * @tirows InvblidPbrbmftfrExdfption
+     *         if tif filtfr is not in tif rfquirfd formbt
+     * @tirows NullPointfrExdfption if filtfr is null
      *
-     * @see #getProviders(java.lang.String)
-     * @since 1.3
+     * @sff #gftProvidfrs(jbvb.lbng.String)
+     * @sindf 1.3
      */
-    public static Provider[] getProviders(Map<String,String> filter) {
-        // Get all installed providers first.
-        // Then only return those providers who satisfy the selection criteria.
-        Provider[] allProviders = Security.getProviders();
-        Set<String> keySet = filter.keySet();
-        LinkedHashSet<Provider> candidates = new LinkedHashSet<>(5);
+    publid stbtid Providfr[] gftProvidfrs(Mbp<String,String> filtfr) {
+        // Gft bll instbllfd providfrs first.
+        // Tifn only rfturn tiosf providfrs wio sbtisfy tif sflfdtion dritfrib.
+        Providfr[] bllProvidfrs = Sfdurity.gftProvidfrs();
+        Sft<String> kfySft = filtfr.kfySft();
+        LinkfdHbsiSft<Providfr> dbndidbtfs = nfw LinkfdHbsiSft<>(5);
 
-        // Returns all installed providers
-        // if the selection criteria is null.
-        if ((keySet == null) || (allProviders == null)) {
-            return allProviders;
+        // Rfturns bll instbllfd providfrs
+        // if tif sflfdtion dritfrib is null.
+        if ((kfySft == null) || (bllProvidfrs == null)) {
+            rfturn bllProvidfrs;
         }
 
-        boolean firstSearch = true;
+        boolfbn firstSfbrdi = truf;
 
-        // For each selection criterion, remove providers
-        // which don't satisfy the criterion from the candidate set.
-        for (Iterator<String> ite = keySet.iterator(); ite.hasNext(); ) {
-            String key = ite.next();
-            String value = filter.get(key);
+        // For fbdi sflfdtion dritfrion, rfmovf providfrs
+        // wiidi don't sbtisfy tif dritfrion from tif dbndidbtf sft.
+        for (Itfrbtor<String> itf = kfySft.itfrbtor(); itf.ibsNfxt(); ) {
+            String kfy = itf.nfxt();
+            String vbluf = filtfr.gft(kfy);
 
-            LinkedHashSet<Provider> newCandidates = getAllQualifyingCandidates(key, value,
-                                                               allProviders);
-            if (firstSearch) {
-                candidates = newCandidates;
-                firstSearch = false;
+            LinkfdHbsiSft<Providfr> nfwCbndidbtfs = gftAllQublifyingCbndidbtfs(kfy, vbluf,
+                                                               bllProvidfrs);
+            if (firstSfbrdi) {
+                dbndidbtfs = nfwCbndidbtfs;
+                firstSfbrdi = fblsf;
             }
 
-            if ((newCandidates != null) && !newCandidates.isEmpty()) {
-                // For each provider in the candidates set, if it
-                // isn't in the newCandidate set, we should remove
-                // it from the candidate set.
-                for (Iterator<Provider> cansIte = candidates.iterator();
-                     cansIte.hasNext(); ) {
-                    Provider prov = cansIte.next();
-                    if (!newCandidates.contains(prov)) {
-                        cansIte.remove();
+            if ((nfwCbndidbtfs != null) && !nfwCbndidbtfs.isEmpty()) {
+                // For fbdi providfr in tif dbndidbtfs sft, if it
+                // isn't in tif nfwCbndidbtf sft, wf siould rfmovf
+                // it from tif dbndidbtf sft.
+                for (Itfrbtor<Providfr> dbnsItf = dbndidbtfs.itfrbtor();
+                     dbnsItf.ibsNfxt(); ) {
+                    Providfr prov = dbnsItf.nfxt();
+                    if (!nfwCbndidbtfs.dontbins(prov)) {
+                        dbnsItf.rfmovf();
                     }
                 }
-            } else {
-                candidates = null;
-                break;
+            } flsf {
+                dbndidbtfs = null;
+                brfbk;
             }
         }
 
-        if ((candidates == null) || (candidates.isEmpty()))
-            return null;
+        if ((dbndidbtfs == null) || (dbndidbtfs.isEmpty()))
+            rfturn null;
 
-        Object[] candidatesArray = candidates.toArray();
-        Provider[] result = new Provider[candidatesArray.length];
+        Objfdt[] dbndidbtfsArrby = dbndidbtfs.toArrby();
+        Providfr[] rfsult = nfw Providfr[dbndidbtfsArrby.lfngti];
 
-        for (int i = 0; i < result.length; i++) {
-            result[i] = (Provider)candidatesArray[i];
+        for (int i = 0; i < rfsult.lfngti; i++) {
+            rfsult[i] = (Providfr)dbndidbtfsArrby[i];
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    // Map containing cached Spi Class objects of the specified type
-    private static final Map<String, Class<?>> spiMap =
-            new ConcurrentHashMap<>();
+    // Mbp dontbining dbdifd Spi Clbss objfdts of tif spfdififd typf
+    privbtf stbtid finbl Mbp<String, Clbss<?>> spiMbp =
+            nfw CondurrfntHbsiMbp<>();
 
     /**
-     * Return the Class object for the given engine type
-     * (e.g. "MessageDigest"). Works for Spis in the java.security package
+     * Rfturn tif Clbss objfdt for tif givfn fnginf typf
+     * (f.g. "MfssbgfDigfst"). Works for Spis in tif jbvb.sfdurity pbdkbgf
      * only.
      */
-    private static Class<?> getSpiClass(String type) {
-        Class<?> clazz = spiMap.get(type);
-        if (clazz != null) {
-            return clazz;
+    privbtf stbtid Clbss<?> gftSpiClbss(String typf) {
+        Clbss<?> dlbzz = spiMbp.gft(typf);
+        if (dlbzz != null) {
+            rfturn dlbzz;
         }
         try {
-            clazz = Class.forName("java.security." + type + "Spi");
-            spiMap.put(type, clazz);
-            return clazz;
-        } catch (ClassNotFoundException e) {
-            throw new AssertionError("Spi class not found", e);
+            dlbzz = Clbss.forNbmf("jbvb.sfdurity." + typf + "Spi");
+            spiMbp.put(typf, dlbzz);
+            rfturn dlbzz;
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw AssfrtionError("Spi dlbss not found", f);
         }
     }
 
     /*
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The {@code provider} argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Rfturns bn brrby of objfdts: tif first objfdt in tif brrby is
+     * bn instbndf of bn implfmfntbtion of tif rfqufstfd blgoritim
+     * bnd typf, bnd tif sfdond objfdt in tif brrby idfntififs tif providfr
+     * of tibt implfmfntbtion.
+     * Tif {@dodf providfr} brgumfnt dbn bf null, in wiidi dbsf bll
+     * donfigurfd providfrs will bf sfbrdifd in ordfr of prfffrfndf.
      */
-    static Object[] getImpl(String algorithm, String type, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        if (provider == null) {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm).toArray();
-        } else {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, provider).toArray();
+    stbtid Objfdt[] gftImpl(String blgoritim, String typf, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        if (providfr == null) {
+            rfturn GftInstbndf.gftInstbndf
+                (typf, gftSpiClbss(typf), blgoritim).toArrby();
+        } flsf {
+            rfturn GftInstbndf.gftInstbndf
+                (typf, gftSpiClbss(typf), blgoritim, providfr).toArrby();
         }
     }
 
-    static Object[] getImpl(String algorithm, String type, String provider,
-            Object params) throws NoSuchAlgorithmException,
-            NoSuchProviderException, InvalidAlgorithmParameterException {
-        if (provider == null) {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, params).toArray();
-        } else {
-            return GetInstance.getInstance
-                (type, getSpiClass(type), algorithm, params, provider).toArray();
+    stbtid Objfdt[] gftImpl(String blgoritim, String typf, String providfr,
+            Objfdt pbrbms) tirows NoSudiAlgoritimExdfption,
+            NoSudiProvidfrExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (providfr == null) {
+            rfturn GftInstbndf.gftInstbndf
+                (typf, gftSpiClbss(typf), blgoritim, pbrbms).toArrby();
+        } flsf {
+            rfturn GftInstbndf.gftInstbndf
+                (typf, gftSpiClbss(typf), blgoritim, pbrbms, providfr).toArrby();
         }
     }
 
     /*
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The {@code provider} argument cannot be null.
+     * Rfturns bn brrby of objfdts: tif first objfdt in tif brrby is
+     * bn instbndf of bn implfmfntbtion of tif rfqufstfd blgoritim
+     * bnd typf, bnd tif sfdond objfdt in tif brrby idfntififs tif providfr
+     * of tibt implfmfntbtion.
+     * Tif {@dodf providfr} brgumfnt dbnnot bf null.
      */
-    static Object[] getImpl(String algorithm, String type, Provider provider)
-            throws NoSuchAlgorithmException {
-        return GetInstance.getInstance
-            (type, getSpiClass(type), algorithm, provider).toArray();
+    stbtid Objfdt[] gftImpl(String blgoritim, String typf, Providfr providfr)
+            tirows NoSudiAlgoritimExdfption {
+        rfturn GftInstbndf.gftInstbndf
+            (typf, gftSpiClbss(typf), blgoritim, providfr).toArrby();
     }
 
-    static Object[] getImpl(String algorithm, String type, Provider provider,
-            Object params) throws NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException {
-        return GetInstance.getInstance
-            (type, getSpiClass(type), algorithm, params, provider).toArray();
+    stbtid Objfdt[] gftImpl(String blgoritim, String typf, Providfr providfr,
+            Objfdt pbrbms) tirows NoSudiAlgoritimExdfption,
+            InvblidAlgoritimPbrbmftfrExdfption {
+        rfturn GftInstbndf.gftInstbndf
+            (typf, gftSpiClbss(typf), blgoritim, pbrbms, providfr).toArrby();
     }
 
     /**
-     * Gets a security property value.
+     * Gfts b sfdurity propfrty vbluf.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission}  method is called with a
-     * {@code java.security.SecurityPermission("getProperty."+key)}
-     * permission to see if it's ok to retrieve the specified
-     * security property value..
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkPfrmission}  mftiod is dbllfd witi b
+     * {@dodf jbvb.sfdurity.SfdurityPfrmission("gftPropfrty."+kfy)}
+     * pfrmission to sff if it's ok to rftrifvf tif spfdififd
+     * sfdurity propfrty vbluf..
      *
-     * @param key the key of the property being retrieved.
+     * @pbrbm kfy tif kfy of tif propfrty bfing rftrifvfd.
      *
-     * @return the value of the security property corresponding to key.
+     * @rfturn tif vbluf of tif sfdurity propfrty dorrfsponding to kfy.
      *
-     * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkPermission} method
-     *          denies
-     *          access to retrieve the specified security property value
-     * @throws  NullPointerException is key is null
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr fxists bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkPfrmission} mftiod
+     *          dfnifs
+     *          bddfss to rftrifvf tif spfdififd sfdurity propfrty vbluf
+     * @tirows  NullPointfrExdfption is kfy is null
      *
-     * @see #setProperty
-     * @see java.security.SecurityPermission
+     * @sff #sftPropfrty
+     * @sff jbvb.sfdurity.SfdurityPfrmission
      */
-    public static String getProperty(String key) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid String gftPropfrty(String kfy) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new SecurityPermission("getProperty."+
-                                                      key));
+            sm.difdkPfrmission(nfw SfdurityPfrmission("gftPropfrty."+
+                                                      kfy));
         }
-        String name = props.getProperty(key);
-        if (name != null)
-            name = name.trim(); // could be a class name with trailing ws
-        return name;
+        String nbmf = props.gftPropfrty(kfy);
+        if (nbmf != null)
+            nbmf = nbmf.trim(); // dould bf b dlbss nbmf witi trbiling ws
+        rfturn nbmf;
     }
 
     /**
-     * Sets a security property value.
+     * Sfts b sfdurity propfrty vbluf.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
-     * {@code java.security.SecurityPermission("setProperty."+key)}
-     * permission to see if it's ok to set the specified
-     * security property value.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkPfrmission} mftiod is dbllfd witi b
+     * {@dodf jbvb.sfdurity.SfdurityPfrmission("sftPropfrty."+kfy)}
+     * pfrmission to sff if it's ok to sft tif spfdififd
+     * sfdurity propfrty vbluf.
      *
-     * @param key the name of the property to be set.
+     * @pbrbm kfy tif nbmf of tif propfrty to bf sft.
      *
-     * @param datum the value of the property to be set.
+     * @pbrbm dbtum tif vbluf of tif propfrty to bf sft.
      *
-     * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkPermission} method
-     *          denies access to set the specified security property value
-     * @throws  NullPointerException if key or datum is null
+     * @tirows  SfdurityExdfption
+     *          if b sfdurity mbnbgfr fxists bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkPfrmission} mftiod
+     *          dfnifs bddfss to sft tif spfdififd sfdurity propfrty vbluf
+     * @tirows  NullPointfrExdfption if kfy or dbtum is null
      *
-     * @see #getProperty
-     * @see java.security.SecurityPermission
+     * @sff #gftPropfrty
+     * @sff jbvb.sfdurity.SfdurityPfrmission
      */
-    public static void setProperty(String key, String datum) {
-        check("setProperty."+key);
-        props.put(key, datum);
-        invalidateSMCache(key);  /* See below. */
+    publid stbtid void sftPropfrty(String kfy, String dbtum) {
+        difdk("sftPropfrty."+kfy);
+        props.put(kfy, dbtum);
+        invblidbtfSMCbdif(kfy);  /* Sff bflow. */
     }
 
     /*
-     * Implementation detail:  If the property we just set in
-     * setProperty() was either "package.access" or
-     * "package.definition", we need to signal to the SecurityManager
-     * class that the value has just changed, and that it should
-     * invalidate it's local cache values.
+     * Implfmfntbtion dftbil:  If tif propfrty wf just sft in
+     * sftPropfrty() wbs fitifr "pbdkbgf.bddfss" or
+     * "pbdkbgf.dffinition", wf nffd to signbl to tif SfdurityMbnbgfr
+     * dlbss tibt tif vbluf ibs just dibngfd, bnd tibt it siould
+     * invblidbtf it's lodbl dbdif vblufs.
      *
-     * Rather than create a new API entry for this function,
-     * we use reflection to set a private variable.
+     * Rbtifr tibn drfbtf b nfw API fntry for tiis fundtion,
+     * wf usf rfflfdtion to sft b privbtf vbribblf.
      */
-    private static void invalidateSMCache(String key) {
+    privbtf stbtid void invblidbtfSMCbdif(String kfy) {
 
-        final boolean pa = key.equals("package.access");
-        final boolean pd = key.equals("package.definition");
+        finbl boolfbn pb = kfy.fqubls("pbdkbgf.bddfss");
+        finbl boolfbn pd = kfy.fqubls("pbdkbgf.dffinition");
 
-        if (pa || pd) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+        if (pb || pd) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     try {
-                        /* Get the class via the bootstrap class loader. */
-                        Class<?> cl = Class.forName(
-                            "java.lang.SecurityManager", false, null);
-                        Field f = null;
-                        boolean accessible = false;
+                        /* Gft tif dlbss vib tif bootstrbp dlbss lobdfr. */
+                        Clbss<?> dl = Clbss.forNbmf(
+                            "jbvb.lbng.SfdurityMbnbgfr", fblsf, null);
+                        Fifld f = null;
+                        boolfbn bddfssiblf = fblsf;
 
-                        if (pa) {
-                            f = cl.getDeclaredField("packageAccessValid");
-                            accessible = f.isAccessible();
-                            f.setAccessible(true);
-                        } else {
-                            f = cl.getDeclaredField("packageDefinitionValid");
-                            accessible = f.isAccessible();
-                            f.setAccessible(true);
+                        if (pb) {
+                            f = dl.gftDfdlbrfdFifld("pbdkbgfAddfssVblid");
+                            bddfssiblf = f.isAddfssiblf();
+                            f.sftAddfssiblf(truf);
+                        } flsf {
+                            f = dl.gftDfdlbrfdFifld("pbdkbgfDffinitionVblid");
+                            bddfssiblf = f.isAddfssiblf();
+                            f.sftAddfssiblf(truf);
                         }
-                        f.setBoolean(f, false);
-                        f.setAccessible(accessible);
+                        f.sftBoolfbn(f, fblsf);
+                        f.sftAddfssiblf(bddfssiblf);
                     }
-                    catch (Exception e1) {
-                        /* If we couldn't get the class, it hasn't
-                         * been loaded yet.  If there is no such
-                         * field, we shouldn't try to set it.  There
-                         * shouldn't be a security execption, as we
-                         * are loaded by boot class loader, and we
-                         * are inside a doPrivileged() here.
+                    dbtdi (Exdfption f1) {
+                        /* If wf douldn't gft tif dlbss, it ibsn't
+                         * bffn lobdfd yft.  If tifrf is no sudi
+                         * fifld, wf siouldn't try to sft it.  Tifrf
+                         * siouldn't bf b sfdurity fxfdption, bs wf
+                         * brf lobdfd by boot dlbss lobdfr, bnd wf
+                         * brf insidf b doPrivilfgfd() ifrf.
                          *
-                         * NOOP: don't do anything...
+                         * NOOP: don't do bnytiing...
                          */
                     }
-                    return null;
+                    rfturn null;
                 }  /* run */
-            });  /* PrivilegedAction */
+            });  /* PrivilfgfdAdtion */
         }  /* if */
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSecurityAccess(directive);
+    privbtf stbtid void difdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSfdurityAddfss(dirfdtivf);
         }
     }
 
-    private static void checkInsertProvider(String name) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
+    privbtf stbtid void difdkInsfrtProvidfr(String nbmf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
             try {
-                security.checkSecurityAccess("insertProvider");
-            } catch (SecurityException se1) {
+                sfdurity.difdkSfdurityAddfss("insfrtProvidfr");
+            } dbtdi (SfdurityExdfption sf1) {
                 try {
-                    security.checkSecurityAccess("insertProvider." + name);
-                } catch (SecurityException se2) {
-                    // throw first exception, but add second to suppressed
-                    se1.addSuppressed(se2);
-                    throw se1;
+                    sfdurity.difdkSfdurityAddfss("insfrtProvidfr." + nbmf);
+                } dbtdi (SfdurityExdfption sf2) {
+                    // tirow first fxdfption, but bdd sfdond to supprfssfd
+                    sf1.bddSupprfssfd(sf2);
+                    tirow sf1;
                 }
             }
         }
     }
 
     /*
-    * Returns all providers who satisfy the specified
-    * criterion.
+    * Rfturns bll providfrs wio sbtisfy tif spfdififd
+    * dritfrion.
     */
-    private static LinkedHashSet<Provider> getAllQualifyingCandidates(
-                                                String filterKey,
-                                                String filterValue,
-                                                Provider[] allProviders) {
-        String[] filterComponents = getFilterComponents(filterKey,
-                                                        filterValue);
+    privbtf stbtid LinkfdHbsiSft<Providfr> gftAllQublifyingCbndidbtfs(
+                                                String filtfrKfy,
+                                                String filtfrVbluf,
+                                                Providfr[] bllProvidfrs) {
+        String[] filtfrComponfnts = gftFiltfrComponfnts(filtfrKfy,
+                                                        filtfrVbluf);
 
-        // The first component is the service name.
-        // The second is the algorithm name.
-        // If the third isn't null, that is the attrinute name.
-        String serviceName = filterComponents[0];
-        String algName = filterComponents[1];
-        String attrName = filterComponents[2];
+        // Tif first domponfnt is tif sfrvidf nbmf.
+        // Tif sfdond is tif blgoritim nbmf.
+        // If tif tiird isn't null, tibt is tif bttrinutf nbmf.
+        String sfrvidfNbmf = filtfrComponfnts[0];
+        String blgNbmf = filtfrComponfnts[1];
+        String bttrNbmf = filtfrComponfnts[2];
 
-        return getProvidersNotUsingCache(serviceName, algName, attrName,
-                                         filterValue, allProviders);
+        rfturn gftProvidfrsNotUsingCbdif(sfrvidfNbmf, blgNbmf, bttrNbmf,
+                                         filtfrVbluf, bllProvidfrs);
     }
 
-    private static LinkedHashSet<Provider> getProvidersNotUsingCache(
-                                                String serviceName,
-                                                String algName,
-                                                String attrName,
-                                                String filterValue,
-                                                Provider[] allProviders) {
-        LinkedHashSet<Provider> candidates = new LinkedHashSet<>(5);
-        for (int i = 0; i < allProviders.length; i++) {
-            if (isCriterionSatisfied(allProviders[i], serviceName,
-                                     algName,
-                                     attrName, filterValue)) {
-                candidates.add(allProviders[i]);
+    privbtf stbtid LinkfdHbsiSft<Providfr> gftProvidfrsNotUsingCbdif(
+                                                String sfrvidfNbmf,
+                                                String blgNbmf,
+                                                String bttrNbmf,
+                                                String filtfrVbluf,
+                                                Providfr[] bllProvidfrs) {
+        LinkfdHbsiSft<Providfr> dbndidbtfs = nfw LinkfdHbsiSft<>(5);
+        for (int i = 0; i < bllProvidfrs.lfngti; i++) {
+            if (isCritfrionSbtisfifd(bllProvidfrs[i], sfrvidfNbmf,
+                                     blgNbmf,
+                                     bttrNbmf, filtfrVbluf)) {
+                dbndidbtfs.bdd(bllProvidfrs[i]);
             }
         }
-        return candidates;
+        rfturn dbndidbtfs;
     }
 
     /*
-     * Returns true if the given provider satisfies
-     * the selection criterion key:value.
+     * Rfturns truf if tif givfn providfr sbtisfifs
+     * tif sflfdtion dritfrion kfy:vbluf.
      */
-    private static boolean isCriterionSatisfied(Provider prov,
-                                                String serviceName,
-                                                String algName,
-                                                String attrName,
-                                                String filterValue) {
-        String key = serviceName + '.' + algName;
+    privbtf stbtid boolfbn isCritfrionSbtisfifd(Providfr prov,
+                                                String sfrvidfNbmf,
+                                                String blgNbmf,
+                                                String bttrNbmf,
+                                                String filtfrVbluf) {
+        String kfy = sfrvidfNbmf + '.' + blgNbmf;
 
-        if (attrName != null) {
-            key += ' ' + attrName;
+        if (bttrNbmf != null) {
+            kfy += ' ' + bttrNbmf;
         }
-        // Check whether the provider has a property
-        // whose key is the same as the given key.
-        String propValue = getProviderProperty(key, prov);
+        // Cifdk wiftifr tif providfr ibs b propfrty
+        // wiosf kfy is tif sbmf bs tif givfn kfy.
+        String propVbluf = gftProvidfrPropfrty(kfy, prov);
 
-        if (propValue == null) {
-            // Check whether we have an alias instead
-            // of a standard name in the key.
-            String standardName = getProviderProperty("Alg.Alias." +
-                                                      serviceName + "." +
-                                                      algName,
+        if (propVbluf == null) {
+            // Cifdk wiftifr wf ibvf bn blibs instfbd
+            // of b stbndbrd nbmf in tif kfy.
+            String stbndbrdNbmf = gftProvidfrPropfrty("Alg.Alibs." +
+                                                      sfrvidfNbmf + "." +
+                                                      blgNbmf,
                                                       prov);
-            if (standardName != null) {
-                key = serviceName + "." + standardName;
+            if (stbndbrdNbmf != null) {
+                kfy = sfrvidfNbmf + "." + stbndbrdNbmf;
 
-                if (attrName != null) {
-                    key += ' ' + attrName;
+                if (bttrNbmf != null) {
+                    kfy += ' ' + bttrNbmf;
                 }
 
-                propValue = getProviderProperty(key, prov);
+                propVbluf = gftProvidfrPropfrty(kfy, prov);
             }
 
-            if (propValue == null) {
-                // The provider doesn't have the given
-                // key in its property list.
-                return false;
+            if (propVbluf == null) {
+                // Tif providfr dofsn't ibvf tif givfn
+                // kfy in its propfrty list.
+                rfturn fblsf;
             }
         }
 
-        // If the key is in the format of:
-        // <crypto_service>.<algorithm_or_type>,
-        // there is no need to check the value.
+        // If tif kfy is in tif formbt of:
+        // <drypto_sfrvidf>.<blgoritim_or_typf>,
+        // tifrf is no nffd to difdk tif vbluf.
 
-        if (attrName == null) {
-            return true;
+        if (bttrNbmf == null) {
+            rfturn truf;
         }
 
-        // If we get here, the key must be in the
-        // format of <crypto_service>.<algorithm_or_provider> <attribute_name>.
-        if (isStandardAttr(attrName)) {
-            return isConstraintSatisfied(attrName, filterValue, propValue);
-        } else {
-            return filterValue.equalsIgnoreCase(propValue);
+        // If wf gft ifrf, tif kfy must bf in tif
+        // formbt of <drypto_sfrvidf>.<blgoritim_or_providfr> <bttributf_nbmf>.
+        if (isStbndbrdAttr(bttrNbmf)) {
+            rfturn isConstrbintSbtisfifd(bttrNbmf, filtfrVbluf, propVbluf);
+        } flsf {
+            rfturn filtfrVbluf.fqublsIgnorfCbsf(propVbluf);
         }
     }
 
     /*
-     * Returns true if the attribute is a standard attribute;
-     * otherwise, returns false.
+     * Rfturns truf if tif bttributf is b stbndbrd bttributf;
+     * otifrwisf, rfturns fblsf.
      */
-    private static boolean isStandardAttr(String attribute) {
-        // For now, we just have two standard attributes:
-        // KeySize and ImplementedIn.
-        if (attribute.equalsIgnoreCase("KeySize"))
-            return true;
+    privbtf stbtid boolfbn isStbndbrdAttr(String bttributf) {
+        // For now, wf just ibvf two stbndbrd bttributfs:
+        // KfySizf bnd ImplfmfntfdIn.
+        if (bttributf.fqublsIgnorfCbsf("KfySizf"))
+            rfturn truf;
 
-        if (attribute.equalsIgnoreCase("ImplementedIn"))
-            return true;
+        if (bttributf.fqublsIgnorfCbsf("ImplfmfntfdIn"))
+            rfturn truf;
 
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Returns true if the requested attribute value is supported;
-     * otherwise, returns false.
+     * Rfturns truf if tif rfqufstfd bttributf vbluf is supportfd;
+     * otifrwisf, rfturns fblsf.
      */
-    private static boolean isConstraintSatisfied(String attribute,
-                                                 String value,
+    privbtf stbtid boolfbn isConstrbintSbtisfifd(String bttributf,
+                                                 String vbluf,
                                                  String prop) {
-        // For KeySize, prop is the max key size the
-        // provider supports for a specific <crypto_service>.<algorithm>.
-        if (attribute.equalsIgnoreCase("KeySize")) {
-            int requestedSize = Integer.parseInt(value);
-            int maxSize = Integer.parseInt(prop);
-            if (requestedSize <= maxSize) {
-                return true;
-            } else {
-                return false;
+        // For KfySizf, prop is tif mbx kfy sizf tif
+        // providfr supports for b spfdifid <drypto_sfrvidf>.<blgoritim>.
+        if (bttributf.fqublsIgnorfCbsf("KfySizf")) {
+            int rfqufstfdSizf = Intfgfr.pbrsfInt(vbluf);
+            int mbxSizf = Intfgfr.pbrsfInt(prop);
+            if (rfqufstfdSizf <= mbxSizf) {
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
 
-        // For Type, prop is the type of the implementation
-        // for a specific <crypto service>.<algorithm>.
-        if (attribute.equalsIgnoreCase("ImplementedIn")) {
-            return value.equalsIgnoreCase(prop);
+        // For Typf, prop is tif typf of tif implfmfntbtion
+        // for b spfdifid <drypto sfrvidf>.<blgoritim>.
+        if (bttributf.fqublsIgnorfCbsf("ImplfmfntfdIn")) {
+            rfturn vbluf.fqublsIgnorfCbsf(prop);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    static String[] getFilterComponents(String filterKey, String filterValue) {
-        int algIndex = filterKey.indexOf('.');
+    stbtid String[] gftFiltfrComponfnts(String filtfrKfy, String filtfrVbluf) {
+        int blgIndfx = filtfrKfy.indfxOf('.');
 
-        if (algIndex < 0) {
-            // There must be a dot in the filter, and the dot
-            // shouldn't be at the beginning of this string.
-            throw new InvalidParameterException("Invalid filter");
+        if (blgIndfx < 0) {
+            // Tifrf must bf b dot in tif filtfr, bnd tif dot
+            // siouldn't bf bt tif bfginning of tiis string.
+            tirow nfw InvblidPbrbmftfrExdfption("Invblid filtfr");
         }
 
-        String serviceName = filterKey.substring(0, algIndex);
-        String algName = null;
-        String attrName = null;
+        String sfrvidfNbmf = filtfrKfy.substring(0, blgIndfx);
+        String blgNbmf = null;
+        String bttrNbmf = null;
 
-        if (filterValue.length() == 0) {
-            // The filterValue is an empty string. So the filterKey
-            // should be in the format of <crypto_service>.<algorithm_or_type>.
-            algName = filterKey.substring(algIndex + 1).trim();
-            if (algName.length() == 0) {
-                // There must be a algorithm or type name.
-                throw new InvalidParameterException("Invalid filter");
+        if (filtfrVbluf.lfngti() == 0) {
+            // Tif filtfrVbluf is bn fmpty string. So tif filtfrKfy
+            // siould bf in tif formbt of <drypto_sfrvidf>.<blgoritim_or_typf>.
+            blgNbmf = filtfrKfy.substring(blgIndfx + 1).trim();
+            if (blgNbmf.lfngti() == 0) {
+                // Tifrf must bf b blgoritim or typf nbmf.
+                tirow nfw InvblidPbrbmftfrExdfption("Invblid filtfr");
             }
-        } else {
-            // The filterValue is a non-empty string. So the filterKey must be
-            // in the format of
-            // <crypto_service>.<algorithm_or_type> <attribute_name>
-            int attrIndex = filterKey.indexOf(' ');
+        } flsf {
+            // Tif filtfrVbluf is b non-fmpty string. So tif filtfrKfy must bf
+            // in tif formbt of
+            // <drypto_sfrvidf>.<blgoritim_or_typf> <bttributf_nbmf>
+            int bttrIndfx = filtfrKfy.indfxOf(' ');
 
-            if (attrIndex == -1) {
-                // There is no attribute name in the filter.
-                throw new InvalidParameterException("Invalid filter");
-            } else {
-                attrName = filterKey.substring(attrIndex + 1).trim();
-                if (attrName.length() == 0) {
-                    // There is no attribute name in the filter.
-                    throw new InvalidParameterException("Invalid filter");
+            if (bttrIndfx == -1) {
+                // Tifrf is no bttributf nbmf in tif filtfr.
+                tirow nfw InvblidPbrbmftfrExdfption("Invblid filtfr");
+            } flsf {
+                bttrNbmf = filtfrKfy.substring(bttrIndfx + 1).trim();
+                if (bttrNbmf.lfngti() == 0) {
+                    // Tifrf is no bttributf nbmf in tif filtfr.
+                    tirow nfw InvblidPbrbmftfrExdfption("Invblid filtfr");
                 }
             }
 
-            // There must be an algorithm name in the filter.
-            if ((attrIndex < algIndex) ||
-                (algIndex == attrIndex - 1)) {
-                throw new InvalidParameterException("Invalid filter");
-            } else {
-                algName = filterKey.substring(algIndex + 1, attrIndex);
+            // Tifrf must bf bn blgoritim nbmf in tif filtfr.
+            if ((bttrIndfx < blgIndfx) ||
+                (blgIndfx == bttrIndfx - 1)) {
+                tirow nfw InvblidPbrbmftfrExdfption("Invblid filtfr");
+            } flsf {
+                blgNbmf = filtfrKfy.substring(blgIndfx + 1, bttrIndfx);
             }
         }
 
-        String[] result = new String[3];
-        result[0] = serviceName;
-        result[1] = algName;
-        result[2] = attrName;
+        String[] rfsult = nfw String[3];
+        rfsult[0] = sfrvidfNbmf;
+        rfsult[1] = blgNbmf;
+        rfsult[2] = bttrNbmf;
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a Set of Strings containing the names of all available
-     * algorithms or types for the specified Java cryptographic service
-     * (e.g., Signature, MessageDigest, Cipher, Mac, KeyStore). Returns
-     * an empty Set if there is no provider that supports the
-     * specified service or if serviceName is null. For a complete list
-     * of Java cryptographic services, please see the
-     * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">Java
-     * Cryptography Architecture API Specification &amp; Reference</a>.
-     * Note: the returned set is immutable.
+     * Rfturns b Sft of Strings dontbining tif nbmfs of bll bvbilbblf
+     * blgoritims or typfs for tif spfdififd Jbvb dryptogrbpiid sfrvidf
+     * (f.g., Signbturf, MfssbgfDigfst, Cipifr, Mbd, KfyStorf). Rfturns
+     * bn fmpty Sft if tifrf is no providfr tibt supports tif
+     * spfdififd sfrvidf or if sfrvidfNbmf is null. For b domplftf list
+     * of Jbvb dryptogrbpiid sfrvidfs, plfbsf sff tif
+     * <b irff="../../../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml">Jbvb
+     * Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf</b>.
+     * Notf: tif rfturnfd sft is immutbblf.
      *
-     * @param serviceName the name of the Java cryptographic
-     * service (e.g., Signature, MessageDigest, Cipher, Mac, KeyStore).
-     * Note: this parameter is case-insensitive.
+     * @pbrbm sfrvidfNbmf tif nbmf of tif Jbvb dryptogrbpiid
+     * sfrvidf (f.g., Signbturf, MfssbgfDigfst, Cipifr, Mbd, KfyStorf).
+     * Notf: tiis pbrbmftfr is dbsf-insfnsitivf.
      *
-     * @return a Set of Strings containing the names of all available
-     * algorithms or types for the specified Java cryptographic service
-     * or an empty set if no provider supports the specified service.
+     * @rfturn b Sft of Strings dontbining tif nbmfs of bll bvbilbblf
+     * blgoritims or typfs for tif spfdififd Jbvb dryptogrbpiid sfrvidf
+     * or bn fmpty sft if no providfr supports tif spfdififd sfrvidf.
      *
-     * @since 1.4
+     * @sindf 1.4
      **/
-    public static Set<String> getAlgorithms(String serviceName) {
+    publid stbtid Sft<String> gftAlgoritims(String sfrvidfNbmf) {
 
-        if ((serviceName == null) || (serviceName.length() == 0) ||
-            (serviceName.endsWith("."))) {
-            return Collections.emptySet();
+        if ((sfrvidfNbmf == null) || (sfrvidfNbmf.lfngti() == 0) ||
+            (sfrvidfNbmf.fndsWiti("."))) {
+            rfturn Collfdtions.fmptySft();
         }
 
-        HashSet<String> result = new HashSet<>();
-        Provider[] providers = Security.getProviders();
+        HbsiSft<String> rfsult = nfw HbsiSft<>();
+        Providfr[] providfrs = Sfdurity.gftProvidfrs();
 
-        for (int i = 0; i < providers.length; i++) {
-            // Check the keys for each provider.
-            for (Enumeration<Object> e = providers[i].keys();
-                                                e.hasMoreElements(); ) {
-                String currentKey =
-                        ((String)e.nextElement()).toUpperCase(Locale.ENGLISH);
-                if (currentKey.startsWith(
-                        serviceName.toUpperCase(Locale.ENGLISH))) {
-                    // We should skip the currentKey if it contains a
-                    // whitespace. The reason is: such an entry in the
-                    // provider property contains attributes for the
-                    // implementation of an algorithm. We are only interested
-                    // in entries which lead to the implementation
-                    // classes.
-                    if (currentKey.indexOf(' ') < 0) {
-                        result.add(currentKey.substring(
-                                                serviceName.length() + 1));
+        for (int i = 0; i < providfrs.lfngti; i++) {
+            // Cifdk tif kfys for fbdi providfr.
+            for (Enumfrbtion<Objfdt> f = providfrs[i].kfys();
+                                                f.ibsMorfElfmfnts(); ) {
+                String durrfntKfy =
+                        ((String)f.nfxtElfmfnt()).toUppfrCbsf(Lodblf.ENGLISH);
+                if (durrfntKfy.stbrtsWiti(
+                        sfrvidfNbmf.toUppfrCbsf(Lodblf.ENGLISH))) {
+                    // Wf siould skip tif durrfntKfy if it dontbins b
+                    // wiitfspbdf. Tif rfbson is: sudi bn fntry in tif
+                    // providfr propfrty dontbins bttributfs for tif
+                    // implfmfntbtion of bn blgoritim. Wf brf only intfrfstfd
+                    // in fntrifs wiidi lfbd to tif implfmfntbtion
+                    // dlbssfs.
+                    if (durrfntKfy.indfxOf(' ') < 0) {
+                        rfsult.bdd(durrfntKfy.substring(
+                                                sfrvidfNbmf.lfngti() + 1));
                     }
                 }
             }
         }
-        return Collections.unmodifiableSet(result);
+        rfturn Collfdtions.unmodifibblfSft(rfsult);
     }
 }

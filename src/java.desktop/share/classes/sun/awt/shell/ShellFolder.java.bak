@@ -1,619 +1,619 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.shell;
+pbdkbgf sun.bwt.sifll;
 
-import javax.swing.*;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.concurrent.Callable;
+import jbvbx.swing.*;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.io.*;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
 
 /**
- * @author Michael Martak
- * @since 1.4
+ * @butior Midibfl Mbrtbk
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class ShellFolder extends File {
-    private static final String COLUMN_NAME = "FileChooser.fileNameHeaderText";
-    private static final String COLUMN_SIZE = "FileChooser.fileSizeHeaderText";
-    private static final String COLUMN_DATE = "FileChooser.fileDateHeaderText";
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss SifllFoldfr fxtfnds Filf {
+    privbtf stbtid finbl String COLUMN_NAME = "FilfCioosfr.filfNbmfHfbdfrTfxt";
+    privbtf stbtid finbl String COLUMN_SIZE = "FilfCioosfr.filfSizfHfbdfrTfxt";
+    privbtf stbtid finbl String COLUMN_DATE = "FilfCioosfr.filfDbtfHfbdfrTfxt";
 
-    protected ShellFolder parent;
+    protfdtfd SifllFoldfr pbrfnt;
 
     /**
-     * Create a file system shell folder from a file
+     * Crfbtf b filf systfm sifll foldfr from b filf
      */
-    ShellFolder(ShellFolder parent, String pathname) {
-        super((pathname != null) ? pathname : "ShellFolder");
-        this.parent = parent;
+    SifllFoldfr(SifllFoldfr pbrfnt, String pbtinbmf) {
+        supfr((pbtinbmf != null) ? pbtinbmf : "SifllFoldfr");
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * @return Whether this is a file system shell folder
+     * @rfturn Wiftifr tiis is b filf systfm sifll foldfr
      */
-    public boolean isFileSystem() {
-        return (!getPath().startsWith("ShellFolder"));
+    publid boolfbn isFilfSystfm() {
+        rfturn (!gftPbti().stbrtsWiti("SifllFoldfr"));
     }
 
     /**
-     * This method must be implemented to make sure that no instances
-     * of <code>ShellFolder</code> are ever serialized. If <code>isFileSystem()</code> returns
-     * <code>true</code>, then the object should be representable with an instance of
-     * <code>java.io.File</code> instead. If not, then the object is most likely
-     * depending on some internal (native) state and cannot be serialized.
+     * Tiis mftiod must bf implfmfntfd to mbkf surf tibt no instbndfs
+     * of <dodf>SifllFoldfr</dodf> brf fvfr sfriblizfd. If <dodf>isFilfSystfm()</dodf> rfturns
+     * <dodf>truf</dodf>, tifn tif objfdt siould bf rfprfsfntbblf witi bn instbndf of
+     * <dodf>jbvb.io.Filf</dodf> instfbd. If not, tifn tif objfdt is most likfly
+     * dfpfnding on somf intfrnbl (nbtivf) stbtf bnd dbnnot bf sfriblizfd.
      *
-     * @returns a <code>java.io.File</code> replacement object, or <code>null</code>
-     * if no suitable replacement can be found.
+     * @rfturns b <dodf>jbvb.io.Filf</dodf> rfplbdfmfnt objfdt, or <dodf>null</dodf>
+     * if no suitbblf rfplbdfmfnt dbn bf found.
      */
-    protected abstract Object writeReplace() throws java.io.ObjectStreamException;
+    protfdtfd bbstrbdt Objfdt writfRfplbdf() tirows jbvb.io.ObjfdtStrfbmExdfption;
 
     /**
-     * Returns the path for this object's parent,
-     * or <code>null</code> if this object does not name a parent
-     * folder.
+     * Rfturns tif pbti for tiis objfdt's pbrfnt,
+     * or <dodf>null</dodf> if tiis objfdt dofs not nbmf b pbrfnt
+     * foldfr.
      *
-     * @return  the path as a String for this object's parent,
-     * or <code>null</code> if this object does not name a parent
-     * folder
+     * @rfturn  tif pbti bs b String for tiis objfdt's pbrfnt,
+     * or <dodf>null</dodf> if tiis objfdt dofs not nbmf b pbrfnt
+     * foldfr
      *
-     * @see java.io.File#getParent()
-     * @since 1.4
+     * @sff jbvb.io.Filf#gftPbrfnt()
+     * @sindf 1.4
      */
-    public String getParent() {
-        if (parent == null && isFileSystem()) {
-            return super.getParent();
+    publid String gftPbrfnt() {
+        if (pbrfnt == null && isFilfSystfm()) {
+            rfturn supfr.gftPbrfnt();
         }
-        if (parent != null) {
-            return (parent.getPath());
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns a File object representing this object's parent,
-     * or <code>null</code> if this object does not name a parent
-     * folder.
-     *
-     * @return  a File object representing this object's parent,
-     * or <code>null</code> if this object does not name a parent
-     * folder
-     *
-     * @see java.io.File#getParentFile()
-     * @since 1.4
-     */
-    public File getParentFile() {
-        if (parent != null) {
-            return parent;
-        } else if (isFileSystem()) {
-            return super.getParentFile();
-        } else {
-            return null;
+        if (pbrfnt != null) {
+            rfturn (pbrfnt.gftPbti());
+        } flsf {
+            rfturn null;
         }
     }
 
-    public File[] listFiles() {
-        return listFiles(true);
+    /**
+     * Rfturns b Filf objfdt rfprfsfnting tiis objfdt's pbrfnt,
+     * or <dodf>null</dodf> if tiis objfdt dofs not nbmf b pbrfnt
+     * foldfr.
+     *
+     * @rfturn  b Filf objfdt rfprfsfnting tiis objfdt's pbrfnt,
+     * or <dodf>null</dodf> if tiis objfdt dofs not nbmf b pbrfnt
+     * foldfr
+     *
+     * @sff jbvb.io.Filf#gftPbrfntFilf()
+     * @sindf 1.4
+     */
+    publid Filf gftPbrfntFilf() {
+        if (pbrfnt != null) {
+            rfturn pbrfnt;
+        } flsf if (isFilfSystfm()) {
+            rfturn supfr.gftPbrfntFilf();
+        } flsf {
+            rfturn null;
+        }
     }
 
-    public File[] listFiles(boolean includeHiddenFiles) {
-        File[] files = super.listFiles();
+    publid Filf[] listFilfs() {
+        rfturn listFilfs(truf);
+    }
 
-        if (!includeHiddenFiles) {
-            Vector<File> v = new Vector<>();
-            int nameCount = (files == null) ? 0 : files.length;
-            for (int i = 0; i < nameCount; i++) {
-                if (!files[i].isHidden()) {
-                    v.addElement(files[i]);
+    publid Filf[] listFilfs(boolfbn indludfHiddfnFilfs) {
+        Filf[] filfs = supfr.listFilfs();
+
+        if (!indludfHiddfnFilfs) {
+            Vfdtor<Filf> v = nfw Vfdtor<>();
+            int nbmfCount = (filfs == null) ? 0 : filfs.lfngti;
+            for (int i = 0; i < nbmfCount; i++) {
+                if (!filfs[i].isHiddfn()) {
+                    v.bddElfmfnt(filfs[i]);
                 }
             }
-            files = v.toArray(new File[v.size()]);
+            filfs = v.toArrby(nfw Filf[v.sizf()]);
         }
 
-        return files;
+        rfturn filfs;
     }
 
 
     /**
-     * @return Whether this shell folder is a link
+     * @rfturn Wiftifr tiis sifll foldfr is b link
      */
-    public abstract boolean isLink();
+    publid bbstrbdt boolfbn isLink();
 
     /**
-     * @return The shell folder linked to by this shell folder, or null
-     * if this shell folder is not a link
+     * @rfturn Tif sifll foldfr linkfd to by tiis sifll foldfr, or null
+     * if tiis sifll foldfr is not b link
      */
-    public abstract ShellFolder getLinkLocation() throws FileNotFoundException;
+    publid bbstrbdt SifllFoldfr gftLinkLodbtion() tirows FilfNotFoundExdfption;
 
     /**
-     * @return The name used to display this shell folder
+     * @rfturn Tif nbmf usfd to displby tiis sifll foldfr
      */
-    public abstract String getDisplayName();
+    publid bbstrbdt String gftDisplbyNbmf();
 
     /**
-     * @return The type of shell folder as a string
+     * @rfturn Tif typf of sifll foldfr bs b string
      */
-    public abstract String getFolderType();
+    publid bbstrbdt String gftFoldfrTypf();
 
     /**
-     * @return The executable type as a string
+     * @rfturn Tif fxfdutbblf typf bs b string
      */
-    public abstract String getExecutableType();
+    publid bbstrbdt String gftExfdutbblfTypf();
 
     /**
-     * Compares this ShellFolder with the specified ShellFolder for order.
+     * Compbrfs tiis SifllFoldfr witi tif spfdififd SifllFoldfr for ordfr.
      *
-     * @see #compareTo(Object)
+     * @sff #dompbrfTo(Objfdt)
      */
-    public int compareTo(File file2) {
-        if (file2 == null || !(file2 instanceof ShellFolder)
-            || ((file2 instanceof ShellFolder) && ((ShellFolder)file2).isFileSystem())) {
+    publid int dompbrfTo(Filf filf2) {
+        if (filf2 == null || !(filf2 instbndfof SifllFoldfr)
+            || ((filf2 instbndfof SifllFoldfr) && ((SifllFoldfr)filf2).isFilfSystfm())) {
 
-            if (isFileSystem()) {
-                return super.compareTo(file2);
-            } else {
-                return -1;
+            if (isFilfSystfm()) {
+                rfturn supfr.dompbrfTo(filf2);
+            } flsf {
+                rfturn -1;
             }
-        } else {
-            if (isFileSystem()) {
-                return 1;
-            } else {
-                return getName().compareTo(file2.getName());
+        } flsf {
+            if (isFilfSystfm()) {
+                rfturn 1;
+            } flsf {
+                rfturn gftNbmf().dompbrfTo(filf2.gftNbmf());
             }
         }
     }
 
     /**
-     * @param getLargeIcon whether to return large icon (ignored in base implementation)
-     * @return The icon used to display this shell folder
+     * @pbrbm gftLbrgfIdon wiftifr to rfturn lbrgf idon (ignorfd in bbsf implfmfntbtion)
+     * @rfturn Tif idon usfd to displby tiis sifll foldfr
      */
-    public Image getIcon(boolean getLargeIcon) {
-        return null;
+    publid Imbgf gftIdon(boolfbn gftLbrgfIdon) {
+        rfturn null;
     }
 
 
-    // Static
+    // Stbtid
 
-    private static final ShellFolderManager shellFolderManager;
+    privbtf stbtid finbl SifllFoldfrMbnbgfr sifllFoldfrMbnbgfr;
 
-    private static final Invoker invoker;
+    privbtf stbtid finbl Invokfr invokfr;
 
-    static {
-        String managerClassName = (String)Toolkit.getDefaultToolkit().
-                                      getDesktopProperty("Shell.shellFolderManager");
-        Class<?> managerClass = null;
+    stbtid {
+        String mbnbgfrClbssNbmf = (String)Toolkit.gftDffbultToolkit().
+                                      gftDfsktopPropfrty("Sifll.sifllFoldfrMbnbgfr");
+        Clbss<?> mbnbgfrClbss = null;
         try {
-            managerClass = Class.forName(managerClassName, false, null);
-            if (!ShellFolderManager.class.isAssignableFrom(managerClass)) {
-                managerClass = null;
+            mbnbgfrClbss = Clbss.forNbmf(mbnbgfrClbssNbmf, fblsf, null);
+            if (!SifllFoldfrMbnbgfr.dlbss.isAssignbblfFrom(mbnbgfrClbss)) {
+                mbnbgfrClbss = null;
             }
-        // swallow the exceptions below and use default shell folder
-        } catch(ClassNotFoundException e) {
-        } catch(NullPointerException e) {
-        } catch(SecurityException e) {
+        // swbllow tif fxdfptions bflow bnd usf dffbult sifll foldfr
+        } dbtdi(ClbssNotFoundExdfption f) {
+        } dbtdi(NullPointfrExdfption f) {
+        } dbtdi(SfdurityExdfption f) {
         }
 
-        if (managerClass == null) {
-            managerClass = ShellFolderManager.class;
+        if (mbnbgfrClbss == null) {
+            mbnbgfrClbss = SifllFoldfrMbnbgfr.dlbss;
         }
         try {
-            shellFolderManager =
-                (ShellFolderManager)managerClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new Error("Could not instantiate Shell Folder Manager: "
-            + managerClass.getName());
-        } catch (IllegalAccessException e) {
-            throw new Error ("Could not access Shell Folder Manager: "
-            + managerClass.getName());
+            sifllFoldfrMbnbgfr =
+                (SifllFoldfrMbnbgfr)mbnbgfrClbss.nfwInstbndf();
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw Error("Could not instbntibtf Sifll Foldfr Mbnbgfr: "
+            + mbnbgfrClbss.gftNbmf());
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw Error ("Could not bddfss Sifll Foldfr Mbnbgfr: "
+            + mbnbgfrClbss.gftNbmf());
         }
 
-        invoker = shellFolderManager.createInvoker();
+        invokfr = sifllFoldfrMbnbgfr.drfbtfInvokfr();
     }
 
     /**
-     * Return a shell folder from a file object
-     * @exception FileNotFoundException if file does not exist
+     * Rfturn b sifll foldfr from b filf objfdt
+     * @fxdfption FilfNotFoundExdfption if filf dofs not fxist
      */
-    public static ShellFolder getShellFolder(File file) throws FileNotFoundException {
-        if (file instanceof ShellFolder) {
-            return (ShellFolder)file;
+    publid stbtid SifllFoldfr gftSifllFoldfr(Filf filf) tirows FilfNotFoundExdfption {
+        if (filf instbndfof SifllFoldfr) {
+            rfturn (SifllFoldfr)filf;
         }
-        if (!file.exists()) {
-            throw new FileNotFoundException();
+        if (!filf.fxists()) {
+            tirow nfw FilfNotFoundExdfption();
         }
-        return shellFolderManager.createShellFolder(file);
+        rfturn sifllFoldfrMbnbgfr.drfbtfSifllFoldfr(filf);
     }
 
     /**
-     * @param key a <code>String</code>
-     * @return An Object matching the string <code>key</code>.
-     * @see ShellFolderManager#get(String)
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn An Objfdt mbtdiing tif string <dodf>kfy</dodf>.
+     * @sff SifllFoldfrMbnbgfr#gft(String)
      */
-    public static Object get(String key) {
-        return shellFolderManager.get(key);
+    publid stbtid Objfdt gft(String kfy) {
+        rfturn sifllFoldfrMbnbgfr.gft(kfy);
     }
 
     /**
-     * Does <code>dir</code> represent a "computer" such as a node on the network, or
-     * "My Computer" on the desktop.
+     * Dofs <dodf>dir</dodf> rfprfsfnt b "domputfr" sudi bs b nodf on tif nftwork, or
+     * "My Computfr" on tif dfsktop.
      */
-    public static boolean isComputerNode(File dir) {
-        return shellFolderManager.isComputerNode(dir);
+    publid stbtid boolfbn isComputfrNodf(Filf dir) {
+        rfturn sifllFoldfrMbnbgfr.isComputfrNodf(dir);
     }
 
     /**
-     * @return Whether this is a file system root directory
+     * @rfturn Wiftifr tiis is b filf systfm root dirfdtory
      */
-    public static boolean isFileSystemRoot(File dir) {
-        return shellFolderManager.isFileSystemRoot(dir);
+    publid stbtid boolfbn isFilfSystfmRoot(Filf dir) {
+        rfturn sifllFoldfrMbnbgfr.isFilfSystfmRoot(dir);
     }
 
     /**
-     * Canonicalizes files that don't have symbolic links in their path.
-     * Normalizes files that do, preserving symbolic links from being resolved.
+     * Cbnonidblizfs filfs tibt don't ibvf symbolid links in tifir pbti.
+     * Normblizfs filfs tibt do, prfsfrving symbolid links from bfing rfsolvfd.
      */
-    public static File getNormalizedFile(File f) throws IOException {
-        File canonical = f.getCanonicalFile();
-        if (f.equals(canonical)) {
-            // path of f doesn't contain symbolic links
-            return canonical;
+    publid stbtid Filf gftNormblizfdFilf(Filf f) tirows IOExdfption {
+        Filf dbnonidbl = f.gftCbnonidblFilf();
+        if (f.fqubls(dbnonidbl)) {
+            // pbti of f dofsn't dontbin symbolid links
+            rfturn dbnonidbl;
         }
 
-        // preserve symbolic links from being resolved
-        return new File(f.toURI().normalize());
+        // prfsfrvf symbolid links from bfing rfsolvfd
+        rfturn nfw Filf(f.toURI().normblizf());
     }
 
-    // Override File methods
+    // Ovfrridf Filf mftiods
 
-    public static void sort(final List<? extends File> files) {
-        if (files == null || files.size() <= 1) {
-            return;
+    publid stbtid void sort(finbl List<? fxtfnds Filf> filfs) {
+        if (filfs == null || filfs.sizf() <= 1) {
+            rfturn;
         }
 
-        // To avoid loads of synchronizations with Invoker and improve performance we
-        // synchronize the whole code of the sort method once
-        invoke(new Callable<Void>() {
-            public Void call() {
-                // Check that we can use the ShellFolder.sortChildren() method:
-                //   1. All files have the same non-null parent
-                //   2. All files is ShellFolders
-                File commonParent = null;
+        // To bvoid lobds of syndironizbtions witi Invokfr bnd improvf pfrformbndf wf
+        // syndironizf tif wiolf dodf of tif sort mftiod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                // Cifdk tibt wf dbn usf tif SifllFoldfr.sortCiildrfn() mftiod:
+                //   1. All filfs ibvf tif sbmf non-null pbrfnt
+                //   2. All filfs is SifllFoldfrs
+                Filf dommonPbrfnt = null;
 
-                for (File file : files) {
-                    File parent = file.getParentFile();
+                for (Filf filf : filfs) {
+                    Filf pbrfnt = filf.gftPbrfntFilf();
 
-                    if (parent == null || !(file instanceof ShellFolder)) {
-                        commonParent = null;
+                    if (pbrfnt == null || !(filf instbndfof SifllFoldfr)) {
+                        dommonPbrfnt = null;
 
-                        break;
+                        brfbk;
                     }
 
-                    if (commonParent == null) {
-                        commonParent = parent;
-                    } else {
-                        if (commonParent != parent && !commonParent.equals(parent)) {
-                            commonParent = null;
+                    if (dommonPbrfnt == null) {
+                        dommonPbrfnt = pbrfnt;
+                    } flsf {
+                        if (dommonPbrfnt != pbrfnt && !dommonPbrfnt.fqubls(pbrfnt)) {
+                            dommonPbrfnt = null;
 
-                            break;
+                            brfbk;
                         }
                     }
                 }
 
-                if (commonParent instanceof ShellFolder) {
-                    ((ShellFolder) commonParent).sortChildren(files);
-                } else {
-                    Collections.sort(files, FILE_COMPARATOR);
+                if (dommonPbrfnt instbndfof SifllFoldfr) {
+                    ((SifllFoldfr) dommonPbrfnt).sortCiildrfn(filfs);
+                } flsf {
+                    Collfdtions.sort(filfs, FILE_COMPARATOR);
                 }
 
-                return null;
+                rfturn null;
             }
         });
     }
 
-    public void sortChildren(final List<? extends File> files) {
-        // To avoid loads of synchronizations with Invoker and improve performance we
-        // synchronize the whole code of the sort method once
-        invoke(new Callable<Void>() {
-            public Void call() {
-                Collections.sort(files, FILE_COMPARATOR);
+    publid void sortCiildrfn(finbl List<? fxtfnds Filf> filfs) {
+        // To bvoid lobds of syndironizbtions witi Invokfr bnd improvf pfrformbndf wf
+        // syndironizf tif wiolf dodf of tif sort mftiod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                Collfdtions.sort(filfs, FILE_COMPARATOR);
 
-                return null;
+                rfturn null;
             }
         });
     }
 
-    public boolean isAbsolute() {
-        return (!isFileSystem() || super.isAbsolute());
+    publid boolfbn isAbsolutf() {
+        rfturn (!isFilfSystfm() || supfr.isAbsolutf());
     }
 
-    public File getAbsoluteFile() {
-        return (isFileSystem() ? super.getAbsoluteFile() : this);
+    publid Filf gftAbsolutfFilf() {
+        rfturn (isFilfSystfm() ? supfr.gftAbsolutfFilf() : tiis);
     }
 
-    public boolean canRead() {
-        return (isFileSystem() ? super.canRead() : true);       // ((Fix?))
+    publid boolfbn dbnRfbd() {
+        rfturn (isFilfSystfm() ? supfr.dbnRfbd() : truf);       // ((Fix?))
     }
 
     /**
-     * Returns true if folder allows creation of children.
-     * True for the "Desktop" folder, but false for the "My Computer"
-     * folder.
+     * Rfturns truf if foldfr bllows drfbtion of diildrfn.
+     * Truf for tif "Dfsktop" foldfr, but fblsf for tif "My Computfr"
+     * foldfr.
      */
-    public boolean canWrite() {
-        return (isFileSystem() ? super.canWrite() : false);     // ((Fix?))
+    publid boolfbn dbnWritf() {
+        rfturn (isFilfSystfm() ? supfr.dbnWritf() : fblsf);     // ((Fix?))
     }
 
-    public boolean exists() {
-        // Assume top-level drives exist, because state is uncertain for
-        // removable drives.
-        return (!isFileSystem() || isFileSystemRoot(this) || super.exists()) ;
+    publid boolfbn fxists() {
+        // Assumf top-lfvfl drivfs fxist, bfdbusf stbtf is undfrtbin for
+        // rfmovbblf drivfs.
+        rfturn (!isFilfSystfm() || isFilfSystfmRoot(tiis) || supfr.fxists()) ;
     }
 
-    public boolean isDirectory() {
-        return (isFileSystem() ? super.isDirectory() : true);   // ((Fix?))
+    publid boolfbn isDirfdtory() {
+        rfturn (isFilfSystfm() ? supfr.isDirfdtory() : truf);   // ((Fix?))
     }
 
-    public boolean isFile() {
-        return (isFileSystem() ? super.isFile() : !isDirectory());      // ((Fix?))
+    publid boolfbn isFilf() {
+        rfturn (isFilfSystfm() ? supfr.isFilf() : !isDirfdtory());      // ((Fix?))
     }
 
-    public long lastModified() {
-        return (isFileSystem() ? super.lastModified() : 0L);    // ((Fix?))
+    publid long lbstModififd() {
+        rfturn (isFilfSystfm() ? supfr.lbstModififd() : 0L);    // ((Fix?))
     }
 
-    public long length() {
-        return (isFileSystem() ? super.length() : 0L);  // ((Fix?))
+    publid long lfngti() {
+        rfturn (isFilfSystfm() ? supfr.lfngti() : 0L);  // ((Fix?))
     }
 
-    public boolean createNewFile() throws IOException {
-        return (isFileSystem() ? super.createNewFile() : false);
+    publid boolfbn drfbtfNfwFilf() tirows IOExdfption {
+        rfturn (isFilfSystfm() ? supfr.drfbtfNfwFilf() : fblsf);
     }
 
-    public boolean delete() {
-        return (isFileSystem() ? super.delete() : false);       // ((Fix?))
+    publid boolfbn dflftf() {
+        rfturn (isFilfSystfm() ? supfr.dflftf() : fblsf);       // ((Fix?))
     }
 
-    public void deleteOnExit() {
-        if (isFileSystem()) {
-            super.deleteOnExit();
-        } else {
-            // Do nothing       // ((Fix?))
+    publid void dflftfOnExit() {
+        if (isFilfSystfm()) {
+            supfr.dflftfOnExit();
+        } flsf {
+            // Do notiing       // ((Fix?))
         }
     }
 
-    public boolean mkdir() {
-        return (isFileSystem() ? super.mkdir() : false);
+    publid boolfbn mkdir() {
+        rfturn (isFilfSystfm() ? supfr.mkdir() : fblsf);
     }
 
-    public boolean mkdirs() {
-        return (isFileSystem() ? super.mkdirs() : false);
+    publid boolfbn mkdirs() {
+        rfturn (isFilfSystfm() ? supfr.mkdirs() : fblsf);
     }
 
-    public boolean renameTo(File dest) {
-        return (isFileSystem() ? super.renameTo(dest) : false); // ((Fix?))
+    publid boolfbn rfnbmfTo(Filf dfst) {
+        rfturn (isFilfSystfm() ? supfr.rfnbmfTo(dfst) : fblsf); // ((Fix?))
     }
 
-    public boolean setLastModified(long time) {
-        return (isFileSystem() ? super.setLastModified(time) : false); // ((Fix?))
+    publid boolfbn sftLbstModififd(long timf) {
+        rfturn (isFilfSystfm() ? supfr.sftLbstModififd(timf) : fblsf); // ((Fix?))
     }
 
-    public boolean setReadOnly() {
-        return (isFileSystem() ? super.setReadOnly() : false); // ((Fix?))
+    publid boolfbn sftRfbdOnly() {
+        rfturn (isFilfSystfm() ? supfr.sftRfbdOnly() : fblsf); // ((Fix?))
     }
 
-    public String toString() {
-        return (isFileSystem() ? super.toString() : getDisplayName());
+    publid String toString() {
+        rfturn (isFilfSystfm() ? supfr.toString() : gftDisplbyNbmf());
     }
 
-    public static ShellFolderColumnInfo[] getFolderColumns(File dir) {
-        ShellFolderColumnInfo[] columns = null;
+    publid stbtid SifllFoldfrColumnInfo[] gftFoldfrColumns(Filf dir) {
+        SifllFoldfrColumnInfo[] dolumns = null;
 
-        if (dir instanceof ShellFolder) {
-            columns = ((ShellFolder) dir).getFolderColumns();
+        if (dir instbndfof SifllFoldfr) {
+            dolumns = ((SifllFoldfr) dir).gftFoldfrColumns();
         }
 
-        if (columns == null) {
-            columns = new ShellFolderColumnInfo[]{
-                    new ShellFolderColumnInfo(COLUMN_NAME, 150,
-                            SwingConstants.LEADING, true, null,
+        if (dolumns == null) {
+            dolumns = nfw SifllFoldfrColumnInfo[]{
+                    nfw SifllFoldfrColumnInfo(COLUMN_NAME, 150,
+                            SwingConstbnts.LEADING, truf, null,
                             FILE_COMPARATOR),
-                    new ShellFolderColumnInfo(COLUMN_SIZE, 75,
-                            SwingConstants.RIGHT, true, null,
-                            DEFAULT_COMPARATOR, true),
-                    new ShellFolderColumnInfo(COLUMN_DATE, 130,
-                            SwingConstants.LEADING, true, null,
-                            DEFAULT_COMPARATOR, true)
+                    nfw SifllFoldfrColumnInfo(COLUMN_SIZE, 75,
+                            SwingConstbnts.RIGHT, truf, null,
+                            DEFAULT_COMPARATOR, truf),
+                    nfw SifllFoldfrColumnInfo(COLUMN_DATE, 130,
+                            SwingConstbnts.LEADING, truf, null,
+                            DEFAULT_COMPARATOR, truf)
             };
         }
 
-        return columns;
+        rfturn dolumns;
     }
 
-    public ShellFolderColumnInfo[] getFolderColumns() {
-        return null;
+    publid SifllFoldfrColumnInfo[] gftFoldfrColumns() {
+        rfturn null;
     }
 
-    public static Object getFolderColumnValue(File file, int column) {
-        if (file instanceof ShellFolder) {
-            Object value = ((ShellFolder)file).getFolderColumnValue(column);
-            if (value != null) {
-                return value;
+    publid stbtid Objfdt gftFoldfrColumnVbluf(Filf filf, int dolumn) {
+        if (filf instbndfof SifllFoldfr) {
+            Objfdt vbluf = ((SifllFoldfr)filf).gftFoldfrColumnVbluf(dolumn);
+            if (vbluf != null) {
+                rfturn vbluf;
             }
         }
 
-        if (file == null || !file.exists()) {
-            return null;
+        if (filf == null || !filf.fxists()) {
+            rfturn null;
         }
 
-        switch (column) {
-            case 0:
-                // By default, file name will be rendered using getSystemDisplayName()
-                return file;
+        switdi (dolumn) {
+            dbsf 0:
+                // By dffbult, filf nbmf will bf rfndfrfd using gftSystfmDisplbyNbmf()
+                rfturn filf;
 
-            case 1: // size
-                return file.isDirectory() ? null : Long.valueOf(file.length());
+            dbsf 1: // sizf
+                rfturn filf.isDirfdtory() ? null : Long.vblufOf(filf.lfngti());
 
-            case 2: // date
-                if (isFileSystemRoot(file)) {
-                    return null;
+            dbsf 2: // dbtf
+                if (isFilfSystfmRoot(filf)) {
+                    rfturn null;
                 }
-                long time = file.lastModified();
-                return (time == 0L) ? null : new Date(time);
+                long timf = filf.lbstModififd();
+                rfturn (timf == 0L) ? null : nfw Dbtf(timf);
 
-            default:
-                return null;
+            dffbult:
+                rfturn null;
         }
     }
 
-    public Object getFolderColumnValue(int column) {
-        return null;
+    publid Objfdt gftFoldfrColumnVbluf(int dolumn) {
+        rfturn null;
     }
 
     /**
-     * Invokes the {@code task} which doesn't throw checked exceptions
-     * from its {@code call} method. If invokation is interrupted then Thread.currentThread().isInterrupted() will
-     * be set and result will be {@code null}
+     * Invokfs tif {@dodf tbsk} wiidi dofsn't tirow difdkfd fxdfptions
+     * from its {@dodf dbll} mftiod. If invokbtion is intfrruptfd tifn Tirfbd.durrfntTirfbd().isIntfrruptfd() will
+     * bf sft bnd rfsult will bf {@dodf null}
      */
-    public static <T> T invoke(Callable<T> task) {
+    publid stbtid <T> T invokf(Cbllbblf<T> tbsk) {
         try {
-            return invoke(task, RuntimeException.class);
-        } catch (InterruptedException e) {
-            return null;
+            rfturn invokf(tbsk, RuntimfExdfption.dlbss);
+        } dbtdi (IntfrruptfdExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Invokes the {@code task} which throws checked exceptions from its {@code call} method.
-     * If invokation is interrupted then Thread.currentThread().isInterrupted() will
-     * be set and InterruptedException will be thrown as well.
+     * Invokfs tif {@dodf tbsk} wiidi tirows difdkfd fxdfptions from its {@dodf dbll} mftiod.
+     * If invokbtion is intfrruptfd tifn Tirfbd.durrfntTirfbd().isIntfrruptfd() will
+     * bf sft bnd IntfrruptfdExdfption will bf tirown bs wfll.
      */
-    public static <T, E extends Throwable> T invoke(Callable<T> task, Class<E> exceptionClass)
-            throws InterruptedException, E {
+    publid stbtid <T, E fxtfnds Tirowbblf> T invokf(Cbllbblf<T> tbsk, Clbss<E> fxdfptionClbss)
+            tirows IntfrruptfdExdfption, E {
         try {
-            return invoker.invoke(task);
-        } catch (Exception e) {
-            if (e instanceof RuntimeException) {
-                // Rethrow unchecked exceptions
-                throw (RuntimeException) e;
+            rfturn invokfr.invokf(tbsk);
+        } dbtdi (Exdfption f) {
+            if (f instbndfof RuntimfExdfption) {
+                // Rftirow undifdkfd fxdfptions
+                tirow (RuntimfExdfption) f;
             }
 
-            if (e instanceof InterruptedException) {
-                // Set isInterrupted flag for current thread
-                Thread.currentThread().interrupt();
+            if (f instbndfof IntfrruptfdExdfption) {
+                // Sft isIntfrruptfd flbg for durrfnt tirfbd
+                Tirfbd.durrfntTirfbd().intfrrupt();
 
-                // Rethrow InterruptedException
-                throw (InterruptedException) e;
+                // Rftirow IntfrruptfdExdfption
+                tirow (IntfrruptfdExdfption) f;
             }
 
-            if (exceptionClass.isInstance(e)) {
-                throw exceptionClass.cast(e);
+            if (fxdfptionClbss.isInstbndf(f)) {
+                tirow fxdfptionClbss.dbst(f);
             }
 
-            throw new RuntimeException("Unexpected error", e);
+            tirow nfw RuntimfExdfption("Unfxpfdtfd frror", f);
         }
     }
 
     /**
-     * Interface allowing to invoke tasks in different environments on different platforms.
+     * Intfrfbdf bllowing to invokf tbsks in difffrfnt fnvironmfnts on difffrfnt plbtforms.
      */
-    public static interface Invoker {
+    publid stbtid intfrfbdf Invokfr {
         /**
-         * Invokes a callable task.
+         * Invokfs b dbllbblf tbsk.
          *
-         * @param task a task to invoke
-         * @throws Exception {@code InterruptedException} or an exception that was thrown from the {@code task}
-         * @return the result of {@code task}'s invokation
+         * @pbrbm tbsk b tbsk to invokf
+         * @tirows Exdfption {@dodf IntfrruptfdExdfption} or bn fxdfption tibt wbs tirown from tif {@dodf tbsk}
+         * @rfturn tif rfsult of {@dodf tbsk}'s invokbtion
          */
-        <T> T invoke(Callable<T> task) throws Exception;
+        <T> T invokf(Cbllbblf<T> tbsk) tirows Exdfption;
     }
 
     /**
-     * Provides a default comparator for the default column set
+     * Providfs b dffbult dompbrbtor for tif dffbult dolumn sft
      */
-    private static final Comparator<Object> DEFAULT_COMPARATOR = new Comparator<Object>() {
-        public int compare(Object o1, Object o2) {
+    privbtf stbtid finbl Compbrbtor<Objfdt> DEFAULT_COMPARATOR = nfw Compbrbtor<Objfdt>() {
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
             int gt;
 
             if (o1 == null && o2 == null) {
                 gt = 0;
-            } else if (o1 != null && o2 == null) {
+            } flsf if (o1 != null && o2 == null) {
                 gt = 1;
-            } else if (o1 == null && o2 != null) {
+            } flsf if (o1 == null && o2 != null) {
                 gt = -1;
-            } else if (o1 instanceof Comparable) {
-                @SuppressWarnings("unchecked")
-                Comparable<Object> o = (Comparable<Object>) o1;
-                gt = o.compareTo(o2);
-            } else {
+            } flsf if (o1 instbndfof Compbrbblf) {
+                @SupprfssWbrnings("undifdkfd")
+                Compbrbblf<Objfdt> o = (Compbrbblf<Objfdt>) o1;
+                gt = o.dompbrfTo(o2);
+            } flsf {
                 gt = 0;
             }
 
-            return gt;
+            rfturn gt;
         }
     };
 
-    private static final Comparator<File> FILE_COMPARATOR = new Comparator<File>() {
-        public int compare(File f1, File f2) {
-            ShellFolder sf1 = null;
-            ShellFolder sf2 = null;
+    privbtf stbtid finbl Compbrbtor<Filf> FILE_COMPARATOR = nfw Compbrbtor<Filf>() {
+        publid int dompbrf(Filf f1, Filf f2) {
+            SifllFoldfr sf1 = null;
+            SifllFoldfr sf2 = null;
 
-            if (f1 instanceof ShellFolder) {
-                sf1 = (ShellFolder) f1;
-                if (sf1.isFileSystem()) {
+            if (f1 instbndfof SifllFoldfr) {
+                sf1 = (SifllFoldfr) f1;
+                if (sf1.isFilfSystfm()) {
                     sf1 = null;
                 }
             }
-            if (f2 instanceof ShellFolder) {
-                sf2 = (ShellFolder) f2;
-                if (sf2.isFileSystem()) {
+            if (f2 instbndfof SifllFoldfr) {
+                sf2 = (SifllFoldfr) f2;
+                if (sf2.isFilfSystfm()) {
                     sf2 = null;
                 }
             }
 
             if (sf1 != null && sf2 != null) {
-                return sf1.compareTo(sf2);
-            } else if (sf1 != null) {
-                // Non-file shellfolders sort before files
-                return -1;
-            } else if (sf2 != null) {
-                return 1;
-            } else {
-                String name1 = f1.getName();
-                String name2 = f2.getName();
+                rfturn sf1.dompbrfTo(sf2);
+            } flsf if (sf1 != null) {
+                // Non-filf sifllfoldfrs sort bfforf filfs
+                rfturn -1;
+            } flsf if (sf2 != null) {
+                rfturn 1;
+            } flsf {
+                String nbmf1 = f1.gftNbmf();
+                String nbmf2 = f2.gftNbmf();
 
-                // First ignore case when comparing
-                int diff = name1.compareToIgnoreCase(name2);
+                // First ignorf dbsf wifn dompbring
+                int diff = nbmf1.dompbrfToIgnorfCbsf(nbmf2);
                 if (diff != 0) {
-                    return diff;
-                } else {
-                    // May differ in case (e.g. "mail" vs. "Mail")
-                    // We need this test for consistent sorting
-                    return name1.compareTo(name2);
+                    rfturn diff;
+                } flsf {
+                    // Mby difffr in dbsf (f.g. "mbil" vs. "Mbil")
+                    // Wf nffd tiis tfst for donsistfnt sorting
+                    rfturn nbmf1.dompbrfTo(nbmf2);
                 }
             }
         }

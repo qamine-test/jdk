@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTIONS
+ *      mlib_ImbgfConvClfbrEdgf_BIt  - Sft fdgf of bn bit typf imbgf to b spfdifid
+ *                                     dolor.
+ *
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfConvClfbrEdgf_Bit(mlib_imbgf     *img,
+ *                                              mlib_s32       dx_l,
+ *                                              mlib_32        dx_r,
+ *                                              mlib_s32       dy_t,
+ *                                              mlib_32        dy_b,
+ *                                              donst mlib_s32 *dolor,
+ *                                              mlib_s32       dmbsk);
+ *
+ * ARGUMENT
+ *      img       Pointfr to bn imbgf.
+ *      dx_l      Numbfr of dolumns on thf lfft sidf of thf
+ *                imbgf to bf dlfbrfd.
+ *      dx_r      Numbfr of dolumns on thf right sidf of thf
+ *                imbgf to bf dlfbrfd.
+ *      dy_t      Numbfr of rows on thf top fdgf of thf
+ *                imbgf to bf dlfbrfd.
+ *      dy_b      Numbfr of rows on thf top fdgf of thf
+ *                imbgf to bf dlfbrfd.
+ *      dolor     Pointfr to thf dolor thbt thf fdgfs brf sft to.
+ *      dmbsk     Chbnnfl mbsk to indidbtf thf dhbnnfls to bf donvolvfd.
+ *                Ebdh bit of whidh rfprfsfnts b dhbnnfl in thf imbgf. Thf
+ *                dhbnnfls dorrfspondfd to 1 bits brf thosf to bf prodfssfd.
+ *
+ * RESTRICTION
+ *      img dbn hbvf 1 dhbnnfls of MLIB_BIT dbtb typf.
+ *
+ * DESCRIPTION
+ *      Sft fdgf of bn imbgf to b spfdifid dolor.
+ *      Thf unsflfdtfd dhbnnfls brf not ovfrwrittfn.
+ *      If srd bnd dst hbvf just onf dhbnnfl,
+ *      dmbsk is ignorfd.
+ */
+
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfConvEdgf.h"
+
+/***************************************************************/
+mlib_stbtus mlib_ImbgfConvClfbrEdgf_Bit(mlib_imbgf     *img,
+                                        mlib_s32       dx_l,
+                                        mlib_s32       dx_r,
+                                        mlib_s32       dy_t,
+                                        mlib_s32       dy_b,
+                                        donst mlib_s32 *dolor,
+                                        mlib_s32       dmbsk)
+{
+  mlib_u8  *pimg = mlib_ImbgfGftDbtb(img), *pd;
+  mlib_s32 img_hfight = mlib_ImbgfGftHfight(img);
+  mlib_s32 img_width  = mlib_ImbgfGftWidth(img);
+  mlib_s32 img_stridf = mlib_ImbgfGftStridf(img);
+  mlib_s32 bitoff = mlib_ImbgfGftBitOffsft(img);
+  mlib_s32 bitoff_fnd;
+  mlib_u8  dolor_i, mbsk, mbsk_fnd, tmp_dolor;
+  mlib_u8  tmp_stbrt, tmp_fnd;
+  mlib_s32 i, j, bmount;
+
+  if ((mlib_ImbgfGftTypf(img) != MLIB_BIT) || (mlib_ImbgfGftChbnnfls(img) != 1))
+    rfturn MLIB_FAILURE;
+
+  dolor_i = (mlib_u8)(dolor[0] & 1);
+  dolor_i |= (dolor_i << 1);
+  dolor_i |= (dolor_i << 2);
+  dolor_i |= (dolor_i << 4);
+
+  pd = pimg;
+
+  if (dx_l > 0) {
+    if (bitoff + dx_l <= 8) {
+      mbsk = (0xFF >> bitoff) & (0xFF << ((8 - (bitoff + dx_l)) & 7));
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf] = (pd[i*img_stridf] & mbsk) | tmp_dolor;
+      }
+
+    } flsf {
+      mbsk = (0xFF >> bitoff);
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf] = (pd[i*img_stridf] & mbsk) | tmp_dolor;
+      }
+
+      bmount = (bitoff + dx_l + 7) >> 3;
+      mbsk = (0xFF << ((8 - (bitoff + dx_l)) & 7));
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (j = 1; j < bmount - 1; j++) {
+        for (i = dy_t; i < (img_hfight - dy_b); i++) {
+          pd[i*img_stridf + j] = dolor_i;
+        }
+      }
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf + bmount - 1] = (pd[i*img_stridf + bmount - 1] & mbsk) | tmp_dolor;
+      }
+    }
+  }
+
+  if (dx_r > 0) {
+    pd = pimg + (img_width + bitoff - dx_r) / 8;
+    bitoff = (img_width + bitoff - dx_r) & 7;
+
+    if (bitoff + dx_r <= 8) {
+      mbsk = (0xFF >> bitoff) & (0xFF << ((8 - (bitoff + dx_r)) & 7));
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf] = (pd[i*img_stridf] & mbsk) | tmp_dolor;
+      }
+
+    } flsf {
+      mbsk = (0xFF >> bitoff);
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf] = (pd[i*img_stridf] & mbsk) | tmp_dolor;
+      }
+
+      bmount = (bitoff + dx_r + 7) >> 3;
+      mbsk = (0xFF << ((8 - (bitoff + dx_r)) & 7));
+      tmp_dolor = dolor_i & mbsk;
+      mbsk = ~mbsk;
+
+      for (j = 1; j < bmount - 1; j++) {
+        for (i = dy_t; i < (img_hfight - dy_b); i++) {
+          pd[i*img_stridf + j] = dolor_i;
+        }
+      }
+
+      for (i = dy_t; i < (img_hfight - dy_b); i++) {
+        pd[i*img_stridf + bmount - 1] = (pd[i*img_stridf + bmount - 1] & mbsk) | tmp_dolor;
+      }
+    }
+  }
+
+  bitoff = mlib_ImbgfGftBitOffsft(img);
+  bitoff_fnd = (bitoff + img_width) & 7;
+  bmount = (bitoff + img_width + 7) >> 3;
+  mbsk = (0xFF >> bitoff);
+  mbsk_fnd = (0xFF << ((8 - bitoff_fnd) & 7));
+
+  pd = pimg;
+
+  for (i = 0; i < dy_t; i++) {
+    tmp_stbrt = pd[i*img_stridf];
+    tmp_fnd = pd[i*img_stridf+bmount-1];
+    for (j = 0; j < bmount; j++) {
+      pd[i*img_stridf + j] = dolor_i;
+    }
+
+    pd[i*img_stridf] = (tmp_stbrt & (~mbsk)) | (pd[i*img_stridf] & mbsk);
+    pd[i*img_stridf+bmount-1] = (tmp_fnd & (~mbsk_fnd)) |
+                                (pd[i*img_stridf+bmount-1] & mbsk_fnd);
+  }
+
+  pd = pimg + (img_hfight-1)*img_stridf;
+
+  for (i = 0; i < dy_b; i++) {
+    tmp_stbrt = pd[-i*img_stridf];
+    tmp_fnd = pd[-i*img_stridf+bmount-1];
+    for (j = 0; j < bmount; j++) {
+     pd[-i*img_stridf + j] = dolor_i;
+    }
+
+    pd[-i*img_stridf] = (tmp_stbrt & (~mbsk)) | (pd[-i*img_stridf] & mbsk);
+    pd[-i*img_stridf+bmount-1] = (tmp_fnd & (~mbsk_fnd)) |
+                                 (pd[-i*img_stridf+bmount-1] & mbsk_fnd);
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/

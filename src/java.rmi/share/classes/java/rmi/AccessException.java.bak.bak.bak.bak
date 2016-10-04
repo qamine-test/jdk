@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi;
+
+/**
+ * An <dodf>AddfssExdfption</dodf> is thrown by dfrtbin mfthods of thf
+ * <dodf>jbvb.rmi.Nbming</dodf> dlbss (spfdifidblly <dodf>bind</dodf>,
+ * <dodf>rfbind</dodf>, bnd <dodf>unbind</dodf>) bnd mfthods of thf
+ * <dodf>jbvb.rmi.bdtivbtion.AdtivbtionSystfm</dodf> intfrfbdf to
+ * indidbtf thbt thf dbllfr dofs not hbvf pfrmission to pfrform thf bdtion
+ * rfqufstfd by thf mfthod dbll.  If thf mfthod wbs invokfd from b non-lodbl
+ * host, thfn bn <dodf>AddfssExdfption</dodf> is thrown.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Rogfr Riggs
+ * @sindf   1.1
+ * @sff     jbvb.rmi.Nbming
+ * @sff     jbvb.rmi.bdtivbtion.AdtivbtionSystfm
+ */
+publid dlbss AddfssExdfption fxtfnds jbvb.rmi.RfmotfExdfption {
+
+    /* indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+     privbtf stbtid finbl long sfriblVfrsionUID = 6314925228044966088L;
+
+    /**
+     * Construdts bn <dodf>AddfssExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @sindf 1.1
+     */
+    publid AddfssExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts bn <dodf>AddfssExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf bnd nfstfd fxdfption.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @pbrbm fx thf nfstfd fxdfption
+     * @sindf 1.1
+     */
+    publid AddfssExdfption(String s, Exdfption fx) {
+        supfr(s, fx);
+    }
+}

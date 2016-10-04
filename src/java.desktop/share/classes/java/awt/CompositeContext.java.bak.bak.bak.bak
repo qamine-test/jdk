@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+/**
+ * Thf <dodf>CompositfContfxt</dodf> intfrfbdf dffinfs thf fndbpsulbtfd
+ * bnd optimizfd fnvironmfnt for b dompositing opfrbtion.
+ * <dodf>CompositfContfxt</dodf> objfdts mbintbin stbtf for
+ * dompositing opfrbtions.  In b multi-thrfbdfd fnvironmfnt, sfvfrbl
+ * dontfxts dbn fxist simultbnfously for b singlf {@link Compositf}
+ * objfdt.
+ * @sff Compositf
+ */
+
+publid intfrfbdf CompositfContfxt {
+    /**
+     * Rflfbsfs rfsourdfs bllodbtfd for b dontfxt.
+     */
+    publid void disposf();
+
+    /**
+     * Composfs thf two sourdf {@link Rbstfr} objfdts bnd
+     * plbdfs thf rfsult in thf dfstinbtion
+     * {@link WritbblfRbstfr}.  Notf thbt thf dfstinbtion
+     * dbn bf thf sbmf objfdt bs fithfr thf first or sfdond
+     * sourdf. Notf thbt <dodf>dstIn</dodf> bnd
+     * <dodf>dstOut</dodf> must bf dompbtiblf with thf
+     * <dodf>dstColorModfl</dodf> pbssfd to thf
+     * {@link Compositf#drfbtfContfxt(jbvb.bwt.imbgf.ColorModfl, jbvb.bwt.imbgf.ColorModfl, jbvb.bwt.RfndfringHints) drfbtfContfxt}
+     * mfthod of thf <dodf>Compositf</dodf> intfrfbdf.
+     * @pbrbm srd thf first sourdf for thf dompositing opfrbtion
+     * @pbrbm dstIn thf sfdond sourdf for thf dompositing opfrbtion
+     * @pbrbm dstOut thf <dodf>WritbblfRbstfr</dodf> into whidh thf
+     * rfsult of thf opfrbtion is storfd
+     * @sff Compositf
+     */
+    publid void domposf(Rbstfr srd,
+                        Rbstfr dstIn,
+                        WritbblfRbstfr dstOut);
+
+
+}

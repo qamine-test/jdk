@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Window;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.DfstSurfbdfProvidfr;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.Surfbdf;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.BufffrfdContfxt;
+import sun.jbvb2d.pipf.hw.AddflGrbphidsConfig;
+import sun.jbvb2d.pipf.hw.AddflSurfbdf;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+import stbtid jbvb.bwt.imbgf.VolbtilfImbgf.*;
+import stbtid sun.jbvb2d.pipf.hw.AddflSurfbdf.*;
+import stbtid sun.jbvb2d.pipf.hw.ContfxtCbpbbilitifs.*;
+
+/**
+ * This dlbss hbndlfs thf updbtfs of thf non-opbquf windows.
+ * Thf window bssodibtfd with thf pffr is updbtfd fithfr givfn bn imbgf or
+ * thf window is rfpbintfd to bn intfrnbl bufffr whidh is thfn usfd to updbtf
+ * thf window.
+ *
+ * Notf: this dlbss dofs not bttfmpt to bf thrfbd sbff, it is fxpfdtfd to bf
+ * dbllfd from b singlf thrfbd (EDT).
+ */
+bbstrbdt dlbss TrbnsludfntWindowPbintfr {
+
+    protfdtfd Window window;
+    protfdtfd WWindowPffr pffr;
+
+    // REMIND: wf probbbly would wbnt to rfmovf this lbtfr
+    privbtf stbtid finbl boolfbn fordfOpt  =
+        Boolfbn.vblufOf(AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.twp.fordfopt", "fblsf")));
+    privbtf stbtid finbl boolfbn fordfSW  =
+        Boolfbn.vblufOf(AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.twp.fordfsw", "fblsf")));
+
+    /**
+     * Crfbtfs bn instbndf of thf pbintfr for pbrtidulbr pffr.
+     */
+    publid stbtid TrbnsludfntWindowPbintfr drfbtfInstbndf(WWindowPffr pffr) {
+        GrbphidsConfigurbtion gd = pffr.gftGrbphidsConfigurbtion();
+        if (!fordfSW && gd instbndfof AddflGrbphidsConfig) {
+            String gdNbmf = gd.gftClbss().gftSimplfNbmf();
+            AddflGrbphidsConfig bgd = (AddflGrbphidsConfig)gd;
+            // this is b hfuristid to dhfdk thbt wf hbvf b pdix bobrd
+            // (thosf hbvf highfr trbnsffr rbtf from gpu to dpu)
+            if ((bgd.gftContfxtCbpbbilitifs().gftCbps() & CAPS_PS30) != 0 ||
+                fordfOpt)
+            {
+                // wf dhfdk for nbmf to bvoid lobding dlbssfs unnfdfssbrily if
+                // b pipflinf isn't fnbblfd
+                if (gdNbmf.stbrtsWith("D3D")) {
+                    rfturn nfw VIOptD3DWindowPbintfr(pffr);
+                } flsf if (fordfOpt && gdNbmf.stbrtsWith("WGL")) {
+                    // on somf bobrds (nbmfly, ATI, fvfn on pdix bus) ogl is
+                    // vfry slow rfbding pixfls bbdk so for now it is disbblfd
+                    // unlfss fordfd
+                    rfturn nfw VIOptWGLWindowPbintfr(pffr);
+                }
+            }
+        }
+        rfturn nfw BIWindowPbintfr(pffr);
+    }
+
+    protfdtfd TrbnsludfntWindowPbintfr(WWindowPffr pffr) {
+        this.pffr = pffr;
+        this.window = (Window)pffr.gftTbrgft();
+    }
+
+    /**
+     * Crfbtfs (if nffdfd), dlfbrs (if rfqufstfd) bnd rfturns thf bufffr
+     * for this pbintfr.
+     */
+    protfdtfd bbstrbdt Imbgf gftBbdkBufffr(boolfbn dlfbr);
+
+    /**
+     * Updbtfs thf thf window bssodibtfd with this pbintfr with thf dontfnts
+     * of thf pbssfd imbgf.
+     * Thf imbgf dbn not bf null, bnd NPE will bf thrown if it is.
+     */
+    protfdtfd bbstrbdt boolfbn updbtf(Imbgf bb);
+
+    /**
+     * Flushfs thf rfsourdfs bssodibtfd with thf pbintfr. Thfy will bf
+     * rfdrfbtfd bs nffdfd.
+     */
+    publid bbstrbdt void flush();
+
+    /**
+     * Updbtfs thf window bssodibtfd with thf pbintfr.
+     *
+     * @pbrbm rfpbint indidbtfs if thf window should bf domplftfly rfpbintfd
+     * to thf bbdk bufffr using {@link jbvb.bwt.Window#pbintAll} bfforf updbtf.
+     */
+    publid void updbtfWindow(boolfbn rfpbint) {
+        boolfbn donf = fblsf;
+        Imbgf bb = gftBbdkBufffr(rfpbint);
+        whilf (!donf) {
+            if (rfpbint) {
+                Grbphids2D g = (Grbphids2D)bb.gftGrbphids();
+                try {
+                    window.pbintAll(g);
+                } finblly {
+                    g.disposf();
+                }
+            }
+
+            donf = updbtf(bb);
+            if (!donf) {
+                rfpbint = truf;
+                bb = gftBbdkBufffr(truf);
+            }
+        }
+    }
+
+    privbtf stbtid finbl Imbgf dlfbrImbgf(Imbgf bb) {
+        Grbphids2D g = (Grbphids2D)bb.gftGrbphids();
+        int w = bb.gftWidth(null);
+        int h = bb.gftHfight(null);
+
+        g.sftCompositf(AlphbCompositf.Srd);
+        g.sftColor(nfw Color(0, 0, 0, 0));
+        g.fillRfdt(0, 0, w, h);
+
+        rfturn bb;
+    }
+
+    /**
+     * A pbintfr whidh usfs BufffrfdImbgf bs thf intfrnbl bufffr. Thf window
+     * is pbintfd into this bufffr, bnd thf dontfnts thfn brf uplobdfd
+     * into thf lbyfrfd window.
+     *
+     * This pbintfr hbndlfs bll typfs of imbgfs pbssfd to its pbint(Imbgf)
+     * mfthod (VI, BI, rfgulbr Imbgfs).
+     */
+    privbtf stbtid dlbss BIWindowPbintfr fxtfnds TrbnsludfntWindowPbintfr {
+        privbtf BufffrfdImbgf bbdkBufffr;
+
+        protfdtfd BIWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
+        }
+
+        @Ovfrridf
+        protfdtfd Imbgf gftBbdkBufffr(boolfbn dlfbr) {
+            int w = window.gftWidth();
+            int h = window.gftHfight();
+            if (bbdkBufffr == null ||
+                bbdkBufffr.gftWidth() != w ||
+                bbdkBufffr.gftHfight() != h)
+            {
+                flush();
+                bbdkBufffr = nfw BufffrfdImbgf(w, h, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+            }
+            rfturn dlfbr ? (BufffrfdImbgf)dlfbrImbgf(bbdkBufffr) : bbdkBufffr;
+        }
+
+        @Ovfrridf
+        protfdtfd boolfbn updbtf(Imbgf bb) {
+            VolbtilfImbgf viBB = null;
+
+            if (bb instbndfof BufffrfdImbgf) {
+                BufffrfdImbgf bi = (BufffrfdImbgf)bb;
+                int dbtb[] =
+                    ((DbtbBufffrInt)bi.gftRbstfr().gftDbtbBufffr()).gftDbtb();
+                pffr.updbtfWindowImpl(dbtb, bi.gftWidth(), bi.gftHfight());
+                rfturn truf;
+            } flsf if (bb instbndfof VolbtilfImbgf) {
+                viBB = (VolbtilfImbgf)bb;
+                if (bb instbndfof DfstSurfbdfProvidfr) {
+                    Surfbdf s = ((DfstSurfbdfProvidfr)bb).gftDfstSurfbdf();
+                    if (s instbndfof BufImgSurfbdfDbtb) {
+                        // thf imbgf is probbbly lost, uplobd thf dbtb from thf
+                        // bbdkup surfbdf to bvoid drfbting bnothfr hfbp-bbsfd
+                        // imbgf (thf pbrfnt's bufffr)
+                        int w = viBB.gftWidth();
+                        int h = viBB.gftHfight();
+                        BufImgSurfbdfDbtb bisd = (BufImgSurfbdfDbtb)s;
+                        int dbtb[] = ((DbtbBufffrInt)bisd.gftRbstfr(0,0,w,h).
+                            gftDbtbBufffr()).gftDbtb();
+                        pffr.updbtfWindowImpl(dbtb, w, h);
+                        rfturn truf;
+                    }
+                }
+            }
+
+            // dopy thf pbssfd imbgf into our own bufffr, thfn uplobd
+            BufffrfdImbgf bi = (BufffrfdImbgf)dlfbrImbgf(bbdkBufffr);
+
+            int dbtb[] =
+                ((DbtbBufffrInt)bi.gftRbstfr().gftDbtbBufffr()).gftDbtb();
+            pffr.updbtfWindowImpl(dbtb, bi.gftWidth(), bi.gftHfight());
+
+            rfturn (viBB != null ? !viBB.dontfntsLost() : truf);
+        }
+
+        @Ovfrridf
+        publid void flush() {
+            if (bbdkBufffr != null) {
+                bbdkBufffr.flush();
+                bbdkBufffr = null;
+            }
+        }
+    }
+
+    /**
+     * A vfrsion of thf pbintfr whidh usfs VolbtilfImbgf bs thf intfrnbl bufffr.
+     * Thf window is pbintfd into this VI bnd thfn dopifd into thf pbrfnt's
+     * Jbvb hfbp-bbsfd bufffr (whidh is thfn uplobdfd to thf lbyfrfd window)
+     */
+    privbtf stbtid dlbss VIWindowPbintfr fxtfnds BIWindowPbintfr {
+        privbtf VolbtilfImbgf viBB;
+
+        protfdtfd VIWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
+        }
+
+        @Ovfrridf
+        protfdtfd Imbgf gftBbdkBufffr(boolfbn dlfbr) {
+            int w = window.gftWidth();
+            int h = window.gftHfight();
+            GrbphidsConfigurbtion gd = pffr.gftGrbphidsConfigurbtion();
+
+            if (viBB == null || viBB.gftWidth() != w || viBB.gftHfight() != h ||
+                viBB.vblidbtf(gd) == IMAGE_INCOMPATIBLE)
+            {
+                flush();
+
+                if (gd instbndfof AddflGrbphidsConfig) {
+                    AddflGrbphidsConfig bgd = ((AddflGrbphidsConfig)gd);
+                    viBB = bgd.drfbtfCompbtiblfVolbtilfImbgf(w, h,
+                                                             TRANSLUCENT,
+                                                             RT_PLAIN);
+                }
+                if (viBB == null) {
+                    viBB = gd.drfbtfCompbtiblfVolbtilfImbgf(w, h, TRANSLUCENT);
+                }
+                viBB.vblidbtf(gd);
+            }
+
+            rfturn dlfbr ? dlfbrImbgf(viBB) : viBB;
+        }
+
+        @Ovfrridf
+        publid void flush() {
+            if (viBB != null) {
+                viBB.flush();
+                viBB = null;
+            }
+        }
+    }
+
+    /**
+     * Optimizfd vfrsion of hw pbintfr. Usfs VolbtilfImbgfs for thf
+     * bufffr, bnd usfs bn optimizfd pbth to pull thf dbtb from thosf into
+     * thf lbyfrfd window, bypbssing Jbvb hfbp-bbsfd imbgf.
+     */
+    privbtf bbstrbdt stbtid dlbss VIOptWindowPbintfr fxtfnds VIWindowPbintfr {
+
+        protfdtfd VIOptWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
+        }
+
+        protfdtfd bbstrbdt boolfbn updbtfWindowAddfl(long psdops, int w, int h);
+
+        @Ovfrridf
+        protfdtfd boolfbn updbtf(Imbgf bb) {
+            if (bb instbndfof DfstSurfbdfProvidfr) {
+                Surfbdf s = ((DfstSurfbdfProvidfr)bb).gftDfstSurfbdf();
+                if (s instbndfof AddflSurfbdf) {
+                    finbl int w = bb.gftWidth(null);
+                    finbl int h = bb.gftHfight(null);
+                    finbl boolfbn brr[] = { fblsf };
+                    finbl AddflSurfbdf bs = (AddflSurfbdf)s;
+                    RfndfrQufuf rq = bs.gftContfxt().gftRfndfrQufuf();
+                    rq.lodk();
+                    try {
+                        BufffrfdContfxt.vblidbtfContfxt(bs);
+                        rq.flushAndInvokfNow(nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                long psdops = bs.gftNbtivfOps();
+                                brr[0] = updbtfWindowAddfl(psdops, w, h);
+                            }
+                        });
+                    } dbtdh (InvblidPipfExdfption f) {
+                        // ignorf, fblsf will bf rfturnfd
+                    } finblly {
+                        rq.unlodk();
+                    }
+                    rfturn brr[0];
+                }
+            }
+            rfturn supfr.updbtf(bb);
+        }
+    }
+
+    privbtf stbtid dlbss VIOptD3DWindowPbintfr fxtfnds VIOptWindowPbintfr {
+
+        protfdtfd VIOptD3DWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
+        }
+
+        @Ovfrridf
+        protfdtfd boolfbn updbtfWindowAddfl(long psdops, int w, int h) {
+            // notf: this mfthod is fxfdutfd on thf toolkit thrfbd, no synd is
+            // nfdfssbry bt thf nbtivf lfvfl, bnd b pointfr to pffr dbn bf usfd
+            rfturn sun.jbvb2d.d3d.D3DSurfbdfDbtb.
+                updbtfWindowAddflImpl(psdops, pffr.gftDbtb(), w, h);
+        }
+    }
+
+    privbtf stbtid dlbss VIOptWGLWindowPbintfr fxtfnds VIOptWindowPbintfr {
+
+        protfdtfd VIOptWGLWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
+        }
+
+        @Ovfrridf
+        protfdtfd boolfbn updbtfWindowAddfl(long psdops, int w, int h) {
+            // notf: pbrt of this mfthod whidh dfbls with GDI will bf on thf
+            // toolkit thrfbd
+            rfturn sun.jbvb2d.opfngl.WGLSurfbdfDbtb.
+                updbtfWindowAddflImpl(psdops, pffr, w, h);
+        }
+    }
+}

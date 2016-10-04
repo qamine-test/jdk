@@ -1,106 +1,106 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Bbsic Tools
-.\"     Title: jbvbp.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbp.1
 .\"
 .if n .pl 99999
-.TH jbvbp 1 "21 November 2013" "JDK 8" "Bbsic Tools"
+.TH jbvbp 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jbvbp \- Disbssembles one or more clbss files\&.
+jbvbp \- Disbssfmblfs onf or morf dlbss filfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjbvbp\fR [\fIoptions\fR] \fIclbssfile\fR\&.\&.\&.
+\fBjbvbp\fR [\fIoptions\fR] \fIdlbssfilf\fR\&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fIclbssfile\fR
-One or more clbsses sepbrbted by spbces to be processed for bnnotbtions such bs DocFooter\&.clbss\&. You cbn specify b clbss thbt cbn be found in the clbss pbth, by its file nbme or with b URL such bs \f3file:///home/user/myproject/src/DocFooter\&.clbss\fR\&.
+\fIdlbssfilf\fR
+Onf or morf dlbssfs sfpbrbtfd by spbdfs to bf prodfssfd for bnnotbtions sudi bs DodFootfr\&.dlbss\&. You dbn spfdify b dlbss tibt dbn bf found in tif dlbss pbti, by its filf nbmf or witi b URL sudi bs \f3filf:///iomf/usfr/myprojfdt/srd/DodFootfr\&.dlbss\fR\&.
 .SH DESCRIPTION    
-The \f3jbvbp\fR commbnd disbssembles one or more clbss files\&. The output depends on the options used\&. When no options bre used, then the \f3jbvbp\fR commbnd prints the pbckbge, protected bnd public fields, bnd methods of the clbsses pbssed to it\&. The \f3jbvbp\fR commbnd prints its output to \f3stdout\fR\&.
+Tif \f3jbvbp\fR dommbnd disbssfmblfs onf or morf dlbss filfs\&. Tif output dfpfnds on tif options usfd\&. Wifn no options brf usfd, tifn tif \f3jbvbp\fR dommbnd prints tif pbdkbgf, protfdtfd bnd publid fiflds, bnd mftiods of tif dlbssfs pbssfd to it\&. Tif \f3jbvbp\fR dommbnd prints its output to \f3stdout\fR\&.
 .SH OPTIONS    
 .TP
--help, --help, -?
+-iflp, --iflp, -?
 .br
-Prints b help messbge for the \f3jbvbp\fR commbnd\&.
+Prints b iflp mfssbgf for tif \f3jbvbp\fR dommbnd\&.
 .TP
--version
+-vfrsion
 .br
-Prints relebse informbtion\&.
+Prints rflfbsf informbtion\&.
 .TP
 -l
 .br
-Prints line bnd locbl vbribble tbbles\&.
+Prints linf bnd lodbl vbribblf tbblfs\&.
 .TP
--public
+-publid
 .br
-Shows only public clbsses bnd members\&.
+Siows only publid dlbssfs bnd mfmbfrs\&.
 .TP
--protected
+-protfdtfd
 .br
-Shows only protected bnd public clbsses bnd members\&.
+Siows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&.
 .TP
--privbte, -p
+-privbtf, -p
 .br
-Shows bll clbsses bnd members\&.
+Siows bll dlbssfs bnd mfmbfrs\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses the specified option to the JVM\&. For exbmple:
+Pbssfs tif spfdififd option to tif JVM\&. For fxbmplf:
 .sp     
 .nf     
-\f3jbvbp \-J\-version\fP
+\f3jbvbp \-J\-vfrsion\fP
 .fi     
 .nf     
-\f3jbvbp \-J\-Djbvb\&.security\&.mbnbger \-J\-Djbvb\&.security\&.policy=MyPolicy MyClbssNbme\fP
+\f3jbvbp \-J\-Djbvb\&.sfdurity\&.mbnbgfr \-J\-Djbvb\&.sfdurity\&.polidy=MyPolidy MyClbssNbmf\fP
 .fi     
 .nf     
 \f3\fP
@@ -108,74 +108,74 @@ Pbsses the specified option to the JVM\&. For exbmple:
 .sp     
 
 
-For more informbtion bbout JVM options, see the \f3jbvb(1)\fR commbnd documentbtion\&.
+For morf informbtion bbout JVM options, sff tif \f3jbvb(1)\fR dommbnd dodumfntbtion\&.
 .TP
 -s
 .br
-Prints internbl type signbtures\&.
+Prints intfrnbl typf signbturfs\&.
 .TP
 -sysinfo
 .br
-Shows system informbtion (pbth, size, dbte, MD5 hbsh) of the clbss being processed\&.
+Siows systfm informbtion (pbti, sizf, dbtf, MD5 ibsi) of tif dlbss bfing prodfssfd\&.
 .TP
--constbnts
+-donstbnts
 .br
-Shows \f3stbtic finbl\fR constbnts\&.
+Siows \f3stbtid finbl\fR donstbnts\&.
 .TP
--c
+-d
 .br
-Prints disbssembled code, for exbmple, the instructions thbt comprise the Jbvb bytecodes, for ebch of the methods in the clbss\&.
+Prints disbssfmblfd dodf, for fxbmplf, tif instrudtions tibt domprisf tif Jbvb bytfdodfs, for fbdi of tif mftiods in tif dlbss\&.
 .TP
--verbose
+-vfrbosf
 .br
-Prints stbck size, number of locbls bnd brguments for methods\&.
+Prints stbdk sizf, numbfr of lodbls bnd brgumfnts for mftiods\&.
 .TP
--clbsspbth \fIpbth\fR
+-dlbsspbti \fIpbti\fR
 .br
-Specifies the pbth the \f3jbvbp\fR commbnd uses to look up clbsses\&. Overrides the defbult or the \f3CLASSPATH\fR environment vbribble when it is set\&.
+Spfdififs tif pbti tif \f3jbvbp\fR dommbnd usfs to look up dlbssfs\&. Ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&.
 .TP
--bootclbsspbth \fIpbth\fR
+-bootdlbsspbti \fIpbti\fR
 .br
-Specifies the pbth from which to lobd bootstrbp clbsses\&. By defbult, the bootstrbp clbsses bre the clbsses thbt implement the core Jbvb plbtform locbted in \f3jre/lib/rt\&.jbr\fR bnd severbl other JAR files\&.
+Spfdififs tif pbti from wiidi to lobd bootstrbp dlbssfs\&. By dffbult, tif bootstrbp dlbssfs brf tif dlbssfs tibt implfmfnt tif dorf Jbvb plbtform lodbtfd in \f3jrf/lib/rt\&.jbr\fR bnd sfvfrbl otifr JAR filfs\&.
 .TP
--extdir \fIdirs\fR
+-fxtdir \fIdirs\fR
 .br
-Overrides the locbtion bt which instblled extensions bre sebrched for\&. The defbult locbtion for extensions is the vblue of \f3jbvb\&.ext\&.dirs\fR\&.
+Ovfrridfs tif lodbtion bt wiidi instbllfd fxtfnsions brf sfbrdifd for\&. Tif dffbult lodbtion for fxtfnsions is tif vbluf of \f3jbvb\&.fxt\&.dirs\fR\&.
 .SH EXAMPLE    
-Compile the following \f3DocFooter\fR clbss:
+Compilf tif following \f3DodFootfr\fR dlbss:
 .sp     
 .nf     
 \f3import jbvb\&.bwt\&.*;\fP
 .fi     
 .nf     
-\f3import jbvb\&.bpplet\&.*;\fP
+\f3import jbvb\&.bpplft\&.*;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3public clbss DocFooter extends Applet {\fP
+\f3publid dlbss DodFootfr fxtfnds Applft {\fP
 .fi     
 .nf     
-\f3        String dbte;\fP
+\f3        String dbtf;\fP
 .fi     
 .nf     
-\f3        String embil;\fP
+\f3        String fmbil;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3        public void init() {\fP
+\f3        publid void init() {\fP
 .fi     
 .nf     
-\f3                resize(500,100);\fP
+\f3                rfsizf(500,100);\fP
 .fi     
 .nf     
-\f3                dbte = getPbrbmeter("LAST_UPDATED");\fP
+\f3                dbtf = gftPbrbmftfr("LAST_UPDATED");\fP
 .fi     
 .nf     
-\f3                embil = getPbrbmeter("EMAIL");\fP
+\f3                fmbil = gftPbrbmftfr("EMAIL");\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -184,13 +184,13 @@ Compile the following \f3DocFooter\fR clbss:
 \f3\fP
 .fi     
 .nf     
-\f3        public void pbint(Grbphics g) {\fP
+\f3        publid void pbint(Grbpiids g) {\fP
 .fi     
 .nf     
-\f3                g\&.drbwString(dbte + " by ",100, 15);\fP
+\f3                g\&.drbwString(dbtf + " by ",100, 15);\fP
 .fi     
 .nf     
-\f3                g\&.drbwString(embil,290,15);\fP
+\f3                g\&.drbwString(fmbil,290,15);\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -202,28 +202,28 @@ Compile the following \f3DocFooter\fR clbss:
 \f3\fP
 .fi     
 .sp     
-The output from the \f3jbvbp DocFooter\&.clbss\fR commbnd yields the following:
+Tif output from tif \f3jbvbp DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
 .sp     
 .nf     
-\f3Compiled from "DocFooter\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
 .fi     
 .nf     
-\f3public clbss DocFooter extends jbvb\&.bpplet\&.Applet {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
 .fi     
 .nf     
-\f3  jbvb\&.lbng\&.String dbte;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
 .fi     
 .nf     
-\f3  jbvb\&.lbng\&.String embil;\fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
 .fi     
 .nf     
-\f3  public DocFooter();\fP
+\f3  publid DodFootfr();\fP
 .fi     
 .nf     
-\f3  public void init();\fP
+\f3  publid void init();\fP
 .fi     
 .nf     
-\f3  public void pbint(jbvb\&.bwt\&.Grbphics);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
 .fi     
 .nf     
 \f3}\fP
@@ -232,61 +232,61 @@ The output from the \f3jbvbp DocFooter\&.clbss\fR commbnd yields the following:
 \f3\fP
 .fi     
 .sp     
-The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
+Tif output from \f3jbvbp -d DodFootfr\&.dlbss\fR dommbnd yiflds tif following:
 .sp     
 .nf     
-\f3Compiled from "DocFooter\&.jbvb"\fP
+\f3Compilfd from "DodFootfr\&.jbvb"\fP
 .fi     
 .nf     
-\f3public clbss DocFooter extends jbvb\&.bpplet\&.Applet {\fP
+\f3publid dlbss DodFootfr fxtfnds jbvb\&.bpplft\&.Applft {\fP
 .fi     
 .nf     
-\f3  jbvb\&.lbng\&.String dbte;\fP
+\f3  jbvb\&.lbng\&.String dbtf;\fP
 .fi     
 .nf     
-\f3  jbvb\&.lbng\&.String embil;\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3  public DocFooter();\fP
-.fi     
-.nf     
-\f3    Code:\fP
-.fi     
-.nf     
-\f3       0: blobd_0       \fP
-.fi     
-.nf     
-\f3       1: invokespecibl #1                  // Method\fP
-.fi     
-.nf     
-\f3jbvb/bpplet/Applet\&."<init>":()V\fP
-.fi     
-.nf     
-\f3       4: return        \fP
+\f3  jbvb\&.lbng\&.String fmbil;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3  public void init();\fP
+\f3  publid DodFootfr();\fP
 .fi     
 .nf     
-\f3    Code:\fP
+\f3    Codf:\fP
 .fi     
 .nf     
 \f3       0: blobd_0       \fP
 .fi     
 .nf     
-\f3       1: sipush        500\fP
+\f3       1: invokfspfdibl #1                  // Mftiod\fP
 .fi     
 .nf     
-\f3       4: bipush        100\fP
+\f3jbvb/bpplft/Applft\&."<init>":()V\fP
 .fi     
 .nf     
-\f3       6: invokevirtubl #2                  // Method resize:(II)V\fP
+\f3       4: rfturn        \fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3  publid void init();\fP
+.fi     
+.nf     
+\f3    Codf:\fP
+.fi     
+.nf     
+\f3       0: blobd_0       \fP
+.fi     
+.nf     
+\f3       1: sipusi        500\fP
+.fi     
+.nf     
+\f3       4: bipusi        100\fP
+.fi     
+.nf     
+\f3       6: invokfvirtubl #2                  // Mftiod rfsizf:(II)V\fP
 .fi     
 .nf     
 \f3       9: blobd_0       \fP
@@ -295,16 +295,16 @@ The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
 \f3      10: blobd_0       \fP
 .fi     
 .nf     
-\f3      11: ldc           #3                  // String LAST_UPDATED\fP
+\f3      11: ldd           #3                  // String LAST_UPDATED\fP
 .fi     
 .nf     
-\f3      13: invokevirtubl #4                  // Method\fP
+\f3      13: invokfvirtubl #4                  // Mftiod\fP
 .fi     
 .nf     
-\f3 getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      16: putfield      #5                  // Field dbte:Ljbvb/lbng/String;\fP
+\f3      16: putfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
 \f3      19: blobd_0       \fP
@@ -313,82 +313,82 @@ The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
 \f3      20: blobd_0       \fP
 .fi     
 .nf     
-\f3      21: ldc           #6                  // String EMAIL\fP
+\f3      21: ldd           #6                  // String EMAIL\fP
 .fi     
 .nf     
-\f3      23: invokevirtubl #4                  // Method\fP
+\f3      23: invokfvirtubl #4                  // Mftiod\fP
 .fi     
 .nf     
-\f3 getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
+\f3 gftPbrbmftfr:(Ljbvb/lbng/String;)Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      26: putfield      #7                  // Field embil:Ljbvb/lbng/String;\fP
+\f3      26: putfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      29: return        \fP
+\f3      29: rfturn        \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3  public void pbint(jbvb\&.bwt\&.Grbphics);\fP
+\f3  publid void pbint(jbvb\&.bwt\&.Grbpiids);\fP
 .fi     
 .nf     
-\f3    Code:\fP
+\f3    Codf:\fP
 .fi     
 .nf     
 \f3       0: blobd_1       \fP
 .fi     
 .nf     
-\f3       1: new           #8                  // clbss jbvb/lbng/StringBuilder\fP
+\f3       1: nfw           #8                  // dlbss jbvb/lbng/StringBuildfr\fP
 .fi     
 .nf     
 \f3       4: dup           \fP
 .fi     
 .nf     
-\f3       5: invokespecibl #9                  // Method\fP
+\f3       5: invokfspfdibl #9                  // Mftiod\fP
 .fi     
 .nf     
-\f3 jbvb/lbng/StringBuilder\&."<init>":()V\fP
+\f3 jbvb/lbng/StringBuildfr\&."<init>":()V\fP
 .fi     
 .nf     
 \f3       8: blobd_0       \fP
 .fi     
 .nf     
-\f3       9: getfield      #5                  // Field dbte:Ljbvb/lbng/String;\fP
+\f3       9: gftfifld      #5                  // Fifld dbtf:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      12: invokevirtubl #10                 // Method\fP
+\f3      12: invokfvirtubl #10                 // Mftiod\fP
 .fi     
 .nf     
-\f3 jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
 .fi     
 .nf     
-\f3      15: ldc           #11                 // String  by \fP
+\f3      15: ldd           #11                 // String  by \fP
 .fi     
 .nf     
-\f3      17: invokevirtubl #10                 // Method\fP
+\f3      17: invokfvirtubl #10                 // Mftiod\fP
 .fi     
 .nf     
-\f3 jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;\fP
+\f3 jbvb/lbng/StringBuildfr\&.bppfnd:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuildfr;\fP
 .fi     
 .nf     
-\f3      20: invokevirtubl #12                 // Method\fP
+\f3      20: invokfvirtubl #12                 // Mftiod\fP
 .fi     
 .nf     
-\f3 jbvb/lbng/StringBuilder\&.toString:()Ljbvb/lbng/String;\fP
+\f3 jbvb/lbng/StringBuildfr\&.toString:()Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      23: bipush        100\fP
+\f3      23: bipusi        100\fP
 .fi     
 .nf     
-\f3      25: bipush        15\fP
+\f3      25: bipusi        15\fP
 .fi     
 .nf     
-\f3      27: invokevirtubl #13                 // Method\fP
+\f3      27: invokfvirtubl #13                 // Mftiod\fP
 .fi     
 .nf     
-\f3 jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3 jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
 .fi     
 .nf     
 \f3      30: blobd_1       \fP
@@ -397,22 +397,22 @@ The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
 \f3      31: blobd_0       \fP
 .fi     
 .nf     
-\f3      32: getfield      #7                  // Field embil:Ljbvb/lbng/String;\fP
+\f3      32: gftfifld      #7                  // Fifld fmbil:Ljbvb/lbng/String;\fP
 .fi     
 .nf     
-\f3      35: sipush        290\fP
+\f3      35: sipusi        290\fP
 .fi     
 .nf     
-\f3      38: bipush        15\fP
+\f3      38: bipusi        15\fP
 .fi     
 .nf     
-\f3      40: invokevirtubl #13                 // Method\fP
+\f3      40: invokfvirtubl #13                 // Mftiod\fP
 .fi     
 .nf     
-\f3jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V\fP
+\f3jbvb/bwt/Grbpiids\&.drbwString:(Ljbvb/lbng/String;II)V\fP
 .fi     
 .nf     
-\f3      43: return        \fP
+\f3      43: rfturn        \fP
 .fi     
 .nf     
 \f3}\fP
@@ -424,7 +424,7 @@ The output from \f3jbvbp -c DocFooter\&.clbss\fR commbnd yields the following:
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jbvbc(1)
+jbvbd(1)
 .TP 0.2i    
 \(bu
 jbvb(1)
@@ -433,10 +433,10 @@ jbvb(1)
 jdb(1)
 .TP 0.2i    
 \(bu
-jbvbh(1)
+jbvbi(1)
 .TP 0.2i    
 \(bu
-jbvbdoc(1)
+jbvbdod(1)
 .RE
 .br
 'pl 8.5i

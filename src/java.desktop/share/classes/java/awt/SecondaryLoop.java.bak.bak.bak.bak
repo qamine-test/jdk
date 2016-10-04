@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * A hflpfr intfrfbdf to run thf nfstfd fvfnt loop.
+ * <p>
+ * Objfdts thbt implfmfnt this intfrfbdf brf drfbtfd with thf
+ * {@link EvfntQufuf#drfbtfSfdondbryLoop} mfthod. Thf intfrfbdf
+ * providfs two mfthods, {@link #fntfr} bnd {@link #fxit},
+ * whidh dbn bf usfd to stbrt bnd stop thf fvfnt loop.
+ * <p>
+ * Whfn thf {@link #fntfr} mfthod is dbllfd, thf durrfnt
+ * thrfbd is blodkfd until thf loop is tfrminbtfd by thf
+ * {@link #fxit} mfthod. Also, b nfw fvfnt loop is stbrtfd
+ * on thf fvfnt dispbtdh thrfbd, whidh mby or mby not bf
+ * thf durrfnt thrfbd. Thf loop dbn bf tfrminbtfd on bny
+ * thrfbd by dblling its {@link #fxit} mfthod. Aftfr thf
+ * loop is tfrminbtfd, thf {@dodf SfdondbryLoop} objfdt dbn
+ * bf rfusfd to run b nfw nfstfd fvfnt loop.
+ * <p>
+ * A typidbl usf dbsf of bpplying this intfrfbdf is AWT
+ * bnd Swing modbl diblogs. Whfn b modbl diblog is shown on
+ * thf fvfnt dispbtdh thrfbd, it fntfrs b nfw sfdondbry loop.
+ * Lbtfr, whfn thf diblog is hiddfn or disposfd, it fxits
+ * thf loop, bnd thf thrfbd dontinufs its fxfdution.
+ * <p>
+ * Thf following fxbmplf illustrbtfs b simplf usf dbsf of
+ * sfdondbry loops:
+ *
+ * <prf>
+ *   SfdondbryLoop loop;
+ *
+ *   JButton jButton = nfw JButton("Button");
+ *   jButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+ *       {@dodf @Ovfrridf}
+ *       publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *           Toolkit tk = Toolkit.gftDffbultToolkit();
+ *           EvfntQufuf fq = tk.gftSystfmEvfntQufuf();
+ *           loop = fq.drfbtfSfdondbryLoop();
+ *
+ *           // Spbwn b nfw thrfbd to do thf work
+ *           Thrfbd workfr = nfw WorkfrThrfbd();
+ *           workfr.stbrt();
+ *
+ *           // Entfr thf loop to blodk thf durrfnt fvfnt
+ *           // hbndlfr, but lfbvf UI rfsponsivf
+ *           if (!loop.fntfr()) {
+ *               // Rfport bn frror
+ *           }
+ *       }
+ *   });
+ *
+ *   dlbss WorkfrThrfbd fxtfnds Thrfbd {
+ *       {@dodf @Ovfrridf}
+ *       publid void run() {
+ *           // Pfrform dbldulbtions
+ *           doSomfthingUsfful();
+ *
+ *           // Exit thf loop
+ *           loop.fxit();
+ *       }
+ *   }
+ * </prf>
+ *
+ * @sff Diblog#show
+ * @sff EvfntQufuf#drfbtfSfdondbryLoop
+ * @sff Toolkit#gftSystfmEvfntQufuf
+ *
+ * @buthor Anton Tbrbsov, Artfm Anbnifv
+ *
+ * @sindf 1.7
+ */
+publid intfrfbdf SfdondbryLoop {
+
+    /**
+     * Blodks thf fxfdution of thf durrfnt thrfbd bnd fntfrs b nfw
+     * sfdondbry fvfnt loop on thf fvfnt dispbtdh thrfbd.
+     * <p>
+     * This mfthod dbn bf dbllfd by bny thrfbd indluding thf fvfnt
+     * dispbtdh thrfbd. This thrfbd will bf blodkfd until thf {@link
+     * #fxit} mfthod is dbllfd or thf loop is tfrminbtfd. A nfw
+     * sfdondbry loop will bf drfbtfd on thf fvfnt dispbtdh thrfbd
+     * for dispbtdhing fvfnts in fithfr dbsf.
+     * <p>
+     * This mfthod dbn only stbrt onf nfw fvfnt loop bt b timf pfr
+     * objfdt. If b sfdondbry fvfnt loop hbs blrfbdy bffn stbrtfd
+     * by this objfdt bnd is durrfntly still running, this mfthod
+     * rfturns {@dodf fblsf} to indidbtf thbt it wbs not suddfssful
+     * in stbrting b nfw fvfnt loop. Othfrwisf, this mfthod blodks
+     * thf dblling thrfbd bnd lbtfr rfturns {@dodf truf} whfn thf
+     * nfw fvfnt loop is tfrminbtfd. At sudh timf, this objfdt dbn
+     * bgbin bf usfd to stbrt bnothfr nfw fvfnt loop.
+     *
+     * @rfturn {@dodf truf} bftfr tfrminbtion of thf sfdondbry loop,
+     *         if thf sfdondbry loop wbs stbrtfd by this dbll,
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn fntfr();
+
+    /**
+     * Unblodks thf fxfdution of thf thrfbd blodkfd by thf {@link
+     * #fntfr} mfthod bnd fxits thf sfdondbry loop.
+     * <p>
+     * This mfthod rfsumfs thf thrfbd thbt dbllfd thf {@link #fntfr}
+     * mfthod bnd fxits thf sfdondbry loop thbt wbs drfbtfd whfn
+     * thf {@link #fntfr} mfthod wbs invokfd.
+     * <p>
+     * Notf thbt if bny othfr sfdondbry loop is stbrtfd whilf this
+     * loop is running, thf blodkfd thrfbd will not rfsumf fxfdution
+     * until thf nfstfd loop is tfrminbtfd.
+     * <p>
+     * If this sfdondbry loop hbs not bffn stbrtfd with thf {@link
+     * #fntfr} mfthod, or this sfdondbry loop hbs blrfbdy finishfd
+     * with thf {@link #fxit} mfthod, this mfthod rfturns {@dodf
+     * fblsf}, othfrwisf {@dodf truf} is rfturnfd.
+     *
+     * @rfturn {@dodf truf} if this loop wbs prfviously stbrtfd bnd
+     *         hbs not yft bffn finishfd with thf {@link #fxit} mfthod,
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn fxit();
+
+}

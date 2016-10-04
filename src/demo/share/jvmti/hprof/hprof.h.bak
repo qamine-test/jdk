@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,97 +30,97 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Primary hprof #include file, should be included by most if not
- *    all hprof source files. Gives access to the global data structure
- *    and all global macros, and everything declared in the #include
- *    files of each of the source files.
+/* Primbry iprof #indludf filf, siould bf indludfd by most if not
+ *    bll iprof sourdf filfs. Givfs bddfss to tif globbl dbtb strudturf
+ *    bnd bll globbl mbdros, bnd fvfrytiing dfdlbrfd in tif #indludf
+ *    filfs of fbdi of tif sourdf filfs.
  */
 
-#ifndef HPROF_H
-#define HPROF_H
+#ifndff HPROF_H
+#dffinf HPROF_H
 
-/* Standard C functions used throughout. */
+/* Stbndbrd C fundtions usfd tirougiout. */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <stddef.h>
-#include <stdarg.h>
-#include <limits.h>
-#include <time.h>
-#include <errno.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <dtypf.i>
+#indludf <string.i>
+#indludf <stddff.i>
+#indludf <stdbrg.i>
+#indludf <limits.i>
+#indludf <timf.i>
+#indludf <frrno.i>
 
-/* General JVM/Java functions, types and macros. */
+/* Gfnfrbl JVM/Jbvb fundtions, typfs bnd mbdros. */
 
-#include <sys/types.h>
-#include "jni.h"
-#include "jvmti.h"
-#include "classfile_constants.h"
-#include "jvm_md.h"
+#indludf <sys/typfs.i>
+#indludf "jni.i"
+#indludf "jvmti.i"
+#indludf "dlbssfilf_donstbnts.i"
+#indludf "jvm_md.i"
 
-/* Macros to extract the upper and lower 32 bits of a jlong */
+/* Mbdros to fxtrbdt tif uppfr bnd lowfr 32 bits of b jlong */
 
-#define jlong_high(a)    ((jint)((a)>>32))
-#define jlong_low(a)     ((jint)(a))
-#define jlong_to_jint(a)  ((jint)(a))
-#define jint_to_jlong(a) ((jlong)(a))
+#dffinf jlong_iigi(b)    ((jint)((b)>>32))
+#dffinf jlong_low(b)     ((jint)(b))
+#dffinf jlong_to_jint(b)  ((jint)(b))
+#dffinf jint_to_jlong(b) ((jlong)(b))
 
-#define jlong_add(a, b) ((a) + (b))
+#dffinf jlong_bdd(b, b) ((b) + (b))
 
 
-/* The type used to contain a generic 32bit "serial number". */
+/* Tif typf usfd to dontbin b gfnfrid 32bit "sfribl numbfr". */
 
-typedef unsigned SerialNumber;
+typfdff unsignfd SfriblNumbfr;
 
-/* How the options get to OnLoad: */
+/* How tif options gft to OnLobd: */
 
-#define AGENTNAME               "hprof"
-#define XRUN                    "-Xrun" AGENTNAME
-#define AGENTLIB                "-agentlib:" AGENTNAME
+#dffinf AGENTNAME               "iprof"
+#dffinf XRUN                    "-Xrun" AGENTNAME
+#dffinf AGENTLIB                "-bgfntlib:" AGENTNAME
 
-/* Name of prelude file, found at runtime relative to java binary location */
+/* Nbmf of prfludf filf, found bt runtimf rflbtivf to jbvb binbry lodbtion */
 
-#define PRELUDE_FILE            "jvm.hprof.txt"
+#dffinf PRELUDE_FILE            "jvm.iprof.txt"
 
-/* File I/O buffer size to be used with any file i/o operation */
+/* Filf I/O bufffr sizf to bf usfd witi bny filf i/o opfrbtion */
 
-#define FILE_IO_BUFFER_SIZE     (1024*64)
+#dffinf FILE_IO_BUFFER_SIZE     (1024*64)
 
-/* Machine dependent functions. */
+/* Mbdiinf dfpfndfnt fundtions. */
 
-#include "hprof_md.h"
+#indludf "iprof_md.i"
 
-/* Table index types */
+/* Tbblf indfx typfs */
 
-typedef unsigned   TableIndex;
-typedef TableIndex ClassIndex;
-typedef TableIndex FrameIndex;
-typedef TableIndex IoNameIndex;
-typedef TableIndex MonitorIndex;
-typedef TableIndex ObjectIndex;
-typedef TableIndex LoaderIndex;
-typedef TableIndex RefIndex;
-typedef TableIndex SiteIndex;
-typedef TableIndex StringIndex;
-typedef TableIndex TlsIndex;
-typedef TableIndex TraceIndex;
+typfdff unsignfd   TbblfIndfx;
+typfdff TbblfIndfx ClbssIndfx;
+typfdff TbblfIndfx FrbmfIndfx;
+typfdff TbblfIndfx IoNbmfIndfx;
+typfdff TbblfIndfx MonitorIndfx;
+typfdff TbblfIndfx ObjfdtIndfx;
+typfdff TbblfIndfx LobdfrIndfx;
+typfdff TbblfIndfx RffIndfx;
+typfdff TbblfIndfx SitfIndfx;
+typfdff TbblfIndfx StringIndfx;
+typfdff TbblfIndfx TlsIndfx;
+typfdff TbblfIndfx TrbdfIndfx;
 
-/* Index for method tables in classes */
+/* Indfx for mftiod tbblfs in dlbssfs */
 
-typedef int        MethodIndex;
+typfdff int        MftiodIndfx;
 
-/* The different kinds of class status bits. */
+/* Tif difffrfnt kinds of dlbss stbtus bits. */
 
-enum ClassStatus {
+fnum ClbssStbtus {
         CLASS_PREPARED          = 0x00000001,
         CLASS_LOADED            = 0x00000002,
         CLASS_UNLOADED          = 0x00000004,
@@ -129,12 +129,12 @@ enum ClassStatus {
         CLASS_SYSTEM            = 0x00000020,
         CLASS_DUMPED            = 0x00000040
 };
-typedef jint       ClassStatus;
+typfdff jint       ClbssStbtus;
 
-/* The different kind of objects we track with heap=dump */
+/* Tif difffrfnt kind of objfdts wf trbdk witi ifbp=dump */
 
-typedef unsigned char ObjectKind;
-enum {
+typfdff unsignfd dibr ObjfdtKind;
+fnum {
         OBJECT_NORMAL = 1,
         OBJECT_CLASS  = 2,
         OBJECT_SYSTEM = 3,
@@ -142,260 +142,260 @@ enum {
         OBJECT_LOADER = 5
 };
 
-/* Used by site_write() when writing out the heap=sites data. */
+/* Usfd by sitf_writf() wifn writing out tif ifbp=sitfs dbtb. */
 
-enum {
+fnum {
         SITE_DUMP_INCREMENTAL   = 0x01,
         SITE_SORT_BY_ALLOC      = 0x02,
         SITE_FORCE_GC           = 0x04
 };
 
-/* Used to hold information about a field, and potentially a value too. */
+/* Usfd to iold informbtion bbout b fifld, bnd potfntiblly b vbluf too. */
 
-typedef struct FieldInfo {
-    ClassIndex         cnum;
-    StringIndex        name_index;
-    StringIndex        sig_index;
-    unsigned short     modifiers;
-    unsigned char      primType;
-    unsigned char      primSize;
-} FieldInfo;
+typfdff strudt FifldInfo {
+    ClbssIndfx         dnum;
+    StringIndfx        nbmf_indfx;
+    StringIndfx        sig_indfx;
+    unsignfd siort     modififrs;
+    unsignfd dibr      primTypf;
+    unsignfd dibr      primSizf;
+} FifldInfo;
 
-/* Used to hold information about a constant pool entry value for a class. */
+/* Usfd to iold informbtion bbout b donstbnt pool fntry vbluf for b dlbss. */
 
-typedef struct ConstantPoolValue {
-    unsigned    constant_pool_index;
-    StringIndex sig_index;
-    jvalue      value;
-} ConstantPoolValue;
+typfdff strudt ConstbntPoolVbluf {
+    unsignfd    donstbnt_pool_indfx;
+    StringIndfx sig_indfx;
+    jvbluf      vbluf;
+} ConstbntPoolVbluf;
 
-/* All machine independent functions */
+/* All mbdiinf indfpfndfnt fundtions */
 
-#include "hprof_error.h"
-#include "hprof_util.h"
-#include "hprof_blocks.h"
-#include "hprof_stack.h"
-#include "hprof_init.h"
-#include "hprof_table.h"
-#include "hprof_string.h"
-#include "hprof_class.h"
-#include "hprof_tracker.h"
-#include "hprof_frame.h"
-#include "hprof_monitor.h"
-#include "hprof_trace.h"
-#include "hprof_site.h"
-#include "hprof_event.h"
-#include "hprof_reference.h"
-#include "hprof_object.h"
-#include "hprof_loader.h"
-#include "hprof_tls.h"
-#include "hprof_check.h"
-#include "hprof_io.h"
-#include "hprof_listener.h"
-#include "hprof_cpu.h"
-#include "hprof_tag.h"
+#indludf "iprof_frror.i"
+#indludf "iprof_util.i"
+#indludf "iprof_blodks.i"
+#indludf "iprof_stbdk.i"
+#indludf "iprof_init.i"
+#indludf "iprof_tbblf.i"
+#indludf "iprof_string.i"
+#indludf "iprof_dlbss.i"
+#indludf "iprof_trbdkfr.i"
+#indludf "iprof_frbmf.i"
+#indludf "iprof_monitor.i"
+#indludf "iprof_trbdf.i"
+#indludf "iprof_sitf.i"
+#indludf "iprof_fvfnt.i"
+#indludf "iprof_rfffrfndf.i"
+#indludf "iprof_objfdt.i"
+#indludf "iprof_lobdfr.i"
+#indludf "iprof_tls.i"
+#indludf "iprof_difdk.i"
+#indludf "iprof_io.i"
+#indludf "iprof_listfnfr.i"
+#indludf "iprof_dpu.i"
+#indludf "iprof_tbg.i"
 
-/* Global data structure */
+/* Globbl dbtb strudturf */
 
-struct LineTable;
+strudt LinfTbblf;
 
-typedef struct {
+typfdff strudt {
 
-    jvmtiEnv            *jvmti; /* JVMTI env for this session */
-    JavaVM              *jvm;   /* JavaVM* for this session */
-    jint                cachedJvmtiVersion; /* JVMTI version number */
+    jvmtiEnv            *jvmti; /* JVMTI fnv for tiis sfssion */
+    JbvbVM              *jvm;   /* JbvbVM* for tiis sfssion */
+    jint                dbdifdJvmtiVfrsion; /* JVMTI vfrsion numbfr */
 
-    char               *header; /* "JAVA PROFILE 1.0.[12]" */
-    jboolean            segmented;  /* JNI_TRUE if 1.0.2 */
-    jlong               maxHeapSegment;
-    jlong               maxMemory;
+    dibr               *ifbdfr; /* "JAVA PROFILE 1.0.[12]" */
+    jboolfbn            sfgmfntfd;  /* JNI_TRUE if 1.0.2 */
+    jlong               mbxHfbpSfgmfnt;
+    jlong               mbxMfmory;
 
-    /* Option settings */
-    char *              options;             /* option string copy */
-    char *              utf8_output_filename;/* file=filename */
-    int                 net_port;            /* net=hostname:port */
-    char *              net_hostname;        /* net=hostname:port */
-    char                output_format;       /* format=a|b */
-    int                 max_trace_depth;     /* depth=max_trace_depth */
-    int                 prof_trace_depth;    /* max_trace_depth or 2 (old) */
-    int                 sample_interval;     /* interval=sample_interval (ms) */
-    double              cutoff_point;        /* cutoff=cutoff_point */
-    jboolean            cpu_sampling;        /* cpu=samples|y */
-    jboolean            cpu_timing;          /* cpu=times */
-    jboolean            old_timing_format;   /* cpu=old (old) output format */
-    jboolean            heap_dump;           /* heap=dump|all */
-    jboolean            alloc_sites;         /* heap=sites|all */
-    jboolean            thread_in_traces;    /* thread=y|n */
-    jboolean            lineno_in_traces;    /* lineno=y|n */
-    jboolean            dump_on_exit;        /* doe=y|n */
-    jboolean            micro_state_accounting; /* msa=y|n */
-    jboolean            force_output;        /* force=y|n */
-    jboolean            monitor_tracing;     /* monitor=y|n */
-    jboolean            gc_okay;             /* gc_okay=y|n (Not used) */
+    /* Option sfttings */
+    dibr *              options;             /* option string dopy */
+    dibr *              utf8_output_filfnbmf;/* filf=filfnbmf */
+    int                 nft_port;            /* nft=iostnbmf:port */
+    dibr *              nft_iostnbmf;        /* nft=iostnbmf:port */
+    dibr                output_formbt;       /* formbt=b|b */
+    int                 mbx_trbdf_dfpti;     /* dfpti=mbx_trbdf_dfpti */
+    int                 prof_trbdf_dfpti;    /* mbx_trbdf_dfpti or 2 (old) */
+    int                 sbmplf_intfrvbl;     /* intfrvbl=sbmplf_intfrvbl (ms) */
+    doublf              dutoff_point;        /* dutoff=dutoff_point */
+    jboolfbn            dpu_sbmpling;        /* dpu=sbmplfs|y */
+    jboolfbn            dpu_timing;          /* dpu=timfs */
+    jboolfbn            old_timing_formbt;   /* dpu=old (old) output formbt */
+    jboolfbn            ifbp_dump;           /* ifbp=dump|bll */
+    jboolfbn            bllod_sitfs;         /* ifbp=sitfs|bll */
+    jboolfbn            tirfbd_in_trbdfs;    /* tirfbd=y|n */
+    jboolfbn            linfno_in_trbdfs;    /* linfno=y|n */
+    jboolfbn            dump_on_fxit;        /* dof=y|n */
+    jboolfbn            midro_stbtf_bddounting; /* msb=y|n */
+    jboolfbn            fordf_output;        /* fordf=y|n */
+    jboolfbn            monitor_trbding;     /* monitor=y|n */
+    jboolfbn            gd_okby;             /* gd_okby=y|n (Not usfd) */
 
-    unsigned            logflags;            /* logflags=bitmask */
+    unsignfd            logflbgs;            /* logflbgs=bitmbsk */
 
-    #define DEBUGFLAG_UNPREPARED_CLASSES 0x001
-    unsigned            debugflags;          /* debugflags=bitmask */
+    #dffinf DEBUGFLAG_UNPREPARED_CLASSES 0x001
+    unsignfd            dfbugflbgs;          /* dfbugflbgs=bitmbsk */
 
-    jboolean            coredump;            /* coredump=y|n */
-    jboolean            errorexit;           /* errorexit=y|n */
-    jboolean            pause;               /* pause=y|n */
-    jboolean            debug;               /* debug=y|n */
-    jboolean            verbose;             /* verbose=y|n */
-    jboolean            primfields;          /* primfields=y|n */
-    jboolean            primarrays;          /* primarrays=y|n */
-    jint                experiment;          /* X=NUMBER */
+    jboolfbn            dorfdump;            /* dorfdump=y|n */
+    jboolfbn            frrorfxit;           /* frrorfxit=y|n */
+    jboolfbn            pbusf;               /* pbusf=y|n */
+    jboolfbn            dfbug;               /* dfbug=y|n */
+    jboolfbn            vfrbosf;             /* vfrbosf=y|n */
+    jboolfbn            primfiflds;          /* primfiflds=y|n */
+    jboolfbn            primbrrbys;          /* primbrrbys=y|n */
+    jint                fxpfrimfnt;          /* X=NUMBER */
 
-    int                 fd;             /* file or socket (net=addr). */
-    jboolean            socket;         /* True if fd is a socket (net=addr). */
-    jboolean            bci;            /* True if any kind of BCI being done */
-    jboolean            obj_watch;      /* True if bci and watching allocs */
+    int                 fd;             /* filf or sodkft (nft=bddr). */
+    jboolfbn            sodkft;         /* Truf if fd is b sodkft (nft=bddr). */
+    jboolfbn            bdi;            /* Truf if bny kind of BCI bfing donf */
+    jboolfbn            obj_wbtdi;      /* Truf if bdi bnd wbtdiing bllods */
 
-    int                 bci_counter;    /* Class BCI counter */
+    int                 bdi_dountfr;    /* Clbss BCI dountfr */
 
-    int                 heap_fd;
-    char               *output_filename;     /* file=filename */
-    char               *heapfilename;
+    int                 ifbp_fd;
+    dibr               *output_filfnbmf;     /* filf=filfnbmf */
+    dibr               *ifbpfilfnbmf;
 
-    int                 check_fd;
-    char                *checkfilename;
+    int                 difdk_fd;
+    dibr                *difdkfilfnbmf;
 
-    volatile jboolean   dump_in_process;          /* Dump in process */
-    volatile jboolean   jvm_initializing;         /* VMInit happening */
-    volatile jboolean   jvm_initialized;          /* VMInit happened */
-    volatile jboolean   jvm_shut_down;            /* VMDeath happened */
-    jboolean            vm_death_callback_active; /* VMDeath happening */
+    volbtilf jboolfbn   dump_in_prodfss;          /* Dump in prodfss */
+    volbtilf jboolfbn   jvm_initiblizing;         /* VMInit ibppfning */
+    volbtilf jboolfbn   jvm_initiblizfd;          /* VMInit ibppfnfd */
+    volbtilf jboolfbn   jvm_siut_down;            /* VMDfbti ibppfnfd */
+    jboolfbn            vm_dfbti_dbllbbdk_bdtivf; /* VMDfbti ibppfning */
 
-    /* Stack of objects freed during GC */
-    Stack *             object_free_stack;
-    jrawMonitorID       object_free_lock;
+    /* Stbdk of objfdts frffd during GC */
+    Stbdk *             objfdt_frff_stbdk;
+    jrbwMonitorID       objfdt_frff_lodk;
 
-    /* Lock for debug_malloc() */
-    jrawMonitorID       debug_malloc_lock;
+    /* Lodk for dfbug_mbllod() */
+    jrbwMonitorID       dfbug_mbllod_lodk;
 
-    /* Count of classes that JVMTI thinks are active */
-    jint                class_count;
+    /* Count of dlbssfs tibt JVMTI tiinks brf bdtivf */
+    jint                dlbss_dount;
 
-    /* Used to track callbacks for VM_DEATH */
-    jrawMonitorID       callbackBlock;
-    jrawMonitorID       callbackLock;
-    jint                active_callbacks;
+    /* Usfd to trbdk dbllbbdks for VM_DEATH */
+    jrbwMonitorID       dbllbbdkBlodk;
+    jrbwMonitorID       dbllbbdkLodk;
+    jint                bdtivf_dbllbbdks;
 
-    /* Running totals on all bytes allocated */
-    jlong               total_alloced_bytes;
-    jlong               total_alloced_instances;
-    jint                total_live_bytes;
-    jint                total_live_instances;
+    /* Running totbls on bll bytfs bllodbtfd */
+    jlong               totbl_bllodfd_bytfs;
+    jlong               totbl_bllodfd_instbndfs;
+    jint                totbl_livf_bytfs;
+    jint                totbl_livf_instbndfs;
 
-    /* Running total on all time spent in GC (very rough estimate) */
-    jlong               gc_start_time;
-    jlong               time_in_gc;
+    /* Running totbl on bll timf spfnt in GC (vfry rougi fstimbtf) */
+    jlong               gd_stbrt_timf;
+    jlong               timf_in_gd;
 
-    /* Global Data access Lock */
-    jrawMonitorID       data_access_lock;
+    /* Globbl Dbtb bddfss Lodk */
+    jrbwMonitorID       dbtb_bddfss_lodk;
 
-    /* Global Dump lock */
-    jrawMonitorID       dump_lock;
+    /* Globbl Dump lodk */
+    jrbwMonitorID       dump_lodk;
 
-    /* Milli-second clock when hprof onload started */
-    jlong               micro_sec_ticks;
+    /* Milli-sfdond dlodk wifn iprof onlobd stbrtfd */
+    jlong               midro_sfd_tidks;
 
-    /* Thread class (for starting agent threads) */
-    ClassIndex          thread_cnum;
+    /* Tirfbd dlbss (for stbrting bgfnt tirfbds) */
+    ClbssIndfx          tirfbd_dnum;
 
-    /* Agent threads started information */
-    jboolean            listener_loop_running;
-    jrawMonitorID       listener_loop_lock;
-    jboolean            cpu_loop_running;
-    jrawMonitorID       cpu_loop_lock;
-    jrawMonitorID       cpu_sample_lock;        /* cpu=samples loop */
-    jint                gc_finish;              /* Count of GC finish events */
-    jboolean            gc_finish_active;       /* True if thread active */
-    jboolean            gc_finish_stop_request; /* True if we want it to stop */
-    jrawMonitorID       gc_finish_lock;
+    /* Agfnt tirfbds stbrtfd informbtion */
+    jboolfbn            listfnfr_loop_running;
+    jrbwMonitorID       listfnfr_loop_lodk;
+    jboolfbn            dpu_loop_running;
+    jrbwMonitorID       dpu_loop_lodk;
+    jrbwMonitorID       dpu_sbmplf_lodk;        /* dpu=sbmplfs loop */
+    jint                gd_finisi;              /* Count of GC finisi fvfnts */
+    jboolfbn            gd_finisi_bdtivf;       /* Truf if tirfbd bdtivf */
+    jboolfbn            gd_finisi_stop_rfqufst; /* Truf if wf wbnt it to stop */
+    jrbwMonitorID       gd_finisi_lodk;
 
-    jboolean            pause_cpu_sampling; /* temp pause in cpu sampling */
+    jboolfbn            pbusf_dpu_sbmpling; /* tfmp pbusf in dpu sbmpling */
 
-    /* Output buffer, position, size, and position in dump if reading */
-    char *              write_buffer;
-    int                 write_buffer_index;
-    int                 write_buffer_size;
-    char *              heap_buffer;
-    int                 heap_buffer_index;
-    int                 heap_buffer_size;
-    jlong               heap_last_tag_position;
-    jlong               heap_write_count;
-    char *              check_buffer;
-    int                 check_buffer_index;
-    int                 check_buffer_size;
+    /* Output bufffr, position, sizf, bnd position in dump if rfbding */
+    dibr *              writf_bufffr;
+    int                 writf_bufffr_indfx;
+    int                 writf_bufffr_sizf;
+    dibr *              ifbp_bufffr;
+    int                 ifbp_bufffr_indfx;
+    int                 ifbp_bufffr_sizf;
+    jlong               ifbp_lbst_tbg_position;
+    jlong               ifbp_writf_dount;
+    dibr *              difdk_bufffr;
+    int                 difdk_bufffr_indfx;
+    int                 difdk_bufffr_sizf;
 
-    /* Serial number counters for tables (see hprof_table.c), classes,
-     *     tls (thread local storage), and traces.
+    /* Sfribl numbfr dountfrs for tbblfs (sff iprof_tbblf.d), dlbssfs,
+     *     tls (tirfbd lodbl storbgf), bnd trbdfs.
      */
-    SerialNumber        table_serial_number_start;
-    SerialNumber        class_serial_number_start;
-    SerialNumber        thread_serial_number_start;
-    SerialNumber        trace_serial_number_start;
-    SerialNumber        object_serial_number_start;
-    SerialNumber        frame_serial_number_start;
-    SerialNumber        gref_serial_number_start;
+    SfriblNumbfr        tbblf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        dlbss_sfribl_numbfr_stbrt;
+    SfriblNumbfr        tirfbd_sfribl_numbfr_stbrt;
+    SfriblNumbfr        trbdf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        objfdt_sfribl_numbfr_stbrt;
+    SfriblNumbfr        frbmf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        grff_sfribl_numbfr_stbrt;
 
-    SerialNumber        table_serial_number_counter;
-    SerialNumber        class_serial_number_counter;
-    SerialNumber        thread_serial_number_counter;
-    SerialNumber        trace_serial_number_counter;
-    SerialNumber        object_serial_number_counter;
-    SerialNumber        frame_serial_number_counter;
-    SerialNumber        gref_serial_number_counter;
+    SfriblNumbfr        tbblf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        dlbss_sfribl_numbfr_dountfr;
+    SfriblNumbfr        tirfbd_sfribl_numbfr_dountfr;
+    SfriblNumbfr        trbdf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        objfdt_sfribl_numbfr_dountfr;
+    SfriblNumbfr        frbmf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        grff_sfribl_numbfr_dountfr;
 
-    /* The methodID for the Object <init> method. */
-    jmethodID           object_init_method;
+    /* Tif mftiodID for tif Objfdt <init> mftiod. */
+    jmftiodID           objfdt_init_mftiod;
 
-    /* Keeping track of the tracker class and it's methods */
-    volatile jint       tracking_engaged;       /* !=0 means it's on */
-    ClassIndex          tracker_cnum;
-    int                 tracker_method_count;
-    struct {
-        StringIndex name;               /* String index for name */
-        StringIndex sig;                /* String index for signature */
-        jmethodID method;       /* Method ID */
-    } tracker_methods[12];      /* MAX 12 Tracker class methods */
+    /* Kffping trbdk of tif trbdkfr dlbss bnd it's mftiods */
+    volbtilf jint       trbdking_fngbgfd;       /* !=0 mfbns it's on */
+    ClbssIndfx          trbdkfr_dnum;
+    int                 trbdkfr_mftiod_dount;
+    strudt {
+        StringIndfx nbmf;               /* String indfx for nbmf */
+        StringIndfx sig;                /* String indfx for signbturf */
+        jmftiodID mftiod;       /* Mftiod ID */
+    } trbdkfr_mftiods[12];      /* MAX 12 Trbdkfr dlbss mftiods */
 
-    /* Index to some common items */
-    LoaderIndex         system_loader;
-    SerialNumber        unknown_thread_serial_num;
-    TraceIndex          system_trace_index;
-    SiteIndex           system_object_site_index;
-    jint                system_class_size;
-    TraceIndex          hprof_trace_index;
-    SiteIndex           hprof_site_index;
+    /* Indfx to somf dommon itfms */
+    LobdfrIndfx         systfm_lobdfr;
+    SfriblNumbfr        unknown_tirfbd_sfribl_num;
+    TrbdfIndfx          systfm_trbdf_indfx;
+    SitfIndfx           systfm_objfdt_sitf_indfx;
+    jint                systfm_dlbss_sizf;
+    TrbdfIndfx          iprof_trbdf_indfx;
+    SitfIndfx           iprof_sitf_indfx;
 
-    /* Tables for strings, classes, sites, etc. */
-    struct LookupTable * string_table;
-    struct LookupTable * ioname_table;
-    struct LookupTable * class_table;
-    struct LookupTable * site_table;
-    struct LookupTable * object_table;
-    struct LookupTable * reference_table;
-    struct LookupTable * frame_table;
-    struct LookupTable * trace_table;
-    struct LookupTable * monitor_table;
-    struct LookupTable * tls_table;
-    struct LookupTable * loader_table;
+    /* Tbblfs for strings, dlbssfs, sitfs, ftd. */
+    strudt LookupTbblf * string_tbblf;
+    strudt LookupTbblf * ionbmf_tbblf;
+    strudt LookupTbblf * dlbss_tbblf;
+    strudt LookupTbblf * sitf_tbblf;
+    strudt LookupTbblf * objfdt_tbblf;
+    strudt LookupTbblf * rfffrfndf_tbblf;
+    strudt LookupTbblf * frbmf_tbblf;
+    strudt LookupTbblf * trbdf_tbblf;
+    strudt LookupTbblf * monitor_tbblf;
+    strudt LookupTbblf * tls_tbblf;
+    strudt LookupTbblf * lobdfr_tbblf;
 
-    /* Handles to java_crw_demo library */
-    void * java_crw_demo_library;
-    void * java_crw_demo_function;
-    void * java_crw_demo_classname_function;
+    /* Hbndlfs to jbvb_drw_dfmo librbry */
+    void * jbvb_drw_dfmo_librbry;
+    void * jbvb_drw_dfmo_fundtion;
+    void * jbvb_drw_dfmo_dlbssnbmf_fundtion;
 
-    /* Indication that the agent has been loaded */
-    jboolean isLoaded;
+    /* Indidbtion tibt tif bgfnt ibs bffn lobdfd */
+    jboolfbn isLobdfd;
 
-} GlobalData;
+} GlobblDbtb;
 
-/* This should be the only 'extern' in the library (not exported). */
+/* Tiis siould bf tif only 'fxtfrn' in tif librbry (not fxportfd). */
 
-extern GlobalData * gdata;
+fxtfrn GlobblDbtb * gdbtb;
 
-#endif
+#fndif

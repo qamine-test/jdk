@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
 
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpEngine;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpEnginf;
 
 /**
- * This class implements the SnmpMibRequest interface.
- * It represents the part of a SNMP request that involves a specific
- * MIB. One instance of this class will be created for every MIB
- * involved in a SNMP request, and will be passed to the SnmpMibAgent
- * in charge of handling that MIB.
+ * Tiis dlbss implfmfnts tif SnmpMibRfqufst intfrfbdf.
+ * It rfprfsfnts tif pbrt of b SNMP rfqufst tibt involvfs b spfdifid
+ * MIB. Onf instbndf of tiis dlbss will bf drfbtfd for fvfry MIB
+ * involvfd in b SNMP rfqufst, bnd will bf pbssfd to tif SnmpMibAgfnt
+ * in dibrgf of ibndling tibt MIB.
  *
- * Instances of this class are allocated by the SNMP engine. You will
- * never need to use this class directly. You will only access
- * instances of this class through their SnmpMibRequest interface.
+ * Instbndfs of tiis dlbss brf bllodbtfd by tif SNMP fnginf. You will
+ * nfvfr nffd to usf tiis dlbss dirfdtly. You will only bddfss
+ * instbndfs of tiis dlbss tirougi tifir SnmpMibRfqufst intfrfbdf.
  *
  */
-final class SnmpMibRequestImpl implements SnmpMibRequest {
+finbl dlbss SnmpMibRfqufstImpl implfmfnts SnmpMibRfqufst {
 
     /**
-     * @param engine The local engine.
-     * @param reqPdu The received pdu.
-     * @param vblist The vector of SnmpVarBind objects in which the
-     *        MIB concerned by this request is involved.
-     * @param protocolVersion  The protocol version of the SNMP request.
-     * @param userData     User allocated contextual data. This object must
-     *        be allocated on a per SNMP request basis through the
-     *        SnmpUserDataFactory registered with the SnmpAdaptorServer,
-     *        and is handed back to the user through SnmpMibRequest objects.
+     * @pbrbm fnginf Tif lodbl fnginf.
+     * @pbrbm rfqPdu Tif rfdfivfd pdu.
+     * @pbrbm vblist Tif vfdtor of SnmpVbrBind objfdts in wiidi tif
+     *        MIB dondfrnfd by tiis rfqufst is involvfd.
+     * @pbrbm protodolVfrsion  Tif protodol vfrsion of tif SNMP rfqufst.
+     * @pbrbm usfrDbtb     Usfr bllodbtfd dontfxtubl dbtb. Tiis objfdt must
+     *        bf bllodbtfd on b pfr SNMP rfqufst bbsis tirougi tif
+     *        SnmpUsfrDbtbFbdtory rfgistfrfd witi tif SnmpAdbptorSfrvfr,
+     *        bnd is ibndfd bbdk to tif usfr tirougi SnmpMibRfqufst objfdts.
      */
-    public SnmpMibRequestImpl(SnmpEngine engine,
-                              SnmpPdu reqPdu,
-                              Vector<SnmpVarBind> vblist,
-                              int protocolVersion,
-                              Object userData,
-                              String principal,
-                              int securityLevel,
-                              int securityModel,
-                              byte[] contextName,
-                              byte[] accessContextName) {
-        varbinds   = vblist;
-        version    = protocolVersion;
-        data       = userData;
-        this.reqPdu = reqPdu;
-        this.engine = engine;
-        this.principal = principal;
-        this.securityLevel = securityLevel;
-        this.securityModel = securityModel;
-        this.contextName = contextName;
-        this.accessContextName = accessContextName;
+    publid SnmpMibRfqufstImpl(SnmpEnginf fnginf,
+                              SnmpPdu rfqPdu,
+                              Vfdtor<SnmpVbrBind> vblist,
+                              int protodolVfrsion,
+                              Objfdt usfrDbtb,
+                              String prindipbl,
+                              int sfdurityLfvfl,
+                              int sfdurityModfl,
+                              bytf[] dontfxtNbmf,
+                              bytf[] bddfssContfxtNbmf) {
+        vbrbinds   = vblist;
+        vfrsion    = protodolVfrsion;
+        dbtb       = usfrDbtb;
+        tiis.rfqPdu = rfqPdu;
+        tiis.fnginf = fnginf;
+        tiis.prindipbl = prindipbl;
+        tiis.sfdurityLfvfl = sfdurityLfvfl;
+        tiis.sfdurityModfl = sfdurityModfl;
+        tiis.dontfxtNbmf = dontfxtNbmf;
+        tiis.bddfssContfxtNbmf = bddfssContfxtNbmf;
     }
     // -------------------------------------------------------------------
-    // PUBLIC METHODS from SnmpMibRequest
+    // PUBLIC METHODS from SnmpMibRfqufst
     // -------------------------------------------------------------------
 
     /**
-     * Returns the local engine. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return the local engine.
+     * Rfturns tif lodbl fnginf. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn tif lodbl fnginf.
      */
-    @Override
-    public SnmpEngine getEngine() {
-        return engine;
+    @Ovfrridf
+    publid SnmpEnginf gftEnginf() {
+        rfturn fnginf;
     }
 
     /**
-     * Gets the incoming request principal. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The request principal.
+     * Gfts tif indoming rfqufst prindipbl. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif rfqufst prindipbl.
      **/
-    @Override
-    public String getPrincipal() {
-        return principal;
+    @Ovfrridf
+    publid String gftPrindipbl() {
+        rfturn prindipbl;
     }
 
     /**
-     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
-     * @return The security level.
+     * Gfts tif indoming rfqufst sfdurity lfvfl. Tiis lfvfl is dffinfd in {@link dom.sun.jmx.snmp.SnmpEnginf SnmpEnginf}. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf -1 is rfturnfd.
+     * @rfturn Tif sfdurity lfvfl.
      */
-    @Override
-    public int getSecurityLevel() {
-        return securityLevel;
+    @Ovfrridf
+    publid int gftSfdurityLfvfl() {
+        rfturn sfdurityLfvfl;
     }
     /**
-     * Gets the incoming request security model. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
-     * @return The security model.
+     * Gfts tif indoming rfqufst sfdurity modfl. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf -1 is rfturnfd.
+     * @rfturn Tif sfdurity modfl.
      */
-    @Override
-    public int getSecurityModel() {
-        return securityModel;
+    @Ovfrridf
+    publid int gftSfdurityModfl() {
+        rfturn sfdurityModfl;
     }
     /**
-     * Gets the incoming request context name. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The context name.
+     * Gfts tif indoming rfqufst dontfxt nbmf. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif dontfxt nbmf.
      */
-    @Override
-    public byte[] getContextName() {
-        return contextName;
+    @Ovfrridf
+    publid bytf[] gftContfxtNbmf() {
+        rfturn dontfxtNbmf;
     }
 
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The checked context.
+     * Gfts tif indoming rfqufst dontfxt nbmf usfd by Addfss Control Modfl in ordfr to bllow or dfny tif bddfss to OIDs. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif difdkfd dontfxt.
      */
-    @Override
-    public byte[] getAccessContextName() {
-        return accessContextName;
+    @Ovfrridf
+    publid bytf[] gftAddfssContfxtNbmf() {
+        rfturn bddfssContfxtNbmf;
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final SnmpPdu getPdu() {
-        return reqPdu;
+    @Ovfrridf
+    publid finbl SnmpPdu gftPdu() {
+        rfturn rfqPdu;
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final Enumeration<SnmpVarBind> getElements()  {return varbinds.elements();}
+    @Ovfrridf
+    publid finbl Enumfrbtion<SnmpVbrBind> gftElfmfnts()  {rfturn vbrbinds.flfmfnts();}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final Vector<SnmpVarBind> getSubList()  {return varbinds;}
+    @Ovfrridf
+    publid finbl Vfdtor<SnmpVbrBind> gftSubList()  {rfturn vbrbinds;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final int getSize()  {
-        if (varbinds == null) return 0;
-        return varbinds.size();
+    @Ovfrridf
+    publid finbl int gftSizf()  {
+        if (vbrbinds == null) rfturn 0;
+        rfturn vbrbinds.sizf();
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final int         getVersion()  {return version;}
+    @Ovfrridf
+    publid finbl int         gftVfrsion()  {rfturn vfrsion;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final int         getRequestPduVersion()  {return reqPdu.version;}
+    @Ovfrridf
+    publid finbl int         gftRfqufstPduVfrsion()  {rfturn rfqPdu.vfrsion;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final Object      getUserData() {return data;}
+    @Ovfrridf
+    publid finbl Objfdt      gftUsfrDbtb() {rfturn dbtb;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public final int getVarIndex(SnmpVarBind varbind) {
-        return varbinds.indexOf(varbind);
+    @Ovfrridf
+    publid finbl int gftVbrIndfx(SnmpVbrBind vbrbind) {
+        rfturn vbrbinds.indfxOf(vbrbind);
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibRfqufst intfrfbdf.
+    // Sff SnmpMibRfqufst for tif jbvb dod.
     // -------------------------------------------------------------------
-    @Override
-    public void addVarBind(SnmpVarBind varbind) {
-        varbinds.addElement(varbind);
+    @Ovfrridf
+    publid void bddVbrBind(SnmpVbrBind vbrbind) {
+        vbrbinds.bddElfmfnt(vbrbind);
     }
 
     // -------------------------------------------------------------------
@@ -212,46 +212,46 @@ final class SnmpMibRequestImpl implements SnmpMibRequest {
     // -------------------------------------------------------------------
 
     // -------------------------------------------------------------------
-    // Allow to pass the request tree built during the check() phase
-    // to the set() method. Note: the if the tree is `null', then the
-    // set() method will rebuild a new tree identical to the tree built
-    // in the check() method.
+    // Allow to pbss tif rfqufst trff built during tif difdk() pibsf
+    // to tif sft() mftiod. Notf: tif if tif trff is `null', tifn tif
+    // sft() mftiod will rfbuild b nfw trff idfntidbl to tif trff built
+    // in tif difdk() mftiod.
     //
-    // Passing this tree in the SnmpMibRequestImpl object allows to
-    // optimize the SET requests.
+    // Pbssing tiis trff in tif SnmpMibRfqufstImpl objfdt bllows to
+    // optimizf tif SET rfqufsts.
     //
     // -------------------------------------------------------------------
-    final void setRequestTree(SnmpRequestTree tree) {this.tree = tree;}
+    finbl void sftRfqufstTrff(SnmpRfqufstTrff trff) {tiis.trff = trff;}
 
     // -------------------------------------------------------------------
-    // Returns the SnmpRequestTree object built in the first operation
-    // phase for two-phase SNMP requests (like SET).
+    // Rfturns tif SnmpRfqufstTrff objfdt built in tif first opfrbtion
+    // pibsf for two-pibsf SNMP rfqufsts (likf SET).
     // -------------------------------------------------------------------
-    final SnmpRequestTree getRequestTree() {return tree;}
+    finbl SnmpRfqufstTrff gftRfqufstTrff() {rfturn trff;}
 
     // -------------------------------------------------------------------
-    // Returns the underlying vector of SNMP varbinds (used for algorithm
-    // optimization).
+    // Rfturns tif undfrlying vfdtor of SNMP vbrbinds (usfd for blgoritim
+    // optimizbtion).
     // -------------------------------------------------------------------
-    final Vector<SnmpVarBind> getVarbinds() {return varbinds;}
+    finbl Vfdtor<SnmpVbrBind> gftVbrbinds() {rfturn vbrbinds;}
 
     // -------------------------------------------------------------------
-    // Private variables
+    // Privbtf vbribblfs
     // -------------------------------------------------------------------
 
-    // Ideally these variables should be declared final but it makes
-    // the jdk1.1.x compiler complain (seems to be a compiler bug, jdk1.2
+    // Idfblly tifsf vbribblfs siould bf dfdlbrfd finbl but it mbkfs
+    // tif jdk1.1.x dompilfr domplbin (sffms to bf b dompilfr bug, jdk1.2
     // is OK).
-    private Vector<SnmpVarBind> varbinds;
-    private int    version;
-    private Object data;
-    private SnmpPdu reqPdu = null;
-    // Non final variable.
-    private SnmpRequestTree tree = null;
-    private SnmpEngine engine = null;
-    private String principal = null;
-    private int securityLevel = -1;
-    private int securityModel = -1;
-    private byte[] contextName = null;
-    private byte[] accessContextName = null;
+    privbtf Vfdtor<SnmpVbrBind> vbrbinds;
+    privbtf int    vfrsion;
+    privbtf Objfdt dbtb;
+    privbtf SnmpPdu rfqPdu = null;
+    // Non finbl vbribblf.
+    privbtf SnmpRfqufstTrff trff = null;
+    privbtf SnmpEnginf fnginf = null;
+    privbtf String prindipbl = null;
+    privbtf int sfdurityLfvfl = -1;
+    privbtf int sfdurityModfl = -1;
+    privbtf bytf[] dontfxtNbmf = null;
+    privbtf bytf[] bddfssContfxtNbmf = null;
 }

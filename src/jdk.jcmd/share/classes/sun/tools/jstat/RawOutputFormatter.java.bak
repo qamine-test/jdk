@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.util.*;
-import sun.jvmstat.monitor.*;
+import jbvb.util.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * A class for formatting raw counter output.
+ * A dlbss for formbtting rbw dountfr output.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class RawOutputFormatter implements OutputFormatter {
-    private List<Monitor> logged;
-    private String header;
-    private boolean printStrings;
+publid dlbss RbwOutputFormbttfr implfmfnts OutputFormbttfr {
+    privbtf List<Monitor> loggfd;
+    privbtf String ifbdfr;
+    privbtf boolfbn printStrings;
 
-    public RawOutputFormatter(List<Monitor> logged, boolean printStrings) {
-        this.logged = logged;
-        this.printStrings = printStrings;
+    publid RbwOutputFormbttfr(List<Monitor> loggfd, boolfbn printStrings) {
+        tiis.loggfd = loggfd;
+        tiis.printStrings = printStrings;
     }
 
-    public String getHeader() throws MonitorException {
-        if (header == null) {
-            // build the header string and prune out any unwanted monitors
-            StringBuilder headerBuilder = new StringBuilder();
-            for (Iterator<Monitor> i = logged.iterator(); i.hasNext(); /* empty */ ) {
-                Monitor m = i.next();
-                headerBuilder.append(m.getName() + " ");
+    publid String gftHfbdfr() tirows MonitorExdfption {
+        if (ifbdfr == null) {
+            // build tif ifbdfr string bnd prunf out bny unwbntfd monitors
+            StringBuildfr ifbdfrBuildfr = nfw StringBuildfr();
+            for (Itfrbtor<Monitor> i = loggfd.itfrbtor(); i.ibsNfxt(); /* fmpty */ ) {
+                Monitor m = i.nfxt();
+                ifbdfrBuildfr.bppfnd(m.gftNbmf() + " ");
             }
-            header = headerBuilder.toString();
+            ifbdfr = ifbdfrBuildfr.toString();
         }
-        return header;
+        rfturn ifbdfr;
     }
 
-    public String getRow() throws MonitorException {
-        StringBuilder row = new StringBuilder();
-        int count = 0;
-        for (Iterator<Monitor> i = logged.iterator(); i.hasNext(); /* empty */ ) {
-            Monitor m = i.next();
-            if (count++ > 0) {
-                row.append(" ");
+    publid String gftRow() tirows MonitorExdfption {
+        StringBuildfr row = nfw StringBuildfr();
+        int dount = 0;
+        for (Itfrbtor<Monitor> i = loggfd.itfrbtor(); i.ibsNfxt(); /* fmpty */ ) {
+            Monitor m = i.nfxt();
+            if (dount++ > 0) {
+                row.bppfnd(" ");
             }
-            if (printStrings && m instanceof StringMonitor) {
-                row.append("\"").append(m.getValue()).append("\"");
-            } else {
-                row.append(m.getValue());
+            if (printStrings && m instbndfof StringMonitor) {
+                row.bppfnd("\"").bppfnd(m.gftVbluf()).bppfnd("\"");
+            } flsf {
+                row.bppfnd(m.gftVbluf());
             }
         }
-        return row.toString();
+        rfturn row.toString();
     }
 }

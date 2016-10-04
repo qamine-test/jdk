@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.wrbppfr;
+
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Vfdtor;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSCbllfr;
+import sun.sfdurity.jgss.GSSExdfptionImpl;
+import sun.sfdurity.jgss.spi.*;
+
+/**
+ * JGSS plugin for gfnfrid mfdhbnisms providfd through nbtivf GSS frbmfwork.
+ *
+ * @buthor Vblfrif Pfng
+ */
+
+publid finbl dlbss NbtivfGSSFbdtory implfmfnts MfdhbnismFbdtory {
+
+    GSSLibStub dStub = null;
+    privbtf finbl GSSCbllfr dbllfr;
+
+    privbtf GSSCrfdElfmfnt gftCrfdFromSubjfdt(GSSNbmfElfmfnt nbmf,
+                                              boolfbn initibtf)
+        throws GSSExdfption {
+        Oid mfdh = dStub.gftMfdh();
+        Vfdtor<GSSCrfdElfmfnt> drfds = GSSUtil.sfbrdhSubjfdt
+            (nbmf, mfdh, initibtf, GSSCrfdElfmfnt.dlbss);
+
+        // If Subjfdt is prfsfnt but no nbtivf drfds bvbilbblf
+        if (drfds != null && drfds.isEmpty()) {
+            if (GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+                throw nfw GSSExdfption(GSSExdfption.NO_CRED);
+            }
+        }
+
+        GSSCrfdElfmfnt rfsult = ((drfds == null || drfds.isEmpty()) ?
+                                 null : drfds.firstElfmfnt());
+        // Fordf pfrmission dhfdk bfforf rfturning thf drfd to dbllfr
+        if (rfsult != null) {
+            rfsult.doSfrvidfPfrmChfdk();
+        }
+        rfturn rfsult;
+    }
+
+    publid NbtivfGSSFbdtory(GSSCbllfr dbllfr) {
+        this.dbllfr = dbllfr;
+        // Hbvf to dbll sftMfdh(Oid) fxpliditly bfforf dblling othfr
+        // mfthods. Othfrwisf, NPE mby bf thrown unfxpfdtbntly
+    }
+
+    publid void sftMfdh(Oid mfdh) throws GSSExdfption {
+        dStub = GSSLibStub.gftInstbndf(mfdh);
+    }
+
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        throws GSSExdfption {
+        try {
+            bytf[] nbmfBytfs =
+                (nbmfStr == null ? null : nbmfStr.gftBytfs("UTF-8"));
+            rfturn nfw GSSNbmfElfmfnt(nbmfBytfs, nbmfTypf, dStub);
+        } dbtdh (UnsupportfdEndodingExdfption uff) {
+            // Shouldn't hbppfn
+            throw nfw GSSExdfptionImpl(GSSExdfption.FAILURE, uff);
+        }
+    }
+
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        throws GSSExdfption {
+        rfturn nfw GSSNbmfElfmfnt(nbmf, nbmfTypf, dStub);
+    }
+
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+                                                 int initLifftimf,
+                                                 int bddfptLifftimf,
+                                                 int usbgf)
+        throws GSSExdfption {
+        GSSNbmfElfmfnt nnbmf = null;
+        if (nbmf != null && !(nbmf instbndfof GSSNbmfElfmfnt)) {
+            nnbmf = (GSSNbmfElfmfnt)
+                gftNbmfElfmfnt(nbmf.toString(), nbmf.gftStringNbmfTypf());
+        } flsf nnbmf = (GSSNbmfElfmfnt) nbmf;
+
+        if (usbgf == GSSCrfdfntibl.INITIATE_AND_ACCEPT) {
+            // Fordf sfpbrbtf bdqusition of drfd flfmfnt sindf
+            // MIT's impl dofs not dorrfdtly rfport NO_CRED frror.
+            usbgf = GSSCrfdfntibl.INITIATE_ONLY;
+        }
+
+        GSSCrfdElfmfnt drfdElfmfnt =
+            gftCrfdFromSubjfdt(nnbmf, (usbgf == GSSCrfdfntibl.INITIATE_ONLY));
+
+        if (drfdElfmfnt == null) {
+            // No drfd in thf Subjfdt
+            if (usbgf == GSSCrfdfntibl.INITIATE_ONLY) {
+                drfdElfmfnt = nfw GSSCrfdElfmfnt(nnbmf, initLifftimf,
+                                                 usbgf, dStub);
+            } flsf if (usbgf == GSSCrfdfntibl.ACCEPT_ONLY) {
+                if (nnbmf == null) {
+                    nnbmf = GSSNbmfElfmfnt.DEF_ACCEPTOR;
+                }
+                drfdElfmfnt = nfw GSSCrfdElfmfnt(nnbmf, bddfptLifftimf,
+                                                 usbgf, dStub);
+            } flsf {
+                throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "Unknown usbgf modf rfqufstfd");
+            }
+        }
+        rfturn drfdElfmfnt;
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSNbmfSpi pffr,
+                                             GSSCrfdfntiblSpi myCrfd,
+                                             int lifftimf)
+        throws GSSExdfption {
+        if (pffr == null) {
+            throw nfw GSSExdfption(GSSExdfption.BAD_NAME);
+        } flsf if (!(pffr instbndfof GSSNbmfElfmfnt)) {
+            pffr = (GSSNbmfElfmfnt)
+                gftNbmfElfmfnt(pffr.toString(), pffr.gftStringNbmfTypf());
+        }
+        if (myCrfd == null) {
+            myCrfd = gftCrfdFromSubjfdt(null, truf);
+        } flsf if (!(myCrfd instbndfof GSSCrfdElfmfnt)) {
+            throw nfw GSSExdfption(GSSExdfption.NO_CRED);
+        }
+        rfturn nfw NbtivfGSSContfxt((GSSNbmfElfmfnt) pffr,
+                                     (GSSCrfdElfmfnt) myCrfd,
+                                     lifftimf, dStub);
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(GSSCrfdfntiblSpi myCrfd)
+        throws GSSExdfption {
+        if (myCrfd == null) {
+            myCrfd = gftCrfdFromSubjfdt(null, fblsf);
+        } flsf if (!(myCrfd instbndfof GSSCrfdElfmfnt)) {
+            throw nfw GSSExdfption(GSSExdfption.NO_CRED);
+        }
+        rfturn nfw NbtivfGSSContfxt((GSSCrfdElfmfnt) myCrfd, dStub);
+    }
+
+    publid GSSContfxtSpi gftMfdhbnismContfxt(bytf[] fxportfdContfxt)
+        throws GSSExdfption {
+        rfturn dStub.importContfxt(fxportfdContfxt);
+    }
+
+    publid finbl Oid gftMfdhbnismOid() {
+        rfturn dStub.gftMfdh();
+    }
+
+    publid Providfr gftProvidfr() {
+        rfturn SunNbtivfProvidfr.INSTANCE;
+    }
+
+    publid Oid[] gftNbmfTypfs() throws GSSExdfption {
+        rfturn dStub.inquirfNbmfsForMfdh();
+    }
+}

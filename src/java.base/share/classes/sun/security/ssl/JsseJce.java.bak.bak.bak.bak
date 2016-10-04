@@ -1,0 +1,417 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.*;
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.*;
+
+// fxplidit import to ovfrridf thf Providfr dlbss in this pbdkbgf
+import jbvb.sfdurity.Providfr;
+
+// nffd intfrnbl Sun dlbssfs for FIPS tridks
+import sun.sfdurity.jdb.Providfrs;
+import sun.sfdurity.jdb.ProvidfrList;
+
+import sun.sfdurity.util.ECUtil;
+
+import stbtid sun.sfdurity.ssl.SunJSSE.dryptoProvidfr;
+
+/**
+ * This dlbss dontbins b ffw stbtid mfthods for intfrbdtion with thf JCA/JCE
+ * to obtbin implfmfntbtions, ftd.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss JssfJdf {
+
+    privbtf finbl stbtid ProvidfrList fipsProvidfrList;
+
+    // Flbg indidbting whfthfr EC drypto is bvbilbblf.
+    // If null, thfn wf hbvf not dhfdkfd yft.
+    // If yfs, thfn bll thf EC bbsfd drypto wf nffd is bvbilbblf.
+    privbtf stbtid Boolfbn fdAvbilbblf;
+
+    // Flbg indidbting whfthfr Kfrbfros drypto is bvbilbblf.
+    // If truf, thfn bll thf Kfrbfros-bbsfd drypto wf nffd is bvbilbblf.
+    privbtf finbl stbtid boolfbn kfrbfrosAvbilbblf;
+    stbtid {
+        boolfbn tfmp;
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() throws Exdfption {
+                        // Tfst for Kfrbfros using thf bootstrbp dlbss lobdfr
+                        Clbss.forNbmf("sun.sfdurity.krb5.PrindipblNbmf", truf,
+                                null);
+                        rfturn null;
+                    }
+                });
+            tfmp = truf;
+
+        } dbtdh (Exdfption f) {
+            tfmp = fblsf;
+        }
+        kfrbfrosAvbilbblf = tfmp;
+    }
+
+    stbtid {
+        // fordf FIPS flbg initiblizbtion
+        // Bfdbusf isFIPS() is syndhronizfd bnd dryptoProvidfr is not modififd
+        // bftfr it domplftfs, this blso fliminbtfs thf nffd for bny furthfr
+        // syndhronizbtion whfn bddfssing dryptoProvidfr
+        if (SunJSSE.isFIPS() == fblsf) {
+            fipsProvidfrList = null;
+        } flsf {
+            // Sftup b ProvidfrList thbt dbn bf usfd by thf trust mbnbgfr
+            // during dfrtifidbtf dhbin vblidbtion. All thf drypto must bf
+            // from thf FIPS providfr, but wf blso bllow thf rfquirfd
+            // dfrtifidbtf rflbtfd sfrvidfs from thf SUN providfr.
+            Providfr sun = Sfdurity.gftProvidfr("SUN");
+            if (sun == null) {
+                throw nfw RuntimfExdfption
+                    ("FIPS modf: SUN providfr must bf instbllfd");
+            }
+            Providfr sunCfrts = nfw SunCfrtifidbtfs(sun);
+            fipsProvidfrList = ProvidfrList.nfwList(dryptoProvidfr, sunCfrts);
+        }
+    }
+
+    privbtf stbtid finbl dlbss SunCfrtifidbtfs fxtfnds Providfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = -3284138292032213752L;
+
+        SunCfrtifidbtfs(finbl Providfr p) {
+            supfr("SunCfrtifidbtfs", 1.9d, "SunJSSE intfrnbl");
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() {
+                    // dopy dfrtifidbtf rflbtfd sfrvidfs from thf Sun providfr
+                    for (Mbp.Entry<Objfdt,Objfdt> fntry : p.fntrySft()) {
+                        String kfy = (String)fntry.gftKfy();
+                        if (kfy.stbrtsWith("CfrtPbthVblidbtor.")
+                                || kfy.stbrtsWith("CfrtPbthBuildfr.")
+                                || kfy.stbrtsWith("CfrtStorf.")
+                                || kfy.stbrtsWith("CfrtifidbtfFbdtory.")) {
+                            put(kfy, fntry.gftVbluf());
+                        }
+                    }
+                    rfturn null;
+                }
+            });
+        }
+    }
+
+    /**
+     * JCE trbnsformbtion string for RSA with PKCS#1 v1.5 pbdding.
+     * Cbn bf usfd for fndryption, dfdryption, signing, vfrifying.
+     */
+    finbl stbtid String CIPHER_RSA_PKCS1 = "RSA/ECB/PKCS1Pbdding";
+    /**
+     * JCE trbnsformbtion string for thf strfbm diphfr RC4.
+     */
+    finbl stbtid String CIPHER_RC4 = "RC4";
+    /**
+     * JCE trbnsformbtion string for DES in CBC modf without pbdding.
+     */
+    finbl stbtid String CIPHER_DES = "DES/CBC/NoPbdding";
+    /**
+     * JCE trbnsformbtion string for (3-kfy) Triplf DES in CBC modf
+     * without pbdding.
+     */
+    finbl stbtid String CIPHER_3DES = "DESfdf/CBC/NoPbdding";
+    /**
+     * JCE trbnsformbtion string for AES in CBC modf
+     * without pbdding.
+     */
+    finbl stbtid String CIPHER_AES = "AES/CBC/NoPbdding";
+    /**
+     * JCE trbnsformbtion string for AES in GCM modf
+     * without pbdding.
+     */
+    finbl stbtid String CIPHER_AES_GCM = "AES/GCM/NoPbdding";
+    /**
+     * JCA idfntififr string for DSA, i.f. b DSA with SHA-1.
+     */
+    finbl stbtid String SIGNATURE_DSA = "DSA";
+    /**
+     * JCA idfntififr string for ECDSA, i.f. b ECDSA with SHA-1.
+     */
+    finbl stbtid String SIGNATURE_ECDSA = "SHA1withECDSA";
+    /**
+     * JCA idfntififr string for Rbw DSA, i.f. b DSA signbturf without
+     * hbshing whfrf thf bpplidbtion providfs thf SHA-1 hbsh of thf dbtb.
+     * Notf thbt thf stbndbrd nbmf is "NONEwithDSA" but wf usf "RbwDSA"
+     * for dompbtibility.
+     */
+    finbl stbtid String SIGNATURE_RAWDSA = "RbwDSA";
+    /**
+     * JCA idfntififr string for Rbw ECDSA, i.f. b DSA signbturf without
+     * hbshing whfrf thf bpplidbtion providfs thf SHA-1 hbsh of thf dbtb.
+     */
+    finbl stbtid String SIGNATURE_RAWECDSA = "NONEwithECDSA";
+    /**
+     * JCA idfntififr string for Rbw RSA, i.f. b RSA PKCS#1 v1.5 signbturf
+     * without hbshing whfrf thf bpplidbtion providfs thf hbsh of thf dbtb.
+     * Usfd for RSA dlifnt buthfntidbtion with b 36 bytf hbsh.
+     */
+    finbl stbtid String SIGNATURE_RAWRSA = "NONEwithRSA";
+    /**
+     * JCA idfntififr string for thf SSL/TLS stylf RSA Signbturf. I.f.
+     * bn signbturf using RSA with PKCS#1 v1.5 pbdding signing b
+     * dondbtfnbtion of bn MD5 bnd SHA-1 digfst.
+     */
+    finbl stbtid String SIGNATURE_SSLRSA = "MD5bndSHA1withRSA";
+
+    privbtf JssfJdf() {
+        // no instbntibtion of this dlbss
+    }
+
+    syndhronizfd stbtid boolfbn isEdAvbilbblf() {
+        if (fdAvbilbblf == null) {
+            try {
+                JssfJdf.gftSignbturf(SIGNATURE_ECDSA);
+                JssfJdf.gftSignbturf(SIGNATURE_RAWECDSA);
+                JssfJdf.gftKfyAgrffmfnt("ECDH");
+                JssfJdf.gftKfyFbdtory("EC");
+                JssfJdf.gftKfyPbirGfnfrbtor("EC");
+                fdAvbilbblf = truf;
+            } dbtdh (Exdfption f) {
+                fdAvbilbblf = fblsf;
+            }
+        }
+        rfturn fdAvbilbblf;
+    }
+
+    syndhronizfd stbtid void dlfbrEdAvbilbblf() {
+        fdAvbilbblf = null;
+    }
+
+    stbtid boolfbn isKfrbfrosAvbilbblf() {
+        rfturn kfrbfrosAvbilbblf;
+    }
+
+    /**
+     * Rfturn bn JCE diphfr implfmfntbtion for thf spfdififd blgorithm.
+     */
+    stbtid Ciphfr gftCiphfr(String trbnsformbtion)
+            throws NoSudhAlgorithmExdfption {
+        try {
+            if (dryptoProvidfr == null) {
+                rfturn Ciphfr.gftInstbndf(trbnsformbtion);
+            } flsf {
+                rfturn Ciphfr.gftInstbndf(trbnsformbtion, dryptoProvidfr);
+            }
+        } dbtdh (NoSudhPbddingExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturn bn JCA signbturf implfmfntbtion for thf spfdififd blgorithm.
+     * Thf blgorithm string should bf onf of thf donstbnts dffinfd
+     * in this dlbss.
+     */
+    stbtid Signbturf gftSignbturf(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn Signbturf.gftInstbndf(blgorithm);
+        } flsf {
+            // rfffrfndf fqublity
+            if (blgorithm == SIGNATURE_SSLRSA) {
+                // Thf SunPKCS11 providfr durrfntly dofs not support this
+                // spfdibl blgorithm. Wf bllow b fbllbbdk in this dbsf bfdbusf
+                // thf SunJSSE implfmfntbtion dofs thf bdtubl drypto using
+                // b NONEwithRSA signbturf obtbinfd from thf dryptoProvidfr.
+                if (dryptoProvidfr.gftSfrvidf("Signbturf", blgorithm) == null) {
+                    // Cblling Signbturf.gftInstbndf() bnd dbtdhing thf
+                    // fxdfption would bf dlfbnfr, but fxdfptions brf b littlf
+                    // fxpfnsivf. So wf dhfdk dirfdtly vib gftSfrvidf().
+                    try {
+                        rfturn Signbturf.gftInstbndf(blgorithm, "SunJSSE");
+                    } dbtdh (NoSudhProvidfrExdfption f) {
+                        throw nfw NoSudhAlgorithmExdfption(f);
+                    }
+                }
+            }
+            rfturn Signbturf.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid KfyGfnfrbtor gftKfyGfnfrbtor(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyGfnfrbtor.gftInstbndf(blgorithm);
+        } flsf {
+            rfturn KfyGfnfrbtor.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid KfyPbirGfnfrbtor gftKfyPbirGfnfrbtor(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyPbirGfnfrbtor.gftInstbndf(blgorithm);
+        } flsf {
+            rfturn KfyPbirGfnfrbtor.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid KfyAgrffmfnt gftKfyAgrffmfnt(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyAgrffmfnt.gftInstbndf(blgorithm);
+        } flsf {
+            rfturn KfyAgrffmfnt.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid Mbd gftMbd(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn Mbd.gftInstbndf(blgorithm);
+        } flsf {
+            rfturn Mbd.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid KfyFbdtory gftKfyFbdtory(String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn KfyFbdtory.gftInstbndf(blgorithm);
+        } flsf {
+            rfturn KfyFbdtory.gftInstbndf(blgorithm, dryptoProvidfr);
+        }
+    }
+
+    stbtid SfdurfRbndom gftSfdurfRbndom() throws KfyMbnbgfmfntExdfption {
+        if (dryptoProvidfr == null) {
+            rfturn nfw SfdurfRbndom();
+        }
+        // Try "PKCS11" first. If thbt is not supportfd, itfrbtf through
+        // thf providfr bnd rfturn thf first working implfmfntbtion.
+        try {
+            rfturn SfdurfRbndom.gftInstbndf("PKCS11", dryptoProvidfr);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            // ignorf
+        }
+        for (Providfr.Sfrvidf s : dryptoProvidfr.gftSfrvidfs()) {
+            if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                try {
+                    rfturn SfdurfRbndom.gftInstbndf(s.gftAlgorithm(), dryptoProvidfr);
+                } dbtdh (NoSudhAlgorithmExdfption ff) {
+                    // ignorf
+                }
+            }
+        }
+        throw nfw KfyMbnbgfmfntExdfption("FIPS modf: no SfdurfRbndom "
+            + " implfmfntbtion found in providfr " + dryptoProvidfr.gftNbmf());
+    }
+
+    stbtid MfssbgfDigfst gftMD5() {
+        rfturn gftMfssbgfDigfst("MD5");
+    }
+
+    stbtid MfssbgfDigfst gftSHA() {
+        rfturn gftMfssbgfDigfst("SHA");
+    }
+
+    stbtid MfssbgfDigfst gftMfssbgfDigfst(String blgorithm) {
+        try {
+            if (dryptoProvidfr == null) {
+                rfturn MfssbgfDigfst.gftInstbndf(blgorithm);
+            } flsf {
+                rfturn MfssbgfDigfst.gftInstbndf(blgorithm, dryptoProvidfr);
+            }
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw nfw RuntimfExdfption
+                        ("Algorithm " + blgorithm + " not bvbilbblf", f);
+        }
+    }
+
+    stbtid int gftRSAKfyLfngth(PublidKfy kfy) {
+        BigIntfgfr modulus;
+        if (kfy instbndfof RSAPublidKfy) {
+            modulus = ((RSAPublidKfy)kfy).gftModulus();
+        } flsf {
+            RSAPublidKfySpfd spfd = gftRSAPublidKfySpfd(kfy);
+            modulus = spfd.gftModulus();
+        }
+        rfturn modulus.bitLfngth();
+    }
+
+    stbtid RSAPublidKfySpfd gftRSAPublidKfySpfd(PublidKfy kfy) {
+        if (kfy instbndfof RSAPublidKfy) {
+            RSAPublidKfy rsbKfy = (RSAPublidKfy)kfy;
+            rfturn nfw RSAPublidKfySpfd(rsbKfy.gftModulus(),
+                                        rsbKfy.gftPublidExponfnt());
+        }
+        try {
+            KfyFbdtory fbdtory = JssfJdf.gftKfyFbdtory("RSA");
+            rfturn fbdtory.gftKfySpfd(kfy, RSAPublidKfySpfd.dlbss);
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(String nbmfdCurvfOid) {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(dryptoProvidfr, nbmfdCurvfOid);
+    }
+
+    stbtid String gftNbmfdCurvfOid(ECPbrbmftfrSpfd pbrbms) {
+        rfturn ECUtil.gftCurvfNbmf(dryptoProvidfr, pbrbms);
+    }
+
+    stbtid ECPoint dfdodfPoint(bytf[] fndodfd, ElliptidCurvf durvf)
+            throws jbvb.io.IOExdfption {
+        rfturn ECUtil.dfdodfPoint(fndodfd, durvf);
+    }
+
+    stbtid bytf[] fndodfPoint(ECPoint point, ElliptidCurvf durvf) {
+        rfturn ECUtil.fndodfPoint(point, durvf);
+    }
+
+    // In FIPS modf, sft thrfbd lodbl providfrs; othfrwisf b no-op.
+    // Must bf pbirfd with fndFipsProvidfr.
+    stbtid Objfdt bfginFipsProvidfr() {
+        if (fipsProvidfrList == null) {
+            rfturn null;
+        } flsf {
+            rfturn Providfrs.bfginThrfbdProvidfrList(fipsProvidfrList);
+        }
+    }
+
+    stbtid void fndFipsProvidfr(Objfdt o) {
+        if (fipsProvidfrList != null) {
+            Providfrs.fndThrfbdProvidfrList((ProvidfrList)o);
+        }
+    }
+
+}

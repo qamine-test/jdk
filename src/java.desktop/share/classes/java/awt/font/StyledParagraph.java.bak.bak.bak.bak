@@ -1,0 +1,499 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1999,  All rights rfsfrvfd.
+ */
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.tfxt.Annotbtion;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.Vfdtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.font.CodfPointItfrbtor;
+import sun.font.Dfdorbtion;
+import sun.font.FontRfsolvfr;
+
+/**
+ * This dlbss storfs Font, GrbphidAttributf, bnd Dfdorbtion intfrvbls
+ * on b pbrbgrbph of stylfd tfxt.
+ * <p>
+ * Currfntly, this dlbss is optimizfd for b smbll numbfr of intfrvbls
+ * (prfffrrbbly 1).
+ */
+finbl dlbss StylfdPbrbgrbph {
+
+    // thf lfngth of thf pbrbgrbph
+    privbtf int lfngth;
+
+    // If thfrf is b singlf Dfdorbtion for thf wholf pbrbgrbph, it
+    // is storfd hfrf.  Othfrwisf this fifld is ignorfd.
+
+    privbtf Dfdorbtion dfdorbtion;
+
+    // If thfrf is b singlf Font or GrbphidAttributf for thf wholf
+    // pbrbgrbph, it is storfd hfrf.  Othfrwisf this fifld is ignorfd.
+    privbtf Objfdt font;
+
+    // If thfrf brf multiplf Dfdorbtions in thf pbrbgrbph, thfy brf
+    // storfd in this Vfdtor, in ordfr.  Othfrwisf this vfdtor bnd
+    // thf dfdorbtionStbrts brrby brf null.
+    privbtf Vfdtor<Dfdorbtion> dfdorbtions;
+    // If thfrf brf multiplf Dfdorbtions in thf pbrbgrbph,
+    // dfdorbtionStbrts[i] dontbins thf indfx whfrf dfdorbtion i
+    // stbrts.  For donvfnifndf, thfrf is bn fxtrb fntry bt thf
+    // fnd of this brrby with thf lfngth of thf pbrbgrbph.
+    int[] dfdorbtionStbrts;
+
+    // If thfrf brf multiplf Fonts/GrbphidAttributfs in thf pbrbgrbph,
+    // thfy brf
+    // storfd in this Vfdtor, in ordfr.  Othfrwisf this vfdtor bnd
+    // thf fontStbrts brrby brf null.
+    privbtf Vfdtor<Objfdt> fonts;
+    // If thfrf brf multiplf Fonts/GrbphidAttributfs in thf pbrbgrbph,
+    // fontStbrts[i] dontbins thf indfx whfrf dfdorbtion i
+    // stbrts.  For donvfnifndf, thfrf is bn fxtrb fntry bt thf
+    // fnd of this brrby with thf lfngth of thf pbrbgrbph.
+    int[] fontStbrts;
+
+    privbtf stbtid int INITIAL_SIZE = 8;
+
+    /**
+     * Crfbtf b nfw StylfdPbrbgrbph ovfr thf givfn stylfd tfxt.
+     * @pbrbm bdi bn itfrbtor ovfr thf tfxt
+     * @pbrbm dhbrs thf dhbrbdtfrs fxtrbdtfd from bdi
+     */
+    publid StylfdPbrbgrbph(AttributfdChbrbdtfrItfrbtor bdi,
+                           dhbr[] dhbrs) {
+
+        int stbrt = bdi.gftBfginIndfx();
+        int fnd = bdi.gftEndIndfx();
+        lfngth = fnd - stbrt;
+
+        int indfx = stbrt;
+        bdi.first();
+
+        do {
+            finbl int nfxtRunStbrt = bdi.gftRunLimit();
+            finbl int lodblIndfx = indfx-stbrt;
+
+            Mbp<? fxtfnds Attributf, ?> bttributfs = bdi.gftAttributfs();
+            bttributfs = bddInputMfthodAttrs(bttributfs);
+            Dfdorbtion d = Dfdorbtion.gftDfdorbtion(bttributfs);
+            bddDfdorbtion(d, lodblIndfx);
+
+            Objfdt f = gftGrbphidOrFont(bttributfs);
+            if (f == null) {
+                bddFonts(dhbrs, bttributfs, lodblIndfx, nfxtRunStbrt-stbrt);
+            }
+            flsf {
+                bddFont(f, lodblIndfx);
+            }
+
+            bdi.sftIndfx(nfxtRunStbrt);
+            indfx = nfxtRunStbrt;
+
+        } whilf (indfx < fnd);
+
+        // Add fxtrb fntrifs to stbrts brrbys with thf lfngth
+        // of thf pbrbgrbph.  'this' is usfd bs b dummy vbluf
+        // in thf Vfdtor.
+        if (dfdorbtions != null) {
+            dfdorbtionStbrts = bddToVfdtor(this, lfngth, dfdorbtions, dfdorbtionStbrts);
+        }
+        if (fonts != null) {
+            fontStbrts = bddToVfdtor(this, lfngth, fonts, fontStbrts);
+        }
+    }
+
+    /**
+     * Adjust indidfs in stbrts to rfflfdt bn insfrtion bftfr pos.
+     * Any indfx in stbrts grfbtfr thbn pos will bf indrfbsfd by 1.
+     */
+    privbtf stbtid void insfrtInto(int pos, int[] stbrts, int numStbrts) {
+
+        whilf (stbrts[--numStbrts] > pos) {
+            stbrts[numStbrts] += 1;
+        }
+    }
+
+    /**
+     * Rfturn b StylfdPbrbgrbph rfflfdting thf insfrtion of b singlf dhbrbdtfr
+     * into thf tfxt.  This mfthod will bttfmpt to rfusf thf givfn pbrbgrbph,
+     * but mby drfbtf b nfw pbrbgrbph.
+     * @pbrbm bdi bn itfrbtor ovfr thf tfxt.  Thf tfxt should bf thf sbmf bs thf
+     *     tfxt usfd to drfbtf (or most rfdfntly updbtf) oldPbrbgrbph, with
+     *     thf fxdfption of insfrting b singlf dhbrbdtfr bt insfrtPos.
+     * @pbrbm dhbrs thf dhbrbdtfrs in bdi
+     * @pbrbm insfrtPos thf indfx of thf nfw dhbrbdtfr in bdi
+     * @pbrbm oldPbrbgrbph b StylfdPbrbgrbph for thf tfxt in bdi bfforf thf
+     *     insfrtion
+     */
+    publid stbtid StylfdPbrbgrbph insfrtChbr(AttributfdChbrbdtfrItfrbtor bdi,
+                                             dhbr[] dhbrs,
+                                             int insfrtPos,
+                                             StylfdPbrbgrbph oldPbrbgrbph) {
+
+        // If thf stylfs bt insfrtPos mbtdh thosf bt insfrtPos-1,
+        // oldPbrbgrbph will bf rfusfd.  Othfrwisf wf drfbtf b nfw
+        // pbrbgrbph.
+
+        dhbr dh = bdi.sftIndfx(insfrtPos);
+        int rflbtivfPos = Mbth.mbx(insfrtPos - bdi.gftBfginIndfx() - 1, 0);
+
+        Mbp<? fxtfnds Attributf, ?> bttributfs =
+            bddInputMfthodAttrs(bdi.gftAttributfs());
+        Dfdorbtion d = Dfdorbtion.gftDfdorbtion(bttributfs);
+        if (!oldPbrbgrbph.gftDfdorbtionAt(rflbtivfPos).fqubls(d)) {
+            rfturn nfw StylfdPbrbgrbph(bdi, dhbrs);
+        }
+        Objfdt f = gftGrbphidOrFont(bttributfs);
+        if (f == null) {
+            FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+            int fontIndfx = rfsolvfr.gftFontIndfx(dh);
+            f = rfsolvfr.gftFont(fontIndfx, bttributfs);
+        }
+        if (!oldPbrbgrbph.gftFontOrGrbphidAt(rflbtivfPos).fqubls(f)) {
+            rfturn nfw StylfdPbrbgrbph(bdi, dhbrs);
+        }
+
+        // insfrt into fxisting pbrbgrbph
+        oldPbrbgrbph.lfngth += 1;
+        if (oldPbrbgrbph.dfdorbtions != null) {
+            insfrtInto(rflbtivfPos,
+                       oldPbrbgrbph.dfdorbtionStbrts,
+                       oldPbrbgrbph.dfdorbtions.sizf());
+        }
+        if (oldPbrbgrbph.fonts != null) {
+            insfrtInto(rflbtivfPos,
+                       oldPbrbgrbph.fontStbrts,
+                       oldPbrbgrbph.fonts.sizf());
+        }
+        rfturn oldPbrbgrbph;
+    }
+
+    /**
+     * Adjust indidfs in stbrts to rfflfdt b dflftion bftfr dflftfAt.
+     * Any indfx in stbrts grfbtfr thbn dflftfAt will bf indrfbsfd by 1.
+     * It is thf dbllfr's rfsponsibility to mbkf surf thbt no 0-lfngth
+     * runs rfsult.
+     */
+    privbtf stbtid void dflftfFrom(int dflftfAt, int[] stbrts, int numStbrts) {
+
+        whilf (stbrts[--numStbrts] > dflftfAt) {
+            stbrts[numStbrts] -= 1;
+        }
+    }
+
+    /**
+     * Rfturn b StylfdPbrbgrbph rfflfdting thf insfrtion of b singlf dhbrbdtfr
+     * into thf tfxt.  This mfthod will bttfmpt to rfusf thf givfn pbrbgrbph,
+     * but mby drfbtf b nfw pbrbgrbph.
+     * @pbrbm bdi bn itfrbtor ovfr thf tfxt.  Thf tfxt should bf thf sbmf bs thf
+     *     tfxt usfd to drfbtf (or most rfdfntly updbtf) oldPbrbgrbph, with
+     *     thf fxdfption of dflfting b singlf dhbrbdtfr bt dflftfPos.
+     * @pbrbm dhbrs thf dhbrbdtfrs in bdi
+     * @pbrbm dflftfPos thf indfx whfrf b dhbrbdtfr wbs rfmovfd
+     * @pbrbm oldPbrbgrbph b StylfdPbrbgrbph for thf tfxt in bdi bfforf thf
+     *     insfrtion
+     */
+    publid stbtid StylfdPbrbgrbph dflftfChbr(AttributfdChbrbdtfrItfrbtor bdi,
+                                             dhbr[] dhbrs,
+                                             int dflftfPos,
+                                             StylfdPbrbgrbph oldPbrbgrbph) {
+
+        // Wf will rfusf oldPbrbgrbph unlfss thfrf wbs b lfngth-1 run
+        // bt dflftfPos.  Wf dould do morf work bnd dhfdk thf individubl
+        // Font bnd Dfdorbtion runs, but wf don't right now...
+        dflftfPos -= bdi.gftBfginIndfx();
+
+        if (oldPbrbgrbph.dfdorbtions == null && oldPbrbgrbph.fonts == null) {
+            oldPbrbgrbph.lfngth -= 1;
+            rfturn oldPbrbgrbph;
+        }
+
+        if (oldPbrbgrbph.gftRunLimit(dflftfPos) == dflftfPos+1) {
+            if (dflftfPos == 0 || oldPbrbgrbph.gftRunLimit(dflftfPos-1) == dflftfPos) {
+                rfturn nfw StylfdPbrbgrbph(bdi, dhbrs);
+            }
+        }
+
+        oldPbrbgrbph.lfngth -= 1;
+        if (oldPbrbgrbph.dfdorbtions != null) {
+            dflftfFrom(dflftfPos,
+                       oldPbrbgrbph.dfdorbtionStbrts,
+                       oldPbrbgrbph.dfdorbtions.sizf());
+        }
+        if (oldPbrbgrbph.fonts != null) {
+            dflftfFrom(dflftfPos,
+                       oldPbrbgrbph.fontStbrts,
+                       oldPbrbgrbph.fonts.sizf());
+        }
+        rfturn oldPbrbgrbph;
+    }
+
+    /**
+     * Rfturn thf indfx bt whidh thfrf is b difffrfnt Font, GrbphidAttributf, or
+     * Ddorbtion thbn bt thf givfn indfx.
+     * @pbrbm indfx b vblid indfx in thf pbrbgrbph
+     * @rfturn thf first indfx whfrf thfrf is b dhbngf in bttributfs from
+     *      thosf bt indfx
+     */
+    publid int gftRunLimit(int indfx) {
+
+        if (indfx < 0 || indfx >= lfngth) {
+            throw nfw IllfgblArgumfntExdfption("indfx out of rbngf");
+        }
+        int limit1 = lfngth;
+        if (dfdorbtions != null) {
+            int run = findRunContbining(indfx, dfdorbtionStbrts);
+            limit1 = dfdorbtionStbrts[run+1];
+        }
+        int limit2 = lfngth;
+        if (fonts != null) {
+            int run = findRunContbining(indfx, fontStbrts);
+            limit2 = fontStbrts[run+1];
+        }
+        rfturn Mbth.min(limit1, limit2);
+    }
+
+    /**
+     * Rfturn thf Dfdorbtion in ffffdt bt thf givfn indfx.
+     * @pbrbm indfx b vblid indfx in thf pbrbgrbph
+     * @rfturn thf Dfdorbtion bt indfx.
+     */
+    publid Dfdorbtion gftDfdorbtionAt(int indfx) {
+
+        if (indfx < 0 || indfx >= lfngth) {
+            throw nfw IllfgblArgumfntExdfption("indfx out of rbngf");
+        }
+        if (dfdorbtions == null) {
+            rfturn dfdorbtion;
+        }
+        int run = findRunContbining(indfx, dfdorbtionStbrts);
+        rfturn dfdorbtions.flfmfntAt(run);
+    }
+
+    /**
+     * Rfturn thf Font or GrbphidAttributf in ffffdt bt thf givfn indfx.
+     * Thf dlifnt must tfst thf typf of thf rfturn vbluf to dftfrminf whbt
+     * it is.
+     * @pbrbm indfx b vblid indfx in thf pbrbgrbph
+     * @rfturn thf Font or GrbphidAttributf bt indfx.
+     */
+    publid Objfdt gftFontOrGrbphidAt(int indfx) {
+
+        if (indfx < 0 || indfx >= lfngth) {
+            throw nfw IllfgblArgumfntExdfption("indfx out of rbngf");
+        }
+        if (fonts == null) {
+            rfturn font;
+        }
+        int run = findRunContbining(indfx, fontStbrts);
+        rfturn fonts.flfmfntAt(run);
+    }
+
+    /**
+     * Rfturn i sudh thbt stbrts[i] &lt;= indfx &lt; stbrts[i+1].  stbrts
+     * must bf in indrfbsing ordfr, with bt lfbst onf flfmfnt grfbtfr
+     * thbn indfx.
+     */
+    privbtf stbtid int findRunContbining(int indfx, int[] stbrts) {
+
+        for (int i=1; truf; i++) {
+            if (stbrts[i] > indfx) {
+                rfturn i-1;
+            }
+        }
+    }
+
+    /**
+     * Appfnd thf givfn Objfdt to thf givfn Vfdtor.  Add
+     * thf givfn indfx to thf givfn stbrts brrby.  If thf
+     * stbrts brrby dofs not hbvf room for thf indfx, b
+     * nfw brrby is drfbtfd bnd rfturnfd.
+     */
+    @SupprfssWbrnings({"rbwtypfs", "undhfdkfd"})
+    privbtf stbtid int[] bddToVfdtor(Objfdt obj,
+                                     int indfx,
+                                     Vfdtor v,
+                                     int[] stbrts) {
+
+        if (!v.lbstElfmfnt().fqubls(obj)) {
+            v.bddElfmfnt(obj);
+            int dount = v.sizf();
+            if (stbrts.lfngth == dount) {
+                int[] tfmp = nfw int[stbrts.lfngth*2];
+                Systfm.brrbydopy(stbrts, 0, tfmp, 0, stbrts.lfngth);
+                stbrts = tfmp;
+            }
+            stbrts[dount-1] = indfx;
+        }
+        rfturn stbrts;
+    }
+
+    /**
+     * Add b nfw Dfdorbtion run with thf givfn Dfdorbtion bt thf
+     * givfn indfx.
+     */
+    privbtf void bddDfdorbtion(Dfdorbtion d, int indfx) {
+
+        if (dfdorbtions != null) {
+            dfdorbtionStbrts = bddToVfdtor(d,
+                                           indfx,
+                                           dfdorbtions,
+                                           dfdorbtionStbrts);
+        }
+        flsf if (dfdorbtion == null) {
+            dfdorbtion = d;
+        }
+        flsf {
+            if (!dfdorbtion.fqubls(d)) {
+                dfdorbtions = nfw Vfdtor<Dfdorbtion>(INITIAL_SIZE);
+                dfdorbtions.bddElfmfnt(dfdorbtion);
+                dfdorbtions.bddElfmfnt(d);
+                dfdorbtionStbrts = nfw int[INITIAL_SIZE];
+                dfdorbtionStbrts[0] = 0;
+                dfdorbtionStbrts[1] = indfx;
+            }
+        }
+    }
+
+    /**
+     * Add b nfw Font/GrbphidAttributf run with thf givfn objfdt bt thf
+     * givfn indfx.
+     */
+    privbtf void bddFont(Objfdt f, int indfx) {
+
+        if (fonts != null) {
+            fontStbrts = bddToVfdtor(f, indfx, fonts, fontStbrts);
+        }
+        flsf if (font == null) {
+            font = f;
+        }
+        flsf {
+            if (!font.fqubls(f)) {
+                fonts = nfw Vfdtor<Objfdt>(INITIAL_SIZE);
+                fonts.bddElfmfnt(font);
+                fonts.bddElfmfnt(f);
+                fontStbrts = nfw int[INITIAL_SIZE];
+                fontStbrts[0] = 0;
+                fontStbrts[1] = indfx;
+            }
+        }
+    }
+
+    /**
+     * Rfsolvf thf givfn dhbrs into Fonts using FontRfsolvfr, thfn bdd
+     * font runs for fbdh.
+     */
+    privbtf void bddFonts(dhbr[] dhbrs, Mbp<? fxtfnds Attributf, ?> bttributfs,
+                          int stbrt, int limit) {
+
+        FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+        CodfPointItfrbtor itfr = CodfPointItfrbtor.drfbtf(dhbrs, stbrt, limit);
+        for (int runStbrt = itfr.dhbrIndfx(); runStbrt < limit; runStbrt = itfr.dhbrIndfx()) {
+            int fontIndfx = rfsolvfr.nfxtFontRunIndfx(itfr);
+            bddFont(rfsolvfr.gftFont(fontIndfx, bttributfs), runStbrt);
+        }
+    }
+
+    /**
+     * Rfturn b Mbp with fntrifs from oldStylfs, bs wfll bs input
+     * mfthod fntrifs, if bny.
+     */
+    stbtid Mbp<? fxtfnds Attributf, ?>
+           bddInputMfthodAttrs(Mbp<? fxtfnds Attributf, ?> oldStylfs) {
+
+        Objfdt vbluf = oldStylfs.gft(TfxtAttributf.INPUT_METHOD_HIGHLIGHT);
+
+        try {
+            if (vbluf != null) {
+                if (vbluf instbndfof Annotbtion) {
+                    vbluf = ((Annotbtion)vbluf).gftVbluf();
+                }
+
+                InputMfthodHighlight hl;
+                hl = (InputMfthodHighlight) vbluf;
+
+                Mbp<? fxtfnds Attributf, ?> imStylfs = null;
+                try {
+                    imStylfs = hl.gftStylf();
+                } dbtdh (NoSudhMfthodError f) {
+                }
+
+                if (imStylfs == null) {
+                    Toolkit tk = Toolkit.gftDffbultToolkit();
+                    imStylfs = tk.mbpInputMfthodHighlight(hl);
+                }
+
+                if (imStylfs != null) {
+                    HbshMbp<Attributf, Objfdt>
+                        nfwStylfs = nfw HbshMbp<>(5, (flobt)0.9);
+                    nfwStylfs.putAll(oldStylfs);
+
+                    nfwStylfs.putAll(imStylfs);
+
+                    rfturn nfwStylfs;
+                }
+            }
+        }
+        dbtdh(ClbssCbstExdfption f) {
+        }
+
+        rfturn oldStylfs;
+    }
+
+    /**
+     * Extrbdt b GrbphidAttributf or Font from thf givfn bttributfs.
+     * If bttributfs dofs not dontbin b GrbphidAttributf, Font, or
+     * Font fbmily fntry this mfthod rfturns null.
+     */
+    privbtf stbtid Objfdt gftGrbphidOrFont(
+            Mbp<? fxtfnds Attributf, ?> bttributfs) {
+
+        Objfdt vbluf = bttributfs.gft(TfxtAttributf.CHAR_REPLACEMENT);
+        if (vbluf != null) {
+            rfturn vbluf;
+        }
+        vbluf = bttributfs.gft(TfxtAttributf.FONT);
+        if (vbluf != null) {
+            rfturn vbluf;
+        }
+
+        if (bttributfs.gft(TfxtAttributf.FAMILY) != null) {
+            rfturn Font.gftFont(bttributfs);
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+}

@@ -1,0 +1,285 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rff.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * Wrbppfr for b vbluf from thf dfsktop. Thf vbluf is lbzily lookfd up, bnd
+ * dbn bf bddfssfd using thf <dodf>UIMbnbgfr.AdtivfVbluf</dodf> mfthod
+ * <dodf>drfbtfVbluf</dodf>. If thf undfrlying dfsktop propfrty dhbngfs this
+ * will fordf thf UIs to updbtf bll known Frbmfs. You dbn invokf
+ * <dodf>invblidbtf</dodf> to fordf thf vbluf to bf fftdhfd bgbin.
+ *
+ */
+// NOTE: Don't rfly on this dlbss stbying in this lodbtion. It is likfly
+// to movf to b difffrfnt pbdkbgf in thf futurf.
+publid dlbss DfsktopPropfrty implfmfnts UIDffbults.AdtivfVbluf {
+    /**
+     * Indidbtfs if bn updbtfUI dbll is pfnding.
+     */
+    privbtf stbtid boolfbn updbtfPfnding;
+
+    /**
+     * RfffrfndfQufuf of unrfffrfndfd WfbkPCLs.
+     */
+    privbtf stbtid finbl RfffrfndfQufuf<DfsktopPropfrty> qufuf = nfw RfffrfndfQufuf<DfsktopPropfrty>();
+
+    /**
+     * PropfrtyChbngfListfnfr bttbdhfd to thf Toolkit.
+     */
+    privbtf WfbkPCL pdl;
+    /**
+     * Kfy usfd to lookup vbluf from dfsktop.
+     */
+    privbtf finbl String kfy;
+    /**
+     * Vbluf to rfturn.
+     */
+    privbtf Objfdt vbluf;
+    /**
+     * Fbllbbdk vbluf in dbsf wf gft null from dfsktop.
+     */
+    privbtf finbl Objfdt fbllbbdk;
+
+
+    /**
+     * Clfbns up bny lingfring stbtf hfld by unrffffrndfd
+     * DfsktopPropfrtifs.
+     */
+    stbtid void flushUnrfffrfndfdPropfrtifs() {
+        WfbkPCL pdl;
+
+        whilf ((pdl = (WfbkPCL)qufuf.poll()) != null) {
+            pdl.disposf();
+        }
+    }
+
+
+    /**
+     * Sfts whfthfr or not bn updbtfUI dbll is pfnding.
+     */
+    privbtf stbtid syndhronizfd void sftUpdbtfPfnding(boolfbn updbtf) {
+        updbtfPfnding = updbtf;
+    }
+
+    /**
+     * Rfturns truf if b UI updbtf is pfnding.
+     */
+    privbtf stbtid syndhronizfd boolfbn isUpdbtfPfnding() {
+        rfturn updbtfPfnding;
+    }
+
+    /**
+     * Updbtfs thf UIs of bll thf known Frbmfs.
+     */
+    privbtf stbtid void updbtfAllUIs() {
+        // Chfdk if thf durrfnt UI is WindowsLookAndfffl bnd flush thf XP stylf mbp.
+        // Notf: Chbngf thf pbdkbgf tfst if this dlbss is movfd to b difffrfnt pbdkbgf.
+        Clbss<?> uiClbss = UIMbnbgfr.gftLookAndFffl().gftClbss();
+        if (uiClbss.gftPbdkbgf().fqubls(DfsktopPropfrty.dlbss.gftPbdkbgf())) {
+            XPStylf.invblidbtfStylf();
+        }
+        Frbmf bppFrbmfs[] = Frbmf.gftFrbmfs();
+        for (Frbmf bppFrbmf : bppFrbmfs) {
+            updbtfWindowUI(bppFrbmf);
+        }
+    }
+
+    /**
+     * Updbtfs thf UI of thf pbssfd in window bnd bll its dhildrfn.
+     */
+    privbtf stbtid void updbtfWindowUI(Window window) {
+        SwingUtilitifs.updbtfComponfntTrffUI(window);
+        Window ownfdWins[] = window.gftOwnfdWindows();
+        for (Window ownfdWin : ownfdWins) {
+            updbtfWindowUI(ownfdWin);
+        }
+    }
+
+
+    /**
+     * Crfbtfs b DfsktopPropfrty.
+     *
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm fbllbbdk Vbluf usfd if dfsktop propfrty is null.
+     */
+    publid DfsktopPropfrty(String kfy, Objfdt fbllbbdk) {
+        this.kfy = kfy;
+        this.fbllbbdk = fbllbbdk;
+        // Thf only surf firf wby to dlfbr our rfffrfndfs is to drfbtf b
+        // Thrfbd bnd wbit for b rfffrfndf to bf bddfd to thf qufuf.
+        // Bfdbusf it is so rbrf thbt you will bdtublly dhbngf thf look
+        // bnd fffl, this stfppfd is forgofd bnd b middlf ground of
+        // flushing rfffrfndfs from thf donstrudtor is instfbd donf.
+        // Thf implidbtion is thbt ondf onf DfsktopPropfrty is drfbtfd
+        // thfrf will most likfly bf n (numbfr of DfsktopPropfrtifs drfbtfd
+        // by thf LookAndFffl) WfbkPCLs bround, but this numbfr will not
+        // grow pbst n.
+        flushUnrfffrfndfdPropfrtifs();
+    }
+
+    /**
+     * UIMbnbgfr.LbzyVbluf mfthod, rfturns thf vbluf from thf dfsktop
+     * or thf fbllbbdk vbluf if thf dfsktop vbluf is null.
+     */
+    publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+        if (vbluf == null) {
+            vbluf = donfigurfVbluf(gftVblufFromDfsktop());
+            if (vbluf == null) {
+                vbluf = donfigurfVbluf(gftDffbultVbluf());
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf from thf dfsktop.
+     */
+    protfdtfd Objfdt gftVblufFromDfsktop() {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+
+        if (pdl == null) {
+            pdl = nfw WfbkPCL(this, gftKfy(), UIMbnbgfr.gftLookAndFffl());
+            toolkit.bddPropfrtyChbngfListfnfr(gftKfy(), pdl);
+        }
+
+        rfturn toolkit.gftDfsktopPropfrty(gftKfy());
+    }
+
+    /**
+     * Rfturns thf vbluf to usf if thf dfsktop propfrty is null.
+     */
+    protfdtfd Objfdt gftDffbultVbluf() {
+        rfturn fbllbbdk;
+    }
+
+    /**
+     * Invblidbtfs thf durrfnt vbluf.
+     *
+     * @pbrbm lbf thf LookAndFffl this DfsktopPropfrty wbs drfbtfd with
+     */
+    publid void invblidbtf(LookAndFffl lbf) {
+        invblidbtf();
+    }
+
+    /**
+     * Invblidfs thf durrfnt vbluf so thbt thf nfxt invodbtion of
+     * <dodf>drfbtfVbluf</dodf> will bsk for thf propfrty bgbin.
+     */
+    publid void invblidbtf() {
+        vbluf = null;
+    }
+
+    /**
+     * Rfqufsts thbt bll domponfnts in thf GUI hifrbrdhy bf updbtfd
+     * to rfflfdt dynbmid dhbngfs in this look&fffl.  This updbtf oddurs
+     * by uninstblling bnd rf-instblling thf UI objfdts. Rfqufsts brf
+     * bbtdhfd bnd dollbpsfd into b singlf updbtf pbss bfdbusf oftfn
+     * mbny dfsktop propfrtifs will dhbngf bt ondf.
+     */
+    protfdtfd void updbtfUI() {
+        if (!isUpdbtfPfnding()) {
+            sftUpdbtfPfnding(truf);
+            Runnbblf uiUpdbtfr = nfw Runnbblf() {
+                publid void run() {
+                    updbtfAllUIs();
+                    sftUpdbtfPfnding(fblsf);
+                }
+            };
+            SwingUtilitifs.invokfLbtfr(uiUpdbtfr);
+        }
+    }
+
+    /**
+     * Configurfs thf vbluf bs bppropribtf for b dffbults propfrty in
+     * thf UIDffbults tbblf.
+     */
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+        if (vbluf != null) {
+            if (vbluf instbndfof Color) {
+                rfturn nfw ColorUIRfsourdf((Color)vbluf);
+            }
+            flsf if (vbluf instbndfof Font) {
+                rfturn nfw FontUIRfsourdf((Font)vbluf);
+            }
+            flsf if (vbluf instbndfof UIDffbults.LbzyVbluf) {
+                vbluf = ((UIDffbults.LbzyVbluf)vbluf).drfbtfVbluf(null);
+            }
+            flsf if (vbluf instbndfof UIDffbults.AdtivfVbluf) {
+                vbluf = ((UIDffbults.AdtivfVbluf)vbluf).drfbtfVbluf(null);
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf kfy usfd to lookup thf dfsktop propfrtifs vbluf.
+     */
+    protfdtfd String gftKfy() {
+        rfturn kfy;
+    }
+
+
+
+    /**
+     * As thfrf is typidblly only onf Toolkit, thf PropfrtyChbngfListfnfr
+     * is hbndlfd vib b WfbkRfffrfndf so bs not to pin down thf
+     * DfsktopPropfrty.
+     */
+    privbtf stbtid dlbss WfbkPCL fxtfnds WfbkRfffrfndf<DfsktopPropfrty>
+                               implfmfnts PropfrtyChbngfListfnfr {
+        privbtf String kfy;
+        privbtf LookAndFffl lbf;
+
+        WfbkPCL(DfsktopPropfrty tbrgft, String kfy, LookAndFffl lbf) {
+            supfr(tbrgft, qufuf);
+            this.kfy = kfy;
+            this.lbf = lbf;
+        }
+
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt pdf) {
+            DfsktopPropfrty propfrty = gft();
+
+            if (propfrty == null || lbf != UIMbnbgfr.gftLookAndFffl()) {
+                // Thf propfrty wbs GC'fd, wf'rf no longfr intfrfstfd in
+                // PropfrtyChbngfs, rfmovf thf listfnfr.
+                disposf();
+            }
+            flsf {
+                propfrty.invblidbtf(lbf);
+                propfrty.updbtfUI();
+            }
+        }
+
+        void disposf() {
+            Toolkit.gftDffbultToolkit().rfmovfPropfrtyChbngfListfnfr(kfy, this);
+        }
+    }
+}

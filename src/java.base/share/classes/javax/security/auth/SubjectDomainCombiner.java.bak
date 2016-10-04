@@ -1,569 +1,569 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth;
+pbdkbgf jbvbx.sfdurity.buti;
 
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.Permissions;
-import java.security.PermissionCollection;
-import java.security.Policy;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.security.Security;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.lang.ref.WeakReference;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * A {@code SubjectDomainCombiner} updates ProtectionDomains
- * with Principals from the {@code Subject} associated with this
- * {@code SubjectDomainCombiner}.
+ * A {@dodf SubjfdtDombinCombinfr} updbtfs ProtfdtionDombins
+ * witi Prindipbls from tif {@dodf Subjfdt} bssodibtfd witi tiis
+ * {@dodf SubjfdtDombinCombinfr}.
  *
  */
-public class SubjectDomainCombiner implements java.security.DomainCombiner {
+publid dlbss SubjfdtDombinCombinfr implfmfnts jbvb.sfdurity.DombinCombinfr {
 
-    private Subject subject;
-    private WeakKeyValueMap<ProtectionDomain, ProtectionDomain> cachedPDs =
-                new WeakKeyValueMap<>();
-    private Set<Principal> principalSet;
-    private Principal[] principals;
+    privbtf Subjfdt subjfdt;
+    privbtf WfbkKfyVblufMbp<ProtfdtionDombin, ProtfdtionDombin> dbdifdPDs =
+                nfw WfbkKfyVblufMbp<>();
+    privbtf Sft<Prindipbl> prindipblSft;
+    privbtf Prindipbl[] prindipbls;
 
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("combiner",
-                                        "\t[SubjectDomainCombiner]");
+    privbtf stbtid finbl sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("dombinfr",
+                                        "\t[SubjfdtDombinCombinfr]");
 
-    @SuppressWarnings("deprecation")
-    // Note: check only at classloading time, not dynamically during combine()
-    private static final boolean useJavaxPolicy =
-        javax.security.auth.Policy.isCustomPolicySet(debug);
+    @SupprfssWbrnings("dfprfdbtion")
+    // Notf: difdk only bt dlbsslobding timf, not dynbmidblly during dombinf()
+    privbtf stbtid finbl boolfbn usfJbvbxPolidy =
+        jbvbx.sfdurity.buti.Polidy.isCustomPolidySft(dfbug);
 
-    // Relevant only when useJavaxPolicy is true
-    private static final boolean allowCaching =
-                                        (useJavaxPolicy && cachePolicy());
+    // Rflfvbnt only wifn usfJbvbxPolidy is truf
+    privbtf stbtid finbl boolfbn bllowCbdiing =
+                                        (usfJbvbxPolidy && dbdifPolidy());
 
     /**
-     * Associate the provided {@code Subject} with this
-     * {@code SubjectDomainCombiner}.
+     * Assodibtf tif providfd {@dodf Subjfdt} witi tiis
+     * {@dodf SubjfdtDombinCombinfr}.
      *
      * <p>
      *
-     * @param subject the {@code Subject} to be associated with
-     *          with this {@code SubjectDomainCombiner}.
+     * @pbrbm subjfdt tif {@dodf Subjfdt} to bf bssodibtfd witi
+     *          witi tiis {@dodf SubjfdtDombinCombinfr}.
      */
-    public SubjectDomainCombiner(Subject subject) {
-        this.subject = subject;
+    publid SubjfdtDombinCombinfr(Subjfdt subjfdt) {
+        tiis.subjfdt = subjfdt;
 
-        if (subject.isReadOnly()) {
-            principalSet = subject.getPrincipals();
-            principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
+        if (subjfdt.isRfbdOnly()) {
+            prindipblSft = subjfdt.gftPrindipbls();
+            prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
         }
     }
 
     /**
-     * Get the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * Gft tif {@dodf Subjfdt} bssodibtfd witi tiis
+     * {@dodf SubjfdtDombinCombinfr}.
      *
      * <p>
      *
-     * @return the {@code Subject} associated with this
-     *          {@code SubjectDomainCombiner}, or {@code null}
-     *          if no {@code Subject} is associated with this
-     *          {@code SubjectDomainCombiner}.
+     * @rfturn tif {@dodf Subjfdt} bssodibtfd witi tiis
+     *          {@dodf SubjfdtDombinCombinfr}, or {@dodf null}
+     *          if no {@dodf Subjfdt} is bssodibtfd witi tiis
+     *          {@dodf SubjfdtDombinCombinfr}.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get the {@code Subject} associated with this
-     *          {@code SubjectDomainCombiner}.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to gft tif {@dodf Subjfdt} bssodibtfd witi tiis
+     *          {@dodf SubjfdtDombinCombinfr}.
      */
-    public Subject getSubject() {
-        java.lang.SecurityManager sm = System.getSecurityManager();
+    publid Subjfdt gftSubjfdt() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new AuthPermission
-                ("getSubjectFromDomainCombiner"));
+            sm.difdkPfrmission(nfw AutiPfrmission
+                ("gftSubjfdtFromDombinCombinfr"));
         }
-        return subject;
+        rfturn subjfdt;
     }
 
     /**
-     * Update the relevant ProtectionDomains with the Principals
-     * from the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * Updbtf tif rflfvbnt ProtfdtionDombins witi tif Prindipbls
+     * from tif {@dodf Subjfdt} bssodibtfd witi tiis
+     * {@dodf SubjfdtDombinCombinfr}.
      *
-     * <p> A new {@code ProtectionDomain} instance is created
-     * for each {@code ProtectionDomain} in the
-     * <i>currentDomains</i> array.  Each new {@code ProtectionDomain}
-     * instance is created using the {@code CodeSource},
-     * {@code Permission}s and {@code ClassLoader}
-     * from the corresponding {@code ProtectionDomain} in
-     * <i>currentDomains</i>, as well as with the Principals from
-     * the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * <p> A nfw {@dodf ProtfdtionDombin} instbndf is drfbtfd
+     * for fbdi {@dodf ProtfdtionDombin} in tif
+     * <i>durrfntDombins</i> brrby.  Ebdi nfw {@dodf ProtfdtionDombin}
+     * instbndf is drfbtfd using tif {@dodf CodfSourdf},
+     * {@dodf Pfrmission}s bnd {@dodf ClbssLobdfr}
+     * from tif dorrfsponding {@dodf ProtfdtionDombin} in
+     * <i>durrfntDombins</i>, bs wfll bs witi tif Prindipbls from
+     * tif {@dodf Subjfdt} bssodibtfd witi tiis
+     * {@dodf SubjfdtDombinCombinfr}.
      *
-     * <p> All of the newly instantiated ProtectionDomains are
-     * combined into a new array.  The ProtectionDomains from the
-     * <i>assignedDomains</i> array are appended to this new array,
-     * and the result is returned.
+     * <p> All of tif nfwly instbntibtfd ProtfdtionDombins brf
+     * dombinfd into b nfw brrby.  Tif ProtfdtionDombins from tif
+     * <i>bssignfdDombins</i> brrby brf bppfndfd to tiis nfw brrby,
+     * bnd tif rfsult is rfturnfd.
      *
-     * <p> Note that optimizations such as the removal of duplicate
-     * ProtectionDomains may have occurred.
-     * In addition, caching of ProtectionDomains may be permitted.
+     * <p> Notf tibt optimizbtions sudi bs tif rfmovbl of duplidbtf
+     * ProtfdtionDombins mby ibvf oddurrfd.
+     * In bddition, dbdiing of ProtfdtionDombins mby bf pfrmittfd.
      *
      * <p>
      *
-     * @param currentDomains the ProtectionDomains associated with the
-     *          current execution Thread, up to the most recent
-     *          privileged {@code ProtectionDomain}.
-     *          The ProtectionDomains are are listed in order of execution,
-     *          with the most recently executing {@code ProtectionDomain}
-     *          residing at the beginning of the array. This parameter may
-     *          be {@code null} if the current execution Thread
-     *          has no associated ProtectionDomains.<p>
+     * @pbrbm durrfntDombins tif ProtfdtionDombins bssodibtfd witi tif
+     *          durrfnt fxfdution Tirfbd, up to tif most rfdfnt
+     *          privilfgfd {@dodf ProtfdtionDombin}.
+     *          Tif ProtfdtionDombins brf brf listfd in ordfr of fxfdution,
+     *          witi tif most rfdfntly fxfduting {@dodf ProtfdtionDombin}
+     *          rfsiding bt tif bfginning of tif brrby. Tiis pbrbmftfr mby
+     *          bf {@dodf null} if tif durrfnt fxfdution Tirfbd
+     *          ibs no bssodibtfd ProtfdtionDombins.<p>
      *
-     * @param assignedDomains the ProtectionDomains inherited from the
-     *          parent Thread, or the ProtectionDomains from the
-     *          privileged <i>context</i>, if a call to
-     *          AccessController.doPrivileged(..., <i>context</i>)
-     *          had occurred  This parameter may be {@code null}
-     *          if there were no ProtectionDomains inherited from the
-     *          parent Thread, or from the privileged <i>context</i>.
+     * @pbrbm bssignfdDombins tif ProtfdtionDombins inifritfd from tif
+     *          pbrfnt Tirfbd, or tif ProtfdtionDombins from tif
+     *          privilfgfd <i>dontfxt</i>, if b dbll to
+     *          AddfssControllfr.doPrivilfgfd(..., <i>dontfxt</i>)
+     *          ibd oddurrfd  Tiis pbrbmftfr mby bf {@dodf null}
+     *          if tifrf wfrf no ProtfdtionDombins inifritfd from tif
+     *          pbrfnt Tirfbd, or from tif privilfgfd <i>dontfxt</i>.
      *
-     * @return a new array consisting of the updated ProtectionDomains,
-     *          or {@code null}.
+     * @rfturn b nfw brrby donsisting of tif updbtfd ProtfdtionDombins,
+     *          or {@dodf null}.
      */
-    public ProtectionDomain[] combine(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains) {
-        if (debug != null) {
-            if (subject == null) {
-                debug.println("null subject");
-            } else {
-                final Subject s = subject;
-                AccessController.doPrivileged
-                    (new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        debug.println(s.toString());
-                        return null;
+    publid ProtfdtionDombin[] dombinf(ProtfdtionDombin[] durrfntDombins,
+                                ProtfdtionDombin[] bssignfdDombins) {
+        if (dfbug != null) {
+            if (subjfdt == null) {
+                dfbug.println("null subjfdt");
+            } flsf {
+                finbl Subjfdt s = subjfdt;
+                AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        dfbug.println(s.toString());
+                        rfturn null;
                     }
                 });
             }
-            printInputDomains(currentDomains, assignedDomains);
+            printInputDombins(durrfntDombins, bssignfdDombins);
         }
 
-        if (currentDomains == null || currentDomains.length == 0) {
-            // No need to optimize assignedDomains because it should
-            // have been previously optimized (when it was set).
+        if (durrfntDombins == null || durrfntDombins.lfngti == 0) {
+            // No nffd to optimizf bssignfdDombins bfdbusf it siould
+            // ibvf bffn prfviously optimizfd (wifn it wbs sft).
 
-            // Note that we are returning a direct reference
-            // to the input array - since ACC does not clone
-            // the arrays when it calls combiner.combine,
-            // multiple ACC instances may share the same
-            // array instance in this case
+            // Notf tibt wf brf rfturning b dirfdt rfffrfndf
+            // to tif input brrby - sindf ACC dofs not dlonf
+            // tif brrbys wifn it dblls dombinfr.dombinf,
+            // multiplf ACC instbndfs mby sibrf tif sbmf
+            // brrby instbndf in tiis dbsf
 
-            return assignedDomains;
+            rfturn bssignfdDombins;
         }
 
-        // optimize currentDomains
+        // optimizf durrfntDombins
         //
-        // No need to optimize assignedDomains because it should
-        // have been previously optimized (when it was set).
+        // No nffd to optimizf bssignfdDombins bfdbusf it siould
+        // ibvf bffn prfviously optimizfd (wifn it wbs sft).
 
-        currentDomains = optimize(currentDomains);
-        if (debug != null) {
-            debug.println("after optimize");
-            printInputDomains(currentDomains, assignedDomains);
+        durrfntDombins = optimizf(durrfntDombins);
+        if (dfbug != null) {
+            dfbug.println("bftfr optimizf");
+            printInputDombins(durrfntDombins, bssignfdDombins);
         }
 
-        if (currentDomains == null && assignedDomains == null) {
-            return null;
+        if (durrfntDombins == null && bssignfdDombins == null) {
+            rfturn null;
         }
 
-        // maintain backwards compatibility for developers who provide
-        // their own custom javax.security.auth.Policy implementations
-        if (useJavaxPolicy) {
-            return combineJavaxPolicy(currentDomains, assignedDomains);
+        // mbintbin bbdkwbrds dompbtibility for dfvflopfrs wio providf
+        // tifir own dustom jbvbx.sfdurity.buti.Polidy implfmfntbtions
+        if (usfJbvbxPolidy) {
+            rfturn dombinfJbvbxPolidy(durrfntDombins, bssignfdDombins);
         }
 
-        int cLen = (currentDomains == null ? 0 : currentDomains.length);
-        int aLen = (assignedDomains == null ? 0 : assignedDomains.length);
+        int dLfn = (durrfntDombins == null ? 0 : durrfntDombins.lfngti);
+        int bLfn = (bssignfdDombins == null ? 0 : bssignfdDombins.lfngti);
 
-        // the ProtectionDomains for the new AccessControlContext
-        // that we will return
-        ProtectionDomain[] newDomains = new ProtectionDomain[cLen + aLen];
+        // tif ProtfdtionDombins for tif nfw AddfssControlContfxt
+        // tibt wf will rfturn
+        ProtfdtionDombin[] nfwDombins = nfw ProtfdtionDombin[dLfn + bLfn];
 
-        boolean allNew = true;
-        synchronized(cachedPDs) {
-            if (!subject.isReadOnly() &&
-                !subject.getPrincipals().equals(principalSet)) {
+        boolfbn bllNfw = truf;
+        syndironizfd(dbdifdPDs) {
+            if (!subjfdt.isRfbdOnly() &&
+                !subjfdt.gftPrindipbls().fqubls(prindipblSft)) {
 
-                // if the Subject was mutated, clear the PD cache
-                Set<Principal> newSet = subject.getPrincipals();
-                synchronized(newSet) {
-                    principalSet = new java.util.HashSet<Principal>(newSet);
+                // if tif Subjfdt wbs mutbtfd, dlfbr tif PD dbdif
+                Sft<Prindipbl> nfwSft = subjfdt.gftPrindipbls();
+                syndironizfd(nfwSft) {
+                    prindipblSft = nfw jbvb.util.HbsiSft<Prindipbl>(nfwSft);
                 }
-                principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
-                cachedPDs.clear();
+                prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
+                dbdifdPDs.dlfbr();
 
-                if (debug != null) {
-                    debug.println("Subject mutated - clearing cache");
-                }
-            }
-
-            ProtectionDomain subjectPd;
-            for (int i = 0; i < cLen; i++) {
-                ProtectionDomain pd = currentDomains[i];
-
-                subjectPd = cachedPDs.getValue(pd);
-
-                if (subjectPd == null) {
-                    subjectPd = new ProtectionDomain(pd.getCodeSource(),
-                                                pd.getPermissions(),
-                                                pd.getClassLoader(),
-                                                principals);
-                    cachedPDs.putValue(pd, subjectPd);
-                } else {
-                    allNew = false;
-                }
-                newDomains[i] = subjectPd;
-            }
-        }
-
-        if (debug != null) {
-            debug.println("updated current: ");
-            for (int i = 0; i < cLen; i++) {
-                debug.println("\tupdated[" + i + "] = " +
-                                printDomain(newDomains[i]));
-            }
-        }
-
-        // now add on the assigned domains
-        if (aLen > 0) {
-            System.arraycopy(assignedDomains, 0, newDomains, cLen, aLen);
-
-            // optimize the result (cached PDs might exist in assignedDomains)
-            if (!allNew) {
-                newDomains = optimize(newDomains);
-            }
-        }
-
-        // if aLen == 0 || allNew, no need to further optimize newDomains
-
-        if (debug != null) {
-            if (newDomains == null || newDomains.length == 0) {
-                debug.println("returning null");
-            } else {
-                debug.println("combinedDomains: ");
-                for (int i = 0; i < newDomains.length; i++) {
-                    debug.println("newDomain " + i + ": " +
-                                  printDomain(newDomains[i]));
+                if (dfbug != null) {
+                    dfbug.println("Subjfdt mutbtfd - dlfbring dbdif");
                 }
             }
+
+            ProtfdtionDombin subjfdtPd;
+            for (int i = 0; i < dLfn; i++) {
+                ProtfdtionDombin pd = durrfntDombins[i];
+
+                subjfdtPd = dbdifdPDs.gftVbluf(pd);
+
+                if (subjfdtPd == null) {
+                    subjfdtPd = nfw ProtfdtionDombin(pd.gftCodfSourdf(),
+                                                pd.gftPfrmissions(),
+                                                pd.gftClbssLobdfr(),
+                                                prindipbls);
+                    dbdifdPDs.putVbluf(pd, subjfdtPd);
+                } flsf {
+                    bllNfw = fblsf;
+                }
+                nfwDombins[i] = subjfdtPd;
+            }
         }
 
-        // return the new ProtectionDomains
-        if (newDomains == null || newDomains.length == 0) {
-            return null;
-        } else {
-            return newDomains;
+        if (dfbug != null) {
+            dfbug.println("updbtfd durrfnt: ");
+            for (int i = 0; i < dLfn; i++) {
+                dfbug.println("\tupdbtfd[" + i + "] = " +
+                                printDombin(nfwDombins[i]));
+            }
+        }
+
+        // now bdd on tif bssignfd dombins
+        if (bLfn > 0) {
+            Systfm.brrbydopy(bssignfdDombins, 0, nfwDombins, dLfn, bLfn);
+
+            // optimizf tif rfsult (dbdifd PDs migit fxist in bssignfdDombins)
+            if (!bllNfw) {
+                nfwDombins = optimizf(nfwDombins);
+            }
+        }
+
+        // if bLfn == 0 || bllNfw, no nffd to furtifr optimizf nfwDombins
+
+        if (dfbug != null) {
+            if (nfwDombins == null || nfwDombins.lfngti == 0) {
+                dfbug.println("rfturning null");
+            } flsf {
+                dfbug.println("dombinfdDombins: ");
+                for (int i = 0; i < nfwDombins.lfngti; i++) {
+                    dfbug.println("nfwDombin " + i + ": " +
+                                  printDombin(nfwDombins[i]));
+                }
+            }
+        }
+
+        // rfturn tif nfw ProtfdtionDombins
+        if (nfwDombins == null || nfwDombins.lfngti == 0) {
+            rfturn null;
+        } flsf {
+            rfturn nfwDombins;
         }
     }
 
     /**
-     * Use the javax.security.auth.Policy implementation
+     * Usf tif jbvbx.sfdurity.buti.Polidy implfmfntbtion
      */
-    private ProtectionDomain[] combineJavaxPolicy(
-        ProtectionDomain[] currentDomains,
-        ProtectionDomain[] assignedDomains) {
+    privbtf ProtfdtionDombin[] dombinfJbvbxPolidy(
+        ProtfdtionDombin[] durrfntDombins,
+        ProtfdtionDombin[] bssignfdDombins) {
 
-        if (!allowCaching) {
-            java.security.AccessController.doPrivileged
-                (new PrivilegedAction<Void>() {
-                    @SuppressWarnings("deprecation")
-                    public Void run() {
-                        // Call refresh only caching is disallowed
-                        javax.security.auth.Policy.getPolicy().refresh();
-                        return null;
+        if (!bllowCbdiing) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw PrivilfgfdAdtion<Void>() {
+                    @SupprfssWbrnings("dfprfdbtion")
+                    publid Void run() {
+                        // Cbll rffrfsi only dbdiing is disbllowfd
+                        jbvbx.sfdurity.buti.Polidy.gftPolidy().rffrfsi();
+                        rfturn null;
                     }
                 });
         }
 
 
-        int cLen = (currentDomains == null ? 0 : currentDomains.length);
-        int aLen = (assignedDomains == null ? 0 : assignedDomains.length);
+        int dLfn = (durrfntDombins == null ? 0 : durrfntDombins.lfngti);
+        int bLfn = (bssignfdDombins == null ? 0 : bssignfdDombins.lfngti);
 
-        // the ProtectionDomains for the new AccessControlContext
-        // that we will return
-        ProtectionDomain[] newDomains = new ProtectionDomain[cLen + aLen];
+        // tif ProtfdtionDombins for tif nfw AddfssControlContfxt
+        // tibt wf will rfturn
+        ProtfdtionDombin[] nfwDombins = nfw ProtfdtionDombin[dLfn + bLfn];
 
-        synchronized(cachedPDs) {
-            if (!subject.isReadOnly() &&
-                !subject.getPrincipals().equals(principalSet)) {
+        syndironizfd(dbdifdPDs) {
+            if (!subjfdt.isRfbdOnly() &&
+                !subjfdt.gftPrindipbls().fqubls(prindipblSft)) {
 
-                // if the Subject was mutated, clear the PD cache
-                Set<Principal> newSet = subject.getPrincipals();
-                synchronized(newSet) {
-                    principalSet = new java.util.HashSet<Principal>(newSet);
+                // if tif Subjfdt wbs mutbtfd, dlfbr tif PD dbdif
+                Sft<Prindipbl> nfwSft = subjfdt.gftPrindipbls();
+                syndironizfd(nfwSft) {
+                    prindipblSft = nfw jbvb.util.HbsiSft<Prindipbl>(nfwSft);
                 }
-                principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
-                cachedPDs.clear();
+                prindipbls = prindipblSft.toArrby
+                        (nfw Prindipbl[prindipblSft.sizf()]);
+                dbdifdPDs.dlfbr();
 
-                if (debug != null) {
-                    debug.println("Subject mutated - clearing cache");
+                if (dfbug != null) {
+                    dfbug.println("Subjfdt mutbtfd - dlfbring dbdif");
                 }
             }
 
-            for (int i = 0; i < cLen; i++) {
-                ProtectionDomain pd = currentDomains[i];
-                ProtectionDomain subjectPd = cachedPDs.getValue(pd);
+            for (int i = 0; i < dLfn; i++) {
+                ProtfdtionDombin pd = durrfntDombins[i];
+                ProtfdtionDombin subjfdtPd = dbdifdPDs.gftVbluf(pd);
 
-                if (subjectPd == null) {
+                if (subjfdtPd == null) {
 
                     // XXX
-                    // we must first add the original permissions.
-                    // that way when we later add the new JAAS permissions,
-                    // any unresolved JAAS-related permissions will
-                    // automatically get resolved.
+                    // wf must first bdd tif originbl pfrmissions.
+                    // tibt wby wifn wf lbtfr bdd tif nfw JAAS pfrmissions,
+                    // bny unrfsolvfd JAAS-rflbtfd pfrmissions will
+                    // butombtidblly gft rfsolvfd.
 
-                    // get the original perms
-                    Permissions perms = new Permissions();
-                    PermissionCollection coll = pd.getPermissions();
-                    java.util.Enumeration<Permission> e;
-                    if (coll != null) {
-                        synchronized (coll) {
-                            e = coll.elements();
-                            while (e.hasMoreElements()) {
-                                Permission newPerm =
-                                        e.nextElement();
-                                 perms.add(newPerm);
+                    // gft tif originbl pfrms
+                    Pfrmissions pfrms = nfw Pfrmissions();
+                    PfrmissionCollfdtion doll = pd.gftPfrmissions();
+                    jbvb.util.Enumfrbtion<Pfrmission> f;
+                    if (doll != null) {
+                        syndironizfd (doll) {
+                            f = doll.flfmfnts();
+                            wiilf (f.ibsMorfElfmfnts()) {
+                                Pfrmission nfwPfrm =
+                                        f.nfxtElfmfnt();
+                                 pfrms.bdd(nfwPfrm);
                             }
                         }
                     }
 
-                    // get perms from the policy
+                    // gft pfrms from tif polidy
 
-                    final java.security.CodeSource finalCs = pd.getCodeSource();
-                    final Subject finalS = subject;
-                    PermissionCollection newPerms =
-                        java.security.AccessController.doPrivileged
-                        (new PrivilegedAction<PermissionCollection>() {
-                        @SuppressWarnings("deprecation")
-                        public PermissionCollection run() {
-                          return
-                          javax.security.auth.Policy.getPolicy().getPermissions
-                                (finalS, finalCs);
+                    finbl jbvb.sfdurity.CodfSourdf finblCs = pd.gftCodfSourdf();
+                    finbl Subjfdt finblS = subjfdt;
+                    PfrmissionCollfdtion nfwPfrms =
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                        @SupprfssWbrnings("dfprfdbtion")
+                        publid PfrmissionCollfdtion run() {
+                          rfturn
+                          jbvbx.sfdurity.buti.Polidy.gftPolidy().gftPfrmissions
+                                (finblS, finblCs);
                         }
                     });
 
-                    // add the newly granted perms,
-                    // avoiding duplicates
-                    synchronized (newPerms) {
-                        e = newPerms.elements();
-                        while (e.hasMoreElements()) {
-                            Permission newPerm = e.nextElement();
-                            if (!perms.implies(newPerm)) {
-                                perms.add(newPerm);
-                                if (debug != null)
-                                    debug.println (
-                                        "Adding perm " + newPerm + "\n");
+                    // bdd tif nfwly grbntfd pfrms,
+                    // bvoiding duplidbtfs
+                    syndironizfd (nfwPfrms) {
+                        f = nfwPfrms.flfmfnts();
+                        wiilf (f.ibsMorfElfmfnts()) {
+                            Pfrmission nfwPfrm = f.nfxtElfmfnt();
+                            if (!pfrms.implifs(nfwPfrm)) {
+                                pfrms.bdd(nfwPfrm);
+                                if (dfbug != null)
+                                    dfbug.println (
+                                        "Adding pfrm " + nfwPfrm + "\n");
                             }
                         }
                     }
-                    subjectPd = new ProtectionDomain
-                        (finalCs, perms, pd.getClassLoader(), principals);
+                    subjfdtPd = nfw ProtfdtionDombin
+                        (finblCs, pfrms, pd.gftClbssLobdfr(), prindipbls);
 
-                    if (allowCaching)
-                        cachedPDs.putValue(pd, subjectPd);
+                    if (bllowCbdiing)
+                        dbdifdPDs.putVbluf(pd, subjfdtPd);
                 }
-                newDomains[i] = subjectPd;
+                nfwDombins[i] = subjfdtPd;
             }
         }
 
-        if (debug != null) {
-            debug.println("updated current: ");
-            for (int i = 0; i < cLen; i++) {
-                debug.println("\tupdated[" + i + "] = " + newDomains[i]);
+        if (dfbug != null) {
+            dfbug.println("updbtfd durrfnt: ");
+            for (int i = 0; i < dLfn; i++) {
+                dfbug.println("\tupdbtfd[" + i + "] = " + nfwDombins[i]);
             }
         }
 
-        // now add on the assigned domains
-        if (aLen > 0) {
-            System.arraycopy(assignedDomains, 0, newDomains, cLen, aLen);
+        // now bdd on tif bssignfd dombins
+        if (bLfn > 0) {
+            Systfm.brrbydopy(bssignfdDombins, 0, nfwDombins, dLfn, bLfn);
         }
 
-        if (debug != null) {
-            if (newDomains == null || newDomains.length == 0) {
-                debug.println("returning null");
-            } else {
-                debug.println("combinedDomains: ");
-                for (int i = 0; i < newDomains.length; i++) {
-                    debug.println("newDomain " + i + ": " +
-                        newDomains[i].toString());
+        if (dfbug != null) {
+            if (nfwDombins == null || nfwDombins.lfngti == 0) {
+                dfbug.println("rfturning null");
+            } flsf {
+                dfbug.println("dombinfdDombins: ");
+                for (int i = 0; i < nfwDombins.lfngti; i++) {
+                    dfbug.println("nfwDombin " + i + ": " +
+                        nfwDombins[i].toString());
                 }
             }
         }
 
-        // return the new ProtectionDomains
-        if (newDomains == null || newDomains.length == 0) {
-            return null;
-        } else {
-            return newDomains;
+        // rfturn tif nfw ProtfdtionDombins
+        if (nfwDombins == null || nfwDombins.lfngti == 0) {
+            rfturn null;
+        } flsf {
+            rfturn nfwDombins;
         }
     }
 
-    private static ProtectionDomain[] optimize(ProtectionDomain[] domains) {
-        if (domains == null || domains.length == 0)
-            return null;
+    privbtf stbtid ProtfdtionDombin[] optimizf(ProtfdtionDombin[] dombins) {
+        if (dombins == null || dombins.lfngti == 0)
+            rfturn null;
 
-        ProtectionDomain[] optimized = new ProtectionDomain[domains.length];
-        ProtectionDomain pd;
+        ProtfdtionDombin[] optimizfd = nfw ProtfdtionDombin[dombins.lfngti];
+        ProtfdtionDombin pd;
         int num = 0;
-        for (int i = 0; i < domains.length; i++) {
+        for (int i = 0; i < dombins.lfngti; i++) {
 
-            // skip domains with AllPermission
+            // skip dombins witi AllPfrmission
             // XXX
             //
-            //  if (domains[i].implies(ALL_PERMISSION))
-            //  continue;
+            //  if (dombins[i].implifs(ALL_PERMISSION))
+            //  dontinuf;
 
-            // skip System Domains
-            if ((pd = domains[i]) != null) {
+            // skip Systfm Dombins
+            if ((pd = dombins[i]) != null) {
 
-                // remove duplicates
-                boolean found = false;
+                // rfmovf duplidbtfs
+                boolfbn found = fblsf;
                 for (int j = 0; j < num && !found; j++) {
-                    found = (optimized[j] == pd);
+                    found = (optimizfd[j] == pd);
                 }
                 if (!found) {
-                    optimized[num++] = pd;
+                    optimizfd[num++] = pd;
                 }
             }
         }
 
-        // resize the array if necessary
-        if (num > 0 && num < domains.length) {
-            ProtectionDomain[] downSize = new ProtectionDomain[num];
-            System.arraycopy(optimized, 0, downSize, 0, downSize.length);
-            optimized = downSize;
+        // rfsizf tif brrby if nfdfssbry
+        if (num > 0 && num < dombins.lfngti) {
+            ProtfdtionDombin[] downSizf = nfw ProtfdtionDombin[num];
+            Systfm.brrbydopy(optimizfd, 0, downSizf, 0, downSizf.lfngti);
+            optimizfd = downSizf;
         }
 
-        return ((num == 0 || optimized.length == 0) ? null : optimized);
+        rfturn ((num == 0 || optimizfd.lfngti == 0) ? null : optimizfd);
     }
 
-    private static boolean cachePolicy() {
-        String s = AccessController.doPrivileged
-            (new PrivilegedAction<String>() {
-            public String run() {
-                return Security.getProperty("cache.auth.policy");
+    privbtf stbtid boolfbn dbdifPolidy() {
+        String s = AddfssControllfr.doPrivilfgfd
+            (nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("dbdif.buti.polidy");
             }
         });
         if (s != null) {
-            return Boolean.parseBoolean(s);
+            rfturn Boolfbn.pbrsfBoolfbn(s);
         }
 
-        // cache by default
-        return true;
+        // dbdif by dffbult
+        rfturn truf;
     }
 
-    private static void printInputDomains(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains) {
-        if (currentDomains == null || currentDomains.length == 0) {
-            debug.println("currentDomains null or 0 length");
-        } else {
-            for (int i = 0; currentDomains != null &&
-                        i < currentDomains.length; i++) {
-                if (currentDomains[i] == null) {
-                    debug.println("currentDomain " + i + ": SystemDomain");
-                } else {
-                    debug.println("currentDomain " + i + ": " +
-                                printDomain(currentDomains[i]));
+    privbtf stbtid void printInputDombins(ProtfdtionDombin[] durrfntDombins,
+                                ProtfdtionDombin[] bssignfdDombins) {
+        if (durrfntDombins == null || durrfntDombins.lfngti == 0) {
+            dfbug.println("durrfntDombins null or 0 lfngti");
+        } flsf {
+            for (int i = 0; durrfntDombins != null &&
+                        i < durrfntDombins.lfngti; i++) {
+                if (durrfntDombins[i] == null) {
+                    dfbug.println("durrfntDombin " + i + ": SystfmDombin");
+                } flsf {
+                    dfbug.println("durrfntDombin " + i + ": " +
+                                printDombin(durrfntDombins[i]));
                 }
             }
         }
 
-        if (assignedDomains == null || assignedDomains.length == 0) {
-            debug.println("assignedDomains null or 0 length");
-        } else {
-            debug.println("assignedDomains = ");
-            for (int i = 0; assignedDomains != null &&
-                        i < assignedDomains.length; i++) {
-                if (assignedDomains[i] == null) {
-                    debug.println("assignedDomain " + i + ": SystemDomain");
-                } else {
-                    debug.println("assignedDomain " + i + ": " +
-                                printDomain(assignedDomains[i]));
+        if (bssignfdDombins == null || bssignfdDombins.lfngti == 0) {
+            dfbug.println("bssignfdDombins null or 0 lfngti");
+        } flsf {
+            dfbug.println("bssignfdDombins = ");
+            for (int i = 0; bssignfdDombins != null &&
+                        i < bssignfdDombins.lfngti; i++) {
+                if (bssignfdDombins[i] == null) {
+                    dfbug.println("bssignfdDombin " + i + ": SystfmDombin");
+                } flsf {
+                    dfbug.println("bssignfdDombin " + i + ": " +
+                                printDombin(bssignfdDombins[i]));
                 }
             }
         }
     }
 
-    private static String printDomain(final ProtectionDomain pd) {
+    privbtf stbtid String printDombin(finbl ProtfdtionDombin pd) {
         if (pd == null) {
-            return "null";
+            rfturn "null";
         }
-        return AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                return pd.toString();
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn pd.toString();
             }
         });
     }
 
     /**
-     * A HashMap that has weak keys and values.
+     * A HbsiMbp tibt ibs wfbk kfys bnd vblufs.
      *
-     * Key objects in this map are the "current" ProtectionDomain instances
-     * received via the combine method.  Each "current" PD is mapped to a
-     * new PD instance that holds both the contents of the "current" PD,
-     * as well as the principals from the Subject associated with this combiner.
+     * Kfy objfdts in tiis mbp brf tif "durrfnt" ProtfdtionDombin instbndfs
+     * rfdfivfd vib tif dombinf mftiod.  Ebdi "durrfnt" PD is mbppfd to b
+     * nfw PD instbndf tibt iolds boti tif dontfnts of tif "durrfnt" PD,
+     * bs wfll bs tif prindipbls from tif Subjfdt bssodibtfd witi tiis dombinfr.
      *
-     * The newly created "principal-based" PD values must be stored as
-     * WeakReferences since they contain strong references to the
-     * corresponding key object (the "current" non-principal-based PD),
-     * which will prevent the key from being GC'd.  Specifically,
-     * a "principal-based" PD contains strong references to the CodeSource,
-     * signer certs, PermissionCollection and ClassLoader objects
-     * in the "current PD".
+     * Tif nfwly drfbtfd "prindipbl-bbsfd" PD vblufs must bf storfd bs
+     * WfbkRfffrfndfs sindf tify dontbin strong rfffrfndfs to tif
+     * dorrfsponding kfy objfdt (tif "durrfnt" non-prindipbl-bbsfd PD),
+     * wiidi will prfvfnt tif kfy from bfing GC'd.  Spfdifidblly,
+     * b "prindipbl-bbsfd" PD dontbins strong rfffrfndfs to tif CodfSourdf,
+     * signfr dfrts, PfrmissionCollfdtion bnd ClbssLobdfr objfdts
+     * in tif "durrfnt PD".
      */
-    private static class WeakKeyValueMap<K,V> extends
-                                        WeakHashMap<K,WeakReference<V>> {
+    privbtf stbtid dlbss WfbkKfyVblufMbp<K,V> fxtfnds
+                                        WfbkHbsiMbp<K,WfbkRfffrfndf<V>> {
 
-        public V getValue(K key) {
-            WeakReference<V> wr = super.get(key);
+        publid V gftVbluf(K kfy) {
+            WfbkRfffrfndf<V> wr = supfr.gft(kfy);
             if (wr != null) {
-                return wr.get();
+                rfturn wr.gft();
             }
-            return null;
+            rfturn null;
         }
 
-        public V putValue(K key, V value) {
-            WeakReference<V> wr = super.put(key, new WeakReference<V>(value));
+        publid V putVbluf(K kfy, V vbluf) {
+            WfbkRfffrfndf<V> wr = supfr.put(kfy, nfw WfbkRfffrfndf<V>(vbluf));
             if (wr != null) {
-                return wr.get();
+                rfturn wr.gft();
             }
-            return null;
+            rfturn null;
         }
     }
 }

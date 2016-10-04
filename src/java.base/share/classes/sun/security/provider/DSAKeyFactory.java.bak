@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.KeyFactorySpi;
-import java.security.InvalidKeyException;
-import java.security.AccessController;
-import java.security.interfaces.DSAParams;
-import java.security.spec.DSAPublicKeySpec;
-import java.security.spec.DSAPrivateKeySpec;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.KfyFbdtorySpi;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+import jbvb.sfdurity.spfd.DSAPublidKfySpfd;
+import jbvb.sfdurity.spfd.DSAPrivbtfKfySpfd;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
 
-import sun.security.action.GetPropertyAction;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * This class implements the DSA key factory of the Sun provider.
+ * Tiis dlbss implfmfnts tif DSA kfy fbdtory of tif Sun providfr.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DSAKeyFactory extends KeyFactorySpi {
+publid dlbss DSAKfyFbdtory fxtfnds KfyFbdtorySpi {
 
-    // package private for DSAKeyPairGenerator
-    static final boolean SERIAL_INTEROP;
-    private static final String SERIAL_PROP = "sun.security.key.serial.interop";
+    // pbdkbgf privbtf for DSAKfyPbirGfnfrbtor
+    stbtid finbl boolfbn SERIAL_INTEROP;
+    privbtf stbtid finbl String SERIAL_PROP = "sun.sfdurity.kfy.sfribl.intfrop";
 
-    static {
+    stbtid {
 
         /**
-         * Check to see if we need to maintain interoperability for serialized
-         * keys between JDK 5.0 -> JDK 1.4.  In other words, determine whether
-         * a key object serialized in JDK 5.0 must be deserializable in
+         * Cifdk to sff if wf nffd to mbintbin intfropfrbbility for sfriblizfd
+         * kfys bftwffn JDK 5.0 -> JDK 1.4.  In otifr words, dftfrminf wiftifr
+         * b kfy objfdt sfriblizfd in JDK 5.0 must bf dfsfriblizbblf in
          * JDK 1.4.
          *
-         * If true, then we generate sun.security.provider.DSAPublicKey.
-         * If false, then we generate sun.security.provider.DSAPublicKeyImpl.
+         * If truf, tifn wf gfnfrbtf sun.sfdurity.providfr.DSAPublidKfy.
+         * If fblsf, tifn wf gfnfrbtf sun.sfdurity.providfr.DSAPublidKfyImpl.
          *
-         * By default this is false.
-         * This incompatibility was introduced by 4532506.
+         * By dffbult tiis is fblsf.
+         * Tiis indompbtibility wbs introdudfd by 4532506.
          */
-        String prop = AccessController.doPrivileged
-                (new GetPropertyAction(SERIAL_PROP, null));
-        SERIAL_INTEROP = "true".equalsIgnoreCase(prop);
+        String prop = AddfssControllfr.doPrivilfgfd
+                (nfw GftPropfrtyAdtion(SERIAL_PROP, null));
+        SERIAL_INTEROP = "truf".fqublsIgnorfCbsf(prop);
     }
 
     /**
-     * Generates a public key object from the provided key specification
-     * (key material).
+     * Gfnfrbtfs b publid kfy objfdt from tif providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the public key
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif publid kfy
      *
-     * @return the public key
+     * @rfturn tif publid kfy
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b publid kfy.
      */
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-    throws InvalidKeySpecException {
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+    tirows InvblidKfySpfdExdfption {
         try {
-            if (keySpec instanceof DSAPublicKeySpec) {
-                DSAPublicKeySpec dsaPubKeySpec = (DSAPublicKeySpec)keySpec;
+            if (kfySpfd instbndfof DSAPublidKfySpfd) {
+                DSAPublidKfySpfd dsbPubKfySpfd = (DSAPublidKfySpfd)kfySpfd;
                 if (SERIAL_INTEROP) {
-                    return new DSAPublicKey(dsaPubKeySpec.getY(),
-                                        dsaPubKeySpec.getP(),
-                                        dsaPubKeySpec.getQ(),
-                                        dsaPubKeySpec.getG());
-                } else {
-                    return new DSAPublicKeyImpl(dsaPubKeySpec.getY(),
-                                        dsaPubKeySpec.getP(),
-                                        dsaPubKeySpec.getQ(),
-                                        dsaPubKeySpec.getG());
+                    rfturn nfw DSAPublidKfy(dsbPubKfySpfd.gftY(),
+                                        dsbPubKfySpfd.gftP(),
+                                        dsbPubKfySpfd.gftQ(),
+                                        dsbPubKfySpfd.gftG());
+                } flsf {
+                    rfturn nfw DSAPublidKfyImpl(dsbPubKfySpfd.gftY(),
+                                        dsbPubKfySpfd.gftP(),
+                                        dsbPubKfySpfd.gftQ(),
+                                        dsbPubKfySpfd.gftG());
                 }
-            } else if (keySpec instanceof X509EncodedKeySpec) {
+            } flsf if (kfySpfd instbndfof X509EndodfdKfySpfd) {
                 if (SERIAL_INTEROP) {
-                    return new DSAPublicKey
-                        (((X509EncodedKeySpec)keySpec).getEncoded());
-                } else {
-                    return new DSAPublicKeyImpl
-                        (((X509EncodedKeySpec)keySpec).getEncoded());
+                    rfturn nfw DSAPublidKfy
+                        (((X509EndodfdKfySpfd)kfySpfd).gftEndodfd());
+                } flsf {
+                    rfturn nfw DSAPublidKfyImpl
+                        (((X509EndodfdKfySpfd)kfySpfd).gftEndodfd());
                 }
-            } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification: " + e.getMessage());
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Inbppropribtf kfy spfdifidbtion: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Generates a private key object from the provided key specification
-     * (key material).
+     * Gfnfrbtfs b privbtf kfy objfdt from tif providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the private key
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif privbtf kfy
      *
-     * @return the private key
+     * @rfturn tif privbtf kfy
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a private key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b privbtf kfy.
      */
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-    throws InvalidKeySpecException {
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+    tirows InvblidKfySpfdExdfption {
         try {
-            if (keySpec instanceof DSAPrivateKeySpec) {
-                DSAPrivateKeySpec dsaPrivKeySpec = (DSAPrivateKeySpec)keySpec;
-                return new DSAPrivateKey(dsaPrivKeySpec.getX(),
-                                         dsaPrivKeySpec.getP(),
-                                         dsaPrivKeySpec.getQ(),
-                                         dsaPrivKeySpec.getG());
+            if (kfySpfd instbndfof DSAPrivbtfKfySpfd) {
+                DSAPrivbtfKfySpfd dsbPrivKfySpfd = (DSAPrivbtfKfySpfd)kfySpfd;
+                rfturn nfw DSAPrivbtfKfy(dsbPrivKfySpfd.gftX(),
+                                         dsbPrivKfySpfd.gftP(),
+                                         dsbPrivKfySpfd.gftQ(),
+                                         dsbPrivKfySpfd.gftG());
 
-            } else if (keySpec instanceof PKCS8EncodedKeySpec) {
-                return new DSAPrivateKey
-                    (((PKCS8EncodedKeySpec)keySpec).getEncoded());
+            } flsf if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+                rfturn nfw DSAPrivbtfKfy
+                    (((PKCS8EndodfdKfySpfd)kfySpfd).gftEndodfd());
 
-            } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification: " + e.getMessage());
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Inbppropribtf kfy spfdifidbtion: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Returns a specification (key material) of the given key object
-     * in the requested format.
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of tif givfn kfy objfdt
+     * in tif rfqufstfd formbt.
      *
-     * @param key the key
+     * @pbrbm kfy tif kfy
      *
-     * @param keySpec the requested format in which the key material shall be
-     * returned
+     * @pbrbm kfySpfd tif rfqufstfd formbt in wiidi tif kfy mbtfribl sibll bf
+     * rfturnfd
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @rfturn tif undfrlying kfy spfdifidbtion (kfy mbtfribl) in tif
+     * rfqufstfd formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @fxdfption InvblidKfySpfdExdfption if tif rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for tif givfn kfy, or tif givfn kfy dbnnot bf prodfssfd
+     * (f.g., tif givfn kfy ibs bn unrfdognizfd blgoritim or formbt).
      */
-    protected <T extends KeySpec>
-        T engineGetKeySpec(Key key, Class<T> keySpec)
-    throws InvalidKeySpecException {
+    protfdtfd <T fxtfnds KfySpfd>
+        T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+    tirows InvblidKfySpfdExdfption {
 
-        DSAParams params;
+        DSAPbrbms pbrbms;
 
         try {
 
-            if (key instanceof java.security.interfaces.DSAPublicKey) {
+            if (kfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPublidKfy) {
 
-                // Determine valid key specs
-                Class<?> dsaPubKeySpec = Class.forName
-                    ("java.security.spec.DSAPublicKeySpec");
-                Class<?> x509KeySpec = Class.forName
-                    ("java.security.spec.X509EncodedKeySpec");
+                // Dftfrminf vblid kfy spfds
+                Clbss<?> dsbPubKfySpfd = Clbss.forNbmf
+                    ("jbvb.sfdurity.spfd.DSAPublidKfySpfd");
+                Clbss<?> x509KfySpfd = Clbss.forNbmf
+                    ("jbvb.sfdurity.spfd.X509EndodfdKfySpfd");
 
-                if (dsaPubKeySpec.isAssignableFrom(keySpec)) {
-                    java.security.interfaces.DSAPublicKey dsaPubKey
-                        = (java.security.interfaces.DSAPublicKey)key;
-                    params = dsaPubKey.getParams();
-                    return keySpec.cast(new DSAPublicKeySpec(dsaPubKey.getY(),
-                                                             params.getP(),
-                                                             params.getQ(),
-                                                             params.getG()));
+                if (dsbPubKfySpfd.isAssignbblfFrom(kfySpfd)) {
+                    jbvb.sfdurity.intfrfbdfs.DSAPublidKfy dsbPubKfy
+                        = (jbvb.sfdurity.intfrfbdfs.DSAPublidKfy)kfy;
+                    pbrbms = dsbPubKfy.gftPbrbms();
+                    rfturn kfySpfd.dbst(nfw DSAPublidKfySpfd(dsbPubKfy.gftY(),
+                                                             pbrbms.gftP(),
+                                                             pbrbms.gftQ(),
+                                                             pbrbms.gftG()));
 
-                } else if (x509KeySpec.isAssignableFrom(keySpec)) {
-                    return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
+                } flsf if (x509KfySpfd.isAssignbblfFrom(kfySpfd)) {
+                    rfturn kfySpfd.dbst(nfw X509EndodfdKfySpfd(kfy.gftEndodfd()));
 
-                } else {
-                    throw new InvalidKeySpecException
-                        ("Inappropriate key specification");
+                } flsf {
+                    tirow nfw InvblidKfySpfdExdfption
+                        ("Inbppropribtf kfy spfdifidbtion");
                 }
 
-            } else if (key instanceof java.security.interfaces.DSAPrivateKey) {
+            } flsf if (kfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy) {
 
-                // Determine valid key specs
-                Class<?> dsaPrivKeySpec = Class.forName
-                    ("java.security.spec.DSAPrivateKeySpec");
-                Class<?> pkcs8KeySpec = Class.forName
-                    ("java.security.spec.PKCS8EncodedKeySpec");
+                // Dftfrminf vblid kfy spfds
+                Clbss<?> dsbPrivKfySpfd = Clbss.forNbmf
+                    ("jbvb.sfdurity.spfd.DSAPrivbtfKfySpfd");
+                Clbss<?> pkds8KfySpfd = Clbss.forNbmf
+                    ("jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd");
 
-                if (dsaPrivKeySpec.isAssignableFrom(keySpec)) {
-                    java.security.interfaces.DSAPrivateKey dsaPrivKey
-                        = (java.security.interfaces.DSAPrivateKey)key;
-                    params = dsaPrivKey.getParams();
-                    return keySpec.cast(new DSAPrivateKeySpec(dsaPrivKey.getX(),
-                                                              params.getP(),
-                                                              params.getQ(),
-                                                              params.getG()));
+                if (dsbPrivKfySpfd.isAssignbblfFrom(kfySpfd)) {
+                    jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy dsbPrivKfy
+                        = (jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy)kfy;
+                    pbrbms = dsbPrivKfy.gftPbrbms();
+                    rfturn kfySpfd.dbst(nfw DSAPrivbtfKfySpfd(dsbPrivKfy.gftX(),
+                                                              pbrbms.gftP(),
+                                                              pbrbms.gftQ(),
+                                                              pbrbms.gftG()));
 
-                } else if (pkcs8KeySpec.isAssignableFrom(keySpec)) {
-                    return keySpec.cast(new PKCS8EncodedKeySpec(key.getEncoded()));
+                } flsf if (pkds8KfySpfd.isAssignbblfFrom(kfySpfd)) {
+                    rfturn kfySpfd.dbst(nfw PKCS8EndodfdKfySpfd(kfy.gftEndodfd()));
 
-                } else {
-                    throw new InvalidKeySpecException
-                        ("Inappropriate key specification");
+                } flsf {
+                    tirow nfw InvblidKfySpfdExdfption
+                        ("Inbppropribtf kfy spfdifidbtion");
                 }
 
-            } else {
-                throw new InvalidKeySpecException("Inappropriate key type");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption("Inbppropribtf kfy typf");
             }
 
-        } catch (ClassNotFoundException e) {
-            throw new InvalidKeySpecException
-                ("Unsupported key specification: " + e.getMessage());
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Unsupportfd kfy spfdifidbtion: " + f.gftMfssbgf());
         }
     }
 
     /**
-     * Translates a key object, whose provider may be unknown or potentially
-     * untrusted, into a corresponding key object of this key factory.
+     * Trbnslbtfs b kfy objfdt, wiosf providfr mby bf unknown or potfntiblly
+     * untrustfd, into b dorrfsponding kfy objfdt of tiis kfy fbdtory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm kfy tif kfy wiosf providfr is unknown or untrustfd
      *
-     * @return the translated key
+     * @rfturn tif trbnslbtfd kfy
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy dbnnot bf prodfssfd by
+     * tiis kfy fbdtory.
      */
-    protected Key engineTranslateKey(Key key) throws InvalidKeyException {
+    protfdtfd Kfy fnginfTrbnslbtfKfy(Kfy kfy) tirows InvblidKfyExdfption {
 
         try {
 
-            if (key instanceof java.security.interfaces.DSAPublicKey) {
-                // Check if key originates from this factory
-                if (key instanceof sun.security.provider.DSAPublicKey) {
-                    return key;
+            if (kfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPublidKfy) {
+                // Cifdk if kfy originbtfs from tiis fbdtory
+                if (kfy instbndfof sun.sfdurity.providfr.DSAPublidKfy) {
+                    rfturn kfy;
                 }
-                // Convert key to spec
-                DSAPublicKeySpec dsaPubKeySpec
-                    = engineGetKeySpec(key, DSAPublicKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePublic(dsaPubKeySpec);
+                // Convfrt kfy to spfd
+                DSAPublidKfySpfd dsbPubKfySpfd
+                    = fnginfGftKfySpfd(kfy, DSAPublidKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfPublid(dsbPubKfySpfd);
 
-            } else if (key instanceof java.security.interfaces.DSAPrivateKey) {
-                // Check if key originates from this factory
-                if (key instanceof sun.security.provider.DSAPrivateKey) {
-                    return key;
+            } flsf if (kfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy) {
+                // Cifdk if kfy originbtfs from tiis fbdtory
+                if (kfy instbndfof sun.sfdurity.providfr.DSAPrivbtfKfy) {
+                    rfturn kfy;
                 }
-                // Convert key to spec
-                DSAPrivateKeySpec dsaPrivKeySpec
-                    = engineGetKeySpec(key, DSAPrivateKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePrivate(dsaPrivKeySpec);
+                // Convfrt kfy to spfd
+                DSAPrivbtfKfySpfd dsbPrivKfySpfd
+                    = fnginfGftKfySpfd(kfy, DSAPrivbtfKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfPrivbtf(dsbPrivKfySpfd);
 
-            } else {
-                throw new InvalidKeyException("Wrong algorithm type");
+            } flsf {
+                tirow nfw InvblidKfyExdfption("Wrong blgoritim typf");
             }
 
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException("Cannot translate key: "
-                                          + e.getMessage());
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            tirow nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy: "
+                                          + f.gftMfssbgf());
         }
     }
 }

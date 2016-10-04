@@ -1,458 +1,458 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.algorithms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
 
-import java.security.Key;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.IntegrityHmac;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureBaseRSA;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureDSA;
-import com.sun.org.apache.xml.internal.security.algorithms.implementations.SignatureECDSA;
-import com.sun.org.apache.xml.internal.security.exceptions.AlgorithmAlreadyRegisteredException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignature;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.IntfgrityHmbd;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfBbsfRSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.AlgoritimAlrfbdyRfgistfrfdExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Allows selection of digital signature's algorithm, private keys, other
- * security parameters, and algorithm's ID.
+ * Allows sflfdtion of digitbl signbturf's blgoritim, privbtf kfys, otifr
+ * sfdurity pbrbmftfrs, bnd blgoritim's ID.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class SignatureAlgorithm extends Algorithm {
+publid dlbss SignbturfAlgoritim fxtfnds Algoritim {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SignatureAlgorithm.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfAlgoritim.dlbss.gftNbmf());
 
-    /** All available algorithm classes are registered here */
-    private static Map<String, Class<? extends SignatureAlgorithmSpi>> algorithmHash =
-        new ConcurrentHashMap<String, Class<? extends SignatureAlgorithmSpi>>();
+    /** All bvbilbblf blgoritim dlbssfs brf rfgistfrfd ifrf */
+    privbtf stbtid Mbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>> blgoritimHbsi =
+        nfw CondurrfntHbsiMbp<String, Clbss<? fxtfnds SignbturfAlgoritimSpi>>();
 
-    /** Field signatureAlgorithm */
-    private final SignatureAlgorithmSpi signatureAlgorithm;
+    /** Fifld signbturfAlgoritim */
+    privbtf finbl SignbturfAlgoritimSpi signbturfAlgoritim;
 
-    private final String algorithmURI;
+    privbtf finbl String blgoritimURI;
 
     /**
-     * Constructor SignatureAlgorithm
+     * Construdtor SignbturfAlgoritim
      *
-     * @param doc
-     * @param algorithmURI
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
+     * @tirows XMLSfdurityExdfption
      */
-    public SignatureAlgorithm(Document doc, String algorithmURI) throws XMLSecurityException {
-        super(doc, algorithmURI);
-        this.algorithmURI = algorithmURI;
+    publid SignbturfAlgoritim(Dodumfnt dod, String blgoritimURI) tirows XMLSfdurityExdfption {
+        supfr(dod, blgoritimURI);
+        tiis.blgoritimURI = blgoritimURI;
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Construdtor SignbturfAlgoritim
      *
-     * @param doc
-     * @param algorithmURI
-     * @param hmacOutputLength
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
+     * @pbrbm imbdOutputLfngti
+     * @tirows XMLSfdurityExdfption
      */
-    public SignatureAlgorithm(
-        Document doc, String algorithmURI, int hmacOutputLength
-    ) throws XMLSecurityException {
-        super(doc, algorithmURI);
-        this.algorithmURI = algorithmURI;
+    publid SignbturfAlgoritim(
+        Dodumfnt dod, String blgoritimURI, int imbdOutputLfngti
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod, blgoritimURI);
+        tiis.blgoritimURI = blgoritimURI;
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
 
-        signatureAlgorithm.engineSetHMACOutputLength(hmacOutputLength);
-        ((IntegrityHmac)signatureAlgorithm).engineAddContextToElement(constructionElement);
+        signbturfAlgoritim.fnginfSftHMACOutputLfngti(imbdOutputLfngti);
+        ((IntfgrityHmbd)signbturfAlgoritim).fnginfAddContfxtToElfmfnt(donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Construdtor SignbturfAlgoritim
      *
-     * @param element
-     * @param baseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public SignatureAlgorithm(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    publid SignbturfAlgoritim(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        tiis(flfmfnt, bbsfURI, fblsf);
     }
 
     /**
-     * Constructor SignatureAlgorithm
+     * Construdtor SignbturfAlgoritim
      *
-     * @param element
-     * @param baseURI
-     * @param secureValidation
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm sfdurfVblidbtion
+     * @tirows XMLSfdurityExdfption
      */
-    public SignatureAlgorithm(
-        Element element, String baseURI, boolean secureValidation
-    ) throws XMLSecurityException {
-        super(element, baseURI);
-        algorithmURI = this.getURI();
+    publid SignbturfAlgoritim(
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
+        blgoritimURI = tiis.gftURI();
 
-        Attr attr = element.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            element.setIdAttributeNode(attr, true);
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
         }
 
-        if (secureValidation && (XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.equals(algorithmURI)
-            || XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.equals(algorithmURI))) {
-            Object exArgs[] = { algorithmURI };
+        if (sfdurfVblidbtion && (XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.fqubls(blgoritimURI)
+            || XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.fqubls(blgoritimURI))) {
+            Objfdt fxArgs[] = { blgoritimURI };
 
-            throw new XMLSecurityException("signature.signatureAlgorithm", exArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.signbturfAlgoritim", fxArgs);
         }
 
-        signatureAlgorithm = getSignatureAlgorithmSpi(algorithmURI);
-        signatureAlgorithm.engineGetContextFromElement(this.constructionElement);
+        signbturfAlgoritim = gftSignbturfAlgoritimSpi(blgoritimURI);
+        signbturfAlgoritim.fnginfGftContfxtFromElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Get a SignatureAlgorithmSpi object corresponding to the algorithmURI argument
+     * Gft b SignbturfAlgoritimSpi objfdt dorrfsponding to tif blgoritimURI brgumfnt
      */
-    private static SignatureAlgorithmSpi getSignatureAlgorithmSpi(String algorithmURI)
-        throws XMLSignatureException {
+    privbtf stbtid SignbturfAlgoritimSpi gftSignbturfAlgoritimSpi(String blgoritimURI)
+        tirows XMLSignbturfExdfption {
         try {
-            Class<? extends SignatureAlgorithmSpi> implementingClass =
-                algorithmHash.get(algorithmURI);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Create URI \"" + algorithmURI + "\" class \""
-                   + implementingClass + "\"");
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss =
+                blgoritimHbsi.gft(blgoritimURI);
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtf URI \"" + blgoritimURI + "\" dlbss \""
+                   + implfmfntingClbss + "\"");
             }
-            return implementingClass.newInstance();
-        }  catch (IllegalAccessException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
-        } catch (InstantiationException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
-        } catch (NullPointerException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
+            rfturn implfmfntingClbss.nfwInstbndf();
+        }  dbtdi (IllfgblAddfssExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        } dbtdi (InstbntibtionExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
+        } dbtdi (NullPointfrExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
         }
     }
 
 
     /**
-     * Proxy method for {@link java.security.Signature#sign()}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @return the result of the {@link java.security.Signature#sign()} method
-     * @throws XMLSignatureException
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @tirows XMLSignbturfExdfption
      */
-    public byte[] sign() throws XMLSignatureException {
-        return signatureAlgorithm.engineSign();
+    publid bytf[] sign() tirows XMLSignbturfExdfption {
+        rfturn signbturfAlgoritim.fnginfSign();
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#getAlgorithm}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @return the result of the {@link java.security.Signature#getAlgorithm} method
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
      */
-    public String getJCEAlgorithmString() {
-        return signatureAlgorithm.engineGetJCEAlgorithmString();
+    publid String gftJCEAlgoritimString() {
+        rfturn signbturfAlgoritim.fnginfGftJCEAlgoritimString();
     }
 
     /**
-     * Method getJCEProviderName
+     * Mftiod gftJCEProvidfrNbmf
      *
-     * @return The Provider of this Signature Algorithm
+     * @rfturn Tif Providfr of tiis Signbturf Algoritim
      */
-    public String getJCEProviderName() {
-        return signatureAlgorithm.engineGetJCEProviderName();
+    publid String gftJCEProvidfrNbmf() {
+        rfturn signbturfAlgoritim.fnginfGftJCEProvidfrNbmf();
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
      */
-    public void update(byte[] input) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(input);
+    publid void updbtf(bytf[] input) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(input);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
      */
-    public void update(byte input) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(input);
+    publid void updbtf(bytf input) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(input);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[], int, int)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param buf
-     * @param offset
-     * @param len
-     * @throws XMLSignatureException
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     * @tirows XMLSignbturfExdfption
      */
-    public void update(byte buf[], int offset, int len) throws XMLSignatureException {
-        signatureAlgorithm.engineUpdate(buf, offset, len);
+    publid void updbtf(bytf buf[], int offsft, int lfn) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfUpdbtf(buf, offsft, lfn);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @throws XMLSignatureException
+     * @pbrbm signingKfy
+     * @tirows XMLSignbturfExdfption
      */
-    public void initSign(Key signingKey) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey);
+    publid void initSign(Kfy signingKfy) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey,
-     * java.security.SecureRandom)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @param secureRandom
-     * @throws XMLSignatureException
+     * @pbrbm signingKfy
+     * @pbrbm sfdurfRbndom
+     * @tirows XMLSignbturfExdfption
      */
-    public void initSign(Key signingKey, SecureRandom secureRandom) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey, secureRandom);
+    publid void initSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy, sfdurfRbndom);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @param algorithmParameterSpec
-     * @throws XMLSignatureException
+     * @pbrbm signingKfy
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @tirows XMLSignbturfExdfption
      */
-    public void initSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException {
-        signatureAlgorithm.engineInitSign(signingKey, algorithmParameterSpec);
+    publid void initSign(
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+    ) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitSign(signingKfy, blgoritimPbrbmftfrSpfd);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#setParameter(
-     * java.security.spec.AlgorithmParameterSpec)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param params
-     * @throws XMLSignatureException
+     * @pbrbm pbrbms
+     * @tirows XMLSignbturfExdfption
      */
-    public void setParameter(AlgorithmParameterSpec params) throws XMLSignatureException {
-        signatureAlgorithm.engineSetParameter(params);
+    publid void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfSftPbrbmftfr(pbrbms);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#initVerify(java.security.PublicKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initVfrify(jbvb.sfdurity.PublidKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param verificationKey
-     * @throws XMLSignatureException
+     * @pbrbm vfrifidbtionKfy
+     * @tirows XMLSignbturfExdfption
      */
-    public void initVerify(Key verificationKey) throws XMLSignatureException {
-        signatureAlgorithm.engineInitVerify(verificationKey);
+    publid void initVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption {
+        signbturfAlgoritim.fnginfInitVfrify(vfrifidbtionKfy);
     }
 
     /**
-     * Proxy method for {@link java.security.Signature#verify(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signature
-     * @return true if the signature is valid.
+     * @pbrbm signbturf
+     * @rfturn truf if tif signbturf is vblid.
      *
-     * @throws XMLSignatureException
+     * @tirows XMLSignbturfExdfption
      */
-    public boolean verify(byte[] signature) throws XMLSignatureException {
-        return signatureAlgorithm.engineVerify(signature);
+    publid boolfbn vfrify(bytf[] signbturf) tirows XMLSignbturfExdfption {
+        rfturn signbturfAlgoritim.fnginfVfrify(signbturf);
     }
 
     /**
-     * Returns the URI representation of Transformation algorithm
+     * Rfturns tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
      *
-     * @return the URI representation of Transformation algorithm
+     * @rfturn tif URI rfprfsfntbtion of Trbnsformbtion blgoritim
      */
-    public final String getURI() {
-        return constructionElement.getAttributeNS(null, Constants._ATT_ALGORITHM);
+    publid finbl String gftURI() {
+        rfturn donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>.
-     * @param implementingClass <code>implementingClass</code> the implementing class of
-     * {@link SignatureAlgorithmSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI is already registered
-     * @throws XMLSignatureException
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * {@link SignbturfAlgoritimSpi}
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows XMLSignbturfExdfption
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String algorithmURI, String implementingClass)
-       throws AlgorithmAlreadyRegisteredException, ClassNotFoundException,
-           XMLSignatureException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Try to register " + algorithmURI + " " + implementingClass);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void rfgistfr(String blgoritimURI, String implfmfntingClbss)
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+           XMLSignbturfExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
         }
 
-        // are we already registered?
-        Class<? extends SignatureAlgorithmSpi> registeredClass = algorithmHash.get(algorithmURI);
-        if (registeredClass != null) {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException(
-                "algorithm.alreadyRegistered", exArgs
+        // brf wf blrfbdy rfgistfrfd?
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        if (rfgistfrfdClbss != null) {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
             );
         }
         try {
-            Class<? extends SignatureAlgorithmSpi> clazz =
-                (Class<? extends SignatureAlgorithmSpi>)
-                    ClassLoaderUtils.loadClass(implementingClass, SignatureAlgorithm.class);
-            algorithmHash.put(algorithmURI, clazz);
-        } catch (NullPointerException ex) {
-            Object exArgs[] = { algorithmURI, ex.getMessage() };
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs, ex);
+            Clbss<? fxtfnds SignbturfAlgoritimSpi> dlbzz =
+                (Clbss<? fxtfnds SignbturfAlgoritimSpi>)
+                    ClbssLobdfrUtils.lobdClbss(implfmfntingClbss, SignbturfAlgoritim.dlbss);
+            blgoritimHbsi.put(blgoritimURI, dlbzz);
+        } dbtdi (NullPointfrExdfption fx) {
+            Objfdt fxArgs[] = { blgoritimURI, fx.gftMfssbgf() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs, fx);
         }
     }
 
     /**
-     * Registers implementing class of the Transform algorithm with algorithmURI
+     * Rfgistfrs implfmfnting dlbss of tif Trbnsform blgoritim witi blgoritimURI
      *
-     * @param algorithmURI algorithmURI URI representation of <code>Transform algorithm</code>.
-     * @param implementingClass <code>implementingClass</code> the implementing class of
-     * {@link SignatureAlgorithmSpi}
-     * @throws AlgorithmAlreadyRegisteredException if specified algorithmURI is already registered
-     * @throws XMLSignatureException
+     * @pbrbm blgoritimURI blgoritimURI URI rfprfsfntbtion of <dodf>Trbnsform blgoritim</dodf>.
+     * @pbrbm implfmfntingClbss <dodf>implfmfntingClbss</dodf> tif implfmfnting dlbss of
+     * {@link SignbturfAlgoritimSpi}
+     * @tirows AlgoritimAlrfbdyRfgistfrfdExdfption if spfdififd blgoritimURI is blrfbdy rfgistfrfd
+     * @tirows XMLSignbturfExdfption
      */
-    public static void register(String algorithmURI, Class<? extends SignatureAlgorithmSpi> implementingClass)
-       throws AlgorithmAlreadyRegisteredException, ClassNotFoundException,
-           XMLSignatureException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Try to register " + algorithmURI + " " + implementingClass);
+    publid stbtid void rfgistfr(String blgoritimURI, Clbss<? fxtfnds SignbturfAlgoritimSpi> implfmfntingClbss)
+       tirows AlgoritimAlrfbdyRfgistfrfdExdfption, ClbssNotFoundExdfption,
+           XMLSignbturfExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Try to rfgistfr " + blgoritimURI + " " + implfmfntingClbss);
         }
 
-        // are we already registered?
-        Class<? extends SignatureAlgorithmSpi> registeredClass = algorithmHash.get(algorithmURI);
-        if (registeredClass != null) {
-            Object exArgs[] = { algorithmURI, registeredClass };
-            throw new AlgorithmAlreadyRegisteredException(
-                "algorithm.alreadyRegistered", exArgs
+        // brf wf blrfbdy rfgistfrfd?
+        Clbss<? fxtfnds SignbturfAlgoritimSpi> rfgistfrfdClbss = blgoritimHbsi.gft(blgoritimURI);
+        if (rfgistfrfdClbss != null) {
+            Objfdt fxArgs[] = { blgoritimURI, rfgistfrfdClbss };
+            tirow nfw AlgoritimAlrfbdyRfgistfrfdExdfption(
+                "blgoritim.blrfbdyRfgistfrfd", fxArgs
             );
         }
-        algorithmHash.put(algorithmURI, implementingClass);
+        blgoritimHbsi.put(blgoritimURI, implfmfntingClbss);
     }
 
     /**
-     * This method registers the default algorithms.
+     * Tiis mftiod rfgistfrs tif dffbult blgoritims.
      */
-    public static void registerDefaultAlgorithms() {
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA, SignatureDSA.class
+    publid stbtid void rfgistfrDffbultAlgoritims() {
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA, SignbturfDSA.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA_SHA256, SignatureDSA.SHA256.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256, SignbturfDSA.SHA256.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA1, SignatureBaseRSA.SignatureRSASHA1.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA1, SignbturfBbsfRSA.SignbturfRSASHA1.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA1, IntegrityHmac.IntegrityHmacSHA1.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA1, IntfgrityHmbd.IntfgrityHmbdSHA1.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
-            SignatureBaseRSA.SignatureRSAMD5.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,
+            SignbturfBbsfRSA.SignbturfRSAMD5.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
-            SignatureBaseRSA.SignatureRSARIPEMD160.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
+            SignbturfBbsfRSA.SignbturfRSARIPEMD160.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA256, SignatureBaseRSA.SignatureRSASHA256.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA256, SignbturfBbsfRSA.SignbturfRSASHA256.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA384, SignatureBaseRSA.SignatureRSASHA384.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA384, SignbturfBbsfRSA.SignbturfRSASHA384.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA512, SignatureBaseRSA.SignatureRSASHA512.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_RSA_SHA512, SignbturfBbsfRSA.SignbturfRSASHA512.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignatureECDSA.SignatureECDSASHA1.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA1, SignbturfECDSA.SignbturfECDSASHA1.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignatureECDSA.SignatureECDSASHA256.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignbturfECDSA.SignbturfECDSASHA256.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignatureECDSA.SignatureECDSASHA384.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignbturfECDSA.SignbturfECDSASHA384.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignatureECDSA.SignatureECDSASHA512.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_SIGNATURE_ECDSA_SHA512, SignbturfECDSA.SignbturfECDSASHA512.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmac.IntegrityHmacMD5.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntfgrityHmbd.IntfgrityHmbdMD5.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_RIPEMD160, IntegrityHmac.IntegrityHmacRIPEMD160.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_RIPEMD160, IntfgrityHmbd.IntfgrityHmbdRIPEMD160.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA256, IntegrityHmac.IntegrityHmacSHA256.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA256, IntfgrityHmbd.IntfgrityHmbdSHA256.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA384, IntegrityHmac.IntegrityHmacSHA384.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA384, IntfgrityHmbd.IntfgrityHmbdSHA384.dlbss
         );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_MAC_HMAC_SHA512, IntegrityHmac.IntegrityHmacSHA512.class
+        blgoritimHbsi.put(
+            XMLSignbturf.ALGO_ID_MAC_HMAC_SHA512, IntfgrityHmbd.IntfgrityHmbdSHA512.dlbss
         );
     }
 
     /**
-     * Method getBaseNamespace
+     * Mftiod gftBbsfNbmfspbdf
      *
-     * @return URI of this element
+     * @rfturn URI of tiis flfmfnt
      */
-    public String getBaseNamespace() {
-        return Constants.SignatureSpecNS;
+    publid String gftBbsfNbmfspbdf() {
+        rfturn Constbnts.SignbturfSpfdNS;
     }
 
     /**
-     * Method getBaseLocalName
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @return Local name
+     * @rfturn Lodbl nbmf
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNATUREMETHOD;
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_SIGNATUREMETHOD;
     }
 }

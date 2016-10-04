@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvb.lbng.rfflfdt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-
-
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.List;
-
-import static sun.tools.jconsole.Utilities.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
 
 
-@SuppressWarnings("serial")
-class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSelectionListener {
-    PlotterPanel threadMeter;
-    TimeComboBox timeComboBox;
-    JTabbedPane threadListTabbedPane;
-    DefaultListModel<Long> listModel;
-    JTextField filterTF;
-    JLabel messageLabel;
-    JSplitPane threadsSplitPane;
-    HashMap<Long, String> nameCache = new HashMap<Long, String>();
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.List;
 
-    private ThreadOverviewPanel overviewPanel;
-    private boolean plotterListening = false;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
 
 
-    private static final String threadCountKey   = "threadCount";
-    private static final String peakKey          = "peak";
+@SupprfssWbrnings("sfribl")
+dlbss TirfbdTbb fxtfnds Tbb implfmfnts AdtionListfnfr, DodumfntListfnfr, ListSflfdtionListfnfr {
+    PlottfrPbnfl tirfbdMftfr;
+    TimfComboBox timfComboBox;
+    JTbbbfdPbnf tirfbdListTbbbfdPbnf;
+    DffbultListModfl<Long> listModfl;
+    JTfxtFifld filtfrTF;
+    JLbbfl mfssbgfLbbfl;
+    JSplitPbnf tirfbdsSplitPbnf;
+    HbsiMbp<Long, String> nbmfCbdif = nfw HbsiMbp<Long, String>();
 
-    private static final Color  threadCountColor = Plotter.defaultColor;
-    private static final Color  peakColor        = Color.red;
+    privbtf TirfbdOvfrvifwPbnfl ovfrvifwPbnfl;
+    privbtf boolfbn plottfrListfning = fblsf;
 
-    private static final Border thinEmptyBorder  = new EmptyBorder(2, 2, 2, 2);
+
+    privbtf stbtid finbl String tirfbdCountKfy   = "tirfbdCount";
+    privbtf stbtid finbl String pfbkKfy          = "pfbk";
+
+    privbtf stbtid finbl Color  tirfbdCountColor = Plottfr.dffbultColor;
+    privbtf stbtid finbl Color  pfbkColor        = Color.rfd;
+
+    privbtf stbtid finbl Bordfr tiinEmptyBordfr  = nfw EmptyBordfr(2, 2, 2, 2);
 
     /*
-      Hierarchy of panels and layouts for this tab:
+      Hifrbrdiy of pbnfls bnd lbyouts for tiis tbb:
 
-        ThreadTab (BorderLayout)
+        TirfbdTbb (BordfrLbyout)
 
-            North:  topPanel (BorderLayout)
+            Norti:  topPbnfl (BordfrLbyout)
 
-                        Center: controlPanel (FlowLayout)
-                                    timeComboBox
+                        Cfntfr: dontrolPbnfl (FlowLbyout)
+                                    timfComboBox
 
-            Center: plotterPanel (BorderLayout)
+            Cfntfr: plottfrPbnfl (BordfrLbyout)
 
-                        Center: plotter
+                        Cfntfr: plottfr
 
     */
 
 
-    public static String getTabName() {
-        return Messages.THREADS;
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.THREADS;
     }
 
-    public ThreadTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    publid TirfbdTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
 
-        setLayout(new BorderLayout(0, 0));
-        setBorder(new EmptyBorder(4, 4, 3, 4));
+        sftLbyout(nfw BordfrLbyout(0, 0));
+        sftBordfr(nfw EmptyBordfr(4, 4, 3, 4));
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-        JPanel plotterPanel = new JPanel(new VariableGridLayout(0, 1, 4, 4, true, true));
+        JPbnfl topPbnfl     = nfw JPbnfl(nfw BordfrLbyout());
+        JPbnfl plottfrPbnfl = nfw JPbnfl(nfw VbribblfGridLbyout(0, 1, 4, 4, truf, truf));
 
-        add(topPanel, BorderLayout.NORTH);
-        add(plotterPanel,  BorderLayout.CENTER);
+        bdd(topPbnfl, BordfrLbyout.NORTH);
+        bdd(plottfrPbnfl,  BordfrLbyout.CENTER);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnfl dontrolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.CENTER, 20, 5));
+        topPbnfl.bdd(dontrolPbnfl, BordfrLbyout.CENTER);
 
-        threadMeter = new PlotterPanel(Messages.NUMBER_OF_THREADS,
-                                       Plotter.Unit.NONE, true);
-        threadMeter.plotter.createSequence(threadCountKey, Messages.LIVE_THREADS,  threadCountColor, true);
-        threadMeter.plotter.createSequence(peakKey,        Messages.PEAK,         peakColor,        true);
-        setAccessibleName(threadMeter.plotter,
-                          Messages.THREAD_TAB_THREAD_PLOTTER_ACCESSIBLE_NAME);
+        tirfbdMftfr = nfw PlottfrPbnfl(Mfssbgfs.NUMBER_OF_THREADS,
+                                       Plottfr.Unit.NONE, truf);
+        tirfbdMftfr.plottfr.drfbtfSfqufndf(tirfbdCountKfy, Mfssbgfs.LIVE_THREADS,  tirfbdCountColor, truf);
+        tirfbdMftfr.plottfr.drfbtfSfqufndf(pfbkKfy,        Mfssbgfs.PEAK,         pfbkColor,        truf);
+        sftAddfssiblfNbmf(tirfbdMftfr.plottfr,
+                          Mfssbgfs.THREAD_TAB_THREAD_PLOTTER_ACCESSIBLE_NAME);
 
-        plotterPanel.add(threadMeter);
+        plottfrPbnfl.bdd(tirfbdMftfr);
 
-        timeComboBox = new TimeComboBox(threadMeter.plotter);
-        controlPanel.add(new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                              Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
-                                              timeComboBox));
+        timfComboBox = nfw TimfComboBox(tirfbdMftfr.plottfr);
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.TIME_RANGE_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TIME_RANGE_COLON),
+                                              timfComboBox));
 
-        listModel = new DefaultListModel<Long>();
+        listModfl = nfw DffbultListModfl<Long>();
 
-        JTextArea textArea = new JTextArea();
-        textArea.setBorder(thinEmptyBorder);
-        textArea.setEditable(false);
-        setAccessibleName(textArea,
-                          Messages.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
-        ThreadJList list = new ThreadJList(listModel, textArea);
+        JTfxtArfb tfxtArfb = nfw JTfxtArfb();
+        tfxtArfb.sftBordfr(tiinEmptyBordfr);
+        tfxtArfb.sftEditbblf(fblsf);
+        sftAddfssiblfNbmf(tfxtArfb,
+                          Mfssbgfs.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
+        TirfbdJList list = nfw TirfbdJList(listModfl, tfxtArfb);
 
-        Dimension di = new Dimension(super.getPreferredSize());
-        di.width = Math.min(di.width, 200);
+        Dimfnsion di = nfw Dimfnsion(supfr.gftPrfffrrfdSizf());
+        di.widti = Mbti.min(di.widti, 200);
 
-        JScrollPane threadlistSP = new JScrollPane(list);
-        threadlistSP.setPreferredSize(di);
-        threadlistSP.setBorder(null);
+        JSdrollPbnf tirfbdlistSP = nfw JSdrollPbnf(list);
+        tirfbdlistSP.sftPrfffrrfdSizf(di);
+        tirfbdlistSP.sftBordfr(null);
 
-        JScrollPane textAreaSP = new JScrollPane(textArea);
-        textAreaSP.setBorder(null);
+        JSdrollPbnf tfxtArfbSP = nfw JSdrollPbnf(tfxtArfb);
+        tfxtArfbSP.sftBordfr(null);
 
-        threadListTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        threadsSplitPane  = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                           threadlistSP, textAreaSP);
-        threadsSplitPane.setOneTouchExpandable(true);
-        threadsSplitPane.setBorder(null);
+        tirfbdListTbbbfdPbnf = nfw JTbbbfdPbnf(JTbbbfdPbnf.TOP);
+        tirfbdsSplitPbnf  = nfw JSplitPbnf(JSplitPbnf.HORIZONTAL_SPLIT,
+                                           tirfbdlistSP, tfxtArfbSP);
+        tirfbdsSplitPbnf.sftOnfToudiExpbndbblf(truf);
+        tirfbdsSplitPbnf.sftBordfr(null);
 
-        JPanel firstTabPanel = new JPanel(new BorderLayout());
-        firstTabPanel.setOpaque(false);
+        JPbnfl firstTbbPbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        firstTbbPbnfl.sftOpbquf(fblsf);
 
-        JPanel firstTabToolPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 2));
-        firstTabToolPanel.setOpaque(false);
+        JPbnfl firstTbbToolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEFT, 5, 2));
+        firstTbbToolPbnfl.sftOpbquf(fblsf);
 
-        filterTF = new PromptingTextField("Filter", 20);
-        filterTF.getDocument().addDocumentListener(this);
-        firstTabToolPanel.add(filterTF);
+        filtfrTF = nfw PromptingTfxtFifld("Filtfr", 20);
+        filtfrTF.gftDodumfnt().bddDodumfntListfnfr(tiis);
+        firstTbbToolPbnfl.bdd(filtfrTF);
 
-        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
-        separator.setPreferredSize(new Dimension(separator.getPreferredSize().width,
-                                                 filterTF.getPreferredSize().height));
-        firstTabToolPanel.add(separator);
+        JSfpbrbtor sfpbrbtor = nfw JSfpbrbtor(JSfpbrbtor.VERTICAL);
+        sfpbrbtor.sftPrfffrrfdSizf(nfw Dimfnsion(sfpbrbtor.gftPrfffrrfdSizf().widti,
+                                                 filtfrTF.gftPrfffrrfdSizf().ifigit));
+        firstTbbToolPbnfl.bdd(sfpbrbtor);
 
-        JButton detectDeadlockButton = new JButton(Messages.DETECT_DEADLOCK);
-        detectDeadlockButton.setMnemonic(Resources.getMnemonicInt(Messages.DETECT_DEADLOCK));
-        detectDeadlockButton.setActionCommand("detectDeadlock");
-        detectDeadlockButton.addActionListener(this);
-        detectDeadlockButton.setToolTipText(Messages.DETECT_DEADLOCK_TOOLTIP);
-        firstTabToolPanel.add(detectDeadlockButton);
+        JButton dftfdtDfbdlodkButton = nfw JButton(Mfssbgfs.DETECT_DEADLOCK);
+        dftfdtDfbdlodkButton.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.DETECT_DEADLOCK));
+        dftfdtDfbdlodkButton.sftAdtionCommbnd("dftfdtDfbdlodk");
+        dftfdtDfbdlodkButton.bddAdtionListfnfr(tiis);
+        dftfdtDfbdlodkButton.sftToolTipTfxt(Mfssbgfs.DETECT_DEADLOCK_TOOLTIP);
+        firstTbbToolPbnfl.bdd(dftfdtDfbdlodkButton);
 
-        messageLabel = new JLabel();
-        firstTabToolPanel.add(messageLabel);
+        mfssbgfLbbfl = nfw JLbbfl();
+        firstTbbToolPbnfl.bdd(mfssbgfLbbfl);
 
-        firstTabPanel.add(threadsSplitPane, BorderLayout.CENTER);
-        firstTabPanel.add(firstTabToolPanel, BorderLayout.SOUTH);
-        threadListTabbedPane.addTab(Messages.THREADS, firstTabPanel);
+        firstTbbPbnfl.bdd(tirfbdsSplitPbnf, BordfrLbyout.CENTER);
+        firstTbbPbnfl.bdd(firstTbbToolPbnfl, BordfrLbyout.SOUTH);
+        tirfbdListTbbbfdPbnf.bddTbb(Mfssbgfs.THREADS, firstTbbPbnfl);
 
-        plotterPanel.add(threadListTabbedPane);
+        plottfrPbnfl.bdd(tirfbdListTbbbfdPbnf);
     }
 
-    private long oldThreads[] = new long[0];
+    privbtf long oldTirfbds[] = nfw long[0];
 
-    public SwingWorker<?, ?> newSwingWorker() {
-        final ProxyClient proxyClient = vmPanel.getProxyClient();
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        finbl ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
 
-        if (!plotterListening) {
-            proxyClient.addWeakPropertyChangeListener(threadMeter.plotter);
-            plotterListening = true;
+        if (!plottfrListfning) {
+            proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(tirfbdMftfr.plottfr);
+            plottfrListfning = truf;
         }
 
-        return new SwingWorker<Boolean, Object>() {
-            private int tlCount;
-            private int tpCount;
-            private long ttCount;
-            private long[] threads;
-            private long timeStamp;
+        rfturn nfw SwingWorkfr<Boolfbn, Objfdt>() {
+            privbtf int tlCount;
+            privbtf int tpCount;
+            privbtf long ttCount;
+            privbtf long[] tirfbds;
+            privbtf long timfStbmp;
 
-            public Boolean doInBackground() {
+            publid Boolfbn doInBbdkground() {
                 try {
-                    ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
+                    TirfbdMXBfbn tirfbdMBfbn = proxyClifnt.gftTirfbdMXBfbn();
 
-                    tlCount = threadMBean.getThreadCount();
-                    tpCount = threadMBean.getPeakThreadCount();
-                    if (overviewPanel != null) {
-                        ttCount = threadMBean.getTotalStartedThreadCount();
-                    } else {
+                    tlCount = tirfbdMBfbn.gftTirfbdCount();
+                    tpCount = tirfbdMBfbn.gftPfbkTirfbdCount();
+                    if (ovfrvifwPbnfl != null) {
+                        ttCount = tirfbdMBfbn.gftTotblStbrtfdTirfbdCount();
+                    } flsf {
                         ttCount = 0L;
                     }
 
-                    threads = threadMBean.getAllThreadIds();
-                    for (long newThread : threads) {
-                        if (nameCache.get(newThread) == null) {
-                            ThreadInfo ti = threadMBean.getThreadInfo(newThread);
+                    tirfbds = tirfbdMBfbn.gftAllTirfbdIds();
+                    for (long nfwTirfbd : tirfbds) {
+                        if (nbmfCbdif.gft(nfwTirfbd) == null) {
+                            TirfbdInfo ti = tirfbdMBfbn.gftTirfbdInfo(nfwTirfbd);
                             if (ti != null) {
-                                String name = ti.getThreadName();
-                                if (name != null) {
-                                    nameCache.put(newThread, name);
+                                String nbmf = ti.gftTirfbdNbmf();
+                                if (nbmf != null) {
+                                    nbmfCbdif.put(nfwTirfbd, nbmf);
                                 }
                             }
                         }
                     }
-                    timeStamp = System.currentTimeMillis();
-                    return true;
-                } catch (IOException e) {
-                    return false;
-                } catch (UndeclaredThrowableException e) {
-                    return false;
+                    timfStbmp = Systfm.durrfntTimfMillis();
+                    rfturn truf;
+                } dbtdi (IOExdfption f) {
+                    rfturn fblsf;
+                } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                    rfturn fblsf;
                 }
             }
 
-            protected void done() {
+            protfdtfd void donf() {
                 try {
-                    if (!get()) {
-                        return;
+                    if (!gft()) {
+                        rfturn;
                     }
-                } catch (InterruptedException ex) {
-                    return;
-                } catch (ExecutionException ex) {
-                    if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                } dbtdi (IntfrruptfdExdfption fx) {
+                    rfturn;
+                } dbtdi (ExfdutionExdfption fx) {
+                    if (JConsolf.isDfbug()) {
+                        fx.printStbdkTrbdf();
                     }
-                    return;
+                    rfturn;
                 }
 
-                threadMeter.plotter.addValues(timeStamp, tlCount, tpCount);
-                threadMeter.setValueLabel(tlCount+"");
+                tirfbdMftfr.plottfr.bddVblufs(timfStbmp, tlCount, tpCount);
+                tirfbdMftfr.sftVblufLbbfl(tlCount+"");
 
-                if (overviewPanel != null) {
-                    overviewPanel.updateThreadsInfo(tlCount, tpCount, ttCount, timeStamp);
+                if (ovfrvifwPbnfl != null) {
+                    ovfrvifwPbnfl.updbtfTirfbdsInfo(tlCount, tpCount, ttCount, timfStbmp);
                 }
 
-                String filter = filterTF.getText().toLowerCase(Locale.ENGLISH);
-                boolean doFilter = (filter.length() > 0);
+                String filtfr = filtfrTF.gftTfxt().toLowfrCbsf(Lodblf.ENGLISH);
+                boolfbn doFiltfr = (filtfr.lfngti() > 0);
 
-                ArrayList<Long> l = new ArrayList<Long>();
-                for (long t : threads) {
-                    l.add(t);
+                ArrbyList<Long> l = nfw ArrbyList<Long>();
+                for (long t : tirfbds) {
+                    l.bdd(t);
                 }
-                Iterator<Long> iterator = l.iterator();
-                while (iterator.hasNext()) {
-                    long newThread = iterator.next();
-                    String name = nameCache.get(newThread);
-                    if (doFilter && name != null &&
-                        name.toLowerCase(Locale.ENGLISH).indexOf(filter) < 0) {
+                Itfrbtor<Long> itfrbtor = l.itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    long nfwTirfbd = itfrbtor.nfxt();
+                    String nbmf = nbmfCbdif.gft(nfwTirfbd);
+                    if (doFiltfr && nbmf != null &&
+                        nbmf.toLowfrCbsf(Lodblf.ENGLISH).indfxOf(filtfr) < 0) {
 
-                        iterator.remove();
-                    }
-                }
-                long[] newThreads = threads;
-                if (l.size() < threads.length) {
-                    newThreads = new long[l.size()];
-                    for (int i = 0; i < newThreads.length; i++) {
-                        newThreads[i] = l.get(i);
+                        itfrbtor.rfmovf();
                     }
                 }
+                long[] nfwTirfbds = tirfbds;
+                if (l.sizf() < tirfbds.lfngti) {
+                    nfwTirfbds = nfw long[l.sizf()];
+                    for (int i = 0; i < nfwTirfbds.lfngti; i++) {
+                        nfwTirfbds[i] = l.gft(i);
+                    }
+                }
 
 
-                for (long oldThread : oldThreads) {
-                    boolean found = false;
-                    for (long newThread : newThreads) {
-                        if (newThread == oldThread) {
-                            found = true;
-                            break;
+                for (long oldTirfbd : oldTirfbds) {
+                    boolfbn found = fblsf;
+                    for (long nfwTirfbd : nfwTirfbds) {
+                        if (nfwTirfbd == oldTirfbd) {
+                            found = truf;
+                            brfbk;
                         }
                     }
                     if (!found) {
-                        listModel.removeElement(oldThread);
-                        if (!doFilter) {
-                            nameCache.remove(oldThread);
+                        listModfl.rfmovfElfmfnt(oldTirfbd);
+                        if (!doFiltfr) {
+                            nbmfCbdif.rfmovf(oldTirfbd);
                         }
                     }
                 }
 
-                // Threads are in reverse chronological order
-                for (int i = newThreads.length - 1; i >= 0; i--) {
-                    long newThread = newThreads[i];
-                    boolean found = false;
-                    for (long oldThread : oldThreads) {
-                        if (newThread == oldThread) {
-                            found = true;
-                            break;
+                // Tirfbds brf in rfvfrsf dironologidbl ordfr
+                for (int i = nfwTirfbds.lfngti - 1; i >= 0; i--) {
+                    long nfwTirfbd = nfwTirfbds[i];
+                    boolfbn found = fblsf;
+                    for (long oldTirfbd : oldTirfbds) {
+                        if (nfwTirfbd == oldTirfbd) {
+                            found = truf;
+                            brfbk;
                         }
                     }
                     if (!found) {
-                        listModel.addElement(newThread);
+                        listModfl.bddElfmfnt(nfwTirfbd);
                     }
                 }
-                oldThreads = newThreads;
+                oldTirfbds = nfwTirfbds;
             }
         };
     }
 
-    long lastSelected = -1;
+    long lbstSflfdtfd = -1;
 
-    public void valueChanged(ListSelectionEvent ev) {
-        ThreadJList list = (ThreadJList)ev.getSource();
-        final JTextArea textArea = list.textArea;
+    publid void vblufCibngfd(ListSflfdtionEvfnt fv) {
+        TirfbdJList list = (TirfbdJList)fv.gftSourdf();
+        finbl JTfxtArfb tfxtArfb = list.tfxtArfb;
 
-        Long selected = list.getSelectedValue();
-        if (selected == null) {
-            if (lastSelected != -1) {
-                selected = lastSelected;
+        Long sflfdtfd = list.gftSflfdtfdVbluf();
+        if (sflfdtfd == null) {
+            if (lbstSflfdtfd != -1) {
+                sflfdtfd = lbstSflfdtfd;
             }
-        } else {
-            lastSelected = selected;
+        } flsf {
+            lbstSflfdtfd = sflfdtfd;
         }
-        textArea.setText("");
-        if (selected != null) {
-            final long threadID = selected;
-            workerAdd(new Runnable() {
-                public void run() {
-                    ProxyClient proxyClient = vmPanel.getProxyClient();
-                    StringBuilder sb = new StringBuilder();
+        tfxtArfb.sftTfxt("");
+        if (sflfdtfd != null) {
+            finbl long tirfbdID = sflfdtfd;
+            workfrAdd(nfw Runnbblf() {
+                publid void run() {
+                    ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+                    StringBuildfr sb = nfw StringBuildfr();
                     try {
-                        ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
-                        ThreadInfo ti = null;
+                        TirfbdMXBfbn tirfbdMBfbn = proxyClifnt.gftTirfbdMXBfbn();
+                        TirfbdInfo ti = null;
                         MonitorInfo[] monitors = null;
-                        if (proxyClient.isLockUsageSupported() &&
-                              threadMBean.isObjectMonitorUsageSupported()) {
-                            // VMs that support the monitor usage monitoring
-                            ThreadInfo[] infos = threadMBean.dumpAllThreads(true, false);
-                            for (ThreadInfo info : infos) {
-                                if (info.getThreadId() == threadID) {
+                        if (proxyClifnt.isLodkUsbgfSupportfd() &&
+                              tirfbdMBfbn.isObjfdtMonitorUsbgfSupportfd()) {
+                            // VMs tibt support tif monitor usbgf monitoring
+                            TirfbdInfo[] infos = tirfbdMBfbn.dumpAllTirfbds(truf, fblsf);
+                            for (TirfbdInfo info : infos) {
+                                if (info.gftTirfbdId() == tirfbdID) {
                                     ti = info;
-                                    monitors = info.getLockedMonitors();
-                                    break;
+                                    monitors = info.gftLodkfdMonitors();
+                                    brfbk;
                                 }
                             }
-                        } else {
-                            // VM doesn't support monitor usage monitoring
-                            ti = threadMBean.getThreadInfo(threadID, Integer.MAX_VALUE);
+                        } flsf {
+                            // VM dofsn't support monitor usbgf monitoring
+                            ti = tirfbdMBfbn.gftTirfbdInfo(tirfbdID, Intfgfr.MAX_VALUE);
                         }
                         if (ti != null) {
-                            if (ti.getLockName() == null) {
-                                sb.append(Resources.format(Messages.NAME_STATE,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString()));
-                            } else if (ti.getLockOwnerName() == null) {
-                                sb.append(Resources.format(Messages.NAME_STATE_LOCK_NAME,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString(),
-                                              ti.getLockName()));
-                            } else {
-                                sb.append(Resources.format(Messages.NAME_STATE_LOCK_NAME_LOCK_OWNER,
-                                              ti.getThreadName(),
-                                              ti.getThreadState().toString(),
-                                              ti.getLockName(),
-                                              ti.getLockOwnerName()));
+                            if (ti.gftLodkNbmf() == null) {
+                                sb.bppfnd(Rfsourdfs.formbt(Mfssbgfs.NAME_STATE,
+                                              ti.gftTirfbdNbmf(),
+                                              ti.gftTirfbdStbtf().toString()));
+                            } flsf if (ti.gftLodkOwnfrNbmf() == null) {
+                                sb.bppfnd(Rfsourdfs.formbt(Mfssbgfs.NAME_STATE_LOCK_NAME,
+                                              ti.gftTirfbdNbmf(),
+                                              ti.gftTirfbdStbtf().toString(),
+                                              ti.gftLodkNbmf()));
+                            } flsf {
+                                sb.bppfnd(Rfsourdfs.formbt(Mfssbgfs.NAME_STATE_LOCK_NAME_LOCK_OWNER,
+                                              ti.gftTirfbdNbmf(),
+                                              ti.gftTirfbdStbtf().toString(),
+                                              ti.gftLodkNbmf(),
+                                              ti.gftLodkOwnfrNbmf()));
                             }
-                            sb.append(Resources.format(Messages.BLOCKED_COUNT_WAITED_COUNT,
-                                              ti.getBlockedCount(),
-                                              ti.getWaitedCount()));
-                            sb.append(Messages.STACK_TRACE);
-                            int index = 0;
-                            for (StackTraceElement e : ti.getStackTrace()) {
-                                sb.append(e.toString()+"\n");
+                            sb.bppfnd(Rfsourdfs.formbt(Mfssbgfs.BLOCKED_COUNT_WAITED_COUNT,
+                                              ti.gftBlodkfdCount(),
+                                              ti.gftWbitfdCount()));
+                            sb.bppfnd(Mfssbgfs.STACK_TRACE);
+                            int indfx = 0;
+                            for (StbdkTrbdfElfmfnt f : ti.gftStbdkTrbdf()) {
+                                sb.bppfnd(f.toString()+"\n");
                                 if (monitors != null) {
                                     for (MonitorInfo mi : monitors) {
-                                        if (mi.getLockedStackDepth() == index) {
-                                            sb.append(Resources.format(Messages.MONITOR_LOCKED, mi.toString()));
+                                        if (mi.gftLodkfdStbdkDfpti() == indfx) {
+                                            sb.bppfnd(Rfsourdfs.formbt(Mfssbgfs.MONITOR_LOCKED, mi.toString()));
                                         }
                                     }
                                 }
-                                index++;
+                                indfx++;
                             }
                         }
-                    } catch (IOException ex) {
-                        // Ignore
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
+                    } dbtdi (IOExdfption fx) {
+                        // Ignorf
+                    } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                        proxyClifnt.mbrkAsDfbd();
                     }
-                    final String text = sb.toString();
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            textArea.setText(text);
-                            textArea.setCaretPosition(0);
+                    finbl String tfxt = sb.toString();
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            tfxtArfb.sftTfxt(tfxt);
+                            tfxtArfb.sftCbrftPosition(0);
                         }
                     });
                 }
@@ -396,300 +396,300 @@ class ThreadTab extends Tab implements ActionListener, DocumentListener, ListSel
         }
     }
 
-    private void doUpdate() {
-        workerAdd(new Runnable() {
-            public void run() {
-                update();
+    privbtf void doUpdbtf() {
+        workfrAdd(nfw Runnbblf() {
+            publid void run() {
+                updbtf();
             }
         });
     }
 
 
-    private void detectDeadlock() {
-        workerAdd(new Runnable() {
-            public void run() {
+    privbtf void dftfdtDfbdlodk() {
+        workfrAdd(nfw Runnbblf() {
+            publid void run() {
                 try {
-                    final Long[][] deadlockedThreads = getDeadlockedThreadIds();
+                    finbl Long[][] dfbdlodkfdTirfbds = gftDfbdlodkfdTirfbdIds();
 
-                    if (deadlockedThreads == null || deadlockedThreads.length == 0) {
-                        // Display message for 30 seconds. Do it on a separate thread so
-                        // the sleep won't hold up the worker queue.
-                        // This will be replaced later by separate statusbar logic.
-                        new Thread() {
-                            public void run() {
+                    if (dfbdlodkfdTirfbds == null || dfbdlodkfdTirfbds.lfngti == 0) {
+                        // Displby mfssbgf for 30 sfdonds. Do it on b sfpbrbtf tirfbd so
+                        // tif slffp won't iold up tif workfr qufuf.
+                        // Tiis will bf rfplbdfd lbtfr by sfpbrbtf stbtusbbr logid.
+                        nfw Tirfbd() {
+                            publid void run() {
                                 try {
-                                    SwingUtilities.invokeAndWait(new Runnable() {
-                                        public void run() {
-                                            String msg = Messages.NO_DEADLOCK_DETECTED;
-                                            messageLabel.setText(msg);
-                                            threadListTabbedPane.revalidate();
+                                    SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                                        publid void run() {
+                                            String msg = Mfssbgfs.NO_DEADLOCK_DETECTED;
+                                            mfssbgfLbbfl.sftTfxt(msg);
+                                            tirfbdListTbbbfdPbnf.rfvblidbtf();
                                         }
                                     });
-                                    sleep(30 * 1000);
-                                } catch (InterruptedException ex) {
-                                    // Ignore
-                                } catch (InvocationTargetException ex) {
-                                    // Ignore
+                                    slffp(30 * 1000);
+                                } dbtdi (IntfrruptfdExdfption fx) {
+                                    // Ignorf
+                                } dbtdi (InvodbtionTbrgftExdfption fx) {
+                                    // Ignorf
                                 }
-                                SwingUtilities.invokeLater(new Runnable() {
-                                    public void run() {
-                                        messageLabel.setText("");
+                                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                                    publid void run() {
+                                        mfssbgfLbbfl.sftTfxt("");
                                     }
                                 });
                             }
-                        }.start();
-                        return;
+                        }.stbrt();
+                        rfturn;
                     }
 
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            // Remove old deadlock tabs
-                            while (threadListTabbedPane.getTabCount() > 1) {
-                                threadListTabbedPane.removeTabAt(1);
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            // Rfmovf old dfbdlodk tbbs
+                            wiilf (tirfbdListTbbbfdPbnf.gftTbbCount() > 1) {
+                                tirfbdListTbbbfdPbnf.rfmovfTbbAt(1);
                             }
 
-                            if (deadlockedThreads != null) {
-                                for (int i = 0; i < deadlockedThreads.length; i++) {
-                                    DefaultListModel<Long> listModel = new DefaultListModel<Long>();
-                                    JTextArea textArea = new JTextArea();
-                                    textArea.setBorder(thinEmptyBorder);
-                                    textArea.setEditable(false);
-                                    setAccessibleName(textArea,
-                                                      Messages.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
-                                    ThreadJList list = new ThreadJList(listModel, textArea);
-                                    JScrollPane threadlistSP = new JScrollPane(list);
-                                    JScrollPane textAreaSP = new JScrollPane(textArea);
-                                    threadlistSP.setBorder(null);
-                                    textAreaSP.setBorder(null);
-                                    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                                                                                 threadlistSP, textAreaSP);
-                                    splitPane.setOneTouchExpandable(true);
-                                    splitPane.setBorder(null);
-                                    splitPane.setDividerLocation(threadsSplitPane.getDividerLocation());
-                                    String tabName;
-                                    if (deadlockedThreads.length > 1) {
-                                        tabName = Resources.format(Messages.DEADLOCK_TAB_N, i+1);
-                                    } else {
-                                        tabName = Messages.DEADLOCK_TAB;
+                            if (dfbdlodkfdTirfbds != null) {
+                                for (int i = 0; i < dfbdlodkfdTirfbds.lfngti; i++) {
+                                    DffbultListModfl<Long> listModfl = nfw DffbultListModfl<Long>();
+                                    JTfxtArfb tfxtArfb = nfw JTfxtArfb();
+                                    tfxtArfb.sftBordfr(tiinEmptyBordfr);
+                                    tfxtArfb.sftEditbblf(fblsf);
+                                    sftAddfssiblfNbmf(tfxtArfb,
+                                                      Mfssbgfs.THREAD_TAB_THREAD_INFO_ACCESSIBLE_NAME);
+                                    TirfbdJList list = nfw TirfbdJList(listModfl, tfxtArfb);
+                                    JSdrollPbnf tirfbdlistSP = nfw JSdrollPbnf(list);
+                                    JSdrollPbnf tfxtArfbSP = nfw JSdrollPbnf(tfxtArfb);
+                                    tirfbdlistSP.sftBordfr(null);
+                                    tfxtArfbSP.sftBordfr(null);
+                                    JSplitPbnf splitPbnf = nfw JSplitPbnf(JSplitPbnf.HORIZONTAL_SPLIT,
+                                                                                 tirfbdlistSP, tfxtArfbSP);
+                                    splitPbnf.sftOnfToudiExpbndbblf(truf);
+                                    splitPbnf.sftBordfr(null);
+                                    splitPbnf.sftDividfrLodbtion(tirfbdsSplitPbnf.gftDividfrLodbtion());
+                                    String tbbNbmf;
+                                    if (dfbdlodkfdTirfbds.lfngti > 1) {
+                                        tbbNbmf = Rfsourdfs.formbt(Mfssbgfs.DEADLOCK_TAB_N, i+1);
+                                    } flsf {
+                                        tbbNbmf = Mfssbgfs.DEADLOCK_TAB;
                                     }
-                                    threadListTabbedPane.addTab(tabName, splitPane);
+                                    tirfbdListTbbbfdPbnf.bddTbb(tbbNbmf, splitPbnf);
 
-                                    for (long t : deadlockedThreads[i]) {
-                                        listModel.addElement(t);
+                                    for (long t : dfbdlodkfdTirfbds[i]) {
+                                        listModfl.bddElfmfnt(t);
                                     }
                                 }
-                                threadListTabbedPane.setSelectedIndex(1);
+                                tirfbdListTbbbfdPbnf.sftSflfdtfdIndfx(1);
                             }
                         }
                     });
-                } catch (IOException e) {
-                    // Ignore
-                } catch (UndeclaredThrowableException e) {
-                    vmPanel.getProxyClient().markAsDead();
+                } dbtdi (IOExdfption f) {
+                    // Ignorf
+                } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                    vmPbnfl.gftProxyClifnt().mbrkAsDfbd();
                 }
             }
         });
     }
 
 
-    // Return deadlocked threads or null
-    public Long[][] getDeadlockedThreadIds() throws IOException {
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        ThreadMXBean threadMBean = proxyClient.getThreadMXBean();
+    // Rfturn dfbdlodkfd tirfbds or null
+    publid Long[][] gftDfbdlodkfdTirfbdIds() tirows IOExdfption {
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+        TirfbdMXBfbn tirfbdMBfbn = proxyClifnt.gftTirfbdMXBfbn();
 
-        long[] ids = proxyClient.findDeadlockedThreads();
+        long[] ids = proxyClifnt.findDfbdlodkfdTirfbds();
         if (ids == null) {
-            return null;
+            rfturn null;
         }
-        ThreadInfo[] infos = threadMBean.getThreadInfo(ids, Integer.MAX_VALUE);
+        TirfbdInfo[] infos = tirfbdMBfbn.gftTirfbdInfo(ids, Intfgfr.MAX_VALUE);
 
-        List<Long[]> dcycles = new ArrayList<Long[]>();
-        List<Long> cycle = new ArrayList<Long>();
+        List<Long[]> ddydlfs = nfw ArrbyList<Long[]>();
+        List<Long> dydlf = nfw ArrbyList<Long>();
 
-        // keep track of which thread is visited
-        // one thread can only be in one cycle
-        boolean[] visited = new boolean[ids.length];
+        // kffp trbdk of wiidi tirfbd is visitfd
+        // onf tirfbd dbn only bf in onf dydlf
+        boolfbn[] visitfd = nfw boolfbn[ids.lfngti];
 
-        int deadlockedThread = -1; // Index into arrays
-        while (true) {
-            if (deadlockedThread < 0) {
-                if (cycle.size() > 0) {
-                    // a cycle found
-                    dcycles.add(cycle.toArray(new Long[0]));
-                    cycle = new ArrayList<Long>();
+        int dfbdlodkfdTirfbd = -1; // Indfx into brrbys
+        wiilf (truf) {
+            if (dfbdlodkfdTirfbd < 0) {
+                if (dydlf.sizf() > 0) {
+                    // b dydlf found
+                    ddydlfs.bdd(dydlf.toArrby(nfw Long[0]));
+                    dydlf = nfw ArrbyList<Long>();
                 }
-                // start a new cycle from a non-visited thread
-                for (int j = 0; j < ids.length; j++) {
-                    if (!visited[j]) {
-                        deadlockedThread = j;
-                        visited[j] = true;
-                        break;
+                // stbrt b nfw dydlf from b non-visitfd tirfbd
+                for (int j = 0; j < ids.lfngti; j++) {
+                    if (!visitfd[j]) {
+                        dfbdlodkfdTirfbd = j;
+                        visitfd[j] = truf;
+                        brfbk;
                     }
                 }
-                if (deadlockedThread < 0) {
-                    // done
-                    break;
+                if (dfbdlodkfdTirfbd < 0) {
+                    // donf
+                    brfbk;
                 }
             }
 
-            cycle.add(ids[deadlockedThread]);
-            long nextThreadId = infos[deadlockedThread].getLockOwnerId();
-            for (int j = 0; j < ids.length; j++) {
-                ThreadInfo ti = infos[j];
-                if (ti.getThreadId() == nextThreadId) {
-                     if (visited[j]) {
-                         deadlockedThread = -1;
-                     } else {
-                         deadlockedThread = j;
-                         visited[j] = true;
+            dydlf.bdd(ids[dfbdlodkfdTirfbd]);
+            long nfxtTirfbdId = infos[dfbdlodkfdTirfbd].gftLodkOwnfrId();
+            for (int j = 0; j < ids.lfngti; j++) {
+                TirfbdInfo ti = infos[j];
+                if (ti.gftTirfbdId() == nfxtTirfbdId) {
+                     if (visitfd[j]) {
+                         dfbdlodkfdTirfbd = -1;
+                     } flsf {
+                         dfbdlodkfdTirfbd = j;
+                         visitfd[j] = truf;
                      }
-                     break;
+                     brfbk;
                 }
             }
         }
-        return dcycles.toArray(new Long[0][0]);
+        rfturn ddydlfs.toArrby(nfw Long[0][0]);
     }
 
 
 
 
 
-    // ActionListener interface
-    public void actionPerformed(ActionEvent evt) {
-        String cmd = ((AbstractButton)evt.getSource()).getActionCommand();
+    // AdtionListfnfr intfrfbdf
+    publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+        String dmd = ((AbstrbdtButton)fvt.gftSourdf()).gftAdtionCommbnd();
 
-        if (cmd == "detectDeadlock") {
-            messageLabel.setText("");
-            detectDeadlock();
+        if (dmd == "dftfdtDfbdlodk") {
+            mfssbgfLbbfl.sftTfxt("");
+            dftfdtDfbdlodk();
         }
     }
 
 
 
-    // DocumentListener interface
+    // DodumfntListfnfr intfrfbdf
 
-    public void insertUpdate(DocumentEvent e) {
-        doUpdate();
+    publid void insfrtUpdbtf(DodumfntEvfnt f) {
+        doUpdbtf();
     }
 
-    public void removeUpdate(DocumentEvent e) {
-        doUpdate();
+    publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+        doUpdbtf();
     }
 
-    public void changedUpdate(DocumentEvent e) {
-        doUpdate();
+    publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+        doUpdbtf();
     }
 
 
 
-    private class ThreadJList extends JList<Long> {
-        private JTextArea textArea;
+    privbtf dlbss TirfbdJList fxtfnds JList<Long> {
+        privbtf JTfxtArfb tfxtArfb;
 
-        ThreadJList(DefaultListModel<Long> listModel, JTextArea textArea) {
-            super(listModel);
+        TirfbdJList(DffbultListModfl<Long> listModfl, JTfxtArfb tfxtArfb) {
+            supfr(listModfl);
 
-            this.textArea = textArea;
+            tiis.tfxtArfb = tfxtArfb;
 
-            setBorder(thinEmptyBorder);
+            sftBordfr(tiinEmptyBordfr);
 
-            setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            textArea.setText(Messages.THREAD_TAB_INITIAL_STACK_TRACE_MESSAGE);
-            addListSelectionListener(ThreadTab.this);
-            setCellRenderer(new DefaultListCellRenderer() {
-                public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                              boolean isSelected, boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            tfxtArfb.sftTfxt(Mfssbgfs.THREAD_TAB_INITIAL_STACK_TRACE_MESSAGE);
+            bddListSflfdtionListfnfr(TirfbdTbb.tiis);
+            sftCfllRfndfrfr(nfw DffbultListCfllRfndfrfr() {
+                publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list, Objfdt vbluf, int indfx,
+                                                              boolfbn isSflfdtfd, boolfbn dfllHbsFodus) {
+                    supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx, isSflfdtfd, dfllHbsFodus);
 
-                    if (value != null) {
-                        String name = nameCache.get(value);
-                        if (name == null) {
-                            name = value.toString();
+                    if (vbluf != null) {
+                        String nbmf = nbmfCbdif.gft(vbluf);
+                        if (nbmf == null) {
+                            nbmf = vbluf.toString();
                         }
-                        setText(name);
+                        sftTfxt(nbmf);
                     }
-                    return this;
+                    rfturn tiis;
                 }
             });
         }
 
-        public Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
-            d.width = Math.max(d.width, 100);
-            return d;
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion d = supfr.gftPrfffrrfdSizf();
+            d.widti = Mbti.mbx(d.widti, 100);
+            rfturn d;
         }
     }
 
-    private class PromptingTextField extends JTextField implements FocusListener {
-        private String prompt;
-        boolean promptRemoved = false;
+    privbtf dlbss PromptingTfxtFifld fxtfnds JTfxtFifld implfmfnts FodusListfnfr {
+        privbtf String prompt;
+        boolfbn promptRfmovfd = fblsf;
         Color fg;
 
-        public PromptingTextField(String prompt, int columns) {
-            super(prompt, columns);
+        publid PromptingTfxtFifld(String prompt, int dolumns) {
+            supfr(prompt, dolumns);
 
-            this.prompt = prompt;
-            updateForeground();
-            addFocusListener(this);
-            setAccessibleName(this, prompt);
+            tiis.prompt = prompt;
+            updbtfForfground();
+            bddFodusListfnfr(tiis);
+            sftAddfssiblfNbmf(tiis, prompt);
         }
 
-        @Override
-        public void revalidate() {
-            super.revalidate();
-            updateForeground();
+        @Ovfrridf
+        publid void rfvblidbtf() {
+            supfr.rfvblidbtf();
+            updbtfForfground();
         }
 
-        private void updateForeground() {
-            this.fg = UIManager.getColor("TextField.foreground");
-            if (promptRemoved) {
-                setForeground(fg);
-            } else {
-                setForeground(Color.gray);
+        privbtf void updbtfForfground() {
+            tiis.fg = UIMbnbgfr.gftColor("TfxtFifld.forfground");
+            if (promptRfmovfd) {
+                sftForfground(fg);
+            } flsf {
+                sftForfground(Color.grby);
             }
         }
 
-        public String getText() {
-            if (!promptRemoved) {
-                return "";
-            } else {
-                return super.getText();
+        publid String gftTfxt() {
+            if (!promptRfmovfd) {
+                rfturn "";
+            } flsf {
+                rfturn supfr.gftTfxt();
             }
         }
 
-        public void focusGained(FocusEvent e) {
-            if (!promptRemoved) {
-                setText("");
-                setForeground(fg);
-                promptRemoved = true;
+        publid void fodusGbinfd(FodusEvfnt f) {
+            if (!promptRfmovfd) {
+                sftTfxt("");
+                sftForfground(fg);
+                promptRfmovfd = truf;
             }
         }
 
-        public void focusLost(FocusEvent e) {
-            if (promptRemoved && getText().equals("")) {
-                setText(prompt);
-                setForeground(Color.gray);
-                promptRemoved = false;
+        publid void fodusLost(FodusEvfnt f) {
+            if (promptRfmovfd && gftTfxt().fqubls("")) {
+                sftTfxt(prompt);
+                sftForfground(Color.grby);
+                promptRfmovfd = fblsf;
             }
         }
 
     }
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new ThreadOverviewPanel();
+    OvfrvifwPbnfl[] gftOvfrvifwPbnfls() {
+        if (ovfrvifwPbnfl == null) {
+            ovfrvifwPbnfl = nfw TirfbdOvfrvifwPbnfl();
         }
-        return new OverviewPanel[] { overviewPanel };
+        rfturn nfw OvfrvifwPbnfl[] { ovfrvifwPbnfl };
     }
 
 
-    private static class ThreadOverviewPanel extends OverviewPanel {
-        ThreadOverviewPanel() {
-            super(Messages.THREADS, threadCountKey,  Messages.LIVE_THREADS, null);
+    privbtf stbtid dlbss TirfbdOvfrvifwPbnfl fxtfnds OvfrvifwPbnfl {
+        TirfbdOvfrvifwPbnfl() {
+            supfr(Mfssbgfs.THREADS, tirfbdCountKfy,  Mfssbgfs.LIVE_THREADS, null);
         }
 
-        private void updateThreadsInfo(long tlCount, long tpCount, long ttCount, long timeStamp) {
-            getPlotter().addValues(timeStamp, tlCount);
-            getInfoLabel().setText(Resources.format(Messages.THREAD_TAB_INFO_LABEL_FORMAT, tlCount, tpCount, ttCount));
+        privbtf void updbtfTirfbdsInfo(long tlCount, long tpCount, long ttCount, long timfStbmp) {
+            gftPlottfr().bddVblufs(timfStbmp, tlCount);
+            gftInfoLbbfl().sftTfxt(Rfsourdfs.formbt(Mfssbgfs.THREAD_TAB_INFO_LABEL_FORMAT, tlCount, tpCount, ttCount));
         }
     }
 }

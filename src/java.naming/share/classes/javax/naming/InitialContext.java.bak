@@ -1,557 +1,557 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Hashtable;
-import javax.naming.spi.NamingManager;
-import com.sun.naming.internal.ResourceManager;
+import jbvb.util.Hbsitbblf;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import dom.sun.nbming.intfrnbl.RfsourdfMbnbgfr;
 
 /**
- * This class is the starting context for performing naming operations.
+ * Tiis dlbss is tif stbrting dontfxt for pfrforming nbming opfrbtions.
  *<p>
- * All naming operations are relative to a context.
- * The initial context implements the Context interface and
- * provides the starting point for resolution of names.
+ * All nbming opfrbtions brf rflbtivf to b dontfxt.
+ * Tif initibl dontfxt implfmfnts tif Contfxt intfrfbdf bnd
+ * providfs tif stbrting point for rfsolution of nbmfs.
  *<p>
- * <a name=ENVIRONMENT></a>
- * When the initial context is constructed, its environment
- * is initialized with properties defined in the environment parameter
- * passed to the constructor, and in any
- * <a href=Context.html#RESOURCEFILES>application resource files</a>.
+ * <b nbmf=ENVIRONMENT></b>
+ * Wifn tif initibl dontfxt is donstrudtfd, its fnvironmfnt
+ * is initiblizfd witi propfrtifs dffinfd in tif fnvironmfnt pbrbmftfr
+ * pbssfd to tif donstrudtor, bnd in bny
+ * <b irff=Contfxt.itml#RESOURCEFILES>bpplidbtion rfsourdf filfs</b>.
  *<p>
- * JNDI determines each property's value by merging
- * the values from the following two sources, in order:
+ * JNDI dftfrminfs fbdi propfrty's vbluf by mfrging
+ * tif vblufs from tif following two sourdfs, in ordfr:
  * <ol>
  * <li>
- * The first occurrence of the property from the constructor's
- * environment parameter and system properties.
+ * Tif first oddurrfndf of tif propfrty from tif donstrudtor's
+ * fnvironmfnt pbrbmftfr bnd systfm propfrtifs.
  * <li>
- * The application resource files (<tt>jndi.properties</tt>).
+ * Tif bpplidbtion rfsourdf filfs (<tt>jndi.propfrtifs</tt>).
  * </ol>
- * For each property found in both of these two sources, or in
- * more than one application resource file, the property's value
- * is determined as follows.  If the property is
- * one of the standard JNDI properties that specify a list of JNDI
- * factories (see <a href=Context.html#LISTPROPS><tt>Context</tt></a>),
- * all of the values are
- * concatenated into a single colon-separated list.  For other
- * properties, only the first value found is used.
+ * For fbdi propfrty found in boti of tifsf two sourdfs, or in
+ * morf tibn onf bpplidbtion rfsourdf filf, tif propfrty's vbluf
+ * is dftfrminfd bs follows.  If tif propfrty is
+ * onf of tif stbndbrd JNDI propfrtifs tibt spfdify b list of JNDI
+ * fbdtorifs (sff <b irff=Contfxt.itml#LISTPROPS><tt>Contfxt</tt></b>),
+ * bll of tif vblufs brf
+ * dondbtfnbtfd into b singlf dolon-sfpbrbtfd list.  For otifr
+ * propfrtifs, only tif first vbluf found is usfd.
  *
  *<p>
- * The initial context implementation is determined at runtime.
- * The default policy uses the environment property
- * "{@link Context#INITIAL_CONTEXT_FACTORY java.naming.factory.initial}",
- * which contains the class name of the initial context factory.
- * An exception to this policy is made when resolving URL strings, as described
- * below.
+ * Tif initibl dontfxt implfmfntbtion is dftfrminfd bt runtimf.
+ * Tif dffbult polidy usfs tif fnvironmfnt propfrty
+ * "{@link Contfxt#INITIAL_CONTEXT_FACTORY jbvb.nbming.fbdtory.initibl}",
+ * wiidi dontbins tif dlbss nbmf of tif initibl dontfxt fbdtory.
+ * An fxdfption to tiis polidy is mbdf wifn rfsolving URL strings, bs dfsdribfd
+ * bflow.
  *<p>
- * When a URL string (a <tt>String</tt> of the form
- * <em>scheme_id:rest_of_name</em>) is passed as a name parameter to
- * any method, a URL context factory for handling that scheme is
- * located and used to resolve the URL.  If no such factory is found,
- * the initial context specified by
- * <tt>"java.naming.factory.initial"</tt> is used.  Similarly, when a
- * <tt>CompositeName</tt> object whose first component is a URL string is
- * passed as a name parameter to any method, a URL context factory is
- * located and used to resolve the first name component.
- * See {@link NamingManager#getURLContext
- * <tt>NamingManager.getURLContext()</tt>} for a description of how URL
- * context factories are located.
+ * Wifn b URL string (b <tt>String</tt> of tif form
+ * <fm>sdifmf_id:rfst_of_nbmf</fm>) is pbssfd bs b nbmf pbrbmftfr to
+ * bny mftiod, b URL dontfxt fbdtory for ibndling tibt sdifmf is
+ * lodbtfd bnd usfd to rfsolvf tif URL.  If no sudi fbdtory is found,
+ * tif initibl dontfxt spfdififd by
+ * <tt>"jbvb.nbming.fbdtory.initibl"</tt> is usfd.  Similbrly, wifn b
+ * <tt>CompositfNbmf</tt> objfdt wiosf first domponfnt is b URL string is
+ * pbssfd bs b nbmf pbrbmftfr to bny mftiod, b URL dontfxt fbdtory is
+ * lodbtfd bnd usfd to rfsolvf tif first nbmf domponfnt.
+ * Sff {@link NbmingMbnbgfr#gftURLContfxt
+ * <tt>NbmingMbnbgfr.gftURLContfxt()</tt>} for b dfsdription of iow URL
+ * dontfxt fbdtorifs brf lodbtfd.
  *<p>
- * This default policy of locating the initial context and URL context
- * factories may be overridden
- * by calling
- * <tt>NamingManager.setInitialContextFactoryBuilder()</tt>.
+ * Tiis dffbult polidy of lodbting tif initibl dontfxt bnd URL dontfxt
+ * fbdtorifs mby bf ovfrriddfn
+ * by dblling
+ * <tt>NbmingMbnbgfr.sftInitiblContfxtFbdtoryBuildfr()</tt>.
  *<p>
- * NoInitialContextException is thrown when an initial context cannot
- * be instantiated. This exception can be thrown during any interaction
- * with the InitialContext, not only when the InitialContext is constructed.
- * For example, the implementation of the initial context might lazily
- * retrieve the context only when actual methods are invoked on it.
- * The application should not have any dependency on when the existence
- * of an initial context is determined.
+ * NoInitiblContfxtExdfption is tirown wifn bn initibl dontfxt dbnnot
+ * bf instbntibtfd. Tiis fxdfption dbn bf tirown during bny intfrbdtion
+ * witi tif InitiblContfxt, not only wifn tif InitiblContfxt is donstrudtfd.
+ * For fxbmplf, tif implfmfntbtion of tif initibl dontfxt migit lbzily
+ * rftrifvf tif dontfxt only wifn bdtubl mftiods brf invokfd on it.
+ * Tif bpplidbtion siould not ibvf bny dfpfndfndy on wifn tif fxistfndf
+ * of bn initibl dontfxt is dftfrminfd.
  *<p>
- * When the environment property "java.naming.factory.initial" is
- * non-null, the InitialContext constructor will attempt to create the
- * initial context specified therein. At that time, the initial context factory
- * involved might throw an exception if a problem is encountered. However,
- * it is provider implementation-dependent when it verifies and indicates
- * to the users of the initial context any environment property- or
- * connection- related problems. It can do so lazily--delaying until
- * an operation is performed on the context, or eagerly, at the time
- * the context is constructed.
+ * Wifn tif fnvironmfnt propfrty "jbvb.nbming.fbdtory.initibl" is
+ * non-null, tif InitiblContfxt donstrudtor will bttfmpt to drfbtf tif
+ * initibl dontfxt spfdififd tifrfin. At tibt timf, tif initibl dontfxt fbdtory
+ * involvfd migit tirow bn fxdfption if b problfm is fndountfrfd. Howfvfr,
+ * it is providfr implfmfntbtion-dfpfndfnt wifn it vfrififs bnd indidbtfs
+ * to tif usfrs of tif initibl dontfxt bny fnvironmfnt propfrty- or
+ * donnfdtion- rflbtfd problfms. It dbn do so lbzily--dflbying until
+ * bn opfrbtion is pfrformfd on tif dontfxt, or fbgfrly, bt tif timf
+ * tif dontfxt is donstrudtfd.
  *<p>
- * An InitialContext instance is not synchronized against concurrent
- * access by multiple threads. Multiple threads each manipulating a
- * different InitialContext instance need not synchronize.
- * Threads that need to access a single InitialContext instance
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking.
+ * An InitiblContfxt instbndf is not syndironizfd bgbinst dondurrfnt
+ * bddfss by multiplf tirfbds. Multiplf tirfbds fbdi mbnipulbting b
+ * difffrfnt InitiblContfxt instbndf nffd not syndironizf.
+ * Tirfbds tibt nffd to bddfss b singlf InitiblContfxt instbndf
+ * dondurrfntly siould syndironizf bmongst tifmsflvfs bnd providf tif
+ * nfdfssbry lodking.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
  *
- * @see Context
- * @see NamingManager#setInitialContextFactoryBuilder
- *      NamingManager.setInitialContextFactoryBuilder
- * @since 1.3, JNDI 1.1
+ * @sff Contfxt
+ * @sff NbmingMbnbgfr#sftInitiblContfxtFbdtoryBuildfr
+ *      NbmingMbnbgfr.sftInitiblContfxtFbdtoryBuildfr
+ * @sindf 1.3, JNDI 1.1
  */
 
-public class InitialContext implements Context {
+publid dlbss InitiblContfxt implfmfnts Contfxt {
 
     /**
-     * The environment associated with this InitialContext.
-     * It is initialized to null and is updated by the constructor
-     * that accepts an environment or by the <tt>init()</tt> method.
-     * @see #addToEnvironment
-     * @see #removeFromEnvironment
-     * @see #getEnvironment
+     * Tif fnvironmfnt bssodibtfd witi tiis InitiblContfxt.
+     * It is initiblizfd to null bnd is updbtfd by tif donstrudtor
+     * tibt bddfpts bn fnvironmfnt or by tif <tt>init()</tt> mftiod.
+     * @sff #bddToEnvironmfnt
+     * @sff #rfmovfFromEnvironmfnt
+     * @sff #gftEnvironmfnt
      */
-    protected Hashtable<Object,Object> myProps = null;
+    protfdtfd Hbsitbblf<Objfdt,Objfdt> myProps = null;
 
     /**
-     * Field holding the result of calling NamingManager.getInitialContext().
-     * It is set by getDefaultInitCtx() the first time getDefaultInitCtx()
-     * is called. Subsequent invocations of getDefaultInitCtx() return
-     * the value of defaultInitCtx.
-     * @see #getDefaultInitCtx
+     * Fifld iolding tif rfsult of dblling NbmingMbnbgfr.gftInitiblContfxt().
+     * It is sft by gftDffbultInitCtx() tif first timf gftDffbultInitCtx()
+     * is dbllfd. Subsfqufnt invodbtions of gftDffbultInitCtx() rfturn
+     * tif vbluf of dffbultInitCtx.
+     * @sff #gftDffbultInitCtx
      */
-    protected Context defaultInitCtx = null;
+    protfdtfd Contfxt dffbultInitCtx = null;
 
     /**
-     * Field indicating whether the initial context has been obtained
-     * by calling NamingManager.getInitialContext().
-     * If true, its result is in <code>defaultInitCtx</code>.
+     * Fifld indidbting wiftifr tif initibl dontfxt ibs bffn obtbinfd
+     * by dblling NbmingMbnbgfr.gftInitiblContfxt().
+     * If truf, its rfsult is in <dodf>dffbultInitCtx</dodf>.
      */
-    protected boolean gotDefault = false;
+    protfdtfd boolfbn gotDffbult = fblsf;
 
     /**
-     * Constructs an initial context with the option of not
-     * initializing it.  This may be used by a constructor in
-     * a subclass when the value of the environment parameter
-     * is not yet known at the time the <tt>InitialContext</tt>
-     * constructor is called.  The subclass's constructor will
-     * call this constructor, compute the value of the environment,
-     * and then call <tt>init()</tt> before returning.
+     * Construdts bn initibl dontfxt witi tif option of not
+     * initiblizing it.  Tiis mby bf usfd by b donstrudtor in
+     * b subdlbss wifn tif vbluf of tif fnvironmfnt pbrbmftfr
+     * is not yft known bt tif timf tif <tt>InitiblContfxt</tt>
+     * donstrudtor is dbllfd.  Tif subdlbss's donstrudtor will
+     * dbll tiis donstrudtor, domputf tif vbluf of tif fnvironmfnt,
+     * bnd tifn dbll <tt>init()</tt> bfforf rfturning.
      *
-     * @param lazy
-     *          true means do not initialize the initial context; false
-     *          is equivalent to calling <tt>new InitialContext()</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm lbzy
+     *          truf mfbns do not initiblizf tif initibl dontfxt; fblsf
+     *          is fquivblfnt to dblling <tt>nfw InitiblContfxt()</tt>
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see #init(Hashtable)
-     * @since 1.3
+     * @sff #init(Hbsitbblf)
+     * @sindf 1.3
      */
-    protected InitialContext(boolean lazy) throws NamingException {
-        if (!lazy) {
+    protfdtfd InitiblContfxt(boolfbn lbzy) tirows NbmingExdfption {
+        if (!lbzy) {
             init(null);
         }
     }
 
     /**
-     * Constructs an initial context.
-     * No environment properties are supplied.
-     * Equivalent to <tt>new InitialContext(null)</tt>.
+     * Construdts bn initibl dontfxt.
+     * No fnvironmfnt propfrtifs brf supplifd.
+     * Equivblfnt to <tt>nfw InitiblContfxt(null)</tt>.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see #InitialContext(Hashtable)
+     * @sff #InitiblContfxt(Hbsitbblf)
      */
-    public InitialContext() throws NamingException {
+    publid InitiblContfxt() tirows NbmingExdfption {
         init(null);
     }
 
     /**
-     * Constructs an initial context using the supplied environment.
-     * Environment properties are discussed in the class description.
+     * Construdts bn initibl dontfxt using tif supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in tif dlbss dfsdription.
      *
-     * <p> This constructor will not modify <tt>environment</tt>
-     * or save a reference to it, but may save a clone.
-     * Caller should not modify mutable keys and values in
-     * <tt>environment</tt> after it has been passed to the constructor.
+     * <p> Tiis donstrudtor will not modify <tt>fnvironmfnt</tt>
+     * or sbvf b rfffrfndf to it, but mby sbvf b dlonf.
+     * Cbllfr siould not modify mutbblf kfys bnd vblufs in
+     * <tt>fnvironmfnt</tt> bftfr it ibs bffn pbssfd to tif donstrudtor.
      *
-     * @param environment
-     *          environment used to create the initial context.
-     *          Null indicates an empty environment.
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf tif initibl dontfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      */
-    public InitialContext(Hashtable<?,?> environment)
-        throws NamingException
+    publid InitiblContfxt(Hbsitbblf<?,?> fnvironmfnt)
+        tirows NbmingExdfption
     {
-        if (environment != null) {
-            environment = (Hashtable)environment.clone();
+        if (fnvironmfnt != null) {
+            fnvironmfnt = (Hbsitbblf)fnvironmfnt.dlonf();
         }
-        init(environment);
+        init(fnvironmfnt);
     }
 
     /**
-     * Initializes the initial context using the supplied environment.
-     * Environment properties are discussed in the class description.
+     * Initiblizfs tif initibl dontfxt using tif supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in tif dlbss dfsdription.
      *
-     * <p> This method will modify <tt>environment</tt> and save
-     * a reference to it.  The caller may no longer modify it.
+     * <p> Tiis mftiod will modify <tt>fnvironmfnt</tt> bnd sbvf
+     * b rfffrfndf to it.  Tif dbllfr mby no longfr modify it.
      *
-     * @param environment
-     *          environment used to create the initial context.
-     *          Null indicates an empty environment.
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf tif initibl dontfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see #InitialContext(boolean)
-     * @since 1.3
+     * @sff #InitiblContfxt(boolfbn)
+     * @sindf 1.3
      */
-    @SuppressWarnings("unchecked")
-    protected void init(Hashtable<?,?> environment)
-        throws NamingException
+    @SupprfssWbrnings("undifdkfd")
+    protfdtfd void init(Hbsitbblf<?,?> fnvironmfnt)
+        tirows NbmingExdfption
     {
-        myProps = (Hashtable<Object,Object>)
-                ResourceManager.getInitialEnvironment(environment);
+        myProps = (Hbsitbblf<Objfdt,Objfdt>)
+                RfsourdfMbnbgfr.gftInitiblEnvironmfnt(fnvironmfnt);
 
-        if (myProps.get(Context.INITIAL_CONTEXT_FACTORY) != null) {
-            // user has specified initial context factory; try to get it
-            getDefaultInitCtx();
+        if (myProps.gft(Contfxt.INITIAL_CONTEXT_FACTORY) != null) {
+            // usfr ibs spfdififd initibl dontfxt fbdtory; try to gft it
+            gftDffbultInitCtx();
         }
     }
 
     /**
-     * A static method to retrieve the named object.
-     * This is a shortcut method equivalent to invoking:
+     * A stbtid mftiod to rftrifvf tif nbmfd objfdt.
+     * Tiis is b siortdut mftiod fquivblfnt to invoking:
      * <p>
-     * <code>
-     *        InitialContext ic = new InitialContext();
-     *        Object obj = ic.lookup();
-     * </code>
-     * <p> If <tt>name</tt> is empty, returns a new instance of this context
-     * (which represents the same naming context as this context, but its
-     * environment may be modified independently and it may be accessed
-     * concurrently).
+     * <dodf>
+     *        InitiblContfxt id = nfw InitiblContfxt();
+     *        Objfdt obj = id.lookup();
+     * </dodf>
+     * <p> If <tt>nbmf</tt> is fmpty, rfturns b nfw instbndf of tiis dontfxt
+     * (wiidi rfprfsfnts tif sbmf nbming dontfxt bs tiis dontfxt, but its
+     * fnvironmfnt mby bf modififd indfpfndfntly bnd it mby bf bddfssfd
+     * dondurrfntly).
      *
-     * @param <T> the type of the returned object
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm <T> tif typf of tif rfturnfd objfdt
+     * @pbrbm nbmf
+     *          tif nbmf of tif objfdt to look up
+     * @rfturn  tif objfdt bound to <tt>nbmf</tt>
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
      *
-     * @see #doLookup(String)
-     * @see #lookup(Name)
-     * @since 1.6
+     * @sff #doLookup(String)
+     * @sff #lookup(Nbmf)
+     * @sindf 1.6
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T doLookup(Name name)
-        throws NamingException {
-        return (T) (new InitialContext()).lookup(name);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> T doLookup(Nbmf nbmf)
+        tirows NbmingExdfption {
+        rfturn (T) (nfw InitiblContfxt()).lookup(nbmf);
     }
 
    /**
-     * A static method to retrieve the named object.
-     * See {@link #doLookup(Name)} for details.
-     * @param <T> the type of the returned object
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
-     * @since 1.6
+     * A stbtid mftiod to rftrifvf tif nbmfd objfdt.
+     * Sff {@link #doLookup(Nbmf)} for dftbils.
+     * @pbrbm <T> tif typf of tif rfturnfd objfdt
+     * @pbrbm nbmf
+     *          tif nbmf of tif objfdt to look up
+     * @rfturn  tif objfdt bound to <tt>nbmf</tt>
+     * @tirows  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     * @sindf 1.6
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T doLookup(String name)
-        throws NamingException {
-        return (T) (new InitialContext()).lookup(name);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> T doLookup(String nbmf)
+        tirows NbmingExdfption {
+        rfturn (T) (nfw InitiblContfxt()).lookup(nbmf);
     }
 
-    private static String getURLScheme(String str) {
-        int colon_posn = str.indexOf(':');
-        int slash_posn = str.indexOf('/');
+    privbtf stbtid String gftURLSdifmf(String str) {
+        int dolon_posn = str.indfxOf(':');
+        int slbsi_posn = str.indfxOf('/');
 
-        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn))
-            return str.substring(0, colon_posn);
-        return null;
+        if (dolon_posn > 0 && (slbsi_posn == -1 || dolon_posn < slbsi_posn))
+            rfturn str.substring(0, dolon_posn);
+        rfturn null;
     }
 
     /**
-     * Retrieves the initial context by calling
-     * <code>NamingManager.getInitialContext()</code>
-     * and cache it in defaultInitCtx.
-     * Set <code>gotDefault</code> so that we know we've tried this before.
-     * @return The non-null cached initial context.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException If a naming exception was encountered.
+     * Rftrifvfs tif initibl dontfxt by dblling
+     * <dodf>NbmingMbnbgfr.gftInitiblContfxt()</dodf>
+     * bnd dbdif it in dffbultInitCtx.
+     * Sft <dodf>gotDffbult</dodf> so tibt wf know wf'vf trifd tiis bfforf.
+     * @rfturn Tif non-null dbdifd initibl dontfxt.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
      */
-    protected Context getDefaultInitCtx() throws NamingException{
-        if (!gotDefault) {
-            defaultInitCtx = NamingManager.getInitialContext(myProps);
-            gotDefault = true;
+    protfdtfd Contfxt gftDffbultInitCtx() tirows NbmingExdfption{
+        if (!gotDffbult) {
+            dffbultInitCtx = NbmingMbnbgfr.gftInitiblContfxt(myProps);
+            gotDffbult = truf;
         }
-        if (defaultInitCtx == null)
-            throw new NoInitialContextException();
+        if (dffbultInitCtx == null)
+            tirow nfw NoInitiblContfxtExdfption();
 
-        return defaultInitCtx;
+        rfturn dffbultInitCtx;
     }
 
     /**
-     * Retrieves a context for resolving the string name <code>name</code>.
-     * If <code>name</code> name is a URL string, then attempt
-     * to find a URL context for it. If none is found, or if
-     * <code>name</code> is not a URL string, then return
-     * <code>getDefaultInitCtx()</code>.
+     * Rftrifvfs b dontfxt for rfsolving tif string nbmf <dodf>nbmf</dodf>.
+     * If <dodf>nbmf</dodf> nbmf is b URL string, tifn bttfmpt
+     * to find b URL dontfxt for it. If nonf is found, or if
+     * <dodf>nbmf</dodf> is not b URL string, tifn rfturn
+     * <dodf>gftDffbultInitCtx()</dodf>.
      *<p>
-     * See getURLOrDefaultInitCtx(Name) for description
-     * of how a subclass should use this method.
-     * @param name The non-null name for which to get the context.
-     * @return A URL context for <code>name</code> or the cached
-     *         initial context. The result cannot be null.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException In a naming exception is encountered.
-     * @see javax.naming.spi.NamingManager#getURLContext
+     * Sff gftURLOrDffbultInitCtx(Nbmf) for dfsdription
+     * of iow b subdlbss siould usf tiis mftiod.
+     * @pbrbm nbmf Tif non-null nbmf for wiidi to gft tif dontfxt.
+     * @rfturn A URL dontfxt for <dodf>nbmf</dodf> or tif dbdifd
+     *         initibl dontfxt. Tif rfsult dbnnot bf null.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption In b nbming fxdfption is fndountfrfd.
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
      */
-    protected Context getURLOrDefaultInitCtx(String name)
-        throws NamingException {
-        if (NamingManager.hasInitialContextFactoryBuilder()) {
-            return getDefaultInitCtx();
+    protfdtfd Contfxt gftURLOrDffbultInitCtx(String nbmf)
+        tirows NbmingExdfption {
+        if (NbmingMbnbgfr.ibsInitiblContfxtFbdtoryBuildfr()) {
+            rfturn gftDffbultInitCtx();
         }
-        String scheme = getURLScheme(name);
-        if (scheme != null) {
-            Context ctx = NamingManager.getURLContext(scheme, myProps);
-            if (ctx != null) {
-                return ctx;
+        String sdifmf = gftURLSdifmf(nbmf);
+        if (sdifmf != null) {
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt(sdifmf, myProps);
+            if (dtx != null) {
+                rfturn dtx;
             }
         }
-        return getDefaultInitCtx();
+        rfturn gftDffbultInitCtx();
     }
 
     /**
-     * Retrieves a context for resolving <code>name</code>.
-     * If the first component of <code>name</code> name is a URL string,
-     * then attempt to find a URL context for it. If none is found, or if
-     * the first component of <code>name</code> is not a URL string,
-     * then return <code>getDefaultInitCtx()</code>.
+     * Rftrifvfs b dontfxt for rfsolving <dodf>nbmf</dodf>.
+     * If tif first domponfnt of <dodf>nbmf</dodf> nbmf is b URL string,
+     * tifn bttfmpt to find b URL dontfxt for it. If nonf is found, or if
+     * tif first domponfnt of <dodf>nbmf</dodf> is not b URL string,
+     * tifn rfturn <dodf>gftDffbultInitCtx()</dodf>.
      *<p>
-     * When creating a subclass of InitialContext, use this method as
+     * Wifn drfbting b subdlbss of InitiblContfxt, usf tiis mftiod bs
      * follows.
-     * Define a new method that uses this method to get an initial
-     * context of the desired subclass.
-     * <blockquote><pre>
-     * protected XXXContext getURLOrDefaultInitXXXCtx(Name name)
-     * throws NamingException {
-     *  Context answer = getURLOrDefaultInitCtx(name);
-     *  if (!(answer instanceof XXXContext)) {
-     *    if (answer == null) {
-     *      throw new NoInitialContextException();
-     *    } else {
-     *      throw new NotContextException("Not an XXXContext");
+     * Dffinf b nfw mftiod tibt usfs tiis mftiod to gft bn initibl
+     * dontfxt of tif dfsirfd subdlbss.
+     * <blodkquotf><prf>
+     * protfdtfd XXXContfxt gftURLOrDffbultInitXXXCtx(Nbmf nbmf)
+     * tirows NbmingExdfption {
+     *  Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+     *  if (!(bnswfr instbndfof XXXContfxt)) {
+     *    if (bnswfr == null) {
+     *      tirow nfw NoInitiblContfxtExdfption();
+     *    } flsf {
+     *      tirow nfw NotContfxtExdfption("Not bn XXXContfxt");
      *    }
      *  }
-     *  return (XXXContext)answer;
+     *  rfturn (XXXContfxt)bnswfr;
      * }
-     * </pre></blockquote>
-     * When providing implementations for the new methods in the subclass,
-     * use this newly defined method to get the initial context.
-     * <blockquote><pre>
-     * public Object XXXMethod1(Name name, ...) {
-     *  throws NamingException {
-     *    return getURLOrDefaultInitXXXCtx(name).XXXMethod1(name, ...);
+     * </prf></blodkquotf>
+     * Wifn providing implfmfntbtions for tif nfw mftiods in tif subdlbss,
+     * usf tiis nfwly dffinfd mftiod to gft tif initibl dontfxt.
+     * <blodkquotf><prf>
+     * publid Objfdt XXXMftiod1(Nbmf nbmf, ...) {
+     *  tirows NbmingExdfption {
+     *    rfturn gftURLOrDffbultInitXXXCtx(nbmf).XXXMftiod1(nbmf, ...);
      * }
-     * </pre></blockquote>
+     * </prf></blodkquotf>
      *
-     * @param name The non-null name for which to get the context.
-     * @return A URL context for <code>name</code> or the cached
-     *         initial context. The result cannot be null.
-     * @exception NoInitialContextException If cannot find an initial context.
-     * @exception NamingException In a naming exception is encountered.
+     * @pbrbm nbmf Tif non-null nbmf for wiidi to gft tif dontfxt.
+     * @rfturn A URL dontfxt for <dodf>nbmf</dodf> or tif dbdifd
+     *         initibl dontfxt. Tif rfsult dbnnot bf null.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption In b nbming fxdfption is fndountfrfd.
      *
-     * @see javax.naming.spi.NamingManager#getURLContext
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
      */
-    protected Context getURLOrDefaultInitCtx(Name name)
-        throws NamingException {
-        if (NamingManager.hasInitialContextFactoryBuilder()) {
-            return getDefaultInitCtx();
+    protfdtfd Contfxt gftURLOrDffbultInitCtx(Nbmf nbmf)
+        tirows NbmingExdfption {
+        if (NbmingMbnbgfr.ibsInitiblContfxtFbdtoryBuildfr()) {
+            rfturn gftDffbultInitCtx();
         }
-        if (name.size() > 0) {
-            String first = name.get(0);
-            String scheme = getURLScheme(first);
-            if (scheme != null) {
-                Context ctx = NamingManager.getURLContext(scheme, myProps);
-                if (ctx != null) {
-                    return ctx;
+        if (nbmf.sizf() > 0) {
+            String first = nbmf.gft(0);
+            String sdifmf = gftURLSdifmf(first);
+            if (sdifmf != null) {
+                Contfxt dtx = NbmingMbnbgfr.gftURLContfxt(sdifmf, myProps);
+                if (dtx != null) {
+                    rfturn dtx;
                 }
             }
         }
-        return getDefaultInitCtx();
+        rfturn gftDffbultInitCtx();
     }
 
-// Context methods
-// Most Javadoc is deferred to the Context interface.
+// Contfxt mftiods
+// Most Jbvbdod is dfffrrfd to tif Contfxt intfrfbdf.
 
-    public Object lookup(String name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookup(name);
+    publid Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookup(nbmf);
     }
 
-    public Object lookup(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookup(name);
+    publid Objfdt lookup(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookup(nbmf);
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).bind(name, obj);
+    publid void bind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).bind(nbmf, obj);
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).bind(name, obj);
+    publid void bind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).bind(nbmf, obj);
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).rebind(name, obj);
+    publid void rfbind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).rfbind(nbmf, obj);
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        getURLOrDefaultInitCtx(name).rebind(name, obj);
+    publid void rfbind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).rfbind(nbmf, obj);
     }
 
-    public void unbind(String name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).unbind(name);
+    publid void unbind(String nbmf) tirows NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).unbind(nbmf);
     }
 
-    public void unbind(Name name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).unbind(name);
+    publid void unbind(Nbmf nbmf) tirows NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).unbind(nbmf);
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) tirows NbmingExdfption {
+        gftURLOrDffbultInitCtx(oldNbmf).rfnbmf(oldNbmf, nfwNbmf);
     }
 
-    public void rename(Name oldName, Name newName)
-        throws NamingException
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf)
+        tirows NbmingExdfption
     {
-        getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
+        gftURLOrDffbultInitCtx(oldNbmf).rfnbmf(oldNbmf, nfwNbmf);
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)
-        throws NamingException
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+        tirows NbmingExdfption
     {
-        return (getURLOrDefaultInitCtx(name).list(name));
+        rfturn (gftURLOrDffbultInitCtx(nbmf).list(nbmf));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        tirows NbmingExdfption
     {
-        return (getURLOrDefaultInitCtx(name).list(name));
+        rfturn (gftURLOrDffbultInitCtx(nbmf).list(nbmf));
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-            throws NamingException  {
-        return getURLOrDefaultInitCtx(name).listBindings(name);
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+            tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).listBindings(nbmf);
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException  {
-        return getURLOrDefaultInitCtx(name).listBindings(name);
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+            tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).listBindings(nbmf);
     }
 
-    public void destroySubcontext(String name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).destroySubcontext(name);
+    publid void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).dfstroySubdontfxt(nbmf);
     }
 
-    public void destroySubcontext(Name name) throws NamingException  {
-        getURLOrDefaultInitCtx(name).destroySubcontext(name);
+    publid void dfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).dfstroySubdontfxt(nbmf);
     }
 
-    public Context createSubcontext(String name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).createSubcontext(name);
+    publid Contfxt drfbtfSubdontfxt(String nbmf) tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).drfbtfSubdontfxt(nbmf);
     }
 
-    public Context createSubcontext(Name name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).createSubcontext(name);
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).drfbtfSubdontfxt(nbmf);
     }
 
-    public Object lookupLink(String name) throws NamingException  {
-        return getURLOrDefaultInitCtx(name).lookupLink(name);
+    publid Objfdt lookupLink(String nbmf) tirows NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookupLink(nbmf);
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).lookupLink(name);
+    publid Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookupLink(nbmf);
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).getNameParser(name);
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).gftNbmfPbrsfr(nbmf);
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        return getURLOrDefaultInitCtx(name).getNameParser(name);
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).gftNbmfPbrsfr(nbmf);
     }
 
     /**
-     * Composes the name of this context with a name relative to
-     * this context.
-     * Since an initial context may never be named relative
-     * to any context other than itself, the value of the
-     * <tt>prefix</tt> parameter must be an empty name (<tt>""</tt>).
+     * Composfs tif nbmf of tiis dontfxt witi b nbmf rflbtivf to
+     * tiis dontfxt.
+     * Sindf bn initibl dontfxt mby nfvfr bf nbmfd rflbtivf
+     * to bny dontfxt otifr tibn itsflf, tif vbluf of tif
+     * <tt>prffix</tt> pbrbmftfr must bf bn fmpty nbmf (<tt>""</tt>).
      */
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        return name;
+    publid String domposfNbmf(String nbmf, String prffix)
+            tirows NbmingExdfption {
+        rfturn nbmf;
     }
 
     /**
-     * Composes the name of this context with a name relative to
-     * this context.
-     * Since an initial context may never be named relative
-     * to any context other than itself, the value of the
-     * <tt>prefix</tt> parameter must be an empty name.
+     * Composfs tif nbmf of tiis dontfxt witi b nbmf rflbtivf to
+     * tiis dontfxt.
+     * Sindf bn initibl dontfxt mby nfvfr bf nbmfd rflbtivf
+     * to bny dontfxt otifr tibn itsflf, tif vbluf of tif
+     * <tt>prffix</tt> pbrbmftfr must bf bn fmpty nbmf.
      */
-    public Name composeName(Name name, Name prefix)
-        throws NamingException
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+        tirows NbmingExdfption
     {
-        return (Name)name.clone();
+        rfturn (Nbmf)nbmf.dlonf();
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException {
-        myProps.put(propName, propVal);
-        return getDefaultInitCtx().addToEnvironment(propName, propVal);
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+            tirows NbmingExdfption {
+        myProps.put(propNbmf, propVbl);
+        rfturn gftDffbultInitCtx().bddToEnvironmfnt(propNbmf, propVbl);
     }
 
-    public Object removeFromEnvironment(String propName)
-            throws NamingException {
-        myProps.remove(propName);
-        return getDefaultInitCtx().removeFromEnvironment(propName);
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+            tirows NbmingExdfption {
+        myProps.rfmovf(propNbmf);
+        rfturn gftDffbultInitCtx().rfmovfFromEnvironmfnt(propNbmf);
     }
 
-    public Hashtable<?,?> getEnvironment() throws NamingException {
-        return getDefaultInitCtx().getEnvironment();
+    publid Hbsitbblf<?,?> gftEnvironmfnt() tirows NbmingExdfption {
+        rfturn gftDffbultInitCtx().gftEnvironmfnt();
     }
 
-    public void close() throws NamingException {
+    publid void dlosf() tirows NbmingExdfption {
         myProps = null;
-        if (defaultInitCtx != null) {
-            defaultInitCtx.close();
-            defaultInitCtx = null;
+        if (dffbultInitCtx != null) {
+            dffbultInitCtx.dlosf();
+            dffbultInitCtx = null;
         }
-        gotDefault = false;
+        gotDffbult = fblsf;
     }
 
-    public String getNameInNamespace() throws NamingException {
-        return getDefaultInitCtx().getNameInNamespace();
+    publid String gftNbmfInNbmfspbdf() tirows NbmingExdfption {
+        rfturn gftDffbultInitCtx().gftNbmfInNbmfspbdf();
     }
 };

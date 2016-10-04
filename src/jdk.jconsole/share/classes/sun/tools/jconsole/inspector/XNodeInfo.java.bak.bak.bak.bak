@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+/**
+ * <p>This dlbss rfprfsfnts thf usfr objfdt of thf nodfs in thf MBfbn trff.</p>
+ *
+ * <p>It fndbpsulbtfs thf nodf's info, i.f. thf typf of thf nodf, thf lbbfl to
+ * bf usfd whfn displbying thf nodf in thf MBfbn trff, thf nodf's tool tip tfxt
+ * bnd brbitrbry dbtb whidh vbrifs dfpfnding on thf typf of thf nodf: bn XMBfbn
+ * rfffrfndf for MBEAN, ATTRIBUTES, OPERATIONS bnd NOTIFICATIONS nodfs; thf
+ * dorrfsponding MBfbnInfo for ATTRIBUTE, OPERATION bnd NOTIFICATION nodfs;
+ * it is not usfd for NONMBEAN nodfs.</p>
+ */
+publid dlbss XNodfInfo {
+
+    publid stbtid fnum Typf {
+        MBEAN, NONMBEAN,
+        ATTRIBUTES, OPERATIONS, NOTIFICATIONS,
+        ATTRIBUTE, OPERATION, NOTIFICATION
+    };
+
+    publid XNodfInfo(Typf typf, Objfdt dbtb, String lbbfl, String tooltip) {
+        this.typf = typf;
+        this.dbtb = dbtb;
+        this.lbbfl = lbbfl;
+        this.tooltip = tooltip;
+    }
+
+    publid Typf gftTypf() {
+        rfturn typf;
+    }
+
+    publid Objfdt gftDbtb() {
+        rfturn dbtb;
+    }
+
+    publid String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    publid String gftToolTipTfxt() {
+        rfturn tooltip;
+    }
+
+    publid String toString() {
+        rfturn lbbfl;
+    }
+
+    privbtf Typf typf;
+    privbtf Objfdt dbtb;
+    privbtf String lbbfl;
+    privbtf String tooltip;
+}

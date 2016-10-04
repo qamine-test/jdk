@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * This dlbss is usfd by thf qufry-building mfdhbnism to rfprfsfnt binbry
+ * opfrbtions.
+ * @sfribl indludf
+ *
+ * @sindf 1.5
+ */
+dlbss InQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5801329450358952434L;
+
+    /**
+     * @sfribl Thf {@link VblufExp} to bf found
+     */
+    privbtf VblufExp vbl;
+
+    /**
+     * @sfribl Thf brrby of {@link VblufExp} to bf sfbrdhfd
+     */
+    privbtf VblufExp[]  vblufList;
+
+
+    /**
+     * Bbsid Construdtor.
+     */
+    publid InQufryExp() {
+    }
+
+    /**
+     * Crfbtfs b nfw InQufryExp with thf spfdififd VblufExp to bf found in
+     * b spfdififd brrby of VblufExp.
+     */
+    publid InQufryExp(VblufExp v1, VblufExp itfms[]) {
+        vbl       = v1;
+        vblufList = itfms;
+    }
+
+
+    /**
+     * Rfturns thf dhfdkfd vbluf of thf qufry.
+     */
+    publid VblufExp gftChfdkfdVbluf()  {
+        rfturn vbl;
+    }
+
+    /**
+     * Rfturns thf brrby of vblufs of thf qufry.
+     */
+    publid VblufExp[] gftExpliditVblufs()  {
+        rfturn vblufList;
+    }
+
+    /**
+     * Applifs thf InQufryExp on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf InQufryExp will bf bpplifd.
+     *
+     * @rfturn  Truf if thf qufry wbs suddfssfully bpplifd to thf MBfbn, fblsf othfrwisf.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid boolfbn bpply(ObjfdtNbmf nbmf)
+    throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        if (vblufList != null) {
+            VblufExp v      = vbl.bpply(nbmf);
+            boolfbn numfrid = v instbndfof NumfridVblufExp;
+
+            for (VblufExp flfmfnt : vblufList) {
+                flfmfnt = flfmfnt.bpply(nbmf);
+                if (numfrid) {
+                    if (((NumfridVblufExp) flfmfnt).doublfVbluf() ==
+                        ((NumfridVblufExp) v).doublfVbluf()) {
+                        rfturn truf;
+                    }
+                } flsf {
+                    if (((StringVblufExp) flfmfnt).gftVbluf().fqubls(
+                        ((StringVblufExp) v).gftVbluf())) {
+                        rfturn truf;
+                    }
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfnting thf objfdt.
+     */
+    publid String toString()  {
+        rfturn vbl + " in (" + gfnfrbtfVblufList() + ")";
+    }
+
+
+    privbtf String gfnfrbtfVblufList() {
+        if (vblufList == null || vblufList.lfngth == 0) {
+            rfturn "";
+        }
+
+        finbl StringBuildfr rfsult =
+                nfw StringBuildfr(vblufList[0].toString());
+
+        for (int i = 1; i < vblufList.lfngth; i++) {
+            rfsult.bppfnd(", ");
+            rfsult.bppfnd(vblufList[i]);
+        }
+
+        rfturn rfsult.toString();
+    }
+
+ }

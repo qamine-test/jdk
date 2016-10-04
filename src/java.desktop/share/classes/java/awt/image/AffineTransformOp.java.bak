@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.AlphaComposite;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Transparency;
-import java.lang.annotation.Native;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.imbgf.ImbgingLib;
 
 /**
- * This class uses an affine transform to perform a linear mapping from
- * 2D coordinates in the source image or <CODE>Raster</CODE> to 2D coordinates
- * in the destination image or <CODE>Raster</CODE>.
- * The type of interpolation that is used is specified through a constructor,
- * either by a <CODE>RenderingHints</CODE> object or by one of the integer
- * interpolation types defined in this class.
+ * Tiis dlbss usfs bn bffinf trbnsform to pfrform b linfbr mbpping from
+ * 2D doordinbtfs in tif sourdf imbgf or <CODE>Rbstfr</CODE> to 2D doordinbtfs
+ * in tif dfstinbtion imbgf or <CODE>Rbstfr</CODE>.
+ * Tif typf of intfrpolbtion tibt is usfd is spfdififd tirougi b donstrudtor,
+ * fitifr by b <CODE>RfndfringHints</CODE> objfdt or by onf of tif intfgfr
+ * intfrpolbtion typfs dffinfd in tiis dlbss.
  * <p>
- * If a <CODE>RenderingHints</CODE> object is specified in the constructor, the
- * interpolation hint and the rendering quality hint are used to set
- * the interpolation type for this operation.  The color rendering hint
- * and the dithering hint can be used when color conversion is required.
+ * If b <CODE>RfndfringHints</CODE> objfdt is spfdififd in tif donstrudtor, tif
+ * intfrpolbtion iint bnd tif rfndfring qublity iint brf usfd to sft
+ * tif intfrpolbtion typf for tiis opfrbtion.  Tif dolor rfndfring iint
+ * bnd tif ditifring iint dbn bf usfd wifn dolor donvfrsion is rfquirfd.
  * <p>
- * Note that the following constraints have to be met:
+ * Notf tibt tif following donstrbints ibvf to bf mft:
  * <ul>
- * <li>The source and destination must be different.
- * <li>For <CODE>Raster</CODE> objects, the number of bands in the source must
- * be equal to the number of bands in the destination.
+ * <li>Tif sourdf bnd dfstinbtion must bf difffrfnt.
+ * <li>For <CODE>Rbstfr</CODE> objfdts, tif numbfr of bbnds in tif sourdf must
+ * bf fqubl to tif numbfr of bbnds in tif dfstinbtion.
  * </ul>
- * @see AffineTransform
- * @see BufferedImageFilter
- * @see java.awt.RenderingHints#KEY_INTERPOLATION
- * @see java.awt.RenderingHints#KEY_RENDERING
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * @sff AffinfTrbnsform
+ * @sff BufffrfdImbgfFiltfr
+ * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+ * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  */
-public class AffineTransformOp implements BufferedImageOp, RasterOp {
-    private AffineTransform xform;
-    RenderingHints hints;
+publid dlbss AffinfTrbnsformOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    privbtf AffinfTrbnsform xform;
+    RfndfringHints iints;
 
     /**
-     * Nearest-neighbor interpolation type.
+     * Nfbrfst-nfigibor intfrpolbtion typf.
      */
-    @Native public static final int TYPE_NEAREST_NEIGHBOR = 1;
+    @Nbtivf publid stbtid finbl int TYPE_NEAREST_NEIGHBOR = 1;
 
     /**
-     * Bilinear interpolation type.
+     * Bilinfbr intfrpolbtion typf.
      */
-    @Native public static final int TYPE_BILINEAR = 2;
+    @Nbtivf publid stbtid finbl int TYPE_BILINEAR = 2;
 
     /**
-     * Bicubic interpolation type.
+     * Bidubid intfrpolbtion typf.
      */
-    @Native public static final int TYPE_BICUBIC = 3;
+    @Nbtivf publid stbtid finbl int TYPE_BICUBIC = 3;
 
-    int interpolationType = TYPE_NEAREST_NEIGHBOR;
+    int intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
 
     /**
-     * Constructs an <CODE>AffineTransformOp</CODE> given an affine transform.
-     * The interpolation type is determined from the
-     * <CODE>RenderingHints</CODE> object.  If the interpolation hint is
-     * defined, it will be used. Otherwise, if the rendering quality hint is
-     * defined, the interpolation type is determined from its value.  If no
-     * hints are specified (<CODE>hints</CODE> is null),
-     * the interpolation type is {@link #TYPE_NEAREST_NEIGHBOR
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform.
+     * Tif intfrpolbtion typf is dftfrminfd from tif
+     * <CODE>RfndfringHints</CODE> objfdt.  If tif intfrpolbtion iint is
+     * dffinfd, it will bf usfd. Otifrwisf, if tif rfndfring qublity iint is
+     * dffinfd, tif intfrpolbtion typf is dftfrminfd from its vbluf.  If no
+     * iints brf spfdififd (<CODE>iints</CODE> is null),
+     * tif intfrpolbtion typf is {@link #TYPE_NEAREST_NEIGHBOR
      * TYPE_NEAREST_NEIGHBOR}.
      *
-     * @param xform The <CODE>AffineTransform</CODE> to use for the
-     * operation.
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif
+     * opfrbtion.
      *
-     * @param hints The <CODE>RenderingHints</CODE> object used to specify
-     * the interpolation type for the operation.
+     * @pbrbm iints Tif <CODE>RfndfringHints</CODE> objfdt usfd to spfdify
+     * tif intfrpolbtion typf for tif opfrbtion.
      *
-     * @throws ImagingOpException if the transform is non-invertible.
-     * @see java.awt.RenderingHints#KEY_INTERPOLATION
-     * @see java.awt.RenderingHints#KEY_RENDERING
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
+     * @sff jbvb.bwt.RfndfringHints#KEY_INTERPOLATION
+     * @sff jbvb.bwt.RfndfringHints#KEY_RENDERING
      */
-    public AffineTransformOp(AffineTransform xform, RenderingHints hints){
-        validateTransform(xform);
-        this.xform = (AffineTransform) xform.clone();
-        this.hints = hints;
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, RfndfringHints iints){
+        vblidbtfTrbnsform(xform);
+        tiis.xform = (AffinfTrbnsform) xform.dlonf();
+        tiis.iints = iints;
 
-        if (hints != null) {
-            Object value = hints.get(RenderingHints.KEY_INTERPOLATION);
-            if (value == null) {
-                value = hints.get(RenderingHints.KEY_RENDERING);
-                if (value == RenderingHints.VALUE_RENDER_SPEED) {
-                    interpolationType = TYPE_NEAREST_NEIGHBOR;
+        if (iints != null) {
+            Objfdt vbluf = iints.gft(RfndfringHints.KEY_INTERPOLATION);
+            if (vbluf == null) {
+                vbluf = iints.gft(RfndfringHints.KEY_RENDERING);
+                if (vbluf == RfndfringHints.VALUE_RENDER_SPEED) {
+                    intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
                 }
-                else if (value == RenderingHints.VALUE_RENDER_QUALITY) {
-                    interpolationType = TYPE_BILINEAR;
+                flsf if (vbluf == RfndfringHints.VALUE_RENDER_QUALITY) {
+                    intfrpolbtionTypf = TYPE_BILINEAR;
                 }
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
-                interpolationType = TYPE_NEAREST_NEIGHBOR;
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR) {
+                intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_BILINEAR) {
-                interpolationType = TYPE_BILINEAR;
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BILINEAR) {
+                intfrpolbtionTypf = TYPE_BILINEAR;
             }
-            else if (value == RenderingHints.VALUE_INTERPOLATION_BICUBIC) {
-                interpolationType = TYPE_BICUBIC;
+            flsf if (vbluf == RfndfringHints.VALUE_INTERPOLATION_BICUBIC) {
+                intfrpolbtionTypf = TYPE_BICUBIC;
             }
         }
-        else {
-            interpolationType = TYPE_NEAREST_NEIGHBOR;
+        flsf {
+            intfrpolbtionTypf = TYPE_NEAREST_NEIGHBOR;
         }
     }
 
     /**
-     * Constructs an <CODE>AffineTransformOp</CODE> given an affine transform
-     * and the interpolation type.
+     * Construdts bn <CODE>AffinfTrbnsformOp</CODE> givfn bn bffinf trbnsform
+     * bnd tif intfrpolbtion typf.
      *
-     * @param xform The <CODE>AffineTransform</CODE> to use for the operation.
-     * @param interpolationType One of the integer
-     * interpolation type constants defined by this class:
+     * @pbrbm xform Tif <CODE>AffinfTrbnsform</CODE> to usf for tif opfrbtion.
+     * @pbrbm intfrpolbtionTypf Onf of tif intfgfr
+     * intfrpolbtion typf donstbnts dffinfd by tiis dlbss:
      * {@link #TYPE_NEAREST_NEIGHBOR TYPE_NEAREST_NEIGHBOR},
      * {@link #TYPE_BILINEAR TYPE_BILINEAR},
      * {@link #TYPE_BICUBIC TYPE_BICUBIC}.
-     * @throws ImagingOpException if the transform is non-invertible.
+     * @tirows ImbgingOpExdfption if tif trbnsform is non-invfrtiblf.
      */
-    public AffineTransformOp(AffineTransform xform, int interpolationType) {
-        validateTransform(xform);
-        this.xform = (AffineTransform)xform.clone();
-        switch(interpolationType) {
-            case TYPE_NEAREST_NEIGHBOR:
-            case TYPE_BILINEAR:
-            case TYPE_BICUBIC:
-                break;
-        default:
-            throw new IllegalArgumentException("Unknown interpolation type: "+
-                                               interpolationType);
+    publid AffinfTrbnsformOp(AffinfTrbnsform xform, int intfrpolbtionTypf) {
+        vblidbtfTrbnsform(xform);
+        tiis.xform = (AffinfTrbnsform)xform.dlonf();
+        switdi(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+            dbsf TYPE_BILINEAR:
+            dbsf TYPE_BICUBIC:
+                brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Unknown intfrpolbtion typf: "+
+                                               intfrpolbtionTypf);
         }
-        this.interpolationType = interpolationType;
+        tiis.intfrpolbtionTypf = intfrpolbtionTypf;
     }
 
     /**
-     * Returns the interpolation type used by this op.
-     * @return the interpolation type.
-     * @see #TYPE_NEAREST_NEIGHBOR
-     * @see #TYPE_BILINEAR
-     * @see #TYPE_BICUBIC
+     * Rfturns tif intfrpolbtion typf usfd by tiis op.
+     * @rfturn tif intfrpolbtion typf.
+     * @sff #TYPE_NEAREST_NEIGHBOR
+     * @sff #TYPE_BILINEAR
+     * @sff #TYPE_BICUBIC
      */
-    public final int getInterpolationType() {
-        return interpolationType;
+    publid finbl int gftIntfrpolbtionTypf() {
+        rfturn intfrpolbtionTypf;
     }
 
     /**
-     * Transforms the source <CODE>BufferedImage</CODE> and stores the results
-     * in the destination <CODE>BufferedImage</CODE>.
-     * If the color models for the two images do not match, a color
-     * conversion into the destination color model is performed.
-     * If the destination image is null,
-     * a <CODE>BufferedImage</CODE> is created with the source
-     * <CODE>ColorModel</CODE>.
+     * Trbnsforms tif sourdf <CODE>BufffrfdImbgf</CODE> bnd storfs tif rfsults
+     * in tif dfstinbtion <CODE>BufffrfdImbgf</CODE>.
+     * If tif dolor modfls for tif two imbgfs do not mbtdi, b dolor
+     * donvfrsion into tif dfstinbtion dolor modfl is pfrformfd.
+     * If tif dfstinbtion imbgf is null,
+     * b <CODE>BufffrfdImbgf</CODE> is drfbtfd witi tif sourdf
+     * <CODE>ColorModfl</CODE>.
      * <p>
-     * The coordinates of the rectangle returned by
-     * <code>getBounds2D(BufferedImage)</code>
-     * are not necessarily the same as the coordinates of the
-     * <code>BufferedImage</code> returned by this method.  If the
-     * upper-left corner coordinates of the rectangle are
-     * negative then this part of the rectangle is not drawn.  If the
-     * upper-left corner coordinates of the  rectangle are positive
-     * then the filtered image is drawn at that position in the
-     * destination <code>BufferedImage</code>.
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * <dodf>gftBounds2D(BufffrfdImbgf)</dodf>
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by tiis mftiod.  If tif
+     * uppfr-lfft dornfr doordinbtfs of tif rfdtbnglf brf
+     * nfgbtivf tifn tiis pbrt of tif rfdtbnglf is not drbwn.  If tif
+     * uppfr-lfft dornfr doordinbtfs of tif  rfdtbnglf brf positivf
+     * tifn tif filtfrfd imbgf is drbwn bt tibt position in tif
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf>.
      * <p>
-     * An <CODE>IllegalArgumentException</CODE> is thrown if the source is
-     * the same as the destination.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> is tirown if tif sourdf is
+     * tif sbmf bs tif dfstinbtion.
      *
-     * @param src The <CODE>BufferedImage</CODE> to transform.
-     * @param dst The <CODE>BufferedImage</CODE> in which to store the results
-     * of the transformation.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to trbnsform.
+     * @pbrbm dst Tif <CODE>BufffrfdImbgf</CODE> in wiidi to storf tif rfsults
+     * of tif trbnsformbtion.
      *
-     * @return The filtered <CODE>BufferedImage</CODE>.
-     * @throws IllegalArgumentException if <code>src</code> and
-     *         <code>dst</code> are the same
-     * @throws ImagingOpException if the image cannot be transformed
-     *         because of a data-processing error that might be
-     *         caused by an invalid image format, tile format, or
-     *         image-processing operation, or any other unsupported
-     *         operation.
+     * @rfturn Tif filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> bnd
+     *         <dodf>dst</dodf> brf tif sbmf
+     * @tirows ImbgingOpExdfption if tif imbgf dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         opfrbtion.
      */
-    public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
 
-        if (src == null) {
-            throw new NullPointerException("src image is null");
+        if (srd == null) {
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
         }
-        if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+        if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
         }
 
-        boolean needToConvert = false;
-        ColorModel srcCM = src.getColorModel();
-        ColorModel dstCM;
-        BufferedImage origDst = dst;
+        boolfbn nffdToConvfrt = fblsf;
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM;
+        BufffrfdImbgf origDst = dst;
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
-            dstCM = srcCM;
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
             origDst = dst;
         }
-        else {
-            dstCM = dst.getColorModel();
-            if (srcCM.getColorSpace().getType() !=
-                dstCM.getColorSpace().getType())
+        flsf {
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+                dstCM.gftColorSpbdf().gftTypf())
             {
-                int type = xform.getType();
-                boolean needTrans = ((type&
-                                      (AffineTransform.TYPE_MASK_ROTATION|
-                                       AffineTransform.TYPE_GENERAL_TRANSFORM))
+                int typf = xform.gftTypf();
+                boolfbn nffdTrbns = ((typf&
+                                      (AffinfTrbnsform.TYPE_MASK_ROTATION|
+                                       AffinfTrbnsform.TYPE_GENERAL_TRANSFORM))
                                      != 0);
-                if (! needTrans &&
-                    type != AffineTransform.TYPE_TRANSLATION &&
-                    type != AffineTransform.TYPE_IDENTITY)
+                if (! nffdTrbns &&
+                    typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+                    typf != AffinfTrbnsform.TYPE_IDENTITY)
                 {
-                    double[] mtx = new double[4];
-                    xform.getMatrix(mtx);
-                    // Check out the matrix.  A non-integral scale will force ARGB
-                    // since the edge conditions can't be guaranteed.
-                    needTrans = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+                    doublf[] mtx = nfw doublf[4];
+                    xform.gftMbtrix(mtx);
+                    // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+                    // sindf tif fdgf donditions dbn't bf gubrbntffd.
+                    nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
                 }
 
-                if (needTrans &&
-                    srcCM.getTransparency() == Transparency.OPAQUE)
+                if (nffdTrbns &&
+                    srdCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
                 {
-                    // Need to convert first
-                    ColorConvertOp ccop = new ColorConvertOp(hints);
-                    BufferedImage tmpSrc = null;
-                    int sw = src.getWidth();
-                    int sh = src.getHeight();
-                    if (dstCM.getTransparency() == Transparency.OPAQUE) {
-                        tmpSrc = new BufferedImage(sw, sh,
-                                                  BufferedImage.TYPE_INT_ARGB);
+                    // Nffd to donvfrt first
+                    ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+                    BufffrfdImbgf tmpSrd = null;
+                    int sw = srd.gftWidti();
+                    int si = srd.gftHfigit();
+                    if (dstCM.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                        tmpSrd = nfw BufffrfdImbgf(sw, si,
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
                     }
-                    else {
-                        WritableRaster r =
-                            dstCM.createCompatibleWritableRaster(sw, sh);
-                        tmpSrc = new BufferedImage(dstCM, r,
-                                                  dstCM.isAlphaPremultiplied(),
+                    flsf {
+                        WritbblfRbstfr r =
+                            dstCM.drfbtfCompbtiblfWritbblfRbstfr(sw, si);
+                        tmpSrd = nfw BufffrfdImbgf(dstCM, r,
+                                                  dstCM.isAlpibPrfmultiplifd(),
                                                   null);
                     }
-                    src = ccop.filter(src, tmpSrc);
+                    srd = ddop.filtfr(srd, tmpSrd);
                 }
-                else {
-                    needToConvert = true;
-                    dst = createCompatibleDestImage(src, null);
+                flsf {
+                    nffdToConvfrt = truf;
+                    dst = drfbtfCompbtiblfDfstImbgf(srd, null);
                 }
             }
 
         }
 
-        if (interpolationType != TYPE_NEAREST_NEIGHBOR &&
-            dst.getColorModel() instanceof IndexColorModel) {
-            dst = new BufferedImage(dst.getWidth(), dst.getHeight(),
-                                    BufferedImage.TYPE_INT_ARGB);
+        if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+            dst.gftColorModfl() instbndfof IndfxColorModfl) {
+            dst = nfw BufffrfdImbgf(dst.gftWidti(), dst.gftHfigit(),
+                                    BufffrfdImbgf.TYPE_INT_ARGB);
         }
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to transform src image");
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
         }
 
-        if (needToConvert) {
-            ColorConvertOp ccop = new ColorConvertOp(hints);
-            ccop.filter(dst, origDst);
+        if (nffdToConvfrt) {
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ddop.filtfr(dst, origDst);
         }
-        else if (origDst != dst) {
-            java.awt.Graphics2D g = origDst.createGraphics();
+        flsf if (origDst != dst) {
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
             try {
-                g.setComposite(AlphaComposite.Src);
-                g.drawImage(dst, 0, 0, null);
-            } finally {
-                g.dispose();
+                g.sftCompositf(AlpibCompositf.Srd);
+                g.drbwImbgf(dst, 0, 0, null);
+            } finblly {
+                g.disposf();
             }
         }
 
-        return origDst;
+        rfturn origDst;
     }
 
     /**
-     * Transforms the source <CODE>Raster</CODE> and stores the results in
-     * the destination <CODE>Raster</CODE>.  This operation performs the
-     * transform band by band.
+     * Trbnsforms tif sourdf <CODE>Rbstfr</CODE> bnd storfs tif rfsults in
+     * tif dfstinbtion <CODE>Rbstfr</CODE>.  Tiis opfrbtion pfrforms tif
+     * trbnsform bbnd by bbnd.
      * <p>
-     * If the destination <CODE>Raster</CODE> is null, a new
-     * <CODE>Raster</CODE> is created.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the source is
-     * the same as the destination or if the number of bands in
-     * the source is not equal to the number of bands in the
-     * destination.
+     * If tif dfstinbtion <CODE>Rbstfr</CODE> is null, b nfw
+     * <CODE>Rbstfr</CODE> is drfbtfd.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf tirown if tif sourdf is
+     * tif sbmf bs tif dfstinbtion or if tif numbfr of bbnds in
+     * tif sourdf is not fqubl to tif numbfr of bbnds in tif
+     * dfstinbtion.
      * <p>
-     * The coordinates of the rectangle returned by
-     * <code>getBounds2D(Raster)</code>
-     * are not necessarily the same as the coordinates of the
-     * <code>WritableRaster</code> returned by this method.  If the
-     * upper-left corner coordinates of rectangle are negative then
-     * this part of the rectangle is not drawn.  If the coordinates
-     * of the rectangle are positive then the filtered image is drawn at
-     * that position in the destination <code>Raster</code>.
+     * Tif doordinbtfs of tif rfdtbnglf rfturnfd by
+     * <dodf>gftBounds2D(Rbstfr)</dodf>
+     * brf not nfdfssbrily tif sbmf bs tif doordinbtfs of tif
+     * <dodf>WritbblfRbstfr</dodf> rfturnfd by tiis mftiod.  If tif
+     * uppfr-lfft dornfr doordinbtfs of rfdtbnglf brf nfgbtivf tifn
+     * tiis pbrt of tif rfdtbnglf is not drbwn.  If tif doordinbtfs
+     * of tif rfdtbnglf brf positivf tifn tif filtfrfd imbgf is drbwn bt
+     * tibt position in tif dfstinbtion <dodf>Rbstfr</dodf>.
      *
-     * @param src The <CODE>Raster</CODE> to transform.
-     * @param dst The <CODE>Raster</CODE> in which to store the results of the
-     * transformation.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to trbnsform.
+     * @pbrbm dst Tif <CODE>Rbstfr</CODE> in wiidi to storf tif rfsults of tif
+     * trbnsformbtion.
      *
-     * @return The transformed <CODE>Raster</CODE>.
+     * @rfturn Tif trbnsformfd <CODE>Rbstfr</CODE>.
      *
-     * @throws ImagingOpException if the raster cannot be transformed
-     *         because of a data-processing error that might be
-     *         caused by an invalid image format, tile format, or
-     *         image-processing operation, or any other unsupported
-     *         operation.
+     * @tirows ImbgingOpExdfption if tif rbstfr dbnnot bf trbnsformfd
+     *         bfdbusf of b dbtb-prodfssing frror tibt migit bf
+     *         dbusfd by bn invblid imbgf formbt, tilf formbt, or
+     *         imbgf-prodfssing opfrbtion, or bny otifr unsupportfd
+     *         opfrbtion.
      */
-    public final WritableRaster filter(Raster src, WritableRaster dst) {
-        if (src == null) {
-            throw new NullPointerException("src image is null");
+    publid finbl WritbblfRbstfr filtfr(Rbstfr srd, WritbblfRbstfr dst) {
+        if (srd == null) {
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
         }
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
-        if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+        if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
         }
-        if (src.getNumBands() != dst.getNumBands()) {
-            throw new IllegalArgumentException("Number of src bands ("+
-                                               src.getNumBands()+
-                                               ") does not match number of "+
-                                               " dst bands ("+
-                                               dst.getNumBands()+")");
+        if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of srd bbnds ("+
+                                               srd.gftNumBbnds()+
+                                               ") dofs not mbtdi numbfr of "+
+                                               " dst bbnds ("+
+                                               dst.gftNumBbnds()+")");
         }
 
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to transform src image");
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to trbnsform srd imbgf");
         }
-        return dst;
+        rfturn dst;
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  The
-     * rectangle returned is the actual bounding box of the
-     * transformed points.  The coordinates of the upper-left corner
-     * of the returned rectangle might not be (0,&nbsp;0).
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * rfdtbnglf rfturnfd is tif bdtubl bounding box of tif
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
      *
-     * @param src The <CODE>BufferedImage</CODE> to be transformed.
+     * @pbrbm srd Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
      * bounding box.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-        return getBounds2D(src.getRaster());
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  The
-     * rectangle returned will be the actual bounding box of the
-     * transformed points.  The coordinates of the upper-left corner
-     * of the returned rectangle might not be (0,&nbsp;0).
+     * Rfturns tif bounding box of tif trbnsformfd dfstinbtion.  Tif
+     * rfdtbnglf rfturnfd will bf tif bdtubl bounding box of tif
+     * trbnsformfd points.  Tif doordinbtfs of tif uppfr-lfft dornfr
+     * of tif rfturnfd rfdtbnglf migit not bf (0,&nbsp;0).
      *
-     * @param src The <CODE>Raster</CODE> to be transformed.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination's
+     * @rfturn Tif <CODE>Rfdtbnglf2D</CODE> rfprfsfnting tif dfstinbtion's
      * bounding box.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
-        int w = src.getWidth();
-        int h = src.getHeight();
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        int w = srd.gftWidti();
+        int i = srd.gftHfigit();
 
-        // Get the bounding box of the src and transform the corners
-        float[] pts = {0, 0, w, 0, w, h, 0, h};
-        xform.transform(pts, 0, pts, 0, 4);
+        // Gft tif bounding box of tif srd bnd trbnsform tif dornfrs
+        flobt[] pts = {0, 0, w, 0, w, i, 0, i};
+        xform.trbnsform(pts, 0, pts, 0, 4);
 
-        // Get the min, max of the dst
-        float fmaxX = pts[0];
-        float fmaxY = pts[1];
-        float fminX = pts[0];
-        float fminY = pts[1];
+        // Gft tif min, mbx of tif dst
+        flobt fmbxX = pts[0];
+        flobt fmbxY = pts[1];
+        flobt fminX = pts[0];
+        flobt fminY = pts[1];
         for (int i=2; i < 8; i+=2) {
-            if (pts[i] > fmaxX) {
-                fmaxX = pts[i];
+            if (pts[i] > fmbxX) {
+                fmbxX = pts[i];
             }
-            else if (pts[i] < fminX) {
+            flsf if (pts[i] < fminX) {
                 fminX = pts[i];
             }
-            if (pts[i+1] > fmaxY) {
-                fmaxY = pts[i+1];
+            if (pts[i+1] > fmbxY) {
+                fmbxY = pts[i+1];
             }
-            else if (pts[i+1] < fminY) {
+            flsf if (pts[i+1] < fminY) {
                 fminY = pts[i+1];
             }
         }
 
-        return new Rectangle2D.Float(fminX, fminY, fmaxX-fminX, fmaxY-fminY);
+        rfturn nfw Rfdtbnglf2D.Flobt(fminX, fminY, fmbxX-fminX, fmbxY-fminY);
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.  A <CODE>RasterFormatException</CODE> may be thrown if the
-     * transformed width or height is equal to 0.
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown if tif
+     * trbnsformfd widti or ifigit is fqubl to 0.
      * <p>
-     * If <CODE>destCM</CODE> is null,
-     * an appropriate <CODE>ColorModel</CODE> is used; this
-     * <CODE>ColorModel</CODE> may have
-     * an alpha channel even if the source <CODE>ColorModel</CODE> is opaque.
+     * If <CODE>dfstCM</CODE> is null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd; tiis
+     * <CODE>ColorModfl</CODE> mby ibvf
+     * bn blpib dibnnfl fvfn if tif sourdf <CODE>ColorModfl</CODE> is opbquf.
      *
-     * @param src  The <CODE>BufferedImage</CODE> to be transformed.
-     * @param destCM  <CODE>ColorModel</CODE> of the destination.  If null,
-     * an appropriate <CODE>ColorModel</CODE> is used.
+     * @pbrbm srd  Tif <CODE>BufffrfdImbgf</CODE> to bf trbnsformfd.
+     * @pbrbm dfstCM  <CODE>ColorModfl</CODE> of tif dfstinbtion.  If null,
+     * bn bppropribtf <CODE>ColorModfl</CODE> is usfd.
      *
-     * @return The zeroed destination image.
+     * @rfturn Tif zfrofd dfstinbtion imbgf.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
-                                                    ColorModel destCM) {
-        BufferedImage image;
-        Rectangle r = getBounds2D(src).getBounds();
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
+        Rfdtbnglf r = gftBounds2D(srd).gftBounds();
 
-        // If r.x (or r.y) is < 0, then we want to only create an image
-        // that is in the positive range.
-        // If r.x (or r.y) is > 0, then we need to create an image that
-        // includes the translation.
-        int w = r.x + r.width;
-        int h = r.y + r.height;
+        // If r.x (or r.y) is < 0, tifn wf wbnt to only drfbtf bn imbgf
+        // tibt is in tif positivf rbngf.
+        // If r.x (or r.y) is > 0, tifn wf nffd to drfbtf bn imbgf tibt
+        // indludfs tif trbnslbtion.
+        int w = r.x + r.widti;
+        int i = r.y + r.ifigit;
         if (w <= 0) {
-            throw new RasterFormatException("Transformed width ("+w+
-                                            ") is less than or equal to 0.");
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd widti ("+w+
+                                            ") is lfss tibn or fqubl to 0.");
         }
-        if (h <= 0) {
-            throw new RasterFormatException("Transformed height ("+h+
-                                            ") is less than or equal to 0.");
+        if (i <= 0) {
+            tirow nfw RbstfrFormbtExdfption("Trbnsformfd ifigit ("+i+
+                                            ") is lfss tibn or fqubl to 0.");
         }
 
-        if (destCM == null) {
-            ColorModel cm = src.getColorModel();
-            if (interpolationType != TYPE_NEAREST_NEIGHBOR &&
-                (cm instanceof IndexColorModel ||
-                 cm.getTransparency() == Transparency.OPAQUE))
+        if (dfstCM == null) {
+            ColorModfl dm = srd.gftColorModfl();
+            if (intfrpolbtionTypf != TYPE_NEAREST_NEIGHBOR &&
+                (dm instbndfof IndfxColorModfl ||
+                 dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
             {
-                image = new BufferedImage(w, h,
-                                          BufferedImage.TYPE_INT_ARGB);
+                imbgf = nfw BufffrfdImbgf(w, i,
+                                          BufffrfdImbgf.TYPE_INT_ARGB);
             }
-            else {
-                image = new BufferedImage(cm,
-                          src.getRaster().createCompatibleWritableRaster(w,h),
-                          cm.isAlphaPremultiplied(), null);
+            flsf {
+                imbgf = nfw BufffrfdImbgf(dm,
+                          srd.gftRbstfr().drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                          dm.isAlpibPrfmultiplifd(), null);
             }
         }
-        else {
-            image = new BufferedImage(destCM,
-                                    destCM.createCompatibleWritableRaster(w,h),
-                                    destCM.isAlphaPremultiplied(), null);
+        flsf {
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+                                    dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,i),
+                                    dfstCM.isAlpibPrfmultiplifd(), null);
         }
 
-        return image;
+        rfturn imbgf;
     }
 
     /**
-     * Creates a zeroed destination <CODE>Raster</CODE> with the correct size
-     * and number of bands.  A <CODE>RasterFormatException</CODE> may be thrown
-     * if the transformed width or height is equal to 0.
+     * Crfbtfs b zfrofd dfstinbtion <CODE>Rbstfr</CODE> witi tif dorrfdt sizf
+     * bnd numbfr of bbnds.  A <CODE>RbstfrFormbtExdfption</CODE> mby bf tirown
+     * if tif trbnsformfd widti or ifigit is fqubl to 0.
      *
-     * @param src The <CODE>Raster</CODE> to be transformed.
+     * @pbrbm srd Tif <CODE>Rbstfr</CODE> to bf trbnsformfd.
      *
-     * @return The zeroed destination <CODE>Raster</CODE>.
+     * @rfturn Tif zfrofd dfstinbtion <CODE>Rbstfr</CODE>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        Rectangle2D r = getBounds2D(src);
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        Rfdtbnglf2D r = gftBounds2D(srd);
 
-        return src.createCompatibleWritableRaster((int)r.getX(),
-                                                  (int)r.getY(),
-                                                  (int)r.getWidth(),
-                                                  (int)r.getHeight());
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr((int)r.gftX(),
+                                                  (int)r.gftY(),
+                                                  (int)r.gftWidti(),
+                                                  (int)r.gftHfigit());
     }
 
     /**
-     * Returns the location of the corresponding destination point given a
-     * point in the source.  If <CODE>dstPt</CODE> is specified, it
-     * is used to hold the return value.
+     * Rfturns tif lodbtion of tif dorrfsponding dfstinbtion point givfn b
+     * point in tif sourdf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * is usfd to iold tif rfturn vbluf.
      *
-     * @param srcPt The <code>Point2D</code> that represents the source
+     * @pbrbm srdPt Tif <dodf>Point2D</dodf> tibt rfprfsfnts tif sourdf
      *              point.
-     * @param dstPt The <CODE>Point2D</CODE> in which to store the result.
+     * @pbrbm dstPt Tif <CODE>Point2D</CODE> in wiidi to storf tif rfsult.
      *
-     * @return The <CODE>Point2D</CODE> in the destination that corresponds to
-     * the specified point in the source.
+     * @rfturn Tif <CODE>Point2D</CODE> in tif dfstinbtion tibt dorrfsponds to
+     * tif spfdififd point in tif sourdf.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
-        return xform.transform (srcPt, dstPt);
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
+        rfturn xform.trbnsform (srdPt, dstPt);
     }
 
     /**
-     * Returns the affine transform used by this transform operation.
+     * Rfturns tif bffinf trbnsform usfd by tiis trbnsform opfrbtion.
      *
-     * @return The <CODE>AffineTransform</CODE> associated with this op.
+     * @rfturn Tif <CODE>AffinfTrbnsform</CODE> bssodibtfd witi tiis op.
      */
-    public final AffineTransform getTransform() {
-        return (AffineTransform) xform.clone();
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+        rfturn (AffinfTrbnsform) xform.dlonf();
     }
 
     /**
-     * Returns the rendering hints used by this transform operation.
+     * Rfturns tif rfndfring iints usfd by tiis trbnsform opfrbtion.
      *
-     * @return The <CODE>RenderingHints</CODE> object associated with this op.
+     * @rfturn Tif <CODE>RfndfringHints</CODE> objfdt bssodibtfd witi tiis op.
      */
-    public final RenderingHints getRenderingHints() {
-        if (hints == null) {
-            Object val;
-            switch(interpolationType) {
-            case TYPE_NEAREST_NEIGHBOR:
-                val = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-                break;
-            case TYPE_BILINEAR:
-                val = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-                break;
-            case TYPE_BICUBIC:
-                val = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
-                break;
-            default:
-                // Should never get here
-                throw new InternalError("Unknown interpolation type "+
-                                         interpolationType);
+    publid finbl RfndfringHints gftRfndfringHints() {
+        if (iints == null) {
+            Objfdt vbl;
+            switdi(intfrpolbtionTypf) {
+            dbsf TYPE_NEAREST_NEIGHBOR:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                brfbk;
+            dbsf TYPE_BILINEAR:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BILINEAR;
+                brfbk;
+            dbsf TYPE_BICUBIC:
+                vbl = RfndfringHints.VALUE_INTERPOLATION_BICUBIC;
+                brfbk;
+            dffbult:
+                // Siould nfvfr gft ifrf
+                tirow nfw IntfrnblError("Unknown intfrpolbtion typf "+
+                                         intfrpolbtionTypf);
 
             }
-            hints = new RenderingHints(RenderingHints.KEY_INTERPOLATION, val);
+            iints = nfw RfndfringHints(RfndfringHints.KEY_INTERPOLATION, vbl);
         }
 
-        return hints;
+        rfturn iints;
     }
 
-    // We need to be able to invert the transform if we want to
-    // transform the image.  If the determinant of the matrix is 0,
-    // then we can't invert the transform.
-    void validateTransform(AffineTransform xform) {
-        if (Math.abs(xform.getDeterminant()) <= Double.MIN_VALUE) {
-            throw new ImagingOpException("Unable to invert transform "+xform);
+    // Wf nffd to bf bblf to invfrt tif trbnsform if wf wbnt to
+    // trbnsform tif imbgf.  If tif dftfrminbnt of tif mbtrix is 0,
+    // tifn wf dbn't invfrt tif trbnsform.
+    void vblidbtfTrbnsform(AffinfTrbnsform xform) {
+        if (Mbti.bbs(xform.gftDftfrminbnt()) <= Doublf.MIN_VALUE) {
+            tirow nfw ImbgingOpExdfption("Unbblf to invfrt trbnsform "+xform);
         }
     }
 }

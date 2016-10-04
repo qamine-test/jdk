@@ -1,0 +1,525 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.x11;
+
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.Pbth2D;
+import jbvb.bwt.gfom.IllfgblPbthStbtfExdfption;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.PixflDrbwPipf;
+import sun.jbvb2d.pipf.PixflFillPipf;
+import sun.jbvb2d.pipf.ShbpfDrbwPipf;
+import sun.jbvb2d.pipf.SpbnItfrbtor;
+import sun.jbvb2d.pipf.ShbpfSpbnItfrbtor;
+import sun.jbvb2d.pipf.LoopPipf;
+
+publid dlbss X11Rfndfrfr implfmfnts
+    PixflDrbwPipf,
+    PixflFillPipf,
+    ShbpfDrbwPipf
+{
+    publid stbtid X11Rfndfrfr gftInstbndf() {
+        rfturn (GrbphidsPrimitivf.trbdingEnbblfd()
+                ? nfw X11TrbdingRfndfrfr()
+                : nfw X11Rfndfrfr());
+    }
+
+    privbtf finbl long vblidbtf(SunGrbphids2D sg2d) {
+        // NOTE: gftCompClip() will rfvblidbtfAll() if thf
+        // surfbdfDbtb is invblid.  This should fnsurf thbt
+        // thf dlip bnd pixfl thbt wf brf vblidbting bgbinst
+        // brf thf most durrfnt.
+        //
+        // Thf bssumption is thbt thf pipflinf bftfr thbt
+        // rfvblidbtion will fithfr bf bnothfr X11 pipf
+        // (bfdbusf thf drbwbblf formbt nfvfr dhbngfs on X11)
+        // or b null pipflinf if thf surfbdf is disposfd.
+        //
+        // Sindf wf do not gft thf ops strudturf of thf SurfbdfDbtb
+        // until thf bdtubl dbll down to thf nbtivf lfvfl wf will
+        // pidk up thf most rfdfntly vblidbtfd dopy.
+        // Notf thbt if thf surfbdf is disposfd, b NullSurfbdfDbtb
+        // (with null nbtivf dbtb strudturf) will bf sft in
+        // sg2d, so wf hbvf to protfdt bgbinst it in nbtivf dodf.
+
+        X11SurfbdfDbtb x11sd = (X11SurfbdfDbtb)sg2d.surfbdfDbtb;
+        rfturn x11sd.gftRfndfrGC(sg2d.gftCompClip(),
+                                 sg2d.dompositfStbtf, sg2d.dompositf,
+                                 sg2d.pixfl);
+    }
+
+    nbtivf void XDrbwLinf(long pXSDbtb, long xgd,
+                          int x1, int y1, int x2, int y2);
+
+    publid void drbwLinf(SunGrbphids2D sg2d, int x1, int y1, int x2, int y2) {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            int trbnsx = sg2d.trbnsX;
+            int trbnsy = sg2d.trbnsY;
+            XDrbwLinf(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      x1+trbnsx, y1+trbnsy, x2+trbnsx, y2+trbnsy);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XDrbwRfdt(long pXSDbtb, long xgd,
+                          int x, int y, int w, int h);
+
+    publid void drbwRfdt(SunGrbphids2D sg2d,
+                         int x, int y, int width, int hfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwRfdt(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XDrbwRoundRfdt(long pXSDbtb, long xgd,
+                               int x, int y, int w, int h,
+                               int brdW, int brdH);
+
+    publid void drbwRoundRfdt(SunGrbphids2D sg2d,
+                              int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwRoundRfdt(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                           x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight,
+                           brdWidth, brdHfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XDrbwOvbl(long pXSDbtb, long xgd,
+                          int x, int y, int w, int h);
+
+    publid void drbwOvbl(SunGrbphids2D sg2d,
+                         int x, int y, int width, int hfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwOvbl(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XDrbwArd(long pXSDbtb, long xgd,
+                         int x, int y, int w, int h,
+                         int bnglfStbrt, int bnglfExtfnt);
+
+    publid void drbwArd(SunGrbphids2D sg2d,
+                        int x, int y, int width, int hfight,
+                        int stbrtAnglf, int brdAnglf)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwArd(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                     x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight,
+                     stbrtAnglf, brdAnglf);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XDrbwPoly(long pXSDbtb, long xgd,
+                          int trbnsx, int trbnsy,
+                          int[] xpoints, int[] ypoints,
+                          int npoints, boolfbn isdlosfd);
+
+    publid void drbwPolylinf(SunGrbphids2D sg2d,
+                             int xpoints[], int ypoints[],
+                             int npoints)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwPoly(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      sg2d.trbnsX, sg2d.trbnsY,
+                      xpoints, ypoints, npoints, fblsf);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void drbwPolygon(SunGrbphids2D sg2d,
+                            int xpoints[], int ypoints[],
+                            int npoints)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDrbwPoly(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      sg2d.trbnsX, sg2d.trbnsY,
+                      xpoints, ypoints, npoints, truf);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillRfdt(long pXSDbtb, long xgd,
+                          int x, int y, int w, int h);
+
+    publid void fillRfdt(SunGrbphids2D sg2d,
+                         int x, int y, int width, int hfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XFillRfdt(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillRoundRfdt(long pXSDbtb, long xgd,
+                               int x, int y, int w, int h,
+                               int brdW, int brdH);
+
+    publid void fillRoundRfdt(SunGrbphids2D sg2d,
+                              int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XFillRoundRfdt(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                           x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight,
+                           brdWidth, brdHfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillOvbl(long pXSDbtb, long xgd,
+                          int x, int y, int w, int h);
+
+    publid void fillOvbl(SunGrbphids2D sg2d,
+                         int x, int y, int width, int hfight)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XFillOvbl(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillArd(long pXSDbtb, long xgd,
+                         int x, int y, int w, int h,
+                         int bnglfStbrt, int bnglfExtfnt);
+
+    publid void fillArd(SunGrbphids2D sg2d,
+                        int x, int y, int width, int hfight,
+                        int stbrtAnglf, int brdAnglf)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XFillArd(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                     x+sg2d.trbnsX, y+sg2d.trbnsY, width, hfight,
+                     stbrtAnglf, brdAnglf);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillPoly(long pXSDbtb, long xgd,
+                          int trbnsx, int trbnsy,
+                          int[] xpoints, int[] ypoints,
+                          int npoints);
+
+    publid void fillPolygon(SunGrbphids2D sg2d,
+                            int xpoints[], int ypoints[],
+                            int npoints)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XFillPoly(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                      sg2d.trbnsX, sg2d.trbnsY, xpoints, ypoints, npoints);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    nbtivf void XFillSpbns(long pXSDbtb, long xgd,
+                           SpbnItfrbtor si, long itfrbtor,
+                           int trbnsx, int trbnsy);
+
+    nbtivf void XDoPbth(SunGrbphids2D sg2d, long pXSDbtb, long xgd,
+                        int trbnsX, int trbnsY, Pbth2D.Flobt p2df,
+                        boolfbn isFill);
+
+    privbtf void doPbth(SunGrbphids2D sg2d, Shbpf s, boolfbn isFill) {
+        Pbth2D.Flobt p2df;
+        int trbnsx, trbnsy;
+        if (sg2d.trbnsformStbtf <= SunGrbphids2D.TRANSFORM_INT_TRANSLATE) {
+            if (s instbndfof Pbth2D.Flobt) {
+                p2df = (Pbth2D.Flobt)s;
+            } flsf {
+                p2df = nfw Pbth2D.Flobt(s);
+            }
+            trbnsx = sg2d.trbnsX;
+            trbnsy = sg2d.trbnsY;
+        } flsf {
+            p2df = nfw Pbth2D.Flobt(s, sg2d.trbnsform);
+            trbnsx = 0;
+            trbnsy = 0;
+        }
+        SunToolkit.bwtLodk();
+        try {
+            long xgd = vblidbtf(sg2d);
+            XDoPbth(sg2d, sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                    trbnsx, trbnsy, p2df, isFill);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void drbw(SunGrbphids2D sg2d, Shbpf s) {
+        if (sg2d.strokfStbtf == SunGrbphids2D.STROKE_THIN) {
+            // Dflfgbtf to drbwPolygon() if possiblf...
+            if (s instbndfof Polygon &&
+                sg2d.trbnsformStbtf < SunGrbphids2D.TRANSFORM_TRANSLATESCALE)
+            {
+                Polygon p = (Polygon) s;
+                drbwPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
+                rfturn;
+            }
+
+            // Othfrwisf wf will usf drbwPbth() for
+            // high-qublity thin pbths.
+            doPbth(sg2d, s, fblsf);
+        } flsf if (sg2d.strokfStbtf < SunGrbphids2D.STROKE_CUSTOM) {
+            // REMIND: X11 dbn hbndlf uniform sdblfd widf linfs
+            // bnd dbshfd linfs itsflf if wf sft thf bppropribtf
+            // XGC bttributfs (TBD).
+            ShbpfSpbnItfrbtor si = LoopPipf.gftStrokfSpbns(sg2d, s);
+            try {
+                SunToolkit.bwtLodk();
+                try {
+                    long xgd = vblidbtf(sg2d);
+                    XFillSpbns(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                               si, si.gftNbtivfItfrbtor(),
+                               0, 0);
+                } finblly {
+                    SunToolkit.bwtUnlodk();
+                }
+            } finblly {
+                si.disposf();
+            }
+        } flsf {
+            fill(sg2d, sg2d.strokf.drfbtfStrokfdShbpf(s));
+        }
+    }
+
+    publid void fill(SunGrbphids2D sg2d, Shbpf s) {
+        if (sg2d.strokfStbtf == SunGrbphids2D.STROKE_THIN) {
+            // Dflfgbtf to fillPolygon() if possiblf...
+            if (s instbndfof Polygon &&
+                sg2d.trbnsformStbtf < SunGrbphids2D.TRANSFORM_TRANSLATESCALE)
+            {
+                Polygon p = (Polygon) s;
+                fillPolygon(sg2d, p.xpoints, p.ypoints, p.npoints);
+                rfturn;
+            }
+
+            // Othfrwisf wf will usf fillPbth() for
+            // high-qublity fills.
+            doPbth(sg2d, s, truf);
+            rfturn;
+        }
+
+        AffinfTrbnsform bt;
+        int trbnsx, trbnsy;
+        if (sg2d.trbnsformStbtf < SunGrbphids2D.TRANSFORM_TRANSLATESCALE) {
+            // Trbnsform (trbnslbtion) will bf donf by XFillSpbns
+            bt = null;
+            trbnsx = sg2d.trbnsX;
+            trbnsy = sg2d.trbnsY;
+        } flsf {
+            // Trbnsform will bf donf by thf PbthItfrbtor
+            bt = sg2d.trbnsform;
+            trbnsx = trbnsy = 0;
+        }
+
+        ShbpfSpbnItfrbtor ssi = LoopPipf.gftFillSSI(sg2d);
+        try {
+            // Subtrbdt trbnsx/y from thf SSI dlip to mbtdh thf
+            // (potfntiblly untrbnslbtfd) gfomftry ffd to it
+            Rfgion dlip = sg2d.gftCompClip();
+            ssi.sftOutputArfbXYXY(dlip.gftLoX() - trbnsx,
+                                  dlip.gftLoY() - trbnsy,
+                                  dlip.gftHiX() - trbnsx,
+                                  dlip.gftHiY() - trbnsy);
+            ssi.bppfndPbth(s.gftPbthItfrbtor(bt));
+            SunToolkit.bwtLodk();
+            try {
+                long xgd = vblidbtf(sg2d);
+                XFillSpbns(sg2d.surfbdfDbtb.gftNbtivfOps(), xgd,
+                           ssi, ssi.gftNbtivfItfrbtor(),
+                           trbnsx, trbnsy);
+            } finblly {
+                SunToolkit.bwtUnlodk();
+            }
+        } finblly {
+            ssi.disposf();
+        }
+    }
+
+    nbtivf void dfvCopyArfb(long sdOps, long xgd,
+                            int srdx, int srdy,
+                            int dstx, int dsty,
+                            int w, int h);
+
+    publid stbtid dlbss X11TrbdingRfndfrfr fxtfnds X11Rfndfrfr {
+        void XDrbwLinf(long pXSDbtb, long xgd,
+                       int x1, int y1, int x2, int y2)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwLinf");
+            supfr.XDrbwLinf(pXSDbtb, xgd, x1, y1, x2, y2);
+        }
+        void XDrbwRfdt(long pXSDbtb, long xgd,
+                       int x, int y, int w, int h)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwRfdt");
+            supfr.XDrbwRfdt(pXSDbtb, xgd, x, y, w, h);
+        }
+        void XDrbwRoundRfdt(long pXSDbtb, long xgd,
+                            int x, int y, int w, int h,
+                            int brdW, int brdH)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwRoundRfdt");
+            supfr.XDrbwRoundRfdt(pXSDbtb, xgd, x, y, w, h, brdW, brdH);
+        }
+        void XDrbwOvbl(long pXSDbtb, long xgd,
+                       int x, int y, int w, int h)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwOvbl");
+            supfr.XDrbwOvbl(pXSDbtb, xgd, x, y, w, h);
+        }
+        void XDrbwArd(long pXSDbtb, long xgd,
+                      int x, int y, int w, int h,
+                      int bnglfStbrt, int bnglfExtfnt)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwArd");
+            supfr.XDrbwArd(pXSDbtb, xgd,
+                           x, y, w, h, bnglfStbrt, bnglfExtfnt);
+        }
+        void XDrbwPoly(long pXSDbtb, long xgd,
+                       int trbnsx, int trbnsy,
+                       int[] xpoints, int[] ypoints,
+                       int npoints, boolfbn isdlosfd)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11DrbwPoly");
+            supfr.XDrbwPoly(pXSDbtb, xgd, trbnsx, trbnsy,
+                            xpoints, ypoints, npoints, isdlosfd);
+        }
+        void XDoPbth(SunGrbphids2D sg2d, long pXSDbtb, long xgd,
+                     int trbnsX, int trbnsY, Pbth2D.Flobt p2df,
+                     boolfbn isFill)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf(isFill ?
+                                             "X11FillPbth" :
+                                             "X11DrbwPbth");
+            supfr.XDoPbth(sg2d, pXSDbtb, xgd, trbnsX, trbnsY, p2df, isFill);
+        }
+        void XFillRfdt(long pXSDbtb, long xgd,
+                       int x, int y, int w, int h)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillRfdt");
+            supfr.XFillRfdt(pXSDbtb, xgd, x, y, w, h);
+        }
+        void XFillRoundRfdt(long pXSDbtb, long xgd,
+                            int x, int y, int w, int h,
+                            int brdW, int brdH)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillRoundRfdt");
+            supfr.XFillRoundRfdt(pXSDbtb, xgd, x, y, w, h, brdW, brdH);
+        }
+        void XFillOvbl(long pXSDbtb, long xgd,
+                       int x, int y, int w, int h)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillOvbl");
+            supfr.XFillOvbl(pXSDbtb, xgd, x, y, w, h);
+        }
+        void XFillArd(long pXSDbtb, long xgd,
+                      int x, int y, int w, int h,
+                      int bnglfStbrt, int bnglfExtfnt)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillArd");
+            supfr.XFillArd(pXSDbtb, xgd,
+                           x, y, w, h, bnglfStbrt, bnglfExtfnt);
+        }
+        void XFillPoly(long pXSDbtb, long xgd,
+                       int trbnsx, int trbnsy,
+                       int[] xpoints, int[] ypoints,
+                       int npoints)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillPoly");
+            supfr.XFillPoly(pXSDbtb, xgd,
+                            trbnsx, trbnsy, xpoints, ypoints, npoints);
+        }
+        void XFillSpbns(long pXSDbtb, long xgd,
+                        SpbnItfrbtor si, long itfrbtor, int trbnsx, int trbnsy)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11FillSpbns");
+            supfr.XFillSpbns(pXSDbtb, xgd,
+                             si, itfrbtor, trbnsx, trbnsy);
+        }
+        void dfvCopyArfb(long sdOps, long xgd,
+                         int srdx, int srdy,
+                         int dstx, int dsty,
+                         int w, int h)
+        {
+            GrbphidsPrimitivf.trbdfPrimitivf("X11CopyArfb");
+            supfr.dfvCopyArfb(sdOps, xgd, srdx, srdy, dstx, dsty, w, h);
+        }
+    }
+}

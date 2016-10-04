@@ -1,801 +1,801 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport;
+pbdkbgf sun.rmi.trbnsport;
 
-import java.lang.ref.PhantomReference;
-import java.lang.ref.ReferenceQueue;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.rmi.ConnectException;
-import java.rmi.RemoteException;
-import java.rmi.dgc.DGC;
-import java.rmi.dgc.Lease;
-import java.rmi.dgc.VMID;
-import java.rmi.server.ObjID;
-import sun.misc.GC;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.server.Util;
+import jbvb.lbng.rff.PibntomRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.rmi.ConnfdtExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.dgd.DGC;
+import jbvb.rmi.dgd.Lfbsf;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.ObjID;
+import sun.misd.GC;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.sfrvfr.Util;
 
 /**
- * DGCClient implements the client-side of the RMI distributed garbage
- * collection system.
+ * DGCClifnt implfmfnts tif dlifnt-sidf of tif RMI distributfd gbrbbgf
+ * dollfdtion systfm.
  *
- * The external interface to DGCClient is the "registerRefs" method.
- * When a LiveRef to a remote object enters the VM, it needs to be
- * registered with the DGCClient to participate in distributed garbage
- * collection.
+ * Tif fxtfrnbl intfrfbdf to DGCClifnt is tif "rfgistfrRffs" mftiod.
+ * Wifn b LivfRff to b rfmotf objfdt fntfrs tif VM, it nffds to bf
+ * rfgistfrfd witi tif DGCClifnt to pbrtidipbtf in distributfd gbrbbgf
+ * dollfdtion.
  *
- * When the first LiveRef to a particular remote object is registered,
- * a "dirty" call is made to the server-side distributed garbage
- * collector for the remote object, which returns a lease guaranteeing
- * that the server-side DGC will not collect the remote object for a
- * certain period of time.  While LiveRef instances to remote objects
- * on a particular server exist, the DGCClient periodically sends more
- * "dirty" calls to renew its lease.
+ * Wifn tif first LivfRff to b pbrtidulbr rfmotf objfdt is rfgistfrfd,
+ * b "dirty" dbll is mbdf to tif sfrvfr-sidf distributfd gbrbbgf
+ * dollfdtor for tif rfmotf objfdt, wiidi rfturns b lfbsf gubrbntffing
+ * tibt tif sfrvfr-sidf DGC will not dollfdt tif rfmotf objfdt for b
+ * dfrtbin pfriod of timf.  Wiilf LivfRff instbndfs to rfmotf objfdts
+ * on b pbrtidulbr sfrvfr fxist, tif DGCClifnt pfriodidblly sfnds morf
+ * "dirty" dblls to rfnfw its lfbsf.
  *
- * The DGCClient tracks the local reachability of registered LiveRef
- * instances (using phantom references).  When the LiveRef instance
- * for a particular remote object becomes garbage collected locally,
- * a "clean" call is made to the server-side distributed garbage
- * collector, indicating that the server no longer needs to keep the
- * remote object alive for this client.
+ * Tif DGCClifnt trbdks tif lodbl rfbdibbility of rfgistfrfd LivfRff
+ * instbndfs (using pibntom rfffrfndfs).  Wifn tif LivfRff instbndf
+ * for b pbrtidulbr rfmotf objfdt bfdomfs gbrbbgf dollfdtfd lodblly,
+ * b "dlfbn" dbll is mbdf to tif sfrvfr-sidf distributfd gbrbbgf
+ * dollfdtor, indidbting tibt tif sfrvfr no longfr nffds to kffp tif
+ * rfmotf objfdt blivf for tiis dlifnt.
  *
- * @see java.rmi.dgc.DGC, sun.rmi.transport.DGCImpl
+ * @sff jbvb.rmi.dgd.DGC, sun.rmi.trbnsport.DGCImpl
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @butior  Ann Wollrbti
+ * @butior  Pftfr Jonfs
  */
-final class DGCClient {
+finbl dlbss DGCClifnt {
 
-    /** next sequence number for DGC calls (access synchronized on class) */
-    private static long nextSequenceNum = Long.MIN_VALUE;
+    /** nfxt sfqufndf numbfr for DGC dblls (bddfss syndironizfd on dlbss) */
+    privbtf stbtid long nfxtSfqufndfNum = Long.MIN_VALUE;
 
-    /** unique identifier for this VM as a client of DGC */
-    private static VMID vmid = new VMID();
+    /** uniquf idfntififr for tiis VM bs b dlifnt of DGC */
+    privbtf stbtid VMID vmid = nfw VMID();
 
-    /** lease duration to request (usually ignored by server) */
-    private static final long leaseValue =              // default 10 minutes
-        AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("java.rmi.dgc.leaseValue", 600000));
+    /** lfbsf durbtion to rfqufst (usublly ignorfd by sfrvfr) */
+    privbtf stbtid finbl long lfbsfVbluf =              // dffbult 10 minutfs
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("jbvb.rmi.dgd.lfbsfVbluf", 600000));
 
-    /** maximum interval between retries of failed clean calls */
-    private static final long cleanInterval =           // default 3 minutes
-        AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.cleanInterval", 180000));
+    /** mbximum intfrvbl bftwffn rftrifs of fbilfd dlfbn dblls */
+    privbtf stbtid finbl long dlfbnIntfrvbl =           // dffbult 3 minutfs
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.dgd.dlfbnIntfrvbl", 180000));
 
-    /** maximum interval between complete garbage collections of local heap */
-    private static final long gcInterval =              // default 1 hour
-        AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.dgc.client.gcInterval", 3600000));
+    /** mbximum intfrvbl bftwffn domplftf gbrbbgf dollfdtions of lodbl ifbp */
+    privbtf stbtid finbl long gdIntfrvbl =              // dffbult 1 iour
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Long>) () ->
+            Long.gftLong("sun.rmi.dgd.dlifnt.gdIntfrvbl", 3600000));
 
-    /** minimum retry count for dirty calls that fail */
-    private static final int dirtyFailureRetries = 5;
+    /** minimum rftry dount for dirty dblls tibt fbil */
+    privbtf stbtid finbl int dirtyFbilurfRftrifs = 5;
 
-    /** retry count for clean calls that fail with ConnectException */
-    private static final int cleanFailureRetries = 5;
+    /** rftry dount for dlfbn dblls tibt fbil witi ConnfdtExdfption */
+    privbtf stbtid finbl int dlfbnFbilurfRftrifs = 5;
 
-    /** constant empty ObjID array for lease renewal optimization */
-    private static final ObjID[] emptyObjIDArray = new ObjID[0];
+    /** donstbnt fmpty ObjID brrby for lfbsf rfnfwbl optimizbtion */
+    privbtf stbtid finbl ObjID[] fmptyObjIDArrby = nfw ObjID[0];
 
-    /** ObjID for server-side DGC object */
-    private static final ObjID dgcID = new ObjID(ObjID.DGC_ID);
+    /** ObjID for sfrvfr-sidf DGC objfdt */
+    privbtf stbtid finbl ObjID dgdID = nfw ObjID(ObjID.DGC_ID);
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyonf from drfbting onf of tifsf.
      */
-    private DGCClient() {}
+    privbtf DGCClifnt() {}
 
     /**
-     * Register the LiveRef instances in the supplied list to participate
-     * in distributed garbage collection.
+     * Rfgistfr tif LivfRff instbndfs in tif supplifd list to pbrtidipbtf
+     * in distributfd gbrbbgf dollfdtion.
      *
-     * All of the LiveRefs in the list must be for remote objects at the
-     * given endpoint.
+     * All of tif LivfRffs in tif list must bf for rfmotf objfdts bt tif
+     * givfn fndpoint.
      */
-    static void registerRefs(Endpoint ep, List<LiveRef> refs) {
+    stbtid void rfgistfrRffs(Endpoint fp, List<LivfRff> rffs) {
         /*
-         * Look up the given endpoint and register the refs with it.
-         * The retrieved entry may get removed from the global endpoint
-         * table before EndpointEntry.registerRefs() is able to acquire
-         * its lock; in this event, it returns false, and we loop and
-         * try again.
+         * Look up tif givfn fndpoint bnd rfgistfr tif rffs witi it.
+         * Tif rftrifvfd fntry mby gft rfmovfd from tif globbl fndpoint
+         * tbblf bfforf EndpointEntry.rfgistfrRffs() is bblf to bdquirf
+         * its lodk; in tiis fvfnt, it rfturns fblsf, bnd wf loop bnd
+         * try bgbin.
          */
-        EndpointEntry epEntry;
+        EndpointEntry fpEntry;
         do {
-            epEntry = EndpointEntry.lookup(ep);
-        } while (!epEntry.registerRefs(refs));
+            fpEntry = EndpointEntry.lookup(fp);
+        } wiilf (!fpEntry.rfgistfrRffs(rffs));
     }
 
     /**
-     * Get the next sequence number to be used for a dirty or clean
-     * operation from this VM.  This method should only be called while
-     * synchronized on the EndpointEntry whose data structures the
-     * operation affects.
+     * Gft tif nfxt sfqufndf numbfr to bf usfd for b dirty or dlfbn
+     * opfrbtion from tiis VM.  Tiis mftiod siould only bf dbllfd wiilf
+     * syndironizfd on tif EndpointEntry wiosf dbtb strudturfs tif
+     * opfrbtion bfffdts.
      */
-    private static synchronized long getNextSequenceNum() {
-        return nextSequenceNum++;
+    privbtf stbtid syndironizfd long gftNfxtSfqufndfNum() {
+        rfturn nfxtSfqufndfNum++;
     }
 
     /**
-     * Given the length of a lease and the time that it was granted,
-     * compute the absolute time at which it should be renewed, giving
-     * room for reasonable computational and communication delays.
+     * Givfn tif lfngti of b lfbsf bnd tif timf tibt it wbs grbntfd,
+     * domputf tif bbsolutf timf bt wiidi it siould bf rfnfwfd, giving
+     * room for rfbsonbblf domputbtionbl bnd dommunidbtion dflbys.
      */
-    private static long computeRenewTime(long grantTime, long duration) {
+    privbtf stbtid long domputfRfnfwTimf(long grbntTimf, long durbtion) {
         /*
-         * REMIND: This algorithm should be more sophisticated, waiting
-         * a longer fraction of the lease duration for longer leases.
+         * REMIND: Tiis blgoritim siould bf morf sopiistidbtfd, wbiting
+         * b longfr frbdtion of tif lfbsf durbtion for longfr lfbsfs.
          */
-        return grantTime + (duration / 2);
+        rfturn grbntTimf + (durbtion / 2);
     }
 
     /**
-     * EndpointEntry encapsulates the client-side DGC information specific
-     * to a particular Endpoint.  Of most significance is the table that
-     * maps LiveRef value to RefEntry objects and the renew/clean thread
-     * that handles asynchronous client-side DGC operations.
+     * EndpointEntry fndbpsulbtfs tif dlifnt-sidf DGC informbtion spfdifid
+     * to b pbrtidulbr Endpoint.  Of most signifidbndf is tif tbblf tibt
+     * mbps LivfRff vbluf to RffEntry objfdts bnd tif rfnfw/dlfbn tirfbd
+     * tibt ibndlfs bsyndironous dlifnt-sidf DGC opfrbtions.
      */
-    private static class EndpointEntry {
+    privbtf stbtid dlbss EndpointEntry {
 
-        /** the endpoint that this entry is for */
-        private Endpoint endpoint;
-        /** synthesized reference to the remote server-side DGC */
-        private DGC dgc;
+        /** tif fndpoint tibt tiis fntry is for */
+        privbtf Endpoint fndpoint;
+        /** syntifsizfd rfffrfndf to tif rfmotf sfrvfr-sidf DGC */
+        privbtf DGC dgd;
 
-        /** table of refs held for endpoint: maps LiveRef to RefEntry */
-        private Map<LiveRef, RefEntry> refTable = new HashMap<>(5);
-        /** set of RefEntry instances from last (failed) dirty call */
-        private Set<RefEntry> invalidRefs = new HashSet<>(5);
+        /** tbblf of rffs ifld for fndpoint: mbps LivfRff to RffEntry */
+        privbtf Mbp<LivfRff, RffEntry> rffTbblf = nfw HbsiMbp<>(5);
+        /** sft of RffEntry instbndfs from lbst (fbilfd) dirty dbll */
+        privbtf Sft<RffEntry> invblidRffs = nfw HbsiSft<>(5);
 
-        /** true if this entry has been removed from the global table */
-        private boolean removed = false;
+        /** truf if tiis fntry ibs bffn rfmovfd from tif globbl tbblf */
+        privbtf boolfbn rfmovfd = fblsf;
 
-        /** absolute time to renew current lease to this endpoint */
-        private long renewTime = Long.MAX_VALUE;
-        /** absolute time current lease to this endpoint will expire */
-        private long expirationTime = Long.MIN_VALUE;
-        /** count of recent dirty calls that have failed */
-        private int dirtyFailures = 0;
-        /** absolute time of first recent failed dirty call */
-        private long dirtyFailureStartTime;
-        /** (average) elapsed time for recent failed dirty calls */
-        private long dirtyFailureDuration;
+        /** bbsolutf timf to rfnfw durrfnt lfbsf to tiis fndpoint */
+        privbtf long rfnfwTimf = Long.MAX_VALUE;
+        /** bbsolutf timf durrfnt lfbsf to tiis fndpoint will fxpirf */
+        privbtf long fxpirbtionTimf = Long.MIN_VALUE;
+        /** dount of rfdfnt dirty dblls tibt ibvf fbilfd */
+        privbtf int dirtyFbilurfs = 0;
+        /** bbsolutf timf of first rfdfnt fbilfd dirty dbll */
+        privbtf long dirtyFbilurfStbrtTimf;
+        /** (bvfrbgf) flbpsfd timf for rfdfnt fbilfd dirty dblls */
+        privbtf long dirtyFbilurfDurbtion;
 
-        /** renew/clean thread for handling lease renewals and clean calls */
-        private Thread renewCleanThread;
-        /** true if renew/clean thread may be interrupted */
-        private boolean interruptible = false;
+        /** rfnfw/dlfbn tirfbd for ibndling lfbsf rfnfwbls bnd dlfbn dblls */
+        privbtf Tirfbd rfnfwClfbnTirfbd;
+        /** truf if rfnfw/dlfbn tirfbd mby bf intfrruptfd */
+        privbtf boolfbn intfrruptiblf = fblsf;
 
-        /** reference queue for phantom references */
-        private ReferenceQueue<LiveRef> refQueue = new ReferenceQueue<>();
-        /** set of clean calls that need to be made */
-        private Set<CleanRequest> pendingCleans = new HashSet<>(5);
+        /** rfffrfndf qufuf for pibntom rfffrfndfs */
+        privbtf RfffrfndfQufuf<LivfRff> rffQufuf = nfw RfffrfndfQufuf<>();
+        /** sft of dlfbn dblls tibt nffd to bf mbdf */
+        privbtf Sft<ClfbnRfqufst> pfndingClfbns = nfw HbsiSft<>(5);
 
-        /** global endpoint table: maps Endpoint to EndpointEntry */
-        private static Map<Endpoint,EndpointEntry> endpointTable = new HashMap<>(5);
-        /** handle for GC latency request (for future cancellation) */
-        private static GC.LatencyRequest gcLatencyRequest = null;
+        /** globbl fndpoint tbblf: mbps Endpoint to EndpointEntry */
+        privbtf stbtid Mbp<Endpoint,EndpointEntry> fndpointTbblf = nfw HbsiMbp<>(5);
+        /** ibndlf for GC lbtfndy rfqufst (for futurf dbndfllbtion) */
+        privbtf stbtid GC.LbtfndyRfqufst gdLbtfndyRfqufst = null;
 
         /**
-         * Look up the EndpointEntry for the given Endpoint.  An entry is
-         * created if one does not already exist.
+         * Look up tif EndpointEntry for tif givfn Endpoint.  An fntry is
+         * drfbtfd if onf dofs not blrfbdy fxist.
          */
-        public static EndpointEntry lookup(Endpoint ep) {
-            synchronized (endpointTable) {
-                EndpointEntry entry = endpointTable.get(ep);
-                if (entry == null) {
-                    entry = new EndpointEntry(ep);
-                    endpointTable.put(ep, entry);
+        publid stbtid EndpointEntry lookup(Endpoint fp) {
+            syndironizfd (fndpointTbblf) {
+                EndpointEntry fntry = fndpointTbblf.gft(fp);
+                if (fntry == null) {
+                    fntry = nfw EndpointEntry(fp);
+                    fndpointTbblf.put(fp, fntry);
                     /*
-                     * While we are tracking live remote references registered
-                     * in this VM, request a maximum latency for inspecting the
-                     * entire heap from the local garbage collector, to place
-                     * an upper bound on the time to discover remote references
-                     * that have become unreachable (see bugid 4171278).
+                     * Wiilf wf brf trbdking livf rfmotf rfffrfndfs rfgistfrfd
+                     * in tiis VM, rfqufst b mbximum lbtfndy for inspfdting tif
+                     * fntirf ifbp from tif lodbl gbrbbgf dollfdtor, to plbdf
+                     * bn uppfr bound on tif timf to disdovfr rfmotf rfffrfndfs
+                     * tibt ibvf bfdomf unrfbdibblf (sff bugid 4171278).
                      */
-                    if (gcLatencyRequest == null) {
-                        gcLatencyRequest = GC.requestLatency(gcInterval);
+                    if (gdLbtfndyRfqufst == null) {
+                        gdLbtfndyRfqufst = GC.rfqufstLbtfndy(gdIntfrvbl);
                     }
                 }
-                return entry;
+                rfturn fntry;
             }
         }
 
-        private EndpointEntry(final Endpoint endpoint) {
-            this.endpoint = endpoint;
+        privbtf EndpointEntry(finbl Endpoint fndpoint) {
+            tiis.fndpoint = fndpoint;
             try {
-                LiveRef dgcRef = new LiveRef(dgcID, endpoint, false);
-                dgc = (DGC) Util.createProxy(DGCImpl.class,
-                                             new UnicastRef(dgcRef), true);
-            } catch (RemoteException e) {
-                throw new Error("internal error creating DGC stub");
+                LivfRff dgdRff = nfw LivfRff(dgdID, fndpoint, fblsf);
+                dgd = (DGC) Util.drfbtfProxy(DGCImpl.dlbss,
+                                             nfw UnidbstRff(dgdRff), truf);
+            } dbtdi (RfmotfExdfption f) {
+                tirow nfw Error("intfrnbl frror drfbting DGC stub");
             }
-            renewCleanThread =  AccessController.doPrivileged(
-                new NewThreadAction(new RenewCleanThread(),
-                                    "RenewClean-" + endpoint, true));
-            renewCleanThread.start();
+            rfnfwClfbnTirfbd =  AddfssControllfr.doPrivilfgfd(
+                nfw NfwTirfbdAdtion(nfw RfnfwClfbnTirfbd(),
+                                    "RfnfwClfbn-" + fndpoint, truf));
+            rfnfwClfbnTirfbd.stbrt();
         }
 
         /**
-         * Register the LiveRef instances in the supplied list to participate
-         * in distributed garbage collection.
+         * Rfgistfr tif LivfRff instbndfs in tif supplifd list to pbrtidipbtf
+         * in distributfd gbrbbgf dollfdtion.
          *
-         * This method returns false if this entry was removed from the
-         * global endpoint table (because it was empty) before these refs
-         * could be registered.  In that case, a new EndpointEntry needs
-         * to be looked up.
+         * Tiis mftiod rfturns fblsf if tiis fntry wbs rfmovfd from tif
+         * globbl fndpoint tbblf (bfdbusf it wbs fmpty) bfforf tifsf rffs
+         * dould bf rfgistfrfd.  In tibt dbsf, b nfw EndpointEntry nffds
+         * to bf lookfd up.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * Tiis mftiod must NOT bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        public boolean registerRefs(List<LiveRef> refs) {
-            assert !Thread.holdsLock(this);
+        publid boolfbn rfgistfrRffs(List<LivfRff> rffs) {
+            bssfrt !Tirfbd.ioldsLodk(tiis);
 
-            Set<RefEntry> refsToDirty = null;     // entries for refs needing dirty
-            long sequenceNum;           // sequence number for dirty call
+            Sft<RffEntry> rffsToDirty = null;     // fntrifs for rffs nffding dirty
+            long sfqufndfNum;           // sfqufndf numbfr for dirty dbll
 
-            synchronized (this) {
-                if (removed) {
-                    return false;
+            syndironizfd (tiis) {
+                if (rfmovfd) {
+                    rfturn fblsf;
                 }
 
-                Iterator<LiveRef> iter = refs.iterator();
-                while (iter.hasNext()) {
-                    LiveRef ref = iter.next();
-                    assert ref.getEndpoint().equals(endpoint);
+                Itfrbtor<LivfRff> itfr = rffs.itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    LivfRff rff = itfr.nfxt();
+                    bssfrt rff.gftEndpoint().fqubls(fndpoint);
 
-                    RefEntry refEntry = refTable.get(ref);
-                    if (refEntry == null) {
-                        LiveRef refClone = (LiveRef) ref.clone();
-                        refEntry = new RefEntry(refClone);
-                        refTable.put(refClone, refEntry);
-                        if (refsToDirty == null) {
-                            refsToDirty = new HashSet<>(5);
+                    RffEntry rffEntry = rffTbblf.gft(rff);
+                    if (rffEntry == null) {
+                        LivfRff rffClonf = (LivfRff) rff.dlonf();
+                        rffEntry = nfw RffEntry(rffClonf);
+                        rffTbblf.put(rffClonf, rffEntry);
+                        if (rffsToDirty == null) {
+                            rffsToDirty = nfw HbsiSft<>(5);
                         }
-                        refsToDirty.add(refEntry);
+                        rffsToDirty.bdd(rffEntry);
                     }
 
-                    refEntry.addInstanceToRefSet(ref);
+                    rffEntry.bddInstbndfToRffSft(rff);
                 }
 
-                if (refsToDirty == null) {
-                    return true;
+                if (rffsToDirty == null) {
+                    rfturn truf;
                 }
 
-                refsToDirty.addAll(invalidRefs);
-                invalidRefs.clear();
+                rffsToDirty.bddAll(invblidRffs);
+                invblidRffs.dlfbr();
 
-                sequenceNum = getNextSequenceNum();
+                sfqufndfNum = gftNfxtSfqufndfNum();
             }
 
-            makeDirtyCall(refsToDirty, sequenceNum);
-            return true;
+            mbkfDirtyCbll(rffsToDirty, sfqufndfNum);
+            rfturn truf;
         }
 
         /**
-         * Remove the given RefEntry from the ref table.  If that makes
-         * the ref table empty, remove this entry from the global endpoint
-         * table.
+         * Rfmovf tif givfn RffEntry from tif rff tbblf.  If tibt mbkfs
+         * tif rff tbblf fmpty, rfmovf tiis fntry from tif globbl fndpoint
+         * tbblf.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * Tiis mftiod must ONLY bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        private void removeRefEntry(RefEntry refEntry) {
-            assert Thread.holdsLock(this);
-            assert !removed;
-            assert refTable.containsKey(refEntry.getRef());
+        privbtf void rfmovfRffEntry(RffEntry rffEntry) {
+            bssfrt Tirfbd.ioldsLodk(tiis);
+            bssfrt !rfmovfd;
+            bssfrt rffTbblf.dontbinsKfy(rffEntry.gftRff());
 
-            refTable.remove(refEntry.getRef());
-            invalidRefs.remove(refEntry);
-            if (refTable.isEmpty()) {
-                synchronized (endpointTable) {
-                    endpointTable.remove(endpoint);
-                    Transport transport = endpoint.getOutboundTransport();
-                    transport.free(endpoint);
+            rffTbblf.rfmovf(rffEntry.gftRff());
+            invblidRffs.rfmovf(rffEntry);
+            if (rffTbblf.isEmpty()) {
+                syndironizfd (fndpointTbblf) {
+                    fndpointTbblf.rfmovf(fndpoint);
+                    Trbnsport trbnsport = fndpoint.gftOutboundTrbnsport();
+                    trbnsport.frff(fndpoint);
                     /*
-                     * If there are no longer any live remote references
-                     * registered, we are no longer concerned with the
-                     * latency of local garbage collection here.
+                     * If tifrf brf no longfr bny livf rfmotf rfffrfndfs
+                     * rfgistfrfd, wf brf no longfr dondfrnfd witi tif
+                     * lbtfndy of lodbl gbrbbgf dollfdtion ifrf.
                      */
-                    if (endpointTable.isEmpty()) {
-                        assert gcLatencyRequest != null;
-                        gcLatencyRequest.cancel();
-                        gcLatencyRequest = null;
+                    if (fndpointTbblf.isEmpty()) {
+                        bssfrt gdLbtfndyRfqufst != null;
+                        gdLbtfndyRfqufst.dbndfl();
+                        gdLbtfndyRfqufst = null;
                     }
-                    removed = true;
+                    rfmovfd = truf;
                 }
             }
         }
 
         /**
-         * Make a DGC dirty call to this entry's endpoint, for the ObjIDs
-         * corresponding to the given set of refs and with the given
-         * sequence number.
+         * Mbkf b DGC dirty dbll to tiis fntry's fndpoint, for tif ObjIDs
+         * dorrfsponding to tif givfn sft of rffs bnd witi tif givfn
+         * sfqufndf numbfr.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * Tiis mftiod must NOT bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        private void makeDirtyCall(Set<RefEntry> refEntries, long sequenceNum) {
-            assert !Thread.holdsLock(this);
+        privbtf void mbkfDirtyCbll(Sft<RffEntry> rffEntrifs, long sfqufndfNum) {
+            bssfrt !Tirfbd.ioldsLodk(tiis);
 
             ObjID[] ids;
-            if (refEntries != null) {
-                ids = createObjIDArray(refEntries);
-            } else {
-                ids = emptyObjIDArray;
+            if (rffEntrifs != null) {
+                ids = drfbtfObjIDArrby(rffEntrifs);
+            } flsf {
+                ids = fmptyObjIDArrby;
             }
 
-            long startTime = System.currentTimeMillis();
+            long stbrtTimf = Systfm.durrfntTimfMillis();
             try {
-                Lease lease =
-                    dgc.dirty(ids, sequenceNum, new Lease(vmid, leaseValue));
-                long duration = lease.getValue();
+                Lfbsf lfbsf =
+                    dgd.dirty(ids, sfqufndfNum, nfw Lfbsf(vmid, lfbsfVbluf));
+                long durbtion = lfbsf.gftVbluf();
 
-                long newRenewTime = computeRenewTime(startTime, duration);
-                long newExpirationTime = startTime + duration;
+                long nfwRfnfwTimf = domputfRfnfwTimf(stbrtTimf, durbtion);
+                long nfwExpirbtionTimf = stbrtTimf + durbtion;
 
-                synchronized (this) {
-                    dirtyFailures = 0;
-                    setRenewTime(newRenewTime);
-                    expirationTime = newExpirationTime;
+                syndironizfd (tiis) {
+                    dirtyFbilurfs = 0;
+                    sftRfnfwTimf(nfwRfnfwTimf);
+                    fxpirbtionTimf = nfwExpirbtionTimf;
                 }
 
-            } catch (Exception e) {
-                long endTime = System.currentTimeMillis();
+            } dbtdi (Exdfption f) {
+                long fndTimf = Systfm.durrfntTimfMillis();
 
-                synchronized (this) {
-                    dirtyFailures++;
+                syndironizfd (tiis) {
+                    dirtyFbilurfs++;
 
-                    if (dirtyFailures == 1) {
+                    if (dirtyFbilurfs == 1) {
                         /*
-                         * If this was the first recent failed dirty call,
-                         * reschedule another one immediately, in case there
-                         * was just a transient network problem, and remember
-                         * the start time and duration of this attempt for
-                         * future calculations of the delays between retries.
+                         * If tiis wbs tif first rfdfnt fbilfd dirty dbll,
+                         * rfsdifdulf bnotifr onf immfdibtfly, in dbsf tifrf
+                         * wbs just b trbnsifnt nftwork problfm, bnd rfmfmbfr
+                         * tif stbrt timf bnd durbtion of tiis bttfmpt for
+                         * futurf dbldulbtions of tif dflbys bftwffn rftrifs.
                          */
-                        dirtyFailureStartTime = startTime;
-                        dirtyFailureDuration = endTime - startTime;
-                        setRenewTime(endTime);
-                    } else {
+                        dirtyFbilurfStbrtTimf = stbrtTimf;
+                        dirtyFbilurfDurbtion = fndTimf - stbrtTimf;
+                        sftRfnfwTimf(fndTimf);
+                    } flsf {
                         /*
-                         * For each successive failed dirty call, wait for a
-                         * (binary) exponentially increasing delay before
-                         * retrying, to avoid network congestion.
+                         * For fbdi suddfssivf fbilfd dirty dbll, wbit for b
+                         * (binbry) fxponfntiblly indrfbsing dflby bfforf
+                         * rftrying, to bvoid nftwork dongfstion.
                          */
-                        int n = dirtyFailures - 2;
+                        int n = dirtyFbilurfs - 2;
                         if (n == 0) {
                             /*
-                             * Calculate the initial retry delay from the
-                             * average time elapsed for each of the first
-                             * two failed dirty calls.  The result must be
-                             * at least 1000ms, to prevent a tight loop.
+                             * Cbldulbtf tif initibl rftry dflby from tif
+                             * bvfrbgf timf flbpsfd for fbdi of tif first
+                             * two fbilfd dirty dblls.  Tif rfsult must bf
+                             * bt lfbst 1000ms, to prfvfnt b tigit loop.
                              */
-                            dirtyFailureDuration =
-                                Math.max((dirtyFailureDuration +
-                                          (endTime - startTime)) >> 1, 1000);
+                            dirtyFbilurfDurbtion =
+                                Mbti.mbx((dirtyFbilurfDurbtion +
+                                          (fndTimf - stbrtTimf)) >> 1, 1000);
                         }
-                        long newRenewTime =
-                            endTime + (dirtyFailureDuration << n);
+                        long nfwRfnfwTimf =
+                            fndTimf + (dirtyFbilurfDurbtion << n);
 
                         /*
-                         * Continue if the last known held lease has not
-                         * expired, or else at least a fixed number of times,
-                         * or at least until we've tried for a fixed amount
-                         * of time (the default lease value we request).
+                         * Continuf if tif lbst known ifld lfbsf ibs not
+                         * fxpirfd, or flsf bt lfbst b fixfd numbfr of timfs,
+                         * or bt lfbst until wf'vf trifd for b fixfd bmount
+                         * of timf (tif dffbult lfbsf vbluf wf rfqufst).
                          */
-                        if (newRenewTime < expirationTime ||
-                            dirtyFailures < dirtyFailureRetries ||
-                            newRenewTime < dirtyFailureStartTime + leaseValue)
+                        if (nfwRfnfwTimf < fxpirbtionTimf ||
+                            dirtyFbilurfs < dirtyFbilurfRftrifs ||
+                            nfwRfnfwTimf < dirtyFbilurfStbrtTimf + lfbsfVbluf)
                         {
-                            setRenewTime(newRenewTime);
-                        } else {
+                            sftRfnfwTimf(nfwRfnfwTimf);
+                        } flsf {
                             /*
-                             * Give up: postpone lease renewals until next
-                             * ref is registered for this endpoint.
+                             * Givf up: postponf lfbsf rfnfwbls until nfxt
+                             * rff is rfgistfrfd for tiis fndpoint.
                              */
-                            setRenewTime(Long.MAX_VALUE);
+                            sftRfnfwTimf(Long.MAX_VALUE);
                         }
                     }
 
-                    if (refEntries != null) {
+                    if (rffEntrifs != null) {
                         /*
-                         * Add all of these refs to the set of refs for this
-                         * endpoint that may be invalid (this VM may not be in
-                         * the server's referenced set), so that we will
-                         * attempt to explicitly dirty them again in the
-                         * future.
+                         * Add bll of tifsf rffs to tif sft of rffs for tiis
+                         * fndpoint tibt mby bf invblid (tiis VM mby not bf in
+                         * tif sfrvfr's rfffrfndfd sft), so tibt wf will
+                         * bttfmpt to fxpliditly dirty tifm bgbin in tif
+                         * futurf.
                          */
-                        invalidRefs.addAll(refEntries);
+                        invblidRffs.bddAll(rffEntrifs);
 
                         /*
-                         * Record that a dirty call has failed for all of these
-                         * refs, so that clean calls for them in the future
-                         * will be strong.
+                         * Rfdord tibt b dirty dbll ibs fbilfd for bll of tifsf
+                         * rffs, so tibt dlfbn dblls for tifm in tif futurf
+                         * will bf strong.
                          */
-                        Iterator<RefEntry> iter = refEntries.iterator();
-                        while (iter.hasNext()) {
-                            RefEntry refEntry = iter.next();
-                            refEntry.markDirtyFailed();
+                        Itfrbtor<RffEntry> itfr = rffEntrifs.itfrbtor();
+                        wiilf (itfr.ibsNfxt()) {
+                            RffEntry rffEntry = itfr.nfxt();
+                            rffEntry.mbrkDirtyFbilfd();
                         }
                     }
 
                     /*
-                     * If the last known held lease will have expired before
-                     * the next renewal, all refs might be invalid.
+                     * If tif lbst known ifld lfbsf will ibvf fxpirfd bfforf
+                     * tif nfxt rfnfwbl, bll rffs migit bf invblid.
                      */
-                    if (renewTime >= expirationTime) {
-                        invalidRefs.addAll(refTable.values());
+                    if (rfnfwTimf >= fxpirbtionTimf) {
+                        invblidRffs.bddAll(rffTbblf.vblufs());
                     }
                 }
             }
         }
 
         /**
-         * Set the absolute time at which the lease for this entry should
-         * be renewed.
+         * Sft tif bbsolutf timf bt wiidi tif lfbsf for tiis fntry siould
+         * bf rfnfwfd.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * Tiis mftiod must ONLY bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        private void setRenewTime(long newRenewTime) {
-            assert Thread.holdsLock(this);
+        privbtf void sftRfnfwTimf(long nfwRfnfwTimf) {
+            bssfrt Tirfbd.ioldsLodk(tiis);
 
-            if (newRenewTime < renewTime) {
-                renewTime = newRenewTime;
-                if (interruptible) {
-                    AccessController.doPrivileged(
-                        new PrivilegedAction<Void>() {
-                            public Void run() {
-                            renewCleanThread.interrupt();
-                            return null;
+            if (nfwRfnfwTimf < rfnfwTimf) {
+                rfnfwTimf = nfwRfnfwTimf;
+                if (intfrruptiblf) {
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<Void>() {
+                            publid Void run() {
+                            rfnfwClfbnTirfbd.intfrrupt();
+                            rfturn null;
                         }
                     });
                 }
-            } else {
-                renewTime = newRenewTime;
+            } flsf {
+                rfnfwTimf = nfwRfnfwTimf;
             }
         }
 
         /**
-         * RenewCleanThread handles the asynchronous client-side DGC activity
-         * for this entry: renewing the leases and making clean calls.
+         * RfnfwClfbnTirfbd ibndlfs tif bsyndironous dlifnt-sidf DGC bdtivity
+         * for tiis fntry: rfnfwing tif lfbsfs bnd mbking dlfbn dblls.
          */
-        private class RenewCleanThread implements Runnable {
+        privbtf dlbss RfnfwClfbnTirfbd implfmfnts Runnbblf {
 
-            public void run() {
+            publid void run() {
                 do {
-                    long timeToWait;
-                    RefEntry.PhantomLiveRef phantom = null;
-                    boolean needRenewal = false;
-                    Set<RefEntry> refsToDirty = null;
-                    long sequenceNum = Long.MIN_VALUE;
+                    long timfToWbit;
+                    RffEntry.PibntomLivfRff pibntom = null;
+                    boolfbn nffdRfnfwbl = fblsf;
+                    Sft<RffEntry> rffsToDirty = null;
+                    long sfqufndfNum = Long.MIN_VALUE;
 
-                    synchronized (EndpointEntry.this) {
+                    syndironizfd (EndpointEntry.tiis) {
                         /*
-                         * Calculate time to block (waiting for phantom
-                         * reference notifications).  It is the time until the
-                         * lease renewal should be done, bounded on the low
-                         * end by 1 ms so that the reference queue will always
-                         * get processed, and if there are pending clean
-                         * requests (remaining because some clean calls
-                         * failed), bounded on the high end by the maximum
-                         * clean call retry interval.
+                         * Cbldulbtf timf to blodk (wbiting for pibntom
+                         * rfffrfndf notifidbtions).  It is tif timf until tif
+                         * lfbsf rfnfwbl siould bf donf, boundfd on tif low
+                         * fnd by 1 ms so tibt tif rfffrfndf qufuf will blwbys
+                         * gft prodfssfd, bnd if tifrf brf pfnding dlfbn
+                         * rfqufsts (rfmbining bfdbusf somf dlfbn dblls
+                         * fbilfd), boundfd on tif iigi fnd by tif mbximum
+                         * dlfbn dbll rftry intfrvbl.
                          */
-                        long timeUntilRenew =
-                            renewTime - System.currentTimeMillis();
-                        timeToWait = Math.max(timeUntilRenew, 1);
-                        if (!pendingCleans.isEmpty()) {
-                            timeToWait = Math.min(timeToWait, cleanInterval);
+                        long timfUntilRfnfw =
+                            rfnfwTimf - Systfm.durrfntTimfMillis();
+                        timfToWbit = Mbti.mbx(timfUntilRfnfw, 1);
+                        if (!pfndingClfbns.isEmpty()) {
+                            timfToWbit = Mbti.min(timfToWbit, dlfbnIntfrvbl);
                         }
 
                         /*
-                         * Set flag indicating that it is OK to interrupt this
-                         * thread now, such as if a earlier lease renewal time
-                         * is set, because we are only going to be blocking
-                         * and can deal with interrupts.
+                         * Sft flbg indidbting tibt it is OK to intfrrupt tiis
+                         * tirfbd now, sudi bs if b fbrlifr lfbsf rfnfwbl timf
+                         * is sft, bfdbusf wf brf only going to bf blodking
+                         * bnd dbn dfbl witi intfrrupts.
                          */
-                        interruptible = true;
+                        intfrruptiblf = truf;
                     }
 
                     try {
                         /*
-                         * Wait for the duration calculated above for any of
-                         * our phantom references to be enqueued.
+                         * Wbit for tif durbtion dbldulbtfd bbovf for bny of
+                         * our pibntom rfffrfndfs to bf fnqufufd.
                          */
-                        phantom = (RefEntry.PhantomLiveRef)
-                            refQueue.remove(timeToWait);
-                    } catch (InterruptedException e) {
+                        pibntom = (RffEntry.PibntomLivfRff)
+                            rffQufuf.rfmovf(timfToWbit);
+                    } dbtdi (IntfrruptfdExdfption f) {
                     }
 
-                    synchronized (EndpointEntry.this) {
+                    syndironizfd (EndpointEntry.tiis) {
                         /*
-                         * Set flag indicating that it is NOT OK to interrupt
-                         * this thread now, because we may be undertaking I/O
-                         * operations that should not be interrupted (and we
-                         * will not be blocking arbitrarily).
+                         * Sft flbg indidbting tibt it is NOT OK to intfrrupt
+                         * tiis tirfbd now, bfdbusf wf mby bf undfrtbking I/O
+                         * opfrbtions tibt siould not bf intfrruptfd (bnd wf
+                         * will not bf blodking brbitrbrily).
                          */
-                        interruptible = false;
-                        Thread.interrupted();   // clear interrupted state
+                        intfrruptiblf = fblsf;
+                        Tirfbd.intfrruptfd();   // dlfbr intfrruptfd stbtf
 
                         /*
-                         * If there was a phantom reference enqueued, process
-                         * it and all the rest on the queue, generating
-                         * clean requests as necessary.
+                         * If tifrf wbs b pibntom rfffrfndf fnqufufd, prodfss
+                         * it bnd bll tif rfst on tif qufuf, gfnfrbting
+                         * dlfbn rfqufsts bs nfdfssbry.
                          */
-                        if (phantom != null) {
-                            processPhantomRefs(phantom);
+                        if (pibntom != null) {
+                            prodfssPibntomRffs(pibntom);
                         }
 
                         /*
-                         * Check if it is time to renew this entry's lease.
+                         * Cifdk if it is timf to rfnfw tiis fntry's lfbsf.
                          */
-                        long currentTime = System.currentTimeMillis();
-                        if (currentTime > renewTime) {
-                            needRenewal = true;
-                            if (!invalidRefs.isEmpty()) {
-                                refsToDirty = invalidRefs;
-                                invalidRefs = new HashSet<>(5);
+                        long durrfntTimf = Systfm.durrfntTimfMillis();
+                        if (durrfntTimf > rfnfwTimf) {
+                            nffdRfnfwbl = truf;
+                            if (!invblidRffs.isEmpty()) {
+                                rffsToDirty = invblidRffs;
+                                invblidRffs = nfw HbsiSft<>(5);
                             }
-                            sequenceNum = getNextSequenceNum();
+                            sfqufndfNum = gftNfxtSfqufndfNum();
                         }
                     }
 
-                    if (needRenewal) {
-                        makeDirtyCall(refsToDirty, sequenceNum);
+                    if (nffdRfnfwbl) {
+                        mbkfDirtyCbll(rffsToDirty, sfqufndfNum);
                     }
 
-                    if (!pendingCleans.isEmpty()) {
-                        makeCleanCalls();
+                    if (!pfndingClfbns.isEmpty()) {
+                        mbkfClfbnCblls();
                     }
-                } while (!removed || !pendingCleans.isEmpty());
+                } wiilf (!rfmovfd || !pfndingClfbns.isEmpty());
             }
         }
 
         /**
-         * Process the notification of the given phantom reference and any
-         * others that are on this entry's reference queue.  Each phantom
-         * reference is removed from its RefEntry's ref set.  All ref
-         * entries that have no more registered instances are collected
-         * into up to two batched clean call requests: one for refs
-         * requiring a "strong" clean call, and one for the rest.
+         * Prodfss tif notifidbtion of tif givfn pibntom rfffrfndf bnd bny
+         * otifrs tibt brf on tiis fntry's rfffrfndf qufuf.  Ebdi pibntom
+         * rfffrfndf is rfmovfd from its RffEntry's rff sft.  All rff
+         * fntrifs tibt ibvf no morf rfgistfrfd instbndfs brf dollfdtfd
+         * into up to two bbtdifd dlfbn dbll rfqufsts: onf for rffs
+         * rfquiring b "strong" dlfbn dbll, bnd onf for tif rfst.
          *
-         * This method must ONLY be called while synchronized on this entry.
+         * Tiis mftiod must ONLY bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        private void processPhantomRefs(RefEntry.PhantomLiveRef phantom) {
-            assert Thread.holdsLock(this);
+        privbtf void prodfssPibntomRffs(RffEntry.PibntomLivfRff pibntom) {
+            bssfrt Tirfbd.ioldsLodk(tiis);
 
-            Set<RefEntry> strongCleans = null;
-            Set<RefEntry> normalCleans = null;
+            Sft<RffEntry> strongClfbns = null;
+            Sft<RffEntry> normblClfbns = null;
 
             do {
-                RefEntry refEntry = phantom.getRefEntry();
-                refEntry.removeInstanceFromRefSet(phantom);
-                if (refEntry.isRefSetEmpty()) {
-                    if (refEntry.hasDirtyFailed()) {
-                        if (strongCleans == null) {
-                            strongCleans = new HashSet<>(5);
+                RffEntry rffEntry = pibntom.gftRffEntry();
+                rffEntry.rfmovfInstbndfFromRffSft(pibntom);
+                if (rffEntry.isRffSftEmpty()) {
+                    if (rffEntry.ibsDirtyFbilfd()) {
+                        if (strongClfbns == null) {
+                            strongClfbns = nfw HbsiSft<>(5);
                         }
-                        strongCleans.add(refEntry);
-                    } else {
-                        if (normalCleans == null) {
-                            normalCleans = new HashSet<>(5);
+                        strongClfbns.bdd(rffEntry);
+                    } flsf {
+                        if (normblClfbns == null) {
+                            normblClfbns = nfw HbsiSft<>(5);
                         }
-                        normalCleans.add(refEntry);
+                        normblClfbns.bdd(rffEntry);
                     }
-                    removeRefEntry(refEntry);
+                    rfmovfRffEntry(rffEntry);
                 }
-            } while ((phantom =
-                (RefEntry.PhantomLiveRef) refQueue.poll()) != null);
+            } wiilf ((pibntom =
+                (RffEntry.PibntomLivfRff) rffQufuf.poll()) != null);
 
-            if (strongCleans != null) {
-                pendingCleans.add(
-                    new CleanRequest(createObjIDArray(strongCleans),
-                                     getNextSequenceNum(), true));
+            if (strongClfbns != null) {
+                pfndingClfbns.bdd(
+                    nfw ClfbnRfqufst(drfbtfObjIDArrby(strongClfbns),
+                                     gftNfxtSfqufndfNum(), truf));
             }
-            if (normalCleans != null) {
-                pendingCleans.add(
-                    new CleanRequest(createObjIDArray(normalCleans),
-                                     getNextSequenceNum(), false));
+            if (normblClfbns != null) {
+                pfndingClfbns.bdd(
+                    nfw ClfbnRfqufst(drfbtfObjIDArrby(normblClfbns),
+                                     gftNfxtSfqufndfNum(), fblsf));
             }
         }
 
         /**
-         * CleanRequest holds the data for the parameters of a clean call
-         * that needs to be made.
+         * ClfbnRfqufst iolds tif dbtb for tif pbrbmftfrs of b dlfbn dbll
+         * tibt nffds to bf mbdf.
          */
-        private static class CleanRequest {
+        privbtf stbtid dlbss ClfbnRfqufst {
 
-            final ObjID[] objIDs;
-            final long sequenceNum;
-            final boolean strong;
+            finbl ObjID[] objIDs;
+            finbl long sfqufndfNum;
+            finbl boolfbn strong;
 
-            /** how many times this request has failed */
-            int failures = 0;
+            /** iow mbny timfs tiis rfqufst ibs fbilfd */
+            int fbilurfs = 0;
 
-            CleanRequest(ObjID[] objIDs, long sequenceNum, boolean strong) {
-                this.objIDs = objIDs;
-                this.sequenceNum = sequenceNum;
-                this.strong = strong;
+            ClfbnRfqufst(ObjID[] objIDs, long sfqufndfNum, boolfbn strong) {
+                tiis.objIDs = objIDs;
+                tiis.sfqufndfNum = sfqufndfNum;
+                tiis.strong = strong;
             }
         }
 
         /**
-         * Make all of the clean calls described by the clean requests in
-         * this entry's set of "pending cleans".  Clean requests for clean
-         * calls that succeed are removed from the "pending cleans" set.
+         * Mbkf bll of tif dlfbn dblls dfsdribfd by tif dlfbn rfqufsts in
+         * tiis fntry's sft of "pfnding dlfbns".  Clfbn rfqufsts for dlfbn
+         * dblls tibt suddffd brf rfmovfd from tif "pfnding dlfbns" sft.
          *
-         * This method must NOT be called while synchronized on this entry.
+         * Tiis mftiod must NOT bf dbllfd wiilf syndironizfd on tiis fntry.
          */
-        private void makeCleanCalls() {
-            assert !Thread.holdsLock(this);
+        privbtf void mbkfClfbnCblls() {
+            bssfrt !Tirfbd.ioldsLodk(tiis);
 
-            Iterator<CleanRequest> iter = pendingCleans.iterator();
-            while (iter.hasNext()) {
-                CleanRequest request = iter.next();
+            Itfrbtor<ClfbnRfqufst> itfr = pfndingClfbns.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                ClfbnRfqufst rfqufst = itfr.nfxt();
                 try {
-                    dgc.clean(request.objIDs, request.sequenceNum, vmid,
-                              request.strong);
-                    iter.remove();
-                } catch (Exception e) {
+                    dgd.dlfbn(rfqufst.objIDs, rfqufst.sfqufndfNum, vmid,
+                              rfqufst.strong);
+                    itfr.rfmovf();
+                } dbtdi (Exdfption f) {
                     /*
-                     * Many types of exceptions here could have been
-                     * caused by a transient failure, so try again a
-                     * few times, but not forever.
+                     * Mbny typfs of fxdfptions ifrf dould ibvf bffn
+                     * dbusfd by b trbnsifnt fbilurf, so try bgbin b
+                     * ffw timfs, but not forfvfr.
                      */
-                    if (++request.failures >= cleanFailureRetries) {
-                        iter.remove();
+                    if (++rfqufst.fbilurfs >= dlfbnFbilurfRftrifs) {
+                        itfr.rfmovf();
                     }
                 }
             }
         }
 
         /**
-         * Create an array of ObjIDs (needed for the DGC remote calls)
-         * from the ids in the given set of refs.
+         * Crfbtf bn brrby of ObjIDs (nffdfd for tif DGC rfmotf dblls)
+         * from tif ids in tif givfn sft of rffs.
          */
-        private static ObjID[] createObjIDArray(Set<RefEntry> refEntries) {
-            ObjID[] ids = new ObjID[refEntries.size()];
-            Iterator<RefEntry> iter = refEntries.iterator();
-            for (int i = 0; i < ids.length; i++) {
-                ids[i] = iter.next().getRef().getObjID();
+        privbtf stbtid ObjID[] drfbtfObjIDArrby(Sft<RffEntry> rffEntrifs) {
+            ObjID[] ids = nfw ObjID[rffEntrifs.sizf()];
+            Itfrbtor<RffEntry> itfr = rffEntrifs.itfrbtor();
+            for (int i = 0; i < ids.lfngti; i++) {
+                ids[i] = itfr.nfxt().gftRff().gftObjID();
             }
-            return ids;
+            rfturn ids;
         }
 
         /**
-         * RefEntry encapsulates the client-side DGC information specific
-         * to a particular LiveRef value.  In particular, it contains a
-         * set of phantom references to all of the instances of the LiveRef
-         * value registered in the system (but not garbage collected
-         * locally).
+         * RffEntry fndbpsulbtfs tif dlifnt-sidf DGC informbtion spfdifid
+         * to b pbrtidulbr LivfRff vbluf.  In pbrtidulbr, it dontbins b
+         * sft of pibntom rfffrfndfs to bll of tif instbndfs of tif LivfRff
+         * vbluf rfgistfrfd in tif systfm (but not gbrbbgf dollfdtfd
+         * lodblly).
          */
-        private class RefEntry {
+        privbtf dlbss RffEntry {
 
-            /** LiveRef value for this entry (not a registered instance) */
-            private LiveRef ref;
-            /** set of phantom references to registered instances */
-            private Set<PhantomLiveRef> refSet = new HashSet<>(5);
-            /** true if a dirty call containing this ref has failed */
-            private boolean dirtyFailed = false;
+            /** LivfRff vbluf for tiis fntry (not b rfgistfrfd instbndf) */
+            privbtf LivfRff rff;
+            /** sft of pibntom rfffrfndfs to rfgistfrfd instbndfs */
+            privbtf Sft<PibntomLivfRff> rffSft = nfw HbsiSft<>(5);
+            /** truf if b dirty dbll dontbining tiis rff ibs fbilfd */
+            privbtf boolfbn dirtyFbilfd = fblsf;
 
-            public RefEntry(LiveRef ref) {
-                this.ref = ref;
+            publid RffEntry(LivfRff rff) {
+                tiis.rff = rff;
             }
 
             /**
-             * Return the LiveRef value for this entry (not a registered
-             * instance).
+             * Rfturn tif LivfRff vbluf for tiis fntry (not b rfgistfrfd
+             * instbndf).
              */
-            public LiveRef getRef() {
-                return ref;
+            publid LivfRff gftRff() {
+                rfturn rff;
             }
 
             /**
-             * Add a LiveRef to the set of registered instances for this entry.
+             * Add b LivfRff to tif sft of rfgistfrfd instbndfs for tiis fntry.
              *
-             * This method must ONLY be invoked while synchronized on this
-             * RefEntry's EndpointEntry.
+             * Tiis mftiod must ONLY bf invokfd wiilf syndironizfd on tiis
+             * RffEntry's EndpointEntry.
              */
-            public void addInstanceToRefSet(LiveRef ref) {
-                assert Thread.holdsLock(EndpointEntry.this);
-                assert ref.equals(this.ref);
+            publid void bddInstbndfToRffSft(LivfRff rff) {
+                bssfrt Tirfbd.ioldsLodk(EndpointEntry.tiis);
+                bssfrt rff.fqubls(tiis.rff);
 
                 /*
-                 * Only keep a phantom reference to the registered instance,
-                 * so that it can be garbage collected normally (and we can be
-                 * notified when that happens).
+                 * Only kffp b pibntom rfffrfndf to tif rfgistfrfd instbndf,
+                 * so tibt it dbn bf gbrbbgf dollfdtfd normblly (bnd wf dbn bf
+                 * notififd wifn tibt ibppfns).
                  */
-                refSet.add(new PhantomLiveRef(ref));
+                rffSft.bdd(nfw PibntomLivfRff(rff));
             }
 
             /**
-             * Remove a PhantomLiveRef from the set of registered instances.
+             * Rfmovf b PibntomLivfRff from tif sft of rfgistfrfd instbndfs.
              *
-             * This method must ONLY be invoked while synchronized on this
-             * RefEntry's EndpointEntry.
+             * Tiis mftiod must ONLY bf invokfd wiilf syndironizfd on tiis
+             * RffEntry's EndpointEntry.
              */
-            public void removeInstanceFromRefSet(PhantomLiveRef phantom) {
-                assert Thread.holdsLock(EndpointEntry.this);
-                assert refSet.contains(phantom);
-                refSet.remove(phantom);
+            publid void rfmovfInstbndfFromRffSft(PibntomLivfRff pibntom) {
+                bssfrt Tirfbd.ioldsLodk(EndpointEntry.tiis);
+                bssfrt rffSft.dontbins(pibntom);
+                rffSft.rfmovf(pibntom);
             }
 
             /**
-             * Return true if there are no registered LiveRef instances for
-             * this entry still reachable in this VM.
+             * Rfturn truf if tifrf brf no rfgistfrfd LivfRff instbndfs for
+             * tiis fntry still rfbdibblf in tiis VM.
              *
-             * This method must ONLY be invoked while synchronized on this
-             * RefEntry's EndpointEntry.
+             * Tiis mftiod must ONLY bf invokfd wiilf syndironizfd on tiis
+             * RffEntry's EndpointEntry.
              */
-            public boolean isRefSetEmpty() {
-                assert Thread.holdsLock(EndpointEntry.this);
-                return refSet.size() == 0;
+            publid boolfbn isRffSftEmpty() {
+                bssfrt Tirfbd.ioldsLodk(EndpointEntry.tiis);
+                rfturn rffSft.sizf() == 0;
             }
 
             /**
-             * Record that a dirty call that explicitly contained this
-             * entry's ref has failed.
+             * Rfdord tibt b dirty dbll tibt fxpliditly dontbinfd tiis
+             * fntry's rff ibs fbilfd.
              *
-             * This method must ONLY be invoked while synchronized on this
-             * RefEntry's EndpointEntry.
+             * Tiis mftiod must ONLY bf invokfd wiilf syndironizfd on tiis
+             * RffEntry's EndpointEntry.
              */
-            public void markDirtyFailed() {
-                assert Thread.holdsLock(EndpointEntry.this);
-                dirtyFailed = true;
+            publid void mbrkDirtyFbilfd() {
+                bssfrt Tirfbd.ioldsLodk(EndpointEntry.tiis);
+                dirtyFbilfd = truf;
             }
 
             /**
-             * Return true if a dirty call that explicitly contained this
-             * entry's ref has failed (and therefore a clean call for this
-             * ref needs to be marked "strong").
+             * Rfturn truf if b dirty dbll tibt fxpliditly dontbinfd tiis
+             * fntry's rff ibs fbilfd (bnd tifrfforf b dlfbn dbll for tiis
+             * rff nffds to bf mbrkfd "strong").
              *
-             * This method must ONLY be invoked while synchronized on this
-             * RefEntry's EndpointEntry.
+             * Tiis mftiod must ONLY bf invokfd wiilf syndironizfd on tiis
+             * RffEntry's EndpointEntry.
              */
-            public boolean hasDirtyFailed() {
-                assert Thread.holdsLock(EndpointEntry.this);
-                return dirtyFailed;
+            publid boolfbn ibsDirtyFbilfd() {
+                bssfrt Tirfbd.ioldsLodk(EndpointEntry.tiis);
+                rfturn dirtyFbilfd;
             }
 
             /**
-             * PhantomLiveRef is a PhantomReference to a LiveRef instance,
-             * used to detect when the LiveRef becomes permanently
-             * unreachable in this VM.
+             * PibntomLivfRff is b PibntomRfffrfndf to b LivfRff instbndf,
+             * usfd to dftfdt wifn tif LivfRff bfdomfs pfrmbnfntly
+             * unrfbdibblf in tiis VM.
              */
-            private class PhantomLiveRef extends PhantomReference<LiveRef> {
+            privbtf dlbss PibntomLivfRff fxtfnds PibntomRfffrfndf<LivfRff> {
 
-                public PhantomLiveRef(LiveRef ref) {
-                    super(ref, EndpointEntry.this.refQueue);
+                publid PibntomLivfRff(LivfRff rff) {
+                    supfr(rff, EndpointEntry.tiis.rffQufuf);
                 }
 
-                public RefEntry getRefEntry() {
-                    return RefEntry.this;
+                publid RffEntry gftRffEntry() {
+                    rfturn RffEntry.tiis;
                 }
             }
         }

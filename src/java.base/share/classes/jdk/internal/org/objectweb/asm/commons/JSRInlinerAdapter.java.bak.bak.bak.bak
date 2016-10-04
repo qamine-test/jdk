@@ -1,0 +1,781 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.BitSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnList;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.JumpInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LbbflNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LodblVbribblfNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LookupSwitdhInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MfthodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TbblfSwitdhInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TryCbtdhBlodkNodf;
+
+/**
+ * A {@link jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor} thbt rfmovfs JSR instrudtions bnd
+ * inlinfs thf rfffrfndfd subroutinfs.
+ *
+ * <b>Explbnbtion of how it works</b> TODO
+ *
+ * @buthor Niko Mbtsbkis
+ */
+publid dlbss JSRInlinfrAdbptfr fxtfnds MfthodNodf implfmfnts Opdodfs {
+
+    privbtf stbtid finbl boolfbn LOGGING = fblsf;
+
+    /**
+     * For fbdh lbbfl thbt is jumpfd to by b JSR, wf drfbtf b BitSft instbndf.
+     */
+    privbtf finbl Mbp<LbbflNodf, BitSft> subroutinfHfbds = nfw HbshMbp<LbbflNodf, BitSft>();
+
+    /**
+     * This subroutinf instbndf dfnotfs thf linf of fxfdution thbt is not
+     * dontbinfd within bny subroutinf; i.f., thf "subroutinf" thbt is fxfduting
+     * whfn b mfthod first bfgins.
+     */
+    privbtf finbl BitSft mbinSubroutinf = nfw BitSft();
+
+    /**
+     * This BitSft dontbins thf indfx of fvfry instrudtion thbt bflongs to morf
+     * thbn onf subroutinf. This should not hbppfn oftfn.
+     */
+    finbl BitSft dublCitizfns = nfw BitSft();
+
+    /**
+     * Crfbtfs b nfw JSRInlinfr. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf
+     * {@link #JSRInlinfrAdbptfr(int, MfthodVisitor, int, String, String, String, String[])}
+     * vfrsion.
+     *
+     * @pbrbm mv
+     *            thf <dodf>MfthodVisitor</dodf> to sfnd thf rfsulting inlinfd
+     *            mfthod dodf to (usf <dodf>null</dodf> for nonf).
+     * @pbrbm bddfss
+     *            thf mfthod's bddfss flbgs (sff {@link Opdodfs}). This
+     *            pbrbmftfr blso indidbtfs if thf mfthod is synthftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            thf mfthod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            thf intfrnbl nbmfs of thf mfthod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
+     *            <tt>null</tt>.
+     * @throws IllfgblStbtfExdfption
+     *             If b subdlbss dblls this donstrudtor.
+     */
+    publid JSRInlinfrAdbptfr(finbl MfthodVisitor mv, finbl int bddfss,
+            finbl String nbmf, finbl String dfsd, finbl String signbturf,
+            finbl String[] fxdfptions) {
+        this(Opdodfs.ASM5, mv, bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        if (gftClbss() != JSRInlinfrAdbptfr.dlbss) {
+            throw nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw JSRInlinfr.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            thf <dodf>MfthodVisitor</dodf> to sfnd thf rfsulting inlinfd
+     *            mfthod dodf to (usf <dodf>null</dodf> for nonf).
+     * @pbrbm bddfss
+     *            thf mfthod's bddfss flbgs (sff {@link Opdodfs}). This
+     *            pbrbmftfr blso indidbtfs if thf mfthod is synthftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            thf mfthod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            thf intfrnbl nbmfs of thf mfthod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
+     *            <tt>null</tt>.
+     */
+    protfdtfd JSRInlinfrAdbptfr(finbl int bpi, finbl MfthodVisitor mv,
+            finbl int bddfss, finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl String[] fxdfptions) {
+        supfr(bpi, bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        this.mv = mv;
+    }
+
+    /**
+     * Dftfdts b JSR instrudtion bnd sfts b flbg to indidbtf wf will nffd to do
+     * inlining.
+     */
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbl) {
+        supfr.visitJumpInsn(opdodf, lbl);
+        LbbflNodf ln = ((JumpInsnNodf) instrudtions.gftLbst()).lbbfl;
+        if (opdodf == JSR && !subroutinfHfbds.dontbinsKfy(ln)) {
+            subroutinfHfbds.put(ln, nfw BitSft());
+        }
+    }
+
+    /**
+     * If bny JSRs wfrf sffn, triggfrs thf inlining prodfss. Othfrwisf, forwbrds
+     * thf bytf dodfs untoudhfd.
+     */
+    @Ovfrridf
+    publid void visitEnd() {
+        if (!subroutinfHfbds.isEmpty()) {
+            mbrkSubroutinfs();
+            if (LOGGING) {
+                log(mbinSubroutinf.toString());
+                Itfrbtor<BitSft> it = subroutinfHfbds.vblufs().itfrbtor();
+                whilf (it.hbsNfxt()) {
+                    BitSft sub = it.nfxt();
+                    log(sub.toString());
+                }
+            }
+            fmitCodf();
+        }
+
+        // Forwbrd thf trbnslbtf opdodfs on if bppropribtf:
+        if (mv != null) {
+            bddfpt(mv);
+        }
+    }
+
+    /**
+     * Wblks thf mfthod bnd dftfrminfs whidh intfrnbl subroutinf(s), if bny,
+     * fbdh instrudtion is b mfthod of.
+     */
+    privbtf void mbrkSubroutinfs() {
+        BitSft bnyvisitfd = nfw BitSft();
+
+        // First wblk thf mbin subroutinf bnd find bll thosf instrudtions whidh
+        // dbn bf rfbdhfd without invoking bny JSR bt bll
+        mbrkSubroutinfWblk(mbinSubroutinf, 0, bnyvisitfd);
+
+        // Go through thf hfbd of fbdh subroutinf bnd find bny nodfs rfbdhbblf
+        // to thbt subroutinf without following bny JSR links.
+        for (Itfrbtor<Mbp.Entry<LbbflNodf, BitSft>> it = subroutinfHfbds
+                .fntrySft().itfrbtor(); it.hbsNfxt();) {
+            Mbp.Entry<LbbflNodf, BitSft> fntry = it.nfxt();
+            LbbflNodf lbb = fntry.gftKfy();
+            BitSft sub = fntry.gftVbluf();
+            int indfx = instrudtions.indfxOf(lbb);
+            mbrkSubroutinfWblk(sub, indfx, bnyvisitfd);
+        }
+    }
+
+    /**
+     * Pfrforms b dfpth first sfbrdh wblking thf normbl bytf dodf pbth stbrting
+     * bt <dodf>indfx</dodf>, bnd bdding fbdh instrudtion fndountfrfd into thf
+     * subroutinf <dodf>sub</dodf>. Aftfr this wblk is domplftf, itfrbtfs ovfr
+     * thf fxdfption hbndlfrs to fnsurf thbt wf blso indludf thosf bytf dodfs
+     * whidh brf rfbdhbblf through bn fxdfption thbt mby bf thrown during thf
+     * fxfdution of thf subroutinf. Invokfd from <dodf>mbrkSubroutinfs()</dodf>.
+     *
+     * @pbrbm sub
+     *            thf subroutinf whosf instrudtions must bf domputfd.
+     * @pbrbm indfx
+     *            bn instrudtion of this subroutinf.
+     * @pbrbm bnyvisitfd
+     *            indfxfs of thf blrfbdy visitfd instrudtions, i.f. mbrkfd bs
+     *            pbrt of this subroutinf or bny prfviously domputfd subroutinf.
+     */
+    privbtf void mbrkSubroutinfWblk(finbl BitSft sub, finbl int indfx,
+            finbl BitSft bnyvisitfd) {
+        if (LOGGING) {
+            log("mbrkSubroutinfWblk: sub=" + sub + " indfx=" + indfx);
+        }
+
+        // First find thosf instrudtions rfbdhbblf vib normbl fxfdution
+        mbrkSubroutinfWblkDFS(sub, indfx, bnyvisitfd);
+
+        // Now, mbkf surf wf blso indludf bny bpplidbblf fxdfption hbndlfrs
+        boolfbn loop = truf;
+        whilf (loop) {
+            loop = fblsf;
+            for (Itfrbtor<TryCbtdhBlodkNodf> it = tryCbtdhBlodks.itfrbtor(); it
+                    .hbsNfxt();) {
+                TryCbtdhBlodkNodf trydbtdh = it.nfxt();
+
+                if (LOGGING) {
+                    // TODO usf of dffbult toString().
+                    log("Sdbnning try/dbtdh " + trydbtdh);
+                }
+
+                // If thf hbndlfr hbs blrfbdy bffn prodfssfd, skip it.
+                int hbndlfrindfx = instrudtions.indfxOf(trydbtdh.hbndlfr);
+                if (sub.gft(hbndlfrindfx)) {
+                    dontinuf;
+                }
+
+                int stbrtindfx = instrudtions.indfxOf(trydbtdh.stbrt);
+                int fndindfx = instrudtions.indfxOf(trydbtdh.fnd);
+                int nfxtbit = sub.nfxtSftBit(stbrtindfx);
+                if (nfxtbit != -1 && nfxtbit < fndindfx) {
+                    if (LOGGING) {
+                        log("Adding fxdfption hbndlfr: " + stbrtindfx + '-'
+                                + fndindfx + " duf to " + nfxtbit + " hbndlfr "
+                                + hbndlfrindfx);
+                    }
+                    mbrkSubroutinfWblkDFS(sub, hbndlfrindfx, bnyvisitfd);
+                    loop = truf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Pfrforms b simplf DFS of thf instrudtions, bssigning fbdh to thf
+     * subroutinf <dodf>sub</dodf>. Stbrts from <dodf>indfx</dodf>. Invokfd only
+     * by <dodf>mbrkSubroutinfWblk()</dodf>.
+     *
+     * @pbrbm sub
+     *            thf subroutinf whosf instrudtions must bf domputfd.
+     * @pbrbm indfx
+     *            bn instrudtion of this subroutinf.
+     * @pbrbm bnyvisitfd
+     *            indfxfs of thf blrfbdy visitfd instrudtions, i.f. mbrkfd bs
+     *            pbrt of this subroutinf or bny prfviously domputfd subroutinf.
+     */
+    privbtf void mbrkSubroutinfWblkDFS(finbl BitSft sub, int indfx,
+            finbl BitSft bnyvisitfd) {
+        whilf (truf) {
+            AbstrbdtInsnNodf nodf = instrudtions.gft(indfx);
+
+            // don't visit b nodf twidf
+            if (sub.gft(indfx)) {
+                rfturn;
+            }
+            sub.sft(indfx);
+
+            // dhfdk for thosf nodfs blrfbdy visitfd by bnothfr subroutinf
+            if (bnyvisitfd.gft(indfx)) {
+                dublCitizfns.sft(indfx);
+                if (LOGGING) {
+                    log("Instrudtion #" + indfx + " is dubl ditizfn.");
+                }
+            }
+            bnyvisitfd.sft(indfx);
+
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.JUMP_INSN
+                    && nodf.gftOpdodf() != JSR) {
+                // wf do not follow rfdursivfly dbllfd subroutinfs hfrf; but bny
+                // othfr sort of brbndh wf do follow
+                JumpInsnNodf jnodf = (JumpInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(jnodf.lbbfl);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+            }
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.TABLESWITCH_INSN) {
+                TbblfSwitdhInsnNodf tsnodf = (TbblfSwitdhInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(tsnodf.dflt);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                for (int i = tsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = tsnodf.lbbfls.gft(i);
+                    dfstidx = instrudtions.indfxOf(l);
+                    mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                }
+            }
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.LOOKUPSWITCH_INSN) {
+                LookupSwitdhInsnNodf lsnodf = (LookupSwitdhInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(lsnodf.dflt);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                for (int i = lsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = lsnodf.lbbfls.gft(i);
+                    dfstidx = instrudtions.indfxOf(l);
+                    mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                }
+            }
+
+            // dhfdk to sff if this opdodf fblls through to thf nfxt instrudtion
+            // or not; if not, rfturn.
+            switdh (instrudtions.gft(indfx).gftOpdodf()) {
+            dbsf GOTO:
+            dbsf RET:
+            dbsf TABLESWITCH:
+            dbsf LOOKUPSWITCH:
+            dbsf IRETURN:
+            dbsf LRETURN:
+            dbsf FRETURN:
+            dbsf DRETURN:
+            dbsf ARETURN:
+            dbsf RETURN:
+            dbsf ATHROW:
+                /*
+                 * notf: this fithfr rfturns from this subroutinf, or b pbrfnt
+                 * subroutinf whidh invokfd it
+                 */
+                rfturn;
+            }
+
+            // Usf tbil rfdursion hfrf in thf form of bn outfr whilf loop to
+            // bvoid our stbdk growing nffdlfssly:
+            indfx++;
+
+            // Wf impliditly bssumfd bbovf thbt fxfdution dbn blwbys fbll
+            // through to thf nfxt instrudtion bftfr b JSR. But b subroutinf mby
+            // nfvfr rfturn, in whidh dbsf thf dodf bftfr thf JSR is unrfbdhbblf
+            // bnd dbn bf bnything. In pbrtidulbr, it dbn sffm to fbll off thf
+            // fnd of thf mfthod, so wf must hbndlf this dbsf hfrf (wf dould
+            // instfbd dftfdt whfthfr fxfdution dbn rfturn or not from b JSR,
+            // but this is morf domplidbtfd).
+            if (indfx >= instrudtions.sizf()) {
+                rfturn;
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs thf nfw instrudtions, inlining fbdh instbntibtion of fbdh
+     * subroutinf until thf dodf is fully flbborbtfd.
+     */
+    privbtf void fmitCodf() {
+        LinkfdList<Instbntibtion> worklist = nfw LinkfdList<Instbntibtion>();
+        // Crfbtf bn instbntibtion of thf "root" subroutinf, whidh is just thf
+        // mbin routinf
+        worklist.bdd(nfw Instbntibtion(null, mbinSubroutinf));
+
+        // Emit instbntibtions of fbdh subroutinf wf fndountfr, indluding thf
+        // mbin subroutinf
+        InsnList nfwInstrudtions = nfw InsnList();
+        List<TryCbtdhBlodkNodf> nfwTryCbtdhBlodks = nfw ArrbyList<TryCbtdhBlodkNodf>();
+        List<LodblVbribblfNodf> nfwLodblVbribblfs = nfw ArrbyList<LodblVbribblfNodf>();
+        whilf (!worklist.isEmpty()) {
+            Instbntibtion inst = worklist.rfmovfFirst();
+            fmitSubroutinf(inst, worklist, nfwInstrudtions, nfwTryCbtdhBlodks,
+                    nfwLodblVbribblfs);
+        }
+        instrudtions = nfwInstrudtions;
+        tryCbtdhBlodks = nfwTryCbtdhBlodks;
+        lodblVbribblfs = nfwLodblVbribblfs;
+    }
+
+    /**
+     * Emits onf instbntibtion of onf subroutinf, spfdififd by
+     * <dodf>instbnt</dodf>. Mby bdd nfw instbntibtions thbt brf invokfd by this
+     * onf to thf <dodf>worklist</dodf> pbrbmftfr, bnd nfw try/dbtdh blodks to
+     * <dodf>nfwTryCbtdhBlodks</dodf>.
+     *
+     * @pbrbm instbnt
+     *            thf instbntibtion thbt must bf pfrformfd.
+     * @pbrbm worklist
+     *            list of thf instbntibtions thbt rfmbin to bf donf.
+     * @pbrbm nfwInstrudtions
+     *            thf instrudtion list to whidh thf instbntibtfd dodf must bf
+     *            bppfndfd.
+     * @pbrbm nfwTryCbtdhBlodks
+     *            thf fxdfption hbndlfr list to whidh thf instbntibtfd hbndlfrs
+     *            must bf bppfndfd.
+     */
+    privbtf void fmitSubroutinf(finbl Instbntibtion instbnt,
+            finbl List<Instbntibtion> worklist, finbl InsnList nfwInstrudtions,
+            finbl List<TryCbtdhBlodkNodf> nfwTryCbtdhBlodks,
+            finbl List<LodblVbribblfNodf> nfwLodblVbribblfs) {
+        LbbflNodf duplbl = null;
+
+        if (LOGGING) {
+            log("--------------------------------------------------------");
+            log("Emitting instbntibtion of subroutinf " + instbnt.subroutinf);
+        }
+
+        // Emit thf rflfvbnt instrudtions for this instbntibtion, trbnslbting
+        // lbbfls bnd jump tbrgfts bs wf go:
+        for (int i = 0, d = instrudtions.sizf(); i < d; i++) {
+            AbstrbdtInsnNodf insn = instrudtions.gft(i);
+            Instbntibtion ownfr = instbnt.findOwnfr(i);
+
+            // Alwbys rfmbp lbbfls:
+            if (insn.gftTypf() == AbstrbdtInsnNodf.LABEL) {
+                // Trbnslbtf lbbfls into thfir rfnbmfd fquivblfnts.
+                // Avoid bdding thf sbmf lbbfl morf thbn ondf. Notf
+                // thbt bfdbusf wf own this instrudtion thf gotoTbblf
+                // bnd thf rbngfTbblf will blwbys bgrff.
+                LbbflNodf ilbl = (LbbflNodf) insn;
+                LbbflNodf rfmbp = instbnt.rbngfLbbfl(ilbl);
+                if (LOGGING) {
+                    // TODO usf of dffbult toString().
+                    log("Trbnslbting lbl #" + i + ':' + ilbl + " to " + rfmbp);
+                }
+                if (rfmbp != duplbl) {
+                    nfwInstrudtions.bdd(rfmbp);
+                    duplbl = rfmbp;
+                }
+                dontinuf;
+            }
+
+            // Wf don't wbnt to fmit instrudtions thbt wfrf blrfbdy
+            // fmittfd by b subroutinf highfr on thf stbdk. Notf thbt
+            // it is still possiblf for b givfn instrudtion to bf
+            // fmittfd twidf bfdbusf it mby bflong to two subroutinfs
+            // thbt do not invokf fbdh othfr.
+            if (ownfr != instbnt) {
+                dontinuf;
+            }
+
+            if (LOGGING) {
+                log("Emitting inst #" + i);
+            }
+
+            if (insn.gftOpdodf() == RET) {
+                // Trbnslbtf RET instrudtion(s) to b jump to thf rfturn lbbfl
+                // for thf bppropribtf instbntibtion. Thf problfm is thbt thf
+                // subroutinf mby "fbll through" to thf rft of b pbrfnt
+                // subroutinf; thfrfforf, to find thf bppropribtf rft lbbfl wf
+                // find thf lowfst subroutinf on thf stbdk thbt dlbims to own
+                // this instrudtion. Sff thf dlbss jbvbdod dommfnt for bn
+                // fxplbnbtion on why this tfdhniquf is sbff (notf: it is only
+                // sbff if thf input is vfrifibblf).
+                LbbflNodf rftlbbfl = null;
+                for (Instbntibtion p = instbnt; p != null; p = p.prfvious) {
+                    if (p.subroutinf.gft(i)) {
+                        rftlbbfl = p.rfturnLbbfl;
+                    }
+                }
+                if (rftlbbfl == null) {
+                    // This is only possiblf if thf mbinSubroutinf owns b RET
+                    // instrudtion, whidh should nfvfr hbppfn for vfrifibblf
+                    // dodf.
+                    throw nfw RuntimfExdfption("Instrudtion #" + i
+                            + " is b RET not ownfd by bny subroutinf");
+                }
+                nfwInstrudtions.bdd(nfw JumpInsnNodf(GOTO, rftlbbfl));
+            } flsf if (insn.gftOpdodf() == JSR) {
+                LbbflNodf lbl = ((JumpInsnNodf) insn).lbbfl;
+                BitSft sub = subroutinfHfbds.gft(lbl);
+                Instbntibtion nfwinst = nfw Instbntibtion(instbnt, sub);
+                LbbflNodf stbrtlbl = nfwinst.gotoLbbfl(lbl);
+
+                if (LOGGING) {
+                    log(" Crfbting instbntibtion of subr " + sub);
+                }
+
+                // Rbthfr thbn JSRing, wf will jump to thf inlinf vfrsion bnd
+                // push NULL for whbt wbs ondf thf rfturn vbluf. This hbdk
+                // bllows us to bvoid doing bny sort of dbtb flow bnblysis to
+                // figurf out whidh instrudtions mbnipulbtf thf old rfturn vbluf
+                // pointfr whidh is now known to bf unnffdfd.
+                nfwInstrudtions.bdd(nfw InsnNodf(ACONST_NULL));
+                nfwInstrudtions.bdd(nfw JumpInsnNodf(GOTO, stbrtlbl));
+                nfwInstrudtions.bdd(nfwinst.rfturnLbbfl);
+
+                // Insfrt this nfw instbntibtion into thf qufuf to bf fmittfd
+                // lbtfr.
+                worklist.bdd(nfwinst);
+            } flsf {
+                nfwInstrudtions.bdd(insn.dlonf(instbnt));
+            }
+        }
+
+        // Emit try/dbtdh blodks thbt brf rflfvbnt to this mfthod.
+        for (Itfrbtor<TryCbtdhBlodkNodf> it = tryCbtdhBlodks.itfrbtor(); it
+                .hbsNfxt();) {
+            TryCbtdhBlodkNodf trydbtdh = it.nfxt();
+
+            if (LOGGING) {
+                // TODO usf of dffbult toString().
+                log("try dbtdh blodk originbl lbbfls=" + trydbtdh.stbrt + '-'
+                        + trydbtdh.fnd + "->" + trydbtdh.hbndlfr);
+            }
+
+            finbl LbbflNodf stbrt = instbnt.rbngfLbbfl(trydbtdh.stbrt);
+            finbl LbbflNodf fnd = instbnt.rbngfLbbfl(trydbtdh.fnd);
+
+            // Ignorf fmpty try/dbtdh rfgions
+            if (stbrt == fnd) {
+                if (LOGGING) {
+                    log(" try dbtdh blodk fmpty in this subroutinf");
+                }
+                dontinuf;
+            }
+
+            finbl LbbflNodf hbndlfr = instbnt.gotoLbbfl(trydbtdh.hbndlfr);
+
+            if (LOGGING) {
+                // TODO usf of dffbult toString().
+                log(" try dbtdh blodk nfw lbbfls=" + stbrt + '-' + fnd + "->"
+                        + hbndlfr);
+            }
+
+            if (stbrt == null || fnd == null || hbndlfr == null) {
+                throw nfw RuntimfExdfption("Intfrnbl frror!");
+            }
+
+            nfwTryCbtdhBlodks.bdd(nfw TryCbtdhBlodkNodf(stbrt, fnd, hbndlfr,
+                    trydbtdh.typf));
+        }
+
+        for (Itfrbtor<LodblVbribblfNodf> it = lodblVbribblfs.itfrbtor(); it
+                .hbsNfxt();) {
+            LodblVbribblfNodf lvnodf = it.nfxt();
+            if (LOGGING) {
+                log("lodbl vbr " + lvnodf.nbmf);
+            }
+            finbl LbbflNodf stbrt = instbnt.rbngfLbbfl(lvnodf.stbrt);
+            finbl LbbflNodf fnd = instbnt.rbngfLbbfl(lvnodf.fnd);
+            if (stbrt == fnd) {
+                if (LOGGING) {
+                    log("  lodbl vbribblf fmpty in this sub");
+                }
+                dontinuf;
+            }
+            nfwLodblVbribblfs.bdd(nfw LodblVbribblfNodf(lvnodf.nbmf,
+                    lvnodf.dfsd, lvnodf.signbturf, stbrt, fnd, lvnodf.indfx));
+        }
+    }
+
+    privbtf stbtid void log(finbl String str) {
+        Systfm.frr.println(str);
+    }
+
+    /**
+     * A dlbss thbt rfprfsfnts bn instbntibtion of b subroutinf. Ebdh
+     * instbntibtion hbs bn bssodibtf "stbdk" --- whidh is b listing of thosf
+     * instbntibtions thbt wfrf bdtivf whfn this pbrtidulbr instbndf of this
+     * subroutinf wbs invokfd. Ebdh instbntibtion blso hbs b mbp from thf
+     * originbl lbbfls of thf progrbm to thf lbbfls bppropribtf for this
+     * instbntibtion, bnd finblly b lbbfl to rfturn to.
+     */
+    privbtf dlbss Instbntibtion fxtfnds AbstrbdtMbp<LbbflNodf, LbbflNodf> {
+
+        /**
+         * Prfvious instbntibtions; thf stbdk must bf stbtidblly prfdidtbblf to
+         * bf inlinbblf.
+         */
+        finbl Instbntibtion prfvious;
+
+        /**
+         * Thf subroutinf this is bn instbntibtion of.
+         */
+        publid finbl BitSft subroutinf;
+
+        /**
+         * This tbblf mbps Lbbfls from thf originbl sourdf to Lbbfls pointing bt
+         * dodf spfdifid to this instbntibtion, for usf in rfmbpping try/dbtdh
+         * blodks,bs wfll bs gotos.
+         *
+         * Notf thbt in thf prfsfndf of dubl ditizfns instrudtions, thbt is,
+         * instrudtions whidh bflong to morf thbn onf subroutinf duf to thf
+         * mfrging of dontrol flow without b RET instrudtion, wf will mbp thf
+         * tbrgft lbbfl of b GOTO to thf lbbfl usfd by thf instbntibtion lowfst
+         * on thf stbdk. This bvoids dodf duplidbtion during inlining in most
+         * dbsfs.
+         *
+         * @sff #findOwnfr(int)
+         */
+        publid finbl Mbp<LbbflNodf, LbbflNodf> rbngfTbblf = nfw HbshMbp<LbbflNodf, LbbflNodf>();
+
+        /**
+         * All rfturns for this instbntibtion will bf mbppfd to this lbbfl
+         */
+        publid finbl LbbflNodf rfturnLbbfl;
+
+        Instbntibtion(finbl Instbntibtion prfv, finbl BitSft sub) {
+            prfvious = prfv;
+            subroutinf = sub;
+            for (Instbntibtion p = prfv; p != null; p = p.prfvious) {
+                if (p.subroutinf == sub) {
+                    throw nfw RuntimfExdfption("Rfdursivf invodbtion of " + sub);
+                }
+            }
+
+            // Dftfrminf thf lbbfl to rfturn to whfn this subroutinf tfrminbtfs
+            // vib RET: notf thbt thf mbin subroutinf nfvfr tfrminbtfs vib RET.
+            if (prfv != null) {
+                rfturnLbbfl = nfw LbbflNodf();
+            } flsf {
+                rfturnLbbfl = null;
+            }
+
+            // Ebdh instbntibtion will rfmbp thf lbbfls from thf dodf bbovf to
+            // rfffr to its pbrtidulbr dopy of its own instrudtions. Notf thbt
+            // wf dollbpsf lbbfls whidh point bt thf sbmf instrudtion into onf:
+            // this is fbirly dommon bs wf brf oftfn ignoring lbrgf dhunks of
+            // instrudtions, so whbt wfrf prfviously distindt lbbfls bfdomf
+            // duplidbtfs.
+            LbbflNodf duplbl = null;
+            for (int i = 0, d = instrudtions.sizf(); i < d; i++) {
+                AbstrbdtInsnNodf insn = instrudtions.gft(i);
+
+                if (insn.gftTypf() == AbstrbdtInsnNodf.LABEL) {
+                    LbbflNodf ilbl = (LbbflNodf) insn;
+
+                    if (duplbl == null) {
+                        // if wf blrfbdy hbvf b lbbfl pointing bt this spot,
+                        // don't rfdrfbtf it.
+                        duplbl = nfw LbbflNodf();
+                    }
+
+                    // Add bn fntry in thf rbngfTbblf for fvfry lbbfl
+                    // in thf originbl dodf whidh points bt thf nfxt
+                    // instrudtion of our own to bf fmittfd.
+                    rbngfTbblf.put(ilbl, duplbl);
+                } flsf if (findOwnfr(i) == this) {
+                    // Wf will fmit this instrudtion, so dlfbr thf 'duplbl' flbg
+                    // sindf thf nfxt Lbbfl will rfffr to b distindt
+                    // instrudtion.
+                    duplbl = null;
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf "ownfr" of b pbrtidulbr instrudtion rflbtivf to this
+         * instbntibtion: thf ownfr rfffrfs to thf Instbntibtion whidh will fmit
+         * thf vfrsion of this instrudtion thbt wf will fxfdutf.
+         *
+         * Typidblly, thf rfturn vbluf is fithfr <dodf>this</dodf> or
+         * <dodf>null</dodf>. <dodf>this</dodf> indidbtfs thbt this
+         * instbntibtion will gfnfrbtf thf vfrsion of this instrudtion thbt wf
+         * will fxfdutf, bnd <dodf>null</dodf> indidbtfs thbt this instbntibtion
+         * nfvfr fxfdutfs thf givfn instrudtion.
+         *
+         * Somftimfs, howfvfr, bn instrudtion dbn bflong to multiplf
+         * subroutinfs; this is dbllfd b "dubl ditizfn" instrudtion (though it
+         * mby bflong to morf thbn 2 subroutinfs), bnd oddurs whfn multiplf
+         * subroutinfs brbndh to dommon points of dontrol. In this dbsf, thf
+         * ownfr is thf subroutinf thbt bppfbrs lowfst on thf stbdk, bnd whidh
+         * blso owns thf instrudtion in qufstion.
+         *
+         * @pbrbm i
+         *            thf indfx of thf instrudtion in thf originbl dodf
+         * @rfturn thf "ownfr" of b pbrtidulbr instrudtion rflbtivf to this
+         *         instbntibtion.
+         */
+        publid Instbntibtion findOwnfr(finbl int i) {
+            if (!subroutinf.gft(i)) {
+                rfturn null;
+            }
+            if (!dublCitizfns.gft(i)) {
+                rfturn this;
+            }
+            Instbntibtion own = this;
+            for (Instbntibtion p = prfvious; p != null; p = p.prfvious) {
+                if (p.subroutinf.gft(i)) {
+                    own = p;
+                }
+            }
+            rfturn own;
+        }
+
+        /**
+         * Looks up thf lbbfl <dodf>l</dodf> in thf <dodf>gotoTbblf</dodf>, thus
+         * trbnslbting it from b Lbbfl in thf originbl dodf, to b Lbbfl in thf
+         * inlinfd dodf thbt is bppropribtf for usf by bn instrudtion thbt
+         * brbndhfd to thf originbl lbbfl.
+         *
+         * @pbrbm l
+         *            Thf lbbfl wf will bf trbnslbting
+         * @rfturn b lbbfl for usf by b brbndh instrudtion in thf inlinfd dodf
+         * @sff #rbngfLbbfl
+         */
+        publid LbbflNodf gotoLbbfl(finbl LbbflNodf l) {
+            // ownfr should nfvfr bf null, bfdbusf ownfr is only null
+            // if bn instrudtion dbnnot bf rfbdhfd from this subroutinf
+            Instbntibtion ownfr = findOwnfr(instrudtions.indfxOf(l));
+            rfturn ownfr.rbngfTbblf.gft(l);
+        }
+
+        /**
+         * Looks up thf lbbfl <dodf>l</dodf> in thf <dodf>rbngfTbblf</dodf>,
+         * thus trbnslbting it from b Lbbfl in thf originbl dodf, to b Lbbfl in
+         * thf inlinfd dodf thbt is bppropribtf for usf by bn try/dbtdh or
+         * vbribblf usf bnnotbtion.
+         *
+         * @pbrbm l
+         *            Thf lbbfl wf will bf trbnslbting
+         * @rfturn b lbbfl for usf by b try/dbtdh or vbribblf bnnotbtion in thf
+         *         originbl dodf
+         * @sff #rbngfTbblf
+         */
+        publid LbbflNodf rbngfLbbfl(finbl LbbflNodf l) {
+            rfturn rbngfTbblf.gft(l);
+        }
+
+        // AbstrbdtMbp implfmfntbtion
+
+        @Ovfrridf
+        publid Sft<Mbp.Entry<LbbflNodf, LbbflNodf>> fntrySft() {
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid LbbflNodf gft(finbl Objfdt o) {
+            rfturn gotoLbbfl((LbbflNodf) o);
+        }
+    }
+}

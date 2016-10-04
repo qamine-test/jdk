@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
+import jbvb.bwt.dnd.DropTbrgft;
+
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.LightwfightFrbmf;
+import sun.swing.JLightwfightFrbmf;
+import sun.swing.SwingAddfssor;
+
+publid dlbss LWLightwfightFrbmfPffr fxtfnds LWWindowPffr {
+
+    publid LWLightwfightFrbmfPffr(LightwfightFrbmf tbrgft,
+                                  PlbtformComponfnt plbtformComponfnt,
+                                  PlbtformWindow plbtformWindow)
+    {
+        supfr(tbrgft, plbtformComponfnt, plbtformWindow, LWWindowPffr.PffrTypf.LW_FRAME);
+    }
+
+    privbtf LightwfightFrbmf gftLwTbrgft() {
+        rfturn (LightwfightFrbmf)gftTbrgft();
+    }
+
+    @Ovfrridf
+    publid Grbphids gftGrbphids() {
+        rfturn gftLwTbrgft().gftGrbphids();
+    }
+
+    @Ovfrridf
+    protfdtfd void sftVisiblfImpl(finbl boolfbn visiblf) {
+    }
+
+    @Ovfrridf
+    publid boolfbn rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf dbusf) {
+        if (!fodusAllowfdFor()) {
+            rfturn fblsf;
+        }
+        if (gftPlbtformWindow().rfjfdtFodusRfqufst(dbusf)) {
+            rfturn fblsf;
+        }
+
+        Window oppositf = LWKfybobrdFodusMbnbgfrPffr.gftInstbndf().
+            gftCurrfntFodusfdWindow();
+
+        dhbngfFodusfdWindow(truf, oppositf);
+
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid Point gftLodbtionOnSdrffn() {
+        Rfdtbnglf bounds = gftBounds();
+        rfturn nfw Point(bounds.x, bounds.y); // todo
+    }
+
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
+    }
+
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int w, int h, int op) {
+        sftBounds(x, y, w, h, op, truf, fblsf);
+    }
+
+    @Ovfrridf
+    publid void bddDropTbrgft(DropTbrgft dt) {
+    }
+
+    @Ovfrridf
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {
+    }
+
+    @Ovfrridf
+    publid void grbb() {
+        gftLwTbrgft().grbbFodus();
+    }
+
+    @Ovfrridf
+    publid void ungrbb() {
+        gftLwTbrgft().ungrbbFodus();
+    }
+
+    @Ovfrridf
+    publid void updbtfCursorImmfdibtfly() {
+        SwingAddfssor.gftJLightwfightFrbmfAddfssor().updbtfCursor((JLightwfightFrbmf)gftLwTbrgft());
+    }
+}

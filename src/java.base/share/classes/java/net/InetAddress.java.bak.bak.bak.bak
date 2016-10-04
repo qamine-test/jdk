@@ -1,0 +1,1627 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Rbndom;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm.GftFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm.PutFifld;
+import sun.sfdurity.bdtion.*;
+import sun.nft.InftAddrfssCbdhfPolidy;
+import sun.nft.util.IPAddrfssUtil;
+import sun.nft.spi.nbmfsfrvidf.*;
+
+/**
+ * This dlbss rfprfsfnts bn Intfrnft Protodol (IP) bddrfss.
+ *
+ * <p> An IP bddrfss is fithfr b 32-bit or 128-bit unsignfd numbfr
+ * usfd by IP, b lowfr-lfvfl protodol on whidh protodols likf UDP bnd
+ * TCP brf built. Thf IP bddrfss brdhitfdturf is dffinfd by <b
+ * hrff="http://www.iftf.org/rfd/rfd790.txt"><i>RFC&nbsp;790:
+ * Assignfd Numbfrs</i></b>, <b
+ * hrff="http://www.iftf.org/rfd/rfd1918.txt"> <i>RFC&nbsp;1918:
+ * Addrfss Allodbtion for Privbtf Intfrnfts</i></b>, <b
+ * hrff="http://www.iftf.org/rfd/rfd2365.txt"><i>RFC&nbsp;2365:
+ * Administrbtivfly Sdopfd IP Multidbst</i></b>, bnd <b
+ * hrff="http://www.iftf.org/rfd/rfd2373.txt"><i>RFC&nbsp;2373: IP
+ * Vfrsion 6 Addrfssing Ardhitfdturf</i></b>. An instbndf of bn
+ * InftAddrfss donsists of bn IP bddrfss bnd possibly its
+ * dorrfsponding host nbmf (dfpfnding on whfthfr it is donstrudtfd
+ * with b host nbmf or whfthfr it hbs blrfbdy donf rfvfrsf host nbmf
+ * rfsolution).
+ *
+ * <h3> Addrfss typfs </h3>
+ *
+ * <blodkquotf><tbblf dfllspbding=2 summbry="Dfsdription of unidbst bnd multidbst bddrfss typfs">
+ *   <tr><th vblign=top><i>unidbst</i></th>
+ *       <td>An idfntififr for b singlf intfrfbdf. A pbdkft sfnt to
+ *         b unidbst bddrfss is dflivfrfd to thf intfrfbdf idfntififd by
+ *         thbt bddrfss.
+ *
+ *         <p> Thf Unspfdififd Addrfss -- Also dbllfd bnylodbl or wilddbrd
+ *         bddrfss. It must nfvfr bf bssignfd to bny nodf. It indidbtfs thf
+ *         bbsfndf of bn bddrfss. Onf fxbmplf of its usf is bs thf tbrgft of
+ *         bind, whidh bllows b sfrvfr to bddfpt b dlifnt donnfdtion on bny
+ *         intfrfbdf, in dbsf thf sfrvfr host hbs multiplf intfrfbdfs.
+ *
+ *         <p> Thf <i>unspfdififd</i> bddrfss must not bf usfd bs
+ *         thf dfstinbtion bddrfss of bn IP pbdkft.
+ *
+ *         <p> Thf <i>Loopbbdk</i> Addrfssfs -- This is thf bddrfss
+ *         bssignfd to thf loopbbdk intfrfbdf. Anything sfnt to this
+ *         IP bddrfss loops bround bnd bfdomfs IP input on thf lodbl
+ *         host. This bddrfss is oftfn usfd whfn tfsting b
+ *         dlifnt.</td></tr>
+ *   <tr><th vblign=top><i>multidbst</i></th>
+ *       <td>An idfntififr for b sft of intfrfbdfs (typidblly bflonging
+ *         to difffrfnt nodfs). A pbdkft sfnt to b multidbst bddrfss is
+ *         dflivfrfd to bll intfrfbdfs idfntififd by thbt bddrfss.</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <h4> IP bddrfss sdopf </h4>
+ *
+ * <p> <i>Link-lodbl</i> bddrfssfs brf dfsignfd to bf usfd for bddrfssing
+ * on b singlf link for purposfs sudh bs buto-bddrfss donfigurbtion,
+ * nfighbor disdovfry, or whfn no routfrs brf prfsfnt.
+ *
+ * <p> <i>Sitf-lodbl</i> bddrfssfs brf dfsignfd to bf usfd for bddrfssing
+ * insidf of b sitf without thf nffd for b globbl prffix.
+ *
+ * <p> <i>Globbl</i> bddrfssfs brf uniquf bdross thf intfrnft.
+ *
+ * <h4> Tfxtubl rfprfsfntbtion of IP bddrfssfs </h4>
+ *
+ * Thf tfxtubl rfprfsfntbtion of bn IP bddrfss is bddrfss fbmily spfdifid.
+ *
+ * <p>
+ *
+ * For IPv4 bddrfss formbt, plfbsf rfffr to <A
+ * HREF="Inft4Addrfss.html#formbt">Inft4Addrfss#formbt</A>; For IPv6
+ * bddrfss formbt, plfbsf rfffr to <A
+ * HREF="Inft6Addrfss.html#formbt">Inft6Addrfss#formbt</A>.
+ *
+ * <P>Thfrf is b <b hrff="dod-filfs/nft-propfrtifs.html#Ipv4IPv6">douplf of
+ * Systfm Propfrtifs</b> bfffdting how IPv4 bnd IPv6 bddrfssfs brf usfd.</P>
+ *
+ * <h4> Host Nbmf Rfsolution </h4>
+ *
+ * Host nbmf-to-IP bddrfss <i>rfsolution</i> is bddomplishfd through
+ * thf usf of b dombinbtion of lodbl mbdhinf donfigurbtion informbtion
+ * bnd nftwork nbming sfrvidfs sudh bs thf Dombin Nbmf Systfm (DNS)
+ * bnd Nftwork Informbtion Sfrvidf(NIS). Thf pbrtidulbr nbming
+ * sfrvidfs(s) bfing usfd is by dffbult thf lodbl mbdhinf donfigurfd
+ * onf. For bny host nbmf, its dorrfsponding IP bddrfss is rfturnfd.
+ *
+ * <p> <i>Rfvfrsf nbmf rfsolution</i> mfbns thbt for bny IP bddrfss,
+ * thf host bssodibtfd with thf IP bddrfss is rfturnfd.
+ *
+ * <p> Thf InftAddrfss dlbss providfs mfthods to rfsolvf host nbmfs to
+ * thfir IP bddrfssfs bnd vidf vfrsb.
+ *
+ * <h4> InftAddrfss Cbdhing </h4>
+ *
+ * Thf InftAddrfss dlbss hbs b dbdhf to storf suddfssful bs wfll bs
+ * unsuddfssful host nbmf rfsolutions.
+ *
+ * <p> By dffbult, whfn b sfdurity mbnbgfr is instbllfd, in ordfr to
+ * protfdt bgbinst DNS spoofing bttbdks,
+ * thf rfsult of positivf host nbmf rfsolutions brf
+ * dbdhfd forfvfr. Whfn b sfdurity mbnbgfr is not instbllfd, thf dffbult
+ * bfhbvior is to dbdhf fntrifs for b finitf (implfmfntbtion dfpfndfnt)
+ * pfriod of timf. Thf rfsult of unsuddfssful host
+ * nbmf rfsolution is dbdhfd for b vfry short pfriod of timf (10
+ * sfdonds) to improvf pfrformbndf.
+ *
+ * <p> If thf dffbult bfhbvior is not dfsirfd, thfn b Jbvb sfdurity propfrty
+ * dbn bf sft to b difffrfnt Timf-to-livf (TTL) vbluf for positivf
+ * dbdhing. Likfwisf, b systfm bdmin dbn donfigurf b difffrfnt
+ * nfgbtivf dbdhing TTL vbluf whfn nffdfd.
+ *
+ * <p> Two Jbvb sfdurity propfrtifs dontrol thf TTL vblufs usfd for
+ *  positivf bnd nfgbtivf host nbmf rfsolution dbdhing:
+ *
+ * <blodkquotf>
+ * <dl>
+ * <dt><b>nftworkbddrfss.dbdhf.ttl</b></dt>
+ * <dd>Indidbtfs thf dbdhing polidy for suddfssful nbmf lookups from
+ * thf nbmf sfrvidf. Thf vbluf is spfdififd bs bn intfgfr to indidbtf
+ * thf numbfr of sfdonds to dbdhf thf suddfssful lookup. Thf dffbult
+ * sftting is to dbdhf for bn implfmfntbtion spfdifid pfriod of timf.
+ * <p>
+ * A vbluf of -1 indidbtfs "dbdhf forfvfr".
+ * </dd>
+ * <dt><b>nftworkbddrfss.dbdhf.nfgbtivf.ttl</b> (dffbult: 10)</dt>
+ * <dd>Indidbtfs thf dbdhing polidy for un-suddfssful nbmf lookups
+ * from thf nbmf sfrvidf. Thf vbluf is spfdififd bs bn intfgfr to
+ * indidbtf thf numbfr of sfdonds to dbdhf thf fbilurf for
+ * un-suddfssful lookups.
+ * <p>
+ * A vbluf of 0 indidbtfs "nfvfr dbdhf".
+ * A vbluf of -1 indidbtfs "dbdhf forfvfr".
+ * </dd>
+ * </dl>
+ * </blodkquotf>
+ *
+ * @buthor  Chris Wbrth
+ * @sff     jbvb.nft.InftAddrfss#gftByAddrfss(bytf[])
+ * @sff     jbvb.nft.InftAddrfss#gftByAddrfss(jbvb.lbng.String, bytf[])
+ * @sff     jbvb.nft.InftAddrfss#gftAllByNbmf(jbvb.lbng.String)
+ * @sff     jbvb.nft.InftAddrfss#gftByNbmf(jbvb.lbng.String)
+ * @sff     jbvb.nft.InftAddrfss#gftLodblHost()
+ * @sindf 1.0
+ */
+publid
+dlbss InftAddrfss implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Spfdify thf bddrfss fbmily: Intfrnft Protodol, Vfrsion 4
+     * @sindf 1.4
+     */
+    stbtid finbl int IPv4 = 1;
+
+    /**
+     * Spfdify thf bddrfss fbmily: Intfrnft Protodol, Vfrsion 6
+     * @sindf 1.4
+     */
+    stbtid finbl int IPv6 = 2;
+
+    /* Spfdify bddrfss fbmily prfffrfndf */
+    stbtid trbnsifnt boolfbn prfffrIPv6Addrfss = fblsf;
+
+    stbtid dlbss InftAddrfssHoldfr {
+
+        InftAddrfssHoldfr() {}
+
+        InftAddrfssHoldfr(String hostNbmf, int bddrfss, int fbmily) {
+            this.hostNbmf = hostNbmf;
+            this.bddrfss = bddrfss;
+            this.fbmily = fbmily;
+        }
+
+        void init(String hostNbmf, int fbmily) {
+            this.hostNbmf = hostNbmf;
+            if (fbmily != -1) {
+                this.fbmily = fbmily;
+            }
+        }
+
+        String hostNbmf;
+
+        String gftHostNbmf() {
+            rfturn hostNbmf;
+        }
+
+        /**
+         * Holds b 32-bit IPv4 bddrfss.
+         */
+        int bddrfss;
+
+        int gftAddrfss() {
+            rfturn bddrfss;
+        }
+
+        /**
+         * Spfdififs thf bddrfss fbmily typf, for instbndf, '1' for IPv4
+         * bddrfssfs, bnd '2' for IPv6 bddrfssfs.
+         */
+        int fbmily;
+
+        int gftFbmily() {
+            rfturn fbmily;
+        }
+    }
+
+    /* Usfd to storf thf sfriblizbblf fiflds of InftAddrfss */
+    finbl trbnsifnt InftAddrfssHoldfr holdfr;
+
+    InftAddrfssHoldfr holdfr() {
+        rfturn holdfr;
+    }
+
+    /* Usfd to storf thf nbmf sfrvidf providfr */
+    privbtf stbtid List<NbmfSfrvidf> nbmfSfrvidfs = null;
+
+    /* Usfd to storf thf bfst bvbilbblf hostnbmf */
+    privbtf trbnsifnt String dbnonidblHostNbmf = null;
+
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3286316764910316507L;
+
+    /*
+     * Lobd nft librbry into runtimf, bnd pfrform initiblizbtions.
+     */
+    stbtid {
+        prfffrIPv6Addrfss = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftBoolfbnAdtion("jbvb.nft.prfffrIPv6Addrfssfs")).boolfbnVbluf();
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
+                }
+            });
+        init();
+    }
+
+    /**
+     * Construdtor for thf Sodkft.bddfpt() mfthod.
+     * This drfbtfs bn fmpty InftAddrfss, whidh is fillfd in by
+     * thf bddfpt() mfthod.  This InftAddrfss, howfvfr, is not
+     * put in thf bddrfss dbdhf, sindf it is not drfbtfd by nbmf.
+     */
+    InftAddrfss() {
+        holdfr = nfw InftAddrfssHoldfr();
+    }
+
+    /**
+     * Rfplbdfs thf df-sfriblizfd objfdt with bn Inft4Addrfss objfdt.
+     *
+     * @rfturn thf bltfrnbtf objfdt to thf df-sfriblizfd objfdt.
+     *
+     * @throws ObjfdtStrfbmExdfption if b nfw objfdt rfplbding this
+     * objfdt dould not bf drfbtfd
+     */
+    privbtf Objfdt rfbdRfsolvf() throws ObjfdtStrfbmExdfption {
+        // will rfplbdf thf dfsfriblizfd 'this' objfdt
+        rfturn nfw Inft4Addrfss(holdfr().gftHostNbmf(), holdfr().gftAddrfss());
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn
+     * IP multidbst bddrfss.
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * bn IP multidbst bddrfss
+     * @sindf   1.1
+     */
+    publid boolfbn isMultidbstAddrfss() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss in b wilddbrd bddrfss.
+     * @rfturn b {@dodf boolfbn} indidbting if thf Inftbddrfss is
+     *         b wilddbrd bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isAnyLodblAddrfss() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b loopbbdk bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b loopbbdk bddrfss; or fblsf othfrwisf.
+     * @sindf 1.4
+     */
+    publid boolfbn isLoopbbdkAddrfss() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn link lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b link lodbl bddrfss; or fblsf if bddrfss is not b link lodbl unidbst bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isLinkLodblAddrfss() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b sitf lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b sitf lodbl bddrfss; or fblsf if bddrfss is not b sitf lodbl unidbst bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isSitfLodblAddrfss() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs globbl sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of globbl sdopf, fblsf if it is not
+     *         of globbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCGlobbl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs nodf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of nodf-lodbl sdopf, fblsf if it is not
+     *         of nodf-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCNodfLodbl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs link sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of link-lodbl sdopf, fblsf if it is not
+     *         of link-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCLinkLodbl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs sitf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of sitf-lodbl sdopf, fblsf if it is not
+     *         of sitf-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCSitfLodbl() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs orgbnizbtion sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of orgbnizbtion-lodbl sdopf,
+     *         fblsf if it is not of orgbnizbtion-lodbl sdopf
+     *         or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCOrgLodbl() {
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Tfst whfthfr thbt bddrfss is rfbdhbblf. Bfst fffort is mbdf by thf
+     * implfmfntbtion to try to rfbdh thf host, but firfwblls bnd sfrvfr
+     * donfigurbtion mby blodk rfqufsts rfsulting in b unrfbdhbblf stbtus
+     * whilf somf spfdifid ports mby bf bddfssiblf.
+     * A typidbl implfmfntbtion will usf ICMP ECHO REQUESTs if thf
+     * privilfgf dbn bf obtbinfd, othfrwisf it will try to fstbblish
+     * b TCP donnfdtion on port 7 (Edho) of thf dfstinbtion host.
+     * <p>
+     * Thf timfout vbluf, in millisfdonds, indidbtfs thf mbximum bmount of timf
+     * thf try should tbkf. If thf opfrbtion timfs out bfforf gftting bn
+     * bnswfr, thf host is dffmfd unrfbdhbblf. A nfgbtivf vbluf will rfsult
+     * in bn IllfgblArgumfntExdfption bfing thrown.
+     *
+     * @pbrbm   timfout thf timf, in millisfdonds, bfforf thf dbll bborts
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss is rfbdhbblf.
+     * @throws IOExdfption if b nftwork frror oddurs
+     * @throws  IllfgblArgumfntExdfption if {@dodf timfout} is nfgbtivf.
+     * @sindf 1.5
+     */
+    publid boolfbn isRfbdhbblf(int timfout) throws IOExdfption {
+        rfturn isRfbdhbblf(null, 0 , timfout);
+    }
+
+    /**
+     * Tfst whfthfr thbt bddrfss is rfbdhbblf. Bfst fffort is mbdf by thf
+     * implfmfntbtion to try to rfbdh thf host, but firfwblls bnd sfrvfr
+     * donfigurbtion mby blodk rfqufsts rfsulting in b unrfbdhbblf stbtus
+     * whilf somf spfdifid ports mby bf bddfssiblf.
+     * A typidbl implfmfntbtion will usf ICMP ECHO REQUESTs if thf
+     * privilfgf dbn bf obtbinfd, othfrwisf it will try to fstbblish
+     * b TCP donnfdtion on port 7 (Edho) of thf dfstinbtion host.
+     * <p>
+     * Thf {@dodf nftwork intfrfbdf} bnd {@dodf ttl} pbrbmftfrs
+     * lft thf dbllfr spfdify whidh nftwork intfrfbdf thf tfst will go through
+     * bnd thf mbximum numbfr of hops thf pbdkfts should go through.
+     * A nfgbtivf vbluf for thf {@dodf ttl} will rfsult in bn
+     * IllfgblArgumfntExdfption bfing thrown.
+     * <p>
+     * Thf timfout vbluf, in millisfdonds, indidbtfs thf mbximum bmount of timf
+     * thf try should tbkf. If thf opfrbtion timfs out bfforf gftting bn
+     * bnswfr, thf host is dffmfd unrfbdhbblf. A nfgbtivf vbluf will rfsult
+     * in bn IllfgblArgumfntExdfption bfing thrown.
+     *
+     * @pbrbm   nftif   thf NftworkIntfrfbdf through whidh thf
+     *                    tfst will bf donf, or null for bny intfrfbdf
+     * @pbrbm   ttl     thf mbximum numbfrs of hops to try or 0 for thf
+     *                  dffbult
+     * @pbrbm   timfout thf timf, in millisfdonds, bfforf thf dbll bborts
+     * @throws  IllfgblArgumfntExdfption if fithfr {@dodf timfout}
+     *                          or {@dodf ttl} brf nfgbtivf.
+     * @rfturn b {@dodf boolfbn}indidbting if thf bddrfss is rfbdhbblf.
+     * @throws IOExdfption if b nftwork frror oddurs
+     * @sindf 1.5
+     */
+    publid boolfbn isRfbdhbblf(NftworkIntfrfbdf nftif, int ttl,
+                               int timfout) throws IOExdfption {
+        if (ttl < 0)
+            throw nfw IllfgblArgumfntExdfption("ttl dbn't bf nfgbtivf");
+        if (timfout < 0)
+            throw nfw IllfgblArgumfntExdfption("timfout dbn't bf nfgbtivf");
+
+        rfturn impl.isRfbdhbblf(this, timfout, nftif, ttl);
+    }
+
+    /**
+     * Gfts thf host nbmf for this IP bddrfss.
+     *
+     * <p>If this InftAddrfss wbs drfbtfd with b host nbmf,
+     * this host nbmf will bf rfmfmbfrfd bnd rfturnfd;
+     * othfrwisf, b rfvfrsf nbmf lookup will bf pfrformfd
+     * bnd thf rfsult will bf rfturnfd bbsfd on thf systfm
+     * donfigurfd nbmf lookup sfrvidf. If b lookup of thf nbmf sfrvidf
+     * is rfquirfd, dbll
+     * {@link #gftCbnonidblHostNbmf() gftCbnonidblHostNbmf}.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is first dbllfd
+     * with thf hostnbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf opfrbtion is bllowfd.
+     * If thf opfrbtion is not bllowfd, it will rfturn
+     * thf tfxtubl rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @rfturn  thf host nbmf for this IP bddrfss, or if thf opfrbtion
+     *    is not bllowfd by thf sfdurity dhfdk, thf tfxtubl
+     *    rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @sff InftAddrfss#gftCbnonidblHostNbmf
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    publid String gftHostNbmf() {
+        rfturn gftHostNbmf(truf);
+    }
+
+    /**
+     * Rfturns thf hostnbmf for this bddrfss.
+     * If thf host is fqubl to null, thfn this bddrfss rfffrs to bny
+     * of thf lodbl mbdhinf's bvbilbblf nftwork bddrfssfs.
+     * this is pbdkbgf privbtf so SodkftPfrmission dbn mbkf dblls into
+     * hfrf without b sfdurity dhfdk.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls its {@dodf dhfdkConnfdt} mfthod
+     * with thf hostnbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf dblling dodf is bllowfd to know
+     * thf hostnbmf for this IP bddrfss, i.f., to donnfdt to thf host.
+     * If thf opfrbtion is not bllowfd, it will rfturn
+     * thf tfxtubl rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @rfturn  thf host nbmf for this IP bddrfss, or if thf opfrbtion
+     *    is not bllowfd by thf sfdurity dhfdk, thf tfxtubl
+     *    rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @pbrbm dhfdk mbkf sfdurity dhfdk if truf
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    String gftHostNbmf(boolfbn dhfdk) {
+        if (holdfr().gftHostNbmf() == null) {
+            holdfr().hostNbmf = InftAddrfss.gftHostFromNbmfSfrvidf(this, dhfdk);
+        }
+        rfturn holdfr().gftHostNbmf();
+    }
+
+    /**
+     * Gfts thf fully qublififd dombin nbmf for this IP bddrfss.
+     * Bfst fffort mfthod, mfbning wf mby not bf bblf to rfturn
+     * thf FQDN dfpfnding on thf undfrlying systfm donfigurbtion.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls its {@dodf dhfdkConnfdt} mfthod
+     * with thf hostnbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf dblling dodf is bllowfd to know
+     * thf hostnbmf for this IP bddrfss, i.f., to donnfdt to thf host.
+     * If thf opfrbtion is not bllowfd, it will rfturn
+     * thf tfxtubl rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @rfturn  thf fully qublififd dombin nbmf for this IP bddrfss,
+     *    or if thf opfrbtion is not bllowfd by thf sfdurity dhfdk,
+     *    thf tfxtubl rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     *
+     * @sindf 1.4
+     */
+    publid String gftCbnonidblHostNbmf() {
+        if (dbnonidblHostNbmf == null) {
+            dbnonidblHostNbmf =
+                InftAddrfss.gftHostFromNbmfSfrvidf(this, truf);
+        }
+        rfturn dbnonidblHostNbmf;
+    }
+
+    /**
+     * Rfturns thf hostnbmf for this bddrfss.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls its {@dodf dhfdkConnfdt} mfthod
+     * with thf hostnbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf dblling dodf is bllowfd to know
+     * thf hostnbmf for this IP bddrfss, i.f., to donnfdt to thf host.
+     * If thf opfrbtion is not bllowfd, it will rfturn
+     * thf tfxtubl rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @rfturn  thf host nbmf for this IP bddrfss, or if thf opfrbtion
+     *    is not bllowfd by thf sfdurity dhfdk, thf tfxtubl
+     *    rfprfsfntbtion of thf IP bddrfss.
+     *
+     * @pbrbm dhfdk mbkf sfdurity dhfdk if truf
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    privbtf stbtid String gftHostFromNbmfSfrvidf(InftAddrfss bddr, boolfbn dhfdk) {
+        String host = null;
+        for (NbmfSfrvidf nbmfSfrvidf : nbmfSfrvidfs) {
+            try {
+                // first lookup thf hostnbmf
+                host = nbmfSfrvidf.gftHostByAddr(bddr.gftAddrfss());
+
+                /* dhfdk to sff if dblling dodf is bllowfd to know
+                 * thf hostnbmf for this IP bddrfss, if, donnfdt to thf host
+                 */
+                if (dhfdk) {
+                    SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+                    if (sfd != null) {
+                        sfd.dhfdkConnfdt(host, -1);
+                    }
+                }
+
+                /* now gft bll thf IP bddrfssfs for this hostnbmf,
+                 * bnd mbkf surf onf of thfm mbtdhfs thf originbl IP
+                 * bddrfss. Wf do this to try bnd prfvfnt spoofing.
+                 */
+
+                InftAddrfss[] brr = InftAddrfss.gftAllByNbmf0(host, dhfdk);
+                boolfbn ok = fblsf;
+
+                if(brr != null) {
+                    for(int i = 0; !ok && i < brr.lfngth; i++) {
+                        ok = bddr.fqubls(brr[i]);
+                    }
+                }
+
+                //XXX: if it looks b spoof just rfturn thf bddrfss?
+                if (!ok) {
+                    host = bddr.gftHostAddrfss();
+                    rfturn host;
+                }
+
+                brfbk;
+
+            } dbtdh (SfdurityExdfption f) {
+                host = bddr.gftHostAddrfss();
+                brfbk;
+            } dbtdh (UnknownHostExdfption f) {
+                host = bddr.gftHostAddrfss();
+                // lft nfxt providfr rfsolvf thf hostnbmf
+            }
+        }
+
+        rfturn host;
+    }
+
+    /**
+     * Rfturns thf rbw IP bddrfss of this {@dodf InftAddrfss}
+     * objfdt. Thf rfsult is in nftwork bytf ordfr: thf highfst ordfr
+     * bytf of thf bddrfss is in {@dodf gftAddrfss()[0]}.
+     *
+     * @rfturn  thf rbw IP bddrfss of this objfdt.
+     */
+    publid bytf[] gftAddrfss() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf IP bddrfss string in tfxtubl prfsfntbtion.
+     *
+     * @rfturn  thf rbw IP bddrfss in b string formbt.
+     * @sindf   1.0.2
+     */
+    publid String gftHostAddrfss() {
+        rfturn null;
+     }
+
+    /**
+     * Rfturns b hbshdodf for this IP bddrfss.
+     *
+     * @rfturn  b hbsh dodf vbluf for this IP bddrfss.
+     */
+    publid int hbshCodf() {
+        rfturn -1;
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf IP bddrfss bs
+     * this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf InftAddrfss} rfprfsfnt thf sbmf IP
+     * bddrfss if thf lfngth of thf bytf brrbys rfturnfd by
+     * {@dodf gftAddrfss} is thf sbmf for both, bnd fbdh of thf
+     * brrby domponfnts is thf sbmf for thf bytf brrbys.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff     jbvb.nft.InftAddrfss#gftAddrfss()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Convfrts this IP bddrfss to b {@dodf String}. Thf
+     * string rfturnfd is of thf form: hostnbmf / litfrbl IP
+     * bddrfss.
+     *
+     * If thf host nbmf is unrfsolvfd, no rfvfrsf nbmf sfrvidf lookup
+     * is pfrformfd. Thf hostnbmf pbrt will bf rfprfsfntfd by bn fmpty string.
+     *
+     * @rfturn  b string rfprfsfntbtion of this IP bddrfss.
+     */
+    publid String toString() {
+        String hostNbmf = holdfr().gftHostNbmf();
+        rfturn ((hostNbmf != null) ? hostNbmf : "")
+            + "/" + gftHostAddrfss();
+    }
+
+    /*
+     * Cbdhfd bddrfssfs - our own litlf nis, not!
+     */
+    privbtf stbtid Cbdhf bddrfssCbdhf = nfw Cbdhf(Cbdhf.Typf.Positivf);
+
+    privbtf stbtid Cbdhf nfgbtivfCbdhf = nfw Cbdhf(Cbdhf.Typf.Nfgbtivf);
+
+    privbtf stbtid boolfbn bddrfssCbdhfInit = fblsf;
+
+    stbtid InftAddrfss[]    unknown_brrby; // put THIS in dbdhf
+
+    stbtid InftAddrfssImpl  impl;
+
+    privbtf stbtid finbl HbshMbp<String, Void> lookupTbblf = nfw HbshMbp<>();
+
+    /**
+     * Rfprfsfnts b dbdhf fntry
+     */
+    stbtid finbl dlbss CbdhfEntry {
+
+        CbdhfEntry(InftAddrfss[] bddrfssfs, long fxpirbtion) {
+            this.bddrfssfs = bddrfssfs;
+            this.fxpirbtion = fxpirbtion;
+        }
+
+        InftAddrfss[] bddrfssfs;
+        long fxpirbtion;
+    }
+
+    /**
+     * A dbdhf thbt mbnbgfs fntrifs bbsfd on b polidy spfdififd
+     * bt drfbtion timf.
+     */
+    stbtid finbl dlbss Cbdhf {
+        privbtf LinkfdHbshMbp<String, CbdhfEntry> dbdhf;
+        privbtf Typf typf;
+
+        fnum Typf {Positivf, Nfgbtivf};
+
+        /**
+         * Crfbtf dbdhf
+         */
+        publid Cbdhf(Typf typf) {
+            this.typf = typf;
+            dbdhf = nfw LinkfdHbshMbp<String, CbdhfEntry>();
+        }
+
+        privbtf int gftPolidy() {
+            if (typf == Typf.Positivf) {
+                rfturn InftAddrfssCbdhfPolidy.gft();
+            } flsf {
+                rfturn InftAddrfssCbdhfPolidy.gftNfgbtivf();
+            }
+        }
+
+        /**
+         * Add bn fntry to thf dbdhf. If thfrf's blrfbdy bn
+         * fntry thfn for this host thfn thf fntry will bf
+         * rfplbdfd.
+         */
+        publid Cbdhf put(String host, InftAddrfss[] bddrfssfs) {
+            int polidy = gftPolidy();
+            if (polidy == InftAddrfssCbdhfPolidy.NEVER) {
+                rfturn this;
+            }
+
+            // purgf bny fxpirfd fntrifs
+
+            if (polidy != InftAddrfssCbdhfPolidy.FOREVER) {
+
+                // As wf itfrbtf in insfrtion ordfr wf dbn
+                // tfrminbtf whfn b non-fxpirfd fntry is found.
+                LinkfdList<String> fxpirfd = nfw LinkfdList<>();
+                long now = Systfm.durrfntTimfMillis();
+                for (String kfy : dbdhf.kfySft()) {
+                    CbdhfEntry fntry = dbdhf.gft(kfy);
+
+                    if (fntry.fxpirbtion >= 0 && fntry.fxpirbtion < now) {
+                        fxpirfd.bdd(kfy);
+                    } flsf {
+                        brfbk;
+                    }
+                }
+
+                for (String kfy : fxpirfd) {
+                    dbdhf.rfmovf(kfy);
+                }
+            }
+
+            // drfbtf nfw fntry bnd bdd it to thf dbdhf
+            // -- bs b HbshMbp rfplbdfs fxisting fntrifs wf
+            //    don't nffd to fxpliditly dhfdk if thfrf is
+            //    blrfbdy bn fntry for this host.
+            long fxpirbtion;
+            if (polidy == InftAddrfssCbdhfPolidy.FOREVER) {
+                fxpirbtion = -1;
+            } flsf {
+                fxpirbtion = Systfm.durrfntTimfMillis() + (polidy * 1000);
+            }
+            CbdhfEntry fntry = nfw CbdhfEntry(bddrfssfs, fxpirbtion);
+            dbdhf.put(host, fntry);
+            rfturn this;
+        }
+
+        /**
+         * Qufry thf dbdhf for thf spfdifid host. If found thfn
+         * rfturn its CbdhfEntry, or null if not found.
+         */
+        publid CbdhfEntry gft(String host) {
+            int polidy = gftPolidy();
+            if (polidy == InftAddrfssCbdhfPolidy.NEVER) {
+                rfturn null;
+            }
+            CbdhfEntry fntry = dbdhf.gft(host);
+
+            // dhfdk if fntry hbs fxpirfd
+            if (fntry != null && polidy != InftAddrfssCbdhfPolidy.FOREVER) {
+                if (fntry.fxpirbtion >= 0 &&
+                    fntry.fxpirbtion < Systfm.durrfntTimfMillis()) {
+                    dbdhf.rfmovf(host);
+                    fntry = null;
+                }
+            }
+
+            rfturn fntry;
+        }
+    }
+
+    /*
+     * Initiblizf dbdhf bnd insfrt bnyLodblAddrfss into thf
+     * unknown brrby with no fxpiry.
+     */
+    privbtf stbtid void dbdhfInitIfNffdfd() {
+        bssfrt Thrfbd.holdsLodk(bddrfssCbdhf);
+        if (bddrfssCbdhfInit) {
+            rfturn;
+        }
+        unknown_brrby = nfw InftAddrfss[1];
+        unknown_brrby[0] = impl.bnyLodblAddrfss();
+
+        bddrfssCbdhf.put(impl.bnyLodblAddrfss().gftHostNbmf(),
+                         unknown_brrby);
+
+        bddrfssCbdhfInit = truf;
+    }
+
+    /*
+     * Cbdhf thf givfn hostnbmf bnd bddrfssfs.
+     */
+    privbtf stbtid void dbdhfAddrfssfs(String hostnbmf,
+                                       InftAddrfss[] bddrfssfs,
+                                       boolfbn suddfss) {
+        hostnbmf = hostnbmf.toLowfrCbsf();
+        syndhronizfd (bddrfssCbdhf) {
+            dbdhfInitIfNffdfd();
+            if (suddfss) {
+                bddrfssCbdhf.put(hostnbmf, bddrfssfs);
+            } flsf {
+                nfgbtivfCbdhf.put(hostnbmf, bddrfssfs);
+            }
+        }
+    }
+
+    /*
+     * Lookup hostnbmf in dbdhf (positivf & nfgbtivf dbdhf). If
+     * found rfturn bddrfssfs, null if not found.
+     */
+    privbtf stbtid InftAddrfss[] gftCbdhfdAddrfssfs(String hostnbmf) {
+        hostnbmf = hostnbmf.toLowfrCbsf();
+
+        // sfbrdh both positivf & nfgbtivf dbdhfs
+
+        syndhronizfd (bddrfssCbdhf) {
+            dbdhfInitIfNffdfd();
+
+            CbdhfEntry fntry = bddrfssCbdhf.gft(hostnbmf);
+            if (fntry == null) {
+                fntry = nfgbtivfCbdhf.gft(hostnbmf);
+            }
+
+            if (fntry != null) {
+                rfturn fntry.bddrfssfs;
+            }
+        }
+
+        // not found
+        rfturn null;
+    }
+
+    privbtf stbtid NbmfSfrvidf drfbtfNSProvidfr(String providfr) {
+        if (providfr == null)
+            rfturn null;
+
+        NbmfSfrvidf nbmfSfrvidf = null;
+        if (providfr.fqubls("dffbult")) {
+            // initiblizf thf dffbult nbmf sfrvidf
+            nbmfSfrvidf = nfw NbmfSfrvidf() {
+                publid InftAddrfss[] lookupAllHostAddr(String host)
+                    throws UnknownHostExdfption {
+                    rfturn impl.lookupAllHostAddr(host);
+                }
+                publid String gftHostByAddr(bytf[] bddr)
+                    throws UnknownHostExdfption {
+                    rfturn impl.gftHostByAddr(bddr);
+                }
+            };
+        } flsf {
+            finbl String providfrNbmf = providfr;
+            try {
+                nbmfSfrvidf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<NbmfSfrvidf>() {
+                        publid NbmfSfrvidf run() {
+                            Itfrbtor<NbmfSfrvidfDfsdriptor> itr =
+                                SfrvidfLobdfr.lobd(NbmfSfrvidfDfsdriptor.dlbss)
+                                    .itfrbtor();
+                            whilf (itr.hbsNfxt()) {
+                                NbmfSfrvidfDfsdriptor nsd = itr.nfxt();
+                                if (providfrNbmf.
+                                    fqublsIgnorfCbsf(nsd.gftTypf()+","
+                                        +nsd.gftProvidfrNbmf())) {
+                                    try {
+                                        rfturn nsd.drfbtfNbmfSfrvidf();
+                                    } dbtdh (Exdfption f) {
+                                        f.printStbdkTrbdf();
+                                        Systfm.frr.println(
+                                            "Cbnnot drfbtf nbmf sfrvidf:"
+                                             +providfrNbmf+": " + f);
+                                    }
+                                }
+                            }
+
+                            rfturn null;
+                        }
+                    }
+                );
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            }
+        }
+
+        rfturn nbmfSfrvidf;
+    }
+
+    stbtid {
+        // drfbtf thf impl
+        impl = InftAddrfssImplFbdtory.drfbtf();
+
+        // gft nbmf sfrvidf if providfd bnd rfqufstfd
+        String providfr = null;;
+        String propPrffix = "sun.nft.spi.nbmfsfrvidf.providfr.";
+        int n = 1;
+        nbmfSfrvidfs = nfw ArrbyList<NbmfSfrvidf>();
+        providfr = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion(propPrffix + n));
+        whilf (providfr != null) {
+            NbmfSfrvidf ns = drfbtfNSProvidfr(providfr);
+            if (ns != null)
+                nbmfSfrvidfs.bdd(ns);
+
+            n++;
+            providfr = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion(propPrffix + n));
+        }
+
+        // if not dfsignbtf bny nbmf sfrvidfs providfr,
+        // drfbtf b dffbult onf
+        if (nbmfSfrvidfs.sizf() == 0) {
+            NbmfSfrvidf ns = drfbtfNSProvidfr("dffbult");
+            nbmfSfrvidfs.bdd(ns);
+        }
+    }
+
+    /**
+     * Crfbtfs bn InftAddrfss bbsfd on thf providfd host nbmf bnd IP bddrfss.
+     * No nbmf sfrvidf is dhfdkfd for thf vblidity of thf bddrfss.
+     *
+     * <p> Thf host nbmf dbn fithfr bf b mbdhinf nbmf, sudh bs
+     * "{@dodf jbvb.sun.dom}", or b tfxtubl rfprfsfntbtion of its IP
+     * bddrfss.
+     * <p> No vblidity dhfdking is donf on thf host nbmf fithfr.
+     *
+     * <p> If bddr spfdififs bn IPv4 bddrfss bn instbndf of Inft4Addrfss
+     * will bf rfturnfd; othfrwisf, bn instbndf of Inft6Addrfss
+     * will bf rfturnfd.
+     *
+     * <p> IPv4 bddrfss bytf brrby must bf 4 bytfs long bnd IPv6 bytf brrby
+     * must bf 16 bytfs long
+     *
+     * @pbrbm host thf spfdififd host
+     * @pbrbm bddr thf rbw IP bddrfss in nftwork bytf ordfr
+     * @rfturn  bn InftAddrfss objfdt drfbtfd from thf rbw IP bddrfss.
+     * @fxdfption  UnknownHostExdfption  if IP bddrfss is of illfgbl lfngth
+     * @sindf 1.4
+     */
+    publid stbtid InftAddrfss gftByAddrfss(String host, bytf[] bddr)
+        throws UnknownHostExdfption {
+        if (host != null && host.lfngth() > 0 && host.dhbrAt(0) == '[') {
+            if (host.dhbrAt(host.lfngth()-1) == ']') {
+                host = host.substring(1, host.lfngth() -1);
+            }
+        }
+        if (bddr != null) {
+            if (bddr.lfngth == Inft4Addrfss.INADDRSZ) {
+                rfturn nfw Inft4Addrfss(host, bddr);
+            } flsf if (bddr.lfngth == Inft6Addrfss.INADDRSZ) {
+                bytf[] nfwAddr
+                    = IPAddrfssUtil.donvfrtFromIPv4MbppfdAddrfss(bddr);
+                if (nfwAddr != null) {
+                    rfturn nfw Inft4Addrfss(host, nfwAddr);
+                } flsf {
+                    rfturn nfw Inft6Addrfss(host, bddr);
+                }
+            }
+        }
+        throw nfw UnknownHostExdfption("bddr is of illfgbl lfngth");
+    }
+
+
+    /**
+     * Dftfrminfs thf IP bddrfss of b host, givfn thf host's nbmf.
+     *
+     * <p> Thf host nbmf dbn fithfr bf b mbdhinf nbmf, sudh bs
+     * "{@dodf jbvb.sun.dom}", or b tfxtubl rfprfsfntbtion of its
+     * IP bddrfss. If b litfrbl IP bddrfss is supplifd, only thf
+     * vblidity of thf bddrfss formbt is dhfdkfd.
+     *
+     * <p> For {@dodf host} spfdififd in litfrbl IPv6 bddrfss,
+     * fithfr thf form dffinfd in RFC 2732 or thf litfrbl IPv6 bddrfss
+     * formbt dffinfd in RFC 2373 is bddfptfd. IPv6 sdopfd bddrfssfs brf blso
+     * supportfd. Sff <b hrff="Inft6Addrfss.html#sdopfd">hfrf</b> for b dfsdription of IPv6
+     * sdopfd bddrfssfs.
+     *
+     * <p> If thf host is {@dodf null} thfn bn {@dodf InftAddrfss}
+     * rfprfsfnting bn bddrfss of thf loopbbdk intfrfbdf is rfturnfd.
+     * Sff <b hrff="http://www.iftf.org/rfd/rfd3330.txt">RFC&nbsp;3330</b>
+     * sfdtion&nbsp;2 bnd <b hrff="http://www.iftf.org/rfd/rfd2373.txt">RFC&nbsp;2373</b>
+     * sfdtion&nbsp;2.5.3. </p>
+     *
+     * @pbrbm      host   thf spfdififd host, or {@dodf null}.
+     * @rfturn     bn IP bddrfss for thf givfn host nbmf.
+     * @fxdfption  UnknownHostExdfption  if no IP bddrfss for thf
+     *               {@dodf host} dould bf found, or if b sdopf_id wbs spfdififd
+     *               for b globbl IPv6 bddrfss.
+     * @fxdfption  SfdurityExdfption if b sfdurity mbnbgfr fxists
+     *             bnd its dhfdkConnfdt mfthod dofsn't bllow thf opfrbtion
+     */
+    publid stbtid InftAddrfss gftByNbmf(String host)
+        throws UnknownHostExdfption {
+        rfturn InftAddrfss.gftAllByNbmf(host)[0];
+    }
+
+    // dbllfd from dfploymfnt dbdhf mbnbgfr
+    privbtf stbtid InftAddrfss gftByNbmf(String host, InftAddrfss rfqAddr)
+        throws UnknownHostExdfption {
+        rfturn InftAddrfss.gftAllByNbmf(host, rfqAddr)[0];
+    }
+
+    /**
+     * Givfn thf nbmf of b host, rfturns bn brrby of its IP bddrfssfs,
+     * bbsfd on thf donfigurfd nbmf sfrvidf on thf systfm.
+     *
+     * <p> Thf host nbmf dbn fithfr bf b mbdhinf nbmf, sudh bs
+     * "{@dodf jbvb.sun.dom}", or b tfxtubl rfprfsfntbtion of its IP
+     * bddrfss. If b litfrbl IP bddrfss is supplifd, only thf
+     * vblidity of thf bddrfss formbt is dhfdkfd.
+     *
+     * <p> For {@dodf host} spfdififd in <i>litfrbl IPv6 bddrfss</i>,
+     * fithfr thf form dffinfd in RFC 2732 or thf litfrbl IPv6 bddrfss
+     * formbt dffinfd in RFC 2373 is bddfptfd. A litfrbl IPv6 bddrfss mby
+     * blso bf qublififd by bppfnding b sdopfd zonf idfntififr or sdopf_id.
+     * Thf syntbx bnd usbgf of sdopf_ids is dfsdribfd
+     * <b hrff="Inft6Addrfss.html#sdopfd">hfrf</b>.
+     * <p> If thf host is {@dodf null} thfn bn {@dodf InftAddrfss}
+     * rfprfsfnting bn bddrfss of thf loopbbdk intfrfbdf is rfturnfd.
+     * Sff <b hrff="http://www.iftf.org/rfd/rfd3330.txt">RFC&nbsp;3330</b>
+     * sfdtion&nbsp;2 bnd <b hrff="http://www.iftf.org/rfd/rfd2373.txt">RFC&nbsp;2373</b>
+     * sfdtion&nbsp;2.5.3. </p>
+     *
+     * <p> If thfrf is b sfdurity mbnbgfr bnd {@dodf host} is not
+     * null bnd {@dodf host.lfngth() } is not fqubl to zfro, thf
+     * sfdurity mbnbgfr's
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf hostnbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf opfrbtion is bllowfd.
+     *
+     * @pbrbm      host   thf nbmf of thf host, or {@dodf null}.
+     * @rfturn     bn brrby of bll thf IP bddrfssfs for b givfn host nbmf.
+     *
+     * @fxdfption  UnknownHostExdfption  if no IP bddrfss for thf
+     *               {@dodf host} dould bf found, or if b sdopf_id wbs spfdififd
+     *               for b globbl IPv6 bddrfss.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               {@dodf dhfdkConnfdt} mfthod dofsn't bllow thf opfrbtion.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     */
+    publid stbtid InftAddrfss[] gftAllByNbmf(String host)
+        throws UnknownHostExdfption {
+        rfturn gftAllByNbmf(host, null);
+    }
+
+    privbtf stbtid InftAddrfss[] gftAllByNbmf(String host, InftAddrfss rfqAddr)
+        throws UnknownHostExdfption {
+
+        if (host == null || host.lfngth() == 0) {
+            InftAddrfss[] rft = nfw InftAddrfss[1];
+            rft[0] = impl.loopbbdkAddrfss();
+            rfturn rft;
+        }
+
+        boolfbn ipv6Expfdtfd = fblsf;
+        if (host.dhbrAt(0) == '[') {
+            // This is supposfd to bf bn IPv6 litfrbl
+            if (host.lfngth() > 2 && host.dhbrAt(host.lfngth()-1) == ']') {
+                host = host.substring(1, host.lfngth() -1);
+                ipv6Expfdtfd = truf;
+            } flsf {
+                // This wbs supposfd to bf b IPv6 bddrfss, but it's not!
+                throw nfw UnknownHostExdfption(host + ": invblid IPv6 bddrfss");
+            }
+        }
+
+        // if host is bn IP bddrfss, wf won't do furthfr lookup
+        if (Chbrbdtfr.digit(host.dhbrAt(0), 16) != -1
+            || (host.dhbrAt(0) == ':')) {
+            bytf[] bddr = null;
+            int numfridZonf = -1;
+            String ifnbmf = null;
+            // sff if it is IPv4 bddrfss
+            bddr = IPAddrfssUtil.tfxtToNumfridFormbtV4(host);
+            if (bddr == null) {
+                // This is supposfd to bf bn IPv6 litfrbl
+                // Chfdk if b numfrid or string zonf id is prfsfnt
+                int pos;
+                if ((pos=host.indfxOf ('%')) != -1) {
+                    numfridZonf = dhfdkNumfridZonf (host);
+                    if (numfridZonf == -1) { /* rfmbindfr of string must bf bn ifnbmf */
+                        ifnbmf = host.substring (pos+1);
+                    }
+                }
+                if ((bddr = IPAddrfssUtil.tfxtToNumfridFormbtV6(host)) == null && host.dontbins(":")) {
+                    throw nfw UnknownHostExdfption(host + ": invblid IPv6 bddrfss");
+                }
+            } flsf if (ipv6Expfdtfd) {
+                // Mfbns bn IPv4 littfrbl bftwffn brbdkfts!
+                throw nfw UnknownHostExdfption("["+host+"]");
+            }
+            InftAddrfss[] rft = nfw InftAddrfss[1];
+            if(bddr != null) {
+                if (bddr.lfngth == Inft4Addrfss.INADDRSZ) {
+                    rft[0] = nfw Inft4Addrfss(null, bddr);
+                } flsf {
+                    if (ifnbmf != null) {
+                        rft[0] = nfw Inft6Addrfss(null, bddr, ifnbmf);
+                    } flsf {
+                        rft[0] = nfw Inft6Addrfss(null, bddr, numfridZonf);
+                    }
+                }
+                rfturn rft;
+            }
+        } flsf if (ipv6Expfdtfd) {
+            // Wf wfrf fxpfdting bn IPv6 Littfrbl, but got somfthing flsf
+            throw nfw UnknownHostExdfption("["+host+"]");
+        }
+        rfturn gftAllByNbmf0(host, rfqAddr, truf);
+    }
+
+    /**
+     * Rfturns thf loopbbdk bddrfss.
+     * <p>
+     * Thf InftAddrfss rfturnfd will rfprfsfnt thf IPv4
+     * loopbbdk bddrfss, 127.0.0.1, or thf IPv6 loopbbdk
+     * bddrfss, ::1. Thf IPv4 loopbbdk bddrfss rfturnfd
+     * is only onf of mbny in thf form 127.*.*.*
+     *
+     * @rfturn  thf InftAddrfss loopbbdk instbndf.
+     * @sindf 1.7
+     */
+    publid stbtid InftAddrfss gftLoopbbdkAddrfss() {
+        rfturn impl.loopbbdkAddrfss();
+    }
+
+
+    /**
+     * dhfdk if thf litfrbl bddrfss string hbs %nn bppfndfd
+     * rfturns -1 if not, or thf numfrid vbluf othfrwisf.
+     *
+     * %nn mby blso bf b string thbt rfprfsfnts thf displbyNbmf of
+     * b durrfntly bvbilbblf NftworkIntfrfbdf.
+     */
+    privbtf stbtid int dhfdkNumfridZonf (String s) throws UnknownHostExdfption {
+        int pfrdfnt = s.indfxOf ('%');
+        int slfn = s.lfngth();
+        int digit, zonf=0;
+        if (pfrdfnt == -1) {
+            rfturn -1;
+        }
+        for (int i=pfrdfnt+1; i<slfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            if (d == ']') {
+                if (i == pfrdfnt+1) {
+                    /* fmpty pfr-dfnt fifld */
+                    rfturn -1;
+                }
+                brfbk;
+            }
+            if ((digit = Chbrbdtfr.digit (d, 10)) < 0) {
+                rfturn -1;
+            }
+            zonf = (zonf * 10) + digit;
+        }
+        rfturn zonf;
+    }
+
+    privbtf stbtid InftAddrfss[] gftAllByNbmf0 (String host)
+        throws UnknownHostExdfption
+    {
+        rfturn gftAllByNbmf0(host, truf);
+    }
+
+    /**
+     * pbdkbgf privbtf so SodkftPfrmission dbn dbll it
+     */
+    stbtid InftAddrfss[] gftAllByNbmf0 (String host, boolfbn dhfdk)
+        throws UnknownHostExdfption  {
+        rfturn gftAllByNbmf0 (host, null, dhfdk);
+    }
+
+    privbtf stbtid InftAddrfss[] gftAllByNbmf0 (String host, InftAddrfss rfqAddr, boolfbn dhfdk)
+        throws UnknownHostExdfption  {
+
+        /* If it gfts hfrf it is prfsumfd to bf b hostnbmf */
+        /* Cbdhf.gft dbn rfturn: null, unknownAddrfss, or InftAddrfss[] */
+
+        /* mbkf surf thf donnfdtion to thf host is bllowfd, bfforf wf
+         * givf out b hostnbmf
+         */
+        if (dhfdk) {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.dhfdkConnfdt(host, -1);
+            }
+        }
+
+        InftAddrfss[] bddrfssfs = gftCbdhfdAddrfssfs(host);
+
+        /* If no fntry in dbdhf, thfn do thf host lookup */
+        if (bddrfssfs == null) {
+            bddrfssfs = gftAddrfssfsFromNbmfSfrvidf(host, rfqAddr);
+        }
+
+        if (bddrfssfs == unknown_brrby)
+            throw nfw UnknownHostExdfption(host);
+
+        rfturn bddrfssfs.dlonf();
+    }
+
+    privbtf stbtid InftAddrfss[] gftAddrfssfsFromNbmfSfrvidf(String host, InftAddrfss rfqAddr)
+        throws UnknownHostExdfption
+    {
+        InftAddrfss[] bddrfssfs = null;
+        boolfbn suddfss = fblsf;
+        UnknownHostExdfption fx = null;
+
+        // Chfdk whfthfr thf host is in thf lookupTbblf.
+        // 1) If thf host isn't in thf lookupTbblf whfn
+        //    dhfdkLookupTbblf() is dbllfd, dhfdkLookupTbblf()
+        //    would bdd thf host in thf lookupTbblf bnd
+        //    rfturn null. So wf will do thf lookup.
+        // 2) If thf host is in thf lookupTbblf whfn
+        //    dhfdkLookupTbblf() is dbllfd, thf durrfnt thrfbd
+        //    would bf blodkfd until thf host is rfmovfd
+        //    from thf lookupTbblf. Thfn this thrfbd
+        //    should try to look up thf bddrfssCbdhf.
+        //     i) if it found thf bddrfssfs in thf
+        //        bddrfssCbdhf, dhfdkLookupTbblf()  would
+        //        rfturn thf bddrfssfs.
+        //     ii) if it didn't find thf bddrfssfs in thf
+        //         bddrfssCbdhf for bny rfbson,
+        //         it should bdd thf host in thf
+        //         lookupTbblf bnd rfturn null so thf
+        //         following dodf would do  b lookup itsflf.
+        if ((bddrfssfs = dhfdkLookupTbblf(host)) == null) {
+            try {
+                // This is thf first thrfbd whidh looks up thf bddrfssfs
+                // this host or thf dbdhf fntry for this host hbs bffn
+                // fxpirfd so this thrfbd should do thf lookup.
+                for (NbmfSfrvidf nbmfSfrvidf : nbmfSfrvidfs) {
+                    try {
+                        /*
+                         * Do not put thf dbll to lookup() insidf thf
+                         * donstrudtor.  if you do you will still bf
+                         * bllodbting spbdf whfn thf lookup fbils.
+                         */
+
+                        bddrfssfs = nbmfSfrvidf.lookupAllHostAddr(host);
+                        suddfss = truf;
+                        brfbk;
+                    } dbtdh (UnknownHostExdfption uhf) {
+                        if (host.fqublsIgnorfCbsf("lodblhost")) {
+                            InftAddrfss[] lodbl = nfw InftAddrfss[] { impl.loopbbdkAddrfss() };
+                            bddrfssfs = lodbl;
+                            suddfss = truf;
+                            brfbk;
+                        }
+                        flsf {
+                            bddrfssfs = unknown_brrby;
+                            suddfss = fblsf;
+                            fx = uhf;
+                        }
+                    }
+                }
+
+                // Morf to do?
+                if (rfqAddr != null && bddrfssfs.lfngth > 1 && !bddrfssfs[0].fqubls(rfqAddr)) {
+                    // Find it?
+                    int i = 1;
+                    for (; i < bddrfssfs.lfngth; i++) {
+                        if (bddrfssfs[i].fqubls(rfqAddr)) {
+                            brfbk;
+                        }
+                    }
+                    // Rotbtf
+                    if (i < bddrfssfs.lfngth) {
+                        InftAddrfss tmp, tmp2 = rfqAddr;
+                        for (int j = 0; j < i; j++) {
+                            tmp = bddrfssfs[j];
+                            bddrfssfs[j] = tmp2;
+                            tmp2 = tmp;
+                        }
+                        bddrfssfs[i] = tmp2;
+                    }
+                }
+                // Cbdhf thf bddrfss.
+                dbdhfAddrfssfs(host, bddrfssfs, suddfss);
+
+                if (!suddfss && fx != null)
+                    throw fx;
+
+            } finblly {
+                // Dflftf host from thf lookupTbblf bnd notify
+                // bll thrfbds wbiting on thf lookupTbblf monitor.
+                updbtfLookupTbblf(host);
+            }
+        }
+
+        rfturn bddrfssfs;
+    }
+
+
+    privbtf stbtid InftAddrfss[] dhfdkLookupTbblf(String host) {
+        syndhronizfd (lookupTbblf) {
+            // If thf host isn't in thf lookupTbblf, bdd it in thf
+            // lookuptbblf bnd rfturn null. Thf dbllfr should do
+            // thf lookup.
+            if (lookupTbblf.dontbinsKfy(host) == fblsf) {
+                lookupTbblf.put(host, null);
+                rfturn null;
+            }
+
+            // If thf host is in thf lookupTbblf, it mfbns thbt bnothfr
+            // thrfbd is trying to look up thf bddrfssfs of this host.
+            // This thrfbd should wbit.
+            whilf (lookupTbblf.dontbinsKfy(host)) {
+                try {
+                    lookupTbblf.wbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                }
+            }
+        }
+
+        // Thf othfr thrfbd hbs finishfd looking up thf bddrfssfs of
+        // thf host. This thrfbd should rftry to gft thf bddrfssfs
+        // from thf bddrfssCbdhf. If it dofsn't gft thf bddrfssfs from
+        // thf dbdhf, it will try to look up thf bddrfssfs itsflf.
+        InftAddrfss[] bddrfssfs = gftCbdhfdAddrfssfs(host);
+        if (bddrfssfs == null) {
+            syndhronizfd (lookupTbblf) {
+                lookupTbblf.put(host, null);
+                rfturn null;
+            }
+        }
+
+        rfturn bddrfssfs;
+    }
+
+    privbtf stbtid void updbtfLookupTbblf(String host) {
+        syndhronizfd (lookupTbblf) {
+            lookupTbblf.rfmovf(host);
+            lookupTbblf.notifyAll();
+        }
+    }
+
+    /**
+     * Rfturns bn {@dodf InftAddrfss} objfdt givfn thf rbw IP bddrfss .
+     * Thf brgumfnt is in nftwork bytf ordfr: thf highfst ordfr
+     * bytf of thf bddrfss is in {@dodf gftAddrfss()[0]}.
+     *
+     * <p> This mfthod dofsn't blodk, i.f. no rfvfrsf nbmf sfrvidf lookup
+     * is pfrformfd.
+     *
+     * <p> IPv4 bddrfss bytf brrby must bf 4 bytfs long bnd IPv6 bytf brrby
+     * must bf 16 bytfs long
+     *
+     * @pbrbm bddr thf rbw IP bddrfss in nftwork bytf ordfr
+     * @rfturn  bn InftAddrfss objfdt drfbtfd from thf rbw IP bddrfss.
+     * @fxdfption  UnknownHostExdfption  if IP bddrfss is of illfgbl lfngth
+     * @sindf 1.4
+     */
+    publid stbtid InftAddrfss gftByAddrfss(bytf[] bddr)
+        throws UnknownHostExdfption {
+        rfturn gftByAddrfss(null, bddr);
+    }
+
+    privbtf stbtid InftAddrfss dbdhfdLodblHost = null;
+    privbtf stbtid long dbdhfTimf = 0;
+    privbtf stbtid finbl long mbxCbdhfTimf = 5000L;
+    privbtf stbtid finbl Objfdt dbdhfLodk = nfw Objfdt();
+
+    /**
+     * Rfturns thf bddrfss of thf lodbl host. This is bdhifvfd by rftrifving
+     * thf nbmf of thf host from thf systfm, thfn rfsolving thbt nbmf into
+     * bn {@dodf InftAddrfss}.
+     *
+     * <P>Notf: Thf rfsolvfd bddrfss mby bf dbdhfd for b short pfriod of timf.
+     * </P>
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkConnfdt} mfthod is dbllfd
+     * with thf lodbl host nbmf bnd {@dodf -1}
+     * bs its brgumfnts to sff if thf opfrbtion is bllowfd.
+     * If thf opfrbtion is not bllowfd, bn InftAddrfss rfprfsfnting
+     * thf loopbbdk bddrfss is rfturnfd.
+     *
+     * @rfturn     thf bddrfss of thf lodbl host.
+     *
+     * @fxdfption  UnknownHostExdfption  if thf lodbl host nbmf dould not
+     *             bf rfsolvfd into bn bddrfss.
+     *
+     * @sff SfdurityMbnbgfr#dhfdkConnfdt
+     * @sff jbvb.nft.InftAddrfss#gftByNbmf(jbvb.lbng.String)
+     */
+    publid stbtid InftAddrfss gftLodblHost() throws UnknownHostExdfption {
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        try {
+            String lodbl = impl.gftLodblHostNbmf();
+
+            if (sfdurity != null) {
+                sfdurity.dhfdkConnfdt(lodbl, -1);
+            }
+
+            if (lodbl.fqubls("lodblhost")) {
+                rfturn impl.loopbbdkAddrfss();
+            }
+
+            InftAddrfss rft = null;
+            syndhronizfd (dbdhfLodk) {
+                long now = Systfm.durrfntTimfMillis();
+                if (dbdhfdLodblHost != null) {
+                    if ((now - dbdhfTimf) < mbxCbdhfTimf) // Lfss thbn 5s old?
+                        rft = dbdhfdLodblHost;
+                    flsf
+                        dbdhfdLodblHost = null;
+                }
+
+                // wf brf dblling gftAddrfssfsFromNbmfSfrvidf dirfdtly
+                // to bvoid gftting lodblHost from dbdhf
+                if (rft == null) {
+                    InftAddrfss[] lodblAddrs;
+                    try {
+                        lodblAddrs =
+                            InftAddrfss.gftAddrfssfsFromNbmfSfrvidf(lodbl, null);
+                    } dbtdh (UnknownHostExdfption uhf) {
+                        // Rfthrow with b morf informbtivf frror mfssbgf.
+                        UnknownHostExdfption uhf2 =
+                            nfw UnknownHostExdfption(lodbl + ": " +
+                                                     uhf.gftMfssbgf());
+                        uhf2.initCbusf(uhf);
+                        throw uhf2;
+                    }
+                    dbdhfdLodblHost = lodblAddrs[0];
+                    dbdhfTimf = now;
+                    rft = lodblAddrs[0];
+                }
+            }
+            rfturn rft;
+        } dbtdh (jbvb.lbng.SfdurityExdfption f) {
+            rfturn impl.loopbbdkAddrfss();
+        }
+    }
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf stbtid nbtivf void init();
+
+
+    /*
+     * Rfturns thf InftAddrfss rfprfsfnting bnyLodblAddrfss
+     * (typidblly 0.0.0.0 or ::0)
+     */
+    stbtid InftAddrfss bnyLodblAddrfss() {
+        rfturn impl.bnyLodblAddrfss();
+    }
+
+    /*
+     * Lobd bnd instbntibtf bn undfrlying impl dlbss
+     */
+    stbtid InftAddrfssImpl lobdImpl(String implNbmf) {
+        Objfdt impl = null;
+
+        /*
+         * Propfrty "impl.prffix" will bf prfpfndfd to thf dlbssnbmf
+         * of thf implfmfntbtion objfdt wf instbntibtf, to whidh wf
+         * dflfgbtf thf rfbl work (likf nbtivf mfthods).  This
+         * propfrty dbn vbry bdross implfmfntbtions of thf jbvb.
+         * dlbssfs.  Thf dffbult is bn fmpty String "".
+         */
+        String prffix = AddfssControllfr.doPrivilfgfd(
+                      nfw GftPropfrtyAdtion("impl.prffix", ""));
+        try {
+            impl = Clbss.forNbmf("jbvb.nft." + prffix + implNbmf).nfwInstbndf();
+        } dbtdh (ClbssNotFoundExdfption f) {
+            Systfm.frr.println("Clbss not found: jbvb.nft." + prffix +
+                               implNbmf + ":\ndhfdk impl.prffix propfrty " +
+                               "in your propfrtifs filf.");
+        } dbtdh (InstbntibtionExdfption f) {
+            Systfm.frr.println("Could not instbntibtf: jbvb.nft." + prffix +
+                               implNbmf + ":\ndhfdk impl.prffix propfrty " +
+                               "in your propfrtifs filf.");
+        } dbtdh (IllfgblAddfssExdfption f) {
+            Systfm.frr.println("Cbnnot bddfss dlbss: jbvb.nft." + prffix +
+                               implNbmf + ":\ndhfdk impl.prffix propfrty " +
+                               "in your propfrtifs filf.");
+        }
+
+        if (impl == null) {
+            try {
+                impl = Clbss.forNbmf(implNbmf).nfwInstbndf();
+            } dbtdh (Exdfption f) {
+                throw nfw Error("Systfm propfrty impl.prffix indorrfdt");
+            }
+        }
+
+        rfturn (InftAddrfssImpl) impl;
+    }
+
+    privbtf void rfbdObjfdtNoDbtb (ObjfdtInputStrfbm s) throws
+                         IOExdfption, ClbssNotFoundExdfption {
+        if (gftClbss().gftClbssLobdfr() != null) {
+            throw nfw SfdurityExdfption ("invblid bddrfss typf");
+        }
+    }
+
+    privbtf stbtid finbl long FIELDS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+
+    stbtid {
+        try {
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            FIELDS_OFFSET = unsbff.objfdtFifldOffsft(
+                InftAddrfss.dlbss.gftDfdlbrfdFifld("holdfr")
+            );
+            UNSAFE = unsbff;
+        } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    privbtf void rfbdObjfdt (ObjfdtInputStrfbm s) throws
+                         IOExdfption, ClbssNotFoundExdfption {
+        if (gftClbss().gftClbssLobdfr() != null) {
+            throw nfw SfdurityExdfption ("invblid bddrfss typf");
+        }
+        GftFifld gf = s.rfbdFiflds();
+        String host = (String)gf.gft("hostNbmf", null);
+        int bddrfss= gf.gft("bddrfss", 0);
+        int fbmily= gf.gft("fbmily", 0);
+        InftAddrfssHoldfr h = nfw InftAddrfssHoldfr(host, bddrfss, fbmily);
+        UNSAFE.putObjfdt(this, FIELDS_OFFSET, h);
+    }
+
+    /* nffdfd bfdbusf thf sfriblizbblf fiflds no longfr fxist */
+
+    /**
+     * @sfriblFifld hostNbmf String
+     * @sfriblFifld bddrfss int
+     * @sfriblFifld fbmily int
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("hostNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("bddrfss", int.dlbss),
+        nfw ObjfdtStrfbmFifld("fbmily", int.dlbss),
+    };
+
+    privbtf void writfObjfdt (ObjfdtOutputStrfbm s) throws
+                        IOExdfption {
+        if (gftClbss().gftClbssLobdfr() != null) {
+            throw nfw SfdurityExdfption ("invblid bddrfss typf");
+        }
+        PutFifld pf = s.putFiflds();
+        pf.put("hostNbmf", holdfr().gftHostNbmf());
+        pf.put("bddrfss", holdfr().gftAddrfss());
+        pf.put("fbmily", holdfr().gftFbmily());
+        s.writfFiflds();
+    }
+}
+
+/*
+ * Simplf fbdtory to drfbtf thf impl
+ */
+dlbss InftAddrfssImplFbdtory {
+
+    stbtid InftAddrfssImpl drfbtf() {
+        rfturn InftAddrfss.lobdImpl(isIPv6Supportfd() ?
+                                    "Inft6AddrfssImpl" : "Inft4AddrfssImpl");
+    }
+
+    stbtid nbtivf boolfbn isIPv6Supportfd();
+}

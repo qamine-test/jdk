@@ -1,0 +1,285 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMDigfstMfthod.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.DigfstMfthodPbrbmftfrSpfd;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * DOM-bbsfd bbstrbdt implfmfntbtion of DigfstMfthod.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid bbstrbdt dlbss DOMDigfstMfthod fxtfnds DOMStrudturf
+    implfmfnts DigfstMfthod {
+
+    stbtid finbl String SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-morf#shb384"; // sff RFC 4051
+    privbtf DigfstMfthodPbrbmftfrSpfd pbrbms;
+
+    /**
+     * Crfbtfs b <dodf>DOMDigfstMfthod</dodf>.
+     *
+     * @pbrbm pbrbms thf blgorithm-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf pbrbmftfrs brf not
+     *    bppropribtf for this digfst mfthod
+     */
+    DOMDigfstMfthod(AlgorithmPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (pbrbms != null && !(pbrbms instbndfof DigfstMfthodPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("pbrbms must bf of typf DigfstMfthodPbrbmftfrSpfd");
+        }
+        dhfdkPbrbms((DigfstMfthodPbrbmftfrSpfd)pbrbms);
+        this.pbrbms = (DigfstMfthodPbrbmftfrSpfd)pbrbms;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMDigfstMfthod</dodf> from bn flfmfnt. This donstrudtor
+     * invokfs thf bbstrbdt {@link #unmbrshblPbrbms unmbrshblPbrbms} mfthod to
+     * unmbrshbl bny blgorithm-spfdifid input pbrbmftfrs.
+     *
+     * @pbrbm dmElfm b DigfstMfthod flfmfnt
+     */
+    DOMDigfstMfthod(Elfmfnt dmElfm) throws MbrshblExdfption {
+        Elfmfnt pbrbmsElfm = DOMUtils.gftFirstChildElfmfnt(dmElfm);
+        if (pbrbmsElfm != null) {
+            pbrbms = unmbrshblPbrbms(pbrbmsElfm);
+        }
+        try {
+            dhfdkPbrbms(pbrbms);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw MbrshblExdfption(ibpf);
+        }
+    }
+
+    stbtid DigfstMfthod unmbrshbl(Elfmfnt dmElfm) throws MbrshblExdfption {
+        String blg = DOMUtils.gftAttributfVbluf(dmElfm, "Algorithm");
+        if (blg.fqubls(DigfstMfthod.SHA1)) {
+            rfturn nfw SHA1(dmElfm);
+        } flsf if (blg.fqubls(DigfstMfthod.SHA256)) {
+            rfturn nfw SHA256(dmElfm);
+        } flsf if (blg.fqubls(SHA384)) {
+            rfturn nfw SHA384(dmElfm);
+        } flsf if (blg.fqubls(DigfstMfthod.SHA512)) {
+            rfturn nfw SHA512(dmElfm);
+        } flsf {
+            throw nfw MbrshblExdfption("unsupportfd DigfstMfthod blgorithm: " +
+                                       blg);
+        }
+    }
+
+    /**
+     * Chfdks if thf spfdififd pbrbmftfrs brf vblid for this blgorithm. By
+     * dffbult, this mfthod throws bn fxdfption if pbrbmftfrs brf spfdififd
+     * sindf most DigfstMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs
+     * should ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrbms thf blgorithm-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf pbrbmftfrs brf not
+     *    bppropribtf for this digfst mfthod
+     */
+    void dhfdkPbrbms(DigfstMfthodPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("no pbrbmftfrs " +
+                "should bf spfdififd for thf " + gftMfssbgfDigfstAlgorithm() +
+                " DigfstMfthod blgorithm");
+        }
+    }
+
+    publid finbl AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn pbrbms;
+    }
+
+    /**
+     * Unmbrshbls <dodf>DigfstMfthodPbrbmftfrSpfd</dodf> from thf spfdififd
+     * <dodf>Elfmfnt</dodf>.  By dffbult, this mfthod throws bn fxdfption sindf
+     * most DigfstMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs should
+     * ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrbmsElfm thf <dodf>Elfmfnt</dodf> holding thf input pbrbms
+     * @rfturn thf blgorithm-spfdifid <dodf>DigfstMfthodPbrbmftfrSpfd</dodf>
+     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf unmbrshbllfd
+     */
+    DigfstMfthodPbrbmftfrSpfd unmbrshblPbrbms(Elfmfnt pbrbmsElfm)
+        throws MbrshblExdfption
+    {
+        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
+                                   "bf spfdififd for thf " +
+                                   gftMfssbgfDigfstAlgorithm() +
+                                   " DigfstMfthod blgorithm");
+    }
+
+    /**
+     * This mfthod invokfs thf bbstrbdt {@link #mbrshblPbrbms mbrshblPbrbms}
+     * mfthod to mbrshbl bny blgorithm-spfdifid pbrbmftfrs.
+     */
+    publid void mbrshbl(Nodf pbrfnt, String prffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt dmElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "DigfstMfthod",
+                                                XMLSignbturf.XMLNS, prffix);
+        DOMUtils.sftAttributf(dmElfm, "Algorithm", gftAlgorithm());
+
+        if (pbrbms != null) {
+            mbrshblPbrbms(dmElfm, prffix);
+        }
+
+        pbrfnt.bppfndChild(dmElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof DigfstMfthod)) {
+            rfturn fblsf;
+        }
+        DigfstMfthod odm = (DigfstMfthod)o;
+
+        boolfbn pbrbmsEqubl = (pbrbms == null ? odm.gftPbrbmftfrSpfd() == null :
+            pbrbms.fqubls(odm.gftPbrbmftfrSpfd()));
+
+        rfturn (gftAlgorithm().fqubls(odm.gftAlgorithm()) && pbrbmsEqubl);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (pbrbms != null) {
+            rfsult = 31 * rfsult + pbrbms.hbshCodf();
+        }
+        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Mbrshbls thf blgorithm-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * bppfnds it to thf spfdififd pbrfnt flfmfnt. By dffbult, this mfthod
+     * throws bn fxdfption sindf most DigfstMfthod blgorithms do not hbvf
+     * pbrbmftfrs. Subdlbssfs should ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrfnt thf pbrfnt flfmfnt to bppfnd thf pbrbmftfrs to
+     * @pbrbm thf nbmfspbdf prffix to usf
+     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf mbrshbllfd
+     */
+    void mbrshblPbrbms(Elfmfnt pbrfnt, String prffix)
+        throws MbrshblExdfption
+    {
+        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
+                                   "bf spfdififd for thf " +
+                                   gftMfssbgfDigfstAlgorithm() +
+                                   " DigfstMfthod blgorithm");
+    }
+
+    /**
+     * Rfturns thf MfssbgfDigfst stbndbrd blgorithm nbmf.
+     */
+    bbstrbdt String gftMfssbgfDigfstAlgorithm();
+
+    stbtid finbl dlbss SHA1 fxtfnds DOMDigfstMfthod {
+        SHA1(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA1(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn DigfstMfthod.SHA1;
+        }
+        String gftMfssbgfDigfstAlgorithm() {
+            rfturn "SHA-1";
+        }
+    }
+
+    stbtid finbl dlbss SHA256 fxtfnds DOMDigfstMfthod {
+        SHA256(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA256(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn DigfstMfthod.SHA256;
+        }
+        String gftMfssbgfDigfstAlgorithm() {
+            rfturn "SHA-256";
+        }
+    }
+
+    stbtid finbl dlbss SHA384 fxtfnds DOMDigfstMfthod {
+        SHA384(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA384(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn SHA384;
+        }
+        String gftMfssbgfDigfstAlgorithm() {
+            rfturn "SHA-384";
+        }
+    }
+
+    stbtid finbl dlbss SHA512 fxtfnds DOMDigfstMfthod {
+        SHA512(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA512(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn DigfstMfthod.SHA512;
+        }
+        String gftMfssbgfDigfstAlgorithm() {
+            rfturn "SHA-512";
+        }
+    }
+}

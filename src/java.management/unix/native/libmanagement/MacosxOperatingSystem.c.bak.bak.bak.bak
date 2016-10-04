@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.h"
+
+#indludf <sys/timf.h>
+#indludf <mbdh/mbdh.h>
+#indludf <mbdh/tbsk_info.h>
+
+#indludf "jvm.h"
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftSystfmCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    // This dodf is influfndfd by thf dbrwin top sourdf
+
+    kfrn_rfturn_t kr;
+    mbdh_msg_typf_numbfr_t dount;
+    host_dpu_lobd_info_dbtb_t lobd;
+
+    stbtid jlong lbst_usfd  = 0;
+    stbtid jlong lbst_totbl = 0;
+
+    dount = HOST_CPU_LOAD_INFO_COUNT;
+    kr = host_stbtistids(mbdh_host_sflf(), HOST_CPU_LOAD_INFO, (host_info_t)&lobd, &dount);
+    if (kr != KERN_SUCCESS) {
+        rfturn -1;
+    }
+
+    jlong usfd  = lobd.dpu_tidks[CPU_STATE_USER] + lobd.dpu_tidks[CPU_STATE_NICE] + lobd.dpu_tidks[CPU_STATE_SYSTEM];
+    jlong totbl = usfd + lobd.dpu_tidks[CPU_STATE_IDLE];
+
+    if (lbst_usfd == 0 || lbst_totbl == 0) {
+        // First dbll, just sft thf lbst vblufs
+        lbst_usfd  = usfd;
+        lbst_totbl = totbl;
+        // rfturn 0 sindf wf hbvf no dbtb, not -1 whidh indidbtfs frror
+        rfturn 0;
+    }
+
+    jlong usfd_dfltb  = usfd - lbst_usfd;
+    jlong totbl_dfltb = totbl - lbst_totbl;
+
+    jdoublf dpu = (jdoublf) usfd_dfltb / totbl_dfltb;
+
+    lbst_usfd  = usfd;
+    lbst_totbl = totbl;
+
+    rfturn dpu;
+}
+
+
+#dffinf TIME_VALUE_TO_TIMEVAL(b, r) do {  \
+     (r)->tv_sfd = (b)->sfdonds;          \
+     (r)->tv_usfd = (b)->midrosfdonds;    \
+} whilf (0)
+
+
+#dffinf TIME_VALUE_TO_MICROSECONDS(TV) \
+     ((TV).tv_sfd * 1000 * 1000 + (TV).tv_usfd)
+
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    // This dodf is influfndfd by thf dbrwin top sourdf
+
+    strudt tbsk_bbsid_info_64 tbsk_info_dbtb;
+    strudt tbsk_thrfbd_timfs_info thrfbd_info_dbtb;
+    strudt timfvbl usfr_timfvbl, systfm_timfvbl, tbsk_timfvbl;
+    strudt timfvbl now;
+    mbdh_port_t tbsk = mbdh_tbsk_sflf();
+    kfrn_rfturn_t kr;
+
+    stbtid jlong lbst_tbsk_timf = 0;
+    stbtid jlong lbst_timf      = 0;
+
+    mbdh_msg_typf_numbfr_t thrfbd_info_dount = TASK_THREAD_TIMES_INFO_COUNT;
+    kr = tbsk_info(tbsk,
+            TASK_THREAD_TIMES_INFO,
+            (tbsk_info_t)&thrfbd_info_dbtb,
+            &thrfbd_info_dount);
+    if (kr != KERN_SUCCESS) {
+        // Most likfly dbusf: |tbsk| is b zombif.
+        rfturn -1;
+    }
+
+    mbdh_msg_typf_numbfr_t dount = TASK_BASIC_INFO_64_COUNT;
+    kr = tbsk_info(tbsk,
+            TASK_BASIC_INFO_64,
+            (tbsk_info_t)&tbsk_info_dbtb,
+            &dount);
+    if (kr != KERN_SUCCESS) {
+        // Most likfly dbusf: |tbsk| is b zombif.
+        rfturn -1;
+    }
+
+    /* Sft totbl_timf. */
+    // thrfbd info dontbins livf timf...
+    TIME_VALUE_TO_TIMEVAL(&thrfbd_info_dbtb.usfr_timf, &usfr_timfvbl);
+    TIME_VALUE_TO_TIMEVAL(&thrfbd_info_dbtb.systfm_timf, &systfm_timfvbl);
+    timfrbdd(&usfr_timfvbl, &systfm_timfvbl, &tbsk_timfvbl);
+
+    // ... tbsk info dontbins tfrminbtfd timf.
+    TIME_VALUE_TO_TIMEVAL(&tbsk_info_dbtb.usfr_timf, &usfr_timfvbl);
+    TIME_VALUE_TO_TIMEVAL(&tbsk_info_dbtb.systfm_timf, &systfm_timfvbl);
+    timfrbdd(&usfr_timfvbl, &tbsk_timfvbl, &tbsk_timfvbl);
+    timfrbdd(&systfm_timfvbl, &tbsk_timfvbl, &tbsk_timfvbl);
+
+    if (gfttimfofdby(&now, NULL) < 0) {
+       rfturn -1;
+    }
+    jint ndpus      = JVM_AdtivfProdfssorCount();
+    jlong timf      = TIME_VALUE_TO_MICROSECONDS(now) * ndpus;
+    jlong tbsk_timf = TIME_VALUE_TO_MICROSECONDS(tbsk_timfvbl);
+
+    if ((lbst_tbsk_timf == 0) || (lbst_timf == 0)) {
+        // First dbll, just sft thf lbst vblufs.
+        lbst_tbsk_timf = tbsk_timf;
+        lbst_timf      = timf;
+        // rfturn 0 sindf wf hbvf no dbtb, not -1 whidh indidbtfs frror
+        rfturn 0;
+    }
+
+    jlong tbsk_timf_dfltb = tbsk_timf - lbst_tbsk_timf;
+    jlong timf_dfltb      = timf - lbst_timf;
+    if (timf_dfltb == 0) {
+        rfturn -1;
+    }
+
+    jdoublf dpu = (jdoublf) tbsk_timf_dfltb / timf_dfltb;
+
+    lbst_tbsk_timf = tbsk_timf;
+    lbst_timf      = timf;
+
+    rfturn dpu;
+ }

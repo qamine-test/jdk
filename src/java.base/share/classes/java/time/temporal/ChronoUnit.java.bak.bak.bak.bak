@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.Durbtion;
+
+/**
+ * A stbndbrd sft of dbtf pfriods units.
+ * <p>
+ * This sft of units providf unit-bbsfd bddfss to mbnipulbtf b dbtf, timf or dbtf-timf.
+ * Thf stbndbrd sft of units dbn bf fxtfndfd by implfmfnting {@link TfmporblUnit}.
+ * <p>
+ * Thfsf units brf intfndfd to bf bpplidbblf in multiplf dblfndbr systfms.
+ * For fxbmplf, most non-ISO dblfndbr systfms dffinf units of yfbrs, months bnd dbys,
+ * just with slightly difffrfnt rulfs.
+ * Thf dodumfntbtion of fbdh unit fxplbins how it opfrbtfs.
+ *
+ * @implSpfd
+ * This is b finbl, immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum ChronoUnit implfmfnts TfmporblUnit {
+
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b nbnosfdond, thf smbllfst supportfd unit of timf.
+     * For thf ISO dblfndbr systfm, it is fqubl to thf 1,000,000,000th pbrt of thf sfdond unit.
+     */
+    NANOS("Nbnos", Durbtion.ofNbnos(1)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b midrosfdond.
+     * For thf ISO dblfndbr systfm, it is fqubl to thf 1,000,000th pbrt of thf sfdond unit.
+     */
+    MICROS("Midros", Durbtion.ofNbnos(1000)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b millisfdond.
+     * For thf ISO dblfndbr systfm, it is fqubl to thf 1000th pbrt of thf sfdond unit.
+     */
+    MILLIS("Millis", Durbtion.ofNbnos(1000_000)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b sfdond.
+     * For thf ISO dblfndbr systfm, it is fqubl to thf sfdond in thf SI systfm
+     * of units, fxdfpt bround b lfbp-sfdond.
+     */
+    SECONDS("Sfdonds", Durbtion.ofSfdonds(1)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b minutf.
+     * For thf ISO dblfndbr systfm, it is fqubl to 60 sfdonds.
+     */
+    MINUTES("Minutfs", Durbtion.ofSfdonds(60)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of bn hour.
+     * For thf ISO dblfndbr systfm, it is fqubl to 60 minutfs.
+     */
+    HOURS("Hours", Durbtion.ofSfdonds(3600)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of hblf b dby, bs usfd in AM/PM.
+     * For thf ISO dblfndbr systfm, it is fqubl to 12 hours.
+     */
+    HALF_DAYS("HblfDbys", Durbtion.ofSfdonds(43200)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b dby.
+     * For thf ISO dblfndbr systfm, it is thf stbndbrd dby from midnight to midnight.
+     * Thf fstimbtfd durbtion of b dby is {@dodf 24 Hours}.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to thf dby dffinfd by
+     * thf rising bnd sftting of thf Sun on Ebrth. It is not rfquirfd thbt dbys bfgin
+     * bt midnight - whfn donvfrting bftwffn dblfndbr systfms, thf dbtf should bf
+     * fquivblfnt bt middby.
+     */
+    DAYS("Dbys", Durbtion.ofSfdonds(86400)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b wffk.
+     * For thf ISO dblfndbr systfm, it is fqubl to 7 dbys.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys.
+     */
+    WEEKS("Wffks", Durbtion.ofSfdonds(7 * 86400L)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b month.
+     * For thf ISO dblfndbr systfm, thf lfngth of thf month vbrifs by month-of-yfbr.
+     * Thf fstimbtfd durbtion of b month is onf twflfth of {@dodf 365.2425 Dbys}.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys.
+     */
+    MONTHS("Months", Durbtion.ofSfdonds(31556952L / 12)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b yfbr.
+     * For thf ISO dblfndbr systfm, it is fqubl to 12 months.
+     * Thf fstimbtfd durbtion of b yfbr is {@dodf 365.2425 Dbys}.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * or months roughly fqubl to b yfbr dffinfd by thf pbssbgf of thf Ebrth bround thf Sun.
+     */
+    YEARS("Yfbrs", Durbtion.ofSfdonds(31556952L)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b dfdbdf.
+     * For thf ISO dblfndbr systfm, it is fqubl to 10 yfbrs.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
+     */
+    DECADES("Dfdbdfs", Durbtion.ofSfdonds(31556952L * 10L)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b dfntury.
+     * For thf ISO dblfndbr systfm, it is fqubl to 100 yfbrs.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
+     */
+    CENTURIES("Cfnturifs", Durbtion.ofSfdonds(31556952L * 100L)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b millfnnium.
+     * For thf ISO dblfndbr systfm, it is fqubl to 1000 yfbrs.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms it must dorrfspond to bn intfgrbl numbfr of dbys
+     * bnd is normblly bn intfgrbl numbfr of yfbrs.
+     */
+    MILLENNIA("Millfnnib", Durbtion.ofSfdonds(31556952L * 1000L)),
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of bn frb.
+     * Thf ISO dblfndbr systfm dofsn't hbvf frbs thus it is impossiblf to bdd
+     * bn frb to b dbtf or dbtf-timf.
+     * Thf fstimbtfd durbtion of thf frb is brtifidiblly dffinfd bs {@dodf 1,000,000,000 Yfbrs}.
+     * <p>
+     * Whfn usfd with othfr dblfndbr systfms thfrf brf no rfstridtions on thf unit.
+     */
+    ERAS("Erbs", Durbtion.ofSfdonds(31556952L * 1000_000_000L)),
+    /**
+     * Artifidibl unit thbt rfprfsfnts thf dondfpt of forfvfr.
+     * This is primbrily usfd with {@link TfmporblFifld} to rfprfsfnt unboundfd fiflds
+     * sudh bs thf yfbr or frb.
+     * Thf fstimbtfd durbtion of thf frb is brtifidiblly dffinfd bs thf lbrgfst durbtion
+     * supportfd by {@dodf Durbtion}.
+     */
+    FOREVER("Forfvfr", Durbtion.ofSfdonds(Long.MAX_VALUE, 999_999_999));
+
+    privbtf finbl String nbmf;
+    privbtf finbl Durbtion durbtion;
+
+    privbtf ChronoUnit(String nbmf, Durbtion fstimbtfdDurbtion) {
+        this.nbmf = nbmf;
+        this.durbtion = fstimbtfdDurbtion;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf fstimbtfd durbtion of this unit in thf ISO dblfndbr systfm.
+     * <p>
+     * All of thf units in this dlbss hbvf bn fstimbtfd durbtion.
+     * Dbys vbry duf to dbylight sbving timf, whilf months hbvf difffrfnt lfngths.
+     *
+     * @rfturn thf fstimbtfd durbtion of this unit, not null
+     */
+    @Ovfrridf
+    publid Durbtion gftDurbtion() {
+        rfturn durbtion;
+    }
+
+    /**
+     * Chfdks if thf durbtion of thf unit is bn fstimbtf.
+     * <p>
+     * All timf units in this dlbss brf donsidfrfd to bf bddurbtf, whilf bll dbtf
+     * units in this dlbss brf donsidfrfd to bf fstimbtfd.
+     * <p>
+     * This dffinition ignorfs lfbp sfdonds, but donsidfrs thbt Dbys vbry duf to
+     * dbylight sbving timf bnd months hbvf difffrfnt lfngths.
+     *
+     * @rfturn truf if thf durbtion is fstimbtfd, fblsf if bddurbtf
+     */
+    @Ovfrridf
+    publid boolfbn isDurbtionEstimbtfd() {
+        rfturn this.dompbrfTo(DAYS) >= 0;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this unit is b dbtf unit.
+     * <p>
+     * All units from dbys to frbs indlusivf brf dbtf-bbsfd.
+     * Timf-bbsfd units bnd {@dodf FOREVER} rfturn fblsf.
+     *
+     * @rfturn truf if b dbtf unit, fblsf if b timf unit
+     */
+    @Ovfrridf
+    publid boolfbn isDbtfBbsfd() {
+        rfturn this.dompbrfTo(DAYS) >= 0 && this != FOREVER;
+    }
+
+    /**
+     * Chfdks if this unit is b timf unit.
+     * <p>
+     * All units from nbnos to hblf-dbys indlusivf brf timf-bbsfd.
+     * Dbtf-bbsfd units bnd {@dodf FOREVER} rfturn fblsf.
+     *
+     * @rfturn truf if b timf unit, fblsf if b dbtf unit
+     */
+    @Ovfrridf
+    publid boolfbn isTimfBbsfd() {
+        rfturn this.dompbrfTo(DAYS) < 0;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.isSupportfd(this);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount) {
+        rfturn (R) tfmporbl.plus(bmount, this);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf) {
+        rfturn tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, this);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+}

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
 /**
- * Provides information on the accessibility of a type or type component.
- * Mirrors for program elements which allow an
- * an access specifier (private, protected, public) provide information
- * on that part of the declaration through this interface.
+ * Providfs informbtion on tif bddfssibility of b typf or typf domponfnt.
+ * Mirrors for progrbm flfmfnts wiidi bllow bn
+ * bn bddfss spfdififr (privbtf, protfdtfd, publid) providf informbtion
+ * on tibt pbrt of tif dfdlbrbtion tirougi tiis intfrfbdf.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface Accessible {
+@jdk.Exportfd
+publid intfrfbdf Addfssiblf {
 
     /**
-     * Returns the Java<sup><font size=-2>TM</font></sup>
-     * programming language modifiers, encoded in an integer.
+     * Rfturns tif Jbvb<sup><font sizf=-2>TM</font></sup>
+     * progrbmming lbngubgf modififrs, fndodfd in bn intfgfr.
      * <p>
-     * The modifier encodings are defined in
-     * <cite>The Java&trade; Virtual Machine Specification</cite>
-     * in the <code>access_flag</code> tables for classes(section 4.1), fields(section 4.5), and methods(section 4.6).
+     * Tif modififr fndodings brf dffinfd in
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+     * in tif <dodf>bddfss_flbg</dodf> tbblfs for dlbssfs(sfdtion 4.1), fiflds(sfdtion 4.5), bnd mftiods(sfdtion 4.6).
      */
-    public int modifiers();
+    publid int modififrs();
 
     /**
-     * Determines if this object mirrors a private item.
-     * For {@link ArrayType}, the return value depends on the
-     * array component type. For primitive arrays the return value
-     * is always false. For object arrays, the return value is the
-     * same as would be returned for the component type.
-     * For primitive classes, such as {@link java.lang.Integer#TYPE},
-     * the return value is always false.
+     * Dftfrminfs if tiis objfdt mirrors b privbtf itfm.
+     * For {@link ArrbyTypf}, tif rfturn vbluf dfpfnds on tif
+     * brrby domponfnt typf. For primitivf brrbys tif rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, tif rfturn vbluf is tif
+     * sbmf bs would bf rfturnfd for tif domponfnt typf.
+     * For primitivf dlbssfs, sudi bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * tif rfturn vbluf is blwbys fblsf.
      *
-     * @return <code>true</code> for items with private access;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> for itfms witi privbtf bddfss;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isPrivate();
+    boolfbn isPrivbtf();
 
     /**
-     * Determines if this object mirrors a package private item.
-     * A package private item is declared with no access specifier.
-     * For {@link ArrayType}, the return value depends on the
-     * array component type. For primitive arrays the return value
-     * is always false. For object arrays, the return value is the
-     * same as would be returned for the component type.
-     * For primitive classes, such as {@link java.lang.Integer#TYPE},
-     * the return value is always false.
+     * Dftfrminfs if tiis objfdt mirrors b pbdkbgf privbtf itfm.
+     * A pbdkbgf privbtf itfm is dfdlbrfd witi no bddfss spfdififr.
+     * For {@link ArrbyTypf}, tif rfturn vbluf dfpfnds on tif
+     * brrby domponfnt typf. For primitivf brrbys tif rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, tif rfturn vbluf is tif
+     * sbmf bs would bf rfturnfd for tif domponfnt typf.
+     * For primitivf dlbssfs, sudi bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * tif rfturn vbluf is blwbys fblsf.
      *
-     * @return <code>true</code> for items with package private access;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> for itfms witi pbdkbgf privbtf bddfss;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isPackagePrivate();
+    boolfbn isPbdkbgfPrivbtf();
 
     /**
-     * Determines if this object mirrors a protected item.
-     * For {@link ArrayType}, the return value depends on the
-     * array component type. For primitive arrays the return value
-     * is always false. For object arrays, the return value is the
-     * same as would be returned for the component type.
-     * For primitive classes, such as {@link java.lang.Integer#TYPE},
-     * the return value is always false.
+     * Dftfrminfs if tiis objfdt mirrors b protfdtfd itfm.
+     * For {@link ArrbyTypf}, tif rfturn vbluf dfpfnds on tif
+     * brrby domponfnt typf. For primitivf brrbys tif rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, tif rfturn vbluf is tif
+     * sbmf bs would bf rfturnfd for tif domponfnt typf.
+     * For primitivf dlbssfs, sudi bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * tif rfturn vbluf is blwbys fblsf.
      *
-     * @return <code>true</code> for items with private access;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> for itfms witi privbtf bddfss;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isProtected();
+    boolfbn isProtfdtfd();
 
     /**
-     * Determines if this object mirrors a public item.
-     * For {@link ArrayType}, the return value depends on the
-     * array component type. For primitive arrays the return value
-     * is always true. For object arrays, the return value is the
-     * same as would be returned for the component type.
-     * For primitive classes, such as {@link java.lang.Integer#TYPE},
-     * the return value is always true.
+     * Dftfrminfs if tiis objfdt mirrors b publid itfm.
+     * For {@link ArrbyTypf}, tif rfturn vbluf dfpfnds on tif
+     * brrby domponfnt typf. For primitivf brrbys tif rfturn vbluf
+     * is blwbys truf. For objfdt brrbys, tif rfturn vbluf is tif
+     * sbmf bs would bf rfturnfd for tif domponfnt typf.
+     * For primitivf dlbssfs, sudi bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * tif rfturn vbluf is blwbys truf.
      *
-     * @return <code>true</code> for items with public access;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> for itfms witi publid bddfss;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isPublic();
+    boolfbn isPublid();
 }

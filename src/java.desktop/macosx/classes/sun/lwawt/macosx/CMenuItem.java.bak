@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import sun.awt.SunToolkit;
-import sun.lwawt.LWToolkit;
+import sun.bwt.SunToolkit;
+import sun.lwbwt.LWToolkit;
 
-import java.awt.MenuContainer;
-import java.awt.MenuItem;
-import java.awt.MenuShortcut;
-import java.awt.event.*;
-import java.awt.peer.MenuItemPeer;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.bwt.MfnuContbinfr;
+import jbvb.bwt.MfnuItfm;
+import jbvb.bwt.MfnuSiortdut;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.MfnuItfmPffr;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 
-public class CMenuItem extends CMenuComponent implements MenuItemPeer {
+publid dlbss CMfnuItfm fxtfnds CMfnuComponfnt implfmfnts MfnuItfmPffr {
 
-    private final AtomicBoolean enabled = new AtomicBoolean(true);
+    privbtf finbl AtomidBoolfbn fnbblfd = nfw AtomidBoolfbn(truf);
 
-    public CMenuItem(MenuItem target) {
-        super(target);
-        initialize(target);
+    publid CMfnuItfm(MfnuItfm tbrgft) {
+        supfr(tbrgft);
+        initiblizf(tbrgft);
     }
 
-    // This way we avoiding invocation of the setters twice
-    protected void initialize(MenuItem target) {
-        if (!isSeparator()) {
-            setLabel(target.getLabel());
-            setEnabled(target.isEnabled());
+    // Tiis wby wf bvoiding invodbtion of tif sfttfrs twidf
+    protfdtfd void initiblizf(MfnuItfm tbrgft) {
+        if (!isSfpbrbtor()) {
+            sftLbbfl(tbrgft.gftLbbfl());
+            sftEnbblfd(tbrgft.isEnbblfd());
         }
     }
 
-    private boolean isSeparator() {
-        String label = ((MenuItem)getTarget()).getLabel();
-        return (label != null && label.equals("-"));
+    privbtf boolfbn isSfpbrbtor() {
+        String lbbfl = ((MfnuItfm)gftTbrgft()).gftLbbfl();
+        rfturn (lbbfl != null && lbbfl.fqubls("-"));
     }
 
-    @Override
-    protected long createModel() {
-        CMenuComponent parent = (CMenuComponent)LWToolkit.targetToPeer(getTarget().getParent());
-        return nativeCreate(parent.getModel(), isSeparator());
+    @Ovfrridf
+    protfdtfd long drfbtfModfl() {
+        CMfnuComponfnt pbrfnt = (CMfnuComponfnt)LWToolkit.tbrgftToPffr(gftTbrgft().gftPbrfnt());
+        rfturn nbtivfCrfbtf(pbrfnt.gftModfl(), isSfpbrbtor());
     }
 
-    public void setLabel(String label, char keyChar, int keyCode, int modifiers) {
-        int keyMask = modifiers;
-        if (keyCode == KeyEvent.VK_UNDEFINED) {
-            MenuShortcut shortcut = ((MenuItem)getTarget()).getShortcut();
+    publid void sftLbbfl(String lbbfl, dibr kfyCibr, int kfyCodf, int modififrs) {
+        int kfyMbsk = modififrs;
+        if (kfyCodf == KfyEvfnt.VK_UNDEFINED) {
+            MfnuSiortdut siortdut = ((MfnuItfm)gftTbrgft()).gftSiortdut();
 
-            if (shortcut != null) {
-                keyCode = shortcut.getKey();
-                keyMask |= InputEvent.META_MASK;
+            if (siortdut != null) {
+                kfyCodf = siortdut.gftKfy();
+                kfyMbsk |= InputEvfnt.META_MASK;
 
-                if (shortcut.usesShiftModifier()) {
-                    keyMask |= InputEvent.SHIFT_MASK;
+                if (siortdut.usfsSiiftModififr()) {
+                    kfyMbsk |= InputEvfnt.SHIFT_MASK;
                 }
             }
         }
 
-        if (label == null) {
-            label = "";
+        if (lbbfl == null) {
+            lbbfl = "";
         }
 
-        // <rdar://problem/3654824>
-        // Native code uses a keyChar of 0 to indicate that the
-        // keyCode should be used to generate the shortcut.  Translate
+        // <rdbr://problfm/3654824>
+        // Nbtivf dodf usfs b kfyCibr of 0 to indidbtf tibt tif
+        // kfyCodf siould bf usfd to gfnfrbtf tif siortdut.  Trbnslbtf
         // CHAR_UNDEFINED into 0.
-        if (keyChar == KeyEvent.CHAR_UNDEFINED) {
-            keyChar = 0;
+        if (kfyCibr == KfyEvfnt.CHAR_UNDEFINED) {
+            kfyCibr = 0;
         }
 
-        nativeSetLabel(getModel(), label, keyChar, keyCode, keyMask);
+        nbtivfSftLbbfl(gftModfl(), lbbfl, kfyCibr, kfyCodf, kfyMbsk);
     }
 
-    @Override
-    public void setLabel(String label) {
-        setLabel(label, (char)0, KeyEvent.VK_UNDEFINED, 0);
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        sftLbbfl(lbbfl, (dibr)0, KfyEvfnt.VK_UNDEFINED, 0);
     }
 
     /**
-     * This is new API that we've added to AWT menu items
-     * because AWT menu items are used for Swing screen menu bars
-     * and we want to support the NSMenuItem image apis.
-     * There isn't a need to expose this except in a instanceof because
-     * it isn't defined in the peer api.
+     * Tiis is nfw API tibt wf'vf bddfd to AWT mfnu itfms
+     * bfdbusf AWT mfnu itfms brf usfd for Swing sdrffn mfnu bbrs
+     * bnd wf wbnt to support tif NSMfnuItfm imbgf bpis.
+     * Tifrf isn't b nffd to fxposf tiis fxdfpt in b instbndfof bfdbusf
+     * it isn't dffinfd in tif pffr bpi.
      */
-    public void setImage(java.awt.Image img) {
-        CImage cimg = CImage.getCreator().createFromImage(img);
-        nativeSetImage(getModel(), cimg == null ? 0L : cimg.ptr);
+    publid void sftImbgf(jbvb.bwt.Imbgf img) {
+        CImbgf dimg = CImbgf.gftCrfbtor().drfbtfFromImbgf(img);
+        nbtivfSftImbgf(gftModfl(), dimg == null ? 0L : dimg.ptr);
     }
 
     /**
-     * New API for tooltips
+     * Nfw API for tooltips
      */
-    public void setToolTipText(String text) {
-        nativeSetTooltip(getModel(), text);
+    publid void sftToolTipTfxt(String tfxt) {
+        nbtivfSftTooltip(gftModfl(), tfxt);
     }
 
-//    @Override
-    public void enable() {
-        setEnabled(true);
+//    @Ovfrridf
+    publid void fnbblf() {
+        sftEnbblfd(truf);
     }
 
-//    @Override
-    public void disable() {
-        setEnabled(false);
+//    @Ovfrridf
+    publid void disbblf() {
+        sftEnbblfd(fblsf);
     }
 
-    public final boolean isEnabled() {
-        return enabled.get();
+    publid finbl boolfbn isEnbblfd() {
+        rfturn fnbblfd.gft();
     }
 
-    @Override
-    public void setEnabled(boolean b) {
-        final Object parent = LWToolkit.targetToPeer(getTarget().getParent());
-        if (parent instanceof CMenuItem) {
-            b &= ((CMenuItem) parent).isEnabled();
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn b) {
+        finbl Objfdt pbrfnt = LWToolkit.tbrgftToPffr(gftTbrgft().gftPbrfnt());
+        if (pbrfnt instbndfof CMfnuItfm) {
+            b &= ((CMfnuItfm) pbrfnt).isEnbblfd();
         }
-        if (enabled.compareAndSet(!b, b)) {
-            nativeSetEnabled(getModel(), b);
+        if (fnbblfd.dompbrfAndSft(!b, b)) {
+            nbtivfSftEnbblfd(gftModfl(), b);
         }
     }
 
-    private native long nativeCreate(long parentMenu, boolean isSeparator);
-    private native void nativeSetLabel(long modelPtr, String label, char keyChar, int keyCode, int modifiers);
-    private native void nativeSetImage(long modelPtr, long image);
-    private native void nativeSetTooltip(long modelPtr, String text);
-    private native void nativeSetEnabled(long modelPtr, boolean b);
+    privbtf nbtivf long nbtivfCrfbtf(long pbrfntMfnu, boolfbn isSfpbrbtor);
+    privbtf nbtivf void nbtivfSftLbbfl(long modflPtr, String lbbfl, dibr kfyCibr, int kfyCodf, int modififrs);
+    privbtf nbtivf void nbtivfSftImbgf(long modflPtr, long imbgf);
+    privbtf nbtivf void nbtivfSftTooltip(long modflPtr, String tfxt);
+    privbtf nbtivf void nbtivfSftEnbblfd(long modflPtr, boolfbn b);
 
-    // native callbacks
-    void handleAction(final long when, final int modifiers) {
-        SunToolkit.executeOnEventHandlerThread(getTarget(), new Runnable() {
-            public void run() {
-                final String cmd = ((MenuItem)getTarget()).getActionCommand();
-                final ActionEvent event = new ActionEvent(getTarget(), ActionEvent.ACTION_PERFORMED, cmd, when, modifiers);
-                SunToolkit.postEvent(SunToolkit.targetToAppContext(getTarget()), event);
+    // nbtivf dbllbbdks
+    void ibndlfAdtion(finbl long wifn, finbl int modififrs) {
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(gftTbrgft(), nfw Runnbblf() {
+            publid void run() {
+                finbl String dmd = ((MfnuItfm)gftTbrgft()).gftAdtionCommbnd();
+                finbl AdtionEvfnt fvfnt = nfw AdtionEvfnt(gftTbrgft(), AdtionEvfnt.ACTION_PERFORMED, dmd, wifn, modififrs);
+                SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(gftTbrgft()), fvfnt);
             }
         });
     }

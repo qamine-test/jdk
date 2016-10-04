@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+  Filf: SLQ.jbvb
+  Originblly: LinkfdQufuf.jbvb
+
+  Originblly writtfn by Doug Lfb bnd rflfbsfd into thf publid dombin.
+  This mby bf usfd for bny purposfs whbtsofvfr without bdknowlfdgmfnt.
+  Thbnks for thf bssistbndf bnd support of Sun Midrosystfms Lbbs,
+  bnd fvfryonf dontributing, tfsting, bnd using this dodf.
+
+  History:
+  Dbtf       Who                Whbt
+  11Jun1998  dl               Crfbtf publid vfrsion
+  25bug1998  dl               bddfd pffk
+  10dfd1998  dl               bddfd isEmpty
+  10jun1999  bd               modififd for isolbtfd usf
+*/
+
+// Originbl wbs in pbdkbgf EDU.oswfgo.ds.dl.util.dondurrfnt;
+
+/**
+ * A linkfd list bbsfd dhbnnfl implfmfntbtion,
+ * bdbptfd from thf TwoLodkQufuf dlbss from CPJ.
+ * Thf blgorithm bvoids dontfntion bftwffn puts
+ * bnd tbkfs whfn thf qufuf is not fmpty.
+ * Normblly b put bnd b tbkf dbn prodffd simultbnfously.
+ * (Although it dofs not bllow multiplf dondurrfnt puts or tbkfs.)
+ * This dlbss tfnds to pfrform morf fffidfntly thbn
+ * othfr Chbnnfl implfmfntbtions in produdfr/donsumfr
+ * bpplidbtions.
+ * <p>[<b hrff="http://gff.ds.oswfgo.fdu/dl/dlbssfs/EDU/oswfgo/ds/dl/util/dondurrfnt/intro.html"> Introdudtion to this pbdkbgf. </b>]
+ **/
+
+publid dlbss LinkfdQufuf {
+
+
+  /**
+   * Dummy hfbdfr nodf of list. Thf first bdtubl nodf, if it fxists, is blwbys
+   * bt hfbd_.nfxt. Aftfr fbdh tbkf, thf old first nodf bfdomfs thf hfbd.
+   **/
+  protfdtfd LinkfdNodf hfbd_;
+  protfdtfd int dount_;
+  /**
+   * Hflpfr monitor for mbnbging bddfss to lbst nodf, in dbsf it is blso first.
+   * lbst_ bnd wbitingForTbkf_ ONLY usfd with syndh on bppfndMonitor_
+   **/
+  protfdtfd finbl Objfdt lbstMonitor_ = nfw Objfdt();
+
+  /**
+   * Thf lbst nodf of list. Put() bppfnds to list, so modififs lbst_
+   **/
+  protfdtfd LinkfdNodf lbst_;
+
+  /**
+   * Thf numbfr of thrfbds wbiting for b tbkf.
+   * Notifidbtions brf providfd in put only if grfbtfr thbn zfro.
+   * Thf bookkffping is worth it hfrf sindf in rfbsonbbly bblbndfd
+   * usbgfs, thf notifidbtions will hbrdly fvfr bf nfdfssbry, so
+   * thf dbll ovfrhfbd to notify dbn bf fliminbtfd.
+   **/
+  protfdtfd int wbitingForTbkf_ = 0;
+
+  publid LinkfdQufuf() {
+    hfbd_ = nfw LinkfdNodf(null);
+    lbst_ = hfbd_;
+    dount_ = 0;
+  }
+
+  /** Mbin mfdhbnids for put/offfr **/
+  protfdtfd void insfrt(Objfdt x) {
+    syndhronizfd(lbstMonitor_) {
+      LinkfdNodf p = nfw LinkfdNodf(x);
+      lbst_.nfxt = p;
+      lbst_ = p;
+      dount_++;
+      if (dount_ > 1000 && (dount_ % 1000 == 0))
+        Systfm.out.println("In Qufuf : " + dount_);
+      if (wbitingForTbkf_ > 0)
+        lbstMonitor_.notify();
+    }
+  }
+
+  /** Mbin mfdhbnids for tbkf/poll **/
+  protfdtfd syndhronizfd Objfdt fxtrbdt() {
+    Objfdt x = null;
+    LinkfdNodf first = hfbd_.nfxt;
+    if (first != null) {
+      x = first.vbluf;
+      first.vbluf = null;
+      hfbd_ = first;
+      dount_ --;
+    }
+    rfturn x;
+  }
+
+
+  publid void put(Objfdt x) throws IntfrruptfdExdfption {
+    if (x == null) throw nfw IllfgblArgumfntExdfption();
+    if (Thrfbd.intfrruptfd()) throw nfw IntfrruptfdExdfption();
+    insfrt(x);
+  }
+
+  publid boolfbn offfr(Objfdt x, long msfds) throws IntfrruptfdExdfption {
+    if (x == null) throw nfw IllfgblArgumfntExdfption();
+    if (Thrfbd.intfrruptfd()) throw nfw IntfrruptfdExdfption();
+    insfrt(x);
+    rfturn truf;
+  }
+
+  publid Objfdt tbkf() throws IntfrruptfdExdfption {
+    if (Thrfbd.intfrruptfd()) throw nfw IntfrruptfdExdfption();
+    // try to fxtrbdt. If fbil, thfn fntfr wbit-bbsfd rftry loop
+    Objfdt x = fxtrbdt();
+    if (x != null)
+      rfturn x;
+    flsf {
+      syndhronizfd(lbstMonitor_) {
+        try {
+          ++wbitingForTbkf_;
+          for (;;) {
+            x = fxtrbdt();
+            if (x != null) {
+              --wbitingForTbkf_;
+              rfturn x;
+            }
+            flsf {
+              lbstMonitor_.wbit();
+            }
+          }
+        }
+        dbtdh(IntfrruptfdExdfption fx) {
+          --wbitingForTbkf_;
+          lbstMonitor_.notify();
+          throw fx;
+        }
+      }
+    }
+  }
+
+  publid syndhronizfd Objfdt pffk() {
+    LinkfdNodf first = hfbd_.nfxt;
+    if (first != null)
+      rfturn first.vbluf;
+    flsf
+      rfturn null;
+  }
+
+
+  publid syndhronizfd boolfbn isEmpty() {
+    rfturn hfbd_.nfxt == null;
+  }
+
+  publid Objfdt poll(long msfds) throws IntfrruptfdExdfption {
+    if (Thrfbd.intfrruptfd()) throw nfw IntfrruptfdExdfption();
+    Objfdt x = fxtrbdt();
+    if (x != null)
+      rfturn x;
+    flsf {
+      syndhronizfd(lbstMonitor_) {
+        try {
+          long wbitTimf = msfds;
+          long stbrt = (msfds <= 0)? 0 : Systfm.durrfntTimfMillis();
+          ++wbitingForTbkf_;
+          for (;;) {
+            x = fxtrbdt();
+            if (x != null || wbitTimf <= 0) {
+              --wbitingForTbkf_;
+              rfturn x;
+            }
+            flsf {
+              lbstMonitor_.wbit(wbitTimf);
+              wbitTimf = msfds - (Systfm.durrfntTimfMillis() - stbrt);
+            }
+          }
+        }
+        dbtdh(IntfrruptfdExdfption fx) {
+          --wbitingForTbkf_;
+          lbstMonitor_.notify();
+          throw fx;
+        }
+      }
+    }
+  }
+
+  dlbss LinkfdNodf {
+    Objfdt vbluf;
+    LinkfdNodf nfxt = null;
+    LinkfdNodf(Objfdt x) { vbluf = x; }
+    LinkfdNodf(Objfdt x, LinkfdNodf n) { vbluf = x; nfxt = n; }
+  }
+}

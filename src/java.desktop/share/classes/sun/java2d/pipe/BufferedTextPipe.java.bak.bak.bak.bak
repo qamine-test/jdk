@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Compositf;
+import sun.font.GlyphList;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+publid bbstrbdt dlbss BufffrfdTfxtPipf fxtfnds GlyphListPipf {
+
+    @Nbtivf privbtf stbtid finbl int BYTES_PER_GLYPH_IMAGE = 8;
+    @Nbtivf privbtf stbtid finbl int BYTES_PER_GLYPH_POSITION = 8;
+
+    /**
+     * Thf following offsfts brf usfd to pbdk thf pbrbmftfrs in
+     * drfbtfPbdkfdPbrbms().  (Thfy brf blso usfd bt thf nbtivf lfvfl whfn
+     * unpbdking thf pbrbms.)
+     */
+    @Nbtivf privbtf stbtid finbl int OFFSET_CONTRAST  = 8;
+    @Nbtivf privbtf stbtid finbl int OFFSET_RGBORDER  = 2;
+    @Nbtivf privbtf stbtid finbl int OFFSET_SUBPIXPOS = 1;
+    @Nbtivf privbtf stbtid finbl int OFFSET_POSITIONS = 0;
+
+    /**
+     * Pbdks thf givfn pbrbmftfrs into b singlf int vbluf in ordfr to sbvf
+     * spbdf on thf rfndfring qufuf.  Notf thbt most of thfsf pbrbmftfrs
+     * brf only usfd for rfndfring LCD-optimizfd tfxt, but donditionblizing
+     * this work wouldn't mbkf bny impbdt on pfrformbndf, so wf will pbdk
+     * thosf pbrbmftfrs fvfn in thf non-LCD dbsf.
+     */
+    privbtf stbtid int drfbtfPbdkfdPbrbms(SunGrbphids2D sg2d, GlyphList gl) {
+        rfturn
+            (((gl.usfPositions() ? 1 : 0)   << OFFSET_POSITIONS) |
+             ((gl.isSubPixPos()  ? 1 : 0)   << OFFSET_SUBPIXPOS) |
+             ((gl.isRGBOrdfr()   ? 1 : 0)   << OFFSET_RGBORDER ) |
+             ((sg2d.lddTfxtContrbst & 0xff) << OFFSET_CONTRAST ));
+    }
+
+    protfdtfd finbl RfndfrQufuf rq;
+
+    protfdtfd BufffrfdTfxtPipf(RfndfrQufuf rq) {
+        this.rq = rq;
+    }
+
+    @Ovfrridf
+    protfdtfd void drbwGlyphList(SunGrbphids2D sg2d, GlyphList gl) {
+        /*
+         * Thf nbtivf drbwGlyphList() only works with two dompositf typfs:
+         *    - CompositfTypf.SrdOvfr (with bny fxtrb blphb), or
+         *    - CompositfTypf.Xor
+         */
+        Compositf domp = sg2d.dompositf;
+        if (domp == AlphbCompositf.Srd) {
+            /*
+             * In bddition to thf dompositf typfs listfd bbovf, thf logid
+             * in OGL/D3DSurfbdfDbtb.vblidbtfPipf() bllows for
+             * CompositfTypf.SrdNoEb, but only in thf prfsfndf of bn opbquf
+             * dolor.  If wf rfbdh this dbsf, wf know thf dolor is opbquf,
+             * bnd thfrfforf SrdNoEb is thf sbmf bs SrdOvfrNoEb, so wf
+             * ovfrridf thf dompositf hfrf.
+             */
+            domp = AlphbCompositf.SrdOvfr;
+        }
+
+        rq.lodk();
+        try {
+            vblidbtfContfxt(sg2d, domp);
+            fnqufufGlyphList(sg2d, gl);
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    privbtf void fnqufufGlyphList(finbl SunGrbphids2D sg2d,
+                                  finbl GlyphList gl)
+    {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        RfndfrBufffr buf = rq.gftBufffr();
+        finbl int totblGlyphs = gl.gftNumGlyphs();
+        int glyphBytfsRfquirfd = totblGlyphs * BYTES_PER_GLYPH_IMAGE;
+        int posBytfsRfquirfd =
+            gl.usfPositions() ? totblGlyphs * BYTES_PER_GLYPH_POSITION : 0;
+        int totblBytfsRfquirfd = 24 + glyphBytfsRfquirfd + posBytfsRfquirfd;
+
+        finbl long[] imbgfs = gl.gftImbgfs();
+        finbl flobt glyphListOrigX = gl.gftX() + 0.5f;
+        finbl flobt glyphListOrigY = gl.gftY() + 0.5f;
+
+        // mbkf surf thf RfndfrQufuf kffps b hbrd rfffrfndf to thf FontStrikf
+        // so thbt thf bssodibtfd glyph imbgfs brf not disposfd whilf fnqufufd
+        rq.bddRfffrfndf(gl.gftStrikf());
+
+        if (totblBytfsRfquirfd <= buf.dbpbdity()) {
+            if (totblBytfsRfquirfd > buf.rfmbining()) {
+                // prodfss thf qufuf first bnd thfn fnqufuf thf glyphs
+                rq.flushNow();
+            }
+            rq.fnsurfAlignmfnt(20);
+            buf.putInt(DRAW_GLYPH_LIST);
+            // fnqufuf pbrbmftfrs
+            buf.putInt(totblGlyphs);
+            buf.putInt(drfbtfPbdkfdPbrbms(sg2d, gl));
+            buf.putFlobt(glyphListOrigX);
+            buf.putFlobt(glyphListOrigY);
+            // now fnqufuf glyph informbtion
+            buf.put(imbgfs, 0, totblGlyphs);
+            if (gl.usfPositions()) {
+                flobt[] positions = gl.gftPositions();
+                buf.put(positions, 0, 2*totblGlyphs);
+            }
+        } flsf {
+            // qufuf is too smbll to bddommodbtf glyphs; pfrform
+            // thf opfrbtion dirfdtly on thf qufuf flushing thrfbd
+            rq.flushAndInvokfNow(nfw Runnbblf() {
+                publid void run() {
+                    drbwGlyphList(totblGlyphs, gl.usfPositions(),
+                                  gl.isSubPixPos(), gl.isRGBOrdfr(),
+                                  sg2d.lddTfxtContrbst,
+                                  glyphListOrigX, glyphListOrigY,
+                                  imbgfs, gl.gftPositions());
+                }
+            });
+        }
+    }
+
+    /**
+     * Cbllfd bs b sfpbrbtf Runnbblf whfn thf opfrbtion is too lbrgf to fit
+     * on thf RfndfrQufuf.  Thf OGL/D3D pipflinfs fbdh hbvf thfir own (smbll)
+     * nbtivf implfmfntbtion of this mfthod.
+     */
+    protfdtfd bbstrbdt void drbwGlyphList(int numGlyphs, boolfbn usfPositions,
+                                          boolfbn subPixPos, boolfbn rgbOrdfr,
+                                          int lddContrbst,
+                                          flobt glOrigX, flobt glOrigY,
+                                          long[] imbgfs, flobt[] positions);
+
+    /**
+     * Vblidbtfs thf stbtf in thf providfd SunGrbphids2D objfdt.
+     */
+    protfdtfd bbstrbdt void vblidbtfContfxt(SunGrbphids2D sg2d,
+                                            Compositf domp);
+}

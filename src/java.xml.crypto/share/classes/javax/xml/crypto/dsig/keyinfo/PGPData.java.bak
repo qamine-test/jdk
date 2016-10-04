@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: PGPData.java,v 1.4 2005/05/10 16:35:35 mullan Exp $
+ * $Id: PGPDbtb.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
 
-import java.util.Collections;
-import java.util.List;
-import javax.xml.crypto.XMLStructure;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvbx.xml.drypto.XMLStrudturf;
 
 /**
- * A representation of the XML <code>PGPData</code> element as defined in
- * the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>. A
- * <code>PGPData</code> object is used to convey information related to
- * PGP public key pairs and signatures on such keys. The XML Schema Definition
- * is defined as:
+ * A rfprfsfntbtion of tif XML <dodf>PGPDbtb</dodf> flfmfnt bs dffinfd in
+ * tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>. A
+ * <dodf>PGPDbtb</dodf> objfdt is usfd to donvfy informbtion rflbtfd to
+ * PGP publid kfy pbirs bnd signbturfs on sudi kfys. Tif XML Sdifmb Dffinition
+ * is dffinfd bs:
  *
- * <pre>
- *    &lt;element name="PGPData" type="ds:PGPDataType"/&gt;
- *    &lt;complexType name="PGPDataType"&gt;
- *      &lt;choice&gt;
- *        &lt;sequence&gt;
- *          &lt;element name="PGPKeyID" type="base64Binary"/&gt;
- *          &lt;element name="PGPKeyPacket" type="base64Binary" minOccurs="0"/&gt;
- *          &lt;any namespace="##other" processContents="lax" minOccurs="0"
- *           maxOccurs="unbounded"/&gt;
- *        &lt;/sequence&gt;
- *        &lt;sequence&gt;
- *          &lt;element name="PGPKeyPacket" type="base64Binary"/&gt;
- *          &lt;any namespace="##other" processContents="lax" minOccurs="0"
- *           maxOccurs="unbounded"/&gt;
- *        &lt;/sequence&gt;
- *      &lt;/choice&gt;
- *    &lt;/complexType&gt;
- * </pre>
+ * <prf>
+ *    &lt;flfmfnt nbmf="PGPDbtb" typf="ds:PGPDbtbTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="PGPDbtbTypf"&gt;
+ *      &lt;dioidf&gt;
+ *        &lt;sfqufndf&gt;
+ *          &lt;flfmfnt nbmf="PGPKfyID" typf="bbsf64Binbry"/&gt;
+ *          &lt;flfmfnt nbmf="PGPKfyPbdkft" typf="bbsf64Binbry" minOddurs="0"/&gt;
+ *          &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx" minOddurs="0"
+ *           mbxOddurs="unboundfd"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *        &lt;sfqufndf&gt;
+ *          &lt;flfmfnt nbmf="PGPKfyPbdkft" typf="bbsf64Binbry"/&gt;
+ *          &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx" minOddurs="0"
+ *           mbxOddurs="unboundfd"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *      &lt;/dioidf&gt;
+ *    &lt;/domplfxTypf&gt;
+ * </prf>
  *
- * A <code>PGPData</code> instance may be created by invoking one of the
- * {@link KeyInfoFactory#newPGPData newPGPData} methods of the {@link
- * KeyInfoFactory} class, and passing it
- * <code>byte</code> arrays representing the contents of the PGP public key
- * identifier and/or PGP key material packet, and an optional list of
- * elements from an external namespace.
+ * A <dodf>PGPDbtb</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * {@link KfyInfoFbdtory#nfwPGPDbtb nfwPGPDbtb} mftiods of tif {@link
+ * KfyInfoFbdtory} dlbss, bnd pbssing it
+ * <dodf>bytf</dodf> brrbys rfprfsfnting tif dontfnts of tif PGP publid kfy
+ * idfntififr bnd/or PGP kfy mbtfribl pbdkft, bnd bn optionbl list of
+ * flfmfnts from bn fxtfrnbl nbmfspbdf.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see KeyInfoFactory#newPGPData(byte[])
- * @see KeyInfoFactory#newPGPData(byte[], byte[], List)
- * @see KeyInfoFactory#newPGPData(byte[], List)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwPGPDbtb(bytf[])
+ * @sff KfyInfoFbdtory#nfwPGPDbtb(bytf[], bytf[], List)
+ * @sff KfyInfoFbdtory#nfwPGPDbtb(bytf[], List)
  */
-public interface PGPData extends XMLStructure {
+publid intfrfbdf PGPDbtb fxtfnds XMLStrudturf {
 
     /**
-     * URI identifying the PGPData KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#PGPData. This can be specified as the
-     * value of the <code>type</code> parameter of the {@link RetrievalMethod}
-     * class to describe a remote <code>PGPData</code> structure.
+     * URI idfntifying tif PGPDbtb KfyInfo typf:
+     * ittp://www.w3.org/2000/09/xmldsig#PGPDbtb. Tiis dbn bf spfdififd bs tif
+     * vbluf of tif <dodf>typf</dodf> pbrbmftfr of tif {@link RftrifvblMftiod}
+     * dlbss to dfsdribf b rfmotf <dodf>PGPDbtb</dodf> strudturf.
      */
-    final static String TYPE = "http://www.w3.org/2000/09/xmldsig#PGPData";
+    finbl stbtid String TYPE = "ittp://www.w3.org/2000/09/xmldsig#PGPDbtb";
 
     /**
-     * Returns the PGP public key identifier of this <code>PGPData</code> as
-     * defined in <a href="http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>,
-     * section 11.2.
+     * Rfturns tif PGP publid kfy idfntififr of tiis <dodf>PGPDbtb</dodf> bs
+     * dffinfd in <b irff="ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>,
+     * sfdtion 11.2.
      *
-     * @return the PGP public key identifier (may be <code>null</code> if
-     *    not specified). Each invocation of this method returns a new clone
-     *    to protect against subsequent modification.
+     * @rfturn tif PGP publid kfy idfntififr (mby bf <dodf>null</dodf> if
+     *    not spfdififd). Ebdi invodbtion of tiis mftiod rfturns b nfw dlonf
+     *    to protfdt bgbinst subsfqufnt modifidbtion.
      */
-    byte[] getKeyId();
+    bytf[] gftKfyId();
 
     /**
-     * Returns the PGP key material packet of this <code>PGPData</code> as
-     * defined in <a href="http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>,
-     * section 5.5.
+     * Rfturns tif PGP kfy mbtfribl pbdkft of tiis <dodf>PGPDbtb</dodf> bs
+     * dffinfd in <b irff="ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>,
+     * sfdtion 5.5.
      *
-     * @return the PGP key material packet (may be <code>null</code> if not
-     *    specified). Each invocation of this method returns a new clone to
-     *    protect against subsequent modification.
+     * @rfturn tif PGP kfy mbtfribl pbdkft (mby bf <dodf>null</dodf> if not
+     *    spfdififd). Ebdi invodbtion of tiis mftiod rfturns b nfw dlonf to
+     *    protfdt bgbinst subsfqufnt modifidbtion.
      */
-    byte[] getKeyPacket();
+    bytf[] gftKfyPbdkft();
 
     /**
-     * Returns an {@link Collections#unmodifiableList unmodifiable list}
-     * of {@link XMLStructure}s representing elements from an external
-     * namespace.
+     * Rfturns bn {@link Collfdtions#unmodifibblfList unmodifibblf list}
+     * of {@link XMLStrudturf}s rfprfsfnting flfmfnts from bn fxtfrnbl
+     * nbmfspbdf.
      *
-     * @return an unmodifiable list of <code>XMLStructure</code>s (may be
-     *    empty, but never <code>null</code>)
+     * @rfturn bn unmodifibblf list of <dodf>XMLStrudturf</dodf>s (mby bf
+     *    fmpty, but nfvfr <dodf>null</dodf>)
      */
-    @SuppressWarnings("rawtypes")
-    List getExternalElements();
+    @SupprfssWbrnings("rbwtypfs")
+    List gftExtfrnblElfmfnts();
 }

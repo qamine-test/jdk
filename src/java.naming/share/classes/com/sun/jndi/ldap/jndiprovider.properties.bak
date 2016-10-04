@@ -1,16 +1,16 @@
-# Provider resource file for the LDAP service provider.
+# Providfr rfsourdf filf for tif LDAP sfrvidf providfr.
 
-# Factory for the response controls supported by this release.
-java.naming.factory.control=com.sun.jndi.ldap.ctl.ResponseControlFactory
+# Fbdtory for tif rfsponsf dontrols supportfd by tiis rflfbsf.
+jbvb.nbming.fbdtory.dontrol=dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory
 
-# AttrsToCorba: Turn entry with corbaObject objectclass into a org.omg.CORBA.Object
-# MarshalledToObject: Turn entry with javaMarshalledObject into UnmarshalledObject
-java.naming.factory.object=com.sun.jndi.ldap.obj.AttrsToCorba:com.sun.jndi.ldap.obj.MarshalledToObject
+# AttrsToCorbb: Turn fntry witi dorbbObjfdt objfdtdlbss into b org.omg.CORBA.Objfdt
+# MbrsibllfdToObjfdt: Turn fntry witi jbvbMbrsibllfdObjfdt into UnmbrsibllfdObjfdt
+jbvb.nbming.fbdtory.objfdt=dom.sun.jndi.ldbp.obj.AttrsToCorbb:dom.sun.jndi.ldbp.obj.MbrsibllfdToObjfdt
 
-# RemoteToAttrs: Turn RMI/JRMP and RMI/IIOP object into javaMarshalledObject or
-# 		corbaObject LDAP entry
-# CorbaToAttrs: Turn CORBA object into corbaObject LDAP entry
-# RemoteToCorbaToAttrs: Turn RMI/IIOP object into corbaObject LDAP entry. 
-#  Note that there is no need to specify this in list unless RemoteToAttrs is
-#  removed because RemotetoAttrs already handles this case
-java.naming.factory.state=com.sun.jndi.ldap.obj.RemoteToAttrs:com.sun.jndi.ldap.obj.CorbaToAttrs
+# RfmotfToAttrs: Turn RMI/JRMP bnd RMI/IIOP objfdt into jbvbMbrsibllfdObjfdt or
+# 		dorbbObjfdt LDAP fntry
+# CorbbToAttrs: Turn CORBA objfdt into dorbbObjfdt LDAP fntry
+# RfmotfToCorbbToAttrs: Turn RMI/IIOP objfdt into dorbbObjfdt LDAP fntry. 
+#  Notf tibt tifrf is no nffd to spfdify tiis in list unlfss RfmotfToAttrs is
+#  rfmovfd bfdbusf RfmotftoAttrs blrfbdy ibndlfs tiis dbsf
+jbvb.nbming.fbdtory.stbtf=dom.sun.jndi.ldbp.obj.RfmotfToAttrs:dom.sun.jndi.ldbp.obj.CorbbToAttrs

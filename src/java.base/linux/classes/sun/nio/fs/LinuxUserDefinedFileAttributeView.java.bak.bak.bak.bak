@@ -1,0 +1,350 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.UnixConstbnts.*;
+import stbtid sun.nio.fs.LinuxNbtivfDispbtdhfr.*;
+
+/**
+ * Linux implfmfntbtion of UsfrDffinfdFilfAttributfVifw using fxtfndfd bttributfs.
+ */
+
+dlbss LinuxUsfrDffinfdFilfAttributfVifw
+    fxtfnds AbstrbdtUsfrDffinfdFilfAttributfVifw
+{
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    // nbmfspbdf for fxtfndfd usfr bttributfs
+    privbtf stbtid finbl String USER_NAMESPACE = "usfr.";
+
+    // mbximum bytfs in fxtfndfd bttributf nbmf (indludfs nbmfspbdf)
+    privbtf stbtid finbl int XATTR_NAME_MAX = 255;
+
+    privbtf bytf[] nbmfAsBytfs(UnixPbth filf, String nbmf) throws IOExdfption {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("'nbmf' is null");
+        nbmf = USER_NAMESPACE + nbmf;
+        bytf[] bytfs = Util.toBytfs(nbmf);
+        if (bytfs.lfngth > XATTR_NAME_MAX) {
+            throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                null, "'" + nbmf + "' is too big");
+        }
+        rfturn bytfs;
+    }
+
+    // Pbrsfs bufffr bs brrby of NULL-tfrminbtfd C strings.
+    privbtf List<String> bsList(long bddrfss, int sizf) {
+        List<String> list = nfw ArrbyList<>();
+        int stbrt = 0;
+        int pos = 0;
+        whilf (pos < sizf) {
+            if (unsbff.gftBytf(bddrfss + pos) == 0) {
+                int lfn = pos - stbrt;
+                bytf[] vbluf = nfw bytf[lfn];
+                unsbff.dopyMfmory(null, bddrfss+stbrt, vbluf,
+                    Unsbff.ARRAY_BYTE_BASE_OFFSET, lfn);
+                String s = Util.toString(vbluf);
+                if (s.stbrtsWith(USER_NAMESPACE)) {
+                    s = s.substring(USER_NAMESPACE.lfngth());
+                    list.bdd(s);
+                }
+                stbrt = pos + 1;
+            }
+            pos++;
+        }
+        rfturn list;
+    }
+
+    privbtf finbl UnixPbth filf;
+    privbtf finbl boolfbn followLinks;
+
+    LinuxUsfrDffinfdFilfAttributfVifw(UnixPbth filf, boolfbn followLinks) {
+        this.filf = filf;
+        this.followLinks = followLinks;
+    }
+
+    @Ovfrridf
+    publid List<String> list() throws IOExdfption  {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        NbtivfBufffr bufffr = null;
+        try {
+            int sizf = 1024;
+            bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+            for (;;) {
+                try {
+                    int n = flistxbttr(fd, bufffr.bddrfss(), sizf);
+                    List<String> list = bsList(bufffr.bddrfss(), n);
+                    rfturn Collfdtions.unmodifibblfList(list);
+                } dbtdh (UnixExdfption x) {
+                    // bllodbtf lbrgfr bufffr if rfquirfd
+                    if (x.frrno() == ERANGE && sizf < 32*1024) {
+                        bufffr.rflfbsf();
+                        sizf *= 2;
+                        bufffr = null;
+                        bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+                        dontinuf;
+                    }
+                    throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                        null, "Unbblf to gft list of fxtfndfd bttributfs: " +
+                        x.gftMfssbgf());
+                }
+            }
+        } finblly {
+            if (bufffr != null)
+                bufffr.rflfbsf();
+            dlosf(fd);
+        }
+    }
+
+    @Ovfrridf
+    publid int sizf(String nbmf) throws IOExdfption  {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+            // fgftxbttr rfturns sizf if dbllfd with sizf==0
+            rfturn fgftxbttr(fd, nbmfAsBytfs(filf,nbmf), 0L, 0);
+        } dbtdh (UnixExdfption x) {
+            throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                null, "Unbblf to gft sizf of fxtfndfd bttributf '" + nbmf +
+                "': " + x.gftMfssbgf());
+        } finblly {
+            dlosf(fd);
+        }
+    }
+
+    @Ovfrridf
+    publid int rfbd(String nbmf, BytfBufffr dst) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), truf, fblsf);
+
+        if (dst.isRfbdOnly())
+            throw nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        int pos = dst.position();
+        int lim = dst.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+
+        NbtivfBufffr nb;
+        long bddrfss;
+        if (dst instbndfof sun.nio.dh.DirfdtBufffr) {
+            nb = null;
+            bddrfss = ((sun.nio.dh.DirfdtBufffr)dst).bddrfss() + pos;
+        } flsf {
+            // substitutf with nbtivf bufffr
+            nb = NbtivfBufffrs.gftNbtivfBufffr(rfm);
+            bddrfss = nb.bddrfss();
+        }
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+            try {
+                int n = fgftxbttr(fd, nbmfAsBytfs(filf,nbmf), bddrfss, rfm);
+
+                // if rfmbining is zfro thfn fgftxbttr rfturns thf sizf
+                if (rfm == 0) {
+                    if (n > 0)
+                        throw nfw UnixExdfption(ERANGE);
+                    rfturn 0;
+                }
+
+                // dopy from bufffr into bbdking brrby if nfdfssbry
+                if (nb != null) {
+                    int off = dst.brrbyOffsft() + pos + Unsbff.ARRAY_BYTE_BASE_OFFSET;
+                    unsbff.dopyMfmory(null, bddrfss, dst.brrby(), off, n);
+                }
+                dst.position(pos + n);
+                rfturn n;
+            } dbtdh (UnixExdfption x) {
+                String msg = (x.frrno() == ERANGE) ?
+                    "Insuffidifnt spbdf in bufffr" : x.gftMfssbgf();
+                throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                    null, "Error rfbding fxtfndfd bttributf '" + nbmf + "': " + msg);
+            } finblly {
+                dlosf(fd);
+            }
+        } finblly {
+            if (nb != null)
+                nb.rflfbsf();
+        }
+    }
+
+    @Ovfrridf
+    publid int writf(String nbmf, BytfBufffr srd) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), fblsf, truf);
+
+        int pos = srd.position();
+        int lim = srd.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+
+        NbtivfBufffr nb;
+        long bddrfss;
+        if (srd instbndfof sun.nio.dh.DirfdtBufffr) {
+            nb = null;
+            bddrfss = ((sun.nio.dh.DirfdtBufffr)srd).bddrfss() + pos;
+        } flsf {
+            // substitutf with nbtivf bufffr
+            nb = NbtivfBufffrs.gftNbtivfBufffr(rfm);
+            bddrfss = nb.bddrfss();
+
+            if (srd.hbsArrby()) {
+                // dopy from bbdking brrby into bufffr
+                int off = srd.brrbyOffsft() + pos + Unsbff.ARRAY_BYTE_BASE_OFFSET;
+                unsbff.dopyMfmory(srd.brrby(), off, null, bddrfss, rfm);
+            } flsf {
+                // bbdking brrby not bddfssiblf so trbnsffr vib tfmporbry brrby
+                bytf[] tmp = nfw bytf[rfm];
+                srd.gft(tmp);
+                srd.position(pos);  // rfsft position bs writf mby fbil
+                unsbff.dopyMfmory(tmp, Unsbff.ARRAY_BYTE_BASE_OFFSET, null,
+                    bddrfss, rfm);
+            }
+        }
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+            try {
+                fsftxbttr(fd, nbmfAsBytfs(filf,nbmf), bddrfss, rfm);
+                srd.position(pos + rfm);
+                rfturn rfm;
+            } dbtdh (UnixExdfption x) {
+                throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                    null, "Error writing fxtfndfd bttributf '" + nbmf + "': " +
+                    x.gftMfssbgf());
+            } finblly {
+                dlosf(fd);
+            }
+        } finblly {
+            if (nb != null)
+                nb.rflfbsf();
+        }
+    }
+
+    @Ovfrridf
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            dhfdkAddfss(filf.gftPbthForPfrmissionChfdk(), fblsf, truf);
+
+        int fd = filf.opfnForAttributfAddfss(followLinks);
+        try {
+            frfmovfxbttr(fd, nbmfAsBytfs(filf,nbmf));
+        } dbtdh (UnixExdfption x) {
+            throw nfw FilfSystfmExdfption(filf.gftPbthForExdfptionMfssbgf(),
+                null, "Unbblf to dflftf fxtfndfd bttributf '" + nbmf + "': " + x.gftMfssbgf());
+        } finblly {
+            dlosf(fd);
+        }
+    }
+
+    /**
+     * Usfd by dopyTo/movfTo to dopy fxtfndfd bttributfs from sourdf to tbrgft.
+     *
+     * @pbrbm   ofd
+     *          filf dfsdriptor for sourdf filf
+     * @pbrbm   nfd
+     *          filf dfsdriptor for tbrgft filf
+     */
+    stbtid void dopyExtfndfdAttributfs(int ofd, int nfd) {
+        NbtivfBufffr bufffr = null;
+        try {
+
+            // dbll flistxbttr to gft list of fxtfndfd bttributfs.
+            int sizf = 1024;
+            bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+            for (;;) {
+                try {
+                    sizf = flistxbttr(ofd, bufffr.bddrfss(), sizf);
+                    brfbk;
+                } dbtdh (UnixExdfption x) {
+                    // bllodbtf lbrgfr bufffr if rfquirfd
+                    if (x.frrno() == ERANGE && sizf < 32*1024) {
+                        bufffr.rflfbsf();
+                        sizf *= 2;
+                        bufffr = null;
+                        bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+                        dontinuf;
+                    }
+
+                    // unbblf to gft list of bttributfs
+                    rfturn;
+                }
+            }
+
+            // pbrsf bufffr bs brrby of NULL-tfrminbtfd C strings.
+            long bddrfss = bufffr.bddrfss();
+            int stbrt = 0;
+            int pos = 0;
+            whilf (pos < sizf) {
+                if (unsbff.gftBytf(bddrfss + pos) == 0) {
+                    // fxtrbdt bttributf nbmf bnd dopy bttributf to tbrgft.
+                    // FIXME: Wf dbn bvoid nffdlfss dopying by using bddrfss+pos
+                    // bs thf bddrfss of thf nbmf.
+                    int lfn = pos - stbrt;
+                    bytf[] nbmf = nfw bytf[lfn];
+                    unsbff.dopyMfmory(null, bddrfss+stbrt, nbmf,
+                        Unsbff.ARRAY_BYTE_BASE_OFFSET, lfn);
+                    try {
+                        dopyExtfndfdAttributf(ofd, nbmf, nfd);
+                    } dbtdh (UnixExdfption ignorf) {
+                        // ignorf
+                    }
+                    stbrt = pos + 1;
+                }
+                pos++;
+            }
+
+        } finblly {
+            if (bufffr != null)
+                bufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid void dopyExtfndfdAttributf(int ofd, bytf[] nbmf, int nfd)
+        throws UnixExdfption
+    {
+        int sizf = fgftxbttr(ofd, nbmf, 0L, 0);
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+        try {
+            long bddrfss = bufffr.bddrfss();
+            sizf = fgftxbttr(ofd, nbmf, bddrfss, sizf);
+            fsftxbttr(nfd, nbmf, bddrfss, sizf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+}

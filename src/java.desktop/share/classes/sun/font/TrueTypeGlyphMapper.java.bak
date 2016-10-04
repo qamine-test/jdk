@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.nio.ByteBuffer;
-import java.util.Locale;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Lodblf;
 
-public class TrueTypeGlyphMapper extends CharToGlyphMapper {
+publid dlbss TrufTypfGlypiMbppfr fxtfnds CibrToGlypiMbppfr {
 
-    static final char REVERSE_SOLIDUS = 0x005c; // the backslash char.
-    static final char JA_YEN = 0x00a5;
-    static final char JA_FULLWIDTH_TILDE_CHAR = 0xff5e;
-    static final char JA_WAVE_DASH_CHAR = 0x301c;
+    stbtid finbl dibr REVERSE_SOLIDUS = 0x005d; // tif bbdkslbsi dibr.
+    stbtid finbl dibr JA_YEN = 0x00b5;
+    stbtid finbl dibr JA_FULLWIDTH_TILDE_CHAR = 0xff5f;
+    stbtid finbl dibr JA_WAVE_DASH_CHAR = 0x301d;
 
-    /* if running on Solaris and default Locale is ja_JP then
-     * we map need to remap reverse solidus (backslash) to Yen as
-     * apparently expected there.
+    /* if running on Solbris bnd dffbult Lodblf is jb_JP tifn
+     * wf mbp nffd to rfmbp rfvfrsf solidus (bbdkslbsi) to Yfn bs
+     * bppbrfntly fxpfdtfd tifrf.
      */
-    static final boolean isJAlocale = Locale.JAPAN.equals(Locale.getDefault());
-    private final boolean needsJAremapping;
-    private boolean remapJAWaveDash;
+    stbtid finbl boolfbn isJAlodblf = Lodblf.JAPAN.fqubls(Lodblf.gftDffbult());
+    privbtf finbl boolfbn nffdsJArfmbpping;
+    privbtf boolfbn rfmbpJAWbvfDbsi;
 
-    TrueTypeFont font;
-    CMap cmap;
-    int numGlyphs;
+    TrufTypfFont font;
+    CMbp dmbp;
+    int numGlypis;
 
-    public TrueTypeGlyphMapper(TrueTypeFont font) {
-        this.font = font;
+    publid TrufTypfGlypiMbppfr(TrufTypfFont font) {
+        tiis.font = font;
         try {
-            cmap = CMap.initialize(font);
-        } catch (Exception e) {
-            cmap = null;
+            dmbp = CMbp.initiblizf(font);
+        } dbtdi (Exdfption f) {
+            dmbp = null;
         }
-        if (cmap == null) {
-            handleBadCMAP();
+        if (dmbp == null) {
+            ibndlfBbdCMAP();
         }
-        missingGlyph = 0; /* standard for TrueType fonts */
-        ByteBuffer buffer = font.getTableBuffer(TrueTypeFont.maxpTag);
-        numGlyphs = buffer.getChar(4); // offset 4 bytes in MAXP table.
-        if (FontUtilities.isSolaris && isJAlocale && font.supportsJA()) {
-            needsJAremapping = true;
-            if (FontUtilities.isSolaris8 &&
-                getGlyphFromCMAP(JA_WAVE_DASH_CHAR) == missingGlyph) {
-                remapJAWaveDash = true;
+        missingGlypi = 0; /* stbndbrd for TrufTypf fonts */
+        BytfBufffr bufffr = font.gftTbblfBufffr(TrufTypfFont.mbxpTbg);
+        numGlypis = bufffr.gftCibr(4); // offsft 4 bytfs in MAXP tbblf.
+        if (FontUtilitifs.isSolbris && isJAlodblf && font.supportsJA()) {
+            nffdsJArfmbpping = truf;
+            if (FontUtilitifs.isSolbris8 &&
+                gftGlypiFromCMAP(JA_WAVE_DASH_CHAR) == missingGlypi) {
+                rfmbpJAWbvfDbsi = truf;
             }
-        } else {
-            needsJAremapping = false;
+        } flsf {
+            nffdsJArfmbpping = fblsf;
         }
     }
 
-    public int getNumGlyphs() {
-        return numGlyphs;
+    publid int gftNumGlypis() {
+        rfturn numGlypis;
     }
 
-    private char getGlyphFromCMAP(int charCode) {
+    privbtf dibr gftGlypiFromCMAP(int dibrCodf) {
         try {
-            char glyphCode = cmap.getGlyph(charCode);
-            if (glyphCode < numGlyphs ||
-                glyphCode >= FileFontStrike.INVISIBLE_GLYPHS) {
-                return glyphCode;
-            } else {
-                if (FontUtilities.isLogging()) {
-                    FontUtilities.getLogger().warning
-                        (font + " out of range glyph id=" +
-                         Integer.toHexString((int)glyphCode) +
-                         " for char " + Integer.toHexString(charCode));
+            dibr glypiCodf = dmbp.gftGlypi(dibrCodf);
+            if (glypiCodf < numGlypis ||
+                glypiCodf >= FilfFontStrikf.INVISIBLE_GLYPHS) {
+                rfturn glypiCodf;
+            } flsf {
+                if (FontUtilitifs.isLogging()) {
+                    FontUtilitifs.gftLoggfr().wbrning
+                        (font + " out of rbngf glypi id=" +
+                         Intfgfr.toHfxString((int)glypiCodf) +
+                         " for dibr " + Intfgfr.toHfxString(dibrCodf));
                 }
-                return (char)missingGlyph;
+                rfturn (dibr)missingGlypi;
             }
-        } catch(Exception e) {
-            handleBadCMAP();
-            return (char) missingGlyph;
+        } dbtdi(Exdfption f) {
+            ibndlfBbdCMAP();
+            rfturn (dibr) missingGlypi;
         }
     }
 
-    private void handleBadCMAP() {
-        if (FontUtilities.isLogging()) {
-            FontUtilities.getLogger().severe("Null Cmap for " + font +
-                                      "substituting for this font");
+    privbtf void ibndlfBbdCMAP() {
+        if (FontUtilitifs.isLogging()) {
+            FontUtilitifs.gftLoggfr().sfvfrf("Null Cmbp for " + font +
+                                      "substituting for tiis font");
         }
-        SunFontManager.getInstance().deRegisterBadFont(font);
-        /* The next line is not really a solution, but might
-         * reduce the exceptions until references to this font2D
-         * are gone.
+        SunFontMbnbgfr.gftInstbndf().dfRfgistfrBbdFont(font);
+        /* Tif nfxt linf is not rfblly b solution, but migit
+         * rfdudf tif fxdfptions until rfffrfndfs to tiis font2D
+         * brf gonf.
          */
-        cmap = CMap.theNullCmap;
+        dmbp = CMbp.tifNullCmbp;
     }
 
-    @SuppressWarnings("fallthrough")
-    private final char remapJAChar(char unicode) {
-        switch (unicode) {
-        case REVERSE_SOLIDUS:
-            return JA_YEN;
-            /* This is a workaround for bug 4533422.
-             * Japanese wave dash missing from Solaris JA TrueType fonts.
+    @SupprfssWbrnings("fblltirougi")
+    privbtf finbl dibr rfmbpJACibr(dibr unidodf) {
+        switdi (unidodf) {
+        dbsf REVERSE_SOLIDUS:
+            rfturn JA_YEN;
+            /* Tiis is b workbround for bug 4533422.
+             * Jbpbnfsf wbvf dbsi missing from Solbris JA TrufTypf fonts.
              */
-        case JA_WAVE_DASH_CHAR:
-            if (remapJAWaveDash) {
-                return JA_FULLWIDTH_TILDE_CHAR;
+        dbsf JA_WAVE_DASH_CHAR:
+            if (rfmbpJAWbvfDbsi) {
+                rfturn JA_FULLWIDTH_TILDE_CHAR;
             }
-        default: return unicode;
+        dffbult: rfturn unidodf;
         }
     }
-    @SuppressWarnings("fallthrough")
-    private final int remapJAIntChar(int unicode) {
-        switch (unicode) {
-        case REVERSE_SOLIDUS:
-            return JA_YEN;
-            /* This is a workaround for bug 4533422.
-             * Japanese wave dash missing from Solaris JA TrueType fonts.
+    @SupprfssWbrnings("fblltirougi")
+    privbtf finbl int rfmbpJAIntCibr(int unidodf) {
+        switdi (unidodf) {
+        dbsf REVERSE_SOLIDUS:
+            rfturn JA_YEN;
+            /* Tiis is b workbround for bug 4533422.
+             * Jbpbnfsf wbvf dbsi missing from Solbris JA TrufTypf fonts.
              */
-        case JA_WAVE_DASH_CHAR:
-            if (remapJAWaveDash) {
-                return JA_FULLWIDTH_TILDE_CHAR;
+        dbsf JA_WAVE_DASH_CHAR:
+            if (rfmbpJAWbvfDbsi) {
+                rfturn JA_FULLWIDTH_TILDE_CHAR;
             }
-        default: return unicode;
+        dffbult: rfturn unidodf;
         }
     }
 
-    public int charToGlyph(char unicode) {
-        if (needsJAremapping) {
-            unicode = remapJAChar(unicode);
+    publid int dibrToGlypi(dibr unidodf) {
+        if (nffdsJArfmbpping) {
+            unidodf = rfmbpJACibr(unidodf);
         }
-        int glyph = getGlyphFromCMAP(unicode);
-        if (font.checkUseNatives() && glyph < font.glyphToCharMap.length) {
-            font.glyphToCharMap[glyph] = unicode;
+        int glypi = gftGlypiFromCMAP(unidodf);
+        if (font.difdkUsfNbtivfs() && glypi < font.glypiToCibrMbp.lfngti) {
+            font.glypiToCibrMbp[glypi] = unidodf;
         }
-        return glyph;
+        rfturn glypi;
     }
 
-    public int charToGlyph(int unicode) {
-        if (needsJAremapping) {
-            unicode = remapJAIntChar(unicode);
+    publid int dibrToGlypi(int unidodf) {
+        if (nffdsJArfmbpping) {
+            unidodf = rfmbpJAIntCibr(unidodf);
         }
-        int glyph = getGlyphFromCMAP(unicode);
-        if (font.checkUseNatives() && glyph < font.glyphToCharMap.length) {
-            font.glyphToCharMap[glyph] = (char)unicode;
+        int glypi = gftGlypiFromCMAP(unidodf);
+        if (font.difdkUsfNbtivfs() && glypi < font.glypiToCibrMbp.lfngti) {
+            font.glypiToCibrMbp[glypi] = (dibr)unidodf;
         }
-        return glyph;
+        rfturn glypi;
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        for (int i=0;i<count;i++) {
-            if (needsJAremapping) {
-                glyphs[i] = getGlyphFromCMAP(remapJAIntChar(unicodes[i]));
-            } else {
-                glyphs[i] = getGlyphFromCMAP(unicodes[i]);
+    publid void dibrsToGlypis(int dount, int[] unidodfs, int[] glypis) {
+        for (int i=0;i<dount;i++) {
+            if (nffdsJArfmbpping) {
+                glypis[i] = gftGlypiFromCMAP(rfmbpJAIntCibr(unidodfs[i]));
+            } flsf {
+                glypis[i] = gftGlypiFromCMAP(unidodfs[i]);
             }
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)unicodes[i];
+            if (font.difdkUsfNbtivfs() &&
+                glypis[i] < font.glypiToCibrMbp.lfngti) {
+                font.glypiToCibrMbp[glypis[i]] = (dibr)unidodfs[i];
             }
         }
     }
 
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
+    publid void dibrsToGlypis(int dount, dibr[] unidodfs, int[] glypis) {
 
-        for (int i=0; i<count; i++) {
-            int code;
-            if (needsJAremapping) {
-                code = remapJAChar(unicodes[i]);
-            } else {
-                code = unicodes[i]; // char is unsigned.
+        for (int i=0; i<dount; i++) {
+            int dodf;
+            if (nffdsJArfmbpping) {
+                dodf = rfmbpJACibr(unidodfs[i]);
+            } flsf {
+                dodf = unidodfs[i]; // dibr is unsignfd.
             }
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
 
-                    glyphs[i] = getGlyphFromCMAP(code);
-                    i += 1; // Empty glyph slot after surrogate
-                    glyphs[i] = INVISIBLE_GLYPH_ID;
-                    continue;
+                    glypis[i] = gftGlypiFromCMAP(dodf);
+                    i += 1; // Empty glypi slot bftfr surrogbtf
+                    glypis[i] = INVISIBLE_GLYPH_ID;
+                    dontinuf;
                 }
             }
-            glyphs[i] = getGlyphFromCMAP(code);
+            glypis[i] = gftGlypiFromCMAP(dodf);
 
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)code;
+            if (font.difdkUsfNbtivfs() &&
+                glypis[i] < font.glypiToCibrMbp.lfngti) {
+                font.glypiToCibrMbp[glypis[i]] = (dibr)dodf;
             }
 
         }
     }
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* Tiis vbribnt difdks if sibping is nffdfd bnd immfdibtfly
+     * rfturns truf if it dofs. A dbllfr of tiis mftiod siould bf fxpfdting
+     * to difdk tif rfturn typf bfdbusf it nffds to know iow to ibndlf
+     * tif dibrbdtfr dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    publid boolfbn dibrsToGlypisNS(int dount, dibr[] unidodfs, int[] glypis) {
 
-        for (int i=0; i<count; i++) {
-            int code;
-            if (needsJAremapping) {
-                code = remapJAChar(unicodes[i]);
-            } else {
-                code = unicodes[i]; // char is unsigned.
+        for (int i=0; i<dount; i++) {
+            int dodf;
+            if (nffdsJArfmbpping) {
+                dodf = rfmbpJACibr(unidodfs[i]);
+            } flsf {
+                dodf = unidodfs[i]; // dibr is unsignfd.
             }
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
-                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                    glypis[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
 
-            glyphs[i] = getGlyphFromCMAP(code);
-            if (font.checkUseNatives() &&
-                glyphs[i] < font.glyphToCharMap.length) {
-                font.glyphToCharMap[glyphs[i]] = (char)code;
+            glypis[i] = gftGlypiFromCMAP(dodf);
+            if (font.difdkUsfNbtivfs() &&
+                glypis[i] < font.glypiToCibrMbp.lfngti) {
+                font.glypiToCibrMbp[glypis[i]] = (dibr)dodf;
             }
 
-            if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
-                continue;
+            if (dodf < FontUtilitifs.MIN_LAYOUT_CHARCODE) {
+                dontinuf;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
-                return true;
+            flsf if (FontUtilitifs.isComplfxCibrCodf(dodf)) {
+                rfturn truf;
             }
-            else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
-                continue;
+            flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glypi slot bftfr surrogbtf
+                dontinuf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    /* A pretty good heuristic is that the cmap we are using
-     * supports 32 bit character codes.
+    /* A prftty good ifuristid is tibt tif dmbp wf brf using
+     * supports 32 bit dibrbdtfr dodfs.
      */
-    boolean hasSupplementaryChars() {
-        return
-            cmap instanceof CMap.CMapFormat8 ||
-            cmap instanceof CMap.CMapFormat10 ||
-            cmap instanceof CMap.CMapFormat12;
+    boolfbn ibsSupplfmfntbryCibrs() {
+        rfturn
+            dmbp instbndfof CMbp.CMbpFormbt8 ||
+            dmbp instbndfof CMbp.CMbpFormbt10 ||
+            dmbp instbndfof CMbp.CMbpFormbt12;
     }
 }

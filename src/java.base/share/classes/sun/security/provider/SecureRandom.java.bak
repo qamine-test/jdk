@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.SecureRandomSpi;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.SfdurfRbndomSpi;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
 
 /**
- * <p>This class provides a crytpographically strong pseudo-random number
- * generator based on the SHA-1 hash algorithm.
+ * <p>Tiis dlbss providfs b drytpogrbpiidblly strong psfudo-rbndom numbfr
+ * gfnfrbtor bbsfd on tif SHA-1 ibsi blgoritim.
  *
- * <p>Note that if a seed is not provided, we attempt to provide sufficient
- * seed bytes to completely randomize the internal state of the generator
- * (20 bytes).  However, our seed generation algorithm has not been thoroughly
- * studied or widely deployed.
+ * <p>Notf tibt if b sffd is not providfd, wf bttfmpt to providf suffidifnt
+ * sffd bytfs to domplftfly rbndomizf tif intfrnbl stbtf of tif gfnfrbtor
+ * (20 bytfs).  Howfvfr, our sffd gfnfrbtion blgoritim ibs not bffn tiorougily
+ * studifd or widfly dfployfd.
  *
- * <p>Also note that when a random object is deserialized,
- * <a href="#engineNextBytes(byte[])">engineNextBytes</a> invoked on the
- * restored random object will yield the exact same (random) bytes as the
- * original object.  If this behaviour is not desired, the restored random
- * object should be seeded, using
- * <a href="#engineSetSeed(byte[])">engineSetSeed</a>.
+ * <p>Also notf tibt wifn b rbndom objfdt is dfsfriblizfd,
+ * <b irff="#fnginfNfxtBytfs(bytf[])">fnginfNfxtBytfs</b> invokfd on tif
+ * rfstorfd rbndom objfdt will yifld tif fxbdt sbmf (rbndom) bytfs bs tif
+ * originbl objfdt.  If tiis bfibviour is not dfsirfd, tif rfstorfd rbndom
+ * objfdt siould bf sffdfd, using
+ * <b irff="#fnginfSftSffd(bytf[])">fnginfSftSffd</b>.
  *
- * @author Benjamin Renaud
- * @author Josh Bloch
- * @author Gadi Guy
+ * @butior Bfnjbmin Rfnbud
+ * @butior Josi Blodi
+ * @butior Gbdi Guy
  */
 
-public final class SecureRandom extends SecureRandomSpi
-implements java.io.Serializable {
+publid finbl dlbss SfdurfRbndom fxtfnds SfdurfRbndomSpi
+implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 3581829991155417889L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3581829991155417889L;
 
-    private static final int DIGEST_SIZE = 20;
-    private transient MessageDigest digest;
-    private byte[] state;
-    private byte[] remainder;
-    private int remCount;
+    privbtf stbtid finbl int DIGEST_SIZE = 20;
+    privbtf trbnsifnt MfssbgfDigfst digfst;
+    privbtf bytf[] stbtf;
+    privbtf bytf[] rfmbindfr;
+    privbtf int rfmCount;
 
     /**
-     * This empty constructor automatically seeds the generator.  We attempt
-     * to provide sufficient seed bytes to completely randomize the internal
-     * state of the generator (20 bytes).  Note, however, that our seed
-     * generation algorithm has not been thoroughly studied or widely deployed.
+     * Tiis fmpty donstrudtor butombtidblly sffds tif gfnfrbtor.  Wf bttfmpt
+     * to providf suffidifnt sffd bytfs to domplftfly rbndomizf tif intfrnbl
+     * stbtf of tif gfnfrbtor (20 bytfs).  Notf, iowfvfr, tibt our sffd
+     * gfnfrbtion blgoritim ibs not bffn tiorougily studifd or widfly dfployfd.
      *
-     * <p>The first time this constructor is called in a given Virtual Machine,
-     * it may take several seconds of CPU time to seed the generator, depending
-     * on the underlying hardware.  Successive calls run quickly because they
-     * rely on the same (internal) pseudo-random number generator for their
-     * seed bits.
+     * <p>Tif first timf tiis donstrudtor is dbllfd in b givfn Virtubl Mbdiinf,
+     * it mby tbkf sfvfrbl sfdonds of CPU timf to sffd tif gfnfrbtor, dfpfnding
+     * on tif undfrlying ibrdwbrf.  Suddfssivf dblls run quidkly bfdbusf tify
+     * rfly on tif sbmf (intfrnbl) psfudo-rbndom numbfr gfnfrbtor for tifir
+     * sffd bits.
      */
-    public SecureRandom() {
+    publid SfdurfRbndom() {
         init(null);
     }
 
     /**
-     * This constructor is used to instantiate the private seeder object
-     * with a given seed from the SeedGenerator.
+     * Tiis donstrudtor is usfd to instbntibtf tif privbtf sffdfr objfdt
+     * witi b givfn sffd from tif SffdGfnfrbtor.
      *
-     * @param seed the seed.
+     * @pbrbm sffd tif sffd.
      */
-    private SecureRandom(byte seed[]) {
-        init(seed);
+    privbtf SfdurfRbndom(bytf sffd[]) {
+        init(sffd);
     }
 
     /**
-     * This call, used by the constructors, instantiates the SHA digest
-     * and sets the seed, if given.
+     * Tiis dbll, usfd by tif donstrudtors, instbntibtfs tif SHA digfst
+     * bnd sfts tif sffd, if givfn.
      */
-    private void init(byte[] seed) {
+    privbtf void init(bytf[] sffd) {
         try {
             /*
-             * Use the local SUN implementation to avoid native
-             * performance overhead.
+             * Usf tif lodbl SUN implfmfntbtion to bvoid nbtivf
+             * pfrformbndf ovfrifbd.
              */
-            digest = MessageDigest.getInstance("SHA", "SUN");
-        } catch (NoSuchProviderException | NoSuchAlgorithmException e) {
-            // Fallback to any available.
+            digfst = MfssbgfDigfst.gftInstbndf("SHA", "SUN");
+        } dbtdi (NoSudiProvidfrExdfption | NoSudiAlgoritimExdfption f) {
+            // Fbllbbdk to bny bvbilbblf.
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException exc) {
-                throw new InternalError(
-                    "internal error: SHA-1 not available.", exc);
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption fxd) {
+                tirow nfw IntfrnblError(
+                    "intfrnbl frror: SHA-1 not bvbilbblf.", fxd);
             }
         }
 
-        if (seed != null) {
-           engineSetSeed(seed);
+        if (sffd != null) {
+           fnginfSftSffd(sffd);
         }
     }
 
     /**
-     * Returns the given number of seed bytes, computed using the seed
-     * generation algorithm that this class uses to seed itself.  This
-     * call may be used to seed other random number generators.  While
-     * we attempt to return a "truly random" sequence of bytes, we do not
-     * know exactly how random the bytes returned by this call are.  (See
-     * the empty constructor <a href = "#SecureRandom">SecureRandom</a>
-     * for a brief description of the underlying algorithm.)
-     * The prudent user will err on the side of caution and get extra
-     * seed bytes, although it should be noted that seed generation is
-     * somewhat costly.
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.  Wiilf
+     * wf bttfmpt to rfturn b "truly rbndom" sfqufndf of bytfs, wf do not
+     * know fxbdtly iow rbndom tif bytfs rfturnfd by tiis dbll brf.  (Sff
+     * tif fmpty donstrudtor <b irff = "#SfdurfRbndom">SfdurfRbndom</b>
+     * for b briff dfsdription of tif undfrlying blgoritim.)
+     * Tif prudfnt usfr will frr on tif sidf of dbution bnd gft fxtrb
+     * sffd bytfs, bltiougi it siould bf notfd tibt sffd gfnfrbtion is
+     * somfwibt dostly.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
      *
-     * @return the seed bytes.
+     * @rfturn tif sffd bytfs.
      */
-    @Override
-    public byte[] engineGenerateSeed(int numBytes) {
-        // Neither of the SeedGenerator implementations require
-        // locking, so no sync needed here.
-        byte[] b = new byte[numBytes];
-        SeedGenerator.generateSeed(b);
-        return b;
+    @Ovfrridf
+    publid bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        // Nfitifr of tif SffdGfnfrbtor implfmfntbtions rfquirf
+        // lodking, so no synd nffdfd ifrf.
+        bytf[] b = nfw bytf[numBytfs];
+        SffdGfnfrbtor.gfnfrbtfSffd(b);
+        rfturn b;
     }
 
     /**
-     * Reseeds this random object. The given seed supplements, rather than
-     * replaces, the existing seed. Thus, repeated calls are guaranteed
-     * never to reduce randomness.
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
      *
-     * @param seed the seed.
+     * @pbrbm sffd tif sffd.
      */
-    @Override
-    synchronized public void engineSetSeed(byte[] seed) {
-        if (state != null) {
-            digest.update(state);
-            for (int i = 0; i < state.length; i++) {
-                state[i] = 0;
+    @Ovfrridf
+    syndironizfd publid void fnginfSftSffd(bytf[] sffd) {
+        if (stbtf != null) {
+            digfst.updbtf(stbtf);
+            for (int i = 0; i < stbtf.lfngti; i++) {
+                stbtf[i] = 0;
             }
         }
-        state = digest.digest(seed);
+        stbtf = digfst.digfst(sffd);
     }
 
-    private static void updateState(byte[] state, byte[] output) {
-        int last = 1;
+    privbtf stbtid void updbtfStbtf(bytf[] stbtf, bytf[] output) {
+        int lbst = 1;
         int v;
-        byte t;
-        boolean zf = false;
+        bytf t;
+        boolfbn zf = fblsf;
 
-        // state(n + 1) = (state(n) + output(n) + 1) % 2^160;
-        for (int i = 0; i < state.length; i++) {
-            // Add two bytes
-            v = (int)state[i] + (int)output[i] + last;
-            // Result is lower 8 bits
-            t = (byte)v;
-            // Store result. Check for state collision.
-            zf = zf | (state[i] != t);
-            state[i] = t;
-            // High 8 bits are carry. Store for next iteration.
-            last = v >> 8;
+        // stbtf(n + 1) = (stbtf(n) + output(n) + 1) % 2^160;
+        for (int i = 0; i < stbtf.lfngti; i++) {
+            // Add two bytfs
+            v = (int)stbtf[i] + (int)output[i] + lbst;
+            // Rfsult is lowfr 8 bits
+            t = (bytf)v;
+            // Storf rfsult. Cifdk for stbtf dollision.
+            zf = zf | (stbtf[i] != t);
+            stbtf[i] = t;
+            // Higi 8 bits brf dbrry. Storf for nfxt itfrbtion.
+            lbst = v >> 8;
         }
 
-        // Make sure at least one bit changes!
+        // Mbkf surf bt lfbst onf bit dibngfs!
         if (!zf) {
-           state[0]++;
+           stbtf[0]++;
         }
     }
 
     /**
-     * This static object will be seeded by SeedGenerator, and used
-     * to seed future instances of SHA1PRNG SecureRandoms.
+     * Tiis stbtid objfdt will bf sffdfd by SffdGfnfrbtor, bnd usfd
+     * to sffd futurf instbndfs of SHA1PRNG SfdurfRbndoms.
      *
-     * Bloch, Effective Java Second Edition: Item 71
+     * Blodi, Efffdtivf Jbvb Sfdond Edition: Itfm 71
      */
-    private static class SeederHolder {
+    privbtf stbtid dlbss SffdfrHoldfr {
 
-        private static final SecureRandom seeder;
+        privbtf stbtid finbl SfdurfRbndom sffdfr;
 
-        static {
+        stbtid {
             /*
-             * Call to SeedGenerator.generateSeed() to add additional
-             * seed material (likely from the Native implementation).
+             * Cbll to SffdGfnfrbtor.gfnfrbtfSffd() to bdd bdditionbl
+             * sffd mbtfribl (likfly from tif Nbtivf implfmfntbtion).
              */
-            seeder = new SecureRandom(SeedGenerator.getSystemEntropy());
-            byte [] b = new byte[DIGEST_SIZE];
-            SeedGenerator.generateSeed(b);
-            seeder.engineSetSeed(b);
+            sffdfr = nfw SfdurfRbndom(SffdGfnfrbtor.gftSystfmEntropy());
+            bytf [] b = nfw bytf[DIGEST_SIZE];
+            SffdGfnfrbtor.gfnfrbtfSffd(b);
+            sffdfr.fnginfSftSffd(b);
         }
     }
 
     /**
-     * Generates a user-specified number of random bytes.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
      *
-     * @param bytes the array to be filled in with random bytes.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
      */
-    @Override
-    public synchronized void engineNextBytes(byte[] result) {
-        int index = 0;
+    @Ovfrridf
+    publid syndironizfd void fnginfNfxtBytfs(bytf[] rfsult) {
+        int indfx = 0;
         int todo;
-        byte[] output = remainder;
+        bytf[] output = rfmbindfr;
 
-        if (state == null) {
-            byte[] seed = new byte[DIGEST_SIZE];
-            SeederHolder.seeder.engineNextBytes(seed);
-            state = digest.digest(seed);
+        if (stbtf == null) {
+            bytf[] sffd = nfw bytf[DIGEST_SIZE];
+            SffdfrHoldfr.sffdfr.fnginfNfxtBytfs(sffd);
+            stbtf = digfst.digfst(sffd);
         }
 
-        // Use remainder from last time
-        int r = remCount;
+        // Usf rfmbindfr from lbst timf
+        int r = rfmCount;
         if (r > 0) {
-            // How many bytes?
-            todo = (result.length - index) < (DIGEST_SIZE - r) ?
-                        (result.length - index) : (DIGEST_SIZE - r);
-            // Copy the bytes, zero the buffer
+            // How mbny bytfs?
+            todo = (rfsult.lfngti - indfx) < (DIGEST_SIZE - r) ?
+                        (rfsult.lfngti - indfx) : (DIGEST_SIZE - r);
+            // Copy tif bytfs, zfro tif bufffr
             for (int i = 0; i < todo; i++) {
-                result[i] = output[r];
+                rfsult[i] = output[r];
                 output[r++] = 0;
             }
-            remCount += todo;
-            index += todo;
+            rfmCount += todo;
+            indfx += todo;
         }
 
-        // If we need more bytes, make them.
-        while (index < result.length) {
-            // Step the state
-            digest.update(state);
-            output = digest.digest();
-            updateState(state, output);
+        // If wf nffd morf bytfs, mbkf tifm.
+        wiilf (indfx < rfsult.lfngti) {
+            // Stfp tif stbtf
+            digfst.updbtf(stbtf);
+            output = digfst.digfst();
+            updbtfStbtf(stbtf, output);
 
-            // How many bytes?
-            todo = (result.length - index) > DIGEST_SIZE ?
-                DIGEST_SIZE : result.length - index;
-            // Copy the bytes, zero the buffer
+            // How mbny bytfs?
+            todo = (rfsult.lfngti - indfx) > DIGEST_SIZE ?
+                DIGEST_SIZE : rfsult.lfngti - indfx;
+            // Copy tif bytfs, zfro tif bufffr
             for (int i = 0; i < todo; i++) {
-                result[index++] = output[i];
+                rfsult[indfx++] = output[i];
                 output[i] = 0;
             }
-            remCount += todo;
+            rfmCount += todo;
         }
 
-        // Store remainder for next time
-        remainder = output;
-        remCount %= DIGEST_SIZE;
+        // Storf rfmbindfr for nfxt timf
+        rfmbindfr = output;
+        rfmCount %= DIGEST_SIZE;
     }
 
     /*
-     * readObject is called to restore the state of the random object from
-     * a stream.  We have to create a new instance of MessageDigest, because
-     * it is not included in the stream (it is marked "transient").
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif rbndom objfdt from
+     * b strfbm.  Wf ibvf to drfbtf b nfw instbndf of MfssbgfDigfst, bfdbusf
+     * it is not indludfd in tif strfbm (it is mbrkfd "trbnsifnt").
      *
-     * Note that the engineNextBytes() method invoked on the restored random
-     * object will yield the exact same (random) bytes as the original.
-     * If you do not want this behaviour, you should re-seed the restored
-     * random object, using engineSetSeed().
+     * Notf tibt tif fnginfNfxtBytfs() mftiod invokfd on tif rfstorfd rbndom
+     * objfdt will yifld tif fxbdt sbmf (rbndom) bytfs bs tif originbl.
+     * If you do not wbnt tiis bfibviour, you siould rf-sffd tif rfstorfd
+     * rbndom objfdt, using fnginfSftSffd().
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        s.defaultReadObject ();
+        s.dffbultRfbdObjfdt ();
 
         try {
             /*
-             * Use the local SUN implementation to avoid native
-             * performance overhead.
+             * Usf tif lodbl SUN implfmfntbtion to bvoid nbtivf
+             * pfrformbndf ovfrifbd.
              */
-            digest = MessageDigest.getInstance("SHA", "SUN");
-        } catch (NoSuchProviderException | NoSuchAlgorithmException e) {
-            // Fallback to any available.
+            digfst = MfssbgfDigfst.gftInstbndf("SHA", "SUN");
+        } dbtdi (NoSudiProvidfrExdfption | NoSudiAlgoritimExdfption f) {
+            // Fbllbbdk to bny bvbilbblf.
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException exc) {
-                throw new InternalError(
-                    "internal error: SHA-1 not available.", exc);
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdi (NoSudiAlgoritimExdfption fxd) {
+                tirow nfw IntfrnblError(
+                    "intfrnbl frror: SHA-1 not bvbilbblf.", fxd);
             }
         }
     }

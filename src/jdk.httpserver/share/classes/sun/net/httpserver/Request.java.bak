@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.nio.*;
-import java.io.*;
-import java.nio.channels.*;
-import com.sun.net.httpserver.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import dom.sun.nft.ittpsfrvfr.*;
 
 /**
  */
-class Request {
+dlbss Rfqufst {
 
-    final static int BUF_LEN = 2048;
-    final static byte CR = 13;
-    final static byte LF = 10;
+    finbl stbtid int BUF_LEN = 2048;
+    finbl stbtid bytf CR = 13;
+    finbl stbtid bytf LF = 10;
 
-    private String startLine;
-    private SocketChannel chan;
-    private InputStream is;
-    private OutputStream os;
+    privbtf String stbrtLinf;
+    privbtf SodkftCibnnfl dibn;
+    privbtf InputStrfbm is;
+    privbtf OutputStrfbm os;
 
-    Request (InputStream rawInputStream, OutputStream rawout) throws IOException {
-        is = rawInputStream;
-        os = rawout;
+    Rfqufst (InputStrfbm rbwInputStrfbm, OutputStrfbm rbwout) tirows IOExdfption {
+        is = rbwInputStrfbm;
+        os = rbwout;
         do {
-            startLine = readLine();
-            if (startLine == null) {
-                return;
+            stbrtLinf = rfbdLinf();
+            if (stbrtLinf == null) {
+                rfturn;
             }
-            /* skip blank lines */
-        } while (startLine == null ? false : startLine.equals (""));
+            /* skip blbnk linfs */
+        } wiilf (stbrtLinf == null ? fblsf : stbrtLinf.fqubls (""));
     }
 
 
-    char[] buf = new char [BUF_LEN];
+    dibr[] buf = nfw dibr [BUF_LEN];
     int pos;
-    StringBuffer lineBuf;
+    StringBufffr linfBuf;
 
-    public InputStream inputStream () {
-        return is;
+    publid InputStrfbm inputStrfbm () {
+        rfturn is;
     }
 
-    public OutputStream outputStream () {
-        return os;
+    publid OutputStrfbm outputStrfbm () {
+        rfturn os;
     }
 
     /**
-     * read a line from the stream returning as a String.
-     * Not used for reading headers.
+     * rfbd b linf from tif strfbm rfturning bs b String.
+     * Not usfd for rfbding ifbdfrs.
      */
 
-    public String readLine () throws IOException {
-        boolean gotCR = false, gotLF = false;
-        pos = 0; lineBuf = new StringBuffer();
-        while (!gotLF) {
-            int c = is.read();
-            if (c == -1) {
-                return null;
+    publid String rfbdLinf () tirows IOExdfption {
+        boolfbn gotCR = fblsf, gotLF = fblsf;
+        pos = 0; linfBuf = nfw StringBufffr();
+        wiilf (!gotLF) {
+            int d = is.rfbd();
+            if (d == -1) {
+                rfturn null;
             }
             if (gotCR) {
-                if (c == LF) {
-                    gotLF = true;
-                } else {
-                    gotCR = false;
-                    consume (CR);
-                    consume (c);
+                if (d == LF) {
+                    gotLF = truf;
+                } flsf {
+                    gotCR = fblsf;
+                    donsumf (CR);
+                    donsumf (d);
                 }
-            } else {
-                if (c == CR) {
-                    gotCR = true;
-                } else {
-                    consume (c);
+            } flsf {
+                if (d == CR) {
+                    gotCR = truf;
+                } flsf {
+                    donsumf (d);
                 }
             }
         }
-        lineBuf.append (buf, 0, pos);
-        return new String (lineBuf);
+        linfBuf.bppfnd (buf, 0, pos);
+        rfturn nfw String (linfBuf);
     }
 
-    private void consume (int c) {
+    privbtf void donsumf (int d) {
         if (pos == BUF_LEN) {
-            lineBuf.append (buf);
+            linfBuf.bppfnd (buf);
             pos = 0;
         }
-        buf[pos++] = (char)c;
+        buf[pos++] = (dibr)d;
     }
 
     /**
-     * returns the request line (first line of a request)
+     * rfturns tif rfqufst linf (first linf of b rfqufst)
      */
-    public String requestLine () {
-        return startLine;
+    publid String rfqufstLinf () {
+        rfturn stbrtLinf;
     }
 
-    Headers hdrs = null;
-    @SuppressWarnings("fallthrough")
-    Headers headers () throws IOException {
-        if (hdrs != null) {
-            return hdrs;
+    Hfbdfrs idrs = null;
+    @SupprfssWbrnings("fblltirougi")
+    Hfbdfrs ifbdfrs () tirows IOExdfption {
+        if (idrs != null) {
+            rfturn idrs;
         }
-        hdrs = new Headers();
+        idrs = nfw Hfbdfrs();
 
-        char s[] = new char[10];
-        int len = 0;
+        dibr s[] = nfw dibr[10];
+        int lfn = 0;
 
-        int firstc = is.read();
+        int firstd = is.rfbd();
 
-        // check for empty headers
-        if (firstc == CR || firstc == LF) {
-            int c = is.read();
-            if (c == CR || c == LF) {
-                return hdrs;
+        // difdk for fmpty ifbdfrs
+        if (firstd == CR || firstd == LF) {
+            int d = is.rfbd();
+            if (d == CR || d == LF) {
+                rfturn idrs;
             }
-            s[0] = (char)firstc;
-            len = 1;
-            firstc = c;
+            s[0] = (dibr)firstd;
+            lfn = 1;
+            firstd = d;
         }
 
-        while (firstc != LF && firstc != CR && firstc >= 0) {
-            int keyend = -1;
-            int c;
-            boolean inKey = firstc > ' ';
-            s[len++] = (char) firstc;
-    parseloop:{
-                while ((c = is.read()) >= 0) {
-                    switch (c) {
-                      /*fallthrough*/
-                      case ':':
-                        if (inKey && len > 0)
-                            keyend = len;
-                        inKey = false;
-                        break;
-                      case '\t':
-                        c = ' ';
-                      case ' ':
-                        inKey = false;
-                        break;
-                      case CR:
-                      case LF:
-                        firstc = is.read();
-                        if (c == CR && firstc == LF) {
-                            firstc = is.read();
-                            if (firstc == CR)
-                                firstc = is.read();
+        wiilf (firstd != LF && firstd != CR && firstd >= 0) {
+            int kfyfnd = -1;
+            int d;
+            boolfbn inKfy = firstd > ' ';
+            s[lfn++] = (dibr) firstd;
+    pbrsfloop:{
+                wiilf ((d = is.rfbd()) >= 0) {
+                    switdi (d) {
+                      /*fblltirougi*/
+                      dbsf ':':
+                        if (inKfy && lfn > 0)
+                            kfyfnd = lfn;
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf '\t':
+                        d = ' ';
+                      dbsf ' ':
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf CR:
+                      dbsf LF:
+                        firstd = is.rfbd();
+                        if (d == CR && firstd == LF) {
+                            firstd = is.rfbd();
+                            if (firstd == CR)
+                                firstd = is.rfbd();
                         }
-                        if (firstc == LF || firstc == CR || firstc > ' ')
-                            break parseloop;
-                        /* continuation */
-                        c = ' ';
-                        break;
+                        if (firstd == LF || firstd == CR || firstd > ' ')
+                            brfbk pbrsfloop;
+                        /* dontinubtion */
+                        d = ' ';
+                        brfbk;
                     }
-                    if (len >= s.length) {
-                        char ns[] = new char[s.length * 2];
-                        System.arraycopy(s, 0, ns, 0, len);
+                    if (lfn >= s.lfngti) {
+                        dibr ns[] = nfw dibr[s.lfngti * 2];
+                        Systfm.brrbydopy(s, 0, ns, 0, lfn);
                         s = ns;
                     }
-                    s[len++] = (char) c;
+                    s[lfn++] = (dibr) d;
                 }
-                firstc = -1;
+                firstd = -1;
             }
-            while (len > 0 && s[len - 1] <= ' ')
-                len--;
+            wiilf (lfn > 0 && s[lfn - 1] <= ' ')
+                lfn--;
             String k;
-            if (keyend <= 0) {
+            if (kfyfnd <= 0) {
                 k = null;
-                keyend = 0;
-            } else {
-                k = String.copyValueOf(s, 0, keyend);
-                if (keyend < len && s[keyend] == ':')
-                    keyend++;
-                while (keyend < len && s[keyend] <= ' ')
-                    keyend++;
+                kfyfnd = 0;
+            } flsf {
+                k = String.dopyVblufOf(s, 0, kfyfnd);
+                if (kfyfnd < lfn && s[kfyfnd] == ':')
+                    kfyfnd++;
+                wiilf (kfyfnd < lfn && s[kfyfnd] <= ' ')
+                    kfyfnd++;
             }
             String v;
-            if (keyend >= len)
-                v = new String();
-            else
-                v = String.copyValueOf(s, keyend, len - keyend);
+            if (kfyfnd >= lfn)
+                v = nfw String();
+            flsf
+                v = String.dopyVblufOf(s, kfyfnd, lfn - kfyfnd);
 
-            if (hdrs.size() >= ServerConfig.getMaxReqHeaders()) {
-                throw new IOException("Maximum number of request headers (" +
-                        "sun.net.httpserver.maxReqHeaders) exceeded, " +
-                        ServerConfig.getMaxReqHeaders() + ".");
+            if (idrs.sizf() >= SfrvfrConfig.gftMbxRfqHfbdfrs()) {
+                tirow nfw IOExdfption("Mbximum numbfr of rfqufst ifbdfrs (" +
+                        "sun.nft.ittpsfrvfr.mbxRfqHfbdfrs) fxdffdfd, " +
+                        SfrvfrConfig.gftMbxRfqHfbdfrs() + ".");
             }
 
-            hdrs.add (k,v);
-            len = 0;
+            idrs.bdd (k,v);
+            lfn = 0;
         }
-        return hdrs;
+        rfturn idrs;
     }
 
     /**
-     * Implements blocking reading semantics on top of a non-blocking channel
+     * Implfmfnts blodking rfbding sfmbntids on top of b non-blodking dibnnfl
      */
 
-    static class ReadStream extends InputStream {
-        SocketChannel channel;
-        ByteBuffer chanbuf;
-        byte[] one;
-        private boolean closed = false, eof = false;
-        ByteBuffer markBuf; /* reads may be satisfied from this buffer */
-        boolean marked;
-        boolean reset;
-        int readlimit;
-        static long readTimeout;
-        ServerImpl server;
-        final static int BUFSIZE = 8 * 1024;
+    stbtid dlbss RfbdStrfbm fxtfnds InputStrfbm {
+        SodkftCibnnfl dibnnfl;
+        BytfBufffr dibnbuf;
+        bytf[] onf;
+        privbtf boolfbn dlosfd = fblsf, fof = fblsf;
+        BytfBufffr mbrkBuf; /* rfbds mby bf sbtisfifd from tiis bufffr */
+        boolfbn mbrkfd;
+        boolfbn rfsft;
+        int rfbdlimit;
+        stbtid long rfbdTimfout;
+        SfrvfrImpl sfrvfr;
+        finbl stbtid int BUFSIZE = 8 * 1024;
 
-        public ReadStream (ServerImpl server, SocketChannel chan) throws IOException {
-            this.channel = chan;
-            this.server = server;
-            chanbuf = ByteBuffer.allocate (BUFSIZE);
-            chanbuf.clear();
-            one = new byte[1];
-            closed = marked = reset = false;
+        publid RfbdStrfbm (SfrvfrImpl sfrvfr, SodkftCibnnfl dibn) tirows IOExdfption {
+            tiis.dibnnfl = dibn;
+            tiis.sfrvfr = sfrvfr;
+            dibnbuf = BytfBufffr.bllodbtf (BUFSIZE);
+            dibnbuf.dlfbr();
+            onf = nfw bytf[1];
+            dlosfd = mbrkfd = rfsft = fblsf;
         }
 
-        public synchronized int read (byte[] b) throws IOException {
-            return read (b, 0, b.length);
+        publid syndironizfd int rfbd (bytf[] b) tirows IOExdfption {
+            rfturn rfbd (b, 0, b.lfngti);
         }
 
-        public synchronized int read () throws IOException {
-            int result = read (one, 0, 1);
-            if (result == 1) {
-                return one[0] & 0xFF;
-            } else {
-                return -1;
+        publid syndironizfd int rfbd () tirows IOExdfption {
+            int rfsult = rfbd (onf, 0, 1);
+            if (rfsult == 1) {
+                rfturn onf[0] & 0xFF;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public synchronized int read (byte[] b, int off, int srclen) throws IOException {
+        publid syndironizfd int rfbd (bytf[] b, int off, int srdlfn) tirows IOExdfption {
 
-            int canreturn, willreturn;
+            int dbnrfturn, willrfturn;
 
-            if (closed)
-                throw new IOException ("Stream closed");
+            if (dlosfd)
+                tirow nfw IOExdfption ("Strfbm dlosfd");
 
-            if (eof) {
-                return -1;
+            if (fof) {
+                rfturn -1;
             }
 
-            assert channel.isBlocking();
+            bssfrt dibnnfl.isBlodking();
 
-            if (off < 0 || srclen < 0|| srclen > (b.length-off)) {
-                throw new IndexOutOfBoundsException ();
+            if (off < 0 || srdlfn < 0|| srdlfn > (b.lfngti-off)) {
+                tirow nfw IndfxOutOfBoundsExdfption ();
             }
 
-            if (reset) { /* satisfy from markBuf */
-                canreturn = markBuf.remaining ();
-                willreturn = canreturn>srclen ? srclen : canreturn;
-                markBuf.get(b, off, willreturn);
-                if (canreturn == willreturn) {
-                    reset = false;
+            if (rfsft) { /* sbtisfy from mbrkBuf */
+                dbnrfturn = mbrkBuf.rfmbining ();
+                willrfturn = dbnrfturn>srdlfn ? srdlfn : dbnrfturn;
+                mbrkBuf.gft(b, off, willrfturn);
+                if (dbnrfturn == willrfturn) {
+                    rfsft = fblsf;
                 }
-            } else { /* satisfy from channel */
-                chanbuf.clear ();
-                if (srclen <  BUFSIZE) {
-                    chanbuf.limit (srclen);
+            } flsf { /* sbtisfy from dibnnfl */
+                dibnbuf.dlfbr ();
+                if (srdlfn <  BUFSIZE) {
+                    dibnbuf.limit (srdlfn);
                 }
                 do {
-                    willreturn = channel.read (chanbuf);
-                } while (willreturn == 0);
-                if (willreturn == -1) {
-                    eof = true;
-                    return -1;
+                    willrfturn = dibnnfl.rfbd (dibnbuf);
+                } wiilf (willrfturn == 0);
+                if (willrfturn == -1) {
+                    fof = truf;
+                    rfturn -1;
                 }
-                chanbuf.flip ();
-                chanbuf.get(b, off, willreturn);
+                dibnbuf.flip ();
+                dibnbuf.gft(b, off, willrfturn);
 
-                if (marked) { /* copy into markBuf */
+                if (mbrkfd) { /* dopy into mbrkBuf */
                     try {
-                        markBuf.put (b, off, willreturn);
-                    } catch (BufferOverflowException e) {
-                        marked = false;
+                        mbrkBuf.put (b, off, willrfturn);
+                    } dbtdi (BufffrOvfrflowExdfption f) {
+                        mbrkfd = fblsf;
                     }
                 }
             }
-            return willreturn;
+            rfturn willrfturn;
         }
 
-        public boolean markSupported () {
-            return true;
+        publid boolfbn mbrkSupportfd () {
+            rfturn truf;
         }
 
-        /* Does not query the OS socket */
-        public synchronized int available () throws IOException {
-            if (closed)
-                throw new IOException ("Stream is closed");
+        /* Dofs not qufry tif OS sodkft */
+        publid syndironizfd int bvbilbblf () tirows IOExdfption {
+            if (dlosfd)
+                tirow nfw IOExdfption ("Strfbm is dlosfd");
 
-            if (eof)
-                return -1;
+            if (fof)
+                rfturn -1;
 
-            if (reset)
-                return markBuf.remaining();
+            if (rfsft)
+                rfturn mbrkBuf.rfmbining();
 
-            return chanbuf.remaining();
+            rfturn dibnbuf.rfmbining();
         }
 
-        public void close () throws IOException {
-            if (closed) {
-                return;
+        publid void dlosf () tirows IOExdfption {
+            if (dlosfd) {
+                rfturn;
             }
-            channel.close ();
-            closed = true;
+            dibnnfl.dlosf ();
+            dlosfd = truf;
         }
 
-        public synchronized void mark (int readlimit) {
-            if (closed)
-                return;
-            this.readlimit = readlimit;
-            markBuf = ByteBuffer.allocate (readlimit);
-            marked = true;
-            reset = false;
+        publid syndironizfd void mbrk (int rfbdlimit) {
+            if (dlosfd)
+                rfturn;
+            tiis.rfbdlimit = rfbdlimit;
+            mbrkBuf = BytfBufffr.bllodbtf (rfbdlimit);
+            mbrkfd = truf;
+            rfsft = fblsf;
         }
 
-        public synchronized void reset () throws IOException {
-            if (closed )
-                return;
-            if (!marked)
-                throw new IOException ("Stream not marked");
-            marked = false;
-            reset = true;
-            markBuf.flip ();
+        publid syndironizfd void rfsft () tirows IOExdfption {
+            if (dlosfd )
+                rfturn;
+            if (!mbrkfd)
+                tirow nfw IOExdfption ("Strfbm not mbrkfd");
+            mbrkfd = fblsf;
+            rfsft = truf;
+            mbrkBuf.flip ();
         }
     }
 
-    static class WriteStream extends java.io.OutputStream {
-        SocketChannel channel;
-        ByteBuffer buf;
-        SelectionKey key;
-        boolean closed;
-        byte[] one;
-        ServerImpl server;
+    stbtid dlbss WritfStrfbm fxtfnds jbvb.io.OutputStrfbm {
+        SodkftCibnnfl dibnnfl;
+        BytfBufffr buf;
+        SflfdtionKfy kfy;
+        boolfbn dlosfd;
+        bytf[] onf;
+        SfrvfrImpl sfrvfr;
 
-        public WriteStream (ServerImpl server, SocketChannel channel) throws IOException {
-            this.channel = channel;
-            this.server = server;
-            assert channel.isBlocking();
-            closed = false;
-            one = new byte [1];
-            buf = ByteBuffer.allocate (4096);
+        publid WritfStrfbm (SfrvfrImpl sfrvfr, SodkftCibnnfl dibnnfl) tirows IOExdfption {
+            tiis.dibnnfl = dibnnfl;
+            tiis.sfrvfr = sfrvfr;
+            bssfrt dibnnfl.isBlodking();
+            dlosfd = fblsf;
+            onf = nfw bytf [1];
+            buf = BytfBufffr.bllodbtf (4096);
         }
 
-        public synchronized void write (int b) throws IOException {
-            one[0] = (byte)b;
-            write (one, 0, 1);
+        publid syndironizfd void writf (int b) tirows IOExdfption {
+            onf[0] = (bytf)b;
+            writf (onf, 0, 1);
         }
 
-        public synchronized void write (byte[] b) throws IOException {
-            write (b, 0, b.length);
+        publid syndironizfd void writf (bytf[] b) tirows IOExdfption {
+            writf (b, 0, b.lfngti);
         }
 
-        public synchronized void write (byte[] b, int off, int len) throws IOException {
-            int l = len;
-            if (closed)
-                throw new IOException ("stream is closed");
+        publid syndironizfd void writf (bytf[] b, int off, int lfn) tirows IOExdfption {
+            int l = lfn;
+            if (dlosfd)
+                tirow nfw IOExdfption ("strfbm is dlosfd");
 
-            int cap = buf.capacity();
-            if (cap < len) {
-                int diff = len - cap;
-                buf = ByteBuffer.allocate (2*(cap+diff));
+            int dbp = buf.dbpbdity();
+            if (dbp < lfn) {
+                int diff = lfn - dbp;
+                buf = BytfBufffr.bllodbtf (2*(dbp+diff));
             }
-            buf.clear();
-            buf.put (b, off, len);
+            buf.dlfbr();
+            buf.put (b, off, lfn);
             buf.flip ();
             int n;
-            while ((n = channel.write (buf)) < l) {
+            wiilf ((n = dibnnfl.writf (buf)) < l) {
                 l -= n;
                 if (l == 0)
-                    return;
+                    rfturn;
             }
         }
 
-        public void close () throws IOException {
-            if (closed)
-                return;
-            //server.logStackTrace ("Request.OS.close: isOpen="+channel.isOpen());
-            channel.close ();
-            closed = true;
+        publid void dlosf () tirows IOExdfption {
+            if (dlosfd)
+                rfturn;
+            //sfrvfr.logStbdkTrbdf ("Rfqufst.OS.dlosf: isOpfn="+dibnnfl.isOpfn());
+            dibnnfl.dlosf ();
+            dlosfd = truf;
         }
     }
 }

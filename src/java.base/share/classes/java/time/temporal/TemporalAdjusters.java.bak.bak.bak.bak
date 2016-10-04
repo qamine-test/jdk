@@ -1,0 +1,478 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012-2013, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.YEARS;
+
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.LodblDbtf;
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.UnbryOpfrbtor;
+
+/**
+ * Common bnd usfful TfmporblAdjustfrs.
+ * <p>
+ * Adjustfrs brf b kfy tool for modifying tfmporbl objfdts.
+ * Thfy fxist to fxtfrnblizf thf prodfss of bdjustmfnt, pfrmitting difffrfnt
+ * bpprobdhfs, bs pfr thf strbtfgy dfsign pbttfrn.
+ * Exbmplfs might bf bn bdjustfr thbt sfts thf dbtf bvoiding wffkfnds, or onf thbt
+ * sfts thf dbtf to thf lbst dby of thf month.
+ * <p>
+ * Thfrf brf two fquivblfnt wbys of using b {@dodf TfmporblAdjustfr}.
+ * Thf first is to invokf thf mfthod on thf intfrfbdf dirfdtly.
+ * Thf sfdond is to usf {@link Tfmporbl#with(TfmporblAdjustfr)}:
+ * <prf>
+ *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+ *   tfmporbl = thisAdjustfr.bdjustInto(tfmporbl);
+ *   tfmporbl = tfmporbl.with(thisAdjustfr);
+ * </prf>
+ * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf with(TfmporblAdjustfr)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
+ * <p>
+ * This dlbss dontbins b stbndbrd sft of bdjustfrs, bvbilbblf bs stbtid mfthods.
+ * Thfsf indludf:
+ * <ul>
+ * <li>finding thf first or lbst dby of thf month
+ * <li>finding thf first dby of nfxt month
+ * <li>finding thf first or lbst dby of thf yfbr
+ * <li>finding thf first dby of nfxt yfbr
+ * <li>finding thf first or lbst dby-of-wffk within b month, sudh bs "first Wfdnfsdby in Junf"
+ * <li>finding thf nfxt or prfvious dby-of-wffk, sudh bs "nfxt Thursdby"
+ * </ul>
+ *
+ * @implSpfd
+ * All thf implfmfntbtions supplifd by thf stbtid mfthods brf immutbblf.
+ *
+ * @sff TfmporblAdjustfr
+ * @sindf 1.8
+ */
+publid finbl dlbss TfmporblAdjustfrs {
+
+    /**
+     * Privbtf donstrudtor sindf this is b utility dlbss.
+     */
+    privbtf TfmporblAdjustfrs() {
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b {@dodf TfmporblAdjustfr} thbt wrbps b dbtf bdjustfr.
+     * <p>
+     * Thf {@dodf TfmporblAdjustfr} is bbsfd on thf low lfvfl {@dodf Tfmporbl} intfrfbdf.
+     * This mfthod bllows bn bdjustmfnt from {@dodf LodblDbtf} to {@dodf LodblDbtf}
+     * to bf wrbppfd to mbtdh thf tfmporbl-bbsfd intfrfbdf.
+     * This is providfd for donvfnifndf to mbkf usfr-writtfn bdjustfrs simplfr.
+     * <p>
+     * In gfnfrbl, usfr-writtfn bdjustfrs should bf stbtid donstbnts:
+     * <prf>{@dodf
+     *  stbtid TfmporblAdjustfr TWO_DAYS_LATER =
+     *       TfmporblAdjustfrs.ofDbtfAdjustfr(dbtf -> dbtf.plusDbys(2));
+     * }</prf>
+     *
+     * @pbrbm dbtfBbsfdAdjustfr  thf dbtf-bbsfd bdjustfr, not null
+     * @rfturn thf tfmporbl bdjustfr wrbpping on thf dbtf bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr ofDbtfAdjustfr(UnbryOpfrbtor<LodblDbtf> dbtfBbsfdAdjustfr) {
+        Objfdts.rfquirfNonNull(dbtfBbsfdAdjustfr, "dbtfBbsfdAdjustfr");
+        rfturn (tfmporbl) -> {
+            LodblDbtf input = LodblDbtf.from(tfmporbl);
+            LodblDbtf output = dbtfBbsfdAdjustfr.bpply(input);
+            rfturn tfmporbl.with(output);
+        };
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf "first dby of month" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf first dby of thf durrfnt month.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2011-01-01.<br>
+     * Thf input 2011-02-15 will rfturn 2011-02-01.
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.with(DAY_OF_MONTH, 1);
+     * </prf>
+     *
+     * @rfturn thf first dby-of-month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstDbyOfMonth() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_MONTH, 1);
+    }
+
+    /**
+     * Rfturns thf "lbst dby of month" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf lbst dby of thf durrfnt month.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2011-01-31.<br>
+     * Thf input 2011-02-15 will rfturn 2011-02-28.<br>
+     * Thf input 2012-02-15 will rfturn 2012-02-29 (lfbp yfbr).<br>
+     * Thf input 2011-04-15 will rfturn 2011-04-30.
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  long lbstDby = tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum();
+     *  tfmporbl.with(DAY_OF_MONTH, lbstDby);
+     * </prf>
+     *
+     * @rfturn thf lbst dby-of-month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr lbstDbyOfMonth() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_MONTH, tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum());
+    }
+
+    /**
+     * Rfturns thf "first dby of nfxt month" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf first dby of thf nfxt month.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2011-02-01.<br>
+     * Thf input 2011-02-15 will rfturn 2011-03-01.
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+     * </prf>
+     *
+     * @rfturn thf first dby of nfxt month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstDbyOfNfxtMonth() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf "first dby of yfbr" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf first dby of thf durrfnt yfbr.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2011-01-01.<br>
+     * Thf input 2011-02-15 will rfturn 2011-01-01.<br>
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.with(DAY_OF_YEAR, 1);
+     * </prf>
+     *
+     * @rfturn thf first dby-of-yfbr bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstDbyOfYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_YEAR, 1);
+    }
+
+    /**
+     * Rfturns thf "lbst dby of yfbr" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf lbst dby of thf durrfnt yfbr.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2011-12-31.<br>
+     * Thf input 2011-02-15 will rfturn 2011-12-31.<br>
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  long lbstDby = tfmporbl.rbngf(DAY_OF_YEAR).gftMbximum();
+     *  tfmporbl.with(DAY_OF_YEAR, lbstDby);
+     * </prf>
+     *
+     * @rfturn thf lbst dby-of-yfbr bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr lbstDbyOfYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_YEAR, tfmporbl.rbngf(DAY_OF_YEAR).gftMbximum());
+    }
+
+    /**
+     * Rfturns thf "first dby of nfxt yfbr" bdjustfr, whidh rfturns b nfw dbtf sft to
+     * thf first dby of thf nfxt yfbr.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 will rfturn 2012-01-01.
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+     * </prf>
+     *
+     * @rfturn thf first dby of nfxt month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstDbyOfNfxtYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf first in month bdjustfr, whidh rfturns b nfw dbtf
+     * in thf sbmf month with thf first mbtdhing dby-of-wffk.
+     * This is usfd for fxprfssions likf 'first Tufsdby in Mbrdh'.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-12-15 for (MONDAY) will rfturn 2011-12-05.<br>
+     * Thf input 2011-12-15 for (FRIDAY) will rfturn 2011-12-02.<br>
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd thf {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk, not null
+     * @rfturn thf first in month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstInMonth(DbyOfWffk dbyOfWffk) {
+        rfturn TfmporblAdjustfrs.dbyOfWffkInMonth(1, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns thf lbst in month bdjustfr, whidh rfturns b nfw dbtf
+     * in thf sbmf month with thf lbst mbtdhing dby-of-wffk.
+     * This is usfd for fxprfssions likf 'lbst Tufsdby in Mbrdh'.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-12-15 for (MONDAY) will rfturn 2011-12-26.<br>
+     * Thf input 2011-12-15 for (FRIDAY) will rfturn 2011-12-30.<br>
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd thf {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk, not null
+     * @rfturn thf first in month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr lbstInMonth(DbyOfWffk dbyOfWffk) {
+        rfturn TfmporblAdjustfrs.dbyOfWffkInMonth(-1, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns thf dby-of-wffk in month bdjustfr, whidh rfturns b nfw dbtf
+     * in thf sbmf month with thf ordinbl dby-of-wffk.
+     * This is usfd for fxprfssions likf thf 'sfdond Tufsdby in Mbrdh'.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-12-15 for (1,TUESDAY) will rfturn 2011-12-06.<br>
+     * Thf input 2011-12-15 for (2,TUESDAY) will rfturn 2011-12-13.<br>
+     * Thf input 2011-12-15 for (3,TUESDAY) will rfturn 2011-12-20.<br>
+     * Thf input 2011-12-15 for (4,TUESDAY) will rfturn 2011-12-27.<br>
+     * Thf input 2011-12-15 for (5,TUESDAY) will rfturn 2012-01-03.<br>
+     * Thf input 2011-12-15 for (-1,TUESDAY) will rfturn 2011-12-27 (lbst in month).<br>
+     * Thf input 2011-12-15 for (-4,TUESDAY) will rfturn 2011-12-06 (3 wffks bfforf lbst in month).<br>
+     * Thf input 2011-12-15 for (-5,TUESDAY) will rfturn 2011-11-29 (4 wffks bfforf lbst in month).<br>
+     * Thf input 2011-12-15 for (0,TUESDAY) will rfturn 2011-11-29 (lbst in prfvious month).<br>
+     * <p>
+     * For b positivf or zfro ordinbl, thf blgorithm is fquivblfnt to finding thf first
+     * dby-of-wffk thbt mbtdhfs within thf month bnd thfn bdding b numbfr of wffks to it.
+     * For b nfgbtivf ordinbl, thf blgorithm is fquivblfnt to finding thf lbst
+     * dby-of-wffk thbt mbtdhfs within thf month bnd thfn subtrbdting b numbfr of wffks to it.
+     * Thf ordinbl numbfr of wffks is not vblidbtfd bnd is intfrprftfd lfnifntly
+     * bddording to this blgorithm. This dffinition mfbns thbt bn ordinbl of zfro finds
+     * thf lbst mbtdhing dby-of-wffk in thf prfvious month.
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd thf {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm ordinbl  thf wffk within thf month, unboundfd but typidblly from -5 to 5
+     * @pbrbm dbyOfWffk  thf dby-of-wffk, not null
+     * @rfturn thf dby-of-wffk in month bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr dbyOfWffkInMonth(int ordinbl, DbyOfWffk dbyOfWffk) {
+        Objfdts.rfquirfNonNull(dbyOfWffk, "dbyOfWffk");
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        if (ordinbl >= 0) {
+            rfturn (tfmporbl) -> {
+                Tfmporbl tfmp = tfmporbl.with(DAY_OF_MONTH, 1);
+                int durDow = tfmp.gft(DAY_OF_WEEK);
+                int dowDiff = (dowVbluf - durDow + 7) % 7;
+                dowDiff += (ordinbl - 1L) * 7L;  // sbff from ovfrflow
+                rfturn tfmp.plus(dowDiff, DAYS);
+            };
+        } flsf {
+            rfturn (tfmporbl) -> {
+                Tfmporbl tfmp = tfmporbl.with(DAY_OF_MONTH, tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum());
+                int durDow = tfmp.gft(DAY_OF_WEEK);
+                int dbysDiff = dowVbluf - durDow;
+                dbysDiff = (dbysDiff == 0 ? 0 : (dbysDiff > 0 ? dbysDiff - 7 : dbysDiff));
+                dbysDiff -= (-ordinbl - 1L) * 7L;  // sbff from ovfrflow
+                rfturn tfmp.plus(dbysDiff, DAYS);
+            };
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf nfxt dby-of-wffk bdjustfr, whidh bdjusts thf dbtf to thf
+     * first oddurrfndf of thf spfdififd dby-of-wffk bftfr thf dbtf bfing bdjustfd.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-17 (two dbys lbtfr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-19 (four dbys lbtfr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-22 (sfvfn dbys lbtfr).
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} fifld bnd thf {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk to movf thf dbtf to, not null
+     * @rfturn thf nfxt dby-of-wffk bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr nfxt(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            int dbysDiff = dblDow - dowVbluf;
+            rfturn tfmporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
+        };
+    }
+
+    /**
+     * Rfturns thf nfxt-or-sbmf dby-of-wffk bdjustfr, whidh bdjusts thf dbtf to thf
+     * first oddurrfndf of thf spfdififd dby-of-wffk bftfr thf dbtf bfing bdjustfd
+     * unlfss it is blrfbdy on thbt dby in whidh dbsf thf sbmf objfdt is rfturnfd.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-17 (two dbys lbtfr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-19 (four dbys lbtfr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-15 (sbmf bs input).
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} fifld bnd thf {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk to dhfdk for or movf thf dbtf to, not null
+     * @rfturn thf nfxt-or-sbmf dby-of-wffk bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr nfxtOrSbmf(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            if (dblDow == dowVbluf) {
+                rfturn tfmporbl;
+            }
+            int dbysDiff = dblDow - dowVbluf;
+            rfturn tfmporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
+        };
+    }
+
+    /**
+     * Rfturns thf prfvious dby-of-wffk bdjustfr, whidh bdjusts thf dbtf to thf
+     * first oddurrfndf of thf spfdififd dby-of-wffk bfforf thf dbtf bfing bdjustfd.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-10 (fivf dbys fbrlifr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-12 (thrff dbys fbrlifr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-08 (sfvfn dbys fbrlifr).
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} fifld bnd thf {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk to movf thf dbtf to, not null
+     * @rfturn thf prfvious dby-of-wffk bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr prfvious(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            int dbysDiff = dowVbluf - dblDow;
+            rfturn tfmporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
+        };
+    }
+
+    /**
+     * Rfturns thf prfvious-or-sbmf dby-of-wffk bdjustfr, whidh bdjusts thf dbtf to thf
+     * first oddurrfndf of thf spfdififd dby-of-wffk bfforf thf dbtf bfing bdjustfd
+     * unlfss it is blrfbdy on thbt dby in whidh dbsf thf sbmf objfdt is rfturnfd.
+     * <p>
+     * Thf ISO dblfndbr systfm bfhbvfs bs follows:<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-10 (fivf dbys fbrlifr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-12 (thrff dbys fbrlifr).<br>
+     * Thf input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-15 (sbmf bs input).
+     * <p>
+     * Thf bfhbvior is suitbblf for usf with most dblfndbr systfms.
+     * It usfs thf {@dodf DAY_OF_WEEK} fifld bnd thf {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  thf dby-of-wffk to dhfdk for or movf thf dbtf to, not null
+     * @rfturn thf prfvious-or-sbmf dby-of-wffk bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr prfviousOrSbmf(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            if (dblDow == dowVbluf) {
+                rfturn tfmporbl;
+            }
+            int dbysDiff = dowVbluf - dblDow;
+            rfturn tfmporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
+        };
+    }
+
+}

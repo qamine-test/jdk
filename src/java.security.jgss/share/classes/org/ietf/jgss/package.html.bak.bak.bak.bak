@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+<body bgdolor="whitf">
+
+    This pbdkbgf prfsfnts b frbmfwork thbt bllows bpplidbtion dfvflopfrs to
+    mbkf usf of sfdurity sfrvidfs likf buthfntidbtion, dbtb intfgrity bnd
+    dbtb donfidfntiblity from b vbrifty of undfrlying sfdurity mfdhbnisms
+    likf Kfrbfros, using b unififd API. Thf sfdurity mfdhbnisms thbt bn
+    bpplidbtion dbn
+    dhosf to usf brf idfntififd with uniquf objfdt idfntififrs. Onf fxbmplf 
+    of sudh b mfdhbnism is thf Kfrbfros v5 GSS-API mfdhbnism (objfdt
+    idfntififr 1.2.840.113554.1.2.2). This mfdhbnism is bvbilbblf through
+    thf dffbult instbndf of thf GSSMbnbgfr dlbss.<p>
+
+    Thf GSS-API is dffinfd in b lbngubgf indfpfndfnt wby in 
+    <b hrff=http://www.iftf.org/rfd/rfd2743.txt>RFC 2743</b>. Thf Jbvb
+    lbngubgf bindings brf dffinfd in 
+    <b hrff=http://www.iftf.org/rfd/rfd2853.txt>RFC 2853</b><p>
+
+    An bpplidbtion stbrts out by instbntibting b <dodf>GSSMbnbgfr</dodf>
+    whidh thfn sfrvfs bs b fbdtory for b sfdurity dontfxt. An bpplidbtion
+    dbn usf spfdifid prindipbl nbmfs bnd drfdfntibls thbt brf blso drfbtfd
+    using thf GSSMbnbgfr; or it dbn instbntibtf b
+    dontfxt with systfm dffbults. It thfn gofs through b dontfxt
+    fstbblishmfnt loop. Ondf b dontfxt is fstbblishfd with thf
+    pffr, buthfntidbtion is domplftf. Dbtb protfdtion sudh bs intfgrity
+    bnd donfidfntiblity dbn thfn bf obtbinfd from this dontfxt.<p>
+
+    Thf GSS-API dofs not pfrform bny dommunidbtion with thf pffr. It mfrfly 
+    produdfs tokfns thbt thf bpplidbtion must somfhow trbnsport to thf
+    othfr fnd.<p>
+
+<h3>Crfdfntibl Adquisition</h3>
+<b nbmf=usfSubjfdtCrfdsOnly>
+    Thf GSS-API itsflf dofs not didtbtf how bn undfrlying mfdhbnism
+    obtbins thf drfdfntibls thbt brf nffdfd for buthfntidbtion. It is
+    bssumfd thbt prior to dblling thf GSS-API, thfsf drfdfntibls brf
+    obtbinfd bnd storfd in b lodbtion thbt thf mfdhbnism providfr is
+    bwbrf of. Howfvfr, thf dffbult modfl in thf Jbvb plbtform will bf
+    thbt mfdhbnism providfrs must obtbin drfdfntibls only from thf privbtf
+    or publid drfdfntibl sfts bssodibtfd with thf
+    {@link jbvbx.sfdurity.buth.Subjfdt Subjfdt} in thf
+    durrfnt bddfss dontrol dontfxt.  Thf Kfrbfros v5  
+    mfdhbnism will sfbrdh for thf rfquirfd INITIATE bnd ACCEPT drfdfntibls 
+    ({@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft KfrbfrosTidkft} bnd
+     {@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy KfrbfrosKfy}) in
+    thf privbtf drfdfntibl sft whfrf bs somf othfr mfdhbnism might look
+    in thf publid sft or in both.  If thf dfsirfd drfdfntibl is not
+    prfsfnt in thf bppropribtf sfts of thf durrfnt Subjfdt, thf GSS-API
+    dbll must fbil.<p>
+
+    This modfl hbs thf bdvbntbgf thbt drfdfntibl mbnbgfmfnt
+    is simplf bnd prfdidtbblf from thf bpplidbtions point of vifw.  An
+    bpplidbtion, givfn thf right pfrmissions, dbn purgf thf drfdfntibls in
+    thf Subjfdt or rfnfw thfm using stbndbrd Jbvb API's.  If it purgfd
+    thf drfdfntibls, it would bf surf thbt thf JGSS mfdhbnism would fbil,
+    or if it rfnfwfd b timf bbsfd drfdfntibl it would bf surf thbt b JGSS
+    mfdhbnism would suddffd.<p>
+
+    This modfl dofs rfquirf thbt b {@link
+    jbvbx.sfdurity.buth.login JAAS login} bf pfrformfd in ordfr to
+    buthfntidbtf bnd populbtf b Subjfdt thbt thf JGSS mfdhbnism dbn lbtfr 
+    utilizf. Howfvfr, bpplidbtions hbvf thf bbility to rflbx this
+    rfstridtion by mfbns of b systfm propfrty:
+    <dodf>jbvbx.sfdurity.buth.usfSubjfdtCrfdsOnly</dodf>. By dffbult
+    this systfm propfrty will bf bssumfd to bf <dodf>truf</dodf> (fvfn whfn
+    it is unsft) indidbting thbt providfrs must only usf thf drfdfntibls
+    thbt brf prfsfnt in thf durrfnt Subjfdt. Howfvfr, if this propfrty is
+    fxpliditly sft to fblsf by thf bpplidbtion, thfn it indidbtfs thbt
+    thf providfr is frff to usf bny drfdfntibls dbdhf of its dhoidf. Sudh
+    b drfdfntibl dbdhf might bf b disk dbdhf, bn in-mfmory dbdhf, or fvfn
+    just thf durrfnt Subjfdt itsflf.
+</b>
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+<p>
+For bn onlinf tutoribl on using Jbvb GSS-API, plfbsf sff
+<b hrff="../../../../tfdhnotfs/guidfs/sfdurity/jgss/tutoribls/indfx.html">Introdudtion to JAAS bnd Jbvb GSS-API</b>.
+</p>
+
+<!--
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+<ul>
+  <li><b hrff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+</ul>
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+
+-->
+
+@sindf 1.4
+</body>
+</html>

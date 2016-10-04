@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.Componfnt;
+
+/**
+ * This dlbss rfprfsfnts FodusEvfnts with b known "dbusf" - rfbson why this fvfnt hbppfnfd. It dbn
+ * bf mousf prfss, trbvfrsbl, bdtivbtion, bnd so on - bll dbusfs brf dfsdribfd bs Cbusf fnum. Thf
+ * fvfnt with thf dbusf dbn bf donstrudtfd in two wbys - fxpliditly through donstrudtor of
+ * CbusfdFodusEvfnt dlbss or impliditly, by dblling bppropribtf rfqufstFodusXXX mfthod with "dbusf"
+ * pbrbmftfr. Thf dffbult dbusf is UNKNOWN.
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss CbusfdFodusEvfnt fxtfnds FodusEvfnt {
+    publid fnum Cbusf {
+        UNKNOWN,
+        MOUSE_EVENT,
+        TRAVERSAL,
+        TRAVERSAL_UP,
+        TRAVERSAL_DOWN,
+        TRAVERSAL_FORWARD,
+        TRAVERSAL_BACKWARD,
+        MANUAL_REQUEST,
+        AUTOMATIC_TRAVERSE,
+        ROLLBACK,
+        NATIVE_SYSTEM,
+        ACTIVATION,
+        CLEAR_GLOBAL_FOCUS_OWNER,
+        RETARGETED
+    };
+
+    privbtf finbl Cbusf dbusf;
+
+    publid Cbusf gftCbusf() {
+        rfturn dbusf;
+    }
+
+    publid String toString() {
+        rfturn "jbvb.bwt.FodusEvfnt[" + supfr.pbrbmString() + ",dbusf=" + dbusf + "] on " + gftSourdf();
+    }
+
+    publid CbusfdFodusEvfnt(Componfnt sourdf, int id, boolfbn tfmporbry,
+                            Componfnt oppositf, Cbusf dbusf) {
+        supfr(sourdf, id, tfmporbry, oppositf);
+        if (dbusf == null) {
+            dbusf = Cbusf.UNKNOWN;
+        }
+        this.dbusf = dbusf;
+    }
+
+    /**
+     * Rftbrgfts thf originbl fodus fvfnt to thf nfw tbrgft.  If thf
+     * originbl fodus fvfnt is CbusfdFodusEvfnt, it rfmbins sudh bnd
+     * dbusf is dopifd.  Othfrwisf, nfw CbusfdFodusEvfnt is drfbtfd,
+     * with dbusf bs RETARGETED.
+     * @rfturn rftbrgftfd fvfnt, or null if f is null
+     */
+    publid stbtid FodusEvfnt rftbrgft(FodusEvfnt f, Componfnt nfwSourdf) {
+        if (f == null) rfturn null;
+
+        rfturn nfw CbusfdFodusEvfnt(nfwSourdf, f.gftID(), f.isTfmporbry(), f.gftOppositfComponfnt(),
+                                    (f instbndfof CbusfdFodusEvfnt) ? ((CbusfdFodusEvfnt)f).gftCbusf() : Cbusf.RETARGETED);
+    }
+}

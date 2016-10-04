@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,878 +30,878 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.io.File;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig;
+import jbvb.io.Filf;
 
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.InstanceNotFoundException;
-import javax.management.JMException;
-import javax.management.JMX;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.Sfmbpiorf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
  * <p>
- * The <code>ScanManager</code> is responsible for applying a configuration,
- * starting and scheduling directory scans, and reporting application state.
+ * Tif <dodf>SdbnMbnbgfr</dodf> is rfsponsiblf for bpplying b donfigurbtion,
+ * stbrting bnd sdifduling dirfdtory sdbns, bnd rfporting bpplidbtion stbtf.
  * </p>
  * <p>
- * The ScanManager MBean is a singleton MBean which controls
- * scan session. The ScanManager name is defined by
- * {@link #SCAN_MANAGER_NAME ScanManager.SCAN_MANAGER_NAME}.
+ * Tif SdbnMbnbgfr MBfbn is b singlfton MBfbn wiidi dontrols
+ * sdbn sfssion. Tif SdbnMbnbgfr nbmf is dffinfd by
+ * {@link #SCAN_MANAGER_NAME SdbnMbnbgfr.SCAN_MANAGER_NAME}.
  * </p>
  * <p>
- * The <code>ScanManager</code> MBean is the entry point of the <i>scandir</i>
- * application management interface. It is from this MBean that all other MBeans
- * will be created and registered.
+ * Tif <dodf>SdbnMbnbgfr</dodf> MBfbn is tif fntry point of tif <i>sdbndir</i>
+ * bpplidbtion mbnbgfmfnt intfrfbdf. It is from tiis MBfbn tibt bll otifr MBfbns
+ * will bf drfbtfd bnd rfgistfrfd.
  * </p>
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class ScanManager implements ScanManagerMXBean,
-        NotificationEmitter, MBeanRegistration {
+publid dlbss SdbnMbnbgfr implfmfnts SdbnMbnbgfrMXBfbn,
+        NotifidbtionEmittfr, MBfbnRfgistrbtion {
 
     /**
-     * A logger for this class.
+     * A loggfr for tiis dlbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ScanManager.class.getName());
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(SdbnMbnbgfr.dlbss.gftNbmf());
 
     /**
-     * The name of the ScanManager singleton MBean.
+     * Tif nbmf of tif SdbnMbnbgfr singlfton MBfbn.
      **/
-    public final static ObjectName SCAN_MANAGER_NAME =
-            makeSingletonName(ScanManagerMXBean.class);
+    publid finbl stbtid ObjfdtNbmf SCAN_MANAGER_NAME =
+            mbkfSinglftonNbmf(SdbnMbnbgfrMXBfbn.dlbss);
 
     /**
-     * Sequence number used for sending notifications. We use this
-     * sequence number throughout the application.
+     * Sfqufndf numbfr usfd for sfnding notifidbtions. Wf usf tiis
+     * sfqufndf numbfr tirougiout tif bpplidbtion.
      **/
-    private static long seqNumber=0;
+    privbtf stbtid long sfqNumbfr=0;
 
     /**
-     * The NotificationBroadcasterSupport object used to handle
-     * listener registration.
+     * Tif NotifidbtionBrobddbstfrSupport objfdt usfd to ibndlf
+     * listfnfr rfgistrbtion.
      **/
-    private final NotificationBroadcasterSupport broadcaster;
+    privbtf finbl NotifidbtionBrobddbstfrSupport brobddbstfr;
 
     /**
-     * The MBeanServer in which this MBean is registered. We obtain
-     * this reference by implementing the {@link MBeanRegistration}
-     * interface.
+     * Tif MBfbnSfrvfr in wiidi tiis MBfbn is rfgistfrfd. Wf obtbin
+     * tiis rfffrfndf by implfmfnting tif {@link MBfbnRfgistrbtion}
+     * intfrfbdf.
      **/
-    private volatile MBeanServer mbeanServer;
+    privbtf volbtilf MBfbnSfrvfr mbfbnSfrvfr;
 
     /**
-     * A queue of pending notifications we are about to send.
-     * We're using a BlockingQueue in order to avoid sending
-     * notifications from within a synchronized block.
+     * A qufuf of pfnding notifidbtions wf brf bbout to sfnd.
+     * Wf'rf using b BlodkingQufuf in ordfr to bvoid sfnding
+     * notifidbtions from witiin b syndironizfd blodk.
      **/
-    private final BlockingQueue<Notification> pendingNotifs;
+    privbtf finbl BlodkingQufuf<Notifidbtion> pfndingNotifs;
 
     /**
-     * The state of the scan session.
+     * Tif stbtf of tif sdbn sfssion.
      **/
-    private volatile ScanState state = STOPPED;
+    privbtf volbtilf SdbnStbtf stbtf = STOPPED;
 
     /**
-     * The list of DirectoryScannerMBean that are run by a scan session.
+     * Tif list of DirfdtorySdbnnfrMBfbn tibt brf run by b sdbn sfssion.
      **/
-    private final Map<ObjectName,DirectoryScannerMXBean> scanmap;
+    privbtf finbl Mbp<ObjfdtNbmf,DirfdtorySdbnnfrMXBfbn> sdbnmbp;
 
     /**
-     * The list of ScanDirConfigMXBean that were created by this MBean.
+     * Tif list of SdbnDirConfigMXBfbn tibt wfrf drfbtfd by tiis MBfbn.
      **/
-    private final Map<ObjectName, ScanDirConfigMXBean> configmap;
+    privbtf finbl Mbp<ObjfdtNbmf, SdbnDirConfigMXBfbn> donfigmbp;
 
-    // The ResultLogManager for this application.
-    private final ResultLogManager log;
+    // Tif RfsultLogMbnbgfr for tiis bpplidbtion.
+    privbtf finbl RfsultLogMbnbgfr log;
 
     /**
-     * We use a semaphore to ensure proper sequencing of exclusive
-     * action. The logic we have implemented is to fail - rather
-     * than block, if an exclusive action is already in progress.
+     * Wf usf b sfmbpiorf to fnsurf propfr sfqufnding of fxdlusivf
+     * bdtion. Tif logid wf ibvf implfmfntfd is to fbil - rbtifr
+     * tibn blodk, if bn fxdlusivf bdtion is blrfbdy in progrfss.
      **/
-    private final Semaphore sequencer = new Semaphore(1);
+    privbtf finbl Sfmbpiorf sfqufndfr = nfw Sfmbpiorf(1);
 
-    // A proxy to the current ScanDirConfigMXBean which holds the current
-    // configuration data.
+    // A proxy to tif durrfnt SdbnDirConfigMXBfbn wiidi iolds tif durrfnt
+    // donfigurbtion dbtb.
     //
-    private volatile ScanDirConfigMXBean config = null;
+    privbtf volbtilf SdbnDirConfigMXBfbn donfig = null;
 
-    // Avoid to write parameters twices when creating a new ConcurrentHashMap.
+    // Avoid to writf pbrbmftfrs twidfs wifn drfbting b nfw CondurrfntHbsiMbp.
     //
-    private static <K, V> Map<K, V> newConcurrentHashMap() {
-        return new ConcurrentHashMap<K, V>();
+    privbtf stbtid <K, V> Mbp<K, V> nfwCondurrfntHbsiMbp() {
+        rfturn nfw CondurrfntHbsiMbp<K, V>();
     }
 
-    // Avoid to write parameters twices when creating a new HashMap.
+    // Avoid to writf pbrbmftfrs twidfs wifn drfbting b nfw HbsiMbp.
     //
-    private static <K, V> Map<K, V> newHashMap() {
-        return new HashMap<K, V>();
+    privbtf stbtid <K, V> Mbp<K, V> nfwHbsiMbp() {
+        rfturn nfw HbsiMbp<K, V>();
     }
 
     /**
-     * Creates a default singleton ObjectName for a given class.
-     * @param clazz The interface class of the MBean for which we want to obtain
-     *        a default singleton name, or its implementation class.
-     *        Give one or the other depending on what you wish to see in
-     *        the value of the key {@code type=}.
-     * @return A default singleton name for a singleton MBean class.
-     * @throws IllegalArgumentException if the name can't be created
-     *         for some unfathomable reason (e.g. an unexpected
-     *         exception was raised).
+     * Crfbtfs b dffbult singlfton ObjfdtNbmf for b givfn dlbss.
+     * @pbrbm dlbzz Tif intfrfbdf dlbss of tif MBfbn for wiidi wf wbnt to obtbin
+     *        b dffbult singlfton nbmf, or its implfmfntbtion dlbss.
+     *        Givf onf or tif otifr dfpfnding on wibt you wisi to sff in
+     *        tif vbluf of tif kfy {@dodf typf=}.
+     * @rfturn A dffbult singlfton nbmf for b singlfton MBfbn dlbss.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf dbn't bf drfbtfd
+     *         for somf unfbtiombblf rfbson (f.g. bn unfxpfdtfd
+     *         fxdfption wbs rbisfd).
      **/
-    public final static ObjectName makeSingletonName(Class clazz) {
+    publid finbl stbtid ObjfdtNbmf mbkfSinglftonNbmf(Clbss dlbzz) {
         try {
-            final Package p = clazz.getPackage();
-            final String packageName = (p==null)?null:p.getName();
-            final String className   = clazz.getSimpleName();
-            final String domain;
-            if (packageName == null || packageName.length()==0) {
-                // We use a reference to ScanDirAgent.class to ease
-                // to keep track of possible class renaming.
-                domain = ScanDirAgent.class.getSimpleName();
-            } else {
-                domain = packageName;
+            finbl Pbdkbgf p = dlbzz.gftPbdkbgf();
+            finbl String pbdkbgfNbmf = (p==null)?null:p.gftNbmf();
+            finbl String dlbssNbmf   = dlbzz.gftSimplfNbmf();
+            finbl String dombin;
+            if (pbdkbgfNbmf == null || pbdkbgfNbmf.lfngti()==0) {
+                // Wf usf b rfffrfndf to SdbnDirAgfnt.dlbss to fbsf
+                // to kffp trbdk of possiblf dlbss rfnbming.
+                dombin = SdbnDirAgfnt.dlbss.gftSimplfNbmf();
+            } flsf {
+                dombin = pbdkbgfNbmf;
             }
-            final ObjectName name = new ObjectName(domain,"type",className);
-            return name;
-        } catch (Exception x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(String.valueOf(clazz),x);
-            throw iae;
+            finbl ObjfdtNbmf nbmf = nfw ObjfdtNbmf(dombin,"typf",dlbssNbmf);
+            rfturn nbmf;
+        } dbtdi (Exdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(String.vblufOf(dlbzz),x);
+            tirow ibf;
         }
     }
 
     /**
-     * Creates a default ObjectName with keys <code>type=</code> and
-     * <code>name=</code> for an instance of a given MBean interface class.
-     * @param clazz The interface class of the MBean for which we want to obtain
-     *        a default name, or its implementation class.
-     *        Give one or the other depending on what you wish to see in
-     *        the value of the key {@code type=}.
-     * @param name The value of the <code>name=</code> key.
-     * @return A default name for an instance of the given MBean interface class.
-     * @throws IllegalArgumentException if the name can't be created.
-     *         (e.g. an unexpected exception was raised).
+     * Crfbtfs b dffbult ObjfdtNbmf witi kfys <dodf>typf=</dodf> bnd
+     * <dodf>nbmf=</dodf> for bn instbndf of b givfn MBfbn intfrfbdf dlbss.
+     * @pbrbm dlbzz Tif intfrfbdf dlbss of tif MBfbn for wiidi wf wbnt to obtbin
+     *        b dffbult nbmf, or its implfmfntbtion dlbss.
+     *        Givf onf or tif otifr dfpfnding on wibt you wisi to sff in
+     *        tif vbluf of tif kfy {@dodf typf=}.
+     * @pbrbm nbmf Tif vbluf of tif <dodf>nbmf=</dodf> kfy.
+     * @rfturn A dffbult nbmf for bn instbndf of tif givfn MBfbn intfrfbdf dlbss.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf dbn't bf drfbtfd.
+     *         (f.g. bn unfxpfdtfd fxdfption wbs rbisfd).
      **/
-    public static final ObjectName makeMBeanName(Class clazz, String name) {
+    publid stbtid finbl ObjfdtNbmf mbkfMBfbnNbmf(Clbss dlbzz, String nbmf) {
         try {
-            return ObjectName.
-                getInstance(makeSingletonName(clazz)
-                        .toString()+",name="+name);
-        } catch (MalformedObjectNameException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(String.valueOf(name),x);
-            throw iae;
+            rfturn ObjfdtNbmf.
+                gftInstbndf(mbkfSinglftonNbmf(dlbzz)
+                        .toString()+",nbmf="+nbmf);
+        } dbtdi (MblformfdObjfdtNbmfExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(String.vblufOf(nbmf),x);
+            tirow ibf;
         }
     }
 
     /**
-     * Return the ObjectName for a DirectoryScannerMXBean of that name.
-     * This is {@code makeMBeanName(DirectoryScannerMXBean.class,name)}.
-     * @param name The value of the <code>name=</code> key.
-     * @return the ObjectName for a DirectoryScannerMXBean of that name.
+     * Rfturn tif ObjfdtNbmf for b DirfdtorySdbnnfrMXBfbn of tibt nbmf.
+     * Tiis is {@dodf mbkfMBfbnNbmf(DirfdtorySdbnnfrMXBfbn.dlbss,nbmf)}.
+     * @pbrbm nbmf Tif vbluf of tif <dodf>nbmf=</dodf> kfy.
+     * @rfturn tif ObjfdtNbmf for b DirfdtorySdbnnfrMXBfbn of tibt nbmf.
      */
-    public static final ObjectName makeDirectoryScannerName(String name) {
-        return makeMBeanName(DirectoryScannerMXBean.class,name);
+    publid stbtid finbl ObjfdtNbmf mbkfDirfdtorySdbnnfrNbmf(String nbmf) {
+        rfturn mbkfMBfbnNbmf(DirfdtorySdbnnfrMXBfbn.dlbss,nbmf);
     }
 
     /**
-     * Return the ObjectName for a {@code ScanDirConfigMXBean} of that name.
-     * This is {@code makeMBeanName(ScanDirConfigMXBean.class,name)}.
-     * @param name The value of the <code>name=</code> key.
-     * @return the ObjectName for a {@code ScanDirConfigMXBean} of that name.
+     * Rfturn tif ObjfdtNbmf for b {@dodf SdbnDirConfigMXBfbn} of tibt nbmf.
+     * Tiis is {@dodf mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,nbmf)}.
+     * @pbrbm nbmf Tif vbluf of tif <dodf>nbmf=</dodf> kfy.
+     * @rfturn tif ObjfdtNbmf for b {@dodf SdbnDirConfigMXBfbn} of tibt nbmf.
      */
-    public static final ObjectName makeScanDirConfigName(String name) {
-        return makeMBeanName(ScanDirConfigMXBean.class,name);
+    publid stbtid finbl ObjfdtNbmf mbkfSdbnDirConfigNbmf(String nbmf) {
+        rfturn mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,nbmf);
     }
 
     /**
-     * Create and register a new singleton instance of the ScanManager
-     * MBean in the given {@link MBeanServerConnection}.
-     * @param mbs The MBeanServer in which the new singleton instance
-     *         should be created.
-     * @throws JMException The MBeanServer connection raised an exception
-     *         while trying to instantiate and register the singleton MBean
-     *         instance.
-     * @throws IOException There was a connection problem while trying to
-     *         communicate with the underlying MBeanServer.
-     * @return A proxy for the registered MBean.
+     * Crfbtf bnd rfgistfr b nfw singlfton instbndf of tif SdbnMbnbgfr
+     * MBfbn in tif givfn {@link MBfbnSfrvfrConnfdtion}.
+     * @pbrbm mbs Tif MBfbnSfrvfr in wiidi tif nfw singlfton instbndf
+     *         siould bf drfbtfd.
+     * @tirows JMExdfption Tif MBfbnSfrvfr donnfdtion rbisfd bn fxdfption
+     *         wiilf trying to instbntibtf bnd rfgistfr tif singlfton MBfbn
+     *         instbndf.
+     * @tirows IOExdfption Tifrf wbs b donnfdtion problfm wiilf trying to
+     *         dommunidbtf witi tif undfrlying MBfbnSfrvfr.
+     * @rfturn A proxy for tif rfgistfrfd MBfbn.
      **/
-    public static ScanManagerMXBean register(MBeanServerConnection mbs)
-        throws IOException, JMException {
-        final ObjectInstance moi =
-                mbs.createMBean(ScanManager.class.getName(),SCAN_MANAGER_NAME);
-        final ScanManagerMXBean proxy =
-                JMX.newMXBeanProxy(mbs,moi.getObjectName(),
-                                  ScanManagerMXBean.class,true);
-        return proxy;
+    publid stbtid SdbnMbnbgfrMXBfbn rfgistfr(MBfbnSfrvfrConnfdtion mbs)
+        tirows IOExdfption, JMExdfption {
+        finbl ObjfdtInstbndf moi =
+                mbs.drfbtfMBfbn(SdbnMbnbgfr.dlbss.gftNbmf(),SCAN_MANAGER_NAME);
+        finbl SdbnMbnbgfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbs,moi.gftObjfdtNbmf(),
+                                  SdbnMbnbgfrMXBfbn.dlbss,truf);
+        rfturn proxy;
     }
 
     /**
-     * Creates a new {@code ScanManagerMXBean} proxy over the given
-     * {@code MBeanServerConnection}. Does not check whether a
-     * {@code ScanManagerMXBean}
-     * is actually registered in that {@code MBeanServerConnection}.
-     * @return a new {@code ScanManagerMXBean} proxy.
-     * @param mbs The {@code MBeanServerConnection} which holds the
-     * {@code ScanManagerMXBean} to proxy.
+     * Crfbtfs b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy ovfr tif givfn
+     * {@dodf MBfbnSfrvfrConnfdtion}. Dofs not difdk wiftifr b
+     * {@dodf SdbnMbnbgfrMXBfbn}
+     * is bdtublly rfgistfrfd in tibt {@dodf MBfbnSfrvfrConnfdtion}.
+     * @rfturn b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy.
+     * @pbrbm mbs Tif {@dodf MBfbnSfrvfrConnfdtion} wiidi iolds tif
+     * {@dodf SdbnMbnbgfrMXBfbn} to proxy.
      */
-    public static ScanManagerMXBean
-            newSingletonProxy(MBeanServerConnection mbs) {
-        final ScanManagerMXBean proxy =
-                JMX.newMXBeanProxy(mbs,SCAN_MANAGER_NAME,
-                                  ScanManagerMXBean.class,true);
-        return proxy;
+    publid stbtid SdbnMbnbgfrMXBfbn
+            nfwSinglftonProxy(MBfbnSfrvfrConnfdtion mbs) {
+        finbl SdbnMbnbgfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbs,SCAN_MANAGER_NAME,
+                                  SdbnMbnbgfrMXBfbn.dlbss,truf);
+        rfturn proxy;
     }
 
     /**
-     * Creates a new {@code ScanManagerMXBean} proxy over the platform
-     * {@code MBeanServer}. This is equivalent to
-     * {@code newSingletonProxy(ManagementFactory.getPlatformMBeanServer())}.
-     * @return a new {@code ScanManagerMXBean} proxy.
+     * Crfbtfs b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy ovfr tif plbtform
+     * {@dodf MBfbnSfrvfr}. Tiis is fquivblfnt to
+     * {@dodf nfwSinglftonProxy(MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr())}.
+     * @rfturn b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy.
      **/
-    public static ScanManagerMXBean newSingletonProxy() {
-        return newSingletonProxy(ManagementFactory.getPlatformMBeanServer());
+    publid stbtid SdbnMbnbgfrMXBfbn nfwSinglftonProxy() {
+        rfturn nfwSinglftonProxy(MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr());
     }
 
     /**
-     * Create and register a new singleton instance of the ScanManager
-     * MBean in the given {@link MBeanServerConnection}.
-     * @throws JMException The MBeanServer connection raised an exception
-     *         while trying to instantiate and register the singleton MBean
-     *         instance.
-     * @throws IOException There was a connection problem while trying to
-     *         communicate with the underlying MBeanServer.
-     * @return A proxy for the registered MBean.
+     * Crfbtf bnd rfgistfr b nfw singlfton instbndf of tif SdbnMbnbgfr
+     * MBfbn in tif givfn {@link MBfbnSfrvfrConnfdtion}.
+     * @tirows JMExdfption Tif MBfbnSfrvfr donnfdtion rbisfd bn fxdfption
+     *         wiilf trying to instbntibtf bnd rfgistfr tif singlfton MBfbn
+     *         instbndf.
+     * @tirows IOExdfption Tifrf wbs b donnfdtion problfm wiilf trying to
+     *         dommunidbtf witi tif undfrlying MBfbnSfrvfr.
+     * @rfturn A proxy for tif rfgistfrfd MBfbn.
      **/
-    public static ScanManagerMXBean register()
-        throws IOException, JMException {
-        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        return register(mbs);
+    publid stbtid SdbnMbnbgfrMXBfbn rfgistfr()
+        tirows IOExdfption, JMExdfption {
+        finbl MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        rfturn rfgistfr(mbs);
     }
 
     /**
-     * Create a new ScanManager MBean
+     * Crfbtf b nfw SdbnMbnbgfr MBfbn
      **/
-    public ScanManager() {
-        broadcaster = new NotificationBroadcasterSupport();
-        pendingNotifs = new LinkedBlockingQueue<Notification>(100);
-        scanmap = newConcurrentHashMap();
-        configmap = newConcurrentHashMap();
-        log = new ResultLogManager();
+    publid SdbnMbnbgfr() {
+        brobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
+        pfndingNotifs = nfw LinkfdBlodkingQufuf<Notifidbtion>(100);
+        sdbnmbp = nfwCondurrfntHbsiMbp();
+        donfigmbp = nfwCondurrfntHbsiMbp();
+        log = nfw RfsultLogMbnbgfr();
     }
 
 
-    // Creates a new DirectoryScannerMXBean, from the given configuration data.
-    DirectoryScannerMXBean createDirectoryScanner(DirectoryScannerConfig config) {
-            return new DirectoryScanner(config,log);
+    // Crfbtfs b nfw DirfdtorySdbnnfrMXBfbn, from tif givfn donfigurbtion dbtb.
+    DirfdtorySdbnnfrMXBfbn drfbtfDirfdtorySdbnnfr(DirfdtorySdbnnfrConfig donfig) {
+            rfturn nfw DirfdtorySdbnnfr(donfig,log);
     }
 
-    // Applies a configuration.
-    // throws IllegalStateException if lock can't be acquired.
-    // Unregisters all existing directory scanners, the create and registers
-    // new directory scanners according to the given config.
-    // Then pushes the log config to the result log manager.
+    // Applifs b donfigurbtion.
+    // tirows IllfgblStbtfExdfption if lodk dbn't bf bdquirfd.
+    // Unrfgistfrs bll fxisting dirfdtory sdbnnfrs, tif drfbtf bnd rfgistfrs
+    // nfw dirfdtory sdbnnfrs bddording to tif givfn donfig.
+    // Tifn pusifs tif log donfig to tif rfsult log mbnbgfr.
     //
-    private void applyConfiguration(ScanManagerConfig bean)
-        throws IOException, JMException {
-        if (bean == null) return;
-        if (!sequencer.tryAcquire()) {
-            throw new IllegalStateException("Can't acquire lock");
+    privbtf void bpplyConfigurbtion(SdbnMbnbgfrConfig bfbn)
+        tirows IOExdfption, JMExdfption {
+        if (bfbn == null) rfturn;
+        if (!sfqufndfr.tryAdquirf()) {
+            tirow nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
         }
         try {
-            unregisterScanners();
-            final DirectoryScannerConfig[] scans = bean.getScanList();
-            if (scans == null) return;
-            for (DirectoryScannerConfig scan : scans) {
-                addDirectoryScanner(scan);
+            unrfgistfrSdbnnfrs();
+            finbl DirfdtorySdbnnfrConfig[] sdbns = bfbn.gftSdbnList();
+            if (sdbns == null) rfturn;
+            for (DirfdtorySdbnnfrConfig sdbn : sdbns) {
+                bddDirfdtorySdbnnfr(sdbn);
             }
-            log.setConfig(bean.getInitialResultLogConfig());
-        } finally {
-            sequencer.release();
+            log.sftConfig(bfbn.gftInitiblRfsultLogConfig());
+        } finblly {
+            sfqufndfr.rflfbsf();
         }
     }
 
-    // See ScanManagerMXBean
-    public void applyConfiguration(boolean fromMemory)
-        throws IOException, JMException {
-        if (fromMemory == false) config.load();
-        applyConfiguration(config.getConfiguration());
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void bpplyConfigurbtion(boolfbn fromMfmory)
+        tirows IOExdfption, JMExdfption {
+        if (fromMfmory == fblsf) donfig.lobd();
+        bpplyConfigurbtion(donfig.gftConfigurbtion());
     }
 
-    // See ScanManagerMXBean
-    public void applyCurrentResultLogConfig(boolean toMemory)
-        throws IOException, JMException {
-        final ScanManagerConfig bean = config.getConfiguration();
-        bean.setInitialResultLogConfig(log.getConfig());
-        config.setConfiguration(bean);
-        if (toMemory==false) config.save();
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void bpplyCurrfntRfsultLogConfig(boolfbn toMfmory)
+        tirows IOExdfption, JMExdfption {
+        finbl SdbnMbnbgfrConfig bfbn = donfig.gftConfigurbtion();
+        bfbn.sftInitiblRfsultLogConfig(log.gftConfig());
+        donfig.sftConfigurbtion(bfbn);
+        if (toMfmory==fblsf) donfig.sbvf();
     }
 
-    // See ScanManagerMXBean
-    public void setConfigurationMBean(ScanDirConfigMXBean config) {
-        this.config = config;
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void sftConfigurbtionMBfbn(SdbnDirConfigMXBfbn donfig) {
+        tiis.donfig = donfig;
     }
 
-    // See ScanManagerMXBean
-    public ScanDirConfigMXBean getConfigurationMBean() {
-        return config;
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnDirConfigMXBfbn gftConfigurbtionMBfbn() {
+        rfturn donfig;
     }
 
-    // Creates and registers a new directory scanner.
-    // Called by applyConfiguration.
-    // throws IllegalStateException if state is not STOPPED or COMPLETED
-    // (you cannot change the config while scanning is scheduled or running).
+    // Crfbtfs bnd rfgistfrs b nfw dirfdtory sdbnnfr.
+    // Cbllfd by bpplyConfigurbtion.
+    // tirows IllfgblStbtfExdfption if stbtf is not STOPPED or COMPLETED
+    // (you dbnnot dibngf tif donfig wiilf sdbnning is sdifdulfd or running).
     //
-    private DirectoryScannerMXBean addDirectoryScanner(
-                DirectoryScannerConfig bean)
-        throws JMException {
+    privbtf DirfdtorySdbnnfrMXBfbn bddDirfdtorySdbnnfr(
+                DirfdtorySdbnnfrConfig bfbn)
+        tirows JMExdfption {
         try {
-            final DirectoryScannerMXBean scanner;
-            final ObjectName scanName;
-            synchronized (this) {
-                if (state != STOPPED && state != COMPLETED)
-                   throw new IllegalStateException(state.toString());
-                scanner = createDirectoryScanner(bean);
-                scanName = makeDirectoryScannerName(bean.getName());
+            finbl DirfdtorySdbnnfrMXBfbn sdbnnfr;
+            finbl ObjfdtNbmf sdbnNbmf;
+            syndironizfd (tiis) {
+                if (stbtf != STOPPED && stbtf != COMPLETED)
+                   tirow nfw IllfgblStbtfExdfption(stbtf.toString());
+                sdbnnfr = drfbtfDirfdtorySdbnnfr(bfbn);
+                sdbnNbmf = mbkfDirfdtorySdbnnfrNbmf(bfbn.gftNbmf());
             }
-            LOG.fine("server: "+mbeanServer);
-            LOG.fine("scanner: "+scanner);
-            LOG.fine("scanName: "+scanName);
-            final ObjectInstance moi =
-                mbeanServer.registerMBean(scanner,scanName);
-            final ObjectName moiName = moi.getObjectName();
-            final DirectoryScannerMXBean proxy =
-                JMX.newMXBeanProxy(mbeanServer,moiName,
-                DirectoryScannerMXBean.class,true);
-            scanmap.put(moiName,proxy);
-            return proxy;
-        } catch (RuntimeException x) {
-            final String msg = "Operation failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
-                LOG.log(Level.FINEST,msg,x);
-            else LOG.fine(msg);
-            throw x;
-        } catch (JMException x) {
-            final String msg = "Operation failed: "+x;
-            if (LOG.isLoggable(Level.FINEST))
-                LOG.log(Level.FINEST,msg,x);
-            else LOG.fine(msg);
-            throw x;
+            LOG.finf("sfrvfr: "+mbfbnSfrvfr);
+            LOG.finf("sdbnnfr: "+sdbnnfr);
+            LOG.finf("sdbnNbmf: "+sdbnNbmf);
+            finbl ObjfdtInstbndf moi =
+                mbfbnSfrvfr.rfgistfrMBfbn(sdbnnfr,sdbnNbmf);
+            finbl ObjfdtNbmf moiNbmf = moi.gftObjfdtNbmf();
+            finbl DirfdtorySdbnnfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbfbnSfrvfr,moiNbmf,
+                DirfdtorySdbnnfrMXBfbn.dlbss,truf);
+            sdbnmbp.put(moiNbmf,proxy);
+            rfturn proxy;
+        } dbtdi (RuntimfExdfption x) {
+            finbl String msg = "Opfrbtion fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,msg,x);
+            flsf LOG.finf(msg);
+            tirow x;
+        } dbtdi (JMExdfption x) {
+            finbl String msg = "Opfrbtion fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,msg,x);
+            flsf LOG.finf(msg);
+            tirow x;
         }
     }
 
-    // See ScanManagerMXBean
-    public ScanDirConfigMXBean createOtherConfigurationMBean(String name,
-            String filename)
-        throws JMException {
-        final ScanDirConfig profile = new ScanDirConfig(filename);
-        final ObjectName profName = makeScanDirConfigName(name);
-        final ObjectInstance moi = mbeanServer.registerMBean(profile,profName);
-        final ScanDirConfigMXBean proxy =
-                JMX.newMXBeanProxy(mbeanServer,profName,
-                    ScanDirConfigMXBean.class,true);
-        configmap.put(moi.getObjectName(),proxy);
-        return proxy;
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnDirConfigMXBfbn drfbtfOtifrConfigurbtionMBfbn(String nbmf,
+            String filfnbmf)
+        tirows JMExdfption {
+        finbl SdbnDirConfig profilf = nfw SdbnDirConfig(filfnbmf);
+        finbl ObjfdtNbmf profNbmf = mbkfSdbnDirConfigNbmf(nbmf);
+        finbl ObjfdtInstbndf moi = mbfbnSfrvfr.rfgistfrMBfbn(profilf,profNbmf);
+        finbl SdbnDirConfigMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbfbnSfrvfr,profNbmf,
+                    SdbnDirConfigMXBfbn.dlbss,truf);
+        donfigmbp.put(moi.gftObjfdtNbmf(),proxy);
+        rfturn proxy;
     }
 
 
-    // See ScanManagerMXBean
-    public Map<String,DirectoryScannerMXBean> getDirectoryScanners() {
-        final Map<String,DirectoryScannerMXBean> proxyMap = newHashMap();
-        for (Entry<ObjectName,DirectoryScannerMXBean> item : scanmap.entrySet()){
-            proxyMap.put(item.getKey().getKeyProperty("name"),item.getValue());
+    // Sff SdbnMbnbgfrMXBfbn
+    publid Mbp<String,DirfdtorySdbnnfrMXBfbn> gftDirfdtorySdbnnfrs() {
+        finbl Mbp<String,DirfdtorySdbnnfrMXBfbn> proxyMbp = nfwHbsiMbp();
+        for (Entry<ObjfdtNbmf,DirfdtorySdbnnfrMXBfbn> itfm : sdbnmbp.fntrySft()){
+            proxyMbp.put(itfm.gftKfy().gftKfyPropfrty("nbmf"),itfm.gftVbluf());
         }
-        return proxyMap;
+        rfturn proxyMbp;
     }
 
     // ---------------------------------------------------------------
-    // State Management
+    // Stbtf Mbnbgfmfnt
     // ---------------------------------------------------------------
 
     /**
-     * For each operation, this map stores a list of states from
-     * which the corresponding operation can be legally called.
-     * For instance, it is legal to call "stop" regardless of the
-     * application state. However, "schedule" can be called only if
-     * the application state is STOPPED, etc...
+     * For fbdi opfrbtion, tiis mbp storfs b list of stbtfs from
+     * wiidi tif dorrfsponding opfrbtion dbn bf lfgblly dbllfd.
+     * For instbndf, it is lfgbl to dbll "stop" rfgbrdlfss of tif
+     * bpplidbtion stbtf. Howfvfr, "sdifdulf" dbn bf dbllfd only if
+     * tif bpplidbtion stbtf is STOPPED, ftd...
      **/
-    private final static Map<String,EnumSet<ScanState>> allowedStates;
-    static {
-        allowedStates = newHashMap();
-        // You can always call stop
-        allowedStates.put("stop",EnumSet.allOf(ScanState.class));
+    privbtf finbl stbtid Mbp<String,EnumSft<SdbnStbtf>> bllowfdStbtfs;
+    stbtid {
+        bllowfdStbtfs = nfwHbsiMbp();
+        // You dbn blwbys dbll stop
+        bllowfdStbtfs.put("stop",EnumSft.bllOf(SdbnStbtf.dlbss));
 
-        // You can only call closed when stopped
-        allowedStates.put("close",EnumSet.of(STOPPED,COMPLETED,CLOSED));
+        // You dbn only dbll dlosfd wifn stoppfd
+        bllowfdStbtfs.put("dlosf",EnumSft.of(STOPPED,COMPLETED,CLOSED));
 
-        // You can call schedule only when the current task is
-        // completed or stopped.
-        allowedStates.put("schedule",EnumSet.of(STOPPED,COMPLETED));
+        // You dbn dbll sdifdulf only wifn tif durrfnt tbsk is
+        // domplftfd or stoppfd.
+        bllowfdStbtfs.put("sdifdulf",EnumSft.of(STOPPED,COMPLETED));
 
-        // switch reserved for background task: goes from SCHEDULED to
-        //    RUNNING when it enters the run() method.
-        allowedStates.put("scan-running",EnumSet.of(SCHEDULED));
+        // switdi rfsfrvfd for bbdkground tbsk: gofs from SCHEDULED to
+        //    RUNNING wifn it fntfrs tif run() mftiod.
+        bllowfdStbtfs.put("sdbn-running",EnumSft.of(SCHEDULED));
 
-        // switch reserved for background task: goes from RUNNING to
-        //    SCHEDULED when it has completed but needs to reschedule
-        //    itself for specified interval.
-        allowedStates.put("scan-scheduled",EnumSet.of(RUNNING));
+        // switdi rfsfrvfd for bbdkground tbsk: gofs from RUNNING to
+        //    SCHEDULED wifn it ibs domplftfd but nffds to rfsdifdulf
+        //    itsflf for spfdififd intfrvbl.
+        bllowfdStbtfs.put("sdbn-sdifdulfd",EnumSft.of(RUNNING));
 
-        // switch reserved for background task:
-        //     goes from RUNNING to COMPLETED upon successful completion
-        allowedStates.put("scan-done",EnumSet.of(RUNNING));
+        // switdi rfsfrvfd for bbdkground tbsk:
+        //     gofs from RUNNING to COMPLETED upon suddfssful domplftion
+        bllowfdStbtfs.put("sdbn-donf",EnumSft.of(RUNNING));
     }
 
-    // Get this object's state. No need to synchronize because
-    // state is volatile.
-    // See ScanManagerMXBean
-    public ScanState getState() {
-        return state;
+    // Gft tiis objfdt's stbtf. No nffd to syndironizf bfdbusf
+    // stbtf is volbtilf.
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnStbtf gftStbtf() {
+        rfturn stbtf;
     }
 
     /**
-     * Enqueue a state changed notification for the given states.
+     * Enqufuf b stbtf dibngfd notifidbtion for tif givfn stbtfs.
      **/
-    private void queueStateChangedNotification(
-                    long sequence,
-                    long time,
-                    ScanState old,
-                    ScanState current) {
-        final AttributeChangeNotification n =
-                new AttributeChangeNotification(SCAN_MANAGER_NAME,sequence,time,
-                "ScanManager State changed to "+current,"State",
-                ScanState.class.getName(),old.toString(),current.toString());
-        // Queue the notification. We have created an unlimited queue, so
-        // this method should always succeed.
+    privbtf void qufufStbtfCibngfdNotifidbtion(
+                    long sfqufndf,
+                    long timf,
+                    SdbnStbtf old,
+                    SdbnStbtf durrfnt) {
+        finbl AttributfCibngfNotifidbtion n =
+                nfw AttributfCibngfNotifidbtion(SCAN_MANAGER_NAME,sfqufndf,timf,
+                "SdbnMbnbgfr Stbtf dibngfd to "+durrfnt,"Stbtf",
+                SdbnStbtf.dlbss.gftNbmf(),old.toString(),durrfnt.toString());
+        // Qufuf tif notifidbtion. Wf ibvf drfbtfd bn unlimitfd qufuf, so
+        // tiis mftiod siould blwbys suddffd.
         try {
-            if (!pendingNotifs.offer(n,2,TimeUnit.SECONDS)) {
-                LOG.fine("Can't queue Notification: "+n);
+            if (!pfndingNotifs.offfr(n,2,TimfUnit.SECONDS)) {
+                LOG.finf("Cbn't qufuf Notifidbtion: "+n);
             }
-        } catch (InterruptedException x) {
-                LOG.fine("Can't queue Notification: "+x);
+        } dbtdi (IntfrruptfdExdfption x) {
+                LOG.finf("Cbn't qufuf Notifidbtion: "+x);
         }
     }
 
     /**
-     * Send all notifications present in the queue.
+     * Sfnd bll notifidbtions prfsfnt in tif qufuf.
      **/
-    private void sendQueuedNotifications() {
-        Notification n;
-        while ((n = pendingNotifs.poll()) != null) {
-            broadcaster.sendNotification(n);
+    privbtf void sfndQufufdNotifidbtions() {
+        Notifidbtion n;
+        wiilf ((n = pfndingNotifs.poll()) != null) {
+            brobddbstfr.sfndNotifidbtion(n);
         }
     }
 
     /**
-     * Checks that the current state is allowed for the given operation,
-     * and if so, switch its value to the new desired state.
-     * This operation also enqueue the appropriate state changed
-     * notification.
+     * Cifdks tibt tif durrfnt stbtf is bllowfd for tif givfn opfrbtion,
+     * bnd if so, switdi its vbluf to tif nfw dfsirfd stbtf.
+     * Tiis opfrbtion blso fnqufuf tif bppropribtf stbtf dibngfd
+     * notifidbtion.
      **/
-    private ScanState switchState(ScanState desired,String forOperation) {
-        return switchState(desired,allowedStates.get(forOperation));
+    privbtf SdbnStbtf switdiStbtf(SdbnStbtf dfsirfd,String forOpfrbtion) {
+        rfturn switdiStbtf(dfsirfd,bllowfdStbtfs.gft(forOpfrbtion));
     }
 
     /**
-     * Checks that the current state is one of the allowed states,
-     * and if so, switch its value to the new desired state.
-     * This operation also enqueue the appropriate state changed
-     * notification.
+     * Cifdks tibt tif durrfnt stbtf is onf of tif bllowfd stbtfs,
+     * bnd if so, switdi its vbluf to tif nfw dfsirfd stbtf.
+     * Tiis opfrbtion blso fnqufuf tif bppropribtf stbtf dibngfd
+     * notifidbtion.
      **/
-    private ScanState switchState(ScanState desired,EnumSet<ScanState> allowed) {
-        final ScanState old;
-        final long timestamp;
-        final long sequence;
-        synchronized(this) {
-            old = state;
-            if (!allowed.contains(state))
-               throw new IllegalStateException(state.toString());
-            state = desired;
-            timestamp = System.currentTimeMillis();
-            sequence  = getNextSeqNumber();
+    privbtf SdbnStbtf switdiStbtf(SdbnStbtf dfsirfd,EnumSft<SdbnStbtf> bllowfd) {
+        finbl SdbnStbtf old;
+        finbl long timfstbmp;
+        finbl long sfqufndf;
+        syndironizfd(tiis) {
+            old = stbtf;
+            if (!bllowfd.dontbins(stbtf))
+               tirow nfw IllfgblStbtfExdfption(stbtf.toString());
+            stbtf = dfsirfd;
+            timfstbmp = Systfm.durrfntTimfMillis();
+            sfqufndf  = gftNfxtSfqNumbfr();
         }
-        LOG.fine("switched state: "+old+" -> "+desired);
-        if (old != desired)
-            queueStateChangedNotification(sequence,timestamp,old,desired);
-        return old;
+        LOG.finf("switdifd stbtf: "+old+" -> "+dfsirfd);
+        if (old != dfsirfd)
+            qufufStbtfCibngfdNotifidbtion(sfqufndf,timfstbmp,old,dfsirfd);
+        rfturn old;
     }
 
 
     // ---------------------------------------------------------------
-    // schedule() creates a new SessionTask that will be executed later
-    // (possibly right away if delay=0) by a Timer thread.
+    // sdifdulf() drfbtfs b nfw SfssionTbsk tibt will bf fxfdutfd lbtfr
+    // (possibly rigit bwby if dflby=0) by b Timfr tirfbd.
     // ---------------------------------------------------------------
 
-    // The timer used by this object. Lazzy evaluation. Cleaned in
-    // postDeregister()
+    // Tif timfr usfd by tiis objfdt. Lbzzy fvblubtion. Clfbnfd in
+    // postDfrfgistfr()
     //
-    private Timer timer = null;
+    privbtf Timfr timfr = null;
 
-    // See ScanManagerMXBean
-    public void schedule(long delay, long interval) {
-        if (!sequencer.tryAcquire()) {
-            throw new IllegalStateException("Can't acquire lock");
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void sdifdulf(long dflby, long intfrvbl) {
+        if (!sfqufndfr.tryAdquirf()) {
+            tirow nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
         }
         try {
-            LOG.fine("scheduling new task: state="+state);
-            final ScanState old = switchState(SCHEDULED,"schedule");
-            final boolean scheduled =
-                scheduleSession(new SessionTask(interval),delay);
-            if (scheduled)
-                LOG.fine("new task scheduled: state="+state);
-        } finally {
-            sequencer.release();
+            LOG.finf("sdifduling nfw tbsk: stbtf="+stbtf);
+            finbl SdbnStbtf old = switdiStbtf(SCHEDULED,"sdifdulf");
+            finbl boolfbn sdifdulfd =
+                sdifdulfSfssion(nfw SfssionTbsk(intfrvbl),dflby);
+            if (sdifdulfd)
+                LOG.finf("nfw tbsk sdifdulfd: stbtf="+stbtf);
+        } finblly {
+            sfqufndfr.rflfbsf();
         }
-        sendQueuedNotifications();
+        sfndQufufdNotifidbtions();
     }
 
-    // Schedule a SessionTask. The session task may reschedule
-    // a new identical task when it eventually ends.
-    // We use this logic so that the 'interval' time is measured
-    // starting at the end of the task that finishes, rather than
-    // at its beginning. Therefore if a repeated task takes x ms,
-    // it will be repeated every x+interval ms.
+    // Sdifdulf b SfssionTbsk. Tif sfssion tbsk mby rfsdifdulf
+    // b nfw idfntidbl tbsk wifn it fvfntublly fnds.
+    // Wf usf tiis logid so tibt tif 'intfrvbl' timf is mfbsurfd
+    // stbrting bt tif fnd of tif tbsk tibt finisifs, rbtifr tibn
+    // bt its bfginning. Tifrfforf if b rfpfbtfd tbsk tbkfs x ms,
+    // it will bf rfpfbtfd fvfry x+intfrvbl ms.
     //
-    private synchronized boolean scheduleSession(SessionTask task, long delay) {
-        if (state == STOPPED) return false;
-        if (timer == null) timer = new Timer("ScanManager");
-        tasklist.add(task);
-        timer.schedule(task,delay);
-        return true;
+    privbtf syndironizfd boolfbn sdifdulfSfssion(SfssionTbsk tbsk, long dflby) {
+        if (stbtf == STOPPED) rfturn fblsf;
+        if (timfr == null) timfr = nfw Timfr("SdbnMbnbgfr");
+        tbsklist.bdd(tbsk);
+        timfr.sdifdulf(tbsk,dflby);
+        rfturn truf;
     }
 
     // ---------------------------------------------------------------
-    // start() is equivalent to schedule(0,0)
+    // stbrt() is fquivblfnt to sdifdulf(0,0)
     // ---------------------------------------------------------------
 
-    // See ScanManagerMXBean
-    public void start() throws IOException, InstanceNotFoundException {
-        schedule(0,0);
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void stbrt() tirows IOExdfption, InstbndfNotFoundExdfption {
+        sdifdulf(0,0);
     }
 
     // ---------------------------------------------------------------
-    // Methods used to implement stop() -  stop() is asynchronous,
-    // and needs to notify any running background task that it needs
-    // to stop. It also needs to prevent scheduled task from being
+    // Mftiods usfd to implfmfnt stop() -  stop() is bsyndironous,
+    // bnd nffds to notify bny running bbdkground tbsk tibt it nffds
+    // to stop. It blso nffds to prfvfnt sdifdulfd tbsk from bfing
     // run.
     // ---------------------------------------------------------------
 
-    // See ScanManagerMXBean
-    public void stop() {
-        if (!sequencer.tryAcquire())
-            throw new IllegalStateException("Can't acquire lock");
-        int errcount = 0;
-        final StringBuilder b = new StringBuilder();
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void stop() {
+        if (!sfqufndfr.tryAdquirf())
+            tirow nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
+        int frrdount = 0;
+        finbl StringBuildfr b = nfw StringBuildfr();
 
         try {
-            switchState(STOPPED,"stop");
+            switdiStbtf(STOPPED,"stop");
 
-            errcount += cancelSessionTasks(b);
-            errcount += stopDirectoryScanners(b);
-        } finally {
-            sequencer.release();
+            frrdount += dbndflSfssionTbsks(b);
+            frrdount += stopDirfdtorySdbnnfrs(b);
+        } finblly {
+            sfqufndfr.rflfbsf();
         }
 
-        sendQueuedNotifications();
-        if (errcount > 0) {
-            b.insert(0,"stop partially failed with "+errcount+" error(s):");
-            throw new RuntimeException(b.toString());
+        sfndQufufdNotifidbtions();
+        if (frrdount > 0) {
+            b.insfrt(0,"stop pbrtiblly fbilfd witi "+frrdount+" frror(s):");
+            tirow nfw RuntimfExdfption(b.toString());
         }
     }
 
-    // See ScanManagerMXBean
-    public void close() {
-        switchState(CLOSED,"close");
-        sendQueuedNotifications();
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void dlosf() {
+        switdiStbtf(CLOSED,"dlosf");
+        sfndQufufdNotifidbtions();
     }
 
-    // Appends exception to a StringBuilder message.
+    // Appfnds fxdfption to b StringBuildfr mfssbgf.
     //
-    private void append(StringBuilder b,String prefix,Throwable t) {
-        final String first = (prefix==null)?"\n":"\n"+prefix;
-        b.append(first).append(String.valueOf(t));
-        Throwable cause = t;
-        while ((cause = cause.getCause())!=null) {
-            b.append(first).append("Caused by:").append(first);
-            b.append('\t').append(String.valueOf(cause));
+    privbtf void bppfnd(StringBuildfr b,String prffix,Tirowbblf t) {
+        finbl String first = (prffix==null)?"\n":"\n"+prffix;
+        b.bppfnd(first).bppfnd(String.vblufOf(t));
+        Tirowbblf dbusf = t;
+        wiilf ((dbusf = dbusf.gftCbusf())!=null) {
+            b.bppfnd(first).bppfnd("Cbusfd by:").bppfnd(first);
+            b.bppfnd('\t').bppfnd(String.vblufOf(dbusf));
         }
     }
 
-    // Cancels all scheduled session tasks
+    // Cbndfls bll sdifdulfd sfssion tbsks
     //
-    private int cancelSessionTasks(StringBuilder b) {
-        int errcount = 0;
-        // Stops scheduled tasks if any...
+    privbtf int dbndflSfssionTbsks(StringBuildfr b) {
+        int frrdount = 0;
+        // Stops sdifdulfd tbsks if bny...
         //
-        for (SessionTask task : tasklist) {
+        for (SfssionTbsk tbsk : tbsklist) {
             try {
-                task.cancel();
-                tasklist.remove(task);
-            } catch (Exception ex) {
-                errcount++;
-                append(b,"\t",ex);
+                tbsk.dbndfl();
+                tbsklist.rfmovf(tbsk);
+            } dbtdi (Exdfption fx) {
+                frrdount++;
+                bppfnd(b,"\t",fx);
             }
         }
-        return errcount;
+        rfturn frrdount;
     }
 
-    // Stops all DirectoryScanners configured for this object.
+    // Stops bll DirfdtorySdbnnfrs donfigurfd for tiis objfdt.
     //
-    private int stopDirectoryScanners(StringBuilder b) {
-        int errcount = 0;
-        // Stops directory scanners if any...
+    privbtf int stopDirfdtorySdbnnfrs(StringBuildfr b) {
+        int frrdount = 0;
+        // Stops dirfdtory sdbnnfrs if bny...
         //
-        for (DirectoryScannerMXBean s : scanmap.values()) {
+        for (DirfdtorySdbnnfrMXBfbn s : sdbnmbp.vblufs()) {
             try {
                 s.stop();
-            } catch (Exception ex) {
-                errcount++;
-                append(b,"\t",ex);
+            } dbtdi (Exdfption fx) {
+                frrdount++;
+                bppfnd(b,"\t",fx);
             }
         }
-        return errcount;
+        rfturn frrdount;
     }
 
 
     // ---------------------------------------------------------------
-    // We start scanning in background in a Timer thread.
-    // The methods below implement that logic.
+    // Wf stbrt sdbnning in bbdkground in b Timfr tirfbd.
+    // Tif mftiods bflow implfmfnt tibt logid.
     // ---------------------------------------------------------------
 
-    private void scanAllDirectories()
-        throws IOException, InstanceNotFoundException {
+    privbtf void sdbnAllDirfdtorifs()
+        tirows IOExdfption, InstbndfNotFoundExdfption {
 
-        int errcount = 0;
-        final StringBuilder b = new StringBuilder();
-        for (ObjectName key : scanmap.keySet()) {
-            final DirectoryScannerMXBean s = scanmap.get(key);
+        int frrdount = 0;
+        finbl StringBuildfr b = nfw StringBuildfr();
+        for (ObjfdtNbmf kfy : sdbnmbp.kfySft()) {
+            finbl DirfdtorySdbnnfrMXBfbn s = sdbnmbp.gft(kfy);
             try {
-                if (state == STOPPED) return;
-                s.scan();
-            } catch (Exception ex) {
-                LOG.log(Level.FINE,key + " failed to scan: "+ex,ex);
-                errcount++;
-                append(b,"\t",ex);
+                if (stbtf == STOPPED) rfturn;
+                s.sdbn();
+            } dbtdi (Exdfption fx) {
+                LOG.log(Lfvfl.FINE,kfy + " fbilfd to sdbn: "+fx,fx);
+                frrdount++;
+                bppfnd(b,"\t",fx);
             }
         }
-        if (errcount > 0) {
-            b.insert(0,"scan partially performed with "+errcount+" error(s):");
-            throw new RuntimeException(b.toString());
+        if (frrdount > 0) {
+            b.insfrt(0,"sdbn pbrtiblly pfrformfd witi "+frrdount+" frror(s):");
+            tirow nfw RuntimfExdfption(b.toString());
         }
     }
 
-    // List of scheduled session task. Needed by stop() to cancel
-    // scheduled sessions. There's usually at most 1 session in
-    // this list (unless there's a bug somewhere ;-))
+    // List of sdifdulfd sfssion tbsk. Nffdfd by stop() to dbndfl
+    // sdifdulfd sfssions. Tifrf's usublly bt most 1 sfssion in
+    // tiis list (unlfss tifrf's b bug somfwifrf ;-))
     //
-    private final ConcurrentLinkedQueue<SessionTask> tasklist =
-            new ConcurrentLinkedQueue<SessionTask>();
+    privbtf finbl CondurrfntLinkfdQufuf<SfssionTbsk> tbsklist =
+            nfw CondurrfntLinkfdQufuf<SfssionTbsk>();
 
-    // Used to give a unique id to session task - useful for
-    // debugging.
+    // Usfd to givf b uniquf id to sfssion tbsk - usfful for
+    // dfbugging.
     //
-    private volatile static long taskcount = 0;
+    privbtf volbtilf stbtid long tbskdount = 0;
 
     /**
-     * A session task will be scheduled to run in background in a
-     * timer thread. There can be at most one session task running
-     * at a given time (this is ensured by using a timer - which is
-     * a single threaded object).
+     * A sfssion tbsk will bf sdifdulfd to run in bbdkground in b
+     * timfr tirfbd. Tifrf dbn bf bt most onf sfssion tbsk running
+     * bt b givfn timf (tiis is fnsurfd by using b timfr - wiidi is
+     * b singlf tirfbdfd objfdt).
      *
-     * If the session needs to be repeated, it will reschedule an
-     * identical session when it finishes to run. This ensure that
-     * two session runs are separated by the given interval time.
+     * If tif sfssion nffds to bf rfpfbtfd, it will rfsdifdulf bn
+     * idfntidbl sfssion wifn it finisifs to run. Tiis fnsurf tibt
+     * two sfssion runs brf sfpbrbtfd by tif givfn intfrvbl timf.
      *
      **/
-    private class SessionTask extends TimerTask {
+    privbtf dlbss SfssionTbsk fxtfnds TimfrTbsk {
 
         /**
-         * Delay after which the next iteration of this task will
-         * start. This delay is measured  starting at the end of
-         * the previous iteration.
+         * Dflby bftfr wiidi tif nfxt itfrbtion of tiis tbsk will
+         * stbrt. Tiis dflby is mfbsurfd  stbrting bt tif fnd of
+         * tif prfvious itfrbtion.
          **/
-        final long delayBeforeNext;
+        finbl long dflbyBfforfNfxt;
 
         /**
-         * A unique id for this task.
+         * A uniquf id for tiis tbsk.
          **/
-        final long taskid;
+        finbl long tbskid;
 
         /**
-         * Whether it's been cancelled by stop()
+         * Wiftifr it's bffn dbndfllfd by stop()
          **/
-        volatile boolean cancelled=false;
+        volbtilf boolfbn dbndfllfd=fblsf;
 
         /**
-         * create a new SessionTask.
+         * drfbtf b nfw SfssionTbsk.
          **/
-        SessionTask(long scheduleNext) {
-            delayBeforeNext = scheduleNext;
-            taskid = taskcount++;
+        SfssionTbsk(long sdifdulfNfxt) {
+            dflbyBfforfNfxt = sdifdulfNfxt;
+            tbskid = tbskdount++;
         }
 
         /**
-         * When run() begins, the state is switched to RUNNING.
-         * When run() ends then:
-         *      If the task is repeated, the state will be switched
-         *      to SCHEDULED (because a new task was scheduled).
-         *      Otherwise the state will be switched to either
-         *      STOPPED (if it was stopped before it could complete)
-         *      or COMPLETED (if it completed gracefully)
-         * This method is used to switch to the desired state and
-         * send the appropriate notifications.
-         * When entering the method, we check whether the state is
-         * STOPPED. If so, we return false - and the SessionTask will
-         * stop. Otherwise, we switch the state to the desired value.
+         * Wifn run() bfgins, tif stbtf is switdifd to RUNNING.
+         * Wifn run() fnds tifn:
+         *      If tif tbsk is rfpfbtfd, tif stbtf will bf switdifd
+         *      to SCHEDULED (bfdbusf b nfw tbsk wbs sdifdulfd).
+         *      Otifrwisf tif stbtf will bf switdifd to fitifr
+         *      STOPPED (if it wbs stoppfd bfforf it dould domplftf)
+         *      or COMPLETED (if it domplftfd grbdffully)
+         * Tiis mftiod is usfd to switdi to tif dfsirfd stbtf bnd
+         * sfnd tif bppropribtf notifidbtions.
+         * Wifn fntfring tif mftiod, wf difdk wiftifr tif stbtf is
+         * STOPPED. If so, wf rfturn fblsf - bnd tif SfssionTbsk will
+         * stop. Otifrwisf, wf switdi tif stbtf to tif dfsirfd vbluf.
          **/
-        private boolean notifyStateChange(ScanState newState,String condition) {
-            synchronized (ScanManager.this) {
-                if (state == STOPPED || state == CLOSED) return false;
-                switchState(newState,condition);
+        privbtf boolfbn notifyStbtfCibngf(SdbnStbtf nfwStbtf,String dondition) {
+            syndironizfd (SdbnMbnbgfr.tiis) {
+                if (stbtf == STOPPED || stbtf == CLOSED) rfturn fblsf;
+                switdiStbtf(nfwStbtf,dondition);
             }
-            sendQueuedNotifications();
-            return true;
+            sfndQufufdNotifidbtions();
+            rfturn truf;
         }
 
-        // Cancels this task.
-        public boolean cancel() {
-            cancelled=true;
-            return super.cancel();
-        }
-
-        /**
-         * Invoke all directories scanners in sequence. At each
-         * step, checks to see whether the task should stop.
-         **/
-        private boolean execute() {
-            final String tag = "Scheduled session["+taskid+"]";
-            try {
-                if (cancelled) {
-                    LOG.finer(tag+" cancelled: done");
-                    return false;
-                }
-                if (!notifyStateChange(RUNNING,"scan-running")) {
-                    LOG.finer(tag+" stopped: done");
-                    return false;
-                }
-                scanAllDirectories();
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.log(Level.FINEST,
-                            tag+" failed to scan: "+x,x);
-                } else if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(tag+" failed to scan: "+x);
-                }
-            }
-            return true;
+        // Cbndfls tiis tbsk.
+        publid boolfbn dbndfl() {
+            dbndfllfd=truf;
+            rfturn supfr.dbndfl();
         }
 
         /**
-         * Schedule an identical task for next iteration.
+         * Invokf bll dirfdtorifs sdbnnfrs in sfqufndf. At fbdi
+         * stfp, difdks to sff wiftifr tif tbsk siould stop.
          **/
-        private boolean scheduleNext() {
-            final String tag = "Scheduled session["+taskid+"]";
-
-            // We need now to reschedule a new task for after 'delayBeforeNext' ms.
+        privbtf boolfbn fxfdutf() {
+            finbl String tbg = "Sdifdulfd sfssion["+tbskid+"]";
             try {
-                LOG.finer(tag+": scheduling next session for "+ delayBeforeNext + "ms");
-                if (cancelled || !notifyStateChange(SCHEDULED,"scan-scheduled")) {
-                    LOG.finer(tag+" stopped: do not reschedule");
-                    return false;
+                if (dbndfllfd) {
+                    LOG.finfr(tbg+" dbndfllfd: donf");
+                    rfturn fblsf;
                 }
-                final SessionTask nextTask = new SessionTask(delayBeforeNext);
-                if (!scheduleSession(nextTask,delayBeforeNext)) return false;
-                LOG.finer(tag+": next session successfully scheduled");
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.log(Level.FINEST,tag+
-                            " failed to schedule next session: "+x,x);
-                } else if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(tag+" failed to schedule next session: "+x);
+                if (!notifyStbtfCibngf(RUNNING,"sdbn-running")) {
+                    LOG.finfr(tbg+" stoppfd: donf");
+                    rfturn fblsf;
+                }
+                sdbnAllDirfdtorifs();
+            } dbtdi (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST)) {
+                    LOG.log(Lfvfl.FINEST,
+                            tbg+" fbilfd to sdbn: "+x,x);
+                } flsf if (LOG.isLoggbblf(Lfvfl.FINE)) {
+                    LOG.finf(tbg+" fbilfd to sdbn: "+x);
                 }
             }
-            return true;
+            rfturn truf;
+        }
+
+        /**
+         * Sdifdulf bn idfntidbl tbsk for nfxt itfrbtion.
+         **/
+        privbtf boolfbn sdifdulfNfxt() {
+            finbl String tbg = "Sdifdulfd sfssion["+tbskid+"]";
+
+            // Wf nffd now to rfsdifdulf b nfw tbsk for bftfr 'dflbyBfforfNfxt' ms.
+            try {
+                LOG.finfr(tbg+": sdifduling nfxt sfssion for "+ dflbyBfforfNfxt + "ms");
+                if (dbndfllfd || !notifyStbtfCibngf(SCHEDULED,"sdbn-sdifdulfd")) {
+                    LOG.finfr(tbg+" stoppfd: do not rfsdifdulf");
+                    rfturn fblsf;
+                }
+                finbl SfssionTbsk nfxtTbsk = nfw SfssionTbsk(dflbyBfforfNfxt);
+                if (!sdifdulfSfssion(nfxtTbsk,dflbyBfforfNfxt)) rfturn fblsf;
+                LOG.finfr(tbg+": nfxt sfssion suddfssfully sdifdulfd");
+            } dbtdi (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST)) {
+                    LOG.log(Lfvfl.FINEST,tbg+
+                            " fbilfd to sdifdulf nfxt sfssion: "+x,x);
+                } flsf if (LOG.isLoggbblf(Lfvfl.FINE)) {
+                    LOG.finf(tbg+" fbilfd to sdifdulf nfxt sfssion: "+x);
+                }
+            }
+            rfturn truf;
         }
 
 
         /**
-         * The run method:
-         * executes scanning logic, the schedule next iteration if needed.
+         * Tif run mftiod:
+         * fxfdutfs sdbnning logid, tif sdifdulf nfxt itfrbtion if nffdfd.
          **/
-        public void run() {
-            final String tag = "Scheduled session["+taskid+"]";
-            LOG.entering(SessionTask.class.getName(),"run");
-            LOG.finer(tag+" starting...");
+        publid void run() {
+            finbl String tbg = "Sdifdulfd sfssion["+tbskid+"]";
+            LOG.fntfring(SfssionTbsk.dlbss.gftNbmf(),"run");
+            LOG.finfr(tbg+" stbrting...");
             try {
-                if (execute()==false) return;
+                if (fxfdutf()==fblsf) rfturn;
 
-                LOG.finer(tag+" terminating - state is "+state+
-                    ((delayBeforeNext >0)?(" next session is due in "+delayBeforeNext+" ms."):
-                        " no additional session scheduled"));
+                LOG.finfr(tbg+" tfrminbting - stbtf is "+stbtf+
+                    ((dflbyBfforfNfxt >0)?(" nfxt sfssion is duf in "+dflbyBfforfNfxt+" ms."):
+                        " no bdditionbl sfssion sdifdulfd"));
 
-                // if delayBeforeNext <= 0 we are done, either because the session was
-                // stopped or because it successfully completed.
-                if (delayBeforeNext <= 0) {
-                    if (!notifyStateChange(COMPLETED,"scan-done"))
-                        LOG.finer(tag+" stopped: done");
-                    else
-                        LOG.finer(tag+" completed: done");
-                    return;
+                // if dflbyBfforfNfxt <= 0 wf brf donf, fitifr bfdbusf tif sfssion wbs
+                // stoppfd or bfdbusf it suddfssfully domplftfd.
+                if (dflbyBfforfNfxt <= 0) {
+                    if (!notifyStbtfCibngf(COMPLETED,"sdbn-donf"))
+                        LOG.finfr(tbg+" stoppfd: donf");
+                    flsf
+                        LOG.finfr(tbg+" domplftfd: donf");
+                    rfturn;
                 }
 
-                // we need to reschedule a new session for 'delayBeforeNext' ms.
-                scheduleNext();
+                // wf nffd to rfsdifdulf b nfw sfssion for 'dflbyBfforfNfxt' ms.
+                sdifdulfNfxt();
 
-            } finally {
-                tasklist.remove(this);
-                LOG.finer(tag+" finished...");
-                LOG.exiting(SessionTask.class.getName(),"run");
+            } finblly {
+                tbsklist.rfmovf(tiis);
+                LOG.finfr(tbg+" finisifd...");
+                LOG.fxiting(SfssionTbsk.dlbss.gftNbmf(),"run");
             }
         }
     }
@@ -910,251 +910,251 @@ public class ScanManager implements ScanManagerMXBean,
     // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
-    // MBean Notification support
-    // The methods below are imported from {@link NotificationEmitter}
+    // MBfbn Notifidbtion support
+    // Tif mftiods bflow brf importfd from {@link NotifidbtionEmittfr}
     // ---------------------------------------------------------------
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Dflfgbtfs tif implfmfntbtion of tiis mftiod to tif wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
      **/
-    public void addNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) throws IllegalArgumentException {
-        broadcaster.addNotificationListener(listener, filter, handback);
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr, NotifidbtionFiltfr filtfr, Objfdt ibndbbdk) tirows IllfgblArgumfntExdfption {
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
 
     /**
-     * We emit an {@code AttributeChangeNotification} when the {@code State}
-     * attribute changes.
+     * Wf fmit bn {@dodf AttributfCibngfNotifidbtion} wifn tif {@dodf Stbtf}
+     * bttributf dibngfs.
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(new String[] {
-                AttributeChangeNotification.ATTRIBUTE_CHANGE},
-                AttributeChangeNotification.class.getName(),
-                "Emitted when the State attribute changes")
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
+                AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE},
+                AttributfCibngfNotifidbtion.dlbss.gftNbmf(),
+                "Emittfd wifn tif Stbtf bttributf dibngfs")
             };
     }
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Dflfgbtfs tif implfmfntbtion of tiis mftiod to tif wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
      **/
-    public void removeNotificationListener(NotificationListener listener) throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr) tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
     }
 
     /**
-     * Delegates the implementation of this method to the wrapped
-     * {@code NotificationBroadcasterSupport} object.
+     * Dflfgbtfs tif implfmfntbtion of tiis mftiod to tif wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
      **/
-    public void removeNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener, filter, handback);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr, NotifidbtionFiltfr filtfr, Objfdt ibndbbdk) tirows ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
     /**
-     * Returns and increment the sequence number used for
-     * notifications. We use the same sequence number throughout the
-     * application - this is why this method is only package protected.
-     * @return A unique sequence number for the next notification.
+     * Rfturns bnd indrfmfnt tif sfqufndf numbfr usfd for
+     * notifidbtions. Wf usf tif sbmf sfqufndf numbfr tirougiout tif
+     * bpplidbtion - tiis is wiy tiis mftiod is only pbdkbgf protfdtfd.
+     * @rfturn A uniquf sfqufndf numbfr for tif nfxt notifidbtion.
      */
-    static synchronized long getNextSeqNumber() {
-        return seqNumber++;
+    stbtid syndironizfd long gftNfxtSfqNumbfr() {
+        rfturn sfqNumbfr++;
     }
 
     // ---------------------------------------------------------------
-    // End of MBean Notification support
+    // End of MBfbn Notifidbtion support
     // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
-    // MBeanRegistration support
-    // The methods below are imported from {@link MBeanRegistration}
+    // MBfbnRfgistrbtion support
+    // Tif mftiods bflow brf importfd from {@link MBfbnRfgistrbtion}
     // ---------------------------------------------------------------
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * registered in the MBean server. If the name of the MBean is not
-     * specified, the MBean can provide a name for its registration. If
-     * any exception is raised, the MBean will not be registered in the
-     * MBean server.
-     * <p>In this implementation, we check that the provided name is
-     * either {@code null} or equals to {@link #SCAN_MANAGER_NAME}. If it
-     * isn't then we throw an IllegalArgumentException, otherwise we return
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * rfgistfrfd in tif MBfbn sfrvfr. If tif nbmf of tif MBfbn is not
+     * spfdififd, tif MBfbn dbn providf b nbmf for its rfgistrbtion. If
+     * bny fxdfption is rbisfd, tif MBfbn will not bf rfgistfrfd in tif
+     * MBfbn sfrvfr.
+     * <p>In tiis implfmfntbtion, wf difdk tibt tif providfd nbmf is
+     * fitifr {@dodf null} or fqubls to {@link #SCAN_MANAGER_NAME}. If it
+     * isn't tifn wf tirow bn IllfgblArgumfntExdfption, otifrwisf wf rfturn
      * {@link #SCAN_MANAGER_NAME}.</p>
-     * <p>This ensures that there will be a single instance of ScanManager
-     * registered in a given MBeanServer, and that it will always be
-     * registered with the singleton's {@link #SCAN_MANAGER_NAME}.</p>
-     * <p>We do not need to check whether an MBean by that name is
-     *    already registered because the MBeanServer will perform
-     *    this check just after having called preRegister().</p>
-     * @param server The MBean server in which the MBean will be registered.
-     * @param name The object name of the MBean. This name is null if the
-     * name parameter to one of the createMBean or registerMBean methods in
-     * the MBeanServer interface is null. In that case, this method must
-     * return a non-null ObjectName for the new MBean.
-     * @return The name under which the MBean is to be registered. This value
-     * must not be null. If the name parameter is not null, it will usually
-     * but not necessarily be the returned value.
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * <p>Tiis fnsurfs tibt tifrf will bf b singlf instbndf of SdbnMbnbgfr
+     * rfgistfrfd in b givfn MBfbnSfrvfr, bnd tibt it will blwbys bf
+     * rfgistfrfd witi tif singlfton's {@link #SCAN_MANAGER_NAME}.</p>
+     * <p>Wf do not nffd to difdk wiftifr bn MBfbn by tibt nbmf is
+     *    blrfbdy rfgistfrfd bfdbusf tif MBfbnSfrvfr will pfrform
+     *    tiis difdk just bftfr ibving dbllfd prfRfgistfr().</p>
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif MBfbn will bf rfgistfrfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Tiis nbmf is null if tif
+     * nbmf pbrbmftfr to onf of tif drfbtfMBfbn or rfgistfrMBfbn mftiods in
+     * tif MBfbnSfrvfr intfrfbdf is null. In tibt dbsf, tiis mftiod must
+     * rfturn b non-null ObjfdtNbmf for tif nfw MBfbn.
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd. Tiis vbluf
+     * must not bf null. If tif nbmf pbrbmftfr is not null, it will usublly
+     * but not nfdfssbrily bf tif rfturnfd vbluf.
+     * @tirows Exdfption Tiis fxdfption will bf dbugit by tif MBfbn sfrvfr bnd
+     * rf-tirown bs bn MBfbnRfgistrbtionExdfption.
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name) throws Exception {
-        if (name != null) {
-            if (!SCAN_MANAGER_NAME.equals(name))
-                throw new IllegalArgumentException(String.valueOf(name));
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf) tirows Exdfption {
+        if (nbmf != null) {
+            if (!SCAN_MANAGER_NAME.fqubls(nbmf))
+                tirow nfw IllfgblArgumfntExdfption(String.vblufOf(nbmf));
         }
-        mbeanServer = server;
-        return SCAN_MANAGER_NAME;
+        mbfbnSfrvfr = sfrvfr;
+        rfturn SCAN_MANAGER_NAME;
     }
 
-    // Returns the default configuration filename
-    static String getDefaultConfigurationFileName() {
-        // This is a file calles 'jmx-scandir.xml' located
-        // in the user directory.
-        final String user = System.getProperty("user.home");
-        final String defconf = user+File.separator+"jmx-scandir.xml";
-        return defconf;
+    // Rfturns tif dffbult donfigurbtion filfnbmf
+    stbtid String gftDffbultConfigurbtionFilfNbmf() {
+        // Tiis is b filf dbllfs 'jmx-sdbndir.xml' lodbtfd
+        // in tif usfr dirfdtory.
+        finbl String usfr = Systfm.gftPropfrty("usfr.iomf");
+        finbl String dffdonf = usfr+Filf.sfpbrbtor+"jmx-sdbndir.xml";
+        rfturn dffdonf;
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having
-     * been registered in the MBean server or after the registration has
-     * failed.
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving
+     * bffn rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs
+     * fbilfd.
      * <p>
-     * If registration was not successful, the method returns immediately.
+     * If rfgistrbtion wbs not suddfssful, tif mftiod rfturns immfdibtfly.
      * <p>
-     * If registration is successful, register the {@link ResultLogManager}
-     * and default {@link ScanDirConfigMXBean}. If registering these
-     * MBean fails, the {@code ScanManager} state will be switched to
-     * {@link #close CLOSED}, and postRegister ends there.
+     * If rfgistrbtion is suddfssful, rfgistfr tif {@link RfsultLogMbnbgfr}
+     * bnd dffbult {@link SdbnDirConfigMXBfbn}. If rfgistfring tifsf
+     * MBfbn fbils, tif {@dodf SdbnMbnbgfr} stbtf will bf switdifd to
+     * {@link #dlosf CLOSED}, bnd postRfgistfr fnds tifrf.
      * </p>
-     * <p>Otherwise the {@code ScanManager} will ask the
-     * {@link ScanDirConfigMXBean} to load its configuration.
-     * If it succeeds, the configuration will be {@link
-     * #applyConfiguration applied}. Otherwise, the method simply returns,
-     * assuming that the user will later create/update a configuration and
-     * apply it.
-     * @param registrationDone Indicates whether or not the MBean has been
-     * successfully registered in the MBean server. The value false means
-     * that the registration has failed.
+     * <p>Otifrwisf tif {@dodf SdbnMbnbgfr} will bsk tif
+     * {@link SdbnDirConfigMXBfbn} to lobd its donfigurbtion.
+     * If it suddffds, tif donfigurbtion will bf {@link
+     * #bpplyConfigurbtion bpplifd}. Otifrwisf, tif mftiod simply rfturns,
+     * bssuming tibt tif usfr will lbtfr drfbtf/updbtf b donfigurbtion bnd
+     * bpply it.
+     * @pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs bffn
+     * suddfssfully rfgistfrfd in tif MBfbn sfrvfr. Tif vbluf fblsf mfbns
+     * tibt tif rfgistrbtion ibs fbilfd.
      */
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone) return;
-        Exception test=null;
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf) rfturn;
+        Exdfption tfst=null;
         try {
-            mbeanServer.registerMBean(log,
-                    ResultLogManager.RESULT_LOG_MANAGER_NAME);
-            final String defconf = getDefaultConfigurationFileName();
-            final String conf = System.getProperty("scandir.config.file",defconf);
-            final String confname = ScanDirConfig.guessConfigName(conf,defconf);
-            final ObjectName defaultProfileName =
-                    makeMBeanName(ScanDirConfigMXBean.class,confname);
-            if (!mbeanServer.isRegistered(defaultProfileName))
-                mbeanServer.registerMBean(new ScanDirConfig(conf),
-                        defaultProfileName);
-            config = JMX.newMXBeanProxy(mbeanServer,defaultProfileName,
-                    ScanDirConfigMXBean.class,true);
-            configmap.put(defaultProfileName,config);
-        } catch (Exception x) {
-            LOG.config("Failed to populate MBeanServer: "+x);
-            close();
-            return;
+            mbfbnSfrvfr.rfgistfrMBfbn(log,
+                    RfsultLogMbnbgfr.RESULT_LOG_MANAGER_NAME);
+            finbl String dffdonf = gftDffbultConfigurbtionFilfNbmf();
+            finbl String donf = Systfm.gftPropfrty("sdbndir.donfig.filf",dffdonf);
+            finbl String donfnbmf = SdbnDirConfig.gufssConfigNbmf(donf,dffdonf);
+            finbl ObjfdtNbmf dffbultProfilfNbmf =
+                    mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,donfnbmf);
+            if (!mbfbnSfrvfr.isRfgistfrfd(dffbultProfilfNbmf))
+                mbfbnSfrvfr.rfgistfrMBfbn(nfw SdbnDirConfig(donf),
+                        dffbultProfilfNbmf);
+            donfig = JMX.nfwMXBfbnProxy(mbfbnSfrvfr,dffbultProfilfNbmf,
+                    SdbnDirConfigMXBfbn.dlbss,truf);
+            donfigmbp.put(dffbultProfilfNbmf,donfig);
+        } dbtdi (Exdfption x) {
+            LOG.donfig("Fbilfd to populbtf MBfbnSfrvfr: "+x);
+            dlosf();
+            rfturn;
         }
         try {
-            config.load();
-        } catch (Exception x) {
-            LOG.finest("No config to load: "+x);
-            test = x;
+            donfig.lobd();
+        } dbtdi (Exdfption x) {
+            LOG.finfst("No donfig to lobd: "+x);
+            tfst = x;
         }
-        if (test == null) {
+        if (tfst == null) {
             try {
-                applyConfiguration(config.getConfiguration());
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST))
-                    LOG.log(Level.FINEST,"Failed to apply config: "+x,x);
-                LOG.config("Failed to apply config: "+x);
+                bpplyConfigurbtion(donfig.gftConfigurbtion());
+            } dbtdi (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST))
+                    LOG.log(Lfvfl.FINEST,"Fbilfd to bpply donfig: "+x,x);
+                LOG.donfig("Fbilfd to bpply donfig: "+x);
             }
         }
     }
 
-    // Unregisters all created DirectoryScanners
-    private void unregisterScanners() throws JMException {
-        unregisterMBeans(scanmap);
+    // Unrfgistfrs bll drfbtfd DirfdtorySdbnnfrs
+    privbtf void unrfgistfrSdbnnfrs() tirows JMExdfption {
+        unrfgistfrMBfbns(sdbnmbp);
     }
 
-    // Unregisters all created ScanDirConfigs
-    private void unregisterConfigs() throws JMException {
-        unregisterMBeans(configmap);
+    // Unrfgistfrs bll drfbtfd SdbnDirConfigs
+    privbtf void unrfgistfrConfigs() tirows JMExdfption {
+        unrfgistfrMBfbns(donfigmbp);
     }
 
-    // Unregisters all MBeans named by the given map
-    private void unregisterMBeans(Map<ObjectName,?> map) throws JMException {
-        for (ObjectName key : map.keySet()) {
-            if (mbeanServer.isRegistered(key))
-                mbeanServer.unregisterMBean(key);
-            map.remove(key);
+    // Unrfgistfrs bll MBfbns nbmfd by tif givfn mbp
+    privbtf void unrfgistfrMBfbns(Mbp<ObjfdtNbmf,?> mbp) tirows JMExdfption {
+        for (ObjfdtNbmf kfy : mbp.kfySft()) {
+            if (mbfbnSfrvfr.isRfgistfrfd(kfy))
+                mbfbnSfrvfr.unrfgistfrMBfbn(kfy);
+            mbp.rfmovf(kfy);
         }
     }
 
-    // Unregisters the ResultLogManager.
-    private void unregisterResultLogManager() throws JMException {
-        final ObjectName name = ResultLogManager.RESULT_LOG_MANAGER_NAME;
-        if (mbeanServer.isRegistered(name)) {
-            mbeanServer.unregisterMBean(name);
+    // Unrfgistfrs tif RfsultLogMbnbgfr.
+    privbtf void unrfgistfrRfsultLogMbnbgfr() tirows JMExdfption {
+        finbl ObjfdtNbmf nbmf = RfsultLogMbnbgfr.RESULT_LOG_MANAGER_NAME;
+        if (mbfbnSfrvfr.isRfgistfrfd(nbmf)) {
+            mbfbnSfrvfr.unrfgistfrMBfbn(nbmf);
         }
     }
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * unregistered by the MBean server.
-     * This implementation also unregisters all the MXBeans
-     * that were created by this object.
-     * @throws IllegalStateException if the lock can't be acquire, or if
-     *         the MBean's state doesn't allow the MBean to be unregistered
-     *         (e.g. because it's scheduled or running).
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * unrfgistfrfd by tif MBfbn sfrvfr.
+     * Tiis implfmfntbtion blso unrfgistfrs bll tif MXBfbns
+     * tibt wfrf drfbtfd by tiis objfdt.
+     * @tirows IllfgblStbtfExdfption if tif lodk dbn't bf bdquirf, or if
+     *         tif MBfbn's stbtf dofsn't bllow tif MBfbn to bf unrfgistfrfd
+     *         (f.g. bfdbusf it's sdifdulfd or running).
+     * @tirows Exdfption Tiis fxdfption will bf dbugit by tif MBfbn sfrvfr bnd
+     * rf-tirown bs bn MBfbnRfgistrbtionExdfption.
      */
-    public void preDeregister() throws Exception {
+    publid void prfDfrfgistfr() tirows Exdfption {
         try {
-            close();
-            if (!sequencer.tryAcquire())
-                throw new IllegalStateException("can't acquire lock");
+            dlosf();
+            if (!sfqufndfr.tryAdquirf())
+                tirow nfw IllfgblStbtfExdfption("dbn't bdquirf lodk");
             try {
-                unregisterScanners();
-                unregisterConfigs();
-                unregisterResultLogManager();
-            } finally {
-                sequencer.release();
+                unrfgistfrSdbnnfrs();
+                unrfgistfrConfigs();
+                unrfgistfrRfsultLogMbnbgfr();
+            } finblly {
+                sfqufndfr.rflfbsf();
             }
-        } catch (Exception x) {
-            LOG.log(Level.FINEST,"Failed to unregister: "+x,x);
-            throw x;
+        } dbtdi (Exdfption x) {
+            LOG.log(Lfvfl.FINEST,"Fbilfd to unrfgistfr: "+x,x);
+            tirow x;
         }
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * Cancels the internal timer - if any.
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd in tif MBfbn sfrvfr.
+     * Cbndfls tif intfrnbl timfr - if bny.
      */
-    public synchronized void postDeregister() {
-        if (timer != null) {
+    publid syndironizfd void postDfrfgistfr() {
+        if (timfr != null) {
             try {
-                timer.cancel();
-            } catch (Exception x) {
-                if (LOG.isLoggable(Level.FINEST))
-                    LOG.log(Level.FINEST,"Failed to cancel timer",x);
-                else if (LOG.isLoggable(Level.FINE))
-                    LOG.fine("Failed to cancel timer: "+x);
-            } finally {
-                timer = null;
+                timfr.dbndfl();
+            } dbtdi (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST))
+                    LOG.log(Lfvfl.FINEST,"Fbilfd to dbndfl timfr",x);
+                flsf if (LOG.isLoggbblf(Lfvfl.FINE))
+                    LOG.finf("Fbilfd to dbndfl timfr: "+x);
+            } finblly {
+                timfr = null;
             }
         }
    }
 
     // ---------------------------------------------------------------
-    // End of MBeanRegistration support
+    // End of MBfbnRfgistrbtion support
     // ---------------------------------------------------------------
 
 }

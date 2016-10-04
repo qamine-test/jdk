@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,96 +30,96 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* The hprof listener loop thread. net=hostname:port option */
+/* Tif iprof listfnfr loop tirfbd. nft=iostnbmf:port option */
 
 /*
- * The option net=hostname:port causes all hprof output to be sent down
- *   a socket connection, and also allows for commands to come in over the
- *   socket. The commands are documented below.
+ * Tif option nft=iostnbmf:port dbusfs bll iprof output to bf sfnt down
+ *   b sodkft donnfdtion, bnd blso bllows for dommbnds to domf in ovfr tif
+ *   sodkft. Tif dommbnds brf dodumfntfd bflow.
  *
- * This thread can cause havoc when started prematurely or not terminated
- *   properly, see listener_init() and listener_term(), and their calls
- *   in hprof_init.c.
+ * Tiis tirfbd dbn dbusf ibvod wifn stbrtfd prfmbturfly or not tfrminbtfd
+ *   propfrly, sff listfnfr_init() bnd listfnfr_tfrm(), bnd tifir dblls
+ *   in iprof_init.d.
  *
- * The listener loop (hprof_listener.c) can dynamically turn on or off the
- *  sampling of all or selected threads.
+ * Tif listfnfr loop (iprof_listfnfr.d) dbn dynbmidblly turn on or off tif
+ *  sbmpling of bll or sflfdtfd tirfbds.
  *
- * The specification of this command protocol is only here, in the comments
- *  below.  The HAT tools uses this interface.
- *  It is also unknown how well these options work given the limited
- *  testing of this interface.
+ * Tif spfdifidbtion of tiis dommbnd protodol is only ifrf, in tif dommfnts
+ *  bflow.  Tif HAT tools usfs tiis intfrfbdf.
+ *  It is blso unknown iow wfll tifsf options work givfn tif limitfd
+ *  tfsting of tiis intfrfbdf.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-/* When the hprof Agent in the VM is connected via a socket to the
- * profiling client, the client may send the hprof Agent a set of commands.
- * The commands have the following format:
+/* Wifn tif iprof Agfnt in tif VM is donnfdtfd vib b sodkft to tif
+ * profiling dlifnt, tif dlifnt mby sfnd tif iprof Agfnt b sft of dommbnds.
+ * Tif dommbnds ibvf tif following formbt:
  *
- * u1           a TAG denoting the type of the record
- * u4           a serial number
- * u4           number of bytes *remaining* in the record. Note that
- *              this number excludes the tag and the length field itself.
- * [u1]*        BODY of the record (a sequence of bytes)
+ * u1           b TAG dfnoting tif typf of tif rfdord
+ * u4           b sfribl numbfr
+ * u4           numbfr of bytfs *rfmbining* in tif rfdord. Notf tibt
+ *              tiis numbfr fxdludfs tif tbg bnd tif lfngti fifld itsflf.
+ * [u1]*        BODY of tif rfdord (b sfqufndf of bytfs)
  */
 
-/* The following commands are presently supported:
+/* Tif following dommbnds brf prfsfntly supportfd:
  *
- * TAG           BODY       notes
+ * TAG           BODY       notfs
  * ----------------------------------------------------------
- * HPROF_CMD_GC             force a GC.
+ * HPROF_CMD_GC             fordf b GC.
  *
- * HPROF_CMD_DUMP_HEAP      obtain a heap dump
+ * HPROF_CMD_DUMP_HEAP      obtbin b ifbp dump
  *
- * HPROF_CMD_ALLOC_SITES    obtain allocation sites
+ * HPROF_CMD_ALLOC_SITES    obtbin bllodbtion sitfs
  *
- *               u2         flags 0x0001: incremental vs. complete
- *                                0x0002: sorted by allocation vs. live
- *                                0x0004: whether to force a GC
- *               u4         cutoff ratio (0.0 ~ 1.0)
+ *               u2         flbgs 0x0001: indrfmfntbl vs. domplftf
+ *                                0x0002: sortfd by bllodbtion vs. livf
+ *                                0x0004: wiftifr to fordf b GC
+ *               u4         dutoff rbtio (0.0 ~ 1.0)
  *
- * HPROF_CMD_HEAP_SUMMARY   obtain heap summary
+ * HPROF_CMD_HEAP_SUMMARY   obtbin ifbp summbry
  *
- * HPROF_CMD_DUMP_TRACES    obtain all newly created traces
+ * HPROF_CMD_DUMP_TRACES    obtbin bll nfwly drfbtfd trbdfs
  *
- * HPROF_CMD_CPU_SAMPLES    obtain a HPROF_CPU_SAMPLES record
+ * HPROF_CMD_CPU_SAMPLES    obtbin b HPROF_CPU_SAMPLES rfdord
  *
- *               u2         ignored for now
- *               u4         cutoff ratio (0.0 ~ 1.0)
+ *               u2         ignorfd for now
+ *               u4         dutoff rbtio (0.0 ~ 1.0)
  *
- * HPROF_CMD_CONTROL        changing settings
+ * HPROF_CMD_CONTROL        dibnging sfttings
  *
- *               u2         0x0001: alloc traces on
- *                          0x0002: alloc traces off
+ *               u2         0x0001: bllod trbdfs on
+ *                          0x0002: bllod trbdfs off
  *
- *                          0x0003: CPU sampling on
+ *                          0x0003: CPU sbmpling on
  *
- *                                  id:   thread object id (NULL for all)
+ *                                  id:   tirfbd objfdt id (NULL for bll)
  *
- *                          0x0004: CPU sampling off
+ *                          0x0004: CPU sbmpling off
  *
- *                                  id:   thread object id (NULL for all)
+ *                                  id:   tirfbd objfdt id (NULL for bll)
  *
- *                          0x0005: CPU sampling clear
+ *                          0x0005: CPU sbmpling dlfbr
  *
- *                          0x0006: clear alloc sites info
+ *                          0x0006: dlfbr bllod sitfs info
  *
- *                          0x0007: set max stack depth in CPU samples
- *                                  and alloc traces
+ *                          0x0007: sft mbx stbdk dfpti in CPU sbmplfs
+ *                                  bnd bllod trbdfs
  *
- *                                  u2:   new depth
+ *                                  u2:   nfw dfpti
  */
 
-typedef enum HprofCmd {
+typfdff fnum HprofCmd {
     HPROF_CMD_GC                = 0x01,
     HPROF_CMD_DUMP_HEAP         = 0x02,
     HPROF_CMD_ALLOC_SITES       = 0x03,
@@ -131,306 +131,306 @@ typedef enum HprofCmd {
     HPROF_CMD_EOF               = 0xFF
 } HprofCmd;
 
-static jint
-recv_fully(int f, char *buf, int len)
+stbtid jint
+rfdv_fully(int f, dibr *buf, int lfn)
 {
-    jint nbytes;
+    jint nbytfs;
 
-    nbytes = 0;
+    nbytfs = 0;
     if ( f < 0 ) {
-        return nbytes;
+        rfturn nbytfs;
     }
-    while (nbytes < len) {
-        int res;
+    wiilf (nbytfs < lfn) {
+        int rfs;
 
-        res = md_recv(f, buf + nbytes, (len - nbytes), 0);
-        if (res < 0) {
+        rfs = md_rfdv(f, buf + nbytfs, (lfn - nbytfs), 0);
+        if (rfs < 0) {
             /*
-             * hprof was disabled before we returned from recv() above.
-             * This means the command socket is closed so we let that
-             * trickle back up the command processing stack.
+             * iprof wbs disbblfd bfforf wf rfturnfd from rfdv() bbovf.
+             * Tiis mfbns tif dommbnd sodkft is dlosfd so wf lft tibt
+             * tridklf bbdk up tif dommbnd prodfssing stbdk.
              */
-            LOG("recv() returned < 0");
-            break;
+            LOG("rfdv() rfturnfd < 0");
+            brfbk;
         }
-        nbytes += res;
+        nbytfs += rfs;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-static unsigned char
-recv_u1(void)
+stbtid unsignfd dibr
+rfdv_u1(void)
 {
-    unsigned char c;
-    jint nbytes;
+    unsignfd dibr d;
+    jint nbytfs;
 
-    nbytes = recv_fully(gdata->fd, (char *)&c, (int)sizeof(unsigned char));
-    if (nbytes == 0) {
-        c = HPROF_CMD_EOF;
+    nbytfs = rfdv_fully(gdbtb->fd, (dibr *)&d, (int)sizfof(unsignfd dibr));
+    if (nbytfs == 0) {
+        d = HPROF_CMD_EOF;
     }
-    return c;
+    rfturn d;
 }
 
-static unsigned short
-recv_u2(void)
+stbtid unsignfd siort
+rfdv_u2(void)
 {
-    unsigned short s;
-    jint nbytes;
+    unsignfd siort s;
+    jint nbytfs;
 
-    nbytes = recv_fully(gdata->fd, (char *)&s, (int)sizeof(unsigned short));
-    if (nbytes == 0) {
-        s = (unsigned short)-1;
+    nbytfs = rfdv_fully(gdbtb->fd, (dibr *)&s, (int)sizfof(unsignfd siort));
+    if (nbytfs == 0) {
+        s = (unsignfd siort)-1;
     }
-    return md_ntohs(s);
+    rfturn md_ntois(s);
 }
 
-static unsigned
-recv_u4(void)
+stbtid unsignfd
+rfdv_u4(void)
 {
-    unsigned i;
-    jint nbytes;
+    unsignfd i;
+    jint nbytfs;
 
-    nbytes = recv_fully(gdata->fd, (char *)&i, (int)sizeof(unsigned));
-    if (nbytes == 0) {
-        i = (unsigned)-1;
+    nbytfs = rfdv_fully(gdbtb->fd, (dibr *)&i, (int)sizfof(unsignfd));
+    if (nbytfs == 0) {
+        i = (unsignfd)-1;
     }
-    return md_ntohl(i);
+    rfturn md_ntoil(i);
 }
 
-static ObjectIndex
-recv_id(void)
+stbtid ObjfdtIndfx
+rfdv_id(void)
 {
-    ObjectIndex result;
-    jint        nbytes;
+    ObjfdtIndfx rfsult;
+    jint        nbytfs;
 
-    nbytes = recv_fully(gdata->fd, (char *)&result, (int)sizeof(ObjectIndex));
-    if (nbytes == 0) {
-        result = (ObjectIndex)0;
+    nbytfs = rfdv_fully(gdbtb->fd, (dibr *)&rfsult, (int)sizfof(ObjfdtIndfx));
+    if (nbytfs == 0) {
+        rfsult = (ObjfdtIndfx)0;
     }
-    return result;
+    rfturn rfsult;
 }
 
-static void JNICALL
-listener_loop_function(jvmtiEnv *jvmti, JNIEnv *env, void *p)
+stbtid void JNICALL
+listfnfr_loop_fundtion(jvmtiEnv *jvmti, JNIEnv *fnv, void *p)
 {
-    jboolean keep_processing;
-    unsigned char tag;
-    jboolean kill_the_whole_process;
+    jboolfbn kffp_prodfssing;
+    unsignfd dibr tbg;
+    jboolfbn kill_tif_wiolf_prodfss;
 
-    kill_the_whole_process = JNI_FALSE;
-    tag = 0;
+    kill_tif_wiolf_prodfss = JNI_FALSE;
+    tbg = 0;
 
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        gdata->listener_loop_running = JNI_TRUE;
-        keep_processing = gdata->listener_loop_running;
-        /* Tell listener_init() that we have started */
-        rawMonitorNotifyAll(gdata->listener_loop_lock);
-    } rawMonitorExit(gdata->listener_loop_lock);
+    rbwMonitorEntfr(gdbtb->listfnfr_loop_lodk); {
+        gdbtb->listfnfr_loop_running = JNI_TRUE;
+        kffp_prodfssing = gdbtb->listfnfr_loop_running;
+        /* Tfll listfnfr_init() tibt wf ibvf stbrtfd */
+        rbwMonitorNotifyAll(gdbtb->listfnfr_loop_lodk);
+    } rbwMonitorExit(gdbtb->listfnfr_loop_lodk);
 
-    while ( keep_processing ) {
+    wiilf ( kffp_prodfssing ) {
 
-        LOG("listener loop iteration");
+        LOG("listfnfr loop itfrbtion");
 
-        tag = recv_u1();  /* This blocks here on the socket read, a close()
-                           *   on this fd will wake this up. And if recv_u1()
-                           *   can't read anything, it returns HPROF_CMD_EOF.
+        tbg = rfdv_u1();  /* Tiis blodks ifrf on tif sodkft rfbd, b dlosf()
+                           *   on tiis fd will wbkf tiis up. And if rfdv_u1()
+                           *   dbn't rfbd bnytiing, it rfturns HPROF_CMD_EOF.
                            */
 
-        LOG3("listener_loop", "command = ", tag);
+        LOG3("listfnfr_loop", "dommbnd = ", tbg);
 
-        if (tag == HPROF_CMD_EOF) {
-            /* The cmd socket has closed so the listener thread is done
-             *   just fall out of loop and let the thread die.
+        if (tbg == HPROF_CMD_EOF) {
+            /* Tif dmd sodkft ibs dlosfd so tif listfnfr tirfbd is donf
+             *   just fbll out of loop bnd lft tif tirfbd dif.
              */
-            keep_processing = JNI_FALSE;
-            break;
+            kffp_prodfssing = JNI_FALSE;
+            brfbk;
         }
 
-        /* seq_num not used */
-        (void)recv_u4();
-        /* length not used */
-        (void)recv_u4();
+        /* sfq_num not usfd */
+        (void)rfdv_u4();
+        /* lfngti not usfd */
+        (void)rfdv_u4();
 
-        switch (tag) {
-            case HPROF_CMD_GC:
+        switdi (tbg) {
+            dbsf HPROF_CMD_GC:
                 runGC();
-                break;
-            case HPROF_CMD_DUMP_HEAP: {
-                site_heapdump(env);
-                break;
+                brfbk;
+            dbsf HPROF_CMD_DUMP_HEAP: {
+                sitf_ifbpdump(fnv);
+                brfbk;
             }
-            case HPROF_CMD_ALLOC_SITES: {
-                unsigned short flags;
-                unsigned i_tmp;
-                float ratio;
+            dbsf HPROF_CMD_ALLOC_SITES: {
+                unsignfd siort flbgs;
+                unsignfd i_tmp;
+                flobt rbtio;
 
-                flags = recv_u2();
-                i_tmp = recv_u4();
-                ratio = *(float *)(&i_tmp);
-                site_write(env, flags, ratio);
-                break;
+                flbgs = rfdv_u2();
+                i_tmp = rfdv_u4();
+                rbtio = *(flobt *)(&i_tmp);
+                sitf_writf(fnv, flbgs, rbtio);
+                brfbk;
             }
-            case HPROF_CMD_HEAP_SUMMARY: {
-                rawMonitorEnter(gdata->data_access_lock); {
-                    io_write_heap_summary(  gdata->total_live_bytes,
-                                            gdata->total_live_instances,
-                                            gdata->total_alloced_bytes,
-                                            gdata->total_alloced_instances);
-                } rawMonitorExit(gdata->data_access_lock);
-                break;
+            dbsf HPROF_CMD_HEAP_SUMMARY: {
+                rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+                    io_writf_ifbp_summbry(  gdbtb->totbl_livf_bytfs,
+                                            gdbtb->totbl_livf_instbndfs,
+                                            gdbtb->totbl_bllodfd_bytfs,
+                                            gdbtb->totbl_bllodfd_instbndfs);
+                } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+                brfbk;
             }
-            case HPROF_CMD_EXIT:
-                keep_processing = JNI_FALSE;
-                kill_the_whole_process = JNI_TRUE;
-                verbose_message("HPROF: received exit event, exiting ...\n");
-                break;
-            case HPROF_CMD_DUMP_TRACES:
-                rawMonitorEnter(gdata->data_access_lock); {
-                    trace_output_unmarked(env);
-                } rawMonitorExit(gdata->data_access_lock);
-                break;
-            case HPROF_CMD_CPU_SAMPLES: {
-                unsigned i_tmp;
-                float ratio;
+            dbsf HPROF_CMD_EXIT:
+                kffp_prodfssing = JNI_FALSE;
+                kill_tif_wiolf_prodfss = JNI_TRUE;
+                vfrbosf_mfssbgf("HPROF: rfdfivfd fxit fvfnt, fxiting ...\n");
+                brfbk;
+            dbsf HPROF_CMD_DUMP_TRACES:
+                rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+                    trbdf_output_unmbrkfd(fnv);
+                } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+                brfbk;
+            dbsf HPROF_CMD_CPU_SAMPLES: {
+                unsignfd i_tmp;
+                flobt rbtio;
 
-                /* flags not used */
-                (void)recv_u2();
-                i_tmp = recv_u4();
-                ratio = *(float *)(&i_tmp);
-                trace_output_cost(env, ratio);
-                break;
+                /* flbgs not usfd */
+                (void)rfdv_u2();
+                i_tmp = rfdv_u4();
+                rbtio = *(flobt *)(&i_tmp);
+                trbdf_output_dost(fnv, rbtio);
+                brfbk;
             }
-            case HPROF_CMD_CONTROL: {
-                unsigned short cmd = recv_u2();
-                if (cmd == 0x0001) {
-                    setEventNotificationMode(JVMTI_ENABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
-                    tracker_engage(env);
-                } else if (cmd == 0x0002) {
-                    setEventNotificationMode(JVMTI_DISABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
-                    tracker_disengage(env);
-                } else if (cmd == 0x0003) {
-                    ObjectIndex thread_object_index;
-                    thread_object_index = recv_id();
-                    cpu_sample_on(env, thread_object_index);
-                } else if (cmd == 0x0004) {
-                    ObjectIndex thread_object_index;
-                    thread_object_index = recv_id();
-                    cpu_sample_off(env, thread_object_index);
-                } else if (cmd == 0x0005) {
-                    rawMonitorEnter(gdata->data_access_lock); {
-                        trace_clear_cost();
-                    } rawMonitorExit(gdata->data_access_lock);
-                } else if (cmd == 0x0006) {
-                    rawMonitorEnter(gdata->data_access_lock); {
-                        site_cleanup();
-                        site_init();
-                    } rawMonitorExit(gdata->data_access_lock);
-                } else if (cmd == 0x0007) {
-                    gdata->max_trace_depth = recv_u2();
+            dbsf HPROF_CMD_CONTROL: {
+                unsignfd siort dmd = rfdv_u2();
+                if (dmd == 0x0001) {
+                    sftEvfntNotifidbtionModf(JVMTI_ENABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
+                    trbdkfr_fngbgf(fnv);
+                } flsf if (dmd == 0x0002) {
+                    sftEvfntNotifidbtionModf(JVMTI_DISABLE, JVMTI_EVENT_OBJECT_FREE, NULL);
+                    trbdkfr_disfngbgf(fnv);
+                } flsf if (dmd == 0x0003) {
+                    ObjfdtIndfx tirfbd_objfdt_indfx;
+                    tirfbd_objfdt_indfx = rfdv_id();
+                    dpu_sbmplf_on(fnv, tirfbd_objfdt_indfx);
+                } flsf if (dmd == 0x0004) {
+                    ObjfdtIndfx tirfbd_objfdt_indfx;
+                    tirfbd_objfdt_indfx = rfdv_id();
+                    dpu_sbmplf_off(fnv, tirfbd_objfdt_indfx);
+                } flsf if (dmd == 0x0005) {
+                    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+                        trbdf_dlfbr_dost();
+                    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+                } flsf if (dmd == 0x0006) {
+                    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+                        sitf_dlfbnup();
+                        sitf_init();
+                    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+                } flsf if (dmd == 0x0007) {
+                    gdbtb->mbx_trbdf_dfpti = rfdv_u2();
                 }
-                break;
+                brfbk;
             }
-            default:{
-                char buf[80];
+            dffbult:{
+                dibr buf[80];
 
-                keep_processing = JNI_FALSE;
-                kill_the_whole_process = JNI_TRUE;
-                (void)md_snprintf(buf, sizeof(buf),
-                        "failed to recognize cmd %d, exiting..", (int)tag);
-                buf[sizeof(buf)-1] = 0;
+                kffp_prodfssing = JNI_FALSE;
+                kill_tif_wiolf_prodfss = JNI_TRUE;
+                (void)md_snprintf(buf, sizfof(buf),
+                        "fbilfd to rfdognizf dmd %d, fxiting..", (int)tbg);
+                buf[sizfof(buf)-1] = 0;
                 HPROF_ERROR(JNI_FALSE, buf);
-                break;
+                brfbk;
             }
         }
 
-        rawMonitorEnter(gdata->data_access_lock); {
-            io_flush();
-        } rawMonitorExit(gdata->data_access_lock);
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+            io_flusi();
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 
-        rawMonitorEnter(gdata->listener_loop_lock); {
-            if ( !gdata->listener_loop_running ) {
-                keep_processing         = JNI_FALSE;
+        rbwMonitorEntfr(gdbtb->listfnfr_loop_lodk); {
+            if ( !gdbtb->listfnfr_loop_running ) {
+                kffp_prodfssing         = JNI_FALSE;
             }
-        } rawMonitorExit(gdata->listener_loop_lock);
+        } rbwMonitorExit(gdbtb->listfnfr_loop_lodk);
 
     }
 
-    /* If listener_term() is causing this loop to terminate, then
-     *   you will block here until listener_term wants you to proceed.
+    /* If listfnfr_tfrm() is dbusing tiis loop to tfrminbtf, tifn
+     *   you will blodk ifrf until listfnfr_tfrm wbnts you to prodffd.
      */
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        if ( gdata->listener_loop_running ) {
-            /* We are terminating for our own reasons, maybe because of
-             *   EOF (socket closed?), or EXIT request, or invalid command.
-             *   Not from listener_term().
-             *   We set gdata->listener_loop_running=FALSE so that any
-             *   future call to listener_term() will do nothing.
+    rbwMonitorEntfr(gdbtb->listfnfr_loop_lodk); {
+        if ( gdbtb->listfnfr_loop_running ) {
+            /* Wf brf tfrminbting for our own rfbsons, mbybf bfdbusf of
+             *   EOF (sodkft dlosfd?), or EXIT rfqufst, or invblid dommbnd.
+             *   Not from listfnfr_tfrm().
+             *   Wf sft gdbtb->listfnfr_loop_running=FALSE so tibt bny
+             *   futurf dbll to listfnfr_tfrm() will do notiing.
              */
-            gdata->listener_loop_running = JNI_FALSE;
-        } else {
-            /* We assume that listener_term() is stopping us,
-             *    now we need to tell it we understood.
+            gdbtb->listfnfr_loop_running = JNI_FALSE;
+        } flsf {
+            /* Wf bssumf tibt listfnfr_tfrm() is stopping us,
+             *    now wf nffd to tfll it wf undfrstood.
              */
-            rawMonitorNotifyAll(gdata->listener_loop_lock);
+            rbwMonitorNotifyAll(gdbtb->listfnfr_loop_lodk);
         }
-    } rawMonitorExit(gdata->listener_loop_lock);
+    } rbwMonitorExit(gdbtb->listfnfr_loop_lodk);
 
-    LOG3("listener_loop", "finished command = ", tag);
+    LOG3("listfnfr_loop", "finisifd dommbnd = ", tbg);
 
-    /* If we got an explicit command request to die, die here */
-    if ( kill_the_whole_process ) {
-        error_exit_process(0);
+    /* If wf got bn fxplidit dommbnd rfqufst to dif, dif ifrf */
+    if ( kill_tif_wiolf_prodfss ) {
+        frror_fxit_prodfss(0);
     }
 
 }
 
-/* External functions */
+/* Extfrnbl fundtions */
 
 void
-listener_init(JNIEnv *env)
+listfnfr_init(JNIEnv *fnv)
 {
-    /* Create the raw monitor */
-    gdata->listener_loop_lock = createRawMonitor("HPROF listener lock");
+    /* Crfbtf tif rbw monitor */
+    gdbtb->listfnfr_loop_lodk = drfbtfRbwMonitor("HPROF listfnfr lodk");
 
-    rawMonitorEnter(gdata->listener_loop_lock); {
-        createAgentThread(env, "HPROF listener thread",
-                                &listener_loop_function);
-        /* Wait for listener_loop_function() to tell us it started. */
-        rawMonitorWait(gdata->listener_loop_lock, 0);
-    } rawMonitorExit(gdata->listener_loop_lock);
+    rbwMonitorEntfr(gdbtb->listfnfr_loop_lodk); {
+        drfbtfAgfntTirfbd(fnv, "HPROF listfnfr tirfbd",
+                                &listfnfr_loop_fundtion);
+        /* Wbit for listfnfr_loop_fundtion() to tfll us it stbrtfd. */
+        rbwMonitorWbit(gdbtb->listfnfr_loop_lodk, 0);
+    } rbwMonitorExit(gdbtb->listfnfr_loop_lodk);
 }
 
 void
-listener_term(JNIEnv *env)
+listfnfr_tfrm(JNIEnv *fnv)
 {
-    rawMonitorEnter(gdata->listener_loop_lock); {
+    rbwMonitorEntfr(gdbtb->listfnfr_loop_lodk); {
 
-        /* If we are in the middle of sending bytes down the socket, this
-         *   at least keeps us blocked until that processing is done.
+        /* If wf brf in tif middlf of sfnding bytfs down tif sodkft, tiis
+         *   bt lfbst kffps us blodkfd until tibt prodfssing is donf.
          */
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-            /* Make sure the socket gets everything */
-            io_flush();
+            /* Mbkf surf tif sodkft gfts fvfrytiing */
+            io_flusi();
 
             /*
-             * Graceful shutdown of the socket will assure that all data
-             * sent is received before the socket close completes.
+             * Grbdfful siutdown of tif sodkft will bssurf tibt bll dbtb
+             * sfnt is rfdfivfd bfforf tif sodkft dlosf domplftfs.
              */
-            (void)md_shutdown(gdata->fd, 2 /* disallow sends and receives */);
+            (void)md_siutdown(gdbtb->fd, 2 /* disbllow sfnds bnd rfdfivfs */);
 
-            /* This close will cause the listener loop to possibly wake up
-             *    from the recv_u1(), this is critical to get thread running again.
+            /* Tiis dlosf will dbusf tif listfnfr loop to possibly wbkf up
+             *    from tif rfdv_u1(), tiis is dritidbl to gft tirfbd running bgbin.
              */
-            md_close(gdata->fd);
-        } rawMonitorExit(gdata->data_access_lock);
+            md_dlosf(gdbtb->fd);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 
-        /* It could have shut itself down, so we check the global flag */
-        if ( gdata->listener_loop_running ) {
-            /* It stopped because of something listener_term() did. */
-            gdata->listener_loop_running = JNI_FALSE;
-            /* Wait for listener_loop_function() to tell us it finished. */
-            rawMonitorWait(gdata->listener_loop_lock, 0);
+        /* It dould ibvf siut itsflf down, so wf difdk tif globbl flbg */
+        if ( gdbtb->listfnfr_loop_running ) {
+            /* It stoppfd bfdbusf of somftiing listfnfr_tfrm() did. */
+            gdbtb->listfnfr_loop_running = JNI_FALSE;
+            /* Wbit for listfnfr_loop_fundtion() to tfll us it finisifd. */
+            rbwMonitorWbit(gdbtb->listfnfr_loop_lodk, 0);
         }
-    } rawMonitorExit(gdata->listener_loop_lock);
+    } rbwMonitorExit(gdbtb->listfnfr_loop_lodk);
 }

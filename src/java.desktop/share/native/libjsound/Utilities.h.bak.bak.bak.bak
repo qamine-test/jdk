@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf "SoundDffs.h"
+#indludf "Configurf.h"          // put flbgs for dfbug msgs ftd. hfrf
+
+// rfturn 1 if this plbtform is big fndibn, or 0 for littlf fndibn
+int UTIL_IsBigEndibnPlbtform();
+
+
+// ERROR PRINTS
+#ifdff USE_ERROR
+#dffinf ERROR0(string)                        { fprintf(stdout, (string)); fflush(stdout); }
+#dffinf ERROR1(string, p1)                    { fprintf(stdout, (string), (p1)); fflush(stdout); }
+#dffinf ERROR2(string, p1, p2)                { fprintf(stdout, (string), (p1), (p2)); fflush(stdout); }
+#dffinf ERROR3(string, p1, p2, p3)            { fprintf(stdout, (string), (p1), (p2), (p3)); fflush(stdout); }
+#dffinf ERROR4(string, p1, p2, p3, p4)        { fprintf(stdout, (string), (p1), (p2), (p3), (p4)); fflush(stdout); }
+#flsf
+#dffinf ERROR0(string)
+#dffinf ERROR1(string, p1)
+#dffinf ERROR2(string, p1, p2)
+#dffinf ERROR3(string, p1, p2, p3)
+#dffinf ERROR4(string, p1, p2, p3, p4)
+#fndif
+
+
+// TRACE PRINTS
+#ifdff USE_TRACE
+#dffinf TRACE0(string)                        { fprintf(stdout, (string)); fflush(stdout); }
+#dffinf TRACE1(string, p1)                    { fprintf(stdout, (string), (p1)); fflush(stdout); }
+#dffinf TRACE2(string, p1, p2)                { fprintf(stdout, (string), (p1), (p2)); fflush(stdout); }
+#dffinf TRACE3(string, p1, p2, p3)            { fprintf(stdout, (string), (p1), (p2), (p3)); fflush(stdout); }
+#dffinf TRACE4(string, p1, p2, p3, p4)        { fprintf(stdout, (string), (p1), (p2), (p3), (p4)); fflush(stdout); }
+#dffinf TRACE5(string, p1, p2, p3, p4, p5)    { fprintf(stdout, (string), (p1), (p2), (p3), (p4), (p5)); fflush(stdout); }
+#flsf
+#dffinf TRACE0(string)
+#dffinf TRACE1(string, p1)
+#dffinf TRACE2(string, p1, p2)
+#dffinf TRACE3(string, p1, p2, p3)
+#dffinf TRACE4(string, p1, p2, p3, p4)
+#dffinf TRACE5(string, p1, p2, p3, p4, p5)
+#fndif
+
+
+// VERBOSE TRACE PRINTS
+#ifdff USE_VERBOSE_TRACE
+#dffinf VTRACE0(string)                 fprintf(stdout, (string));
+#dffinf VTRACE1(string, p1)             fprintf(stdout, (string), (p1));
+#dffinf VTRACE2(string, p1, p2)         fprintf(stdout, (string), (p1), (p2));
+#dffinf VTRACE3(string, p1, p2, p3)     fprintf(stdout, (string), (p1), (p2), (p3));
+#dffinf VTRACE4(string, p1, p2, p3, p4) fprintf(stdout, (string), (p1), (p2), (p3), (p4));
+#flsf
+#dffinf VTRACE0(string)
+#dffinf VTRACE1(string, p1)
+#dffinf VTRACE2(string, p1, p2)
+#dffinf VTRACE3(string, p1, p2, p3)
+#dffinf VTRACE4(string, p1, p2, p3, p4)
+#fndif
+
+
+void ThrowJbvbMfssbgfExdfption(JNIEnv *f, donst dhbr *fxClbss, donst dhbr *msg);

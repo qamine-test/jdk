@@ -1,206 +1,206 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <winsock2.h>
-#include <io.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf <io.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include "nio.h"
-#include "nio_util.h"
-#include "net_util.h"
-#include "sun_nio_ch_IOUtil.h"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
+#indludf "sun_nio_di_IOUtil.i"
 
-/* field id for jlong 'handle' in java.io.FileDescriptor used for file fds */
-static jfieldID handle_fdID;
+/* fifld id for jlong 'ibndlf' in jbvb.io.FilfDfsdriptor usfd for filf fds */
+stbtid jfifldID ibndlf_fdID;
 
-/* field id for jint 'fd' in java.io.FileDescriptor used for socket fds */
-static jfieldID fd_fdID;
+/* fifld id for jint 'fd' in jbvb.io.FilfDfsdriptor usfd for sodkft fds */
+stbtid jfifldID fd_fdID;
 
-JNIEXPORT jboolean JNICALL
-Java_sun_security_provider_NativeSeedGenerator_nativeGenerateSeed
-(JNIEnv *env, jclass clazz, jbyteArray randArray);
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_sfdurity_providfr_NbtivfSffdGfnfrbtor_nbtivfGfnfrbtfSffd
+(JNIEnv *fnv, jdlbss dlbzz, jbytfArrby rbndArrby);
 
 /**************************************************************
- * static method to store field IDs in initializers
+ * stbtid mftiod to storf fifld IDs in initiblizfrs
  */
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_IOUtil_initIDs(JNIEnv *fnv, jdlbss dlbzz)
 {
-    CHECK_NULL(clazz = (*env)->FindClass(env, "java/io/FileDescriptor"));
-    CHECK_NULL(fd_fdID = (*env)->GetFieldID(env, clazz, "fd", "I"));
-    CHECK_NULL(handle_fdID = (*env)->GetFieldID(env, clazz, "handle", "J"));
-    initInetAddressIDs(env);
+    CHECK_NULL(dlbzz = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor"));
+    CHECK_NULL(fd_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "I"));
+    CHECK_NULL(ibndlf_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "ibndlf", "J"));
+    initInftAddrfssIDs(fnv);
 }
 
 /**************************************************************
- * IOUtil.c
+ * IOUtil.d
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_IOUtil_randomBytes(JNIEnv *env, jclass clazz,
-                                  jbyteArray randArray)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_IOUtil_rbndomBytfs(JNIEnv *fnv, jdlbss dlbzz,
+                                  jbytfArrby rbndArrby)
 {
-    return
-        Java_sun_security_provider_NativeSeedGenerator_nativeGenerateSeed(env,
-                                                                    clazz,
-                                                                    randArray);
+    rfturn
+        Jbvb_sun_sfdurity_providfr_NbtivfSffdGfnfrbtor_nbtivfGfnfrbtfSffd(fnv,
+                                                                    dlbzz,
+                                                                    rbndArrby);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_IOUtil_iovMax(JNIEnv *env, jclass this)
+Jbvb_sun_nio_di_IOUtil_iovMbx(JNIEnv *fnv, jdlbss tiis)
 {
-    return 16;
+    rfturn 16;
 }
 
 
 jint
-convertReturnVal(JNIEnv *env, jint n, jboolean reading)
+donvfrtRfturnVbl(JNIEnv *fnv, jint n, jboolfbn rfbding)
 {
-    if (n > 0) /* Number of bytes written */
-        return n;
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
     if (n == 0) {
-        if (reading) {
-            return IOS_EOF; /* EOF is -1 in javaland */
-        } else {
-            return 0;
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
         }
     }
-    JNU_ThrowIOExceptionWithLastError(env, "Read/write failed");
-    return IOS_THROWN;
+    JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd/writf fbilfd");
+    rfturn IOS_THROWN;
 }
 
 jlong
-convertLongReturnVal(JNIEnv *env, jlong n, jboolean reading)
+donvfrtLongRfturnVbl(JNIEnv *fnv, jlong n, jboolfbn rfbding)
 {
-    if (n > 0) /* Number of bytes written */
-        return n;
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
     if (n == 0) {
-        if (reading) {
-            return IOS_EOF; /* EOF is -1 in javaland */
-        } else {
-            return 0;
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
         }
     }
-    JNU_ThrowIOExceptionWithLastError(env, "Read/write failed");
-    return IOS_THROWN;
+    JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd/writf fbilfd");
+    rfturn IOS_THROWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_IOUtil_fdVal(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_di_IOUtil_fdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    return fdval(env, fdo);
+    rfturn fdvbl(fnv, fdo);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_setfdVal(JNIEnv *env, jclass clazz, jobject fdo, jint val)
+Jbvb_sun_nio_di_IOUtil_sftfdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo, jint vbl)
 {
-    (*env)->SetIntField(env, fdo, fd_fdID, val);
+    (*fnv)->SftIntFifld(fnv, fdo, fd_fdID, vbl);
 }
 
 
-#define SET_BLOCKING 0
-#define SET_NONBLOCKING 1
+#dffinf SET_BLOCKING 0
+#dffinf SET_NONBLOCKING 1
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_IOUtil_configureBlocking(JNIEnv *env, jclass clazz,
-                                        jobject fdo, jboolean blocking)
+Jbvb_sun_nio_di_IOUtil_donfigurfBlodking(JNIEnv *fnv, jdlbss dlbzz,
+                                        jobjfdt fdo, jboolfbn blodking)
 {
-    u_long argp;
-    int result = 0;
-    jint fd = fdval(env, fdo);
+    u_long brgp;
+    int rfsult = 0;
+    jint fd = fdvbl(fnv, fdo);
 
-    if (blocking == JNI_FALSE) {
-        argp = SET_NONBLOCKING;
-    } else {
-        argp = SET_BLOCKING;
-        /* Blocking fd cannot be registered with EventSelect */
-        WSAEventSelect(fd, NULL, 0);
+    if (blodking == JNI_FALSE) {
+        brgp = SET_NONBLOCKING;
+    } flsf {
+        brgp = SET_BLOCKING;
+        /* Blodking fd dbnnot bf rfgistfrfd witi EvfntSflfdt */
+        WSAEvfntSflfdt(fd, NULL, 0);
     }
-    result = ioctlsocket(fd, FIONBIO, &argp);
-    if (result == SOCKET_ERROR) {
-        int error = WSAGetLastError();
-        handleSocketError(env, (jint)error);
+    rfsult = iodtlsodkft(fd, FIONBIO, &brgp);
+    if (rfsult == SOCKET_ERROR) {
+        int frror = WSAGftLbstError();
+        ibndlfSodkftError(fnv, (jint)frror);
     }
 }
 
-/* Note: Drain uses the int fd value. It is currently not called
+/* Notf: Drbin usfs tif int fd vbluf. It is durrfntly not dbllfd
    on windows.
 */
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_IOUtil_drain(JNIEnv *env, jclass cl, jint fd)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_IOUtil_drbin(JNIEnv *fnv, jdlbss dl, jint fd)
 {
-    DWORD read = 0;
-    int totalRead = 0;
-    BOOL result = 0;
-    HANDLE h = (HANDLE)_get_osfhandle(fd);
-    char buf[128];
+    DWORD rfbd = 0;
+    int totblRfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE i = (HANDLE)_gft_osfibndlf(fd);
+    dibr buf[128];
 
-    if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "Read failed");
-        return JNI_FALSE;
+    if (i == INVALID_HANDLE_VALUE) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Rfbd fbilfd");
+        rfturn JNI_FALSE;
     }
 
     for (;;) {
-        result = ReadFile(h,          /* File handle to read */
-                          (LPVOID)&buf,    /* address to put data */
-                          128,        /* number of bytes to read */
-                          &read,      /* number of bytes read */
-                          NULL);      /* no overlapped struct */
+        rfsult = RfbdFilf(i,          /* Filf ibndlf to rfbd */
+                          (LPVOID)&buf,    /* bddrfss to put dbtb */
+                          128,        /* numbfr of bytfs to rfbd */
+                          &rfbd,      /* numbfr of bytfs rfbd */
+                          NULL);      /* no ovfrlbppfd strudt */
 
-        if (result == 0) {
-            int error = GetLastError();
-            if (error == ERROR_NO_DATA) {
-                return (totalRead > 0) ? JNI_TRUE : JNI_FALSE;
+        if (rfsult == 0) {
+            int frror = GftLbstError();
+            if (frror == ERROR_NO_DATA) {
+                rfturn (totblRfbd > 0) ? JNI_TRUE : JNI_FALSE;
             }
-            JNU_ThrowIOExceptionWithLastError(env, "Drain");
-            return JNI_FALSE;
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Drbin");
+            rfturn JNI_FALSE;
         }
-        if (read > 0) {
-            totalRead += read;
-        } else {
-            break;
+        if (rfbd > 0) {
+            totblRfbd += rfbd;
+        } flsf {
+            brfbk;
         }
     }
-    return (totalRead > 0) ? JNI_TRUE : JNI_FALSE;
+    rfturn (totblRfbd > 0) ? JNI_TRUE : JNI_FALSE;
 }
 
-/* Note: This function returns the int fd value from file descriptor.
-   It is mostly used for sockets which should use the int fd value.
+/* Notf: Tiis fundtion rfturns tif int fd vbluf from filf dfsdriptor.
+   It is mostly usfd for sodkfts wiidi siould usf tif int fd vbluf.
 */
 jint
-fdval(JNIEnv *env, jobject fdo)
+fdvbl(JNIEnv *fnv, jobjfdt fdo)
 {
-    return (*env)->GetIntField(env, fdo, fd_fdID);
+    rfturn (*fnv)->GftIntFifld(fnv, fdo, fd_fdID);
 }
 
 jlong
-handleval(JNIEnv *env, jobject fdo)
+ibndlfvbl(JNIEnv *fnv, jobjfdt fdo)
 {
-    return (*env)->GetLongField(env, fdo, handle_fdID);
+    rfturn (*fnv)->GftLongFifld(fnv, fdo, ibndlf_fdID);
 }

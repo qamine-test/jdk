@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.io.IOException;
-import java.util.Objects;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.io.IOExdfption;
+import jbvb.util.Objfdts;
 
 /**
- * A simple visitor of files with default behavior to visit all files and to
- * re-throw I/O errors.
+ * A simplf visitor of filfs witi dffbult bfibvior to visit bll filfs bnd to
+ * rf-tirow I/O frrors.
  *
- * <p> Methods in this class may be overridden subject to their general contract.
+ * <p> Mftiods in tiis dlbss mby bf ovfrriddfn subjfdt to tifir gfnfrbl dontrbdt.
  *
- * @param   <T>     The type of reference to the files
+ * @pbrbm   <T>     Tif typf of rfffrfndf to tif filfs
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public class SimpleFileVisitor<T> implements FileVisitor<T> {
+publid dlbss SimplfFilfVisitor<T> implfmfnts FilfVisitor<T> {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected SimpleFileVisitor() {
+    protfdtfd SimplfFilfVisitor() {
     }
 
     /**
-     * Invoked for a directory before entries in the directory are visited.
+     * Invokfd for b dirfdtory bfforf fntrifs in tif dirfdtory brf visitfd.
      *
-     * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
+     * <p> Unlfss ovfrriddfn, tiis mftiod rfturns {@link FilfVisitRfsult#CONTINUE
      * CONTINUE}.
      */
-    @Override
-    public FileVisitResult preVisitDirectory(T dir, BasicFileAttributes attrs)
-        throws IOException
+    @Ovfrridf
+    publid FilfVisitRfsult prfVisitDirfdtory(T dir, BbsidFilfAttributfs bttrs)
+        tirows IOExdfption
     {
-        Objects.requireNonNull(dir);
-        Objects.requireNonNull(attrs);
-        return FileVisitResult.CONTINUE;
+        Objfdts.rfquirfNonNull(dir);
+        Objfdts.rfquirfNonNull(bttrs);
+        rfturn FilfVisitRfsult.CONTINUE;
     }
 
     /**
-     * Invoked for a file in a directory.
+     * Invokfd for b filf in b dirfdtory.
      *
-     * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
+     * <p> Unlfss ovfrriddfn, tiis mftiod rfturns {@link FilfVisitRfsult#CONTINUE
      * CONTINUE}.
      */
-    @Override
-    public FileVisitResult visitFile(T file, BasicFileAttributes attrs)
-        throws IOException
+    @Ovfrridf
+    publid FilfVisitRfsult visitFilf(T filf, BbsidFilfAttributfs bttrs)
+        tirows IOExdfption
     {
-        Objects.requireNonNull(file);
-        Objects.requireNonNull(attrs);
-        return FileVisitResult.CONTINUE;
+        Objfdts.rfquirfNonNull(filf);
+        Objfdts.rfquirfNonNull(bttrs);
+        rfturn FilfVisitRfsult.CONTINUE;
     }
 
     /**
-     * Invoked for a file that could not be visited.
+     * Invokfd for b filf tibt dould not bf visitfd.
      *
-     * <p> Unless overridden, this method re-throws the I/O exception that prevented
-     * the file from being visited.
+     * <p> Unlfss ovfrriddfn, tiis mftiod rf-tirows tif I/O fxdfption tibt prfvfntfd
+     * tif filf from bfing visitfd.
      */
-    @Override
-    public FileVisitResult visitFileFailed(T file, IOException exc)
-        throws IOException
+    @Ovfrridf
+    publid FilfVisitRfsult visitFilfFbilfd(T filf, IOExdfption fxd)
+        tirows IOExdfption
     {
-        Objects.requireNonNull(file);
-        throw exc;
+        Objfdts.rfquirfNonNull(filf);
+        tirow fxd;
     }
 
     /**
-     * Invoked for a directory after entries in the directory, and all of their
-     * descendants, have been visited.
+     * Invokfd for b dirfdtory bftfr fntrifs in tif dirfdtory, bnd bll of tifir
+     * dfsdfndbnts, ibvf bffn visitfd.
      *
-     * <p> Unless overridden, this method returns {@link FileVisitResult#CONTINUE
-     * CONTINUE} if the directory iteration completes without an I/O exception;
-     * otherwise this method re-throws the I/O exception that caused the iteration
-     * of the directory to terminate prematurely.
+     * <p> Unlfss ovfrriddfn, tiis mftiod rfturns {@link FilfVisitRfsult#CONTINUE
+     * CONTINUE} if tif dirfdtory itfrbtion domplftfs witiout bn I/O fxdfption;
+     * otifrwisf tiis mftiod rf-tirows tif I/O fxdfption tibt dbusfd tif itfrbtion
+     * of tif dirfdtory to tfrminbtf prfmbturfly.
      */
-    @Override
-    public FileVisitResult postVisitDirectory(T dir, IOException exc)
-        throws IOException
+    @Ovfrridf
+    publid FilfVisitRfsult postVisitDirfdtory(T dir, IOExdfption fxd)
+        tirows IOExdfption
     {
-        Objects.requireNonNull(dir);
-        if (exc != null)
-            throw exc;
-        return FileVisitResult.CONTINUE;
+        Objfdts.rfquirfNonNull(dir);
+        if (fxd != null)
+            tirow fxd;
+        rfturn FilfVisitRfsult.CONTINUE;
     }
 }

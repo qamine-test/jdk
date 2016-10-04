@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf CfrtifidbtfPolidyMbp ASN.1 objfdt.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss CfrtifidbtfPolidyMbp {
+    privbtf CfrtifidbtfPolidyId issufrDombin;
+    privbtf CfrtifidbtfPolidyId subjfdtDombin;
+
+    /**
+     * Crfbtf b CfrtifidbtfPolidyMbp with thf pbssfd CfrtifidbtfPolidyId's.
+     *
+     * @pbrbm issufr thf CfrtifidbtfPolidyId for thf issufr CA.
+     * @pbrbm subjfdt thf CfrtifidbtfPolidyId for thf subjfdt CA.
+     */
+    publid CfrtifidbtfPolidyMbp(CfrtifidbtfPolidyId issufr,
+                                CfrtifidbtfPolidyId subjfdt) {
+        this.issufrDombin = issufr;
+        this.subjfdtDombin = subjfdt;
+    }
+
+    /**
+     * Crfbtf thf CfrtifidbtfPolidyMbp from thf DER fndodfd vbluf.
+     *
+     * @pbrbm vbl thf DER fndodfd vbluf of thf sbmf.
+     */
+    publid CfrtifidbtfPolidyMbp(DfrVbluf vbl) throws IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for CfrtifidbtfPolidyMbp");
+        }
+        issufrDombin = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
+        subjfdtDombin = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
+    }
+
+    /**
+     * Rfturn thf issufr CA pbrt of thf polidy mbp.
+     */
+    publid CfrtifidbtfPolidyId gftIssufrIdfntififr() {
+        rfturn (issufrDombin);
+    }
+
+    /**
+     * Rfturn thf subjfdt CA pbrt of thf polidy mbp.
+     */
+    publid CfrtifidbtfPolidyId gftSubjfdtIdfntififr() {
+        rfturn (subjfdtDombin);
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf CfrtifidbtfPolidyId.
+     */
+    publid String toString() {
+        String s = "CfrtifidbtfPolidyMbp: [\n"
+                 + "IssufrDombin:" + issufrDombin.toString()
+                 + "SubjfdtDombin:" + subjfdtDombin.toString()
+                 + "]\n";
+
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf CfrtifidbtfPolidyMbp to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf objfdt to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        issufrDombin.fndodf(tmp);
+        subjfdtDombin.fndodf(tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf,tmp);
+    }
+}

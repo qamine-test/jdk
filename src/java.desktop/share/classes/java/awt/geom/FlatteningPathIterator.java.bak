@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * The <code>FlatteningPathIterator</code> class returns a flattened view of
- * another {@link PathIterator} object.  Other {@link java.awt.Shape Shape}
- * classes can use this class to provide flattening behavior for their paths
- * without having to perform the interpolation calculations themselves.
+ * Tif <dodf>FlbttfningPbtiItfrbtor</dodf> dlbss rfturns b flbttfnfd vifw of
+ * bnotifr {@link PbtiItfrbtor} objfdt.  Otifr {@link jbvb.bwt.Sibpf Sibpf}
+ * dlbssfs dbn usf tiis dlbss to providf flbttfning bfibvior for tifir pbtis
+ * witiout ibving to pfrform tif intfrpolbtion dbldulbtions tifmsflvfs.
  *
- * @author Jim Graham
+ * @butior Jim Grbibm
  */
-public class FlatteningPathIterator implements PathIterator {
-    static final int GROW_SIZE = 24;    // Multiple of cubic & quad curve size
+publid dlbss FlbttfningPbtiItfrbtor implfmfnts PbtiItfrbtor {
+    stbtid finbl int GROW_SIZE = 24;    // Multiplf of dubid & qubd durvf sizf
 
-    PathIterator src;                   // The source iterator
+    PbtiItfrbtor srd;                   // Tif sourdf itfrbtor
 
-    double squareflat;                  // Square of the flatness parameter
-                                        // for testing against squared lengths
+    doublf squbrfflbt;                  // Squbrf of tif flbtnfss pbrbmftfr
+                                        // for tfsting bgbinst squbrfd lfngtis
 
-    int limit;                          // Maximum number of recursion levels
+    int limit;                          // Mbximum numbfr of rfdursion lfvfls
 
-    double hold[] = new double[14];     // The cache of interpolated coords
-                                        // Note that this must be long enough
-                                        // to store a full cubic segment and
-                                        // a relative cubic segment to avoid
-                                        // aliasing when copying the coords
-                                        // of a curve to the end of the array.
-                                        // This is also serendipitously equal
-                                        // to the size of a full quad segment
-                                        // and 2 relative quad segments.
+    doublf iold[] = nfw doublf[14];     // Tif dbdif of intfrpolbtfd doords
+                                        // Notf tibt tiis must bf long fnougi
+                                        // to storf b full dubid sfgmfnt bnd
+                                        // b rflbtivf dubid sfgmfnt to bvoid
+                                        // blibsing wifn dopying tif doords
+                                        // of b durvf to tif fnd of tif brrby.
+                                        // Tiis is blso sfrfndipitously fqubl
+                                        // to tif sizf of b full qubd sfgmfnt
+                                        // bnd 2 rflbtivf qubd sfgmfnts.
 
-    double curx, cury;                  // The ending x,y of the last segment
+    doublf durx, dury;                  // Tif fnding x,y of tif lbst sfgmfnt
 
-    double movx, movy;                  // The x,y of the last move segment
+    doublf movx, movy;                  // Tif x,y of tif lbst movf sfgmfnt
 
-    int holdType;                       // The type of the curve being held
-                                        // for interpolation
+    int ioldTypf;                       // Tif typf of tif durvf bfing ifld
+                                        // for intfrpolbtion
 
-    int holdEnd;                        // The index of the last curve segment
-                                        // being held for interpolation
+    int ioldEnd;                        // Tif indfx of tif lbst durvf sfgmfnt
+                                        // bfing ifld for intfrpolbtion
 
-    int holdIndex;                      // The index of the curve segment
-                                        // that was last interpolated.  This
-                                        // is the curve segment ready to be
-                                        // returned in the next call to
-                                        // currentSegment().
+    int ioldIndfx;                      // Tif indfx of tif durvf sfgmfnt
+                                        // tibt wbs lbst intfrpolbtfd.  Tiis
+                                        // is tif durvf sfgmfnt rfbdy to bf
+                                        // rfturnfd in tif nfxt dbll to
+                                        // durrfntSfgmfnt().
 
-    int levels[];                       // The recursion level at which
-                                        // each curve being held in storage
-                                        // was generated.
+    int lfvfls[];                       // Tif rfdursion lfvfl bt wiidi
+                                        // fbdi durvf bfing ifld in storbgf
+                                        // wbs gfnfrbtfd.
 
-    int levelIndex;                     // The index of the entry in the
-                                        // levels array of the curve segment
-                                        // at the holdIndex
+    int lfvflIndfx;                     // Tif indfx of tif fntry in tif
+                                        // lfvfls brrby of tif durvf sfgmfnt
+                                        // bt tif ioldIndfx
 
-    boolean done;                       // True when iteration is done
+    boolfbn donf;                       // Truf wifn itfrbtion is donf
 
     /**
-     * Constructs a new <code>FlatteningPathIterator</code> object that
-     * flattens a path as it iterates over it.  The iterator does not
-     * subdivide any curve read from the source iterator to more than
-     * 10 levels of subdivision which yields a maximum of 1024 line
-     * segments per curve.
-     * @param src the original unflattened path being iterated over
-     * @param flatness the maximum allowable distance between the
-     * control points and the flattened curve
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt tibt
+     * flbttfns b pbti bs it itfrbtfs ovfr it.  Tif itfrbtor dofs not
+     * subdividf bny durvf rfbd from tif sourdf itfrbtor to morf tibn
+     * 10 lfvfls of subdivision wiidi yiflds b mbximum of 1024 linf
+     * sfgmfnts pfr durvf.
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * dontrol points bnd tif flbttfnfd durvf
      */
-    public FlatteningPathIterator(PathIterator src, double flatness) {
-        this(src, flatness, 10);
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss) {
+        tiis(srd, flbtnfss, 10);
     }
 
     /**
-     * Constructs a new <code>FlatteningPathIterator</code> object
-     * that flattens a path as it iterates over it.
-     * The <code>limit</code> parameter allows you to control the
-     * maximum number of recursive subdivisions that the iterator
-     * can make before it assumes that the curve is flat enough
-     * without measuring against the <code>flatness</code> parameter.
-     * The flattened iteration therefore never generates more than
-     * a maximum of <code>(2^limit)</code> line segments per curve.
-     * @param src the original unflattened path being iterated over
-     * @param flatness the maximum allowable distance between the
-     * control points and the flattened curve
-     * @param limit the maximum number of recursive subdivisions
-     * allowed for any curved segment
-     * @exception IllegalArgumentException if
-     *          <code>flatness</code> or <code>limit</code>
-     *          is less than zero
+     * Construdts b nfw <dodf>FlbttfningPbtiItfrbtor</dodf> objfdt
+     * tibt flbttfns b pbti bs it itfrbtfs ovfr it.
+     * Tif <dodf>limit</dodf> pbrbmftfr bllows you to dontrol tif
+     * mbximum numbfr of rfdursivf subdivisions tibt tif itfrbtor
+     * dbn mbkf bfforf it bssumfs tibt tif durvf is flbt fnougi
+     * witiout mfbsuring bgbinst tif <dodf>flbtnfss</dodf> pbrbmftfr.
+     * Tif flbttfnfd itfrbtion tifrfforf nfvfr gfnfrbtfs morf tibn
+     * b mbximum of <dodf>(2^limit)</dodf> linf sfgmfnts pfr durvf.
+     * @pbrbm srd tif originbl unflbttfnfd pbti bfing itfrbtfd ovfr
+     * @pbrbm flbtnfss tif mbximum bllowbblf distbndf bftwffn tif
+     * dontrol points bnd tif flbttfnfd durvf
+     * @pbrbm limit tif mbximum numbfr of rfdursivf subdivisions
+     * bllowfd for bny durvfd sfgmfnt
+     * @fxdfption IllfgblArgumfntExdfption if
+     *          <dodf>flbtnfss</dodf> or <dodf>limit</dodf>
+     *          is lfss tibn zfro
      */
-    public FlatteningPathIterator(PathIterator src, double flatness,
+    publid FlbttfningPbtiItfrbtor(PbtiItfrbtor srd, doublf flbtnfss,
                                   int limit) {
-        if (flatness < 0.0) {
-            throw new IllegalArgumentException("flatness must be >= 0");
+        if (flbtnfss < 0.0) {
+            tirow nfw IllfgblArgumfntExdfption("flbtnfss must bf >= 0");
         }
         if (limit < 0) {
-            throw new IllegalArgumentException("limit must be >= 0");
+            tirow nfw IllfgblArgumfntExdfption("limit must bf >= 0");
         }
-        this.src = src;
-        this.squareflat = flatness * flatness;
-        this.limit = limit;
-        this.levels = new int[limit + 1];
-        // prime the first path segment
-        next(false);
+        tiis.srd = srd;
+        tiis.squbrfflbt = flbtnfss * flbtnfss;
+        tiis.limit = limit;
+        tiis.lfvfls = nfw int[limit + 1];
+        // primf tif first pbti sfgmfnt
+        nfxt(fblsf);
     }
 
     /**
-     * Returns the flatness of this iterator.
-     * @return the flatness of this <code>FlatteningPathIterator</code>.
+     * Rfturns tif flbtnfss of tiis itfrbtor.
+     * @rfturn tif flbtnfss of tiis <dodf>FlbttfningPbtiItfrbtor</dodf>.
      */
-    public double getFlatness() {
-        return Math.sqrt(squareflat);
+    publid doublf gftFlbtnfss() {
+        rfturn Mbti.sqrt(squbrfflbt);
     }
 
     /**
-     * Returns the recursion limit of this iterator.
-     * @return the recursion limit of this
-     * <code>FlatteningPathIterator</code>.
+     * Rfturns tif rfdursion limit of tiis itfrbtor.
+     * @rfturn tif rfdursion limit of tiis
+     * <dodf>FlbttfningPbtiItfrbtor</dodf>.
      */
-    public int getRecursionLimit() {
-        return limit;
+    publid int gftRfdursionLimit() {
+        rfturn limit;
     }
 
     /**
-     * Returns the winding rule for determining the interior of the
-     * path.
-     * @return the winding rule of the original unflattened path being
-     * iterated over.
-     * @see PathIterator#WIND_EVEN_ODD
-     * @see PathIterator#WIND_NON_ZERO
+     * Rfturns tif winding rulf for dftfrmining tif intfrior of tif
+     * pbti.
+     * @rfturn tif winding rulf of tif originbl unflbttfnfd pbti bfing
+     * itfrbtfd ovfr.
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
      */
-    public int getWindingRule() {
-        return src.getWindingRule();
+    publid int gftWindingRulf() {
+        rfturn srd.gftWindingRulf();
     }
 
     /**
-     * Tests if the iteration is complete.
-     * @return <code>true</code> if all the segments have
-     * been read; <code>false</code> otherwise.
+     * Tfsts if tif itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll tif sfgmfnts ibvf
+     * bffn rfbd; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isDone() {
-        return done;
+    publid boolfbn isDonf() {
+        rfturn donf;
     }
 
     /*
-     * Ensures that the hold array can hold up to (want) more values.
-     * It is currently holding (hold.length - holdIndex) values.
+     * Ensurfs tibt tif iold brrby dbn iold up to (wbnt) morf vblufs.
+     * It is durrfntly iolding (iold.lfngti - ioldIndfx) vblufs.
      */
-    void ensureHoldCapacity(int want) {
-        if (holdIndex - want < 0) {
-            int have = hold.length - holdIndex;
-            int newsize = hold.length + GROW_SIZE;
-            double newhold[] = new double[newsize];
-            System.arraycopy(hold, holdIndex,
-                             newhold, holdIndex + GROW_SIZE,
-                             have);
-            hold = newhold;
-            holdIndex += GROW_SIZE;
-            holdEnd += GROW_SIZE;
+    void fnsurfHoldCbpbdity(int wbnt) {
+        if (ioldIndfx - wbnt < 0) {
+            int ibvf = iold.lfngti - ioldIndfx;
+            int nfwsizf = iold.lfngti + GROW_SIZE;
+            doublf nfwiold[] = nfw doublf[nfwsizf];
+            Systfm.brrbydopy(iold, ioldIndfx,
+                             nfwiold, ioldIndfx + GROW_SIZE,
+                             ibvf);
+            iold = nfwiold;
+            ioldIndfx += GROW_SIZE;
+            ioldEnd += GROW_SIZE;
         }
     }
 
     /**
-     * Moves the iterator to the next segment of the path forwards
-     * along the primary direction of traversal as long as there are
-     * more points in that direction.
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * morf points in tibt dirfdtion.
      */
-    public void next() {
-        next(true);
+    publid void nfxt() {
+        nfxt(truf);
     }
 
-    private void next(boolean doNext) {
-        int level;
+    privbtf void nfxt(boolfbn doNfxt) {
+        int lfvfl;
 
-        if (holdIndex >= holdEnd) {
-            if (doNext) {
-                src.next();
+        if (ioldIndfx >= ioldEnd) {
+            if (doNfxt) {
+                srd.nfxt();
             }
-            if (src.isDone()) {
-                done = true;
-                return;
+            if (srd.isDonf()) {
+                donf = truf;
+                rfturn;
             }
-            holdType = src.currentSegment(hold);
-            levelIndex = 0;
-            levels[0] = 0;
+            ioldTypf = srd.durrfntSfgmfnt(iold);
+            lfvflIndfx = 0;
+            lfvfls[0] = 0;
         }
 
-        switch (holdType) {
-        case SEG_MOVETO:
-        case SEG_LINETO:
-            curx = hold[0];
-            cury = hold[1];
-            if (holdType == SEG_MOVETO) {
-                movx = curx;
-                movy = cury;
+        switdi (ioldTypf) {
+        dbsf SEG_MOVETO:
+        dbsf SEG_LINETO:
+            durx = iold[0];
+            dury = iold[1];
+            if (ioldTypf == SEG_MOVETO) {
+                movx = durx;
+                movy = dury;
             }
-            holdIndex = 0;
-            holdEnd = 0;
-            break;
-        case SEG_CLOSE:
-            curx = movx;
-            cury = movy;
-            holdIndex = 0;
-            holdEnd = 0;
-            break;
-        case SEG_QUADTO:
-            if (holdIndex >= holdEnd) {
-                // Move the coordinates to the end of the array.
-                holdIndex = hold.length - 6;
-                holdEnd = hold.length - 2;
-                hold[holdIndex + 0] = curx;
-                hold[holdIndex + 1] = cury;
-                hold[holdIndex + 2] = hold[0];
-                hold[holdIndex + 3] = hold[1];
-                hold[holdIndex + 4] = curx = hold[2];
-                hold[holdIndex + 5] = cury = hold[3];
+            ioldIndfx = 0;
+            ioldEnd = 0;
+            brfbk;
+        dbsf SEG_CLOSE:
+            durx = movx;
+            dury = movy;
+            ioldIndfx = 0;
+            ioldEnd = 0;
+            brfbk;
+        dbsf SEG_QUADTO:
+            if (ioldIndfx >= ioldEnd) {
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                ioldIndfx = iold.lfngti - 6;
+                ioldEnd = iold.lfngti - 2;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 4] = durx = iold[2];
+                iold[ioldIndfx + 5] = dury = iold[3];
             }
 
-            level = levels[levelIndex];
-            while (level < limit) {
-                if (QuadCurve2D.getFlatnessSq(hold, holdIndex) < squareflat) {
-                    break;
+            lfvfl = lfvfls[lfvflIndfx];
+            wiilf (lfvfl < limit) {
+                if (QubdCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                    brfbk;
                 }
 
-                ensureHoldCapacity(4);
-                QuadCurve2D.subdivide(hold, holdIndex,
-                                      hold, holdIndex - 4,
-                                      hold, holdIndex);
-                holdIndex -= 4;
+                fnsurfHoldCbpbdity(4);
+                QubdCurvf2D.subdividf(iold, ioldIndfx,
+                                      iold, ioldIndfx - 4,
+                                      iold, ioldIndfx);
+                ioldIndfx -= 4;
 
-                // Now that we have subdivided, we have constructed
-                // two curves of one depth lower than the original
-                // curve.  One of those curves is in the place of
-                // the former curve and one of them is in the next
-                // set of held coordinate slots.  We now set both
-                // curves level values to the next higher level.
-                level++;
-                levels[levelIndex] = level;
-                levelIndex++;
-                levels[levelIndex] = level;
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                lfvfl++;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvfls[lfvflIndfx] = lfvfl;
             }
 
-            // This curve segment is flat enough, or it is too deep
-            // in recursion levels to try to flatten any more.  The
-            // two coordinates at holdIndex+4 and holdIndex+5 now
-            // contain the endpoint of the curve which can be the
-            // endpoint of an approximating line segment.
-            holdIndex += 4;
-            levelIndex--;
-            break;
-        case SEG_CUBICTO:
-            if (holdIndex >= holdEnd) {
-                // Move the coordinates to the end of the array.
-                holdIndex = hold.length - 8;
-                holdEnd = hold.length - 2;
-                hold[holdIndex + 0] = curx;
-                hold[holdIndex + 1] = cury;
-                hold[holdIndex + 2] = hold[0];
-                hold[holdIndex + 3] = hold[1];
-                hold[holdIndex + 4] = hold[2];
-                hold[holdIndex + 5] = hold[3];
-                hold[holdIndex + 6] = curx = hold[4];
-                hold[holdIndex + 7] = cury = hold[5];
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // two doordinbtfs bt ioldIndfx+4 bnd ioldIndfx+5 now
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            ioldIndfx += 4;
+            lfvflIndfx--;
+            brfbk;
+        dbsf SEG_CUBICTO:
+            if (ioldIndfx >= ioldEnd) {
+                // Movf tif doordinbtfs to tif fnd of tif brrby.
+                ioldIndfx = iold.lfngti - 8;
+                ioldEnd = iold.lfngti - 2;
+                iold[ioldIndfx + 0] = durx;
+                iold[ioldIndfx + 1] = dury;
+                iold[ioldIndfx + 2] = iold[0];
+                iold[ioldIndfx + 3] = iold[1];
+                iold[ioldIndfx + 4] = iold[2];
+                iold[ioldIndfx + 5] = iold[3];
+                iold[ioldIndfx + 6] = durx = iold[4];
+                iold[ioldIndfx + 7] = dury = iold[5];
             }
 
-            level = levels[levelIndex];
-            while (level < limit) {
-                if (CubicCurve2D.getFlatnessSq(hold, holdIndex) < squareflat) {
-                    break;
+            lfvfl = lfvfls[lfvflIndfx];
+            wiilf (lfvfl < limit) {
+                if (CubidCurvf2D.gftFlbtnfssSq(iold, ioldIndfx) < squbrfflbt) {
+                    brfbk;
                 }
 
-                ensureHoldCapacity(6);
-                CubicCurve2D.subdivide(hold, holdIndex,
-                                       hold, holdIndex - 6,
-                                       hold, holdIndex);
-                holdIndex -= 6;
+                fnsurfHoldCbpbdity(6);
+                CubidCurvf2D.subdividf(iold, ioldIndfx,
+                                       iold, ioldIndfx - 6,
+                                       iold, ioldIndfx);
+                ioldIndfx -= 6;
 
-                // Now that we have subdivided, we have constructed
-                // two curves of one depth lower than the original
-                // curve.  One of those curves is in the place of
-                // the former curve and one of them is in the next
-                // set of held coordinate slots.  We now set both
-                // curves level values to the next higher level.
-                level++;
-                levels[levelIndex] = level;
-                levelIndex++;
-                levels[levelIndex] = level;
+                // Now tibt wf ibvf subdividfd, wf ibvf donstrudtfd
+                // two durvfs of onf dfpti lowfr tibn tif originbl
+                // durvf.  Onf of tiosf durvfs is in tif plbdf of
+                // tif formfr durvf bnd onf of tifm is in tif nfxt
+                // sft of ifld doordinbtf slots.  Wf now sft boti
+                // durvfs lfvfl vblufs to tif nfxt iigifr lfvfl.
+                lfvfl++;
+                lfvfls[lfvflIndfx] = lfvfl;
+                lfvflIndfx++;
+                lfvfls[lfvflIndfx] = lfvfl;
             }
 
-            // This curve segment is flat enough, or it is too deep
-            // in recursion levels to try to flatten any more.  The
-            // two coordinates at holdIndex+6 and holdIndex+7 now
-            // contain the endpoint of the curve which can be the
-            // endpoint of an approximating line segment.
-            holdIndex += 6;
-            levelIndex--;
-            break;
+            // Tiis durvf sfgmfnt is flbt fnougi, or it is too dffp
+            // in rfdursion lfvfls to try to flbttfn bny morf.  Tif
+            // two doordinbtfs bt ioldIndfx+6 bnd ioldIndfx+7 now
+            // dontbin tif fndpoint of tif durvf wiidi dbn bf tif
+            // fndpoint of bn bpproximbting linf sfgmfnt.
+            ioldIndfx += 6;
+            lfvflIndfx--;
+            brfbk;
         }
     }
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types return one point,
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path segment type of the current path segment.
-     * @exception NoSuchElementException if there
-     *          are no more elements in the flattening path to be
-     *          returned.
-     * @see PathIterator#SEG_MOVETO
-     * @see PathIterator#SEG_LINETO
-     * @see PathIterator#SEG_CLOSE
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          rfturnfd.
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("flattening iterator out of bounds");
+    publid int durrfntSfgmfnt(flobt[] doords) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
         }
-        int type = holdType;
-        if (type != SEG_CLOSE) {
-            coords[0] = (float) hold[holdIndex + 0];
-            coords[1] = (float) hold[holdIndex + 1];
-            if (type != SEG_MOVETO) {
-                type = SEG_LINETO;
+        int typf = ioldTypf;
+        if (typf != SEG_CLOSE) {
+            doords[0] = (flobt) iold[ioldIndfx + 0];
+            doords[1] = (flobt) iold[ioldIndfx + 1];
+            if (typf != SEG_MOVETO) {
+                typf = SEG_LINETO;
             }
         }
-        return type;
+        rfturn typf;
     }
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-     * A double array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of double x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types return one point,
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path segment type of the current path segment.
-     * @exception NoSuchElementException if there
-     *          are no more elements in the flattening path to be
-     *          returned.
-     * @see PathIterator#SEG_MOVETO
-     * @see PathIterator#SEG_LINETO
-     * @see PathIterator#SEG_CLOSE
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturn onf point,
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby tibt iolds tif dbtb rfturnfd from
+     * tiis mftiod
+     * @rfturn tif pbti sfgmfnt typf of tif durrfnt pbti sfgmfnt.
+     * @fxdfption NoSudiElfmfntExdfption if tifrf
+     *          brf no morf flfmfnts in tif flbttfning pbti to bf
+     *          rfturnfd.
+     * @sff PbtiItfrbtor#SEG_MOVETO
+     * @sff PbtiItfrbtor#SEG_LINETO
+     * @sff PbtiItfrbtor#SEG_CLOSE
      */
-    public int currentSegment(double[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("flattening iterator out of bounds");
+    publid int durrfntSfgmfnt(doublf[] doords) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("flbttfning itfrbtor out of bounds");
         }
-        int type = holdType;
-        if (type != SEG_CLOSE) {
-            coords[0] = hold[holdIndex + 0];
-            coords[1] = hold[holdIndex + 1];
-            if (type != SEG_MOVETO) {
-                type = SEG_LINETO;
+        int typf = ioldTypf;
+        if (typf != SEG_CLOSE) {
+            doords[0] = iold[ioldIndfx + 0];
+            doords[1] = iold[ioldIndfx + 1];
+            if (typf != SEG_MOVETO) {
+                typf = SEG_LINETO;
             }
         }
-        return type;
+        rfturn typf;
     }
 }

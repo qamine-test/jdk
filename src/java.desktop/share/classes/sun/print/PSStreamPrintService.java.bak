@@ -1,502 +1,502 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Locale;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
 
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
-import javax.print.ServiceUIFactory;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.HashAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.event.PrintServiceAttributeListener;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.ColorSupported;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.CopiesSupported;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.PageRanges;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Sides;
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.DodPrintJob;
+import jbvbx.print.StrfbmPrintSfrvidf;
+import jbvbx.print.StrfbmPrintSfrvidfFbdtory;
+import jbvbx.print.SfrvidfUIFbdtory;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.AttributfSftUtilitifs;
+import jbvbx.print.bttributf.HbsiAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.Sizf2DSyntbx;
+import jbvbx.print.fvfnt.PrintSfrvidfAttributfListfnfr;
+import jbvbx.print.bttributf.stbndbrd.JobNbmf;
+import jbvbx.print.bttributf.stbndbrd.RfqufstingUsfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.Cirombtidity;
+import jbvbx.print.bttributf.stbndbrd.ColorSupportfd;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.CopifsSupportfd;
+import jbvbx.print.bttributf.stbndbrd.Fidflity;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibPrintbblfArfb;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.OrifntbtionRfqufstfd;
+import jbvbx.print.bttributf.stbndbrd.PbgfRbngfs;
+import jbvbx.print.bttributf.stbndbrd.SifftCollbtf;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
 
-public class PSStreamPrintService extends StreamPrintService
-    implements SunPrinterJobService {
+publid dlbss PSStrfbmPrintSfrvidf fxtfnds StrfbmPrintSfrvidf
+    implfmfnts SunPrintfrJobSfrvidf {
 
-    private static final Class<?>[] suppAttrCats = {
-        Chromaticity.class,
-        Copies.class,
-        Fidelity.class,
-        JobName.class,
-        Media.class,
-        MediaPrintableArea.class,
-        OrientationRequested.class,
-        PageRanges.class,
-        RequestingUserName.class,
-        SheetCollate.class,
-        Sides.class,
+    privbtf stbtid finbl Clbss<?>[] suppAttrCbts = {
+        Cirombtidity.dlbss,
+        Copifs.dlbss,
+        Fidflity.dlbss,
+        JobNbmf.dlbss,
+        Mfdib.dlbss,
+        MfdibPrintbblfArfb.dlbss,
+        OrifntbtionRfqufstfd.dlbss,
+        PbgfRbngfs.dlbss,
+        RfqufstingUsfrNbmf.dlbss,
+        SifftCollbtf.dlbss,
+        Sidfs.dlbss,
     };
 
-    private static int MAXCOPIES = 1000;
+    privbtf stbtid int MAXCOPIES = 1000;
 
-    private static final MediaSizeName mediaSizes[] = {
-        MediaSizeName.NA_LETTER,
-        MediaSizeName.TABLOID,
-        MediaSizeName.LEDGER,
-        MediaSizeName.NA_LEGAL,
-        MediaSizeName.EXECUTIVE,
-        MediaSizeName.ISO_A3,
-        MediaSizeName.ISO_A4,
-        MediaSizeName.ISO_A5,
-        MediaSizeName.ISO_B4,
-        MediaSizeName.ISO_B5,
+    privbtf stbtid finbl MfdibSizfNbmf mfdibSizfs[] = {
+        MfdibSizfNbmf.NA_LETTER,
+        MfdibSizfNbmf.TABLOID,
+        MfdibSizfNbmf.LEDGER,
+        MfdibSizfNbmf.NA_LEGAL,
+        MfdibSizfNbmf.EXECUTIVE,
+        MfdibSizfNbmf.ISO_A3,
+        MfdibSizfNbmf.ISO_A4,
+        MfdibSizfNbmf.ISO_A5,
+        MfdibSizfNbmf.ISO_B4,
+        MfdibSizfNbmf.ISO_B5,
     };
 
-    public PSStreamPrintService(OutputStream out) {
-        super(out);
+    publid PSStrfbmPrintSfrvidf(OutputStrfbm out) {
+        supfr(out);
     }
 
-    public String getOutputFormat() {
-        return PSStreamPrinterFactory.psMimeType;
-    }
-
-
-    public DocFlavor[] getSupportedDocFlavors() {
-        return PSStreamPrinterFactory.getFlavors();
-    }
-
-    public DocPrintJob createPrintJob() {
-        return new PSStreamPrintJob(this);
-    }
-
-    public boolean usesClass(Class<?> c) {
-        return (c == sun.print.PSPrinterJob.class);
-    }
-
-    public String getName() {
-        return "Postscript output";
-    }
-
-    public void addPrintServiceAttributeListener(
-                         PrintServiceAttributeListener listener) {
-        return;
-    }
-
-    public void removePrintServiceAttributeListener(
-                            PrintServiceAttributeListener listener) {
-        return;
+    publid String gftOutputFormbt() {
+        rfturn PSStrfbmPrintfrFbdtory.psMimfTypf;
     }
 
 
-    public <T extends PrintServiceAttribute>
-        T getAttribute(Class<T> category)
+    publid DodFlbvor[] gftSupportfdDodFlbvors() {
+        rfturn PSStrfbmPrintfrFbdtory.gftFlbvors();
+    }
+
+    publid DodPrintJob drfbtfPrintJob() {
+        rfturn nfw PSStrfbmPrintJob(tiis);
+    }
+
+    publid boolfbn usfsClbss(Clbss<?> d) {
+        rfturn (d == sun.print.PSPrintfrJob.dlbss);
+    }
+
+    publid String gftNbmf() {
+        rfturn "Postsdript output";
+    }
+
+    publid void bddPrintSfrvidfAttributfListfnfr(
+                         PrintSfrvidfAttributfListfnfr listfnfr) {
+        rfturn;
+    }
+
+    publid void rfmovfPrintSfrvidfAttributfListfnfr(
+                            PrintSfrvidfAttributfListfnfr listfnfr) {
+        rfturn;
+    }
+
+
+    publid <T fxtfnds PrintSfrvidfAttributf>
+        T gftAttributf(Clbss<T> dbtfgory)
     {
-        if (category == null) {
-            throw new NullPointerException("category");
+        if (dbtfgory == null) {
+            tirow nfw NullPointfrExdfption("dbtfgory");
         }
-        if (!(PrintServiceAttribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException("Not a PrintServiceAttribute");
+        if (!(PrintSfrvidfAttributf.dlbss.isAssignbblfFrom(dbtfgory))) {
+            tirow nfw IllfgblArgumfntExdfption("Not b PrintSfrvidfAttributf");
         }
-        if (category == ColorSupported.class) {
-            @SuppressWarnings("unchecked")
-            T tmp = (T)ColorSupported.SUPPORTED;
-            return tmp;
-        } else {
-            return null;
+        if (dbtfgory == ColorSupportfd.dlbss) {
+            @SupprfssWbrnings("undifdkfd")
+            T tmp = (T)ColorSupportfd.SUPPORTED;
+            rfturn tmp;
+        } flsf {
+            rfturn null;
         }
     }
-    public PrintServiceAttributeSet getAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(ColorSupported.SUPPORTED);
+    publid PrintSfrvidfAttributfSft gftAttributfs() {
+        PrintSfrvidfAttributfSft bttrs = nfw HbsiPrintSfrvidfAttributfSft();
+        bttrs.bdd(ColorSupportfd.SUPPORTED);
 
-        return AttributeSetUtilities.unmodifiableView(attrs);
+        rfturn AttributfSftUtilitifs.unmodifibblfVifw(bttrs);
     }
 
-    public boolean isDocFlavorSupported(DocFlavor flavor) {
-        DocFlavor [] flavors = getSupportedDocFlavors();
-        for (int f=0; f<flavors.length; f++) {
-            if (flavor.equals(flavors[f])) {
-                return true;
+    publid boolfbn isDodFlbvorSupportfd(DodFlbvor flbvor) {
+        DodFlbvor [] flbvors = gftSupportfdDodFlbvors();
+        for (int f=0; f<flbvors.lfngti; f++) {
+            if (flbvor.fqubls(flbvors[f])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
-    public Class<?>[] getSupportedAttributeCategories() {
-        Class<?>[] cats = new Class<?>[suppAttrCats.length];
-        System.arraycopy(suppAttrCats, 0, cats, 0, cats.length);
-        return cats;
+    publid Clbss<?>[] gftSupportfdAttributfCbtfgorifs() {
+        Clbss<?>[] dbts = nfw Clbss<?>[suppAttrCbts.lfngti];
+        Systfm.brrbydopy(suppAttrCbts, 0, dbts, 0, dbts.lfngti);
+        rfturn dbts;
     }
 
-    public boolean
-        isAttributeCategorySupported(Class<? extends Attribute> category)
+    publid boolfbn
+        isAttributfCbtfgorySupportfd(Clbss<? fxtfnds Attributf> dbtfgory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (dbtfgory == null) {
+            tirow nfw NullPointfrExdfption("null dbtfgory");
         }
-        if (!(Attribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
+        if (!(Attributf.dlbss.isAssignbblfFrom(dbtfgory))) {
+            tirow nfw IllfgblArgumfntExdfption(dbtfgory +
+                                             " is not bn Attributf");
         }
 
-        for (int i=0;i<suppAttrCats.length;i++) {
-            if (category == suppAttrCats[i]) {
-                return true;
+        for (int i=0;i<suppAttrCbts.lfngti;i++) {
+            if (dbtfgory == suppAttrCbts[i]) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
-    public Object
-        getDefaultAttributeValue(Class<? extends Attribute> category)
+    publid Objfdt
+        gftDffbultAttributfVbluf(Clbss<? fxtfnds Attributf> dbtfgory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (dbtfgory == null) {
+            tirow nfw NullPointfrExdfption("null dbtfgory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
-        }
-
-        if (!isAttributeCategorySupported(category)) {
-            return null;
+        if (!Attributf.dlbss.isAssignbblfFrom(dbtfgory)) {
+            tirow nfw IllfgblArgumfntExdfption(dbtfgory +
+                                             " is not bn Attributf");
         }
 
-        if (category == Copies.class) {
-            return new Copies(1);
-        } else if (category == Chromaticity.class) {
-            return Chromaticity.COLOR;
-        } else if (category == Fidelity.class) {
-            return Fidelity.FIDELITY_FALSE;
-        } else if (category == Media.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                return MediaSizeName.NA_LETTER;
-            } else {
-                 return MediaSizeName.ISO_A4;
+        if (!isAttributfCbtfgorySupportfd(dbtfgory)) {
+            rfturn null;
+        }
+
+        if (dbtfgory == Copifs.dlbss) {
+            rfturn nfw Copifs(1);
+        } flsf if (dbtfgory == Cirombtidity.dlbss) {
+            rfturn Cirombtidity.COLOR;
+        } flsf if (dbtfgory == Fidflity.dlbss) {
+            rfturn Fidflity.FIDELITY_FALSE;
+        } flsf if (dbtfgory == Mfdib.dlbss) {
+            String dffbultCountry = Lodblf.gftDffbult().gftCountry();
+            if (dffbultCountry != null &&
+                (dffbultCountry.fqubls("") ||
+                 dffbultCountry.fqubls(Lodblf.US.gftCountry()) ||
+                 dffbultCountry.fqubls(Lodblf.CANADA.gftCountry()))) {
+                rfturn MfdibSizfNbmf.NA_LETTER;
+            } flsf {
+                 rfturn MfdibSizfNbmf.ISO_A4;
             }
-        } else if (category == MediaPrintableArea.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            float iw, ih;
-            float margin = 0.5f; // both these papers > 5" in all dimensions
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                iw = MediaSize.NA.LETTER.getX(Size2DSyntax.INCH) - 2*margin;
-                ih = MediaSize.NA.LETTER.getY(Size2DSyntax.INCH) - 2*margin;
-            } else {
-                iw = MediaSize.ISO.A4.getX(Size2DSyntax.INCH) - 2*margin;
-                ih = MediaSize.ISO.A4.getY(Size2DSyntax.INCH) - 2*margin;
+        } flsf if (dbtfgory == MfdibPrintbblfArfb.dlbss) {
+            String dffbultCountry = Lodblf.gftDffbult().gftCountry();
+            flobt iw, ii;
+            flobt mbrgin = 0.5f; // boti tifsf pbpfrs > 5" in bll dimfnsions
+            if (dffbultCountry != null &&
+                (dffbultCountry.fqubls("") ||
+                 dffbultCountry.fqubls(Lodblf.US.gftCountry()) ||
+                 dffbultCountry.fqubls(Lodblf.CANADA.gftCountry()))) {
+                iw = MfdibSizf.NA.LETTER.gftX(Sizf2DSyntbx.INCH) - 2*mbrgin;
+                ii = MfdibSizf.NA.LETTER.gftY(Sizf2DSyntbx.INCH) - 2*mbrgin;
+            } flsf {
+                iw = MfdibSizf.ISO.A4.gftX(Sizf2DSyntbx.INCH) - 2*mbrgin;
+                ii = MfdibSizf.ISO.A4.gftY(Sizf2DSyntbx.INCH) - 2*mbrgin;
             }
-            return new MediaPrintableArea(margin, margin, iw, ih,
-                                          MediaPrintableArea.INCH);
-        } else if (category == OrientationRequested.class) {
-            return OrientationRequested.PORTRAIT;
-        } else if (category == PageRanges.class) {
-            return new PageRanges(1, Integer.MAX_VALUE);
-        } else if (category == SheetCollate.class) {
-            return SheetCollate.UNCOLLATED;
-        } else if (category == Sides.class) {
-            return Sides.ONE_SIDED;
+            rfturn nfw MfdibPrintbblfArfb(mbrgin, mbrgin, iw, ii,
+                                          MfdibPrintbblfArfb.INCH);
+        } flsf if (dbtfgory == OrifntbtionRfqufstfd.dlbss) {
+            rfturn OrifntbtionRfqufstfd.PORTRAIT;
+        } flsf if (dbtfgory == PbgfRbngfs.dlbss) {
+            rfturn nfw PbgfRbngfs(1, Intfgfr.MAX_VALUE);
+        } flsf if (dbtfgory == SifftCollbtf.dlbss) {
+            rfturn SifftCollbtf.UNCOLLATED;
+        } flsf if (dbtfgory == Sidfs.dlbss) {
+            rfturn Sidfs.ONE_SIDED;
 
-        } else
-            return null;
+        } flsf
+            rfturn null;
     }
 
 
-    public Object
-        getSupportedAttributeValues(Class<? extends Attribute> category,
-                                    DocFlavor flavor,
-                                    AttributeSet attributes)
+    publid Objfdt
+        gftSupportfdAttributfVblufs(Clbss<? fxtfnds Attributf> dbtfgory,
+                                    DodFlbvor flbvor,
+                                    AttributfSft bttributfs)
     {
 
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (dbtfgory == null) {
+            tirow nfw NullPointfrExdfption("null dbtfgory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
-                                             " does not implement Attribute");
+        if (!Attributf.dlbss.isAssignbblfFrom(dbtfgory)) {
+            tirow nfw IllfgblArgumfntExdfption(dbtfgory +
+                                             " dofs not implfmfnt Attributf");
         }
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
-        }
-
-        if (!isAttributeCategorySupported(category)) {
-            return null;
+        if (flbvor != null && !isDodFlbvorSupportfd(flbvor)) {
+            tirow nfw IllfgblArgumfntExdfption(flbvor +
+                                               " is bn unsupportfd flbvor");
         }
 
-        if (category == Chromaticity.class) {
-            Chromaticity[]arr = new Chromaticity[1];
-            arr[0] = Chromaticity.COLOR;
-            //arr[1] = Chromaticity.MONOCHROME;
-            return (arr);
-        } else if (category == JobName.class) {
-            return new JobName("", null);
-        } else if (category == RequestingUserName.class) {
-            return new RequestingUserName("", null);
-        } else if (category == OrientationRequested.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                OrientationRequested []arr = new OrientationRequested[3];
-                arr[0] = OrientationRequested.PORTRAIT;
-                arr[1] = OrientationRequested.LANDSCAPE;
-                arr[2] = OrientationRequested.REVERSE_LANDSCAPE;
-                return arr;
-            } else {
-                return null;
+        if (!isAttributfCbtfgorySupportfd(dbtfgory)) {
+            rfturn null;
+        }
+
+        if (dbtfgory == Cirombtidity.dlbss) {
+            Cirombtidity[]brr = nfw Cirombtidity[1];
+            brr[0] = Cirombtidity.COLOR;
+            //brr[1] = Cirombtidity.MONOCHROME;
+            rfturn (brr);
+        } flsf if (dbtfgory == JobNbmf.dlbss) {
+            rfturn nfw JobNbmf("", null);
+        } flsf if (dbtfgory == RfqufstingUsfrNbmf.dlbss) {
+            rfturn nfw RfqufstingUsfrNbmf("", null);
+        } flsf if (dbtfgory == OrifntbtionRfqufstfd.dlbss) {
+            if (flbvor == null ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                OrifntbtionRfqufstfd []brr = nfw OrifntbtionRfqufstfd[3];
+                brr[0] = OrifntbtionRfqufstfd.PORTRAIT;
+                brr[1] = OrifntbtionRfqufstfd.LANDSCAPE;
+                brr[2] = OrifntbtionRfqufstfd.REVERSE_LANDSCAPE;
+                rfturn brr;
+            } flsf {
+                rfturn null;
             }
-        } else if ((category == Copies.class) ||
-                   (category == CopiesSupported.class)) {
-            return new CopiesSupported(1, MAXCOPIES);
-        } else if (category == Media.class) {
-            Media []arr = new Media[mediaSizes.length];
-            System.arraycopy(mediaSizes, 0, arr, 0, mediaSizes.length);
-            return arr;
-        } else if (category == Fidelity.class) {
-            Fidelity []arr = new Fidelity[2];
-            arr[0] = Fidelity.FIDELITY_FALSE;
-            arr[1] = Fidelity.FIDELITY_TRUE;
-            return arr;
-        } else if (category == MediaPrintableArea.class) {
-            if (attributes == null) {
-                return null;
+        } flsf if ((dbtfgory == Copifs.dlbss) ||
+                   (dbtfgory == CopifsSupportfd.dlbss)) {
+            rfturn nfw CopifsSupportfd(1, MAXCOPIES);
+        } flsf if (dbtfgory == Mfdib.dlbss) {
+            Mfdib []brr = nfw Mfdib[mfdibSizfs.lfngti];
+            Systfm.brrbydopy(mfdibSizfs, 0, brr, 0, mfdibSizfs.lfngti);
+            rfturn brr;
+        } flsf if (dbtfgory == Fidflity.dlbss) {
+            Fidflity []brr = nfw Fidflity[2];
+            brr[0] = Fidflity.FIDELITY_FALSE;
+            brr[1] = Fidflity.FIDELITY_TRUE;
+            rfturn brr;
+        } flsf if (dbtfgory == MfdibPrintbblfArfb.dlbss) {
+            if (bttributfs == null) {
+                rfturn null;
             }
-            MediaSize mediaSize = (MediaSize)attributes.get(MediaSize.class);
-            if (mediaSize == null) {
-                Media media = (Media)attributes.get(Media.class);
-                if (media != null && media instanceof MediaSizeName) {
-                    MediaSizeName msn = (MediaSizeName)media;
-                    mediaSize = MediaSize.getMediaSizeForName(msn);
+            MfdibSizf mfdibSizf = (MfdibSizf)bttributfs.gft(MfdibSizf.dlbss);
+            if (mfdibSizf == null) {
+                Mfdib mfdib = (Mfdib)bttributfs.gft(Mfdib.dlbss);
+                if (mfdib != null && mfdib instbndfof MfdibSizfNbmf) {
+                    MfdibSizfNbmf msn = (MfdibSizfNbmf)mfdib;
+                    mfdibSizf = MfdibSizf.gftMfdibSizfForNbmf(msn);
                 }
             }
-            if (mediaSize == null) {
-                return null;
-            } else {
-                MediaPrintableArea []arr = new MediaPrintableArea[1];
-                float w = mediaSize.getX(MediaSize.INCH);
-                float h = mediaSize.getY(MediaSize.INCH);
-                /* For dimensions >= 5 inches use 0.5 inch margins.
-                 * For smaller dimensions, use 10% margins.
+            if (mfdibSizf == null) {
+                rfturn null;
+            } flsf {
+                MfdibPrintbblfArfb []brr = nfw MfdibPrintbblfArfb[1];
+                flobt w = mfdibSizf.gftX(MfdibSizf.INCH);
+                flobt i = mfdibSizf.gftY(MfdibSizf.INCH);
+                /* For dimfnsions >= 5 indifs usf 0.5 indi mbrgins.
+                 * For smbllfr dimfnsions, usf 10% mbrgins.
                  */
-                float xmargin = 0.5f;
-                float ymargin = 0.5f;
+                flobt xmbrgin = 0.5f;
+                flobt ymbrgin = 0.5f;
                 if (w < 5f) {
-                    xmargin = w/10;
+                    xmbrgin = w/10;
                 }
-                if (h < 5f) {
-                    ymargin = h/10;
+                if (i < 5f) {
+                    ymbrgin = i/10;
                 }
-                arr[0] = new MediaPrintableArea(xmargin, ymargin,
-                                                w - 2*xmargin,
-                                                h - 2*ymargin,
-                                                MediaSize.INCH);
-                return arr;
+                brr[0] = nfw MfdibPrintbblfArfb(xmbrgin, ymbrgin,
+                                                w - 2*xmbrgin,
+                                                i - 2*ymbrgin,
+                                                MfdibSizf.INCH);
+                rfturn brr;
             }
-        } else if (category == PageRanges.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                PageRanges []arr = new PageRanges[1];
-                arr[0] = new PageRanges(1, Integer.MAX_VALUE);
-                return arr;
-            } else {
-                return null;
+        } flsf if (dbtfgory == PbgfRbngfs.dlbss) {
+            if (flbvor == null ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                PbgfRbngfs []brr = nfw PbgfRbngfs[1];
+                brr[0] = nfw PbgfRbngfs(1, Intfgfr.MAX_VALUE);
+                rfturn brr;
+            } flsf {
+                rfturn null;
             }
-        } else if (category == SheetCollate.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                SheetCollate []arr = new SheetCollate[2];
-                arr[0] = SheetCollate.UNCOLLATED;
-                arr[1] = SheetCollate.COLLATED;
-                return arr;
-            } else {
-                SheetCollate []arr = new SheetCollate[1];
-                arr[0] = SheetCollate.UNCOLLATED;
-                return arr;
+        } flsf if (dbtfgory == SifftCollbtf.dlbss) {
+            if (flbvor == null ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                SifftCollbtf []brr = nfw SifftCollbtf[2];
+                brr[0] = SifftCollbtf.UNCOLLATED;
+                brr[1] = SifftCollbtf.COLLATED;
+                rfturn brr;
+            } flsf {
+                SifftCollbtf []brr = nfw SifftCollbtf[1];
+                brr[0] = SifftCollbtf.UNCOLLATED;
+                rfturn brr;
             }
-        } else if (category == Sides.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                Sides []arr = new Sides[3];
-                arr[0] = Sides.ONE_SIDED;
-                arr[1] = Sides.TWO_SIDED_LONG_EDGE;
-                arr[2] = Sides.TWO_SIDED_SHORT_EDGE;
-                return arr;
-            } else {
-                return null;
+        } flsf if (dbtfgory == Sidfs.dlbss) {
+            if (flbvor == null ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                Sidfs []brr = nfw Sidfs[3];
+                brr[0] = Sidfs.ONE_SIDED;
+                brr[1] = Sidfs.TWO_SIDED_LONG_EDGE;
+                brr[2] = Sidfs.TWO_SIDED_SHORT_EDGE;
+                rfturn brr;
+            } flsf {
+                rfturn null;
             }
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
     }
 
-    private boolean isSupportedCopies(Copies copies) {
-        int numCopies = copies.getValue();
-        return (numCopies > 0 && numCopies < MAXCOPIES);
+    privbtf boolfbn isSupportfdCopifs(Copifs dopifs) {
+        int numCopifs = dopifs.gftVbluf();
+        rfturn (numCopifs > 0 && numCopifs < MAXCOPIES);
     }
 
-    private boolean isSupportedMedia(MediaSizeName msn) {
-        for (int i=0; i<mediaSizes.length; i++) {
-            if (msn.equals(mediaSizes[i])) {
-                return true;
+    privbtf boolfbn isSupportfdMfdib(MfdibSizfNbmf msn) {
+        for (int i=0; i<mfdibSizfs.lfngti; i++) {
+            if (msn.fqubls(mfdibSizfs[i])) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public boolean isAttributeValueSupported(Attribute attr,
-                                             DocFlavor flavor,
-                                             AttributeSet attributes) {
-        if (attr == null) {
-            throw new NullPointerException("null attribute");
+    publid boolfbn isAttributfVblufSupportfd(Attributf bttr,
+                                             DodFlbvor flbvor,
+                                             AttributfSft bttributfs) {
+        if (bttr == null) {
+            tirow nfw NullPointfrExdfption("null bttributf");
         }
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
+        if (flbvor != null && !isDodFlbvorSupportfd(flbvor)) {
+            tirow nfw IllfgblArgumfntExdfption(flbvor +
+                                               " is bn unsupportfd flbvor");
         }
-        Class<? extends Attribute> category = attr.getCategory();
-        if (!isAttributeCategorySupported(category)) {
-            return false;
+        Clbss<? fxtfnds Attributf> dbtfgory = bttr.gftCbtfgory();
+        if (!isAttributfCbtfgorySupportfd(dbtfgory)) {
+            rfturn fblsf;
         }
-        else if (attr.getCategory() == Chromaticity.class) {
-            return attr == Chromaticity.COLOR;
+        flsf if (bttr.gftCbtfgory() == Cirombtidity.dlbss) {
+            rfturn bttr == Cirombtidity.COLOR;
         }
-        else if (attr.getCategory() == Copies.class) {
-            return isSupportedCopies((Copies)attr);
-        } else if (attr.getCategory() == Media.class &&
-                   attr instanceof MediaSizeName) {
-            return isSupportedMedia((MediaSizeName)attr);
-        } else if (attr.getCategory() == OrientationRequested.class) {
-            if (attr == OrientationRequested.REVERSE_PORTRAIT ||
-                (flavor != null) &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        flsf if (bttr.gftCbtfgory() == Copifs.dlbss) {
+            rfturn isSupportfdCopifs((Copifs)bttr);
+        } flsf if (bttr.gftCbtfgory() == Mfdib.dlbss &&
+                   bttr instbndfof MfdibSizfNbmf) {
+            rfturn isSupportfdMfdib((MfdibSizfNbmf)bttr);
+        } flsf if (bttr.gftCbtfgory() == OrifntbtionRfqufstfd.dlbss) {
+            if (bttr == OrifntbtionRfqufstfd.REVERSE_PORTRAIT ||
+                (flbvor != null) &&
+                !(flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                rfturn fblsf;
             }
-        } else if (attr.getCategory() == PageRanges.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } flsf if (bttr.gftCbtfgory() == PbgfRbngfs.dlbss) {
+            if (flbvor != null &&
+                !(flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                rfturn fblsf;
             }
-        } else if (attr.getCategory() == SheetCollate.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } flsf if (bttr.gftCbtfgory() == SifftCollbtf.dlbss) {
+            if (flbvor != null &&
+                !(flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                rfturn fblsf;
             }
-        } else if (attr.getCategory() == Sides.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } flsf if (bttr.gftCbtfgory() == Sidfs.dlbss) {
+            if (flbvor != null &&
+                !(flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public AttributeSet getUnsupportedAttributes(DocFlavor flavor,
-                                                 AttributeSet attributes) {
+    publid AttributfSft gftUnsupportfdAttributfs(DodFlbvor flbvor,
+                                                 AttributfSft bttributfs) {
 
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException("flavor " + flavor +
-                                               "is not supported");
+        if (flbvor != null && !isDodFlbvorSupportfd(flbvor)) {
+            tirow nfw IllfgblArgumfntExdfption("flbvor " + flbvor +
+                                               "is not supportfd");
         }
 
-        if (attributes == null) {
-            return null;
+        if (bttributfs == null) {
+            rfturn null;
         }
 
-        Attribute attr;
-        AttributeSet unsupp = new HashAttributeSet();
-        Attribute[] attrs = attributes.toArray();
-        for (int i=0; i<attrs.length; i++) {
+        Attributf bttr;
+        AttributfSft unsupp = nfw HbsiAttributfSft();
+        Attributf[] bttrs = bttributfs.toArrby();
+        for (int i=0; i<bttrs.lfngti; i++) {
             try {
-                attr = attrs[i];
-                if (!isAttributeCategorySupported(attr.getCategory())) {
-                    unsupp.add(attr);
-                } else if (!isAttributeValueSupported(attr, flavor,
-                                                      attributes)) {
-                    unsupp.add(attr);
+                bttr = bttrs[i];
+                if (!isAttributfCbtfgorySupportfd(bttr.gftCbtfgory())) {
+                    unsupp.bdd(bttr);
+                } flsf if (!isAttributfVblufSupportfd(bttr, flbvor,
+                                                      bttributfs)) {
+                    unsupp.bdd(bttr);
                 }
-            } catch (ClassCastException e) {
+            } dbtdi (ClbssCbstExdfption f) {
             }
         }
         if (unsupp.isEmpty()) {
-            return null;
-        } else {
-            return unsupp;
+            rfturn null;
+        } flsf {
+            rfturn unsupp;
         }
     }
 
-    public ServiceUIFactory getServiceUIFactory() {
-        return null;
+    publid SfrvidfUIFbdtory gftSfrvidfUIFbdtory() {
+        rfturn null;
     }
 
-    public String toString() {
-        return "PSStreamPrintService: " + getName();
+    publid String toString() {
+        rfturn "PSStrfbmPrintSfrvidf: " + gftNbmf();
     }
 
-    /* Stream services have an output stream which cannot be shared,
-     * so two services are equal only if they are the same object.
+    /* Strfbm sfrvidfs ibvf bn output strfbm wiidi dbnnot bf sibrfd,
+     * so two sfrvidfs brf fqubl only if tify brf tif sbmf objfdt.
      */
-    public boolean equals(Object obj) {
-        return (obj == this ||
-                 (obj instanceof PSStreamPrintService &&
-                 ((PSStreamPrintService)obj).getName().equals(getName())));
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj == tiis ||
+                 (obj instbndfof PSStrfbmPrintSfrvidf &&
+                 ((PSStrfbmPrintSfrvidf)obj).gftNbmf().fqubls(gftNbmf())));
     }
 
-   public int hashCode() {
-        return this.getClass().hashCode()+getName().hashCode();
+   publid int ibsiCodf() {
+        rfturn tiis.gftClbss().ibsiCodf()+gftNbmf().ibsiCodf();
     }
 
 }

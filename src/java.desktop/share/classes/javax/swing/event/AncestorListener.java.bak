@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.awt.event.*;
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * AncestorListener
+ * AndfstorListfnfr
  *
- * Interface to support notification when changes occur to a JComponent or one
- * of its ancestors.  These include movement and when the component becomes
- * visible or invisible, either by the setVisible() method or by being added
- * or removed from the component hierarchy.
+ * Intfrfbdf to support notifidbtion wifn dibngfs oddur to b JComponfnt or onf
+ * of its bndfstors.  Tifsf indludf movfmfnt bnd wifn tif domponfnt bfdomfs
+ * visiblf or invisiblf, fitifr by tif sftVisiblf() mftiod or by bfing bddfd
+ * or rfmovfd from tif domponfnt iifrbrdiy.
  *
- * @author Dave Moore
+ * @butior Dbvf Moorf
  */
-public interface AncestorListener extends EventListener {
+publid intfrfbdf AndfstorListfnfr fxtfnds EvfntListfnfr {
     /**
-     * Called when the source or one of its ancestors is made visible
-     * either by setVisible(true) being called or by its being
-     * added to the component hierarchy.  The method is only called
-     * if the source has actually become visible.  For this to be true
-     * all its parents must be visible and it must be in a hierarchy
-     * rooted at a Window
+     * Cbllfd wifn tif sourdf or onf of its bndfstors is mbdf visiblf
+     * fitifr by sftVisiblf(truf) bfing dbllfd or by its bfing
+     * bddfd to tif domponfnt iifrbrdiy.  Tif mftiod is only dbllfd
+     * if tif sourdf ibs bdtublly bfdomf visiblf.  For tiis to bf truf
+     * bll its pbrfnts must bf visiblf bnd it must bf in b iifrbrdiy
+     * rootfd bt b Window
      *
-     * @param event an {@code AncestorEvent} signifying a change in an
-     *              ancestor-component's display-status
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dibngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
      */
-    public void ancestorAdded(AncestorEvent event);
+    publid void bndfstorAddfd(AndfstorEvfnt fvfnt);
 
     /**
-     * Called when the source or one of its ancestors is made invisible
-     * either by setVisible(false) being called or by its being
-     * remove from the component hierarchy.  The method is only called
-     * if the source has actually become invisible.  For this to be true
-     * at least one of its parents must by invisible or it is not in
-     * a hierarchy rooted at a Window
+     * Cbllfd wifn tif sourdf or onf of its bndfstors is mbdf invisiblf
+     * fitifr by sftVisiblf(fblsf) bfing dbllfd or by its bfing
+     * rfmovf from tif domponfnt iifrbrdiy.  Tif mftiod is only dbllfd
+     * if tif sourdf ibs bdtublly bfdomf invisiblf.  For tiis to bf truf
+     * bt lfbst onf of its pbrfnts must by invisiblf or it is not in
+     * b iifrbrdiy rootfd bt b Window
      *
-     * @param event an {@code AncestorEvent} signifying a change in an
-     *              ancestor-component's display-status
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dibngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
      */
-    public void ancestorRemoved(AncestorEvent event);
+    publid void bndfstorRfmovfd(AndfstorEvfnt fvfnt);
 
     /**
-     * Called when either the source or one of its ancestors is moved.
+     * Cbllfd wifn fitifr tif sourdf or onf of its bndfstors is movfd.
      *
-     * @param event an {@code AncestorEvent} signifying a change in an
-     *              ancestor-component's display-status
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dibngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
      */
-    public void ancestorMoved(AncestorEvent event);
+    publid void bndfstorMovfd(AndfstorEvfnt fvfnt);
 
 }

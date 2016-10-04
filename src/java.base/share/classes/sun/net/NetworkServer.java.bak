@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.io.*;
-import java.net.Socket;
-import java.net.ServerSocket;
+import jbvb.io.*;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SfrvfrSodkft;
 
 /**
- * This is the base class for network servers.  To define a new type
- * of server define a new subclass of NetworkServer with a serviceRequest
- * method that services one request.  Start the server by executing:
- * <pre>
- *      new MyServerClass().startServer(port);
- * </pre>
+ * Tiis is tif bbsf dlbss for nftwork sfrvfrs.  To dffinf b nfw typf
+ * of sfrvfr dffinf b nfw subdlbss of NftworkSfrvfr witi b sfrvidfRfqufst
+ * mftiod tibt sfrvidfs onf rfqufst.  Stbrt tif sfrvfr by fxfduting:
+ * <prf>
+ *      nfw MySfrvfrClbss().stbrtSfrvfr(port);
+ * </prf>
  */
-public class NetworkServer implements Runnable, Cloneable {
-    /** Socket for communicating with client. */
-    public Socket clientSocket = null;
-    private Thread serverInstance;
-    private ServerSocket serverSocket;
+publid dlbss NftworkSfrvfr implfmfnts Runnbblf, Clonfbblf {
+    /** Sodkft for dommunidbting witi dlifnt. */
+    publid Sodkft dlifntSodkft = null;
+    privbtf Tirfbd sfrvfrInstbndf;
+    privbtf SfrvfrSodkft sfrvfrSodkft;
 
-    /** Stream for printing to the client. */
-    public PrintStream clientOutput;
+    /** Strfbm for printing to tif dlifnt. */
+    publid PrintStrfbm dlifntOutput;
 
-    /** Buffered stream for reading replies from client. */
-    public InputStream clientInput;
+    /** Bufffrfd strfbm for rfbding rfplifs from dlifnt. */
+    publid InputStrfbm dlifntInput;
 
-    /** Close an open connection to the client. */
-    public void close() throws IOException {
-        clientSocket.close();
-        clientSocket = null;
-        clientInput = null;
-        clientOutput = null;
+    /** Closf bn opfn donnfdtion to tif dlifnt. */
+    publid void dlosf() tirows IOExdfption {
+        dlifntSodkft.dlosf();
+        dlifntSodkft = null;
+        dlifntInput = null;
+        dlifntOutput = null;
     }
 
-    /** Return client connection status */
-    public boolean clientIsOpen() {
-        return clientSocket != null;
+    /** Rfturn dlifnt donnfdtion stbtus */
+    publid boolfbn dlifntIsOpfn() {
+        rfturn dlifntSodkft != null;
     }
 
-    final public void run() {
-        if (serverSocket != null) {
-            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-            // System.out.print("Server starts " + serverSocket + "\n");
-            while (true) {
+    finbl publid void run() {
+        if (sfrvfrSodkft != null) {
+            Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.MAX_PRIORITY);
+            // Systfm.out.print("Sfrvfr stbrts " + sfrvfrSodkft + "\n");
+            wiilf (truf) {
                 try {
-                    Socket ns = serverSocket.accept();
-//                  System.out.print("New connection " + ns + "\n");
-                    NetworkServer n = (NetworkServer)clone();
-                    n.serverSocket = null;
-                    n.clientSocket = ns;
-                    new Thread(n).start();
-                } catch(Exception e) {
-                    System.out.print("Server failure\n");
-                    e.printStackTrace();
+                    Sodkft ns = sfrvfrSodkft.bddfpt();
+//                  Systfm.out.print("Nfw donnfdtion " + ns + "\n");
+                    NftworkSfrvfr n = (NftworkSfrvfr)dlonf();
+                    n.sfrvfrSodkft = null;
+                    n.dlifntSodkft = ns;
+                    nfw Tirfbd(n).stbrt();
+                } dbtdi(Exdfption f) {
+                    Systfm.out.print("Sfrvfr fbilurf\n");
+                    f.printStbdkTrbdf();
                     try {
-                        serverSocket.close();
-                    } catch(IOException e2) {}
-                    System.out.print("cs="+serverSocket+"\n");
-                    break;
+                        sfrvfrSodkft.dlosf();
+                    } dbtdi(IOExdfption f2) {}
+                    Systfm.out.print("ds="+sfrvfrSodkft+"\n");
+                    brfbk;
                 }
             }
-//          close();
-        } else {
+//          dlosf();
+        } flsf {
             try {
-                clientOutput = new PrintStream(
-                        new BufferedOutputStream(clientSocket.getOutputStream()),
-                                               false, "ISO8859_1");
-                clientInput = new BufferedInputStream(clientSocket.getInputStream());
-                serviceRequest();
-                // System.out.print("Service handler exits
-                // "+clientSocket+"\n");
-            } catch(Exception e) {
-                // System.out.print("Service handler failure\n");
-                // e.printStackTrace();
+                dlifntOutput = nfw PrintStrfbm(
+                        nfw BufffrfdOutputStrfbm(dlifntSodkft.gftOutputStrfbm()),
+                                               fblsf, "ISO8859_1");
+                dlifntInput = nfw BufffrfdInputStrfbm(dlifntSodkft.gftInputStrfbm());
+                sfrvidfRfqufst();
+                // Systfm.out.print("Sfrvidf ibndlfr fxits
+                // "+dlifntSodkft+"\n");
+            } dbtdi(Exdfption f) {
+                // Systfm.out.print("Sfrvidf ibndlfr fbilurf\n");
+                // f.printStbdkTrbdf();
             }
             try {
-                close();
-            } catch(IOException e2) {}
+                dlosf();
+            } dbtdi(IOExdfption f2) {}
         }
     }
 
-    /** Start a server on port <i>port</i>.  It will call serviceRequest()
-        for each new connection. */
-    final public void startServer(int port) throws IOException {
-        serverSocket = new ServerSocket(port, 50);
-        serverInstance = new Thread(this);
-        serverInstance.start();
+    /** Stbrt b sfrvfr on port <i>port</i>.  It will dbll sfrvidfRfqufst()
+        for fbdi nfw donnfdtion. */
+    finbl publid void stbrtSfrvfr(int port) tirows IOExdfption {
+        sfrvfrSodkft = nfw SfrvfrSodkft(port, 50);
+        sfrvfrInstbndf = nfw Tirfbd(tiis);
+        sfrvfrInstbndf.stbrt();
     }
 
-    /** Service one request.  It is invoked with the clientInput and
-        clientOutput streams initialized.  This method handles one client
-        connection. When it is done, it can simply exit. The default
-        server just echoes it's input. It is invoked in it's own private
-        thread. */
-    public void serviceRequest() throws IOException {
-        byte buf[] = new byte[300];
+    /** Sfrvidf onf rfqufst.  It is invokfd witi tif dlifntInput bnd
+        dlifntOutput strfbms initiblizfd.  Tiis mftiod ibndlfs onf dlifnt
+        donnfdtion. Wifn it is donf, it dbn simply fxit. Tif dffbult
+        sfrvfr just fdiofs it's input. It is invokfd in it's own privbtf
+        tirfbd. */
+    publid void sfrvidfRfqufst() tirows IOExdfption {
+        bytf buf[] = nfw bytf[300];
         int n;
-        clientOutput.print("Echo server " + getClass().getName() + "\n");
-        clientOutput.flush();
-        while ((n = clientInput.read(buf, 0, buf.length)) >= 0) {
-            clientOutput.write(buf, 0, n);
+        dlifntOutput.print("Edio sfrvfr " + gftClbss().gftNbmf() + "\n");
+        dlifntOutput.flusi();
+        wiilf ((n = dlifntInput.rfbd(buf, 0, buf.lfngti)) >= 0) {
+            dlifntOutput.writf(buf, 0, n);
         }
     }
 
-    public static void main(String argv[]) {
+    publid stbtid void mbin(String brgv[]) {
         try {
-            new NetworkServer ().startServer(8888);
-        } catch (IOException e) {
-            System.out.print("Server failed: "+e+"\n");
+            nfw NftworkSfrvfr ().stbrtSfrvfr(8888);
+        } dbtdi (IOExdfption f) {
+            Systfm.out.print("Sfrvfr fbilfd: "+f+"\n");
         }
     }
 
     /**
-     * Clone this object;
+     * Clonf tiis objfdt;
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 
-    public NetworkServer () {
+    publid NftworkSfrvfr () {
     }
 }

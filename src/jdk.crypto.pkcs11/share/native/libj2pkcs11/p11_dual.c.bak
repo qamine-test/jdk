@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -46,270 +46,270 @@
  * ===========================================================================
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-#ifdef P11_ENABLE_C_DIGESTENCRYPTUPDATE
+#ifdff P11_ENABLE_C_DIGESTENCRYPTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DigestEncryptUpdate
- * Signature: (J[B)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG ulPartLen
- * @return  jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG_PTR pulEncryptedPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DigfstEndryptUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLfn
+ * @rfturn  jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG_PTR pulEndryptfdPbrtLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestEncryptUpdate
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jPart)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstEndryptUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jPbrt)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpPart = NULL_PTR, ckpEncryptedPart;
-    CK_ULONG ckPartLength, ckEncryptedPartLength = 0;
-    jbyteArray jEncryptedPart = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt = NULL_PTR, dkpEndryptfdPbrt;
+    CK_ULONG dkPbrtLfngti, dkEndryptfdPbrtLfngti = 0;
+    jbytfArrby jEndryptfdPbrt = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jPart, &ckpPart, &ckPartLength);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jPbrt, &dkpPbrt, &dkPbrtLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    rv = (*ckpFunctions->C_DigestEncryptUpdate)(ckSessionHandle, ckpPart, ckPartLength, NULL_PTR, &ckEncryptedPartLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpPart);
-        return NULL;
+    rv = (*dkpFundtions->C_DigfstEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngti, NULL_PTR, &dkEndryptfdPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpPbrt);
+        rfturn NULL;
     }
 
-    ckpEncryptedPart = (CK_BYTE_PTR) malloc(ckEncryptedPartLength * sizeof(CK_BYTE));
-    if (ckpEncryptedPart == NULL) {
-        free(ckpPart);
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpEndryptfdPbrt = (CK_BYTE_PTR) mbllod(dkEndryptfdPbrtLfngti * sizfof(CK_BYTE));
+    if (dkpEndryptfdPbrt == NULL) {
+        frff(dkpPbrt);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_DigestEncryptUpdate)(ckSessionHandle, ckpPart, ckPartLength, ckpEncryptedPart, &ckEncryptedPartLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jEncryptedPart = ckByteArrayToJByteArray(env, ckpEncryptedPart, ckEncryptedPartLength);
+    rv = (*dkpFundtions->C_DigfstEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngti, dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jEndryptfdPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti);
     }
-    free(ckpPart);
-    free(ckpEncryptedPart);
+    frff(dkpPbrt);
+    frff(dkpEndryptfdPbrt);
 
-    return jEncryptedPart ;
+    rfturn jEndryptfdPbrt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPTDIGESTUPDATE
+#ifdff P11_ENABLE_C_DECRYPTDIGESTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DecryptDigestUpdate
- * Signature: (J[B)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG ulEncryptedPartLen
- * @return  jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG_PTR pulPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfdryptDigfstUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG ulEndryptfdPbrtLfn
+ * @rfturn  jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG_PTR pulPbrtLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DecryptDigestUpdate
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jEncryptedPart)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptDigfstUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jEndryptfdPbrt)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpPart, ckpEncryptedPart = NULL_PTR;
-    CK_ULONG ckPartLength = 0, ckEncryptedPartLength;
-    jbyteArray jPart = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt, dkpEndryptfdPbrt = NULL_PTR;
+    CK_ULONG dkPbrtLfngti = 0, dkEndryptfdPbrtLfngti;
+    jbytfArrby jPbrt = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jEncryptedPart, &ckpEncryptedPart, &ckEncryptedPartLength);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jEndryptfdPbrt, &dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    rv = (*ckpFunctions->C_DecryptDigestUpdate)(ckSessionHandle, ckpEncryptedPart, ckEncryptedPartLength, NULL_PTR, &ckPartLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpEncryptedPart);
-        return NULL;
+    rv = (*dkpFundtions->C_DfdryptDigfstUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti, NULL_PTR, &dkPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpEndryptfdPbrt);
+        rfturn NULL;
     }
 
-    ckpPart = (CK_BYTE_PTR) malloc(ckPartLength * sizeof(CK_BYTE));
-    if (ckpPart == NULL) {
-        free(ckpEncryptedPart);
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpPbrt = (CK_BYTE_PTR) mbllod(dkPbrtLfngti * sizfof(CK_BYTE));
+    if (dkpPbrt == NULL) {
+        frff(dkpEndryptfdPbrt);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_DecryptDigestUpdate)(ckSessionHandle, ckpEncryptedPart, ckEncryptedPartLength, ckpPart, &ckPartLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jPart = ckByteArrayToJByteArray(env, ckpPart, ckPartLength);
+    rv = (*dkpFundtions->C_DfdryptDigfstUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti, dkpPbrt, &dkPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpPbrt, dkPbrtLfngti);
     }
-    free(ckpEncryptedPart);
-    free(ckpPart);
+    frff(dkpEndryptfdPbrt);
+    frff(dkpPbrt);
 
-    return jPart ;
+    rfturn jPbrt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_SIGNENCRYPTUPDATE
+#ifdff P11_ENABLE_C_SIGNENCRYPTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SignEncryptUpdate
- * Signature: (J[B)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG ulPartLen
- * @return  jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG_PTR pulEncryptedPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_SignEndryptUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLfn
+ * @rfturn  jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG_PTR pulEndryptfdPbrtLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SignEncryptUpdate
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jPart)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SignEndryptUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jPbrt)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpPart = NULL_PTR, ckpEncryptedPart;
-    CK_ULONG ckPartLength, ckEncryptedPartLength = 0;
-    jbyteArray jEncryptedPart = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt = NULL_PTR, dkpEndryptfdPbrt;
+    CK_ULONG dkPbrtLfngti, dkEndryptfdPbrtLfngti = 0;
+    jbytfArrby jEndryptfdPbrt = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jPart, &ckpPart, &ckPartLength);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jPbrt, &dkpPbrt, &dkPbrtLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    rv = (*ckpFunctions->C_SignEncryptUpdate)(ckSessionHandle, ckpPart, ckPartLength, NULL_PTR, &ckEncryptedPartLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpPart);
-        return NULL;
+    rv = (*dkpFundtions->C_SignEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngti, NULL_PTR, &dkEndryptfdPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpPbrt);
+        rfturn NULL;
     }
 
-    ckpEncryptedPart = (CK_BYTE_PTR) malloc(ckEncryptedPartLength * sizeof(CK_BYTE));
-    if (ckpEncryptedPart == NULL) {
-        free(ckpPart);
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpEndryptfdPbrt = (CK_BYTE_PTR) mbllod(dkEndryptfdPbrtLfngti * sizfof(CK_BYTE));
+    if (dkpEndryptfdPbrt == NULL) {
+        frff(dkpPbrt);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_SignEncryptUpdate)(ckSessionHandle, ckpPart, ckPartLength, ckpEncryptedPart, &ckEncryptedPartLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jEncryptedPart = ckByteArrayToJByteArray(env, ckpEncryptedPart, ckEncryptedPartLength);
+    rv = (*dkpFundtions->C_SignEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngti, dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jEndryptfdPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti);
     }
-    free(ckpPart);
-    free(ckpEncryptedPart);
+    frff(dkpPbrt);
+    frff(dkpEndryptfdPbrt);
 
-    return jEncryptedPart ;
+    rfturn jEndryptfdPbrt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DECRYPTVERIFYUPDATE
+#ifdff P11_ENABLE_C_DECRYPTVERIFYUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DecryptVerifyUpdate
- * Signature: (J[B)[B
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jEncryptedPart   CK_BYTE_PTR pEncryptedPart
- *                                      CK_ULONG ulEncryptedPartLen
- * @return  jbyteArray jPart            CK_BYTE_PTR pPart
- *                                      CK_ULONG_PTR pulPartLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfdryptVfrifyUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG ulEndryptfdPbrtLfn
+ * @rfturn  jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG_PTR pulPbrtLfn
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DecryptVerifyUpdate
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jEncryptedPart)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptVfrifyUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jEndryptfdPbrt)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpPart, ckpEncryptedPart = NULL_PTR;
-    CK_ULONG ckPartLength = 0, ckEncryptedPartLength;
-    jbyteArray jPart = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt, dkpEndryptfdPbrt = NULL_PTR;
+    CK_ULONG dkPbrtLfngti = 0, dkEndryptfdPbrtLfngti;
+    jbytfArrby jPbrt = NULL;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jEncryptedPart, &ckpEncryptedPart, &ckEncryptedPartLength);
-    if ((*env)->ExceptionCheck(env)) { return NULL; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jEndryptfdPbrt, &dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn NULL; }
 
-    rv = (*ckpFunctions->C_DecryptVerifyUpdate)(ckSessionHandle, ckpEncryptedPart, ckEncryptedPartLength, NULL_PTR, &ckPartLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpEncryptedPart);
-        return NULL;
+    rv = (*dkpFundtions->C_DfdryptVfrifyUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti, NULL_PTR, &dkPbrtLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpEndryptfdPbrt);
+        rfturn NULL;
     }
 
-    ckpPart = (CK_BYTE_PTR) malloc(ckPartLength * sizeof(CK_BYTE));
-    if (ckpPart == NULL) {
-        free(ckpEncryptedPart);
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkpPbrt = (CK_BYTE_PTR) mbllod(dkPbrtLfngti * sizfof(CK_BYTE));
+    if (dkpPbrt == NULL) {
+        frff(dkpEndryptfdPbrt);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_DecryptVerifyUpdate)(ckSessionHandle, ckpEncryptedPart, ckEncryptedPartLength, ckpPart, &ckPartLength);
+    rv = (*dkpFundtions->C_DfdryptVfrifyUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngti, dkpPbrt, &dkPbrtLfngti);
 
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jPart = ckByteArrayToJByteArray(env, ckpPart, ckPartLength);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpPbrt, dkPbrtLfngti);
     }
-    free(ckpEncryptedPart);
-    free(ckpPart);
+    frff(dkpEndryptfdPbrt);
+    frff(dkpPbrt);
 
-    return jPart ;
+    rfturn jPbrt ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETFUNCTIONSTATUS
+#ifdff P11_ENABLE_C_GETFUNCTIONSTATUS
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetFunctionStatus
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftFundtionStbtus
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetFunctionStatus
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftFundtionStbtus
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    /* C_GetFunctionStatus should always return CKR_FUNCTION_NOT_PARALLEL */
-    rv = (*ckpFunctions->C_GetFunctionStatus)(ckSessionHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    /* C_GftFundtionStbtus siould blwbys rfturn CKR_FUNCTION_NOT_PARALLEL */
+    rv = (*dkpFundtions->C_GftFundtionStbtus)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_CANCELFUNCTION
+#ifdff P11_ENABLE_C_CANCELFUNCTION
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_CancelFunction
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_CbndflFundtion
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1CancelFunction
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1CbndflFundtion
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    /* C_GetFunctionStatus should always return CKR_FUNCTION_NOT_PARALLEL */
-    rv = (*ckpFunctions->C_CancelFunction)(ckSessionHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    /* C_GftFundtionStbtus siould blwbys rfturn CKR_FUNCTION_NOT_PARALLEL */
+    rv = (*dkpFundtions->C_CbndflFundtion)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif

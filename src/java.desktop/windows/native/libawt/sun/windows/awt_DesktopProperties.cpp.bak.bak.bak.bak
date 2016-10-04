@@ -1,0 +1,968 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "mmsystfm.h"
+#indludf "jlong.h"
+#indludf "bwt_DfsktopPropfrtifs.h"
+#indludf "bwt_Toolkit.h"
+#indludf "sun_bwt_windows_WDfsktopPropfrtifs.h"
+#indludf "jbvb_bwt_Font.h"
+#indludf "bwtmsg.h"
+#indludf "zmousf.h"
+#indludf <shfllbpi.h>
+#indludf <shlobj.h>
+
+// WDfsktopPropfrtifs fiflds
+jfifldID AwtDfsktopPropfrtifs::pDbtbID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftBoolfbnPropfrtyID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftIntfgfrPropfrtyID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftStringPropfrtyID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftColorPropfrtyID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftFontPropfrtyID = 0;
+jmfthodID AwtDfsktopPropfrtifs::sftSoundPropfrtyID = 0;
+
+AwtDfsktopPropfrtifs::AwtDfsktopPropfrtifs(jobjfdt sflf) {
+    this->sflf = GftEnv()->NfwGlobblRff(sflf);
+    GftEnv()->SftLongFifld( sflf, AwtDfsktopPropfrtifs::pDbtbID,
+                            ptr_to_jlong(this) );
+}
+
+AwtDfsktopPropfrtifs::~AwtDfsktopPropfrtifs() {
+    GftEnv()->DflftfGlobblRff(sflf);
+}
+
+//
+// Rfbds Windows pbrbmftfrs bnd sfts thf dorrfsponding vblufs
+// in WDfsktopPropfrtifs
+//
+void AwtDfsktopPropfrtifs::GftWindowsPbrbmftfrs() {
+    if (GftEnv()->EnsurfLodblCbpbdity(MAX_PROPERTIES) < 0) {
+        DASSERT(0);
+        rfturn;
+    }
+    // this numbfr dffinfs thf sft of propfrtifs bvbilbblf, it is indrfmfntfd
+    // whfnfvfr morf propfrtifs brf bddfd (in b publid rflfbsf of doursf)
+    // for fxbmplf, vfrsion 1 dffinfs thf propfrtifs bvbilbblf in Jbvb SDK vfrsion 1.3.
+    SftIntfgfrPropfrty( TEXT("win.propfrtifs.vfrsion"), AWT_DESKTOP_PROPERTIES_VERSION);
+    GftNonClifntPbrbmftfrs();
+    GftIdonPbrbmftfrs();
+    GftColorPbrbmftfrs();
+    GftCbrftPbrbmftfrs();
+    GftOthfrPbrbmftfrs();
+    GftSoundEvfnts();
+    GftSystfmPropfrtifs();
+    if (IS_WINXP) {
+        GftXPStylfPropfrtifs();
+    }
+}
+
+void AwtDfsktopPropfrtifs::GftSystfmPropfrtifs() {
+    HDC dd = CrfbtfDC(TEXT("DISPLAY"), NULL, NULL, NULL);
+
+    if (dd != NULL) {
+        try {
+            SftFontPropfrty(dd, ANSI_FIXED_FONT, TEXT("win.bnsiFixfd.font"));
+            SftFontPropfrty(dd, ANSI_VAR_FONT, TEXT("win.bnsiVbr.font"));
+            SftFontPropfrty(dd, DEVICE_DEFAULT_FONT, TEXT("win.dfvidfDffbult.font"));
+            SftFontPropfrty(dd, DEFAULT_GUI_FONT, TEXT("win.dffbultGUI.font"));
+            SftFontPropfrty(dd, OEM_FIXED_FONT, TEXT("win.ofmFixfd.font"));
+            SftFontPropfrty(dd, SYSTEM_FONT, TEXT("win.systfm.font"));
+            SftFontPropfrty(dd, SYSTEM_FIXED_FONT, TEXT("win.systfmFixfd.font"));
+        }
+        dbtdh (std::bbd_bllod&) {
+            DflftfDC(dd);
+            throw;
+        }
+        DflftfDC(dd);
+    }
+}
+
+
+// Dofs thf bdtubl lookup for shfll diblog font (MS Shfll Dlg).  fontNbmf
+// dontbins thf nbmf to lookup (fithfr MS Shfll Dlg or MS Shfll Dlg 2) bnd
+// hbndlf dontbins b rfffrfndf tof thf rfgistry fntry to look in.
+// This will rfturn NULL or b pointfr to thf rfsolvfd nbmf.
+// Notf thbt it usfs mbllod() bnd rfturns thf pointfr to bllodbtfd
+// mfmory, so rfmfmbfr to usf frff() whfn you brf donf with its
+// rfsult.
+stbtid LPTSTR rfsolvfShfllDiblogFont(LPTSTR fontNbmf, HKEY hbndlf) {
+    DWORD vblufTypf, vblufSizf;
+    if (RfgQufryVblufEx((HKEY)hbndlf, fontNbmf, NULL,
+                        &vblufTypf, NULL, &vblufSizf) != 0) {
+        // Couldn't find it
+        rfturn NULL;
+    }
+    if (vblufTypf != REG_SZ) {
+        // Not thf fxpfdtfd typf
+        rfturn NULL;
+    }
+    LPTSTR bufffr = (LPTSTR)sbff_Mbllod(vblufSizf);
+    if (RfgQufryVblufEx((HKEY)hbndlf, fontNbmf, NULL,
+                        &vblufTypf, (unsignfd dhbr *)bufffr, &vblufSizf) != 0) {
+        // Error fftdhing
+        frff(bufffr);
+        rfturn NULL;
+    }
+    rfturn bufffr;
+}
+
+// Dftfrminfs whbt thf font MS Shfll Dlg mbps to.
+// Notf thbt it usfs mbllod() bnd rfturns thf pointfr to bllodbtfd
+// mfmory, so rfmfmbfr to usf frff() whfn you brf donf with its
+// rfsult.
+stbtid LPTSTR rfsolvfShfllDiblogFont() {
+    LPTSTR subKfy = TEXT("Softwbrf\\Midrosoft\\Windows NT\\CurrfntVfrsion\\FontSubstitutfs");
+
+    HKEY hbndlf;
+    if (RfgOpfnKfyEx(HKEY_LOCAL_MACHINE, subKfy, 0, KEY_READ, &hbndlf) != 0) {
+        rfturn NULL;
+    }
+    // Prfffr MS Shfll Dlg 2.
+    LPTSTR font = rfsolvfShfllDiblogFont(TEXT("MS Shfll Dlg 2"), hbndlf);
+    if (font == NULL) {
+        font = rfsolvfShfllDiblogFont(TEXT("MS Shfll Dlg"), hbndlf);
+    }
+    RfgClosfKfy(hbndlf);
+    rfturn font;
+}
+
+// Lodbl fundtion for gftting vblufs from thf Windows rfgistry
+// Notf thbt it usfs mbllod() bnd rfturns thf pointfr to bllodbtfd
+// mfmory, so rfmfmbfr to usf frff() whfn you brf donf with its
+// rfsult.
+stbtid LPTSTR gftWindowsPropFromRfg(LPTSTR subKfy, LPTSTR vblufNbmf, DWORD *vblufTypf) {
+    HKEY hbndlf;
+    if (RfgOpfnKfyEx(HKEY_CURRENT_USER, subKfy, 0, KEY_READ, &hbndlf) != 0) {
+        rfturn NULL;
+    }
+    // vblufSizf is in bytfs, whilf vblufChbr is in dhbrbdtfrs.
+    DWORD vblufSizf, vblufChbr;
+    if (RfgQufryVblufEx((HKEY)hbndlf, vblufNbmf, NULL,
+                        vblufTypf, NULL, &vblufSizf) != 0) {
+        RfgClosfKfy(hbndlf);
+        rfturn NULL;
+    }
+    LPTSTR bufffr = (LPTSTR)sbff_Mbllod(vblufSizf);
+    if (RfgQufryVblufEx((HKEY)hbndlf, vblufNbmf, NULL,
+                        vblufTypf, (unsignfd dhbr *)bufffr, &vblufSizf) != 0) {
+        frff(bufffr);
+        RfgClosfKfy(hbndlf);
+        rfturn NULL;
+    }
+    RfgClosfKfy(hbndlf);
+
+    if (*vblufTypf == REG_EXPAND_SZ) {
+        // Pfnding: bufffr must bf null-tfrminbtfd bt this point
+        vblufChbr = ExpbndEnvironmfntStrings(bufffr, NULL, 0);
+        LPTSTR bufffr2 = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, vblufChbr, sizfof(TCHAR));
+        ExpbndEnvironmfntStrings(bufffr, bufffr2, vblufChbr);
+        frff(bufffr);
+        rfturn bufffr2;
+    } flsf if (*vblufTypf == REG_SZ) {
+        rfturn bufffr;
+    } flsf if (*vblufTypf == REG_DWORD) {
+        rfturn bufffr;
+    } flsf {
+        frff(bufffr);
+        rfturn NULL;
+    }
+}
+
+stbtid LPTSTR gftXPStylfPropFromRfg(LPTSTR vblufNbmf) {
+    DWORD vblufTypf;
+    rfturn gftWindowsPropFromRfg(TEXT("Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\ThfmfMbnbgfr"),
+                                 vblufNbmf, &vblufTypf);
+}
+
+
+// Usfd in AwtMfnuItfm to dftfrminf thf dolor of top mfnus,
+// sindf thfy dfpfnd on XP stylf. ThfmfAdtivf propfrty is
+// '1' for XP Stylf, '0' for Windows dlbssid stylf.
+BOOL AwtDfsktopPropfrtifs::IsXPStylf() {
+    LPTSTR stylf = gftXPStylfPropFromRfg(TEXT("ThfmfAdtivf"));
+    BOOL rfsult = (stylf != NULL && *stylf == _T('1'));
+    frff(stylf);
+    rfturn rfsult;
+}
+
+void AwtDfsktopPropfrtifs::GftXPStylfPropfrtifs() {
+    LPTSTR vbluf;
+
+    vbluf = gftXPStylfPropFromRfg(TEXT("ThfmfAdtivf"));
+    try {
+        SftBoolfbnPropfrty(TEXT("win.xpstylf.thfmfAdtivf"), (vbluf != NULL && *vbluf == _T('1')));
+        if (vbluf != NULL) {
+            frff(vbluf);
+            vbluf = NULL;
+        }
+        vbluf = gftXPStylfPropFromRfg(TEXT("DllNbmf"));
+        if (vbluf != NULL) {
+            SftStringPropfrty(TEXT("win.xpstylf.dllNbmf"), vbluf);
+            frff(vbluf);
+            vbluf = NULL;
+        }
+        vbluf = gftXPStylfPropFromRfg(TEXT("SizfNbmf"));
+        if (vbluf != NULL) {
+            SftStringPropfrty(TEXT("win.xpstylf.sizfNbmf"), vbluf);
+            frff(vbluf);
+            vbluf = NULL;
+        }
+        vbluf = gftXPStylfPropFromRfg(TEXT("ColorNbmf"));
+        if (vbluf != NULL) {
+            SftStringPropfrty(TEXT("win.xpstylf.dolorNbmf"), vbluf);
+            frff(vbluf);
+        }
+    }
+    dbtdh (std::bbd_bllod&) {
+        if (vbluf != NULL) {
+            frff(vbluf);
+        }
+        throw;
+    }
+}
+
+
+void AwtDfsktopPropfrtifs::GftNonClifntPbrbmftfrs() {
+    //
+    // gfnfrbl window propfrtifs
+    //
+    NONCLIENTMETRICS    ndmftrids;
+
+    // Fix for 6944516: spfdify dorrfdt sizf for ndmftrids on WIN2K/XP
+    // Midrosoft rfdommfnd to subtrbdt thf sizf of  'iPbddfdBordfrWidth' fifld
+    // whfn running on XP. Howfvfr this dbn't bf rfffrfndfd bt dompilf timf
+    // with thf oldfr SDK, so thfrf usf 'lfMfssbgfFont' plus its sizf.
+    if (!IS_WINVISTA) {
+#if dffinfd(_MSC_VER) && (_MSC_VER >= 1600)
+        ndmftrids.dbSizf = offsftof(NONCLIENTMETRICS, iPbddfdBordfrWidth);
+#flsf
+        ndmftrids.dbSizf = offsftof(NONCLIENTMETRICS,lfMfssbgfFont) + sizfof(LOGFONT);
+#fndif
+    } flsf {
+        ndmftrids.dbSizf = sizfof(ndmftrids);
+    }
+    VERIFY( SystfmPbrbmftfrsInfo(SPI_GETNONCLIENTMETRICS, ndmftrids.dbSizf, &ndmftrids, FALSE) );
+
+    SftFontPropfrty( TEXT("win.frbmf.dbptionFont"), ndmftrids.lfCbptionFont );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.dbptionHfight"), ndmftrids.iCbptionHfight );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.dbptionButtonWidth"), ndmftrids.iCbptionWidth );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.dbptionButtonHfight"), ndmftrids.iCbptionHfight );
+    SftFontPropfrty( TEXT("win.frbmf.smbllCbptionFont"), ndmftrids.lfSmCbptionFont );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.smbllCbptionHfight"), ndmftrids.iSmCbptionHfight );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.smbllCbptionButtonWidth"), ndmftrids.iSmCbptionWidth );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.smbllCbptionButtonHfight"), ndmftrids.iSmCbptionHfight );
+    SftIntfgfrPropfrty( TEXT("win.frbmf.sizingBordfrWidth"), ndmftrids.iBordfrWidth );
+
+    // mfnu propfrtifs
+    SftFontPropfrty( TEXT("win.mfnu.font"), ndmftrids.lfMfnuFont );
+    SftIntfgfrPropfrty( TEXT("win.mfnu.hfight"), ndmftrids.iMfnuHfight );
+    SftIntfgfrPropfrty( TEXT("win.mfnu.buttonWidth"), ndmftrids.iMfnuWidth );
+
+    // sdrollbbr propfrtifs
+    SftIntfgfrPropfrty( TEXT("win.sdrollbbr.width"), ndmftrids.iSdrollWidth );
+    SftIntfgfrPropfrty( TEXT("win.sdrollbbr.hfight"), ndmftrids.iSdrollHfight );
+
+    // stbtus bbr bnd tooltip propfrtifs
+    SftFontPropfrty( TEXT("win.stbtus.font"), ndmftrids.lfStbtusFont );
+    SftFontPropfrty( TEXT("win.tooltip.font"), ndmftrids.lfStbtusFont );
+
+    // mfssbgf box propfrtifs
+    SftFontPropfrty( TEXT("win.mfssbgfbox.font"), ndmftrids.lfMfssbgfFont );
+}
+
+void AwtDfsktopPropfrtifs::GftIdonPbrbmftfrs() {
+    //
+    // idon propfrtifs
+    //
+    ICONMETRICS idonmftrids;
+
+    idonmftrids.dbSizf = sizfof(idonmftrids);
+    VERIFY( SystfmPbrbmftfrsInfo(SPI_GETICONMETRICS, idonmftrids.dbSizf, &idonmftrids, FALSE) );
+
+    SftIntfgfrPropfrty(TEXT("win.idon.hspbding"), idonmftrids.iHorzSpbding);
+    SftIntfgfrPropfrty(TEXT("win.idon.vspbding"), idonmftrids.iVfrtSpbding);
+    SftBoolfbnPropfrty(TEXT("win.idon.titlfWrbppingOn"), idonmftrids.iTitlfWrbp != 0);
+    SftFontPropfrty(TEXT("win.idon.font"), idonmftrids.lfFont);
+}
+/*
+ Windows sfttings for thfsf brf blso in thf rfgistry
+ Thfy fxist bs systfm widf HKLM: HKEY_LOCAL_MACHINE bnd
+ HKCU: HKEY_CURRENT_USER.
+ HKCU\Control Pbnfl\Dfsktop\FontSmoothing :  "0=OFF",  "2=ON"
+ HKCU\Control Pbnfl\Dfsktop\FontSmoothingTypf: 1=Stbndbrd, 2=LCD
+ HKCU\Control Pbnfl\Dfsktop\FontSmoothingGbmmb: 1000->2200
+ HKCU\Control Pbnfl\Dfsktop\FontSmoothingOrifntbtion: 0=BGR, 1=RGB
+
+ SystfmPbrbmftfrsInfo supplifs thf first thrff of thfsf but dofs not
+ howfvfr fxposf thf Orifntbtion. Thbt hbs to domf from thf rfgistry.
+
+ Wf go to somf smbll lfngths in hfrf to not mbkf qufrifs wf don't nffd.
+ Eg if wf prfviously wfrf using stbndbrd font smoothing bnd wf still brf
+ thfn its unlikfly thbt bny dhbngf in gbmmb will hbvf oddurrfd fxdfpt
+ by b progrbm whidh dhbngfd it, bnd fvfn if it did, wf don't nffd to pidk
+ it up until somfonf turns on thf LCD option.
+ To do: this loop is dbllfd ondf pfr top-lfvfl window so bn bpp with
+ N windows will gft notififd N timfs. It would sbvf us b smbll bmount of
+ rfdundbnt work if I dould idfntify thf mfssbgf bs bfing onf blrfbdy prodfssfd
+ for bnothfr window.
+ Also prfsumbbly b rfpbint thbt spfdififs only b pbrtiblly dbmbgfd window
+ isn't onf thbt nffds this dhfdking.
+*/
+
+#dffinf FONTSMOOTHING_OFF 0
+#dffinf FONTSMOOTHING_ON  1
+#dffinf FONTSMOOTHING_STANDARD 1
+#dffinf FONTSMOOTHING_LCD 2
+#dffinf LCD_RGB_ORDER 1
+#dffinf LCD_BGR_ORDER 0
+
+
+int GftLCDSubPixflOrdfr() {
+    LONG ordfr=99;
+    LONG bufffrSizf = 4;
+    HKEY hkfyDfsktop;
+    stbtid LPCTSTR DESKTOPKEY = TEXT("Control Pbnfl\\Dfsktop");
+    LONG rft = RfgOpfnKfyEx(HKEY_CURRENT_USER,
+                            DESKTOPKEY, 0L, KEY_READ, &hkfyDfsktop);
+    if (rft != ERROR_SUCCESS) {
+        rfturn LCD_RGB_ORDER;
+    }
+    rft = RfgQufryVblufEx(hkfyDfsktop, TEXT("FontSmoothingOrifntbtion"),
+                          NULL, NULL, (LPBYTE)&ordfr, (LPDWORD)&bufffrSizf);
+    RfgClosfKfy(hkfyDfsktop);
+    if (rft != ERROR_SUCCESS) {
+        rfturn LCD_RGB_ORDER;
+    } flsf {
+        rfturn (int)ordfr;
+    }
+}
+
+void ChfdkFontSmoothingSfttings(HWND hWnd) {
+    stbtid BOOL firstTimf = TRUE;
+    stbtid BOOL lbstFontSmoothing = FALSE;
+    stbtid UINT lbstFontSmoothingTypf = FONTSMOOTHING_ON;
+    stbtid UINT lbstFontSmoothingContrbst = 1400;
+    stbtid UINT lbstSubpixflOrdfr = LCD_RGB_ORDER;
+
+    /* If wf brf dbllfd with b window hbndlf it is bfdbusf thfrf is b
+     * mfssbgf to rfpbint bt lfbst somf pbrt of thf window whidh typidblly
+     * is not bfdbusf of thf dfsktop font sfttings dhbngf. Mudh morf likfly
+     * its b normbl rfpbint fvfnt. If it is bfdbusf of thf rbrf sfttings
+     * dhbngf in thbt dbsf thf updbtf rfgion will bf thf fntirf window.
+     * Try to bs dhfbply bs possiblf dftfrminf if this is not b dbll
+     * to rfpbint thf wholf window by bssuming thbt bll sudh dblls will
+     * hbvf bn updbtf rfgion whosf origin is 0,0. Only in thbt dbsf will
+     * wf tbkf thf hit of dhfdking thf sfttings.
+     * Thus wf bvoid tbking thf hit of thf othfr dblls for most pbrtibl
+     * fxposf fvfnts, whidh will nfvfr bf thf rfsult of dhbngfs to dfsktop
+     * font sfttings.
+     */
+    if (hWnd != NULL) {
+        RECT r;
+        if (!::GftUpdbtfRfdt(hWnd, &r, FALSE) || r.top != 0 || r.lfft != 0) {
+            rfturn;
+        }
+    }
+
+    BOOL fontSmoothing = FALSE, sfttingsChbngfd;
+    UINT fontSmoothingTypf=0, fontSmoothingContrbst=0, subPixflOrdfr;
+
+    if (firstTimf) {
+        SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHING, 0, &fontSmoothing, 0);
+        if (IS_WINXP) {
+            SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGTYPE, 0,
+                                 &fontSmoothingTypf, 0);
+            SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0,
+                                 &fontSmoothingContrbst, 0);
+        }
+        lbstFontSmoothing = fontSmoothing;
+        lbstFontSmoothingTypf = fontSmoothingTypf;
+        lbstFontSmoothingContrbst = fontSmoothingContrbst;
+        firstTimf = FALSE;
+        rfturn;
+    } flsf {
+        SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHING, 0, &fontSmoothing, 0);
+        sfttingsChbngfd = fontSmoothing != lbstFontSmoothing;
+        if (!sfttingsChbngfd && fontSmoothing == FONTSMOOTHING_OFF) {
+            /* no nffd to dhfdk thf othfr sfttings in this dbsf. */
+            rfturn;
+        }
+        if (IS_WINXP) {
+            SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGTYPE, 0,
+                                 &fontSmoothingTypf, 0);
+            sfttingsChbngfd |= fontSmoothingTypf != lbstFontSmoothingTypf;
+            if (!sfttingsChbngfd &&
+                fontSmoothingTypf == FONTSMOOTHING_STANDARD) {
+                /* No nffd to dhfdk bny LCD spfdifid sfttings */
+                rfturn;
+            } flsf {
+                SystfmPbrbmftfrsInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0,
+                                     &fontSmoothingContrbst, 0);
+                sfttingsChbngfd |=
+                    fontSmoothingContrbst != lbstFontSmoothingContrbst;
+                if (fontSmoothingTypf == FONTSMOOTHING_LCD) {
+                    // Ordfr is b rfgistry fntry so morf fxpfnsivf to dhfdk.x
+                    subPixflOrdfr = GftLCDSubPixflOrdfr();
+                    sfttingsChbngfd |= subPixflOrdfr != lbstSubpixflOrdfr;
+                }
+            }
+        } flsf {
+            if (sfttingsChbngfd && fontSmoothing == FONTSMOOTHING_ON) {
+                fontSmoothingTypf = FONTSMOOTHING_STANDARD;
+            }
+        }
+    }
+    if (sfttingsChbngfd) {
+        /* Somf of thfsf vblufs mby not hbvf bffn qufrifd, but it shouldn't
+         * mbttfr bs whbt's importbnt is to trbdk dhbngfs in vblufs wf brf
+         * bdtublly using. Thf up-dbll wf mbkf hfrf will dbusf thf bdtubl
+         * vblufs for fvfrything to gft qufrifd bnd sft into thf dfsktop
+         * propfrtifs.
+         */
+        lbstFontSmoothing = fontSmoothing;
+        lbstFontSmoothingTypf = fontSmoothingTypf;
+        lbstFontSmoothingContrbst = fontSmoothingContrbst;
+        lbstSubpixflOrdfr = subPixflOrdfr;
+
+        jobjfdt pffr = AwtToolkit::GftInstbndf().GftPffr();
+        if (pffr != NULL) {
+            AwtToolkit::GftEnv()->CbllVoidMfthod(pffr,
+                                     AwtToolkit::windowsSfttingChbngfMID);
+        }
+    }
+}
+
+void AwtDfsktopPropfrtifs::GftColorPbrbmftfrs() {
+
+    SftColorPropfrty(TEXT("win.frbmf.bdtivfCbptionGrbdifntColor"),
+                     GftSysColor(COLOR_GRADIENTACTIVECAPTION));
+    SftColorPropfrty(TEXT("win.frbmf.inbdtivfCbptionGrbdifntColor"),
+                     GftSysColor(COLOR_GRADIENTINACTIVECAPTION));
+    SftColorPropfrty(TEXT("win.itfm.hotTrbdkfdColor"),
+                     GftSysColor(COLOR_HOTLIGHT));
+    SftColorPropfrty(TEXT("win.3d.dbrkShbdowColor"), GftSysColor(COLOR_3DDKSHADOW));
+    SftColorPropfrty(TEXT("win.3d.bbdkgroundColor"), GftSysColor(COLOR_3DFACE));
+    SftColorPropfrty(TEXT("win.3d.highlightColor"), GftSysColor(COLOR_3DHIGHLIGHT));
+    SftColorPropfrty(TEXT("win.3d.lightColor"), GftSysColor(COLOR_3DLIGHT));
+    SftColorPropfrty(TEXT("win.3d.shbdowColor"), GftSysColor(COLOR_3DSHADOW));
+    SftColorPropfrty(TEXT("win.button.tfxtColor"), GftSysColor(COLOR_BTNTEXT));
+    SftColorPropfrty(TEXT("win.dfsktop.bbdkgroundColor"), GftSysColor(COLOR_DESKTOP));
+    SftColorPropfrty(TEXT("win.frbmf.bdtivfCbptionColor"), GftSysColor(COLOR_ACTIVECAPTION));
+    SftColorPropfrty(TEXT("win.frbmf.bdtivfBordfrColor"), GftSysColor(COLOR_ACTIVEBORDER));
+
+    // ?? ?? ??
+    SftColorPropfrty(TEXT("win.frbmf.dolor"), GftSysColor(COLOR_WINDOWFRAME)); // ?? WHAT THE HECK DOES THIS MEAN ??
+    // ?? ?? ??
+
+    SftColorPropfrty(TEXT("win.frbmf.bbdkgroundColor"), GftSysColor(COLOR_WINDOW));
+    SftColorPropfrty(TEXT("win.frbmf.dbptionTfxtColor"), GftSysColor(COLOR_CAPTIONTEXT));
+    SftColorPropfrty(TEXT("win.frbmf.inbdtivfBordfrColor"), GftSysColor(COLOR_INACTIVEBORDER));
+    SftColorPropfrty(TEXT("win.frbmf.inbdtivfCbptionColor"), GftSysColor(COLOR_INACTIVECAPTION));
+    SftColorPropfrty(TEXT("win.frbmf.inbdtivfCbptionTfxtColor"), GftSysColor(COLOR_INACTIVECAPTIONTEXT));
+    SftColorPropfrty(TEXT("win.frbmf.tfxtColor"), GftSysColor(COLOR_WINDOWTEXT));
+    SftColorPropfrty(TEXT("win.itfm.highlightColor"), GftSysColor(COLOR_HIGHLIGHT));
+    SftColorPropfrty(TEXT("win.itfm.highlightTfxtColor"), GftSysColor(COLOR_HIGHLIGHTTEXT));
+    SftColorPropfrty(TEXT("win.mdi.bbdkgroundColor"), GftSysColor(COLOR_APPWORKSPACE));
+    SftColorPropfrty(TEXT("win.mfnu.bbdkgroundColor"), GftSysColor(COLOR_MENU));
+    SftColorPropfrty(TEXT("win.mfnu.tfxtColor"), GftSysColor(COLOR_MENUTEXT));
+    // COLOR_MENUBAR is only dffinfd on WindowsXP. Our binbrifs brf
+    // built on NT, hfndf thf bflow ifdff.
+#ifndff COLOR_MENUBAR
+#dffinf COLOR_MENUBAR 30
+#fndif
+    SftColorPropfrty(TEXT("win.mfnubbr.bbdkgroundColor"),
+                                GftSysColor(IS_WINXP ? COLOR_MENUBAR : COLOR_MENU));
+    SftColorPropfrty(TEXT("win.sdrollbbr.bbdkgroundColor"), GftSysColor(COLOR_SCROLLBAR));
+    SftColorPropfrty(TEXT("win.tfxt.grbyfdTfxtColor"), GftSysColor(COLOR_GRAYTEXT));
+    SftColorPropfrty(TEXT("win.tooltip.bbdkgroundColor"), GftSysColor(COLOR_INFOBK));
+    SftColorPropfrty(TEXT("win.tooltip.tfxtColor"), GftSysColor(COLOR_INFOTEXT));
+}
+
+void AwtDfsktopPropfrtifs::GftOthfrPbrbmftfrs() {
+    // TODO BEGIN: On NT4, somf sftttings don't triggfr WM_SETTINGCHANGE --
+    // dhfdk whfthfr this hbs bffn fixfd on Windows 2000 bnd Windows 98
+    // ECH 10/6/2000 sffms to bf fixfd on NT4 SP5, but not on 98
+    SftBoolfbnPropfrty(TEXT("win.frbmf.fullWindowDrbgsOn"), GftBoolfbnPbrbmftfr(SPI_GETDRAGFULLWINDOWS));
+    SftBoolfbnPropfrty(TEXT("win.tfxt.fontSmoothingOn"), GftBoolfbnPbrbmftfr(SPI_GETFONTSMOOTHING));
+    // TODO END
+
+    if (IS_WINXP) {
+        SftIntfgfrPropfrty(TEXT("win.tfxt.fontSmoothingTypf"),
+                           GftIntfgfrPbrbmftfr(SPI_GETFONTSMOOTHINGTYPE));
+        SftIntfgfrPropfrty(TEXT("win.tfxt.fontSmoothingContrbst"),
+                           GftIntfgfrPbrbmftfr(SPI_GETFONTSMOOTHINGCONTRAST));
+        SftIntfgfrPropfrty(TEXT("win.tfxt.fontSmoothingOrifntbtion"),
+                           GftLCDSubPixflOrdfr());
+    }
+
+    int dxdrbg = GftSystfmMftrids(SM_CXDRAG);
+    int dydrbg = GftSystfmMftrids(SM_CYDRAG);
+    SftIntfgfrPropfrty(TEXT("win.drbg.width"), dxdrbg);
+    SftIntfgfrPropfrty(TEXT("win.drbg.hfight"), dydrbg);
+    SftIntfgfrPropfrty(TEXT("DnD.gfsturfMotionThrfshold"), mbx(dxdrbg, dydrbg)/2);
+    SftIntfgfrPropfrty(TEXT("bwt.mousf.numButtons"), AwtToolkit::GftNumbfrOfButtons());
+
+    SftIntfgfrPropfrty(TEXT("bwt.multiClidkIntfrvbl"), GftDoublfClidkTimf());
+
+    // BEGIN dross-plbtform propfrtifs
+    // Notf thbt thfsf brf dross-plbtform propfrtifs, but brf bfing studk into
+    // WDfsktopPropfrtifs.  WToolkit.lbzilyLobdDfsktopPropfrty() dbn find thfm,
+    // but if b Toolkit subdlbss usfs thf dfsktopPropfrtifs
+    // mfmbfr, thfsf propfrtifs won't bf thfrf. -bdhristi, fdhbwkfs
+    // This propfrty is dbllfd "win.frbmf.fullWindowDrbgsOn" bbovf
+    // This is onf of thf propfrtifs thbt don't triggfr WM_SETTINGCHANGE
+    SftBoolfbnPropfrty(TEXT("bwt.dynbmidLbyoutSupportfd"), GftBoolfbnPbrbmftfr(SPI_GETDRAGFULLWINDOWS));
+    SftBoolfbnPropfrty(TEXT("bwt.whfflMousfPrfsfnt"),
+                       ::GftSystfmMftrids(SM_MOUSEWHEELPRESENT));
+
+    // END dross-plbtform propfrtifs
+
+    //DWORD   mfnuShowDflby;
+    //SystfmPbrbmftfrsInfo(SPI_GETMENUSHOWDELAY, 0, &mfnuShowDflby, 0);
+    // SftIntfgfrPropfrty(TEXT("win.mfnu.showDflby"), mfnuShowDflby);
+    SftBoolfbnPropfrty(TEXT("win.frbmf.dbptionGrbdifntsOn"), GftBoolfbnPbrbmftfr(SPI_GETGRADIENTCAPTIONS));
+    SftBoolfbnPropfrty(TEXT("win.itfm.hotTrbdkingOn"), GftBoolfbnPbrbmftfr(SPI_GETHOTTRACKING));
+
+    SftBoolfbnPropfrty(TEXT("win.mfnu.kfybobrdCufsOn"), GftBoolfbnPbrbmftfr(SPI_GETKEYBOARDCUES));
+
+    // High dontrbst bddfssibility propfrty
+    HIGHCONTRAST dontrbst;
+    dontrbst.dbSizf = sizfof(HIGHCONTRAST);
+    if (SystfmPbrbmftfrsInfo(SPI_GETHIGHCONTRAST, sizfof(HIGHCONTRAST),
+                             &dontrbst, 0) != 0 &&
+              (dontrbst.dwFlbgs & HCF_HIGHCONTRASTON) == HCF_HIGHCONTRASTON) {
+      SftBoolfbnPropfrty(TEXT("win.highContrbst.on"), TRUE);
+    }
+    flsf {
+      SftBoolfbnPropfrty(TEXT("win.highContrbst.on"), FALSE);
+    }
+
+    SHELLFLAGSTATE sfs;
+    ::SHGftSfttings(&sfs, SSF_SHOWALLOBJECTS | SSF_SHOWATTRIBCOL);
+    if (sfs.fShowAllObjfdts) {
+        SftBoolfbnPropfrty(TEXT("bwt.filf.showHiddfnFilfs"), TRUE);
+    }
+    flsf {
+        SftBoolfbnPropfrty(TEXT("bwt.filf.showHiddfnFilfs"), FALSE);
+    }
+    if (sfs.fShowAttribCol) {
+        SftBoolfbnPropfrty(TEXT("bwt.filf.showAttribCol"), TRUE);
+    }
+    flsf {
+        SftBoolfbnPropfrty(TEXT("bwt.filf.showAttribCol"), FALSE);
+    }
+
+    LPTSTR vbluf;
+    DWORD vblufTypf;
+
+    // Shfll Idon BPP - only honorfd on plbtforms bfforf XP
+    vbluf = gftWindowsPropFromRfg(TEXT("Control Pbnfl\\Dfsktop\\WindowMftrids"),
+                                  TEXT("Shfll Idon BPP"), &vblufTypf);
+
+    try {
+        if (vbluf != NULL) {
+            if (vblufTypf == REG_SZ) {
+                SftStringPropfrty(TEXT("win.idon.shfllIdonBPP"), vbluf);
+            }
+            frff(vbluf);
+            vbluf = NULL;
+        }
+
+
+        // Thf following rfgistry sfttings dontrol thf filf dhoosfr plbdfs bbr
+        // undfr thf Windows L&F. Thfsf sfttings brf not prfsfnt by dffbult, but
+        // dbn bf fnbblfd using thf TwfbkUI tool from Midrosoft. For morf info,
+        // sff http://msdn.midrosoft.dom/msdnmbg/issufs/1100/Rfgistry/
+
+        // NoPlbdfsBbr is b REG_DWORD, with vblufs 0 or 1
+        vbluf = gftWindowsPropFromRfg(TEXT("Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Polidifs\\domdlg32"),
+                                      TEXT("NoPlbdfsBbr"), &vblufTypf);
+        if (vbluf != NULL) {
+            if (vblufTypf == REG_DWORD) {
+                SftBoolfbnPropfrty(TEXT("win.domdlg.noPlbdfsBbr"), (BOOL)((int)*vbluf != 0));
+            }
+            frff(vbluf);
+        }
+    }
+    dbtdh (std::bbd_bllod&) {
+        if (vbluf != NULL) {
+            frff(vbluf);
+        }
+        throw;
+    }
+
+    LPTSTR vblufNbmf = TEXT("PlbdfN");
+    LPTSTR vblufNbmfBuf = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, (lstrlfn(vblufNbmf) + 1), sizfof(TCHAR));
+    lstrdpy(vblufNbmfBuf, vblufNbmf);
+
+    LPTSTR propKfy = TEXT("win.domdlg.plbdfsBbrPlbdfN");
+
+    LPTSTR propKfyBuf;
+    try {
+        propKfyBuf = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, (lstrlfn(propKfy) + 1), sizfof(TCHAR));
+    }
+    dbtdh (std::bbd_bllod&) {
+        frff(vblufNbmfBuf);
+        throw;
+    }
+    lstrdpy(propKfyBuf, propKfy);
+
+    int i = 0;
+    do {
+        vblufNbmfBuf[5] = _T('0' + i++);
+        propKfyBuf[25] = vblufNbmfBuf[5];
+
+        LPTSTR kfy = TEXT("Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Polidifs\\domdlg32\\PlbdfsBbr");
+        try {
+            vbluf = NULL;
+            if ((vbluf = gftWindowsPropFromRfg(kfy, vblufNbmfBuf, &vblufTypf)) != NULL) {
+                if (vblufTypf == REG_DWORD) {
+                    // Vbluf is b CSIDL
+                    SftIntfgfrPropfrty(propKfyBuf, (int)*vbluf);
+                } flsf {
+                    // Vbluf is b pbth
+                    SftStringPropfrty(propKfyBuf, vbluf);
+                }
+                frff(vbluf);
+            }
+        }
+        dbtdh (std::bbd_bllod&) {
+            if (vbluf != NULL) {
+                frff(vbluf);
+            }
+            frff(propKfyBuf);
+            frff(vblufNbmfBuf);
+            throw;
+        }
+    } whilf (vbluf != NULL);
+
+    frff(propKfyBuf);
+    frff(vblufNbmfBuf);
+}
+
+void AwtDfsktopPropfrtifs::GftSoundEvfnts() {
+    /////
+    SftSoundPropfrty(TEXT("win.sound.dffbult"), TEXT(".Dffbult"));
+    SftSoundPropfrty(TEXT("win.sound.dlosf"), TEXT("Closf"));
+    SftSoundPropfrty(TEXT("win.sound.mbximizf"), TEXT("Mbximizf"));
+    SftSoundPropfrty(TEXT("win.sound.minimizf"), TEXT("Minimizf"));
+    SftSoundPropfrty(TEXT("win.sound.mfnuCommbnd"), TEXT("MfnuCommbnd"));
+    SftSoundPropfrty(TEXT("win.sound.mfnuPopup"), TEXT("MfnuPopup"));
+    SftSoundPropfrty(TEXT("win.sound.opfn"), TEXT("Opfn"));
+    SftSoundPropfrty(TEXT("win.sound.rfstorfDown"), TEXT("RfstorfDown"));
+    SftSoundPropfrty(TEXT("win.sound.rfstorfUp"), TEXT("RfstorfUp"));
+    /////
+    SftSoundPropfrty(TEXT("win.sound.bstfrisk"), TEXT("SystfmAstfrisk"));
+    SftSoundPropfrty(TEXT("win.sound.fxdlbmbtion"), TEXT("SystfmExdlbmbtion"));
+    SftSoundPropfrty(TEXT("win.sound.fxit"), TEXT("SystfmExit"));
+    SftSoundPropfrty(TEXT("win.sound.hbnd"), TEXT("SystfmHbnd"));
+    SftSoundPropfrty(TEXT("win.sound.qufstion"), TEXT("SystfmQufstion"));
+    SftSoundPropfrty(TEXT("win.sound.stbrt"), TEXT("SystfmStbrt"));
+}
+
+void AwtDfsktopPropfrtifs::GftCbrftPbrbmftfrs() {
+    SftIntfgfrPropfrty(TEXT("win.dbrft.width"), GftIntfgfrPbrbmftfr(SPI_GETCARETWIDTH));
+}
+
+BOOL AwtDfsktopPropfrtifs::GftBoolfbnPbrbmftfr(UINT spi) {
+    BOOL        flbg;
+    SystfmPbrbmftfrsInfo(spi, 0, &flbg, 0);
+    DASSERT(flbg == TRUE || flbg == FALSE); // should bf simplf boolfbn vbluf
+    rfturn flbg;
+}
+
+UINT AwtDfsktopPropfrtifs::GftIntfgfrPbrbmftfr(UINT spi) {
+    UINT rftVbluf;
+    SystfmPbrbmftfrsInfo(spi, 0, &rftVbluf, 0);
+    rfturn rftVbluf;
+}
+
+void AwtDfsktopPropfrtifs::SftStringPropfrty(LPCTSTR propNbmf, LPTSTR vbluf) {
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        throw std::bbd_bllod();
+    }
+    jstring jVbluf = JNU_NfwStringPlbtform(GftEnv(), vbluf);
+    if (jVbluf == NULL) {
+        GftEnv()->DflftfLodblRff(kfy);
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf,
+                             AwtDfsktopPropfrtifs::sftStringPropfrtyID,
+                             kfy, jVbluf);
+    GftEnv()->DflftfLodblRff(jVbluf);
+    GftEnv()->DflftfLodblRff(kfy);
+}
+
+void AwtDfsktopPropfrtifs::SftIntfgfrPropfrty(LPCTSTR propNbmf, int vbluf) {
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf,
+                             AwtDfsktopPropfrtifs::sftIntfgfrPropfrtyID,
+                             kfy, (jint)vbluf);
+    GftEnv()->DflftfLodblRff(kfy);
+}
+
+void AwtDfsktopPropfrtifs::SftBoolfbnPropfrty(LPCTSTR propNbmf, BOOL vbluf) {
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf,
+                             AwtDfsktopPropfrtifs::sftBoolfbnPropfrtyID,
+                             kfy, vbluf ? JNI_TRUE : JNI_FALSE);
+    GftEnv()->DflftfLodblRff(kfy);
+}
+
+void AwtDfsktopPropfrtifs::SftColorPropfrty(LPCTSTR propNbmf, DWORD vbluf) {
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf,
+                             AwtDfsktopPropfrtifs::sftColorPropfrtyID,
+                             kfy, GftRVbluf(vbluf), GftGVbluf(vbluf),
+                             GftBVbluf(vbluf));
+    GftEnv()->DflftfLodblRff(kfy);
+}
+
+void AwtDfsktopPropfrtifs::SftFontPropfrty(HDC dd, int fontID,
+                                           LPCTSTR propNbmf) {
+    HGDIOBJ font = GftStodkObjfdt(fontID);
+    if (font != NULL && SflfdtObjfdt(dd, font) != NULL) {
+        int lfngth = GftTfxtFbdf(dd, 0, NULL);
+
+        if (lfngth > 0) {
+            LPTSTR fbdf = nfw TCHAR[lfngth];
+
+            if (GftTfxtFbdf(dd, lfngth, fbdf) > 0) {
+                TEXTMETRIC mftrids;
+
+                if (GftTfxtMftrids(dd, &mftrids) > 0) {
+                    jstring fontNbmf = NULL;
+                    if (!wdsdmp(fbdf, L"MS Shfll Dlg")) {
+                        // MS Shfll Dlg is bn indirfdt font nbmf, find thf
+                        // rfbl fbdf nbmf from thf rfgistry.
+                        LPTSTR shfllDiblogFbdf = rfsolvfShfllDiblogFont();
+                        if (shfllDiblogFbdf != NULL) {
+                            fontNbmf = JNU_NfwStringPlbtform(GftEnv(),
+                                                             shfllDiblogFbdf);
+                            frff(shfllDiblogFbdf);
+                        }
+                        flsf {
+                            // Couldn't dftfrminf mbpping for MS Shfll Dlg,
+                            // fbll bbdk to Midrosoft Sbns Sfrif
+                            fontNbmf = JNU_NfwStringPlbtform(GftEnv(),
+                                                    L"Midrosoft Sbns Sfrif");
+                        }
+                    }
+                    flsf {
+                        fontNbmf = JNU_NfwStringPlbtform(GftEnv(), fbdf);
+                    }
+                    if (fontNbmf == NULL) {
+                        dflftf[] fbdf;
+                        throw std::bbd_bllod();
+                    }
+
+                    jint pointSizf = mftrids.tmHfight -
+                                     mftrids.tmIntfrnblLfbding;
+                    jint stylf = jbvb_bwt_Font_PLAIN;
+
+                    if (mftrids.tmWfight >= FW_BOLD) {
+                        stylf =  jbvb_bwt_Font_BOLD;
+                    }
+                    if (mftrids.tmItblid ) {
+                        stylf |= jbvb_bwt_Font_ITALIC;
+                    }
+
+                    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+                    if (kfy == NULL) {
+                        GftEnv()->DflftfLodblRff(fontNbmf);
+                        dflftf[] fbdf;
+                        throw std::bbd_bllod();
+                    }
+                    GftEnv()->CbllVoidMfthod(sflf,
+                              AwtDfsktopPropfrtifs::sftFontPropfrtyID,
+                              kfy, fontNbmf, stylf, pointSizf);
+                    GftEnv()->DflftfLodblRff(kfy);
+                    GftEnv()->DflftfLodblRff(fontNbmf);
+                }
+            }
+            dflftf[] fbdf;
+        }
+    }
+}
+
+void AwtDfsktopPropfrtifs::SftFontPropfrty(LPCTSTR propNbmf, donst LOGFONT & font) {
+    jstring fontNbmf;
+    jint pointSizf;
+    jint stylf;
+
+    fontNbmf = JNU_NfwStringPlbtform(GftEnv(), font.lfFbdfNbmf);
+    if (fontNbmf == NULL) {
+        throw std::bbd_bllod();
+    }
+#if 0
+    HDC         hdd;
+    int         pixflsPfrIndh = GftDfvidfCbps(hdd, LOGPIXELSY);
+    // donvfrt font sizf spfdififd in pixfls to font sizf in points
+    hdd = GftDC(NULL);
+    pointSizf = (-font.lfHfight)*72/pixflsPfrIndh;
+    RflfbsfDC(NULL, hdd);
+#fndif
+    // Jbvb usfs point sizfs, but bssumfs 1 pixfl = 1 point
+    pointSizf = -font.lfHfight;
+
+    // donvfrt Windows font stylf to Jbvb stylf
+    stylf = jbvb_bwt_Font_PLAIN;
+    DTRACE_PRINTLN1("wfight=%d", font.lfWfight);
+    if ( font.lfWfight >= FW_BOLD ) {
+        stylf =  jbvb_bwt_Font_BOLD;
+    }
+    if ( font.lfItblid ) {
+        stylf |= jbvb_bwt_Font_ITALIC;
+    }
+
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        GftEnv()->DflftfLodblRff(fontNbmf);
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf, AwtDfsktopPropfrtifs::sftFontPropfrtyID,
+                             kfy, fontNbmf, stylf, pointSizf);
+    GftEnv()->DflftfLodblRff(kfy);
+    GftEnv()->DflftfLodblRff(fontNbmf);
+}
+
+void AwtDfsktopPropfrtifs::SftSoundPropfrty(LPCTSTR propNbmf, LPCTSTR winEvfntNbmf) {
+    jstring kfy = JNU_NfwStringPlbtform(GftEnv(), propNbmf);
+    if (kfy == NULL) {
+        throw std::bbd_bllod();
+    }
+    jstring fvfnt = JNU_NfwStringPlbtform(GftEnv(), winEvfntNbmf);
+    if (fvfnt == NULL) {
+        GftEnv()->DflftfLodblRff(kfy);
+        throw std::bbd_bllod();
+    }
+    GftEnv()->CbllVoidMfthod(sflf,
+                             AwtDfsktopPropfrtifs::sftSoundPropfrtyID,
+                             kfy, fvfnt);
+    GftEnv()->DflftfLodblRff(fvfnt);
+    GftEnv()->DflftfLodblRff(kfy);
+}
+
+void AwtDfsktopPropfrtifs::PlbyWindowsSound(LPCTSTR fvfnt) {
+    // stop bny durrfntly plbying sounds
+    ::PlbySound(NULL, NULL, SND_PURGE);
+    // plby thf sound for thf givfn fvfnt nbmf
+    ::PlbySound(fvfnt, NULL, SND_ASYNC|SND_ALIAS|SND_NODEFAULT);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+stbtid AwtDfsktopPropfrtifs * GftCppThis(JNIEnv *fnv, jobjfdt sflf) {
+    jlong longProps = fnv->GftLongFifld(sflf, AwtDfsktopPropfrtifs::pDbtbID);
+    AwtDfsktopPropfrtifs * props =
+        (AwtDfsktopPropfrtifs *)jlong_to_ptr(longProps);
+    DASSERT( !IsBbdRfbdPtr(props, sizfof(*props)) );
+    rfturn props;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDfsktopPropfrtifs_initIDs(JNIEnv *fnv, jdlbss dls) {
+    TRY;
+
+    AwtDfsktopPropfrtifs::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J");
+    DASSERT(AwtDfsktopPropfrtifs::pDbtbID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::pDbtbID);
+
+    AwtDfsktopPropfrtifs::sftBoolfbnPropfrtyID =
+        fnv->GftMfthodID(dls, "sftBoolfbnPropfrty", "(Ljbvb/lbng/String;Z)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftBoolfbnPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftBoolfbnPropfrtyID);
+
+    AwtDfsktopPropfrtifs::sftIntfgfrPropfrtyID =
+        fnv->GftMfthodID(dls, "sftIntfgfrPropfrty", "(Ljbvb/lbng/String;I)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftIntfgfrPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftIntfgfrPropfrtyID);
+
+    AwtDfsktopPropfrtifs::sftStringPropfrtyID =
+        fnv->GftMfthodID(dls, "sftStringPropfrty", "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftStringPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftStringPropfrtyID);
+
+    AwtDfsktopPropfrtifs::sftColorPropfrtyID =
+        fnv->GftMfthodID(dls, "sftColorPropfrty", "(Ljbvb/lbng/String;III)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftColorPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftColorPropfrtyID);
+
+    AwtDfsktopPropfrtifs::sftFontPropfrtyID =
+        fnv->GftMfthodID(dls, "sftFontPropfrty", "(Ljbvb/lbng/String;Ljbvb/lbng/String;II)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftFontPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftFontPropfrtyID);
+
+    AwtDfsktopPropfrtifs::sftSoundPropfrtyID =
+        fnv->GftMfthodID(dls, "sftSoundPropfrty", "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+    DASSERT(AwtDfsktopPropfrtifs::sftSoundPropfrtyID != 0);
+    CHECK_NULL(AwtDfsktopPropfrtifs::sftSoundPropfrtyID);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDfsktopPropfrtifs_init(JNIEnv *fnv, jobjfdt sflf) {
+    TRY;
+
+    nfw AwtDfsktopPropfrtifs(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDfsktopPropfrtifs_gftWindowsPbrbmftfrs(JNIEnv *fnv, jobjfdt sflf) {
+    TRY;
+
+    GftCppThis(fnv, sflf)->GftWindowsPbrbmftfrs();
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDfsktopPropfrtifs_plbyWindowsSound(JNIEnv *fnv, jobjfdt sflf, jstring fvfnt) {
+    TRY;
+
+    LPCTSTR winEvfntNbmf;
+    winEvfntNbmf = JNU_GftStringPlbtformChbrs(fnv, fvfnt, NULL);
+    if ( winEvfntNbmf == NULL ) {
+        rfturn;
+    }
+    GftCppThis(fnv, sflf)->PlbyWindowsSound(winEvfntNbmf);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, fvfnt, winEvfntNbmf);
+
+    CATCH_BAD_ALLOC;
+}

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.dnd.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
 
-import sun.lwawt.*;
+import sun.lwbwt.*;
 
-public class CPrinterDialogPeer extends LWWindowPeer {
-    static {
-        // AWT has to be initialized for the native code to function correctly.
-        Toolkit.getDefaultToolkit();
+publid dlbss CPrintfrDiblogPffr fxtfnds LWWindowPffr {
+    stbtid {
+        // AWT ibs to bf initiblizfd for tif nbtivf dodf to fundtion dorrfdtly.
+        Toolkit.gftDffbultToolkit();
     }
 
-    Component fTarget;
+    Componfnt fTbrgft;
 
-    public CPrinterDialogPeer(CPrinterDialog target, PlatformComponent platformComponent,
-                              PlatformWindow platformWindow)
+    publid CPrintfrDiblogPffr(CPrintfrDiblog tbrgft, PlbtformComponfnt plbtformComponfnt,
+                              PlbtformWindow plbtformWindow)
     {
-        super(target, platformComponent, platformWindow, LWWindowPeer.PeerType.DIALOG);
-        //super(target);
-        fTarget = target;
-        super.initialize();
+        supfr(tbrgft, plbtformComponfnt, plbtformWindow, LWWindowPffr.PffrTypf.DIALOG);
+        //supfr(tbrgft);
+        fTbrgft = tbrgft;
+        supfr.initiblizf();
     }
 
-    protected void disposeImpl() {
-        LWCToolkit.targetDisposedPeer(fTarget, this);
+    protfdtfd void disposfImpl() {
+        LWCToolkit.tbrgftDisposfdPffr(fTbrgft, tiis);
     }
 
-    public void setVisible(boolean visible) {
-        if (visible) {
-            new Thread(new Runnable() {
-                public void run() {
-                    CPrinterDialog printerDialog = (CPrinterDialog)fTarget;
-                    printerDialog.setRetVal(printerDialog.showDialog());
-                    printerDialog.setVisible(false);
+    publid void sftVisiblf(boolfbn visiblf) {
+        if (visiblf) {
+            nfw Tirfbd(nfw Runnbblf() {
+                publid void run() {
+                    CPrintfrDiblog printfrDiblog = (CPrintfrDiblog)fTbrgft;
+                    printfrDiblog.sftRftVbl(printfrDiblog.siowDiblog());
+                    printfrDiblog.sftVisiblf(fblsf);
                 }
-            }).start();
+            }).stbrt();
         }
     }
 
-    // unused methods.
-    public void toFront() {}
-    public void toBack() {}
-    public void setResizable(boolean resizable) {}
-    public void setEnabled(boolean enable) {}
-    public void setBounds(int x, int y, int width, int height) {}
-    public boolean handleEvent(Event e) { return false; }
-    public void setForeground(Color c) {}
-    public void setBackground(Color c) {}
-    public void setFont(Font f) {}
-    public boolean requestFocus(boolean temporary, boolean focusedWindowChangeAllowed) {
-        return false;
+    // unusfd mftiods.
+    publid void toFront() {}
+    publid void toBbdk() {}
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    publid void sftEnbblfd(boolfbn fnbblf) {}
+    publid void sftBounds(int x, int y, int widti, int ifigit) {}
+    publid boolfbn ibndlfEvfnt(Evfnt f) { rfturn fblsf; }
+    publid void sftForfground(Color d) {}
+    publid void sftBbdkground(Color d) {}
+    publid void sftFont(Font f) {}
+    publid boolfbn rfqufstFodus(boolfbn tfmporbry, boolfbn fodusfdWindowCibngfAllowfd) {
+        rfturn fblsf;
     }
-    void start() {}
-    void invalidate(int x, int y, int width, int height) {}
-    public void addDropTarget(DropTarget dt) {}
-    public void removeDropTarget(DropTarget dt) {}
+    void stbrt() {}
+    void invblidbtf(int x, int y, int widti, int ifigit) {}
+    publid void bddDropTbrgft(DropTbrgft dt) {}
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {}
 
-    // 1.5 peer method
-    public boolean isRestackSupported() {
-        return false;
-    }
-
-    // 1.6 peer method
-    public void updateAlwaysOnTopState() {
-        // no-op, since we just show the native print dialog
+    // 1.5 pffr mftiod
+    publid boolfbn isRfstbdkSupportfd() {
+        rfturn fblsf;
     }
 
-    // 1.6 peer method
-    public void updateMinimumSize() {}
-
-    // 1.6 peer method
-    public void setModalBlocked(Dialog blocker, boolean blocked) {
-        // I don't think we care since this is a native dialog
+    // 1.6 pffr mftiod
+    publid void updbtfAlwbysOnTopStbtf() {
+        // no-op, sindf wf just siow tif nbtivf print diblog
     }
 
-    // 1.6 peer method
-    public void updateFocusableWindowState() {}
+    // 1.6 pffr mftiod
+    publid void updbtfMinimumSizf() {}
+
+    // 1.6 pffr mftiod
+    publid void sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
+        // I don't tiink wf dbrf sindf tiis is b nbtivf diblog
+    }
+
+    // 1.6 pffr mftiod
+    publid void updbtfFodusbblfWindowStbtf() {}
 }

@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Polygon;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Fbdtory objfdt thbt dbn vfnd Idons bppropribtf for thf bbsid L &bmp; F.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ * @buthor Gforgfs Sbbb
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidIdonFbdtory implfmfnts Sfriblizbblf
+{
+    privbtf stbtid Idon frbmf_idon;
+    privbtf stbtid Idon dhfdkBoxIdon;
+    privbtf stbtid Idon rbdioButtonIdon;
+    privbtf stbtid Idon dhfdkBoxMfnuItfmIdon;
+    privbtf stbtid Idon rbdioButtonMfnuItfmIdon;
+    privbtf stbtid Idon mfnuItfmChfdkIdon;
+    privbtf stbtid Idon mfnuItfmArrowIdon;
+    privbtf stbtid Idon mfnuArrowIdon;
+
+    /**
+     * Rfturns b mfnu itfm dhfdk idon.
+     *
+     * @rfturn b mfnu itfm dhfdk idon
+     */
+    publid stbtid Idon gftMfnuItfmChfdkIdon() {
+        if (mfnuItfmChfdkIdon == null) {
+            mfnuItfmChfdkIdon = nfw MfnuItfmChfdkIdon();
+        }
+        rfturn mfnuItfmChfdkIdon;
+    }
+
+    /**
+     * Rfturns b mfnu itfm brrow idon.
+     *
+     * @rfturn b mfnu itfm brrow idon
+     */
+    publid stbtid Idon gftMfnuItfmArrowIdon() {
+        if (mfnuItfmArrowIdon == null) {
+            mfnuItfmArrowIdon = nfw MfnuItfmArrowIdon();
+        }
+        rfturn mfnuItfmArrowIdon;
+    }
+
+    /**
+     * Rfturns b mfnu brrow idon.
+     *
+     * @rfturn b mfnu brrow idon
+     */
+    publid stbtid Idon gftMfnuArrowIdon() {
+        if (mfnuArrowIdon == null) {
+            mfnuArrowIdon = nfw MfnuArrowIdon();
+        }
+        rfturn mfnuArrowIdon;
+    }
+
+    /**
+     * Rfturns b dhfdk box idon.
+     *
+     * @rfturn b dhfdk box idon
+     */
+    publid stbtid Idon gftChfdkBoxIdon() {
+        if (dhfdkBoxIdon == null) {
+            dhfdkBoxIdon = nfw ChfdkBoxIdon();
+        }
+        rfturn dhfdkBoxIdon;
+    }
+
+    /**
+     * Rfturns b rbdio button idon.
+     *
+     * @rfturn b rbdio button idon
+     */
+    publid stbtid Idon gftRbdioButtonIdon() {
+        if (rbdioButtonIdon == null) {
+            rbdioButtonIdon = nfw RbdioButtonIdon();
+        }
+        rfturn rbdioButtonIdon;
+    }
+
+    /**
+     * Rfturns b dhfdk box mfnu itfm idon.
+     *
+     * @rfturn b dhfdk box mfnu itfm idon
+     */
+    publid stbtid Idon gftChfdkBoxMfnuItfmIdon() {
+        if (dhfdkBoxMfnuItfmIdon == null) {
+            dhfdkBoxMfnuItfmIdon = nfw ChfdkBoxMfnuItfmIdon();
+        }
+        rfturn dhfdkBoxMfnuItfmIdon;
+    }
+
+    /**
+     * Rfturns b rbdio button mfnu itfm idon.
+     *
+     * @rfturn b rbdio button mfnu itfm idon
+     */
+    publid stbtid Idon gftRbdioButtonMfnuItfmIdon() {
+        if (rbdioButtonMfnuItfmIdon == null) {
+            rbdioButtonMfnuItfmIdon = nfw RbdioButtonMfnuItfmIdon();
+        }
+        rfturn rbdioButtonMfnuItfmIdon;
+    }
+
+    /**
+     * Rfturns bn fmpty frbmf idon.
+     *
+     * @rfturn bn fmpty frbmf idon
+     */
+    publid stbtid Idon drfbtfEmptyFrbmfIdon() {
+        if(frbmf_idon == null)
+            frbmf_idon = nfw EmptyFrbmfIdon();
+        rfturn frbmf_idon;
+    }
+
+    privbtf stbtid dlbss EmptyFrbmfIdon implfmfnts Idon, Sfriblizbblf {
+        int hfight = 16;
+        int width = 14;
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        }
+        publid int gftIdonWidth() { rfturn width; }
+        publid int gftIdonHfight() { rfturn hfight; }
+    };
+
+    privbtf stbtid dlbss ChfdkBoxIdon implfmfnts Idon, Sfriblizbblf
+    {
+        finbl stbtid int dsizf = 13;
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        }
+
+        publid int gftIdonWidth() {
+            rfturn dsizf;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn dsizf;
+        }
+    }
+
+    privbtf stbtid dlbss RbdioButtonIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        }
+
+        publid int gftIdonWidth() {
+            rfturn 13;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn 13;
+        }
+    } // fnd dlbss RbdioButtonIdon
+
+
+    privbtf stbtid dlbss ChfdkBoxMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
+            if (isSflfdtfd) {
+                g.drbwLinf(x+7, y+1, x+7, y+3);
+                g.drbwLinf(x+6, y+2, x+6, y+4);
+                g.drbwLinf(x+5, y+3, x+5, y+5);
+                g.drbwLinf(x+4, y+4, x+4, y+6);
+                g.drbwLinf(x+3, y+5, x+3, y+7);
+                g.drbwLinf(x+2, y+4, x+2, y+6);
+                g.drbwLinf(x+1, y+3, x+1, y+5);
+            }
+        }
+        publid int gftIdonWidth() { rfturn 9; }
+        publid int gftIdonHfight() { rfturn 9; }
+
+    } // End dlbss ChfdkBoxMfnuItfmIdon
+
+
+    privbtf stbtid dlbss RbdioButtonMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            if (b.isSflfdtfd() == truf) {
+                g.fillOvbl(x+1, y+1, gftIdonWidth(), gftIdonHfight());
+            }
+        }
+        publid int gftIdonWidth() { rfturn 6; }
+        publid int gftIdonHfight() { rfturn 6; }
+
+    } // End dlbss RbdioButtonMfnuItfmIdon
+
+
+    privbtf stbtid dlbss MfnuItfmChfdkIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf{
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        }
+        publid int gftIdonWidth() { rfturn 9; }
+        publid int gftIdonHfight() { rfturn 9; }
+
+    } // End dlbss MfnuItfmChfdkIdon
+
+    privbtf stbtid dlbss MfnuItfmArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        }
+        publid int gftIdonWidth() { rfturn 4; }
+        publid int gftIdonHfight() { rfturn 8; }
+
+    } // End dlbss MfnuItfmArrowIdon
+
+    privbtf stbtid dlbss MfnuArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            Polygon p = nfw Polygon();
+            p.bddPoint(x, y);
+            p.bddPoint(x+gftIdonWidth(), y+gftIdonHfight()/2);
+            p.bddPoint(x, y+gftIdonHfight());
+            g.fillPolygon(p);
+
+        }
+        publid int gftIdonWidth() { rfturn 4; }
+        publid int gftIdonHfight() { rfturn 8; }
+    } // End dlbss MfnuArrowIdon
+}

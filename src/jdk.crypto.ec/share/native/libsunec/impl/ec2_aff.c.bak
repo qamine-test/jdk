@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for binary polynomial field curves.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry for binbry polynomibl fifld durvfs.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#include "ec2.h"
-#include "mplogic.h"
-#include "mp_gf2m.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#endif
+#indludf "fd2.i"
+#indludf "mplogid.i"
+#indludf "mp_gf2m.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#fndif
 
-/* Checks if point P(px, py) is at infinity.  Uses affine coordinates. */
-mp_err
-ec_GF2m_pt_is_inf_aff(const mp_int *px, const mp_int *py)
+/* Cifdks if point P(px, py) is bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_is_inf_bff(donst mp_int *px, donst mp_int *py)
 {
 
-        if ((mp_cmp_z(px) == 0) && (mp_cmp_z(py) == 0)) {
-                return MP_YES;
-        } else {
-                return MP_NO;
+        if ((mp_dmp_z(px) == 0) && (mp_dmp_z(py) == 0)) {
+                rfturn MP_YES;
+        } flsf {
+                rfturn MP_NO;
         }
 
 }
 
-/* Sets P(px, py) to be the point at infinity.  Uses affine coordinates. */
-mp_err
-ec_GF2m_pt_set_inf_aff(mp_int *px, mp_int *py)
+/* Sfts P(px, py) to bf tif point bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_sft_inf_bff(mp_int *px, mp_int *py)
 {
-        mp_zero(px);
-        mp_zero(py);
-        return MP_OKAY;
+        mp_zfro(px);
+        mp_zfro(py);
+        rfturn MP_OKAY;
 }
 
-/* Computes R = P + Q based on IEEE P1363 A.10.2. Elliptic curve points P,
- * Q, and R can all be identical. Uses affine coordinates. */
-mp_err
-ec_GF2m_pt_add_aff(const mp_int *px, const mp_int *py, const mp_int *qx,
-                                   const mp_int *qy, mp_int *rx, mp_int *ry,
-                                   const ECGroup *group)
+/* Computfs R = P + Q bbsfd on IEEE P1363 A.10.2. Elliptid durvf points P,
+ * Q, bnd R dbn bll bf idfntidbl. Usfs bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_bdd_bff(donst mp_int *px, donst mp_int *py, donst mp_int *qx,
+                                   donst mp_int *qy, mp_int *rx, mp_int *ry,
+                                   donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
-        mp_int lambda, tempx, tempy;
+        mp_frr rfs = MP_OKAY;
+        mp_int lbmbdb, tfmpx, tfmpy;
 
-        MP_DIGITS(&lambda) = 0;
-        MP_DIGITS(&tempx) = 0;
-        MP_DIGITS(&tempy) = 0;
-        MP_CHECKOK(mp_init(&lambda, FLAG(px)));
-        MP_CHECKOK(mp_init(&tempx, FLAG(px)));
-        MP_CHECKOK(mp_init(&tempy, FLAG(px)));
-        /* if P = inf, then R = Q */
-        if (ec_GF2m_pt_is_inf_aff(px, py) == 0) {
-                MP_CHECKOK(mp_copy(qx, rx));
-                MP_CHECKOK(mp_copy(qy, ry));
-                res = MP_OKAY;
+        MP_DIGITS(&lbmbdb) = 0;
+        MP_DIGITS(&tfmpx) = 0;
+        MP_DIGITS(&tfmpy) = 0;
+        MP_CHECKOK(mp_init(&lbmbdb, FLAG(px)));
+        MP_CHECKOK(mp_init(&tfmpx, FLAG(px)));
+        MP_CHECKOK(mp_init(&tfmpy, FLAG(px)));
+        /* if P = inf, tifn R = Q */
+        if (fd_GF2m_pt_is_inf_bff(px, py) == 0) {
+                MP_CHECKOK(mp_dopy(qx, rx));
+                MP_CHECKOK(mp_dopy(qy, ry));
+                rfs = MP_OKAY;
                 goto CLEANUP;
         }
-        /* if Q = inf, then R = P */
-        if (ec_GF2m_pt_is_inf_aff(qx, qy) == 0) {
-                MP_CHECKOK(mp_copy(px, rx));
-                MP_CHECKOK(mp_copy(py, ry));
-                res = MP_OKAY;
+        /* if Q = inf, tifn R = P */
+        if (fd_GF2m_pt_is_inf_bff(qx, qy) == 0) {
+                MP_CHECKOK(mp_dopy(px, rx));
+                MP_CHECKOK(mp_dopy(py, ry));
+                rfs = MP_OKAY;
                 goto CLEANUP;
         }
-        /* if px != qx, then lambda = (py+qy) / (px+qx), tempx = a + lambda^2
-         * + lambda + px + qx */
-        if (mp_cmp(px, qx) != 0) {
-                MP_CHECKOK(group->meth->field_add(py, qy, &tempy, group->meth));
-                MP_CHECKOK(group->meth->field_add(px, qx, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_div(&tempy, &tempx, &lambda, group->meth));
-                MP_CHECKOK(group->meth->field_sqr(&lambda, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, &lambda, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, &group->curvea, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, px, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, qx, &tempx, group->meth));
-        } else {
-                /* if py != qy or qx = 0, then R = inf */
-                if (((mp_cmp(py, qy) != 0)) || (mp_cmp_z(qx) == 0)) {
-                        mp_zero(rx);
-                        mp_zero(ry);
-                        res = MP_OKAY;
+        /* if px != qx, tifn lbmbdb = (py+qy) / (px+qx), tfmpx = b + lbmbdb^2
+         * + lbmbdb + px + qx */
+        if (mp_dmp(px, qx) != 0) {
+                MP_CHECKOK(group->mfti->fifld_bdd(py, qy, &tfmpy, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_bdd(px, qx, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_div(&tfmpy, &tfmpx, &lbmbdb, group->mfti));
+                MP_CHECKOK(group->mfti->fifld_sqr(&lbmbdb, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, &lbmbdb, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, &group->durvfb, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, px, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, qx, &tfmpx, group->mfti));
+        } flsf {
+                /* if py != qy or qx = 0, tifn R = inf */
+                if (((mp_dmp(py, qy) != 0)) || (mp_dmp_z(qx) == 0)) {
+                        mp_zfro(rx);
+                        mp_zfro(ry);
+                        rfs = MP_OKAY;
                         goto CLEANUP;
                 }
-                /* lambda = qx + qy / qx */
-                MP_CHECKOK(group->meth->field_div(qy, qx, &lambda, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&lambda, qx, &lambda, group->meth));
-                /* tempx = a + lambda^2 + lambda */
-                MP_CHECKOK(group->meth->field_sqr(&lambda, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, &lambda, &tempx, group->meth));
-                MP_CHECKOK(group->meth->
-                                   field_add(&tempx, &group->curvea, &tempx, group->meth));
+                /* lbmbdb = qx + qy / qx */
+                MP_CHECKOK(group->mfti->fifld_div(qy, qx, &lbmbdb, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&lbmbdb, qx, &lbmbdb, group->mfti));
+                /* tfmpx = b + lbmbdb^2 + lbmbdb */
+                MP_CHECKOK(group->mfti->fifld_sqr(&lbmbdb, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, &lbmbdb, &tfmpx, group->mfti));
+                MP_CHECKOK(group->mfti->
+                                   fifld_bdd(&tfmpx, &group->durvfb, &tfmpx, group->mfti));
         }
-        /* ry = (qx + tempx) * lambda + tempx + qy */
-        MP_CHECKOK(group->meth->field_add(qx, &tempx, &tempy, group->meth));
-        MP_CHECKOK(group->meth->
-                           field_mul(&tempy, &lambda, &tempy, group->meth));
-        MP_CHECKOK(group->meth->
-                           field_add(&tempy, &tempx, &tempy, group->meth));
-        MP_CHECKOK(group->meth->field_add(&tempy, qy, ry, group->meth));
-        /* rx = tempx */
-        MP_CHECKOK(mp_copy(&tempx, rx));
+        /* ry = (qx + tfmpx) * lbmbdb + tfmpx + qy */
+        MP_CHECKOK(group->mfti->fifld_bdd(qx, &tfmpx, &tfmpy, group->mfti));
+        MP_CHECKOK(group->mfti->
+                           fifld_mul(&tfmpy, &lbmbdb, &tfmpy, group->mfti));
+        MP_CHECKOK(group->mfti->
+                           fifld_bdd(&tfmpy, &tfmpx, &tfmpy, group->mfti));
+        MP_CHECKOK(group->mfti->fifld_bdd(&tfmpy, qy, ry, group->mfti));
+        /* rx = tfmpx */
+        MP_CHECKOK(mp_dopy(&tfmpx, rx));
 
   CLEANUP:
-        mp_clear(&lambda);
-        mp_clear(&tempx);
-        mp_clear(&tempy);
-        return res;
+        mp_dlfbr(&lbmbdb);
+        mp_dlfbr(&tfmpx);
+        mp_dlfbr(&tfmpy);
+        rfturn rfs;
 }
 
-/* Computes R = P - Q. Elliptic curve points P, Q, and R can all be
- * identical. Uses affine coordinates. */
-mp_err
-ec_GF2m_pt_sub_aff(const mp_int *px, const mp_int *py, const mp_int *qx,
-                                   const mp_int *qy, mp_int *rx, mp_int *ry,
-                                   const ECGroup *group)
+/* Computfs R = P - Q. Elliptid durvf points P, Q, bnd R dbn bll bf
+ * idfntidbl. Usfs bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_sub_bff(donst mp_int *px, donst mp_int *py, donst mp_int *qx,
+                                   donst mp_int *qy, mp_int *rx, mp_int *ry,
+                                   donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int nqy;
 
         MP_DIGITS(&nqy) = 0;
         MP_CHECKOK(mp_init(&nqy, FLAG(px)));
         /* nqy = qx+qy */
-        MP_CHECKOK(group->meth->field_add(qx, qy, &nqy, group->meth));
-        MP_CHECKOK(group->point_add(px, py, qx, &nqy, rx, ry, group));
+        MP_CHECKOK(group->mfti->fifld_bdd(qx, qy, &nqy, group->mfti));
+        MP_CHECKOK(group->point_bdd(px, py, qx, &nqy, rx, ry, group));
   CLEANUP:
-        mp_clear(&nqy);
-        return res;
+        mp_dlfbr(&nqy);
+        rfturn rfs;
 }
 
-/* Computes R = 2P. Elliptic curve points P and R can be identical. Uses
- * affine coordinates. */
-mp_err
-ec_GF2m_pt_dbl_aff(const mp_int *px, const mp_int *py, mp_int *rx,
-                                   mp_int *ry, const ECGroup *group)
+/* Computfs R = 2P. Elliptid durvf points P bnd R dbn bf idfntidbl. Usfs
+ * bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_dbl_bff(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                   mp_int *ry, donst ECGroup *group)
 {
-        return group->point_add(px, py, px, py, rx, ry, group);
+        rfturn group->point_bdd(px, py, px, py, rx, ry, group);
 }
 
-/* by default, this routine is unused and thus doesn't need to be compiled */
-#ifdef ECL_ENABLE_GF2M_PT_MUL_AFF
-/* Computes R = nP based on IEEE P1363 A.10.3. Elliptic curve points P and
- * R can be identical. Uses affine coordinates. */
-mp_err
-ec_GF2m_pt_mul_aff(const mp_int *n, const mp_int *px, const mp_int *py,
-                                   mp_int *rx, mp_int *ry, const ECGroup *group)
+/* by dffbult, tiis routinf is unusfd bnd tius dofsn't nffd to bf dompilfd */
+#ifdff ECL_ENABLE_GF2M_PT_MUL_AFF
+/* Computfs R = nP bbsfd on IEEE P1363 A.10.3. Elliptid durvf points P bnd
+ * R dbn bf idfntidbl. Usfs bffinf doordinbtfs. */
+mp_frr
+fd_GF2m_pt_mul_bff(donst mp_int *n, donst mp_int *px, donst mp_int *py,
+                                   mp_int *rx, mp_int *ry, donst ECGroup *group)
 {
-        mp_err res = MP_OKAY;
+        mp_frr rfs = MP_OKAY;
         mp_int k, k3, qx, qy, sx, sy;
         int b1, b3, i, l;
 
@@ -200,148 +200,148 @@ ec_GF2m_pt_mul_aff(const mp_int *n, const mp_int *px, const mp_int *py,
         MP_CHECKOK(mp_init(&sx));
         MP_CHECKOK(mp_init(&sy));
 
-        /* if n = 0 then r = inf */
-        if (mp_cmp_z(n) == 0) {
-                mp_zero(rx);
-                mp_zero(ry);
-                res = MP_OKAY;
+        /* if n = 0 tifn r = inf */
+        if (mp_dmp_z(n) == 0) {
+                mp_zfro(rx);
+                mp_zfro(ry);
+                rfs = MP_OKAY;
                 goto CLEANUP;
         }
         /* Q = P, k = n */
-        MP_CHECKOK(mp_copy(px, &qx));
-        MP_CHECKOK(mp_copy(py, &qy));
-        MP_CHECKOK(mp_copy(n, &k));
-        /* if n < 0 then Q = -Q, k = -k */
-        if (mp_cmp_z(n) < 0) {
-                MP_CHECKOK(group->meth->field_add(&qx, &qy, &qy, group->meth));
-                MP_CHECKOK(mp_neg(&k, &k));
+        MP_CHECKOK(mp_dopy(px, &qx));
+        MP_CHECKOK(mp_dopy(py, &qy));
+        MP_CHECKOK(mp_dopy(n, &k));
+        /* if n < 0 tifn Q = -Q, k = -k */
+        if (mp_dmp_z(n) < 0) {
+                MP_CHECKOK(group->mfti->fifld_bdd(&qx, &qy, &qy, group->mfti));
+                MP_CHECKOK(mp_nfg(&k, &k));
         }
-#ifdef ECL_DEBUG                                /* basic double and add method */
-        l = mpl_significant_bits(&k) - 1;
-        MP_CHECKOK(mp_copy(&qx, &sx));
-        MP_CHECKOK(mp_copy(&qy, &sy));
+#ifdff ECL_DEBUG                                /* bbsid doublf bnd bdd mftiod */
+        l = mpl_signifidbnt_bits(&k) - 1;
+        MP_CHECKOK(mp_dopy(&qx, &sx));
+        MP_CHECKOK(mp_dopy(&qy, &sy));
         for (i = l - 1; i >= 0; i--) {
                 /* S = 2S */
                 MP_CHECKOK(group->point_dbl(&sx, &sy, &sx, &sy, group));
-                /* if k_i = 1, then S = S + Q */
-                if (mpl_get_bit(&k, i) != 0) {
+                /* if k_i = 1, tifn S = S + Q */
+                if (mpl_gft_bit(&k, i) != 0) {
                         MP_CHECKOK(group->
-                                           point_add(&sx, &sy, &qx, &qy, &sx, &sy, group));
+                                           point_bdd(&sx, &sy, &qx, &qy, &sx, &sy, group));
                 }
         }
-#else                                                   /* double and add/subtract method from
-                                                                 * standard */
+#flsf                                                   /* doublf bnd bdd/subtrbdt mftiod from
+                                                                 * stbndbrd */
         /* k3 = 3 * k */
-        MP_CHECKOK(mp_set_int(&k3, 3));
+        MP_CHECKOK(mp_sft_int(&k3, 3));
         MP_CHECKOK(mp_mul(&k, &k3, &k3));
         /* S = Q */
-        MP_CHECKOK(mp_copy(&qx, &sx));
-        MP_CHECKOK(mp_copy(&qy, &sy));
-        /* l = index of high order bit in binary representation of 3*k */
-        l = mpl_significant_bits(&k3) - 1;
+        MP_CHECKOK(mp_dopy(&qx, &sx));
+        MP_CHECKOK(mp_dopy(&qy, &sy));
+        /* l = indfx of iigi ordfr bit in binbry rfprfsfntbtion of 3*k */
+        l = mpl_signifidbnt_bits(&k3) - 1;
         /* for i = l-1 downto 1 */
         for (i = l - 1; i >= 1; i--) {
                 /* S = 2S */
                 MP_CHECKOK(group->point_dbl(&sx, &sy, &sx, &sy, group));
                 b3 = MP_GET_BIT(&k3, i);
                 b1 = MP_GET_BIT(&k, i);
-                /* if k3_i = 1 and k_i = 0, then S = S + Q */
+                /* if k3_i = 1 bnd k_i = 0, tifn S = S + Q */
                 if ((b3 == 1) && (b1 == 0)) {
                         MP_CHECKOK(group->
-                                           point_add(&sx, &sy, &qx, &qy, &sx, &sy, group));
-                        /* if k3_i = 0 and k_i = 1, then S = S - Q */
-                } else if ((b3 == 0) && (b1 == 1)) {
+                                           point_bdd(&sx, &sy, &qx, &qy, &sx, &sy, group));
+                        /* if k3_i = 0 bnd k_i = 1, tifn S = S - Q */
+                } flsf if ((b3 == 0) && (b1 == 1)) {
                         MP_CHECKOK(group->
                                            point_sub(&sx, &sy, &qx, &qy, &sx, &sy, group));
                 }
         }
-#endif
+#fndif
         /* output S */
-        MP_CHECKOK(mp_copy(&sx, rx));
-        MP_CHECKOK(mp_copy(&sy, ry));
+        MP_CHECKOK(mp_dopy(&sx, rx));
+        MP_CHECKOK(mp_dopy(&sy, ry));
 
   CLEANUP:
-        mp_clear(&k);
-        mp_clear(&k3);
-        mp_clear(&qx);
-        mp_clear(&qy);
-        mp_clear(&sx);
-        mp_clear(&sy);
-        return res;
+        mp_dlfbr(&k);
+        mp_dlfbr(&k3);
+        mp_dlfbr(&qx);
+        mp_dlfbr(&qy);
+        mp_dlfbr(&sx);
+        mp_dlfbr(&sy);
+        rfturn rfs;
 }
-#endif
+#fndif
 
-/* Validates a point on a GF2m curve. */
-mp_err
-ec_GF2m_validate_point(const mp_int *px, const mp_int *py, const ECGroup *group)
+/* Vblidbtfs b point on b GF2m durvf. */
+mp_frr
+fd_GF2m_vblidbtf_point(donst mp_int *px, donst mp_int *py, donst ECGroup *group)
 {
-        mp_err res = MP_NO;
-        mp_int accl, accr, tmp, pxt, pyt;
+        mp_frr rfs = MP_NO;
+        mp_int bddl, bddr, tmp, pxt, pyt;
 
-        MP_DIGITS(&accl) = 0;
-        MP_DIGITS(&accr) = 0;
+        MP_DIGITS(&bddl) = 0;
+        MP_DIGITS(&bddr) = 0;
         MP_DIGITS(&tmp) = 0;
         MP_DIGITS(&pxt) = 0;
         MP_DIGITS(&pyt) = 0;
-        MP_CHECKOK(mp_init(&accl, FLAG(px)));
-        MP_CHECKOK(mp_init(&accr, FLAG(px)));
+        MP_CHECKOK(mp_init(&bddl, FLAG(px)));
+        MP_CHECKOK(mp_init(&bddr, FLAG(px)));
         MP_CHECKOK(mp_init(&tmp, FLAG(px)));
         MP_CHECKOK(mp_init(&pxt, FLAG(px)));
         MP_CHECKOK(mp_init(&pyt, FLAG(px)));
 
-    /* 1: Verify that publicValue is not the point at infinity */
-        if (ec_GF2m_pt_is_inf_aff(px, py) == MP_YES) {
-                res = MP_NO;
+    /* 1: Vfrify tibt publidVbluf is not tif point bt infinity */
+        if (fd_GF2m_pt_is_inf_bff(px, py) == MP_YES) {
+                rfs = MP_NO;
                 goto CLEANUP;
         }
-    /* 2: Verify that the coordinates of publicValue are elements
-     *    of the field.
+    /* 2: Vfrify tibt tif doordinbtfs of publidVbluf brf flfmfnts
+     *    of tif fifld.
      */
-        if ((MP_SIGN(px) == MP_NEG) || (mp_cmp(px, &group->meth->irr) >= 0) ||
-                (MP_SIGN(py) == MP_NEG) || (mp_cmp(py, &group->meth->irr) >= 0)) {
-                res = MP_NO;
+        if ((MP_SIGN(px) == MP_NEG) || (mp_dmp(px, &group->mfti->irr) >= 0) ||
+                (MP_SIGN(py) == MP_NEG) || (mp_dmp(py, &group->mfti->irr) >= 0)) {
+                rfs = MP_NO;
                 goto CLEANUP;
         }
-    /* 3: Verify that publicValue is on the curve. */
-        if (group->meth->field_enc) {
-                group->meth->field_enc(px, &pxt, group->meth);
-                group->meth->field_enc(py, &pyt, group->meth);
-        } else {
-                mp_copy(px, &pxt);
-                mp_copy(py, &pyt);
+    /* 3: Vfrify tibt publidVbluf is on tif durvf. */
+        if (group->mfti->fifld_fnd) {
+                group->mfti->fifld_fnd(px, &pxt, group->mfti);
+                group->mfti->fifld_fnd(py, &pyt, group->mfti);
+        } flsf {
+                mp_dopy(px, &pxt);
+                mp_dopy(py, &pyt);
         }
-        /* left-hand side: y^2 + x*y  */
-        MP_CHECKOK( group->meth->field_sqr(&pyt, &accl, group->meth) );
-        MP_CHECKOK( group->meth->field_mul(&pxt, &pyt, &tmp, group->meth) );
-        MP_CHECKOK( group->meth->field_add(&accl, &tmp, &accl, group->meth) );
-        /* right-hand side: x^3 + a*x^2 + b */
-        MP_CHECKOK( group->meth->field_sqr(&pxt, &tmp, group->meth) );
-        MP_CHECKOK( group->meth->field_mul(&pxt, &tmp, &accr, group->meth) );
-        MP_CHECKOK( group->meth->field_mul(&group->curvea, &tmp, &tmp, group->meth) );
-        MP_CHECKOK( group->meth->field_add(&tmp, &accr, &accr, group->meth) );
-        MP_CHECKOK( group->meth->field_add(&accr, &group->curveb, &accr, group->meth) );
-        /* check LHS - RHS == 0 */
-        MP_CHECKOK( group->meth->field_add(&accl, &accr, &accr, group->meth) );
-        if (mp_cmp_z(&accr) != 0) {
-                res = MP_NO;
+        /* lfft-ibnd sidf: y^2 + x*y  */
+        MP_CHECKOK( group->mfti->fifld_sqr(&pyt, &bddl, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_mul(&pxt, &pyt, &tmp, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_bdd(&bddl, &tmp, &bddl, group->mfti) );
+        /* rigit-ibnd sidf: x^3 + b*x^2 + b */
+        MP_CHECKOK( group->mfti->fifld_sqr(&pxt, &tmp, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_mul(&pxt, &tmp, &bddr, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_mul(&group->durvfb, &tmp, &tmp, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_bdd(&tmp, &bddr, &bddr, group->mfti) );
+        MP_CHECKOK( group->mfti->fifld_bdd(&bddr, &group->durvfb, &bddr, group->mfti) );
+        /* difdk LHS - RHS == 0 */
+        MP_CHECKOK( group->mfti->fifld_bdd(&bddl, &bddr, &bddr, group->mfti) );
+        if (mp_dmp_z(&bddr) != 0) {
+                rfs = MP_NO;
                 goto CLEANUP;
         }
-    /* 4: Verify that the order of the curve times the publicValue
-     *    is the point at infinity.
+    /* 4: Vfrify tibt tif ordfr of tif durvf timfs tif publidVbluf
+     *    is tif point bt infinity.
      */
-        MP_CHECKOK( ECPoint_mul(group, &group->order, px, py, &pxt, &pyt) );
-        if (ec_GF2m_pt_is_inf_aff(&pxt, &pyt) != MP_YES) {
-                res = MP_NO;
+        MP_CHECKOK( ECPoint_mul(group, &group->ordfr, px, py, &pxt, &pyt) );
+        if (fd_GF2m_pt_is_inf_bff(&pxt, &pyt) != MP_YES) {
+                rfs = MP_NO;
                 goto CLEANUP;
         }
 
-        res = MP_YES;
+        rfs = MP_YES;
 
 CLEANUP:
-        mp_clear(&accl);
-        mp_clear(&accr);
-        mp_clear(&tmp);
-        mp_clear(&pxt);
-        mp_clear(&pyt);
-        return res;
+        mp_dlfbr(&bddl);
+        mp_dlfbr(&bddr);
+        mp_dlfbr(&tmp);
+        mp_dlfbr(&pxt);
+        mp_dlfbr(&pyt);
+        rfturn rfs;
 }

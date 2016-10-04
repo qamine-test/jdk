@@ -1,0 +1,483 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * A {@dodf FlobtControl} objfdt providfs dontrol ovfr b rbngf of flobting-point
+ * vblufs. Flobt dontrols brf oftfn rfprfsfntfd in grbphidbl usfr intfrfbdfs by
+ * dontinuously bdjustbblf objfdts sudh bs slidfrs or rotbry knobs. Condrftf
+ * subdlbssfs of {@dodf FlobtControl} implfmfnt dontrols, sudh bs gbin bnd pbn,
+ * thbt bfffdt b linf's budio signbl in somf wby thbt bn bpplidbtion dbn
+ * mbnipulbtf. Thf {@link FlobtControl.Typf} innfr dlbss providfs stbtid
+ * instbndfs of typfs thbt brf usfd to idfntify somf dommon kinds of flobt
+ * dontrol.
+ * <p>
+ * Thf {@dodf FlobtControl} bbstrbdt dlbss providfs mfthods to sft bnd gft thf
+ * dontrol's durrfnt flobting-point vbluf. Othfr mfthods obtbin thf possiblf
+ * rbngf of vblufs bnd thf dontrol's rfsolution (thf smbllfst indrfmfnt bftwffn
+ * rfturnfd vblufs). Somf flobt dontrols bllow rbmping to b nfw vbluf ovfr b
+ * spfdififd pfriod of timf. {@dodf FlobtControl} blso indludfs mfthods thbt
+ * rfturn string lbbfls for thf minimum, mbximum, bnd midpoint positions of thf
+ * dontrol.
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @sff Linf#gftControls
+ * @sff Linf#isControlSupportfd
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss FlobtControl fxtfnds Control {
+
+    /**
+     * Thf minimum supportfd vbluf.
+     */
+    privbtf flobt minimum;
+
+    /**
+     * Thf mbximum supportfd vbluf.
+     */
+    privbtf flobt mbximum;
+
+    /**
+     * Thf dontrol's prfdision.
+     */
+    privbtf flobt prfdision;
+
+    /**
+     * Thf smbllfst timf indrfmfnt in whidh b vbluf dhbngf dbn bf ffffdtfd
+     * during b vbluf shift, in midrosfdonds.
+     */
+    privbtf int updbtfPfriod;
+
+    /**
+     * A lbbfl for thf units in whidh thf dontrol vblufs brf fxprfssfd, sudh bs
+     * "dB" for dfdibfls.
+     */
+    privbtf finbl String units;
+
+    /**
+     * A lbbfl for thf minimum vbluf, sudh bs "Lfft".
+     */
+    privbtf finbl String minLbbfl;
+
+    /**
+     * A lbbfl for thf mbximum vbluf, sudh bs "Right".
+     */
+    privbtf finbl String mbxLbbfl;
+
+    /**
+     * A lbbfl for thf mid-point vbluf, sudh bs "Cfntfr".
+     */
+    privbtf finbl String midLbbfl;
+
+    /**
+     * Thf durrfnt vbluf.
+     */
+    privbtf flobt vbluf;
+
+    /**
+     * Construdts b nfw flobt dontrol objfdt with thf givfn pbrbmftfrs.
+     *
+     * @pbrbm  typf thf kind of dontrol rfprfsfntfd by this flobt dontrol objfdt
+     * @pbrbm  minimum thf smbllfst vbluf pfrmittfd for thf dontrol
+     * @pbrbm  mbximum thf lbrgfst vbluf pfrmittfd for thf dontrol
+     * @pbrbm  prfdision thf rfsolution or grbnulbrity of thf dontrol. This is
+     *         thf sizf of thf indrfmfnt bftwffn disdrftf vblid vblufs.
+     * @pbrbm  updbtfPfriod thf smbllfst timf intfrvbl, in midrosfdonds, ovfr
+     *         whidh thf dontrol dbn dhbngf from onf disdrftf vbluf to thf nfxt
+     *         during b {@link #shift(flobt,flobt,int) shift}
+     * @pbrbm  initiblVbluf thf vbluf thbt thf dontrol stbrts with whfn
+     *         donstrudtfd
+     * @pbrbm  units thf lbbfl for thf units in whidh thf dontrol's vblufs brf
+     *         fxprfssfd, sudh bs "dB" or "frbmfs pfr sfdond"
+     * @pbrbm  minLbbfl thf lbbfl for thf minimum vbluf, sudh bs "Lfft" or "Off"
+     * @pbrbm  midLbbfl thf lbbfl for thf midpoint vbluf, sudh bs "Cfntfr" or
+     *         "Dffbult"
+     * @pbrbm  mbxLbbfl thf lbbfl for thf mbximum vbluf, sudh bs "Right" or
+     *         "Full"
+     * @throws IllfgblArgumfntExdfption if {@dodf minimum} is grfbtfr thbn
+     *         {@dodf mbximum} or {@dodf initiblVbluf} dofs not fbll within thf
+     *         bllowbblf rbngf
+     */
+    protfdtfd FlobtControl(Typf typf, flobt minimum, flobt mbximum,
+            flobt prfdision, int updbtfPfriod, flobt initiblVbluf,
+            String units, String minLbbfl, String midLbbfl, String mbxLbbfl) {
+
+        supfr(typf);
+
+        if (minimum > mbximum) {
+            throw nfw IllfgblArgumfntExdfption("Minimum vbluf " + minimum
+                    + " fxdffds mbximum vbluf " + mbximum + ".");
+        }
+        if (initiblVbluf < minimum) {
+            throw nfw IllfgblArgumfntExdfption("Initibl vbluf " + initiblVbluf
+                    + " smbllfr thbn bllowbblf minimum vbluf " + minimum + ".");
+        }
+        if (initiblVbluf > mbximum) {
+            throw nfw IllfgblArgumfntExdfption("Initibl vbluf " + initiblVbluf
+                    + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
+        }
+
+
+        this.minimum = minimum;
+        this.mbximum = mbximum;
+
+        this.prfdision = prfdision;
+        this.updbtfPfriod = updbtfPfriod;
+        this.vbluf = initiblVbluf;
+
+        this.units = units;
+        this.minLbbfl = ( (minLbbfl == null) ? "" : minLbbfl);
+        this.midLbbfl = ( (midLbbfl == null) ? "" : midLbbfl);
+        this.mbxLbbfl = ( (mbxLbbfl == null) ? "" : mbxLbbfl);
+    }
+
+    /**
+     * Construdts b nfw flobt dontrol objfdt with thf givfn pbrbmftfrs. Thf
+     * lbbfls for thf minimum, mbximum, bnd mid-point vblufs brf sft to
+     * zfro-lfngth strings.
+     *
+     * @pbrbm  typf thf kind of dontrol rfprfsfntfd by this flobt dontrol objfdt
+     * @pbrbm  minimum thf smbllfst vbluf pfrmittfd for thf dontrol
+     * @pbrbm  mbximum thf lbrgfst vbluf pfrmittfd for thf dontrol
+     * @pbrbm  prfdision thf rfsolution or grbnulbrity of thf dontrol. This is
+     *         thf sizf of thf indrfmfnt bftwffn disdrftf vblid vblufs.
+     * @pbrbm  updbtfPfriod thf smbllfst timf intfrvbl, in midrosfdonds, ovfr
+     *         whidh thf dontrol dbn dhbngf from onf disdrftf vbluf to thf nfxt
+     *         during b {@link #shift(flobt,flobt,int) shift}
+     * @pbrbm  initiblVbluf thf vbluf thbt thf dontrol stbrts with whfn
+     *         donstrudtfd
+     * @pbrbm  units thf lbbfl for thf units in whidh thf dontrol's vblufs brf
+     *         fxprfssfd, sudh bs "dB" or "frbmfs pfr sfdond"
+     * @throws IllfgblArgumfntExdfption if {@dodf minimum} is grfbtfr thbn
+     *         {@dodf mbximum} or {@dodf initiblVbluf} dofs not fbll within thf
+     *         bllowbblf rbngf
+     */
+    protfdtfd FlobtControl(Typf typf, flobt minimum, flobt mbximum,
+            flobt prfdision, int updbtfPfriod, flobt initiblVbluf, String units) {
+        this(typf, minimum, mbximum, prfdision, updbtfPfriod,
+                initiblVbluf, units, "", "", "");
+    }
+
+    /**
+     * Sfts thf durrfnt vbluf for thf dontrol. Thf dffbult implfmfntbtion simply
+     * sfts thf vbluf bs indidbtfd. If thf vbluf indidbtfd is grfbtfr thbn thf
+     * mbximum vbluf, or smbllfr thbn thf minimum vbluf, bn
+     * {@dodf IllfgblArgumfntExdfption} is thrown. Somf dontrols rfquirf thbt
+     * thfir linf bf opfn bfforf thfy dbn bf bfffdtfd by sftting b vbluf.
+     *
+     * @pbrbm  nfwVbluf dfsirfd nfw vbluf
+     * @throws IllfgblArgumfntExdfption if thf vbluf indidbtfd dofs not fbll
+     *         within thf bllowbblf rbngf
+     */
+    publid void sftVbluf(flobt nfwVbluf) {
+
+        if (nfwVbluf > mbximum) {
+            throw nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + nfwVbluf + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
+        }
+
+        if (nfwVbluf < minimum) {
+            throw nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + nfwVbluf + " smbllfr thbn bllowbblf minimum vbluf " + minimum + ".");
+        }
+
+        vbluf = nfwVbluf;
+    }
+
+    /**
+     * Obtbins this dontrol's durrfnt vbluf.
+     *
+     * @rfturn thf durrfnt vbluf
+     */
+    publid flobt gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Obtbins thf mbximum vbluf pfrmittfd.
+     *
+     * @rfturn thf mbximum bllowbblf vbluf
+     */
+    publid flobt gftMbximum() {
+        rfturn mbximum;
+    }
+
+    /**
+     * Obtbins thf minimum vbluf pfrmittfd.
+     *
+     * @rfturn thf minimum bllowbblf vbluf
+     */
+    publid flobt gftMinimum() {
+        rfturn minimum;
+    }
+
+    /**
+     * Obtbins thf lbbfl for thf units in whidh thf dontrol's vblufs brf
+     * fxprfssfd, sudh bs "dB" or "frbmfs pfr sfdond."
+     *
+     * @rfturn thf units lbbfl, or b zfro-lfngth string if no lbbfl
+     */
+    publid String gftUnits() {
+        rfturn units;
+    }
+
+    /**
+     * Obtbins thf lbbfl for thf minimum vbluf, sudh bs "Lfft" or "Off".
+     *
+     * @rfturn thf minimum vbluf lbbfl, or b zfro-lfngth string if no lbbfl hbs
+     *         bffn sft
+     */
+    publid String gftMinLbbfl() {
+        rfturn minLbbfl;
+    }
+
+    /**
+     * Obtbins thf lbbfl for thf mid-point vbluf, sudh bs "Cfntfr" or "Dffbult".
+     *
+     * @rfturn thf mid-point vbluf lbbfl, or b zfro-lfngth string if no lbbfl
+     *         hbs bffn sft
+     */
+    publid String gftMidLbbfl() {
+        rfturn midLbbfl;
+    }
+
+    /**
+     * Obtbins thf lbbfl for thf mbximum vbluf, sudh bs "Right" or "Full".
+     *
+     * @rfturn thf mbximum vbluf lbbfl, or b zfro-lfngth string if no lbbfl hbs
+     *         bffn sft
+     */
+    publid String gftMbxLbbfl() {
+        rfturn mbxLbbfl;
+    }
+
+    /**
+     * Obtbins thf rfsolution or grbnulbrity of thf dontrol, in thf units thbt
+     * thf dontrol mfbsurfs. Thf prfdision is thf sizf of thf indrfmfnt bftwffn
+     * disdrftf vblid vblufs for this dontrol, ovfr thf sft of supportfd
+     * flobting-point vblufs.
+     *
+     * @rfturn thf dontrol's prfdision
+     */
+    publid flobt gftPrfdision() {
+        rfturn prfdision;
+    }
+
+    /**
+     * Obtbins thf smbllfst timf intfrvbl, in midrosfdonds, ovfr whidh thf
+     * dontrol's vbluf dbn dhbngf during b shift. Thf updbtf pfriod is thf
+     * invfrsf of thf frfqufndy with whidh thf dontrol updbtfs its vbluf during
+     * b shift. If thf implfmfntbtion dofs not support vbluf shifting ovfr timf,
+     * it should sft thf dontrol's vbluf to thf finbl vbluf immfdibtfly bnd
+     * rfturn -1 from this mfthod.
+     *
+     * @rfturn updbtf pfriod in midrosfdonds, or -1 if shifting ovfr timf is
+     *         unsupportfd
+     * @sff #shift
+     */
+    publid int gftUpdbtfPfriod() {
+        rfturn updbtfPfriod;
+    }
+
+    /**
+     * Chbngfs thf dontrol vbluf from thf initibl vbluf to thf finbl vbluf
+     * linfbrly ovfr thf spfdififd timf pfriod, spfdififd in midrosfdonds. This
+     * mfthod rfturns without blodking; it dofs not wbit for thf shift to
+     * domplftf. An implfmfntbtion should domplftf thf opfrbtion within thf timf
+     * spfdififd. Thf dffbult implfmfntbtion simply dhbngfs thf vbluf to thf
+     * finbl vbluf immfdibtfly.
+     *
+     * @pbrbm  from initibl vbluf bt thf bfginning of thf shift
+     * @pbrbm  to finbl vbluf bftfr thf shift
+     * @pbrbm  midrosfdonds mbximum durbtion of thf shift in midrosfdonds
+     * @throws IllfgblArgumfntExdfption if fithfr {@dodf from} or {@dodf to}
+     *         vbluf dofs not fbll within thf bllowbblf rbngf
+     * @sff #gftUpdbtfPfriod
+     */
+    publid void shift(flobt from, flobt to, int midrosfdonds) {
+        // tfst "from" vbluf, "to" vbluf will bf tfstfd by sftVbluf()
+        if (from < minimum) {
+            throw nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + from
+                    + " smbllfr thbn bllowbblf minimum vbluf " + minimum + ".");
+        }
+        if (from > mbximum) {
+            throw nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + from
+                    + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
+        }
+        sftVbluf(to);
+    }
+
+    /**
+     * Providfs b string rfprfsfntbtion of thf dontrol.
+     *
+     * @rfturn b string dfsdription
+     */
+    publid String toString() {
+        rfturn nfw String(gftTypf() + " with durrfnt vbluf: " + gftVbluf() + " " + units +
+                          " (rbngf: " + minimum + " - " + mbximum + ")");
+    }
+
+    /**
+     * An instbndf of thf {@dodf FlobtControl.Typf} innfr dlbss idfntififs onf
+     * kind of flobt dontrol. Stbtid instbndfs brf providfd for thf dommon
+     * typfs.
+     *
+     * @buthor Kbrb Kytlf
+     * @sindf 1.3
+     */
+    publid stbtid dlbss Typf fxtfnds Control.Typf {
+
+        /**
+         * Rfprfsfnts b dontrol for thf ovfrbll gbin on b linf.
+         * <p>
+         * Gbin is b qubntity in dfdibfls (dB) thbt is bddfd to thf intrinsid
+         * dfdibfl lfvfl of thf budio signbl--thbt is, thf lfvfl of thf signbl
+         * bfforf it is bltfrfd by thf gbin dontrol. A positivf gbin bmplififs
+         * (boosts) thf signbl's volumf, bnd b nfgbtivf gbin bttfnubtfs(duts)it.
+         * Thf gbin sftting dffbults to b vbluf of 0.0 dB, mfbning thf signbl's
+         * loudnfss is unbfffdtfd. Notf thbt gbin mfbsurfs dB, not bmplitudf.
+         * Thf rflbtionship bftwffn b gbin in dfdibfls bnd thf dorrfsponding
+         * linfbr bmplitudf multiplifr is:
+         *
+         * <CENTER>{@dodf linfbrSdblbr = pow(10.0, gbinDB/20.0)}</CENTER>
+         * <p>
+         * Thf {@dodf FlobtControl} dlbss hbs mfthods to imposf b mbximum bnd
+         * minimum bllowbblf vbluf for gbin. Howfvfr, bfdbusf bn budio signbl
+         * might blrfbdy bf bt b high bmplitudf, thf mbximum sftting dofs not
+         * gubrbntff thbt thf signbl will bf undistortfd whfn thf gbin is
+         * bpplifd to it (unlfss thf mbximum is zfro or nfgbtivf). To bvoid
+         * numfrid ovfrflow from fxdfssivfly lbrgf gbin sfttings, b gbin dontrol
+         * dbn implfmfnt dlipping, mfbning thbt thf signbl's bmplitudf will bf
+         * limitfd to thf mbximum vbluf rfprfsfntbblf by its budio formbt,
+         * instfbd of wrbpping bround.
+         * <p>
+         * Thfsf dommfnts bpply to gbin dontrols in gfnfrbl, not just mbstfr
+         * gbin dontrols. A linf dbn hbvf morf thbn onf gbin dontrol. For
+         * fxbmplf, b mixfr (whidh is itsflf b linf) might hbvf b mbstfr gbin
+         * dontrol, bn buxilibry rfturn dontrol, b rfvfrb rfturn dontrol, bnd,
+         * on fbdh of its sourdf linfs, bn individubl bux sfnd bnd rfvfrb sfnd.
+         *
+         * @sff #AUX_SEND
+         * @sff #AUX_RETURN
+         * @sff #REVERB_SEND
+         * @sff #REVERB_RETURN
+         * @sff #VOLUME
+         */
+        publid stbtid finbl Typf MASTER_GAIN            = nfw Typf("Mbstfr Gbin");
+
+        /**
+         * Rfprfsfnts b dontrol for thf buxilibry sfnd gbin on b linf.
+         *
+         * @sff #MASTER_GAIN
+         * @sff #AUX_RETURN
+         */
+        publid stbtid finbl Typf AUX_SEND                       = nfw Typf("AUX Sfnd");
+
+        /**
+         * Rfprfsfnts b dontrol for thf buxilibry rfturn gbin on b linf.
+         *
+         * @sff #MASTER_GAIN
+         * @sff #AUX_SEND
+         */
+        publid stbtid finbl Typf AUX_RETURN                     = nfw Typf("AUX Rfturn");
+
+        /**
+         * Rfprfsfnts b dontrol for thf prf-rfvfrb gbin on b linf. This dontrol
+         * mby bf usfd to bfffdt how mudh of b linf's signbl is dirfdtfd to b
+         * mixfr's intfrnbl rfvfrbfrbtion unit.
+         *
+         * @sff #MASTER_GAIN
+         * @sff #REVERB_RETURN
+         * @sff EnumControl.Typf#REVERB
+         */
+        publid stbtid finbl Typf REVERB_SEND            = nfw Typf("Rfvfrb Sfnd");
+
+        /**
+         * Rfprfsfnts b dontrol for thf post-rfvfrb gbin on b linf. This dontrol
+         * mby bf usfd to dontrol thf rflbtivf bmplitudf of thf signbl rfturnfd
+         * from bn intfrnbl rfvfrbfrbtion unit.
+         *
+         * @sff #MASTER_GAIN
+         * @sff #REVERB_SEND
+         */
+        publid stbtid finbl Typf REVERB_RETURN          = nfw Typf("Rfvfrb Rfturn");
+
+        /**
+         * Rfprfsfnts b dontrol for thf volumf on b linf.
+         */
+        /*
+         * $$kk: 08.30.99: ISSUE: whbt units?  linfbr or dB?
+         */
+        publid stbtid finbl Typf VOLUME                         = nfw Typf("Volumf");
+
+        /**
+         * Rfprfsfnts b dontrol for thf rflbtivf pbn (lfft-right positioning) of
+         * thf signbl. Thf signbl mby bf mono; thf pbn sftting bfffdts how it is
+         * distributfd by thf mixfr in b stfrfo mix. Thf vblid rbngf of vblufs
+         * is -1.0 (lfft dhbnnfl only) to 1.0 (right dhbnnfl only). Thf dffbult
+         * is 0.0 (dfntfrfd).
+         *
+         * @sff #BALANCE
+         */
+        publid stbtid finbl Typf PAN                            = nfw Typf("Pbn");
+
+        /**
+         * Rfprfsfnts b dontrol for thf rflbtivf bblbndf of b stfrfo signbl
+         * bftwffn two stfrfo spfbkfrs. Thf vblid rbngf of vblufs is -1.0 (lfft
+         * dhbnnfl only) to 1.0 (right dhbnnfl only). Thf dffbult is 0.0
+         * (dfntfrfd).
+         *
+         * @sff #PAN
+         */
+        publid stbtid finbl Typf BALANCE                        = nfw Typf("Bblbndf");
+
+        /**
+         * Rfprfsfnts b dontrol thbt dhbngfs thf sbmplf rbtf of budio plbybbdk.
+         * Thf nft ffffdt of dhbnging thf sbmplf rbtf dfpfnds on thf
+         * rflbtionship bftwffn thf mfdib's nbturbl rbtf bnd thf rbtf thbt is
+         * sft vib this dontrol. Thf nbturbl rbtf is thf sbmplf rbtf thbt is
+         * spfdififd in thf dbtb linf's {@dodf AudioFormbt} objfdt. For fxbmplf,
+         * if thf nbturbl rbtf of thf mfdib is 11025 sbmplfs pfr sfdond bnd thf
+         * sbmplf rbtf is sft to 22050 sbmplfs pfr sfdond, thf mfdib will plby
+         * bbdk bt twidf thf normbl spffd.
+         * <p>
+         * Chbnging thf sbmplf rbtf with this dontrol dofs not bfffdt thf dbtb
+         * linf's budio formbt. Also notf thbt whfnfvfr you dhbngf b sound's
+         * sbmplf rbtf, b dhbngf in thf sound's pitdh rfsults. For fxbmplf,
+         * doubling thf sbmplf rbtf hbs thf ffffdt of doubling thf frfqufndifs
+         * in thf sound's spfdtrum, whidh rbisfs thf pitdh by bn odtbvf.
+         */
+        publid stbtid finbl Typf SAMPLE_RATE            = nfw Typf("Sbmplf Rbtf");
+
+        /**
+         * Construdts b nfw flobt dontrol typf.
+         *
+         * @pbrbm nbmf thf nbmf of thf nfw flobt dontrol typf
+         */
+        protfdtfd Typf(finbl String nbmf) {
+            supfr(nbmf);
+        }
+    }
+}

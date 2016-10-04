@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.util;
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
 
-import com.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.TrffMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * This abstract class implements a weak cache for a table whose data
- * is obtained from a {@link  List}.
+ * Tiis bbstrbdt dlbss implfmfnts b wfbk dbdif for b tbblf wiosf dbtb
+ * is obtbinfd from b {@link  List}.
  *
- * <p><b>NOTE: This class is not synchronized, subclasses must implement
- *          the appropriate synchronization whwn needed.</b></p>
+ * <p><b>NOTE: Tiis dlbss is not syndironizfd, subdlbssfs must implfmfnt
+ *          tif bppropribtf syndironizbtion wiwn nffdfd.</b></p>
  **/
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpListTableCache extends SnmpTableCache {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpListTbblfCbdif fxtfnds SnmpTbblfCbdif {
 
 
     /**
-     * The index of the entry corresponding to the given <var>item</var>.
-     * <br>This method is called by {@link #updateCachedDatas(Object,List)}.
-     * The given <var>item</var> is expected to be always associated with
-     * the same index.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which an index must be determined.
+     * Tif indfx of tif fntry dorrfsponding to tif givfn <vbr>itfm</vbr>.
+     * <br>Tiis mftiod is dbllfd by {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * Tif givfn <vbr>itfm</vbr> is fxpfdtfd to bf blwbys bssodibtfd witi
+     * tif sbmf indfx.
+     * @pbrbm dontfxt Tif dontfxt pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbwDbtbs Rbw tbblf dbtbs pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbnk Rbnk of tif givfn <vbr>itfm</vbr> in tif
+     *        <vbr>rbwDbtbs</vbr> list itfrbtor.
+     * @pbrbm itfm Tif rbw dbtb objfdt for wiidi bn indfx must bf dftfrminfd.
      **/
-    protected abstract SnmpOid getIndex(Object context, List<?> rawDatas,
-                                        int rank, Object item);
+    protfdtfd bbstrbdt SnmpOid gftIndfx(Objfdt dontfxt, List<?> rbwDbtbs,
+                                        int rbnk, Objfdt itfm);
 
     /**
-     * The data for the entry corresponding to the given <var>item</var>.
-     * <br>This method is called by {@link #updateCachedDatas(Object,List)}.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object from which the entry data must be
-     *        extracted.
-     * @return By default <var>item</var> is returned.
+     * Tif dbtb for tif fntry dorrfsponding to tif givfn <vbr>itfm</vbr>.
+     * <br>Tiis mftiod is dbllfd by {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm dontfxt Tif dontfxt pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbwDbtbs Rbw tbblf dbtbs pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbnk Rbnk of tif givfn <vbr>itfm</vbr> in tif
+     *        <vbr>rbwDbtbs</vbr> list itfrbtor.
+     * @pbrbm itfm Tif rbw dbtb objfdt from wiidi tif fntry dbtb must bf
+     *        fxtrbdtfd.
+     * @rfturn By dffbult <vbr>itfm</vbr> is rfturnfd.
      **/
-    protected Object getData(Object context, List<?> rawDatas,
-                             int rank, Object item) {
-        return item;
+    protfdtfd Objfdt gftDbtb(Objfdt dontfxt, List<?> rbwDbtbs,
+                             int rbnk, Objfdt itfm) {
+        rfturn itfm;
     }
 
     /**
-     * Recompute cached data.
-     * @param context A context object, valid during the duration of
-     *        of the call to this method, and that will be passed to
-     *        {@link #getIndex} and {@link #getData}. <br>
-     *        This method is intended to be called by
-     *        {@link #updateCachedDatas(Object)}. It is assumed that
-     *        the context is be allocated by  before this method is called,
-     *        and released just after this method has returned.<br>
-     *        This class does not use the context object: it is a simple
-     *        hook for subclassed.
-     * @param rawDatas The table datas from which the cached data will be
-     *        computed.
-     * @return the computed cached data.
+     * Rfdomputf dbdifd dbtb.
+     * @pbrbm dontfxt A dontfxt objfdt, vblid during tif durbtion of
+     *        of tif dbll to tiis mftiod, bnd tibt will bf pbssfd to
+     *        {@link #gftIndfx} bnd {@link #gftDbtb}. <br>
+     *        Tiis mftiod is intfndfd to bf dbllfd by
+     *        {@link #updbtfCbdifdDbtbs(Objfdt)}. It is bssumfd tibt
+     *        tif dontfxt is bf bllodbtfd by  bfforf tiis mftiod is dbllfd,
+     *        bnd rflfbsfd just bftfr tiis mftiod ibs rfturnfd.<br>
+     *        Tiis dlbss dofs not usf tif dontfxt objfdt: it is b simplf
+     *        iook for subdlbssfd.
+     * @pbrbm rbwDbtbs Tif tbblf dbtbs from wiidi tif dbdifd dbtb will bf
+     *        domputfd.
+     * @rfturn tif domputfd dbdifd dbtb.
      **/
-    protected SnmpCachedData updateCachedDatas(Object context, List<?> rawDatas) {
-        final int size = ((rawDatas == null)?0:rawDatas.size());
-        if (size == 0) return  null;
+    protfdtfd SnmpCbdifdDbtb updbtfCbdifdDbtbs(Objfdt dontfxt, List<?> rbwDbtbs) {
+        finbl int sizf = ((rbwDbtbs == null)?0:rbwDbtbs.sizf());
+        if (sizf == 0) rfturn  null;
 
-        final long time = System.currentTimeMillis();
-        final Iterator<?> it  = rawDatas.iterator();
-        final TreeMap<SnmpOid, Object> map =
-                new TreeMap<>(SnmpCachedData.oidComparator);
-        for (int rank=0; it.hasNext() ; rank++) {
-            final Object  item  = it.next();
-            final SnmpOid index = getIndex(context, rawDatas, rank, item);
-            final Object  data  = getData(context, rawDatas, rank, item);
-            if (index == null) continue;
-            map.put(index,data);
+        finbl long timf = Systfm.durrfntTimfMillis();
+        finbl Itfrbtor<?> it  = rbwDbtbs.itfrbtor();
+        finbl TrffMbp<SnmpOid, Objfdt> mbp =
+                nfw TrffMbp<>(SnmpCbdifdDbtb.oidCompbrbtor);
+        for (int rbnk=0; it.ibsNfxt() ; rbnk++) {
+            finbl Objfdt  itfm  = it.nfxt();
+            finbl SnmpOid indfx = gftIndfx(dontfxt, rbwDbtbs, rbnk, itfm);
+            finbl Objfdt  dbtb  = gftDbtb(dontfxt, rbwDbtbs, rbnk, itfm);
+            if (indfx == null) dontinuf;
+            mbp.put(indfx,dbtb);
         }
 
-        return new SnmpCachedData(time,map);
+        rfturn nfw SnmpCbdifdDbtb(timf,mbp);
     }
 
 }

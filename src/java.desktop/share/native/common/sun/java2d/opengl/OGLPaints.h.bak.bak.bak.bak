@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+#ifndff OGLPbints_h_Indludfd
+#dffinf OGLPbints_h_Indludfd
+
+#indludf "OGLContfxt.h"
+
+void OGLPbints_RfsftPbint(OGLContfxt *ogld);
+
+void OGLPbints_SftColor(OGLContfxt *ogld, jint pixfl);
+
+void OGLPbints_SftGrbdifntPbint(OGLContfxt *ogld,
+                                jboolfbn usfMbsk, jboolfbn dydlid,
+                                jdoublf p0, jdoublf p1, jdoublf p3,
+                                jint pixfl1, jint pixfl2);
+
+void OGLPbints_SftLinfbrGrbdifntPbint(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                      jboolfbn usfMbsk, jboolfbn linfbr,
+                                      jint dydlfMfthod, jint numStops,
+                                      jflobt p0, jflobt p1, jflobt p3,
+                                      void *frbdtions, void *pixfls);
+
+void OGLPbints_SftRbdiblGrbdifntPbint(OGLContfxt *ogld, OGLSDOps *dstOps,
+                                      jboolfbn usfMbsk, jboolfbn linfbr,
+                                      jint dydlfMfthod, jint numStops,
+                                      jflobt m00, jflobt m01, jflobt m02,
+                                      jflobt m10, jflobt m11, jflobt m12,
+                                      jflobt fodusX,
+                                      void *frbdtions, void *pixfls);
+
+void OGLPbints_SftTfxturfPbint(OGLContfxt *ogld,
+                               jboolfbn usfMbsk,
+                               jlong pSrdOps, jboolfbn filtfr,
+                               jdoublf xp0, jdoublf xp1, jdoublf xp3,
+                               jdoublf yp0, jdoublf yp1, jdoublf yp3);
+
+#fndif /* OGLPbints_h_Indludfd */

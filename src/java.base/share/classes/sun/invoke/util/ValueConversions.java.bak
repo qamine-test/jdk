@@ -1,1175 +1,1175 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.invoke.util;
+pbdkbgf sun.invokf.util;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodHandles.Lookup;
-import java.lang.invoke.MethodType;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
+import jbvb.lbng.invokf.MftiodHbndlf;
+import jbvb.lbng.invokf.MftiodHbndlfs;
+import jbvb.lbng.invokf.MftiodHbndlfs.Lookup;
+import jbvb.lbng.invokf.MftiodTypf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumMbp;
+import jbvb.util.List;
 
-public class ValueConversions {
-    private static final Class<?> THIS_CLASS = ValueConversions.class;
-    // Do not adjust this except for special platforms:
-    private static final int MAX_ARITY;
-    static {
-        final Object[] values = { 255 };
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    values[0] = Integer.getInteger(THIS_CLASS.getName()+".MAX_ARITY", 255);
-                    return null;
+publid dlbss VblufConvfrsions {
+    privbtf stbtid finbl Clbss<?> THIS_CLASS = VblufConvfrsions.dlbss;
+    // Do not bdjust tiis fxdfpt for spfdibl plbtforms:
+    privbtf stbtid finbl int MAX_ARITY;
+    stbtid {
+        finbl Objfdt[] vblufs = { 255 };
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    vblufs[0] = Intfgfr.gftIntfgfr(THIS_CLASS.gftNbmf()+".MAX_ARITY", 255);
+                    rfturn null;
                 }
             });
-        MAX_ARITY = (Integer) values[0];
+        MAX_ARITY = (Intfgfr) vblufs[0];
     }
 
-    private static final Lookup IMPL_LOOKUP = MethodHandles.lookup();
+    privbtf stbtid finbl Lookup IMPL_LOOKUP = MftiodHbndlfs.lookup();
 
-    private static EnumMap<Wrapper, MethodHandle>[] newWrapperCaches(int n) {
-        @SuppressWarnings("unchecked")  // generic array creation
-        EnumMap<Wrapper, MethodHandle>[] caches
-                = (EnumMap<Wrapper, MethodHandle>[]) new EnumMap<?,?>[n];
+    privbtf stbtid EnumMbp<Wrbppfr, MftiodHbndlf>[] nfwWrbppfrCbdifs(int n) {
+        @SupprfssWbrnings("undifdkfd")  // gfnfrid brrby drfbtion
+        EnumMbp<Wrbppfr, MftiodHbndlf>[] dbdifs
+                = (EnumMbp<Wrbppfr, MftiodHbndlf>[]) nfw EnumMbp<?,?>[n];
         for (int i = 0; i < n; i++)
-            caches[i] = new EnumMap<>(Wrapper.class);
-        return caches;
+            dbdifs[i] = nfw EnumMbp<>(Wrbppfr.dlbss);
+        rfturn dbdifs;
     }
 
-    /// Converting references to values.
+    /// Convfrting rfffrfndfs to vblufs.
 
-    // There are several levels of this unboxing conversions:
-    //   no conversions:  exactly Integer.valueOf, etc.
-    //   implicit conversions sanctioned by JLS 5.1.2, etc.
-    //   explicit conversions as allowed by explicitCastArguments
+    // Tifrf brf sfvfrbl lfvfls of tiis unboxing donvfrsions:
+    //   no donvfrsions:  fxbdtly Intfgfr.vblufOf, ftd.
+    //   implidit donvfrsions sbndtionfd by JLS 5.1.2, ftd.
+    //   fxplidit donvfrsions bs bllowfd by fxpliditCbstArgumfnts
 
-    static int unboxInteger(Object x, boolean cast) {
-        if (x instanceof Integer)
-            return ((Integer) x).intValue();
-        return primitiveConversion(Wrapper.INT, x, cast).intValue();
+    stbtid int unboxIntfgfr(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Intfgfr)
+            rfturn ((Intfgfr) x).intVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.INT, x, dbst).intVbluf();
     }
 
-    static byte unboxByte(Object x, boolean cast) {
-        if (x instanceof Byte)
-            return ((Byte) x).byteValue();
-        return primitiveConversion(Wrapper.BYTE, x, cast).byteValue();
+    stbtid bytf unboxBytf(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Bytf)
+            rfturn ((Bytf) x).bytfVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.BYTE, x, dbst).bytfVbluf();
     }
 
-    static short unboxShort(Object x, boolean cast) {
-        if (x instanceof Short)
-            return ((Short) x).shortValue();
-        return primitiveConversion(Wrapper.SHORT, x, cast).shortValue();
+    stbtid siort unboxSiort(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Siort)
+            rfturn ((Siort) x).siortVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.SHORT, x, dbst).siortVbluf();
     }
 
-    static boolean unboxBoolean(Object x, boolean cast) {
-        if (x instanceof Boolean)
-            return ((Boolean) x).booleanValue();
-        return (primitiveConversion(Wrapper.BOOLEAN, x, cast).intValue() & 1) != 0;
+    stbtid boolfbn unboxBoolfbn(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Boolfbn)
+            rfturn ((Boolfbn) x).boolfbnVbluf();
+        rfturn (primitivfConvfrsion(Wrbppfr.BOOLEAN, x, dbst).intVbluf() & 1) != 0;
     }
 
-    static char unboxCharacter(Object x, boolean cast) {
-        if (x instanceof Character)
-            return ((Character) x).charValue();
-        return (char) primitiveConversion(Wrapper.CHAR, x, cast).intValue();
+    stbtid dibr unboxCibrbdtfr(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Cibrbdtfr)
+            rfturn ((Cibrbdtfr) x).dibrVbluf();
+        rfturn (dibr) primitivfConvfrsion(Wrbppfr.CHAR, x, dbst).intVbluf();
     }
 
-    static long unboxLong(Object x, boolean cast) {
-        if (x instanceof Long)
-            return ((Long) x).longValue();
-        return primitiveConversion(Wrapper.LONG, x, cast).longValue();
+    stbtid long unboxLong(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Long)
+            rfturn ((Long) x).longVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.LONG, x, dbst).longVbluf();
     }
 
-    static float unboxFloat(Object x, boolean cast) {
-        if (x instanceof Float)
-            return ((Float) x).floatValue();
-        return primitiveConversion(Wrapper.FLOAT, x, cast).floatValue();
+    stbtid flobt unboxFlobt(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Flobt)
+            rfturn ((Flobt) x).flobtVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.FLOAT, x, dbst).flobtVbluf();
     }
 
-    static double unboxDouble(Object x, boolean cast) {
-        if (x instanceof Double)
-            return ((Double) x).doubleValue();
-        return primitiveConversion(Wrapper.DOUBLE, x, cast).doubleValue();
+    stbtid doublf unboxDoublf(Objfdt x, boolfbn dbst) {
+        if (x instbndfof Doublf)
+            rfturn ((Doublf) x).doublfVbluf();
+        rfturn primitivfConvfrsion(Wrbppfr.DOUBLE, x, dbst).doublfVbluf();
     }
 
-    private static MethodType unboxType(Wrapper wrap) {
-        return MethodType.methodType(wrap.primitiveType(), Object.class, boolean.class);
+    privbtf stbtid MftiodTypf unboxTypf(Wrbppfr wrbp) {
+        rfturn MftiodTypf.mftiodTypf(wrbp.primitivfTypf(), Objfdt.dlbss, boolfbn.dlbss);
     }
 
-    private static final EnumMap<Wrapper, MethodHandle>[]
-            UNBOX_CONVERSIONS = newWrapperCaches(2);
+    privbtf stbtid finbl EnumMbp<Wrbppfr, MftiodHbndlf>[]
+            UNBOX_CONVERSIONS = nfwWrbppfrCbdifs(2);
 
-    private static MethodHandle unbox(Wrapper wrap, boolean cast) {
-        EnumMap<Wrapper, MethodHandle> cache = UNBOX_CONVERSIONS[(cast?1:0)];
-        MethodHandle mh = cache.get(wrap);
-        if (mh != null) {
-            return mh;
+    privbtf stbtid MftiodHbndlf unbox(Wrbppfr wrbp, boolfbn dbst) {
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = UNBOX_CONVERSIONS[(dbst?1:0)];
+        MftiodHbndlf mi = dbdif.gft(wrbp);
+        if (mi != null) {
+            rfturn mi;
         }
-        // slow path
-        switch (wrap) {
-            case OBJECT:
-                mh = IDENTITY; break;
-            case VOID:
-                mh = IGNORE; break;
+        // slow pbti
+        switdi (wrbp) {
+            dbsf OBJECT:
+                mi = IDENTITY; brfbk;
+            dbsf VOID:
+                mi = IGNORE; brfbk;
         }
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        // look up the method
-        String name = "unbox" + wrap.wrapperSimpleName();
-        MethodType type = unboxType(wrap);
+        // look up tif mftiod
+        String nbmf = "unbox" + wrbp.wrbppfrSimplfNbmf();
+        MftiodTypf typf = unboxTypf(wrbp);
         try {
-            mh = IMPL_LOOKUP.findStatic(THIS_CLASS, name, type);
-        } catch (ReflectiveOperationException ex) {
-            mh = null;
+            mi = IMPL_LOOKUP.findStbtid(THIS_CLASS, nbmf, typf);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            mi = null;
         }
-        if (mh != null) {
-            mh = MethodHandles.insertArguments(mh, 1, cast);
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            mi = MftiodHbndlfs.insfrtArgumfnts(mi, 1, dbst);
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        throw new IllegalArgumentException("cannot find unbox adapter for " + wrap
-                + (cast ? " (cast)" : ""));
+        tirow nfw IllfgblArgumfntExdfption("dbnnot find unbox bdbptfr for " + wrbp
+                + (dbst ? " (dbst)" : ""));
     }
 
-    public static MethodHandle unboxCast(Wrapper type) {
-        return unbox(type, true);
+    publid stbtid MftiodHbndlf unboxCbst(Wrbppfr typf) {
+        rfturn unbox(typf, truf);
     }
 
-    public static MethodHandle unbox(Class<?> type) {
-        return unbox(Wrapper.forPrimitiveType(type), false);
+    publid stbtid MftiodHbndlf unbox(Clbss<?> typf) {
+        rfturn unbox(Wrbppfr.forPrimitivfTypf(typf), fblsf);
     }
 
-    public static MethodHandle unboxCast(Class<?> type) {
-        return unbox(Wrapper.forPrimitiveType(type), true);
+    publid stbtid MftiodHbndlf unboxCbst(Clbss<?> typf) {
+        rfturn unbox(Wrbppfr.forPrimitivfTypf(typf), truf);
     }
 
-    static private final Integer ZERO_INT = 0, ONE_INT = 1;
+    stbtid privbtf finbl Intfgfr ZERO_INT = 0, ONE_INT = 1;
 
-    /// Primitive conversions
+    /// Primitivf donvfrsions
     /**
-     * Produce a Number which represents the given value {@code x}
-     * according to the primitive type of the given wrapper {@code wrap}.
-     * Caller must invoke intValue, byteValue, longValue (etc.) on the result
-     * to retrieve the desired primitive value.
+     * Produdf b Numbfr wiidi rfprfsfnts tif givfn vbluf {@dodf x}
+     * bddording to tif primitivf typf of tif givfn wrbppfr {@dodf wrbp}.
+     * Cbllfr must invokf intVbluf, bytfVbluf, longVbluf (ftd.) on tif rfsult
+     * to rftrifvf tif dfsirfd primitivf vbluf.
      */
-    public static Number primitiveConversion(Wrapper wrap, Object x, boolean cast) {
-        // Maybe merge this code with Wrapper.convert/cast.
-        Number res;
+    publid stbtid Numbfr primitivfConvfrsion(Wrbppfr wrbp, Objfdt x, boolfbn dbst) {
+        // Mbybf mfrgf tiis dodf witi Wrbppfr.donvfrt/dbst.
+        Numbfr rfs;
         if (x == null) {
-            if (!cast)  return null;
-            return ZERO_INT;
+            if (!dbst)  rfturn null;
+            rfturn ZERO_INT;
         }
-        if (x instanceof Number) {
-            res = (Number) x;
-        } else if (x instanceof Boolean) {
-            res = ((boolean)x ? ONE_INT : ZERO_INT);
-        } else if (x instanceof Character) {
-            res = (int)(char)x;
-        } else {
-            // this will fail with the required ClassCastException:
-            res = (Number) x;
+        if (x instbndfof Numbfr) {
+            rfs = (Numbfr) x;
+        } flsf if (x instbndfof Boolfbn) {
+            rfs = ((boolfbn)x ? ONE_INT : ZERO_INT);
+        } flsf if (x instbndfof Cibrbdtfr) {
+            rfs = (int)(dibr)x;
+        } flsf {
+            // tiis will fbil witi tif rfquirfd ClbssCbstExdfption:
+            rfs = (Numbfr) x;
         }
-        Wrapper xwrap = Wrapper.findWrapperType(x.getClass());
-        if (xwrap == null || !cast && !wrap.isConvertibleFrom(xwrap))
-            // this will fail with the required ClassCastException:
-            return (Number) wrap.wrapperType().cast(x);
-        return res;
+        Wrbppfr xwrbp = Wrbppfr.findWrbppfrTypf(x.gftClbss());
+        if (xwrbp == null || !dbst && !wrbp.isConvfrtiblfFrom(xwrbp))
+            // tiis will fbil witi tif rfquirfd ClbssCbstExdfption:
+            rfturn (Numbfr) wrbp.wrbppfrTypf().dbst(x);
+        rfturn rfs;
     }
 
     /**
-     * The JVM verifier allows boolean, byte, short, or char to widen to int.
-     * Support exactly this conversion, from a boxed value type Boolean,
-     * Byte, Short, Character, or Integer.
+     * Tif JVM vfrififr bllows boolfbn, bytf, siort, or dibr to widfn to int.
+     * Support fxbdtly tiis donvfrsion, from b boxfd vbluf typf Boolfbn,
+     * Bytf, Siort, Cibrbdtfr, or Intfgfr.
      */
-    public static int widenSubword(Object x) {
-        if (x instanceof Integer)
-            return (int) x;
-        else if (x instanceof Boolean)
-            return fromBoolean((boolean) x);
-        else if (x instanceof Character)
-            return (char) x;
-        else if (x instanceof Short)
-            return (short) x;
-        else if (x instanceof Byte)
-            return (byte) x;
-        else
-            // Fail with a ClassCastException.
-            return (int) x;
+    publid stbtid int widfnSubword(Objfdt x) {
+        if (x instbndfof Intfgfr)
+            rfturn (int) x;
+        flsf if (x instbndfof Boolfbn)
+            rfturn fromBoolfbn((boolfbn) x);
+        flsf if (x instbndfof Cibrbdtfr)
+            rfturn (dibr) x;
+        flsf if (x instbndfof Siort)
+            rfturn (siort) x;
+        flsf if (x instbndfof Bytf)
+            rfturn (bytf) x;
+        flsf
+            // Fbil witi b ClbssCbstExdfption.
+            rfturn (int) x;
     }
 
-    /// Converting primitives to references
+    /// Convfrting primitivfs to rfffrfndfs
 
-    static Integer boxInteger(int x) {
-        return x;
+    stbtid Intfgfr boxIntfgfr(int x) {
+        rfturn x;
     }
 
-    static Byte boxByte(byte x) {
-        return x;
+    stbtid Bytf boxBytf(bytf x) {
+        rfturn x;
     }
 
-    static Short boxShort(short x) {
-        return x;
+    stbtid Siort boxSiort(siort x) {
+        rfturn x;
     }
 
-    static Boolean boxBoolean(boolean x) {
-        return x;
+    stbtid Boolfbn boxBoolfbn(boolfbn x) {
+        rfturn x;
     }
 
-    static Character boxCharacter(char x) {
-        return x;
+    stbtid Cibrbdtfr boxCibrbdtfr(dibr x) {
+        rfturn x;
     }
 
-    static Long boxLong(long x) {
-        return x;
+    stbtid Long boxLong(long x) {
+        rfturn x;
     }
 
-    static Float boxFloat(float x) {
-        return x;
+    stbtid Flobt boxFlobt(flobt x) {
+        rfturn x;
     }
 
-    static Double boxDouble(double x) {
-        return x;
+    stbtid Doublf boxDoublf(doublf x) {
+        rfturn x;
     }
 
-    private static MethodType boxType(Wrapper wrap) {
-        // be exact, since return casts are hard to compose
-        Class<?> boxType = wrap.wrapperType();
-        return MethodType.methodType(boxType, wrap.primitiveType());
+    privbtf stbtid MftiodTypf boxTypf(Wrbppfr wrbp) {
+        // bf fxbdt, sindf rfturn dbsts brf ibrd to domposf
+        Clbss<?> boxTypf = wrbp.wrbppfrTypf();
+        rfturn MftiodTypf.mftiodTypf(boxTypf, wrbp.primitivfTypf());
     }
 
-    private static final EnumMap<Wrapper, MethodHandle>[]
-            BOX_CONVERSIONS = newWrapperCaches(2);
+    privbtf stbtid finbl EnumMbp<Wrbppfr, MftiodHbndlf>[]
+            BOX_CONVERSIONS = nfwWrbppfrCbdifs(2);
 
-    private static MethodHandle box(Wrapper wrap, boolean exact) {
-        EnumMap<Wrapper, MethodHandle> cache = BOX_CONVERSIONS[(exact?1:0)];
-        MethodHandle mh = cache.get(wrap);
-        if (mh != null) {
-            return mh;
+    privbtf stbtid MftiodHbndlf box(Wrbppfr wrbp, boolfbn fxbdt) {
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = BOX_CONVERSIONS[(fxbdt?1:0)];
+        MftiodHbndlf mi = dbdif.gft(wrbp);
+        if (mi != null) {
+            rfturn mi;
         }
-        // slow path
-        switch (wrap) {
-            case OBJECT:
-                mh = IDENTITY; break;
-            case VOID:
-                mh = ZERO_OBJECT;
-                break;
+        // slow pbti
+        switdi (wrbp) {
+            dbsf OBJECT:
+                mi = IDENTITY; brfbk;
+            dbsf VOID:
+                mi = ZERO_OBJECT;
+                brfbk;
         }
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        // look up the method
-        String name = "box" + wrap.wrapperSimpleName();
-        MethodType type = boxType(wrap);
-        if (exact) {
+        // look up tif mftiod
+        String nbmf = "box" + wrbp.wrbppfrSimplfNbmf();
+        MftiodTypf typf = boxTypf(wrbp);
+        if (fxbdt) {
             try {
-                mh = IMPL_LOOKUP.findStatic(THIS_CLASS, name, type);
-            } catch (ReflectiveOperationException ex) {
-                mh = null;
+                mi = IMPL_LOOKUP.findStbtid(THIS_CLASS, nbmf, typf);
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                mi = null;
             }
-        } else {
-            mh = box(wrap, !exact).asType(type.erase());
+        } flsf {
+            mi = box(wrbp, !fxbdt).bsTypf(typf.frbsf());
         }
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        throw new IllegalArgumentException("cannot find box adapter for "
-                + wrap + (exact ? " (exact)" : ""));
+        tirow nfw IllfgblArgumfntExdfption("dbnnot find box bdbptfr for "
+                + wrbp + (fxbdt ? " (fxbdt)" : ""));
     }
 
-    public static MethodHandle box(Class<?> type) {
-        boolean exact = false;
-        // e.g., boxShort(short)Short if exact,
-        // e.g., boxShort(short)Object if !exact
-        return box(Wrapper.forPrimitiveType(type), exact);
+    publid stbtid MftiodHbndlf box(Clbss<?> typf) {
+        boolfbn fxbdt = fblsf;
+        // f.g., boxSiort(siort)Siort if fxbdt,
+        // f.g., boxSiort(siort)Objfdt if !fxbdt
+        rfturn box(Wrbppfr.forPrimitivfTypf(typf), fxbdt);
     }
 
-    public static MethodHandle box(Wrapper type) {
-        boolean exact = false;
-        return box(type, exact);
+    publid stbtid MftiodHbndlf box(Wrbppfr typf) {
+        boolfbn fxbdt = fblsf;
+        rfturn box(typf, fxbdt);
     }
 
-    /// Constant functions
+    /// Constbnt fundtions
 
-    static void ignore(Object x) {
-        // no value to return; this is an unbox of null
+    stbtid void ignorf(Objfdt x) {
+        // no vbluf to rfturn; tiis is bn unbox of null
     }
 
-    static void empty() {
+    stbtid void fmpty() {
     }
 
-    static Object zeroObject() {
-        return null;
+    stbtid Objfdt zfroObjfdt() {
+        rfturn null;
     }
 
-    static int zeroInteger() {
-        return 0;
+    stbtid int zfroIntfgfr() {
+        rfturn 0;
     }
 
-    static long zeroLong() {
-        return 0;
+    stbtid long zfroLong() {
+        rfturn 0;
     }
 
-    static float zeroFloat() {
-        return 0;
+    stbtid flobt zfroFlobt() {
+        rfturn 0;
     }
 
-    static double zeroDouble() {
-        return 0;
+    stbtid doublf zfroDoublf() {
+        rfturn 0;
     }
 
-    private static final EnumMap<Wrapper, MethodHandle>[]
-            CONSTANT_FUNCTIONS = newWrapperCaches(2);
+    privbtf stbtid finbl EnumMbp<Wrbppfr, MftiodHbndlf>[]
+            CONSTANT_FUNCTIONS = nfwWrbppfrCbdifs(2);
 
-    public static MethodHandle zeroConstantFunction(Wrapper wrap) {
-        EnumMap<Wrapper, MethodHandle> cache = CONSTANT_FUNCTIONS[0];
-        MethodHandle mh = cache.get(wrap);
-        if (mh != null) {
-            return mh;
+    publid stbtid MftiodHbndlf zfroConstbntFundtion(Wrbppfr wrbp) {
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = CONSTANT_FUNCTIONS[0];
+        MftiodHbndlf mi = dbdif.gft(wrbp);
+        if (mi != null) {
+            rfturn mi;
         }
-        // slow path
-        MethodType type = MethodType.methodType(wrap.primitiveType());
-        switch (wrap) {
-            case VOID:
-                mh = EMPTY;
-                break;
-            case OBJECT:
-            case INT: case LONG: case FLOAT: case DOUBLE:
+        // slow pbti
+        MftiodTypf typf = MftiodTypf.mftiodTypf(wrbp.primitivfTypf());
+        switdi (wrbp) {
+            dbsf VOID:
+                mi = EMPTY;
+                brfbk;
+            dbsf OBJECT:
+            dbsf INT: dbsf LONG: dbsf FLOAT: dbsf DOUBLE:
                 try {
-                    mh = IMPL_LOOKUP.findStatic(THIS_CLASS, "zero"+wrap.wrapperSimpleName(), type);
-                } catch (ReflectiveOperationException ex) {
-                    mh = null;
+                    mi = IMPL_LOOKUP.findStbtid(THIS_CLASS, "zfro"+wrbp.wrbppfrSimplfNbmf(), typf);
+                } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                    mi = null;
                 }
-                break;
+                brfbk;
         }
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
 
-        // use zeroInt and cast the result
-        if (wrap.isSubwordOrInt() && wrap != Wrapper.INT) {
-            mh = MethodHandles.explicitCastArguments(zeroConstantFunction(Wrapper.INT), type);
-            cache.put(wrap, mh);
-            return mh;
+        // usf zfroInt bnd dbst tif rfsult
+        if (wrbp.isSubwordOrInt() && wrbp != Wrbppfr.INT) {
+            mi = MftiodHbndlfs.fxpliditCbstArgumfnts(zfroConstbntFundtion(Wrbppfr.INT), typf);
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        throw new IllegalArgumentException("cannot find zero constant for " + wrap);
+        tirow nfw IllfgblArgumfntExdfption("dbnnot find zfro donstbnt for " + wrbp);
     }
 
-    /// Converting references to references.
+    /// Convfrting rfffrfndfs to rfffrfndfs.
 
     /**
-     * Identity function.
-     * @param x an arbitrary reference value
-     * @return the same value x
+     * Idfntity fundtion.
+     * @pbrbm x bn brbitrbry rfffrfndf vbluf
+     * @rfturn tif sbmf vbluf x
      */
-    static <T> T identity(T x) {
-        return x;
+    stbtid <T> T idfntity(T x) {
+        rfturn x;
     }
 
-    static <T> T[] identity(T[] x) {
-        return x;
-    }
-
-    /**
-     * Identity function on ints.
-     * @param x an arbitrary int value
-     * @return the same value x
-     */
-    static int identity(int x) {
-        return x;
-    }
-
-    static byte identity(byte x) {
-        return x;
-    }
-
-    static short identity(short x) {
-        return x;
-    }
-
-    static boolean identity(boolean x) {
-        return x;
-    }
-
-    static char identity(char x) {
-        return x;
+    stbtid <T> T[] idfntity(T[] x) {
+        rfturn x;
     }
 
     /**
-     * Identity function on longs.
-     * @param x an arbitrary long value
-     * @return the same value x
+     * Idfntity fundtion on ints.
+     * @pbrbm x bn brbitrbry int vbluf
+     * @rfturn tif sbmf vbluf x
      */
-    static long identity(long x) {
-        return x;
+    stbtid int idfntity(int x) {
+        rfturn x;
     }
 
-    static float identity(float x) {
-        return x;
+    stbtid bytf idfntity(bytf x) {
+        rfturn x;
     }
 
-    static double identity(double x) {
-        return x;
+    stbtid siort idfntity(siort x) {
+        rfturn x;
     }
 
-    private static ClassCastException newClassCastException(Class<?> t, Object obj) {
-        return new ClassCastException("Cannot cast " + obj.getClass().getName() + " to " + t.getName());
+    stbtid boolfbn idfntity(boolfbn x) {
+        rfturn x;
     }
 
-    private static final MethodHandle IDENTITY, CAST_REFERENCE, ZERO_OBJECT, IGNORE, EMPTY,
+    stbtid dibr idfntity(dibr x) {
+        rfturn x;
+    }
+
+    /**
+     * Idfntity fundtion on longs.
+     * @pbrbm x bn brbitrbry long vbluf
+     * @rfturn tif sbmf vbluf x
+     */
+    stbtid long idfntity(long x) {
+        rfturn x;
+    }
+
+    stbtid flobt idfntity(flobt x) {
+        rfturn x;
+    }
+
+    stbtid doublf idfntity(doublf x) {
+        rfturn x;
+    }
+
+    privbtf stbtid ClbssCbstExdfption nfwClbssCbstExdfption(Clbss<?> t, Objfdt obj) {
+        rfturn nfw ClbssCbstExdfption("Cbnnot dbst " + obj.gftClbss().gftNbmf() + " to " + t.gftNbmf());
+    }
+
+    privbtf stbtid finbl MftiodHbndlf IDENTITY, CAST_REFERENCE, ZERO_OBJECT, IGNORE, EMPTY,
             ARRAY_IDENTITY, FILL_NEW_TYPED_ARRAY, FILL_NEW_ARRAY;
-    static {
+    stbtid {
         try {
-            MethodType idType = MethodType.genericMethodType(1);
-            MethodType ignoreType = idType.changeReturnType(void.class);
-            MethodType zeroObjectType = MethodType.genericMethodType(0);
-            IDENTITY = IMPL_LOOKUP.findStatic(THIS_CLASS, "identity", idType);
-            CAST_REFERENCE = IMPL_LOOKUP.findVirtual(Class.class, "cast", idType);
-            ZERO_OBJECT = IMPL_LOOKUP.findStatic(THIS_CLASS, "zeroObject", zeroObjectType);
-            IGNORE = IMPL_LOOKUP.findStatic(THIS_CLASS, "ignore", ignoreType);
-            EMPTY = IMPL_LOOKUP.findStatic(THIS_CLASS, "empty", ignoreType.dropParameterTypes(0, 1));
-            ARRAY_IDENTITY = IMPL_LOOKUP.findStatic(THIS_CLASS, "identity", MethodType.methodType(Object[].class, Object[].class));
+            MftiodTypf idTypf = MftiodTypf.gfnfridMftiodTypf(1);
+            MftiodTypf ignorfTypf = idTypf.dibngfRfturnTypf(void.dlbss);
+            MftiodTypf zfroObjfdtTypf = MftiodTypf.gfnfridMftiodTypf(0);
+            IDENTITY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "idfntity", idTypf);
+            CAST_REFERENCE = IMPL_LOOKUP.findVirtubl(Clbss.dlbss, "dbst", idTypf);
+            ZERO_OBJECT = IMPL_LOOKUP.findStbtid(THIS_CLASS, "zfroObjfdt", zfroObjfdtTypf);
+            IGNORE = IMPL_LOOKUP.findStbtid(THIS_CLASS, "ignorf", ignorfTypf);
+            EMPTY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "fmpty", ignorfTypf.dropPbrbmftfrTypfs(0, 1));
+            ARRAY_IDENTITY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "idfntity", MftiodTypf.mftiodTypf(Objfdt[].dlbss, Objfdt[].dlbss));
             FILL_NEW_ARRAY = IMPL_LOOKUP
-                    .findStatic(THIS_CLASS, "fillNewArray",
-                          MethodType.methodType(Object[].class, Integer.class, Object[].class));
+                    .findStbtid(THIS_CLASS, "fillNfwArrby",
+                          MftiodTypf.mftiodTypf(Objfdt[].dlbss, Intfgfr.dlbss, Objfdt[].dlbss));
             FILL_NEW_TYPED_ARRAY = IMPL_LOOKUP
-                    .findStatic(THIS_CLASS, "fillNewTypedArray",
-                          MethodType.methodType(Object[].class, Object[].class, Integer.class, Object[].class));
-        } catch (NoSuchMethodException | IllegalAccessException ex) {
-            throw newInternalError("uncaught exception", ex);
+                    .findStbtid(THIS_CLASS, "fillNfwTypfdArrby",
+                          MftiodTypf.mftiodTypf(Objfdt[].dlbss, Objfdt[].dlbss, Intfgfr.dlbss, Objfdt[].dlbss));
+        } dbtdi (NoSudiMftiodExdfption | IllfgblAddfssExdfption fx) {
+            tirow nfwIntfrnblError("undbugit fxdfption", fx);
         }
     }
 
-    // Varargs methods need to be in a separately initialized class, to avoid bootstrapping problems.
-    static class LazyStatics {
-        private static final MethodHandle COPY_AS_REFERENCE_ARRAY, COPY_AS_PRIMITIVE_ARRAY, MAKE_LIST;
-        static {
+    // Vbrbrgs mftiods nffd to bf in b sfpbrbtfly initiblizfd dlbss, to bvoid bootstrbpping problfms.
+    stbtid dlbss LbzyStbtids {
+        privbtf stbtid finbl MftiodHbndlf COPY_AS_REFERENCE_ARRAY, COPY_AS_PRIMITIVE_ARRAY, MAKE_LIST;
+        stbtid {
             try {
-                //MAKE_ARRAY = IMPL_LOOKUP.findStatic(THIS_CLASS, "makeArray", MethodType.methodType(Object[].class, Object[].class));
-                COPY_AS_REFERENCE_ARRAY = IMPL_LOOKUP.findStatic(THIS_CLASS, "copyAsReferenceArray", MethodType.methodType(Object[].class, Class.class, Object[].class));
-                COPY_AS_PRIMITIVE_ARRAY = IMPL_LOOKUP.findStatic(THIS_CLASS, "copyAsPrimitiveArray", MethodType.methodType(Object.class, Wrapper.class, Object[].class));
-                MAKE_LIST = IMPL_LOOKUP.findStatic(THIS_CLASS, "makeList", MethodType.methodType(List.class, Object[].class));
-            } catch (ReflectiveOperationException ex) {
-                throw newInternalError("uncaught exception", ex);
+                //MAKE_ARRAY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "mbkfArrby", MftiodTypf.mftiodTypf(Objfdt[].dlbss, Objfdt[].dlbss));
+                COPY_AS_REFERENCE_ARRAY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "dopyAsRfffrfndfArrby", MftiodTypf.mftiodTypf(Objfdt[].dlbss, Clbss.dlbss, Objfdt[].dlbss));
+                COPY_AS_PRIMITIVE_ARRAY = IMPL_LOOKUP.findStbtid(THIS_CLASS, "dopyAsPrimitivfArrby", MftiodTypf.mftiodTypf(Objfdt.dlbss, Wrbppfr.dlbss, Objfdt[].dlbss));
+                MAKE_LIST = IMPL_LOOKUP.findStbtid(THIS_CLASS, "mbkfList", MftiodTypf.mftiodTypf(List.dlbss, Objfdt[].dlbss));
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                tirow nfwIntfrnblError("undbugit fxdfption", fx);
             }
         }
     }
 
-    private static final EnumMap<Wrapper, MethodHandle>[] WRAPPER_CASTS
-            = newWrapperCaches(1);
+    privbtf stbtid finbl EnumMbp<Wrbppfr, MftiodHbndlf>[] WRAPPER_CASTS
+            = nfwWrbppfrCbdifs(1);
 
-    /** Return a method that casts its sole argument (an Object) to the given type
-     *  and returns it as the given type.
+    /** Rfturn b mftiod tibt dbsts its solf brgumfnt (bn Objfdt) to tif givfn typf
+     *  bnd rfturns it bs tif givfn typf.
      */
-    public static MethodHandle cast(Class<?> type) {
-        return cast(type, CAST_REFERENCE);
+    publid stbtid MftiodHbndlf dbst(Clbss<?> typf) {
+        rfturn dbst(typf, CAST_REFERENCE);
     }
-    public static MethodHandle cast(Class<?> type, MethodHandle castReference) {
-        if (type.isPrimitive())  throw new IllegalArgumentException("cannot cast primitive type "+type);
-        MethodHandle mh;
-        Wrapper wrap = null;
-        EnumMap<Wrapper, MethodHandle> cache = null;
-        if (Wrapper.isWrapperType(type)) {
-            wrap = Wrapper.forWrapperType(type);
-            cache = WRAPPER_CASTS[0];
-            mh = cache.get(wrap);
-            if (mh != null)  return mh;
+    publid stbtid MftiodHbndlf dbst(Clbss<?> typf, MftiodHbndlf dbstRfffrfndf) {
+        if (typf.isPrimitivf())  tirow nfw IllfgblArgumfntExdfption("dbnnot dbst primitivf typf "+typf);
+        MftiodHbndlf mi;
+        Wrbppfr wrbp = null;
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = null;
+        if (Wrbppfr.isWrbppfrTypf(typf)) {
+            wrbp = Wrbppfr.forWrbppfrTypf(typf);
+            dbdif = WRAPPER_CASTS[0];
+            mi = dbdif.gft(wrbp);
+            if (mi != null)  rfturn mi;
         }
-        mh = MethodHandles.insertArguments(castReference, 0, type);
-        if (cache != null)
-            cache.put(wrap, mh);
-        return mh;
+        mi = MftiodHbndlfs.insfrtArgumfnts(dbstRfffrfndf, 0, typf);
+        if (dbdif != null)
+            dbdif.put(wrbp, mi);
+        rfturn mi;
     }
 
-    public static MethodHandle identity() {
-        return IDENTITY;
+    publid stbtid MftiodHbndlf idfntity() {
+        rfturn IDENTITY;
     }
 
-    public static MethodHandle identity(Class<?> type) {
-        if (!type.isPrimitive())
-            // Reference identity has been moved into MethodHandles:
-            return MethodHandles.identity(type);
-        return identity(Wrapper.findPrimitiveType(type));
+    publid stbtid MftiodHbndlf idfntity(Clbss<?> typf) {
+        if (!typf.isPrimitivf())
+            // Rfffrfndf idfntity ibs bffn movfd into MftiodHbndlfs:
+            rfturn MftiodHbndlfs.idfntity(typf);
+        rfturn idfntity(Wrbppfr.findPrimitivfTypf(typf));
     }
 
-    public static MethodHandle identity(Wrapper wrap) {
-        EnumMap<Wrapper, MethodHandle> cache = CONSTANT_FUNCTIONS[1];
-        MethodHandle mh = cache.get(wrap);
-        if (mh != null) {
-            return mh;
+    publid stbtid MftiodHbndlf idfntity(Wrbppfr wrbp) {
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = CONSTANT_FUNCTIONS[1];
+        MftiodHbndlf mi = dbdif.gft(wrbp);
+        if (mi != null) {
+            rfturn mi;
         }
-        // slow path
-        MethodType type = MethodType.methodType(wrap.primitiveType());
-        if (wrap != Wrapper.VOID)
-            type = type.appendParameterTypes(wrap.primitiveType());
+        // slow pbti
+        MftiodTypf typf = MftiodTypf.mftiodTypf(wrbp.primitivfTypf());
+        if (wrbp != Wrbppfr.VOID)
+            typf = typf.bppfndPbrbmftfrTypfs(wrbp.primitivfTypf());
         try {
-            mh = IMPL_LOOKUP.findStatic(THIS_CLASS, "identity", type);
-        } catch (ReflectiveOperationException ex) {
-            mh = null;
+            mi = IMPL_LOOKUP.findStbtid(THIS_CLASS, "idfntity", typf);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            mi = null;
         }
-        if (mh == null && wrap == Wrapper.VOID) {
-            mh = EMPTY;  // #(){} : #()void
+        if (mi == null && wrbp == Wrbppfr.VOID) {
+            mi = EMPTY;  // #(){} : #()void
         }
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
 
-        if (mh != null) {
-            cache.put(wrap, mh);
-            return mh;
+        if (mi != null) {
+            dbdif.put(wrbp, mi);
+            rfturn mi;
         }
-        throw new IllegalArgumentException("cannot find identity for " + wrap);
+        tirow nfw IllfgblArgumfntExdfption("dbnnot find idfntity for " + wrbp);
     }
 
-    /// Primitive conversions.
-    // These are supported directly by the JVM, usually by a single instruction.
-    // In the case of narrowing to a subword, there may be a pair of instructions.
-    // In the case of booleans, there may be a helper routine to manage a 1-bit value.
-    // This is the full 8x8 matrix (minus the diagonal).
+    /// Primitivf donvfrsions.
+    // Tifsf brf supportfd dirfdtly by tif JVM, usublly by b singlf instrudtion.
+    // In tif dbsf of nbrrowing to b subword, tifrf mby bf b pbir of instrudtions.
+    // In tif dbsf of boolfbns, tifrf mby bf b iflpfr routinf to mbnbgf b 1-bit vbluf.
+    // Tiis is tif full 8x8 mbtrix (minus tif dibgonbl).
 
-    // narrow double to all other types:
-    static float doubleToFloat(double x) {  // bytecode: d2f
-        return (float) x;
+    // nbrrow doublf to bll otifr typfs:
+    stbtid flobt doublfToFlobt(doublf x) {  // bytfdodf: d2f
+        rfturn (flobt) x;
     }
-    static long doubleToLong(double x) {  // bytecode: d2l
-        return (long) x;
+    stbtid long doublfToLong(doublf x) {  // bytfdodf: d2l
+        rfturn (long) x;
     }
-    static int doubleToInt(double x) {  // bytecode: d2i
-        return (int) x;
+    stbtid int doublfToInt(doublf x) {  // bytfdodf: d2i
+        rfturn (int) x;
     }
-    static short doubleToShort(double x) {  // bytecodes: d2i, i2s
-        return (short) x;
+    stbtid siort doublfToSiort(doublf x) {  // bytfdodfs: d2i, i2s
+        rfturn (siort) x;
     }
-    static char doubleToChar(double x) {  // bytecodes: d2i, i2c
-        return (char) x;
+    stbtid dibr doublfToCibr(doublf x) {  // bytfdodfs: d2i, i2d
+        rfturn (dibr) x;
     }
-    static byte doubleToByte(double x) {  // bytecodes: d2i, i2b
-        return (byte) x;
+    stbtid bytf doublfToBytf(doublf x) {  // bytfdodfs: d2i, i2b
+        rfturn (bytf) x;
     }
-    static boolean doubleToBoolean(double x) {
-        return toBoolean((byte) x);
-    }
-
-    // widen float:
-    static double floatToDouble(float x) {  // bytecode: f2d
-        return x;
-    }
-    // narrow float:
-    static long floatToLong(float x) {  // bytecode: f2l
-        return (long) x;
-    }
-    static int floatToInt(float x) {  // bytecode: f2i
-        return (int) x;
-    }
-    static short floatToShort(float x) {  // bytecodes: f2i, i2s
-        return (short) x;
-    }
-    static char floatToChar(float x) {  // bytecodes: f2i, i2c
-        return (char) x;
-    }
-    static byte floatToByte(float x) {  // bytecodes: f2i, i2b
-        return (byte) x;
-    }
-    static boolean floatToBoolean(float x) {
-        return toBoolean((byte) x);
+    stbtid boolfbn doublfToBoolfbn(doublf x) {
+        rfturn toBoolfbn((bytf) x);
     }
 
-    // widen long:
-    static double longToDouble(long x) {  // bytecode: l2d
-        return x;
+    // widfn flobt:
+    stbtid doublf flobtToDoublf(flobt x) {  // bytfdodf: f2d
+        rfturn x;
     }
-    static float longToFloat(long x) {  // bytecode: l2f
-        return x;
+    // nbrrow flobt:
+    stbtid long flobtToLong(flobt x) {  // bytfdodf: f2l
+        rfturn (long) x;
     }
-    // narrow long:
-    static int longToInt(long x) {  // bytecode: l2i
-        return (int) x;
+    stbtid int flobtToInt(flobt x) {  // bytfdodf: f2i
+        rfturn (int) x;
     }
-    static short longToShort(long x) {  // bytecodes: f2i, i2s
-        return (short) x;
+    stbtid siort flobtToSiort(flobt x) {  // bytfdodfs: f2i, i2s
+        rfturn (siort) x;
     }
-    static char longToChar(long x) {  // bytecodes: f2i, i2c
-        return (char) x;
+    stbtid dibr flobtToCibr(flobt x) {  // bytfdodfs: f2i, i2d
+        rfturn (dibr) x;
     }
-    static byte longToByte(long x) {  // bytecodes: f2i, i2b
-        return (byte) x;
+    stbtid bytf flobtToBytf(flobt x) {  // bytfdodfs: f2i, i2b
+        rfturn (bytf) x;
     }
-    static boolean longToBoolean(long x) {
-        return toBoolean((byte) x);
-    }
-
-    // widen int:
-    static double intToDouble(int x) {  // bytecode: i2d
-        return x;
-    }
-    static float intToFloat(int x) {  // bytecode: i2f
-        return x;
-    }
-    static long intToLong(int x) {  // bytecode: i2l
-        return x;
-    }
-    // narrow int:
-    static short intToShort(int x) {  // bytecode: i2s
-        return (short) x;
-    }
-    static char intToChar(int x) {  // bytecode: i2c
-        return (char) x;
-    }
-    static byte intToByte(int x) {  // bytecode: i2b
-        return (byte) x;
-    }
-    static boolean intToBoolean(int x) {
-        return toBoolean((byte) x);
+    stbtid boolfbn flobtToBoolfbn(flobt x) {
+        rfturn toBoolfbn((bytf) x);
     }
 
-    // widen short:
-    static double shortToDouble(short x) {  // bytecode: i2d (implicit 's2i')
-        return x;
+    // widfn long:
+    stbtid doublf longToDoublf(long x) {  // bytfdodf: l2d
+        rfturn x;
     }
-    static float shortToFloat(short x) {  // bytecode: i2f (implicit 's2i')
-        return x;
+    stbtid flobt longToFlobt(long x) {  // bytfdodf: l2f
+        rfturn x;
     }
-    static long shortToLong(short x) {  // bytecode: i2l (implicit 's2i')
-        return x;
+    // nbrrow long:
+    stbtid int longToInt(long x) {  // bytfdodf: l2i
+        rfturn (int) x;
     }
-    static int shortToInt(short x) {  // (implicit 's2i')
-        return x;
+    stbtid siort longToSiort(long x) {  // bytfdodfs: f2i, i2s
+        rfturn (siort) x;
     }
-    // narrow short:
-    static char shortToChar(short x) {  // bytecode: i2c (implicit 's2i')
-        return (char)x;
+    stbtid dibr longToCibr(long x) {  // bytfdodfs: f2i, i2d
+        rfturn (dibr) x;
     }
-    static byte shortToByte(short x) {  // bytecode: i2b (implicit 's2i')
-        return (byte)x;
+    stbtid bytf longToBytf(long x) {  // bytfdodfs: f2i, i2b
+        rfturn (bytf) x;
     }
-    static boolean shortToBoolean(short x) {
-        return toBoolean((byte) x);
-    }
-
-    // widen char:
-    static double charToDouble(char x) {  // bytecode: i2d (implicit 'c2i')
-        return x;
-    }
-    static float charToFloat(char x) {  // bytecode: i2f (implicit 'c2i')
-        return x;
-    }
-    static long charToLong(char x) {  // bytecode: i2l (implicit 'c2i')
-        return x;
-    }
-    static int charToInt(char x) {  // (implicit 'c2i')
-        return x;
-    }
-    // narrow char:
-    static short charToShort(char x) {  // bytecode: i2s (implicit 'c2i')
-        return (short)x;
-    }
-    static byte charToByte(char x) {  // bytecode: i2b (implicit 'c2i')
-        return (byte)x;
-    }
-    static boolean charToBoolean(char x) {
-        return toBoolean((byte) x);
+    stbtid boolfbn longToBoolfbn(long x) {
+        rfturn toBoolfbn((bytf) x);
     }
 
-    // widen byte:
-    static double byteToDouble(byte x) {  // bytecode: i2d (implicit 'b2i')
-        return x;
+    // widfn int:
+    stbtid doublf intToDoublf(int x) {  // bytfdodf: i2d
+        rfturn x;
     }
-    static float byteToFloat(byte x) {  // bytecode: i2f (implicit 'b2i')
-        return x;
+    stbtid flobt intToFlobt(int x) {  // bytfdodf: i2f
+        rfturn x;
     }
-    static long byteToLong(byte x) {  // bytecode: i2l (implicit 'b2i')
-        return x;
+    stbtid long intToLong(int x) {  // bytfdodf: i2l
+        rfturn x;
     }
-    static int byteToInt(byte x) {  // (implicit 'b2i')
-        return x;
+    // nbrrow int:
+    stbtid siort intToSiort(int x) {  // bytfdodf: i2s
+        rfturn (siort) x;
     }
-    static short byteToShort(byte x) {  // bytecode: i2s (implicit 'b2i')
-        return (short)x;
+    stbtid dibr intToCibr(int x) {  // bytfdodf: i2d
+        rfturn (dibr) x;
     }
-    static char byteToChar(byte x) {  // bytecode: i2b (implicit 'b2i')
-        return (char)x;
+    stbtid bytf intToBytf(int x) {  // bytfdodf: i2b
+        rfturn (bytf) x;
     }
-    // narrow byte to boolean:
-    static boolean byteToBoolean(byte x) {
-        return toBoolean(x);
-    }
-
-    // widen boolean to all types:
-    static double booleanToDouble(boolean x) {
-        return fromBoolean(x);
-    }
-    static float booleanToFloat(boolean x) {
-        return fromBoolean(x);
-    }
-    static long booleanToLong(boolean x) {
-        return fromBoolean(x);
-    }
-    static int booleanToInt(boolean x) {
-        return fromBoolean(x);
-    }
-    static short booleanToShort(boolean x) {
-        return fromBoolean(x);
-    }
-    static char booleanToChar(boolean x) {
-        return (char)fromBoolean(x);
-    }
-    static byte booleanToByte(boolean x) {
-        return fromBoolean(x);
+    stbtid boolfbn intToBoolfbn(int x) {
+        rfturn toBoolfbn((bytf) x);
     }
 
-    // helpers to force boolean into the conversion scheme:
-    static boolean toBoolean(byte x) {
-        // see javadoc for MethodHandles.explicitCastArguments
-        return ((x & 1) != 0);
+    // widfn siort:
+    stbtid doublf siortToDoublf(siort x) {  // bytfdodf: i2d (implidit 's2i')
+        rfturn x;
     }
-    static byte fromBoolean(boolean x) {
-        // see javadoc for MethodHandles.explicitCastArguments
-        return (x ? (byte)1 : (byte)0);
+    stbtid flobt siortToFlobt(siort x) {  // bytfdodf: i2f (implidit 's2i')
+        rfturn x;
+    }
+    stbtid long siortToLong(siort x) {  // bytfdodf: i2l (implidit 's2i')
+        rfturn x;
+    }
+    stbtid int siortToInt(siort x) {  // (implidit 's2i')
+        rfturn x;
+    }
+    // nbrrow siort:
+    stbtid dibr siortToCibr(siort x) {  // bytfdodf: i2d (implidit 's2i')
+        rfturn (dibr)x;
+    }
+    stbtid bytf siortToBytf(siort x) {  // bytfdodf: i2b (implidit 's2i')
+        rfturn (bytf)x;
+    }
+    stbtid boolfbn siortToBoolfbn(siort x) {
+        rfturn toBoolfbn((bytf) x);
     }
 
-    private static final EnumMap<Wrapper, MethodHandle>[]
-            CONVERT_PRIMITIVE_FUNCTIONS = newWrapperCaches(Wrapper.values().length);
+    // widfn dibr:
+    stbtid doublf dibrToDoublf(dibr x) {  // bytfdodf: i2d (implidit 'd2i')
+        rfturn x;
+    }
+    stbtid flobt dibrToFlobt(dibr x) {  // bytfdodf: i2f (implidit 'd2i')
+        rfturn x;
+    }
+    stbtid long dibrToLong(dibr x) {  // bytfdodf: i2l (implidit 'd2i')
+        rfturn x;
+    }
+    stbtid int dibrToInt(dibr x) {  // (implidit 'd2i')
+        rfturn x;
+    }
+    // nbrrow dibr:
+    stbtid siort dibrToSiort(dibr x) {  // bytfdodf: i2s (implidit 'd2i')
+        rfturn (siort)x;
+    }
+    stbtid bytf dibrToBytf(dibr x) {  // bytfdodf: i2b (implidit 'd2i')
+        rfturn (bytf)x;
+    }
+    stbtid boolfbn dibrToBoolfbn(dibr x) {
+        rfturn toBoolfbn((bytf) x);
+    }
 
-    public static MethodHandle convertPrimitive(Wrapper wsrc, Wrapper wdst) {
-        EnumMap<Wrapper, MethodHandle> cache = CONVERT_PRIMITIVE_FUNCTIONS[wsrc.ordinal()];
-        MethodHandle mh = cache.get(wdst);
-        if (mh != null) {
-            return mh;
+    // widfn bytf:
+    stbtid doublf bytfToDoublf(bytf x) {  // bytfdodf: i2d (implidit 'b2i')
+        rfturn x;
+    }
+    stbtid flobt bytfToFlobt(bytf x) {  // bytfdodf: i2f (implidit 'b2i')
+        rfturn x;
+    }
+    stbtid long bytfToLong(bytf x) {  // bytfdodf: i2l (implidit 'b2i')
+        rfturn x;
+    }
+    stbtid int bytfToInt(bytf x) {  // (implidit 'b2i')
+        rfturn x;
+    }
+    stbtid siort bytfToSiort(bytf x) {  // bytfdodf: i2s (implidit 'b2i')
+        rfturn (siort)x;
+    }
+    stbtid dibr bytfToCibr(bytf x) {  // bytfdodf: i2b (implidit 'b2i')
+        rfturn (dibr)x;
+    }
+    // nbrrow bytf to boolfbn:
+    stbtid boolfbn bytfToBoolfbn(bytf x) {
+        rfturn toBoolfbn(x);
+    }
+
+    // widfn boolfbn to bll typfs:
+    stbtid doublf boolfbnToDoublf(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+    stbtid flobt boolfbnToFlobt(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+    stbtid long boolfbnToLong(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+    stbtid int boolfbnToInt(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+    stbtid siort boolfbnToSiort(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+    stbtid dibr boolfbnToCibr(boolfbn x) {
+        rfturn (dibr)fromBoolfbn(x);
+    }
+    stbtid bytf boolfbnToBytf(boolfbn x) {
+        rfturn fromBoolfbn(x);
+    }
+
+    // iflpfrs to fordf boolfbn into tif donvfrsion sdifmf:
+    stbtid boolfbn toBoolfbn(bytf x) {
+        // sff jbvbdod for MftiodHbndlfs.fxpliditCbstArgumfnts
+        rfturn ((x & 1) != 0);
+    }
+    stbtid bytf fromBoolfbn(boolfbn x) {
+        // sff jbvbdod for MftiodHbndlfs.fxpliditCbstArgumfnts
+        rfturn (x ? (bytf)1 : (bytf)0);
+    }
+
+    privbtf stbtid finbl EnumMbp<Wrbppfr, MftiodHbndlf>[]
+            CONVERT_PRIMITIVE_FUNCTIONS = nfwWrbppfrCbdifs(Wrbppfr.vblufs().lfngti);
+
+    publid stbtid MftiodHbndlf donvfrtPrimitivf(Wrbppfr wsrd, Wrbppfr wdst) {
+        EnumMbp<Wrbppfr, MftiodHbndlf> dbdif = CONVERT_PRIMITIVE_FUNCTIONS[wsrd.ordinbl()];
+        MftiodHbndlf mi = dbdif.gft(wdst);
+        if (mi != null) {
+            rfturn mi;
         }
-        // slow path
-        Class<?> src = wsrc.primitiveType();
-        Class<?> dst = wdst.primitiveType();
-        MethodType type = src == void.class ? MethodType.methodType(dst) : MethodType.methodType(dst, src);
-        if (wsrc == wdst) {
-            mh = identity(src);
-        } else if (wsrc == Wrapper.VOID) {
-            mh = zeroConstantFunction(wdst);
-        } else if (wdst == Wrapper.VOID) {
-            mh = MethodHandles.dropArguments(EMPTY, 0, src);  // Defer back to MethodHandles.
-        } else if (wsrc == Wrapper.OBJECT) {
-            mh = unboxCast(dst);
-        } else if (wdst == Wrapper.OBJECT) {
-            mh = box(src);
-        } else {
-            assert(src.isPrimitive() && dst.isPrimitive());
+        // slow pbti
+        Clbss<?> srd = wsrd.primitivfTypf();
+        Clbss<?> dst = wdst.primitivfTypf();
+        MftiodTypf typf = srd == void.dlbss ? MftiodTypf.mftiodTypf(dst) : MftiodTypf.mftiodTypf(dst, srd);
+        if (wsrd == wdst) {
+            mi = idfntity(srd);
+        } flsf if (wsrd == Wrbppfr.VOID) {
+            mi = zfroConstbntFundtion(wdst);
+        } flsf if (wdst == Wrbppfr.VOID) {
+            mi = MftiodHbndlfs.dropArgumfnts(EMPTY, 0, srd);  // Dfffr bbdk to MftiodHbndlfs.
+        } flsf if (wsrd == Wrbppfr.OBJECT) {
+            mi = unboxCbst(dst);
+        } flsf if (wdst == Wrbppfr.OBJECT) {
+            mi = box(srd);
+        } flsf {
+            bssfrt(srd.isPrimitivf() && dst.isPrimitivf());
             try {
-                mh = IMPL_LOOKUP.findStatic(THIS_CLASS, src.getSimpleName()+"To"+capitalize(dst.getSimpleName()), type);
-            } catch (ReflectiveOperationException ex) {
-                mh = null;
+                mi = IMPL_LOOKUP.findStbtid(THIS_CLASS, srd.gftSimplfNbmf()+"To"+dbpitblizf(dst.gftSimplfNbmf()), typf);
+            } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+                mi = null;
             }
         }
-        if (mh != null) {
-            assert(mh.type() == type) : mh;
-            cache.put(wdst, mh);
-            return mh;
+        if (mi != null) {
+            bssfrt(mi.typf() == typf) : mi;
+            dbdif.put(wdst, mi);
+            rfturn mi;
         }
 
-        throw new IllegalArgumentException("cannot find primitive conversion function for " +
-                                           src.getSimpleName()+" -> "+dst.getSimpleName());
+        tirow nfw IllfgblArgumfntExdfption("dbnnot find primitivf donvfrsion fundtion for " +
+                                           srd.gftSimplfNbmf()+" -> "+dst.gftSimplfNbmf());
     }
 
-    public static MethodHandle convertPrimitive(Class<?> src, Class<?> dst) {
-        return convertPrimitive(Wrapper.forPrimitiveType(src), Wrapper.forPrimitiveType(dst));
+    publid stbtid MftiodHbndlf donvfrtPrimitivf(Clbss<?> srd, Clbss<?> dst) {
+        rfturn donvfrtPrimitivf(Wrbppfr.forPrimitivfTypf(srd), Wrbppfr.forPrimitivfTypf(dst));
     }
 
-    private static String capitalize(String x) {
-        return Character.toUpperCase(x.charAt(0))+x.substring(1);
+    privbtf stbtid String dbpitblizf(String x) {
+        rfturn Cibrbdtfr.toUppfrCbsf(x.dibrAt(0))+x.substring(1);
     }
 
-    /// Collection of multiple arguments.
+    /// Collfdtion of multiplf brgumfnts.
 
-    public static Object convertArrayElements(Class<?> arrayType, Object array) {
-        Class<?> src = array.getClass().getComponentType();
-        Class<?> dst = arrayType.getComponentType();
-        if (src == null || dst == null)  throw new IllegalArgumentException("not array type");
-        Wrapper sw = (src.isPrimitive() ? Wrapper.forPrimitiveType(src) : null);
-        Wrapper dw = (dst.isPrimitive() ? Wrapper.forPrimitiveType(dst) : null);
-        int length;
+    publid stbtid Objfdt donvfrtArrbyElfmfnts(Clbss<?> brrbyTypf, Objfdt brrby) {
+        Clbss<?> srd = brrby.gftClbss().gftComponfntTypf();
+        Clbss<?> dst = brrbyTypf.gftComponfntTypf();
+        if (srd == null || dst == null)  tirow nfw IllfgblArgumfntExdfption("not brrby typf");
+        Wrbppfr sw = (srd.isPrimitivf() ? Wrbppfr.forPrimitivfTypf(srd) : null);
+        Wrbppfr dw = (dst.isPrimitivf() ? Wrbppfr.forPrimitivfTypf(dst) : null);
+        int lfngti;
         if (sw == null) {
-            Object[] a = (Object[]) array;
-            length = a.length;
+            Objfdt[] b = (Objfdt[]) brrby;
+            lfngti = b.lfngti;
             if (dw == null)
-                return Arrays.copyOf(a, length, arrayType.asSubclass(Object[].class));
-            Object res = dw.makeArray(length);
-            dw.copyArrayUnboxing(a, 0, res, 0, length);
-            return res;
+                rfturn Arrbys.dopyOf(b, lfngti, brrbyTypf.bsSubdlbss(Objfdt[].dlbss));
+            Objfdt rfs = dw.mbkfArrby(lfngti);
+            dw.dopyArrbyUnboxing(b, 0, rfs, 0, lfngti);
+            rfturn rfs;
         }
-        length = java.lang.reflect.Array.getLength(array);
-        Object[] res;
+        lfngti = jbvb.lbng.rfflfdt.Arrby.gftLfngti(brrby);
+        Objfdt[] rfs;
         if (dw == null) {
-            res = Arrays.copyOf(NO_ARGS_ARRAY, length, arrayType.asSubclass(Object[].class));
-        } else {
-            res = new Object[length];
+            rfs = Arrbys.dopyOf(NO_ARGS_ARRAY, lfngti, brrbyTypf.bsSubdlbss(Objfdt[].dlbss));
+        } flsf {
+            rfs = nfw Objfdt[lfngti];
         }
-        sw.copyArrayBoxing(array, 0, res, 0, length);
-        if (dw == null)  return res;
-        Object a = dw.makeArray(length);
-        dw.copyArrayUnboxing(res, 0, a, 0, length);
-        return a;
+        sw.dopyArrbyBoxing(brrby, 0, rfs, 0, lfngti);
+        if (dw == null)  rfturn rfs;
+        Objfdt b = dw.mbkfArrby(lfngti);
+        dw.dopyArrbyUnboxing(rfs, 0, b, 0, lfngti);
+        rfturn b;
     }
 
-    private static MethodHandle findCollector(String name, int nargs, Class<?> rtype, Class<?>... ptypes) {
-        MethodType type = MethodType.genericMethodType(nargs)
-                .changeReturnType(rtype)
-                .insertParameterTypes(0, ptypes);
+    privbtf stbtid MftiodHbndlf findCollfdtor(String nbmf, int nbrgs, Clbss<?> rtypf, Clbss<?>... ptypfs) {
+        MftiodTypf typf = MftiodTypf.gfnfridMftiodTypf(nbrgs)
+                .dibngfRfturnTypf(rtypf)
+                .insfrtPbrbmftfrTypfs(0, ptypfs);
         try {
-            return IMPL_LOOKUP.findStatic(THIS_CLASS, name, type);
-        } catch (ReflectiveOperationException ex) {
-            return null;
+            rfturn IMPL_LOOKUP.findStbtid(THIS_CLASS, nbmf, typf);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            rfturn null;
         }
     }
 
-    private static final Object[] NO_ARGS_ARRAY = {};
-    private static Object[] makeArray(Object... args) { return args; }
-    private static Object[] array() { return NO_ARGS_ARRAY; }
-    private static Object[] array(Object a0)
-                { return makeArray(a0); }
-    private static Object[] array(Object a0, Object a1)
-                { return makeArray(a0, a1); }
-    private static Object[] array(Object a0, Object a1, Object a2)
-                { return makeArray(a0, a1, a2); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3)
-                { return makeArray(a0, a1, a2, a3); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4)
-                { return makeArray(a0, a1, a2, a3, a4); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5)
-                { return makeArray(a0, a1, a2, a3, a4, a5); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6)
-                { return makeArray(a0, a1, a2, a3, a4, a5, a6); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7)
-                { return makeArray(a0, a1, a2, a3, a4, a5, a6, a7); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7,
-                                  Object a8)
-                { return makeArray(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
-    private static Object[] array(Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7,
-                                  Object a8, Object a9)
-                { return makeArray(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9); }
-    private static MethodHandle[] makeArrays() {
-        ArrayList<MethodHandle> mhs = new ArrayList<>();
+    privbtf stbtid finbl Objfdt[] NO_ARGS_ARRAY = {};
+    privbtf stbtid Objfdt[] mbkfArrby(Objfdt... brgs) { rfturn brgs; }
+    privbtf stbtid Objfdt[] brrby() { rfturn NO_ARGS_ARRAY; }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0)
+                { rfturn mbkfArrby(b0); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1)
+                { rfturn mbkfArrby(b0, b1); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2)
+                { rfturn mbkfArrby(b0, b1, b2); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3)
+                { rfturn mbkfArrby(b0, b1, b2, b3); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4, b5); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4, b5, b6); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4, b5, b6, b7); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                  Objfdt b8)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4, b5, b6, b7, b8); }
+    privbtf stbtid Objfdt[] brrby(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                  Objfdt b8, Objfdt b9)
+                { rfturn mbkfArrby(b0, b1, b2, b3, b4, b5, b6, b7, b8, b9); }
+    privbtf stbtid MftiodHbndlf[] mbkfArrbys() {
+        ArrbyList<MftiodHbndlf> mis = nfw ArrbyList<>();
         for (;;) {
-            MethodHandle mh = findCollector("array", mhs.size(), Object[].class);
-            if (mh == null)  break;
-            mhs.add(mh);
+            MftiodHbndlf mi = findCollfdtor("brrby", mis.sizf(), Objfdt[].dlbss);
+            if (mi == null)  brfbk;
+            mis.bdd(mi);
         }
-        assert(mhs.size() == 11);  // current number of methods
-        return mhs.toArray(new MethodHandle[MAX_ARITY+1]);
+        bssfrt(mis.sizf() == 11);  // durrfnt numbfr of mftiods
+        rfturn mis.toArrby(nfw MftiodHbndlf[MAX_ARITY+1]);
     }
-    private static final MethodHandle[] ARRAYS = makeArrays();
+    privbtf stbtid finbl MftiodHbndlf[] ARRAYS = mbkfArrbys();
 
-    // filling versions of the above:
-    // using Integer len instead of int len and no varargs to avoid bootstrapping problems
-    private static Object[] fillNewArray(Integer len, Object[] /*not ...*/ args) {
-        Object[] a = new Object[len];
-        fillWithArguments(a, 0, args);
-        return a;
+    // filling vfrsions of tif bbovf:
+    // using Intfgfr lfn instfbd of int lfn bnd no vbrbrgs to bvoid bootstrbpping problfms
+    privbtf stbtid Objfdt[] fillNfwArrby(Intfgfr lfn, Objfdt[] /*not ...*/ brgs) {
+        Objfdt[] b = nfw Objfdt[lfn];
+        fillWitiArgumfnts(b, 0, brgs);
+        rfturn b;
     }
-    private static Object[] fillNewTypedArray(Object[] example, Integer len, Object[] /*not ...*/ args) {
-        Object[] a = Arrays.copyOf(example, len);
-        fillWithArguments(a, 0, args);
-        return a;
+    privbtf stbtid Objfdt[] fillNfwTypfdArrby(Objfdt[] fxbmplf, Intfgfr lfn, Objfdt[] /*not ...*/ brgs) {
+        Objfdt[] b = Arrbys.dopyOf(fxbmplf, lfn);
+        fillWitiArgumfnts(b, 0, brgs);
+        rfturn b;
     }
-    private static void fillWithArguments(Object[] a, int pos, Object... args) {
-        System.arraycopy(args, 0, a, pos, args.length);
+    privbtf stbtid void fillWitiArgumfnts(Objfdt[] b, int pos, Objfdt... brgs) {
+        Systfm.brrbydopy(brgs, 0, b, pos, brgs.lfngti);
     }
-    // using Integer pos instead of int pos to avoid bootstrapping problems
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0)
-                { fillWithArguments(a, pos, a0); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1)
-                { fillWithArguments(a, pos, a0, a1); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2)
-                { fillWithArguments(a, pos, a0, a1, a2); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3)
-                { fillWithArguments(a, pos, a0, a1, a2, a3); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4, a5); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4, a5, a6); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4, a5, a6, a7); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7,
-                                  Object a8)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4, a5, a6, a7, a8); return a; }
-    private static Object[] fillArray(Integer pos, Object[] a, Object a0, Object a1, Object a2, Object a3,
-                                  Object a4, Object a5, Object a6, Object a7,
-                                  Object a8, Object a9)
-                { fillWithArguments(a, pos, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9); return a; }
-    private static MethodHandle[] makeFillArrays() {
-        ArrayList<MethodHandle> mhs = new ArrayList<>();
-        mhs.add(null);  // there is no empty fill; at least a0 is required
+    // using Intfgfr pos instfbd of int pos to bvoid bootstrbpping problfms
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0)
+                { fillWitiArgumfnts(b, pos, b0); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1)
+                { fillWitiArgumfnts(b, pos, b0, b1); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4, b5); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4, b5, b6); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4, b5, b6, b7); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                  Objfdt b8)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4, b5, b6, b7, b8); rfturn b; }
+    privbtf stbtid Objfdt[] fillArrby(Intfgfr pos, Objfdt[] b, Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                  Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                  Objfdt b8, Objfdt b9)
+                { fillWitiArgumfnts(b, pos, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9); rfturn b; }
+    privbtf stbtid MftiodHbndlf[] mbkfFillArrbys() {
+        ArrbyList<MftiodHbndlf> mis = nfw ArrbyList<>();
+        mis.bdd(null);  // tifrf is no fmpty fill; bt lfbst b0 is rfquirfd
         for (;;) {
-            MethodHandle mh = findCollector("fillArray", mhs.size(), Object[].class, Integer.class, Object[].class);
-            if (mh == null)  break;
-            mhs.add(mh);
+            MftiodHbndlf mi = findCollfdtor("fillArrby", mis.sizf(), Objfdt[].dlbss, Intfgfr.dlbss, Objfdt[].dlbss);
+            if (mi == null)  brfbk;
+            mis.bdd(mi);
         }
-        assert(mhs.size() == 11);  // current number of methods
-        return mhs.toArray(new MethodHandle[0]);
+        bssfrt(mis.sizf() == 11);  // durrfnt numbfr of mftiods
+        rfturn mis.toArrby(nfw MftiodHbndlf[0]);
     }
-    private static final MethodHandle[] FILL_ARRAYS = makeFillArrays();
+    privbtf stbtid finbl MftiodHbndlf[] FILL_ARRAYS = mbkfFillArrbys();
 
-    private static Object[] copyAsReferenceArray(Class<? extends Object[]> arrayType, Object... a) {
-        return Arrays.copyOf(a, a.length, arrayType);
+    privbtf stbtid Objfdt[] dopyAsRfffrfndfArrby(Clbss<? fxtfnds Objfdt[]> brrbyTypf, Objfdt... b) {
+        rfturn Arrbys.dopyOf(b, b.lfngti, brrbyTypf);
     }
-    private static Object copyAsPrimitiveArray(Wrapper w, Object... boxes) {
-        Object a = w.makeArray(boxes.length);
-        w.copyArrayUnboxing(boxes, 0, a, 0, boxes.length);
-        return a;
+    privbtf stbtid Objfdt dopyAsPrimitivfArrby(Wrbppfr w, Objfdt... boxfs) {
+        Objfdt b = w.mbkfArrby(boxfs.lfngti);
+        w.dopyArrbyUnboxing(boxfs, 0, b, 0, boxfs.lfngti);
+        rfturn b;
     }
 
-    /** Return a method handle that takes the indicated number of Object
-     *  arguments and returns an Object array of them, as if for varargs.
+    /** Rfturn b mftiod ibndlf tibt tbkfs tif indidbtfd numbfr of Objfdt
+     *  brgumfnts bnd rfturns bn Objfdt brrby of tifm, bs if for vbrbrgs.
      */
-    public static MethodHandle varargsArray(int nargs) {
-        MethodHandle mh = ARRAYS[nargs];
-        if (mh != null)  return mh;
-        mh = findCollector("array", nargs, Object[].class);
-        if (mh != null)  return ARRAYS[nargs] = mh;
-        mh = buildVarargsArray(FILL_NEW_ARRAY, ARRAY_IDENTITY, nargs);
-        assert(assertCorrectArity(mh, nargs));
-        return ARRAYS[nargs] = mh;
+    publid stbtid MftiodHbndlf vbrbrgsArrby(int nbrgs) {
+        MftiodHbndlf mi = ARRAYS[nbrgs];
+        if (mi != null)  rfturn mi;
+        mi = findCollfdtor("brrby", nbrgs, Objfdt[].dlbss);
+        if (mi != null)  rfturn ARRAYS[nbrgs] = mi;
+        mi = buildVbrbrgsArrby(FILL_NEW_ARRAY, ARRAY_IDENTITY, nbrgs);
+        bssfrt(bssfrtCorrfdtArity(mi, nbrgs));
+        rfturn ARRAYS[nbrgs] = mi;
     }
 
-    private static boolean assertCorrectArity(MethodHandle mh, int arity) {
-        assert(mh.type().parameterCount() == arity) : "arity != "+arity+": "+mh;
-        return true;
+    privbtf stbtid boolfbn bssfrtCorrfdtArity(MftiodHbndlf mi, int brity) {
+        bssfrt(mi.typf().pbrbmftfrCount() == brity) : "brity != "+brity+": "+mi;
+        rfturn truf;
     }
 
-    private static MethodHandle buildVarargsArray(MethodHandle newArray, MethodHandle finisher, int nargs) {
-        // Build up the result mh as a sequence of fills like this:
-        //   finisher(fill(fill(newArrayWA(23,x1..x10),10,x11..x20),20,x21..x23))
-        // The various fill(_,10*I,___*[J]) are reusable.
-        int leftLen = Math.min(nargs, LEFT_ARGS);  // absorb some arguments immediately
-        int rightLen = nargs - leftLen;
-        MethodHandle leftCollector = newArray.bindTo(nargs);
-        leftCollector = leftCollector.asCollector(Object[].class, leftLen);
-        MethodHandle mh = finisher;
-        if (rightLen > 0) {
-            MethodHandle rightFiller = fillToRight(LEFT_ARGS + rightLen);
-            if (mh == ARRAY_IDENTITY)
-                mh = rightFiller;
-            else
-                mh = MethodHandles.collectArguments(mh, 0, rightFiller);
+    privbtf stbtid MftiodHbndlf buildVbrbrgsArrby(MftiodHbndlf nfwArrby, MftiodHbndlf finisifr, int nbrgs) {
+        // Build up tif rfsult mi bs b sfqufndf of fills likf tiis:
+        //   finisifr(fill(fill(nfwArrbyWA(23,x1..x10),10,x11..x20),20,x21..x23))
+        // Tif vbrious fill(_,10*I,___*[J]) brf rfusbblf.
+        int lfftLfn = Mbti.min(nbrgs, LEFT_ARGS);  // bbsorb somf brgumfnts immfdibtfly
+        int rigitLfn = nbrgs - lfftLfn;
+        MftiodHbndlf lfftCollfdtor = nfwArrby.bindTo(nbrgs);
+        lfftCollfdtor = lfftCollfdtor.bsCollfdtor(Objfdt[].dlbss, lfftLfn);
+        MftiodHbndlf mi = finisifr;
+        if (rigitLfn > 0) {
+            MftiodHbndlf rigitFillfr = fillToRigit(LEFT_ARGS + rigitLfn);
+            if (mi == ARRAY_IDENTITY)
+                mi = rigitFillfr;
+            flsf
+                mi = MftiodHbndlfs.dollfdtArgumfnts(mi, 0, rigitFillfr);
         }
-        if (mh == ARRAY_IDENTITY)
-            mh = leftCollector;
-        else
-            mh = MethodHandles.collectArguments(mh, 0, leftCollector);
-        return mh;
+        if (mi == ARRAY_IDENTITY)
+            mi = lfftCollfdtor;
+        flsf
+            mi = MftiodHbndlfs.dollfdtArgumfnts(mi, 0, lfftCollfdtor);
+        rfturn mi;
     }
 
-    private static final int LEFT_ARGS = (FILL_ARRAYS.length - 1);
-    private static final MethodHandle[] FILL_ARRAY_TO_RIGHT = new MethodHandle[MAX_ARITY+1];
-    /** fill_array_to_right(N).invoke(a, argL..arg[N-1])
-     *  fills a[L]..a[N-1] with corresponding arguments,
-     *  and then returns a.  The value L is a global constant (LEFT_ARGS).
+    privbtf stbtid finbl int LEFT_ARGS = (FILL_ARRAYS.lfngti - 1);
+    privbtf stbtid finbl MftiodHbndlf[] FILL_ARRAY_TO_RIGHT = nfw MftiodHbndlf[MAX_ARITY+1];
+    /** fill_brrby_to_rigit(N).invokf(b, brgL..brg[N-1])
+     *  fills b[L]..b[N-1] witi dorrfsponding brgumfnts,
+     *  bnd tifn rfturns b.  Tif vbluf L is b globbl donstbnt (LEFT_ARGS).
      */
-    private static MethodHandle fillToRight(int nargs) {
-        MethodHandle filler = FILL_ARRAY_TO_RIGHT[nargs];
-        if (filler != null)  return filler;
-        filler = buildFiller(nargs);
-        assert(assertCorrectArity(filler, nargs - LEFT_ARGS + 1));
-        return FILL_ARRAY_TO_RIGHT[nargs] = filler;
+    privbtf stbtid MftiodHbndlf fillToRigit(int nbrgs) {
+        MftiodHbndlf fillfr = FILL_ARRAY_TO_RIGHT[nbrgs];
+        if (fillfr != null)  rfturn fillfr;
+        fillfr = buildFillfr(nbrgs);
+        bssfrt(bssfrtCorrfdtArity(fillfr, nbrgs - LEFT_ARGS + 1));
+        rfturn FILL_ARRAY_TO_RIGHT[nbrgs] = fillfr;
     }
-    private static MethodHandle buildFiller(int nargs) {
-        if (nargs <= LEFT_ARGS)
-            return ARRAY_IDENTITY;  // no args to fill; return the array unchanged
-        // we need room for both mh and a in mh.invoke(a, arg*[nargs])
-        final int CHUNK = LEFT_ARGS;
-        int rightLen = nargs % CHUNK;
-        int midLen = nargs - rightLen;
-        if (rightLen == 0) {
-            midLen = nargs - (rightLen = CHUNK);
-            if (FILL_ARRAY_TO_RIGHT[midLen] == null) {
-                // build some precursors from left to right
-                for (int j = LEFT_ARGS % CHUNK; j < midLen; j += CHUNK)
-                    if (j > LEFT_ARGS)  fillToRight(j);
+    privbtf stbtid MftiodHbndlf buildFillfr(int nbrgs) {
+        if (nbrgs <= LEFT_ARGS)
+            rfturn ARRAY_IDENTITY;  // no brgs to fill; rfturn tif brrby undibngfd
+        // wf nffd room for boti mi bnd b in mi.invokf(b, brg*[nbrgs])
+        finbl int CHUNK = LEFT_ARGS;
+        int rigitLfn = nbrgs % CHUNK;
+        int midLfn = nbrgs - rigitLfn;
+        if (rigitLfn == 0) {
+            midLfn = nbrgs - (rigitLfn = CHUNK);
+            if (FILL_ARRAY_TO_RIGHT[midLfn] == null) {
+                // build somf prfdursors from lfft to rigit
+                for (int j = LEFT_ARGS % CHUNK; j < midLfn; j += CHUNK)
+                    if (j > LEFT_ARGS)  fillToRigit(j);
             }
         }
-        if (midLen < LEFT_ARGS) rightLen = nargs - (midLen = LEFT_ARGS);
-        assert(rightLen > 0);
-        MethodHandle midFill = fillToRight(midLen);  // recursive fill
-        MethodHandle rightFill = FILL_ARRAYS[rightLen].bindTo(midLen);  // [midLen..nargs-1]
-        assert(midFill.type().parameterCount()   == 1 + midLen - LEFT_ARGS);
-        assert(rightFill.type().parameterCount() == 1 + rightLen);
+        if (midLfn < LEFT_ARGS) rigitLfn = nbrgs - (midLfn = LEFT_ARGS);
+        bssfrt(rigitLfn > 0);
+        MftiodHbndlf midFill = fillToRigit(midLfn);  // rfdursivf fill
+        MftiodHbndlf rigitFill = FILL_ARRAYS[rigitLfn].bindTo(midLfn);  // [midLfn..nbrgs-1]
+        bssfrt(midFill.typf().pbrbmftfrCount()   == 1 + midLfn - LEFT_ARGS);
+        bssfrt(rigitFill.typf().pbrbmftfrCount() == 1 + rigitLfn);
 
-        // Combine the two fills:
-        //   right(mid(a, x10..x19), x20..x23)
-        // The final product will look like this:
-        //   right(mid(newArrayLeft(24, x0..x9), x10..x19), x20..x23)
-        if (midLen == LEFT_ARGS)
-            return rightFill;
-        else
-            return MethodHandles.collectArguments(rightFill, 0, midFill);
+        // Combinf tif two fills:
+        //   rigit(mid(b, x10..x19), x20..x23)
+        // Tif finbl produdt will look likf tiis:
+        //   rigit(mid(nfwArrbyLfft(24, x0..x9), x10..x19), x20..x23)
+        if (midLfn == LEFT_ARGS)
+            rfturn rigitFill;
+        flsf
+            rfturn MftiodHbndlfs.dollfdtArgumfnts(rigitFill, 0, midFill);
     }
 
-    // Type-polymorphic version of varargs maker.
-    private static final ClassValue<MethodHandle[]> TYPED_COLLECTORS
-        = new ClassValue<MethodHandle[]>() {
-            @Override
-            protected MethodHandle[] computeValue(Class<?> type) {
-                return new MethodHandle[256];
+    // Typf-polymorpiid vfrsion of vbrbrgs mbkfr.
+    privbtf stbtid finbl ClbssVbluf<MftiodHbndlf[]> TYPED_COLLECTORS
+        = nfw ClbssVbluf<MftiodHbndlf[]>() {
+            @Ovfrridf
+            protfdtfd MftiodHbndlf[] domputfVbluf(Clbss<?> typf) {
+                rfturn nfw MftiodHbndlf[256];
             }
     };
 
-    static final int MAX_JVM_ARITY = 255;  // limit imposed by the JVM
+    stbtid finbl int MAX_JVM_ARITY = 255;  // limit imposfd by tif JVM
 
-    /** Return a method handle that takes the indicated number of
-     *  typed arguments and returns an array of them.
-     *  The type argument is the array type.
+    /** Rfturn b mftiod ibndlf tibt tbkfs tif indidbtfd numbfr of
+     *  typfd brgumfnts bnd rfturns bn brrby of tifm.
+     *  Tif typf brgumfnt is tif brrby typf.
      */
-    public static MethodHandle varargsArray(Class<?> arrayType, int nargs) {
-        Class<?> elemType = arrayType.getComponentType();
-        if (elemType == null)  throw new IllegalArgumentException("not an array: "+arrayType);
-        // FIXME: Need more special casing and caching here.
-        if (nargs >= MAX_JVM_ARITY/2 - 1) {
-            int slots = nargs;
-            final int MAX_ARRAY_SLOTS = MAX_JVM_ARITY - 1;  // 1 for receiver MH
-            if (arrayType == double[].class || arrayType == long[].class)
+    publid stbtid MftiodHbndlf vbrbrgsArrby(Clbss<?> brrbyTypf, int nbrgs) {
+        Clbss<?> flfmTypf = brrbyTypf.gftComponfntTypf();
+        if (flfmTypf == null)  tirow nfw IllfgblArgumfntExdfption("not bn brrby: "+brrbyTypf);
+        // FIXME: Nffd morf spfdibl dbsing bnd dbdiing ifrf.
+        if (nbrgs >= MAX_JVM_ARITY/2 - 1) {
+            int slots = nbrgs;
+            finbl int MAX_ARRAY_SLOTS = MAX_JVM_ARITY - 1;  // 1 for rfdfivfr MH
+            if (brrbyTypf == doublf[].dlbss || brrbyTypf == long[].dlbss)
                 slots *= 2;
             if (slots > MAX_ARRAY_SLOTS)
-                throw new IllegalArgumentException("too many arguments: "+arrayType.getSimpleName()+", length "+nargs);
+                tirow nfw IllfgblArgumfntExdfption("too mbny brgumfnts: "+brrbyTypf.gftSimplfNbmf()+", lfngti "+nbrgs);
         }
-        if (elemType == Object.class)
-            return varargsArray(nargs);
-        // other cases:  primitive arrays, subtypes of Object[]
-        MethodHandle cache[] = TYPED_COLLECTORS.get(elemType);
-        MethodHandle mh = nargs < cache.length ? cache[nargs] : null;
-        if (mh != null)  return mh;
-        if (elemType.isPrimitive()) {
-            MethodHandle builder = FILL_NEW_ARRAY;
-            MethodHandle producer = buildArrayProducer(arrayType);
-            mh = buildVarargsArray(builder, producer, nargs);
-        } else {
-            @SuppressWarnings("unchecked")
-            Class<? extends Object[]> objArrayType = (Class<? extends Object[]>) arrayType;
-            Object[] example = Arrays.copyOf(NO_ARGS_ARRAY, 0, objArrayType);
-            MethodHandle builder = FILL_NEW_TYPED_ARRAY.bindTo(example);
-            MethodHandle producer = ARRAY_IDENTITY;
-            mh = buildVarargsArray(builder, producer, nargs);
+        if (flfmTypf == Objfdt.dlbss)
+            rfturn vbrbrgsArrby(nbrgs);
+        // otifr dbsfs:  primitivf brrbys, subtypfs of Objfdt[]
+        MftiodHbndlf dbdif[] = TYPED_COLLECTORS.gft(flfmTypf);
+        MftiodHbndlf mi = nbrgs < dbdif.lfngti ? dbdif[nbrgs] : null;
+        if (mi != null)  rfturn mi;
+        if (flfmTypf.isPrimitivf()) {
+            MftiodHbndlf buildfr = FILL_NEW_ARRAY;
+            MftiodHbndlf produdfr = buildArrbyProdudfr(brrbyTypf);
+            mi = buildVbrbrgsArrby(buildfr, produdfr, nbrgs);
+        } flsf {
+            @SupprfssWbrnings("undifdkfd")
+            Clbss<? fxtfnds Objfdt[]> objArrbyTypf = (Clbss<? fxtfnds Objfdt[]>) brrbyTypf;
+            Objfdt[] fxbmplf = Arrbys.dopyOf(NO_ARGS_ARRAY, 0, objArrbyTypf);
+            MftiodHbndlf buildfr = FILL_NEW_TYPED_ARRAY.bindTo(fxbmplf);
+            MftiodHbndlf produdfr = ARRAY_IDENTITY;
+            mi = buildVbrbrgsArrby(buildfr, produdfr, nbrgs);
         }
-        mh = mh.asType(MethodType.methodType(arrayType, Collections.<Class<?>>nCopies(nargs, elemType)));
-        assert(assertCorrectArity(mh, nargs));
-        if (nargs < cache.length)
-            cache[nargs] = mh;
-        return mh;
+        mi = mi.bsTypf(MftiodTypf.mftiodTypf(brrbyTypf, Collfdtions.<Clbss<?>>nCopifs(nbrgs, flfmTypf)));
+        bssfrt(bssfrtCorrfdtArity(mi, nbrgs));
+        if (nbrgs < dbdif.lfngti)
+            dbdif[nbrgs] = mi;
+        rfturn mi;
     }
 
-    private static MethodHandle buildArrayProducer(Class<?> arrayType) {
-        Class<?> elemType = arrayType.getComponentType();
-        if (elemType.isPrimitive())
-            return LazyStatics.COPY_AS_PRIMITIVE_ARRAY.bindTo(Wrapper.forPrimitiveType(elemType));
-        else
-            return LazyStatics.COPY_AS_REFERENCE_ARRAY.bindTo(arrayType);
+    privbtf stbtid MftiodHbndlf buildArrbyProdudfr(Clbss<?> brrbyTypf) {
+        Clbss<?> flfmTypf = brrbyTypf.gftComponfntTypf();
+        if (flfmTypf.isPrimitivf())
+            rfturn LbzyStbtids.COPY_AS_PRIMITIVE_ARRAY.bindTo(Wrbppfr.forPrimitivfTypf(flfmTypf));
+        flsf
+            rfturn LbzyStbtids.COPY_AS_REFERENCE_ARRAY.bindTo(brrbyTypf);
     }
 
-    // List version of varargs maker.
+    // List vfrsion of vbrbrgs mbkfr.
 
-    private static final List<Object> NO_ARGS_LIST = Arrays.asList(NO_ARGS_ARRAY);
-    private static List<Object> makeList(Object... args) { return Arrays.asList(args); }
-    private static List<Object> list() { return NO_ARGS_LIST; }
-    private static List<Object> list(Object a0)
-                { return makeList(a0); }
-    private static List<Object> list(Object a0, Object a1)
-                { return makeList(a0, a1); }
-    private static List<Object> list(Object a0, Object a1, Object a2)
-                { return makeList(a0, a1, a2); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3)
-                { return makeList(a0, a1, a2, a3); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4)
-                { return makeList(a0, a1, a2, a3, a4); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4, Object a5)
-                { return makeList(a0, a1, a2, a3, a4, a5); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4, Object a5, Object a6)
-                { return makeList(a0, a1, a2, a3, a4, a5, a6); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4, Object a5, Object a6, Object a7)
-                { return makeList(a0, a1, a2, a3, a4, a5, a6, a7); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4, Object a5, Object a6, Object a7,
-                                     Object a8)
-                { return makeList(a0, a1, a2, a3, a4, a5, a6, a7, a8); }
-    private static List<Object> list(Object a0, Object a1, Object a2, Object a3,
-                                     Object a4, Object a5, Object a6, Object a7,
-                                     Object a8, Object a9)
-                { return makeList(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9); }
-    private static MethodHandle[] makeLists() {
-        ArrayList<MethodHandle> mhs = new ArrayList<>();
+    privbtf stbtid finbl List<Objfdt> NO_ARGS_LIST = Arrbys.bsList(NO_ARGS_ARRAY);
+    privbtf stbtid List<Objfdt> mbkfList(Objfdt... brgs) { rfturn Arrbys.bsList(brgs); }
+    privbtf stbtid List<Objfdt> list() { rfturn NO_ARGS_LIST; }
+    privbtf stbtid List<Objfdt> list(Objfdt b0)
+                { rfturn mbkfList(b0); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1)
+                { rfturn mbkfList(b0, b1); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2)
+                { rfturn mbkfList(b0, b1, b2); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3)
+                { rfturn mbkfList(b0, b1, b2, b3); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4)
+                { rfturn mbkfList(b0, b1, b2, b3, b4); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4, Objfdt b5)
+                { rfturn mbkfList(b0, b1, b2, b3, b4, b5); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4, Objfdt b5, Objfdt b6)
+                { rfturn mbkfList(b0, b1, b2, b3, b4, b5, b6); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7)
+                { rfturn mbkfList(b0, b1, b2, b3, b4, b5, b6, b7); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                     Objfdt b8)
+                { rfturn mbkfList(b0, b1, b2, b3, b4, b5, b6, b7, b8); }
+    privbtf stbtid List<Objfdt> list(Objfdt b0, Objfdt b1, Objfdt b2, Objfdt b3,
+                                     Objfdt b4, Objfdt b5, Objfdt b6, Objfdt b7,
+                                     Objfdt b8, Objfdt b9)
+                { rfturn mbkfList(b0, b1, b2, b3, b4, b5, b6, b7, b8, b9); }
+    privbtf stbtid MftiodHbndlf[] mbkfLists() {
+        ArrbyList<MftiodHbndlf> mis = nfw ArrbyList<>();
         for (;;) {
-            MethodHandle mh = findCollector("list", mhs.size(), List.class);
-            if (mh == null)  break;
-            mhs.add(mh);
+            MftiodHbndlf mi = findCollfdtor("list", mis.sizf(), List.dlbss);
+            if (mi == null)  brfbk;
+            mis.bdd(mi);
         }
-        assert(mhs.size() == 11);  // current number of methods
-        return mhs.toArray(new MethodHandle[MAX_ARITY+1]);
+        bssfrt(mis.sizf() == 11);  // durrfnt numbfr of mftiods
+        rfturn mis.toArrby(nfw MftiodHbndlf[MAX_ARITY+1]);
     }
-    private static final MethodHandle[] LISTS = makeLists();
+    privbtf stbtid finbl MftiodHbndlf[] LISTS = mbkfLists();
 
-    /** Return a method handle that takes the indicated number of Object
-     *  arguments and returns a List.
+    /** Rfturn b mftiod ibndlf tibt tbkfs tif indidbtfd numbfr of Objfdt
+     *  brgumfnts bnd rfturns b List.
      */
-    public static MethodHandle varargsList(int nargs) {
-        MethodHandle mh = LISTS[nargs];
-        if (mh != null)  return mh;
-        mh = findCollector("list", nargs, List.class);
-        if (mh != null)  return LISTS[nargs] = mh;
-        return LISTS[nargs] = buildVarargsList(nargs);
+    publid stbtid MftiodHbndlf vbrbrgsList(int nbrgs) {
+        MftiodHbndlf mi = LISTS[nbrgs];
+        if (mi != null)  rfturn mi;
+        mi = findCollfdtor("list", nbrgs, List.dlbss);
+        if (mi != null)  rfturn LISTS[nbrgs] = mi;
+        rfturn LISTS[nbrgs] = buildVbrbrgsList(nbrgs);
     }
-    private static MethodHandle buildVarargsList(int nargs) {
-        return MethodHandles.filterReturnValue(varargsArray(nargs), LazyStatics.MAKE_LIST);
+    privbtf stbtid MftiodHbndlf buildVbrbrgsList(int nbrgs) {
+        rfturn MftiodHbndlfs.filtfrRfturnVbluf(vbrbrgsArrby(nbrgs), LbzyStbtids.MAKE_LIST);
     }
 
-    // handy shared exception makers (they simplify the common case code)
-    private static InternalError newInternalError(String message, Throwable cause) {
-        return new InternalError(message, cause);
+    // ibndy sibrfd fxdfption mbkfrs (tify simplify tif dommon dbsf dodf)
+    privbtf stbtid IntfrnblError nfwIntfrnblError(String mfssbgf, Tirowbblf dbusf) {
+        rfturn nfw IntfrnblError(mfssbgf, dbusf);
     }
-    private static InternalError newInternalError(Throwable cause) {
-        return new InternalError(cause);
+    privbtf stbtid IntfrnblError nfwIntfrnblError(Tirowbblf dbusf) {
+        rfturn nfw IntfrnblError(dbusf);
     }
 }

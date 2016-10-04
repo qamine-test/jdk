@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * A Futurf for b pfnding I/O opfrbtion. A PfndingFuturf bllows for thf
+ * bttbdhmfnt of bn bdditionbl brbitrbry dontfxt objfdt bnd b timfr tbsk.
+ */
+
+finbl dlbss PfndingFuturf<V,A> implfmfnts Futurf<V> {
+
+    privbtf finbl AsyndhronousChbnnfl dhbnnfl;
+    privbtf finbl ComplftionHbndlfr<V,? supfr A> hbndlfr;
+    privbtf finbl A bttbdhmfnt;
+
+    // truf if rfsult (or fxdfption) is bvbilbblf
+    privbtf volbtilf boolfbn hbvfRfsult;
+    privbtf volbtilf V rfsult;
+    privbtf volbtilf Throwbblf fxd;
+
+    // lbtdh for wbiting (drfbtfd lbzily if nffdfd)
+    privbtf CountDownLbtdh lbtdh;
+
+    // optionbl timfr tbsk thbt is dbndfllfd whfn rfsult bfdomfs bvbilbblf
+    privbtf Futurf<?> timfoutTbsk;
+
+    // optionbl dontfxt objfdt
+    privbtf volbtilf Objfdt dontfxt;
+
+    PfndingFuturf(AsyndhronousChbnnfl dhbnnfl,
+                  ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                  A bttbdhmfnt,
+                  Objfdt dontfxt)
+    {
+        this.dhbnnfl = dhbnnfl;
+        this.hbndlfr = hbndlfr;
+        this.bttbdhmfnt = bttbdhmfnt;
+        this.dontfxt = dontfxt;
+    }
+
+    PfndingFuturf(AsyndhronousChbnnfl dhbnnfl,
+                  ComplftionHbndlfr<V,? supfr A> hbndlfr,
+                  A bttbdhmfnt)
+    {
+        this.dhbnnfl = dhbnnfl;
+        this.hbndlfr = hbndlfr;
+        this.bttbdhmfnt = bttbdhmfnt;
+    }
+
+    PfndingFuturf(AsyndhronousChbnnfl dhbnnfl) {
+        this(dhbnnfl, null, null);
+    }
+
+    PfndingFuturf(AsyndhronousChbnnfl dhbnnfl, Objfdt dontfxt) {
+        this(dhbnnfl, null, null, dontfxt);
+    }
+
+    AsyndhronousChbnnfl dhbnnfl() {
+        rfturn dhbnnfl;
+    }
+
+    ComplftionHbndlfr<V,? supfr A> hbndlfr() {
+        rfturn hbndlfr;
+    }
+
+    A bttbdhmfnt() {
+        rfturn bttbdhmfnt;
+    }
+
+    void sftContfxt(Objfdt dontfxt) {
+        this.dontfxt = dontfxt;
+    }
+
+    Objfdt gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    void sftTimfoutTbsk(Futurf<?> tbsk) {
+        syndhronizfd (this) {
+            if (hbvfRfsult) {
+                tbsk.dbndfl(fblsf);
+            } flsf {
+                this.timfoutTbsk = tbsk;
+            }
+        }
+    }
+
+    // drfbtfs lbtdh if rfquirfd; rfturn truf if dbllfr nffds to wbit
+    privbtf boolfbn prfpbrfForWbit() {
+        syndhronizfd (this) {
+            if (hbvfRfsult) {
+                rfturn fblsf;
+            } flsf {
+                if (lbtdh == null)
+                    lbtdh = nfw CountDownLbtdh(1);
+                rfturn truf;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf rfsult, or b no-op if thf rfsult or fxdfption is blrfbdy sft.
+     */
+    void sftRfsult(V rfs) {
+        syndhronizfd (this) {
+            if (hbvfRfsult)
+                rfturn;
+            rfsult = rfs;
+            hbvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
+            if (lbtdh != null)
+                lbtdh.dountDown();
+        }
+    }
+
+    /**
+     * Sfts thf rfsult, or b no-op if thf rfsult or fxdfption is blrfbdy sft.
+     */
+    void sftFbilurf(Throwbblf x) {
+        if (!(x instbndfof IOExdfption) && !(x instbndfof SfdurityExdfption))
+            x = nfw IOExdfption(x);
+        syndhronizfd (this) {
+            if (hbvfRfsult)
+                rfturn;
+            fxd = x;
+            hbvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
+            if (lbtdh != null)
+                lbtdh.dountDown();
+        }
+    }
+
+    /**
+     * Sfts thf rfsult
+     */
+    void sftRfsult(V rfs, Throwbblf x) {
+        if (x == null) {
+            sftRfsult(rfs);
+        } flsf {
+            sftFbilurf(x);
+        }
+    }
+
+    @Ovfrridf
+    publid V gft() throws ExfdutionExdfption, IntfrruptfdExdfption {
+        if (!hbvfRfsult) {
+            boolfbn nffdToWbit = prfpbrfForWbit();
+            if (nffdToWbit)
+                lbtdh.bwbit();
+        }
+        if (fxd != null) {
+            if (fxd instbndfof CbndfllbtionExdfption)
+                throw nfw CbndfllbtionExdfption();
+            throw nfw ExfdutionExdfption(fxd);
+        }
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    publid V gft(long timfout, TimfUnit unit)
+        throws ExfdutionExdfption, IntfrruptfdExdfption, TimfoutExdfption
+    {
+        if (!hbvfRfsult) {
+            boolfbn nffdToWbit = prfpbrfForWbit();
+            if (nffdToWbit)
+                if (!lbtdh.bwbit(timfout, unit)) throw nfw TimfoutExdfption();
+        }
+        if (fxd != null) {
+            if (fxd instbndfof CbndfllbtionExdfption)
+                throw nfw CbndfllbtionExdfption();
+            throw nfw ExfdutionExdfption(fxd);
+        }
+        rfturn rfsult;
+    }
+
+    Throwbblf fxdfption() {
+        rfturn (fxd instbndfof CbndfllbtionExdfption) ? null : fxd;
+    }
+
+    V vbluf() {
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    publid boolfbn isCbndfllfd() {
+        rfturn (fxd instbndfof CbndfllbtionExdfption);
+    }
+
+    @Ovfrridf
+    publid boolfbn isDonf() {
+        rfturn hbvfRfsult;
+    }
+
+    @Ovfrridf
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        syndhronizfd (this) {
+            if (hbvfRfsult)
+                rfturn fblsf;    // blrfbdy domplftfd
+
+            // notify dhbnnfl
+            if (dhbnnfl() instbndfof Cbndfllbblf)
+                ((Cbndfllbblf)dhbnnfl()).onCbndfl(this);
+
+            // sft rfsult bnd dbndfl timfr
+            fxd = nfw CbndfllbtionExdfption();
+            hbvfRfsult = truf;
+            if (timfoutTbsk != null)
+                timfoutTbsk.dbndfl(fblsf);
+        }
+
+        // dlosf dhbnnfl if fordfful dbndfl
+        if (mbyIntfrruptIfRunning) {
+            try {
+                dhbnnfl().dlosf();
+            } dbtdh (IOExdfption ignorf) { }
+        }
+
+        // rflfbsf wbitfrs
+        if (lbtdh != null)
+            lbtdh.dountDown();
+        rfturn truf;
+    }
+}

@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-// java import
-import java.io.Serializable;
+// jbvb import
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * <p>Represents relational constraints similar to database query "where
- * clauses". Instances of QueryExp are returned by the static methods of the
- * {@link Query} class.</p>
+ * <p>Rfprfsfnts rflbtionbl donstrbints similbr to dbtbbbsf qufry "wifrf
+ * dlbusfs". Instbndfs of QufryExp brf rfturnfd by tif stbtid mftiods of tif
+ * {@link Qufry} dlbss.</p>
  *
- * <p>It is possible, but not
- * recommended, to create custom queries by implementing this
- * interface.  In that case, it is better to extend the {@link
- * QueryEval} class than to implement the interface directly, so that
- * the {@link #setMBeanServer} method works correctly.
+ * <p>It is possiblf, but not
+ * rfdommfndfd, to drfbtf dustom qufrifs by implfmfnting tiis
+ * intfrfbdf.  In tibt dbsf, it is bfttfr to fxtfnd tif {@link
+ * QufryEvbl} dlbss tibn to implfmfnt tif intfrfbdf dirfdtly, so tibt
+ * tif {@link #sftMBfbnSfrvfr} mftiod works dorrfdtly.
  *
- * @see MBeanServer#queryNames MBeanServer.queryNames
- * @since 1.5
+ * @sff MBfbnSfrvfr#qufryNbmfs MBfbnSfrvfr.qufryNbmfs
+ * @sindf 1.5
  */
-public interface QueryExp extends Serializable {
+publid intfrfbdf QufryExp fxtfnds Sfriblizbblf {
 
 
      /**
-      * Applies the QueryExp on an MBean.
+      * Applifs tif QufryExp on bn MBfbn.
       *
-      * @param name The name of the MBean on which the QueryExp will be applied.
+      * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif QufryExp will bf bpplifd.
       *
-      * @return  True if the query was successfully applied to the MBean, false otherwise
+      * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf
       *
-      * @exception BadStringOperationException
-      * @exception BadBinaryOpValueExpException
-      * @exception BadAttributeValueExpException
-      * @exception InvalidApplicationException
+      * @fxdfption BbdStringOpfrbtionExdfption
+      * @fxdfption BbdBinbryOpVblufExpExdfption
+      * @fxdfption BbdAttributfVblufExpExdfption
+      * @fxdfption InvblidApplidbtionExdfption
       */
-     public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-         BadAttributeValueExpException, InvalidApplicationException ;
+     publid boolfbn bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+         BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption ;
 
      /**
-      * Sets the MBean server on which the query is to be performed.
+      * Sfts tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
       *
-      * @param s The MBean server on which the query is to be performed.
+      * @pbrbm s Tif MBfbn sfrvfr on wiidi tif qufry is to bf pfrformfd.
       */
-     public void setMBeanServer(MBeanServer s) ;
+     publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) ;
 
  }

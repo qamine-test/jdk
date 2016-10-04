@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
 
 /**
- * A package private utility class to convert indefinite length DER
- * encoded byte arrays to definite length DER encoded byte arrays.
+ * A pbdkbgf privbtf utility dlbss to donvfrt indffinitf lfngti DER
+ * fndodfd bytf brrbys to dffinitf lfngti DER fndodfd bytf brrbys.
  *
- * This assumes that the basic data structure is "tag, length, value"
- * triplet. In the case where the length is "indefinite", terminating
- * end-of-contents bytes are expected.
+ * Tiis bssumfs tibt tif bbsid dbtb strudturf is "tbg, lfngti, vbluf"
+ * triplft. In tif dbsf wifrf tif lfngti is "indffinitf", tfrminbting
+ * fnd-of-dontfnts bytfs brf fxpfdtfd.
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
-class DerIndefLenConverter {
+dlbss DfrIndffLfnConvfrtfr {
 
-    private static final int TAG_MASK            = 0x1f; // bits 5-1
-    private static final int FORM_MASK           = 0x20; // bits 6
-    private static final int CLASS_MASK          = 0xC0; // bits 8 and 7
+    privbtf stbtid finbl int TAG_MASK            = 0x1f; // bits 5-1
+    privbtf stbtid finbl int FORM_MASK           = 0x20; // bits 6
+    privbtf stbtid finbl int CLASS_MASK          = 0xC0; // bits 8 bnd 7
 
-    private static final int LEN_LONG            = 0x80; // bit 8 set
-    private static final int LEN_MASK            = 0x7f; // bits 7 - 1
-    private static final int SKIP_EOC_BYTES      = 2;
+    privbtf stbtid finbl int LEN_LONG            = 0x80; // bit 8 sft
+    privbtf stbtid finbl int LEN_MASK            = 0x7f; // bits 7 - 1
+    privbtf stbtid finbl int SKIP_EOC_BYTES      = 2;
 
-    private byte[] data, newData;
-    private int newDataPos, dataPos, dataSize, index;
-    private int unresolved = 0;
+    privbtf bytf[] dbtb, nfwDbtb;
+    privbtf int nfwDbtbPos, dbtbPos, dbtbSizf, indfx;
+    privbtf int unrfsolvfd = 0;
 
-    private ArrayList<Object> ndefsList = new ArrayList<Object>();
+    privbtf ArrbyList<Objfdt> ndffsList = nfw ArrbyList<Objfdt>();
 
-    private int numOfTotalLenBytes = 0;
+    privbtf int numOfTotblLfnBytfs = 0;
 
-    private boolean isEOC(int tag) {
-        return (((tag & TAG_MASK) == 0x00) &&  // EOC
-                ((tag & FORM_MASK) == 0x00) && // primitive
-                ((tag & CLASS_MASK) == 0x00)); // universal
+    privbtf boolfbn isEOC(int tbg) {
+        rfturn (((tbg & TAG_MASK) == 0x00) &&  // EOC
+                ((tbg & FORM_MASK) == 0x00) && // primitivf
+                ((tbg & CLASS_MASK) == 0x00)); // univfrsbl
     }
 
-    // if bit 8 is set then it implies either indefinite length or long form
-    static boolean isLongForm(int lengthByte) {
-        return ((lengthByte & LEN_LONG) == LEN_LONG);
+    // if bit 8 is sft tifn it implifs fitifr indffinitf lfngti or long form
+    stbtid boolfbn isLongForm(int lfngtiBytf) {
+        rfturn ((lfngtiBytf & LEN_LONG) == LEN_LONG);
     }
 
     /*
-     * Default package private constructor
+     * Dffbult pbdkbgf privbtf donstrudtor
      */
-    DerIndefLenConverter() { }
+    DfrIndffLfnConvfrtfr() { }
 
     /**
-     * Checks whether the given length byte is of the form
-     * <em>Indefinite</em>.
+     * Cifdks wiftifr tif givfn lfngti bytf is of tif form
+     * <fm>Indffinitf</fm>.
      *
-     * @param lengthByte the length byte from a DER encoded
-     *        object.
-     * @return true if the byte is of Indefinite form otherwise
-     *         returns false.
+     * @pbrbm lfngtiBytf tif lfngti bytf from b DER fndodfd
+     *        objfdt.
+     * @rfturn truf if tif bytf is of Indffinitf form otifrwisf
+     *         rfturns fblsf.
      */
-    static boolean isIndefinite(int lengthByte) {
-        return (isLongForm(lengthByte) && ((lengthByte & LEN_MASK) == 0));
+    stbtid boolfbn isIndffinitf(int lfngtiBytf) {
+        rfturn (isLongForm(lfngtiBytf) && ((lfngtiBytf & LEN_MASK) == 0));
     }
 
     /**
-     * Parse the tag and if it is an end-of-contents tag then
-     * add the current position to the <code>eocList</code> vector.
+     * Pbrsf tif tbg bnd if it is bn fnd-of-dontfnts tbg tifn
+     * bdd tif durrfnt position to tif <dodf>fodList</dodf> vfdtor.
      */
-    private void parseTag() throws IOException {
-        if (dataPos == dataSize)
-            return;
-        if (isEOC(data[dataPos]) && (data[dataPos + 1] == 0)) {
-            int numOfEncapsulatedLenBytes = 0;
-            Object elem = null;
-            int index;
-            for (index = ndefsList.size()-1; index >= 0; index--) {
-                // Determine the first element in the vector that does not
-                // have a matching EOC
-                elem = ndefsList.get(index);
-                if (elem instanceof Integer) {
-                    break;
-                } else {
-                    numOfEncapsulatedLenBytes += ((byte[])elem).length - 3;
+    privbtf void pbrsfTbg() tirows IOExdfption {
+        if (dbtbPos == dbtbSizf)
+            rfturn;
+        if (isEOC(dbtb[dbtbPos]) && (dbtb[dbtbPos + 1] == 0)) {
+            int numOfEndbpsulbtfdLfnBytfs = 0;
+            Objfdt flfm = null;
+            int indfx;
+            for (indfx = ndffsList.sizf()-1; indfx >= 0; indfx--) {
+                // Dftfrminf tif first flfmfnt in tif vfdtor tibt dofs not
+                // ibvf b mbtdiing EOC
+                flfm = ndffsList.gft(indfx);
+                if (flfm instbndfof Intfgfr) {
+                    brfbk;
+                } flsf {
+                    numOfEndbpsulbtfdLfnBytfs += ((bytf[])flfm).lfngti - 3;
                 }
             }
-            if (index < 0) {
-                throw new IOException("EOC does not have matching " +
-                                      "indefinite-length tag");
+            if (indfx < 0) {
+                tirow nfw IOExdfption("EOC dofs not ibvf mbtdiing " +
+                                      "indffinitf-lfngti tbg");
             }
-            int sectionLen = dataPos - ((Integer)elem).intValue() +
-                             numOfEncapsulatedLenBytes;
-            byte[] sectionLenBytes = getLengthBytes(sectionLen);
-            ndefsList.set(index, sectionLenBytes);
-            unresolved--;
+            int sfdtionLfn = dbtbPos - ((Intfgfr)flfm).intVbluf() +
+                             numOfEndbpsulbtfdLfnBytfs;
+            bytf[] sfdtionLfnBytfs = gftLfngtiBytfs(sfdtionLfn);
+            ndffsList.sft(indfx, sfdtionLfnBytfs);
+            unrfsolvfd--;
 
-            // Add the number of bytes required to represent this section
-            // to the total number of length bytes,
-            // and subtract the indefinite-length tag (1 byte) and
-            // EOC bytes (2 bytes) for this section
-            numOfTotalLenBytes += (sectionLenBytes.length - 3);
+            // Add tif numbfr of bytfs rfquirfd to rfprfsfnt tiis sfdtion
+            // to tif totbl numbfr of lfngti bytfs,
+            // bnd subtrbdt tif indffinitf-lfngti tbg (1 bytf) bnd
+            // EOC bytfs (2 bytfs) for tiis sfdtion
+            numOfTotblLfnBytfs += (sfdtionLfnBytfs.lfngti - 3);
         }
-        dataPos++;
+        dbtbPos++;
     }
 
     /**
-     * Write the tag and if it is an end-of-contents tag
-     * then skip the tag and its 1 byte length of zero.
+     * Writf tif tbg bnd if it is bn fnd-of-dontfnts tbg
+     * tifn skip tif tbg bnd its 1 bytf lfngti of zfro.
      */
-    private void writeTag() {
-        if (dataPos == dataSize)
-            return;
-        int tag = data[dataPos++];
-        if (isEOC(tag) && (data[dataPos] == 0)) {
-            dataPos++;  // skip length
-            writeTag();
-        } else
-            newData[newDataPos++] = (byte)tag;
+    privbtf void writfTbg() {
+        if (dbtbPos == dbtbSizf)
+            rfturn;
+        int tbg = dbtb[dbtbPos++];
+        if (isEOC(tbg) && (dbtb[dbtbPos] == 0)) {
+            dbtbPos++;  // skip lfngti
+            writfTbg();
+        } flsf
+            nfwDbtb[nfwDbtbPos++] = (bytf)tbg;
     }
 
     /**
-     * Parse the length and if it is an indefinite length then add
-     * the current position to the <code>ndefsList</code> vector.
+     * Pbrsf tif lfngti bnd if it is bn indffinitf lfngti tifn bdd
+     * tif durrfnt position to tif <dodf>ndffsList</dodf> vfdtor.
      */
-    private int parseLength() throws IOException {
-        int curLen = 0;
-        if (dataPos == dataSize)
-            return curLen;
-        int lenByte = data[dataPos++] & 0xff;
-        if (isIndefinite(lenByte)) {
-            ndefsList.add(dataPos);
-            unresolved++;
-            return curLen;
+    privbtf int pbrsfLfngti() tirows IOExdfption {
+        int durLfn = 0;
+        if (dbtbPos == dbtbSizf)
+            rfturn durLfn;
+        int lfnBytf = dbtb[dbtbPos++] & 0xff;
+        if (isIndffinitf(lfnBytf)) {
+            ndffsList.bdd(dbtbPos);
+            unrfsolvfd++;
+            rfturn durLfn;
         }
-        if (isLongForm(lenByte)) {
-            lenByte &= LEN_MASK;
-            if (lenByte > 4)
-                throw new IOException("Too much data");
-            if ((dataSize - dataPos) < (lenByte + 1))
-                throw new IOException("Too little data");
-            for (int i = 0; i < lenByte; i++)
-                curLen = (curLen << 8) + (data[dataPos++] & 0xff);
-        } else {
-           curLen = (lenByte & LEN_MASK);
+        if (isLongForm(lfnBytf)) {
+            lfnBytf &= LEN_MASK;
+            if (lfnBytf > 4)
+                tirow nfw IOExdfption("Too mudi dbtb");
+            if ((dbtbSizf - dbtbPos) < (lfnBytf + 1))
+                tirow nfw IOExdfption("Too littlf dbtb");
+            for (int i = 0; i < lfnBytf; i++)
+                durLfn = (durLfn << 8) + (dbtb[dbtbPos++] & 0xff);
+        } flsf {
+           durLfn = (lfnBytf & LEN_MASK);
         }
-        return curLen;
+        rfturn durLfn;
     }
 
     /**
-     * Write the length and if it is an indefinite length
-     * then calculate the definite length from the positions
-     * of the indefinite length and its matching EOC terminator.
-     * Then, write the value.
+     * Writf tif lfngti bnd if it is bn indffinitf lfngti
+     * tifn dbldulbtf tif dffinitf lfngti from tif positions
+     * of tif indffinitf lfngti bnd its mbtdiing EOC tfrminbtor.
+     * Tifn, writf tif vbluf.
      */
-    private void writeLengthAndValue() throws IOException {
-        if (dataPos == dataSize)
-           return;
-        int curLen = 0;
-        int lenByte = data[dataPos++] & 0xff;
-        if (isIndefinite(lenByte)) {
-            byte[] lenBytes = (byte[])ndefsList.get(index++);
-            System.arraycopy(lenBytes, 0, newData, newDataPos,
-                             lenBytes.length);
-            newDataPos += lenBytes.length;
-            return;
+    privbtf void writfLfngtiAndVbluf() tirows IOExdfption {
+        if (dbtbPos == dbtbSizf)
+           rfturn;
+        int durLfn = 0;
+        int lfnBytf = dbtb[dbtbPos++] & 0xff;
+        if (isIndffinitf(lfnBytf)) {
+            bytf[] lfnBytfs = (bytf[])ndffsList.gft(indfx++);
+            Systfm.brrbydopy(lfnBytfs, 0, nfwDbtb, nfwDbtbPos,
+                             lfnBytfs.lfngti);
+            nfwDbtbPos += lfnBytfs.lfngti;
+            rfturn;
         }
-        if (isLongForm(lenByte)) {
-            lenByte &= LEN_MASK;
-            for (int i = 0; i < lenByte; i++)
-                curLen = (curLen << 8) + (data[dataPos++] & 0xff);
-        } else
-            curLen = (lenByte & LEN_MASK);
-        writeLength(curLen);
-        writeValue(curLen);
+        if (isLongForm(lfnBytf)) {
+            lfnBytf &= LEN_MASK;
+            for (int i = 0; i < lfnBytf; i++)
+                durLfn = (durLfn << 8) + (dbtb[dbtbPos++] & 0xff);
+        } flsf
+            durLfn = (lfnBytf & LEN_MASK);
+        writfLfngti(durLfn);
+        writfVbluf(durLfn);
     }
 
-    private void writeLength(int curLen) {
-        if (curLen < 128) {
-            newData[newDataPos++] = (byte)curLen;
+    privbtf void writfLfngti(int durLfn) {
+        if (durLfn < 128) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 8)) {
-            newData[newDataPos++] = (byte)0x81;
-            newData[newDataPos++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 8)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x81;
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 16)) {
-            newData[newDataPos++] = (byte)0x82;
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 16)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x82;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 24)) {
-            newData[newDataPos++] = (byte)0x83;
-            newData[newDataPos++] = (byte)(curLen >> 16);
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 24)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x83;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 16);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
 
-        } else {
-            newData[newDataPos++] = (byte)0x84;
-            newData[newDataPos++] = (byte)(curLen >> 24);
-            newData[newDataPos++] = (byte)(curLen >> 16);
-            newData[newDataPos++] = (byte)(curLen >> 8);
-            newData[newDataPos++] = (byte)curLen;
+        } flsf {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x84;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 24);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 16);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
         }
     }
 
-    private byte[] getLengthBytes(int curLen) {
-        byte[] lenBytes;
-        int index = 0;
+    privbtf bytf[] gftLfngtiBytfs(int durLfn) {
+        bytf[] lfnBytfs;
+        int indfx = 0;
 
-        if (curLen < 128) {
-            lenBytes = new byte[1];
-            lenBytes[index++] = (byte)curLen;
+        if (durLfn < 128) {
+            lfnBytfs = nfw bytf[1];
+            lfnBytfs[indfx++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 8)) {
-            lenBytes = new byte[2];
-            lenBytes[index++] = (byte)0x81;
-            lenBytes[index++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 8)) {
+            lfnBytfs = nfw bytf[2];
+            lfnBytfs[indfx++] = (bytf)0x81;
+            lfnBytfs[indfx++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 16)) {
-            lenBytes = new byte[3];
-            lenBytes[index++] = (byte)0x82;
-            lenBytes[index++] = (byte)(curLen >> 8);
-            lenBytes[index++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 16)) {
+            lfnBytfs = nfw bytf[3];
+            lfnBytfs[indfx++] = (bytf)0x82;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
 
-        } else if (curLen < (1 << 24)) {
-            lenBytes = new byte[4];
-            lenBytes[index++] = (byte)0x83;
-            lenBytes[index++] = (byte)(curLen >> 16);
-            lenBytes[index++] = (byte)(curLen >> 8);
-            lenBytes[index++] = (byte)curLen;
+        } flsf if (durLfn < (1 << 24)) {
+            lfnBytfs = nfw bytf[4];
+            lfnBytfs[indfx++] = (bytf)0x83;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 16);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
 
-        } else {
-            lenBytes = new byte[5];
-            lenBytes[index++] = (byte)0x84;
-            lenBytes[index++] = (byte)(curLen >> 24);
-            lenBytes[index++] = (byte)(curLen >> 16);
-            lenBytes[index++] = (byte)(curLen >> 8);
-            lenBytes[index++] = (byte)curLen;
+        } flsf {
+            lfnBytfs = nfw bytf[5];
+            lfnBytfs[indfx++] = (bytf)0x84;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 24);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 16);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
         }
 
-        return lenBytes;
+        rfturn lfnBytfs;
     }
 
-    // Returns the number of bytes needed to represent the given length
-    // in ASN.1 notation
-    private int getNumOfLenBytes(int len) {
-        int numOfLenBytes = 0;
+    // Rfturns tif numbfr of bytfs nffdfd to rfprfsfnt tif givfn lfngti
+    // in ASN.1 notbtion
+    privbtf int gftNumOfLfnBytfs(int lfn) {
+        int numOfLfnBytfs = 0;
 
-        if (len < 128) {
-            numOfLenBytes = 1;
-        } else if (len < (1 << 8)) {
-            numOfLenBytes = 2;
-        } else if (len < (1 << 16)) {
-            numOfLenBytes = 3;
-        } else if (len < (1 << 24)) {
-            numOfLenBytes = 4;
-        } else {
-            numOfLenBytes = 5;
+        if (lfn < 128) {
+            numOfLfnBytfs = 1;
+        } flsf if (lfn < (1 << 8)) {
+            numOfLfnBytfs = 2;
+        } flsf if (lfn < (1 << 16)) {
+            numOfLfnBytfs = 3;
+        } flsf if (lfn < (1 << 24)) {
+            numOfLfnBytfs = 4;
+        } flsf {
+            numOfLfnBytfs = 5;
         }
-        return numOfLenBytes;
+        rfturn numOfLfnBytfs;
     }
 
     /**
-     * Parse the value;
+     * Pbrsf tif vbluf;
      */
-    private void parseValue(int curLen) {
-        dataPos += curLen;
+    privbtf void pbrsfVbluf(int durLfn) {
+        dbtbPos += durLfn;
     }
 
     /**
-     * Write the value;
+     * Writf tif vbluf;
      */
-    private void writeValue(int curLen) {
-        for (int i=0; i < curLen; i++)
-            newData[newDataPos++] = data[dataPos++];
+    privbtf void writfVbluf(int durLfn) {
+        for (int i=0; i < durLfn; i++)
+            nfwDbtb[nfwDbtbPos++] = dbtb[dbtbPos++];
     }
 
     /**
-     * Converts a indefinite length DER encoded byte array to
-     * a definte length DER encoding.
+     * Convfrts b indffinitf lfngti DER fndodfd bytf brrby to
+     * b dffintf lfngti DER fndoding.
      *
-     * @param indefData the byte array holding the indefinite
-     *        length encoding.
-     * @return the byte array containing the definite length
-     *         DER encoding.
-     * @exception IOException on parsing or re-writing errors.
+     * @pbrbm indffDbtb tif bytf brrby iolding tif indffinitf
+     *        lfngti fndoding.
+     * @rfturn tif bytf brrby dontbining tif dffinitf lfngti
+     *         DER fndoding.
+     * @fxdfption IOExdfption on pbrsing or rf-writing frrors.
      */
-    byte[] convert(byte[] indefData) throws IOException {
-        data = indefData;
-        dataPos=0; index=0;
-        dataSize = data.length;
-        int len=0;
-        int unused = 0;
+    bytf[] donvfrt(bytf[] indffDbtb) tirows IOExdfption {
+        dbtb = indffDbtb;
+        dbtbPos=0; indfx=0;
+        dbtbSizf = dbtb.lfngti;
+        int lfn=0;
+        int unusfd = 0;
 
-        // parse and set up the vectors of all the indefinite-lengths
-        while (dataPos < dataSize) {
-            parseTag();
-            len = parseLength();
-            parseValue(len);
-            if (unresolved == 0) {
-                unused = dataSize - dataPos;
-                dataSize = dataPos;
-                break;
+        // pbrsf bnd sft up tif vfdtors of bll tif indffinitf-lfngtis
+        wiilf (dbtbPos < dbtbSizf) {
+            pbrsfTbg();
+            lfn = pbrsfLfngti();
+            pbrsfVbluf(lfn);
+            if (unrfsolvfd == 0) {
+                unusfd = dbtbSizf - dbtbPos;
+                dbtbSizf = dbtbPos;
+                brfbk;
             }
         }
 
-        if (unresolved != 0) {
-            throw new IOException("not all indef len BER resolved");
+        if (unrfsolvfd != 0) {
+            tirow nfw IOExdfption("not bll indff lfn BER rfsolvfd");
         }
 
-        newData = new byte[dataSize + numOfTotalLenBytes + unused];
-        dataPos=0; newDataPos=0; index=0;
+        nfwDbtb = nfw bytf[dbtbSizf + numOfTotblLfnBytfs + unusfd];
+        dbtbPos=0; nfwDbtbPos=0; indfx=0;
 
-        // write out the new byte array replacing all the indefinite-lengths
-        // and EOCs
-        while (dataPos < dataSize) {
-           writeTag();
-           writeLengthAndValue();
+        // writf out tif nfw bytf brrby rfplbding bll tif indffinitf-lfngtis
+        // bnd EOCs
+        wiilf (dbtbPos < dbtbSizf) {
+           writfTbg();
+           writfLfngtiAndVbluf();
         }
-        System.arraycopy(indefData, dataSize,
-                         newData, dataSize + numOfTotalLenBytes, unused);
+        Systfm.brrbydopy(indffDbtb, dbtbSizf,
+                         nfwDbtb, dbtbSizf + numOfTotblLfnBytfs, unusfd);
 
-        return newData;
+        rfturn nfwDbtb;
     }
 }

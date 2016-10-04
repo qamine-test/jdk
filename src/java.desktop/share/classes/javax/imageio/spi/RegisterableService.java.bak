@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
 /**
- * An optional interface that may be provided by service provider
- * objects that will be registered with a
- * <code>ServiceRegistry</code>.  If this interface is present,
- * notification of registration and deregistration will be performed.
+ * An optionbl intfrfbdf tibt mby bf providfd by sfrvidf providfr
+ * objfdts tibt will bf rfgistfrfd witi b
+ * <dodf>SfrvidfRfgistry</dodf>.  If tiis intfrfbdf is prfsfnt,
+ * notifidbtion of rfgistrbtion bnd dfrfgistrbtion will bf pfrformfd.
  *
- * @see ServiceRegistry
+ * @sff SfrvidfRfgistry
  *
  */
-public interface RegisterableService {
+publid intfrfbdf RfgistfrbblfSfrvidf {
 
     /**
-     * Called when an object implementing this interface is added to
-     * the given <code>category</code> of the given
-     * <code>registry</code>.  The object may already be registered
-     * under another category or categories.
+     * Cbllfd wifn bn objfdt implfmfnting tiis intfrfbdf is bddfd to
+     * tif givfn <dodf>dbtfgory</dodf> of tif givfn
+     * <dodf>rfgistry</dodf>.  Tif objfdt mby blrfbdy bf rfgistfrfd
+     * undfr bnotifr dbtfgory or dbtfgorifs.
      *
-     * @param registry a <code>ServiceRegistry</code> where this
-     * object has been registered.
-     * @param category a <code>Class</code> object indicating the
-     * registry category under which this object has been registered.
+     * @pbrbm rfgistry b <dodf>SfrvidfRfgistry</dodf> wifrf tiis
+     * objfdt ibs bffn rfgistfrfd.
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting tif
+     * rfgistry dbtfgory undfr wiidi tiis objfdt ibs bffn rfgistfrfd.
      */
-    void onRegistration(ServiceRegistry registry, Class<?> category);
+    void onRfgistrbtion(SfrvidfRfgistry rfgistry, Clbss<?> dbtfgory);
 
     /**
-     * Called when an object implementing this interface is removed
-     * from the given <code>category</code> of the given
-     * <code>registry</code>.  The object may still be registered
-     * under another category or categories.
+     * Cbllfd wifn bn objfdt implfmfnting tiis intfrfbdf is rfmovfd
+     * from tif givfn <dodf>dbtfgory</dodf> of tif givfn
+     * <dodf>rfgistry</dodf>.  Tif objfdt mby still bf rfgistfrfd
+     * undfr bnotifr dbtfgory or dbtfgorifs.
      *
-     * @param registry a <code>ServiceRegistry</code> from which this
-     * object is being (wholly or partially) deregistered.
-     * @param category a <code>Class</code> object indicating the
-     * registry category from which this object is being deregistered.
+     * @pbrbm rfgistry b <dodf>SfrvidfRfgistry</dodf> from wiidi tiis
+     * objfdt is bfing (wiolly or pbrtiblly) dfrfgistfrfd.
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting tif
+     * rfgistry dbtfgory from wiidi tiis objfdt is bfing dfrfgistfrfd.
      */
-    void onDeregistration(ServiceRegistry registry, Class<?> category);
+    void onDfrfgistrbtion(SfrvidfRfgistry rfgistry, Clbss<?> dbtfgory);
 }

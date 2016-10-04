@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
 /**
- * The Permission class for reflective operations.
+ * Tif Pfrmission dlbss for rfflfdtivf opfrbtions.
  * <P>
- * The following table
- * provides a summary description of what the permission allows,
- * and discusses the risks of granting code the permission.
+ * Tif following tbblf
+ * providfs b summbry dfsdription of wibt tif pfrmission bllows,
+ * bnd disdussfs tif risks of grbnting dodf tif pfrmission.
  *
- * <table border=1 cellpadding=5 summary="Table shows permission target name, what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Tbblf siows pfrmission tbrgft nbmf, wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>suppressAccessChecks</td>
- *   <td>ability to suppress the standard Java language access checks
- *       on fields and methods in a class; allow access not only public members
- *       but also allow access to default (package) access, protected,
- *       and private members.</td>
- *   <td>This is dangerous in that information (possibly confidential) and
- *       methods normally unavailable would be accessible to malicious code.</td>
+ *   <td>supprfssAddfssCifdks</td>
+ *   <td>bbility to supprfss tif stbndbrd Jbvb lbngubgf bddfss difdks
+ *       on fiflds bnd mftiods in b dlbss; bllow bddfss not only publid mfmbfrs
+ *       but blso bllow bddfss to dffbult (pbdkbgf) bddfss, protfdtfd,
+ *       bnd privbtf mfmbfrs.</td>
+ *   <td>Tiis is dbngfrous in tibt informbtion (possibly donfidfntibl) bnd
+ *       mftiods normblly unbvbilbblf would bf bddfssiblf to mblidious dodf.</td>
  * </tr>
  * <tr>
- *   <td>newProxyInPackage.{package name}</td>
- *   <td>ability to create a proxy instance in the specified package of which
- *       the non-public interface that the proxy class implements.</td>
- *   <td>This gives code access to classes in packages to which it normally
- *       does not have access and the dynamic proxy class is in the system
- *       protection domain. Malicious code may use these classes to
- *       help in its attempt to compromise security in the system.</td>
+ *   <td>nfwProxyInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>bbility to drfbtf b proxy instbndf in tif spfdififd pbdkbgf of wiidi
+ *       tif non-publid intfrfbdf tibt tif proxy dlbss implfmfnts.</td>
+ *   <td>Tiis givfs dodf bddfss to dlbssfs in pbdkbgfs to wiidi it normblly
+ *       dofs not ibvf bddfss bnd tif dynbmid proxy dlbss is in tif systfm
+ *       protfdtion dombin. Mblidious dodf mby usf tifsf dlbssfs to
+ *       iflp in its bttfmpt to dompromisf sfdurity in tif systfm.</td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
- * @see java.security.Permission
- * @see java.security.BasicPermission
- * @see AccessibleObject
- * @see Field#get
- * @see Field#set
- * @see Method#invoke
- * @see Constructor#newInstance
- * @see Proxy#newProxyInstance
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff AddfssiblfObjfdt
+ * @sff Fifld#gft
+ * @sff Fifld#sft
+ * @sff Mftiod#invokf
+ * @sff Construdtor#nfwInstbndf
+ * @sff Proxy#nfwProxyInstbndf
  *
- * @since 1.2
+ * @sindf 1.2
  */
-public final
-class ReflectPermission extends java.security.BasicPermission {
+publid finbl
+dlbss RfflfdtPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
 
-    private static final long serialVersionUID = 7412737110241507485L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7412737110241507485L;
 
     /**
-     * Constructs a ReflectPermission with the specified name.
+     * Construdts b RfflfdtPfrmission witi tif spfdififd nbmf.
      *
-     * @param name the name of the ReflectPermission
+     * @pbrbm nbmf tif nbmf of tif RfflfdtPfrmission
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public ReflectPermission(String name) {
-        super(name);
+    publid RfflfdtPfrmission(String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Constructs a ReflectPermission with the specified name and actions.
-     * The actions should be null; they are ignored.
+     * Construdts b RfflfdtPfrmission witi tif spfdififd nbmf bnd bdtions.
+     * Tif bdtions siould bf null; tify brf ignorfd.
      *
-     * @param name the name of the ReflectPermission
+     * @pbrbm nbmf tif nbmf of tif RfflfdtPfrmission
      *
-     * @param actions should be null
+     * @pbrbm bdtions siould bf null
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public ReflectPermission(String name, String actions) {
-        super(name, actions);
+    publid RfflfdtPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
     }
 
 }

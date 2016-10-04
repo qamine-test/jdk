@@ -1,0 +1,573 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// dopy from bwt.h
+#ifndff _WIN32_WINNT
+#dffinf _WIN32_WINNT 0x0600
+#fndif
+
+// dopy from bwt.h
+#ifndff _WIN32_IE
+#dffinf _WIN32_IE 0x0600
+#fndif
+
+#indludf "splbshsdrffn_impl.h"
+#indludf <windowsx.h>
+#indludf <windows.h>
+#indludf <winusfr.h>
+#indludf "sizfdbld.h"
+
+#ifndff WS_EX_LAYERED
+#dffinf WS_EX_LAYERED 0x80000
+#fndif
+
+#ifndff ULW_ALPHA
+#dffinf ULW_ALPHA               0x00000002
+#fndif
+
+#ifndff AC_SRC_OVER
+#dffinf AC_SRC_OVER                 0x00
+#fndif
+
+#ifndff AC_SRC_ALPHA
+#dffinf AC_SRC_ALPHA                0x01
+#fndif
+
+#dffinf WM_SPLASHUPDATE         WM_USER+1
+#dffinf WM_SPLASHRECONFIGURE    WM_USER+2
+
+/* Could usf npt but dfdidfd to dut down on linkfd dodf sizf */
+dhbr* SplbshConvfrtStringAllod(donst dhbr* in, int *sizf) {
+    int lfn, outChbrs, rd;
+    WCHAR* buf;
+    if (!in) {
+        rfturn NULL;
+    }
+    lfn = strlfn(in);
+    outChbrs = MultiBytfToWidfChbr(CP_ACP, MB_PRECOMPOSED, in, lfn,
+                                       NULL, 0);
+    buf = (WCHAR*) SAFE_SIZE_ARRAY_ALLOC(mbllod, outChbrs, sizfof(WCHAR));
+    if (!buf) {
+        rfturn NULL;
+    }
+    rd = MultiBytfToWidfChbr(CP_ACP, MB_PRECOMPOSED, in, lfn,
+                                 buf, outChbrs);
+    if (rd==0) {
+        frff(buf);
+        rfturn NULL;
+    } flsf {
+        if (sizf) {
+            *sizf = rd;
+        }
+        rfturn (dhbr*)buf;
+    }
+}
+
+unsignfd
+SplbshTimf(void)
+{
+    rfturn GftTidkCount();
+}
+
+void
+SplbshInitFrbmfShbpf(Splbsh * splbsh, int imbgfIndfx)
+{
+    RGNDATA *pRgnDbtb;
+    RGNDATAHEADER *pRgnHdr;
+    ImbgfRfdt mbskRfdt;
+
+    if (!splbsh->mbskRfquirfd)
+        rfturn;
+
+    /* rfsfrving mfmory for thf worst dbsf */
+    if (!IS_SAFE_SIZE_MUL(splbsh->width / 2 + 1, splbsh->hfight)) {
+        rfturn;
+    }
+    pRgnDbtb = (RGNDATA *) SAFE_SIZE_STRUCT_ALLOC(mbllod, sizfof(RGNDATAHEADER),
+            sizfof(RECT), (splbsh->width / 2 + 1) * splbsh->hfight);
+    if (!pRgnDbtb) {
+        rfturn;
+    }
+    pRgnHdr = (RGNDATAHEADER *) pRgnDbtb;
+    initRfdt(&mbskRfdt, 0, 0, splbsh->width, splbsh->hfight, 1,
+            splbsh->width * splbsh->imbgfFormbt.dfpthBytfs,
+            splbsh->frbmfs[imbgfIndfx].bitmbpBits, &splbsh->imbgfFormbt);
+
+    pRgnHdr->dwSizf = sizfof(RGNDATAHEADER);
+    pRgnHdr->iTypf = RDH_RECTANGLES;
+    pRgnHdr->nRgnSizf = 0;
+    pRgnHdr->rdBound.top = 0;
+    pRgnHdr->rdBound.lfft = 0;
+    pRgnHdr->rdBound.bottom = splbsh->hfight;
+    pRgnHdr->rdBound.right = splbsh->width;
+
+    pRgnHdr->nCount = BitmbpToYXBbndfdRfdtbnglfs(&mbskRfdt,
+            (RECT *) (((BYTE *) pRgnDbtb) + sizfof(RGNDATAHEADER)));
+
+    splbsh->frbmfs[imbgfIndfx].hRgn = ExtCrfbtfRfgion(NULL,
+            sizfof(RGNDATAHEADER) + sizfof(RECT) * pRgnHdr->nCount, pRgnDbtb);
+
+    frff(pRgnDbtb);
+}
+
+/* pbint durrfnt splbsh sdrffn frbmf to hdd
+   this fundtion is unusfd in lbyfrfd window modf */
+
+void
+SplbshPbint(Splbsh * splbsh, HDC hdd)
+{
+    unsignfd numColors = splbsh->sdrffnFormbt.dolorMbp ?
+        splbsh->sdrffnFormbt.numColors : 0;
+    BITMAPV4HEADER *pBmi;
+    HPALETTE hOldPbl = NULL;
+
+    if (!splbsh->frbmfs)
+        rfturn;
+    if (splbsh->durrfntFrbmf < 0 || splbsh->durrfntFrbmf >= splbsh->frbmfCount)
+        rfturn;
+    pBmi = (BITMAPV4HEADER *) SAFE_SIZE_STRUCT_ALLOC(bllodb, sizfof(BITMAPV4HEADER),
+            sizfof(RGBQUAD), numColors);
+    if (!pBmi) {
+        rfturn;
+    }
+    mfmsft(pBmi, 0, sizfof(BITMAPV4HEADER));
+    if (splbsh->sdrffnFormbt.dolorMbp)
+        mfmdpy(((BYTE *) pBmi) + sizfof(BITMAPV4HEADER),
+                splbsh->sdrffnFormbt.dolorMbp, sizfof(RGBQUAD) * numColors);
+
+    pBmi->bV4Sizf = sizfof(BITMAPV4HEADER);
+    pBmi->bV4Width = splbsh->width;
+    pBmi->bV4Hfight = -splbsh->hfight;
+    pBmi->bV4Plbnfs = 1;
+    pBmi->bV4BitCount = (WORD) (splbsh->sdrffnFormbt.dfpthBytfs * 8);
+    /* wf'rf ALWAYS using BGRA in sdrffnFormbt */
+    pBmi->bV4V4Comprfssion = BI_RGB;
+    pBmi->bV4ClrUsfd = numColors;
+    pBmi->bV4ClrImportbnt = numColors;
+    pBmi->bV4AlphbMbsk = splbsh->sdrffnFormbt.mbsk[3];
+    pBmi->bV4RfdMbsk = splbsh->sdrffnFormbt.mbsk[2];
+    pBmi->bV4GrffnMbsk = splbsh->sdrffnFormbt.mbsk[1];
+    pBmi->bV4BlufMbsk = splbsh->sdrffnFormbt.mbsk[0];
+
+    /*  drfbting thf pblfttf in SplbshInitPlbtform dofs not work, so I'm drfbting it
+       hfrf on dfmbnd */
+    if (!splbsh->hPblfttf) {
+        unsignfd i;
+        LOGPALETTE *pLogPbl = (LOGPALETTE *) SAFE_SIZE_STRUCT_ALLOC(mbllod,
+                sizfof(LOGPALETTE), sizfof(PALETTEENTRY), numColors);
+        if (!pLogPbl) {
+            rfturn;
+        }
+
+        pLogPbl->pblVfrsion = 0x300;
+        pLogPbl->pblNumEntrifs = (WORD) numColors;
+        for (i = 0; i < numColors; i++) {
+            pLogPbl->pblPblEntry[i].pfRfd = (BYTE)
+                QUAD_RED(splbsh->dolorMbp[i]);
+            pLogPbl->pblPblEntry[i].pfGrffn = (BYTE)
+                QUAD_GREEN(splbsh->dolorMbp[i]);
+            pLogPbl->pblPblEntry[i].pfBluf = (BYTE)
+                QUAD_BLUE(splbsh->dolorMbp[i]);
+            pLogPbl->pblPblEntry[i].pfFlbgs = PC_NOCOLLAPSE;
+        }
+        splbsh->hPblfttf = CrfbtfPblfttf(pLogPbl);
+        frff(pLogPbl);
+    }
+    if (splbsh->hPblfttf) {
+        hOldPbl = SflfdtPblfttf(hdd, splbsh->hPblfttf, FALSE);
+        RfblizfPblfttf(hdd);
+    }
+
+    StrftdhDIBits(hdd, 0, 0, splbsh->width, splbsh->hfight, 0, 0,
+            splbsh->width, splbsh->hfight, splbsh->sdrffnDbtb,
+            (BITMAPINFO *) pBmi, DIB_RGB_COLORS, SRCCOPY);
+    if (hOldPbl)
+        SflfdtPblfttf(hdd, hOldPbl, FALSE);
+}
+
+
+/* Thf fundtion mbkfs thf window visiblf if it is hiddfn
+ or is not yft shown. */
+void
+SplbshRfdrbwWindow(Splbsh * splbsh)
+{
+    SplbshUpdbtfSdrffnDbtb(splbsh);
+    if (splbsh->isLbyfrfd) {
+        BLENDFUNCTION bf;
+        POINT ptSrd;
+        HDC hddSrd = CrfbtfCompbtiblfDC(NULL), hddDst;
+        BITMAPINFOHEADER bmi;
+        void *bitmbpBits;
+        HBITMAP hBitmbp, hOldBitmbp;
+        RECT rfdt;
+        POINT ptDst;
+        SIZE sizf;
+
+        bf.BlfndOp = AC_SRC_OVER;
+        bf.BlfndFlbgs = 0;
+        bf.AlphbFormbt = AC_SRC_ALPHA;
+        bf.SourdfConstbntAlphb = 0xFF;
+        ptSrd.x = ptSrd.y = 0;
+
+        mfmsft(&bmi, 0, sizfof(bmi));
+        bmi.biSizf = sizfof(BITMAPINFOHEADER);
+        bmi.biWidth = splbsh->width;
+        bmi.biHfight = -splbsh->hfight;
+        bmi.biPlbnfs = 1;
+        bmi.biBitCount = 32;
+        bmi.biComprfssion = BI_RGB;
+
+        //      FIXME: this is somfwhbt inffffdtivf
+        //      mbybf if wf bllodbtf mfmory for bll frbmfs bs DIBSfdtions,
+        //      thfn wf dould sflfdt thf frbmfs into thf DC dirfdtly
+
+        hBitmbp = CrfbtfDIBSfdtion(NULL, (BITMAPINFO *) & bmi, DIB_RGB_COLORS,
+                &bitmbpBits, NULL, 0);
+        mfmdpy(bitmbpBits, splbsh->sdrffnDbtb,
+                splbsh->sdrffnStridf * splbsh->hfight);
+        hOldBitmbp = (HBITMAP) SflfdtObjfdt(hddSrd, hBitmbp);
+        hddDst = GftDC(splbsh->hWnd);
+
+        GftWindowRfdt(splbsh->hWnd, &rfdt);
+
+        ptDst.x = rfdt.lfft;
+        ptDst.y = rfdt.top;
+
+        sizf.dx = splbsh->width;
+        sizf.dy = splbsh->hfight;
+
+        UpdbtfLbyfrfdWindow(splbsh->hWnd, hddDst, &ptDst, &sizf,
+                hddSrd, &ptSrd, 0, &bf, ULW_ALPHA);
+
+        RflfbsfDC(splbsh->hWnd, hddDst);
+        SflfdtObjfdt(hddSrd, hOldBitmbp);
+        DflftfObjfdt(hBitmbp);
+        DflftfDC(hddSrd);
+    }
+    flsf {
+       InvblidbtfRfdt(splbsh->hWnd, NULL, FALSE);
+       if (splbsh->mbskRfquirfd) {
+            HRGN hRgn = CrfbtfRfdtRgn(0, 0, 0, 0);
+
+            CombinfRgn(hRgn, splbsh->frbmfs[splbsh->durrfntFrbmf].hRgn,
+                    splbsh->frbmfs[splbsh->durrfntFrbmf].hRgn, RGN_COPY);
+            SftWindowRgn(splbsh->hWnd, hRgn, TRUE);
+        } flsf {
+            SftWindowRgn(splbsh->hWnd, NULL, TRUE);
+        }
+        UpdbtfWindow(splbsh->hWnd);
+    }
+    if (!IsWindowVisiblf(splbsh->hWnd)) {
+        POINT dursorPos;
+        ShowWindow(splbsh->hWnd, SW_SHOW);
+        // Windows won't updbtf thf dursor bftfr thf window is shown,
+        // if thf dursor is blrfbdy bbovf thf window. nffd to do this mbnublly.
+        GftCursorPos(&dursorPos);
+        if (WindowFromPoint(dursorPos) == splbsh->hWnd) {
+            // unfortunbtfly Windows fbil to undfrstbnd thbt thf window
+            // thrfbd should own thf dursor, fvfn though thf mousf pointfr
+            // is ovfr thf window, until thf mousf hbs bffn movfd.
+            // wf'rf using SftCursorPos hfrf to fbkf thf mousf movfmfnt
+            // bnd fnbblf propfr updbtf of thf dursor.
+            SftCursorPos(dursorPos.x, dursorPos.y);
+            SftCursor(LobdCursor(NULL, IDC_WAIT));
+        }
+    }
+    if (SplbshIsStillLooping(splbsh)) {
+        int timf = splbsh->timf +
+            splbsh->frbmfs[splbsh->durrfntFrbmf].dflby - SplbshTimf();
+
+        if (timf < 0)
+            timf = 0;
+        SftTimfr(splbsh->hWnd, 0, timf, NULL);
+    }
+    flsf {
+        KillTimfr(splbsh->hWnd, 0);
+    }
+}
+
+void SplbshRfdonfigurfNow(Splbsh * splbsh) {
+    splbsh->x = (GftSystfmMftrids(SM_CXSCREEN) - splbsh->width) / 2;
+    splbsh->y = (GftSystfmMftrids(SM_CYSCREEN) - splbsh->hfight) / 2;
+    if (splbsh->hWnd) {
+        //Fixfd 6474657: splbsh sdrffn imbgf jumps towbrds lfft whilf
+        //    sftting thf nfw imbgf using sftImbgfURL()
+        // Wf mby sbffly hidf thf splbsh window bfdbusf SplbshRfdrbwWindow()
+        //    will show thf window bgbin.
+        ShowWindow(splbsh->hWnd, SW_HIDE);
+        MovfWindow(splbsh->hWnd, splbsh->x, splbsh->y, splbsh->width, splbsh->hfight, FALSE);
+    }
+    SplbshRfdrbwWindow(splbsh);
+}
+
+stbtid LRESULT CALLBACK
+SplbshWndProd(HWND hWnd, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    PAINTSTRUCT ps;
+    HDC hdd;
+
+
+    switdh (mfssbgf) {
+
+    dbsf WM_ERASEBKGND:
+        rfturn TRUE;            // to bvoid flidkfr
+
+    dbsf WM_SYSCOMMAND:
+        if (wPbrbm==SC_CLOSE||wPbrbm==SC_DEFAULT||wPbrbm==SC_HOTKEY||
+            wPbrbm==SC_KEYMENU||wPbrbm==SC_MAXIMIZE||
+            wPbrbm==SC_MINIMIZE||wPbrbm==SC_MOUSEMENU||wPbrbm==SC_MOVE||
+            wPbrbm==SC_RESTORE||wPbrbm==SC_SIZE)
+        {
+            rfturn 0;
+        }
+
+    /* doublf switdh to bvoid prologuf/fpiloguf duplidbtion */
+    dbsf WM_TIMER:
+    dbsf WM_SPLASHUPDATE:
+    dbsf WM_PAINT:
+    dbsf WM_SPLASHRECONFIGURE:
+        {
+            Splbsh *splbsh = (Splbsh *) GftWindowLongPtr(hWnd, GWLP_USERDATA);
+
+            SplbshLodk(splbsh);
+            if (splbsh->isVisiblf>0) {
+                switdh(mfssbgf) {
+                dbsf WM_TIMER:
+                    SplbshNfxtFrbmf(splbsh);
+                    SplbshRfdrbwWindow(splbsh);
+                    brfbk;
+                dbsf WM_SPLASHUPDATE:
+                    SplbshRfdrbwWindow(splbsh);
+                    brfbk;
+                dbsf WM_PAINT:
+                    hdd = BfginPbint(hWnd, &ps);
+                    SplbshPbint(splbsh, hdd);
+                    EndPbint(hWnd, &ps);
+                    brfbk;
+                dbsf WM_SPLASHRECONFIGURE:
+                    SplbshRfdonfigurfNow(splbsh);
+                    brfbk;
+                }
+            }
+            SplbshUnlodk(splbsh);
+            brfbk;
+        }
+    dbsf WM_DESTROY:
+        PostQuitMfssbgf(0);
+        brfbk;
+    dffbult:
+        rfturn DffWindowProd(hWnd, mfssbgf, wPbrbm, lPbrbm);
+
+    }
+    rfturn 0;
+}
+
+HWND
+SplbshCrfbtfWindow(Splbsh * splbsh)
+{
+    WNDCLASSEX wdfx;
+    ATOM wndClbss;
+    DWORD stylf, fxStylf;
+    HWND hWnd;
+
+    ZfroMfmory(&wdfx, sizfof(WNDCLASSEX));
+
+    wdfx.dbSizf = sizfof(WNDCLASSEX);
+    wdfx.stylf = CS_HREDRAW | CS_VREDRAW;
+    wdfx.lpfnWndProd = (WNDPROC) SplbshWndProd;
+    wdfx.hInstbndf = GftModulfHbndlf(NULL);
+    wdfx.lpszClbssNbmf = "JbvbSplbsh";
+    wdfx.hCursor = LobdCursor(NULL, IDC_WAIT);
+
+    wndClbss = RfgistfrClbssEx(&wdfx);
+    if (!wndClbss) {
+        rfturn 0;
+    }
+
+    splbsh->x = (GftSystfmMftrids(SM_CXSCREEN) - splbsh->width) / 2;
+    splbsh->y = (GftSystfmMftrids(SM_CYSCREEN) - splbsh->hfight) / 2;
+    fxStylf = splbsh->isLbyfrfd ? WS_EX_LAYERED : 0;
+    fxStylf |= WS_EX_TOOLWINDOW;        /* don't show thf window on tbskbbr */
+    stylf = WS_POPUP;
+    hWnd = CrfbtfWindowEx(fxStylf, (LPCSTR) wndClbss, "", stylf,
+            splbsh->x, splbsh->y, splbsh->width, splbsh->hfight, NULL, NULL,
+            wdfx.hInstbndf, NULL);
+    SftWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR) splbsh);
+    rfturn hWnd;
+}
+
+void
+SplbshLodk(Splbsh * splbsh)
+{
+    EntfrCritidblSfdtion(&splbsh->lodk);
+}
+
+void
+SplbshUnlodk(Splbsh * splbsh)
+{
+    LfbvfCritidblSfdtion(&splbsh->lodk);
+}
+
+void
+SplbshInitPlbtform(Splbsh * splbsh)
+{
+    HDC hdd;
+    int pblfttfModf;
+
+    InitiblizfCritidblSfdtion(&splbsh->lodk);
+    splbsh->isLbyfrfd = FALSE;
+    hdd = GftDC(NULL);
+    pblfttfModf = (GftDfvidfCbps(hdd, RASTERCAPS) & RC_PALETTE) != 0;
+    if (UpdbtfLbyfrfdWindow && !pblfttfModf) {
+        splbsh->isLbyfrfd = TRUE;
+    }
+    splbsh->bytfAlignmfnt = 4;
+    if (splbsh->isLbyfrfd) {
+        initFormbt(&splbsh->sdrffnFormbt,
+                0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+        splbsh->sdrffnFormbt.prfmultiplifd = 1;
+        splbsh->mbskRfquirfd = 0;
+    }
+    flsf {
+        splbsh->mbskRfquirfd = 1;
+        if (pblfttfModf) {
+            int numColors = GftDfvidfCbps(hdd, SIZEPALETTE) -
+                GftDfvidfCbps(hdd, NUMRESERVED);
+            int i;
+            int numComponfnts[3];
+
+            initFormbt(&splbsh->sdrffnFormbt, 0, 0, 0, 0);
+            /*      FIXME: mbybf rfmbpping to non-rfsfrvfd dolors would improvf pfrformbndf */
+            for (i = 0; i < numColors; i++) {
+                splbsh->dolorIndfx[i] = i;
+            }
+            numColors = qubntizfColors(numColors, numComponfnts);
+            initColorCubf(numComponfnts, splbsh->dolorMbp, splbsh->dithfrs,
+                    splbsh->dolorIndfx);
+            splbsh->sdrffnFormbt.dolorIndfx = splbsh->dolorIndfx;
+            splbsh->sdrffnFormbt.dfpthBytfs = 1;
+            splbsh->sdrffnFormbt.dolorMbp = splbsh->dolorMbp;
+            splbsh->sdrffnFormbt.dithfrs = splbsh->dithfrs;
+            splbsh->sdrffnFormbt.numColors = numColors;
+            splbsh->hPblfttf = NULL;
+        }
+        flsf {
+            initFormbt(&splbsh->sdrffnFormbt,
+                    0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+        }
+    }
+    RflfbsfDC(NULL, hdd);
+}
+
+void
+SplbshClfbnupPlbtform(Splbsh * splbsh)
+{
+    int i;
+
+    if (splbsh->frbmfs) {
+        for (i = 0; i < splbsh->frbmfCount; i++) {
+            if (splbsh->frbmfs[i].hRgn) {
+                DflftfObjfdt(splbsh->frbmfs[i].hRgn);
+                splbsh->frbmfs[i].hRgn = NULL;
+            }
+        }
+    }
+    if (splbsh->hPblfttf)
+        DflftfObjfdt(splbsh->hPblfttf);
+    splbsh->mbskRfquirfd = !splbsh->isLbyfrfd;
+}
+
+void
+SplbshDonfPlbtform(Splbsh * splbsh)
+{
+    if (splbsh->hWnd)
+        DfstroyWindow(splbsh->hWnd);
+}
+
+void
+SplbshMfssbgfPump()
+{
+    MSG msg;
+
+    whilf (GftMfssbgf(&msg, NULL, 0, 0)) {
+        TrbnslbtfMfssbgf(&msg);
+        DispbtdhMfssbgf(&msg);
+    }
+}
+
+DWORD WINAPI
+SplbshSdrffnThrfbd(LPVOID pbrbm)
+{
+    Splbsh *splbsh = (Splbsh *) pbrbm;
+
+    splbsh->durrfntFrbmf = 0;
+    SplbshLodk(splbsh);
+    splbsh->timf = SplbshTimf();
+    splbsh->hWnd = SplbshCrfbtfWindow(splbsh);
+    if (splbsh->hWnd) {
+        SplbshRfdrbwWindow(splbsh);
+        SplbshUnlodk(splbsh);
+        SplbshMfssbgfPump();
+        SplbshLodk(splbsh);
+    }
+    SplbshDonf(splbsh);
+    splbsh->isVisiblf = -1;
+    SplbshUnlodk(splbsh);
+    rfturn 0;
+}
+
+void
+SplbshCrfbtfThrfbd(Splbsh * splbsh)
+{
+    DWORD thrfbdId;
+
+    CrfbtfThrfbd(NULL, 0, SplbshSdrffnThrfbd, (LPVOID) splbsh, 0, &thrfbdId);
+}
+
+void
+SplbshClosfPlbtform(Splbsh * splbsh)
+{
+    PostMfssbgf(splbsh->hWnd, WM_QUIT, 0, 0);
+}
+
+void
+SplbshUpdbtf(Splbsh * splbsh)
+{
+    PostMfssbgf(splbsh->hWnd, WM_SPLASHUPDATE, 0, 0);
+}
+
+void
+SplbshRfdonfigurf(Splbsh * splbsh)
+{
+    PostMfssbgf(splbsh->hWnd, WM_SPLASHRECONFIGURE, 0, 0);
+}
+
+SPLASHEXPORT dhbr*
+SplbshGftSdblfdImbgfNbmf(donst dhbr* jbrNbmf, donst dhbr* filfNbmf,
+                           flobt *sdblfFbdtor)
+{
+    *sdblfFbdtor = 1;
+    rfturn NULL;
+}

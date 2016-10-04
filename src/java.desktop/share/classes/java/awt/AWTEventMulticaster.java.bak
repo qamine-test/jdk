@@ -1,1120 +1,1120 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.*;
-import java.lang.reflect.Array;
-import java.util.EventListener;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.util.EventListener;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.EvfntListfnfr;
 
 
 /**
- * {@code AWTEventMulticaster} implements efficient and thread-safe multi-cast
- * event dispatching for the AWT events defined in the {@code java.awt.event}
- * package.
+ * {@dodf AWTEvfntMultidbstfr} implfmfnts fffidifnt bnd tirfbd-sbff multi-dbst
+ * fvfnt dispbtdiing for tif AWT fvfnts dffinfd in tif {@dodf jbvb.bwt.fvfnt}
+ * pbdkbgf.
  * <p>
- * The following example illustrates how to use this class:
+ * Tif following fxbmplf illustrbtfs iow to usf tiis dlbss:
  *
- * <pre><code>
- * public myComponent extends Component {
- *     ActionListener actionListener = null;
+ * <prf><dodf>
+ * publid myComponfnt fxtfnds Componfnt {
+ *     AdtionListfnfr bdtionListfnfr = null;
  *
- *     public synchronized void addActionListener(ActionListener l) {
- *         actionListener = AWTEventMulticaster.add(actionListener, l);
+ *     publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr l) {
+ *         bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
  *     }
- *     public synchronized void removeActionListener(ActionListener l) {
- *         actionListener = AWTEventMulticaster.remove(actionListener, l);
+ *     publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+ *         bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
  *     }
- *     public void processEvent(AWTEvent e) {
- *         // when event occurs which causes "action" semantic
- *         ActionListener listener = actionListener;
- *         if (listener != null) {
- *             listener.actionPerformed(new ActionEvent());
+ *     publid void prodfssEvfnt(AWTEvfnt f) {
+ *         // wifn fvfnt oddurs wiidi dbusfs "bdtion" sfmbntid
+ *         AdtionListfnfr listfnfr = bdtionListfnfr;
+ *         if (listfnfr != null) {
+ *             listfnfr.bdtionPfrformfd(nfw AdtionEvfnt());
  *         }
  *     }
  * }
- * </code></pre>
- * The important point to note is the first argument to the {@code
- * add} and {@code remove} methods is the field maintaining the
- * listeners. In addition you must assign the result of the {@code add}
- * and {@code remove} methods to the field maintaining the listeners.
+ * </dodf></prf>
+ * Tif importbnt point to notf is tif first brgumfnt to tif {@dodf
+ * bdd} bnd {@dodf rfmovf} mftiods is tif fifld mbintbining tif
+ * listfnfrs. In bddition you must bssign tif rfsult of tif {@dodf bdd}
+ * bnd {@dodf rfmovf} mftiods to tif fifld mbintbining tif listfnfrs.
  * <p>
- * {@code AWTEventMulticaster} is implemented as a pair of {@code
- * EventListeners} that are set at construction time. {@code
- * AWTEventMulticaster} is immutable. The {@code add} and {@code
- * remove} methods do not alter {@code AWTEventMulticaster} in
- * anyway. If necessary, a new {@code AWTEventMulticaster} is
- * created. In this way it is safe to add and remove listeners during
- * the process of an event dispatching.  However, event listeners
- * added during the process of an event dispatch operation are not
- * notified of the event currently being dispatched.
+ * {@dodf AWTEvfntMultidbstfr} is implfmfntfd bs b pbir of {@dodf
+ * EvfntListfnfrs} tibt brf sft bt donstrudtion timf. {@dodf
+ * AWTEvfntMultidbstfr} is immutbblf. Tif {@dodf bdd} bnd {@dodf
+ * rfmovf} mftiods do not bltfr {@dodf AWTEvfntMultidbstfr} in
+ * bnywby. If nfdfssbry, b nfw {@dodf AWTEvfntMultidbstfr} is
+ * drfbtfd. In tiis wby it is sbff to bdd bnd rfmovf listfnfrs during
+ * tif prodfss of bn fvfnt dispbtdiing.  Howfvfr, fvfnt listfnfrs
+ * bddfd during tif prodfss of bn fvfnt dispbtdi opfrbtion brf not
+ * notififd of tif fvfnt durrfntly bfing dispbtdifd.
  * <p>
- * All of the {@code add} methods allow {@code null} arguments. If the
- * first argument is {@code null}, the second argument is returned. If
- * the first argument is not {@code null} and the second argument is
- * {@code null}, the first argument is returned. If both arguments are
- * {@code non-null}, a new {@code AWTEventMulticaster} is created using
- * the two arguments and returned.
+ * All of tif {@dodf bdd} mftiods bllow {@dodf null} brgumfnts. If tif
+ * first brgumfnt is {@dodf null}, tif sfdond brgumfnt is rfturnfd. If
+ * tif first brgumfnt is not {@dodf null} bnd tif sfdond brgumfnt is
+ * {@dodf null}, tif first brgumfnt is rfturnfd. If boti brgumfnts brf
+ * {@dodf non-null}, b nfw {@dodf AWTEvfntMultidbstfr} is drfbtfd using
+ * tif two brgumfnts bnd rfturnfd.
  * <p>
- * For the {@code remove} methods that take two arguments, the following is
- * returned:
+ * For tif {@dodf rfmovf} mftiods tibt tbkf two brgumfnts, tif following is
+ * rfturnfd:
  * <ul>
- *   <li>{@code null}, if the first argument is {@code null}, or
- *       the arguments are equal, by way of {@code ==}.
- *   <li>the first argument, if the first argument is not an instance of
- *       {@code AWTEventMulticaster}.
- *   <li>result of invoking {@code remove(EventListener)} on the
- *       first argument, supplying the second argument to the
- *       {@code remove(EventListener)} method.
+ *   <li>{@dodf null}, if tif first brgumfnt is {@dodf null}, or
+ *       tif brgumfnts brf fqubl, by wby of {@dodf ==}.
+ *   <li>tif first brgumfnt, if tif first brgumfnt is not bn instbndf of
+ *       {@dodf AWTEvfntMultidbstfr}.
+ *   <li>rfsult of invoking {@dodf rfmovf(EvfntListfnfr)} on tif
+ *       first brgumfnt, supplying tif sfdond brgumfnt to tif
+ *       {@dodf rfmovf(EvfntListfnfr)} mftiod.
  * </ul>
- * <p>Swing makes use of
- * {@link javax.swing.event.EventListenerList EventListenerList} for
- * similar logic. Refer to it for details.
+ * <p>Swing mbkfs usf of
+ * {@link jbvbx.swing.fvfnt.EvfntListfnfrList EvfntListfnfrList} for
+ * similbr logid. Rfffr to it for dftbils.
  *
- * @see javax.swing.event.EventListenerList
+ * @sff jbvbx.swing.fvfnt.EvfntListfnfrList
  *
- * @author      John Rose
- * @author      Amy Fowler
- * @since       1.1
+ * @butior      Join Rosf
+ * @butior      Amy Fowlfr
+ * @sindf       1.1
  */
 
-public class AWTEventMulticaster implements
-    ComponentListener, ContainerListener, FocusListener, KeyListener,
-    MouseListener, MouseMotionListener, WindowListener, WindowFocusListener,
-    WindowStateListener, ActionListener, ItemListener, AdjustmentListener,
-    TextListener, InputMethodListener, HierarchyListener,
-    HierarchyBoundsListener, MouseWheelListener {
+publid dlbss AWTEvfntMultidbstfr implfmfnts
+    ComponfntListfnfr, ContbinfrListfnfr, FodusListfnfr, KfyListfnfr,
+    MousfListfnfr, MousfMotionListfnfr, WindowListfnfr, WindowFodusListfnfr,
+    WindowStbtfListfnfr, AdtionListfnfr, ItfmListfnfr, AdjustmfntListfnfr,
+    TfxtListfnfr, InputMftiodListfnfr, HifrbrdiyListfnfr,
+    HifrbrdiyBoundsListfnfr, MousfWifflListfnfr {
 
     /**
-     * A variable in the event chain (listener-a)
+     * A vbribblf in tif fvfnt dibin (listfnfr-b)
      */
-    protected final EventListener a;
+    protfdtfd finbl EvfntListfnfr b;
 
     /**
-     * A variable in the event chain (listener-b)
+     * A vbribblf in tif fvfnt dibin (listfnfr-b)
      */
-    protected final EventListener b;
+    protfdtfd finbl EvfntListfnfr b;
 
     /**
-     * Creates an event multicaster instance which chains listener-a
-     * with listener-b. Input parameters <code>a</code> and <code>b</code>
-     * should not be <code>null</code>, though implementations may vary in
-     * choosing whether or not to throw <code>NullPointerException</code>
-     * in that case.
-     * @param a listener-a
-     * @param b listener-b
+     * Crfbtfs bn fvfnt multidbstfr instbndf wiidi dibins listfnfr-b
+     * witi listfnfr-b. Input pbrbmftfrs <dodf>b</dodf> bnd <dodf>b</dodf>
+     * siould not bf <dodf>null</dodf>, tiougi implfmfntbtions mby vbry in
+     * dioosing wiftifr or not to tirow <dodf>NullPointfrExdfption</dodf>
+     * in tibt dbsf.
+     * @pbrbm b listfnfr-b
+     * @pbrbm b listfnfr-b
      */
-    protected AWTEventMulticaster(EventListener a, EventListener b) {
-        this.a = a; this.b = b;
+    protfdtfd AWTEvfntMultidbstfr(EvfntListfnfr b, EvfntListfnfr b) {
+        tiis.b = b; tiis.b = b;
     }
 
     /**
-     * Removes a listener from this multicaster.
+     * Rfmovfs b listfnfr from tiis multidbstfr.
      * <p>
-     * The returned multicaster contains all the listeners in this
-     * multicaster with the exception of all occurrences of {@code oldl}.
-     * If the resulting multicaster contains only one regular listener
-     * the regular listener may be returned.  If the resulting multicaster
-     * is empty, then {@code null} may be returned instead.
+     * Tif rfturnfd multidbstfr dontbins bll tif listfnfrs in tiis
+     * multidbstfr witi tif fxdfption of bll oddurrfndfs of {@dodf oldl}.
+     * If tif rfsulting multidbstfr dontbins only onf rfgulbr listfnfr
+     * tif rfgulbr listfnfr mby bf rfturnfd.  If tif rfsulting multidbstfr
+     * is fmpty, tifn {@dodf null} mby bf rfturnfd instfbd.
      * <p>
-     * No exception is thrown if {@code oldl} is {@code null}.
+     * No fxdfption is tirown if {@dodf oldl} is {@dodf null}.
      *
-     * @param oldl the listener to be removed
-     * @return resulting listener
+     * @pbrbm oldl tif listfnfr to bf rfmovfd
+     * @rfturn rfsulting listfnfr
      */
-    protected EventListener remove(EventListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
-        EventListener a2 = removeInternal(a, oldl);
-        EventListener b2 = removeInternal(b, oldl);
-        if (a2 == a && b2 == b) {
-            return this;        // it's not here
+    protfdtfd EvfntListfnfr rfmovf(EvfntListfnfr oldl) {
+        if (oldl == b)  rfturn b;
+        if (oldl == b)  rfturn b;
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        EvfntListfnfr b2 = rfmovfIntfrnbl(b, oldl);
+        if (b2 == b && b2 == b) {
+            rfturn tiis;        // it's not ifrf
         }
-        return addInternal(a2, b2);
+        rfturn bddIntfrnbl(b2, b2);
     }
 
     /**
-     * Handles the componentResized event by invoking the
-     * componentResized methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntRfsizfd fvfnt by invoking tif
+     * domponfntRfsizfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentResized(ComponentEvent e) {
-        ((ComponentListener)a).componentResized(e);
-        ((ComponentListener)b).componentResized(e);
+    publid void domponfntRfsizfd(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntRfsizfd(f);
+        ((ComponfntListfnfr)b).domponfntRfsizfd(f);
     }
 
     /**
-     * Handles the componentMoved event by invoking the
-     * componentMoved methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntMovfd fvfnt by invoking tif
+     * domponfntMovfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentMoved(ComponentEvent e) {
-        ((ComponentListener)a).componentMoved(e);
-        ((ComponentListener)b).componentMoved(e);
+    publid void domponfntMovfd(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntMovfd(f);
+        ((ComponfntListfnfr)b).domponfntMovfd(f);
     }
 
     /**
-     * Handles the componentShown event by invoking the
-     * componentShown methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntSiown fvfnt by invoking tif
+     * domponfntSiown mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentShown(ComponentEvent e) {
-        ((ComponentListener)a).componentShown(e);
-        ((ComponentListener)b).componentShown(e);
+    publid void domponfntSiown(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntSiown(f);
+        ((ComponfntListfnfr)b).domponfntSiown(f);
     }
 
     /**
-     * Handles the componentHidden event by invoking the
-     * componentHidden methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntHiddfn fvfnt by invoking tif
+     * domponfntHiddfn mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentHidden(ComponentEvent e) {
-        ((ComponentListener)a).componentHidden(e);
-        ((ComponentListener)b).componentHidden(e);
+    publid void domponfntHiddfn(ComponfntEvfnt f) {
+        ((ComponfntListfnfr)b).domponfntHiddfn(f);
+        ((ComponfntListfnfr)b).domponfntHiddfn(f);
     }
 
     /**
-     * Handles the componentAdded container event by invoking the
-     * componentAdded methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntAddfd dontbinfr fvfnt by invoking tif
+     * domponfntAddfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentAdded(ContainerEvent e) {
-        ((ContainerListener)a).componentAdded(e);
-        ((ContainerListener)b).componentAdded(e);
+    publid void domponfntAddfd(ContbinfrEvfnt f) {
+        ((ContbinfrListfnfr)b).domponfntAddfd(f);
+        ((ContbinfrListfnfr)b).domponfntAddfd(f);
     }
 
     /**
-     * Handles the componentRemoved container event by invoking the
-     * componentRemoved methods on listener-a and listener-b.
-     * @param e the component event
+     * Hbndlfs tif domponfntRfmovfd dontbinfr fvfnt by invoking tif
+     * domponfntRfmovfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif domponfnt fvfnt
      */
-    public void componentRemoved(ContainerEvent e) {
-        ((ContainerListener)a).componentRemoved(e);
-        ((ContainerListener)b).componentRemoved(e);
+    publid void domponfntRfmovfd(ContbinfrEvfnt f) {
+        ((ContbinfrListfnfr)b).domponfntRfmovfd(f);
+        ((ContbinfrListfnfr)b).domponfntRfmovfd(f);
     }
 
     /**
-     * Handles the focusGained event by invoking the
-     * focusGained methods on listener-a and listener-b.
-     * @param e the focus event
+     * Hbndlfs tif fodusGbinfd fvfnt by invoking tif
+     * fodusGbinfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif fodus fvfnt
      */
-    public void focusGained(FocusEvent e) {
-        ((FocusListener)a).focusGained(e);
-        ((FocusListener)b).focusGained(e);
+    publid void fodusGbinfd(FodusEvfnt f) {
+        ((FodusListfnfr)b).fodusGbinfd(f);
+        ((FodusListfnfr)b).fodusGbinfd(f);
     }
 
     /**
-     * Handles the focusLost event by invoking the
-     * focusLost methods on listener-a and listener-b.
-     * @param e the focus event
+     * Hbndlfs tif fodusLost fvfnt by invoking tif
+     * fodusLost mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif fodus fvfnt
      */
-    public void focusLost(FocusEvent e) {
-        ((FocusListener)a).focusLost(e);
-        ((FocusListener)b).focusLost(e);
+    publid void fodusLost(FodusEvfnt f) {
+        ((FodusListfnfr)b).fodusLost(f);
+        ((FodusListfnfr)b).fodusLost(f);
     }
 
     /**
-     * Handles the keyTyped event by invoking the
-     * keyTyped methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndlfs tif kfyTypfd fvfnt by invoking tif
+     * kfyTypfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif kfy fvfnt
      */
-    public void keyTyped(KeyEvent e) {
-        ((KeyListener)a).keyTyped(e);
-        ((KeyListener)b).keyTyped(e);
+    publid void kfyTypfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyTypfd(f);
+        ((KfyListfnfr)b).kfyTypfd(f);
     }
 
     /**
-     * Handles the keyPressed event by invoking the
-     * keyPressed methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndlfs tif kfyPrfssfd fvfnt by invoking tif
+     * kfyPrfssfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif kfy fvfnt
      */
-    public void keyPressed(KeyEvent e) {
-        ((KeyListener)a).keyPressed(e);
-        ((KeyListener)b).keyPressed(e);
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyPrfssfd(f);
+        ((KfyListfnfr)b).kfyPrfssfd(f);
     }
 
     /**
-     * Handles the keyReleased event by invoking the
-     * keyReleased methods on listener-a and listener-b.
-     * @param e the key event
+     * Hbndlfs tif kfyRflfbsfd fvfnt by invoking tif
+     * kfyRflfbsfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif kfy fvfnt
      */
-    public void keyReleased(KeyEvent e) {
-        ((KeyListener)a).keyReleased(e);
-        ((KeyListener)b).keyReleased(e);
+    publid void kfyRflfbsfd(KfyEvfnt f) {
+        ((KfyListfnfr)b).kfyRflfbsfd(f);
+        ((KfyListfnfr)b).kfyRflfbsfd(f);
     }
 
     /**
-     * Handles the mouseClicked event by invoking the
-     * mouseClicked methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfClidkfd fvfnt by invoking tif
+     * mousfClidkfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseClicked(MouseEvent e) {
-        ((MouseListener)a).mouseClicked(e);
-        ((MouseListener)b).mouseClicked(e);
+    publid void mousfClidkfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfClidkfd(f);
+        ((MousfListfnfr)b).mousfClidkfd(f);
     }
 
     /**
-     * Handles the mousePressed event by invoking the
-     * mousePressed methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfPrfssfd fvfnt by invoking tif
+     * mousfPrfssfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mousePressed(MouseEvent e) {
-        ((MouseListener)a).mousePressed(e);
-        ((MouseListener)b).mousePressed(e);
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfPrfssfd(f);
+        ((MousfListfnfr)b).mousfPrfssfd(f);
     }
 
     /**
-     * Handles the mouseReleased event by invoking the
-     * mouseReleased methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfRflfbsfd fvfnt by invoking tif
+     * mousfRflfbsfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseReleased(MouseEvent e) {
-        ((MouseListener)a).mouseReleased(e);
-        ((MouseListener)b).mouseReleased(e);
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfRflfbsfd(f);
+        ((MousfListfnfr)b).mousfRflfbsfd(f);
     }
 
     /**
-     * Handles the mouseEntered event by invoking the
-     * mouseEntered methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfEntfrfd fvfnt by invoking tif
+     * mousfEntfrfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseEntered(MouseEvent e) {
-        ((MouseListener)a).mouseEntered(e);
-        ((MouseListener)b).mouseEntered(e);
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfEntfrfd(f);
+        ((MousfListfnfr)b).mousfEntfrfd(f);
     }
 
     /**
-     * Handles the mouseExited event by invoking the
-     * mouseExited methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfExitfd fvfnt by invoking tif
+     * mousfExitfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseExited(MouseEvent e) {
-        ((MouseListener)a).mouseExited(e);
-        ((MouseListener)b).mouseExited(e);
+    publid void mousfExitfd(MousfEvfnt f) {
+        ((MousfListfnfr)b).mousfExitfd(f);
+        ((MousfListfnfr)b).mousfExitfd(f);
     }
 
     /**
-     * Handles the mouseDragged event by invoking the
-     * mouseDragged methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfDrbggfd fvfnt by invoking tif
+     * mousfDrbggfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseDragged(MouseEvent e) {
-        ((MouseMotionListener)a).mouseDragged(e);
-        ((MouseMotionListener)b).mouseDragged(e);
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        ((MousfMotionListfnfr)b).mousfDrbggfd(f);
+        ((MousfMotionListfnfr)b).mousfDrbggfd(f);
     }
 
     /**
-     * Handles the mouseMoved event by invoking the
-     * mouseMoved methods on listener-a and listener-b.
-     * @param e the mouse event
+     * Hbndlfs tif mousfMovfd fvfnt by invoking tif
+     * mousfMovfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
      */
-    public void mouseMoved(MouseEvent e) {
-        ((MouseMotionListener)a).mouseMoved(e);
-        ((MouseMotionListener)b).mouseMoved(e);
+    publid void mousfMovfd(MousfEvfnt f) {
+        ((MousfMotionListfnfr)b).mousfMovfd(f);
+        ((MousfMotionListfnfr)b).mousfMovfd(f);
     }
 
     /**
-     * Handles the windowOpened event by invoking the
-     * windowOpened methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowOpfnfd fvfnt by invoking tif
+     * windowOpfnfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowOpened(WindowEvent e) {
-        ((WindowListener)a).windowOpened(e);
-        ((WindowListener)b).windowOpened(e);
+    publid void windowOpfnfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowOpfnfd(f);
+        ((WindowListfnfr)b).windowOpfnfd(f);
     }
 
     /**
-     * Handles the windowClosing event by invoking the
-     * windowClosing methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowClosing fvfnt by invoking tif
+     * windowClosing mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowClosing(WindowEvent e) {
-        ((WindowListener)a).windowClosing(e);
-        ((WindowListener)b).windowClosing(e);
+    publid void windowClosing(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowClosing(f);
+        ((WindowListfnfr)b).windowClosing(f);
     }
 
     /**
-     * Handles the windowClosed event by invoking the
-     * windowClosed methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowClosfd fvfnt by invoking tif
+     * windowClosfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowClosed(WindowEvent e) {
-        ((WindowListener)a).windowClosed(e);
-        ((WindowListener)b).windowClosed(e);
+    publid void windowClosfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowClosfd(f);
+        ((WindowListfnfr)b).windowClosfd(f);
     }
 
     /**
-     * Handles the windowIconified event by invoking the
-     * windowIconified methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowIdonififd fvfnt by invoking tif
+     * windowIdonififd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowIconified(WindowEvent e) {
-        ((WindowListener)a).windowIconified(e);
-        ((WindowListener)b).windowIconified(e);
+    publid void windowIdonififd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowIdonififd(f);
+        ((WindowListfnfr)b).windowIdonififd(f);
     }
 
     /**
-     * Handles the windowDeiconfied event by invoking the
-     * windowDeiconified methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowDfidonfifd fvfnt by invoking tif
+     * windowDfidonififd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowDeiconified(WindowEvent e) {
-        ((WindowListener)a).windowDeiconified(e);
-        ((WindowListener)b).windowDeiconified(e);
+    publid void windowDfidonififd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowDfidonififd(f);
+        ((WindowListfnfr)b).windowDfidonififd(f);
     }
 
     /**
-     * Handles the windowActivated event by invoking the
-     * windowActivated methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowAdtivbtfd fvfnt by invoking tif
+     * windowAdtivbtfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowActivated(WindowEvent e) {
-        ((WindowListener)a).windowActivated(e);
-        ((WindowListener)b).windowActivated(e);
+    publid void windowAdtivbtfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowAdtivbtfd(f);
+        ((WindowListfnfr)b).windowAdtivbtfd(f);
     }
 
     /**
-     * Handles the windowDeactivated event by invoking the
-     * windowDeactivated methods on listener-a and listener-b.
-     * @param e the window event
+     * Hbndlfs tif windowDfbdtivbtfd fvfnt by invoking tif
+     * windowDfbdtivbtfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
      */
-    public void windowDeactivated(WindowEvent e) {
-        ((WindowListener)a).windowDeactivated(e);
-        ((WindowListener)b).windowDeactivated(e);
+    publid void windowDfbdtivbtfd(WindowEvfnt f) {
+        ((WindowListfnfr)b).windowDfbdtivbtfd(f);
+        ((WindowListfnfr)b).windowDfbdtivbtfd(f);
     }
 
     /**
-     * Handles the windowStateChanged event by invoking the
-     * windowStateChanged methods on listener-a and listener-b.
-     * @param e the window event
-     * @since 1.4
+     * Hbndlfs tif windowStbtfCibngfd fvfnt by invoking tif
+     * windowStbtfCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
+     * @sindf 1.4
      */
-    public void windowStateChanged(WindowEvent e) {
-        ((WindowStateListener)a).windowStateChanged(e);
-        ((WindowStateListener)b).windowStateChanged(e);
+    publid void windowStbtfCibngfd(WindowEvfnt f) {
+        ((WindowStbtfListfnfr)b).windowStbtfCibngfd(f);
+        ((WindowStbtfListfnfr)b).windowStbtfCibngfd(f);
     }
 
 
     /**
-     * Handles the windowGainedFocus event by invoking the windowGainedFocus
-     * methods on listener-a and listener-b.
-     * @param e the window event
-     * @since 1.4
+     * Hbndlfs tif windowGbinfdFodus fvfnt by invoking tif windowGbinfdFodus
+     * mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
+     * @sindf 1.4
      */
-    public void windowGainedFocus(WindowEvent e) {
-        ((WindowFocusListener)a).windowGainedFocus(e);
-        ((WindowFocusListener)b).windowGainedFocus(e);
+    publid void windowGbinfdFodus(WindowEvfnt f) {
+        ((WindowFodusListfnfr)b).windowGbinfdFodus(f);
+        ((WindowFodusListfnfr)b).windowGbinfdFodus(f);
     }
 
     /**
-     * Handles the windowLostFocus event by invoking the windowLostFocus
-     * methods on listener-a and listener-b.
-     * @param e the window event
-     * @since 1.4
+     * Hbndlfs tif windowLostFodus fvfnt by invoking tif windowLostFodus
+     * mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif window fvfnt
+     * @sindf 1.4
      */
-    public void windowLostFocus(WindowEvent e) {
-        ((WindowFocusListener)a).windowLostFocus(e);
-        ((WindowFocusListener)b).windowLostFocus(e);
+    publid void windowLostFodus(WindowEvfnt f) {
+        ((WindowFodusListfnfr)b).windowLostFodus(f);
+        ((WindowFodusListfnfr)b).windowLostFodus(f);
     }
 
     /**
-     * Handles the actionPerformed event by invoking the
-     * actionPerformed methods on listener-a and listener-b.
-     * @param e the action event
+     * Hbndlfs tif bdtionPfrformfd fvfnt by invoking tif
+     * bdtionPfrformfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif bdtion fvfnt
      */
-    public void actionPerformed(ActionEvent e) {
-        ((ActionListener)a).actionPerformed(e);
-        ((ActionListener)b).actionPerformed(e);
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        ((AdtionListfnfr)b).bdtionPfrformfd(f);
+        ((AdtionListfnfr)b).bdtionPfrformfd(f);
     }
 
     /**
-     * Handles the itemStateChanged event by invoking the
-     * itemStateChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndlfs tif itfmStbtfCibngfd fvfnt by invoking tif
+     * itfmStbtfCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
      */
-    public void itemStateChanged(ItemEvent e) {
-        ((ItemListener)a).itemStateChanged(e);
-        ((ItemListener)b).itemStateChanged(e);
+    publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+        ((ItfmListfnfr)b).itfmStbtfCibngfd(f);
+        ((ItfmListfnfr)b).itfmStbtfCibngfd(f);
     }
 
     /**
-     * Handles the adjustmentValueChanged event by invoking the
-     * adjustmentValueChanged methods on listener-a and listener-b.
-     * @param e the adjustment event
+     * Hbndlfs tif bdjustmfntVblufCibngfd fvfnt by invoking tif
+     * bdjustmfntVblufCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif bdjustmfnt fvfnt
      */
-    public void adjustmentValueChanged(AdjustmentEvent e) {
-        ((AdjustmentListener)a).adjustmentValueChanged(e);
-        ((AdjustmentListener)b).adjustmentValueChanged(e);
+    publid void bdjustmfntVblufCibngfd(AdjustmfntEvfnt f) {
+        ((AdjustmfntListfnfr)b).bdjustmfntVblufCibngfd(f);
+        ((AdjustmfntListfnfr)b).bdjustmfntVblufCibngfd(f);
     }
-    public void textValueChanged(TextEvent e) {
-        ((TextListener)a).textValueChanged(e);
-        ((TextListener)b).textValueChanged(e);
+    publid void tfxtVblufCibngfd(TfxtEvfnt f) {
+        ((TfxtListfnfr)b).tfxtVblufCibngfd(f);
+        ((TfxtListfnfr)b).tfxtVblufCibngfd(f);
     }
 
     /**
-     * Handles the inputMethodTextChanged event by invoking the
-     * inputMethodTextChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndlfs tif inputMftiodTfxtCibngfd fvfnt by invoking tif
+     * inputMftiodTfxtCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
      */
-    public void inputMethodTextChanged(InputMethodEvent e) {
-       ((InputMethodListener)a).inputMethodTextChanged(e);
-       ((InputMethodListener)b).inputMethodTextChanged(e);
+    publid void inputMftiodTfxtCibngfd(InputMftiodEvfnt f) {
+       ((InputMftiodListfnfr)b).inputMftiodTfxtCibngfd(f);
+       ((InputMftiodListfnfr)b).inputMftiodTfxtCibngfd(f);
     }
 
     /**
-     * Handles the caretPositionChanged event by invoking the
-     * caretPositionChanged methods on listener-a and listener-b.
-     * @param e the item event
+     * Hbndlfs tif dbrftPositionCibngfd fvfnt by invoking tif
+     * dbrftPositionCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
      */
-    public void caretPositionChanged(InputMethodEvent e) {
-       ((InputMethodListener)a).caretPositionChanged(e);
-       ((InputMethodListener)b).caretPositionChanged(e);
+    publid void dbrftPositionCibngfd(InputMftiodEvfnt f) {
+       ((InputMftiodListfnfr)b).dbrftPositionCibngfd(f);
+       ((InputMftiodListfnfr)b).dbrftPositionCibngfd(f);
     }
 
     /**
-     * Handles the hierarchyChanged event by invoking the
-     * hierarchyChanged methods on listener-a and listener-b.
-     * @param e the item event
-     * @since 1.3
+     * Hbndlfs tif iifrbrdiyCibngfd fvfnt by invoking tif
+     * iifrbrdiyCibngfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
+     * @sindf 1.3
      */
-    public void hierarchyChanged(HierarchyEvent e) {
-        ((HierarchyListener)a).hierarchyChanged(e);
-        ((HierarchyListener)b).hierarchyChanged(e);
+    publid void iifrbrdiyCibngfd(HifrbrdiyEvfnt f) {
+        ((HifrbrdiyListfnfr)b).iifrbrdiyCibngfd(f);
+        ((HifrbrdiyListfnfr)b).iifrbrdiyCibngfd(f);
     }
 
     /**
-     * Handles the ancestorMoved event by invoking the
-     * ancestorMoved methods on listener-a and listener-b.
-     * @param e the item event
-     * @since 1.3
+     * Hbndlfs tif bndfstorMovfd fvfnt by invoking tif
+     * bndfstorMovfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
+     * @sindf 1.3
      */
-    public void ancestorMoved(HierarchyEvent e) {
-        ((HierarchyBoundsListener)a).ancestorMoved(e);
-        ((HierarchyBoundsListener)b).ancestorMoved(e);
+    publid void bndfstorMovfd(HifrbrdiyEvfnt f) {
+        ((HifrbrdiyBoundsListfnfr)b).bndfstorMovfd(f);
+        ((HifrbrdiyBoundsListfnfr)b).bndfstorMovfd(f);
     }
 
     /**
-     * Handles the ancestorResized event by invoking the
-     * ancestorResized methods on listener-a and listener-b.
-     * @param e the item event
-     * @since 1.3
+     * Hbndlfs tif bndfstorRfsizfd fvfnt by invoking tif
+     * bndfstorRfsizfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif itfm fvfnt
+     * @sindf 1.3
      */
-    public void ancestorResized(HierarchyEvent e) {
-        ((HierarchyBoundsListener)a).ancestorResized(e);
-        ((HierarchyBoundsListener)b).ancestorResized(e);
+    publid void bndfstorRfsizfd(HifrbrdiyEvfnt f) {
+        ((HifrbrdiyBoundsListfnfr)b).bndfstorRfsizfd(f);
+        ((HifrbrdiyBoundsListfnfr)b).bndfstorRfsizfd(f);
     }
 
     /**
-     * Handles the mouseWheelMoved event by invoking the
-     * mouseWheelMoved methods on listener-a and listener-b.
-     * @param e the mouse event
-     * @since 1.4
+     * Hbndlfs tif mousfWifflMovfd fvfnt by invoking tif
+     * mousfWifflMovfd mftiods on listfnfr-b bnd listfnfr-b.
+     * @pbrbm f tif mousf fvfnt
+     * @sindf 1.4
      */
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        ((MouseWheelListener)a).mouseWheelMoved(e);
-        ((MouseWheelListener)b).mouseWheelMoved(e);
+    publid void mousfWifflMovfd(MousfWifflEvfnt f) {
+        ((MousfWifflListfnfr)b).mousfWifflMovfd(f);
+        ((MousfWifflListfnfr)b).mousfWifflMovfd(f);
     }
 
     /**
-     * Adds component-listener-a with component-listener-b and
-     * returns the resulting multicast listener.
-     * @param a component-listener-a
-     * @param b component-listener-b
-     * @return the resulting listener
+     * Adds domponfnt-listfnfr-b witi domponfnt-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b domponfnt-listfnfr-b
+     * @pbrbm b domponfnt-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static ComponentListener add(ComponentListener a, ComponentListener b) {
-        return (ComponentListener)addInternal(a, b);
+    publid stbtid ComponfntListfnfr bdd(ComponfntListfnfr b, ComponfntListfnfr b) {
+        rfturn (ComponfntListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds container-listener-a with container-listener-b and
-     * returns the resulting multicast listener.
-     * @param a container-listener-a
-     * @param b container-listener-b
-     * @return the resulting listener
+     * Adds dontbinfr-listfnfr-b witi dontbinfr-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b dontbinfr-listfnfr-b
+     * @pbrbm b dontbinfr-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static ContainerListener add(ContainerListener a, ContainerListener b) {
-        return (ContainerListener)addInternal(a, b);
+    publid stbtid ContbinfrListfnfr bdd(ContbinfrListfnfr b, ContbinfrListfnfr b) {
+        rfturn (ContbinfrListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds focus-listener-a with focus-listener-b and
-     * returns the resulting multicast listener.
-     * @param a focus-listener-a
-     * @param b focus-listener-b
-     * @return the resulting listener
+     * Adds fodus-listfnfr-b witi fodus-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b fodus-listfnfr-b
+     * @pbrbm b fodus-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static FocusListener add(FocusListener a, FocusListener b) {
-        return (FocusListener)addInternal(a, b);
+    publid stbtid FodusListfnfr bdd(FodusListfnfr b, FodusListfnfr b) {
+        rfturn (FodusListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds key-listener-a with key-listener-b and
-     * returns the resulting multicast listener.
-     * @param a key-listener-a
-     * @param b key-listener-b
-     * @return the resulting listener
+     * Adds kfy-listfnfr-b witi kfy-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b kfy-listfnfr-b
+     * @pbrbm b kfy-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static KeyListener add(KeyListener a, KeyListener b) {
-        return (KeyListener)addInternal(a, b);
+    publid stbtid KfyListfnfr bdd(KfyListfnfr b, KfyListfnfr b) {
+        rfturn (KfyListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds mouse-listener-a with mouse-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-listener-a
-     * @param b mouse-listener-b
-     * @return the resulting listener
+     * Adds mousf-listfnfr-b witi mousf-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-listfnfr-b
+     * @pbrbm b mousf-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static MouseListener add(MouseListener a, MouseListener b) {
-        return (MouseListener)addInternal(a, b);
+    publid stbtid MousfListfnfr bdd(MousfListfnfr b, MousfListfnfr b) {
+        rfturn (MousfListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds mouse-motion-listener-a with mouse-motion-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-motion-listener-a
-     * @param b mouse-motion-listener-b
-     * @return the resulting listener
+     * Adds mousf-motion-listfnfr-b witi mousf-motion-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-motion-listfnfr-b
+     * @pbrbm b mousf-motion-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static MouseMotionListener add(MouseMotionListener a, MouseMotionListener b) {
-        return (MouseMotionListener)addInternal(a, b);
+    publid stbtid MousfMotionListfnfr bdd(MousfMotionListfnfr b, MousfMotionListfnfr b) {
+        rfturn (MousfMotionListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds window-listener-a with window-listener-b and
-     * returns the resulting multicast listener.
-     * @param a window-listener-a
-     * @param b window-listener-b
-     * @return the resulting listener
+     * Adds window-listfnfr-b witi window-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b window-listfnfr-b
+     * @pbrbm b window-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    public static WindowListener add(WindowListener a, WindowListener b) {
-        return (WindowListener)addInternal(a, b);
+    publid stbtid WindowListfnfr bdd(WindowListfnfr b, WindowListfnfr b) {
+        rfturn (WindowListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds window-state-listener-a with window-state-listener-b
-     * and returns the resulting multicast listener.
-     * @param a window-state-listener-a
-     * @param b window-state-listener-b
-     * @return the resulting listener
-     * @since 1.4
+     * Adds window-stbtf-listfnfr-b witi window-stbtf-listfnfr-b
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b window-stbtf-listfnfr-b
+     * @pbrbm b window-stbtf-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    @SuppressWarnings("overloads")
-    public static WindowStateListener add(WindowStateListener a,
-                                          WindowStateListener b) {
-        return (WindowStateListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid WindowStbtfListfnfr bdd(WindowStbtfListfnfr b,
+                                          WindowStbtfListfnfr b) {
+        rfturn (WindowStbtfListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds window-focus-listener-a with window-focus-listener-b
-     * and returns the resulting multicast listener.
-     * @param a window-focus-listener-a
-     * @param b window-focus-listener-b
-     * @return the resulting listener
-     * @since 1.4
+     * Adds window-fodus-listfnfr-b witi window-fodus-listfnfr-b
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b window-fodus-listfnfr-b
+     * @pbrbm b window-fodus-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    public static WindowFocusListener add(WindowFocusListener a,
-                                          WindowFocusListener b) {
-        return (WindowFocusListener)addInternal(a, b);
+    publid stbtid WindowFodusListfnfr bdd(WindowFodusListfnfr b,
+                                          WindowFodusListfnfr b) {
+        rfturn (WindowFodusListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds action-listener-a with action-listener-b and
-     * returns the resulting multicast listener.
-     * @param a action-listener-a
-     * @param b action-listener-b
-     * @return the resulting listener
+     * Adds bdtion-listfnfr-b witi bdtion-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b bdtion-listfnfr-b
+     * @pbrbm b bdtion-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static ActionListener add(ActionListener a, ActionListener b) {
-        return (ActionListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdtionListfnfr bdd(AdtionListfnfr b, AdtionListfnfr b) {
+        rfturn (AdtionListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds item-listener-a with item-listener-b and
-     * returns the resulting multicast listener.
-     * @param a item-listener-a
-     * @param b item-listener-b
-     * @return the resulting listener
+     * Adds itfm-listfnfr-b witi itfm-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b itfm-listfnfr-b
+     * @pbrbm b itfm-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static ItemListener add(ItemListener a, ItemListener b) {
-        return (ItemListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid ItfmListfnfr bdd(ItfmListfnfr b, ItfmListfnfr b) {
+        rfturn (ItfmListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds adjustment-listener-a with adjustment-listener-b and
-     * returns the resulting multicast listener.
-     * @param a adjustment-listener-a
-     * @param b adjustment-listener-b
-     * @return the resulting listener
+     * Adds bdjustmfnt-listfnfr-b witi bdjustmfnt-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b bdjustmfnt-listfnfr-b
+     * @pbrbm b bdjustmfnt-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static AdjustmentListener add(AdjustmentListener a, AdjustmentListener b) {
-        return (AdjustmentListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdjustmfntListfnfr bdd(AdjustmfntListfnfr b, AdjustmfntListfnfr b) {
+        rfturn (AdjustmfntListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds text-listener-a with text-listener-b and
-     * returns the resulting multicast listener.
+     * Adds tfxt-listfnfr-b witi tfxt-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
      *
-     * @param  a text-listener-a
-     * @param  b text-listener-b
-     * @return the resulting listener
+     * @pbrbm  b tfxt-listfnfr-b
+     * @pbrbm  b tfxt-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static TextListener add(TextListener a, TextListener b) {
-        return (TextListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid TfxtListfnfr bdd(TfxtListfnfr b, TfxtListfnfr b) {
+        rfturn (TfxtListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Adds input-method-listener-a with input-method-listener-b and
-     * returns the resulting multicast listener.
-     * @param a input-method-listener-a
-     * @param b input-method-listener-b
-     * @return the resulting listener
+     * Adds input-mftiod-listfnfr-b witi input-mftiod-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b input-mftiod-listfnfr-b
+     * @pbrbm b input-mftiod-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-     public static InputMethodListener add(InputMethodListener a, InputMethodListener b) {
-        return (InputMethodListener)addInternal(a, b);
+     publid stbtid InputMftiodListfnfr bdd(InputMftiodListfnfr b, InputMftiodListfnfr b) {
+        rfturn (InputMftiodListfnfr)bddIntfrnbl(b, b);
      }
 
     /**
-     * Adds hierarchy-listener-a with hierarchy-listener-b and
-     * returns the resulting multicast listener.
-     * @param a hierarchy-listener-a
-     * @param b hierarchy-listener-b
-     * @return the resulting listener
-     * @since 1.3
+     * Adds iifrbrdiy-listfnfr-b witi iifrbrdiy-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b iifrbrdiy-listfnfr-b
+     * @pbrbm b iifrbrdiy-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.3
      */
-    @SuppressWarnings("overloads")
-     public static HierarchyListener add(HierarchyListener a, HierarchyListener b) {
-        return (HierarchyListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+     publid stbtid HifrbrdiyListfnfr bdd(HifrbrdiyListfnfr b, HifrbrdiyListfnfr b) {
+        rfturn (HifrbrdiyListfnfr)bddIntfrnbl(b, b);
      }
 
     /**
-     * Adds hierarchy-bounds-listener-a with hierarchy-bounds-listener-b and
-     * returns the resulting multicast listener.
-     * @param a hierarchy-bounds-listener-a
-     * @param b hierarchy-bounds-listener-b
-     * @return the resulting listener
-     * @since 1.3
+     * Adds iifrbrdiy-bounds-listfnfr-b witi iifrbrdiy-bounds-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b iifrbrdiy-bounds-listfnfr-b
+     * @pbrbm b iifrbrdiy-bounds-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.3
      */
-     public static HierarchyBoundsListener add(HierarchyBoundsListener a, HierarchyBoundsListener b) {
-        return (HierarchyBoundsListener)addInternal(a, b);
+     publid stbtid HifrbrdiyBoundsListfnfr bdd(HifrbrdiyBoundsListfnfr b, HifrbrdiyBoundsListfnfr b) {
+        rfturn (HifrbrdiyBoundsListfnfr)bddIntfrnbl(b, b);
      }
 
     /**
-     * Adds mouse-wheel-listener-a with mouse-wheel-listener-b and
-     * returns the resulting multicast listener.
-     * @param a mouse-wheel-listener-a
-     * @param b mouse-wheel-listener-b
-     * @return the resulting listener
-     * @since 1.4
+     * Adds mousf-wiffl-listfnfr-b witi mousf-wiffl-listfnfr-b bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm b mousf-wiffl-listfnfr-b
+     * @pbrbm b mousf-wiffl-listfnfr-b
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    @SuppressWarnings("overloads")
-    public static MouseWheelListener add(MouseWheelListener a,
-                                         MouseWheelListener b) {
-        return (MouseWheelListener)addInternal(a, b);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid MousfWifflListfnfr bdd(MousfWifflListfnfr b,
+                                         MousfWifflListfnfr b) {
+        rfturn (MousfWifflListfnfr)bddIntfrnbl(b, b);
     }
 
     /**
-     * Removes the old component-listener from component-listener-l and
-     * returns the resulting multicast listener.
-     * @param l component-listener-l
-     * @param oldl the component-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old domponfnt-listfnfr from domponfnt-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l domponfnt-listfnfr-l
+     * @pbrbm oldl tif domponfnt-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static ComponentListener remove(ComponentListener l, ComponentListener oldl) {
-        return (ComponentListener) removeInternal(l, oldl);
+    publid stbtid ComponfntListfnfr rfmovf(ComponfntListfnfr l, ComponfntListfnfr oldl) {
+        rfturn (ComponfntListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old container-listener from container-listener-l and
-     * returns the resulting multicast listener.
-     * @param l container-listener-l
-     * @param oldl the container-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old dontbinfr-listfnfr from dontbinfr-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l dontbinfr-listfnfr-l
+     * @pbrbm oldl tif dontbinfr-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static ContainerListener remove(ContainerListener l, ContainerListener oldl) {
-        return (ContainerListener) removeInternal(l, oldl);
+    publid stbtid ContbinfrListfnfr rfmovf(ContbinfrListfnfr l, ContbinfrListfnfr oldl) {
+        rfturn (ContbinfrListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old focus-listener from focus-listener-l and
-     * returns the resulting multicast listener.
-     * @param l focus-listener-l
-     * @param oldl the focus-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old fodus-listfnfr from fodus-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l fodus-listfnfr-l
+     * @pbrbm oldl tif fodus-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static FocusListener remove(FocusListener l, FocusListener oldl) {
-        return (FocusListener) removeInternal(l, oldl);
+    publid stbtid FodusListfnfr rfmovf(FodusListfnfr l, FodusListfnfr oldl) {
+        rfturn (FodusListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old key-listener from key-listener-l and
-     * returns the resulting multicast listener.
-     * @param l key-listener-l
-     * @param oldl the key-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old kfy-listfnfr from kfy-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l kfy-listfnfr-l
+     * @pbrbm oldl tif kfy-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static KeyListener remove(KeyListener l, KeyListener oldl) {
-        return (KeyListener) removeInternal(l, oldl);
+    publid stbtid KfyListfnfr rfmovf(KfyListfnfr l, KfyListfnfr oldl) {
+        rfturn (KfyListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old mouse-listener from mouse-listener-l and
-     * returns the resulting multicast listener.
-     * @param l mouse-listener-l
-     * @param oldl the mouse-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old mousf-listfnfr from mousf-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-listfnfr-l
+     * @pbrbm oldl tif mousf-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static MouseListener remove(MouseListener l, MouseListener oldl) {
-        return (MouseListener) removeInternal(l, oldl);
+    publid stbtid MousfListfnfr rfmovf(MousfListfnfr l, MousfListfnfr oldl) {
+        rfturn (MousfListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old mouse-motion-listener from mouse-motion-listener-l
-     * and returns the resulting multicast listener.
-     * @param l mouse-motion-listener-l
-     * @param oldl the mouse-motion-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old mousf-motion-listfnfr from mousf-motion-listfnfr-l
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-motion-listfnfr-l
+     * @pbrbm oldl tif mousf-motion-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static MouseMotionListener remove(MouseMotionListener l, MouseMotionListener oldl) {
-        return (MouseMotionListener) removeInternal(l, oldl);
+    publid stbtid MousfMotionListfnfr rfmovf(MousfMotionListfnfr l, MousfMotionListfnfr oldl) {
+        rfturn (MousfMotionListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old window-listener from window-listener-l and
-     * returns the resulting multicast listener.
-     * @param l window-listener-l
-     * @param oldl the window-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old window-listfnfr from window-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l window-listfnfr-l
+     * @pbrbm oldl tif window-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static WindowListener remove(WindowListener l, WindowListener oldl) {
-        return (WindowListener) removeInternal(l, oldl);
+    publid stbtid WindowListfnfr rfmovf(WindowListfnfr l, WindowListfnfr oldl) {
+        rfturn (WindowListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old window-state-listener from window-state-listener-l
-     * and returns the resulting multicast listener.
-     * @param l window-state-listener-l
-     * @param oldl the window-state-listener being removed
-     * @return the resulting listener
-     * @since 1.4
+     * Rfmovfs tif old window-stbtf-listfnfr from window-stbtf-listfnfr-l
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l window-stbtf-listfnfr-l
+     * @pbrbm oldl tif window-stbtf-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    @SuppressWarnings("overloads")
-    public static WindowStateListener remove(WindowStateListener l,
-                                             WindowStateListener oldl) {
-        return (WindowStateListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid WindowStbtfListfnfr rfmovf(WindowStbtfListfnfr l,
+                                             WindowStbtfListfnfr oldl) {
+        rfturn (WindowStbtfListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old window-focus-listener from window-focus-listener-l
-     * and returns the resulting multicast listener.
-     * @param l window-focus-listener-l
-     * @param oldl the window-focus-listener being removed
-     * @return the resulting listener
-     * @since 1.4
+     * Rfmovfs tif old window-fodus-listfnfr from window-fodus-listfnfr-l
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l window-fodus-listfnfr-l
+     * @pbrbm oldl tif window-fodus-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    public static WindowFocusListener remove(WindowFocusListener l,
-                                             WindowFocusListener oldl) {
-        return (WindowFocusListener) removeInternal(l, oldl);
+    publid stbtid WindowFodusListfnfr rfmovf(WindowFodusListfnfr l,
+                                             WindowFodusListfnfr oldl) {
+        rfturn (WindowFodusListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old action-listener from action-listener-l and
-     * returns the resulting multicast listener.
-     * @param l action-listener-l
-     * @param oldl the action-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old bdtion-listfnfr from bdtion-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l bdtion-listfnfr-l
+     * @pbrbm oldl tif bdtion-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static ActionListener remove(ActionListener l, ActionListener oldl) {
-        return (ActionListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdtionListfnfr rfmovf(AdtionListfnfr l, AdtionListfnfr oldl) {
+        rfturn (AdtionListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old item-listener from item-listener-l and
-     * returns the resulting multicast listener.
-     * @param l item-listener-l
-     * @param oldl the item-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old itfm-listfnfr from itfm-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l itfm-listfnfr-l
+     * @pbrbm oldl tif itfm-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static ItemListener remove(ItemListener l, ItemListener oldl) {
-        return (ItemListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid ItfmListfnfr rfmovf(ItfmListfnfr l, ItfmListfnfr oldl) {
+        rfturn (ItfmListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old adjustment-listener from adjustment-listener-l and
-     * returns the resulting multicast listener.
-     * @param l adjustment-listener-l
-     * @param oldl the adjustment-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old bdjustmfnt-listfnfr from bdjustmfnt-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l bdjustmfnt-listfnfr-l
+     * @pbrbm oldl tif bdjustmfnt-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static AdjustmentListener remove(AdjustmentListener l, AdjustmentListener oldl) {
-        return (AdjustmentListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid AdjustmfntListfnfr rfmovf(AdjustmfntListfnfr l, AdjustmfntListfnfr oldl) {
+        rfturn (AdjustmfntListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old text-listener from text-listener-l and
-     * returns the resulting multicast listener.
+     * Rfmovfs tif old tfxt-listfnfr from tfxt-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
      *
-     * @param  l text-listener-l
-     * @param  oldl the text-listener being removed
-     * @return the resulting listener
+     * @pbrbm  l tfxt-listfnfr-l
+     * @pbrbm  oldl tif tfxt-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    @SuppressWarnings("overloads")
-    public static TextListener remove(TextListener l, TextListener oldl) {
-        return (TextListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid TfxtListfnfr rfmovf(TfxtListfnfr l, TfxtListfnfr oldl) {
+        rfturn (TfxtListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old input-method-listener from input-method-listener-l and
-     * returns the resulting multicast listener.
-     * @param l input-method-listener-l
-     * @param oldl the input-method-listener being removed
-     * @return the resulting listener
+     * Rfmovfs tif old input-mftiod-listfnfr from input-mftiod-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l input-mftiod-listfnfr-l
+     * @pbrbm oldl tif input-mftiod-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    public static InputMethodListener remove(InputMethodListener l, InputMethodListener oldl) {
-        return (InputMethodListener) removeInternal(l, oldl);
+    publid stbtid InputMftiodListfnfr rfmovf(InputMftiodListfnfr l, InputMftiodListfnfr oldl) {
+        rfturn (InputMftiodListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old hierarchy-listener from hierarchy-listener-l and
-     * returns the resulting multicast listener.
-     * @param l hierarchy-listener-l
-     * @param oldl the hierarchy-listener being removed
-     * @return the resulting listener
-     * @since 1.3
+     * Rfmovfs tif old iifrbrdiy-listfnfr from iifrbrdiy-listfnfr-l bnd
+     * rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l iifrbrdiy-listfnfr-l
+     * @pbrbm oldl tif iifrbrdiy-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.3
      */
-    @SuppressWarnings("overloads")
-    public static HierarchyListener remove(HierarchyListener l, HierarchyListener oldl) {
-        return (HierarchyListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid HifrbrdiyListfnfr rfmovf(HifrbrdiyListfnfr l, HifrbrdiyListfnfr oldl) {
+        rfturn (HifrbrdiyListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old hierarchy-bounds-listener from
-     * hierarchy-bounds-listener-l and returns the resulting multicast
-     * listener.
-     * @param l hierarchy-bounds-listener-l
-     * @param oldl the hierarchy-bounds-listener being removed
-     * @return the resulting listener
-     * @since 1.3
+     * Rfmovfs tif old iifrbrdiy-bounds-listfnfr from
+     * iifrbrdiy-bounds-listfnfr-l bnd rfturns tif rfsulting multidbst
+     * listfnfr.
+     * @pbrbm l iifrbrdiy-bounds-listfnfr-l
+     * @pbrbm oldl tif iifrbrdiy-bounds-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.3
      */
-    public static HierarchyBoundsListener remove(HierarchyBoundsListener l, HierarchyBoundsListener oldl) {
-        return (HierarchyBoundsListener) removeInternal(l, oldl);
+    publid stbtid HifrbrdiyBoundsListfnfr rfmovf(HifrbrdiyBoundsListfnfr l, HifrbrdiyBoundsListfnfr oldl) {
+        rfturn (HifrbrdiyBoundsListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Removes the old mouse-wheel-listener from mouse-wheel-listener-l
-     * and returns the resulting multicast listener.
-     * @param l mouse-wheel-listener-l
-     * @param oldl the mouse-wheel-listener being removed
-     * @return the resulting listener
-     * @since 1.4
+     * Rfmovfs tif old mousf-wiffl-listfnfr from mousf-wiffl-listfnfr-l
+     * bnd rfturns tif rfsulting multidbst listfnfr.
+     * @pbrbm l mousf-wiffl-listfnfr-l
+     * @pbrbm oldl tif mousf-wiffl-listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
+     * @sindf 1.4
      */
-    @SuppressWarnings("overloads")
-    public static MouseWheelListener remove(MouseWheelListener l,
-                                            MouseWheelListener oldl) {
-      return (MouseWheelListener) removeInternal(l, oldl);
+    @SupprfssWbrnings("ovfrlobds")
+    publid stbtid MousfWifflListfnfr rfmovf(MousfWifflListfnfr l,
+                                            MousfWifflListfnfr oldl) {
+      rfturn (MousfWifflListfnfr) rfmovfIntfrnbl(l, oldl);
     }
 
     /**
-     * Returns the resulting multicast listener from adding listener-a
-     * and listener-b together.
-     * If listener-a is null, it returns listener-b;
-     * If listener-b is null, it returns listener-a
-     * If neither are null, then it creates and returns
-     * a new AWTEventMulticaster instance which chains a with b.
-     * @param a event listener-a
-     * @param b event listener-b
-     * @return the resulting listener
+     * Rfturns tif rfsulting multidbst listfnfr from bdding listfnfr-b
+     * bnd listfnfr-b togftifr.
+     * If listfnfr-b is null, it rfturns listfnfr-b;
+     * If listfnfr-b is null, it rfturns listfnfr-b
+     * If nfitifr brf null, tifn it drfbtfs bnd rfturns
+     * b nfw AWTEvfntMultidbstfr instbndf wiidi dibins b witi b.
+     * @pbrbm b fvfnt listfnfr-b
+     * @pbrbm b fvfnt listfnfr-b
+     * @rfturn tif rfsulting listfnfr
      */
-    protected static EventListener addInternal(EventListener a, EventListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
-        return new AWTEventMulticaster(a, b);
+    protfdtfd stbtid EvfntListfnfr bddIntfrnbl(EvfntListfnfr b, EvfntListfnfr b) {
+        if (b == null)  rfturn b;
+        if (b == null)  rfturn b;
+        rfturn nfw AWTEvfntMultidbstfr(b, b);
     }
 
     /**
-     * Returns the resulting multicast listener after removing the
-     * old listener from listener-l.
-     * If listener-l equals the old listener OR listener-l is null,
-     * returns null.
-     * Else if listener-l is an instance of AWTEventMulticaster,
-     * then it removes the old listener from it.
-     * Else, returns listener l.
-     * @param l the listener being removed from
-     * @param oldl the listener being removed
-     * @return the resulting listener
+     * Rfturns tif rfsulting multidbst listfnfr bftfr rfmoving tif
+     * old listfnfr from listfnfr-l.
+     * If listfnfr-l fqubls tif old listfnfr OR listfnfr-l is null,
+     * rfturns null.
+     * Elsf if listfnfr-l is bn instbndf of AWTEvfntMultidbstfr,
+     * tifn it rfmovfs tif old listfnfr from it.
+     * Elsf, rfturns listfnfr l.
+     * @pbrbm l tif listfnfr bfing rfmovfd from
+     * @pbrbm oldl tif listfnfr bfing rfmovfd
+     * @rfturn tif rfsulting listfnfr
      */
-    protected static EventListener removeInternal(EventListener l, EventListener oldl) {
+    protfdtfd stbtid EvfntListfnfr rfmovfIntfrnbl(EvfntListfnfr l, EvfntListfnfr oldl) {
         if (l == oldl || l == null) {
-            return null;
-        } else if (l instanceof AWTEventMulticaster) {
-            return ((AWTEventMulticaster)l).remove(oldl);
-        } else {
-            return l;           // it's not here
+            rfturn null;
+        } flsf if (l instbndfof AWTEvfntMultidbstfr) {
+            rfturn ((AWTEvfntMultidbstfr)l).rfmovf(oldl);
+        } flsf {
+            rfturn l;           // it's not ifrf
         }
     }
 
 
    /**
-    * Serialization support. Saves all Serializable listeners
-    * to a serialization stream.
+    * Sfriblizbtion support. Sbvfs bll Sfriblizbblf listfnfrs
+    * to b sfriblizbtion strfbm.
     *
-    * @param  s the stream to save to
-    * @param  k a prefix stream to put before each serializable listener
-    * @throws IOException if serialization fails
+    * @pbrbm  s tif strfbm to sbvf to
+    * @pbrbm  k b prffix strfbm to put bfforf fbdi sfriblizbblf listfnfr
+    * @tirows IOExdfption if sfriblizbtion fbils
     */
-    protected void saveInternal(ObjectOutputStream s, String k) throws IOException {
-        if (a instanceof AWTEventMulticaster) {
-            ((AWTEventMulticaster)a).saveInternal(s, k);
+    protfdtfd void sbvfIntfrnbl(ObjfdtOutputStrfbm s, String k) tirows IOExdfption {
+        if (b instbndfof AWTEvfntMultidbstfr) {
+            ((AWTEvfntMultidbstfr)b).sbvfIntfrnbl(s, k);
         }
-        else if (a instanceof Serializable) {
-            s.writeObject(k);
-            s.writeObject(a);
+        flsf if (b instbndfof Sfriblizbblf) {
+            s.writfObjfdt(k);
+            s.writfObjfdt(b);
         }
 
-        if (b instanceof AWTEventMulticaster) {
-            ((AWTEventMulticaster)b).saveInternal(s, k);
+        if (b instbndfof AWTEvfntMultidbstfr) {
+            ((AWTEvfntMultidbstfr)b).sbvfIntfrnbl(s, k);
         }
-        else if (b instanceof Serializable) {
-            s.writeObject(k);
-            s.writeObject(b);
+        flsf if (b instbndfof Sfriblizbblf) {
+            s.writfObjfdt(k);
+            s.writfObjfdt(b);
         }
     }
 
    /**
-    * Saves a Serializable listener chain to a serialization stream.
+    * Sbvfs b Sfriblizbblf listfnfr dibin to b sfriblizbtion strfbm.
     *
-    * @param  s the stream to save to
-    * @param  k a prefix stream to put before each serializable listener
-    * @param  l the listener chain to save
-    * @throws IOException if serialization fails
+    * @pbrbm  s tif strfbm to sbvf to
+    * @pbrbm  k b prffix strfbm to put bfforf fbdi sfriblizbblf listfnfr
+    * @pbrbm  l tif listfnfr dibin to sbvf
+    * @tirows IOExdfption if sfriblizbtion fbils
     */
-    protected static void save(ObjectOutputStream s, String k, EventListener l) throws IOException {
+    protfdtfd stbtid void sbvf(ObjfdtOutputStrfbm s, String k, EvfntListfnfr l) tirows IOExdfption {
       if (l == null) {
-          return;
+          rfturn;
       }
-      else if (l instanceof AWTEventMulticaster) {
-          ((AWTEventMulticaster)l).saveInternal(s, k);
+      flsf if (l instbndfof AWTEvfntMultidbstfr) {
+          ((AWTEvfntMultidbstfr)l).sbvfIntfrnbl(s, k);
       }
-      else if (l instanceof Serializable) {
-           s.writeObject(k);
-           s.writeObject(l);
+      flsf if (l instbndfof Sfriblizbblf) {
+           s.writfObjfdt(k);
+           s.writfObjfdt(l);
       }
     }
 
     /*
-     * Recursive method which returns a count of the number of listeners in
-     * EventListener, handling the (common) case of l actually being an
-     * AWTEventMulticaster.  Additionally, only listeners of type listenerType
-     * are counted.  Method modified to fix bug 4513402.  -bchristi
+     * Rfdursivf mftiod wiidi rfturns b dount of tif numbfr of listfnfrs in
+     * EvfntListfnfr, ibndling tif (dommon) dbsf of l bdtublly bfing bn
+     * AWTEvfntMultidbstfr.  Additionblly, only listfnfrs of typf listfnfrTypf
+     * brf dountfd.  Mftiod modififd to fix bug 4513402.  -bdiristi
      */
-    private static int getListenerCount(EventListener l, Class<?> listenerType) {
-        if (l instanceof AWTEventMulticaster) {
-            AWTEventMulticaster mc = (AWTEventMulticaster)l;
-            return getListenerCount(mc.a, listenerType) +
-             getListenerCount(mc.b, listenerType);
+    privbtf stbtid int gftListfnfrCount(EvfntListfnfr l, Clbss<?> listfnfrTypf) {
+        if (l instbndfof AWTEvfntMultidbstfr) {
+            AWTEvfntMultidbstfr md = (AWTEvfntMultidbstfr)l;
+            rfturn gftListfnfrCount(md.b, listfnfrTypf) +
+             gftListfnfrCount(md.b, listfnfrTypf);
         }
-        else {
-            // Only count listeners of correct type
-            return listenerType.isInstance(l) ? 1 : 0;
+        flsf {
+            // Only dount listfnfrs of dorrfdt typf
+            rfturn listfnfrTypf.isInstbndf(l) ? 1 : 0;
         }
     }
 
     /*
-     * Recusive method which populates EventListener array a with EventListeners
-     * from l.  l is usually an AWTEventMulticaster.  Bug 4513402 revealed that
-     * if l differed in type from the element type of a, an ArrayStoreException
-     * would occur.  Now l is only inserted into a if it's of the appropriate
-     * type.  -bchristi
+     * Rfdusivf mftiod wiidi populbtfs EvfntListfnfr brrby b witi EvfntListfnfrs
+     * from l.  l is usublly bn AWTEvfntMultidbstfr.  Bug 4513402 rfvfblfd tibt
+     * if l difffrfd in typf from tif flfmfnt typf of b, bn ArrbyStorfExdfption
+     * would oddur.  Now l is only insfrtfd into b if it's of tif bppropribtf
+     * typf.  -bdiristi
      */
-    private static int populateListenerArray(EventListener[] a, EventListener l, int index) {
-        if (l instanceof AWTEventMulticaster) {
-            AWTEventMulticaster mc = (AWTEventMulticaster)l;
-            int lhs = populateListenerArray(a, mc.a, index);
-            return populateListenerArray(a, mc.b, lhs);
+    privbtf stbtid int populbtfListfnfrArrby(EvfntListfnfr[] b, EvfntListfnfr l, int indfx) {
+        if (l instbndfof AWTEvfntMultidbstfr) {
+            AWTEvfntMultidbstfr md = (AWTEvfntMultidbstfr)l;
+            int lis = populbtfListfnfrArrby(b, md.b, indfx);
+            rfturn populbtfListfnfrArrby(b, md.b, lis);
         }
-        else if (a.getClass().getComponentType().isInstance(l)) {
-            a[index] = l;
-            return index + 1;
+        flsf if (b.gftClbss().gftComponfntTypf().isInstbndf(l)) {
+            b[indfx] = l;
+            rfturn indfx + 1;
         }
-        // Skip nulls, instances of wrong class
-        else {
-            return index;
+        // Skip nulls, instbndfs of wrong dlbss
+        flsf {
+            rfturn indfx;
         }
     }
 
     /**
-     * Returns an array of all the objects chained as
-     * <code><em>Foo</em>Listener</code>s by the specified
-     * <code>java.util.EventListener</code>.
-     * <code><em>Foo</em>Listener</code>s are chained by the
-     * <code>AWTEventMulticaster</code> using the
-     * <code>add<em>Foo</em>Listener</code> method.
-     * If a <code>null</code> listener is specified, this method returns an
-     * empty array. If the specified listener is not an instance of
-     * <code>AWTEventMulticaster</code>, this method returns an array which
-     * contains only the specified listener. If no such listeners are chained,
-     * this method returns an empty array.
+     * Rfturns bn brrby of bll tif objfdts dibinfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s by tif spfdififd
+     * <dodf>jbvb.util.EvfntListfnfr</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf dibinfd by tif
+     * <dodf>AWTEvfntMultidbstfr</dodf> using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
+     * If b <dodf>null</dodf> listfnfr is spfdififd, tiis mftiod rfturns bn
+     * fmpty brrby. If tif spfdififd listfnfr is not bn instbndf of
+     * <dodf>AWTEvfntMultidbstfr</dodf>, tiis mftiod rfturns bn brrby wiidi
+     * dontbins only tif spfdififd listfnfr. If no sudi listfnfrs brf dibinfd,
+     * tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param l the specified <code>java.util.EventListener</code>
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects chained as
-     *          <code><em>Foo</em>Listener</code>s by the specified multicast
-     *          listener, or an empty array if no such listeners have been
-     *          chained by the specified multicast listener
-     * @exception NullPointerException if the specified
-     *             {@code listenertype} parameter is {@code null}
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm l tif spfdififd <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts dibinfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s by tif spfdififd multidbst
+     *          listfnfr, or bn fmpty brrby if no sudi listfnfrs ibvf bffn
+     *          dibinfd by tif spfdififd multidbst listfnfr
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     *             {@dodf listfnfrtypf} pbrbmftfr is {@dodf null}
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends EventListener> T[]
-        getListeners(EventListener l, Class<T> listenerType)
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T fxtfnds EvfntListfnfr> T[]
+        gftListfnfrs(EvfntListfnfr l, Clbss<T> listfnfrTypf)
     {
-        if (listenerType == null) {
-            throw new NullPointerException ("Listener type should not be null");
+        if (listfnfrTypf == null) {
+            tirow nfw NullPointfrExdfption ("Listfnfr typf siould not bf null");
         }
 
-        int n = getListenerCount(l, listenerType);
-        T[] result = (T[])Array.newInstance(listenerType, n);
-        populateListenerArray(result, l, 0);
-        return result;
+        int n = gftListfnfrCount(l, listfnfrTypf);
+        T[] rfsult = (T[])Arrby.nfwInstbndf(listfnfrTypf, n);
+        populbtfListfnfrArrby(rfsult, l, 0);
+        rfturn rfsult;
     }
 }

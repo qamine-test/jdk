@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+publid bbstrbdt dlbss XErrorHbndlfr {
+
+    /*
+     * Cbllfd undfr AWT lodk
+     */
+    publid bbstrbdt int hbndlfError(long displby, XErrorEvfnt frr);
+
+    /*
+     * Forwbrds bll thf frrors to sbvfd frror hbndlfr (whidh wbs
+     * sft bfforf XToolkit hbd bffn initiblizfd).
+     */
+    publid stbtid dlbss XBbsfErrorHbndlfr fxtfnds XErrorHbndlfr {
+        @Ovfrridf
+        publid int hbndlfError(long displby, XErrorEvfnt frr) {
+            rfturn XErrorHbndlfrUtil.SAVED_XERROR_HANDLER(displby, frr);
+        }
+    }
+
+    /*
+     * Instfbd of vblidbting window id, wf simply dbll XGftWindowPropfrty,
+     * but tfmporbry instbll this fundtion bs thf frror hbndlfr to ignorf
+     * BbdWindow frror.
+     */
+    publid stbtid dlbss IgnorfBbdWindowHbndlfr fxtfnds XBbsfErrorHbndlfr {
+        @Ovfrridf
+        publid int hbndlfError(long displby, XErrorEvfnt frr) {
+            if (frr.gft_frror_dodf() == XConstbnts.BbdWindow) {
+                rfturn 0;
+            }
+            rfturn supfr.hbndlfError(displby, frr);
+        }
+        // Shbrfd instbndf
+        privbtf stbtid IgnorfBbdWindowHbndlfr thfInstbndf = nfw IgnorfBbdWindowHbndlfr();
+        publid stbtid IgnorfBbdWindowHbndlfr gftInstbndf() {
+            rfturn thfInstbndf;
+        }
+    }
+
+    publid stbtid dlbss VfrifyChbngfPropfrtyHbndlfr fxtfnds XBbsfErrorHbndlfr {
+        @Ovfrridf
+        publid int hbndlfError(long displby, XErrorEvfnt frr) {
+            if (frr.gft_rfqufst_dodf() == XProtodolConstbnts.X_ChbngfPropfrty) {
+                rfturn 0;
+            }
+            rfturn supfr.hbndlfError(displby, frr);
+        }
+        // Shbrfd instbndf
+        privbtf stbtid VfrifyChbngfPropfrtyHbndlfr thfInstbndf = nfw VfrifyChbngfPropfrtyHbndlfr();
+        publid stbtid VfrifyChbngfPropfrtyHbndlfr gftInstbndf() {
+            rfturn thfInstbndf;
+        }
+    }
+}

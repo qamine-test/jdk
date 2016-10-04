@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "sun_lwawt_macosx_CDragSourceContextPeer.h"
+#import "sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "CDragSource.h"
-#import "ThreadUtilities.h"
+#import "CDrbgSourdf.i"
+#import "TirfbdUtilitifs.i"
 
 
 /*
- * Class:     sun_lwawt_macosx_CDragSourceContextPeer
- * Method:    createNativeDragSource
- * Signature: (Ljava/awt/Component;JLjava/awt/datatransfer/Transferable;
-               Ljava/awt/event/InputEvent;IIIIJIJIII[JLjava/util/Map;)J
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mftiod:    drfbtfNbtivfDrbgSourdf
+ * Signbturf: (Ljbvb/bwt/Componfnt;JLjbvb/bwt/dbtbtrbnsffr/Trbnsffrbblf;
+               Ljbvb/bwt/fvfnt/InputEvfnt;IIIIJIJIII[JLjbvb/util/Mbp;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CDragSourceContextPeer_createNativeDragSource
-  (JNIEnv *env, jobject jthis, jobject jcomponent, jlong jnativepeer, jobject jtransferable,
-   jobject jtrigger, jint jdragposx, jint jdragposy, jint jextmodifiers, jint jclickcount, jlong jtimestamp,
-   jlong nsdragimageptr, jint jdragimageoffsetx, jint jdragimageoffsety,
-   jint jsourceactions, jlongArray jformats, jobject jformatmap)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_drfbtfNbtivfDrbgSourdf
+  (JNIEnv *fnv, jobjfdt jtiis, jobjfdt jdomponfnt, jlong jnbtivfpffr, jobjfdt jtrbnsffrbblf,
+   jobjfdt jtriggfr, jint jdrbgposx, jint jdrbgposy, jint jfxtmodififrs, jint jdlidkdount, jlong jtimfstbmp,
+   jlong nsdrbgimbgfptr, jint jdrbgimbgfoffsftx, jint jdrbgimbgfoffsfty,
+   jint jsourdfbdtions, jlongArrby jformbts, jobjfdt jformbtmbp)
 {
-    id controlObj = (id) jlong_to_ptr(jnativepeer);
-    __block CDragSource* dragSource = nil;
+    id dontrolObj = (id) jlong_to_ptr(jnbtivfpffr);
+    __blodk CDrbgSourdf* drbgSourdf = nil;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    // Global references are disposed when the DragSource is removed
-    jobject gComponent = JNFNewGlobalRef(env, jcomponent);
-    jobject gDragSourceContextPeer = JNFNewGlobalRef(env, jthis);
-    jobject gTransferable = JNFNewGlobalRef(env, jtransferable);
-    jobject gTriggerEvent = JNFNewGlobalRef(env, jtrigger);
-    jlongArray gFormats = JNFNewGlobalRef(env, jformats);
-    jobject gFormatMap = JNFNewGlobalRef(env, jformatmap);
+    // Globbl rfffrfndfs brf disposfd wifn tif DrbgSourdf is rfmovfd
+    jobjfdt gComponfnt = JNFNfwGlobblRff(fnv, jdomponfnt);
+    jobjfdt gDrbgSourdfContfxtPffr = JNFNfwGlobblRff(fnv, jtiis);
+    jobjfdt gTrbnsffrbblf = JNFNfwGlobblRff(fnv, jtrbnsffrbblf);
+    jobjfdt gTriggfrEvfnt = JNFNfwGlobblRff(fnv, jtriggfr);
+    jlongArrby gFormbts = JNFNfwGlobblRff(fnv, jformbts);
+    jobjfdt gFormbtMbp = JNFNfwGlobblRff(fnv, jformbtmbp);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        dragSource = [[CDragSource alloc] init:gDragSourceContextPeer
-                                     component:gComponent
-                                       control:controlObj
-                                  transferable:gTransferable
-                                  triggerEvent:gTriggerEvent
-                                      dragPosX:jdragposx
-                                      dragPosY:jdragposy
-                                     modifiers:jextmodifiers
-                                    clickCount:jclickcount
-                                     timeStamp:jtimestamp
-                                     dragImage:nsdragimageptr
-                              dragImageOffsetX:jdragimageoffsetx
-                              dragImageOffsetY:jdragimageoffsety
-                                 sourceActions:jsourceactions
-                                       formats:gFormats
-                                     formatMap:gFormatMap];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        drbgSourdf = [[CDrbgSourdf bllod] init:gDrbgSourdfContfxtPffr
+                                     domponfnt:gComponfnt
+                                       dontrol:dontrolObj
+                                  trbnsffrbblf:gTrbnsffrbblf
+                                  triggfrEvfnt:gTriggfrEvfnt
+                                      drbgPosX:jdrbgposx
+                                      drbgPosY:jdrbgposy
+                                     modififrs:jfxtmodififrs
+                                    dlidkCount:jdlidkdount
+                                     timfStbmp:jtimfstbmp
+                                     drbgImbgf:nsdrbgimbgfptr
+                              drbgImbgfOffsftX:jdrbgimbgfoffsftx
+                              drbgImbgfOffsftY:jdrbgimbgfoffsfty
+                                 sourdfAdtions:jsourdfbdtions
+                                       formbts:gFormbts
+                                     formbtMbp:gFormbtMbp];
     }];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(dragSource);
+    rfturn ptr_to_jlong(drbgSourdf);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDragSourceContextPeer
- * Method:    doDragging
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mftiod:    doDrbgging
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDragSourceContextPeer_doDragging
-  (JNIEnv *env, jobject jthis, jlong nativeDragSourceVal)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_doDrbgging
+  (JNIEnv *fnv, jobjfdt jtiis, jlong nbtivfDrbgSourdfVbl)
 {
     AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    CDragSource* dragSource = (CDragSource*) jlong_to_ptr(nativeDragSourceVal);
+    CDrbgSourdf* drbgSourdf = (CDrbgSourdf*) jlong_to_ptr(nbtivfDrbgSourdfVbl);
 
-JNF_COCOA_ENTER(env);
-    [dragSource drag];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    [drbgSourdf drbg];
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDragSourceContextPeer
- * Method:    releaseNativeDragSource
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr
+ * Mftiod:    rflfbsfNbtivfDrbgSourdf
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDragSourceContextPeer_releaseNativeDragSource
-  (JNIEnv *env, jobject jthis, jlong nativeDragSourceVal)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDrbgSourdfContfxtPffr_rflfbsfNbtivfDrbgSourdf
+  (JNIEnv *fnv, jobjfdt jtiis, jlong nbtivfDrbgSourdfVbl)
 {
-      CDragSource* dragSource = (CDragSource*) jlong_to_ptr(nativeDragSourceVal);
+      CDrbgSourdf* drbgSourdf = (CDrbgSourdf*) jlong_to_ptr(nbtivfDrbgSourdfVbl);
 
-JNF_COCOA_ENTER(env);
-    [dragSource removeFromView:env];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    [drbgSourdf rfmovfFromVifw:fnv];
+JNF_COCOA_EXIT(fnv);
 }

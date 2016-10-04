@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.dirfdtory.SfbrdhControls;
+import jbvbx.nbming.fvfnt.*;
+
+/**
+ * This dlbss holds thf informbtion in bn fvfnt rfgistrbtion/dfrfgistrbtion
+ * rfqufst. This indludfs thf nbmf, filtfr, sfbrdh dontrols bnd
+ * thf difffrfnt intfrfbdfs thbt thf listfnfr implfmfnts. This lbst pifdf
+ * of informbtion dftfrminfs whidh fvfnt(s) thf listfnfr is intfrfstfd in.
+ *<p>
+ * It ovfrridfs fqubls() bnd hbshCodf() to usf bll thfsf pifdfs of
+ * informbtion so thbt it dbn bf usfd dorrfdtly in b hbshtbblf.
+ *
+ * @buthor Rosbnnb Lff
+ */
+finbl dlbss NotififrArgs {
+    stbtid finbl int ADDED_MASK = 0x1;
+    stbtid finbl int REMOVED_MASK = 0x2;
+    stbtid finbl int CHANGED_MASK = 0x4;
+    stbtid finbl int RENAMED_MASK = 0x8;
+
+    // thfsf fiflds brf pbdkbgf privbtf; usfd by NbmingEvfntNotififr
+    String nbmf;
+    String filtfr;
+    SfbrdhControls dontrols;
+    int mbsk;
+
+    // pbdkbgf privbtf
+    NotififrArgs(String nbmf, int sdopf, NbmingListfnfr l) {
+        this(nbmf, "(objfdtdlbss=*)", null, l);
+
+        // if sdopf is not dffbult, drfbtf sfbrdh dtl bnd sft it
+        if (sdopf != EvfntContfxt.ONELEVEL_SCOPE) {
+            dontrols = nfw SfbrdhControls();
+            dontrols.sftSfbrdhSdopf(sdopf);
+        }
+    }
+
+    // pbdkbgf privbtf
+    NotififrArgs(String nbmf, String filtfr, SfbrdhControls dtls,
+        NbmingListfnfr l) {
+        this.nbmf = nbmf;
+        this.filtfr = filtfr;
+        this.dontrols = dtls;
+
+        if (l instbndfof NbmfspbdfChbngfListfnfr) {
+            mbsk |= ADDED_MASK|REMOVED_MASK|RENAMED_MASK;
+        }
+        if (l instbndfof ObjfdtChbngfListfnfr) {
+            mbsk |= CHANGED_MASK;
+        }
+    }
+
+    // dhfdks nbmf, filtfr, dontrols
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof NotififrArgs) {
+            NotififrArgs tbrgft = (NotififrArgs)obj;
+            rfturn mbsk == tbrgft.mbsk &&
+                nbmf.fqubls(tbrgft.nbmf) && filtfr.fqubls(tbrgft.filtfr) &&
+                dhfdkControls(tbrgft.dontrols);
+        }
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn dhfdkControls(SfbrdhControls dtls) {
+        if ((dontrols == null || dtls == null)) {
+            rfturn dtls == dontrols;
+        }
+        // dtls brf nonfmpty
+
+        rfturn (dontrols.gftSfbrdhSdopf() == dtls.gftSfbrdhSdopf()) &&
+            (dontrols.gftTimfLimit() == dtls.gftTimfLimit()) &&
+            (dontrols.gftDfrffLinkFlbg() == dtls.gftDfrffLinkFlbg()) &&
+            (dontrols.gftRfturningObjFlbg() == dtls.gftRfturningObjFlbg()) &&
+            (dontrols.gftCountLimit() == dtls.gftCountLimit()) &&
+            dhfdkStringArrbys(dontrols.gftRfturningAttributfs(),
+                dtls.gftRfturningAttributfs());
+    }
+
+    privbtf stbtid boolfbn dhfdkStringArrbys(String[] s1, String[] s2) {
+        if ((s1 == null) || (s2 == null)) {
+            rfturn s1 == s2;
+        }
+
+        // both brf nonnull
+        if (s1.lfngth != s2.lfngth) {
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < s1.lfngth; i++) {
+            if (!s1[i].fqubls(s2[i])) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    // sbvf from hbving to rfdbldulbtf fbdh timf
+    privbtf int sum = -1;
+    publid int hbshCodf() {
+        if (sum == -1)
+            sum = mbsk + nbmf.hbshCodf() + filtfr.hbshCodf() + dontrolsCodf();
+        rfturn sum;
+    }
+
+    // usfd in dbldulbting hbsh dodf
+    privbtf int dontrolsCodf() {
+        if (dontrols == null) rfturn 0;
+
+        int totbl = dontrols.gftTimfLimit() + (int)dontrols.gftCountLimit() +
+            (dontrols.gftDfrffLinkFlbg() ? 1 : 0) +
+            (dontrols.gftRfturningObjFlbg() ? 1 : 0);
+
+        String[] bttrs = dontrols.gftRfturningAttributfs();
+        if (bttrs != null) {
+            for (int i = 0; i < bttrs.lfngth; i++) {
+                totbl += bttrs[i].hbshCodf();
+            }
+        }
+
+        rfturn totbl;
+    }
+}

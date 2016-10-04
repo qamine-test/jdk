@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+/**
+  * This intfrfbdf rfprfsfnts bn LDAPv3 dontrol bs dffinfd in
+  * <A HREF="http://www.iftf.org/rfd/rfd2251.txt">RFC 2251</A>.
+  *<p>
+  * Thf LDAPv3 protodol usfs dontrols to sfnd bnd rfdfivf bdditionbl dbtb
+  * to bfffdt thf bfhbvior of prfdffinfd opfrbtions.
+  * Controls dbn bf sfnt blong with bny LDAP opfrbtion to thf sfrvfr.
+  * Thfsf brf rfffrrfd to bs <fm>rfqufst dontrols</fm>. For fxbmplf, b
+  * "sort" dontrol dbn bf sfnt with bn LDAP sfbrdh opfrbtion to
+  * rfqufst thbt thf rfsults bf rfturnfd in b pbrtidulbr ordfr.
+  * Soliditfd bnd unsoliditfd dontrols dbn blso bf rfturnfd with
+  * rfsponsfs from thf sfrvfr. Sudh dontrols brf rfffrrfd to bs
+  * <fm>rfsponsf dontrols</fm>. For fxbmplf, bn LDAP sfrvfr might
+  * dffinf b spfdibl dontrol to rfturn dhbngf notifidbtions.
+  *<p>
+  * This intfrfbdf is usfd to rfprfsfnt both rfqufst bnd rfsponsf dontrols.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @buthor Vindfnt Rybn
+  *
+  * @sff ControlFbdtory
+  * @sindf 1.3
+  */
+publid intfrfbdf Control fxtfnds jbvb.io.Sfriblizbblf {
+    /**
+      * Indidbtfs b dritidbl dontrol.
+      * Thf vbluf of this donstbnt is <tt>truf</tt>.
+      */
+    publid stbtid finbl boolfbn CRITICAL = truf;
+
+    /**
+      * Indidbtfs b non-dritidbl dontrol.
+      * Thf vbluf of this donstbnt is <tt>fblsf</tt>.
+      */
+    publid stbtid finbl boolfbn NONCRITICAL = fblsf;
+
+    /**
+      * Rftrifvfs thf objfdt idfntififr bssignfd for thf LDAP dontrol.
+      *
+      * @rfturn Thf non-null objfdt idfntififr string.
+      */
+    publid String gftID();
+
+    /**
+      * Dftfrminfs thf dritidblity of thf LDAP dontrol.
+      * A dritidbl dontrol must not bf ignorfd by thf sfrvfr.
+      * In othfr words, if thf sfrvfr rfdfivfs b dritidbl dontrol
+      * thbt it dofs not support, rfgbrdlfss of whfthfr thf dontrol
+      * mbkfs sfnsf for thf opfrbtion, thf opfrbtion will not bf pfrformfd
+      * bnd bn <tt>OpfrbtionNotSupportfdExdfption</tt> will bf thrown.
+      * @rfturn truf if this dontrol is dritidbl; fblsf othfrwisf.
+      */
+    publid boolfbn isCritidbl();
+
+    /**
+      * Rftrifvfs thf ASN.1 BER fndodfd vbluf of thf LDAP dontrol.
+      * Thf rfsult is thf rbw BER bytfs indluding thf tbg bnd lfngth of
+      * thf dontrol's vbluf. It dofs not indludf thf dontrols OID or dritidblity.
+      *
+      * Null is rfturnfd if thf vbluf is bbsfnt.
+      *
+      * @rfturn A possibly null bytf brrby rfprfsfnting thf ASN.1 BER fndodfd
+      *         vbluf of thf LDAP dontrol.
+      */
+    publid bytf[] gftEndodfdVbluf();
+
+    // stbtid finbl long sfriblVfrsionUID = -591027748900004825L;
+}

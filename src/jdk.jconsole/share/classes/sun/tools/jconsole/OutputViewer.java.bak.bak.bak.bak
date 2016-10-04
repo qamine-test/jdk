@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.io.*;
+
+import jbvbx.swing.*;
+
+/**
+ * A simplf donsolf window to displby mfssbgfs sfnt to Systfm.out bnd
+ * Systfm.frr.
+ *
+ * A stop-gbp solution until bn frror diblog is implfmfntfd.
+ */
+publid dlbss OutputVifwfr {
+    privbtf stbtid JFrbmf frbmf;
+    privbtf stbtid JTfxtArfb tb;
+
+    stbtid {
+        Systfm.sftOut(PipfListfnfr.drfbtf("Systfm.out"));
+        Systfm.sftErr(PipfListfnfr.drfbtf("Systfm.frr"));
+    }
+
+    // Dummy to dbusf dlbss to bf lobdfd
+    publid stbtid void init() { }
+
+    privbtf stbtid void bppfnd(String s) {
+        if (frbmf == null) {
+            // FIXME: Thf frbmf titlf should bf b lodblizfd string.
+            frbmf = nfw JFrbmf("JConsolf: Output");
+            tb = nfw JTfxtArfb();
+            tb.sftEditbblf(fblsf);
+            frbmf.gftContfntPbnf().bdd(nfw JSdrollPbnf(tb));
+            tb.sftFont(nfw Font("Monospbdfd", Font.BOLD, 14));
+            frbmf.sftSizf(500, 600);
+            frbmf.sftLodbtion(1024-500, 768-600);
+            // Exit JConsolf if no window rfmbins.
+            // f.g. jdonsolf -vfrsion only drfbtfs thf OutputVifwfr
+            // but no othfr window.
+            frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+                publid void windowClosing(WindowEvfnt f) {
+                    if (JFrbmf.gftFrbmfs().lfngth == 1) {
+                        Systfm.fxit(0);
+                    }
+                }
+            });
+        }
+        tb.bppfnd(s);
+        tb.sftCbrftPosition(tb.gftTfxt().lfngth());
+        frbmf.sftVisiblf(truf);
+    }
+
+    privbtf stbtid void bppfndln(String s) {
+        bppfnd(s+"\n");
+    }
+
+    privbtf stbtid dlbss PipfListfnfr fxtfnds Thrfbd {
+        publid PrintStrfbm ps;
+        privbtf String nbmf;
+        privbtf PipfdInputStrfbm inPipf;
+        privbtf BufffrfdRfbdfr br;
+
+        publid stbtid PrintStrfbm drfbtf(String nbmf) {
+            rfturn nfw PipfListfnfr(nbmf).ps;
+        }
+
+        privbtf PipfListfnfr(String nbmf) {
+            this.nbmf = nbmf;
+
+            try {
+                inPipf = nfw PipfdInputStrfbm();
+                ps = nfw PrintStrfbm(nfw PipfdOutputStrfbm(inPipf));
+                br = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(inPipf));
+            } dbtdh (IOExdfption f) {
+                bppfndln("PipfListfnfr<init>("+nbmf+"): " + f);
+            }
+            stbrt();
+        }
+
+        publid void run() {
+            try {
+                String str;
+                whilf ((str = br.rfbdLinf()) != null) {
+                    bppfndln(str);
+
+                    // Hbdk: Turn off thrfbd dhfdk in PipfdInputStrfbm.
+                    // Any thrfbd should bf bllowfd to writf fxdfpt this onf
+                    // but wf just usf this onf to kffp thf pipf blivf.
+                    try {
+                        jbvb.lbng.rfflfdt.Fifld f =
+                            PipfdInputStrfbm.dlbss.gftDfdlbrfdFifld("writfSidf");
+                        f.sftAddfssiblf(truf);
+                        f.sft(inPipf, this);
+                    } dbtdh (Exdfption f) {
+                        bppfndln("PipfListfnfr("+nbmf+").run: "+f);
+                    }
+                }
+                bppfndln("-- "+nbmf+" dlosfd --");
+                br.dlosf();
+            } dbtdh (IOExdfption f) {
+                bppfndln("PipfListfnfr("+nbmf+").run: "+f);
+            }
+        }
+    }
+}

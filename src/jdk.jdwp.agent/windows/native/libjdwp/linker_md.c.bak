@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Maintains a list of currently loaded DLLs (Dynamic Link Libraries)
- * and their associated handles. Library names are case-insensitive.
+ * Mbintbins b list of durrfntly lobdfd DLLs (Dynbmid Link Librbrifs)
+ * bnd tifir bssodibtfd ibndlfs. Librbry nbmfs brf dbsf-insfnsitivf.
  */
 
-#include <windows.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <io.h>
-#include <stdlib.h>
+#indludf <windows.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <io.i>
+#indludf <stdlib.i>
 
-#include "sys.h"
+#indludf "sys.i"
 
-#include "path_md.h"
+#indludf "pbti_md.i"
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtid void dll_build_nbmf(dibr* bufffr, sizf_t buflfn,
+                           donst dibr* pbtis, donst dibr* fnbmf) {
+    dibr *pbti, *pbtis_dopy, *nfxt_tokfn;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
-        return;
+    pbtis_dopy = strdup(pbtis);
+    if (pbtis_dopy == NULL) {
+        rfturn;
     }
 
-    next_token = NULL;
-    path = strtok_s(paths_copy, PATH_SEPARATOR, &next_token);
+    nfxt_tokfn = NULL;
+    pbti = strtok_s(pbtis_dopy, PATH_SEPARATOR, &nfxt_tokfn);
 
-    while (path != NULL) {
-        _snprintf(buffer, buflen, "%s\\%s.dll", path, fname);
-        if (_access(buffer, 0) == 0) {
-            break;
+    wiilf (pbti != NULL) {
+        _snprintf(bufffr, buflfn, "%s\\%s.dll", pbti, fnbmf);
+        if (_bddfss(bufffr, 0) == 0) {
+            brfbk;
         }
-        *buffer = '\0';
-        path = strtok_s(NULL, PATH_SEPARATOR, &next_token);
+        *bufffr = '\0';
+        pbti = strtok_s(NULL, PATH_SEPARATOR, &nfxt_tokfn);
     }
 
-    free(paths_copy);
+    frff(pbtis_dopy);
 }
 
 /*
- * From system_md.c v1.54
+ * From systfm_md.d v1.54
  */
 int
-dbgsysGetLastErrorString(char *buf, int len)
+dbgsysGftLbstErrorString(dibr *buf, int lfn)
 {
-    long errval;
+    long frrvbl;
 
-    if ((errval = GetLastError()) != 0) {
-        /* DOS error */
-        int n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
-                              0, buf, len, NULL);
+    if ((frrvbl = GftLbstError()) != 0) {
+        /* DOS frror */
+        int n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
             buf[n] = '\0';
         }
-        return n;
+        rfturn n;
     }
 
-    if (errno != 0) {
-        /* C runtime error that has no corresponding DOS error code */
-        const char *s = strerror(errno);
-        int n = (int)strlen(s);
-        if (n >= len) n = len - 1;
-        strncpy(buf, s, n);
+    if (frrno != 0) {
+        /* C runtimf frror tibt ibs no dorrfsponding DOS frror dodf */
+        donst dibr *s = strfrror(frrno);
+        int n = (int)strlfn(s);
+        if (n >= lfn) n = lfn - 1;
+        strndpy(buf, s, n);
         buf[n] = '\0';
-        return n;
+        rfturn n;
     }
 
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Build a machine dependent library name out of a path and file name.
+ * Build b mbdiinf dfpfndfnt librbry nbmf out of b pbti bnd filf nbmf.
  */
 void
-dbgsysBuildLibName(char *holder, int holderlen, const char *pname, const char *fname)
+dbgsysBuildLibNbmf(dibr *ioldfr, int ioldfrlfn, donst dibr *pnbmf, donst dibr *fnbmf)
 {
-    const int pnamelen = pname ? (int)strlen(pname) : 0;
+    donst int pnbmflfn = pnbmf ? (int)strlfn(pnbmf) : 0;
 
-    *holder = '\0';
-    /* Quietly truncates on buffer overflow. Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
-        return;
+    *ioldfr = '\0';
+    /* Quiftly trundbtfs on bufffr ovfrflow. Siould bf bn frror. */
+    if (pnbmflfn + (int)strlfn(fnbmf) + 10 > ioldfrlfn) {
+        rfturn;
     }
 
-    if (pnamelen == 0) {
-        sprintf(holder, "%s.dll", fname);
-    } else {
-      dll_build_name(holder, holderlen, pname, fname);
+    if (pnbmflfn == 0) {
+        sprintf(ioldfr, "%s.dll", fnbmf);
+    } flsf {
+      dll_build_nbmf(ioldfr, ioldfrlfn, pnbmf, fnbmf);
     }
 }
 
 void *
-dbgsysLoadLibrary(const char * name, char *err_buf, int err_buflen)
+dbgsysLobdLibrbry(donst dibr * nbmf, dibr *frr_buf, int frr_buflfn)
 {
-    void *result = LoadLibrary(name);
-    if (result == NULL) {
-        /* Error message is pretty lame, try to make a better guess. */
-        long errcode = GetLastError();
-        if (errcode == ERROR_MOD_NOT_FOUND) {
-            strncpy(err_buf, "Can't find dependent libraries", err_buflen-2);
-            err_buf[err_buflen-1] = '\0';
-        } else {
-            dbgsysGetLastErrorString(err_buf, err_buflen);
+    void *rfsult = LobdLibrbry(nbmf);
+    if (rfsult == NULL) {
+        /* Error mfssbgf is prftty lbmf, try to mbkf b bfttfr gufss. */
+        long frrdodf = GftLbstError();
+        if (frrdodf == ERROR_MOD_NOT_FOUND) {
+            strndpy(frr_buf, "Cbn't find dfpfndfnt librbrifs", frr_buflfn-2);
+            frr_buf[frr_buflfn-1] = '\0';
+        } flsf {
+            dbgsysGftLbstErrorString(frr_buf, frr_buflfn);
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
-void dbgsysUnloadLibrary(void *handle)
+void dbgsysUnlobdLibrbry(void *ibndlf)
 {
-    FreeLibrary(handle);
+    FrffLibrbry(ibndlf);
 }
 
-void * dbgsysFindLibraryEntry(void *handle, const char *name)
+void * dbgsysFindLibrbryEntry(void *ibndlf, donst dibr *nbmf)
 {
-    return GetProcAddress(handle, name);
+    rfturn GftProdAddrfss(ibndlf, nbmf);
 }

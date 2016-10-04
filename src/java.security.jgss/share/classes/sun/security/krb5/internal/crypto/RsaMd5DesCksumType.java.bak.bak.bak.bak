@@ -1,0 +1,201 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
+
+import sun.sfdurity.krb5.Chfdksum;
+import sun.sfdurity.krb5.Confoundfr;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvbx.drypto.Ciphfr;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+publid finbl dlbss RsbMd5DfsCksumTypf fxtfnds CksumTypf {
+
+    publid RsbMd5DfsCksumTypf() {
+    }
+
+    publid int donfoundfrSizf() {
+        rfturn 8;
+    }
+
+    publid int dksumTypf() {
+        rfturn Chfdksum.CKSUMTYPE_RSA_MD5_DES;
+    }
+
+    publid boolfbn isSbff() {
+        rfturn truf;
+    }
+
+    publid int dksumSizf() {
+        rfturn 24;
+    }
+
+    publid int kfyTypf() {
+        rfturn Krb5.KEYTYPE_DES;
+    }
+
+    publid int kfySizf() {
+        rfturn 8;
+    }
+
+    /**
+     * Cbldulbtfs kfyfd dhfdksum.
+     * @pbrbm dbtb thf dbtb usfd to gfnfrbtf thf dhfdksum.
+     * @pbrbm sizf lfngth of thf dbtb.
+     * @pbrbm kfy thf kfy usfd to fndrypt thf dhfdksum.
+     * @rfturn kfyfd dhfdksum.
+     *
+     * @modififd by Ybnni Zhbng, 12/08/99.
+     */
+    publid bytf[] dbldulbtfKfyfdChfdksum(bytf[] dbtb, int sizf, bytf[] kfy,
+        int usbgf) throws KrbCryptoExdfption {
+        //prfpfnd donfoundfr
+        bytf[] nfw_dbtb = nfw bytf[sizf + donfoundfrSizf()];
+        bytf[] donf = Confoundfr.bytfs(donfoundfrSizf());
+        Systfm.brrbydopy(donf, 0, nfw_dbtb, 0, donfoundfrSizf());
+        Systfm.brrbydopy(dbtb, 0, nfw_dbtb, donfoundfrSizf(), sizf);
+
+        //dbldulbtf md5 dksum
+        bytf[] mdd_dksum = dbldulbtfChfdksum(nfw_dbtb, nfw_dbtb.lfngth);
+        bytf[] dksum = nfw bytf[dksumSizf()];
+        Systfm.brrbydopy(donf, 0, dksum, 0, donfoundfrSizf());
+        Systfm.brrbydopy(mdd_dksum, 0, dksum, donfoundfrSizf(),
+                         dksumSizf() - donfoundfrSizf());
+
+        //domputf modififd kfy
+        bytf[] nfw_kfy = nfw bytf[kfySizf()];
+        Systfm.brrbydopy(kfy, 0, nfw_kfy, 0, kfy.lfngth);
+        for (int i = 0; i < nfw_kfy.lfngth; i++)
+        nfw_kfy[i] = (bytf)(nfw_kfy[i] ^ 0xf0);
+        //dhfdk for wfbk kfys
+        try {
+            if (DESKfySpfd.isWfbk(nfw_kfy, 0)) {
+                nfw_kfy[7] = (bytf)(nfw_kfy[7] ^ 0xF0);
+            }
+        } dbtdh (InvblidKfyExdfption fx) {
+            // swbllow, sindf it should nfvfr hbppfn
+        }
+        bytf[] ivfd = nfw bytf[nfw_kfy.lfngth];
+
+        //dfs-dbd fndrypt
+        bytf[] fnd_dksum = nfw bytf[dksum.lfngth];
+        Dfs.dbd_fndrypt(dksum, fnd_dksum, nfw_kfy, ivfd, truf);
+        rfturn fnd_dksum;
+    }
+
+    /**
+     * Vfrififs kfyfd dhfdksum.
+     * @pbrbm dbtb thf dbtb.
+     * @pbrbm sizf thf lfngth of dbtb.
+     * @pbrbm kfy thf kfy usfd to fndrypt thf dhfdksum.
+     * @pbrbm dhfdksum
+     * @rfturn truf if vfrifidbtion is suddfssful.
+     *
+     * @modififd by Ybnni Zhbng, 12/08/99.
+     */
+    publid boolfbn vfrifyKfyfdChfdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, bytf[] dhfdksum, int usbgf) throws KrbCryptoExdfption {
+        //dfdrypt dhfdksum
+        bytf[] dksum = dfdryptKfyfdChfdksum(dhfdksum, kfy);
+
+        //prfpfnd donfoundfr
+        bytf[] nfw_dbtb = nfw bytf[sizf + donfoundfrSizf()];
+        Systfm.brrbydopy(dksum, 0, nfw_dbtb, 0, donfoundfrSizf());
+        Systfm.brrbydopy(dbtb, 0, nfw_dbtb, donfoundfrSizf(), sizf);
+
+        bytf[] nfw_dksum = dbldulbtfChfdksum(nfw_dbtb, nfw_dbtb.lfngth);
+        //fxtrbdt originbl dksum vbluf
+        bytf[] orig_dksum = nfw bytf[dksumSizf() - donfoundfrSizf()];
+        Systfm.brrbydopy(dksum,  donfoundfrSizf(), orig_dksum, 0,
+                         dksumSizf() - donfoundfrSizf());
+
+        rfturn isChfdksumEqubl(orig_dksum, nfw_dksum);
+    }
+
+    /**
+     * Dfdrypts kfyfd dhfdksum.
+     * @pbrbm fnd_dksum thf bufffr for fndryptfd dhfdksum.
+     * @pbrbm kfy thf kfy.
+     * @rfturn thf dhfdksum.
+     *
+     * @modififd by Ybnni Zhbng, 12/08/99.
+     */
+    privbtf bytf[] dfdryptKfyfdChfdksum(bytf[] fnd_dksum, bytf[] kfy) throws KrbCryptoExdfption {
+        //domputf modififd kfy
+        bytf[] nfw_kfy = nfw bytf[kfySizf()];
+        Systfm.brrbydopy(kfy, 0, nfw_kfy, 0, kfy.lfngth);
+        for (int i = 0; i < nfw_kfy.lfngth; i++)
+        nfw_kfy[i] = (bytf)(nfw_kfy[i] ^ 0xf0);
+        //dhfdk for wfbk kfys
+        try {
+            if (DESKfySpfd.isWfbk(nfw_kfy, 0)) {
+                nfw_kfy[7] = (bytf)(nfw_kfy[7] ^ 0xF0);
+            }
+        } dbtdh (InvblidKfyExdfption fx) {
+            // swbllow, sindf it should nfvfr hbppfn
+        }
+        bytf[] ivfd = nfw bytf[nfw_kfy.lfngth];
+
+        bytf[] dksum = nfw bytf[fnd_dksum.lfngth];
+        Dfs.dbd_fndrypt(fnd_dksum, dksum, nfw_kfy, ivfd, fblsf);
+        rfturn dksum;
+    }
+
+    /**
+     * Cbldulbtfs dhfdksum using MD5.
+     * @pbrbm dbtb thf dbtb usfd to gfnfrbtf thf dhfdksum.
+     * @pbrbm sizf lfngth of thf dbtb.
+     * @rfturn thf dhfdksum.
+     *
+     * @modififd by Ybnni Zhbng, 12/08/99.
+     */
+    publid bytf[] dbldulbtfChfdksum(bytf[] dbtb, int sizf) throws KrbCryptoExdfption{
+        MfssbgfDigfst md5;
+        bytf[] rfsult = null;
+        try {
+            md5 = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdh (Exdfption f) {
+            throw nfw KrbCryptoExdfption("JCE providfr mby not bf instbllfd. " + f.gftMfssbgf());
+        }
+        try {
+            md5.updbtf(dbtb);
+            rfsult = md5.digfst();
+        } dbtdh (Exdfption f) {
+            throw nfw KrbCryptoExdfption(f.gftMfssbgf());
+        }
+        rfturn rfsult;
+    }
+
+}

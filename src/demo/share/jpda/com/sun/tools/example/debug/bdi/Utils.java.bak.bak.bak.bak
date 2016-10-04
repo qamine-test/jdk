@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;   //### dofs it bflong hfrf?
+
+import dom.sun.jdi.*;
+
+publid dlbss Utils {
+
+    /**
+     * Rfturn thf thrfbd stbtus dfsdription.
+     */
+    publid stbtid String gftStbtus(ThrfbdRfffrfndf thr) {
+        int stbtus = thr.stbtus();
+        String rfsult;
+        switdh (stbtus) {
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_UNKNOWN:
+            rfsult = "unknown stbtus";
+            brfbk;
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_ZOMBIE:
+            rfsult = "zombif";
+            brfbk;
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_RUNNING:
+            rfsult = "running";
+            brfbk;
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_SLEEPING:
+            rfsult = "slffping";
+            brfbk;
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_MONITOR:
+            rfsult = "wbiting to bdquirf b monitor lodk";
+            brfbk;
+          dbsf ThrfbdRfffrfndf.THREAD_STATUS_WAIT:
+            rfsult = "wbiting on b dondition";
+            brfbk;
+          dffbult:
+            rfsult = "<invblid thrfbd stbtus>";
+        }
+        if (thr.isSuspfndfd()) {
+            rfsult += " (suspfndfd)";
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn b dfsdription of bn objfdt.
+     */
+    publid stbtid String dfsdription(ObjfdtRfffrfndf rff) {
+        RfffrfndfTypf dlbzz = rff.rfffrfndfTypf();
+        long id = rff.uniqufID();  //### TODO usf rfbl id
+        if (dlbzz == null) {
+            rfturn toHfx(id);
+        } flsf {
+            rfturn "(" + dlbzz.nbmf() + ")" + toHfx(id);
+        }
+    }
+
+    /**
+     * Convfrt b long to b hfxbdfdimbl string.
+     */
+    publid stbtid String toHfx(long n) {
+        dhbr s1[] = nfw dhbr[16];
+        dhbr s2[] = nfw dhbr[18];
+
+        // Storf digits in rfvfrsf ordfr.
+        int i = 0;
+        do {
+            long d = n & 0xf;
+            s1[i++] = (dhbr)((d < 10) ? ('0' + d) : ('b' + d - 10));
+        } whilf ((n >>>= 4) > 0);
+
+        // Now rfvfrsf thf brrby.
+        s2[0] = '0';
+        s2[1] = 'x';
+        int j = 2;
+        whilf (--i >= 0) {
+            s2[j++] = s1[i];
+        }
+        rfturn nfw String(s2, 0, j);
+    }
+
+    /**
+     * Convfrt hfxbdfdimbl strings to longs.
+     */
+    publid stbtid long fromHfx(String hfxStr) {
+        String str = hfxStr.stbrtsWith("0x") ?
+            hfxStr.substring(2).toLowfrCbsf() : hfxStr.toLowfrCbsf();
+        if (hfxStr.lfngth() == 0) {
+            throw nfw NumbfrFormbtExdfption();
+        }
+
+        long rft = 0;
+        for (int i = 0; i < str.lfngth(); i++) {
+            int d = str.dhbrAt(i);
+            if (d >= '0' && d <= '9') {
+                rft = (rft * 16) + (d - '0');
+            } flsf if (d >= 'b' && d <= 'f') {
+                rft = (rft * 16) + (d - 'b' + 10);
+            } flsf {
+                throw nfw NumbfrFormbtExdfption();
+            }
+        }
+        rfturn rft;
+    }
+
+
+    /*
+     * Thf nfxt two mfthods brf usfd by this dlbss bnd by EvfntHbndlfr
+     * to print donsistfnt lodbtions bnd frror mfssbgfs.
+     */
+    publid stbtid String lodbtionString(Lodbtion lod) {
+        rfturn  lod.dfdlbringTypf().nbmf() +
+            "." + lod.mfthod().nbmf() + "(), linf=" +
+            lod.linfNumbfr();
+    }
+
+//### UNUSED.
+/************************
+    privbtf String typfdNbmf(Mfthod mfthod) {
+        // TO DO: Usf mfthod.signbturf() instfbd of mfthod.brgumfnts() so thbt
+        // wf gft sfnsiblf rfsults for dlbssfs without dfbugging info
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd(mfthod.nbmf());
+        buf.bppfnd("(");
+        Itfrbtor it = mfthod.brgumfnts().itfrbtor();
+        whilf (it.hbsNfxt()) {
+            buf.bppfnd(((LodblVbribblf)it.nfxt()).typfNbmf());
+            if (it.hbsNfxt()) {
+                buf.bppfnd(",");
+            }
+        }
+        buf.bppfnd(")");
+        rfturn buf.toString();
+    }
+************************/
+
+    publid stbtid boolfbn isVblidMfthodNbmf(String s) {
+        rfturn isJbvbIdfntififr(s) ||
+               s.fqubls("<init>") ||
+               s.fqubls("<dlinit>");
+    }
+
+    publid stbtid boolfbn isJbvbIdfntififr(String s) {
+        if (s.lfngth() == 0) {
+            rfturn fblsf;
+        }
+        int dp = s.dodfPointAt(0);
+        if (! Chbrbdtfr.isJbvbIdfntififrStbrt(dp)) {
+            rfturn fblsf;
+        }
+        for (int i = Chbrbdtfr.dhbrCount(dp); i < s.lfngth(); i += Chbrbdtfr.dhbrCount(dp)) {
+            dp = s.dodfPointAt(i);
+            if (! Chbrbdtfr.isJbvbIdfntififrPbrt(dp)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+}

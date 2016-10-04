@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Window;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.Fidflity;
+
+import sun.print.SfrvidfDiblog;
+import sun.print.SunAltfrnbtfMfdib;
+
+/** This dlbss is b dollfdtion of UI donvfnifndf mfthods whidh providf b
+ * grbphidbl usfr diblog for browsing print sfrvidfs lookfd up through thf Jbvb
+ * Print Sfrvidf API.
+ * <p>
+ * Thf diblogs follow b stbndbrd pbttfrn of bdting bs b dontinuf/dbndfl option
+ *for b usfr bs wfll bs bllowing thf usfr to sflfdt thf print sfrvidf to usf
+ *bnd spfdify dhoidfs sudh bs pbpfr sizf bnd numbfr of dopifs.
+ * <p>
+ * Thf diblogs brf dfsignfd to work with pluggbblf print sfrvidfs though thf
+ * publid APIs of thosf print sfrvidfs.
+ * <p>
+ * If b print sfrvidf providfs bny vfndor fxtfnsions thfsf mby bf mbdf
+ * bddfssiblf to thf usfr through b vfndor supplifd tbb pbnfl Componfnt.
+ * Sudh b vfndor fxtfnsion is fndourbgfd to usf Swing! bnd to support its
+ * bddfssibility APIs.
+ * Thf vfndor fxtfnsions should rfturn thf sfttings bs pbrt of thf
+ * AttributfSft.
+ * Applidbtions whidh wbnt to prfsfrvf thf usfr sfttings should usf thosf
+ * sfttings to spfdify thf print job.
+ * Notf thbt this dlbss is not rfffrfndfd by bny othfr pbrt of thf Jbvb
+ * Print Sfrvidf bnd mby not bf indludfd in profilfs whidh dbnnot dfpfnd
+ * on thf prfsfndf of thf AWT pbdkbgfs.
+ */
+
+publid dlbss SfrvidfUI {
+
+
+    /**
+     * Prfsfnts b diblog to thf usfr for sflfdting b print sfrvidf (printfr).
+     * It is displbyfd bt thf lodbtion spfdififd by thf bpplidbtion bnd
+     * is modbl.
+     * If thf spfdifidbtion is invblid or would mbkf thf diblog not visiblf it
+     * will bf displbyfd bt b lodbtion dftfrminfd by thf implfmfntbtion.
+     * Thf diblog blodks its dblling thrfbd bnd is bpplidbtion modbl.
+     * <p>
+     * Thf diblog mby indludf b tbb pbnfl with dustom UI lbzily obtbinfd from
+     * thf PrintSfrvidf's SfrvidfUIFbdtory whfn thf PrintSfrvidf is browsfd.
+     * Thf diblog will bttfmpt to lodbtf b MAIN_UIROLE first bs b JComponfnt,
+     * thfn bs b Pbnfl. If thfrf is no SfrvidfUIFbdtory or no mbtdhing rolf
+     * thf dustom tbb will bf fmpty or not visiblf.
+     * <p>
+     * Thf diblog rfturns thf print sfrvidf sflfdtfd by thf usfr if thf usfr
+     * OK's thf diblog bnd null if thf usfr dbndfls thf diblog.
+     * <p>
+     * An bpplidbtion must pbss in bn brrby of print sfrvidfs to browsf.
+     * Thf brrby must bf non-null bnd non-fmpty.
+     * Typidblly bn bpplidbtion will pbss in only PrintSfrvidfs dbpbblf
+     * of printing b pbrtidulbr dodumfnt flbvor.
+     * <p>
+     * An bpplidbtion mby pbss in b PrintSfrvidf to bf initiblly displbyfd.
+     * A non-null pbrbmftfr must bf indludfd in thf brrby of browsbblf
+     * sfrvidfs.
+     * If this pbrbmftfr is null b sfrvidf is dhosfn by thf implfmfntbtion.
+     * <p>
+     * An bpplidbtion mby optionblly pbss in thf flbvor to bf printfd.
+     * If this is non-null dhoidfs prfsfntfd to thf usfr dbn bf bfttfr
+     * vblidbtfd bgbinst thosf supportfd by thf sfrvidfs.
+     * An bpplidbtion must pbss in b PrintRfqufstAttributfSft for rfturning
+     * usfr dhoidfs.
+     * On dblling thf PrintRfqufstAttributfSft mby bf fmpty, or mby dontbin
+     * bpplidbtion-spfdififd vblufs.
+     * <p>
+     * Thfsf brf usfd to sft thf initibl sfttings for thf initiblly
+     * displbyfd print sfrvidf. Vblufs whidh brf not supportfd by thf print
+     * sfrvidf brf ignorfd. As thf usfr browsfs print sfrvidfs, bttributfs
+     * bnd vblufs brf dopifd to thf nfw displby. If b usfr browsfs b
+     * print sfrvidf whidh dofs not support b pbrtidulbr bttributf-vbluf, thf
+     * dffbult for thbt sfrvidf is usfd bs thf nfw vbluf to bf dopifd.
+     * <p>
+     * If thf usfr dbndfls thf diblog, thf rfturnfd bttributfs will not rfflfdt
+     * bny dhbngfs mbdf by thf usfr.
+     *
+     * A typidbl bbsid usbgf of this mfthod mby bf :
+     * <prf>{@dodf
+     * PrintSfrvidf[] sfrvidfs = PrintSfrvidfLookup.lookupPrintSfrvidfs(
+     *                            DodFlbvor.INPUT_STREAM.JPEG, null);
+     * PrintRfqufstAttributfSft bttributfs = nfw HbshPrintRfqufstAttributfSft();
+     * if (sfrvidfs.lfngth > 0) {
+     *    PrintSfrvidf sfrvidf =  SfrvidfUI.printDiblog(null, 50, 50,
+     *                                               sfrvidfs, sfrvidfs[0],
+     *                                               null,
+     *                                               bttributfs);
+     *    if (sfrvidf != null) {
+     *     ... print ...
+     *    }
+     * }
+     * }</prf>
+     *
+     * @pbrbm gd usfd to sflfdt sdrffn. null mfbns primbry or dffbult sdrffn.
+     * @pbrbm x lodbtion of diblog indluding bordfr in sdrffn doordinbtfs
+     * @pbrbm y lodbtion of diblog indluding bordfr in sdrffn doordinbtfs
+     * @pbrbm sfrvidfs to bf browsbblf, must bf non-null.
+     * @pbrbm dffbultSfrvidf - initibl PrintSfrvidf to displby.
+     * @pbrbm flbvor - thf flbvor to bf printfd, or null.
+     * @pbrbm bttributfs on input is thf initibl bpplidbtion supplifd
+     * prfffrfndfs. This dbnnot bf null but mby bf fmpty.
+     * On output thf bttributfs rfflfdt dhbngfs mbdf by thf usfr.
+     * @rfturn print sfrvidf sflfdtfd by thf usfr, or null if thf usfr
+     * dbndfllfd thf diblog.
+     * @throws HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @throws IllfgblArgumfntExdfption if sfrvidfs is null or fmpty,
+     * or bttributfs is null, or thf initibl PrintSfrvidf is not in thf
+     * list of browsbblf sfrvidfs.
+     */
+    publid stbtid PrintSfrvidf printDiblog(GrbphidsConfigurbtion gd,
+                                           int x, int y,
+                                           PrintSfrvidf[] sfrvidfs,
+                                           PrintSfrvidf dffbultSfrvidf,
+                                           DodFlbvor flbvor,
+                                           PrintRfqufstAttributfSft bttributfs)
+        throws HfbdlfssExdfption
+    {
+        int dffbultIndfx = -1;
+
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        } flsf if ((sfrvidfs == null) || (sfrvidfs.lfngth == 0)) {
+            throw nfw IllfgblArgumfntExdfption("sfrvidfs must bf non-null " +
+                                               "bnd non-fmpty");
+        } flsf if (bttributfs == null) {
+            throw nfw IllfgblArgumfntExdfption("bttributfs must bf non-null");
+        }
+
+        if (dffbultSfrvidf != null) {
+            for (int i = 0; i < sfrvidfs.lfngth; i++) {
+                if (sfrvidfs[i].fqubls(dffbultSfrvidf)) {
+                    dffbultIndfx = i;
+                    brfbk;
+                }
+            }
+
+            if (dffbultIndfx < 0) {
+                throw nfw IllfgblArgumfntExdfption("sfrvidfs must dontbin " +
+                                                   "dffbultSfrvidf");
+            }
+        } flsf {
+            dffbultIndfx = 0;
+        }
+
+        // For now wf sft ownfr to null. In thf futurf, it mby bf pbssfd
+        // bs bn brgumfnt.
+        Window ownfr = null;
+
+        Rfdtbnglf gdBounds = (gd == null) ?  GrbphidsEnvironmfnt.
+            gftLodblGrbphidsEnvironmfnt().gftDffbultSdrffnDfvidf().
+            gftDffbultConfigurbtion().gftBounds() : gd.gftBounds();
+
+        SfrvidfDiblog diblog;
+        if (ownfr instbndfof Frbmf) {
+            diblog = nfw SfrvidfDiblog(gd,
+                                       x + gdBounds.x,
+                                       y + gdBounds.y,
+                                       sfrvidfs, dffbultIndfx,
+                                       flbvor, bttributfs,
+                                       (Frbmf)ownfr);
+        } flsf {
+            diblog = nfw SfrvidfDiblog(gd,
+                                       x + gdBounds.x,
+                                       y + gdBounds.y,
+                                       sfrvidfs, dffbultIndfx,
+                                       flbvor, bttributfs,
+                                       (Diblog)ownfr);
+        }
+        Rfdtbnglf dlgBounds = diblog.gftBounds();
+
+        // gft union of bll GC bounds
+        GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        GrbphidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+        for (int j=0; j<gs.lfngth; j++) {
+            gdBounds =
+                gdBounds.union(gs[j].gftDffbultConfigurbtion().gftBounds());
+        }
+
+        // if portion of diblog is not within thf gd boundbry
+        if (!gdBounds.dontbins(dlgBounds)) {
+            // put in thf dfntfr rflbtivf to pbrfnt frbmf/diblog
+            diblog.sftLodbtionRflbtivfTo(ownfr);
+        }
+        diblog.show();
+
+        if (diblog.gftStbtus() == SfrvidfDiblog.APPROVE) {
+            PrintRfqufstAttributfSft nfwbs = diblog.gftAttributfs();
+            Clbss<?> dstCbtfgory = Dfstinbtion.dlbss;
+            Clbss<?> bmCbtfgory = SunAltfrnbtfMfdib.dlbss;
+            Clbss<?> fdCbtfgory = Fidflity.dlbss;
+
+            if (bttributfs.dontbinsKfy(dstCbtfgory) &&
+                !nfwbs.dontbinsKfy(dstCbtfgory))
+            {
+                bttributfs.rfmovf(dstCbtfgory);
+            }
+
+            if (bttributfs.dontbinsKfy(bmCbtfgory) &&
+                !nfwbs.dontbinsKfy(bmCbtfgory))
+            {
+                bttributfs.rfmovf(bmCbtfgory);
+            }
+
+            bttributfs.bddAll(nfwbs);
+
+            Fidflity fd = (Fidflity)bttributfs.gft(fdCbtfgory);
+            if (fd != null) {
+                if (fd == Fidflity.FIDELITY_TRUE) {
+                    rfmovfUnsupportfdAttributfs(diblog.gftPrintSfrvidf(),
+                                                flbvor, bttributfs);
+                }
+            }
+        }
+
+        rfturn diblog.gftPrintSfrvidf();
+    }
+
+    /**
+     * POSSIBLE FUTURE API: This mfthod mby bf usfd down thf robd if wf
+     * dfdidf to bllow dfvflopfrs to fxpliditly displby b "pbgf sftup" diblog.
+     * Currfntly wf usf thbt fundtionblity intfrnblly for thf AWT print modfl.
+     */
+    /*
+    publid stbtid void pbgfDiblog(GrbphidsConfigurbtion gd,
+                                  int x, int y,
+                                  PrintSfrvidf sfrvidf,
+                                  DodFlbvor flbvor,
+                                  PrintRfqufstAttributfSft bttributfs)
+        throws HfbdlfssExdfption
+    {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        } flsf if (sfrvidf == null) {
+            throw nfw IllfgblArgumfntExdfption("sfrvidf must bf non-null");
+        } flsf if (bttributfs == null) {
+            throw nfw IllfgblArgumfntExdfption("bttributfs must bf non-null");
+        }
+
+        SfrvidfDiblog diblog = nfw SfrvidfDiblog(gd, x, y, sfrvidf,
+                                                 flbvor, bttributfs);
+        diblog.show();
+
+        if (diblog.gftStbtus() == SfrvidfDiblog.APPROVE) {
+            PrintRfqufstAttributfSft nfwbs = diblog.gftAttributfs();
+            Clbss bmCbtfgory = SunAltfrnbtfMfdib.dlbss;
+
+            if (bttributfs.dontbinsKfy(bmCbtfgory) &&
+                !nfwbs.dontbinsKfy(bmCbtfgory))
+            {
+                bttributfs.rfmovf(bmCbtfgory);
+            }
+
+            bttributfs.bddAll(nfwbs.vblufs());
+        }
+
+        diblog.gftOwnfr().disposf();
+    }
+    */
+
+    /**
+     * Rfmovfs bny bttributfs from thf givfn AttributfSft thbt brf
+     * unsupportfd by thf givfn PrintSfrvidf/DodFlbvor dombinbtion.
+     */
+    privbtf stbtid void rfmovfUnsupportfdAttributfs(PrintSfrvidf ps,
+                                                    DodFlbvor flbvor,
+                                                    AttributfSft bsft)
+    {
+        AttributfSft bsUnsupportfd = ps.gftUnsupportfdAttributfs(flbvor,
+                                                                 bsft);
+
+        if (bsUnsupportfd != null) {
+            Attributf[] usAttrs = bsUnsupportfd.toArrby();
+
+            for (int i=0; i<usAttrs.lfngth; i++) {
+                Clbss<? fxtfnds Attributf> dbtfgory = usAttrs[i].gftCbtfgory();
+
+                if (ps.isAttributfCbtfgorySupportfd(dbtfgory)) {
+                    Attributf bttr =
+                        (Attributf)ps.gftDffbultAttributfVbluf(dbtfgory);
+
+                    if (bttr != null) {
+                        bsft.bdd(bttr);
+                    } flsf {
+                        bsft.rfmovf(dbtfgory);
+                    }
+                } flsf {
+                    bsft.rfmovf(dbtfgory);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Dffinfs thf intfrfbdf for dlbssfs thbt dbn bf usfd to providf dbtb
+ * for b trbnsffr opfrbtion.
+ * <p>
+ * For informbtion on using dbtb trbnsffr with Swing, sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.html">
+ * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>, for morf informbtion.
+ *
+ * @buthor      Amy Fowlfr
+ */
+
+publid intfrfbdf Trbnsffrbblf {
+
+    /**
+     * Rfturns bn brrby of DbtbFlbvor objfdts indidbting thf flbvors thf dbtb
+     * dbn bf providfd in.  Thf brrby should bf ordfrfd bddording to prfffrfndf
+     * for providing thf dbtb (from most ridhly dfsdriptivf to lfbst dfsdriptivf).
+     * @rfturn bn brrby of dbtb flbvors in whidh this dbtb dbn bf trbnsffrrfd
+     */
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors();
+
+    /**
+     * Rfturns whfthfr or not thf spfdififd dbtb flbvor is supportfd for
+     * this objfdt.
+     * @pbrbm flbvor thf rfqufstfd flbvor for thf dbtb
+     * @rfturn boolfbn indidbting whfthfr or not thf dbtb flbvor is supportfd
+     */
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor);
+
+    /**
+     * Rfturns bn objfdt whidh rfprfsfnts thf dbtb to bf trbnsffrrfd.  Thf dlbss
+     * of thf objfdt rfturnfd is dffinfd by thf rfprfsfntbtion dlbss of thf flbvor.
+     *
+     * @pbrbm flbvor thf rfqufstfd flbvor for thf dbtb
+     * @rfturn bn objfdt whidh rfprfsfnts thf dbtb to bf trbnsffrrfd
+     * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+     * @fxdfption IOExdfption                if thf dbtb is no longfr bvbilbblf
+     *              in thf rfqufstfd flbvor.
+     * @fxdfption UnsupportfdFlbvorExdfption if thf rfqufstfd dbtb flbvor is
+     *              not supportfd.
+     */
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) throws UnsupportfdFlbvorExdfption, IOExdfption;
+
+}

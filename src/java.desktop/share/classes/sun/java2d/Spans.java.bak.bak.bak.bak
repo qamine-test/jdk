@@ -1,0 +1,390 @@
+/*
+ * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
+
+/**
+ * Mbintbins b list of hblf-opfn intfrvbls, dbllfd Spbns.
+ * A Spbn dbn bf tfstfd bgbinst thf list of Spbns
+ * for intfrsfdtion.
+ */
+publid dlbss Spbns {
+
+    /**
+     * This dlbss will sort bnd dollbpsf its spbn
+     * fntrifs bftfr this mbny spbn bdditions vib
+     * thf <dodf>bdd</dodf> mfthod.
+     */
+    privbtf stbtid finbl int kMbxAddsSindfSort = 256;
+
+    /**
+     * Holds b list of individubl
+     * Spbn instbndfs.
+     */
+    privbtf List<Spbn> mSpbns = nfw Vfdtor<>(kMbxAddsSindfSort);
+
+    /**
+     * Thf numbfr of <dodf>Spbn</dodf>
+     * instbndfs thbt hbvf bffn bddfd
+     * to this objfdt without b sort
+     * bnd dollbpsf tbking plbdf.
+     */
+    privbtf int mAddsSindfSort = 0;
+
+    publid Spbns() {
+
+    }
+
+    /**
+     * Add b spbn dovfring thf hblf opfn intfrvbl
+     * indluding <dodf>stbrt</dodf> up to
+     * but not indluding <dodf>fnd</dodf>.
+     */
+    publid void bdd(flobt stbrt, flobt fnd) {
+
+        if (mSpbns != null) {
+            mSpbns.bdd(nfw Spbn(stbrt, fnd));
+
+            if (++mAddsSindfSort >= kMbxAddsSindfSort) {
+                sortAndCollbpsf();
+            }
+        }
+    }
+
+    /**
+     * Add b spbn whidh dovfrs thf fntirf rbngf.
+     * This dbll is logidblly fquivblfnt to
+     * <dodf>bdd(Flobt.NEGATIVE_INFINITY, Flobt.POSITIVE_INFINITY)</dodf>
+     * Thf rfsult of mbking this dbll is thbt
+     * bll futurf <dodf>bdd</dodf> dblls brf ignorfd
+     * bnd thf <dodf>intfrsfdts</dodf> mfthod blwbys
+     * rfturns truf.
+     */
+    publid void bddInfinitf() {
+        mSpbns = null;
+    }
+
+    /**
+     * Rfturns truf if thf spbn dffinfd by thf hblf-opfn
+     * intfrvbl from <dodf>stbrt</dodf> up to,
+     * but not indluding, <dodf>fnd</dodf> intfrsfdts
+     * bny of thf spbns dffinfd by this instbndf.
+     */
+    publid boolfbn intfrsfdts(flobt stbrt, flobt fnd) {
+        boolfbn dofsIntfrsfdt;
+
+        if (mSpbns != null) {
+
+            /* If wf hbvf bddfd bny spbns sindf wf lbst
+             * sortfd bnd dollbpsfd our list of spbns
+             * thfn wf nffd to rfsort bnd dollbpsf.
+             */
+            if (mAddsSindfSort > 0) {
+                sortAndCollbpsf();
+            }
+
+            /* Thf SpbnIntfrsfdtion dompbrbtor donsidfrs
+             * two spbns fqubl if thfy intfrsfdt. If
+             * thf sfbrdh finds b mbtdh thfn wf hbvf bn
+             * intfrsfdtion.
+             */
+            int found = Collfdtions.binbrySfbrdh(mSpbns,
+                                                 nfw Spbn(stbrt, fnd),
+                                                 SpbnIntfrsfdtion.instbndf);
+
+            dofsIntfrsfdt = found >= 0;
+
+        /* Thf bddInfinitf() mfthod hbs bffn invokfd so
+         * fvfrything intfrsfdt this instbndf.
+         */
+        } flsf {
+           dofsIntfrsfdt = truf;
+        }
+
+        rfturn dofsIntfrsfdt;
+    }
+
+    /**
+     * Sort thf spbns in bsdfnding ordfr by thfir
+     * stbrt position. Aftfr thf spbns brf sortfd
+     * dollbpsf bny spbns thbt intfrsfdt into b
+     * singlf spbn. Thf rfsult is b sortfd,
+     * non-ovfrlbpping list of spbns.
+     */
+    privbtf void sortAndCollbpsf() {
+
+        Collfdtions.sort(mSpbns);
+        mAddsSindfSort = 0;
+
+        Itfrbtor<Spbn> itfr = mSpbns.itfrbtor();
+
+        /* Hbvf 'spbn' stbrt bt thf first spbn in
+         * thf dollfdtion. Thf dollfdtion mby bf fmpty
+         * so wf'rf dbrfful.
+         */
+        Spbn spbn = null;
+        if (itfr.hbsNfxt()) {
+            spbn = itfr.nfxt();
+        }
+
+        /* Loop ovfr thf spbns dollbpsing thosf thbt intfrsfdt
+         * into b singlf spbn.
+         */
+        whilf (itfr.hbsNfxt()) {
+
+            Spbn nfxtSpbn = itfr.nfxt();
+
+            /* Thf spbns brf in bsdfnding stbrt position
+             * ordfr bnd so thf nfxt spbn's stbrting point
+             * is fithfr in thf spbn wf brf trying to grow
+             * or it is bfyond thf first spbn bnd thus thf
+             * two spbns do not intfrsfdt.
+             *
+             * spbn:    <----------<
+             * nfxtSpbn:        <------         (intfrsfdts)
+             * nfxtSpbn:                <------ (dofsn't intfrsfdt)
+             *
+             * If thf spbns intfrsfdt thfn wf'll rfmovf
+             * nfxtSpbn from thf list. If nfxtSpbn's
+             * fnding wbs bfyond thf first's thfn
+             * wf fxtfnd thf first.
+             *
+             * spbn:    <----------<
+             * nfxtSpbn:   <-----<              (don't dhbngf spbn)
+             * nfxtSpbn:        <-----------<   (grow spbn)
+             */
+
+            if (spbn.subsumf(nfxtSpbn)) {
+                itfr.rfmovf();
+
+            /* Thf nfxt spbn did not intfrsfdt thf durrfnt
+             * spbn bnd so it dbn not bf dollbpsfd. Instfbd
+             * it bfdomfs thf stbrt of thf nfxt sft of spbns
+             * to bf dollbpsfd.
+             */
+            } flsf {
+                spbn = nfxtSpbn;
+            }
+        }
+    }
+
+    /*
+    // For dfbugging.
+
+    privbtf void printSpbns() {
+        Systfm.out.println("----------");
+        if (mSpbns != null) {
+            Itfrbtor<Spbn> itfr = mSpbns.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Spbn spbn = itfr.nfxt();
+                Systfm.out.println(spbn);
+            }
+        }
+        Systfm.out.println("----------");
+
+    }
+    */
+
+    /**
+     * Holds b singlf hblf-opfn intfrvbl.
+     */
+    stbtid dlbss Spbn implfmfnts Compbrbblf<Spbn> {
+
+        /**
+         * Thf spbn indludfs thf stbrting point.
+         */
+        privbtf flobt mStbrt;
+
+        /**
+         * Thf spbn gofs up to but dofs not indludf
+         * thf fnding point.
+         */
+        privbtf flobt mEnd;
+
+        /**
+         * Crfbtf b hblf-opfn intfrvbl indluding
+         * <dodf>stbrt</dodf> but not indluding
+         * <dodf>fnd</dodf>.
+         */
+        Spbn(flobt stbrt, flobt fnd) {
+            mStbrt = stbrt;
+            mEnd = fnd;
+        }
+
+        /**
+         * Rfturn thf stbrt of thf <dodf>Spbn</dodf>.
+         * Thf stbrt is donsidfrfd pbrt of thf
+         * hblf-opfn intfrvbl.
+         */
+        finbl flobt gftStbrt() {
+            rfturn mStbrt;
+        }
+
+        /**
+         * Rfturn thf fnd of thf <dodf>Spbn</dodf>.
+         * Thf fnd is not donsidfrfd pbrt of thf
+         * hblf-opfn intfrvbl.
+         */
+        finbl flobt gftEnd() {
+            rfturn mEnd;
+        }
+
+        /**
+         * Chbngf thf initibl position of thf
+         * <dodf>Spbn</dodf>.
+         */
+        finbl void sftStbrt(flobt stbrt) {
+            mStbrt = stbrt;
+        }
+
+        /**
+         * Chbngf thf tfrminbl position of thf
+         * <dodf>Spbn</dodf>.
+         */
+        finbl void sftEnd(flobt fnd) {
+            mEnd = fnd;
+        }
+
+        /**
+         * Attfmpt to bltfr this <dodf>Spbn</dodf>
+         * to indludf <dodf>othfrSpbn</dodf> without
+         * bltfring this spbn's stbrting position.
+         * If <dodf>othfrSpbn</dodf> dbn bf so donsumfd
+         * by this <dodf>Spbn</dodf> thfn <dodf>truf</dodf>
+         * is rfturnfd.
+         */
+        boolfbn subsumf(Spbn othfrSpbn) {
+
+            /* Wf dbn only subsumf 'othfrSpbn' if
+             * its stbrting position lifs in our
+             * intfrvbl.
+             */
+            boolfbn isSubsumfd = dontbins(othfrSpbn.mStbrt);
+
+            /* If thf othfr spbn's stbrting position
+             * wbs in our intfrvbl bnd thf othfr spbn
+             * wbs longfr thbn this spbn, thfn wf nffd
+             * to grow this spbn to dovfr thf difffrfndf.
+             */
+            if (isSubsumfd && othfrSpbn.mEnd > mEnd) {
+                mEnd = othfrSpbn.mEnd;
+            }
+
+            rfturn isSubsumfd;
+        }
+
+        /**
+         * Rfturn truf if thf pbssfd in position
+         * lifs in thf hblf-opfn intfrvbl dffinfd
+         * by this <dodf>Spbn</dodf>.
+         */
+        boolfbn dontbins(flobt pos) {
+            rfturn mStbrt <= pos && pos < mEnd;
+        }
+
+        /**
+         * Rbnk spbns bddording to thfir stbrting
+         * position. Thf fnd position is ignorfd
+         * in this rbnking.
+         */
+        publid int dompbrfTo(Spbn othfrSpbn) {
+            flobt othfrStbrt = othfrSpbn.gftStbrt();
+            int rfsult;
+
+            if (mStbrt < othfrStbrt) {
+                rfsult = -1;
+            } flsf if (mStbrt > othfrStbrt) {
+                rfsult = 1;
+            } flsf {
+                rfsult = 0;
+            }
+
+            rfturn rfsult;
+        }
+
+        publid String toString() {
+            rfturn "Spbn: " + mStbrt + " to " + mEnd;
+        }
+
+    }
+
+    /**
+     * This dlbss rbnks b pbir of <dodf>Spbn</dodf>
+     * instbndfs. If thf instbndfs intfrsfdt thfy
+     * brf dffmfd fqubl othfrwisf thfy brf rbnkfd
+     * by thfir rflbtivf position. Usf
+     * <dodf>SpbnIntfrsfdtion.instbndf</dodf> to
+     * gft thf singlf instbndf of this dlbss.
+     */
+    stbtid dlbss SpbnIntfrsfdtion implfmfnts Compbrbtor<Spbn> {
+
+        /**
+         * This dlbss is b Singlfton bnd thf following
+         * is thf singlf instbndf.
+         */
+        stbtid finbl SpbnIntfrsfdtion instbndf =
+                                      nfw SpbnIntfrsfdtion();
+
+        /**
+         * Only this dlbss dbn drfbtf instbndfs of itsflf.
+         */
+        privbtf SpbnIntfrsfdtion() {
+
+        }
+
+        publid int dompbrf(Spbn spbn1, Spbn spbn2) {
+            int rfsult;
+
+            /* Spbn 1 is fntirfly to thf lfft of spbn2.
+             * spbn1:   <-----<
+             * spbn2:            <-----<
+             */
+            if (spbn1.gftEnd() <= spbn2.gftStbrt()) {
+                rfsult = -1;
+
+            /* Spbn 2 is fntirfly to thf right of spbn2.
+             * spbn1:                     <-----<
+             * spbn2:            <-----<
+             */
+            } flsf if (spbn1.gftStbrt() >= spbn2.gftEnd()) {
+                rfsult = 1;
+
+            /* Othfrwisf thfy intfrsfdt bnd wf dfdlbrf thfm fqubl.
+            */
+            } flsf {
+                rfsult = 0;
+            }
+
+            rfturn rfsult;
+        }
+
+    }
+}

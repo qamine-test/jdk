@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,230 +56,230 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * Information about the input and output stack map frames of a basic block.
+ * Informbtion bbout tif input bnd output stbdk mbp frbmfs of b bbsid blodk.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-final class Frame {
+finbl dlbss Frbmf {
 
     /*
-     * Frames are computed in a two steps process: during the visit of each
-     * instruction, the state of the frame at the end of current basic block is
-     * updated by simulating the action of the instruction on the previous state
-     * of this so called "output frame". In visitMaxs, a fix point algorithm is
-     * used to compute the "input frame" of each basic block, i.e. the stack map
-     * frame at the beginning of the basic block, starting from the input frame
-     * of the first basic block (which is computed from the method descriptor),
-     * and by using the previously computed output frames to compute the input
-     * state of the other blocks.
+     * Frbmfs brf domputfd in b two stfps prodfss: during tif visit of fbdi
+     * instrudtion, tif stbtf of tif frbmf bt tif fnd of durrfnt bbsid blodk is
+     * updbtfd by simulbting tif bdtion of tif instrudtion on tif prfvious stbtf
+     * of tiis so dbllfd "output frbmf". In visitMbxs, b fix point blgoritim is
+     * usfd to domputf tif "input frbmf" of fbdi bbsid blodk, i.f. tif stbdk mbp
+     * frbmf bt tif bfginning of tif bbsid blodk, stbrting from tif input frbmf
+     * of tif first bbsid blodk (wiidi is domputfd from tif mftiod dfsdriptor),
+     * bnd by using tif prfviously domputfd output frbmfs to domputf tif input
+     * stbtf of tif otifr blodks.
      *
-     * All output and input frames are stored as arrays of integers. Reference
-     * and array types are represented by an index into a type table (which is
-     * not the same as the constant pool of the class, in order to avoid adding
-     * unnecessary constants in the pool - not all computed frames will end up
-     * being stored in the stack map table). This allows very fast type
-     * comparisons.
+     * All output bnd input frbmfs brf storfd bs brrbys of intfgfrs. Rfffrfndf
+     * bnd brrby typfs brf rfprfsfntfd by bn indfx into b typf tbblf (wiidi is
+     * not tif sbmf bs tif donstbnt pool of tif dlbss, in ordfr to bvoid bdding
+     * unnfdfssbry donstbnts in tif pool - not bll domputfd frbmfs will fnd up
+     * bfing storfd in tif stbdk mbp tbblf). Tiis bllows vfry fbst typf
+     * dompbrisons.
      *
-     * Output stack map frames are computed relatively to the input frame of the
-     * basic block, which is not yet known when output frames are computed. It
-     * is therefore necessary to be able to represent abstract types such as
-     * "the type at position x in the input frame locals" or "the type at
-     * position x from the top of the input frame stack" or even "the type at
-     * position x in the input frame, with y more (or less) array dimensions".
-     * This explains the rather complicated type format used in output frames.
+     * Output stbdk mbp frbmfs brf domputfd rflbtivfly to tif input frbmf of tif
+     * bbsid blodk, wiidi is not yft known wifn output frbmfs brf domputfd. It
+     * is tifrfforf nfdfssbry to bf bblf to rfprfsfnt bbstrbdt typfs sudi bs
+     * "tif typf bt position x in tif input frbmf lodbls" or "tif typf bt
+     * position x from tif top of tif input frbmf stbdk" or fvfn "tif typf bt
+     * position x in tif input frbmf, witi y morf (or lfss) brrby dimfnsions".
+     * Tiis fxplbins tif rbtifr domplidbtfd typf formbt usfd in output frbmfs.
      *
-     * This format is the following: DIM KIND VALUE (4, 4 and 24 bits). DIM is a
-     * signed number of array dimensions (from -8 to 7). KIND is either BASE,
-     * LOCAL or STACK. BASE is used for types that are not relative to the input
-     * frame. LOCAL is used for types that are relative to the input local
-     * variable types. STACK is used for types that are relative to the input
-     * stack types. VALUE depends on KIND. For LOCAL types, it is an index in
-     * the input local variable types. For STACK types, it is a position
-     * relatively to the top of input frame stack. For BASE types, it is either
-     * one of the constants defined below, or for OBJECT and UNINITIALIZED
-     * types, a tag and an index in the type table.
+     * Tiis formbt is tif following: DIM KIND VALUE (4, 4 bnd 24 bits). DIM is b
+     * signfd numbfr of brrby dimfnsions (from -8 to 7). KIND is fitifr BASE,
+     * LOCAL or STACK. BASE is usfd for typfs tibt brf not rflbtivf to tif input
+     * frbmf. LOCAL is usfd for typfs tibt brf rflbtivf to tif input lodbl
+     * vbribblf typfs. STACK is usfd for typfs tibt brf rflbtivf to tif input
+     * stbdk typfs. VALUE dfpfnds on KIND. For LOCAL typfs, it is bn indfx in
+     * tif input lodbl vbribblf typfs. For STACK typfs, it is b position
+     * rflbtivfly to tif top of input frbmf stbdk. For BASE typfs, it is fitifr
+     * onf of tif donstbnts dffinfd bflow, or for OBJECT bnd UNINITIALIZED
+     * typfs, b tbg bnd bn indfx in tif typf tbblf.
      *
-     * Output frames can contain types of any kind and with a positive or
-     * negative dimension (and even unassigned types, represented by 0 - which
-     * does not correspond to any valid type value). Input frames can only
-     * contain BASE types of positive or null dimension. In all cases the type
-     * table contains only internal type names (array type descriptors are
-     * forbidden - dimensions must be represented through the DIM field).
+     * Output frbmfs dbn dontbin typfs of bny kind bnd witi b positivf or
+     * nfgbtivf dimfnsion (bnd fvfn unbssignfd typfs, rfprfsfntfd by 0 - wiidi
+     * dofs not dorrfspond to bny vblid typf vbluf). Input frbmfs dbn only
+     * dontbin BASE typfs of positivf or null dimfnsion. In bll dbsfs tif typf
+     * tbblf dontbins only intfrnbl typf nbmfs (brrby typf dfsdriptors brf
+     * forbiddfn - dimfnsions must bf rfprfsfntfd tirougi tif DIM fifld).
      *
-     * The LONG and DOUBLE types are always represented by using two slots (LONG
-     * + TOP or DOUBLE + TOP), for local variable types as well as in the
-     * operand stack. This is necessary to be able to simulate DUPx_y
-     * instructions, whose effect would be dependent on the actual type values
-     * if types were always represented by a single slot in the stack (and this
-     * is not possible, since actual type values are not always known - cf LOCAL
-     * and STACK type kinds).
+     * Tif LONG bnd DOUBLE typfs brf blwbys rfprfsfntfd by using two slots (LONG
+     * + TOP or DOUBLE + TOP), for lodbl vbribblf typfs bs wfll bs in tif
+     * opfrbnd stbdk. Tiis is nfdfssbry to bf bblf to simulbtf DUPx_y
+     * instrudtions, wiosf ffffdt would bf dfpfndfnt on tif bdtubl typf vblufs
+     * if typfs wfrf blwbys rfprfsfntfd by b singlf slot in tif stbdk (bnd tiis
+     * is not possiblf, sindf bdtubl typf vblufs brf not blwbys known - df LOCAL
+     * bnd STACK typf kinds).
      */
 
     /**
-     * Mask to get the dimension of a frame type. This dimension is a signed
-     * integer between -8 and 7.
+     * Mbsk to gft tif dimfnsion of b frbmf typf. Tiis dimfnsion is b signfd
+     * intfgfr bftwffn -8 bnd 7.
      */
-    static final int DIM = 0xF0000000;
+    stbtid finbl int DIM = 0xF0000000;
 
     /**
-     * Constant to be added to a type to get a type with one more dimension.
+     * Constbnt to bf bddfd to b typf to gft b typf witi onf morf dimfnsion.
      */
-    static final int ARRAY_OF = 0x10000000;
+    stbtid finbl int ARRAY_OF = 0x10000000;
 
     /**
-     * Constant to be added to a type to get a type with one less dimension.
+     * Constbnt to bf bddfd to b typf to gft b typf witi onf lfss dimfnsion.
      */
-    static final int ELEMENT_OF = 0xF0000000;
+    stbtid finbl int ELEMENT_OF = 0xF0000000;
 
     /**
-     * Mask to get the kind of a frame type.
+     * Mbsk to gft tif kind of b frbmf typf.
      *
-     * @see #BASE
-     * @see #LOCAL
-     * @see #STACK
+     * @sff #BASE
+     * @sff #LOCAL
+     * @sff #STACK
      */
-    static final int KIND = 0xF000000;
+    stbtid finbl int KIND = 0xF000000;
 
     /**
-     * Flag used for LOCAL and STACK types. Indicates that if this type happens
-     * to be a long or double type (during the computations of input frames),
-     * then it must be set to TOP because the second word of this value has been
-     * reused to store other data in the basic block. Hence the first word no
-     * longer stores a valid long or double value.
+     * Flbg usfd for LOCAL bnd STACK typfs. Indidbtfs tibt if tiis typf ibppfns
+     * to bf b long or doublf typf (during tif domputbtions of input frbmfs),
+     * tifn it must bf sft to TOP bfdbusf tif sfdond word of tiis vbluf ibs bffn
+     * rfusfd to storf otifr dbtb in tif bbsid blodk. Hfndf tif first word no
+     * longfr storfs b vblid long or doublf vbluf.
      */
-    static final int TOP_IF_LONG_OR_DOUBLE = 0x800000;
+    stbtid finbl int TOP_IF_LONG_OR_DOUBLE = 0x800000;
 
     /**
-     * Mask to get the value of a frame type.
+     * Mbsk to gft tif vbluf of b frbmf typf.
      */
-    static final int VALUE = 0x7FFFFF;
+    stbtid finbl int VALUE = 0x7FFFFF;
 
     /**
-     * Mask to get the kind of base types.
+     * Mbsk to gft tif kind of bbsf typfs.
      */
-    static final int BASE_KIND = 0xFF00000;
+    stbtid finbl int BASE_KIND = 0xFF00000;
 
     /**
-     * Mask to get the value of base types.
+     * Mbsk to gft tif vbluf of bbsf typfs.
      */
-    static final int BASE_VALUE = 0xFFFFF;
+    stbtid finbl int BASE_VALUE = 0xFFFFF;
 
     /**
-     * Kind of the types that are not relative to an input stack map frame.
+     * Kind of tif typfs tibt brf not rflbtivf to bn input stbdk mbp frbmf.
      */
-    static final int BASE = 0x1000000;
+    stbtid finbl int BASE = 0x1000000;
 
     /**
-     * Base kind of the base reference types. The BASE_VALUE of such types is an
-     * index into the type table.
+     * Bbsf kind of tif bbsf rfffrfndf typfs. Tif BASE_VALUE of sudi typfs is bn
+     * indfx into tif typf tbblf.
      */
-    static final int OBJECT = BASE | 0x700000;
+    stbtid finbl int OBJECT = BASE | 0x700000;
 
     /**
-     * Base kind of the uninitialized base types. The BASE_VALUE of such types
-     * in an index into the type table (the Item at that index contains both an
-     * instruction offset and an internal class name).
+     * Bbsf kind of tif uninitiblizfd bbsf typfs. Tif BASE_VALUE of sudi typfs
+     * in bn indfx into tif typf tbblf (tif Itfm bt tibt indfx dontbins boti bn
+     * instrudtion offsft bnd bn intfrnbl dlbss nbmf).
      */
-    static final int UNINITIALIZED = BASE | 0x800000;
+    stbtid finbl int UNINITIALIZED = BASE | 0x800000;
 
     /**
-     * Kind of the types that are relative to the local variable types of an
-     * input stack map frame. The value of such types is a local variable index.
+     * Kind of tif typfs tibt brf rflbtivf to tif lodbl vbribblf typfs of bn
+     * input stbdk mbp frbmf. Tif vbluf of sudi typfs is b lodbl vbribblf indfx.
      */
-    private static final int LOCAL = 0x2000000;
+    privbtf stbtid finbl int LOCAL = 0x2000000;
 
     /**
-     * Kind of the the types that are relative to the stack of an input stack
-     * map frame. The value of such types is a position relatively to the top of
-     * this stack.
+     * Kind of tif tif typfs tibt brf rflbtivf to tif stbdk of bn input stbdk
+     * mbp frbmf. Tif vbluf of sudi typfs is b position rflbtivfly to tif top of
+     * tiis stbdk.
      */
-    private static final int STACK = 0x3000000;
+    privbtf stbtid finbl int STACK = 0x3000000;
 
     /**
-     * The TOP type. This is a BASE type.
+     * Tif TOP typf. Tiis is b BASE typf.
      */
-    static final int TOP = BASE | 0;
+    stbtid finbl int TOP = BASE | 0;
 
     /**
-     * The BOOLEAN type. This is a BASE type mainly used for array types.
+     * Tif BOOLEAN typf. Tiis is b BASE typf mbinly usfd for brrby typfs.
      */
-    static final int BOOLEAN = BASE | 9;
+    stbtid finbl int BOOLEAN = BASE | 9;
 
     /**
-     * The BYTE type. This is a BASE type mainly used for array types.
+     * Tif BYTE typf. Tiis is b BASE typf mbinly usfd for brrby typfs.
      */
-    static final int BYTE = BASE | 10;
+    stbtid finbl int BYTE = BASE | 10;
 
     /**
-     * The CHAR type. This is a BASE type mainly used for array types.
+     * Tif CHAR typf. Tiis is b BASE typf mbinly usfd for brrby typfs.
      */
-    static final int CHAR = BASE | 11;
+    stbtid finbl int CHAR = BASE | 11;
 
     /**
-     * The SHORT type. This is a BASE type mainly used for array types.
+     * Tif SHORT typf. Tiis is b BASE typf mbinly usfd for brrby typfs.
      */
-    static final int SHORT = BASE | 12;
+    stbtid finbl int SHORT = BASE | 12;
 
     /**
-     * The INTEGER type. This is a BASE type.
+     * Tif INTEGER typf. Tiis is b BASE typf.
      */
-    static final int INTEGER = BASE | 1;
+    stbtid finbl int INTEGER = BASE | 1;
 
     /**
-     * The FLOAT type. This is a BASE type.
+     * Tif FLOAT typf. Tiis is b BASE typf.
      */
-    static final int FLOAT = BASE | 2;
+    stbtid finbl int FLOAT = BASE | 2;
 
     /**
-     * The DOUBLE type. This is a BASE type.
+     * Tif DOUBLE typf. Tiis is b BASE typf.
      */
-    static final int DOUBLE = BASE | 3;
+    stbtid finbl int DOUBLE = BASE | 3;
 
     /**
-     * The LONG type. This is a BASE type.
+     * Tif LONG typf. Tiis is b BASE typf.
      */
-    static final int LONG = BASE | 4;
+    stbtid finbl int LONG = BASE | 4;
 
     /**
-     * The NULL type. This is a BASE type.
+     * Tif NULL typf. Tiis is b BASE typf.
      */
-    static final int NULL = BASE | 5;
+    stbtid finbl int NULL = BASE | 5;
 
     /**
-     * The UNINITIALIZED_THIS type. This is a BASE type.
+     * Tif UNINITIALIZED_THIS typf. Tiis is b BASE typf.
      */
-    static final int UNINITIALIZED_THIS = BASE | 6;
+    stbtid finbl int UNINITIALIZED_THIS = BASE | 6;
 
     /**
-     * The stack size variation corresponding to each JVM instruction. This
-     * stack variation is equal to the size of the values produced by an
-     * instruction, minus the size of the values consumed by this instruction.
+     * Tif stbdk sizf vbribtion dorrfsponding to fbdi JVM instrudtion. Tiis
+     * stbdk vbribtion is fqubl to tif sizf of tif vblufs produdfd by bn
+     * instrudtion, minus tif sizf of tif vblufs donsumfd by tiis instrudtion.
      */
-    static final int[] SIZE;
+    stbtid finbl int[] SIZE;
 
     /**
-     * Computes the stack size variation corresponding to each JVM instruction.
+     * Computfs tif stbdk sizf vbribtion dorrfsponding to fbdi JVM instrudtion.
      */
-    static {
+    stbtid {
         int i;
-        int[] b = new int[202];
+        int[] b = nfw int[202];
         String s = "EFFFFFFFFGGFFFGGFFFEEFGFGFEEEEEEEEEEEEEEEEEEEEDEDEDDDDD"
                 + "CDCDEEEEEEEEEEEEEEEEEEEEBABABBBBDCFFFGGGEDCDCDCDCDCDCDCDCD"
                 + "CDCEEEEDDDDDDDCDCDCEFEFDDEEFFDEDEEEBDDBBDDDDDDCCCCCCCCEFED"
                 + "DDCDCDEEEEEEEEEEFEEEEEEDDEEDDEE";
-        for (i = 0; i < b.length; ++i) {
-            b[i] = s.charAt(i) - 'E';
+        for (i = 0; i < b.lfngti; ++i) {
+            b[i] = s.dibrAt(i) - 'E';
         }
         SIZE = b;
 
-        // code to generate the above string
+        // dodf to gfnfrbtf tif bbovf string
         //
-        // int NA = 0; // not applicable (unused opcode or variable size opcode)
+        // int NA = 0; // not bpplidbblf (unusfd opdodf or vbribblf sizf opdodf)
         //
-        // b = new int[] {
+        // b = nfw int[] {
         // 0, //NOP, // visitInsn
         // 1, //ACONST_NULL, // -
         // 1, //ICONST_M1, // -
@@ -298,10 +298,10 @@ final class Frame {
         // 2, //DCONST_1, // -
         // 1, //BIPUSH, // visitIntInsn
         // 1, //SIPUSH, // -
-        // 1, //LDC, // visitLdcInsn
+        // 1, //LDC, // visitLddInsn
         // NA, //LDC_W, // -
         // NA, //LDC2_W, // -
-        // 1, //ILOAD, // visitVarInsn
+        // 1, //ILOAD, // visitVbrInsn
         // 2, //LLOAD, // -
         // 1, //FLOAD, // -
         // 2, //DLOAD, // -
@@ -334,7 +334,7 @@ final class Frame {
         // -1, //BALOAD, // -
         // -1, //CALOAD, // -
         // -1, //SALOAD, // -
-        // -1, //ISTORE, // visitVarInsn
+        // -1, //ISTORE, // visitVbrInsn
         // -2, //LSTORE, // -
         // -1, //FSTORE, // -
         // -2, //DSTORE, // -
@@ -412,7 +412,7 @@ final class Frame {
         // -2, //LOR, // -
         // -1, //IXOR, // -
         // -2, //LXOR, // -
-        // 0, //IINC, // visitIincInsn
+        // 0, //IINC, // visitIindInsn
         // 1, //I2L, // visitInsn
         // 0, //I2F, // -
         // 1, //I2D, // -
@@ -449,895 +449,895 @@ final class Frame {
         // -2, //IF_ACMPNE, // -
         // 0, //GOTO, // -
         // 1, //JSR, // -
-        // 0, //RET, // visitVarInsn
-        // -1, //TABLESWITCH, // visiTableSwitchInsn
-        // -1, //LOOKUPSWITCH, // visitLookupSwitch
+        // 0, //RET, // visitVbrInsn
+        // -1, //TABLESWITCH, // visiTbblfSwitdiInsn
+        // -1, //LOOKUPSWITCH, // visitLookupSwitdi
         // -1, //IRETURN, // visitInsn
         // -2, //LRETURN, // -
         // -1, //FRETURN, // -
         // -2, //DRETURN, // -
         // -1, //ARETURN, // -
         // 0, //RETURN, // -
-        // NA, //GETSTATIC, // visitFieldInsn
+        // NA, //GETSTATIC, // visitFifldInsn
         // NA, //PUTSTATIC, // -
         // NA, //GETFIELD, // -
         // NA, //PUTFIELD, // -
-        // NA, //INVOKEVIRTUAL, // visitMethodInsn
+        // NA, //INVOKEVIRTUAL, // visitMftiodInsn
         // NA, //INVOKESPECIAL, // -
         // NA, //INVOKESTATIC, // -
         // NA, //INVOKEINTERFACE, // -
-        // NA, //INVOKEDYNAMIC, // visitInvokeDynamicInsn
-        // 1, //NEW, // visitTypeInsn
+        // NA, //INVOKEDYNAMIC, // visitInvokfDynbmidInsn
+        // 1, //NEW, // visitTypfInsn
         // 0, //NEWARRAY, // visitIntInsn
-        // 0, //ANEWARRAY, // visitTypeInsn
+        // 0, //ANEWARRAY, // visitTypfInsn
         // 0, //ARRAYLENGTH, // visitInsn
         // NA, //ATHROW, // -
-        // 0, //CHECKCAST, // visitTypeInsn
+        // 0, //CHECKCAST, // visitTypfInsn
         // 0, //INSTANCEOF, // -
         // -1, //MONITORENTER, // visitInsn
         // -1, //MONITOREXIT, // -
         // NA, //WIDE, // NOT VISITED
-        // NA, //MULTIANEWARRAY, // visitMultiANewArrayInsn
+        // NA, //MULTIANEWARRAY, // visitMultiANfwArrbyInsn
         // -1, //IFNULL, // visitJumpInsn
         // -1, //IFNONNULL, // -
         // NA, //GOTO_W, // -
         // NA, //JSR_W, // -
         // };
-        // for (i = 0; i < b.length; ++i) {
-        // System.err.print((char)('E' + b[i]));
+        // for (i = 0; i < b.lfngti; ++i) {
+        // Systfm.frr.print((dibr)('E' + b[i]));
         // }
-        // System.err.println();
+        // Systfm.frr.println();
     }
 
     /**
-     * The label (i.e. basic block) to which these input and output stack map
-     * frames correspond.
+     * Tif lbbfl (i.f. bbsid blodk) to wiidi tifsf input bnd output stbdk mbp
+     * frbmfs dorrfspond.
      */
-    Label owner;
+    Lbbfl ownfr;
 
     /**
-     * The input stack map frame locals.
+     * Tif input stbdk mbp frbmf lodbls.
      */
-    int[] inputLocals;
+    int[] inputLodbls;
 
     /**
-     * The input stack map frame stack.
+     * Tif input stbdk mbp frbmf stbdk.
      */
-    int[] inputStack;
+    int[] inputStbdk;
 
     /**
-     * The output stack map frame locals.
+     * Tif output stbdk mbp frbmf lodbls.
      */
-    private int[] outputLocals;
+    privbtf int[] outputLodbls;
 
     /**
-     * The output stack map frame stack.
+     * Tif output stbdk mbp frbmf stbdk.
      */
-    private int[] outputStack;
+    privbtf int[] outputStbdk;
 
     /**
-     * Relative size of the output stack. The exact semantics of this field
-     * depends on the algorithm that is used.
+     * Rflbtivf sizf of tif output stbdk. Tif fxbdt sfmbntids of tiis fifld
+     * dfpfnds on tif blgoritim tibt is usfd.
      *
-     * When only the maximum stack size is computed, this field is the size of
-     * the output stack relatively to the top of the input stack.
+     * Wifn only tif mbximum stbdk sizf is domputfd, tiis fifld is tif sizf of
+     * tif output stbdk rflbtivfly to tif top of tif input stbdk.
      *
-     * When the stack map frames are completely computed, this field is the
-     * actual number of types in {@link #outputStack}.
+     * Wifn tif stbdk mbp frbmfs brf domplftfly domputfd, tiis fifld is tif
+     * bdtubl numbfr of typfs in {@link #outputStbdk}.
      */
-    private int outputStackTop;
+    privbtf int outputStbdkTop;
 
     /**
-     * Number of types that are initialized in the basic block.
+     * Numbfr of typfs tibt brf initiblizfd in tif bbsid blodk.
      *
-     * @see #initializations
+     * @sff #initiblizbtions
      */
-    private int initializationCount;
+    privbtf int initiblizbtionCount;
 
     /**
-     * The types that are initialized in the basic block. A constructor
-     * invocation on an UNINITIALIZED or UNINITIALIZED_THIS type must replace
-     * <i>every occurence</i> of this type in the local variables and in the
-     * operand stack. This cannot be done during the first phase of the
-     * algorithm since, during this phase, the local variables and the operand
-     * stack are not completely computed. It is therefore necessary to store the
-     * types on which constructors are invoked in the basic block, in order to
-     * do this replacement during the second phase of the algorithm, where the
-     * frames are fully computed. Note that this array can contain types that
-     * are relative to input locals or to the input stack (see below for the
-     * description of the algorithm).
+     * Tif typfs tibt brf initiblizfd in tif bbsid blodk. A donstrudtor
+     * invodbtion on bn UNINITIALIZED or UNINITIALIZED_THIS typf must rfplbdf
+     * <i>fvfry oddurfndf</i> of tiis typf in tif lodbl vbribblfs bnd in tif
+     * opfrbnd stbdk. Tiis dbnnot bf donf during tif first pibsf of tif
+     * blgoritim sindf, during tiis pibsf, tif lodbl vbribblfs bnd tif opfrbnd
+     * stbdk brf not domplftfly domputfd. It is tifrfforf nfdfssbry to storf tif
+     * typfs on wiidi donstrudtors brf invokfd in tif bbsid blodk, in ordfr to
+     * do tiis rfplbdfmfnt during tif sfdond pibsf of tif blgoritim, wifrf tif
+     * frbmfs brf fully domputfd. Notf tibt tiis brrby dbn dontbin typfs tibt
+     * brf rflbtivf to input lodbls or to tif input stbdk (sff bflow for tif
+     * dfsdription of tif blgoritim).
      */
-    private int[] initializations;
+    privbtf int[] initiblizbtions;
 
     /**
-     * Returns the output frame local variable type at the given index.
+     * Rfturns tif output frbmf lodbl vbribblf typf bt tif givfn indfx.
      *
-     * @param local
-     *            the index of the local that must be returned.
-     * @return the output frame local variable type at the given index.
+     * @pbrbm lodbl
+     *            tif indfx of tif lodbl tibt must bf rfturnfd.
+     * @rfturn tif output frbmf lodbl vbribblf typf bt tif givfn indfx.
      */
-    private int get(final int local) {
-        if (outputLocals == null || local >= outputLocals.length) {
-            // this local has never been assigned in this basic block,
-            // so it is still equal to its value in the input frame
-            return LOCAL | local;
-        } else {
-            int type = outputLocals[local];
-            if (type == 0) {
-                // this local has never been assigned in this basic block,
-                // so it is still equal to its value in the input frame
-                type = outputLocals[local] = LOCAL | local;
+    privbtf int gft(finbl int lodbl) {
+        if (outputLodbls == null || lodbl >= outputLodbls.lfngti) {
+            // tiis lodbl ibs nfvfr bffn bssignfd in tiis bbsid blodk,
+            // so it is still fqubl to its vbluf in tif input frbmf
+            rfturn LOCAL | lodbl;
+        } flsf {
+            int typf = outputLodbls[lodbl];
+            if (typf == 0) {
+                // tiis lodbl ibs nfvfr bffn bssignfd in tiis bbsid blodk,
+                // so it is still fqubl to its vbluf in tif input frbmf
+                typf = outputLodbls[lodbl] = LOCAL | lodbl;
             }
-            return type;
+            rfturn typf;
         }
     }
 
     /**
-     * Sets the output frame local variable type at the given index.
+     * Sfts tif output frbmf lodbl vbribblf typf bt tif givfn indfx.
      *
-     * @param local
-     *            the index of the local that must be set.
-     * @param type
-     *            the value of the local that must be set.
+     * @pbrbm lodbl
+     *            tif indfx of tif lodbl tibt must bf sft.
+     * @pbrbm typf
+     *            tif vbluf of tif lodbl tibt must bf sft.
      */
-    private void set(final int local, final int type) {
-        // creates and/or resizes the output local variables array if necessary
-        if (outputLocals == null) {
-            outputLocals = new int[10];
+    privbtf void sft(finbl int lodbl, finbl int typf) {
+        // drfbtfs bnd/or rfsizfs tif output lodbl vbribblfs brrby if nfdfssbry
+        if (outputLodbls == null) {
+            outputLodbls = nfw int[10];
         }
-        int n = outputLocals.length;
-        if (local >= n) {
-            int[] t = new int[Math.max(local + 1, 2 * n)];
-            System.arraycopy(outputLocals, 0, t, 0, n);
-            outputLocals = t;
+        int n = outputLodbls.lfngti;
+        if (lodbl >= n) {
+            int[] t = nfw int[Mbti.mbx(lodbl + 1, 2 * n)];
+            Systfm.brrbydopy(outputLodbls, 0, t, 0, n);
+            outputLodbls = t;
         }
-        // sets the local variable
-        outputLocals[local] = type;
+        // sfts tif lodbl vbribblf
+        outputLodbls[lodbl] = typf;
     }
 
     /**
-     * Pushes a new type onto the output frame stack.
+     * Pusifs b nfw typf onto tif output frbmf stbdk.
      *
-     * @param type
-     *            the type that must be pushed.
+     * @pbrbm typf
+     *            tif typf tibt must bf pusifd.
      */
-    private void push(final int type) {
-        // creates and/or resizes the output stack array if necessary
-        if (outputStack == null) {
-            outputStack = new int[10];
+    privbtf void pusi(finbl int typf) {
+        // drfbtfs bnd/or rfsizfs tif output stbdk brrby if nfdfssbry
+        if (outputStbdk == null) {
+            outputStbdk = nfw int[10];
         }
-        int n = outputStack.length;
-        if (outputStackTop >= n) {
-            int[] t = new int[Math.max(outputStackTop + 1, 2 * n)];
-            System.arraycopy(outputStack, 0, t, 0, n);
-            outputStack = t;
+        int n = outputStbdk.lfngti;
+        if (outputStbdkTop >= n) {
+            int[] t = nfw int[Mbti.mbx(outputStbdkTop + 1, 2 * n)];
+            Systfm.brrbydopy(outputStbdk, 0, t, 0, n);
+            outputStbdk = t;
         }
-        // pushes the type on the output stack
-        outputStack[outputStackTop++] = type;
-        // updates the maximun height reached by the output stack, if needed
-        int top = owner.inputStackTop + outputStackTop;
-        if (top > owner.outputStackMax) {
-            owner.outputStackMax = top;
+        // pusifs tif typf on tif output stbdk
+        outputStbdk[outputStbdkTop++] = typf;
+        // updbtfs tif mbximun ifigit rfbdifd by tif output stbdk, if nffdfd
+        int top = ownfr.inputStbdkTop + outputStbdkTop;
+        if (top > ownfr.outputStbdkMbx) {
+            ownfr.outputStbdkMbx = top;
         }
     }
 
     /**
-     * Pushes a new type onto the output frame stack.
+     * Pusifs b nfw typf onto tif output frbmf stbdk.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param desc
-     *            the descriptor of the type to be pushed. Can also be a method
-     *            descriptor (in this case this method pushes its return type
-     *            onto the output frame stack).
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm dfsd
+     *            tif dfsdriptor of tif typf to bf pusifd. Cbn blso bf b mftiod
+     *            dfsdriptor (in tiis dbsf tiis mftiod pusifs its rfturn typf
+     *            onto tif output frbmf stbdk).
      */
-    private void push(final ClassWriter cw, final String desc) {
-        int type = type(cw, desc);
-        if (type != 0) {
-            push(type);
-            if (type == LONG || type == DOUBLE) {
-                push(TOP);
+    privbtf void pusi(finbl ClbssWritfr dw, finbl String dfsd) {
+        int typf = typf(dw, dfsd);
+        if (typf != 0) {
+            pusi(typf);
+            if (typf == LONG || typf == DOUBLE) {
+                pusi(TOP);
             }
         }
     }
 
     /**
-     * Returns the int encoding of the given type.
+     * Rfturns tif int fndoding of tif givfn typf.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param desc
-     *            a type descriptor.
-     * @return the int encoding of the given type.
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm dfsd
+     *            b typf dfsdriptor.
+     * @rfturn tif int fndoding of tif givfn typf.
      */
-    private static int type(final ClassWriter cw, final String desc) {
+    privbtf stbtid int typf(finbl ClbssWritfr dw, finbl String dfsd) {
         String t;
-        int index = desc.charAt(0) == '(' ? desc.indexOf(')') + 1 : 0;
-        switch (desc.charAt(index)) {
-        case 'V':
-            return 0;
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-            return INTEGER;
-        case 'F':
-            return FLOAT;
-        case 'J':
-            return LONG;
-        case 'D':
-            return DOUBLE;
-        case 'L':
-            // stores the internal name, not the descriptor!
-            t = desc.substring(index + 1, desc.length() - 1);
-            return OBJECT | cw.addType(t);
-            // case '[':
-        default:
-            // extracts the dimensions and the element type
-            int data;
-            int dims = index + 1;
-            while (desc.charAt(dims) == '[') {
+        int indfx = dfsd.dibrAt(0) == '(' ? dfsd.indfxOf(')') + 1 : 0;
+        switdi (dfsd.dibrAt(indfx)) {
+        dbsf 'V':
+            rfturn 0;
+        dbsf 'Z':
+        dbsf 'C':
+        dbsf 'B':
+        dbsf 'S':
+        dbsf 'I':
+            rfturn INTEGER;
+        dbsf 'F':
+            rfturn FLOAT;
+        dbsf 'J':
+            rfturn LONG;
+        dbsf 'D':
+            rfturn DOUBLE;
+        dbsf 'L':
+            // storfs tif intfrnbl nbmf, not tif dfsdriptor!
+            t = dfsd.substring(indfx + 1, dfsd.lfngti() - 1);
+            rfturn OBJECT | dw.bddTypf(t);
+            // dbsf '[':
+        dffbult:
+            // fxtrbdts tif dimfnsions bnd tif flfmfnt typf
+            int dbtb;
+            int dims = indfx + 1;
+            wiilf (dfsd.dibrAt(dims) == '[') {
                 ++dims;
             }
-            switch (desc.charAt(dims)) {
-            case 'Z':
-                data = BOOLEAN;
-                break;
-            case 'C':
-                data = CHAR;
-                break;
-            case 'B':
-                data = BYTE;
-                break;
-            case 'S':
-                data = SHORT;
-                break;
-            case 'I':
-                data = INTEGER;
-                break;
-            case 'F':
-                data = FLOAT;
-                break;
-            case 'J':
-                data = LONG;
-                break;
-            case 'D':
-                data = DOUBLE;
-                break;
-            // case 'L':
-            default:
-                // stores the internal name, not the descriptor
-                t = desc.substring(dims + 1, desc.length() - 1);
-                data = OBJECT | cw.addType(t);
+            switdi (dfsd.dibrAt(dims)) {
+            dbsf 'Z':
+                dbtb = BOOLEAN;
+                brfbk;
+            dbsf 'C':
+                dbtb = CHAR;
+                brfbk;
+            dbsf 'B':
+                dbtb = BYTE;
+                brfbk;
+            dbsf 'S':
+                dbtb = SHORT;
+                brfbk;
+            dbsf 'I':
+                dbtb = INTEGER;
+                brfbk;
+            dbsf 'F':
+                dbtb = FLOAT;
+                brfbk;
+            dbsf 'J':
+                dbtb = LONG;
+                brfbk;
+            dbsf 'D':
+                dbtb = DOUBLE;
+                brfbk;
+            // dbsf 'L':
+            dffbult:
+                // storfs tif intfrnbl nbmf, not tif dfsdriptor
+                t = dfsd.substring(dims + 1, dfsd.lfngti() - 1);
+                dbtb = OBJECT | dw.bddTypf(t);
             }
-            return (dims - index) << 28 | data;
+            rfturn (dims - indfx) << 28 | dbtb;
         }
     }
 
     /**
-     * Pops a type from the output frame stack and returns its value.
+     * Pops b typf from tif output frbmf stbdk bnd rfturns its vbluf.
      *
-     * @return the type that has been popped from the output frame stack.
+     * @rfturn tif typf tibt ibs bffn poppfd from tif output frbmf stbdk.
      */
-    private int pop() {
-        if (outputStackTop > 0) {
-            return outputStack[--outputStackTop];
-        } else {
-            // if the output frame stack is empty, pops from the input stack
-            return STACK | -(--owner.inputStackTop);
+    privbtf int pop() {
+        if (outputStbdkTop > 0) {
+            rfturn outputStbdk[--outputStbdkTop];
+        } flsf {
+            // if tif output frbmf stbdk is fmpty, pops from tif input stbdk
+            rfturn STACK | -(--ownfr.inputStbdkTop);
         }
     }
 
     /**
-     * Pops the given number of types from the output frame stack.
+     * Pops tif givfn numbfr of typfs from tif output frbmf stbdk.
      *
-     * @param elements
-     *            the number of types that must be popped.
+     * @pbrbm flfmfnts
+     *            tif numbfr of typfs tibt must bf poppfd.
      */
-    private void pop(final int elements) {
-        if (outputStackTop >= elements) {
-            outputStackTop -= elements;
-        } else {
-            // if the number of elements to be popped is greater than the number
-            // of elements in the output stack, clear it, and pops the remaining
-            // elements from the input stack.
-            owner.inputStackTop -= elements - outputStackTop;
-            outputStackTop = 0;
+    privbtf void pop(finbl int flfmfnts) {
+        if (outputStbdkTop >= flfmfnts) {
+            outputStbdkTop -= flfmfnts;
+        } flsf {
+            // if tif numbfr of flfmfnts to bf poppfd is grfbtfr tibn tif numbfr
+            // of flfmfnts in tif output stbdk, dlfbr it, bnd pops tif rfmbining
+            // flfmfnts from tif input stbdk.
+            ownfr.inputStbdkTop -= flfmfnts - outputStbdkTop;
+            outputStbdkTop = 0;
         }
     }
 
     /**
-     * Pops a type from the output frame stack.
+     * Pops b typf from tif output frbmf stbdk.
      *
-     * @param desc
-     *            the descriptor of the type to be popped. Can also be a method
-     *            descriptor (in this case this method pops the types
-     *            corresponding to the method arguments).
+     * @pbrbm dfsd
+     *            tif dfsdriptor of tif typf to bf poppfd. Cbn blso bf b mftiod
+     *            dfsdriptor (in tiis dbsf tiis mftiod pops tif typfs
+     *            dorrfsponding to tif mftiod brgumfnts).
      */
-    private void pop(final String desc) {
-        char c = desc.charAt(0);
-        if (c == '(') {
-            pop((Type.getArgumentsAndReturnSizes(desc) >> 2) - 1);
-        } else if (c == 'J' || c == 'D') {
+    privbtf void pop(finbl String dfsd) {
+        dibr d = dfsd.dibrAt(0);
+        if (d == '(') {
+            pop((Typf.gftArgumfntsAndRfturnSizfs(dfsd) >> 2) - 1);
+        } flsf if (d == 'J' || d == 'D') {
             pop(2);
-        } else {
+        } flsf {
             pop(1);
         }
     }
 
     /**
-     * Adds a new type to the list of types on which a constructor is invoked in
-     * the basic block.
+     * Adds b nfw typf to tif list of typfs on wiidi b donstrudtor is invokfd in
+     * tif bbsid blodk.
      *
-     * @param var
-     *            a type on a which a constructor is invoked.
+     * @pbrbm vbr
+     *            b typf on b wiidi b donstrudtor is invokfd.
      */
-    private void init(final int var) {
-        // creates and/or resizes the initializations array if necessary
-        if (initializations == null) {
-            initializations = new int[2];
+    privbtf void init(finbl int vbr) {
+        // drfbtfs bnd/or rfsizfs tif initiblizbtions brrby if nfdfssbry
+        if (initiblizbtions == null) {
+            initiblizbtions = nfw int[2];
         }
-        int n = initializations.length;
-        if (initializationCount >= n) {
-            int[] t = new int[Math.max(initializationCount + 1, 2 * n)];
-            System.arraycopy(initializations, 0, t, 0, n);
-            initializations = t;
+        int n = initiblizbtions.lfngti;
+        if (initiblizbtionCount >= n) {
+            int[] t = nfw int[Mbti.mbx(initiblizbtionCount + 1, 2 * n)];
+            Systfm.brrbydopy(initiblizbtions, 0, t, 0, n);
+            initiblizbtions = t;
         }
-        // stores the type to be initialized
-        initializations[initializationCount++] = var;
+        // storfs tif typf to bf initiblizfd
+        initiblizbtions[initiblizbtionCount++] = vbr;
     }
 
     /**
-     * Replaces the given type with the appropriate type if it is one of the
-     * types on which a constructor is invoked in the basic block.
+     * Rfplbdfs tif givfn typf witi tif bppropribtf typf if it is onf of tif
+     * typfs on wiidi b donstrudtor is invokfd in tif bbsid blodk.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param t
-     *            a type
-     * @return t or, if t is one of the types on which a constructor is invoked
-     *         in the basic block, the type corresponding to this constructor.
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm t
+     *            b typf
+     * @rfturn t or, if t is onf of tif typfs on wiidi b donstrudtor is invokfd
+     *         in tif bbsid blodk, tif typf dorrfsponding to tiis donstrudtor.
      */
-    private int init(final ClassWriter cw, final int t) {
+    privbtf int init(finbl ClbssWritfr dw, finbl int t) {
         int s;
         if (t == UNINITIALIZED_THIS) {
-            s = OBJECT | cw.addType(cw.thisName);
-        } else if ((t & (DIM | BASE_KIND)) == UNINITIALIZED) {
-            String type = cw.typeTable[t & BASE_VALUE].strVal1;
-            s = OBJECT | cw.addType(type);
-        } else {
-            return t;
+            s = OBJECT | dw.bddTypf(dw.tiisNbmf);
+        } flsf if ((t & (DIM | BASE_KIND)) == UNINITIALIZED) {
+            String typf = dw.typfTbblf[t & BASE_VALUE].strVbl1;
+            s = OBJECT | dw.bddTypf(typf);
+        } flsf {
+            rfturn t;
         }
-        for (int j = 0; j < initializationCount; ++j) {
-            int u = initializations[j];
+        for (int j = 0; j < initiblizbtionCount; ++j) {
+            int u = initiblizbtions[j];
             int dim = u & DIM;
             int kind = u & KIND;
             if (kind == LOCAL) {
-                u = dim + inputLocals[u & VALUE];
-            } else if (kind == STACK) {
-                u = dim + inputStack[inputStack.length - (u & VALUE)];
+                u = dim + inputLodbls[u & VALUE];
+            } flsf if (kind == STACK) {
+                u = dim + inputStbdk[inputStbdk.lfngti - (u & VALUE)];
             }
             if (t == u) {
-                return s;
+                rfturn s;
             }
         }
-        return t;
+        rfturn t;
     }
 
     /**
-     * Initializes the input frame of the first basic block from the method
-     * descriptor.
+     * Initiblizfs tif input frbmf of tif first bbsid blodk from tif mftiod
+     * dfsdriptor.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param access
-     *            the access flags of the method to which this label belongs.
-     * @param args
-     *            the formal parameter types of this method.
-     * @param maxLocals
-     *            the maximum number of local variables of this method.
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm bddfss
+     *            tif bddfss flbgs of tif mftiod to wiidi tiis lbbfl bflongs.
+     * @pbrbm brgs
+     *            tif formbl pbrbmftfr typfs of tiis mftiod.
+     * @pbrbm mbxLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tiis mftiod.
      */
-    void initInputFrame(final ClassWriter cw, final int access,
-            final Type[] args, final int maxLocals) {
-        inputLocals = new int[maxLocals];
-        inputStack = new int[0];
+    void initInputFrbmf(finbl ClbssWritfr dw, finbl int bddfss,
+            finbl Typf[] brgs, finbl int mbxLodbls) {
+        inputLodbls = nfw int[mbxLodbls];
+        inputStbdk = nfw int[0];
         int i = 0;
-        if ((access & Opcodes.ACC_STATIC) == 0) {
-            if ((access & MethodWriter.ACC_CONSTRUCTOR) == 0) {
-                inputLocals[i++] = OBJECT | cw.addType(cw.thisName);
-            } else {
-                inputLocals[i++] = UNINITIALIZED_THIS;
+        if ((bddfss & Opdodfs.ACC_STATIC) == 0) {
+            if ((bddfss & MftiodWritfr.ACC_CONSTRUCTOR) == 0) {
+                inputLodbls[i++] = OBJECT | dw.bddTypf(dw.tiisNbmf);
+            } flsf {
+                inputLodbls[i++] = UNINITIALIZED_THIS;
             }
         }
-        for (int j = 0; j < args.length; ++j) {
-            int t = type(cw, args[j].getDescriptor());
-            inputLocals[i++] = t;
+        for (int j = 0; j < brgs.lfngti; ++j) {
+            int t = typf(dw, brgs[j].gftDfsdriptor());
+            inputLodbls[i++] = t;
             if (t == LONG || t == DOUBLE) {
-                inputLocals[i++] = TOP;
+                inputLodbls[i++] = TOP;
             }
         }
-        while (i < maxLocals) {
-            inputLocals[i++] = TOP;
+        wiilf (i < mbxLodbls) {
+            inputLodbls[i++] = TOP;
         }
     }
 
     /**
-     * Simulates the action of the given instruction on the output stack frame.
+     * Simulbtfs tif bdtion of tif givfn instrudtion on tif output stbdk frbmf.
      *
-     * @param opcode
-     *            the opcode of the instruction.
-     * @param arg
-     *            the operand of the instruction, if any.
-     * @param cw
-     *            the class writer to which this label belongs.
-     * @param item
-     *            the operand of the instructions, if any.
+     * @pbrbm opdodf
+     *            tif opdodf of tif instrudtion.
+     * @pbrbm brg
+     *            tif opfrbnd of tif instrudtion, if bny.
+     * @pbrbm dw
+     *            tif dlbss writfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm itfm
+     *            tif opfrbnd of tif instrudtions, if bny.
      */
-    void execute(final int opcode, final int arg, final ClassWriter cw,
-            final Item item) {
+    void fxfdutf(finbl int opdodf, finbl int brg, finbl ClbssWritfr dw,
+            finbl Itfm itfm) {
         int t1, t2, t3, t4;
-        switch (opcode) {
-        case Opcodes.NOP:
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-        case Opcodes.GOTO:
-        case Opcodes.RETURN:
-            break;
-        case Opcodes.ACONST_NULL:
-            push(NULL);
-            break;
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
-        case Opcodes.ILOAD:
-            push(INTEGER);
-            break;
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
-        case Opcodes.LLOAD:
-            push(LONG);
-            push(TOP);
-            break;
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
-        case Opcodes.FLOAD:
-            push(FLOAT);
-            break;
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
-        case Opcodes.DLOAD:
-            push(DOUBLE);
-            push(TOP);
-            break;
-        case Opcodes.LDC:
-            switch (item.type) {
-            case ClassWriter.INT:
-                push(INTEGER);
-                break;
-            case ClassWriter.LONG:
-                push(LONG);
-                push(TOP);
-                break;
-            case ClassWriter.FLOAT:
-                push(FLOAT);
-                break;
-            case ClassWriter.DOUBLE:
-                push(DOUBLE);
-                push(TOP);
-                break;
-            case ClassWriter.CLASS:
-                push(OBJECT | cw.addType("java/lang/Class"));
-                break;
-            case ClassWriter.STR:
-                push(OBJECT | cw.addType("java/lang/String"));
-                break;
-            case ClassWriter.MTYPE:
-                push(OBJECT | cw.addType("java/lang/invoke/MethodType"));
-                break;
-            // case ClassWriter.HANDLE_BASE + [1..9]:
-            default:
-                push(OBJECT | cw.addType("java/lang/invoke/MethodHandle"));
+        switdi (opdodf) {
+        dbsf Opdodfs.NOP:
+        dbsf Opdodfs.INEG:
+        dbsf Opdodfs.LNEG:
+        dbsf Opdodfs.FNEG:
+        dbsf Opdodfs.DNEG:
+        dbsf Opdodfs.I2B:
+        dbsf Opdodfs.I2C:
+        dbsf Opdodfs.I2S:
+        dbsf Opdodfs.GOTO:
+        dbsf Opdodfs.RETURN:
+            brfbk;
+        dbsf Opdodfs.ACONST_NULL:
+            pusi(NULL);
+            brfbk;
+        dbsf Opdodfs.ICONST_M1:
+        dbsf Opdodfs.ICONST_0:
+        dbsf Opdodfs.ICONST_1:
+        dbsf Opdodfs.ICONST_2:
+        dbsf Opdodfs.ICONST_3:
+        dbsf Opdodfs.ICONST_4:
+        dbsf Opdodfs.ICONST_5:
+        dbsf Opdodfs.BIPUSH:
+        dbsf Opdodfs.SIPUSH:
+        dbsf Opdodfs.ILOAD:
+            pusi(INTEGER);
+            brfbk;
+        dbsf Opdodfs.LCONST_0:
+        dbsf Opdodfs.LCONST_1:
+        dbsf Opdodfs.LLOAD:
+            pusi(LONG);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.FCONST_0:
+        dbsf Opdodfs.FCONST_1:
+        dbsf Opdodfs.FCONST_2:
+        dbsf Opdodfs.FLOAD:
+            pusi(FLOAT);
+            brfbk;
+        dbsf Opdodfs.DCONST_0:
+        dbsf Opdodfs.DCONST_1:
+        dbsf Opdodfs.DLOAD:
+            pusi(DOUBLE);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.LDC:
+            switdi (itfm.typf) {
+            dbsf ClbssWritfr.INT:
+                pusi(INTEGER);
+                brfbk;
+            dbsf ClbssWritfr.LONG:
+                pusi(LONG);
+                pusi(TOP);
+                brfbk;
+            dbsf ClbssWritfr.FLOAT:
+                pusi(FLOAT);
+                brfbk;
+            dbsf ClbssWritfr.DOUBLE:
+                pusi(DOUBLE);
+                pusi(TOP);
+                brfbk;
+            dbsf ClbssWritfr.CLASS:
+                pusi(OBJECT | dw.bddTypf("jbvb/lbng/Clbss"));
+                brfbk;
+            dbsf ClbssWritfr.STR:
+                pusi(OBJECT | dw.bddTypf("jbvb/lbng/String"));
+                brfbk;
+            dbsf ClbssWritfr.MTYPE:
+                pusi(OBJECT | dw.bddTypf("jbvb/lbng/invokf/MftiodTypf"));
+                brfbk;
+            // dbsf ClbssWritfr.HANDLE_BASE + [1..9]:
+            dffbult:
+                pusi(OBJECT | dw.bddTypf("jbvb/lbng/invokf/MftiodHbndlf"));
             }
-            break;
-        case Opcodes.ALOAD:
-            push(get(arg));
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
+            brfbk;
+        dbsf Opdodfs.ALOAD:
+            pusi(gft(brg));
+            brfbk;
+        dbsf Opdodfs.IALOAD:
+        dbsf Opdodfs.BALOAD:
+        dbsf Opdodfs.CALOAD:
+        dbsf Opdodfs.SALOAD:
             pop(2);
-            push(INTEGER);
-            break;
-        case Opcodes.LALOAD:
-        case Opcodes.D2L:
+            pusi(INTEGER);
+            brfbk;
+        dbsf Opdodfs.LALOAD:
+        dbsf Opdodfs.D2L:
             pop(2);
-            push(LONG);
-            push(TOP);
-            break;
-        case Opcodes.FALOAD:
+            pusi(LONG);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.FALOAD:
             pop(2);
-            push(FLOAT);
-            break;
-        case Opcodes.DALOAD:
-        case Opcodes.L2D:
+            pusi(FLOAT);
+            brfbk;
+        dbsf Opdodfs.DALOAD:
+        dbsf Opdodfs.L2D:
             pop(2);
-            push(DOUBLE);
-            push(TOP);
-            break;
-        case Opcodes.AALOAD:
+            pusi(DOUBLE);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.AALOAD:
             pop(1);
             t1 = pop();
-            push(ELEMENT_OF + t1);
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.ASTORE:
+            pusi(ELEMENT_OF + t1);
+            brfbk;
+        dbsf Opdodfs.ISTORE:
+        dbsf Opdodfs.FSTORE:
+        dbsf Opdodfs.ASTORE:
             t1 = pop();
-            set(arg, t1);
-            if (arg > 0) {
-                t2 = get(arg - 1);
-                // if t2 is of kind STACK or LOCAL we cannot know its size!
+            sft(brg, t1);
+            if (brg > 0) {
+                t2 = gft(brg - 1);
+                // if t2 is of kind STACK or LOCAL wf dbnnot know its sizf!
                 if (t2 == LONG || t2 == DOUBLE) {
-                    set(arg - 1, TOP);
-                } else if ((t2 & KIND) != BASE) {
-                    set(arg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
+                    sft(brg - 1, TOP);
+                } flsf if ((t2 & KIND) != BASE) {
+                    sft(brg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
                 }
             }
-            break;
-        case Opcodes.LSTORE:
-        case Opcodes.DSTORE:
+            brfbk;
+        dbsf Opdodfs.LSTORE:
+        dbsf Opdodfs.DSTORE:
             pop(1);
             t1 = pop();
-            set(arg, t1);
-            set(arg + 1, TOP);
-            if (arg > 0) {
-                t2 = get(arg - 1);
-                // if t2 is of kind STACK or LOCAL we cannot know its size!
+            sft(brg, t1);
+            sft(brg + 1, TOP);
+            if (brg > 0) {
+                t2 = gft(brg - 1);
+                // if t2 is of kind STACK or LOCAL wf dbnnot know its sizf!
                 if (t2 == LONG || t2 == DOUBLE) {
-                    set(arg - 1, TOP);
-                } else if ((t2 & KIND) != BASE) {
-                    set(arg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
+                    sft(brg - 1, TOP);
+                } flsf if ((t2 & KIND) != BASE) {
+                    sft(brg - 1, t2 | TOP_IF_LONG_OR_DOUBLE);
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.AASTORE:
+            brfbk;
+        dbsf Opdodfs.IASTORE:
+        dbsf Opdodfs.BASTORE:
+        dbsf Opdodfs.CASTORE:
+        dbsf Opdodfs.SASTORE:
+        dbsf Opdodfs.FASTORE:
+        dbsf Opdodfs.AASTORE:
             pop(3);
-            break;
-        case Opcodes.LASTORE:
-        case Opcodes.DASTORE:
+            brfbk;
+        dbsf Opdodfs.LASTORE:
+        dbsf Opdodfs.DASTORE:
             pop(4);
-            break;
-        case Opcodes.POP:
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-        case Opcodes.IRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.ARETURN:
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-        case Opcodes.ATHROW:
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
+            brfbk;
+        dbsf Opdodfs.POP:
+        dbsf Opdodfs.IFEQ:
+        dbsf Opdodfs.IFNE:
+        dbsf Opdodfs.IFLT:
+        dbsf Opdodfs.IFGE:
+        dbsf Opdodfs.IFGT:
+        dbsf Opdodfs.IFLE:
+        dbsf Opdodfs.IRETURN:
+        dbsf Opdodfs.FRETURN:
+        dbsf Opdodfs.ARETURN:
+        dbsf Opdodfs.TABLESWITCH:
+        dbsf Opdodfs.LOOKUPSWITCH:
+        dbsf Opdodfs.ATHROW:
+        dbsf Opdodfs.MONITORENTER:
+        dbsf Opdodfs.MONITOREXIT:
+        dbsf Opdodfs.IFNULL:
+        dbsf Opdodfs.IFNONNULL:
             pop(1);
-            break;
-        case Opcodes.POP2:
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-        case Opcodes.LRETURN:
-        case Opcodes.DRETURN:
+            brfbk;
+        dbsf Opdodfs.POP2:
+        dbsf Opdodfs.IF_ICMPEQ:
+        dbsf Opdodfs.IF_ICMPNE:
+        dbsf Opdodfs.IF_ICMPLT:
+        dbsf Opdodfs.IF_ICMPGE:
+        dbsf Opdodfs.IF_ICMPGT:
+        dbsf Opdodfs.IF_ICMPLE:
+        dbsf Opdodfs.IF_ACMPEQ:
+        dbsf Opdodfs.IF_ACMPNE:
+        dbsf Opdodfs.LRETURN:
+        dbsf Opdodfs.DRETURN:
             pop(2);
-            break;
-        case Opcodes.DUP:
+            brfbk;
+        dbsf Opdodfs.DUP:
             t1 = pop();
-            push(t1);
-            push(t1);
-            break;
-        case Opcodes.DUP_X1:
-            t1 = pop();
-            t2 = pop();
-            push(t1);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP_X2:
+            pusi(t1);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP_X1:
             t1 = pop();
             t2 = pop();
-            t3 = pop();
-            push(t1);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2:
-            t1 = pop();
-            t2 = pop();
-            push(t2);
-            push(t1);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2_X1:
+            pusi(t1);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
-            push(t2);
-            push(t1);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.DUP2_X2:
+            pusi(t1);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2:
+            t1 = pop();
+            t2 = pop();
+            pusi(t2);
+            pusi(t1);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2_X1:
+            t1 = pop();
+            t2 = pop();
+            t3 = pop();
+            pusi(t2);
+            pusi(t1);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.DUP2_X2:
             t1 = pop();
             t2 = pop();
             t3 = pop();
             t4 = pop();
-            push(t2);
-            push(t1);
-            push(t4);
-            push(t3);
-            push(t2);
-            push(t1);
-            break;
-        case Opcodes.SWAP:
+            pusi(t2);
+            pusi(t1);
+            pusi(t4);
+            pusi(t3);
+            pusi(t2);
+            pusi(t1);
+            brfbk;
+        dbsf Opdodfs.SWAP:
             t1 = pop();
             t2 = pop();
-            push(t1);
-            push(t2);
-            break;
-        case Opcodes.IADD:
-        case Opcodes.ISUB:
-        case Opcodes.IMUL:
-        case Opcodes.IDIV:
-        case Opcodes.IREM:
-        case Opcodes.IAND:
-        case Opcodes.IOR:
-        case Opcodes.IXOR:
-        case Opcodes.ISHL:
-        case Opcodes.ISHR:
-        case Opcodes.IUSHR:
-        case Opcodes.L2I:
-        case Opcodes.D2I:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
+            pusi(t1);
+            pusi(t2);
+            brfbk;
+        dbsf Opdodfs.IADD:
+        dbsf Opdodfs.ISUB:
+        dbsf Opdodfs.IMUL:
+        dbsf Opdodfs.IDIV:
+        dbsf Opdodfs.IREM:
+        dbsf Opdodfs.IAND:
+        dbsf Opdodfs.IOR:
+        dbsf Opdodfs.IXOR:
+        dbsf Opdodfs.ISHL:
+        dbsf Opdodfs.ISHR:
+        dbsf Opdodfs.IUSHR:
+        dbsf Opdodfs.L2I:
+        dbsf Opdodfs.D2I:
+        dbsf Opdodfs.FCMPL:
+        dbsf Opdodfs.FCMPG:
             pop(2);
-            push(INTEGER);
-            break;
-        case Opcodes.LADD:
-        case Opcodes.LSUB:
-        case Opcodes.LMUL:
-        case Opcodes.LDIV:
-        case Opcodes.LREM:
-        case Opcodes.LAND:
-        case Opcodes.LOR:
-        case Opcodes.LXOR:
+            pusi(INTEGER);
+            brfbk;
+        dbsf Opdodfs.LADD:
+        dbsf Opdodfs.LSUB:
+        dbsf Opdodfs.LMUL:
+        dbsf Opdodfs.LDIV:
+        dbsf Opdodfs.LREM:
+        dbsf Opdodfs.LAND:
+        dbsf Opdodfs.LOR:
+        dbsf Opdodfs.LXOR:
             pop(4);
-            push(LONG);
-            push(TOP);
-            break;
-        case Opcodes.FADD:
-        case Opcodes.FSUB:
-        case Opcodes.FMUL:
-        case Opcodes.FDIV:
-        case Opcodes.FREM:
-        case Opcodes.L2F:
-        case Opcodes.D2F:
+            pusi(LONG);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.FADD:
+        dbsf Opdodfs.FSUB:
+        dbsf Opdodfs.FMUL:
+        dbsf Opdodfs.FDIV:
+        dbsf Opdodfs.FREM:
+        dbsf Opdodfs.L2F:
+        dbsf Opdodfs.D2F:
             pop(2);
-            push(FLOAT);
-            break;
-        case Opcodes.DADD:
-        case Opcodes.DSUB:
-        case Opcodes.DMUL:
-        case Opcodes.DDIV:
-        case Opcodes.DREM:
+            pusi(FLOAT);
+            brfbk;
+        dbsf Opdodfs.DADD:
+        dbsf Opdodfs.DSUB:
+        dbsf Opdodfs.DMUL:
+        dbsf Opdodfs.DDIV:
+        dbsf Opdodfs.DREM:
             pop(4);
-            push(DOUBLE);
-            push(TOP);
-            break;
-        case Opcodes.LSHL:
-        case Opcodes.LSHR:
-        case Opcodes.LUSHR:
+            pusi(DOUBLE);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.LSHL:
+        dbsf Opdodfs.LSHR:
+        dbsf Opdodfs.LUSHR:
             pop(3);
-            push(LONG);
-            push(TOP);
-            break;
-        case Opcodes.IINC:
-            set(arg, INTEGER);
-            break;
-        case Opcodes.I2L:
-        case Opcodes.F2L:
+            pusi(LONG);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.IINC:
+            sft(brg, INTEGER);
+            brfbk;
+        dbsf Opdodfs.I2L:
+        dbsf Opdodfs.F2L:
             pop(1);
-            push(LONG);
-            push(TOP);
-            break;
-        case Opcodes.I2F:
+            pusi(LONG);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.I2F:
             pop(1);
-            push(FLOAT);
-            break;
-        case Opcodes.I2D:
-        case Opcodes.F2D:
+            pusi(FLOAT);
+            brfbk;
+        dbsf Opdodfs.I2D:
+        dbsf Opdodfs.F2D:
             pop(1);
-            push(DOUBLE);
-            push(TOP);
-            break;
-        case Opcodes.F2I:
-        case Opcodes.ARRAYLENGTH:
-        case Opcodes.INSTANCEOF:
+            pusi(DOUBLE);
+            pusi(TOP);
+            brfbk;
+        dbsf Opdodfs.F2I:
+        dbsf Opdodfs.ARRAYLENGTH:
+        dbsf Opdodfs.INSTANCEOF:
             pop(1);
-            push(INTEGER);
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
+            pusi(INTEGER);
+            brfbk;
+        dbsf Opdodfs.LCMP:
+        dbsf Opdodfs.DCMPL:
+        dbsf Opdodfs.DCMPG:
             pop(4);
-            push(INTEGER);
-            break;
-        case Opcodes.JSR:
-        case Opcodes.RET:
-            throw new RuntimeException(
-                    "JSR/RET are not supported with computeFrames option");
-        case Opcodes.GETSTATIC:
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.PUTSTATIC:
-            pop(item.strVal3);
-            break;
-        case Opcodes.GETFIELD:
+            pusi(INTEGER);
+            brfbk;
+        dbsf Opdodfs.JSR:
+        dbsf Opdodfs.RET:
+            tirow nfw RuntimfExdfption(
+                    "JSR/RET brf not supportfd witi domputfFrbmfs option");
+        dbsf Opdodfs.GETSTATIC:
+            pusi(dw, itfm.strVbl3);
+            brfbk;
+        dbsf Opdodfs.PUTSTATIC:
+            pop(itfm.strVbl3);
+            brfbk;
+        dbsf Opdodfs.GETFIELD:
             pop(1);
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.PUTFIELD:
-            pop(item.strVal3);
+            pusi(dw, itfm.strVbl3);
+            brfbk;
+        dbsf Opdodfs.PUTFIELD:
+            pop(itfm.strVbl3);
             pop();
-            break;
-        case Opcodes.INVOKEVIRTUAL:
-        case Opcodes.INVOKESPECIAL:
-        case Opcodes.INVOKESTATIC:
-        case Opcodes.INVOKEINTERFACE:
-            pop(item.strVal3);
-            if (opcode != Opcodes.INVOKESTATIC) {
+            brfbk;
+        dbsf Opdodfs.INVOKEVIRTUAL:
+        dbsf Opdodfs.INVOKESPECIAL:
+        dbsf Opdodfs.INVOKESTATIC:
+        dbsf Opdodfs.INVOKEINTERFACE:
+            pop(itfm.strVbl3);
+            if (opdodf != Opdodfs.INVOKESTATIC) {
                 t1 = pop();
-                if (opcode == Opcodes.INVOKESPECIAL
-                        && item.strVal2.charAt(0) == '<') {
+                if (opdodf == Opdodfs.INVOKESPECIAL
+                        && itfm.strVbl2.dibrAt(0) == '<') {
                     init(t1);
                 }
             }
-            push(cw, item.strVal3);
-            break;
-        case Opcodes.INVOKEDYNAMIC:
-            pop(item.strVal2);
-            push(cw, item.strVal2);
-            break;
-        case Opcodes.NEW:
-            push(UNINITIALIZED | cw.addUninitializedType(item.strVal1, arg));
-            break;
-        case Opcodes.NEWARRAY:
+            pusi(dw, itfm.strVbl3);
+            brfbk;
+        dbsf Opdodfs.INVOKEDYNAMIC:
+            pop(itfm.strVbl2);
+            pusi(dw, itfm.strVbl2);
+            brfbk;
+        dbsf Opdodfs.NEW:
+            pusi(UNINITIALIZED | dw.bddUninitiblizfdTypf(itfm.strVbl1, brg));
+            brfbk;
+        dbsf Opdodfs.NEWARRAY:
             pop();
-            switch (arg) {
-            case Opcodes.T_BOOLEAN:
-                push(ARRAY_OF | BOOLEAN);
-                break;
-            case Opcodes.T_CHAR:
-                push(ARRAY_OF | CHAR);
-                break;
-            case Opcodes.T_BYTE:
-                push(ARRAY_OF | BYTE);
-                break;
-            case Opcodes.T_SHORT:
-                push(ARRAY_OF | SHORT);
-                break;
-            case Opcodes.T_INT:
-                push(ARRAY_OF | INTEGER);
-                break;
-            case Opcodes.T_FLOAT:
-                push(ARRAY_OF | FLOAT);
-                break;
-            case Opcodes.T_DOUBLE:
-                push(ARRAY_OF | DOUBLE);
-                break;
-            // case Opcodes.T_LONG:
-            default:
-                push(ARRAY_OF | LONG);
-                break;
+            switdi (brg) {
+            dbsf Opdodfs.T_BOOLEAN:
+                pusi(ARRAY_OF | BOOLEAN);
+                brfbk;
+            dbsf Opdodfs.T_CHAR:
+                pusi(ARRAY_OF | CHAR);
+                brfbk;
+            dbsf Opdodfs.T_BYTE:
+                pusi(ARRAY_OF | BYTE);
+                brfbk;
+            dbsf Opdodfs.T_SHORT:
+                pusi(ARRAY_OF | SHORT);
+                brfbk;
+            dbsf Opdodfs.T_INT:
+                pusi(ARRAY_OF | INTEGER);
+                brfbk;
+            dbsf Opdodfs.T_FLOAT:
+                pusi(ARRAY_OF | FLOAT);
+                brfbk;
+            dbsf Opdodfs.T_DOUBLE:
+                pusi(ARRAY_OF | DOUBLE);
+                brfbk;
+            // dbsf Opdodfs.T_LONG:
+            dffbult:
+                pusi(ARRAY_OF | LONG);
+                brfbk;
             }
-            break;
-        case Opcodes.ANEWARRAY:
-            String s = item.strVal1;
+            brfbk;
+        dbsf Opdodfs.ANEWARRAY:
+            String s = itfm.strVbl1;
             pop();
-            if (s.charAt(0) == '[') {
-                push(cw, '[' + s);
-            } else {
-                push(ARRAY_OF | OBJECT | cw.addType(s));
+            if (s.dibrAt(0) == '[') {
+                pusi(dw, '[' + s);
+            } flsf {
+                pusi(ARRAY_OF | OBJECT | dw.bddTypf(s));
             }
-            break;
-        case Opcodes.CHECKCAST:
-            s = item.strVal1;
+            brfbk;
+        dbsf Opdodfs.CHECKCAST:
+            s = itfm.strVbl1;
             pop();
-            if (s.charAt(0) == '[') {
-                push(cw, s);
-            } else {
-                push(OBJECT | cw.addType(s));
+            if (s.dibrAt(0) == '[') {
+                pusi(dw, s);
+            } flsf {
+                pusi(OBJECT | dw.bddTypf(s));
             }
-            break;
-        // case Opcodes.MULTIANEWARRAY:
-        default:
-            pop(arg);
-            push(cw, item.strVal1);
-            break;
+            brfbk;
+        // dbsf Opdodfs.MULTIANEWARRAY:
+        dffbult:
+            pop(brg);
+            pusi(dw, itfm.strVbl1);
+            brfbk;
         }
     }
 
     /**
-     * Merges the input frame of the given basic block with the input and output
-     * frames of this basic block. Returns <tt>true</tt> if the input frame of
-     * the given label has been changed by this operation.
+     * Mfrgfs tif input frbmf of tif givfn bbsid blodk witi tif input bnd output
+     * frbmfs of tiis bbsid blodk. Rfturns <tt>truf</tt> if tif input frbmf of
+     * tif givfn lbbfl ibs bffn dibngfd by tiis opfrbtion.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param frame
-     *            the basic block whose input frame must be updated.
-     * @param edge
-     *            the kind of the {@link Edge} between this label and 'label'.
-     *            See {@link Edge#info}.
-     * @return <tt>true</tt> if the input frame of the given label has been
-     *         changed by this operation.
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm frbmf
+     *            tif bbsid blodk wiosf input frbmf must bf updbtfd.
+     * @pbrbm fdgf
+     *            tif kind of tif {@link Edgf} bftwffn tiis lbbfl bnd 'lbbfl'.
+     *            Sff {@link Edgf#info}.
+     * @rfturn <tt>truf</tt> if tif input frbmf of tif givfn lbbfl ibs bffn
+     *         dibngfd by tiis opfrbtion.
      */
-    boolean merge(final ClassWriter cw, final Frame frame, final int edge) {
-        boolean changed = false;
+    boolfbn mfrgf(finbl ClbssWritfr dw, finbl Frbmf frbmf, finbl int fdgf) {
+        boolfbn dibngfd = fblsf;
         int i, s, dim, kind, t;
 
-        int nLocal = inputLocals.length;
-        int nStack = inputStack.length;
-        if (frame.inputLocals == null) {
-            frame.inputLocals = new int[nLocal];
-            changed = true;
+        int nLodbl = inputLodbls.lfngti;
+        int nStbdk = inputStbdk.lfngti;
+        if (frbmf.inputLodbls == null) {
+            frbmf.inputLodbls = nfw int[nLodbl];
+            dibngfd = truf;
         }
 
-        for (i = 0; i < nLocal; ++i) {
-            if (outputLocals != null && i < outputLocals.length) {
-                s = outputLocals[i];
+        for (i = 0; i < nLodbl; ++i) {
+            if (outputLodbls != null && i < outputLodbls.lfngti) {
+                s = outputLodbls[i];
                 if (s == 0) {
-                    t = inputLocals[i];
-                } else {
+                    t = inputLodbls[i];
+                } flsf {
                     dim = s & DIM;
                     kind = s & KIND;
                     if (kind == BASE) {
                         t = s;
-                    } else {
+                    } flsf {
                         if (kind == LOCAL) {
-                            t = dim + inputLocals[s & VALUE];
-                        } else {
-                            t = dim + inputStack[nStack - (s & VALUE)];
+                            t = dim + inputLodbls[s & VALUE];
+                        } flsf {
+                            t = dim + inputStbdk[nStbdk - (s & VALUE)];
                         }
                         if ((s & TOP_IF_LONG_OR_DOUBLE) != 0
                                 && (t == LONG || t == DOUBLE)) {
@@ -1345,147 +1345,147 @@ final class Frame {
                         }
                     }
                 }
-            } else {
-                t = inputLocals[i];
+            } flsf {
+                t = inputLodbls[i];
             }
-            if (initializations != null) {
-                t = init(cw, t);
+            if (initiblizbtions != null) {
+                t = init(dw, t);
             }
-            changed |= merge(cw, t, frame.inputLocals, i);
+            dibngfd |= mfrgf(dw, t, frbmf.inputLodbls, i);
         }
 
-        if (edge > 0) {
-            for (i = 0; i < nLocal; ++i) {
-                t = inputLocals[i];
-                changed |= merge(cw, t, frame.inputLocals, i);
+        if (fdgf > 0) {
+            for (i = 0; i < nLodbl; ++i) {
+                t = inputLodbls[i];
+                dibngfd |= mfrgf(dw, t, frbmf.inputLodbls, i);
             }
-            if (frame.inputStack == null) {
-                frame.inputStack = new int[1];
-                changed = true;
+            if (frbmf.inputStbdk == null) {
+                frbmf.inputStbdk = nfw int[1];
+                dibngfd = truf;
             }
-            changed |= merge(cw, edge, frame.inputStack, 0);
-            return changed;
+            dibngfd |= mfrgf(dw, fdgf, frbmf.inputStbdk, 0);
+            rfturn dibngfd;
         }
 
-        int nInputStack = inputStack.length + owner.inputStackTop;
-        if (frame.inputStack == null) {
-            frame.inputStack = new int[nInputStack + outputStackTop];
-            changed = true;
+        int nInputStbdk = inputStbdk.lfngti + ownfr.inputStbdkTop;
+        if (frbmf.inputStbdk == null) {
+            frbmf.inputStbdk = nfw int[nInputStbdk + outputStbdkTop];
+            dibngfd = truf;
         }
 
-        for (i = 0; i < nInputStack; ++i) {
-            t = inputStack[i];
-            if (initializations != null) {
-                t = init(cw, t);
+        for (i = 0; i < nInputStbdk; ++i) {
+            t = inputStbdk[i];
+            if (initiblizbtions != null) {
+                t = init(dw, t);
             }
-            changed |= merge(cw, t, frame.inputStack, i);
+            dibngfd |= mfrgf(dw, t, frbmf.inputStbdk, i);
         }
-        for (i = 0; i < outputStackTop; ++i) {
-            s = outputStack[i];
+        for (i = 0; i < outputStbdkTop; ++i) {
+            s = outputStbdk[i];
             dim = s & DIM;
             kind = s & KIND;
             if (kind == BASE) {
                 t = s;
-            } else {
+            } flsf {
                 if (kind == LOCAL) {
-                    t = dim + inputLocals[s & VALUE];
-                } else {
-                    t = dim + inputStack[nStack - (s & VALUE)];
+                    t = dim + inputLodbls[s & VALUE];
+                } flsf {
+                    t = dim + inputStbdk[nStbdk - (s & VALUE)];
                 }
                 if ((s & TOP_IF_LONG_OR_DOUBLE) != 0
                         && (t == LONG || t == DOUBLE)) {
                     t = TOP;
                 }
             }
-            if (initializations != null) {
-                t = init(cw, t);
+            if (initiblizbtions != null) {
+                t = init(dw, t);
             }
-            changed |= merge(cw, t, frame.inputStack, nInputStack + i);
+            dibngfd |= mfrgf(dw, t, frbmf.inputStbdk, nInputStbdk + i);
         }
-        return changed;
+        rfturn dibngfd;
     }
 
     /**
-     * Merges the type at the given index in the given type array with the given
-     * type. Returns <tt>true</tt> if the type array has been modified by this
-     * operation.
+     * Mfrgfs tif typf bt tif givfn indfx in tif givfn typf brrby witi tif givfn
+     * typf. Rfturns <tt>truf</tt> if tif typf brrby ibs bffn modififd by tiis
+     * opfrbtion.
      *
-     * @param cw
-     *            the ClassWriter to which this label belongs.
-     * @param t
-     *            the type with which the type array element must be merged.
-     * @param types
-     *            an array of types.
-     * @param index
-     *            the index of the type that must be merged in 'types'.
-     * @return <tt>true</tt> if the type array has been modified by this
-     *         operation.
+     * @pbrbm dw
+     *            tif ClbssWritfr to wiidi tiis lbbfl bflongs.
+     * @pbrbm t
+     *            tif typf witi wiidi tif typf brrby flfmfnt must bf mfrgfd.
+     * @pbrbm typfs
+     *            bn brrby of typfs.
+     * @pbrbm indfx
+     *            tif indfx of tif typf tibt must bf mfrgfd in 'typfs'.
+     * @rfturn <tt>truf</tt> if tif typf brrby ibs bffn modififd by tiis
+     *         opfrbtion.
      */
-    private static boolean merge(final ClassWriter cw, int t,
-            final int[] types, final int index) {
-        int u = types[index];
+    privbtf stbtid boolfbn mfrgf(finbl ClbssWritfr dw, int t,
+            finbl int[] typfs, finbl int indfx) {
+        int u = typfs[indfx];
         if (u == t) {
-            // if the types are equal, merge(u,t)=u, so there is no change
-            return false;
+            // if tif typfs brf fqubl, mfrgf(u,t)=u, so tifrf is no dibngf
+            rfturn fblsf;
         }
         if ((t & ~DIM) == NULL) {
             if (u == NULL) {
-                return false;
+                rfturn fblsf;
             }
             t = NULL;
         }
         if (u == 0) {
-            // if types[index] has never been assigned, merge(u,t)=t
-            types[index] = t;
-            return true;
+            // if typfs[indfx] ibs nfvfr bffn bssignfd, mfrgf(u,t)=t
+            typfs[indfx] = t;
+            rfturn truf;
         }
         int v;
         if ((u & BASE_KIND) == OBJECT || (u & DIM) != 0) {
-            // if u is a reference type of any dimension
+            // if u is b rfffrfndf typf of bny dimfnsion
             if (t == NULL) {
-                // if t is the NULL type, merge(u,t)=u, so there is no change
-                return false;
-            } else if ((t & (DIM | BASE_KIND)) == (u & (DIM | BASE_KIND))) {
-                // if t and u have the same dimension and same base kind
+                // if t is tif NULL typf, mfrgf(u,t)=u, so tifrf is no dibngf
+                rfturn fblsf;
+            } flsf if ((t & (DIM | BASE_KIND)) == (u & (DIM | BASE_KIND))) {
+                // if t bnd u ibvf tif sbmf dimfnsion bnd sbmf bbsf kind
                 if ((u & BASE_KIND) == OBJECT) {
-                    // if t is also a reference type, and if u and t have the
-                    // same dimension merge(u,t) = dim(t) | common parent of the
-                    // element types of u and t
+                    // if t is blso b rfffrfndf typf, bnd if u bnd t ibvf tif
+                    // sbmf dimfnsion mfrgf(u,t) = dim(t) | dommon pbrfnt of tif
+                    // flfmfnt typfs of u bnd t
                     v = (t & DIM) | OBJECT
-                            | cw.getMergedType(t & BASE_VALUE, u & BASE_VALUE);
-                } else {
-                    // if u and t are array types, but not with the same element
-                    // type, merge(u,t) = dim(u) - 1 | java/lang/Object
+                            | dw.gftMfrgfdTypf(t & BASE_VALUE, u & BASE_VALUE);
+                } flsf {
+                    // if u bnd t brf brrby typfs, but not witi tif sbmf flfmfnt
+                    // typf, mfrgf(u,t) = dim(u) - 1 | jbvb/lbng/Objfdt
                     int vdim = ELEMENT_OF + (u & DIM);
-                    v = vdim | OBJECT | cw.addType("java/lang/Object");
+                    v = vdim | OBJECT | dw.bddTypf("jbvb/lbng/Objfdt");
                 }
-            } else if ((t & BASE_KIND) == OBJECT || (t & DIM) != 0) {
-                // if t is any other reference or array type, the merged type
-                // is min(udim, tdim) | java/lang/Object, where udim is the
-                // array dimension of u, minus 1 if u is an array type with a
-                // primitive element type (and similarly for tdim).
+            } flsf if ((t & BASE_KIND) == OBJECT || (t & DIM) != 0) {
+                // if t is bny otifr rfffrfndf or brrby typf, tif mfrgfd typf
+                // is min(udim, tdim) | jbvb/lbng/Objfdt, wifrf udim is tif
+                // brrby dimfnsion of u, minus 1 if u is bn brrby typf witi b
+                // primitivf flfmfnt typf (bnd similbrly for tdim).
                 int tdim = (((t & DIM) == 0 || (t & BASE_KIND) == OBJECT) ? 0
                         : ELEMENT_OF) + (t & DIM);
                 int udim = (((u & DIM) == 0 || (u & BASE_KIND) == OBJECT) ? 0
                         : ELEMENT_OF) + (u & DIM);
-                v = Math.min(tdim, udim) | OBJECT
-                        | cw.addType("java/lang/Object");
-            } else {
-                // if t is any other type, merge(u,t)=TOP
+                v = Mbti.min(tdim, udim) | OBJECT
+                        | dw.bddTypf("jbvb/lbng/Objfdt");
+            } flsf {
+                // if t is bny otifr typf, mfrgf(u,t)=TOP
                 v = TOP;
             }
-        } else if (u == NULL) {
-            // if u is the NULL type, merge(u,t)=t,
-            // or TOP if t is not a reference type
+        } flsf if (u == NULL) {
+            // if u is tif NULL typf, mfrgf(u,t)=t,
+            // or TOP if t is not b rfffrfndf typf
             v = (t & BASE_KIND) == OBJECT || (t & DIM) != 0 ? t : TOP;
-        } else {
-            // if u is any other type, merge(u,t)=TOP whatever t
+        } flsf {
+            // if u is bny otifr typf, mfrgf(u,t)=TOP wibtfvfr t
             v = TOP;
         }
         if (u != v) {
-            types[index] = v;
-            return true;
+            typfs[indfx] = v;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 }

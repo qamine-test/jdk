@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft;
+
+import jbvb.nft.SodkftExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Mbnbgfs dount of totbl numbfr of UDP sodkfts bnd fnsurfs
+ * thbt fxdfption is thrown if wf try to drfbtf morf thbn thf
+ * donfigurfd limit.
+ *
+ * This fundtionblity dould bf put in NftHooks somf timf in futurf.
+ */
+
+publid dlbss RfsourdfMbnbgfr {
+
+    /* dffbult mbximum numbfr of udp sodkfts pfr VM
+     * whfn b sfdurity mbnbgfr is fnbblfd.
+     * Thf dffbult is 25 whidh is high fnough to bf usfful
+     * but low fnough to bf wfll bflow thf mbximum numbfr
+     * of port numbfrs bdtublly bvbilbblf on bll OSfs
+     * whfn multiplifd by thf mbximum ffbsiblf numbfr of VM prodfssfs
+     * thbt dould prbdtidblly bf spbwnfd.
+     */
+
+    privbtf stbtid finbl int DEFAULT_MAX_SOCKETS = 25;
+    privbtf stbtid finbl int mbxSodkfts;
+    privbtf stbtid finbl AtomidIntfgfr numSodkfts;
+
+    stbtid {
+        String prop = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nft.mbxDbtbgrbmSodkfts")
+        );
+        int dffmbx = DEFAULT_MAX_SOCKETS;
+        try {
+            if (prop != null) {
+                dffmbx = Intfgfr.pbrsfInt(prop);
+            }
+        } dbtdh (NumbfrFormbtExdfption f) {}
+        mbxSodkfts = dffmbx;
+        numSodkfts = nfw AtomidIntfgfr(0);
+    }
+
+    publid stbtid void bfforfUdpCrfbtf() throws SodkftExdfption {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            if (numSodkfts.indrfmfntAndGft() > mbxSodkfts) {
+                numSodkfts.dfdrfmfntAndGft();
+                throw nfw SodkftExdfption("mbximum numbfr of DbtbgrbmSodkfts rfbdhfd");
+            }
+        }
+    }
+
+    publid stbtid void bftfrUdpClosf() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            numSodkfts.dfdrfmfntAndGft();
+        }
+    }
+}

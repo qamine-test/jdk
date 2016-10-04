@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect.spi;
+pbdkbgf dom.sun.jdi.donnfdt.spi;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * A connection between a debugger and a target VM which it debugs.
+ * A donnfdtion bftwffn b dfbuggfr bnd b tbrgft VM wiidi it dfbugs.
  *
- * <p> A Connection represents a bi-directional communication channel
- * between a debugger and a target VM. A Connection is created when
- * {@link com.sun.jdi.connect.spi.TransportService TransportService}
- * establishes a connection and successfully handshakes with a target
- * VM. A TransportService implementation provides a reliable
- * JDWP packet transportation service and consequently a Connection
- * provides a reliable flow of JDWP packets between the debugger
- * and the target VM. A Connection is stream oriented, that is, the
- * JDWP packets written to a connection are read by the target VM
- * in the order in which they were written. Similiarly packets written
- * to a Connection by the target VM are read by the debugger in the
- * order in which they were written.
+ * <p> A Connfdtion rfprfsfnts b bi-dirfdtionbl dommunidbtion dibnnfl
+ * bftwffn b dfbuggfr bnd b tbrgft VM. A Connfdtion is drfbtfd wifn
+ * {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf TrbnsportSfrvidf}
+ * fstbblisifs b donnfdtion bnd suddfssfully ibndsibkfs witi b tbrgft
+ * VM. A TrbnsportSfrvidf implfmfntbtion providfs b rflibblf
+ * JDWP pbdkft trbnsportbtion sfrvidf bnd donsfqufntly b Connfdtion
+ * providfs b rflibblf flow of JDWP pbdkfts bftwffn tif dfbuggfr
+ * bnd tif tbrgft VM. A Connfdtion is strfbm orifntfd, tibt is, tif
+ * JDWP pbdkfts writtfn to b donnfdtion brf rfbd by tif tbrgft VM
+ * in tif ordfr in wiidi tify wfrf writtfn. Similibrly pbdkfts writtfn
+ * to b Connfdtion by tif tbrgft VM brf rfbd by tif dfbuggfr in tif
+ * ordfr in wiidi tify wfrf writtfn.
  *
- * <p> A connection is either open or closed. It is open upon creation,
- * and remains open until it is closed. Once closed, it remains closed,
- * and any attempt to invoke an I/O operation upon it will cause a
- * {@link ClosedConnectionException} to be thrown. A connection can
- * be tested by invoking the {@link #isOpen isOpen} method.
+ * <p> A donnfdtion is fitifr opfn or dlosfd. It is opfn upon drfbtion,
+ * bnd rfmbins opfn until it is dlosfd. Ondf dlosfd, it rfmbins dlosfd,
+ * bnd bny bttfmpt to invokf bn I/O opfrbtion upon it will dbusf b
+ * {@link ClosfdConnfdtionExdfption} to bf tirown. A donnfdtion dbn
+ * bf tfstfd by invoking tif {@link #isOpfn isOpfn} mftiod.
  *
- * <p> A Connection is safe for access by multiple concurrent threads,
- * although at most one thread may be reading and at most one thread may
- * be writing at any given time. </p>
+ * <p> A Connfdtion is sbff for bddfss by multiplf dondurrfnt tirfbds,
+ * bltiougi bt most onf tirfbd mby bf rfbding bnd bt most onf tirfbd mby
+ * bf writing bt bny givfn timf. </p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-@jdk.Exported
-public abstract class Connection {
+@jdk.Exportfd
+publid bbstrbdt dlbss Connfdtion {
 
     /**
-     * Reads a packet from the target VM.
+     * Rfbds b pbdkft from tif tbrgft VM.
      *
-     * <p> Attempts to read a JDWP packet from the target VM.
-     * A read operation may block indefinitely and only returns
-     * when it reads all bytes of a packet, or in the case of a
-     * transport service that is based on a stream-oriented
-     * communication protocol, the end of stream is encountered.
+     * <p> Attfmpts to rfbd b JDWP pbdkft from tif tbrgft VM.
+     * A rfbd opfrbtion mby blodk indffinitfly bnd only rfturns
+     * wifn it rfbds bll bytfs of b pbdkft, or in tif dbsf of b
+     * trbnsport sfrvidf tibt is bbsfd on b strfbm-orifntfd
+     * dommunidbtion protodol, tif fnd of strfbm is fndountfrfd.
      *
-     * <p> Reading a packet does not do any integrity checking on
-     * the packet aside from a check that the length of the packet
-     * (as indicated by the value of the <tt>length</tt> field, the
-     * first four bytes of the packet) is 11 or more bytes.
-     * If the value of the <tt>length</tt> value is less then 11
-     * then an <tt>IOException</tt> is thrown.
+     * <p> Rfbding b pbdkft dofs not do bny intfgrity difdking on
+     * tif pbdkft bsidf from b difdk tibt tif lfngti of tif pbdkft
+     * (bs indidbtfd by tif vbluf of tif <tt>lfngti</tt> fifld, tif
+     * first four bytfs of tif pbdkft) is 11 or morf bytfs.
+     * If tif vbluf of tif <tt>lfngti</tt> vbluf is lfss tifn 11
+     * tifn bn <tt>IOExdfption</tt> is tirown.
      *
-     * <p> Returns a byte array of a length equal to the length
-     * of the received packet, or a byte array of length 0 when an
-     * end of stream is encountered. If end of stream is encountered
-     * after some, but not all bytes of a packet, are read then it
-     * is considered an I/O error and an <tt>IOException</tt> is
-     * thrown. The first byte of the packet is stored in element
-     * <tt>0</tt> of the byte array, the second in element <tt>1</tt>,
-     * and so on. The bytes in the byte array are laid out as per the
-     * <a href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * JDWP specification</a>. That is, all fields in the packet
-     * are in big endian order as per the JDWP specification.
+     * <p> Rfturns b bytf brrby of b lfngti fqubl to tif lfngti
+     * of tif rfdfivfd pbdkft, or b bytf brrby of lfngti 0 wifn bn
+     * fnd of strfbm is fndountfrfd. If fnd of strfbm is fndountfrfd
+     * bftfr somf, but not bll bytfs of b pbdkft, brf rfbd tifn it
+     * is donsidfrfd bn I/O frror bnd bn <tt>IOExdfption</tt> is
+     * tirown. Tif first bytf of tif pbdkft is storfd in flfmfnt
+     * <tt>0</tt> of tif bytf brrby, tif sfdond in flfmfnt <tt>1</tt>,
+     * bnd so on. Tif bytfs in tif bytf brrby brf lbid out bs pfr tif
+     * <b irff="../../../../../../../../../tfdinotfs/guidfs/jpdb/jdwp-spfd.itml">
+     * JDWP spfdifidbtion</b>. Tibt is, bll fiflds in tif pbdkft
+     * brf in big fndibn ordfr bs pfr tif JDWP spfdifidbtion.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a {@link #readPacket readPacket} on this
-     * connection then the invocation of this method will block until the
-     * first operation is complete. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If bnotifr tirfbd ibs
+     * blrfbdy initibtfd b {@link #rfbdPbdkft rfbdPbdkft} on tiis
+     * donnfdtion tifn tif invodbtion of tiis mftiod will blodk until tif
+     * first opfrbtion is domplftf. </p>
      *
-     * @return  the packet read from the target VM
+     * @rfturn  tif pbdkft rfbd from tif tbrgft VM
      *
-     * @throws  ClosedConnectionException
-     *          If the connection is closed, or another thread closes
-     *          the connection while the readPacket is in progress.
+     * @tirows  ClosfdConnfdtionExdfption
+     *          If tif donnfdtion is dlosfd, or bnotifr tirfbd dlosfs
+     *          tif donnfdtion wiilf tif rfbdPbdkft is in progrfss.
      *
-     * @throws  java.io.IOException
-     *          If the length of the packet (as indictaed by the first
-     *          4 bytes) is less than 11 bytes, or an I/O error occurs.
+     * @tirows  jbvb.io.IOExdfption
+     *          If tif lfngti of tif pbdkft (bs indidtbfd by tif first
+     *          4 bytfs) is lfss tibn 11 bytfs, or bn I/O frror oddurs.
      *
      *
      */
-    public abstract byte[] readPacket() throws IOException;
+    publid bbstrbdt bytf[] rfbdPbdkft() tirows IOExdfption;
 
     /**
-     * Writes a packet to the target VM.
+     * Writfs b pbdkft to tif tbrgft VM.
      *
-     * <p> Attempts to write, or send, a JDWP packet to the target VM.
-     * A write operation only returns after writing the entire packet
-     * to the target VM. Writing the entire packet does not mean
-     * the entire packet has been transmitted to the target VM
-     * but rather that all bytes have been written to the
-     * transport service. A transport service based on a TCP/IP connection
-     * may, for example, buffer some or all of the packet before
-     * transmission on the network.
+     * <p> Attfmpts to writf, or sfnd, b JDWP pbdkft to tif tbrgft VM.
+     * A writf opfrbtion only rfturns bftfr writing tif fntirf pbdkft
+     * to tif tbrgft VM. Writing tif fntirf pbdkft dofs not mfbn
+     * tif fntirf pbdkft ibs bffn trbnsmittfd to tif tbrgft VM
+     * but rbtifr tibt bll bytfs ibvf bffn writtfn to tif
+     * trbnsport sfrvidf. A trbnsport sfrvidf bbsfd on b TCP/IP donnfdtion
+     * mby, for fxbmplf, bufffr somf or bll of tif pbdkft bfforf
+     * trbnsmission on tif nftwork.
      *
-     * <p> The byte array provided to this method should be laid out
-     * as per the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * JDWP specification</a>. That is, all fields in the packet
-     * are in big endian order. The first byte, that is element
-     * <tt>pkt[0]</tt>, is the first byte of the <tt>length</tt> field.
-     * <tt>pkt[1]</tt> is the second byte of the <tt>length</tt> field,
-     * and so on.
+     * <p> Tif bytf brrby providfd to tiis mftiod siould bf lbid out
+     * bs pfr tif <b
+     * irff="../../../../../../../../../tfdinotfs/guidfs/jpdb/jdwp-spfd.itml">
+     * JDWP spfdifidbtion</b>. Tibt is, bll fiflds in tif pbdkft
+     * brf in big fndibn ordfr. Tif first bytf, tibt is flfmfnt
+     * <tt>pkt[0]</tt>, is tif first bytf of tif <tt>lfngti</tt> fifld.
+     * <tt>pkt[1]</tt> is tif sfdond bytf of tif <tt>lfngti</tt> fifld,
+     * bnd so on.
      *
-     * <p> Writing a packet does not do any integrity checking on
-     * the packet aside from checking the packet length. Checking
-     * the packet length requires checking that the value of the
-     * <tt>length</tt> field (as indicated by the first four bytes
-     * of the packet) is 11 or greater. Consequently the length of
-     * the byte array provided to this method, that is
-     * <tt>pkt.length</tt>, must be 11 or more, and must be equal
-     * or greater than the value of the <tt>length</tt> field. If the
-     * length of the byte array is greater than the value of
-     * the <tt>length</tt> field then all bytes from element
-     * <tt>pkt[length]</tt> onwards are ignored. In other words,
-     * any additional bytes that follow the packet in the byte
-     * array are ignored and will not be transmitted to the target
+     * <p> Writing b pbdkft dofs not do bny intfgrity difdking on
+     * tif pbdkft bsidf from difdking tif pbdkft lfngti. Cifdking
+     * tif pbdkft lfngti rfquirfs difdking tibt tif vbluf of tif
+     * <tt>lfngti</tt> fifld (bs indidbtfd by tif first four bytfs
+     * of tif pbdkft) is 11 or grfbtfr. Consfqufntly tif lfngti of
+     * tif bytf brrby providfd to tiis mftiod, tibt is
+     * <tt>pkt.lfngti</tt>, must bf 11 or morf, bnd must bf fqubl
+     * or grfbtfr tibn tif vbluf of tif <tt>lfngti</tt> fifld. If tif
+     * lfngti of tif bytf brrby is grfbtfr tibn tif vbluf of
+     * tif <tt>lfngti</tt> fifld tifn bll bytfs from flfmfnt
+     * <tt>pkt[lfngti]</tt> onwbrds brf ignorfd. In otifr words,
+     * bny bdditionbl bytfs tibt follow tif pbdkft in tif bytf
+     * brrby brf ignorfd bnd will not bf trbnsmittfd to tif tbrgft
      * VM.
      *
-     * <p> A write operation may block or may complete immediately.
-     * The exact circumstances when an operation blocks depends on
-     * the transport service. In the case of a TCP/IP connection to
-     * the target VM, the writePacket method may block if there is
-     * network congestion or there is insufficient space to buffer
-     * the packet in the underlying network system.
+     * <p> A writf opfrbtion mby blodk or mby domplftf immfdibtfly.
+     * Tif fxbdt dirdumstbndfs wifn bn opfrbtion blodks dfpfnds on
+     * tif trbnsport sfrvidf. In tif dbsf of b TCP/IP donnfdtion to
+     * tif tbrgft VM, tif writfPbdkft mftiod mby blodk if tifrf is
+     * nftwork dongfstion or tifrf is insuffidifnt spbdf to bufffr
+     * tif pbdkft in tif undfrlying nftwork systfm.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a write operation upon this Connection then
-     * a subsequent invocation of this method will block until the first
-     * operation is complete. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If bnotifr tirfbd ibs
+     * blrfbdy initibtfd b writf opfrbtion upon tiis Connfdtion tifn
+     * b subsfqufnt invodbtion of tiis mftiod will blodk until tif first
+     * opfrbtion is domplftf. </p>
      *
-     * @param   pkt
-     *          The packet to write to the target VM.
+     * @pbrbm   pkt
+     *          Tif pbdkft to writf to tif tbrgft VM.
      *
-     * @throws  ClosedConnectionException
-     *          If the connection is closed, or another thread closes
-     *          the connection while the write operation is in progress.
+     * @tirows  ClosfdConnfdtionExdfption
+     *          If tif donnfdtion is dlosfd, or bnotifr tirfbd dlosfs
+     *          tif donnfdtion wiilf tif writf opfrbtion is in progrfss.
      *
-     * @throws  java.io.IOException
-     *          If an I/O error occurs.
+     * @tirows  jbvb.io.IOExdfption
+     *          If bn I/O frror oddurs.
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the <tt>length</tt> field is invalid,
-     *          or the byte array is of insufficient length.
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf of tif <tt>lfngti</tt> fifld is invblid,
+     *          or tif bytf brrby is of insuffidifnt lfngti.
      */
-    public abstract void writePacket(byte pkt[]) throws IOException;
+    publid bbstrbdt void writfPbdkft(bytf pkt[]) tirows IOExdfption;
 
     /**
-     * Closes this connection.
+     * Closfs tiis donnfdtion.
      *
-     * <p> If the connection is already closed then invoking this method
-     * has no effect. After a connection is closed, any further attempt
-     * calls to {@link #readPacket readPacket} or {@link #writePacket
-     * writePacket} will throw a {@link ClosedConnectionException}.
+     * <p> If tif donnfdtion is blrfbdy dlosfd tifn invoking tiis mftiod
+     * ibs no ffffdt. Aftfr b donnfdtion is dlosfd, bny furtifr bttfmpt
+     * dblls to {@link #rfbdPbdkft rfbdPbdkft} or {@link #writfPbdkft
+     * writfPbdkft} will tirow b {@link ClosfdConnfdtionExdfption}.
      *
-     * <p> Any thread currently blocked in an I/O operation ({@link
-     * #readPacket readPacket} or {@link #writePacket writePacket})
-     * will throw a {@link ClosedConnectionException}).
+     * <p> Any tirfbd durrfntly blodkfd in bn I/O opfrbtion ({@link
+     * #rfbdPbdkft rfbdPbdkft} or {@link #writfPbdkft writfPbdkft})
+     * will tirow b {@link ClosfdConnfdtionExdfption}).
      *
-     * <p> This method may be invoked at any time.  If some other thread has
-     * already invoked it, however, then another invocation will block until
-     * the first invocation is complete, after which it will return without
-     * effect. </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If somf otifr tirfbd ibs
+     * blrfbdy invokfd it, iowfvfr, tifn bnotifr invodbtion will blodk until
+     * tif first invodbtion is domplftf, bftfr wiidi it will rfturn witiout
+     * ffffdt. </p>
      *
-     * @throws  java.io.IOException
-     *          If an I/O error occurs
+     * @tirows  jbvb.io.IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract void close() throws IOException;
+    publid bbstrbdt void dlosf() tirows IOExdfption;
 
     /**
-     * Tells whether or not this connection is open.  </p>
+     * Tflls wiftifr or not tiis donnfdtion is opfn.  </p>
      *
-     * @return <tt>true</tt> if, and only if, this connection is open
+     * @rfturn <tt>truf</tt> if, bnd only if, tiis donnfdtion is opfn
      */
-    public abstract boolean isOpen();
+    publid bbstrbdt boolfbn isOpfn();
 }

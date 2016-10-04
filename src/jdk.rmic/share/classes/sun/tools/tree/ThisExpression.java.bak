@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ThisExpression extends Expression {
-    LocalMember field;
-    Expression implementation;
-    Expression outerArg;
+publid
+dlbss TiisExprfssion fxtfnds Exprfssion {
+    LodblMfmbfr fifld;
+    Exprfssion implfmfntbtion;
+    Exprfssion outfrArg;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public ThisExpression(long where) {
-        super(THIS, where, Type.tObject);
+    publid TiisExprfssion(long wifrf) {
+        supfr(THIS, wifrf, Typf.tObjfdt);
     }
-    protected ThisExpression(int op, long where) {
-        super(op, where, Type.tObject);
+    protfdtfd TiisExprfssion(int op, long wifrf) {
+        supfr(op, wifrf, Typf.tObjfdt);
     }
-    public ThisExpression(long where, LocalMember field) {
-        super(THIS, where, Type.tObject);
-        this.field = field;
-        field.readcount++;
+    publid TiisExprfssion(long wifrf, LodblMfmbfr fifld) {
+        supfr(THIS, wifrf, Typf.tObjfdt);
+        tiis.fifld = fifld;
+        fifld.rfbddount++;
     }
-    public ThisExpression(long where, Context ctx) {
-        super(THIS, where, Type.tObject);
-        field = ctx.getLocalField(idThis);
-        field.readcount++;
-    }
-
-    /**
-     * Constructor for "x.this()"
-     */
-    public ThisExpression(long where, Expression outerArg) {
-        this(where);
-        this.outerArg = outerArg;
-    }
-
-    public Expression getImplementation() {
-        if (implementation != null)
-            return implementation;
-        return this;
+    publid TiisExprfssion(long wifrf, Contfxt dtx) {
+        supfr(THIS, wifrf, Typf.tObjfdt);
+        fifld = dtx.gftLodblFifld(idTiis);
+        fifld.rfbddount++;
     }
 
     /**
-     * From the 'this' in an expression of the form outer.this(...),
-     * or the 'super' in an expression of the form outer.super(...),
-     * return the "outer" expression, or null if there is none.
+     * Construdtor for "x.tiis()"
      */
-    public Expression getOuterArg() {
-        return outerArg;
+    publid TiisExprfssion(long wifrf, Exprfssion outfrArg) {
+        tiis(wifrf);
+        tiis.outfrArg = outfrArg;
+    }
+
+    publid Exprfssion gftImplfmfntbtion() {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion;
+        rfturn tiis;
     }
 
     /**
-     * Check expression
+     * From tif 'tiis' in bn fxprfssion of tif form outfr.tiis(...),
+     * or tif 'supfr' in bn fxprfssion of tif form outfr.supfr(...),
+     * rfturn tif "outfr" fxprfssion, or null if tifrf is nonf.
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        if (ctx.field.isStatic()) {
-            env.error(where, "undef.var", opNames[op]);
-            type = Type.tError;
-            return vset;
-        }
-        if (field == null) {
-            field = ctx.getLocalField(idThis);
-            field.readcount++;
-        }
-        if (field.scopeNumber < ctx.frameNumber) {
-            // get a "this$C" copy via the current object
-            implementation = ctx.makeReference(env, field);
-        }
-        if (!vset.testVar(field.number)) {
-            env.error(where, "access.inst.before.super", opNames[op]);
-        }
-        if (field == null) {
-            type = ctx.field.getClassDeclaration().getType();
-        } else {
-            type = field.getType();
-        }
-        return vset;
-    }
-
-    public boolean isNonNull() {
-        return true;
-    }
-
-    // A 'ThisExpression' node can never appear on the LHS of an assignment in a correct
-    // program, but handle this case anyhow to provide a safe error recovery.
-
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
-        return null;
-    }
-
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        return null;
+    publid Exprfssion gftOutfrArg() {
+        rfturn outfrArg;
     }
 
     /**
-     * Inline
+     * Cifdk fxprfssion
      */
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineValue(env, ctx);
-        if (field != null && field.isInlineable(env, false)) {
-            Expression e = (Expression)field.getValue(env);
-            //System.out.println("INLINE = "+ e + ", THIS");
-            if (e != null) {
-                e = e.copyInline(ctx);
-                e.type = type;  // in case op==SUPER
-                return e;
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (dtx.fifld.isStbtid()) {
+            fnv.frror(wifrf, "undff.vbr", opNbmfs[op]);
+            typf = Typf.tError;
+            rfturn vsft;
+        }
+        if (fifld == null) {
+            fifld = dtx.gftLodblFifld(idTiis);
+            fifld.rfbddount++;
+        }
+        if (fifld.sdopfNumbfr < dtx.frbmfNumbfr) {
+            // gft b "tiis$C" dopy vib tif durrfnt objfdt
+            implfmfntbtion = dtx.mbkfRfffrfndf(fnv, fifld);
+        }
+        if (!vsft.tfstVbr(fifld.numbfr)) {
+            fnv.frror(wifrf, "bddfss.inst.bfforf.supfr", opNbmfs[op]);
+        }
+        if (fifld == null) {
+            typf = dtx.fifld.gftClbssDfdlbrbtion().gftTypf();
+        } flsf {
+            typf = fifld.gftTypf();
+        }
+        rfturn vsft;
+    }
+
+    publid boolfbn isNonNull() {
+        rfturn truf;
+    }
+
+    // A 'TiisExprfssion' nodf dbn nfvfr bppfbr on tif LHS of bn bssignmfnt in b dorrfdt
+    // progrbm, but ibndlf tiis dbsf bnyiow to providf b sbff frror rfdovfry.
+
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
+    }
+
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.inlinfVbluf(fnv, dtx);
+        if (fifld != null && fifld.isInlinfbblf(fnv, fblsf)) {
+            Exprfssion f = (Exprfssion)fifld.gftVbluf(fnv);
+            //Systfm.out.println("INLINE = "+ f + ", THIS");
+            if (f != null) {
+                f = f.dopyInlinf(dtx);
+                f.typf = typf;  // in dbsf op==SUPER
+                rfturn f;
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
      */
-    public Expression copyInline(Context ctx) {
-        if (implementation != null)
-            return implementation.copyInline(ctx);
-        ThisExpression e = (ThisExpression)clone();
-        if (field == null) {
-            // The expression is copied into the context of a method
-            e.field = ctx.getLocalField(idThis);
-            e.field.readcount++;
-        } else {
-            e.field = field.getCurrentInlineCopy(ctx);
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.dopyInlinf(dtx);
+        TiisExprfssion f = (TiisExprfssion)dlonf();
+        if (fifld == null) {
+            // Tif fxprfssion is dopifd into tif dontfxt of b mftiod
+            f.fifld = dtx.gftLodblFifld(idTiis);
+            f.fifld.rfbddount++;
+        } flsf {
+            f.fifld = fifld.gftCurrfntInlinfCopy(dtx);
         }
-        if (outerArg != null) {
-            e.outerArg = outerArg.copyInline(ctx);
+        if (outfrArg != null) {
+            f.outfrArg = outfrArg.dopyInlinf(dtx);
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_aload, field.number);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(wifrf, opd_blobd, fifld.numbfr);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        if (outerArg != null) {
-            out.print("(outer=");
-            outerArg.print(out);
+    publid void print(PrintStrfbm out) {
+        if (outfrArg != null) {
+            out.print("(outfr=");
+            outfrArg.print(out);
             out.print(" ");
         }
-        String pfx = (field == null) ? ""
-            : field.getClassDefinition().getName().getFlatName().getName()+".";
-        pfx += opNames[op];
-        out.print(pfx + "#" + ((field != null) ? field.hashCode() : 0));
-        if (outerArg != null)
+        String pfx = (fifld == null) ? ""
+            : fifld.gftClbssDffinition().gftNbmf().gftFlbtNbmf().gftNbmf()+".";
+        pfx += opNbmfs[op];
+        out.print(pfx + "#" + ((fifld != null) ? fifld.ibsiCodf() : 0));
+        if (outfrArg != null)
             out.print(")");
     }
 }

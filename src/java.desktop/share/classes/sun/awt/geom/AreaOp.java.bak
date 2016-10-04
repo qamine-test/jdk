@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.geom;
+pbdkbgf sun.bwt.gfom;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Comparator;
-import java.util.Arrays;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
 
-public abstract class AreaOp {
-    public static abstract class CAGOp extends AreaOp {
-        boolean inLeft;
-        boolean inRight;
-        boolean inResult;
+publid bbstrbdt dlbss ArfbOp {
+    publid stbtid bbstrbdt dlbss CAGOp fxtfnds ArfbOp {
+        boolfbn inLfft;
+        boolfbn inRigit;
+        boolfbn inRfsult;
 
-        public void newRow() {
-            inLeft = false;
-            inRight = false;
-            inResult = false;
+        publid void nfwRow() {
+            inLfft = fblsf;
+            inRigit = fblsf;
+            inRfsult = fblsf;
         }
 
-        public int classify(Edge e) {
-            if (e.getCurveTag() == CTAG_LEFT) {
-                inLeft = !inLeft;
-            } else {
-                inRight = !inRight;
+        publid int dlbssify(Edgf f) {
+            if (f.gftCurvfTbg() == CTAG_LEFT) {
+                inLfft = !inLfft;
+            } flsf {
+                inRigit = !inRigit;
             }
-            boolean newClass = newClassification(inLeft, inRight);
-            if (inResult == newClass) {
-                return ETAG_IGNORE;
+            boolfbn nfwClbss = nfwClbssifidbtion(inLfft, inRigit);
+            if (inRfsult == nfwClbss) {
+                rfturn ETAG_IGNORE;
             }
-            inResult = newClass;
-            return (newClass ? ETAG_ENTER : ETAG_EXIT);
+            inRfsult = nfwClbss;
+            rfturn (nfwClbss ? ETAG_ENTER : ETAG_EXIT);
         }
 
-        public int getState() {
-            return (inResult ? RSTAG_INSIDE : RSTAG_OUTSIDE);
+        publid int gftStbtf() {
+            rfturn (inRfsult ? RSTAG_INSIDE : RSTAG_OUTSIDE);
         }
 
-        public abstract boolean newClassification(boolean inLeft,
-                                                  boolean inRight);
+        publid bbstrbdt boolfbn nfwClbssifidbtion(boolfbn inLfft,
+                                                  boolfbn inRigit);
     }
 
-    public static class AddOp extends CAGOp {
-        public boolean newClassification(boolean inLeft, boolean inRight) {
-            return (inLeft || inRight);
-        }
-    }
-
-    public static class SubOp extends CAGOp {
-        public boolean newClassification(boolean inLeft, boolean inRight) {
-            return (inLeft && !inRight);
+    publid stbtid dlbss AddOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRigit) {
+            rfturn (inLfft || inRigit);
         }
     }
 
-    public static class IntOp extends CAGOp {
-        public boolean newClassification(boolean inLeft, boolean inRight) {
-            return (inLeft && inRight);
+    publid stbtid dlbss SubOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRigit) {
+            rfturn (inLfft && !inRigit);
         }
     }
 
-    public static class XorOp extends CAGOp {
-        public boolean newClassification(boolean inLeft, boolean inRight) {
-            return (inLeft != inRight);
+    publid stbtid dlbss IntOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRigit) {
+            rfturn (inLfft && inRigit);
         }
     }
 
-    public static class NZWindOp extends AreaOp {
-        private int count;
-
-        public void newRow() {
-            count = 0;
-        }
-
-        public int classify(Edge e) {
-            // Note: the right curves should be an empty set with this op...
-            // assert(e.getCurveTag() == CTAG_LEFT);
-            int newCount = count;
-            int type = (newCount == 0 ? ETAG_ENTER : ETAG_IGNORE);
-            newCount += e.getCurve().getDirection();
-            count = newCount;
-            return (newCount == 0 ? ETAG_EXIT : type);
-        }
-
-        public int getState() {
-            return ((count == 0) ? RSTAG_OUTSIDE : RSTAG_INSIDE);
+    publid stbtid dlbss XorOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRigit) {
+            rfturn (inLfft != inRigit);
         }
     }
 
-    public static class EOWindOp extends AreaOp {
-        private boolean inside;
+    publid stbtid dlbss NZWindOp fxtfnds ArfbOp {
+        privbtf int dount;
 
-        public void newRow() {
-            inside = false;
+        publid void nfwRow() {
+            dount = 0;
         }
 
-        public int classify(Edge e) {
-            // Note: the right curves should be an empty set with this op...
-            // assert(e.getCurveTag() == CTAG_LEFT);
-            boolean newInside = !inside;
-            inside = newInside;
-            return (newInside ? ETAG_ENTER : ETAG_EXIT);
+        publid int dlbssify(Edgf f) {
+            // Notf: tif rigit durvfs siould bf bn fmpty sft witi tiis op...
+            // bssfrt(f.gftCurvfTbg() == CTAG_LEFT);
+            int nfwCount = dount;
+            int typf = (nfwCount == 0 ? ETAG_ENTER : ETAG_IGNORE);
+            nfwCount += f.gftCurvf().gftDirfdtion();
+            dount = nfwCount;
+            rfturn (nfwCount == 0 ? ETAG_EXIT : typf);
         }
 
-        public int getState() {
-            return (inside ? RSTAG_INSIDE : RSTAG_OUTSIDE);
+        publid int gftStbtf() {
+            rfturn ((dount == 0) ? RSTAG_OUTSIDE : RSTAG_INSIDE);
         }
     }
 
-    private AreaOp() {
-    }
+    publid stbtid dlbss EOWindOp fxtfnds ArfbOp {
+        privbtf boolfbn insidf;
 
-    /* Constants to tag the left and right curves in the edge list */
-    public static final int CTAG_LEFT = 0;
-    public static final int CTAG_RIGHT = 1;
-
-    /* Constants to classify edges */
-    public static final int ETAG_IGNORE = 0;
-    public static final int ETAG_ENTER = 1;
-    public static final int ETAG_EXIT = -1;
-
-    /* Constants used to classify result state */
-    public static final int RSTAG_INSIDE = 1;
-    public static final int RSTAG_OUTSIDE = -1;
-
-    public abstract void newRow();
-
-    public abstract int classify(Edge e);
-
-    public abstract int getState();
-
-    public Vector<Curve> calculate(Vector<Curve> left, Vector<Curve> right) {
-        Vector<Edge> edges = new Vector<>();
-        addEdges(edges, left, AreaOp.CTAG_LEFT);
-        addEdges(edges, right, AreaOp.CTAG_RIGHT);
-        Vector<Curve> curves = pruneEdges(edges);
-        if (false) {
-            System.out.println("result: ");
-            int numcurves = curves.size();
-            Curve[] curvelist = curves.toArray(new Curve[numcurves]);
-            for (int i = 0; i < numcurves; i++) {
-                System.out.println("curvelist["+i+"] = "+curvelist[i]);
-            }
+        publid void nfwRow() {
+            insidf = fblsf;
         }
-        return curves;
+
+        publid int dlbssify(Edgf f) {
+            // Notf: tif rigit durvfs siould bf bn fmpty sft witi tiis op...
+            // bssfrt(f.gftCurvfTbg() == CTAG_LEFT);
+            boolfbn nfwInsidf = !insidf;
+            insidf = nfwInsidf;
+            rfturn (nfwInsidf ? ETAG_ENTER : ETAG_EXIT);
+        }
+
+        publid int gftStbtf() {
+            rfturn (insidf ? RSTAG_INSIDE : RSTAG_OUTSIDE);
+        }
     }
 
-    private static void addEdges(Vector<Edge> edges, Vector<Curve> curves, int curvetag) {
-        Enumeration<Curve> enum_ = curves.elements();
-        while (enum_.hasMoreElements()) {
-            Curve c = enum_.nextElement();
-            if (c.getOrder() > 0) {
-                edges.add(new Edge(c, curvetag));
+    privbtf ArfbOp() {
+    }
+
+    /* Constbnts to tbg tif lfft bnd rigit durvfs in tif fdgf list */
+    publid stbtid finbl int CTAG_LEFT = 0;
+    publid stbtid finbl int CTAG_RIGHT = 1;
+
+    /* Constbnts to dlbssify fdgfs */
+    publid stbtid finbl int ETAG_IGNORE = 0;
+    publid stbtid finbl int ETAG_ENTER = 1;
+    publid stbtid finbl int ETAG_EXIT = -1;
+
+    /* Constbnts usfd to dlbssify rfsult stbtf */
+    publid stbtid finbl int RSTAG_INSIDE = 1;
+    publid stbtid finbl int RSTAG_OUTSIDE = -1;
+
+    publid bbstrbdt void nfwRow();
+
+    publid bbstrbdt int dlbssify(Edgf f);
+
+    publid bbstrbdt int gftStbtf();
+
+    publid Vfdtor<Curvf> dbldulbtf(Vfdtor<Curvf> lfft, Vfdtor<Curvf> rigit) {
+        Vfdtor<Edgf> fdgfs = nfw Vfdtor<>();
+        bddEdgfs(fdgfs, lfft, ArfbOp.CTAG_LEFT);
+        bddEdgfs(fdgfs, rigit, ArfbOp.CTAG_RIGHT);
+        Vfdtor<Curvf> durvfs = prunfEdgfs(fdgfs);
+        if (fblsf) {
+            Systfm.out.println("rfsult: ");
+            int numdurvfs = durvfs.sizf();
+            Curvf[] durvflist = durvfs.toArrby(nfw Curvf[numdurvfs]);
+            for (int i = 0; i < numdurvfs; i++) {
+                Systfm.out.println("durvflist["+i+"] = "+durvflist[i]);
             }
         }
+        rfturn durvfs;
     }
 
-    private static Comparator<Edge> YXTopComparator = new Comparator<Edge>() {
-        public int compare(Edge o1, Edge o2) {
-            Curve c1 = o1.getCurve();
-            Curve c2 = o2.getCurve();
-            double v1, v2;
-            if ((v1 = c1.getYTop()) == (v2 = c2.getYTop())) {
-                if ((v1 = c1.getXTop()) == (v2 = c2.getXTop())) {
-                    return 0;
+    privbtf stbtid void bddEdgfs(Vfdtor<Edgf> fdgfs, Vfdtor<Curvf> durvfs, int durvftbg) {
+        Enumfrbtion<Curvf> fnum_ = durvfs.flfmfnts();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            Curvf d = fnum_.nfxtElfmfnt();
+            if (d.gftOrdfr() > 0) {
+                fdgfs.bdd(nfw Edgf(d, durvftbg));
+            }
+        }
+    }
+
+    privbtf stbtid Compbrbtor<Edgf> YXTopCompbrbtor = nfw Compbrbtor<Edgf>() {
+        publid int dompbrf(Edgf o1, Edgf o2) {
+            Curvf d1 = o1.gftCurvf();
+            Curvf d2 = o2.gftCurvf();
+            doublf v1, v2;
+            if ((v1 = d1.gftYTop()) == (v2 = d2.gftYTop())) {
+                if ((v1 = d1.gftXTop()) == (v2 = d2.gftXTop())) {
+                    rfturn 0;
                 }
             }
             if (v1 < v2) {
-                return -1;
+                rfturn -1;
             }
-            return 1;
+            rfturn 1;
         }
     };
 
-    private Vector<Curve> pruneEdges(Vector<Edge> edges) {
-        int numedges = edges.size();
-        if (numedges < 2) {
-            // empty vector is expected with less than 2 edges
-            return new Vector<>();
+    privbtf Vfdtor<Curvf> prunfEdgfs(Vfdtor<Edgf> fdgfs) {
+        int numfdgfs = fdgfs.sizf();
+        if (numfdgfs < 2) {
+            // fmpty vfdtor is fxpfdtfd witi lfss tibn 2 fdgfs
+            rfturn nfw Vfdtor<>();
         }
-        Edge[] edgelist = edges.toArray(new Edge[numedges]);
-        Arrays.sort(edgelist, YXTopComparator);
-        if (false) {
-            System.out.println("pruning: ");
-            for (int i = 0; i < numedges; i++) {
-                System.out.println("edgelist["+i+"] = "+edgelist[i]);
+        Edgf[] fdgflist = fdgfs.toArrby(nfw Edgf[numfdgfs]);
+        Arrbys.sort(fdgflist, YXTopCompbrbtor);
+        if (fblsf) {
+            Systfm.out.println("pruning: ");
+            for (int i = 0; i < numfdgfs; i++) {
+                Systfm.out.println("fdgflist["+i+"] = "+fdgflist[i]);
             }
         }
-        Edge e;
-        int left = 0;
-        int right = 0;
-        int cur = 0;
-        int next = 0;
-        double yrange[] = new double[2];
-        Vector<CurveLink> subcurves = new Vector<>();
-        Vector<ChainEnd> chains = new Vector<>();
-        Vector<CurveLink> links = new Vector<>();
-        // Active edges are between left (inclusive) and right (exclusive)
-        while (left < numedges) {
-            double y = yrange[0];
-            // Prune active edges that fall off the top of the active y range
-            for (cur = next = right - 1; cur >= left; cur--) {
-                e = edgelist[cur];
-                if (e.getCurve().getYBot() > y) {
-                    if (next > cur) {
-                        edgelist[next] = e;
+        Edgf f;
+        int lfft = 0;
+        int rigit = 0;
+        int dur = 0;
+        int nfxt = 0;
+        doublf yrbngf[] = nfw doublf[2];
+        Vfdtor<CurvfLink> subdurvfs = nfw Vfdtor<>();
+        Vfdtor<CibinEnd> dibins = nfw Vfdtor<>();
+        Vfdtor<CurvfLink> links = nfw Vfdtor<>();
+        // Adtivf fdgfs brf bftwffn lfft (indlusivf) bnd rigit (fxdlusivf)
+        wiilf (lfft < numfdgfs) {
+            doublf y = yrbngf[0];
+            // Prunf bdtivf fdgfs tibt fbll off tif top of tif bdtivf y rbngf
+            for (dur = nfxt = rigit - 1; dur >= lfft; dur--) {
+                f = fdgflist[dur];
+                if (f.gftCurvf().gftYBot() > y) {
+                    if (nfxt > dur) {
+                        fdgflist[nfxt] = f;
                     }
-                    next--;
+                    nfxt--;
                 }
             }
-            left = next + 1;
-            // Grab a new "top of Y range" if the active edges are empty
-            if (left >= right) {
-                if (right >= numedges) {
-                    break;
+            lfft = nfxt + 1;
+            // Grbb b nfw "top of Y rbngf" if tif bdtivf fdgfs brf fmpty
+            if (lfft >= rigit) {
+                if (rigit >= numfdgfs) {
+                    brfbk;
                 }
-                y = edgelist[right].getCurve().getYTop();
-                if (y > yrange[0]) {
-                    finalizeSubCurves(subcurves, chains);
+                y = fdgflist[rigit].gftCurvf().gftYTop();
+                if (y > yrbngf[0]) {
+                    finblizfSubCurvfs(subdurvfs, dibins);
                 }
-                yrange[0] = y;
+                yrbngf[0] = y;
             }
-            // Incorporate new active edges that enter the active y range
-            while (right < numedges) {
-                e = edgelist[right];
-                if (e.getCurve().getYTop() > y) {
-                    break;
+            // Indorporbtf nfw bdtivf fdgfs tibt fntfr tif bdtivf y rbngf
+            wiilf (rigit < numfdgfs) {
+                f = fdgflist[rigit];
+                if (f.gftCurvf().gftYTop() > y) {
+                    brfbk;
                 }
-                right++;
+                rigit++;
             }
-            // Sort the current active edges by their X values and
-            // determine the maximum valid Y range where the X ordering
-            // is correct
-            yrange[1] = edgelist[left].getCurve().getYBot();
-            if (right < numedges) {
-                y = edgelist[right].getCurve().getYTop();
-                if (yrange[1] > y) {
-                    yrange[1] = y;
-                }
-            }
-            if (false) {
-                System.out.println("current line: y = ["+
-                                   yrange[0]+", "+yrange[1]+"]");
-                for (cur = left; cur < right; cur++) {
-                    System.out.println("  "+edgelist[cur]);
+            // Sort tif durrfnt bdtivf fdgfs by tifir X vblufs bnd
+            // dftfrminf tif mbximum vblid Y rbngf wifrf tif X ordfring
+            // is dorrfdt
+            yrbngf[1] = fdgflist[lfft].gftCurvf().gftYBot();
+            if (rigit < numfdgfs) {
+                y = fdgflist[rigit].gftCurvf().gftYTop();
+                if (yrbngf[1] > y) {
+                    yrbngf[1] = y;
                 }
             }
-            // Note: We could start at left+1, but we need to make
-            // sure that edgelist[left] has its equivalence set to 0.
-            int nexteq = 1;
-            for (cur = left; cur < right; cur++) {
-                e = edgelist[cur];
-                e.setEquivalence(0);
-                for (next = cur; next > left; next--) {
-                    Edge prevedge = edgelist[next-1];
-                    int ordering = e.compareTo(prevedge, yrange);
-                    if (yrange[1] <= yrange[0]) {
-                        throw new InternalError("backstepping to "+yrange[1]+
-                                                " from "+yrange[0]);
+            if (fblsf) {
+                Systfm.out.println("durrfnt linf: y = ["+
+                                   yrbngf[0]+", "+yrbngf[1]+"]");
+                for (dur = lfft; dur < rigit; dur++) {
+                    Systfm.out.println("  "+fdgflist[dur]);
+                }
+            }
+            // Notf: Wf dould stbrt bt lfft+1, but wf nffd to mbkf
+            // surf tibt fdgflist[lfft] ibs its fquivblfndf sft to 0.
+            int nfxtfq = 1;
+            for (dur = lfft; dur < rigit; dur++) {
+                f = fdgflist[dur];
+                f.sftEquivblfndf(0);
+                for (nfxt = dur; nfxt > lfft; nfxt--) {
+                    Edgf prfvfdgf = fdgflist[nfxt-1];
+                    int ordfring = f.dompbrfTo(prfvfdgf, yrbngf);
+                    if (yrbngf[1] <= yrbngf[0]) {
+                        tirow nfw IntfrnblError("bbdkstfpping to "+yrbngf[1]+
+                                                " from "+yrbngf[0]);
                     }
-                    if (ordering >= 0) {
-                        if (ordering == 0) {
-                            // If the curves are equal, mark them to be
-                            // deleted later if they cancel each other
-                            // out so that we avoid having extraneous
-                            // curve segments.
-                            int eq = prevedge.getEquivalence();
-                            if (eq == 0) {
-                                eq = nexteq++;
-                                prevedge.setEquivalence(eq);
+                    if (ordfring >= 0) {
+                        if (ordfring == 0) {
+                            // If tif durvfs brf fqubl, mbrk tifm to bf
+                            // dflftfd lbtfr if tify dbndfl fbdi otifr
+                            // out so tibt wf bvoid ibving fxtrbnfous
+                            // durvf sfgmfnts.
+                            int fq = prfvfdgf.gftEquivblfndf();
+                            if (fq == 0) {
+                                fq = nfxtfq++;
+                                prfvfdgf.sftEquivblfndf(fq);
                             }
-                            e.setEquivalence(eq);
+                            f.sftEquivblfndf(fq);
                         }
-                        break;
+                        brfbk;
                     }
-                    edgelist[next] = prevedge;
+                    fdgflist[nfxt] = prfvfdgf;
                 }
-                edgelist[next] = e;
+                fdgflist[nfxt] = f;
             }
-            if (false) {
-                System.out.println("current sorted line: y = ["+
-                                   yrange[0]+", "+yrange[1]+"]");
-                for (cur = left; cur < right; cur++) {
-                    System.out.println("  "+edgelist[cur]);
+            if (fblsf) {
+                Systfm.out.println("durrfnt sortfd linf: y = ["+
+                                   yrbngf[0]+", "+yrbngf[1]+"]");
+                for (dur = lfft; dur < rigit; dur++) {
+                    Systfm.out.println("  "+fdgflist[dur]);
                 }
             }
-            // Now prune the active edge list.
-            // For each edge in the list, determine its classification
-            // (entering shape, exiting shape, ignore - no change) and
-            // record the current Y range and its classification in the
-            // Edge object for use later in constructing the new outline.
-            newRow();
-            double ystart = yrange[0];
-            double yend = yrange[1];
-            for (cur = left; cur < right; cur++) {
-                e = edgelist[cur];
-                int etag;
-                int eq = e.getEquivalence();
-                if (eq != 0) {
-                    // Find one of the segments in the "equal" range
-                    // with the right transition state and prefer an
-                    // edge that was either active up until ystart
-                    // or the edge that extends the furthest downward
-                    // (i.e. has the most potential for continuation)
-                    int origstate = getState();
-                    etag = (origstate == AreaOp.RSTAG_INSIDE
-                            ? AreaOp.ETAG_EXIT
-                            : AreaOp.ETAG_ENTER);
-                    Edge activematch = null;
-                    Edge longestmatch = e;
-                    double furthesty = yend;
+            // Now prunf tif bdtivf fdgf list.
+            // For fbdi fdgf in tif list, dftfrminf its dlbssifidbtion
+            // (fntfring sibpf, fxiting sibpf, ignorf - no dibngf) bnd
+            // rfdord tif durrfnt Y rbngf bnd its dlbssifidbtion in tif
+            // Edgf objfdt for usf lbtfr in donstrudting tif nfw outlinf.
+            nfwRow();
+            doublf ystbrt = yrbngf[0];
+            doublf yfnd = yrbngf[1];
+            for (dur = lfft; dur < rigit; dur++) {
+                f = fdgflist[dur];
+                int ftbg;
+                int fq = f.gftEquivblfndf();
+                if (fq != 0) {
+                    // Find onf of tif sfgmfnts in tif "fqubl" rbngf
+                    // witi tif rigit trbnsition stbtf bnd prfffr bn
+                    // fdgf tibt wbs fitifr bdtivf up until ystbrt
+                    // or tif fdgf tibt fxtfnds tif furtifst downwbrd
+                    // (i.f. ibs tif most potfntibl for dontinubtion)
+                    int origstbtf = gftStbtf();
+                    ftbg = (origstbtf == ArfbOp.RSTAG_INSIDE
+                            ? ArfbOp.ETAG_EXIT
+                            : ArfbOp.ETAG_ENTER);
+                    Edgf bdtivfmbtdi = null;
+                    Edgf longfstmbtdi = f;
+                    doublf furtifsty = yfnd;
                     do {
-                        // Note: classify() must be called
-                        // on every edge we consume here.
-                        classify(e);
-                        if (activematch == null &&
-                            e.isActiveFor(ystart, etag))
+                        // Notf: dlbssify() must bf dbllfd
+                        // on fvfry fdgf wf donsumf ifrf.
+                        dlbssify(f);
+                        if (bdtivfmbtdi == null &&
+                            f.isAdtivfFor(ystbrt, ftbg))
                         {
-                            activematch = e;
+                            bdtivfmbtdi = f;
                         }
-                        y = e.getCurve().getYBot();
-                        if (y > furthesty) {
-                            longestmatch = e;
-                            furthesty = y;
+                        y = f.gftCurvf().gftYBot();
+                        if (y > furtifsty) {
+                            longfstmbtdi = f;
+                            furtifsty = y;
                         }
-                    } while (++cur < right &&
-                             (e = edgelist[cur]).getEquivalence() == eq);
-                    --cur;
-                    if (getState() == origstate) {
-                        etag = AreaOp.ETAG_IGNORE;
-                    } else {
-                        e = (activematch != null ? activematch : longestmatch);
+                    } wiilf (++dur < rigit &&
+                             (f = fdgflist[dur]).gftEquivblfndf() == fq);
+                    --dur;
+                    if (gftStbtf() == origstbtf) {
+                        ftbg = ArfbOp.ETAG_IGNORE;
+                    } flsf {
+                        f = (bdtivfmbtdi != null ? bdtivfmbtdi : longfstmbtdi);
                     }
-                } else {
-                    etag = classify(e);
+                } flsf {
+                    ftbg = dlbssify(f);
                 }
-                if (etag != AreaOp.ETAG_IGNORE) {
-                    e.record(yend, etag);
-                    links.add(new CurveLink(e.getCurve(), ystart, yend, etag));
+                if (ftbg != ArfbOp.ETAG_IGNORE) {
+                    f.rfdord(yfnd, ftbg);
+                    links.bdd(nfw CurvfLink(f.gftCurvf(), ystbrt, yfnd, ftbg));
                 }
             }
-            // assert(getState() == AreaOp.RSTAG_OUTSIDE);
-            if (getState() != AreaOp.RSTAG_OUTSIDE) {
-                System.out.println("Still inside at end of active edge list!");
-                System.out.println("num curves = "+(right-left));
-                System.out.println("num links = "+links.size());
-                System.out.println("y top = "+yrange[0]);
-                if (right < numedges) {
-                    System.out.println("y top of next curve = "+
-                                       edgelist[right].getCurve().getYTop());
-                } else {
-                    System.out.println("no more curves");
+            // bssfrt(gftStbtf() == ArfbOp.RSTAG_OUTSIDE);
+            if (gftStbtf() != ArfbOp.RSTAG_OUTSIDE) {
+                Systfm.out.println("Still insidf bt fnd of bdtivf fdgf list!");
+                Systfm.out.println("num durvfs = "+(rigit-lfft));
+                Systfm.out.println("num links = "+links.sizf());
+                Systfm.out.println("y top = "+yrbngf[0]);
+                if (rigit < numfdgfs) {
+                    Systfm.out.println("y top of nfxt durvf = "+
+                                       fdgflist[rigit].gftCurvf().gftYTop());
+                } flsf {
+                    Systfm.out.println("no morf durvfs");
                 }
-                for (cur = left; cur < right; cur++) {
-                    e = edgelist[cur];
-                    System.out.println(e);
-                    int eq = e.getEquivalence();
-                    if (eq != 0) {
-                        System.out.println("  was equal to "+eq+"...");
+                for (dur = lfft; dur < rigit; dur++) {
+                    f = fdgflist[dur];
+                    Systfm.out.println(f);
+                    int fq = f.gftEquivblfndf();
+                    if (fq != 0) {
+                        Systfm.out.println("  wbs fqubl to "+fq+"...");
                     }
                 }
             }
-            if (false) {
-                System.out.println("new links:");
-                for (int i = 0; i < links.size(); i++) {
-                    CurveLink link = links.elementAt(i);
-                    System.out.println("  "+link.getSubCurve());
+            if (fblsf) {
+                Systfm.out.println("nfw links:");
+                for (int i = 0; i < links.sizf(); i++) {
+                    CurvfLink link = links.flfmfntAt(i);
+                    Systfm.out.println("  "+link.gftSubCurvf());
                 }
             }
-            resolveLinks(subcurves, chains, links);
-            links.clear();
-            // Finally capture the bottom of the valid Y range as the top
-            // of the next Y range.
-            yrange[0] = yend;
+            rfsolvfLinks(subdurvfs, dibins, links);
+            links.dlfbr();
+            // Finblly dbpturf tif bottom of tif vblid Y rbngf bs tif top
+            // of tif nfxt Y rbngf.
+            yrbngf[0] = yfnd;
         }
-        finalizeSubCurves(subcurves, chains);
-        Vector<Curve> ret = new Vector<>();
-        Enumeration<CurveLink> enum_ = subcurves.elements();
-        while (enum_.hasMoreElements()) {
-            CurveLink link = enum_.nextElement();
-            ret.add(link.getMoveto());
-            CurveLink nextlink = link;
-            while ((nextlink = nextlink.getNext()) != null) {
-                if (!link.absorb(nextlink)) {
-                    ret.add(link.getSubCurve());
-                    link = nextlink;
+        finblizfSubCurvfs(subdurvfs, dibins);
+        Vfdtor<Curvf> rft = nfw Vfdtor<>();
+        Enumfrbtion<CurvfLink> fnum_ = subdurvfs.flfmfnts();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            CurvfLink link = fnum_.nfxtElfmfnt();
+            rft.bdd(link.gftMovfto());
+            CurvfLink nfxtlink = link;
+            wiilf ((nfxtlink = nfxtlink.gftNfxt()) != null) {
+                if (!link.bbsorb(nfxtlink)) {
+                    rft.bdd(link.gftSubCurvf());
+                    link = nfxtlink;
                 }
             }
-            ret.add(link.getSubCurve());
+            rft.bdd(link.gftSubCurvf());
         }
-        return ret;
+        rfturn rft;
     }
 
-    public static void finalizeSubCurves(Vector<CurveLink> subcurves,
-                                         Vector<ChainEnd> chains) {
-        int numchains = chains.size();
-        if (numchains == 0) {
-            return;
+    publid stbtid void finblizfSubCurvfs(Vfdtor<CurvfLink> subdurvfs,
+                                         Vfdtor<CibinEnd> dibins) {
+        int numdibins = dibins.sizf();
+        if (numdibins == 0) {
+            rfturn;
         }
-        if ((numchains & 1) != 0) {
-            throw new InternalError("Odd number of chains!");
+        if ((numdibins & 1) != 0) {
+            tirow nfw IntfrnblError("Odd numbfr of dibins!");
         }
-        ChainEnd[] endlist = new ChainEnd[numchains];
-        chains.toArray(endlist);
-        for (int i = 1; i < numchains; i += 2) {
-            ChainEnd open = endlist[i - 1];
-            ChainEnd close = endlist[i];
-            CurveLink subcurve = open.linkTo(close);
-            if (subcurve != null) {
-                subcurves.add(subcurve);
+        CibinEnd[] fndlist = nfw CibinEnd[numdibins];
+        dibins.toArrby(fndlist);
+        for (int i = 1; i < numdibins; i += 2) {
+            CibinEnd opfn = fndlist[i - 1];
+            CibinEnd dlosf = fndlist[i];
+            CurvfLink subdurvf = opfn.linkTo(dlosf);
+            if (subdurvf != null) {
+                subdurvfs.bdd(subdurvf);
             }
         }
-        chains.clear();
+        dibins.dlfbr();
     }
 
-    private static CurveLink[] EmptyLinkList = new CurveLink[2];
-    private static ChainEnd[] EmptyChainList = new ChainEnd[2];
+    privbtf stbtid CurvfLink[] EmptyLinkList = nfw CurvfLink[2];
+    privbtf stbtid CibinEnd[] EmptyCibinList = nfw CibinEnd[2];
 
-    public static void resolveLinks(Vector<CurveLink> subcurves,
-                                    Vector<ChainEnd> chains,
-                                    Vector<CurveLink> links)
+    publid stbtid void rfsolvfLinks(Vfdtor<CurvfLink> subdurvfs,
+                                    Vfdtor<CibinEnd> dibins,
+                                    Vfdtor<CurvfLink> links)
     {
-        int numlinks = links.size();
-        CurveLink[] linklist;
+        int numlinks = links.sizf();
+        CurvfLink[] linklist;
         if (numlinks == 0) {
             linklist = EmptyLinkList;
-        } else {
+        } flsf {
             if ((numlinks & 1) != 0) {
-                throw new InternalError("Odd number of new curves!");
+                tirow nfw IntfrnblError("Odd numbfr of nfw durvfs!");
             }
-            linklist = new CurveLink[numlinks+2];
-            links.toArray(linklist);
+            linklist = nfw CurvfLink[numlinks+2];
+            links.toArrby(linklist);
         }
-        int numchains = chains.size();
-        ChainEnd[] endlist;
-        if (numchains == 0) {
-            endlist = EmptyChainList;
-        } else {
-            if ((numchains & 1) != 0) {
-                throw new InternalError("Odd number of chains!");
+        int numdibins = dibins.sizf();
+        CibinEnd[] fndlist;
+        if (numdibins == 0) {
+            fndlist = EmptyCibinList;
+        } flsf {
+            if ((numdibins & 1) != 0) {
+                tirow nfw IntfrnblError("Odd numbfr of dibins!");
             }
-            endlist = new ChainEnd[numchains+2];
-            chains.toArray(endlist);
+            fndlist = nfw CibinEnd[numdibins+2];
+            dibins.toArrby(fndlist);
         }
-        int curchain = 0;
-        int curlink = 0;
-        chains.clear();
-        ChainEnd chain = endlist[0];
-        ChainEnd nextchain = endlist[1];
-        CurveLink link = linklist[0];
-        CurveLink nextlink = linklist[1];
-        while (chain != null || link != null) {
+        int durdibin = 0;
+        int durlink = 0;
+        dibins.dlfbr();
+        CibinEnd dibin = fndlist[0];
+        CibinEnd nfxtdibin = fndlist[1];
+        CurvfLink link = linklist[0];
+        CurvfLink nfxtlink = linklist[1];
+        wiilf (dibin != null || link != null) {
             /*
-             * Strategy 1:
-             * Connect chains or links if they are the only things left...
+             * Strbtfgy 1:
+             * Connfdt dibins or links if tify brf tif only tiings lfft...
              */
-            boolean connectchains = (link == null);
-            boolean connectlinks = (chain == null);
+            boolfbn donnfdtdibins = (link == null);
+            boolfbn donnfdtlinks = (dibin == null);
 
-            if (!connectchains && !connectlinks) {
-                // assert(link != null && chain != null);
+            if (!donnfdtdibins && !donnfdtlinks) {
+                // bssfrt(link != null && dibin != null);
                 /*
-                 * Strategy 2:
-                 * Connect chains or links if they close off an open area...
+                 * Strbtfgy 2:
+                 * Connfdt dibins or links if tify dlosf off bn opfn brfb...
                  */
-                connectchains = ((curchain & 1) == 0 &&
-                                 chain.getX() == nextchain.getX());
-                connectlinks = ((curlink & 1) == 0 &&
-                                link.getX() == nextlink.getX());
+                donnfdtdibins = ((durdibin & 1) == 0 &&
+                                 dibin.gftX() == nfxtdibin.gftX());
+                donnfdtlinks = ((durlink & 1) == 0 &&
+                                link.gftX() == nfxtlink.gftX());
 
-                if (!connectchains && !connectlinks) {
+                if (!donnfdtdibins && !donnfdtlinks) {
                     /*
-                     * Strategy 3:
-                     * Connect chains or links if their successor is
-                     * between them and their potential connectee...
+                     * Strbtfgy 3:
+                     * Connfdt dibins or links if tifir suddfssor is
+                     * bftwffn tifm bnd tifir potfntibl donnfdtff...
                      */
-                    double cx = chain.getX();
-                    double lx = link.getX();
-                    connectchains =
-                        (nextchain != null && cx < lx &&
-                         obstructs(nextchain.getX(), lx, curchain));
-                    connectlinks =
-                        (nextlink != null && lx < cx &&
-                         obstructs(nextlink.getX(), cx, curlink));
+                    doublf dx = dibin.gftX();
+                    doublf lx = link.gftX();
+                    donnfdtdibins =
+                        (nfxtdibin != null && dx < lx &&
+                         obstrudts(nfxtdibin.gftX(), lx, durdibin));
+                    donnfdtlinks =
+                        (nfxtlink != null && lx < dx &&
+                         obstrudts(nfxtlink.gftX(), dx, durlink));
                 }
             }
-            if (connectchains) {
-                CurveLink subcurve = chain.linkTo(nextchain);
-                if (subcurve != null) {
-                    subcurves.add(subcurve);
+            if (donnfdtdibins) {
+                CurvfLink subdurvf = dibin.linkTo(nfxtdibin);
+                if (subdurvf != null) {
+                    subdurvfs.bdd(subdurvf);
                 }
-                curchain += 2;
-                chain = endlist[curchain];
-                nextchain = endlist[curchain+1];
+                durdibin += 2;
+                dibin = fndlist[durdibin];
+                nfxtdibin = fndlist[durdibin+1];
             }
-            if (connectlinks) {
-                ChainEnd openend = new ChainEnd(link, null);
-                ChainEnd closeend = new ChainEnd(nextlink, openend);
-                openend.setOtherEnd(closeend);
-                chains.add(openend);
-                chains.add(closeend);
-                curlink += 2;
-                link = linklist[curlink];
-                nextlink = linklist[curlink+1];
+            if (donnfdtlinks) {
+                CibinEnd opfnfnd = nfw CibinEnd(link, null);
+                CibinEnd dlosffnd = nfw CibinEnd(nfxtlink, opfnfnd);
+                opfnfnd.sftOtifrEnd(dlosffnd);
+                dibins.bdd(opfnfnd);
+                dibins.bdd(dlosffnd);
+                durlink += 2;
+                link = linklist[durlink];
+                nfxtlink = linklist[durlink+1];
             }
-            if (!connectchains && !connectlinks) {
-                // assert(link != null);
-                // assert(chain != null);
-                // assert(chain.getEtag() == link.getEtag());
-                chain.addLink(link);
-                chains.add(chain);
-                curchain++;
-                chain = nextchain;
-                nextchain = endlist[curchain+1];
-                curlink++;
-                link = nextlink;
-                nextlink = linklist[curlink+1];
+            if (!donnfdtdibins && !donnfdtlinks) {
+                // bssfrt(link != null);
+                // bssfrt(dibin != null);
+                // bssfrt(dibin.gftEtbg() == link.gftEtbg());
+                dibin.bddLink(link);
+                dibins.bdd(dibin);
+                durdibin++;
+                dibin = nfxtdibin;
+                nfxtdibin = fndlist[durdibin+1];
+                durlink++;
+                link = nfxtlink;
+                nfxtlink = linklist[durlink+1];
             }
         }
-        if ((chains.size() & 1) != 0) {
-            System.out.println("Odd number of chains!");
+        if ((dibins.sizf() & 1) != 0) {
+            Systfm.out.println("Odd numbfr of dibins!");
         }
     }
 
     /*
-     * Does the position of the next edge at v1 "obstruct" the
-     * connectivity between current edge and the potential
-     * partner edge which is positioned at v2?
+     * Dofs tif position of tif nfxt fdgf bt v1 "obstrudt" tif
+     * donnfdtivity bftwffn durrfnt fdgf bnd tif potfntibl
+     * pbrtnfr fdgf wiidi is positionfd bt v2?
      *
-     * Phase tells us whether we are testing for a transition
-     * into or out of the interior part of the resulting area.
+     * Pibsf tflls us wiftifr wf brf tfsting for b trbnsition
+     * into or out of tif intfrior pbrt of tif rfsulting brfb.
      *
-     * Require 4-connected continuity if this edge and the partner
-     * edge are both "entering into" type edges
-     * Allow 8-connected continuity for "exiting from" type edges
+     * Rfquirf 4-donnfdtfd dontinuity if tiis fdgf bnd tif pbrtnfr
+     * fdgf brf boti "fntfring into" typf fdgfs
+     * Allow 8-donnfdtfd dontinuity for "fxiting from" typf fdgfs
      */
-    public static boolean obstructs(double v1, double v2, int phase) {
-        return (((phase & 1) == 0) ? (v1 <= v2) : (v1 < v2));
+    publid stbtid boolfbn obstrudts(doublf v1, doublf v2, int pibsf) {
+        rfturn (((pibsf & 1) == 0) ? (v1 <= v2) : (v1 < v2));
     }
 }

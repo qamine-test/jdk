@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2009-2010, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd    *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
 
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
 
-public final class BaseLocale {
+publid finbl dlbss BbsfLodblf {
 
-    public static final String SEP = "_";
+    publid stbtid finbl String SEP = "_";
 
-    private static final Cache CACHE = new Cache();
+    privbtf stbtid finbl Cbdif CACHE = nfw Cbdif();
 
-    private final String language;
-    private final String script;
-    private final String region;
-    private final String variant;
+    privbtf finbl String lbngubgf;
+    privbtf finbl String sdript;
+    privbtf finbl String rfgion;
+    privbtf finbl String vbribnt;
 
-    private volatile int hash = 0;
+    privbtf volbtilf int ibsi = 0;
 
-    // This method must be called only when creating the Locale.* constants.
-    private BaseLocale(String language, String region) {
-        this.language = language;
-        this.script = "";
-        this.region = region;
-        this.variant = "";
+    // Tiis mftiod must bf dbllfd only wifn drfbting tif Lodblf.* donstbnts.
+    privbtf BbsfLodblf(String lbngubgf, String rfgion) {
+        tiis.lbngubgf = lbngubgf;
+        tiis.sdript = "";
+        tiis.rfgion = rfgion;
+        tiis.vbribnt = "";
     }
 
-    private BaseLocale(String language, String script, String region, String variant) {
-        this.language = (language != null) ? LocaleUtils.toLowerString(language).intern() : "";
-        this.script = (script != null) ? LocaleUtils.toTitleString(script).intern() : "";
-        this.region = (region != null) ? LocaleUtils.toUpperString(region).intern() : "";
-        this.variant = (variant != null) ? variant.intern() : "";
+    privbtf BbsfLodblf(String lbngubgf, String sdript, String rfgion, String vbribnt) {
+        tiis.lbngubgf = (lbngubgf != null) ? LodblfUtils.toLowfrString(lbngubgf).intfrn() : "";
+        tiis.sdript = (sdript != null) ? LodblfUtils.toTitlfString(sdript).intfrn() : "";
+        tiis.rfgion = (rfgion != null) ? LodblfUtils.toUppfrString(rfgion).intfrn() : "";
+        tiis.vbribnt = (vbribnt != null) ? vbribnt.intfrn() : "";
     }
 
-    // Called for creating the Locale.* constants. No argument
-    // validation is performed.
-    public static BaseLocale createInstance(String language, String region) {
-        BaseLocale base = new BaseLocale(language, region);
-        CACHE.put(new Key(language, region), base);
-        return base;
+    // Cbllfd for drfbting tif Lodblf.* donstbnts. No brgumfnt
+    // vblidbtion is pfrformfd.
+    publid stbtid BbsfLodblf drfbtfInstbndf(String lbngubgf, String rfgion) {
+        BbsfLodblf bbsf = nfw BbsfLodblf(lbngubgf, rfgion);
+        CACHE.put(nfw Kfy(lbngubgf, rfgion), bbsf);
+        rfturn bbsf;
     }
 
-    public static BaseLocale getInstance(String language, String script,
-                                         String region, String variant) {
-        // JDK uses deprecated ISO639.1 language codes for he, yi and id
-        if (language != null) {
-            if (LocaleUtils.caseIgnoreMatch(language, "he")) {
-                language = "iw";
-            } else if (LocaleUtils.caseIgnoreMatch(language, "yi")) {
-                language = "ji";
-            } else if (LocaleUtils.caseIgnoreMatch(language, "id")) {
-                language = "in";
+    publid stbtid BbsfLodblf gftInstbndf(String lbngubgf, String sdript,
+                                         String rfgion, String vbribnt) {
+        // JDK usfs dfprfdbtfd ISO639.1 lbngubgf dodfs for if, yi bnd id
+        if (lbngubgf != null) {
+            if (LodblfUtils.dbsfIgnorfMbtdi(lbngubgf, "if")) {
+                lbngubgf = "iw";
+            } flsf if (LodblfUtils.dbsfIgnorfMbtdi(lbngubgf, "yi")) {
+                lbngubgf = "ji";
+            } flsf if (LodblfUtils.dbsfIgnorfMbtdi(lbngubgf, "id")) {
+                lbngubgf = "in";
             }
         }
 
-        Key key = new Key(language, script, region, variant);
-        BaseLocale baseLocale = CACHE.get(key);
-        return baseLocale;
+        Kfy kfy = nfw Kfy(lbngubgf, sdript, rfgion, vbribnt);
+        BbsfLodblf bbsfLodblf = CACHE.gft(kfy);
+        rfturn bbsfLodblf;
     }
 
-    public String getLanguage() {
-        return language;
+    publid String gftLbngubgf() {
+        rfturn lbngubgf;
     }
 
-    public String getScript() {
-        return script;
+    publid String gftSdript() {
+        rfturn sdript;
     }
 
-    public String getRegion() {
-        return region;
+    publid String gftRfgion() {
+        rfturn rfgion;
     }
 
-    public String getVariant() {
-        return variant;
+    publid String gftVbribnt() {
+        rfturn vbribnt;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof BaseLocale)) {
-            return false;
+        if (!(obj instbndfof BbsfLodblf)) {
+            rfturn fblsf;
         }
-        BaseLocale other = (BaseLocale)obj;
-        return language == other.language
-               && script == other.script
-               && region == other.region
-               && variant == other.variant;
+        BbsfLodblf otifr = (BbsfLodblf)obj;
+        rfturn lbngubgf == otifr.lbngubgf
+               && sdript == otifr.sdript
+               && rfgion == otifr.rfgion
+               && vbribnt == otifr.vbribnt;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder buf = new StringBuilder();
-        if (language.length() > 0) {
-            buf.append("language=");
-            buf.append(language);
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        if (lbngubgf.lfngti() > 0) {
+            buf.bppfnd("lbngubgf=");
+            buf.bppfnd(lbngubgf);
         }
-        if (script.length() > 0) {
-            if (buf.length() > 0) {
-                buf.append(", ");
+        if (sdript.lfngti() > 0) {
+            if (buf.lfngti() > 0) {
+                buf.bppfnd(", ");
             }
-            buf.append("script=");
-            buf.append(script);
+            buf.bppfnd("sdript=");
+            buf.bppfnd(sdript);
         }
-        if (region.length() > 0) {
-            if (buf.length() > 0) {
-                buf.append(", ");
+        if (rfgion.lfngti() > 0) {
+            if (buf.lfngti() > 0) {
+                buf.bppfnd(", ");
             }
-            buf.append("region=");
-            buf.append(region);
+            buf.bppfnd("rfgion=");
+            buf.bppfnd(rfgion);
         }
-        if (variant.length() > 0) {
-            if (buf.length() > 0) {
-                buf.append(", ");
+        if (vbribnt.lfngti() > 0) {
+            if (buf.lfngti() > 0) {
+                buf.bppfnd(", ");
             }
-            buf.append("variant=");
-            buf.append(variant);
+            buf.bppfnd("vbribnt=");
+            buf.bppfnd(vbribnt);
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
-    @Override
-    public int hashCode() {
-        int h = hash;
-        if (h == 0) {
-            // Generating a hash value from language, script, region and variant
-            h = language.hashCode();
-            h = 31 * h + script.hashCode();
-            h = 31 * h + region.hashCode();
-            h = 31 * h + variant.hashCode();
-            hash = h;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int i = ibsi;
+        if (i == 0) {
+            // Gfnfrbting b ibsi vbluf from lbngubgf, sdript, rfgion bnd vbribnt
+            i = lbngubgf.ibsiCodf();
+            i = 31 * i + sdript.ibsiCodf();
+            i = 31 * i + rfgion.ibsiCodf();
+            i = 31 * i + vbribnt.ibsiCodf();
+            ibsi = i;
         }
-        return h;
+        rfturn i;
     }
 
-    private static final class Key implements Comparable<Key> {
-        private final String lang;
-        private final String scrt;
-        private final String regn;
-        private final String vart;
-        private final boolean normalized;
-        private final int hash;
+    privbtf stbtid finbl dlbss Kfy implfmfnts Compbrbblf<Kfy> {
+        privbtf finbl String lbng;
+        privbtf finbl String sdrt;
+        privbtf finbl String rfgn;
+        privbtf finbl String vbrt;
+        privbtf finbl boolfbn normblizfd;
+        privbtf finbl int ibsi;
 
         /**
-         * Creates a Key. language and region must be normalized
-         * (intern'ed in the proper case).
+         * Crfbtfs b Kfy. lbngubgf bnd rfgion must bf normblizfd
+         * (intfrn'fd in tif propfr dbsf).
          */
-        private Key(String language, String region) {
-            assert language.intern() == language
-                   && region.intern() == region;
+        privbtf Kfy(String lbngubgf, String rfgion) {
+            bssfrt lbngubgf.intfrn() == lbngubgf
+                   && rfgion.intfrn() == rfgion;
 
-            lang = language;
-            scrt = "";
-            regn = region;
-            vart = "";
-            this.normalized = true;
+            lbng = lbngubgf;
+            sdrt = "";
+            rfgn = rfgion;
+            vbrt = "";
+            tiis.normblizfd = truf;
 
-            int h = language.hashCode();
-            if (region != "") {
-                int len = region.length();
-                for (int i = 0; i < len; i++) {
-                    h = 31 * h + LocaleUtils.toLower(region.charAt(i));
+            int i = lbngubgf.ibsiCodf();
+            if (rfgion != "") {
+                int lfn = rfgion.lfngti();
+                for (int i = 0; i < lfn; i++) {
+                    i = 31 * i + LodblfUtils.toLowfr(rfgion.dibrAt(i));
                 }
             }
-            hash = h;
+            ibsi = i;
         }
 
-        public Key(String language, String script, String region, String variant) {
-            this(language, script, region, variant, false);
+        publid Kfy(String lbngubgf, String sdript, String rfgion, String vbribnt) {
+            tiis(lbngubgf, sdript, rfgion, vbribnt, fblsf);
         }
 
-        private Key(String language, String script, String region,
-                    String variant, boolean normalized) {
-            int h = 0;
-            if (language != null) {
-                lang = language;
-                int len = language.length();
-                for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(language.charAt(i));
+        privbtf Kfy(String lbngubgf, String sdript, String rfgion,
+                    String vbribnt, boolfbn normblizfd) {
+            int i = 0;
+            if (lbngubgf != null) {
+                lbng = lbngubgf;
+                int lfn = lbngubgf.lfngti();
+                for (int i = 0; i < lfn; i++) {
+                    i = 31*i + LodblfUtils.toLowfr(lbngubgf.dibrAt(i));
                 }
-            } else {
-                lang = "";
+            } flsf {
+                lbng = "";
             }
-            if (script != null) {
-                scrt = script;
-                int len = script.length();
-                for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(script.charAt(i));
+            if (sdript != null) {
+                sdrt = sdript;
+                int lfn = sdript.lfngti();
+                for (int i = 0; i < lfn; i++) {
+                    i = 31*i + LodblfUtils.toLowfr(sdript.dibrAt(i));
                 }
-            } else {
-                scrt = "";
+            } flsf {
+                sdrt = "";
             }
-            if (region != null) {
-                regn = region;
-                int len = region.length();
-                for (int i = 0; i < len; i++) {
-                    h = 31*h + LocaleUtils.toLower(region.charAt(i));
+            if (rfgion != null) {
+                rfgn = rfgion;
+                int lfn = rfgion.lfngti();
+                for (int i = 0; i < lfn; i++) {
+                    i = 31*i + LodblfUtils.toLowfr(rfgion.dibrAt(i));
                 }
-            } else {
-                regn = "";
+            } flsf {
+                rfgn = "";
             }
-            if (variant != null) {
-                vart = variant;
-                int len = variant.length();
-                for (int i = 0; i < len; i++) {
-                    h = 31*h + variant.charAt(i);
+            if (vbribnt != null) {
+                vbrt = vbribnt;
+                int lfn = vbribnt.lfngti();
+                for (int i = 0; i < lfn; i++) {
+                    i = 31*i + vbribnt.dibrAt(i);
                 }
-            } else {
-                vart = "";
+            } flsf {
+                vbrt = "";
             }
-            hash = h;
-            this.normalized = normalized;
+            ibsi = i;
+            tiis.normblizfd = normblizfd;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            return (this == obj) ||
-                    (obj instanceof Key)
-                    && this.hash == ((Key)obj).hash
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).lang, this.lang)
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).scrt, this.scrt)
-                    && LocaleUtils.caseIgnoreMatch(((Key)obj).regn, this.regn)
-                    && ((Key)obj).vart.equals(vart); // variant is case sensitive in JDK!
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            rfturn (tiis == obj) ||
+                    (obj instbndfof Kfy)
+                    && tiis.ibsi == ((Kfy)obj).ibsi
+                    && LodblfUtils.dbsfIgnorfMbtdi(((Kfy)obj).lbng, tiis.lbng)
+                    && LodblfUtils.dbsfIgnorfMbtdi(((Kfy)obj).sdrt, tiis.sdrt)
+                    && LodblfUtils.dbsfIgnorfMbtdi(((Kfy)obj).rfgn, tiis.rfgn)
+                    && ((Kfy)obj).vbrt.fqubls(vbrt); // vbribnt is dbsf sfnsitivf in JDK!
         }
 
-        @Override
-        public int compareTo(Key other) {
-            int res = LocaleUtils.caseIgnoreCompare(this.lang, other.lang);
-            if (res == 0) {
-                res = LocaleUtils.caseIgnoreCompare(this.scrt, other.scrt);
-                if (res == 0) {
-                    res = LocaleUtils.caseIgnoreCompare(this.regn, other.regn);
-                    if (res == 0) {
-                        res = this.vart.compareTo(other.vart);
+        @Ovfrridf
+        publid int dompbrfTo(Kfy otifr) {
+            int rfs = LodblfUtils.dbsfIgnorfCompbrf(tiis.lbng, otifr.lbng);
+            if (rfs == 0) {
+                rfs = LodblfUtils.dbsfIgnorfCompbrf(tiis.sdrt, otifr.sdrt);
+                if (rfs == 0) {
+                    rfs = LodblfUtils.dbsfIgnorfCompbrf(tiis.rfgn, otifr.rfgn);
+                    if (rfs == 0) {
+                        rfs = tiis.vbrt.dompbrfTo(otifr.vbrt);
                     }
                 }
             }
-            return res;
+            rfturn rfs;
         }
 
-        @Override
-        public int hashCode() {
-            return hash;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        public static Key normalize(Key key) {
-            if (key.normalized) {
-                return key;
+        publid stbtid Kfy normblizf(Kfy kfy) {
+            if (kfy.normblizfd) {
+                rfturn kfy;
             }
 
-            String lang = LocaleUtils.toLowerString(key.lang).intern();
-            String scrt = LocaleUtils.toTitleString(key.scrt).intern();
-            String regn = LocaleUtils.toUpperString(key.regn).intern();
-            String vart = key.vart.intern(); // preserve upper/lower cases
+            String lbng = LodblfUtils.toLowfrString(kfy.lbng).intfrn();
+            String sdrt = LodblfUtils.toTitlfString(kfy.sdrt).intfrn();
+            String rfgn = LodblfUtils.toUppfrString(kfy.rfgn).intfrn();
+            String vbrt = kfy.vbrt.intfrn(); // prfsfrvf uppfr/lowfr dbsfs
 
-            return new Key(lang, scrt, regn, vart, true);
+            rfturn nfw Kfy(lbng, sdrt, rfgn, vbrt, truf);
         }
     }
 
-    private static class Cache extends LocaleObjectCache<Key, BaseLocale> {
+    privbtf stbtid dlbss Cbdif fxtfnds LodblfObjfdtCbdif<Kfy, BbsfLodblf> {
 
-        public Cache() {
+        publid Cbdif() {
         }
 
-        @Override
-        protected Key normalizeKey(Key key) {
-            return Key.normalize(key);
+        @Ovfrridf
+        protfdtfd Kfy normblizfKfy(Kfy kfy) {
+            rfturn Kfy.normblizf(kfy);
         }
 
-        @Override
-        protected BaseLocale createObject(Key key) {
-            return new BaseLocale(key.lang, key.scrt, key.regn, key.vart);
+        @Ovfrridf
+        protfdtfd BbsfLodblf drfbtfObjfdt(Kfy kfy) {
+            rfturn nfw BbsfLodblf(kfy.lbng, kfy.sdrt, kfy.rfgn, kfy.vbrt);
         }
     }
 }

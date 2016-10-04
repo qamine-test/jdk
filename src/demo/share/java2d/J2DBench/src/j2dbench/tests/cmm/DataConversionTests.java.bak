@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,169 +30,169 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-package j2dbench.tests.cmm;
+pbdkbgf j2dbfndi.tfsts.dmm;
 
-import j2dbench.Group;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
-import java.awt.color.ColorSpace;
+import j2dbfndi.Group;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.dolor.ColorSpbdf;
 
-public class DataConversionTests extends ColorConversionTests {
+publid dlbss DbtbConvfrsionTfsts fxtfnds ColorConvfrsionTfsts {
 
-    protected static Group dataConvRoot;
+    protfdtfd stbtid Group dbtbConvRoot;
 
-    public static void init() {
-        dataConvRoot = new Group(colorConvRoot, "data", "Data Conversoion Tests");
+    publid stbtid void init() {
+        dbtbConvRoot = nfw Group(dolorConvRoot, "dbtb", "Dbtb Convfrsoion Tfsts");
 
-        new FromRGBTest();
-        new ToRGBTest();
-        new FromCIEXYZTest();
-        new ToCIEXYZTest();
+        nfw FromRGBTfst();
+        nfw ToRGBTfst();
+        nfw FromCIEXYZTfst();
+        nfw ToCIEXYZTfst();
     }
 
-    public DataConversionTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid DbtbConvfrsionTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    protected static class Context {
+    protfdtfd stbtid dlbss Contfxt {
 
-        ColorSpace cs;
-        int numComponents;
-        float[] val;
-        float[] rgb;
-        float[] cie;
-        TestEnvironment env;
-        Result res;
+        ColorSpbdf ds;
+        int numComponfnts;
+        flobt[] vbl;
+        flobt[] rgb;
+        flobt[] dif;
+        TfstEnvironmfnt fnv;
+        Rfsult rfs;
 
-        public Context(TestEnvironment env, Result result, ColorSpace cs) {
-            this.cs = cs;
-            this.env = env;
-            this.res = result;
+        publid Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult, ColorSpbdf ds) {
+            tiis.ds = ds;
+            tiis.fnv = fnv;
+            tiis.rfs = rfsult;
 
-            numComponents = cs.getNumComponents();
+            numComponfnts = ds.gftNumComponfnts();
 
-            val = new float[numComponents];
+            vbl = nfw flobt[numComponfnts];
 
-            for (int i = 0; i < numComponents; i++) {
-                float min = cs.getMinValue(i);
-                float max = cs.getMaxValue(i);
+            for (int i = 0; i < numComponfnts; i++) {
+                flobt min = ds.gftMinVbluf(i);
+                flobt mbx = ds.gftMbxVbluf(i);
 
-                val[i] = 0.5f * (max - min);
+                vbl[i] = 0.5f * (mbx - min);
             }
 
-            rgb = new float[]{0.5f, 0.5f, 0.5f};
-            cie = new float[]{0.5f, 0.5f, 0.5f};
+            rgb = nfw flobt[]{0.5f, 0.5f, 0.5f};
+            dif = nfw flobt[]{0.5f, 0.5f, 0.5f};
         }
     }
 
-    @Override
-    public Object initTest(TestEnvironment env, Result result) {
-        ColorSpace cs = getColorSpace(env);
-        return new Context(env, result, cs);
+    @Ovfrridf
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+        ColorSpbdf ds = gftColorSpbdf(fnv);
+        rfturn nfw Contfxt(fnv, rfsult, ds);
     }
 
-    @Override
-    public void cleanupTest(TestEnvironment te, Object o) {
+    @Ovfrridf
+    publid void dlfbnupTfst(TfstEnvironmfnt tf, Objfdt o) {
     }
 
-    private static class FromRGBTest extends DataConversionTests {
+    privbtf stbtid dlbss FromRGBTfst fxtfnds DbtbConvfrsionTfsts {
 
-        public FromRGBTest() {
-            super(dataConvRoot,
+        publid FromRGBTfst() {
+            supfr(dbtbConvRoot,
                     "fromRGB",
-                    "ColorSpace.fromRGB()");
+                    "ColorSpbdf.fromRGB()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
 
-            final float[] rgb = ictx.rgb;
+            finbl flobt[] rgb = idtx.rgb;
             do {
                 try {
-                    cs.fromRGB(rgb);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ds.fromRGB(rgb);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class FromCIEXYZTest extends DataConversionTests {
+    privbtf stbtid dlbss FromCIEXYZTfst fxtfnds DbtbConvfrsionTfsts {
 
-        public FromCIEXYZTest() {
-            super(dataConvRoot,
+        publid FromCIEXYZTfst() {
+            supfr(dbtbConvRoot,
                     "fromCIEXYZ",
-                    "ColorSpace.fromCIEXYZ()");
+                    "ColorSpbdf.fromCIEXYZ()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
 
-            final float[] val = ictx.cie;
+            finbl flobt[] vbl = idtx.dif;
             do {
                 try {
-                    cs.fromCIEXYZ(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ds.fromCIEXYZ(vbl);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class ToCIEXYZTest extends DataConversionTests {
+    privbtf stbtid dlbss ToCIEXYZTfst fxtfnds DbtbConvfrsionTfsts {
 
-        public ToCIEXYZTest() {
-            super(dataConvRoot,
+        publid ToCIEXYZTfst() {
+            supfr(dbtbConvRoot,
                     "toCIEXYZ",
-                    "ColorSpace.toCIEXYZ()");
+                    "ColorSpbdf.toCIEXYZ()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
 
-            final float[] val = ictx.val;
+            finbl flobt[] vbl = idtx.vbl;
 
             do {
                 try {
-                    cs.toCIEXYZ(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ds.toCIEXYZ(vbl);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class ToRGBTest extends DataConversionTests {
+    privbtf stbtid dlbss ToRGBTfst fxtfnds DbtbConvfrsionTfsts {
 
-        public ToRGBTest() {
-            super(dataConvRoot,
+        publid ToRGBTfst() {
+            supfr(dbtbConvRoot,
                     "toRGB",
-                    "ColorSpace.toRGB()");
+                    "ColorSpbdf.toRGB()");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
 
-            final float[] val = ictx.val;
+            finbl flobt[] vbl = idtx.vbl;
 
             do {
                 try {
-                    cs.toRGB(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ds.toRGB(vbl);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 }

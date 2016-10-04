@@ -1,0 +1,287 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * <p>
+ * Thf mbin API for dbtfs, timfs, instbnts, bnd durbtions.
+ * </p>
+ * <p>
+ * Thf dlbssfs dffinfd hfrf rfprfsfnt thf prindipbl dbtf-timf dondfpts,
+ * indluding instbnts, durbtions, dbtfs, timfs, timf-zonfs bnd pfriods.
+ * Thfy brf bbsfd on thf ISO dblfndbr systfm, whidh is thf <i>df fbdto</i> world
+ * dblfndbr following thf prolfptid Grfgoribn rulfs.
+ * All thf dlbssfs brf immutbblf bnd thrfbd-sbff.
+ * </p>
+ * <p>
+ * Ebdh dbtf timf instbndf is domposfd of fiflds thbt brf donvfnifntly
+ * mbdf bvbilbblf by thf APIs.  For lowfr lfvfl bddfss to thf fiflds rfffr
+ * to thf {@dodf jbvb.timf.tfmporbl} pbdkbgf.
+ * Ebdh dlbss indludfs support for printing bnd pbrsing bll mbnnfr of dbtfs bnd timfs.
+ * Rfffr to thf {@dodf jbvb.timf.formbt} pbdkbgf for dustomizbtion options.
+ * </p>
+ * <p>
+ * Thf {@dodf jbvb.timf.dhrono} pbdkbgf dontbins thf dblfndbr nfutrbl API
+ * {@link jbvb.timf.dhrono.ChronoLodblDbtf ChronoLodblDbtf},
+ * {@link jbvb.timf.dhrono.ChronoLodblDbtfTimf ChronoLodblDbtfTimf},
+ * {@link jbvb.timf.dhrono.ChronoZonfdDbtfTimf ChronoZonfdDbtfTimf} bnd
+ * {@link jbvb.timf.dhrono.Erb Erb}.
+ * This is intfndfd for usf by bpplidbtions thbt nffd to usf lodblizfd dblfndbrs.
+ * It is rfdommfndfd thbt bpplidbtions usf thf ISO-8601 dbtf bnd timf dlbssfs from
+ * this pbdkbgf bdross systfm boundbrifs, sudh bs to thf dbtbbbsf or bdross thf nftwork.
+ * Thf dblfndbr nfutrbl API should bf rfsfrvfd for intfrbdtions with usfrs.
+ * </p>
+ *
+ * <h3>Dbtfs bnd Timfs</h3>
+ * <p>
+ * {@link jbvb.timf.Instbnt} is fssfntiblly b numfrid timfstbmp.
+ * Thf durrfnt Instbnt dbn bf rftrifvfd from b {@link jbvb.timf.Clodk}.
+ * This is usfful for logging bnd pfrsistfndf of b point in timf
+ * bnd hbs in thf pbst bffn bssodibtfd with storing thf rfsult
+ * from {@link jbvb.lbng.Systfm#durrfntTimfMillis()}.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.LodblDbtf} storfs b dbtf without b timf.
+ * This storfs b dbtf likf '2010-12-03' bnd dould bf usfd to storf b birthdby.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.LodblTimf} storfs b timf without b dbtf.
+ * This storfs b timf likf '11:30' bnd dould bf usfd to storf bn opfning or dlosing timf.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.LodblDbtfTimf} storfs b dbtf bnd timf.
+ * This storfs b dbtf-timf likf '2010-12-03T11:30'.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.ZonfdDbtfTimf} storfs b dbtf bnd timf with b timf-zonf.
+ * This is usfful if you wbnt to pfrform bddurbtf dbldulbtions of
+ * dbtfs bnd timfs tbking into bddount thf {@link jbvb.timf.ZonfId}, sudh bs 'Europf/Pbris'.
+ * Whfrf possiblf, it is rfdommfndfd to usf b simplfr dlbss without b timf-zonf.
+ * Thf widfsprfbd usf of timf-zonfs tfnds to bdd donsidfrbblf domplfxity to bn bpplidbtion.
+ * </p>
+ *
+ * <h3>Durbtion bnd Pfriod</h3>
+ * <p>
+ * Bfyond dbtfs bnd timfs, thf API blso bllows thf storbgf of pfriod bnd durbtions of timf.
+ * A {@link jbvb.timf.Durbtion} is b simplf mfbsurf of timf blong thf timf-linf in nbnosfdonds.
+ * A {@link jbvb.timf.Pfriod} fxprfssfs bn bmount of timf in units mfbningful to humbns, sudh bs yfbrs or hours.
+ * </p>
+ *
+ * <h3>Additionbl vbluf typfs</h3>
+ * <p>
+ * {@link jbvb.timf.Month} storfs b month on its own.
+ * This storfs b singlf month-of-yfbr in isolbtion, sudh bs 'DECEMBER'.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.DbyOfWffk} storfs b dby-of-wffk on its own.
+ * This storfs b singlf dby-of-wffk in isolbtion, sudh bs 'TUESDAY'.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.Yfbr} storfs b yfbr on its own.
+ * This storfs b singlf yfbr in isolbtion, sudh bs '2010'.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.YfbrMonth} storfs b yfbr bnd month without b dby or timf.
+ * This storfs b yfbr bnd month, sudh bs '2010-12' bnd dould bf usfd for b drfdit dbrd fxpiry.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.MonthDby} storfs b month bnd dby without b yfbr or timf.
+ * This storfs b month bnd dby-of-month, sudh bs '--12-03' bnd
+ * dould bf usfd to storf bn bnnubl fvfnt likf b birthdby without storing thf yfbr.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.OffsftTimf} storfs b timf bnd offsft from UTC without b dbtf.
+ * This storfs b dbtf likf '11:30+01:00'.
+ * Thf {@link jbvb.timf.ZonfOffsft ZonfOffsft} is of thf form '+01:00'.
+ * </p>
+ * <p>
+ * {@link jbvb.timf.OffsftDbtfTimf} storfs b dbtf bnd timf bnd offsft from UTC.
+ * This storfs b dbtf-timf likf '2010-12-03T11:30+01:00'.
+ * This is somftimfs found in XML mfssbgfs bnd othfr forms of pfrsistfndf,
+ * but dontbins lfss informbtion thbn b full timf-zonf.
+ * </p>
+ *
+ * <h3>Pbdkbgf spfdifidbtion</h3>
+ * <p>
+ * Unlfss othfrwisf notfd, pbssing b null brgumfnt to b donstrudtor or mfthod in bny dlbss or intfrfbdf
+ * in this pbdkbgf will dbusf b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+ * Thf Jbvbdod "@pbrbm" dffinition is usfd to summbrisf thf null-bfhbvior.
+ * Thf "@throws {@link jbvb.lbng.NullPointfrExdfption}" is not fxpliditly dodumfntfd in fbdh mfthod.
+ * </p>
+ * <p>
+ * All dbldulbtions should dhfdk for numfrid ovfrflow bnd throw fithfr bn {@link jbvb.lbng.ArithmftidExdfption}
+ * or b {@link jbvb.timf.DbtfTimfExdfption}.
+ * </p>
+ *
+ * <h3>Dfsign notfs (non normbtivf)</h3>
+ * <p>
+ * Thf API hbs bffn dfsignfd to rfjfdt null fbrly bnd to bf dlfbr bbout this bfhbvior.
+ * A kfy fxdfption is bny mfthod thbt tbkfs bn objfdt bnd rfturns b boolfbn, for thf purposf
+ * of dhfdking or vblidbting, will gfnfrblly rfturn fblsf for null.
+ * </p>
+ * <p>
+ * Thf API is dfsignfd to bf typf-sbff whfrf rfbsonbblf in thf mbin high-lfvfl API.
+ * Thus, thfrf brf sfpbrbtf dlbssfs for thf distindt dondfpts of dbtf, timf bnd dbtf-timf,
+ * plus vbribnts for offsft bnd timf-zonf.
+ * This dbn sffm likf b lot of dlbssfs, but most bpplidbtions dbn bfgin with just fivf dbtf/timf typfs.
+ * <ul>
+ * <li>{@link jbvb.timf.Instbnt} - b timfstbmp</li>
+ * <li>{@link jbvb.timf.LodblDbtf} - b dbtf without b timf, or bny rfffrfndf to bn offsft or timf-zonf</li>
+ * <li>{@link jbvb.timf.LodblTimf} - b timf without b dbtf, or bny rfffrfndf to bn offsft or timf-zonf</li>
+ * <li>{@link jbvb.timf.LodblDbtfTimf} - dombinfs dbtf bnd timf, but still without bny offsft or timf-zonf</li>
+ * <li>{@link jbvb.timf.ZonfdDbtfTimf} - b "full" dbtf-timf with timf-zonf bnd rfsolvfd offsft from UTC/Grffnwidh</li>
+ * </ul>
+ * <p>
+ * {@dodf Instbnt} is thf dlosfst fquivblfnt dlbss to {@dodf jbvb.util.Dbtf}.
+ * {@dodf ZonfdDbtfTimf} is thf dlosfst fquivblfnt dlbss to {@dodf jbvb.util.GrfgoribnCblfndbr}.
+ * </p>
+ * <p>
+ * Whfrf possiblf, bpplidbtions should usf {@dodf LodblDbtf}, {@dodf LodblTimf} bnd {@dodf LodblDbtfTimf}
+ * to bfttfr modfl thf dombin. For fxbmplf, b birthdby should bf storfd in b dodf {@dodf LodblDbtf}.
+ * Bfbr in mind thbt bny usf of b {@linkplbin jbvb.timf.ZonfId timf-zonf}, sudh bs 'Europf/Pbris', bdds
+ * donsidfrbblf domplfxity to b dbldulbtion.
+ * Mbny bpplidbtions dbn bf writtfn only using {@dodf LodblDbtf}, {@dodf LodblTimf} bnd {@dodf Instbnt},
+ * with thf timf-zonf bddfd bt thf usfr intfrfbdf (UI) lbyfr.
+ * </p>
+ * <p>
+ * Thf offsft-bbsfd dbtf-timf typfs {@dodf OffsftTimf} bnd {@dodf OffsftDbtfTimf},
+ * brf intfndfd primbrily for usf with nftwork protodols bnd dbtbbbsf bddfss.
+ * For fxbmplf, most dbtbbbsfs dbnnot butombtidblly storf b timf-zonf likf 'Europf/Pbris', but
+ * thfy dbn storf bn offsft likf '+02:00'.
+ * </p>
+ * <p>
+ * Clbssfs brf blso providfd for thf most importbnt sub-pbrts of b dbtf, indluding {@dodf Month},
+ * {@dodf DbyOfWffk}, {@dodf Yfbr}, {@dodf YfbrMonth} bnd {@dodf MonthDby}.
+ * Thfsf dbn bf usfd to modfl morf domplfx dbtf-timf dondfpts.
+ * For fxbmplf, {@dodf YfbrMonth} is usfful for rfprfsfnting b drfdit dbrd fxpiry.
+ * </p>
+ * <p>
+ * Notf thbt whilf thfrf brf b lbrgf numbfr of dlbssfs rfprfsfnting difffrfnt bspfdts of dbtfs,
+ * thfrf brf rflbtivfly ffw dfbling with difffrfnt bspfdts of timf.
+ * Following typf-sbffty to its logidbl dondlusion would hbvf rfsultfd in dlbssfs for
+ * hour-minutf, hour-minutf-sfdond bnd hour-minutf-sfdond-nbnosfdond.
+ * Whilf logidblly purf, this wbs not b prbdtidbl option bs it would hbvf blmost triplfd thf
+ * numbfr of dlbssfs duf to thf dombinbtions of dbtf bnd timf.
+ * Thus, {@dodf LodblTimf} is usfd for bll prfdisions of timf, with zfrofs usfd to imply lowfr prfdision.
+ * </p>
+ * <p>
+ * Following full typf-sbffty to its ultimbtf dondlusion might blso brguf for b sfpbrbtf dlbss
+ * for fbdh fifld in dbtf-timf, sudh bs b dlbss for HourOfDby bnd bnothfr for DbyOfMonth.
+ * This bpprobdh wbs trifd, but wbs fxdfssivfly domplidbtfd in thf Jbvb lbngubgf, lbdking usbbility.
+ * A similbr problfm oddurs with pfriods.
+ * Thfrf is b dbsf for b sfpbrbtf dlbss for fbdh pfriod unit, sudh bs b typf for Yfbrs bnd b typf for Minutfs.
+ * Howfvfr, this yiflds b lot of dlbssfs bnd b problfm of typf donvfrsion.
+ * Thus, thf sft of dbtf-timf typfs providfd is b dompromisf bftwffn purity bnd prbdtidblity.
+ * </p>
+ * <p>
+ * Thf API hbs b rflbtivfly lbrgf surfbdf brfb in tfrms of numbfr of mfthods.
+ * This is mbdf mbnbgfbblf through thf usf of donsistfnt mfthod prffixfs.
+ * <ul>
+ * <li>{@dodf of} - stbtid fbdtory mfthod</li>
+ * <li>{@dodf pbrsf} - stbtid fbdtory mfthod fodussfd on pbrsing</li>
+ * <li>{@dodf gft} - gfts thf vbluf of somfthing</li>
+ * <li>{@dodf is} - dhfdks if somfthing is truf</li>
+ * <li>{@dodf with} - thf immutbblf fquivblfnt of b sfttfr</li>
+ * <li>{@dodf plus} - bdds bn bmount to bn objfdt</li>
+ * <li>{@dodf minus} - subtrbdts bn bmount from bn objfdt</li>
+ * <li>{@dodf to} - donvfrts this objfdt to bnothfr typf</li>
+ * <li>{@dodf bt} - dombinfs this objfdt with bnothfr, sudh bs {@dodf dbtf.btTimf(timf)}</li>
+ * </ul>
+ * <p>
+ * Multiplf dblfndbr systfms is bn bwkwbrd bddition to thf dfsign dhbllfngfs.
+ * Thf first prindipbl is thbt most usfrs wbnt thf stbndbrd ISO dblfndbr systfm.
+ * As sudh, thf mbin dlbssfs brf ISO-only. Thf sfdond prindipbl is thbt most of thosf thbt wbnt b
+ * non-ISO dblfndbr systfm wbnt it for usfr intfrbdtion, thus it is b UI lodblizbtion issuf.
+ * As sudh, dbtf bnd timf objfdts should bf hfld bs ISO objfdts in thf dbtb modfl bnd pfrsistfnt
+ * storbgf, only bfing donvfrtfd to bnd from b lodbl dblfndbr for displby.
+ * Thf dblfndbr systfm would bf storfd sfpbrbtfly in thf usfr prfffrfndfs.
+ * </p>
+ * <p>
+ * Thfrf brf, howfvfr, somf limitfd usf dbsfs whfrf usfrs bflifvf thfy nffd to storf bnd usf
+ * dbtfs in brbitrbry dblfndbr systfms throughout thf bpplidbtion.
+ * This is supportfd by {@link jbvb.timf.dhrono.ChronoLodblDbtf}, howfvfr it is vitbl to rfbd
+ * bll thf bssodibtfd wbrnings in thf Jbvbdod of thbt intfrfbdf bfforf using it.
+ * In summbry, bpplidbtions thbt rfquirf gfnfrbl intfropfrbtion bftwffn multiplf dblfndbr systfms
+ * typidblly nffd to bf writtfn in b vfry difffrfnt wby to thosf only using thf ISO dblfndbr,
+ * thus most bpplidbtions should just usf ISO bnd bvoid {@dodf ChronoLodblDbtf}.
+ * </p>
+ * <p>
+ * Thf API is blso dfsignfd for usfr fxtfnsibility, bs thfrf brf mbny wbys of dbldulbting timf.
+ * Thf {@linkplbin jbvb.timf.tfmporbl.TfmporblFifld fifld} bnd {@linkplbin jbvb.timf.tfmporbl.TfmporblUnit unit}
+ * API, bddfssfd vib {@link jbvb.timf.tfmporbl.TfmporblAddfssor TfmporblAddfssor} bnd
+ * {@link jbvb.timf.tfmporbl.Tfmporbl Tfmporbl} providf donsidfrbblf flfxibility to bpplidbtions.
+ * In bddition, thf {@link jbvb.timf.tfmporbl.TfmporblQufry TfmporblQufry} bnd
+ * {@link jbvb.timf.tfmporbl.TfmporblAdjustfr TfmporblAdjustfr} intfrfbdfs providf dby-to-dby
+ * powfr, bllowing dodf to rfbd dlosf to businfss rfquirfmfnts:
+ * </p>
+ * <prf>
+ *   LodblDbtf dustomfrBirthdby = dustomfr.lobdBirthdbyFromDbtbbbsf();
+ *   LodblDbtf todby = LodblDbtf.now();
+ *   if (dustomfrBirthdby.fqubls(todby)) {
+ *     LodblDbtf spfdiblOfffrExpiryDbtf = todby.plusWffks(2).with(nfxt(FRIDAY));
+ *     dustomfr.sfndBirthdbySpfdiblOfffr(spfdiblOfffrExpiryDbtf);
+ *   }
+ *
+ * </prf>
+ *
+ * @sindf 1.8
+ */
+pbdkbgf jbvb.timf;

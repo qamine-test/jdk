@@ -1,0 +1,310 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfPbrsingExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf Privbtf Kfy Usbgf Extfnsion.
+ *
+ * <p>Thf Privbtf Kfy Usbgf Pfriod fxtfnsion bllows thf dfrtifidbtf issufr
+ * to spfdify b difffrfnt vblidity pfriod for thf privbtf kfy thbn thf
+ * dfrtifidbtf. This fxtfnsion is intfndfd for usf with digitbl
+ * signbturf kfys.  This fxtfnsion donsists of two optionbl domponfnts
+ * notBfforf bnd notAftfr.  Thf privbtf kfy bssodibtfd with thf
+ * dfrtifidbtf should not bf usfd to sign objfdts bfforf or bftfr thf
+ * timfs spfdififd by thf two domponfnts, rfspfdtivfly.
+ *
+ * <prf>
+ * PrivbtfKfyUsbgfPfriod ::= SEQUENCE {
+ *     notBfforf  [0]  GfnfrblizfdTimf OPTIONAL,
+ *     notAftfr   [1]  GfnfrblizfdTimf OPTIONAL }
+ * </prf>
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss PrivbtfKfyUsbgfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.PrivbtfKfyUsbgf";
+    /**
+     * Sub bttributfs nbmf for this CfrtAttrSft.
+     */
+    publid stbtid finbl String NAME = "PrivbtfKfyUsbgf";
+    publid stbtid finbl String NOT_BEFORE = "not_bfforf";
+    publid stbtid finbl String NOT_AFTER = "not_bftfr";
+
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_BEFORE = 0;
+    privbtf stbtid finbl bytf TAG_AFTER = 1;
+
+    privbtf Dbtf        notBfforf = null;
+    privbtf Dbtf        notAftfr = null;
+
+    // Endodf this fxtfnsion vbluf.
+    privbtf void fndodfThis() throws IOExdfption {
+        if (notBfforf == null && notAftfr == null) {
+            this.fxtfnsionVbluf = null;
+            rfturn;
+        }
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        if (notBfforf != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putGfnfrblizfdTimf(notBfforf);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_BEFORE), tmp);
+        }
+        if (notAftfr != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putGfnfrblizfdTimf(notAftfr);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_AFTER), tmp);
+        }
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        this.fxtfnsionVbluf = sfq.toBytfArrby();
+    }
+
+    /**
+     * Thf dffbult donstrudtor for PrivbtfKfyUsbgfExtfnsion.
+     *
+     * @pbrbm notBfforf thf dbtf/timf bfforf whidh thf privbtf kfy
+     *         should not bf usfd.
+     * @pbrbm notAftfr thf dbtf/timf bftfr whidh thf privbtf kfy
+     *         should not bf usfd.
+     */
+    publid PrivbtfKfyUsbgfExtfnsion(Dbtf notBfforf, Dbtf notAftfr)
+    throws IOExdfption {
+        this.notBfforf = notBfforf;
+        this.notAftfr = notAftfr;
+
+        this.fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+        this.dritidbl = fblsf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption CfrtifidbtfExdfption on dfrtifidbtf pbrsing frrors.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid PrivbtfKfyUsbgfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws CfrtifidbtfExdfption, IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrInputStrfbm str = nfw DfrInputStrfbm(this.fxtfnsionVbluf);
+        DfrVbluf[] sfq = str.gftSfqufndf(2);
+
+        // NB. this is blwbys fndodfd with thf IMPLICIT tbg
+        // Thf dhfdks only mbkf sfnsf if wf bssumf implidit tbgging,
+        // with fxplidit tbgging thf form is blwbys donstrudtfd.
+        for (int i = 0; i < sfq.lfngth; i++) {
+            DfrVbluf opt = sfq[i];
+
+            if (opt.isContfxtSpfdifid(TAG_BEFORE) &&
+                !opt.isConstrudtfd()) {
+                if (notBfforf != null) {
+                    throw nfw CfrtifidbtfPbrsingExdfption(
+                        "Duplidbtf notBfforf in PrivbtfKfyUsbgf.");
+                }
+                opt.rfsftTbg(DfrVbluf.tbg_GfnfrblizfdTimf);
+                str = nfw DfrInputStrfbm(opt.toBytfArrby());
+                notBfforf = str.gftGfnfrblizfdTimf();
+
+            } flsf if (opt.isContfxtSpfdifid(TAG_AFTER) &&
+                       !opt.isConstrudtfd()) {
+                if (notAftfr != null) {
+                    throw nfw CfrtifidbtfPbrsingExdfption(
+                        "Duplidbtf notAftfr in PrivbtfKfyUsbgf.");
+                }
+                opt.rfsftTbg(DfrVbluf.tbg_GfnfrblizfdTimf);
+                str = nfw DfrInputStrfbm(opt.toBytfArrby());
+                notAftfr = str.gftGfnfrblizfdTimf();
+            } flsf
+                throw nfw IOExdfption("Invblid fndoding of " +
+                                      "PrivbtfKfyUsbgfExtfnsion");
+        }
+    }
+
+    /**
+     * Rfturn thf printbblf string.
+     */
+    publid String toString() {
+        rfturn(supfr.toString() +
+                "PrivbtfKfyUsbgf: [\n" +
+                ((notBfforf == null) ? "" : "From: " + notBfforf.toString() + ", ")
+                + ((notAftfr == null) ? "" : "To: " + notAftfr.toString())
+                + "]\n");
+    }
+
+    /**
+     * Vfrify thbt thbt thf durrfnt timf is within thf vblidity pfriod.
+     *
+     * @fxdfption CfrtifidbtfExpirfdExdfption if thf dfrtifidbtf hbs fxpirfd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if thf dfrtifidbtf is not
+     * yft vblid.
+     */
+    publid void vblid()
+    throws CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
+        Dbtf now = nfw Dbtf();
+        vblid(now);
+    }
+
+    /**
+     * Vfrify thbt thbt thf pbssfd timf is within thf vblidity pfriod.
+     *
+     * @fxdfption CfrtifidbtfExpirfdExdfption if thf dfrtifidbtf hbs fxpirfd
+     * with rfspfdt to thf <dodf>Dbtf</dodf> supplifd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if thf dfrtifidbtf is not
+     * yft vblid with rfspfdt to thf <dodf>Dbtf</dodf> supplifd.
+     *
+     */
+    publid void vblid(Dbtf now)
+    throws CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
+        /*
+         * wf usf thf intfrnbl Dbtfs rbthfr thbn thf pbssfd in Dbtf
+         * bfdbusf somfonf dould ovfrridf thf Dbtf mfthods bftfr()
+         * bnd bfforf() to do somfthing fntirfly difffrfnt.
+         */
+        if (notBfforf.bftfr(now)) {
+            throw nfw CfrtifidbtfNotYftVblidExdfption("NotBfforf: " +
+                                                      notBfforf.toString());
+        }
+        if (notAftfr.bfforf(now)) {
+            throw nfw CfrtifidbtfExpirfdExdfption("NotAftfr: " +
+                                                  notAftfr.toString());
+        }
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf OutputStrfbm.
+     *
+     * @pbrbm out thf OutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (fxtfnsionVbluf == null) {
+            fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+            dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf hbndling frrors.
+     */
+    publid void sft(String nbmf, Objfdt obj)
+    throws CfrtifidbtfExdfption, IOExdfption {
+        if (!(obj instbndfof Dbtf)) {
+            throw nfw CfrtifidbtfExdfption("Attributf must bf of typf Dbtf.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = (Dbtf)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = (Dbtf)obj;
+        } flsf {
+          throw nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf hbndling frrors.
+     */
+    publid Dbtf gft(String nbmf) throws CfrtifidbtfExdfption {
+      if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+          rfturn (nfw Dbtf(notBfforf.gftTimf()));
+      } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+          rfturn (nfw Dbtf(notAftfr.gftTimf()));
+      } flsf {
+          throw nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
+      }
+  }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf hbndling frrors.
+     */
+    publid void dflftf(String nbmf) throws CfrtifidbtfExdfption, IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = null;
+        } flsf {
+          throw nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NOT_BEFORE);
+        flfmfnts.bddElfmfnt(NOT_AFTER);
+
+        rfturn(flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+      rfturn(NAME);
+    }
+}

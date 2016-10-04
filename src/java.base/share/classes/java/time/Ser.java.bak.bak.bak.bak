@@ -1,0 +1,284 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2011-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidClbssExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+
+/**
+ * Thf shbrfd sfriblizbtion dflfgbtf for this pbdkbgf.
+ *
+ * @implNotf
+ * This dlbss wrbps thf objfdt bfing sfriblizfd, bnd tbkfs b bytf rfprfsfnting thf typf of thf dlbss to
+ * bf sfriblizfd.  This bytf dbn blso bf usfd for vfrsioning thf sfriblizbtion formbt.  In this dbsf bnothfr
+ * bytf flbg would bf usfd in ordfr to spfdify bn bltfrnbtivf vfrsion of thf typf formbt.
+ * For fxbmplf {@dodf LOCAL_DATE_TYPE_VERSION_2 = 21}.
+ * <p>
+ * In ordfr to sfriblizf thf objfdt it writfs its bytf bnd thfn dblls bbdk to thf bppropribtf dlbss whfrf
+ * thf sfriblizbtion is pfrformfd.  In ordfr to dfsfriblizf thf objfdt it rfbd in thf typf bytf, switdhing
+ * in ordfr to sflfdt whidh dlbss to dbll bbdk into.
+ * <p>
+ * Thf sfriblizbtion formbt is dftfrminfd on b pfr dlbss bbsis.  In thf dbsf of fifld bbsfd dlbssfs fbdh
+ * of thf fiflds is writtfn out with bn bppropribtf sizf formbt in dfsdfnding ordfr of thf fifld's sizf.  For
+ * fxbmplf in thf dbsf of {@link LodblDbtf} yfbr is writtfn bfforf month.  Compositf dlbssfs, sudh bs
+ * {@link LodblDbtfTimf} brf sfriblizfd bs onf objfdt.
+ * <p>
+ * This dlbss is mutbblf bnd should bf drfbtfd ondf pfr sfriblizbtion.
+ *
+ * @sfribl indludf
+ * @sindf 1.8
+ */
+finbl dlbss Sfr implfmfnts Extfrnblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7683839454370182990L;
+
+    stbtid finbl bytf DURATION_TYPE = 1;
+    stbtid finbl bytf INSTANT_TYPE = 2;
+    stbtid finbl bytf LOCAL_DATE_TYPE = 3;
+    stbtid finbl bytf LOCAL_TIME_TYPE = 4;
+    stbtid finbl bytf LOCAL_DATE_TIME_TYPE = 5;
+    stbtid finbl bytf ZONE_DATE_TIME_TYPE = 6;
+    stbtid finbl bytf ZONE_REGION_TYPE = 7;
+    stbtid finbl bytf ZONE_OFFSET_TYPE = 8;
+    stbtid finbl bytf OFFSET_TIME_TYPE = 9;
+    stbtid finbl bytf OFFSET_DATE_TIME_TYPE = 10;
+    stbtid finbl bytf YEAR_TYPE = 11;
+    stbtid finbl bytf YEAR_MONTH_TYPE = 12;
+    stbtid finbl bytf MONTH_DAY_TYPE = 13;
+    stbtid finbl bytf PERIOD_TYPE = 14;
+
+    /** Thf typf bfing sfriblizfd. */
+    privbtf bytf typf;
+    /** Thf objfdt bfing sfriblizfd. */
+    privbtf Objfdt objfdt;
+
+    /**
+     * Construdtor for dfsfriblizbtion.
+     */
+    publid Sfr() {
+    }
+
+    /**
+     * Crfbtfs bn instbndf for sfriblizbtion.
+     *
+     * @pbrbm typf  thf typf
+     * @pbrbm objfdt  thf objfdt
+     */
+    Sfr(bytf typf, Objfdt objfdt) {
+        this.typf = typf;
+        this.objfdt = objfdt;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfnts thf {@dodf Extfrnblizbblf} intfrfbdf to writf thf objfdt.
+     * @sfriblDbtb
+     *
+     * Ebdh sfriblizbblf dlbss is mbppfd to b typf thbt is thf first bytf
+     * in thf strfbm.  Rfffr to fbdh dlbss {@dodf writfRfplbdf}
+     * sfriblizfd form for thf vbluf of thf typf bnd sfqufndf of vblufs for thf typf.
+     * <ul>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Durbtion">Durbtion.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Instbnt">Instbnt.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblDbtf">LodblDbtf.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblDbtfTimf">LodblDbtfTimf.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblTimf">LodblTimf.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.MonthDby">MonthDby.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.OffsftTimf">OffsftTimf.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.OffsftDbtfTimf">OffsftDbtfTimf.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Pfriod">Pfriod.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Yfbr">Yfbr.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.YfbrMonth">YfbrMonth.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfId">ZonfId.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfOffsft">ZonfOffsft.writfRfplbdf</b>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfdDbtfTimf">ZonfdDbtfTimf.writfRfplbdf</b>
+     * </ul>
+     *
+     * @pbrbm out  thf dbtb strfbm to writf to, not null
+     */
+    @Ovfrridf
+    publid void writfExtfrnbl(ObjfdtOutput out) throws IOExdfption {
+        writfIntfrnbl(typf, objfdt, out);
+    }
+
+    stbtid void writfIntfrnbl(bytf typf, Objfdt objfdt, ObjfdtOutput out) throws IOExdfption {
+        out.writfBytf(typf);
+        switdh (typf) {
+            dbsf DURATION_TYPE:
+                ((Durbtion) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf INSTANT_TYPE:
+                ((Instbnt) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_DATE_TYPE:
+                ((LodblDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_DATE_TIME_TYPE:
+                ((LodblDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_TIME_TYPE:
+                ((LodblTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_REGION_TYPE:
+                ((ZonfRfgion) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_OFFSET_TYPE:
+                ((ZonfOffsft) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_DATE_TIME_TYPE:
+                ((ZonfdDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf OFFSET_TIME_TYPE:
+                ((OffsftTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf OFFSET_DATE_TIME_TYPE:
+                ((OffsftDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf YEAR_TYPE:
+                ((Yfbr) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf YEAR_MONTH_TYPE:
+                ((YfbrMonth) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf MONTH_DAY_TYPE:
+                ((MonthDby) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf PERIOD_TYPE:
+                ((Pfriod) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dffbult:
+                throw nfw InvblidClbssExdfption("Unknown sfriblizfd typf");
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfnts thf {@dodf Extfrnblizbblf} intfrfbdf to rfbd thf objfdt.
+     * @sfriblDbtb
+     *
+     * Thf strfbmfd typf bnd pbrbmftfrs dffinfd by thf typf's {@dodf writfRfplbdf}
+     * mfthod brf rfbd bnd pbssfd to thf dorrfsponding stbtid fbdtory for thf typf
+     * to drfbtf b nfw instbndf.  Thbt instbndf is rfturnfd bs thf df-sfriblizfd
+     * {@dodf Sfr} objfdt.
+     *
+     * <ul>
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Durbtion">Durbtion</b> - {@dodf Durbtion.ofSfdonds(sfdonds, nbnos);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Instbnt">Instbnt</b> - {@dodf Instbnt.ofEpodhSfdond(sfdonds, nbnos);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblDbtf">LodblDbtf</b> - {@dodf LodblDbtf.of(yfbr, month, dby);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblDbtfTimf">LodblDbtfTimf</b> - {@dodf LodblDbtfTimf.of(dbtf, timf);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.LodblTimf">LodblTimf</b> - {@dodf LodblTimf.of(hour, minutf, sfdond, nbno);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.MonthDby">MonthDby</b> - {@dodf MonthDby.of(month, dby);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.OffsftTimf">OffsftTimf</b> - {@dodf OffsftTimf.of(timf, offsft);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.OffsftDbtfTimf">OffsftDbtfTimf</b> - {@dodf OffsftDbtfTimf.of(dbtfTimf, offsft);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Pfriod">Pfriod</b> - {@dodf Pfriod.of(yfbrs, months, dbys);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.Yfbr">Yfbr</b> - {@dodf Yfbr.of(yfbr);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.YfbrMonth">YfbrMonth</b> - {@dodf YfbrMonth.of(yfbr, month);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfdDbtfTimf">ZonfdDbtfTimf</b> - {@dodf ZonfdDbtfTimf.ofLfnifnt(dbtfTimf, offsft, zonf);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfId">ZonfId</b> - {@dodf ZonfId.of(id);}
+     * <li><b hrff="../../sfriblizfd-form.html#jbvb.timf.ZonfOffsft">ZonfOffsft</b> - {@dodf (offsftBytf == 127 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(offsftBytf * 900));}
+     * </ul>
+     *
+     * @pbrbm in  thf dbtb to rfbd, not null
+     */
+    publid void rfbdExtfrnbl(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        typf = in.rfbdBytf();
+        objfdt = rfbdIntfrnbl(typf, in);
+    }
+
+    stbtid Objfdt rfbd(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn rfbdIntfrnbl(typf, in);
+    }
+
+    privbtf stbtid Objfdt rfbdIntfrnbl(bytf typf, ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        switdh (typf) {
+            dbsf DURATION_TYPE: rfturn Durbtion.rfbdExtfrnbl(in);
+            dbsf INSTANT_TYPE: rfturn Instbnt.rfbdExtfrnbl(in);
+            dbsf LOCAL_DATE_TYPE: rfturn LodblDbtf.rfbdExtfrnbl(in);
+            dbsf LOCAL_DATE_TIME_TYPE: rfturn LodblDbtfTimf.rfbdExtfrnbl(in);
+            dbsf LOCAL_TIME_TYPE: rfturn LodblTimf.rfbdExtfrnbl(in);
+            dbsf ZONE_DATE_TIME_TYPE: rfturn ZonfdDbtfTimf.rfbdExtfrnbl(in);
+            dbsf ZONE_OFFSET_TYPE: rfturn ZonfOffsft.rfbdExtfrnbl(in);
+            dbsf ZONE_REGION_TYPE: rfturn ZonfRfgion.rfbdExtfrnbl(in);
+            dbsf OFFSET_TIME_TYPE: rfturn OffsftTimf.rfbdExtfrnbl(in);
+            dbsf OFFSET_DATE_TIME_TYPE: rfturn OffsftDbtfTimf.rfbdExtfrnbl(in);
+            dbsf YEAR_TYPE: rfturn Yfbr.rfbdExtfrnbl(in);
+            dbsf YEAR_MONTH_TYPE: rfturn YfbrMonth.rfbdExtfrnbl(in);
+            dbsf MONTH_DAY_TYPE: rfturn MonthDby.rfbdExtfrnbl(in);
+            dbsf PERIOD_TYPE: rfturn Pfriod.rfbdExtfrnbl(in);
+            dffbult:
+                throw nfw StrfbmCorruptfdExdfption("Unknown sfriblizfd typf");
+        }
+    }
+
+    /**
+     * Rfturns thf objfdt thbt will rfplbdf this onf.
+     *
+     * @rfturn thf rfbd objfdt, should nfvfr bf null
+     */
+    privbtf Objfdt rfbdRfsolvf() {
+         rfturn objfdt;
+    }
+
+}

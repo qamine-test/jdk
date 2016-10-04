@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import dom.sun.bfbns.findfr.ConstrudtorFindfr;
+
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * This dlbss is intfndfd to hbndlf &lt;nfw&gt; flfmfnt.
+ * It dfsdribfs instbntibtion of thf objfdt.
+ * Thf {@dodf dlbss} bttributf dfnotfs
+ * thf nbmf of thf dlbss to instbntibtf.
+ * Thf innfr flfmfnts spfdififs thf brgumfnts of thf donstrudtor.
+ * For fxbmplf:<prf>
+ * &lt;nfw dlbss="jbvb.lbng.Long"&gt;
+ *     &lt;string&gt;10&lt;/string&gt;
+ * &lt;/nfw&gt;</prf>
+ * is fquivblfnt to {@dodf nfw Long("10")} in Jbvb dodf.
+ * <p>Thf following bttributfs brf supportfd:
+ * <dl>
+ * <dt>dlbss
+ * <dd>thf typf of objfdt for instbntibtion
+ * <dt>id
+ * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+ * </dl>
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+dlbss NfwElfmfntHbndlfr fxtfnds ElfmfntHbndlfr {
+    privbtf List<Objfdt> brgumfnts = nfw ArrbyList<Objfdt>();
+    privbtf VblufObjfdt vbluf = VblufObjfdtImpl.VOID;
+
+    privbtf Clbss<?> typf;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>dlbss
+     * <dd>thf typf of objfdt for instbntibtion
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("dlbss")) { // NON-NLS: thf bttributf nbmf
+            this.typf = gftOwnfr().findClbss(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Adds thf brgumfnt to thf list of brgumfnts
+     * thbt is usfd to dbldulbtf thf vbluf of this flfmfnt.
+     *
+     * @pbrbm brgumfnt  thf vbluf of thf flfmfnt thbt dontbinfd in this onf
+     */
+    @Ovfrridf
+    protfdtfd finbl void bddArgumfnt(Objfdt brgumfnt) {
+        if (this.brgumfnts == null) {
+            throw nfw IllfgblStbtfExdfption("Could not bdd brgumfnt to fvblubtfd flfmfnt");
+        }
+        this.brgumfnts.bdd(brgumfnt);
+    }
+
+    /**
+     * Rfturns thf dontfxt of thf mfthod.
+     * Thf dontfxt of thf stbtid mfthod is thf dlbss objfdt.
+     * Thf dontfxt of thf non-stbtid mfthod is thf vbluf of thf pbrfnt flfmfnt.
+     *
+     * @rfturn thf dontfxt of thf mfthod
+     */
+    @Ovfrridf
+    protfdtfd finbl Objfdt gftContfxtBfbn() {
+        rfturn (this.typf != null)
+                ? this.typf
+                : supfr.gftContfxtBfbn();
+    }
+
+    /**
+     * Rfturns thf vbluf of this flfmfnt.
+     *
+     * @rfturn thf vbluf of this flfmfnt
+     */
+    @Ovfrridf
+    protfdtfd finbl VblufObjfdt gftVblufObjfdt() {
+        if (this.brgumfnts != null) {
+            try {
+                this.vbluf = gftVblufObjfdt(this.typf, this.brgumfnts.toArrby());
+            }
+            dbtdh (Exdfption fxdfption) {
+                gftOwnfr().hbndlfExdfption(fxdfption);
+            }
+            finblly {
+                this.brgumfnts = null;
+            }
+        }
+        rfturn this.vbluf;
+    }
+
+    /**
+     * Cbldulbtfs thf vbluf of this flfmfnt
+     * using thf bbsf dlbss bnd thf brrby of brgumfnts.
+     * By dffbult, it drfbtfs bn instbndf of thf bbsf dlbss.
+     * This mfthod should bf ovfrriddfn in thosf hbndlfrs
+     * thbt fxtfnd bfhbvior of this flfmfnt.
+     *
+     * @pbrbm typf  thf bbsf dlbss
+     * @pbrbm brgs  thf brrby of brgumfnts
+     * @rfturn thf vbluf of this flfmfnt
+     * @throws Exdfption if dbldulbtion is fbilfd
+     */
+    VblufObjfdt gftVblufObjfdt(Clbss<?> typf, Objfdt[] brgs) throws Exdfption {
+        if (typf == null) {
+            throw nfw IllfgblArgumfntExdfption("Clbss nbmf is not sft");
+        }
+        Clbss<?>[] typfs = gftArgumfntTypfs(brgs);
+        Construdtor<?> donstrudtor = ConstrudtorFindfr.findConstrudtor(typf, typfs);
+        if (donstrudtor.isVbrArgs()) {
+            brgs = gftArgumfnts(brgs, donstrudtor.gftPbrbmftfrTypfs());
+        }
+        rfturn VblufObjfdtImpl.drfbtf(donstrudtor.nfwInstbndf(brgs));
+    }
+
+    /**
+     * Convfrts thf brrby of brgumfnts to thf brrby of dorrfsponding dlbssfs.
+     * If brgumfnt is {@dodf null} thf dlbss is {@dodf null} too.
+     *
+     * @pbrbm brgumfnts  thf brrby of brgumfnts
+     * @rfturn thf brrby of dorrfsponding dlbssfs
+     */
+    stbtid Clbss<?>[] gftArgumfntTypfs(Objfdt[] brgumfnts) {
+        Clbss<?>[] typfs = nfw Clbss<?>[brgumfnts.lfngth];
+        for (int i = 0; i < brgumfnts.lfngth; i++) {
+            if (brgumfnts[i] != null) {
+                typfs[i] = brgumfnts[i].gftClbss();
+            }
+        }
+        rfturn typfs;
+    }
+
+    /**
+     * Rfsolvfs vbribblf brgumfnts.
+     *
+     * @pbrbm brgumfnts  thf brrby of brgumfnts
+     * @pbrbm typfs      thf brrby of pbrbmftfr typfs
+     * @rfturn thf rfsolvfd brrby of brgumfnts
+     */
+    stbtid Objfdt[] gftArgumfnts(Objfdt[] brgumfnts, Clbss<?>[] typfs) {
+        int indfx = typfs.lfngth - 1;
+        if (typfs.lfngth == brgumfnts.lfngth) {
+            Objfdt brgumfnt = brgumfnts[indfx];
+            if (brgumfnt == null) {
+                rfturn brgumfnts;
+            }
+            Clbss<?> typf = typfs[indfx];
+            if (typf.isAssignbblfFrom(brgumfnt.gftClbss())) {
+                rfturn brgumfnts;
+            }
+        }
+        int lfngth = brgumfnts.lfngth - indfx;
+        Clbss<?> typf = typfs[indfx].gftComponfntTypf();
+        Objfdt brrby = Arrby.nfwInstbndf(typf, lfngth);
+        Systfm.brrbydopy(brgumfnts, indfx, brrby, 0, lfngth);
+
+        Objfdt[] brgs = nfw Objfdt[typfs.lfngth];
+        Systfm.brrbydopy(brgumfnts, 0, brgs, 0, indfx);
+        brgs[indfx] = brrby;
+        rfturn brgs;
+    }
+}

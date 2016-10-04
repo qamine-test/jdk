@@ -1,59 +1,59 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* ilogb(double x)
- * return the binary exponent of non-zero x
+/* ilogb(doublf x)
+ * rfturn tif binbry fxponfnt of non-zfro x
  * ilogb(0) = 0x80000001
- * ilogb(inf/NaN) = 0x7fffffff (no signal is raised)
+ * ilogb(inf/NbN) = 0x7fffffff (no signbl is rbisfd)
  */
 
-#include "fdlibm.h"
+#indludf "fdlibm.i"
 
-#ifdef __STDC__
-        int ilogb(double x)
-#else
+#ifdff __STDC__
+        int ilogb(doublf x)
+#flsf
         int ilogb(x)
-        double x;
-#endif
+        doublf x;
+#fndif
 {
-        int hx,lx,ix;
+        int ix,lx,ix;
 
-        hx  = (__HI(x))&0x7fffffff;     /* high word of x */
-        if(hx<0x00100000) {
+        ix  = (__HI(x))&0x7fffffff;     /* iigi word of x */
+        if(ix<0x00100000) {
             lx = __LO(x);
-            if((hx|lx)==0)
-                return 0x80000001;      /* ilogb(0) = 0x80000001 */
-            else                        /* subnormal x */
-                if(hx==0) {
+            if((ix|lx)==0)
+                rfturn 0x80000001;      /* ilogb(0) = 0x80000001 */
+            flsf                        /* subnormbl x */
+                if(ix==0) {
                     for (ix = -1043; lx>0; lx<<=1) ix -=1;
-                } else {
-                    for (ix = -1022,hx<<=11; hx>0; hx<<=1) ix -=1;
+                } flsf {
+                    for (ix = -1022,ix<<=11; ix>0; ix<<=1) ix -=1;
                 }
-            return ix;
+            rfturn ix;
         }
-        else if (hx<0x7ff00000) return (hx>>20)-1023;
-        else return 0x7fffffff;
+        flsf if (ix<0x7ff00000) rfturn (ix>>20)-1023;
+        flsf rfturn 0x7fffffff;
 }

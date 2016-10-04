@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.Component;
-import java.lang.reflect.Field;
+import jbvb.bwt.Componfnt;
+import jbvb.lbng.rfflfdt.Fifld;
 
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JProgressBar;
-import javax.swing.JSlider;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
+import jbvbx.bddfssibility.Addfssiblf;
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvbx.swing.JProgrfssBbr;
+import jbvbx.swing.JSlidfr;
+import jbvbx.swing.fvfnt.CbrftEvfnt;
+import jbvbx.swing.fvfnt.CbrftListfnfr;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.fvfnt.DodumfntListfnfr;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
 
-class CAccessible extends CFRetainedResource implements Accessible {
-    static Field getNativeAXResourceField() {
+dlbss CAddfssiblf fxtfnds CFRftbinfdRfsourdf implfmfnts Addfssiblf {
+    stbtid Fifld gftNbtivfAXRfsourdfFifld() {
         try {
-            final Field field = AccessibleContext.class.getDeclaredField("nativeAXResource");
-            field.setAccessible(true);
-            return field;
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return null;
+            finbl Fifld fifld = AddfssiblfContfxt.dlbss.gftDfdlbrfdFifld("nbtivfAXRfsourdf");
+            fifld.sftAddfssiblf(truf);
+            rfturn fifld;
+        } dbtdi (finbl Exdfption f) {
+            f.printStbdkTrbdf();
+            rfturn null;
         }
     }
 
-    private static Field nativeAXResourceField = getNativeAXResourceField();
+    privbtf stbtid Fifld nbtivfAXRfsourdfFifld = gftNbtivfAXRfsourdfFifld();
 
-    public static CAccessible getCAccessible(final Accessible a) {
-        if (a == null) return null;
-        AccessibleContext context = a.getAccessibleContext();
+    publid stbtid CAddfssiblf gftCAddfssiblf(finbl Addfssiblf b) {
+        if (b == null) rfturn null;
+        AddfssiblfContfxt dontfxt = b.gftAddfssiblfContfxt();
         try {
-            final CAccessible cachedCAX = (CAccessible) nativeAXResourceField.get(context);
-            if (cachedCAX != null) return cachedCAX;
+            finbl CAddfssiblf dbdifdCAX = (CAddfssiblf) nbtivfAXRfsourdfFifld.gft(dontfxt);
+            if (dbdifdCAX != null) rfturn dbdifdCAX;
 
-            final CAccessible newCAX = new CAccessible(a);
-            nativeAXResourceField.set(context, newCAX);
-            return newCAX;
-        }  catch (final Exception e) {
-            e.printStackTrace();
-            return null;
+            finbl CAddfssiblf nfwCAX = nfw CAddfssiblf(b);
+            nbtivfAXRfsourdfFifld.sft(dontfxt, nfwCAX);
+            rfturn nfwCAX;
+        }  dbtdi (finbl Exdfption f) {
+            f.printStbdkTrbdf();
+            rfturn null;
         }
     }
 
-    private static native void unregisterFromCocoaAXSystem(long ptr);
-    private static native void valueChanged(long ptr);
-    private static native void selectionChanged(long ptr);
+    privbtf stbtid nbtivf void unrfgistfrFromCodobAXSystfm(long ptr);
+    privbtf stbtid nbtivf void vblufCibngfd(long ptr);
+    privbtf stbtid nbtivf void sflfdtionCibngfd(long ptr);
 
-    private Accessible accessible;
+    privbtf Addfssiblf bddfssiblf;
 
-    private CAccessible(final Accessible accessible) {
-        super(0L, true); // real pointer will be poked in by native
+    privbtf CAddfssiblf(finbl Addfssiblf bddfssiblf) {
+        supfr(0L, truf); // rfbl pointfr will bf pokfd in by nbtivf
 
-        if (accessible == null) throw new NullPointerException();
-        this.accessible = accessible;
+        if (bddfssiblf == null) tirow nfw NullPointfrExdfption();
+        tiis.bddfssiblf = bddfssiblf;
 
-        if (accessible instanceof Component) {
-            addNotificationListeners((Component)accessible);
+        if (bddfssiblf instbndfof Componfnt) {
+            bddNotifidbtionListfnfrs((Componfnt)bddfssiblf);
         }
     }
 
-    @Override
-    protected synchronized void dispose() {
-        if (ptr != 0) unregisterFromCocoaAXSystem(ptr);
-        super.dispose();
+    @Ovfrridf
+    protfdtfd syndironizfd void disposf() {
+        if (ptr != 0) unrfgistfrFromCodobAXSystfm(ptr);
+        supfr.disposf();
     }
 
-    @Override
-    public AccessibleContext getAccessibleContext() {
-        return accessible.getAccessibleContext();
+    @Ovfrridf
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        rfturn bddfssiblf.gftAddfssiblfContfxt();
     }
 
-    // currently only supports text components
-    public void addNotificationListeners(Component c) {
-        if (c instanceof JTextComponent) {
-            JTextComponent tc = (JTextComponent) c;
-            AXTextChangeNotifier listener = new AXTextChangeNotifier();
-            tc.getDocument().addDocumentListener(listener);
-            tc.addCaretListener(listener);
+    // durrfntly only supports tfxt domponfnts
+    publid void bddNotifidbtionListfnfrs(Componfnt d) {
+        if (d instbndfof JTfxtComponfnt) {
+            JTfxtComponfnt td = (JTfxtComponfnt) d;
+            AXTfxtCibngfNotififr listfnfr = nfw AXTfxtCibngfNotififr();
+            td.gftDodumfnt().bddDodumfntListfnfr(listfnfr);
+            td.bddCbrftListfnfr(listfnfr);
         }
-        if (c instanceof JProgressBar) {
-            JProgressBar pb = (JProgressBar) c;
-            pb.addChangeListener(new AXProgressChangeNotifier());
-        } else if (c instanceof JSlider) {
-            JSlider slider = (JSlider) c;
-            slider.addChangeListener(new AXProgressChangeNotifier());
-        }
-    }
-
-
-    private class AXTextChangeNotifier implements DocumentListener, CaretListener {
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
-        }
-
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            if (ptr != 0) valueChanged(ptr);
-        }
-
-        @Override
-        public void caretUpdate(CaretEvent e) {
-            if (ptr != 0) selectionChanged(ptr);
+        if (d instbndfof JProgrfssBbr) {
+            JProgrfssBbr pb = (JProgrfssBbr) d;
+            pb.bddCibngfListfnfr(nfw AXProgrfssCibngfNotififr());
+        } flsf if (d instbndfof JSlidfr) {
+            JSlidfr slidfr = (JSlidfr) d;
+            slidfr.bddCibngfListfnfr(nfw AXProgrfssCibngfNotififr());
         }
     }
 
-    private class AXProgressChangeNotifier implements ChangeListener {
-        public void stateChanged(ChangeEvent e) {
-            if (ptr != 0) valueChanged(ptr);
+
+    privbtf dlbss AXTfxtCibngfNotififr implfmfnts DodumfntListfnfr, CbrftListfnfr {
+        @Ovfrridf
+        publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+            if (ptr != 0) vblufCibngfd(ptr);
+        }
+
+        @Ovfrridf
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (ptr != 0) vblufCibngfd(ptr);
+        }
+
+        @Ovfrridf
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (ptr != 0) vblufCibngfd(ptr);
+        }
+
+        @Ovfrridf
+        publid void dbrftUpdbtf(CbrftEvfnt f) {
+            if (ptr != 0) sflfdtionCibngfd(ptr);
         }
     }
 
-    static Accessible getSwingAccessible(final Accessible a) {
-        return (a instanceof CAccessible) ? ((CAccessible)a).accessible : a;
+    privbtf dlbss AXProgrfssCibngfNotififr implfmfnts CibngfListfnfr {
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (ptr != 0) vblufCibngfd(ptr);
+        }
+    }
+
+    stbtid Addfssiblf gftSwingAddfssiblf(finbl Addfssiblf b) {
+        rfturn (b instbndfof CAddfssiblf) ? ((CAddfssiblf)b).bddfssiblf : b;
     }
 }

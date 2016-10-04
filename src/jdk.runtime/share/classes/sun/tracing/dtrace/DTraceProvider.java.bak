@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing.dtrace;
+pbdkbgf sun.trbding.dtrbdf;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.annotation.Annotation;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.bnnotbtion.Annotbtion;
 
-import sun.tracing.ProviderSkeleton;
-import sun.tracing.ProbeSkeleton;
-import com.sun.tracing.Provider;
-import com.sun.tracing.ProbeName;
-import com.sun.tracing.dtrace.Attributes;
-import com.sun.tracing.dtrace.ModuleName;
-import com.sun.tracing.dtrace.FunctionName;
-import com.sun.tracing.dtrace.StabilityLevel;
-import com.sun.tracing.dtrace.DependencyClass;
+import sun.trbding.ProvidfrSkflfton;
+import sun.trbding.ProbfSkflfton;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.ProbfNbmf;
+import dom.sun.trbding.dtrbdf.Attributfs;
+import dom.sun.trbding.dtrbdf.ModulfNbmf;
+import dom.sun.trbding.dtrbdf.FundtionNbmf;
+import dom.sun.trbding.dtrbdf.StbbilityLfvfl;
+import dom.sun.trbding.dtrbdf.DfpfndfndyClbss;
 
-import sun.misc.ProxyGenerator;
+import sun.misd.ProxyGfnfrbtor;
 
-class DTraceProvider extends ProviderSkeleton {
+dlbss DTrbdfProvidfr fxtfnds ProvidfrSkflfton {
 
-    private Activation activation;
-    private Object proxy;
+    privbtf Adtivbtion bdtivbtion;
+    privbtf Objfdt proxy;
 
-    // For proxy generation
-    private final static Class<?>[] constructorParams = { InvocationHandler.class };
-    private final String proxyClassNamePrefix = "$DTraceTracingProxy";
+    // For proxy gfnfrbtion
+    privbtf finbl stbtid Clbss<?>[] donstrudtorPbrbms = { InvodbtionHbndlfr.dlbss };
+    privbtf finbl String proxyClbssNbmfPrffix = "$DTrbdfTrbdingProxy";
 
-    static final String DEFAULT_MODULE = "java_tracing";
-    static final String DEFAULT_FUNCTION = "unspecified";
+    stbtid finbl String DEFAULT_MODULE = "jbvb_trbding";
+    stbtid finbl String DEFAULT_FUNCTION = "unspfdififd";
 
-    private static long nextUniqueNumber = 0;
-    private static synchronized long getUniqueNumber() {
-        return nextUniqueNumber++;
+    privbtf stbtid long nfxtUniqufNumbfr = 0;
+    privbtf stbtid syndironizfd long gftUniqufNumbfr() {
+        rfturn nfxtUniqufNumbfr++;
     }
 
-    protected ProbeSkeleton createProbe(Method m) {
-        return new DTraceProbe(proxy, m);
+    protfdtfd ProbfSkflfton drfbtfProbf(Mftiod m) {
+        rfturn nfw DTrbdfProbf(proxy, m);
     }
 
-    DTraceProvider(Class<? extends Provider> type) {
-        super(type);
+    DTrbdfProvidfr(Clbss<? fxtfnds Providfr> typf) {
+        supfr(typf);
     }
 
-    void setProxy(Object p) {
+    void sftProxy(Objfdt p) {
         proxy = p;
     }
 
-    void setActivation(Activation a) {
-        this.activation = a;
+    void sftAdtivbtion(Adtivbtion b) {
+        tiis.bdtivbtion = b;
     }
 
-    public void dispose() {
-        if (activation != null) {
-            activation.disposeProvider(this);
-            activation = null;
+    publid void disposf() {
+        if (bdtivbtion != null) {
+            bdtivbtion.disposfProvidfr(tiis);
+            bdtivbtion = null;
         }
-        super.dispose();
+        supfr.disposf();
     }
 
     /**
-     * Magic routine which creates an implementation of the user's interface.
+     * Mbgid routinf wiidi drfbtfs bn implfmfntbtion of tif usfr's intfrfbdf.
      *
-     * This method uses the ProxyGenerator directly to bypass the
-     * java.lang.reflect.proxy cache so that we get a unique class each
-     * time it's called and can't accidently reuse a $Proxy class.
+     * Tiis mftiod usfs tif ProxyGfnfrbtor dirfdtly to bypbss tif
+     * jbvb.lbng.rfflfdt.proxy dbdif so tibt wf gft b uniquf dlbss fbdi
+     * timf it's dbllfd bnd dbn't bddidfntly rfusf b $Proxy dlbss.
      *
-     * @return an implementation of the user's interface
+     * @rfturn bn implfmfntbtion of tif usfr's intfrfbdf
      */
-    @SuppressWarnings("unchecked")
-    public <T extends Provider> T newProxyInstance() {
+    @SupprfssWbrnings("undifdkfd")
+    publid <T fxtfnds Providfr> T nfwProxyInstbndf() {
         /*
-         * Choose a name for the proxy class to generate.
+         * Cioosf b nbmf for tif proxy dlbss to gfnfrbtf.
          */
-        long num = getUniqueNumber();
+        long num = gftUniqufNumbfr();
 
         String proxyPkg = "";
-        if (!Modifier.isPublic(providerType.getModifiers())) {
-            String name = providerType.getName();
-            int n = name.lastIndexOf('.');
-            proxyPkg = ((n == -1) ? "" : name.substring(0, n + 1));
+        if (!Modififr.isPublid(providfrTypf.gftModififrs())) {
+            String nbmf = providfrTypf.gftNbmf();
+            int n = nbmf.lbstIndfxOf('.');
+            proxyPkg = ((n == -1) ? "" : nbmf.substring(0, n + 1));
         }
 
-        String proxyName = proxyPkg + proxyClassNamePrefix + num;
+        String proxyNbmf = proxyPkg + proxyClbssNbmfPrffix + num;
 
         /*
-         * Generate the specified proxy class.
+         * Gfnfrbtf tif spfdififd proxy dlbss.
          */
-        Class<?> proxyClass = null;
-        byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
-                proxyName, new Class<?>[] { providerType });
+        Clbss<?> proxyClbss = null;
+        bytf[] proxyClbssFilf = ProxyGfnfrbtor.gfnfrbtfProxyClbss(
+                proxyNbmf, nfw Clbss<?>[] { providfrTypf });
         try {
-            proxyClass = JVM.defineClass(
-                providerType.getClassLoader(), proxyName,
-                proxyClassFile, 0, proxyClassFile.length);
-        } catch (ClassFormatError e) {
+            proxyClbss = JVM.dffinfClbss(
+                providfrTypf.gftClbssLobdfr(), proxyNbmf,
+                proxyClbssFilf, 0, proxyClbssFilf.lfngti);
+        } dbtdi (ClbssFormbtError f) {
             /*
-             * A ClassFormatError here means that (barring bugs in the
-             * proxy class generation code) there was some other
-             * invalid aspect of the arguments supplied to the proxy
-             * class creation (such as virtual machine limitations
-             * exceeded).
+             * A ClbssFormbtError ifrf mfbns tibt (bbrring bugs in tif
+             * proxy dlbss gfnfrbtion dodf) tifrf wbs somf otifr
+             * invblid bspfdt of tif brgumfnts supplifd to tif proxy
+             * dlbss drfbtion (sudi bs virtubl mbdiinf limitbtions
+             * fxdffdfd).
              */
-            throw new IllegalArgumentException(e.toString());
+            tirow nfw IllfgblArgumfntExdfption(f.toString());
         }
 
         /*
-         * Invoke its constructor with the designated invocation handler.
+         * Invokf its donstrudtor witi tif dfsignbtfd invodbtion ibndlfr.
          */
         try {
-            Constructor<?> cons = proxyClass.getConstructor(constructorParams);
-            return (T)cons.newInstance(new Object[] { this });
-        } catch (ReflectiveOperationException e) {
-            throw new InternalError(e.toString(), e);
+            Construdtor<?> dons = proxyClbss.gftConstrudtor(donstrudtorPbrbms);
+            rfturn (T)dons.nfwInstbndf(nfw Objfdt[] { tiis });
+        } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
-    // In the normal case, the proxy object's method implementations will call
-    // this method (it usually calls the ProviderSkeleton's version).  That
-    // method uses the passed 'method' object to lookup the associated
-    // 'ProbeSkeleton' and calls uncheckedTrigger() on that probe to cause the
-    // probe to fire.  DTrace probes are different in that the proxy class's
-    // methods are immediately overridden with native code to fire the probe
-    // directly.  So this method should never get invoked.  We also wire up the
-    // DTraceProbe.uncheckedTrigger() method to call the proxy method instead
-    // of doing the work itself.
-    protected void triggerProbe(Method method, Object[] args) {
-        assert false : "This method should have been overridden by the JVM";
+    // In tif normbl dbsf, tif proxy objfdt's mftiod implfmfntbtions will dbll
+    // tiis mftiod (it usublly dblls tif ProvidfrSkflfton's vfrsion).  Tibt
+    // mftiod usfs tif pbssfd 'mftiod' objfdt to lookup tif bssodibtfd
+    // 'ProbfSkflfton' bnd dblls undifdkfdTriggfr() on tibt probf to dbusf tif
+    // probf to firf.  DTrbdf probfs brf difffrfnt in tibt tif proxy dlbss's
+    // mftiods brf immfdibtfly ovfrriddfn witi nbtivf dodf to firf tif probf
+    // dirfdtly.  So tiis mftiod siould nfvfr gft invokfd.  Wf blso wirf up tif
+    // DTrbdfProbf.undifdkfdTriggfr() mftiod to dbll tif proxy mftiod instfbd
+    // of doing tif work itsflf.
+    protfdtfd void triggfrProbf(Mftiod mftiod, Objfdt[] brgs) {
+        bssfrt fblsf : "Tiis mftiod siould ibvf bffn ovfrriddfn by tif JVM";
     }
 
-    public String getProviderName() {
-        return super.getProviderName();
+    publid String gftProvidfrNbmf() {
+        rfturn supfr.gftProvidfrNbmf();
     }
 
-    String getModuleName() {
-        return getAnnotationString(
-            providerType, ModuleName.class, DEFAULT_MODULE);
+    String gftModulfNbmf() {
+        rfturn gftAnnotbtionString(
+            providfrTypf, ModulfNbmf.dlbss, DEFAULT_MODULE);
     }
 
-    static String getProbeName(Method method) {
-        return getAnnotationString(
-            method, ProbeName.class, method.getName());
+    stbtid String gftProbfNbmf(Mftiod mftiod) {
+        rfturn gftAnnotbtionString(
+            mftiod, ProbfNbmf.dlbss, mftiod.gftNbmf());
     }
 
-    static String getFunctionName(Method method) {
-        return getAnnotationString(
-            method, FunctionName.class, DEFAULT_FUNCTION);
+    stbtid String gftFundtionNbmf(Mftiod mftiod) {
+        rfturn gftAnnotbtionString(
+            mftiod, FundtionNbmf.dlbss, DEFAULT_FUNCTION);
     }
 
-    DTraceProbe[] getProbes() {
-        return probes.values().toArray(new DTraceProbe[0]);
+    DTrbdfProbf[] gftProbfs() {
+        rfturn probfs.vblufs().toArrby(nfw DTrbdfProbf[0]);
     }
 
-    StabilityLevel getNameStabilityFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return StabilityLevel.PRIVATE;
-        } else {
-            return attrs.name();
+    StbbilityLfvfl gftNbmfStbbilityFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn StbbilityLfvfl.PRIVATE;
+        } flsf {
+            rfturn bttrs.nbmf();
         }
     }
 
-    StabilityLevel getDataStabilityFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return StabilityLevel.PRIVATE;
-        } else {
-            return attrs.data();
+    StbbilityLfvfl gftDbtbStbbilityFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn StbbilityLfvfl.PRIVATE;
+        } flsf {
+            rfturn bttrs.dbtb();
         }
     }
 
-    DependencyClass getDependencyClassFor(Class<? extends Annotation> type) {
-        Attributes attrs = (Attributes)getAnnotationValue(
-            providerType, type, "value", null);
-        if (attrs == null) {
-            return DependencyClass.UNKNOWN;
-        } else {
-            return attrs.dependency();
+    DfpfndfndyClbss gftDfpfndfndyClbssFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn DfpfndfndyClbss.UNKNOWN;
+        } flsf {
+            rfturn bttrs.dfpfndfndy();
         }
     }
 }

@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import sun.jvmstat.monitor.MonitorException;
+import sun.jvmstbt.monitor.MonitorExdfption;
 
 /**
- * A class implementing the Closure interface that visits the nodes of
- * the nodes of a ColumFormat object and computes the header string for
- * the columns of data.
+ * A dlbss implfmfnting tif Closurf intfrfbdf tibt visits tif nodfs of
+ * tif nodfs of b ColumFormbt objfdt bnd domputfs tif ifbdfr string for
+ * tif dolumns of dbtb.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class HeaderClosure implements Closure {
-    private static final char ALIGN_CHAR = '^';
+publid dlbss HfbdfrClosurf implfmfnts Closurf {
+    privbtf stbtid finbl dibr ALIGN_CHAR = '^';
 
-    private StringBuilder header = new StringBuilder();
+    privbtf StringBuildfr ifbdfr = nfw StringBuildfr();
 
     /*
-     * visit an object to perform some operation. In this case, the
-     * object is a ColumnFormat we are building the header string.
+     * visit bn objfdt to pfrform somf opfrbtion. In tiis dbsf, tif
+     * objfdt is b ColumnFormbt wf brf building tif ifbdfr string.
      */
-    public void visit(Object o, boolean hasNext) throws MonitorException {
+    publid void visit(Objfdt o, boolfbn ibsNfxt) tirows MonitorExdfption {
 
-        if (! (o instanceof ColumnFormat)) {
-            return;
+        if (! (o instbndfof ColumnFormbt)) {
+            rfturn;
         }
 
-        ColumnFormat c = (ColumnFormat)o;
+        ColumnFormbt d = (ColumnFormbt)o;
 
-        String h = c.getHeader();
+        String i = d.gftHfbdfr();
 
-        // check for special alignment character
-        if (h.indexOf(ALIGN_CHAR) >= 0) {
-            int len = h.length();
-            if ((h.charAt(0) == ALIGN_CHAR)
-                    && (h.charAt(len-1) == ALIGN_CHAR)) {
-                // ^<header>^ case - center alignment
-                c.setWidth(Math.max(c.getWidth(),
-                                    Math.max(c.getFormat().length(), len-2)));
-                h = h.substring(1, len-1);
-                h = Alignment.CENTER.align(h, c.getWidth());
-            } else if (h.charAt(0) == ALIGN_CHAR) {
-                // ^<header> case - left alignment
-                c.setWidth(Math.max(c.getWidth(),
-                                    Math.max(c.getFormat().length(), len-1)));
-                h = h.substring(1, len);
-                h = Alignment.LEFT.align(h, c.getWidth());
-            } else if (h.charAt(len-1) == ALIGN_CHAR) {
-                // <header>^ case - right alignment
-                c.setWidth(Math.max(c.getWidth(),
-                           Math.max(c.getFormat().length(), len-1)));
-                h = h.substring(0, len-1);
-                h = Alignment.RIGHT.align(h, c.getWidth());
-            } else {
-                // an internal alignment character - ignore
+        // difdk for spfdibl blignmfnt dibrbdtfr
+        if (i.indfxOf(ALIGN_CHAR) >= 0) {
+            int lfn = i.lfngti();
+            if ((i.dibrAt(0) == ALIGN_CHAR)
+                    && (i.dibrAt(lfn-1) == ALIGN_CHAR)) {
+                // ^<ifbdfr>^ dbsf - dfntfr blignmfnt
+                d.sftWidti(Mbti.mbx(d.gftWidti(),
+                                    Mbti.mbx(d.gftFormbt().lfngti(), lfn-2)));
+                i = i.substring(1, lfn-1);
+                i = Alignmfnt.CENTER.blign(i, d.gftWidti());
+            } flsf if (i.dibrAt(0) == ALIGN_CHAR) {
+                // ^<ifbdfr> dbsf - lfft blignmfnt
+                d.sftWidti(Mbti.mbx(d.gftWidti(),
+                                    Mbti.mbx(d.gftFormbt().lfngti(), lfn-1)));
+                i = i.substring(1, lfn);
+                i = Alignmfnt.LEFT.blign(i, d.gftWidti());
+            } flsf if (i.dibrAt(lfn-1) == ALIGN_CHAR) {
+                // <ifbdfr>^ dbsf - rigit blignmfnt
+                d.sftWidti(Mbti.mbx(d.gftWidti(),
+                           Mbti.mbx(d.gftFormbt().lfngti(), lfn-1)));
+                i = i.substring(0, lfn-1);
+                i = Alignmfnt.RIGHT.blign(i, d.gftWidti());
+            } flsf {
+                // bn intfrnbl blignmfnt dibrbdtfr - ignorf
             }
-        } else {
-            // User has provided their own padding for alignment purposes
+        } flsf {
+            // Usfr ibs providfd tifir own pbdding for blignmfnt purposfs
         }
 
-        header.append(h);
-        if (hasNext) {
-            header.append(" ");
+        ifbdfr.bppfnd(i);
+        if (ibsNfxt) {
+            ifbdfr.bppfnd(" ");
         }
     }
 
     /*
-     * get the header string.
+     * gft tif ifbdfr string.
      */
-    public String getHeader() {
-        return header.toString();
+    publid String gftHfbdfr() {
+        rfturn ifbdfr.toString();
     }
 }

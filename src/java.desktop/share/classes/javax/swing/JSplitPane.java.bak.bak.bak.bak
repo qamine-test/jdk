@@ -1,0 +1,1256 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf jbvbx.swing;
+
+
+
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.bwt.*;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+
+/**
+ * <dodf>JSplitPbnf</dodf> is usfd to dividf two (bnd only two)
+ * <dodf>Componfnt</dodf>s. Thf two <dodf>Componfnt</dodf>s
+ * brf grbphidblly dividfd bbsfd on thf look bnd fffl
+ * implfmfntbtion, bnd thf two <dodf>Componfnt</dodf>s dbn thfn bf
+ * intfrbdtivfly rfsizfd by thf usfr.
+ * Informbtion on using <dodf>JSplitPbnf</dodf> is in
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/splitpbnf.html">How to Usf Split Pbnfs</b> in
+ * <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * Thf two <dodf>Componfnt</dodf>s in b split pbnf dbn bf blignfd
+ * lfft to right using
+ * <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf>, or top to bottom using
+ * <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>.
+ * Thf prfffrrfd wby to dhbngf thf sizf of thf <dodf>Componfnt</dodf>s
+ * is to invokf
+ * <dodf>sftDividfrLodbtion</dodf> whfrf <dodf>lodbtion</dodf> is fithfr
+ * thf nfw x or y position, dfpfnding on thf orifntbtion of thf
+ * <dodf>JSplitPbnf</dodf>.
+ * <p>
+ * To rfsizf thf <dodf>Componfnt</dodf>s to thfir prfffrrfd sizfs invokf
+ * <dodf>rfsftToPrfffrrfdSizfs</dodf>.
+ * <p>
+ * Whfn thf usfr is rfsizing thf <dodf>Componfnt</dodf>s thf minimum
+ * sizf of thf <dodf>Componfnts</dodf> is usfd to dftfrminf thf
+ * mbximum/minimum position thf <dodf>Componfnt</dodf>s
+ * dbn bf sft to. If thf minimum sizf of thf two
+ * domponfnts is grfbtfr thbn thf sizf of thf split pbnf thf dividfr
+ * will not bllow you to rfsizf it. To bltfr thf minimum sizf of b
+ * <dodf>JComponfnt</dodf>, sff {@link JComponfnt#sftMinimumSizf}.
+ * <p>
+ * Whfn thf usfr rfsizfs thf split pbnf thf nfw spbdf is distributfd bftwffn
+ * thf two domponfnts bbsfd on thf <dodf>rfsizfWfight</dodf> propfrty.
+ * A vbluf of 0,
+ * thf dffbult, indidbtfs thf right/bottom domponfnt gfts bll thf spbdf,
+ * whfrf bs b vbluf of 1 indidbtfs thf lfft/top domponfnt gfts bll thf spbdf.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff #sftDividfrLodbtion
+ * @sff #rfsftToPrfffrrfdSizfs
+ *
+ * @buthor Sdott Violft
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSplitPbnf fxtfnds JComponfnt implfmfnts Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "SplitPbnfUI";
+
+    /**
+     * Vfrtidbl split indidbtfs thf <dodf>Componfnt</dodf>s brf
+     * split blong thf y bxis.  For fxbmplf thf two
+     * <dodf>Componfnt</dodf>s will bf split onf on top of thf othfr.
+     */
+    publid finbl stbtid int VERTICAL_SPLIT = 0;
+
+    /**
+     * Horizontbl split indidbtfs thf <dodf>Componfnt</dodf>s brf
+     * split blong thf x bxis.  For fxbmplf thf two
+     * <dodf>Componfnt</dodf>s will bf split onf to thf lfft of thf
+     * othfr.
+     */
+    publid finbl stbtid int HORIZONTAL_SPLIT = 1;
+
+    /**
+     * Usfd to bdd b <dodf>Componfnt</dodf> to thf lfft of thf othfr
+     * <dodf>Componfnt</dodf>.
+     */
+    publid finbl stbtid String LEFT = "lfft";
+
+    /**
+     * Usfd to bdd b <dodf>Componfnt</dodf> to thf right of thf othfr
+     * <dodf>Componfnt</dodf>.
+     */
+    publid finbl stbtid String RIGHT = "right";
+
+    /**
+     * Usfd to bdd b <dodf>Componfnt</dodf> bbovf thf othfr
+     * <dodf>Componfnt</dodf>.
+     */
+    publid finbl stbtid String TOP = "top";
+
+    /**
+     * Usfd to bdd b <dodf>Componfnt</dodf> bflow thf othfr
+     * <dodf>Componfnt</dodf>.
+     */
+    publid finbl stbtid String BOTTOM = "bottom";
+
+    /**
+     * Usfd to bdd b <dodf>Componfnt</dodf> thbt will rfprfsfnt thf dividfr.
+     */
+    publid finbl stbtid String DIVIDER = "dividfr";
+
+    /**
+     * Bound propfrty nbmf for orifntbtion (horizontbl or vfrtidbl).
+     */
+    publid finbl stbtid String ORIENTATION_PROPERTY = "orifntbtion";
+
+    /**
+     * Bound propfrty nbmf for dontinuousLbyout.
+     */
+    publid finbl stbtid String CONTINUOUS_LAYOUT_PROPERTY = "dontinuousLbyout";
+
+    /**
+     * Bound propfrty nbmf for bordfr.
+     */
+    publid finbl stbtid String DIVIDER_SIZE_PROPERTY = "dividfrSizf";
+
+    /**
+     * Bound propfrty for onfToudhExpbndbblf.
+     */
+    publid finbl stbtid String ONE_TOUCH_EXPANDABLE_PROPERTY =
+                               "onfToudhExpbndbblf";
+
+    /**
+     * Bound propfrty for lbstLodbtion.
+     */
+    publid finbl stbtid String LAST_DIVIDER_LOCATION_PROPERTY =
+                               "lbstDividfrLodbtion";
+
+    /**
+     * Bound propfrty for thf dividfrLodbtion.
+     * @sindf 1.3
+     */
+    publid finbl stbtid String DIVIDER_LOCATION_PROPERTY = "dividfrLodbtion";
+
+    /**
+     * Bound propfrty for wfight.
+     * @sindf 1.3
+     */
+    publid finbl stbtid String RESIZE_WEIGHT_PROPERTY = "rfsizfWfight";
+
+    /**
+     * How thf vifws brf split.
+     */
+    protfdtfd int orifntbtion;
+
+    /**
+     * Whfthfr or not thf vifws brf dontinuously rfdisplbyfd whilf
+     * rfsizing.
+     */
+    protfdtfd boolfbn dontinuousLbyout;
+
+    /**
+     * Thf lfft or top domponfnt.
+     */
+    protfdtfd Componfnt lfftComponfnt;
+
+    /**
+     * Thf right or bottom domponfnt.
+     */
+    protfdtfd Componfnt rightComponfnt;
+
+    /**
+     * Sizf of thf dividfr.
+     */
+    protfdtfd int dividfrSizf;
+    privbtf boolfbn dividfrSizfSft = fblsf;
+
+    /**
+     * Is b littlf widgft providfd to quidkly fxpbnd/dollbpsf thf
+     * split pbnf?
+     */
+    protfdtfd boolfbn onfToudhExpbndbblf;
+    privbtf boolfbn onfToudhExpbndbblfSft;
+
+    /**
+     * Prfvious lodbtion of thf split pbnf.
+     */
+    protfdtfd int lbstDividfrLodbtion;
+
+    /**
+     * How to distributf fxtrb spbdf.
+     */
+    privbtf doublf rfsizfWfight;
+
+    /**
+     * Lodbtion of thf dividfr, bt lfbst thf vbluf thbt wbs sft, thf UI mby
+     * hbvf b difffrfnt vbluf.
+     */
+    privbtf int dividfrLodbtion;
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> donfigurfd to brrbngf thf dhild
+     * domponfnts sidf-by-sidf horizontblly, using two buttons for thf domponfnts.
+     */
+    publid JSplitPbnf() {
+        this(JSplitPbnf.HORIZONTAL_SPLIT,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"),
+                nfw JButton(UIMbnbgfr.gftString("SplitPbnf.lfftButtonTfxt")),
+                nfw JButton(UIMbnbgfr.gftString("SplitPbnf.rightButtonTfxt")));
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> donfigurfd with thf
+     * spfdififd orifntbtion.
+     *
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
+     */
+    @ConstrudtorPropfrtifs({"orifntbtion"})
+    publid JSplitPbnf(int nfwOrifntbtion) {
+        this(nfwOrifntbtion,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"));
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> with thf spfdififd
+     * orifntbtion bnd rfdrbwing stylf.
+     *
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwContinuousLbyout  b boolfbn, truf for thf domponfnts to
+     *        rfdrbw dontinuously bs thf dividfr dhbngfs position, fblsf
+     *        to wbit until thf dividfr position stops dhbnging to rfdrbw
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      boolfbn nfwContinuousLbyout) {
+        this(nfwOrifntbtion, nfwContinuousLbyout, null, null);
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> with thf spfdififd
+     * orifntbtion bnd thf spfdififd domponfnts.
+     *
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwLfftComponfnt thf <dodf>Componfnt</dodf> thbt will
+     *          bppfbr on thf lfft
+     *          of b horizontblly-split pbnf, or bt thf top of b
+     *          vfrtidblly-split pbnf
+     * @pbrbm nfwRightComponfnt thf <dodf>Componfnt</dodf> thbt will
+     *          bppfbr on thf right
+     *          of b horizontblly-split pbnf, or bt thf bottom of b
+     *          vfrtidblly-split pbnf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      Componfnt nfwLfftComponfnt,
+                      Componfnt nfwRightComponfnt){
+        this(nfwOrifntbtion,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"),
+                nfwLfftComponfnt, nfwRightComponfnt);
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> with thf spfdififd
+     * orifntbtion bnd
+     * rfdrbwing stylf, bnd with thf spfdififd domponfnts.
+     *
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwContinuousLbyout  b boolfbn, truf for thf domponfnts to
+     *        rfdrbw dontinuously bs thf dividfr dhbngfs position, fblsf
+     *        to wbit until thf dividfr position stops dhbnging to rfdrbw
+     * @pbrbm nfwLfftComponfnt thf <dodf>Componfnt</dodf> thbt will
+     *          bppfbr on thf lfft
+     *          of b horizontblly-split pbnf, or bt thf top of b
+     *          vfrtidblly-split pbnf
+     * @pbrbm nfwRightComponfnt thf <dodf>Componfnt</dodf> thbt will
+     *          bppfbr on thf right
+     *          of b horizontblly-split pbnf, or bt thf bottom of b
+     *          vfrtidblly-split pbnf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      boolfbn nfwContinuousLbyout,
+                      Componfnt nfwLfftComponfnt,
+                      Componfnt nfwRightComponfnt){
+        supfr();
+
+        dividfrLodbtion = -1;
+        sftLbyout(null);
+        sftUIPropfrty("opbquf", Boolfbn.TRUE);
+        orifntbtion = nfwOrifntbtion;
+        if (orifntbtion != HORIZONTAL_SPLIT && orifntbtion != VERTICAL_SPLIT)
+            throw nfw IllfgblArgumfntExdfption("dbnnot drfbtf JSplitPbnf, " +
+                                               "orifntbtion must bf onf of " +
+                                               "JSplitPbnf.HORIZONTAL_SPLIT " +
+                                               "or JSplitPbnf.VERTICAL_SPLIT");
+        dontinuousLbyout = nfwContinuousLbyout;
+        if (nfwLfftComponfnt != null)
+            sftLfftComponfnt(nfwLfftComponfnt);
+        if (nfwRightComponfnt != null)
+            sftRightComponfnt(nfwRightComponfnt);
+        updbtfUI();
+
+    }
+
+
+    /**
+     * Sfts thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf <dodf>SplitPbnfUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(SplitPbnfUI ui) {
+        if ((SplitPbnfUI)this.ui != ui) {
+            supfr.sftUI(ui);
+            rfvblidbtf();
+        }
+    }
+
+
+    /**
+     * Rfturns thf <dodf>SplitPbnfUI</dodf> thbt is providing thf
+     * durrfnt look bnd fffl.
+     *
+     * @rfturn thf <dodf>SplitPbnfUI</dodf> objfdt thbt rfndfrs this domponfnt
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     */
+    publid SplitPbnfUI gftUI() {
+        rfturn (SplitPbnfUI)ui;
+    }
+
+
+    /**
+     * Notifidbtion from thf <dodf>UIMbnbgfr</dodf> thbt thf L&bmp;F hbs dhbngfd.
+     * Rfplbdfs thf durrfnt UI objfdt with thf lbtfst vfrsion from thf
+     * <dodf>UIMbnbgfr</dodf>.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((SplitPbnfUI)UIMbnbgfr.gftUI(this));
+        rfvblidbtf();
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "SplitPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: A string thbt spfdififs thf nbmf of thf L&bmp;F dlbss.
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Sfts thf sizf of thf dividfr.
+     *
+     * @pbrbm nfwSizf bn intfgfr giving thf sizf of thf dividfr in pixfls
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf sizf of thf dividfr.
+     */
+    publid void sftDividfrSizf(int nfwSizf) {
+        int           oldSizf = dividfrSizf;
+
+        dividfrSizfSft = truf;
+        if (oldSizf != nfwSizf) {
+            dividfrSizf = nfwSizf;
+            firfPropfrtyChbngf(DIVIDER_SIZE_PROPERTY, oldSizf, nfwSizf);
+        }
+    }
+
+
+    /**
+     * Rfturns thf sizf of thf dividfr.
+     *
+     * @rfturn bn intfgfr giving thf sizf of thf dividfr in pixfls
+     */
+    publid int gftDividfrSizf() {
+        rfturn dividfrSizf;
+    }
+
+
+    /**
+     * Sfts thf domponfnt to thf lfft (or bbovf) thf dividfr.
+     *
+     * @pbrbm domp thf <dodf>Componfnt</dodf> to displby in thbt position
+     */
+    publid void sftLfftComponfnt(Componfnt domp) {
+        if (domp == null) {
+            if (lfftComponfnt != null) {
+                rfmovf(lfftComponfnt);
+                lfftComponfnt = null;
+            }
+        } flsf {
+            bdd(domp, JSplitPbnf.LEFT);
+        }
+    }
+
+
+    /**
+     * Rfturns thf domponfnt to thf lfft (or bbovf) thf dividfr.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> displbyfd in thbt position
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Thf domponfnt to thf lfft (or bbovf) thf dividfr.
+     */
+    publid Componfnt gftLfftComponfnt() {
+        rfturn lfftComponfnt;
+    }
+
+
+    /**
+     * Sfts thf domponfnt bbovf, or to thf lfft of thf dividfr.
+     *
+     * @pbrbm domp thf <dodf>Componfnt</dodf> to displby in thbt position
+     * @bfbninfo
+     *  dfsdription: Thf domponfnt bbovf, or to thf lfft of thf dividfr.
+     */
+    publid void sftTopComponfnt(Componfnt domp) {
+        sftLfftComponfnt(domp);
+    }
+
+
+    /**
+     * Rfturns thf domponfnt bbovf, or to thf lfft of thf dividfr.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> displbyfd in thbt position
+     */
+    publid Componfnt gftTopComponfnt() {
+        rfturn lfftComponfnt;
+    }
+
+
+    /**
+     * Sfts thf domponfnt to thf right (or bflow) thf dividfr.
+     *
+     * @pbrbm domp thf <dodf>Componfnt</dodf> to displby in thbt position
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Thf domponfnt to thf right (or bflow) thf dividfr.
+     */
+    publid void sftRightComponfnt(Componfnt domp) {
+        if (domp == null) {
+            if (rightComponfnt != null) {
+                rfmovf(rightComponfnt);
+                rightComponfnt = null;
+            }
+        } flsf {
+            bdd(domp, JSplitPbnf.RIGHT);
+        }
+    }
+
+
+    /**
+     * Rfturns thf domponfnt to thf right (or bflow) thf dividfr.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> displbyfd in thbt position
+     */
+    publid Componfnt gftRightComponfnt() {
+        rfturn rightComponfnt;
+    }
+
+
+    /**
+     * Sfts thf domponfnt bflow, or to thf right of thf dividfr.
+     *
+     * @pbrbm domp thf <dodf>Componfnt</dodf> to displby in thbt position
+     * @bfbninfo
+     *  dfsdription: Thf domponfnt bflow, or to thf right of thf dividfr.
+     */
+    publid void sftBottomComponfnt(Componfnt domp) {
+        sftRightComponfnt(domp);
+    }
+
+
+    /**
+     * Rfturns thf domponfnt bflow, or to thf right of thf dividfr.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> displbyfd in thbt position
+     */
+    publid Componfnt gftBottomComponfnt() {
+        rfturn rightComponfnt;
+    }
+
+
+    /**
+     * Sfts thf vbluf of thf <dodf>onfToudhExpbndbblf</dodf> propfrty,
+     * whidh must bf <dodf>truf</dodf> for thf
+     * <dodf>JSplitPbnf</dodf> to providf b UI widgft
+     * on thf dividfr to quidkly fxpbnd/dollbpsf thf dividfr.
+     * Thf dffbult vbluf of this propfrty is <dodf>fblsf</dodf>.
+     * Somf look bnd fffls might not support onf-toudh fxpbnding;
+     * thfy will ignorf this propfrty.
+     *
+     * @pbrbm nfwVbluf <dodf>truf</dodf> to spfdify thbt thf split pbnf should providf b
+     *        dollbpsf/fxpbnd widgft
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: UI widgft on thf dividfr to quidkly
+     *               fxpbnd/dollbpsf thf dividfr.
+     *
+     * @sff #isOnfToudhExpbndbblf
+     */
+    publid void sftOnfToudhExpbndbblf(boolfbn nfwVbluf) {
+        boolfbn           oldVbluf = onfToudhExpbndbblf;
+
+        onfToudhExpbndbblf = nfwVbluf;
+        onfToudhExpbndbblfSft = truf;
+        firfPropfrtyChbngf(ONE_TOUCH_EXPANDABLE_PROPERTY, oldVbluf, nfwVbluf);
+        rfpbint();
+    }
+
+
+    /**
+     * Gfts thf <dodf>onfToudhExpbndbblf</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>onfToudhExpbndbblf</dodf> propfrty
+     * @sff #sftOnfToudhExpbndbblf
+     */
+    publid boolfbn isOnfToudhExpbndbblf() {
+        rfturn onfToudhExpbndbblf;
+    }
+
+
+    /**
+     * Sfts thf lbst lodbtion thf dividfr wbs bt to
+     * <dodf>nfwLbstLodbtion</dodf>.
+     *
+     * @pbrbm nfwLbstLodbtion bn intfgfr spfdifying thf lbst dividfr lodbtion
+     *        in pixfls, from thf lfft (or uppfr) fdgf of thf pbnf to thf
+     *        lfft (or uppfr) fdgf of thf dividfr
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf lbst lodbtion thf dividfr wbs bt.
+     */
+    publid void sftLbstDividfrLodbtion(int nfwLbstLodbtion) {
+        int               oldLodbtion = lbstDividfrLodbtion;
+
+        lbstDividfrLodbtion = nfwLbstLodbtion;
+        firfPropfrtyChbngf(LAST_DIVIDER_LOCATION_PROPERTY, oldLodbtion,
+                           nfwLbstLodbtion);
+    }
+
+
+    /**
+     * Rfturns thf lbst lodbtion thf dividfr wbs bt.
+     *
+     * @rfturn bn intfgfr spfdifying thf lbst dividfr lodbtion bs b dount
+     *       of pixfls from thf lfft (or uppfr) fdgf of thf pbnf to thf
+     *       lfft (or uppfr) fdgf of thf dividfr
+     */
+    publid int gftLbstDividfrLodbtion() {
+        rfturn lbstDividfrLodbtion;
+    }
+
+
+    /**
+     * Sfts thf orifntbtion, or how thf splittfr is dividfd. Thf options
+     * brf:<ul>
+     * <li>JSplitPbnf.VERTICAL_SPLIT  (bbovf/bflow orifntbtion of domponfnts)
+     * <li>JSplitPbnf.HORIZONTAL_SPLIT  (lfft/right orifntbtion of domponfnts)
+     * </ul>
+     *
+     * @pbrbm orifntbtion bn intfgfr spfdifying thf orifntbtion
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is not onf of:
+     *        HORIZONTAL_SPLIT or VERTICAL_SPLIT.
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf orifntbtion, or how thf splittfr is dividfd.
+     *         fnum: HORIZONTAL_SPLIT JSplitPbnf.HORIZONTAL_SPLIT
+     *               VERTICAL_SPLIT   JSplitPbnf.VERTICAL_SPLIT
+     */
+    publid void sftOrifntbtion(int orifntbtion) {
+        if ((orifntbtion != VERTICAL_SPLIT) &&
+            (orifntbtion != HORIZONTAL_SPLIT)) {
+           throw nfw IllfgblArgumfntExdfption("JSplitPbnf: orifntbtion must " +
+                                              "bf onf of " +
+                                              "JSplitPbnf.VERTICAL_SPLIT or " +
+                                              "JSplitPbnf.HORIZONTAL_SPLIT");
+        }
+
+        int           oldOrifntbtion = this.orifntbtion;
+
+        this.orifntbtion = orifntbtion;
+        firfPropfrtyChbngf(ORIENTATION_PROPERTY, oldOrifntbtion, orifntbtion);
+    }
+
+
+    /**
+     * Rfturns thf orifntbtion.
+     *
+     * @rfturn bn intfgfr giving thf orifntbtion
+     * @sff #sftOrifntbtion
+     */
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
+    }
+
+
+    /**
+     * Sfts thf vbluf of thf <dodf>dontinuousLbyout</dodf> propfrty,
+     * whidh must bf <dodf>truf</dodf> for thf dhild domponfnts
+     * to bf dontinuously
+     * rfdisplbyfd bnd lbid out during usfr intfrvfntion.
+     * Thf dffbult vbluf of this propfrty is look bnd fffl dfpfndfnt.
+     * Somf look bnd fffls might not support dontinuous lbyout;
+     * thfy will ignorf this propfrty.
+     *
+     * @pbrbm nfwContinuousLbyout  <dodf>truf</dodf> if thf domponfnts
+     *        should dontinuously bf rfdrbwn bs thf dividfr dhbngfs position
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Whfthfr thf dhild domponfnts brf
+     *               dontinuously rfdisplbyfd bnd lbid out during
+     *               usfr intfrvfntion.
+     * @sff #isContinuousLbyout
+     */
+    publid void sftContinuousLbyout(boolfbn nfwContinuousLbyout) {
+        boolfbn           oldCD = dontinuousLbyout;
+
+        dontinuousLbyout = nfwContinuousLbyout;
+        firfPropfrtyChbngf(CONTINUOUS_LAYOUT_PROPERTY, oldCD,
+                           nfwContinuousLbyout);
+    }
+
+
+    /**
+     * Gfts thf <dodf>dontinuousLbyout</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>dontinuousLbyout</dodf> propfrty
+     * @sff #sftContinuousLbyout
+     */
+    publid boolfbn isContinuousLbyout() {
+        rfturn dontinuousLbyout;
+    }
+
+    /**
+     * Spfdififs how to distributf fxtrb spbdf whfn thf sizf of thf split pbnf
+     * dhbngfs. A vbluf of 0, thf dffbult,
+     * indidbtfs thf right/bottom domponfnt gfts bll thf fxtrb spbdf (thf
+     * lfft/top domponfnt bdts fixfd), whfrf bs b vbluf of 1 spfdififs thf
+     * lfft/top domponfnt gfts bll thf fxtrb spbdf (thf right/bottom domponfnt
+     * bdts fixfd). Spfdifidblly, thf lfft/top domponfnt gfts (wfight * diff)
+     * fxtrb spbdf bnd thf right/bottom domponfnt gfts (1 - wfight) * diff
+     * fxtrb spbdf.
+     *
+     * @pbrbm vbluf bs dfsdribfd bbovf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vbluf</dodf> is &lt; 0 or &gt; 1
+     * @sindf 1.3
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Spfdififs how to distributf fxtrb spbdf whfn thf split pbnf
+     *               rfsizfs.
+     */
+    publid void sftRfsizfWfight(doublf vbluf) {
+        if (vbluf < 0 || vbluf > 1) {
+            throw nfw IllfgblArgumfntExdfption("JSplitPbnf wfight must bf bftwffn 0 bnd 1");
+        }
+        doublf         oldWfight = rfsizfWfight;
+
+        rfsizfWfight = vbluf;
+        firfPropfrtyChbngf(RESIZE_WEIGHT_PROPERTY, oldWfight, vbluf);
+    }
+
+    /**
+     * Rfturns thf numbfr thbt dftfrminfs how fxtrb spbdf is distributfd.
+     * @rfturn how fxtrb spbdf is to bf distributfd on b rfsizf of thf
+     *         split pbnf
+     * @sindf 1.3
+     */
+    publid doublf gftRfsizfWfight() {
+        rfturn rfsizfWfight;
+    }
+
+    /**
+     * Lbys out thf <dodf>JSplitPbnf</dodf> lbyout bbsfd on thf prfffrrfd sizf
+     * of thf dhildrfn domponfnts. This will likfly rfsult in dhbnging
+     * thf dividfr lodbtion.
+     */
+    publid void rfsftToPrfffrrfdSizfs() {
+        SplitPbnfUI         ui = gftUI();
+
+        if (ui != null) {
+            ui.rfsftToPrfffrrfdSizfs(this);
+        }
+    }
+
+
+    /**
+     * Sfts thf dividfr lodbtion bs b pfrdfntbgf of thf
+     * <dodf>JSplitPbnf</dodf>'s sizf.
+     * <p>
+     * This mfthod is implfmfntfd in tfrms of
+     * <dodf>sftDividfrLodbtion(int)</dodf>.
+     * This mfthod immfdibtfly dhbngfs thf sizf of thf split pbnf bbsfd on
+     * its durrfnt sizf. If thf split pbnf is not dorrfdtly rfblizfd bnd on
+     * sdrffn, this mfthod will hbvf no ffffdt (nfw dividfr lodbtion will
+     * bfdomf (durrfnt sizf * proportionblLodbtion) whidh is 0).
+     *
+     * @pbrbm proportionblLodbtion  b doublf-prfdision flobting point vbluf
+     *        thbt spfdififs b pfrdfntbgf, from zfro (top/lfft) to 1.0
+     *        (bottom/right)
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd lodbtion is &lt; 0
+     *            or &gt; 1.0
+     * @bfbninfo
+     *  dfsdription: Thf lodbtion of thf dividfr.
+     */
+    publid void sftDividfrLodbtion(doublf proportionblLodbtion) {
+        if (proportionblLodbtion < 0.0 ||
+           proportionblLodbtion > 1.0) {
+            throw nfw IllfgblArgumfntExdfption("proportionbl lodbtion must " +
+                                               "bf bftwffn 0.0 bnd 1.0.");
+        }
+        if (gftOrifntbtion() == VERTICAL_SPLIT) {
+            sftDividfrLodbtion((int)((doublf)(gftHfight() - gftDividfrSizf()) *
+                                     proportionblLodbtion));
+        } flsf {
+            sftDividfrLodbtion((int)((doublf)(gftWidth() - gftDividfrSizf()) *
+                                     proportionblLodbtion));
+        }
+    }
+
+
+    /**
+     * Sfts thf lodbtion of thf dividfr. This is pbssfd off to thf
+     * look bnd fffl implfmfntbtion, bnd thfn listfnfrs brf notififd. A vbluf
+     * lfss thbn 0 implifs thf dividfr should bf rfsft to b vbluf thbt
+     * bttfmpts to honor thf prfffrrfd sizf of thf lfft/top domponfnt.
+     * Aftfr notifying thf listfnfrs, thf lbst dividfr lodbtion is updbtfd,
+     * vib <dodf>sftLbstDividfrLodbtion</dodf>.
+     *
+     * @pbrbm lodbtion bn int spfdifying b UI-spfdifid vbluf (typidblly b
+     *        pixfl dount)
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf lodbtion of thf dividfr.
+     */
+    publid void sftDividfrLodbtion(int lodbtion) {
+        int                 oldVbluf = dividfrLodbtion;
+
+        dividfrLodbtion = lodbtion;
+
+        // Notify UI.
+        SplitPbnfUI         ui = gftUI();
+
+        if (ui != null) {
+            ui.sftDividfrLodbtion(this, lodbtion);
+        }
+
+        // Thfn listfnfrs
+        firfPropfrtyChbngf(DIVIDER_LOCATION_PROPERTY, oldVbluf, lodbtion);
+
+        // And updbtf thf lbst dividfr lodbtion.
+        sftLbstDividfrLodbtion(oldVbluf);
+    }
+
+
+    /**
+     * Rfturns thf lbst vbluf pbssfd to <dodf>sftDividfrLodbtion</dodf>.
+     * Thf vbluf rfturnfd from this mfthod mby difffr from thf bdtubl
+     * dividfr lodbtion (if <dodf>sftDividfrLodbtion</dodf> wbs pbssfd b
+     * vbluf biggfr thbn thf durrfnt sizf).
+     *
+     * @rfturn bn intfgfr spfdifying thf lodbtion of thf dividfr
+     */
+    publid int gftDividfrLodbtion() {
+        rfturn dividfrLodbtion;
+    }
+
+
+    /**
+     * Rfturns thf minimum lodbtion of thf dividfr from thf look bnd fffl
+     * implfmfntbtion.
+     *
+     * @rfturn bn intfgfr spfdifying b UI-spfdifid vbluf for thf minimum
+     *          lodbtion (typidblly b pixfl dount); or -1 if thf UI is
+     *          <dodf>null</dodf>
+     * @bfbninfo
+     *  dfsdription: Thf minimum lodbtion of thf dividfr from thf L&bmp;F.
+     */
+    publid int gftMinimumDividfrLodbtion() {
+        SplitPbnfUI         ui = gftUI();
+
+        if (ui != null) {
+            rfturn ui.gftMinimumDividfrLodbtion(this);
+        }
+        rfturn -1;
+    }
+
+
+    /**
+     * Rfturns thf mbximum lodbtion of thf dividfr from thf look bnd fffl
+     * implfmfntbtion.
+     *
+     * @rfturn bn intfgfr spfdifying b UI-spfdifid vbluf for thf mbximum
+     *          lodbtion (typidblly b pixfl dount); or -1 if thf  UI is
+     *          <dodf>null</dodf>
+     */
+    publid int gftMbximumDividfrLodbtion() {
+        SplitPbnfUI         ui = gftUI();
+
+        if (ui != null) {
+            rfturn ui.gftMbximumDividfrLodbtion(this);
+        }
+        rfturn -1;
+    }
+
+
+    /**
+     * Rfmovfs thf dhild domponfnt, <dodf>domponfnt</dodf> from thf
+     * pbnf. Rfsfts thf <dodf>lfftComponfnt</dodf> or
+     * <dodf>rightComponfnt</dodf> instbndf vbribblf, bs nfdfssbry.
+     *
+     * @pbrbm domponfnt thf <dodf>Componfnt</dodf> to rfmovf
+     */
+    publid void rfmovf(Componfnt domponfnt) {
+        if (domponfnt == lfftComponfnt) {
+            lfftComponfnt = null;
+        } flsf if (domponfnt == rightComponfnt) {
+            rightComponfnt = null;
+        }
+        supfr.rfmovf(domponfnt);
+
+        // Updbtf thf JSplitPbnf on thf sdrffn
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfmovfs thf <dodf>Componfnt</dodf> bt thf spfdififd indfx.
+     * Updbtfs thf <dodf>lfftComponfnt</dodf> bnd <dodf>rightComponfnt</dodf>
+     * instbndf vbribblfs bs nfdfssbry, bnd thfn mfssbgfs supfr.
+     *
+     * @pbrbm indfx bn intfgfr spfdifying thf domponfnt to rfmovf, whfrf
+     *        1 spfdififs thf lfft/top domponfnt bnd 2 spfdififs thf
+     *        bottom/right domponfnt
+     */
+    publid void rfmovf(int indfx) {
+        Componfnt    domp = gftComponfnt(indfx);
+
+        if (domp == lfftComponfnt) {
+            lfftComponfnt = null;
+        } flsf if (domp == rightComponfnt) {
+            rightComponfnt = null;
+        }
+        supfr.rfmovf(indfx);
+
+        // Updbtf thf JSplitPbnf on thf sdrffn
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfmovfs bll thf dhild domponfnts from thf split pbnf. Rfsfts thf
+     * <dodf>lfftComonfnt</dodf> bnd <dodf>rightComponfnt</dodf>
+     * instbndf vbribblfs.
+     */
+    publid void rfmovfAll() {
+        lfftComponfnt = rightComponfnt = null;
+        supfr.rfmovfAll();
+
+        // Updbtf thf JSplitPbnf on thf sdrffn
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns truf, so thbt dblls to <dodf>rfvblidbtf</dodf>
+     * on bny dfsdfndbnt of this <dodf>JSplitPbnf</dodf>
+     * will dbusf b rfqufst to bf qufufd thbt
+     * will vblidbtf thf <dodf>JSplitPbnf</dodf> bnd bll its dfsdfndbnts.
+     *
+     * @rfturn truf
+     * @sff JComponfnt#rfvblidbtf
+     * @sff jbvb.bwt.Contbinfr#isVblidbtfRoot
+     *
+     * @bfbninfo
+     *    hiddfn: truf
+     */
+    @Ovfrridf
+    publid boolfbn isVblidbtfRoot() {
+        rfturn truf;
+    }
+
+
+    /**
+     * Adds thf spfdififd domponfnt to this split pbnf.
+     * If <dodf>donstrbints</dodf> idfntififs thf lfft/top or
+     * right/bottom dhild domponfnt, bnd b domponfnt with thbt idfntififr
+     * wbs prfviously bddfd, it will bf rfmovfd bnd thfn <dodf>domp</dodf>
+     * will bf bddfd in its plbdf. If <dodf>donstrbints</dodf> is not
+     * onf of thf known idfntififrs thf lbyout mbnbgfr mby throw bn
+     * <dodf>IllfgblArgumfntExdfption</dodf>.
+     * <p>
+     * Thf possiblf donstrbints objfdts (Strings) brf:
+     * <ul>
+     * <li>JSplitPbnf.TOP
+     * <li>JSplitPbnf.LEFT
+     * <li>JSplitPbnf.BOTTOM
+     * <li>JSplitPbnf.RIGHT
+     * </ul>
+     * If thf <dodf>donstrbints</dodf> objfdt is <dodf>null</dodf>,
+     * thf domponfnt is bddfd in thf
+     * first bvbilbblf position (lfft/top if opfn, flsf right/bottom).
+     *
+     * @pbrbm domp        thf domponfnt to bdd
+     * @pbrbm donstrbints bn <dodf>Objfdt</dodf> spfdifying thf
+     *                    lbyout donstrbints
+     *                    (position) for this domponfnt
+     * @pbrbm indfx       bn intfgfr spfdifying thf indfx in thf dontbinfr's
+     *                    list.
+     * @fxdfption IllfgblArgumfntExdfption  if thf <dodf>donstrbints</dodf>
+     *          objfdt dofs not mbtdh bn fxisting domponfnt
+     * @sff jbvb.bwt.Contbinfr#bddImpl(Componfnt, Objfdt, int)
+     */
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
+    {
+        Componfnt             toRfmovf;
+
+        if (donstrbints != null && !(donstrbints instbndfof String)) {
+            throw nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: " +
+                                               "donstrbint must bf b string " +
+                                               "(or null)");
+        }
+
+        /* If thf donstrbints brf null bnd thf lfft/right domponfnt is
+           invblid, bdd it bt thf lfft/right domponfnt. */
+        if (donstrbints == null) {
+            if (gftLfftComponfnt() == null) {
+                donstrbints = JSplitPbnf.LEFT;
+            } flsf if (gftRightComponfnt() == null) {
+                donstrbints = JSplitPbnf.RIGHT;
+            }
+        }
+
+        /* Find thf Componfnt thbt blrfbdy fxists bnd rfmovf it. */
+        if (donstrbints != null && (donstrbints.fqubls(JSplitPbnf.LEFT) ||
+                                   donstrbints.fqubls(JSplitPbnf.TOP))) {
+            toRfmovf = gftLfftComponfnt();
+            if (toRfmovf != null) {
+                rfmovf(toRfmovf);
+            }
+            lfftComponfnt = domp;
+            indfx = -1;
+        } flsf if (donstrbints != null &&
+                   (donstrbints.fqubls(JSplitPbnf.RIGHT) ||
+                    donstrbints.fqubls(JSplitPbnf.BOTTOM))) {
+            toRfmovf = gftRightComponfnt();
+            if (toRfmovf != null) {
+                rfmovf(toRfmovf);
+            }
+            rightComponfnt = domp;
+            indfx = -1;
+        } flsf if (donstrbints != null &&
+                donstrbints.fqubls(JSplitPbnf.DIVIDER)) {
+            indfx = -1;
+        }
+        /* LbyoutMbnbgfr should rbisf for flsf dondition hfrf. */
+
+        supfr.bddImpl(domp, donstrbints, indfx);
+
+        // Updbtf thf JSplitPbnf on thf sdrffn
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Subdlbssfd to mfssbgf thf UI with <dodf>finishfdPbintingChildrfn</dodf>
+     * bftfr supfr hbs bffn mfssbgfd, bs wfll bs pbinting thf bordfr.
+     *
+     * @pbrbm g thf <dodf>Grbphids</dodf> dontfxt within whidh to pbint
+     */
+    protfdtfd void pbintChildrfn(Grbphids g) {
+        supfr.pbintChildrfn(g);
+
+        SplitPbnfUI        ui = gftUI();
+
+        if (ui != null) {
+            Grbphids           tfmpG = g.drfbtf();
+            ui.finishfdPbintingChildrfn(this, tfmpG);
+            tfmpG.disposf();
+        }
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+    void sftUIPropfrty(String propfrtyNbmf, Objfdt vbluf) {
+        if (propfrtyNbmf == "dividfrSizf") {
+            if (!dividfrSizfSft) {
+                sftDividfrSizf(((Numbfr)vbluf).intVbluf());
+                dividfrSizfSft = fblsf;
+            }
+        } flsf if (propfrtyNbmf == "onfToudhExpbndbblf") {
+            if (!onfToudhExpbndbblfSft) {
+                sftOnfToudhExpbndbblf(((Boolfbn)vbluf).boolfbnVbluf());
+                onfToudhExpbndbblfSft = fblsf;
+            }
+        } flsf {
+            supfr.sftUIPropfrty(propfrtyNbmf, vbluf);
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JSplitPbnf</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JSplitPbnf</dodf>.
+     */
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL_SPLIT ?
+                                    "HORIZONTAL_SPLIT" : "VERTICAL_SPLIT");
+        String dontinuousLbyoutString = (dontinuousLbyout ?
+                                         "truf" : "fblsf");
+        String onfToudhExpbndbblfString = (onfToudhExpbndbblf ?
+                                           "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",dontinuousLbyout=" + dontinuousLbyoutString +
+        ",dividfrSizf=" + dividfrSizf +
+        ",lbstDividfrLodbtion=" + lbstDividfrLodbtion +
+        ",onfToudhExpbndbblf=" + onfToudhExpbndbblfString +
+        ",orifntbtion=" + orifntbtionString;
+    }
+
+
+
+    ///////////////////////////
+    // Addfssibility support //
+    ///////////////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JSplitPbnf.
+     * For split pbnfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJSplitPbnf.
+     * A nfw AddfssiblfJSplitPbnf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJSplitPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JSplitPbnf
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this SplitPbnf.
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSplitPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JSplitPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to split pbnf usfr-intfrfbdf flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJSplitPbnf fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining thf durrfnt stbtf
+         * of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            // FIXME: [[[WDW - Should blso bdd BUSY if this implfmfnts
+            // Adjustbblf bt somf point.  If this hbppfns, wf probbbly
+            // should blso bdd bdtions.]]]
+            if (gftOrifntbtion() == VERTICAL_SPLIT) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
+            }
+            rfturn stbtfs;
+        }
+
+
+        /**
+         * Gft thf AddfssiblfVbluf bssodibtfd with this objfdt.  In thf
+         * implfmfntbtion of thf Jbvb Addfssibility API for this dlbss,
+         * rfturn this objfdt, whidh is rfsponsiblf for implfmfnting thf
+         * AddfssiblfVbluf intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn this;
+        }
+
+
+        /**
+         * Gfts thf bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn b lodblizfd String dfsdribing thf vbluf of this objfdt
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftDividfrLodbtion());
+        }
+
+
+        /**
+         * Sfts thf vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Truf if thf vbluf wbs sft.
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            // TIGER - 4422535
+            if (n == null) {
+                rfturn fblsf;
+            }
+            sftDividfrLodbtion(n.intVbluf());
+            rfturn truf;
+        }
+
+
+        /**
+         * Gfts thf minimum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn Thf minimum vbluf of this objfdt.
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftUI().gftMinimumDividfrLodbtion(
+                                                        JSplitPbnf.this));
+        }
+
+
+        /**
+         * Gfts thf mbximum bddfssiblf vbluf of this objfdt.
+         *
+         * @rfturn Thf mbximum vbluf of this objfdt.
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftUI().gftMbximumDividfrLodbtion(
+                                                        JSplitPbnf.this));
+        }
+
+
+        /**
+         * Gfts thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of
+         * thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SPLIT_PANE;
+        }
+    } // innfr dlbss AddfssiblfJSplitPbnf
+}

@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.sdp;
+pbdkbgf sun.nft.sdp;
 
-import sun.net.NetHooks;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.util.*;
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.security.AccessController;
+import sun.nft.NftHooks;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.*;
+import jbvb.io.Filf;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
 
-import sun.net.sdp.SdpSupport;
-import sun.security.action.GetPropertyAction;
+import sun.nft.sdp.SdpSupport;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * A NetHooks provider that converts sockets from the TCP to SDP protocol prior
- * to binding or connecting.
+ * A NftHooks providfr tibt donvfrts sodkfts from tif TCP to SDP protodol prior
+ * to binding or donnfdting.
  */
 
-public class SdpProvider extends NetHooks.Provider {
-    // maximum port
-    private static final int MAX_PORT = 65535;
+publid dlbss SdpProvidfr fxtfnds NftHooks.Providfr {
+    // mbximum port
+    privbtf stbtid finbl int MAX_PORT = 65535;
 
-    // indicates if SDP is enabled and the rules for when the protocol is used
-    private final boolean enabled;
-    private final List<Rule> rules;
+    // indidbtfs if SDP is fnbblfd bnd tif rulfs for wifn tif protodol is usfd
+    privbtf finbl boolfbn fnbblfd;
+    privbtf finbl List<Rulf> rulfs;
 
-    // logging for debug purposes
-    private PrintStream log;
+    // logging for dfbug purposfs
+    privbtf PrintStrfbm log;
 
-    public SdpProvider() {
-        // if this property is not defined then there is nothing to do.
-        String file = AccessController.doPrivileged(
-            new GetPropertyAction("com.sun.sdp.conf"));
-        if (file == null) {
-            this.enabled = false;
-            this.rules = null;
-            return;
+    publid SdpProvidfr() {
+        // if tiis propfrty is not dffinfd tifn tifrf is notiing to do.
+        String filf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("dom.sun.sdp.donf"));
+        if (filf == null) {
+            tiis.fnbblfd = fblsf;
+            tiis.rulfs = null;
+            rfturn;
         }
 
-        // load configuration file
-        List<Rule> list = null;
-        if (file != null) {
+        // lobd donfigurbtion filf
+        List<Rulf> list = null;
+        if (filf != null) {
             try {
-                list = loadRulesFromFile(file);
-            } catch (IOException e) {
-                fail("Error reading %s: %s", file, e.getMessage());
+                list = lobdRulfsFromFilf(filf);
+            } dbtdi (IOExdfption f) {
+                fbil("Error rfbding %s: %s", filf, f.gftMfssbgf());
             }
         }
 
-        // check if debugging is enabled
-        PrintStream out = null;
-        String logfile = AccessController.doPrivileged(
-            new GetPropertyAction("com.sun.sdp.debug"));
-        if (logfile != null) {
-            out = System.out;
-            if (logfile.length() > 0) {
+        // difdk if dfbugging is fnbblfd
+        PrintStrfbm out = null;
+        String logfilf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("dom.sun.sdp.dfbug"));
+        if (logfilf != null) {
+            out = Systfm.out;
+            if (logfilf.lfngti() > 0) {
                 try {
-                    out = new PrintStream(logfile);
-                } catch (IOException ignore) { }
+                    out = nfw PrintStrfbm(logfilf);
+                } dbtdi (IOExdfption ignorf) { }
             }
         }
 
-        this.enabled = !list.isEmpty();
-        this.rules = list;
-        this.log = out;
+        tiis.fnbblfd = !list.isEmpty();
+        tiis.rulfs = list;
+        tiis.log = out;
     }
 
-    // supported actions
-    private static enum Action {
+    // supportfd bdtions
+    privbtf stbtid fnum Adtion {
         BIND,
         CONNECT;
     }
 
-    // a rule for matching a bind or connect request
-    private static interface Rule {
-        boolean match(Action action, InetAddress address, int port);
+    // b rulf for mbtdiing b bind or donnfdt rfqufst
+    privbtf stbtid intfrfbdf Rulf {
+        boolfbn mbtdi(Adtion bdtion, InftAddrfss bddrfss, int port);
     }
 
-    // rule to match port[-end]
-    private static class PortRangeRule implements Rule {
-        private final Action action;
-        private final int portStart;
-        private final int portEnd;
-        PortRangeRule(Action action, int portStart, int portEnd) {
-            this.action = action;
-            this.portStart = portStart;
-            this.portEnd = portEnd;
+    // rulf to mbtdi port[-fnd]
+    privbtf stbtid dlbss PortRbngfRulf implfmfnts Rulf {
+        privbtf finbl Adtion bdtion;
+        privbtf finbl int portStbrt;
+        privbtf finbl int portEnd;
+        PortRbngfRulf(Adtion bdtion, int portStbrt, int portEnd) {
+            tiis.bdtion = bdtion;
+            tiis.portStbrt = portStbrt;
+            tiis.portEnd = portEnd;
         }
-        Action action() {
-            return action;
+        Adtion bdtion() {
+            rfturn bdtion;
         }
-        @Override
-        public boolean match(Action action, InetAddress address, int port) {
-            return (action == this.action &&
-                    port >= this.portStart &&
-                    port <= this.portEnd);
+        @Ovfrridf
+        publid boolfbn mbtdi(Adtion bdtion, InftAddrfss bddrfss, int port) {
+            rfturn (bdtion == tiis.bdtion &&
+                    port >= tiis.portStbrt &&
+                    port <= tiis.portEnd);
         }
     }
 
-    // rule to match address[/prefix] port[-end]
-    private static class AddressPortRangeRule extends PortRangeRule {
-        private final byte[] addressAsBytes;
-        private final int prefixByteCount;
-        private final byte mask;
-        AddressPortRangeRule(Action action, InetAddress address,
-                             int prefix, int port, int end)
+    // rulf to mbtdi bddrfss[/prffix] port[-fnd]
+    privbtf stbtid dlbss AddrfssPortRbngfRulf fxtfnds PortRbngfRulf {
+        privbtf finbl bytf[] bddrfssAsBytfs;
+        privbtf finbl int prffixBytfCount;
+        privbtf finbl bytf mbsk;
+        AddrfssPortRbngfRulf(Adtion bdtion, InftAddrfss bddrfss,
+                             int prffix, int port, int fnd)
         {
-            super(action, port, end);
-            this.addressAsBytes = address.getAddress();
-            this.prefixByteCount = prefix >> 3;
-            this.mask = (byte)(0xff << (8 - (prefix % 8)));
+            supfr(bdtion, port, fnd);
+            tiis.bddrfssAsBytfs = bddrfss.gftAddrfss();
+            tiis.prffixBytfCount = prffix >> 3;
+            tiis.mbsk = (bytf)(0xff << (8 - (prffix % 8)));
         }
-        @Override
-        public boolean match(Action action, InetAddress address, int port) {
-            if (action != action())
-                return false;
-            byte[] candidate = address.getAddress();
-            // same address type?
-            if (candidate.length != addressAsBytes.length)
-                return false;
-            // check bytes
-            for (int i=0; i<prefixByteCount; i++) {
-                if (candidate[i] != addressAsBytes[i])
-                    return false;
+        @Ovfrridf
+        publid boolfbn mbtdi(Adtion bdtion, InftAddrfss bddrfss, int port) {
+            if (bdtion != bdtion())
+                rfturn fblsf;
+            bytf[] dbndidbtf = bddrfss.gftAddrfss();
+            // sbmf bddrfss typf?
+            if (dbndidbtf.lfngti != bddrfssAsBytfs.lfngti)
+                rfturn fblsf;
+            // difdk bytfs
+            for (int i=0; i<prffixBytfCount; i++) {
+                if (dbndidbtf[i] != bddrfssAsBytfs[i])
+                    rfturn fblsf;
             }
-            // check remaining bits
-            if ((prefixByteCount < addressAsBytes.length) &&
-                ((candidate[prefixByteCount] & mask) !=
-                 (addressAsBytes[prefixByteCount] & mask)))
-                    return false;
-            return super.match(action, address, port);
+            // difdk rfmbining bits
+            if ((prffixBytfCount < bddrfssAsBytfs.lfngti) &&
+                ((dbndidbtf[prffixBytfCount] & mbsk) !=
+                 (bddrfssAsBytfs[prffixBytfCount] & mbsk)))
+                    rfturn fblsf;
+            rfturn supfr.mbtdi(bdtion, bddrfss, port);
         }
     }
 
-    // parses port:[-end]
-    private static int[] parsePortRange(String s) {
-        int pos = s.indexOf('-');
+    // pbrsfs port:[-fnd]
+    privbtf stbtid int[] pbrsfPortRbngf(String s) {
+        int pos = s.indfxOf('-');
         try {
-            int[] result = new int[2];
+            int[] rfsult = nfw int[2];
             if (pos < 0) {
-                boolean all = s.equals("*");
-                result[0] = all ? 0 : Integer.parseInt(s);
-                result[1] = all ? MAX_PORT : result[0];
-            } else {
+                boolfbn bll = s.fqubls("*");
+                rfsult[0] = bll ? 0 : Intfgfr.pbrsfInt(s);
+                rfsult[1] = bll ? MAX_PORT : rfsult[0];
+            } flsf {
                 String low = s.substring(0, pos);
-                if (low.length() == 0) low = "*";
-                String high = s.substring(pos+1);
-                if (high.length() == 0) high = "*";
-                result[0] = low.equals("*") ? 0 : Integer.parseInt(low);
-                result[1] = high.equals("*") ? MAX_PORT : Integer.parseInt(high);
+                if (low.lfngti() == 0) low = "*";
+                String iigi = s.substring(pos+1);
+                if (iigi.lfngti() == 0) iigi = "*";
+                rfsult[0] = low.fqubls("*") ? 0 : Intfgfr.pbrsfInt(low);
+                rfsult[1] = iigi.fqubls("*") ? MAX_PORT : Intfgfr.pbrsfInt(iigi);
             }
-            return result;
-        } catch (NumberFormatException e) {
-            return new int[0];
+            rfturn rfsult;
+        } dbtdi (NumbfrFormbtExdfption f) {
+            rfturn nfw int[0];
         }
     }
 
-    private static void fail(String msg, Object... args) {
-        Formatter f = new Formatter();
-        f.format(msg, args);
-        throw new RuntimeException(f.out().toString());
+    privbtf stbtid void fbil(String msg, Objfdt... brgs) {
+        Formbttfr f = nfw Formbttfr();
+        f.formbt(msg, brgs);
+        tirow nfw RuntimfExdfption(f.out().toString());
     }
 
-    // loads rules from the given file
-    // Each non-blank/non-comment line must have the format:
-    // ("bind" | "connect") 1*LWSP-char (hostname | ipaddress["/" prefix])
-    //     1*LWSP-char ("*" | port) [ "-" ("*" | port) ]
-    private static List<Rule> loadRulesFromFile(String file)
-        throws IOException
+    // lobds rulfs from tif givfn filf
+    // Ebdi non-blbnk/non-dommfnt linf must ibvf tif formbt:
+    // ("bind" | "donnfdt") 1*LWSP-dibr (iostnbmf | ipbddrfss["/" prffix])
+    //     1*LWSP-dibr ("*" | port) [ "-" ("*" | port) ]
+    privbtf stbtid List<Rulf> lobdRulfsFromFilf(String filf)
+        tirows IOExdfption
     {
-        Scanner scanner = new Scanner(new File(file));
+        Sdbnnfr sdbnnfr = nfw Sdbnnfr(nfw Filf(filf));
         try {
-            List<Rule> result = new ArrayList<Rule>();
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
+            List<Rulf> rfsult = nfw ArrbyList<Rulf>();
+            wiilf (sdbnnfr.ibsNfxtLinf()) {
+                String linf = sdbnnfr.nfxtLinf().trim();
 
-                // skip blank lines and comments
-                if (line.length() == 0 || line.charAt(0) == '#')
-                    continue;
+                // skip blbnk linfs bnd dommfnts
+                if (linf.lfngti() == 0 || linf.dibrAt(0) == '#')
+                    dontinuf;
 
-                // must have 3 fields
-                String[] s = line.split("\\s+");
-                if (s.length != 3) {
-                    fail("Malformed line '%s'", line);
-                    continue;
+                // must ibvf 3 fiflds
+                String[] s = linf.split("\\s+");
+                if (s.lfngti != 3) {
+                    fbil("Mblformfd linf '%s'", linf);
+                    dontinuf;
                 }
 
-                // first field is the action ("bind" or "connect")
-                Action action = null;
-                for (Action a: Action.values()) {
-                    if (s[0].equalsIgnoreCase(a.name())) {
-                        action = a;
-                        break;
+                // first fifld is tif bdtion ("bind" or "donnfdt")
+                Adtion bdtion = null;
+                for (Adtion b: Adtion.vblufs()) {
+                    if (s[0].fqublsIgnorfCbsf(b.nbmf())) {
+                        bdtion = b;
+                        brfbk;
                     }
                 }
-                if (action == null) {
-                    fail("Action '%s' not recognized", s[0]);
-                    continue;
+                if (bdtion == null) {
+                    fbil("Adtion '%s' not rfdognizfd", s[0]);
+                    dontinuf;
                 }
 
-                // * port[-end]
-                int[] ports = parsePortRange(s[2]);
-                if (ports.length == 0) {
-                    fail("Malformed port range '%s'", s[2]);
-                    continue;
+                // * port[-fnd]
+                int[] ports = pbrsfPortRbngf(s[2]);
+                if (ports.lfngti == 0) {
+                    fbil("Mblformfd port rbngf '%s'", s[2]);
+                    dontinuf;
                 }
 
-                // match all addresses
-                if (s[1].equals("*")) {
-                    result.add(new PortRangeRule(action, ports[0], ports[1]));
-                    continue;
+                // mbtdi bll bddrfssfs
+                if (s[1].fqubls("*")) {
+                    rfsult.bdd(nfw PortRbngfRulf(bdtion, ports[0], ports[1]));
+                    dontinuf;
                 }
 
-                // hostname | ipaddress[/prefix]
-                int pos = s[1].indexOf('/');
+                // iostnbmf | ipbddrfss[/prffix]
+                int pos = s[1].indfxOf('/');
                 try {
                     if (pos < 0) {
-                        // hostname or ipaddress (no prefix)
-                        InetAddress[] addresses = InetAddress.getAllByName(s[1]);
-                        for (InetAddress address: addresses) {
-                            int prefix =
-                                (address instanceof Inet4Address) ? 32 : 128;
-                            result.add(new AddressPortRangeRule(action, address,
-                                prefix, ports[0], ports[1]));
+                        // iostnbmf or ipbddrfss (no prffix)
+                        InftAddrfss[] bddrfssfs = InftAddrfss.gftAllByNbmf(s[1]);
+                        for (InftAddrfss bddrfss: bddrfssfs) {
+                            int prffix =
+                                (bddrfss instbndfof Inft4Addrfss) ? 32 : 128;
+                            rfsult.bdd(nfw AddrfssPortRbngfRulf(bdtion, bddrfss,
+                                prffix, ports[0], ports[1]));
                         }
-                    } else {
-                        // ipaddress/prefix
-                        InetAddress address = InetAddress
-                            .getByName(s[1].substring(0, pos));
-                        int prefix = -1;
+                    } flsf {
+                        // ipbddrfss/prffix
+                        InftAddrfss bddrfss = InftAddrfss
+                            .gftByNbmf(s[1].substring(0, pos));
+                        int prffix = -1;
                         try {
-                            prefix = Integer.parseInt(s[1].substring(pos+1));
-                            if (address instanceof Inet4Address) {
-                                // must be 1-31
-                                if (prefix < 0 || prefix > 32) prefix = -1;
-                            } else {
-                                // must be 1-128
-                                if (prefix < 0 || prefix > 128) prefix = -1;
+                            prffix = Intfgfr.pbrsfInt(s[1].substring(pos+1));
+                            if (bddrfss instbndfof Inft4Addrfss) {
+                                // must bf 1-31
+                                if (prffix < 0 || prffix > 32) prffix = -1;
+                            } flsf {
+                                // must bf 1-128
+                                if (prffix < 0 || prffix > 128) prffix = -1;
                             }
-                        } catch (NumberFormatException e) {
+                        } dbtdi (NumbfrFormbtExdfption f) {
                         }
 
-                        if (prefix > 0) {
-                            result.add(new AddressPortRangeRule(action,
-                                        address, prefix, ports[0], ports[1]));
-                        } else {
-                            fail("Malformed prefix '%s'", s[1]);
-                            continue;
+                        if (prffix > 0) {
+                            rfsult.bdd(nfw AddrfssPortRbngfRulf(bdtion,
+                                        bddrfss, prffix, ports[0], ports[1]));
+                        } flsf {
+                            fbil("Mblformfd prffix '%s'", s[1]);
+                            dontinuf;
                         }
                     }
-                } catch (UnknownHostException uhe) {
-                    fail("Unknown host or malformed IP address '%s'", s[1]);
-                    continue;
+                } dbtdi (UnknownHostExdfption uif) {
+                    fbil("Unknown iost or mblformfd IP bddrfss '%s'", s[1]);
+                    dontinuf;
                 }
             }
-            return result;
-        } finally {
-            scanner.close();
+            rfturn rfsult;
+        } finblly {
+            sdbnnfr.dlosf();
         }
     }
 
-    // converts unbound TCP socket to a SDP socket if it matches the rules
-    private void convertTcpToSdpIfMatch(FileDescriptor fdObj,
-                                               Action action,
-                                               InetAddress address,
+    // donvfrts unbound TCP sodkft to b SDP sodkft if it mbtdifs tif rulfs
+    privbtf void donvfrtTdpToSdpIfMbtdi(FilfDfsdriptor fdObj,
+                                               Adtion bdtion,
+                                               InftAddrfss bddrfss,
                                                int port)
-        throws IOException
+        tirows IOExdfption
     {
-        boolean matched = false;
-        for (Rule rule: rules) {
-            if (rule.match(action, address, port)) {
-                SdpSupport.convertSocket(fdObj);
-                matched = true;
-                break;
+        boolfbn mbtdifd = fblsf;
+        for (Rulf rulf: rulfs) {
+            if (rulf.mbtdi(bdtion, bddrfss, port)) {
+                SdpSupport.donvfrtSodkft(fdObj);
+                mbtdifd = truf;
+                brfbk;
             }
         }
         if (log != null) {
-            String addr = (address instanceof Inet4Address) ?
-                address.getHostAddress() : "[" + address.getHostAddress() + "]";
-            if (matched) {
-                log.format("%s to %s:%d (socket converted to SDP protocol)\n", action, addr, port);
-            } else {
-                log.format("%s to %s:%d (no match)\n", action, addr, port);
+            String bddr = (bddrfss instbndfof Inft4Addrfss) ?
+                bddrfss.gftHostAddrfss() : "[" + bddrfss.gftHostAddrfss() + "]";
+            if (mbtdifd) {
+                log.formbt("%s to %s:%d (sodkft donvfrtfd to SDP protodol)\n", bdtion, bddr, port);
+            } flsf {
+                log.formbt("%s to %s:%d (no mbtdi)\n", bdtion, bddr, port);
             }
         }
     }
 
-    @Override
-    public void implBeforeTcpBind(FileDescriptor fdObj,
-                              InetAddress address,
+    @Ovfrridf
+    publid void implBfforfTdpBind(FilfDfsdriptor fdObj,
+                              InftAddrfss bddrfss,
                               int port)
-        throws IOException
+        tirows IOExdfption
     {
-        if (enabled)
-            convertTcpToSdpIfMatch(fdObj, Action.BIND, address, port);
+        if (fnbblfd)
+            donvfrtTdpToSdpIfMbtdi(fdObj, Adtion.BIND, bddrfss, port);
     }
 
-    @Override
-    public void implBeforeTcpConnect(FileDescriptor fdObj,
-                                InetAddress address,
+    @Ovfrridf
+    publid void implBfforfTdpConnfdt(FilfDfsdriptor fdObj,
+                                InftAddrfss bddrfss,
                                 int port)
-        throws IOException
+        tirows IOExdfption
     {
-        if (enabled)
-            convertTcpToSdpIfMatch(fdObj, Action.CONNECT, address, port);
+        if (fnbblfd)
+            donvfrtTdpToSdpIfMbtdi(fdObj, Adtion.CONNECT, bddrfss, port);
     }
 }

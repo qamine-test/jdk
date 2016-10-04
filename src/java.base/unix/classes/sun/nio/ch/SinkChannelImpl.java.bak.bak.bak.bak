@@ -1,0 +1,208 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+
+
+dlbss SinkChbnnflImpl
+    fxtfnds Pipf.SinkChbnnfl
+    implfmfnts SflChImpl
+{
+
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid finbl NbtivfDispbtdhfr nd = nfw FilfDispbtdhfrImpl();
+
+    // Thf filf dfsdriptor bssodibtfd with this dhbnnfl
+    FilfDfsdriptor fd;
+
+    // fd vbluf nffdfd for dfv/poll. This vbluf will rfmbin vblid
+    // fvfn bftfr thf vbluf in thf filf dfsdriptor objfdt hbs bffn sft to -1
+    int fdVbl;
+
+    // ID of nbtivf thrfbd doing writf, for signblling
+    privbtf volbtilf long thrfbd = 0;
+
+    // Lodk hfld by durrfnt rfbding thrfbd
+    privbtf finbl Objfdt lodk = nfw Objfdt();
+
+    // Lodk hfld by bny thrfbd thbt modififs thf stbtf fiflds dfdlbrfd bflow
+    // DO NOT invokf b blodking I/O opfrbtion whilf holding this lodk!
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
+
+    // -- Thf following fiflds brf protfdtfd by stbtfLodk
+
+    // Chbnnfl stbtf
+    privbtf stbtid finbl int ST_UNINITIALIZED = -1;
+    privbtf stbtid finbl int ST_INUSE = 0;
+    privbtf stbtid finbl int ST_KILLED = 1;
+    privbtf volbtilf int stbtf = ST_UNINITIALIZED;
+
+    // -- End of fiflds protfdtfd by stbtfLodk
+
+
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
+    }
+
+    publid int gftFDVbl() {
+        rfturn fdVbl;
+    }
+
+    SinkChbnnflImpl(SflfdtorProvidfr sp, FilfDfsdriptor fd) {
+        supfr(sp);
+        this.fd = fd;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbtf = ST_INUSE;
+    }
+
+    protfdtfd void implClosfSflfdtbblfChbnnfl() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (stbtf != ST_KILLED)
+                nd.prfClosf(fd);
+            long th = thrfbd;
+            if (th != 0)
+                NbtivfThrfbd.signbl(th);
+            if (!isRfgistfrfd())
+                kill();
+        }
+    }
+
+    publid void kill() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (stbtf == ST_KILLED)
+                rfturn;
+            if (stbtf == ST_UNINITIALIZED) {
+                stbtf = ST_KILLED;
+                rfturn;
+            }
+            bssfrt !isOpfn() && !isRfgistfrfd();
+            nd.dlosf(fd);
+            stbtf = ST_KILLED;
+        }
+    }
+
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) throws IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
+    }
+
+    publid boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps();// Do this just ondf, it syndhronizfs
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
+
+        if ((ops & Nft.POLLNVAL) != 0)
+            throw nfw Error("POLLNVAL dftfdtfd");
+
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            rfturn (nfwOps & ~oldOps) != 0;
+        }
+
+        if (((ops & Nft.POLLOUT) != 0) &&
+            ((intOps & SflfdtionKfy.OP_WRITE) != 0))
+            nfwOps |= SflfdtionKfy.OP_WRITE;
+
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
+    }
+
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
+    }
+
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
+    }
+
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        if (ops == SflfdtionKfy.OP_WRITE)
+            ops = Nft.POLLOUT;
+        sk.sflfdtor.putEvfntOps(sk, ops);
+    }
+
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (!isOpfn())
+            throw nfw ClosfdChbnnflExdfption();
+    }
+
+    publid int writf(BytfBufffr srd) throws IOExdfption {
+        fnsurfOpfn();
+        syndhronizfd (lodk) {
+            int n = 0;
+            try {
+                bfgin();
+                if (!isOpfn())
+                    rfturn 0;
+                thrfbd = NbtivfThrfbd.durrfnt();
+                do {
+                    n = IOUtil.writf(fd, srd, -1, nd);
+                } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn IOStbtus.normblizf(n);
+            } finblly {
+                thrfbd = 0;
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    publid long writf(BytfBufffr[] srds) throws IOExdfption {
+        if (srds == null)
+            throw nfw NullPointfrExdfption();
+        fnsurfOpfn();
+        syndhronizfd (lodk) {
+            long n = 0;
+            try {
+                bfgin();
+                if (!isOpfn())
+                    rfturn 0;
+                thrfbd = NbtivfThrfbd.durrfnt();
+                do {
+                    n = IOUtil.writf(fd, srds, nd);
+                } whilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn IOStbtus.normblizf(n);
+            } finblly {
+                thrfbd = 0;
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    publid long writf(BytfBufffr[] srds, int offsft, int lfngth)
+        throws IOExdfption
+    {
+        if ((offsft < 0) || (lfngth < 0) || (offsft > srds.lfngth - lfngth))
+           throw nfw IndfxOutOfBoundsExdfption();
+        rfturn writf(Util.subsfqufndf(srds, offsft, lfngth));
+    }
+}

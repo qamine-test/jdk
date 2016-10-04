@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 /**
- * The <tt>Name</tt> interface represents a generic name -- an ordered
- * sequence of components.  It can be a composite name (names that
- * span multiple namespaces), or a compound name (names that are
- * used within individual hierarchical naming systems).
+ * Tif <tt>Nbmf</tt> intfrfbdf rfprfsfnts b gfnfrid nbmf -- bn ordfrfd
+ * sfqufndf of domponfnts.  It dbn bf b dompositf nbmf (nbmfs tibt
+ * spbn multiplf nbmfspbdfs), or b dompound nbmf (nbmfs tibt brf
+ * usfd witiin individubl iifrbrdiidbl nbming systfms).
  *
- * <p> There can be different implementations of <tt>Name</tt>; for example,
- * composite names, URLs, or namespace-specific compound names.
+ * <p> Tifrf dbn bf difffrfnt implfmfntbtions of <tt>Nbmf</tt>; for fxbmplf,
+ * dompositf nbmfs, URLs, or nbmfspbdf-spfdifid dompound nbmfs.
  *
- * <p> The components of a name are numbered.  The indexes of a name
- * with N components range from 0 up to, but not including, N.  This
- * range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty name has no components.
+ * <p> Tif domponfnts of b nbmf brf numbfrfd.  Tif indfxfs of b nbmf
+ * witi N domponfnts rbngf from 0 up to, but not indluding, N.  Tiis
+ * rbngf mby bf writtfn bs [0,N).
+ * Tif most signifidbnt domponfnt is bt indfx 0.
+ * An fmpty nbmf ibs no domponfnts.
  *
- * <p> None of the methods in this interface accept null as a valid
- * value for a parameter that is a name or a name component.
- * Likewise, methods that return a name or name component never return null.
+ * <p> Nonf of tif mftiods in tiis intfrfbdf bddfpt null bs b vblid
+ * vbluf for b pbrbmftfr tibt is b nbmf or b nbmf domponfnt.
+ * Likfwisf, mftiods tibt rfturn b nbmf or nbmf domponfnt nfvfr rfturn null.
  *
- * <p> An instance of a <tt>Name</tt> may not be synchronized against
- * concurrent multithreaded access if that access is not read-only.
+ * <p> An instbndf of b <tt>Nbmf</tt> mby not bf syndironizfd bgbinst
+ * dondurrfnt multitirfbdfd bddfss if tibt bddfss is not rfbd-only.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author R. Vasudevan
- * @since 1.3
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @butior R. Vbsudfvbn
+ * @sindf 1.3
  */
 
-public interface Name
-    extends Cloneable, java.io.Serializable, Comparable<Object>
+publid intfrfbdf Nbmf
+    fxtfnds Clonfbblf, jbvb.io.Sfriblizbblf, Compbrbblf<Objfdt>
 {
 
    /**
-    * The class fingerprint that is set to indicate
-    * serialization compatibility with a previous
-    * version of the class.
+    * Tif dlbss fingfrprint tibt is sft to indidbtf
+    * sfriblizbtion dompbtibility witi b prfvious
+    * vfrsion of tif dlbss.
     */
-    static final long serialVersionUID = -3617482732056931635L;
+    stbtid finbl long sfriblVfrsionUID = -3617482732056931635L;
 
     /**
-     * Generates a new copy of this name.
-     * Subsequent changes to the components of this name will not
-     * affect the new copy, and vice versa.
+     * Gfnfrbtfs b nfw dopy of tiis nbmf.
+     * Subsfqufnt dibngfs to tif domponfnts of tiis nbmf will not
+     * bfffdt tif nfw dopy, bnd vidf vfrsb.
      *
-     * @return  a copy of this name
+     * @rfturn  b dopy of tiis nbmf
      *
-     * @see Object#clone()
+     * @sff Objfdt#dlonf()
      */
-    public Object clone();
+    publid Objfdt dlonf();
 
     /**
-     * Compares this name with another name for order.
-     * Returns a negative integer, zero, or a positive integer as this
-     * name is less than, equal to, or greater than the given name.
+     * Compbrfs tiis nbmf witi bnotifr nbmf for ordfr.
+     * Rfturns b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis
+     * nbmf is lfss tibn, fqubl to, or grfbtfr tibn tif givfn nbmf.
      *
-     * <p> As with <tt>Object.equals()</tt>, the notion of ordering for names
-     * depends on the class that implements this interface.
-     * For example, the ordering may be
-     * based on lexicographical ordering of the name components.
-     * Specific attributes of the name, such as how it treats case,
-     * may affect the ordering.  In general, two names of different
-     * classes may not be compared.
+     * <p> As witi <tt>Objfdt.fqubls()</tt>, tif notion of ordfring for nbmfs
+     * dfpfnds on tif dlbss tibt implfmfnts tiis intfrfbdf.
+     * For fxbmplf, tif ordfring mby bf
+     * bbsfd on lfxidogrbpiidbl ordfring of tif nbmf domponfnts.
+     * Spfdifid bttributfs of tif nbmf, sudi bs iow it trfbts dbsf,
+     * mby bfffdt tif ordfring.  In gfnfrbl, two nbmfs of difffrfnt
+     * dlbssfs mby not bf dompbrfd.
      *
-     * @param   obj the non-null object to compare against.
-     * @return  a negative integer, zero, or a positive integer as this name
-     *          is less than, equal to, or greater than the given name
-     * @throws  ClassCastException if obj is not a <tt>Name</tt> of a
-     *          type that may be compared with this name
+     * @pbrbm   obj tif non-null objfdt to dompbrf bgbinst.
+     * @rfturn  b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis nbmf
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif givfn nbmf
+     * @tirows  ClbssCbstExdfption if obj is not b <tt>Nbmf</tt> of b
+     *          typf tibt mby bf dompbrfd witi tiis nbmf
      *
-     * @see Comparable#compareTo(Object)
+     * @sff Compbrbblf#dompbrfTo(Objfdt)
      */
-    public int compareTo(Object obj);
+    publid int dompbrfTo(Objfdt obj);
 
     /**
-     * Returns the number of components in this name.
+     * Rfturns tif numbfr of domponfnts in tiis nbmf.
      *
-     * @return  the number of components in this name
+     * @rfturn  tif numbfr of domponfnts in tiis nbmf
      */
-    public int size();
+    publid int sizf();
 
     /**
-     * Determines whether this name is empty.
-     * An empty name is one with zero components.
+     * Dftfrminfs wiftifr tiis nbmf is fmpty.
+     * An fmpty nbmf is onf witi zfro domponfnts.
      *
-     * @return  true if this name is empty, false otherwise
+     * @rfturn  truf if tiis nbmf is fmpty, fblsf otifrwisf
      */
-    public boolean isEmpty();
+    publid boolfbn isEmpty();
 
     /**
-     * Retrieves the components of this name as an enumeration
-     * of strings.  The effect on the enumeration of updates to
-     * this name is undefined.  If the name has zero components,
-     * an empty (non-null) enumeration is returned.
+     * Rftrifvfs tif domponfnts of tiis nbmf bs bn fnumfrbtion
+     * of strings.  Tif ffffdt on tif fnumfrbtion of updbtfs to
+     * tiis nbmf is undffinfd.  If tif nbmf ibs zfro domponfnts,
+     * bn fmpty (non-null) fnumfrbtion is rfturnfd.
      *
-     * @return  an enumeration of the components of this name, each a string
+     * @rfturn  bn fnumfrbtion of tif domponfnts of tiis nbmf, fbdi b string
      */
-    public Enumeration<String> getAll();
+    publid Enumfrbtion<String> gftAll();
 
     /**
-     * Retrieves a component of this name.
+     * Rftrifvfs b domponfnt of tiis nbmf.
      *
-     * @param posn
-     *          the 0-based index of the component to retrieve.
-     *          Must be in the range [0,size()).
-     * @return  the component at index posn
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          tif 0-bbsfd indfx of tif domponfnt to rftrifvf.
+     *          Must bf in tif rbngf [0,sizf()).
+     * @rfturn  tif domponfnt bt indfx posn
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
      */
-    public String get(int posn);
+    publid String gft(int posn);
 
     /**
-     * Creates a name whose components consist of a prefix of the
-     * components of this name.  Subsequent changes to
-     * this name will not affect the name that is returned and vice versa.
+     * Crfbtfs b nbmf wiosf domponfnts donsist of b prffix of tif
+     * domponfnts of tiis nbmf.  Subsfqufnt dibngfs to
+     * tiis nbmf will not bfffdt tif nbmf tibt is rfturnfd bnd vidf vfrsb.
      *
-     * @param posn
-     *          the 0-based index of the component at which to stop.
-     *          Must be in the range [0,size()].
-     * @return  a name consisting of the components at indexes in
-     *          the range [0,posn).
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          tif 0-bbsfd indfx of tif domponfnt bt wiidi to stop.
+     *          Must bf in tif rbngf [0,sizf()].
+     * @rfturn  b nbmf donsisting of tif domponfnts bt indfxfs in
+     *          tif rbngf [0,posn).
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
      */
-    public Name getPrefix(int posn);
+    publid Nbmf gftPrffix(int posn);
 
     /**
-     * Creates a name whose components consist of a suffix of the
-     * components in this name.  Subsequent changes to
-     * this name do not affect the name that is returned and vice versa.
+     * Crfbtfs b nbmf wiosf domponfnts donsist of b suffix of tif
+     * domponfnts in tiis nbmf.  Subsfqufnt dibngfs to
+     * tiis nbmf do not bfffdt tif nbmf tibt is rfturnfd bnd vidf vfrsb.
      *
-     * @param posn
-     *          the 0-based index of the component at which to start.
-     *          Must be in the range [0,size()].
-     * @return  a name consisting of the components at indexes in
-     *          the range [posn,size()).  If posn is equal to
-     *          size(), an empty name is returned.
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
+     * @pbrbm posn
+     *          tif 0-bbsfd indfx of tif domponfnt bt wiidi to stbrt.
+     *          Must bf in tif rbngf [0,sizf()].
+     * @rfturn  b nbmf donsisting of tif domponfnts bt indfxfs in
+     *          tif rbngf [posn,sizf()).  If posn is fqubl to
+     *          sizf(), bn fmpty nbmf is rfturnfd.
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
      */
-    public Name getSuffix(int posn);
+    publid Nbmf gftSuffix(int posn);
 
     /**
-     * Determines whether this name starts with a specified prefix.
-     * A name <tt>n</tt> is a prefix if it is equal to
-     * <tt>getPrefix(n.size())</tt>.
+     * Dftfrminfs wiftifr tiis nbmf stbrts witi b spfdififd prffix.
+     * A nbmf <tt>n</tt> is b prffix if it is fqubl to
+     * <tt>gftPrffix(n.sizf())</tt>.
      *
-     * @param n
-     *          the name to check
-     * @return  true if <tt>n</tt> is a prefix of this name, false otherwise
+     * @pbrbm n
+     *          tif nbmf to difdk
+     * @rfturn  truf if <tt>n</tt> is b prffix of tiis nbmf, fblsf otifrwisf
      */
-    public boolean startsWith(Name n);
+    publid boolfbn stbrtsWiti(Nbmf n);
 
     /**
-     * Determines whether this name ends with a specified suffix.
-     * A name <tt>n</tt> is a suffix if it is equal to
-     * <tt>getSuffix(size()-n.size())</tt>.
+     * Dftfrminfs wiftifr tiis nbmf fnds witi b spfdififd suffix.
+     * A nbmf <tt>n</tt> is b suffix if it is fqubl to
+     * <tt>gftSuffix(sizf()-n.sizf())</tt>.
      *
-     * @param n
-     *          the name to check
-     * @return  true if <tt>n</tt> is a suffix of this name, false otherwise
+     * @pbrbm n
+     *          tif nbmf to difdk
+     * @rfturn  truf if <tt>n</tt> is b suffix of tiis nbmf, fblsf otifrwisf
      */
-    public boolean endsWith(Name n);
+    publid boolfbn fndsWiti(Nbmf n);
 
     /**
-     * Adds the components of a name -- in order -- to the end of this name.
+     * Adds tif domponfnts of b nbmf -- in ordfr -- to tif fnd of tiis nbmf.
      *
-     * @param suffix
-     *          the components to add
-     * @return  the updated name (not a new one)
+     * @pbrbm suffix
+     *          tif domponfnts to bdd
+     * @rfturn  tif updbtfd nbmf (not b nfw onf)
      *
-     * @throws  InvalidNameException if <tt>suffix</tt> is not a valid name,
-     *          or if the addition of the components would violate the syntax
-     *          rules of this name
+     * @tirows  InvblidNbmfExdfption if <tt>suffix</tt> is not b vblid nbmf,
+     *          or if tif bddition of tif domponfnts would violbtf tif syntbx
+     *          rulfs of tiis nbmf
      */
-    public Name addAll(Name suffix) throws InvalidNameException;
+    publid Nbmf bddAll(Nbmf suffix) tirows InvblidNbmfExdfption;
 
     /**
-     * Adds the components of a name -- in order -- at a specified position
-     * within this name.
-     * Components of this name at or after the index of the first new
-     * component are shifted up (away from 0) to accommodate the new
-     * components.
+     * Adds tif domponfnts of b nbmf -- in ordfr -- bt b spfdififd position
+     * witiin tiis nbmf.
+     * Componfnts of tiis nbmf bt or bftfr tif indfx of tif first nfw
+     * domponfnt brf siiftfd up (bwby from 0) to bddommodbtf tif nfw
+     * domponfnts.
      *
-     * @param n
-     *          the components to add
-     * @param posn
-     *          the index in this name at which to add the new
-     *          components.  Must be in the range [0,size()].
-     * @return  the updated name (not a new one)
+     * @pbrbm n
+     *          tif domponfnts to bdd
+     * @pbrbm posn
+     *          tif indfx in tiis nbmf bt wiidi to bdd tif nfw
+     *          domponfnts.  Must bf in tif rbngf [0,sizf()].
+     * @rfturn  tif updbtfd nbmf (not b nfw onf)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if <tt>n</tt> is not a valid name,
-     *          or if the addition of the components would violate the syntax
-     *          rules of this name
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
+     * @tirows  InvblidNbmfExdfption if <tt>n</tt> is not b vblid nbmf,
+     *          or if tif bddition of tif domponfnts would violbtf tif syntbx
+     *          rulfs of tiis nbmf
      */
-    public Name addAll(int posn, Name n) throws InvalidNameException;
+    publid Nbmf bddAll(int posn, Nbmf n) tirows InvblidNbmfExdfption;
 
     /**
-     * Adds a single component to the end of this name.
+     * Adds b singlf domponfnt to tif fnd of tiis nbmf.
      *
-     * @param comp
-     *          the component to add
-     * @return  the updated name (not a new one)
+     * @pbrbm domp
+     *          tif domponfnt to bdd
+     * @rfturn  tif updbtfd nbmf (not b nfw onf)
      *
-     * @throws  InvalidNameException if adding <tt>comp</tt> would violate
-     *          the syntax rules of this name
+     * @tirows  InvblidNbmfExdfption if bdding <tt>domp</tt> would violbtf
+     *          tif syntbx rulfs of tiis nbmf
      */
-    public Name add(String comp) throws InvalidNameException;
+    publid Nbmf bdd(String domp) tirows InvblidNbmfExdfption;
 
     /**
-     * Adds a single component at a specified position within this name.
-     * Components of this name at or after the index of the new component
-     * are shifted up by one (away from index 0) to accommodate the new
-     * component.
+     * Adds b singlf domponfnt bt b spfdififd position witiin tiis nbmf.
+     * Componfnts of tiis nbmf bt or bftfr tif indfx of tif nfw domponfnt
+     * brf siiftfd up by onf (bwby from indfx 0) to bddommodbtf tif nfw
+     * domponfnt.
      *
-     * @param comp
-     *          the component to add
-     * @param posn
-     *          the index at which to add the new component.
-     *          Must be in the range [0,size()].
-     * @return  the updated name (not a new one)
+     * @pbrbm domp
+     *          tif domponfnt to bdd
+     * @pbrbm posn
+     *          tif indfx bt wiidi to bdd tif nfw domponfnt.
+     *          Must bf in tif rbngf [0,sizf()].
+     * @rfturn  tif updbtfd nbmf (not b nfw onf)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if adding <tt>comp</tt> would violate
-     *          the syntax rules of this name
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
+     * @tirows  InvblidNbmfExdfption if bdding <tt>domp</tt> would violbtf
+     *          tif syntbx rulfs of tiis nbmf
      */
-    public Name add(int posn, String comp) throws InvalidNameException;
+    publid Nbmf bdd(int posn, String domp) tirows InvblidNbmfExdfption;
 
     /**
-     * Removes a component from this name.
-     * The component of this name at the specified position is removed.
-     * Components with indexes greater than this position
-     * are shifted down (toward index 0) by one.
+     * Rfmovfs b domponfnt from tiis nbmf.
+     * Tif domponfnt of tiis nbmf bt tif spfdififd position is rfmovfd.
+     * Componfnts witi indfxfs grfbtfr tibn tiis position
+     * brf siiftfd down (towbrd indfx 0) by onf.
      *
-     * @param posn
-     *          the index of the component to remove.
-     *          Must be in the range [0,size()).
-     * @return  the component removed (a String)
+     * @pbrbm posn
+     *          tif indfx of tif domponfnt to rfmovf.
+     *          Must bf in tif rbngf [0,sizf()).
+     * @rfturn  tif domponfnt rfmovfd (b String)
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if posn is outside the specified range
-     * @throws  InvalidNameException if deleting the component
-     *          would violate the syntax rules of the name
+     * @tirows  ArrbyIndfxOutOfBoundsExdfption
+     *          if posn is outsidf tif spfdififd rbngf
+     * @tirows  InvblidNbmfExdfption if dflfting tif domponfnt
+     *          would violbtf tif syntbx rulfs of tif nbmf
      */
-    public Object remove(int posn) throws InvalidNameException;
+    publid Objfdt rfmovf(int posn) tirows InvblidNbmfExdfption;
 }

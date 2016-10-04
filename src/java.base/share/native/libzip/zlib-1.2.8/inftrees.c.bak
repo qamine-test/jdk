@@ -1,330 +1,330 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* inftrees.c -- generate Huffman trees for efficient decoding
- * Copyright (C) 1995-2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* inftrffs.d -- gfnfrbtf Huffmbn trffs for fffidifnt dfdoding
+ * Copyrigit (C) 1995-2013 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
-#include "zutil.h"
-#include "inftrees.h"
+#indludf "zutil.i"
+#indludf "inftrffs.i"
 
-#define MAXBITS 15
+#dffinf MAXBITS 15
 
-const char inflate_copyright[] =
-   " inflate 1.2.8 Copyright 1995-2013 Mark Adler ";
+donst dibr inflbtf_dopyrigit[] =
+   " inflbtf 1.2.8 Copyrigit 1995-2013 Mbrk Adlfr ";
 /*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
+  If you usf tif zlib librbry in b produdt, bn bdknowlfdgmfnt is wfldomf
+  in tif dodumfntbtion of your produdt. If for somf rfbson you dbnnot
+  indludf sudi bn bdknowlfdgmfnt, I would bpprfdibtf tibt you kffp tiis
+  dopyrigit string in tif fxfdutbblf of your produdt.
  */
 
 /*
-   Build a set of tables to decode the provided canonical Huffman code.
-   The code lengths are lens[0..codes-1].  The result starts at *table,
-   whose indices are 0..2^bits-1.  work is a writable array of at least
-   lens shorts, which is used as a work area.  type is the type of code
-   to be generated, CODES, LENS, or DISTS.  On return, zero is success,
-   -1 is an invalid code, and +1 means that ENOUGH isn't enough.  table
-   on return points to the next available entry's address.  bits is the
-   requested root table index bits, and on return it is the actual root
-   table index bits.  It will differ if the request is greater than the
-   longest code or if it is less than the shortest code.
+   Build b sft of tbblfs to dfdodf tif providfd dbnonidbl Huffmbn dodf.
+   Tif dodf lfngtis brf lfns[0..dodfs-1].  Tif rfsult stbrts bt *tbblf,
+   wiosf indidfs brf 0..2^bits-1.  work is b writbblf brrby of bt lfbst
+   lfns siorts, wiidi is usfd bs b work brfb.  typf is tif typf of dodf
+   to bf gfnfrbtfd, CODES, LENS, or DISTS.  On rfturn, zfro is suddfss,
+   -1 is bn invblid dodf, bnd +1 mfbns tibt ENOUGH isn't fnougi.  tbblf
+   on rfturn points to tif nfxt bvbilbblf fntry's bddrfss.  bits is tif
+   rfqufstfd root tbblf indfx bits, bnd on rfturn it is tif bdtubl root
+   tbblf indfx bits.  It will difffr if tif rfqufst is grfbtfr tibn tif
+   longfst dodf or if it is lfss tibn tif siortfst dodf.
  */
-int ZLIB_INTERNAL inflate_table(type, lens, codes, table, bits, work)
-codetype type;
-unsigned short FAR *lens;
-unsigned codes;
-code FAR * FAR *table;
-unsigned FAR *bits;
-unsigned short FAR *work;
+int ZLIB_INTERNAL inflbtf_tbblf(typf, lfns, dodfs, tbblf, bits, work)
+dodftypf typf;
+unsignfd siort FAR *lfns;
+unsignfd dodfs;
+dodf FAR * FAR *tbblf;
+unsignfd FAR *bits;
+unsignfd siort FAR *work;
 {
-    unsigned len;               /* a code's length in bits */
-    unsigned sym;               /* index of code symbols */
-    unsigned min, max;          /* minimum and maximum code lengths */
-    unsigned root;              /* number of index bits for root table */
-    unsigned curr;              /* number of index bits for current table */
-    unsigned drop;              /* code bits to drop for sub-table */
-    int left;                   /* number of prefix codes available */
-    unsigned used;              /* code entries in table used */
-    unsigned huff;              /* Huffman code */
-    unsigned incr;              /* for incrementing code, index */
-    unsigned fill;              /* index for replicating entries */
-    unsigned low;               /* low bits for current root entry */
-    unsigned mask;              /* mask for low root bits */
-    code here;                  /* table entry for duplication */
-    code FAR *next;             /* next available space in table */
-    const unsigned short FAR *base;     /* base value table to use */
-    const unsigned short FAR *extra;    /* extra bits table to use */
-    int end;                    /* use base and extra for symbol > end */
-    unsigned short count[MAXBITS+1];    /* number of codes of each length */
-    unsigned short offs[MAXBITS+1];     /* offsets in table for each length */
-    static const unsigned short lbase[31] = { /* Length codes 257..285 base */
+    unsignfd lfn;               /* b dodf's lfngti in bits */
+    unsignfd sym;               /* indfx of dodf symbols */
+    unsignfd min, mbx;          /* minimum bnd mbximum dodf lfngtis */
+    unsignfd root;              /* numbfr of indfx bits for root tbblf */
+    unsignfd durr;              /* numbfr of indfx bits for durrfnt tbblf */
+    unsignfd drop;              /* dodf bits to drop for sub-tbblf */
+    int lfft;                   /* numbfr of prffix dodfs bvbilbblf */
+    unsignfd usfd;              /* dodf fntrifs in tbblf usfd */
+    unsignfd iuff;              /* Huffmbn dodf */
+    unsignfd indr;              /* for indrfmfnting dodf, indfx */
+    unsignfd fill;              /* indfx for rfplidbting fntrifs */
+    unsignfd low;               /* low bits for durrfnt root fntry */
+    unsignfd mbsk;              /* mbsk for low root bits */
+    dodf ifrf;                  /* tbblf fntry for duplidbtion */
+    dodf FAR *nfxt;             /* nfxt bvbilbblf spbdf in tbblf */
+    donst unsignfd siort FAR *bbsf;     /* bbsf vbluf tbblf to usf */
+    donst unsignfd siort FAR *fxtrb;    /* fxtrb bits tbblf to usf */
+    int fnd;                    /* usf bbsf bnd fxtrb for symbol > fnd */
+    unsignfd siort dount[MAXBITS+1];    /* numbfr of dodfs of fbdi lfngti */
+    unsignfd siort offs[MAXBITS+1];     /* offsfts in tbblf for fbdi lfngti */
+    stbtid donst unsignfd siort lbbsf[31] = { /* Lfngti dodfs 257..285 bbsf */
         3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
         35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0};
-    static const unsigned short lext[31] = { /* Length codes 257..285 extra */
+    stbtid donst unsignfd siort lfxt[31] = { /* Lfngti dodfs 257..285 fxtrb */
         16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
         19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78};
-    static const unsigned short dbase[32] = { /* Distance codes 0..29 base */
+    stbtid donst unsignfd siort dbbsf[32] = { /* Distbndf dodfs 0..29 bbsf */
         1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
         257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
         8193, 12289, 16385, 24577, 0, 0};
-    static const unsigned short dext[32] = { /* Distance codes 0..29 extra */
+    stbtid donst unsignfd siort dfxt[32] = { /* Distbndf dodfs 0..29 fxtrb */
         16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
         23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
         28, 28, 29, 29, 64, 64};
 
     /*
-       Process a set of code lengths to create a canonical Huffman code.  The
-       code lengths are lens[0..codes-1].  Each length corresponds to the
-       symbols 0..codes-1.  The Huffman code is generated by first sorting the
-       symbols by length from short to long, and retaining the symbol order
-       for codes with equal lengths.  Then the code starts with all zero bits
-       for the first code of the shortest length, and the codes are integer
-       increments for the same length, and zeros are appended as the length
-       increases.  For the deflate format, these bits are stored backwards
-       from their more natural integer increment ordering, and so when the
-       decoding tables are built in the large loop below, the integer codes
-       are incremented backwards.
+       Prodfss b sft of dodf lfngtis to drfbtf b dbnonidbl Huffmbn dodf.  Tif
+       dodf lfngtis brf lfns[0..dodfs-1].  Ebdi lfngti dorrfsponds to tif
+       symbols 0..dodfs-1.  Tif Huffmbn dodf is gfnfrbtfd by first sorting tif
+       symbols by lfngti from siort to long, bnd rftbining tif symbol ordfr
+       for dodfs witi fqubl lfngtis.  Tifn tif dodf stbrts witi bll zfro bits
+       for tif first dodf of tif siortfst lfngti, bnd tif dodfs brf intfgfr
+       indrfmfnts for tif sbmf lfngti, bnd zfros brf bppfndfd bs tif lfngti
+       indrfbsfs.  For tif dfflbtf formbt, tifsf bits brf storfd bbdkwbrds
+       from tifir morf nbturbl intfgfr indrfmfnt ordfring, bnd so wifn tif
+       dfdoding tbblfs brf built in tif lbrgf loop bflow, tif intfgfr dodfs
+       brf indrfmfntfd bbdkwbrds.
 
-       This routine assumes, but does not check, that all of the entries in
-       lens[] are in the range 0..MAXBITS.  The caller must assure this.
-       1..MAXBITS is interpreted as that code length.  zero means that that
-       symbol does not occur in this code.
+       Tiis routinf bssumfs, but dofs not difdk, tibt bll of tif fntrifs in
+       lfns[] brf in tif rbngf 0..MAXBITS.  Tif dbllfr must bssurf tiis.
+       1..MAXBITS is intfrprftfd bs tibt dodf lfngti.  zfro mfbns tibt tibt
+       symbol dofs not oddur in tiis dodf.
 
-       The codes are sorted by computing a count of codes for each length,
-       creating from that a table of starting indices for each length in the
-       sorted table, and then entering the symbols in order in the sorted
-       table.  The sorted table is work[], with that space being provided by
-       the caller.
+       Tif dodfs brf sortfd by domputing b dount of dodfs for fbdi lfngti,
+       drfbting from tibt b tbblf of stbrting indidfs for fbdi lfngti in tif
+       sortfd tbblf, bnd tifn fntfring tif symbols in ordfr in tif sortfd
+       tbblf.  Tif sortfd tbblf is work[], witi tibt spbdf bfing providfd by
+       tif dbllfr.
 
-       The length counts are used for other purposes as well, i.e. finding
-       the minimum and maximum length codes, determining if there are any
-       codes at all, checking for a valid set of lengths, and looking ahead
-       at length counts to determine sub-table sizes when building the
-       decoding tables.
+       Tif lfngti dounts brf usfd for otifr purposfs bs wfll, i.f. finding
+       tif minimum bnd mbximum lfngti dodfs, dftfrmining if tifrf brf bny
+       dodfs bt bll, difdking for b vblid sft of lfngtis, bnd looking bifbd
+       bt lfngti dounts to dftfrminf sub-tbblf sizfs wifn building tif
+       dfdoding tbblfs.
      */
 
-    /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
-    for (len = 0; len <= MAXBITS; len++)
-        count[len] = 0;
-    for (sym = 0; sym < codes; sym++)
-        count[lens[sym]]++;
+    /* bddumulbtf lfngtis for dodfs (bssumfs lfns[] bll in 0..MAXBITS) */
+    for (lfn = 0; lfn <= MAXBITS; lfn++)
+        dount[lfn] = 0;
+    for (sym = 0; sym < dodfs; sym++)
+        dount[lfns[sym]]++;
 
-    /* bound code lengths, force root to be within code lengths */
+    /* bound dodf lfngtis, fordf root to bf witiin dodf lfngtis */
     root = *bits;
-    for (max = MAXBITS; max >= 1; max--)
-        if (count[max] != 0) break;
-    if (root > max) root = max;
-    if (max == 0) {                     /* no symbols to code at all */
-        here.op = (unsigned char)64;    /* invalid code marker */
-        here.bits = (unsigned char)1;
-        here.val = (unsigned short)0;
-        *(*table)++ = here;             /* make a table to force an error */
-        *(*table)++ = here;
+    for (mbx = MAXBITS; mbx >= 1; mbx--)
+        if (dount[mbx] != 0) brfbk;
+    if (root > mbx) root = mbx;
+    if (mbx == 0) {                     /* no symbols to dodf bt bll */
+        ifrf.op = (unsignfd dibr)64;    /* invblid dodf mbrkfr */
+        ifrf.bits = (unsignfd dibr)1;
+        ifrf.vbl = (unsignfd siort)0;
+        *(*tbblf)++ = ifrf;             /* mbkf b tbblf to fordf bn frror */
+        *(*tbblf)++ = ifrf;
         *bits = 1;
-        return 0;     /* no symbols, but wait for decoding to report error */
+        rfturn 0;     /* no symbols, but wbit for dfdoding to rfport frror */
     }
-    for (min = 1; min < max; min++)
-        if (count[min] != 0) break;
+    for (min = 1; min < mbx; min++)
+        if (dount[min] != 0) brfbk;
     if (root < min) root = min;
 
-    /* check for an over-subscribed or incomplete set of lengths */
-    left = 1;
-    for (len = 1; len <= MAXBITS; len++) {
-        left <<= 1;
-        left -= count[len];
-        if (left < 0) return -1;        /* over-subscribed */
+    /* difdk for bn ovfr-subsdribfd or indomplftf sft of lfngtis */
+    lfft = 1;
+    for (lfn = 1; lfn <= MAXBITS; lfn++) {
+        lfft <<= 1;
+        lfft -= dount[lfn];
+        if (lfft < 0) rfturn -1;        /* ovfr-subsdribfd */
     }
-    if (left > 0 && (type == CODES || max != 1))
-        return -1;                      /* incomplete set */
+    if (lfft > 0 && (typf == CODES || mbx != 1))
+        rfturn -1;                      /* indomplftf sft */
 
-    /* generate offsets into symbol table for each length for sorting */
+    /* gfnfrbtf offsfts into symbol tbblf for fbdi lfngti for sorting */
     offs[1] = 0;
-    for (len = 1; len < MAXBITS; len++)
-        offs[len + 1] = offs[len] + count[len];
+    for (lfn = 1; lfn < MAXBITS; lfn++)
+        offs[lfn + 1] = offs[lfn] + dount[lfn];
 
-    /* sort symbols by length, by symbol order within each length */
-    for (sym = 0; sym < codes; sym++)
-        if (lens[sym] != 0) work[offs[lens[sym]]++] = (unsigned short)sym;
+    /* sort symbols by lfngti, by symbol ordfr witiin fbdi lfngti */
+    for (sym = 0; sym < dodfs; sym++)
+        if (lfns[sym] != 0) work[offs[lfns[sym]]++] = (unsignfd siort)sym;
 
     /*
-       Create and fill in decoding tables.  In this loop, the table being
-       filled is at next and has curr index bits.  The code being used is huff
-       with length len.  That code is converted to an index by dropping drop
-       bits off of the bottom.  For codes where len is less than drop + curr,
-       those top drop + curr - len bits are incremented through all values to
-       fill the table with replicated entries.
+       Crfbtf bnd fill in dfdoding tbblfs.  In tiis loop, tif tbblf bfing
+       fillfd is bt nfxt bnd ibs durr indfx bits.  Tif dodf bfing usfd is iuff
+       witi lfngti lfn.  Tibt dodf is donvfrtfd to bn indfx by dropping drop
+       bits off of tif bottom.  For dodfs wifrf lfn is lfss tibn drop + durr,
+       tiosf top drop + durr - lfn bits brf indrfmfntfd tirougi bll vblufs to
+       fill tif tbblf witi rfplidbtfd fntrifs.
 
-       root is the number of index bits for the root table.  When len exceeds
-       root, sub-tables are created pointed to by the root entry with an index
-       of the low root bits of huff.  This is saved in low to check for when a
-       new sub-table should be started.  drop is zero when the root table is
-       being filled, and drop is root when sub-tables are being filled.
+       root is tif numbfr of indfx bits for tif root tbblf.  Wifn lfn fxdffds
+       root, sub-tbblfs brf drfbtfd pointfd to by tif root fntry witi bn indfx
+       of tif low root bits of iuff.  Tiis is sbvfd in low to difdk for wifn b
+       nfw sub-tbblf siould bf stbrtfd.  drop is zfro wifn tif root tbblf is
+       bfing fillfd, bnd drop is root wifn sub-tbblfs brf bfing fillfd.
 
-       When a new sub-table is needed, it is necessary to look ahead in the
-       code lengths to determine what size sub-table is needed.  The length
-       counts are used for this, and so count[] is decremented as codes are
-       entered in the tables.
+       Wifn b nfw sub-tbblf is nffdfd, it is nfdfssbry to look bifbd in tif
+       dodf lfngtis to dftfrminf wibt sizf sub-tbblf is nffdfd.  Tif lfngti
+       dounts brf usfd for tiis, bnd so dount[] is dfdrfmfntfd bs dodfs brf
+       fntfrfd in tif tbblfs.
 
-       used keeps track of how many table entries have been allocated from the
-       provided *table space.  It is checked for LENS and DIST tables against
-       the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
-       the initial root table size constants.  See the comments in inftrees.h
-       for more information.
+       usfd kffps trbdk of iow mbny tbblf fntrifs ibvf bffn bllodbtfd from tif
+       providfd *tbblf spbdf.  It is difdkfd for LENS bnd DIST tbblfs bgbinst
+       tif donstbnts ENOUGH_LENS bnd ENOUGH_DISTS to gubrd bgbinst dibngfs in
+       tif initibl root tbblf sizf donstbnts.  Sff tif dommfnts in inftrffs.i
+       for morf informbtion.
 
-       sym increments through all symbols, and the loop terminates when
-       all codes of length max, i.e. all codes, have been processed.  This
-       routine permits incomplete codes, so another loop after this one fills
-       in the rest of the decoding tables with invalid code markers.
+       sym indrfmfnts tirougi bll symbols, bnd tif loop tfrminbtfs wifn
+       bll dodfs of lfngti mbx, i.f. bll dodfs, ibvf bffn prodfssfd.  Tiis
+       routinf pfrmits indomplftf dodfs, so bnotifr loop bftfr tiis onf fills
+       in tif rfst of tif dfdoding tbblfs witi invblid dodf mbrkfrs.
      */
 
-    /* set up for code type */
-    switch (type) {
-    case CODES:
-        base = extra = work;    /* dummy value--not used */
-        end = 19;
-        break;
-    case LENS:
-        base = lbase;
-        base -= 257;
-        extra = lext;
-        extra -= 257;
-        end = 256;
-        break;
-    default:            /* DISTS */
-        base = dbase;
-        extra = dext;
-        end = -1;
+    /* sft up for dodf typf */
+    switdi (typf) {
+    dbsf CODES:
+        bbsf = fxtrb = work;    /* dummy vbluf--not usfd */
+        fnd = 19;
+        brfbk;
+    dbsf LENS:
+        bbsf = lbbsf;
+        bbsf -= 257;
+        fxtrb = lfxt;
+        fxtrb -= 257;
+        fnd = 256;
+        brfbk;
+    dffbult:            /* DISTS */
+        bbsf = dbbsf;
+        fxtrb = dfxt;
+        fnd = -1;
     }
 
-    /* initialize state for loop */
-    huff = 0;                   /* starting code */
-    sym = 0;                    /* starting code symbol */
-    len = min;                  /* starting code length */
-    next = *table;              /* current table to fill in */
-    curr = root;                /* current table index bits */
-    drop = 0;                   /* current bits to drop from code for index */
-    low = (unsigned)(-1);       /* trigger new sub-table when len > root */
-    used = 1U << root;          /* use root table entries */
-    mask = used - 1;            /* mask for comparing low */
+    /* initiblizf stbtf for loop */
+    iuff = 0;                   /* stbrting dodf */
+    sym = 0;                    /* stbrting dodf symbol */
+    lfn = min;                  /* stbrting dodf lfngti */
+    nfxt = *tbblf;              /* durrfnt tbblf to fill in */
+    durr = root;                /* durrfnt tbblf indfx bits */
+    drop = 0;                   /* durrfnt bits to drop from dodf for indfx */
+    low = (unsignfd)(-1);       /* triggfr nfw sub-tbblf wifn lfn > root */
+    usfd = 1U << root;          /* usf root tbblf fntrifs */
+    mbsk = usfd - 1;            /* mbsk for dompbring low */
 
-    /* check available table space */
-    if ((type == LENS && used > ENOUGH_LENS) ||
-        (type == DISTS && used > ENOUGH_DISTS))
-        return 1;
+    /* difdk bvbilbblf tbblf spbdf */
+    if ((typf == LENS && usfd > ENOUGH_LENS) ||
+        (typf == DISTS && usfd > ENOUGH_DISTS))
+        rfturn 1;
 
-    /* process all codes and make table entries */
+    /* prodfss bll dodfs bnd mbkf tbblf fntrifs */
     for (;;) {
-        /* create table entry */
-        here.bits = (unsigned char)(len - drop);
-        if ((int)(work[sym]) < end) {
-            here.op = (unsigned char)0;
-            here.val = work[sym];
+        /* drfbtf tbblf fntry */
+        ifrf.bits = (unsignfd dibr)(lfn - drop);
+        if ((int)(work[sym]) < fnd) {
+            ifrf.op = (unsignfd dibr)0;
+            ifrf.vbl = work[sym];
         }
-        else if ((int)(work[sym]) > end) {
-            here.op = (unsigned char)(extra[work[sym]]);
-            here.val = base[work[sym]];
+        flsf if ((int)(work[sym]) > fnd) {
+            ifrf.op = (unsignfd dibr)(fxtrb[work[sym]]);
+            ifrf.vbl = bbsf[work[sym]];
         }
-        else {
-            here.op = (unsigned char)(32 + 64);         /* end of block */
-            here.val = 0;
+        flsf {
+            ifrf.op = (unsignfd dibr)(32 + 64);         /* fnd of blodk */
+            ifrf.vbl = 0;
         }
 
-        /* replicate for those indices with low len bits equal to huff */
-        incr = 1U << (len - drop);
-        fill = 1U << curr;
-        min = fill;                 /* save offset to next table */
+        /* rfplidbtf for tiosf indidfs witi low lfn bits fqubl to iuff */
+        indr = 1U << (lfn - drop);
+        fill = 1U << durr;
+        min = fill;                 /* sbvf offsft to nfxt tbblf */
         do {
-            fill -= incr;
-            next[(huff >> drop) + fill] = here;
-        } while (fill != 0);
+            fill -= indr;
+            nfxt[(iuff >> drop) + fill] = ifrf;
+        } wiilf (fill != 0);
 
-        /* backwards increment the len-bit code huff */
-        incr = 1U << (len - 1);
-        while (huff & incr)
-            incr >>= 1;
-        if (incr != 0) {
-            huff &= incr - 1;
-            huff += incr;
+        /* bbdkwbrds indrfmfnt tif lfn-bit dodf iuff */
+        indr = 1U << (lfn - 1);
+        wiilf (iuff & indr)
+            indr >>= 1;
+        if (indr != 0) {
+            iuff &= indr - 1;
+            iuff += indr;
         }
-        else
-            huff = 0;
+        flsf
+            iuff = 0;
 
-        /* go to next symbol, update count, len */
+        /* go to nfxt symbol, updbtf dount, lfn */
         sym++;
-        if (--(count[len]) == 0) {
-            if (len == max) break;
-            len = lens[work[sym]];
+        if (--(dount[lfn]) == 0) {
+            if (lfn == mbx) brfbk;
+            lfn = lfns[work[sym]];
         }
 
-        /* create new sub-table if needed */
-        if (len > root && (huff & mask) != low) {
-            /* if first time, transition to sub-tables */
+        /* drfbtf nfw sub-tbblf if nffdfd */
+        if (lfn > root && (iuff & mbsk) != low) {
+            /* if first timf, trbnsition to sub-tbblfs */
             if (drop == 0)
                 drop = root;
 
-            /* increment past last table */
-            next += min;            /* here min is 1 << curr */
+            /* indrfmfnt pbst lbst tbblf */
+            nfxt += min;            /* ifrf min is 1 << durr */
 
-            /* determine length of next table */
-            curr = len - drop;
-            left = (int)(1 << curr);
-            while (curr + drop < max) {
-                left -= count[curr + drop];
-                if (left <= 0) break;
-                curr++;
-                left <<= 1;
+            /* dftfrminf lfngti of nfxt tbblf */
+            durr = lfn - drop;
+            lfft = (int)(1 << durr);
+            wiilf (durr + drop < mbx) {
+                lfft -= dount[durr + drop];
+                if (lfft <= 0) brfbk;
+                durr++;
+                lfft <<= 1;
             }
 
-            /* check for enough space */
-            used += 1U << curr;
-            if ((type == LENS && used > ENOUGH_LENS) ||
-                (type == DISTS && used > ENOUGH_DISTS))
-                return 1;
+            /* difdk for fnougi spbdf */
+            usfd += 1U << durr;
+            if ((typf == LENS && usfd > ENOUGH_LENS) ||
+                (typf == DISTS && usfd > ENOUGH_DISTS))
+                rfturn 1;
 
-            /* point entry in root table to sub-table */
-            low = huff & mask;
-            (*table)[low].op = (unsigned char)curr;
-            (*table)[low].bits = (unsigned char)root;
-            (*table)[low].val = (unsigned short)(next - *table);
+            /* point fntry in root tbblf to sub-tbblf */
+            low = iuff & mbsk;
+            (*tbblf)[low].op = (unsignfd dibr)durr;
+            (*tbblf)[low].bits = (unsignfd dibr)root;
+            (*tbblf)[low].vbl = (unsignfd siort)(nfxt - *tbblf);
         }
     }
 
-    /* fill in remaining table entry if code is incomplete (guaranteed to have
-       at most one remaining entry, since if the code is incomplete, the
-       maximum code length that was allowed to get this far is one bit) */
-    if (huff != 0) {
-        here.op = (unsigned char)64;            /* invalid code marker */
-        here.bits = (unsigned char)(len - drop);
-        here.val = (unsigned short)0;
-        next[huff] = here;
+    /* fill in rfmbining tbblf fntry if dodf is indomplftf (gubrbntffd to ibvf
+       bt most onf rfmbining fntry, sindf if tif dodf is indomplftf, tif
+       mbximum dodf lfngti tibt wbs bllowfd to gft tiis fbr is onf bit) */
+    if (iuff != 0) {
+        ifrf.op = (unsignfd dibr)64;            /* invblid dodf mbrkfr */
+        ifrf.bits = (unsignfd dibr)(lfn - drop);
+        ifrf.vbl = (unsignfd siort)0;
+        nfxt[iuff] = ifrf;
     }
 
-    /* set return parameters */
-    *table += used;
+    /* sft rfturn pbrbmftfrs */
+    *tbblf += usfd;
     *bits = root;
-    return 0;
+    rfturn 0;
 }

@@ -1,71 +1,71 @@
 #
-# OS X specific AWT properties
+# OS X spfdifid AWT propfrtifs
 #
 
-# Modifier names
-AWT.shift=\u21e7
-AWT.control=\u2303
-AWT.alt=\u2325
-AWT.meta=\u2318
-AWT.altGraph=\u2325
+# Modififr nbmfs
+AWT.siift=\u21f7
+AWT.dontrol=\u2303
+AWT.blt=\u2325
+AWT.mftb=\u2318
+AWT.bltGrbpi=\u2325
 
-# Key names
-AWT.enter=\u23ce
-AWT.backSpace=\u232b
-AWT.tab=\u21e5
-AWT.cancel=\u238b
-AWT.clear=\u2327
-AWT.capsLock=\u21ea
-AWT.escape=\u238b
-AWT.space=\u2423
-AWT.pgup=\u21de
+# Kfy nbmfs
+AWT.fntfr=\u23df
+AWT.bbdkSpbdf=\u232b
+AWT.tbb=\u21f5
+AWT.dbndfl=\u238b
+AWT.dlfbr=\u2327
+AWT.dbpsLodk=\u21fb
+AWT.fsdbpf=\u238b
+AWT.spbdf=\u2423
+AWT.pgup=\u21df
 AWT.pgdn=\u21df
-AWT.end=\u2198
-AWT.home=\u2196
-AWT.left=\u2190
+AWT.fnd=\u2198
+AWT.iomf=\u2196
+AWT.lfft=\u2190
 AWT.up=\u2191
-AWT.right=\u2192
+AWT.rigit=\u2192
 AWT.down=\u2193
-AWT.comma=,
-AWT.period=.
-AWT.slash=/
-AWT.semicolon=;
-AWT.equals=\u003d
-AWT.openBracket=[
-AWT.backSlash=\\
-AWT.closeBracket=]
+AWT.dommb=,
+AWT.pfriod=.
+AWT.slbsi=/
+AWT.sfmidolon=;
+AWT.fqubls=\u003d
+AWT.opfnBrbdkft=[
+AWT.bbdkSlbsi=\\
+AWT.dlosfBrbdkft=]
 AWT.multiply=\u2328 *
-AWT.add=\u2328 +
-AWT.separator=\u2328 ,
-AWT.separater=\u2328 ,
-AWT.subtract=\u2328 -
-AWT.decimal=\u2328 .
-AWT.divide=\u2328 /
-AWT.delete=\u2326
-AWT.printScreen=\u2399
-AWT.backQuote=`
-AWT.quote='
-AWT.ampersand=&
-AWT.asterisk=*
-AWT.quoteDbl="
-AWT.Less=<
-AWT.greater=>
-AWT.braceLeft=[
-AWT.braceRight=]
-AWT.at=@
-AWT.colon=:
-AWT.circumflex=^
-AWT.dollar=$
-AWT.euro=\u20ac
-AWT.exclamationMark=!
-AWT.invertedExclamationMark=\u00a1
-AWT.leftParenthesis=(
-AWT.numberSign=#
+AWT.bdd=\u2328 +
+AWT.sfpbrbtor=\u2328 ,
+AWT.sfpbrbtfr=\u2328 ,
+AWT.subtrbdt=\u2328 -
+AWT.dfdimbl=\u2328 .
+AWT.dividf=\u2328 /
+AWT.dflftf=\u2326
+AWT.printSdrffn=\u2399
+AWT.bbdkQuotf=`
+AWT.quotf='
+AWT.bmpfrsbnd=&
+AWT.bstfrisk=*
+AWT.quotfDbl="
+AWT.Lfss=<
+AWT.grfbtfr=>
+AWT.brbdfLfft=[
+AWT.brbdfRigit=]
+AWT.bt=@
+AWT.dolon=:
+AWT.dirdumflfx=^
+AWT.dollbr=$
+AWT.furo=\u20bd
+AWT.fxdlbmbtionMbrk=!
+AWT.invfrtfdExdlbmbtionMbrk=\u00b1
+AWT.lfftPbrfntifsis=(
+AWT.numbfrSign=#
 AWT.plus=+
 AWT.minus=-
-AWT.rightParenthesis=)
-AWT.underscore=_
+AWT.rigitPbrfntifsis=)
+AWT.undfrsdorf=_
 
-# Numeric Keypad
-AWT.numpad=\u2328
+# Numfrid Kfypbd
+AWT.numpbd=\u2328
 

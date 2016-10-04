@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.InvblidNbmfExdfption;
 
 /*
- * RFC2253Parser implements a recursive descent parser for a single DN.
+ * RFC2253Pbrsfr implfmfnts b rfdursivf dfsdfnt pbrsfr for b singlf DN.
  */
-final class Rfc2253Parser {
+finbl dlbss Rfd2253Pbrsfr {
 
-        private final String name;      // DN being parsed
-        private final char[] chars;     // characters in LDAP name being parsed
-        private final int len;  // length of "chars"
-        private int cur = 0;    // index of first unconsumed char in "chars"
+        privbtf finbl String nbmf;      // DN bfing pbrsfd
+        privbtf finbl dibr[] dibrs;     // dibrbdtfrs in LDAP nbmf bfing pbrsfd
+        privbtf finbl int lfn;  // lfngti of "dibrs"
+        privbtf int dur = 0;    // indfx of first undonsumfd dibr in "dibrs"
 
         /*
-         * Given an LDAP DN in string form, returns a parser for it.
+         * Givfn bn LDAP DN in string form, rfturns b pbrsfr for it.
          */
-        Rfc2253Parser(String name) {
-            this.name = name;
-            len = name.length();
-            chars = name.toCharArray();
+        Rfd2253Pbrsfr(String nbmf) {
+            tiis.nbmf = nbmf;
+            lfn = nbmf.lfngti();
+            dibrs = nbmf.toCibrArrby();
         }
 
         /*
-         * Parses the DN, returning a List of its RDNs.
+         * Pbrsfs tif DN, rfturning b List of its RDNs.
          */
-        // public List<Rdn> getDN() throws InvalidNameException {
+        // publid List<Rdn> gftDN() tirows InvblidNbmfExdfption {
 
-        List<Rdn> parseDn() throws InvalidNameException {
-            cur = 0;
+        List<Rdn> pbrsfDn() tirows InvblidNbmfExdfption {
+            dur = 0;
 
-            // ArrayList<Rdn> rdns =
-            //  new ArrayList<Rdn>(len / 3 + 10);  // leave room for growth
+            // ArrbyList<Rdn> rdns =
+            //  nfw ArrbyList<Rdn>(lfn / 3 + 10);  // lfbvf room for growti
 
-            ArrayList<Rdn> rdns =
-                new ArrayList<>(len / 3 + 10);  // leave room for growth
+            ArrbyList<Rdn> rdns =
+                nfw ArrbyList<>(lfn / 3 + 10);  // lfbvf room for growti
 
-            if (len == 0) {
-                return rdns;
+            if (lfn == 0) {
+                rfturn rdns;
             }
 
-            rdns.add(doParse(new Rdn()));
-            while (cur < len) {
-                if (chars[cur] == ',' || chars[cur] == ';') {
-                    ++cur;
-                    rdns.add(0, doParse(new Rdn()));
-                } else {
-                    throw new InvalidNameException("Invalid name: " + name);
+            rdns.bdd(doPbrsf(nfw Rdn()));
+            wiilf (dur < lfn) {
+                if (dibrs[dur] == ',' || dibrs[dur] == ';') {
+                    ++dur;
+                    rdns.bdd(0, doPbrsf(nfw Rdn()));
+                } flsf {
+                    tirow nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
                 }
             }
-            return rdns;
+            rfturn rdns;
         }
 
         /*
-         * Parses the DN, if it is known to contain a single RDN.
+         * Pbrsfs tif DN, if it is known to dontbin b singlf RDN.
          */
-        Rdn parseRdn() throws InvalidNameException {
-            return parseRdn(new Rdn());
+        Rdn pbrsfRdn() tirows InvblidNbmfExdfption {
+            rfturn pbrsfRdn(nfw Rdn());
         }
 
         /*
-         * Parses the DN, if it is known to contain a single RDN.
+         * Pbrsfs tif DN, if it is known to dontbin b singlf RDN.
          */
-        Rdn parseRdn(Rdn rdn) throws InvalidNameException {
-            rdn = doParse(rdn);
-            if (cur < len) {
-                throw new InvalidNameException("Invalid RDN: " + name);
+        Rdn pbrsfRdn(Rdn rdn) tirows InvblidNbmfExdfption {
+            rdn = doPbrsf(rdn);
+            if (dur < lfn) {
+                tirow nfw InvblidNbmfExdfption("Invblid RDN: " + nbmf);
             }
-            return rdn;
+            rfturn rdn;
         }
 
         /*
-         * Parses the next RDN and returns it.  Throws an exception if
-         * none is found.  Leading and trailing whitespace is consumed.
+         * Pbrsfs tif nfxt RDN bnd rfturns it.  Tirows bn fxdfption if
+         * nonf is found.  Lfbding bnd trbiling wiitfspbdf is donsumfd.
          */
-         private Rdn doParse(Rdn rdn) throws InvalidNameException {
+         privbtf Rdn doPbrsf(Rdn rdn) tirows InvblidNbmfExdfption {
 
-            while (cur < len) {
-                consumeWhitespace();
-                String attrType = parseAttrType();
-                consumeWhitespace();
-                if (cur >= len || chars[cur] != '=') {
-                    throw new InvalidNameException("Invalid name: " + name);
+            wiilf (dur < lfn) {
+                donsumfWiitfspbdf();
+                String bttrTypf = pbrsfAttrTypf();
+                donsumfWiitfspbdf();
+                if (dur >= lfn || dibrs[dur] != '=') {
+                    tirow nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
                 }
-                ++cur;          // consume '='
-                consumeWhitespace();
-                String value = parseAttrValue();
-                consumeWhitespace();
+                ++dur;          // donsumf '='
+                donsumfWiitfspbdf();
+                String vbluf = pbrsfAttrVbluf();
+                donsumfWiitfspbdf();
 
-                rdn.put(attrType, Rdn.unescapeValue(value));
-                if (cur >= len || chars[cur] != '+') {
-                    break;
+                rdn.put(bttrTypf, Rdn.unfsdbpfVbluf(vbluf));
+                if (dur >= lfn || dibrs[dur] != '+') {
+                    brfbk;
                 }
-                ++cur;          // consume '+'
+                ++dur;          // donsumf '+'
             }
             rdn.sort();
-            return rdn;
+            rfturn rdn;
         }
 
         /*
-         * Returns the attribute type that begins at the next unconsumed
-         * char.  No leading whitespace is expected.
-         * This routine is more generous than RFC 2253.  It accepts
-         * attribute types composed of any nonempty combination of Unicode
-         * letters, Unicode digits, '.', '-', and internal space characters.
+         * Rfturns tif bttributf typf tibt bfgins bt tif nfxt undonsumfd
+         * dibr.  No lfbding wiitfspbdf is fxpfdtfd.
+         * Tiis routinf is morf gfnfrous tibn RFC 2253.  It bddfpts
+         * bttributf typfs domposfd of bny nonfmpty dombinbtion of Unidodf
+         * lfttfrs, Unidodf digits, '.', '-', bnd intfrnbl spbdf dibrbdtfrs.
          */
-        private String parseAttrType() throws InvalidNameException {
+        privbtf String pbrsfAttrTypf() tirows InvblidNbmfExdfption {
 
-            final int beg = cur;
-            while (cur < len) {
-                char c = chars[cur];
-                if (Character.isLetterOrDigit(c) ||
-                        c == '.' ||
-                        c == '-' ||
-                        c == ' ') {
-                    ++cur;
-                } else {
-                    break;
+            finbl int bfg = dur;
+            wiilf (dur < lfn) {
+                dibr d = dibrs[dur];
+                if (Cibrbdtfr.isLfttfrOrDigit(d) ||
+                        d == '.' ||
+                        d == '-' ||
+                        d == ' ') {
+                    ++dur;
+                } flsf {
+                    brfbk;
                 }
             }
-            // Back out any trailing spaces.
-            while ((cur > beg) && (chars[cur - 1] == ' ')) {
-                --cur;
+            // Bbdk out bny trbiling spbdfs.
+            wiilf ((dur > bfg) && (dibrs[dur - 1] == ' ')) {
+                --dur;
             }
 
-            if (beg == cur) {
-                throw new InvalidNameException("Invalid name: " + name);
+            if (bfg == dur) {
+                tirow nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
             }
-            return new String(chars, beg, cur - beg);
+            rfturn nfw String(dibrs, bfg, dur - bfg);
         }
 
         /*
-         * Returns the attribute value that begins at the next unconsumed
-         * char.  No leading whitespace is expected.
+         * Rfturns tif bttributf vbluf tibt bfgins bt tif nfxt undonsumfd
+         * dibr.  No lfbding wiitfspbdf is fxpfdtfd.
          */
-        private String parseAttrValue() throws InvalidNameException {
+        privbtf String pbrsfAttrVbluf() tirows InvblidNbmfExdfption {
 
-            if (cur < len && chars[cur] == '#') {
-                return parseBinaryAttrValue();
-            } else if (cur < len && chars[cur] == '"') {
-                return parseQuotedAttrValue();
-            } else {
-                return parseStringAttrValue();
+            if (dur < lfn && dibrs[dur] == '#') {
+                rfturn pbrsfBinbryAttrVbluf();
+            } flsf if (dur < lfn && dibrs[dur] == '"') {
+                rfturn pbrsfQuotfdAttrVbluf();
+            } flsf {
+                rfturn pbrsfStringAttrVbluf();
             }
         }
 
-        private String parseBinaryAttrValue() throws InvalidNameException {
-            final int beg = cur;
-            ++cur;                      // consume '#'
-            while ((cur < len) &&
-                    Character.isLetterOrDigit(chars[cur])) {
-                ++cur;
+        privbtf String pbrsfBinbryAttrVbluf() tirows InvblidNbmfExdfption {
+            finbl int bfg = dur;
+            ++dur;                      // donsumf '#'
+            wiilf ((dur < lfn) &&
+                    Cibrbdtfr.isLfttfrOrDigit(dibrs[dur])) {
+                ++dur;
             }
-            return new String(chars, beg, cur - beg);
+            rfturn nfw String(dibrs, bfg, dur - bfg);
         }
 
-        private String parseQuotedAttrValue() throws InvalidNameException {
+        privbtf String pbrsfQuotfdAttrVbluf() tirows InvblidNbmfExdfption {
 
-            final int beg = cur;
-            ++cur;                      // consume '"'
+            finbl int bfg = dur;
+            ++dur;                      // donsumf '"'
 
-            while ((cur < len) && chars[cur] != '"') {
-                if (chars[cur] == '\\') {
-                    ++cur;              // consume backslash, then what follows
+            wiilf ((dur < lfn) && dibrs[dur] != '"') {
+                if (dibrs[dur] == '\\') {
+                    ++dur;              // donsumf bbdkslbsi, tifn wibt follows
                 }
-                ++cur;
+                ++dur;
             }
-            if (cur >= len) {   // no closing quote
-                throw new InvalidNameException("Invalid name: " + name);
+            if (dur >= lfn) {   // no dlosing quotf
+                tirow nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
             }
-            ++cur;      // consume closing quote
+            ++dur;      // donsumf dlosing quotf
 
-            return new String(chars, beg, cur - beg);
+            rfturn nfw String(dibrs, bfg, dur - bfg);
         }
 
-        private String parseStringAttrValue() throws InvalidNameException {
+        privbtf String pbrsfStringAttrVbluf() tirows InvblidNbmfExdfption {
 
-            final int beg = cur;
-            int esc = -1;       // index of the most recently escaped character
+            finbl int bfg = dur;
+            int fsd = -1;       // indfx of tif most rfdfntly fsdbpfd dibrbdtfr
 
-            while ((cur < len) && !atTerminator()) {
-                if (chars[cur] == '\\') {
-                    ++cur;              // consume backslash, then what follows
-                    esc = cur;
+            wiilf ((dur < lfn) && !btTfrminbtor()) {
+                if (dibrs[dur] == '\\') {
+                    ++dur;              // donsumf bbdkslbsi, tifn wibt follows
+                    fsd = dur;
                 }
-                ++cur;
+                ++dur;
             }
-            if (cur > len) {            // 'twas backslash followed by nothing
-                throw new InvalidNameException("Invalid name: " + name);
+            if (dur > lfn) {            // 'twbs bbdkslbsi followfd by notiing
+                tirow nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
             }
 
-            // Trim off (unescaped) trailing whitespace.
-            int end;
-            for (end = cur; end > beg; end--) {
-                if (!isWhitespace(chars[end - 1]) || (esc == end - 1)) {
-                    break;
+            // Trim off (unfsdbpfd) trbiling wiitfspbdf.
+            int fnd;
+            for (fnd = dur; fnd > bfg; fnd--) {
+                if (!isWiitfspbdf(dibrs[fnd - 1]) || (fsd == fnd - 1)) {
+                    brfbk;
                 }
             }
-            return new String(chars, beg, end - beg);
+            rfturn nfw String(dibrs, bfg, fnd - bfg);
         }
 
-        private void consumeWhitespace() {
-            while ((cur < len) && isWhitespace(chars[cur])) {
-                ++cur;
+        privbtf void donsumfWiitfspbdf() {
+            wiilf ((dur < lfn) && isWiitfspbdf(dibrs[dur])) {
+                ++dur;
             }
         }
 
         /*
-         * Returns true if next unconsumed character is one that terminates
-         * a string attribute value.
+         * Rfturns truf if nfxt undonsumfd dibrbdtfr is onf tibt tfrminbtfs
+         * b string bttributf vbluf.
          */
-        private boolean atTerminator() {
-            return (cur < len &&
-                    (chars[cur] == ',' ||
-                        chars[cur] == ';' ||
-                        chars[cur] == '+'));
+        privbtf boolfbn btTfrminbtor() {
+            rfturn (dur < lfn &&
+                    (dibrs[dur] == ',' ||
+                        dibrs[dur] == ';' ||
+                        dibrs[dur] == '+'));
         }
 
         /*
-         * Best guess as to what RFC 2253 means by "whitespace".
+         * Bfst gufss bs to wibt RFC 2253 mfbns by "wiitfspbdf".
          */
-        private static boolean isWhitespace(char c) {
-            return (c == ' ' || c == '\r');
+        privbtf stbtid boolfbn isWiitfspbdf(dibr d) {
+            rfturn (d == ' ' || d == '\r');
         }
     }

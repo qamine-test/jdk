@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * This intfrfbdf dffinfs thf mfthods bny gfnfrbl fditor should bf bblf
+ * to implfmfnt. <p>
+ *
+ * Hbving this intfrfbdf fnbblfs domplfx domponfnts (thf dlifnt of thf
+ * fditor) sudh bs <dodf>JTrff</dodf> bnd
+ * <dodf>JTbblf</dodf> to bllow bny gfnfrid fditor to
+ * fdit vblufs in b tbblf dfll, or trff dfll, ftd.  Without this gfnfrid
+ * fditor intfrfbdf, <dodf>JTbblf</dodf> would hbvf to know bbout spfdifid fditors,
+ * sudh bs <dodf>JTfxtFifld</dodf>, <dodf>JChfdkBox</dodf>, <dodf>JComboBox</dodf>,
+ * ftd.  In bddition, without this intfrfbdf, dlifnts of fditors sudh bs
+ * <dodf>JTbblf</dodf> would not bf bblf
+ * to work with bny fditors dfvflopfd in thf futurf by thf usfr
+ * or b 3rd pbrty ISV. <p>
+ *
+ * To usf this intfrfbdf, b dfvflopfr drfbting b nfw fditor dbn hbvf thf
+ * nfw domponfnt implfmfnt thf intfrfbdf.  Or thf dfvflopfr dbn
+ * dhoosf b wrbppfr bbsfd bpprobdh bnd providf b dompbnion objfdt whidh
+ * implfmfnts thf <dodf>CfllEditor</dodf> intfrfbdf (Sff
+ * <dodf>JCfllEditor</dodf> for fxbmplf).  Thf wrbppfr bpprobdh
+ * is pbrtidulbrly usfful if thf usfr wbnt to usf b 3rd pbrty ISV
+ * fditor with <dodf>JTbblf</dodf>, but thf ISV didn't implfmfnt thf
+ * <dodf>CfllEditor</dodf> intfrfbdf.  Thf usfr dbn simply drfbtf bn objfdt
+ * thbt dontbins bn instbndf of thf 3rd pbrty fditor objfdt bnd "trbnslbtf"
+ * thf <dodf>CfllEditor</dodf> API into thf 3rd pbrty fditor's API.
+ *
+ * @sff jbvbx.swing.fvfnt.CfllEditorListfnfr
+ *
+ * @buthor Albn Chung
+ * @sindf 1.2
+ */
+publid intfrfbdf CfllEditor {
+
+    /**
+     * Rfturns thf vbluf dontbinfd in thf fditor.
+     * @rfturn thf vbluf dontbinfd in thf fditor
+     */
+    publid Objfdt gftCfllEditorVbluf();
+
+    /**
+     * Asks thf fditor if it dbn stbrt fditing using <dodf>bnEvfnt</dodf>.
+     * <dodf>bnEvfnt</dodf> is in thf invoking domponfnt doordinbtf systfm.
+     * Thf fditor dbn not bssumf thf Componfnt rfturnfd by
+     * <dodf>gftCfllEditorComponfnt</dodf> is instbllfd.  This mfthod
+     * is intfndfd for thf usf of dlifnt to bvoid thf dost of sftting up
+     * bnd instblling thf fditor domponfnt if fditing is not possiblf.
+     * If fditing dbn bf stbrtfd this mfthod rfturns truf.
+     *
+     * @pbrbm   bnEvfnt         thf fvfnt thf fditor should usf to donsidfr
+     *                          whfthfr to bfgin fditing or not
+     * @rfturn  truf if fditing dbn bf stbrtfd
+     * @sff #shouldSflfdtCfll
+     */
+    publid boolfbn isCfllEditbblf(EvfntObjfdt bnEvfnt);
+
+    /**
+     * Rfturns truf if thf fditing dfll should bf sflfdtfd, fblsf othfrwisf.
+     * Typidblly, thf rfturn vbluf is truf, bfdbusf is most dbsfs thf fditing
+     * dfll should bf sflfdtfd.  Howfvfr, it is usfful to rfturn fblsf to
+     * kffp thf sflfdtion from dhbnging for somf typfs of fdits.
+     * fg. A tbblf thbt dontbins b dolumn of dhfdk boxfs, thf usfr might
+     * wbnt to bf bblf to dhbngf thosf dhfdkboxfs without bltfring thf
+     * sflfdtion.  (Sff Nftsdbpf Communidbtor for just sudh bn fxbmplf)
+     * Of doursf, it is up to thf dlifnt of thf fditor to usf thf rfturn
+     * vbluf, but it dofsn't nffd to if it dofsn't wbnt to.
+     *
+     * @pbrbm   bnEvfnt         thf fvfnt thf fditor should usf to stbrt
+     *                          fditing
+     * @rfturn  truf if thf fditor would likf thf fditing dfll to bf sflfdtfd;
+     *    othfrwisf rfturns fblsf
+     * @sff #isCfllEditbblf
+     */
+    publid boolfbn shouldSflfdtCfll(EvfntObjfdt bnEvfnt);
+
+    /**
+     * Tflls thf fditor to stop fditing bnd bddfpt bny pbrtiblly fditfd
+     * vbluf bs thf vbluf of thf fditor.  Thf fditor rfturns fblsf if
+     * fditing wbs not stoppfd; this is usfful for fditors thbt vblidbtf
+     * bnd dbn not bddfpt invblid fntrifs.
+     *
+     * @rfturn  truf if fditing wbs stoppfd; fblsf othfrwisf
+     */
+    publid boolfbn stopCfllEditing();
+
+    /**
+     * Tflls thf fditor to dbndfl fditing bnd not bddfpt bny pbrtiblly
+     * fditfd vbluf.
+     */
+    publid void dbndflCfllEditing();
+
+    /**
+     * Adds b listfnfr to thf list thbt's notififd whfn thf fditor
+     * stops, or dbndfls fditing.
+     *
+     * @pbrbm   l               thf CfllEditorListfnfr
+     */
+    publid void bddCfllEditorListfnfr(CfllEditorListfnfr l);
+
+    /**
+     * Rfmovfs b listfnfr from thf list thbt's notififd
+     *
+     * @pbrbm   l               thf CfllEditorListfnfr
+     */
+    publid void rfmovfCfllEditorListfnfr(CfllEditorListfnfr l);
+}

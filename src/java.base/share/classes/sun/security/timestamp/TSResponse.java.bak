@@ -1,384 +1,384 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.timestamp;
+pbdkbgf sun.sfdurity.timfstbmp;
 
-import java.io.IOException;
-import sun.security.pkcs.PKCS7;
-import sun.security.util.Debug;
-import sun.security.util.DerValue;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.pkds.PKCS7;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * This class provides the response corresponding to a timestamp request,
- * as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * Tiis dlbss providfs tif rfsponsf dorrfsponding to b timfstbmp rfqufst,
+ * bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
  *
- * The TimeStampResp ASN.1 type has the following definition:
- * <pre>
+ * Tif TimfStbmpRfsp ASN.1 typf ibs tif following dffinition:
+ * <prf>
  *
- *     TimeStampResp ::= SEQUENCE {
- *         status            PKIStatusInfo,
- *         timeStampToken    TimeStampToken OPTIONAL ]
+ *     TimfStbmpRfsp ::= SEQUENCE {
+ *         stbtus            PKIStbtusInfo,
+ *         timfStbmpTokfn    TimfStbmpTokfn OPTIONAL ]
  *
- *     PKIStatusInfo ::= SEQUENCE {
- *         status        PKIStatus,
- *         statusString  PKIFreeText OPTIONAL,
- *         failInfo      PKIFailureInfo OPTIONAL }
+ *     PKIStbtusInfo ::= SEQUENCE {
+ *         stbtus        PKIStbtus,
+ *         stbtusString  PKIFrffTfxt OPTIONAL,
+ *         fbilInfo      PKIFbilurfInfo OPTIONAL }
  *
- *     PKIStatus ::= INTEGER {
- *         granted                (0),
- *           -- when the PKIStatus contains the value zero a TimeStampToken, as
- *           -- requested, is present.
- *         grantedWithMods        (1),
- *           -- when the PKIStatus contains the value one a TimeStampToken,
- *           -- with modifications, is present.
- *         rejection              (2),
- *         waiting                (3),
- *         revocationWarning      (4),
- *           -- this message contains a warning that a revocation is
- *           -- imminent
- *         revocationNotification (5)
- *           -- notification that a revocation has occurred }
+ *     PKIStbtus ::= INTEGER {
+ *         grbntfd                (0),
+ *           -- wifn tif PKIStbtus dontbins tif vbluf zfro b TimfStbmpTokfn, bs
+ *           -- rfqufstfd, is prfsfnt.
+ *         grbntfdWitiMods        (1),
+ *           -- wifn tif PKIStbtus dontbins tif vbluf onf b TimfStbmpTokfn,
+ *           -- witi modifidbtions, is prfsfnt.
+ *         rfjfdtion              (2),
+ *         wbiting                (3),
+ *         rfvodbtionWbrning      (4),
+ *           -- tiis mfssbgf dontbins b wbrning tibt b rfvodbtion is
+ *           -- imminfnt
+ *         rfvodbtionNotifidbtion (5)
+ *           -- notifidbtion tibt b rfvodbtion ibs oddurrfd }
  *
- *     PKIFreeText ::= SEQUENCE SIZE (1..MAX) OF UTF8String
- *           -- text encoded as UTF-8 String (note:  each UTF8String SHOULD
- *           -- include an RFC 1766 language tag to indicate the language
- *           -- of the contained text)
+ *     PKIFrffTfxt ::= SEQUENCE SIZE (1..MAX) OF UTF8String
+ *           -- tfxt fndodfd bs UTF-8 String (notf:  fbdi UTF8String SHOULD
+ *           -- indludf bn RFC 1766 lbngubgf tbg to indidbtf tif lbngubgf
+ *           -- of tif dontbinfd tfxt)
  *
- *     PKIFailureInfo ::= BIT STRING {
- *         badAlg              (0),
- *           -- unrecognized or unsupported Algorithm Identifier
- *         badRequest          (2),
- *           -- transaction not permitted or supported
- *         badDataFormat       (5),
- *           -- the data submitted has the wrong format
- *         timeNotAvailable    (14),
- *           -- the TSA's time source is not available
- *         unacceptedPolicy    (15),
- *           -- the requested TSA policy is not supported by the TSA
- *         unacceptedExtension (16),
- *           -- the requested extension is not supported by the TSA
- *         addInfoNotAvailable (17)
- *           -- the additional information requested could not be understood
- *           -- or is not available
- *         systemFailure       (25)
- *           -- the request cannot be handled due to system failure }
+ *     PKIFbilurfInfo ::= BIT STRING {
+ *         bbdAlg              (0),
+ *           -- unrfdognizfd or unsupportfd Algoritim Idfntififr
+ *         bbdRfqufst          (2),
+ *           -- trbnsbdtion not pfrmittfd or supportfd
+ *         bbdDbtbFormbt       (5),
+ *           -- tif dbtb submittfd ibs tif wrong formbt
+ *         timfNotAvbilbblf    (14),
+ *           -- tif TSA's timf sourdf is not bvbilbblf
+ *         unbddfptfdPolidy    (15),
+ *           -- tif rfqufstfd TSA polidy is not supportfd by tif TSA
+ *         unbddfptfdExtfnsion (16),
+ *           -- tif rfqufstfd fxtfnsion is not supportfd by tif TSA
+ *         bddInfoNotAvbilbblf (17)
+ *           -- tif bdditionbl informbtion rfqufstfd dould not bf undfrstood
+ *           -- or is not bvbilbblf
+ *         systfmFbilurf       (25)
+ *           -- tif rfqufst dbnnot bf ibndlfd duf to systfm fbilurf }
  *
- *     TimeStampToken ::= ContentInfo
- *         -- contentType is id-signedData
- *         -- content is SignedData
- *         -- eContentType within SignedData is id-ct-TSTInfo
- *         -- eContent within SignedData is TSTInfo
+ *     TimfStbmpTokfn ::= ContfntInfo
+ *         -- dontfntTypf is id-signfdDbtb
+ *         -- dontfnt is SignfdDbtb
+ *         -- fContfntTypf witiin SignfdDbtb is id-dt-TSTInfo
+ *         -- fContfnt witiin SignfdDbtb is TSTInfo
  *
- * </pre>
+ * </prf>
  *
- * @since 1.5
- * @author Vincent Ryan
- * @see Timestamper
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
+ * @sff Timfstbmpfr
  */
 
-public class TSResponse {
+publid dlbss TSRfsponsf {
 
-    // Status codes (from RFC 3161)
+    // Stbtus dodfs (from RFC 3161)
 
     /**
-     * The requested timestamp was granted.
+     * Tif rfqufstfd timfstbmp wbs grbntfd.
      */
-    public static final int GRANTED = 0;
+    publid stbtid finbl int GRANTED = 0;
 
     /**
-     * The requested timestamp was granted with some modifications.
+     * Tif rfqufstfd timfstbmp wbs grbntfd witi somf modifidbtions.
      */
-    public static final int GRANTED_WITH_MODS = 1;
+    publid stbtid finbl int GRANTED_WITH_MODS = 1;
 
     /**
-     * The requested timestamp was not granted.
+     * Tif rfqufstfd timfstbmp wbs not grbntfd.
      */
-    public static final int REJECTION = 2;
+    publid stbtid finbl int REJECTION = 2;
 
     /**
-     * The requested timestamp has not yet been processed.
+     * Tif rfqufstfd timfstbmp ibs not yft bffn prodfssfd.
      */
-    public static final int WAITING = 3;
+    publid stbtid finbl int WAITING = 3;
 
     /**
-     * A warning that a certificate revocation is imminent.
+     * A wbrning tibt b dfrtifidbtf rfvodbtion is imminfnt.
      */
-    public static final int REVOCATION_WARNING = 4;
+    publid stbtid finbl int REVOCATION_WARNING = 4;
 
     /**
-     * Notification that a certificate revocation has occurred.
+     * Notifidbtion tibt b dfrtifidbtf rfvodbtion ibs oddurrfd.
      */
-    public static final int REVOCATION_NOTIFICATION = 5;
+    publid stbtid finbl int REVOCATION_NOTIFICATION = 5;
 
-    // Failure codes (from RFC 3161)
+    // Fbilurf dodfs (from RFC 3161)
 
     /**
-     * Unrecognized or unsupported algorithm identifier.
+     * Unrfdognizfd or unsupportfd blgoritim idfntififr.
      */
-    public static final int BAD_ALG = 0;
+    publid stbtid finbl int BAD_ALG = 0;
 
     /**
-     * The requested transaction is not permitted or supported.
+     * Tif rfqufstfd trbnsbdtion is not pfrmittfd or supportfd.
      */
-    public static final int BAD_REQUEST = 2;
+    publid stbtid finbl int BAD_REQUEST = 2;
 
     /**
-     * The data submitted has the wrong format.
+     * Tif dbtb submittfd ibs tif wrong formbt.
      */
-    public static final int BAD_DATA_FORMAT = 5;
+    publid stbtid finbl int BAD_DATA_FORMAT = 5;
 
     /**
-     * The TSA's time source is not available.
+     * Tif TSA's timf sourdf is not bvbilbblf.
      */
-    public static final int TIME_NOT_AVAILABLE = 14;
+    publid stbtid finbl int TIME_NOT_AVAILABLE = 14;
 
     /**
-     * The requested TSA policy is not supported by the TSA.
+     * Tif rfqufstfd TSA polidy is not supportfd by tif TSA.
      */
-    public static final int UNACCEPTED_POLICY = 15;
+    publid stbtid finbl int UNACCEPTED_POLICY = 15;
 
     /**
-     * The requested extension is not supported by the TSA.
+     * Tif rfqufstfd fxtfnsion is not supportfd by tif TSA.
      */
-    public static final int UNACCEPTED_EXTENSION = 16;
+    publid stbtid finbl int UNACCEPTED_EXTENSION = 16;
 
     /**
-     * The additional information requested could not be understood or is not
-     * available.
+     * Tif bdditionbl informbtion rfqufstfd dould not bf undfrstood or is not
+     * bvbilbblf.
      */
-    public static final int ADD_INFO_NOT_AVAILABLE = 17;
+    publid stbtid finbl int ADD_INFO_NOT_AVAILABLE = 17;
 
     /**
-     * The request cannot be handled due to system failure.
+     * Tif rfqufst dbnnot bf ibndlfd duf to systfm fbilurf.
      */
-    public static final int SYSTEM_FAILURE = 25;
+    publid stbtid finbl int SYSTEM_FAILURE = 25;
 
-    private static final Debug debug = Debug.getInstance("ts");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ts");
 
-    private int status;
+    privbtf int stbtus;
 
-    private String[] statusString = null;
+    privbtf String[] stbtusString = null;
 
-    private boolean[] failureInfo = null;
+    privbtf boolfbn[] fbilurfInfo = null;
 
-    private byte[] encodedTsToken = null;
+    privbtf bytf[] fndodfdTsTokfn = null;
 
-    private PKCS7 tsToken = null;
+    privbtf PKCS7 tsTokfn = null;
 
-    private TimestampToken tstInfo;
+    privbtf TimfstbmpTokfn tstInfo;
 
     /**
-     * Constructs an object to store the response to a timestamp request.
+     * Construdts bn objfdt to storf tif rfsponsf to b timfstbmp rfqufst.
      *
-     * @param status A buffer containing the ASN.1 BER encoded response.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         parsing the timestamp response.
+     * @pbrbm stbtus A bufffr dontbining tif ASN.1 BER fndodfd rfsponsf.
+     * @tirows IOExdfption Tif fxdfption is tirown if b problfm is fndountfrfd
+     *         pbrsing tif timfstbmp rfsponsf.
      */
-    TSResponse(byte[] tsReply) throws IOException {
-        parse(tsReply);
+    TSRfsponsf(bytf[] tsRfply) tirows IOExdfption {
+        pbrsf(tsRfply);
     }
 
     /**
-     * Retrieve the status code returned by the TSA.
+     * Rftrifvf tif stbtus dodf rfturnfd by tif TSA.
      */
-    public int getStatusCode() {
-        return status;
+    publid int gftStbtusCodf() {
+        rfturn stbtus;
     }
 
     /**
-     * Retrieve the status messages returned by the TSA.
+     * Rftrifvf tif stbtus mfssbgfs rfturnfd by tif TSA.
      *
-     * @return If null then no status messages were received.
+     * @rfturn If null tifn no stbtus mfssbgfs wfrf rfdfivfd.
      */
-    public String[] getStatusMessages() {
-        return statusString;
+    publid String[] gftStbtusMfssbgfs() {
+        rfturn stbtusString;
     }
 
     /**
-     * Retrieve the failure info returned by the TSA.
+     * Rftrifvf tif fbilurf info rfturnfd by tif TSA.
      *
-     * @return the failure info, or null if no failure code was received.
+     * @rfturn tif fbilurf info, or null if no fbilurf dodf wbs rfdfivfd.
      */
-    public boolean[] getFailureInfo() {
-        return failureInfo;
+    publid boolfbn[] gftFbilurfInfo() {
+        rfturn fbilurfInfo;
     }
 
-    public String getStatusCodeAsText() {
+    publid String gftStbtusCodfAsTfxt() {
 
-        switch (status)  {
-        case GRANTED:
-            return "the timestamp request was granted.";
+        switdi (stbtus)  {
+        dbsf GRANTED:
+            rfturn "tif timfstbmp rfqufst wbs grbntfd.";
 
-        case GRANTED_WITH_MODS:
-            return
-                "the timestamp request was granted with some modifications.";
+        dbsf GRANTED_WITH_MODS:
+            rfturn
+                "tif timfstbmp rfqufst wbs grbntfd witi somf modifidbtions.";
 
-        case REJECTION:
-            return "the timestamp request was rejected.";
+        dbsf REJECTION:
+            rfturn "tif timfstbmp rfqufst wbs rfjfdtfd.";
 
-        case WAITING:
-            return "the timestamp request has not yet been processed.";
+        dbsf WAITING:
+            rfturn "tif timfstbmp rfqufst ibs not yft bffn prodfssfd.";
 
-        case REVOCATION_WARNING:
-            return "warning: a certificate revocation is imminent.";
+        dbsf REVOCATION_WARNING:
+            rfturn "wbrning: b dfrtifidbtf rfvodbtion is imminfnt.";
 
-        case REVOCATION_NOTIFICATION:
-            return "notification: a certificate revocation has occurred.";
+        dbsf REVOCATION_NOTIFICATION:
+            rfturn "notifidbtion: b dfrtifidbtf rfvodbtion ibs oddurrfd.";
 
-        default:
-            return ("unknown status code " + status + ".");
+        dffbult:
+            rfturn ("unknown stbtus dodf " + stbtus + ".");
         }
     }
 
-    private boolean isSet(int position) {
-        return failureInfo[position];
+    privbtf boolfbn isSft(int position) {
+        rfturn fbilurfInfo[position];
     }
 
-    public String getFailureCodeAsText() {
+    publid String gftFbilurfCodfAsTfxt() {
 
-        if (failureInfo == null) {
-            return "";
+        if (fbilurfInfo == null) {
+            rfturn "";
         }
 
         try {
-            if (isSet(BAD_ALG))
-                return "Unrecognized or unsupported algorithm identifier.";
-            if (isSet(BAD_REQUEST))
-                return "The requested transaction is not permitted or " +
-                       "supported.";
-            if (isSet(BAD_DATA_FORMAT))
-                return "The data submitted has the wrong format.";
-            if (isSet(TIME_NOT_AVAILABLE))
-                return "The TSA's time source is not available.";
-            if (isSet(UNACCEPTED_POLICY))
-                return "The requested TSA policy is not supported by the TSA.";
-            if (isSet(UNACCEPTED_EXTENSION))
-                return "The requested extension is not supported by the TSA.";
-            if (isSet(ADD_INFO_NOT_AVAILABLE))
-                return "The additional information requested could not be " +
-                       "understood or is not available.";
-            if (isSet(SYSTEM_FAILURE))
-                return "The request cannot be handled due to system failure.";
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+            if (isSft(BAD_ALG))
+                rfturn "Unrfdognizfd or unsupportfd blgoritim idfntififr.";
+            if (isSft(BAD_REQUEST))
+                rfturn "Tif rfqufstfd trbnsbdtion is not pfrmittfd or " +
+                       "supportfd.";
+            if (isSft(BAD_DATA_FORMAT))
+                rfturn "Tif dbtb submittfd ibs tif wrong formbt.";
+            if (isSft(TIME_NOT_AVAILABLE))
+                rfturn "Tif TSA's timf sourdf is not bvbilbblf.";
+            if (isSft(UNACCEPTED_POLICY))
+                rfturn "Tif rfqufstfd TSA polidy is not supportfd by tif TSA.";
+            if (isSft(UNACCEPTED_EXTENSION))
+                rfturn "Tif rfqufstfd fxtfnsion is not supportfd by tif TSA.";
+            if (isSft(ADD_INFO_NOT_AVAILABLE))
+                rfturn "Tif bdditionbl informbtion rfqufstfd dould not bf " +
+                       "undfrstood or is not bvbilbblf.";
+            if (isSft(SYSTEM_FAILURE))
+                rfturn "Tif rfqufst dbnnot bf ibndlfd duf to systfm fbilurf.";
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption fx) {}
 
-        return ("unknown failure code");
+        rfturn ("unknown fbilurf dodf");
     }
 
     /**
-     * Retrieve the timestamp token returned by the TSA.
+     * Rftrifvf tif timfstbmp tokfn rfturnfd by tif TSA.
      *
-     * @return If null then no token was received.
+     * @rfturn If null tifn no tokfn wbs rfdfivfd.
      */
-    public PKCS7 getToken() {
-        return tsToken;
+    publid PKCS7 gftTokfn() {
+        rfturn tsTokfn;
     }
 
-    public TimestampToken getTimestampToken() {
-        return tstInfo;
+    publid TimfstbmpTokfn gftTimfstbmpTokfn() {
+        rfturn tstInfo;
     }
 
     /**
-     * Retrieve the ASN.1 BER encoded timestamp token returned by the TSA.
+     * Rftrifvf tif ASN.1 BER fndodfd timfstbmp tokfn rfturnfd by tif TSA.
      *
-     * @return If null then no token was received.
+     * @rfturn If null tifn no tokfn wbs rfdfivfd.
      */
-    public byte[] getEncodedToken() {
-        return encodedTsToken;
+    publid bytf[] gftEndodfdTokfn() {
+        rfturn fndodfdTsTokfn;
     }
 
     /*
-     * Parses the timestamp response.
+     * Pbrsfs tif timfstbmp rfsponsf.
      *
-     * @param status A buffer containing the ASN.1 BER encoded response.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         parsing the timestamp response.
+     * @pbrbm stbtus A bufffr dontbining tif ASN.1 BER fndodfd rfsponsf.
+     * @tirows IOExdfption Tif fxdfption is tirown if b problfm is fndountfrfd
+     *         pbrsing tif timfstbmp rfsponsf.
      */
-    private void parse(byte[] tsReply) throws IOException {
-        // Decode TimeStampResp
+    privbtf void pbrsf(bytf[] tsRfply) tirows IOExdfption {
+        // Dfdodf TimfStbmpRfsp
 
-        DerValue derValue = new DerValue(tsReply);
-        if (derValue.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding for timestamp response");
+        DfrVbluf dfrVbluf = nfw DfrVbluf(tsRfply);
+        if (dfrVbluf.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding for timfstbmp rfsponsf");
         }
 
-        // Parse status
+        // Pbrsf stbtus
 
-        DerValue statusInfo = derValue.data.getDerValue();
-        this.status = statusInfo.data.getInteger();
-        if (debug != null) {
-            debug.println("timestamp response: status=" + this.status);
+        DfrVbluf stbtusInfo = dfrVbluf.dbtb.gftDfrVbluf();
+        tiis.stbtus = stbtusInfo.dbtb.gftIntfgfr();
+        if (dfbug != null) {
+            dfbug.println("timfstbmp rfsponsf: stbtus=" + tiis.stbtus);
         }
-        // Parse statusString, if present
-        if (statusInfo.data.available() > 0) {
-            byte tag = (byte)statusInfo.data.peekByte();
-            if (tag == DerValue.tag_SequenceOf) {
-                DerValue[] strings = statusInfo.data.getSequence(1);
-                statusString = new String[strings.length];
-                for (int i = 0; i < strings.length; i++) {
-                    statusString[i] = strings[i].getUTF8String();
-                    if (debug != null) {
-                        debug.println("timestamp response: statusString=" +
-                                      statusString[i]);
+        // Pbrsf stbtusString, if prfsfnt
+        if (stbtusInfo.dbtb.bvbilbblf() > 0) {
+            bytf tbg = (bytf)stbtusInfo.dbtb.pffkBytf();
+            if (tbg == DfrVbluf.tbg_SfqufndfOf) {
+                DfrVbluf[] strings = stbtusInfo.dbtb.gftSfqufndf(1);
+                stbtusString = nfw String[strings.lfngti];
+                for (int i = 0; i < strings.lfngti; i++) {
+                    stbtusString[i] = strings[i].gftUTF8String();
+                    if (dfbug != null) {
+                        dfbug.println("timfstbmp rfsponsf: stbtusString=" +
+                                      stbtusString[i]);
                     }
                 }
             }
         }
-        // Parse failInfo, if present
-        if (statusInfo.data.available() > 0) {
-            this.failureInfo
-                = statusInfo.data.getUnalignedBitString().toBooleanArray();
+        // Pbrsf fbilInfo, if prfsfnt
+        if (stbtusInfo.dbtb.bvbilbblf() > 0) {
+            tiis.fbilurfInfo
+                = stbtusInfo.dbtb.gftUnblignfdBitString().toBoolfbnArrby();
         }
 
-        // Parse timeStampToken, if present
-        if (derValue.data.available() > 0) {
-            DerValue timestampToken = derValue.data.getDerValue();
-            encodedTsToken = timestampToken.toByteArray();
-            tsToken = new PKCS7(encodedTsToken);
-            tstInfo = new TimestampToken(tsToken.getContentInfo().getData());
+        // Pbrsf timfStbmpTokfn, if prfsfnt
+        if (dfrVbluf.dbtb.bvbilbblf() > 0) {
+            DfrVbluf timfstbmpTokfn = dfrVbluf.dbtb.gftDfrVbluf();
+            fndodfdTsTokfn = timfstbmpTokfn.toBytfArrby();
+            tsTokfn = nfw PKCS7(fndodfdTsTokfn);
+            tstInfo = nfw TimfstbmpTokfn(tsTokfn.gftContfntInfo().gftDbtb());
         }
 
-        // Check the format of the timestamp response
-        if (this.status == 0 || this.status == 1) {
-            if (tsToken == null) {
-                throw new TimestampException(
-                    "Bad encoding for timestamp response: " +
-                    "expected a timeStampToken element to be present");
+        // Cifdk tif formbt of tif timfstbmp rfsponsf
+        if (tiis.stbtus == 0 || tiis.stbtus == 1) {
+            if (tsTokfn == null) {
+                tirow nfw TimfstbmpExdfption(
+                    "Bbd fndoding for timfstbmp rfsponsf: " +
+                    "fxpfdtfd b timfStbmpTokfn flfmfnt to bf prfsfnt");
             }
-        } else if (tsToken != null) {
-            throw new TimestampException(
-                "Bad encoding for timestamp response: " +
-                "expected no timeStampToken element to be present");
+        } flsf if (tsTokfn != null) {
+            tirow nfw TimfstbmpExdfption(
+                "Bbd fndoding for timfstbmp rfsponsf: " +
+                "fxpfdtfd no timfStbmpTokfn flfmfnt to bf prfsfnt");
         }
     }
 
-    final static class TimestampException extends IOException {
-        private static final long serialVersionUID = -1631631794891940953L;
+    finbl stbtid dlbss TimfstbmpExdfption fxtfnds IOExdfption {
+        privbtf stbtid finbl long sfriblVfrsionUID = -1631631794891940953L;
 
-        TimestampException(String message) {
-            super(message);
+        TimfstbmpExdfption(String mfssbgf) {
+            supfr(mfssbgf);
         }
     }
 }

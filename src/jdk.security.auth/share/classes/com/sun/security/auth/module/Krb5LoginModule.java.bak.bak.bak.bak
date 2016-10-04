@@ -1,0 +1,1283 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.sfdurity.buth.modulf;
+
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+
+import jbvbx.sfdurity.buth.*;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buth.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvbx.sfdurity.buth.login.*;
+import jbvbx.sfdurity.buth.spi.*;
+
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.jgss.krb5.Krb5Util;
+import sun.sfdurity.krb5.Crfdfntibls;
+import sun.misd.HfxDumpEndodfr;
+
+/**
+ * <p> This <dodf>LoginModulf</dodf> buthfntidbtfs usfrs using
+ * Kfrbfros protodols.
+ *
+ * <p> Thf donfigurbtion fntry for <dodf>Krb5LoginModulf</dodf> hbs
+ * sfvfrbl options thbt dontrol thf buthfntidbtion prodfss bnd
+ * bdditions to thf <dodf>Subjfdt</dodf>'s privbtf drfdfntibl
+ * sft. Irrfspfdtivf of thfsf options, thf <dodf>Subjfdt</dodf>'s
+ * prindipbl sft bnd privbtf drfdfntibls sft brf updbtfd only whfn
+ * <dodf>dommit</dodf> is dbllfd.
+ * Whfn <dodf>dommit</dodf> is dbllfd, thf <dodf>KfrbfrosPrindipbl</dodf>
+ * is bddfd to thf <dodf>Subjfdt</dodf>'s prindipbl sft (unlfss thf
+ * <dodf>prindipbl</dodf> is spfdififd bs "*"). If <dodf>isInitibtor</dodf>
+ * is truf, thf <dodf>KfrbfrosTidkft</dodf> is
+ * bddfd to thf <dodf>Subjfdt</dodf>'s privbtf drfdfntibls.
+ *
+ * <p> If thf donfigurbtion fntry for <dodf>KfrbfrosLoginModulf</dodf>
+ * hbs thf option <dodf>storfKfy</dodf> sft to truf, thfn
+ * <dodf>KfrbfrosKfy</dodf> or <dodf>KfyTbb</dodf> will blso bf bddfd to thf
+ * subjfdt's privbtf drfdfntibls. <dodf>KfrbfrosKfy</dodf>, thf prindipbl's
+ * kfy(s) will bf dfrivfd from usfr's pbssword, bnd <dodf>KfyTbb</dodf> is
+ * thf kfytbb usfd whfn <dodf>usfKfyTbb</dodf> is sft to truf. Thf
+ * <dodf>KfyTbb</dodf> objfdt is rfstridtfd to bf usfd by thf spfdififd
+ * prindipbl unlfss thf prindipbl vbluf is "*".
+ *
+ * <p> This <dodf>LoginModulf</dodf> rfdognizfs thf <dodf>doNotPrompt</dodf>
+ * option. If sft to truf thf usfr will not bf promptfd for thf pbssword.
+ *
+ * <p> Thf usfr dbn  spfdify thf lodbtion of thf tidkft dbdhf by using
+ * thf option <dodf>tidkftCbdhf</dodf> in thf donfigurbtion fntry.
+ *
+ * <p>Thf usfr dbn spfdify thf kfytbb lodbtion by using
+ * thf option <dodf>kfyTbb</dodf>
+ * in thf donfigurbtion fntry.
+ *
+ * <p> Thf prindipbl nbmf dbn bf spfdififd in thf donfigurbtion fntry
+ * by using thf option <dodf>prindipbl</dodf>. Thf prindipbl nbmf
+ * dbn fithfr bf b simplf usfr nbmf, b sfrvidf nbmf sudh bs
+ * <dodf>host/mission.fng.sun.dom</dodf>, or "*". Thf prindipbl dbn blso
+ * bf sft using thf systfm propfrty <dodf>sun.sfdurity.krb5.prindipbl</dodf>.
+ * This propfrty is dhfdkfd during login. If this propfrty is not sft, thfn
+ * thf prindipbl nbmf from thf donfigurbtion is usfd. In thf
+ * dbsf whfrf thf prindipbl propfrty is not sft bnd thf prindipbl
+ * fntry blso dofs not fxist, thf usfr is promptfd for thf nbmf.
+ * Whfn this propfrty of fntry is sft, bnd <dodf>usfTidkftCbdhf</dodf>
+ * is sft to truf, only TGT bflonging to this prindipbl is usfd.
+ *
+ * <p> Thf following is b list of donfigurbtion options supportfd
+ * for <dodf>Krb5LoginModulf</dodf>:
+ * <blodkquotf><dl>
+ * <dt><b><dodf>rffrfshKrb5Config</dodf></b>:</dt>
+ * <dd> Sft this to truf, if you wbnt thf donfigurbtion
+ * to bf rffrfshfd bfforf thf <dodf>login</dodf> mfthod is dbllfd.</dd>
+ * <dt><b><dodf>usfTidkftCbdhf</dodf></b>:</dt>
+ * <dd>Sft this to truf, if you wbnt thf
+ * TGT to bf obtbinfd
+ * from thf tidkft dbdhf. Sft this option
+ * to fblsf if you do not wbnt this modulf to usf thf tidkft dbdhf.
+ * (Dffbult is Fblsf).
+ * This modulf will
+ * sfbrdh for thf tidkft
+ * dbdhf in thf following lodbtions:
+ * On Solbris bnd Linux
+ * it will look for thf tidkft dbdhf in /tmp/krb5dd_<dodf>uid</dodf>
+ * whfrf thf uid is numfrid usfr
+ * idfntififr. If thf tidkft dbdhf is
+ * not bvbilbblf in thf bbovf lodbtion, or if wf brf on b
+ * Windows plbtform, it will look for thf dbdhf bs
+ * {usfr.homf}{filf.sfpbrbtor}krb5dd_{usfr.nbmf}.
+ * You dbn ovfrridf thf tidkft dbdhf lodbtion by using
+ * <dodf>tidkftCbdhf</dodf>.
+ * For Windows, if b tidkft dbnnot bf rftrifvfd from thf filf tidkft dbdhf,
+ * it will usf Lodbl Sfdurity Authority (LSA) API to gft thf TGT.
+ * <dt><b><dodf>tidkftCbdhf</dodf></b>:</dt>
+ * <dd>Sft this to thf nbmf of thf tidkft
+ * dbdhf thbt  dontbins usfr's TGT.
+ * If this is sft,  <dodf>usfTidkftCbdhf</dodf>
+ * must blso bf sft to truf; Othfrwisf b donfigurbtion frror will
+ * bf rfturnfd.</dd>
+ * <dt><b><dodf>rfnfwTGT</dodf></b>:</dt>
+ * <dd>Sft this to truf, if you wbnt to rfnfw
+ * thf TGT. If this is sft, <dodf>usfTidkftCbdhf</dodf> must blso bf
+ * sft to truf; othfrwisf b donfigurbtion frror will bf rfturnfd.</dd>
+ * <dt><b><dodf>doNotPrompt</dodf></b>:</dt>
+ * <dd>Sft this to truf if you do not wbnt to bf
+ * promptfd for thf pbssword
+ * if drfdfntibls dbn not bf obtbinfd from thf dbdhf, thf kfytbb,
+ * or through shbrfd stbtf.(Dffbult is fblsf)
+ * If sft to truf, drfdfntibl must bf obtbinfd through dbdhf, kfytbb,
+ * or shbrfd stbtf. Othfrwisf, buthfntidbtion will fbil.</dd>
+ * <dt><b><dodf>usfKfyTbb</dodf></b>:</dt>
+ * <dd>Sft this to truf if you
+ * wbnt thf modulf to gft thf prindipbl's kfy from thf
+ * thf kfytbb.(dffbult vbluf is Fblsf)
+ * If <dodf>kfytbb</dodf>
+ * is not sft thfn
+ * thf modulf will lodbtf thf kfytbb from thf
+ * Kfrbfros donfigurbtion filf.
+ * If it is not spfdififd in thf Kfrbfros donfigurbtion filf
+ * thfn it will look for thf filf
+ * <dodf>{usfr.homf}{filf.sfpbrbtor}</dodf>krb5.kfytbb.</dd>
+ * <dt><b><dodf>kfyTbb</dodf></b>:</dt>
+ * <dd>Sft this to thf filf nbmf of thf
+ * kfytbb to gft prindipbl's sfdrft kfy.</dd>
+ * <dt><b><dodf>storfKfy</dodf></b>:</dt>
+ * <dd>Sft this to truf to if you wbnt thf kfytbb or thf
+ * prindipbl's kfy to bf storfd in thf Subjfdt's privbtf drfdfntibls.
+ * For <dodf>isInitibtor</dodf> bfing fblsf, if <dodf>prindipbl</dodf>
+ * is "*", thf {@link KfyTbb} storfd dbn bf usfd by bnyonf, othfrwisf,
+ * it's rfstridtfd to bf usfd by thf spfdififd prindipbl only.</dd>
+ * <dt><b><dodf>prindipbl</dodf></b>:</dt>
+ * <dd>Thf nbmf of thf prindipbl thbt should
+ * bf usfd. Thf prindipbl dbn bf b simplf usfrnbmf sudh bs
+ * "<dodf>tfstusfr</dodf>" or b sfrvidf nbmf sudh bs
+ * "<dodf>host/tfsthost.fng.sun.dom</dodf>". You dbn usf thf
+ * <dodf>prindipbl</dodf>  option to sft thf prindipbl whfn thfrf brf
+ * drfdfntibls for multiplf prindipbls in thf
+ * <dodf>kfyTbb</dodf> or whfn you wbnt b spfdifid tidkft dbdhf only.
+ * Thf prindipbl dbn blso bf sft using thf systfm propfrty
+ * <dodf>sun.sfdurity.krb5.prindipbl</dodf>. In bddition, if this
+ * systfm propfrty is dffinfd, thfn it will bf usfd. If this propfrty
+ * is not sft, thfn thf prindipbl nbmf from thf donfigurbtion will bf
+ * usfd.
+ * Thf prindipbl nbmf dbn bf sft to "*" whfn <dodf>isInitibtor</dodf> is fblsf.
+ * In this dbsf, thf bddfptor is not bound to b singlf prindipbl. It dbn
+ * bdt bs bny prindipbl bn initibtor rfqufsts if kfys for thbt prindipbl
+ * dbn bf found. Whfn <dodf>isInitibtor</dodf> is truf, thf prindipbl nbmf
+ * dbnnot bf sft to "*".
+ * </dd>
+ * <dt><b><dodf>isInitibtor</dodf></b>:</dt>
+ * <dd>Sft this to truf, if initibtor. Sft this to fblsf, if bddfptor only.
+ * (Dffbult is truf).
+ * Notf: Do not sft this vbluf to fblsf for initibtors.</dd>
+ * </dl></blodkquotf>
+ *
+ * <p> This <dodf>LoginModulf</dodf> blso rfdognizfs thf following bdditionbl
+ * <dodf>Configurbtion</dodf>
+ * options thbt fnbblf you to shbrf usfrnbmf bnd pbsswords bdross difffrfnt
+ * buthfntidbtion modulfs:
+ * <blodkquotf><dl>
+ *
+ *    <dt><b><dodf>usfFirstPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, this LoginModulf rftrifvfs thf
+ *                   usfrnbmf bnd pbssword from thf modulf's shbrfd stbtf,
+ *                   using "jbvbx.sfdurity.buth.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf
+ *                   kfys. Thf rftrifvfd vblufs brf usfd for buthfntidbtion.
+ *                   If buthfntidbtion fbils, no bttfmpt for b rftry
+ *                   is mbdf, bnd thf fbilurf is rfportfd bbdk to thf
+ *                   dblling bpplidbtion.</dd>
+ *
+ *    <dt><b><dodf>tryFirstPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, this LoginModulf rftrifvfs thf
+ *                   thf usfrnbmf bnd pbssword from thf modulf's shbrfd
+ *                   stbtf using "jbvbx.sfdurity.buth.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf
+ *                   kfys.  Thf rftrifvfd vblufs brf usfd for
+ *                   buthfntidbtion.
+ *                   If buthfntidbtion fbils, thf modulf usfs thf
+ *                   CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf
+ *                   bnd pbssword, bnd bnothfr bttfmpt to buthfntidbtf
+ *                   is mbdf. If thf buthfntidbtion fbils,
+ *                   thf fbilurf is rfportfd bbdk to thf dblling bpplidbtion</dd>
+ *
+ *    <dt><b><dodf>storfPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, this LoginModulf storfs thf usfrnbmf bnd
+ *                   pbssword obtbinfd from thf CbllbbdkHbndlfr in thf
+ *                   modulfs shbrfd stbtf, using
+ *                   "jbvbx.sfdurity.buth.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buth.login.pbssword" bs thf rfspfdtivf
+ *                   kfys.  This is not pfrformfd if fxisting vblufs blrfbdy
+ *                   fxist for thf usfrnbmf bnd pbssword in thf shbrfd
+ *                   stbtf, or if buthfntidbtion fbils.</dd>
+ *
+ *    <dt><b><dodf>dlfbrPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, this LoginModulf dlfbrs thf
+ *                   usfrnbmf bnd pbssword storfd in thf modulf's shbrfd
+ *                   stbtf  bftfr both phbsfs of buthfntidbtion
+ *                   (login bnd dommit) hbvf domplftfd.</dd>
+ * </dl></blodkquotf>
+ * <p>If thf prindipbl systfm propfrty or kfy is blrfbdy providfd, thf vbluf of
+ * "jbvbx.sfdurity.buth.login.nbmf" in thf shbrfd stbtf is ignorfd.
+ * <p>Whfn multiplf mfdhbnisms to rftrifvf b tidkft or kfy is providfd, thf
+ * prfffrfndf ordfr is:
+ * <ol>
+ * <li>tidkft dbdhf
+ * <li>kfytbb
+ * <li>shbrfd stbtf
+ * <li>usfr prompt
+ * </ol>
+ * <p>Notf thbt if bny stfp fbils, it will fbllbbdk to thf nfxt stfp.
+ * Thfrf's only onf fxdfption, if thf shbrfd stbtf stfp fbils bnd
+ * <dodf>usfFirstPbss</dodf>=truf, no usfr prompt is mbdf.
+ * <p>Exbmplfs of somf donfigurbtion vblufs for Krb5LoginModulf in
+ * JAAS donfig filf bnd thf rfsults brf:
+ * <ul>
+ * <p> <dodf>doNotPrompt</dodf>=truf;
+ * </ul>
+ * <p> This is bn illfgbl dombinbtion sindf nonf of <dodf>usfTidkftCbdhf</dodf>,
+ * <dodf>usfKfyTbb</dodf>, <dodf>usfFirstPbss</dodf> bnd <dodf>tryFirstPbss</dodf>
+ * is sft bnd thf usfr dbn not bf promptfd for thf pbssword.
+ *<ul>
+ * <p> <dodf>tidkftCbdhf</dodf> = &lt;filfnbmf&gt;;
+ *</ul>
+ * <p> This is bn illfgbl dombinbtion sindf <dodf>usfTidkftCbdhf</dodf>
+ * is not sft to truf bnd thf tidkftCbdhf is sft. A donfigurbtion frror
+ * will oddur.
+ * <ul>
+ * <p> <dodf>rfnfwTGT</dodf>=truf;
+ *</ul>
+ * <p> This is bn illfgbl dombinbtion sindf <dodf>usfTidkftCbdhf</dodf> is
+ * not sft to truf bnd rfnfwTGT is sft. A donfigurbtion frror will oddur.
+ * <ul>
+ * <p> <dodf>storfKfy</dodf>=truf
+ * <dodf>usfTidkftCbdhf</dodf> = truf
+ * <dodf>doNotPrompt</dodf>=truf;;
+ *</ul>
+ * <p> This is bn illfgbl dombinbtion sindf  <dodf>storfKfy</dodf> is sft to
+ * truf but thf kfy dbn not bf obtbinfd fithfr by prompting thf usfr or from
+ * thf kfytbb, or from thf shbrfd stbtf. A donfigurbtion frror will oddur.
+ * <ul>
+ * <p>  <dodf>kfyTbb</dodf> = &lt;filfnbmf&gt; <dodf>doNotPrompt</dodf>=truf ;
+ * </ul>
+ * <p>This is bn illfgbl dombinbtion sindf usfKfyTbb is not sft to truf bnd
+ * thf kfyTbb is sft. A donfigurbtion frror will oddur.
+ * <ul>
+ * <p> <dodf>dfbug=truf </dodf>
+ *</ul>
+ * <p> Prompt thf usfr for thf prindipbl nbmf bnd thf pbssword.
+ * Usf thf buthfntidbtion fxdhbngf to gft TGT from thf KDC bnd
+ * populbtf thf <dodf>Subjfdt</dodf> with thf prindipbl bnd TGT.
+ * Output dfbug mfssbgfs.
+ * <ul>
+ * <p> <dodf>usfTidkftCbdhf</dodf> = truf <dodf>doNotPrompt</dodf>=truf;
+ *</ul>
+ * <p>Chfdk thf dffbult dbdhf for TGT bnd populbtf thf <dodf>Subjfdt</dodf>
+ * with thf prindipbl bnd TGT. If thf TGT is not bvbilbblf,
+ * do not prompt thf usfr, instfbd fbil thf buthfntidbtion.
+ * <ul>
+ * <p><dodf>prindipbl</dodf>=&lt;nbmf&gt;<dodf>usfTidkftCbdhf</dodf> = truf
+ * <dodf>doNotPrompt</dodf>=truf;
+ *</ul>
+ * <p> Gft thf TGT from thf dffbult dbdhf for thf prindipbl bnd populbtf thf
+ * Subjfdt's prindipbl bnd privbtf drfds sft. If tidkft dbdhf is
+ * not bvbilbblf or dofs not dontbin thf prindipbl's TGT
+ * buthfntidbtion will fbil.
+ * <ul>
+ * <p> <dodf>usfTidkftCbdhf</dodf> = truf
+ * <dodf>tidkftCbdhf</dodf>=&lt;filf nbmf&gt;<dodf>usfKfyTbb</dodf> = truf
+ * <dodf> kfyTbb</dodf>=&lt;kfytbb filfnbmf&gt;
+ * <dodf>prindipbl</dodf> = &lt;prindipbl nbmf&gt;
+ * <dodf>doNotPrompt</dodf>=truf;
+ *</ul>
+ * <p>  Sfbrdh thf dbdhf for thf prindipbl's TGT. If it is not bvbilbblf
+ * usf thf kfy in thf kfytbb to pfrform buthfntidbtion fxdhbngf with thf
+ * KDC bnd bdquirf thf TGT.
+ * Thf Subjfdt will bf populbtfd with thf prindipbl bnd thf TGT.
+ * If thf kfy is not bvbilbblf or vblid thfn buthfntidbtion will fbil.
+ * <ul>
+ * <p><dodf>usfTidkftCbdhf</dodf> = truf
+ * <dodf>tidkftCbdhf</dodf>=&lt;filf nbmf&gt;
+ *</ul>
+ * <p> Thf TGT will bf obtbinfd from thf dbdhf spfdififd.
+ * Thf Kfrbfros prindipbl nbmf usfd will bf thf prindipbl nbmf in
+ * thf Tidkft dbdhf. If thf TGT is not bvbilbblf in thf
+ * tidkft dbdhf thf usfr will bf promptfd for thf prindipbl nbmf
+ * bnd thf pbssword. Thf TGT will bf obtbinfd using thf buthfntidbtion
+ * fxdhbngf with thf KDC.
+ * Thf Subjfdt will bf populbtfd with thf TGT.
+ *<ul>
+ * <p> <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbb filfnbmf&gt;
+ * <dodf>prindipbl</dodf>= &lt;prindipbl nbmf&gt;
+ * <dodf>storfKfy</dodf>=truf;
+ *</ul>
+ * <p>  Thf kfy for thf prindipbl will bf rftrifvfd from thf kfytbb.
+ * If thf kfy is not bvbilbblf in thf kfytbb thf usfr will bf promptfd
+ * for thf prindipbl's pbssword. Thf Subjfdt will bf populbtfd
+ * with thf prindipbl's kfy fithfr from thf kfytbb or dfrivfd from thf
+ * pbssword fntfrfd.
+ * <ul>
+ * <p> <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbbnbmf&gt;
+ * <dodf>storfKfy</dodf>=truf
+ * <dodf>doNotPrompt</dodf>=fblsf;
+ *</ul>
+ * <p>Thf usfr will bf promptfd for thf sfrvidf prindipbl nbmf.
+ * If thf prindipbl's
+ * longtfrm kfy is bvbilbblf in thf kfytbb , it will bf bddfd to thf
+ * Subjfdt's privbtf drfdfntibls. An buthfntidbtion fxdhbngf will bf
+ * bttfmptfd with thf prindipbl nbmf bnd thf kfy from thf Kfytbb.
+ * If suddfssful thf TGT will bf bddfd to thf
+ * Subjfdt's privbtf drfdfntibls sft. Othfrwisf thf buthfntidbtion will
+ * fbil.
+ * <ul>
+ * <p> <dodf>isInitibtor</dodf> = fblsf <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbbnbmf&gt;
+ * <dodf>storfKfy</dodf>=truf
+ * <dodf>prindipbl</dodf>=*;
+ *</ul>
+ * <p>Thf bddfptor will bf bn unbound bddfptor bnd it dbn bdt bs bny prindipbl
+ * bs long thbt prindipbl hbs kfys in thf kfytbb.
+ *<ul>
+ * <p>
+ * <dodf>usfTidkftCbdhf</dodf>=truf
+ * <dodf>tidkftCbdhf</dodf>=&lt;filf nbmf&gt;;
+ * <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;filf nbmf&gt; <dodf>storfKfy</dodf>=truf
+ * <dodf>prindipbl</dodf>= &lt;prindipbl nbmf&gt;
+ *</ul>
+ * <p>
+ * Thf dlifnt's TGT will bf rftrifvfd from thf tidkft dbdhf bnd bddfd to thf
+ * <dodf>Subjfdt</dodf>'s privbtf drfdfntibls. If thf TGT is not bvbilbblf
+ * in thf tidkft dbdhf, or thf TGT's dlifnt nbmf dofs not mbtdh thf prindipbl
+ * nbmf, Jbvb will usf b sfdrft kfy to obtbin thf TGT using thf buthfntidbtion
+ * fxdhbngf bnd bddfd to thf Subjfdt's privbtf drfdfntibls.
+ * This sfdrft kfy will bf first rftrifvfd from thf kfytbb. If thf kfy
+ * is not bvbilbblf, thf usfr will bf promptfd for thf pbssword. In fithfr
+ * dbsf, thf kfy dfrivfd from thf pbssword will bf bddfd to thf
+ * Subjfdt's privbtf drfdfntibls sft.
+ * <ul>
+ * <p><dodf>isInitibtor</dodf> = fblsf
+ *</ul>
+ * <p>Configurfd to bdt bs bddfptor only, drfdfntibls brf not bdquirfd
+ * vib AS fxdhbngf. For bddfptors only, sft this vbluf to fblsf.
+ * For initibtors, do not sft this vbluf to fblsf.
+ * <ul>
+ * <p><dodf>isInitibtor</dodf> = truf
+ *</ul>
+ * <p>Configurfd to bdt bs initibtor, drfdfntibls brf bdquirfd
+ * vib AS fxdhbngf. For initibtors, sft this vbluf to truf, or lfbvf this
+ * option unsft, in whidh dbsf dffbult vbluf (truf) will bf usfd.
+ *
+ * @buthor Rbm Mbrti
+ */
+
+@jdk.Exportfd
+publid dlbss Krb5LoginModulf implfmfnts LoginModulf {
+
+    // initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> shbrfdStbtf;
+    privbtf Mbp<String, ?> options;
+
+    // donfigurbblf option
+    privbtf boolfbn dfbug = fblsf;
+    privbtf boolfbn storfKfy = fblsf;
+    privbtf boolfbn doNotPrompt = fblsf;
+    privbtf boolfbn usfTidkftCbdhf = fblsf;
+    privbtf boolfbn usfKfyTbb = fblsf;
+    privbtf String tidkftCbdhfNbmf = null;
+    privbtf String kfyTbbNbmf = null;
+    privbtf String prindNbmf = null;
+
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn rffrfshKrb5Config = fblsf;
+    privbtf boolfbn rfnfwTGT = fblsf;
+
+    // spfdify if initibtor.
+    // pfrform buthfntidbtion fxdhbngf if initibtor
+    privbtf boolfbn isInitibtor = truf;
+
+    // thf buthfntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf String usfrnbmf;
+
+    // Endryption kfys dbldulbtfd from pbssword. Assignfd whfn storfkfy == truf
+    // bnd usfKfyTbb == fblsf (or truf but not found)
+    privbtf EndryptionKfy[] fndKfys = null;
+
+    KfyTbb ktbb = null;
+
+    privbtf Crfdfntibls drfd = null;
+
+    privbtf PrindipblNbmf prindipbl = null;
+    privbtf KfrbfrosPrindipbl kfrbClifntPrind = null;
+    privbtf KfrbfrosTidkft kfrbTidkft = null;
+    privbtf KfrbfrosKfy[] kfrbKfys = null;
+    privbtf StringBufffr krb5PrindNbmf = null;
+    privbtf boolfbn unboundSfrvfr = fblsf;
+    privbtf dhbr[] pbssword = null;
+
+    privbtf stbtid finbl String NAME = "jbvbx.sfdurity.buth.login.nbmf";
+    privbtf stbtid finbl String PWD = "jbvbx.sfdurity.buth.login.pbssword";
+    privbtf stbtid finbl RfsourdfBundlf rb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+                publid RfsourdfBundlf run() {
+                    rfturn RfsourdfBundlf.gftBundlf(
+                            "sun.sfdurity.util.AuthRfsourdfs");
+                }
+            }
+    );
+
+    /**
+     * Initiblizf this <dodf>LoginModulf</dodf>.
+     *
+     * <p>
+     * @pbrbm subjfdt thf <dodf>Subjfdt</dodf> to bf buthfntidbtfd. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> for
+     *                  dommunidbtion with thf fnd usfr (prompting for
+     *                  usfrnbmfs bnd pbsswords, for fxbmplf). <p>
+     *
+     * @pbrbm shbrfdStbtf shbrfd <dodf>LoginModulf</dodf> stbtf. <p>
+     *
+     * @pbrbm options options spfdififd in thf login
+     *                  <dodf>Configurbtion</dodf> for this pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
+     */
+    // Undhfdkfd wbrning from (Mbp<String, Objfdt>)shbrfdStbtf is sbff
+    // sindf jbvbx.sfdurity.buth.login.LoginContfxt pbssfs b rbw HbshMbp.
+    // Undhfdkfd wbrnings from options.gft(String) brf sbff sindf wf brf
+    // pbssing known kfys.
+    @SupprfssWbrnings("undhfdkfd")
+    publid void initiblizf(Subjfdt subjfdt,
+                           CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String, ?> shbrfdStbtf,
+                           Mbp<String, ?> options) {
+
+        this.subjfdt = subjfdt;
+        this.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        this.shbrfdStbtf = (Mbp<String, Objfdt>)shbrfdStbtf;
+        this.options = options;
+
+        // initiblizf bny donfigurfd options
+
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+        storfKfy = "truf".fqublsIgnorfCbsf((String)options.gft("storfKfy"));
+        doNotPrompt = "truf".fqublsIgnorfCbsf((String)options.gft
+                                              ("doNotPrompt"));
+        usfTidkftCbdhf = "truf".fqublsIgnorfCbsf((String)options.gft
+                                                 ("usfTidkftCbdhf"));
+        usfKfyTbb = "truf".fqublsIgnorfCbsf((String)options.gft("usfKfyTbb"));
+        tidkftCbdhfNbmf = (String)options.gft("tidkftCbdhf");
+        kfyTbbNbmf = (String)options.gft("kfyTbb");
+        if (kfyTbbNbmf != null) {
+            kfyTbbNbmf = sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb.normblizf(
+                         kfyTbbNbmf);
+        }
+        prindNbmf = (String)options.gft("prindipbl");
+        rffrfshKrb5Config =
+            "truf".fqublsIgnorfCbsf((String)options.gft("rffrfshKrb5Config"));
+        rfnfwTGT =
+            "truf".fqublsIgnorfCbsf((String)options.gft("rfnfwTGT"));
+
+        // dhfdk isInitibtor vbluf
+        String isInitibtorVbluf = ((String)options.gft("isInitibtor"));
+        if (isInitibtorVbluf == null) {
+            // usf dffbult, if vbluf not sft
+        } flsf {
+            isInitibtor = "truf".fqublsIgnorfCbsf(isInitibtorVbluf);
+        }
+
+        tryFirstPbss =
+            "truf".fqublsIgnorfCbsf
+            ((String)options.gft("tryFirstPbss"));
+        usfFirstPbss =
+            "truf".fqublsIgnorfCbsf
+            ((String)options.gft("usfFirstPbss"));
+        storfPbss =
+            "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+        dlfbrPbss =
+            "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+        if (dfbug) {
+            Systfm.out.print("Dfbug is  " + dfbug
+                             + " storfKfy " + storfKfy
+                             + " usfTidkftCbdhf " + usfTidkftCbdhf
+                             + " usfKfyTbb " + usfKfyTbb
+                             + " doNotPrompt " + doNotPrompt
+                             + " tidkftCbdhf is " + tidkftCbdhfNbmf
+                             + " isInitibtor " + isInitibtor
+                             + " KfyTbb is " + kfyTbbNbmf
+                             + " rffrfshKrb5Config is " + rffrfshKrb5Config
+                             + " prindipbl is " + prindNbmf
+                             + " tryFirstPbss is " + tryFirstPbss
+                             + " usfFirstPbss is " + usfFirstPbss
+                             + " storfPbss is " + storfPbss
+                             + " dlfbrPbss is " + dlfbrPbss + "\n");
+        }
+    }
+
+
+    /**
+     * Authfntidbtf thf usfr
+     *
+     * <p>
+     *
+     * @rfturn truf in bll dbsfs sindf this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd.
+     *
+     * @fxdfption FbilfdLoginExdfption if thf buthfntidbtion fbils. <p>
+     *
+     * @fxdfption LoginExdfption if this <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform thf buthfntidbtion.
+     */
+    publid boolfbn login() throws LoginExdfption {
+
+        if (rffrfshKrb5Config) {
+            try {
+                if (dfbug) {
+                    Systfm.out.println("Rffrfshing Kfrbfros donfigurbtion");
+                }
+                sun.sfdurity.krb5.Config.rffrfsh();
+            } dbtdh (KrbExdfption kf) {
+                LoginExdfption lf = nfw LoginExdfption(kf.gftMfssbgf());
+                lf.initCbusf(kf);
+                throw lf;
+            }
+        }
+        String prindipblPropfrty = Systfm.gftPropfrty
+            ("sun.sfdurity.krb5.prindipbl");
+        if (prindipblPropfrty != null) {
+            krb5PrindNbmf = nfw StringBufffr(prindipblPropfrty);
+        } flsf {
+            if (prindNbmf != null) {
+                krb5PrindNbmf = nfw StringBufffr(prindNbmf);
+            }
+        }
+
+        vblidbtfConfigurbtion();
+
+        if (krb5PrindNbmf != null && krb5PrindNbmf.toString().fqubls("*")) {
+            unboundSfrvfr = truf;
+        }
+
+        if (tryFirstPbss) {
+            try {
+                bttfmptAuthfntidbtion(truf);
+                if (dfbug)
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "buthfntidbtion suddffdfd");
+                suddffdfd = truf;
+                dlfbnStbtf();
+                rfturn truf;
+            } dbtdh (LoginExdfption lf) {
+                // buthfntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "tryFirstPbss fbilfd with:" +
+                                       lf.gftMfssbgf());
+                }
+            }
+        } flsf if (usfFirstPbss) {
+            try {
+                bttfmptAuthfntidbtion(truf);
+                suddffdfd = truf;
+                dlfbnStbtf();
+                rfturn truf;
+            } dbtdh (LoginExdfption f) {
+                // buthfntidbtion fbilfd -- dlfbn out stbtf
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "buthfntidbtion fbilfd \n" +
+                                       f.gftMfssbgf());
+                }
+                suddffdfd = fblsf;
+                dlfbnStbtf();
+                throw f;
+            }
+        }
+
+        // bttfmpt thf buthfntidbtion by gftting thf usfrnbmf bnd pwd
+        // by prompting or donfigurbtion i.f. not from shbrfd stbtf
+
+        try {
+            bttfmptAuthfntidbtion(fblsf);
+            suddffdfd = truf;
+            dlfbnStbtf();
+            rfturn truf;
+        } dbtdh (LoginExdfption f) {
+            // buthfntidbtion fbilfd -- dlfbn out stbtf
+            if (dfbug) {
+                Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                   "buthfntidbtion fbilfd \n" +
+                                   f.gftMfssbgf());
+            }
+            suddffdfd = fblsf;
+            dlfbnStbtf();
+            throw f;
+        }
+    }
+    /**
+     * prodfss thf donfigurbtion options
+     * Gft thf TGT fithfr out of
+     * dbdhf or from thf KDC using thf pbssword fntfrfd
+     * Chfdk thf  pfrmission bfforf gftting thf TGT
+     */
+
+    privbtf void bttfmptAuthfntidbtion(boolfbn gftPbsswdFromShbrfdStbtf)
+        throws LoginExdfption {
+
+        /*
+         * Chfdk thf drfds dbdhf to sff whfthfr
+         * wf hbvf TGT for this dlifnt prindipbl
+         */
+        if (krb5PrindNbmf != null) {
+            try {
+                prindipbl = nfw PrindipblNbmf
+                    (krb5PrindNbmf.toString(),
+                     PrindipblNbmf.KRB_NT_PRINCIPAL);
+            } dbtdh (KrbExdfption f) {
+                LoginExdfption lf = nfw LoginExdfption(f.gftMfssbgf());
+                lf.initCbusf(f);
+                throw lf;
+            }
+        }
+
+        try {
+            if (usfTidkftCbdhf) {
+                // tidkftCbdhfNbmf == null implifs thf dffbult dbdhf
+                if (dfbug)
+                    Systfm.out.println("Adquirf TGT from Cbdhf");
+                drfd  = Crfdfntibls.bdquirfTGTFromCbdhf
+                    (prindipbl, tidkftCbdhfNbmf);
+
+                if (drfd != null) {
+                    // dhfdk to rfnfw drfdfntibls
+                    if (!isCurrfnt(drfd)) {
+                        if (rfnfwTGT) {
+                            drfd = rfnfwCrfdfntibls(drfd);
+                        } flsf {
+                            // drfdfntibls hbvf fxpirfd
+                            drfd = null;
+                            if (dfbug)
+                                Systfm.out.println("Crfdfntibls brf" +
+                                                " no longfr vblid");
+                        }
+                    }
+                }
+
+                if (drfd != null) {
+                   // gft thf prindipbl nbmf from thf tidkft dbdhf
+                   if (prindipbl == null) {
+                        prindipbl = drfd.gftClifnt();
+                   }
+                }
+                if (dfbug) {
+                    Systfm.out.println("Prindipbl is " + prindipbl);
+                    if (drfd == null) {
+                        Systfm.out.println
+                            ("null drfdfntibls from Tidkft Cbdhf");
+                    }
+                }
+            }
+
+            // drfd = null indidbtfs thbt wf didn't gft thf drfds
+            // from thf dbdhf or usfTidkftCbdhf wbs fblsf
+
+            if (drfd == null) {
+                // Wf nffd thf prindipbl nbmf whfthfr wf usf kfytbb
+                // or AS Exdhbngf
+                if (prindipbl == null) {
+                    promptForNbmf(gftPbsswdFromShbrfdStbtf);
+                    prindipbl = nfw PrindipblNbmf
+                        (krb5PrindNbmf.toString(),
+                         PrindipblNbmf.KRB_NT_PRINCIPAL);
+                }
+
+                /*
+                 * Bfforf dynbmid KfyTbb support (6894072), hfrf wf dhfdk if
+                 * thf kfytbb dontbins kfys for thf prindipbl. If no, kfytbb
+                 * will not bf usfd bnd pbssword is promptfd for.
+                 *
+                 * Aftfr 6894072, wf normblly don't dhfdk it, bnd fxpfdt thf
+                 * kfys dbn bf populbtfd until b rfbl donnfdtion is mbdf. Thf
+                 * dhfdk is still donf whfn isInitibtor == truf, whfrf thf kfys
+                 * will bf usfd right now.
+                 *
+                 * Probbbly tridky rflbtions:
+                 *
+                 * usfKfyTbb is donfig flbg, but whfn it's truf but thf ktbb
+                 * dofs not dontbins kfys for prindipbl, wf would usf pbssword
+                 * bnd kffp thf flbg undhbngfd (for rfusf?). In this mfthod,
+                 * wf usf (ktbb != null) to dhfdk whfthfr kfytbb is usfd.
+                 * Aftfr this mfthod (bnd whfn storfKfy == truf), wf usf
+                 * (fndKfys == null) to dhfdk.
+                 */
+                if (usfKfyTbb) {
+                    if (!unboundSfrvfr) {
+                        KfrbfrosPrindipbl kp =
+                                nfw KfrbfrosPrindipbl(prindipbl.gftNbmf());
+                        ktbb = (kfyTbbNbmf == null)
+                                ? KfyTbb.gftInstbndf(kp)
+                                : KfyTbb.gftInstbndf(kp, nfw Filf(kfyTbbNbmf));
+                    } flsf {
+                        ktbb = (kfyTbbNbmf == null)
+                                ? KfyTbb.gftUnboundInstbndf()
+                                : KfyTbb.gftUnboundInstbndf(nfw Filf(kfyTbbNbmf));
+                    }
+                    if (isInitibtor) {
+                        if (Krb5Util.kfysFromJbvbxKfyTbb(ktbb, prindipbl).lfngth
+                                == 0) {
+                            ktbb = null;
+                            if (dfbug) {
+                                Systfm.out.println
+                                    ("Kfy for thf prindipbl " +
+                                     prindipbl  +
+                                     " not bvbilbblf in " +
+                                     ((kfyTbbNbmf == null) ?
+                                      "dffbult kfy tbb" : kfyTbbNbmf));
+                            }
+                        }
+                    }
+                }
+
+                KrbAsRfqBuildfr buildfr;
+
+                if (ktbb == null) {
+                    promptForPbss(gftPbsswdFromShbrfdStbtf);
+                    buildfr = nfw KrbAsRfqBuildfr(prindipbl, pbssword);
+                    if (isInitibtor) {
+                        // XXX Evfn if isInitibtor=fblsf, it might bf
+                        // bfttfr to do bn AS-REQ so thbt kfys dbn bf
+                        // updbtfd with PA info
+                        drfd = buildfr.bdtion().gftCrfds();
+                    }
+                    if (storfKfy) {
+                        fndKfys = buildfr.gftKfys(isInitibtor);
+                        // Whfn fndKfys is fmpty, thf login bdtublly fbils.
+                        // For dompbtibility, fxdfption is thrown in dommit().
+                    }
+                } flsf {
+                    buildfr = nfw KrbAsRfqBuildfr(prindipbl, ktbb);
+                    if (isInitibtor) {
+                        drfd = buildfr.bdtion().gftCrfds();
+                    }
+                }
+                buildfr.dfstroy();
+
+                if (dfbug) {
+                    Systfm.out.println("prindipbl is " + prindipbl);
+                    HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+                    if (ktbb != null) {
+                        Systfm.out.println("Will usf kfytbb");
+                    } flsf if (storfKfy) {
+                        for (int i = 0; i < fndKfys.lfngth; i++) {
+                            Systfm.out.println("EndryptionKfy: kfyTypf=" +
+                                fndKfys[i].gftETypf() +
+                                " kfyBytfs (hfx dump)=" +
+                                hd.fndodfBufffr(fndKfys[i].gftBytfs()));
+                        }
+                    }
+                }
+
+                // wf should hbvb b non-null drfd
+                if (isInitibtor && (drfd == null)) {
+                    throw nfw LoginExdfption
+                        ("TGT Cbn not bf obtbinfd from thf KDC ");
+                }
+
+            }
+        } dbtdh (KrbExdfption f) {
+            LoginExdfption lf = nfw LoginExdfption(f.gftMfssbgf());
+            lf.initCbusf(f);
+            throw lf;
+        } dbtdh (IOExdfption iof) {
+            LoginExdfption if = nfw LoginExdfption(iof.gftMfssbgf());
+            if.initCbusf(iof);
+            throw if;
+        }
+    }
+
+    privbtf void promptForNbmf(boolfbn gftPbsswdFromShbrfdStbtf)
+        throws LoginExdfption {
+        krb5PrindNbmf = nfw StringBufffr("");
+        if (gftPbsswdFromShbrfdStbtf) {
+            // usf thf nbmf sbvfd by thf first modulf in thf stbdk
+            usfrnbmf = (String)shbrfdStbtf.gft(NAME);
+            if (dfbug) {
+                Systfm.out.println
+                    ("usfrnbmf from shbrfd stbtf is " + usfrnbmf + "\n");
+            }
+            if (usfrnbmf == null) {
+                Systfm.out.println
+                    ("usfrnbmf from shbrfd stbtf is null\n");
+                throw nfw LoginExdfption
+                    ("Usfrnbmf dbn not bf obtbinfd from shbrfdstbtf ");
+            }
+            if (dfbug) {
+                Systfm.out.println
+                    ("usfrnbmf from shbrfd stbtf is " + usfrnbmf + "\n");
+            }
+            if (usfrnbmf != null && usfrnbmf.lfngth() > 0) {
+                krb5PrindNbmf.insfrt(0, usfrnbmf);
+                rfturn;
+            }
+        }
+
+        if (doNotPrompt) {
+            throw nfw LoginExdfption
+                ("Unbblf to obtbin Prindipbl Nbmf for buthfntidbtion ");
+        } flsf {
+            if (dbllbbdkHbndlfr == null)
+                throw nfw LoginExdfption("No CbllbbdkHbndlfr "
+                                         + "bvbilbblf "
+                                         + "to gbrnfr buthfntidbtion "
+                                         + "informbtion from thf usfr");
+            try {
+                String dffUsfrnbmf = Systfm.gftPropfrty("usfr.nbmf");
+
+                Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[1];
+                MfssbgfFormbt form = nfw MfssbgfFormbt(
+                                       rb.gftString(
+                                       "Kfrbfros.usfrnbmf.dffUsfrnbmf."));
+                Objfdt[] sourdf =  {dffUsfrnbmf};
+                dbllbbdks[0] = nfw NbmfCbllbbdk(form.formbt(sourdf));
+                dbllbbdkHbndlfr.hbndlf(dbllbbdks);
+                usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+                if (usfrnbmf == null || usfrnbmf.lfngth() == 0)
+                    usfrnbmf = dffUsfrnbmf;
+                krb5PrindNbmf.insfrt(0, usfrnbmf);
+
+            } dbtdh (jbvb.io.IOExdfption iof) {
+                throw nfw LoginExdfption(iof.gftMfssbgf());
+            } dbtdh (UnsupportfdCbllbbdkExdfption udf) {
+                throw nfw LoginExdfption
+                    (udf.gftMfssbgf()
+                     +" not bvbilbblf to gbrnfr "
+                     +" buthfntidbtion informbtion "
+                     +" from thf usfr");
+            }
+        }
+    }
+
+    privbtf void promptForPbss(boolfbn gftPbsswdFromShbrfdStbtf)
+        throws LoginExdfption {
+
+        if (gftPbsswdFromShbrfdStbtf) {
+            // usf thf pbssword sbvfd by thf first modulf in thf stbdk
+            pbssword = (dhbr[])shbrfdStbtf.gft(PWD);
+            if (pbssword == null) {
+                if (dfbug) {
+                    Systfm.out.println
+                        ("Pbssword from shbrfd stbtf is null");
+                }
+                throw nfw LoginExdfption
+                    ("Pbssword dbn not bf obtbinfd from shbrfdstbtf ");
+            }
+            if (dfbug) {
+                Systfm.out.println
+                    ("pbssword is " + nfw String(pbssword));
+            }
+            rfturn;
+        }
+        if (doNotPrompt) {
+            throw nfw LoginExdfption
+                ("Unbblf to obtbin pbssword from usfr\n");
+        } flsf {
+            if (dbllbbdkHbndlfr == null)
+                throw nfw LoginExdfption("No CbllbbdkHbndlfr "
+                                         + "bvbilbblf "
+                                         + "to gbrnfr buthfntidbtion "
+                                         + "informbtion from thf usfr");
+            try {
+                Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[1];
+                String usfrNbmf = krb5PrindNbmf.toString();
+                MfssbgfFormbt form = nfw MfssbgfFormbt(
+                                         rb.gftString(
+                                         "Kfrbfros.pbssword.for.usfrnbmf."));
+                Objfdt[] sourdf = {usfrNbmf};
+                dbllbbdks[0] = nfw PbsswordCbllbbdk(
+                                                    form.formbt(sourdf),
+                                                    fblsf);
+                dbllbbdkHbndlfr.hbndlf(dbllbbdks);
+                dhbr[] tmpPbssword = ((PbsswordCbllbbdk)
+                                      dbllbbdks[0]).gftPbssword();
+                if (tmpPbssword == null) {
+                    throw nfw LoginExdfption("No pbssword providfd");
+                }
+                pbssword = nfw dhbr[tmpPbssword.lfngth];
+                Systfm.brrbydopy(tmpPbssword, 0,
+                                 pbssword, 0, tmpPbssword.lfngth);
+                ((PbsswordCbllbbdk)dbllbbdks[0]).dlfbrPbssword();
+
+
+                // dlfbr tmpPbssword
+                for (int i = 0; i < tmpPbssword.lfngth; i++)
+                    tmpPbssword[i] = ' ';
+                tmpPbssword = null;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "usfr fntfrfd usfrnbmf: " +
+                                       krb5PrindNbmf);
+                    Systfm.out.println();
+                }
+            } dbtdh (jbvb.io.IOExdfption iof) {
+                throw nfw LoginExdfption(iof.gftMfssbgf());
+            } dbtdh (UnsupportfdCbllbbdkExdfption udf) {
+                throw nfw LoginExdfption(udf.gftMfssbgf()
+                                         +" not bvbilbblf to gbrnfr "
+                                         +" buthfntidbtion informbtion "
+                                         + "from thf usfr");
+            }
+        }
+    }
+
+    privbtf void vblidbtfConfigurbtion() throws LoginExdfption {
+        if (doNotPrompt && !usfTidkftCbdhf && !usfKfyTbb
+                && !tryFirstPbss && !usfFirstPbss)
+            throw nfw LoginExdfption
+                ("Configurbtion Error"
+                 + " - fithfr doNotPrompt should bf "
+                 + " fblsf or bt lfbst onf of usfTidkftCbdhf, "
+                 + " usfKfyTbb, tryFirstPbss bnd usfFirstPbss"
+                 + " should bf truf");
+        if (tidkftCbdhfNbmf != null && !usfTidkftCbdhf)
+            throw nfw LoginExdfption
+                ("Configurbtion Error "
+                 + " - usfTidkftCbdhf should bf sft "
+                 + "to truf to usf thf tidkft dbdhf"
+                 + tidkftCbdhfNbmf);
+        if (kfyTbbNbmf != null & !usfKfyTbb)
+            throw nfw LoginExdfption
+                ("Configurbtion Error - usfKfyTbb should bf sft to truf "
+                 + "to usf thf kfytbb" + kfyTbbNbmf);
+        if (storfKfy && doNotPrompt && !usfKfyTbb
+                && !tryFirstPbss && !usfFirstPbss)
+            throw nfw LoginExdfption
+                ("Configurbtion Error - fithfr doNotPrompt should bf sft to "
+                 + " fblsf or bt lfbst onf of tryFirstPbss, usfFirstPbss "
+                 + "or usfKfyTbb must bf sft to truf for storfKfy option");
+        if (rfnfwTGT && !usfTidkftCbdhf)
+            throw nfw LoginExdfption
+                ("Configurbtion Error"
+                 + " - fithfr usfTidkftCbdhf should bf "
+                 + " truf or rfnfwTGT should bf fblsf");
+        if (krb5PrindNbmf != null && krb5PrindNbmf.toString().fqubls("*")) {
+            if (isInitibtor) {
+                throw nfw LoginExdfption
+                    ("Configurbtion Error"
+                    + " - prindipbl dbnnot bf * whfn isInitibtor is truf");
+            }
+        }
+    }
+
+    privbtf boolfbn isCurrfnt(Crfdfntibls drfds)
+    {
+        Dbtf fndTimf = drfds.gftEndTimf();
+        if (fndTimf != null) {
+            rfturn (Systfm.durrfntTimfMillis() <= fndTimf.gftTimf());
+        }
+        rfturn truf;
+    }
+
+    privbtf Crfdfntibls rfnfwCrfdfntibls(Crfdfntibls drfds)
+    {
+        Crfdfntibls ldrfds;
+        try {
+            if (!drfds.isRfnfwbblf())
+                throw nfw RffrfshFbilfdExdfption("This tidkft" +
+                                " is not rfnfwbblf");
+            if (Systfm.durrfntTimfMillis() > drfd.gftRfnfwTill().gftTimf())
+                throw nfw RffrfshFbilfdExdfption("This tidkft is pbst "
+                                             + "its lbst rfnfwbl timf.");
+            ldrfds = drfds.rfnfw();
+            if (dfbug)
+                Systfm.out.println("Rfnfwfd Kfrbfros Tidkft");
+        } dbtdh (Exdfption f) {
+            ldrfds = null;
+            if (dfbug)
+                Systfm.out.println("Tidkft dould not bf rfnfwfd : "
+                                + f.gftMfssbgf());
+        }
+        rfturn ldrfds;
+    }
+
+    /**
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion suddffdfd
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs suddffdfd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * <dodf>login</dodf> mfthod), thfn this mfthod bssodibtfs b
+     * <dodf>Krb5Prindipbl</dodf>
+     * with thf <dodf>Subjfdt</dodf> lodbtfd in thf
+     * <dodf>LoginModulf</dodf>. It bdds Kfrbfros Crfdfntibls to thf
+     *  thf Subjfdt's privbtf drfdfntibls sft. If this LoginModulf's own
+     * buthfntidbtion bttfmptfd fbilfd, thfn this mfthod rfmovfs
+     * bny stbtf thbt wbs originblly sbvfd.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf dommit fbils.
+     *
+     * @rfturn truf if this LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf othfrwisf.
+     */
+
+    publid boolfbn dommit() throws LoginExdfption {
+
+        /*
+         * Lft us bdd thf Krb5 Crfds to thf Subjfdt's
+         * privbtf drfdfntibls. Thf drfdfntibls brf of typf
+         * KfrbfrosKfy or KfrbfrosTidkft
+         */
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf {
+
+            if (isInitibtor && (drfd == null)) {
+                suddffdfd = fblsf;
+                throw nfw LoginExdfption("Null Clifnt Crfdfntibl");
+            }
+
+            if (subjfdt.isRfbdOnly()) {
+                dlfbnKfrbfrosCrfd();
+                throw nfw LoginExdfption("Subjfdt is Rfbdonly");
+            }
+
+            /*
+             * Add thf Prindipbl (buthfntidbtfd idfntity)
+             * to thf Subjfdt's prindipbl sft bnd
+             * bdd thf drfdfntibls (TGT or Sfrvidf kfy) to thf
+             * Subjfdt's privbtf drfdfntibls
+             */
+
+            Sft<Objfdt> privCrfdSft =  subjfdt.gftPrivbtfCrfdfntibls();
+            Sft<jbvb.sfdurity.Prindipbl> prindSft  = subjfdt.gftPrindipbls();
+            kfrbClifntPrind = nfw KfrbfrosPrindipbl(prindipbl.gftNbmf());
+
+            // drfbtf Kfrbfros Tidkft
+            if (isInitibtor) {
+                kfrbTidkft = Krb5Util.drfdsToTidkft(drfd);
+            }
+
+            if (storfKfy && fndKfys != null) {
+                if (fndKfys.lfngth == 0) {
+                    suddffdfd = fblsf;
+                    throw nfw LoginExdfption("Null Sfrvfr Kfy ");
+                }
+
+                kfrbKfys = nfw KfrbfrosKfy[fndKfys.lfngth];
+                for (int i = 0; i < fndKfys.lfngth; i ++) {
+                    Intfgfr tfmp = fndKfys[i].gftKfyVfrsionNumbfr();
+                    kfrbKfys[i] = nfw KfrbfrosKfy(kfrbClifntPrind,
+                                          fndKfys[i].gftBytfs(),
+                                          fndKfys[i].gftETypf(),
+                                          (tfmp == null?
+                                          0: tfmp.intVbluf()));
+                }
+
+            }
+            // Lft us bdd thf kfrbClifntPrind,kfrbTidkft bnd KfyTbb/KfrbKfy (if
+            // storfKfy is truf)
+
+            // Wf won't bdd "*" bs b KfrbfrosPrindipbl
+            if (!unboundSfrvfr &&
+                    !prindSft.dontbins(kfrbClifntPrind)) {
+                prindSft.bdd(kfrbClifntPrind);
+            }
+
+            // bdd thf TGT
+            if (kfrbTidkft != null) {
+                if (!privCrfdSft.dontbins(kfrbTidkft))
+                    privCrfdSft.bdd(kfrbTidkft);
+            }
+
+            if (storfKfy) {
+                if (fndKfys == null) {
+                    if (ktbb != null) {
+                        if (!privCrfdSft.dontbins(ktbb)) {
+                            privCrfdSft.bdd(ktbb);
+                        }
+                    } flsf {
+                        suddffdfd = fblsf;
+                        throw nfw LoginExdfption("No kfy to storf");
+                    }
+                } flsf {
+                    for (int i = 0; i < kfrbKfys.lfngth; i ++) {
+                        if (!privCrfdSft.dontbins(kfrbKfys[i])) {
+                            privCrfdSft.bdd(kfrbKfys[i]);
+                        }
+                        fndKfys[i].dfstroy();
+                        fndKfys[i] = null;
+                        if (dfbug) {
+                            Systfm.out.println("Addfd sfrvfr's kfy"
+                                            + kfrbKfys[i]);
+                            Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                           "bddfd Krb5Prindipbl  " +
+                                           kfrbClifntPrind.toString()
+                                           + " to Subjfdt");
+                        }
+                    }
+                }
+            }
+        }
+        dommitSuddffdfd = truf;
+        if (dfbug)
+            Systfm.out.println("Commit Suddffdfd \n");
+        rfturn truf;
+    }
+
+    /**
+     * <p> This mfthod is dbllfd if thf LoginContfxt's
+     * ovfrbll buthfntidbtion fbilfd.
+     * (thf rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs did not suddffd).
+     *
+     * <p> If this LoginModulf's own buthfntidbtion bttfmpt
+     * suddffdfd (dhfdkfd by rftrifving thf privbtf stbtf sbvfd by thf
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mfthods),
+     * thfn this mfthod dlfbns up bny stbtf thbt wbs originblly sbvfd.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf bbort fbils.
+     *
+     * @rfturn fblsf if this LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf othfrwisf.
+     */
+
+    publid boolfbn bbort() throws LoginExdfption {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+            // login suddffdfd but ovfrbll buthfntidbtion fbilfd
+            suddffdfd = fblsf;
+            dlfbnKfrbfrosCrfd();
+        } flsf {
+            // ovfrbll buthfntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
+            logout();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Logout thf usfr.
+     *
+     * <p> This mfthod rfmovfs thf <dodf>Krb5Prindipbl</dodf>
+     * thbt wbs bddfd by thf <dodf>dommit</dodf> mfthod.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf logout fbils.
+     *
+     * @rfturn truf in bll dbsfs sindf this <dodf>LoginModulf</dodf>
+     *          should not bf ignorfd.
+     */
+    publid boolfbn logout() throws LoginExdfption {
+
+        if (dfbug) {
+            Systfm.out.println("\t\t[Krb5LoginModulf]: " +
+                "Entfring logout");
+        }
+
+        if (subjfdt.isRfbdOnly()) {
+            dlfbnKfrbfrosCrfd();
+            throw nfw LoginExdfption("Subjfdt is Rfbdonly");
+        }
+
+        subjfdt.gftPrindipbls().rfmovf(kfrbClifntPrind);
+           // Lft us rfmovf bll Kfrbfros drfdfntibls storfd in thf Subjfdt
+        Itfrbtor<Objfdt> it = subjfdt.gftPrivbtfCrfdfntibls().itfrbtor();
+        whilf (it.hbsNfxt()) {
+            Objfdt o = it.nfxt();
+            if (o instbndfof KfrbfrosTidkft ||
+                    o instbndfof KfrbfrosKfy ||
+                    o instbndfof KfyTbb) {
+                it.rfmovf();
+            }
+        }
+        // dlfbn thf kfrbfros tidkft bnd kfys
+        dlfbnKfrbfrosCrfd();
+
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        if (dfbug) {
+            Systfm.out.println("\t\t[Krb5LoginModulf]: " +
+                               "loggfd out Subjfdt");
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Clfbn Kfrbfros drfdfntibls
+     */
+    privbtf void dlfbnKfrbfrosCrfd() throws LoginExdfption {
+        // Clfbn thf tidkft bnd sfrvfr kfy
+        try {
+            if (kfrbTidkft != null)
+                kfrbTidkft.dfstroy();
+            if (kfrbKfys != null) {
+                for (int i = 0; i < kfrbKfys.lfngth; i++) {
+                    kfrbKfys[i].dfstroy();
+                }
+            }
+        } dbtdh (DfstroyFbilfdExdfption f) {
+            throw nfw LoginExdfption
+                ("Dfstroy Fbilfd on Kfrbfros Privbtf Crfdfntibls");
+        }
+        kfrbTidkft = null;
+        kfrbKfys = null;
+        kfrbClifntPrind = null;
+    }
+
+    /**
+     * Clfbn out thf stbtf
+     */
+    privbtf void dlfbnStbtf() {
+
+        // sbvf input bs shbrfd stbtf only if
+        // buthfntidbtion suddffdfd
+        if (suddffdfd) {
+            if (storfPbss &&
+                !shbrfdStbtf.dontbinsKfy(NAME) &&
+                !shbrfdStbtf.dontbinsKfy(PWD)) {
+                shbrfdStbtf.put(NAME, usfrnbmf);
+                shbrfdStbtf.put(PWD, pbssword);
+            }
+        } flsf {
+            // rfmovf tfmp rfsults for thf nfxt try
+            fndKfys = null;
+            ktbb = null;
+            prindipbl = null;
+        }
+        usfrnbmf = null;
+        pbssword = null;
+        if (krb5PrindNbmf != null && krb5PrindNbmf.lfngth() != 0)
+            krb5PrindNbmf.dflftf(0, krb5PrindNbmf.lfngth());
+        krb5PrindNbmf = null;
+        if (dlfbrPbss) {
+            shbrfdStbtf.rfmovf(NAME);
+            shbrfdStbtf.rfmovf(PWD);
+        }
+    }
+}

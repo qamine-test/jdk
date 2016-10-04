@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Thrown to indidbtf thbt bn unknown sfrvidf fxdfption hbs
+ * oddurrfd. Eithfr thf MIME typf rfturnfd by b URL donnfdtion dofs
+ * not mbkf sfnsf, or thf bpplidbtion is bttfmpting to writf to b
+ * rfbd-only URL donnfdtion.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+publid dlbss UnknownSfrvidfExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4169033248853639508L;
+
+    /**
+     * Construdts b nfw {@dodf UnknownSfrvidfExdfption} with no
+     * dftbil mfssbgf.
+     */
+    publid UnknownSfrvidfExdfption() {
+    }
+
+    /**
+     * Construdts b nfw {@dodf UnknownSfrvidfExdfption} with thf
+     * spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm   msg   thf dftbil mfssbgf.
+     */
+    publid UnknownSfrvidfExdfption(String msg) {
+        supfr(msg);
+    }
+}

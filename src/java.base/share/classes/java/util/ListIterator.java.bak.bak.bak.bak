@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * An itfrbtor for lists thbt bllows thf progrbmmfr
+ * to trbvfrsf thf list in fithfr dirfdtion, modify
+ * thf list during itfrbtion, bnd obtbin thf itfrbtor's
+ * durrfnt position in thf list. A {@dodf ListItfrbtor}
+ * hbs no durrfnt flfmfnt; its <I>dursor position</I> blwbys
+ * lifs bftwffn thf flfmfnt thbt would bf rfturnfd by b dbll
+ * to {@dodf prfvious()} bnd thf flfmfnt thbt would bf
+ * rfturnfd by b dbll to {@dodf nfxt()}.
+ * An itfrbtor for b list of lfngth {@dodf n} hbs {@dodf n+1} possiblf
+ * dursor positions, bs illustrbtfd by thf dbrfts ({@dodf ^}) bflow:
+ * <PRE>
+ *                      Elfmfnt(0)   Elfmfnt(1)   Elfmfnt(2)   ... Elfmfnt(n-1)
+ * dursor positions:  ^            ^            ^            ^                  ^
+ * </PRE>
+ * Notf thbt thf {@link #rfmovf} bnd {@link #sft(Objfdt)} mfthods brf
+ * <i>not</i> dffinfd in tfrms of thf dursor position;  thfy brf dffinfd to
+ * opfrbtf on thf lbst flfmfnt rfturnfd by b dbll to {@link #nfxt} or
+ * {@link #prfvious()}.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor  Josh Blodh
+ * @sff Collfdtion
+ * @sff List
+ * @sff Itfrbtor
+ * @sff Enumfrbtion
+ * @sff List#listItfrbtor()
+ * @sindf   1.2
+ */
+publid intfrfbdf ListItfrbtor<E> fxtfnds Itfrbtor<E> {
+    // Qufry Opfrbtions
+
+    /**
+     * Rfturns {@dodf truf} if this list itfrbtor hbs morf flfmfnts whfn
+     * trbvfrsing thf list in thf forwbrd dirfdtion. (In othfr words,
+     * rfturns {@dodf truf} if {@link #nfxt} would rfturn bn flfmfnt rbthfr
+     * thbn throwing bn fxdfption.)
+     *
+     * @rfturn {@dodf truf} if thf list itfrbtor hbs morf flfmfnts whfn
+     *         trbvfrsing thf list in thf forwbrd dirfdtion
+     */
+    boolfbn hbsNfxt();
+
+    /**
+     * Rfturns thf nfxt flfmfnt in thf list bnd bdvbndfs thf dursor position.
+     * This mfthod mby bf dbllfd rfpfbtfdly to itfrbtf through thf list,
+     * or intfrmixfd with dblls to {@link #prfvious} to go bbdk bnd forth.
+     * (Notf thbt bltfrnbting dblls to {@dodf nfxt} bnd {@dodf prfvious}
+     * will rfturn thf sbmf flfmfnt rfpfbtfdly.)
+     *
+     * @rfturn thf nfxt flfmfnt in thf list
+     * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no nfxt flfmfnt
+     */
+    E nfxt();
+
+    /**
+     * Rfturns {@dodf truf} if this list itfrbtor hbs morf flfmfnts whfn
+     * trbvfrsing thf list in thf rfvfrsf dirfdtion.  (In othfr words,
+     * rfturns {@dodf truf} if {@link #prfvious} would rfturn bn flfmfnt
+     * rbthfr thbn throwing bn fxdfption.)
+     *
+     * @rfturn {@dodf truf} if thf list itfrbtor hbs morf flfmfnts whfn
+     *         trbvfrsing thf list in thf rfvfrsf dirfdtion
+     */
+    boolfbn hbsPrfvious();
+
+    /**
+     * Rfturns thf prfvious flfmfnt in thf list bnd movfs thf dursor
+     * position bbdkwbrds.  This mfthod mby bf dbllfd rfpfbtfdly to
+     * itfrbtf through thf list bbdkwbrds, or intfrmixfd with dblls to
+     * {@link #nfxt} to go bbdk bnd forth.  (Notf thbt bltfrnbting dblls
+     * to {@dodf nfxt} bnd {@dodf prfvious} will rfturn thf sbmf
+     * flfmfnt rfpfbtfdly.)
+     *
+     * @rfturn thf prfvious flfmfnt in thf list
+     * @throws NoSudhElfmfntExdfption if thf itfrbtion hbs no prfvious
+     *         flfmfnt
+     */
+    E prfvious();
+
+    /**
+     * Rfturns thf indfx of thf flfmfnt thbt would bf rfturnfd by b
+     * subsfqufnt dbll to {@link #nfxt}. (Rfturns list sizf if thf list
+     * itfrbtor is bt thf fnd of thf list.)
+     *
+     * @rfturn thf indfx of thf flfmfnt thbt would bf rfturnfd by b
+     *         subsfqufnt dbll to {@dodf nfxt}, or list sizf if thf list
+     *         itfrbtor is bt thf fnd of thf list
+     */
+    int nfxtIndfx();
+
+    /**
+     * Rfturns thf indfx of thf flfmfnt thbt would bf rfturnfd by b
+     * subsfqufnt dbll to {@link #prfvious}. (Rfturns -1 if thf list
+     * itfrbtor is bt thf bfginning of thf list.)
+     *
+     * @rfturn thf indfx of thf flfmfnt thbt would bf rfturnfd by b
+     *         subsfqufnt dbll to {@dodf prfvious}, or -1 if thf list
+     *         itfrbtor is bt thf bfginning of thf list
+     */
+    int prfviousIndfx();
+
+
+    // Modifidbtion Opfrbtions
+
+    /**
+     * Rfmovfs from thf list thf lbst flfmfnt thbt wbs rfturnfd by {@link
+     * #nfxt} or {@link #prfvious} (optionbl opfrbtion).  This dbll dbn
+     * only bf mbdf ondf pfr dbll to {@dodf nfxt} or {@dodf prfvious}.
+     * It dbn bf mbdf only if {@link #bdd} hbs not bffn
+     * dbllfd bftfr thf lbst dbll to {@dodf nfxt} or {@dodf prfvious}.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf rfmovf}
+     *         opfrbtion is not supportfd by this list itfrbtor
+     * @throws IllfgblStbtfExdfption if nfithfr {@dodf nfxt} nor
+     *         {@dodf prfvious} hbvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf bdd} hbvf bffn dbllfd bftfr thf lbst dbll to
+     *         {@dodf nfxt} or {@dodf prfvious}
+     */
+    void rfmovf();
+
+    /**
+     * Rfplbdfs thf lbst flfmfnt rfturnfd by {@link #nfxt} or
+     * {@link #prfvious} with thf spfdififd flfmfnt (optionbl opfrbtion).
+     * This dbll dbn bf mbdf only if nfithfr {@link #rfmovf} nor {@link
+     * #bdd} hbvf bffn dbllfd bftfr thf lbst dbll to {@dodf nfxt} or
+     * {@dodf prfvious}.
+     *
+     * @pbrbm f thf flfmfnt with whidh to rfplbdf thf lbst flfmfnt rfturnfd by
+     *          {@dodf nfxt} or {@dodf prfvious}
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf sft} opfrbtion
+     *         is not supportfd by this list itfrbtor
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws IllfgblArgumfntExdfption if somf bspfdt of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this list
+     * @throws IllfgblStbtfExdfption if nfithfr {@dodf nfxt} nor
+     *         {@dodf prfvious} hbvf bffn dbllfd, or {@dodf rfmovf} or
+     *         {@dodf bdd} hbvf bffn dbllfd bftfr thf lbst dbll to
+     *         {@dodf nfxt} or {@dodf prfvious}
+     */
+    void sft(E f);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt into thf list (optionbl opfrbtion).
+     * Thf flfmfnt is insfrtfd immfdibtfly bfforf thf flfmfnt thbt
+     * would bf rfturnfd by {@link #nfxt}, if bny, bnd bftfr thf flfmfnt
+     * thbt would bf rfturnfd by {@link #prfvious}, if bny.  (If thf
+     * list dontbins no flfmfnts, thf nfw flfmfnt bfdomfs thf solf flfmfnt
+     * on thf list.)  Thf nfw flfmfnt is insfrtfd bfforf thf implidit
+     * dursor: b subsfqufnt dbll to {@dodf nfxt} would bf unbfffdtfd, bnd b
+     * subsfqufnt dbll to {@dodf prfvious} would rfturn thf nfw flfmfnt.
+     * (This dbll indrfbsfs by onf thf vbluf thbt would bf rfturnfd by b
+     * dbll to {@dodf nfxtIndfx} or {@dodf prfviousIndfx}.)
+     *
+     * @pbrbm f thf flfmfnt to insfrt
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf bdd} mfthod is
+     *         not supportfd by this list itfrbtor
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws IllfgblArgumfntExdfption if somf bspfdt of this flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     */
+    void bdd(E f);
+}

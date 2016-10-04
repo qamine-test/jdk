@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+README
+------
+
+Dfsign bnd Implfmfntbtion:
+
+    * Thf Trbdkfr Clbss (Trbdkfr.jbvb & hprof_trbdkfr.d)
+        It wbs bddfd to thf sun.tools.hprof.Trbdkfr in JDK 5.0 FCS, thfn
+	movfd to b pbdkbgf thbt didn't dbusf dlbsslobd frrors duf to
+	thf sfdurity mbnbgfr not liking thf sun.* pbdkbgf nbmf.
+	5091195 dftfdtfd thbt this dlbss nffds to bf in dom.sun.dfmo.jvmti.hprof.
+        Thf BCI dodf will dbll thfsf stbtid mfthods, whidh will in turn
+        (if fngbgfd) dbll mbtdhing nbtivf mfthods in thf hprof librbry,
+	with thf bdditionbl durrfnt Thrfbd brgumfnt (Thrfbd.durrfntThrfbd()).
+	Doing thf durrfntThrfbd dbll on thf Jbvb sidf wbs nfdfssbry duf
+	to thf diffidulty of gftting thf durrfnt thrfbd whilf insidf onf
+	of thfsf Trbdkfr nbtivf mfthods.  This dlbss livfs in rt.jbr.
+
+    * Bytf Codf Instrumfntbtion (BCI)
+        Using thf ClbssFilfLobdHook ffbturf bnd b C lbngubgf
+        implfmfntbtion of b bytf dodf injfdtion trbnsformfr, thf following
+        bytfdodfs gft injfdtions:
+	    - On fntry to thf jbvb.lbng.Objfdt <init> mfthod, 
+	      b invokfstbtid dbll to
+		Trbdkfr.ObjfdtInit(this);
+	      is injfdtfd. 
+	    - On bny nfwbrrby typf opdodf, immfdibtfly following it, 
+	      thf brrby objfdt is duplidbtfd on thf stbdk bnd bn
+	      invokfstbtid dbll to
+		Trbdkfr.NfwArrby(obj);
+	      is injfdtfd. 
+	    - On fntry to bll mfthods, b invokfstbtid dbll to 
+		Trbdkfr.CbllSitf(dnum,mnum);
+	      is injfdtfd. Thf hprof bgfnt dbn mbp thf two intfgfrs
+	      (dnum,mnum) to b mfthod in b dlbss. This is thf BCI bbsfd
+	      "mfthod fntry" fvfnt.
+	    - On rfturn from bny mfthod (bny rfturn opdodf),
+	      b invokfstbtid dbll to
+		Trbdkfr.RfturnSitf(dnum,mnum);
+	      is injfdtfd.  
+        All dlbssfs found vib ClbssFilfLobdHook brf injfdtfd with thf
+        fxdfption of somf systfm dlbss mfthods "<init>" bnd "finblizf" 
+        whosf lfngth is 1 bnd systfm dlbss mfthods with nbmf "<dlinit>",
+	bnd blso jbvb.lbng.Thrfbd.durrfntThrfbd() whidh is usfd in thf
+	dlbss Trbdkfr (prfvfnting nbsty rfdursion issuf).
+        Systfm dlbssfs brf durrfntly dffinfd bs bny dlbss sffn by thf
+	ClbssFilfLobdHook prior to VM_INIT. This dofs mfbn thbt
+	objfdts drfbtfd in thf systfm dlbssfs insidf <dlinit> might not
+	gft trbdkfd initiblly.
+	Sff thf jbvb_drw_dfmo sourdf bnd dodumfntbtion for morf info.
+	Thf injfdtions brf bbsfd on whbt thf hprof options
+	brf rfqufsting, f.g. if hfbp=sitfs or hfbp=bll is rfqufstfd, thf
+	nfwbrrby bnd Objfdt.<init> mfthod injfdtions hbppfn.
+	If dpu=timfs is rfqufstfd, bll mfthods gft thfir fntrifs bnd
+	rfturns trbdkfd. Options likf dpu=sbmplfs or monitor=y
+	do not rfquirf BCI.
+
+    * BCI Allodbtion Tbgs (hprof_tbg.d)
+        Thf durrfnt jlong tbg bfing usfd on bllodbtfd objfdts
+	is bn ObjfdtIndfx, or bn indfx into thf objfdt tbblf insidf
+	thf hprof dodf. Dfpfnding on whfthfr hfbp=sitfs or hfbp=dump 
+	wbs bskfd for, thfsf ObjfdtIndfx's might rfprfsfnt uniquf
+	objfdts, or uniquf bllodbtion sitfs for typfs of objfdts.
+	Thf hfbp=dump option rfquirfs donsidfrbblf morf spbdf
+	duf to thf onf jobjfdt pfr ObjfdtIndfx mbpping.
+
+    * BCI Pfrformbndf
+        Thf dpu=timfs sffms to hbvf thf most nfgbtivf bfffdt on
+	pfrformbndf, this dould bf improvfd by not hbving thf 
+	Trbdkfr dlbss mfthods dbll nbtivf dodf dirfdtly, but bddumulbtf
+	thf dbtb in b filf or mfmory somfhow bnd lftting it bufffr down
+	to thf bgfnt. Thf dpu=sbmplfs is probbbly b bfttfr wby to
+	mfbsurf dpu usbgf, vbrying thf intfrvbl bs nffdfd.
+	Thf hfbp=dump sffms to usf mfmory likf drbzy, but thbt's 
+	pbrtiblly thf wby it hbs blwbys bffn. 
+
+    * Sourdfs in thf JDK workspbdf
+        Thf sourdfs bnd Mbkffilfs livf in:
+                srd/shbrf/dlbssfs/dom/sun/dfmo/jvmti/hprof/*
+                srd/shbrf/dfmo/jvmti/hprof/*
+                srd/shbrf/dfmo/jvmti/jbvb_drw_dfmo/*
+                srd/solbris/dfmo/jvmti/hprof/*
+                srd/windows/dfmo/jvmti/hprof/*
+                mbkf/jbvb/jbvb_hprof_dfmo/*
+                mbkf/jbvb/jbvb_drw_dfmo/*
+   
+--------

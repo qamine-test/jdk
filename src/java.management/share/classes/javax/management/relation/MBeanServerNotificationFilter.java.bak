@@ -1,478 +1,478 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import static com.sun.jmx.defaults.JmxProperties.RELATION_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.RELATION_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
 
-import java.util.List;
-import java.util.Vector;
+import jbvb.util.List;
+import jbvb.util.Vfdtor;
 
-import javax.management.MBeanServerNotification;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
 
-import javax.management.Notification;
-import javax.management.NotificationFilterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.util.List;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
 
 /**
- * Filter for {@link MBeanServerNotification}.
- * This filter filters MBeanServerNotification notifications by
- * selecting the ObjectNames of interest and the operations (registration,
- * unregistration, both) of interest (corresponding to notification
- * types).
+ * Filtfr for {@link MBfbnSfrvfrNotifidbtion}.
+ * Tiis filtfr filtfrs MBfbnSfrvfrNotifidbtion notifidbtions by
+ * sflfdting tif ObjfdtNbmfs of intfrfst bnd tif opfrbtions (rfgistrbtion,
+ * unrfgistrbtion, boti) of intfrfst (dorrfsponding to notifidbtion
+ * typfs).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>2605900539589789736L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>2605900539589789736L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID must be constant
-public class MBeanServerNotificationFilter extends NotificationFilterSupport {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID must bf donstbnt
+publid dlbss MBfbnSfrvfrNotifidbtionFiltfr fxtfnds NotifidbtionFiltfrSupport {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 6001782699077323605L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 6001782699077323605L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 2605900539589789736L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 2605900539589789736L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("mySelectObjNameList", Vector.class),
-      new ObjectStreamField("myDeselectObjNameList", Vector.class)
+      nfw ObjfdtStrfbmFifld("mySflfdtObjNbmfList", Vfdtor.dlbss),
+      nfw ObjfdtStrfbmFifld("myDfsflfdtObjNbmfList", Vfdtor.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("selectedNames", List.class),
-      new ObjectStreamField("deselectedNames", List.class)
+      nfw ObjfdtStrfbmFifld("sflfdtfdNbmfs", List.dlbss),
+      nfw ObjfdtStrfbmFifld("dfsflfdtfdNbmfs", List.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField selectedNames List List of {@link ObjectName}s of interest
+     * @sfriblFifld sflfdtfdNbmfs List List of {@link ObjfdtNbmf}s of intfrfst
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly selected
-     *         (check for explicit deselections)</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly selected</li>
+     *         <li><dodf>null</dodf> mfbns tibt bll {@link ObjfdtNbmf}s brf impliditly sflfdtfd
+     *         (difdk for fxplidit dfsflfdtions)</li>
+     *         <li>Empty vfdtor mfbns tibt no {@link ObjfdtNbmf} is fxpliditly sflfdtfd</li>
      *         </ul>
-     * @serialField deselectedNames List List of {@link ObjectName}s with no interest
+     * @sfriblFifld dfsflfdtfdNbmfs List List of {@link ObjfdtNbmf}s witi no intfrfst
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly deselected
-     *         (check for explicit selections))</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly deselected</li>
+     *         <li><dodf>null</dodf> mfbns tibt bll {@link ObjfdtNbmf}s brf impliditly dfsflfdtfd
+     *         (difdk for fxplidit sflfdtions))</li>
+     *         <li>Empty vfdtor mfbns tibt no {@link ObjfdtNbmf} is fxpliditly dfsflfdtfd</li>
      *         </ul>
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Private members
+    // Privbtf mfmbfrs
     //
 
     /**
-     * @serial List of {@link ObjectName}s of interest
+     * @sfribl List of {@link ObjfdtNbmf}s of intfrfst
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly selected
-     *         (check for explicit deselections)</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly selected</li>
+     *         <li><dodf>null</dodf> mfbns tibt bll {@link ObjfdtNbmf}s brf impliditly sflfdtfd
+     *         (difdk for fxplidit dfsflfdtions)</li>
+     *         <li>Empty vfdtor mfbns tibt no {@link ObjfdtNbmf} is fxpliditly sflfdtfd</li>
      *         </ul>
      */
-    private List<ObjectName> selectedNames = new Vector<ObjectName>();
+    privbtf List<ObjfdtNbmf> sflfdtfdNbmfs = nfw Vfdtor<ObjfdtNbmf>();
 
     /**
-     * @serial List of {@link ObjectName}s with no interest
+     * @sfribl List of {@link ObjfdtNbmf}s witi no intfrfst
      *         <ul>
-     *         <li><code>null</code> means that all {@link ObjectName}s are implicitly deselected
-     *         (check for explicit selections))</li>
-     *         <li>Empty vector means that no {@link ObjectName} is explicitly deselected</li>
+     *         <li><dodf>null</dodf> mfbns tibt bll {@link ObjfdtNbmf}s brf impliditly dfsflfdtfd
+     *         (difdk for fxplidit sflfdtions))</li>
+     *         <li>Empty vfdtor mfbns tibt no {@link ObjfdtNbmf} is fxpliditly dfsflfdtfd</li>
      *         </ul>
      */
-    private List<ObjectName> deselectedNames = null;
+    privbtf List<ObjfdtNbmf> dfsflfdtfdNbmfs = null;
 
     //
-    // Constructor
+    // Construdtor
     //
 
     /**
-     * Creates a filter selecting all MBeanServerNotification notifications for
-     * all ObjectNames.
+     * Crfbtfs b filtfr sflfdting bll MBfbnSfrvfrNotifidbtion notifidbtions for
+     * bll ObjfdtNbmfs.
      */
-    public MBeanServerNotificationFilter() {
+    publid MBfbnSfrvfrNotifidbtionFiltfr() {
 
-        super();
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "MBeanServerNotificationFilter");
+        supfr();
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "MBfbnSfrvfrNotifidbtionFiltfr");
 
-        enableType(MBeanServerNotification.REGISTRATION_NOTIFICATION);
-        enableType(MBeanServerNotification.UNREGISTRATION_NOTIFICATION);
+        fnbblfTypf(MBfbnSfrvfrNotifidbtion.REGISTRATION_NOTIFICATION);
+        fnbblfTypf(MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION);
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "MBeanServerNotificationFilter");
-        return;
+        RELATION_LOGGER.fxiting(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "MBfbnSfrvfrNotifidbtionFiltfr");
+        rfturn;
     }
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Disables any MBeanServerNotification (all ObjectNames are
-     * deselected).
+     * Disbblfs bny MBfbnSfrvfrNotifidbtion (bll ObjfdtNbmfs brf
+     * dfsflfdtfd).
      */
-    public synchronized void disableAllObjectNames() {
+    publid syndironizfd void disbblfAllObjfdtNbmfs() {
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "disableAllObjectNames");
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "disbblfAllObjfdtNbmfs");
 
-        selectedNames = new Vector<ObjectName>();
-        deselectedNames = null;
+        sflfdtfdNbmfs = nfw Vfdtor<ObjfdtNbmf>();
+        dfsflfdtfdNbmfs = null;
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "disableAllObjectNames");
-        return;
+        RELATION_LOGGER.fxiting(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "disbblfAllObjfdtNbmfs");
+        rfturn;
     }
 
     /**
-     * Disables MBeanServerNotifications concerning given ObjectName.
+     * Disbblfs MBfbnSfrvfrNotifidbtions dondfrning givfn ObjfdtNbmf.
      *
-     * @param objectName  ObjectName no longer of interest
+     * @pbrbm objfdtNbmf  ObjfdtNbmf no longfr of intfrfst
      *
-     * @exception IllegalArgumentException  if the given ObjectName is null
+     * @fxdfption IllfgblArgumfntExdfption  if tif givfn ObjfdtNbmf is null
      */
-    public synchronized void disableObjectName(ObjectName objectName)
-        throws IllegalArgumentException {
+    publid syndironizfd void disbblfObjfdtNbmf(ObjfdtNbmf objfdtNbmf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objfdtNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "disableObjectName", objectName);
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "disbblfObjfdtNbmf", objfdtNbmf);
 
-        // Removes from selected ObjectNames, if present
-        if (selectedNames != null) {
-            if (selectedNames.size() != 0) {
-                selectedNames.remove(objectName);
+        // Rfmovfs from sflfdtfd ObjfdtNbmfs, if prfsfnt
+        if (sflfdtfdNbmfs != null) {
+            if (sflfdtfdNbmfs.sizf() != 0) {
+                sflfdtfdNbmfs.rfmovf(objfdtNbmf);
             }
         }
 
-        // Adds it in deselected ObjectNames
-        if (deselectedNames != null) {
-            // If all are deselected, no need to do anything :)
-            if (!(deselectedNames.contains(objectName))) {
-                // ObjectName was not already deselected
-                deselectedNames.add(objectName);
+        // Adds it in dfsflfdtfd ObjfdtNbmfs
+        if (dfsflfdtfdNbmfs != null) {
+            // If bll brf dfsflfdtfd, no nffd to do bnytiing :)
+            if (!(dfsflfdtfdNbmfs.dontbins(objfdtNbmf))) {
+                // ObjfdtNbmf wbs not blrfbdy dfsflfdtfd
+                dfsflfdtfdNbmfs.bdd(objfdtNbmf);
             }
         }
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "disableObjectName");
-        return;
+        RELATION_LOGGER.fxiting(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "disbblfObjfdtNbmf");
+        rfturn;
     }
 
     /**
-     * Enables all MBeanServerNotifications (all ObjectNames are selected).
+     * Enbblfs bll MBfbnSfrvfrNotifidbtions (bll ObjfdtNbmfs brf sflfdtfd).
      */
-    public synchronized void enableAllObjectNames() {
+    publid syndironizfd void fnbblfAllObjfdtNbmfs() {
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "enableAllObjectNames");
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "fnbblfAllObjfdtNbmfs");
 
-        selectedNames = null;
-        deselectedNames = new Vector<ObjectName>();
+        sflfdtfdNbmfs = null;
+        dfsflfdtfdNbmfs = nfw Vfdtor<ObjfdtNbmf>();
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "enableAllObjectNames");
-        return;
+        RELATION_LOGGER.fxiting(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "fnbblfAllObjfdtNbmfs");
+        rfturn;
     }
 
     /**
-     * Enables MBeanServerNotifications concerning given ObjectName.
+     * Enbblfs MBfbnSfrvfrNotifidbtions dondfrning givfn ObjfdtNbmf.
      *
-     * @param objectName  ObjectName of interest
+     * @pbrbm objfdtNbmf  ObjfdtNbmf of intfrfst
      *
-     * @exception IllegalArgumentException  if the given ObjectName is null
+     * @fxdfption IllfgblArgumfntExdfption  if tif givfn ObjfdtNbmf is null
      */
-    public synchronized void enableObjectName(ObjectName objectName)
-        throws IllegalArgumentException {
+    publid syndironizfd void fnbblfObjfdtNbmf(ObjfdtNbmf objfdtNbmf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (objectName == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (objfdtNbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "enableObjectName", objectName);
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "fnbblfObjfdtNbmf", objfdtNbmf);
 
-        // Removes from deselected ObjectNames, if present
-        if (deselectedNames != null) {
-            if (deselectedNames.size() != 0) {
-                deselectedNames.remove(objectName);
+        // Rfmovfs from dfsflfdtfd ObjfdtNbmfs, if prfsfnt
+        if (dfsflfdtfdNbmfs != null) {
+            if (dfsflfdtfdNbmfs.sizf() != 0) {
+                dfsflfdtfdNbmfs.rfmovf(objfdtNbmf);
             }
         }
 
-        // Adds it in selected ObjectNames
-        if (selectedNames != null) {
-            // If all are selected, no need to do anything :)
-            if (!(selectedNames.contains(objectName))) {
-                // ObjectName was not already selected
-                selectedNames.add(objectName);
+        // Adds it in sflfdtfd ObjfdtNbmfs
+        if (sflfdtfdNbmfs != null) {
+            // If bll brf sflfdtfd, no nffd to do bnytiing :)
+            if (!(sflfdtfdNbmfs.dontbins(objfdtNbmf))) {
+                // ObjfdtNbmf wbs not blrfbdy sflfdtfd
+                sflfdtfdNbmfs.bdd(objfdtNbmf);
             }
         }
 
-        RELATION_LOGGER.exiting(MBeanServerNotificationFilter.class.getName(),
-                "enableObjectName");
-        return;
+        RELATION_LOGGER.fxiting(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "fnbblfObjfdtNbmf");
+        rfturn;
     }
 
     /**
-     * Gets all the ObjectNames enabled.
+     * Gfts bll tif ObjfdtNbmfs fnbblfd.
      *
-     * @return Vector of ObjectNames:
-     * <P>- null means all ObjectNames are implicitly selected, except the
-     * ObjectNames explicitly deselected
-     * <P>- empty means all ObjectNames are deselected, i.e. no ObjectName
-     * selected.
+     * @rfturn Vfdtor of ObjfdtNbmfs:
+     * <P>- null mfbns bll ObjfdtNbmfs brf impliditly sflfdtfd, fxdfpt tif
+     * ObjfdtNbmfs fxpliditly dfsflfdtfd
+     * <P>- fmpty mfbns bll ObjfdtNbmfs brf dfsflfdtfd, i.f. no ObjfdtNbmf
+     * sflfdtfd.
      */
-    public synchronized Vector<ObjectName> getEnabledObjectNames() {
-        if (selectedNames != null) {
-            return new Vector<ObjectName>(selectedNames);
-        } else {
-            return null;
+    publid syndironizfd Vfdtor<ObjfdtNbmf> gftEnbblfdObjfdtNbmfs() {
+        if (sflfdtfdNbmfs != null) {
+            rfturn nfw Vfdtor<ObjfdtNbmf>(sflfdtfdNbmfs);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Gets all the ObjectNames disabled.
+     * Gfts bll tif ObjfdtNbmfs disbblfd.
      *
-     * @return Vector of ObjectNames:
-     * <P>- null means all ObjectNames are implicitly deselected, except the
-     * ObjectNames explicitly selected
-     * <P>- empty means all ObjectNames are selected, i.e. no ObjectName
-     * deselected.
+     * @rfturn Vfdtor of ObjfdtNbmfs:
+     * <P>- null mfbns bll ObjfdtNbmfs brf impliditly dfsflfdtfd, fxdfpt tif
+     * ObjfdtNbmfs fxpliditly sflfdtfd
+     * <P>- fmpty mfbns bll ObjfdtNbmfs brf sflfdtfd, i.f. no ObjfdtNbmf
+     * dfsflfdtfd.
      */
-    public synchronized Vector<ObjectName> getDisabledObjectNames() {
-        if (deselectedNames != null) {
-            return new Vector<ObjectName>(deselectedNames);
-        } else {
-            return null;
+    publid syndironizfd Vfdtor<ObjfdtNbmf> gftDisbblfdObjfdtNbmfs() {
+        if (dfsflfdtfdNbmfs != null) {
+            rfturn nfw Vfdtor<ObjfdtNbmf>(dfsflfdtfdNbmfs);
+        } flsf {
+            rfturn null;
         }
     }
 
     //
-    // NotificationFilter interface
+    // NotifidbtionFiltfr intfrfbdf
     //
 
     /**
-     * Invoked before sending the specified notification to the listener.
+     * Invokfd bfforf sfnding tif spfdififd notifidbtion to tif listfnfr.
      * <P>If:
-     * <P>- the ObjectName of the concerned MBean is selected (explicitly OR
-     * (implicitly and not explicitly deselected))
+     * <P>- tif ObjfdtNbmf of tif dondfrnfd MBfbn is sflfdtfd (fxpliditly OR
+     * (impliditly bnd not fxpliditly dfsflfdtfd))
      * <P>AND
-     * <P>- the type of the operation (registration or unregistration) is
-     * selected
-     * <P>then the notification is sent to the listener.
+     * <P>- tif typf of tif opfrbtion (rfgistrbtion or unrfgistrbtion) is
+     * sflfdtfd
+     * <P>tifn tif notifidbtion is sfnt to tif listfnfr.
      *
-     * @param notif  The notification to be sent.
+     * @pbrbm notif  Tif notifidbtion to bf sfnt.
      *
-     * @return true if the notification has to be sent to the listener, false
-     * otherwise.
+     * @rfturn truf if tif notifidbtion ibs to bf sfnt to tif listfnfr, fblsf
+     * otifrwisf.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public synchronized boolean isNotificationEnabled(Notification notif)
-        throws IllegalArgumentException {
+    publid syndironizfd boolfbn isNotifidbtionEnbblfd(Notifidbtion notif)
+        tirows IllfgblArgumfntExdfption {
 
         if (notif == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        RELATION_LOGGER.entering(MBeanServerNotificationFilter.class.getName(),
-                "isNotificationEnabled", notif);
+        RELATION_LOGGER.fntfring(MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "isNotifidbtionEnbblfd", notif);
 
-        // Checks the type first
-        String ntfType = notif.getType();
-        Vector<String> enabledTypes = getEnabledTypes();
-        if (!(enabledTypes.contains(ntfType))) {
-            RELATION_LOGGER.logp(Level.FINER,
-                    MBeanServerNotificationFilter.class.getName(),
-                    "isNotificationEnabled",
-                    "Type not selected, exiting");
-            return false;
+        // Cifdks tif typf first
+        String ntfTypf = notif.gftTypf();
+        Vfdtor<String> fnbblfdTypfs = gftEnbblfdTypfs();
+        if (!(fnbblfdTypfs.dontbins(ntfTypf))) {
+            RELATION_LOGGER.logp(Lfvfl.FINER,
+                    MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                    "isNotifidbtionEnbblfd",
+                    "Typf not sflfdtfd, fxiting");
+            rfturn fblsf;
         }
 
-        // We have a MBeanServerNotification: downcasts it
-        MBeanServerNotification mbsNtf = (MBeanServerNotification)notif;
+        // Wf ibvf b MBfbnSfrvfrNotifidbtion: downdbsts it
+        MBfbnSfrvfrNotifidbtion mbsNtf = (MBfbnSfrvfrNotifidbtion)notif;
 
-        // Checks the ObjectName
-        ObjectName objName = mbsNtf.getMBeanName();
-        // Is it selected?
-        boolean isSelectedFlg = false;
-        if (selectedNames != null) {
-            // Not all are implicitly selected:
-            // checks for explicit selection
-            if (selectedNames.size() == 0) {
-                // All are explicitly not selected
-                RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "No ObjectNames selected, exiting");
-                return false;
+        // Cifdks tif ObjfdtNbmf
+        ObjfdtNbmf objNbmf = mbsNtf.gftMBfbnNbmf();
+        // Is it sflfdtfd?
+        boolfbn isSflfdtfdFlg = fblsf;
+        if (sflfdtfdNbmfs != null) {
+            // Not bll brf impliditly sflfdtfd:
+            // difdks for fxplidit sflfdtion
+            if (sflfdtfdNbmfs.sizf() == 0) {
+                // All brf fxpliditly not sflfdtfd
+                RELATION_LOGGER.logp(Lfvfl.FINER,
+                        MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                        "isNotifidbtionEnbblfd",
+                        "No ObjfdtNbmfs sflfdtfd, fxiting");
+                rfturn fblsf;
             }
 
-            isSelectedFlg = selectedNames.contains(objName);
-            if (!isSelectedFlg) {
-                // Not in the explicit selected list
-                RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName not in selected list, exiting");
-                return false;
-            }
-        }
-
-        if (!isSelectedFlg) {
-            // Not explicitly selected: is it deselected?
-
-            if (deselectedNames == null) {
-                // All are implicitly deselected and it is not explicitly
-                // selected
-                RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName not selected, and all " +
-                        "names deselected, exiting");
-                return false;
-
-            } else if (deselectedNames.contains(objName)) {
-                // Explicitly deselected
-                RELATION_LOGGER.logp(Level.FINER,
-                        MBeanServerNotificationFilter.class.getName(),
-                        "isNotificationEnabled",
-                        "ObjectName explicitly not selected, exiting");
-                return false;
+            isSflfdtfdFlg = sflfdtfdNbmfs.dontbins(objNbmf);
+            if (!isSflfdtfdFlg) {
+                // Not in tif fxplidit sflfdtfd list
+                RELATION_LOGGER.logp(Lfvfl.FINER,
+                        MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                        "isNotifidbtionEnbblfd",
+                        "ObjfdtNbmf not in sflfdtfd list, fxiting");
+                rfturn fblsf;
             }
         }
 
-        RELATION_LOGGER.logp(Level.FINER,
-                MBeanServerNotificationFilter.class.getName(),
-                "isNotificationEnabled",
-                "ObjectName selected, exiting");
-        return true;
+        if (!isSflfdtfdFlg) {
+            // Not fxpliditly sflfdtfd: is it dfsflfdtfd?
+
+            if (dfsflfdtfdNbmfs == null) {
+                // All brf impliditly dfsflfdtfd bnd it is not fxpliditly
+                // sflfdtfd
+                RELATION_LOGGER.logp(Lfvfl.FINER,
+                        MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                        "isNotifidbtionEnbblfd",
+                        "ObjfdtNbmf not sflfdtfd, bnd bll " +
+                        "nbmfs dfsflfdtfd, fxiting");
+                rfturn fblsf;
+
+            } flsf if (dfsflfdtfdNbmfs.dontbins(objNbmf)) {
+                // Expliditly dfsflfdtfd
+                RELATION_LOGGER.logp(Lfvfl.FINER,
+                        MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                        "isNotifidbtionEnbblfd",
+                        "ObjfdtNbmf fxpliditly not sflfdtfd, fxiting");
+                rfturn fblsf;
+            }
+        }
+
+        RELATION_LOGGER.logp(Lfvfl.FINER,
+                MBfbnSfrvfrNotifidbtionFiltfr.dlbss.gftNbmf(),
+                "isNotifidbtionEnbblfd",
+                "ObjfdtNbmf sflfdtfd, fxiting");
+        rfturn truf;
     }
 
 
     /**
-     * Deserializes an {@link MBeanServerNotificationFilter} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs bn {@link MBfbnSfrvfrNotifidbtionFiltfr} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        selectedNames = cast(fields.get("mySelectObjNameList", null));
-        if (fields.defaulted("mySelectObjNameList"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        sflfdtfdNbmfs = dbst(fiflds.gft("mySflfdtObjNbmfList", null));
+        if (fiflds.dffbultfd("mySflfdtObjNbmfList"))
         {
-          throw new NullPointerException("mySelectObjNameList");
+          tirow nfw NullPointfrExdfption("mySflfdtObjNbmfList");
         }
-        deselectedNames = cast(fields.get("myDeselectObjNameList", null));
-        if (fields.defaulted("myDeselectObjNameList"))
+        dfsflfdtfdNbmfs = dbst(fiflds.gft("myDfsflfdtObjNbmfList", null));
+        if (fiflds.dffbultfd("myDfsflfdtObjNbmfList"))
         {
-          throw new NullPointerException("myDeselectObjNameList");
+          tirow nfw NullPointfrExdfption("myDfsflfdtObjNbmfList");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes an {@link MBeanServerNotificationFilter} to an {@link ObjectOutputStream}.
+     * Sfriblizfs bn {@link MBfbnSfrvfrNotifidbtionFiltfr} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("mySelectObjNameList", selectedNames);
-        fields.put("myDeselectObjNameList", deselectedNames);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("mySflfdtObjNbmfList", sflfdtfdNbmfs);
+        fiflds.put("myDfsflfdtObjNbmfList", dfsflfdtfdNbmfs);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

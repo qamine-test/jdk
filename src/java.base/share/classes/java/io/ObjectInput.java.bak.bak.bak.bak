@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * ObjfdtInput fxtfnds thf DbtbInput intfrfbdf to indludf thf rfbding of
+ * objfdts. DbtbInput indludfs mfthods for thf input of primitivf typfs,
+ * ObjfdtInput fxtfnds thbt intfrfbdf to indludf objfdts, brrbys, bnd Strings.
+ *
+ * @buthor  unbsdribfd
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ * @sindf   1.1
+ */
+publid intfrfbdf ObjfdtInput fxtfnds DbtbInput, AutoClosfbblf {
+    /**
+     * Rfbd bnd rfturn bn objfdt. Thf dlbss thbt implfmfnts this intfrfbdf
+     * dffinfs whfrf thf objfdt is "rfbd" from.
+     *
+     * @rfturn thf objfdt rfbd from thf strfbm
+     * @fxdfption jbvb.lbng.ClbssNotFoundExdfption If thf dlbss of b sfriblizfd
+     *      objfdt dbnnot bf found.
+     * @fxdfption IOExdfption If bny of thf usubl Input/Output
+     * rflbtfd fxdfptions oddur.
+     */
+    publid Objfdt rfbdObjfdt()
+        throws ClbssNotFoundExdfption, IOExdfption;
+
+    /**
+     * Rfbds b bytf of dbtb. This mfthod will blodk if no input is
+     * bvbilbblf.
+     * @rfturn  thf bytf rfbd, or -1 if thf fnd of thf
+     *          strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd() throws IOExdfption;
+
+    /**
+     * Rfbds into bn brrby of bytfs.  This mfthod will
+     * blodk until somf input is bvbilbblf.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd whfn thf fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[]) throws IOExdfption;
+
+    /**
+     * Rfbds into bn brrby of bytfs.  This mfthod will
+     * blodk until somf input is bvbilbblf.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfbd
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd whfn thf fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption;
+
+    /**
+     * Skips n bytfs of input.
+     * @pbrbm n thf numbfr of bytfs to bf skippfd
+     * @rfturn  thf bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid long skip(long n) throws IOExdfption;
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd
+     * without blodking.
+     * @rfturn thf numbfr of bvbilbblf bytfs.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int bvbilbblf() throws IOExdfption;
+
+    /**
+     * Closfs thf input strfbm. Must bf dbllfd
+     * to rflfbsf bny rfsourdfs bssodibtfd with
+     * thf strfbm.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void dlosf() throws IOExdfption;
+}

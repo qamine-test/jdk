@@ -1,557 +1,557 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
-import java.util.Vector;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
 
 /**
- * Class SetOfIntegerSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a set of nonnegative
- * integers. This includes attributes whose value is a single range of integers
- * and attributes whose value is a set of ranges of integers.
+ * Clbss SftOfIntfgfrSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs wiosf vbluf is b sft of nonnfgbtivf
+ * intfgfrs. Tiis indludfs bttributfs wiosf vbluf is b singlf rbngf of intfgfrs
+ * bnd bttributfs wiosf vbluf is b sft of rbngfs of intfgfrs.
  * <P>
- * You can construct an instance of SetOfIntegerSyntax by giving it in "string
- * form." The string consists of zero or more comma-separated integer groups.
- * Each integer group consists of either one integer, two integers separated by
- * a hyphen (<CODE>-</CODE>), or two integers separated by a colon
- * (<CODE>:</CODE>). Each integer consists of one or more decimal digits
- * (<CODE>0</CODE> through <CODE>9</CODE>). Whitespace characters cannot
- * appear within an integer but are otherwise ignored. For example:
+ * You dbn donstrudt bn instbndf of SftOfIntfgfrSyntbx by giving it in "string
+ * form." Tif string donsists of zfro or morf dommb-sfpbrbtfd intfgfr groups.
+ * Ebdi intfgfr group donsists of fitifr onf intfgfr, two intfgfrs sfpbrbtfd by
+ * b iypifn (<CODE>-</CODE>), or two intfgfrs sfpbrbtfd by b dolon
+ * (<CODE>:</CODE>). Ebdi intfgfr donsists of onf or morf dfdimbl digits
+ * (<CODE>0</CODE> tirougi <CODE>9</CODE>). Wiitfspbdf dibrbdtfrs dbnnot
+ * bppfbr witiin bn intfgfr but brf otifrwisf ignorfd. For fxbmplf:
  * <CODE>""</CODE>, <CODE>"1"</CODE>, <CODE>"5-10"</CODE>, <CODE>"1:2,
  * 4"</CODE>.
  * <P>
- * You can also construct an instance of SetOfIntegerSyntax by giving it in
- * "array form." Array form consists of an array of zero or more integer groups
- * where each integer group is a length-1 or length-2 array of
- * <CODE>int</CODE>s; for example, <CODE>int[0][]</CODE>,
+ * You dbn blso donstrudt bn instbndf of SftOfIntfgfrSyntbx by giving it in
+ * "brrby form." Arrby form donsists of bn brrby of zfro or morf intfgfr groups
+ * wifrf fbdi intfgfr group is b lfngti-1 or lfngti-2 brrby of
+ * <CODE>int</CODE>s; for fxbmplf, <CODE>int[0][]</CODE>,
  * <CODE>int[][]{{1}}</CODE>, <CODE>int[][]{{5,10}}</CODE>,
  * <CODE>int[][]{{1,2},{4}}</CODE>.
  * <P>
- * In both string form and array form, each successive integer group gives a
- * range of integers to be included in the set. The first integer in each group
- * gives the lower bound of the range; the second integer in each group gives
- * the upper bound of the range; if there is only one integer in the group, the
- * upper bound is the same as the lower bound. If the upper bound is less than
- * the lower bound, it denotes a null range (no values). If the upper bound is
- * equal to the lower bound, it denotes a range consisting of a single value. If
- * the upper bound is greater than the lower bound, it denotes a range
- * consisting of more than one value. The ranges may appear in any order and are
- * allowed to overlap. The union of all the ranges gives the set's contents.
- * Once a SetOfIntegerSyntax instance is constructed, its value is immutable.
+ * In boti string form bnd brrby form, fbdi suddfssivf intfgfr group givfs b
+ * rbngf of intfgfrs to bf indludfd in tif sft. Tif first intfgfr in fbdi group
+ * givfs tif lowfr bound of tif rbngf; tif sfdond intfgfr in fbdi group givfs
+ * tif uppfr bound of tif rbngf; if tifrf is only onf intfgfr in tif group, tif
+ * uppfr bound is tif sbmf bs tif lowfr bound. If tif uppfr bound is lfss tibn
+ * tif lowfr bound, it dfnotfs b null rbngf (no vblufs). If tif uppfr bound is
+ * fqubl to tif lowfr bound, it dfnotfs b rbngf donsisting of b singlf vbluf. If
+ * tif uppfr bound is grfbtfr tibn tif lowfr bound, it dfnotfs b rbngf
+ * donsisting of morf tibn onf vbluf. Tif rbngfs mby bppfbr in bny ordfr bnd brf
+ * bllowfd to ovfrlbp. Tif union of bll tif rbngfs givfs tif sft's dontfnts.
+ * Ondf b SftOfIntfgfrSyntbx instbndf is donstrudtfd, its vbluf is immutbblf.
  * <P>
- * The SetOfIntegerSyntax object's value is actually stored in "<I>canonical</I>
- * array form." This is the same as array form, except there are no null ranges;
- * the members of the set are represented in as few ranges as possible (i.e.,
- * overlapping ranges are coalesced); the ranges appear in ascending order; and
- * each range is always represented as a length-two array of <CODE>int</CODE>s
- * in the form {lower bound, upper bound}. An empty set is represented as a
- * zero-length array.
+ * Tif SftOfIntfgfrSyntbx objfdt's vbluf is bdtublly storfd in "<I>dbnonidbl</I>
+ * brrby form." Tiis is tif sbmf bs brrby form, fxdfpt tifrf brf no null rbngfs;
+ * tif mfmbfrs of tif sft brf rfprfsfntfd in bs ffw rbngfs bs possiblf (i.f.,
+ * ovfrlbpping rbngfs brf doblfsdfd); tif rbngfs bppfbr in bsdfnding ordfr; bnd
+ * fbdi rbngf is blwbys rfprfsfntfd bs b lfngti-two brrby of <CODE>int</CODE>s
+ * in tif form {lowfr bound, uppfr bound}. An fmpty sft is rfprfsfntfd bs b
+ * zfro-lfngti brrby.
  * <P>
- * Class SetOfIntegerSyntax has operations to return the set's members in
- * canonical array form, to test whether a given integer is a member of the
- * set, and to iterate through the members of the set.
+ * Clbss SftOfIntfgfrSyntbx ibs opfrbtions to rfturn tif sft's mfmbfrs in
+ * dbnonidbl brrby form, to tfst wiftifr b givfn intfgfr is b mfmbfr of tif
+ * sft, bnd to itfrbtf tirougi tif mfmbfrs of tif sft.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
  */
-public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss SftOfIntfgfrSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = 3666874174847632203L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3666874174847632203L;
 
     /**
-     * This set's members in canonical array form.
-     * @serial
+     * Tiis sft's mfmbfrs in dbnonidbl brrby form.
+     * @sfribl
      */
-    private int[][] members;
+    privbtf int[][] mfmbfrs;
 
 
     /**
-     * Construct a new set-of-integer attribute with the given members in
+     * Construdt b nfw sft-of-intfgfr bttributf witi tif givfn mfmbfrs in
      * string form.
      *
-     * @param  members  Set members in string form. If null, an empty set is
-     *                     constructed.
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in string form. If null, bn fmpty sft is
+     *                     donstrudtfd.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if <CODE>members</CODE> does not
-     *    obey  the proper syntax.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if <CODE>mfmbfrs</CODE> dofs not
+     *    obfy  tif propfr syntbx.
      */
-    protected SetOfIntegerSyntax(String members) {
-        this.members = parse (members);
+    protfdtfd SftOfIntfgfrSyntbx(String mfmbfrs) {
+        tiis.mfmbfrs = pbrsf (mfmbfrs);
     }
 
     /**
-     * Parse the given string, returning canonical array form.
+     * Pbrsf tif givfn string, rfturning dbnonidbl brrby form.
      */
-    private static int[][] parse(String members) {
-        // Create vector to hold int[] elements, each element being one range
-        // parsed out of members.
-        Vector<int[]> theRanges = new Vector<>();
+    privbtf stbtid int[][] pbrsf(String mfmbfrs) {
+        // Crfbtf vfdtor to iold int[] flfmfnts, fbdi flfmfnt bfing onf rbngf
+        // pbrsfd out of mfmbfrs.
+        Vfdtor<int[]> tifRbngfs = nfw Vfdtor<>();
 
-        // Run state machine over members.
-        int n = (members == null ? 0 : members.length());
+        // Run stbtf mbdiinf ovfr mfmbfrs.
+        int n = (mfmbfrs == null ? 0 : mfmbfrs.lfngti());
         int i = 0;
-        int state = 0;
+        int stbtf = 0;
         int lb = 0;
         int ub = 0;
-        char c;
+        dibr d;
         int digit;
-        while (i < n) {
-            c = members.charAt(i ++);
-            switch (state) {
+        wiilf (i < n) {
+            d = mfmbfrs.dibrAt(i ++);
+            switdi (stbtf) {
 
-            case 0: // Before first integer in first group
-                if (Character.isWhitespace(c)) {
-                    state = 0;
+            dbsf 0: // Bfforf first intfgfr in first group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 0;
                 }
-                else if ((digit = Character.digit(c, 10)) != -1) {
+                flsf if ((digit = Cibrbdtfr.digit(d, 10)) != -1) {
                     lb = digit;
-                    state = 1;
-                } else {
-                    throw new IllegalArgumentException();
+                    stbtf = 1;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 1: // In first integer in a group
-                if (Character.isWhitespace(c)){
-                        state = 2;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            dbsf 1: // In first intfgfr in b group
+                if (Cibrbdtfr.isWiitfspbdf(d)){
+                        stbtf = 2;
+                } flsf if ((digit = Cibrbdtfr.digit(d, 10)) != -1) {
                     lb = 10 * lb + digit;
-                    state = 1;
-                } else if (c == '-' || c == ':') {
-                    state = 3;
-                } else if (c == ',') {
-                    accumulate (theRanges, lb, lb);
-                    state = 6;
-                } else {
-                    throw new IllegalArgumentException();
+                    stbtf = 1;
+                } flsf if (d == '-' || d == ':') {
+                    stbtf = 3;
+                } flsf if (d == ',') {
+                    bddumulbtf (tifRbngfs, lb, lb);
+                    stbtf = 6;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 2: // After first integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 2;
+            dbsf 2: // Aftfr first intfgfr in b group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 2;
                 }
-                else if (c == '-' || c == ':') {
-                    state = 3;
+                flsf if (d == '-' || d == ':') {
+                    stbtf = 3;
                 }
-                else if (c == ',') {
-                    accumulate(theRanges, lb, lb);
-                    state = 6;
-                } else {
-                    throw new IllegalArgumentException();
+                flsf if (d == ',') {
+                    bddumulbtf(tifRbngfs, lb, lb);
+                    stbtf = 6;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 3: // Before second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 3;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            dbsf 3: // Bfforf sfdond intfgfr in b group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 3;
+                } flsf if ((digit = Cibrbdtfr.digit(d, 10)) != -1) {
                     ub = digit;
-                    state = 4;
-                } else {
-                    throw new IllegalArgumentException();
+                    stbtf = 4;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 4: // In second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 5;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            dbsf 4: // In sfdond intfgfr in b group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 5;
+                } flsf if ((digit = Cibrbdtfr.digit(d, 10)) != -1) {
                     ub = 10 * ub + digit;
-                    state = 4;
-                } else if (c == ',') {
-                    accumulate(theRanges, lb, ub);
-                    state = 6;
-                } else {
-                    throw new IllegalArgumentException();
+                    stbtf = 4;
+                } flsf if (d == ',') {
+                    bddumulbtf(tifRbngfs, lb, ub);
+                    stbtf = 6;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 5: // After second integer in a group
-                if (Character.isWhitespace(c)) {
-                    state = 5;
-                } else if (c == ',') {
-                    accumulate(theRanges, lb, ub);
-                    state = 6;
-                } else {
-                    throw new IllegalArgumentException();
+            dbsf 5: // Aftfr sfdond intfgfr in b group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 5;
+                } flsf if (d == ',') {
+                    bddumulbtf(tifRbngfs, lb, ub);
+                    stbtf = 6;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
 
-            case 6: // Before first integer in second or later group
-                if (Character.isWhitespace(c)) {
-                    state = 6;
-                } else if ((digit = Character.digit(c, 10)) != -1) {
+            dbsf 6: // Bfforf first intfgfr in sfdond or lbtfr group
+                if (Cibrbdtfr.isWiitfspbdf(d)) {
+                    stbtf = 6;
+                } flsf if ((digit = Cibrbdtfr.digit(d, 10)) != -1) {
                     lb = digit;
-                    state = 1;
-                } else {
-                    throw new IllegalArgumentException();
+                    stbtf = 1;
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                break;
+                brfbk;
             }
         }
 
-        // Finish off the state machine.
-        switch (state) {
-        case 0: // Before first integer in first group
-            break;
-        case 1: // In first integer in a group
-        case 2: // After first integer in a group
-            accumulate(theRanges, lb, lb);
-            break;
-        case 4: // In second integer in a group
-        case 5: // After second integer in a group
-            accumulate(theRanges, lb, ub);
-            break;
-        case 3: // Before second integer in a group
-        case 6: // Before first integer in second or later group
-            throw new IllegalArgumentException();
+        // Finisi off tif stbtf mbdiinf.
+        switdi (stbtf) {
+        dbsf 0: // Bfforf first intfgfr in first group
+            brfbk;
+        dbsf 1: // In first intfgfr in b group
+        dbsf 2: // Aftfr first intfgfr in b group
+            bddumulbtf(tifRbngfs, lb, lb);
+            brfbk;
+        dbsf 4: // In sfdond intfgfr in b group
+        dbsf 5: // Aftfr sfdond intfgfr in b group
+            bddumulbtf(tifRbngfs, lb, ub);
+            brfbk;
+        dbsf 3: // Bfforf sfdond intfgfr in b group
+        dbsf 6: // Bfforf first intfgfr in sfdond or lbtfr group
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        // Return canonical array form.
-        return canonicalArrayForm (theRanges);
+        // Rfturn dbnonidbl brrby form.
+        rfturn dbnonidblArrbyForm (tifRbngfs);
     }
 
     /**
-     * Accumulate the given range (lb .. ub) into the canonical array form
-     * into the given vector of int[] objects.
+     * Addumulbtf tif givfn rbngf (lb .. ub) into tif dbnonidbl brrby form
+     * into tif givfn vfdtor of int[] objfdts.
      */
-    private static void accumulate(Vector<int[]> ranges, int lb,int ub) {
-        // Make sure range is non-null.
+    privbtf stbtid void bddumulbtf(Vfdtor<int[]> rbngfs, int lb,int ub) {
+        // Mbkf surf rbngf is non-null.
         if (lb <= ub) {
-            // Stick range at the back of the vector.
-            ranges.add(new int[] {lb, ub});
+            // Stidk rbngf bt tif bbdk of tif vfdtor.
+            rbngfs.bdd(nfw int[] {lb, ub});
 
-            // Work towards the front of the vector to integrate the new range
-            // with the existing ranges.
-            for (int j = ranges.size()-2; j >= 0; -- j) {
-            // Get lower and upper bounds of the two ranges being compared.
-                int[] rangea = ranges.elementAt (j);
-                int lba = rangea[0];
-                int uba = rangea[1];
-                int[] rangeb = ranges.elementAt (j+1);
-                int lbb = rangeb[0];
-                int ubb = rangeb[1];
+            // Work towbrds tif front of tif vfdtor to intfgrbtf tif nfw rbngf
+            // witi tif fxisting rbngfs.
+            for (int j = rbngfs.sizf()-2; j >= 0; -- j) {
+            // Gft lowfr bnd uppfr bounds of tif two rbngfs bfing dompbrfd.
+                int[] rbngfb = rbngfs.flfmfntAt (j);
+                int lbb = rbngfb[0];
+                int ubb = rbngfb[1];
+                int[] rbngfb = rbngfs.flfmfntAt (j+1);
+                int lbb = rbngfb[0];
+                int ubb = rbngfb[1];
 
-                /* If the two ranges overlap or are adjacent, coalesce them.
-                 * The two ranges overlap if the larger lower bound is less
-                 * than or equal to the smaller upper bound. The two ranges
-                 * are adjacent if the larger lower bound is one greater
-                 * than the smaller upper bound.
+                /* If tif two rbngfs ovfrlbp or brf bdjbdfnt, doblfsdf tifm.
+                 * Tif two rbngfs ovfrlbp if tif lbrgfr lowfr bound is lfss
+                 * tibn or fqubl to tif smbllfr uppfr bound. Tif two rbngfs
+                 * brf bdjbdfnt if tif lbrgfr lowfr bound is onf grfbtfr
+                 * tibn tif smbllfr uppfr bound.
                  */
-                if (Math.max(lba, lbb) - Math.min(uba, ubb) <= 1) {
-                    // The coalesced range is from the smaller lower bound to
-                    // the larger upper bound.
-                    ranges.setElementAt(new int[]
-                                           {Math.min(lba, lbb),
-                                                Math.max(uba, ubb)}, j);
-                    ranges.remove (j+1);
-                } else if (lba > lbb) {
+                if (Mbti.mbx(lbb, lbb) - Mbti.min(ubb, ubb) <= 1) {
+                    // Tif doblfsdfd rbngf is from tif smbllfr lowfr bound to
+                    // tif lbrgfr uppfr bound.
+                    rbngfs.sftElfmfntAt(nfw int[]
+                                           {Mbti.min(lbb, lbb),
+                                                Mbti.mbx(ubb, ubb)}, j);
+                    rbngfs.rfmovf (j+1);
+                } flsf if (lbb > lbb) {
 
-                    /* If the two ranges don't overlap and aren't adjacent but
-                     * are out of order, swap them.
+                    /* If tif two rbngfs don't ovfrlbp bnd brfn't bdjbdfnt but
+                     * brf out of ordfr, swbp tifm.
                      */
-                    ranges.setElementAt (rangeb, j);
-                    ranges.setElementAt (rangea, j+1);
-                } else {
-                /* If the two ranges don't overlap and aren't adjacent and
-                 * aren't out of order, we're done early.
+                    rbngfs.sftElfmfntAt (rbngfb, j);
+                    rbngfs.sftElfmfntAt (rbngfb, j+1);
+                } flsf {
+                /* If tif two rbngfs don't ovfrlbp bnd brfn't bdjbdfnt bnd
+                 * brfn't out of ordfr, wf'rf donf fbrly.
                  */
-                    break;
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Convert the given vector of int[] objects to canonical array form.
+     * Convfrt tif givfn vfdtor of int[] objfdts to dbnonidbl brrby form.
      */
-    private static int[][] canonicalArrayForm(Vector<int[]> ranges) {
-        return ranges.toArray (new int[ranges.size()][]);
+    privbtf stbtid int[][] dbnonidblArrbyForm(Vfdtor<int[]> rbngfs) {
+        rfturn rbngfs.toArrby (nfw int[rbngfs.sizf()][]);
     }
 
     /**
-     * Construct a new set-of-integer attribute with the given members in
-     * array form.
+     * Construdt b nfw sft-of-intfgfr bttributf witi tif givfn mfmbfrs in
+     * brrby form.
      *
-     * @param  members  Set members in array form. If null, an empty set is
-     *                     constructed.
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in brrby form. If null, bn fmpty sft is
+     *                     donstrudtfd.
      *
-     * @exception  NullPointerException
-     *     (Unchecked exception) Thrown if any element of
-     *     <CODE>members</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if any element of
-     *     <CODE>members</CODE> is not a length-one or length-two array or if
-     *     any non-null range in <CODE>members</CODE> has a lower bound less
-     *     than zero.
+     * @fxdfption  NullPointfrExdfption
+     *     (Undifdkfd fxdfption) Tirown if bny flfmfnt of
+     *     <CODE>mfmbfrs</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if bny flfmfnt of
+     *     <CODE>mfmbfrs</CODE> is not b lfngti-onf or lfngti-two brrby or if
+     *     bny non-null rbngf in <CODE>mfmbfrs</CODE> ibs b lowfr bound lfss
+     *     tibn zfro.
      */
-    protected SetOfIntegerSyntax(int[][] members) {
-        this.members = parse (members);
+    protfdtfd SftOfIntfgfrSyntbx(int[][] mfmbfrs) {
+        tiis.mfmbfrs = pbrsf (mfmbfrs);
     }
 
     /**
-     * Parse the given array form, returning canonical array form.
+     * Pbrsf tif givfn brrby form, rfturning dbnonidbl brrby form.
      */
-    private static int[][] parse(int[][] members) {
-        // Create vector to hold int[] elements, each element being one range
-        // parsed out of members.
-        Vector<int[]> ranges = new Vector<>();
+    privbtf stbtid int[][] pbrsf(int[][] mfmbfrs) {
+        // Crfbtf vfdtor to iold int[] flfmfnts, fbdi flfmfnt bfing onf rbngf
+        // pbrsfd out of mfmbfrs.
+        Vfdtor<int[]> rbngfs = nfw Vfdtor<>();
 
-        // Process all integer groups in members.
-        int n = (members == null ? 0 : members.length);
+        // Prodfss bll intfgfr groups in mfmbfrs.
+        int n = (mfmbfrs == null ? 0 : mfmbfrs.lfngti);
         for (int i = 0; i < n; ++ i) {
-            // Get lower and upper bounds of the range.
+            // Gft lowfr bnd uppfr bounds of tif rbngf.
             int lb, ub;
-            if (members[i].length == 1) {
-                lb = ub = members[i][0];
-            } else if (members[i].length == 2) {
-                lb = members[i][0];
-                ub = members[i][1];
-            } else {
-                throw new IllegalArgumentException();
+            if (mfmbfrs[i].lfngti == 1) {
+                lb = ub = mfmbfrs[i][0];
+            } flsf if (mfmbfrs[i].lfngti == 2) {
+                lb = mfmbfrs[i][0];
+                ub = mfmbfrs[i][1];
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption();
             }
 
-            // Verify valid bounds.
+            // Vfrify vblid bounds.
             if (lb <= ub && lb < 0) {
-                throw new IllegalArgumentException();
+                tirow nfw IllfgblArgumfntExdfption();
             }
 
-            // Accumulate the range.
-            accumulate(ranges, lb, ub);
+            // Addumulbtf tif rbngf.
+            bddumulbtf(rbngfs, lb, ub);
         }
 
-                // Return canonical array form.
-                return canonicalArrayForm (ranges);
+                // Rfturn dbnonidbl brrby form.
+                rfturn dbnonidblArrbyForm (rbngfs);
                 }
 
     /**
-     * Construct a new set-of-integer attribute containing a single integer.
+     * Construdt b nfw sft-of-intfgfr bttributf dontbining b singlf intfgfr.
      *
-     * @param  member  Set member.
+     * @pbrbm  mfmbfr  Sft mfmbfr.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if <CODE>member</CODE> is less than
-     *     zero.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if <CODE>mfmbfr</CODE> is lfss tibn
+     *     zfro.
      */
-    protected SetOfIntegerSyntax(int member) {
-        if (member < 0) {
-            throw new IllegalArgumentException();
+    protfdtfd SftOfIntfgfrSyntbx(int mfmbfr) {
+        if (mfmbfr < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        members = new int[][] {{member, member}};
+        mfmbfrs = nfw int[][] {{mfmbfr, mfmbfr}};
     }
 
     /**
-     * Construct a new set-of-integer attribute containing a single range of
-     * integers. If the lower bound is greater than the upper bound (a null
-     * range), an empty set is constructed.
+     * Construdt b nfw sft-of-intfgfr bttributf dontbining b singlf rbngf of
+     * intfgfrs. If tif lowfr bound is grfbtfr tibn tif uppfr bound (b null
+     * rbngf), bn fmpty sft is donstrudtfd.
      *
-     * @param  lowerBound  Lower bound of the range.
-     * @param  upperBound  Upper bound of the range.
+     * @pbrbm  lowfrBound  Lowfr bound of tif rbngf.
+     * @pbrbm  uppfrBound  Uppfr bound of tif rbngf.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if the range is non-null and
-     *     <CODE>lowerBound</CODE> is less than zero.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if tif rbngf is non-null bnd
+     *     <CODE>lowfrBound</CODE> is lfss tibn zfro.
      */
-    protected SetOfIntegerSyntax(int lowerBound, int upperBound) {
-        if (lowerBound <= upperBound && lowerBound < 0) {
-            throw new IllegalArgumentException();
+    protfdtfd SftOfIntfgfrSyntbx(int lowfrBound, int uppfrBound) {
+        if (lowfrBound <= uppfrBound && lowfrBound < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        members = lowerBound <=upperBound ?
-            new int[][] {{lowerBound, upperBound}} :
-            new int[0][];
+        mfmbfrs = lowfrBound <=uppfrBound ?
+            nfw int[][] {{lowfrBound, uppfrBound}} :
+            nfw int[0][];
     }
 
 
     /**
-     * Obtain this set-of-integer attribute's members in canonical array form.
-     * The returned array is "safe;" the client may alter it without affecting
-     * this set-of-integer attribute.
+     * Obtbin tiis sft-of-intfgfr bttributf's mfmbfrs in dbnonidbl brrby form.
+     * Tif rfturnfd brrby is "sbff;" tif dlifnt mby bltfr it witiout bfffdting
+     * tiis sft-of-intfgfr bttributf.
      *
-     * @return  This set-of-integer attribute's members in canonical array form.
+     * @rfturn  Tiis sft-of-intfgfr bttributf's mfmbfrs in dbnonidbl brrby form.
      */
-    public int[][] getMembers() {
-        int n = members.length;
-        int[][] result = new int[n][];
+    publid int[][] gftMfmbfrs() {
+        int n = mfmbfrs.lfngti;
+        int[][] rfsult = nfw int[n][];
         for (int i = 0; i < n; ++ i) {
-            result[i] = new int[] {members[i][0], members[i][1]};
+            rfsult[i] = nfw int[] {mfmbfrs[i][0], mfmbfrs[i][1]};
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Determine if this set-of-integer attribute contains the given value.
+     * Dftfrminf if tiis sft-of-intfgfr bttributf dontbins tif givfn vbluf.
      *
-     * @param  x  Integer value.
+     * @pbrbm  x  Intfgfr vbluf.
      *
-     * @return  True if this set-of-integer attribute contains the value
-     *          <CODE>x</CODE>, false otherwise.
+     * @rfturn  Truf if tiis sft-of-intfgfr bttributf dontbins tif vbluf
+     *          <CODE>x</CODE>, fblsf otifrwisf.
      */
-    public boolean contains(int x) {
-        // Do a linear search to find the range that contains x, if any.
-        int n = members.length;
+    publid boolfbn dontbins(int x) {
+        // Do b linfbr sfbrdi to find tif rbngf tibt dontbins x, if bny.
+        int n = mfmbfrs.lfngti;
         for (int i = 0; i < n; ++ i) {
-            if (x < members[i][0]) {
-                return false;
-            } else if (x <= members[i][1]) {
-                return true;
+            if (x < mfmbfrs[i][0]) {
+                rfturn fblsf;
+            } flsf if (x <= mfmbfrs[i][1]) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Determine if this set-of-integer attribute contains the given integer
-     * attribute's value.
+     * Dftfrminf if tiis sft-of-intfgfr bttributf dontbins tif givfn intfgfr
+     * bttributf's vbluf.
      *
-     * @param  attribute  Integer attribute.
+     * @pbrbm  bttributf  Intfgfr bttributf.
      *
-     * @return  True if this set-of-integer attribute contains
-     *          <CODE>theAttribute</CODE>'s value, false otherwise.
+     * @rfturn  Truf if tiis sft-of-intfgfr bttributf dontbins
+     *          <CODE>tifAttributf</CODE>'s vbluf, fblsf otifrwisf.
      */
-    public boolean contains(IntegerSyntax attribute) {
-        return contains (attribute.getValue());
+    publid boolfbn dontbins(IntfgfrSyntbx bttributf) {
+        rfturn dontbins (bttributf.gftVbluf());
     }
 
     /**
-     * Determine the smallest integer in this set-of-integer attribute that is
-     * greater than the given value. If there are no integers in this
-     * set-of-integer attribute greater than the given value, <CODE>-1</CODE> is
-     * returned. (Since a set-of-integer attribute can only contain nonnegative
-     * values, <CODE>-1</CODE> will never appear in the set.) You can use the
-     * <CODE>next()</CODE> method to iterate through the integer values in a
-     * set-of-integer attribute in ascending order, like this:
+     * Dftfrminf tif smbllfst intfgfr in tiis sft-of-intfgfr bttributf tibt is
+     * grfbtfr tibn tif givfn vbluf. If tifrf brf no intfgfrs in tiis
+     * sft-of-intfgfr bttributf grfbtfr tibn tif givfn vbluf, <CODE>-1</CODE> is
+     * rfturnfd. (Sindf b sft-of-intfgfr bttributf dbn only dontbin nonnfgbtivf
+     * vblufs, <CODE>-1</CODE> will nfvfr bppfbr in tif sft.) You dbn usf tif
+     * <CODE>nfxt()</CODE> mftiod to itfrbtf tirougi tif intfgfr vblufs in b
+     * sft-of-intfgfr bttributf in bsdfnding ordfr, likf tiis:
      * <PRE>
-     *     SetOfIntegerSyntax attribute = . . .;
+     *     SftOfIntfgfrSyntbx bttributf = . . .;
      *     int i = -1;
-     *     while ((i = attribute.next (i)) != -1)
+     *     wiilf ((i = bttributf.nfxt (i)) != -1)
      *         {
      *         foo (i);
      *         }
      * </PRE>
      *
-     * @param  x  Integer value.
+     * @pbrbm  x  Intfgfr vbluf.
      *
-     * @return  The smallest integer in this set-of-integer attribute that is
-     *          greater than <CODE>x</CODE>, or <CODE>-1</CODE> if no integer in
-     *          this set-of-integer attribute is greater than <CODE>x</CODE>.
+     * @rfturn  Tif smbllfst intfgfr in tiis sft-of-intfgfr bttributf tibt is
+     *          grfbtfr tibn <CODE>x</CODE>, or <CODE>-1</CODE> if no intfgfr in
+     *          tiis sft-of-intfgfr bttributf is grfbtfr tibn <CODE>x</CODE>.
      */
-    public int next(int x) {
-        // Do a linear search to find the range that contains x, if any.
-        int n = members.length;
+    publid int nfxt(int x) {
+        // Do b linfbr sfbrdi to find tif rbngf tibt dontbins x, if bny.
+        int n = mfmbfrs.lfngti;
         for (int i = 0; i < n; ++ i) {
-            if (x < members[i][0]) {
-                return members[i][0];
-            } else if (x < members[i][1]) {
-                return x + 1;
+            if (x < mfmbfrs[i][0]) {
+                rfturn mfmbfrs[i][0];
+            } flsf if (x < mfmbfrs[i][1]) {
+                rfturn x + 1;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns whether this set-of-integer attribute is equivalent to the passed
-     * in object. To be equivalent, all of the following conditions must be
-     * true:
+     * Rfturns wiftifr tiis sft-of-intfgfr bttributf is fquivblfnt to tif pbssfd
+     * in objfdt. To bf fquivblfnt, bll of tif following donditions must bf
+     * truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class SetOfIntegerSyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss SftOfIntfgfrSyntbx.
      * <LI>
-     * This set-of-integer attribute's members and <CODE>object</CODE>'s
-     * members are the same.
+     * Tiis sft-of-intfgfr bttributf's mfmbfrs bnd <CODE>objfdt</CODE>'s
+     * mfmbfrs brf tif sbmf.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this
-     *          set-of-integer attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis
+     *          sft-of-intfgfr bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        if (object != null && object instanceof SetOfIntegerSyntax) {
-            int[][] myMembers = this.members;
-            int[][] otherMembers = ((SetOfIntegerSyntax) object).members;
-            int m = myMembers.length;
-            int n = otherMembers.length;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt != null && objfdt instbndfof SftOfIntfgfrSyntbx) {
+            int[][] myMfmbfrs = tiis.mfmbfrs;
+            int[][] otifrMfmbfrs = ((SftOfIntfgfrSyntbx) objfdt).mfmbfrs;
+            int m = myMfmbfrs.lfngti;
+            int n = otifrMfmbfrs.lfngti;
             if (m == n) {
                 for (int i = 0; i < m; ++ i) {
-                    if (myMembers[i][0] != otherMembers[i][0] ||
-                        myMembers[i][1] != otherMembers[i][1]) {
-                        return false;
+                    if (myMfmbfrs[i][0] != otifrMfmbfrs[i][0] ||
+                        myMfmbfrs[i][1] != otifrMfmbfrs[i][1]) {
+                        rfturn fblsf;
                     }
                 }
-                return true;
-            } else {
-                return false;
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a hash code value for this set-of-integer attribute. The hash
-     * code is the sum of the lower and upper bounds of the ranges in the
-     * canonical array form, or 0 for an empty set.
+     * Rfturns b ibsi dodf vbluf for tiis sft-of-intfgfr bttributf. Tif ibsi
+     * dodf is tif sum of tif lowfr bnd uppfr bounds of tif rbngfs in tif
+     * dbnonidbl brrby form, or 0 for bn fmpty sft.
      */
-    public int hashCode() {
-        int result = 0;
-        int n = members.length;
+    publid int ibsiCodf() {
+        int rfsult = 0;
+        int n = mfmbfrs.lfngti;
         for (int i = 0; i < n; ++ i) {
-            result += members[i][0] + members[i][1];
+            rfsult += mfmbfrs[i][0] + mfmbfrs[i][1];
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a string value corresponding to this set-of-integer attribute.
-     * The string value is a zero-length string if this set is empty. Otherwise,
-     * the string value is a comma-separated list of the ranges in the canonical
-     * array form, where each range is represented as <CODE>"<I>i</I>"</CODE> if
-     * the lower bound equals the upper bound or
-     * <CODE>"<I>i</I>-<I>j</I>"</CODE> otherwise.
+     * Rfturns b string vbluf dorrfsponding to tiis sft-of-intfgfr bttributf.
+     * Tif string vbluf is b zfro-lfngti string if tiis sft is fmpty. Otifrwisf,
+     * tif string vbluf is b dommb-sfpbrbtfd list of tif rbngfs in tif dbnonidbl
+     * brrby form, wifrf fbdi rbngf is rfprfsfntfd bs <CODE>"<I>i</I>"</CODE> if
+     * tif lowfr bound fqubls tif uppfr bound or
+     * <CODE>"<I>i</I>-<I>j</I>"</CODE> otifrwisf.
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        int n = members.length;
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        int n = mfmbfrs.lfngti;
         for (int i = 0; i < n; i++) {
             if (i > 0) {
-                result.append (',');
+                rfsult.bppfnd (',');
             }
-            result.append (members[i][0]);
-            if (members[i][0] != members[i][1]) {
-                result.append ('-');
-                result.append (members[i][1]);
+            rfsult.bppfnd (mfmbfrs[i][0]);
+            if (mfmbfrs[i][0] != mfmbfrs[i][1]) {
+                rfsult.bppfnd ('-');
+                rfsult.bppfnd (mfmbfrs[i][1]);
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
 }

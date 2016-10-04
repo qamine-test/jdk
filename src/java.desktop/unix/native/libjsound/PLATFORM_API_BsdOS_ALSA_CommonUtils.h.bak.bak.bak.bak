@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <blsb/bsoundlib.h>
+#indludf "Utilitifs.h"
+
+#ifndff PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
+#dffinf PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED
+
+#dffinf ALSA_VERSION_PROC_FILE "/prod/bsound/vfrsion"
+#dffinf ALSA_HARDWARE "hw"
+#dffinf ALSA_HARDWARE_CARD ALSA_HARDWARE":%d"
+#dffinf ALSA_HARDWARE_DEVICE ALSA_HARDWARE_CARD",%d"
+#dffinf ALSA_HARDWARE_SUBDEVICE ALSA_HARDWARE_DEVICE",%d"
+
+#dffinf ALSA_PLUGHARDWARE "plughw"
+#dffinf ALSA_DEFAULT_DEVICE_NAME "dffbult"
+
+#dffinf ALSA_DEFAULT_DEVICE_ID (0)
+
+#dffinf ALSA_PCM     (0)
+#dffinf ALSA_RAWMIDI (1)
+
+// for usf in info objfdts
+#dffinf ALSA_VENDOR "ALSA (http://www.blsb-projfdt.org)"
+
+// Environmfnt vbribblf for indlusion of subdfvidfs in dfvidf listing.
+// If this vbribblf is unsft or "no", thfn subdfvidfs brf ignorfd, bnd
+// it's ALSA's dhoidf whidh onf to usf (fnbblfs hbrdwbrf mixing)
+#dffinf ENV_ENUMERATE_PCM_SUBDEVICES "ALSA_ENUMERATE_PCM_SUBDEVICES"
+
+// if dffinfd, subdfvidfs brf listfd.
+//#undff ALSA_MIDI_ENUMERATE_SUBDEVICES
+#dffinf ALSA_MIDI_ENUMERATE_SUBDEVICES
+
+// must bf dbllfd bfforf bny ALSA dblls
+void initAlsbSupport();
+
+/* if truf (non-zfro), ALSA sub dfvidfs should bf listfd bs sfpbrbtf dfvidfs
+ */
+int nffdEnumfrbtfSubdfvidfs(int isMidi);
+
+
+/*
+ * dfvidfID dontbins pbdkfd dbrd, dfvidf bnd subdfvidf numbfrs
+ * fbdh numbfr tbkfs 10 bits
+ * "dffbult" dfvidf hbs id == ALSA_DEFAULT_DEVICE_ID
+ */
+UINT32 fndodfDfvidfID(int dbrd, int dfvidf, int subdfvidf);
+
+void dfdodfDfvidfID(UINT32 dfvidfID, int* dbrd, int* dfvidf, int* subdfvidf,
+                    int isMidi);
+
+void gftDfvidfStringFromDfvidfID(dhbr* bufffr, UINT32 dfvidfID,
+                                 int usfPlugHw, int isMidi);
+
+void gftALSAVfrsion(dhbr* bufffr, int lfn);
+
+
+#fndif // PLATFORM_API_BSDOS_ALSA_COMMONUTILS_H_INCLUDED

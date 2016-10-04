@@ -1,537 +1,537 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * The {@code Short} class wraps a value of primitive type {@code
- * short} in an object.  An object of type {@code Short} contains a
- * single field whose type is {@code short}.
+ * Tif {@dodf Siort} dlbss wrbps b vbluf of primitivf typf {@dodf
+ * siort} in bn objfdt.  An objfdt of typf {@dodf Siort} dontbins b
+ * singlf fifld wiosf typf is {@dodf siort}.
  *
- * <p>In addition, this class provides several methods for converting
- * a {@code short} to a {@code String} and a {@code String} to a
- * {@code short}, as well as other constants and methods useful when
- * dealing with a {@code short}.
+ * <p>In bddition, tiis dlbss providfs sfvfrbl mftiods for donvfrting
+ * b {@dodf siort} to b {@dodf String} bnd b {@dodf String} to b
+ * {@dodf siort}, bs wfll bs otifr donstbnts bnd mftiods usfful wifn
+ * dfbling witi b {@dodf siort}.
  *
- * @author  Nakul Saraiya
- * @author  Joseph D. Darcy
- * @see     java.lang.Number
- * @since   1.1
+ * @butior  Nbkul Sbrbiyb
+ * @butior  Josfpi D. Dbrdy
+ * @sff     jbvb.lbng.Numbfr
+ * @sindf   1.1
  */
-public final class Short extends Number implements Comparable<Short> {
+publid finbl dlbss Siort fxtfnds Numbfr implfmfnts Compbrbblf<Siort> {
 
     /**
-     * A constant holding the minimum value a {@code short} can
-     * have, -2<sup>15</sup>.
+     * A donstbnt iolding tif minimum vbluf b {@dodf siort} dbn
+     * ibvf, -2<sup>15</sup>.
      */
-    public static final short   MIN_VALUE = -32768;
+    publid stbtid finbl siort   MIN_VALUE = -32768;
 
     /**
-     * A constant holding the maximum value a {@code short} can
-     * have, 2<sup>15</sup>-1.
+     * A donstbnt iolding tif mbximum vbluf b {@dodf siort} dbn
+     * ibvf, 2<sup>15</sup>-1.
      */
-    public static final short   MAX_VALUE = 32767;
+    publid stbtid finbl siort   MAX_VALUE = 32767;
 
     /**
-     * The {@code Class} instance representing the primitive type
-     * {@code short}.
+     * Tif {@dodf Clbss} instbndf rfprfsfnting tif primitivf typf
+     * {@dodf siort}.
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Short>    TYPE = (Class<Short>) Class.getPrimitiveClass("short");
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid finbl Clbss<Siort>    TYPE = (Clbss<Siort>) Clbss.gftPrimitivfClbss("siort");
 
     /**
-     * Returns a new {@code String} object representing the
-     * specified {@code short}. The radix is assumed to be 10.
+     * Rfturns b nfw {@dodf String} objfdt rfprfsfnting tif
+     * spfdififd {@dodf siort}. Tif rbdix is bssumfd to bf 10.
      *
-     * @param s the {@code short} to be converted
-     * @return the string representation of the specified {@code short}
-     * @see java.lang.Integer#toString(int)
+     * @pbrbm s tif {@dodf siort} to bf donvfrtfd
+     * @rfturn tif string rfprfsfntbtion of tif spfdififd {@dodf siort}
+     * @sff jbvb.lbng.Intfgfr#toString(int)
      */
-    public static String toString(short s) {
-        return Integer.toString((int)s, 10);
+    publid stbtid String toString(siort s) {
+        rfturn Intfgfr.toString((int)s, 10);
     }
 
     /**
-     * Parses the string argument as a signed {@code short} in the
-     * radix specified by the second argument. The characters in the
-     * string must all be digits, of the specified radix (as
-     * determined by whether {@link java.lang.Character#digit(char,
-     * int)} returns a nonnegative value) except that the first
-     * character may be an ASCII minus sign {@code '-'}
-     * ({@code '\u005Cu002D'}) to indicate a negative value or an
-     * ASCII plus sign {@code '+'} ({@code '\u005Cu002B'}) to
-     * indicate a positive value.  The resulting {@code short} value
-     * is returned.
+     * Pbrsfs tif string brgumfnt bs b signfd {@dodf siort} in tif
+     * rbdix spfdififd by tif sfdond brgumfnt. Tif dibrbdtfrs in tif
+     * string must bll bf digits, of tif spfdififd rbdix (bs
+     * dftfrminfd by wiftifr {@link jbvb.lbng.Cibrbdtfr#digit(dibr,
+     * int)} rfturns b nonnfgbtivf vbluf) fxdfpt tibt tif first
+     * dibrbdtfr mby bf bn ASCII minus sign {@dodf '-'}
+     * ({@dodf '\u005Cu002D'}) to indidbtf b nfgbtivf vbluf or bn
+     * ASCII plus sign {@dodf '+'} ({@dodf '\u005Cu002B'}) to
+     * indidbtf b positivf vbluf.  Tif rfsulting {@dodf siort} vbluf
+     * is rfturnfd.
      *
-     * <p>An exception of type {@code NumberFormatException} is
-     * thrown if any of the following situations occurs:
+     * <p>An fxdfption of typf {@dodf NumbfrFormbtExdfption} is
+     * tirown if bny of tif following situbtions oddurs:
      * <ul>
-     * <li> The first argument is {@code null} or is a string of
-     * length zero.
+     * <li> Tif first brgumfnt is {@dodf null} or is b string of
+     * lfngti zfro.
      *
-     * <li> The radix is either smaller than {@link
-     * java.lang.Character#MIN_RADIX} or larger than {@link
-     * java.lang.Character#MAX_RADIX}.
+     * <li> Tif rbdix is fitifr smbllfr tibn {@link
+     * jbvb.lbng.Cibrbdtfr#MIN_RADIX} or lbrgfr tibn {@link
+     * jbvb.lbng.Cibrbdtfr#MAX_RADIX}.
      *
-     * <li> Any character of the string is not a digit of the
-     * specified radix, except that the first character may be a minus
-     * sign {@code '-'} ({@code '\u005Cu002D'}) or plus sign
-     * {@code '+'} ({@code '\u005Cu002B'}) provided that the
-     * string is longer than length 1.
+     * <li> Any dibrbdtfr of tif string is not b digit of tif
+     * spfdififd rbdix, fxdfpt tibt tif first dibrbdtfr mby bf b minus
+     * sign {@dodf '-'} ({@dodf '\u005Cu002D'}) or plus sign
+     * {@dodf '+'} ({@dodf '\u005Cu002B'}) providfd tibt tif
+     * string is longfr tibn lfngti 1.
      *
-     * <li> The value represented by the string is not a value of type
-     * {@code short}.
+     * <li> Tif vbluf rfprfsfntfd by tif string is not b vbluf of typf
+     * {@dodf siort}.
      * </ul>
      *
-     * @param s         the {@code String} containing the
-     *                  {@code short} representation to be parsed
-     * @param radix     the radix to be used while parsing {@code s}
-     * @return          the {@code short} represented by the string
-     *                  argument in the specified radix.
-     * @throws          NumberFormatException If the {@code String}
-     *                  does not contain a parsable {@code short}.
+     * @pbrbm s         tif {@dodf String} dontbining tif
+     *                  {@dodf siort} rfprfsfntbtion to bf pbrsfd
+     * @pbrbm rbdix     tif rbdix to bf usfd wiilf pbrsing {@dodf s}
+     * @rfturn          tif {@dodf siort} rfprfsfntfd by tif string
+     *                  brgumfnt in tif spfdififd rbdix.
+     * @tirows          NumbfrFormbtExdfption If tif {@dodf String}
+     *                  dofs not dontbin b pbrsbblf {@dodf siort}.
      */
-    public static short parseShort(String s, int radix)
-        throws NumberFormatException {
-        int i = Integer.parseInt(s, radix);
+    publid stbtid siort pbrsfSiort(String s, int rbdix)
+        tirows NumbfrFormbtExdfption {
+        int i = Intfgfr.pbrsfInt(s, rbdix);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                "Value out of range. Value:\"" + s + "\" Radix:" + radix);
-        return (short)i;
+            tirow nfw NumbfrFormbtExdfption(
+                "Vbluf out of rbngf. Vbluf:\"" + s + "\" Rbdix:" + rbdix);
+        rfturn (siort)i;
     }
 
     /**
-     * Parses the string argument as a signed decimal {@code
-     * short}. The characters in the string must all be decimal
-     * digits, except that the first character may be an ASCII minus
-     * sign {@code '-'} ({@code '\u005Cu002D'}) to indicate a
-     * negative value or an ASCII plus sign {@code '+'}
-     * ({@code '\u005Cu002B'}) to indicate a positive value.  The
-     * resulting {@code short} value is returned, exactly as if the
-     * argument and the radix 10 were given as arguments to the {@link
-     * #parseShort(java.lang.String, int)} method.
+     * Pbrsfs tif string brgumfnt bs b signfd dfdimbl {@dodf
+     * siort}. Tif dibrbdtfrs in tif string must bll bf dfdimbl
+     * digits, fxdfpt tibt tif first dibrbdtfr mby bf bn ASCII minus
+     * sign {@dodf '-'} ({@dodf '\u005Cu002D'}) to indidbtf b
+     * nfgbtivf vbluf or bn ASCII plus sign {@dodf '+'}
+     * ({@dodf '\u005Cu002B'}) to indidbtf b positivf vbluf.  Tif
+     * rfsulting {@dodf siort} vbluf is rfturnfd, fxbdtly bs if tif
+     * brgumfnt bnd tif rbdix 10 wfrf givfn bs brgumfnts to tif {@link
+     * #pbrsfSiort(jbvb.lbng.String, int)} mftiod.
      *
-     * @param s a {@code String} containing the {@code short}
-     *          representation to be parsed
-     * @return  the {@code short} value represented by the
-     *          argument in decimal.
-     * @throws  NumberFormatException If the string does not
-     *          contain a parsable {@code short}.
+     * @pbrbm s b {@dodf String} dontbining tif {@dodf siort}
+     *          rfprfsfntbtion to bf pbrsfd
+     * @rfturn  tif {@dodf siort} vbluf rfprfsfntfd by tif
+     *          brgumfnt in dfdimbl.
+     * @tirows  NumbfrFormbtExdfption If tif string dofs not
+     *          dontbin b pbrsbblf {@dodf siort}.
      */
-    public static short parseShort(String s) throws NumberFormatException {
-        return parseShort(s, 10);
+    publid stbtid siort pbrsfSiort(String s) tirows NumbfrFormbtExdfption {
+        rfturn pbrsfSiort(s, 10);
     }
 
     /**
-     * Returns a {@code Short} object holding the value
-     * extracted from the specified {@code String} when parsed
-     * with the radix given by the second argument. The first argument
-     * is interpreted as representing a signed {@code short} in
-     * the radix specified by the second argument, exactly as if the
-     * argument were given to the {@link #parseShort(java.lang.String,
-     * int)} method. The result is a {@code Short} object that
-     * represents the {@code short} value specified by the string.
+     * Rfturns b {@dodf Siort} objfdt iolding tif vbluf
+     * fxtrbdtfd from tif spfdififd {@dodf String} wifn pbrsfd
+     * witi tif rbdix givfn by tif sfdond brgumfnt. Tif first brgumfnt
+     * is intfrprftfd bs rfprfsfnting b signfd {@dodf siort} in
+     * tif rbdix spfdififd by tif sfdond brgumfnt, fxbdtly bs if tif
+     * brgumfnt wfrf givfn to tif {@link #pbrsfSiort(jbvb.lbng.String,
+     * int)} mftiod. Tif rfsult is b {@dodf Siort} objfdt tibt
+     * rfprfsfnts tif {@dodf siort} vbluf spfdififd by tif string.
      *
-     * <p>In other words, this method returns a {@code Short} object
-     * equal to the value of:
+     * <p>In otifr words, tiis mftiod rfturns b {@dodf Siort} objfdt
+     * fqubl to tif vbluf of:
      *
-     * <blockquote>
-     *  {@code new Short(Short.parseShort(s, radix))}
-     * </blockquote>
+     * <blodkquotf>
+     *  {@dodf nfw Siort(Siort.pbrsfSiort(s, rbdix))}
+     * </blodkquotf>
      *
-     * @param s         the string to be parsed
-     * @param radix     the radix to be used in interpreting {@code s}
-     * @return          a {@code Short} object holding the value
-     *                  represented by the string argument in the
-     *                  specified radix.
-     * @throws          NumberFormatException If the {@code String} does
-     *                  not contain a parsable {@code short}.
+     * @pbrbm s         tif string to bf pbrsfd
+     * @pbrbm rbdix     tif rbdix to bf usfd in intfrprfting {@dodf s}
+     * @rfturn          b {@dodf Siort} objfdt iolding tif vbluf
+     *                  rfprfsfntfd by tif string brgumfnt in tif
+     *                  spfdififd rbdix.
+     * @tirows          NumbfrFormbtExdfption If tif {@dodf String} dofs
+     *                  not dontbin b pbrsbblf {@dodf siort}.
      */
-    public static Short valueOf(String s, int radix)
-        throws NumberFormatException {
-        return valueOf(parseShort(s, radix));
+    publid stbtid Siort vblufOf(String s, int rbdix)
+        tirows NumbfrFormbtExdfption {
+        rfturn vblufOf(pbrsfSiort(s, rbdix));
     }
 
     /**
-     * Returns a {@code Short} object holding the
-     * value given by the specified {@code String}. The argument
-     * is interpreted as representing a signed decimal
-     * {@code short}, exactly as if the argument were given to
-     * the {@link #parseShort(java.lang.String)} method. The result is
-     * a {@code Short} object that represents the
-     * {@code short} value specified by the string.
+     * Rfturns b {@dodf Siort} objfdt iolding tif
+     * vbluf givfn by tif spfdififd {@dodf String}. Tif brgumfnt
+     * is intfrprftfd bs rfprfsfnting b signfd dfdimbl
+     * {@dodf siort}, fxbdtly bs if tif brgumfnt wfrf givfn to
+     * tif {@link #pbrsfSiort(jbvb.lbng.String)} mftiod. Tif rfsult is
+     * b {@dodf Siort} objfdt tibt rfprfsfnts tif
+     * {@dodf siort} vbluf spfdififd by tif string.
      *
-     * <p>In other words, this method returns a {@code Short} object
-     * equal to the value of:
+     * <p>In otifr words, tiis mftiod rfturns b {@dodf Siort} objfdt
+     * fqubl to tif vbluf of:
      *
-     * <blockquote>
-     *  {@code new Short(Short.parseShort(s))}
-     * </blockquote>
+     * <blodkquotf>
+     *  {@dodf nfw Siort(Siort.pbrsfSiort(s))}
+     * </blodkquotf>
      *
-     * @param s the string to be parsed
-     * @return  a {@code Short} object holding the value
-     *          represented by the string argument
-     * @throws  NumberFormatException If the {@code String} does
-     *          not contain a parsable {@code short}.
+     * @pbrbm s tif string to bf pbrsfd
+     * @rfturn  b {@dodf Siort} objfdt iolding tif vbluf
+     *          rfprfsfntfd by tif string brgumfnt
+     * @tirows  NumbfrFormbtExdfption If tif {@dodf String} dofs
+     *          not dontbin b pbrsbblf {@dodf siort}.
      */
-    public static Short valueOf(String s) throws NumberFormatException {
-        return valueOf(s, 10);
+    publid stbtid Siort vblufOf(String s) tirows NumbfrFormbtExdfption {
+        rfturn vblufOf(s, 10);
     }
 
-    private static class ShortCache {
-        private ShortCache(){}
+    privbtf stbtid dlbss SiortCbdif {
+        privbtf SiortCbdif(){}
 
-        static final Short cache[] = new Short[-(-128) + 127 + 1];
+        stbtid finbl Siort dbdif[] = nfw Siort[-(-128) + 127 + 1];
 
-        static {
-            for(int i = 0; i < cache.length; i++)
-                cache[i] = new Short((short)(i - 128));
+        stbtid {
+            for(int i = 0; i < dbdif.lfngti; i++)
+                dbdif[i] = nfw Siort((siort)(i - 128));
         }
     }
 
     /**
-     * Returns a {@code Short} instance representing the specified
-     * {@code short} value.
-     * If a new {@code Short} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Short(short)}, as this method is likely to yield
-     * significantly better space and time performance by caching
-     * frequently requested values.
+     * Rfturns b {@dodf Siort} instbndf rfprfsfnting tif spfdififd
+     * {@dodf siort} vbluf.
+     * If b nfw {@dodf Siort} instbndf is not rfquirfd, tiis mftiod
+     * siould gfnfrblly bf usfd in prfffrfndf to tif donstrudtor
+     * {@link #Siort(siort)}, bs tiis mftiod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf by dbdiing
+     * frfqufntly rfqufstfd vblufs.
      *
-     * This method will always cache values in the range -128 to 127,
-     * inclusive, and may cache other values outside of this range.
+     * Tiis mftiod will blwbys dbdif vblufs in tif rbngf -128 to 127,
+     * indlusivf, bnd mby dbdif otifr vblufs outsidf of tiis rbngf.
      *
-     * @param  s a short value.
-     * @return a {@code Short} instance representing {@code s}.
-     * @since  1.5
+     * @pbrbm  s b siort vbluf.
+     * @rfturn b {@dodf Siort} instbndf rfprfsfnting {@dodf s}.
+     * @sindf  1.5
      */
-    public static Short valueOf(short s) {
-        final int offset = 128;
+    publid stbtid Siort vblufOf(siort s) {
+        finbl int offsft = 128;
         int sAsInt = s;
-        if (sAsInt >= -128 && sAsInt <= 127) { // must cache
-            return ShortCache.cache[sAsInt + offset];
+        if (sAsInt >= -128 && sAsInt <= 127) { // must dbdif
+            rfturn SiortCbdif.dbdif[sAsInt + offsft];
         }
-        return new Short(s);
+        rfturn nfw Siort(s);
     }
 
     /**
-     * Decodes a {@code String} into a {@code Short}.
-     * Accepts decimal, hexadecimal, and octal numbers given by
-     * the following grammar:
+     * Dfdodfs b {@dodf String} into b {@dodf Siort}.
+     * Addfpts dfdimbl, ifxbdfdimbl, bnd odtbl numbfrs givfn by
+     * tif following grbmmbr:
      *
-     * <blockquote>
+     * <blodkquotf>
      * <dl>
-     * <dt><i>DecodableString:</i>
-     * <dd><i>Sign<sub>opt</sub> DecimalNumeral</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0x} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0X} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code #} <i>HexDigits</i>
-     * <dd><i>Sign<sub>opt</sub></i> {@code 0} <i>OctalDigits</i>
+     * <dt><i>DfdodbblfString:</i>
+     * <dd><i>Sign<sub>opt</sub> DfdimblNumfrbl</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0x} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0X} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf #} <i>HfxDigits</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf 0} <i>OdtblDigits</i>
      *
      * <dt><i>Sign:</i>
-     * <dd>{@code -}
-     * <dd>{@code +}
+     * <dd>{@dodf -}
+     * <dd>{@dodf +}
      * </dl>
-     * </blockquote>
+     * </blodkquotf>
      *
-     * <i>DecimalNumeral</i>, <i>HexDigits</i>, and <i>OctalDigits</i>
-     * are as defined in section 3.10.1 of
-     * <cite>The Java&trade; Language Specification</cite>,
-     * except that underscores are not accepted between digits.
+     * <i>DfdimblNumfrbl</i>, <i>HfxDigits</i>, bnd <i>OdtblDigits</i>
+     * brf bs dffinfd in sfdtion 3.10.1 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>,
+     * fxdfpt tibt undfrsdorfs brf not bddfptfd bftwffn digits.
      *
-     * <p>The sequence of characters following an optional
-     * sign and/or radix specifier ("{@code 0x}", "{@code 0X}",
-     * "{@code #}", or leading zero) is parsed as by the {@code
-     * Short.parseShort} method with the indicated radix (10, 16, or
-     * 8).  This sequence of characters must represent a positive
-     * value or a {@link NumberFormatException} will be thrown.  The
-     * result is negated if first character of the specified {@code
-     * String} is the minus sign.  No whitespace characters are
-     * permitted in the {@code String}.
+     * <p>Tif sfqufndf of dibrbdtfrs following bn optionbl
+     * sign bnd/or rbdix spfdififr ("{@dodf 0x}", "{@dodf 0X}",
+     * "{@dodf #}", or lfbding zfro) is pbrsfd bs by tif {@dodf
+     * Siort.pbrsfSiort} mftiod witi tif indidbtfd rbdix (10, 16, or
+     * 8).  Tiis sfqufndf of dibrbdtfrs must rfprfsfnt b positivf
+     * vbluf or b {@link NumbfrFormbtExdfption} will bf tirown.  Tif
+     * rfsult is nfgbtfd if first dibrbdtfr of tif spfdififd {@dodf
+     * String} is tif minus sign.  No wiitfspbdf dibrbdtfrs brf
+     * pfrmittfd in tif {@dodf String}.
      *
-     * @param     nm the {@code String} to decode.
-     * @return    a {@code Short} object holding the {@code short}
-     *            value represented by {@code nm}
-     * @throws    NumberFormatException  if the {@code String} does not
-     *            contain a parsable {@code short}.
-     * @see java.lang.Short#parseShort(java.lang.String, int)
+     * @pbrbm     nm tif {@dodf String} to dfdodf.
+     * @rfturn    b {@dodf Siort} objfdt iolding tif {@dodf siort}
+     *            vbluf rfprfsfntfd by {@dodf nm}
+     * @tirows    NumbfrFormbtExdfption  if tif {@dodf String} dofs not
+     *            dontbin b pbrsbblf {@dodf siort}.
+     * @sff jbvb.lbng.Siort#pbrsfSiort(jbvb.lbng.String, int)
      */
-    public static Short decode(String nm) throws NumberFormatException {
-        int i = Integer.decode(nm);
+    publid stbtid Siort dfdodf(String nm) tirows NumbfrFormbtExdfption {
+        int i = Intfgfr.dfdodf(nm);
         if (i < MIN_VALUE || i > MAX_VALUE)
-            throw new NumberFormatException(
-                    "Value " + i + " out of range from input " + nm);
-        return valueOf((short)i);
+            tirow nfw NumbfrFormbtExdfption(
+                    "Vbluf " + i + " out of rbngf from input " + nm);
+        rfturn vblufOf((siort)i);
     }
 
     /**
-     * The value of the {@code Short}.
+     * Tif vbluf of tif {@dodf Siort}.
      *
-     * @serial
+     * @sfribl
      */
-    private final short value;
+    privbtf finbl siort vbluf;
 
     /**
-     * Constructs a newly allocated {@code Short} object that
-     * represents the specified {@code short} value.
+     * Construdts b nfwly bllodbtfd {@dodf Siort} objfdt tibt
+     * rfprfsfnts tif spfdififd {@dodf siort} vbluf.
      *
-     * @param value     the value to be represented by the
-     *                  {@code Short}.
+     * @pbrbm vbluf     tif vbluf to bf rfprfsfntfd by tif
+     *                  {@dodf Siort}.
      */
-    public Short(short value) {
-        this.value = value;
+    publid Siort(siort vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Constructs a newly allocated {@code Short} object that
-     * represents the {@code short} value indicated by the
-     * {@code String} parameter. The string is converted to a
-     * {@code short} value in exactly the manner used by the
-     * {@code parseShort} method for radix 10.
+     * Construdts b nfwly bllodbtfd {@dodf Siort} objfdt tibt
+     * rfprfsfnts tif {@dodf siort} vbluf indidbtfd by tif
+     * {@dodf String} pbrbmftfr. Tif string is donvfrtfd to b
+     * {@dodf siort} vbluf in fxbdtly tif mbnnfr usfd by tif
+     * {@dodf pbrsfSiort} mftiod for rbdix 10.
      *
-     * @param s the {@code String} to be converted to a
-     *          {@code Short}
-     * @throws  NumberFormatException If the {@code String}
-     *          does not contain a parsable {@code short}.
-     * @see     java.lang.Short#parseShort(java.lang.String, int)
+     * @pbrbm s tif {@dodf String} to bf donvfrtfd to b
+     *          {@dodf Siort}
+     * @tirows  NumbfrFormbtExdfption If tif {@dodf String}
+     *          dofs not dontbin b pbrsbblf {@dodf siort}.
+     * @sff     jbvb.lbng.Siort#pbrsfSiort(jbvb.lbng.String, int)
      */
-    public Short(String s) throws NumberFormatException {
-        this.value = parseShort(s, 10);
+    publid Siort(String s) tirows NumbfrFormbtExdfption {
+        tiis.vbluf = pbrsfSiort(s, 10);
     }
 
     /**
-     * Returns the value of this {@code Short} as a {@code byte} after
-     * a narrowing primitive conversion.
-     * @jls 5.1.3 Narrowing Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs b {@dodf bytf} bftfr
+     * b nbrrowing primitivf donvfrsion.
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
      */
-    public byte byteValue() {
-        return (byte)value;
+    publid bytf bytfVbluf() {
+        rfturn (bytf)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Short} as a
-     * {@code short}.
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs b
+     * {@dodf siort}.
      */
-    public short shortValue() {
-        return value;
+    publid siort siortVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the value of this {@code Short} as an {@code int} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs bn {@dodf int} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public int intValue() {
-        return (int)value;
+    publid int intVbluf() {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Short} as a {@code long} after
-     * a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs b {@dodf long} bftfr
+     * b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public long longValue() {
-        return (long)value;
+    publid long longVbluf() {
+        rfturn (long)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Short} as a {@code float}
-     * after a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs b {@dodf flobt}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public float floatValue() {
-        return (float)value;
+    publid flobt flobtVbluf() {
+        rfturn (flobt)vbluf;
     }
 
     /**
-     * Returns the value of this {@code Short} as a {@code double}
-     * after a widening primitive conversion.
-     * @jls 5.1.2 Widening Primitive Conversions
+     * Rfturns tif vbluf of tiis {@dodf Siort} bs b {@dodf doublf}
+     * bftfr b widfning primitivf donvfrsion.
+     * @jls 5.1.2 Widfning Primitivf Convfrsions
      */
-    public double doubleValue() {
-        return (double)value;
+    publid doublf doublfVbluf() {
+        rfturn (doublf)vbluf;
     }
 
     /**
-     * Returns a {@code String} object representing this
-     * {@code Short}'s value.  The value is converted to signed
-     * decimal representation and returned as a string, exactly as if
-     * the {@code short} value were given as an argument to the
-     * {@link java.lang.Short#toString(short)} method.
+     * Rfturns b {@dodf String} objfdt rfprfsfnting tiis
+     * {@dodf Siort}'s vbluf.  Tif vbluf is donvfrtfd to signfd
+     * dfdimbl rfprfsfntbtion bnd rfturnfd bs b string, fxbdtly bs if
+     * tif {@dodf siort} vbluf wfrf givfn bs bn brgumfnt to tif
+     * {@link jbvb.lbng.Siort#toString(siort)} mftiod.
      *
-     * @return  a string representation of the value of this object in
-     *          base&nbsp;10.
+     * @rfturn  b string rfprfsfntbtion of tif vbluf of tiis objfdt in
+     *          bbsf&nbsp;10.
      */
-    public String toString() {
-        return Integer.toString((int)value);
+    publid String toString() {
+        rfturn Intfgfr.toString((int)vbluf);
     }
 
     /**
-     * Returns a hash code for this {@code Short}; equal to the result
-     * of invoking {@code intValue()}.
+     * Rfturns b ibsi dodf for tiis {@dodf Siort}; fqubl to tif rfsult
+     * of invoking {@dodf intVbluf()}.
      *
-     * @return a hash code value for this {@code Short}
+     * @rfturn b ibsi dodf vbluf for tiis {@dodf Siort}
      */
-    @Override
-    public int hashCode() {
-        return Short.hashCode(value);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Siort.ibsiCodf(vbluf);
     }
 
     /**
-     * Returns a hash code for a {@code short} value; compatible with
-     * {@code Short.hashCode()}.
+     * Rfturns b ibsi dodf for b {@dodf siort} vbluf; dompbtiblf witi
+     * {@dodf Siort.ibsiCodf()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code short} value.
-     * @since 1.8
+     * @pbrbm vbluf tif vbluf to ibsi
+     * @rfturn b ibsi dodf vbluf for b {@dodf siort} vbluf.
+     * @sindf 1.8
      */
-    public static int hashCode(short value) {
-        return (int)value;
+    publid stbtid int ibsiCodf(siort vbluf) {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Compares this object to the specified object.  The result is
-     * {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Short} object that
-     * contains the same {@code short} value as this object.
+     * Compbrfs tiis objfdt to tif spfdififd objfdt.  Tif rfsult is
+     * {@dodf truf} if bnd only if tif brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Siort} objfdt tibt
+     * dontbins tif sbmf {@dodf siort} vbluf bs tiis objfdt.
      *
-     * @param obj       the object to compare with
-     * @return          {@code true} if the objects are the same;
-     *                  {@code false} otherwise.
+     * @pbrbm obj       tif objfdt to dompbrf witi
+     * @rfturn          {@dodf truf} if tif objfdts brf tif sbmf;
+     *                  {@dodf fblsf} otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Short) {
-            return value == ((Short)obj).shortValue();
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Siort) {
+            rfturn vbluf == ((Siort)obj).siortVbluf();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Compares two {@code Short} objects numerically.
+     * Compbrfs two {@dodf Siort} objfdts numfridblly.
      *
-     * @param   anotherShort   the {@code Short} to be compared.
-     * @return  the value {@code 0} if this {@code Short} is
-     *          equal to the argument {@code Short}; a value less than
-     *          {@code 0} if this {@code Short} is numerically less
-     *          than the argument {@code Short}; and a value greater than
-     *           {@code 0} if this {@code Short} is numerically
-     *           greater than the argument {@code Short} (signed
-     *           comparison).
-     * @since   1.2
+     * @pbrbm   bnotifrSiort   tif {@dodf Siort} to bf dompbrfd.
+     * @rfturn  tif vbluf {@dodf 0} if tiis {@dodf Siort} is
+     *          fqubl to tif brgumfnt {@dodf Siort}; b vbluf lfss tibn
+     *          {@dodf 0} if tiis {@dodf Siort} is numfridblly lfss
+     *          tibn tif brgumfnt {@dodf Siort}; bnd b vbluf grfbtfr tibn
+     *           {@dodf 0} if tiis {@dodf Siort} is numfridblly
+     *           grfbtfr tibn tif brgumfnt {@dodf Siort} (signfd
+     *           dompbrison).
+     * @sindf   1.2
      */
-    public int compareTo(Short anotherShort) {
-        return compare(this.value, anotherShort.value);
+    publid int dompbrfTo(Siort bnotifrSiort) {
+        rfturn dompbrf(tiis.vbluf, bnotifrSiort.vbluf);
     }
 
     /**
-     * Compares two {@code short} values numerically.
-     * The value returned is identical to what would be returned by:
-     * <pre>
-     *    Short.valueOf(x).compareTo(Short.valueOf(y))
-     * </pre>
+     * Compbrfs two {@dodf siort} vblufs numfridblly.
+     * Tif vbluf rfturnfd is idfntidbl to wibt would bf rfturnfd by:
+     * <prf>
+     *    Siort.vblufOf(x).dompbrfTo(Siort.vblufOf(y))
+     * </prf>
      *
-     * @param  x the first {@code short} to compare
-     * @param  y the second {@code short} to compare
-     * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code x < y}; and
-     *         a value greater than {@code 0} if {@code x > y}
-     * @since 1.7
+     * @pbrbm  x tif first {@dodf siort} to dompbrf
+     * @pbrbm  y tif sfdond {@dodf siort} to dompbrf
+     * @rfturn tif vbluf {@dodf 0} if {@dodf x == y};
+     *         b vbluf lfss tibn {@dodf 0} if {@dodf x < y}; bnd
+     *         b vbluf grfbtfr tibn {@dodf 0} if {@dodf x > y}
+     * @sindf 1.7
      */
-    public static int compare(short x, short y) {
-        return x - y;
+    publid stbtid int dompbrf(siort x, siort y) {
+        rfturn x - y;
     }
 
     /**
-     * The number of bits used to represent a {@code short} value in two's
-     * complement binary form.
-     * @since 1.5
+     * Tif numbfr of bits usfd to rfprfsfnt b {@dodf siort} vbluf in two's
+     * domplfmfnt binbry form.
+     * @sindf 1.5
      */
-    public static final int SIZE = 16;
+    publid stbtid finbl int SIZE = 16;
 
     /**
-     * The number of bytes used to represent a {@code short} value in two's
-     * complement binary form.
+     * Tif numbfr of bytfs usfd to rfprfsfnt b {@dodf siort} vbluf in two's
+     * domplfmfnt binbry form.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public static final int BYTES = SIZE / Byte.SIZE;
+    publid stbtid finbl int BYTES = SIZE / Bytf.SIZE;
 
     /**
-     * Returns the value obtained by reversing the order of the bytes in the
-     * two's complement representation of the specified {@code short} value.
+     * Rfturns tif vbluf obtbinfd by rfvfrsing tif ordfr of tif bytfs in tif
+     * two's domplfmfnt rfprfsfntbtion of tif spfdififd {@dodf siort} vbluf.
      *
-     * @param i the value whose bytes are to be reversed
-     * @return the value obtained by reversing (or, equivalently, swapping)
-     *     the bytes in the specified {@code short} value.
-     * @since 1.5
+     * @pbrbm i tif vbluf wiosf bytfs brf to bf rfvfrsfd
+     * @rfturn tif vbluf obtbinfd by rfvfrsing (or, fquivblfntly, swbpping)
+     *     tif bytfs in tif spfdififd {@dodf siort} vbluf.
+     * @sindf 1.5
      */
-    public static short reverseBytes(short i) {
-        return (short) (((i & 0xFF00) >> 8) | (i << 8));
+    publid stbtid siort rfvfrsfBytfs(siort i) {
+        rfturn (siort) (((i & 0xFF00) >> 8) | (i << 8));
     }
 
 
     /**
-     * Converts the argument to an {@code int} by an unsigned
-     * conversion.  In an unsigned conversion to an {@code int}, the
-     * high-order 16 bits of the {@code int} are zero and the
-     * low-order 16 bits are equal to the bits of the {@code short} argument.
+     * Convfrts tif brgumfnt to bn {@dodf int} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to bn {@dodf int}, tif
+     * iigi-ordfr 16 bits of tif {@dodf int} brf zfro bnd tif
+     * low-ordfr 16 bits brf fqubl to tif bits of tif {@dodf siort} brgumfnt.
      *
-     * Consequently, zero and positive {@code short} values are mapped
-     * to a numerically equal {@code int} value and negative {@code
-     * short} values are mapped to an {@code int} value equal to the
+     * Consfqufntly, zfro bnd positivf {@dodf siort} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf int} vbluf bnd nfgbtivf {@dodf
+     * siort} vblufs brf mbppfd to bn {@dodf int} vbluf fqubl to tif
      * input plus 2<sup>16</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code int}
-     * @return the argument converted to {@code int} by an unsigned
-     *         conversion
-     * @since 1.8
+     * @pbrbm  x tif vbluf to donvfrt to bn unsignfd {@dodf int}
+     * @rfturn tif brgumfnt donvfrtfd to {@dodf int} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
      */
-    public static int toUnsignedInt(short x) {
-        return ((int) x) & 0xffff;
+    publid stbtid int toUnsignfdInt(siort x) {
+        rfturn ((int) x) & 0xffff;
     }
 
     /**
-     * Converts the argument to a {@code long} by an unsigned
-     * conversion.  In an unsigned conversion to a {@code long}, the
-     * high-order 48 bits of the {@code long} are zero and the
-     * low-order 16 bits are equal to the bits of the {@code short} argument.
+     * Convfrts tif brgumfnt to b {@dodf long} by bn unsignfd
+     * donvfrsion.  In bn unsignfd donvfrsion to b {@dodf long}, tif
+     * iigi-ordfr 48 bits of tif {@dodf long} brf zfro bnd tif
+     * low-ordfr 16 bits brf fqubl to tif bits of tif {@dodf siort} brgumfnt.
      *
-     * Consequently, zero and positive {@code short} values are mapped
-     * to a numerically equal {@code long} value and negative {@code
-     * short} values are mapped to a {@code long} value equal to the
+     * Consfqufntly, zfro bnd positivf {@dodf siort} vblufs brf mbppfd
+     * to b numfridblly fqubl {@dodf long} vbluf bnd nfgbtivf {@dodf
+     * siort} vblufs brf mbppfd to b {@dodf long} vbluf fqubl to tif
      * input plus 2<sup>16</sup>.
      *
-     * @param  x the value to convert to an unsigned {@code long}
-     * @return the argument converted to {@code long} by an unsigned
-     *         conversion
-     * @since 1.8
+     * @pbrbm  x tif vbluf to donvfrt to bn unsignfd {@dodf long}
+     * @rfturn tif brgumfnt donvfrtfd to {@dodf long} by bn unsignfd
+     *         donvfrsion
+     * @sindf 1.8
      */
-    public static long toUnsignedLong(short x) {
-        return ((long) x) & 0xffffL;
+    publid stbtid long toUnsignfdLong(siort x) {
+        rfturn ((long) x) & 0xffffL;
     }
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = 7515723908773894738L;
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7515723908773894738L;
 }

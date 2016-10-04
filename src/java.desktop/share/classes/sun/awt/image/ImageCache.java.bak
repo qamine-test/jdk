@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.*;
-import java.lang.ref.*;
-import java.util.*;
-import java.util.concurrent.locks.*;
-import sun.awt.AppContext;
+import jbvb.bwt.*;
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import sun.bwt.AppContfxt;
 
 /**
- * ImageCache - A fixed pixel count sized cache of Images keyed by arbitrary
- * set of arguments. All images are held with SoftReferences so they will be
- * dropped by the GC if heap memory gets tight. When our size hits max pixel
- * count least recently requested images are removed first.
+ * ImbgfCbdif - A fixfd pixfl dount sizfd dbdif of Imbgfs kfyfd by brbitrbry
+ * sft of brgumfnts. All imbgfs brf ifld witi SoftRfffrfndfs so tify will bf
+ * droppfd by tif GC if ifbp mfmory gfts tigit. Wifn our sizf iits mbx pixfl
+ * dount lfbst rfdfntly rfqufstfd imbgfs brf rfmovfd first.
  *
- * The ImageCache must be used from the thread with an AppContext only.
+ * Tif ImbgfCbdif must bf usfd from tif tirfbd witi bn AppContfxt only.
  *
  */
-final public class ImageCache {
+finbl publid dlbss ImbgfCbdif {
 
-    // Ordered Map keyed by args hash, ordered by most recent accessed entry.
-    private final LinkedHashMap<PixelsKey, ImageSoftReference> map
-            = new LinkedHashMap<>(16, 0.75f, true);
+    // Ordfrfd Mbp kfyfd by brgs ibsi, ordfrfd by most rfdfnt bddfssfd fntry.
+    privbtf finbl LinkfdHbsiMbp<PixflsKfy, ImbgfSoftRfffrfndf> mbp
+            = nfw LinkfdHbsiMbp<>(16, 0.75f, truf);
 
-    // Maximum number of pixels to cache, this is used if maxCount
-    private final int maxPixelCount;
-    // The current number of pixels stored in the cache
-    private int currentPixelCount = 0;
+    // Mbximum numbfr of pixfls to dbdif, tiis is usfd if mbxCount
+    privbtf finbl int mbxPixflCount;
+    // Tif durrfnt numbfr of pixfls storfd in tif dbdif
+    privbtf int durrfntPixflCount = 0;
 
-    // Lock for concurrent access to map
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    // Reference queue for tracking lost softreferences to images in the cache
-    private final ReferenceQueue<Image> referenceQueue = new ReferenceQueue<>();
+    // Lodk for dondurrfnt bddfss to mbp
+    privbtf finbl RfbdWritfLodk lodk = nfw RffntrbntRfbdWritfLodk();
+    // Rfffrfndf qufuf for trbdking lost softrfffrfndfs to imbgfs in tif dbdif
+    privbtf finbl RfffrfndfQufuf<Imbgf> rfffrfndfQufuf = nfw RfffrfndfQufuf<>();
 
-    public static ImageCache getInstance() {
-        return AppContext.getSoftReferenceValue(ImageCache.class,
-                () -> new ImageCache());
+    publid stbtid ImbgfCbdif gftInstbndf() {
+        rfturn AppContfxt.gftSoftRfffrfndfVbluf(ImbgfCbdif.dlbss,
+                () -> nfw ImbgfCbdif());
     }
 
-    ImageCache(final int maxPixelCount) {
-        this.maxPixelCount = maxPixelCount;
+    ImbgfCbdif(finbl int mbxPixflCount) {
+        tiis.mbxPixflCount = mbxPixflCount;
     }
 
-    ImageCache() {
-        this((8 * 1024 * 1024) / 4); // 8Mb of pixels
+    ImbgfCbdif() {
+        tiis((8 * 1024 * 1024) / 4); // 8Mb of pixfls
     }
 
-    public void flush() {
-        lock.writeLock().lock();
+    publid void flusi() {
+        lodk.writfLodk().lodk();
         try {
-            map.clear();
-        } finally {
-            lock.writeLock().unlock();
+            mbp.dlfbr();
+        } finblly {
+            lodk.writfLodk().unlodk();
         }
     }
 
-    public Image getImage(final PixelsKey key){
-        final ImageSoftReference ref;
-        lock.readLock().lock();
+    publid Imbgf gftImbgf(finbl PixflsKfy kfy){
+        finbl ImbgfSoftRfffrfndf rff;
+        lodk.rfbdLodk().lodk();
         try {
-            ref = map.get(key);
-        } finally {
-            lock.readLock().unlock();
+            rff = mbp.gft(kfy);
+        } finblly {
+            lodk.rfbdLodk().unlodk();
         }
-        return ref == null ? null : ref.get();
+        rfturn rff == null ? null : rff.gft();
     }
 
     /**
-     * Sets the cached image for the specified constraints.
+     * Sfts tif dbdifd imbgf for tif spfdififd donstrbints.
      *
-     * @param key The key with which the specified image is to be associated
-     * @param image  The image to store in cache
+     * @pbrbm kfy Tif kfy witi wiidi tif spfdififd imbgf is to bf bssodibtfd
+     * @pbrbm imbgf  Tif imbgf to storf in dbdif
      */
-    public void setImage(final PixelsKey key, final Image image) {
+    publid void sftImbgf(finbl PixflsKfy kfy, finbl Imbgf imbgf) {
 
-        lock.writeLock().lock();
+        lodk.writfLodk().lodk();
         try {
-            ImageSoftReference ref = map.get(key);
+            ImbgfSoftRfffrfndf rff = mbp.gft(kfy);
 
-            // check if currently in map
-            if (ref != null) {
-                if (ref.get() != null) {
-                    return;
+            // difdk if durrfntly in mbp
+            if (rff != null) {
+                if (rff.gft() != null) {
+                    rfturn;
                 }
-                // soft image has been removed
-                currentPixelCount -= key.getPixelCount();
-                map.remove(key);
+                // soft imbgf ibs bffn rfmovfd
+                durrfntPixflCount -= kfy.gftPixflCount();
+                mbp.rfmovf(kfy);
             };
 
 
-            // add new image to pixel count
-            final int newPixelCount = key.getPixelCount();
-            currentPixelCount += newPixelCount;
-            // clean out lost references if not enough space
-            if (currentPixelCount > maxPixelCount) {
-                while ((ref = (ImageSoftReference)referenceQueue.poll()) != null) {
-                    //reference lost
-                    map.remove(ref.key);
-                    currentPixelCount -= ref.key.getPixelCount();
+            // bdd nfw imbgf to pixfl dount
+            finbl int nfwPixflCount = kfy.gftPixflCount();
+            durrfntPixflCount += nfwPixflCount;
+            // dlfbn out lost rfffrfndfs if not fnougi spbdf
+            if (durrfntPixflCount > mbxPixflCount) {
+                wiilf ((rff = (ImbgfSoftRfffrfndf)rfffrfndfQufuf.poll()) != null) {
+                    //rfffrfndf lost
+                    mbp.rfmovf(rff.kfy);
+                    durrfntPixflCount -= rff.kfy.gftPixflCount();
                 }
             }
 
-            // remove old items till there is enough free space
-            if (currentPixelCount > maxPixelCount) {
-                final Iterator<Map.Entry<PixelsKey, ImageSoftReference>>
-                        mapIter = map.entrySet().iterator();
-                while ((currentPixelCount > maxPixelCount) && mapIter.hasNext()) {
-                    final Map.Entry<PixelsKey, ImageSoftReference> entry =
-                            mapIter.next();
-                    mapIter.remove();
-                    final Image img = entry.getValue().get();
-                    if (img != null) img.flush();
-                    currentPixelCount -= entry.getValue().key.getPixelCount();
+            // rfmovf old itfms till tifrf is fnougi frff spbdf
+            if (durrfntPixflCount > mbxPixflCount) {
+                finbl Itfrbtor<Mbp.Entry<PixflsKfy, ImbgfSoftRfffrfndf>>
+                        mbpItfr = mbp.fntrySft().itfrbtor();
+                wiilf ((durrfntPixflCount > mbxPixflCount) && mbpItfr.ibsNfxt()) {
+                    finbl Mbp.Entry<PixflsKfy, ImbgfSoftRfffrfndf> fntry =
+                            mbpItfr.nfxt();
+                    mbpItfr.rfmovf();
+                    finbl Imbgf img = fntry.gftVbluf().gft();
+                    if (img != null) img.flusi();
+                    durrfntPixflCount -= fntry.gftVbluf().kfy.gftPixflCount();
                 }
             }
 
-            // finally put new in map
-            map.put(key, new ImageSoftReference(key, image, referenceQueue));
-        } finally {
-            lock.writeLock().unlock();
+            // finblly put nfw in mbp
+            mbp.put(kfy, nfw ImbgfSoftRfffrfndf(kfy, imbgf, rfffrfndfQufuf));
+        } finblly {
+            lodk.writfLodk().unlodk();
         }
     }
 
-    public interface PixelsKey {
+    publid intfrfbdf PixflsKfy {
 
-        int getPixelCount();
+        int gftPixflCount();
     }
 
-    private static class ImageSoftReference extends SoftReference<Image> {
+    privbtf stbtid dlbss ImbgfSoftRfffrfndf fxtfnds SoftRfffrfndf<Imbgf> {
 
-        final PixelsKey key;
+        finbl PixflsKfy kfy;
 
-        ImageSoftReference(final PixelsKey key, final Image referent,
-                final ReferenceQueue<? super Image> q) {
-            super(referent, q);
-            this.key = key;
+        ImbgfSoftRfffrfndf(finbl PixflsKfy kfy, finbl Imbgf rfffrfnt,
+                finbl RfffrfndfQufuf<? supfr Imbgf> q) {
+            supfr(rfffrfnt, q);
+            tiis.kfy = kfy;
         }
     }
 }

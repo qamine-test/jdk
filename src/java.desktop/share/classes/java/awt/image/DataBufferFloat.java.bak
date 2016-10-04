@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import static sun.java2d.StateTrackable.State.*;
+import stbtid sun.jbvb2d.StbtfTrbdkbblf.Stbtf.*;
 
 /**
- * This class extends <code>DataBuffer</code> and stores data internally
- * in <code>float</code> form.
+ * Tiis dlbss fxtfnds <dodf>DbtbBufffr</dodf> bnd storfs dbtb intfrnblly
+ * in <dodf>flobt</dodf> form.
  * <p>
- * <a name="optimizations">
- * Note that some implementations may function more efficiently
- * if they can maintain control over how the data for an image is
- * stored.
- * For example, optimizations such as caching an image in video
- * memory require that the implementation track all modifications
- * to that data.
- * Other implementations may operate better if they can store the
- * data in locations other than a Java array.
- * To maintain optimum compatibility with various optimizations
- * it is best to avoid constructors and methods which expose the
- * underlying storage as a Java array as noted below in the
- * documentation for those methods.
- * </a>
+ * <b nbmf="optimizbtions">
+ * Notf tibt somf implfmfntbtions mby fundtion morf fffidifntly
+ * if tify dbn mbintbin dontrol ovfr iow tif dbtb for bn imbgf is
+ * storfd.
+ * For fxbmplf, optimizbtions sudi bs dbdiing bn imbgf in vidfo
+ * mfmory rfquirf tibt tif implfmfntbtion trbdk bll modifidbtions
+ * to tibt dbtb.
+ * Otifr implfmfntbtions mby opfrbtf bfttfr if tify dbn storf tif
+ * dbtb in lodbtions otifr tibn b Jbvb brrby.
+ * To mbintbin optimum dompbtibility witi vbrious optimizbtions
+ * it is bfst to bvoid donstrudtors bnd mftiods wiidi fxposf tif
+ * undfrlying storbgf bs b Jbvb brrby bs notfd bflow in tif
+ * dodumfntbtion for tiosf mftiods.
+ * </b>
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public final class DataBufferFloat extends DataBuffer {
+publid finbl dlbss DbtbBufffrFlobt fxtfnds DbtbBufffr {
 
-    /** The array of data banks. */
-    float bankdata[][];
+    /** Tif brrby of dbtb bbnks. */
+    flobt bbnkdbtb[][];
 
-    /** A reference to the default data bank. */
-    float data[];
+    /** A rfffrfndf to tif dffbult dbtb bbnk. */
+    flobt dbtb[];
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with a specified size.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi b spfdififd sizf.
      *
-     * @param size The number of elements in the DataBuffer.
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif DbtbBufffr.
      */
-    public DataBufferFloat(int size) {
-        super(STABLE, TYPE_FLOAT, size);
-        data = new float[size];
-        bankdata = new float[1][];
-        bankdata[0] = data;
+    publid DbtbBufffrFlobt(int sizf) {
+        supfr(STABLE, TYPE_FLOAT, sizf);
+        dbtb = nfw flobt[sizf];
+        bbnkdbtb = nfw flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with a specified number of banks, all of which are of a
-     * specified size.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi b spfdififd numbfr of bbnks, bll of wiidi brf of b
+     * spfdififd sizf.
      *
-     * @param size The number of elements in each bank of the
-     * <code>DataBuffer</code>.
-     * @param numBanks The number of banks in the
-     *        <code>DataBuffer</code>.
+     * @pbrbm sizf Tif numbfr of flfmfnts in fbdi bbnk of tif
+     * <dodf>DbtbBufffr</dodf>.
+     * @pbrbm numBbnks Tif numbfr of bbnks in tif
+     *        <dodf>DbtbBufffr</dodf>.
      */
-    public DataBufferFloat(int size, int numBanks) {
-        super(STABLE, TYPE_FLOAT, size, numBanks);
-        bankdata = new float[numBanks][];
-        for (int i= 0; i < numBanks; i++) {
-            bankdata[i] = new float[size];
+    publid DbtbBufffrFlobt(int sizf, int numBbnks) {
+        supfr(STABLE, TYPE_FLOAT, sizf, numBbnks);
+        bbnkdbtb = nfw flobt[numBbnks][];
+        for (int i= 0; i < numBbnks; i++) {
+            bbnkdbtb[i] = nfw flobt[sizf];
         }
-        data = bankdata[0];
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the first
-     * <code>size</code> elements are available for use by this
-     * <code>DataBuffer</code>.  The array must be large enough to
-     * hold <code>size</code> elements.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi tif spfdififd dbtb brrby.  Only tif first
+     * <dodf>sizf</dodf> flfmfnts brf bvbilbblf for usf by tiis
+     * <dodf>DbtbBufffr</dodf>.  Tif brrby must bf lbrgf fnougi to
+     * iold <dodf>sizf</dodf> flfmfnts.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt {@dodf DbtbBufffr} objfdts drfbtfd by tiis donstrudtor
+     * mby bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @param dataArray An array of <code>float</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
-     * @param size The number of elements of the array to be used.
+     * @pbrbm dbtbArrby An brrby of <dodf>flobt</dodf>s to bf usfd bs tif
+     *                  first bnd only bbnk of tiis <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Tif numbfr of flfmfnts of tif brrby to bf usfd.
      */
-    public DataBufferFloat(float dataArray[], int size) {
-        super(UNTRACKABLE, TYPE_FLOAT, size);
-        data = dataArray;
-        bankdata = new float[1][];
-        bankdata[0] = data;
+    publid DbtbBufffrFlobt(flobt dbtbArrby[], int sizf) {
+        supfr(UNTRACKABLE, TYPE_FLOAT, sizf);
+        dbtb = dbtbArrby;
+        bbnkdbtb = nfw flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data array.  Only the elements between
-     * <code>offset</code> and <code>offset + size - 1</code> are
-     * available for use by this <code>DataBuffer</code>.  The array
-     * must be large enough to hold <code>offset + size</code>
-     * elements.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi tif spfdififd dbtb brrby.  Only tif flfmfnts bftwffn
+     * <dodf>offsft</dodf> bnd <dodf>offsft + sizf - 1</dodf> brf
+     * bvbilbblf for usf by tiis <dodf>DbtbBufffr</dodf>.  Tif brrby
+     * must bf lbrgf fnougi to iold <dodf>offsft + sizf</dodf>
+     * flfmfnts.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt {@dodf DbtbBufffr} objfdts drfbtfd by tiis donstrudtor
+     * mby bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @param dataArray An array of <code>float</code>s to be used as the
-     *                  first and only bank of this <code>DataBuffer</code>.
-     * @param size The number of elements of the array to be used.
-     * @param offset The offset of the first element of the array
-     *               that will be used.
+     * @pbrbm dbtbArrby An brrby of <dodf>flobt</dodf>s to bf usfd bs tif
+     *                  first bnd only bbnk of tiis <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Tif numbfr of flfmfnts of tif brrby to bf usfd.
+     * @pbrbm offsft Tif offsft of tif first flfmfnt of tif brrby
+     *               tibt will bf usfd.
      */
-    public DataBufferFloat(float dataArray[], int size, int offset) {
-        super(UNTRACKABLE, TYPE_FLOAT, size, 1, offset);
-        data = dataArray;
-        bankdata = new float[1][];
-        bankdata[0] = data;
+    publid DbtbBufffrFlobt(flobt dbtbArrby[], int sizf, int offsft) {
+        supfr(UNTRACKABLE, TYPE_FLOAT, sizf, 1, offsft);
+        dbtb = dbtbArrby;
+        bbnkdbtb = nfw flobt[1][];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data arrays.  Only the first
-     * <code>size</code> elements of each array are available for use
-     * by this <code>DataBuffer</code>.  The number of banks will be
-     * equal to <code>dataArray.length</code>.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi tif spfdififd dbtb brrbys.  Only tif first
+     * <dodf>sizf</dodf> flfmfnts of fbdi brrby brf bvbilbblf for usf
+     * by tiis <dodf>DbtbBufffr</dodf>.  Tif numbfr of bbnks will bf
+     * fqubl to <dodf>dbtbArrby.lfngti</dodf>.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt {@dodf DbtbBufffr} objfdts drfbtfd by tiis donstrudtor
+     * mby bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @param dataArray An array of arrays of <code>float</code>s to be
-     *                  used as the banks of this <code>DataBuffer</code>.
-     * @param size The number of elements of each array to be used.
+     * @pbrbm dbtbArrby An brrby of brrbys of <dodf>flobt</dodf>s to bf
+     *                  usfd bs tif bbnks of tiis <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Tif numbfr of flfmfnts of fbdi brrby to bf usfd.
      */
-    public DataBufferFloat(float dataArray[][], int size) {
-        super(UNTRACKABLE, TYPE_FLOAT, size, dataArray.length);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    publid DbtbBufffrFlobt(flobt dbtbArrby[][], int sizf) {
+        supfr(UNTRACKABLE, TYPE_FLOAT, sizf, dbtbArrby.lfngti);
+        bbnkdbtb = dbtbArrby.dlonf();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Constructs a <code>float</code>-based <code>DataBuffer</code>
-     * with the specified data arrays, size, and per-bank offsets.
-     * The number of banks is equal to <code>dataArray.length</code>.
-     * Each array must be at least as large as <code>size</code> plus the
-     * corresponding offset.  There must be an entry in the offsets
-     * array for each data array.
+     * Construdts b <dodf>flobt</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * witi tif spfdififd dbtb brrbys, sizf, bnd pfr-bbnk offsfts.
+     * Tif numbfr of bbnks is fqubl to <dodf>dbtbArrby.lfngti</dodf>.
+     * Ebdi brrby must bf bt lfbst bs lbrgf bs <dodf>sizf</dodf> plus tif
+     * dorrfsponding offsft.  Tifrf must bf bn fntry in tif offsfts
+     * brrby for fbdi dbtb brrby.
      * <p>
-     * Note that {@code DataBuffer} objects created by this constructor
-     * may be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt {@dodf DbtbBufffr} objfdts drfbtfd by tiis donstrudtor
+     * mby bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @param dataArray An array of arrays of <code>float</code>s to be
-     *                  used as the banks of this <code>DataBuffer</code>.
-     * @param size The number of elements of each array to be used.
-     * @param offsets An array of integer offsets, one for each bank.
+     * @pbrbm dbtbArrby An brrby of brrbys of <dodf>flobt</dodf>s to bf
+     *                  usfd bs tif bbnks of tiis <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Tif numbfr of flfmfnts of fbdi brrby to bf usfd.
+     * @pbrbm offsfts An brrby of intfgfr offsfts, onf for fbdi bbnk.
      */
-    public DataBufferFloat(float dataArray[][], int size, int offsets[]) {
-        super(UNTRACKABLE, TYPE_FLOAT, size,dataArray.length, offsets);
-        bankdata = dataArray.clone();
-        data = bankdata[0];
+    publid DbtbBufffrFlobt(flobt dbtbArrby[][], int sizf, int offsfts[]) {
+        supfr(UNTRACKABLE, TYPE_FLOAT, sizf,dbtbArrby.lfngti, offsfts);
+        bbnkdbtb = dbtbArrby.dlonf();
+        dbtb = bbnkdbtb[0];
     }
 
     /**
-     * Returns the default (first) <code>float</code> data array.
+     * Rfturns tif dffbult (first) <dodf>flobt</dodf> dbtb brrby.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt dblling tiis mftiod mby dbusf tiis {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @return the first float data array.
+     * @rfturn tif first flobt dbtb brrby.
      */
-    public float[] getData() {
-        theTrackable.setUntrackable();
-        return data;
+    publid flobt[] gftDbtb() {
+        tifTrbdkbblf.sftUntrbdkbblf();
+        rfturn dbtb;
     }
 
     /**
-     * Returns the data array for the specified bank.
+     * Rfturns tif dbtb brrby for tif spfdififd bbnk.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt dblling tiis mftiod mby dbusf tiis {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @param bank the data array
-     * @return the data array specified by <code>bank</code>.
+     * @pbrbm bbnk tif dbtb brrby
+     * @rfturn tif dbtb brrby spfdififd by <dodf>bbnk</dodf>.
      */
-    public float[] getData(int bank) {
-        theTrackable.setUntrackable();
-        return bankdata[bank];
+    publid flobt[] gftDbtb(int bbnk) {
+        tifTrbdkbblf.sftUntrbdkbblf();
+        rfturn bbnkdbtb[bbnk];
     }
 
     /**
-     * Returns the data array for all banks.
+     * Rfturns tif dbtb brrby for bll bbnks.
      * <p>
-     * Note that calling this method may cause this {@code DataBuffer}
-     * object to be incompatible with <a href="#optimizations">performance
-     * optimizations</a> used by some implementations (such as caching
-     * an associated image in video memory).
+     * Notf tibt dblling tiis mftiod mby dbusf tiis {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf witi <b irff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudi bs dbdiing
+     * bn bssodibtfd imbgf in vidfo mfmory).
      *
-     * @return all data arrays for this data buffer.
+     * @rfturn bll dbtb brrbys for tiis dbtb bufffr.
      */
-    public float[][] getBankData() {
-        theTrackable.setUntrackable();
-        return bankdata.clone();
+    publid flobt[][] gftBbnkDbtb() {
+        tifTrbdkbblf.sftUntrbdkbblf();
+        rfturn bbnkdbtb.dlonf();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as an <code>int</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first
+     * (dffbult) bbnk bs bn <dodf>int</dodf>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as an <code>int</code>.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
+     * @rfturn Tif dbtb fntry bs bn <dodf>int</dodf>.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public int getElem(int i) {
-        return (int)(data[i+offset]);
+    publid int gftElfm(int i) {
+        rfturn (int)(dbtb[i+offsft]);
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as an <code>int</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd
+     * bbnk bs bn <dodf>int</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as an <code>int</code>.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
+     * @rfturn Tif dbtb fntry bs bn <dodf>int</dodf>.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public int getElem(int bank, int i) {
-        return (int)(bankdata[bank][i+offsets[bank]]);
+    publid int gftElfm(int bbnk, int i) {
+        rfturn (int)(bbnkdbtb[bbnk][i+offsfts[bbnk]]);
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>int</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult)
+     * bbnk to tif givfn <dodf>int</dodf>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElem(int)
-     * @see #getElem(int, int)
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public void setElem(int i, int val) {
-        data[i+offset] = (float)val;
-        theTrackable.markDirty();
+    publid void sftElfm(int i, int vbl) {
+        dbtb[i+offsft] = (flobt)vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>int</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk to
+     * tif givfn <dodf>int</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElem(int)
-     * @see #getElem(int, int)
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public void setElem(int bank, int i, int val) {
-        bankdata[bank][i+offsets[bank]] = (float)val;
-        theTrackable.markDirty();
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = (flobt)vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>float</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first
+     * (dffbult) bbnk bs b <dodf>flobt</dodf>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as a <code>float</code>.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * @rfturn Tif dbtb fntry bs b <dodf>flobt</dodf>.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
      */
-    public float getElemFloat(int i) {
-        return data[i+offset];
+    publid flobt gftElfmFlobt(int i) {
+        rfturn dbtb[i+offsft];
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>float</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd
+     * bbnk bs b <dodf>flobt</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as a <code>float</code>.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * @rfturn Tif dbtb fntry bs b <dodf>flobt</dodf>.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
      */
-    public float getElemFloat(int bank, int i) {
-        return bankdata[bank][i+offsets[bank]];
+    publid flobt gftElfmFlobt(int bbnk, int i) {
+        rfturn bbnkdbtb[bbnk][i+offsfts[bbnk]];
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>float</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult)
+     * bbnk to tif givfn <dodf>flobt</dodf>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
      */
-    public void setElemFloat(int i, float val) {
-        data[i+offset] = val;
-        theTrackable.markDirty();
+    publid void sftElfmFlobt(int i, flobt vbl) {
+        dbtb[i+offsft] = vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>float</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk to
+     * tif givfn <dodf>flobt</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
      */
-    public void setElemFloat(int bank, int i, float val) {
-        bankdata[bank][i+offsets[bank]] = val;
-        theTrackable.markDirty();
+    publid void sftElfmFlobt(int bbnk, int i, flobt vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 
     /**
-     * Returns the requested data array element from the first
-     * (default) bank as a <code>double</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first
+     * (dffbult) bbnk bs b <dodf>doublf</dodf>.
      *
-     * @param i The desired data array element.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as a <code>double</code>.
-     * @see #setElemDouble(int, double)
-     * @see #setElemDouble(int, int, double)
+     * @rfturn Tif dbtb fntry bs b <dodf>doublf</dodf>.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
      */
-    public double getElemDouble(int i) {
-        return (double)data[i+offset];
+    publid doublf gftElfmDoublf(int i) {
+        rfturn (doublf)dbtb[i+offsft];
     }
 
     /**
-     * Returns the requested data array element from the specified
-     * bank as a <code>double</code>.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd
+     * bbnk bs b <dodf>doublf</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
      *
-     * @return The data entry as a <code>double</code>.
-     * @see #setElemDouble(int, double)
-     * @see #setElemDouble(int, int, double)
+     * @rfturn Tif dbtb fntry bs b <dodf>doublf</dodf>.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
      */
-    public double getElemDouble(int bank, int i) {
-        return (double)bankdata[bank][i+offsets[bank]];
+    publid doublf gftElfmDoublf(int bbnk, int i) {
+        rfturn (doublf)bbnkdbtb[bbnk][i+offsfts[bbnk]];
     }
 
     /**
-     * Sets the requested data array element in the first (default)
-     * bank to the given <code>double</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult)
+     * bbnk to tif givfn <dodf>doublf</dodf>.
      *
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemDouble(int)
-     * @see #getElemDouble(int, int)
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
      */
-    public void setElemDouble(int i, double val) {
-        data[i+offset] = (float)val;
-        theTrackable.markDirty();
+    publid void sftElfmDoublf(int i, doublf vbl) {
+        dbtb[i+offsft] = (flobt)vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 
     /**
-     * Sets the requested data array element in the specified bank to
-     * the given <code>double</code>.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk to
+     * tif givfn <dodf>doublf</dodf>.
      *
-     * @param bank The bank number.
-     * @param i The desired data array element.
-     * @param val The value to be set.
-     * @see #getElemDouble(int)
-     * @see #getElemDouble(int, int)
+     * @pbrbm bbnk Tif bbnk numbfr.
+     * @pbrbm i Tif dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Tif vbluf to bf sft.
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
      */
-    public void setElemDouble(int bank, int i, double val) {
-        bankdata[bank][i+offsets[bank]] = (float)val;
-        theTrackable.markDirty();
+    publid void sftElfmDoublf(int bbnk, int i, doublf vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = (flobt)vbl;
+        tifTrbdkbblf.mbrkDirty();
     }
 }

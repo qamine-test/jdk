@@ -1,0 +1,2048 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.filfdhoosfr.*;
+import jbvbx.swing.plbf.FilfChoosfrUI;
+
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.Filf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvb.util.Vfdtor;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Window;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * <dodf>JFilfChoosfr</dodf> providfs b simplf mfdhbnism for thf usfr to
+ * dhoosf b filf.
+ * For informbtion bbout using <dodf>JFilfChoosfr</dodf>, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/filfdhoosfr.html">How to Usf Filf Choosfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * <p>
+ *
+ * Thf following dodf pops up b filf dhoosfr for thf usfr's homf dirfdtory thbt
+ * sffs only .jpg bnd .gif imbgfs:
+ * <prf>
+ *    JFilfChoosfr dhoosfr = nfw JFilfChoosfr();
+ *    FilfNbmfExtfnsionFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr(
+ *        "JPG &bmp; GIF Imbgfs", "jpg", "gif");
+ *    dhoosfr.sftFilfFiltfr(filtfr);
+ *    int rfturnVbl = dhoosfr.showOpfnDiblog(pbrfnt);
+ *    if(rfturnVbl == JFilfChoosfr.APPROVE_OPTION) {
+ *       Systfm.out.println("You dhosf to opfn this filf: " +
+ *            dhoosfr.gftSflfdtfdFilf().gftNbmf());
+ *    }
+ * </prf>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt whidh bllows for thf intfrbdtivf sflfdtion of b filf.
+ *
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss JFilfChoosfr fxtfnds JComponfnt implfmfnts Addfssiblf {
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "FilfChoosfrUI";
+
+    // ************************
+    // ***** Diblog Typfs *****
+    // ************************
+
+    /**
+     * Typf vbluf indidbting thbt thf <dodf>JFilfChoosfr</dodf> supports bn
+     * "Opfn" filf opfrbtion.
+     */
+    publid stbtid finbl int OPEN_DIALOG = 0;
+
+    /**
+     * Typf vbluf indidbting thbt thf <dodf>JFilfChoosfr</dodf> supports b
+     * "Sbvf" filf opfrbtion.
+     */
+    publid stbtid finbl int SAVE_DIALOG = 1;
+
+    /**
+     * Typf vbluf indidbting thbt thf <dodf>JFilfChoosfr</dodf> supports b
+     * dfvflopfr-spfdififd filf opfrbtion.
+     */
+    publid stbtid finbl int CUSTOM_DIALOG = 2;
+
+
+    // ********************************
+    // ***** Diblog Rfturn Vblufs *****
+    // ********************************
+
+    /**
+     * Rfturn vbluf if dbndfl is dhosfn.
+     */
+    publid stbtid finbl int CANCEL_OPTION = 1;
+
+    /**
+     * Rfturn vbluf if bpprovf (yfs, ok) is dhosfn.
+     */
+    publid stbtid finbl int APPROVE_OPTION = 0;
+
+    /**
+     * Rfturn vbluf if bn frror oddurrfd.
+     */
+    publid stbtid finbl int ERROR_OPTION = -1;
+
+
+    // **********************************
+    // ***** JFilfChoosfr propfrtifs *****
+    // **********************************
+
+
+    /** Instrudtion to displby only filfs. */
+    publid stbtid finbl int FILES_ONLY = 0;
+
+    /** Instrudtion to displby only dirfdtorifs. */
+    publid stbtid finbl int DIRECTORIES_ONLY = 1;
+
+    /** Instrudtion to displby both filfs bnd dirfdtorifs. */
+    publid stbtid finbl int FILES_AND_DIRECTORIES = 2;
+
+    /** Instrudtion to dbndfl thf durrfnt sflfdtion. */
+    publid stbtid finbl String CANCEL_SELECTION = "CbndflSflfdtion";
+
+    /**
+     * Instrudtion to bpprovf thf durrfnt sflfdtion
+     * (sbmf bs prfssing yfs or ok).
+     */
+    publid stbtid finbl String APPROVE_SELECTION = "ApprovfSflfdtion";
+
+    /** Idfntififs dhbngf in thf tfxt on thf bpprovf (yfs, ok) button. */
+    publid stbtid finbl String APPROVE_BUTTON_TEXT_CHANGED_PROPERTY = "ApprovfButtonTfxtChbngfdPropfrty";
+
+    /**
+     * Idfntififs dhbngf in thf tooltip tfxt for thf bpprovf (yfs, ok)
+     * button.
+     */
+    publid stbtid finbl String APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY = "ApprovfButtonToolTipTfxtChbngfdPropfrty";
+
+    /** Idfntififs dhbngf in thf mnfmonid for thf bpprovf (yfs, ok) button. */
+    publid stbtid finbl String APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY = "ApprovfButtonMnfmonidChbngfdPropfrty";
+
+    /** Instrudtion to displby thf dontrol buttons. */
+    publid stbtid finbl String CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY = "ControlButtonsArfShownChbngfdPropfrty";
+
+    /** Idfntififs usfr's dirfdtory dhbngf. */
+    publid stbtid finbl String DIRECTORY_CHANGED_PROPERTY = "dirfdtoryChbngfd";
+
+    /** Idfntififs dhbngf in usfr's singlf-filf sflfdtion. */
+    publid stbtid finbl String SELECTED_FILE_CHANGED_PROPERTY = "SflfdtfdFilfChbngfdPropfrty";
+
+    /** Idfntififs dhbngf in usfr's multiplf-filf sflfdtion. */
+    publid stbtid finbl String SELECTED_FILES_CHANGED_PROPERTY = "SflfdtfdFilfsChbngfdPropfrty";
+
+    /** Enbblfs multiplf-filf sflfdtions. */
+    publid stbtid finbl String MULTI_SELECTION_ENABLED_CHANGED_PROPERTY = "MultiSflfdtionEnbblfdChbngfdPropfrty";
+
+    /**
+     * Sbys thbt b difffrfnt objfdt is bfing usfd to find bvbilbblf drivfs
+     * on thf systfm.
+     */
+    publid stbtid finbl String FILE_SYSTEM_VIEW_CHANGED_PROPERTY = "FilfSystfmVifwChbngfd";
+
+    /**
+     * Sbys thbt b difffrfnt objfdt is bfing usfd to rftrifvf filf
+     * informbtion.
+     */
+    publid stbtid finbl String FILE_VIEW_CHANGED_PROPERTY = "filfVifwChbngfd";
+
+    /** Idfntififs b dhbngf in thf displby-hiddfn-filfs propfrty. */
+    publid stbtid finbl String FILE_HIDING_CHANGED_PROPERTY = "FilfHidingChbngfd";
+
+    /** Usfr dhbngfd thf kind of filfs to displby. */
+    publid stbtid finbl String FILE_FILTER_CHANGED_PROPERTY = "filfFiltfrChbngfd";
+
+    /**
+     * Idfntififs b dhbngf in thf kind of sflfdtion (singlf,
+     * multiplf, ftd.).
+     */
+    publid stbtid finbl String FILE_SELECTION_MODE_CHANGED_PROPERTY = "filfSflfdtionChbngfd";
+
+    /**
+     * Sbys thbt b difffrfnt bddfssory domponfnt is in usf
+     * (for fxbmplf, to prfvifw filfs).
+     */
+    publid stbtid finbl String ACCESSORY_CHANGED_PROPERTY = "AddfssoryChbngfdPropfrty";
+
+    /**
+     * Idfntififs whfthfr b thf AddfptAllFilfFiltfr is usfd or not.
+     */
+    publid stbtid finbl String ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY = "bddfptAllFilfFiltfrUsfdChbngfd";
+
+    /** Idfntififs b dhbngf in thf diblog titlf. */
+    publid stbtid finbl String DIALOG_TITLE_CHANGED_PROPERTY = "DiblogTitlfChbngfdPropfrty";
+
+    /**
+     * Idfntififs b dhbngf in thf typf of filfs displbyfd (filfs only,
+     * dirfdtorifs only, or both filfs bnd dirfdtorifs).
+     */
+    publid stbtid finbl String DIALOG_TYPE_CHANGED_PROPERTY = "DiblogTypfChbngfdPropfrty";
+
+    /**
+     * Idfntififs b dhbngf in thf list of prfdffinfd filf filtfrs
+     * thf usfr dbn dhoosf from.
+     */
+    publid stbtid finbl String CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY = "ChoosbblfFilfFiltfrChbngfdPropfrty";
+
+    // ******************************
+    // ***** instbndf vbribblfs *****
+    // ******************************
+
+    privbtf String diblogTitlf = null;
+    privbtf String bpprovfButtonTfxt = null;
+    privbtf String bpprovfButtonToolTipTfxt = null;
+    privbtf int bpprovfButtonMnfmonid = 0;
+
+    privbtf Vfdtor<FilfFiltfr> filtfrs = nfw Vfdtor<FilfFiltfr>(5);
+    privbtf JDiblog diblog = null;
+    privbtf int diblogTypf = OPEN_DIALOG;
+    privbtf int rfturnVbluf = ERROR_OPTION;
+    privbtf JComponfnt bddfssory = null;
+
+    privbtf FilfVifw filfVifw = null;
+
+    privbtf boolfbn dontrolsShown = truf;
+
+    privbtf boolfbn usfFilfHiding = truf;
+    privbtf stbtid finbl String SHOW_HIDDEN_PROP = "bwt.filf.showHiddfnFilfs";
+
+    // Listfns to dhbngfs in thf nbtivf sftting for showing hiddfn filfs.
+    // Thf Listfnfr is rfmovfd bnd thf nbtivf sftting is ignorfd if
+    // sftFilfHidingEnbblfd() is fvfr dbllfd.
+    privbtf trbnsifnt PropfrtyChbngfListfnfr showFilfsListfnfr = null;
+
+    privbtf int filfSflfdtionModf = FILES_ONLY;
+
+    privbtf boolfbn multiSflfdtionEnbblfd = fblsf;
+
+    privbtf boolfbn usfAddfptAllFilfFiltfr = truf;
+
+    privbtf boolfbn drbgEnbblfd = fblsf;
+
+    privbtf FilfFiltfr filfFiltfr = null;
+
+    privbtf FilfSystfmVifw filfSystfmVifw = null;
+
+    privbtf Filf durrfntDirfdtory = null;
+    privbtf Filf sflfdtfdFilf = null;
+    privbtf Filf[] sflfdtfdFilfs;
+
+    // *************************************
+    // ***** JFilfChoosfr Construdtors *****
+    // *************************************
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> pointing to thf usfr's
+     * dffbult dirfdtory. This dffbult dfpfnds on thf opfrbting systfm.
+     * It is typidblly thf "My Dodumfnts" foldfr on Windows, bnd thf
+     * usfr's homf dirfdtory on Unix.
+     */
+    publid JFilfChoosfr() {
+        this((Filf) null, (FilfSystfmVifw) null);
+    }
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> using thf givfn pbth.
+     * Pbssing in b <dodf>null</dodf>
+     * string dbusfs thf filf dhoosfr to point to thf usfr's dffbult dirfdtory.
+     * This dffbult dfpfnds on thf opfrbting systfm. It is
+     * typidblly thf "My Dodumfnts" foldfr on Windows, bnd thf usfr's
+     * homf dirfdtory on Unix.
+     *
+     * @pbrbm durrfntDirfdtoryPbth  b <dodf>String</dodf> giving thf pbth
+     *                          to b filf or dirfdtory
+     */
+    publid JFilfChoosfr(String durrfntDirfdtoryPbth) {
+        this(durrfntDirfdtoryPbth, (FilfSystfmVifw) null);
+    }
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> using thf givfn <dodf>Filf</dodf>
+     * bs thf pbth. Pbssing in b <dodf>null</dodf> filf
+     * dbusfs thf filf dhoosfr to point to thf usfr's dffbult dirfdtory.
+     * This dffbult dfpfnds on thf opfrbting systfm. It is
+     * typidblly thf "My Dodumfnts" foldfr on Windows, bnd thf usfr's
+     * homf dirfdtory on Unix.
+     *
+     * @pbrbm durrfntDirfdtory  b <dodf>Filf</dodf> objfdt spfdifying
+     *                          thf pbth to b filf or dirfdtory
+     */
+    publid JFilfChoosfr(Filf durrfntDirfdtory) {
+        this(durrfntDirfdtory, (FilfSystfmVifw) null);
+    }
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> using thf givfn
+     * <dodf>FilfSystfmVifw</dodf>.
+     *
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
+     */
+    publid JFilfChoosfr(FilfSystfmVifw fsv) {
+        this((Filf) null, fsv);
+    }
+
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> using thf givfn durrfnt dirfdtory
+     * bnd <dodf>FilfSystfmVifw</dodf>.
+     *
+     * @pbrbm durrfntDirfdtory b {@dodf Filf} objfdt spfdifying thf pbth to b
+     *                         filf or dirfdtory
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
+     */
+    publid JFilfChoosfr(Filf durrfntDirfdtory, FilfSystfmVifw fsv) {
+        sftup(fsv);
+        sftCurrfntDirfdtory(durrfntDirfdtory);
+    }
+
+    /**
+     * Construdts b <dodf>JFilfChoosfr</dodf> using thf givfn durrfnt dirfdtory
+     * pbth bnd <dodf>FilfSystfmVifw</dodf>.
+     *
+     * @pbrbm durrfntDirfdtoryPbth b {@dodf String} spfdifying thf pbth to b filf
+     *                             or dirfdtory
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
+     */
+    publid JFilfChoosfr(String durrfntDirfdtoryPbth, FilfSystfmVifw fsv) {
+        sftup(fsv);
+        if(durrfntDirfdtoryPbth == null) {
+            sftCurrfntDirfdtory(null);
+        } flsf {
+            sftCurrfntDirfdtory(filfSystfmVifw.drfbtfFilfObjfdt(durrfntDirfdtoryPbth));
+        }
+    }
+
+    /**
+     * Pfrforms dommon donstrudtor initiblizbtion bnd sftup.
+     *
+     * @pbrbm vifw thf {@dodf FilfSystfmVifw} usfd for sftup
+     */
+    protfdtfd void sftup(FilfSystfmVifw vifw) {
+        instbllShowFilfsListfnfr();
+        instbllHifrbrdhyListfnfr();
+
+        if(vifw == null) {
+            vifw = FilfSystfmVifw.gftFilfSystfmVifw();
+        }
+        sftFilfSystfmVifw(vifw);
+        updbtfUI();
+        if(isAddfptAllFilfFiltfrUsfd()) {
+            sftFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK);
+    }
+
+    privbtf void instbllHifrbrdhyListfnfr() {
+        bddHifrbrdhyListfnfr(nfw HifrbrdhyListfnfr() {
+            @Ovfrridf
+            publid void hifrbrdhyChbngfd(HifrbrdhyEvfnt f) {
+                if ((f.gftChbngfFlbgs() & HifrbrdhyEvfnt.PARENT_CHANGED)
+                        == HifrbrdhyEvfnt.PARENT_CHANGED) {
+                    JFilfChoosfr fd = JFilfChoosfr.this;
+                    JRootPbnf rootPbnf = SwingUtilitifs.gftRootPbnf(fd);
+                    if (rootPbnf != null) {
+                        rootPbnf.sftDffbultButton(fd.gftUI().gftDffbultButton(fd));
+                    }
+                }
+            }
+        });
+    }
+
+    privbtf void instbllShowFilfsListfnfr() {
+        // Trbdk nbtivf sftting for showing hiddfn filfs
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        Objfdt showHiddfnPropfrty = tk.gftDfsktopPropfrty(SHOW_HIDDEN_PROP);
+        if (showHiddfnPropfrty instbndfof Boolfbn) {
+            usfFilfHiding = !((Boolfbn)showHiddfnPropfrty).boolfbnVbluf();
+            showFilfsListfnfr = nfw WfbkPCL(this);
+            tk.bddPropfrtyChbngfListfnfr(SHOW_HIDDEN_PROP, showFilfsListfnfr);
+        }
+    }
+
+    /**
+     * Sfts thf <dodf>drbgEnbblfd</dodf> propfrty,
+     * whidh must bf <dodf>truf</dodf> to fnbblf
+     * butombtid drbg hbndling (thf first pbrt of drbg bnd drop)
+     * on this domponfnt.
+     * Thf <dodf>trbnsffrHbndlfr</dodf> propfrty nffds to bf sft
+     * to b non-<dodf>null</dodf> vbluf for thf drbg to do
+     * bnything.  Thf dffbult vbluf of thf <dodf>drbgEnbblfd</dodf>
+     * propfrty
+     * is <dodf>fblsf</dodf>.
+     *
+     * <p>
+     *
+     * Whfn butombtid drbg hbndling is fnbblfd,
+     * most look bnd fffls bfgin b drbg-bnd-drop opfrbtion
+     * whfnfvfr thf usfr prfssfs thf mousf button ovfr bn itfm
+     * bnd thfn movfs thf mousf b ffw pixfls.
+     * Sftting this propfrty to <dodf>truf</dodf>
+     * dbn thfrfforf hbvf b subtlf ffffdt on
+     * how sflfdtions bfhbvf.
+     *
+     * <p>
+     *
+     * Somf look bnd fffls might not support butombtid drbg bnd drop;
+     * thfy will ignorf this propfrty.  You dbn work bround sudh
+     * look bnd fffls by modifying thf domponfnt
+     * to dirfdtly dbll thf <dodf>fxportAsDrbg</dodf> mfthod of b
+     * <dodf>TrbnsffrHbndlfr</dodf>.
+     *
+     * @pbrbm b thf vbluf to sft thf <dodf>drbgEnbblfd</dodf> propfrty to
+     * @fxdfption HfbdlfssExdfption if
+     *            <dodf>b</dodf> is <dodf>truf</dodf> bnd
+     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #gftDrbgEnbblfd
+     * @sff #sftTrbnsffrHbndlfr
+     * @sff TrbnsffrHbndlfr
+     * @sindf 1.4
+     *
+     * @bfbninfo
+     *  dfsdription: dftfrminfs whfthfr butombtid drbg hbndling is fnbblfd
+     *        bound: fblsf
+     */
+    publid void sftDrbgEnbblfd(boolfbn b) {
+        if (b && GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+        drbgEnbblfd = b;
+    }
+
+    /**
+     * Gfts thf vbluf of thf <dodf>drbgEnbblfd</dodf> propfrty.
+     *
+     * @rfturn  thf vbluf of thf <dodf>drbgEnbblfd</dodf> propfrty
+     * @sff #sftDrbgEnbblfd
+     * @sindf 1.4
+     */
+    publid boolfbn gftDrbgEnbblfd() {
+        rfturn drbgEnbblfd;
+    }
+
+    // *****************************
+    // ****** Filf Opfrbtions ******
+    // *****************************
+
+    /**
+     * Rfturns thf sflfdtfd filf. This dbn bf sft fithfr by thf
+     * progrbmmfr vib <dodf>sftSflfdtfdFilf</dodf> or by b usfr bdtion, sudh bs
+     * fithfr typing thf filfnbmf into thf UI or sflfdting thf
+     * filf from b list in thf UI.
+     *
+     * @sff #sftSflfdtfdFilf
+     * @rfturn thf sflfdtfd filf
+     */
+    publid Filf gftSflfdtfdFilf() {
+        rfturn sflfdtfdFilf;
+    }
+
+    /**
+     * Sfts thf sflfdtfd filf. If thf filf's pbrfnt dirfdtory is
+     * not thf durrfnt dirfdtory, dhbngfs thf durrfnt dirfdtory
+     * to bf thf filf's pbrfnt dirfdtory.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     *
+     * @sff #gftSflfdtfdFilf
+     *
+     * @pbrbm filf thf sflfdtfd filf
+     */
+    publid void sftSflfdtfdFilf(Filf filf) {
+        Filf oldVbluf = sflfdtfdFilf;
+        sflfdtfdFilf = filf;
+        if(sflfdtfdFilf != null) {
+            if (filf.isAbsolutf() && !gftFilfSystfmVifw().isPbrfnt(gftCurrfntDirfdtory(), sflfdtfdFilf)) {
+                sftCurrfntDirfdtory(sflfdtfdFilf.gftPbrfntFilf());
+            }
+            if (!isMultiSflfdtionEnbblfd() || sflfdtfdFilfs == null || sflfdtfdFilfs.lfngth == 1) {
+                fnsurfFilfIsVisiblf(sflfdtfdFilf);
+            }
+        }
+        firfPropfrtyChbngf(SELECTED_FILE_CHANGED_PROPERTY, oldVbluf, sflfdtfdFilf);
+    }
+
+    /**
+     * Rfturns b list of sflfdtfd filfs if thf filf dhoosfr is
+     * sft to bllow multiplf sflfdtion.
+     *
+     * @rfturn bn brrby of sflfdtfd {@dodf Filf}s
+     */
+    publid Filf[] gftSflfdtfdFilfs() {
+        if(sflfdtfdFilfs == null) {
+            rfturn nfw Filf[0];
+        } flsf {
+            rfturn sflfdtfdFilfs.dlonf();
+        }
+    }
+
+    /**
+     * Sfts thf list of sflfdtfd filfs if thf filf dhoosfr is
+     * sft to bllow multiplf sflfdtion.
+     *
+     * @pbrbm sflfdtfdFilfs bn brrby {@dodf Filf}s to bf sflfdtfd
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Thf list of sflfdtfd filfs if thf dhoosfr is in multiplf sflfdtion modf.
+     */
+    publid void sftSflfdtfdFilfs(Filf[] sflfdtfdFilfs) {
+        Filf[] oldVbluf = this.sflfdtfdFilfs;
+        if (sflfdtfdFilfs == null || sflfdtfdFilfs.lfngth == 0) {
+            sflfdtfdFilfs = null;
+            this.sflfdtfdFilfs = null;
+            sftSflfdtfdFilf(null);
+        } flsf {
+            this.sflfdtfdFilfs = sflfdtfdFilfs.dlonf();
+            sftSflfdtfdFilf(this.sflfdtfdFilfs[0]);
+        }
+        firfPropfrtyChbngf(SELECTED_FILES_CHANGED_PROPERTY, oldVbluf, sflfdtfdFilfs);
+    }
+
+    /**
+     * Rfturns thf durrfnt dirfdtory.
+     *
+     * @rfturn thf durrfnt dirfdtory
+     * @sff #sftCurrfntDirfdtory
+     */
+    publid Filf gftCurrfntDirfdtory() {
+        rfturn durrfntDirfdtory;
+    }
+
+    /**
+     * Sfts thf durrfnt dirfdtory. Pbssing in <dodf>null</dodf> sfts thf
+     * filf dhoosfr to point to thf usfr's dffbult dirfdtory.
+     * This dffbult dfpfnds on thf opfrbting systfm. It is
+     * typidblly thf "My Dodumfnts" foldfr on Windows, bnd thf usfr's
+     * homf dirfdtory on Unix.
+     *
+     * If thf filf pbssfd in bs <dodf>durrfntDirfdtory</dodf> is not b
+     * dirfdtory, thf pbrfnt of thf filf will bf usfd bs thf durrfntDirfdtory.
+     * If thf pbrfnt is not trbvfrsbblf, thfn it will wblk up thf pbrfnt trff
+     * until it finds b trbvfrsbblf dirfdtory, or hits thf root of thf
+     * filf systfm.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf dirfdtory thbt thf JFilfChoosfr is showing filfs of.
+     *
+     * @pbrbm dir thf durrfnt dirfdtory to point to
+     * @sff #gftCurrfntDirfdtory
+     */
+    publid void sftCurrfntDirfdtory(Filf dir) {
+        Filf oldVbluf = durrfntDirfdtory;
+
+        if (dir != null && !dir.fxists()) {
+            dir = durrfntDirfdtory;
+        }
+        if (dir == null) {
+            dir = gftFilfSystfmVifw().gftDffbultDirfdtory();
+        }
+        if (durrfntDirfdtory != null) {
+            /* Vfrify thf toString of objfdt */
+            if (this.durrfntDirfdtory.fqubls(dir)) {
+                rfturn;
+            }
+        }
+
+        Filf prfv = null;
+        whilf (!isTrbvfrsbblf(dir) && prfv != dir) {
+            prfv = dir;
+            dir = gftFilfSystfmVifw().gftPbrfntDirfdtory(dir);
+        }
+        durrfntDirfdtory = dir;
+
+        firfPropfrtyChbngf(DIRECTORY_CHANGED_PROPERTY, oldVbluf, durrfntDirfdtory);
+    }
+
+    /**
+     * Chbngfs thf dirfdtory to bf sft to thf pbrfnt of thf
+     * durrfnt dirfdtory.
+     *
+     * @sff #gftCurrfntDirfdtory
+     */
+    publid void dhbngfToPbrfntDirfdtory() {
+        sflfdtfdFilf = null;
+        Filf oldVbluf = gftCurrfntDirfdtory();
+        sftCurrfntDirfdtory(gftFilfSystfmVifw().gftPbrfntDirfdtory(oldVbluf));
+    }
+
+    /**
+     * Tflls thf UI to rfsdbn its filfs list from thf durrfnt dirfdtory.
+     */
+    publid void rfsdbnCurrfntDirfdtory() {
+        gftUI().rfsdbnCurrfntDirfdtory(this);
+    }
+
+    /**
+     * Mbkfs surf thbt thf spfdififd filf is vifwbblf, bnd
+     * not hiddfn.
+     *
+     * @pbrbm f  b Filf objfdt
+     */
+    publid void fnsurfFilfIsVisiblf(Filf f) {
+        gftUI().fnsurfFilfIsVisiblf(this, f);
+    }
+
+    // **************************************
+    // ***** JFilfChoosfr Diblog mfthods *****
+    // **************************************
+
+    /**
+     * Pops up bn "Opfn Filf" filf dhoosfr diblog. Notf thbt thf
+     * tfxt thbt bppfbrs in thf bpprovf button is dftfrminfd by
+     * thf L&bmp;F.
+     *
+     * @pbrbm    pbrfnt  thf pbrfnt domponfnt of thf diblog,
+     *                  dbn bf <dodf>null</dodf>;
+     *                  sff <dodf>showDiblog</dodf> for dftbils
+     * @rfturn   thf rfturn stbtf of thf filf dhoosfr on popdown:
+     * <ul>
+     * <li>JFilfChoosfr.CANCEL_OPTION
+     * <li>JFilfChoosfr.APPROVE_OPTION
+     * <li>JFilfChoosfr.ERROR_OPTION if bn frror oddurs or thf
+     *                  diblog is dismissfd
+     * </ul>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #showDiblog
+     */
+    publid int showOpfnDiblog(Componfnt pbrfnt) throws HfbdlfssExdfption {
+        sftDiblogTypf(OPEN_DIALOG);
+        rfturn showDiblog(pbrfnt, null);
+    }
+
+    /**
+     * Pops up b "Sbvf Filf" filf dhoosfr diblog. Notf thbt thf
+     * tfxt thbt bppfbrs in thf bpprovf button is dftfrminfd by
+     * thf L&bmp;F.
+     *
+     * @pbrbm    pbrfnt  thf pbrfnt domponfnt of thf diblog,
+     *                  dbn bf <dodf>null</dodf>;
+     *                  sff <dodf>showDiblog</dodf> for dftbils
+     * @rfturn   thf rfturn stbtf of thf filf dhoosfr on popdown:
+     * <ul>
+     * <li>JFilfChoosfr.CANCEL_OPTION
+     * <li>JFilfChoosfr.APPROVE_OPTION
+     * <li>JFilfChoosfr.ERROR_OPTION if bn frror oddurs or thf
+     *                  diblog is dismissfd
+     * </ul>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #showDiblog
+     */
+    publid int showSbvfDiblog(Componfnt pbrfnt) throws HfbdlfssExdfption {
+        sftDiblogTypf(SAVE_DIALOG);
+        rfturn showDiblog(pbrfnt, null);
+    }
+
+    /**
+     * Pops b dustom filf dhoosfr diblog with b dustom bpprovf button.
+     * For fxbmplf, thf following dodf
+     * pops up b filf dhoosfr with b "Run Applidbtion" button
+     * (instfbd of thf normbl "Sbvf" or "Opfn" button):
+     * <prf>
+     * filfdhoosfr.showDiblog(pbrfntFrbmf, "Run Applidbtion");
+     * </prf>
+     *
+     * Altfrnbtivfly, thf following dodf dofs thf sbmf thing:
+     * <prf>
+     *    JFilfChoosfr dhoosfr = nfw JFilfChoosfr(null);
+     *    dhoosfr.sftApprovfButtonTfxt("Run Applidbtion");
+     *    dhoosfr.showDiblog(pbrfntFrbmf, null);
+     * </prf>
+     *
+     * <!--PENDING(jfff) - thf following mfthod should bf bddfd to thf bpi:
+     *      showDiblog(Componfnt pbrfnt);-->
+     * <!--PENDING(kwblrbth) - should spfdify modblity bnd whbt
+     *      "dfpfnds" mfbns.-->
+     *
+     * <p>
+     *
+     * Thf <dodf>pbrfnt</dodf> brgumfnt dftfrminfs two things:
+     * thf frbmf on whidh thf opfn diblog dfpfnds bnd
+     * thf domponfnt whosf position thf look bnd fffl
+     * should donsidfr whfn plbding thf diblog.  If thf pbrfnt
+     * is b <dodf>Frbmf</dodf> objfdt (sudh bs b <dodf>JFrbmf</dodf>)
+     * thfn thf diblog dfpfnds on thf frbmf bnd
+     * thf look bnd fffl positions thf diblog
+     * rflbtivf to thf frbmf (for fxbmplf, dfntfrfd ovfr thf frbmf).
+     * If thf pbrfnt is b domponfnt, thfn thf diblog
+     * dfpfnds on thf frbmf dontbining thf domponfnt,
+     * bnd is positionfd rflbtivf to thf domponfnt
+     * (for fxbmplf, dfntfrfd ovfr thf domponfnt).
+     * If thf pbrfnt is <dodf>null</dodf>, thfn thf diblog dfpfnds on
+     * no visiblf window, bnd it's plbdfd in b
+     * look-bnd-fffl-dfpfndfnt position
+     * sudh bs thf dfntfr of thf sdrffn.
+     *
+     * @pbrbm   pbrfnt  thf pbrfnt domponfnt of thf diblog;
+     *                  dbn bf <dodf>null</dodf>
+     * @pbrbm   bpprovfButtonTfxt thf tfxt of thf <dodf>ApprovfButton</dodf>
+     * @rfturn  thf rfturn stbtf of thf filf dhoosfr on popdown:
+     * <ul>
+     * <li>JFilfChoosfr.CANCEL_OPTION
+     * <li>JFilfChoosfr.APPROVE_OPTION
+     * <li>JFilfChoosfr.ERROR_OPTION if bn frror oddurs or thf
+     *                  diblog is dismissfd
+     * </ul>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid int showDiblog(Componfnt pbrfnt, String bpprovfButtonTfxt)
+        throws HfbdlfssExdfption {
+        if (diblog != null) {
+            // Prfvfnt to show sfdond instbndf of diblog if thf prfvious onf still fxists
+            rfturn JFilfChoosfr.ERROR_OPTION;
+        }
+
+        if(bpprovfButtonTfxt != null) {
+            sftApprovfButtonTfxt(bpprovfButtonTfxt);
+            sftDiblogTypf(CUSTOM_DIALOG);
+        }
+        diblog = drfbtfDiblog(pbrfnt);
+        diblog.bddWindowListfnfr(nfw WindowAdbptfr() {
+            publid void windowClosing(WindowEvfnt f) {
+                rfturnVbluf = CANCEL_OPTION;
+            }
+        });
+        rfturnVbluf = ERROR_OPTION;
+        rfsdbnCurrfntDirfdtory();
+
+        diblog.show();
+        firfPropfrtyChbngf("JFilfChoosfrDiblogIsClosingPropfrty", diblog, null);
+
+        // Rfmovf bll domponfnts from diblog. Thf MftblFilfChoosfrUI.instbllUI() mfthod (bnd othfr LAFs)
+        // rfgistfrs AWT listfnfr for diblogs bnd produdfs mfmory lfbks. It hbppfns whfn
+        // instbllUI invokfd bftfr thf showDiblog mfthod.
+        diblog.gftContfntPbnf().rfmovfAll();
+        diblog.disposf();
+        diblog = null;
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b nfw <dodf>JDiblog</dodf> wrbpping
+     * <dodf>this</dodf> dfntfrfd on thf <dodf>pbrfnt</dodf>
+     * in thf <dodf>pbrfnt</dodf>'s frbmf.
+     * This mfthod dbn bf ovfrridfn to furthfr mbnipulbtf thf diblog,
+     * to disbblf rfsizing, sft thf lodbtion, ftd. Exbmplf:
+     * <prf>
+     *     dlbss MyFilfChoosfr fxtfnds JFilfChoosfr {
+     *         protfdtfd JDiblog drfbtfDiblog(Componfnt pbrfnt) throws HfbdlfssExdfption {
+     *             JDiblog diblog = supfr.drfbtfDiblog(pbrfnt);
+     *             diblog.sftLodbtion(300, 200);
+     *             diblog.sftRfsizbblf(fblsf);
+     *             rfturn diblog;
+     *         }
+     *     }
+     * </prf>
+     *
+     * @pbrbm   pbrfnt  thf pbrfnt domponfnt of thf diblog;
+     *                  dbn bf <dodf>null</dodf>
+     * @rfturn b nfw <dodf>JDiblog</dodf> dontbining this instbndf
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.4
+     */
+    protfdtfd JDiblog drfbtfDiblog(Componfnt pbrfnt) throws HfbdlfssExdfption {
+        FilfChoosfrUI ui = gftUI();
+        String titlf = ui.gftDiblogTitlf(this);
+        putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_DESCRIPTION_PROPERTY,
+                          titlf);
+
+        JDiblog diblog;
+        Window window = JOptionPbnf.gftWindowForComponfnt(pbrfnt);
+        if (window instbndfof Frbmf) {
+            diblog = nfw JDiblog((Frbmf)window, titlf, truf);
+        } flsf {
+            diblog = nfw JDiblog((Diblog)window, titlf, truf);
+        }
+        diblog.sftComponfntOrifntbtion(this.gftComponfntOrifntbtion());
+
+        Contbinfr dontfntPbnf = diblog.gftContfntPbnf();
+        dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+        dontfntPbnf.bdd(this, BordfrLbyout.CENTER);
+
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+            UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                diblog.gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.FILE_CHOOSER_DIALOG);
+            }
+        }
+        diblog.pbdk();
+        diblog.sftLodbtionRflbtivfTo(pbrfnt);
+
+        rfturn diblog;
+    }
+
+    // **************************
+    // ***** Diblog Options *****
+    // **************************
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>dontrolButtonsArfShown</dodf>
+     * propfrty.
+     *
+     * @rfturn   thf vbluf of thf <dodf>dontrolButtonsArfShown</dodf>
+     *     propfrty
+     *
+     * @sff #sftControlButtonsArfShown
+     * @sindf 1.3
+     */
+    publid boolfbn gftControlButtonsArfShown() {
+        rfturn dontrolsShown;
+    }
+
+
+    /**
+     * Sfts thf propfrty
+     * thbt indidbtfs whfthfr thf <i>bpprovf</i> bnd <i>dbndfl</i>
+     * buttons brf shown in thf filf dhoosfr.  This propfrty
+     * is <dodf>truf</dodf> by dffbult.  Look bnd fffls
+     * thbt blwbys show thfsf buttons will ignorf thf vbluf
+     * of this propfrty.
+     * This mfthod firfs b propfrty-dhbngfd fvfnt,
+     * using thf string vbluf of
+     * <dodf>CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY</dodf>
+     * bs thf nbmf of thf propfrty.
+     *
+     * @pbrbm b <dodf>fblsf</dodf> if dontrol buttons should not bf
+     *    shown; othfrwisf, <dodf>truf</dodf>
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts whfthfr thf bpprovf &bmp; dbndfl buttons brf shown.
+     *
+     * @sff #gftControlButtonsArfShown
+     * @sff #CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY
+     * @sindf 1.3
+     */
+    publid void sftControlButtonsArfShown(boolfbn b) {
+        if(dontrolsShown == b) {
+            rfturn;
+        }
+        boolfbn oldVbluf = dontrolsShown;
+        dontrolsShown = b;
+        firfPropfrtyChbngf(CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY, oldVbluf, dontrolsShown);
+    }
+
+    /**
+     * Rfturns thf typf of this diblog.  Thf dffbult is
+     * <dodf>JFilfChoosfr.OPEN_DIALOG</dodf>.
+     *
+     * @rfturn   thf typf of diblog to bf displbyfd:
+     * <ul>
+     * <li>JFilfChoosfr.OPEN_DIALOG
+     * <li>JFilfChoosfr.SAVE_DIALOG
+     * <li>JFilfChoosfr.CUSTOM_DIALOG
+     * </ul>
+     *
+     * @sff #sftDiblogTypf
+     */
+    publid int gftDiblogTypf() {
+        rfturn diblogTypf;
+    }
+
+    /**
+     * Sfts thf typf of this diblog. Usf <dodf>OPEN_DIALOG</dodf> whfn you
+     * wbnt to bring up b filf dhoosfr thbt thf usfr dbn usf to opfn b filf.
+     * Likfwisf, usf <dodf>SAVE_DIALOG</dodf> for lftting thf usfr dhoosf
+     * b filf for sbving.
+     * Usf <dodf>CUSTOM_DIALOG</dodf> whfn you wbnt to usf thf filf
+     * dhoosfr in b dontfxt othfr thbn "Opfn" or "Sbvf".
+     * For instbndf, you might wbnt to bring up b filf dhoosfr thbt bllows
+     * thf usfr to dhoosf b filf to fxfdutf. Notf thbt you normblly would not
+     * nffd to sft thf <dodf>JFilfChoosfr</dodf> to usf
+     * <dodf>CUSTOM_DIALOG</dodf>
+     * sindf b dbll to <dodf>sftApprovfButtonTfxt</dodf> dofs this for you.
+     * Thf dffbult diblog typf is <dodf>JFilfChoosfr.OPEN_DIALOG</dodf>.
+     *
+     * @pbrbm diblogTypf thf typf of diblog to bf displbyfd:
+     * <ul>
+     * <li>JFilfChoosfr.OPEN_DIALOG
+     * <li>JFilfChoosfr.SAVE_DIALOG
+     * <li>JFilfChoosfr.CUSTOM_DIALOG
+     * </ul>
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>diblogTypf</dodf> is
+     *                          not lfgbl
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf typf (opfn, sbvf, dustom) of thf JFilfChoosfr.
+     *        fnum:
+     *              OPEN_DIALOG JFilfChoosfr.OPEN_DIALOG
+     *              SAVE_DIALOG JFilfChoosfr.SAVE_DIALOG
+     *              CUSTOM_DIALOG JFilfChoosfr.CUSTOM_DIALOG
+     *
+     * @sff #gftDiblogTypf
+     * @sff #sftApprovfButtonTfxt
+     */
+    // PENDING(jfff) - firf button tfxt dhbngf propfrty
+    publid void sftDiblogTypf(int diblogTypf) {
+        if(this.diblogTypf == diblogTypf) {
+            rfturn;
+        }
+        if(!(diblogTypf == OPEN_DIALOG || diblogTypf == SAVE_DIALOG || diblogTypf == CUSTOM_DIALOG)) {
+            throw nfw IllfgblArgumfntExdfption("Indorrfdt Diblog Typf: " + diblogTypf);
+        }
+        int oldVbluf = this.diblogTypf;
+        this.diblogTypf = diblogTypf;
+        if(diblogTypf == OPEN_DIALOG || diblogTypf == SAVE_DIALOG) {
+            sftApprovfButtonTfxt(null);
+        }
+        firfPropfrtyChbngf(DIALOG_TYPE_CHANGED_PROPERTY, oldVbluf, diblogTypf);
+    }
+
+    /**
+     * Sfts thf string thbt gofs in thf <dodf>JFilfChoosfr</dodf> window's
+     * titlf bbr.
+     *
+     * @pbrbm diblogTitlf thf nfw <dodf>String</dodf> for thf titlf bbr
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf titlf of thf JFilfChoosfr diblog window.
+     *
+     * @sff #gftDiblogTitlf
+     *
+     */
+    publid void sftDiblogTitlf(String diblogTitlf) {
+        String oldVbluf = this.diblogTitlf;
+        this.diblogTitlf = diblogTitlf;
+        if(diblog != null) {
+            diblog.sftTitlf(diblogTitlf);
+        }
+        firfPropfrtyChbngf(DIALOG_TITLE_CHANGED_PROPERTY, oldVbluf, diblogTitlf);
+    }
+
+    /**
+     * Gfts thf string thbt gofs in thf <dodf>JFilfChoosfr</dodf>'s titlfbbr.
+     *
+     * @rfturn thf string from thf {@dodf JFilfChoosfr} window's titlf bbr
+     * @sff #sftDiblogTitlf
+     */
+    publid String gftDiblogTitlf() {
+        rfturn diblogTitlf;
+    }
+
+    // ************************************
+    // ***** JFilfChoosfr Vifw Options *****
+    // ************************************
+
+
+
+    /**
+     * Sfts thf tooltip tfxt usfd in thf <dodf>ApprovfButton</dodf>.
+     * If <dodf>null</dodf>, thf UI objfdt will dftfrminf thf button's tfxt.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf tooltip tfxt for thf ApprovfButton.
+     *
+     * @pbrbm toolTipTfxt thf tooltip tfxt for thf bpprovf button
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #showDiblog
+     */
+    publid void sftApprovfButtonToolTipTfxt(String toolTipTfxt) {
+        if(bpprovfButtonToolTipTfxt == toolTipTfxt) {
+            rfturn;
+        }
+        String oldVbluf = bpprovfButtonToolTipTfxt;
+        bpprovfButtonToolTipTfxt = toolTipTfxt;
+        firfPropfrtyChbngf(APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY, oldVbluf, bpprovfButtonToolTipTfxt);
+    }
+
+
+    /**
+     * Rfturns thf tooltip tfxt usfd in thf <dodf>ApprovfButton</dodf>.
+     * If <dodf>null</dodf>, thf UI objfdt will dftfrminf thf button's tfxt.
+     *
+     * @rfturn thf tooltip tfxt usfd for thf bpprovf button
+     *
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #showDiblog
+     */
+    publid String gftApprovfButtonToolTipTfxt() {
+        rfturn bpprovfButtonToolTipTfxt;
+    }
+
+    /**
+     * Rfturns thf bpprovf button's mnfmonid.
+     * @rfturn bn intfgfr vbluf for thf mnfmonid kfy
+     *
+     * @sff #sftApprovfButtonMnfmonid
+     */
+    publid int gftApprovfButtonMnfmonid() {
+        rfturn bpprovfButtonMnfmonid;
+    }
+
+    /**
+     * Sfts thf bpprovf button's mnfmonid using b numfrid kfydodf.
+     *
+     * @pbrbm mnfmonid  bn intfgfr vbluf for thf mnfmonid kfy
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf mnfmonid kfy bddflfrbtor for thf ApprovfButton.
+     *
+     * @sff #gftApprovfButtonMnfmonid
+     */
+    publid void sftApprovfButtonMnfmonid(int mnfmonid) {
+        if(bpprovfButtonMnfmonid == mnfmonid) {
+           rfturn;
+        }
+        int oldVbluf = bpprovfButtonMnfmonid;
+        bpprovfButtonMnfmonid = mnfmonid;
+        firfPropfrtyChbngf(APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY, oldVbluf, bpprovfButtonMnfmonid);
+    }
+
+    /**
+     * Sfts thf bpprovf button's mnfmonid using b dhbrbdtfr.
+     * @pbrbm mnfmonid  b dhbrbdtfr vbluf for thf mnfmonid kfy
+     *
+     * @sff #gftApprovfButtonMnfmonid
+     */
+    publid void sftApprovfButtonMnfmonid(dhbr mnfmonid) {
+        int vk = (int) mnfmonid;
+        if(vk >= 'b' && vk <='z') {
+            vk -= ('b' - 'A');
+        }
+        sftApprovfButtonMnfmonid(vk);
+    }
+
+
+    /**
+     * Sfts thf tfxt usfd in thf <dodf>ApprovfButton</dodf> in thf
+     * <dodf>FilfChoosfrUI</dodf>.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf tfxt thbt gofs in thf ApprovfButton.
+     *
+     * @pbrbm bpprovfButtonTfxt thf tfxt usfd in thf <dodf>ApprovfButton</dodf>
+     *
+     * @sff #gftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #showDiblog
+     */
+    // PENDING(jfff) - hbvf ui sft this on diblog typf dhbngf
+    publid void sftApprovfButtonTfxt(String bpprovfButtonTfxt) {
+        if(this.bpprovfButtonTfxt == bpprovfButtonTfxt) {
+            rfturn;
+        }
+        String oldVbluf = this.bpprovfButtonTfxt;
+        this.bpprovfButtonTfxt = bpprovfButtonTfxt;
+        firfPropfrtyChbngf(APPROVE_BUTTON_TEXT_CHANGED_PROPERTY, oldVbluf, bpprovfButtonTfxt);
+    }
+
+    /**
+     * Rfturns thf tfxt usfd in thf <dodf>ApprovfButton</dodf> in thf
+     * <dodf>FilfChoosfrUI</dodf>.
+     * If <dodf>null</dodf>, thf UI objfdt will dftfrminf thf button's tfxt.
+     *
+     * Typidblly, this would bf "Opfn" or "Sbvf".
+     *
+     * @rfturn thf tfxt usfd in thf <dodf>ApprovfButton</dodf>
+     *
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #showDiblog
+     */
+    publid String gftApprovfButtonTfxt() {
+        rfturn bpprovfButtonTfxt;
+    }
+
+    /**
+     * Gfts thf list of usfr dhoosbblf filf filtfrs.
+     *
+     * @rfturn b <dodf>FilfFiltfr</dodf> brrby dontbining bll thf dhoosbblf
+     *         filf filtfrs
+     *
+     * @sff #bddChoosbblfFilfFiltfr
+     * @sff #rfmovfChoosbblfFilfFiltfr
+     * @sff #rfsftChoosbblfFilfFiltfrs
+     */
+    publid FilfFiltfr[] gftChoosbblfFilfFiltfrs() {
+        FilfFiltfr[] filtfrArrby = nfw FilfFiltfr[filtfrs.sizf()];
+        filtfrs.dopyInto(filtfrArrby);
+        rfturn filtfrArrby;
+    }
+
+    /**
+     * Adds b filtfr to thf list of usfr dhoosbblf filf filtfrs.
+     * For informbtion on sftting thf filf sflfdtion modf, sff
+     * {@link #sftFilfSflfdtionModf sftFilfSflfdtionModf}.
+     *
+     * @pbrbm filtfr thf <dodf>FilfFiltfr</dodf> to bdd to thf dhoosbblf filf
+     *               filtfr list
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Adds b filtfr to thf list of usfr dhoosbblf filf filtfrs.
+     *
+     * @sff #gftChoosbblfFilfFiltfrs
+     * @sff #rfmovfChoosbblfFilfFiltfr
+     * @sff #rfsftChoosbblfFilfFiltfrs
+     * @sff #sftFilfSflfdtionModf
+     */
+    publid void bddChoosbblfFilfFiltfr(FilfFiltfr filtfr) {
+        if(filtfr != null && !filtfrs.dontbins(filtfr)) {
+            FilfFiltfr[] oldVbluf = gftChoosbblfFilfFiltfrs();
+            filtfrs.bddElfmfnt(filtfr);
+            firfPropfrtyChbngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftChoosbblfFilfFiltfrs());
+            if (filfFiltfr == null && filtfrs.sizf() == 1) {
+                sftFilfFiltfr(filtfr);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs b filtfr from thf list of usfr dhoosbblf filf filtfrs. Rfturns
+     * truf if thf filf filtfr wbs rfmovfd.
+     *
+     * @pbrbm f thf filf filtfr to bf rfmovfd
+     * @rfturn truf if thf filf filtfr wbs rfmovfd, fblsf othfrwisf
+     * @sff #bddChoosbblfFilfFiltfr
+     * @sff #gftChoosbblfFilfFiltfrs
+     * @sff #rfsftChoosbblfFilfFiltfrs
+     */
+    publid boolfbn rfmovfChoosbblfFilfFiltfr(FilfFiltfr f) {
+        int indfx = filtfrs.indfxOf(f);
+        if (indfx >= 0) {
+            if(gftFilfFiltfr() == f) {
+                FilfFiltfr bbff = gftAddfptAllFilfFiltfr();
+                if (isAddfptAllFilfFiltfrUsfd() && (bbff != f)) {
+                    // dhoosf dffbult filtfr if it is usfd
+                    sftFilfFiltfr(bbff);
+                }
+                flsf if (indfx > 0) {
+                    // dhoosf thf first filtfr, bfdbusf it is not rfmovfd
+                    sftFilfFiltfr(filtfrs.gft(0));
+                }
+                flsf if (filtfrs.sizf() > 1) {
+                    // dhoosf thf sfdond filtfr, bfdbusf thf first onf is rfmovfd
+                    sftFilfFiltfr(filtfrs.gft(1));
+                }
+                flsf {
+                    // no morf filtfrs
+                    sftFilfFiltfr(null);
+                }
+            }
+            FilfFiltfr[] oldVbluf = gftChoosbblfFilfFiltfrs();
+            filtfrs.rfmovfElfmfnt(f);
+            firfPropfrtyChbngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftChoosbblfFilfFiltfrs());
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfsfts thf dhoosbblf filf filtfr list to its stbrting stbtf. Normblly,
+     * this rfmovfs bll bddfd filf filtfrs whilf lfbving thf
+     * <dodf>AddfptAll</dodf> filf filtfr.
+     *
+     * @sff #bddChoosbblfFilfFiltfr
+     * @sff #gftChoosbblfFilfFiltfrs
+     * @sff #rfmovfChoosbblfFilfFiltfr
+     */
+    publid void rfsftChoosbblfFilfFiltfrs() {
+        FilfFiltfr[] oldVbluf = gftChoosbblfFilfFiltfrs();
+        sftFilfFiltfr(null);
+        filtfrs.rfmovfAllElfmfnts();
+        if(isAddfptAllFilfFiltfrUsfd()) {
+           bddChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        firfPropfrtyChbngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftChoosbblfFilfFiltfrs());
+    }
+
+    /**
+     * Rfturns thf <dodf>AddfptAll</dodf> filf filtfr.
+     * For fxbmplf, on Midrosoft Windows this would bf All Filfs (*.*).
+     *
+     * @rfturn thf {@dodf AddfptAll} filf filtfr
+     */
+    publid FilfFiltfr gftAddfptAllFilfFiltfr() {
+        FilfFiltfr filtfr = null;
+        if(gftUI() != null) {
+            filtfr = gftUI().gftAddfptAllFilfFiltfr(this);
+        }
+        rfturn filtfr;
+    }
+
+   /**
+    * Rfturns whfthfr thf <dodf>AddfptAll FilfFiltfr</dodf> is usfd.
+    * @rfturn truf if thf <dodf>AddfptAll FilfFiltfr</dodf> is usfd
+    * @sff #sftAddfptAllFilfFiltfrUsfd
+    * @sindf 1.3
+    */
+    publid boolfbn isAddfptAllFilfFiltfrUsfd() {
+        rfturn usfAddfptAllFilfFiltfr;
+    }
+
+   /**
+    * Dftfrminfs whfthfr thf <dodf>AddfptAll FilfFiltfr</dodf> is usfd
+    * bs bn bvbilbblf dhoidf in thf dhoosbblf filtfr list.
+    * If fblsf, thf <dodf>AddfptAll</dodf> filf filtfr is rfmovfd from
+    * thf list of bvbilbblf filf filtfrs.
+    * If truf, thf <dodf>AddfptAll</dodf> filf filtfr will bfdomf thf
+    * bdtivfly usfd filf filtfr.
+    *
+    * @pbrbm b b {@dodf boolfbn} whidh dftfrminfs whfthfr thf {@dodf AddfptAll}
+    *          filf filtfr is bn bvbilbblf dhoidf in thf dhoosbblf filtfr list
+    * @bfbninfo
+    *   prfffrrfd: truf
+    *       bound: truf
+    * dfsdription: Sfts whfthfr thf AddfptAll FilfFiltfr is usfd bs bn bvbilbblf dhoidf in thf dhoosbblf filtfr list.
+    *
+    * @sff #isAddfptAllFilfFiltfrUsfd
+    * @sff #gftAddfptAllFilfFiltfr
+    * @sff #sftFilfFiltfr
+    * @sindf 1.3
+    */
+    publid void sftAddfptAllFilfFiltfrUsfd(boolfbn b) {
+        boolfbn oldVbluf = usfAddfptAllFilfFiltfr;
+        usfAddfptAllFilfFiltfr = b;
+        if(!b) {
+            rfmovfChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        } flsf {
+            rfmovfChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+            bddChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        firfPropfrtyChbngf(ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY, oldVbluf, usfAddfptAllFilfFiltfr);
+    }
+
+    /**
+     * Rfturns thf bddfssory domponfnt.
+     *
+     * @rfturn this JFilfChoosfr's bddfssory domponfnt, or null
+     * @sff #sftAddfssory
+     */
+    publid JComponfnt gftAddfssory() {
+        rfturn bddfssory;
+    }
+
+    /**
+     * Sfts thf bddfssory domponfnt. An bddfssory is oftfn usfd to show b
+     * prfvifw imbgf of thf sflfdtfd filf; howfvfr, it dbn bf usfd for bnything
+     * thbt thf progrbmmfr wishfs, sudh bs fxtrb dustom filf dhoosfr dontrols.
+     *
+     * <p>
+     * Notf: if thfrf wbs b prfvious bddfssory, you should unrfgistfr
+     * bny listfnfrs thbt thf bddfssory might hbvf rfgistfrfd with thf
+     * filf dhoosfr.
+     *
+     * @pbrbm nfwAddfssory thf bddfssory domponfnt to bf sft
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts thf bddfssory domponfnt on thf JFilfChoosfr.
+     */
+    publid void sftAddfssory(JComponfnt nfwAddfssory) {
+        JComponfnt oldVbluf = bddfssory;
+        bddfssory = nfwAddfssory;
+        firfPropfrtyChbngf(ACCESSORY_CHANGED_PROPERTY, oldVbluf, bddfssory);
+    }
+
+    /**
+     * Sfts thf <dodf>JFilfChoosfr</dodf> to bllow thf usfr to just
+     * sflfdt filfs, just sflfdt
+     * dirfdtorifs, or sflfdt both filfs bnd dirfdtorifs.  Thf dffbult is
+     * <dodf>JFilfsChoosfr.FILES_ONLY</dodf>.
+     *
+     * @pbrbm modf thf typf of filfs to bf displbyfd:
+     * <ul>
+     * <li>JFilfChoosfr.FILES_ONLY
+     * <li>JFilfChoosfr.DIRECTORIES_ONLY
+     * <li>JFilfChoosfr.FILES_AND_DIRECTORIES
+     * </ul>
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if <dodf>modf</dodf> is bn
+     *                          illfgbl filf sflfdtion modf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts thf typfs of filfs thbt thf JFilfChoosfr dbn dhoosf.
+     *        fnum: FILES_ONLY JFilfChoosfr.FILES_ONLY
+     *              DIRECTORIES_ONLY JFilfChoosfr.DIRECTORIES_ONLY
+     *              FILES_AND_DIRECTORIES JFilfChoosfr.FILES_AND_DIRECTORIES
+     *
+     *
+     * @sff #gftFilfSflfdtionModf
+     */
+    publid void sftFilfSflfdtionModf(int modf) {
+        if(filfSflfdtionModf == modf) {
+            rfturn;
+        }
+
+        if ((modf == FILES_ONLY) || (modf == DIRECTORIES_ONLY) || (modf == FILES_AND_DIRECTORIES)) {
+           int oldVbluf = filfSflfdtionModf;
+           filfSflfdtionModf = modf;
+           firfPropfrtyChbngf(FILE_SELECTION_MODE_CHANGED_PROPERTY, oldVbluf, filfSflfdtionModf);
+        } flsf {
+           throw nfw IllfgblArgumfntExdfption("Indorrfdt Modf for filf sflfdtion: " + modf);
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt filf-sflfdtion modf.  Thf dffbult is
+     * <dodf>JFilfsChoosfr.FILES_ONLY</dodf>.
+     *
+     * @rfturn thf typf of filfs to bf displbyfd, onf of thf following:
+     * <ul>
+     * <li>JFilfChoosfr.FILES_ONLY
+     * <li>JFilfChoosfr.DIRECTORIES_ONLY
+     * <li>JFilfChoosfr.FILES_AND_DIRECTORIES
+     * </ul>
+     * @sff #sftFilfSflfdtionModf
+     */
+    publid int gftFilfSflfdtionModf() {
+        rfturn filfSflfdtionModf;
+    }
+
+    /**
+     * Convfnifndf dbll thbt dftfrminfs if filfs brf sflfdtbblf bbsfd on thf
+     * durrfnt filf sflfdtion modf.
+     *
+     * @rfturn truf if filfs brf sflfdtbblf, fblsf othfrwisf
+     * @sff #sftFilfSflfdtionModf
+     * @sff #gftFilfSflfdtionModf
+     */
+    publid boolfbn isFilfSflfdtionEnbblfd() {
+        rfturn ((filfSflfdtionModf == FILES_ONLY) || (filfSflfdtionModf == FILES_AND_DIRECTORIES));
+    }
+
+    /**
+     * Convfnifndf dbll thbt dftfrminfs if dirfdtorifs brf sflfdtbblf bbsfd
+     * on thf durrfnt filf sflfdtion modf.
+     *
+     * @rfturn truf if dirfdtorifs brf sflfdtbblf, fblsf othfrwisf
+     * @sff #sftFilfSflfdtionModf
+     * @sff #gftFilfSflfdtionModf
+     */
+    publid boolfbn isDirfdtorySflfdtionEnbblfd() {
+        rfturn ((filfSflfdtionModf == DIRECTORIES_ONLY) || (filfSflfdtionModf == FILES_AND_DIRECTORIES));
+    }
+
+    /**
+     * Sfts thf filf dhoosfr to bllow multiplf filf sflfdtions.
+     *
+     * @pbrbm b truf if multiplf filfs mby bf sflfdtfd
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Sfts multiplf filf sflfdtion modf.
+     *
+     * @sff #isMultiSflfdtionEnbblfd
+     */
+    publid void sftMultiSflfdtionEnbblfd(boolfbn b) {
+        if(multiSflfdtionEnbblfd == b) {
+            rfturn;
+        }
+        boolfbn oldVbluf = multiSflfdtionEnbblfd;
+        multiSflfdtionEnbblfd = b;
+        firfPropfrtyChbngf(MULTI_SELECTION_ENABLED_CHANGED_PROPERTY, oldVbluf, multiSflfdtionEnbblfd);
+    }
+
+    /**
+     * Rfturns truf if multiplf filfs dbn bf sflfdtfd.
+     * @rfturn truf if multiplf filfs dbn bf sflfdtfd
+     * @sff #sftMultiSflfdtionEnbblfd
+     */
+    publid boolfbn isMultiSflfdtionEnbblfd() {
+        rfturn multiSflfdtionEnbblfd;
+    }
+
+
+    /**
+     * Rfturns truf if hiddfn filfs brf not shown in thf filf dhoosfr;
+     * othfrwisf, rfturns fblsf.
+     *
+     * @rfturn thf stbtus of thf filf hiding propfrty
+     * @sff #sftFilfHidingEnbblfd
+     */
+    publid boolfbn isFilfHidingEnbblfd() {
+        rfturn usfFilfHiding;
+    }
+
+    /**
+     * Sfts filf hiding on or off. If truf, hiddfn filfs brf not shown
+     * in thf filf dhoosfr. Thf job of dftfrmining whidh filfs brf
+     * shown is donf by thf <dodf>FilfVifw</dodf>.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts filf hiding on or off.
+     *
+     * @pbrbm b thf boolfbn vbluf thbt dftfrminfs whfthfr filf hiding is
+     *          turnfd on
+     * @sff #isFilfHidingEnbblfd
+     */
+    publid void sftFilfHidingEnbblfd(boolfbn b) {
+        // Dump showFilfsListfnfr sindf wf'll ignorf it from now on
+        if (showFilfsListfnfr != null) {
+            Toolkit.gftDffbultToolkit().rfmovfPropfrtyChbngfListfnfr(SHOW_HIDDEN_PROP, showFilfsListfnfr);
+            showFilfsListfnfr = null;
+        }
+        boolfbn oldVbluf = usfFilfHiding;
+        usfFilfHiding = b;
+        firfPropfrtyChbngf(FILE_HIDING_CHANGED_PROPERTY, oldVbluf, usfFilfHiding);
+    }
+
+    /**
+     * Sfts thf durrfnt filf filtfr. Thf filf filtfr is usfd by thf
+     * filf dhoosfr to filtfr out filfs from thf usfr's vifw.
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts thf Filf Filtfr usfd to filtfr out filfs of typf.
+     *
+     * @pbrbm filtfr thf nfw durrfnt filf filtfr to usf
+     * @sff #gftFilfFiltfr
+     */
+    publid void sftFilfFiltfr(FilfFiltfr filtfr) {
+        FilfFiltfr oldVbluf = filfFiltfr;
+        filfFiltfr = filtfr;
+        if (filtfr != null) {
+            if (isMultiSflfdtionEnbblfd() && sflfdtfdFilfs != null && sflfdtfdFilfs.lfngth > 0) {
+                Vfdtor<Filf> fList = nfw Vfdtor<Filf>();
+                boolfbn fbilfd = fblsf;
+                for (Filf filf : sflfdtfdFilfs) {
+                    if (filtfr.bddfpt(filf)) {
+                        fList.bdd(filf);
+                    } flsf {
+                        fbilfd = truf;
+                    }
+                }
+                if (fbilfd) {
+                    sftSflfdtfdFilfs((fList.sizf() == 0) ? null : fList.toArrby(nfw Filf[fList.sizf()]));
+                }
+            } flsf if (sflfdtfdFilf != null && !filtfr.bddfpt(sflfdtfdFilf)) {
+                sftSflfdtfdFilf(null);
+            }
+        }
+        firfPropfrtyChbngf(FILE_FILTER_CHANGED_PROPERTY, oldVbluf, filfFiltfr);
+    }
+
+
+    /**
+     * Rfturns thf durrfntly sflfdtfd filf filtfr.
+     *
+     * @rfturn thf durrfnt filf filtfr
+     * @sff #sftFilfFiltfr
+     * @sff #bddChoosbblfFilfFiltfr
+     */
+    publid FilfFiltfr gftFilfFiltfr() {
+        rfturn filfFiltfr;
+    }
+
+    /**
+     * Sfts thf filf vifw to bf usfd to rftrifvf UI informbtion, sudh bs
+     * thf idon thbt rfprfsfnts b filf or thf typf dfsdription of b filf.
+     *
+     * @pbrbm filfVifw b {@dodf FilfVifw} to bf usfd to rftrifvf UI informbtion
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts thf Filf Vifw usfd to gft filf typf informbtion.
+     *
+     * @sff #gftFilfVifw
+     */
+    publid void sftFilfVifw(FilfVifw filfVifw) {
+        FilfVifw oldVbluf = this.filfVifw;
+        this.filfVifw = filfVifw;
+        firfPropfrtyChbngf(FILE_VIEW_CHANGED_PROPERTY, oldVbluf, filfVifw);
+    }
+
+    /**
+     * Rfturns thf durrfnt filf vifw.
+     *
+     * @rfturn thf durrfnt filf vifw
+     * @sff #sftFilfVifw
+     */
+    publid FilfVifw gftFilfVifw() {
+        rfturn filfVifw;
+    }
+
+    // ******************************
+    // *****FilfVifw dflfgbtion *****
+    // ******************************
+
+    // NOTE: bll of thf following mfthods bttfmpt to dflfgbtf
+    // first to thf dlifnt sft filfVifw, bnd if <dodf>null</dodf> is rfturnfd
+    // (or thfrf is now dlifnt dffinfd filfVifw) thfn dblls thf
+    // UI's dffbult filfVifw.
+
+    /**
+     * Rfturns thf filfnbmf.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn thf <dodf>String</dodf> dontbining thf filfnbmf for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftNbmf
+     */
+    publid String gftNbmf(Filf f) {
+        String filfnbmf = null;
+        if(f != null) {
+            if(gftFilfVifw() != null) {
+                filfnbmf = gftFilfVifw().gftNbmf(f);
+            }
+
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(this);
+
+            if(filfnbmf == null && uiFilfVifw != null) {
+                filfnbmf = uiFilfVifw.gftNbmf(f);
+            }
+        }
+        rfturn filfnbmf;
+    }
+
+    /**
+     * Rfturns thf filf dfsdription.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn thf <dodf>String</dodf> dontbining thf filf dfsdription for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftDfsdription
+     */
+    publid String gftDfsdription(Filf f) {
+        String dfsdription = null;
+        if(f != null) {
+            if(gftFilfVifw() != null) {
+                dfsdription = gftFilfVifw().gftDfsdription(f);
+            }
+
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(this);
+
+            if(dfsdription == null && uiFilfVifw != null) {
+                dfsdription = uiFilfVifw.gftDfsdription(f);
+            }
+        }
+        rfturn dfsdription;
+    }
+
+    /**
+     * Rfturns thf filf typf.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn thf <dodf>String</dodf> dontbining thf filf typf dfsdription for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftTypfDfsdription
+     */
+    publid String gftTypfDfsdription(Filf f) {
+        String typfDfsdription = null;
+        if(f != null) {
+            if(gftFilfVifw() != null) {
+                typfDfsdription = gftFilfVifw().gftTypfDfsdription(f);
+            }
+
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(this);
+
+            if(typfDfsdription == null && uiFilfVifw != null) {
+                typfDfsdription = uiFilfVifw.gftTypfDfsdription(f);
+            }
+        }
+        rfturn typfDfsdription;
+    }
+
+    /**
+     * Rfturns thf idon for this filf or typf of filf, dfpfnding
+     * on thf systfm.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn thf <dodf>Idon</dodf> for this filf, or typf of filf
+     * @sff FilfVifw#gftIdon
+     */
+    publid Idon gftIdon(Filf f) {
+        Idon idon = null;
+        if (f != null) {
+            if(gftFilfVifw() != null) {
+                idon = gftFilfVifw().gftIdon(f);
+            }
+
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(this);
+
+            if(idon == null && uiFilfVifw != null) {
+                idon = uiFilfVifw.gftIdon(f);
+            }
+        }
+        rfturn idon;
+    }
+
+    /**
+     * Rfturns truf if thf filf (dirfdtory) dbn bf visitfd.
+     * Rfturns fblsf if thf dirfdtory dbnnot bf trbvfrsfd.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn truf if thf filf/dirfdtory dbn bf trbvfrsfd, othfrwisf fblsf
+     * @sff FilfVifw#isTrbvfrsbblf
+     */
+    publid boolfbn isTrbvfrsbblf(Filf f) {
+        Boolfbn trbvfrsbblf = null;
+        if (f != null) {
+            if (gftFilfVifw() != null) {
+                trbvfrsbblf = gftFilfVifw().isTrbvfrsbblf(f);
+            }
+
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(this);
+
+            if (trbvfrsbblf == null && uiFilfVifw != null) {
+                trbvfrsbblf = uiFilfVifw.isTrbvfrsbblf(f);
+            }
+            if (trbvfrsbblf == null) {
+                trbvfrsbblf = gftFilfSystfmVifw().isTrbvfrsbblf(f);
+            }
+        }
+        rfturn (trbvfrsbblf != null && trbvfrsbblf.boolfbnVbluf());
+    }
+
+    /**
+     * Rfturns truf if thf filf should bf displbyfd.
+     * @pbrbm f thf <dodf>Filf</dodf>
+     * @rfturn truf if thf filf should bf displbyfd, othfrwisf fblsf
+     * @sff FilfFiltfr#bddfpt
+     */
+    publid boolfbn bddfpt(Filf f) {
+        boolfbn shown = truf;
+        if(f != null && filfFiltfr != null) {
+            shown = filfFiltfr.bddfpt(f);
+        }
+        rfturn shown;
+    }
+
+    /**
+     * Sfts thf filf systfm vifw thbt thf <dodf>JFilfChoosfr</dodf> usfs for
+     * bddfssing bnd drfbting filf systfm rfsourdfs, sudh bs finding
+     * thf floppy drivf bnd gftting b list of root drivfs.
+     * @pbrbm fsv  thf nfw <dodf>FilfSystfmVifw</dodf>
+     *
+     * @bfbninfo
+     *      fxpfrt: truf
+     *       bound: truf
+     * dfsdription: Sfts thf FilfSytfmVifw usfd to gft filfsystfm informbtion.
+     *
+     * @sff FilfSystfmVifw
+     */
+    publid void sftFilfSystfmVifw(FilfSystfmVifw fsv) {
+        FilfSystfmVifw oldVbluf = filfSystfmVifw;
+        filfSystfmVifw = fsv;
+        firfPropfrtyChbngf(FILE_SYSTEM_VIEW_CHANGED_PROPERTY, oldVbluf, filfSystfmVifw);
+    }
+
+    /**
+     * Rfturns thf filf systfm vifw.
+     * @rfturn thf <dodf>FilfSystfmVifw</dodf> objfdt
+     * @sff #sftFilfSystfmVifw
+     */
+    publid FilfSystfmVifw gftFilfSystfmVifw() {
+        rfturn filfSystfmVifw;
+    }
+
+    // **************************
+    // ***** Evfnt Hbndling *****
+    // **************************
+
+    /**
+     * Cbllfd by thf UI whfn thf usfr hits thf Approvf button
+     * (lbbflfd "Opfn" or "Sbvf", by dffbult). This dbn blso bf
+     * dbllfd by thf progrbmmfr.
+     * This mfthod dbusfs bn bdtion fvfnt to firf
+     * with thf dommbnd string fqubl to
+     * <dodf>APPROVE_SELECTION</dodf>.
+     *
+     * @sff #APPROVE_SELECTION
+     */
+    publid void bpprovfSflfdtion() {
+        rfturnVbluf = APPROVE_OPTION;
+        if(diblog != null) {
+            diblog.sftVisiblf(fblsf);
+        }
+        firfAdtionPfrformfd(APPROVE_SELECTION);
+    }
+
+    /**
+     * Cbllfd by thf UI whfn thf usfr dhoosfs thf Cbndfl button.
+     * This dbn blso bf dbllfd by thf progrbmmfr.
+     * This mfthod dbusfs bn bdtion fvfnt to firf
+     * with thf dommbnd string fqubl to
+     * <dodf>CANCEL_SELECTION</dodf>.
+     *
+     * @sff #CANCEL_SELECTION
+     */
+    publid void dbndflSflfdtion() {
+        rfturnVbluf = CANCEL_OPTION;
+        if(diblog != null) {
+            diblog.sftVisiblf(fblsf);
+        }
+        firfAdtionPfrformfd(CANCEL_SELECTION);
+    }
+
+    /**
+     * Adds bn <dodf>AdtionListfnfr</dodf> to thf filf dhoosfr.
+     *
+     * @pbrbm l  thf listfnfr to bf bddfd
+     *
+     * @sff #bpprovfSflfdtion
+     * @sff #dbndflSflfdtion
+     */
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs bn <dodf>AdtionListfnfr</dodf> from thf filf dhoosfr.
+     *
+     * @pbrbm l  thf listfnfr to bf rfmovfd
+     *
+     * @sff #bddAdtionListfnfr
+     */
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf bdtion listfnfrs
+     * rfgistfrfd on this filf dhoosfr.
+     *
+     * @rfturn bll of this filf dhoosfr's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no bdtion listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf. Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf <dodf>dommbnd</dodf> pbrbmftfr.
+     *
+     * @pbrbm dommbnd b string thbt mby spfdify b dommbnd bssodibtfd with
+     *                thf fvfnt
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfAdtionPfrformfd(String dommbnd) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        long mostRfdfntEvfntTimf = EvfntQufuf.gftMostRfdfntEvfntTimf();
+        int modififrs = 0;
+        AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+        if (durrfntEvfnt instbndfof InputEvfnt) {
+            modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+        } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+            modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
+        }
+        AdtionEvfnt f = null;
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (f == null) {
+                    f = nfw AdtionEvfnt(this, AdtionEvfnt.ACTION_PERFORMED,
+                                        dommbnd, mostRfdfntEvfntTimf,
+                                        modififrs);
+                }
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
+            }
+        }
+    }
+
+    privbtf stbtid dlbss WfbkPCL implfmfnts PropfrtyChbngfListfnfr {
+        WfbkRfffrfndf<JFilfChoosfr> jfdRff;
+
+        publid WfbkPCL(JFilfChoosfr jfd) {
+            jfdRff = nfw WfbkRfffrfndf<JFilfChoosfr>(jfd);
+        }
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fv) {
+            bssfrt fv.gftPropfrtyNbmf().fqubls(SHOW_HIDDEN_PROP);
+            JFilfChoosfr jfd = jfdRff.gft();
+            if (jfd == null) {
+                // Our JFilfChoosfr is no longfr bround, so wf no longfr nffd to
+                // listfn for PropfrtyChbngfEvfnts.
+                Toolkit.gftDffbultToolkit().rfmovfPropfrtyChbngfListfnfr(SHOW_HIDDEN_PROP, this);
+            }
+            flsf {
+                boolfbn oldVbluf = jfd.usfFilfHiding;
+                jfd.usfFilfHiding = !((Boolfbn)fv.gftNfwVbluf()).boolfbnVbluf();
+                jfd.firfPropfrtyChbngf(FILE_HIDING_CHANGED_PROPERTY, oldVbluf, jfd.usfFilfHiding);
+            }
+        }
+    }
+
+    // *********************************
+    // ***** Pluggbblf L&F mfthods *****
+    // *********************************
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            rfmovfChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        FilfChoosfrUI ui = ((FilfChoosfrUI)UIMbnbgfr.gftUI(this));
+        if (filfSystfmVifw == null) {
+            // Wf wfrf probbbly dfsfriblizfd
+            sftFilfSystfmVifw(FilfSystfmVifw.gftFilfSystfmVifw());
+        }
+        sftUI(ui);
+
+        if(isAddfptAllFilfFiltfrUsfd()) {
+            bddChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+    }
+
+    /**
+     * Rfturns b string thbt spfdififs thf nbmf of thf L&bmp;F dlbss
+     * thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "FilfChoosfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string thbt spfdififs thf nbmf of thf L&bmp;F dlbss.
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+    /**
+     * Gfts thf UI objfdt whidh implfmfnts thf L&bmp;F for this domponfnt.
+     *
+     * @rfturn thf FilfChoosfrUI objfdt thbt implfmfnts thf FilfChoosfrUI L&bmp;F
+     */
+    publid FilfChoosfrUI gftUI() {
+        rfturn (FilfChoosfrUI) ui;
+    }
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        instbllShowFilfsListfnfr();
+    }
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        FilfSystfmVifw fsv = null;
+
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            //Thf AddfptAllFilfFiltfr is UI spfdifid, it will bf rfsft by
+            //updbtfUI() bftfr dfsfriblizbtion
+            rfmovfChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        if (filfSystfmVifw.fqubls(FilfSystfmVifw.gftFilfSystfmVifw())) {
+            //Thf dffbult FilfSystfmVifw is plbtform spfdifid, it will bf
+            //rfsft by updbtfUI() bftfr dfsfriblizbtion
+            fsv = filfSystfmVifw;
+            filfSystfmVifw = null;
+        }
+        s.dffbultWritfObjfdt();
+        if (fsv != null) {
+            filfSystfmVifw = fsv;
+        }
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            bddChoosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        }
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JFilfChoosfr</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JFilfChoosfr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String bpprovfButtonTfxtString = (bpprovfButtonTfxt != null ?
+                                          bpprovfButtonTfxt: "");
+        String diblogTitlfString = (diblogTitlf != null ?
+                                    diblogTitlf: "");
+        String diblogTypfString;
+        if (diblogTypf == OPEN_DIALOG) {
+            diblogTypfString = "OPEN_DIALOG";
+        } flsf if (diblogTypf == SAVE_DIALOG) {
+            diblogTypfString = "SAVE_DIALOG";
+        } flsf if (diblogTypf == CUSTOM_DIALOG) {
+            diblogTypfString = "CUSTOM_DIALOG";
+        } flsf diblogTypfString = "";
+        String rfturnVblufString;
+        if (rfturnVbluf == CANCEL_OPTION) {
+            rfturnVblufString = "CANCEL_OPTION";
+        } flsf if (rfturnVbluf == APPROVE_OPTION) {
+            rfturnVblufString = "APPROVE_OPTION";
+        } flsf if (rfturnVbluf == ERROR_OPTION) {
+            rfturnVblufString = "ERROR_OPTION";
+        } flsf rfturnVblufString = "";
+        String usfFilfHidingString = (usfFilfHiding ?
+                                    "truf" : "fblsf");
+        String filfSflfdtionModfString;
+        if (filfSflfdtionModf == FILES_ONLY) {
+            filfSflfdtionModfString = "FILES_ONLY";
+        } flsf if (filfSflfdtionModf == DIRECTORIES_ONLY) {
+            filfSflfdtionModfString = "DIRECTORIES_ONLY";
+        } flsf if (filfSflfdtionModf == FILES_AND_DIRECTORIES) {
+            filfSflfdtionModfString = "FILES_AND_DIRECTORIES";
+        } flsf filfSflfdtionModfString = "";
+        String durrfntDirfdtoryString = (durrfntDirfdtory != null ?
+                                         durrfntDirfdtory.toString() : "");
+        String sflfdtfdFilfString = (sflfdtfdFilf != null ?
+                                     sflfdtfdFilf.toString() : "");
+
+        rfturn supfr.pbrbmString() +
+        ",bpprovfButtonTfxt=" + bpprovfButtonTfxtString +
+        ",durrfntDirfdtory=" + durrfntDirfdtoryString +
+        ",diblogTitlf=" + diblogTitlfString +
+        ",diblogTypf=" + diblogTypfString +
+        ",filfSflfdtionModf=" + filfSflfdtionModfString +
+        ",rfturnVbluf=" + rfturnVblufString +
+        ",sflfdtfdFilf=" + sflfdtfdFilfString +
+        ",usfFilfHiding=" + usfFilfHidingString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * {@dodf AddfssiblfContfxt} bssodibtfd with this {@dodf JFilfChoosfr}
+     */
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JFilfChoosfr.
+     * For filf dhoosfrs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJFilfChoosfr.
+     * A nfw AddfssiblfJFilfChoosfr instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJFilfChoosfr thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JFilfChoosfr
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJFilfChoosfr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JFilfChoosfr</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to filf dhoosfr usfr-intfrfbdf
+     * flfmfnts.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss AddfssiblfJFilfChoosfr fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gfts thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FILE_CHOOSER;
+        }
+
+    } // innfr dlbss AddfssiblfJFilfChoosfr
+
+}

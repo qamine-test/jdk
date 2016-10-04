@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.ref;
+pbdkbgf jbvb.lbng.rff;
 
-import sun.misc.Cleaner;
-import sun.misc.JavaLangRefAccess;
-import sun.misc.SharedSecrets;
+import sun.misd.Clfbnfr;
+import sun.misd.JbvbLbngRffAddfss;
+import sun.misd.SibrfdSfdrfts;
 
 /**
- * Abstract base class for reference objects.  This class defines the
- * operations common to all reference objects.  Because reference objects are
- * implemented in close cooperation with the garbage collector, this class may
- * not be subclassed directly.
+ * Abstrbdt bbsf dlbss for rfffrfndf objfdts.  Tiis dlbss dffinfs tif
+ * opfrbtions dommon to bll rfffrfndf objfdts.  Bfdbusf rfffrfndf objfdts brf
+ * implfmfntfd in dlosf doopfrbtion witi tif gbrbbgf dollfdtor, tiis dlbss mby
+ * not bf subdlbssfd dirfdtly.
  *
- * @author   Mark Reinhold
- * @since    1.2
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.2
  */
 
-public abstract class Reference<T> {
+publid bbstrbdt dlbss Rfffrfndf<T> {
 
-    /* A Reference instance is in one of four possible internal states:
+    /* A Rfffrfndf instbndf is in onf of four possiblf intfrnbl stbtfs:
      *
-     *     Active: Subject to special treatment by the garbage collector.  Some
-     *     time after the collector detects that the reachability of the
-     *     referent has changed to the appropriate state, it changes the
-     *     instance's state to either Pending or Inactive, depending upon
-     *     whether or not the instance was registered with a queue when it was
-     *     created.  In the former case it also adds the instance to the
-     *     pending-Reference list.  Newly-created instances are Active.
+     *     Adtivf: Subjfdt to spfdibl trfbtmfnt by tif gbrbbgf dollfdtor.  Somf
+     *     timf bftfr tif dollfdtor dftfdts tibt tif rfbdibbility of tif
+     *     rfffrfnt ibs dibngfd to tif bppropribtf stbtf, it dibngfs tif
+     *     instbndf's stbtf to fitifr Pfnding or Inbdtivf, dfpfnding upon
+     *     wiftifr or not tif instbndf wbs rfgistfrfd witi b qufuf wifn it wbs
+     *     drfbtfd.  In tif formfr dbsf it blso bdds tif instbndf to tif
+     *     pfnding-Rfffrfndf list.  Nfwly-drfbtfd instbndfs brf Adtivf.
      *
-     *     Pending: An element of the pending-Reference list, waiting to be
-     *     enqueued by the Reference-handler thread.  Unregistered instances
-     *     are never in this state.
+     *     Pfnding: An flfmfnt of tif pfnding-Rfffrfndf list, wbiting to bf
+     *     fnqufufd by tif Rfffrfndf-ibndlfr tirfbd.  Unrfgistfrfd instbndfs
+     *     brf nfvfr in tiis stbtf.
      *
-     *     Enqueued: An element of the queue with which the instance was
-     *     registered when it was created.  When an instance is removed from
-     *     its ReferenceQueue, it is made Inactive.  Unregistered instances are
-     *     never in this state.
+     *     Enqufufd: An flfmfnt of tif qufuf witi wiidi tif instbndf wbs
+     *     rfgistfrfd wifn it wbs drfbtfd.  Wifn bn instbndf is rfmovfd from
+     *     its RfffrfndfQufuf, it is mbdf Inbdtivf.  Unrfgistfrfd instbndfs brf
+     *     nfvfr in tiis stbtf.
      *
-     *     Inactive: Nothing more to do.  Once an instance becomes Inactive its
-     *     state will never change again.
+     *     Inbdtivf: Notiing morf to do.  Ondf bn instbndf bfdomfs Inbdtivf its
+     *     stbtf will nfvfr dibngf bgbin.
      *
-     * The state is encoded in the queue and next fields as follows:
+     * Tif stbtf is fndodfd in tif qufuf bnd nfxt fiflds bs follows:
      *
-     *     Active: queue = ReferenceQueue with which instance is registered, or
-     *     ReferenceQueue.NULL if it was not registered with a queue; next =
+     *     Adtivf: qufuf = RfffrfndfQufuf witi wiidi instbndf is rfgistfrfd, or
+     *     RfffrfndfQufuf.NULL if it wbs not rfgistfrfd witi b qufuf; nfxt =
      *     null.
      *
-     *     Pending: queue = ReferenceQueue with which instance is registered;
-     *     next = this
+     *     Pfnding: qufuf = RfffrfndfQufuf witi wiidi instbndf is rfgistfrfd;
+     *     nfxt = tiis
      *
-     *     Enqueued: queue = ReferenceQueue.ENQUEUED; next = Following instance
-     *     in queue, or this if at end of list.
+     *     Enqufufd: qufuf = RfffrfndfQufuf.ENQUEUED; nfxt = Following instbndf
+     *     in qufuf, or tiis if bt fnd of list.
      *
-     *     Inactive: queue = ReferenceQueue.NULL; next = this.
+     *     Inbdtivf: qufuf = RfffrfndfQufuf.NULL; nfxt = tiis.
      *
-     * With this scheme the collector need only examine the next field in order
-     * to determine whether a Reference instance requires special treatment: If
-     * the next field is null then the instance is active; if it is non-null,
-     * then the collector should treat the instance normally.
+     * Witi tiis sdifmf tif dollfdtor nffd only fxbminf tif nfxt fifld in ordfr
+     * to dftfrminf wiftifr b Rfffrfndf instbndf rfquirfs spfdibl trfbtmfnt: If
+     * tif nfxt fifld is null tifn tif instbndf is bdtivf; if it is non-null,
+     * tifn tif dollfdtor siould trfbt tif instbndf normblly.
      *
-     * To ensure that a concurrent collector can discover active Reference
-     * objects without interfering with application threads that may apply
-     * the enqueue() method to those objects, collectors should link
-     * discovered objects through the discovered field. The discovered
-     * field is also used for linking Reference objects in the pending list.
+     * To fnsurf tibt b dondurrfnt dollfdtor dbn disdovfr bdtivf Rfffrfndf
+     * objfdts witiout intfrffring witi bpplidbtion tirfbds tibt mby bpply
+     * tif fnqufuf() mftiod to tiosf objfdts, dollfdtors siould link
+     * disdovfrfd objfdts tirougi tif disdovfrfd fifld. Tif disdovfrfd
+     * fifld is blso usfd for linking Rfffrfndf objfdts in tif pfnding list.
      */
 
-    private T referent;         /* Treated specially by GC */
+    privbtf T rfffrfnt;         /* Trfbtfd spfdiblly by GC */
 
-    volatile ReferenceQueue<? super T> queue;
+    volbtilf RfffrfndfQufuf<? supfr T> qufuf;
 
-    /* When active:   NULL
-     *     pending:   this
-     *    Enqueued:   next reference in queue (or this if last)
-     *    Inactive:   this
+    /* Wifn bdtivf:   NULL
+     *     pfnding:   tiis
+     *    Enqufufd:   nfxt rfffrfndf in qufuf (or tiis if lbst)
+     *    Inbdtivf:   tiis
      */
-    @SuppressWarnings("rawtypes")
-    Reference next;
+    @SupprfssWbrnings("rbwtypfs")
+    Rfffrfndf nfxt;
 
-    /* When active:   next element in a discovered reference list maintained by GC (or this if last)
-     *     pending:   next element in the pending list (or null if last)
-     *   otherwise:   NULL
+    /* Wifn bdtivf:   nfxt flfmfnt in b disdovfrfd rfffrfndf list mbintbinfd by GC (or tiis if lbst)
+     *     pfnding:   nfxt flfmfnt in tif pfnding list (or null if lbst)
+     *   otifrwisf:   NULL
      */
-    transient private Reference<T> discovered;  /* used by VM */
+    trbnsifnt privbtf Rfffrfndf<T> disdovfrfd;  /* usfd by VM */
 
 
-    /* Object used to synchronize with the garbage collector.  The collector
-     * must acquire this lock at the beginning of each collection cycle.  It is
-     * therefore critical that any code holding this lock complete as quickly
-     * as possible, allocate no new objects, and avoid calling user code.
+    /* Objfdt usfd to syndironizf witi tif gbrbbgf dollfdtor.  Tif dollfdtor
+     * must bdquirf tiis lodk bt tif bfginning of fbdi dollfdtion dydlf.  It is
+     * tifrfforf dritidbl tibt bny dodf iolding tiis lodk domplftf bs quidkly
+     * bs possiblf, bllodbtf no nfw objfdts, bnd bvoid dblling usfr dodf.
      */
-    static private class Lock { }
-    private static Lock lock = new Lock();
+    stbtid privbtf dlbss Lodk { }
+    privbtf stbtid Lodk lodk = nfw Lodk();
 
 
-    /* List of References waiting to be enqueued.  The collector adds
-     * References to this list, while the Reference-handler thread removes
-     * them.  This list is protected by the above lock object. The
-     * list uses the discovered field to link its elements.
+    /* List of Rfffrfndfs wbiting to bf fnqufufd.  Tif dollfdtor bdds
+     * Rfffrfndfs to tiis list, wiilf tif Rfffrfndf-ibndlfr tirfbd rfmovfs
+     * tifm.  Tiis list is protfdtfd by tif bbovf lodk objfdt. Tif
+     * list usfs tif disdovfrfd fifld to link its flfmfnts.
      */
-    private static Reference<Object> pending = null;
+    privbtf stbtid Rfffrfndf<Objfdt> pfnding = null;
 
-    /* High-priority thread to enqueue pending References
+    /* Higi-priority tirfbd to fnqufuf pfnding Rfffrfndfs
      */
-    private static class ReferenceHandler extends Thread {
+    privbtf stbtid dlbss RfffrfndfHbndlfr fxtfnds Tirfbd {
 
-        private static void ensureClassInitialized(Class<?> clazz) {
+        privbtf stbtid void fnsurfClbssInitiblizfd(Clbss<?> dlbzz) {
             try {
-                Class.forName(clazz.getName(), true, clazz.getClassLoader());
-            } catch (ClassNotFoundException e) {
-                throw (Error) new NoClassDefFoundError(e.getMessage()).initCause(e);
+                Clbss.forNbmf(dlbzz.gftNbmf(), truf, dlbzz.gftClbssLobdfr());
+            } dbtdi (ClbssNotFoundExdfption f) {
+                tirow (Error) nfw NoClbssDffFoundError(f.gftMfssbgf()).initCbusf(f);
             }
         }
 
-        static {
-            // pre-load and initialize InterruptedException and Cleaner classes
-            // so that we don't get into trouble later in the run loop if there's
-            // memory shortage while loading/initializing them lazily.
-            ensureClassInitialized(InterruptedException.class);
-            ensureClassInitialized(Cleaner.class);
+        stbtid {
+            // prf-lobd bnd initiblizf IntfrruptfdExdfption bnd Clfbnfr dlbssfs
+            // so tibt wf don't gft into troublf lbtfr in tif run loop if tifrf's
+            // mfmory siortbgf wiilf lobding/initiblizing tifm lbzily.
+            fnsurfClbssInitiblizfd(IntfrruptfdExdfption.dlbss);
+            fnsurfClbssInitiblizfd(Clfbnfr.dlbss);
         }
 
-        ReferenceHandler(ThreadGroup g, String name) {
-            super(g, name);
+        RfffrfndfHbndlfr(TirfbdGroup g, String nbmf) {
+            supfr(g, nbmf);
         }
 
-        public void run() {
-            while (true) {
-                tryHandlePending(true);
+        publid void run() {
+            wiilf (truf) {
+                tryHbndlfPfnding(truf);
             }
         }
     }
 
     /**
-     * Try handle pending {@link Reference} if there is one.<p>
-     * Return {@code true} as a hint that there might be another
-     * {@link Reference} pending or {@code false} when there are no more pending
-     * {@link Reference}s at the moment and the program can do some other
-     * useful work instead of looping.
+     * Try ibndlf pfnding {@link Rfffrfndf} if tifrf is onf.<p>
+     * Rfturn {@dodf truf} bs b iint tibt tifrf migit bf bnotifr
+     * {@link Rfffrfndf} pfnding or {@dodf fblsf} wifn tifrf brf no morf pfnding
+     * {@link Rfffrfndf}s bt tif momfnt bnd tif progrbm dbn do somf otifr
+     * usfful work instfbd of looping.
      *
-     * @param waitForNotify if {@code true} and there was no pending
-     *                      {@link Reference}, wait until notified from VM
-     *                      or interrupted; if {@code false}, return immediately
-     *                      when there is no pending {@link Reference}.
-     * @return {@code true} if there was a {@link Reference} pending and it
-     *         was processed, or we waited for notification and either got it
-     *         or thread was interrupted before being notified;
-     *         {@code false} otherwise.
+     * @pbrbm wbitForNotify if {@dodf truf} bnd tifrf wbs no pfnding
+     *                      {@link Rfffrfndf}, wbit until notififd from VM
+     *                      or intfrruptfd; if {@dodf fblsf}, rfturn immfdibtfly
+     *                      wifn tifrf is no pfnding {@link Rfffrfndf}.
+     * @rfturn {@dodf truf} if tifrf wbs b {@link Rfffrfndf} pfnding bnd it
+     *         wbs prodfssfd, or wf wbitfd for notifidbtion bnd fitifr got it
+     *         or tirfbd wbs intfrruptfd bfforf bfing notififd;
+     *         {@dodf fblsf} otifrwisf.
      */
-    static boolean tryHandlePending(boolean waitForNotify) {
-        Reference<Object> r;
-        Cleaner c;
+    stbtid boolfbn tryHbndlfPfnding(boolfbn wbitForNotify) {
+        Rfffrfndf<Objfdt> r;
+        Clfbnfr d;
         try {
-            synchronized (lock) {
-                if (pending != null) {
-                    r = pending;
-                    // 'instanceof' might throw OutOfMemoryError sometimes
-                    // so do this before un-linking 'r' from the 'pending' chain...
-                    c = r instanceof Cleaner ? (Cleaner) r : null;
-                    // unlink 'r' from 'pending' chain
-                    pending = r.discovered;
-                    r.discovered = null;
-                } else {
-                    // The waiting on the lock may cause an OutOfMemoryError
-                    // because it may try to allocate exception objects.
-                    if (waitForNotify) {
-                        lock.wait();
+            syndironizfd (lodk) {
+                if (pfnding != null) {
+                    r = pfnding;
+                    // 'instbndfof' migit tirow OutOfMfmoryError somftimfs
+                    // so do tiis bfforf un-linking 'r' from tif 'pfnding' dibin...
+                    d = r instbndfof Clfbnfr ? (Clfbnfr) r : null;
+                    // unlink 'r' from 'pfnding' dibin
+                    pfnding = r.disdovfrfd;
+                    r.disdovfrfd = null;
+                } flsf {
+                    // Tif wbiting on tif lodk mby dbusf bn OutOfMfmoryError
+                    // bfdbusf it mby try to bllodbtf fxdfption objfdts.
+                    if (wbitForNotify) {
+                        lodk.wbit();
                     }
-                    // retry if waited
-                    return waitForNotify;
+                    // rftry if wbitfd
+                    rfturn wbitForNotify;
                 }
             }
-        } catch (OutOfMemoryError x) {
-            // Give other threads CPU time so they hopefully drop some live references
-            // and GC reclaims some space.
-            // Also prevent CPU intensive spinning in case 'r instanceof Cleaner' above
-            // persistently throws OOME for some time...
-            Thread.yield();
-            // retry
-            return true;
-        } catch (InterruptedException x) {
-            // retry
-            return true;
+        } dbtdi (OutOfMfmoryError x) {
+            // Givf otifr tirfbds CPU timf so tify iopffully drop somf livf rfffrfndfs
+            // bnd GC rfdlbims somf spbdf.
+            // Also prfvfnt CPU intfnsivf spinning in dbsf 'r instbndfof Clfbnfr' bbovf
+            // pfrsistfntly tirows OOME for somf timf...
+            Tirfbd.yifld();
+            // rftry
+            rfturn truf;
+        } dbtdi (IntfrruptfdExdfption x) {
+            // rftry
+            rfturn truf;
         }
 
-        // Fast path for cleaners
-        if (c != null) {
-            c.clean();
-            return true;
+        // Fbst pbti for dlfbnfrs
+        if (d != null) {
+            d.dlfbn();
+            rfturn truf;
         }
 
-        ReferenceQueue<? super Object> q = r.queue;
-        if (q != ReferenceQueue.NULL) q.enqueue(r);
-        return true;
+        RfffrfndfQufuf<? supfr Objfdt> q = r.qufuf;
+        if (q != RfffrfndfQufuf.NULL) q.fnqufuf(r);
+        rfturn truf;
     }
 
-    static {
-        ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        for (ThreadGroup tgn = tg;
+    stbtid {
+        TirfbdGroup tg = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+        for (TirfbdGroup tgn = tg;
              tgn != null;
-             tg = tgn, tgn = tg.getParent());
-        Thread handler = new ReferenceHandler(tg, "Reference Handler");
-        /* If there were a special system-only priority greater than
-         * MAX_PRIORITY, it would be used here
+             tg = tgn, tgn = tg.gftPbrfnt());
+        Tirfbd ibndlfr = nfw RfffrfndfHbndlfr(tg, "Rfffrfndf Hbndlfr");
+        /* If tifrf wfrf b spfdibl systfm-only priority grfbtfr tibn
+         * MAX_PRIORITY, it would bf usfd ifrf
          */
-        handler.setPriority(Thread.MAX_PRIORITY);
-        handler.setDaemon(true);
-        handler.start();
+        ibndlfr.sftPriority(Tirfbd.MAX_PRIORITY);
+        ibndlfr.sftDbfmon(truf);
+        ibndlfr.stbrt();
 
-        // provide access in SharedSecrets
-        SharedSecrets.setJavaLangRefAccess(new JavaLangRefAccess() {
-            @Override
-            public boolean tryHandlePendingReference() {
-                return tryHandlePending(false);
+        // providf bddfss in SibrfdSfdrfts
+        SibrfdSfdrfts.sftJbvbLbngRffAddfss(nfw JbvbLbngRffAddfss() {
+            @Ovfrridf
+            publid boolfbn tryHbndlfPfndingRfffrfndf() {
+                rfturn tryHbndlfPfnding(fblsf);
             }
         });
     }
 
-    /* -- Referent accessor and setters -- */
+    /* -- Rfffrfnt bddfssor bnd sfttfrs -- */
 
     /**
-     * Returns this reference object's referent.  If this reference object has
-     * been cleared, either by the program or by the garbage collector, then
-     * this method returns <code>null</code>.
+     * Rfturns tiis rfffrfndf objfdt's rfffrfnt.  If tiis rfffrfndf objfdt ibs
+     * bffn dlfbrfd, fitifr by tif progrbm or by tif gbrbbgf dollfdtor, tifn
+     * tiis mftiod rfturns <dodf>null</dodf>.
      *
-     * @return   The object to which this reference refers, or
-     *           <code>null</code> if this reference object has been cleared
+     * @rfturn   Tif objfdt to wiidi tiis rfffrfndf rfffrs, or
+     *           <dodf>null</dodf> if tiis rfffrfndf objfdt ibs bffn dlfbrfd
      */
-    public T get() {
-        return this.referent;
-    }
-
-    /**
-     * Clears this reference object.  Invoking this method will not cause this
-     * object to be enqueued.
-     *
-     * <p> This method is invoked only by Java code; when the garbage collector
-     * clears references it does so directly, without invoking this method.
-     */
-    public void clear() {
-        this.referent = null;
-    }
-
-
-    /* -- Queue operations -- */
-
-    /**
-     * Tells whether or not this reference object has been enqueued, either by
-     * the program or by the garbage collector.  If this reference object was
-     * not registered with a queue when it was created, then this method will
-     * always return <code>false</code>.
-     *
-     * @return   <code>true</code> if and only if this reference object has
-     *           been enqueued
-     */
-    public boolean isEnqueued() {
-        return (this.queue == ReferenceQueue.ENQUEUED);
+    publid T gft() {
+        rfturn tiis.rfffrfnt;
     }
 
     /**
-     * Adds this reference object to the queue with which it is registered,
-     * if any.
+     * Clfbrs tiis rfffrfndf objfdt.  Invoking tiis mftiod will not dbusf tiis
+     * objfdt to bf fnqufufd.
      *
-     * <p> This method is invoked only by Java code; when the garbage collector
-     * enqueues references it does so directly, without invoking this method.
-     *
-     * @return   <code>true</code> if this reference object was successfully
-     *           enqueued; <code>false</code> if it was already enqueued or if
-     *           it was not registered with a queue when it was created
+     * <p> Tiis mftiod is invokfd only by Jbvb dodf; wifn tif gbrbbgf dollfdtor
+     * dlfbrs rfffrfndfs it dofs so dirfdtly, witiout invoking tiis mftiod.
      */
-    public boolean enqueue() {
-        return this.queue.enqueue(this);
+    publid void dlfbr() {
+        tiis.rfffrfnt = null;
     }
 
 
-    /* -- Constructors -- */
+    /* -- Qufuf opfrbtions -- */
 
-    Reference(T referent) {
-        this(referent, null);
+    /**
+     * Tflls wiftifr or not tiis rfffrfndf objfdt ibs bffn fnqufufd, fitifr by
+     * tif progrbm or by tif gbrbbgf dollfdtor.  If tiis rfffrfndf objfdt wbs
+     * not rfgistfrfd witi b qufuf wifn it wbs drfbtfd, tifn tiis mftiod will
+     * blwbys rfturn <dodf>fblsf</dodf>.
+     *
+     * @rfturn   <dodf>truf</dodf> if bnd only if tiis rfffrfndf objfdt ibs
+     *           bffn fnqufufd
+     */
+    publid boolfbn isEnqufufd() {
+        rfturn (tiis.qufuf == RfffrfndfQufuf.ENQUEUED);
     }
 
-    Reference(T referent, ReferenceQueue<? super T> queue) {
-        this.referent = referent;
-        this.queue = (queue == null) ? ReferenceQueue.NULL : queue;
+    /**
+     * Adds tiis rfffrfndf objfdt to tif qufuf witi wiidi it is rfgistfrfd,
+     * if bny.
+     *
+     * <p> Tiis mftiod is invokfd only by Jbvb dodf; wifn tif gbrbbgf dollfdtor
+     * fnqufufs rfffrfndfs it dofs so dirfdtly, witiout invoking tiis mftiod.
+     *
+     * @rfturn   <dodf>truf</dodf> if tiis rfffrfndf objfdt wbs suddfssfully
+     *           fnqufufd; <dodf>fblsf</dodf> if it wbs blrfbdy fnqufufd or if
+     *           it wbs not rfgistfrfd witi b qufuf wifn it wbs drfbtfd
+     */
+    publid boolfbn fnqufuf() {
+        rfturn tiis.qufuf.fnqufuf(tiis);
+    }
+
+
+    /* -- Construdtors -- */
+
+    Rfffrfndf(T rfffrfnt) {
+        tiis(rfffrfnt, null);
+    }
+
+    Rfffrfndf(T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+        tiis.rfffrfnt = rfffrfnt;
+        tiis.qufuf = (qufuf == null) ? RfffrfndfQufuf.NULL : qufuf;
     }
 
 }

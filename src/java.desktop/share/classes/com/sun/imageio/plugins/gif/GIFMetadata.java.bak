@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import org.w3c.dom.Node;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import org.w3d.dom.Nodf;
 
 /**
- * Class which adds utility DOM element attribute access methods to
- * <code>IIOMetadata</code> for subclass use.
+ * Clbss wiidi bdds utility DOM flfmfnt bttributf bddfss mftiods to
+ * <dodf>IIOMftbdbtb</dodf> for subdlbss usf.
  */
-abstract class GIFMetadata extends IIOMetadata {
+bbstrbdt dlbss GIFMftbdbtb fxtfnds IIOMftbdbtb {
 
     /**
-     * Represents an undefined value of integer attributes.
+     * Rfprfsfnts bn undffinfd vbluf of intfgfr bttributfs.
      */
-    static final int UNDEFINED_INTEGER_VALUE = -1;
+    stbtid finbl int UNDEFINED_INTEGER_VALUE = -1;
 
     //
-    // Note: These attribute methods were shamelessly lifted from
-    // com.sun.imageio.plugins.png.PNGMetadata and modified.
+    // Notf: Tifsf bttributf mftiods wfrf sibmflfssly liftfd from
+    // dom.sun.imbgfio.plugins.png.PNGMftbdbtb bnd modififd.
     //
 
-    // Shorthand for throwing an IIOInvalidTreeException
-    protected static void fatal(Node node, String reason)
-      throws IIOInvalidTreeException {
-        throw new IIOInvalidTreeException(reason, node);
+    // Siortibnd for tirowing bn IIOInvblidTrffExdfption
+    protfdtfd stbtid void fbtbl(Nodf nodf, String rfbson)
+      tirows IIOInvblidTrffExdfption {
+        tirow nfw IIOInvblidTrffExdfption(rfbson, nodf);
     }
 
-    // Get an integer-valued attribute
-    protected static String getStringAttribute(Node node, String name,
-                                               String defaultValue,
-                                               boolean required,
-                                               String[] range)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
-            if (!required) {
-                return defaultValue;
-            } else {
-                fatal(node, "Required attribute " + name + " not present!");
+    // Gft bn intfgfr-vblufd bttributf
+    protfdtfd stbtid String gftStringAttributf(Nodf nodf, String nbmf,
+                                               String dffbultVbluf,
+                                               boolfbn rfquirfd,
+                                               String[] rbngf)
+      tirows IIOInvblidTrffExdfption {
+        Nodf bttr = nodf.gftAttributfs().gftNbmfdItfm(nbmf);
+        if (bttr == null) {
+            if (!rfquirfd) {
+                rfturn dffbultVbluf;
+            } flsf {
+                fbtbl(nodf, "Rfquirfd bttributf " + nbmf + " not prfsfnt!");
             }
         }
-        String value = attr.getNodeValue();
+        String vbluf = bttr.gftNodfVbluf();
 
-        if (range != null) {
-            if (value == null) {
-                fatal(node,
-                      "Null value for "+node.getNodeName()+
-                      " attribute "+name+"!");
+        if (rbngf != null) {
+            if (vbluf == null) {
+                fbtbl(nodf,
+                      "Null vbluf for "+nodf.gftNodfNbmf()+
+                      " bttributf "+nbmf+"!");
             }
-            boolean validValue = false;
-            int len = range.length;
-            for (int i = 0; i < len; i++) {
-                if (value.equals(range[i])) {
-                    validValue = true;
-                    break;
+            boolfbn vblidVbluf = fblsf;
+            int lfn = rbngf.lfngti;
+            for (int i = 0; i < lfn; i++) {
+                if (vbluf.fqubls(rbngf[i])) {
+                    vblidVbluf = truf;
+                    brfbk;
                 }
             }
-            if (!validValue) {
-                fatal(node,
-                      "Bad value for "+node.getNodeName()+
-                      " attribute "+name+"!");
+            if (!vblidVbluf) {
+                fbtbl(nodf,
+                      "Bbd vbluf for "+nodf.gftNodfNbmf()+
+                      " bttributf "+nbmf+"!");
             }
         }
 
-        return value;
+        rfturn vbluf;
     }
 
 
-    // Get an integer-valued attribute
-    protected static int getIntAttribute(Node node, String name,
-                                         int defaultValue, boolean required,
-                                         boolean bounded, int min, int max)
-      throws IIOInvalidTreeException {
-        String value = getStringAttribute(node, name, null, required, null);
-        if (value == null || "".equals(value)) {
-            return defaultValue;
+    // Gft bn intfgfr-vblufd bttributf
+    protfdtfd stbtid int gftIntAttributf(Nodf nodf, String nbmf,
+                                         int dffbultVbluf, boolfbn rfquirfd,
+                                         boolfbn boundfd, int min, int mbx)
+      tirows IIOInvblidTrffExdfption {
+        String vbluf = gftStringAttributf(nodf, nbmf, null, rfquirfd, null);
+        if (vbluf == null || "".fqubls(vbluf)) {
+            rfturn dffbultVbluf;
         }
 
-        int intValue = defaultValue;
+        int intVbluf = dffbultVbluf;
         try {
-            intValue = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            fatal(node,
-                  "Bad value for "+node.getNodeName()+
-                  " attribute "+name+"!");
+            intVbluf = Intfgfr.pbrsfInt(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            fbtbl(nodf,
+                  "Bbd vbluf for "+nodf.gftNodfNbmf()+
+                  " bttributf "+nbmf+"!");
         }
-        if (bounded && (intValue < min || intValue > max)) {
-            fatal(node,
-                  "Bad value for "+node.getNodeName()+
-                  " attribute "+name+"!");
+        if (boundfd && (intVbluf < min || intVbluf > mbx)) {
+            fbtbl(nodf,
+                  "Bbd vbluf for "+nodf.gftNodfNbmf()+
+                  " bttributf "+nbmf+"!");
         }
-        return intValue;
+        rfturn intVbluf;
     }
 
-    // Get a float-valued attribute
-    protected static float getFloatAttribute(Node node, String name,
-                                             float defaultValue,
-                                             boolean required)
-      throws IIOInvalidTreeException {
-        String value = getStringAttribute(node, name, null, required, null);
-        if (value == null) {
-            return defaultValue;
+    // Gft b flobt-vblufd bttributf
+    protfdtfd stbtid flobt gftFlobtAttributf(Nodf nodf, String nbmf,
+                                             flobt dffbultVbluf,
+                                             boolfbn rfquirfd)
+      tirows IIOInvblidTrffExdfption {
+        String vbluf = gftStringAttributf(nodf, nbmf, null, rfquirfd, null);
+        if (vbluf == null) {
+            rfturn dffbultVbluf;
         }
-        return Float.parseFloat(value);
+        rfturn Flobt.pbrsfFlobt(vbluf);
     }
 
-    // Get a required integer-valued attribute
-    protected static int getIntAttribute(Node node, String name,
-                                         boolean bounded, int min, int max)
-      throws IIOInvalidTreeException {
-        return getIntAttribute(node, name, -1, true, bounded, min, max);
+    // Gft b rfquirfd intfgfr-vblufd bttributf
+    protfdtfd stbtid int gftIntAttributf(Nodf nodf, String nbmf,
+                                         boolfbn boundfd, int min, int mbx)
+      tirows IIOInvblidTrffExdfption {
+        rfturn gftIntAttributf(nodf, nbmf, -1, truf, boundfd, min, mbx);
     }
 
-    // Get a required float-valued attribute
-    protected static float getFloatAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getFloatAttribute(node, name, -1.0F, true);
+    // Gft b rfquirfd flobt-vblufd bttributf
+    protfdtfd stbtid flobt gftFlobtAttributf(Nodf nodf, String nbmf)
+      tirows IIOInvblidTrffExdfption {
+        rfturn gftFlobtAttributf(nodf, nbmf, -1.0F, truf);
     }
 
-    // Get a boolean-valued attribute
-    protected static boolean getBooleanAttribute(Node node, String name,
-                                                 boolean defaultValue,
-                                                 boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
-            if (!required) {
-                return defaultValue;
-            } else {
-                fatal(node, "Required attribute " + name + " not present!");
+    // Gft b boolfbn-vblufd bttributf
+    protfdtfd stbtid boolfbn gftBoolfbnAttributf(Nodf nodf, String nbmf,
+                                                 boolfbn dffbultVbluf,
+                                                 boolfbn rfquirfd)
+      tirows IIOInvblidTrffExdfption {
+        Nodf bttr = nodf.gftAttributfs().gftNbmfdItfm(nbmf);
+        if (bttr == null) {
+            if (!rfquirfd) {
+                rfturn dffbultVbluf;
+            } flsf {
+                fbtbl(nodf, "Rfquirfd bttributf " + nbmf + " not prfsfnt!");
             }
         }
-        String value = attr.getNodeValue();
-        // Allow lower case booleans for backward compatibility, #5082756
-        if (value.equals("TRUE") || value.equals("true")) {
-            return true;
-        } else if (value.equals("FALSE") || value.equals("false")) {
-            return false;
-        } else {
-            fatal(node, "Attribute " + name + " must be 'TRUE' or 'FALSE'!");
-            return false;
+        String vbluf = bttr.gftNodfVbluf();
+        // Allow lowfr dbsf boolfbns for bbdkwbrd dompbtibility, #5082756
+        if (vbluf.fqubls("TRUE") || vbluf.fqubls("truf")) {
+            rfturn truf;
+        } flsf if (vbluf.fqubls("FALSE") || vbluf.fqubls("fblsf")) {
+            rfturn fblsf;
+        } flsf {
+            fbtbl(nodf, "Attributf " + nbmf + " must bf 'TRUE' or 'FALSE'!");
+            rfturn fblsf;
         }
     }
 
-    // Get a required boolean-valued attribute
-    protected static boolean getBooleanAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getBooleanAttribute(node, name, false, true);
+    // Gft b rfquirfd boolfbn-vblufd bttributf
+    protfdtfd stbtid boolfbn gftBoolfbnAttributf(Nodf nodf, String nbmf)
+      tirows IIOInvblidTrffExdfption {
+        rfturn gftBoolfbnAttributf(nodf, nbmf, fblsf, truf);
     }
 
-    // Get an enumerated attribute as an index into a String array
-    protected static int getEnumeratedAttribute(Node node,
-                                                String name,
-                                                String[] legalNames,
-                                                int defaultValue,
-                                                boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
-            if (!required) {
-                return defaultValue;
-            } else {
-                fatal(node, "Required attribute " + name + " not present!");
+    // Gft bn fnumfrbtfd bttributf bs bn indfx into b String brrby
+    protfdtfd stbtid int gftEnumfrbtfdAttributf(Nodf nodf,
+                                                String nbmf,
+                                                String[] lfgblNbmfs,
+                                                int dffbultVbluf,
+                                                boolfbn rfquirfd)
+      tirows IIOInvblidTrffExdfption {
+        Nodf bttr = nodf.gftAttributfs().gftNbmfdItfm(nbmf);
+        if (bttr == null) {
+            if (!rfquirfd) {
+                rfturn dffbultVbluf;
+            } flsf {
+                fbtbl(nodf, "Rfquirfd bttributf " + nbmf + " not prfsfnt!");
             }
         }
-        String value = attr.getNodeValue();
-        for (int i = 0; i < legalNames.length; i++) {
-            if(value.equals(legalNames[i])) {
-                return i;
+        String vbluf = bttr.gftNodfVbluf();
+        for (int i = 0; i < lfgblNbmfs.lfngti; i++) {
+            if(vbluf.fqubls(lfgblNbmfs[i])) {
+                rfturn i;
             }
         }
 
-        fatal(node, "Illegal value for attribute " + name + "!");
-        return -1;
+        fbtbl(nodf, "Illfgbl vbluf for bttributf " + nbmf + "!");
+        rfturn -1;
     }
 
-    // Get a required enumerated attribute as an index into a String array
-    protected static int getEnumeratedAttribute(Node node,
-                                                String name,
-                                                String[] legalNames)
-      throws IIOInvalidTreeException {
-        return getEnumeratedAttribute(node, name, legalNames, -1, true);
+    // Gft b rfquirfd fnumfrbtfd bttributf bs bn indfx into b String brrby
+    protfdtfd stbtid int gftEnumfrbtfdAttributf(Nodf nodf,
+                                                String nbmf,
+                                                String[] lfgblNbmfs)
+      tirows IIOInvblidTrffExdfption {
+        rfturn gftEnumfrbtfdAttributf(nodf, nbmf, lfgblNbmfs, -1, truf);
     }
 
-    // Get a String-valued attribute
-    protected static String getAttribute(Node node, String name,
-                                         String defaultValue, boolean required)
-      throws IIOInvalidTreeException {
-        Node attr = node.getAttributes().getNamedItem(name);
-        if (attr == null) {
-            if (!required) {
-                return defaultValue;
-            } else {
-                fatal(node, "Required attribute " + name + " not present!");
+    // Gft b String-vblufd bttributf
+    protfdtfd stbtid String gftAttributf(Nodf nodf, String nbmf,
+                                         String dffbultVbluf, boolfbn rfquirfd)
+      tirows IIOInvblidTrffExdfption {
+        Nodf bttr = nodf.gftAttributfs().gftNbmfdItfm(nbmf);
+        if (bttr == null) {
+            if (!rfquirfd) {
+                rfturn dffbultVbluf;
+            } flsf {
+                fbtbl(nodf, "Rfquirfd bttributf " + nbmf + " not prfsfnt!");
             }
         }
-        return attr.getNodeValue();
+        rfturn bttr.gftNodfVbluf();
     }
 
-    // Get a required String-valued attribute
-    protected static String getAttribute(Node node, String name)
-      throws IIOInvalidTreeException {
-        return getAttribute(node, name, null, true);
+    // Gft b rfquirfd String-vblufd bttributf
+    protfdtfd stbtid String gftAttributf(Nodf nodf, String nbmf)
+      tirows IIOInvblidTrffExdfption {
+        rfturn gftAttributf(nodf, nbmf, null, truf);
     }
 
-    protected GIFMetadata(boolean standardMetadataFormatSupported,
-                          String nativeMetadataFormatName,
-                          String nativeMetadataFormatClassName,
-                          String[] extraMetadataFormatNames,
-                          String[] extraMetadataFormatClassNames) {
-        super(standardMetadataFormatSupported,
-              nativeMetadataFormatName,
-              nativeMetadataFormatClassName,
-              extraMetadataFormatNames,
-              extraMetadataFormatClassNames);
+    protfdtfd GIFMftbdbtb(boolfbn stbndbrdMftbdbtbFormbtSupportfd,
+                          String nbtivfMftbdbtbFormbtNbmf,
+                          String nbtivfMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbMftbdbtbFormbtNbmfs,
+                          String[] fxtrbMftbdbtbFormbtClbssNbmfs) {
+        supfr(stbndbrdMftbdbtbFormbtSupportfd,
+              nbtivfMftbdbtbFormbtNbmf,
+              nbtivfMftbdbtbFormbtClbssNbmf,
+              fxtrbMftbdbtbFormbtNbmfs,
+              fxtrbMftbdbtbFormbtClbssNbmfs);
     }
 
-    public void mergeTree(String formatName, Node root)
-      throws IIOInvalidTreeException {
-        if (formatName.equals(nativeMetadataFormatName)) {
+    publid void mfrgfTrff(String formbtNbmf, Nodf root)
+      tirows IIOInvblidTrffExdfption {
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                tirow nfw IllfgblArgumfntExdfption("root == null!");
             }
-            mergeNativeTree(root);
-        } else if (formatName.equals
-                  (IIOMetadataFormatImpl.standardMetadataFormatName)) {
+            mfrgfNbtivfTrff(root);
+        } flsf if (formbtNbmf.fqubls
+                  (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
             if (root == null) {
-                throw new IllegalArgumentException("root == null!");
+                tirow nfw IllfgblArgumfntExdfption("root == null!");
             }
-            mergeStandardTree(root);
-        } else {
-            throw new IllegalArgumentException("Not a recognized format!");
+            mfrgfStbndbrdTrff(root);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Not b rfdognizfd formbt!");
         }
     }
 
-    protected byte[] getColorTable(Node colorTableNode,
-                                   String entryNodeName,
-                                   boolean lengthExpected,
-                                   int expectedLength)
-      throws IIOInvalidTreeException {
-        byte[] red = new byte[256];
-        byte[] green  = new byte[256];
-        byte[] blue = new byte[256];
-        int maxIndex = -1;
+    protfdtfd bytf[] gftColorTbblf(Nodf dolorTbblfNodf,
+                                   String fntryNodfNbmf,
+                                   boolfbn lfngtiExpfdtfd,
+                                   int fxpfdtfdLfngti)
+      tirows IIOInvblidTrffExdfption {
+        bytf[] rfd = nfw bytf[256];
+        bytf[] grffn  = nfw bytf[256];
+        bytf[] bluf = nfw bytf[256];
+        int mbxIndfx = -1;
 
-        Node entry = colorTableNode.getFirstChild();
-        if (entry == null) {
-            fatal(colorTableNode, "Palette has no entries!");
+        Nodf fntry = dolorTbblfNodf.gftFirstCiild();
+        if (fntry == null) {
+            fbtbl(dolorTbblfNodf, "Pblfttf ibs no fntrifs!");
         }
 
-        while (entry != null) {
-            if (!entry.getNodeName().equals(entryNodeName)) {
-                fatal(colorTableNode,
-                      "Only a "+entryNodeName+" may be a child of a "+
-                      entry.getNodeName()+"!");
+        wiilf (fntry != null) {
+            if (!fntry.gftNodfNbmf().fqubls(fntryNodfNbmf)) {
+                fbtbl(dolorTbblfNodf,
+                      "Only b "+fntryNodfNbmf+" mby bf b diild of b "+
+                      fntry.gftNodfNbmf()+"!");
             }
 
-            int index = getIntAttribute(entry, "index", true, 0, 255);
-            if (index > maxIndex) {
-                maxIndex = index;
+            int indfx = gftIntAttributf(fntry, "indfx", truf, 0, 255);
+            if (indfx > mbxIndfx) {
+                mbxIndfx = indfx;
             }
-            red[index] = (byte)getIntAttribute(entry, "red", true, 0, 255);
-            green[index] = (byte)getIntAttribute(entry, "green", true, 0, 255);
-            blue[index] = (byte)getIntAttribute(entry, "blue", true, 0, 255);
+            rfd[indfx] = (bytf)gftIntAttributf(fntry, "rfd", truf, 0, 255);
+            grffn[indfx] = (bytf)gftIntAttributf(fntry, "grffn", truf, 0, 255);
+            bluf[indfx] = (bytf)gftIntAttributf(fntry, "bluf", truf, 0, 255);
 
-            entry = entry.getNextSibling();
+            fntry = fntry.gftNfxtSibling();
         }
 
-        int numEntries = maxIndex + 1;
+        int numEntrifs = mbxIndfx + 1;
 
-        if (lengthExpected && numEntries != expectedLength) {
-            fatal(colorTableNode, "Unexpected length for palette!");
+        if (lfngtiExpfdtfd && numEntrifs != fxpfdtfdLfngti) {
+            fbtbl(dolorTbblfNodf, "Unfxpfdtfd lfngti for pblfttf!");
         }
 
-        byte[] colorTable = new byte[3*numEntries];
-        for (int i = 0, j = 0; i < numEntries; i++) {
-            colorTable[j++] = red[i];
-            colorTable[j++] = green[i];
-            colorTable[j++] = blue[i];
+        bytf[] dolorTbblf = nfw bytf[3*numEntrifs];
+        for (int i = 0, j = 0; i < numEntrifs; i++) {
+            dolorTbblf[j++] = rfd[i];
+            dolorTbblf[j++] = grffn[i];
+            dolorTbblf[j++] = bluf[i];
         }
 
-        return colorTable;
+        rfturn dolorTbblf;
     }
 
-    protected abstract void mergeNativeTree(Node root)
-      throws IIOInvalidTreeException;
+    protfdtfd bbstrbdt void mfrgfNbtivfTrff(Nodf root)
+      tirows IIOInvblidTrffExdfption;
 
-   protected abstract void mergeStandardTree(Node root)
-      throws IIOInvalidTreeException;
+   protfdtfd bbstrbdt void mfrgfStbndbrdTrff(Nodf root)
+      tirows IIOInvblidTrffExdfption;
 }

@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.Point2D;
-import java.beans.Transient;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bfbns.Trbnsifnt;
 
 /**
- * A point representing a location in {@code (x,y)} coordinate space,
- * specified in integer precision.
+ * A point rfprfsfnting b lodbtion in {@dodf (x,y)} doordinbtf spbdf,
+ * spfdififd in intfgfr prfdision.
  *
- * @author      Sami Shaio
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sindf       1.0
  */
-public class Point extends Point2D implements java.io.Serializable {
+publid dlbss Point fxtfnds Point2D implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * The X coordinate of this <code>Point</code>.
-     * If no X coordinate is set it will default to 0.
+     * Tif X doordinbtf of tiis <dodf>Point</dodf>.
+     * If no X doordinbtf is sft it will dffbult to 0.
      *
-     * @serial
-     * @see #getLocation()
-     * @see #move(int, int)
-     * @since 1.0
+     * @sfribl
+     * @sff #gftLodbtion()
+     * @sff #movf(int, int)
+     * @sindf 1.0
      */
-    public int x;
+    publid int x;
 
     /**
-     * The Y coordinate of this <code>Point</code>.
-     * If no Y coordinate is set it will default to 0.
+     * Tif Y doordinbtf of tiis <dodf>Point</dodf>.
+     * If no Y doordinbtf is sft it will dffbult to 0.
      *
-     * @serial
-     * @see #getLocation()
-     * @see #move(int, int)
-     * @since 1.0
+     * @sfribl
+     * @sff #gftLodbtion()
+     * @sff #movf(int, int)
+     * @sindf 1.0
      */
-    public int y;
+    publid int y;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -5276940640259749850L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5276940640259749850L;
 
     /**
-     * Constructs and initializes a point at the origin
-     * (0,&nbsp;0) of the coordinate space.
-     * @since       1.1
+     * Construdts bnd initiblizfs b point bt tif origin
+     * (0,&nbsp;0) of tif doordinbtf spbdf.
+     * @sindf       1.1
      */
-    public Point() {
-        this(0, 0);
+    publid Point() {
+        tiis(0, 0);
     }
 
     /**
-     * Constructs and initializes a point with the same location as
-     * the specified <code>Point</code> object.
-     * @param       p a point
-     * @since       1.1
+     * Construdts bnd initiblizfs b point witi tif sbmf lodbtion bs
+     * tif spfdififd <dodf>Point</dodf> objfdt.
+     * @pbrbm       p b point
+     * @sindf       1.1
      */
-    public Point(Point p) {
-        this(p.x, p.y);
+    publid Point(Point p) {
+        tiis(p.x, p.y);
     }
 
     /**
-     * Constructs and initializes a point at the specified
-     * {@code (x,y)} location in the coordinate space.
-     * @param x the X coordinate of the newly constructed <code>Point</code>
-     * @param y the Y coordinate of the newly constructed <code>Point</code>
-     * @since 1.0
+     * Construdts bnd initiblizfs b point bt tif spfdififd
+     * {@dodf (x,y)} lodbtion in tif doordinbtf spbdf.
+     * @pbrbm x tif X doordinbtf of tif nfwly donstrudtfd <dodf>Point</dodf>
+     * @pbrbm y tif Y doordinbtf of tif nfwly donstrudtfd <dodf>Point</dodf>
+     * @sindf 1.0
      */
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+    publid Point(int x, int y) {
+        tiis.x = x;
+        tiis.y = y;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public double getX() {
-        return x;
+    publid doublf gftX() {
+        rfturn x;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public double getY() {
-        return y;
+    publid doublf gftY() {
+        rfturn y;
     }
 
     /**
-     * Returns the location of this point.
-     * This method is included for completeness, to parallel the
-     * <code>getLocation</code> method of <code>Component</code>.
-     * @return      a copy of this point, at the same location
-     * @see         java.awt.Component#getLocation
-     * @see         java.awt.Point#setLocation(java.awt.Point)
-     * @see         java.awt.Point#setLocation(int, int)
-     * @since       1.1
+     * Rfturns tif lodbtion of tiis point.
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>gftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @rfturn      b dopy of tiis point, bt tif sbmf lodbtion
+     * @sff         jbvb.bwt.Componfnt#gftLodbtion
+     * @sff         jbvb.bwt.Point#sftLodbtion(jbvb.bwt.Point)
+     * @sff         jbvb.bwt.Point#sftLodbtion(int, int)
+     * @sindf       1.1
      */
-    @Transient
-    public Point getLocation() {
-        return new Point(x, y);
+    @Trbnsifnt
+    publid Point gftLodbtion() {
+        rfturn nfw Point(x, y);
     }
 
     /**
-     * Sets the location of the point to the specified location.
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param       p  a point, the new location for this point
-     * @see         java.awt.Component#setLocation(java.awt.Point)
-     * @see         java.awt.Point#getLocation
-     * @since       1.1
+     * Sfts tif lodbtion of tif point to tif spfdififd lodbtion.
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm       p  b point, tif nfw lodbtion for tiis point
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(jbvb.bwt.Point)
+     * @sff         jbvb.bwt.Point#gftLodbtion
+     * @sindf       1.1
      */
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
+    publid void sftLodbtion(Point p) {
+        sftLodbtion(p.x, p.y);
     }
 
     /**
-     * Changes the point to have the specified location.
+     * Cibngfs tif point to ibvf tif spfdififd lodbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * Its behavior is identical with <code>move(int,&nbsp;int)</code>.
-     * @param       x the X coordinate of the new location
-     * @param       y the Y coordinate of the new location
-     * @see         java.awt.Component#setLocation(int, int)
-     * @see         java.awt.Point#getLocation
-     * @see         java.awt.Point#move(int, int)
-     * @since       1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * Its bfibvior is idfntidbl witi <dodf>movf(int,&nbsp;int)</dodf>.
+     * @pbrbm       x tif X doordinbtf of tif nfw lodbtion
+     * @pbrbm       y tif Y doordinbtf of tif nfw lodbtion
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(int, int)
+     * @sff         jbvb.bwt.Point#gftLodbtion
+     * @sff         jbvb.bwt.Point#movf(int, int)
+     * @sindf       1.1
      */
-    public void setLocation(int x, int y) {
-        move(x, y);
+    publid void sftLodbtion(int x, int y) {
+        movf(x, y);
     }
 
     /**
-     * Sets the location of this point to the specified double coordinates.
-     * The double values will be rounded to integer values.
-     * Any number smaller than <code>Integer.MIN_VALUE</code>
-     * will be reset to <code>MIN_VALUE</code>, and any number
-     * larger than <code>Integer.MAX_VALUE</code> will be
-     * reset to <code>MAX_VALUE</code>.
+     * Sfts tif lodbtion of tiis point to tif spfdififd doublf doordinbtfs.
+     * Tif doublf vblufs will bf roundfd to intfgfr vblufs.
+     * Any numbfr smbllfr tibn <dodf>Intfgfr.MIN_VALUE</dodf>
+     * will bf rfsft to <dodf>MIN_VALUE</dodf>, bnd bny numbfr
+     * lbrgfr tibn <dodf>Intfgfr.MAX_VALUE</dodf> will bf
+     * rfsft to <dodf>MAX_VALUE</dodf>.
      *
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @see #getLocation
+     * @pbrbm x tif X doordinbtf of tif nfw lodbtion
+     * @pbrbm y tif Y doordinbtf of tif nfw lodbtion
+     * @sff #gftLodbtion
      */
-    public void setLocation(double x, double y) {
-        this.x = (int) Math.floor(x+0.5);
-        this.y = (int) Math.floor(y+0.5);
+    publid void sftLodbtion(doublf x, doublf y) {
+        tiis.x = (int) Mbti.floor(x+0.5);
+        tiis.y = (int) Mbti.floor(y+0.5);
     }
 
     /**
-     * Moves this point to the specified location in the
-     * {@code (x,y)} coordinate plane. This method
-     * is identical with <code>setLocation(int,&nbsp;int)</code>.
-     * @param       x the X coordinate of the new location
-     * @param       y the Y coordinate of the new location
-     * @see         java.awt.Component#setLocation(int, int)
+     * Movfs tiis point to tif spfdififd lodbtion in tif
+     * {@dodf (x,y)} doordinbtf plbnf. Tiis mftiod
+     * is idfntidbl witi <dodf>sftLodbtion(int,&nbsp;int)</dodf>.
+     * @pbrbm       x tif X doordinbtf of tif nfw lodbtion
+     * @pbrbm       y tif Y doordinbtf of tif nfw lodbtion
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(int, int)
      */
-    public void move(int x, int y) {
-        this.x = x;
-        this.y = y;
+    publid void movf(int x, int y) {
+        tiis.x = x;
+        tiis.y = y;
     }
 
     /**
-     * Translates this point, at location {@code (x,y)},
-     * by {@code dx} along the {@code x} axis and {@code dy}
-     * along the {@code y} axis so that it now represents the point
-     * {@code (x+dx,y+dy)}.
+     * Trbnslbtfs tiis point, bt lodbtion {@dodf (x,y)},
+     * by {@dodf dx} blong tif {@dodf x} bxis bnd {@dodf dy}
+     * blong tif {@dodf y} bxis so tibt it now rfprfsfnts tif point
+     * {@dodf (x+dx,y+dy)}.
      *
-     * @param       dx   the distance to move this point
-     *                            along the X axis
-     * @param       dy    the distance to move this point
-     *                            along the Y axis
+     * @pbrbm       dx   tif distbndf to movf tiis point
+     *                            blong tif X bxis
+     * @pbrbm       dy    tif distbndf to movf tiis point
+     *                            blong tif Y bxis
      */
-    public void translate(int dx, int dy) {
-        this.x += dx;
-        this.y += dy;
+    publid void trbnslbtf(int dx, int dy) {
+        tiis.x += dx;
+        tiis.y += dy;
     }
 
     /**
-     * Determines whether or not two points are equal. Two instances of
-     * <code>Point2D</code> are equal if the values of their
-     * <code>x</code> and <code>y</code> member fields, representing
-     * their position in the coordinate space, are the same.
-     * @param obj an object to be compared with this <code>Point2D</code>
-     * @return <code>true</code> if the object to be compared is
-     *         an instance of <code>Point2D</code> and has
-     *         the same values; <code>false</code> otherwise.
+     * Dftfrminfs wiftifr or not two points brf fqubl. Two instbndfs of
+     * <dodf>Point2D</dodf> brf fqubl if tif vblufs of tifir
+     * <dodf>x</dodf> bnd <dodf>y</dodf> mfmbfr fiflds, rfprfsfnting
+     * tifir position in tif doordinbtf spbdf, brf tif sbmf.
+     * @pbrbm obj bn objfdt to bf dompbrfd witi tiis <dodf>Point2D</dodf>
+     * @rfturn <dodf>truf</dodf> if tif objfdt to bf dompbrfd is
+     *         bn instbndf of <dodf>Point2D</dodf> bnd ibs
+     *         tif sbmf vblufs; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Point) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Point) {
             Point pt = (Point)obj;
-            return (x == pt.x) && (y == pt.y);
+            rfturn (x == pt.x) && (y == pt.y);
         }
-        return super.equals(obj);
+        rfturn supfr.fqubls(obj);
     }
 
     /**
-     * Returns a string representation of this point and its location
-     * in the {@code (x,y)} coordinate space. This method is
-     * intended to be used only for debugging purposes, and the content
-     * and format of the returned string may vary between implementations.
-     * The returned string may be empty but may not be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis point bnd its lodbtion
+     * in tif {@dodf (x,y)} doordinbtf spbdf. Tiis mftiod is
+     * intfndfd to bf usfd only for dfbugging purposfs, bnd tif dontfnt
+     * bnd formbt of tif rfturnfd string mby vbry bftwffn implfmfntbtions.
+     * Tif rfturnfd string mby bf fmpty but mby not bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this point
+     * @rfturn  b string rfprfsfntbtion of tiis point
      */
-    public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[x=" + x + ",y=" + y + "]";
     }
 }

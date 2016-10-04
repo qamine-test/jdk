@@ -1,810 +1,810 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.Map.Entry;
-import sun.misc.SharedSecrets;
+import jbvb.util.Mbp.Entry;
+import sun.misd.SibrfdSfdrfts;
 
 /**
- * A specialized {@link Map} implementation for use with enum type keys.  All
- * of the keys in an enum map must come from a single enum type that is
- * specified, explicitly or implicitly, when the map is created.  Enum maps
- * are represented internally as arrays.  This representation is extremely
- * compact and efficient.
+ * A spfdiblizfd {@link Mbp} implfmfntbtion for usf witi fnum typf kfys.  All
+ * of tif kfys in bn fnum mbp must domf from b singlf fnum typf tibt is
+ * spfdififd, fxpliditly or impliditly, wifn tif mbp is drfbtfd.  Enum mbps
+ * brf rfprfsfntfd intfrnblly bs brrbys.  Tiis rfprfsfntbtion is fxtrfmfly
+ * dompbdt bnd fffidifnt.
  *
- * <p>Enum maps are maintained in the <i>natural order</i> of their keys
- * (the order in which the enum constants are declared).  This is reflected
- * in the iterators returned by the collections views ({@link #keySet()},
- * {@link #entrySet()}, and {@link #values()}).
+ * <p>Enum mbps brf mbintbinfd in tif <i>nbturbl ordfr</i> of tifir kfys
+ * (tif ordfr in wiidi tif fnum donstbnts brf dfdlbrfd).  Tiis is rfflfdtfd
+ * in tif itfrbtors rfturnfd by tif dollfdtions vifws ({@link #kfySft()},
+ * {@link #fntrySft()}, bnd {@link #vblufs()}).
  *
- * <p>Iterators returned by the collection views are <i>weakly consistent</i>:
- * they will never throw {@link ConcurrentModificationException} and they may
- * or may not show the effects of any modifications to the map that occur while
- * the iteration is in progress.
+ * <p>Itfrbtors rfturnfd by tif dollfdtion vifws brf <i>wfbkly donsistfnt</i>:
+ * tify will nfvfr tirow {@link CondurrfntModifidbtionExdfption} bnd tify mby
+ * or mby not siow tif ffffdts of bny modifidbtions to tif mbp tibt oddur wiilf
+ * tif itfrbtion is in progrfss.
  *
- * <p>Null keys are not permitted.  Attempts to insert a null key will
- * throw {@link NullPointerException}.  Attempts to test for the
- * presence of a null key or to remove one will, however, function properly.
- * Null values are permitted.
+ * <p>Null kfys brf not pfrmittfd.  Attfmpts to insfrt b null kfy will
+ * tirow {@link NullPointfrExdfption}.  Attfmpts to tfst for tif
+ * prfsfndf of b null kfy or to rfmovf onf will, iowfvfr, fundtion propfrly.
+ * Null vblufs brf pfrmittfd.
 
- * <P>Like most collection implementations <tt>EnumMap</tt> is not
- * synchronized. If multiple threads access an enum map concurrently, and at
- * least one of the threads modifies the map, it should be synchronized
- * externally.  This is typically accomplished by synchronizing on some
- * object that naturally encapsulates the enum map.  If no such object exists,
- * the map should be "wrapped" using the {@link Collections#synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access:
+ * <P>Likf most dollfdtion implfmfntbtions <tt>EnumMbp</tt> is not
+ * syndironizfd. If multiplf tirfbds bddfss bn fnum mbp dondurrfntly, bnd bt
+ * lfbst onf of tif tirfbds modififs tif mbp, it siould bf syndironizfd
+ * fxtfrnblly.  Tiis is typidblly bddomplisifd by syndironizing on somf
+ * objfdt tibt nbturblly fndbpsulbtfs tif fnum mbp.  If no sudi objfdt fxists,
+ * tif mbp siould bf "wrbppfd" using tif {@link Collfdtions#syndironizfdMbp}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss:
  *
- * <pre>
- *     Map&lt;EnumKey, V&gt; m
- *         = Collections.synchronizedMap(new EnumMap&lt;EnumKey, V&gt;(...));
- * </pre>
+ * <prf>
+ *     Mbp&lt;EnumKfy, V&gt; m
+ *         = Collfdtions.syndironizfdMbp(nfw EnumMbp&lt;EnumKfy, V&gt;(...));
+ * </prf>
  *
- * <p>Implementation note: All basic operations execute in constant time.
- * They are likely (though not guaranteed) to be faster than their
- * {@link HashMap} counterparts.
+ * <p>Implfmfntbtion notf: All bbsid opfrbtions fxfdutf in donstbnt timf.
+ * Tify brf likfly (tiougi not gubrbntffd) to bf fbstfr tibn tifir
+ * {@link HbsiMbp} dountfrpbrts.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author Josh Bloch
- * @see EnumSet
- * @since 1.5
+ * @butior Josi Blodi
+ * @sff EnumSft
+ * @sindf 1.5
  */
-public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
-    implements java.io.Serializable, Cloneable
+publid dlbss EnumMbp<K fxtfnds Enum<K>, V> fxtfnds AbstrbdtMbp<K, V>
+    implfmfnts jbvb.io.Sfriblizbblf, Clonfbblf
 {
     /**
-     * The <tt>Class</tt> object for the enum type of all the keys of this map.
+     * Tif <tt>Clbss</tt> objfdt for tif fnum typf of bll tif kfys of tiis mbp.
      *
-     * @serial
+     * @sfribl
      */
-    private final Class<K> keyType;
+    privbtf finbl Clbss<K> kfyTypf;
 
     /**
-     * All of the values comprising K.  (Cached for performance.)
+     * All of tif vblufs domprising K.  (Cbdifd for pfrformbndf.)
      */
-    private transient K[] keyUniverse;
+    privbtf trbnsifnt K[] kfyUnivfrsf;
 
     /**
-     * Array representation of this map.  The ith element is the value
-     * to which universe[i] is currently mapped, or null if it isn't
-     * mapped to anything, or NULL if it's mapped to null.
+     * Arrby rfprfsfntbtion of tiis mbp.  Tif iti flfmfnt is tif vbluf
+     * to wiidi univfrsf[i] is durrfntly mbppfd, or null if it isn't
+     * mbppfd to bnytiing, or NULL if it's mbppfd to null.
      */
-    private transient Object[] vals;
+    privbtf trbnsifnt Objfdt[] vbls;
 
     /**
-     * The number of mappings in this map.
+     * Tif numbfr of mbppings in tiis mbp.
      */
-    private transient int size = 0;
+    privbtf trbnsifnt int sizf = 0;
 
     /**
-     * Distinguished non-null value for representing null values.
+     * Distinguisifd non-null vbluf for rfprfsfnting null vblufs.
      */
-    private static final Object NULL = new Object() {
-        public int hashCode() {
-            return 0;
+    privbtf stbtid finbl Objfdt NULL = nfw Objfdt() {
+        publid int ibsiCodf() {
+            rfturn 0;
         }
 
-        public String toString() {
-            return "java.util.EnumMap.NULL";
+        publid String toString() {
+            rfturn "jbvb.util.EnumMbp.NULL";
         }
     };
 
-    private Object maskNull(Object value) {
-        return (value == null ? NULL : value);
+    privbtf Objfdt mbskNull(Objfdt vbluf) {
+        rfturn (vbluf == null ? NULL : vbluf);
     }
 
-    @SuppressWarnings("unchecked")
-    private V unmaskNull(Object value) {
-        return (V)(value == NULL ? null : value);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf V unmbskNull(Objfdt vbluf) {
+        rfturn (V)(vbluf == NULL ? null : vbluf);
     }
 
-    private static final Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = new Enum<?>[0];
+    privbtf stbtid finbl Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = nfw Enum<?>[0];
 
     /**
-     * Creates an empty enum map with the specified key type.
+     * Crfbtfs bn fmpty fnum mbp witi tif spfdififd kfy typf.
      *
-     * @param keyType the class object of the key type for this enum map
-     * @throws NullPointerException if <tt>keyType</tt> is null
+     * @pbrbm kfyTypf tif dlbss objfdt of tif kfy typf for tiis fnum mbp
+     * @tirows NullPointfrExdfption if <tt>kfyTypf</tt> is null
      */
-    public EnumMap(Class<K> keyType) {
-        this.keyType = keyType;
-        keyUniverse = getKeyUniverse(keyType);
-        vals = new Object[keyUniverse.length];
-    }
-
-    /**
-     * Creates an enum map with the same key type as the specified enum
-     * map, initially containing the same mappings (if any).
-     *
-     * @param m the enum map from which to initialize this enum map
-     * @throws NullPointerException if <tt>m</tt> is null
-     */
-    public EnumMap(EnumMap<K, ? extends V> m) {
-        keyType = m.keyType;
-        keyUniverse = m.keyUniverse;
-        vals = m.vals.clone();
-        size = m.size;
+    publid EnumMbp(Clbss<K> kfyTypf) {
+        tiis.kfyTypf = kfyTypf;
+        kfyUnivfrsf = gftKfyUnivfrsf(kfyTypf);
+        vbls = nfw Objfdt[kfyUnivfrsf.lfngti];
     }
 
     /**
-     * Creates an enum map initialized from the specified map.  If the
-     * specified map is an <tt>EnumMap</tt> instance, this constructor behaves
-     * identically to {@link #EnumMap(EnumMap)}.  Otherwise, the specified map
-     * must contain at least one mapping (in order to determine the new
-     * enum map's key type).
+     * Crfbtfs bn fnum mbp witi tif sbmf kfy typf bs tif spfdififd fnum
+     * mbp, initiblly dontbining tif sbmf mbppings (if bny).
      *
-     * @param m the map from which to initialize this enum map
-     * @throws IllegalArgumentException if <tt>m</tt> is not an
-     *     <tt>EnumMap</tt> instance and contains no mappings
-     * @throws NullPointerException if <tt>m</tt> is null
+     * @pbrbm m tif fnum mbp from wiidi to initiblizf tiis fnum mbp
+     * @tirows NullPointfrExdfption if <tt>m</tt> is null
      */
-    public EnumMap(Map<K, ? extends V> m) {
-        if (m instanceof EnumMap) {
-            EnumMap<K, ? extends V> em = (EnumMap<K, ? extends V>) m;
-            keyType = em.keyType;
-            keyUniverse = em.keyUniverse;
-            vals = em.vals.clone();
-            size = em.size;
-        } else {
+    publid EnumMbp(EnumMbp<K, ? fxtfnds V> m) {
+        kfyTypf = m.kfyTypf;
+        kfyUnivfrsf = m.kfyUnivfrsf;
+        vbls = m.vbls.dlonf();
+        sizf = m.sizf;
+    }
+
+    /**
+     * Crfbtfs bn fnum mbp initiblizfd from tif spfdififd mbp.  If tif
+     * spfdififd mbp is bn <tt>EnumMbp</tt> instbndf, tiis donstrudtor bfibvfs
+     * idfntidblly to {@link #EnumMbp(EnumMbp)}.  Otifrwisf, tif spfdififd mbp
+     * must dontbin bt lfbst onf mbpping (in ordfr to dftfrminf tif nfw
+     * fnum mbp's kfy typf).
+     *
+     * @pbrbm m tif mbp from wiidi to initiblizf tiis fnum mbp
+     * @tirows IllfgblArgumfntExdfption if <tt>m</tt> is not bn
+     *     <tt>EnumMbp</tt> instbndf bnd dontbins no mbppings
+     * @tirows NullPointfrExdfption if <tt>m</tt> is null
+     */
+    publid EnumMbp(Mbp<K, ? fxtfnds V> m) {
+        if (m instbndfof EnumMbp) {
+            EnumMbp<K, ? fxtfnds V> fm = (EnumMbp<K, ? fxtfnds V>) m;
+            kfyTypf = fm.kfyTypf;
+            kfyUnivfrsf = fm.kfyUnivfrsf;
+            vbls = fm.vbls.dlonf();
+            sizf = fm.sizf;
+        } flsf {
             if (m.isEmpty())
-                throw new IllegalArgumentException("Specified map is empty");
-            keyType = m.keySet().iterator().next().getDeclaringClass();
-            keyUniverse = getKeyUniverse(keyType);
-            vals = new Object[keyUniverse.length];
+                tirow nfw IllfgblArgumfntExdfption("Spfdififd mbp is fmpty");
+            kfyTypf = m.kfySft().itfrbtor().nfxt().gftDfdlbringClbss();
+            kfyUnivfrsf = gftKfyUnivfrsf(kfyTypf);
+            vbls = nfw Objfdt[kfyUnivfrsf.lfngti];
             putAll(m);
         }
     }
 
-    // Query Operations
+    // Qufry Opfrbtions
 
     /**
-     * Returns the number of key-value mappings in this map.
+     * Rfturns tif numbfr of kfy-vbluf mbppings in tiis mbp.
      *
-     * @return the number of key-value mappings in this map
+     * @rfturn tif numbfr of kfy-vbluf mbppings in tiis mbp
      */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
-     *
-     * @param value the value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to this value
-     */
-    public boolean containsValue(Object value) {
-        value = maskNull(value);
-
-        for (Object val : vals)
-            if (value.equals(val))
-                return true;
-
-        return false;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Returns <tt>true</tt> if this map contains a mapping for the specified
-     * key.
+     * Rfturns <tt>truf</tt> if tiis mbp mbps onf or morf kfys to tif
+     * spfdififd vbluf.
      *
-     * @param key the key whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map contains a mapping for the specified
-     *            key
+     * @pbrbm vbluf tif vbluf wiosf prfsfndf in tiis mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if tiis mbp mbps onf or morf kfys to tiis vbluf
      */
-    public boolean containsKey(Object key) {
-        return isValidKey(key) && vals[((Enum<?>)key).ordinal()] != null;
-    }
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        vbluf = mbskNull(vbluf);
 
-    private boolean containsMapping(Object key, Object value) {
-        return isValidKey(key) &&
-            maskNull(value).equals(vals[((Enum<?>)key).ordinal()]);
+        for (Objfdt vbl : vbls)
+            if (vbluf.fqubls(vbl))
+                rfturn truf;
+
+        rfturn fblsf;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Rfturns <tt>truf</tt> if tiis mbp dontbins b mbpping for tif spfdififd
+     * kfy.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key == k)},
-     * then this method returns {@code v}; otherwise it returns
-     * {@code null}.  (There can be at most one such mapping.)
-     *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * @pbrbm kfy tif kfy wiosf prfsfndf in tiis mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if tiis mbp dontbins b mbpping for tif spfdififd
+     *            kfy
      */
-    public V get(Object key) {
-        return (isValidKey(key) ?
-                unmaskNull(vals[((Enum<?>)key).ordinal()]) : null);
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn isVblidKfy(kfy) && vbls[((Enum<?>)kfy).ordinbl()] != null;
     }
 
-    // Modification Operations
-
-    /**
-     * Associates the specified value with the specified key in this map.
-     * If the map previously contained a mapping for this key, the old
-     * value is replaced.
-     *
-     * @param key the key with which the specified value is to be associated
-     * @param value the value to be associated with the specified key
-     *
-     * @return the previous value associated with specified key, or
-     *     <tt>null</tt> if there was no mapping for key.  (A <tt>null</tt>
-     *     return can also indicate that the map previously associated
-     *     <tt>null</tt> with the specified key.)
-     * @throws NullPointerException if the specified key is null
-     */
-    public V put(K key, V value) {
-        typeCheck(key);
-
-        int index = key.ordinal();
-        Object oldValue = vals[index];
-        vals[index] = maskNull(value);
-        if (oldValue == null)
-            size++;
-        return unmaskNull(oldValue);
+    privbtf boolfbn dontbinsMbpping(Objfdt kfy, Objfdt vbluf) {
+        rfturn isVblidKfy(kfy) &&
+            mbskNull(vbluf).fqubls(vbls[((Enum<?>)kfy).ordinbl()]);
     }
 
     /**
-     * Removes the mapping for this key from this map if present.
+     * Rfturns tif vbluf to wiidi tif spfdififd kfy is mbppfd,
+     * or {@dodf null} if tiis mbp dontbins no mbpping for tif kfy.
      *
-     * @param key the key whose mapping is to be removed from the map
-     * @return the previous value associated with specified key, or
-     *     <tt>null</tt> if there was no entry for key.  (A <tt>null</tt>
-     *     return can also indicate that the map previously associated
-     *     <tt>null</tt> with the specified key.)
+     * <p>Morf formblly, if tiis mbp dontbins b mbpping from b kfy
+     * {@dodf k} to b vbluf {@dodf v} sudi tibt {@dodf (kfy == k)},
+     * tifn tiis mftiod rfturns {@dodf v}; otifrwisf it rfturns
+     * {@dodf null}.  (Tifrf dbn bf bt most onf sudi mbpping.)
+     *
+     * <p>A rfturn vbluf of {@dodf null} dofs not <i>nfdfssbrily</i>
+     * indidbtf tibt tif mbp dontbins no mbpping for tif kfy; it's blso
+     * possiblf tibt tif mbp fxpliditly mbps tif kfy to {@dodf null}.
+     * Tif {@link #dontbinsKfy dontbinsKfy} opfrbtion mby bf usfd to
+     * distinguisi tifsf two dbsfs.
      */
-    public V remove(Object key) {
-        if (!isValidKey(key))
-            return null;
-        int index = ((Enum<?>)key).ordinal();
-        Object oldValue = vals[index];
-        vals[index] = null;
-        if (oldValue != null)
-            size--;
-        return unmaskNull(oldValue);
+    publid V gft(Objfdt kfy) {
+        rfturn (isVblidKfy(kfy) ?
+                unmbskNull(vbls[((Enum<?>)kfy).ordinbl()]) : null);
     }
 
-    private boolean removeMapping(Object key, Object value) {
-        if (!isValidKey(key))
-            return false;
-        int index = ((Enum<?>)key).ordinal();
-        if (maskNull(value).equals(vals[index])) {
-            vals[index] = null;
-            size--;
-            return true;
+    // Modifidbtion Opfrbtions
+
+    /**
+     * Assodibtfs tif spfdififd vbluf witi tif spfdififd kfy in tiis mbp.
+     * If tif mbp prfviously dontbinfd b mbpping for tiis kfy, tif old
+     * vbluf is rfplbdfd.
+     *
+     * @pbrbm kfy tif kfy witi wiidi tif spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm vbluf tif vbluf to bf bssodibtfd witi tif spfdififd kfy
+     *
+     * @rfturn tif prfvious vbluf bssodibtfd witi spfdififd kfy, or
+     *     <tt>null</tt> if tifrf wbs no mbpping for kfy.  (A <tt>null</tt>
+     *     rfturn dbn blso indidbtf tibt tif mbp prfviously bssodibtfd
+     *     <tt>null</tt> witi tif spfdififd kfy.)
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     */
+    publid V put(K kfy, V vbluf) {
+        typfCifdk(kfy);
+
+        int indfx = kfy.ordinbl();
+        Objfdt oldVbluf = vbls[indfx];
+        vbls[indfx] = mbskNull(vbluf);
+        if (oldVbluf == null)
+            sizf++;
+        rfturn unmbskNull(oldVbluf);
+    }
+
+    /**
+     * Rfmovfs tif mbpping for tiis kfy from tiis mbp if prfsfnt.
+     *
+     * @pbrbm kfy tif kfy wiosf mbpping is to bf rfmovfd from tif mbp
+     * @rfturn tif prfvious vbluf bssodibtfd witi spfdififd kfy, or
+     *     <tt>null</tt> if tifrf wbs no fntry for kfy.  (A <tt>null</tt>
+     *     rfturn dbn blso indidbtf tibt tif mbp prfviously bssodibtfd
+     *     <tt>null</tt> witi tif spfdififd kfy.)
+     */
+    publid V rfmovf(Objfdt kfy) {
+        if (!isVblidKfy(kfy))
+            rfturn null;
+        int indfx = ((Enum<?>)kfy).ordinbl();
+        Objfdt oldVbluf = vbls[indfx];
+        vbls[indfx] = null;
+        if (oldVbluf != null)
+            sizf--;
+        rfturn unmbskNull(oldVbluf);
+    }
+
+    privbtf boolfbn rfmovfMbpping(Objfdt kfy, Objfdt vbluf) {
+        if (!isVblidKfy(kfy))
+            rfturn fblsf;
+        int indfx = ((Enum<?>)kfy).ordinbl();
+        if (mbskNull(vbluf).fqubls(vbls[indfx])) {
+            vbls[indfx] = null;
+            sizf--;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns true if key is of the proper type to be a key in this
-     * enum map.
+     * Rfturns truf if kfy is of tif propfr typf to bf b kfy in tiis
+     * fnum mbp.
      */
-    private boolean isValidKey(Object key) {
-        if (key == null)
-            return false;
+    privbtf boolfbn isVblidKfy(Objfdt kfy) {
+        if (kfy == null)
+            rfturn fblsf;
 
-        // Cheaper than instanceof Enum followed by getDeclaringClass
-        Class<?> keyClass = key.getClass();
-        return keyClass == keyType || keyClass.getSuperclass() == keyType;
+        // Cifbpfr tibn instbndfof Enum followfd by gftDfdlbringClbss
+        Clbss<?> kfyClbss = kfy.gftClbss();
+        rfturn kfyClbss == kfyTypf || kfyClbss.gftSupfrdlbss() == kfyTypf;
     }
 
-    // Bulk Operations
+    // Bulk Opfrbtions
 
     /**
-     * Copies all of the mappings from the specified map to this map.
-     * These mappings will replace any mappings that this map had for
-     * any of the keys currently in the specified map.
+     * Copifs bll of tif mbppings from tif spfdififd mbp to tiis mbp.
+     * Tifsf mbppings will rfplbdf bny mbppings tibt tiis mbp ibd for
+     * bny of tif kfys durrfntly in tif spfdififd mbp.
      *
-     * @param m the mappings to be stored in this map
-     * @throws NullPointerException the specified map is null, or if
-     *     one or more keys in the specified map are null
+     * @pbrbm m tif mbppings to bf storfd in tiis mbp
+     * @tirows NullPointfrExdfption tif spfdififd mbp is null, or if
+     *     onf or morf kfys in tif spfdififd mbp brf null
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
-        if (m instanceof EnumMap) {
-            EnumMap<?, ?> em = (EnumMap<?, ?>)m;
-            if (em.keyType != keyType) {
-                if (em.isEmpty())
-                    return;
-                throw new ClassCastException(em.keyType + " != " + keyType);
+    publid void putAll(Mbp<? fxtfnds K, ? fxtfnds V> m) {
+        if (m instbndfof EnumMbp) {
+            EnumMbp<?, ?> fm = (EnumMbp<?, ?>)m;
+            if (fm.kfyTypf != kfyTypf) {
+                if (fm.isEmpty())
+                    rfturn;
+                tirow nfw ClbssCbstExdfption(fm.kfyTypf + " != " + kfyTypf);
             }
 
-            for (int i = 0; i < keyUniverse.length; i++) {
-                Object emValue = em.vals[i];
-                if (emValue != null) {
-                    if (vals[i] == null)
-                        size++;
-                    vals[i] = emValue;
+            for (int i = 0; i < kfyUnivfrsf.lfngti; i++) {
+                Objfdt fmVbluf = fm.vbls[i];
+                if (fmVbluf != null) {
+                    if (vbls[i] == null)
+                        sizf++;
+                    vbls[i] = fmVbluf;
                 }
             }
-        } else {
-            super.putAll(m);
+        } flsf {
+            supfr.putAll(m);
         }
     }
 
     /**
-     * Removes all mappings from this map.
+     * Rfmovfs bll mbppings from tiis mbp.
      */
-    public void clear() {
-        Arrays.fill(vals, null);
-        size = 0;
+    publid void dlfbr() {
+        Arrbys.fill(vbls, null);
+        sizf = 0;
     }
 
-    // Views
+    // Vifws
 
     /**
-     * This field is initialized to contain an instance of the entry set
-     * view the first time this view is requested.  The view is stateless,
-     * so there's no reason to create more than one.
+     * Tiis fifld is initiblizfd to dontbin bn instbndf of tif fntry sft
+     * vifw tif first timf tiis vifw is rfqufstfd.  Tif vifw is stbtflfss,
+     * so tifrf's no rfbson to drfbtf morf tibn onf.
      */
-    private transient Set<Map.Entry<K,V>> entrySet;
+    privbtf trbnsifnt Sft<Mbp.Entry<K,V>> fntrySft;
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The returned set obeys the general contract outlined in
-     * {@link Map#keySet()}.  The set's iterator will return the keys
-     * in their natural order (the order in which the enum constants
-     * are declared).
+     * Rfturns b {@link Sft} vifw of tif kfys dontbinfd in tiis mbp.
+     * Tif rfturnfd sft obfys tif gfnfrbl dontrbdt outlinfd in
+     * {@link Mbp#kfySft()}.  Tif sft's itfrbtor will rfturn tif kfys
+     * in tifir nbturbl ordfr (tif ordfr in wiidi tif fnum donstbnts
+     * brf dfdlbrfd).
      *
-     * @return a set view of the keys contained in this enum map
+     * @rfturn b sft vifw of tif kfys dontbinfd in tiis fnum mbp
      */
-    public Set<K> keySet() {
-        Set<K> ks = keySet;
+    publid Sft<K> kfySft() {
+        Sft<K> ks = kfySft;
         if (ks != null)
-            return ks;
-        else
-            return keySet = new KeySet();
+            rfturn ks;
+        flsf
+            rfturn kfySft = nfw KfySft();
     }
 
-    private class KeySet extends AbstractSet<K> {
-        public Iterator<K> iterator() {
-            return new KeyIterator();
+    privbtf dlbss KfySft fxtfnds AbstrbdtSft<K> {
+        publid Itfrbtor<K> itfrbtor() {
+            rfturn nfw KfyItfrbtor();
         }
-        public int size() {
-            return size;
+        publid int sizf() {
+            rfturn sizf;
         }
-        public boolean contains(Object o) {
-            return containsKey(o);
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn dontbinsKfy(o);
         }
-        public boolean remove(Object o) {
-            int oldSize = size;
-            EnumMap.this.remove(o);
-            return size != oldSize;
+        publid boolfbn rfmovf(Objfdt o) {
+            int oldSizf = sizf;
+            EnumMbp.tiis.rfmovf(o);
+            rfturn sizf != oldSizf;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        publid void dlfbr() {
+            EnumMbp.tiis.dlfbr();
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The returned collection obeys the general contract outlined in
-     * {@link Map#values()}.  The collection's iterator will return the
-     * values in the order their corresponding keys appear in map,
-     * which is their natural order (the order in which the enum constants
-     * are declared).
+     * Rfturns b {@link Collfdtion} vifw of tif vblufs dontbinfd in tiis mbp.
+     * Tif rfturnfd dollfdtion obfys tif gfnfrbl dontrbdt outlinfd in
+     * {@link Mbp#vblufs()}.  Tif dollfdtion's itfrbtor will rfturn tif
+     * vblufs in tif ordfr tifir dorrfsponding kfys bppfbr in mbp,
+     * wiidi is tifir nbturbl ordfr (tif ordfr in wiidi tif fnum donstbnts
+     * brf dfdlbrfd).
      *
-     * @return a collection view of the values contained in this map
+     * @rfturn b dollfdtion vifw of tif vblufs dontbinfd in tiis mbp
      */
-    public Collection<V> values() {
-        Collection<V> vs = values;
+    publid Collfdtion<V> vblufs() {
+        Collfdtion<V> vs = vblufs;
         if (vs != null)
-            return vs;
-        else
-            return values = new Values();
+            rfturn vs;
+        flsf
+            rfturn vblufs = nfw Vblufs();
     }
 
-    private class Values extends AbstractCollection<V> {
-        public Iterator<V> iterator() {
-            return new ValueIterator();
+    privbtf dlbss Vblufs fxtfnds AbstrbdtCollfdtion<V> {
+        publid Itfrbtor<V> itfrbtor() {
+            rfturn nfw VblufItfrbtor();
         }
-        public int size() {
-            return size;
+        publid int sizf() {
+            rfturn sizf;
         }
-        public boolean contains(Object o) {
-            return containsValue(o);
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn dontbinsVbluf(o);
         }
-        public boolean remove(Object o) {
-            o = maskNull(o);
+        publid boolfbn rfmovf(Objfdt o) {
+            o = mbskNull(o);
 
-            for (int i = 0; i < vals.length; i++) {
-                if (o.equals(vals[i])) {
-                    vals[i] = null;
-                    size--;
-                    return true;
+            for (int i = 0; i < vbls.lfngti; i++) {
+                if (o.fqubls(vbls[i])) {
+                    vbls[i] = null;
+                    sizf--;
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        publid void dlfbr() {
+            EnumMbp.tiis.dlfbr();
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The returned set obeys the general contract outlined in
-     * {@link Map#keySet()}.  The set's iterator will return the
-     * mappings in the order their keys appear in map, which is their
-     * natural order (the order in which the enum constants are declared).
+     * Rfturns b {@link Sft} vifw of tif mbppings dontbinfd in tiis mbp.
+     * Tif rfturnfd sft obfys tif gfnfrbl dontrbdt outlinfd in
+     * {@link Mbp#kfySft()}.  Tif sft's itfrbtor will rfturn tif
+     * mbppings in tif ordfr tifir kfys bppfbr in mbp, wiidi is tifir
+     * nbturbl ordfr (tif ordfr in wiidi tif fnum donstbnts brf dfdlbrfd).
      *
-     * @return a set view of the mappings contained in this enum map
+     * @rfturn b sft vifw of tif mbppings dontbinfd in tiis fnum mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es = entrySet;
-        if (es != null)
-            return es;
-        else
-            return entrySet = new EntrySet();
+    publid Sft<Mbp.Entry<K,V>> fntrySft() {
+        Sft<Mbp.Entry<K,V>> fs = fntrySft;
+        if (fs != null)
+            rfturn fs;
+        flsf
+            rfturn fntrySft = nfw EntrySft();
     }
 
-    private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public Iterator<Map.Entry<K,V>> iterator() {
-            return new EntryIterator();
+    privbtf dlbss EntrySft fxtfnds AbstrbdtSft<Mbp.Entry<K,V>> {
+        publid Itfrbtor<Mbp.Entry<K,V>> itfrbtor() {
+            rfturn nfw EntryItfrbtor();
         }
 
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return containsMapping(entry.getKey(), entry.getValue());
+        publid boolfbn dontbins(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> fntry = (Mbp.Entry<?,?>)o;
+            rfturn dontbinsMbpping(fntry.gftKfy(), fntry.gftVbluf());
         }
-        public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
-            return removeMapping(entry.getKey(), entry.getValue());
+        publid boolfbn rfmovf(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> fntry = (Mbp.Entry<?,?>)o;
+            rfturn rfmovfMbpping(fntry.gftKfy(), fntry.gftVbluf());
         }
-        public int size() {
-            return size;
+        publid int sizf() {
+            rfturn sizf;
         }
-        public void clear() {
-            EnumMap.this.clear();
+        publid void dlfbr() {
+            EnumMbp.tiis.dlfbr();
         }
-        public Object[] toArray() {
-            return fillEntryArray(new Object[size]);
+        publid Objfdt[] toArrby() {
+            rfturn fillEntryArrby(nfw Objfdt[sizf]);
         }
-        @SuppressWarnings("unchecked")
-        public <T> T[] toArray(T[] a) {
-            int size = size();
-            if (a.length < size)
-                a = (T[])java.lang.reflect.Array
-                    .newInstance(a.getClass().getComponentType(), size);
-            if (a.length > size)
-                a[size] = null;
-            return (T[]) fillEntryArray(a);
+        @SupprfssWbrnings("undifdkfd")
+        publid <T> T[] toArrby(T[] b) {
+            int sizf = sizf();
+            if (b.lfngti < sizf)
+                b = (T[])jbvb.lbng.rfflfdt.Arrby
+                    .nfwInstbndf(b.gftClbss().gftComponfntTypf(), sizf);
+            if (b.lfngti > sizf)
+                b[sizf] = null;
+            rfturn (T[]) fillEntryArrby(b);
         }
-        private Object[] fillEntryArray(Object[] a) {
+        privbtf Objfdt[] fillEntryArrby(Objfdt[] b) {
             int j = 0;
-            for (int i = 0; i < vals.length; i++)
-                if (vals[i] != null)
-                    a[j++] = new AbstractMap.SimpleEntry<>(
-                        keyUniverse[i], unmaskNull(vals[i]));
-            return a;
+            for (int i = 0; i < vbls.lfngti; i++)
+                if (vbls[i] != null)
+                    b[j++] = nfw AbstrbdtMbp.SimplfEntry<>(
+                        kfyUnivfrsf[i], unmbskNull(vbls[i]));
+            rfturn b;
         }
     }
 
-    private abstract class EnumMapIterator<T> implements Iterator<T> {
-        // Lower bound on index of next element to return
-        int index = 0;
+    privbtf bbstrbdt dlbss EnumMbpItfrbtor<T> implfmfnts Itfrbtor<T> {
+        // Lowfr bound on indfx of nfxt flfmfnt to rfturn
+        int indfx = 0;
 
-        // Index of last returned element, or -1 if none
-        int lastReturnedIndex = -1;
+        // Indfx of lbst rfturnfd flfmfnt, or -1 if nonf
+        int lbstRfturnfdIndfx = -1;
 
-        public boolean hasNext() {
-            while (index < vals.length && vals[index] == null)
-                index++;
-            return index != vals.length;
+        publid boolfbn ibsNfxt() {
+            wiilf (indfx < vbls.lfngti && vbls[indfx] == null)
+                indfx++;
+            rfturn indfx != vbls.lfngti;
         }
 
-        public void remove() {
-            checkLastReturnedIndex();
+        publid void rfmovf() {
+            difdkLbstRfturnfdIndfx();
 
-            if (vals[lastReturnedIndex] != null) {
-                vals[lastReturnedIndex] = null;
-                size--;
+            if (vbls[lbstRfturnfdIndfx] != null) {
+                vbls[lbstRfturnfdIndfx] = null;
+                sizf--;
             }
-            lastReturnedIndex = -1;
+            lbstRfturnfdIndfx = -1;
         }
 
-        private void checkLastReturnedIndex() {
-            if (lastReturnedIndex < 0)
-                throw new IllegalStateException();
-        }
-    }
-
-    private class KeyIterator extends EnumMapIterator<K> {
-        public K next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            lastReturnedIndex = index++;
-            return keyUniverse[lastReturnedIndex];
+        privbtf void difdkLbstRfturnfdIndfx() {
+            if (lbstRfturnfdIndfx < 0)
+                tirow nfw IllfgblStbtfExdfption();
         }
     }
 
-    private class ValueIterator extends EnumMapIterator<V> {
-        public V next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            lastReturnedIndex = index++;
-            return unmaskNull(vals[lastReturnedIndex]);
+    privbtf dlbss KfyItfrbtor fxtfnds EnumMbpItfrbtor<K> {
+        publid K nfxt() {
+            if (!ibsNfxt())
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRfturnfdIndfx = indfx++;
+            rfturn kfyUnivfrsf[lbstRfturnfdIndfx];
         }
     }
 
-    private class EntryIterator extends EnumMapIterator<Map.Entry<K,V>> {
-        private Entry lastReturnedEntry;
+    privbtf dlbss VblufItfrbtor fxtfnds EnumMbpItfrbtor<V> {
+        publid V nfxt() {
+            if (!ibsNfxt())
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRfturnfdIndfx = indfx++;
+            rfturn unmbskNull(vbls[lbstRfturnfdIndfx]);
+        }
+    }
 
-        public Map.Entry<K,V> next() {
-            if (!hasNext())
-                throw new NoSuchElementException();
-            lastReturnedEntry = new Entry(index++);
-            return lastReturnedEntry;
+    privbtf dlbss EntryItfrbtor fxtfnds EnumMbpItfrbtor<Mbp.Entry<K,V>> {
+        privbtf Entry lbstRfturnfdEntry;
+
+        publid Mbp.Entry<K,V> nfxt() {
+            if (!ibsNfxt())
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRfturnfdEntry = nfw Entry(indfx++);
+            rfturn lbstRfturnfdEntry;
         }
 
-        public void remove() {
-            lastReturnedIndex =
-                ((null == lastReturnedEntry) ? -1 : lastReturnedEntry.index);
-            super.remove();
-            lastReturnedEntry.index = lastReturnedIndex;
-            lastReturnedEntry = null;
+        publid void rfmovf() {
+            lbstRfturnfdIndfx =
+                ((null == lbstRfturnfdEntry) ? -1 : lbstRfturnfdEntry.indfx);
+            supfr.rfmovf();
+            lbstRfturnfdEntry.indfx = lbstRfturnfdIndfx;
+            lbstRfturnfdEntry = null;
         }
 
-        private class Entry implements Map.Entry<K,V> {
-            private int index;
+        privbtf dlbss Entry implfmfnts Mbp.Entry<K,V> {
+            privbtf int indfx;
 
-            private Entry(int index) {
-                this.index = index;
+            privbtf Entry(int indfx) {
+                tiis.indfx = indfx;
             }
 
-            public K getKey() {
-                checkIndexForEntryUse();
-                return keyUniverse[index];
+            publid K gftKfy() {
+                difdkIndfxForEntryUsf();
+                rfturn kfyUnivfrsf[indfx];
             }
 
-            public V getValue() {
-                checkIndexForEntryUse();
-                return unmaskNull(vals[index]);
+            publid V gftVbluf() {
+                difdkIndfxForEntryUsf();
+                rfturn unmbskNull(vbls[indfx]);
             }
 
-            public V setValue(V value) {
-                checkIndexForEntryUse();
-                V oldValue = unmaskNull(vals[index]);
-                vals[index] = maskNull(value);
-                return oldValue;
+            publid V sftVbluf(V vbluf) {
+                difdkIndfxForEntryUsf();
+                V oldVbluf = unmbskNull(vbls[indfx]);
+                vbls[indfx] = mbskNull(vbluf);
+                rfturn oldVbluf;
             }
 
-            public boolean equals(Object o) {
-                if (index < 0)
-                    return o == this;
+            publid boolfbn fqubls(Objfdt o) {
+                if (indfx < 0)
+                    rfturn o == tiis;
 
-                if (!(o instanceof Map.Entry))
-                    return false;
+                if (!(o instbndfof Mbp.Entry))
+                    rfturn fblsf;
 
-                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-                V ourValue = unmaskNull(vals[index]);
-                Object hisValue = e.getValue();
-                return (e.getKey() == keyUniverse[index] &&
-                        (ourValue == hisValue ||
-                         (ourValue != null && ourValue.equals(hisValue))));
+                Mbp.Entry<?,?> f = (Mbp.Entry<?,?>)o;
+                V ourVbluf = unmbskNull(vbls[indfx]);
+                Objfdt iisVbluf = f.gftVbluf();
+                rfturn (f.gftKfy() == kfyUnivfrsf[indfx] &&
+                        (ourVbluf == iisVbluf ||
+                         (ourVbluf != null && ourVbluf.fqubls(iisVbluf))));
             }
 
-            public int hashCode() {
-                if (index < 0)
-                    return super.hashCode();
+            publid int ibsiCodf() {
+                if (indfx < 0)
+                    rfturn supfr.ibsiCodf();
 
-                return entryHashCode(index);
+                rfturn fntryHbsiCodf(indfx);
             }
 
-            public String toString() {
-                if (index < 0)
-                    return super.toString();
+            publid String toString() {
+                if (indfx < 0)
+                    rfturn supfr.toString();
 
-                return keyUniverse[index] + "="
-                    + unmaskNull(vals[index]);
+                rfturn kfyUnivfrsf[indfx] + "="
+                    + unmbskNull(vbls[indfx]);
             }
 
-            private void checkIndexForEntryUse() {
-                if (index < 0)
-                    throw new IllegalStateException("Entry was removed");
+            privbtf void difdkIndfxForEntryUsf() {
+                if (indfx < 0)
+                    tirow nfw IllfgblStbtfExdfption("Entry wbs rfmovfd");
             }
         }
     }
 
-    // Comparison and hashing
+    // Compbrison bnd ibsiing
 
     /**
-     * Compares the specified object with this map for equality.  Returns
-     * <tt>true</tt> if the given object is also a map and the two maps
-     * represent the same mappings, as specified in the {@link
-     * Map#equals(Object)} contract.
+     * Compbrfs tif spfdififd objfdt witi tiis mbp for fqublity.  Rfturns
+     * <tt>truf</tt> if tif givfn objfdt is blso b mbp bnd tif two mbps
+     * rfprfsfnt tif sbmf mbppings, bs spfdififd in tif {@link
+     * Mbp#fqubls(Objfdt)} dontrbdt.
      *
-     * @param o the object to be compared for equality with this map
-     * @return <tt>true</tt> if the specified object is equal to this map
+     * @pbrbm o tif objfdt to bf dompbrfd for fqublity witi tiis mbp
+     * @rfturn <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis mbp
      */
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o instanceof EnumMap)
-            return equals((EnumMap<?,?>)o);
-        if (!(o instanceof Map))
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o)
+            rfturn truf;
+        if (o instbndfof EnumMbp)
+            rfturn fqubls((EnumMbp<?,?>)o);
+        if (!(o instbndfof Mbp))
+            rfturn fblsf;
 
-        Map<?,?> m = (Map<?,?>)o;
-        if (size != m.size())
-            return false;
+        Mbp<?,?> m = (Mbp<?,?>)o;
+        if (sizf != m.sizf())
+            rfturn fblsf;
 
-        for (int i = 0; i < keyUniverse.length; i++) {
-            if (null != vals[i]) {
-                K key = keyUniverse[i];
-                V value = unmaskNull(vals[i]);
-                if (null == value) {
-                    if (!((null == m.get(key)) && m.containsKey(key)))
-                       return false;
-                } else {
-                   if (!value.equals(m.get(key)))
-                      return false;
+        for (int i = 0; i < kfyUnivfrsf.lfngti; i++) {
+            if (null != vbls[i]) {
+                K kfy = kfyUnivfrsf[i];
+                V vbluf = unmbskNull(vbls[i]);
+                if (null == vbluf) {
+                    if (!((null == m.gft(kfy)) && m.dontbinsKfy(kfy)))
+                       rfturn fblsf;
+                } flsf {
+                   if (!vbluf.fqubls(m.gft(kfy)))
+                      rfturn fblsf;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private boolean equals(EnumMap<?,?> em) {
-        if (em.keyType != keyType)
-            return size == 0 && em.size == 0;
+    privbtf boolfbn fqubls(EnumMbp<?,?> fm) {
+        if (fm.kfyTypf != kfyTypf)
+            rfturn sizf == 0 && fm.sizf == 0;
 
-        // Key types match, compare each value
-        for (int i = 0; i < keyUniverse.length; i++) {
-            Object ourValue =    vals[i];
-            Object hisValue = em.vals[i];
-            if (hisValue != ourValue &&
-                (hisValue == null || !hisValue.equals(ourValue)))
-                return false;
+        // Kfy typfs mbtdi, dompbrf fbdi vbluf
+        for (int i = 0; i < kfyUnivfrsf.lfngti; i++) {
+            Objfdt ourVbluf =    vbls[i];
+            Objfdt iisVbluf = fm.vbls[i];
+            if (iisVbluf != ourVbluf &&
+                (iisVbluf == null || !iisVbluf.fqubls(ourVbluf)))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this map.  The hash code of a map is
-     * defined to be the sum of the hash codes of each entry in the map.
+     * Rfturns tif ibsi dodf vbluf for tiis mbp.  Tif ibsi dodf of b mbp is
+     * dffinfd to bf tif sum of tif ibsi dodfs of fbdi fntry in tif mbp.
      */
-    public int hashCode() {
-        int h = 0;
+    publid int ibsiCodf() {
+        int i = 0;
 
-        for (int i = 0; i < keyUniverse.length; i++) {
-            if (null != vals[i]) {
-                h += entryHashCode(i);
+        for (int i = 0; i < kfyUnivfrsf.lfngti; i++) {
+            if (null != vbls[i]) {
+                i += fntryHbsiCodf(i);
             }
         }
 
-        return h;
+        rfturn i;
     }
 
-    private int entryHashCode(int index) {
-        return (keyUniverse[index].hashCode() ^ vals[index].hashCode());
+    privbtf int fntryHbsiCodf(int indfx) {
+        rfturn (kfyUnivfrsf[indfx].ibsiCodf() ^ vbls[indfx].ibsiCodf());
     }
 
     /**
-     * Returns a shallow copy of this enum map.  (The values themselves
-     * are not cloned.
+     * Rfturns b sibllow dopy of tiis fnum mbp.  (Tif vblufs tifmsflvfs
+     * brf not dlonfd.
      *
-     * @return a shallow copy of this enum map
+     * @rfturn b sibllow dopy of tiis fnum mbp
      */
-    @SuppressWarnings("unchecked")
-    public EnumMap<K, V> clone() {
-        EnumMap<K, V> result = null;
+    @SupprfssWbrnings("undifdkfd")
+    publid EnumMbp<K, V> dlonf() {
+        EnumMbp<K, V> rfsult = null;
         try {
-            result = (EnumMap<K, V>) super.clone();
-        } catch(CloneNotSupportedException e) {
-            throw new AssertionError();
+            rfsult = (EnumMbp<K, V>) supfr.dlonf();
+        } dbtdi(ClonfNotSupportfdExdfption f) {
+            tirow nfw AssfrtionError();
         }
-        result.vals = result.vals.clone();
-        result.entrySet = null;
-        return result;
+        rfsult.vbls = rfsult.vbls.dlonf();
+        rfsult.fntrySft = null;
+        rfturn rfsult;
     }
 
     /**
-     * Throws an exception if e is not of the correct type for this enum set.
+     * Tirows bn fxdfption if f is not of tif dorrfdt typf for tiis fnum sft.
      */
-    private void typeCheck(K key) {
-        Class<?> keyClass = key.getClass();
-        if (keyClass != keyType && keyClass.getSuperclass() != keyType)
-            throw new ClassCastException(keyClass + " != " + keyType);
+    privbtf void typfCifdk(K kfy) {
+        Clbss<?> kfyClbss = kfy.gftClbss();
+        if (kfyClbss != kfyTypf && kfyClbss.gftSupfrdlbss() != kfyTypf)
+            tirow nfw ClbssCbstExdfption(kfyClbss + " != " + kfyTypf);
     }
 
     /**
-     * Returns all of the values comprising K.
-     * The result is uncloned, cached, and shared by all callers.
+     * Rfturns bll of tif vblufs domprising K.
+     * Tif rfsult is undlonfd, dbdifd, bnd sibrfd by bll dbllfrs.
      */
-    private static <K extends Enum<K>> K[] getKeyUniverse(Class<K> keyType) {
-        return SharedSecrets.getJavaLangAccess()
-                                        .getEnumConstantsShared(keyType);
+    privbtf stbtid <K fxtfnds Enum<K>> K[] gftKfyUnivfrsf(Clbss<K> kfyTypf) {
+        rfturn SibrfdSfdrfts.gftJbvbLbngAddfss()
+                                        .gftEnumConstbntsSibrfd(kfyTypf);
     }
 
-    private static final long serialVersionUID = 458661240069192865L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 458661240069192865L;
 
     /**
-     * Save the state of the <tt>EnumMap</tt> instance to a stream (i.e.,
-     * serialize it).
+     * Sbvf tif stbtf of tif <tt>EnumMbp</tt> instbndf to b strfbm (i.f.,
+     * sfriblizf it).
      *
-     * @serialData The <i>size</i> of the enum map (the number of key-value
-     *             mappings) is emitted (int), followed by the key (Object)
-     *             and value (Object) for each key-value mapping represented
-     *             by the enum map.
+     * @sfriblDbtb Tif <i>sizf</i> of tif fnum mbp (tif numbfr of kfy-vbluf
+     *             mbppings) is fmittfd (int), followfd by tif kfy (Objfdt)
+     *             bnd vbluf (Objfdt) for fbdi kfy-vbluf mbpping rfprfsfntfd
+     *             by tif fnum mbp.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption
     {
-        // Write out the key type and any hidden stuff
-        s.defaultWriteObject();
+        // Writf out tif kfy typf bnd bny iiddfn stuff
+        s.dffbultWritfObjfdt();
 
-        // Write out size (number of Mappings)
-        s.writeInt(size);
+        // Writf out sizf (numbfr of Mbppings)
+        s.writfInt(sizf);
 
-        // Write out keys and values (alternating)
-        int entriesToBeWritten = size;
-        for (int i = 0; entriesToBeWritten > 0; i++) {
-            if (null != vals[i]) {
-                s.writeObject(keyUniverse[i]);
-                s.writeObject(unmaskNull(vals[i]));
-                entriesToBeWritten--;
+        // Writf out kfys bnd vblufs (bltfrnbting)
+        int fntrifsToBfWrittfn = sizf;
+        for (int i = 0; fntrifsToBfWrittfn > 0; i++) {
+            if (null != vbls[i]) {
+                s.writfObjfdt(kfyUnivfrsf[i]);
+                s.writfObjfdt(unmbskNull(vbls[i]));
+                fntrifsToBfWrittfn--;
             }
         }
     }
 
     /**
-     * Reconstitute the <tt>EnumMap</tt> instance from a stream (i.e.,
-     * deserialize it).
+     * Rfdonstitutf tif <tt>EnumMbp</tt> instbndf from b strfbm (i.f.,
+     * dfsfriblizf it).
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption
     {
-        // Read in the key type and any hidden stuff
-        s.defaultReadObject();
+        // Rfbd in tif kfy typf bnd bny iiddfn stuff
+        s.dffbultRfbdObjfdt();
 
-        keyUniverse = getKeyUniverse(keyType);
-        vals = new Object[keyUniverse.length];
+        kfyUnivfrsf = gftKfyUnivfrsf(kfyTypf);
+        vbls = nfw Objfdt[kfyUnivfrsf.lfngti];
 
-        // Read in size (number of Mappings)
-        int size = s.readInt();
+        // Rfbd in sizf (numbfr of Mbppings)
+        int sizf = s.rfbdInt();
 
-        // Read the keys and values, and put the mappings in the HashMap
-        for (int i = 0; i < size; i++) {
-            K key = (K) s.readObject();
-            V value = (V) s.readObject();
-            put(key, value);
+        // Rfbd tif kfys bnd vblufs, bnd put tif mbppings in tif HbsiMbp
+        for (int i = 0; i < sizf; i++) {
+            K kfy = (K) s.rfbdObjfdt();
+            V vbluf = (V) s.rfbdObjfdt();
+            put(kfy, vbluf);
         }
     }
 }

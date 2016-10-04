@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.print;
+
+import jbvb.util.Objfdts;
+import jbvb.io.BytfArrbyInputStrfbm;
+
+publid dlbss AttributfClbss {
+    privbtf String myNbmf;
+    privbtf int myTypf;
+    privbtf int nbmfLfn;
+    privbtf Objfdt myVbluf;
+
+    publid stbtid finbl int TAG_UNSUPPORTED_VALUE = 0x10;
+    publid stbtid finbl int TAG_INT = 0x21;
+    publid stbtid finbl int TAG_BOOL = 0x22;
+    publid stbtid finbl int TAG_ENUM = 0x23;
+    publid stbtid finbl int TAG_OCTET = 0x30;
+    publid stbtid finbl int TAG_DATE = 0x31;
+    publid stbtid finbl int TAG_RESOLUTION = 0x32;
+    publid stbtid finbl int TAG_RANGE_INTEGER = 0x33;
+
+    publid stbtid finbl int TAG_TEXT_LANGUAGE = 0x35;
+    publid stbtid finbl int TAG_NAME_LANGUAGE = 0x36;
+
+    publid stbtid finbl int TAG_TEXT_WO_LANGUAGE = 0x41;
+    publid stbtid finbl int TAG_NAME_WO_LANGUAGE = 0x42;
+    publid stbtid finbl int TAG_KEYWORD = 0x44;
+    publid stbtid finbl int TAG_URI = 0x45;
+    publid stbtid finbl int TAG_CHARSET = 0x47;
+    publid stbtid finbl int TAG_NATURALLANGUAGE = 0x48;
+    publid stbtid finbl int TAG_MIME_MEDIATYPE = 0x49;
+    publid stbtid finbl int TAG_MEMBER_ATTRNAME = 0x4A;
+
+
+    publid stbtid finbl AttributfClbss ATTRIBUTES_CHARSET =
+        nfw AttributfClbss("bttributfs-dhbrsft",
+                           TAG_CHARSET, "utf-8");
+    publid stbtid finbl AttributfClbss ATTRIBUTES_NATURAL_LANGUAGE =
+        nfw AttributfClbss("bttributfs-nbturbl-lbngubgf",
+                           TAG_NATURALLANGUAGE, "fn");
+
+    /*
+     * vbluf pbssfd in by IPPPrintSfrvidf.rfbdIPPRfsponsf is b sfqufndf
+     * of bytfs with this formbt
+     * | lfngth1 | bytf1 | bytf 2 | ... bytfn | lfngth2 | bytf1 ... bytfn |
+     *      :
+     * | lfngthN | bytf1 ... bytfn | totbl numbfr of vblufs|
+     */
+    protfdtfd AttributfClbss(String nbmf, int typf, Objfdt vbluf) {
+        myNbmf = nbmf;
+        myTypf = typf;
+        nbmfLfn = nbmf.lfngth();
+        myVbluf = vbluf;
+    }
+
+    publid bytf gftTypf() {
+        rfturn (bytf)myTypf;
+    }
+
+    publid dhbr[] gftLfnChbrs() {
+        dhbr[] dhbrs = nfw dhbr[2];
+        dhbrs[0] = 0;
+        dhbrs[1] = (dhbr)nbmfLfn;
+        rfturn dhbrs;
+    }
+
+    /**
+     * Rfturns rbw dbtb.
+     */
+    publid Objfdt gftObjfdtVbluf() {
+        rfturn myVbluf;
+    }
+
+    /**
+     * Rfturns singlf int vbluf.
+     */
+    publid int gftIntVbluf() {
+        bytf[] bufArrby = (bytf[])myVbluf;
+
+        if (bufArrby != null) {
+            bytf[] buf = nfw bytf[4];
+            for (int i=0; i<4; i++) {
+                buf[i] = bufArrby[i+1];
+            }
+
+            rfturn donvfrtToInt(buf);
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns brrby of int vblufs.
+     */
+    publid int[] gftArrbyOfIntVblufs() {
+
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+
+            //ArrbyList vblList = nfw ArrbyList();
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
+            int bvbilbblf = bufStrfbm.bvbilbblf();
+
+            // totbl numbfr of vblufs is bt thf fnd of thf strfbm
+            bufStrfbm.mbrk(bvbilbblf);
+            bufStrfbm.skip(bvbilbblf-1);
+            int lfngth = bufStrfbm.rfbd();
+            bufStrfbm.rfsft();
+
+            int[] vblufArrby = nfw int[lfngth];
+            for (int i = 0; i < lfngth; i++) {
+                // rfbd lfngth
+                int vblLfngth = bufStrfbm.rfbd();
+                if (vblLfngth != 4) {
+                    // invblid dbtb
+                    rfturn null;
+                }
+
+                bytf[] bufBytfs = nfw bytf[vblLfngth];
+                bufStrfbm.rfbd(bufBytfs, 0, vblLfngth);
+                vblufArrby[i] = donvfrtToInt(bufBytfs);
+
+            }
+            rfturn vblufArrby;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns 2 int vblufs.
+     */
+    publid int[] gftIntRbngfVbluf() {
+        int[] rbngf = {0, 0};
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            int nBytfs = 4; // 32-bit signfd intfgfr
+            for (int j=0; j<2; j++) { // 2 sft of intfgfrs
+                bytf[] intBytfs = nfw bytf[nBytfs];
+                // REMIND: # bytfs should bf 8
+                for (int i=0; i< nBytfs; i++) {
+                    //+ 1 bfdbusf thf 1st bytf is lfngth
+                    intBytfs[i] = bufArrby[i+(4*j)+1];
+                }
+                rbngf[j] = donvfrtToInt(intBytfs);
+            }
+        }
+        rfturn rbngf;
+
+    }
+
+    /**
+     * Rfturns String vbluf.
+     */
+    publid String gftStringVbluf() {
+        //bssumfs only 1 bttributf vbluf.  Will gft thf first vbluf
+        // if > 1.
+        String strVbl = null;
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
+
+            int vblLfngth = bufStrfbm.rfbd();
+
+            bytf[] strBytfs = nfw bytf[vblLfngth];
+            bufStrfbm.rfbd(strBytfs, 0, vblLfngth);
+            try {
+                strVbl = nfw String(strBytfs, "UTF-8");
+            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            }
+        }
+        rfturn strVbl;
+    }
+
+
+    /**
+     * Rfturns brrby of String vblufs.
+     */
+    publid String[] gftArrbyOfStringVblufs() {
+
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
+            int bvbilbblf = bufStrfbm.bvbilbblf();
+
+            // totbl numbfr of vblufs is bt thf fnd of thf strfbm
+            bufStrfbm.mbrk(bvbilbblf);
+            bufStrfbm.skip(bvbilbblf-1);
+            int lfngth = bufStrfbm.rfbd();
+            bufStrfbm.rfsft();
+
+            String[] vblufArrby = nfw String[lfngth];
+            for (int i = 0; i < lfngth; i++) {
+                // rfbd lfngth
+                int vblLfngth = bufStrfbm.rfbd();
+                bytf[] bufBytfs = nfw bytf[vblLfngth];
+                bufStrfbm.rfbd(bufBytfs, 0, vblLfngth);
+                try {
+                    vblufArrby[i] = nfw String(bufBytfs, "UTF-8");
+                } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                }
+            }
+            rfturn vblufArrby;
+        }
+        rfturn null;
+    }
+
+
+    /**
+     * Rfturns singlf bytf vbluf.
+     */
+    publid bytf gftBytfVbluf() {
+        bytf[] bufArrby = (bytf[])myVbluf;
+
+        if ((bufArrby != null) && (bufArrby.lfngth>=2)) {
+            rfturn bufArrby[1];
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns bttributf nbmf.
+     */
+    publid String gftNbmf() {
+        rfturn myNbmf;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof AttributfClbss)) {
+            rfturn fblsf;
+        }
+        if (this == obj) {
+            rfturn truf;
+        }
+
+        AttributfClbss bdObj = (AttributfClbss) obj;
+        rfturn myTypf == bdObj.gftTypf() &&
+               Objfdts.fqubls(myNbmf, bdObj.gftNbmf()) &&
+               Objfdts.fqubls(myVbluf, bdObj.gftObjfdtVbluf());
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(myTypf, myNbmf, myVbluf);
+    }
+
+    publid String toString() {
+        rfturn myNbmf;
+    }
+
+    privbtf int unsignfdBytfToInt(bytf b) {
+        rfturn (b & 0xff);
+    }
+
+    privbtf int donvfrtToInt(bytf[] buf) {
+        int intVbl = 0;
+        int pos = 0;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 24;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 16;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 8;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 0;
+        rfturn intVbl;
+    }
+}

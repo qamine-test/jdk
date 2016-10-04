@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+
+import jbvb.util.Mbp;
+
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+
+/**
+ * <p>
+ * TBC
+ * </p>
+ *
+ * @sindf 1.2
+ *
+ */
+
+finbl dlbss WDrbgSourdfContfxtPffr fxtfnds SunDrbgSourdfContfxtPffr {
+    publid void stbrtSfdondbryEvfntLoop(){
+        WToolkit.stbrtSfdondbryEvfntLoop();
+    }
+    publid void quitSfdondbryEvfntLoop(){
+        WToolkit.quitSfdondbryEvfntLoop();
+    }
+
+    privbtf stbtid finbl WDrbgSourdfContfxtPffr thfInstbndf =
+        nfw WDrbgSourdfContfxtPffr(null);
+
+    /**
+     * donstrudt b nfw WDrbgSourdfContfxtPffr. pbdkbgf privbtf
+     */
+
+    privbtf WDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) {
+        supfr(dgf);
+    }
+
+    stbtid WDrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) throws InvblidDnDOpfrbtionExdfption {
+        thfInstbndf.sftTriggfr(dgf);
+        rfturn thfInstbndf;
+    }
+
+    @Ovfrridf
+    protfdtfd void stbrtDrbg(Trbnsffrbblf trbns,
+                             long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp) {
+
+        long nbtivfCtxtLodbl = 0;
+
+        nbtivfCtxtLodbl = drfbtfDrbgSourdf(gftTriggfr().gftComponfnt(),
+                                           trbns,
+                                           gftTriggfr().gftTriggfrEvfnt(),
+                                           gftTriggfr().gftSourdfAsDrbgGfsturfRfdognizfr().gftSourdfAdtions(),
+                                           formbts,
+                                           formbtMbp);
+
+        if (nbtivfCtxtLodbl == 0) {
+            throw nfw InvblidDnDOpfrbtionExdfption("fbilfd to drfbtf nbtivf pffr");
+        }
+
+        int[] imbgfDbtb = null;
+        Point op = null;
+
+        Imbgf im = gftDrbgImbgf();
+        int imbgfWidth = -1;
+        int imbgfHfight = -1;
+        if (im != null) {
+            //imbgf is rfbdy (pbrtibl imbgfs brf ok)
+            try{
+                imbgfWidth = im.gftWidth(null);
+                imbgfHfight = im.gftHfight(null);
+                if (imbgfWidth < 0 || imbgfHfight < 0) {
+                    throw nfw InvblidDnDOpfrbtionExdfption("drbg imbgf is not rfbdy");
+                }
+                //Wf dould gft bn fxdfption from usfr dodf hfrf.
+                //"im" bnd "drbgImbgfOffsft" brf usfr-dffinfd objfdts
+                op = gftDrbgImbgfOffsft(); //op dould not bf null hfrf
+                BufffrfdImbgf bi = nfw BufffrfdImbgf(
+                        imbgfWidth,
+                        imbgfHfight,
+                        BufffrfdImbgf.TYPE_INT_ARGB);
+                bi.gftGrbphids().drbwImbgf(im, 0, 0, null);
+
+                //wf dbn gft out-of-mfmory hfrf
+                imbgfDbtb = ((DbtbBufffrInt)bi.gftDbtb().gftDbtbBufffr()).gftDbtb();
+            } dbtdh (Throwbblf fx) {
+                throw nfw InvblidDnDOpfrbtionExdfption("drbg imbgf drfbtion problfm: " + fx.gftMfssbgf());
+            }
+        }
+
+        //Wf shouldn't hbvf usfr-lfvfl fxdfptions sindf now.
+        //Any fxdfption lfbds to dorruptfd D'n'D stbtf.
+        sftNbtivfContfxt(nbtivfCtxtLodbl);
+        WDropTbrgftContfxtPffr.sftCurrfntJVMLodblSourdfTrbnsffrbblf(trbns);
+
+        if (imbgfDbtb != null) {
+            doDrbgDrop(
+                    gftNbtivfContfxt(),
+                    gftCursor(),
+                    imbgfDbtb,
+                    imbgfWidth, imbgfHfight,
+                    op.x, op.y);
+        } flsf {
+            doDrbgDrop(
+                    gftNbtivfContfxt(),
+                    gftCursor(),
+                    null,
+                    -1, -1,
+                    0, 0);
+        }
+    }
+
+    /**
+     * downdbll into nbtivf dodf
+     */
+
+    nbtivf long drfbtfDrbgSourdf(Componfnt domponfnt,
+                                 Trbnsffrbblf trbnsffrbblf,
+                                 InputEvfnt nbtivfTriggfr,
+                                 int bdtions,
+                                 long[] formbts,
+                                 Mbp<Long, DbtbFlbvor> formbtMbp);
+
+    /**
+     * downdbll into nbtivf dodf
+     */
+
+    nbtivf void doDrbgDrop(
+            long nbtivfCtxt,
+            Cursor dursor,
+            int[] imbgfDbtb,
+            int imgWidth, int imgHight,
+            int offsftX, int offsftY);
+
+    protfdtfd nbtivf void sftNbtivfCursor(long nbtivfCtxt, Cursor d, int dTypf);
+
+}

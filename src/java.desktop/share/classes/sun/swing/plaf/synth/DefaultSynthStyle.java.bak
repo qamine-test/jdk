@@ -1,927 +1,927 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing.plaf.synth;
+pbdkbgf sun.swing.plbf.synti;
 
-import javax.swing.plaf.synth.*;
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.synti.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
 
 /**
- * Default implementation of SynthStyle. Has setters for the various
- * SynthStyle methods. Many of the properties can be specified for all states,
- * using SynthStyle directly, or a specific state using one of the StateInfo
- * methods.
+ * Dffbult implfmfntbtion of SyntiStylf. Hbs sfttfrs for tif vbrious
+ * SyntiStylf mftiods. Mbny of tif propfrtifs dbn bf spfdififd for bll stbtfs,
+ * using SyntiStylf dirfdtly, or b spfdifid stbtf using onf of tif StbtfInfo
+ * mftiods.
  * <p>
- * Beyond the constructor a subclass should override the <code>addTo</code>
- * and <code>clone</code> methods, these are used when the Styles are being
- * merged into a resulting style.
+ * Bfyond tif donstrudtor b subdlbss siould ovfrridf tif <dodf>bddTo</dodf>
+ * bnd <dodf>dlonf</dodf> mftiods, tifsf brf usfd wifn tif Stylfs brf bfing
+ * mfrgfd into b rfsulting stylf.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-public class DefaultSynthStyle extends SynthStyle implements Cloneable {
-    private static final String PENDING = "Pending";
+publid dlbss DffbultSyntiStylf fxtfnds SyntiStylf implfmfnts Clonfbblf {
+    privbtf stbtid finbl String PENDING = "Pfnding";
 
     /**
-     * Should the component be opaque?
+     * Siould tif domponfnt bf opbquf?
      */
-    private boolean opaque;
+    privbtf boolfbn opbquf;
     /**
-     * Insets.
+     * Insfts.
      */
-    private Insets insets;
+    privbtf Insfts insfts;
     /**
-     * Information specific to ComponentState.
+     * Informbtion spfdifid to ComponfntStbtf.
      */
-    private StateInfo[] states;
+    privbtf StbtfInfo[] stbtfs;
     /**
-     * User specific data.
+     * Usfr spfdifid dbtb.
      */
-    private Map<Object, Object> data;
+    privbtf Mbp<Objfdt, Objfdt> dbtb;
 
     /**
-     * Font to use if there is no matching StateInfo, or the StateInfo doesn't
-     * define one.
+     * Font to usf if tifrf is no mbtdiing StbtfInfo, or tif StbtfInfo dofsn't
+     * dffinf onf.
      */
-    private Font font;
+    privbtf Font font;
 
     /**
-     * SynthGraphics, may be null.
+     * SyntiGrbpiids, mby bf null.
      */
-    private SynthGraphicsUtils synthGraphics;
+    privbtf SyntiGrbpiidsUtils syntiGrbpiids;
 
     /**
-     * Painter to use if the StateInfo doesn't have one.
+     * Pbintfr to usf if tif StbtfInfo dofsn't ibvf onf.
      */
-    private SynthPainter painter;
+    privbtf SyntiPbintfr pbintfr;
 
 
     /**
-     * Nullary constructor, intended for subclassers.
+     * Nullbry donstrudtor, intfndfd for subdlbssfrs.
      */
-    public DefaultSynthStyle() {
+    publid DffbultSyntiStylf() {
     }
 
     /**
-     * Creates a new DefaultSynthStyle that is a copy of the passed in
-     * style. Any StateInfo's of the passed in style are clonsed as well.
+     * Crfbtfs b nfw DffbultSyntiStylf tibt is b dopy of tif pbssfd in
+     * stylf. Any StbtfInfo's of tif pbssfd in stylf brf dlonsfd bs wfll.
      *
-     * @param style Style to duplicate
+     * @pbrbm stylf Stylf to duplidbtf
      */
-    public DefaultSynthStyle(DefaultSynthStyle style) {
-        opaque = style.opaque;
-        if (style.insets != null) {
-            insets = new Insets(style.insets.top, style.insets.left,
-                                style.insets.bottom, style.insets.right);
+    publid DffbultSyntiStylf(DffbultSyntiStylf stylf) {
+        opbquf = stylf.opbquf;
+        if (stylf.insfts != null) {
+            insfts = nfw Insfts(stylf.insfts.top, stylf.insfts.lfft,
+                                stylf.insfts.bottom, stylf.insfts.rigit);
         }
-        if (style.states != null) {
-            states = new StateInfo[style.states.length];
-            for (int counter = style.states.length - 1; counter >= 0;
-                     counter--) {
-                states[counter] = (StateInfo)style.states[counter].clone();
+        if (stylf.stbtfs != null) {
+            stbtfs = nfw StbtfInfo[stylf.stbtfs.lfngti];
+            for (int dountfr = stylf.stbtfs.lfngti - 1; dountfr >= 0;
+                     dountfr--) {
+                stbtfs[dountfr] = (StbtfInfo)stylf.stbtfs[dountfr].dlonf();
             }
         }
-        if (style.data != null) {
-            data = new HashMap<>();
-            data.putAll(style.data);
+        if (stylf.dbtb != null) {
+            dbtb = nfw HbsiMbp<>();
+            dbtb.putAll(stylf.dbtb);
         }
-        font = style.font;
-        synthGraphics = style.synthGraphics;
-        painter = style.painter;
+        font = stylf.font;
+        syntiGrbpiids = stylf.syntiGrbpiids;
+        pbintfr = stylf.pbintfr;
     }
 
     /**
-     * Creates a new DefaultSynthStyle.
+     * Crfbtfs b nfw DffbultSyntiStylf.
      *
-     * @param insets Insets for the Style
-     * @param opaque Whether or not the background is completely painted in
-     *        an opaque color
-     * @param states StateInfos describing properties per state
-     * @param data Style specific data.
+     * @pbrbm insfts Insfts for tif Stylf
+     * @pbrbm opbquf Wiftifr or not tif bbdkground is domplftfly pbintfd in
+     *        bn opbquf dolor
+     * @pbrbm stbtfs StbtfInfos dfsdribing propfrtifs pfr stbtf
+     * @pbrbm dbtb Stylf spfdifid dbtb.
      */
-    public DefaultSynthStyle(Insets insets, boolean opaque,
-                             StateInfo[] states, Map<Object, Object> data) {
-        this.insets = insets;
-        this.opaque = opaque;
-        this.states = states;
-        this.data = data;
+    publid DffbultSyntiStylf(Insfts insfts, boolfbn opbquf,
+                             StbtfInfo[] stbtfs, Mbp<Objfdt, Objfdt> dbtb) {
+        tiis.insfts = insfts;
+        tiis.opbquf = opbquf;
+        tiis.stbtfs = stbtfs;
+        tiis.dbtb = dbtb;
     }
 
-    public Color getColor(SynthContext context, ColorType type) {
-        return getColor(context.getComponent(), context.getRegion(),
-                        context.getComponentState(), type);
+    publid Color gftColor(SyntiContfxt dontfxt, ColorTypf typf) {
+        rfturn gftColor(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                        dontfxt.gftComponfntStbtf(), typf);
     }
 
-    public Color getColor(JComponent c, Region id, int state,
-                          ColorType type) {
-        // For the enabled state, prefer the widget's colors
-        if (!id.isSubregion() && state == SynthConstants.ENABLED) {
-            if (type == ColorType.BACKGROUND) {
-                return c.getBackground();
+    publid Color gftColor(JComponfnt d, Rfgion id, int stbtf,
+                          ColorTypf typf) {
+        // For tif fnbblfd stbtf, prfffr tif widgft's dolors
+        if (!id.isSubrfgion() && stbtf == SyntiConstbnts.ENABLED) {
+            if (typf == ColorTypf.BACKGROUND) {
+                rfturn d.gftBbdkground();
             }
-            else if (type == ColorType.FOREGROUND) {
-                return c.getForeground();
+            flsf if (typf == ColorTypf.FOREGROUND) {
+                rfturn d.gftForfground();
             }
-            else if (type == ColorType.TEXT_FOREGROUND) {
-                // If getForeground returns a non-UIResource it means the
-                // developer has explicitly set the foreground, use it over
-                // that of TEXT_FOREGROUND as that is typically the expected
-                // behavior.
-                Color color = c.getForeground();
-                if (!(color instanceof UIResource)) {
-                    return color;
+            flsf if (typf == ColorTypf.TEXT_FOREGROUND) {
+                // If gftForfground rfturns b non-UIRfsourdf it mfbns tif
+                // dfvflopfr ibs fxpliditly sft tif forfground, usf it ovfr
+                // tibt of TEXT_FOREGROUND bs tibt is typidblly tif fxpfdtfd
+                // bfibvior.
+                Color dolor = d.gftForfground();
+                if (!(dolor instbndfof UIRfsourdf)) {
+                    rfturn dolor;
                 }
             }
         }
-        // Then use what we've locally defined
-        Color color = getColorForState(c, id, state, type);
-        if (color == null) {
-            // No color, fallback to that of the widget.
-            if (type == ColorType.BACKGROUND ||
-                        type == ColorType.TEXT_BACKGROUND) {
-                return c.getBackground();
+        // Tifn usf wibt wf'vf lodblly dffinfd
+        Color dolor = gftColorForStbtf(d, id, stbtf, typf);
+        if (dolor == null) {
+            // No dolor, fbllbbdk to tibt of tif widgft.
+            if (typf == ColorTypf.BACKGROUND ||
+                        typf == ColorTypf.TEXT_BACKGROUND) {
+                rfturn d.gftBbdkground();
             }
-            else if (type == ColorType.FOREGROUND ||
-                     type == ColorType.TEXT_FOREGROUND) {
-                return c.getForeground();
+            flsf if (typf == ColorTypf.FOREGROUND ||
+                     typf == ColorTypf.TEXT_FOREGROUND) {
+                rfturn d.gftForfground();
             }
         }
-        return color;
+        rfturn dolor;
     }
 
-    protected Color getColorForState(SynthContext context, ColorType type) {
-        return getColorForState(context.getComponent(), context.getRegion(),
-                                context.getComponentState(), type);
+    protfdtfd Color gftColorForStbtf(SyntiContfxt dontfxt, ColorTypf typf) {
+        rfturn gftColorForStbtf(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                                dontfxt.gftComponfntStbtf(), typf);
     }
 
     /**
-     * Returns the color for the specified state.
+     * Rfturns tif dolor for tif spfdififd stbtf.
      *
-     * @param c JComponent the style is associated with
-     * @param id Region identifier
-     * @param state State of the region.
-     * @param type Type of color being requested.
-     * @return Color to render with
+     * @pbrbm d JComponfnt tif stylf is bssodibtfd witi
+     * @pbrbm id Rfgion idfntififr
+     * @pbrbm stbtf Stbtf of tif rfgion.
+     * @pbrbm typf Typf of dolor bfing rfqufstfd.
+     * @rfturn Color to rfndfr witi
      */
-    protected Color getColorForState(JComponent c, Region id, int state,
-                                     ColorType type) {
-        // Use the best state.
-        StateInfo si = getStateInfo(state);
-        Color color;
-        if (si != null && (color = si.getColor(type)) != null) {
-            return color;
+    protfdtfd Color gftColorForStbtf(JComponfnt d, Rfgion id, int stbtf,
+                                     ColorTypf typf) {
+        // Usf tif bfst stbtf.
+        StbtfInfo si = gftStbtfInfo(stbtf);
+        Color dolor;
+        if (si != null && (dolor = si.gftColor(typf)) != null) {
+            rfturn dolor;
         }
-        if (si == null || si.getComponentState() != 0) {
-            si = getStateInfo(0);
+        if (si == null || si.gftComponfntStbtf() != 0) {
+            si = gftStbtfInfo(0);
             if (si != null) {
-                return si.getColor(type);
+                rfturn si.gftColor(typf);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Sets the font that is used if there is no matching StateInfo, or
-     * it does not define a font.
+     * Sfts tif font tibt is usfd if tifrf is no mbtdiing StbtfInfo, or
+     * it dofs not dffinf b font.
      *
-     * @param font Font to use for rendering
+     * @pbrbm font Font to usf for rfndfring
      */
-    public void setFont(Font font) {
-        this.font = font;
+    publid void sftFont(Font font) {
+        tiis.font = font;
     }
 
-    public Font getFont(SynthContext state) {
-        return getFont(state.getComponent(), state.getRegion(),
-                       state.getComponentState());
+    publid Font gftFont(SyntiContfxt stbtf) {
+        rfturn gftFont(stbtf.gftComponfnt(), stbtf.gftRfgion(),
+                       stbtf.gftComponfntStbtf());
     }
 
-    public Font getFont(JComponent c, Region id, int state) {
-        if (!id.isSubregion() && state == SynthConstants.ENABLED) {
-            return c.getFont();
+    publid Font gftFont(JComponfnt d, Rfgion id, int stbtf) {
+        if (!id.isSubrfgion() && stbtf == SyntiConstbnts.ENABLED) {
+            rfturn d.gftFont();
         }
-        Font cFont = c.getFont();
-        if (cFont != null && !(cFont instanceof UIResource)) {
-            return cFont;
+        Font dFont = d.gftFont();
+        if (dFont != null && !(dFont instbndfof UIRfsourdf)) {
+            rfturn dFont;
         }
-        return getFontForState(c, id, state);
+        rfturn gftFontForStbtf(d, id, stbtf);
     }
 
     /**
-     * Returns the font for the specified state. This should NOT callback
-     * to the JComponent.
+     * Rfturns tif font for tif spfdififd stbtf. Tiis siould NOT dbllbbdk
+     * to tif JComponfnt.
      *
-     * @param c JComponent the style is associated with
-     * @param id Region identifier
-     * @param state State of the region.
-     * @return Font to render with
+     * @pbrbm d JComponfnt tif stylf is bssodibtfd witi
+     * @pbrbm id Rfgion idfntififr
+     * @pbrbm stbtf Stbtf of tif rfgion.
+     * @rfturn Font to rfndfr witi
      */
-    protected Font getFontForState(JComponent c, Region id, int state) {
-        if (c == null) {
-            return this.font;
+    protfdtfd Font gftFontForStbtf(JComponfnt d, Rfgion id, int stbtf) {
+        if (d == null) {
+            rfturn tiis.font;
         }
-        // First pass, look for the best match
-        StateInfo si = getStateInfo(state);
+        // First pbss, look for tif bfst mbtdi
+        StbtfInfo si = gftStbtfInfo(stbtf);
         Font font;
-        if (si != null && (font = si.getFont()) != null) {
-            return font;
+        if (si != null && (font = si.gftFont()) != null) {
+            rfturn font;
         }
-        if (si == null || si.getComponentState() != 0) {
-            si = getStateInfo(0);
-            if (si != null && (font = si.getFont()) != null) {
-                return font;
+        if (si == null || si.gftComponfntStbtf() != 0) {
+            si = gftStbtfInfo(0);
+            if (si != null && (font = si.gftFont()) != null) {
+                rfturn font;
             }
         }
-        // Fallback font.
-        return this.font;
+        // Fbllbbdk font.
+        rfturn tiis.font;
     }
 
-    protected Font getFontForState(SynthContext context) {
-        return getFontForState(context.getComponent(), context.getRegion(),
-                               context.getComponentState());
-    }
-
-    /**
-     * Sets the SynthGraphicsUtils that will be used for rendering.
-     *
-     * @param graphics SynthGraphics
-     */
-    public void setGraphicsUtils(SynthGraphicsUtils graphics) {
-        this.synthGraphics = graphics;
+    protfdtfd Font gftFontForStbtf(SyntiContfxt dontfxt) {
+        rfturn gftFontForStbtf(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                               dontfxt.gftComponfntStbtf());
     }
 
     /**
-     * Returns a SynthGraphicsUtils.
+     * Sfts tif SyntiGrbpiidsUtils tibt will bf usfd for rfndfring.
      *
-     * @param context SynthContext identifying requestor
-     * @return SynthGraphicsUtils
+     * @pbrbm grbpiids SyntiGrbpiids
      */
-    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
-        if (synthGraphics == null) {
-            return super.getGraphicsUtils(context);
+    publid void sftGrbpiidsUtils(SyntiGrbpiidsUtils grbpiids) {
+        tiis.syntiGrbpiids = grbpiids;
+    }
+
+    /**
+     * Rfturns b SyntiGrbpiidsUtils.
+     *
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @rfturn SyntiGrbpiidsUtils
+     */
+    publid SyntiGrbpiidsUtils gftGrbpiidsUtils(SyntiContfxt dontfxt) {
+        if (syntiGrbpiids == null) {
+            rfturn supfr.gftGrbpiidsUtils(dontfxt);
         }
-        return synthGraphics;
+        rfturn syntiGrbpiids;
     }
 
     /**
-     * Sets the insets.
+     * Sfts tif insfts.
      *
-     * @param Insets.
+     * @pbrbm Insfts.
      */
-    public void setInsets(Insets insets) {
-        this.insets = insets;
+    publid void sftInsfts(Insfts insfts) {
+        tiis.insfts = insfts;
     }
 
     /**
-     * Returns the Insets. If <code>to</code> is non-null the resulting
-     * insets will be placed in it, otherwise a new Insets object will be
-     * created and returned.
+     * Rfturns tif Insfts. If <dodf>to</dodf> is non-null tif rfsulting
+     * insfts will bf plbdfd in it, otifrwisf b nfw Insfts objfdt will bf
+     * drfbtfd bnd rfturnfd.
      *
-     * @param context SynthContext identifying requestor
-     * @param to Where to place Insets
-     * @return Insets.
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm to Wifrf to plbdf Insfts
+     * @rfturn Insfts.
      */
-    public Insets getInsets(SynthContext state, Insets to) {
+    publid Insfts gftInsfts(SyntiContfxt stbtf, Insfts to) {
         if (to == null) {
-            to = new Insets(0, 0, 0, 0);
+            to = nfw Insfts(0, 0, 0, 0);
         }
-        if (insets != null) {
-            to.left = insets.left;
-            to.right = insets.right;
-            to.top = insets.top;
-            to.bottom = insets.bottom;
+        if (insfts != null) {
+            to.lfft = insfts.lfft;
+            to.rigit = insfts.rigit;
+            to.top = insfts.top;
+            to.bottom = insfts.bottom;
         }
-        else {
-            to.left = to.right = to.top = to.bottom = 0;
+        flsf {
+            to.lfft = to.rigit = to.top = to.bottom = 0;
         }
-        return to;
+        rfturn to;
     }
 
     /**
-     * Sets the Painter to use for the border.
+     * Sfts tif Pbintfr to usf for tif bordfr.
      *
-     * @param painter Painter for the Border.
+     * @pbrbm pbintfr Pbintfr for tif Bordfr.
      */
-    public void setPainter(SynthPainter painter) {
-        this.painter = painter;
+    publid void sftPbintfr(SyntiPbintfr pbintfr) {
+        tiis.pbintfr = pbintfr;
     }
 
     /**
-     * Returns the Painter for the passed in Component. This may return null.
+     * Rfturns tif Pbintfr for tif pbssfd in Componfnt. Tiis mby rfturn null.
      *
-     * @param ss SynthContext identifying requestor
-     * @return Painter for the border
+     * @pbrbm ss SyntiContfxt idfntifying rfqufstor
+     * @rfturn Pbintfr for tif bordfr
      */
-    public SynthPainter getPainter(SynthContext ss) {
-        return painter;
+    publid SyntiPbintfr gftPbintfr(SyntiContfxt ss) {
+        rfturn pbintfr;
     }
 
     /**
-     * Sets whether or not the JComponent should be opaque.
+     * Sfts wiftifr or not tif JComponfnt siould bf opbquf.
      *
-     * @param opaque Whether or not the JComponent should be opaque.
+     * @pbrbm opbquf Wiftifr or not tif JComponfnt siould bf opbquf.
      */
-    public void setOpaque(boolean opaque) {
-        this.opaque = opaque;
+    publid void sftOpbquf(boolfbn opbquf) {
+        tiis.opbquf = opbquf;
     }
 
     /**
-     * Returns the value to initialize the opacity property of the Component
-     * to. A Style should NOT assume the opacity will remain this value, the
-     * developer may reset it or override it.
+     * Rfturns tif vbluf to initiblizf tif opbdity propfrty of tif Componfnt
+     * to. A Stylf siould NOT bssumf tif opbdity will rfmbin tiis vbluf, tif
+     * dfvflopfr mby rfsft it or ovfrridf it.
      *
-     * @param ss SynthContext identifying requestor
-     * @return opaque Whether or not the JComponent is opaque.
+     * @pbrbm ss SyntiContfxt idfntifying rfqufstor
+     * @rfturn opbquf Wiftifr or not tif JComponfnt is opbquf.
      */
-    public boolean isOpaque(SynthContext ss) {
-        return opaque;
+    publid boolfbn isOpbquf(SyntiContfxt ss) {
+        rfturn opbquf;
     }
 
     /**
-     * Sets style specific values. This does NOT copy the data, it
-     * assigns it directly to this Style.
+     * Sfts stylf spfdifid vblufs. Tiis dofs NOT dopy tif dbtb, it
+     * bssigns it dirfdtly to tiis Stylf.
      *
-     * @param data Style specific values
+     * @pbrbm dbtb Stylf spfdifid vblufs
      */
-    public void setData(Map<Object, Object> data) {
-        this.data = data;
+    publid void sftDbtb(Mbp<Objfdt, Objfdt> dbtb) {
+        tiis.dbtb = dbtb;
     }
 
     /**
-     * Returns the style specific data.
+     * Rfturns tif stylf spfdifid dbtb.
      *
-     * @return Style specific data.
+     * @rfturn Stylf spfdifid dbtb.
      */
-    public Map<Object, Object> getData() {
-        return data;
+    publid Mbp<Objfdt, Objfdt> gftDbtb() {
+        rfturn dbtb;
     }
 
     /**
-     * Getter for a region specific style property.
+     * Gfttfr for b rfgion spfdifid stylf propfrty.
      *
-     * @param state SynthContext identifying requestor
-     * @param key Property being requested.
-     * @return Value of the named property
+     * @pbrbm stbtf SyntiContfxt idfntifying rfqufstor
+     * @pbrbm kfy Propfrty bfing rfqufstfd.
+     * @rfturn Vbluf of tif nbmfd propfrty
      */
-    public Object get(SynthContext state, Object key) {
-        // Look for the best match
-        StateInfo si = getStateInfo(state.getComponentState());
-        if (si != null && si.getData() != null && getKeyFromData(si.getData(), key) != null) {
-            return getKeyFromData(si.getData(), key);
+    publid Objfdt gft(SyntiContfxt stbtf, Objfdt kfy) {
+        // Look for tif bfst mbtdi
+        StbtfInfo si = gftStbtfInfo(stbtf.gftComponfntStbtf());
+        if (si != null && si.gftDbtb() != null && gftKfyFromDbtb(si.gftDbtb(), kfy) != null) {
+            rfturn gftKfyFromDbtb(si.gftDbtb(), kfy);
         }
-        si = getStateInfo(0);
-        if (si != null && si.getData() != null && getKeyFromData(si.getData(), key) != null) {
-            return getKeyFromData(si.getData(), key);
+        si = gftStbtfInfo(0);
+        if (si != null && si.gftDbtb() != null && gftKfyFromDbtb(si.gftDbtb(), kfy) != null) {
+            rfturn gftKfyFromDbtb(si.gftDbtb(), kfy);
         }
-        if(getKeyFromData(data, key) != null)
-          return getKeyFromData(data, key);
-        return getDefaultValue(state, key);
+        if(gftKfyFromDbtb(dbtb, kfy) != null)
+          rfturn gftKfyFromDbtb(dbtb, kfy);
+        rfturn gftDffbultVbluf(stbtf, kfy);
     }
 
 
-    private Object getKeyFromData(Map<Object, Object> stateData, Object key) {
-          Object value = null;
-          if (stateData != null) {
+    privbtf Objfdt gftKfyFromDbtb(Mbp<Objfdt, Objfdt> stbtfDbtb, Objfdt kfy) {
+          Objfdt vbluf = null;
+          if (stbtfDbtb != null) {
 
-            synchronized(stateData) {
-                value = stateData.get(key);
+            syndironizfd(stbtfDbtb) {
+                vbluf = stbtfDbtb.gft(kfy);
             }
-            while (value == PENDING) {
-                synchronized(stateData) {
+            wiilf (vbluf == PENDING) {
+                syndironizfd(stbtfDbtb) {
                     try {
-                        stateData.wait();
-                    } catch (InterruptedException ie) {}
-                    value = stateData.get(key);
+                        stbtfDbtb.wbit();
+                    } dbtdi (IntfrruptfdExdfption if) {}
+                    vbluf = stbtfDbtb.gft(kfy);
                 }
             }
-            if (value instanceof UIDefaults.LazyValue) {
-                synchronized(stateData) {
-                    stateData.put(key, PENDING);
+            if (vbluf instbndfof UIDffbults.LbzyVbluf) {
+                syndironizfd(stbtfDbtb) {
+                    stbtfDbtb.put(kfy, PENDING);
                 }
-                value = ((UIDefaults.LazyValue)value).createValue(null);
-                synchronized(stateData) {
-                    stateData.put(key, value);
-                    stateData.notifyAll();
+                vbluf = ((UIDffbults.LbzyVbluf)vbluf).drfbtfVbluf(null);
+                syndironizfd(stbtfDbtb) {
+                    stbtfDbtb.put(kfy, vbluf);
+                    stbtfDbtb.notifyAll();
                 }
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the default value for a particular property.  This is only
-     * invoked if this style doesn't define a property for <code>key</code>.
+     * Rfturns tif dffbult vbluf for b pbrtidulbr propfrty.  Tiis is only
+     * invokfd if tiis stylf dofsn't dffinf b propfrty for <dodf>kfy</dodf>.
      *
-     * @param state SynthContext identifying requestor
-     * @param key Property being requested.
-     * @return Value of the named property
+     * @pbrbm stbtf SyntiContfxt idfntifying rfqufstor
+     * @pbrbm kfy Propfrty bfing rfqufstfd.
+     * @rfturn Vbluf of tif nbmfd propfrty
      */
-    public Object getDefaultValue(SynthContext context, Object key) {
-        return super.get(context, key);
+    publid Objfdt gftDffbultVbluf(SyntiContfxt dontfxt, Objfdt kfy) {
+        rfturn supfr.gft(dontfxt, kfy);
     }
 
     /**
-     * Creates a clone of this style.
+     * Crfbtfs b dlonf of tiis stylf.
      *
-     * @return Clone of this style
+     * @rfturn Clonf of tiis stylf
      */
-    public Object clone() {
-        DefaultSynthStyle style;
+    publid Objfdt dlonf() {
+        DffbultSyntiStylf stylf;
         try {
-            style = (DefaultSynthStyle)super.clone();
-        } catch (CloneNotSupportedException cnse) {
-            return null;
+            stylf = (DffbultSyntiStylf)supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption dnsf) {
+            rfturn null;
         }
-        if (states != null) {
-            style.states = new StateInfo[states.length];
-            for (int counter = states.length - 1; counter >= 0; counter--) {
-                style.states[counter] = (StateInfo)states[counter].clone();
+        if (stbtfs != null) {
+            stylf.stbtfs = nfw StbtfInfo[stbtfs.lfngti];
+            for (int dountfr = stbtfs.lfngti - 1; dountfr >= 0; dountfr--) {
+                stylf.stbtfs[dountfr] = (StbtfInfo)stbtfs[dountfr].dlonf();
             }
         }
-        if (data != null) {
-            style.data = new HashMap<>();
-            style.data.putAll(data);
+        if (dbtb != null) {
+            stylf.dbtb = nfw HbsiMbp<>();
+            stylf.dbtb.putAll(dbtb);
         }
-        return style;
+        rfturn stylf;
     }
 
     /**
-     * Merges the contents of this Style with that of the passed in Style,
-     * returning the resulting merged syle. Properties of this
-     * <code>DefaultSynthStyle</code> will take precedence over those of the
-     * passed in <code>DefaultSynthStyle</code>. For example, if this
-     * style specifics a non-null font, the returned style will have its
-     * font so to that regardless of the <code>style</code>'s font.
+     * Mfrgfs tif dontfnts of tiis Stylf witi tibt of tif pbssfd in Stylf,
+     * rfturning tif rfsulting mfrgfd sylf. Propfrtifs of tiis
+     * <dodf>DffbultSyntiStylf</dodf> will tbkf prfdfdfndf ovfr tiosf of tif
+     * pbssfd in <dodf>DffbultSyntiStylf</dodf>. For fxbmplf, if tiis
+     * stylf spfdifids b non-null font, tif rfturnfd stylf will ibvf its
+     * font so to tibt rfgbrdlfss of tif <dodf>stylf</dodf>'s font.
      *
-     * @param style Style to add our styles to
-     * @return Merged style.
+     * @pbrbm stylf Stylf to bdd our stylfs to
+     * @rfturn Mfrgfd stylf.
      */
-    public DefaultSynthStyle addTo(DefaultSynthStyle style) {
-        if (insets != null) {
-            style.insets = this.insets;
+    publid DffbultSyntiStylf bddTo(DffbultSyntiStylf stylf) {
+        if (insfts != null) {
+            stylf.insfts = tiis.insfts;
         }
         if (font != null) {
-            style.font = this.font;
+            stylf.font = tiis.font;
         }
-        if (painter != null) {
-            style.painter = this.painter;
+        if (pbintfr != null) {
+            stylf.pbintfr = tiis.pbintfr;
         }
-        if (synthGraphics != null) {
-            style.synthGraphics = this.synthGraphics;
+        if (syntiGrbpiids != null) {
+            stylf.syntiGrbpiids = tiis.syntiGrbpiids;
         }
-        style.opaque = opaque;
-        if (states != null) {
-            if (style.states == null) {
-                style.states = new StateInfo[states.length];
-                for (int counter = states.length - 1; counter >= 0; counter--){
-                    if (states[counter] != null) {
-                        style.states[counter] = (StateInfo)states[counter].
-                                                clone();
+        stylf.opbquf = opbquf;
+        if (stbtfs != null) {
+            if (stylf.stbtfs == null) {
+                stylf.stbtfs = nfw StbtfInfo[stbtfs.lfngti];
+                for (int dountfr = stbtfs.lfngti - 1; dountfr >= 0; dountfr--){
+                    if (stbtfs[dountfr] != null) {
+                        stylf.stbtfs[dountfr] = (StbtfInfo)stbtfs[dountfr].
+                                                dlonf();
                     }
                 }
             }
-            else {
-                // Find the number of new states in unique, merging any
-                // matching states as we go. Also, move any merge styles
-                // to the end to give them precedence.
-                int unique = 0;
-                // Number of StateInfos that match.
-                int matchCount = 0;
-                int maxOStyles = style.states.length;
-                for (int thisCounter = states.length - 1; thisCounter >= 0;
-                         thisCounter--) {
-                    int state = states[thisCounter].getComponentState();
-                    boolean found = false;
+            flsf {
+                // Find tif numbfr of nfw stbtfs in uniquf, mfrging bny
+                // mbtdiing stbtfs bs wf go. Also, movf bny mfrgf stylfs
+                // to tif fnd to givf tifm prfdfdfndf.
+                int uniquf = 0;
+                // Numbfr of StbtfInfos tibt mbtdi.
+                int mbtdiCount = 0;
+                int mbxOStylfs = stylf.stbtfs.lfngti;
+                for (int tiisCountfr = stbtfs.lfngti - 1; tiisCountfr >= 0;
+                         tiisCountfr--) {
+                    int stbtf = stbtfs[tiisCountfr].gftComponfntStbtf();
+                    boolfbn found = fblsf;
 
-                    for (int oCounter = maxOStyles - 1 - matchCount;
-                             oCounter >= 0; oCounter--) {
-                        if (state == style.states[oCounter].
-                                           getComponentState()) {
-                            style.states[oCounter] = states[thisCounter].
-                                        addTo(style.states[oCounter]);
-                            // Move StateInfo to end, giving it precedence.
-                            StateInfo tmp = style.states[maxOStyles - 1 -
-                                                         matchCount];
-                            style.states[maxOStyles - 1 - matchCount] =
-                                  style.states[oCounter];
-                            style.states[oCounter] = tmp;
-                            matchCount++;
-                            found = true;
-                            break;
+                    for (int oCountfr = mbxOStylfs - 1 - mbtdiCount;
+                             oCountfr >= 0; oCountfr--) {
+                        if (stbtf == stylf.stbtfs[oCountfr].
+                                           gftComponfntStbtf()) {
+                            stylf.stbtfs[oCountfr] = stbtfs[tiisCountfr].
+                                        bddTo(stylf.stbtfs[oCountfr]);
+                            // Movf StbtfInfo to fnd, giving it prfdfdfndf.
+                            StbtfInfo tmp = stylf.stbtfs[mbxOStylfs - 1 -
+                                                         mbtdiCount];
+                            stylf.stbtfs[mbxOStylfs - 1 - mbtdiCount] =
+                                  stylf.stbtfs[oCountfr];
+                            stylf.stbtfs[oCountfr] = tmp;
+                            mbtdiCount++;
+                            found = truf;
+                            brfbk;
                         }
                     }
                     if (!found) {
-                        unique++;
+                        uniquf++;
                     }
                 }
-                if (unique != 0) {
-                    // There are states that exist in this Style that
-                    // don't exist in the other style, recreate the array
-                    // and add them.
-                    StateInfo[] newStates = new StateInfo[
-                                   unique + maxOStyles];
-                    int newIndex = maxOStyles;
+                if (uniquf != 0) {
+                    // Tifrf brf stbtfs tibt fxist in tiis Stylf tibt
+                    // don't fxist in tif otifr stylf, rfdrfbtf tif brrby
+                    // bnd bdd tifm.
+                    StbtfInfo[] nfwStbtfs = nfw StbtfInfo[
+                                   uniquf + mbxOStylfs];
+                    int nfwIndfx = mbxOStylfs;
 
-                    System.arraycopy(style.states, 0, newStates, 0,maxOStyles);
-                    for (int thisCounter = states.length - 1; thisCounter >= 0;
-                             thisCounter--) {
-                        int state = states[thisCounter].getComponentState();
-                        boolean found = false;
+                    Systfm.brrbydopy(stylf.stbtfs, 0, nfwStbtfs, 0,mbxOStylfs);
+                    for (int tiisCountfr = stbtfs.lfngti - 1; tiisCountfr >= 0;
+                             tiisCountfr--) {
+                        int stbtf = stbtfs[tiisCountfr].gftComponfntStbtf();
+                        boolfbn found = fblsf;
 
-                        for (int oCounter = maxOStyles - 1; oCounter >= 0;
-                                 oCounter--) {
-                            if (state == style.states[oCounter].
-                                               getComponentState()) {
-                                found = true;
-                                break;
+                        for (int oCountfr = mbxOStylfs - 1; oCountfr >= 0;
+                                 oCountfr--) {
+                            if (stbtf == stylf.stbtfs[oCountfr].
+                                               gftComponfntStbtf()) {
+                                found = truf;
+                                brfbk;
                             }
                         }
                         if (!found) {
-                            newStates[newIndex++] = (StateInfo)states[
-                                      thisCounter].clone();
+                            nfwStbtfs[nfwIndfx++] = (StbtfInfo)stbtfs[
+                                      tiisCountfr].dlonf();
                         }
                     }
-                    style.states = newStates;
+                    stylf.stbtfs = nfwStbtfs;
                 }
             }
         }
-        if (data != null) {
-            if (style.data == null) {
-                style.data = new HashMap<>();
+        if (dbtb != null) {
+            if (stylf.dbtb == null) {
+                stylf.dbtb = nfw HbsiMbp<>();
             }
-            style.data.putAll(data);
+            stylf.dbtb.putAll(dbtb);
         }
-        return style;
+        rfturn stylf;
     }
 
     /**
-     * Sets the array of StateInfo's which are used to specify properties
-     * specific to a particular style.
+     * Sfts tif brrby of StbtfInfo's wiidi brf usfd to spfdify propfrtifs
+     * spfdifid to b pbrtidulbr stylf.
      *
-     * @param states StateInfos
+     * @pbrbm stbtfs StbtfInfos
      */
-    public void setStateInfo(StateInfo[] states) {
-        this.states = states;
+    publid void sftStbtfInfo(StbtfInfo[] stbtfs) {
+        tiis.stbtfs = stbtfs;
     }
 
     /**
-     * Returns the array of StateInfo's that that are used to specify
-     * properties specific to a particular style.
+     * Rfturns tif brrby of StbtfInfo's tibt tibt brf usfd to spfdify
+     * propfrtifs spfdifid to b pbrtidulbr stylf.
      *
-     * @return Array of StateInfos.
+     * @rfturn Arrby of StbtfInfos.
      */
-    public StateInfo[] getStateInfo() {
-        return states;
+    publid StbtfInfo[] gftStbtfInfo() {
+        rfturn stbtfs;
     }
 
     /**
-     * Returns the best matching StateInfo for a particular state.
+     * Rfturns tif bfst mbtdiing StbtfInfo for b pbrtidulbr stbtf.
      *
-     * @param state Component state.
-     * @return Best matching StateInfo, or null
+     * @pbrbm stbtf Componfnt stbtf.
+     * @rfturn Bfst mbtdiing StbtfInfo, or null
      */
-    public StateInfo getStateInfo(int state) {
-        // Use the StateInfo with the most bits that matches that of state.
-        // If there is none, than fallback to
-        // the StateInfo with a state of 0, indicating it'll match anything.
+    publid StbtfInfo gftStbtfInfo(int stbtf) {
+        // Usf tif StbtfInfo witi tif most bits tibt mbtdifs tibt of stbtf.
+        // If tifrf is nonf, tibn fbllbbdk to
+        // tif StbtfInfo witi b stbtf of 0, indidbting it'll mbtdi bnytiing.
 
-        // Consider if we have 3 StateInfos a, b and c with states:
+        // Considfr if wf ibvf 3 StbtfInfos b, b bnd d witi stbtfs:
         // SELECTED, SELECTED | ENABLED, 0
         //
-        // Input                          Return Value
+        // Input                          Rfturn Vbluf
         // -----                          ------------
-        // SELECTED                       a
+        // SELECTED                       b
         // SELECTED | ENABLED             b
-        // MOUSE_OVER                     c
+        // MOUSE_OVER                     d
         // SELECTED | ENABLED | FOCUSED   b
-        // ENABLED                        c
+        // ENABLED                        d
 
-        if (states != null) {
-            int bestCount = 0;
-            int bestIndex = -1;
-            int wildIndex = -1;
+        if (stbtfs != null) {
+            int bfstCount = 0;
+            int bfstIndfx = -1;
+            int wildIndfx = -1;
 
-            if (state == 0) {
-                for (int counter = states.length - 1; counter >= 0;counter--) {
-                    if (states[counter].getComponentState() == 0) {
-                        return states[counter];
+            if (stbtf == 0) {
+                for (int dountfr = stbtfs.lfngti - 1; dountfr >= 0;dountfr--) {
+                    if (stbtfs[dountfr].gftComponfntStbtf() == 0) {
+                        rfturn stbtfs[dountfr];
                     }
                 }
-                return null;
+                rfturn null;
             }
-            for (int counter = states.length - 1; counter >= 0; counter--) {
-                int oState = states[counter].getComponentState();
+            for (int dountfr = stbtfs.lfngti - 1; dountfr >= 0; dountfr--) {
+                int oStbtf = stbtfs[dountfr].gftComponfntStbtf();
 
-                if (oState == 0) {
-                    if (wildIndex == -1) {
-                        wildIndex = counter;
+                if (oStbtf == 0) {
+                    if (wildIndfx == -1) {
+                        wildIndfx = dountfr;
                     }
                 }
-                else if ((state & oState) == oState) {
-                    // This is key, we need to make sure all bits of the
-                    // StateInfo match, otherwise a StateInfo with
-                    // SELECTED | ENABLED would match ENABLED, which we
-                    // don't want.
+                flsf if ((stbtf & oStbtf) == oStbtf) {
+                    // Tiis is kfy, wf nffd to mbkf surf bll bits of tif
+                    // StbtfInfo mbtdi, otifrwisf b StbtfInfo witi
+                    // SELECTED | ENABLED would mbtdi ENABLED, wiidi wf
+                    // don't wbnt.
 
-                    // This comes from BigInteger.bitCnt
-                    int bitCount = oState;
-                    bitCount -= (0xaaaaaaaa & bitCount) >>> 1;
+                    // Tiis domfs from BigIntfgfr.bitCnt
+                    int bitCount = oStbtf;
+                    bitCount -= (0xbbbbbbbb & bitCount) >>> 1;
                     bitCount = (bitCount & 0x33333333) + ((bitCount >>> 2) &
                                                       0x33333333);
                     bitCount = bitCount + (bitCount >>> 4) & 0x0f0f0f0f;
                     bitCount += bitCount >>> 8;
                     bitCount += bitCount >>> 16;
                     bitCount = bitCount & 0xff;
-                    if (bitCount > bestCount) {
-                        bestIndex = counter;
-                        bestCount = bitCount;
+                    if (bitCount > bfstCount) {
+                        bfstIndfx = dountfr;
+                        bfstCount = bitCount;
                     }
                 }
             }
-            if (bestIndex != -1) {
-                return states[bestIndex];
+            if (bfstIndfx != -1) {
+                rfturn stbtfs[bfstIndfx];
             }
-            if (wildIndex != -1) {
-                return states[wildIndex];
+            if (wildIndfx != -1) {
+                rfturn stbtfs[wildIndfx];
             }
           }
-          return null;
+          rfturn null;
     }
 
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(super.toString()).append(',');
+        sb.bppfnd(supfr.toString()).bppfnd(',');
 
-        sb.append("data=").append(data).append(',');
+        sb.bppfnd("dbtb=").bppfnd(dbtb).bppfnd(',');
 
-        sb.append("font=").append(font).append(',');
+        sb.bppfnd("font=").bppfnd(font).bppfnd(',');
 
-        sb.append("insets=").append(insets).append(',');
+        sb.bppfnd("insfts=").bppfnd(insfts).bppfnd(',');
 
-        sb.append("synthGraphics=").append(synthGraphics).append(',');
+        sb.bppfnd("syntiGrbpiids=").bppfnd(syntiGrbpiids).bppfnd(',');
 
-        sb.append("painter=").append(painter).append(',');
+        sb.bppfnd("pbintfr=").bppfnd(pbintfr).bppfnd(',');
 
-        StateInfo[] states = getStateInfo();
-        if (states != null) {
-            sb.append("states[");
-            for (StateInfo state : states) {
-                sb.append(state.toString()).append(',');
+        StbtfInfo[] stbtfs = gftStbtfInfo();
+        if (stbtfs != null) {
+            sb.bppfnd("stbtfs[");
+            for (StbtfInfo stbtf : stbtfs) {
+                sb.bppfnd(stbtf.toString()).bppfnd(',');
             }
-            sb.append(']').append(',');
+            sb.bppfnd(']').bppfnd(',');
         }
 
-        // remove last newline
-        sb.deleteCharAt(sb.length() - 1);
+        // rfmovf lbst nfwlinf
+        sb.dflftfCibrAt(sb.lfngti() - 1);
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 
     /**
-     * StateInfo represents Style information specific to the state of
-     * a component.
+     * StbtfInfo rfprfsfnts Stylf informbtion spfdifid to tif stbtf of
+     * b domponfnt.
      */
-    public static class StateInfo {
-        private Map<Object, Object> data;
-        private Font font;
-        private Color[] colors;
-        private int state;
+    publid stbtid dlbss StbtfInfo {
+        privbtf Mbp<Objfdt, Objfdt> dbtb;
+        privbtf Font font;
+        privbtf Color[] dolors;
+        privbtf int stbtf;
 
         /**
-         * Creates a new StateInfo.
+         * Crfbtfs b nfw StbtfInfo.
          */
-        public StateInfo() {
+        publid StbtfInfo() {
         }
 
         /**
-         * Creates a new StateInfo with the specified properties
+         * Crfbtfs b nfw StbtfInfo witi tif spfdififd propfrtifs
          *
-         * @param state Component state(s) that this StateInfo should be used
+         * @pbrbm stbtf Componfnt stbtf(s) tibt tiis StbtfInfo siould bf usfd
          * for
-         * @param painter Painter responsible for rendering
-         * @param bgPainter Painter responsible for rendering the background
-         * @param font Font for this state
-         * @param colors Colors for this state
+         * @pbrbm pbintfr Pbintfr rfsponsiblf for rfndfring
+         * @pbrbm bgPbintfr Pbintfr rfsponsiblf for rfndfring tif bbdkground
+         * @pbrbm font Font for tiis stbtf
+         * @pbrbm dolors Colors for tiis stbtf
          */
-        public StateInfo(int state, Font font, Color[] colors) {
-            this.state = state;
-            this.font = font;
-            this.colors = colors;
+        publid StbtfInfo(int stbtf, Font font, Color[] dolors) {
+            tiis.stbtf = stbtf;
+            tiis.font = font;
+            tiis.dolors = dolors;
         }
 
         /**
-         * Creates a new StateInfo that is a copy of the passed in
-         * StateInfo.
+         * Crfbtfs b nfw StbtfInfo tibt is b dopy of tif pbssfd in
+         * StbtfInfo.
          *
-         * @param info StateInfo to copy.
+         * @pbrbm info StbtfInfo to dopy.
          */
-        public StateInfo(StateInfo info) {
-            this.state = info.state;
-            this.font = info.font;
-            if(info.data != null) {
-               if(data == null) {
-                  data = new HashMap<>();
+        publid StbtfInfo(StbtfInfo info) {
+            tiis.stbtf = info.stbtf;
+            tiis.font = info.font;
+            if(info.dbtb != null) {
+               if(dbtb == null) {
+                  dbtb = nfw HbsiMbp<>();
                }
-               data.putAll(info.data);
+               dbtb.putAll(info.dbtb);
             }
-            if (info.colors != null) {
-                this.colors = new Color[info.colors.length];
-                System.arraycopy(info.colors, 0, colors, 0,info.colors.length);
+            if (info.dolors != null) {
+                tiis.dolors = nfw Color[info.dolors.lfngti];
+                Systfm.brrbydopy(info.dolors, 0, dolors, 0,info.dolors.lfngti);
             }
         }
 
-        public Map<Object, Object> getData() {
-            return data;
+        publid Mbp<Objfdt, Objfdt> gftDbtb() {
+            rfturn dbtb;
         }
 
-        public void setData(Map<Object, Object> data) {
-            this.data = data;
-        }
-
-        /**
-         * Sets the font for this state.
-         *
-         * @param font Font to use for rendering
-         */
-        public void setFont(Font font) {
-            this.font = font;
+        publid void sftDbtb(Mbp<Objfdt, Objfdt> dbtb) {
+            tiis.dbtb = dbtb;
         }
 
         /**
-         * Returns the font for this state.
+         * Sfts tif font for tiis stbtf.
          *
-         * @return Returns the font to use for rendering this state
+         * @pbrbm font Font to usf for rfndfring
          */
-        public Font getFont() {
-            return font;
+        publid void sftFont(Font font) {
+            tiis.font = font;
         }
 
         /**
-         * Sets the array of colors to use for rendering this state. This
-         * is indexed by <code>ColorType.getID()</code>.
+         * Rfturns tif font for tiis stbtf.
          *
-         * @param colors Array of colors
+         * @rfturn Rfturns tif font to usf for rfndfring tiis stbtf
          */
-        public void setColors(Color[] colors) {
-            this.colors = colors;
+        publid Font gftFont() {
+            rfturn font;
         }
 
         /**
-         * Returns the array of colors to use for rendering this state. This
-         * is indexed by <code>ColorType.getID()</code>.
+         * Sfts tif brrby of dolors to usf for rfndfring tiis stbtf. Tiis
+         * is indfxfd by <dodf>ColorTypf.gftID()</dodf>.
          *
-         * @return Array of colors
+         * @pbrbm dolors Arrby of dolors
          */
-        public Color[] getColors() {
-            return colors;
+        publid void sftColors(Color[] dolors) {
+            tiis.dolors = dolors;
         }
 
         /**
-         * Returns the Color to used for the specified ColorType.
+         * Rfturns tif brrby of dolors to usf for rfndfring tiis stbtf. Tiis
+         * is indfxfd by <dodf>ColorTypf.gftID()</dodf>.
          *
-         * @return Color.
+         * @rfturn Arrby of dolors
          */
-        public Color getColor(ColorType type) {
-            if (colors != null) {
-                int id = type.getID();
+        publid Color[] gftColors() {
+            rfturn dolors;
+        }
 
-                if (id < colors.length) {
-                    return colors[id];
+        /**
+         * Rfturns tif Color to usfd for tif spfdififd ColorTypf.
+         *
+         * @rfturn Color.
+         */
+        publid Color gftColor(ColorTypf typf) {
+            if (dolors != null) {
+                int id = typf.gftID();
+
+                if (id < dolors.lfngti) {
+                    rfturn dolors[id];
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Merges the contents of this StateInfo with that of the passed in
-         * StateInfo, returning the resulting merged StateInfo. Properties of
-         * this <code>StateInfo</code> will take precedence over those of the
-         * passed in <code>StateInfo</code>. For example, if this
-         * StateInfo specifics a non-null font, the returned StateInfo will
-         * have its font so to that regardless of the <code>StateInfo</code>'s
+         * Mfrgfs tif dontfnts of tiis StbtfInfo witi tibt of tif pbssfd in
+         * StbtfInfo, rfturning tif rfsulting mfrgfd StbtfInfo. Propfrtifs of
+         * tiis <dodf>StbtfInfo</dodf> will tbkf prfdfdfndf ovfr tiosf of tif
+         * pbssfd in <dodf>StbtfInfo</dodf>. For fxbmplf, if tiis
+         * StbtfInfo spfdifids b non-null font, tif rfturnfd StbtfInfo will
+         * ibvf its font so to tibt rfgbrdlfss of tif <dodf>StbtfInfo</dodf>'s
          * font.
          *
-         * @param info StateInfo to add our styles to
-         * @return Merged StateInfo.
+         * @pbrbm info StbtfInfo to bdd our stylfs to
+         * @rfturn Mfrgfd StbtfInfo.
          */
-        public StateInfo addTo(StateInfo info) {
+        publid StbtfInfo bddTo(StbtfInfo info) {
             if (font != null) {
                 info.font = font;
             }
-            if(data != null) {
-                if(info.data == null) {
-                    info.data = new HashMap<>();
+            if(dbtb != null) {
+                if(info.dbtb == null) {
+                    info.dbtb = nfw HbsiMbp<>();
                 }
-                info.data.putAll(data);
+                info.dbtb.putAll(dbtb);
             }
-            if (colors != null) {
-                if (info.colors == null) {
-                    info.colors = new Color[colors.length];
-                    System.arraycopy(colors, 0, info.colors, 0,
-                                     colors.length);
+            if (dolors != null) {
+                if (info.dolors == null) {
+                    info.dolors = nfw Color[dolors.lfngti];
+                    Systfm.brrbydopy(dolors, 0, info.dolors, 0,
+                                     dolors.lfngti);
                 }
-                else {
-                    if (info.colors.length < colors.length) {
-                        Color[] old = info.colors;
+                flsf {
+                    if (info.dolors.lfngti < dolors.lfngti) {
+                        Color[] old = info.dolors;
 
-                        info.colors = new Color[colors.length];
-                        System.arraycopy(old, 0, info.colors, 0, old.length);
+                        info.dolors = nfw Color[dolors.lfngti];
+                        Systfm.brrbydopy(old, 0, info.dolors, 0, old.lfngti);
                     }
-                    for (int counter = colors.length - 1; counter >= 0;
-                             counter--) {
-                        if (colors[counter] != null) {
-                            info.colors[counter] = colors[counter];
+                    for (int dountfr = dolors.lfngti - 1; dountfr >= 0;
+                             dountfr--) {
+                        if (dolors[dountfr] != null) {
+                            info.dolors[dountfr] = dolors[dountfr];
                         }
                     }
                 }
             }
-            return info;
+            rfturn info;
         }
 
         /**
-         * Sets the state this StateInfo corresponds to.
+         * Sfts tif stbtf tiis StbtfInfo dorrfsponds to.
          *
-         * @see SynthConstants
-         * @param state info.
+         * @sff SyntiConstbnts
+         * @pbrbm stbtf info.
          */
-        public void setComponentState(int state) {
-            this.state = state;
+        publid void sftComponfntStbtf(int stbtf) {
+            tiis.stbtf = stbtf;
         }
 
         /**
-         * Returns the state this StateInfo corresponds to.
+         * Rfturns tif stbtf tiis StbtfInfo dorrfsponds to.
          *
-         * @see SynthConstants
-         * @return state info.
+         * @sff SyntiConstbnts
+         * @rfturn stbtf info.
          */
-        public int getComponentState() {
-            return state;
+        publid int gftComponfntStbtf() {
+            rfturn stbtf;
         }
 
         /**
-         * Returns the number of states that are similar between the
-         * ComponentState this StateInfo represents and val.
+         * Rfturns tif numbfr of stbtfs tibt brf similbr bftwffn tif
+         * ComponfntStbtf tiis StbtfInfo rfprfsfnts bnd vbl.
          */
-        private int getMatchCount(int val) {
-            // This comes from BigInteger.bitCnt
-            val &= state;
-            val -= (0xaaaaaaaa & val) >>> 1;
-            val = (val & 0x33333333) + ((val >>> 2) & 0x33333333);
-            val = val + (val >>> 4) & 0x0f0f0f0f;
-            val += val >>> 8;
-            val += val >>> 16;
-            return val & 0xff;
+        privbtf int gftMbtdiCount(int vbl) {
+            // Tiis domfs from BigIntfgfr.bitCnt
+            vbl &= stbtf;
+            vbl -= (0xbbbbbbbb & vbl) >>> 1;
+            vbl = (vbl & 0x33333333) + ((vbl >>> 2) & 0x33333333);
+            vbl = vbl + (vbl >>> 4) & 0x0f0f0f0f;
+            vbl += vbl >>> 8;
+            vbl += vbl >>> 16;
+            rfturn vbl & 0xff;
         }
 
         /**
-         * Creates and returns a copy of this StateInfo.
+         * Crfbtfs bnd rfturns b dopy of tiis StbtfInfo.
          *
-         * @return Copy of this StateInfo.
+         * @rfturn Copy of tiis StbtfInfo.
          */
-        public Object clone() {
-            return new StateInfo(this);
+        publid Objfdt dlonf() {
+            rfturn nfw StbtfInfo(tiis);
         }
 
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
 
-            sb.append(super.toString()).append(',');
+            sb.bppfnd(supfr.toString()).bppfnd(',');
 
-            sb.append("state=").append(Integer.toString(state)).append(',');
+            sb.bppfnd("stbtf=").bppfnd(Intfgfr.toString(stbtf)).bppfnd(',');
 
-            sb.append("font=").append(font).append(',');
+            sb.bppfnd("font=").bppfnd(font).bppfnd(',');
 
-            if (colors != null) {
-                sb.append("colors=").append(Arrays.asList(colors)).
-                    append(',');
+            if (dolors != null) {
+                sb.bppfnd("dolors=").bppfnd(Arrbys.bsList(dolors)).
+                    bppfnd(',');
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
     }
 }

@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.io.*;
-import javax.swing.Action;
-import javax.swing.JEditorPane;
+import jbvb.io.*;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.JEditorPbnf;
 
 /**
- * Establishes the set of things needed by a text component
- * to be a reasonably functioning editor for some <em>type</em>
- * of text content.  The EditorKit acts as a factory for some
- * kind of policy.  For example, an implementation
- * of html and rtf can be provided that is replaceable
- * with other implementations.
+ * Estbblisifs tif sft of tiings nffdfd by b tfxt domponfnt
+ * to bf b rfbsonbbly fundtioning fditor for somf <fm>typf</fm>
+ * of tfxt dontfnt.  Tif EditorKit bdts bs b fbdtory for somf
+ * kind of polidy.  For fxbmplf, bn implfmfntbtion
+ * of itml bnd rtf dbn bf providfd tibt is rfplbdfbblf
+ * witi otifr implfmfntbtions.
  * <p>
- * A kit can safely store editing state as an instance
- * of the kit will be dedicated to a text component.
- * New kits will normally be created by cloning a
- * prototype kit.  The kit will have its
- * <code>setComponent</code> method called to establish
- * its relationship with a JTextComponent.
+ * A kit dbn sbffly storf fditing stbtf bs bn instbndf
+ * of tif kit will bf dfdidbtfd to b tfxt domponfnt.
+ * Nfw kits will normblly bf drfbtfd by dloning b
+ * prototypf kit.  Tif kit will ibvf its
+ * <dodf>sftComponfnt</dodf> mftiod dbllfd to fstbblisi
+ * its rflbtionsiip witi b JTfxtComponfnt.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class EditorKit implements Cloneable, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss EditorKit implfmfnts Clonfbblf, Sfriblizbblf {
 
     /**
-     * Construct an EditorKit.
+     * Construdt bn EditorKit.
      */
-    public EditorKit() {
+    publid EditorKit() {
     }
 
     /**
-     * Creates a copy of the editor kit.  This is implemented
-     * to use <code>Object.clone()</code>.  If the kit cannot be cloned,
-     * null is returned.
+     * Crfbtfs b dopy of tif fditor kit.  Tiis is implfmfntfd
+     * to usf <dodf>Objfdt.dlonf()</dodf>.  If tif kit dbnnot bf dlonfd,
+     * null is rfturnfd.
      *
-     * @return the copy
+     * @rfturn tif dopy
      */
-    public Object clone() {
-        Object o;
+    publid Objfdt dlonf() {
+        Objfdt o;
         try {
-            o = super.clone();
-        } catch (CloneNotSupportedException cnse) {
+            o = supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption dnsf) {
             o = null;
         }
-        return o;
+        rfturn o;
     }
 
     /**
-     * Called when the kit is being installed into the
-     * a JEditorPane.
+     * Cbllfd wifn tif kit is bfing instbllfd into tif
+     * b JEditorPbnf.
      *
-     * @param c the JEditorPane
+     * @pbrbm d tif JEditorPbnf
      */
-    public void install(JEditorPane c) {
+    publid void instbll(JEditorPbnf d) {
     }
 
     /**
-     * Called when the kit is being removed from the
-     * JEditorPane.  This is used to unregister any
-     * listeners that were attached.
+     * Cbllfd wifn tif kit is bfing rfmovfd from tif
+     * JEditorPbnf.  Tiis is usfd to unrfgistfr bny
+     * listfnfrs tibt wfrf bttbdifd.
      *
-     * @param c the JEditorPane
+     * @pbrbm d tif JEditorPbnf
      */
-    public void deinstall(JEditorPane c) {
+    publid void dfinstbll(JEditorPbnf d) {
     }
 
     /**
-     * Gets the MIME type of the data that this
-     * kit represents support for.
+     * Gfts tif MIME typf of tif dbtb tibt tiis
+     * kit rfprfsfnts support for.
      *
-     * @return the type
+     * @rfturn tif typf
      */
-    public abstract String getContentType();
+    publid bbstrbdt String gftContfntTypf();
 
     /**
-     * Fetches a factory that is suitable for producing
-     * views of any models that are produced by this
+     * Fftdifs b fbdtory tibt is suitbblf for produding
+     * vifws of bny modfls tibt brf produdfd by tiis
      * kit.
      *
-     * @return the factory
+     * @rfturn tif fbdtory
      */
-    public abstract ViewFactory getViewFactory();
+    publid bbstrbdt VifwFbdtory gftVifwFbdtory();
 
     /**
-     * Fetches the set of commands that can be used
-     * on a text component that is using a model and
-     * view produced by this kit.
+     * Fftdifs tif sft of dommbnds tibt dbn bf usfd
+     * on b tfxt domponfnt tibt is using b modfl bnd
+     * vifw produdfd by tiis kit.
      *
-     * @return the set of actions
+     * @rfturn tif sft of bdtions
      */
-    public abstract Action[] getActions();
+    publid bbstrbdt Adtion[] gftAdtions();
 
     /**
-     * Fetches a caret that can navigate through views
-     * produced by the associated ViewFactory.
+     * Fftdifs b dbrft tibt dbn nbvigbtf tirougi vifws
+     * produdfd by tif bssodibtfd VifwFbdtory.
      *
-     * @return the caret
+     * @rfturn tif dbrft
      */
-    public abstract Caret createCaret();
+    publid bbstrbdt Cbrft drfbtfCbrft();
 
     /**
-     * Creates an uninitialized text storage model
-     * that is appropriate for this type of editor.
+     * Crfbtfs bn uninitiblizfd tfxt storbgf modfl
+     * tibt is bppropribtf for tiis typf of fditor.
      *
-     * @return the model
+     * @rfturn tif modfl
      */
-    public abstract Document createDefaultDocument();
+    publid bbstrbdt Dodumfnt drfbtfDffbultDodumfnt();
 
     /**
-     * Inserts content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Insfrts dontfnt from tif givfn strfbm wiidi is fxpfdtfd
+     * to bf in b formbt bppropribtf for tiis kind of dontfnt
+     * ibndlfr.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
-     *   content &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm in  Tif strfbm to rfbd from
+     * @pbrbm dod Tif dfstinbtion for tif insfrtion.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to plbdf tif
+     *   dontfnt &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public abstract void read(InputStream in, Document doc, int pos)
-        throws IOException, BadLocationException;
+    publid bbstrbdt void rfbd(InputStrfbm in, Dodumfnt dod, int pos)
+        tirows IOExdfption, BbdLodbtionExdfption;
 
     /**
-     * Writes content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Writfs dontfnt from b dodumfnt to tif givfn strfbm
+     * in b formbt bppropribtf for tiis kind of dontfnt ibndlfr.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
-     *   content from &gt;= 0.
-     * @param len The amount to write out &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm out  Tif strfbm to writf to
+     * @pbrbm dod Tif sourdf for tif writf.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt from &gt;= 0.
+     * @pbrbm lfn Tif bmount to writf out &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public abstract void write(OutputStream out, Document doc, int pos, int len)
-        throws IOException, BadLocationException;
+    publid bbstrbdt void writf(OutputStrfbm out, Dodumfnt dod, int pos, int lfn)
+        tirows IOExdfption, BbdLodbtionExdfption;
 
     /**
-     * Inserts content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Insfrts dontfnt from tif givfn strfbm wiidi is fxpfdtfd
+     * to bf in b formbt bppropribtf for tiis kind of dontfnt
+     * ibndlfr.
      * <p>
-     * Since actual text editing is unicode based, this would
-     * generally be the preferred way to read in the data.
-     * Some types of content are stored in an 8-bit form however,
-     * and will favor the InputStream.
+     * Sindf bdtubl tfxt fditing is unidodf bbsfd, tiis would
+     * gfnfrblly bf tif prfffrrfd wby to rfbd in tif dbtb.
+     * Somf typfs of dontfnt brf storfd in bn 8-bit form iowfvfr,
+     * bnd will fbvor tif InputStrfbm.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
-     *   content &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm in  Tif strfbm to rfbd from
+     * @pbrbm dod Tif dfstinbtion for tif insfrtion.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to plbdf tif
+     *   dontfnt &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public abstract void read(Reader in, Document doc, int pos)
-        throws IOException, BadLocationException;
+    publid bbstrbdt void rfbd(Rfbdfr in, Dodumfnt dod, int pos)
+        tirows IOExdfption, BbdLodbtionExdfption;
 
     /**
-     * Writes content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Writfs dontfnt from b dodumfnt to tif givfn strfbm
+     * in b formbt bppropribtf for tiis kind of dontfnt ibndlfr.
      * <p>
-     * Since actual text editing is unicode based, this would
-     * generally be the preferred way to write the data.
-     * Some types of content are stored in an 8-bit form however,
-     * and will favor the OutputStream.
+     * Sindf bdtubl tfxt fditing is unidodf bbsfd, tiis would
+     * gfnfrblly bf tif prfffrrfd wby to writf tif dbtb.
+     * Somf typfs of dontfnt brf storfd in bn 8-bit form iowfvfr,
+     * bnd will fbvor tif OutputStrfbm.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
-     *   content &gt;= 0.
-     * @param len The amount to write out &gt;= 0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm out  Tif strfbm to writf to
+     * @pbrbm dod Tif sourdf for tif writf.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt &gt;= 0.
+     * @pbrbm lfn Tif bmount to writf out &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public abstract void write(Writer out, Document doc, int pos, int len)
-        throws IOException, BadLocationException;
+    publid bbstrbdt void writf(Writfr out, Dodumfnt dod, int pos, int lfn)
+        tirows IOExdfption, BbdLodbtionExdfption;
 
 }

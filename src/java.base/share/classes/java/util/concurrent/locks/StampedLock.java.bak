@@ -1,1414 +1,1414 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.LockSupport;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
 
 /**
- * A capability-based lock with three modes for controlling read/write
- * access.  The state of a StampedLock consists of a version and mode.
- * Lock acquisition methods return a stamp that represents and
- * controls access with respect to a lock state; "try" versions of
- * these methods may instead return the special value zero to
- * represent failure to acquire access. Lock release and conversion
- * methods require stamps as arguments, and fail if they do not match
- * the state of the lock. The three modes are:
+ * A dbpbbility-bbsfd lodk witi tirff modfs for dontrolling rfbd/writf
+ * bddfss.  Tif stbtf of b StbmpfdLodk donsists of b vfrsion bnd modf.
+ * Lodk bdquisition mftiods rfturn b stbmp tibt rfprfsfnts bnd
+ * dontrols bddfss witi rfspfdt to b lodk stbtf; "try" vfrsions of
+ * tifsf mftiods mby instfbd rfturn tif spfdibl vbluf zfro to
+ * rfprfsfnt fbilurf to bdquirf bddfss. Lodk rflfbsf bnd donvfrsion
+ * mftiods rfquirf stbmps bs brgumfnts, bnd fbil if tify do not mbtdi
+ * tif stbtf of tif lodk. Tif tirff modfs brf:
  *
  * <ul>
  *
- *  <li><b>Writing.</b> Method {@link #writeLock} possibly blocks
- *   waiting for exclusive access, returning a stamp that can be used
- *   in method {@link #unlockWrite} to release the lock. Untimed and
- *   timed versions of {@code tryWriteLock} are also provided. When
- *   the lock is held in write mode, no read locks may be obtained,
- *   and all optimistic read validations will fail.  </li>
+ *  <li><b>Writing.</b> Mftiod {@link #writfLodk} possibly blodks
+ *   wbiting for fxdlusivf bddfss, rfturning b stbmp tibt dbn bf usfd
+ *   in mftiod {@link #unlodkWritf} to rflfbsf tif lodk. Untimfd bnd
+ *   timfd vfrsions of {@dodf tryWritfLodk} brf blso providfd. Wifn
+ *   tif lodk is ifld in writf modf, no rfbd lodks mby bf obtbinfd,
+ *   bnd bll optimistid rfbd vblidbtions will fbil.  </li>
  *
- *  <li><b>Reading.</b> Method {@link #readLock} possibly blocks
- *   waiting for non-exclusive access, returning a stamp that can be
- *   used in method {@link #unlockRead} to release the lock. Untimed
- *   and timed versions of {@code tryReadLock} are also provided. </li>
+ *  <li><b>Rfbding.</b> Mftiod {@link #rfbdLodk} possibly blodks
+ *   wbiting for non-fxdlusivf bddfss, rfturning b stbmp tibt dbn bf
+ *   usfd in mftiod {@link #unlodkRfbd} to rflfbsf tif lodk. Untimfd
+ *   bnd timfd vfrsions of {@dodf tryRfbdLodk} brf blso providfd. </li>
  *
- *  <li><b>Optimistic Reading.</b> Method {@link #tryOptimisticRead}
- *   returns a non-zero stamp only if the lock is not currently held
- *   in write mode. Method {@link #validate} returns true if the lock
- *   has not been acquired in write mode since obtaining a given
- *   stamp.  This mode can be thought of as an extremely weak version
- *   of a read-lock, that can be broken by a writer at any time.  The
- *   use of optimistic mode for short read-only code segments often
- *   reduces contention and improves throughput.  However, its use is
- *   inherently fragile.  Optimistic read sections should only read
- *   fields and hold them in local variables for later use after
- *   validation. Fields read while in optimistic mode may be wildly
- *   inconsistent, so usage applies only when you are familiar enough
- *   with data representations to check consistency and/or repeatedly
- *   invoke method {@code validate()}.  For example, such steps are
- *   typically required when first reading an object or array
- *   reference, and then accessing one of its fields, elements or
- *   methods. </li>
+ *  <li><b>Optimistid Rfbding.</b> Mftiod {@link #tryOptimistidRfbd}
+ *   rfturns b non-zfro stbmp only if tif lodk is not durrfntly ifld
+ *   in writf modf. Mftiod {@link #vblidbtf} rfturns truf if tif lodk
+ *   ibs not bffn bdquirfd in writf modf sindf obtbining b givfn
+ *   stbmp.  Tiis modf dbn bf tiougit of bs bn fxtrfmfly wfbk vfrsion
+ *   of b rfbd-lodk, tibt dbn bf brokfn by b writfr bt bny timf.  Tif
+ *   usf of optimistid modf for siort rfbd-only dodf sfgmfnts oftfn
+ *   rfdudfs dontfntion bnd improvfs tirougiput.  Howfvfr, its usf is
+ *   inifrfntly frbgilf.  Optimistid rfbd sfdtions siould only rfbd
+ *   fiflds bnd iold tifm in lodbl vbribblfs for lbtfr usf bftfr
+ *   vblidbtion. Fiflds rfbd wiilf in optimistid modf mby bf wildly
+ *   indonsistfnt, so usbgf bpplifs only wifn you brf fbmilibr fnougi
+ *   witi dbtb rfprfsfntbtions to difdk donsistfndy bnd/or rfpfbtfdly
+ *   invokf mftiod {@dodf vblidbtf()}.  For fxbmplf, sudi stfps brf
+ *   typidblly rfquirfd wifn first rfbding bn objfdt or brrby
+ *   rfffrfndf, bnd tifn bddfssing onf of its fiflds, flfmfnts or
+ *   mftiods. </li>
  *
  * </ul>
  *
- * <p>This class also supports methods that conditionally provide
- * conversions across the three modes. For example, method {@link
- * #tryConvertToWriteLock} attempts to "upgrade" a mode, returning
- * a valid write stamp if (1) already in writing mode (2) in reading
- * mode and there are no other readers or (3) in optimistic mode and
- * the lock is available. The forms of these methods are designed to
- * help reduce some of the code bloat that otherwise occurs in
- * retry-based designs.
+ * <p>Tiis dlbss blso supports mftiods tibt donditionblly providf
+ * donvfrsions bdross tif tirff modfs. For fxbmplf, mftiod {@link
+ * #tryConvfrtToWritfLodk} bttfmpts to "upgrbdf" b modf, rfturning
+ * b vblid writf stbmp if (1) blrfbdy in writing modf (2) in rfbding
+ * modf bnd tifrf brf no otifr rfbdfrs or (3) in optimistid modf bnd
+ * tif lodk is bvbilbblf. Tif forms of tifsf mftiods brf dfsignfd to
+ * iflp rfdudf somf of tif dodf blobt tibt otifrwisf oddurs in
+ * rftry-bbsfd dfsigns.
  *
- * <p>StampedLocks are designed for use as internal utilities in the
- * development of thread-safe components. Their use relies on
- * knowledge of the internal properties of the data, objects, and
- * methods they are protecting.  They are not reentrant, so locked
- * bodies should not call other unknown methods that may try to
- * re-acquire locks (although you may pass a stamp to other methods
- * that can use or convert it).  The use of read lock modes relies on
- * the associated code sections being side-effect-free.  Unvalidated
- * optimistic read sections cannot call methods that are not known to
- * tolerate potential inconsistencies.  Stamps use finite
- * representations, and are not cryptographically secure (i.e., a
- * valid stamp may be guessable). Stamp values may recycle after (no
- * sooner than) one year of continuous operation. A stamp held without
- * use or validation for longer than this period may fail to validate
- * correctly.  StampedLocks are serializable, but always deserialize
- * into initial unlocked state, so they are not useful for remote
- * locking.
+ * <p>StbmpfdLodks brf dfsignfd for usf bs intfrnbl utilitifs in tif
+ * dfvflopmfnt of tirfbd-sbff domponfnts. Tifir usf rflifs on
+ * knowlfdgf of tif intfrnbl propfrtifs of tif dbtb, objfdts, bnd
+ * mftiods tify brf protfdting.  Tify brf not rffntrbnt, so lodkfd
+ * bodifs siould not dbll otifr unknown mftiods tibt mby try to
+ * rf-bdquirf lodks (bltiougi you mby pbss b stbmp to otifr mftiods
+ * tibt dbn usf or donvfrt it).  Tif usf of rfbd lodk modfs rflifs on
+ * tif bssodibtfd dodf sfdtions bfing sidf-ffffdt-frff.  Unvblidbtfd
+ * optimistid rfbd sfdtions dbnnot dbll mftiods tibt brf not known to
+ * tolfrbtf potfntibl indonsistfndifs.  Stbmps usf finitf
+ * rfprfsfntbtions, bnd brf not dryptogrbpiidblly sfdurf (i.f., b
+ * vblid stbmp mby bf gufssbblf). Stbmp vblufs mby rfdydlf bftfr (no
+ * soonfr tibn) onf yfbr of dontinuous opfrbtion. A stbmp ifld witiout
+ * usf or vblidbtion for longfr tibn tiis pfriod mby fbil to vblidbtf
+ * dorrfdtly.  StbmpfdLodks brf sfriblizbblf, but blwbys dfsfriblizf
+ * into initibl unlodkfd stbtf, so tify brf not usfful for rfmotf
+ * lodking.
  *
- * <p>The scheduling policy of StampedLock does not consistently
- * prefer readers over writers or vice versa.  All "try" methods are
- * best-effort and do not necessarily conform to any scheduling or
- * fairness policy. A zero return from any "try" method for acquiring
- * or converting locks does not carry any information about the state
- * of the lock; a subsequent invocation may succeed.
+ * <p>Tif sdifduling polidy of StbmpfdLodk dofs not donsistfntly
+ * prfffr rfbdfrs ovfr writfrs or vidf vfrsb.  All "try" mftiods brf
+ * bfst-fffort bnd do not nfdfssbrily donform to bny sdifduling or
+ * fbirnfss polidy. A zfro rfturn from bny "try" mftiod for bdquiring
+ * or donvfrting lodks dofs not dbrry bny informbtion bbout tif stbtf
+ * of tif lodk; b subsfqufnt invodbtion mby suddffd.
  *
- * <p>Because it supports coordinated usage across multiple lock
- * modes, this class does not directly implement the {@link Lock} or
- * {@link ReadWriteLock} interfaces. However, a StampedLock may be
- * viewed {@link #asReadLock()}, {@link #asWriteLock()}, or {@link
- * #asReadWriteLock()} in applications requiring only the associated
- * set of functionality.
+ * <p>Bfdbusf it supports doordinbtfd usbgf bdross multiplf lodk
+ * modfs, tiis dlbss dofs not dirfdtly implfmfnt tif {@link Lodk} or
+ * {@link RfbdWritfLodk} intfrfbdfs. Howfvfr, b StbmpfdLodk mby bf
+ * vifwfd {@link #bsRfbdLodk()}, {@link #bsWritfLodk()}, or {@link
+ * #bsRfbdWritfLodk()} in bpplidbtions rfquiring only tif bssodibtfd
+ * sft of fundtionblity.
  *
- * <p><b>Sample Usage.</b> The following illustrates some usage idioms
- * in a class that maintains simple two-dimensional points. The sample
- * code illustrates some try/catch conventions even though they are
- * not strictly needed here because no exceptions can occur in their
- * bodies.<br>
+ * <p><b>Sbmplf Usbgf.</b> Tif following illustrbtfs somf usbgf idioms
+ * in b dlbss tibt mbintbins simplf two-dimfnsionbl points. Tif sbmplf
+ * dodf illustrbtfs somf try/dbtdi donvfntions fvfn tiougi tify brf
+ * not stridtly nffdfd ifrf bfdbusf no fxdfptions dbn oddur in tifir
+ * bodifs.<br>
  *
- *  <pre>{@code
- * class Point {
- *   private double x, y;
- *   private final StampedLock sl = new StampedLock();
+ *  <prf>{@dodf
+ * dlbss Point {
+ *   privbtf doublf x, y;
+ *   privbtf finbl StbmpfdLodk sl = nfw StbmpfdLodk();
  *
- *   void move(double deltaX, double deltaY) { // an exclusively locked method
- *     long stamp = sl.writeLock();
+ *   void movf(doublf dfltbX, doublf dfltbY) { // bn fxdlusivfly lodkfd mftiod
+ *     long stbmp = sl.writfLodk();
  *     try {
- *       x += deltaX;
- *       y += deltaY;
- *     } finally {
- *       sl.unlockWrite(stamp);
+ *       x += dfltbX;
+ *       y += dfltbY;
+ *     } finblly {
+ *       sl.unlodkWritf(stbmp);
  *     }
  *   }
  *
- *   double distanceFromOrigin() { // A read-only method
- *     long stamp = sl.tryOptimisticRead();
- *     double currentX = x, currentY = y;
- *     if (!sl.validate(stamp)) {
- *        stamp = sl.readLock();
+ *   doublf distbndfFromOrigin() { // A rfbd-only mftiod
+ *     long stbmp = sl.tryOptimistidRfbd();
+ *     doublf durrfntX = x, durrfntY = y;
+ *     if (!sl.vblidbtf(stbmp)) {
+ *        stbmp = sl.rfbdLodk();
  *        try {
- *          currentX = x;
- *          currentY = y;
- *        } finally {
- *           sl.unlockRead(stamp);
+ *          durrfntX = x;
+ *          durrfntY = y;
+ *        } finblly {
+ *           sl.unlodkRfbd(stbmp);
  *        }
  *     }
- *     return Math.sqrt(currentX * currentX + currentY * currentY);
+ *     rfturn Mbti.sqrt(durrfntX * durrfntX + durrfntY * durrfntY);
  *   }
  *
- *   void moveIfAtOrigin(double newX, double newY) { // upgrade
- *     // Could instead start with optimistic, not read mode
- *     long stamp = sl.readLock();
+ *   void movfIfAtOrigin(doublf nfwX, doublf nfwY) { // upgrbdf
+ *     // Could instfbd stbrt witi optimistid, not rfbd modf
+ *     long stbmp = sl.rfbdLodk();
  *     try {
- *       while (x == 0.0 && y == 0.0) {
- *         long ws = sl.tryConvertToWriteLock(stamp);
+ *       wiilf (x == 0.0 && y == 0.0) {
+ *         long ws = sl.tryConvfrtToWritfLodk(stbmp);
  *         if (ws != 0L) {
- *           stamp = ws;
- *           x = newX;
- *           y = newY;
- *           break;
+ *           stbmp = ws;
+ *           x = nfwX;
+ *           y = nfwY;
+ *           brfbk;
  *         }
- *         else {
- *           sl.unlockRead(stamp);
- *           stamp = sl.writeLock();
+ *         flsf {
+ *           sl.unlodkRfbd(stbmp);
+ *           stbmp = sl.writfLodk();
  *         }
  *       }
- *     } finally {
- *       sl.unlock(stamp);
+ *     } finblly {
+ *       sl.unlodk(stbmp);
  *     }
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * @since 1.8
- * @author Doug Lea
+ * @sindf 1.8
+ * @butior Doug Lfb
  */
-public class StampedLock implements java.io.Serializable {
+publid dlbss StbmpfdLodk implfmfnts jbvb.io.Sfriblizbblf {
     /*
-     * Algorithmic notes:
+     * Algoritimid notfs:
      *
-     * The design employs elements of Sequence locks
-     * (as used in linux kernels; see Lameter's
-     * http://www.lameter.com/gelato2005.pdf
-     * and elsewhere; see
-     * Boehm's http://www.hpl.hp.com/techreports/2012/HPL-2012-68.html)
-     * and Ordered RW locks (see Shirako et al
-     * http://dl.acm.org/citation.cfm?id=2312015)
+     * Tif dfsign fmploys flfmfnts of Sfqufndf lodks
+     * (bs usfd in linux kfrnfls; sff Lbmftfr's
+     * ittp://www.lbmftfr.dom/gflbto2005.pdf
+     * bnd flsfwifrf; sff
+     * Bofim's ittp://www.ipl.ip.dom/tfdirfports/2012/HPL-2012-68.itml)
+     * bnd Ordfrfd RW lodks (sff Siirbko ft bl
+     * ittp://dl.bdm.org/ditbtion.dfm?id=2312015)
      *
-     * Conceptually, the primary state of the lock includes a sequence
-     * number that is odd when write-locked and even otherwise.
-     * However, this is offset by a reader count that is non-zero when
-     * read-locked.  The read count is ignored when validating
-     * "optimistic" seqlock-reader-style stamps.  Because we must use
-     * a small finite number of bits (currently 7) for readers, a
-     * supplementary reader overflow word is used when the number of
-     * readers exceeds the count field. We do this by treating the max
-     * reader count value (RBITS) as a spinlock protecting overflow
-     * updates.
+     * Condfptublly, tif primbry stbtf of tif lodk indludfs b sfqufndf
+     * numbfr tibt is odd wifn writf-lodkfd bnd fvfn otifrwisf.
+     * Howfvfr, tiis is offsft by b rfbdfr dount tibt is non-zfro wifn
+     * rfbd-lodkfd.  Tif rfbd dount is ignorfd wifn vblidbting
+     * "optimistid" sfqlodk-rfbdfr-stylf stbmps.  Bfdbusf wf must usf
+     * b smbll finitf numbfr of bits (durrfntly 7) for rfbdfrs, b
+     * supplfmfntbry rfbdfr ovfrflow word is usfd wifn tif numbfr of
+     * rfbdfrs fxdffds tif dount fifld. Wf do tiis by trfbting tif mbx
+     * rfbdfr dount vbluf (RBITS) bs b spinlodk protfdting ovfrflow
+     * updbtfs.
      *
-     * Waiters use a modified form of CLH lock used in
-     * AbstractQueuedSynchronizer (see its internal documentation for
-     * a fuller account), where each node is tagged (field mode) as
-     * either a reader or writer. Sets of waiting readers are grouped
-     * (linked) under a common node (field cowait) so act as a single
-     * node with respect to most CLH mechanics.  By virtue of the
-     * queue structure, wait nodes need not actually carry sequence
-     * numbers; we know each is greater than its predecessor.  This
-     * simplifies the scheduling policy to a mainly-FIFO scheme that
-     * incorporates elements of Phase-Fair locks (see Brandenburg &
-     * Anderson, especially http://www.cs.unc.edu/~bbb/diss/).  In
-     * particular, we use the phase-fair anti-barging rule: If an
-     * incoming reader arrives while read lock is held but there is a
-     * queued writer, this incoming reader is queued.  (This rule is
-     * responsible for some of the complexity of method acquireRead,
-     * but without it, the lock becomes highly unfair.) Method release
-     * does not (and sometimes cannot) itself wake up cowaiters. This
-     * is done by the primary thread, but helped by any other threads
-     * with nothing better to do in methods acquireRead and
-     * acquireWrite.
+     * Wbitfrs usf b modififd form of CLH lodk usfd in
+     * AbstrbdtQufufdSyndironizfr (sff its intfrnbl dodumfntbtion for
+     * b fullfr bddount), wifrf fbdi nodf is tbggfd (fifld modf) bs
+     * fitifr b rfbdfr or writfr. Sfts of wbiting rfbdfrs brf groupfd
+     * (linkfd) undfr b dommon nodf (fifld dowbit) so bdt bs b singlf
+     * nodf witi rfspfdt to most CLH mfdibnids.  By virtuf of tif
+     * qufuf strudturf, wbit nodfs nffd not bdtublly dbrry sfqufndf
+     * numbfrs; wf know fbdi is grfbtfr tibn its prfdfdfssor.  Tiis
+     * simplififs tif sdifduling polidy to b mbinly-FIFO sdifmf tibt
+     * indorporbtfs flfmfnts of Pibsf-Fbir lodks (sff Brbndfnburg &
+     * Andfrson, fspfdiblly ittp://www.ds.und.fdu/~bbb/diss/).  In
+     * pbrtidulbr, wf usf tif pibsf-fbir bnti-bbrging rulf: If bn
+     * indoming rfbdfr brrivfs wiilf rfbd lodk is ifld but tifrf is b
+     * qufufd writfr, tiis indoming rfbdfr is qufufd.  (Tiis rulf is
+     * rfsponsiblf for somf of tif domplfxity of mftiod bdquirfRfbd,
+     * but witiout it, tif lodk bfdomfs iigily unfbir.) Mftiod rflfbsf
+     * dofs not (bnd somftimfs dbnnot) itsflf wbkf up dowbitfrs. Tiis
+     * is donf by tif primbry tirfbd, but iflpfd by bny otifr tirfbds
+     * witi notiing bfttfr to do in mftiods bdquirfRfbd bnd
+     * bdquirfWritf.
      *
-     * These rules apply to threads actually queued. All tryLock forms
-     * opportunistically try to acquire locks regardless of preference
-     * rules, and so may "barge" their way in.  Randomized spinning is
-     * used in the acquire methods to reduce (increasingly expensive)
-     * context switching while also avoiding sustained memory
-     * thrashing among many threads.  We limit spins to the head of
-     * queue. A thread spin-waits up to SPINS times (where each
-     * iteration decreases spin count with 50% probability) before
-     * blocking. If, upon wakening it fails to obtain lock, and is
-     * still (or becomes) the first waiting thread (which indicates
-     * that some other thread barged and obtained lock), it escalates
-     * spins (up to MAX_HEAD_SPINS) to reduce the likelihood of
-     * continually losing to barging threads.
+     * Tifsf rulfs bpply to tirfbds bdtublly qufufd. All tryLodk forms
+     * opportunistidblly try to bdquirf lodks rfgbrdlfss of prfffrfndf
+     * rulfs, bnd so mby "bbrgf" tifir wby in.  Rbndomizfd spinning is
+     * usfd in tif bdquirf mftiods to rfdudf (indrfbsingly fxpfnsivf)
+     * dontfxt switdiing wiilf blso bvoiding sustbinfd mfmory
+     * tirbsiing bmong mbny tirfbds.  Wf limit spins to tif ifbd of
+     * qufuf. A tirfbd spin-wbits up to SPINS timfs (wifrf fbdi
+     * itfrbtion dfdrfbsfs spin dount witi 50% probbbility) bfforf
+     * blodking. If, upon wbkfning it fbils to obtbin lodk, bnd is
+     * still (or bfdomfs) tif first wbiting tirfbd (wiidi indidbtfs
+     * tibt somf otifr tirfbd bbrgfd bnd obtbinfd lodk), it fsdblbtfs
+     * spins (up to MAX_HEAD_SPINS) to rfdudf tif likfliiood of
+     * dontinublly losing to bbrging tirfbds.
      *
-     * Nearly all of these mechanics are carried out in methods
-     * acquireWrite and acquireRead, that, as typical of such code,
-     * sprawl out because actions and retries rely on consistent sets
-     * of locally cached reads.
+     * Nfbrly bll of tifsf mfdibnids brf dbrrifd out in mftiods
+     * bdquirfWritf bnd bdquirfRfbd, tibt, bs typidbl of sudi dodf,
+     * sprbwl out bfdbusf bdtions bnd rftrifs rfly on donsistfnt sfts
+     * of lodblly dbdifd rfbds.
      *
-     * As noted in Boehm's paper (above), sequence validation (mainly
-     * method validate()) requires stricter ordering rules than apply
-     * to normal volatile reads (of "state").  To force orderings of
-     * reads before a validation and the validation itself in those
-     * cases where this is not already forced, we use
-     * Unsafe.loadFence.
+     * As notfd in Bofim's pbpfr (bbovf), sfqufndf vblidbtion (mbinly
+     * mftiod vblidbtf()) rfquirfs stridtfr ordfring rulfs tibn bpply
+     * to normbl volbtilf rfbds (of "stbtf").  To fordf ordfrings of
+     * rfbds bfforf b vblidbtion bnd tif vblidbtion itsflf in tiosf
+     * dbsfs wifrf tiis is not blrfbdy fordfd, wf usf
+     * Unsbff.lobdFfndf.
      *
-     * The memory layout keeps lock state and queue pointers together
-     * (normally on the same cache line). This usually works well for
-     * read-mostly loads. In most other cases, the natural tendency of
-     * adaptive-spin CLH locks to reduce memory contention lessens
-     * motivation to further spread out contended locations, but might
-     * be subject to future improvements.
+     * Tif mfmory lbyout kffps lodk stbtf bnd qufuf pointfrs togftifr
+     * (normblly on tif sbmf dbdif linf). Tiis usublly works wfll for
+     * rfbd-mostly lobds. In most otifr dbsfs, tif nbturbl tfndfndy of
+     * bdbptivf-spin CLH lodks to rfdudf mfmory dontfntion lfssfns
+     * motivbtion to furtifr sprfbd out dontfndfd lodbtions, but migit
+     * bf subjfdt to futurf improvfmfnts.
      */
 
-    private static final long serialVersionUID = -6001602636862214147L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6001602636862214147L;
 
-    /** Number of processors, for spin control */
-    private static final int NCPU = Runtime.getRuntime().availableProcessors();
+    /** Numbfr of prodfssors, for spin dontrol */
+    privbtf stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
 
-    /** Maximum number of retries before enqueuing on acquisition */
-    private static final int SPINS = (NCPU > 1) ? 1 << 6 : 0;
+    /** Mbximum numbfr of rftrifs bfforf fnqufuing on bdquisition */
+    privbtf stbtid finbl int SPINS = (NCPU > 1) ? 1 << 6 : 0;
 
-    /** Maximum number of retries before blocking at head on acquisition */
-    private static final int HEAD_SPINS = (NCPU > 1) ? 1 << 10 : 0;
+    /** Mbximum numbfr of rftrifs bfforf blodking bt ifbd on bdquisition */
+    privbtf stbtid finbl int HEAD_SPINS = (NCPU > 1) ? 1 << 10 : 0;
 
-    /** Maximum number of retries before re-blocking */
-    private static final int MAX_HEAD_SPINS = (NCPU > 1) ? 1 << 16 : 0;
+    /** Mbximum numbfr of rftrifs bfforf rf-blodking */
+    privbtf stbtid finbl int MAX_HEAD_SPINS = (NCPU > 1) ? 1 << 16 : 0;
 
-    /** The period for yielding when waiting for overflow spinlock */
-    private static final int OVERFLOW_YIELD_RATE = 7; // must be power 2 - 1
+    /** Tif pfriod for yiflding wifn wbiting for ovfrflow spinlodk */
+    privbtf stbtid finbl int OVERFLOW_YIELD_RATE = 7; // must bf powfr 2 - 1
 
-    /** The number of bits to use for reader count before overflowing */
-    private static final int LG_READERS = 7;
+    /** Tif numbfr of bits to usf for rfbdfr dount bfforf ovfrflowing */
+    privbtf stbtid finbl int LG_READERS = 7;
 
-    // Values for lock state and stamp operations
-    private static final long RUNIT = 1L;
-    private static final long WBIT  = 1L << LG_READERS;
-    private static final long RBITS = WBIT - 1L;
-    private static final long RFULL = RBITS - 1L;
-    private static final long ABITS = RBITS | WBIT;
-    private static final long SBITS = ~RBITS; // note overlap with ABITS
+    // Vblufs for lodk stbtf bnd stbmp opfrbtions
+    privbtf stbtid finbl long RUNIT = 1L;
+    privbtf stbtid finbl long WBIT  = 1L << LG_READERS;
+    privbtf stbtid finbl long RBITS = WBIT - 1L;
+    privbtf stbtid finbl long RFULL = RBITS - 1L;
+    privbtf stbtid finbl long ABITS = RBITS | WBIT;
+    privbtf stbtid finbl long SBITS = ~RBITS; // notf ovfrlbp witi ABITS
 
-    // Initial value for lock state; avoid failure value zero
-    private static final long ORIGIN = WBIT << 1;
+    // Initibl vbluf for lodk stbtf; bvoid fbilurf vbluf zfro
+    privbtf stbtid finbl long ORIGIN = WBIT << 1;
 
-    // Special value from cancelled acquire methods so caller can throw IE
-    private static final long INTERRUPTED = 1L;
+    // Spfdibl vbluf from dbndfllfd bdquirf mftiods so dbllfr dbn tirow IE
+    privbtf stbtid finbl long INTERRUPTED = 1L;
 
-    // Values for node status; order matters
-    private static final int WAITING   = -1;
-    private static final int CANCELLED =  1;
+    // Vblufs for nodf stbtus; ordfr mbttfrs
+    privbtf stbtid finbl int WAITING   = -1;
+    privbtf stbtid finbl int CANCELLED =  1;
 
-    // Modes for nodes (int not boolean to allow arithmetic)
-    private static final int RMODE = 0;
-    private static final int WMODE = 1;
+    // Modfs for nodfs (int not boolfbn to bllow britimftid)
+    privbtf stbtid finbl int RMODE = 0;
+    privbtf stbtid finbl int WMODE = 1;
 
-    /** Wait nodes */
-    static final class WNode {
-        volatile WNode prev;
-        volatile WNode next;
-        volatile WNode cowait;    // list of linked readers
-        volatile Thread thread;   // non-null while possibly parked
-        volatile int status;      // 0, WAITING, or CANCELLED
-        final int mode;           // RMODE or WMODE
-        WNode(int m, WNode p) { mode = m; prev = p; }
+    /** Wbit nodfs */
+    stbtid finbl dlbss WNodf {
+        volbtilf WNodf prfv;
+        volbtilf WNodf nfxt;
+        volbtilf WNodf dowbit;    // list of linkfd rfbdfrs
+        volbtilf Tirfbd tirfbd;   // non-null wiilf possibly pbrkfd
+        volbtilf int stbtus;      // 0, WAITING, or CANCELLED
+        finbl int modf;           // RMODE or WMODE
+        WNodf(int m, WNodf p) { modf = m; prfv = p; }
     }
 
-    /** Head of CLH queue */
-    private transient volatile WNode whead;
-    /** Tail (last) of CLH queue */
-    private transient volatile WNode wtail;
+    /** Hfbd of CLH qufuf */
+    privbtf trbnsifnt volbtilf WNodf wifbd;
+    /** Tbil (lbst) of CLH qufuf */
+    privbtf trbnsifnt volbtilf WNodf wtbil;
 
-    // views
-    transient ReadLockView readLockView;
-    transient WriteLockView writeLockView;
-    transient ReadWriteLockView readWriteLockView;
+    // vifws
+    trbnsifnt RfbdLodkVifw rfbdLodkVifw;
+    trbnsifnt WritfLodkVifw writfLodkVifw;
+    trbnsifnt RfbdWritfLodkVifw rfbdWritfLodkVifw;
 
-    /** Lock sequence/state */
-    private transient volatile long state;
-    /** extra reader count when state read count saturated */
-    private transient int readerOverflow;
-
-    /**
-     * Creates a new lock, initially in unlocked state.
-     */
-    public StampedLock() {
-        state = ORIGIN;
-    }
+    /** Lodk sfqufndf/stbtf */
+    privbtf trbnsifnt volbtilf long stbtf;
+    /** fxtrb rfbdfr dount wifn stbtf rfbd dount sbturbtfd */
+    privbtf trbnsifnt int rfbdfrOvfrflow;
 
     /**
-     * Exclusively acquires the lock, blocking if necessary
-     * until available.
-     *
-     * @return a stamp that can be used to unlock or convert mode
+     * Crfbtfs b nfw lodk, initiblly in unlodkfd stbtf.
      */
-    public long writeLock() {
-        long s, next;  // bypass acquireWrite in fully unlocked case only
-        return ((((s = state) & ABITS) == 0L &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + WBIT)) ?
-                next : acquireWrite(false, 0L));
+    publid StbmpfdLodk() {
+        stbtf = ORIGIN;
     }
 
     /**
-     * Exclusively acquires the lock if it is immediately available.
+     * Exdlusivfly bdquirfs tif lodk, blodking if nfdfssbry
+     * until bvbilbblf.
      *
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf
      */
-    public long tryWriteLock() {
-        long s, next;
-        return ((((s = state) & ABITS) == 0L &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + WBIT)) ?
-                next : 0L);
+    publid long writfLodk() {
+        long s, nfxt;  // bypbss bdquirfWritf in fully unlodkfd dbsf only
+        rfturn ((((s = stbtf) & ABITS) == 0L &&
+                 U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + WBIT)) ?
+                nfxt : bdquirfWritf(fblsf, 0L));
     }
 
     /**
-     * Exclusively acquires the lock if it is available within the
-     * given time and the current thread has not been interrupted.
-     * Behavior under timeout and interruption matches that specified
-     * for method {@link Lock#tryLock(long,TimeUnit)}.
+     * Exdlusivfly bdquirfs tif lodk if it is immfdibtfly bvbilbblf.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf,
+     * or zfro if tif lodk is not bvbilbblf
      */
-    public long tryWriteLock(long time, TimeUnit unit)
-        throws InterruptedException {
-        long nanos = unit.toNanos(time);
-        if (!Thread.interrupted()) {
-            long next, deadline;
-            if ((next = tryWriteLock()) != 0L)
-                return next;
-            if (nanos <= 0L)
-                return 0L;
-            if ((deadline = System.nanoTime() + nanos) == 0L)
-                deadline = 1L;
-            if ((next = acquireWrite(true, deadline)) != INTERRUPTED)
-                return next;
+    publid long tryWritfLodk() {
+        long s, nfxt;
+        rfturn ((((s = stbtf) & ABITS) == 0L &&
+                 U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + WBIT)) ?
+                nfxt : 0L);
+    }
+
+    /**
+     * Exdlusivfly bdquirfs tif lodk if it is bvbilbblf witiin tif
+     * givfn timf bnd tif durrfnt tirfbd ibs not bffn intfrruptfd.
+     * Bfibvior undfr timfout bnd intfrruption mbtdifs tibt spfdififd
+     * for mftiod {@link Lodk#tryLodk(long,TimfUnit)}.
+     *
+     * @pbrbm timf tif mbximum timf to wbit for tif lodk
+     * @pbrbm unit tif timf unit of tif {@dodf timf} brgumfnt
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf,
+     * or zfro if tif lodk is not bvbilbblf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * bfforf bdquiring tif lodk
+     */
+    publid long tryWritfLodk(long timf, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        long nbnos = unit.toNbnos(timf);
+        if (!Tirfbd.intfrruptfd()) {
+            long nfxt, dfbdlinf;
+            if ((nfxt = tryWritfLodk()) != 0L)
+                rfturn nfxt;
+            if (nbnos <= 0L)
+                rfturn 0L;
+            if ((dfbdlinf = Systfm.nbnoTimf() + nbnos) == 0L)
+                dfbdlinf = 1L;
+            if ((nfxt = bdquirfWritf(truf, dfbdlinf)) != INTERRUPTED)
+                rfturn nfxt;
         }
-        throw new InterruptedException();
+        tirow nfw IntfrruptfdExdfption();
     }
 
     /**
-     * Exclusively acquires the lock, blocking if necessary
-     * until available or the current thread is interrupted.
-     * Behavior under interruption matches that specified
-     * for method {@link Lock#lockInterruptibly()}.
+     * Exdlusivfly bdquirfs tif lodk, blodking if nfdfssbry
+     * until bvbilbblf or tif durrfnt tirfbd is intfrruptfd.
+     * Bfibvior undfr intfrruption mbtdifs tibt spfdififd
+     * for mftiod {@link Lodk#lodkIntfrruptibly()}.
      *
-     * @return a stamp that can be used to unlock or convert mode
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * bfforf bdquiring tif lodk
      */
-    public long writeLockInterruptibly() throws InterruptedException {
-        long next;
-        if (!Thread.interrupted() &&
-            (next = acquireWrite(true, 0L)) != INTERRUPTED)
-            return next;
-        throw new InterruptedException();
+    publid long writfLodkIntfrruptibly() tirows IntfrruptfdExdfption {
+        long nfxt;
+        if (!Tirfbd.intfrruptfd() &&
+            (nfxt = bdquirfWritf(truf, 0L)) != INTERRUPTED)
+            rfturn nfxt;
+        tirow nfw IntfrruptfdExdfption();
     }
 
     /**
-     * Non-exclusively acquires the lock, blocking if necessary
-     * until available.
+     * Non-fxdlusivfly bdquirfs tif lodk, blodking if nfdfssbry
+     * until bvbilbblf.
      *
-     * @return a stamp that can be used to unlock or convert mode
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf
      */
-    public long readLock() {
-        long s = state, next;  // bypass acquireRead on common uncontended case
-        return ((whead == wtail && (s & ABITS) < RFULL &&
-                 U.compareAndSwapLong(this, STATE, s, next = s + RUNIT)) ?
-                next : acquireRead(false, 0L));
+    publid long rfbdLodk() {
+        long s = stbtf, nfxt;  // bypbss bdquirfRfbd on dommon undontfndfd dbsf
+        rfturn ((wifbd == wtbil && (s & ABITS) < RFULL &&
+                 U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + RUNIT)) ?
+                nfxt : bdquirfRfbd(fblsf, 0L));
     }
 
     /**
-     * Non-exclusively acquires the lock if it is immediately available.
+     * Non-fxdlusivfly bdquirfs tif lodk if it is immfdibtfly bvbilbblf.
      *
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf,
+     * or zfro if tif lodk is not bvbilbblf
      */
-    public long tryReadLock() {
+    publid long tryRfbdLodk() {
         for (;;) {
-            long s, m, next;
-            if ((m = (s = state) & ABITS) == WBIT)
-                return 0L;
-            else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
-                    return next;
+            long s, m, nfxt;
+            if ((m = (s = stbtf) & ABITS) == WBIT)
+                rfturn 0L;
+            flsf if (m < RFULL) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + RUNIT))
+                    rfturn nfxt;
             }
-            else if ((next = tryIncReaderOverflow(s)) != 0L)
-                return next;
+            flsf if ((nfxt = tryIndRfbdfrOvfrflow(s)) != 0L)
+                rfturn nfxt;
         }
     }
 
     /**
-     * Non-exclusively acquires the lock if it is available within the
-     * given time and the current thread has not been interrupted.
-     * Behavior under timeout and interruption matches that specified
-     * for method {@link Lock#tryLock(long,TimeUnit)}.
+     * Non-fxdlusivfly bdquirfs tif lodk if it is bvbilbblf witiin tif
+     * givfn timf bnd tif durrfnt tirfbd ibs not bffn intfrruptfd.
+     * Bfibvior undfr timfout bnd intfrruption mbtdifs tibt spfdififd
+     * for mftiod {@link Lodk#tryLodk(long,TimfUnit)}.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return a stamp that can be used to unlock or convert mode,
-     * or zero if the lock is not available
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @pbrbm timf tif mbximum timf to wbit for tif lodk
+     * @pbrbm unit tif timf unit of tif {@dodf timf} brgumfnt
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf,
+     * or zfro if tif lodk is not bvbilbblf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * bfforf bdquiring tif lodk
      */
-    public long tryReadLock(long time, TimeUnit unit)
-        throws InterruptedException {
-        long s, m, next, deadline;
-        long nanos = unit.toNanos(time);
-        if (!Thread.interrupted()) {
-            if ((m = (s = state) & ABITS) != WBIT) {
+    publid long tryRfbdLodk(long timf, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        long s, m, nfxt, dfbdlinf;
+        long nbnos = unit.toNbnos(timf);
+        if (!Tirfbd.intfrruptfd()) {
+            if ((m = (s = stbtf) & ABITS) != WBIT) {
                 if (m < RFULL) {
-                    if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
-                        return next;
+                    if (U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + RUNIT))
+                        rfturn nfxt;
                 }
-                else if ((next = tryIncReaderOverflow(s)) != 0L)
-                    return next;
+                flsf if ((nfxt = tryIndRfbdfrOvfrflow(s)) != 0L)
+                    rfturn nfxt;
             }
-            if (nanos <= 0L)
-                return 0L;
-            if ((deadline = System.nanoTime() + nanos) == 0L)
-                deadline = 1L;
-            if ((next = acquireRead(true, deadline)) != INTERRUPTED)
-                return next;
+            if (nbnos <= 0L)
+                rfturn 0L;
+            if ((dfbdlinf = Systfm.nbnoTimf() + nbnos) == 0L)
+                dfbdlinf = 1L;
+            if ((nfxt = bdquirfRfbd(truf, dfbdlinf)) != INTERRUPTED)
+                rfturn nfxt;
         }
-        throw new InterruptedException();
+        tirow nfw IntfrruptfdExdfption();
     }
 
     /**
-     * Non-exclusively acquires the lock, blocking if necessary
-     * until available or the current thread is interrupted.
-     * Behavior under interruption matches that specified
-     * for method {@link Lock#lockInterruptibly()}.
+     * Non-fxdlusivfly bdquirfs tif lodk, blodking if nfdfssbry
+     * until bvbilbblf or tif durrfnt tirfbd is intfrruptfd.
+     * Bfibvior undfr intfrruption mbtdifs tibt spfdififd
+     * for mftiod {@link Lodk#lodkIntfrruptibly()}.
      *
-     * @return a stamp that can be used to unlock or convert mode
-     * @throws InterruptedException if the current thread is interrupted
-     * before acquiring the lock
+     * @rfturn b stbmp tibt dbn bf usfd to unlodk or donvfrt modf
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     * bfforf bdquiring tif lodk
      */
-    public long readLockInterruptibly() throws InterruptedException {
-        long next;
-        if (!Thread.interrupted() &&
-            (next = acquireRead(true, 0L)) != INTERRUPTED)
-            return next;
-        throw new InterruptedException();
+    publid long rfbdLodkIntfrruptibly() tirows IntfrruptfdExdfption {
+        long nfxt;
+        if (!Tirfbd.intfrruptfd() &&
+            (nfxt = bdquirfRfbd(truf, 0L)) != INTERRUPTED)
+            rfturn nfxt;
+        tirow nfw IntfrruptfdExdfption();
     }
 
     /**
-     * Returns a stamp that can later be validated, or zero
-     * if exclusively locked.
+     * Rfturns b stbmp tibt dbn lbtfr bf vblidbtfd, or zfro
+     * if fxdlusivfly lodkfd.
      *
-     * @return a stamp, or zero if exclusively locked
+     * @rfturn b stbmp, or zfro if fxdlusivfly lodkfd
      */
-    public long tryOptimisticRead() {
+    publid long tryOptimistidRfbd() {
         long s;
-        return (((s = state) & WBIT) == 0L) ? (s & SBITS) : 0L;
+        rfturn (((s = stbtf) & WBIT) == 0L) ? (s & SBITS) : 0L;
     }
 
     /**
-     * Returns true if the lock has not been exclusively acquired
-     * since issuance of the given stamp. Always returns false if the
-     * stamp is zero. Always returns true if the stamp represents a
-     * currently held lock. Invoking this method with a value not
-     * obtained from {@link #tryOptimisticRead} or a locking method
-     * for this lock has no defined effect or result.
+     * Rfturns truf if tif lodk ibs not bffn fxdlusivfly bdquirfd
+     * sindf issubndf of tif givfn stbmp. Alwbys rfturns fblsf if tif
+     * stbmp is zfro. Alwbys rfturns truf if tif stbmp rfprfsfnts b
+     * durrfntly ifld lodk. Invoking tiis mftiod witi b vbluf not
+     * obtbinfd from {@link #tryOptimistidRfbd} or b lodking mftiod
+     * for tiis lodk ibs no dffinfd ffffdt or rfsult.
      *
-     * @param stamp a stamp
-     * @return {@code true} if the lock has not been exclusively acquired
-     * since issuance of the given stamp; else false
+     * @pbrbm stbmp b stbmp
+     * @rfturn {@dodf truf} if tif lodk ibs not bffn fxdlusivfly bdquirfd
+     * sindf issubndf of tif givfn stbmp; flsf fblsf
      */
-    public boolean validate(long stamp) {
-        U.loadFence();
-        return (stamp & SBITS) == (state & SBITS);
+    publid boolfbn vblidbtf(long stbmp) {
+        U.lobdFfndf();
+        rfturn (stbmp & SBITS) == (stbtf & SBITS);
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
-     * exclusive lock.
+     * If tif lodk stbtf mbtdifs tif givfn stbmp, rflfbsfs tif
+     * fxdlusivf lodk.
      *
-     * @param stamp a stamp returned by a write-lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp rfturnfd by b writf-lodk opfrbtion
+     * @tirows IllfgblMonitorStbtfExdfption if tif stbmp dofs
+     * not mbtdi tif durrfnt stbtf of tiis lodk
      */
-    public void unlockWrite(long stamp) {
-        WNode h;
-        if (state != stamp || (stamp & WBIT) == 0L)
-            throw new IllegalMonitorStateException();
-        state = (stamp += WBIT) == 0L ? ORIGIN : stamp;
-        if ((h = whead) != null && h.status != 0)
-            release(h);
+    publid void unlodkWritf(long stbmp) {
+        WNodf i;
+        if (stbtf != stbmp || (stbmp & WBIT) == 0L)
+            tirow nfw IllfgblMonitorStbtfExdfption();
+        stbtf = (stbmp += WBIT) == 0L ? ORIGIN : stbmp;
+        if ((i = wifbd) != null && i.stbtus != 0)
+            rflfbsf(i);
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
-     * non-exclusive lock.
+     * If tif lodk stbtf mbtdifs tif givfn stbmp, rflfbsfs tif
+     * non-fxdlusivf lodk.
      *
-     * @param stamp a stamp returned by a read-lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp rfturnfd by b rfbd-lodk opfrbtion
+     * @tirows IllfgblMonitorStbtfExdfption if tif stbmp dofs
+     * not mbtdi tif durrfnt stbtf of tiis lodk
      */
-    public void unlockRead(long stamp) {
-        long s, m; WNode h;
+    publid void unlodkRfbd(long stbmp) {
+        long s, m; WNodf i;
         for (;;) {
-            if (((s = state) & SBITS) != (stamp & SBITS) ||
-                (stamp & ABITS) == 0L || (m = s & ABITS) == 0L || m == WBIT)
-                throw new IllegalMonitorStateException();
+            if (((s = stbtf) & SBITS) != (stbmp & SBITS) ||
+                (stbmp & ABITS) == 0L || (m = s & ABITS) == 0L || m == WBIT)
+                tirow nfw IllfgblMonitorStbtfExdfption();
             if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    break;
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (i = wifbd) != null && i.stbtus != 0)
+                        rflfbsf(i);
+                    brfbk;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                break;
+            flsf if (tryDfdRfbdfrOvfrflow(s) != 0L)
+                brfbk;
         }
     }
 
     /**
-     * If the lock state matches the given stamp, releases the
-     * corresponding mode of the lock.
+     * If tif lodk stbtf mbtdifs tif givfn stbmp, rflfbsfs tif
+     * dorrfsponding modf of tif lodk.
      *
-     * @param stamp a stamp returned by a lock operation
-     * @throws IllegalMonitorStateException if the stamp does
-     * not match the current state of this lock
+     * @pbrbm stbmp b stbmp rfturnfd by b lodk opfrbtion
+     * @tirows IllfgblMonitorStbtfExdfption if tif stbmp dofs
+     * not mbtdi tif durrfnt stbtf of tiis lodk
      */
-    public void unlock(long stamp) {
-        long a = stamp & ABITS, m, s; WNode h;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    publid void unlodk(long stbmp) {
+        long b = stbmp & ABITS, m, s; WNodf i;
+        wiilf (((s = stbtf) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L)
-                break;
-            else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = (s += WBIT) == 0L ? ORIGIN : s;
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
-                return;
+                brfbk;
+            flsf if (m == WBIT) {
+                if (b != m)
+                    brfbk;
+                stbtf = (s += WBIT) == 0L ? ORIGIN : s;
+                if ((i = wifbd) != null && i.stbtus != 0)
+                    rflfbsf(i);
+                rfturn;
             }
-            else if (a == 0L || a >= WBIT)
-                break;
-            else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    return;
+            flsf if (b == 0L || b >= WBIT)
+                brfbk;
+            flsf if (m < RFULL) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (i = wifbd) != null && i.stbtus != 0)
+                        rflfbsf(i);
+                    rfturn;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                return;
+            flsf if (tryDfdRfbdfrOvfrflow(s) != 0L)
+                rfturn;
         }
-        throw new IllegalMonitorStateException();
+        tirow nfw IllfgblMonitorStbtfExdfption();
     }
 
     /**
-     * If the lock state matches the given stamp, performs one of
-     * the following actions. If the stamp represents holding a write
-     * lock, returns it.  Or, if a read lock, if the write lock is
-     * available, releases the read lock and returns a write stamp.
-     * Or, if an optimistic read, returns a write stamp only if
-     * immediately available. This method returns zero in all other
-     * cases.
+     * If tif lodk stbtf mbtdifs tif givfn stbmp, pfrforms onf of
+     * tif following bdtions. If tif stbmp rfprfsfnts iolding b writf
+     * lodk, rfturns it.  Or, if b rfbd lodk, if tif writf lodk is
+     * bvbilbblf, rflfbsfs tif rfbd lodk bnd rfturns b writf stbmp.
+     * Or, if bn optimistid rfbd, rfturns b writf stbmp only if
+     * immfdibtfly bvbilbblf. Tiis mftiod rfturns zfro in bll otifr
+     * dbsfs.
      *
-     * @param stamp a stamp
-     * @return a valid write stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @rfturn b vblid writf stbmp, or zfro on fbilurf
      */
-    public long tryConvertToWriteLock(long stamp) {
-        long a = stamp & ABITS, m, s, next;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    publid long tryConvfrtToWritfLodk(long stbmp) {
+        long b = stbmp & ABITS, m, s, nfxt;
+        wiilf (((s = stbtf) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
-                if (U.compareAndSwapLong(this, STATE, s, next = s + WBIT))
-                    return next;
+                if (b != 0L)
+                    brfbk;
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + WBIT))
+                    rfturn nfxt;
             }
-            else if (m == WBIT) {
-                if (a != m)
-                    break;
-                return stamp;
+            flsf if (m == WBIT) {
+                if (b != m)
+                    brfbk;
+                rfturn stbmp;
             }
-            else if (m == RUNIT && a != 0L) {
-                if (U.compareAndSwapLong(this, STATE, s,
-                                         next = s - RUNIT + WBIT))
-                    return next;
+            flsf if (m == RUNIT && b != 0L) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s,
+                                         nfxt = s - RUNIT + WBIT))
+                    rfturn nfxt;
             }
-            else
-                break;
+            flsf
+                brfbk;
         }
-        return 0L;
+        rfturn 0L;
     }
 
     /**
-     * If the lock state matches the given stamp, performs one of
-     * the following actions. If the stamp represents holding a write
-     * lock, releases it and obtains a read lock.  Or, if a read lock,
-     * returns it. Or, if an optimistic read, acquires a read lock and
-     * returns a read stamp only if immediately available. This method
-     * returns zero in all other cases.
+     * If tif lodk stbtf mbtdifs tif givfn stbmp, pfrforms onf of
+     * tif following bdtions. If tif stbmp rfprfsfnts iolding b writf
+     * lodk, rflfbsfs it bnd obtbins b rfbd lodk.  Or, if b rfbd lodk,
+     * rfturns it. Or, if bn optimistid rfbd, bdquirfs b rfbd lodk bnd
+     * rfturns b rfbd stbmp only if immfdibtfly bvbilbblf. Tiis mftiod
+     * rfturns zfro in bll otifr dbsfs.
      *
-     * @param stamp a stamp
-     * @return a valid read stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @rfturn b vblid rfbd stbmp, or zfro on fbilurf
      */
-    public long tryConvertToReadLock(long stamp) {
-        long a = stamp & ABITS, m, s, next; WNode h;
-        while (((s = state) & SBITS) == (stamp & SBITS)) {
+    publid long tryConvfrtToRfbdLodk(long stbmp) {
+        long b = stbmp & ABITS, m, s, nfxt; WNodf i;
+        wiilf (((s = stbtf) & SBITS) == (stbmp & SBITS)) {
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
-                else if (m < RFULL) {
-                    if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
-                        return next;
+                if (b != 0L)
+                    brfbk;
+                flsf if (m < RFULL) {
+                    if (U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s + RUNIT))
+                        rfturn nfxt;
                 }
-                else if ((next = tryIncReaderOverflow(s)) != 0L)
-                    return next;
+                flsf if ((nfxt = tryIndRfbdfrOvfrflow(s)) != 0L)
+                    rfturn nfxt;
             }
-            else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = next = s + (WBIT + RUNIT);
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
-                return next;
+            flsf if (m == WBIT) {
+                if (b != m)
+                    brfbk;
+                stbtf = nfxt = s + (WBIT + RUNIT);
+                if ((i = wifbd) != null && i.stbtus != 0)
+                    rflfbsf(i);
+                rfturn nfxt;
             }
-            else if (a != 0L && a < WBIT)
-                return stamp;
-            else
-                break;
+            flsf if (b != 0L && b < WBIT)
+                rfturn stbmp;
+            flsf
+                brfbk;
         }
-        return 0L;
+        rfturn 0L;
     }
 
     /**
-     * If the lock state matches the given stamp then, if the stamp
-     * represents holding a lock, releases it and returns an
-     * observation stamp.  Or, if an optimistic read, returns it if
-     * validated. This method returns zero in all other cases, and so
-     * may be useful as a form of "tryUnlock".
+     * If tif lodk stbtf mbtdifs tif givfn stbmp tifn, if tif stbmp
+     * rfprfsfnts iolding b lodk, rflfbsfs it bnd rfturns bn
+     * obsfrvbtion stbmp.  Or, if bn optimistid rfbd, rfturns it if
+     * vblidbtfd. Tiis mftiod rfturns zfro in bll otifr dbsfs, bnd so
+     * mby bf usfful bs b form of "tryUnlodk".
      *
-     * @param stamp a stamp
-     * @return a valid optimistic read stamp, or zero on failure
+     * @pbrbm stbmp b stbmp
+     * @rfturn b vblid optimistid rfbd stbmp, or zfro on fbilurf
      */
-    public long tryConvertToOptimisticRead(long stamp) {
-        long a = stamp & ABITS, m, s, next; WNode h;
-        U.loadFence();
+    publid long tryConvfrtToOptimistidRfbd(long stbmp) {
+        long b = stbmp & ABITS, m, s, nfxt; WNodf i;
+        U.lobdFfndf();
         for (;;) {
-            if (((s = state) & SBITS) != (stamp & SBITS))
-                break;
+            if (((s = stbtf) & SBITS) != (stbmp & SBITS))
+                brfbk;
             if ((m = s & ABITS) == 0L) {
-                if (a != 0L)
-                    break;
-                return s;
+                if (b != 0L)
+                    brfbk;
+                rfturn s;
             }
-            else if (m == WBIT) {
-                if (a != m)
-                    break;
-                state = next = (s += WBIT) == 0L ? ORIGIN : s;
-                if ((h = whead) != null && h.status != 0)
-                    release(h);
-                return next;
+            flsf if (m == WBIT) {
+                if (b != m)
+                    brfbk;
+                stbtf = nfxt = (s += WBIT) == 0L ? ORIGIN : s;
+                if ((i = wifbd) != null && i.stbtus != 0)
+                    rflfbsf(i);
+                rfturn nfxt;
             }
-            else if (a == 0L || a >= WBIT)
-                break;
-            else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, next = s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    return next & SBITS;
+            flsf if (b == 0L || b >= WBIT)
+                brfbk;
+            flsf if (m < RFULL) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, nfxt = s - RUNIT)) {
+                    if (m == RUNIT && (i = wifbd) != null && i.stbtus != 0)
+                        rflfbsf(i);
+                    rfturn nfxt & SBITS;
                 }
             }
-            else if ((next = tryDecReaderOverflow(s)) != 0L)
-                return next & SBITS;
+            flsf if ((nfxt = tryDfdRfbdfrOvfrflow(s)) != 0L)
+                rfturn nfxt & SBITS;
         }
-        return 0L;
+        rfturn 0L;
     }
 
     /**
-     * Releases the write lock if it is held, without requiring a
-     * stamp value. This method may be useful for recovery after
-     * errors.
+     * Rflfbsfs tif writf lodk if it is ifld, witiout rfquiring b
+     * stbmp vbluf. Tiis mftiod mby bf usfful for rfdovfry bftfr
+     * frrors.
      *
-     * @return {@code true} if the lock was held, else false
+     * @rfturn {@dodf truf} if tif lodk wbs ifld, flsf fblsf
      */
-    public boolean tryUnlockWrite() {
-        long s; WNode h;
-        if (((s = state) & WBIT) != 0L) {
-            state = (s += WBIT) == 0L ? ORIGIN : s;
-            if ((h = whead) != null && h.status != 0)
-                release(h);
-            return true;
+    publid boolfbn tryUnlodkWritf() {
+        long s; WNodf i;
+        if (((s = stbtf) & WBIT) != 0L) {
+            stbtf = (s += WBIT) == 0L ? ORIGIN : s;
+            if ((i = wifbd) != null && i.stbtus != 0)
+                rflfbsf(i);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Releases one hold of the read lock if it is held, without
-     * requiring a stamp value. This method may be useful for recovery
-     * after errors.
+     * Rflfbsfs onf iold of tif rfbd lodk if it is ifld, witiout
+     * rfquiring b stbmp vbluf. Tiis mftiod mby bf usfful for rfdovfry
+     * bftfr frrors.
      *
-     * @return {@code true} if the read lock was held, else false
+     * @rfturn {@dodf truf} if tif rfbd lodk wbs ifld, flsf fblsf
      */
-    public boolean tryUnlockRead() {
-        long s, m; WNode h;
-        while ((m = (s = state) & ABITS) != 0L && m < WBIT) {
+    publid boolfbn tryUnlodkRfbd() {
+        long s, m; WNodf i;
+        wiilf ((m = (s = stbtf) & ABITS) != 0L && m < WBIT) {
             if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    return true;
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (i = wifbd) != null && i.stbtus != 0)
+                        rflfbsf(i);
+                    rfturn truf;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                return true;
+            flsf if (tryDfdRfbdfrOvfrflow(s) != 0L)
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // status monitoring methods
+    // stbtus monitoring mftiods
 
     /**
-     * Returns combined state-held and overflow read count for given
-     * state s.
+     * Rfturns dombinfd stbtf-ifld bnd ovfrflow rfbd dount for givfn
+     * stbtf s.
      */
-    private int getReadLockCount(long s) {
-        long readers;
-        if ((readers = s & RBITS) >= RFULL)
-            readers = RFULL + readerOverflow;
-        return (int) readers;
+    privbtf int gftRfbdLodkCount(long s) {
+        long rfbdfrs;
+        if ((rfbdfrs = s & RBITS) >= RFULL)
+            rfbdfrs = RFULL + rfbdfrOvfrflow;
+        rfturn (int) rfbdfrs;
     }
 
     /**
-     * Returns {@code true} if the lock is currently held exclusively.
+     * Rfturns {@dodf truf} if tif lodk is durrfntly ifld fxdlusivfly.
      *
-     * @return {@code true} if the lock is currently held exclusively
+     * @rfturn {@dodf truf} if tif lodk is durrfntly ifld fxdlusivfly
      */
-    public boolean isWriteLocked() {
-        return (state & WBIT) != 0L;
+    publid boolfbn isWritfLodkfd() {
+        rfturn (stbtf & WBIT) != 0L;
     }
 
     /**
-     * Returns {@code true} if the lock is currently held non-exclusively.
+     * Rfturns {@dodf truf} if tif lodk is durrfntly ifld non-fxdlusivfly.
      *
-     * @return {@code true} if the lock is currently held non-exclusively
+     * @rfturn {@dodf truf} if tif lodk is durrfntly ifld non-fxdlusivfly
      */
-    public boolean isReadLocked() {
-        return (state & RBITS) != 0L;
+    publid boolfbn isRfbdLodkfd() {
+        rfturn (stbtf & RBITS) != 0L;
     }
 
     /**
-     * Queries the number of read locks held for this lock. This
-     * method is designed for use in monitoring system state, not for
-     * synchronization control.
-     * @return the number of read locks held
+     * Qufrifs tif numbfr of rfbd lodks ifld for tiis lodk. Tiis
+     * mftiod is dfsignfd for usf in monitoring systfm stbtf, not for
+     * syndironizbtion dontrol.
+     * @rfturn tif numbfr of rfbd lodks ifld
      */
-    public int getReadLockCount() {
-        return getReadLockCount(state);
+    publid int gftRfbdLodkCount() {
+        rfturn gftRfbdLodkCount(stbtf);
     }
 
     /**
-     * Returns a string identifying this lock, as well as its lock
-     * state.  The state, in brackets, includes the String {@code
-     * "Unlocked"} or the String {@code "Write-locked"} or the String
-     * {@code "Read-locks:"} followed by the current number of
-     * read-locks held.
+     * Rfturns b string idfntifying tiis lodk, bs wfll bs its lodk
+     * stbtf.  Tif stbtf, in brbdkfts, indludfs tif String {@dodf
+     * "Unlodkfd"} or tif String {@dodf "Writf-lodkfd"} or tif String
+     * {@dodf "Rfbd-lodks:"} followfd by tif durrfnt numbfr of
+     * rfbd-lodks ifld.
      *
-     * @return a string identifying this lock, as well as its lock state
+     * @rfturn b string idfntifying tiis lodk, bs wfll bs its lodk stbtf
      */
-    public String toString() {
-        long s = state;
-        return super.toString() +
-            ((s & ABITS) == 0L ? "[Unlocked]" :
-             (s & WBIT) != 0L ? "[Write-locked]" :
-             "[Read-locks:" + getReadLockCount(s) + "]");
+    publid String toString() {
+        long s = stbtf;
+        rfturn supfr.toString() +
+            ((s & ABITS) == 0L ? "[Unlodkfd]" :
+             (s & WBIT) != 0L ? "[Writf-lodkfd]" :
+             "[Rfbd-lodks:" + gftRfbdLodkCount(s) + "]");
     }
 
-    // views
+    // vifws
 
     /**
-     * Returns a plain {@link Lock} view of this StampedLock in which
-     * the {@link Lock#lock} method is mapped to {@link #readLock},
-     * and similarly for other methods. The returned Lock does not
-     * support a {@link Condition}; method {@link
-     * Lock#newCondition()} throws {@code
-     * UnsupportedOperationException}.
+     * Rfturns b plbin {@link Lodk} vifw of tiis StbmpfdLodk in wiidi
+     * tif {@link Lodk#lodk} mftiod is mbppfd to {@link #rfbdLodk},
+     * bnd similbrly for otifr mftiods. Tif rfturnfd Lodk dofs not
+     * support b {@link Condition}; mftiod {@link
+     * Lodk#nfwCondition()} tirows {@dodf
+     * UnsupportfdOpfrbtionExdfption}.
      *
-     * @return the lock
+     * @rfturn tif lodk
      */
-    public Lock asReadLock() {
-        ReadLockView v;
-        return ((v = readLockView) != null ? v :
-                (readLockView = new ReadLockView()));
-    }
-
-    /**
-     * Returns a plain {@link Lock} view of this StampedLock in which
-     * the {@link Lock#lock} method is mapped to {@link #writeLock},
-     * and similarly for other methods. The returned Lock does not
-     * support a {@link Condition}; method {@link
-     * Lock#newCondition()} throws {@code
-     * UnsupportedOperationException}.
-     *
-     * @return the lock
-     */
-    public Lock asWriteLock() {
-        WriteLockView v;
-        return ((v = writeLockView) != null ? v :
-                (writeLockView = new WriteLockView()));
+    publid Lodk bsRfbdLodk() {
+        RfbdLodkVifw v;
+        rfturn ((v = rfbdLodkVifw) != null ? v :
+                (rfbdLodkVifw = nfw RfbdLodkVifw()));
     }
 
     /**
-     * Returns a {@link ReadWriteLock} view of this StampedLock in
-     * which the {@link ReadWriteLock#readLock()} method is mapped to
-     * {@link #asReadLock()}, and {@link ReadWriteLock#writeLock()} to
-     * {@link #asWriteLock()}.
+     * Rfturns b plbin {@link Lodk} vifw of tiis StbmpfdLodk in wiidi
+     * tif {@link Lodk#lodk} mftiod is mbppfd to {@link #writfLodk},
+     * bnd similbrly for otifr mftiods. Tif rfturnfd Lodk dofs not
+     * support b {@link Condition}; mftiod {@link
+     * Lodk#nfwCondition()} tirows {@dodf
+     * UnsupportfdOpfrbtionExdfption}.
      *
-     * @return the lock
+     * @rfturn tif lodk
      */
-    public ReadWriteLock asReadWriteLock() {
-        ReadWriteLockView v;
-        return ((v = readWriteLockView) != null ? v :
-                (readWriteLockView = new ReadWriteLockView()));
+    publid Lodk bsWritfLodk() {
+        WritfLodkVifw v;
+        rfturn ((v = writfLodkVifw) != null ? v :
+                (writfLodkVifw = nfw WritfLodkVifw()));
     }
 
-    // view classes
+    /**
+     * Rfturns b {@link RfbdWritfLodk} vifw of tiis StbmpfdLodk in
+     * wiidi tif {@link RfbdWritfLodk#rfbdLodk()} mftiod is mbppfd to
+     * {@link #bsRfbdLodk()}, bnd {@link RfbdWritfLodk#writfLodk()} to
+     * {@link #bsWritfLodk()}.
+     *
+     * @rfturn tif lodk
+     */
+    publid RfbdWritfLodk bsRfbdWritfLodk() {
+        RfbdWritfLodkVifw v;
+        rfturn ((v = rfbdWritfLodkVifw) != null ? v :
+                (rfbdWritfLodkVifw = nfw RfbdWritfLodkVifw()));
+    }
 
-    final class ReadLockView implements Lock {
-        public void lock() { readLock(); }
-        public void lockInterruptibly() throws InterruptedException {
-            readLockInterruptibly();
+    // vifw dlbssfs
+
+    finbl dlbss RfbdLodkVifw implfmfnts Lodk {
+        publid void lodk() { rfbdLodk(); }
+        publid void lodkIntfrruptibly() tirows IntfrruptfdExdfption {
+            rfbdLodkIntfrruptibly();
         }
-        public boolean tryLock() { return tryReadLock() != 0L; }
-        public boolean tryLock(long time, TimeUnit unit)
-            throws InterruptedException {
-            return tryReadLock(time, unit) != 0L;
+        publid boolfbn tryLodk() { rfturn tryRfbdLodk() != 0L; }
+        publid boolfbn tryLodk(long timf, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            rfturn tryRfbdLodk(timf, unit) != 0L;
         }
-        public void unlock() { unstampedUnlockRead(); }
-        public Condition newCondition() {
-            throw new UnsupportedOperationException();
+        publid void unlodk() { unstbmpfdUnlodkRfbd(); }
+        publid Condition nfwCondition() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    final class WriteLockView implements Lock {
-        public void lock() { writeLock(); }
-        public void lockInterruptibly() throws InterruptedException {
-            writeLockInterruptibly();
+    finbl dlbss WritfLodkVifw implfmfnts Lodk {
+        publid void lodk() { writfLodk(); }
+        publid void lodkIntfrruptibly() tirows IntfrruptfdExdfption {
+            writfLodkIntfrruptibly();
         }
-        public boolean tryLock() { return tryWriteLock() != 0L; }
-        public boolean tryLock(long time, TimeUnit unit)
-            throws InterruptedException {
-            return tryWriteLock(time, unit) != 0L;
+        publid boolfbn tryLodk() { rfturn tryWritfLodk() != 0L; }
+        publid boolfbn tryLodk(long timf, TimfUnit unit)
+            tirows IntfrruptfdExdfption {
+            rfturn tryWritfLodk(timf, unit) != 0L;
         }
-        public void unlock() { unstampedUnlockWrite(); }
-        public Condition newCondition() {
-            throw new UnsupportedOperationException();
+        publid void unlodk() { unstbmpfdUnlodkWritf(); }
+        publid Condition nfwCondition() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    final class ReadWriteLockView implements ReadWriteLock {
-        public Lock readLock() { return asReadLock(); }
-        public Lock writeLock() { return asWriteLock(); }
+    finbl dlbss RfbdWritfLodkVifw implfmfnts RfbdWritfLodk {
+        publid Lodk rfbdLodk() { rfturn bsRfbdLodk(); }
+        publid Lodk writfLodk() { rfturn bsWritfLodk(); }
     }
 
-    // Unlock methods without stamp argument checks for view classes.
-    // Needed because view-class lock methods throw away stamps.
+    // Unlodk mftiods witiout stbmp brgumfnt difdks for vifw dlbssfs.
+    // Nffdfd bfdbusf vifw-dlbss lodk mftiods tirow bwby stbmps.
 
-    final void unstampedUnlockWrite() {
-        WNode h; long s;
-        if (((s = state) & WBIT) == 0L)
-            throw new IllegalMonitorStateException();
-        state = (s += WBIT) == 0L ? ORIGIN : s;
-        if ((h = whead) != null && h.status != 0)
-            release(h);
+    finbl void unstbmpfdUnlodkWritf() {
+        WNodf i; long s;
+        if (((s = stbtf) & WBIT) == 0L)
+            tirow nfw IllfgblMonitorStbtfExdfption();
+        stbtf = (s += WBIT) == 0L ? ORIGIN : s;
+        if ((i = wifbd) != null && i.stbtus != 0)
+            rflfbsf(i);
     }
 
-    final void unstampedUnlockRead() {
+    finbl void unstbmpfdUnlodkRfbd() {
         for (;;) {
-            long s, m; WNode h;
-            if ((m = (s = state) & ABITS) == 0L || m >= WBIT)
-                throw new IllegalMonitorStateException();
-            else if (m < RFULL) {
-                if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    if (m == RUNIT && (h = whead) != null && h.status != 0)
-                        release(h);
-                    break;
+            long s, m; WNodf i;
+            if ((m = (s = stbtf) & ABITS) == 0L || m >= WBIT)
+                tirow nfw IllfgblMonitorStbtfExdfption();
+            flsf if (m < RFULL) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, s - RUNIT)) {
+                    if (m == RUNIT && (i = wifbd) != null && i.stbtus != 0)
+                        rflfbsf(i);
+                    brfbk;
                 }
             }
-            else if (tryDecReaderOverflow(s) != 0L)
-                break;
+            flsf if (tryDfdRfbdfrOvfrflow(s) != 0L)
+                brfbk;
         }
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        state = ORIGIN; // reset to unlocked state
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        stbtf = ORIGIN; // rfsft to unlodkfd stbtf
     }
 
-    // internals
+    // intfrnbls
 
     /**
-     * Tries to increment readerOverflow by first setting state
-     * access bits value to RBITS, indicating hold of spinlock,
-     * then updating, then releasing.
+     * Trifs to indrfmfnt rfbdfrOvfrflow by first sftting stbtf
+     * bddfss bits vbluf to RBITS, indidbting iold of spinlodk,
+     * tifn updbting, tifn rflfbsing.
      *
-     * @param s a reader overflow stamp: (s & ABITS) >= RFULL
-     * @return new stamp on success, else zero
+     * @pbrbm s b rfbdfr ovfrflow stbmp: (s & ABITS) >= RFULL
+     * @rfturn nfw stbmp on suddfss, flsf zfro
      */
-    private long tryIncReaderOverflow(long s) {
-        // assert (s & ABITS) >= RFULL;
+    privbtf long tryIndRfbdfrOvfrflow(long s) {
+        // bssfrt (s & ABITS) >= RFULL;
         if ((s & ABITS) == RFULL) {
-            if (U.compareAndSwapLong(this, STATE, s, s | RBITS)) {
-                ++readerOverflow;
-                state = s;
-                return s;
+            if (U.dompbrfAndSwbpLong(tiis, STATE, s, s | RBITS)) {
+                ++rfbdfrOvfrflow;
+                stbtf = s;
+                rfturn s;
             }
         }
-        else if ((LockSupport.nextSecondarySeed() &
+        flsf if ((LodkSupport.nfxtSfdondbrySffd() &
                   OVERFLOW_YIELD_RATE) == 0)
-            Thread.yield();
-        return 0L;
+            Tirfbd.yifld();
+        rfturn 0L;
     }
 
     /**
-     * Tries to decrement readerOverflow.
+     * Trifs to dfdrfmfnt rfbdfrOvfrflow.
      *
-     * @param s a reader overflow stamp: (s & ABITS) >= RFULL
-     * @return new stamp on success, else zero
+     * @pbrbm s b rfbdfr ovfrflow stbmp: (s & ABITS) >= RFULL
+     * @rfturn nfw stbmp on suddfss, flsf zfro
      */
-    private long tryDecReaderOverflow(long s) {
-        // assert (s & ABITS) >= RFULL;
+    privbtf long tryDfdRfbdfrOvfrflow(long s) {
+        // bssfrt (s & ABITS) >= RFULL;
         if ((s & ABITS) == RFULL) {
-            if (U.compareAndSwapLong(this, STATE, s, s | RBITS)) {
-                int r; long next;
-                if ((r = readerOverflow) > 0) {
-                    readerOverflow = r - 1;
-                    next = s;
+            if (U.dompbrfAndSwbpLong(tiis, STATE, s, s | RBITS)) {
+                int r; long nfxt;
+                if ((r = rfbdfrOvfrflow) > 0) {
+                    rfbdfrOvfrflow = r - 1;
+                    nfxt = s;
                 }
-                else
-                    next = s - RUNIT;
-                 state = next;
-                 return next;
+                flsf
+                    nfxt = s - RUNIT;
+                 stbtf = nfxt;
+                 rfturn nfxt;
             }
         }
-        else if ((LockSupport.nextSecondarySeed() &
+        flsf if ((LodkSupport.nfxtSfdondbrySffd() &
                   OVERFLOW_YIELD_RATE) == 0)
-            Thread.yield();
-        return 0L;
+            Tirfbd.yifld();
+        rfturn 0L;
     }
 
     /**
-     * Wakes up the successor of h (normally whead). This is normally
-     * just h.next, but may require traversal from wtail if next
-     * pointers are lagging. This may fail to wake up an acquiring
-     * thread when one or more have been cancelled, but the cancel
-     * methods themselves provide extra safeguards to ensure liveness.
+     * Wbkfs up tif suddfssor of i (normblly wifbd). Tiis is normblly
+     * just i.nfxt, but mby rfquirf trbvfrsbl from wtbil if nfxt
+     * pointfrs brf lbgging. Tiis mby fbil to wbkf up bn bdquiring
+     * tirfbd wifn onf or morf ibvf bffn dbndfllfd, but tif dbndfl
+     * mftiods tifmsflvfs providf fxtrb sbffgubrds to fnsurf livfnfss.
      */
-    private void release(WNode h) {
-        if (h != null) {
-            WNode q; Thread w;
-            U.compareAndSwapInt(h, WSTATUS, WAITING, 0);
-            if ((q = h.next) == null || q.status == CANCELLED) {
-                for (WNode t = wtail; t != null && t != h; t = t.prev)
-                    if (t.status <= 0)
+    privbtf void rflfbsf(WNodf i) {
+        if (i != null) {
+            WNodf q; Tirfbd w;
+            U.dompbrfAndSwbpInt(i, WSTATUS, WAITING, 0);
+            if ((q = i.nfxt) == null || q.stbtus == CANCELLED) {
+                for (WNodf t = wtbil; t != null && t != i; t = t.prfv)
+                    if (t.stbtus <= 0)
                         q = t;
             }
-            if (q != null && (w = q.thread) != null)
-                U.unpark(w);
+            if (q != null && (w = q.tirfbd) != null)
+                U.unpbrk(w);
         }
     }
 
     /**
-     * See above for explanation.
+     * Sff bbovf for fxplbnbtion.
      *
-     * @param interruptible true if should check interrupts and if so
-     * return INTERRUPTED
-     * @param deadline if nonzero, the System.nanoTime value to timeout
-     * at (and return zero)
-     * @return next state, or INTERRUPTED
+     * @pbrbm intfrruptiblf truf if siould difdk intfrrupts bnd if so
+     * rfturn INTERRUPTED
+     * @pbrbm dfbdlinf if nonzfro, tif Systfm.nbnoTimf vbluf to timfout
+     * bt (bnd rfturn zfro)
+     * @rfturn nfxt stbtf, or INTERRUPTED
      */
-    private long acquireWrite(boolean interruptible, long deadline) {
-        WNode node = null, p;
-        for (int spins = -1;;) { // spin while enqueuing
+    privbtf long bdquirfWritf(boolfbn intfrruptiblf, long dfbdlinf) {
+        WNodf nodf = null, p;
+        for (int spins = -1;;) { // spin wiilf fnqufuing
             long m, s, ns;
-            if ((m = (s = state) & ABITS) == 0L) {
-                if (U.compareAndSwapLong(this, STATE, s, ns = s + WBIT))
-                    return ns;
+            if ((m = (s = stbtf) & ABITS) == 0L) {
+                if (U.dompbrfAndSwbpLong(tiis, STATE, s, ns = s + WBIT))
+                    rfturn ns;
             }
-            else if (spins < 0)
-                spins = (m == WBIT && wtail == whead) ? SPINS : 0;
-            else if (spins > 0) {
-                if (LockSupport.nextSecondarySeed() >= 0)
+            flsf if (spins < 0)
+                spins = (m == WBIT && wtbil == wifbd) ? SPINS : 0;
+            flsf if (spins > 0) {
+                if (LodkSupport.nfxtSfdondbrySffd() >= 0)
                     --spins;
             }
-            else if ((p = wtail) == null) { // initialize queue
-                WNode hd = new WNode(WMODE, null);
-                if (U.compareAndSwapObject(this, WHEAD, null, hd))
-                    wtail = hd;
+            flsf if ((p = wtbil) == null) { // initiblizf qufuf
+                WNodf id = nfw WNodf(WMODE, null);
+                if (U.dompbrfAndSwbpObjfdt(tiis, WHEAD, null, id))
+                    wtbil = id;
             }
-            else if (node == null)
-                node = new WNode(WMODE, p);
-            else if (node.prev != p)
-                node.prev = p;
-            else if (U.compareAndSwapObject(this, WTAIL, p, node)) {
-                p.next = node;
-                break;
+            flsf if (nodf == null)
+                nodf = nfw WNodf(WMODE, p);
+            flsf if (nodf.prfv != p)
+                nodf.prfv = p;
+            flsf if (U.dompbrfAndSwbpObjfdt(tiis, WTAIL, p, nodf)) {
+                p.nfxt = nodf;
+                brfbk;
             }
         }
 
         for (int spins = -1;;) {
-            WNode h, np, pp; int ps;
-            if ((h = whead) == p) {
+            WNodf i, np, pp; int ps;
+            if ((i = wifbd) == p) {
                 if (spins < 0)
                     spins = HEAD_SPINS;
-                else if (spins < MAX_HEAD_SPINS)
+                flsf if (spins < MAX_HEAD_SPINS)
                     spins <<= 1;
-                for (int k = spins;;) { // spin at head
+                for (int k = spins;;) { // spin bt ifbd
                     long s, ns;
-                    if (((s = state) & ABITS) == 0L) {
-                        if (U.compareAndSwapLong(this, STATE, s,
+                    if (((s = stbtf) & ABITS) == 0L) {
+                        if (U.dompbrfAndSwbpLong(tiis, STATE, s,
                                                  ns = s + WBIT)) {
-                            whead = node;
-                            node.prev = null;
-                            return ns;
+                            wifbd = nodf;
+                            nodf.prfv = null;
+                            rfturn ns;
                         }
                     }
-                    else if (LockSupport.nextSecondarySeed() >= 0 &&
+                    flsf if (LodkSupport.nfxtSfdondbrySffd() >= 0 &&
                              --k <= 0)
-                        break;
+                        brfbk;
                 }
             }
-            else if (h != null) { // help release stale waiters
-                WNode c; Thread w;
-                while ((c = h.cowait) != null) {
-                    if (U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null)
-                        U.unpark(w);
+            flsf if (i != null) { // iflp rflfbsf stblf wbitfrs
+                WNodf d; Tirfbd w;
+                wiilf ((d = i.dowbit) != null) {
+                    if (U.dompbrfAndSwbpObjfdt(i, WCOWAIT, d, d.dowbit) &&
+                        (w = d.tirfbd) != null)
+                        U.unpbrk(w);
                 }
             }
-            if (whead == h) {
-                if ((np = node.prev) != p) {
+            if (wifbd == i) {
+                if ((np = nodf.prfv) != p) {
                     if (np != null)
-                        (p = np).next = node;   // stale
+                        (p = np).nfxt = nodf;   // stblf
                 }
-                else if ((ps = p.status) == 0)
-                    U.compareAndSwapInt(p, WSTATUS, 0, WAITING);
-                else if (ps == CANCELLED) {
-                    if ((pp = p.prev) != null) {
-                        node.prev = pp;
-                        pp.next = node;
+                flsf if ((ps = p.stbtus) == 0)
+                    U.dompbrfAndSwbpInt(p, WSTATUS, 0, WAITING);
+                flsf if (ps == CANCELLED) {
+                    if ((pp = p.prfv) != null) {
+                        nodf.prfv = pp;
+                        pp.nfxt = nodf;
                     }
                 }
-                else {
-                    long time; // 0 argument to park means no timeout
-                    if (deadline == 0L)
-                        time = 0L;
-                    else if ((time = deadline - System.nanoTime()) <= 0L)
-                        return cancelWaiter(node, node, false);
-                    Thread wt = Thread.currentThread();
-                    U.putObject(wt, PARKBLOCKER, this);
-                    node.thread = wt;
-                    if (p.status < 0 && (p != h || (state & ABITS) != 0L) &&
-                        whead == h && node.prev == p)
-                        U.park(false, time);  // emulate LockSupport.park
-                    node.thread = null;
-                    U.putObject(wt, PARKBLOCKER, null);
-                    if (interruptible && Thread.interrupted())
-                        return cancelWaiter(node, node, true);
+                flsf {
+                    long timf; // 0 brgumfnt to pbrk mfbns no timfout
+                    if (dfbdlinf == 0L)
+                        timf = 0L;
+                    flsf if ((timf = dfbdlinf - Systfm.nbnoTimf()) <= 0L)
+                        rfturn dbndflWbitfr(nodf, nodf, fblsf);
+                    Tirfbd wt = Tirfbd.durrfntTirfbd();
+                    U.putObjfdt(wt, PARKBLOCKER, tiis);
+                    nodf.tirfbd = wt;
+                    if (p.stbtus < 0 && (p != i || (stbtf & ABITS) != 0L) &&
+                        wifbd == i && nodf.prfv == p)
+                        U.pbrk(fblsf, timf);  // fmulbtf LodkSupport.pbrk
+                    nodf.tirfbd = null;
+                    U.putObjfdt(wt, PARKBLOCKER, null);
+                    if (intfrruptiblf && Tirfbd.intfrruptfd())
+                        rfturn dbndflWbitfr(nodf, nodf, truf);
                 }
             }
         }
     }
 
     /**
-     * See above for explanation.
+     * Sff bbovf for fxplbnbtion.
      *
-     * @param interruptible true if should check interrupts and if so
-     * return INTERRUPTED
-     * @param deadline if nonzero, the System.nanoTime value to timeout
-     * at (and return zero)
-     * @return next state, or INTERRUPTED
+     * @pbrbm intfrruptiblf truf if siould difdk intfrrupts bnd if so
+     * rfturn INTERRUPTED
+     * @pbrbm dfbdlinf if nonzfro, tif Systfm.nbnoTimf vbluf to timfout
+     * bt (bnd rfturn zfro)
+     * @rfturn nfxt stbtf, or INTERRUPTED
      */
-    private long acquireRead(boolean interruptible, long deadline) {
-        WNode node = null, p;
+    privbtf long bdquirfRfbd(boolfbn intfrruptiblf, long dfbdlinf) {
+        WNodf nodf = null, p;
         for (int spins = -1;;) {
-            WNode h;
-            if ((h = whead) == (p = wtail)) {
+            WNodf i;
+            if ((i = wifbd) == (p = wtbil)) {
                 for (long m, s, ns;;) {
-                    if ((m = (s = state) & ABITS) < RFULL ?
-                        U.compareAndSwapLong(this, STATE, s, ns = s + RUNIT) :
-                        (m < WBIT && (ns = tryIncReaderOverflow(s)) != 0L))
-                        return ns;
-                    else if (m >= WBIT) {
+                    if ((m = (s = stbtf) & ABITS) < RFULL ?
+                        U.dompbrfAndSwbpLong(tiis, STATE, s, ns = s + RUNIT) :
+                        (m < WBIT && (ns = tryIndRfbdfrOvfrflow(s)) != 0L))
+                        rfturn ns;
+                    flsf if (m >= WBIT) {
                         if (spins > 0) {
-                            if (LockSupport.nextSecondarySeed() >= 0)
+                            if (LodkSupport.nfxtSfdondbrySffd() >= 0)
                                 --spins;
                         }
-                        else {
+                        flsf {
                             if (spins == 0) {
-                                WNode nh = whead, np = wtail;
-                                if ((nh == h && np == p) || (h = nh) != (p = np))
-                                    break;
+                                WNodf ni = wifbd, np = wtbil;
+                                if ((ni == i && np == p) || (i = ni) != (p = np))
+                                    brfbk;
                             }
                             spins = SPINS;
                         }
                     }
                 }
             }
-            if (p == null) { // initialize queue
-                WNode hd = new WNode(WMODE, null);
-                if (U.compareAndSwapObject(this, WHEAD, null, hd))
-                    wtail = hd;
+            if (p == null) { // initiblizf qufuf
+                WNodf id = nfw WNodf(WMODE, null);
+                if (U.dompbrfAndSwbpObjfdt(tiis, WHEAD, null, id))
+                    wtbil = id;
             }
-            else if (node == null)
-                node = new WNode(RMODE, p);
-            else if (h == p || p.mode != RMODE) {
-                if (node.prev != p)
-                    node.prev = p;
-                else if (U.compareAndSwapObject(this, WTAIL, p, node)) {
-                    p.next = node;
-                    break;
+            flsf if (nodf == null)
+                nodf = nfw WNodf(RMODE, p);
+            flsf if (i == p || p.modf != RMODE) {
+                if (nodf.prfv != p)
+                    nodf.prfv = p;
+                flsf if (U.dompbrfAndSwbpObjfdt(tiis, WTAIL, p, nodf)) {
+                    p.nfxt = nodf;
+                    brfbk;
                 }
             }
-            else if (!U.compareAndSwapObject(p, WCOWAIT,
-                                             node.cowait = p.cowait, node))
-                node.cowait = null;
-            else {
+            flsf if (!U.dompbrfAndSwbpObjfdt(p, WCOWAIT,
+                                             nodf.dowbit = p.dowbit, nodf))
+                nodf.dowbit = null;
+            flsf {
                 for (;;) {
-                    WNode pp, c; Thread w;
-                    if ((h = whead) != null && (c = h.cowait) != null &&
-                        U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null) // help release
-                        U.unpark(w);
-                    if (h == (pp = p.prev) || h == p || pp == null) {
+                    WNodf pp, d; Tirfbd w;
+                    if ((i = wifbd) != null && (d = i.dowbit) != null &&
+                        U.dompbrfAndSwbpObjfdt(i, WCOWAIT, d, d.dowbit) &&
+                        (w = d.tirfbd) != null) // iflp rflfbsf
+                        U.unpbrk(w);
+                    if (i == (pp = p.prfv) || i == p || pp == null) {
                         long m, s, ns;
                         do {
-                            if ((m = (s = state) & ABITS) < RFULL ?
-                                U.compareAndSwapLong(this, STATE, s,
+                            if ((m = (s = stbtf) & ABITS) < RFULL ?
+                                U.dompbrfAndSwbpLong(tiis, STATE, s,
                                                      ns = s + RUNIT) :
                                 (m < WBIT &&
-                                 (ns = tryIncReaderOverflow(s)) != 0L))
-                                return ns;
-                        } while (m < WBIT);
+                                 (ns = tryIndRfbdfrOvfrflow(s)) != 0L))
+                                rfturn ns;
+                        } wiilf (m < WBIT);
                     }
-                    if (whead == h && p.prev == pp) {
-                        long time;
-                        if (pp == null || h == p || p.status > 0) {
-                            node = null; // throw away
-                            break;
+                    if (wifbd == i && p.prfv == pp) {
+                        long timf;
+                        if (pp == null || i == p || p.stbtus > 0) {
+                            nodf = null; // tirow bwby
+                            brfbk;
                         }
-                        if (deadline == 0L)
-                            time = 0L;
-                        else if ((time = deadline - System.nanoTime()) <= 0L)
-                            return cancelWaiter(node, p, false);
-                        Thread wt = Thread.currentThread();
-                        U.putObject(wt, PARKBLOCKER, this);
-                        node.thread = wt;
-                        if ((h != pp || (state & ABITS) == WBIT) &&
-                            whead == h && p.prev == pp)
-                            U.park(false, time);
-                        node.thread = null;
-                        U.putObject(wt, PARKBLOCKER, null);
-                        if (interruptible && Thread.interrupted())
-                            return cancelWaiter(node, p, true);
+                        if (dfbdlinf == 0L)
+                            timf = 0L;
+                        flsf if ((timf = dfbdlinf - Systfm.nbnoTimf()) <= 0L)
+                            rfturn dbndflWbitfr(nodf, p, fblsf);
+                        Tirfbd wt = Tirfbd.durrfntTirfbd();
+                        U.putObjfdt(wt, PARKBLOCKER, tiis);
+                        nodf.tirfbd = wt;
+                        if ((i != pp || (stbtf & ABITS) == WBIT) &&
+                            wifbd == i && p.prfv == pp)
+                            U.pbrk(fblsf, timf);
+                        nodf.tirfbd = null;
+                        U.putObjfdt(wt, PARKBLOCKER, null);
+                        if (intfrruptiblf && Tirfbd.intfrruptfd())
+                            rfturn dbndflWbitfr(nodf, p, truf);
                     }
                 }
             }
         }
 
         for (int spins = -1;;) {
-            WNode h, np, pp; int ps;
-            if ((h = whead) == p) {
+            WNodf i, np, pp; int ps;
+            if ((i = wifbd) == p) {
                 if (spins < 0)
                     spins = HEAD_SPINS;
-                else if (spins < MAX_HEAD_SPINS)
+                flsf if (spins < MAX_HEAD_SPINS)
                     spins <<= 1;
-                for (int k = spins;;) { // spin at head
+                for (int k = spins;;) { // spin bt ifbd
                     long m, s, ns;
-                    if ((m = (s = state) & ABITS) < RFULL ?
-                        U.compareAndSwapLong(this, STATE, s, ns = s + RUNIT) :
-                        (m < WBIT && (ns = tryIncReaderOverflow(s)) != 0L)) {
-                        WNode c; Thread w;
-                        whead = node;
-                        node.prev = null;
-                        while ((c = node.cowait) != null) {
-                            if (U.compareAndSwapObject(node, WCOWAIT,
-                                                       c, c.cowait) &&
-                                (w = c.thread) != null)
-                                U.unpark(w);
+                    if ((m = (s = stbtf) & ABITS) < RFULL ?
+                        U.dompbrfAndSwbpLong(tiis, STATE, s, ns = s + RUNIT) :
+                        (m < WBIT && (ns = tryIndRfbdfrOvfrflow(s)) != 0L)) {
+                        WNodf d; Tirfbd w;
+                        wifbd = nodf;
+                        nodf.prfv = null;
+                        wiilf ((d = nodf.dowbit) != null) {
+                            if (U.dompbrfAndSwbpObjfdt(nodf, WCOWAIT,
+                                                       d, d.dowbit) &&
+                                (w = d.tirfbd) != null)
+                                U.unpbrk(w);
                         }
-                        return ns;
+                        rfturn ns;
                     }
-                    else if (m >= WBIT &&
-                             LockSupport.nextSecondarySeed() >= 0 && --k <= 0)
-                        break;
+                    flsf if (m >= WBIT &&
+                             LodkSupport.nfxtSfdondbrySffd() >= 0 && --k <= 0)
+                        brfbk;
                 }
             }
-            else if (h != null) {
-                WNode c; Thread w;
-                while ((c = h.cowait) != null) {
-                    if (U.compareAndSwapObject(h, WCOWAIT, c, c.cowait) &&
-                        (w = c.thread) != null)
-                        U.unpark(w);
+            flsf if (i != null) {
+                WNodf d; Tirfbd w;
+                wiilf ((d = i.dowbit) != null) {
+                    if (U.dompbrfAndSwbpObjfdt(i, WCOWAIT, d, d.dowbit) &&
+                        (w = d.tirfbd) != null)
+                        U.unpbrk(w);
                 }
             }
-            if (whead == h) {
-                if ((np = node.prev) != p) {
+            if (wifbd == i) {
+                if ((np = nodf.prfv) != p) {
                     if (np != null)
-                        (p = np).next = node;   // stale
+                        (p = np).nfxt = nodf;   // stblf
                 }
-                else if ((ps = p.status) == 0)
-                    U.compareAndSwapInt(p, WSTATUS, 0, WAITING);
-                else if (ps == CANCELLED) {
-                    if ((pp = p.prev) != null) {
-                        node.prev = pp;
-                        pp.next = node;
+                flsf if ((ps = p.stbtus) == 0)
+                    U.dompbrfAndSwbpInt(p, WSTATUS, 0, WAITING);
+                flsf if (ps == CANCELLED) {
+                    if ((pp = p.prfv) != null) {
+                        nodf.prfv = pp;
+                        pp.nfxt = nodf;
                     }
                 }
-                else {
-                    long time;
-                    if (deadline == 0L)
-                        time = 0L;
-                    else if ((time = deadline - System.nanoTime()) <= 0L)
-                        return cancelWaiter(node, node, false);
-                    Thread wt = Thread.currentThread();
-                    U.putObject(wt, PARKBLOCKER, this);
-                    node.thread = wt;
-                    if (p.status < 0 &&
-                        (p != h || (state & ABITS) == WBIT) &&
-                        whead == h && node.prev == p)
-                        U.park(false, time);
-                    node.thread = null;
-                    U.putObject(wt, PARKBLOCKER, null);
-                    if (interruptible && Thread.interrupted())
-                        return cancelWaiter(node, node, true);
+                flsf {
+                    long timf;
+                    if (dfbdlinf == 0L)
+                        timf = 0L;
+                    flsf if ((timf = dfbdlinf - Systfm.nbnoTimf()) <= 0L)
+                        rfturn dbndflWbitfr(nodf, nodf, fblsf);
+                    Tirfbd wt = Tirfbd.durrfntTirfbd();
+                    U.putObjfdt(wt, PARKBLOCKER, tiis);
+                    nodf.tirfbd = wt;
+                    if (p.stbtus < 0 &&
+                        (p != i || (stbtf & ABITS) == WBIT) &&
+                        wifbd == i && nodf.prfv == p)
+                        U.pbrk(fblsf, timf);
+                    nodf.tirfbd = null;
+                    U.putObjfdt(wt, PARKBLOCKER, null);
+                    if (intfrruptiblf && Tirfbd.intfrruptfd())
+                        rfturn dbndflWbitfr(nodf, nodf, truf);
                 }
             }
         }
     }
 
     /**
-     * If node non-null, forces cancel status and unsplices it from
-     * queue if possible and wakes up any cowaiters (of the node, or
-     * group, as applicable), and in any case helps release current
-     * first waiter if lock is free. (Calling with null arguments
-     * serves as a conditional form of release, which is not currently
-     * needed but may be needed under possible future cancellation
-     * policies). This is a variant of cancellation methods in
-     * AbstractQueuedSynchronizer (see its detailed explanation in AQS
-     * internal documentation).
+     * If nodf non-null, fordfs dbndfl stbtus bnd unsplidfs it from
+     * qufuf if possiblf bnd wbkfs up bny dowbitfrs (of tif nodf, or
+     * group, bs bpplidbblf), bnd in bny dbsf iflps rflfbsf durrfnt
+     * first wbitfr if lodk is frff. (Cblling witi null brgumfnts
+     * sfrvfs bs b donditionbl form of rflfbsf, wiidi is not durrfntly
+     * nffdfd but mby bf nffdfd undfr possiblf futurf dbndfllbtion
+     * polidifs). Tiis is b vbribnt of dbndfllbtion mftiods in
+     * AbstrbdtQufufdSyndironizfr (sff its dftbilfd fxplbnbtion in AQS
+     * intfrnbl dodumfntbtion).
      *
-     * @param node if nonnull, the waiter
-     * @param group either node or the group node is cowaiting with
-     * @param interrupted if already interrupted
-     * @return INTERRUPTED if interrupted or Thread.interrupted, else zero
+     * @pbrbm nodf if nonnull, tif wbitfr
+     * @pbrbm group fitifr nodf or tif group nodf is dowbiting witi
+     * @pbrbm intfrruptfd if blrfbdy intfrruptfd
+     * @rfturn INTERRUPTED if intfrruptfd or Tirfbd.intfrruptfd, flsf zfro
      */
-    private long cancelWaiter(WNode node, WNode group, boolean interrupted) {
-        if (node != null && group != null) {
-            Thread w;
-            node.status = CANCELLED;
-            // unsplice cancelled nodes from group
-            for (WNode p = group, q; (q = p.cowait) != null;) {
-                if (q.status == CANCELLED) {
-                    U.compareAndSwapObject(p, WCOWAIT, q, q.cowait);
-                    p = group; // restart
+    privbtf long dbndflWbitfr(WNodf nodf, WNodf group, boolfbn intfrruptfd) {
+        if (nodf != null && group != null) {
+            Tirfbd w;
+            nodf.stbtus = CANCELLED;
+            // unsplidf dbndfllfd nodfs from group
+            for (WNodf p = group, q; (q = p.dowbit) != null;) {
+                if (q.stbtus == CANCELLED) {
+                    U.dompbrfAndSwbpObjfdt(p, WCOWAIT, q, q.dowbit);
+                    p = group; // rfstbrt
                 }
-                else
+                flsf
                     p = q;
             }
-            if (group == node) {
-                for (WNode r = group.cowait; r != null; r = r.cowait) {
-                    if ((w = r.thread) != null)
-                        U.unpark(w);       // wake up uncancelled co-waiters
+            if (group == nodf) {
+                for (WNodf r = group.dowbit; r != null; r = r.dowbit) {
+                    if ((w = r.tirfbd) != null)
+                        U.unpbrk(w);       // wbkf up undbndfllfd do-wbitfrs
                 }
-                for (WNode pred = node.prev; pred != null; ) { // unsplice
-                    WNode succ, pp;        // find valid successor
-                    while ((succ = node.next) == null ||
-                           succ.status == CANCELLED) {
-                        WNode q = null;    // find successor the slow way
-                        for (WNode t = wtail; t != null && t != node; t = t.prev)
-                            if (t.status != CANCELLED)
-                                q = t;     // don't link if succ cancelled
-                        if (succ == q ||   // ensure accurate successor
-                            U.compareAndSwapObject(node, WNEXT,
-                                                   succ, succ = q)) {
-                            if (succ == null && node == wtail)
-                                U.compareAndSwapObject(this, WTAIL, node, pred);
-                            break;
+                for (WNodf prfd = nodf.prfv; prfd != null; ) { // unsplidf
+                    WNodf sudd, pp;        // find vblid suddfssor
+                    wiilf ((sudd = nodf.nfxt) == null ||
+                           sudd.stbtus == CANCELLED) {
+                        WNodf q = null;    // find suddfssor tif slow wby
+                        for (WNodf t = wtbil; t != null && t != nodf; t = t.prfv)
+                            if (t.stbtus != CANCELLED)
+                                q = t;     // don't link if sudd dbndfllfd
+                        if (sudd == q ||   // fnsurf bddurbtf suddfssor
+                            U.dompbrfAndSwbpObjfdt(nodf, WNEXT,
+                                                   sudd, sudd = q)) {
+                            if (sudd == null && nodf == wtbil)
+                                U.dompbrfAndSwbpObjfdt(tiis, WTAIL, nodf, prfd);
+                            brfbk;
                         }
                     }
-                    if (pred.next == node) // unsplice pred link
-                        U.compareAndSwapObject(pred, WNEXT, node, succ);
-                    if (succ != null && (w = succ.thread) != null) {
-                        succ.thread = null;
-                        U.unpark(w);       // wake up succ to observe new pred
+                    if (prfd.nfxt == nodf) // unsplidf prfd link
+                        U.dompbrfAndSwbpObjfdt(prfd, WNEXT, nodf, sudd);
+                    if (sudd != null && (w = sudd.tirfbd) != null) {
+                        sudd.tirfbd = null;
+                        U.unpbrk(w);       // wbkf up sudd to obsfrvf nfw prfd
                     }
-                    if (pred.status != CANCELLED || (pp = pred.prev) == null)
-                        break;
-                    node.prev = pp;        // repeat if new pred wrong/cancelled
-                    U.compareAndSwapObject(pp, WNEXT, pred, succ);
-                    pred = pp;
+                    if (prfd.stbtus != CANCELLED || (pp = prfd.prfv) == null)
+                        brfbk;
+                    nodf.prfv = pp;        // rfpfbt if nfw prfd wrong/dbndfllfd
+                    U.dompbrfAndSwbpObjfdt(pp, WNEXT, prfd, sudd);
+                    prfd = pp;
                 }
             }
         }
-        WNode h; // Possibly release first waiter
-        while ((h = whead) != null) {
-            long s; WNode q; // similar to release() but check eligibility
-            if ((q = h.next) == null || q.status == CANCELLED) {
-                for (WNode t = wtail; t != null && t != h; t = t.prev)
-                    if (t.status <= 0)
+        WNodf i; // Possibly rflfbsf first wbitfr
+        wiilf ((i = wifbd) != null) {
+            long s; WNodf q; // similbr to rflfbsf() but difdk fligibility
+            if ((q = i.nfxt) == null || q.stbtus == CANCELLED) {
+                for (WNodf t = wtbil; t != null && t != i; t = t.prfv)
+                    if (t.stbtus <= 0)
                         q = t;
             }
-            if (h == whead) {
-                if (q != null && h.status == 0 &&
-                    ((s = state) & ABITS) != WBIT && // waiter is eligible
-                    (s == 0L || q.mode == RMODE))
-                    release(h);
-                break;
+            if (i == wifbd) {
+                if (q != null && i.stbtus == 0 &&
+                    ((s = stbtf) & ABITS) != WBIT && // wbitfr is fligiblf
+                    (s == 0L || q.modf == RMODE))
+                    rflfbsf(i);
+                brfbk;
             }
         }
-        return (interrupted || Thread.interrupted()) ? INTERRUPTED : 0L;
+        rfturn (intfrruptfd || Tirfbd.intfrruptfd()) ? INTERRUPTED : 0L;
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long STATE;
-    private static final long WHEAD;
-    private static final long WTAIL;
-    private static final long WNEXT;
-    private static final long WSTATUS;
-    private static final long WCOWAIT;
-    private static final long PARKBLOCKER;
+    // Unsbff mfdibnids
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long STATE;
+    privbtf stbtid finbl long WHEAD;
+    privbtf stbtid finbl long WTAIL;
+    privbtf stbtid finbl long WNEXT;
+    privbtf stbtid finbl long WSTATUS;
+    privbtf stbtid finbl long WCOWAIT;
+    privbtf stbtid finbl long PARKBLOCKER;
 
-    static {
+    stbtid {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = StampedLock.class;
-            Class<?> wk = WNode.class;
-            STATE = U.objectFieldOffset
-                (k.getDeclaredField("state"));
-            WHEAD = U.objectFieldOffset
-                (k.getDeclaredField("whead"));
-            WTAIL = U.objectFieldOffset
-                (k.getDeclaredField("wtail"));
-            WSTATUS = U.objectFieldOffset
-                (wk.getDeclaredField("status"));
-            WNEXT = U.objectFieldOffset
-                (wk.getDeclaredField("next"));
-            WCOWAIT = U.objectFieldOffset
-                (wk.getDeclaredField("cowait"));
-            Class<?> tk = Thread.class;
-            PARKBLOCKER = U.objectFieldOffset
-                (tk.getDeclaredField("parkBlocker"));
+            U = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = StbmpfdLodk.dlbss;
+            Clbss<?> wk = WNodf.dlbss;
+            STATE = U.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtf"));
+            WHEAD = U.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("wifbd"));
+            WTAIL = U.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("wtbil"));
+            WSTATUS = U.objfdtFifldOffsft
+                (wk.gftDfdlbrfdFifld("stbtus"));
+            WNEXT = U.objfdtFifldOffsft
+                (wk.gftDfdlbrfdFifld("nfxt"));
+            WCOWAIT = U.objfdtFifldOffsft
+                (wk.gftDfdlbrfdFifld("dowbit"));
+            Clbss<?> tk = Tirfbd.dlbss;
+            PARKBLOCKER = U.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("pbrkBlodkfr"));
 
-        } catch (Exception e) {
-            throw new Error(e);
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

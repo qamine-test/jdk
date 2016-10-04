@@ -1,47 +1,47 @@
 <HTML>
   <HEAD>
-    <TITLE>A Clock (1.6)</TITLE>
+    <TITLE>A Clodk (1.6)</TITLE>
   </HEAD>
   <BODY>
-    <h1>A Clock (1.6)</h1>
-    <hr>
-    <applet code="Clock.class" width=170 height=150>
-      alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-      Your browser is completely ignoring the &lt;APPLET&gt; tag!
-</applet>
+    <i1>A Clodk (1.6)</i1>
+    <ir>
+    <bpplft dodf="Clodk.dlbss" widti=170 ifigit=150>
+      blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+      Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+</bpplft>
       <p>
-        The clock applet now has three parameters; the background
-        color (bgcolor), the main foreground color (the hands and
-        dial) (fgcolor1) and the secondary foreground color (the
-        seconds hand and numbers) (fgcolor2).  These three parameters
-        are hexadecimal RGB numbers (like the ones used for the body
-        bgcolor tag in HTML).  For example:
+        Tif dlodk bpplft now ibs tirff pbrbmftfrs; tif bbdkground
+        dolor (bgdolor), tif mbin forfground dolor (tif ibnds bnd
+        dibl) (fgdolor1) bnd tif sfdondbry forfground dolor (tif
+        sfdonds ibnd bnd numbfrs) (fgdolor2).  Tifsf tirff pbrbmftfrs
+        brf ifxbdfdimbl RGB numbfrs (likf tif onfs usfd for tif body
+        bgdolor tbg in HTML).  For fxbmplf:
       <p>
-        &lt;applet code="Clock.class" width=170 height=150&gt;<br>
-        &lt;param name=bgcolor  value="000000"&gt;<br>
-        &lt;param name=fgcolor1 value="ff0000"&gt;<br>
-        &lt;param name=fgcolor2 value="ff00ff"&gt;<br>
-        &lt;/applet&gt;<p>
-        would give you a black background, a red dial and hands, and purple numbers.
+        &lt;bpplft dodf="Clodk.dlbss" widti=170 ifigit=150&gt;<br>
+        &lt;pbrbm nbmf=bgdolor  vbluf="000000"&gt;<br>
+        &lt;pbrbm nbmf=fgdolor1 vbluf="ff0000"&gt;<br>
+        &lt;pbrbm nbmf=fgdolor2 vbluf="ff00ff"&gt;<br>
+        &lt;/bpplft&gt;<p>
+        would givf you b blbdk bbdkground, b rfd dibl bnd ibnds, bnd purplf numbfrs.
       <p>
-        For those who don't convert to hexadecimal easily, here are some common
-        values:
+        For tiosf wio don't donvfrt to ifxbdfdimbl fbsily, ifrf brf somf dommon
+        vblufs:
       <ul>
-        <li>black = 000000
-        <li>blue = 0000ff
-        <li>cyan = 00ffff
-        <li>darkGray = 404040
-        <li>gray = 808080
-        <li>green = 00ff00
-        <li>lightGray = c0c0c0
-        <li>magenta = ff00ff
-        <li>orange = ffc800
-        <li>pink = ffafaf
-        <li>red = ff0000
-        <li>white = ffffff
-        <li>yellow = ffff00
+        <li>blbdk = 000000
+        <li>bluf = 0000ff
+        <li>dybn = 00ffff
+        <li>dbrkGrby = 404040
+        <li>grby = 808080
+        <li>grffn = 00ff00
+        <li>ligitGrby = d0d0d0
+        <li>mbgfntb = ff00ff
+        <li>orbngf = ffd800
+        <li>pink = ffbfbf
+        <li>rfd = ff0000
+        <li>wiitf = ffffff
+        <li>yfllow = ffff00
       </ul>
-      <hr>
-      <a href="Clock.java">The source</a>.
+      <ir>
+      <b irff="Clodk.jbvb">Tif sourdf</b>.
   </BODY>
 </HTML>

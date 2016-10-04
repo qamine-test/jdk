@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSeparatorUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidSfpbrbtorUI;
 
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaPopupMenuSeparatorUI extends BasicSeparatorUI {
-    protected static RecyclableSingletonFromDefaultConstructor<AquaPopupMenuSeparatorUI> instance = new RecyclableSingletonFromDefaultConstructor<AquaPopupMenuSeparatorUI>(AquaPopupMenuSeparatorUI.class);
+publid dlbss AqubPopupMfnuSfpbrbtorUI fxtfnds BbsidSfpbrbtorUI {
+    protfdtfd stbtid RfdydlbblfSinglftonFromDffbultConstrudtor<AqubPopupMfnuSfpbrbtorUI> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubPopupMfnuSfpbrbtorUI>(AqubPopupMfnuSfpbrbtorUI.dlbss);
 
-    public static ComponentUI createUI(final JComponent c) {
-        return instance.get();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn instbndf.gft();
     }
 
-    public void update(final Graphics g, final JComponent c) {
-        paint(g, c);
+    publid void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        pbint(g, d);
     }
 
-    public void paint(final Graphics g, final JComponent c) {
-        final Dimension s = c.getSize();
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        finbl Dimfnsion s = d.gftSizf();
 
-        if (((JSeparator)c).getOrientation() == SwingConstants.VERTICAL) {
-            g.setColor(c.getForeground());
-            g.drawLine(5, 1, 5, s.height - 2);
+        if (((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL) {
+            g.sftColor(d.gftForfground());
+            g.drbwLinf(5, 1, 5, s.ifigit - 2);
 
-            g.setColor(c.getBackground());
-            g.drawLine(6, 1, 6, s.height - 2);
-        } else {
-            g.setColor(c.getForeground());
-            g.drawLine(1, 5, s.width - 2, 5);
+            g.sftColor(d.gftBbdkground());
+            g.drbwLinf(6, 1, 6, s.ifigit - 2);
+        } flsf {
+            g.sftColor(d.gftForfground());
+            g.drbwLinf(1, 5, s.widti - 2, 5);
 
-            g.setColor(c.getBackground());
-            g.drawLine(1, 6, s.width - 2, 6);
+            g.sftColor(d.gftBbdkground());
+            g.drbwLinf(1, 6, s.widti - 2, 6);
         }
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        if (((JSeparator)c).getOrientation() == SwingConstants.VERTICAL) {
-            return new Dimension(12, 0);
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (((JSfpbrbtor)d).gftOrifntbtion() == SwingConstbnts.VERTICAL) {
+            rfturn nfw Dimfnsion(12, 0);
         }
 
-        return new Dimension(0, 12);
+        rfturn nfw Dimfnsion(0, 12);
     }
 }

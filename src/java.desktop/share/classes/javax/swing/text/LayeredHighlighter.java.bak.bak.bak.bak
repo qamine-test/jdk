@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Shbpf;
+
+/**
+ *
+ * @buthor  Sdott Violft
+ * @buthor  Timothy Prinzing
+ * @sff     Highlightfr
+ */
+publid bbstrbdt dlbss LbyfrfdHighlightfr implfmfnts Highlightfr {
+    /**
+     * Whfn lfbf Vifws (sudh bs LbbflVifw) brf rfndfring thfy should
+     * dbll into this mfthod. If b highlight is in thf givfn rfgion it will
+     * bf drbwn immfdibtfly.
+     *
+     * @pbrbm g Grbphids usfd to drbw
+     * @pbrbm p0 stbrting offsft of vifw
+     * @pbrbm p1 fnding offsft of vifw
+     * @pbrbm vifwBounds Bounds of Vifw
+     * @pbrbm fditor JTfxtComponfnt
+     * @pbrbm vifw Vifw instbndf bfing rfndfrfd
+     */
+    publid bbstrbdt void pbintLbyfrfdHighlights(Grbphids g, int p0, int p1,
+                                                Shbpf vifwBounds,
+                                                JTfxtComponfnt fditor,
+                                                Vifw vifw);
+
+
+    /**
+     * Lbyfrfd highlight rfndfrfr.
+     */
+    stbtid publid bbstrbdt dlbss LbyfrPbintfr implfmfnts Highlightfr.HighlightPbintfr {
+        publid bbstrbdt Shbpf pbintLbyfr(Grbphids g, int p0, int p1,
+                                        Shbpf vifwBounds,JTfxtComponfnt fditor,
+                                        Vifw vifw);
+    }
+}

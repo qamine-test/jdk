@@ -1,0 +1,1130 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.sfdurity;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.spfd.*;
+import jbvb.util.*;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+import jbvbx.sfdurity.buth.x500.*;
+
+import sun.sfdurity.pkds.*;
+import sun.sfdurity.pkds.EndryptfdPrivbtfKfyInfo;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.*;
+
+/**
+ * This dlbss providfs thf kfystorf implfmfntbtion rfffrrfd to bs "KfydhbinStorf".
+ * It usfs thf durrfnt usfr's kfydhbin bs its bbdking storbgf, bnd dofs NOT support
+ * b filf-bbsfd implfmfntbtion.
+ */
+
+publid finbl dlbss KfydhbinStorf fxtfnds KfyStorfSpi {
+
+    // Privbtf kfys bnd thfir supporting dfrtifidbtf dhbins
+    // If b kfy dbmf from thf kfydhbin it hbs b SfdKfyRff bnd onf or morf
+    // SfdCfrtifidbtfRff.  Whfn wf dflftf thf kfy wf hbvf to dflftf bll of thf dorrfsponding
+    // nbtivf objfdts.
+    dlbss KfyEntry {
+        Dbtf dbtf; // thf drfbtion dbtf of this fntry
+        bytf[] protfdtfdPrivKfy;
+        dhbr[] pbssword;
+        long kfyRff;  // SfdKfyRff for this kfy
+        Cfrtifidbtf dhbin[];
+        long dhbinRffs[];  // SfdCfrtifidbtfRffs for this kfy's dhbin.
+    };
+
+    // Trustfd dfrtifidbtfs
+    dlbss TrustfdCfrtEntry {
+        Dbtf dbtf; // thf drfbtion dbtf of this fntry
+
+        Cfrtifidbtf dfrt;
+        long dfrtRff;  // SfdCfrtifidbtfRff for this kfy
+    };
+
+    /**
+     * Entrifs thbt hbvf bffn dflftfd.  Whfn somfthing dblls fnginfStorf wf'll
+     * rfmovf thfm from thf kfydhbin.
+     */
+    privbtf Hbshtbblf<String, Objfdt> dflftfdEntrifs = nfw Hbshtbblf<>();
+
+    /**
+     * Entrifs thbt hbvf bffn bddfd.  Whfn somfthing dblls fnginfStorf wf'll
+     * bdd thfm to thf kfydhbin.
+     */
+    privbtf Hbshtbblf<String, Objfdt> bddfdEntrifs = nfw Hbshtbblf<>();
+
+    /**
+     * Privbtf kfys bnd dfrtifidbtfs brf storfd in b hbshtbblf.
+     * Hbsh fntrifs brf kfyfd by blibs nbmfs.
+     */
+    privbtf Hbshtbblf<String, Objfdt> fntrifs = nfw Hbshtbblf<>();
+
+    /**
+     * Algorithm idfntififrs bnd dorrfsponding OIDs for thf dontfnts of thf PKCS12 bbg wf gft from thf Kfydhbin.
+     */
+    privbtf stbtid finbl int kfyBbg[]  = {1, 2, 840, 113549, 1, 12, 10, 1, 2};
+    privbtf stbtid finbl int pbfWithSHAAnd3KfyTriplfDESCBC[] =     {1, 2, 840, 113549, 1, 12, 1, 3};
+    privbtf stbtid ObjfdtIdfntififr PKCS8ShroudfdKfyBbg_OID;
+    privbtf stbtid ObjfdtIdfntififr pbfWithSHAAnd3KfyTriplfDESCBC_OID;
+
+    /**
+     * Constnbts usfd in PBE dfdryption.
+     */
+    privbtf stbtid finbl int itfrbtionCount = 1024;
+    privbtf stbtid finbl int SALT_LEN = 20;
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("osx");
+                    rfturn null;
+                }
+            });
+        try {
+            PKCS8ShroudfdKfyBbg_OID = nfw ObjfdtIdfntififr(kfyBbg);
+            pbfWithSHAAnd3KfyTriplfDESCBC_OID = nfw ObjfdtIdfntififr(pbfWithSHAAnd3KfyTriplfDESCBC);
+        } dbtdh (IOExdfption iof) {
+            // should not hbppfn
+        }
+    }
+
+    privbtf stbtid void pfrmissionChfdk() {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+
+        if (sfd != null) {
+            sfd.dhfdkPfrmission(nfw RuntimfPfrmission("usfKfydhbinStorf"));
+        }
+    }
+
+
+    /**
+     * Vfrify thf Applf providfr in thf donstrudtor.
+     *
+     * @fxdfption SfdurityExdfption if fbils to vfrify
+     * its own intfgrity
+     */
+    publid KfydhbinStorf() { }
+
+    /**
+        * Rfturns thf kfy bssodibtfd with thf givfn blibs, using thf givfn
+     * pbssword to rfdovfr it.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @pbrbm pbssword thf pbssword for rfdovfring thf kfy
+     *
+     * @rfturn thf rfqufstfd kfy, or null if thf givfn blibs dofs not fxist
+     * or dofs not idfntify b <i>kfy fntry</i>.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf blgorithm for rfdovfring thf
+     * kfy dbnnot bf found
+     * @fxdfption UnrfdovfrbblfKfyExdfption if thf kfy dbnnot bf rfdovfrfd
+     * (f.g., thf givfn pbssword is wrong).
+     */
+    publid Kfy fnginfGftKfy(String blibs, dhbr[] pbssword)
+        throws NoSudhAlgorithmExdfption, UnrfdovfrbblfKfyExdfption
+    {
+        pfrmissionChfdk();
+
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+
+        if (fntry == null || !(fntry instbndfof KfyEntry)) {
+            rfturn null;
+        }
+
+        // This dbll givfs us b PKCS12 bbg, with thf kfy insidf it.
+        bytf[] fxportfdKfyInfo = _gftEndodfdKfyDbtb(((KfyEntry)fntry).kfyRff, pbssword);
+        if (fxportfdKfyInfo == null) {
+            rfturn null;
+        }
+
+        PrivbtfKfy rfturnVbluf = null;
+
+        try {
+            bytf[] pkds8KfyDbtb = fftdhPrivbtfKfyFromBbg(fxportfdKfyInfo);
+            bytf[] fndryptfdKfy;
+            AlgorithmPbrbmftfrs blgPbrbms;
+            ObjfdtIdfntififr blgOid;
+            try {
+                // gft thf fndryptfd privbtf kfy
+                EndryptfdPrivbtfKfyInfo fndrInfo = nfw EndryptfdPrivbtfKfyInfo(pkds8KfyDbtb);
+                fndryptfdKfy = fndrInfo.gftEndryptfdDbtb();
+
+                // pbrsf Algorithm pbrbmftfrs
+                DfrVbluf vbl = nfw DfrVbluf(fndrInfo.gftAlgorithm().fndodf());
+                DfrInputStrfbm in = vbl.toDfrInputStrfbm();
+                blgOid = in.gftOID();
+                blgPbrbms = pbrsfAlgPbrbmftfrs(in);
+
+            } dbtdh (IOExdfption iof) {
+                UnrfdovfrbblfKfyExdfption ukf =
+                nfw UnrfdovfrbblfKfyExdfption("Privbtf kfy not storfd bs "
+                                              + "PKCS#8 EndryptfdPrivbtfKfyInfo: " + iof);
+                ukf.initCbusf(iof);
+                throw ukf;
+            }
+
+            // Usf JCE to dfdrypt thf dbtb using thf supplifd pbssword.
+            SfdrftKfy skfy = gftPBEKfy(pbssword);
+            Ciphfr diphfr = Ciphfr.gftInstbndf(blgOid.toString());
+            diphfr.init(Ciphfr.DECRYPT_MODE, skfy, blgPbrbms);
+            bytf[] dfdryptfdPrivbtfKfy = diphfr.doFinbl(fndryptfdKfy);
+            PKCS8EndodfdKfySpfd kspfd = nfw PKCS8EndodfdKfySpfd(dfdryptfdPrivbtfKfy);
+
+             // Pbrsf thf kfy blgorithm bnd thfn usf b JCA kfy fbdtory to drfbtf thf privbtf kfy.
+            DfrVbluf vbl = nfw DfrVbluf(dfdryptfdPrivbtfKfy);
+            DfrInputStrfbm in = vbl.toDfrInputStrfbm();
+
+            // Ignorf this -- vfrsion should bf 0.
+            int i = in.gftIntfgfr();
+
+            // Gft thf Algorithm ID nfxt
+            DfrVbluf[] vbluf = in.gftSfqufndf(2);
+            AlgorithmId blgId = nfw AlgorithmId(vbluf[0].gftOID());
+            String blgNbmf = blgId.gftNbmf();
+
+            // Gft b kfy fbdtory for this blgorithm.  It's likfly to bf 'RSA'.
+            KfyFbdtory kfbd = KfyFbdtory.gftInstbndf(blgNbmf);
+            rfturnVbluf = kfbd.gfnfrbtfPrivbtf(kspfd);
+        } dbtdh (Exdfption f) {
+            UnrfdovfrbblfKfyExdfption ukf =
+            nfw UnrfdovfrbblfKfyExdfption("Gft Kfy fbilfd: " +
+                                          f.gftMfssbgf());
+            ukf.initCbusf(f);
+            throw ukf;
+        }
+
+        rfturn rfturnVbluf;
+    }
+
+    privbtf nbtivf bytf[] _gftEndodfdKfyDbtb(long sfdKfyRff, dhbr[] pbssword);
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin bssodibtfd with thf givfn blibs.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn thf dfrtifidbtf dhbin (ordfrfd with thf usfr's dfrtifidbtf first
+                                      * bnd thf root dfrtifidbtf buthority lbst), or null if thf givfn blibs
+     * dofs not fxist or dofs not dontbin b dfrtifidbtf dhbin (i.f., thf givfn
+                                                               * blibs idfntififs fithfr b <i>trustfd dfrtifidbtf fntry</i> or b
+                                                               * <i>kfy fntry</i> without b dfrtifidbtf dhbin).
+     */
+    publid Cfrtifidbtf[] fnginfGftCfrtifidbtfChbin(String blibs) {
+        pfrmissionChfdk();
+
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+
+        if (fntry != null && fntry instbndfof KfyEntry) {
+            if (((KfyEntry)fntry).dhbin == null) {
+                rfturn null;
+            } flsf {
+                rfturn ((KfyEntry)fntry).dhbin.dlonf();
+            }
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf bssodibtfd with thf givfn blibs.
+     *
+     * <p>If thf givfn blibs nbmf idfntififs b
+     * <i>trustfd dfrtifidbtf fntry</i>, thf dfrtifidbtf bssodibtfd with thbt
+     * fntry is rfturnfd. If thf givfn blibs nbmf idfntififs b
+     * <i>kfy fntry</i>, thf first flfmfnt of thf dfrtifidbtf dhbin of thbt
+     * fntry is rfturnfd, or null if thbt fntry dofs not hbvf b dfrtifidbtf
+     * dhbin.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn thf dfrtifidbtf, or null if thf givfn blibs dofs not fxist or
+     * dofs not dontbin b dfrtifidbtf.
+     */
+    publid Cfrtifidbtf fnginfGftCfrtifidbtf(String blibs) {
+        pfrmissionChfdk();
+
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+
+        if (fntry != null) {
+            if (fntry instbndfof TrustfdCfrtEntry) {
+                rfturn ((TrustfdCfrtEntry)fntry).dfrt;
+            } flsf {
+                if (((KfyEntry)fntry).dhbin == null) {
+                    rfturn null;
+                } flsf {
+                    rfturn ((KfyEntry)fntry).dhbin[0];
+                }
+            }
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+        * Rfturns thf drfbtion dbtf of thf fntry idfntififd by thf givfn blibs.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn thf drfbtion dbtf of this fntry, or null if thf givfn blibs dofs
+     * not fxist
+     */
+    publid Dbtf fnginfGftCrfbtionDbtf(String blibs) {
+        pfrmissionChfdk();
+
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+
+        if (fntry != null) {
+            if (fntry instbndfof TrustfdCfrtEntry) {
+                rfturn nfw Dbtf(((TrustfdCfrtEntry)fntry).dbtf.gftTimf());
+            } flsf {
+                rfturn nfw Dbtf(((KfyEntry)fntry).dbtf.gftTimf());
+            }
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+        * Assigns thf givfn kfy to thf givfn blibs, protfdting it with thf givfn
+     * pbssword.
+     *
+     * <p>If thf givfn kfy is of typf <dodf>jbvb.sfdurity.PrivbtfKfy</dodf>,
+     * it must bf bddompbnifd by b dfrtifidbtf dhbin dfrtifying thf
+     * dorrfsponding publid kfy.
+     *
+     * <p>If thf givfn blibs blrfbdy fxists, thf kfystorf informbtion
+     * bssodibtfd with it is ovfrriddfn by thf givfn kfy (bnd possibly
+                                                          * dfrtifidbtf dhbin).
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @pbrbm kfy thf kfy to bf bssodibtfd with thf blibs
+     * @pbrbm pbssword thf pbssword to protfdt thf kfy
+     * @pbrbm dhbin thf dfrtifidbtf dhbin for thf dorrfsponding publid
+     * kfy (only rfquirfd if thf givfn kfy is of typf
+            * <dodf>jbvb.sfdurity.PrivbtfKfy</dodf>).
+     *
+     * @fxdfption KfyStorfExdfption if thf givfn kfy dbnnot bf protfdtfd, or
+     * this opfrbtion fbils for somf othfr rfbson
+     */
+    publid void fnginfSftKfyEntry(String blibs, Kfy kfy, dhbr[] pbssword,
+                                  Cfrtifidbtf[] dhbin)
+        throws KfyStorfExdfption
+    {
+        pfrmissionChfdk();
+
+        syndhronizfd(fntrifs) {
+            try {
+                KfyEntry fntry = nfw KfyEntry();
+                fntry.dbtf = nfw Dbtf();
+
+                if (kfy instbndfof PrivbtfKfy) {
+                    if ((kfy.gftFormbt().fqubls("PKCS#8")) ||
+                        (kfy.gftFormbt().fqubls("PKCS8"))) {
+                        fntry.protfdtfdPrivKfy = fndryptPrivbtfKfy(kfy.gftEndodfd(), pbssword);
+                        fntry.pbssword = pbssword.dlonf();
+                    } flsf {
+                        throw nfw KfyStorfExdfption("Privbtf kfy is not fndodfd bs PKCS#8");
+                    }
+                } flsf {
+                    throw nfw KfyStorfExdfption("Kfy is not b PrivbtfKfy");
+                }
+
+                // dlonf thf dhbin
+                if (dhbin != null) {
+                    if ((dhbin.lfngth > 1) && !vblidbtfChbin(dhbin)) {
+                        throw nfw KfyStorfExdfption("Cfrtifidbtf dhbin dofs not vblidbtf");
+                    }
+
+                    fntry.dhbin = dhbin.dlonf();
+                    fntry.dhbinRffs = nfw long[fntry.dhbin.lfngth];
+                }
+
+                String lowfrAlibs = blibs.toLowfrCbsf();
+                if (fntrifs.gft(lowfrAlibs) != null) {
+                    dflftfdEntrifs.put(lowfrAlibs, fntrifs.gft(lowfrAlibs));
+                }
+
+                fntrifs.put(lowfrAlibs, fntry);
+                bddfdEntrifs.put(lowfrAlibs, fntry);
+            } dbtdh (Exdfption nsbf) {
+                KfyStorfExdfption kf = nfw KfyStorfExdfption("Kfy protfdtion blgorithm not found: " + nsbf);
+                kf.initCbusf(nsbf);
+                throw kf;
+            }
+        }
+    }
+
+    /**
+        * Assigns thf givfn kfy (thbt hbs blrfbdy bffn protfdtfd) to thf givfn
+     * blibs.
+     *
+     * <p>If thf protfdtfd kfy is of typf
+     * <dodf>jbvb.sfdurity.PrivbtfKfy</dodf>, it must bf bddompbnifd by b
+     * dfrtifidbtf dhbin dfrtifying thf dorrfsponding publid kfy. If thf
+     * undfrlying kfystorf implfmfntbtion is of typf <dodf>jks</dodf>,
+     * <dodf>kfy</dodf> must bf fndodfd bs bn
+     * <dodf>EndryptfdPrivbtfKfyInfo</dodf> bs dffinfd in thf PKCS #8 stbndbrd.
+     *
+     * <p>If thf givfn blibs blrfbdy fxists, thf kfystorf informbtion
+     * bssodibtfd with it is ovfrriddfn by thf givfn kfy (bnd possibly
+                                                          * dfrtifidbtf dhbin).
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @pbrbm kfy thf kfy (in protfdtfd formbt) to bf bssodibtfd with thf blibs
+     * @pbrbm dhbin thf dfrtifidbtf dhbin for thf dorrfsponding publid
+     * kfy (only usfful if thf protfdtfd kfy is of typf
+            * <dodf>jbvb.sfdurity.PrivbtfKfy</dodf>).
+     *
+     * @fxdfption KfyStorfExdfption if this opfrbtion fbils.
+     */
+    publid void fnginfSftKfyEntry(String blibs, bytf[] kfy,
+                                  Cfrtifidbtf[] dhbin)
+        throws KfyStorfExdfption
+    {
+        pfrmissionChfdk();
+
+        syndhronizfd(fntrifs) {
+            // kfy must bf fndodfd bs EndryptfdPrivbtfKfyInfo bs dffinfd in
+            // PKCS#8
+            KfyEntry fntry = nfw KfyEntry();
+            try {
+                EndryptfdPrivbtfKfyInfo privbtfKfy = nfw EndryptfdPrivbtfKfyInfo(kfy);
+                fntry.protfdtfdPrivKfy = privbtfKfy.gftEndodfd();
+            } dbtdh (IOExdfption iof) {
+                throw nfw KfyStorfExdfption("kfy is not fndodfd bs "
+                                            + "EndryptfdPrivbtfKfyInfo");
+            }
+
+            fntry.dbtf = nfw Dbtf();
+
+            if ((dhbin != null) &&
+                (dhbin.lfngth != 0)) {
+                fntry.dhbin = dhbin.dlonf();
+                fntry.dhbinRffs = nfw long[fntry.dhbin.lfngth];
+            }
+
+            String lowfrAlibs = blibs.toLowfrCbsf();
+            if (fntrifs.gft(lowfrAlibs) != null) {
+                dflftfdEntrifs.put(lowfrAlibs, fntrifs.gft(blibs));
+            }
+            fntrifs.put(lowfrAlibs, fntry);
+            bddfdEntrifs.put(lowfrAlibs, fntry);
+        }
+    }
+
+    /**
+        * Assigns thf givfn dfrtifidbtf to thf givfn blibs.
+     *
+     * <p>If thf givfn blibs blrfbdy fxists in this kfystorf bnd idfntififs b
+     * <i>trustfd dfrtifidbtf fntry</i>, thf dfrtifidbtf bssodibtfd with it is
+     * ovfrriddfn by thf givfn dfrtifidbtf.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @pbrbm dfrt thf dfrtifidbtf
+     *
+     * @fxdfption KfyStorfExdfption if thf givfn blibs blrfbdy fxists bnd dofs
+     * not idfntify b <i>trustfd dfrtifidbtf fntry</i>, or this opfrbtion
+     * fbils for somf othfr rfbson.
+     */
+    publid void fnginfSftCfrtifidbtfEntry(String blibs, Cfrtifidbtf dfrt)
+        throws KfyStorfExdfption
+    {
+        pfrmissionChfdk();
+
+        syndhronizfd(fntrifs) {
+
+            Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+            if ((fntry != null) && (fntry instbndfof KfyEntry)) {
+                throw nfw KfyStorfExdfption
+                ("Cbnnot ovfrwritf kfy fntry with dfrtifidbtf");
+            }
+
+            // This will bf slow, but nfdfssbry.  Enumfrbtf thf vblufs bnd thfn sff if thf dfrt mbtdhfs thf onf in thf trustfd dfrt fntry.
+            // Sfdurity frbmfwork dofsn't support thf sbmf dfrtifidbtf twidf in b kfydhbin.
+            Collfdtion<Objfdt> bllVblufs = fntrifs.vblufs();
+
+            for (Objfdt vbluf : bllVblufs) {
+                if (vbluf instbndfof TrustfdCfrtEntry) {
+                    TrustfdCfrtEntry tdf = (TrustfdCfrtEntry)vbluf;
+                    if (tdf.dfrt.fqubls(dfrt)) {
+                        throw nfw KfyStorfExdfption("Kfydhbin dofs not support mulitplf dopifs of sbmf dfrtifidbtf.");
+                    }
+                }
+            }
+
+            TrustfdCfrtEntry trustfdCfrtEntry = nfw TrustfdCfrtEntry();
+            trustfdCfrtEntry.dfrt = dfrt;
+            trustfdCfrtEntry.dbtf = nfw Dbtf();
+            String lowfrAlibs = blibs.toLowfrCbsf();
+            if (fntrifs.gft(lowfrAlibs) != null) {
+                dflftfdEntrifs.put(lowfrAlibs, fntrifs.gft(lowfrAlibs));
+            }
+            fntrifs.put(lowfrAlibs, trustfdCfrtEntry);
+            bddfdEntrifs.put(lowfrAlibs, trustfdCfrtEntry);
+        }
+    }
+
+    /**
+        * Dflftfs thf fntry idfntififd by thf givfn blibs from this kfystorf.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @fxdfption KfyStorfExdfption if thf fntry dbnnot bf rfmovfd.
+     */
+    publid void fnginfDflftfEntry(String blibs)
+        throws KfyStorfExdfption
+    {
+        pfrmissionChfdk();
+
+        syndhronizfd(fntrifs) {
+            Objfdt fntry = fntrifs.rfmovf(blibs.toLowfrCbsf());
+            dflftfdEntrifs.put(blibs.toLowfrCbsf(), fntry);
+        }
+    }
+
+    /**
+        * Lists bll thf blibs nbmfs of this kfystorf.
+     *
+     * @rfturn fnumfrbtion of thf blibs nbmfs
+     */
+    publid Enumfrbtion<String> fnginfAlibsfs() {
+        pfrmissionChfdk();
+        rfturn fntrifs.kfys();
+    }
+
+    /**
+        * Chfdks if thf givfn blibs fxists in this kfystorf.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn truf if thf blibs fxists, fblsf othfrwisf
+     */
+    publid boolfbn fnginfContbinsAlibs(String blibs) {
+        pfrmissionChfdk();
+        rfturn fntrifs.dontbinsKfy(blibs.toLowfrCbsf());
+    }
+
+    /**
+        * Rftrifvfs thf numbfr of fntrifs in this kfystorf.
+     *
+     * @rfturn thf numbfr of fntrifs in this kfystorf
+     */
+    publid int fnginfSizf() {
+        pfrmissionChfdk();
+        rfturn fntrifs.sizf();
+    }
+
+    /**
+        * Rfturns truf if thf fntry idfntififd by thf givfn blibs is b
+     * <i>kfy fntry</i>, bnd fblsf othfrwisf.
+     *
+     * @rfturn truf if thf fntry idfntififd by thf givfn blibs is b
+     * <i>kfy fntry</i>, fblsf othfrwisf.
+     */
+    publid boolfbn fnginfIsKfyEntry(String blibs) {
+        pfrmissionChfdk();
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+        if ((fntry != null) && (fntry instbndfof KfyEntry)) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+        * Rfturns truf if thf fntry idfntififd by thf givfn blibs is b
+     * <i>trustfd dfrtifidbtf fntry</i>, bnd fblsf othfrwisf.
+     *
+     * @rfturn truf if thf fntry idfntififd by thf givfn blibs is b
+     * <i>trustfd dfrtifidbtf fntry</i>, fblsf othfrwisf.
+     */
+    publid boolfbn fnginfIsCfrtifidbtfEntry(String blibs) {
+        pfrmissionChfdk();
+        Objfdt fntry = fntrifs.gft(blibs.toLowfrCbsf());
+        if ((fntry != null) && (fntry instbndfof TrustfdCfrtEntry)) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+        * Rfturns thf (blibs) nbmf of thf first kfystorf fntry whosf dfrtifidbtf
+     * mbtdhfs thf givfn dfrtifidbtf.
+     *
+     * <p>This mfthod bttfmpts to mbtdh thf givfn dfrtifidbtf with fbdh
+     * kfystorf fntry. If thf fntry bfing donsidfrfd
+     * is b <i>trustfd dfrtifidbtf fntry</i>, thf givfn dfrtifidbtf is
+     * dompbrfd to thbt fntry's dfrtifidbtf. If thf fntry bfing donsidfrfd is
+     * b <i>kfy fntry</i>, thf givfn dfrtifidbtf is dompbrfd to thf first
+     * flfmfnt of thbt fntry's dfrtifidbtf dhbin (if b dhbin fxists).
+     *
+     * @pbrbm dfrt thf dfrtifidbtf to mbtdh with.
+     *
+     * @rfturn thf (blibs) nbmf of thf first fntry with mbtdhing dfrtifidbtf,
+     * or null if no sudh fntry fxists in this kfystorf.
+     */
+    publid String fnginfGftCfrtifidbtfAlibs(Cfrtifidbtf dfrt) {
+        pfrmissionChfdk();
+        Cfrtifidbtf dfrtElfm;
+
+        for (Enumfrbtion<String> f = fntrifs.kfys(); f.hbsMorfElfmfnts(); ) {
+            String blibs = f.nfxtElfmfnt();
+            Objfdt fntry = fntrifs.gft(blibs);
+            if (fntry instbndfof TrustfdCfrtEntry) {
+                dfrtElfm = ((TrustfdCfrtEntry)fntry).dfrt;
+            } flsf if (((KfyEntry)fntry).dhbin != null) {
+                dfrtElfm = ((KfyEntry)fntry).dhbin[0];
+            } flsf {
+                dontinuf;
+            }
+            if (dfrtElfm.fqubls(dfrt)) {
+                rfturn blibs;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+        * Storfs this kfystorf to thf givfn output strfbm, bnd protfdts its
+     * intfgrity with thf givfn pbssword.
+     *
+     * @pbrbm strfbm Ignorfd. thf output strfbm to whidh this kfystorf is writtfn.
+     * @pbrbm pbssword thf pbssword to gfnfrbtf thf kfystorf intfgrity dhfdk
+     *
+     * @fxdfption IOExdfption if thfrf wbs bn I/O problfm with dbtb
+     * @fxdfption NoSudhAlgorithmExdfption if thf bppropribtf dbtb intfgrity
+     * blgorithm dould not bf found
+     * @fxdfption CfrtifidbtfExdfption if bny of thf dfrtifidbtfs indludfd in
+     * thf kfystorf dbtb dould not bf storfd
+     */
+    publid void fnginfStorf(OutputStrfbm strfbm, dhbr[] pbssword)
+        throws IOExdfption, NoSudhAlgorithmExdfption, CfrtifidbtfExdfption
+    {
+        pfrmissionChfdk();
+
+        // Dflftf itfms thbt do hbvf b kfydhbin itfm rff.
+        for (Enumfrbtion<String> f = dflftfdEntrifs.kfys(); f.hbsMorfElfmfnts(); ) {
+            String blibs = f.nfxtElfmfnt();
+            Objfdt fntry = dflftfdEntrifs.gft(blibs);
+            if (fntry instbndfof TrustfdCfrtEntry) {
+                if (((TrustfdCfrtEntry)fntry).dfrtRff != 0) {
+                    _rfmovfItfmFromKfydhbin(((TrustfdCfrtEntry)fntry).dfrtRff);
+                    _rflfbsfKfydhbinItfmRff(((TrustfdCfrtEntry)fntry).dfrtRff);
+                }
+            } flsf {
+                Cfrtifidbtf dfrtElfm;
+                KfyEntry kfyEntry = (KfyEntry)fntry;
+
+                if (kfyEntry.dhbin != null) {
+                    for (int i = 0; i < kfyEntry.dhbin.lfngth; i++) {
+                        if (kfyEntry.dhbinRffs[i] != 0) {
+                            _rfmovfItfmFromKfydhbin(kfyEntry.dhbinRffs[i]);
+                            _rflfbsfKfydhbinItfmRff(kfyEntry.dhbinRffs[i]);
+                        }
+                    }
+
+                    if (kfyEntry.kfyRff != 0) {
+                        _rfmovfItfmFromKfydhbin(kfyEntry.kfyRff);
+                        _rflfbsfKfydhbinItfmRff(kfyEntry.kfyRff);
+                    }
+                }
+            }
+        }
+
+        // Add bll of thf dfrts or kfys in thf bddfd fntrifs.
+        // No nffd to dhfdk for 0 rffs, bs thfy brf in thf bddfd list.
+        for (Enumfrbtion<String> f = bddfdEntrifs.kfys(); f.hbsMorfElfmfnts(); ) {
+            String blibs = f.nfxtElfmfnt();
+            Objfdt fntry = bddfdEntrifs.gft(blibs);
+            if (fntry instbndfof TrustfdCfrtEntry) {
+                TrustfdCfrtEntry tdf = (TrustfdCfrtEntry)fntry;
+                Cfrtifidbtf dfrtElfm;
+                dfrtElfm = tdf.dfrt;
+                tdf.dfrtRff = bddCfrtifidbtfToKfydhbin(blibs, dfrtElfm);
+            } flsf {
+                KfyEntry kfyEntry = (KfyEntry)fntry;
+
+                if (kfyEntry.dhbin != null) {
+                    for (int i = 0; i < kfyEntry.dhbin.lfngth; i++) {
+                        kfyEntry.dhbinRffs[i] = bddCfrtifidbtfToKfydhbin(blibs, kfyEntry.dhbin[i]);
+                    }
+
+                    kfyEntry.kfyRff = _bddItfmToKfydhbin(blibs, fblsf, kfyEntry.protfdtfdPrivKfy, kfyEntry.pbssword);
+                }
+            }
+        }
+
+        // Clfbr thf bddfd bnd dflftfdEntrifs hbshtbblfs hfrf, now thbt wf'rf donf with thf updbtfs.
+        // For thf dflftfd fntrifs, wf frffd up thf nbtivf rfffrfndfs bbovf.
+        dflftfdEntrifs.dlfbr();
+        bddfdEntrifs.dlfbr();
+    }
+
+    privbtf long bddCfrtifidbtfToKfydhbin(String blibs, Cfrtifidbtf dfrt) {
+        bytf[] dfrtblob = null;
+        long rfturnVbluf = 0;
+
+        try {
+            dfrtblob = dfrt.gftEndodfd();
+            rfturnVbluf = _bddItfmToKfydhbin(blibs, truf, dfrtblob, null);
+        } dbtdh (Exdfption f) {
+            f.printStbdkTrbdf();
+        }
+
+        rfturn rfturnVbluf;
+    }
+
+    privbtf nbtivf long _bddItfmToKfydhbin(String blibs, boolfbn isCfrtifidbtf, bytf[] dbtbblob, dhbr[] pbssword);
+    privbtf nbtivf int _rfmovfItfmFromKfydhbin(long dfrtRff);
+    privbtf nbtivf void _rflfbsfKfydhbinItfmRff(long kfydhbinItfmRff);
+
+    /**
+      * Lobds thf kfystorf from thf Kfydhbin.
+     *
+     * @pbrbm strfbm Ignorfd - hfrf for API dompbtibility.
+     * @pbrbm pbssword Ignorfd - if usfr nffds to unlodk kfydhbin Sfdurity
+     * frbmfwork will post bny diblogs.
+     *
+     * @fxdfption IOExdfption if thfrf is bn I/O or formbt problfm with thf
+     * kfystorf dbtb
+     * @fxdfption NoSudhAlgorithmExdfption if thf blgorithm usfd to dhfdk
+     * thf intfgrity of thf kfystorf dbnnot bf found
+     * @fxdfption CfrtifidbtfExdfption if bny of thf dfrtifidbtfs in thf
+     * kfystorf dould not bf lobdfd
+     */
+    publid void fnginfLobd(InputStrfbm strfbm, dhbr[] pbssword)
+        throws IOExdfption, NoSudhAlgorithmExdfption, CfrtifidbtfExdfption
+    {
+        pfrmissionChfdk();
+
+        // Rflfbsf bny strby kfydhbin rfffrfndfs bfforf dlfbring out thf fntrifs.
+        syndhronizfd(fntrifs) {
+            for (Enumfrbtion<String> f = fntrifs.kfys(); f.hbsMorfElfmfnts(); ) {
+                String blibs = f.nfxtElfmfnt();
+                Objfdt fntry = fntrifs.gft(blibs);
+                if (fntry instbndfof TrustfdCfrtEntry) {
+                    if (((TrustfdCfrtEntry)fntry).dfrtRff != 0) {
+                        _rflfbsfKfydhbinItfmRff(((TrustfdCfrtEntry)fntry).dfrtRff);
+                    }
+                } flsf {
+                    KfyEntry kfyEntry = (KfyEntry)fntry;
+
+                    if (kfyEntry.dhbin != null) {
+                        for (int i = 0; i < kfyEntry.dhbin.lfngth; i++) {
+                            if (kfyEntry.dhbinRffs[i] != 0) {
+                                _rflfbsfKfydhbinItfmRff(kfyEntry.dhbinRffs[i]);
+                            }
+                        }
+
+                        if (kfyEntry.kfyRff != 0) {
+                            _rflfbsfKfydhbinItfmRff(kfyEntry.kfyRff);
+                        }
+                    }
+                }
+            }
+
+            fntrifs.dlfbr();
+            _sdbnKfydhbin();
+        }
+    }
+
+    privbtf nbtivf void _sdbnKfydhbin();
+
+    /**
+     * Cbllbbdk mfthod from _sdbnKfydhbin.  If b trustfd dfrtifidbtf is found, this mfthod will bf dbllfd.
+     */
+    privbtf void drfbtfTrustfdCfrtEntry(String blibs, long kfydhbinItfmRff, long drfbtionDbtf, bytf[] dfrStrfbm) {
+        TrustfdCfrtEntry tdf = nfw TrustfdCfrtEntry();
+
+        try {
+            CfrtifidbtfFbdtory df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+            InputStrfbm input = nfw BytfArrbyInputStrfbm(dfrStrfbm);
+            X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf) df.gfnfrbtfCfrtifidbtf(input);
+            input.dlosf();
+            tdf.dfrt = dfrt;
+            tdf.dfrtRff = kfydhbinItfmRff;
+
+            // Mbkf b drfbtion dbtf.
+            if (drfbtionDbtf != 0)
+                tdf.dbtf = nfw Dbtf(drfbtionDbtf);
+            flsf
+                tdf.dbtf = nfw Dbtf();
+
+            int uniqufVbl = 1;
+            String originblAlibs = blibs;
+
+            whilf (fntrifs.dontbinsKfy(blibs.toLowfrCbsf())) {
+                blibs = originblAlibs + " " + uniqufVbl;
+                uniqufVbl++;
+            }
+
+            fntrifs.put(blibs.toLowfrCbsf(), tdf);
+        } dbtdh (Exdfption f) {
+            // Thf dfrtifidbtf will bf skippfd.
+            Systfm.frr.println("KfydhbinStorf Ignorfd Exdfption: " + f);
+        }
+    }
+
+    /**
+     * Cbllbbdk mfthod from _sdbnKfydhbin.  If bn idfntity is found, this mfthod will bf dbllfd to drfbtf Jbvb dfrtifidbtf
+     * bnd privbtf kfy objfdts from thf kfydhbin dbtb.
+     */
+    privbtf void drfbtfKfyEntry(String blibs, long drfbtionDbtf, long sfdKfyRff, long[] sfdCfrtifidbtfRffs, bytf[][] rbwCfrtDbtb)
+        throws IOExdfption, NoSudhAlgorithmExdfption, UnrfdovfrbblfKfyExdfption {
+        KfyEntry kf = nfw KfyEntry();
+
+        // First, storf off thf privbtf kfy informbtion.  This is thf fbsy pbrt.
+        kf.protfdtfdPrivKfy = null;
+        kf.kfyRff = sfdKfyRff;
+
+        // Mbkf b drfbtion dbtf.
+        if (drfbtionDbtf != 0)
+            kf.dbtf = nfw Dbtf(drfbtionDbtf);
+        flsf
+            kf.dbtf = nfw Dbtf();
+
+        // Nfxt, drfbtf X.509 Cfrtifidbtf objfdts from thf rbw dbtb.  This is domplidbtfd
+        // bfdbusf b dfrtifidbtf's publid kfy mby bf too long for Jbvb's dffbult fndryption strfngth.
+        List<CfrtKfydhbinItfmPbir> drfbtfdCfrts = nfw ArrbyList<>();
+
+        try {
+            CfrtifidbtfFbdtory df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+
+            for (int i = 0; i < rbwCfrtDbtb.lfngth; i++) {
+                try {
+                    InputStrfbm input = nfw BytfArrbyInputStrfbm(rbwCfrtDbtb[i]);
+                    X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf) df.gfnfrbtfCfrtifidbtf(input);
+                    input.dlosf();
+
+                    // Wf suddfssfully drfbtfd thf dfrtifidbtf, so trbdk it bnd its dorrfsponding SfdCfrtifidbtfRff.
+                    drfbtfdCfrts.bdd(nfw CfrtKfydhbinItfmPbir(sfdCfrtifidbtfRffs[i], dfrt));
+                } dbtdh (CfrtifidbtfExdfption f) {
+                    // Thf dfrtifidbtf will bf skippfd.
+                    Systfm.frr.println("KfydhbinStorf Ignorfd Exdfption: " + f);
+                }
+            }
+        } dbtdh (CfrtifidbtfExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdh (IOExdfption iof) {
+            iof.printStbdkTrbdf();  // How would this hbppfn?
+        }
+
+        // Wf hbvf our dfrtifidbtfs in thf List, so now fxtrbdt thfm into bn brrby of
+        // Cfrtifidbtfs bnd SfdCfrtifidbtfRffs.
+        CfrtKfydhbinItfmPbir[] objArrby = drfbtfdCfrts.toArrby(nfw CfrtKfydhbinItfmPbir[0]);
+        Cfrtifidbtf[] dfrtArrby = nfw Cfrtifidbtf[objArrby.lfngth];
+        long[] dfrtRffArrby = nfw long[objArrby.lfngth];
+
+        for (int i = 0; i < objArrby.lfngth; i++) {
+            CfrtKfydhbinItfmPbir bddfdItfm = objArrby[i];
+            dfrtArrby[i] = bddfdItfm.mCfrt;
+            dfrtRffArrby[i] = bddfdItfm.mCfrtifidbtfRff;
+        }
+
+        kf.dhbin = dfrtArrby;
+        kf.dhbinRffs = dfrtRffArrby;
+
+        // If wf don't hbvf blrfbdy hbvf bn itfm with this itfm's blibs
+        // drfbtf b nfw onf for it.
+        int uniqufVbl = 1;
+        String originblAlibs = blibs;
+
+        whilf (fntrifs.dontbinsKfy(blibs.toLowfrCbsf())) {
+            blibs = originblAlibs + " " + uniqufVbl;
+            uniqufVbl++;
+        }
+
+        fntrifs.put(blibs.toLowfrCbsf(), kf);
+    }
+
+    privbtf dlbss CfrtKfydhbinItfmPbir {
+        long mCfrtifidbtfRff;
+        Cfrtifidbtf mCfrt;
+
+        CfrtKfydhbinItfmPbir(long inCfrtRff, Cfrtifidbtf dfrt) {
+            mCfrtifidbtfRff = inCfrtRff;
+            mCfrt = dfrt;
+        }
+    }
+
+    /*
+     * Vblidbtf Cfrtifidbtf Chbin
+     */
+    privbtf boolfbn vblidbtfChbin(Cfrtifidbtf[] dfrtChbin)
+    {
+        for (int i = 0; i < dfrtChbin.lfngth-1; i++) {
+            X500Prindipbl issufrDN =
+            ((X509Cfrtifidbtf)dfrtChbin[i]).gftIssufrX500Prindipbl();
+            X500Prindipbl subjfdtDN =
+                ((X509Cfrtifidbtf)dfrtChbin[i+1]).gftSubjfdtX500Prindipbl();
+            if (!(issufrDN.fqubls(subjfdtDN)))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    privbtf bytf[] fftdhPrivbtfKfyFromBbg(bytf[] privbtfKfyInfo) throws IOExdfption, NoSudhAlgorithmExdfption, CfrtifidbtfExdfption
+    {
+        bytf[] rfturnVbluf = null;
+        DfrVbluf vbl = nfw DfrVbluf(nfw BytfArrbyInputStrfbm(privbtfKfyInfo));
+        DfrInputStrfbm s = vbl.toDfrInputStrfbm();
+        int vfrsion = s.gftIntfgfr();
+
+        if (vfrsion != 3) {
+            throw nfw IOExdfption("PKCS12 kfystorf not in vfrsion 3 formbt");
+        }
+
+        /*
+            * Rfbd thf buthSbff.
+         */
+        bytf[] buthSbffDbtb;
+        ContfntInfo buthSbff = nfw ContfntInfo(s);
+        ObjfdtIdfntififr dontfntTypf = buthSbff.gftContfntTypf();
+
+        if (dontfntTypf.fqubls(ContfntInfo.DATA_OID)) {
+            buthSbffDbtb = buthSbff.gftDbtb();
+        } flsf /* signfd dbtb */ {
+            throw nfw IOExdfption("publid kfy protfdtfd PKCS12 not supportfd");
+        }
+
+        DfrInputStrfbm bs = nfw DfrInputStrfbm(buthSbffDbtb);
+        DfrVbluf[] sbffContfntsArrby = bs.gftSfqufndf(2);
+        int dount = sbffContfntsArrby.lfngth;
+
+        /*
+         * Spin ovfr thf ContfntInfos.
+         */
+        for (int i = 0; i < dount; i++) {
+            bytf[] sbffContfntsDbtb;
+            ContfntInfo sbffContfnts;
+            DfrInputStrfbm sdi;
+            bytf[] fAlgId = null;
+
+            sdi = nfw DfrInputStrfbm(sbffContfntsArrby[i].toBytfArrby());
+            sbffContfnts = nfw ContfntInfo(sdi);
+            dontfntTypf = sbffContfnts.gftContfntTypf();
+            sbffContfntsDbtb = null;
+
+            if (dontfntTypf.fqubls(ContfntInfo.DATA_OID)) {
+                sbffContfntsDbtb = sbffContfnts.gftDbtb();
+            } flsf if (dontfntTypf.fqubls(ContfntInfo.ENCRYPTED_DATA_OID)) {
+                // Thf pbssword wbs usfd to fxport thf privbtf kfy from thf kfydhbin.
+                // Thf Kfydhbin won't fxport thf kfy with fndryptfd dbtb, so wf don't nffd
+                // to worry bbout it.
+                dontinuf;
+            } flsf {
+                throw nfw IOExdfption("publid kfy protfdtfd PKCS12" +
+                                      " not supportfd");
+            }
+            DfrInputStrfbm sd = nfw DfrInputStrfbm(sbffContfntsDbtb);
+            rfturnVbluf = fxtrbdtKfyDbtb(sd);
+        }
+
+        rfturn rfturnVbluf;
+    }
+
+    privbtf bytf[] fxtrbdtKfyDbtb(DfrInputStrfbm strfbm)
+        throws IOExdfption, NoSudhAlgorithmExdfption, CfrtifidbtfExdfption
+    {
+        bytf[] rfturnVbluf = null;
+        DfrVbluf[] sbffBbgs = strfbm.gftSfqufndf(2);
+        int dount = sbffBbgs.lfngth;
+
+        /*
+         * Spin ovfr thf SbffBbgs.
+         */
+        for (int i = 0; i < dount; i++) {
+            ObjfdtIdfntififr bbgId;
+            DfrInputStrfbm sbi;
+            DfrVbluf bbgVbluf;
+            Objfdt bbgItfm = null;
+
+            sbi = sbffBbgs[i].toDfrInputStrfbm();
+            bbgId = sbi.gftOID();
+            bbgVbluf = sbi.gftDfrVbluf();
+            if (!bbgVbluf.isContfxtSpfdifid((bytf)0)) {
+                throw nfw IOExdfption("unsupportfd PKCS12 bbg vbluf typf "
+                                      + bbgVbluf.tbg);
+            }
+            bbgVbluf = bbgVbluf.dbtb.gftDfrVbluf();
+            if (bbgId.fqubls(PKCS8ShroudfdKfyBbg_OID)) {
+                // got whbt wf wfrf looking for.  Rfturn it.
+                rfturnVbluf = bbgVbluf.toBytfArrby();
+            } flsf {
+                // log frror mfssbgf for "unsupportfd PKCS12 bbg typf"
+                Systfm.out.println("Unsupportfd bbg typf '" + bbgId + "'");
+            }
+        }
+
+        rfturn rfturnVbluf;
+    }
+
+    /*
+        * Gfnfrbtf PBE Algorithm Pbrbmftfrs
+     */
+    privbtf AlgorithmPbrbmftfrs gftAlgorithmPbrbmftfrs(String blgorithm)
+        throws IOExdfption
+    {
+        AlgorithmPbrbmftfrs blgPbrbms = null;
+
+        // drfbtf PBE pbrbmftfrs from sblt bnd itfrbtion dount
+        PBEPbrbmftfrSpfd pbrbmSpfd =
+            nfw PBEPbrbmftfrSpfd(gftSblt(), itfrbtionCount);
+        try {
+            blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf(blgorithm);
+            blgPbrbms.init(pbrbmSpfd);
+        } dbtdh (Exdfption f) {
+            IOExdfption iof =
+            nfw IOExdfption("gftAlgorithmPbrbmftfrs fbilfd: " +
+                            f.gftMfssbgf());
+            iof.initCbusf(f);
+            throw iof;
+        }
+        rfturn blgPbrbms;
+    }
+
+    // thf sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom;
+
+    /*
+     * Gfnfrbtf rbndom sblt
+     */
+    privbtf bytf[] gftSblt()
+    {
+        // Gfnfrbtf b rbndom sblt.
+        bytf[] sblt = nfw bytf[SALT_LEN];
+        if (rbndom == null) {
+            rbndom = nfw SfdurfRbndom();
+        }
+        sblt = rbndom.gfnfrbtfSffd(SALT_LEN);
+        rfturn sblt;
+    }
+
+    /*
+     * pbrsf Algorithm Pbrbmftfrs
+     */
+    privbtf AlgorithmPbrbmftfrs pbrsfAlgPbrbmftfrs(DfrInputStrfbm in)
+        throws IOExdfption
+    {
+        AlgorithmPbrbmftfrs blgPbrbms = null;
+        try {
+            DfrVbluf pbrbms;
+            if (in.bvbilbblf() == 0) {
+                pbrbms = null;
+            } flsf {
+                pbrbms = in.gftDfrVbluf();
+                if (pbrbms.tbg == DfrVbluf.tbg_Null) {
+                    pbrbms = null;
+                }
+            }
+            if (pbrbms != null) {
+                blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf("PBE");
+                blgPbrbms.init(pbrbms.toBytfArrby());
+            }
+        } dbtdh (Exdfption f) {
+            IOExdfption iof =
+            nfw IOExdfption("pbrsfAlgPbrbmftfrs fbilfd: " +
+                            f.gftMfssbgf());
+            iof.initCbusf(f);
+            throw iof;
+        }
+        rfturn blgPbrbms;
+    }
+
+    /*
+     * Gfnfrbtf PBE kfy
+     */
+    privbtf SfdrftKfy gftPBEKfy(dhbr[] pbssword) throws IOExdfption
+    {
+        SfdrftKfy skfy = null;
+
+        try {
+            PBEKfySpfd kfySpfd = nfw PBEKfySpfd(pbssword);
+            SfdrftKfyFbdtory skFbd = SfdrftKfyFbdtory.gftInstbndf("PBE");
+            skfy = skFbd.gfnfrbtfSfdrft(kfySpfd);
+        } dbtdh (Exdfption f) {
+            IOExdfption iof = nfw IOExdfption("gftSfdrftKfy fbilfd: " +
+                                              f.gftMfssbgf());
+            iof.initCbusf(f);
+            throw iof;
+        }
+        rfturn skfy;
+    }
+
+    /*
+     * Endrypt privbtf kfy using Pbssword-bbsfd fndryption (PBE)
+     * bs dffinfd in PKCS#5.
+     *
+     * NOTE: Currfntly pbfWithSHAAnd3-KfyTriplfDES-CBC blgorithmID is
+     *       usfd to dfrivf thf kfy bnd IV.
+     *
+     * @rfturn fndryptfd privbtf kfy fndodfd bs EndryptfdPrivbtfKfyInfo
+     */
+    privbtf bytf[] fndryptPrivbtfKfy(bytf[] dbtb, dhbr[] pbssword)
+        throws IOExdfption, NoSudhAlgorithmExdfption, UnrfdovfrbblfKfyExdfption
+    {
+        bytf[] kfy = null;
+
+        try {
+            // drfbtf AlgorithmPbrbmftfrs
+            AlgorithmPbrbmftfrs blgPbrbms =
+            gftAlgorithmPbrbmftfrs("PBEWithSHA1AndDESfdf");
+
+            // Usf JCE
+            SfdrftKfy skfy = gftPBEKfy(pbssword);
+            Ciphfr diphfr = Ciphfr.gftInstbndf("PBEWithSHA1AndDESfdf");
+            diphfr.init(Ciphfr.ENCRYPT_MODE, skfy, blgPbrbms);
+            bytf[] fndryptfdKfy = diphfr.doFinbl(dbtb);
+
+            // wrbp fndryptfd privbtf kfy in EndryptfdPrivbtfKfyInfo
+            // bs dffinfd in PKCS#8
+            AlgorithmId blgid =
+                nfw AlgorithmId(pbfWithSHAAnd3KfyTriplfDESCBC_OID, blgPbrbms);
+            EndryptfdPrivbtfKfyInfo fndrInfo =
+                nfw EndryptfdPrivbtfKfyInfo(blgid, fndryptfdKfy);
+            kfy = fndrInfo.gftEndodfd();
+        } dbtdh (Exdfption f) {
+            UnrfdovfrbblfKfyExdfption ukf =
+            nfw UnrfdovfrbblfKfyExdfption("Endrypt Privbtf Kfy fbilfd: "
+                                          + f.gftMfssbgf());
+            ukf.initCbusf(f);
+            throw ukf;
+        }
+
+        rfturn kfy;
+    }
+
+
+}
+

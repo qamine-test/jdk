@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicMenuItemUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuItfmUI;
 
-import apple.laf.JRSUIConstants.Size;
+import bpplf.lbf.JRSUIConstbnts.Sizf;
 
-// TODO: no screen menu bar for now
-public class AquaMenuItemUI extends BasicMenuItemUI implements AquaMenuPainter.Client/*, ScreenMenuItemUI*/ {
-    static final int kPlain = 0, kCheckBox = 1, kRadioButton = 2;
-    static final String sPropertyPrefixes[] = { "MenuItem", "CheckBoxMenuItem", "RadioButtonMenuItem" };
+// TODO: no sdrffn mfnu bbr for now
+publid dlbss AqubMfnuItfmUI fxtfnds BbsidMfnuItfmUI implfmfnts AqubMfnuPbintfr.Clifnt/*, SdrffnMfnuItfmUI*/ {
+    stbtid finbl int kPlbin = 0, kCifdkBox = 1, kRbdioButton = 2;
+    stbtid finbl String sPropfrtyPrffixfs[] = { "MfnuItfm", "CifdkBoxMfnuItfm", "RbdioButtonMfnuItfm" };
 
-    boolean fIsScreenMenuItem = false;
-    boolean fIsIndeterminate = false;
-    int fType;
+    boolfbn fIsSdrffnMfnuItfm = fblsf;
+    boolfbn fIsIndftfrminbtf = fblsf;
+    int fTypf;
 
-    AquaMenuItemUI(final int type) {
-        super();
-        fType = type;
+    AqubMfnuItfmUI(finbl int typf) {
+        supfr();
+        fTypf = typf;
     }
 
-    public static ComponentUI createUI(final JComponent c) {
-        int type = kPlain;
-        if (c instanceof JCheckBoxMenuItem) type = kCheckBox;
-        if (c instanceof JRadioButtonMenuItem) type = kRadioButton;
-        return new AquaMenuItemUI(type);
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        int typf = kPlbin;
+        if (d instbndfof JCifdkBoxMfnuItfm) typf = kCifdkBox;
+        if (d instbndfof JRbdioButtonMfnuItfm) typf = kRbdioButton;
+        rfturn nfw AqubMfnuItfmUI(typf);
     }
 
-    // The only real difference between the three is which property prefix it returns
-    // and therefore which icons!
-    protected String getPropertyPrefix() {
-        return sPropertyPrefixes[fType];
+    // Tif only rfbl difffrfndf bftwffn tif tirff is wiidi propfrty prffix it rfturns
+    // bnd tifrfforf wiidi idons!
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn sPropfrtyPrffixfs[fTypf];
     }
 
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        IndeterminateListener.install(menuItem);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        IndftfrminbtfListfnfr.instbll(mfnuItfm);
     }
 
-    @Override
-    protected void uninstallListeners() {
-        IndeterminateListener.uninstall(menuItem);
-        super.uninstallListeners();
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        IndftfrminbtfListfnfr.uninstbll(mfnuItfm);
+        supfr.uninstbllListfnfrs();
     }
 
-    public void updateListenersForScreenMenuItem() {
-        setIsScreenMenu(true);
+    publid void updbtfListfnfrsForSdrffnMfnuItfm() {
+        sftIsSdrffnMfnu(truf);
     }
 
-    // Users can dynamically change the kind of menu we're on by calling JPopupMenu.setInvoker
-    // so we need to be prepared to put the listeners back on
-    protected void setIsScreenMenu(final boolean isScreenMenuItem) {
-        if (fIsScreenMenuItem != isScreenMenuItem) {
-            fIsScreenMenuItem = isScreenMenuItem;
-            if (fIsScreenMenuItem) removeListeners();
-            else addListeners();
+    // Usfrs dbn dynbmidblly dibngf tif kind of mfnu wf'rf on by dblling JPopupMfnu.sftInvokfr
+    // so wf nffd to bf prfpbrfd to put tif listfnfrs bbdk on
+    protfdtfd void sftIsSdrffnMfnu(finbl boolfbn isSdrffnMfnuItfm) {
+        if (fIsSdrffnMfnuItfm != isSdrffnMfnuItfm) {
+            fIsSdrffnMfnuItfm = isSdrffnMfnuItfm;
+            if (fIsSdrffnMfnuItfm) rfmovfListfnfrs();
+            flsf bddListfnfrs();
         }
     }
 
-    protected void removeListeners() {
-        menuItem.removeMouseListener(mouseInputListener);
-        menuItem.removeMouseMotionListener(mouseInputListener);
-        menuItem.removeMenuDragMouseListener(menuDragMouseListener);
+    protfdtfd void rfmovfListfnfrs() {
+        mfnuItfm.rfmovfMousfListfnfr(mousfInputListfnfr);
+        mfnuItfm.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        mfnuItfm.rfmovfMfnuDrbgMousfListfnfr(mfnuDrbgMousfListfnfr);
     }
 
-    protected void addListeners() {
-        menuItem.addMouseListener(mouseInputListener);
-        menuItem.addMouseMotionListener(mouseInputListener);
-        menuItem.addMenuDragMouseListener(menuDragMouseListener);
+    protfdtfd void bddListfnfrs() {
+        mfnuItfm.bddMousfListfnfr(mousfInputListfnfr);
+        mfnuItfm.bddMousfMotionListfnfr(mousfInputListfnfr);
+        mfnuItfm.bddMfnuDrbgMousfListfnfr(mfnuDrbgMousfListfnfr);
     }
 
-    protected void paintMenuItem(final Graphics g, final JComponent c, final Icon localCheckIcon, final Icon localArrowIcon, final Color background, final Color foreground, final int localDefaultTextIconGap) {
-        AquaMenuPainter.instance().paintMenuItem(this, g, c, localCheckIcon, localArrowIcon, background, foreground, disabledForeground, selectionForeground, localDefaultTextIconGap, acceleratorFont);
+    protfdtfd void pbintMfnuItfm(finbl Grbpiids g, finbl JComponfnt d, finbl Idon lodblCifdkIdon, finbl Idon lodblArrowIdon, finbl Color bbdkground, finbl Color forfground, finbl int lodblDffbultTfxtIdonGbp) {
+        AqubMfnuPbintfr.instbndf().pbintMfnuItfm(tiis, g, d, lodblCifdkIdon, lodblArrowIdon, bbdkground, forfground, disbblfdForfground, sflfdtionForfground, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
     }
 
-    protected Dimension getPreferredMenuItemSize(final JComponent c, final Icon localCheckIcon, final Icon localArrowIcon, final int localDefaultTextIconGap) {
-        return AquaMenuPainter.instance().getPreferredMenuItemSize(c, localCheckIcon, localArrowIcon, localDefaultTextIconGap, acceleratorFont);
+    protfdtfd Dimfnsion gftPrfffrrfdMfnuItfmSizf(finbl JComponfnt d, finbl Idon lodblCifdkIdon, finbl Idon lodblArrowIdon, finbl int lodblDffbultTfxtIdonGbp) {
+        rfturn AqubMfnuPbintfr.instbndf().gftPrfffrrfdMfnuItfmSizf(d, lodblCifdkIdon, lodblArrowIdon, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
     }
 
-    public void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            // sja fix ((PenGraphics)g).alphaClearRect(0,0,c.getWidth(),c.getHeight());
-            final Color oldColor = g.getColor();
-            g.setColor(c.getBackground());
-            g.fillRect(0, 0, c.getWidth(), c.getHeight());
-            g.setColor(oldColor);
+    publid void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            // sjb fix ((PfnGrbpiids)g).blpibClfbrRfdt(0,0,d.gftWidti(),d.gftHfigit());
+            finbl Color oldColor = g.gftColor();
+            g.sftColor(d.gftBbdkground());
+            g.fillRfdt(0, 0, d.gftWidti(), d.gftHfigit());
+            g.sftColor(oldColor);
         }
 
-        paint(g, c);
+        pbint(g, d);
     }
 
-    public void paintBackground(final Graphics g, final JComponent c, final int menuWidth, final int menuHeight) {
-        if ((c.getParent() instanceof JMenuBar)) return;
-        final Color oldColor = g.getColor();
+    publid void pbintBbdkground(finbl Grbpiids g, finbl JComponfnt d, finbl int mfnuWidti, finbl int mfnuHfigit) {
+        if ((d.gftPbrfnt() instbndfof JMfnuBbr)) rfturn;
+        finbl Color oldColor = g.gftColor();
 
-        g.setColor(c.getBackground());
-        g.fillRect(0, 0, menuWidth, menuHeight);
-        if (((JMenuItem)c).isBorderPainted()) {
-            if (((JMenuItem)c).getModel().isArmed()) {
-                AquaMenuPainter.instance().paintSelectedMenuItemBackground(g, menuWidth, menuHeight);
+        g.sftColor(d.gftBbdkground());
+        g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+        if (((JMfnuItfm)d).isBordfrPbintfd()) {
+            if (((JMfnuItfm)d).gftModfl().isArmfd()) {
+                AqubMfnuPbintfr.instbndf().pbintSflfdtfdMfnuItfmBbdkground(g, mfnuWidti, mfnuHfigit);
             }
-            //getTheme().drawMenuItem(c, g, 0, 0, menuWidth, menuHeight);
-        } else {
-            // If selected, use black (see AquaLookAndFeel "Menu.selectionBackground")
-            if (((JMenuItem)c).getModel().isArmed()) {
-                final Color holdc = g.getColor();
-                g.setColor(Color.black);
-                g.fillRect(0, 0, menuWidth, menuHeight);
-                g.setColor(holdc);
-            } else {
-                g.setColor(Color.green);
-                g.fillRect(0, 0, menuWidth, menuHeight);
-                //super.paintBackground(g,c,menuWidth, menuHeight); //getTheme().drawMenuBackground((Component)c, g, (short)1, 0, 0, menuWidth, menuHeight);
+            //gftTifmf().drbwMfnuItfm(d, g, 0, 0, mfnuWidti, mfnuHfigit);
+        } flsf {
+            // If sflfdtfd, usf blbdk (sff AqubLookAndFffl "Mfnu.sflfdtionBbdkground")
+            if (((JMfnuItfm)d).gftModfl().isArmfd()) {
+                finbl Color ioldd = g.gftColor();
+                g.sftColor(Color.blbdk);
+                g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+                g.sftColor(ioldd);
+            } flsf {
+                g.sftColor(Color.grffn);
+                g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+                //supfr.pbintBbdkground(g,d,mfnuWidti, mfnuHfigit); //gftTifmf().drbwMfnuBbdkground((Componfnt)d, g, (siort)1, 0, 0, mfnuWidti, mfnuHfigit);
             }
         }
-        g.setColor(oldColor);
+        g.sftColor(oldColor);
     }
 
-    protected void doClick(final MenuSelectionManager msm) {
-        final Dimension size = menuItem.getSize();
-        AquaUtils.blinkMenu(new AquaUtils.Selectable() {
-            public void paintSelected(final boolean selected) {
-                menuItem.setArmed(selected);
-                menuItem.paintImmediately(0, 0, size.width, size.height);
+    protfdtfd void doClidk(finbl MfnuSflfdtionMbnbgfr msm) {
+        finbl Dimfnsion sizf = mfnuItfm.gftSizf();
+        AqubUtils.blinkMfnu(nfw AqubUtils.Sflfdtbblf() {
+            publid void pbintSflfdtfd(finbl boolfbn sflfdtfd) {
+                mfnuItfm.sftArmfd(sflfdtfd);
+                mfnuItfm.pbintImmfdibtfly(0, 0, sizf.widti, sizf.ifigit);
             }
         });
-        super.doClick(msm);
+        supfr.doClidk(msm);
     }
 
-    static final IndeterminateListener INDETERMINATE_LISTENER = new IndeterminateListener();
-    static class IndeterminateListener implements PropertyChangeListener {
-        static final String CLIENT_PROPERTY_KEY = "JMenuItem.selectedState";
+    stbtid finbl IndftfrminbtfListfnfr INDETERMINATE_LISTENER = nfw IndftfrminbtfListfnfr();
+    stbtid dlbss IndftfrminbtfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        stbtid finbl String CLIENT_PROPERTY_KEY = "JMfnuItfm.sflfdtfdStbtf";
 
-        static void install(final JMenuItem menuItem) {
-            menuItem.addPropertyChangeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
-            apply(menuItem, menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
+        stbtid void instbll(finbl JMfnuItfm mfnuItfm) {
+            mfnuItfm.bddPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+            bpply(mfnuItfm, mfnuItfm.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
         }
 
-        static void uninstall(final JMenuItem menuItem) {
-            menuItem.removePropertyChangeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+        stbtid void uninstbll(finbl JMfnuItfm mfnuItfm) {
+            mfnuItfm.rfmovfPropfrtyCibngfListfnfr(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
         }
 
-        public void propertyChange(final PropertyChangeEvent evt) {
-            final String key = evt.getPropertyName();
-            if (!CLIENT_PROPERTY_KEY.equalsIgnoreCase(key)) return;
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+            finbl String kfy = fvt.gftPropfrtyNbmf();
+            if (!CLIENT_PROPERTY_KEY.fqublsIgnorfCbsf(kfy)) rfturn;
 
-            final Object source = evt.getSource();
-            if (!(source instanceof JMenuItem)) return;
+            finbl Objfdt sourdf = fvt.gftSourdf();
+            if (!(sourdf instbndfof JMfnuItfm)) rfturn;
 
-            final JMenuItem c = (JMenuItem)source;
-            apply(c, evt.getNewValue());
+            finbl JMfnuItfm d = (JMfnuItfm)sourdf;
+            bpply(d, fvt.gftNfwVbluf());
         }
 
-        static void apply(final JMenuItem menuItem, final Object value) {
-            final ButtonUI ui = menuItem.getUI();
-            if (!(ui instanceof AquaMenuItemUI)) return;
+        stbtid void bpply(finbl JMfnuItfm mfnuItfm, finbl Objfdt vbluf) {
+            finbl ButtonUI ui = mfnuItfm.gftUI();
+            if (!(ui instbndfof AqubMfnuItfmUI)) rfturn;
 
-            final AquaMenuItemUI aquaUI = (AquaMenuItemUI)ui;
+            finbl AqubMfnuItfmUI bqubUI = (AqubMfnuItfmUI)ui;
 
-            if (aquaUI.fIsIndeterminate = "indeterminate".equals(value)) {
-                aquaUI.checkIcon = UIManager.getIcon(aquaUI.getPropertyPrefix() + ".dashIcon");
-            } else {
-                aquaUI.checkIcon = UIManager.getIcon(aquaUI.getPropertyPrefix() + ".checkIcon");
+            if (bqubUI.fIsIndftfrminbtf = "indftfrminbtf".fqubls(vbluf)) {
+                bqubUI.difdkIdon = UIMbnbgfr.gftIdon(bqubUI.gftPropfrtyPrffix() + ".dbsiIdon");
+            } flsf {
+                bqubUI.difdkIdon = UIMbnbgfr.gftIdon(bqubUI.gftPropfrtyPrffix() + ".difdkIdon");
             }
         }
 
-        public static boolean isIndeterminate(final JMenuItem menuItem) {
-            return "indeterminate".equals(menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
+        publid stbtid boolfbn isIndftfrminbtf(finbl JMfnuItfm mfnuItfm) {
+            rfturn "indftfrminbtf".fqubls(mfnuItfm.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
         }
     }
 }

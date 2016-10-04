@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.FileDialog;
-import java.awt.peer.FileDialogPeer;
-import java.io.File;
-import java.io.FilenameFilter;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.FilfDiblog;
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+import sun.bwt.AWTAddfssor;
 
 /**
- * FileDialogPeer for the GtkFileChooser.
+ * FilfDiblogPffr for tif GtkFilfCioosfr.
  *
- * @author Costantino Cerbo (c.cerbo@gmail.com)
+ * @butior Costbntino Cfrbo (d.dfrbo@gmbil.dom)
  */
-final class GtkFileDialogPeer extends XDialogPeer implements FileDialogPeer {
+finbl dlbss GtkFilfDiblogPffr fxtfnds XDiblogPffr implfmfnts FilfDiblogPffr {
 
-    private final FileDialog fd;
+    privbtf finbl FilfDiblog fd;
 
-    // A pointer to the native GTK FileChooser widget
-    private volatile long widget = 0L;
+    // A pointfr to tif nbtivf GTK FilfCioosfr widgft
+    privbtf volbtilf long widgft = 0L;
 
-    GtkFileDialogPeer(FileDialog fd) {
-        super(fd);
-        this.fd = fd;
+    GtkFilfDiblogPffr(FilfDiblog fd) {
+        supfr(fd);
+        tiis.fd = fd;
     }
 
-    private static native void initIDs();
-    static {
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
         initIDs();
     }
 
-    private native void run(String title, int mode, String dir, String file,
-                            FilenameFilter filter, boolean isMultipleMode, int x, int y);
-    private native void quit();
+    privbtf nbtivf void run(String titlf, int modf, String dir, String filf,
+                            FilfnbmfFiltfr filtfr, boolfbn isMultiplfModf, int x, int y);
+    privbtf nbtivf void quit();
 
-    @Override
-    public native void toFront();
+    @Ovfrridf
+    publid nbtivf void toFront();
 
-    @Override
-    public native void setBounds(int x, int y, int width, int height, int op);
+    @Ovfrridf
+    publid nbtivf void sftBounds(int x, int y, int widti, int ifigit, int op);
 
     /**
-     * Called exclusively by the native C code.
+     * Cbllfd fxdlusivfly by tif nbtivf C dodf.
      */
-    private void setFileInternal(String directory, String[] filenames) {
-        AWTAccessor.FileDialogAccessor accessor = AWTAccessor
-                .getFileDialogAccessor();
+    privbtf void sftFilfIntfrnbl(String dirfdtory, String[] filfnbmfs) {
+        AWTAddfssor.FilfDiblogAddfssor bddfssor = AWTAddfssor
+                .gftFilfDiblogAddfssor();
 
-        if (filenames == null) {
-            accessor.setDirectory(fd, null);
-            accessor.setFile(fd, null);
-            accessor.setFiles(fd, null);
-        } else {
-            // Fix 6987233: add the trailing slash if it's absent
-            String with_separator = directory;
-            if (directory != null) {
-                with_separator = directory.endsWith(File.separator) ?
-                        directory : (directory + File.separator);
+        if (filfnbmfs == null) {
+            bddfssor.sftDirfdtory(fd, null);
+            bddfssor.sftFilf(fd, null);
+            bddfssor.sftFilfs(fd, null);
+        } flsf {
+            // Fix 6987233: bdd tif trbiling slbsi if it's bbsfnt
+            String witi_sfpbrbtor = dirfdtory;
+            if (dirfdtory != null) {
+                witi_sfpbrbtor = dirfdtory.fndsWiti(Filf.sfpbrbtor) ?
+                        dirfdtory : (dirfdtory + Filf.sfpbrbtor);
             }
-            accessor.setDirectory(fd, with_separator);
-            accessor.setFile(fd, filenames[0]);
+            bddfssor.sftDirfdtory(fd, witi_sfpbrbtor);
+            bddfssor.sftFilf(fd, filfnbmfs[0]);
 
-            int filesNumber = (filenames != null) ? filenames.length : 0;
-            File[] files = new File[filesNumber];
-            for (int i = 0; i < filesNumber; i++) {
-                files[i] = new File(directory, filenames[i]);
+            int filfsNumbfr = (filfnbmfs != null) ? filfnbmfs.lfngti : 0;
+            Filf[] filfs = nfw Filf[filfsNumbfr];
+            for (int i = 0; i < filfsNumbfr; i++) {
+                filfs[i] = nfw Filf(dirfdtory, filfnbmfs[i]);
             }
-            accessor.setFiles(fd, files);
+            bddfssor.sftFilfs(fd, filfs);
         }
     }
 
     /**
-     * Called exclusively by the native C code.
+     * Cbllfd fxdlusivfly by tif nbtivf C dodf.
      */
-    private boolean filenameFilterCallback(String fullname) {
-        if (fd.getFilenameFilter() == null) {
-            // no filter, accept all.
-            return true;
+    privbtf boolfbn filfnbmfFiltfrCbllbbdk(String fullnbmf) {
+        if (fd.gftFilfnbmfFiltfr() == null) {
+            // no filtfr, bddfpt bll.
+            rfturn truf;
         }
 
-        File filen = new File(fullname);
-        return fd.getFilenameFilter().accept(new File(filen.getParent()),
-                filen.getName());
+        Filf filfn = nfw Filf(fullnbmf);
+        rfturn fd.gftFilfnbmfFiltfr().bddfpt(nfw Filf(filfn.gftPbrfnt()),
+                filfn.gftNbmf());
     }
 
-    @Override
-    public void setVisible(boolean b) {
-        XToolkit.awtLock();
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn b) {
+        XToolkit.bwtLodk();
         try {
             if (b) {
-                Thread t = new Thread() {
-                    public void run() {
-                        showNativeDialog();
-                        fd.setVisible(false);
+                Tirfbd t = nfw Tirfbd() {
+                    publid void run() {
+                        siowNbtivfDiblog();
+                        fd.sftVisiblf(fblsf);
                     }
                 };
-                t.start();
-            } else {
+                t.stbrt();
+            } flsf {
                 quit();
-                fd.setVisible(false);
+                fd.sftVisiblf(fblsf);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    @Override
-    public void dispose() {
+    @Ovfrridf
+    publid void disposf() {
         quit();
-        super.dispose();
+        supfr.disposf();
     }
 
-    @Override
-    public void setDirectory(String dir) {
-        // We do not implement this method because we
-        // have delegated to FileDialog#setDirectory
+    @Ovfrridf
+    publid void sftDirfdtory(String dir) {
+        // Wf do not implfmfnt tiis mftiod bfdbusf wf
+        // ibvf dflfgbtfd to FilfDiblog#sftDirfdtory
     }
 
-    @Override
-    public void setFile(String file) {
-        // We do not implement this method because we
-        // have delegated to FileDialog#setFile
+    @Ovfrridf
+    publid void sftFilf(String filf) {
+        // Wf do not implfmfnt tiis mftiod bfdbusf wf
+        // ibvf dflfgbtfd to FilfDiblog#sftFilf
     }
 
-    @Override
-    public void setFilenameFilter(FilenameFilter filter) {
-        // We do not implement this method because we
-        // have delegated to FileDialog#setFilenameFilter
+    @Ovfrridf
+    publid void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        // Wf do not implfmfnt tiis mftiod bfdbusf wf
+        // ibvf dflfgbtfd to FilfDiblog#sftFilfnbmfFiltfr
     }
 
-    private void showNativeDialog() {
-        String dirname = fd.getDirectory();
-        // File path has a priority against directory path.
-        String filename = fd.getFile();
-        if (filename != null) {
-            final File file = new File(filename);
-            if (fd.getMode() == FileDialog.LOAD
-                && dirname != null
-                && file.getParent() == null) {
-                // File path for gtk_file_chooser_set_filename.
-                filename = dirname + (dirname.endsWith(File.separator) ? "" :
-                                              File.separator) + filename;
+    privbtf void siowNbtivfDiblog() {
+        String dirnbmf = fd.gftDirfdtory();
+        // Filf pbti ibs b priority bgbinst dirfdtory pbti.
+        String filfnbmf = fd.gftFilf();
+        if (filfnbmf != null) {
+            finbl Filf filf = nfw Filf(filfnbmf);
+            if (fd.gftModf() == FilfDiblog.LOAD
+                && dirnbmf != null
+                && filf.gftPbrfnt() == null) {
+                // Filf pbti for gtk_filf_dioosfr_sft_filfnbmf.
+                filfnbmf = dirnbmf + (dirnbmf.fndsWiti(Filf.sfpbrbtor) ? "" :
+                                              Filf.sfpbrbtor) + filfnbmf;
             }
-            if (fd.getMode() == FileDialog.SAVE && file.getParent() != null) {
-                // Filename for gtk_file_chooser_set_current_name.
-                filename = file.getName();
-                // Directory path for gtk_file_chooser_set_current_folder.
-                dirname = file.getParent();
+            if (fd.gftModf() == FilfDiblog.SAVE && filf.gftPbrfnt() != null) {
+                // Filfnbmf for gtk_filf_dioosfr_sft_durrfnt_nbmf.
+                filfnbmf = filf.gftNbmf();
+                // Dirfdtory pbti for gtk_filf_dioosfr_sft_durrfnt_foldfr.
+                dirnbmf = filf.gftPbrfnt();
             }
         }
-        run(fd.getTitle(), fd.getMode(), dirname, filename,
-            fd.getFilenameFilter(), fd.isMultipleMode(), fd.getX(), fd.getY());
+        run(fd.gftTitlf(), fd.gftModf(), dirnbmf, filfnbmf,
+            fd.gftFilfnbmfFiltfr(), fd.isMultiplfModf(), fd.gftX(), fd.gftY());
     }
 }

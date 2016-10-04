@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Exposes the remote management interface of monitor MBeans.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of monitor MBfbns.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MonitorMBean {
+publid intfrfbdf MonitorMBfbn {
 
     /**
-     * Starts the monitor.
+     * Stbrts tif monitor.
      */
-    public void start();
+    publid void stbrt();
 
     /**
-     * Stops the monitor.
+     * Stops tif monitor.
      */
-    public void stop();
+    publid void stop();
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Adds the specified object in the set of observed MBeans.
+     * Adds tif spfdififd objfdt in tif sft of obsfrvfd MBfbns.
      *
-     * @param object The object to observe.
-     * @exception java.lang.IllegalArgumentException the specified object is null.
+     * @pbrbm objfdt Tif objfdt to obsfrvf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption tif spfdififd objfdt is null.
      *
      */
-    public void addObservedObject(ObjectName object) throws java.lang.IllegalArgumentException;
+    publid void bddObsfrvfdObjfdt(ObjfdtNbmf objfdt) tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Removes the specified object from the set of observed MBeans.
+     * Rfmovfs tif spfdififd objfdt from tif sft of obsfrvfd MBfbns.
      *
-     * @param object The object to remove.
+     * @pbrbm objfdt Tif objfdt to rfmovf.
      *
      */
-    public void removeObservedObject(ObjectName object);
+    publid void rfmovfObsfrvfdObjfdt(ObjfdtNbmf objfdt);
 
     /**
-     * Tests whether the specified object is in the set of observed MBeans.
+     * Tfsts wiftifr tif spfdififd objfdt is in tif sft of obsfrvfd MBfbns.
      *
-     * @param object The object to check.
-     * @return <CODE>true</CODE> if the specified object is in the set, <CODE>false</CODE> otherwise.
+     * @pbrbm objfdt Tif objfdt to difdk.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd objfdt is in tif sft, <CODE>fblsf</CODE> otifrwisf.
      *
      */
-    public boolean containsObservedObject(ObjectName object);
+    publid boolfbn dontbinsObsfrvfdObjfdt(ObjfdtNbmf objfdt);
 
     /**
-     * Returns an array containing the objects being observed.
+     * Rfturns bn brrby dontbining tif objfdts bfing obsfrvfd.
      *
-     * @return The objects being observed.
+     * @rfturn Tif objfdts bfing obsfrvfd.
      *
      */
-    public ObjectName[] getObservedObjects();
+    publid ObjfdtNbmf[] gftObsfrvfdObjfdts();
 
     /**
-     * Gets the object name of the object being observed.
+     * Gfts tif objfdt nbmf of tif objfdt bfing obsfrvfd.
      *
-     * @return The object being observed.
+     * @rfturn Tif objfdt bfing obsfrvfd.
      *
-     * @see #setObservedObject
+     * @sff #sftObsfrvfdObjfdt
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getObservedObjects}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftObsfrvfdObjfdts}
      */
-    @Deprecated
-    public ObjectName getObservedObject();
+    @Dfprfdbtfd
+    publid ObjfdtNbmf gftObsfrvfdObjfdt();
 
     /**
-     * Sets the object to observe identified by its object name.
+     * Sfts tif objfdt to obsfrvf idfntififd by its objfdt nbmf.
      *
-     * @param object The object to observe.
+     * @pbrbm objfdt Tif objfdt to obsfrvf.
      *
-     * @see #getObservedObject
+     * @sff #gftObsfrvfdObjfdt
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #addObservedObject}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #bddObsfrvfdObjfdt}
      */
-    @Deprecated
-    public void setObservedObject(ObjectName object);
+    @Dfprfdbtfd
+    publid void sftObsfrvfdObjfdt(ObjfdtNbmf objfdt);
 
     /**
-     * Gets the attribute being observed.
+     * Gfts tif bttributf bfing obsfrvfd.
      *
-     * @return The attribute being observed.
+     * @rfturn Tif bttributf bfing obsfrvfd.
      *
-     * @see #setObservedAttribute
+     * @sff #sftObsfrvfdAttributf
      */
-    public String getObservedAttribute();
+    publid String gftObsfrvfdAttributf();
 
     /**
-     * Sets the attribute to observe.
+     * Sfts tif bttributf to obsfrvf.
      *
-     * @param attribute The attribute to observe.
+     * @pbrbm bttributf Tif bttributf to obsfrvf.
      *
-     * @see #getObservedAttribute
+     * @sff #gftObsfrvfdAttributf
      */
-    public void setObservedAttribute(String attribute);
+    publid void sftObsfrvfdAttributf(String bttributf);
 
     /**
-     * Gets the granularity period (in milliseconds).
+     * Gfts tif grbnulbrity pfriod (in millisfdonds).
      *
-     * @return The granularity period.
+     * @rfturn Tif grbnulbrity pfriod.
      *
-     * @see #setGranularityPeriod
+     * @sff #sftGrbnulbrityPfriod
      */
-    public long getGranularityPeriod();
+    publid long gftGrbnulbrityPfriod();
 
     /**
-     * Sets the granularity period (in milliseconds).
+     * Sfts tif grbnulbrity pfriod (in millisfdonds).
      *
-     * @param period The granularity period.
-     * @exception java.lang.IllegalArgumentException The granularity
-     * period is less than or equal to zero.
+     * @pbrbm pfriod Tif grbnulbrity pfriod.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif grbnulbrity
+     * pfriod is lfss tibn or fqubl to zfro.
      *
-     * @see #getGranularityPeriod
+     * @sff #gftGrbnulbrityPfriod
      */
-    public void setGranularityPeriod(long period) throws java.lang.IllegalArgumentException;
+    publid void sftGrbnulbrityPfriod(long pfriod) tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Tests if the monitor MBean is active.
-     * A monitor MBean is marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is called.
+     * Tfsts if tif monitor MBfbn is bdtivf.
+     * A monitor MBfbn is mbrkfd bdtivf wifn tif {@link #stbrt stbrt} mftiod is dbllfd.
+     * It bfdomfs inbdtivf wifn tif {@link #stop stop} mftiod is dbllfd.
      *
-     * @return <CODE>true</CODE> if the monitor MBean is active, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif monitor MBfbn is bdtivf, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean isActive();
+    publid boolfbn isAdtivf();
 }

@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.Sft;
+
+/**
+ * This dlbss spfdififs thf sft of pbrbmftfrs usfd bs input for thf Sun
+ * dfrtifidbtion pbth build blgorithm. It is idfntidbl to PKIXBuildfrPbrbmftfrs
+ * with thf bddition of b <dodf>buildForwbrd</dodf> pbrbmftfr whidh bllows
+ * thf dbllfr to spfdify whfthfr or not thf pbth should bf donstrudtfd in
+ * thf forwbrd dirfdtion.
+ *
+ * Thf dffbult for thf <dodf>buildForwbrd</dodf> pbrbmftfr is
+ * truf, whidh mfbns thbt thf build blgorithm should donstrudt pbths
+ * from thf tbrgft subjfdt bbdk to thf trustfd bndhor.
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+publid dlbss SunCfrtPbthBuildfrPbrbmftfrs fxtfnds PKIXBuildfrPbrbmftfrs {
+
+    privbtf boolfbn buildForwbrd = truf;
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>SunCfrtPbthBuildfrPbrbmftfrs</dodf> with thf
+     * spfdififd pbrbmftfr vblufs.
+     *
+     * @pbrbm trustAndhors b <dodf>Sft</dodf> of <dodf>TrustAndhor</dodf>s
+     * @pbrbm tbrgftConstrbints b <dodf>CfrtSflfdtor</dodf> spfdifying thf
+     * donstrbints on thf tbrgft dfrtifidbtf
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf spfdififd
+     * <dodf>Sft</dodf> is fmpty <dodf>(trustAndhors.isEmpty() == truf)</dodf>
+     * @throws NullPointfrExdfption if thf spfdififd <dodf>Sft</dodf> is
+     * <dodf>null</dodf>
+     * @throws ClbssCbstExdfption if bny of thf flfmfnts in thf <dodf>Sft</dodf>
+     * brf not of typf <dodf>jbvb.sfdurity.dfrt.TrustAndhor</dodf>
+     */
+    publid SunCfrtPbthBuildfrPbrbmftfrs(Sft<TrustAndhor> trustAndhors,
+        CfrtSflfdtor tbrgftConstrbints) throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(trustAndhors, tbrgftConstrbints);
+        sftBuildForwbrd(truf);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>SunCfrtPbthBuildfrPbrbmftfrs</dodf> thbt
+     * usfs thf spfdififd <dodf>KfyStorf</dodf> to populbtf thf sft
+     * of most-trustfd CA dfrtifidbtfs.
+     *
+     * @pbrbm kfystorf A kfystorf from whidh thf sft of most-trustfd
+     * CA dfrtifidbtfs will bf populbtfd.
+     * @pbrbm tbrgftConstrbints b <dodf>CfrtSflfdtor</dodf> spfdifying thf
+     * donstrbints on thf tbrgft dfrtifidbtf
+     * @throws KfyStorfExdfption if thf kfystorf hbs not bffn initiblizfd.
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf kfystorf dofs
+     * not dontbin bt lfbst onf trustfd dfrtifidbtf fntry
+     * @throws NullPointfrExdfption if thf kfystorf is <dodf>null</dodf>
+     */
+    publid SunCfrtPbthBuildfrPbrbmftfrs(KfyStorf kfystorf,
+        CfrtSflfdtor tbrgftConstrbints)
+        throws KfyStorfExdfption, InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(kfystorf, tbrgftConstrbints);
+        sftBuildForwbrd(truf);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf buildForwbrd flbg.
+     *
+     * @rfturn thf vbluf of thf buildForwbrd flbg
+     */
+    publid boolfbn gftBuildForwbrd() {
+        rfturn this.buildForwbrd;
+    }
+
+    /**
+     * Sfts thf vbluf of thf buildForwbrd flbg. If truf, pbths
+     * brf built from thf tbrgft subjfdt to thf trustfd bndhor.
+     * If fblsf, pbths brf built from thf trustfd bndhor to thf
+     * tbrgft subjfdt. Thf dffbult vbluf if not spfdififd is truf.
+     *
+     * @pbrbm buildForwbrd thf vbluf of thf buildForwbrd flbg
+     */
+    publid void sftBuildForwbrd(boolfbn buildForwbrd) {
+        this.buildForwbrd = buildForwbrd;
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs.
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        sb.bppfnd(supfr.toString());
+        sb.bppfnd("  Build Forwbrd Flbg: " + String.vblufOf(buildForwbrd) + "\n");
+        sb.bppfnd("]\n");
+        rfturn sb.toString();
+    }
+}

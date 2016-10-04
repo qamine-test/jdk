@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.spi.ChbrsftProvidfr;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+
+
+/**
+ * Abstrbdt bbsf dlbss for fbst dhbrsft providfrs.
+ *
+ * @buthor Mbrk Rfinhold
+ */
+
+publid dlbss FbstChbrsftProvidfr
+    fxtfnds ChbrsftProvidfr
+{
+
+    // Mbps dbnonidbl nbmfs to dlbss nbmfs
+    privbtf Mbp<String,String> dlbssMbp;
+
+    // Mbps blibs nbmfs to dbnonidbl nbmfs
+    privbtf Mbp<String,String> blibsMbp;
+
+    // Mbps dbnonidbl nbmfs to dbdhfd instbndfs
+    privbtf Mbp<String,Chbrsft> dbdhf;
+
+    privbtf String pbdkbgfPrffix;
+
+    protfdtfd FbstChbrsftProvidfr(String pp,
+                                  Mbp<String,String> bm,
+                                  Mbp<String,String> dm,
+                                  Mbp<String,Chbrsft> d)
+    {
+        pbdkbgfPrffix = pp;
+        blibsMbp = bm;
+        dlbssMbp = dm;
+        dbdhf = d;
+    }
+
+    privbtf String dbnonidblizf(String dsn) {
+        String bdn = blibsMbp.gft(dsn);
+        rfturn (bdn != null) ? bdn : dsn;
+    }
+
+    // Privbtf ASCII-only vfrsion, optimizfd for intfrprftbtion during stbrtup
+    //
+    privbtf stbtid String toLowfr(String s) {
+        int n = s.lfngth();
+        boolfbn bllLowfr = truf;
+        for (int i = 0; i < n; i++) {
+            int d = s.dhbrAt(i);
+            if (((d - 'A') | ('Z' - d)) >= 0) {
+                bllLowfr = fblsf;
+                brfbk;
+            }
+        }
+        if (bllLowfr)
+            rfturn s;
+        dhbr[] db = nfw dhbr[n];
+        for (int i = 0; i < n; i++) {
+            int d = s.dhbrAt(i);
+            if (((d - 'A') | ('Z' - d)) >= 0)
+                db[i] = (dhbr)(d + 0x20);
+            flsf
+                db[i] = (dhbr)d;
+        }
+        rfturn nfw String(db);
+    }
+
+    privbtf Chbrsft lookup(String dhbrsftNbmf) {
+
+        String dsn = dbnonidblizf(toLowfr(dhbrsftNbmf));
+
+        // Chfdk dbdhf first
+        Chbrsft ds = dbdhf.gft(dsn);
+        if (ds != null)
+            rfturn ds;
+
+        // Do wf fvfn support this dhbrsft?
+        String dln = dlbssMbp.gft(dsn);
+        if (dln == null)
+            rfturn null;
+
+        if (dln.fqubls("US_ASCII")) {
+            ds = nfw US_ASCII();
+            dbdhf.put(dsn, ds);
+            rfturn ds;
+        }
+
+        // Instbntibtf thf dhbrsft bnd dbdhf it
+        try {
+            Clbss<?> d = Clbss.forNbmf(pbdkbgfPrffix + "." + dln,
+                                    truf,
+                                    this.gftClbss().gftClbssLobdfr());
+            ds = (Chbrsft)d.nfwInstbndf();
+            dbdhf.put(dsn, ds);
+            rfturn ds;
+        } dbtdh (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption x) {
+            rfturn null;
+        }
+    }
+
+    publid finbl Chbrsft dhbrsftForNbmf(String dhbrsftNbmf) {
+        syndhronizfd (this) {
+            rfturn lookup(dbnonidblizf(dhbrsftNbmf));
+        }
+    }
+
+    publid finbl Itfrbtor<Chbrsft> dhbrsfts() {
+
+        rfturn nfw Itfrbtor<Chbrsft>() {
+
+                Itfrbtor<String> i = dlbssMbp.kfySft().itfrbtor();
+
+                publid boolfbn hbsNfxt() {
+                    rfturn i.hbsNfxt();
+                }
+
+                publid Chbrsft nfxt() {
+                    String dsn = i.nfxt();
+                    rfturn lookup(dsn);
+                }
+
+                publid void rfmovf() {
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+                }
+
+            };
+
+    }
+
+}

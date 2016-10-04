@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.dir;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+
+/**
+  * A dlbss for sfbrdhing DirContfxts
+  *
+  * @buthor Jon Ruiz
+  */
+publid dlbss DirSfbrdh {
+   publid stbtid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(DirContfxt dtx,
+       Attributfs mbtdhingAttributfs,
+       String[] bttributfsToRfturn) throws NbmingExdfption {
+        SfbrdhControls dons = nfw SfbrdhControls(
+            SfbrdhControls.ONELEVEL_SCOPE,
+            0, 0, bttributfsToRfturn,
+            fblsf, fblsf);
+
+        rfturn nfw LbzySfbrdhEnumfrbtionImpl(
+            nfw ContfxtEnumfrbtor(dtx, SfbrdhControls.ONELEVEL_SCOPE),
+            nfw ContbinmfntFiltfr(mbtdhingAttributfs),
+            dons);
+    }
+
+    publid stbtid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(DirContfxt dtx,
+        String filtfr, SfbrdhControls dons) throws NbmingExdfption {
+
+        if (dons == null)
+            dons = nfw SfbrdhControls();
+
+        rfturn nfw LbzySfbrdhEnumfrbtionImpl(
+            nfw ContfxtEnumfrbtor(dtx, dons.gftSfbrdhSdopf()),
+            nfw SfbrdhFiltfr(filtfr),
+            dons);
+    }
+
+    publid stbtid NbmingEnumfrbtion<SfbrdhRfsult> sfbrdh(DirContfxt dtx,
+        String filtfrExpr, Objfdt[] filtfrArgs, SfbrdhControls dons)
+        throws NbmingExdfption {
+
+        String strfiltfr = SfbrdhFiltfr.formbt(filtfrExpr, filtfrArgs);
+        rfturn sfbrdh(dtx, strfiltfr, dons);
+    }
+}

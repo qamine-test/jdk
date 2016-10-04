@@ -1,0 +1,609 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+
+/**
+ * A RolfInfo objfdt summbrisfs b rolf in b rflbtion typf.
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>2504952983494636987L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RolfInfo implfmfnts Sfriblizbblf {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 7227256952085334351L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 2504952983494636987L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("myNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myIsRfbdbblfFlg", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("myIsWritbblfFlg", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("myDfsdription", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myMinDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("myMbxDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("myRffMBfbnClbssNbmf", String.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("nbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("isRfbdbblf", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("isWritbblf", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("dfsdription", String.dlbss),
+      nfw ObjfdtStrfbmFifld("minDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("mbxDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("rfffrfndfdMBfbnClbssNbmf", String.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld nbmf String Rolf nbmf
+     * @sfriblFifld isRfbdbblf boolfbn Rfbd bddfss modf: <dodf>truf</dodf> if rolf is rfbdbblf
+     * @sfriblFifld isWritbblf boolfbn Writf bddfss modf: <dodf>truf</dodf> if rolf is writbblf
+     * @sfriblFifld dfsdription String Rolf dfsdription
+     * @sfriblFifld minDfgrff int Minimum dfgrff (i.f. minimum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     * @sfriblFifld mbxDfgrff int Mbximum dfgrff (i.f. mbximum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     * @sfriblFifld rfffrfndfdMBfbnClbssNbmf String Nbmf of dlbss of MBfbn(s) fxpfdtfd to bf rfffrfndfd in dorrfsponding rolf
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK : Too bbd, no dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    //
+    // Publid donstbnts
+    //
+
+    /**
+     * To spfdify bn unlimitfd dbrdinblity.
+     */
+    publid stbtid finbl int ROLE_CARDINALITY_INFINITY = -1;
+
+    //
+    // Privbtf mfmbfrs
+    //
+
+    /**
+     * @sfribl Rolf nbmf
+     */
+    privbtf String nbmf = null;
+
+    /**
+     * @sfribl Rfbd bddfss modf: <dodf>truf</dodf> if rolf is rfbdbblf
+     */
+    privbtf boolfbn isRfbdbblf;
+
+    /**
+     * @sfribl Writf bddfss modf: <dodf>truf</dodf> if rolf is writbblf
+     */
+    privbtf boolfbn isWritbblf;
+
+    /**
+     * @sfribl Rolf dfsdription
+     */
+    privbtf String dfsdription = null;
+
+    /**
+     * @sfribl Minimum dfgrff (i.f. minimum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     */
+    privbtf int minDfgrff;
+
+    /**
+     * @sfribl Mbximum dfgrff (i.f. mbximum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     */
+    privbtf int mbxDfgrff;
+
+    /**
+     * @sfribl Nbmf of dlbss of MBfbn(s) fxpfdtfd to bf rfffrfndfd in dorrfsponding rolf
+     */
+    privbtf String rfffrfndfdMBfbnClbssNbmf = null;
+
+    //
+    // Construdtors
+    //
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm rolfNbmf  nbmf of thf rolf.
+     * @pbrbm mbfbnClbssNbmf  nbmf of thf dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * this rolf, thfn thf MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
+     * @pbrbm rfbd  flbg to indidbtf if thf dorrfsponding rolf
+     * dbn bf rfbd
+     * @pbrbm writf  flbg to indidbtf if thf dorrfsponding rolf
+     * dbn bf sft
+     * @pbrbm min  minimum dfgrff for rolf, i.f. minimum numbfr of
+     * MBfbns to providf in dorrfsponding rolf
+     * Must bf lfss thbn or fqubl to <tt>mbx</tt>.
+     * (ROLE_CARDINALITY_INFINITY for unlimitfd)
+     * @pbrbm mbx  mbximum dfgrff for rolf, i.f. mbximum numbfr of
+     * MBfbns to providf in dorrfsponding rolf
+     * Must bf grfbtfr thbn or fqubl to <tt>min</tt>
+     * (ROLE_CARDINALITY_INFINITY for unlimitfd)
+     * @pbrbm dfsdr  dfsdription of thf rolf (dbn bf null)
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption InvblidRolfInfoExdfption  if thf minimum dfgrff is
+     * grfbtfr thbn thf mbximum dfgrff.
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, this fxdfption
+     * dbn no longfr bf thrown.  It is rftbinfd in thf dfdlbrbtion of
+     * this dlbss for dompbtibility with fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption  if thf dlbss mbfbnClbssNbmf
+     * is not b MBfbn dlbss.
+     */
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf,
+                    boolfbn rfbd,
+                    boolfbn writf,
+                    int min,
+                    int mbx,
+                    String dfsdr)
+    throws IllfgblArgumfntExdfption,
+           InvblidRolfInfoExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
+
+        init(rolfNbmf,
+             mbfbnClbssNbmf,
+             rfbd,
+             writf,
+             min,
+             mbx,
+             dfsdr);
+        rfturn;
+    }
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm rolfNbmf  nbmf of thf rolf
+     * @pbrbm mbfbnClbssNbmf  nbmf of thf dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * this rolf, thfn thf MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
+     * @pbrbm rfbd  flbg to indidbtf if thf dorrfsponding rolf
+     * dbn bf rfbd
+     * @pbrbm writf  flbg to indidbtf if thf dorrfsponding rolf
+     * dbn bf sft
+     *
+     * <P>Minimum bnd mbximum dfgrffs dffbultfd to 1.
+     * <P>Dfsdription of rolf dffbultfd to null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, this fxdfption
+     * dbn no longfr bf thrown.  It is rftbinfd in thf dfdlbrbtion of
+     * this dlbss for dompbtibility with fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption As of JMX 1.2, this
+     * fxdfption dbn no longfr bf thrown.  It is rftbinfd in thf
+     * dfdlbrbtion of this dlbss for dompbtibility with fxisting dodf.
+     */
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf,
+                    boolfbn rfbd,
+                    boolfbn writf)
+    throws IllfgblArgumfntExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
+
+        try {
+            init(rolfNbmf,
+                 mbfbnClbssNbmf,
+                 rfbd,
+                 writf,
+                 1,
+                 1,
+                 null);
+        } dbtdh (InvblidRolfInfoExdfption fxd) {
+            // OK : Cbn nfvfr hbppfn bs thf minimum
+            //      dfgrff fqubls thf mbximum dfgrff.
+        }
+
+        rfturn;
+    }
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm rolfNbmf  nbmf of thf rolf
+     * @pbrbm mbfbnClbssNbmf  nbmf of thf dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * this rolf, thfn thf MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
+     *
+     * <P>IsRfbdbblf bnd IsWritbblf dffbultfd to truf.
+     * <P>Minimum bnd mbximum dfgrffs dffbultfd to 1.
+     * <P>Dfsdription of rolf dffbultfd to null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, this fxdfption
+     * dbn no longfr bf thrown.  It is rftbinfd in thf dfdlbrbtion of
+     * this dlbss for dompbtibility with fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption As of JMX 1.2, this
+     * fxdfption dbn no longfr bf thrown.  It is rftbinfd in thf
+     * dfdlbrbtion of this dlbss for dompbtibility with fxisting dodf.
+      */
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf)
+    throws IllfgblArgumfntExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
+
+        try {
+            init(rolfNbmf,
+                 mbfbnClbssNbmf,
+                 truf,
+                 truf,
+                 1,
+                 1,
+                 null);
+        } dbtdh (InvblidRolfInfoExdfption fxd) {
+            // OK : Cbn nfvfr hbppfn bs thf minimum
+            //      dfgrff fqubls thf mbximum dfgrff.
+        }
+
+        rfturn;
+    }
+
+    /**
+     * Copy donstrudtor.
+     *
+     * @pbrbm rolfInfo thf <tt>RolfInfo</tt> instbndf to bf dopifd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     */
+    publid RolfInfo(RolfInfo rolfInfo)
+        throws IllfgblArgumfntExdfption {
+
+        if (rolfInfo == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        try {
+            init(rolfInfo.gftNbmf(),
+                 rolfInfo.gftRffMBfbnClbssNbmf(),
+                 rolfInfo.isRfbdbblf(),
+                 rolfInfo.isWritbblf(),
+                 rolfInfo.gftMinDfgrff(),
+                 rolfInfo.gftMbxDfgrff(),
+                 rolfInfo.gftDfsdription());
+        } dbtdh (InvblidRolfInfoExdfption fxd3) {
+            // OK : Cbn nfvfr hbppfn bs thf minimum dfgrff bnd thf mbximum
+            //      dfgrff wfrf blrfbdy dhfdkfd bt thf timf thf rolfInfo
+            //      instbndf wbs drfbtfd.
+        }
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rfturns thf nbmf of thf rolf.
+     *
+     * @rfturn thf nbmf of thf rolf.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns rfbd bddfss modf for thf rolf (truf if it is rfbdbblf).
+     *
+     * @rfturn truf if thf rolf is rfbdbblf.
+     */
+    publid boolfbn isRfbdbblf() {
+        rfturn isRfbdbblf;
+    }
+
+    /**
+     * Rfturns writf bddfss modf for thf rolf (truf if it is writbblf).
+     *
+     * @rfturn truf if thf rolf is writbblf.
+     */
+    publid boolfbn isWritbblf() {
+        rfturn isWritbblf;
+    }
+
+    /**
+     * Rfturns dfsdription tfxt for thf rolf.
+     *
+     * @rfturn thf dfsdription of thf rolf.
+     */
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    /**
+     * Rfturns minimum dfgrff for dorrfsponding rolf rfffrfndf.
+     *
+     * @rfturn thf minimum dfgrff.
+     */
+    publid int gftMinDfgrff() {
+        rfturn minDfgrff;
+    }
+
+    /**
+     * Rfturns mbximum dfgrff for dorrfsponding rolf rfffrfndf.
+     *
+     * @rfturn thf mbximum dfgrff.
+     */
+    publid int gftMbxDfgrff() {
+        rfturn mbxDfgrff;
+    }
+
+    /**
+     * <p>Rfturns nbmf of typf of MBfbn fxpfdtfd to bf rfffrfndfd in
+     * dorrfsponding rolf.</p>
+     *
+     * @rfturn thf nbmf of thf rfffrfndfd typf.
+     */
+    publid String gftRffMBfbnClbssNbmf() {
+        rfturn rfffrfndfdMBfbnClbssNbmf;
+    }
+
+    /**
+     * Rfturns truf if thf <tt>vbluf</tt> pbrbmftfr is grfbtfr thbn or fqubl to
+     * thf fxpfdtfd minimum dfgrff, fblsf othfrwisf.
+     *
+     * @pbrbm vbluf  thf vbluf to bf dhfdkfd
+     *
+     * @rfturn truf if grfbtfr thbn or fqubl to minimum dfgrff, fblsf othfrwisf.
+     */
+    publid boolfbn dhfdkMinDfgrff(int vbluf) {
+        if (vbluf >= ROLE_CARDINALITY_INFINITY &&
+            (minDfgrff == ROLE_CARDINALITY_INFINITY
+             || vbluf >= minDfgrff)) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns truf if thf <tt>vbluf</tt> pbrbmftfr is lowfr thbn or fqubl to
+     * thf fxpfdtfd mbximum dfgrff, fblsf othfrwisf.
+     *
+     * @pbrbm vbluf  thf vbluf to bf dhfdkfd
+     *
+     * @rfturn truf if lowfr thbn or fqubl to mbximum dfgrff, fblsf othfrwisf.
+     */
+    publid boolfbn dhfdkMbxDfgrff(int vbluf) {
+        if (vbluf >= ROLE_CARDINALITY_INFINITY &&
+            (mbxDfgrff == ROLE_CARDINALITY_INFINITY ||
+             (vbluf != ROLE_CARDINALITY_INFINITY &&
+              vbluf <= mbxDfgrff))) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf rolf info.
+     *
+     * @rfturn b dfsdription of thf rolf info.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd("rolf info nbmf: " + nbmf);
+        rfsult.bppfnd("; isRfbdbblf: " + isRfbdbblf);
+        rfsult.bppfnd("; isWritbblf: " + isWritbblf);
+        rfsult.bppfnd("; dfsdription: " + dfsdription);
+        rfsult.bppfnd("; minimum dfgrff: " + minDfgrff);
+        rfsult.bppfnd("; mbximum dfgrff: " + mbxDfgrff);
+        rfsult.bppfnd("; MBfbn dlbss: " + rfffrfndfdMBfbnClbssNbmf);
+        rfturn rfsult.toString();
+    }
+
+    //
+    // Misd
+    //
+
+    // Initiblizbtion
+    privbtf void init(String rolfNbmf,
+                      String mbfbnClbssNbmf,
+                      boolfbn rfbd,
+                      boolfbn writf,
+                      int min,
+                      int mbx,
+                      String dfsdr)
+            throws IllfgblArgumfntExdfption,
+                   InvblidRolfInfoExdfption {
+
+        if (rolfNbmf == null ||
+            mbfbnClbssNbmf == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        nbmf = rolfNbmf;
+        isRfbdbblf = rfbd;
+        isWritbblf = writf;
+        if (dfsdr != null) {
+            dfsdription = dfsdr;
+        }
+
+        boolfbn invblidRolfInfoFlg = fblsf;
+        StringBuildfr fxdMsgStrB = nfw StringBuildfr();
+        if (mbx != ROLE_CARDINALITY_INFINITY &&
+            (min == ROLE_CARDINALITY_INFINITY ||
+             min > mbx)) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            fxdMsgStrB.bppfnd("Minimum dfgrff ");
+            fxdMsgStrB.bppfnd(min);
+            fxdMsgStrB.bppfnd(" is grfbtfr thbn mbximum dfgrff ");
+            fxdMsgStrB.bppfnd(mbx);
+            invblidRolfInfoFlg = truf;
+
+        } flsf if (min < ROLE_CARDINALITY_INFINITY ||
+                   mbx < ROLE_CARDINALITY_INFINITY) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            fxdMsgStrB.bppfnd("Minimum or mbximum dfgrff hbs bn illfgbl vbluf, must bf [0, ROLE_CARDINALITY_INFINITY].");
+            invblidRolfInfoFlg = truf;
+        }
+        if (invblidRolfInfoFlg) {
+            throw nfw InvblidRolfInfoExdfption(fxdMsgStrB.toString());
+        }
+        minDfgrff = min;
+        mbxDfgrff = mbx;
+
+        rfffrfndfdMBfbnClbssNbmf = mbfbnClbssNbmf;
+
+        rfturn;
+    }
+
+    /**
+     * Dfsfriblizfs b {@link RolfInfo} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
+      {
+        // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+        //
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        nbmf = (String) fiflds.gft("myNbmf", null);
+        if (fiflds.dffbultfd("myNbmf"))
+        {
+          throw nfw NullPointfrExdfption("myNbmf");
+        }
+        isRfbdbblf = fiflds.gft("myIsRfbdbblfFlg", fblsf);
+        if (fiflds.dffbultfd("myIsRfbdbblfFlg"))
+        {
+          throw nfw NullPointfrExdfption("myIsRfbdbblfFlg");
+        }
+        isWritbblf = fiflds.gft("myIsWritbblfFlg", fblsf);
+        if (fiflds.dffbultfd("myIsWritbblfFlg"))
+        {
+          throw nfw NullPointfrExdfption("myIsWritbblfFlg");
+        }
+        dfsdription = (String) fiflds.gft("myDfsdription", null);
+        if (fiflds.dffbultfd("myDfsdription"))
+        {
+          throw nfw NullPointfrExdfption("myDfsdription");
+        }
+        minDfgrff = fiflds.gft("myMinDfgrff", 0);
+        if (fiflds.dffbultfd("myMinDfgrff"))
+        {
+          throw nfw NullPointfrExdfption("myMinDfgrff");
+        }
+        mbxDfgrff = fiflds.gft("myMbxDfgrff", 0);
+        if (fiflds.dffbultfd("myMbxDfgrff"))
+        {
+          throw nfw NullPointfrExdfption("myMbxDfgrff");
+        }
+        rfffrfndfdMBfbnClbssNbmf = (String) fiflds.gft("myRffMBfbnClbssNbmf", null);
+        if (fiflds.dffbultfd("myRffMBfbnClbssNbmf"))
+        {
+          throw nfw NullPointfrExdfption("myRffMBfbnClbssNbmf");
+        }
+      }
+      flsf
+      {
+        // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+        //
+        in.dffbultRfbdObjfdt();
+      }
+    }
+
+
+    /**
+     * Sfriblizfs b {@link RolfInfo} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myNbmf", nbmf);
+        fiflds.put("myIsRfbdbblfFlg", isRfbdbblf);
+        fiflds.put("myIsWritbblfFlg", isWritbblf);
+        fiflds.put("myDfsdription", dfsdription);
+        fiflds.put("myMinDfgrff", minDfgrff);
+        fiflds.put("myMbxDfgrff", mbxDfgrff);
+        fiflds.put("myRffMBfbnClbssNbmf", rfffrfndfdMBfbnClbssNbmf);
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+
+}

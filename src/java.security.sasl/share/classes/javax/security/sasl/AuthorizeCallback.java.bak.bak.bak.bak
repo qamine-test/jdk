@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+import jbvbx.sfdurity.buth.dbllbbdk.Cbllbbdk;
+
+/**
+  * This dbllbbdk is usfd by {@dodf SbslSfrvfr} to dftfrminf whfthfr
+  * onf fntity (idfntififd by bn buthfntidbtfd buthfntidbtion id)
+  * dbn bdt on
+  * bfhblf of bnothfr fntity (idfntififd by bn buthorizbtion id).
+  *
+  * @sindf 1.5
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Rob Wfltmbn
+  */
+publid dlbss AuthorizfCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
+    /**
+     * Thf (buthfntidbtfd) buthfntidbtion id to dhfdk.
+     * @sfribl
+     */
+    privbtf String buthfntidbtionID;
+
+    /**
+     * Thf buthorizbtion id to dhfdk.
+     * @sfribl
+     */
+    privbtf String buthorizbtionID;
+
+    /**
+     * Thf id of thf buthorizfd fntity. If null, thf id of
+     * thf buthorizfd fntity is buthorizbtionID.
+     * @sfribl
+     */
+    privbtf String buthorizfdID;
+
+    /**
+     * A flbg indidbting whfthfr thf buthfntidbtion id is bllowfd to
+     * bdt on bfhblf of thf buthorizbtion id.
+     * @sfribl
+     */
+    privbtf boolfbn buthorizfd;
+
+    /**
+     * Construdts bn instbndf of {@dodf AuthorizfCbllbbdk}.
+     *
+     * @pbrbm buthnID   Thf (buthfntidbtfd) buthfntidbtion id.
+     * @pbrbm buthzID   Thf buthorizbtion id.
+     */
+    publid AuthorizfCbllbbdk(String buthnID, String buthzID) {
+        buthfntidbtionID = buthnID;
+        buthorizbtionID = buthzID;
+    }
+
+    /**
+     * Rfturns thf buthfntidbtion id to dhfdk.
+     * @rfturn Thf buthfntidbtion id to dhfdk.
+     */
+    publid String gftAuthfntidbtionID() {
+        rfturn buthfntidbtionID;
+    }
+
+    /**
+     * Rfturns thf buthorizbtion id to dhfdk.
+     * @rfturn Thf buthfntidbtion id to dhfdk.
+     */
+    publid String gftAuthorizbtionID() {
+        rfturn buthorizbtionID;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf buthfntidbtion id is bllowfd to
+     * bdt on bfhblf of thf buthorizbtion id.
+     *
+     * @rfturn {@dodf truf} if buthorizbtion is bllowfd; {@dodf fblsf} othfrwisf
+     * @sff #sftAuthorizfd(boolfbn)
+     * @sff #gftAuthorizfdID()
+     */
+    publid boolfbn isAuthorizfd() {
+        rfturn buthorizfd;
+    }
+
+    /**
+     * Sfts whfthfr thf buthorizbtion is bllowfd.
+     * @pbrbm ok {@dodf truf} if buthorizbtion is bllowfd; {@dodf fblsf} othfrwisf
+     * @sff #isAuthorizfd
+     * @sff #sftAuthorizfdID(jbvb.lbng.String)
+     */
+    publid void sftAuthorizfd(boolfbn ok) {
+        buthorizfd = ok;
+    }
+
+    /**
+     * Rfturns thf id of thf buthorizfd usfr.
+     * @rfturn Thf id of thf buthorizfd usfr. {@dodf null} mfbns thf
+     * buthorizbtion fbilfd.
+     * @sff #sftAuthorizfd(boolfbn)
+     * @sff #sftAuthorizfdID(jbvb.lbng.String)
+     */
+    publid String gftAuthorizfdID() {
+        if (!buthorizfd) {
+            rfturn null;
+        }
+        rfturn (buthorizfdID == null) ? buthorizbtionID : buthorizfdID;
+    }
+
+    /**
+     * Sfts thf id of thf buthorizfd fntity. Cbllfd by hbndlfr only whfn thf id
+     * is difffrfnt from gftAuthorizbtionID(). For fxbmplf, thf id
+     * might nffd to bf dbnonidblizfd for thf fnvironmfnt in whidh it
+     * will bf usfd.
+     * @pbrbm id Thf id of thf buthorizfd usfr.
+     * @sff #sftAuthorizfd(boolfbn)
+     * @sff #gftAuthorizfdID
+     */
+    publid void sftAuthorizfdID(String id) {
+        buthorizfdID = id;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2353344186490470805L;
+}

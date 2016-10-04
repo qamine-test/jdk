@@ -1,0 +1,410 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.DisplbyChbngfdListfnfr;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.jbvb2d.SunGrbphidsEnvironmfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.pipf.hw.AddflSurfbdf.*;
+
+/**
+ * This SurfbdfMbnbgfr vbribnt mbnbgfs bn bddflfrbtfd volbtilf surfbdf, if it
+ * is possiblf to drfbtf thbt surfbdf.  If thfrf is limitfd bddflfrbtfd
+ * mfmory, or if thf volbtilf surfbdf disbppfbrs duf to bn opfrbting systfm
+ * fvfnt, thf VolbtilfSurfbdfMbnbgfr will bttfmpt to rfstorf thf
+ * bddflfrbtfd surfbdf.  If thbt fbils, b systfm mfmory surfbdf will bf
+ * drfbtfd in its plbdf.
+ */
+publid bbstrbdt dlbss VolbtilfSurfbdfMbnbgfr
+    fxtfnds SurfbdfMbnbgfr
+    implfmfnts DisplbyChbngfdListfnfr
+{
+    /**
+     * A rfffrfndf to thf VolbtilfImbgf whosf dontfnts brf bfing mbnbgfd.
+     */
+    protfdtfd SunVolbtilfImbgf vImg;
+
+    /**
+     * Thf bddflfrbtfd SurfbdfDbtb objfdt.
+     */
+    protfdtfd SurfbdfDbtb sdAddfl;
+
+    /**
+     * Thf softwbrf-bbsfd SurfbdfDbtb objfdt.  Only drfbtf whfn first bskfd
+     * to (othfrwisf it is b wbstf of mfmory bs it will only bf usfd in
+     * situbtions of surfbdf loss).
+     */
+    protfdtfd SurfbdfDbtb sdBbdkup;
+
+    /**
+     * Thf durrfnt SurfbdfDbtb objfdt.
+     */
+    protfdtfd SurfbdfDbtb sdCurrfnt;
+
+    /**
+     * A rfdord-kffping objfdt.  This kffps trbdk of whidh SurfbdfDbtb wbs
+     * in usf during thf lbst dbll to vblidbtf().  This lfts us sff whfthfr
+     * thf SurfbdfDbtb objfdt hbs dhbngfd sindf thfn bnd bllows us to rfturn
+     * thf dorrfdt rfturnCodf to thf usfr in thf vblidbtf() dbll.
+     */
+    protfdtfd SurfbdfDbtb sdPrfvious;
+
+    /**
+     * Trbdks loss of surfbdf dontfnts; qufribblf by usfr to sff whfthfr
+     * dontfnts nffd to bf rfstorfd.
+     */
+    protfdtfd boolfbn lostSurfbdf;
+
+    /**
+     * Contfxt for fxtrb initiblizbtion pbrbmftfrs.
+     */
+    protfdtfd Objfdt dontfxt;
+
+    protfdtfd VolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        this.vImg = vImg;
+        this.dontfxt = dontfxt;
+
+        GrbphidsEnvironmfnt gf =
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        // Wf dould hbvf b HfbdlfssGE bt this point, so doublf-dhfdk bfforf
+        // bssuming bnything.
+        if (gf instbndfof SunGrbphidsEnvironmfnt) {
+            ((SunGrbphidsEnvironmfnt)gf).bddDisplbyChbngfdListfnfr(this);
+        }
+    }
+
+    /**
+     * This init fundtion is sfpbrbtf from thf donstrudtor bfdbusf thf
+     * things wf brf doing hfrf nfdfssitbtf thf objfdt's fxistfndf.
+     * Othfrwisf, wf fnd up dblling into b subdlbss' ovfrriddfn mfthod
+     * during donstrudtion, bfforf thbt subdlbss is domplftfly donstrudtfd.
+     */
+    publid void initiblizf() {
+        if (isAddflfrbtionEnbblfd()) {
+            sdAddfl = initAddflfrbtfdSurfbdf();
+            if (sdAddfl != null) {
+                sdCurrfnt = sdAddfl;
+            }
+        }
+        // only initiblizf thf bbdkup surfbdf for imbgfs with unfordfd
+        // bddflfrbtion typf
+        if (sdCurrfnt == null &&
+            vImg.gftFordfdAddflSurfbdfTypf() == UNDEFINED)
+        {
+            sdCurrfnt = gftBbdkupSurfbdf();
+        }
+    }
+
+    publid SurfbdfDbtb gftPrimbrySurfbdfDbtb() {
+        rfturn sdCurrfnt;
+    }
+
+    /**
+     * Rfturns truf if bddflfrbtion is fnbblfd.  If not, wf simply usf thf
+     * bbdkup SurfbdfDbtb objfdt bnd rfturn quidkly from most mfthods
+     * in this dlbss.
+     */
+    protfdtfd bbstrbdt boolfbn isAddflfrbtionEnbblfd();
+
+    /**
+     * Gft thf imbgf rfbdy for rfndfring.  This mfthod is dbllfd to mbkf
+     * surf thbt thf bddflfrbtfd SurfbdfDbtb fxists bnd is
+     * rfbdy to bf usfd.  Usfrs dbll this mfthod prior to bny sft of
+     * rfndfring to or from thf imbgf, to mbkf surf thf imbgf is rfbdy
+     * bnd dompbtiblf with thf givfn GrbphidsConfigurbtion.
+     *
+     * Thf imbgf mby not bf "rfbdy" if fithfr wf hbd problfms drfbting
+     * it in thf first plbdf (f.g., thfrf wbs no spbdf in vrbm) or if
+     * thf surfbdf bfdbmf lost (f.g., somf othfr bpp or thf OS dbusfd
+     * vrbm surfbdfs to bf rfmovfd).
+     *
+     * Notf thbt wf wbnt to rfturn RESTORED in bny situbtion whfrf thf
+     * SurfbdfDbtb is difffrfnt thbn it wbs lbst timf.  So whfthfr it's
+     * softwbrf or hbrdwbrf, if wf hbvf b difffrfnt SurfbdfDbtb objfdt,
+     * thfn thf dontfnts hbvf bffn bltfrfd bnd wf must rfflfdt thbt
+     * dhbngf to thf usfr.
+     */
+    publid int vblidbtf(GrbphidsConfigurbtion gd) {
+        int rfturnCodf = VolbtilfImbgf.IMAGE_OK;
+        boolfbn lostSurfbdfTmp = lostSurfbdf;
+        lostSurfbdf = fblsf;
+
+        if (isAddflfrbtionEnbblfd()) {
+            if (!isConfigVblid(gd)) {
+                // If wf'rf bskfd to rfndfr to b difffrfnt dfvidf thbn thf
+                // onf wf wfrf drfbtfd undfr, rfturn INCOMPATIBLE frror dodf.
+                // Notf thbt b null gd simply ignorfs thf indompbtibility
+                // issuf
+                rfturnCodf = VolbtilfImbgf.IMAGE_INCOMPATIBLE;
+            } flsf if (sdAddfl == null) {
+                // Wf fithfr hbd problfms drfbting thf surfbdf or thf displby
+                // modf dhbngfd bnd wf nullififd thf old onf.  Try it bgbin.
+                sdAddfl = initAddflfrbtfdSurfbdf();
+                if (sdAddfl != null) {
+                    // sft thf durrfnt SurfbdfDbtb to bddflfrbtfd vfrsion
+                    sdCurrfnt = sdAddfl;
+                    // wf don't nffd thf systfm mfmory surfbdf bnymorf, so
+                    // lft's rflfbsf it now (it dbn blwbys bf rfstorfd lbtfr)
+                    sdBbdkup = null;
+                    rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+                } flsf {
+                    sdCurrfnt = gftBbdkupSurfbdf();
+                }
+            } flsf if (sdAddfl.isSurfbdfLost()) {
+                try {
+                    rfstorfAddflfrbtfdSurfbdf();
+                    // sft thf durrfnt SurfbdfDbtb to bddflfrbtfd vfrsion
+                    sdCurrfnt = sdAddfl;
+                    // rfstorbtion suddfssful: bddfl surfbdf no longfr lost
+                    sdAddfl.sftSurfbdfLost(fblsf);
+                    // wf don't nffd thf systfm mfmory surfbdf bnymorf, so
+                    // lft's rflfbsf it now (it dbn blwbys bf rfstorfd lbtfr)
+                    sdBbdkup = null;
+                    rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+                } dbtdh (sun.jbvb2d.InvblidPipfExdfption f) {
+                    // Sft thf durrfnt SurfbdfDbtb to softwbrf vfrsion so thbt
+                    // drbwing dbn dontinuf.  Notf thbt wf still hbvf
+                    // thf lostAddflSurfbdf flbg sft so thbt wf will dontinuf
+                    // to bttfmpt to rfstorf thf bddflfrbtfd surfbdf.
+                    sdCurrfnt = gftBbdkupSurfbdf();
+                }
+            } flsf if (lostSurfbdfTmp) {
+                // Somfthing flsf triggfrfd this loss/rfstorbtion.  Could
+                // bf b pblfttf dhbngf thbt didn't rfquirf b SurfbdfDbtb
+                // rfdrfbtion but mfrfly b rf-rfndfring of thf pixfls.
+                rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+            }
+        } flsf if (sdAddfl != null) {
+            // if thf "bddflfrbtion fnbblfd" stbtf dhbngfd to disbblfd,
+            // switdh to softwbrf surfbdf
+            sdCurrfnt = gftBbdkupSurfbdf();
+            sdAddfl = null;
+            rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+        }
+
+        if ((rfturnCodf != VolbtilfImbgf.IMAGE_INCOMPATIBLE) &&
+            (sdCurrfnt != sdPrfvious))
+        {
+            // dontfnts hbvf dhbngfd - rfturn RESTORED to usfr
+            sdPrfvious = sdCurrfnt;
+            rfturnCodf = VolbtilfImbgf.IMAGE_RESTORED;
+        }
+
+        if (rfturnCodf == VolbtilfImbgf.IMAGE_RESTORED) {
+            // dlfbr thf durrfnt surfbdf with thf bbdkground dolor,
+            // only if thf surfbdf hbs bffn rfstorfd
+            initContfnts();
+        }
+
+        rfturn rfturnCodf;
+    }
+
+    /**
+     * Rfturns truf if rfndfring dbtb wbs lost sindf thf lbst vblidbtf dbll.
+     *
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#dontfntsLost
+     */
+    publid boolfbn dontfntsLost() {
+        rfturn lostSurfbdf;
+    }
+
+    /**
+     * Crfbtfs b nfw bddflfrbtfd surfbdf thbt is dompbtiblf with thf
+     * durrfnt GrbphidsConfigurbtion.  Rfturns thf nfw bddflfrbtfd
+     * SurfbdfDbtb objfdt, or null if thf surfbdf drfbtion wbs not suddfssful.
+     *
+     * Plbtform-spfdifid subdlbssfs should initiblizf bn bddflfrbtfd
+     * surfbdf (f.g. b DirfdtDrbw surfbdf on Windows, bn OpfnGL pbufffr,
+     * or bn X11 pixmbp).
+     */
+    protfdtfd bbstrbdt SurfbdfDbtb initAddflfrbtfdSurfbdf();
+
+    /**
+     * Crfbtfs b softwbrf-bbsfd surfbdf (of typf BufImgSurfbdfDbtb).
+     * Thf softwbrf rfprfsfntbtion is only drfbtfd whfn nffdfd, whidh
+     * is only during somf situbtion in whidh thf hbrdwbrf surfbdf
+     * dbnnot bf bllodbtfd.  This bllows bpps to bt lfbst run,
+     * blbfit morf slowly thbn thfy would othfrwisf.
+     */
+    protfdtfd SurfbdfDbtb gftBbdkupSurfbdf() {
+        if (sdBbdkup == null) {
+            BufffrfdImbgf bImg = vImg.gftBbdkupImbgf();
+            // Sbbotbgf thf bddflfrbtion dbpbbilitifs of thf BufImg surfbdf
+            SunWritbblfRbstfr.stfblTrbdkbblf(bImg
+                                             .gftRbstfr()
+                                             .gftDbtbBufffr()).sftUntrbdkbblf();
+            sdBbdkup = BufImgSurfbdfDbtb.drfbtfDbtb(bImg);
+        }
+        rfturn sdBbdkup;
+    }
+
+    /**
+     * Sft dontfnts of thf durrfnt SurfbdfDbtb to dffbult stbtf (i.f. dlfbr
+     * thf bbdkground).
+     */
+    publid void initContfnts() {
+        // imbgfs with fordfd bddflfrbtion typf mby hbvf b null sdCurrfnt
+        // bfdbusf wf do not drfbtf b bbdkup surfbdf for thfm
+        if (sdCurrfnt != null) {
+            Grbphids g = vImg.drfbtfGrbphids();
+            g.dlfbrRfdt(0, 0, vImg.gftWidth(), vImg.gftHfight());
+            g.disposf();
+        }
+    }
+
+    /**
+     * Cbllfd from b SurfbdfDbtb objfdt, indidbting thbt our
+     * bddflfrbtfd surfbdf hbs bffn lost bnd should bf rfstorfd (pfrhbps
+     * using b bbdkup systfm mfmory surfbdf).  Rfturns thf nfwly rfstorfd
+     * primbry SurfbdfDbtb objfdt.
+     */
+    publid SurfbdfDbtb rfstorfContfnts() {
+        rfturn gftBbdkupSurfbdf();
+    }
+
+    /**
+     * If thf bddflfrbtfd surfbdf is thf durrfnt SurfbdfDbtb for this mbnbgfr,
+     * sfts thf vbribblf lostSurfbdf to truf, whidh indidbtfs thbt somfthing
+     * hbppfnfd to thf imbgf undfr mbnbgfmfnt.  This vbribblf is usfd in thf
+     * vblidbtf mfthod to tfll thf dbllfr thbt thf surfbdf dontfnts nffd to
+     * bf rfstorfd.
+     */
+    publid void bddflfrbtfdSurfbdfLost() {
+        if (isAddflfrbtionEnbblfd() && (sdCurrfnt == sdAddfl)) {
+            lostSurfbdf = truf;
+        }
+    }
+
+    /**
+     * Rfstorf sdAddfl in dbsf it wbs lost.  Do nothing in this
+     * dffbult dbsf; plbtform-spfdifid implfmfntbtions mby do morf in
+     * this situbtion bs bppropribtf.
+     */
+    protfdtfd void rfstorfAddflfrbtfdSurfbdf() {
+    }
+
+    /**
+     * Cbllfd from SunGrbphidsEnv whfn thfrf hbs bffn b displby modf dhbngf.
+     * Notf thbt wf simply invblidbtf hbrdwbrf surfbdfs hfrf; wf do not
+     * bttfmpt to rfdrfbtf or rf-rfndfr thfm.  This is to bvoid thrfbding
+     * donflidts with thf nbtivf toolkit bnd bssodibtfd thrfbds.  Instfbd,
+     * wf just nullify thf old surfbdf dbtb objfdt bnd wbit for b futurf
+     * mfthod in thf rfndfring prodfss to rfdrfbtf thf surfbdf.
+     */
+    publid void displbyChbngfd() {
+        if (!isAddflfrbtionEnbblfd()) {
+            rfturn;
+        }
+        lostSurfbdf = truf;
+        if (sdAddfl != null) {
+            // First, nullify thf softwbrf surfbdf.  This gubrds bgbinst
+            // using b SurfbdfDbtb thbt wbs drfbtfd in b difffrfnt
+            // displby modf.
+            sdBbdkup = null;
+            // Now, invblidbtf thf old hbrdwbrf-bbsfd SurfbdfDbtb
+            // Notf thbt gftBbdkupSurfbdf mby sft sdAddfl to null so wf hbvf to invblidbtf it bfforf
+            SurfbdfDbtb oldDbtb = sdAddfl;
+            sdAddfl = null;
+            oldDbtb.invblidbtf();
+            sdCurrfnt = gftBbdkupSurfbdf();
+        }
+        // Updbtf grbphidsConfig for thf vImg in dbsf it dhbngfd duf to
+        // this displby dhbngf fvfnt
+        vImg.updbtfGrbphidsConfig();
+    }
+
+    /**
+     * Whfn dfvidf pblfttf dhbngfs, nffd to fordf b nfw dopy
+     * of thf imbgf into our hbrdwbrf dbdhf to updbtf thf
+     * dolor indidfs of thf pixfls (indfxfd modf only).
+     */
+    publid void pblfttfChbngfd() {
+        lostSurfbdf = truf;
+    }
+
+    /**
+     * Cbllfd by vblidbtf() to sff whfthfr thf GC pbssfd in is ok for
+     * rfndfring to.  This gfnfrid implfmfntbtion dhfdks to sff
+     * whfthfr thf GC is fithfr null or is from thf sbmf
+     * dfvidf bs thf onf thbt this imbgf wbs drfbtfd on.  Plbtform-
+     * spfdifid implfmfntbtions mby pfrform othfr dhfdks bs
+     * bppropribtf.
+     */
+    protfdtfd boolfbn isConfigVblid(GrbphidsConfigurbtion gd) {
+        rfturn ((gd == null) ||
+                (gd.gftDfvidf() == vImg.gftGrbphidsConfig().gftDfvidf()));
+    }
+
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbphidsConfigurbtion gd) {
+        if (isConfigVblid(gd)) {
+            rfturn isAddflfrbtionEnbblfd() ?
+                nfw AddflfrbtfdImbgfCbpbbilitifs() :
+                nfw ImbgfCbpbbilitifs(fblsf);
+        }
+        rfturn supfr.gftCbpbbilitifs(gd);
+    }
+
+    privbtf dlbss AddflfrbtfdImbgfCbpbbilitifs
+        fxtfnds ImbgfCbpbbilitifs
+    {
+        AddflfrbtfdImbgfCbpbbilitifs() {
+            supfr(fblsf);
+        }
+        @Ovfrridf
+        publid boolfbn isAddflfrbtfd() {
+            rfturn (sdCurrfnt == sdAddfl);
+        }
+        @Ovfrridf
+        publid boolfbn isTrufVolbtilf() {
+            rfturn isAddflfrbtfd();
+        }
+    }
+
+    /**
+     * Rflfbsfs bny bssodibtfd hbrdwbrf mfmory for this imbgf by
+     * dblling flush on sdAddfl.  This mfthod fordfs b lostSurfbdf
+     * situbtion so bny futurf opfrbtions on thf imbgf will nffd to
+     * rfvblidbtf thf imbgf first.
+     */
+    publid void flush() {
+        lostSurfbdf = truf;
+        SurfbdfDbtb oldSD = sdAddfl;
+        sdAddfl = null;
+        if (oldSD != null) {
+            oldSD.flush();
+        }
+    }
+}

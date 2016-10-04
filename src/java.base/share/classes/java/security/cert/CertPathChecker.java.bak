@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
 /**
- * <p>Performs one or more checks on each {@code Certificate} of a
- * {@code CertPath}.
+ * <p>Pfrforms onf or morf difdks on fbdi {@dodf Cfrtifidbtf} of b
+ * {@dodf CfrtPbti}.
  *
- * <p>A {@code CertPathChecker} implementation is typically created to extend
- * a certification path validation algorithm. For example, an implementation
- * may check for and process a critical private extension of each certificate
- * in a certification path.
+ * <p>A {@dodf CfrtPbtiCifdkfr} implfmfntbtion is typidblly drfbtfd to fxtfnd
+ * b dfrtifidbtion pbti vblidbtion blgoritim. For fxbmplf, bn implfmfntbtion
+ * mby difdk for bnd prodfss b dritidbl privbtf fxtfnsion of fbdi dfrtifidbtf
+ * in b dfrtifidbtion pbti.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface CertPathChecker {
+publid intfrfbdf CfrtPbtiCifdkfr {
 
     /**
-     * Initializes the internal state of this {@code CertPathChecker}.
+     * Initiblizfs tif intfrnbl stbtf of tiis {@dodf CfrtPbtiCifdkfr}.
      *
-     * <p>The {@code forward} flag specifies the order that certificates will
-     * be passed to the {@link #check check} method (forward or reverse).
+     * <p>Tif {@dodf forwbrd} flbg spfdififs tif ordfr tibt dfrtifidbtfs will
+     * bf pbssfd to tif {@link #difdk difdk} mftiod (forwbrd or rfvfrsf).
      *
-     * @param forward the order that certificates are presented to the
-     *        {@code check} method. If {@code true}, certificates are
-     *        presented from target to trust anchor (forward); if
-     *        {@code false}, from trust anchor to target (reverse).
-     * @throws CertPathValidatorException if this {@code CertPathChecker} is
-     *         unable to check certificates in the specified order
+     * @pbrbm forwbrd tif ordfr tibt dfrtifidbtfs brf prfsfntfd to tif
+     *        {@dodf difdk} mftiod. If {@dodf truf}, dfrtifidbtfs brf
+     *        prfsfntfd from tbrgft to trust bndior (forwbrd); if
+     *        {@dodf fblsf}, from trust bndior to tbrgft (rfvfrsf).
+     * @tirows CfrtPbtiVblidbtorExdfption if tiis {@dodf CfrtPbtiCifdkfr} is
+     *         unbblf to difdk dfrtifidbtfs in tif spfdififd ordfr
      */
-    void init(boolean forward) throws CertPathValidatorException;
+    void init(boolfbn forwbrd) tirows CfrtPbtiVblidbtorExdfption;
 
     /**
-     * Indicates if forward checking is supported. Forward checking refers
-     * to the ability of the {@code CertPathChecker} to perform its checks
-     * when certificates are presented to the {@code check} method in the
-     * forward direction (from target to trust anchor).
+     * Indidbtfs if forwbrd difdking is supportfd. Forwbrd difdking rfffrs
+     * to tif bbility of tif {@dodf CfrtPbtiCifdkfr} to pfrform its difdks
+     * wifn dfrtifidbtfs brf prfsfntfd to tif {@dodf difdk} mftiod in tif
+     * forwbrd dirfdtion (from tbrgft to trust bndior).
      *
-     * @return {@code true} if forward checking is supported, {@code false}
-     *         otherwise
+     * @rfturn {@dodf truf} if forwbrd difdking is supportfd, {@dodf fblsf}
+     *         otifrwisf
      */
-    boolean isForwardCheckingSupported();
+    boolfbn isForwbrdCifdkingSupportfd();
 
     /**
-     * Performs the check(s) on the specified certificate using its internal
-     * state. The certificates are presented in the order specified by the
-     * {@code init} method.
+     * Pfrforms tif difdk(s) on tif spfdififd dfrtifidbtf using its intfrnbl
+     * stbtf. Tif dfrtifidbtfs brf prfsfntfd in tif ordfr spfdififd by tif
+     * {@dodf init} mftiod.
      *
-     * @param cert the {@code Certificate} to be checked
-     * @throws CertPathValidatorException if the specified certificate does
-     *         not pass the check
+     * @pbrbm dfrt tif {@dodf Cfrtifidbtf} to bf difdkfd
+     * @tirows CfrtPbtiVblidbtorExdfption if tif spfdififd dfrtifidbtf dofs
+     *         not pbss tif difdk
      */
-    void check(Certificate cert) throws CertPathValidatorException;
+    void difdk(Cfrtifidbtf dfrt) tirows CfrtPbtiVblidbtorExdfption;
 }

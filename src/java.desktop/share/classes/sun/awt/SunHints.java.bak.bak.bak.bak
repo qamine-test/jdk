@@ -1,0 +1,506 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.RfndfringHints;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * This dlbss dontbins rfndfring hints thbt dbn bf usfd by thf
+ * {@link jbvb.bwt.Grbphids2D} dlbss, bnd dlbssfs thbt implfmfnt
+ * {@link jbvb.bwt.imbgf.BufffrfdImbgfOp} bnd
+ * {@link jbvb.bwt.imbgf.Rbstfr}.
+ */
+publid dlbss SunHints {
+    /**
+     * Dffinfs thf typf of bll kfys usfd to dontrol vbrious
+     * bspfdts of thf rfndfring bnd imbging pipflinfs.  Instbndfs
+     * of this dlbss brf immutbblf bnd uniquf whidh mfbns thbt
+     * tfsts for mbtdhfs dbn bf mbdf using thf == opfrbtor instfbd
+     * of thf morf fxpfnsivf fqubls() mfthod.
+     */
+    publid stbtid dlbss Kfy fxtfnds RfndfringHints.Kfy {
+        String dfsdription;
+
+        /**
+         * Construdt b kfy using thf indidbtfd privbtf kfy.  Ebdh
+         * subdlbss of Kfy mbintbins its own uniquf dombin of intfgfr
+         * kfys.  No two objfdts with thf sbmf intfgfr kfy bnd of thf
+         * sbmf spfdifid subdlbss dbn bf donstrudtfd.  An fxdfption
+         * will bf thrown if bn bttfmpt is mbdf to donstrudt bnothfr
+         * objfdt of b givfn dlbss with thf sbmf intfgfr kfy bs b
+         * prf-fxisting instbndf of thbt subdlbss of Kfy.
+         */
+        publid Kfy(int privbtfkfy, String dfsdription) {
+            supfr(privbtfkfy);
+            this.dfsdription = dfsdription;
+        }
+
+        /**
+         * Rfturns thf numfrid indfx bssodibtfd with this Kfy.  This
+         * is usfful for usf in switdh stbtfmfnts bnd quidk lookups
+         * of thf sftting of b pbrtidulbr kfy.
+         */
+        publid finbl int gftIndfx() {
+            rfturn intKfy();
+        }
+
+        /**
+         * Rfturns b string rfprfsfntbtion of thf Kfy.
+         */
+        publid finbl String toString() {
+            rfturn dfsdription;
+        }
+
+        /**
+         * Rfturns truf if thf spfdififd objfdt is b vblid vbluf
+         * for this Kfy.
+         */
+        publid boolfbn isCompbtiblfVbluf(Objfdt vbl) {
+            if (vbl instbndfof Vbluf) {
+                rfturn ((Vbluf)vbl).isCompbtiblfKfy(this);
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Dffinfs thf typf of bll "fnumfrbtivf" vblufs usfd to dontrol
+     * vbrious bspfdts of thf rfndfring bnd imbging pipflinfs.  Instbndfs
+     * of this dlbss brf immutbblf bnd uniquf whidh mfbns thbt
+     * tfsts for mbtdhfs dbn bf mbdf using thf == opfrbtor instfbd
+     * of thf morf fxpfnsivf fqubls() mfthod.
+     */
+    publid stbtid dlbss Vbluf {
+        privbtf SunHints.Kfy myKfy;
+        privbtf int indfx;
+        privbtf String dfsdription;
+
+        privbtf stbtid Vbluf[][] VblufObjfdts =
+            nfw Vbluf[NUM_KEYS][VALS_PER_KEY];
+
+        privbtf syndhronizfd stbtid void rfgistfr(SunHints.Kfy kfy,
+                                                  Vbluf vbluf) {
+            int kindfx = kfy.gftIndfx();
+            int vindfx = vbluf.gftIndfx();
+            if (VblufObjfdts[kindfx][vindfx] != null) {
+                throw nfw IntfrnblError("duplidbtf indfx: "+vindfx);
+            }
+            VblufObjfdts[kindfx][vindfx] = vbluf;
+        }
+
+        publid stbtid Vbluf gft(int kfyindfx, int vblufindfx) {
+            rfturn VblufObjfdts[kfyindfx][vblufindfx];
+        }
+
+        /**
+         * Construdt b vbluf using thf indidbtfd privbtf indfx.  Ebdh
+         * subdlbss of Vbluf mbintbins its own uniquf dombin of intfgfr
+         * indidfs.  Enfording thf uniqufnfss of thf intfgfr indidfs
+         * is lfft to thf subdlbss.
+         */
+        publid Vbluf(SunHints.Kfy kfy, int indfx, String dfsdription) {
+            this.myKfy = kfy;
+            this.indfx = indfx;
+            this.dfsdription = dfsdription;
+
+            rfgistfr(kfy, this);
+        }
+
+        /**
+         * Rfturns thf numfrid indfx bssodibtfd with this Kfy.  This
+         * is usfful for usf in switdh stbtfmfnts bnd quidk lookups
+         * of thf sftting of b pbrtidulbr kfy.
+         */
+        publid finbl int gftIndfx() {
+            rfturn indfx;
+        }
+
+        /**
+         * Rfturns b string rfprfsfntbtion of this Vbluf.
+         */
+        publid finbl String toString() {
+            rfturn dfsdription;
+        }
+
+        /**
+         * Rfturns truf if thf spfdififd objfdt is b vblid Kfy
+         * for this Vbluf.
+         */
+        publid finbl boolfbn isCompbtiblfKfy(Kfy k) {
+            rfturn myKfy == k;
+        }
+
+        /**
+         * Thf hbsh dodf for bll SunHints.Vbluf objfdts will bf thf sbmf
+         * bs thf systfm idfntity dodf of thf objfdt bs dffinfd by thf
+         * Systfm.idfntityHbshCodf() mfthod.
+         */
+        publid finbl int hbshCodf() {
+            rfturn Systfm.idfntityHbshCodf(this);
+        }
+
+        /**
+         * Thf fqubls mfthod for bll SunHints.Vbluf objfdts will rfturn
+         * thf sbmf rfsult bs thf fqublity opfrbtor '=='.
+         */
+        publid finbl boolfbn fqubls(Objfdt o) {
+            rfturn this == o;
+        }
+    }
+
+    privbtf stbtid finbl int NUM_KEYS = 10;
+    privbtf stbtid finbl int VALS_PER_KEY = 8;
+
+    /**
+     * Rfndfring hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_RENDERING = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_QUALITY = 2;
+
+    /**
+     * Antiblibsing hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_ANTIALIASING = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_ON = 2;
+
+    /**
+     * Tfxt bntiblibsing hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_TEXT_ANTIALIASING = 2;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_ON = 2;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_GASP = 3;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_HRGB = 4;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_HBGR = 5;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_VRGB = 6;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_VBGR = 7;
+
+    /**
+     * Font frbdtionbl mftrids hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_FRACTIONALMETRICS = 3;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_ON = 2;
+
+    /**
+     * Dithfring hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_DITHERING = 4;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_DISABLE = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_ENABLE = 2;
+
+    /**
+     * Intfrpolbtion hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_INTERPOLATION = 5;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_NEAREST_NEIGHBOR = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_BILINEAR = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_BICUBIC = 2;
+
+    /**
+     * Alphb intfrpolbtion hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_ALPHA_INTERPOLATION = 6;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_QUALITY = 2;
+
+    /**
+     * Color rfndfring hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_COLOR_RENDERING = 7;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_QUALITY = 2;
+
+    /**
+     * Strokf normblizbtion dontrol hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_STROKE_CONTROL = 8;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_NORMALIZE = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_PURE = 2;
+
+    /**
+     * Imbgf sdbling hint kfy bnd vblufs
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_RESOLUTION_VARIANT = 9;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_ON = 2;
+    /**
+     * LCD tfxt dontrbst dontrol hint kfy.
+     * Vbluf is "100" to mbkf disdontiguous with thf othfrs whidh
+     * brf bll fnumfrbtivf bnd brf of b difffrfnt dlbss.
+     */
+    @Nbtivf publid stbtid finbl int INTKEY_AATEXT_LCD_CONTRAST = 100;
+
+    /**
+     * Rfndfring hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_RENDERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_RENDERING,
+                         "Globbl rfndfring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_RENDER_SPEED =
+        nfw SunHints.Vbluf(KEY_RENDERING,
+                           SunHints.INTVAL_RENDER_SPEED,
+                           "Fbstfst rfndfring mfthods");
+    publid stbtid finbl Objfdt VALUE_RENDER_QUALITY =
+        nfw SunHints.Vbluf(KEY_RENDERING,
+                           SunHints.INTVAL_RENDER_QUALITY,
+                           "Highfst qublity rfndfring mfthods");
+    publid stbtid finbl Objfdt VALUE_RENDER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_RENDERING,
+                           SunHints.INTVAL_RENDER_DEFAULT,
+                           "Dffbult rfndfring mfthods");
+
+    /**
+     * Antiblibsing hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_ANTIALIASING =
+        nfw SunHints.Kfy(SunHints.INTKEY_ANTIALIASING,
+                         "Globbl bntiblibsing fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_ON =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
+                           SunHints.INTVAL_ANTIALIAS_ON,
+                           "Antiblibsfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_OFF =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
+                           SunHints.INTVAL_ANTIALIAS_OFF,
+                           "Nonbntiblibsfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
+                           SunHints.INTVAL_ANTIALIAS_DEFAULT,
+                           "Dffbult bntiblibsing rfndfring modf");
+
+    /**
+     * Tfxt bntiblibsing hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_TEXT_ANTIALIASING =
+        nfw SunHints.Kfy(SunHints.INTKEY_TEXT_ANTIALIASING,
+                         "Tfxt-spfdifid bntiblibsing fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_ON =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_ON,
+                           "Antiblibsfd tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_OFF =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_OFF,
+                           "Nonbntiblibsfd tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT,
+                           "Dffbult bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_GASP =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_GASP,
+                           "gbsp bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB,
+                           "LCD HRGB bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HBGR,
+                           "LCD HBGR bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB,
+                           "LCD VRGB bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
+                           SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VBGR,
+                           "LCD VBGR bntiblibsing tfxt modf");
+
+    /**
+     * Font frbdtionbl mftrids hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_FRACTIONALMETRICS =
+        nfw SunHints.Kfy(SunHints.INTKEY_FRACTIONALMETRICS,
+                         "Frbdtionbl mftrids fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_ON =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
+                           SunHints.INTVAL_FRACTIONALMETRICS_ON,
+                           "Frbdtionbl tfxt mftrids modf");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_OFF =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
+                           SunHints.INTVAL_FRACTIONALMETRICS_OFF,
+                           "Intfgfr tfxt mftrids modf");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
+                           SunHints.INTVAL_FRACTIONALMETRICS_DEFAULT,
+                           "Dffbult frbdtionbl tfxt mftrids modf");
+
+    /**
+     * Dithfring hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_DITHERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_DITHERING,
+                         "Dithfring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_DITHER_ENABLE =
+        nfw SunHints.Vbluf(KEY_DITHERING,
+                           SunHints.INTVAL_DITHER_ENABLE,
+                           "Dithfrfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_DITHER_DISABLE =
+        nfw SunHints.Vbluf(KEY_DITHERING,
+                           SunHints.INTVAL_DITHER_DISABLE,
+                           "Nondithfrfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_DITHER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_DITHERING,
+                           SunHints.INTVAL_DITHER_DEFAULT,
+                           "Dffbult dithfring modf");
+
+    /**
+     * Intfrpolbtion hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_INTERPOLATION =
+        nfw SunHints.Kfy(SunHints.INTKEY_INTERPOLATION,
+                         "Imbgf intfrpolbtion mfthod kfy");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
+                           SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR,
+                           "Nfbrfst Nfighbor imbgf intfrpolbtion modf");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BILINEAR =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
+                           SunHints.INTVAL_INTERPOLATION_BILINEAR,
+                           "Bilinfbr imbgf intfrpolbtion modf");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BICUBIC =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
+                           SunHints.INTVAL_INTERPOLATION_BICUBIC,
+                           "Bidubid imbgf intfrpolbtion modf");
+
+    /**
+     * Alphb intfrpolbtion hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_ALPHA_INTERPOLATION =
+        nfw SunHints.Kfy(SunHints.INTKEY_ALPHA_INTERPOLATION,
+                         "Alphb blfnding intfrpolbtion mfthod kfy");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_SPEED =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
+                           SunHints.INTVAL_ALPHA_INTERPOLATION_SPEED,
+                           "Fbstfst blphb blfnding mfthods");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_QUALITY =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
+                           SunHints.INTVAL_ALPHA_INTERPOLATION_QUALITY,
+                           "Highfst qublity blphb blfnding mfthods");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_DEFAULT =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
+                           SunHints.INTVAL_ALPHA_INTERPOLATION_DEFAULT,
+                           "Dffbult blphb blfnding mfthods");
+
+    /**
+     * Color rfndfring hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_COLOR_RENDERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_COLOR_RENDERING,
+                         "Color rfndfring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_SPEED =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
+                           SunHints.INTVAL_COLOR_RENDER_SPEED,
+                           "Fbstfst dolor rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_QUALITY =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
+                           SunHints.INTVAL_COLOR_RENDER_QUALITY,
+                           "Highfst qublity dolor rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
+                           SunHints.INTVAL_COLOR_RENDER_DEFAULT,
+                           "Dffbult dolor rfndfring modf");
+
+    /**
+     * Strokf normblizbtion dontrol hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_STROKE_CONTROL =
+        nfw SunHints.Kfy(SunHints.INTKEY_STROKE_CONTROL,
+                         "Strokf normblizbtion dontrol kfy");
+    publid stbtid finbl Objfdt VALUE_STROKE_DEFAULT =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
+                           SunHints.INTVAL_STROKE_DEFAULT,
+                           "Dffbult strokf normblizbtion");
+    publid stbtid finbl Objfdt VALUE_STROKE_NORMALIZE =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
+                           SunHints.INTVAL_STROKE_NORMALIZE,
+                           "Normblizf strokfs for donsistfnt rfndfring");
+    publid stbtid finbl Objfdt VALUE_STROKE_PURE =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
+                           SunHints.INTVAL_STROKE_PURE,
+                           "Purf strokf donvfrsion for bddurbtf pbths");
+
+    /**
+     * Imbgf rfsolution vbribnt hint kfy bnd vbluf objfdts
+     */
+    publid stbtid finbl Kfy KEY_RESOLUTION_VARIANT =
+        nfw SunHints.Kfy(SunHints.INTKEY_RESOLUTION_VARIANT,
+                         "Globbl imbgf rfsolution vbribnt kfy");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_DEFAULT =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
+                           SunHints.INTVAL_RESOLUTION_VARIANT_DEFAULT,
+                           "Choosf imbgf rfsolutions bbsfd on b dffbult hfuristid");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_OFF =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
+                           SunHints.INTVAL_RESOLUTION_VARIANT_OFF,
+                           "Usf only thf stbndbrd rfsolution of bn imbgf");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_ON =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
+                           SunHints.INTVAL_RESOLUTION_VARIANT_ON,
+                           "Alwbys usf rfsolution-spfdifid vbribnts of imbgfs");
+
+    publid stbtid dlbss LCDContrbstKfy fxtfnds Kfy {
+
+        publid LCDContrbstKfy(int privbtfkfy, String dfsdription) {
+            supfr(privbtfkfy, dfsdription);
+        }
+
+        /**
+         * Rfturns truf if thf spfdififd objfdt is b vblid vbluf
+         * for this Kfy. Thf bllowbblf rbngf is 100 to 250.
+         */
+        publid finbl boolfbn isCompbtiblfVbluf(Objfdt vbl) {
+            if (vbl instbndfof Intfgfr) {
+                int ivbl = ((Intfgfr)vbl).intVbluf();
+                rfturn ivbl >= 100 && ivbl <= 250;
+            }
+            rfturn fblsf;
+        }
+
+    }
+
+    /**
+     * LCD tfxt dontrbst hint kfy
+     */
+    publid stbtid finbl RfndfringHints.Kfy
+        KEY_TEXT_ANTIALIAS_LCD_CONTRAST =
+        nfw LCDContrbstKfy(SunHints.INTKEY_AATEXT_LCD_CONTRAST,
+                           "Tfxt-spfdifid LCD dontrbst kfy");
+}

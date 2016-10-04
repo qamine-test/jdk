@@ -1,794 +1,794 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.ActionMapUIResource;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.OptionPaneUI;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.security.AccessController;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.AdtionMbpUIRfsourdf;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.OptionPbnfUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.util.Lodblf;
+import jbvb.sfdurity.AddfssControllfr;
 
-import sun.security.action.GetPropertyAction;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * Provides the basic look and feel for a <code>JOptionPane</code>.
- * <code>BasicMessagePaneUI</code> provides a means to place an icon,
- * message and buttons into a <code>Container</code>.
- * Generally, the layout will look like:
- * <pre>
+ * Providfs tif bbsid look bnd fffl for b <dodf>JOptionPbnf</dodf>.
+ * <dodf>BbsidMfssbgfPbnfUI</dodf> providfs b mfbns to plbdf bn idon,
+ * mfssbgf bnd buttons into b <dodf>Contbinfr</dodf>.
+ * Gfnfrblly, tif lbyout will look likf:
+ * <prf>
  *        ------------------
- *        | i | message    |
- *        | c | message    |
- *        | o | message    |
- *        | n | message    |
+ *        | i | mfssbgf    |
+ *        | d | mfssbgf    |
+ *        | o | mfssbgf    |
+ *        | n | mfssbgf    |
  *        ------------------
  *        |     buttons    |
  *        |________________|
- * </pre>
- * icon is an instance of <code>Icon</code> that is wrapped inside a
- * <code>JLabel</code>.  The message is an opaque object and is tested
- * for the following: if the message is a <code>Component</code> it is
- * added to the <code>Container</code>, if it is an <code>Icon</code>
- * it is wrapped inside a <code>JLabel</code> and added to the
- * <code>Container</code> otherwise it is wrapped inside a <code>JLabel</code>.
+ * </prf>
+ * idon is bn instbndf of <dodf>Idon</dodf> tibt is wrbppfd insidf b
+ * <dodf>JLbbfl</dodf>.  Tif mfssbgf is bn opbquf objfdt bnd is tfstfd
+ * for tif following: if tif mfssbgf is b <dodf>Componfnt</dodf> it is
+ * bddfd to tif <dodf>Contbinfr</dodf>, if it is bn <dodf>Idon</dodf>
+ * it is wrbppfd insidf b <dodf>JLbbfl</dodf> bnd bddfd to tif
+ * <dodf>Contbinfr</dodf> otifrwisf it is wrbppfd insidf b <dodf>JLbbfl</dodf>.
  * <p>
- * The above layout is used when the option pane's
- * <code>ComponentOrientation</code> property is horizontal, left-to-right.
- * The layout will be adjusted appropriately for other orientations.
+ * Tif bbovf lbyout is usfd wifn tif option pbnf's
+ * <dodf>ComponfntOrifntbtion</dodf> propfrty is iorizontbl, lfft-to-rigit.
+ * Tif lbyout will bf bdjustfd bppropribtfly for otifr orifntbtions.
  * <p>
- * The <code>Container</code>, message, icon, and buttons are all
- * determined from abstract methods.
+ * Tif <dodf>Contbinfr</dodf>, mfssbgf, idon, bnd buttons brf bll
+ * dftfrminfd from bbstrbdt mftiods.
  *
- * @author James Gosling
- * @author Scott Violet
- * @author Amy Fowler
+ * @butior Jbmfs Gosling
+ * @butior Sdott Violft
+ * @butior Amy Fowlfr
  */
-public class BasicOptionPaneUI extends OptionPaneUI {
+publid dlbss BbsidOptionPbnfUI fxtfnds OptionPbnfUI {
 
     /**
-     * The mininum width of {@code JOptionPane}.
+     * Tif mininum widti of {@dodf JOptionPbnf}.
      */
-    public static final int MinimumWidth = 262;
+    publid stbtid finbl int MinimumWidti = 262;
     /**
-     * The mininum height of {@code JOptionPane}.
+     * Tif mininum ifigit of {@dodf JOptionPbnf}.
      */
-    public static final int MinimumHeight = 90;
+    publid stbtid finbl int MinimumHfigit = 90;
 
-    private static String newline;
-
-    /**
-     * {@code JOptionPane} that the receiver is providing the
-     * look and feel for.
-     */
-    protected JOptionPane         optionPane;
+    privbtf stbtid String nfwlinf;
 
     /**
-     * The size of {@code JOptionPane}.
+     * {@dodf JOptionPbnf} tibt tif rfdfivfr is providing tif
+     * look bnd fffl for.
      */
-    protected Dimension minimumSize;
-
-    /** JComponent provide for input if optionPane.getWantsInput() returns
-     * true. */
-    protected JComponent          inputComponent;
-
-    /** Component to receive focus when messaged with selectInitialValue. */
-    protected Component           initialFocusComponent;
-
-    /** This is set to true in validateComponent if a Component is contained
-     * in either the message or the buttons. */
-    protected boolean             hasCustomComponents;
+    protfdtfd JOptionPbnf         optionPbnf;
 
     /**
-     * The instance of {@code PropertyChangeListener}.
+     * Tif sizf of {@dodf JOptionPbnf}.
      */
-    protected PropertyChangeListener propertyChangeListener;
+    protfdtfd Dimfnsion minimumSizf;
 
-    private Handler handler;
+    /** JComponfnt providf for input if optionPbnf.gftWbntsInput() rfturns
+     * truf. */
+    protfdtfd JComponfnt          inputComponfnt;
+
+    /** Componfnt to rfdfivf fodus wifn mfssbgfd witi sflfdtInitiblVbluf. */
+    protfdtfd Componfnt           initiblFodusComponfnt;
+
+    /** Tiis is sft to truf in vblidbtfComponfnt if b Componfnt is dontbinfd
+     * in fitifr tif mfssbgf or tif buttons. */
+    protfdtfd boolfbn             ibsCustomComponfnts;
+
+    /**
+     * Tif instbndf of {@dodf PropfrtyCibngfListfnfr}.
+     */
+    protfdtfd PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
+
+    privbtf Hbndlfr ibndlfr;
 
 
-    static {
-        newline = System.lineSeparator();
-        if (newline == null) {
-            newline = "\n";
+    stbtid {
+        nfwlinf = Systfm.linfSfpbrbtor();
+        if (nfwlinf == null) {
+            nfwlinf = "\n";
         }
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.CLOSE));
-        BasicLookAndFeel.installAudioActionMap(map);
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.CLOSE));
+        BbsidLookAndFffl.instbllAudioAdtionMbp(mbp);
     }
 
 
 
     /**
-     * Creates a new {@code BasicOptionPaneUI} instance.
+     * Crfbtfs b nfw {@dodf BbsidOptionPbnfUI} instbndf.
      *
-     * @return a new {@code BasicOptionPaneUI} instance
+     * @rfturn b nfw {@dodf BbsidOptionPbnfUI} instbndf
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicOptionPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw BbsidOptionPbnfUI();
     }
 
     /**
-      * Installs the receiver as the L&amp;F for the passed in
-      * <code>JOptionPane</code>.
+      * Instblls tif rfdfivfr bs tif L&bmp;F for tif pbssfd in
+      * <dodf>JOptionPbnf</dodf>.
       */
-    public void installUI(JComponent c) {
-        optionPane = (JOptionPane)c;
-        installDefaults();
-        optionPane.setLayout(createLayoutManager());
-        installComponents();
-        installListeners();
-        installKeyboardActions();
+    publid void instbllUI(JComponfnt d) {
+        optionPbnf = (JOptionPbnf)d;
+        instbllDffbults();
+        optionPbnf.sftLbyout(drfbtfLbyoutMbnbgfr());
+        instbllComponfnts();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
     }
 
     /**
-      * Removes the receiver from the L&amp;F controller of the passed in split
-      * pane.
+      * Rfmovfs tif rfdfivfr from tif L&bmp;F dontrollfr of tif pbssfd in split
+      * pbnf.
       */
-    public void uninstallUI(JComponent c) {
-        uninstallComponents();
-        optionPane.setLayout(null);
-        uninstallKeyboardActions();
-        uninstallListeners();
-        uninstallDefaults();
-        optionPane = null;
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllComponfnts();
+        optionPbnf.sftLbyout(null);
+        uninstbllKfybobrdAdtions();
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        optionPbnf = null;
     }
 
     /**
-     * Installs default properties.
+     * Instblls dffbult propfrtifs.
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(optionPane, "OptionPane.background",
-                                         "OptionPane.foreground", "OptionPane.font");
-        LookAndFeel.installBorder(optionPane, "OptionPane.border");
-        minimumSize = UIManager.getDimension("OptionPane.minimumSize");
-        LookAndFeel.installProperty(optionPane, "opaque", Boolean.TRUE);
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllColorsAndFont(optionPbnf, "OptionPbnf.bbdkground",
+                                         "OptionPbnf.forfground", "OptionPbnf.font");
+        LookAndFffl.instbllBordfr(optionPbnf, "OptionPbnf.bordfr");
+        minimumSizf = UIMbnbgfr.gftDimfnsion("OptionPbnf.minimumSizf");
+        LookAndFffl.instbllPropfrty(optionPbnf, "opbquf", Boolfbn.TRUE);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      */
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(optionPane);
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(optionPbnf);
     }
 
     /**
-     * Registers components.
+     * Rfgistfrs domponfnts.
      */
-    protected void installComponents() {
-        optionPane.add(createMessageArea());
+    protfdtfd void instbllComponfnts() {
+        optionPbnf.bdd(drfbtfMfssbgfArfb());
 
-        Container separator = createSeparator();
-        if (separator != null) {
-            optionPane.add(separator);
+        Contbinfr sfpbrbtor = drfbtfSfpbrbtor();
+        if (sfpbrbtor != null) {
+            optionPbnf.bdd(sfpbrbtor);
         }
-        optionPane.add(createButtonArea());
-        optionPane.applyComponentOrientation(optionPane.getComponentOrientation());
+        optionPbnf.bdd(drfbtfButtonArfb());
+        optionPbnf.bpplyComponfntOrifntbtion(optionPbnf.gftComponfntOrifntbtion());
     }
 
     /**
-     * Unregisters components.
+     * Unrfgistfrs domponfnts.
      */
-    protected void uninstallComponents() {
-        hasCustomComponents = false;
-        inputComponent = null;
-        initialFocusComponent = null;
-        optionPane.removeAll();
+    protfdtfd void uninstbllComponfnts() {
+        ibsCustomComponfnts = fblsf;
+        inputComponfnt = null;
+        initiblFodusComponfnt = null;
+        optionPbnf.rfmovfAll();
     }
 
     /**
-     * Returns a layout manager.
+     * Rfturns b lbyout mbnbgfr.
      *
-     * @return a layout manager
+     * @rfturn b lbyout mbnbgfr
      */
-    protected LayoutManager createLayoutManager() {
-        return new BoxLayout(optionPane, BoxLayout.Y_AXIS);
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw BoxLbyout(optionPbnf, BoxLbyout.Y_AXIS);
     }
 
     /**
-     * Registers listeners.
+     * Rfgistfrs listfnfrs.
      */
-    protected void installListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-            optionPane.addPropertyChangeListener(propertyChangeListener);
+    protfdtfd void instbllListfnfrs() {
+        if ((propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr()) != null) {
+            optionPbnf.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      */
-    protected void uninstallListeners() {
-        if (propertyChangeListener != null) {
-            optionPane.removePropertyChangeListener(propertyChangeListener);
-            propertyChangeListener = null;
+    protfdtfd void uninstbllListfnfrs() {
+        if (propfrtyCibngfListfnfr != null) {
+            optionPbnf.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+            propfrtyCibngfListfnfr = null;
         }
-        handler = null;
+        ibndlfr = null;
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Rfturns bn instbndf of {@dodf PropfrtyCibngfListfnfr}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @rfturn bn instbndf of {@dodf PropfrtyCibngfListfnfr}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
     /**
-     * Registers keyboard actions.
+     * Rfgistfrs kfybobrd bdtions.
      */
-    protected void installKeyboardActions() {
-        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp mbp = gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW);
 
-        SwingUtilities.replaceUIInputMap(optionPane, JComponent.
-                                       WHEN_IN_FOCUSED_WINDOW, map);
+        SwingUtilitifs.rfplbdfUIInputMbp(optionPbnf, JComponfnt.
+                                       WHEN_IN_FOCUSED_WINDOW, mbp);
 
-        LazyActionMap.installLazyActionMap(optionPane, BasicOptionPaneUI.class,
-                                           "OptionPane.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(optionPbnf, BbsidOptionPbnfUI.dlbss,
+                                           "OptionPbnf.bdtionMbp");
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(optionPane, JComponent.
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIInputMbp(optionPbnf, JComponfnt.
                                        WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(optionPane, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(optionPbnf, null);
     }
 
-    InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get(
-                             optionPane, this, "OptionPane.windowBindings");
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_IN_FOCUSED_WINDOW) {
+            Objfdt[] bindings = (Objfdt[])DffbultLookup.gft(
+                             optionPbnf, tiis, "OptionPbnf.windowBindings");
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(optionPane, bindings);
+                rfturn LookAndFffl.mbkfComponfntInputMbp(optionPbnf, bindings);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the minimum size the option pane should be. Primarily
-     * provided for subclassers wishing to offer a different minimum size.
+     * Rfturns tif minimum sizf tif option pbnf siould bf. Primbrily
+     * providfd for subdlbssfrs wisiing to offfr b difffrfnt minimum sizf.
      *
-     * @return the minimum size of the option pane
+     * @rfturn tif minimum sizf of tif option pbnf
      */
-    public Dimension getMinimumOptionPaneSize() {
-        if (minimumSize == null) {
-            return new Dimension(MinimumWidth, MinimumHeight);
+    publid Dimfnsion gftMinimumOptionPbnfSizf() {
+        if (minimumSizf == null) {
+            rfturn nfw Dimfnsion(MinimumWidti, MinimumHfigit);
         }
-        return new Dimension(minimumSize.width,
-                             minimumSize.height);
+        rfturn nfw Dimfnsion(minimumSizf.widti,
+                             minimumSizf.ifigit);
     }
 
     /**
-     * If <code>c</code> is the <code>JOptionPane</code> the receiver
-     * is contained in, the preferred
-     * size that is returned is the maximum of the preferred size of
-     * the <code>LayoutManager</code> for the <code>JOptionPane</code>, and
-     * <code>getMinimumOptionPaneSize</code>.
+     * If <dodf>d</dodf> is tif <dodf>JOptionPbnf</dodf> tif rfdfivfr
+     * is dontbinfd in, tif prfffrrfd
+     * sizf tibt is rfturnfd is tif mbximum of tif prfffrrfd sizf of
+     * tif <dodf>LbyoutMbnbgfr</dodf> for tif <dodf>JOptionPbnf</dodf>, bnd
+     * <dodf>gftMinimumOptionPbnfSizf</dodf>.
      */
-    public Dimension getPreferredSize(JComponent c) {
-        if (c == optionPane) {
-            Dimension            ourMin = getMinimumOptionPaneSize();
-            LayoutManager        lm = c.getLayout();
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        if (d == optionPbnf) {
+            Dimfnsion            ourMin = gftMinimumOptionPbnfSizf();
+            LbyoutMbnbgfr        lm = d.gftLbyout();
 
             if (lm != null) {
-                Dimension         lmSize = lm.preferredLayoutSize(c);
+                Dimfnsion         lmSizf = lm.prfffrrfdLbyoutSizf(d);
 
                 if (ourMin != null)
-                    return new Dimension
-                        (Math.max(lmSize.width, ourMin.width),
-                         Math.max(lmSize.height, ourMin.height));
-                return lmSize;
+                    rfturn nfw Dimfnsion
+                        (Mbti.mbx(lmSizf.widti, ourMin.widti),
+                         Mbti.mbx(lmSizf.ifigit, ourMin.ifigit));
+                rfturn lmSizf;
             }
-            return ourMin;
+            rfturn ourMin;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Messaged from {@code installComponents} to create a {@code Container}
-     * containing the body of the message. The icon is the created
-     * by calling {@code addIcon}.
+     * Mfssbgfd from {@dodf instbllComponfnts} to drfbtf b {@dodf Contbinfr}
+     * dontbining tif body of tif mfssbgf. Tif idon is tif drfbtfd
+     * by dblling {@dodf bddIdon}.
      *
-     * @return a instance of {@code Container}
+     * @rfturn b instbndf of {@dodf Contbinfr}
      */
-    protected Container createMessageArea() {
-        JPanel top = new JPanel();
-        Border topBorder = (Border)DefaultLookup.get(optionPane, this,
-                                             "OptionPane.messageAreaBorder");
-        if (topBorder != null) {
-            top.setBorder(topBorder);
+    protfdtfd Contbinfr drfbtfMfssbgfArfb() {
+        JPbnfl top = nfw JPbnfl();
+        Bordfr topBordfr = (Bordfr)DffbultLookup.gft(optionPbnf, tiis,
+                                             "OptionPbnf.mfssbgfArfbBordfr");
+        if (topBordfr != null) {
+            top.sftBordfr(topBordfr);
         }
-        top.setLayout(new BorderLayout());
+        top.sftLbyout(nfw BordfrLbyout());
 
-        /* Fill the body. */
-        Container          body = new JPanel(new GridBagLayout());
-        Container          realBody = new JPanel(new BorderLayout());
+        /* Fill tif body. */
+        Contbinfr          body = nfw JPbnfl(nfw GridBbgLbyout());
+        Contbinfr          rfblBody = nfw JPbnfl(nfw BordfrLbyout());
 
-        body.setName("OptionPane.body");
-        realBody.setName("OptionPane.realBody");
+        body.sftNbmf("OptionPbnf.body");
+        rfblBody.sftNbmf("OptionPbnf.rfblBody");
 
-        if (getIcon() != null) {
-            JPanel sep = new JPanel();
-            sep.setName("OptionPane.separator");
-            sep.setPreferredSize(new Dimension(15, 1));
-            realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
+        if (gftIdon() != null) {
+            JPbnfl sfp = nfw JPbnfl();
+            sfp.sftNbmf("OptionPbnf.sfpbrbtor");
+            sfp.sftPrfffrrfdSizf(nfw Dimfnsion(15, 1));
+            rfblBody.bdd(sfp, BordfrLbyout.BEFORE_LINE_BEGINS);
         }
-        realBody.add(body, BorderLayout.CENTER);
+        rfblBody.bdd(body, BordfrLbyout.CENTER);
 
-        GridBagConstraints cons = new GridBagConstraints();
-        cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
-        cons.gridheight = 1;
-        cons.anchor = DefaultLookup.getInt(optionPane, this,
-                      "OptionPane.messageAnchor", GridBagConstraints.CENTER);
-        cons.insets = new Insets(0,0,3,0);
+        GridBbgConstrbints dons = nfw GridBbgConstrbints();
+        dons.gridx = dons.gridy = 0;
+        dons.gridwidti = GridBbgConstrbints.REMAINDER;
+        dons.gridifigit = 1;
+        dons.bndior = DffbultLookup.gftInt(optionPbnf, tiis,
+                      "OptionPbnf.mfssbgfAndior", GridBbgConstrbints.CENTER);
+        dons.insfts = nfw Insfts(0,0,3,0);
 
-        addMessageComponents(body, cons, getMessage(),
-                          getMaxCharactersPerLineCount(), false);
-        top.add(realBody, BorderLayout.CENTER);
+        bddMfssbgfComponfnts(body, dons, gftMfssbgf(),
+                          gftMbxCibrbdtfrsPfrLinfCount(), fblsf);
+        top.bdd(rfblBody, BordfrLbyout.CENTER);
 
-        addIcon(top);
-        return top;
+        bddIdon(top);
+        rfturn top;
     }
 
     /**
-     * Creates the appropriate object to represent {@code msg} and
-     * places it into {@code container}. If {@code msg} is an instance of
-     * {@code Component}, it is added directly, if it is an {@code Icon},
-     * a {@code JLabel} is created to represent it, otherwise a {@code JLabel} is
-     * created for the string, if {@code d} is an Object[], this method
-     * will be recursively invoked for the children. {@code internallyCreated} is
-     * {@code true} if Objc is an instance of {@code Component} and was created
-     * internally by this method (this is used to correctly set
-     * {@code hasCustomComponents} only if {@code internallyCreated} is {@code false}).
+     * Crfbtfs tif bppropribtf objfdt to rfprfsfnt {@dodf msg} bnd
+     * plbdfs it into {@dodf dontbinfr}. If {@dodf msg} is bn instbndf of
+     * {@dodf Componfnt}, it is bddfd dirfdtly, if it is bn {@dodf Idon},
+     * b {@dodf JLbbfl} is drfbtfd to rfprfsfnt it, otifrwisf b {@dodf JLbbfl} is
+     * drfbtfd for tif string, if {@dodf d} is bn Objfdt[], tiis mftiod
+     * will bf rfdursivfly invokfd for tif diildrfn. {@dodf intfrnbllyCrfbtfd} is
+     * {@dodf truf} if Objd is bn instbndf of {@dodf Componfnt} bnd wbs drfbtfd
+     * intfrnblly by tiis mftiod (tiis is usfd to dorrfdtly sft
+     * {@dodf ibsCustomComponfnts} only if {@dodf intfrnbllyCrfbtfd} is {@dodf fblsf}).
      *
-     * @param container a container
-     * @param cons an instance of {@code GridBagConstraints}
-     * @param msg a message
-     * @param maxll a maximum length
-     * @param internallyCreated {@code true} if the component was internally created
+     * @pbrbm dontbinfr b dontbinfr
+     * @pbrbm dons bn instbndf of {@dodf GridBbgConstrbints}
+     * @pbrbm msg b mfssbgf
+     * @pbrbm mbxll b mbximum lfngti
+     * @pbrbm intfrnbllyCrfbtfd {@dodf truf} if tif domponfnt wbs intfrnblly drfbtfd
      */
-    protected void addMessageComponents(Container container,
-                                     GridBagConstraints cons,
-                                     Object msg, int maxll,
-                                     boolean internallyCreated) {
+    protfdtfd void bddMfssbgfComponfnts(Contbinfr dontbinfr,
+                                     GridBbgConstrbints dons,
+                                     Objfdt msg, int mbxll,
+                                     boolfbn intfrnbllyCrfbtfd) {
         if (msg == null) {
-            return;
+            rfturn;
         }
-        if (msg instanceof Component) {
-            // To workaround problem where Gridbad will set child
-            // to its minimum size if its preferred size will not fit
-            // within allocated cells
-            if (msg instanceof JScrollPane || msg instanceof JPanel) {
-                cons.fill = GridBagConstraints.BOTH;
-                cons.weighty = 1;
-            } else {
-                cons.fill = GridBagConstraints.HORIZONTAL;
+        if (msg instbndfof Componfnt) {
+            // To workbround problfm wifrf Gridbbd will sft diild
+            // to its minimum sizf if its prfffrrfd sizf will not fit
+            // witiin bllodbtfd dflls
+            if (msg instbndfof JSdrollPbnf || msg instbndfof JPbnfl) {
+                dons.fill = GridBbgConstrbints.BOTH;
+                dons.wfigity = 1;
+            } flsf {
+                dons.fill = GridBbgConstrbints.HORIZONTAL;
             }
-            cons.weightx = 1;
+            dons.wfigitx = 1;
 
-            container.add((Component) msg, cons);
-            cons.weightx = 0;
-            cons.weighty = 0;
-            cons.fill = GridBagConstraints.NONE;
-            cons.gridy++;
-            if (!internallyCreated) {
-                hasCustomComponents = true;
-            }
-
-        } else if (msg instanceof Object[]) {
-            Object [] msgs = (Object[]) msg;
-            for (Object o : msgs) {
-                addMessageComponents(container, cons, o, maxll, false);
+            dontbinfr.bdd((Componfnt) msg, dons);
+            dons.wfigitx = 0;
+            dons.wfigity = 0;
+            dons.fill = GridBbgConstrbints.NONE;
+            dons.gridy++;
+            if (!intfrnbllyCrfbtfd) {
+                ibsCustomComponfnts = truf;
             }
 
-        } else if (msg instanceof Icon) {
-            JLabel label = new JLabel( (Icon)msg, SwingConstants.CENTER );
-            configureMessageLabel(label);
-            addMessageComponents(container, cons, label, maxll, true);
+        } flsf if (msg instbndfof Objfdt[]) {
+            Objfdt [] msgs = (Objfdt[]) msg;
+            for (Objfdt o : msgs) {
+                bddMfssbgfComponfnts(dontbinfr, dons, o, mbxll, fblsf);
+            }
 
-        } else {
+        } flsf if (msg instbndfof Idon) {
+            JLbbfl lbbfl = nfw JLbbfl( (Idon)msg, SwingConstbnts.CENTER );
+            donfigurfMfssbgfLbbfl(lbbfl);
+            bddMfssbgfComponfnts(dontbinfr, dons, lbbfl, mbxll, truf);
+
+        } flsf {
             String s = msg.toString();
-            int len = s.length();
-            if (len <= 0) {
-                return;
+            int lfn = s.lfngti();
+            if (lfn <= 0) {
+                rfturn;
             }
             int nl;
             int nll = 0;
 
-            if ((nl = s.indexOf(newline)) >= 0) {
-                nll = newline.length();
-            } else if ((nl = s.indexOf("\r\n")) >= 0) {
+            if ((nl = s.indfxOf(nfwlinf)) >= 0) {
+                nll = nfwlinf.lfngti();
+            } flsf if ((nl = s.indfxOf("\r\n")) >= 0) {
                 nll = 2;
-            } else if ((nl = s.indexOf('\n')) >= 0) {
+            } flsf if ((nl = s.indfxOf('\n')) >= 0) {
                 nll = 1;
             }
             if (nl >= 0) {
-                // break up newlines
+                // brfbk up nfwlinfs
                 if (nl == 0) {
-                    @SuppressWarnings("serial") // anonymous class
-                    JPanel breakPanel = new JPanel() {
-                        public Dimension getPreferredSize() {
-                            Font       f = getFont();
+                    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+                    JPbnfl brfbkPbnfl = nfw JPbnfl() {
+                        publid Dimfnsion gftPrfffrrfdSizf() {
+                            Font       f = gftFont();
 
                             if (f != null) {
-                                return new Dimension(1, f.getSize() + 2);
+                                rfturn nfw Dimfnsion(1, f.gftSizf() + 2);
                             }
-                            return new Dimension(0, 0);
+                            rfturn nfw Dimfnsion(0, 0);
                         }
                     };
-                    breakPanel.setName("OptionPane.break");
-                    addMessageComponents(container, cons, breakPanel, maxll,
-                                         true);
-                } else {
-                    addMessageComponents(container, cons, s.substring(0, nl),
-                                      maxll, false);
+                    brfbkPbnfl.sftNbmf("OptionPbnf.brfbk");
+                    bddMfssbgfComponfnts(dontbinfr, dons, brfbkPbnfl, mbxll,
+                                         truf);
+                } flsf {
+                    bddMfssbgfComponfnts(dontbinfr, dons, s.substring(0, nl),
+                                      mbxll, fblsf);
                 }
-                addMessageComponents(container, cons, s.substring(nl + nll), maxll,
-                                  false);
+                bddMfssbgfComponfnts(dontbinfr, dons, s.substring(nl + nll), mbxll,
+                                  fblsf);
 
-            } else if (len > maxll) {
-                Container c = Box.createVerticalBox();
-                c.setName("OptionPane.verticalBox");
-                burstStringInto(c, s, maxll);
-                addMessageComponents(container, cons, c, maxll, true );
+            } flsf if (lfn > mbxll) {
+                Contbinfr d = Box.drfbtfVfrtidblBox();
+                d.sftNbmf("OptionPbnf.vfrtidblBox");
+                burstStringInto(d, s, mbxll);
+                bddMfssbgfComponfnts(dontbinfr, dons, d, mbxll, truf );
 
-            } else {
-                JLabel label;
-                label = new JLabel( s, JLabel.LEADING );
-                label.setName("OptionPane.label");
-                configureMessageLabel(label);
-                addMessageComponents(container, cons, label, maxll, true);
+            } flsf {
+                JLbbfl lbbfl;
+                lbbfl = nfw JLbbfl( s, JLbbfl.LEADING );
+                lbbfl.sftNbmf("OptionPbnf.lbbfl");
+                donfigurfMfssbgfLbbfl(lbbfl);
+                bddMfssbgfComponfnts(dontbinfr, dons, lbbfl, mbxll, truf);
             }
         }
     }
 
     /**
-     * Returns the message to display from the {@code JOptionPane} the receiver is
-     * providing the look and feel for.
+     * Rfturns tif mfssbgf to displby from tif {@dodf JOptionPbnf} tif rfdfivfr is
+     * providing tif look bnd fffl for.
      *
-     * @return the message to display
+     * @rfturn tif mfssbgf to displby
      */
-    protected Object getMessage() {
-        inputComponent = null;
-        if (optionPane != null) {
-            if (optionPane.getWantsInput()) {
-                /* Create a user component to capture the input. If the
-                   selectionValues are non null the component and there
-                   are < 20 values it'll be a combobox, if non null and
-                   >= 20, it'll be a list, otherwise it'll be a textfield. */
-                Object             message = optionPane.getMessage();
-                Object[]           sValues = optionPane.getSelectionValues();
-                Object             inputValue = optionPane
-                                           .getInitialSelectionValue();
-                JComponent         toAdd;
+    protfdtfd Objfdt gftMfssbgf() {
+        inputComponfnt = null;
+        if (optionPbnf != null) {
+            if (optionPbnf.gftWbntsInput()) {
+                /* Crfbtf b usfr domponfnt to dbpturf tif input. If tif
+                   sflfdtionVblufs brf non null tif domponfnt bnd tifrf
+                   brf < 20 vblufs it'll bf b dombobox, if non null bnd
+                   >= 20, it'll bf b list, otifrwisf it'll bf b tfxtfifld. */
+                Objfdt             mfssbgf = optionPbnf.gftMfssbgf();
+                Objfdt[]           sVblufs = optionPbnf.gftSflfdtionVblufs();
+                Objfdt             inputVbluf = optionPbnf
+                                           .gftInitiblSflfdtionVbluf();
+                JComponfnt         toAdd;
 
-                if (sValues != null) {
-                    if (sValues.length < 20) {
-                        JComboBox<Object> cBox = new JComboBox<>();
+                if (sVblufs != null) {
+                    if (sVblufs.lfngti < 20) {
+                        JComboBox<Objfdt> dBox = nfw JComboBox<>();
 
-                        cBox.setName("OptionPane.comboBox");
-                        for(int counter = 0, maxCounter = sValues.length;
-                            counter < maxCounter; counter++) {
-                            cBox.addItem(sValues[counter]);
+                        dBox.sftNbmf("OptionPbnf.domboBox");
+                        for(int dountfr = 0, mbxCountfr = sVblufs.lfngti;
+                            dountfr < mbxCountfr; dountfr++) {
+                            dBox.bddItfm(sVblufs[dountfr]);
                         }
-                        if (inputValue != null) {
-                            cBox.setSelectedItem(inputValue);
+                        if (inputVbluf != null) {
+                            dBox.sftSflfdtfdItfm(inputVbluf);
                         }
-                        inputComponent = cBox;
-                        toAdd = cBox;
+                        inputComponfnt = dBox;
+                        toAdd = dBox;
 
-                    } else {
-                        JList<Object>      list = new JList<>(sValues);
-                        JScrollPane          sp = new JScrollPane(list);
+                    } flsf {
+                        JList<Objfdt>      list = nfw JList<>(sVblufs);
+                        JSdrollPbnf          sp = nfw JSdrollPbnf(list);
 
-                        sp.setName("OptionPane.scrollPane");
-                        list.setName("OptionPane.list");
-                        list.setVisibleRowCount(10);
-                        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        if(inputValue != null)
-                            list.setSelectedValue(inputValue, true);
-                        list.addMouseListener(getHandler());
+                        sp.sftNbmf("OptionPbnf.sdrollPbnf");
+                        list.sftNbmf("OptionPbnf.list");
+                        list.sftVisiblfRowCount(10);
+                        list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+                        if(inputVbluf != null)
+                            list.sftSflfdtfdVbluf(inputVbluf, truf);
+                        list.bddMousfListfnfr(gftHbndlfr());
                         toAdd = sp;
-                        inputComponent = list;
+                        inputComponfnt = list;
                     }
 
-                } else {
-                    MultiplexingTextField   tf = new MultiplexingTextField(20);
+                } flsf {
+                    MultiplfxingTfxtFifld   tf = nfw MultiplfxingTfxtFifld(20);
 
-                    tf.setName("OptionPane.textField");
-                    tf.setKeyStrokes(new KeyStroke[] {
-                                     KeyStroke.getKeyStroke("ENTER") } );
-                    if (inputValue != null) {
-                        String inputString = inputValue.toString();
-                        tf.setText(inputString);
-                        tf.setSelectionStart(0);
-                        tf.setSelectionEnd(inputString.length());
+                    tf.sftNbmf("OptionPbnf.tfxtFifld");
+                    tf.sftKfyStrokfs(nfw KfyStrokf[] {
+                                     KfyStrokf.gftKfyStrokf("ENTER") } );
+                    if (inputVbluf != null) {
+                        String inputString = inputVbluf.toString();
+                        tf.sftTfxt(inputString);
+                        tf.sftSflfdtionStbrt(0);
+                        tf.sftSflfdtionEnd(inputString.lfngti());
                     }
-                    tf.addActionListener(getHandler());
-                    toAdd = inputComponent = tf;
+                    tf.bddAdtionListfnfr(gftHbndlfr());
+                    toAdd = inputComponfnt = tf;
                 }
 
-                Object[]           newMessage;
+                Objfdt[]           nfwMfssbgf;
 
-                if (message == null) {
-                    newMessage = new Object[1];
-                    newMessage[0] = toAdd;
+                if (mfssbgf == null) {
+                    nfwMfssbgf = nfw Objfdt[1];
+                    nfwMfssbgf[0] = toAdd;
 
-                } else {
-                    newMessage = new Object[2];
-                    newMessage[0] = message;
-                    newMessage[1] = toAdd;
+                } flsf {
+                    nfwMfssbgf = nfw Objfdt[2];
+                    nfwMfssbgf[0] = mfssbgf;
+                    nfwMfssbgf[1] = toAdd;
                 }
-                return newMessage;
+                rfturn nfwMfssbgf;
             }
-            return optionPane.getMessage();
+            rfturn optionPbnf.gftMfssbgf();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Creates and adds a JLabel representing the icon returned from
-     * {@code getIcon} to {@code top}. This is messaged from
-     * {@code createMessageArea}.
+     * Crfbtfs bnd bdds b JLbbfl rfprfsfnting tif idon rfturnfd from
+     * {@dodf gftIdon} to {@dodf top}. Tiis is mfssbgfd from
+     * {@dodf drfbtfMfssbgfArfb}.
      *
-     * @param top a container
+     * @pbrbm top b dontbinfr
      */
-    protected void addIcon(Container top) {
-        /* Create the icon. */
-        Icon                  sideIcon = getIcon();
+    protfdtfd void bddIdon(Contbinfr top) {
+        /* Crfbtf tif idon. */
+        Idon                  sidfIdon = gftIdon();
 
-        if (sideIcon != null) {
-            JLabel            iconLabel = new JLabel(sideIcon);
+        if (sidfIdon != null) {
+            JLbbfl            idonLbbfl = nfw JLbbfl(sidfIdon);
 
-            iconLabel.setName("OptionPane.iconLabel");
-            iconLabel.setVerticalAlignment(SwingConstants.TOP);
-            top.add(iconLabel, BorderLayout.BEFORE_LINE_BEGINS);
+            idonLbbfl.sftNbmf("OptionPbnf.idonLbbfl");
+            idonLbbfl.sftVfrtidblAlignmfnt(SwingConstbnts.TOP);
+            top.bdd(idonLbbfl, BordfrLbyout.BEFORE_LINE_BEGINS);
         }
     }
 
     /**
-     * Returns the icon from the {@code JOptionPane} the receiver is providing
-     * the look and feel for, or the default icon as returned from
-     * {@code getDefaultIcon}.
+     * Rfturns tif idon from tif {@dodf JOptionPbnf} tif rfdfivfr is providing
+     * tif look bnd fffl for, or tif dffbult idon bs rfturnfd from
+     * {@dodf gftDffbultIdon}.
      *
-     * @return the icon
+     * @rfturn tif idon
      */
-    protected Icon getIcon() {
-        Icon      mIcon = (optionPane == null ? null : optionPane.getIcon());
+    protfdtfd Idon gftIdon() {
+        Idon      mIdon = (optionPbnf == null ? null : optionPbnf.gftIdon());
 
-        if(mIcon == null && optionPane != null)
-            mIcon = getIconForType(optionPane.getMessageType());
-        return mIcon;
+        if(mIdon == null && optionPbnf != null)
+            mIdon = gftIdonForTypf(optionPbnf.gftMfssbgfTypf());
+        rfturn mIdon;
     }
 
     /**
-     * Returns the icon to use for the passed in type.
+     * Rfturns tif idon to usf for tif pbssfd in typf.
      *
-     * @param messageType a type of message
-     * @return the icon to use for the passed in type
+     * @pbrbm mfssbgfTypf b typf of mfssbgf
+     * @rfturn tif idon to usf for tif pbssfd in typf
      */
-    protected Icon getIconForType(int messageType) {
-        if(messageType < 0 || messageType > 3)
-            return null;
-        String propertyName = null;
-        switch(messageType) {
-        case 0:
-            propertyName = "OptionPane.errorIcon";
-            break;
-        case 1:
-            propertyName = "OptionPane.informationIcon";
-            break;
-        case 2:
-            propertyName = "OptionPane.warningIcon";
-            break;
-        case 3:
-            propertyName = "OptionPane.questionIcon";
-            break;
+    protfdtfd Idon gftIdonForTypf(int mfssbgfTypf) {
+        if(mfssbgfTypf < 0 || mfssbgfTypf > 3)
+            rfturn null;
+        String propfrtyNbmf = null;
+        switdi(mfssbgfTypf) {
+        dbsf 0:
+            propfrtyNbmf = "OptionPbnf.frrorIdon";
+            brfbk;
+        dbsf 1:
+            propfrtyNbmf = "OptionPbnf.informbtionIdon";
+            brfbk;
+        dbsf 2:
+            propfrtyNbmf = "OptionPbnf.wbrningIdon";
+            brfbk;
+        dbsf 3:
+            propfrtyNbmf = "OptionPbnf.qufstionIdon";
+            brfbk;
         }
-        if (propertyName != null) {
-            return (Icon)DefaultLookup.get(optionPane, this, propertyName);
+        if (propfrtyNbmf != null) {
+            rfturn (Idon)DffbultLookup.gft(optionPbnf, tiis, propfrtyNbmf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the maximum number of characters to place on a line.
+     * Rfturns tif mbximum numbfr of dibrbdtfrs to plbdf on b linf.
      *
-     * @return the maximum number of characters to place on a line
+     * @rfturn tif mbximum numbfr of dibrbdtfrs to plbdf on b linf
      */
-    protected int getMaxCharactersPerLineCount() {
-        return optionPane.getMaxCharactersPerLineCount();
+    protfdtfd int gftMbxCibrbdtfrsPfrLinfCount() {
+        rfturn optionPbnf.gftMbxCibrbdtfrsPfrLinfCount();
     }
 
     /**
-     * Recursively creates new {@code JLabel} instances to represent {@code d}.
-     * Each {@code JLabel} instance is added to {@code c}.
+     * Rfdursivfly drfbtfs nfw {@dodf JLbbfl} instbndfs to rfprfsfnt {@dodf d}.
+     * Ebdi {@dodf JLbbfl} instbndf is bddfd to {@dodf d}.
      *
-     * @param c a container
-     * @param d a text
-     * @param maxll a maximum length of a text
+     * @pbrbm d b dontbinfr
+     * @pbrbm d b tfxt
+     * @pbrbm mbxll b mbximum lfngti of b tfxt
      */
-    protected void burstStringInto(Container c, String d, int maxll) {
-        // Primitive line wrapping
-        int len = d.length();
-        if (len <= 0)
-            return;
-        if (len > maxll) {
-            int p = d.lastIndexOf(' ', maxll);
+    protfdtfd void burstStringInto(Contbinfr d, String d, int mbxll) {
+        // Primitivf linf wrbpping
+        int lfn = d.lfngti();
+        if (lfn <= 0)
+            rfturn;
+        if (lfn > mbxll) {
+            int p = d.lbstIndfxOf(' ', mbxll);
             if (p <= 0)
-                p = d.indexOf(' ', maxll);
-            if (p > 0 && p < len) {
-                burstStringInto(c, d.substring(0, p), maxll);
-                burstStringInto(c, d.substring(p + 1), maxll);
-                return;
+                p = d.indfxOf(' ', mbxll);
+            if (p > 0 && p < lfn) {
+                burstStringInto(d, d.substring(0, p), mbxll);
+                burstStringInto(d, d.substring(p + 1), mbxll);
+                rfturn;
             }
         }
-        JLabel label = new JLabel(d, JLabel.LEFT);
-        label.setName("OptionPane.label");
-        configureMessageLabel(label);
-        c.add(label);
+        JLbbfl lbbfl = nfw JLbbfl(d, JLbbfl.LEFT);
+        lbbfl.sftNbmf("OptionPbnf.lbbfl");
+        donfigurfMfssbgfLbbfl(lbbfl);
+        d.bdd(lbbfl);
     }
 
     /**
-     * Returns a separator.
+     * Rfturns b sfpbrbtor.
      *
-     * @return a separator
+     * @rfturn b sfpbrbtor
      */
-    protected Container createSeparator() {
-        return null;
+    protfdtfd Contbinfr drfbtfSfpbrbtor() {
+        rfturn null;
     }
 
     /**
-     * Creates and returns a {@code Container} containing the buttons.
-     * The buttons are created by calling {@code getButtons}.
+     * Crfbtfs bnd rfturns b {@dodf Contbinfr} dontbining tif buttons.
+     * Tif buttons brf drfbtfd by dblling {@dodf gftButtons}.
      *
-     * @return a {@code Container} containing the buttons
+     * @rfturn b {@dodf Contbinfr} dontbining tif buttons
      */
-    protected Container createButtonArea() {
-        JPanel bottom = new JPanel();
-        Border border = (Border)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.buttonAreaBorder");
-        bottom.setName("OptionPane.buttonArea");
-        if (border != null) {
-            bottom.setBorder(border);
+    protfdtfd Contbinfr drfbtfButtonArfb() {
+        JPbnfl bottom = nfw JPbnfl();
+        Bordfr bordfr = (Bordfr)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.buttonArfbBordfr");
+        bottom.sftNbmf("OptionPbnf.buttonArfb");
+        if (bordfr != null) {
+            bottom.sftBordfr(bordfr);
         }
-        bottom.setLayout(new ButtonAreaLayout(
-           DefaultLookup.getBoolean(optionPane, this,
-                                    "OptionPane.sameSizeButtons", true),
-           DefaultLookup.getInt(optionPane, this, "OptionPane.buttonPadding",
+        bottom.sftLbyout(nfw ButtonArfbLbyout(
+           DffbultLookup.gftBoolfbn(optionPbnf, tiis,
+                                    "OptionPbnf.sbmfSizfButtons", truf),
+           DffbultLookup.gftInt(optionPbnf, tiis, "OptionPbnf.buttonPbdding",
                                 6),
-           DefaultLookup.getInt(optionPane, this,
-                        "OptionPane.buttonOrientation", SwingConstants.CENTER),
-           DefaultLookup.getBoolean(optionPane, this, "OptionPane.isYesLast",
-                                    false)));
-        addButtonComponents(bottom, getButtons(), getInitialValueIndex());
-        return bottom;
+           DffbultLookup.gftInt(optionPbnf, tiis,
+                        "OptionPbnf.buttonOrifntbtion", SwingConstbnts.CENTER),
+           DffbultLookup.gftBoolfbn(optionPbnf, tiis, "OptionPbnf.isYfsLbst",
+                                    fblsf)));
+        bddButtonComponfnts(bottom, gftButtons(), gftInitiblVblufIndfx());
+        rfturn bottom;
     }
 
     /**
-     * Creates the appropriate object to represent each of the objects in
-     * {@code buttons} and adds it to {@code container}. This
-     * differs from addMessageComponents in that it will recurse on
-     * {@code buttons} and that if button is not a Component
-     * it will create an instance of JButton.
+     * Crfbtfs tif bppropribtf objfdt to rfprfsfnt fbdi of tif objfdts in
+     * {@dodf buttons} bnd bdds it to {@dodf dontbinfr}. Tiis
+     * difffrs from bddMfssbgfComponfnts in tibt it will rfdursf on
+     * {@dodf buttons} bnd tibt if button is not b Componfnt
+     * it will drfbtf bn instbndf of JButton.
      *
-     * @param container a container
-     * @param buttons an array of buttons
-     * @param initialIndex an initial index
+     * @pbrbm dontbinfr b dontbinfr
+     * @pbrbm buttons bn brrby of buttons
+     * @pbrbm initiblIndfx bn initibl indfx
      */
-    protected void addButtonComponents(Container container, Object[] buttons,
-                                 int initialIndex) {
-        if (buttons != null && buttons.length > 0) {
-            boolean            sizeButtonsToSame = getSizeButtonsToSameWidth();
-            boolean            createdAll = true;
-            int                numButtons = buttons.length;
-            JButton[]          createdButtons = null;
-            int                maxWidth = 0;
+    protfdtfd void bddButtonComponfnts(Contbinfr dontbinfr, Objfdt[] buttons,
+                                 int initiblIndfx) {
+        if (buttons != null && buttons.lfngti > 0) {
+            boolfbn            sizfButtonsToSbmf = gftSizfButtonsToSbmfWidti();
+            boolfbn            drfbtfdAll = truf;
+            int                numButtons = buttons.lfngti;
+            JButton[]          drfbtfdButtons = null;
+            int                mbxWidti = 0;
 
-            if (sizeButtonsToSame) {
-                createdButtons = new JButton[numButtons];
+            if (sizfButtonsToSbmf) {
+                drfbtfdButtons = nfw JButton[numButtons];
             }
 
-            for(int counter = 0; counter < numButtons; counter++) {
-                Object       button = buttons[counter];
-                Component    newComponent;
+            for(int dountfr = 0; dountfr < numButtons; dountfr++) {
+                Objfdt       button = buttons[dountfr];
+                Componfnt    nfwComponfnt;
 
-                if (button instanceof Component) {
-                    createdAll = false;
-                    newComponent = (Component)button;
-                    container.add(newComponent);
-                    hasCustomComponents = true;
+                if (button instbndfof Componfnt) {
+                    drfbtfdAll = fblsf;
+                    nfwComponfnt = (Componfnt)button;
+                    dontbinfr.bdd(nfwComponfnt);
+                    ibsCustomComponfnts = truf;
 
-                } else {
-                    JButton      aButton;
+                } flsf {
+                    JButton      bButton;
 
-                    if (button instanceof ButtonFactory) {
-                        aButton = ((ButtonFactory)button).createButton();
+                    if (button instbndfof ButtonFbdtory) {
+                        bButton = ((ButtonFbdtory)button).drfbtfButton();
                     }
-                    else if (button instanceof Icon)
-                        aButton = new JButton((Icon)button);
-                    else
-                        aButton = new JButton(button.toString());
+                    flsf if (button instbndfof Idon)
+                        bButton = nfw JButton((Idon)button);
+                    flsf
+                        bButton = nfw JButton(button.toString());
 
-                    aButton.setName("OptionPane.button");
-                    aButton.setMultiClickThreshhold(DefaultLookup.getInt(
-                          optionPane, this, "OptionPane.buttonClickThreshhold",
+                    bButton.sftNbmf("OptionPbnf.button");
+                    bButton.sftMultiClidkTirfsiiold(DffbultLookup.gftInt(
+                          optionPbnf, tiis, "OptionPbnf.buttonClidkTirfsiiold",
                           0));
-                    configureButton(aButton);
+                    donfigurfButton(bButton);
 
-                    container.add(aButton);
+                    dontbinfr.bdd(bButton);
 
-                    ActionListener buttonListener = createButtonActionListener(counter);
-                    if (buttonListener != null) {
-                        aButton.addActionListener(buttonListener);
+                    AdtionListfnfr buttonListfnfr = drfbtfButtonAdtionListfnfr(dountfr);
+                    if (buttonListfnfr != null) {
+                        bButton.bddAdtionListfnfr(buttonListfnfr);
                     }
-                    newComponent = aButton;
+                    nfwComponfnt = bButton;
                 }
-                if (sizeButtonsToSame && createdAll &&
-                   (newComponent instanceof JButton)) {
-                    createdButtons[counter] = (JButton)newComponent;
-                    maxWidth = Math.max(maxWidth,
-                                        newComponent.getMinimumSize().width);
+                if (sizfButtonsToSbmf && drfbtfdAll &&
+                   (nfwComponfnt instbndfof JButton)) {
+                    drfbtfdButtons[dountfr] = (JButton)nfwComponfnt;
+                    mbxWidti = Mbti.mbx(mbxWidti,
+                                        nfwComponfnt.gftMinimumSizf().widti);
                 }
-                if (counter == initialIndex) {
-                    initialFocusComponent = newComponent;
-                    if (initialFocusComponent instanceof JButton) {
-                        JButton defaultB = (JButton)initialFocusComponent;
-                        defaultB.addHierarchyListener(new HierarchyListener() {
-                            public void hierarchyChanged(HierarchyEvent e) {
-                                if ((e.getChangeFlags() &
-                                        HierarchyEvent.PARENT_CHANGED) != 0) {
-                                    JButton defaultButton = (JButton) e.getComponent();
-                                    JRootPane root =
-                                            SwingUtilities.getRootPane(defaultButton);
+                if (dountfr == initiblIndfx) {
+                    initiblFodusComponfnt = nfwComponfnt;
+                    if (initiblFodusComponfnt instbndfof JButton) {
+                        JButton dffbultB = (JButton)initiblFodusComponfnt;
+                        dffbultB.bddHifrbrdiyListfnfr(nfw HifrbrdiyListfnfr() {
+                            publid void iifrbrdiyCibngfd(HifrbrdiyEvfnt f) {
+                                if ((f.gftCibngfFlbgs() &
+                                        HifrbrdiyEvfnt.PARENT_CHANGED) != 0) {
+                                    JButton dffbultButton = (JButton) f.gftComponfnt();
+                                    JRootPbnf root =
+                                            SwingUtilitifs.gftRootPbnf(dffbultButton);
                                     if (root != null) {
-                                        root.setDefaultButton(defaultButton);
+                                        root.sftDffbultButton(dffbultButton);
                                     }
                                 }
                             }
@@ -796,676 +796,676 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                     }
                 }
             }
-            ((ButtonAreaLayout)container.getLayout()).
-                              setSyncAllWidths((sizeButtonsToSame && createdAll));
-            /* Set the padding, windows seems to use 8 if <= 2 components,
-               otherwise 4 is used. It may actually just be the size of the
-               buttons is always the same, not sure. */
-            if (DefaultLookup.getBoolean(optionPane, this,
-                   "OptionPane.setButtonMargin", true) && sizeButtonsToSame &&
-                   createdAll) {
-                JButton               aButton;
-                int                   padSize;
+            ((ButtonArfbLbyout)dontbinfr.gftLbyout()).
+                              sftSyndAllWidtis((sizfButtonsToSbmf && drfbtfdAll));
+            /* Sft tif pbdding, windows sffms to usf 8 if <= 2 domponfnts,
+               otifrwisf 4 is usfd. It mby bdtublly just bf tif sizf of tif
+               buttons is blwbys tif sbmf, not surf. */
+            if (DffbultLookup.gftBoolfbn(optionPbnf, tiis,
+                   "OptionPbnf.sftButtonMbrgin", truf) && sizfButtonsToSbmf &&
+                   drfbtfdAll) {
+                JButton               bButton;
+                int                   pbdSizf;
 
-                padSize = (numButtons <= 2? 8 : 4);
+                pbdSizf = (numButtons <= 2? 8 : 4);
 
-                for(int counter = 0; counter < numButtons; counter++) {
-                    aButton = createdButtons[counter];
-                    aButton.setMargin(new Insets(2, padSize, 2, padSize));
+                for(int dountfr = 0; dountfr < numButtons; dountfr++) {
+                    bButton = drfbtfdButtons[dountfr];
+                    bButton.sftMbrgin(nfw Insfts(2, pbdSizf, 2, pbdSizf));
                 }
             }
         }
     }
 
     /**
-     * Constructs a new instance of a {@code ButtonActionListener}.
+     * Construdts b nfw instbndf of b {@dodf ButtonAdtionListfnfr}.
      *
-     * @param buttonIndex an index of the button
-     * @return a new instance of a {@code ButtonActionListener}
+     * @pbrbm buttonIndfx bn indfx of tif button
+     * @rfturn b nfw instbndf of b {@dodf ButtonAdtionListfnfr}
      */
-    protected ActionListener createButtonActionListener(int buttonIndex) {
-        return new ButtonActionListener(buttonIndex);
+    protfdtfd AdtionListfnfr drfbtfButtonAdtionListfnfr(int buttonIndfx) {
+        rfturn nfw ButtonAdtionListfnfr(buttonIndfx);
     }
 
     /**
-     * Returns the buttons to display from the {@code JOptionPane} the receiver is
-     * providing the look and feel for. If the {@code JOptionPane} has options
-     * set, they will be provided, otherwise if the optionType is
-     * {@code YES_NO_OPTION}, {@code yesNoOptions} is returned, if the type is
-     * {@code YES_NO_CANCEL_OPTION} {@code yesNoCancelOptions} is returned, otherwise
-     * {@code defaultButtons} are returned.
+     * Rfturns tif buttons to displby from tif {@dodf JOptionPbnf} tif rfdfivfr is
+     * providing tif look bnd fffl for. If tif {@dodf JOptionPbnf} ibs options
+     * sft, tify will bf providfd, otifrwisf if tif optionTypf is
+     * {@dodf YES_NO_OPTION}, {@dodf yfsNoOptions} is rfturnfd, if tif typf is
+     * {@dodf YES_NO_CANCEL_OPTION} {@dodf yfsNoCbndflOptions} is rfturnfd, otifrwisf
+     * {@dodf dffbultButtons} brf rfturnfd.
      *
-     * @return the buttons to display from the JOptionPane
+     * @rfturn tif buttons to displby from tif JOptionPbnf
      */
-    protected Object[] getButtons() {
-        if (optionPane != null) {
-            Object[] suppliedOptions = optionPane.getOptions();
+    protfdtfd Objfdt[] gftButtons() {
+        if (optionPbnf != null) {
+            Objfdt[] supplifdOptions = optionPbnf.gftOptions();
 
-            if (suppliedOptions == null) {
-                Object[] defaultOptions;
-                int type = optionPane.getOptionType();
-                Locale l = optionPane.getLocale();
-                int minimumWidth =
-                    DefaultLookup.getInt(optionPane, this,
-                                        "OptionPane.buttonMinimumWidth",-1);
-                if (type == JOptionPane.YES_NO_OPTION) {
-                    defaultOptions = new ButtonFactory[2];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.yesButtonText", l),
-                        getMnemonic("OptionPane.yesButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.yesIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.noButtonText", l),
-                        getMnemonic("OptionPane.noButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.noIcon"), minimumWidth);
-                } else if (type == JOptionPane.YES_NO_CANCEL_OPTION) {
-                    defaultOptions = new ButtonFactory[3];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.yesButtonText", l),
-                        getMnemonic("OptionPane.yesButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.yesIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.noButtonText",l),
-                        getMnemonic("OptionPane.noButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.noIcon"), minimumWidth);
-                    defaultOptions[2] = new ButtonFactory(
-                        UIManager.getString("OptionPane.cancelButtonText",l),
-                        getMnemonic("OptionPane.cancelButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.cancelIcon"), minimumWidth);
-                } else if (type == JOptionPane.OK_CANCEL_OPTION) {
-                    defaultOptions = new ButtonFactory[2];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.okButtonText",l),
-                        getMnemonic("OptionPane.okButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.okIcon"), minimumWidth);
-                    defaultOptions[1] = new ButtonFactory(
-                        UIManager.getString("OptionPane.cancelButtonText",l),
-                        getMnemonic("OptionPane.cancelButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.cancelIcon"), minimumWidth);
-                } else {
-                    defaultOptions = new ButtonFactory[1];
-                    defaultOptions[0] = new ButtonFactory(
-                        UIManager.getString("OptionPane.okButtonText",l),
-                        getMnemonic("OptionPane.okButtonMnemonic", l),
-                        (Icon)DefaultLookup.get(optionPane, this,
-                                          "OptionPane.okIcon"), minimumWidth);
+            if (supplifdOptions == null) {
+                Objfdt[] dffbultOptions;
+                int typf = optionPbnf.gftOptionTypf();
+                Lodblf l = optionPbnf.gftLodblf();
+                int minimumWidti =
+                    DffbultLookup.gftInt(optionPbnf, tiis,
+                                        "OptionPbnf.buttonMinimumWidti",-1);
+                if (typf == JOptionPbnf.YES_NO_OPTION) {
+                    dffbultOptions = nfw ButtonFbdtory[2];
+                    dffbultOptions[0] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.yfsButtonTfxt", l),
+                        gftMnfmonid("OptionPbnf.yfsButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.yfsIdon"), minimumWidti);
+                    dffbultOptions[1] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.noButtonTfxt", l),
+                        gftMnfmonid("OptionPbnf.noButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.noIdon"), minimumWidti);
+                } flsf if (typf == JOptionPbnf.YES_NO_CANCEL_OPTION) {
+                    dffbultOptions = nfw ButtonFbdtory[3];
+                    dffbultOptions[0] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.yfsButtonTfxt", l),
+                        gftMnfmonid("OptionPbnf.yfsButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.yfsIdon"), minimumWidti);
+                    dffbultOptions[1] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.noButtonTfxt",l),
+                        gftMnfmonid("OptionPbnf.noButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.noIdon"), minimumWidti);
+                    dffbultOptions[2] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.dbndflButtonTfxt",l),
+                        gftMnfmonid("OptionPbnf.dbndflButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.dbndflIdon"), minimumWidti);
+                } flsf if (typf == JOptionPbnf.OK_CANCEL_OPTION) {
+                    dffbultOptions = nfw ButtonFbdtory[2];
+                    dffbultOptions[0] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.okButtonTfxt",l),
+                        gftMnfmonid("OptionPbnf.okButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.okIdon"), minimumWidti);
+                    dffbultOptions[1] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.dbndflButtonTfxt",l),
+                        gftMnfmonid("OptionPbnf.dbndflButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.dbndflIdon"), minimumWidti);
+                } flsf {
+                    dffbultOptions = nfw ButtonFbdtory[1];
+                    dffbultOptions[0] = nfw ButtonFbdtory(
+                        UIMbnbgfr.gftString("OptionPbnf.okButtonTfxt",l),
+                        gftMnfmonid("OptionPbnf.okButtonMnfmonid", l),
+                        (Idon)DffbultLookup.gft(optionPbnf, tiis,
+                                          "OptionPbnf.okIdon"), minimumWidti);
                 }
-                return defaultOptions;
+                rfturn dffbultOptions;
 
             }
-            return suppliedOptions;
+            rfturn supplifdOptions;
         }
-        return null;
+        rfturn null;
     }
 
-    private int getMnemonic(String key, Locale l) {
-        String value = (String)UIManager.get(key, l);
+    privbtf int gftMnfmonid(String kfy, Lodblf l) {
+        String vbluf = (String)UIMbnbgfr.gft(kfy, l);
 
-        if (value == null) {
-            return 0;
+        if (vbluf == null) {
+            rfturn 0;
         }
         try {
-            return Integer.parseInt(value);
+            rfturn Intfgfr.pbrsfInt(vbluf);
         }
-        catch (NumberFormatException nfe) { }
-        return 0;
+        dbtdi (NumbfrFormbtExdfption nff) { }
+        rfturn 0;
     }
 
     /**
-     * Returns {@code true}, basic L&amp;F wants all the buttons to have the same
-     * width.
+     * Rfturns {@dodf truf}, bbsid L&bmp;F wbnts bll tif buttons to ibvf tif sbmf
+     * widti.
      *
-     * @return {@code true} if all the buttons should have the same width
+     * @rfturn {@dodf truf} if bll tif buttons siould ibvf tif sbmf widti
      */
-    protected boolean getSizeButtonsToSameWidth() {
-        return true;
+    protfdtfd boolfbn gftSizfButtonsToSbmfWidti() {
+        rfturn truf;
     }
 
     /**
-     * Returns the initial index into the buttons to select. The index
-     * is calculated from the initial value from the JOptionPane and
-     * options of the JOptionPane or 0.
+     * Rfturns tif initibl indfx into tif buttons to sflfdt. Tif indfx
+     * is dbldulbtfd from tif initibl vbluf from tif JOptionPbnf bnd
+     * options of tif JOptionPbnf or 0.
      *
-     * @return the initial index into the buttons to select
+     * @rfturn tif initibl indfx into tif buttons to sflfdt
      */
-    protected int getInitialValueIndex() {
-        if (optionPane != null) {
-            Object             iv = optionPane.getInitialValue();
-            Object[]           options = optionPane.getOptions();
+    protfdtfd int gftInitiblVblufIndfx() {
+        if (optionPbnf != null) {
+            Objfdt             iv = optionPbnf.gftInitiblVbluf();
+            Objfdt[]           options = optionPbnf.gftOptions();
 
             if(options == null) {
-                return 0;
+                rfturn 0;
             }
-            else if(iv != null) {
-                for(int counter = options.length - 1; counter >= 0; counter--){
-                    if(options[counter].equals(iv))
-                        return counter;
+            flsf if(iv != null) {
+                for(int dountfr = options.lfngti - 1; dountfr >= 0; dountfr--){
+                    if(options[dountfr].fqubls(iv))
+                        rfturn dountfr;
                 }
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Sets the input value in the option pane the receiver is providing
-     * the look and feel for based on the value in the inputComponent.
+     * Sfts tif input vbluf in tif option pbnf tif rfdfivfr is providing
+     * tif look bnd fffl for bbsfd on tif vbluf in tif inputComponfnt.
      */
-    protected void resetInputValue() {
-        if(inputComponent != null && (inputComponent instanceof JTextField)) {
-            optionPane.setInputValue(((JTextField)inputComponent).getText());
+    protfdtfd void rfsftInputVbluf() {
+        if(inputComponfnt != null && (inputComponfnt instbndfof JTfxtFifld)) {
+            optionPbnf.sftInputVbluf(((JTfxtFifld)inputComponfnt).gftTfxt());
 
-        } else if(inputComponent != null &&
-                  (inputComponent instanceof JComboBox)) {
-            optionPane.setInputValue(((JComboBox)inputComponent)
-                                     .getSelectedItem());
-        } else if(inputComponent != null) {
-            optionPane.setInputValue(((JList)inputComponent)
-                                     .getSelectedValue());
+        } flsf if(inputComponfnt != null &&
+                  (inputComponfnt instbndfof JComboBox)) {
+            optionPbnf.sftInputVbluf(((JComboBox)inputComponfnt)
+                                     .gftSflfdtfdItfm());
+        } flsf if(inputComponfnt != null) {
+            optionPbnf.sftInputVbluf(((JList)inputComponfnt)
+                                     .gftSflfdtfdVbluf());
         }
     }
 
 
     /**
-     * If inputComponent is non-null, the focus is requested on that,
-     * otherwise request focus on the default value
+     * If inputComponfnt is non-null, tif fodus is rfqufstfd on tibt,
+     * otifrwisf rfqufst fodus on tif dffbult vbluf
      */
-    public void selectInitialValue(JOptionPane op) {
-        if (inputComponent != null)
-            inputComponent.requestFocus();
-        else {
-            if (initialFocusComponent != null)
-                initialFocusComponent.requestFocus();
+    publid void sflfdtInitiblVbluf(JOptionPbnf op) {
+        if (inputComponfnt != null)
+            inputComponfnt.rfqufstFodus();
+        flsf {
+            if (initiblFodusComponfnt != null)
+                initiblFodusComponfnt.rfqufstFodus();
 
-            if (initialFocusComponent instanceof JButton) {
-                JRootPane root = SwingUtilities.getRootPane(initialFocusComponent);
+            if (initiblFodusComponfnt instbndfof JButton) {
+                JRootPbnf root = SwingUtilitifs.gftRootPbnf(initiblFodusComponfnt);
                 if (root != null) {
-                    root.setDefaultButton((JButton)initialFocusComponent);
+                    root.sftDffbultButton((JButton)initiblFodusComponfnt);
                 }
             }
         }
     }
 
     /**
-     * Returns true if in the last call to validateComponent the message
-     * or buttons contained a subclass of Component.
+     * Rfturns truf if in tif lbst dbll to vblidbtfComponfnt tif mfssbgf
+     * or buttons dontbinfd b subdlbss of Componfnt.
      */
-    public boolean containsCustomComponents(JOptionPane op) {
-        return hasCustomComponents;
+    publid boolfbn dontbinsCustomComponfnts(JOptionPbnf op) {
+        rfturn ibsCustomComponfnts;
     }
 
 
     /**
-     * <code>ButtonAreaLayout</code> behaves in a similar manner to
-     * <code>FlowLayout</code>. It lays out all components from left to
-     * right. If <code>syncAllWidths</code> is true, the widths of each
-     * component will be set to the largest preferred size width.
+     * <dodf>ButtonArfbLbyout</dodf> bfibvfs in b similbr mbnnfr to
+     * <dodf>FlowLbyout</dodf>. It lbys out bll domponfnts from lfft to
+     * rigit. If <dodf>syndAllWidtis</dodf> is truf, tif widtis of fbdi
+     * domponfnt will bf sft to tif lbrgfst prfffrrfd sizf widti.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidOptionPbnfUI}.
      */
-    public static class ButtonAreaLayout implements LayoutManager {
+    publid stbtid dlbss ButtonArfbLbyout implfmfnts LbyoutMbnbgfr {
         /**
-         * The value represents if the width of children should be synchronized.
+         * Tif vbluf rfprfsfnts if tif widti of diildrfn siould bf syndironizfd.
          */
-        protected boolean           syncAllWidths;
+        protfdtfd boolfbn           syndAllWidtis;
         /**
-         * The padding value.
+         * Tif pbdding vbluf.
          */
-        protected int               padding;
-        /** If true, children are lumped together in parent. */
-        protected boolean           centersChildren;
-        private int orientation;
-        private boolean reverseButtons;
+        protfdtfd int               pbdding;
+        /** If truf, diildrfn brf lumpfd togftifr in pbrfnt. */
+        protfdtfd boolfbn           dfntfrsCiildrfn;
+        privbtf int orifntbtion;
+        privbtf boolfbn rfvfrsfButtons;
         /**
-         * Indicates whether or not centersChildren should be used vs
-         * the orientation. This is done for backward compatibility
-         * for subclassers.
+         * Indidbtfs wiftifr or not dfntfrsCiildrfn siould bf usfd vs
+         * tif orifntbtion. Tiis is donf for bbdkwbrd dompbtibility
+         * for subdlbssfrs.
          */
-        private boolean useOrientation;
+        privbtf boolfbn usfOrifntbtion;
 
         /**
-         * Constructs a new instance of {@code ButtonAreaLayout}.
+         * Construdts b nfw instbndf of {@dodf ButtonArfbLbyout}.
          *
-         * @param syncAllWidths if the width of children should be synchronized
-         * @param padding the padding value
+         * @pbrbm syndAllWidtis if tif widti of diildrfn siould bf syndironizfd
+         * @pbrbm pbdding tif pbdding vbluf
          */
-        public ButtonAreaLayout(boolean syncAllWidths, int padding) {
-            this.syncAllWidths = syncAllWidths;
-            this.padding = padding;
-            centersChildren = true;
-            useOrientation = false;
+        publid ButtonArfbLbyout(boolfbn syndAllWidtis, int pbdding) {
+            tiis.syndAllWidtis = syndAllWidtis;
+            tiis.pbdding = pbdding;
+            dfntfrsCiildrfn = truf;
+            usfOrifntbtion = fblsf;
         }
 
-        ButtonAreaLayout(boolean syncAllSizes, int padding, int orientation,
-                         boolean reverseButtons) {
-            this(syncAllSizes, padding);
-            useOrientation = true;
-            this.orientation = orientation;
-            this.reverseButtons = reverseButtons;
+        ButtonArfbLbyout(boolfbn syndAllSizfs, int pbdding, int orifntbtion,
+                         boolfbn rfvfrsfButtons) {
+            tiis(syndAllSizfs, pbdding);
+            usfOrifntbtion = truf;
+            tiis.orifntbtion = orifntbtion;
+            tiis.rfvfrsfButtons = rfvfrsfButtons;
         }
 
         /**
-         * Sets if the width of children should be synchronized.
+         * Sfts if tif widti of diildrfn siould bf syndironizfd.
          *
-         * @param newValue if the width of children should be synchronized
+         * @pbrbm nfwVbluf if tif widti of diildrfn siould bf syndironizfd
          */
-        public void setSyncAllWidths(boolean newValue) {
-            syncAllWidths = newValue;
+        publid void sftSyndAllWidtis(boolfbn nfwVbluf) {
+            syndAllWidtis = nfwVbluf;
         }
 
         /**
-         * Returns if the width of children should be synchronized.
+         * Rfturns if tif widti of diildrfn siould bf syndironizfd.
          *
-         * @return if the width of children should be synchronized
+         * @rfturn if tif widti of diildrfn siould bf syndironizfd
          */
-        public boolean getSyncAllWidths() {
-            return syncAllWidths;
+        publid boolfbn gftSyndAllWidtis() {
+            rfturn syndAllWidtis;
         }
 
         /**
-         * Sets the padding value.
+         * Sfts tif pbdding vbluf.
          *
-         * @param newPadding the new padding
+         * @pbrbm nfwPbdding tif nfw pbdding
          */
-        public void setPadding(int newPadding) {
-            this.padding = newPadding;
+        publid void sftPbdding(int nfwPbdding) {
+            tiis.pbdding = nfwPbdding;
         }
 
         /**
-         * Returns the padding.
+         * Rfturns tif pbdding.
          *
-         * @return the padding
+         * @rfturn tif pbdding
          */
-        public int getPadding() {
-            return padding;
+        publid int gftPbdding() {
+            rfturn pbdding;
         }
 
         /**
-         * Sets whether or not center children should be used.
+         * Sfts wiftifr or not dfntfr diildrfn siould bf usfd.
          *
-         * @param newValue a new value
+         * @pbrbm nfwVbluf b nfw vbluf
          */
-        public void setCentersChildren(boolean newValue) {
-            centersChildren = newValue;
-            useOrientation = false;
+        publid void sftCfntfrsCiildrfn(boolfbn nfwVbluf) {
+            dfntfrsCiildrfn = nfwVbluf;
+            usfOrifntbtion = fblsf;
         }
 
         /**
-         * Returns whether or not center children should be used.
+         * Rfturns wiftifr or not dfntfr diildrfn siould bf usfd.
          *
-         * @return whether or not center children should be used
+         * @rfturn wiftifr or not dfntfr diildrfn siould bf usfd
          */
-        public boolean getCentersChildren() {
-            return centersChildren;
+        publid boolfbn gftCfntfrsCiildrfn() {
+            rfturn dfntfrsCiildrfn;
         }
 
-        private int getOrientation(Container container) {
-            if (!useOrientation) {
-                return SwingConstants.CENTER;
+        privbtf int gftOrifntbtion(Contbinfr dontbinfr) {
+            if (!usfOrifntbtion) {
+                rfturn SwingConstbnts.CENTER;
             }
-            if (container.getComponentOrientation().isLeftToRight()) {
-                return orientation;
+            if (dontbinfr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                rfturn orifntbtion;
             }
-            switch (orientation) {
-            case SwingConstants.LEFT:
-                return SwingConstants.RIGHT;
-            case SwingConstants.RIGHT:
-                return SwingConstants.LEFT;
-            case SwingConstants.CENTER:
-                return SwingConstants.CENTER;
+            switdi (orifntbtion) {
+            dbsf SwingConstbnts.LEFT:
+                rfturn SwingConstbnts.RIGHT;
+            dbsf SwingConstbnts.RIGHT:
+                rfturn SwingConstbnts.LEFT;
+            dbsf SwingConstbnts.CENTER:
+                rfturn SwingConstbnts.CENTER;
             }
-            return SwingConstants.LEFT;
+            rfturn SwingConstbnts.LEFT;
         }
 
-        public void addLayoutComponent(String string, Component comp) {
+        publid void bddLbyoutComponfnt(String string, Componfnt domp) {
         }
 
-        public void layoutContainer(Container container) {
-            Component[]      children = container.getComponents();
+        publid void lbyoutContbinfr(Contbinfr dontbinfr) {
+            Componfnt[]      diildrfn = dontbinfr.gftComponfnts();
 
-            if(children != null && children.length > 0) {
-                int               numChildren = children.length;
-                Insets            insets = container.getInsets();
-                int maxWidth = 0;
-                int maxHeight = 0;
-                int totalButtonWidth = 0;
+            if(diildrfn != null && diildrfn.lfngti > 0) {
+                int               numCiildrfn = diildrfn.lfngti;
+                Insfts            insfts = dontbinfr.gftInsfts();
+                int mbxWidti = 0;
+                int mbxHfigit = 0;
+                int totblButtonWidti = 0;
                 int x = 0;
-                int xOffset = 0;
-                boolean ltr = container.getComponentOrientation().
-                                        isLeftToRight();
-                boolean reverse = (ltr) ? reverseButtons : !reverseButtons;
+                int xOffsft = 0;
+                boolfbn ltr = dontbinfr.gftComponfntOrifntbtion().
+                                        isLfftToRigit();
+                boolfbn rfvfrsf = (ltr) ? rfvfrsfButtons : !rfvfrsfButtons;
 
-                for(int counter = 0; counter < numChildren; counter++) {
-                    Dimension pref = children[counter].getPreferredSize();
-                    maxWidth = Math.max(maxWidth, pref.width);
-                    maxHeight = Math.max(maxHeight, pref.height);
-                    totalButtonWidth += pref.width;
+                for(int dountfr = 0; dountfr < numCiildrfn; dountfr++) {
+                    Dimfnsion prff = diildrfn[dountfr].gftPrfffrrfdSizf();
+                    mbxWidti = Mbti.mbx(mbxWidti, prff.widti);
+                    mbxHfigit = Mbti.mbx(mbxHfigit, prff.ifigit);
+                    totblButtonWidti += prff.widti;
                 }
-                if (getSyncAllWidths()) {
-                    totalButtonWidth = maxWidth * numChildren;
+                if (gftSyndAllWidtis()) {
+                    totblButtonWidti = mbxWidti * numCiildrfn;
                 }
-                totalButtonWidth += (numChildren - 1) * padding;
+                totblButtonWidti += (numCiildrfn - 1) * pbdding;
 
-                switch (getOrientation(container)) {
-                case SwingConstants.LEFT:
-                    x = insets.left;
-                    break;
-                case SwingConstants.RIGHT:
-                    x = container.getWidth() - insets.right - totalButtonWidth;
-                    break;
-                case SwingConstants.CENTER:
-                    if (getCentersChildren() || numChildren < 2) {
-                        x = (container.getWidth() - totalButtonWidth) / 2;
+                switdi (gftOrifntbtion(dontbinfr)) {
+                dbsf SwingConstbnts.LEFT:
+                    x = insfts.lfft;
+                    brfbk;
+                dbsf SwingConstbnts.RIGHT:
+                    x = dontbinfr.gftWidti() - insfts.rigit - totblButtonWidti;
+                    brfbk;
+                dbsf SwingConstbnts.CENTER:
+                    if (gftCfntfrsCiildrfn() || numCiildrfn < 2) {
+                        x = (dontbinfr.gftWidti() - totblButtonWidti) / 2;
                     }
-                    else {
-                        x = insets.left;
-                        if (getSyncAllWidths()) {
-                            xOffset = (container.getWidth() - insets.left -
-                                       insets.right - totalButtonWidth) /
-                                (numChildren - 1) + maxWidth;
+                    flsf {
+                        x = insfts.lfft;
+                        if (gftSyndAllWidtis()) {
+                            xOffsft = (dontbinfr.gftWidti() - insfts.lfft -
+                                       insfts.rigit - totblButtonWidti) /
+                                (numCiildrfn - 1) + mbxWidti;
                         }
-                        else {
-                            xOffset = (container.getWidth() - insets.left -
-                                       insets.right - totalButtonWidth) /
-                                      (numChildren - 1);
+                        flsf {
+                            xOffsft = (dontbinfr.gftWidti() - insfts.lfft -
+                                       insfts.rigit - totblButtonWidti) /
+                                      (numCiildrfn - 1);
                         }
                     }
-                    break;
+                    brfbk;
                 }
 
-                for (int counter = 0; counter < numChildren; counter++) {
-                    int index = (reverse) ? numChildren - counter - 1 :
-                                counter;
-                    Dimension pref = children[index].getPreferredSize();
+                for (int dountfr = 0; dountfr < numCiildrfn; dountfr++) {
+                    int indfx = (rfvfrsf) ? numCiildrfn - dountfr - 1 :
+                                dountfr;
+                    Dimfnsion prff = diildrfn[indfx].gftPrfffrrfdSizf();
 
-                    if (getSyncAllWidths()) {
-                        children[index].setBounds(x, insets.top,
-                                                  maxWidth, maxHeight);
+                    if (gftSyndAllWidtis()) {
+                        diildrfn[indfx].sftBounds(x, insfts.top,
+                                                  mbxWidti, mbxHfigit);
                     }
-                    else {
-                        children[index].setBounds(x, insets.top, pref.width,
-                                                  pref.height);
+                    flsf {
+                        diildrfn[indfx].sftBounds(x, insfts.top, prff.widti,
+                                                  prff.ifigit);
                     }
-                    if (xOffset != 0) {
-                        x += xOffset;
+                    if (xOffsft != 0) {
+                        x += xOffsft;
                     }
-                    else {
-                        x += children[index].getWidth() + padding;
+                    flsf {
+                        x += diildrfn[indfx].gftWidti() + pbdding;
                     }
                 }
             }
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            if(c != null) {
-                Component[]       children = c.getComponents();
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            if(d != null) {
+                Componfnt[]       diildrfn = d.gftComponfnts();
 
-                if(children != null && children.length > 0) {
-                    Dimension     aSize;
-                    int           numChildren = children.length;
-                    int           height = 0;
-                    Insets        cInsets = c.getInsets();
-                    int           extraHeight = cInsets.top + cInsets.bottom;
-                    int           extraWidth = cInsets.left + cInsets.right;
+                if(diildrfn != null && diildrfn.lfngti > 0) {
+                    Dimfnsion     bSizf;
+                    int           numCiildrfn = diildrfn.lfngti;
+                    int           ifigit = 0;
+                    Insfts        dInsfts = d.gftInsfts();
+                    int           fxtrbHfigit = dInsfts.top + dInsfts.bottom;
+                    int           fxtrbWidti = dInsfts.lfft + dInsfts.rigit;
 
-                    if (syncAllWidths) {
-                        int              maxWidth = 0;
+                    if (syndAllWidtis) {
+                        int              mbxWidti = 0;
 
-                        for(int counter = 0; counter < numChildren; counter++){
-                            aSize = children[counter].getPreferredSize();
-                            height = Math.max(height, aSize.height);
-                            maxWidth = Math.max(maxWidth, aSize.width);
+                        for(int dountfr = 0; dountfr < numCiildrfn; dountfr++){
+                            bSizf = diildrfn[dountfr].gftPrfffrrfdSizf();
+                            ifigit = Mbti.mbx(ifigit, bSizf.ifigit);
+                            mbxWidti = Mbti.mbx(mbxWidti, bSizf.widti);
                         }
-                        return new Dimension(extraWidth + (maxWidth * numChildren) +
-                                             (numChildren - 1) * padding,
-                                             extraHeight + height);
+                        rfturn nfw Dimfnsion(fxtrbWidti + (mbxWidti * numCiildrfn) +
+                                             (numCiildrfn - 1) * pbdding,
+                                             fxtrbHfigit + ifigit);
                     }
-                    else {
-                        int        totalWidth = 0;
+                    flsf {
+                        int        totblWidti = 0;
 
-                        for(int counter = 0; counter < numChildren; counter++){
-                            aSize = children[counter].getPreferredSize();
-                            height = Math.max(height, aSize.height);
-                            totalWidth += aSize.width;
+                        for(int dountfr = 0; dountfr < numCiildrfn; dountfr++){
+                            bSizf = diildrfn[dountfr].gftPrfffrrfdSizf();
+                            ifigit = Mbti.mbx(ifigit, bSizf.ifigit);
+                            totblWidti += bSizf.widti;
                         }
-                        totalWidth += ((numChildren - 1) * padding);
-                        return new Dimension(extraWidth + totalWidth, extraHeight + height);
+                        totblWidti += ((numCiildrfn - 1) * pbdding);
+                        rfturn nfw Dimfnsion(fxtrbWidti + totblWidti, fxtrbHfigit + ifigit);
                     }
                 }
             }
-            return new Dimension(0, 0);
+            rfturn nfw Dimfnsion(0, 0);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            rfturn minimumLbyoutSizf(d);
         }
 
-        public void removeLayoutComponent(Component c) { }
+        publid void rfmovfLbyoutComponfnt(Componfnt d) { }
     }
 
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidOptionPbnfUI}.
      */
-    public class PropertyChangeHandler implements PropertyChangeListener {
+    publid dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr {
         /**
-         * If the source of the PropertyChangeEvent <code>e</code> equals the
-         * optionPane and is one of the ICON_PROPERTY, MESSAGE_PROPERTY,
+         * If tif sourdf of tif PropfrtyCibngfEvfnt <dodf>f</dodf> fqubls tif
+         * optionPbnf bnd is onf of tif ICON_PROPERTY, MESSAGE_PROPERTY,
          * OPTIONS_PROPERTY or INITIAL_VALUE_PROPERTY,
-         * validateComponent is invoked.
+         * vblidbtfComponfnt is invokfd.
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            gftHbndlfr().propfrtyCibngf(f);
         }
     }
 
     /**
-     * Configures any necessary colors/fonts for the specified label
-     * used representing the message.
+     * Configurfs bny nfdfssbry dolors/fonts for tif spfdififd lbbfl
+     * usfd rfprfsfnting tif mfssbgf.
      */
-    private void configureMessageLabel(JLabel label) {
-        Color color = (Color)DefaultLookup.get(optionPane, this,
-                                               "OptionPane.messageForeground");
-        if (color != null) {
-            label.setForeground(color);
+    privbtf void donfigurfMfssbgfLbbfl(JLbbfl lbbfl) {
+        Color dolor = (Color)DffbultLookup.gft(optionPbnf, tiis,
+                                               "OptionPbnf.mfssbgfForfground");
+        if (dolor != null) {
+            lbbfl.sftForfground(dolor);
         }
-        Font messageFont = (Font)DefaultLookup.get(optionPane, this,
-                                                   "OptionPane.messageFont");
-        if (messageFont != null) {
-            label.setFont(messageFont);
+        Font mfssbgfFont = (Font)DffbultLookup.gft(optionPbnf, tiis,
+                                                   "OptionPbnf.mfssbgfFont");
+        if (mfssbgfFont != null) {
+            lbbfl.sftFont(mfssbgfFont);
         }
     }
 
     /**
-     * Configures any necessary colors/fonts for the specified button
-     * used representing the button portion of the optionpane.
+     * Configurfs bny nfdfssbry dolors/fonts for tif spfdififd button
+     * usfd rfprfsfnting tif button portion of tif optionpbnf.
      */
-    private void configureButton(JButton button) {
-        Font buttonFont = (Font)DefaultLookup.get(optionPane, this,
-                                            "OptionPane.buttonFont");
+    privbtf void donfigurfButton(JButton button) {
+        Font buttonFont = (Font)DffbultLookup.gft(optionPbnf, tiis,
+                                            "OptionPbnf.buttonFont");
         if (buttonFont != null) {
-            button.setFont(buttonFont);
+            button.sftFont(buttonFont);
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicOptionPaneUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidOptionPbnfUI}.
      */
-    public class ButtonActionListener implements ActionListener {
+    publid dlbss ButtonAdtionListfnfr implfmfnts AdtionListfnfr {
         /**
-         * The index of the button.
+         * Tif indfx of tif button.
          */
-        protected int buttonIndex;
+        protfdtfd int buttonIndfx;
 
         /**
-         * Constructs a new instance of {@code ButtonActionListener}.
+         * Construdts b nfw instbndf of {@dodf ButtonAdtionListfnfr}.
          *
-         * @param buttonIndex an index of the button
+         * @pbrbm buttonIndfx bn indfx of tif button
          */
-        public ButtonActionListener(int buttonIndex) {
-            this.buttonIndex = buttonIndex;
+        publid ButtonAdtionListfnfr(int buttonIndfx) {
+            tiis.buttonIndfx = buttonIndfx;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (optionPane != null) {
-                int optionType = optionPane.getOptionType();
-                Object[] options = optionPane.getOptions();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (optionPbnf != null) {
+                int optionTypf = optionPbnf.gftOptionTypf();
+                Objfdt[] options = optionPbnf.gftOptions();
 
-                /* If the option pane takes input, then store the input value
-                 * if custom options were specified, if the option type is
-                 * DEFAULT_OPTION, OR if option type is set to a predefined
-                 * one and the user chose the affirmative answer.
+                /* If tif option pbnf tbkfs input, tifn storf tif input vbluf
+                 * if dustom options wfrf spfdififd, if tif option typf is
+                 * DEFAULT_OPTION, OR if option typf is sft to b prfdffinfd
+                 * onf bnd tif usfr diosf tif bffirmbtivf bnswfr.
                  */
-                if (inputComponent != null) {
+                if (inputComponfnt != null) {
                     if (options != null ||
-                        optionType == JOptionPane.DEFAULT_OPTION ||
-                        ((optionType == JOptionPane.YES_NO_OPTION ||
-                         optionType == JOptionPane.YES_NO_CANCEL_OPTION ||
-                         optionType == JOptionPane.OK_CANCEL_OPTION) &&
-                         buttonIndex == 0)) {
-                        resetInputValue();
+                        optionTypf == JOptionPbnf.DEFAULT_OPTION ||
+                        ((optionTypf == JOptionPbnf.YES_NO_OPTION ||
+                         optionTypf == JOptionPbnf.YES_NO_CANCEL_OPTION ||
+                         optionTypf == JOptionPbnf.OK_CANCEL_OPTION) &&
+                         buttonIndfx == 0)) {
+                        rfsftInputVbluf();
                     }
                 }
                 if (options == null) {
-                    if (optionType == JOptionPane.OK_CANCEL_OPTION &&
-                        buttonIndex == 1) {
-                        optionPane.setValue(Integer.valueOf(2));
+                    if (optionTypf == JOptionPbnf.OK_CANCEL_OPTION &&
+                        buttonIndfx == 1) {
+                        optionPbnf.sftVbluf(Intfgfr.vblufOf(2));
 
-                    } else {
-                        optionPane.setValue(Integer.valueOf(buttonIndex));
+                    } flsf {
+                        optionPbnf.sftVbluf(Intfgfr.vblufOf(buttonIndfx));
                     }
-                } else {
-                    optionPane.setValue(options[buttonIndex]);
+                } flsf {
+                    optionPbnf.sftVbluf(options[buttonIndfx]);
                 }
             }
         }
     }
 
 
-    private class Handler implements ActionListener, MouseListener,
-                                     PropertyChangeListener {
+    privbtf dlbss Hbndlfr implfmfnts AdtionListfnfr, MousfListfnfr,
+                                     PropfrtyCibngfListfnfr {
         //
-        // ActionListener
+        // AdtionListfnfr
         //
-        public void actionPerformed(ActionEvent e) {
-            optionPane.setInputValue(((JTextField)e.getSource()).getText());
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            optionPbnf.sftInputVbluf(((JTfxtFifld)f.gftSourdf()).gftTfxt());
         }
 
 
         //
-        // MouseListener
+        // MousfListfnfr
         //
-        public void mouseClicked(MouseEvent e) {
+        publid void mousfClidkfd(MousfEvfnt f) {
         }
 
-        public void mouseReleased(MouseEvent e) {
+        publid void mousfRflfbsfd(MousfEvfnt f) {
         }
 
-        public void mouseEntered(MouseEvent e) {
+        publid void mousfEntfrfd(MousfEvfnt f) {
         }
 
-        public void mouseExited(MouseEvent e) {
+        publid void mousfExitfd(MousfEvfnt f) {
         }
 
-        public void mousePressed(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-                JList<?>  list = (JList)e.getSource();
-                int       index = list.locationToIndex(e.getPoint());
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.gftClidkCount() == 2) {
+                JList<?>  list = (JList)f.gftSourdf();
+                int       indfx = list.lodbtionToIndfx(f.gftPoint());
 
-                optionPane.setInputValue(list.getModel().getElementAt(index));
-                optionPane.setValue(JOptionPane.OK_OPTION);
+                optionPbnf.sftInputVbluf(list.gftModfl().gftElfmfntAt(indfx));
+                optionPbnf.sftVbluf(JOptionPbnf.OK_OPTION);
             }
         }
 
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            if(e.getSource() == optionPane) {
-                // Option Pane Auditory Cue Activation
-                // only respond to "ancestor" changes
-                // the idea being that a JOptionPane gets a JDialog when it is
-                // set to appear and loses it's JDialog when it is dismissed.
-                if ("ancestor" == e.getPropertyName()) {
-                    JOptionPane op = (JOptionPane)e.getSource();
-                    boolean isComingUp;
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if(f.gftSourdf() == optionPbnf) {
+                // Option Pbnf Auditory Cuf Adtivbtion
+                // only rfspond to "bndfstor" dibngfs
+                // tif idfb bfing tibt b JOptionPbnf gfts b JDiblog wifn it is
+                // sft to bppfbr bnd losfs it's JDiblog wifn it is dismissfd.
+                if ("bndfstor" == f.gftPropfrtyNbmf()) {
+                    JOptionPbnf op = (JOptionPbnf)f.gftSourdf();
+                    boolfbn isComingUp;
 
-                    // if the old value is null, then the JOptionPane is being
-                    // created since it didn't previously have an ancestor.
-                    if (e.getOldValue() == null) {
-                        isComingUp = true;
-                    } else {
-                        isComingUp = false;
+                    // if tif old vbluf is null, tifn tif JOptionPbnf is bfing
+                    // drfbtfd sindf it didn't prfviously ibvf bn bndfstor.
+                    if (f.gftOldVbluf() == null) {
+                        isComingUp = truf;
+                    } flsf {
+                        isComingUp = fblsf;
                     }
 
-                    // figure out what to do based on the message type
-                    switch (op.getMessageType()) {
-                    case JOptionPane.PLAIN_MESSAGE:
+                    // figurf out wibt to do bbsfd on tif mfssbgf typf
+                    switdi (op.gftMfssbgfTypf()) {
+                    dbsf JOptionPbnf.PLAIN_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                               "OptionPane.informationSound");
+                            BbsidLookAndFffl.plbySound(optionPbnf,
+                                               "OptionPbnf.informbtionSound");
                         }
-                        break;
-                    case JOptionPane.QUESTION_MESSAGE:
+                        brfbk;
+                    dbsf JOptionPbnf.QUESTION_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.questionSound");
+                            BbsidLookAndFffl.plbySound(optionPbnf,
+                                             "OptionPbnf.qufstionSound");
                         }
-                        break;
-                    case JOptionPane.INFORMATION_MESSAGE:
+                        brfbk;
+                    dbsf JOptionPbnf.INFORMATION_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.informationSound");
+                            BbsidLookAndFffl.plbySound(optionPbnf,
+                                             "OptionPbnf.informbtionSound");
                         }
-                        break;
-                    case JOptionPane.WARNING_MESSAGE:
+                        brfbk;
+                    dbsf JOptionPbnf.WARNING_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.warningSound");
+                            BbsidLookAndFffl.plbySound(optionPbnf,
+                                             "OptionPbnf.wbrningSound");
                         }
-                        break;
-                    case JOptionPane.ERROR_MESSAGE:
+                        brfbk;
+                    dbsf JOptionPbnf.ERROR_MESSAGE:
                         if (isComingUp) {
-                            BasicLookAndFeel.playSound(optionPane,
-                                             "OptionPane.errorSound");
+                            BbsidLookAndFffl.plbySound(optionPbnf,
+                                             "OptionPbnf.frrorSound");
                         }
-                        break;
-                    default:
-                        System.err.println("Undefined JOptionPane type: " +
-                                           op.getMessageType());
-                        break;
+                        brfbk;
+                    dffbult:
+                        Systfm.frr.println("Undffinfd JOptionPbnf typf: " +
+                                           op.gftMfssbgfTypf());
+                        brfbk;
                     }
                 }
-                // Visual activity
-                String         changeName = e.getPropertyName();
+                // Visubl bdtivity
+                String         dibngfNbmf = f.gftPropfrtyNbmf();
 
-                if(changeName == JOptionPane.OPTIONS_PROPERTY ||
-                   changeName == JOptionPane.INITIAL_VALUE_PROPERTY ||
-                   changeName == JOptionPane.ICON_PROPERTY ||
-                   changeName == JOptionPane.MESSAGE_TYPE_PROPERTY ||
-                   changeName == JOptionPane.OPTION_TYPE_PROPERTY ||
-                   changeName == JOptionPane.MESSAGE_PROPERTY ||
-                   changeName == JOptionPane.SELECTION_VALUES_PROPERTY ||
-                   changeName == JOptionPane.INITIAL_SELECTION_VALUE_PROPERTY ||
-                   changeName == JOptionPane.WANTS_INPUT_PROPERTY) {
-                   uninstallComponents();
-                   installComponents();
-                   optionPane.validate();
+                if(dibngfNbmf == JOptionPbnf.OPTIONS_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.INITIAL_VALUE_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.ICON_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.MESSAGE_TYPE_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.OPTION_TYPE_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.MESSAGE_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.SELECTION_VALUES_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.INITIAL_SELECTION_VALUE_PROPERTY ||
+                   dibngfNbmf == JOptionPbnf.WANTS_INPUT_PROPERTY) {
+                   uninstbllComponfnts();
+                   instbllComponfnts();
+                   optionPbnf.vblidbtf();
                 }
-                else if (changeName == "componentOrientation") {
-                    ComponentOrientation o = (ComponentOrientation)e.getNewValue();
-                    JOptionPane op = (JOptionPane)e.getSource();
-                    if (o != e.getOldValue()) {
-                        op.applyComponentOrientation(o);
+                flsf if (dibngfNbmf == "domponfntOrifntbtion") {
+                    ComponfntOrifntbtion o = (ComponfntOrifntbtion)f.gftNfwVbluf();
+                    JOptionPbnf op = (JOptionPbnf)f.gftSourdf();
+                    if (o != f.gftOldVbluf()) {
+                        op.bpplyComponfntOrifntbtion(o);
                     }
                 }
             }
@@ -1474,130 +1474,130 @@ public class BasicOptionPaneUI extends OptionPaneUI {
 
 
     //
-    // Classes used when optionPane.getWantsInput returns true.
+    // Clbssfs usfd wifn optionPbnf.gftWbntsInput rfturns truf.
     //
 
     /**
-     * A JTextField that allows you to specify an array of KeyStrokes that
-     * that will have their bindings processed regardless of whether or
-     * not they are registered on the JTextField. This is used as we really
-     * want the ActionListener to be notified so that we can push the
-     * change to the JOptionPane, but we also want additional bindings
-     * (those of the JRootPane) to be processed as well.
+     * A JTfxtFifld tibt bllows you to spfdify bn brrby of KfyStrokfs tibt
+     * tibt will ibvf tifir bindings prodfssfd rfgbrdlfss of wiftifr or
+     * not tify brf rfgistfrfd on tif JTfxtFifld. Tiis is usfd bs wf rfblly
+     * wbnt tif AdtionListfnfr to bf notififd so tibt wf dbn pusi tif
+     * dibngf to tif JOptionPbnf, but wf blso wbnt bdditionbl bindings
+     * (tiosf of tif JRootPbnf) to bf prodfssfd bs wfll.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class MultiplexingTextField extends JTextField {
-        private KeyStroke[] strokes;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss MultiplfxingTfxtFifld fxtfnds JTfxtFifld {
+        privbtf KfyStrokf[] strokfs;
 
-        MultiplexingTextField(int cols) {
-            super(cols);
+        MultiplfxingTfxtFifld(int dols) {
+            supfr(dols);
         }
 
         /**
-         * Sets the KeyStrokes that will be additional processed for
-         * ancestor bindings.
+         * Sfts tif KfyStrokfs tibt will bf bdditionbl prodfssfd for
+         * bndfstor bindings.
          */
-        void setKeyStrokes(KeyStroke[] strokes) {
-            this.strokes = strokes;
+        void sftKfyStrokfs(KfyStrokf[] strokfs) {
+            tiis.strokfs = strokfs;
         }
 
-        protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
-                                            int condition, boolean pressed) {
-            boolean processed = super.processKeyBinding(ks, e, condition,
-                                                        pressed);
+        protfdtfd boolfbn prodfssKfyBinding(KfyStrokf ks, KfyEvfnt f,
+                                            int dondition, boolfbn prfssfd) {
+            boolfbn prodfssfd = supfr.prodfssKfyBinding(ks, f, dondition,
+                                                        prfssfd);
 
-            if (processed && condition != JComponent.WHEN_IN_FOCUSED_WINDOW) {
-                for (int counter = strokes.length - 1; counter >= 0;
-                         counter--) {
-                    if (strokes[counter].equals(ks)) {
-                        // Returning false will allow further processing
-                        // of the bindings, eg our parent Containers will get a
-                        // crack at them.
-                        return false;
+            if (prodfssfd && dondition != JComponfnt.WHEN_IN_FOCUSED_WINDOW) {
+                for (int dountfr = strokfs.lfngti - 1; dountfr >= 0;
+                         dountfr--) {
+                    if (strokfs[dountfr].fqubls(ks)) {
+                        // Rfturning fblsf will bllow furtifr prodfssing
+                        // of tif bindings, fg our pbrfnt Contbinfrs will gft b
+                        // drbdk bt tifm.
+                        rfturn fblsf;
                     }
                 }
             }
-            return processed;
+            rfturn prodfssfd;
         }
     }
 
 
 
     /**
-     * Registered in the ActionMap. Sets the value of the option pane
-     * to <code>JOptionPane.CLOSED_OPTION</code>.
+     * Rfgistfrfd in tif AdtionMbp. Sfts tif vbluf of tif option pbnf
+     * to <dodf>JOptionPbnf.CLOSED_OPTION</dodf>.
      */
-    private static class Actions extends UIAction {
-        private static final String CLOSE = "close";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String CLOSE = "dlosf";
 
-        Actions(String key) {
-            super(key);
+        Adtions(String kfy) {
+            supfr(kfy);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (getName() == CLOSE) {
-                JOptionPane optionPane = (JOptionPane)e.getSource();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (gftNbmf() == CLOSE) {
+                JOptionPbnf optionPbnf = (JOptionPbnf)f.gftSourdf();
 
-                optionPane.setValue(Integer.valueOf(JOptionPane.CLOSED_OPTION));
+                optionPbnf.sftVbluf(Intfgfr.vblufOf(JOptionPbnf.CLOSED_OPTION));
             }
         }
     }
 
 
     /**
-     * This class is used to create the default buttons. This indirection is
-     * used so that addButtonComponents can tell which Buttons were created
-     * by us vs subclassers or from the JOptionPane itself.
+     * Tiis dlbss is usfd to drfbtf tif dffbult buttons. Tiis indirfdtion is
+     * usfd so tibt bddButtonComponfnts dbn tfll wiidi Buttons wfrf drfbtfd
+     * by us vs subdlbssfrs or from tif JOptionPbnf itsflf.
      */
-    private static class ButtonFactory {
-        private String text;
-        private int mnemonic;
-        private Icon icon;
-        private int minimumWidth = -1;
+    privbtf stbtid dlbss ButtonFbdtory {
+        privbtf String tfxt;
+        privbtf int mnfmonid;
+        privbtf Idon idon;
+        privbtf int minimumWidti = -1;
 
-        ButtonFactory(String text, int mnemonic, Icon icon, int minimumWidth) {
-            this.text = text;
-            this.mnemonic = mnemonic;
-            this.icon = icon;
-            this.minimumWidth = minimumWidth;
+        ButtonFbdtory(String tfxt, int mnfmonid, Idon idon, int minimumWidti) {
+            tiis.tfxt = tfxt;
+            tiis.mnfmonid = mnfmonid;
+            tiis.idon = idon;
+            tiis.minimumWidti = minimumWidti;
         }
 
-        JButton createButton() {
+        JButton drfbtfButton() {
             JButton button;
 
-            if (minimumWidth > 0) {
-                button = new ConstrainedButton(text, minimumWidth);
-            } else {
-                button = new JButton(text);
+            if (minimumWidti > 0) {
+                button = nfw ConstrbinfdButton(tfxt, minimumWidti);
+            } flsf {
+                button = nfw JButton(tfxt);
             }
-            if (icon != null) {
-                button.setIcon(icon);
+            if (idon != null) {
+                button.sftIdon(idon);
             }
-            if (mnemonic != 0) {
-                button.setMnemonic(mnemonic);
+            if (mnfmonid != 0) {
+                button.sftMnfmonid(mnfmonid);
             }
-            return button;
+            rfturn button;
         }
 
-        @SuppressWarnings("serial") // Superclass is not serializable across versions
-        private static class ConstrainedButton extends JButton {
-            int minimumWidth;
+        @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+        privbtf stbtid dlbss ConstrbinfdButton fxtfnds JButton {
+            int minimumWidti;
 
-            ConstrainedButton(String text, int minimumWidth) {
-                super(text);
-                this.minimumWidth = minimumWidth;
+            ConstrbinfdButton(String tfxt, int minimumWidti) {
+                supfr(tfxt);
+                tiis.minimumWidti = minimumWidti;
             }
 
-            public Dimension getMinimumSize() {
-                Dimension min = super.getMinimumSize();
-                min.width = Math.max(min.width, minimumWidth);
-                return min;
+            publid Dimfnsion gftMinimumSizf() {
+                Dimfnsion min = supfr.gftMinimumSizf();
+                min.widti = Mbti.mbx(min.widti, minimumWidti);
+                rfturn min;
             }
 
-            public Dimension getPreferredSize() {
-                Dimension pref = super.getPreferredSize();
-                pref.width = Math.max(pref.width, minimumWidth);
-                return pref;
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                prff.widti = Mbti.mbx(prff.widti, minimumWidti);
+                rfturn prff;
             }
         }
     }

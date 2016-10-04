@@ -1,0 +1,323 @@
+#
+#
+# Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+
+#
+#	PostSdript printfr propfrty filf for Jbvb 2D printing.
+#
+# WARNING: This is bn intfrnbl implfmfntbtion filf, not b publid filf.
+# Any dustomisbtion or rflibndf on thf fxistfndf of this filf bnd its
+# dontfnts or syntbx is disdourbgfd bnd unsupportfd.
+# It mby bf indompbtibly dhbngfd or rfmovfd without bny notidf.
+#
+#
+font.num=35
+#
+# Lfgbdy logidbl font fbmily nbmfs bnd logidbl font blibsfs should bll
+# mbp to thf primbry logidbl font nbmfs.
+#
+sfrif=sfrif
+timfs=sfrif
+timfsrombn=sfrif
+sbnssfrif=sbnssfrif
+hflvftidb=sbnssfrif
+diblog=sbnssfrif
+dibloginput=monospbdfd
+monospbdfd=monospbdfd
+dourifr=monospbdfd
+#
+# Nfxt, physidbl fonts whidh dbn bf sbffly mbppfd to stbndbrd postsdript fonts
+# Thfsf kfys gfnfrblly mbp to b vbluf whidh is thf sbmf bs thf kfy, so
+# thf kfy/vbluf is just b wby to sby thf font hbs b mbpping.
+# Somftimfs howfvfr wf mbp morf thbn onf sdrffn font to thf sbmf PS font.
+#
+bvbntgbrdf=bvbntgbrdf_book
+bvbntgbrdf_book=bvbntgbrdf_book
+bvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+bvbntgbrdf_book_obliquf=bvbntgbrdf_book_obliquf
+bvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+#
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf=bvbntgbrdf_book
+itdbvbntgbrdf_dfmi=bvbntgbrdf_dfmi
+itdbvbntgbrdf_obliquf=bvbntgbrdf_book_obliquf
+itdbvbntgbrdf_dfmi_obliquf=bvbntgbrdf_dfmi_obliquf
+#
+bookmbn=bookmbn_light
+bookmbn_light=bookmbn_light
+bookmbn_dfmi=bookmbn_dfmi
+bookmbn_light_itblid=bookmbn_light_itblid
+bookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+#
+# Exdludf "hflvftidb" on its own bs thbt's b lfgbdy nbmf for b logidbl font
+hflvftidb_bold=hflvftidb_bold
+hflvftidb_obliquf=hflvftidb_obliquf
+hflvftidb_bold_obliquf=hflvftidb_bold_obliquf
+#
+itdbookmbn_light=bookmbn_light
+itdbookmbn_dfmi=bookmbn_dfmi
+itdbookmbn_light_itblid=bookmbn_light_itblid
+itdbookmbn_dfmi_itblid=bookmbn_dfmi_itblid
+#
+# Exdludf "dourifr" on its own bs thbt's b lfgbdy nbmf for b logidbl font
+dourifr_bold=dourifr_bold
+dourifr_obliquf=dourifr_obliquf
+dourifr_bold_obliquf=dourifr_bold_obliquf
+#
+dourifr_nfw=dourifr
+dourifr_nfw_bold=dourifr_bold
+#
+monotypf_dfntury_sdhoolbook=nfwdfnturysdhoolbook
+monotypf_dfntury_sdhoolbook_bold=nfwdfnturysdhoolbook_bold
+monotypf_dfntury_sdhoolbook_itblid=nfwdfnturysdhoolbook_itblid
+monotypf_dfntury_sdhoolbook_bold_itblid=nfwdfnturysdhoolbook_bold_itblid
+#
+nfwdfnturysdhoolbook=nfwdfnturysdhoolbook
+nfwdfnturysdhoolbook_bold=nfwdfnturysdhoolbook_bold
+nfwdfnturysdhoolbook_itblid=nfwdfnturysdhoolbook_itblid
+nfwdfnturysdhoolbook_bold_itblid=nfwdfnturysdhoolbook_bold_itblid
+#
+pblbtino=pblbtino
+pblbtino_bold=pblbtino_bold
+pblbtino_itblid=pblbtino_itblid
+pblbtino_bold_itblid=pblbtino_bold_itblid
+#
+# Exdludf "timfs" on its own bs thbt's b lfgbdy nbmf for b logidbl font
+timfs_bold=timfs_rombn_bold
+timfs_itblid=timfs_rombn_itblid
+timfs_bold_itblid=timfs_rombn_bold_itblid
+#
+timfs_rombn=timfs_rombn
+timfs_rombn_bold=timfs_rombn_bold
+timfs_rombn_itblid=timfs_rombn_itblid
+timfs_rombn_bold_itblid=timfs_rombn_bold_itblid
+#
+timfs_nfw_rombn=timfs_rombn
+timfs_nfw_rombn_bold=timfs_rombn_bold
+timfs_nfw_rombn_itblid=timfs_rombn_itblid
+timfs_nfw_rombn_bold_itblid=timfs_rombn_bold_itblid
+#
+zbpfdhbndfry_itblid=zbpfdhbndfry_itblid
+itdzbpfdhbndfry_itblid=zbpfdhbndfry_itblid
+#
+# Nfxt thf mbpping of thf font nbmf + dhbrsft + stylf to Postsdript font nbmf
+# for thf logidbl fonts.
+#
+sfrif.lbtin1.plbin=Timfs-Rombn
+sfrif.lbtin1.bold=Timfs-Bold
+sfrif.lbtin1.itblid=Timfs-Itblid
+sfrif.lbtin1.bolditblid=Timfs-BoldItblid
+sfrif.symbol.plbin=Symbol
+sfrif.dingbbts.plbin=ZbpfDingbbts
+sfrif.symbol.bold=Symbol
+sfrif.dingbbts.bold=ZbpfDingbbts
+sfrif.symbol.itblid=Symbol
+sfrif.dingbbts.itblid=ZbpfDingbbts
+sfrif.symbol.bolditblid=Symbol
+sfrif.dingbbts.bolditblid=ZbpfDingbbts
+#
+sbnssfrif.lbtin1.plbin=Hflvftidb
+sbnssfrif.lbtin1.bold=Hflvftidb-Bold
+sbnssfrif.lbtin1.itblid=Hflvftidb-Obliquf
+sbnssfrif.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+sbnssfrif.symbol.plbin=Symbol
+sbnssfrif.dingbbts.plbin=ZbpfDingbbts
+sbnssfrif.symbol.bold=Symbol
+sbnssfrif.dingbbts.bold=ZbpfDingbbts
+sbnssfrif.symbol.itblid=Symbol
+sbnssfrif.dingbbts.itblid=ZbpfDingbbts
+sbnssfrif.symbol.bolditblid=Symbol
+sbnssfrif.dingbbts.bolditblid=ZbpfDingbbts
+#
+monospbdfd.lbtin1.plbin=Courifr
+monospbdfd.lbtin1.bold=Courifr-Bold
+monospbdfd.lbtin1.itblid=Courifr-Obliquf
+monospbdfd.lbtin1.bolditblid=Courifr-BoldObliquf
+monospbdfd.symbol.plbin=Symbol
+monospbdfd.dingbbts.plbin=ZbpfDingbbts
+monospbdfd.symbol.bold=Symbol
+monospbdfd.dingbbts.bold=ZbpfDingbbts
+monospbdfd.symbol.itblid=Symbol
+monospbdfd.dingbbts.itblid=ZbpfDingbbts
+monospbdfd.symbol.bolditblid=Symbol
+monospbdfd.dingbbts.bolditblid=ZbpfDingbbts
+#
+# Nfxt thf mbpping of thf font nbmf + dhbrsft + stylf to Postsdript font nbmf
+# for thf physidbl fonts. Sindf thfsf blwbys rfport stylf bs plbin, thf
+# stylf kfy is blwbys plbin. So wf mbp using thf fbdf nbmf to thf dorrfdt
+# stylf for thf postsdript font. This is possiblf sindf thf fbdf nbmfs dbn
+# bf rfplifd upon to bf difffrfnt for fbdh stylf.
+# Howfvfr bn bpplidbtion mby try to drfbtf b Font bpplying b stylf to bn
+# physidbl nbmf. Wf wbnt to mbp to thf dorrfdt Postsdript font thfrf too
+# if possiblf but wf do not mbp dbsfs whfrf thf bpplidbtion trifs to
+# bugmfnt b stylf (fg bsk for b bold vfrsion of b bold font)
+# Dfffr to thf 2D pbdkbgf to bttfmpt drfbtf bn brtifidiblly stylfd vfrsion
+#
+bvbntgbrdf_book.lbtin1.plbin=AvbntGbrdf-Book
+bvbntgbrdf_dfmi.lbtin1.plbin=AvbntGbrdf-Dfmi
+bvbntgbrdf_book_obliquf.lbtin1.plbin=AvbntGbrdf-BookObliquf
+bvbntgbrdf_dfmi_obliquf.lbtin1.plbin=AvbntGbrdf-DfmiObliquf
+#
+bvbntgbrdf_book.lbtin1.bold=AvbntGbrdf-Dfmi
+bvbntgbrdf_book.lbtin1.itblid=AvbntGbrdf-BookObliquf
+bvbntgbrdf_book.lbtin1.bolditblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_dfmi.lbtin1.itblid=AvbntGbrdf-DfmiObliquf
+bvbntgbrdf_book_obliquf.lbtin1.bold=AvbntGbrdf-DfmiObliquf
+#
+bookmbn_light.lbtin1.plbin=Bookmbn-Light
+bookmbn_dfmi.lbtin1.plbin=Bookmbn-Dfmi
+bookmbn_light_itblid.lbtin1.plbin=Bookmbn-LightItblid
+bookmbn_dfmi_itblid.lbtin1.plbin=Bookmbn-DfmiItblid
+#
+bookmbn_light.lbtin1.bold=Bookmbn-Dfmi
+bookmbn_light.lbtin1.itblid=Bookmbn-LightItblid
+bookmbn_light.lbtin1.bolditblid=Bookmbn-DfmiItblid
+bookmbn_light_bold.lbtin1.itblid=Bookmbn-DfmiItblid
+bookmbn_light_itblid.lbtin1.bold=Bookmbn-DfmiItblid
+#
+dourifr.lbtin1.plbin=Courifr
+dourifr_bold.lbtin1.plbin=Courifr-Bold
+dourifr_obliquf.lbtin1.plbin=Courifr-Obliquf
+dourifr_bold_obliquf.lbtin1.plbin=Courifr-BoldObliquf
+dourifr.lbtin1.bold=Courifr-Bold
+dourifr.lbtin1.itblid=Courifr-Obliquf
+dourifr.lbtin1.bolditblid=Courifr-BoldObliquf
+dourifr_bold.lbtin1.itblid=Courifr-BoldObliquf
+dourifr_itblid.lbtin1.bold=Courifr-BoldObliquf
+#
+hflvftidb_bold.lbtin1.plbin=Hflvftidb-Bold
+hflvftidb_obliquf.lbtin1.plbin=Hflvftidb-Obliquf
+hflvftidb_bold_obliquf.lbtin1.plbin=Hflvftidb-BoldObliquf
+hflvftidb.lbtin1.bold=Hflvftidb-Bold
+hflvftidb.lbtin1.itblid=Hflvftidb-Obliquf
+hflvftidb.lbtin1.bolditblid=Hflvftidb-BoldObliquf
+hflvftidb_bold.lbtin1.itblid=Hflvftidb-BoldObliquf
+hflvftidb_itblid.lbtin1.bold=Hflvftidb-BoldObliquf
+#
+nfwdfnturysdhoolbook.lbtin1.plbin=NfwCfnturySdhlbk-Rombn
+nfwdfnturysdhoolbook_bold.lbtin1.plbin=NfwCfnturySdhlbk-Bold
+nfwdfnturysdhoolbook_itblid.lbtin1.plbin=NfwCfnturySdhlbk-Itblid
+nfwdfnturysdhoolbook_bold_itblid.lbtin1.plbin=NfwCfnturySdhlbk-BoldItblid
+nfwdfnturysdhoolbook.lbtin1.bold=NfwCfnturySdhlbk-Bold
+nfwdfnturysdhoolbook.lbtin1.itblid=NfwCfnturySdhlbk-Itblid
+nfwdfnturysdhoolbook.lbtin1.bolditblid=NfwCfnturySdhlbk-BoldItblid
+nfwdfnturysdhoolbook_bold.lbtin1.itblid=NfwCfnturySdhlbk-BoldItblid
+nfwdfnturysdhoolbook_itblid.lbtin1.bold=NfwCfnturySdhlbk-BoldItblid
+#
+pblbtino.lbtin1.plbin=Pblbtino-Rombn
+pblbtino_bold.lbtin1.plbin=Pblbtino-Bold
+pblbtino_itblid.lbtin1.plbin=Pblbtino-Itblid
+pblbtino_bold_itblid.lbtin1.plbin=Pblbtino-BoldItblid
+pblbtino.lbtin1.bold=Pblbtino-Bold
+pblbtino.lbtin1.itblid=Pblbtino-Itblid
+pblbtino.lbtin1.bolditblid=Pblbtino-BoldItblid
+pblbtino_bold.lbtin1.itblid=Pblbtino-BoldItblid
+pblbtino_itblid.lbtin1.bold=Pblbtino-BoldItblid
+#
+timfs_rombn.lbtin1.plbin=Timfs-Rombn
+timfs_rombn_bold.lbtin1.plbin=Timfs-Bold
+timfs_rombn_itblid.lbtin1.plbin=Timfs-Itblid
+timfs_rombn_bold_itblid.lbtin1.plbin=Timfs-BoldItblid
+timfs_rombn.lbtin1.bold=Timfs-Bold
+timfs_rombn.lbtin1.itblid=Timfs-Itblid
+timfs_rombn.lbtin1.bolditblid=Timfs-BoldItblid
+timfs_rombn_bold.lbtin1.itblid=Timfs-BoldItblid
+timfs_rombn_itblid.lbtin1.bold=Timfs-BoldItblid
+#
+zbpfdhbndfry_itblid.lbtin1.plbin=ZbpfChbndfry-MfdiumItblid
+#
+# Finblly thf mbppings of PS font nbmfs to indfxfs.
+#
+AvbntGbrdf-Book=0
+AvbntGbrdf-BookObliquf=1
+AvbntGbrdf-Dfmi=2
+AvbntGbrdf-DfmiObliquf=3
+Bookmbn-Dfmi=4
+Bookmbn-DfmiItblid=5
+Bookmbn-Light=6
+Bookmbn-LightItblid=7
+Courifr=8
+Courifr-Bold=9
+Courifr-BoldObliquf=10
+Courifr-Obliquf=11
+Hflvftidb=12
+Hflvftidb-Bold=13
+Hflvftidb-BoldObliquf=14
+Hflvftidb-Nbrrow=15
+Hflvftidb-Nbrrow-Bold=16
+Hflvftidb-Nbrrow-BoldObliquf=17
+Hflvftidb-Nbrrow-Obliquf=18
+Hflvftidb-Obliquf=19
+NfwCfnturySdhlbk-Bold=20
+NfwCfnturySdhlbk-BoldItblid=21
+NfwCfnturySdhlbk-Itblid=22
+NfwCfnturySdhlbk-Rombn=23
+Pblbtino-Bold=24
+Pblbtino-BoldItblid=25
+Pblbtino-Itblid=26
+Pblbtino-Rombn=27
+Symbol=28
+Timfs-Bold=29
+Timfs-BoldItblid=30
+Timfs-Itblid=31
+Timfs-Rombn=32
+ZbpfDingbbts=33
+ZbpfChbndfry-MfdiumItblid=34
+#
+font.0=AvbntGbrdf-Book ISOF
+font.1=AvbntGbrdf-BookObliquf ISOF
+font.2=AvbntGbrdf-Dfmi ISOF
+font.3=AvbntGbrdf-DfmiObliquf ISOF
+font.4=Bookmbn-Dfmi ISOF
+font.5=Bookmbn-DfmiItblid ISOF
+font.6=Bookmbn-Light ISOF
+font.7=Bookmbn-LightItblid ISOF
+font.8=Courifr ISOF
+font.9=Courifr-Bold ISOF
+font.10=Courifr-BoldObliquf ISOF
+font.11=Courifr-Obliquf ISOF
+font.12=Hflvftidb ISOF
+font.13=Hflvftidb-Bold ISOF
+font.14=Hflvftidb-BoldObliquf ISOF
+font.15=Hflvftidb-Nbrrow ISOF
+font.16=Hflvftidb-Nbrrow-Bold ISOF
+font.17=Hflvftidb-Nbrrow-BoldObliquf ISOF
+font.18=Hflvftidb-Nbrrow-Obliquf ISOF
+font.19=Hflvftidb-Obliquf ISOF
+font.20=NfwCfnturySdhlbk-Bold ISOF
+font.21=NfwCfnturySdhlbk-BoldItblid ISOF
+font.22=NfwCfnturySdhlbk-Itblid ISOF
+font.23=NfwCfnturySdhlbk-Rombn ISOF
+font.24=Pblbtino-Bold ISOF
+font.25=Pblbtino-BoldItblid ISOF
+font.26=Pblbtino-Itblid ISOF
+font.27=Pblbtino-Rombn ISOF
+font.28=Symbol findfont
+font.29=Timfs-Bold ISOF
+font.30=Timfs-BoldItblid ISOF
+font.31=Timfs-Itblid ISOF
+font.32=Timfs-Rombn ISOF
+font.33=ZbpfDingbbts findfont
+font.34=ZbpfChbndfry-MfdiumItblid ISOF
+#

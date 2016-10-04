@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.d3d;
+pbdkbgf sun.jbvb2d.d3d;
 
-import java.lang.annotation.Native;
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.jbvb2d.pipf.BufffrfdContfxt;
+import sun.jbvb2d.pipf.RfndfrBufffr;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+import stbtid sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs.*;
+import stbtid sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps.*;
 
 /**
- * Note that the RenderQueue lock must be acquired before calling any of
- * the methods in this class.
+ * Notf tibt tif RfndfrQufuf lodk must bf bdquirfd bfforf dblling bny of
+ * tif mftiods in tiis dlbss.
  */
-class D3DContext extends BufferedContext {
+dlbss D3DContfxt fxtfnds BufffrfdContfxt {
 
-    private final D3DGraphicsDevice device;
+    privbtf finbl D3DGrbpiidsDfvidf dfvidf;
 
-    D3DContext(RenderQueue rq, D3DGraphicsDevice device) {
-        super(rq);
-        this.device = device;
+    D3DContfxt(RfndfrQufuf rq, D3DGrbpiidsDfvidf dfvidf) {
+        supfr(rq);
+        tiis.dfvidf = dfvidf;
     }
 
     /**
-     * Invalidates the currentContext field to ensure that we properly
-     * revalidate the D3DContext (make it current, etc.) next time through
-     * the validate() method.  This is typically invoked from methods
-     * that affect the current context state (e.g. disposing a context or
-     * surface).
+     * Invblidbtfs tif durrfntContfxt fifld to fnsurf tibt wf propfrly
+     * rfvblidbtf tif D3DContfxt (mbkf it durrfnt, ftd.) nfxt timf tirougi
+     * tif vblidbtf() mftiod.  Tiis is typidblly invokfd from mftiods
+     * tibt bfffdt tif durrfnt dontfxt stbtf (f.g. disposing b dontfxt or
+     * surfbdf).
      */
-    static void invalidateCurrentContext() {
-        // assert D3DRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtid void invblidbtfCurrfntContfxt() {
+        // bssfrt D3DRfndfrQufuf.gftInstbndf().lodk.isHfldByCurrfntTirfbd();
 
-        // invalidate the current Java-level context so that we
-        // revalidate everything the next time around
-        if (currentContext != null) {
-            currentContext.invalidateContext();
-            currentContext = null;
+        // invblidbtf tif durrfnt Jbvb-lfvfl dontfxt so tibt wf
+        // rfvblidbtf fvfrytiing tif nfxt timf bround
+        if (durrfntContfxt != null) {
+            durrfntContfxt.invblidbtfContfxt();
+            durrfntContfxt = null;
         }
 
-        // invalidate the context reference at the native level, and
-        // then flush the queue so that we have no pending operations
-        // dependent on the current context
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        rq.ensureCapacity(4);
-        rq.getBuffer().putInt(INVALIDATE_CONTEXT);
-        rq.flushNow();
+        // invblidbtf tif dontfxt rfffrfndf bt tif nbtivf lfvfl, bnd
+        // tifn flusi tif qufuf so tibt wf ibvf no pfnding opfrbtions
+        // dfpfndfnt on tif durrfnt dontfxt
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.fnsurfCbpbdity(4);
+        rq.gftBufffr().putInt(INVALIDATE_CONTEXT);
+        rq.flusiNow();
     }
 
     /**
-     * Sets the current context on the native level to be the one passed as
-     * the argument.
-     * If the context is not the same as the defaultContext the latter
-     * will be reset to null.
+     * Sfts tif durrfnt dontfxt on tif nbtivf lfvfl to bf tif onf pbssfd bs
+     * tif brgumfnt.
+     * If tif dontfxt is not tif sbmf bs tif dffbultContfxt tif lbttfr
+     * will bf rfsft to null.
      *
-     * This call is needed when copying from a SW surface to a Texture
-     * (the upload test) or copying from d3d to SW surface to make sure we
-     * have the correct current context.
+     * Tiis dbll is nffdfd wifn dopying from b SW surfbdf to b Tfxturf
+     * (tif uplobd tfst) or dopying from d3d to SW surfbdf to mbkf surf wf
+     * ibvf tif dorrfdt durrfnt dontfxt.
      *
-     * @param d3dc the context to be made current on the native level
+     * @pbrbm d3dd tif dontfxt to bf mbdf durrfnt on tif nbtivf lfvfl
      */
-    static void setScratchSurface(D3DContext d3dc) {
-        // assert D3DRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtid void sftSdrbtdiSurfbdf(D3DContfxt d3dd) {
+        // bssfrt D3DRfndfrQufuf.gftInstbndf().lodk.isHfldByCurrfntTirfbd();
 
-        // invalidate the current context
-        if (d3dc != currentContext) {
-            currentContext = null;
+        // invblidbtf tif durrfnt dontfxt
+        if (d3dd != durrfntContfxt) {
+            durrfntContfxt = null;
         }
 
-        // set the scratch context
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacity(8);
+        // sft tif sdrbtdi dontfxt
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        RfndfrBufffr buf = rq.gftBufffr();
+        rq.fnsurfCbpbdity(8);
         buf.putInt(SET_SCRATCH_SURFACE);
-        buf.putInt(d3dc.getDevice().getScreen());
+        buf.putInt(d3dd.gftDfvidf().gftSdrffn());
     }
 
-    public RenderQueue getRenderQueue() {
-        return D3DRenderQueue.getInstance();
+    publid RfndfrQufuf gftRfndfrQufuf() {
+        rfturn D3DRfndfrQufuf.gftInstbndf();
     }
 
-    @Override
-    public void saveState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    @Ovfrridf
+    publid void sbvfStbtf() {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // rfsft bll bttributfs of tiis bnd durrfnt dontfxts
+        invblidbtfContfxt();
+        invblidbtfCurrfntContfxt();
 
-        setScratchSurface(this);
+        sftSdrbtdiSurfbdf(tiis);
 
-        // save the state on the native level
-        rq.ensureCapacity(4);
+        // sbvf tif stbtf on tif nbtivf lfvfl
+        rq.fnsurfCbpbdity(4);
         buf.putInt(SAVE_STATE);
-        rq.flushNow();
+        rq.flusiNow();
     }
 
-    @Override
-    public void restoreState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    @Ovfrridf
+    publid void rfstorfStbtf() {
+        // bssfrt rq.lodk.isHfldByCurrfntTirfbd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // rfsft bll bttributfs of tiis bnd durrfnt dontfxts
+        invblidbtfContfxt();
+        invblidbtfCurrfntContfxt();
 
-        setScratchSurface(this);
+        sftSdrbtdiSurfbdf(tiis);
 
-        // restore the state on the native level
-        rq.ensureCapacity(4);
+        // rfstorf tif stbtf on tif nbtivf lfvfl
+        rq.fnsurfCbpbdity(4);
         buf.putInt(RESTORE_STATE);
-        rq.flushNow();
+        rq.flusiNow();
     }
 
-    D3DGraphicsDevice getDevice() {
-        return device;
+    D3DGrbpiidsDfvidf gftDfvidf() {
+        rfturn dfvidf;
     }
 
-    static class D3DContextCaps extends ContextCapabilities {
+    stbtid dlbss D3DContfxtCbps fxtfnds ContfxtCbpbbilitifs {
         /**
-         * Indicates the presence of pixel shaders (v2.0 or greater).
-         * This cap will only be set if the hardware supports the minimum number
-         * of texture units.
+         * Indidbtfs tif prfsfndf of pixfl sibdfrs (v2.0 or grfbtfr).
+         * Tiis dbp will only bf sft if tif ibrdwbrf supports tif minimum numbfr
+         * of tfxturf units.
          */
-    @Native static final int CAPS_LCD_SHADER       = (FIRST_PRIVATE_CAP << 0);
+    @Nbtivf stbtid finbl int CAPS_LCD_SHADER       = (FIRST_PRIVATE_CAP << 0);
         /**
-         * Indicates the presence of pixel shaders (v2.0 or greater).
-         * This cap will only be set if the hardware meets our
-         * minimum requirements.
+         * Indidbtfs tif prfsfndf of pixfl sibdfrs (v2.0 or grfbtfr).
+         * Tiis dbp will only bf sft if tif ibrdwbrf mffts our
+         * minimum rfquirfmfnts.
          */
-    @Native static final int CAPS_BIOP_SHADER      = (FIRST_PRIVATE_CAP << 1);
+    @Nbtivf stbtid finbl int CAPS_BIOP_SHADER      = (FIRST_PRIVATE_CAP << 1);
         /**
-         * Indicates that the device was successfully initialized and can
-         * be safely used.
+         * Indidbtfs tibt tif dfvidf wbs suddfssfully initiblizfd bnd dbn
+         * bf sbffly usfd.
          */
-    @Native static final int CAPS_DEVICE_OK        = (FIRST_PRIVATE_CAP << 2);
+    @Nbtivf stbtid finbl int CAPS_DEVICE_OK        = (FIRST_PRIVATE_CAP << 2);
         /**
-         * Indicates that the device has all of the necessary capabilities
-         * to support the Antialiasing Pixel Shader program.
+         * Indidbtfs tibt tif dfvidf ibs bll of tif nfdfssbry dbpbbilitifs
+         * to support tif Antiblibsing Pixfl Sibdfr progrbm.
          */
-    @Native static final int CAPS_AA_SHADER        = (FIRST_PRIVATE_CAP << 3);
+    @Nbtivf stbtid finbl int CAPS_AA_SHADER        = (FIRST_PRIVATE_CAP << 3);
 
-        D3DContextCaps(int caps, String adapterId) {
-            super(caps, adapterId);
+        D3DContfxtCbps(int dbps, String bdbptfrId) {
+            supfr(dbps, bdbptfrId);
         }
 
-        @Override
-        public String toString() {
-            StringBuffer buf = new StringBuffer(super.toString());
-            if ((caps & CAPS_LCD_SHADER) != 0) {
-                buf.append("CAPS_LCD_SHADER|");
+        @Ovfrridf
+        publid String toString() {
+            StringBufffr buf = nfw StringBufffr(supfr.toString());
+            if ((dbps & CAPS_LCD_SHADER) != 0) {
+                buf.bppfnd("CAPS_LCD_SHADER|");
             }
-            if ((caps & CAPS_BIOP_SHADER) != 0) {
-                buf.append("CAPS_BIOP_SHADER|");
+            if ((dbps & CAPS_BIOP_SHADER) != 0) {
+                buf.bppfnd("CAPS_BIOP_SHADER|");
             }
-            if ((caps & CAPS_AA_SHADER) != 0) {
-                buf.append("CAPS_AA_SHADER|");
+            if ((dbps & CAPS_AA_SHADER) != 0) {
+                buf.bppfnd("CAPS_AA_SHADER|");
             }
-            if ((caps & CAPS_DEVICE_OK) != 0) {
-                buf.append("CAPS_DEVICE_OK|");
+            if ((dbps & CAPS_DEVICE_OK) != 0) {
+                buf.bppfnd("CAPS_DEVICE_OK|");
             }
-            return buf.toString();
+            rfturn buf.toString();
         }
     }
 }

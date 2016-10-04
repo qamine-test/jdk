@@ -1,0 +1,1491 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+
+/**
+ * Grbphids subdlbss supporting grbphids dfbugging. Ovfrridfs most mfthods
+ * from Grbphids.  DfbugGrbphids objfdts brf rbrfly drfbtfd by hbnd.  Thfy
+ * brf most frfqufntly drfbtfd butombtidblly whfn b JComponfnt's
+ * dfbugGrbphidsOptions brf dhbngfd using thf sftDfbugGrbphidsOptions()
+ * mfthod.
+ * <p>
+ * NOTE: You must turn off doublf bufffring to usf DfbugGrbphids:
+ *       RfpbintMbnbgfr rfpbintMbnbgfr = RfpbintMbnbgfr.durrfntMbnbgfr(domponfnt);
+ *       rfpbintMbnbgfr.sftDoublfBufffringEnbblfd(fblsf);
+ *
+ * @sff JComponfnt#sftDfbugGrbphidsOptions
+ * @sff RfpbintMbnbgfr#durrfntMbnbgfr
+ * @sff RfpbintMbnbgfr#sftDoublfBufffringEnbblfd
+ *
+ * @buthor Dbvf Kbrlton
+ * @sindf 1.2
+ */
+publid dlbss DfbugGrbphids fxtfnds Grbphids {
+    Grbphids                    grbphids;
+    Imbgf                       bufffr;
+    int                         dfbugOptions;
+    int                         grbphidsID = grbphidsCount++;
+    int                         xOffsft, yOffsft;
+    privbtf stbtid int          grbphidsCount = 0;
+    privbtf stbtid ImbgfIdon    imbgfLobdingIdon = nfw ImbgfIdon();
+
+    /** Log grbphids opfrbtions. */
+    publid stbtid finbl int     LOG_OPTION   = 1 << 0;
+    /** Flbsh grbphids opfrbtions. */
+    publid stbtid finbl int     FLASH_OPTION = 1 << 1;
+    /** Show bufffrfd opfrbtions in b sfpbrbtf <dodf>Frbmf</dodf>. */
+    publid stbtid finbl int     BUFFERED_OPTION = 1 << 2;
+    /** Don't dfbug grbphids opfrbtions. */
+    publid stbtid finbl int     NONE_OPTION = -1;
+
+    stbtid {
+        JComponfnt.DEBUG_GRAPHICS_LOADED = truf;
+    }
+
+    /**
+     * Construdts b nfw dfbug grbphids dontfxt thbt supports slowfd
+     * down drbwing.
+     */
+    publid DfbugGrbphids() {
+        supfr();
+        bufffr = null;
+        xOffsft = yOffsft = 0;
+    }
+
+    /**
+     * Construdts b dfbug grbphids dontfxt from bn fxisting grbphids
+     * dontfxt thbt slows down drbwing for thf spfdififd domponfnt.
+     *
+     * @pbrbm grbphids  thf Grbphids dontfxt to slow down
+     * @pbrbm domponfnt thf JComponfnt to drbw slowly
+     */
+    publid DfbugGrbphids(Grbphids grbphids, JComponfnt domponfnt) {
+        this(grbphids);
+        sftDfbugOptions(domponfnt.shouldDfbugGrbphids());
+    }
+
+    /**
+     * Construdts b dfbug grbphids dontfxt from bn fxisting grbphids
+     * dontfxt thbt supports slowfd down drbwing.
+     *
+     * @pbrbm grbphids  thf Grbphids dontfxt to slow down
+     */
+    publid DfbugGrbphids(Grbphids grbphids) {
+        this();
+        this.grbphids = grbphids;
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drfbtf</dodf> to rfturn b DfbugGrbphids objfdt.
+     */
+    publid Grbphids drfbtf() {
+        DfbugGrbphids dfbugGrbphids;
+
+        dfbugGrbphids = nfw DfbugGrbphids();
+        dfbugGrbphids.grbphids = grbphids.drfbtf();
+        dfbugGrbphids.dfbugOptions = dfbugOptions;
+        dfbugGrbphids.bufffr = bufffr;
+
+        rfturn dfbugGrbphids;
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drfbtf</dodf> to rfturn b DfbugGrbphids objfdt.
+     */
+    publid Grbphids drfbtf(int x, int y, int width, int hfight) {
+        DfbugGrbphids dfbugGrbphids;
+
+        dfbugGrbphids = nfw DfbugGrbphids();
+        dfbugGrbphids.grbphids = grbphids.drfbtf(x, y, width, hfight);
+        dfbugGrbphids.dfbugOptions = dfbugOptions;
+        dfbugGrbphids.bufffr = bufffr;
+        dfbugGrbphids.xOffsft = xOffsft + x;
+        dfbugGrbphids.yOffsft = yOffsft + y;
+
+        rfturn dfbugGrbphids;
+    }
+
+
+    //------------------------------------------------
+    //  NEW METHODS
+    //------------------------------------------------
+
+    /**
+     * Sfts thf Color usfd to flbsh drbwing opfrbtions.
+     *
+     * @pbrbm flbshColor thf Color usfd to flbsh drbwing opfrbtions
+     */
+    publid stbtid void sftFlbshColor(Color flbshColor) {
+        info().flbshColor = flbshColor;
+    }
+
+    /**
+     * Rfturns thf Color usfd to flbsh drbwing opfrbtions.
+     *
+     * @rfturn thf Color usfd to flbsh drbwing opfrbtions
+     * @sff #sftFlbshColor
+     */
+    publid stbtid Color flbshColor() {
+        rfturn info().flbshColor;
+    }
+
+    /**
+     * Sfts thf timf dflby of drbwing opfrbtion flbshing.
+     *
+     * @pbrbm flbshTimf thf timf dflby of drbwing opfrbtion flbshing
+     */
+    publid stbtid void sftFlbshTimf(int flbshTimf) {
+        info().flbshTimf = flbshTimf;
+    }
+
+    /**
+     * Rfturns thf timf dflby of drbwing opfrbtion flbshing.
+     *
+     * @rfturn thf timf dflby of drbwing opfrbtion flbshing
+     * @sff #sftFlbshTimf
+     */
+    publid stbtid int flbshTimf() {
+        rfturn info().flbshTimf;
+    }
+
+    /**
+     * Sfts thf numbfr of timfs thbt drbwing opfrbtions will flbsh.
+     *
+     * @pbrbm flbshCount numbfr of timfs thbt drbwing opfrbtions will flbsh
+     */
+    publid stbtid void sftFlbshCount(int flbshCount) {
+        info().flbshCount = flbshCount;
+    }
+
+    /**
+     * Rfturns thf numbfr of timfs thbt drbwing opfrbtions will flbsh.
+     *
+     * @rfturn thf numbfr of timfs thbt drbwing opfrbtions will flbsh
+     * @sff #sftFlbshCount
+     */
+    publid stbtid int flbshCount() {
+        rfturn info().flbshCount;
+    }
+
+    /**
+     * Sfts thf strfbm to whidh thf DfbugGrbphids logs drbwing opfrbtions.
+     *
+     * @pbrbm strfbm thf strfbm to whidh thf DfbugGrbphids logs drbwing opfrbtions
+     */
+    publid stbtid void sftLogStrfbm(jbvb.io.PrintStrfbm strfbm) {
+        info().strfbm = strfbm;
+    }
+
+    /**
+     * Rfturns thf strfbm to whidh thf DfbugGrbphids logs drbwing opfrbtions.
+     *
+     * @rfturn thf strfbm to whidh thf DfbugGrbphids logs drbwing opfrbtions
+     * @sff #sftLogStrfbm
+     */
+    publid stbtid jbvb.io.PrintStrfbm logStrfbm() {
+        rfturn info().strfbm;
+    }
+
+    /** Sfts thf Font usfd for tfxt drbwing opfrbtions.
+      */
+    publid void sftFont(Font bFont) {
+        if (dfbugLog()) {
+            info().log(toShortString() + " Sftting font: " + bFont);
+        }
+        grbphids.sftFont(bFont);
+    }
+
+    /** Rfturns thf Font usfd for tfxt drbwing opfrbtions.
+      * @sff #sftFont
+      */
+    publid Font gftFont() {
+        rfturn grbphids.gftFont();
+    }
+
+    /** Sfts thf dolor to bf usfd for drbwing bnd filling linfs bnd shbpfs.
+      */
+    publid void sftColor(Color bColor) {
+        if (dfbugLog()) {
+            info().log(toShortString() + " Sftting dolor: " + bColor);
+        }
+        grbphids.sftColor(bColor);
+    }
+
+    /** Rfturns thf Color usfd for tfxt drbwing opfrbtions.
+      * @sff #sftColor
+      */
+    publid Color gftColor() {
+        rfturn grbphids.gftColor();
+    }
+
+
+    //-----------------------------------------------
+    // OVERRIDDEN METHODS
+    //------------------------------------------------
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.gftFontMftrids</dodf>.
+     */
+    publid FontMftrids gftFontMftrids() {
+        rfturn grbphids.gftFontMftrids();
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.gftFontMftrids</dodf>.
+     */
+    publid FontMftrids gftFontMftrids(Font f) {
+        rfturn grbphids.gftFontMftrids(f);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.trbnslbtf</dodf>.
+     */
+    publid void trbnslbtf(int x, int y) {
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                " Trbnslbting by: " + nfw Point(x, y));
+        }
+        xOffsft += x;
+        yOffsft += y;
+        grbphids.trbnslbtf(x, y);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.sftPbintModf</dodf>.
+     */
+    publid void sftPbintModf() {
+        if (dfbugLog()) {
+            info().log(toShortString() + " Sftting pbint modf");
+        }
+        grbphids.sftPbintModf();
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.sftXORModf</dodf>.
+     */
+    publid void sftXORModf(Color bColor) {
+        if (dfbugLog()) {
+            info().log(toShortString() + " Sftting XOR modf: " + bColor);
+        }
+        grbphids.sftXORModf(bColor);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.gftClipBounds</dodf>.
+     */
+    publid Rfdtbnglf gftClipBounds() {
+        rfturn grbphids.gftClipBounds();
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.dlipRfdt</dodf>.
+     */
+    publid void dlipRfdt(int x, int y, int width, int hfight) {
+        grbphids.dlipRfdt(x, y, width, hfight);
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                " Sftting dlipRfdt: " + (nfw Rfdtbnglf(x, y, width, hfight)) +
+                " Nfw dlipRfdt: " + grbphids.gftClip());
+        }
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.sftClip</dodf>.
+     */
+    publid void sftClip(int x, int y, int width, int hfight) {
+        grbphids.sftClip(x, y, width, hfight);
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                        " Sftting nfw dlipRfdt: " + grbphids.gftClip());
+        }
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.gftClip</dodf>.
+     */
+    publid Shbpf gftClip() {
+        rfturn grbphids.gftClip();
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.sftClip</dodf>.
+     */
+    publid void sftClip(Shbpf dlip) {
+        grbphids.sftClip(dlip);
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Sftting nfw dlipRfdt: " +  grbphids.gftClip());
+        }
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwRfdt</dodf>.
+     */
+    publid void drbwRfdt(int x, int y, int width, int hfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing rfdt: " +
+                      nfw Rfdtbnglf(x, y, width, hfight));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwRfdt(x, y, width, hfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwRfdt(x, y, width, hfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwRfdt(x, y, width, hfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fillRfdt</dodf>.
+     */
+    publid void fillRfdt(int x, int y, int width, int hfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Filling rfdt: " +
+                      nfw Rfdtbnglf(x, y, width, hfight));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fillRfdt(x, y, width, hfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fillRfdt(x, y, width, hfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fillRfdt(x, y, width, hfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.dlfbrRfdt</dodf>.
+     */
+    publid void dlfbrRfdt(int x, int y, int width, int hfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Clfbring rfdt: " +
+                      nfw Rfdtbnglf(x, y, width, hfight));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.dlfbrRfdt(x, y, width, hfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.dlfbrRfdt(x, y, width, hfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.dlfbrRfdt(x, y, width, hfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwRoundRfdt</dodf>.
+     */
+    publid void drbwRoundRfdt(int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing round rfdt: " +
+                      nfw Rfdtbnglf(x, y, width, hfight) +
+                      " brdWidth: " + brdWidth +
+                      " brdhHfight: " + brdHfight);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwRoundRfdt(x, y, width, hfight,
+                                            brdWidth, brdHfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwRoundRfdt(x, y, width, hfight,
+                                       brdWidth, brdHfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwRoundRfdt(x, y, width, hfight, brdWidth, brdHfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fillRoundRfdt</dodf>.
+     */
+    publid void fillRoundRfdt(int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Filling round rfdt: " +
+                      nfw Rfdtbnglf(x, y, width, hfight) +
+                      " brdWidth: " + brdWidth +
+                      " brdhHfight: " + brdHfight);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fillRoundRfdt(x, y, width, hfight,
+                                            brdWidth, brdHfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fillRoundRfdt(x, y, width, hfight,
+                                       brdWidth, brdHfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fillRoundRfdt(x, y, width, hfight, brdWidth, brdHfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwLinf</dodf>.
+     */
+    publid void drbwLinf(int x1, int y1, int x2, int y2) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing linf: from " + pointToString(x1, y1) +
+                       " to " +  pointToString(x2, y2));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwLinf(x1, y1, x2, y2);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwLinf(x1, y1, x2, y2);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwLinf(x1, y1, x2, y2);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbw3DRfdt</dodf>.
+     */
+    publid void drbw3DRfdt(int x, int y, int width, int hfight,
+                           boolfbn rbisfd) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing 3D rfdt: " +
+                       nfw Rfdtbnglf(x, y, width, hfight) +
+                       " Rbisfd bfzfl: " + rbisfd);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbw3DRfdt(x, y, width, hfight, rbisfd);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbw3DRfdt(x, y, width, hfight, rbisfd);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbw3DRfdt(x, y, width, hfight, rbisfd);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fill3DRfdt</dodf>.
+     */
+    publid void fill3DRfdt(int x, int y, int width, int hfight,
+                           boolfbn rbisfd) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Filling 3D rfdt: " +
+                       nfw Rfdtbnglf(x, y, width, hfight) +
+                       " Rbisfd bfzfl: " + rbisfd);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fill3DRfdt(x, y, width, hfight, rbisfd);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fill3DRfdt(x, y, width, hfight, rbisfd);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fill3DRfdt(x, y, width, hfight, rbisfd);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwOvbl</dodf>.
+     */
+    publid void drbwOvbl(int x, int y, int width, int hfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing ovbl: " +
+                      nfw Rfdtbnglf(x, y, width, hfight));
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwOvbl(x, y, width, hfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwOvbl(x, y, width, hfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwOvbl(x, y, width, hfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fillOvbl</dodf>.
+     */
+    publid void fillOvbl(int x, int y, int width, int hfight) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Filling ovbl: " +
+                      nfw Rfdtbnglf(x, y, width, hfight));
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fillOvbl(x, y, width, hfight);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fillOvbl(x, y, width, hfight);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fillOvbl(x, y, width, hfight);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwArd</dodf>.
+     */
+    publid void drbwArd(int x, int y, int width, int hfight,
+                        int stbrtAnglf, int brdAnglf) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing brd: " +
+                      nfw Rfdtbnglf(x, y, width, hfight) +
+                      " stbrtAnglf: " + stbrtAnglf +
+                      " brdAnglf: " + brdAnglf);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwArd(x, y, width, hfight,
+                                      stbrtAnglf, brdAnglf);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwArd(x, y, width, hfight, stbrtAnglf, brdAnglf);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwArd(x, y, width, hfight, stbrtAnglf, brdAnglf);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fillArd</dodf>.
+     */
+    publid void fillArd(int x, int y, int width, int hfight,
+                        int stbrtAnglf, int brdAnglf) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Filling brd: " +
+                      nfw Rfdtbnglf(x, y, width, hfight) +
+                      " stbrtAnglf: " + stbrtAnglf +
+                      " brdAnglf: " + brdAnglf);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fillArd(x, y, width, hfight,
+                                      stbrtAnglf, brdAnglf);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fillArd(x, y, width, hfight, stbrtAnglf, brdAnglf);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fillArd(x, y, width, hfight, stbrtAnglf, brdAnglf);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwPolylinf</dodf>.
+     */
+    publid void drbwPolylinf(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing polylinf: " +
+                      " nPoints: " + nPoints +
+                      " X's: " + xPoints +
+                      " Y's: " + yPoints);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwPolylinf(xPoints, yPoints, nPoints);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwPolylinf(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwPolylinf(xPoints, yPoints, nPoints);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwPolygon</dodf>.
+     */
+    publid void drbwPolygon(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Drbwing polygon: " +
+                      " nPoints: " + nPoints +
+                      " X's: " + xPoints +
+                      " Y's: " + yPoints);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwPolygon(xPoints, yPoints, nPoints);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.drbwPolygon(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwPolygon(xPoints, yPoints, nPoints);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.fillPolygon</dodf>.
+     */
+    publid void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Filling polygon: " +
+                      " nPoints: " + nPoints +
+                      " X's: " + xPoints +
+                      " Y's: " + yPoints);
+        }
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.fillPolygon(xPoints, yPoints, nPoints);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor : oldColor);
+                grbphids.fillPolygon(xPoints, yPoints, nPoints);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.fillPolygon(xPoints, yPoints, nPoints);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwString</dodf>.
+     */
+    publid void drbwString(String bString, int x, int y) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing string: \"" + bString +
+                       "\" bt: " + nfw Point(x, y));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwString(bString, x, y);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor
+                                  : oldColor);
+                grbphids.drbwString(bString, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwString(bString, x, y);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwString</dodf>.
+     */
+    publid void drbwString(AttributfdChbrbdtfrItfrbtor itfrbtor, int x, int y) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing tfxt: \"" + itfrbtor +
+                       "\" bt: " + nfw Point(x, y));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwString(itfrbtor, x, y);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor
+                                  : oldColor);
+                grbphids.drbwString(itfrbtor, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwString(itfrbtor, x, y);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwBytfs</dodf>.
+     */
+    publid void drbwBytfs(bytf dbtb[], int offsft, int lfngth, int x, int y) {
+        DfbugGrbphidsInfo info = info();
+
+        Font font = grbphids.gftFont();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing bytfs bt: " + nfw Point(x, y));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwBytfs(dbtb, offsft, lfngth, x, y);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor
+                                  : oldColor);
+                grbphids.drbwBytfs(dbtb, offsft, lfngth, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwBytfs(dbtb, offsft, lfngth, x, y);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwChbrs</dodf>.
+     */
+    publid void drbwChbrs(dhbr dbtb[], int offsft, int lfngth, int x, int y) {
+        DfbugGrbphidsInfo info = info();
+
+        Font font = grbphids.gftFont();
+
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                       " Drbwing dhbrs bt " +  nfw Point(x, y));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwChbrs(dbtb, offsft, lfngth, x, y);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            Color oldColor = gftColor();
+            int i, dount = (info.flbshCount * 2) - 1;
+
+            for (i = 0; i < dount; i++) {
+                grbphids.sftColor((i % 2) == 0 ? info.flbshColor
+                                  : oldColor);
+                grbphids.drbwChbrs(dbtb, offsft, lfngth, x, y);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+            grbphids.sftColor(oldColor);
+        }
+        grbphids.drbwChbrs(dbtb, offsft, lfngth, x, y);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Point(x, y));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, x, y, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw, x, y,
+                                   imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, x, y, obsfrvfr);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y, int width, int hfight,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Rfdtbnglf(x, y, width, hfight));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, x, y, width, hfight, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw, x, y,
+                                   width, hfight, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, x, y, width, hfight, obsfrvfr);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Point(x, y) +
+                     ", bgdolor: " + bgdolor);
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, x, y, bgdolor, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw, x, y,
+                                   bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, x, y, bgdolor, obsfrvfr);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,int width, int hfight,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " bt: " + nfw Rfdtbnglf(x, y, width, hfight) +
+                     ", bgdolor: " + bgdolor);
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, x, y, width, hfight,
+                                        bgdolor, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw, x, y,
+                                   width, hfight, bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, x, y, width, hfight, bgdolor, obsfrvfr);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img,
+                             int dx1, int dy1, int dx2, int dy2,
+                             int sx1, int sy1, int sx2, int sy2,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " dfstinbtion: " + nfw Rfdtbnglf(dx1, dy1, dx2, dy2) +
+                     " sourdf: " + nfw Rfdtbnglf(sx1, sy1, sx2, sy2));
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                                        sx1, sy1, sx2, sy2, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw,
+                                   dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                   imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                  obsfrvfr);
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.drbwImbgf</dodf>.
+     */
+    publid boolfbn drbwImbgf(Imbgf img,
+                             int dx1, int dy1, int dx2, int dy2,
+                             int sx1, int sy1, int sx2, int sy2,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+        DfbugGrbphidsInfo info = info();
+
+        if (dfbugLog()) {
+            info.log(toShortString() +
+                     " Drbwing imbgf: " + img +
+                     " dfstinbtion: " + nfw Rfdtbnglf(dx1, dy1, dx2, dy2) +
+                     " sourdf: " + nfw Rfdtbnglf(sx1, sy1, sx2, sy2) +
+                     ", bgdolor: " + bgdolor);
+        }
+
+        if (isDrbwingBufffr()) {
+            if (dfbugBufffrfd()) {
+                Grbphids dfbugGrbphids = dfbugGrbphids();
+
+                dfbugGrbphids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                                        sx1, sy1, sx2, sy2, bgdolor, obsfrvfr);
+                dfbugGrbphids.disposf();
+            }
+        } flsf if (dfbugFlbsh()) {
+            int i, dount = (info.flbshCount * 2) - 1;
+            ImbgfProdudfr oldProdudfr = img.gftSourdf();
+            ImbgfProdudfr nfwProdudfr
+                = nfw FiltfrfdImbgfSourdf(oldProdudfr,
+                                nfw DfbugGrbphidsFiltfr(info.flbshColor));
+            Imbgf nfwImbgf
+                = Toolkit.gftDffbultToolkit().drfbtfImbgf(nfwProdudfr);
+            DfbugGrbphidsObsfrvfr imbgfObsfrvfr
+                = nfw DfbugGrbphidsObsfrvfr();
+
+            Imbgf imbgfToDrbw;
+            for (i = 0; i < dount; i++) {
+                imbgfToDrbw = (i % 2) == 0 ? nfwImbgf : img;
+                lobdImbgf(imbgfToDrbw);
+                grbphids.drbwImbgf(imbgfToDrbw,
+                                   dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                   bgdolor, imbgfObsfrvfr);
+                Toolkit.gftDffbultToolkit().synd();
+                slffp(info.flbshTimf);
+            }
+        }
+        rfturn grbphids.drbwImbgf(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+                                  bgdolor, obsfrvfr);
+    }
+
+    stbtid void lobdImbgf(Imbgf img) {
+        imbgfLobdingIdon.lobdImbgf(img);
+    }
+
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.dopyArfb</dodf>.
+     */
+    publid void dopyArfb(int x, int y, int width, int hfight,
+                         int dfstX, int dfstY) {
+        if (dfbugLog()) {
+            info().log(toShortString() +
+                      " Copying brfb from: " +
+                      nfw Rfdtbnglf(x, y, width, hfight) +
+                      " to: " + nfw Point(dfstX, dfstY));
+        }
+        grbphids.dopyArfb(x, y, width, hfight, dfstX, dfstY);
+    }
+
+    finbl void slffp(int mSfds) {
+        try {
+            Thrfbd.slffp(mSfds);
+        } dbtdh (Exdfption f) {
+        }
+    }
+
+    /**
+     * Ovfrridfs <dodf>Grbphids.disposf</dodf>.
+     */
+    publid void disposf() {
+        grbphids.disposf();
+        grbphids = null;
+    }
+
+    // ALERT!
+    /**
+     * Rfturns thf drbwingBufffr vbluf.
+     *
+     * @rfturn truf if this objfdt is drbwing from b Bufffr
+     */
+    publid boolfbn isDrbwingBufffr() {
+        rfturn bufffr != null;
+    }
+
+    String toShortString() {
+        rfturn "Grbphids" + (isDrbwingBufffr() ? "<B>" : "") + "(" + grbphidsID + "-" + dfbugOptions + ")";
+    }
+
+    String pointToString(int x, int y) {
+        rfturn "(" + x + ", " + y + ")";
+    }
+
+    /** Enbblfs/disbblfs dibgnostid informbtion bbout fvfry grbphids
+      * opfrbtion. Thf vbluf of <b>options</b> indidbtfs how this informbtion
+      * should bf displbyfd. LOG_OPTION dbusfs b tfxt mfssbgf to bf printfd.
+      * FLASH_OPTION dbusfs thf drbwing to flbsh sfvfrbl timfs. BUFFERED_OPTION
+      * drfbtfs b nfw Frbmf thbt shows fbdh opfrbtion on bn
+      * offsdrffn bufffr. Thf vbluf of <b>options</b> is bitwisf OR'd into
+      * thf durrfnt vbluf. To disbblf dfbugging usf NONE_OPTION.
+      *
+      * @pbrbm options indidbtfs how dibgnostid informbtion should bf displbyfd
+      */
+    publid void sftDfbugOptions(int options) {
+        if (options != 0) {
+            if (options == NONE_OPTION) {
+                if (dfbugOptions != 0) {
+                    Systfm.frr.println(toShortString() + " Disbbling dfbug");
+                    dfbugOptions = 0;
+                }
+            } flsf {
+                if (dfbugOptions != options) {
+                    dfbugOptions |= options;
+                    if (dfbugLog()) {
+                        Systfm.frr.println(toShortString() + " Enbbling dfbug");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt dfbugging options for this DfbugGrbphids.
+     *
+     * @rfturn thf durrfnt dfbugging options for this DfbugGrbphids
+     * @sff #sftDfbugOptions
+     */
+    publid int gftDfbugOptions() {
+        rfturn dfbugOptions;
+    }
+
+    /** Stbtid wrbppfr mfthod for DfbugGrbphidsInfo.sftDfbugOptions(). Storfs
+      * options on b pfr domponfnt bbsis.
+      */
+    stbtid void sftDfbugOptions(JComponfnt domponfnt, int options) {
+        info().sftDfbugOptions(domponfnt, options);
+    }
+
+    /** Stbtid wrbppfr mfthod for DfbugGrbphidsInfo.gftDfbugOptions().
+      */
+    stbtid int gftDfbugOptions(JComponfnt domponfnt) {
+        DfbugGrbphidsInfo dfbugGrbphidsInfo = info();
+        if (dfbugGrbphidsInfo == null) {
+            rfturn 0;
+        } flsf {
+            rfturn dfbugGrbphidsInfo.gftDfbugOptions(domponfnt);
+        }
+    }
+
+    /** Rfturns non-zfro if <b>domponfnt</b> should displby with DfbugGrbphids,
+      * zfro othfrwisf. Wblks thf JComponfnt's pbrfnt trff to dftfrminf if
+      * bny dfbugging options hbvf bffn sft.
+      */
+    stbtid int shouldComponfntDfbug(JComponfnt domponfnt) {
+        DfbugGrbphidsInfo info = info();
+        if (info == null) {
+            rfturn 0;
+        } flsf {
+            Contbinfr dontbinfr = (Contbinfr)domponfnt;
+            int dfbugOptions = 0;
+
+            whilf (dontbinfr != null && (dontbinfr instbndfof JComponfnt)) {
+                dfbugOptions |= info.gftDfbugOptions((JComponfnt)dontbinfr);
+                dontbinfr = dontbinfr.gftPbrfnt();
+            }
+
+            rfturn dfbugOptions;
+        }
+    }
+
+    /** Rfturns thf numbfr of JComponfnts thbt hbvf dfbugging options turnfd
+      * on.
+      */
+    stbtid int dfbugComponfntCount() {
+        DfbugGrbphidsInfo dfbugGrbphidsInfo = info();
+        if (dfbugGrbphidsInfo != null &&
+                    dfbugGrbphidsInfo.domponfntToDfbug != null) {
+            rfturn dfbugGrbphidsInfo.domponfntToDfbug.sizf();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    boolfbn dfbugLog() {
+        rfturn (dfbugOptions & LOG_OPTION) == LOG_OPTION;
+    }
+
+    boolfbn dfbugFlbsh() {
+        rfturn (dfbugOptions & FLASH_OPTION) == FLASH_OPTION;
+    }
+
+    boolfbn dfbugBufffrfd() {
+        rfturn (dfbugOptions & BUFFERED_OPTION) == BUFFERED_OPTION;
+    }
+
+    /** Rfturns b DfbugGrbphids for usf in bufffring window.
+      */
+    privbtf Grbphids dfbugGrbphids() {
+        DfbugGrbphids        dfbugGrbphids;
+        DfbugGrbphidsInfo    info = info();
+        JFrbmf               dfbugFrbmf;
+
+        if (info.dfbugFrbmf == null) {
+            info.dfbugFrbmf = nfw JFrbmf();
+            info.dfbugFrbmf.sftSizf(500, 500);
+        }
+        dfbugFrbmf = info.dfbugFrbmf;
+        dfbugFrbmf.show();
+        dfbugGrbphids = nfw DfbugGrbphids(dfbugFrbmf.gftGrbphids());
+        dfbugGrbphids.sftFont(gftFont());
+        dfbugGrbphids.sftColor(gftColor());
+        dfbugGrbphids.trbnslbtf(xOffsft, yOffsft);
+        dfbugGrbphids.sftClip(gftClipBounds());
+        if (dfbugFlbsh()) {
+            dfbugGrbphids.sftDfbugOptions(FLASH_OPTION);
+        }
+        rfturn dfbugGrbphids;
+    }
+
+    /** Rfturns DfbugGrbphidsInfo, or drfbtfs onf if nonf fxists.
+      */
+    stbtid DfbugGrbphidsInfo info() {
+        DfbugGrbphidsInfo dfbugGrbphidsInfo = (DfbugGrbphidsInfo)
+            SwingUtilitifs.bppContfxtGft(dfbugGrbphidsInfoKfy);
+        if (dfbugGrbphidsInfo == null) {
+            dfbugGrbphidsInfo = nfw DfbugGrbphidsInfo();
+            SwingUtilitifs.bppContfxtPut(dfbugGrbphidsInfoKfy,
+                                         dfbugGrbphidsInfo);
+        }
+        rfturn dfbugGrbphidsInfo;
+    }
+    privbtf stbtid finbl Clbss<DfbugGrbphidsInfo> dfbugGrbphidsInfoKfy = DfbugGrbphidsInfo.dlbss;
+}

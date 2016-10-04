@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Thf <dodf>Shbpf</dodf> intfrfbdf providfs dffinitions for objfdts
+ * thbt rfprfsfnt somf form of gfomftrid shbpf.  Thf <dodf>Shbpf</dodf>
+ * is dfsdribfd by b {@link PbthItfrbtor} objfdt, whidh dbn fxprfss thf
+ * outlinf of thf <dodf>Shbpf</dodf> bs wfll bs b rulf for dftfrmining
+ * how thf outlinf dividfs thf 2D plbnf into intfrior bnd fxtfrior
+ * points.  Ebdh <dodf>Shbpf</dodf> objfdt providfs dbllbbdks to gft thf
+ * bounding box of thf gfomftry, dftfrminf whfthfr points or
+ * rfdtbnglfs lif pbrtly or fntirfly within thf intfrior
+ * of thf <dodf>Shbpf</dodf>, bnd rftrifvf b <dodf>PbthItfrbtor</dodf>
+ * objfdt thbt dfsdribfs thf trbjfdtory pbth of thf <dodf>Shbpf</dodf>
+ * outlinf.
+ * <p>
+ * <b nbmf="dff_insidfnfss"><b>Dffinition of insidfnfss:</b></b>
+ * A point is donsidfrfd to lif insidf b
+ * <dodf>Shbpf</dodf> if bnd only if:
+ * <ul>
+ * <li> it lifs domplftfly
+ * insidf thf<dodf>Shbpf</dodf> boundbry <i>or</i>
+ * <li>
+ * it lifs fxbdtly on thf <dodf>Shbpf</dodf> boundbry <i>bnd</i> thf
+ * spbdf immfdibtfly bdjbdfnt to thf
+ * point in thf indrfbsing <dodf>X</dodf> dirfdtion is
+ * fntirfly insidf thf boundbry <i>or</i>
+ * <li>
+ * it lifs fxbdtly on b horizontbl boundbry sfgmfnt <b>bnd</b> thf
+ * spbdf immfdibtfly bdjbdfnt to thf point in thf
+ * indrfbsing <dodf>Y</dodf> dirfdtion is insidf thf boundbry.
+ * </ul>
+ * <p>Thf <dodf>dontbins</dodf> bnd <dodf>intfrsfdts</dodf> mfthods
+ * donsidfr thf intfrior of b <dodf>Shbpf</dodf> to bf thf brfb it
+ * fndlosfs bs if it wfrf fillfd.  This mfbns thbt thfsf mfthods
+ * donsidfr
+ * undlosfd shbpfs to bf impliditly dlosfd for thf purposf of
+ * dftfrmining if b shbpf dontbins or intfrsfdts b rfdtbnglf or if b
+ * shbpf dontbins b point.
+ *
+ * @sff jbvb.bwt.gfom.PbthItfrbtor
+ * @sff jbvb.bwt.gfom.AffinfTrbnsform
+ * @sff jbvb.bwt.gfom.FlbttfningPbthItfrbtor
+ * @sff jbvb.bwt.gfom.GfnfrblPbth
+ *
+ * @buthor Jim Grbhbm
+ * @sindf 1.2
+ */
+publid intfrfbdf Shbpf {
+    /**
+     * Rfturns bn intfgfr {@link Rfdtbnglf} thbt domplftfly fndlosfs thf
+     * <dodf>Shbpf</dodf>.  Notf thbt thfrf is no gubrbntff thbt thf
+     * rfturnfd <dodf>Rfdtbnglf</dodf> is thf smbllfst bounding box thbt
+     * fndlosfs thf <dodf>Shbpf</dodf>, only thbt thf <dodf>Shbpf</dodf>
+     * lifs fntirfly within thf indidbtfd  <dodf>Rfdtbnglf</dodf>.  Thf
+     * rfturnfd <dodf>Rfdtbnglf</dodf> might blso fbil to domplftfly
+     * fndlosf thf <dodf>Shbpf</dodf> if thf <dodf>Shbpf</dodf> ovfrflows
+     * thf limitfd rbngf of thf intfgfr dbtb typf.  Thf
+     * <dodf>gftBounds2D</dodf> mfthod gfnfrblly rfturns b
+     * tightfr bounding box duf to its grfbtfr flfxibility in
+     * rfprfsfntbtion.
+     *
+     * <p>
+     * Notf thbt thf <b hrff="{@dodRoot}/jbvb/bwt/Shbpf.html#dff_insidfnfss">
+     * dffinition of insidfnfss</b> dbn lfbd to situbtions whfrf points
+     * on thf dffining outlinf of thf {@dodf shbpf} mby not bf donsidfrfd
+     * dontbinfd in thf rfturnfd {@dodf bounds} objfdt, but only in dbsfs
+     * whfrf thosf points brf blso not donsidfrfd dontbinfd in thf originbl
+     * {@dodf shbpf}.
+     * </p>
+     * <p>
+     * If b {@dodf point} is insidf thf {@dodf shbpf} bddording to thf
+     * {@link #dontbins(doublf x, doublf y) dontbins(point)} mfthod, thfn
+     * it must bf insidf thf rfturnfd {@dodf Rfdtbnglf} bounds objfdt
+     * bddording to thf {@link #dontbins(doublf x, doublf y) dontbins(point)}
+     * mfthod of thf {@dodf bounds}. Spfdifidblly:
+     * </p>
+     * <p>
+     *  {@dodf shbpf.dontbins(x,y)} rfquirfs {@dodf bounds.dontbins(x,y)}
+     * </p>
+     * <p>
+     * If b {@dodf point} is not insidf thf {@dodf shbpf}, thfn it might
+     * still bf dontbinfd in thf {@dodf bounds} objfdt:
+     * </p>
+     * <p>
+     *  {@dodf bounds.dontbins(x,y)} dofs not imply {@dodf shbpf.dontbins(x,y)}
+     * </p>
+     * @rfturn bn intfgfr <dodf>Rfdtbnglf</dodf> thbt domplftfly fndlosfs
+     *                 thf <dodf>Shbpf</dodf>.
+     * @sff #gftBounds2D
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf gftBounds();
+
+    /**
+     * Rfturns b high prfdision bnd morf bddurbtf bounding box of
+     * thf <dodf>Shbpf</dodf> thbn thf <dodf>gftBounds</dodf> mfthod.
+     * Notf thbt thfrf is no gubrbntff thbt thf rfturnfd
+     * {@link Rfdtbnglf2D} is thf smbllfst bounding box thbt fndlosfs
+     * thf <dodf>Shbpf</dodf>, only thbt thf <dodf>Shbpf</dodf> lifs
+     * fntirfly within thf indidbtfd <dodf>Rfdtbnglf2D</dodf>.  Thf
+     * bounding box rfturnfd by this mfthod is usublly tightfr thbn thbt
+     * rfturnfd by thf <dodf>gftBounds</dodf> mfthod bnd nfvfr fbils duf
+     * to ovfrflow problfms sindf thf rfturn vbluf dbn bf bn instbndf of
+     * thf <dodf>Rfdtbnglf2D</dodf> thbt usfs doublf prfdision vblufs to
+     * storf thf dimfnsions.
+     *
+     * <p>
+     * Notf thbt thf <b hrff="{@dodRoot}/jbvb/bwt/Shbpf.html#dff_insidfnfss">
+     * dffinition of insidfnfss</b> dbn lfbd to situbtions whfrf points
+     * on thf dffining outlinf of thf {@dodf shbpf} mby not bf donsidfrfd
+     * dontbinfd in thf rfturnfd {@dodf bounds} objfdt, but only in dbsfs
+     * whfrf thosf points brf blso not donsidfrfd dontbinfd in thf originbl
+     * {@dodf shbpf}.
+     * </p>
+     * <p>
+     * If b {@dodf point} is insidf thf {@dodf shbpf} bddording to thf
+     * {@link #dontbins(Point2D p) dontbins(point)} mfthod, thfn it must
+     * bf insidf thf rfturnfd {@dodf Rfdtbnglf2D} bounds objfdt bddording
+     * to thf {@link #dontbins(Point2D p) dontbins(point)} mfthod of thf
+     * {@dodf bounds}. Spfdifidblly:
+     * </p>
+     * <p>
+     *  {@dodf shbpf.dontbins(p)} rfquirfs {@dodf bounds.dontbins(p)}
+     * </p>
+     * <p>
+     * If b {@dodf point} is not insidf thf {@dodf shbpf}, thfn it might
+     * still bf dontbinfd in thf {@dodf bounds} objfdt:
+     * </p>
+     * <p>
+     *  {@dodf bounds.dontbins(p)} dofs not imply {@dodf shbpf.dontbins(p)}
+     * </p>
+     * @rfturn bn instbndf of <dodf>Rfdtbnglf2D</dodf> thbt is b
+     *                 high-prfdision bounding box of thf <dodf>Shbpf</dodf>.
+     * @sff #gftBounds
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D gftBounds2D();
+
+    /**
+     * Tfsts if thf spfdififd doordinbtfs brf insidf thf boundbry of thf
+     * <dodf>Shbpf</dodf>, bs dfsdribfd by thf
+     * <b hrff="{@dodRoot}/jbvb/bwt/Shbpf.html#dff_insidfnfss">
+     * dffinition of insidfnfss</b>.
+     * @pbrbm x thf spfdififd X doordinbtf to bf tfstfd
+     * @pbrbm y thf spfdififd Y doordinbtf to bf tfstfd
+     * @rfturn <dodf>truf</dodf> if thf spfdififd doordinbtfs brf insidf
+     *         thf <dodf>Shbpf</dodf> boundbry; <dodf>fblsf</dodf>
+     *         othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y);
+
+    /**
+     * Tfsts if b spfdififd {@link Point2D} is insidf thf boundbry
+     * of thf <dodf>Shbpf</dodf>, bs dfsdribfd by thf
+     * <b hrff="{@dodRoot}/jbvb/bwt/Shbpf.html#dff_insidfnfss">
+     * dffinition of insidfnfss</b>.
+     * @pbrbm p thf spfdififd <dodf>Point2D</dodf> to bf tfstfd
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>Point2D</dodf> is
+     *          insidf thf boundbry of thf <dodf>Shbpf</dodf>;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Point2D p);
+
+    /**
+     * Tfsts if thf intfrior of thf <dodf>Shbpf</dodf> intfrsfdts thf
+     * intfrior of b spfdififd rfdtbngulbr brfb.
+     * Thf rfdtbngulbr brfb is donsidfrfd to intfrsfdt thf <dodf>Shbpf</dodf>
+     * if bny point is dontbinfd in both thf intfrior of thf
+     * <dodf>Shbpf</dodf> bnd thf spfdififd rfdtbngulbr brfb.
+     * <p>
+     * Thf {@dodf Shbpf.intfrsfdts()} mfthod bllows b {@dodf Shbpf}
+     * implfmfntbtion to donsfrvbtivfly rfturn {@dodf truf} whfn:
+     * <ul>
+     * <li>
+     * thfrf is b high probbbility thbt thf rfdtbngulbr brfb bnd thf
+     * <dodf>Shbpf</dodf> intfrsfdt, but
+     * <li>
+     * thf dbldulbtions to bddurbtfly dftfrminf this intfrsfdtion
+     * brf prohibitivfly fxpfnsivf.
+     * </ul>
+     * This mfbns thbt for somf {@dodf Shbpfs} this mfthod might
+     * rfturn {@dodf truf} fvfn though thf rfdtbngulbr brfb dofs not
+     * intfrsfdt thf {@dodf Shbpf}.
+     * Thf {@link jbvb.bwt.gfom.Arfb Arfb} dlbss pfrforms
+     * morf bddurbtf domputbtions of gfomftrid intfrsfdtion thbn most
+     * {@dodf Shbpf} objfdts bnd thfrfforf dbn bf usfd if b morf prfdisf
+     * bnswfr is rfquirfd.
+     *
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+     *          of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+     *          of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm w thf width of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm h thf hfight of thf spfdififd rfdtbngulbr brfb
+     * @rfturn <dodf>truf</dodf> if thf intfrior of thf <dodf>Shbpf</dodf> bnd
+     *          thf intfrior of thf rfdtbngulbr brfb intfrsfdt, or brf
+     *          both highly likfly to intfrsfdt bnd intfrsfdtion dbldulbtions
+     *          would bf too fxpfnsivf to pfrform; <dodf>fblsf</dodf> othfrwisf.
+     * @sff jbvb.bwt.gfom.Arfb
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h);
+
+    /**
+     * Tfsts if thf intfrior of thf <dodf>Shbpf</dodf> intfrsfdts thf
+     * intfrior of b spfdififd <dodf>Rfdtbnglf2D</dodf>.
+     * Thf {@dodf Shbpf.intfrsfdts()} mfthod bllows b {@dodf Shbpf}
+     * implfmfntbtion to donsfrvbtivfly rfturn {@dodf truf} whfn:
+     * <ul>
+     * <li>
+     * thfrf is b high probbbility thbt thf <dodf>Rfdtbnglf2D</dodf> bnd thf
+     * <dodf>Shbpf</dodf> intfrsfdt, but
+     * <li>
+     * thf dbldulbtions to bddurbtfly dftfrminf this intfrsfdtion
+     * brf prohibitivfly fxpfnsivf.
+     * </ul>
+     * This mfbns thbt for somf {@dodf Shbpfs} this mfthod might
+     * rfturn {@dodf truf} fvfn though thf {@dodf Rfdtbnglf2D} dofs not
+     * intfrsfdt thf {@dodf Shbpf}.
+     * Thf {@link jbvb.bwt.gfom.Arfb Arfb} dlbss pfrforms
+     * morf bddurbtf domputbtions of gfomftrid intfrsfdtion thbn most
+     * {@dodf Shbpf} objfdts bnd thfrfforf dbn bf usfd if b morf prfdisf
+     * bnswfr is rfquirfd.
+     *
+     * @pbrbm r thf spfdififd <dodf>Rfdtbnglf2D</dodf>
+     * @rfturn <dodf>truf</dodf> if thf intfrior of thf <dodf>Shbpf</dodf> bnd
+     *          thf intfrior of thf spfdififd <dodf>Rfdtbnglf2D</dodf>
+     *          intfrsfdt, or brf both highly likfly to intfrsfdt bnd intfrsfdtion
+     *          dbldulbtions would bf too fxpfnsivf to pfrform; <dodf>fblsf</dodf>
+     *          othfrwisf.
+     * @sff #intfrsfdts(doublf, doublf, doublf, doublf)
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r);
+
+    /**
+     * Tfsts if thf intfrior of thf <dodf>Shbpf</dodf> fntirfly dontbins
+     * thf spfdififd rfdtbngulbr brfb.  All doordinbtfs thbt lif insidf
+     * thf rfdtbngulbr brfb must lif within thf <dodf>Shbpf</dodf> for thf
+     * fntirf rfdtbngulbr brfb to bf donsidfrfd dontbinfd within thf
+     * <dodf>Shbpf</dodf>.
+     * <p>
+     * Thf {@dodf Shbpf.dontbins()} mfthod bllows b {@dodf Shbpf}
+     * implfmfntbtion to donsfrvbtivfly rfturn {@dodf fblsf} whfn:
+     * <ul>
+     * <li>
+     * thf <dodf>intfrsfdt</dodf> mfthod rfturns <dodf>truf</dodf> bnd
+     * <li>
+     * thf dbldulbtions to dftfrminf whfthfr or not thf
+     * <dodf>Shbpf</dodf> fntirfly dontbins thf rfdtbngulbr brfb brf
+     * prohibitivfly fxpfnsivf.
+     * </ul>
+     * This mfbns thbt for somf {@dodf Shbpfs} this mfthod might
+     * rfturn {@dodf fblsf} fvfn though thf {@dodf Shbpf} dontbins
+     * thf rfdtbngulbr brfb.
+     * Thf {@link jbvb.bwt.gfom.Arfb Arfb} dlbss pfrforms
+     * morf bddurbtf gfomftrid domputbtions thbn most
+     * {@dodf Shbpf} objfdts bnd thfrfforf dbn bf usfd if b morf prfdisf
+     * bnswfr is rfquirfd.
+     *
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+     *          of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+     *          of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm w thf width of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm h thf hfight of thf spfdififd rfdtbngulbr brfb
+     * @rfturn <dodf>truf</dodf> if thf intfrior of thf <dodf>Shbpf</dodf>
+     *          fntirfly dontbins thf spfdififd rfdtbngulbr brfb;
+     *          <dodf>fblsf</dodf> othfrwisf or, if thf <dodf>Shbpf</dodf>
+     *          dontbins thf rfdtbngulbr brfb bnd thf
+     *          <dodf>intfrsfdts</dodf> mfthod rfturns <dodf>truf</dodf>
+     *          bnd thf dontbinmfnt dbldulbtions would bf too fxpfnsivf to
+     *          pfrform.
+     * @sff jbvb.bwt.gfom.Arfb
+     * @sff #intfrsfdts
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h);
+
+    /**
+     * Tfsts if thf intfrior of thf <dodf>Shbpf</dodf> fntirfly dontbins thf
+     * spfdififd <dodf>Rfdtbnglf2D</dodf>.
+     * Thf {@dodf Shbpf.dontbins()} mfthod bllows b {@dodf Shbpf}
+     * implfmfntbtion to donsfrvbtivfly rfturn {@dodf fblsf} whfn:
+     * <ul>
+     * <li>
+     * thf <dodf>intfrsfdt</dodf> mfthod rfturns <dodf>truf</dodf> bnd
+     * <li>
+     * thf dbldulbtions to dftfrminf whfthfr or not thf
+     * <dodf>Shbpf</dodf> fntirfly dontbins thf <dodf>Rfdtbnglf2D</dodf>
+     * brf prohibitivfly fxpfnsivf.
+     * </ul>
+     * This mfbns thbt for somf {@dodf Shbpfs} this mfthod might
+     * rfturn {@dodf fblsf} fvfn though thf {@dodf Shbpf} dontbins
+     * thf {@dodf Rfdtbnglf2D}.
+     * Thf {@link jbvb.bwt.gfom.Arfb Arfb} dlbss pfrforms
+     * morf bddurbtf gfomftrid domputbtions thbn most
+     * {@dodf Shbpf} objfdts bnd thfrfforf dbn bf usfd if b morf prfdisf
+     * bnswfr is rfquirfd.
+     *
+     * @pbrbm r Thf spfdififd <dodf>Rfdtbnglf2D</dodf>
+     * @rfturn <dodf>truf</dodf> if thf intfrior of thf <dodf>Shbpf</dodf>
+     *          fntirfly dontbins thf <dodf>Rfdtbnglf2D</dodf>;
+     *          <dodf>fblsf</dodf> othfrwisf or, if thf <dodf>Shbpf</dodf>
+     *          dontbins thf <dodf>Rfdtbnglf2D</dodf> bnd thf
+     *          <dodf>intfrsfdts</dodf> mfthod rfturns <dodf>truf</dodf>
+     *          bnd thf dontbinmfnt dbldulbtions would bf too fxpfnsivf to
+     *          pfrform.
+     * @sff #dontbins(doublf, doublf, doublf, doublf)
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(Rfdtbnglf2D r);
+
+    /**
+     * Rfturns bn itfrbtor objfdt thbt itfrbtfs blong thf
+     * <dodf>Shbpf</dodf> boundbry bnd providfs bddfss to thf gfomftry of thf
+     * <dodf>Shbpf</dodf> outlinf.  If bn optionbl {@link AffinfTrbnsform}
+     * is spfdififd, thf doordinbtfs rfturnfd in thf itfrbtion brf
+     * trbnsformfd bddordingly.
+     * <p>
+     * Ebdh dbll to this mfthod rfturns b frfsh <dodf>PbthItfrbtor</dodf>
+     * objfdt thbt trbvfrsfs thf gfomftry of thf <dodf>Shbpf</dodf> objfdt
+     * indfpfndfntly from bny othfr <dodf>PbthItfrbtor</dodf> objfdts in usf
+     * bt thf sbmf timf.
+     * <p>
+     * It is rfdommfndfd, but not gubrbntffd, thbt objfdts
+     * implfmfnting thf <dodf>Shbpf</dodf> intfrfbdf isolbtf itfrbtions
+     * thbt brf in prodfss from bny dhbngfs thbt might oddur to thf originbl
+     * objfdt's gfomftry during sudh itfrbtions.
+     *
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn b nfw <dodf>PbthItfrbtor</dodf> objfdt, whidh indfpfndfntly
+     *          trbvfrsfs thf gfomftry of thf <dodf>Shbpf</dodf>.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt);
+
+    /**
+     * Rfturns bn itfrbtor objfdt thbt itfrbtfs blong thf <dodf>Shbpf</dodf>
+     * boundbry bnd providfs bddfss to b flbttfnfd vifw of thf
+     * <dodf>Shbpf</dodf> outlinf gfomftry.
+     * <p>
+     * Only SEG_MOVETO, SEG_LINETO, bnd SEG_CLOSE point typfs brf
+     * rfturnfd by thf itfrbtor.
+     * <p>
+     * If bn optionbl <dodf>AffinfTrbnsform</dodf> is spfdififd,
+     * thf doordinbtfs rfturnfd in thf itfrbtion brf trbnsformfd
+     * bddordingly.
+     * <p>
+     * Thf bmount of subdivision of thf durvfd sfgmfnts is dontrollfd
+     * by thf <dodf>flbtnfss</dodf> pbrbmftfr, whidh spfdififs thf
+     * mbximum distbndf thbt bny point on thf unflbttfnfd trbnsformfd
+     * durvf dbn dfvibtf from thf rfturnfd flbttfnfd pbth sfgmfnts.
+     * Notf thbt b limit on thf bddurbdy of thf flbttfnfd pbth might bf
+     * silfntly imposfd, dbusing vfry smbll flbttfning pbrbmftfrs to bf
+     * trfbtfd bs lbrgfr vblufs.  This limit, if thfrf is onf, is
+     * dffinfd by thf pbrtidulbr implfmfntbtion thbt is usfd.
+     * <p>
+     * Ebdh dbll to this mfthod rfturns b frfsh <dodf>PbthItfrbtor</dodf>
+     * objfdt thbt trbvfrsfs thf <dodf>Shbpf</dodf> objfdt gfomftry
+     * indfpfndfntly from bny othfr <dodf>PbthItfrbtor</dodf> objfdts in usf bt
+     * thf sbmf timf.
+     * <p>
+     * It is rfdommfndfd, but not gubrbntffd, thbt objfdts
+     * implfmfnting thf <dodf>Shbpf</dodf> intfrfbdf isolbtf itfrbtions
+     * thbt brf in prodfss from bny dhbngfs thbt might oddur to thf originbl
+     * objfdt's gfomftry during sudh itfrbtions.
+     *
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to thf
+     *          doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     *          <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @pbrbm flbtnfss thf mbximum distbndf thbt thf linf sfgmfnts usfd to
+     *          bpproximbtf thf durvfd sfgmfnts brf bllowfd to dfvibtf
+     *          from bny point on thf originbl durvf
+     * @rfturn b nfw <dodf>PbthItfrbtor</dodf> thbt indfpfndfntly trbvfrsfs
+     *         b flbttfnfd vifw of thf gfomftry of thf  <dodf>Shbpf</dodf>.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt, doublf flbtnfss);
+}

@@ -1,0 +1,300 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.www.http;
+
+import jbvb.io.*;
+
+/**
+ * OutputStrfbm thbt sfnds thf output to thf undfrlying strfbm using dhunkfd
+ * fndoding bs spfdififd in RFC 2068.
+ */
+publid dlbss ChunkfdOutputStrfbm fxtfnds PrintStrfbm {
+
+    /* Dffbult dhunk sizf (indluding dhunk hfbdfr) if not spfdififd */
+    stbtid finbl int DEFAULT_CHUNK_SIZE = 4096;
+    privbtf stbtid finbl bytf[] CRLF = {'\r', '\n'};
+    privbtf stbtid finbl int CRLF_SIZE = CRLF.lfngth;
+    privbtf stbtid finbl bytf[] FOOTER = CRLF;
+    privbtf stbtid finbl int FOOTER_SIZE = CRLF_SIZE;
+    privbtf stbtid finbl bytf[] EMPTY_CHUNK_HEADER = gftHfbdfr(0);
+    privbtf stbtid finbl int EMPTY_CHUNK_HEADER_SIZE = gftHfbdfrSizf(0);
+
+    /* intfrnbl bufffr */
+    privbtf bytf buf[];
+    /* sizf of dbtb (fxdluding footfrs bnd hfbdfrs) blrfbdy storfd in buf */
+    privbtf int sizf;
+    /* durrfnt indfx in buf (i.f. buf[dount] */
+    privbtf int dount;
+    /* numbfr of bytfs to bf fillfd up to domplftf b dbtb dhunk
+     * durrfntly bfing built */
+    privbtf int spbdfInCurrfntChunk;
+
+    /* undfrlying strfbm */
+    privbtf PrintStrfbm out;
+
+    /* thf dhunk sizf wf usf */
+    privbtf int prfffrrfdChunkDbtbSizf;
+    privbtf int prfffrfdHfbdfrSizf;
+    privbtf int prfffrrfdChunkGrossSizf;
+    /* hfbdfr for b domplftf Chunk */
+    privbtf bytf[] domplftfHfbdfr;
+
+    /* rfturn thf sizf of thf hfbdfr for b pbrtidulbr dhunk sizf */
+    privbtf stbtid int gftHfbdfrSizf(int sizf) {
+        rfturn (Intfgfr.toHfxString(sizf)).lfngth() + CRLF_SIZE;
+    }
+
+    /* rfturn b hfbdfr for b pbrtidulbr dhunk sizf */
+    privbtf stbtid bytf[] gftHfbdfr(int sizf){
+        try {
+            String hfxStr =  Intfgfr.toHfxString(sizf);
+            bytf[] hfxBytfs = hfxStr.gftBytfs("US-ASCII");
+            bytf[] hfbdfr = nfw bytf[gftHfbdfrSizf(sizf)];
+            for (int i=0; i<hfxBytfs.lfngth; i++)
+                hfbdfr[i] = hfxBytfs[i];
+            hfbdfr[hfxBytfs.lfngth] = CRLF[0];
+            hfbdfr[hfxBytfs.lfngth+1] = CRLF[1];
+            rfturn hfbdfr;
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            /* This should nfvfr hbppfn */
+            throw nfw IntfrnblError(f.gftMfssbgf(), f);
+        }
+    }
+
+    publid ChunkfdOutputStrfbm(PrintStrfbm o) {
+        this(o, DEFAULT_CHUNK_SIZE);
+    }
+
+    publid ChunkfdOutputStrfbm(PrintStrfbm o, int sizf) {
+        supfr(o);
+        out = o;
+
+        if (sizf <= 0) {
+            sizf = DEFAULT_CHUNK_SIZE;
+        }
+
+        /* Adjust thf sizf to dbtfr for thf dhunk hfbdfr - fg: if thf
+         * prfffrrfd dhunk sizf is 1k this mfbns thf dhunk sizf should
+         * bf 1017 bytfs (difffrs by 7 from prfffrrfd sizf bfdbusf of
+         * 3 bytfs for dhunk sizf in hfx bnd CRLF (hfbdfr) bnd CRLF (footfr)).
+         *
+         * If hfbdfrSizf(bdjustfd_sizf) is shortfr thfn hfbdfrSizf(sizf)
+         * thfn try to usf thf fxtrb bytf unlfss hfbdfrSizf(bdjustfd_sizf+1)
+         * indrfbsfs bbdk to hfbdfrSizf(sizf)
+         */
+        if (sizf > 0) {
+            int bdjustfd_sizf = sizf - gftHfbdfrSizf(sizf) - FOOTER_SIZE;
+            if (gftHfbdfrSizf(bdjustfd_sizf+1) < gftHfbdfrSizf(sizf)){
+                bdjustfd_sizf++;
+            }
+            sizf = bdjustfd_sizf;
+        }
+
+        if (sizf > 0) {
+            prfffrrfdChunkDbtbSizf = sizf;
+        } flsf {
+            prfffrrfdChunkDbtbSizf = DEFAULT_CHUNK_SIZE -
+                    gftHfbdfrSizf(DEFAULT_CHUNK_SIZE) - FOOTER_SIZE;
+        }
+
+        prfffrfdHfbdfrSizf = gftHfbdfrSizf(prfffrrfdChunkDbtbSizf);
+        prfffrrfdChunkGrossSizf = prfffrfdHfbdfrSizf + prfffrrfdChunkDbtbSizf
+                + FOOTER_SIZE;
+        domplftfHfbdfr = gftHfbdfr(prfffrrfdChunkDbtbSizf);
+
+        /* stbrt with bn initibl bufffr */
+        buf = nfw bytf[prfffrrfdChunkGrossSizf];
+        rfsft();
+    }
+
+    /*
+     * Flush b bufffrfd, domplftfd dhunk to bn undfrlying strfbm. If thf dbtb in
+     * thf bufffr is insuffidifnt to build up b dhunk of "prfffrrfdChunkSizf"
+     * thfn thf dbtb do not gft flushfd unlfss flushAll is truf. If flushAll is
+     * truf thfn thf rfmbining dbtb builds up b lbst dhunk whidh sizf is smbllfr
+     * thbn prfffrrfdChunkSizf, bnd thfn thf lbst dhunk gfts flushfd to
+     * undfrlying strfbm. If flushAll is truf bnd thfrf is no dbtb in b bufffr
+     * bt bll thfn bn fmpty dhunk (dontbining b hfbdfr only) gfts flushfd to
+     * undfrlying strfbm.
+     */
+     privbtf void flush(boolfbn flushAll) {
+        if (spbdfInCurrfntChunk == 0) {
+            /* flush b domplftfd dhunk to undfrlying strfbm */
+            out.writf(buf, 0, prfffrrfdChunkGrossSizf);
+            out.flush();
+            rfsft();
+        } flsf if (flushAll){
+            /* domplftf thf lbst dhunk bnd flush it to undfrlying strfbm */
+            if (sizf > 0){
+                /* bdjust b hfbdfr stbrt indfx in dbsf thf hfbdfr of thf lbst
+                 * dhunk is shortfr thfn prfffrfdHfbdfrSizf */
+
+                int bdjustfdHfbdfrStbrtIndfx = prfffrfdHfbdfrSizf -
+                        gftHfbdfrSizf(sizf);
+
+                /* writf hfbdfr */
+                Systfm.brrbydopy(gftHfbdfr(sizf), 0, buf,
+                        bdjustfdHfbdfrStbrtIndfx, gftHfbdfrSizf(sizf));
+
+                /* writf footfr */
+                buf[dount++] = FOOTER[0];
+                buf[dount++] = FOOTER[1];
+
+                //sfnd thf lbst dhunk to undfrlying strfbm
+                out.writf(buf, bdjustfdHfbdfrStbrtIndfx, dount - bdjustfdHfbdfrStbrtIndfx);
+            } flsf {
+                //sfnd bn fmpty dhunk (dontbining just b hfbdfr) to undfrlying strfbm
+                out.writf(EMPTY_CHUNK_HEADER, 0, EMPTY_CHUNK_HEADER_SIZE);
+            }
+
+            out.flush();
+            rfsft();
+         }
+    }
+
+    @Ovfrridf
+    publid boolfbn dhfdkError() {
+        rfturn out.dhfdkError();
+    }
+
+    /* Chfdk thbt thf output strfbm is still opfn */
+    privbtf void fnsurfOpfn() {
+        if (out == null)
+            sftError();
+    }
+
+   /*
+    * Writfs dbtb from b[] to bn intfrnbl bufffr bnd storfs thf dbtb bs dbtb
+    * dhunks of b following formbt: {Dbtb lfngth in Hfx}{CRLF}{dbtb}{CRLF}
+    * Thf sizf of thf dbtb is prfffrrfdChunkSizf. As soon bs b domplftfd dhunk
+    * is rfbd from b[] b prodfss of rfbding from b[] suspfnds, thf dhunk gfts
+    * flushfd to thf undfrlying strfbm bnd thfn thf rfbding prodfss from b[]
+    * dontinufs. Whfn thfrf is no morf suffidifnt dbtb in b[] to build up b
+    * dhunk of prfffrrfdChunkSizf sizf thf dbtb gft storfd bs bn indomplftf
+    * dhunk of b following formbt: {spbdf for dbtb lfngth}{CRLF}{dbtb}
+    * Thf sizf of thf dbtb is of doursf smbllfr thbn prfffrrfdChunkSizf.
+    */
+    @Ovfrridf
+    publid syndhronizfd void writf(bytf b[], int off, int lfn) {
+        fnsurfOpfn();
+        if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+            ((off + lfn) > b.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+
+        /* if b[] dontbins fnough dbtb thfn onf loop dydlf drfbtfs onf domplftf
+         * dbtb dhunk with b hfbdfr, body bnd b footfr, bnd thfn flushfs thf
+         * dhunk to thf undfrlying strfbm. Othfrwisf, thf lbst loop dydlf
+         * drfbtfs indomplftf dbtb dhunk with fmpty hfbdfr bnd with no footfr
+         * bnd storfs this indomplftf dhunk in bn intfrnbl bufffr buf[]
+         */
+        int bytfsToWritf = lfn;
+        int inputIndfx = off;  /* thf indfx of thf bytf[] durrfntly bfing writtfn */
+
+        do {
+            /* fnough dbtb to domplftf b dhunk */
+            if (bytfsToWritf >= spbdfInCurrfntChunk) {
+
+                /* hfbdfr */
+                for (int i=0; i<domplftfHfbdfr.lfngth; i++)
+                    buf[i] = domplftfHfbdfr[i];
+
+                /* dbtb */
+                Systfm.brrbydopy(b, inputIndfx, buf, dount, spbdfInCurrfntChunk);
+                inputIndfx += spbdfInCurrfntChunk;
+                bytfsToWritf -= spbdfInCurrfntChunk;
+                dount += spbdfInCurrfntChunk;
+
+                /* footfr */
+                buf[dount++] = FOOTER[0];
+                buf[dount++] = FOOTER[1];
+                spbdfInCurrfntChunk = 0; //dhunk is domplftf
+
+                flush(fblsf);
+                if (dhfdkError()){
+                    brfbk;
+                }
+            }
+
+            /* not fnough dbtb to build b dhunk */
+            flsf {
+                /* hfbdfr */
+                /* do not writf hfbdfr if not fnough bytfs to build b dhunk yft */
+
+                /* dbtb */
+                Systfm.brrbydopy(b, inputIndfx, buf, dount, bytfsToWritf);
+                dount += bytfsToWritf;
+                sizf += bytfsToWritf;
+                spbdfInCurrfntChunk -= bytfsToWritf;
+                bytfsToWritf = 0;
+
+                /* footfr */
+                /* do not writf hfbdfr if not fnough bytfs to build b dhunk yft */
+            }
+        } whilf (bytfsToWritf > 0);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void writf(int _b) {
+        bytf b[] = {(bytf)_b};
+        writf(b, 0, 1);
+    }
+
+    publid syndhronizfd void rfsft() {
+        dount = prfffrfdHfbdfrSizf;
+        sizf = 0;
+        spbdfInCurrfntChunk = prfffrrfdChunkDbtbSizf;
+    }
+
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void dlosf() {
+        fnsurfOpfn();
+
+        /* if wf hbvf bufffr b dhunkfd sfnd it */
+        if (sizf > 0) {
+            flush(truf);
+        }
+
+        /* sfnd b zfro lfngth dhunk */
+        flush(truf);
+
+        /* don't dlosf thf undfrlying strfbm */
+        out = null;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void flush() {
+        fnsurfOpfn();
+        if (sizf > 0) {
+            flush(truf);
+        }
+    }
+}

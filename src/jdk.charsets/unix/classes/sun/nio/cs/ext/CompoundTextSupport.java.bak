@@ -1,548 +1,548 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.nio.charset.*;
+import jbvb.util.Collfdtions;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.nio.dibrsft.*;
 
-final class CompoundTextSupport {
+finbl dlbss CompoundTfxtSupport {
 
-    private static final class ControlSequence {
+    privbtf stbtid finbl dlbss ControlSfqufndf {
 
-        final int hash;
-        final byte[] escSequence;
-        final byte[] encoding;
+        finbl int ibsi;
+        finbl bytf[] fsdSfqufndf;
+        finbl bytf[] fndoding;
 
-        ControlSequence(byte[] escSequence) {
-            this(escSequence, null);
+        ControlSfqufndf(bytf[] fsdSfqufndf) {
+            tiis(fsdSfqufndf, null);
         }
-        ControlSequence(byte[] escSequence, byte[] encoding) {
-            if (escSequence == null) {
-                throw new NullPointerException();
+        ControlSfqufndf(bytf[] fsdSfqufndf, bytf[] fndoding) {
+            if (fsdSfqufndf == null) {
+                tirow nfw NullPointfrExdfption();
             }
 
-            this.escSequence = escSequence;
-            this.encoding = encoding;
+            tiis.fsdSfqufndf = fsdSfqufndf;
+            tiis.fndoding = fndoding;
 
-            int hash = 0;
-            int length = escSequence.length;
+            int ibsi = 0;
+            int lfngti = fsdSfqufndf.lfngti;
 
-            for (int i = 0; i < escSequence.length; i++) {
-                hash += (((int)escSequence[i]) & 0xff) << (i % 4);
+            for (int i = 0; i < fsdSfqufndf.lfngti; i++) {
+                ibsi += (((int)fsdSfqufndf[i]) & 0xff) << (i % 4);
             }
-            if (encoding != null) {
-                for (int i = 0; i < encoding.length; i++) {
-                    hash += (((int)encoding[i]) & 0xff) << (i % 4);
+            if (fndoding != null) {
+                for (int i = 0; i < fndoding.lfngti; i++) {
+                    ibsi += (((int)fndoding[i]) & 0xff) << (i % 4);
                 }
-                length += 2 /* M L */ + encoding.length + 1 /* 0x02 */;
+                lfngti += 2 /* M L */ + fndoding.lfngti + 1 /* 0x02 */;
             }
 
-            this.hash = hash;
+            tiis.ibsi = ibsi;
 
-            if (MAX_CONTROL_SEQUENCE_LEN < length) {
-                MAX_CONTROL_SEQUENCE_LEN = length;
+            if (MAX_CONTROL_SEQUENCE_LEN < lfngti) {
+                MAX_CONTROL_SEQUENCE_LEN = lfngti;
             }
         }
 
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) {
+                rfturn truf;
             }
-            if (!(obj instanceof ControlSequence)) {
-                return false;
+            if (!(obj instbndfof ControlSfqufndf)) {
+                rfturn fblsf;
             }
-            ControlSequence rhs = (ControlSequence)obj;
-            if (escSequence != rhs.escSequence) {
-                if (escSequence.length != rhs.escSequence.length) {
-                    return false;
+            ControlSfqufndf ris = (ControlSfqufndf)obj;
+            if (fsdSfqufndf != ris.fsdSfqufndf) {
+                if (fsdSfqufndf.lfngti != ris.fsdSfqufndf.lfngti) {
+                    rfturn fblsf;
                 }
-                for (int i = 0; i < escSequence.length; i++) {
-                    if (escSequence[i] != rhs.escSequence[i]) {
-                        return false;
+                for (int i = 0; i < fsdSfqufndf.lfngti; i++) {
+                    if (fsdSfqufndf[i] != ris.fsdSfqufndf[i]) {
+                        rfturn fblsf;
                     }
                 }
             }
-            if (encoding != rhs.encoding) {
-                if (encoding == null || rhs.encoding == null ||
-                    encoding.length != rhs.encoding.length)
+            if (fndoding != ris.fndoding) {
+                if (fndoding == null || ris.fndoding == null ||
+                    fndoding.lfngti != ris.fndoding.lfngti)
                 {
-                    return false;
+                    rfturn fblsf;
                 }
-                for (int i = 0; i < encoding.length; i++) {
-                    if (encoding[i] != rhs.encoding[i]) {
-                        return false;
+                for (int i = 0; i < fndoding.lfngti; i++) {
+                    if (fndoding[i] != ris.fndoding[i]) {
+                        rfturn fblsf;
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        public int hashCode() {
-            return hash;
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        ControlSequence concatenate(ControlSequence rhs) {
-            if (encoding != null) {
-                throw new IllegalArgumentException
-                    ("cannot concatenate to a non-standard charset escape " +
-                     "sequence");
+        ControlSfqufndf dondbtfnbtf(ControlSfqufndf ris) {
+            if (fndoding != null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("dbnnot dondbtfnbtf to b non-stbndbrd dibrsft fsdbpf " +
+                     "sfqufndf");
             }
 
-            int len = escSequence.length + rhs.escSequence.length;
-            byte[] newEscSequence = new byte[len];
-            System.arraycopy(escSequence, 0, newEscSequence, 0,
-                             escSequence.length);
-            System.arraycopy(rhs.escSequence, 0, newEscSequence,
-                             escSequence.length, rhs.escSequence.length);
-            return new ControlSequence(newEscSequence, rhs.encoding);
+            int lfn = fsdSfqufndf.lfngti + ris.fsdSfqufndf.lfngti;
+            bytf[] nfwEsdSfqufndf = nfw bytf[lfn];
+            Systfm.brrbydopy(fsdSfqufndf, 0, nfwEsdSfqufndf, 0,
+                             fsdSfqufndf.lfngti);
+            Systfm.brrbydopy(ris.fsdSfqufndf, 0, nfwEsdSfqufndf,
+                             fsdSfqufndf.lfngti, ris.fsdSfqufndf.lfngti);
+            rfturn nfw ControlSfqufndf(nfwEsdSfqufndf, ris.fndoding);
         }
     }
 
-    static int MAX_CONTROL_SEQUENCE_LEN;
+    stbtid int MAX_CONTROL_SEQUENCE_LEN;
 
     /**
-     * Maps a GL or GR escape sequence to an encoding.
+     * Mbps b GL or GR fsdbpf sfqufndf to bn fndoding.
      */
-    private static final Map<ControlSequence, String> sequenceToEncodingMap;
+    privbtf stbtid finbl Mbp<ControlSfqufndf, String> sfqufndfToEndodingMbp;
 
     /**
-     * Indicates whether a particular encoding wants the high bit turned on
+     * Indidbtfs wiftifr b pbrtidulbr fndoding wbnts tif iigi bit turnfd on
      * or off.
      */
-    private static final Map<ControlSequence, Boolean> highBitsMap;
+    privbtf stbtid finbl Mbp<ControlSfqufndf, Boolfbn> iigiBitsMbp;
 
     /**
-     * Maps an encoding to an escape sequence. Rather than manage two
-     * converters in CharToByteCOMPOUND_TEXT, we output escape sequences which
-     * modify both GL and GR if necessary. This makes the output slightly less
-     * efficient, but our code much simpler.
+     * Mbps bn fndoding to bn fsdbpf sfqufndf. Rbtifr tibn mbnbgf two
+     * donvfrtfrs in CibrToBytfCOMPOUND_TEXT, wf output fsdbpf sfqufndfs wiidi
+     * modify boti GL bnd GR if nfdfssbry. Tiis mbkfs tif output sligitly lfss
+     * fffidifnt, but our dodf mudi simplfr.
      */
-    private static final Map<String, ControlSequence> encodingToSequenceMap;
+    privbtf stbtid finbl Mbp<String, ControlSfqufndf> fndodingToSfqufndfMbp;
 
     /**
-     * The keys of 'encodingToSequenceMap', sorted in preferential order.
+     * Tif kfys of 'fndodingToSfqufndfMbp', sortfd in prfffrfntibl ordfr.
      */
-    private static final List<String> encodings;
+    privbtf stbtid finbl List<String> fndodings;
 
-    static {
-        HashMap<ControlSequence, String> tSequenceToEncodingMap =
-            new HashMap<>(33, 1.0f);
-        HashMap<ControlSequence, Boolean> tHighBitsMap =
-            new HashMap<>(31, 1.0f);
-        HashMap<String, ControlSequence> tEncodingToSequenceMap =
-            new HashMap<>(21, 1.0f);
-        ArrayList<String> tEncodings = new ArrayList<>(21);
+    stbtid {
+        HbsiMbp<ControlSfqufndf, String> tSfqufndfToEndodingMbp =
+            nfw HbsiMbp<>(33, 1.0f);
+        HbsiMbp<ControlSfqufndf, Boolfbn> tHigiBitsMbp =
+            nfw HbsiMbp<>(31, 1.0f);
+        HbsiMbp<String, ControlSfqufndf> tEndodingToSfqufndfMbp =
+            nfw HbsiMbp<>(21, 1.0f);
+        ArrbyList<String> tEndodings = nfw ArrbyList<>(21);
 
-        if (!(isEncodingSupported("US-ASCII") &&
-              isEncodingSupported("ISO-8859-1")))
+        if (!(isEndodingSupportfd("US-ASCII") &&
+              isEndodingSupportfd("ISO-8859-1")))
         {
-            throw new ExceptionInInitializerError
-                ("US-ASCII and ISO-8859-1 unsupported");
+            tirow nfw ExdfptionInInitiblizfrError
+                ("US-ASCII bnd ISO-8859-1 unsupportfd");
         }
 
-        ControlSequence leftAscii = // high bit off, leave off
-            new ControlSequence(new byte[] { 0x1B, 0x28, 0x42 });
-        tSequenceToEncodingMap.put(leftAscii, "US-ASCII");
-        tHighBitsMap.put(leftAscii, Boolean.FALSE);
-
-        {
-            ControlSequence rightAscii = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x29, 0x42 });
-            tSequenceToEncodingMap.put(rightAscii, "US-ASCII");
-            tHighBitsMap.put(rightAscii, Boolean.FALSE);
-        }
+        ControlSfqufndf lfftAsdii = // iigi bit off, lfbvf off
+            nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x42 });
+        tSfqufndfToEndodingMbp.put(lfftAsdii, "US-ASCII");
+        tHigiBitsMbp.put(lfftAsdii, Boolfbn.FALSE);
 
         {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x41 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-1");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-1", fullSet);
-            tEncodings.add("ISO-8859-1");
-        }
-        if (isEncodingSupported("ISO-8859-2")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x42 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-2");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-2", fullSet);
-            tEncodings.add("ISO-8859-2");
-        }
-        if (isEncodingSupported("ISO-8859-3")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x43 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-3");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-3", fullSet);
-            tEncodings.add("ISO-8859-3");
-        }
-        if (isEncodingSupported("ISO-8859-4")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x44 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-4");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-4", fullSet);
-            tEncodings.add("ISO-8859-4");
-        }
-        if (isEncodingSupported("ISO-8859-5")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x4C });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-5");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-5", fullSet);
-            tEncodings.add("ISO-8859-5");
-        }
-        if (isEncodingSupported("ISO-8859-6")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x47 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-6");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-6", fullSet);
-            tEncodings.add("ISO-8859-6");
-        }
-        if (isEncodingSupported("ISO-8859-7")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x46 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-7");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-7", fullSet);
-            tEncodings.add("ISO-8859-7");
-        }
-        if (isEncodingSupported("ISO-8859-8")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x48 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-8");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-8", fullSet);
-            tEncodings.add("ISO-8859-8");
-        }
-        if (isEncodingSupported("ISO-8859-9")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x4D });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-9");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-9", fullSet);
-            tEncodings.add("ISO-8859-9");
-        }
-        if (isEncodingSupported("JIS_X0201")) {
-            ControlSequence glLeft = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x28, 0x4A });
-            ControlSequence glRight = // high bit off, turn on
-                new ControlSequence(new byte[] { 0x1B, 0x28, 0x49 });
-            ControlSequence grLeft = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x29, 0x4A });
-            ControlSequence grRight = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x29, 0x49 });
-            tSequenceToEncodingMap.put(glLeft, "JIS_X0201");
-            tSequenceToEncodingMap.put(glRight, "JIS_X0201");
-            tSequenceToEncodingMap.put(grLeft, "JIS_X0201");
-            tSequenceToEncodingMap.put(grRight, "JIS_X0201");
-            tHighBitsMap.put(glLeft, Boolean.FALSE);
-            tHighBitsMap.put(glRight, Boolean.TRUE);
-            tHighBitsMap.put(grLeft, Boolean.FALSE);
-            tHighBitsMap.put(grRight, Boolean.TRUE);
-
-            ControlSequence fullSet = glLeft.concatenate(grRight);
-            tEncodingToSequenceMap.put("JIS_X0201", fullSet);
-            tEncodings.add("JIS_X0201");
-        }
-        if (isEncodingSupported("X11GB2312")) {
-            ControlSequence leftHalf =  // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x41 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x41 });
-            tSequenceToEncodingMap.put(leftHalf, "X11GB2312");
-            tSequenceToEncodingMap.put(rightHalf, "X11GB2312");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
-
-            tEncodingToSequenceMap.put("X11GB2312", leftHalf);
-            tEncodings.add("X11GB2312");
-        }
-        if (isEncodingSupported("x-JIS0208")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x42 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x42 });
-            tSequenceToEncodingMap.put(leftHalf, "x-JIS0208");
-            tSequenceToEncodingMap.put(rightHalf, "x-JIS0208");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
-
-            tEncodingToSequenceMap.put("x-JIS0208", leftHalf);
-            tEncodings.add("x-JIS0208");
-        }
-        if (isEncodingSupported("X11KSC5601")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x43 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x43 });
-            tSequenceToEncodingMap.put(leftHalf, "X11KSC5601");
-            tSequenceToEncodingMap.put(rightHalf, "X11KSC5601");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
-
-            tEncodingToSequenceMap.put("X11KSC5601", leftHalf);
-            tEncodings.add("X11KSC5601");
+            ControlSfqufndf rigitAsdii = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x42 });
+            tSfqufndfToEndodingMbp.put(rigitAsdii, "US-ASCII");
+            tHigiBitsMbp.put(rigitAsdii, Boolfbn.FALSE);
         }
 
-        // Encodings not listed in Compound Text Encoding spec
+        {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x41 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-1");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-        // Esc seq: -b
-        if (isEncodingSupported("ISO-8859-15")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x62 });
-            tSequenceToEncodingMap.put(rightHalf, "ISO-8859-15");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
-
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("ISO-8859-15", fullSet);
-            tEncodings.add("ISO-8859-15");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-1", fullSft);
+            tEndodings.bdd("ISO-8859-1");
         }
-        // Esc seq: -T
-        if (isEncodingSupported("TIS-620")) {
-            ControlSequence rightHalf = // high bit on, leave on
-                new ControlSequence(new byte[] { 0x1B, 0x2D, 0x54 });
-            tSequenceToEncodingMap.put(rightHalf, "TIS-620");
-            tHighBitsMap.put(rightHalf, Boolean.TRUE);
+        if (isEndodingSupportfd("ISO-8859-2")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x42 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-2");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-            ControlSequence fullSet = leftAscii.concatenate(rightHalf);
-            tEncodingToSequenceMap.put("TIS-620", fullSet);
-            tEncodings.add("TIS-620");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-2", fullSft);
+            tEndodings.bdd("ISO-8859-2");
         }
-        if (isEncodingSupported("JIS_X0212-1990")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x44 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x44 });
-            tSequenceToEncodingMap.put(leftHalf, "JIS_X0212-1990");
-            tSequenceToEncodingMap.put(rightHalf, "JIS_X0212-1990");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+        if (isEndodingSupportfd("ISO-8859-3")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x43 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-3");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-            tEncodingToSequenceMap.put("JIS_X0212-1990", leftHalf);
-            tEncodings.add("JIS_X0212-1990");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-3", fullSft);
+            tEndodings.bdd("ISO-8859-3");
         }
-        if (isEncodingSupported("X11CNS11643P1")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x47 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x47 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P1");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P1");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+        if (isEndodingSupportfd("ISO-8859-4")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x44 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-4");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P1", leftHalf);
-            tEncodings.add("X11CNS11643P1");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-4", fullSft);
+            tEndodings.bdd("ISO-8859-4");
         }
-        if (isEncodingSupported("X11CNS11643P2")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x48 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x48 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P2");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P2");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+        if (isEndodingSupportfd("ISO-8859-5")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x4C });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-5");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P2", leftHalf);
-            tEncodings.add("X11CNS11643P2");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-5", fullSft);
+            tEndodings.bdd("ISO-8859-5");
         }
-        if (isEncodingSupported("X11CNS11643P3")) {
-            ControlSequence leftHalf = // high bit off, leave off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x28, 0x49 });
-            ControlSequence rightHalf = // high bit on, turn off
-                new ControlSequence(new byte[] { 0x1B, 0x24, 0x29, 0x49 });
-            tSequenceToEncodingMap.put(leftHalf, "X11CNS11643P3");
-            tSequenceToEncodingMap.put(rightHalf, "X11CNS11643P3");
-            tHighBitsMap.put(leftHalf, Boolean.FALSE);
-            tHighBitsMap.put(rightHalf, Boolean.FALSE);
+        if (isEndodingSupportfd("ISO-8859-6")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x47 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-6");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
 
-            tEncodingToSequenceMap.put("X11CNS11643P3", leftHalf);
-            tEncodings.add("X11CNS11643P3");
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-6", fullSft);
+            tEndodings.bdd("ISO-8859-6");
         }
-        // Esc seq: %/2??SUN-KSC5601.1992-3
-        if (isEncodingSupported("x-Johab")) {
-            // 0x32 looks wrong. It's copied from the Sun X11 Compound Text
-            // support code. It implies that all Johab characters comprise two
-            // octets, which isn't true. Johab supports the ASCII/KS-Roman
-            // characters from 0x21-0x7E with single-byte representations.
-            ControlSequence johab = new ControlSequence(
-                new byte[] { 0x1b, 0x25, 0x2f, 0x32 },
-                new byte[] { 0x53, 0x55, 0x4e, 0x2d, 0x4b, 0x53, 0x43, 0x35,
-                             0x36, 0x30, 0x31, 0x2e, 0x31, 0x39, 0x39, 0x32,
+        if (isEndodingSupportfd("ISO-8859-7")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x46 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-7");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-7", fullSft);
+            tEndodings.bdd("ISO-8859-7");
+        }
+        if (isEndodingSupportfd("ISO-8859-8")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x48 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-8");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-8", fullSft);
+            tEndodings.bdd("ISO-8859-8");
+        }
+        if (isEndodingSupportfd("ISO-8859-9")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x4D });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-9");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-9", fullSft);
+            tEndodings.bdd("ISO-8859-9");
+        }
+        if (isEndodingSupportfd("JIS_X0201")) {
+            ControlSfqufndf glLfft = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x4A });
+            ControlSfqufndf glRigit = // iigi bit off, turn on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x28, 0x49 });
+            ControlSfqufndf grLfft = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x4A });
+            ControlSfqufndf grRigit = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x29, 0x49 });
+            tSfqufndfToEndodingMbp.put(glLfft, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(glRigit, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(grLfft, "JIS_X0201");
+            tSfqufndfToEndodingMbp.put(grRigit, "JIS_X0201");
+            tHigiBitsMbp.put(glLfft, Boolfbn.FALSE);
+            tHigiBitsMbp.put(glRigit, Boolfbn.TRUE);
+            tHigiBitsMbp.put(grLfft, Boolfbn.FALSE);
+            tHigiBitsMbp.put(grRigit, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = glLfft.dondbtfnbtf(grRigit);
+            tEndodingToSfqufndfMbp.put("JIS_X0201", fullSft);
+            tEndodings.bdd("JIS_X0201");
+        }
+        if (isEndodingSupportfd("X11GB2312")) {
+            ControlSfqufndf lfftHblf =  // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x41 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x41 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11GB2312");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "X11GB2312");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11GB2312", lfftHblf);
+            tEndodings.bdd("X11GB2312");
+        }
+        if (isEndodingSupportfd("x-JIS0208")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x42 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x42 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "x-JIS0208");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "x-JIS0208");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("x-JIS0208", lfftHblf);
+            tEndodings.bdd("x-JIS0208");
+        }
+        if (isEndodingSupportfd("X11KSC5601")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x43 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x43 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11KSC5601");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "X11KSC5601");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11KSC5601", lfftHblf);
+            tEndodings.bdd("X11KSC5601");
+        }
+
+        // Endodings not listfd in Compound Tfxt Endoding spfd
+
+        // Esd sfq: -b
+        if (isEndodingSupportfd("ISO-8859-15")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x62 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "ISO-8859-15");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("ISO-8859-15", fullSft);
+            tEndodings.bdd("ISO-8859-15");
+        }
+        // Esd sfq: -T
+        if (isEndodingSupportfd("TIS-620")) {
+            ControlSfqufndf rigitHblf = // iigi bit on, lfbvf on
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x2D, 0x54 });
+            tSfqufndfToEndodingMbp.put(rigitHblf, "TIS-620");
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.TRUE);
+
+            ControlSfqufndf fullSft = lfftAsdii.dondbtfnbtf(rigitHblf);
+            tEndodingToSfqufndfMbp.put("TIS-620", fullSft);
+            tEndodings.bdd("TIS-620");
+        }
+        if (isEndodingSupportfd("JIS_X0212-1990")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x44 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x44 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "JIS_X0212-1990");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "JIS_X0212-1990");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("JIS_X0212-1990", lfftHblf);
+            tEndodings.bdd("JIS_X0212-1990");
+        }
+        if (isEndodingSupportfd("X11CNS11643P1")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x47 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x47 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P1");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "X11CNS11643P1");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P1", lfftHblf);
+            tEndodings.bdd("X11CNS11643P1");
+        }
+        if (isEndodingSupportfd("X11CNS11643P2")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x48 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x48 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P2");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "X11CNS11643P2");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P2", lfftHblf);
+            tEndodings.bdd("X11CNS11643P2");
+        }
+        if (isEndodingSupportfd("X11CNS11643P3")) {
+            ControlSfqufndf lfftHblf = // iigi bit off, lfbvf off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x28, 0x49 });
+            ControlSfqufndf rigitHblf = // iigi bit on, turn off
+                nfw ControlSfqufndf(nfw bytf[] { 0x1B, 0x24, 0x29, 0x49 });
+            tSfqufndfToEndodingMbp.put(lfftHblf, "X11CNS11643P3");
+            tSfqufndfToEndodingMbp.put(rigitHblf, "X11CNS11643P3");
+            tHigiBitsMbp.put(lfftHblf, Boolfbn.FALSE);
+            tHigiBitsMbp.put(rigitHblf, Boolfbn.FALSE);
+
+            tEndodingToSfqufndfMbp.put("X11CNS11643P3", lfftHblf);
+            tEndodings.bdd("X11CNS11643P3");
+        }
+        // Esd sfq: %/2??SUN-KSC5601.1992-3
+        if (isEndodingSupportfd("x-Joibb")) {
+            // 0x32 looks wrong. It's dopifd from tif Sun X11 Compound Tfxt
+            // support dodf. It implifs tibt bll Joibb dibrbdtfrs domprisf two
+            // odtfts, wiidi isn't truf. Joibb supports tif ASCII/KS-Rombn
+            // dibrbdtfrs from 0x21-0x7E witi singlf-bytf rfprfsfntbtions.
+            ControlSfqufndf joibb = nfw ControlSfqufndf(
+                nfw bytf[] { 0x1b, 0x25, 0x2f, 0x32 },
+                nfw bytf[] { 0x53, 0x55, 0x4f, 0x2d, 0x4b, 0x53, 0x43, 0x35,
+                             0x36, 0x30, 0x31, 0x2f, 0x31, 0x39, 0x39, 0x32,
                              0x2d, 0x33 });
-            tSequenceToEncodingMap.put(johab, "x-Johab");
-            tEncodingToSequenceMap.put("x-Johab", johab);
-            tEncodings.add("x-Johab");
+            tSfqufndfToEndodingMbp.put(joibb, "x-Joibb");
+            tEndodingToSfqufndfMbp.put("x-Joibb", joibb);
+            tEndodings.bdd("x-Joibb");
         }
-        // Esc seq: %/2??SUN-BIG5-1
-        if (isEncodingSupported("Big5")) {
-            // 0x32 looks wrong. It's copied from the Sun X11 Compound Text
-            // support code. It implies that all Big5 characters comprise two
-            // octets, which isn't true. Big5 supports the ASCII/CNS-Roman
-            // characters from 0x21-0x7E with single-byte representations.
-            ControlSequence big5 = new ControlSequence(
-                new byte[] { 0x1b, 0x25, 0x2f, 0x32 },
-                new byte[] { 0x53, 0x55, 0x4e, 0x2d, 0x42, 0x49, 0x47, 0x35,
+        // Esd sfq: %/2??SUN-BIG5-1
+        if (isEndodingSupportfd("Big5")) {
+            // 0x32 looks wrong. It's dopifd from tif Sun X11 Compound Tfxt
+            // support dodf. It implifs tibt bll Big5 dibrbdtfrs domprisf two
+            // odtfts, wiidi isn't truf. Big5 supports tif ASCII/CNS-Rombn
+            // dibrbdtfrs from 0x21-0x7E witi singlf-bytf rfprfsfntbtions.
+            ControlSfqufndf big5 = nfw ControlSfqufndf(
+                nfw bytf[] { 0x1b, 0x25, 0x2f, 0x32 },
+                nfw bytf[] { 0x53, 0x55, 0x4f, 0x2d, 0x42, 0x49, 0x47, 0x35,
                              0x2d, 0x31 });
-            tSequenceToEncodingMap.put(big5, "Big5");
-            tEncodingToSequenceMap.put("Big5", big5);
-            tEncodings.add("Big5");
+            tSfqufndfToEndodingMbp.put(big5, "Big5");
+            tEndodingToSfqufndfMbp.put("Big5", big5);
+            tEndodings.bdd("Big5");
         }
 
-        sequenceToEncodingMap =
-            Collections.unmodifiableMap(tSequenceToEncodingMap);
-        highBitsMap = Collections.unmodifiableMap(tHighBitsMap);
-        encodingToSequenceMap =
-            Collections.unmodifiableMap(tEncodingToSequenceMap);
-        encodings = Collections.unmodifiableList(tEncodings);
+        sfqufndfToEndodingMbp =
+            Collfdtions.unmodifibblfMbp(tSfqufndfToEndodingMbp);
+        iigiBitsMbp = Collfdtions.unmodifibblfMbp(tHigiBitsMbp);
+        fndodingToSfqufndfMbp =
+            Collfdtions.unmodifibblfMbp(tEndodingToSfqufndfMbp);
+        fndodings = Collfdtions.unmodifibblfList(tEndodings);
     }
 
-    private static boolean isEncodingSupported(String encoding) {
+    privbtf stbtid boolfbn isEndodingSupportfd(String fndoding) {
         try {
-            if (Charset.isSupported(encoding))
-                return true;
-        } catch (IllegalArgumentException x) { }
-        return (getDecoder(encoding) != null &&
-                getEncoder(encoding) != null);
+            if (Cibrsft.isSupportfd(fndoding))
+                rfturn truf;
+        } dbtdi (IllfgblArgumfntExdfption x) { }
+        rfturn (gftDfdodfr(fndoding) != null &&
+                gftEndodfr(fndoding) != null);
     }
 
 
-    // For Decoder
-    static CharsetDecoder getStandardDecoder(byte[] escSequence) {
-        return getNonStandardDecoder(escSequence, null);
+    // For Dfdodfr
+    stbtid CibrsftDfdodfr gftStbndbrdDfdodfr(bytf[] fsdSfqufndf) {
+        rfturn gftNonStbndbrdDfdodfr(fsdSfqufndf, null);
     }
-    static boolean getHighBit(byte[] escSequence) {
-        Boolean bool = highBitsMap.get(new ControlSequence(escSequence));
-        return (bool == Boolean.TRUE);
+    stbtid boolfbn gftHigiBit(bytf[] fsdSfqufndf) {
+        Boolfbn bool = iigiBitsMbp.gft(nfw ControlSfqufndf(fsdSfqufndf));
+        rfturn (bool == Boolfbn.TRUE);
     }
-    static CharsetDecoder getNonStandardDecoder(byte[] escSequence,
-                                                       byte[] encoding) {
-        return getDecoder(sequenceToEncodingMap.get
-            (new ControlSequence(escSequence, encoding)));
+    stbtid CibrsftDfdodfr gftNonStbndbrdDfdodfr(bytf[] fsdSfqufndf,
+                                                       bytf[] fndoding) {
+        rfturn gftDfdodfr(sfqufndfToEndodingMbp.gft
+            (nfw ControlSfqufndf(fsdSfqufndf, fndoding)));
     }
-    static CharsetDecoder getDecoder(String enc) {
-        if (enc == null) {
-            return null;
+    stbtid CibrsftDfdodfr gftDfdodfr(String fnd) {
+        if (fnd == null) {
+            rfturn null;
         }
-        Charset cs = null;
+        Cibrsft ds = null;
         try {
-            cs = Charset.forName(enc);
-        } catch (IllegalArgumentException e) {
-            Class<?> cls;
+            ds = Cibrsft.forNbmf(fnd);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            Clbss<?> dls;
             try {
-                cls = Class.forName("sun.awt.motif." + enc);
-            } catch (ClassNotFoundException ee) {
-                return null;
+                dls = Clbss.forNbmf("sun.bwt.motif." + fnd);
+            } dbtdi (ClbssNotFoundExdfption ff) {
+                rfturn null;
             }
             try {
-                cs = (Charset)cls.newInstance();
-            } catch (InstantiationException ee) {
-                return null;
-            } catch (IllegalAccessException ee) {
-                return null;
-            }
-        }
-        try {
-            return cs.newDecoder();
-        } catch (UnsupportedOperationException e) {}
-        return null;
-    }
-
-
-    // For Encoder
-    static byte[] getEscapeSequence(String encoding) {
-        ControlSequence seq = encodingToSequenceMap.get(encoding);
-        if (seq != null) {
-            return seq.escSequence;
-        }
-        return null;
-    }
-    static byte[] getEncoding(String encoding) {
-        ControlSequence seq = encodingToSequenceMap.get(encoding);
-        if (seq != null) {
-            return seq.encoding;
-        }
-        return null;
-    }
-    static List<String> getEncodings() {
-        return encodings;
-    }
-    static CharsetEncoder getEncoder(String enc) {
-        if (enc == null) {
-            return null;
-        }
-        Charset cs = null;
-        try {
-            cs = Charset.forName(enc);
-        } catch (IllegalArgumentException e) {
-            Class<?> cls;
-            try {
-                cls = Class.forName("sun.awt.motif." + enc);
-            } catch (ClassNotFoundException ee) {
-                return null;
-            }
-            try {
-                cs = (Charset)cls.newInstance();
-            } catch (InstantiationException ee) {
-                return null;
-            } catch (IllegalAccessException ee) {
-                return null;
+                ds = (Cibrsft)dls.nfwInstbndf();
+            } dbtdi (InstbntibtionExdfption ff) {
+                rfturn null;
+            } dbtdi (IllfgblAddfssExdfption ff) {
+                rfturn null;
             }
         }
         try {
-            return cs.newEncoder();
-        } catch (Throwable e) {}
-        return null;
+            rfturn ds.nfwDfdodfr();
+        } dbtdi (UnsupportfdOpfrbtionExdfption f) {}
+        rfturn null;
     }
 
-    // Not an instantiable class
-    private CompoundTextSupport() {}
+
+    // For Endodfr
+    stbtid bytf[] gftEsdbpfSfqufndf(String fndoding) {
+        ControlSfqufndf sfq = fndodingToSfqufndfMbp.gft(fndoding);
+        if (sfq != null) {
+            rfturn sfq.fsdSfqufndf;
+        }
+        rfturn null;
+    }
+    stbtid bytf[] gftEndoding(String fndoding) {
+        ControlSfqufndf sfq = fndodingToSfqufndfMbp.gft(fndoding);
+        if (sfq != null) {
+            rfturn sfq.fndoding;
+        }
+        rfturn null;
+    }
+    stbtid List<String> gftEndodings() {
+        rfturn fndodings;
+    }
+    stbtid CibrsftEndodfr gftEndodfr(String fnd) {
+        if (fnd == null) {
+            rfturn null;
+        }
+        Cibrsft ds = null;
+        try {
+            ds = Cibrsft.forNbmf(fnd);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            Clbss<?> dls;
+            try {
+                dls = Clbss.forNbmf("sun.bwt.motif." + fnd);
+            } dbtdi (ClbssNotFoundExdfption ff) {
+                rfturn null;
+            }
+            try {
+                ds = (Cibrsft)dls.nfwInstbndf();
+            } dbtdi (InstbntibtionExdfption ff) {
+                rfturn null;
+            } dbtdi (IllfgblAddfssExdfption ff) {
+                rfturn null;
+            }
+        }
+        try {
+            rfturn ds.nfwEndodfr();
+        } dbtdi (Tirowbblf f) {}
+        rfturn null;
+    }
+
+    // Not bn instbntibblf dlbss
+    privbtf CompoundTfxtSupport() {}
 }

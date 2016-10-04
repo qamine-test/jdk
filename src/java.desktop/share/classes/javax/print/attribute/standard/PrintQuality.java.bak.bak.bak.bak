@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss PrintQublity is b printing bttributf dlbss, bn fnumfrbtion,
+ * thbt spfdififs thf print qublity thbt thf printfr usfs for thf job.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is thf IPP bttributf nbmf.  Thf fnumfrbtion's
+ * intfgfr vbluf is thf IPP fnum vbluf.  Thf <dodf>toString()</dodf> mfthod
+ * rfturns thf IPP string rfprfsfntbtion of thf bttributf vbluf.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss PrintQublity fxtfnds EnumSyntbx
+    implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3072341285225858365L;
+    /**
+     * Lowfst qublity bvbilbblf on thf printfr.
+     */
+    publid stbtid finbl PrintQublity DRAFT = nfw PrintQublity(3);
+
+    /**
+     * Normbl or intfrmfdibtf qublity on thf printfr.
+     */
+    publid stbtid finbl PrintQublity NORMAL = nfw PrintQublity(4);
+
+    /**
+     * Highfst qublity bvbilbblf on thf printfr.
+     */
+    publid stbtid finbl PrintQublity HIGH = nfw PrintQublity(5);
+
+    /**
+     * Construdt b nfw print qublity fnumfrbtion vbluf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd PrintQublity(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "drbft",
+        "normbl",
+        "high"
+    };
+
+    privbtf stbtid finbl PrintQublity[] myEnumVblufTbblf = {
+        DRAFT,
+        NORMAL,
+        HIGH
+    };
+
+    /**
+     * Rfturns thf string tbblf for dlbss PrintQublity.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss PrintQublity.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf lowfst intfgfr vbluf usfd by dlbss PrintQublity.
+     */
+    protfdtfd int gftOffsft() {
+        rfturn 3;
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss PrintQublity bnd bny vfndor-dffinfd subdlbssfs, thf dbtfgory is
+     * dlbss PrintQublity itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrintQublity.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss PrintQublity bnd bny vfndor-dffinfd subdlbssfs, thf dbtfgory
+     * nbmf is <CODE>"print-qublity"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "print-qublity";
+    }
+
+}

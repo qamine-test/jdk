@@ -1,389 +1,389 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package apple.applescript;
+pbdkbgf bpplf.bpplfsdript;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.Map.Entry;
+import jbvb.io.*;
+import jbvb.nio.filf.Filfs;
+import jbvb.util.*;
+import jbvb.util.Mbp.Entry;
 
-import javax.script.*;
+import jbvbx.sdript.*;
 
 /**
- * AppleScriptEngine implements JSR 223 for AppleScript on Mac OS X
+ * ApplfSdriptEnginf implfmfnts JSR 223 for ApplfSdript on Mbd OS X
  */
-public class AppleScriptEngine implements ScriptEngine {
-    private static native void initNative();
+publid dlbss ApplfSdriptEnginf implfmfnts SdriptEnginf {
+    privbtf stbtid nbtivf void initNbtivf();
 
-    private static native long createContextFrom(final Object object);
-    private static native Object createObjectFrom(final long context);
-    private static native void disposeContext(final long context);
+    privbtf stbtid nbtivf long drfbtfContfxtFrom(finbl Objfdt objfdt);
+    privbtf stbtid nbtivf Objfdt drfbtfObjfdtFrom(finbl long dontfxt);
+    privbtf stbtid nbtivf void disposfContfxt(finbl long dontfxt);
 
-    private static native long evalScript(final String script, long contextptr);
-    private static native long evalScriptFromURL(final String filename, long contextptr);
+    privbtf stbtid nbtivf long fvblSdript(finbl String sdript, long dontfxtptr);
+    privbtf stbtid nbtivf long fvblSdriptFromURL(finbl String filfnbmf, long dontfxtptr);
 
-    static {
-        System.loadLibrary("AppleScriptEngine");
-        initNative();
-        TRACE("<static-init>");
+    stbtid {
+        Systfm.lobdLibrbry("ApplfSdriptEnginf");
+        initNbtivf();
+        TRACE("<stbtid-init>");
     }
 
-    static void checkSecurity() {
-        final SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager != null) securityManager.checkExec("/usr/bin/osascript");
+    stbtid void difdkSfdurity() {
+        finbl SfdurityMbnbgfr sfdurityMbnbgfr = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurityMbnbgfr != null) sfdurityMbnbgfr.difdkExfd("/usr/bin/osbsdript");
     }
 
-    static void TRACE(final String str) {
-//        System.out.println(AppleScriptEngine.class.getName() + "." + str);
-    }
-
-    /**
-     * Accessor for the ScriptEngine's long name variable
-     * @return the long name of the ScriptEngine
-     */
-    protected static String getEngine() {
-        TRACE("getEngine()");
-        return AppleScriptEngineFactory.ENGINE_NAME;
+    stbtid void TRACE(finbl String str) {
+//        Systfm.out.println(ApplfSdriptEnginf.dlbss.gftNbmf() + "." + str);
     }
 
     /**
-     * Accessor for the ScriptEngine's version
-     * @return the version of the ScriptEngine
+     * Addfssor for tif SdriptEnginf's long nbmf vbribblf
+     * @rfturn tif long nbmf of tif SdriptEnginf
      */
-    protected static String getEngineVersion() {
-        TRACE("getEngineVersion()");
-        return AppleScriptEngineFactory.ENGINE_VERSION;
+    protfdtfd stbtid String gftEnginf() {
+        TRACE("gftEnginf()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_NAME;
     }
 
     /**
-     * Accessor for the ScriptEngine's short name
-     * @return the short name of the ScriptEngine
+     * Addfssor for tif SdriptEnginf's vfrsion
+     * @rfturn tif vfrsion of tif SdriptEnginf
      */
-    protected static String getName() {
-        TRACE("getName()");
-        return AppleScriptEngineFactory.ENGINE_SHORT_NAME;
+    protfdtfd stbtid String gftEnginfVfrsion() {
+        TRACE("gftEnginfVfrsion()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_VERSION;
     }
 
     /**
-     * Accessor for the ScriptEngine's supported language name
-     * @return the language the ScriptEngine supports
+     * Addfssor for tif SdriptEnginf's siort nbmf
+     * @rfturn tif siort nbmf of tif SdriptEnginf
      */
-    protected static String getLanguage() {
-        TRACE("getLanguage()");
-        return AppleScriptEngineFactory.LANGUAGE;
+    protfdtfd stbtid String gftNbmf() {
+        TRACE("gftNbmf()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_SHORT_NAME;
     }
 
     /**
-     * The no argument constructor sets up the object with default members,
-     * a factory for the engine and a fresh context.
-     * @see com.apple.applescript.AppleScriptEngine#init()
+     * Addfssor for tif SdriptEnginf's supportfd lbngubgf nbmf
+     * @rfturn tif lbngubgf tif SdriptEnginf supports
      */
-    public AppleScriptEngine() {
-        TRACE("<ctor>()");
-        // set our parent factory to be a new factory
-        factory = AppleScriptEngineFactory.getFactory();
+    protfdtfd stbtid String gftLbngubgf() {
+        TRACE("gftLbngubgf()");
+        rfturn ApplfSdriptEnginfFbdtory.LANGUAGE;
+    }
 
-        // set up our noarg bindings
-        setContext(new SimpleScriptContext());
+    /**
+     * Tif no brgumfnt donstrudtor sfts up tif objfdt witi dffbult mfmbfrs,
+     * b fbdtory for tif fnginf bnd b frfsi dontfxt.
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#init()
+     */
+    publid ApplfSdriptEnginf() {
+        TRACE("<dtor>()");
+        // sft our pbrfnt fbdtory to bf b nfw fbdtory
+        fbdtory = ApplfSdriptEnginfFbdtory.gftFbdtory();
+
+        // sft up our nobrg bindings
+        sftContfxt(nfw SimplfSdriptContfxt());
         put(ARGV, "");
 
         init();
     }
 
     /**
-     * All AppleScriptEngines share the same ScriptEngineFactory
+     * All ApplfSdriptEnginfs sibrf tif sbmf SdriptEnginfFbdtory
      */
-    private final ScriptEngineFactory factory;
+    privbtf finbl SdriptEnginfFbdtory fbdtory;
 
     /**
-     * The local context for the AppleScriptEngine
+     * Tif lodbl dontfxt for tif ApplfSdriptEnginf
      */
-    private ScriptContext context;
+    privbtf SdriptContfxt dontfxt;
 
     /**
-     * The constructor taking a factory as an argument sets the parent factory for
-     * this engine to be the passed factory, and sets up the engine with a fresh context
-     * @param factory
-     * @see com.apple.applescript.AppleScriptEngine#init()
+     * Tif donstrudtor tbking b fbdtory bs bn brgumfnt sfts tif pbrfnt fbdtory for
+     * tiis fnginf to bf tif pbssfd fbdtory, bnd sfts up tif fnginf witi b frfsi dontfxt
+     * @pbrbm fbdtory
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#init()
      */
-    public AppleScriptEngine(final ScriptEngineFactory factory) {
-        // inherit the factory passed to us
-        this.factory = factory;
+    publid ApplfSdriptEnginf(finbl SdriptEnginfFbdtory fbdtory) {
+        // inifrit tif fbdtory pbssfd to us
+        tiis.fbdtory = fbdtory;
 
-        // set up our noarg bindings
-        setContext(new SimpleScriptContext());
+        // sft up our nobrg bindings
+        sftContfxt(nfw SimplfSdriptContfxt());
         put(ARGV, "");
 
         init();
     }
 
     /**
-     * The initializer populates the local context with some useful predefined variables:
-     * <ul><li><code>javax_script_language_version</code> - the version of AppleScript that the AppleScriptEngine supports.</li>
-     * <li><code>javax_script_language</code> - "AppleScript" -- the language supported by the AppleScriptEngine.</li>
-     * <li><code>javax_script_engine</code> - "AppleScriptEngine" -- the name of the ScriptEngine.</li>
-     * <li><code>javax_script_engine_version</code> - the version of the AppleScriptEngine</li>
-     * <li><code>javax_script_argv</code> - "" -- AppleScript does not take arguments from the command line</li>
-     * <li><code>javax_script_filename</code> - "" -- the currently executing filename</li>
-     * <li><code>javax_script_name</code> - "AppleScriptEngine" -- the short name of the AppleScriptEngine</li>
-     * <li><code>THREADING</code> - null -- the AppleScriptEngine does not support concurrency, you will have to implement thread-safeness yourself.</li></ul>
+     * Tif initiblizfr populbtfs tif lodbl dontfxt witi somf usfful prfdffinfd vbribblfs:
+     * <ul><li><dodf>jbvbx_sdript_lbngubgf_vfrsion</dodf> - tif vfrsion of ApplfSdript tibt tif ApplfSdriptEnginf supports.</li>
+     * <li><dodf>jbvbx_sdript_lbngubgf</dodf> - "ApplfSdript" -- tif lbngubgf supportfd by tif ApplfSdriptEnginf.</li>
+     * <li><dodf>jbvbx_sdript_fnginf</dodf> - "ApplfSdriptEnginf" -- tif nbmf of tif SdriptEnginf.</li>
+     * <li><dodf>jbvbx_sdript_fnginf_vfrsion</dodf> - tif vfrsion of tif ApplfSdriptEnginf</li>
+     * <li><dodf>jbvbx_sdript_brgv</dodf> - "" -- ApplfSdript dofs not tbkf brgumfnts from tif dommbnd linf</li>
+     * <li><dodf>jbvbx_sdript_filfnbmf</dodf> - "" -- tif durrfntly fxfduting filfnbmf</li>
+     * <li><dodf>jbvbx_sdript_nbmf</dodf> - "ApplfSdriptEnginf" -- tif siort nbmf of tif ApplfSdriptEnginf</li>
+     * <li><dodf>THREADING</dodf> - null -- tif ApplfSdriptEnginf dofs not support dondurrfndy, you will ibvf to implfmfnt tirfbd-sbffnfss yoursflf.</li></ul>
      */
-    private void init() {
+    privbtf void init() {
         TRACE("init()");
-        // set up our context
-/* TODO -- name of current executable?  bad java documentation at:
- * http://docs.oracle.com/javase/6/docs/api/javax/script/ScriptEngine.html#FILENAME */
-        put(ScriptEngine.FILENAME, "");
-        put(ScriptEngine.ENGINE, getEngine());
-        put(ScriptEngine.ENGINE_VERSION, getEngineVersion());
-        put(ScriptEngine.NAME, getName());
-        put(ScriptEngine.LANGUAGE, getLanguage());
-        put(ScriptEngine.LANGUAGE_VERSION, getLanguageVersion());
+        // sft up our dontfxt
+/* TODO -- nbmf of durrfnt fxfdutbblf?  bbd jbvb dodumfntbtion bt:
+ * ittp://dods.orbdlf.dom/jbvbsf/6/dods/bpi/jbvbx/sdript/SdriptEnginf.itml#FILENAME */
+        put(SdriptEnginf.FILENAME, "");
+        put(SdriptEnginf.ENGINE, gftEnginf());
+        put(SdriptEnginf.ENGINE_VERSION, gftEnginfVfrsion());
+        put(SdriptEnginf.NAME, gftNbmf());
+        put(SdriptEnginf.LANGUAGE, gftLbngubgf());
+        put(SdriptEnginf.LANGUAGE_VERSION, gftLbngubgfVfrsion());
 
-        // TODO -- for now, err on the side of caution and say that we are NOT thread-safe
+        // TODO -- for now, frr on tif sidf of dbution bnd sby tibt wf brf NOT tirfbd-sbff
         put("THREADING", null);
     }
 
     /**
-     * Uses the AppleScriptEngine to get the local AppleScript version
-     * @return the version of AppleScript running on the system
+     * Usfs tif ApplfSdriptEnginf to gft tif lodbl ApplfSdript vfrsion
+     * @rfturn tif vfrsion of ApplfSdript running on tif systfm
      */
-    protected String getLanguageVersion() {
-        TRACE("AppleScriptEngine.getLanguageVersion()");
+    protfdtfd String gftLbngubgfVfrsion() {
+        TRACE("ApplfSdriptEnginf.gftLbngubgfVfrsion()");
         try {
-            final Object result = eval("get the version of AppleScript");
-            if (result instanceof String) return (String)result;
-        } catch (final ScriptException e) { e.printStackTrace(); }
-        return "unknown";
+            finbl Objfdt rfsult = fvbl("gft tif vfrsion of ApplfSdript");
+            if (rfsult instbndfof String) rfturn (String)rfsult;
+        } dbtdi (finbl SdriptExdfption f) { f.printStbdkTrbdf(); }
+        rfturn "unknown";
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Returns the factory parent of this AppleScriptEngine
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturns tif fbdtory pbrfnt of tiis ApplfSdriptEnginf
      */
-    public ScriptEngineFactory getFactory() {
-        return factory;
+    publid SdriptEnginfFbdtory gftFbdtory() {
+        rfturn fbdtory;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Return the engine's context
-     * @return this ScriptEngine's context
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturn tif fnginf's dontfxt
+     * @rfturn tiis SdriptEnginf's dontfxt
      */
-    public ScriptContext getContext() {
-        return context;
+    publid SdriptContfxt gftContfxt() {
+        rfturn dontfxt;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Set a new context for the engine
-     * @param context the new context to install in the engine
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Sft b nfw dontfxt for tif fnginf
+     * @pbrbm dontfxt tif nfw dontfxt to instbll in tif fnginf
      */
-    public void setContext(final ScriptContext context) {
-        this.context = context;
+    publid void sftContfxt(finbl SdriptContfxt dontfxt) {
+        tiis.dontfxt = dontfxt;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Create and return a new set of simple bindings.
-     * @return a new and empty set of bindings
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Crfbtf bnd rfturn b nfw sft of simplf bindings.
+     * @rfturn b nfw bnd fmpty sft of bindings
      */
-    public Bindings createBindings() {
-        return new SimpleBindings();
+    publid Bindings drfbtfBindings() {
+        rfturn nfw SimplfBindings();
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Return the engines bindings for the context indicated by the argument.
-     * @param scope contextual scope to return.
-     * @return the bindings in the engine for the scope indicated by the parameter
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturn tif fnginfs bindings for tif dontfxt indidbtfd by tif brgumfnt.
+     * @pbrbm sdopf dontfxtubl sdopf to rfturn.
+     * @rfturn tif bindings in tif fnginf for tif sdopf indidbtfd by tif pbrbmftfr
      */
-    public Bindings getBindings(final int scope) {
-        return context.getBindings(scope);
+    publid Bindings gftBindings(finbl int sdopf) {
+        rfturn dontfxt.gftBindings(sdopf);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Sets the bindings for the indicated scope
-     * @param bindings a set of bindings to assign to the engine
-     * @param scope the scope that the passed bindings should be assigned to
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Sfts tif bindings for tif indidbtfd sdopf
+     * @pbrbm bindings b sft of bindings to bssign to tif fnginf
+     * @pbrbm sdopf tif sdopf tibt tif pbssfd bindings siould bf bssignfd to
      */
-    public void setBindings(final Bindings bindings, final int scope) {
-        context.setBindings(bindings, scope);
+    publid void sftBindings(finbl Bindings bindings, finbl int sdopf) {
+        dontfxt.sftBindings(bindings, sdopf);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Insert a key and value into the engine's bindings (scope: engine)
-     * @param key the key of the pair
-     * @param value the value of the pair
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Insfrt b kfy bnd vbluf into tif fnginf's bindings (sdopf: fnginf)
+     * @pbrbm kfy tif kfy of tif pbir
+     * @pbrbm vbluf tif vbluf of tif pbir
      */
-    public void put(final String key, final Object value) {
-        getBindings(ScriptContext.ENGINE_SCOPE).put(key, value);
+    publid void put(finbl String kfy, finbl Objfdt vbluf) {
+        gftBindings(SdriptContfxt.ENGINE_SCOPE).put(kfy, vbluf);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Get a value from the engine's bindings using a key (scope: engine)
-     * @param key the key of the pair
-     * @return the value of the pair
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Gft b vbluf from tif fnginf's bindings using b kfy (sdopf: fnginf)
+     * @pbrbm kfy tif kfy of tif pbir
+     * @rfturn tif vbluf of tif pbir
      */
-    public Object get(final String key) {
-        return getBindings(ScriptContext.ENGINE_SCOPE).get(key);
+    publid Objfdt gft(finbl String kfy) {
+        rfturn gftBindings(SdriptContfxt.ENGINE_SCOPE).gft(kfy);
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Passes the Reader argument, as well as the engine's context to a lower evaluation function.<br />
-     * Prefers FileReader or BufferedReader wrapping FileReader as argument.
-     * @param reader a Reader to AppleScript source or compiled AppleScript
-     * @return an Object corresponding to the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(Reader, ScriptContext)
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Pbssfs tif Rfbdfr brgumfnt, bs wfll bs tif fnginf's dontfxt to b lowfr fvblubtion fundtion.<br />
+     * Prfffrs FilfRfbdfr or BufffrfdRfbdfr wrbpping FilfRfbdfr bs brgumfnt.
+     * @pbrbm rfbdfr b Rfbdfr to ApplfSdript sourdf or dompilfd ApplfSdript
+     * @rfturn bn Objfdt dorrfsponding to tif rfturn vbluf of tif sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(Rfbdfr, SdriptContfxt)
      */
-    public Object eval(final Reader reader) throws ScriptException {
-        return eval(reader, getContext());
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr) tirows SdriptExdfption {
+        rfturn fvbl(rfbdfr, gftContfxt());
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Uses the passed bindings as the context for executing the passed script.
-     * @param reader a stream to AppleScript source or compiled AppleScript
-     * @param bindings a Bindings object representing the contexts to execute inside
-     * @return the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(Reader, ScriptContext)
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Usfs tif pbssfd bindings bs tif dontfxt for fxfduting tif pbssfd sdript.
+     * @pbrbm rfbdfr b strfbm to ApplfSdript sourdf or dompilfd ApplfSdript
+     * @pbrbm bindings b Bindings objfdt rfprfsfnting tif dontfxts to fxfdutf insidf
+     * @rfturn tif rfturn vbluf of tif sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(Rfbdfr, SdriptContfxt)
      */
-    public Object eval(final Reader reader, final Bindings bindings) throws ScriptException {
-        final Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
-        getContext().setBindings(bindings, ScriptContext.ENGINE_SCOPE);
-        final Object retval = eval(reader);
-        getContext().setBindings(tmp, ScriptContext.ENGINE_SCOPE);
-        return retval;
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr, finbl Bindings bindings) tirows SdriptExdfption {
+        finbl Bindings tmp = gftContfxt().gftBindings(SdriptContfxt.ENGINE_SCOPE);
+        gftContfxt().sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
+        finbl Objfdt rftvbl = fvbl(rfbdfr);
+        gftContfxt().sftBindings(tmp, SdriptContfxt.ENGINE_SCOPE);
+        rfturn rftvbl;
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * This function can execute either AppleScript source or compiled AppleScript and functions by writing the
-     * contents of the Reader to a temporary file and then executing it with the engine's context.
-     * @param reader
-     * @param scriptContext
-     * @return an Object corresponding to the return value of the script
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Tiis fundtion dbn fxfdutf fitifr ApplfSdript sourdf or dompilfd ApplfSdript bnd fundtions by writing tif
+     * dontfnts of tif Rfbdfr to b tfmporbry filf bnd tifn fxfduting it witi tif fnginf's dontfxt.
+     * @pbrbm rfbdfr
+     * @pbrbm sdriptContfxt
+     * @rfturn bn Objfdt dorrfsponding to tif rfturn vbluf of tif sdript
      */
-    public Object eval(final Reader reader, final ScriptContext context) throws ScriptException {
-        checkSecurity();
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr, finbl SdriptContfxt dontfxt) tirows SdriptExdfption {
+        difdkSfdurity();
 
-        // write our passed reader to a temporary file
-        File tmpfile;
-        FileWriter tmpwrite;
+        // writf our pbssfd rfbdfr to b tfmporbry filf
+        Filf tmpfilf;
+        FilfWritfr tmpwritf;
         try {
-            tmpfile = Files.createTempFile("AppleScriptEngine.", ".scpt").toFile();
-            tmpwrite = new FileWriter(tmpfile);
+            tmpfilf = Filfs.drfbtfTfmpFilf("ApplfSdriptEnginf.", ".sdpt").toFilf();
+            tmpwritf = nfw FilfWritfr(tmpfilf);
 
-            // read in our input and write directly to tmpfile
-            /* TODO -- this may or may not be avoidable for certain Readers,
-             * if a filename can be grabbed, it would be faster to get that and
-             * use the underlying file than writing a temp file.
+            // rfbd in our input bnd writf dirfdtly to tmpfilf
+            /* TODO -- tiis mby or mby not bf bvoidbblf for dfrtbin Rfbdfrs,
+             * if b filfnbmf dbn bf grbbbfd, it would bf fbstfr to gft tibt bnd
+             * usf tif undfrlying filf tibn writing b tfmp filf.
              */
-            int data;
-            while ((data = reader.read()) != -1) {
-                tmpwrite.write(data);
+            int dbtb;
+            wiilf ((dbtb = rfbdfr.rfbd()) != -1) {
+                tmpwritf.writf(dbtb);
             }
-            tmpwrite.close();
+            tmpwritf.dlosf();
 
-            // set up our context business
-            final long contextptr = scriptContextToNSDictionary(context);
+            // sft up our dontfxt businfss
+            finbl long dontfxtptr = sdriptContfxtToNSDidtionbry(dontfxt);
             try {
-                final long retCtx = evalScriptFromURL("file://" + tmpfile.getCanonicalPath(), contextptr);
-                Object retVal = (retCtx == 0) ? null : createObjectFrom(retCtx);
-                disposeContext(retCtx);
-                return retVal;
-            } finally {
-                disposeContext(contextptr);
-                tmpfile.delete();
+                finbl long rftCtx = fvblSdriptFromURL("filf://" + tmpfilf.gftCbnonidblPbti(), dontfxtptr);
+                Objfdt rftVbl = (rftCtx == 0) ? null : drfbtfObjfdtFrom(rftCtx);
+                disposfContfxt(rftCtx);
+                rfturn rftVbl;
+            } finblly {
+                disposfContfxt(dontfxtptr);
+                tmpfilf.dflftf();
             }
-        } catch (final IOException e) {
-            throw new ScriptException(e);
+        } dbtdi (finbl IOExdfption f) {
+            tirow nfw SdriptExdfption(f);
         }
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Evaluate an AppleScript script passed as a source string. Using the engine's built in context.
-     * @param script the string to execute.
-     * @return an Object representing the return value of the script
-     * @see com.apple.applescript.AppleScriptEngine#eval(String, ScriptContext)
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Evblubtf bn ApplfSdript sdript pbssfd bs b sourdf string. Using tif fnginf's built in dontfxt.
+     * @pbrbm sdript tif string to fxfdutf.
+     * @rfturn bn Objfdt rfprfsfnting tif rfturn vbluf of tif sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(String, SdriptContfxt)
      */
-    public Object eval(final String script) throws ScriptException {
-        return eval(script, getContext());
+    publid Objfdt fvbl(finbl String sdript) tirows SdriptExdfption {
+        rfturn fvbl(sdript, gftContfxt());
     }
 
     /**
-     * Implementation required by ScriptEngine parent<br />
-     * Evaluate an AppleScript script passed as a source string with a custom ScriptContext.
-     * @param script the AppleScript source to compile and execute.
-     * @param scriptContext the context to execute the script under
-     * @see com.apple.applescript.AppleScriptEngine#eval(String, ScriptContext)
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Evblubtf bn ApplfSdript sdript pbssfd bs b sourdf string witi b dustom SdriptContfxt.
+     * @pbrbm sdript tif ApplfSdript sourdf to dompilf bnd fxfdutf.
+     * @pbrbm sdriptContfxt tif dontfxt to fxfdutf tif sdript undfr
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(String, SdriptContfxt)
      */
-    public Object eval(final String script, final Bindings bindings) throws ScriptException {
-        final Bindings tmp = getContext().getBindings(ScriptContext.ENGINE_SCOPE);
-        getContext().setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+    publid Objfdt fvbl(finbl String sdript, finbl Bindings bindings) tirows SdriptExdfption {
+        finbl Bindings tmp = gftContfxt().gftBindings(SdriptContfxt.ENGINE_SCOPE);
+        gftContfxt().sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
 
-        final Object retval = eval(script);
-        getContext().setBindings(tmp, ScriptContext.ENGINE_SCOPE);
+        finbl Objfdt rftvbl = fvbl(sdript);
+        gftContfxt().sftBindings(tmp, SdriptContfxt.ENGINE_SCOPE);
 
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Implementation required by ScriptEngine parent
-     * @param script
-     * @param scriptContext
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt
+     * @pbrbm sdript
+     * @pbrbm sdriptContfxt
      */
-    public Object eval(final String script, final ScriptContext context) throws ScriptException {
-        checkSecurity();
-        final long ctxPtr = scriptContextToNSDictionary(context);
+    publid Objfdt fvbl(finbl String sdript, finbl SdriptContfxt dontfxt) tirows SdriptExdfption {
+        difdkSfdurity();
+        finbl long dtxPtr = sdriptContfxtToNSDidtionbry(dontfxt);
         try {
-            final long retCtx = evalScript(script, ctxPtr);
-            Object retVal = (retCtx == 0) ? null : createObjectFrom(retCtx);
-            disposeContext(retCtx);
-            return retVal;
-        } finally {
-            disposeContext(ctxPtr);
+            finbl long rftCtx = fvblSdript(sdript, dtxPtr);
+            Objfdt rftVbl = (rftCtx == 0) ? null : drfbtfObjfdtFrom(rftCtx);
+            disposfContfxt(rftCtx);
+            rfturn rftVbl;
+        } finblly {
+            disposfContfxt(dtxPtr);
         }
     }
 
     /**
-     * Converts a ScriptContext into an NSDictionary
-     * @param context ScriptContext for the engine
-     * @return a pointer to an NSDictionary
+     * Convfrts b SdriptContfxt into bn NSDidtionbry
+     * @pbrbm dontfxt SdriptContfxt for tif fnginf
+     * @rfturn b pointfr to bn NSDidtionbry
      */
-    private long scriptContextToNSDictionary(final ScriptContext context) throws ScriptException {
-        final Map<String, Object> contextAsMap = new HashMap<String, Object>();
-        for (final Entry<String, Object> e : context.getBindings(ScriptContext.ENGINE_SCOPE).entrySet()) {
-            contextAsMap.put(e.getKey().replaceAll("\\.", "_"), e.getValue());
+    privbtf long sdriptContfxtToNSDidtionbry(finbl SdriptContfxt dontfxt) tirows SdriptExdfption {
+        finbl Mbp<String, Objfdt> dontfxtAsMbp = nfw HbsiMbp<String, Objfdt>();
+        for (finbl Entry<String, Objfdt> f : dontfxt.gftBindings(SdriptContfxt.ENGINE_SCOPE).fntrySft()) {
+            dontfxtAsMbp.put(f.gftKfy().rfplbdfAll("\\.", "_"), f.gftVbluf());
         }
-        return createContextFrom(contextAsMap);
+        rfturn drfbtfContfxtFrom(dontfxtAsMbp);
     }
 }

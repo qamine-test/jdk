@@ -1,366 +1,366 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity;
 
-import java.io.InputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfr;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.I18n;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 
 /**
- * This class does the configuration of the library. This includes creating
- * the mapping of Canonicalization and Transform algorithms. Initialization is
- * done by calling {@link Init#init} which should be done in any static block
- * of the files of this library. We ensure that this call is only executed once.
+ * Tiis dlbss dofs tif donfigurbtion of tif librbry. Tiis indludfs drfbting
+ * tif mbpping of Cbnonidblizbtion bnd Trbnsform blgoritims. Initiblizbtion is
+ * donf by dblling {@link Init#init} wiidi siould bf donf in bny stbtid blodk
+ * of tif filfs of tiis librbry. Wf fnsurf tibt tiis dbll is only fxfdutfd ondf.
  */
-public class Init {
+publid dlbss Init {
 
-    /** The namespace for CONF file **/
-    public static final String CONF_NS = "http://www.xmlsecurity.org/NS/#configuration";
+    /** Tif nbmfspbdf for CONF filf **/
+    publid stbtid finbl String CONF_NS = "ittp://www.xmlsfdurity.org/NS/#donfigurbtion";
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Init.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(Init.dlbss.gftNbmf());
 
-    /** Field alreadyInitialized */
-    private static boolean alreadyInitialized = false;
+    /** Fifld blrfbdyInitiblizfd */
+    privbtf stbtid boolfbn blrfbdyInitiblizfd = fblsf;
 
     /**
-     * Method isInitialized
-     * @return true if the library is already initialized.
+     * Mftiod isInitiblizfd
+     * @rfturn truf if tif librbry is blrfbdy initiblizfd.
      */
-    public static synchronized final boolean isInitialized() {
-        return Init.alreadyInitialized;
+    publid stbtid syndironizfd finbl boolfbn isInitiblizfd() {
+        rfturn Init.blrfbdyInitiblizfd;
     }
 
     /**
-     * Method init
+     * Mftiod init
      *
      */
-    public static synchronized void init() {
-        if (alreadyInitialized) {
-            return;
+    publid stbtid syndironizfd void init() {
+        if (blrfbdyInitiblizfd) {
+            rfturn;
         }
 
-        InputStream is =
-            AccessController.doPrivileged(
-                new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        String cfile =
-                            System.getProperty("com.sun.org.apache.xml.internal.security.resource.config");
-                        if (cfile == null) {
-                            return null;
+        InputStrfbm is =
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        String dfilf =
+                            Systfm.gftPropfrty("dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.rfsourdf.donfig");
+                        if (dfilf == null) {
+                            rfturn null;
                         }
-                        return getClass().getResourceAsStream(cfile);
+                        rfturn gftClbss().gftRfsourdfAsStrfbm(dfilf);
                     }
                 });
         if (is == null) {
-            dynamicInit();
-        } else {
-            fileInit(is);
+            dynbmidInit();
+        } flsf {
+            filfInit(is);
         }
 
-        alreadyInitialized = true;
+        blrfbdyInitiblizfd = truf;
     }
 
     /**
-     * Dynamically initialise the library by registering the default algorithms/implementations
+     * Dynbmidblly initiblisf tif librbry by rfgistfring tif dffbult blgoritims/implfmfntbtions
      */
-    private static void dynamicInit() {
+    privbtf stbtid void dynbmidInit() {
         //
-        // Load the Resource Bundle - the default is the English resource bundle.
-        // To load another resource bundle, call I18n.init(...) before calling this
-        // method.
+        // Lobd tif Rfsourdf Bundlf - tif dffbult is tif Englisi rfsourdf bundlf.
+        // To lobd bnotifr rfsourdf bundlf, dbll I18n.init(...) bfforf dblling tiis
+        // mftiod.
         //
-        I18n.init("en", "US");
+        I18n.init("fn", "US");
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Registering default algorithms");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfring dffbult blgoritims");
         }
         try {
             //
-            // Bind the default prefixes
+            // Bind tif dffbult prffixfs
             //
-            ElementProxy.registerDefaultPrefixes();
+            ElfmfntProxy.rfgistfrDffbultPrffixfs();
 
             //
-            // Set the default Transforms
+            // Sft tif dffbult Trbnsforms
             //
-            Transform.registerDefaultAlgorithms();
+            Trbnsform.rfgistfrDffbultAlgoritims();
 
             //
-            // Set the default signature algorithms
+            // Sft tif dffbult signbturf blgoritims
             //
-            SignatureAlgorithm.registerDefaultAlgorithms();
+            SignbturfAlgoritim.rfgistfrDffbultAlgoritims();
 
             //
-            // Set the default JCE algorithms
+            // Sft tif dffbult JCE blgoritims
             //
-            JCEMapper.registerDefaultAlgorithms();
+            JCEMbppfr.rfgistfrDffbultAlgoritims();
 
             //
-            // Set the default c14n algorithms
+            // Sft tif dffbult d14n blgoritims
             //
-            Canonicalizer.registerDefaultAlgorithms();
+            Cbnonidblizfr.rfgistfrDffbultAlgoritims();
 
             //
-            // Register the default resolvers
+            // Rfgistfr tif dffbult rfsolvfrs
             //
-            ResourceResolver.registerDefaultResolvers();
+            RfsourdfRfsolvfr.rfgistfrDffbultRfsolvfrs();
 
             //
-            // Register the default key resolvers
+            // Rfgistfr tif dffbult kfy rfsolvfrs
             //
-            KeyResolver.registerDefaultResolvers();
-        } catch (Exception ex) {
-            log.log(java.util.logging.Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
+            KfyRfsolvfr.rfgistfrDffbultRfsolvfrs();
+        } dbtdi (Exdfption fx) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, fx.gftMfssbgf(), fx);
+            fx.printStbdkTrbdf();
         }
     }
 
     /**
-     * Initialise the library from a configuration file
+     * Initiblisf tif librbry from b donfigurbtion filf
      */
-    private static void fileInit(InputStream is) {
+    privbtf stbtid void filfInit(InputStrfbm is) {
         try {
-            /* read library configuration file */
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            /* rfbd librbry donfigurbtion filf */
+            DodumfntBuildfrFbdtory dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+            dbf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
 
-            dbf.setNamespaceAware(true);
-            dbf.setValidating(false);
+            dbf.sftNbmfspbdfAwbrf(truf);
+            dbf.sftVblidbting(fblsf);
 
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(is);
-            Node config = doc.getFirstChild();
-            for (; config != null; config = config.getNextSibling()) {
-                if ("Configuration".equals(config.getLocalName())) {
-                    break;
+            DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+            Dodumfnt dod = db.pbrsf(is);
+            Nodf donfig = dod.gftFirstCiild();
+            for (; donfig != null; donfig = donfig.gftNfxtSibling()) {
+                if ("Configurbtion".fqubls(donfig.gftLodblNbmf())) {
+                    brfbk;
                 }
             }
-            if (config == null) {
-                log.log(java.util.logging.Level.SEVERE, "Error in reading configuration file - Configuration element not found");
-                return;
+            if (donfig == null) {
+                log.log(jbvb.util.logging.Lfvfl.SEVERE, "Error in rfbding donfigurbtion filf - Configurbtion flfmfnt not found");
+                rfturn;
             }
-            for (Node el = config.getFirstChild(); el != null; el = el.getNextSibling()) {
-                if (Node.ELEMENT_NODE != el.getNodeType()) {
-                    continue;
+            for (Nodf fl = donfig.gftFirstCiild(); fl != null; fl = fl.gftNfxtSibling()) {
+                if (Nodf.ELEMENT_NODE != fl.gftNodfTypf()) {
+                    dontinuf;
                 }
-                String tag = el.getLocalName();
-                if (tag.equals("ResourceBundles")) {
-                    Element resource = (Element)el;
-                    /* configure internationalization */
-                    Attr langAttr = resource.getAttributeNode("defaultLanguageCode");
-                    Attr countryAttr = resource.getAttributeNode("defaultCountryCode");
-                    String languageCode =
-                        (langAttr == null) ? null : langAttr.getNodeValue();
-                    String countryCode =
-                        (countryAttr == null) ? null : countryAttr.getNodeValue();
-                    I18n.init(languageCode, countryCode);
+                String tbg = fl.gftLodblNbmf();
+                if (tbg.fqubls("RfsourdfBundlfs")) {
+                    Elfmfnt rfsourdf = (Elfmfnt)fl;
+                    /* donfigurf intfrnbtionblizbtion */
+                    Attr lbngAttr = rfsourdf.gftAttributfNodf("dffbultLbngubgfCodf");
+                    Attr dountryAttr = rfsourdf.gftAttributfNodf("dffbultCountryCodf");
+                    String lbngubgfCodf =
+                        (lbngAttr == null) ? null : lbngAttr.gftNodfVbluf();
+                    String dountryCodf =
+                        (dountryAttr == null) ? null : dountryAttr.gftNodfVbluf();
+                    I18n.init(lbngubgfCodf, dountryCodf);
                 }
 
-                if (tag.equals("CanonicalizationMethods")) {
-                    Element[] list =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "CanonicalizationMethod");
+                if (tbg.fqubls("CbnonidblizbtionMftiods")) {
+                    Elfmfnt[] list =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "CbnonidblizbtionMftiod");
 
-                    for (int i = 0; i < list.length; i++) {
-                        String uri = list[i].getAttributeNS(null, "URI");
-                        String javaClass =
-                            list[i].getAttributeNS(null, "JAVACLASS");
+                    for (int i = 0; i < list.lfngti; i++) {
+                        String uri = list[i].gftAttributfNS(null, "URI");
+                        String jbvbClbss =
+                            list[i].gftAttributfNS(null, "JAVACLASS");
                         try {
-                            Canonicalizer.register(uri, javaClass);
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Canonicalizer.register(" + uri + ", " + javaClass + ")");
+                            Cbnonidblizfr.rfgistfr(uri, jbvbClbss);
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Cbnonidblizfr.rfgistfr(" + uri + ", " + jbvbClbss + ")");
                             }
-                        } catch (ClassNotFoundException e) {
-                            Object exArgs[] = { uri, javaClass };
-                            log.log(java.util.logging.Level.SEVERE, I18n.translate("algorithm.classDoesNotExist", exArgs));
+                        } dbtdi (ClbssNotFoundExdfption f) {
+                            Objfdt fxArgs[] = { uri, jbvbClbss };
+                            log.log(jbvb.util.logging.Lfvfl.SEVERE, I18n.trbnslbtf("blgoritim.dlbssDofsNotExist", fxArgs));
                         }
                     }
                 }
 
-                if (tag.equals("TransformAlgorithms")) {
-                    Element[] tranElem =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "TransformAlgorithm");
+                if (tbg.fqubls("TrbnsformAlgoritims")) {
+                    Elfmfnt[] trbnElfm =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "TrbnsformAlgoritim");
 
-                    for (int i = 0; i < tranElem.length; i++) {
-                        String uri = tranElem[i].getAttributeNS(null, "URI");
-                        String javaClass =
-                            tranElem[i].getAttributeNS(null, "JAVACLASS");
+                    for (int i = 0; i < trbnElfm.lfngti; i++) {
+                        String uri = trbnElfm[i].gftAttributfNS(null, "URI");
+                        String jbvbClbss =
+                            trbnElfm[i].gftAttributfNS(null, "JAVACLASS");
                         try {
-                            Transform.register(uri, javaClass);
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Transform.register(" + uri + ", " + javaClass + ")");
+                            Trbnsform.rfgistfr(uri, jbvbClbss);
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Trbnsform.rfgistfr(" + uri + ", " + jbvbClbss + ")");
                             }
-                        } catch (ClassNotFoundException e) {
-                            Object exArgs[] = { uri, javaClass };
+                        } dbtdi (ClbssNotFoundExdfption f) {
+                            Objfdt fxArgs[] = { uri, jbvbClbss };
 
-                            log.log(java.util.logging.Level.SEVERE, I18n.translate("algorithm.classDoesNotExist", exArgs));
-                        } catch (NoClassDefFoundError ex) {
-                            log.log(java.util.logging.Level.WARNING, "Not able to found dependencies for algorithm, I'll keep working.");
+                            log.log(jbvb.util.logging.Lfvfl.SEVERE, I18n.trbnslbtf("blgoritim.dlbssDofsNotExist", fxArgs));
+                        } dbtdi (NoClbssDffFoundError fx) {
+                            log.log(jbvb.util.logging.Lfvfl.WARNING, "Not bblf to found dfpfndfndifs for blgoritim, I'll kffp working.");
                         }
                     }
                 }
 
-                if ("JCEAlgorithmMappings".equals(tag)) {
-                    Node algorithmsNode = ((Element)el).getElementsByTagName("Algorithms").item(0);
-                    if (algorithmsNode != null) {
-                        Element[] algorithms =
-                            XMLUtils.selectNodes(algorithmsNode.getFirstChild(), CONF_NS, "Algorithm");
-                        for (int i = 0; i < algorithms.length; i++) {
-                            Element element = algorithms[i];
-                            String id = element.getAttribute("URI");
-                            JCEMapper.register(id, new JCEMapper.Algorithm(element));
+                if ("JCEAlgoritimMbppings".fqubls(tbg)) {
+                    Nodf blgoritimsNodf = ((Elfmfnt)fl).gftElfmfntsByTbgNbmf("Algoritims").itfm(0);
+                    if (blgoritimsNodf != null) {
+                        Elfmfnt[] blgoritims =
+                            XMLUtils.sflfdtNodfs(blgoritimsNodf.gftFirstCiild(), CONF_NS, "Algoritim");
+                        for (int i = 0; i < blgoritims.lfngti; i++) {
+                            Elfmfnt flfmfnt = blgoritims[i];
+                            String id = flfmfnt.gftAttributf("URI");
+                            JCEMbppfr.rfgistfr(id, nfw JCEMbppfr.Algoritim(flfmfnt));
                         }
                     }
                 }
 
-                if (tag.equals("SignatureAlgorithms")) {
-                    Element[] sigElems =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "SignatureAlgorithm");
+                if (tbg.fqubls("SignbturfAlgoritims")) {
+                    Elfmfnt[] sigElfms =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "SignbturfAlgoritim");
 
-                    for (int i = 0; i < sigElems.length; i++) {
-                        String uri = sigElems[i].getAttributeNS(null, "URI");
-                        String javaClass =
-                            sigElems[i].getAttributeNS(null, "JAVACLASS");
+                    for (int i = 0; i < sigElfms.lfngti; i++) {
+                        String uri = sigElfms[i].gftAttributfNS(null, "URI");
+                        String jbvbClbss =
+                            sigElfms[i].gftAttributfNS(null, "JAVACLASS");
 
-                        /** $todo$ handle registering */
+                        /** $todo$ ibndlf rfgistfring */
 
                         try {
-                            SignatureAlgorithm.register(uri, javaClass);
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "SignatureAlgorithm.register(" + uri + ", "
-                                          + javaClass + ")");
+                            SignbturfAlgoritim.rfgistfr(uri, jbvbClbss);
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "SignbturfAlgoritim.rfgistfr(" + uri + ", "
+                                          + jbvbClbss + ")");
                             }
-                        } catch (ClassNotFoundException e) {
-                            Object exArgs[] = { uri, javaClass };
+                        } dbtdi (ClbssNotFoundExdfption f) {
+                            Objfdt fxArgs[] = { uri, jbvbClbss };
 
-                            log.log(java.util.logging.Level.SEVERE, I18n.translate("algorithm.classDoesNotExist", exArgs));
+                            log.log(jbvb.util.logging.Lfvfl.SEVERE, I18n.trbnslbtf("blgoritim.dlbssDofsNotExist", fxArgs));
                         }
                     }
                 }
 
-                if (tag.equals("ResourceResolvers")) {
-                    Element[]resolverElem =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "Resolver");
+                if (tbg.fqubls("RfsourdfRfsolvfrs")) {
+                    Elfmfnt[]rfsolvfrElfm =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "Rfsolvfr");
 
-                    for (int i = 0; i < resolverElem.length; i++) {
-                        String javaClass =
-                            resolverElem[i].getAttributeNS(null, "JAVACLASS");
-                        String description =
-                            resolverElem[i].getAttributeNS(null, "DESCRIPTION");
+                    for (int i = 0; i < rfsolvfrElfm.lfngti; i++) {
+                        String jbvbClbss =
+                            rfsolvfrElfm[i].gftAttributfNS(null, "JAVACLASS");
+                        String dfsdription =
+                            rfsolvfrElfm[i].gftAttributfNS(null, "DESCRIPTION");
 
-                        if ((description != null) && (description.length() > 0)) {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Register Resolver: " + javaClass + ": "
-                                          + description);
+                        if ((dfsdription != null) && (dfsdription.lfngti() > 0)) {
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfr Rfsolvfr: " + jbvbClbss + ": "
+                                          + dfsdription);
                             }
-                        } else {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Register Resolver: " + javaClass
-                                          + ": For unknown purposes");
+                        } flsf {
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfr Rfsolvfr: " + jbvbClbss
+                                          + ": For unknown purposfs");
                             }
                         }
                         try {
-                            ResourceResolver.register(javaClass);
-                        } catch (Throwable e) {
-                            log.log(java.util.logging.Level.WARNING,
-                                 "Cannot register:" + javaClass
-                                 + " perhaps some needed jars are not installed",
-                                 e
+                            RfsourdfRfsolvfr.rfgistfr(jbvbClbss);
+                        } dbtdi (Tirowbblf f) {
+                            log.log(jbvb.util.logging.Lfvfl.WARNING,
+                                 "Cbnnot rfgistfr:" + jbvbClbss
+                                 + " pfribps somf nffdfd jbrs brf not instbllfd",
+                                 f
                              );
                         }
                     }
                 }
 
-                if (tag.equals("KeyResolver")){
-                    Element[] resolverElem =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "Resolver");
-                    List<String> classNames = new ArrayList<String>(resolverElem.length);
-                    for (int i = 0; i < resolverElem.length; i++) {
-                        String javaClass =
-                            resolverElem[i].getAttributeNS(null, "JAVACLASS");
-                        String description =
-                            resolverElem[i].getAttributeNS(null, "DESCRIPTION");
+                if (tbg.fqubls("KfyRfsolvfr")){
+                    Elfmfnt[] rfsolvfrElfm =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "Rfsolvfr");
+                    List<String> dlbssNbmfs = nfw ArrbyList<String>(rfsolvfrElfm.lfngti);
+                    for (int i = 0; i < rfsolvfrElfm.lfngti; i++) {
+                        String jbvbClbss =
+                            rfsolvfrElfm[i].gftAttributfNS(null, "JAVACLASS");
+                        String dfsdription =
+                            rfsolvfrElfm[i].gftAttributfNS(null, "DESCRIPTION");
 
-                        if ((description != null) && (description.length() > 0)) {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Register Resolver: " + javaClass + ": "
-                                          + description);
+                        if ((dfsdription != null) && (dfsdription.lfngti() > 0)) {
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfr Rfsolvfr: " + jbvbClbss + ": "
+                                          + dfsdription);
                             }
-                        } else {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "Register Resolver: " + javaClass
-                                          + ": For unknown purposes");
+                        } flsf {
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfr Rfsolvfr: " + jbvbClbss
+                                          + ": For unknown purposfs");
                             }
                         }
-                        classNames.add(javaClass);
+                        dlbssNbmfs.bdd(jbvbClbss);
                     }
-                    KeyResolver.registerClassNames(classNames);
+                    KfyRfsolvfr.rfgistfrClbssNbmfs(dlbssNbmfs);
                 }
 
 
-                if (tag.equals("PrefixMappings")){
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "Now I try to bind prefixes:");
+                if (tbg.fqubls("PrffixMbppings")){
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "Now I try to bind prffixfs:");
                     }
 
-                    Element[] nl =
-                        XMLUtils.selectNodes(el.getFirstChild(), CONF_NS, "PrefixMapping");
+                    Elfmfnt[] nl =
+                        XMLUtils.sflfdtNodfs(fl.gftFirstCiild(), CONF_NS, "PrffixMbpping");
 
-                    for (int i = 0; i < nl.length; i++) {
-                        String namespace = nl[i].getAttributeNS(null, "namespace");
-                        String prefix = nl[i].getAttributeNS(null, "prefix");
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "Now I try to bind " + prefix + " to " + namespace);
+                    for (int i = 0; i < nl.lfngti; i++) {
+                        String nbmfspbdf = nl[i].gftAttributfNS(null, "nbmfspbdf");
+                        String prffix = nl[i].gftAttributfNS(null, "prffix");
+                        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                            log.log(jbvb.util.logging.Lfvfl.FINE, "Now I try to bind " + prffix + " to " + nbmfspbdf);
                         }
-                        ElementProxy.setDefaultPrefix(namespace, prefix);
+                        ElfmfntProxy.sftDffbultPrffix(nbmfspbdf, prffix);
                     }
                 }
             }
-        } catch (Exception e) {
-            log.log(java.util.logging.Level.SEVERE, "Bad: ", e);
-            e.printStackTrace();
+        } dbtdi (Exdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Bbd: ", f);
+            f.printStbdkTrbdf();
         }
     }
 

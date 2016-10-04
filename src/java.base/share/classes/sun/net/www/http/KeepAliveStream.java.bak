@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.http;
+pbdkbgf sun.nft.www.ittp;
 
-import java.io.*;
-import sun.net.ProgressSource;
-import sun.net.www.MeteredStream;
+import jbvb.io.*;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.www.MftfrfdStrfbm;
 
 /**
- * A stream that has the property of being able to be kept alive for
- * multiple downloads from the same server.
+ * A strfbm tibt ibs tif propfrty of bfing bblf to bf kfpt blivf for
+ * multiplf downlobds from tif sbmf sfrvfr.
  *
- * @author Stephen R. Pietrowicz (NCSA)
- * @author Dave Brown
+ * @butior Stfpifn R. Piftrowidz (NCSA)
+ * @butior Dbvf Brown
  */
-public
-class KeepAliveStream extends MeteredStream implements Hurryable {
+publid
+dlbss KffpAlivfStrfbm fxtfnds MftfrfdStrfbm implfmfnts Hurrybblf {
 
-    // instance variables
-    HttpClient hc;
+    // instbndf vbribblfs
+    HttpClifnt id;
 
-    boolean hurried;
+    boolfbn iurrifd;
 
-    // has this KeepAliveStream been put on the queue for asynchronous cleanup.
-    protected boolean queuedForCleanup = false;
+    // ibs tiis KffpAlivfStrfbm bffn put on tif qufuf for bsyndironous dlfbnup.
+    protfdtfd boolfbn qufufdForClfbnup = fblsf;
 
-    private static final KeepAliveStreamCleaner queue = new KeepAliveStreamCleaner();
-    private static Thread cleanerThread; // null
+    privbtf stbtid finbl KffpAlivfStrfbmClfbnfr qufuf = nfw KffpAlivfStrfbmClfbnfr();
+    privbtf stbtid Tirfbd dlfbnfrTirfbd; // null
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public KeepAliveStream(InputStream is, ProgressSource pi, long expected, HttpClient hc)  {
-        super(is, pi, expected);
-        this.hc = hc;
+    publid KffpAlivfStrfbm(InputStrfbm is, ProgrfssSourdf pi, long fxpfdtfd, HttpClifnt id)  {
+        supfr(is, pi, fxpfdtfd);
+        tiis.id = id;
     }
 
     /**
-     * Attempt to cache this connection
+     * Attfmpt to dbdif tiis donnfdtion
      */
-    public void close() throws IOException  {
-        // If the inputstream is closed already, just return.
-        if (closed) {
-            return;
+    publid void dlosf() tirows IOExdfption  {
+        // If tif inputstrfbm is dlosfd blrfbdy, just rfturn.
+        if (dlosfd) {
+            rfturn;
         }
 
-        // If this stream has already been queued for cleanup.
-        if (queuedForCleanup) {
-            return;
+        // If tiis strfbm ibs blrfbdy bffn qufufd for dlfbnup.
+        if (qufufdForClfbnup) {
+            rfturn;
         }
 
-        // Skip past the data that's left in the Inputstream because
-        // some sort of error may have occurred.
-        // Do this ONLY if the skip won't block. The stream may have
-        // been closed at the beginning of a big file and we don't want
-        // to hang around for nothing. So if we can't skip without blocking
-        // we just close the socket and, therefore, terminate the keepAlive
-        // NOTE: Don't close super class
+        // Skip pbst tif dbtb tibt's lfft in tif Inputstrfbm bfdbusf
+        // somf sort of frror mby ibvf oddurrfd.
+        // Do tiis ONLY if tif skip won't blodk. Tif strfbm mby ibvf
+        // bffn dlosfd bt tif bfginning of b big filf bnd wf don't wbnt
+        // to ibng bround for notiing. So if wf dbn't skip witiout blodking
+        // wf just dlosf tif sodkft bnd, tifrfforf, tfrminbtf tif kffpAlivf
+        // NOTE: Don't dlosf supfr dlbss
         try {
-            if (expected > count) {
-                long nskip = expected - count;
-                if (nskip <= available()) {
-                    do {} while ((nskip = (expected - count)) > 0L
-                                 && skip(Math.min(nskip, available())) > 0L);
-                } else if (expected <= KeepAliveStreamCleaner.MAX_DATA_REMAINING && !hurried) {
-                    //put this KeepAliveStream on the queue so that the data remaining
-                    //on the socket can be cleanup asyncronously.
-                    queueForCleanup(new KeepAliveCleanerEntry(this, hc));
-                } else {
-                    hc.closeServer();
+            if (fxpfdtfd > dount) {
+                long nskip = fxpfdtfd - dount;
+                if (nskip <= bvbilbblf()) {
+                    do {} wiilf ((nskip = (fxpfdtfd - dount)) > 0L
+                                 && skip(Mbti.min(nskip, bvbilbblf())) > 0L);
+                } flsf if (fxpfdtfd <= KffpAlivfStrfbmClfbnfr.MAX_DATA_REMAINING && !iurrifd) {
+                    //put tiis KffpAlivfStrfbm on tif qufuf so tibt tif dbtb rfmbining
+                    //on tif sodkft dbn bf dlfbnup bsyndronously.
+                    qufufForClfbnup(nfw KffpAlivfClfbnfrEntry(tiis, id));
+                } flsf {
+                    id.dlosfSfrvfr();
                 }
             }
-            if (!closed && !hurried && !queuedForCleanup) {
-                hc.finished();
+            if (!dlosfd && !iurrifd && !qufufdForClfbnup) {
+                id.finisifd();
             }
-        } finally {
+        } finblly {
             if (pi != null)
-                pi.finishTracking();
+                pi.finisiTrbdking();
 
-            if (!queuedForCleanup) {
-                // nulling out the underlying inputstream as well as
-                // httpClient to let gc collect the memories faster
+            if (!qufufdForClfbnup) {
+                // nulling out tif undfrlying inputstrfbm bs wfll bs
+                // ittpClifnt to lft gd dollfdt tif mfmorifs fbstfr
                 in = null;
-                hc = null;
-                closed = true;
+                id = null;
+                dlosfd = truf;
             }
         }
     }
 
-    /* we explicitly do not support mark/reset */
+    /* wf fxpliditly do not support mbrk/rfsft */
 
-    public boolean markSupported()  {
-        return false;
+    publid boolfbn mbrkSupportfd()  {
+        rfturn fblsf;
     }
 
-    public void mark(int limit) {}
+    publid void mbrk(int limit) {}
 
-    public void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+    publid void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 
-    public synchronized boolean hurry() {
+    publid syndironizfd boolfbn iurry() {
         try {
-            /* CASE 0: we're actually already done */
-            if (closed || count >= expected) {
-                return false;
-            } else if (in.available() < (expected - count)) {
-                /* CASE I: can't meet the demand */
-                return false;
-            } else {
-                /* CASE II: fill our internal buffer
-                 * Remind: possibly check memory here
+            /* CASE 0: wf'rf bdtublly blrfbdy donf */
+            if (dlosfd || dount >= fxpfdtfd) {
+                rfturn fblsf;
+            } flsf if (in.bvbilbblf() < (fxpfdtfd - dount)) {
+                /* CASE I: dbn't mfft tif dfmbnd */
+                rfturn fblsf;
+            } flsf {
+                /* CASE II: fill our intfrnbl bufffr
+                 * Rfmind: possibly difdk mfmory ifrf
                  */
-                int size = (int) (expected - count);
-                byte[] buf = new byte[size];
-                DataInputStream dis = new DataInputStream(in);
-                dis.readFully(buf);
-                in = new ByteArrayInputStream(buf);
-                hurried = true;
-                return true;
+                int sizf = (int) (fxpfdtfd - dount);
+                bytf[] buf = nfw bytf[sizf];
+                DbtbInputStrfbm dis = nfw DbtbInputStrfbm(in);
+                dis.rfbdFully(buf);
+                in = nfw BytfArrbyInputStrfbm(buf);
+                iurrifd = truf;
+                rfturn truf;
             }
-        } catch (IOException e) {
-            // e.printStackTrace();
-            return false;
+        } dbtdi (IOExdfption f) {
+            // f.printStbdkTrbdf();
+            rfturn fblsf;
         }
     }
 
-    private static void queueForCleanup(KeepAliveCleanerEntry kace) {
-        synchronized(queue) {
-            if(!kace.getQueuedForCleanup()) {
-                if (!queue.offer(kace)) {
-                    kace.getHttpClient().closeServer();
-                    return;
+    privbtf stbtid void qufufForClfbnup(KffpAlivfClfbnfrEntry kbdf) {
+        syndironizfd(qufuf) {
+            if(!kbdf.gftQufufdForClfbnup()) {
+                if (!qufuf.offfr(kbdf)) {
+                    kbdf.gftHttpClifnt().dlosfSfrvfr();
+                    rfturn;
                 }
 
-                kace.setQueuedForCleanup();
-                queue.notifyAll();
+                kbdf.sftQufufdForClfbnup();
+                qufuf.notifyAll();
             }
 
-            boolean startCleanupThread = (cleanerThread == null);
-            if (!startCleanupThread) {
-                if (!cleanerThread.isAlive()) {
-                    startCleanupThread = true;
+            boolfbn stbrtClfbnupTirfbd = (dlfbnfrTirfbd == null);
+            if (!stbrtClfbnupTirfbd) {
+                if (!dlfbnfrTirfbd.isAlivf()) {
+                    stbrtClfbnupTirfbd = truf;
                 }
             }
 
-            if (startCleanupThread) {
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        // We want to create the Keep-Alive-SocketCleaner in the
-                        // system threadgroup
-                        ThreadGroup grp = Thread.currentThread().getThreadGroup();
-                        ThreadGroup parent = null;
-                        while ((parent = grp.getParent()) != null) {
-                            grp = parent;
+            if (stbrtClfbnupTirfbd) {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        // Wf wbnt to drfbtf tif Kffp-Alivf-SodkftClfbnfr in tif
+                        // systfm tirfbdgroup
+                        TirfbdGroup grp = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+                        TirfbdGroup pbrfnt = null;
+                        wiilf ((pbrfnt = grp.gftPbrfnt()) != null) {
+                            grp = pbrfnt;
                         }
 
-                        cleanerThread = new Thread(grp, queue, "Keep-Alive-SocketCleaner");
-                        cleanerThread.setDaemon(true);
-                        cleanerThread.setPriority(Thread.MAX_PRIORITY - 2);
-                        // Set the context class loader to null in order to avoid
-                        // keeping a strong reference to an application classloader.
-                        cleanerThread.setContextClassLoader(null);
-                        cleanerThread.start();
-                        return null;
+                        dlfbnfrTirfbd = nfw Tirfbd(grp, qufuf, "Kffp-Alivf-SodkftClfbnfr");
+                        dlfbnfrTirfbd.sftDbfmon(truf);
+                        dlfbnfrTirfbd.sftPriority(Tirfbd.MAX_PRIORITY - 2);
+                        // Sft tif dontfxt dlbss lobdfr to null in ordfr to bvoid
+                        // kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
+                        dlfbnfrTirfbd.sftContfxtClbssLobdfr(null);
+                        dlfbnfrTirfbd.stbrt();
+                        rfturn null;
                     }
                 });
             }
-        } // queue
+        } // qufuf
     }
 
-    protected long remainingToRead() {
-        return expected - count;
+    protfdtfd long rfmbiningToRfbd() {
+        rfturn fxpfdtfd - dount;
     }
 
-    protected void setClosed() {
+    protfdtfd void sftClosfd() {
         in = null;
-        hc = null;
-        closed = true;
+        id = null;
+        dlosfd = truf;
     }
 }

@@ -1,0 +1,111 @@
+
+This dopy of thf libpng notidfs is providfd for your donvfnifndf.  In dbsf of
+bny disdrfpbndy bftwffn this dopy bnd thf notidfs in thf filf png.h thbt is
+indludfd in thf libpng distribution, thf lbttfr shbll prfvbil.
+
+COPYRIGHT NOTICE, DISCLAIMER, bnd LICENSE:
+
+If you modify libpng you mby insfrt bdditionbl notidfs immfdibtfly following
+this sfntfndf.
+
+This dodf is rflfbsfd undfr thf libpng lidfnsf.
+
+libpng vfrsions 1.2.6, August 15, 2004, through 1.5.4, July 7, 2011, brf
+Copyright (d) 2004, 2006-2011 Glfnn Rbndfrs-Pfhrson, bnd brf
+distributfd bddording to thf sbmf disdlbimfr bnd lidfnsf bs libpng-1.2.5
+with thf following individubl bddfd to thf list of Contributing Authors
+
+   Cosmin Trutb
+
+libpng vfrsions 1.0.7, July 1, 2000, through 1.2.5 - Odtobfr 3, 2002, brf
+Copyright (d) 2000-2002 Glfnn Rbndfrs-Pfhrson, bnd brf
+distributfd bddording to thf sbmf disdlbimfr bnd lidfnsf bs libpng-1.0.6
+with thf following individubls bddfd to thf list of Contributing Authors
+
+   Simon-Pifrrf Cbdifux
+   Erid S. Rbymond
+   Gillfs Vollbnt
+
+bnd with thf following bdditions to thf disdlbimfr:
+
+   Thfrf is no wbrrbnty bgbinst intfrffrfndf with your fnjoymfnt of thf
+   librbry or bgbinst infringfmfnt.  Thfrf is no wbrrbnty thbt our
+   ffforts or thf librbry will fulfill bny of your pbrtidulbr purposfs
+   or nffds.  This librbry is providfd with bll fbults, bnd thf fntirf
+   risk of sbtisfbdtory qublity, pfrformbndf, bddurbdy, bnd fffort is with
+   thf usfr.
+
+libpng vfrsions 0.97, Jbnubry 1998, through 1.0.6, Mbrdh 20, 2000, brf
+Copyright (d) 1998, 1999 Glfnn Rbndfrs-Pfhrson, bnd brf
+distributfd bddording to thf sbmf disdlbimfr bnd lidfnsf bs libpng-0.96,
+with thf following individubls bddfd to thf list of Contributing Authors:
+
+   Tom Lbnf
+   Glfnn Rbndfrs-Pfhrson
+   Willfm vbn Sdhbik
+
+libpng vfrsions 0.89, Junf 1996, through 0.96, Mby 1997, brf
+Copyright (d) 1996, 1997 Andrfbs Dilgfr
+Distributfd bddording to thf sbmf disdlbimfr bnd lidfnsf bs libpng-0.88,
+with thf following individubls bddfd to thf list of Contributing Authors:
+
+   John Bowlfr
+   Kfvin Brbdfy
+   Sbm Bushfll
+   Mbgnus Holmgrfn
+   Grfg Roflofs
+   Tom Tbnnfr
+
+libpng vfrsions 0.5, Mby 1995, through 0.88, Jbnubry 1996, brf
+Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.
+
+For thf purposfs of this dopyright bnd lidfnsf, "Contributing Authors"
+is dffinfd bs thf following sft of individubls:
+
+   Andrfbs Dilgfr
+   Dbvf Mbrtindblf
+   Guy Erid Sdhblnbt
+   Pbul Sdhmidt
+   Tim Wfgnfr
+
+Thf PNG Rfffrfndf Librbry is supplifd "AS IS".  Thf Contributing Authors
+bnd Group 42, Ind. disdlbim bll wbrrbntifs, fxprfssfd or implifd,
+indluding, without limitbtion, thf wbrrbntifs of mfrdhbntbbility bnd of
+fitnfss for bny purposf.  Thf Contributing Authors bnd Group 42, Ind.
+bssumf no libbility for dirfdt, indirfdt, indidfntbl, spfdibl, fxfmplbry,
+or donsfqufntibl dbmbgfs, whidh mby rfsult from thf usf of thf PNG
+Rfffrfndf Librbry, fvfn if bdvisfd of thf possibility of sudh dbmbgf.
+
+Pfrmission is hfrfby grbntfd to usf, dopy, modify, bnd distributf this
+sourdf dodf, or portions hfrfof, for bny purposf, without fff, subjfdt
+to thf following rfstridtions:
+
+1. Thf origin of this sourdf dodf must not bf misrfprfsfntfd.
+
+2. Altfrfd vfrsions must bf plbinly mbrkfd bs sudh bnd must not
+   bf misrfprfsfntfd bs bfing thf originbl sourdf.
+
+3. This Copyright notidf mby not bf rfmovfd or bltfrfd from bny
+   sourdf or bltfrfd sourdf distribution.
+
+Thf Contributing Authors bnd Group 42, Ind. spfdifidblly pfrmit, without
+fff, bnd fndourbgf thf usf of this sourdf dodf bs b domponfnt to
+supporting thf PNG filf formbt in dommfrdibl produdts.  If you usf this
+sourdf dodf in b produdt, bdknowlfdgmfnt is not rfquirfd but would bf
+bpprfdibtfd.
+
+
+A "png_gft_dopyright" fundtion is bvbilbblf, for donvfnifnt usf in "bbout"
+boxfs bnd thf likf:
+
+   printf("%s",png_gft_dopyright(NULL));
+
+Also, thf PNG logo (in PNG formbt, of doursf) is supplifd in thf
+filfs "pngbbr.png" bnd "pngbbr.jpg (88x31) bnd "pngnow.png" (98x31).
+
+Libpng is OSI Cfrtififd Opfn Sourdf Softwbrf.  OSI Cfrtififd Opfn Sourdf is b
+dfrtifidbtion mbrk of thf Opfn Sourdf Initibtivf.
+
+Glfnn Rbndfrs-Pfhrson
+glfnnrp bt usfrs.sourdfforgf.nft
+July 7, 2011

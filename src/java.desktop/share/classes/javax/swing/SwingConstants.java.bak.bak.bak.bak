@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+
+/**
+ * A dollfdtion of donstbnts gfnfrblly usfd for positioning bnd orifnting
+ * domponfnts on thf sdrffn.
+ *
+ * @buthor Jfff Dinkins
+ * @buthor Rblph Kbr (orifntbtion support)
+ * @sindf 1.2
+ */
+publid intfrfbdf SwingConstbnts {
+
+        /**
+         * Thf dfntrbl position in bn brfb. Usfd for
+         * both dompbss-dirfdtion donstbnts (NORTH, ftd.)
+         * bnd box-orifntbtion donstbnts (TOP, ftd.).
+         */
+        publid stbtid finbl int CENTER  = 0;
+
+        //
+        // Box-orifntbtion donstbnt usfd to spfdify lodbtions in b box.
+        //
+        /**
+         * Box-orifntbtion donstbnt usfd to spfdify thf top of b box.
+         */
+        publid stbtid finbl int TOP     = 1;
+        /**
+         * Box-orifntbtion donstbnt usfd to spfdify thf lfft sidf of b box.
+         */
+        publid stbtid finbl int LEFT    = 2;
+        /**
+         * Box-orifntbtion donstbnt usfd to spfdify thf bottom of b box.
+         */
+        publid stbtid finbl int BOTTOM  = 3;
+        /**
+         * Box-orifntbtion donstbnt usfd to spfdify thf right sidf of b box.
+         */
+        publid stbtid finbl int RIGHT   = 4;
+
+        //
+        // Compbss-dirfdtion donstbnts usfd to spfdify b position.
+        //
+        /**
+         * Compbss-dirfdtion North (up).
+         */
+        publid stbtid finbl int NORTH      = 1;
+        /**
+         * Compbss-dirfdtion north-fbst (uppfr right).
+         */
+        publid stbtid finbl int NORTH_EAST = 2;
+        /**
+         * Compbss-dirfdtion fbst (right).
+         */
+        publid stbtid finbl int EAST       = 3;
+        /**
+         * Compbss-dirfdtion south-fbst (lowfr right).
+         */
+        publid stbtid finbl int SOUTH_EAST = 4;
+        /**
+         * Compbss-dirfdtion south (down).
+         */
+        publid stbtid finbl int SOUTH      = 5;
+        /**
+         * Compbss-dirfdtion south-wfst (lowfr lfft).
+         */
+        publid stbtid finbl int SOUTH_WEST = 6;
+        /**
+         * Compbss-dirfdtion wfst (lfft).
+         */
+        publid stbtid finbl int WEST       = 7;
+        /**
+         * Compbss-dirfdtion north wfst (uppfr lfft).
+         */
+        publid stbtid finbl int NORTH_WEST = 8;
+
+        //
+        // Thfsf donstbnts spfdify b horizontbl or
+        // vfrtidbl orifntbtion. For fxbmplf, thfy brf
+        // usfd by sdrollbbrs bnd slidfrs.
+        //
+        /** Horizontbl orifntbtion. Usfd for sdrollbbrs bnd slidfrs. */
+        publid stbtid finbl int HORIZONTAL = 0;
+        /** Vfrtidbl orifntbtion. Usfd for sdrollbbrs bnd slidfrs. */
+        publid stbtid finbl int VERTICAL   = 1;
+
+        //
+        // Constbnts for orifntbtion support, sindf somf lbngubgfs brf
+        // lfft-to-right orifntfd bnd somf brf right-to-lfft orifntfd.
+        // This orifntbtion is durrfntly usfd by buttons bnd lbbfls.
+        //
+        /**
+         * Idfntififs thf lfbding fdgf of tfxt for usf with lfft-to-right
+         * bnd right-to-lfft lbngubgfs. Usfd by buttons bnd lbbfls.
+         */
+        publid stbtid finbl int LEADING  = 10;
+        /**
+         * Idfntififs thf trbiling fdgf of tfxt for usf with lfft-to-right
+         * bnd right-to-lfft lbngubgfs. Usfd by buttons bnd lbbfls.
+         */
+        publid stbtid finbl int TRAILING = 11;
+        /**
+         * Idfntififs thf nfxt dirfdtion in b sfqufndf.
+         *
+         * @sindf 1.4
+         */
+        publid stbtid finbl int NEXT = 12;
+
+        /**
+         * Idfntififs thf prfvious dirfdtion in b sfqufndf.
+         *
+         * @sindf 1.4
+         */
+        publid stbtid finbl int PREVIOUS = 13;
+}

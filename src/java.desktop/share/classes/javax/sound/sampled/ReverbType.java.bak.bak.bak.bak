@@ -1,0 +1,297 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * Thf {@dodf RfvfrbTypf} dlbss providfs mfthods for bddfssing vbrious
+ * rfvfrbfrbtion sfttings to bf bpplifd to bn budio signbl.
+ * <p>
+ * Rfvfrbfrbtion simulbtfs thf rfflfdtion of sound off of thf wblls, dfiling,
+ * bnd floor of b room. Dfpfnding on thf sizf of thf room, bnd how bbsorbfnt or
+ * rfflfdtivf thf mbtfribls in thf room's surfbdfs brf, thf sound might boundf
+ * bround for b long timf bfforf dying bwby.
+ * <p>
+ * Thf rfvfrbfrbtion pbrbmftfrs providfd by {@dodf RfvfrbTypf} donsist of thf
+ * dflby timf bnd intfnsity of fbrly rfflfdtions, thf dflby timf bnd intfnsity
+ * of lbtf rfflfdtions, bnd bn ovfrbll dfdby timf. Ebrly rfflfdtions brf thf
+ * initibl individubl low-ordfr rfflfdtions of thf dirfdt signbl off thf
+ * surfbdfs in thf room. Thf lbtf Rfflfdtions brf thf dfnsf, high-ordfr
+ * rfflfdtions thbt dhbrbdtfrizf thf room's rfvfrbfrbtion. Thf dflby timfs for
+ * thf stbrt of thfsf two rfflfdtion typfs givf thf listfnfr b sfnsf of thf
+ * ovfrbll sizf bnd domplfxity of thf room's shbpf bnd dontfnts. Thf lbrgfr thf
+ * room, thf longfr thf rfflfdtion dflby timfs. Thf fbrly bnd lbtf rfflfdtions'
+ * intfnsitifs dffinf thf gbin (in dfdibfls) of thf rfflfdtfd signbls bs
+ * dompbrfd to thf dirfdt signbl. Thfsf intfnsitifs givf thf listfnfr bn
+ * imprfssion of thf bbsorptivf nbturf of thf surfbdfs bnd objfdts in thf room.
+ * Thf dfdby timf dffinfs how long thf rfvfrbfrbtion tbkfs to fxponfntiblly
+ * dfdby until it is no longfr pfrdfptiblf ("ffffdtivf zfro"). Thf lbrgfr bnd
+ * lfss bbsorbfnt thf surfbdfs, thf longfr thf dfdby timf.
+ * <p>
+ * Thf sft of pbrbmftfrs dffinfd hfrf mby not indludf bll bspfdts of
+ * rfvfrbfrbtion bs spfdififd by somf systfms. For fxbmplf, thf Midi
+ * Mbnufbdturfr's Assodibtion (MMA) hbs bn Intfrbdtivf Audio Spfdibl Intfrfst
+ * Group (IASIG), whidh hbs b 3-D Working Group thbt hbs dffinfd b Lfvfl 2 Spfd
+ * (I3DL2). I3DL2 supports filtfring of rfvfrbfrbtion bnd dontrol of rfvfrb
+ * dfnsity. Thfsf propfrtifs brf not indludfd in thf JbvbSound 1.0 dffinition of
+ * b rfvfrb dontrol. In sudh b dbsf, thf implfmfnting systfm should fithfr
+ * fxtfnd thf dffinfd rfvfrb dontrol to indludf bdditionbl pbrbmftfrs, or flsf
+ * intfrprft thf systfm's bdditionbl dbpbbilitifs in b wby thbt fits thf modfl
+ * dfsdribfd hfrf.
+ * <p>
+ * If implfmfnting JbvbSound on b I3DL2-domplibnt dfvidf:
+ * <ul>
+ * <li>Filtfring is disbblfd (high-frfqufndy bttfnubtions brf sft to 0.0 dB)
+ * <li>Dfnsity pbrbmftfrs brf sft to midwby bftwffn minimum bnd mbximum
+ * </ul>
+ * <p>
+ * Thf following tbblf shows whbt pbrbmftfr vblufs bn implfmfntbtion might usf
+ * for b rfprfsfntbtivf sft of rfvfrbfrbtion sfttings.
+ * <p>
+ *
+ * <b>Rfvfrbfrbtion Typfs bnd Pbrbmftfrs</b>
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="rfvfrb typfs bnd pbrbms: dfdby timf, lbtf intfnsity, lbtf dflby, fbrly intfnsity, bnd fbrly dflby">
+ *
+ * <tr>
+ *  <th>Typf</th>
+ *  <th>Dfdby Timf (ms)</th>
+ *  <th>Lbtf Intfnsity (dB)</th>
+ *  <th>Lbtf Dflby (ms)</th>
+ *  <th>Ebrly Intfnsity (dB)</th>
+ *  <th>Ebrly Dflby(ms)</th>
+ * </tr>
+ *
+ * <tr>
+ *  <td>Cbvfrn</td>
+ *  <td>2250</td>
+ *  <td>-2.0</td>
+ *  <td>41.3</td>
+ *  <td>-1.4</td>
+ *  <td>10.3</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td>Dungfon</td>
+ *  <td>1600</td>
+ *  <td>-1.0</td>
+ *  <td>10.3</td>
+ *  <td>-0.7</td>
+ *  <td>2.6</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td>Gbrbgf</td>
+ *  <td>900</td>
+ *  <td>-6.0</td>
+ *  <td>14.7</td>
+ *  <td>-4.0</td>
+ *  <td>3.9</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td>Adoustid Lbb</td>
+ *  <td>280</td>
+ *  <td>-3.0</td>
+ *  <td>8.0</td>
+ *  <td>-2.0</td>
+ *  <td>2.0</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td>Closft</td>
+ *  <td>150</td>
+ *  <td>-10.0</td>
+ *  <td>2.5</td>
+ *  <td>-7.0</td>
+ *  <td>0.6</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid dlbss RfvfrbTypf {
+
+    /**
+     * Dfsdriptivf nbmf of thf rfvfrb typf.
+     */
+    privbtf String nbmf;
+
+    /**
+     * Ebrly rfflfdtion dflby in midrosfdonds.
+     */
+    privbtf int fbrlyRfflfdtionDflby;
+
+    /**
+     * Ebrly rfflfdtion intfnsity.
+     */
+    privbtf flobt fbrlyRfflfdtionIntfnsity;
+
+    /**
+     * Lbtf rfflfdtion dflby in midrosfdonds.
+     */
+    privbtf int lbtfRfflfdtionDflby;
+
+    /**
+     * Lbtf rfflfdtion intfnsity.
+     */
+    privbtf flobt lbtfRfflfdtionIntfnsity;
+
+    /**
+     * Totbl dfdby timf.
+     */
+    privbtf int dfdbyTimf;
+
+    /**
+     * Construdts b nfw rfvfrb typf thbt hbs thf spfdififd rfvfrbfrbtion
+     * pbrbmftfr vblufs.
+     *
+     * @pbrbm  nbmf thf nbmf of thf nfw rfvfrb typf, or b zfro-lfngth
+     *         {@dodf String}
+     * @pbrbm  fbrlyRfflfdtionDflby thf nfw typf's fbrly rfflfdtion dflby timf
+     *         in midrosfdonds
+     * @pbrbm  fbrlyRfflfdtionIntfnsity thf nfw typf's fbrly rfflfdtion
+     *         intfnsity in dB
+     * @pbrbm  lbtfRfflfdtionDflby thf nfw typf's lbtf rfflfdtion dflby timf in
+     *         midrosfdonds
+     * @pbrbm  lbtfRfflfdtionIntfnsity thf nfw typf's lbtf rfflfdtion intfnsity
+     *         in dB
+     * @pbrbm  dfdbyTimf thf nfw typf's dfdby timf in midrosfdonds
+     */
+    protfdtfd RfvfrbTypf(String nbmf, int fbrlyRfflfdtionDflby, flobt fbrlyRfflfdtionIntfnsity, int lbtfRfflfdtionDflby, flobt lbtfRfflfdtionIntfnsity, int dfdbyTimf) {
+
+        this.nbmf = nbmf;
+        this.fbrlyRfflfdtionDflby = fbrlyRfflfdtionDflby;
+        this.fbrlyRfflfdtionIntfnsity = fbrlyRfflfdtionIntfnsity;
+        this.lbtfRfflfdtionDflby = lbtfRfflfdtionDflby;
+        this.lbtfRfflfdtionIntfnsity = lbtfRfflfdtionIntfnsity;
+        this.dfdbyTimf = dfdbyTimf;
+    }
+
+    /**
+     * Obtbins thf nbmf of this rfvfrb typf.
+     *
+     * @rfturn thf nbmf of this rfvfrb typf
+     * @sindf 1.5
+     */
+    publid String gftNbmf() {
+            rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf fbrly rfflfdtion dflby timf in midrosfdonds. This is thf
+     * bmount of timf bftwffn whfn thf dirfdt signbl is hfbrd bnd whfn thf first
+     * fbrly rfflfdtions brf hfbrd.
+     *
+     * @rfturn fbrly rfflfdtion dflby timf for this rfvfrb typf, in midrosfdonds
+     */
+    publid finbl int gftEbrlyRfflfdtionDflby() {
+        rfturn fbrlyRfflfdtionDflby;
+    }
+
+    /**
+     * Rfturns thf fbrly rfflfdtion intfnsity in dfdibfls. This is thf bmplitudf
+     * bttfnubtion of thf first fbrly rfflfdtions rflbtivf to thf dirfdt signbl.
+     *
+     * @rfturn fbrly rfflfdtion intfnsity for this rfvfrb typf, in dB
+     */
+    publid finbl flobt gftEbrlyRfflfdtionIntfnsity() {
+        rfturn fbrlyRfflfdtionIntfnsity;
+    }
+
+    /**
+     * Rfturns thf lbtf rfflfdtion dflby timf in midrosfdonds. This is thf
+     * bmount of timf bftwffn whfn thf first fbrly rfflfdtions brf hfbrd bnd
+     * whfn thf first lbtf rfflfdtions brf hfbrd.
+     *
+     * @rfturn lbtf rfflfdtion dflby timf for this rfvfrb typf, in midrosfdonds
+     */
+    publid finbl int gftLbtfRfflfdtionDflby() {
+        rfturn lbtfRfflfdtionDflby;
+    }
+
+    /**
+     * Rfturns thf lbtf rfflfdtion intfnsity in dfdibfls. This is thf bmplitudf
+     * bttfnubtion of thf first lbtf rfflfdtions rflbtivf to thf dirfdt signbl.
+     *
+     * @rfturn lbtf rfflfdtion intfnsity for this rfvfrb typf, in dB
+     */
+    publid finbl flobt gftLbtfRfflfdtionIntfnsity() {
+        rfturn lbtfRfflfdtionIntfnsity;
+    }
+
+    /**
+     * Obtbins thf dfdby timf, whidh is thf bmount of timf ovfr whidh thf lbtf
+     * rfflfdtions bttfnubtf to ffffdtivf zfro. Thf ffffdtivf zfro vbluf is
+     * implfmfntbtion-dfpfndfnt.
+     *
+     * @rfturn thf dfdby timf of thf lbtf rfflfdtions, in midrosfdonds
+     */
+    publid finbl int gftDfdbyTimf() {
+        rfturn dfdbyTimf;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf spfdififd objfdt is fqubl to this rfvfrb typf,
+     * rfturning {@dodf truf} if thf objfdts brf idfntidbl.
+     *
+     * @pbrbm  obj thf rfffrfndf objfdt with whidh to dompbrf
+     * @rfturn {@dodf truf} if this rfvfrb typf is thf sbmf bs {@dodf obj};
+     *         {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        rfturn supfr.fqubls(obj);
+    }
+
+    /**
+     * Finblizfs thf hbshdodf mfthod.
+     */
+    @Ovfrridf
+    publid finbl int hbshCodf() {
+        rfturn supfr.hbshCodf();
+    }
+
+    /**
+     * Providfs b {@dodf String} rfprfsfntbtion of thf rfvfrb typf, indluding
+     * its nbmf bnd its pbrbmftfr sfttings. Thf fxbdt dontfnts of thf string mby
+     * vbry bftwffn implfmfntbtions of Jbvb Sound.
+     *
+     * @rfturn rfvfrbfrbtion typf nbmf bnd dfsdription
+     */
+    @Ovfrridf
+    publid finbl String toString() {
+
+        //$$fb2001-07-20: fix for bug 4385060: Thf "nbmf" bttributf of dlbss "RfvfrbTypf" is not bddfssiblf.
+        //rfturn (supfr.toString() + ", fbrly rfflfdtion dflby " + fbrlyRfflfdtionDflby +
+        rfturn (nbmf + ", fbrly rfflfdtion dflby " + fbrlyRfflfdtionDflby +
+                " ns, fbrly rfflfdtion intfnsity " + fbrlyRfflfdtionIntfnsity +
+                " dB, lbtf dfflfdtion dflby " + lbtfRfflfdtionDflby +
+                " ns, lbtf rfflfdtion intfnsity " + lbtfRfflfdtionIntfnsity +
+                " dB, dfdby timf " +  dfdbyTimf);
+    }
+}

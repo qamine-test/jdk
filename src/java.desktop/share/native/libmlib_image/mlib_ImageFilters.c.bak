@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-/*  Tables mlib_filters_u8f_bc and mlib_filters_u8f_bc2
+/*  Tbblfs mlib_filtfrs_u8f_bd bnd mlib_filtfrs_u8f_bd2
  *
  *  DESCRIPTION
- *    mlib_filters_u8f_bc[4*i+0] = (mlib_f32) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC);
- *    mlib_filters_u8f_bc[4*i+1] = (mlib_f32) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC);
- *    mlib_filters_u8f_bc[4*i+2] = (mlib_f32) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC);
- *    mlib_filters_u8f_bc[4*i+3] = (mlib_f32) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC);
+ *    mlib_filtfrs_u8f_bd[4*i+0] = (mlib_f32) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC);
+ *    mlib_filtfrs_u8f_bd[4*i+1] = (mlib_f32) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC);
+ *    mlib_filtfrs_u8f_bd[4*i+2] = (mlib_f32) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC);
+ *    mlib_filtfrs_u8f_bd[4*i+3] = (mlib_f32) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC);
  *
- *    mlib_filters_u8f_bc2[4*i+0] = (mlib_f32) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC);
- *    mlib_filters_u8f_bc2[4*i+1] = (mlib_f32) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC);
- *    mlib_filters_u8f_bc2[4*i+2] = (mlib_f32) ((-dx*dx*dx +     dx*dx + dx )*PREC);
- *    mlib_filters_u8f_bc2[4*i+3] = (mlib_f32) (( dx*dx*dx -     dx*dx      )*PREC);
+ *    mlib_filtfrs_u8f_bd2[4*i+0] = (mlib_f32) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC);
+ *    mlib_filtfrs_u8f_bd2[4*i+1] = (mlib_f32) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC);
+ *    mlib_filtfrs_u8f_bd2[4*i+2] = (mlib_f32) ((-dx*dx*dx +     dx*dx + dx )*PREC);
+ *    mlib_filtfrs_u8f_bd2[4*i+3] = (mlib_f32) (( dx*dx*dx -     dx*dx      )*PREC);
  *
- *  Where
- *    PREC = ((double)(1 << 12))
- *    dx = (double)i/256 + 1./512.; i = 0, 1, ..., 255;
+ *  Wifrf
+ *    PREC = ((doublf)(1 << 12))
+ *    dx = (doublf)i/256 + 1./512.; i = 0, 1, ..., 255;
  *
- *  Tables mlib_filters_s16f_bc and mlib_filters_s16f_bc2
- *
- *  DESCRIPTION
- *    mlib_filters_s16f_bc[4*i+0] = (mlib_f32) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC);
- *    mlib_filters_s16f_bc[4*i+1] = (mlib_f32) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC);
- *    mlib_filters_s16f_bc[4*i+2] = (mlib_f32) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC);
- *    mlib_filters_s16f_bc[4*i+3] = (mlib_f32) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC);
- *
- *    mlib_filters_s16f_bc2[4*i+0] = (mlib_f32) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC);
- *    mlib_filters_s16f_bc2[4*i+1] = (mlib_f32) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC);
- *    mlib_filters_s16f_bc2[4*i+2] = (mlib_f32) ((-dx*dx*dx +     dx*dx + dx )*PREC);
- *    mlib_filters_s16f_bc2[4*i+3] = (mlib_f32) (( dx*dx*dx -     dx*dx      )*PREC);
- *
- *  Where
- *    PREC = ((double)(1 << 8))
- *    dx = (double)i/512 + 1./1024.; i = 0, 1, ..., 511;
- *
- *  Tables mlib_filters_u8_bc and mlib_filters_u8_bc2
+ *  Tbblfs mlib_filtfrs_s16f_bd bnd mlib_filtfrs_s16f_bd2
  *
  *  DESCRIPTION
- *    mlib_filters_u8_bc[4*i+0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
- *    mlib_filters_u8_bc[4*i+1] = (mlib_s16) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC + 0.5);
- *    mlib_filters_u8_bc[4*i+2] = (mlib_s16) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC + 0.5);
- *    mlib_filters_u8_bc[4*i+3] = (mlib_s16) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC - 0.5);
+ *    mlib_filtfrs_s16f_bd[4*i+0] = (mlib_f32) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC);
+ *    mlib_filtfrs_s16f_bd[4*i+1] = (mlib_f32) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC);
+ *    mlib_filtfrs_s16f_bd[4*i+2] = (mlib_f32) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC);
+ *    mlib_filtfrs_s16f_bd[4*i+3] = (mlib_f32) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC);
  *
- *    mlib_filters_u8_bc2[4*i+0] = (mlib_s16) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC - 0.5);
- *    mlib_filters_u8_bc2[4*i+1] = (mlib_s16) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC + 0.5);
- *    mlib_filters_u8_bc2[4*i+2] = (mlib_s16) ((-dx*dx*dx +     dx*dx + dx )*PREC + 0.5);
- *    mlib_filters_u8_bc2[4*i+3] = (mlib_s16) (( dx*dx*dx -     dx*dx      )*PREC - 0.5);
+ *    mlib_filtfrs_s16f_bd2[4*i+0] = (mlib_f32) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC);
+ *    mlib_filtfrs_s16f_bd2[4*i+1] = (mlib_f32) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC);
+ *    mlib_filtfrs_s16f_bd2[4*i+2] = (mlib_f32) ((-dx*dx*dx +     dx*dx + dx )*PREC);
+ *    mlib_filtfrs_s16f_bd2[4*i+3] = (mlib_f32) (( dx*dx*dx -     dx*dx      )*PREC);
  *
- *  Where
- *    PREC = ((double) (1 << 14));
- *    dx = (double)i/256 + 1./512.; i = 0, 1, ..., 255;
+ *  Wifrf
+ *    PREC = ((doublf)(1 << 8))
+ *    dx = (doublf)i/512 + 1./1024.; i = 0, 1, ..., 511;
  *
- *  Tables mlib_filters_s16_bc and mlib_filters_s16_bc2
+ *  Tbblfs mlib_filtfrs_u8_bd bnd mlib_filtfrs_u8_bd2
  *
  *  DESCRIPTION
- *    mlib_filters_s16_bc[4*i+0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
- *    mlib_filters_s16_bc[4*i+1] = (mlib_s16) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC + 0.5);
- *    mlib_filters_s16_bc[4*i+2] = (mlib_s16) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC + 0.5);
- *    mlib_filters_s16_bc[4*i+3] = (mlib_s16) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC - 0.5);
+ *    mlib_filtfrs_u8_bd[4*i+0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
+ *    mlib_filtfrs_u8_bd[4*i+1] = (mlib_s16) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC + 0.5);
+ *    mlib_filtfrs_u8_bd[4*i+2] = (mlib_s16) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC + 0.5);
+ *    mlib_filtfrs_u8_bd[4*i+3] = (mlib_s16) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC - 0.5);
  *
- *    mlib_filters_s16_bc2[4*i+0] = (mlib_s16) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC - 0.5);
- *    mlib_filters_s16_bc2[4*i+1] = (mlib_s16) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC + 0.5);
- *    mlib_filters_s16_bc2[4*i+2] = (mlib_s16) ((-dx*dx*dx +     dx*dx + dx )*PREC + 0.5);
- *    mlib_filters_s16_bc2[4*i+3] = (mlib_s16) (( dx*dx*dx -     dx*dx      )*PREC - 0.5);
+ *    mlib_filtfrs_u8_bd2[4*i+0] = (mlib_s16) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC - 0.5);
+ *    mlib_filtfrs_u8_bd2[4*i+1] = (mlib_s16) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC + 0.5);
+ *    mlib_filtfrs_u8_bd2[4*i+2] = (mlib_s16) ((-dx*dx*dx +     dx*dx + dx )*PREC + 0.5);
+ *    mlib_filtfrs_u8_bd2[4*i+3] = (mlib_s16) (( dx*dx*dx -     dx*dx      )*PREC - 0.5);
  *
- *  Where
- *    PREC = ((double) (1 << 15));
- *    dx = (double)i/512 + 1./1024.; i = 0, 1, ..., 511;
- *    All 32768 are replace to 32767
+ *  Wifrf
+ *    PREC = ((doublf) (1 << 14));
+ *    dx = (doublf)i/256 + 1./512.; i = 0, 1, ..., 255;
+ *
+ *  Tbblfs mlib_filtfrs_s16_bd bnd mlib_filtfrs_s16_bd2
+ *
+ *  DESCRIPTION
+ *    mlib_filtfrs_s16_bd[4*i+0] = (mlib_s16) ((-0.5*dx*dx*dx +     dx*dx - 0.5*dx)*PREC - 0.5);
+ *    mlib_filtfrs_s16_bd[4*i+1] = (mlib_s16) (( 1.5*dx*dx*dx - 2.5*dx*dx + 1.0   )*PREC + 0.5);
+ *    mlib_filtfrs_s16_bd[4*i+2] = (mlib_s16) ((-1.5*dx*dx*dx + 2.0*dx*dx + 0.5*dx)*PREC + 0.5);
+ *    mlib_filtfrs_s16_bd[4*i+3] = (mlib_s16) (( 0.5*dx*dx*dx - 0.5*dx*dx         )*PREC - 0.5);
+ *
+ *    mlib_filtfrs_s16_bd2[4*i+0] = (mlib_s16) ((-dx*dx*dx + 2.0*dx*dx - dx )*PREC - 0.5);
+ *    mlib_filtfrs_s16_bd2[4*i+1] = (mlib_s16) (( dx*dx*dx - 2.0*dx*dx + 1.0)*PREC + 0.5);
+ *    mlib_filtfrs_s16_bd2[4*i+2] = (mlib_s16) ((-dx*dx*dx +     dx*dx + dx )*PREC + 0.5);
+ *    mlib_filtfrs_s16_bd2[4*i+3] = (mlib_s16) (( dx*dx*dx -     dx*dx      )*PREC - 0.5);
+ *
+ *  Wifrf
+ *    PREC = ((doublf) (1 << 15));
+ *    dx = (doublf)i/512 + 1./1024.; i = 0, 1, ..., 511;
+ *    All 32768 brf rfplbdf to 32767
  *
  *  COMMENTS
- *    These tables are used by C and VIS versions of the following functions:
- *      mlib_ImageRotate(Index)
- *      mlib_ImageAffine(Index)
- *      mlib_ImageZoom(Index)
- *      mlib_ImageGridWarp
- *      mlib_ImagePolynomialWarp
+ *    Tifsf tbblfs brf usfd by C bnd VIS vfrsions of tif following fundtions:
+ *      mlib_ImbgfRotbtf(Indfx)
+ *      mlib_ImbgfAffinf(Indfx)
+ *      mlib_ImbgfZoom(Indfx)
+ *      mlib_ImbgfGridWbrp
+ *      mlib_ImbgfPolynomiblWbrp
  *
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageFilters.h"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_ImbgfFiltfrs.i"
 
 /***************************************************************/
-const mlib_f32 mlib_filters_u8f_bc[] = {
+donst mlib_f32 mlib_filtfrs_u8f_bd[] = {
     -3.9843902588f,   4095.9609832764f,      4.0312042236f,     -0.0077972412f,
    -11.8597869873f,   4095.6496734619f,     12.2800140381f,     -0.0699005127f,
    -19.6112823486f,   4095.0291595459f,     20.7755279541f,     -0.1934051514f,
@@ -367,7 +367,7 @@ const mlib_f32 mlib_filters_u8f_bc[] = {
 };
 
 /***************************************************************/
-const mlib_f32 mlib_filters_u8f_bc2[] = {
+donst mlib_f32 mlib_filtfrs_u8f_bd2[] = {
     -7.9687805176f,   4095.9687805176f,      8.0155944824f,     -0.0155944824f,
    -23.7195739746f,   4095.7195739746f,     24.1398010254f,     -0.1398010254f,
    -39.2225646973f,   4095.2225646973f,     40.3868103027f,     -0.3868103027f,
@@ -627,7 +627,7 @@ const mlib_f32 mlib_filters_u8f_bc2[] = {
 };
 
 /***************************************************************/
-const mlib_f32 mlib_filters_s16f_bc[] = {
+donst mlib_f32 mlib_filtfrs_s16f_bd[] = {
   -0.1247559786f,  255.9993900061f,    0.1254879236f,   -0.0001219511f,
   -0.3728059530f,  255.9945164919f,    0.3793848753f,   -0.0010954142f,
   -0.6189113855f,  255.9847859144f,    0.6371623278f,   -0.0030368567f,
@@ -1143,7 +1143,7 @@ const mlib_f32 mlib_filters_s16f_bc[] = {
 };
 
 /***************************************************************/
-const mlib_f32 mlib_filters_s16f_bc2[] = {
+donst mlib_f32 mlib_filtfrs_s16f_bd2[] = {
   -0.2495119572f,  255.9995119572f,    0.2502439022f,   -0.0002439022f,
   -0.7456119061f,  255.9956119061f,    0.7521908283f,   -0.0021908283f,
   -1.2378227711f,  255.9878227711f,    1.2560737133f,   -0.0060737133f,
@@ -1658,10 +1658,10 @@ const mlib_f32 mlib_filters_s16f_bc2[] = {
   -0.0002439022f,    0.2502439022f,  255.9995119572f,   -0.2495119572f
 };
 
-#ifndef __sparc         /* for x86, using integer multiplies is faster */
+#ifndff __spbrd         /* for x86, using intfgfr multiplifs is fbstfr */
 
 /***************************************************************/
-const mlib_s16 mlib_filters_u8_bc[] = {
+donst mlib_s16 mlib_filtfrs_u8_bd[] = {
    -16,  16384,     16,      0,
    -47,  16383,     49,      0,
    -78,  16380,     83,     -1,
@@ -1921,7 +1921,7 @@ const mlib_s16 mlib_filters_u8_bc[] = {
 };
 
 /***************************************************************/
-const mlib_s16 mlib_filters_u8_bc2[] = {
+donst mlib_s16 mlib_filtfrs_u8_bd2[] = {
    -32,  16384,     32,      0,
    -95,  16383,     97,     -1,
   -157,  16381,    162,     -2,
@@ -2181,7 +2181,7 @@ const mlib_s16 mlib_filters_u8_bc2[] = {
 };
 
 /***************************************************************/
-const mlib_s16 mlib_filters_s16_bc[] = {
+donst mlib_s16 mlib_filtfrs_s16_bd[] = {
    -16,  32767,     16,      0,
    -48,  32767,     49,      0,
    -79,  32766,     82,      0,
@@ -2697,7 +2697,7 @@ const mlib_s16 mlib_filters_s16_bc[] = {
 };
 
 /***************************************************************/
-const mlib_s16 mlib_filters_s16_bc2[] = {
+donst mlib_s16 mlib_filtfrs_s16_bd2[] = {
    -32,  32767,     32,      0,
    -95,  32767,     96,      0,
   -158,  32766,    161,     -1,
@@ -3214,4 +3214,4 @@ const mlib_s16 mlib_filters_s16_bc2[] = {
 
 /***************************************************************/
 
-#endif  /* #ifndef __sparc */
+#fndif  /* #ifndff __spbrd */

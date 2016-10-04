@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls.spi;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.ProtodolFbmily;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+
+/**
+ * Sfrvidf-providfr dlbss for sflfdtors bnd sflfdtbblf dhbnnfls.
+ *
+ * <p> A sflfdtor providfr is b dondrftf subdlbss of this dlbss thbt hbs b
+ * zfro-brgumfnt donstrudtor bnd implfmfnts thf bbstrbdt mfthods spfdififd
+ * bflow.  A givfn invodbtion of thf Jbvb virtubl mbdhinf mbintbins b singlf
+ * systfm-widf dffbult providfr instbndf, whidh is rfturnfd by thf {@link
+ * #providfr() providfr} mfthod.  Thf first invodbtion of thbt mfthod will lodbtf
+ * thf dffbult providfr bs spfdififd bflow.
+ *
+ * <p> Thf systfm-widf dffbult providfr is usfd by thf stbtid <tt>opfn</tt>
+ * mfthods of thf {@link jbvb.nio.dhbnnfls.DbtbgrbmChbnnfl#opfn
+ * DbtbgrbmChbnnfl}, {@link jbvb.nio.dhbnnfls.Pipf#opfn Pipf}, {@link
+ * jbvb.nio.dhbnnfls.Sflfdtor#opfn Sflfdtor}, {@link
+ * jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl#opfn SfrvfrSodkftChbnnfl}, bnd {@link
+ * jbvb.nio.dhbnnfls.SodkftChbnnfl#opfn SodkftChbnnfl} dlbssfs.  It is blso
+ * usfd by thf {@link jbvb.lbng.Systfm#inhfritfdChbnnfl Systfm.inhfritfdChbnnfl()}
+ * mfthod. A progrbm mby mbkf usf of b providfr othfr thbn thf dffbult providfr
+ * by instbntibting thbt providfr bnd thfn dirfdtly invoking thf <tt>opfn</tt>
+ * mfthods dffinfd in this dlbss.
+ *
+ * <p> All of thf mfthods in this dlbss brf sbff for usf by multiplf dondurrfnt
+ * thrfbds.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss SflfdtorProvidfr {
+
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid SflfdtorProvidfr providfr = null;
+
+    privbtf stbtid Void dhfdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("sflfdtorProvidfr"));
+        rfturn null;
+    }
+    privbtf SflfdtorProvidfr(Void ignorf) { }
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("sflfdtorProvidfr")</tt>
+     */
+    protfdtfd SflfdtorProvidfr() {
+        this(dhfdkPfrmission());
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrFromPropfrty() {
+        String dn = Systfm.gftPropfrty("jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr");
+        if (dn == null)
+            rfturn fblsf;
+        try {
+            Clbss<?> d = Clbss.forNbmf(dn, truf,
+                                       ClbssLobdfr.gftSystfmClbssLobdfr());
+            providfr = (SflfdtorProvidfr)d.nfwInstbndf();
+            rfturn truf;
+        } dbtdh (ClbssNotFoundExdfption x) {
+            throw nfw SfrvidfConfigurbtionError(null, x);
+        } dbtdh (IllfgblAddfssExdfption x) {
+            throw nfw SfrvidfConfigurbtionError(null, x);
+        } dbtdh (InstbntibtionExdfption x) {
+            throw nfw SfrvidfConfigurbtionError(null, x);
+        } dbtdh (SfdurityExdfption x) {
+            throw nfw SfrvidfConfigurbtionError(null, x);
+        }
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrAsSfrvidf() {
+
+        SfrvidfLobdfr<SflfdtorProvidfr> sl =
+            SfrvidfLobdfr.lobd(SflfdtorProvidfr.dlbss,
+                               ClbssLobdfr.gftSystfmClbssLobdfr());
+        Itfrbtor<SflfdtorProvidfr> i = sl.itfrbtor();
+        for (;;) {
+            try {
+                if (!i.hbsNfxt())
+                    rfturn fblsf;
+                providfr = i.nfxt();
+                rfturn truf;
+            } dbtdh (SfrvidfConfigurbtionError sdf) {
+                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                    // Ignorf thf sfdurity fxdfption, try thf nfxt providfr
+                    dontinuf;
+                }
+                throw sdf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf systfm-widf dffbult sflfdtor providfr for this invodbtion of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * <p> Thf first invodbtion of this mfthod lodbtfs thf dffbult providfr
+     * objfdt bs follows: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> If thf systfm propfrty
+     *   <tt>jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr</tt> is dffinfd thfn it is
+     *   tbkfn to bf thf fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Thf dlbss is lobdfd bnd instbntibtfd; if this prodfss fbils thfn bn
+     *   unspfdififd frror is thrown.  </p></li>
+     *
+     *   <li><p> If b providfr dlbss hbs bffn instbllfd in b jbr filf thbt is
+     *   visiblf to thf systfm dlbss lobdfr, bnd thbt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   <tt>jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr</tt> in thf rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, thfn thf first dlbss nbmf
+     *   spfdififd in thbt filf is tbkfn.  Thf dlbss is lobdfd bnd
+     *   instbntibtfd; if this prodfss fbils thfn bn unspfdififd frror is
+     *   thrown.  </p></li>
+     *
+     *   <li><p> Finblly, if no providfr hbs bffn spfdififd by bny of thf bbovf
+     *   mfbns thfn thf systfm-dffbult providfr dlbss is instbntibtfd bnd thf
+     *   rfsult is rfturnfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Subsfqufnt invodbtions of this mfthod rfturn thf providfr thbt wbs
+     * rfturnfd by thf first invodbtion.  </p>
+     *
+     * @rfturn  Thf systfm-widf dffbult sflfdtor providfr
+     */
+    publid stbtid SflfdtorProvidfr providfr() {
+        syndhronizfd (lodk) {
+            if (providfr != null)
+                rfturn providfr;
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<SflfdtorProvidfr>() {
+                    publid SflfdtorProvidfr run() {
+                            if (lobdProvidfrFromPropfrty())
+                                rfturn providfr;
+                            if (lobdProvidfrAsSfrvidf())
+                                rfturn providfr;
+                            providfr = sun.nio.dh.DffbultSflfdtorProvidfr.drfbtf();
+                            rfturn providfr;
+                        }
+                    });
+        }
+    }
+
+    /**
+     * Opfns b dbtbgrbm dhbnnfl.
+     *
+     * @rfturn  Thf nfw dhbnnfl
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt DbtbgrbmChbnnfl opfnDbtbgrbmChbnnfl()
+        throws IOExdfption;
+
+    /**
+     * Opfns b dbtbgrbm dhbnnfl.
+     *
+     * @pbrbm   fbmily
+     *          Thf protodol fbmily
+     *
+     * @rfturn  A nfw dbtbgrbm dhbnnfl
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf spfdififd protodol fbmily is not supportfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sindf 1.7
+     */
+    publid bbstrbdt DbtbgrbmChbnnfl opfnDbtbgrbmChbnnfl(ProtodolFbmily fbmily)
+        throws IOExdfption;
+
+    /**
+     * Opfns b pipf.
+     *
+     * @rfturn  Thf nfw pipf
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt Pipf opfnPipf()
+        throws IOExdfption;
+
+    /**
+     * Opfns b sflfdtor.
+     *
+     * @rfturn  Thf nfw sflfdtor
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt AbstrbdtSflfdtor opfnSflfdtor()
+        throws IOExdfption;
+
+    /**
+     * Opfns b sfrvfr-sodkft dhbnnfl.
+     *
+     * @rfturn  Thf nfw dhbnnfl
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt SfrvfrSodkftChbnnfl opfnSfrvfrSodkftChbnnfl()
+        throws IOExdfption;
+
+    /**
+     * Opfns b sodkft dhbnnfl.
+     *
+     * @rfturn  Thf nfw dhbnnfl
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt SodkftChbnnfl opfnSodkftChbnnfl()
+        throws IOExdfption;
+
+    /**
+     * Rfturns thf dhbnnfl inhfritfd from thf fntity thbt drfbtfd this
+     * Jbvb virtubl mbdhinf.
+     *
+     * <p> On mbny opfrbting systfms b prodfss, sudh bs b Jbvb virtubl
+     * mbdhinf, dbn bf stbrtfd in b mbnnfr thbt bllows thf prodfss to
+     * inhfrit b dhbnnfl from thf fntity thbt drfbtfd thf prodfss. Thf
+     * mbnnfr in whidh this is donf is systfm dfpfndfnt, bs brf thf
+     * possiblf fntitifs to whidh thf dhbnnfl mby bf donnfdtfd. For fxbmplf,
+     * on UNIX systfms, thf Intfrnft sfrvidfs dbfmon (<i>inftd</i>) is usfd to
+     * stbrt progrbms to sfrvidf rfqufsts whfn b rfqufst brrivfs on bn
+     * bssodibtfd nftwork port. In this fxbmplf, thf prodfss thbt is stbrtfd,
+     * inhfrits b dhbnnfl rfprfsfnting b nftwork sodkft.
+     *
+     * <p> In dbsfs whfrf thf inhfritfd dhbnnfl rfprfsfnts b nftwork sodkft
+     * thfn thf {@link jbvb.nio.dhbnnfls.Chbnnfl Chbnnfl} typf rfturnfd
+     * by this mfthod is dftfrminfd bs follows:
+     *
+     * <ul>
+     *
+     *  <li><p> If thf inhfritfd dhbnnfl rfprfsfnts b strfbm-orifntfd donnfdtfd
+     *  sodkft thfn b {@link jbvb.nio.dhbnnfls.SodkftChbnnfl SodkftChbnnfl} is
+     *  rfturnfd. Thf sodkft dhbnnfl is, bt lfbst initiblly, in blodking
+     *  modf, bound to b sodkft bddrfss, bnd donnfdtfd to b pffr.
+     *  </p></li>
+     *
+     *  <li><p> If thf inhfritfd dhbnnfl rfprfsfnts b strfbm-orifntfd listfning
+     *  sodkft thfn b {@link jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl
+     *  SfrvfrSodkftChbnnfl} is rfturnfd. Thf sfrvfr-sodkft dhbnnfl is, bt
+     *  lfbst initiblly, in blodking modf, bnd bound to b sodkft bddrfss.
+     *  </p></li>
+     *
+     *  <li><p> If thf inhfritfd dhbnnfl is b dbtbgrbm-orifntfd sodkft
+     *  thfn b {@link jbvb.nio.dhbnnfls.DbtbgrbmChbnnfl DbtbgrbmChbnnfl} is
+     *  rfturnfd. Thf dbtbgrbm dhbnnfl is, bt lfbst initiblly, in blodking
+     *  modf, bnd bound to b sodkft bddrfss.
+     *  </p></li>
+     *
+     * </ul>
+     *
+     * <p> In bddition to thf nftwork-orifntfd dhbnnfls dfsdribfd, this mfthod
+     * mby rfturn othfr kinds of dhbnnfls in thf futurf.
+     *
+     * <p> Thf first invodbtion of this mfthod drfbtfs thf dhbnnfl thbt is
+     * rfturnfd. Subsfqufnt invodbtions of this mfthod rfturn thf sbmf
+     * dhbnnfl. </p>
+     *
+     * @rfturn  Thf inhfritfd dhbnnfl, if bny, othfrwisf <tt>null</tt>.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("inhfritfdChbnnfl")</tt>
+     *
+     * @sindf 1.5
+     */
+   publid Chbnnfl inhfritfdChbnnfl() throws IOExdfption {
+        rfturn null;
+   }
+
+}

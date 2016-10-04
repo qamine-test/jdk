@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>KeyGenerator</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a key generator for a particular algorithm.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>KfyGfnfrbtor</dodf> dlbss.
+ * All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b kfy gfnfrbtor for b pbrtidulbr blgoritim.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @see SecretKey
- * @since 1.4
+ * @sff SfdrftKfy
+ * @sindf 1.4
  */
 
-public abstract class KeyGeneratorSpi {
+publid bbstrbdt dlbss KfyGfnfrbtorSpi {
 
     /**
-     * Initializes the key generator.
+     * Initiblizfs tif kfy gfnfrbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis gfnfrbtor
      */
-    protected abstract void engineInit(SecureRandom random);
+    protfdtfd bbstrbdt void fnginfInit(SfdurfRbndom rbndom);
 
     /**
-     * Initializes the key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizfs tif kfy gfnfrbtor witi tif spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms tif kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis kfy gfnfrbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for tiis kfy gfnfrbtor
      */
-    protected abstract void engineInit(AlgorithmParameterSpec params,
-                                       SecureRandom random)
-        throws InvalidAlgorithmParameterException;
+    protfdtfd bbstrbdt void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbms,
+                                       SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizfs tiis kfy gfnfrbtor for b dfrtbin kfysizf, using tif givfn
+     * sourdf of rbndomnfss.
      *
-     * @param keysize the keysize. This is an algorithm-specific metric,
-     * specified in number of bits.
-     * @param random the source of randomness for this key generator
+     * @pbrbm kfysizf tif kfysizf. Tiis is bn blgoritim-spfdifid mftrid,
+     * spfdififd in numbfr of bits.
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis kfy gfnfrbtor
      *
-     * @exception InvalidParameterException if the keysize is wrong or not
-     * supported.
+     * @fxdfption InvblidPbrbmftfrExdfption if tif kfysizf is wrong or not
+     * supportfd.
      */
-    protected abstract void engineInit(int keysize, SecureRandom random);
+    protfdtfd bbstrbdt void fnginfInit(int kfysizf, SfdurfRbndom rbndom);
 
     /**
-     * Generates a secret key.
+     * Gfnfrbtfs b sfdrft kfy.
      *
-     * @return the new key
+     * @rfturn tif nfw kfy
      */
-    protected abstract SecretKey engineGenerateKey();
+    protfdtfd bbstrbdt SfdrftKfy fnginfGfnfrbtfKfy();
 }

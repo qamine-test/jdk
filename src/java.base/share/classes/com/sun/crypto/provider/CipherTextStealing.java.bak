@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.ShortBufferException;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.SiortBufffrExdfption;
 
 /**
- * This class represents ciphers in cipher text stealing (CTS) mode.
- * <br>CTS provides a way to allow block ciphers to operate on partial
- * blocks without padding, and all bits of the message go through
- * the encryption algorithm, rather than simply being XOR'd.
- * <br>More details can be found in RFC 2040 section 8 "Description
+ * Tiis dlbss rfprfsfnts dipifrs in dipifr tfxt stfbling (CTS) modf.
+ * <br>CTS providfs b wby to bllow blodk dipifrs to opfrbtf on pbrtibl
+ * blodks witiout pbdding, bnd bll bits of tif mfssbgf go tirougi
+ * tif fndryption blgoritim, rbtifr tibn simply bfing XOR'd.
+ * <br>Morf dftbils dbn bf found in RFC 2040 sfdtion 8 "Dfsdription
  * of RC5-CTS".
  *
- * <p>This mode is implemented independently of a particular cipher.
- * Ciphers to which this mode should apply (e.g., DES) must be
- * <i>plugged-in</i> using the constructor.
+ * <p>Tiis modf is implfmfntfd indfpfndfntly of b pbrtidulbr dipifr.
+ * Cipifrs to wiidi tiis modf siould bpply (f.g., DES) must bf
+ * <i>pluggfd-in</i> using tif donstrudtor.
  *
- * <p>NOTE#1: CTS requires the input data to be at least one block
- * long. Thus, callers of this class has to buffer the input data
- * to make sure the input data passed to encryptFinal()/decryptFinal()
- * is not shorter than a block.
- * <p>NOTE#2: This class does not deal with buffering or padding
- * just like all other cipher mode implementations.
+ * <p>NOTE#1: CTS rfquirfs tif input dbtb to bf bt lfbst onf blodk
+ * long. Tius, dbllfrs of tiis dlbss ibs to bufffr tif input dbtb
+ * to mbkf surf tif input dbtb pbssfd to fndryptFinbl()/dfdryptFinbl()
+ * is not siortfr tibn b blodk.
+ * <p>NOTE#2: Tiis dlbss dofs not dfbl witi bufffring or pbdding
+ * just likf bll otifr dipifr modf implfmfntbtions.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  */
 
-final class CipherTextStealing extends CipherBlockChaining {
+finbl dlbss CipifrTfxtStfbling fxtfnds CipifrBlodkCibining {
 
-    CipherTextStealing(SymmetricCipher embeddedCipher) {
-        super(embeddedCipher);
+    CipifrTfxtStfbling(SymmftridCipifr fmbfddfdCipifr) {
+        supfr(fmbfddfdCipifr);
     }
 
     /**
-     * Gets the name of this feedback mode.
+     * Gfts tif nbmf of tiis fffdbbdk modf.
      *
-     * @return the string <code>CBC</code>
+     * @rfturn tif string <dodf>CBC</dodf>
      */
-    String getFeedback() {
-        return "CTS";
+    String gftFffdbbdk() {
+        rfturn "CTS";
     }
 
     /**
-     * Performs the last encryption operation.
+     * Pfrforms tif lbst fndryption opfrbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + len - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
-     * <code>cipherOffset</code>.
+     * <p>Tif input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + lfn - 1)</dodf>, is fndryptfd.
+     * Tif rfsult is storfd in <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>plainLen</code> is a multiple of the embedded cipher's block size,
-     * as any excess bytes are ignored.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>plbinLfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk sizf,
+     * bs bny fxdfss bytfs brf ignorfd.
      *
-     * @param plain the buffer with the input data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin tif bufffr witi tif input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn tif lfngti of tif input dbtb
+     * @pbrbm dipifr tif bufffr for tif rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>dipifr</dodf>
      */
-    int encryptFinal(byte[] plain, int plainOffset, int plainLen,
-                     byte[] cipher, int cipherOffset)
-        throws IllegalBlockSizeException {
+    int fndryptFinbl(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                     bytf[] dipifr, int dipifrOffsft)
+        tirows IllfgblBlodkSizfExdfption {
 
-        if (plainLen < blockSize) {
-            throw new IllegalBlockSizeException("input is too short!");
-        } else if (plainLen == blockSize) {
-            encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
-        } else {
-            // number of bytes in the last block
-            int nLeft = plainLen % blockSize;
-            if (nLeft == 0) {
-                encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
-                // swap the last two blocks after encryption
-                int lastBlkIndex = cipherOffset + plainLen - blockSize;
-                int nextToLastBlkIndex = lastBlkIndex - blockSize;
-                byte[] tmp = new byte[blockSize];
-                System.arraycopy(cipher, lastBlkIndex, tmp, 0, blockSize);
-                System.arraycopy(cipher, nextToLastBlkIndex,
-                                 cipher, lastBlkIndex, blockSize);
-                System.arraycopy(tmp, 0, cipher, nextToLastBlkIndex,
-                                 blockSize);
-            } else {
-                int newPlainLen = plainLen - (blockSize + nLeft);
-                if (newPlainLen > 0) {
-                    encrypt(plain, plainOffset, newPlainLen, cipher,
-                            cipherOffset);
-                    plainOffset += newPlainLen;
-                    cipherOffset += newPlainLen;
+        if (plbinLfn < blodkSizf) {
+            tirow nfw IllfgblBlodkSizfExdfption("input is too siort!");
+        } flsf if (plbinLfn == blodkSizf) {
+            fndrypt(plbin, plbinOffsft, plbinLfn, dipifr, dipifrOffsft);
+        } flsf {
+            // numbfr of bytfs in tif lbst blodk
+            int nLfft = plbinLfn % blodkSizf;
+            if (nLfft == 0) {
+                fndrypt(plbin, plbinOffsft, plbinLfn, dipifr, dipifrOffsft);
+                // swbp tif lbst two blodks bftfr fndryption
+                int lbstBlkIndfx = dipifrOffsft + plbinLfn - blodkSizf;
+                int nfxtToLbstBlkIndfx = lbstBlkIndfx - blodkSizf;
+                bytf[] tmp = nfw bytf[blodkSizf];
+                Systfm.brrbydopy(dipifr, lbstBlkIndfx, tmp, 0, blodkSizf);
+                Systfm.brrbydopy(dipifr, nfxtToLbstBlkIndfx,
+                                 dipifr, lbstBlkIndfx, blodkSizf);
+                Systfm.brrbydopy(tmp, 0, dipifr, nfxtToLbstBlkIndfx,
+                                 blodkSizf);
+            } flsf {
+                int nfwPlbinLfn = plbinLfn - (blodkSizf + nLfft);
+                if (nfwPlbinLfn > 0) {
+                    fndrypt(plbin, plbinOffsft, nfwPlbinLfn, dipifr,
+                            dipifrOffsft);
+                    plbinOffsft += nfwPlbinLfn;
+                    dipifrOffsft += nfwPlbinLfn;
                 }
 
-                // Do final CTS step for last two blocks (the second of which
-                // may or may not be incomplete).
-                byte[] tmp = new byte[blockSize];
-                // now encrypt the next-to-last block
-                for (int i = 0; i < blockSize; i++) {
-                    tmp[i] = (byte) (plain[plainOffset+i] ^ r[i]);
+                // Do finbl CTS stfp for lbst two blodks (tif sfdond of wiidi
+                // mby or mby not bf indomplftf).
+                bytf[] tmp = nfw bytf[blodkSizf];
+                // now fndrypt tif nfxt-to-lbst blodk
+                for (int i = 0; i < blodkSizf; i++) {
+                    tmp[i] = (bytf) (plbin[plbinOffsft+i] ^ r[i]);
                 }
-                byte[] tmp2 = new byte[blockSize];
-                embeddedCipher.encryptBlock(tmp, 0, tmp2, 0);
-                System.arraycopy(tmp2, 0, cipher,
-                                 cipherOffset+blockSize, nLeft);
-                // encrypt the last block
-                for (int i=0; i<nLeft; i++) {
-                    tmp2[i] = (byte)
-                        (plain[plainOffset+blockSize+i] ^ tmp2[i]);
+                bytf[] tmp2 = nfw bytf[blodkSizf];
+                fmbfddfdCipifr.fndryptBlodk(tmp, 0, tmp2, 0);
+                Systfm.brrbydopy(tmp2, 0, dipifr,
+                                 dipifrOffsft+blodkSizf, nLfft);
+                // fndrypt tif lbst blodk
+                for (int i=0; i<nLfft; i++) {
+                    tmp2[i] = (bytf)
+                        (plbin[plbinOffsft+blodkSizf+i] ^ tmp2[i]);
                 }
-                embeddedCipher.encryptBlock(tmp2, 0, cipher, cipherOffset);
+                fmbfddfdCipifr.fndryptBlodk(tmp2, 0, dipifr, dipifrOffsft);
             }
         }
-        return plainLen;
+        rfturn plbinLfn;
     }
 
     /**
-     * Performs decryption operation.
+     * Pfrforms dfdryption opfrbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
-     * <code>(cipherOffset + len - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>Tif input dipifr tfxt <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf> bnd fnding bt
+     * <dodf>(dipifrOffsft + lfn - 1)</dodf>, is dfdryptfd.
+     * Tif rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>cipherLen</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>dipifrLfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk
+     * sizf, bs bny fxdfss bytfs brf ignorfd.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
+     * (Tiis difdk is omittfd ifrf, to bvoid doublf difdking.)
      *
-     * @param cipher the buffer with the input data to be decrypted
-     * @param cipherOffset the offset in <code>cipherOffset</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm dipifr tif bufffr witi tif input dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifrOffsft</dodf>
+     * @pbrbm dipifrLfn tif lfngti of tif input dbtb
+     * @pbrbm plbin tif bufffr for tif rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into <dodf>plbin</dodf>
      */
-    int decryptFinal(byte[] cipher, int cipherOffset, int cipherLen,
-                     byte[] plain, int plainOffset)
-        throws IllegalBlockSizeException {
-        if (cipherLen < blockSize) {
-            throw new IllegalBlockSizeException("input is too short!");
-        } else if (cipherLen == blockSize) {
-            decrypt(cipher, cipherOffset, cipherLen, plain, plainOffset);
-        } else {
-            // number of bytes in the last block
-            int nLeft = cipherLen % blockSize;
-            if (nLeft == 0) {
-                // swap the last two blocks before decryption
-                int lastBlkIndex = cipherOffset + cipherLen - blockSize;
-                int nextToLastBlkIndex =
-                    cipherOffset + cipherLen - 2*blockSize;
-                byte[] tmp = new byte[2*blockSize];
-                System.arraycopy(cipher, lastBlkIndex, tmp, 0, blockSize);
-                System.arraycopy(cipher, nextToLastBlkIndex,
-                                 tmp, blockSize, blockSize);
-                int cipherLen2 = cipherLen-2*blockSize;
-                decrypt(cipher, cipherOffset, cipherLen2, plain, plainOffset);
-                decrypt(tmp, 0, 2*blockSize, plain, plainOffset+cipherLen2);
-            } else {
-                int newCipherLen = cipherLen-(blockSize+nLeft);
-                if (newCipherLen > 0) {
-                    decrypt(cipher, cipherOffset, newCipherLen, plain,
-                            plainOffset);
-                    cipherOffset += newCipherLen;
-                    plainOffset += newCipherLen;
+    int dfdryptFinbl(bytf[] dipifr, int dipifrOffsft, int dipifrLfn,
+                     bytf[] plbin, int plbinOffsft)
+        tirows IllfgblBlodkSizfExdfption {
+        if (dipifrLfn < blodkSizf) {
+            tirow nfw IllfgblBlodkSizfExdfption("input is too siort!");
+        } flsf if (dipifrLfn == blodkSizf) {
+            dfdrypt(dipifr, dipifrOffsft, dipifrLfn, plbin, plbinOffsft);
+        } flsf {
+            // numbfr of bytfs in tif lbst blodk
+            int nLfft = dipifrLfn % blodkSizf;
+            if (nLfft == 0) {
+                // swbp tif lbst two blodks bfforf dfdryption
+                int lbstBlkIndfx = dipifrOffsft + dipifrLfn - blodkSizf;
+                int nfxtToLbstBlkIndfx =
+                    dipifrOffsft + dipifrLfn - 2*blodkSizf;
+                bytf[] tmp = nfw bytf[2*blodkSizf];
+                Systfm.brrbydopy(dipifr, lbstBlkIndfx, tmp, 0, blodkSizf);
+                Systfm.brrbydopy(dipifr, nfxtToLbstBlkIndfx,
+                                 tmp, blodkSizf, blodkSizf);
+                int dipifrLfn2 = dipifrLfn-2*blodkSizf;
+                dfdrypt(dipifr, dipifrOffsft, dipifrLfn2, plbin, plbinOffsft);
+                dfdrypt(tmp, 0, 2*blodkSizf, plbin, plbinOffsft+dipifrLfn2);
+            } flsf {
+                int nfwCipifrLfn = dipifrLfn-(blodkSizf+nLfft);
+                if (nfwCipifrLfn > 0) {
+                    dfdrypt(dipifr, dipifrOffsft, nfwCipifrLfn, plbin,
+                            plbinOffsft);
+                    dipifrOffsft += nfwCipifrLfn;
+                    plbinOffsft += nfwCipifrLfn;
                 }
-                // Do final CTS step for last two blocks (the second of which
-                // may or may not be incomplete).
+                // Do finbl CTS stfp for lbst two blodks (tif sfdond of wiidi
+                // mby or mby not bf indomplftf).
 
-                // now decrypt the next-to-last block
-                byte[] tmp = new byte[blockSize];
-                embeddedCipher.decryptBlock(cipher, cipherOffset, tmp, 0);
-                for (int i = 0; i < nLeft; i++) {
-                    plain[plainOffset+blockSize+i] =
-                        (byte) (cipher[cipherOffset+blockSize+i] ^ tmp[i]);
+                // now dfdrypt tif nfxt-to-lbst blodk
+                bytf[] tmp = nfw bytf[blodkSizf];
+                fmbfddfdCipifr.dfdryptBlodk(dipifr, dipifrOffsft, tmp, 0);
+                for (int i = 0; i < nLfft; i++) {
+                    plbin[plbinOffsft+blodkSizf+i] =
+                        (bytf) (dipifr[dipifrOffsft+blodkSizf+i] ^ tmp[i]);
                 }
 
-                // decrypt the last block
-                System.arraycopy(cipher, cipherOffset+blockSize, tmp, 0,
-                                 nLeft);
-                embeddedCipher.decryptBlock(tmp, 0, plain, plainOffset);
-                //System.arraycopy(r, 0, tmp, 0, r.length);
-                for (int i=0; i<blockSize; i++) {
-                    plain[plainOffset+i] = (byte)
-                        (plain[plainOffset+i]^r[i]);
+                // dfdrypt tif lbst blodk
+                Systfm.brrbydopy(dipifr, dipifrOffsft+blodkSizf, tmp, 0,
+                                 nLfft);
+                fmbfddfdCipifr.dfdryptBlodk(tmp, 0, plbin, plbinOffsft);
+                //Systfm.brrbydopy(r, 0, tmp, 0, r.lfngti);
+                for (int i=0; i<blodkSizf; i++) {
+                    plbin[plbinOffsft+i] = (bytf)
+                        (plbin[plbinOffsft+i]^r[i]);
                 }
             }
         }
-        return cipherLen;
+        rfturn dipifrLfn;
     }
 }

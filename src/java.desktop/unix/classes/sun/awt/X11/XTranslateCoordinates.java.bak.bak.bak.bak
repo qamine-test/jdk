@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bn butombtidblly gfnfrbtfd filf, plfbsf do not fdit this filf, modify thf WrbppfrGfnfrbtor.jbvb filf instfbd !
+
+pbdkbgf sun.bwt.X11;
+
+import sun.misd.Unsbff;
+
+publid dlbss XTrbnslbtfCoordinbtfs {
+        privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+        privbtf boolfbn __fxfdutfd = fblsf;
+        long _sdr_w;
+        long _dfst_w;
+        int _srd_x;
+        int _srd_y;
+        long dfst_x_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftIntSizf());
+        long dfst_y_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftIntSizf());
+        long dhild_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftLongSizf());
+        publid XTrbnslbtfCoordinbtfs(
+                long sdr_w,
+                long dfst_w,
+                int srd_x,
+                int srd_y       )
+        {
+                sft_sdr_w(sdr_w);
+                sft_dfst_w(dfst_w);
+                sft_srd_x(srd_x);
+                sft_srd_y(srd_y);
+
+                sun.jbvb2d.Disposfr.bddRfdord(this, disposfr = nfw UnsbffXDisposfrRfdord("XTrbnslbtfCoordinbtfs",
+                                                                                         dfst_x_ptr, dfst_y_ptr, dhild_ptr));
+        }
+    UnsbffXDisposfrRfdord disposfr;
+        publid int fxfdutf() {
+                rfturn fxfdutf(null);
+        }
+        publid int fxfdutf(XErrorHbndlfr frrorHbndlfr) {
+                XToolkit.bwtLodk();
+                try {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                        if (__fxfdutfd) {
+                            throw nfw IllfgblStbtfExdfption("Alrfbdy fxfdutfd");
+                        }
+                        __fxfdutfd = truf;
+                        if (frrorHbndlfr != null) {
+                            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(frrorHbndlfr);
+                        }
+                        int stbtus =
+                        XlibWrbppfr.XTrbnslbtfCoordinbtfs(XToolkit.gftDisplby(),
+                                gft_sdr_w(),
+                                gft_dfst_w(),
+                                gft_srd_x(),
+                                gft_srd_y(),
+                                dfst_x_ptr,
+                                dfst_y_ptr,
+                                dhild_ptr                       );
+                        if (frrorHbndlfr != null) {
+                            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+                        }
+                        rfturn stbtus;
+                } finblly {
+                    XToolkit.bwtUnlodk();
+                }
+        }
+        publid boolfbn isExfdutfd() {
+            rfturn __fxfdutfd;
+        }
+
+        publid boolfbn isDisposfd() {
+            rfturn disposfr.disposfd;
+        }
+        publid void disposf() {
+            XToolkit.bwtLodk();
+            try {
+                if (isDisposfd()) {
+                    rfturn;
+                }
+                disposfr.disposf();
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+        publid long gft_sdr_w() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn _sdr_w;
+        }
+        publid void sft_sdr_w(long dbtb) {
+                _sdr_w = dbtb;
+        }
+        publid long gft_dfst_w() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn _dfst_w;
+        }
+        publid void sft_dfst_w(long dbtb) {
+                _dfst_w = dbtb;
+        }
+        publid int gft_srd_x() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn _srd_x;
+        }
+        publid void sft_srd_x(int dbtb) {
+                _srd_x = dbtb;
+        }
+        publid int gft_srd_y() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn _srd_y;
+        }
+        publid void sft_srd_y(int dbtb) {
+                _srd_y = dbtb;
+        }
+        publid int gft_dfst_x() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftInt(dfst_x_ptr);
+        }
+        publid void sft_dfst_x(int dbtb) {
+                Nbtivf.putInt(dfst_x_ptr, dbtb);
+        }
+        publid int gft_dfst_y() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftInt(dfst_y_ptr);
+        }
+        publid void sft_dfst_y(int dbtb) {
+                Nbtivf.putInt(dfst_y_ptr, dbtb);
+        }
+        publid long gft_dhild() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftLong(dhild_ptr);
+        }
+        publid void sft_dhild(long dbtb) {
+                Nbtivf.putLong(dhild_ptr, dbtb);
+        }
+}

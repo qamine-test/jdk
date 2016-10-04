@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect;
+pbdkbgf dom.sun.jdi.donnfdt;
 
-import com.sun.jdi.VirtualMachine;
-import java.util.Map;
-import java.io.IOException;
+import dom.sun.jdi.VirtublMbdiinf;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
 
 /**
- * A connector which can launch a target VM before connecting to it.
+ * A donnfdtor wiidi dbn lbundi b tbrgft VM bfforf donnfdting to it.
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface LaunchingConnector extends Connector {
+@jdk.Exportfd
+publid intfrfbdf LbundiingConnfdtor fxtfnds Connfdtor {
     /**
-     * Launches an application and connects to its VM. Properties
-     * of the launch (possibly including options,
-     * main class, and arguments) are specified in
-     * <code>arguments</code>.
-     * The argument map associates argument name strings to instances
-     * of {@link Connector.Argument}. The default argument map for a
-     * connector can be obtained through {@link Connector#defaultArguments}.
-     * Argument map values can be changed, but map entries should not be
-     * added or deleted.
-     * <p>A target VM launched by a launching connector is not
-     * guaranteed to be stable until after the {@link com.sun.jdi.event.VMStartEvent} has been
-     * received.
+     * Lbundifs bn bpplidbtion bnd donnfdts to its VM. Propfrtifs
+     * of tif lbundi (possibly indluding options,
+     * mbin dlbss, bnd brgumfnts) brf spfdififd in
+     * <dodf>brgumfnts</dodf>.
+     * Tif brgumfnt mbp bssodibtfs brgumfnt nbmf strings to instbndfs
+     * of {@link Connfdtor.Argumfnt}. Tif dffbult brgumfnt mbp for b
+     * donnfdtor dbn bf obtbinfd tirougi {@link Connfdtor#dffbultArgumfnts}.
+     * Argumfnt mbp vblufs dbn bf dibngfd, but mbp fntrifs siould not bf
+     * bddfd or dflftfd.
+     * <p>A tbrgft VM lbundifd by b lbundiing donnfdtor is not
+     * gubrbntffd to bf stbblf until bftfr tif {@link dom.sun.jdi.fvfnt.VMStbrtEvfnt} ibs bffn
+     * rfdfivfd.
      * <p>
-     * <b>Important note:</b> If a target VM is launched through this
-     * funcctions, its output and error streams must be read as it
-     * executes. These streams are available through the
-     * {@link java.lang.Process Process} object returned by
-     * {@link com.sun.jdi.VirtualMachine#process}. If the streams are not periodically
-     * read, the target VM will stop executing when the buffers for these
-     * streams are filled.
+     * <b>Importbnt notf:</b> If b tbrgft VM is lbundifd tirougi tiis
+     * funddtions, its output bnd frror strfbms must bf rfbd bs it
+     * fxfdutfs. Tifsf strfbms brf bvbilbblf tirougi tif
+     * {@link jbvb.lbng.Prodfss Prodfss} objfdt rfturnfd by
+     * {@link dom.sun.jdi.VirtublMbdiinf#prodfss}. If tif strfbms brf not pfriodidblly
+     * rfbd, tif tbrgft VM will stop fxfduting wifn tif bufffrs for tifsf
+     * strfbms brf fillfd.
      *
-     * @param arguments the argument map to be used in launching the VM.
-     * @return the {@link VirtualMachine} mirror of the target VM.
-     * @throws java.io.IOException when unable to launch.
-     * Specific exceptions are dependent on the Connector implementation
-     * in use.
-     * @throws IllegalConnectorArgumentsException when one of the
-     * connector arguments is invalid.
-     * @throws VMStartException when the VM was successfully launched, but
-     * terminated with an error before a connection could be established.
+     * @pbrbm brgumfnts tif brgumfnt mbp to bf usfd in lbundiing tif VM.
+     * @rfturn tif {@link VirtublMbdiinf} mirror of tif tbrgft VM.
+     * @tirows jbvb.io.IOExdfption wifn unbblf to lbundi.
+     * Spfdifid fxdfptions brf dfpfndfnt on tif Connfdtor implfmfntbtion
+     * in usf.
+     * @tirows IllfgblConnfdtorArgumfntsExdfption wifn onf of tif
+     * donnfdtor brgumfnts is invblid.
+     * @tirows VMStbrtExdfption wifn tif VM wbs suddfssfully lbundifd, but
+     * tfrminbtfd witi bn frror bfforf b donnfdtion dould bf fstbblisifd.
      */
-    VirtualMachine launch(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException,
-               VMStartException;
+    VirtublMbdiinf lbundi(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption,
+               VMStbrtExdfption;
 }

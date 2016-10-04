@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.ColorModel;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Arrbys;
 
 /**
- * This is the superclass for Paints which use a multiple color
- * gradient to fill in their raster.  It provides storage for variables and
- * enumerated values common to
- * {@code LinearGradientPaint} and {@code RadialGradientPaint}.
+ * Tiis is tif supfrdlbss for Pbints wiidi usf b multiplf dolor
+ * grbdifnt to fill in tifir rbstfr.  It providfs storbgf for vbribblfs bnd
+ * fnumfrbtfd vblufs dommon to
+ * {@dodf LinfbrGrbdifntPbint} bnd {@dodf RbdiblGrbdifntPbint}.
  *
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
- * @since 1.6
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @sindf 1.6
  */
-public abstract class MultipleGradientPaint implements Paint {
+publid bbstrbdt dlbss MultiplfGrbdifntPbint implfmfnts Pbint {
 
-    /** The method to use when painting outside the gradient bounds.
-     * @since 1.6
+    /** Tif mftiod to usf wifn pbinting outsidf tif grbdifnt bounds.
+     * @sindf 1.6
      */
-    public static enum CycleMethod {
+    publid stbtid fnum CydlfMftiod {
         /**
-         * Use the terminal colors to fill the remaining area.
+         * Usf tif tfrminbl dolors to fill tif rfmbining brfb.
          */
         NO_CYCLE,
 
         /**
-         * Cycle the gradient colors start-to-end, end-to-start
-         * to fill the remaining area.
+         * Cydlf tif grbdifnt dolors stbrt-to-fnd, fnd-to-stbrt
+         * to fill tif rfmbining brfb.
          */
         REFLECT,
 
         /**
-         * Cycle the gradient colors start-to-end, start-to-end
-         * to fill the remaining area.
+         * Cydlf tif grbdifnt dolors stbrt-to-fnd, stbrt-to-fnd
+         * to fill tif rfmbining brfb.
          */
         REPEAT
     }
 
-    /** The color space in which to perform the gradient interpolation.
-     * @since 1.6
+    /** Tif dolor spbdf in wiidi to pfrform tif grbdifnt intfrpolbtion.
+     * @sindf 1.6
      */
-    public static enum ColorSpaceType {
+    publid stbtid fnum ColorSpbdfTypf {
         /**
-         * Indicates that the color interpolation should occur in sRGB space.
+         * Indidbtfs tibt tif dolor intfrpolbtion siould oddur in sRGB spbdf.
          */
         SRGB,
 
         /**
-         * Indicates that the color interpolation should occur in linearized
-         * RGB space.
+         * Indidbtfs tibt tif dolor intfrpolbtion siould oddur in linfbrizfd
+         * RGB spbdf.
          */
         LINEAR_RGB
     }
 
-    /** The transparency of this paint object. */
-    final int transparency;
+    /** Tif trbnspbrfndy of tiis pbint objfdt. */
+    finbl int trbnspbrfndy;
 
-    /** Gradient keyframe values in the range 0 to 1. */
-    final float[] fractions;
+    /** Grbdifnt kfyfrbmf vblufs in tif rbngf 0 to 1. */
+    finbl flobt[] frbdtions;
 
-    /** Gradient colors. */
-    final Color[] colors;
+    /** Grbdifnt dolors. */
+    finbl Color[] dolors;
 
-    /** Transform to apply to gradient. */
-    final AffineTransform gradientTransform;
+    /** Trbnsform to bpply to grbdifnt. */
+    finbl AffinfTrbnsform grbdifntTrbnsform;
 
-    /** The method to use when painting outside the gradient bounds. */
-    final CycleMethod cycleMethod;
+    /** Tif mftiod to usf wifn pbinting outsidf tif grbdifnt bounds. */
+    finbl CydlfMftiod dydlfMftiod;
 
-    /** The color space in which to perform the gradient interpolation. */
-    final ColorSpaceType colorSpace;
-
-    /**
-     * The following fields are used only by MultipleGradientPaintContext
-     * to cache certain values that remain constant and do not need to be
-     * recalculated for each context created from this paint instance.
-     */
-    ColorModel model;
-    float[] normalizedIntervals;
-    boolean isSimpleLookup;
-    SoftReference<int[][]> gradients;
-    SoftReference<int[]> gradient;
-    int fastGradientArraySize;
+    /** Tif dolor spbdf in wiidi to pfrform tif grbdifnt intfrpolbtion. */
+    finbl ColorSpbdfTypf dolorSpbdf;
 
     /**
-     * Package-private constructor.
-     *
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
-     *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
-     *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code gradientTransform} is null,
-     * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null
-     * @throws IllegalArgumentException
-     * if {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * Tif following fiflds brf usfd only by MultiplfGrbdifntPbintContfxt
+     * to dbdif dfrtbin vblufs tibt rfmbin donstbnt bnd do not nffd to bf
+     * rfdbldulbtfd for fbdi dontfxt drfbtfd from tiis pbint instbndf.
      */
-    MultipleGradientPaint(float[] fractions,
-                          Color[] colors,
-                          CycleMethod cycleMethod,
-                          ColorSpaceType colorSpace,
-                          AffineTransform gradientTransform)
+    ColorModfl modfl;
+    flobt[] normblizfdIntfrvbls;
+    boolfbn isSimplfLookup;
+    SoftRfffrfndf<int[][]> grbdifnts;
+    SoftRfffrfndf<int[]> grbdifnt;
+    int fbstGrbdifntArrbySizf;
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor.
+     *
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
+     *
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf grbdifntTrbnsform} is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dolorSpbdf} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    MultiplfGrbdifntPbint(flobt[] frbdtions,
+                          Color[] dolors,
+                          CydlfMftiod dydlfMftiod,
+                          ColorSpbdfTypf dolorSpbdf,
+                          AffinfTrbnsform grbdifntTrbnsform)
     {
-        if (fractions == null) {
-            throw new NullPointerException("Fractions array cannot be null");
+        if (frbdtions == null) {
+            tirow nfw NullPointfrExdfption("Frbdtions brrby dbnnot bf null");
         }
 
-        if (colors == null) {
-            throw new NullPointerException("Colors array cannot be null");
+        if (dolors == null) {
+            tirow nfw NullPointfrExdfption("Colors brrby dbnnot bf null");
         }
 
-        if (cycleMethod == null) {
-            throw new NullPointerException("Cycle method cannot be null");
+        if (dydlfMftiod == null) {
+            tirow nfw NullPointfrExdfption("Cydlf mftiod dbnnot bf null");
         }
 
-        if (colorSpace == null) {
-            throw new NullPointerException("Color space cannot be null");
+        if (dolorSpbdf == null) {
+            tirow nfw NullPointfrExdfption("Color spbdf dbnnot bf null");
         }
 
-        if (gradientTransform == null) {
-            throw new NullPointerException("Gradient transform cannot be "+
+        if (grbdifntTrbnsform == null) {
+            tirow nfw NullPointfrExdfption("Grbdifnt trbnsform dbnnot bf "+
                                            "null");
         }
 
-        if (fractions.length != colors.length) {
-            throw new IllegalArgumentException("Colors and fractions must " +
-                                               "have equal size");
+        if (frbdtions.lfngti != dolors.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("Colors bnd frbdtions must " +
+                                               "ibvf fqubl sizf");
         }
 
-        if (colors.length < 2) {
-            throw new IllegalArgumentException("User must specify at least " +
-                                               "2 colors");
+        if (dolors.lfngti < 2) {
+            tirow nfw IllfgblArgumfntExdfption("Usfr must spfdify bt lfbst " +
+                                               "2 dolors");
         }
 
-        // check that values are in the proper range and progress
-        // in increasing order from 0 to 1
-        float previousFraction = -1.0f;
-        for (float currentFraction : fractions) {
-            if (currentFraction < 0f || currentFraction > 1f) {
-                throw new IllegalArgumentException("Fraction values must " +
-                                                   "be in the range 0 to 1: " +
-                                                   currentFraction);
+        // difdk tibt vblufs brf in tif propfr rbngf bnd progrfss
+        // in indrfbsing ordfr from 0 to 1
+        flobt prfviousFrbdtion = -1.0f;
+        for (flobt durrfntFrbdtion : frbdtions) {
+            if (durrfntFrbdtion < 0f || durrfntFrbdtion > 1f) {
+                tirow nfw IllfgblArgumfntExdfption("Frbdtion vblufs must " +
+                                                   "bf in tif rbngf 0 to 1: " +
+                                                   durrfntFrbdtion);
             }
 
-            if (currentFraction <= previousFraction) {
-                throw new IllegalArgumentException("Keyframe fractions " +
-                                                   "must be increasing: " +
-                                                   currentFraction);
+            if (durrfntFrbdtion <= prfviousFrbdtion) {
+                tirow nfw IllfgblArgumfntExdfption("Kfyfrbmf frbdtions " +
+                                                   "must bf indrfbsing: " +
+                                                   durrfntFrbdtion);
             }
 
-            previousFraction = currentFraction;
+            prfviousFrbdtion = durrfntFrbdtion;
         }
 
-        // We have to deal with the cases where the first gradient stop is not
-        // equal to 0 and/or the last gradient stop is not equal to 1.
-        // In both cases, create a new point and replicate the previous
-        // extreme point's color.
-        boolean fixFirst = false;
-        boolean fixLast = false;
-        int len = fractions.length;
+        // Wf ibvf to dfbl witi tif dbsfs wifrf tif first grbdifnt stop is not
+        // fqubl to 0 bnd/or tif lbst grbdifnt stop is not fqubl to 1.
+        // In boti dbsfs, drfbtf b nfw point bnd rfplidbtf tif prfvious
+        // fxtrfmf point's dolor.
+        boolfbn fixFirst = fblsf;
+        boolfbn fixLbst = fblsf;
+        int lfn = frbdtions.lfngti;
         int off = 0;
 
-        if (fractions[0] != 0f) {
-            // first stop is not equal to zero, fix this condition
-            fixFirst = true;
-            len++;
+        if (frbdtions[0] != 0f) {
+            // first stop is not fqubl to zfro, fix tiis dondition
+            fixFirst = truf;
+            lfn++;
             off++;
         }
-        if (fractions[fractions.length-1] != 1f) {
-            // last stop is not equal to one, fix this condition
-            fixLast = true;
-            len++;
+        if (frbdtions[frbdtions.lfngti-1] != 1f) {
+            // lbst stop is not fqubl to onf, fix tiis dondition
+            fixLbst = truf;
+            lfn++;
         }
 
-        this.fractions = new float[len];
-        System.arraycopy(fractions, 0, this.fractions, off, fractions.length);
-        this.colors = new Color[len];
-        System.arraycopy(colors, 0, this.colors, off, colors.length);
+        tiis.frbdtions = nfw flobt[lfn];
+        Systfm.brrbydopy(frbdtions, 0, tiis.frbdtions, off, frbdtions.lfngti);
+        tiis.dolors = nfw Color[lfn];
+        Systfm.brrbydopy(dolors, 0, tiis.dolors, off, dolors.lfngti);
 
         if (fixFirst) {
-            this.fractions[0] = 0f;
-            this.colors[0] = colors[0];
+            tiis.frbdtions[0] = 0f;
+            tiis.dolors[0] = dolors[0];
         }
-        if (fixLast) {
-            this.fractions[len-1] = 1f;
-            this.colors[len-1] = colors[colors.length - 1];
+        if (fixLbst) {
+            tiis.frbdtions[lfn-1] = 1f;
+            tiis.dolors[lfn-1] = dolors[dolors.lfngti - 1];
         }
 
-        // copy some flags
-        this.colorSpace = colorSpace;
-        this.cycleMethod = cycleMethod;
+        // dopy somf flbgs
+        tiis.dolorSpbdf = dolorSpbdf;
+        tiis.dydlfMftiod = dydlfMftiod;
 
-        // copy the gradient transform
-        this.gradientTransform = new AffineTransform(gradientTransform);
+        // dopy tif grbdifnt trbnsform
+        tiis.grbdifntTrbnsform = nfw AffinfTrbnsform(grbdifntTrbnsform);
 
-        // determine transparency
-        boolean opaque = true;
-        for (int i = 0; i < colors.length; i++){
-            opaque = opaque && (colors[i].getAlpha() == 0xff);
+        // dftfrminf trbnspbrfndy
+        boolfbn opbquf = truf;
+        for (int i = 0; i < dolors.lfngti; i++){
+            opbquf = opbquf && (dolors[i].gftAlpib() == 0xff);
         }
-        this.transparency = opaque ? OPAQUE : TRANSLUCENT;
+        tiis.trbnspbrfndy = opbquf ? OPAQUE : TRANSLUCENT;
     }
 
     /**
-     * Returns a copy of the array of floats used by this gradient
-     * to calculate color distribution.
-     * The returned array always has 0 as its first value and 1 as its
-     * last value, with increasing values in between.
+     * Rfturns b dopy of tif brrby of flobts usfd by tiis grbdifnt
+     * to dbldulbtf dolor distribution.
+     * Tif rfturnfd brrby blwbys ibs 0 bs its first vbluf bnd 1 bs its
+     * lbst vbluf, witi indrfbsing vblufs in bftwffn.
      *
-     * @return a copy of the array of floats used by this gradient to
-     * calculate color distribution
+     * @rfturn b dopy of tif brrby of flobts usfd by tiis grbdifnt to
+     * dbldulbtf dolor distribution
      */
-    public final float[] getFractions() {
-        return Arrays.copyOf(fractions, fractions.length);
+    publid finbl flobt[] gftFrbdtions() {
+        rfturn Arrbys.dopyOf(frbdtions, frbdtions.lfngti);
     }
 
     /**
-     * Returns a copy of the array of colors used by this gradient.
-     * The first color maps to the first value in the fractions array,
-     * and the last color maps to the last value in the fractions array.
+     * Rfturns b dopy of tif brrby of dolors usfd by tiis grbdifnt.
+     * Tif first dolor mbps to tif first vbluf in tif frbdtions brrby,
+     * bnd tif lbst dolor mbps to tif lbst vbluf in tif frbdtions brrby.
      *
-     * @return a copy of the array of colors used by this gradient
+     * @rfturn b dopy of tif brrby of dolors usfd by tiis grbdifnt
      */
-    public final Color[] getColors() {
-        return Arrays.copyOf(colors, colors.length);
+    publid finbl Color[] gftColors() {
+        rfturn Arrbys.dopyOf(dolors, dolors.lfngti);
     }
 
     /**
-     * Returns the enumerated type which specifies cycling behavior.
+     * Rfturns tif fnumfrbtfd typf wiidi spfdififs dydling bfibvior.
      *
-     * @return the enumerated type which specifies cycling behavior
+     * @rfturn tif fnumfrbtfd typf wiidi spfdififs dydling bfibvior
      */
-    public final CycleMethod getCycleMethod() {
-        return cycleMethod;
+    publid finbl CydlfMftiod gftCydlfMftiod() {
+        rfturn dydlfMftiod;
     }
 
     /**
-     * Returns the enumerated type which specifies color space for
-     * interpolation.
+     * Rfturns tif fnumfrbtfd typf wiidi spfdififs dolor spbdf for
+     * intfrpolbtion.
      *
-     * @return the enumerated type which specifies color space for
-     * interpolation
+     * @rfturn tif fnumfrbtfd typf wiidi spfdififs dolor spbdf for
+     * intfrpolbtion
      */
-    public final ColorSpaceType getColorSpace() {
-        return colorSpace;
+    publid finbl ColorSpbdfTypf gftColorSpbdf() {
+        rfturn dolorSpbdf;
     }
 
     /**
-     * Returns a copy of the transform applied to the gradient.
+     * Rfturns b dopy of tif trbnsform bpplifd to tif grbdifnt.
      *
      * <p>
-     * Note that if no transform is applied to the gradient
-     * when it is created, the identity transform is used.
+     * Notf tibt if no trbnsform is bpplifd to tif grbdifnt
+     * wifn it is drfbtfd, tif idfntity trbnsform is usfd.
      *
-     * @return a copy of the transform applied to the gradient
+     * @rfturn b dopy of tif trbnsform bpplifd to tif grbdifnt
      */
-    public final AffineTransform getTransform() {
-        return new AffineTransform(gradientTransform);
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+        rfturn nfw AffinfTrbnsform(grbdifntTrbnsform);
     }
 
     /**
-     * Returns the transparency mode for this {@code Paint} object.
+     * Rfturns tif trbnspbrfndy modf for tiis {@dodf Pbint} objfdt.
      *
-     * @return {@code OPAQUE} if all colors used by this
-     *         {@code Paint} object are opaque,
-     *         {@code TRANSLUCENT} if at least one of the
-     *         colors used by this {@code Paint} object is not opaque.
-     * @see java.awt.Transparency
+     * @rfturn {@dodf OPAQUE} if bll dolors usfd by tiis
+     *         {@dodf Pbint} objfdt brf opbquf,
+     *         {@dodf TRANSLUCENT} if bt lfbst onf of tif
+     *         dolors usfd by tiis {@dodf Pbint} objfdt is not opbquf.
+     * @sff jbvb.bwt.Trbnspbrfndy
      */
-    public final int getTransparency() {
-        return transparency;
+    publid finbl int gftTrbnspbrfndy() {
+        rfturn trbnspbrfndy;
     }
 }

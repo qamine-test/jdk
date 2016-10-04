@@ -1,55 +1,55 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __THAISHAPING_H
-#define __THAISHAPING_H
+#ifndff __THAISHAPING_H
+#dffinf __THAISHAPING_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "LEGlyphFilter.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiFiltfr.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
-class ThaiShaping /* not : public UObject because all methods are static */ {
-public:
+dlbss TibiSibping /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+publid:
 
-    enum {
-        // Character classes
+    fnum {
+        // Cibrbdtfr dlbssfs
         NON =  0,
         CON =  1,
         COA =  2,
@@ -69,9 +69,9 @@ public:
         AV1 = 16,
         AV2 = 17,
         AV3 = 18,
-        classCount = 19,
+        dlbssCount = 19,
 
-        // State Transition actions
+        // Stbtf Trbnsition bdtions
         tA  =  0,
         tC  =  1,
         tD  =  2,
@@ -83,51 +83,51 @@ public:
         tS  =  8
     };
 
-    struct StateTransition
+    strudt StbtfTrbnsition
     {
-        le_uint8 nextState;
-        le_uint8 action;
+        lf_uint8 nfxtStbtf;
+        lf_uint8 bdtion;
 
-        le_uint8 getNextState() { return nextState; };
-        le_uint8 getAction() { return action; };
+        lf_uint8 gftNfxtStbtf() { rfturn nfxtStbtf; };
+        lf_uint8 gftAdtion() { rfturn bdtion; };
     };
 
-    static le_int32 compose(const LEUnicode *input, le_int32 offset, le_int32 charCount, le_uint8 glyphSet,
-        LEUnicode errorChar, LEUnicode *output, LEGlyphStorage &glyphStorage);
+    stbtid lf_int32 domposf(donst LEUnidodf *input, lf_int32 offsft, lf_int32 dibrCount, lf_uint8 glypiSft,
+        LEUnidodf frrorCibr, LEUnidodf *output, LEGlypiStorbgf &glypiStorbgf);
 
-private:
-    // forbid instantiation
-    ThaiShaping();
+privbtf:
+    // forbid instbntibtion
+    TibiSibping();
 
-    static const le_uint8 classTable[];
-    static const StateTransition thaiStateTable[][classCount];
+    stbtid donst lf_uint8 dlbssTbblf[];
+    stbtid donst StbtfTrbnsition tibiStbtfTbblf[][dlbssCount];
 
-    inline static StateTransition getTransition(le_uint8 state, le_uint8 currClass);
+    inlinf stbtid StbtfTrbnsition gftTrbnsition(lf_uint8 stbtf, lf_uint8 durrClbss);
 
-    static le_uint8 doTransition(StateTransition transition, LEUnicode currChar, le_int32 inputIndex, le_uint8 glyphSet,
-        LEUnicode errorChar, LEUnicode *outputBuffer, LEGlyphStorage &glyphStorage, le_int32 &outputIndex);
+    stbtid lf_uint8 doTrbnsition(StbtfTrbnsition trbnsition, LEUnidodf durrCibr, lf_int32 inputIndfx, lf_uint8 glypiSft,
+        LEUnidodf frrorCibr, LEUnidodf *outputBufffr, LEGlypiStorbgf &glypiStorbgf, lf_int32 &outputIndfx);
 
-    static le_uint8 getNextState(LEUnicode ch, le_uint8 state, le_int32 inputIndex, le_uint8 glyphSet, LEUnicode errorChar,
-        le_uint8 &charClass, LEUnicode *output, LEGlyphStorage &glyphStorage, le_int32 &outputIndex);
+    stbtid lf_uint8 gftNfxtStbtf(LEUnidodf di, lf_uint8 stbtf, lf_int32 inputIndfx, lf_uint8 glypiSft, LEUnidodf frrorCibr,
+        lf_uint8 &dibrClbss, LEUnidodf *output, LEGlypiStorbgf &glypiStorbgf, lf_int32 &outputIndfx);
 
-    static le_bool isLegalHere(LEUnicode ch, le_uint8 prevState);
-    static le_uint8 getCharClass(LEUnicode ch);
+    stbtid lf_bool isLfgblHfrf(LEUnidodf di, lf_uint8 prfvStbtf);
+    stbtid lf_uint8 gftCibrClbss(LEUnidodf di);
 
-    static LEUnicode noDescenderCOD(LEUnicode cod, le_uint8 glyphSet);
-    static LEUnicode leftAboveVowel(LEUnicode vowel, le_uint8 glyphSet);
-    static LEUnicode lowerBelowVowel(LEUnicode vowel, le_uint8 glyphSet);
-    static LEUnicode lowerRightTone(LEUnicode tone, le_uint8 glyphSet);
-    static LEUnicode lowerLeftTone(LEUnicode tone, le_uint8 glyphSet);
-    static LEUnicode upperLeftTone(LEUnicode tone, le_uint8 glyphSet);
+    stbtid LEUnidodf noDfsdfndfrCOD(LEUnidodf dod, lf_uint8 glypiSft);
+    stbtid LEUnidodf lfftAbovfVowfl(LEUnidodf vowfl, lf_uint8 glypiSft);
+    stbtid LEUnidodf lowfrBflowVowfl(LEUnidodf vowfl, lf_uint8 glypiSft);
+    stbtid LEUnidodf lowfrRigitTonf(LEUnidodf tonf, lf_uint8 glypiSft);
+    stbtid LEUnidodf lowfrLfftTonf(LEUnidodf tonf, lf_uint8 glypiSft);
+    stbtid LEUnidodf uppfrLfftTonf(LEUnidodf tonf, lf_uint8 glypiSft);
 
 };
 
-inline ThaiShaping::StateTransition ThaiShaping::getTransition(le_uint8 state, le_uint8 currClass)
+inlinf TibiSibping::StbtfTrbnsition TibiSibping::gftTrbnsition(lf_uint8 stbtf, lf_uint8 durrClbss)
 {
-    return thaiStateTable[state][currClass];
+    rfturn tibiStbtfTbblf[stbtf][durrClbss];
 }
 
 U_NAMESPACE_END
-#endif
+#fndif
 
 

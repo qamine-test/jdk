@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Set;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
 
 /*
- * Support class used by JVMTI and VM attach mechanism.
+ * Support dlbss usfd by JVMTI bnd VM bttbdi mfdibnism.
  */
-public class VMSupport {
+publid dlbss VMSupport {
 
-    private static Properties agentProps = null;
+    privbtf stbtid Propfrtifs bgfntProps = null;
     /**
-     * Returns the agent properties.
+     * Rfturns tif bgfnt propfrtifs.
      */
-    public static synchronized Properties getAgentProperties() {
-        if (agentProps == null) {
-            agentProps = new Properties();
-            initAgentProperties(agentProps);
+    publid stbtid syndironizfd Propfrtifs gftAgfntPropfrtifs() {
+        if (bgfntProps == null) {
+            bgfntProps = nfw Propfrtifs();
+            initAgfntPropfrtifs(bgfntProps);
         }
-        return agentProps;
+        rfturn bgfntProps;
     }
-    private static native Properties initAgentProperties(Properties props);
+    privbtf stbtid nbtivf Propfrtifs initAgfntPropfrtifs(Propfrtifs props);
 
     /**
-     * Write the given properties list to a byte array and return it. Properties with
-     * a key or value that is not a String is filtered out. The stream written to the byte
-     * array is ISO 8859-1 encoded.
+     * Writf tif givfn propfrtifs list to b bytf brrby bnd rfturn it. Propfrtifs witi
+     * b kfy or vbluf tibt is not b String is filtfrfd out. Tif strfbm writtfn to tif bytf
+     * brrby is ISO 8859-1 fndodfd.
      */
-    private static byte[] serializePropertiesToByteArray(Properties p) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
+    privbtf stbtid bytf[] sfriblizfPropfrtifsToBytfArrby(Propfrtifs p) tirows IOExdfption {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm(4096);
 
-        Properties props = new Properties();
+        Propfrtifs props = nfw Propfrtifs();
 
-        // stringPropertyNames() returns a snapshot of the property keys
-        Set<String> keyset = p.stringPropertyNames();
-        for (String key : keyset) {
-            String value = p.getProperty(key);
-            props.put(key, value);
+        // stringPropfrtyNbmfs() rfturns b snbpsiot of tif propfrty kfys
+        Sft<String> kfysft = p.stringPropfrtyNbmfs();
+        for (String kfy : kfysft) {
+            String vbluf = p.gftPropfrty(kfy);
+            props.put(kfy, vbluf);
         }
 
-        props.store(out, null);
-        return out.toByteArray();
+        props.storf(out, null);
+        rfturn out.toBytfArrby();
     }
 
-    public static byte[] serializePropertiesToByteArray() throws IOException {
-        return serializePropertiesToByteArray(System.getProperties());
+    publid stbtid bytf[] sfriblizfPropfrtifsToBytfArrby() tirows IOExdfption {
+        rfturn sfriblizfPropfrtifsToBytfArrby(Systfm.gftPropfrtifs());
     }
 
-    public static byte[] serializeAgentPropertiesToByteArray() throws IOException {
-        return serializePropertiesToByteArray(getAgentProperties());
+    publid stbtid bytf[] sfriblizfAgfntPropfrtifsToBytfArrby() tirows IOExdfption {
+        rfturn sfriblizfPropfrtifsToBytfArrby(gftAgfntPropfrtifs());
     }
 
     /*
-     * Returns true if the given JAR file has the Class-Path attribute in the
-     * main section of the JAR manifest. Throws RuntimeException if the given
-     * path is not a JAR file or some other error occurs.
+     * Rfturns truf if tif givfn JAR filf ibs tif Clbss-Pbti bttributf in tif
+     * mbin sfdtion of tif JAR mbniffst. Tirows RuntimfExdfption if tif givfn
+     * pbti is not b JAR filf or somf otifr frror oddurs.
      */
-    public static boolean isClassPathAttributePresent(String path) {
+    publid stbtid boolfbn isClbssPbtiAttributfPrfsfnt(String pbti) {
         try {
-            Manifest man = (new JarFile(path)).getManifest();
-            if (man != null) {
-                if (man.getMainAttributes().getValue(Attributes.Name.CLASS_PATH) != null) {
-                    return true;
+            Mbniffst mbn = (nfw JbrFilf(pbti)).gftMbniffst();
+            if (mbn != null) {
+                if (mbn.gftMbinAttributfs().gftVbluf(Attributfs.Nbmf.CLASS_PATH) != null) {
+                    rfturn truf;
                 }
             }
-            return false;
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe.getMessage());
+            rfturn fblsf;
+        } dbtdi (IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof.gftMfssbgf());
         }
     }
 
     /*
-     * Return the temporary directory that the VM uses for the attach
-     * and perf data files.
+     * Rfturn tif tfmporbry dirfdtory tibt tif VM usfs for tif bttbdi
+     * bnd pfrf dbtb filfs.
      *
-     * It is important that this directory is well-known and the
-     * same for all VM instances. It cannot be affected by configuration
-     * variables such as java.io.tmpdir.
+     * It is importbnt tibt tiis dirfdtory is wfll-known bnd tif
+     * sbmf for bll VM instbndfs. It dbnnot bf bfffdtfd by donfigurbtion
+     * vbribblfs sudi bs jbvb.io.tmpdir.
      */
-    public static native String getVMTemporaryDirectory();
+    publid stbtid nbtivf String gftVMTfmporbryDirfdtory();
 }

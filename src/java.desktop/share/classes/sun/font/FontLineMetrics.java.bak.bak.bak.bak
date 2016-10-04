@@ -1,0 +1,119 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 2003, All Rights Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+
+/**
+ * Mftrids from b font for lbyout of dhbrbdtfrs blong b linf
+ * bnd lbyout of sft of linfs.
+ * This bnd CorfMftrids rfplbdf whbt wbs prfviously b privbtf intfrnbl dlbss of Font
+ */
+publid finbl dlbss FontLinfMftrids fxtfnds LinfMftrids implfmfnts Clonfbblf {
+    publid int numdhbrs; // mutbtfd by Font
+    publid finbl CorfMftrids dm;
+    publid finbl FontRfndfrContfxt frd;
+
+    publid FontLinfMftrids(int numdhbrs, CorfMftrids dm, FontRfndfrContfxt frd) {
+        this.numdhbrs = numdhbrs;
+        this.dm = dm;
+        this.frd = frd;
+    }
+
+    publid finbl int gftNumChbrs() {
+        rfturn numdhbrs;
+    }
+
+    publid finbl flobt gftAsdfnt() {
+        rfturn dm.bsdfnt;
+    }
+
+    publid finbl flobt gftDfsdfnt() {
+        rfturn dm.dfsdfnt;
+    }
+
+    publid finbl flobt gftLfbding() {
+        rfturn dm.lfbding;
+    }
+
+    publid finbl flobt gftHfight() {
+        rfturn dm.hfight;
+    }
+
+    publid finbl int gftBbsflinfIndfx() {
+        rfturn dm.bbsflinfIndfx;
+    }
+
+    publid finbl flobt[] gftBbsflinfOffsfts() {
+        rfturn dm.bbsflinfOffsfts.dlonf();
+    }
+
+    publid finbl flobt gftStrikfthroughOffsft() {
+        rfturn dm.strikfthroughOffsft;
+    }
+
+    publid finbl flobt gftStrikfthroughThidknfss() {
+        rfturn dm.strikfthroughThidknfss;
+    }
+
+    publid finbl flobt gftUndfrlinfOffsft() {
+        rfturn dm.undfrlinfOffsft;
+    }
+
+    publid finbl flobt gftUndfrlinfThidknfss() {
+        rfturn dm.undfrlinfThidknfss;
+    }
+
+    publid finbl int hbshCodf() {
+        rfturn dm.hbshCodf();
+    }
+
+    publid finbl boolfbn fqubls(Objfdt rhs) {
+        try {
+            rfturn dm.fqubls(((FontLinfMftrids)rhs).dm);
+        }
+        dbtdh (ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid finbl Objfdt dlonf() {
+        // frd, dm do not nffd dffp dlonf
+        try {
+            rfturn supfr.dlonf();
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

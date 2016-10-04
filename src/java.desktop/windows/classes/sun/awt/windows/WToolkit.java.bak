@@ -1,1154 +1,1154 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.*;
-import java.awt.peer.*;
-import java.awt.event.KeyEvent;
-import java.awt.datatransfer.Clipboard;
-import java.awt.TrayIcon;
-import java.beans.PropertyChangeListener;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.awt.AppContext;
-import sun.awt.AWTAutoShutdown;
-import sun.awt.AWTPermissions;
-import sun.awt.AppContext;
-import sun.awt.LightweightFrame;
-import sun.awt.SunToolkit;
-import sun.awt.util.ThreadGroupUtils;
-import sun.awt.Win32GraphicsDevice;
-import sun.awt.Win32GraphicsEnvironment;
-import sun.awt.datatransfer.DataTransferer;
-import sun.java2d.d3d.D3DRenderQueue;
-import sun.java2d.opengl.OGLRenderQueue;
+import jbvb.bwt.*;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.TrbyIdon;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTAutoSiutdown;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.AppContfxt;
+import sun.bwt.LigitwfigitFrbmf;
+import sun.bwt.SunToolkit;
+import sun.bwt.util.TirfbdGroupUtils;
+import sun.bwt.Win32GrbpiidsDfvidf;
+import sun.bwt.Win32GrbpiidsEnvironmfnt;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.jbvb2d.d3d.D3DRfndfrQufuf;
+import sun.jbvb2d.opfngl.OGLRfndfrQufuf;
 
 import sun.print.PrintJob2D;
 
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
 
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
 
-import sun.font.FontManager;
-import sun.font.FontManagerFactory;
-import sun.font.SunFontManager;
-import sun.misc.PerformanceLogger;
-import sun.util.logging.PlatformLogger;
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.SunFontMbnbgfr;
+import sun.misd.PfrformbndfLoggfr;
+import sun.util.logging.PlbtformLoggfr;
 
-public final class WToolkit extends SunToolkit implements Runnable {
+publid finbl dlbss WToolkit fxtfnds SunToolkit implfmfnts Runnbblf {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WToolkit");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.WToolkit");
 
-    // Desktop property which specifies whether XP visual styles are in effect
-    public static final String XPSTYLE_THEME_ACTIVE = "win.xpstyle.themeActive";
+    // Dfsktop propfrty wiidi spfdififs wiftifr XP visubl stylfs brf in ffffdt
+    publid stbtid finbl String XPSTYLE_THEME_ACTIVE = "win.xpstylf.tifmfAdtivf";
 
-    static GraphicsConfiguration config;
+    stbtid GrbpiidsConfigurbtion donfig;
 
-    // System clipboard.
-    WClipboard clipboard;
+    // Systfm dlipbobrd.
+    WClipbobrd dlipbobrd;
 
-    // cache of font peers
-    private Hashtable<String,FontPeer> cacheFontPeer;
+    // dbdif of font pffrs
+    privbtf Hbsitbblf<String,FontPffr> dbdifFontPffr;
 
-    // Windows properties
-    private WDesktopProperties  wprops;
+    // Windows propfrtifs
+    privbtf WDfsktopPropfrtifs  wprops;
 
-    // Dynamic Layout Resize client code setting
-    protected boolean dynamicLayoutSetting = false;
+    // Dynbmid Lbyout Rfsizf dlifnt dodf sftting
+    protfdtfd boolfbn dynbmidLbyoutSftting = fblsf;
 
-    //Is it allowed to generate events assigned to extra mouse buttons.
-    //Set to true by default.
-    private static boolean areExtraMouseButtonsEnabled = true;
+    //Is it bllowfd to gfnfrbtf fvfnts bssignfd to fxtrb mousf buttons.
+    //Sft to truf by dffbult.
+    privbtf stbtid boolfbn brfExtrbMousfButtonsEnbblfd = truf;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
-    private static boolean loaded = false;
-    public static void loadLibraries() {
-        if (!loaded) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    @Override
-                    public Void run() {
-                        System.loadLibrary("awt");
-                        return null;
+    privbtf stbtid nbtivf void initIDs();
+    privbtf stbtid boolfbn lobdfd = fblsf;
+    publid stbtid void lobdLibrbrifs() {
+        if (!lobdfd) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() {
+                        Systfm.lobdLibrbry("bwt");
+                        rfturn null;
                     }
                 });
-            loaded = true;
+            lobdfd = truf;
         }
     }
 
-    private static native String getWindowsVersion();
+    privbtf stbtid nbtivf String gftWindowsVfrsion();
 
-    static {
-        loadLibraries();
+    stbtid {
+        lobdLibrbrifs();
         initIDs();
 
-        // Print out which version of Windows is running
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Win version: " + getWindowsVersion());
+        // Print out wiidi vfrsion of Windows is running
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Win vfrsion: " + gftWindowsVfrsion());
         }
 
-        AccessController.doPrivileged(
-            new PrivilegedAction <Void> ()
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion <Void> ()
         {
-            @Override
-            public Void run() {
-                String browserProp = System.getProperty("browser");
-                if (browserProp != null && browserProp.equals("sun.plugin")) {
-                    disableCustomPalette();
+            @Ovfrridf
+            publid Void run() {
+                String browsfrProp = Systfm.gftPropfrty("browsfr");
+                if (browsfrProp != null && browsfrProp.fqubls("sun.plugin")) {
+                    disbblfCustomPblfttf();
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
-    private static native void disableCustomPalette();
+    privbtf stbtid nbtivf void disbblfCustomPblfttf();
 
     /*
-     * Reset the static GraphicsConfiguration to the default.  Called on
-     * startup and when display settings have changed.
+     * Rfsft tif stbtid GrbpiidsConfigurbtion to tif dffbult.  Cbllfd on
+     * stbrtup bnd wifn displby sfttings ibvf dibngfd.
      */
-    public static void resetGC() {
-        if (GraphicsEnvironment.isHeadless()) {
-            config = null;
-        } else {
-          config = (GraphicsEnvironment
-                  .getLocalGraphicsEnvironment()
-          .getDefaultScreenDevice()
-          .getDefaultConfiguration());
+    publid stbtid void rfsftGC() {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            donfig = null;
+        } flsf {
+          donfig = (GrbpiidsEnvironmfnt
+                  .gftLodblGrbpiidsEnvironmfnt()
+          .gftDffbultSdrffnDfvidf()
+          .gftDffbultConfigurbtion());
         }
     }
 
     /*
-     * NOTE: The following embedded*() methods are non-public API intended
-     * for internal use only.  The methods are unsupported and could go
-     * away in future releases.
+     * NOTE: Tif following fmbfddfd*() mftiods brf non-publid API intfndfd
+     * for intfrnbl usf only.  Tif mftiods brf unsupportfd bnd dould go
+     * bwby in futurf rflfbsfs.
      *
-     * New hook functions for using the AWT as an embedded service. These
-     * functions replace the global C function AwtInit() which was previously
-     * exported by awt.dll.
+     * Nfw iook fundtions for using tif AWT bs bn fmbfddfd sfrvidf. Tifsf
+     * fundtions rfplbdf tif globbl C fundtion AwtInit() wiidi wbs prfviously
+     * fxportfd by bwt.dll.
      *
-     * When used as an embedded service, the AWT does NOT have its own
-     * message pump. It instead relies on the parent application to provide
-     * this functionality. embeddedInit() assumes that the thread on which it
-     * is called is the message pumping thread. Violating this assumption
-     * will lead to undefined behavior.
+     * Wifn usfd bs bn fmbfddfd sfrvidf, tif AWT dofs NOT ibvf its own
+     * mfssbgf pump. It instfbd rflifs on tif pbrfnt bpplidbtion to providf
+     * tiis fundtionblity. fmbfddfdInit() bssumfs tibt tif tirfbd on wiidi it
+     * is dbllfd is tif mfssbgf pumping tirfbd. Violbting tiis bssumption
+     * will lfbd to undffinfd bfibvior.
      *
-     * embeddedInit must be called before the WToolkit() constructor.
-     * embeddedDispose should be called before the applicaton terminates the
-     * Java VM. It is currently unsafe to reinitialize the toolkit again
-     * after it has been disposed. Instead, awt.dll must be reloaded and the
-     * class loader which loaded WToolkit must be finalized before it is
-     * safe to reuse AWT. Dynamic reusability may be added to the toolkit in
-     * the future.
+     * fmbfddfdInit must bf dbllfd bfforf tif WToolkit() donstrudtor.
+     * fmbfddfdDisposf siould bf dbllfd bfforf tif bpplidbton tfrminbtfs tif
+     * Jbvb VM. It is durrfntly unsbff to rfinitiblizf tif toolkit bgbin
+     * bftfr it ibs bffn disposfd. Instfbd, bwt.dll must bf rflobdfd bnd tif
+     * dlbss lobdfr wiidi lobdfd WToolkit must bf finblizfd bfforf it is
+     * sbff to rfusf AWT. Dynbmid rfusbbility mby bf bddfd to tif toolkit in
+     * tif futurf.
      */
 
     /**
-     * Initializes the Toolkit for use in an embedded environment.
+     * Initiblizfs tif Toolkit for usf in bn fmbfddfd fnvironmfnt.
      *
-     * @return true if the the initialization succeeded; false if it failed.
-     *         The function will fail if the Toolkit was already initialized.
-     * @since 1.3
+     * @rfturn truf if tif tif initiblizbtion suddffdfd; fblsf if it fbilfd.
+     *         Tif fundtion will fbil if tif Toolkit wbs blrfbdy initiblizfd.
+     * @sindf 1.3
      */
-    public static native boolean embeddedInit();
+    publid stbtid nbtivf boolfbn fmbfddfdInit();
 
     /**
-     * Disposes the Toolkit in an embedded environment. This method should
-     * not be called on exit unless the Toolkit was constructed with
-     * embeddedInit.
+     * Disposfs tif Toolkit in bn fmbfddfd fnvironmfnt. Tiis mftiod siould
+     * not bf dbllfd on fxit unlfss tif Toolkit wbs donstrudtfd witi
+     * fmbfddfdInit.
      *
-     * @return true if the disposal succeeded; false if it failed. The
-     *         function will fail if the calling thread is not the same
-     *         thread which called embeddedInit(), or if the Toolkit was
-     *         already disposed.
-     * @since 1.3
+     * @rfturn truf if tif disposbl suddffdfd; fblsf if it fbilfd. Tif
+     *         fundtion will fbil if tif dblling tirfbd is not tif sbmf
+     *         tirfbd wiidi dbllfd fmbfddfdInit(), or if tif Toolkit wbs
+     *         blrfbdy disposfd.
+     * @sindf 1.3
      */
-    public static native boolean embeddedDispose();
+    publid stbtid nbtivf boolfbn fmbfddfdDisposf();
 
     /**
-     * To be called after processing the event queue by users of the above
-     * embeddedInit() function.  The reason for this additional call is that
-     * there are some operations performed during idle time in the AwtToolkit
-     * event loop which should also be performed during idle time in any
-     * other native event loop.  Failure to do so could result in
-     * deadlocks.
+     * To bf dbllfd bftfr prodfssing tif fvfnt qufuf by usfrs of tif bbovf
+     * fmbfddfdInit() fundtion.  Tif rfbson for tiis bdditionbl dbll is tibt
+     * tifrf brf somf opfrbtions pfrformfd during idlf timf in tif AwtToolkit
+     * fvfnt loop wiidi siould blso bf pfrformfd during idlf timf in bny
+     * otifr nbtivf fvfnt loop.  Fbilurf to do so dould rfsult in
+     * dfbdlodks.
      *
-     * This method was added at the last minute of the jdk1.4 release
-     * to work around a specific customer problem.  As with the above
-     * embedded*() class, this method is non-public and should not be
-     * used by external applications.
+     * Tiis mftiod wbs bddfd bt tif lbst minutf of tif jdk1.4 rflfbsf
+     * to work bround b spfdifid dustomfr problfm.  As witi tif bbovf
+     * fmbfddfd*() dlbss, tiis mftiod is non-publid bnd siould not bf
+     * usfd by fxtfrnbl bpplidbtions.
      *
-     * See bug #4526587 for more information.
+     * Sff bug #4526587 for morf informbtion.
      */
-    public native void embeddedEventLoopIdleProcessing();
+    publid nbtivf void fmbfddfdEvfntLoopIdlfProdfssing();
 
-    static class ToolkitDisposer implements sun.java2d.DisposerRecord {
-        @Override
-        public void dispose() {
-            WToolkit.postDispose();
+    stbtid dlbss ToolkitDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        @Ovfrridf
+        publid void disposf() {
+            WToolkit.postDisposf();
         }
     }
 
-    private final Object anchor = new Object();
+    privbtf finbl Objfdt bndior = nfw Objfdt();
 
-    private static native void postDispose();
+    privbtf stbtid nbtivf void postDisposf();
 
-    private static native boolean startToolkitThread(Runnable thread, ThreadGroup rootThreadGroup);
+    privbtf stbtid nbtivf boolfbn stbrtToolkitTirfbd(Runnbblf tirfbd, TirfbdGroup rootTirfbdGroup);
 
-    public WToolkit() {
-        // Startup toolkit threads
-        if (PerformanceLogger.loggingEnabled()) {
-            PerformanceLogger.setTime("WToolkit construction");
+    publid WToolkit() {
+        // Stbrtup toolkit tirfbds
+        if (PfrformbndfLoggfr.loggingEnbblfd()) {
+            PfrformbndfLoggfr.sftTimf("WToolkit donstrudtion");
         }
 
-        sun.java2d.Disposer.addRecord(anchor, new ToolkitDisposer());
+        sun.jbvb2d.Disposfr.bddRfdord(bndior, nfw ToolkitDisposfr());
 
         /*
          * Fix for 4701990.
-         * AWTAutoShutdown state must be changed before the toolkit thread
-         * starts to avoid race condition.
+         * AWTAutoSiutdown stbtf must bf dibngfd bfforf tif toolkit tirfbd
+         * stbrts to bvoid rbdf dondition.
          */
-        AWTAutoShutdown.notifyToolkitThreadBusy();
+        AWTAutoSiutdown.notifyToolkitTirfbdBusy();
 
-        // Find a root TG and attach Appkit thread to it
-        ThreadGroup rootTG = AccessController.doPrivileged(
-                (PrivilegedAction<ThreadGroup>) ThreadGroupUtils::getRootThreadGroup);
-        if (!startToolkitThread(this, rootTG)) {
-            Thread toolkitThread = new Thread(rootTG, this, "AWT-Windows");
-            toolkitThread.setDaemon(true);
-            toolkitThread.start();
+        // Find b root TG bnd bttbdi Appkit tirfbd to it
+        TirfbdGroup rootTG = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<TirfbdGroup>) TirfbdGroupUtils::gftRootTirfbdGroup);
+        if (!stbrtToolkitTirfbd(tiis, rootTG)) {
+            Tirfbd toolkitTirfbd = nfw Tirfbd(rootTG, tiis, "AWT-Windows");
+            toolkitTirfbd.sftDbfmon(truf);
+            toolkitTirfbd.stbrt();
         }
 
         try {
-            synchronized(this) {
-                while(!inited) {
-                    wait();
+            syndironizfd(tiis) {
+                wiilf(!initfd) {
+                    wbit();
                 }
             }
-        } catch (InterruptedException x) {
-            // swallow the exception
+        } dbtdi (IntfrruptfdExdfption x) {
+            // swbllow tif fxdfption
         }
 
-        // Enabled "live resizing" by default.  It remains controlled
-        // by the native system though.
-        setDynamicLayout(true);
+        // Enbblfd "livf rfsizing" by dffbult.  It rfmbins dontrollfd
+        // by tif nbtivf systfm tiougi.
+        sftDynbmidLbyout(truf);
 
-        areExtraMouseButtonsEnabled = Boolean.parseBoolean(System.getProperty("sun.awt.enableExtraMouseButtons", "true"));
-        //set system property if not yet assigned
-        System.setProperty("sun.awt.enableExtraMouseButtons", ""+areExtraMouseButtonsEnabled);
-        setExtraMouseButtonsEnabledNative(areExtraMouseButtonsEnabled);
+        brfExtrbMousfButtonsEnbblfd = Boolfbn.pbrsfBoolfbn(Systfm.gftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", "truf"));
+        //sft systfm propfrty if not yft bssignfd
+        Systfm.sftPropfrty("sun.bwt.fnbblfExtrbMousfButtons", ""+brfExtrbMousfButtonsEnbblfd);
+        sftExtrbMousfButtonsEnbblfdNbtivf(brfExtrbMousfButtonsEnbblfd);
     }
 
-    private final void registerShutdownHook() {
-        AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-            Thread shutdown = new Thread(ThreadGroupUtils.getRootThreadGroup(), this::shutdown);
-            shutdown.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(shutdown);
-            return null;
+    privbtf finbl void rfgistfrSiutdownHook() {
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+            Tirfbd siutdown = nfw Tirfbd(TirfbdGroupUtils.gftRootTirfbdGroup(), tiis::siutdown);
+            siutdown.sftContfxtClbssLobdfr(null);
+            Runtimf.gftRuntimf().bddSiutdownHook(siutdown);
+            rfturn null;
          });
      }
 
-    @Override
-    public void run() {
-        AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-            Thread.currentThread().setContextClassLoader(null);
-            return null;
+    @Ovfrridf
+    publid void run() {
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+            Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(null);
+            rfturn null;
         });
-        Thread.currentThread().setPriority(Thread.NORM_PRIORITY + 1);
-        boolean startPump = init();
+        Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.NORM_PRIORITY + 1);
+        boolfbn stbrtPump = init();
 
-        if (startPump) {
-            registerShutdownHook();
+        if (stbrtPump) {
+            rfgistfrSiutdownHook();
         }
 
-        synchronized(this) {
-            inited = true;
+        syndironizfd(tiis) {
+            initfd = truf;
             notifyAll();
         }
 
-        if (startPump) {
-            eventLoop(); // will Dispose Toolkit when shutdown hook executes
+        if (stbrtPump) {
+            fvfntLoop(); // will Disposf Toolkit wifn siutdown iook fxfdutfs
         }
     }
 
     /*
-     * eventLoop() begins the native message pump which retrieves and processes
-     * native events.
+     * fvfntLoop() bfgins tif nbtivf mfssbgf pump wiidi rftrifvfs bnd prodfssfs
+     * nbtivf fvfnts.
      *
-     * When shutdown() is called by the ShutdownHook added in run(), a
-     * WM_QUIT message is posted to the Toolkit thread indicating that
-     * eventLoop() should Dispose the toolkit and exit.
+     * Wifn siutdown() is dbllfd by tif SiutdownHook bddfd in run(), b
+     * WM_QUIT mfssbgf is postfd to tif Toolkit tirfbd indidbting tibt
+     * fvfntLoop() siould Disposf tif toolkit bnd fxit.
      */
-    private native boolean init();
-    private boolean inited = false;
+    privbtf nbtivf boolfbn init();
+    privbtf boolfbn initfd = fblsf;
 
-    private native void eventLoop();
-    private native void shutdown();
+    privbtf nbtivf void fvfntLoop();
+    privbtf nbtivf void siutdown();
 
     /*
-     * Instead of blocking the "AWT-Windows" thread uselessly on a semaphore,
-     * use these functions. startSecondaryEventLoop() corresponds to wait()
-     * and quitSecondaryEventLoop() corresponds to notify.
+     * Instfbd of blodking tif "AWT-Windows" tirfbd usflfssly on b sfmbpiorf,
+     * usf tifsf fundtions. stbrtSfdondbryEvfntLoop() dorrfsponds to wbit()
+     * bnd quitSfdondbryEvfntLoop() dorrfsponds to notify.
      *
-     * These functions simulate blocking while allowing the AWT to continue
-     * processing native events, eliminating a potential deadlock situation
-     * with SendMessage.
+     * Tifsf fundtions simulbtf blodking wiilf bllowing tif AWT to dontinuf
+     * prodfssing nbtivf fvfnts, fliminbting b potfntibl dfbdlodk situbtion
+     * witi SfndMfssbgf.
      *
-     * WARNING: startSecondaryEventLoop must only be called from the "AWT-
-     * Windows" thread.
+     * WARNING: stbrtSfdondbryEvfntLoop must only bf dbllfd from tif "AWT-
+     * Windows" tirfbd.
      */
-    static native void startSecondaryEventLoop();
-    static native void quitSecondaryEventLoop();
+    stbtid nbtivf void stbrtSfdondbryEvfntLoop();
+    stbtid nbtivf void quitSfdondbryEvfntLoop();
 
     /*
-     * Create peer objects.
+     * Crfbtf pffr objfdts.
      */
 
-    @Override
-    public ButtonPeer createButton(Button target) {
-        ButtonPeer peer = new WButtonPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid ButtonPffr drfbtfButton(Button tbrgft) {
+        ButtonPffr pffr = nfw WButtonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public TextFieldPeer createTextField(TextField target) {
-        TextFieldPeer peer = new WTextFieldPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft) {
+        TfxtFifldPffr pffr = nfw WTfxtFifldPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public LabelPeer createLabel(Label target) {
-        LabelPeer peer = new WLabelPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid LbbflPffr drfbtfLbbfl(Lbbfl tbrgft) {
+        LbbflPffr pffr = nfw WLbbflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public ListPeer createList(List target) {
-        ListPeer peer = new WListPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid ListPffr drfbtfList(List tbrgft) {
+        ListPffr pffr = nfw WListPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public CheckboxPeer createCheckbox(Checkbox target) {
-        CheckboxPeer peer = new WCheckboxPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid CifdkboxPffr drfbtfCifdkbox(Cifdkbox tbrgft) {
+        CifdkboxPffr pffr = nfw WCifdkboxPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public ScrollbarPeer createScrollbar(Scrollbar target) {
-        ScrollbarPeer peer = new WScrollbarPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft) {
+        SdrollbbrPffr pffr = nfw WSdrollbbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public ScrollPanePeer createScrollPane(ScrollPane target) {
-        ScrollPanePeer peer = new WScrollPanePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft) {
+        SdrollPbnfPffr pffr = nfw WSdrollPbnfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public TextAreaPeer createTextArea(TextArea target) {
-        TextAreaPeer peer = new WTextAreaPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft) {
+        TfxtArfbPffr pffr = nfw WTfxtArfbPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public ChoicePeer createChoice(Choice target) {
-        ChoicePeer peer = new WChoicePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid CioidfPffr drfbtfCioidf(Cioidf tbrgft) {
+        CioidfPffr pffr = nfw WCioidfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public FramePeer  createFrame(Frame target) {
-        FramePeer peer = new WFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid FrbmfPffr  drfbtfFrbmf(Frbmf tbrgft) {
+        FrbmfPffr pffr = nfw WFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public FramePeer createLightweightFrame(LightweightFrame target) {
-        FramePeer peer = new WLightweightFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid FrbmfPffr drfbtfLigitwfigitFrbmf(LigitwfigitFrbmf tbrgft) {
+        FrbmfPffr pffr = nfw WLigitwfigitFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public CanvasPeer createCanvas(Canvas target) {
-        CanvasPeer peer = new WCanvasPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) {
+        CbnvbsPffr pffr = nfw WCbnvbsPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void disableBackgroundErase(Canvas canvas) {
-        WCanvasPeer peer = (WCanvasPeer)canvas.getPeer();
-        if (peer == null) {
-            throw new IllegalStateException("Canvas must have a valid peer");
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void disbblfBbdkgroundErbsf(Cbnvbs dbnvbs) {
+        WCbnvbsPffr pffr = (WCbnvbsPffr)dbnvbs.gftPffr();
+        if (pffr == null) {
+            tirow nfw IllfgblStbtfExdfption("Cbnvbs must ibvf b vblid pffr");
         }
-        peer.disableBackgroundErase();
+        pffr.disbblfBbdkgroundErbsf();
     }
 
-    @Override
-    public PanelPeer createPanel(Panel target) {
-        PanelPeer peer = new WPanelPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) {
+        PbnflPffr pffr = nfw WPbnflPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public WindowPeer createWindow(Window target) {
-        WindowPeer peer = new WWindowPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid WindowPffr drfbtfWindow(Window tbrgft) {
+        WindowPffr pffr = nfw WWindowPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public DialogPeer createDialog(Dialog target) {
-        DialogPeer peer = new WDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft) {
+        DiblogPffr pffr = nfw WDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public FileDialogPeer createFileDialog(FileDialog target) {
-        FileDialogPeer peer = new WFileDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft) {
+        FilfDiblogPffr pffr = nfw WFilfDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public MenuBarPeer createMenuBar(MenuBar target) {
-        MenuBarPeer peer = new WMenuBarPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft) {
+        MfnuBbrPffr pffr = nfw WMfnuBbrPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public MenuPeer createMenu(Menu target) {
-        MenuPeer peer = new WMenuPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid MfnuPffr drfbtfMfnu(Mfnu tbrgft) {
+        MfnuPffr pffr = nfw WMfnuPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public PopupMenuPeer createPopupMenu(PopupMenu target) {
-        PopupMenuPeer peer = new WPopupMenuPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft) {
+        PopupMfnuPffr pffr = nfw WPopupMfnuPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public MenuItemPeer createMenuItem(MenuItem target) {
-        MenuItemPeer peer = new WMenuItemPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft) {
+        MfnuItfmPffr pffr = nfw WMfnuItfmPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target) {
-        CheckboxMenuItemPeer peer = new WCheckboxMenuItemPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid CifdkboxMfnuItfmPffr drfbtfCifdkboxMfnuItfm(CifdkboxMfnuItfm tbrgft) {
+        CifdkboxMfnuItfmPffr pffr = nfw WCifdkboxMfnuItfmPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen) {
-        // (target is unused for now)
-        // Robot's don't need to go in the peer map since
-        // they're not Component's
-        return new WRobotPeer(screen);
+    @Ovfrridf
+    publid RobotPffr drfbtfRobot(Robot tbrgft, GrbpiidsDfvidf sdrffn) {
+        // (tbrgft is unusfd for now)
+        // Robot's don't nffd to go in tif pffr mbp sindf
+        // tify'rf not Componfnt's
+        rfturn nfw WRobotPffr(sdrffn);
     }
 
-    public WEmbeddedFramePeer createEmbeddedFrame(WEmbeddedFrame target) {
-        WEmbeddedFramePeer peer = new WEmbeddedFramePeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    publid WEmbfddfdFrbmfPffr drfbtfEmbfddfdFrbmf(WEmbfddfdFrbmf tbrgft) {
+        WEmbfddfdFrbmfPffr pffr = nfw WEmbfddfdFrbmfPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    WPrintDialogPeer createWPrintDialog(WPrintDialog target) {
-        WPrintDialogPeer peer = new WPrintDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    WPrintDiblogPffr drfbtfWPrintDiblog(WPrintDiblog tbrgft) {
+        WPrintDiblogPffr pffr = nfw WPrintDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    WPageDialogPeer createWPageDialog(WPageDialog target) {
-        WPageDialogPeer peer = new WPageDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    WPbgfDiblogPffr drfbtfWPbgfDiblog(WPbgfDiblog tbrgft) {
+        WPbgfDiblogPffr pffr = nfw WPbgfDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public TrayIconPeer createTrayIcon(TrayIcon target) {
-        WTrayIconPeer peer = new WTrayIconPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid TrbyIdonPffr drfbtfTrbyIdon(TrbyIdon tbrgft) {
+        WTrbyIdonPffr pffr = nfw WTrbyIdonPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
-    @Override
-    public SystemTrayPeer createSystemTray(SystemTray target) {
-        return new WSystemTrayPeer(target);
+    @Ovfrridf
+    publid SystfmTrbyPffr drfbtfSystfmTrby(SystfmTrby tbrgft) {
+        rfturn nfw WSystfmTrbyPffr(tbrgft);
     }
 
-    @Override
-    public boolean isTraySupported() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isTrbySupportfd() {
+        rfturn truf;
     }
 
-    @Override
-    public DataTransferer getDataTransferer() {
-        return WDataTransferer.getInstanceImpl();
+    @Ovfrridf
+    publid DbtbTrbnsffrfr gftDbtbTrbnsffrfr() {
+        rfturn WDbtbTrbnsffrfr.gftInstbndfImpl();
     }
 
-    @Override
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer()
-      throws HeadlessException
+    @Ovfrridf
+    publid KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr()
+      tirows HfbdlfssExdfption
     {
-        return WKeyboardFocusManagerPeer.getInstance();
+        rfturn WKfybobrdFodusMbnbgfrPffr.gftInstbndf();
     }
 
-    private native void setDynamicLayoutNative(boolean b);
+    privbtf nbtivf void sftDynbmidLbyoutNbtivf(boolfbn b);
 
-    @Override
-    public void setDynamicLayout(boolean b) {
-        if (b == dynamicLayoutSetting) {
-            return;
+    @Ovfrridf
+    publid void sftDynbmidLbyout(boolfbn b) {
+        if (b == dynbmidLbyoutSftting) {
+            rfturn;
         }
 
-        dynamicLayoutSetting = b;
-        setDynamicLayoutNative(b);
+        dynbmidLbyoutSftting = b;
+        sftDynbmidLbyoutNbtivf(b);
     }
 
-    @Override
-    protected boolean isDynamicLayoutSet() {
-        return dynamicLayoutSetting;
+    @Ovfrridf
+    protfdtfd boolfbn isDynbmidLbyoutSft() {
+        rfturn dynbmidLbyoutSftting;
     }
 
     /*
-     * Called from lazilyLoadDynamicLayoutSupportedProperty because
-     * Windows doesn't always send WM_SETTINGCHANGE when it should.
+     * Cbllfd from lbzilyLobdDynbmidLbyoutSupportfdPropfrty bfdbusf
+     * Windows dofsn't blwbys sfnd WM_SETTINGCHANGE wifn it siould.
      */
-    private native boolean isDynamicLayoutSupportedNative();
+    privbtf nbtivf boolfbn isDynbmidLbyoutSupportfdNbtivf();
 
-    @Override
-    public boolean isDynamicLayoutActive() {
-        return (isDynamicLayoutSet() && isDynamicLayoutSupported());
+    @Ovfrridf
+    publid boolfbn isDynbmidLbyoutAdtivf() {
+        rfturn (isDynbmidLbyoutSft() && isDynbmidLbyoutSupportfd());
     }
 
     /**
-     * Returns <code>true</code> if this frame state is supported.
+     * Rfturns <dodf>truf</dodf> if tiis frbmf stbtf is supportfd.
      */
-    @Override
-    public boolean isFrameStateSupported(int state) {
-        switch (state) {
-          case Frame.NORMAL:
-          case Frame.ICONIFIED:
-          case Frame.MAXIMIZED_BOTH:
-              return true;
-          default:
-              return false;
+    @Ovfrridf
+    publid boolfbn isFrbmfStbtfSupportfd(int stbtf) {
+        switdi (stbtf) {
+          dbsf Frbmf.NORMAL:
+          dbsf Frbmf.ICONIFIED:
+          dbsf Frbmf.MAXIMIZED_BOTH:
+              rfturn truf;
+          dffbult:
+              rfturn fblsf;
         }
     }
 
-    static native ColorModel makeColorModel();
-    static ColorModel screenmodel;
+    stbtid nbtivf ColorModfl mbkfColorModfl();
+    stbtid ColorModfl sdrffnmodfl;
 
-    static ColorModel getStaticColorModel() {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new IllegalArgumentException();
+    stbtid ColorModfl gftStbtidColorModfl() {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        if (config == null) {
-            resetGC();
+        if (donfig == null) {
+            rfsftGC();
         }
-        return config.getColorModel();
+        rfturn donfig.gftColorModfl();
     }
 
-    @Override
-    public ColorModel getColorModel() {
-        return getStaticColorModel();
+    @Ovfrridf
+    publid ColorModfl gftColorModfl() {
+        rfturn gftStbtidColorModfl();
     }
 
-    @Override
-    public Insets getScreenInsets(GraphicsConfiguration gc)
+    @Ovfrridf
+    publid Insfts gftSdrffnInsfts(GrbpiidsConfigurbtion gd)
     {
-        return getScreenInsets(((Win32GraphicsDevice) gc.getDevice()).getScreen());
+        rfturn gftSdrffnInsfts(((Win32GrbpiidsDfvidf) gd.gftDfvidf()).gftSdrffn());
     }
 
-    @Override
-    public int getScreenResolution() {
-        Win32GraphicsEnvironment ge = (Win32GraphicsEnvironment)
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return ge.getXResolution();
+    @Ovfrridf
+    publid int gftSdrffnRfsolution() {
+        Win32GrbpiidsEnvironmfnt gf = (Win32GrbpiidsEnvironmfnt)
+            GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        rfturn gf.gftXRfsolution();
     }
-    @Override
-    protected native int getScreenWidth();
-    @Override
-    protected native int getScreenHeight();
-    private native Insets getScreenInsets(int screen);
+    @Ovfrridf
+    protfdtfd nbtivf int gftSdrffnWidti();
+    @Ovfrridf
+    protfdtfd nbtivf int gftSdrffnHfigit();
+    privbtf nbtivf Insfts gftSdrffnInsfts(int sdrffn);
 
 
-    @Override
-    public FontMetrics getFontMetrics(Font font) {
-        // This is an unsupported hack, but left in for a customer.
-        // Do not remove.
-        FontManager fm = FontManagerFactory.getInstance();
-        if (fm instanceof SunFontManager
-            && ((SunFontManager) fm).usePlatformFontMetrics()) {
-            return WFontMetrics.getFontMetrics(font);
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font font) {
+        // Tiis is bn unsupportfd ibdk, but lfft in for b dustomfr.
+        // Do not rfmovf.
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        if (fm instbndfof SunFontMbnbgfr
+            && ((SunFontMbnbgfr) fm).usfPlbtformFontMftrids()) {
+            rfturn WFontMftrids.gftFontMftrids(font);
         }
-        return super.getFontMetrics(font);
+        rfturn supfr.gftFontMftrids(font);
     }
 
-    @Override
-    public FontPeer getFontPeer(String name, int style) {
-        FontPeer retval = null;
-        String lcName = name.toLowerCase();
-        if (null != cacheFontPeer) {
-            retval = cacheFontPeer.get(lcName + style);
-            if (null != retval) {
-                return retval;
+    @Ovfrridf
+    publid FontPffr gftFontPffr(String nbmf, int stylf) {
+        FontPffr rftvbl = null;
+        String ldNbmf = nbmf.toLowfrCbsf();
+        if (null != dbdifFontPffr) {
+            rftvbl = dbdifFontPffr.gft(ldNbmf + stylf);
+            if (null != rftvbl) {
+                rfturn rftvbl;
             }
         }
-        retval = new WFontPeer(name, style);
-        if (retval != null) {
-            if (null == cacheFontPeer) {
-                cacheFontPeer = new Hashtable<>(5, 0.9f);
+        rftvbl = nfw WFontPffr(nbmf, stylf);
+        if (rftvbl != null) {
+            if (null == dbdifFontPffr) {
+                dbdifFontPffr = nfw Hbsitbblf<>(5, 0.9f);
             }
-            if (null != cacheFontPeer) {
-                cacheFontPeer.put(lcName + style, retval);
+            if (null != dbdifFontPffr) {
+                dbdifFontPffr.put(ldNbmf + stylf, rftvbl);
             }
         }
-        return retval;
+        rfturn rftvbl;
     }
 
-    private native void nativeSync();
+    privbtf nbtivf void nbtivfSynd();
 
-    @Override
-    public void sync() {
-        // flush the GDI/DD buffers
-        nativeSync();
-        // now flush the OGL pipeline (this is a no-op if OGL is not enabled)
-        OGLRenderQueue.sync();
-        // now flush the D3D pipeline (this is a no-op if D3D is not enabled)
-        D3DRenderQueue.sync();
+    @Ovfrridf
+    publid void synd() {
+        // flusi tif GDI/DD bufffrs
+        nbtivfSynd();
+        // now flusi tif OGL pipflinf (tiis is b no-op if OGL is not fnbblfd)
+        OGLRfndfrQufuf.synd();
+        // now flusi tif D3D pipflinf (tiis is b no-op if D3D is not fnbblfd)
+        D3DRfndfrQufuf.synd();
     }
 
-    @Override
-    public PrintJob getPrintJob(Frame frame, String doctitle,
-                                Properties props) {
-        return getPrintJob(frame, doctitle, null, null);
+    @Ovfrridf
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                Propfrtifs props) {
+        rfturn gftPrintJob(frbmf, dodtitlf, null, null);
     }
 
-    @Override
-    public PrintJob getPrintJob(Frame frame, String doctitle,
-                                JobAttributes jobAttributes,
-                                PageAttributes pageAttributes)
+    @Ovfrridf
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                JobAttributfs jobAttributfs,
+                                PbgfAttributfs pbgfAttributfs)
     {
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbmf == null) {
+            tirow nfw NullPointfrExdfption("frbmf must not bf null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle,
-                                             jobAttributes, pageAttributes);
+        PrintJob2D printJob = nfw PrintJob2D(frbmf, dodtitlf,
+                                             jobAttributfs, pbgfAttributfs);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblsf) {
             printJob = null;
         }
 
-        return printJob;
+        rfturn printJob;
     }
 
-    @Override
-    public native void beep();
+    @Ovfrridf
+    publid nbtivf void bffp();
 
-    @Override
-    public boolean getLockingKeyState(int key) {
-        if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
-               key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+    @Ovfrridf
+    publid boolfbn gftLodkingKfyStbtf(int kfy) {
+        if (! (kfy == KfyEvfnt.VK_CAPS_LOCK || kfy == KfyEvfnt.VK_NUM_LOCK ||
+               kfy == KfyEvfnt.VK_SCROLL_LOCK || kfy == KfyEvfnt.VK_KANA_LOCK)) {
+            tirow nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.gftLodkingKfyStbtf");
         }
-        return getLockingKeyStateNative(key);
+        rfturn gftLodkingKfyStbtfNbtivf(kfy);
     }
 
-    private native boolean getLockingKeyStateNative(int key);
+    privbtf nbtivf boolfbn gftLodkingKfyStbtfNbtivf(int kfy);
 
-    @Override
-    public void setLockingKeyState(int key, boolean on) {
-        if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
-               key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.setLockingKeyState");
+    @Ovfrridf
+    publid void sftLodkingKfyStbtf(int kfy, boolfbn on) {
+        if (! (kfy == KfyEvfnt.VK_CAPS_LOCK || kfy == KfyEvfnt.VK_NUM_LOCK ||
+               kfy == KfyEvfnt.VK_SCROLL_LOCK || kfy == KfyEvfnt.VK_KANA_LOCK)) {
+            tirow nfw IllfgblArgumfntExdfption("invblid kfy for Toolkit.sftLodkingKfyStbtf");
         }
-        setLockingKeyStateNative(key, on);
+        sftLodkingKfyStbtfNbtivf(kfy, on);
     }
 
-    private native void setLockingKeyStateNative(int key, boolean on);
+    privbtf nbtivf void sftLodkingKfyStbtfNbtivf(int kfy, boolfbn on);
 
-    @Override
-    public Clipboard getSystemClipboard() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
+    @Ovfrridf
+    publid Clipbobrd gftSystfmClipbobrd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
         }
-        synchronized (this) {
-            if (clipboard == null) {
-                clipboard = new WClipboard();
+        syndironizfd (tiis) {
+            if (dlipbobrd == null) {
+                dlipbobrd = nfw WClipbobrd();
             }
         }
-        return clipboard;
+        rfturn dlipbobrd;
     }
 
-    @Override
-    protected native void loadSystemColors(int[] systemColors);
+    @Ovfrridf
+    protfdtfd nbtivf void lobdSystfmColors(int[] systfmColors);
 
-    public static final Object targetToPeer(Object target) {
-        return SunToolkit.targetToPeer(target);
+    publid stbtid finbl Objfdt tbrgftToPffr(Objfdt tbrgft) {
+        rfturn SunToolkit.tbrgftToPffr(tbrgft);
     }
 
-    public static final void targetDisposedPeer(Object target, Object peer) {
-        SunToolkit.targetDisposedPeer(target, peer);
-    }
-
-    /**
-     * Returns a new input method adapter descriptor for native input methods.
-     */
-    @Override
-    public InputMethodDescriptor getInputMethodAdapterDescriptor() {
-        return new WInputMethodDescriptor();
+    publid stbtid finbl void tbrgftDisposfdPffr(Objfdt tbrgft, Objfdt pffr) {
+        SunToolkit.tbrgftDisposfdPffr(tbrgft, pffr);
     }
 
     /**
-     * Returns a style map for the input method highlight.
+     * Rfturns b nfw input mftiod bdbptfr dfsdriptor for nbtivf input mftiods.
      */
-    @Override
-    public Map<java.awt.font.TextAttribute,?> mapInputMethodHighlight(
-        InputMethodHighlight highlight)
+    @Ovfrridf
+    publid InputMftiodDfsdriptor gftInputMftiodAdbptfrDfsdriptor() {
+        rfturn nfw WInputMftiodDfsdriptor();
+    }
+
+    /**
+     * Rfturns b stylf mbp for tif input mftiod iigiligit.
+     */
+    @Ovfrridf
+    publid Mbp<jbvb.bwt.font.TfxtAttributf,?> mbpInputMftiodHigiligit(
+        InputMftiodHigiligit iigiligit)
     {
-        return WInputMethod.mapInputMethodHighlight(highlight);
+        rfturn WInputMftiod.mbpInputMftiodHigiligit(iigiligit);
     }
 
     /**
-     * Returns whether enableInputMethods should be set to true for peered
-     * TextComponent instances on this platform.
+     * Rfturns wiftifr fnbblfInputMftiods siould bf sft to truf for pffrfd
+     * TfxtComponfnt instbndfs on tiis plbtform.
      */
-    @Override
-    public boolean enableInputMethodsForTextComponent() {
-        return true;
+    @Ovfrridf
+    publid boolfbn fnbblfInputMftiodsForTfxtComponfnt() {
+        rfturn truf;
     }
 
     /**
-     * Returns the default keyboard locale of the underlying operating system
+     * Rfturns tif dffbult kfybobrd lodblf of tif undfrlying opfrbting systfm
      */
-    @Override
-    public Locale getDefaultKeyboardLocale() {
-        Locale locale = WInputMethod.getNativeLocale();
+    @Ovfrridf
+    publid Lodblf gftDffbultKfybobrdLodblf() {
+        Lodblf lodblf = WInputMftiod.gftNbtivfLodblf();
 
-        if (locale == null) {
-            return super.getDefaultKeyboardLocale();
-        } else {
-            return locale;
+        if (lodblf == null) {
+            rfturn supfr.gftDffbultKfybobrdLodblf();
+        } flsf {
+            rfturn lodblf;
         }
     }
 
     /**
-     * Returns a new custom cursor.
+     * Rfturns b nfw dustom dursor.
      */
-    @Override
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
-        throws IndexOutOfBoundsException {
-        return new WCustomCursor(cursor, hotSpot, name);
+    @Ovfrridf
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+        tirows IndfxOutOfBoundsExdfption {
+        rfturn nfw WCustomCursor(dursor, iotSpot, nbmf);
     }
 
     /**
-     * Returns the supported cursor size (Win32 only has one).
+     * Rfturns tif supportfd dursor sizf (Win32 only ibs onf).
      */
-    @Override
-    public Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
-        return new Dimension(WCustomCursor.getCursorWidth(),
-                             WCustomCursor.getCursorHeight());
+    @Ovfrridf
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidti, int prfffrrfdHfigit) {
+        rfturn nfw Dimfnsion(WCustomCursor.gftCursorWidti(),
+                             WCustomCursor.gftCursorHfigit());
     }
 
-    @Override
-    public native int getMaximumCursorColors();
+    @Ovfrridf
+    publid nbtivf int gftMbximumCursorColors();
 
-    static void paletteChanged() {
-        ((Win32GraphicsEnvironment)GraphicsEnvironment
-        .getLocalGraphicsEnvironment())
-        .paletteChanged();
+    stbtid void pblfttfCibngfd() {
+        ((Win32GrbpiidsEnvironmfnt)GrbpiidsEnvironmfnt
+        .gftLodblGrbpiidsEnvironmfnt())
+        .pblfttfCibngfd();
     }
 
     /*
-     * Called from Toolkit native code when a WM_DISPLAYCHANGE occurs.
-     * Have Win32GraphicsEnvironment execute the display change code on the
-     * Event thread.
+     * Cbllfd from Toolkit nbtivf dodf wifn b WM_DISPLAYCHANGE oddurs.
+     * Hbvf Win32GrbpiidsEnvironmfnt fxfdutf tif displby dibngf dodf on tif
+     * Evfnt tirfbd.
      */
-    static public void displayChanged() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ((Win32GraphicsEnvironment)GraphicsEnvironment
-                .getLocalGraphicsEnvironment())
-                .displayChanged();
+    stbtid publid void displbyCibngfd() {
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                ((Win32GrbpiidsEnvironmfnt)GrbpiidsEnvironmfnt
+                .gftLodblGrbpiidsEnvironmfnt())
+                .displbyCibngfd();
             }
         });
     }
 
     /**
-     * create the peer for a DragSourceContext
+     * drfbtf tif pffr for b DrbgSourdfContfxt
      */
 
-    @Override
-    public DragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        return WDragSourceContextPeer.createDragSourceContextPeer(dge);
+    @Ovfrridf
+    publid DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) tirows InvblidDnDOpfrbtionExdfption {
+        rfturn WDrbgSourdfContfxtPffr.drfbtfDrbgSourdfContfxtPffr(dgf);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> abstractRecognizerClass,
-                                    DragSource ds, Component c, int srcActions,
-                                    DragGestureListener dgl)
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+        drfbtfDrbgGfsturfRfdognizfr(Clbss<T> bbstrbdtRfdognizfrClbss,
+                                    DrbgSourdf ds, Componfnt d, int srdAdtions,
+                                    DrbgGfsturfListfnfr dgl)
     {
-        if (MouseDragGestureRecognizer.class.equals(abstractRecognizerClass))
-            return (T)new WMouseDragGestureRecognizer(ds, c, srcActions, dgl);
-        else
-            return null;
+        if (MousfDrbgGfsturfRfdognizfr.dlbss.fqubls(bbstrbdtRfdognizfrClbss))
+            rfturn (T)nfw WMousfDrbgGfsturfRfdognizfr(ds, d, srdAdtions, dgl);
+        flsf
+            rfturn null;
     }
 
     /**
      *
      */
 
-    private static final String prefix  = "DnD.Cursor.";
-    private static final String postfix = ".32x32";
-    private static final String awtPrefix  = "awt.";
-    private static final String dndPrefix  = "DnD.";
+    privbtf stbtid finbl String prffix  = "DnD.Cursor.";
+    privbtf stbtid finbl String postfix = ".32x32";
+    privbtf stbtid finbl String bwtPrffix  = "bwt.";
+    privbtf stbtid finbl String dndPrffix  = "DnD.";
 
-    @Override
-    protected Object lazilyLoadDesktopProperty(String name) {
-        if (name.startsWith(prefix)) {
-            String cursorName = name.substring(prefix.length(), name.length()) + postfix;
+    @Ovfrridf
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        if (nbmf.stbrtsWiti(prffix)) {
+            String dursorNbmf = nbmf.substring(prffix.lfngti(), nbmf.lfngti()) + postfix;
 
             try {
-                return Cursor.getSystemCustomCursor(cursorName);
-            } catch (AWTException awte) {
-                throw new RuntimeException("cannot load system cursor: " + cursorName, awte);
+                rfturn Cursor.gftSystfmCustomCursor(dursorNbmf);
+            } dbtdi (AWTExdfption bwtf) {
+                tirow nfw RuntimfExdfption("dbnnot lobd systfm dursor: " + dursorNbmf, bwtf);
             }
         }
 
-        if (name.equals("awt.dynamicLayoutSupported")) {
-            return  Boolean.valueOf(isDynamicLayoutSupported());
+        if (nbmf.fqubls("bwt.dynbmidLbyoutSupportfd")) {
+            rfturn  Boolfbn.vblufOf(isDynbmidLbyoutSupportfd());
         }
 
-        if (WDesktopProperties.isWindowsProperty(name) ||
-            name.startsWith(awtPrefix) || name.startsWith(dndPrefix))
+        if (WDfsktopPropfrtifs.isWindowsPropfrty(nbmf) ||
+            nbmf.stbrtsWiti(bwtPrffix) || nbmf.stbrtsWiti(dndPrffix))
         {
-            synchronized(this) {
-                lazilyInitWProps();
-                return desktopProperties.get(name);
+            syndironizfd(tiis) {
+                lbzilyInitWProps();
+                rfturn dfsktopPropfrtifs.gft(nbmf);
             }
         }
 
-        return super.lazilyLoadDesktopProperty(name);
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
     }
 
-    private synchronized void lazilyInitWProps() {
+    privbtf syndironizfd void lbzilyInitWProps() {
         if (wprops == null) {
-            wprops = new WDesktopProperties(this);
-            updateProperties(wprops.getProperties());
+            wprops = nfw WDfsktopPropfrtifs(tiis);
+            updbtfPropfrtifs(wprops.gftPropfrtifs());
         }
     }
 
     /*
-     * Called from lazilyLoadDesktopProperty because Windows doesn't
-     * always send WM_SETTINGCHANGE when it should.
+     * Cbllfd from lbzilyLobdDfsktopPropfrty bfdbusf Windows dofsn't
+     * blwbys sfnd WM_SETTINGCHANGE wifn it siould.
      */
-    private synchronized boolean isDynamicLayoutSupported() {
-        boolean nativeDynamic = isDynamicLayoutSupportedNative();
-        lazilyInitWProps();
-        Boolean prop = (Boolean) desktopProperties.get("awt.dynamicLayoutSupported");
+    privbtf syndironizfd boolfbn isDynbmidLbyoutSupportfd() {
+        boolfbn nbtivfDynbmid = isDynbmidLbyoutSupportfdNbtivf();
+        lbzilyInitWProps();
+        Boolfbn prop = (Boolfbn) dfsktopPropfrtifs.gft("bwt.dynbmidLbyoutSupportfd");
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("In WTK.isDynamicLayoutSupported()" +
-                      "   nativeDynamic == " + nativeDynamic +
-                      "   wprops.dynamic == " + prop);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("In WTK.isDynbmidLbyoutSupportfd()" +
+                      "   nbtivfDynbmid == " + nbtivfDynbmid +
+                      "   wprops.dynbmid == " + prop);
         }
 
-        if ((prop == null) || (nativeDynamic != prop.booleanValue())) {
-            // We missed the WM_SETTINGCHANGE, so we pretend
-            // we just got one - fire the propertyChange, etc.
-            windowsSettingChange();
-            return nativeDynamic;
+        if ((prop == null) || (nbtivfDynbmid != prop.boolfbnVbluf())) {
+            // Wf missfd tif WM_SETTINGCHANGE, so wf prftfnd
+            // wf just got onf - firf tif propfrtyCibngf, ftd.
+            windowsSfttingCibngf();
+            rfturn nbtivfDynbmid;
         }
 
-        return prop.booleanValue();
+        rfturn prop.boolfbnVbluf();
     }
 
     /*
-     * Called from native toolkit code when WM_SETTINGCHANGE message received
-     * Also called from lazilyLoadDynamicLayoutSupportedProperty because
-     * Windows doesn't always send WM_SETTINGCHANGE when it should.
+     * Cbllfd from nbtivf toolkit dodf wifn WM_SETTINGCHANGE mfssbgf rfdfivfd
+     * Also dbllfd from lbzilyLobdDynbmidLbyoutSupportfdPropfrty bfdbusf
+     * Windows dofsn't blwbys sfnd WM_SETTINGCHANGE wifn it siould.
      */
-    private void windowsSettingChange() {
-        // JDK-8039383: Have to update the value of XPSTYLE_THEME_ACTIVE property
-        // as soon as possible to prevent NPE and other errors because theme data
-        // has become unavailable.
-        final Map<String, Object> props = getWProps();
+    privbtf void windowsSfttingCibngf() {
+        // JDK-8039383: Hbvf to updbtf tif vbluf of XPSTYLE_THEME_ACTIVE propfrty
+        // bs soon bs possiblf to prfvfnt NPE bnd otifr frrors bfdbusf tifmf dbtb
+        // ibs bfdomf unbvbilbblf.
+        finbl Mbp<String, Objfdt> props = gftWProps();
         if (props == null) {
-            // props has not been initialized, so we have nothing to update
-            return;
+            // props ibs not bffn initiblizfd, so wf ibvf notiing to updbtf
+            rfturn;
         }
 
-        updateXPStyleEnabled(props.get(XPSTYLE_THEME_ACTIVE));
+        updbtfXPStylfEnbblfd(props.gft(XPSTYLE_THEME_ACTIVE));
 
-        if (AppContext.getAppContext() == null) {
-            // We cannot post the update to any EventQueue. Listeners will
-            // be called on EDTs by DesktopPropertyChangeSupport
-            updateProperties(props);
-        } else {
-            // Cannot update on Toolkit thread.
-            // DesktopPropertyChangeSupport will call listeners on Toolkit
-            // thread if it has AppContext (standalone mode)
-            EventQueue.invokeLater(() -> updateProperties(props));
+        if (AppContfxt.gftAppContfxt() == null) {
+            // Wf dbnnot post tif updbtf to bny EvfntQufuf. Listfnfrs will
+            // bf dbllfd on EDTs by DfsktopPropfrtyCibngfSupport
+            updbtfPropfrtifs(props);
+        } flsf {
+            // Cbnnot updbtf on Toolkit tirfbd.
+            // DfsktopPropfrtyCibngfSupport will dbll listfnfrs on Toolkit
+            // tirfbd if it ibs AppContfxt (stbndblonf modf)
+            EvfntQufuf.invokfLbtfr(() -> updbtfPropfrtifs(props));
         }
     }
 
-    private synchronized void updateProperties(final Map<String, Object> props) {
+    privbtf syndironizfd void updbtfPropfrtifs(finbl Mbp<String, Objfdt> props) {
         if (null == props) {
-            return;
+            rfturn;
         }
 
-        updateXPStyleEnabled(props.get(XPSTYLE_THEME_ACTIVE));
+        updbtfXPStylfEnbblfd(props.gft(XPSTYLE_THEME_ACTIVE));
 
-        for (String propName : props.keySet()) {
-            Object val = props.get(propName);
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("changed " + propName + " to " + val);
+        for (String propNbmf : props.kfySft()) {
+            Objfdt vbl = props.gft(propNbmf);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("dibngfd " + propNbmf + " to " + vbl);
             }
-            setDesktopProperty(propName, val);
+            sftDfsktopPropfrty(propNbmf, vbl);
         }
     }
 
-    private synchronized Map<String, Object> getWProps() {
-        return (wprops != null) ? wprops.getProperties() : null;
+    privbtf syndironizfd Mbp<String, Objfdt> gftWProps() {
+        rfturn (wprops != null) ? wprops.gftPropfrtifs() : null;
     }
 
-    private void updateXPStyleEnabled(final Object dskProp) {
-        ThemeReader.xpStyleEnabled = Boolean.TRUE.equals(dskProp);
+    privbtf void updbtfXPStylfEnbblfd(finbl Objfdt dskProp) {
+        TifmfRfbdfr.xpStylfEnbblfd = Boolfbn.TRUE.fqubls(dskProp);
     }
 
-    @Override
-    public synchronized void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        if (name == null) {
-            // See JavaDoc for the Toolkit.addPropertyChangeListener() method
-            return;
+    @Ovfrridf
+    publid syndironizfd void bddPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl) {
+        if (nbmf == null) {
+            // Sff JbvbDod for tif Toolkit.bddPropfrtyCibngfListfnfr() mftiod
+            rfturn;
         }
-        if ( WDesktopProperties.isWindowsProperty(name)
-             || name.startsWith(awtPrefix)
-             || name.startsWith(dndPrefix))
+        if ( WDfsktopPropfrtifs.isWindowsPropfrty(nbmf)
+             || nbmf.stbrtsWiti(bwtPrffix)
+             || nbmf.stbrtsWiti(dndPrffix))
         {
-            // someone is interested in Windows-specific desktop properties
-            // we should initialize wprops
-            lazilyInitWProps();
+            // somfonf is intfrfstfd in Windows-spfdifid dfsktop propfrtifs
+            // wf siould initiblizf wprops
+            lbzilyInitWProps();
         }
-        super.addPropertyChangeListener(name, pcl);
+        supfr.bddPropfrtyCibngfListfnfr(nbmf, pdl);
     }
 
     /*
-     * initialize only static props here and do not try to initialize props which depends on wprops,
-     * this should be done in lazilyLoadDesktopProperty() only.
+     * initiblizf only stbtid props ifrf bnd do not try to initiblizf props wiidi dfpfnds on wprops,
+     * tiis siould bf donf in lbzilyLobdDfsktopPropfrty() only.
      */
-    @Override
-    protected synchronized void initializeDesktopProperties() {
-        desktopProperties.put("DnD.Autoscroll.initialDelay",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.Autoscroll.interval",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.isDragImageSupported",
-                              Boolean.TRUE);
-        desktopProperties.put("Shell.shellFolderManager",
-                              "sun.awt.shell.Win32ShellFolderManager2");
+    @Ovfrridf
+    protfdtfd syndironizfd void initiblizfDfsktopPropfrtifs() {
+        dfsktopPropfrtifs.put("DnD.Autosdroll.initiblDflby",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.Autosdroll.intfrvbl",
+                              Intfgfr.vblufOf(50));
+        dfsktopPropfrtifs.put("DnD.isDrbgImbgfSupportfd",
+                              Boolfbn.TRUE);
+        dfsktopPropfrtifs.put("Sifll.sifllFoldfrMbnbgfr",
+                              "sun.bwt.sifll.Win32SifllFoldfrMbnbgfr2");
     }
 
     /*
-     * This returns the value for the desktop property "awt.font.desktophints"
-     * This requires that the Windows properties have already been gathered.
+     * Tiis rfturns tif vbluf for tif dfsktop propfrty "bwt.font.dfsktopiints"
+     * Tiis rfquirfs tibt tif Windows propfrtifs ibvf blrfbdy bffn gbtifrfd.
      */
-    @Override
-    protected synchronized RenderingHints getDesktopAAHints() {
+    @Ovfrridf
+    protfdtfd syndironizfd RfndfringHints gftDfsktopAAHints() {
         if (wprops == null) {
-            return null;
-        } else {
-            return wprops.getDesktopAAHints();
+            rfturn null;
+        } flsf {
+            rfturn wprops.gftDfsktopAAHints();
         }
     }
 
-    @Override
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return (modalityType == null) ||
-               (modalityType == Dialog.ModalityType.MODELESS) ||
-               (modalityType == Dialog.ModalityType.DOCUMENT_MODAL) ||
-               (modalityType == Dialog.ModalityType.APPLICATION_MODAL) ||
-               (modalityType == Dialog.ModalityType.TOOLKIT_MODAL);
+    @Ovfrridf
+    publid boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf) {
+        rfturn (modblityTypf == null) ||
+               (modblityTypf == Diblog.ModblityTypf.MODELESS) ||
+               (modblityTypf == Diblog.ModblityTypf.DOCUMENT_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.APPLICATION_MODAL) ||
+               (modblityTypf == Diblog.ModblityTypf.TOOLKIT_MODAL);
     }
 
-    @Override
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
-        return (exclusionType == null) ||
-               (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+    @Ovfrridf
+    publid boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf fxdlusionTypf) {
+        rfturn (fxdlusionTypf == null) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.NO_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.APPLICATION_EXCLUDE) ||
+               (fxdlusionTypf == Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE);
     }
 
-    public static WToolkit getWToolkit() {
-        WToolkit toolkit = (WToolkit)Toolkit.getDefaultToolkit();
-        return toolkit;
+    publid stbtid WToolkit gftWToolkit() {
+        WToolkit toolkit = (WToolkit)Toolkit.gftDffbultToolkit();
+        rfturn toolkit;
     }
 
     /**
-     * There are two reasons why we don't use buffer per window when
-     * Vista's DWM (aka Aero) is enabled:
-     * - since with DWM all windows are already double-buffered, the application
-     *   doesn't get expose events so we don't get to use our true back-buffer,
-     *   wasting memory and performance (this is valid for both d3d and gdi
-     *   pipelines)
-     * - in some cases with buffer per window enabled it is possible for the
-     *   paint manager to redirect rendering to the screen for some operations
-     *   (like copyArea), and since bpw uses its own BufferStrategy the
-     *   d3d onscreen rendering support is disabled and rendering goes through
-     *   GDI. This doesn't work well with Vista's DWM since one
-     *   can not perform GDI and D3D operations on the same surface
-     *   (see 6630702 for more info)
+     * Tifrf brf two rfbsons wiy wf don't usf bufffr pfr window wifn
+     * Vistb's DWM (bkb Afro) is fnbblfd:
+     * - sindf witi DWM bll windows brf blrfbdy doublf-bufffrfd, tif bpplidbtion
+     *   dofsn't gft fxposf fvfnts so wf don't gft to usf our truf bbdk-bufffr,
+     *   wbsting mfmory bnd pfrformbndf (tiis is vblid for boti d3d bnd gdi
+     *   pipflinfs)
+     * - in somf dbsfs witi bufffr pfr window fnbblfd it is possiblf for tif
+     *   pbint mbnbgfr to rfdirfdt rfndfring to tif sdrffn for somf opfrbtions
+     *   (likf dopyArfb), bnd sindf bpw usfs its own BufffrStrbtfgy tif
+     *   d3d onsdrffn rfndfring support is disbblfd bnd rfndfring gofs tirougi
+     *   GDI. Tiis dofsn't work wfll witi Vistb's DWM sindf onf
+     *   dbn not pfrform GDI bnd D3D opfrbtions on tif sbmf surfbdf
+     *   (sff 6630702 for morf info)
      *
-     * Note: even though DWM composition state can change during the lifetime
-     * of the application it is a rare event, and it is more often that it
-     * is temporarily disabled (because of some app) than it is getting
-     * permanently enabled so we can live with this approach without the
-     * complexity of dwm state listeners and such. This can be revisited if
-     * proved otherwise.
+     * Notf: fvfn tiougi DWM domposition stbtf dbn dibngf during tif lifftimf
+     * of tif bpplidbtion it is b rbrf fvfnt, bnd it is morf oftfn tibt it
+     * is tfmporbrily disbblfd (bfdbusf of somf bpp) tibn it is gftting
+     * pfrmbnfntly fnbblfd so wf dbn livf witi tiis bpprobdi witiout tif
+     * domplfxity of dwm stbtf listfnfrs bnd sudi. Tiis dbn bf rfvisitfd if
+     * provfd otifrwisf.
      */
-    @Override
-    public boolean useBufferPerWindow() {
-        return !Win32GraphicsEnvironment.isDWMCompositionEnabled();
+    @Ovfrridf
+    publid boolfbn usfBufffrPfrWindow() {
+        rfturn !Win32GrbpiidsEnvironmfnt.isDWMCompositionEnbblfd();
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void grab(Window w) {
-        if (w.getPeer() != null) {
-            ((WWindowPeer)w.getPeer()).grab();
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void grbb(Window w) {
+        if (w.gftPffr() != null) {
+            ((WWindowPffr)w.gftPffr()).grbb();
         }
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void ungrab(Window w) {
-        if (w.getPeer() != null) {
-           ((WWindowPeer)w.getPeer()).ungrab();
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void ungrbb(Window w) {
+        if (w.gftPffr() != null) {
+           ((WWindowPffr)w.gftPffr()).ungrbb();
         }
     }
 
-    @Override
-    public native boolean syncNativeQueue(final long timeout);
-    @Override
-    public boolean isDesktopSupported() {
-        return true;
+    @Ovfrridf
+    publid nbtivf boolfbn syndNbtivfQufuf(finbl long timfout);
+    @Ovfrridf
+    publid boolfbn isDfsktopSupportfd() {
+        rfturn truf;
     }
 
-    @Override
-    public DesktopPeer createDesktopPeer(Desktop target) {
-        return new WDesktopPeer();
+    @Ovfrridf
+    publid DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft) {
+        rfturn nfw WDfsktopPffr();
     }
 
-    private static native void setExtraMouseButtonsEnabledNative(boolean enable);
+    privbtf stbtid nbtivf void sftExtrbMousfButtonsEnbblfdNbtivf(boolfbn fnbblf);
 
-    @Override
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        return areExtraMouseButtonsEnabled;
+    @Ovfrridf
+    publid boolfbn brfExtrbMousfButtonsEnbblfd() tirows HfbdlfssExdfption {
+        rfturn brfExtrbMousfButtonsEnbblfd;
     }
 
-    private native synchronized int getNumberOfButtonsImpl();
+    privbtf nbtivf syndironizfd int gftNumbfrOfButtonsImpl();
 
-    @Override
-    public int getNumberOfButtons(){
-        if (numberOfButtons == 0) {
-            numberOfButtons = getNumberOfButtonsImpl();
+    @Ovfrridf
+    publid int gftNumbfrOfButtons(){
+        if (numbfrOfButtons == 0) {
+            numbfrOfButtons = gftNumbfrOfButtonsImpl();
         }
-        return (numberOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numberOfButtons;
+        rfturn (numbfrOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numbfrOfButtons;
     }
 
-    @Override
-    public boolean isWindowOpacitySupported() {
-        // supported in Win2K and later
-        return true;
+    @Ovfrridf
+    publid boolfbn isWindowOpbditySupportfd() {
+        // supportfd in Win2K bnd lbtfr
+        rfturn truf;
     }
 
-    @Override
-    public boolean isWindowShapingSupported() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isWindowSibpingSupportfd() {
+        rfturn truf;
     }
 
-    @Override
-    public boolean isWindowTranslucencySupported() {
-        // supported in Win2K and later
-        return true;
+    @Ovfrridf
+    publid boolfbn isWindowTrbnsludfndySupportfd() {
+        // supportfd in Win2K bnd lbtfr
+        rfturn truf;
     }
 
-    @Override
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        //XXX: worth checking if 8-bit? Anyway, it doesn't hurt.
-        return true;
+    @Ovfrridf
+    publid boolfbn isTrbnsludfndyCbpbblf(GrbpiidsConfigurbtion gd) {
+        //XXX: worti difdking if 8-bit? Anywby, it dofsn't iurt.
+        rfturn truf;
     }
 
-    // On MS Windows one must use the peer.updateWindow() to implement
-    // non-opaque windows.
-    @Override
-    public boolean needUpdateWindow() {
-        return true;
+    // On MS Windows onf must usf tif pffr.updbtfWindow() to implfmfnt
+    // non-opbquf windows.
+    @Ovfrridf
+    publid boolfbn nffdUpdbtfWindow() {
+        rfturn truf;
     }
 }

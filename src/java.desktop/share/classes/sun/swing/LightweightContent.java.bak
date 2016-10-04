@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.swing;
+pbdkbgf sun.swing;
 
-import javax.swing.JComponent;
-import java.awt.Cursor;
+import jbvbx.swing.JComponfnt;
+import jbvb.bwt.Cursor;
 
 /**
- * The interface by means of which the {@link JLightweightFrame} class
- * communicates to its client application.
+ * Tif intfrfbdf by mfbns of wiidi tif {@link JLigitwfigitFrbmf} dlbss
+ * dommunidbtfs to its dlifnt bpplidbtion.
  * <p>
- * The client application implements this interface so it can response
- * to requests and process notifications from {@code JLightweightFrame}.
- * An implementation of this interface is associated with a {@code
- * JLightweightFrame} instance via the {@link JLightweightFrame#setContent}
- * method.
+ * Tif dlifnt bpplidbtion implfmfnts tiis intfrfbdf so it dbn rfsponsf
+ * to rfqufsts bnd prodfss notifidbtions from {@dodf JLigitwfigitFrbmf}.
+ * An implfmfntbtion of tiis intfrfbdf is bssodibtfd witi b {@dodf
+ * JLigitwfigitFrbmf} instbndf vib tif {@link JLigitwfigitFrbmf#sftContfnt}
+ * mftiod.
  *
- * A hierarchy of components contained in the {@code JComponent} instance
- * returned by the {@link #getComponent} method should not contain any
- * heavyweight components, otherwise {@code JLightweightFrame} may fail
- * to paint it.
+ * A iifrbrdiy of domponfnts dontbinfd in tif {@dodf JComponfnt} instbndf
+ * rfturnfd by tif {@link #gftComponfnt} mftiod siould not dontbin bny
+ * ifbvywfigit domponfnts, otifrwisf {@dodf JLigitwfigitFrbmf} mby fbil
+ * to pbint it.
  *
- * @author Artem Ananiev
- * @author Anton Tarasov
- * @author Jim Graham
+ * @butior Artfm Anbnifv
+ * @butior Anton Tbrbsov
+ * @butior Jim Grbibm
  */
-public interface LightweightContent {
+publid intfrfbdf LigitwfigitContfnt {
 
     /**
-     * The client application overrides this method to return the {@code
-     * JComponent} instance which the {@code JLightweightFrame} container
-     * will paint as its lightweight content. A hierarchy of components
-     * contained in this component should not contain any heavyweight objects.
+     * Tif dlifnt bpplidbtion ovfrridfs tiis mftiod to rfturn tif {@dodf
+     * JComponfnt} instbndf wiidi tif {@dodf JLigitwfigitFrbmf} dontbinfr
+     * will pbint bs its ligitwfigit dontfnt. A iifrbrdiy of domponfnts
+     * dontbinfd in tiis domponfnt siould not dontbin bny ifbvywfigit objfdts.
      *
-     * @return the component to paint
+     * @rfturn tif domponfnt to pbint
      */
-    public JComponent getComponent();
+    publid JComponfnt gftComponfnt();
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that it acquires the paint lock. The client application
-     * should implement the locking mechanism in order to synchronize access
-     * to the content image data, shared between {@code JLightweightFrame}
-     * and the client application.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt it bdquirfs tif pbint lodk. Tif dlifnt bpplidbtion
+     * siould implfmfnt tif lodking mfdibnism in ordfr to syndironizf bddfss
+     * to tif dontfnt imbgf dbtb, sibrfd bftwffn {@dodf JLigitwfigitFrbmf}
+     * bnd tif dlifnt bpplidbtion.
      *
-     * @see #paintUnlock
+     * @sff #pbintUnlodk
      */
-    public void paintLock();
+    publid void pbintLodk();
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that it releases the paint lock. The client application
-     * should implement the locking mechanism in order to synchronize access
-     * to the content image data, shared between {@code JLightweightFrame}
-     * and the client application.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt it rflfbsfs tif pbint lodk. Tif dlifnt bpplidbtion
+     * siould implfmfnt tif lodking mfdibnism in ordfr to syndironizf bddfss
+     * to tif dontfnt imbgf dbtb, sibrfd bftwffn {@dodf JLigitwfigitFrbmf}
+     * bnd tif dlifnt bpplidbtion.
      *
-     * @see #paintLock
+     * @sff #pbintLodk
      */
-    public void paintUnlock();
+    publid void pbintUnlodk();
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that a new data buffer has been set as a content pixel
-     * buffer. Typically this occurs when a buffer of a larger size is
-     * created in response to a content resize event.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt b nfw dbtb bufffr ibs bffn sft bs b dontfnt pixfl
+     * bufffr. Typidblly tiis oddurs wifn b bufffr of b lbrgfr sizf is
+     * drfbtfd in rfsponsf to b dontfnt rfsizf fvfnt.
      * <p>
-     * The method reports a reference to the pixel data buffer, the content
-     * image bounds within the buffer and the line stride of the buffer.
-     * These values have the following correlation.
-     * The {@code width} and {@code height} matches the layout size of the content
-     * (the component returned from the {@link #getComponent} method). The
-     * {@code x} and {@code y} is the origin of the content, {@code (0, 0)}
-     * in the layout coordinate space of the content, appearing at
-     * {@code data[y * scale * linestride + x * scale]} in the buffer.
-     * A pixel with indices {@code (i, j)}, where {@code (0 <= i < width)} and
-     * {@code (0 <= j < height)}, in the layout coordinate space of the content
-     * is represented by a {@code scale^2} square of pixels in the physical
-     * coordinate space of the buffer. The top-left corner of the square has the
-     * following physical coordinate in the buffer:
-     * {@code data[(y + j) * scale * linestride + (x + i) * scale]}.
+     * Tif mftiod rfports b rfffrfndf to tif pixfl dbtb bufffr, tif dontfnt
+     * imbgf bounds witiin tif bufffr bnd tif linf stridf of tif bufffr.
+     * Tifsf vblufs ibvf tif following dorrflbtion.
+     * Tif {@dodf widti} bnd {@dodf ifigit} mbtdifs tif lbyout sizf of tif dontfnt
+     * (tif domponfnt rfturnfd from tif {@link #gftComponfnt} mftiod). Tif
+     * {@dodf x} bnd {@dodf y} is tif origin of tif dontfnt, {@dodf (0, 0)}
+     * in tif lbyout doordinbtf spbdf of tif dontfnt, bppfbring bt
+     * {@dodf dbtb[y * sdblf * linfstridf + x * sdblf]} in tif bufffr.
+     * A pixfl witi indidfs {@dodf (i, j)}, wifrf {@dodf (0 <= i < widti)} bnd
+     * {@dodf (0 <= j < ifigit)}, in tif lbyout doordinbtf spbdf of tif dontfnt
+     * is rfprfsfntfd by b {@dodf sdblf^2} squbrf of pixfls in tif piysidbl
+     * doordinbtf spbdf of tif bufffr. Tif top-lfft dornfr of tif squbrf ibs tif
+     * following piysidbl doordinbtf in tif bufffr:
+     * {@dodf dbtb[(y + j) * sdblf * linfstridf + (x + i) * sdblf]}.
      *
-     * @param data the content pixel data buffer of INT_ARGB_PRE type
-     * @param x the logical x coordinate of the image
-     * @param y the logical y coordinate of the image
-     * @param width the logical width of the image
-     * @param height the logical height of the image
-     * @param linestride the line stride of the pixel buffer
-     * @param scale the scale factor of the pixel buffer
+     * @pbrbm dbtb tif dontfnt pixfl dbtb bufffr of INT_ARGB_PRE typf
+     * @pbrbm x tif logidbl x doordinbtf of tif imbgf
+     * @pbrbm y tif logidbl y doordinbtf of tif imbgf
+     * @pbrbm widti tif logidbl widti of tif imbgf
+     * @pbrbm ifigit tif logidbl ifigit of tif imbgf
+     * @pbrbm linfstridf tif linf stridf of tif pixfl bufffr
+     * @pbrbm sdblf tif sdblf fbdtor of tif pixfl bufffr
      */
-    default public void imageBufferReset(int[] data,
+    dffbult publid void imbgfBufffrRfsft(int[] dbtb,
                                  int x, int y,
-                                 int width, int height,
-                                 int linestride,
-                                 int scale)
+                                 int widti, int ifigit,
+                                 int linfstridf,
+                                 int sdblf)
     {
-        imageBufferReset(data, x, y, width, height, linestride);
+        imbgfBufffrRfsft(dbtb, x, y, widti, ifigit, linfstridf);
     }
 
     /**
-     * The default implementation for #imageBufferReset uses a hard-coded value
-     * of 1 for the scale factor. Both the old and the new methods provide
-     * default implementations in order to allow a client application to run
-     * with any JDK version without breaking backward compatibility.
+     * Tif dffbult implfmfntbtion for #imbgfBufffrRfsft usfs b ibrd-dodfd vbluf
+     * of 1 for tif sdblf fbdtor. Boti tif old bnd tif nfw mftiods providf
+     * dffbult implfmfntbtions in ordfr to bllow b dlifnt bpplidbtion to run
+     * witi bny JDK vfrsion witiout brfbking bbdkwbrd dompbtibility.
      */
-    default public void imageBufferReset(int[] data,
+    dffbult publid void imbgfBufffrRfsft(int[] dbtb,
                                  int x, int y,
-                                 int width, int height,
-                                 int linestride)
+                                 int widti, int ifigit,
+                                 int linfstridf)
     {
-        imageBufferReset(data, x, y, width, height, linestride, 1);
+        imbgfBufffrRfsft(dbtb, x, y, widti, ifigit, linfstridf, 1);
     }
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the content image bounds have been changed within the
-     * image's pixel buffer.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif dontfnt imbgf bounds ibvf bffn dibngfd witiin tif
+     * imbgf's pixfl bufffr.
      *
-     * @param x the x coordinate of the image
-     * @param y the y coordinate of the image
-     * @param width the width of the image
-     * @param height the height of the image
+     * @pbrbm x tif x doordinbtf of tif imbgf
+     * @pbrbm y tif y doordinbtf of tif imbgf
+     * @pbrbm widti tif widti of tif imbgf
+     * @pbrbm ifigit tif ifigit of tif imbgf
      *
-     * @see #imageBufferReset
+     * @sff #imbgfBufffrRfsft
      */
-    public void imageReshaped(int x, int y, int width, int height);
+    publid void imbgfRfsibpfd(int x, int y, int widti, int ifigit);
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that a part of the content image, or the whole image has
-     * been updated. The method reports bounds of the rectangular dirty region.
-     * The {@code dirtyX} and {@code dirtyY} is the origin of the dirty
-     * rectangle, which is relative to the origin of the content, appearing
-     * at {@code data[(y + dirtyY] * linestride + (x + dirtyX)]} in the pixel
-     * buffer (see {@link #imageBufferReset}). All indices
-     * {@code data[(y + dirtyY + j) * linestride + (x + dirtyX + i)]} where
-     * {@code (0 <= i < dirtyWidth)} and {@code (0 <= j < dirtyHeight)}
-     * will represent valid pixel data, {@code (i, j)} in the coordinate space
-     * of the dirty rectangle.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt b pbrt of tif dontfnt imbgf, or tif wiolf imbgf ibs
+     * bffn updbtfd. Tif mftiod rfports bounds of tif rfdtbngulbr dirty rfgion.
+     * Tif {@dodf dirtyX} bnd {@dodf dirtyY} is tif origin of tif dirty
+     * rfdtbnglf, wiidi is rflbtivf to tif origin of tif dontfnt, bppfbring
+     * bt {@dodf dbtb[(y + dirtyY] * linfstridf + (x + dirtyX)]} in tif pixfl
+     * bufffr (sff {@link #imbgfBufffrRfsft}). All indidfs
+     * {@dodf dbtb[(y + dirtyY + j) * linfstridf + (x + dirtyX + i)]} wifrf
+     * {@dodf (0 <= i < dirtyWidti)} bnd {@dodf (0 <= j < dirtyHfigit)}
+     * will rfprfsfnt vblid pixfl dbtb, {@dodf (i, j)} in tif doordinbtf spbdf
+     * of tif dirty rfdtbnglf.
      *
-     * @param dirtyX the x coordinate of the dirty rectangle,
-     *        relative to the image origin
-     * @param dirtyY the y coordinate of the dirty rectangle,
-     *        relative to the image origin
-     * @param dirtyWidth the width of the dirty rectangle
-     * @param dirtyHeight the height of the dirty rectangle
+     * @pbrbm dirtyX tif x doordinbtf of tif dirty rfdtbnglf,
+     *        rflbtivf to tif imbgf origin
+     * @pbrbm dirtyY tif y doordinbtf of tif dirty rfdtbnglf,
+     *        rflbtivf to tif imbgf origin
+     * @pbrbm dirtyWidti tif widti of tif dirty rfdtbnglf
+     * @pbrbm dirtyHfigit tif ifigit of tif dirty rfdtbnglf
      *
-     * @see #imageBufferReset
-     * @see #imageReshaped
+     * @sff #imbgfBufffrRfsft
+     * @sff #imbgfRfsibpfd
      */
-    public void imageUpdated(int dirtyX, int dirtyY,
-                             int dirtyWidth, int dirtyHeight);
+    publid void imbgfUpdbtfd(int dirtyX, int dirtyY,
+                             int dirtyWidti, int dirtyHfigit);
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the frame has grabbed focus.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif frbmf ibs grbbbfd fodus.
      */
-    public void focusGrabbed();
+    publid void fodusGrbbbfd();
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the frame has ungrabbed focus.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif frbmf ibs ungrbbbfd fodus.
      */
-    public void focusUngrabbed();
+    publid void fodusUngrbbbfd();
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the content preferred size has changed.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif dontfnt prfffrrfd sizf ibs dibngfd.
      */
-    public void preferredSizeChanged(int width, int height);
+    publid void prfffrrfdSizfCibngfd(int widti, int ifigit);
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the content maximum size has changed.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif dontfnt mbximum sizf ibs dibngfd.
      */
-    public void maximumSizeChanged(int width, int height);
+    publid void mbximumSizfCibngfd(int widti, int ifigit);
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that the content minimum size has changed.
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt tif dontfnt minimum sizf ibs dibngfd.
      */
-    public void minimumSizeChanged(int width, int height);
+    publid void minimumSizfCibngfd(int widti, int ifigit);
 
     /**
-     * {@code JLightweightFrame} calls this method to notify the client
-     * application that in needs to set a cursor
-     * @param cursor a cursor to set
+     * {@dodf JLigitwfigitFrbmf} dblls tiis mftiod to notify tif dlifnt
+     * bpplidbtion tibt in nffds to sft b dursor
+     * @pbrbm dursor b dursor to sft
      */
-    default public void setCursor(Cursor cursor) { }
+    dffbult publid void sftCursor(Cursor dursor) { }
 }

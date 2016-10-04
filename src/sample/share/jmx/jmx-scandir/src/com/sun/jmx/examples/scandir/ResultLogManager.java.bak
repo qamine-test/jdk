@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,504 +30,504 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import static com.sun.jmx.examples.scandir.ScanManager.getNextSeqNumber;
-import com.sun.jmx.examples.scandir.config.ResultLogConfig;
-import com.sun.jmx.examples.scandir.config.XmlConfigUtils;
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
-import javax.xml.bind.JAXBException;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.gftNfxtSfqNumbfr;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultLogConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Collfdtions;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.xml.bind.JAXBExdfption;
 
 /**
- * The <code>ResultLogManager</code> is in charge of managing result logs.
- * {@link DirectoryScanner DirectoryScanners} can be configured to log a
- * {@link ResultRecord} whenever they take action upon a file that
- * matches their set of matching criteria.
- * The <code>ResultLogManagerMXBean</code> is responsible for storing these
- * results in its result logs.
- * <p>The <code>ResultLogManagerMXBean</code> can be configured to log
- * these records to a flat file, or into a log held in memory, or both.
- * Both logs (file and memory) can be configured with a maximum capacity.
- * <br>When the maximum capacity of the memory log is reached - its first
- * entry (i.e. its eldest entry) is removed to make place for the latest.
- * <br>When the maximum capacity of the file log is reached, the file is
- * renamed by appending a tilde '~' to its name and a new result log is created.
+ * Tif <dodf>RfsultLogMbnbgfr</dodf> is in dibrgf of mbnbging rfsult logs.
+ * {@link DirfdtorySdbnnfr DirfdtorySdbnnfrs} dbn bf donfigurfd to log b
+ * {@link RfsultRfdord} wifnfvfr tify tbkf bdtion upon b filf tibt
+ * mbtdifs tifir sft of mbtdiing dritfrib.
+ * Tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is rfsponsiblf for storing tifsf
+ * rfsults in its rfsult logs.
+ * <p>Tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf> dbn bf donfigurfd to log
+ * tifsf rfdords to b flbt filf, or into b log ifld in mfmory, or boti.
+ * Boti logs (filf bnd mfmory) dbn bf donfigurfd witi b mbximum dbpbdity.
+ * <br>Wifn tif mbximum dbpbdity of tif mfmory log is rfbdifd - its first
+ * fntry (i.f. its fldfst fntry) is rfmovfd to mbkf plbdf for tif lbtfst.
+ * <br>Wifn tif mbximum dbpbdity of tif filf log is rfbdifd, tif filf is
+ * rfnbmfd by bppfnding b tildf '~' to its nbmf bnd b nfw rfsult log is drfbtfd.
  *
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class ResultLogManager extends NotificationBroadcasterSupport
-        implements ResultLogManagerMXBean, MBeanRegistration {
+publid dlbss RfsultLogMbnbgfr fxtfnds NotifidbtionBrobddbstfrSupport
+        implfmfnts RfsultLogMbnbgfrMXBfbn, MBfbnRfgistrbtion {
 
     /**
-     * The default singleton name of the {@link ResultLogManagerMXBean}.
+     * Tif dffbult singlfton nbmf of tif {@link RfsultLogMbnbgfrMXBfbn}.
      **/
-    public static final ObjectName RESULT_LOG_MANAGER_NAME =
-            ScanManager.makeSingletonName(ResultLogManagerMXBean.class);
+    publid stbtid finbl ObjfdtNbmf RESULT_LOG_MANAGER_NAME =
+            SdbnMbnbgfr.mbkfSinglftonNbmf(RfsultLogMbnbgfrMXBfbn.dlbss);
 
     /**
-     * A logger for this class.
+     * A loggfr for tiis dlbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ResultLogManager.class.getName());
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(RfsultLogMbnbgfr.dlbss.gftNbmf());
 
-    // The memory log
+    // Tif mfmory log
     //
-    private final List<ResultRecord> memoryLog;
+    privbtf finbl List<RfsultRfdord> mfmoryLog;
 
-    // Whether the memory log capacity was reached. In that case every
-    // new entry triggers the deletion of the eldest one.
+    // Wiftifr tif mfmory log dbpbdity wbs rfbdifd. In tibt dbsf fvfry
+    // nfw fntry triggfrs tif dflftion of tif fldfst onf.
     //
-    private volatile boolean memCapacityReached = false;
+    privbtf volbtilf boolfbn mfmCbpbdityRfbdifd = fblsf;
 
-    // The maximum number of record that the memory log can
-    // contain.
+    // Tif mbximum numbfr of rfdord tibt tif mfmory log dbn
+    // dontbin.
     //
-    private volatile int memCapacity;
+    privbtf volbtilf int mfmCbpbdity;
 
-    // The maximum number of record that the ResultLogManager can
-    // log in the log file before creating a new file.
+    // Tif mbximum numbfr of rfdord tibt tif RfsultLogMbnbgfr dbn
+    // log in tif log filf bfforf drfbting b nfw filf.
     //
-    private volatile long fileCapacity;
+    privbtf volbtilf long filfCbpbdity;
 
-    // The current log file.
+    // Tif durrfnt log filf.
     //
-    private volatile File logFile;
+    privbtf volbtilf Filf logFilf;
 
-    // The OutputStream of the current log file.
+    // Tif OutputStrfbm of tif durrfnt log filf.
     //
-    private volatile OutputStream logStream = null;
+    privbtf volbtilf OutputStrfbm logStrfbm = null;
 
-    // number of record that this object has logged in the log file
-    // since the log file was created. Creating a new file or clearing
-    // the log file reset this value to '0'
+    // numbfr of rfdord tibt tiis objfdt ibs loggfd in tif log filf
+    // sindf tif log filf wbs drfbtfd. Crfbting b nfw filf or dlfbring
+    // tif log filf rfsft tiis vbluf to '0'
     //
-    private volatile long logCount = 0;
+    privbtf volbtilf long logCount = 0;
 
-    // The ResultLogManager config - modified whenever
-    // ScanManager.applyConfiguration is called.
+    // Tif RfsultLogMbnbgfr donfig - modififd wifnfvfr
+    // SdbnMbnbgfr.bpplyConfigurbtion is dbllfd.
     //
-    private volatile ResultLogConfig config;
+    privbtf volbtilf RfsultLogConfig donfig;
 
     /**
-     * Create a new ResultLogManagerMXBean. This constructor is package
-     * protected: only the {@link ScanManager} can create a
-     * <code>ResultLogManager</code>.
+     * Crfbtf b nfw RfsultLogMbnbgfrMXBfbn. Tiis donstrudtor is pbdkbgf
+     * protfdtfd: only tif {@link SdbnMbnbgfr} dbn drfbtf b
+     * <dodf>RfsultLogMbnbgfr</dodf>.
      **/
-    ResultLogManager() {
-        // Instantiate the memory log - override the add() method so that
-        // it removes the head of the list when the maximum capacity is
-        // reached. Note that add() is the only method we will be calling,
-        // otherwise we would have to override all the other flavors
-        // of adding methods. Note also that this implies that the memoryLog
-        // will *always* remain encapsulated in this object and is *never*
-        // handed over (otherwise we wouldn't be able to ensure that
-        // add() is the only method ever called to add a record).
+    RfsultLogMbnbgfr() {
+        // Instbntibtf tif mfmory log - ovfrridf tif bdd() mftiod so tibt
+        // it rfmovfs tif ifbd of tif list wifn tif mbximum dbpbdity is
+        // rfbdifd. Notf tibt bdd() is tif only mftiod wf will bf dblling,
+        // otifrwisf wf would ibvf to ovfrridf bll tif otifr flbvors
+        // of bdding mftiods. Notf blso tibt tiis implifs tibt tif mfmoryLog
+        // will *blwbys* rfmbin fndbpsulbtfd in tiis objfdt bnd is *nfvfr*
+        // ibndfd ovfr (otifrwisf wf wouldn't bf bblf to fnsurf tibt
+        // bdd() is tif only mftiod fvfr dbllfd to bdd b rfdord).
         //
-        memoryLog =
-                Collections.synchronizedList(new LinkedList<ResultRecord>() {
-            public synchronized boolean add(ResultRecord e) {
-                final int max = getMemoryLogCapacity();
-                while (max > 0 && size() >= max) {
-                    memCapacityReached = true;
-                    removeFirst();
+        mfmoryLog =
+                Collfdtions.syndironizfdList(nfw LinkfdList<RfsultRfdord>() {
+            publid syndironizfd boolfbn bdd(RfsultRfdord f) {
+                finbl int mbx = gftMfmoryLogCbpbdity();
+                wiilf (mbx > 0 && sizf() >= mbx) {
+                    mfmCbpbdityRfbdifd = truf;
+                    rfmovfFirst();
                 }
-                return super.add(e);
+                rfturn supfr.bdd(f);
             }
         });
 
-        // default memory capacity
-        memCapacity = 2048;
+        // dffbult mfmory dbpbdity
+        mfmCbpbdity = 2048;
 
-        // default file capacity: 0 means infinite ;-)
-        fileCapacity = 0;
+        // dffbult filf dbpbdity: 0 mfbns infinitf ;-)
+        filfCbpbdity = 0;
 
-        // by default logging to file is disabled.
-        logFile = null;
+        // by dffbult logging to filf is disbblfd.
+        logFilf = null;
 
-        // Until the ScanManager apply a new configuration, we're going to
-        // work with a default ResultLogConfig object.
-        config = new ResultLogConfig();
-        config.setMemoryMaxRecords(memCapacity);
-        config.setLogFileName(getLogFileName(false));
-        config.setLogFileMaxRecords(fileCapacity);
+        // Until tif SdbnMbnbgfr bpply b nfw donfigurbtion, wf'rf going to
+        // work witi b dffbult RfsultLogConfig objfdt.
+        donfig = nfw RfsultLogConfig();
+        donfig.sftMfmoryMbxRfdords(mfmCbpbdity);
+        donfig.sftLogFilfNbmf(gftLogFilfNbmf(fblsf));
+        donfig.sftLogFilfMbxRfdords(filfCbpbdity);
     }
 
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * registered in the MBean server.
-     * <p>If the name of the MBean is not
-     * specified, the MBean can provide a name for its registration. If
-     * any exception is raised, the MBean will not be registered in the
-     * MBean server.</p>
-     * <p>The {@code ResultLogManager} uses this method to supply its own
-     * default singleton ObjectName (if <var>name</var> parameter is null).
-     * @param server The MBean server in which the MBean will be registered.
-     * @param name The object name of the MBean. This name is null if the
-     * name parameter to one of the createMBean or registerMBean methods in
-     * the MBeanServer interface is null. In that case, this method must
-     * return a non-null ObjectName for the new MBean.
-     * @return The name under which the MBean is to be registered. This value
-     * must not be null. If the name parameter is not null, it will usually
-     * but not necessarily be the returned value.
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * <p>If tif nbmf of tif MBfbn is not
+     * spfdififd, tif MBfbn dbn providf b nbmf for its rfgistrbtion. If
+     * bny fxdfption is rbisfd, tif MBfbn will not bf rfgistfrfd in tif
+     * MBfbn sfrvfr.</p>
+     * <p>Tif {@dodf RfsultLogMbnbgfr} usfs tiis mftiod to supply its own
+     * dffbult singlfton ObjfdtNbmf (if <vbr>nbmf</vbr> pbrbmftfr is null).
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif MBfbn will bf rfgistfrfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Tiis nbmf is null if tif
+     * nbmf pbrbmftfr to onf of tif drfbtfMBfbn or rfgistfrMBfbn mftiods in
+     * tif MBfbnSfrvfr intfrfbdf is null. In tibt dbsf, tiis mftiod must
+     * rfturn b non-null ObjfdtNbmf for tif nfw MBfbn.
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd. Tiis vbluf
+     * must not bf null. If tif nbmf pbrbmftfr is not null, it will usublly
+     * but not nfdfssbrily bf tif rfturnfd vbluf.
+     * @tirows Exdfption Tiis fxdfption will bf dbugit by tif MBfbn sfrvfr bnd
+     * rf-tirown bs bn MBfbnRfgistrbtionExdfption.
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-    throws Exception {
-        if (name == null)
-            name = RESULT_LOG_MANAGER_NAME;
-        objectName = name;
-        mbeanServer = server;
-        return name;
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+    tirows Exdfption {
+        if (nbmf == null)
+            nbmf = RESULT_LOG_MANAGER_NAME;
+        objfdtNbmf = nbmf;
+        mbfbnSfrvfr = sfrvfr;
+        rfturn nbmf;
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having
-     * been registered in the MBean server or after the registration has
-     * failed.
-     * <p>This implementation does nothing.</p>
-     * @param registrationDone Indicates whether or not the MBean has been
-     * successfully registered in the MBean server. The value false means
-     * that the registration has failed.
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving
+     * bffn rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs
+     * fbilfd.
+     * <p>Tiis implfmfntbtion dofs notiing.</p>
+     * @pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs bffn
+     * suddfssfully rfgistfrfd in tif MBfbn sfrvfr. Tif vbluf fblsf mfbns
+     * tibt tif rfgistrbtion ibs fbilfd.
      */
-    public void postRegister(Boolean registrationDone) {
-        // Don't need to do anything here.
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        // Don't nffd to do bnytiing ifrf.
     }
 
     /**
-     * Allows the MBean to perform any operations it needs before being
-     * unregistered by the MBean server.
-     * <p>This implementation does nothing.</p>
-     * @throws Exception This exception will be caught by the MBean server and
-     * re-thrown as an MBeanRegistrationException.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * unrfgistfrfd by tif MBfbn sfrvfr.
+     * <p>Tiis implfmfntbtion dofs notiing.</p>
+     * @tirows Exdfption Tiis fxdfption will bf dbugit by tif MBfbn sfrvfr bnd
+     * rf-tirown bs bn MBfbnRfgistrbtionExdfption.
      */
-    public void preDeregister() throws Exception {
-        // Don't need to do anything here.
+    publid void prfDfrfgistfr() tirows Exdfption {
+        // Don't nffd to do bnytiing ifrf.
     }
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * <p>Closes the log file stream, if it is still open.</p>
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd in tif MBfbn sfrvfr.
+     * <p>Closfs tif log filf strfbm, if it is still opfn.</p>
      */
-    public void postDeregister() {
+    publid void postDfrfgistfr() {
         try {
-            if (logStream != null) {
-                synchronized(this)  {
-                    logStream.flush();
-                    logStream.close();
-                    logFile = null;
-                    logStream = null;
+            if (logStrfbm != null) {
+                syndironizfd(tiis)  {
+                    logStrfbm.flusi();
+                    logStrfbm.dlosf();
+                    logFilf = null;
+                    logStrfbm = null;
                 }
             }
-        } catch (Exception x) {
-            LOG.finest("Failed to close log properly: "+x);
+        } dbtdi (Exdfption x) {
+            LOG.finfst("Fbilfd to dlosf log propfrly: "+x);
         }
     }
 
     /**
-     * Create a new empty log file from the given basename, renaming
-     * previously existing file by appending '~' to its name.
+     * Crfbtf b nfw fmpty log filf from tif givfn bbsfnbmf, rfnbming
+     * prfviously fxisting filf by bppfnding '~' to its nbmf.
      **/
-    private File createNewLogFile(String basename) throws IOException {
-        return XmlConfigUtils.createNewXmlFile(basename);
+    privbtf Filf drfbtfNfwLogFilf(String bbsfnbmf) tirows IOExdfption {
+        rfturn XmlConfigUtils.drfbtfNfwXmlFilf(bbsfnbmf);
     }
 
     /**
-     * Check whether a new log file should be created.
-     * If a new file needs to be created, creates it, renaming
-     * previously existing file by appending '~' to its name.
-     * Also reset the log count and file capacity.
-     * Sends a notification indicating that the log file was changed.
-     * Returns the new log stream;
-     * Creation of a new file can be forced by passing force=true.
+     * Cifdk wiftifr b nfw log filf siould bf drfbtfd.
+     * If b nfw filf nffds to bf drfbtfd, drfbtfs it, rfnbming
+     * prfviously fxisting filf by bppfnding '~' to its nbmf.
+     * Also rfsft tif log dount bnd filf dbpbdity.
+     * Sfnds b notifidbtion indidbting tibt tif log filf wbs dibngfd.
+     * Rfturns tif nfw log strfbm;
+     * Crfbtion of b nfw filf dbn bf fordfd by pbssing fordf=truf.
      **/
-    private OutputStream checkLogFile(String basename, long maxRecords,
-                                      boolean force)
-    throws IOException {
-        final OutputStream newStream;
-        synchronized(this) {
-            if ((force==false) && (logCount < maxRecords))
-                return logStream;
-            final OutputStream oldStream = logStream;
+    privbtf OutputStrfbm difdkLogFilf(String bbsfnbmf, long mbxRfdords,
+                                      boolfbn fordf)
+    tirows IOExdfption {
+        finbl OutputStrfbm nfwStrfbm;
+        syndironizfd(tiis) {
+            if ((fordf==fblsf) && (logCount < mbxRfdords))
+                rfturn logStrfbm;
+            finbl OutputStrfbm oldStrfbm = logStrfbm;
 
-            // First close the stream. On some platforms you cannot rename
-            // a file that has open streams...
+            // First dlosf tif strfbm. On somf plbtforms you dbnnot rfnbmf
+            // b filf tibt ibs opfn strfbms...
             //
-            if (oldStream != null) {
-                oldStream.flush();
-                oldStream.close();
+            if (oldStrfbm != null) {
+                oldStrfbm.flusi();
+                oldStrfbm.dlosf();
             }
-            final File newFile = (basename==null)?null:createNewLogFile(basename);
+            finbl Filf nfwFilf = (bbsfnbmf==null)?null:drfbtfNfwLogFilf(bbsfnbmf);
 
-            newStream = (newFile==null)?null:new FileOutputStream(newFile,true);
-            logStream = newStream;
-            logFile = newFile;
-            fileCapacity = maxRecords;
+            nfwStrfbm = (nfwFilf==null)?null:nfw FilfOutputStrfbm(nfwFilf,truf);
+            logStrfbm = nfwStrfbm;
+            logFilf = nfwFilf;
+            filfCbpbdity = mbxRfdords;
             logCount = 0;
         }
-        sendNotification(new Notification(LOG_FILE_CHANGED,objectName,
-                getNextSeqNumber(),
-                basename));
-        return newStream;
+        sfndNotifidbtion(nfw Notifidbtion(LOG_FILE_CHANGED,objfdtNbmf,
+                gftNfxtSfqNumbfr(),
+                bbsfnbmf));
+        rfturn nfwStrfbm;
     }
 
-    // see ResultLogManagerMXBean
-    public void log(ResultRecord record)
-    throws IOException {
-        if (memCapacity > 0) logToMemory(record);
-        if (logFile != null) logToFile(record);
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void log(RfsultRfdord rfdord)
+    tirows IOExdfption {
+        if (mfmCbpbdity > 0) logToMfmory(rfdord);
+        if (logFilf != null) logToFilf(rfdord);
     }
 
-    // see ResultLogManagerMXBean
-    public ResultRecord[] getMemoryLog() {
-        return memoryLog.toArray(new ResultRecord[0]);
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid RfsultRfdord[] gftMfmoryLog() {
+        rfturn mfmoryLog.toArrby(nfw RfsultRfdord[0]);
     }
 
-    // see ResultLogManagerMXBean
-    public int getMemoryLogCapacity() {
-        return memCapacity;
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid int gftMfmoryLogCbpbdity() {
+        rfturn mfmCbpbdity;
     }
 
-    // see ResultLogManagerMXBean
-    public void setMemoryLogCapacity(int maxRecords)  {
-        synchronized(this) {
-            memCapacity = maxRecords;
-            if (memoryLog.size() < memCapacity)
-                memCapacityReached = false;
-            config.setMemoryMaxRecords(maxRecords);
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void sftMfmoryLogCbpbdity(int mbxRfdords)  {
+        syndironizfd(tiis) {
+            mfmCbpbdity = mbxRfdords;
+            if (mfmoryLog.sizf() < mfmCbpbdity)
+                mfmCbpbdityRfbdifd = fblsf;
+            donfig.sftMfmoryMbxRfdords(mbxRfdords);
         }
     }
 
-    // see ResultLogManagerMXBean
-    public void setLogFileCapacity(long maxRecords)
-    throws IOException {
-        synchronized (this) {
-            fileCapacity = maxRecords;
-            config.setLogFileMaxRecords(maxRecords);
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void sftLogFilfCbpbdity(long mbxRfdords)
+    tirows IOExdfption {
+        syndironizfd (tiis) {
+            filfCbpbdity = mbxRfdords;
+            donfig.sftLogFilfMbxRfdords(mbxRfdords);
         }
-        checkLogFile(getLogFileName(),fileCapacity,false);
+        difdkLogFilf(gftLogFilfNbmf(),filfCbpbdity,fblsf);
     }
 
-    // see ResultLogManagerMXBean
-    public long getLogFileCapacity()  {
-        return fileCapacity;
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid long gftLogFilfCbpbdity()  {
+        rfturn filfCbpbdity;
     }
 
-    // see ResultLogManagerMXBean
-    public long getLoggedCount() {
-        return logCount;
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid long gftLoggfdCount() {
+        rfturn logCount;
     }
 
-    // see ResultLogManagerMXBean
-    public void newLogFile(String logname, long maxRecord)
-    throws IOException {
-        checkLogFile(logname,maxRecord,true);
-        config.setLogFileName(getLogFileName(false));
-        config.setLogFileMaxRecords(getLogFileCapacity());
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void nfwLogFilf(String lognbmf, long mbxRfdord)
+    tirows IOExdfption {
+        difdkLogFilf(lognbmf,mbxRfdord,truf);
+        donfig.sftLogFilfNbmf(gftLogFilfNbmf(fblsf));
+        donfig.sftLogFilfMbxRfdords(gftLogFilfCbpbdity());
     }
 
-    // see ResultLogManagerMXBean
-    public String getLogFileName() {
-        return getLogFileName(true);
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid String gftLogFilfNbmf() {
+        rfturn gftLogFilfNbmf(truf);
     }
 
-    // see ResultLogManagerMXBean
-    public void clearLogs() throws IOException {
-        clearMemoryLog();
-        clearLogFile();
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void dlfbrLogs() tirows IOExdfption {
+        dlfbrMfmoryLog();
+        dlfbrLogFilf();
     }
 
-    // Clear the memory log, sends a notification indicating that
-    // the memory log was cleared.
+    // Clfbr tif mfmory log, sfnds b notifidbtion indidbting tibt
+    // tif mfmory log wbs dlfbrfd.
     //
-    private void clearMemoryLog()throws IOException {
-        synchronized(this) {
-            memoryLog.clear();
-            memCapacityReached = false;
+    privbtf void dlfbrMfmoryLog()tirows IOExdfption {
+        syndironizfd(tiis) {
+            mfmoryLog.dlfbr();
+            mfmCbpbdityRfbdifd = fblsf;
         }
-        sendNotification(new Notification(MEMORY_LOG_CLEARED,
-                objectName,
-                getNextSeqNumber(),"memory log cleared"));
+        sfndNotifidbtion(nfw Notifidbtion(MEMORY_LOG_CLEARED,
+                objfdtNbmf,
+                gftNfxtSfqNumbfr(),"mfmory log dlfbrfd"));
     }
 
-    // Clears the log file.
+    // Clfbrs tif log filf.
     //
-    private void clearLogFile() throws IOException {
-        // simply force the creation of a new log file.
-        checkLogFile(getLogFileName(),fileCapacity,true);
+    privbtf void dlfbrLogFilf() tirows IOExdfption {
+        // simply fordf tif drfbtion of b nfw log filf.
+        difdkLogFilf(gftLogFilfNbmf(),filfCbpbdity,truf);
     }
 
-    // Log a record to the memory log. Send a notification if the
-    // maximum capacity of the memory log is reached.
+    // Log b rfdord to tif mfmory log. Sfnd b notifidbtion if tif
+    // mbximum dbpbdity of tif mfmory log is rfbdifd.
     //
-    private void logToMemory(ResultRecord record) {
+    privbtf void logToMfmory(RfsultRfdord rfdord) {
 
-        final boolean before = memCapacityReached;
-        final boolean after;
-        synchronized(this) {
-            memoryLog.add(record);
-            after = memCapacityReached;
+        finbl boolfbn bfforf = mfmCbpbdityRfbdifd;
+        finbl boolfbn bftfr;
+        syndironizfd(tiis) {
+            mfmoryLog.bdd(rfdord);
+            bftfr = mfmCbpbdityRfbdifd;
         }
-        if (before==false && after==true)
-            sendNotification(new Notification(MEMORY_LOG_MAX_CAPACITY,
-                    objectName,
-                    getNextSeqNumber(),"memory log capacity reached"));
+        if (bfforf==fblsf && bftfr==truf)
+            sfndNotifidbtion(nfw Notifidbtion(MEMORY_LOG_MAX_CAPACITY,
+                    objfdtNbmf,
+                    gftNfxtSfqNumbfr(),"mfmory log dbpbdity rfbdifd"));
     }
 
 
-    // Log a record to the memory log. Send a notification if the
-    // maximum capacity of the memory log is reached.
+    // Log b rfdord to tif mfmory log. Sfnd b notifidbtion if tif
+    // mbximum dbpbdity of tif mfmory log is rfbdifd.
     //
-    private void logToFile(ResultRecord record) throws IOException {
-        final String basename;
-        final long   maxRecords;
-        synchronized (this) {
-            if (logFile == null) return;
-            basename = getLogFileName(false);
-            maxRecords = fileCapacity;
+    privbtf void logToFilf(RfsultRfdord rfdord) tirows IOExdfption {
+        finbl String bbsfnbmf;
+        finbl long   mbxRfdords;
+        syndironizfd (tiis) {
+            if (logFilf == null) rfturn;
+            bbsfnbmf = gftLogFilfNbmf(fblsf);
+            mbxRfdords = filfCbpbdity;
         }
 
-        // Get the stream into which we should log.
-        final OutputStream stream =
-                checkLogFile(basename,maxRecords,false);
+        // Gft tif strfbm into wiidi wf siould log.
+        finbl OutputStrfbm strfbm =
+                difdkLogFilf(bbsfnbmf,mbxRfdords,fblsf);
 
-        // logging to file now disabled - too bad.
-        if (stream == null) return;
+        // logging to filf now disbblfd - too bbd.
+        if (strfbm == null) rfturn;
 
-        synchronized (this) {
+        syndironizfd (tiis) {
             try {
-                XmlConfigUtils.write(record,stream,true);
-                stream.flush();
-                // don't increment logCount if we were not logging in logStream.
-                if (stream == logStream) logCount++;
-            } catch (JAXBException x) {
-                final IllegalArgumentException iae =
-                        new IllegalArgumentException("bad record",x);
-                LOG.finest("Failed to log record: "+x);
-                throw iae;
+                XmlConfigUtils.writf(rfdord,strfbm,truf);
+                strfbm.flusi();
+                // don't indrfmfnt logCount if wf wfrf not logging in logStrfbm.
+                if (strfbm == logStrfbm) logCount++;
+            } dbtdi (JAXBExdfption x) {
+                finbl IllfgblArgumfntExdfption ibf =
+                        nfw IllfgblArgumfntExdfption("bbd rfdord",x);
+                LOG.finfst("Fbilfd to log rfdord: "+x);
+                tirow ibf;
             }
         }
     }
 
     /**
-     * The notification type which indicates that the log file was switched:
-     * <i>com.sun.jmx.examples.scandir.log.file.switched</i>.
-     * The message contains the name of the new file (or null if log to file
-     * is now disabled).
+     * Tif notifidbtion typf wiidi indidbtfs tibt tif log filf wbs switdifd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdifd</i>.
+     * Tif mfssbgf dontbins tif nbmf of tif nfw filf (or null if log to filf
+     * is now disbblfd).
      **/
-    public final static String LOG_FILE_CHANGED =
-            "com.sun.jmx.examples.scandir.log.file.switched";
+    publid finbl stbtid String LOG_FILE_CHANGED =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdifd";
 
     /**
-     * The notification type which indicates that the memory log capacity has
-     * been reached:
-     * <i>com.sun.jmx.examples.scandir.log.memory.full</i>.
+     * Tif notifidbtion typf wiidi indidbtfs tibt tif mfmory log dbpbdity ibs
+     * bffn rfbdifd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full</i>.
      **/
-    public final static String MEMORY_LOG_MAX_CAPACITY =
-            "com.sun.jmx.examples.scandir.log.memory.full";
+    publid finbl stbtid String MEMORY_LOG_MAX_CAPACITY =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full";
 
     /**
-     * The notification type which indicates that the memory log was
-     * cleared:
-     * <i>com.sun.jmx.examples.scandir.log.memory.cleared</i>.
+     * Tif notifidbtion typf wiidi indidbtfs tibt tif mfmory log wbs
+     * dlfbrfd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd</i>.
      **/
-    public final static String MEMORY_LOG_CLEARED =
-            "com.sun.jmx.examples.scandir.log.memory.cleared";
+    publid finbl stbtid String MEMORY_LOG_CLEARED =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd";
 
     /**
-     * This MBean emits three kind of notifications:
-     * <pre>
-     *    <i>com.sun.jmx.examples.scandir.log.file.switched</i>
-     *    <i>com.sun.jmx.examples.scandir.log.memory.full</i>
-     *    <i>com.sun.jmx.examples.scandir.log.memory.cleared</i>
-     * </pre>
+     * Tiis MBfbn fmits tirff kind of notifidbtions:
+     * <prf>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdifd</i>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full</i>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd</i>
+     * </prf>
      **/
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(new String[] {
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
                 LOG_FILE_CHANGED},
-                    Notification.class.getName(),
-                    "Emitted when the log file is switched")
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn tif log filf is switdifd")
                     ,
-            new MBeanNotificationInfo(new String[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
                 MEMORY_LOG_MAX_CAPACITY},
-                    Notification.class.getName(),
-                    "Emitted when the memory log capacity is reached")
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn tif mfmory log dbpbdity is rfbdifd")
                     ,
-            new MBeanNotificationInfo(new String[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
                 MEMORY_LOG_CLEARED},
-                    Notification.class.getName(),
-                    "Emitted when the memory log is cleared")
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd wifn tif mfmory log is dlfbrfd")
         };
     }
 
-    // Return the name of the log file, or null if logging to file is
-    // disabled.
-    private String getLogFileName(boolean absolute) {
-        synchronized (this) {
-            if (logFile == null) return null;
-            if (absolute) return logFile.getAbsolutePath();
-            return logFile.getPath();
+    // Rfturn tif nbmf of tif log filf, or null if logging to filf is
+    // disbblfd.
+    privbtf String gftLogFilfNbmf(boolfbn bbsolutf) {
+        syndironizfd (tiis) {
+            if (logFilf == null) rfturn null;
+            if (bbsolutf) rfturn logFilf.gftAbsolutfPbti();
+            rfturn logFilf.gftPbti();
         }
     }
 
-    // This method is be called by the ScanManagerMXBean when a configuration
-    // is applied.
+    // Tiis mftiod is bf dbllfd by tif SdbnMbnbgfrMXBfbn wifn b donfigurbtion
+    // is bpplifd.
     //
-    void setConfig(ResultLogConfig logConfigBean) throws IOException {
-        if (logConfigBean == null)
-            throw new IllegalArgumentException("logConfigBean is null");
-        synchronized (this) {
-            config = logConfigBean;
-            setMemoryLogCapacity(config.getMemoryMaxRecords());
+    void sftConfig(RfsultLogConfig logConfigBfbn) tirows IOExdfption {
+        if (logConfigBfbn == null)
+            tirow nfw IllfgblArgumfntExdfption("logConfigBfbn is null");
+        syndironizfd (tiis) {
+            donfig = logConfigBfbn;
+            sftMfmoryLogCbpbdity(donfig.gftMfmoryMbxRfdords());
         }
-        final String filename = config.getLogFileName();
-        final String logname  = getLogFileName(false);
-        if ((filename != null && !filename.equals(logname))
-        || (filename == null && logname != null)) {
-            newLogFile(config.getLogFileName(),
-                    config.getLogFileMaxRecords());
-        } else {
-            setLogFileCapacity(config.getLogFileMaxRecords());
+        finbl String filfnbmf = donfig.gftLogFilfNbmf();
+        finbl String lognbmf  = gftLogFilfNbmf(fblsf);
+        if ((filfnbmf != null && !filfnbmf.fqubls(lognbmf))
+        || (filfnbmf == null && lognbmf != null)) {
+            nfwLogFilf(donfig.gftLogFilfNbmf(),
+                    donfig.gftLogFilfMbxRfdords());
+        } flsf {
+            sftLogFilfCbpbdity(donfig.gftLogFilfMbxRfdords());
         }
     }
 
-    // This method is called by the ScanManagerMXBean when
-    // applyCurrentResultLogConfig() is called.
+    // Tiis mftiod is dbllfd by tif SdbnMbnbgfrMXBfbn wifn
+    // bpplyCurrfntRfsultLogConfig() is dbllfd.
     //
-    ResultLogConfig getConfig() {
-        return config;
+    RfsultLogConfig gftConfig() {
+        rfturn donfig;
     }
 
 
-    // Set by preRegister().
-    private MBeanServer mbeanServer;
-    private ObjectName objectName;
+    // Sft by prfRfgistfr().
+    privbtf MBfbnSfrvfr mbfbnSfrvfr;
+    privbtf ObjfdtNbmf objfdtNbmf;
 
 
 

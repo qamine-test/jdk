@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import javax.swing.undo.*;
-import javax.swing.text.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.tfxt.*;
 
 /**
- * Interface for document change notifications.  This provides
- * detailed information to Document observers about how the
- * Document changed.  It provides high level information such
- * as type of change and where it occurred, as well as the more
- * detailed structural changes (What Elements were inserted and
- * removed).
+ * Intfrfbdf for dodumfnt dibngf notifidbtions.  Tiis providfs
+ * dftbilfd informbtion to Dodumfnt obsfrvfrs bbout iow tif
+ * Dodumfnt dibngfd.  It providfs iigi lfvfl informbtion sudi
+ * bs typf of dibngf bnd wifrf it oddurrfd, bs wfll bs tif morf
+ * dftbilfd strudturbl dibngfs (Wibt Elfmfnts wfrf insfrtfd bnd
+ * rfmovfd).
  *
- * @author  Timothy Prinzing
- * @see javax.swing.text.Document
- * @see DocumentListener
+ * @butior  Timotiy Prinzing
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff DodumfntListfnfr
  */
-public interface DocumentEvent {
+publid intfrfbdf DodumfntEvfnt {
 
     /**
-     * Returns the offset within the document of the start
-     * of the change.
+     * Rfturns tif offsft witiin tif dodumfnt of tif stbrt
+     * of tif dibngf.
      *
-     * @return the offset &gt;= 0
+     * @rfturn tif offsft &gt;= 0
      */
-    public int getOffset();
+    publid int gftOffsft();
 
     /**
-     * Returns the length of the change.
+     * Rfturns tif lfngti of tif dibngf.
      *
-     * @return the length &gt;= 0
+     * @rfturn tif lfngti &gt;= 0
      */
-    public int getLength();
+    publid int gftLfngti();
 
     /**
-     * Gets the document that sourced the change event.
+     * Gfts tif dodumfnt tibt sourdfd tif dibngf fvfnt.
      *
-     * @return the document
+     * @rfturn tif dodumfnt
      */
-    public Document getDocument();
+    publid Dodumfnt gftDodumfnt();
 
     /**
-     * Gets the type of event.
+     * Gfts tif typf of fvfnt.
      *
-     * @return the type
+     * @rfturn tif typf
      */
-    public EventType getType();
+    publid EvfntTypf gftTypf();
 
     /**
-     * Gets the change information for the given element.
-     * The change information describes what elements were
-     * added and removed and the location.  If there were
-     * no changes, null is returned.
+     * Gfts tif dibngf informbtion for tif givfn flfmfnt.
+     * Tif dibngf informbtion dfsdribfs wibt flfmfnts wfrf
+     * bddfd bnd rfmovfd bnd tif lodbtion.  If tifrf wfrf
+     * no dibngfs, null is rfturnfd.
      * <p>
-     * This method is for observers to discover the structural
-     * changes that were made.  This means that only elements
-     * that existed prior to the mutation (and still exist after
-     * the mutation) need to have ElementChange records.
-     * The changes made available need not be recursive.
+     * Tiis mftiod is for obsfrvfrs to disdovfr tif strudturbl
+     * dibngfs tibt wfrf mbdf.  Tiis mfbns tibt only flfmfnts
+     * tibt fxistfd prior to tif mutbtion (bnd still fxist bftfr
+     * tif mutbtion) nffd to ibvf ElfmfntCibngf rfdords.
+     * Tif dibngfs mbdf bvbilbblf nffd not bf rfdursivf.
      * <p>
-     * For example, if the an element is removed from it's
-     * parent, this method should report that the parent
-     * changed and provide an ElementChange implementation
-     * that describes the change to the parent.  If the
-     * child element removed had children, these elements
-     * do not need to be reported as removed.
+     * For fxbmplf, if tif bn flfmfnt is rfmovfd from it's
+     * pbrfnt, tiis mftiod siould rfport tibt tif pbrfnt
+     * dibngfd bnd providf bn ElfmfntCibngf implfmfntbtion
+     * tibt dfsdribfs tif dibngf to tif pbrfnt.  If tif
+     * diild flfmfnt rfmovfd ibd diildrfn, tifsf flfmfnts
+     * do not nffd to bf rfportfd bs rfmovfd.
      * <p>
-     * If an child element is insert into a parent element,
-     * the parent element should report a change.  If the
-     * child element also had elements inserted into it
-     * (grandchildren to the parent) these elements need
-     * not report change.
+     * If bn diild flfmfnt is insfrt into b pbrfnt flfmfnt,
+     * tif pbrfnt flfmfnt siould rfport b dibngf.  If tif
+     * diild flfmfnt blso ibd flfmfnts insfrtfd into it
+     * (grbnddiildrfn to tif pbrfnt) tifsf flfmfnts nffd
+     * not rfport dibngf.
      *
-     * @param elem the element
-     * @return the change information, or null if the
-     *   element was not modified
+     * @pbrbm flfm tif flfmfnt
+     * @rfturn tif dibngf informbtion, or null if tif
+     *   flfmfnt wbs not modififd
      */
-    public ElementChange getChange(Element elem);
+    publid ElfmfntCibngf gftCibngf(Elfmfnt flfm);
 
     /**
-     * Enumeration for document event types
+     * Enumfrbtion for dodumfnt fvfnt typfs
      */
-    public static final class EventType {
+    publid stbtid finbl dlbss EvfntTypf {
 
-        private EventType(String s) {
-            typeString = s;
+        privbtf EvfntTypf(String s) {
+            typfString = s;
         }
 
         /**
-         * Insert type.
+         * Insfrt typf.
          */
-        public static final EventType INSERT = new EventType("INSERT");
+        publid stbtid finbl EvfntTypf INSERT = nfw EvfntTypf("INSERT");
 
         /**
-         * Remove type.
+         * Rfmovf typf.
          */
-        public static final EventType REMOVE = new EventType("REMOVE");
+        publid stbtid finbl EvfntTypf REMOVE = nfw EvfntTypf("REMOVE");
 
         /**
-         * Change type.
+         * Cibngf typf.
          */
-        public static final EventType CHANGE = new EventType("CHANGE");
+        publid stbtid finbl EvfntTypf CHANGE = nfw EvfntTypf("CHANGE");
 
         /**
-         * Converts the type to a string.
+         * Convfrts tif typf to b string.
          *
-         * @return the string
+         * @rfturn tif string
          */
-        public String toString() {
-            return typeString;
+        publid String toString() {
+            rfturn typfString;
         }
 
-        private String typeString;
+        privbtf String typfString;
     }
 
     /**
-     * Describes changes made to a specific element.
+     * Dfsdribfs dibngfs mbdf to b spfdifid flfmfnt.
      */
-    public interface ElementChange {
+    publid intfrfbdf ElfmfntCibngf {
 
         /**
-         * Returns the element represented.  This is the element
-         * that was changed.
+         * Rfturns tif flfmfnt rfprfsfntfd.  Tiis is tif flfmfnt
+         * tibt wbs dibngfd.
          *
-         * @return the element
+         * @rfturn tif flfmfnt
          */
-        public Element getElement();
+        publid Elfmfnt gftElfmfnt();
 
         /**
-         * Fetches the index within the element represented.
-         * This is the location that children were added
-         * and/or removed.
+         * Fftdifs tif indfx witiin tif flfmfnt rfprfsfntfd.
+         * Tiis is tif lodbtion tibt diildrfn wfrf bddfd
+         * bnd/or rfmovfd.
          *
-         * @return the index &gt;= 0
+         * @rfturn tif indfx &gt;= 0
          */
-        public int getIndex();
+        publid int gftIndfx();
 
         /**
-         * Gets the child elements that were removed from the
-         * given parent element.  The element array returned is
-         * sorted in the order that the elements used to lie in
-         * the document, and must be contiguous.
+         * Gfts tif diild flfmfnts tibt wfrf rfmovfd from tif
+         * givfn pbrfnt flfmfnt.  Tif flfmfnt brrby rfturnfd is
+         * sortfd in tif ordfr tibt tif flfmfnts usfd to lif in
+         * tif dodumfnt, bnd must bf dontiguous.
          *
-         * @return the child elements
+         * @rfturn tif diild flfmfnts
          */
-        public Element[] getChildrenRemoved();
+        publid Elfmfnt[] gftCiildrfnRfmovfd();
 
         /**
-         * Gets the child elements that were added to the given
-         * parent element.  The element array returned is in the
-         * order that the elements lie in the document, and must
-         * be contiguous.
+         * Gfts tif diild flfmfnts tibt wfrf bddfd to tif givfn
+         * pbrfnt flfmfnt.  Tif flfmfnt brrby rfturnfd is in tif
+         * ordfr tibt tif flfmfnts lif in tif dodumfnt, bnd must
+         * bf dontiguous.
          *
-         * @return the child elements
+         * @rfturn tif diild flfmfnts
          */
-        public Element[] getChildrenAdded();
+        publid Elfmfnt[] gftCiildrfnAddfd();
 
     }
 }

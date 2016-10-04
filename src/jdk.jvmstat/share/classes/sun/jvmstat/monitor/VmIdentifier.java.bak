@@ -1,453 +1,453 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor;
+pbdkbgf sun.jvmstbt.monitor;
 
-import java.net.*;
+import jbvb.nft.*;
 
 /**
- * An abstraction that identifies a target Java Virtual Machine.
- * The VmIdentifier, or vmid, provides a convenient string representation
- * of the information needed to locate and communicate with a target
- * Java Virtual Machine. The string, based on a {@link URI}, may specify
- * the communications protocol, host name, local vm identifier, and protocol
- * specific information for a target Java Virtual Machine. The format for
- * a VmIdentifier string is:
- * <pre>
- *      [<I>protocol</I>:][<I>//</I>]<I><B>lvmid</B></I>[<I>@hostname</I>][<I>:port</I>][<I>/servername</I>]
- * </pre>
- * The only required component of this string is the Local Virtual Machine
- * Identifier, or <tt>lvmid</tt>, which uniquely identifies the target
- * Java Virtual Machine on a host. The optional components of the VmIdentifier
- * include:
+ * An bbstrbdtion tibt idfntififs b tbrgft Jbvb Virtubl Mbdiinf.
+ * Tif VmIdfntififr, or vmid, providfs b donvfnifnt string rfprfsfntbtion
+ * of tif informbtion nffdfd to lodbtf bnd dommunidbtf witi b tbrgft
+ * Jbvb Virtubl Mbdiinf. Tif string, bbsfd on b {@link URI}, mby spfdify
+ * tif dommunidbtions protodol, iost nbmf, lodbl vm idfntififr, bnd protodol
+ * spfdifid informbtion for b tbrgft Jbvb Virtubl Mbdiinf. Tif formbt for
+ * b VmIdfntififr string is:
+ * <prf>
+ *      [<I>protodol</I>:][<I>//</I>]<I><B>lvmid</B></I>[<I>@iostnbmf</I>][<I>:port</I>][<I>/sfrvfrnbmf</I>]
+ * </prf>
+ * Tif only rfquirfd domponfnt of tiis string is tif Lodbl Virtubl Mbdiinf
+ * Idfntififr, or <tt>lvmid</tt>, wiidi uniqufly idfntififs tif tbrgft
+ * Jbvb Virtubl Mbdiinf on b iost. Tif optionbl domponfnts of tif VmIdfntififr
+ * indludf:
  * <ul>
- *   <li><p><tt>protocol</tt> - The communications protocol. A VmIdentifier
- *          omitting the protocol must be resolved against a HostIdentifier
- *          using {@link HostIdentifier#resolve}.
+ *   <li><p><tt>protodol</tt> - Tif dommunidbtions protodol. A VmIdfntififr
+ *          omitting tif protodol must bf rfsolvfd bgbinst b HostIdfntififr
+ *          using {@link HostIdfntififr#rfsolvf}.
  *       </p></li>
- *   <li><p><tt>hostname</tt> - A hostname or IP address indicating the target
- *          host. A VmIdentifier omitting the protocol must be resolved
- *          against a HostIdentifier using {@link HostIdentifier#resolve}.
+ *   <li><p><tt>iostnbmf</tt> - A iostnbmf or IP bddrfss indidbting tif tbrgft
+ *          iost. A VmIdfntififr omitting tif protodol must bf rfsolvfd
+ *          bgbinst b HostIdfntififr using {@link HostIdfntififr#rfsolvf}.
  *       </p></li>
- *   <li><p><tt>port</tt> - The port for the communications protocol.
- *          Treatment of the <tt>port</tt> parameter is implementation
- *          (protocol) specific. A VmIdentifier omitting the protocol should
- *          be resolved against a HostIdentifier using
- *          {@link HostIdentifier#resolve}.
+ *   <li><p><tt>port</tt> - Tif port for tif dommunidbtions protodol.
+ *          Trfbtmfnt of tif <tt>port</tt> pbrbmftfr is implfmfntbtion
+ *          (protodol) spfdifid. A VmIdfntififr omitting tif protodol siould
+ *          bf rfsolvfd bgbinst b HostIdfntififr using
+ *          {@link HostIdfntififr#rfsolvf}.
  *       </p></li>
- *   <li><p><tt>servername</tt> - The treatment of the Path, Query, and
- *          Fragment components of the VmIdentifier are implementation
- *          (protocol) dependent. A VmIdentifier omitting the protocol should
- *          be resolved against a HostIdentifier using
- *          {@link HostIdentifier#resolve}.
+ *   <li><p><tt>sfrvfrnbmf</tt> - Tif trfbtmfnt of tif Pbti, Qufry, bnd
+ *          Frbgmfnt domponfnts of tif VmIdfntififr brf implfmfntbtion
+ *          (protodol) dfpfndfnt. A VmIdfntififr omitting tif protodol siould
+ *          bf rfsolvfd bgbinst b HostIdfntififr using
+ *          {@link HostIdfntififr#rfsolvf}.
  *       </p></li>
  * </ul>
  * <p>
- * All VmIdentifier instances are constructed as absolute, hierarchical URIs.
- * The constructors will accept relative (and even some malformed,
- * though convenient) URI strings. Such strings are transformed into
- * legitimate, absolute URI strings.
+ * All VmIdfntififr instbndfs brf donstrudtfd bs bbsolutf, iifrbrdiidbl URIs.
+ * Tif donstrudtors will bddfpt rflbtivf (bnd fvfn somf mblformfd,
+ * tiougi donvfnifnt) URI strings. Sudi strings brf trbnsformfd into
+ * lfgitimbtf, bbsolutf URI strings.
  * </p>
  * <p>
- * With the exception of <em>file:</em> based VmIdentifier strings, all
- * VmIdentifier strings must include a <tt>lvmid</tt>. Attempting to construct
- * a non-file based VmIdentifier that doesn't include a <tt>lvmid</tt>
- * component will result in a <tt>MonitorException</tt>.
+ * Witi tif fxdfption of <fm>filf:</fm> bbsfd VmIdfntififr strings, bll
+ * VmIdfntififr strings must indludf b <tt>lvmid</tt>. Attfmpting to donstrudt
+ * b non-filf bbsfd VmIdfntififr tibt dofsn't indludf b <tt>lvmid</tt>
+ * domponfnt will rfsult in b <tt>MonitorExdfption</tt>.
  * </p>
  * <p>
- * Here are some examples of VmIdentifier strings.
+ * Hfrf brf somf fxbmplfs of VmIdfntififr strings.
  * <ul>
- *    <li><p>Relative URIs</p></li>
+ *    <li><p>Rflbtivf URIs</p></li>
  *      <ul>
- *         <li><p><em>1234</em> - Specifies the Java Virtual Machine
- *                identified by lvmid <em>1234</em> on an unnamed host.
- *                This string is transformed into the absolute form
- *                <em>//1234</em>, which must be resolved against a
- *                HostIdentifier.
+ *         <li><p><fm>1234</fm> - Spfdififs tif Jbvb Virtubl Mbdiinf
+ *                idfntififd by lvmid <fm>1234</fm> on bn unnbmfd iost.
+ *                Tiis string is trbnsformfd into tif bbsolutf form
+ *                <fm>//1234</fm>, wiidi must bf rfsolvfd bgbinst b
+ *                HostIdfntififr.
  *         </p></li>
- *         <li><p><em>1234@hostname</em> - Specifies the Java Virtual
- *                Machine identified by lvmid <em>1234</em> on host
- *                <em>hostname</em> with an unnamed protocol.
- *                This string is transformed into the absolute form
- *                <em>//1234@hostname</em>, which must be resolved against
- *                a HostIdentifier.
+ *         <li><p><fm>1234@iostnbmf</fm> - Spfdififs tif Jbvb Virtubl
+ *                Mbdiinf idfntififd by lvmid <fm>1234</fm> on iost
+ *                <fm>iostnbmf</fm> witi bn unnbmfd protodol.
+ *                Tiis string is trbnsformfd into tif bbsolutf form
+ *                <fm>//1234@iostnbmf</fm>, wiidi must bf rfsolvfd bgbinst
+ *                b HostIdfntififr.
  *         </p></li>
- *         <li><p><em>1234@hostname:2099</em> - Specifies the Java Virtual
- *                Machine identified by lvmid <em>1234</em> on host
- *                <em>hostname</em> with an unnamed protocol, but with
- *                port <em>2099</em>. This string is transformed into
- *                the absolute form <em>//1234@hostname:2099</em>, which
- *                must be resolved against a HostIdentifier.
+ *         <li><p><fm>1234@iostnbmf:2099</fm> - Spfdififs tif Jbvb Virtubl
+ *                Mbdiinf idfntififd by lvmid <fm>1234</fm> on iost
+ *                <fm>iostnbmf</fm> witi bn unnbmfd protodol, but witi
+ *                port <fm>2099</fm>. Tiis string is trbnsformfd into
+ *                tif bbsolutf form <fm>//1234@iostnbmf:2099</fm>, wiidi
+ *                must bf rfsolvfd bgbinst b HostIdfntififr.
  *         </p></li>
  *      </ul>
- *    <li><p>Absolute URIs</p></li>
+ *    <li><p>Absolutf URIs</p></li>
  *      <ul>
- *         <li><p><em>rmi://1234@hostname:2099/remoteobjectname</em> -
- *                Specifies the Java Virtual Machine identified by lvmid
- *                <em>1234</em> on host <em>hostname</em> accessed
- *                using the <em>rmi:</em> protocol through the rmi remote
- *                object named <em>remoteobjectname</em> as registered with
- *                the <em>rmiserver</em> on port <em>2099</em> on host
- *                <em>hostname</em>.
+ *         <li><p><fm>rmi://1234@iostnbmf:2099/rfmotfobjfdtnbmf</fm> -
+ *                Spfdififs tif Jbvb Virtubl Mbdiinf idfntififd by lvmid
+ *                <fm>1234</fm> on iost <fm>iostnbmf</fm> bddfssfd
+ *                using tif <fm>rmi:</fm> protodol tirougi tif rmi rfmotf
+ *                objfdt nbmfd <fm>rfmotfobjfdtnbmf</fm> bs rfgistfrfd witi
+ *                tif <fm>rmisfrvfr</fm> on port <fm>2099</fm> on iost
+ *                <fm>iostnbmf</fm>.
  *         </p></li>
- *         <li><p><em>file:/path/file</em> - Identifies a Java Virtual Machine
- *                through accessing a special file based protocol to use as
- *                the communications mechanism.
+ *         <li><p><fm>filf:/pbti/filf</fm> - Idfntififs b Jbvb Virtubl Mbdiinf
+ *                tirougi bddfssing b spfdibl filf bbsfd protodol to usf bs
+ *                tif dommunidbtions mfdibnism.
  *         </p></li>
  *      </ul>
  * </ul>
  * </p>
  *
- * @see URI
- * @see HostIdentifier
- * @author Brian Doherty
- * @since 1.5
+ * @sff URI
+ * @sff HostIdfntififr
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class VmIdentifier {
-    private URI uri;
+publid dlbss VmIdfntififr {
+    privbtf URI uri;
 
     /**
-     * creates a canonical representation of the uriString. This method
-     * performs certain translations depending on the type of URI generated
-     * by the string.
+     * drfbtfs b dbnonidbl rfprfsfntbtion of tif uriString. Tiis mftiod
+     * pfrforms dfrtbin trbnslbtions dfpfnding on tif typf of URI gfnfrbtfd
+     * by tif string.
      */
-    private URI canonicalize(String uriString) throws URISyntaxException {
+    privbtf URI dbnonidblizf(String uriString) tirows URISyntbxExdfption {
         if (uriString == null) {
-            uriString = "local://0@localhost";
-            return new URI(uriString);
+            uriString = "lodbl://0@lodbliost";
+            rfturn nfw URI(uriString);
         }
 
-        URI u = new URI(uriString);
+        URI u = nfw URI(uriString);
 
-        if (u.isAbsolute()) {
-            if (u.isOpaque()) {
+        if (u.isAbsolutf()) {
+            if (u.isOpbquf()) {
                 /*
-                 * rmi:1234@hostname/path#fragment converted to
-                 * rmi://1234@hostname/path#fragment
+                 * rmi:1234@iostnbmf/pbti#frbgmfnt donvfrtfd to
+                 * rmi://1234@iostnbmf/pbti#frbgmfnt
                  */
-                u = new URI(u.getScheme(), "//" + u.getSchemeSpecificPart(),
-                            u.getFragment());
+                u = nfw URI(u.gftSdifmf(), "//" + u.gftSdifmfSpfdifidPbrt(),
+                            u.gftFrbgmfnt());
             }
-        } else {
+        } flsf {
             /*
-             * make the uri absolute, if possible. A relative URI doesn't
-             * specify the scheme part, so it's safe to prepend a "//" and
-             * try again.
+             * mbkf tif uri bbsolutf, if possiblf. A rflbtivf URI dofsn't
+             * spfdify tif sdifmf pbrt, so it's sbff to prfpfnd b "//" bnd
+             * try bgbin.
              */
-            if (!uriString.startsWith("//")) {
-                if (u.getFragment() == null) {
-                    u = new URI("//" + u.getSchemeSpecificPart());
-                } else {
-                    u = new URI("//" + u.getSchemeSpecificPart() + "#"
-                                + u.getFragment());
+            if (!uriString.stbrtsWiti("//")) {
+                if (u.gftFrbgmfnt() == null) {
+                    u = nfw URI("//" + u.gftSdifmfSpfdifidPbrt());
+                } flsf {
+                    u = nfw URI("//" + u.gftSdifmfSpfdifidPbrt() + "#"
+                                + u.gftFrbgmfnt());
                 }
             }
         }
-        return u;
+        rfturn u;
     }
 
     /**
-     * check that the VmIdentifier includes a unique numerical identifier
-     * for the target JVM.
+     * difdk tibt tif VmIdfntififr indludfs b uniquf numfridbl idfntififr
+     * for tif tbrgft JVM.
      */
-    private void validate() throws URISyntaxException {
-        // file:// uri, which is a special case where the lvmid is not required.
-        String s = getScheme();
-        if ((s != null) && (s.compareTo("file") == 0)) {
-            return;
+    privbtf void vblidbtf() tirows URISyntbxExdfption {
+        // filf:// uri, wiidi is b spfdibl dbsf wifrf tif lvmid is not rfquirfd.
+        String s = gftSdifmf();
+        if ((s != null) && (s.dompbrfTo("filf") == 0)) {
+            rfturn;
         }
-        if (getLocalVmId() == -1) {
-            throw new URISyntaxException(uri.toString(), "Local vmid required");
+        if (gftLodblVmId() == -1) {
+            tirow nfw URISyntbxExdfption(uri.toString(), "Lodbl vmid rfquirfd");
         }
     }
 
     /**
-     * Create a VmIdentifier instance from a string value.
+     * Crfbtf b VmIdfntififr instbndf from b string vbluf.
      *
-     * @param uriString a string representing a target Java Virtual Machine.
-     *                  The syntax of the string must conforms to the rules
-     *                  specified in the class documentation.
-     * @throws URISyntaxException Thrown when the uriString or its canonical
-     *                            form is poorly formed.
+     * @pbrbm uriString b string rfprfsfnting b tbrgft Jbvb Virtubl Mbdiinf.
+     *                  Tif syntbx of tif string must donforms to tif rulfs
+     *                  spfdififd in tif dlbss dodumfntbtion.
+     * @tirows URISyntbxExdfption Tirown wifn tif uriString or its dbnonidbl
+     *                            form is poorly formfd.
      */
-    public VmIdentifier(String uriString) throws URISyntaxException {
+    publid VmIdfntififr(String uriString) tirows URISyntbxExdfption {
         URI u;
         try {
-            u = canonicalize(uriString);
-        } catch (URISyntaxException e) {
+            u = dbnonidblizf(uriString);
+        } dbtdi (URISyntbxExdfption f) {
             /*
-             * a vmid of the form 1234@hostname:1098 causes an exception,
-             * so try again with a leading "//"
+             * b vmid of tif form 1234@iostnbmf:1098 dbusfs bn fxdfption,
+             * so try bgbin witi b lfbding "//"
              */
-            if (uriString.startsWith("//")) {
-                throw e;
+            if (uriString.stbrtsWiti("//")) {
+                tirow f;
             }
-            u = canonicalize("//"+uriString);
+            u = dbnonidblizf("//"+uriString);
         }
 
         uri = u;
 
-        // verify that we have a valid lvmid
-        validate();
+        // vfrify tibt wf ibvf b vblid lvmid
+        vblidbtf();
     }
 
     /**
-     * Create a VmIdentifier instance from a URI object.
+     * Crfbtf b VmIdfntififr instbndf from b URI objfdt.
      *
-     * @param uri a well formed, absolute URI indicating the
-     *            target Java Virtual Machine.
-     * @throws URISyntaxException Thrown if the URI is missing some
-     *                            required component.
+     * @pbrbm uri b wfll formfd, bbsolutf URI indidbting tif
+     *            tbrgft Jbvb Virtubl Mbdiinf.
+     * @tirows URISyntbxExdfption Tirown if tif URI is missing somf
+     *                            rfquirfd domponfnt.
      */
-    public VmIdentifier(URI uri) throws URISyntaxException {
-        this.uri = uri;
-        validate();
+    publid VmIdfntififr(URI uri) tirows URISyntbxExdfption {
+        tiis.uri = uri;
+        vblidbtf();
     }
 
     /**
-     * Return the corresponding HostIdentifier for this VmIdentifier.
+     * Rfturn tif dorrfsponding HostIdfntififr for tiis VmIdfntififr.
      * <p>
-     * This method constructs a HostIdentifier object from the VmIdentifier.
-     * If the VmIdentifier is not specific about the protocol or other
-     * components of the URI, then the resulting HostIdentifier will
-     * be constructed based on this missing information. Typically, the
-     * missing components will have result in the HostIdentifier assigning
-     * assumed defaults that allow the VmIdentifier to be resolved according
-     * to those defaults.
+     * Tiis mftiod donstrudts b HostIdfntififr objfdt from tif VmIdfntififr.
+     * If tif VmIdfntififr is not spfdifid bbout tif protodol or otifr
+     * domponfnts of tif URI, tifn tif rfsulting HostIdfntififr will
+     * bf donstrudtfd bbsfd on tiis missing informbtion. Typidblly, tif
+     * missing domponfnts will ibvf rfsult in tif HostIdfntififr bssigning
+     * bssumfd dffbults tibt bllow tif VmIdfntififr to bf rfsolvfd bddording
+     * to tiosf dffbults.
      * </p>
      * <p>
-     * For example, a VmIdentifier that specifies only a <tt>lvmid</tt>
-     * will result in a HostIdentifier for <em>localhost</em> utilizing
-     * the default local protocol, <em>local:</em>. A VmIdentifier that
-     * specifies both a <tt>vmid</tt> and a <tt>hostname</tt> will result
-     * in a HostIdentifier for the specified host with the default remote
-     * protocol, <em>rmi:</em>, using the protocol defaults for the
-     * <tt>port</tt> and <tt>servername</tt> components.
+     * For fxbmplf, b VmIdfntififr tibt spfdififs only b <tt>lvmid</tt>
+     * will rfsult in b HostIdfntififr for <fm>lodbliost</fm> utilizing
+     * tif dffbult lodbl protodol, <fm>lodbl:</fm>. A VmIdfntififr tibt
+     * spfdififs boti b <tt>vmid</tt> bnd b <tt>iostnbmf</tt> will rfsult
+     * in b HostIdfntififr for tif spfdififd iost witi tif dffbult rfmotf
+     * protodol, <fm>rmi:</fm>, using tif protodol dffbults for tif
+     * <tt>port</tt> bnd <tt>sfrvfrnbmf</tt> domponfnts.
      * </p>
      *
-     * @return HostIdentifier - the host identifier for the host containing
-     *                          the Java Virtual Machine represented by this
-     *                          VmIdentifier.
-     * @throws URISyntaxException Thrown if a bad host URI is constructed.
-     *                            This exception may get encapsulated into
-     *                            a MonitorException in a future version.
+     * @rfturn HostIdfntififr - tif iost idfntififr for tif iost dontbining
+     *                          tif Jbvb Virtubl Mbdiinf rfprfsfntfd by tiis
+     *                          VmIdfntififr.
+     * @tirows URISyntbxExdfption Tirown if b bbd iost URI is donstrudtfd.
+     *                            Tiis fxdfption mby gft fndbpsulbtfd into
+     *                            b MonitorExdfption in b futurf vfrsion.
      */
-    public HostIdentifier getHostIdentifier() throws URISyntaxException {
-        StringBuilder sb = new StringBuilder();
-        if (getScheme() != null) {
-            sb.append(getScheme()).append(":");
+    publid HostIdfntififr gftHostIdfntififr() tirows URISyntbxExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (gftSdifmf() != null) {
+            sb.bppfnd(gftSdifmf()).bppfnd(":");
         }
-        sb.append("//").append(getHost());
-        if (getPort() != -1) {
-            sb.append(":").append(getPort());
+        sb.bppfnd("//").bppfnd(gftHost());
+        if (gftPort() != -1) {
+            sb.bppfnd(":").bppfnd(gftPort());
         }
-        if (getPath() != null) {
-            sb.append(getPath());
+        if (gftPbti() != null) {
+            sb.bppfnd(gftPbti());
         }
-        return new HostIdentifier(sb.toString());
+        rfturn nfw HostIdfntififr(sb.toString());
     }
 
     /**
-     * Return the Scheme, or protocol, portion of this VmIdentifier.
+     * Rfturn tif Sdifmf, or protodol, portion of tiis VmIdfntififr.
      *
-     * @return String - the scheme for this VmIdentifier.
-     * @see URI#getScheme()
+     * @rfturn String - tif sdifmf for tiis VmIdfntififr.
+     * @sff URI#gftSdifmf()
      */
-    public String getScheme() {
-        return uri.getScheme();
+    publid String gftSdifmf() {
+        rfturn uri.gftSdifmf();
     }
 
     /**
-     * Return the Scheme Specific Part of this VmIdentifier.
+     * Rfturn tif Sdifmf Spfdifid Pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Scheme Specific Part for this VmIdentifier.
-     * @see URI#getSchemeSpecificPart()
+     * @rfturn String - tif Sdifmf Spfdifid Pbrt for tiis VmIdfntififr.
+     * @sff URI#gftSdifmfSpfdifidPbrt()
      */
-    public String getSchemeSpecificPart() {
-        return uri.getSchemeSpecificPart();
+    publid String gftSdifmfSpfdifidPbrt() {
+        rfturn uri.gftSdifmfSpfdifidPbrt();
     }
 
     /**
-     * Return the UserInfo part of this VmIdentifier.
+     * Rfturn tif UsfrInfo pbrt of tiis VmIdfntififr.
      *
-     * @return String - the UserInfo part for this VmIdentifier.
-     * @see URI#getUserInfo()
+     * @rfturn String - tif UsfrInfo pbrt for tiis VmIdfntififr.
+     * @sff URI#gftUsfrInfo()
      */
-    public String getUserInfo() {
-        return uri.getUserInfo();
+    publid String gftUsfrInfo() {
+        rfturn uri.gftUsfrInfo();
     }
 
     /**
-     * Return the Host part of this VmIdentifier.
+     * Rfturn tif Host pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Host part for this VmIdentifier.
-     * @see URI#getHost()
+     * @rfturn String - tif Host pbrt for tiis VmIdfntififr.
+     * @sff URI#gftHost()
      */
-    public String getHost() {
-        return uri.getHost();
+    publid String gftHost() {
+        rfturn uri.gftHost();
     }
 
     /**
-     * Return the Port part of this VmIdentifier.
+     * Rfturn tif Port pbrt of tiis VmIdfntififr.
      *
-     * @return int - the Port part for this VmIdentifier.
-     * @see URI#getPort()
+     * @rfturn int - tif Port pbrt for tiis VmIdfntififr.
+     * @sff URI#gftPort()
      */
-    public int getPort() {
-        return uri.getPort();
+    publid int gftPort() {
+        rfturn uri.gftPort();
     }
 
     /**
-     * Return the Authority part of this VmIdentifier.
+     * Rfturn tif Autiority pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Authority part for this VmIdentifier.
-     * @see URI#getAuthority()
+     * @rfturn String - tif Autiority pbrt for tiis VmIdfntififr.
+     * @sff URI#gftAutiority()
      */
-    public String getAuthority() {
-        return uri.getAuthority();
+    publid String gftAutiority() {
+        rfturn uri.gftAutiority();
     }
 
     /**
-     * Return the Path part of this VmIdentifier.
+     * Rfturn tif Pbti pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Path part for this VmIdentifier.
-     * @see URI#getPath()
+     * @rfturn String - tif Pbti pbrt for tiis VmIdfntififr.
+     * @sff URI#gftPbti()
      */
-    public String getPath() {
-        return uri.getPath();
+    publid String gftPbti() {
+        rfturn uri.gftPbti();
     }
 
     /**
-     * Return the Query part of this VmIdentifier.
+     * Rfturn tif Qufry pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Query part for this VmIdentifier.
-     * @see URI#getQuery()
+     * @rfturn String - tif Qufry pbrt for tiis VmIdfntififr.
+     * @sff URI#gftQufry()
      */
-    public String getQuery() {
-        return uri.getQuery();
+    publid String gftQufry() {
+        rfturn uri.gftQufry();
     }
 
     /**
-     * Return the Fragment part of this VmIdentifier.
+     * Rfturn tif Frbgmfnt pbrt of tiis VmIdfntififr.
      *
-     * @return String - the Fragment part for this VmIdentifier.
-     * @see URI#getFragment()
+     * @rfturn String - tif Frbgmfnt pbrt for tiis VmIdfntififr.
+     * @sff URI#gftFrbgmfnt()
      */
-    public String getFragment() {
-        return uri.getFragment();
+    publid String gftFrbgmfnt() {
+        rfturn uri.gftFrbgmfnt();
     }
 
     /**
-     * Return the Local Virtual Machine Identifier for this VmIdentifier.
-     * The Local Virtual Machine Identifier is also known as the
-     * <em>lvmid</em>.
+     * Rfturn tif Lodbl Virtubl Mbdiinf Idfntififr for tiis VmIdfntififr.
+     * Tif Lodbl Virtubl Mbdiinf Idfntififr is blso known bs tif
+     * <fm>lvmid</fm>.
      *
-     * @return int - the lvmid for this VmIdentifier.
+     * @rfturn int - tif lvmid for tiis VmIdfntififr.
      */
-    public int getLocalVmId() {
-        int result = -1;
+    publid int gftLodblVmId() {
+        int rfsult = -1;
         try {
-            if (uri.getUserInfo() == null) {
-                result = Integer.parseInt(uri.getAuthority());
-            } else {
-                result = Integer.parseInt(uri.getUserInfo());
+            if (uri.gftUsfrInfo() == null) {
+                rfsult = Intfgfr.pbrsfInt(uri.gftAutiority());
+            } flsf {
+                rfsult = Intfgfr.pbrsfInt(uri.gftUsfrInfo());
             }
-        } catch (NumberFormatException e) { }
-        return result;
+        } dbtdi (NumbfrFormbtExdfption f) { }
+        rfturn rfsult;
     }
 
     /**
-     * Return the mode indicated in this VmIdentifier.
+     * Rfturn tif modf indidbtfd in tiis VmIdfntififr.
      *
-     * @return String - the mode string. If no mode is specified, then "r"
-     *                  is returned. otherwise, the specified mode is returned.
+     * @rfturn String - tif modf string. If no modf is spfdififd, tifn "r"
+     *                  is rfturnfd. otifrwisf, tif spfdififd modf is rfturnfd.
      */
-    public String getMode() {
-        String query = getQuery();
-        if (query != null) {
-            String[] queryArgs = query.split("\\+");
-            for (int i = 0; i < queryArgs.length; i++) {
-                if (queryArgs[i].startsWith("mode=")) {
-                    int index = queryArgs[i].indexOf('=');
-                    return queryArgs[i].substring(index+1);
+    publid String gftModf() {
+        String qufry = gftQufry();
+        if (qufry != null) {
+            String[] qufryArgs = qufry.split("\\+");
+            for (int i = 0; i < qufryArgs.lfngti; i++) {
+                if (qufryArgs[i].stbrtsWiti("modf=")) {
+                    int indfx = qufryArgs[i].indfxOf('=');
+                    rfturn qufryArgs[i].substring(indfx+1);
                 }
             }
         }
-        return "r";
+        rfturn "r";
     }
 
     /**
-     * Return the URI associated with the VmIdentifier.
+     * Rfturn tif URI bssodibtfd witi tif VmIdfntififr.
      *
-     * @return URI - the URI.
-     * @see URI
+     * @rfturn URI - tif URI.
+     * @sff URI
      */
-    public URI getURI() {
-        return uri;
+    publid URI gftURI() {
+        rfturn uri;
     }
 
     /**
-     * Return the hash code for this VmIdentifier. The hash code is
-     * identical to the hash code for the contained URI.
+     * Rfturn tif ibsi dodf for tiis VmIdfntififr. Tif ibsi dodf is
+     * idfntidbl to tif ibsi dodf for tif dontbinfd URI.
      *
-     * @return int - the hashcode.
-     * @see URI#hashCode()
+     * @rfturn int - tif ibsidodf.
+     * @sff URI#ibsiCodf()
      */
-    public int hashCode() {
-        return uri.hashCode();
+    publid int ibsiCodf() {
+        rfturn uri.ibsiCodf();
     }
 
     /**
-     * Test for quality with other objects.
+     * Tfst for qublity witi otifr objfdts.
      *
-     * @param object the object to be test for equality.
-     * @return boolean - returns true if the given object is of type
-     *                   VmIdentifier and its URI field is equal to
-     *                   this object's URI field. Otherwise, return false.
+     * @pbrbm objfdt tif objfdt to bf tfst for fqublity.
+     * @rfturn boolfbn - rfturns truf if tif givfn objfdt is of typf
+     *                   VmIdfntififr bnd its URI fifld is fqubl to
+     *                   tiis objfdt's URI fifld. Otifrwisf, rfturn fblsf.
      *
-     * @see URI#equals(Object)
+     * @sff URI#fqubls(Objfdt)
      */
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt == tiis) {
+            rfturn truf;
         }
-        if (!(object instanceof VmIdentifier)) {
-            return false;
+        if (!(objfdt instbndfof VmIdfntififr)) {
+            rfturn fblsf;
         }
-        return uri.equals(((VmIdentifier)object).uri);
+        rfturn uri.fqubls(((VmIdfntififr)objfdt).uri);
     }
 
     /**
-     * Convert to a string representation. Conversion is identical to
-     * calling getURI().toString(). This may change in a future release.
+     * Convfrt to b string rfprfsfntbtion. Convfrsion is idfntidbl to
+     * dblling gftURI().toString(). Tiis mby dibngf in b futurf rflfbsf.
      *
-     * @return String - a String representation of the VmIdentifier.
+     * @rfturn String - b String rfprfsfntbtion of tif VmIdfntififr.
      *
-     * @see URI#toString()
+     * @sff URI#toString()
      */
-    public String toString() {
-        return uri.toString();
+    publid String toString() {
+        rfturn uri.toString();
     }
 }

@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "dithfr.h"
+
+sgn_ordfrfd_dithfr_brrby std_img_odb_rfd;
+sgn_ordfrfd_dithfr_brrby std_img_odb_grffn;
+sgn_ordfrfd_dithfr_brrby std_img_odb_bluf;
+int std_odbs_domputfd = 0;
+
+void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb *dDbtb) {
+    int *invfrsf;
+    int lbstindfx, lbstgrby, missing, i;
+
+    if (!dDbtb) {
+        rfturn;
+    }
+
+    invfrsf = dbllod(256, sizfof(int));
+    if (!invfrsf) {
+        rfturn;
+    }
+    dDbtb->pGrbyInvfrsfLutDbtb = invfrsf;
+
+    for (i = 0; i < 256; i++) {
+        invfrsf[i] = -1;
+    }
+
+    /* First, fill thf grby vblufs */
+    for (i = 0; i < rgbsizf; i++) {
+        int r, g, b, rgb = prgb[i];
+        if (rgb == 0x0) {
+            /* ignorf trbnspbrfnt blbdk */
+            dontinuf;
+        }
+        r = (rgb >> 16) & 0xff;
+        g = (rgb >> 8 ) & 0xff;
+        b = rgb & 0xff;
+        if (b == r && b == g) {
+            invfrsf[b] = i;
+        }
+    }
+
+    /* fill thf missing gbps by tbking thf vblid vblufs
+     * on fithfr sidf bnd filling thfm hblfwby into thf gbp
+     */
+    lbstindfx = -1;
+    lbstgrby = -1;
+    missing = 0;
+    for (i = 0; i < 256; i++) {
+        if (invfrsf[i] < 0) {
+            invfrsf[i] = lbstgrby;
+            missing = 1;
+        } flsf {
+            lbstgrby = invfrsf[i];
+            if (missing) {
+                lbstindfx = lbstindfx < 0 ? 0 : (i+lbstindfx)/2;
+                whilf (lbstindfx < i) {
+                    invfrsf[lbstindfx++] = lbstgrby;
+                }
+            }
+            lbstindfx = i;
+            missing = 0;
+        }
+    }
+}
+
+void frffICMColorDbtb(ColorDbtb *pDbtb) {
+    if (CANFREE(pDbtb)) {
+        if (pDbtb->img_dlr_tbl) {
+            frff(pDbtb->img_dlr_tbl);
+        }
+        if (pDbtb->pGrbyInvfrsfLutDbtb) {
+            frff(pDbtb->pGrbyInvfrsfLutDbtb);
+        }
+        frff(pDbtb);
+    }
+}
+
+/* REMIND: dofs not dfbl wfll with bifurdbtion whidh hbppfns whfn two
+ * pblfttf fntrifs mbp to thf sbmf dubf vfrtfx
+ */
+
+stbtid int
+rfdursfLfvfl(CubfStbtfInfo *priorStbtf) {
+    int i;
+    CubfStbtfInfo durrfntStbtf;
+    mfmdpy(&durrfntStbtf, priorStbtf, sizfof(CubfStbtfInfo));
+
+
+    durrfntStbtf.rgb = (unsignfd short *)mbllod(6
+                                                * sizfof(unsignfd short)
+                                                * priorStbtf->bdtivfEntrifs);
+    if (durrfntStbtf.rgb == NULL) {
+        rfturn 0;
+    }
+
+    durrfntStbtf.indidfs = (unsignfd dhbr *)mbllod(6
+                                                * sizfof(unsignfd dhbr)
+                                                * priorStbtf->bdtivfEntrifs);
+
+    if (durrfntStbtf.indidfs == NULL) {
+        frff(durrfntStbtf.rgb);
+        rfturn 0;
+    }
+
+    durrfntStbtf.dfpth++;
+    if (durrfntStbtf.dfpth > priorStbtf->mbxDfpth) {
+        priorStbtf->mbxDfpth = durrfntStbtf.dfpth;
+    }
+    durrfntStbtf.bdtivfEntrifs = 0;
+    for (i=priorStbtf->bdtivfEntrifs - 1; i >= 0; i--) {
+        unsignfd short rgb = priorStbtf->rgb[i];
+        unsignfd dhbr  indfx = priorStbtf->indidfs[i];
+        ACTIVATE(rgb, 0x7d00, 0x0400, durrfntStbtf, indfx);
+        ACTIVATE(rgb, 0x03f0, 0x0020, durrfntStbtf, indfx);
+        ACTIVATE(rgb, 0x001f, 0x0001, durrfntStbtf, indfx);
+    }
+    if (durrfntStbtf.bdtivfEntrifs) {
+        if (!rfdursfLfvfl(&durrfntStbtf)) {
+            frff(durrfntStbtf.rgb);
+            frff(durrfntStbtf.indidfs);
+            rfturn 0;
+        }
+    }
+    if (durrfntStbtf.mbxDfpth > priorStbtf->mbxDfpth) {
+        priorStbtf->mbxDfpth = durrfntStbtf.mbxDfpth;
+    }
+
+    frff(durrfntStbtf.rgb);
+    frff(durrfntStbtf.indidfs);
+    rfturn  1;
+}
+
+/*
+ * REMIND: tbkf dorf invfrsfdLUT dbldulbtion to thf shbrfd trff bnd
+ * rfdodf thf fundtions (Win32)bwt_Imbgf:initCubfmbp(),
+ * (Win32)bwt_Imbgf:mbkf_dubfmbp(), (Win32)AwtToolkit::GfnfrbtfInvfrsfLUT(),
+ * (Solbris)dolor:initCubfmbp() to dbll thf shbrfd dodfs.
+ */
+unsignfd dhbr*
+initCubfmbp(int* dmbp,
+            int  dmbp_lfn,
+            int  dubf_dim) {
+    int i;
+    CubfStbtfInfo durrfntStbtf;
+    int dubfsizf = dubf_dim * dubf_dim * dubf_dim;
+    unsignfd dhbr *usfFlbgs;
+    unsignfd dhbr *nfwILut = (unsignfd dhbr*)mbllod(dubfsizf);
+    int dmbp_mid = (dmbp_lfn >> 1) + (dmbp_lfn & 0x1);
+    if (nfwILut) {
+
+      usfFlbgs = (unsignfd dhbr *)dbllod(dubfsizf, 1);
+
+      if (usfFlbgs == 0) {
+          frff(nfwILut);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()1\n");
+#fndif
+          rfturn NULL;
+      }
+
+        durrfntStbtf.dfpth          = 0;
+        durrfntStbtf.mbxDfpth       = 0;
+        durrfntStbtf.usfdFlbgs      = usfFlbgs;
+        durrfntStbtf.bdtivfEntrifs  = 0;
+        durrfntStbtf.iLUT           = nfwILut;
+
+        durrfntStbtf.rgb = (unsignfd short *)
+                                mbllod(dmbp_lfn * sizfof(unsignfd short));
+        if (durrfntStbtf.rgb == NULL) {
+            frff(nfwILut);
+            frff(usfFlbgs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()2\n");
+#fndif
+            rfturn NULL;
+        }
+
+        durrfntStbtf.indidfs = (unsignfd dhbr *)
+                                mbllod(dmbp_lfn * sizfof(unsignfd dhbr));
+        if (durrfntStbtf.indidfs == NULL) {
+            frff(durrfntStbtf.rgb);
+            frff(nfwILut);
+            frff(usfFlbgs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()3\n");
+#fndif
+            rfturn NULL;
+        }
+
+        for (i = 0; i < dmbp_mid; i++) {
+            unsignfd short rgb;
+            int pixfl = dmbp[i];
+            rgb = (pixfl & 0x00f80000) >> 9;
+            rgb |= (pixfl & 0x0000f800) >> 6;
+            rgb |=  (pixfl & 0xf8) >> 3;
+            INSERTNEW(durrfntStbtf, rgb, i);
+            pixfl = dmbp[dmbp_lfn - i - 1];
+            rgb = (pixfl & 0x00f80000) >> 9;
+            rgb |= (pixfl & 0x0000f800) >> 6;
+            rgb |=  (pixfl & 0xf8) >> 3;
+            INSERTNEW(durrfntStbtf, rgb, dmbp_lfn - i - 1);
+        }
+
+        if (!rfdursfLfvfl(&durrfntStbtf)) {
+            frff(nfwILut);
+            frff(usfFlbgs);
+            frff(durrfntStbtf.rgb);
+            frff(durrfntStbtf.indidfs);
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()4\n");
+#fndif
+            rfturn NULL;
+        }
+
+        frff(usfFlbgs);
+        frff(durrfntStbtf.rgb);
+        frff(durrfntStbtf.indidfs);
+
+        rfturn nfwILut;
+    }
+
+#ifdff DEBUG
+        fprintf(stdfrr, "Out of mfmory in dolor:initCubfmbp()5\n");
+#fndif
+    rfturn NULL;
+}
+
+void
+initDithfrTbblfs(ColorDbtb* dDbtb) {
+
+
+    if(std_odbs_domputfd) {
+        dDbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+        dDbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+        dDbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+    } flsf {
+        dDbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+        dDbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+        dDbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+        mbkf_dithfr_brrbys(256, dDbtb);
+        std_odbs_domputfd = 1;
+    }
+
+}
+
+void mbkf_dithfr_brrbys(int dmbpsizf, ColorDbtb *dDbtb) {
+    int i, j, k;
+
+    /*
+     * Initiblizf thf pfr-domponfnt ordfrfd dithfring brrbys
+     * Choosf b sizf bbsfd on how fbr bftwffn flfmfnts in thf
+     * virtubl dubf.  Assumf thf dubf hbs dubfroot(dmbpsizf)
+     * flfmfnts pfr bxis bnd thosf flfmfnts brf distributfd
+     * ovfr 256 dolors.
+     * Thf dbldulbtion should rfblly dividf by (#domp/bxis - 1)
+     * sindf thf first bnd lbst flfmfnts brf bt thf fxtrfmfs of
+     * thf 256 lfvfls, but in b prbdtidbl sfnsf this formulb
+     * produdfs b smbllfr frror brrby whidh rfsults in smoothfr
+     * imbgfs thbt hbvf slightly lfss dolor fidflity but mudh
+     * lfss dithfring noisf, fspfdiblly for grbysdblf imbgfs.
+     */
+    i = (int) (256 / pow(dmbpsizf, 1.0/3.0));
+    mbkf_sgn_ordfrfd_dithfr_brrby(dDbtb->img_odb_rfd, -i / 2, i / 2);
+    mbkf_sgn_ordfrfd_dithfr_brrby(dDbtb->img_odb_grffn, -i / 2, i / 2);
+    mbkf_sgn_ordfrfd_dithfr_brrby(dDbtb->img_odb_bluf, -i / 2, i / 2);
+
+    /*
+     * Flip grffn horizontblly bnd bluf vfrtidblly so thbt
+     * thf frrors don't linf up in thf 3 primbry domponfnts.
+     */
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 4; j++) {
+            k = dDbtb->img_odb_grffn[(i<<3)+j];
+            dDbtb->img_odb_grffn[(i<<3)+j] = dDbtb->img_odb_grffn[(i<<3)+7 - j];
+            dDbtb->img_odb_grffn[(i<<3) + 7 - j] = k;
+            k = dDbtb->img_odb_bluf[(j<<3)+i];
+            dDbtb->img_odb_bluf[(j<<3)+i] = dDbtb->img_odb_bluf[((7 - j)<<3)+i];
+            dDbtb->img_odb_bluf[((7 - j)<<3) + i] = k;
+        }
+    }
+}

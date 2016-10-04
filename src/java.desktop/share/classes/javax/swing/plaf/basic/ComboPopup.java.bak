@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.KeyListener;
-import javax.swing.JList;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.fvfnt.KfyListfnfr;
+import jbvbx.swing.JList;
 
 
 /**
- * The interface which defines the methods required for the implementation of the popup
- * portion of a combo box.
+ * Tif intfrfbdf wiidi dffinfs tif mftiods rfquirfd for tif implfmfntbtion of tif popup
+ * portion of b dombo box.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Tom Santos
+ * @butior Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public interface ComboPopup {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid intfrfbdf ComboPopup {
     /**
-     * Shows the popup
+     * Siows tif popup
      */
-    public void show();
+    publid void siow();
 
     /**
-     * Hides the popup
+     * Hidfs tif popup
      */
-    public void hide();
+    publid void iidf();
 
     /**
-     * Returns true if the popup is visible (currently being displayed).
+     * Rfturns truf if tif popup is visiblf (durrfntly bfing displbyfd).
      *
-     * @return <code>true</code> if the component is visible; <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif domponfnt is visiblf; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isVisible();
+    publid boolfbn isVisiblf();
 
     /**
-     * Returns the list that is being used to draw the items in the combo box.
-     * This method is highly implementation specific and should not be used
-     * for general list manipulation.
+     * Rfturns tif list tibt is bfing usfd to drbw tif itfms in tif dombo box.
+     * Tiis mftiod is iigily implfmfntbtion spfdifid bnd siould not bf usfd
+     * for gfnfrbl list mbnipulbtion.
      *
-     * @return the list that is being used to draw the items in the combo box
+     * @rfturn tif list tibt is bfing usfd to drbw tif itfms in tif dombo box
      */
-    public JList<Object> getList();
+    publid JList<Objfdt> gftList();
 
     /**
-     * Returns a mouse listener that will be added to the combo box or null.
-     * If this method returns null then it will not be added to the combo box.
+     * Rfturns b mousf listfnfr tibt will bf bddfd to tif dombo box or null.
+     * If tiis mftiod rfturns null tifn it will not bf bddfd to tif dombo box.
      *
-     * @return a <code>MouseListener</code> or null
+     * @rfturn b <dodf>MousfListfnfr</dodf> or null
      */
-    public MouseListener getMouseListener();
+    publid MousfListfnfr gftMousfListfnfr();
 
     /**
-     * Returns a mouse motion listener that will be added to the combo box or null.
-     * If this method returns null then it will not be added to the combo box.
+     * Rfturns b mousf motion listfnfr tibt will bf bddfd to tif dombo box or null.
+     * If tiis mftiod rfturns null tifn it will not bf bddfd to tif dombo box.
      *
-     * @return a <code>MouseMotionListener</code> or null
+     * @rfturn b <dodf>MousfMotionListfnfr</dodf> or null
      */
-    public MouseMotionListener getMouseMotionListener();
+    publid MousfMotionListfnfr gftMousfMotionListfnfr();
 
     /**
-     * Returns a key listener that will be added to the combo box or null.
-     * If this method returns null then it will not be added to the combo box.
+     * Rfturns b kfy listfnfr tibt will bf bddfd to tif dombo box or null.
+     * If tiis mftiod rfturns null tifn it will not bf bddfd to tif dombo box.
      *
-     * @return a key listener that will be added to the combo box or null
+     * @rfturn b kfy listfnfr tibt will bf bddfd to tif dombo box or null
      */
-    public KeyListener getKeyListener();
+    publid KfyListfnfr gftKfyListfnfr();
 
     /**
-     * Called to inform the ComboPopup that the UI is uninstalling.
-     * If the ComboPopup added any listeners in the component, it should remove them here.
+     * Cbllfd to inform tif ComboPopup tibt tif UI is uninstblling.
+     * If tif ComboPopup bddfd bny listfnfrs in tif domponfnt, it siould rfmovf tifm ifrf.
      */
-    public void uninstallingUI();
+    publid void uninstbllingUI();
 }

@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
 
 
 /**
- * An instrument is a sound-synthesis algorithm with certain parameter
- * settings, usually designed to emulate a specific real-world
- * musical instrument or to achieve a specific sort of sound effect.
- * Instruments are typically stored in collections called soundbanks.
- * Before the instrument can be used to play notes, it must first be loaded
- * onto a synthesizer, and then it must be selected for use on
- * one or more channels, via a program-change command.  MIDI notes
- * that are subsequently received on those channels will be played using
- * the sound of the selected instrument.
+ * An instrumfnt is b sound-syntifsis blgoritim witi dfrtbin pbrbmftfr
+ * sfttings, usublly dfsignfd to fmulbtf b spfdifid rfbl-world
+ * musidbl instrumfnt or to bdiifvf b spfdifid sort of sound ffffdt.
+ * Instrumfnts brf typidblly storfd in dollfdtions dbllfd soundbbnks.
+ * Bfforf tif instrumfnt dbn bf usfd to plby notfs, it must first bf lobdfd
+ * onto b syntifsizfr, bnd tifn it must bf sflfdtfd for usf on
+ * onf or morf dibnnfls, vib b progrbm-dibngf dommbnd.  MIDI notfs
+ * tibt brf subsfqufntly rfdfivfd on tiosf dibnnfls will bf plbyfd using
+ * tif sound of tif sflfdtfd instrumfnt.
  *
- * @see Soundbank
- * @see Soundbank#getInstruments
- * @see Patch
- * @see Synthesizer#loadInstrument(Instrument)
- * @see MidiChannel#programChange(int, int)
- * @author Kara Kytle
+ * @sff Soundbbnk
+ * @sff Soundbbnk#gftInstrumfnts
+ * @sff Pbtdi
+ * @sff Syntifsizfr#lobdInstrumfnt(Instrumfnt)
+ * @sff MidiCibnnfl#progrbmCibngf(int, int)
+ * @butior Kbrb Kytlf
  */
 
-public abstract class Instrument extends SoundbankResource {
+publid bbstrbdt dlbss Instrumfnt fxtfnds SoundbbnkRfsourdf {
 
 
     /**
-     * Instrument patch
+     * Instrumfnt pbtdi
      */
-    private final Patch patch;
+    privbtf finbl Pbtdi pbtdi;
 
 
     /**
-     * Constructs a new MIDI instrument from the specified <code>Patch</code>.
-     * When a subsequent request is made to load the
-     * instrument, the sound bank will search its contents for this instrument's <code>Patch</code>,
-     * and the instrument will be loaded into the synthesizer at the
-     * bank and program location indicated by the <code>Patch</code> object.
-     * @param soundbank sound bank containing the instrument
-     * @param patch the patch of this instrument
-     * @param name the name of this instrument
-     * @param dataClass the class used to represent the sample's data.
+     * Construdts b nfw MIDI instrumfnt from tif spfdififd <dodf>Pbtdi</dodf>.
+     * Wifn b subsfqufnt rfqufst is mbdf to lobd tif
+     * instrumfnt, tif sound bbnk will sfbrdi its dontfnts for tiis instrumfnt's <dodf>Pbtdi</dodf>,
+     * bnd tif instrumfnt will bf lobdfd into tif syntifsizfr bt tif
+     * bbnk bnd progrbm lodbtion indidbtfd by tif <dodf>Pbtdi</dodf> objfdt.
+     * @pbrbm soundbbnk sound bbnk dontbining tif instrumfnt
+     * @pbrbm pbtdi tif pbtdi of tiis instrumfnt
+     * @pbrbm nbmf tif nbmf of tiis instrumfnt
+     * @pbrbm dbtbClbss tif dlbss usfd to rfprfsfnt tif sbmplf's dbtb.
      *
-     * @see Synthesizer#loadInstrument(Instrument)
+     * @sff Syntifsizfr#lobdInstrumfnt(Instrumfnt)
      */
-    protected Instrument(Soundbank soundbank, Patch patch, String name, Class<?> dataClass) {
+    protfdtfd Instrumfnt(Soundbbnk soundbbnk, Pbtdi pbtdi, String nbmf, Clbss<?> dbtbClbss) {
 
-        super(soundbank, name, dataClass);
-        this.patch = patch;
+        supfr(soundbbnk, nbmf, dbtbClbss);
+        tiis.pbtdi = pbtdi;
     }
 
 
     /**
-     * Obtains the <code>Patch</code> object that indicates the bank and program
-     * numbers where this instrument is to be stored in the synthesizer.
-     * @return this instrument's patch
+     * Obtbins tif <dodf>Pbtdi</dodf> objfdt tibt indidbtfs tif bbnk bnd progrbm
+     * numbfrs wifrf tiis instrumfnt is to bf storfd in tif syntifsizfr.
+     * @rfturn tiis instrumfnt's pbtdi
      */
-    public Patch getPatch() {
-        return patch;
+    publid Pbtdi gftPbtdi() {
+        rfturn pbtdi;
     }
 }

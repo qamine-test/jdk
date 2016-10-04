@@ -1,48 +1,48 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
 
 /**
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class Canonicalizer20010315WithComments extends Canonicalizer20010315 {
+publid dlbss Cbnonidblizfr20010315WitiCommfnts fxtfnds Cbnonidblizfr20010315 {
 
     /**
-     * Constructor Canonicalizer20010315WithXPathWithComments
+     * Construdtor Cbnonidblizfr20010315WitiXPbtiWitiCommfnts
      */
-    public Canonicalizer20010315WithComments() {
-        super(true);
+    publid Cbnonidblizfr20010315WitiCommfnts() {
+        supfr(truf);
     }
 
-    /** @inheritDoc */
-    public final String engineGetURI() {
-        return Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS;
+    /** @inifritDod */
+    publid finbl String fnginfGftURI() {
+        rfturn Cbnonidblizfr.ALGO_ID_C14N_WITH_COMMENTS;
     }
 
-    /** @inheritDoc */
-    public final boolean engineGetIncludeComments() {
-        return true;
+    /** @inifritDod */
+    publid finbl boolfbn fnginfGftIndludfCommfnts() {
+        rfturn truf;
     }
 }

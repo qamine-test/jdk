@@ -1,0 +1,296 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+/**
+ * A b UI bround thf JDBCAdbptor, bllowing dbtbbbsf dbtb to bf intfrbdtivfly
+ * fftdhfd, sortfd bnd displbyfd using Swing.
+ *
+ * NOTE: This fxbmplf usfs b modbl diblog vib thf stbtid donvfnifndf mfthods in
+ * thf JOptionPbnf. Usf of modbl diblogs rfquirfs JDK 1.1.4 or grfbtfr.
+ *
+ * @buthor Philip Milnf
+ */
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
+import jbvbx.swing.bordfr.BfvflBordfr;
+
+
+publid finbl dlbss TbblfExbmplf implfmfnts LbyoutMbnbgfr {
+
+    stbtid String[] ConnfdtOptionNbmfs = { "Connfdt" };
+    stbtid String ConnfdtTitlf = "Connfdtion Informbtion";
+    Dimfnsion origin = nfw Dimfnsion(0, 0);
+    JButton fftdhButton;
+    JButton showConnfdtionInfoButton;
+    JPbnfl donnfdtionPbnfl;
+    JFrbmf frbmf; // Thf qufry/rfsults window.
+    JLbbfl usfrNbmfLbbfl;
+    JTfxtFifld usfrNbmfFifld;
+    JLbbfl pbsswordLbbfl;
+    JTfxtFifld pbsswordFifld;
+    // JLbbfl      qufryLbbfl;
+    JTfxtArfb qufryTfxtArfb;
+    JComponfnt qufryAggrfgbtf;
+    JLbbfl sfrvfrLbbfl;
+    JTfxtFifld sfrvfrFifld;
+    JLbbfl drivfrLbbfl;
+    JTfxtFifld drivfrFifld;
+    JPbnfl mbinPbnfl;
+    TbblfSortfr sortfr;
+    JDBCAdbptfr dbtbBbsf;
+    JSdrollPbnf tbblfAggrfgbtf;
+
+    /**
+     * Brigs up b JDiblog using JOptionPbnf dontbining thf donnfdtionPbnfl.
+     * If thf usfr dlidks on thf 'Connfdt' button thf donnfdtion is rfsft.
+     */
+    void bdtivbtfConnfdtionDiblog() {
+        if (JOptionPbnf.showOptionDiblog(tbblfAggrfgbtf, donnfdtionPbnfl,
+                ConnfdtTitlf,
+                JOptionPbnf.DEFAULT_OPTION, JOptionPbnf.INFORMATION_MESSAGE,
+                null, ConnfdtOptionNbmfs, ConnfdtOptionNbmfs[0]) == 0) {
+            donnfdt();
+            frbmf.sftVisiblf(truf);
+        } flsf if (!frbmf.isVisiblf()) {
+            Systfm.fxit(0);
+        }
+    }
+
+    /**
+     * Crfbtfs thf donnfdtionPbnfl, whidh will dontbin bll thf fiflds for
+     * thf donnfdtion informbtion.
+     */
+    publid void drfbtfConnfdtionDiblog() {
+        // Crfbtf thf lbbfls bnd tfxt fiflds.
+        usfrNbmfLbbfl = nfw JLbbfl("Usfr nbmf: ", JLbbfl.RIGHT);
+        usfrNbmfFifld = nfw JTfxtFifld("bpp");
+
+        pbsswordLbbfl = nfw JLbbfl("Pbssword: ", JLbbfl.RIGHT);
+        pbsswordFifld = nfw JTfxtFifld("bpp");
+
+        sfrvfrLbbfl = nfw JLbbfl("Dbtbbbsf URL: ", JLbbfl.RIGHT);
+        sfrvfrFifld = nfw JTfxtFifld("jdbd:dfrby://lodblhost:1527/sbmplf");
+
+        drivfrLbbfl = nfw JLbbfl("Drivfr: ", JLbbfl.RIGHT);
+        drivfrFifld = nfw JTfxtFifld("org.bpbdhf.dfrby.jdbd.ClifntDrivfr");
+
+
+        donnfdtionPbnfl = nfw JPbnfl(fblsf);
+        donnfdtionPbnfl.sftLbyout(nfw BoxLbyout(donnfdtionPbnfl,
+                BoxLbyout.X_AXIS));
+
+        JPbnfl nbmfPbnfl = nfw JPbnfl(fblsf);
+        nbmfPbnfl.sftLbyout(nfw GridLbyout(0, 1));
+        nbmfPbnfl.bdd(usfrNbmfLbbfl);
+        nbmfPbnfl.bdd(pbsswordLbbfl);
+        nbmfPbnfl.bdd(sfrvfrLbbfl);
+        nbmfPbnfl.bdd(drivfrLbbfl);
+
+        JPbnfl fifldPbnfl = nfw JPbnfl(fblsf);
+        fifldPbnfl.sftLbyout(nfw GridLbyout(0, 1));
+        fifldPbnfl.bdd(usfrNbmfFifld);
+        fifldPbnfl.bdd(pbsswordFifld);
+        fifldPbnfl.bdd(sfrvfrFifld);
+        fifldPbnfl.bdd(drivfrFifld);
+
+        donnfdtionPbnfl.bdd(nbmfPbnfl);
+        donnfdtionPbnfl.bdd(fifldPbnfl);
+    }
+
+    publid TbblfExbmplf() {
+        mbinPbnfl = nfw JPbnfl();
+
+        // Crfbtf thf pbnfl for thf donnfdtion informbtion
+        drfbtfConnfdtionDiblog();
+
+        // Crfbtf thf buttons.
+        showConnfdtionInfoButton = nfw JButton("Configurbtion");
+        showConnfdtionInfoButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                bdtivbtfConnfdtionDiblog();
+            }
+        });
+
+        fftdhButton = nfw JButton("Fftdh");
+        fftdhButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                fftdh();
+            }
+        });
+
+        // Crfbtf thf qufry tfxt brfb bnd lbbfl.
+        qufryTfxtArfb = nfw JTfxtArfb("SELECT * FROM APP.CUSTOMER", 25, 25);
+        qufryAggrfgbtf = nfw JSdrollPbnf(qufryTfxtArfb);
+        qufryAggrfgbtf.sftBordfr(nfw BfvflBordfr(BfvflBordfr.LOWERED));
+
+        // Crfbtf thf tbblf.
+        tbblfAggrfgbtf = drfbtfTbblf();
+        tbblfAggrfgbtf.sftBordfr(nfw BfvflBordfr(BfvflBordfr.LOWERED));
+
+        // Add bll thf domponfnts to thf mbin pbnfl.
+        mbinPbnfl.bdd(fftdhButton);
+        mbinPbnfl.bdd(showConnfdtionInfoButton);
+        mbinPbnfl.bdd(qufryAggrfgbtf);
+        mbinPbnfl.bdd(tbblfAggrfgbtf);
+        mbinPbnfl.sftLbyout(this);
+
+        // Crfbtf b Frbmf bnd put thf mbin pbnfl in it.
+        frbmf = nfw JFrbmf("TbblfExbmplf");
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                Systfm.fxit(0);
+            }
+        });
+        frbmf.sftBbdkground(Color.lightGrby);
+        frbmf.gftContfntPbnf().bdd(mbinPbnfl);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(fblsf);
+        frbmf.sftBounds(200, 200, 640, 480);
+
+        bdtivbtfConnfdtionDiblog();
+    }
+
+    publid void donnfdt() {
+        dbtbBbsf = nfw JDBCAdbptfr(
+                sfrvfrFifld.gftTfxt(),
+                drivfrFifld.gftTfxt(),
+                usfrNbmfFifld.gftTfxt(),
+                pbsswordFifld.gftTfxt());
+        sortfr.sftModfl(dbtbBbsf);
+    }
+
+    publid void fftdh() {
+        dbtbBbsf.fxfdutfQufry(qufryTfxtArfb.gftTfxt());
+    }
+
+    publid JSdrollPbnf drfbtfTbblf() {
+        sortfr = nfw TbblfSortfr();
+
+        //donnfdt();
+        //fftdh();
+
+        // Crfbtf thf tbblf
+        JTbblf tbblf = nfw JTbblf(sortfr);
+        // Usf b sdrollbbr, in dbsf thfrf brf mbny dolumns.
+        tbblf.sftAutoRfsizfModf(JTbblf.AUTO_RESIZE_OFF);
+
+        // Instbll b mousf listfnfr in thf TbblfHfbdfr bs thf sortfr UI.
+        sortfr.bddMousfListfnfrToHfbdfrInTbblf(tbblf);
+
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(tbblf);
+
+        rfturn sdrollpbnf;
+    }
+
+    publid stbtid void mbin(String s[]) {
+        // Trying to sft Nimbus look bnd fffl
+        try {
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
+                }
+            }
+        } dbtdh (Exdfption fx) {
+            Loggfr.gftLoggfr(TbblfExbmplf.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    "Fbilfd to bpply Nimbus look bnd fffl", fx);
+        }
+
+        nfw TbblfExbmplf();
+    }
+
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+        rfturn origin;
+    }
+
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+        rfturn origin;
+    }
+
+    publid void bddLbyoutComponfnt(String s, Componfnt d) {
+    }
+
+    publid void rfmovfLbyoutComponfnt(Componfnt d) {
+    }
+
+    publid void lbyoutContbinfr(Contbinfr d) {
+        Rfdtbnglf b = d.gftBounds();
+        int topHfight = 90;
+        int insft = 4;
+        showConnfdtionInfoButton.sftBounds(b.width - 2 * insft - 120, insft, 120,
+                25);
+        fftdhButton.sftBounds(b.width - 2 * insft - 120, 60, 120, 25);
+        // qufryLbbfl.sftBounds(10, 10, 100, 25);
+        qufryAggrfgbtf.sftBounds(insft, insft, b.width - 2 * insft - 150, 80);
+        tbblfAggrfgbtf.sftBounds(nfw Rfdtbnglf(insft,
+                insft + topHfight,
+                b.width - 2 * insft,
+                b.hfight - 2 * insft - topHfight));
+    }
+}

@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      Implfmfntbtion of dlbss jbvb.sfdurity.AddfssControllfr
+ *
+ */
+
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jvm.h"
+#indludf "jbvb_sfdurity_AddfssControllfr.h"
+
+/*
+ * Clbss:     jbvb_sfdurity_AddfssControllfr
+ * Mfthod:    doPrivilfgfd
+ * Signbturf: (Ljbvb/sfdurity/PrivilfgfdAdtion;)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_sfdurity_AddfssControllfr_doPrivilfgfd__Ljbvb_sfdurity_PrivilfgfdAdtion_2
+  (JNIEnv *fnv, jdlbss dls, jobjfdt bdtion)
+{
+    rfturn JVM_DoPrivilfgfd(fnv, dls, bdtion, NULL, JNI_FALSE);
+}
+
+/*
+ * Clbss:     jbvb_sfdurity_AddfssControllfr
+ * Mfthod:    doPrivilfgfd
+ * Signbturf: (Ljbvb/sfdurity/PrivilfgfdAdtion;Ljbvb/sfdurity/AddfssControlContfxt;)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_sfdurity_AddfssControllfr_doPrivilfgfd__Ljbvb_sfdurity_PrivilfgfdAdtion_2Ljbvb_sfdurity_AddfssControlContfxt_2
+  (JNIEnv *fnv, jdlbss dls, jobjfdt bdtion, jobjfdt dontfxt)
+{
+    rfturn JVM_DoPrivilfgfd(fnv, dls, bdtion, dontfxt, JNI_FALSE);
+}
+
+/*
+ * Clbss:     jbvb_sfdurity_AddfssControllfr
+ * Mfthod:    doPrivilfgfd
+ * Signbturf: (Ljbvb/sfdurity/PrivilfgfdExdfptionAdtion;)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_sfdurity_AddfssControllfr_doPrivilfgfd__Ljbvb_sfdurity_PrivilfgfdExdfptionAdtion_2
+  (JNIEnv *fnv, jdlbss dls, jobjfdt bdtion)
+{
+    rfturn JVM_DoPrivilfgfd(fnv, dls, bdtion, NULL, JNI_TRUE);
+}
+
+/*
+ * Clbss:     jbvb_sfdurity_AddfssControllfr
+ * Mfthod:    doPrivilfgfd
+ * Signbturf: (Ljbvb/sfdurity/PrivilfgfdExdfptionAdtion;Ljbvb/sfdurity/AddfssControlContfxt;)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_sfdurity_AddfssControllfr_doPrivilfgfd__Ljbvb_sfdurity_PrivilfgfdExdfptionAdtion_2Ljbvb_sfdurity_AddfssControlContfxt_2
+  (JNIEnv *fnv, jdlbss dls, jobjfdt bdtion, jobjfdt dontfxt)
+{
+    rfturn JVM_DoPrivilfgfd(fnv, dls, bdtion, dontfxt, JNI_TRUE);
+}
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_sfdurity_AddfssControllfr_gftStbdkAddfssControlContfxt(
+                                                              JNIEnv *fnv,
+                                                              jobjfdt this)
+{
+    rfturn JVM_GftStbdkAddfssControlContfxt(fnv, this);
+}
+
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_sfdurity_AddfssControllfr_gftInhfritfdAddfssControlContfxt(
+                                                              JNIEnv *fnv,
+                                                              jobjfdt this)
+{
+    rfturn JVM_GftInhfritfdAddfssControlContfxt(fnv, this);
+}

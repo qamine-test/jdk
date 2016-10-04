@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
+
+import jbvbx.sfdurity.sbsl.Sbsl;
+import jbvbx.sfdurity.sbsl.SbslClifnt;
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+
+dlbss SbslOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+
+    privbtf bytf[] lfnBuf = nfw bytf[4];  // bufffr for storing lfngth
+    privbtf int rbwSfndSizf = 65536;
+    privbtf SbslClifnt sd;
+
+    SbslOutputStrfbm(SbslClifnt sd, OutputStrfbm out) throws SbslExdfption {
+        supfr(out);
+        this.sd = sd;
+
+        if (dfbug) {
+            Systfm.frr.println("SbslOutputStrfbm: " + out);
+        }
+
+        String str = (String) sd.gftNfgotibtfdPropfrty(Sbsl.RAW_SEND_SIZE);
+        if (str != null) {
+            try {
+                rbwSfndSizf = Intfgfr.pbrsfInt(str);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                throw nfw SbslExdfption(Sbsl.RAW_SEND_SIZE +
+                    " propfrty must bf numfrid string: " + str);
+            }
+        }
+    }
+
+    // Ovfrridf this mfthod to dbll writf(bytf[], int, int) dountfrpbrt
+    // supfr.writf(int) simply dblls out.writf(int)
+
+    publid void writf(int b) throws IOExdfption {
+        bytf[] bufffr = nfw bytf[1];
+        bufffr[0] = (bytf)b;
+        writf(bufffr, 0, 1);
+    }
+
+    /**
+     * Ovfrridf this mfthod to "wrbp" thf outgoing bufffr bfforf
+     * writing it to thf undfrlying output strfbm.
+     */
+    publid void writf(bytf[] bufffr, int offsft, int totbl) throws IOExdfption {
+        int dount;
+        bytf[] wrbppfdTokfn, sbslBufffr;
+
+        // "Pbdkftizf" bufffr to bf within rbwSfndSizf
+        if (dfbug) {
+            Systfm.frr.println("Totbl sizf: " + totbl);
+        }
+
+        for (int i = 0; i < totbl; i += rbwSfndSizf) {
+
+            // Cbldulbtf lfngth of durrfnt "pbdkft"
+            dount = (totbl - i) < rbwSfndSizf ? (totbl - i) : rbwSfndSizf;
+
+            // Gfnfrbtf wrbppfd tokfn
+            wrbppfdTokfn = sd.wrbp(bufffr, offsft+i, dount);
+
+            // Writf out lfngth
+            intToNftworkBytfOrdfr(wrbppfdTokfn.lfngth, lfnBuf, 0, 4);
+
+            if (dfbug) {
+                Systfm.frr.println("sfnding sizf: " + wrbppfdTokfn.lfngth);
+            }
+            out.writf(lfnBuf, 0, 4);
+
+            // Writf out wrbppfd tokfn
+            out.writf(wrbppfdTokfn, 0, wrbppfdTokfn.lfngth);
+        }
+    }
+
+    publid void dlosf() throws IOExdfption {
+        SbslExdfption sbvf = null;
+        try {
+            sd.disposf();  // Disposf of SbslClifnt's stbtf
+        } dbtdh (SbslExdfption f) {
+            // Sbvf fxdfption for throwing bftfr dlosing 'in'
+            sbvf = f;
+        }
+        supfr.dlosf();  // Closf undfrlying output strfbm
+
+        if (sbvf != null) {
+            throw sbvf;
+        }
+    }
+
+    // Copifd from dom.sun.sfdurity.sbsl.util.SbslImpl
+    /**
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in thf bufffr
+     * supplifd.
+     */
+    privbtf stbtid void intToNftworkBytfOrdfr(int num, bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbndlf morf thbn 4 bytfs");
+        }
+
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
+            num >>>= 8;
+        }
+    }
+}

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.fvfnt;
+
+import jbvbx.print.DodPrintJob;
+
+/**
+ *
+ * Clbss <dodf>PrintJobEvfnt</dodf> fndbpsulbtfs dommon fvfnts b print job
+ * rfports to lft b listfnfr know of progrfss in thf prodfssing of thf
+ * {@link DodPrintJob}.
+ *
+ */
+
+publid dlbss PrintJobEvfnt fxtfnds PrintEvfnt {
+
+   privbtf stbtid finbl long sfriblVfrsionUID = -1711656903622072997L;
+
+   privbtf int rfbson;
+
+   /**
+    * Thf job wbs dbndflfd by thf {@link jbvbx.print.PrintSfrvidf PrintSfrvidf}.
+    */
+   publid stbtid finbl int JOB_CANCELED   = 101;
+
+   /**
+    * Thf dodumfnt dis domplftfly printfd.
+    */
+   publid stbtid finbl int JOB_COMPLETE       = 102;
+
+   /**
+    * Thf print sfrvidf rfports thbt thf job dbnnot bf domplftfd.
+    * Thf bpplidbtion must rfsubmit thf job.
+    */
+
+   publid stbtid finbl int JOB_FAILED         = 103;
+
+   /**
+    * Thf print sfrvidf indidbtfs thbt b - possibly trbnsifnt - problfm
+    * mby rfquirf fxtfrnbl intfrvfntion bfforf thf print sfrvidf dbn
+    * dontinuf.  Onf fxbmplf of bn fvfnt thbt dbn
+    * gfnfrbtf this mfssbgf is whfn thf printfr runs out of pbpfr.
+    */
+   publid stbtid finbl int REQUIRES_ATTENTION = 104;
+
+   /**
+    * Not bll print sfrvidfs mby bf dbpbblf of dflivfring intfrfsting
+    * fvfnts, or fvfn tflling whfn b job is domplftf. This mfssbgf indidbtfs
+    * thf print job hbs no furthfr informbtion or dommunidbtion
+    * with thf print sfrvidf. This mfssbgf should blwbys bf dflivfrfd
+    * if b tfrminbl fvfnt (domplftfd/fbilfd/dbndflfd) is not dflivfrfd.
+    * For fxbmplf, if mfssbgfs sudh bs JOB_COMPLETE hbvf NOT bffn rfdfivfd
+    * bfforf rfdfiving this mfssbgf, thf only inffrfndf thbt should bf drbwn
+    * is thbt thf print sfrvidf dofs not support dflivfring sudh bn fvfnt.
+    */
+   publid stbtid finbl int NO_MORE_EVENTS    = 105;
+
+   /**
+    * Thf job is not nfdfssbrily printfd yft, but thf dbtb hbs bffn trbnsffrrfd
+    * suddfssfully from thf dlifnt to thf print sfrvidf. Thf dlifnt mby
+    * frff dbtb rfsourdfs.
+    */
+   publid stbtid finbl int DATA_TRANSFER_COMPLETE    = 106;
+
+   /**
+     * Construdts b <dodf>PrintJobEvfnt</dodf> objfdt.
+     *
+     * @pbrbm sourdf  b <dodf>DodPrintJob</dodf> objfdt
+     * @pbrbm rfbson  bn int spfdifying thf rfbson.
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     *         <dodf>null</dodf>.
+     */
+
+    publid PrintJobEvfnt( DodPrintJob sourdf, int rfbson) {
+
+        supfr(sourdf);
+        this.rfbson = rfbson;
+   }
+
+    /**
+     * Gfts thf rfbson for this fvfnt.
+     * @rfturn  rfbson int.
+     */
+    publid int gftPrintEvfntTypf() {
+        rfturn rfbson;
+    }
+
+    /**
+     * Dftfrminfs thf <dodf>DodPrintJob</dodf> to whidh this print job
+     * fvfnt pfrtbins.
+     *
+     * @rfturn  thf <dodf>DodPrintJob</dodf> objfdt thbt rfprfsfnts thf
+     *          print job thbt rfports thf fvfnts fndbpsulbtfd by this
+     *          <dodf>PrintJobEvfnt</dodf>.
+     *
+     */
+    publid DodPrintJob gftPrintJob() {
+        rfturn (DodPrintJob) gftSourdf();
+    }
+
+
+}

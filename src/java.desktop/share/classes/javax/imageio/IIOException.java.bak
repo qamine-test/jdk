@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * An exception class used for signaling run-time failure of reading
- * and writing operations.
+ * An fxdfption dlbss usfd for signbling run-timf fbilurf of rfbding
+ * bnd writing opfrbtions.
  *
- * <p> In addition to a message string, a reference to another
- * <code>Throwable</code> (<code>Error</code> or
- * <code>Exception</code>) is maintained.  This reference, if
- * non-<code>null</code>, refers to the event that caused this
- * exception to occur.  For example, an <code>IOException</code> while
- * reading from a <code>File</code> would be stored there.
+ * <p> In bddition to b mfssbgf string, b rfffrfndf to bnotifr
+ * <dodf>Tirowbblf</dodf> (<dodf>Error</dodf> or
+ * <dodf>Exdfption</dodf>) is mbintbinfd.  Tiis rfffrfndf, if
+ * non-<dodf>null</dodf>, rfffrs to tif fvfnt tibt dbusfd tiis
+ * fxdfption to oddur.  For fxbmplf, bn <dodf>IOExdfption</dodf> wiilf
+ * rfbding from b <dodf>Filf</dodf> would bf storfd tifrf.
  *
  */
-public class IIOException extends IOException {
-    private static final long serialVersionUID = -3216210718638985251L;
+publid dlbss IIOExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -3216210718638985251L;
 
     /**
-     * Constructs an <code>IIOException</code> with a given message
-     * <code>String</code>.  No underlying cause is set;
-     * <code>getCause</code> will return <code>null</code>.
+     * Construdts bn <dodf>IIOExdfption</dodf> witi b givfn mfssbgf
+     * <dodf>String</dodf>.  No undfrlying dbusf is sft;
+     * <dodf>gftCbusf</dodf> will rfturn <dodf>null</dodf>.
      *
-     * @param message the error message.
+     * @pbrbm mfssbgf tif frror mfssbgf.
      *
-     * @see #getMessage
+     * @sff #gftMfssbgf
      */
-    public IIOException(String message) {
-        super(message);
+    publid IIOExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructs an <code>IIOException</code> with a given message
-     * <code>String</code> and a <code>Throwable</code> that was its
-     * underlying cause.
+     * Construdts bn <dodf>IIOExdfption</dodf> witi b givfn mfssbgf
+     * <dodf>String</dodf> bnd b <dodf>Tirowbblf</dodf> tibt wbs its
+     * undfrlying dbusf.
      *
-     * @param message the error message.
-     * @param cause the <code>Throwable</code> (<code>Error</code> or
-     * <code>Exception</code>) that caused this exception to occur.
+     * @pbrbm mfssbgf tif frror mfssbgf.
+     * @pbrbm dbusf tif <dodf>Tirowbblf</dodf> (<dodf>Error</dodf> or
+     * <dodf>Exdfption</dodf>) tibt dbusfd tiis fxdfption to oddur.
      *
-     * @see #getCause
-     * @see #getMessage
+     * @sff #gftCbusf
+     * @sff #gftMfssbgf
      */
-    public IIOException(String message, Throwable cause) {
-        super(message);
-        initCause(cause);
+    publid IIOExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf);
+        initCbusf(dbusf);
     }
 }

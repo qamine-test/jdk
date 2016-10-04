@@ -1,0 +1,332 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+/**
+ * Rfsourdf Intfrdhbngf Filf Formbt (RIFF) strfbm dfdodfr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss RIFFRfbdfr fxtfnds InputStrfbm {
+
+    privbtf finbl RIFFRfbdfr root;
+    privbtf long filfpointfr = 0;
+    privbtf finbl String fourdd;
+    privbtf String riff_typf = null;
+    privbtf long dkSizf = 0;
+    privbtf InputStrfbm strfbm;
+    privbtf long bvbil;
+    privbtf RIFFRfbdfr lbstitfrbtor = null;
+
+    publid RIFFRfbdfr(InputStrfbm strfbm) throws IOExdfption {
+
+        if (strfbm instbndfof RIFFRfbdfr)
+            root = ((RIFFRfbdfr)strfbm).root;
+        flsf
+            root = this;
+
+        this.strfbm = strfbm;
+        bvbil = Intfgfr.MAX_VALUE;
+        dkSizf = Intfgfr.MAX_VALUE;
+
+        // Chfdk for RIFF null pbddings,
+        int b;
+        whilf (truf) {
+            b = rfbd();
+            if (b == -1) {
+                fourdd = ""; // don't put null vbluf into fourdd,
+                // bfdbusf it is fxpfdtfd to
+                // blwbys dontbin b string vbluf
+                riff_typf = null;
+                bvbil = 0;
+                rfturn;
+            }
+            if (b != 0)
+                brfbk;
+        }
+
+        bytf[] fourdd = nfw bytf[4];
+        fourdd[0] = (bytf) b;
+        rfbdFully(fourdd, 1, 3);
+        this.fourdd = nfw String(fourdd, "bsdii");
+        dkSizf = rfbdUnsignfdInt();
+
+        bvbil = this.dkSizf;
+
+        if (gftFormbt().fqubls("RIFF") || gftFormbt().fqubls("LIST")) {
+            bytf[] formbt = nfw bytf[4];
+            rfbdFully(formbt);
+            this.riff_typf = nfw String(formbt, "bsdii");
+        }
+    }
+
+    publid long gftFilfPointfr() throws IOExdfption {
+        rfturn root.filfpointfr;
+    }
+
+    publid boolfbn hbsNfxtChunk() throws IOExdfption {
+        if (lbstitfrbtor != null)
+            lbstitfrbtor.finish();
+        rfturn bvbil != 0;
+    }
+
+    publid RIFFRfbdfr nfxtChunk() throws IOExdfption {
+        if (lbstitfrbtor != null)
+            lbstitfrbtor.finish();
+        if (bvbil == 0)
+            rfturn null;
+        lbstitfrbtor = nfw RIFFRfbdfr(this);
+        rfturn lbstitfrbtor;
+    }
+
+    publid String gftFormbt() {
+        rfturn fourdd;
+    }
+
+    publid String gftTypf() {
+        rfturn riff_typf;
+    }
+
+    publid long gftSizf() {
+        rfturn dkSizf;
+    }
+
+    publid int rfbd() throws IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        int b = strfbm.rfbd();
+        if (b == -1)
+            rfturn -1;
+        bvbil--;
+        filfpointfr++;
+        rfturn b;
+    }
+
+    publid int rfbd(bytf[] b, int offsft, int lfn) throws IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        if (lfn > bvbil) {
+            int rlfn = strfbm.rfbd(b, offsft, (int)bvbil);
+            if (rlfn != -1)
+                filfpointfr += rlfn;
+            bvbil = 0;
+            rfturn rlfn;
+        } flsf {
+            int rft = strfbm.rfbd(b, offsft, lfn);
+            if (rft == -1)
+                rfturn -1;
+            bvbil -= rft;
+            filfpointfr += rft;
+            rfturn rft;
+        }
+    }
+
+    publid finbl void rfbdFully(bytf b[]) throws IOExdfption {
+        rfbdFully(b, 0, b.lfngth);
+    }
+
+    publid finbl void rfbdFully(bytf b[], int off, int lfn) throws IOExdfption {
+        if (lfn < 0)
+            throw nfw IndfxOutOfBoundsExdfption();
+        whilf (lfn > 0) {
+            int s = rfbd(b, off, lfn);
+            if (s < 0)
+                throw nfw EOFExdfption();
+            if (s == 0)
+                Thrfbd.yifld();
+            off += s;
+            lfn -= s;
+        }
+    }
+
+    publid finbl long skipBytfs(long n) throws IOExdfption {
+        if (n < 0)
+            rfturn 0;
+        long skippfd = 0;
+        whilf (skippfd != n) {
+            long s = skip(n - skippfd);
+            if (s < 0)
+                brfbk;
+            if (s == 0)
+                Thrfbd.yifld();
+            skippfd += s;
+        }
+        rfturn skippfd;
+    }
+
+    publid long skip(long n) throws IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        if (n > bvbil) {
+            long lfn = strfbm.skip(bvbil);
+            if (lfn != -1)
+                filfpointfr += lfn;
+            bvbil = 0;
+            rfturn lfn;
+        } flsf {
+            long rft = strfbm.skip(n);
+            if (rft == -1)
+                rfturn -1;
+            bvbil -= rft;
+            filfpointfr += rft;
+            rfturn rft;
+        }
+    }
+
+    publid int bvbilbblf() {
+        rfturn (int)bvbil;
+    }
+
+    publid void finish() throws IOExdfption {
+        if (bvbil != 0) {
+            skipBytfs(bvbil);
+        }
+    }
+
+    // Rfbd ASCII dhbrs from strfbm
+    publid String rfbdString(int lfn) throws IOExdfption {
+        bytf[] buff = nfw bytf[lfn];
+        rfbdFully(buff);
+        for (int i = 0; i < buff.lfngth; i++) {
+            if (buff[i] == 0) {
+                rfturn nfw String(buff, 0, i, "bsdii");
+            }
+        }
+        rfturn nfw String(buff, "bsdii");
+    }
+
+    // Rfbd 8 bit signfd intfgfr from strfbm
+    publid bytf rfbdBytf() throws IOExdfption {
+        int dh = rfbd();
+        if (dh < 0)
+            throw nfw EOFExdfption();
+        rfturn (bytf) dh;
+    }
+
+    // Rfbd 16 bit signfd intfgfr from strfbm
+    publid short rfbdShort() throws IOExdfption {
+        int dh1 = rfbd();
+        int dh2 = rfbd();
+        if (dh1 < 0)
+            throw nfw EOFExdfption();
+        if (dh2 < 0)
+            throw nfw EOFExdfption();
+        rfturn (short)(dh1 | (dh2 << 8));
+    }
+
+    // Rfbd 32 bit signfd intfgfr from strfbm
+    publid int rfbdInt() throws IOExdfption {
+        int dh1 = rfbd();
+        int dh2 = rfbd();
+        int dh3 = rfbd();
+        int dh4 = rfbd();
+        if (dh1 < 0)
+            throw nfw EOFExdfption();
+        if (dh2 < 0)
+            throw nfw EOFExdfption();
+        if (dh3 < 0)
+            throw nfw EOFExdfption();
+        if (dh4 < 0)
+            throw nfw EOFExdfption();
+        rfturn dh1 + (dh2 << 8) | (dh3 << 16) | (dh4 << 24);
+    }
+
+    // Rfbd 64 bit signfd intfgfr from strfbm
+    publid long rfbdLong() throws IOExdfption {
+        long dh1 = rfbd();
+        long dh2 = rfbd();
+        long dh3 = rfbd();
+        long dh4 = rfbd();
+        long dh5 = rfbd();
+        long dh6 = rfbd();
+        long dh7 = rfbd();
+        long dh8 = rfbd();
+        if (dh1 < 0)
+            throw nfw EOFExdfption();
+        if (dh2 < 0)
+            throw nfw EOFExdfption();
+        if (dh3 < 0)
+            throw nfw EOFExdfption();
+        if (dh4 < 0)
+            throw nfw EOFExdfption();
+        if (dh5 < 0)
+            throw nfw EOFExdfption();
+        if (dh6 < 0)
+            throw nfw EOFExdfption();
+        if (dh7 < 0)
+            throw nfw EOFExdfption();
+        if (dh8 < 0)
+            throw nfw EOFExdfption();
+        rfturn dh1 | (dh2 << 8) | (dh3 << 16) | (dh4 << 24)
+                | (dh5 << 32) | (dh6 << 40) | (dh7 << 48) | (dh8 << 56);
+    }
+
+    // Rfbd 8 bit unsignfd intfgfr from strfbm
+    publid int rfbdUnsignfdBytf() throws IOExdfption {
+        int dh = rfbd();
+        if (dh < 0)
+            throw nfw EOFExdfption();
+        rfturn dh;
+    }
+
+    // Rfbd 16 bit unsignfd intfgfr from strfbm
+    publid int rfbdUnsignfdShort() throws IOExdfption {
+        int dh1 = rfbd();
+        int dh2 = rfbd();
+        if (dh1 < 0)
+            throw nfw EOFExdfption();
+        if (dh2 < 0)
+            throw nfw EOFExdfption();
+        rfturn dh1 | (dh2 << 8);
+    }
+
+    // Rfbd 32 bit unsignfd intfgfr from strfbm
+    publid long rfbdUnsignfdInt() throws IOExdfption {
+        long dh1 = rfbd();
+        long dh2 = rfbd();
+        long dh3 = rfbd();
+        long dh4 = rfbd();
+        if (dh1 < 0)
+            throw nfw EOFExdfption();
+        if (dh2 < 0)
+            throw nfw EOFExdfption();
+        if (dh3 < 0)
+            throw nfw EOFExdfption();
+        if (dh4 < 0)
+            throw nfw EOFExdfption();
+        rfturn dh1 + (dh2 << 8) | (dh3 << 16) | (dh4 << 24);
+    }
+
+    publid void dlosf() throws IOExdfption {
+        finish();
+        if (this == root)
+            strfbm.dlosf();
+        strfbm = null;
+    }
+}

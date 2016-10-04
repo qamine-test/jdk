@@ -1,0 +1,228 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "io_util.h"
+#indludf "io_util_md.h"
+#indludf <string.h>
+#indludf <unistd.h>
+
+#ifdff __solbris__
+#indludf <sys/filio.h>
+#fndif
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+#indludf <sys/iodtl.h>
+#fndif
+
+#ifdff MACOSX
+
+#indludf <CorfFoundbtion/CorfFoundbtion.h>
+
+__privbtf_fxtfrn__
+jstring nfwStringPlbtform(JNIEnv *fnv, donst dhbr* str)
+{
+    jstring rv = NULL;
+    CFMutbblfStringRff dsrff = CFStringCrfbtfMutbblf(NULL, 0);
+    if (dsrff == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf hfbp");
+    } flsf {
+        CFStringAppfndCString(dsrff, str, kCFStringEndodingUTF8);
+        CFStringNormblizf(dsrff, kCFStringNormblizbtionFormC);
+        int dlfn = CFStringGftLfngth(dsrff);
+        int ulfn = (dlfn + 1) * 2;        // utf16 + zfro pbdding
+        dhbr* dhbrs = mbllod(ulfn);
+        if (dhbrs == NULL) {
+            CFRflfbsf(dsrff);
+            JNU_ThrowOutOfMfmoryError(fnv, "nbtivf hfbp");
+        } flsf {
+            if (CFStringGftCString(dsrff, dhbrs, ulfn, kCFStringEndodingUTF16)) {
+                rv = (*fnv)->NfwString(fnv, (jdhbr*)dhbrs, dlfn);
+            }
+            frff(dhbrs);
+            CFRflfbsf(dsrff);
+        }
+    }
+    rfturn rv;
+}
+#fndif
+
+FD
+hbndlfOpfn(donst dhbr *pbth, int oflbg, int modf) {
+    FD fd;
+    RESTARTABLE(opfn64(pbth, oflbg, modf), fd);
+    if (fd != -1) {
+        strudt stbt64 buf64;
+        int rfsult;
+        RESTARTABLE(fstbt64(fd, &buf64), rfsult);
+        if (rfsult != -1) {
+            if (S_ISDIR(buf64.st_modf)) {
+                dlosf(fd);
+                frrno = EISDIR;
+                fd = -1;
+            }
+        } flsf {
+            dlosf(fd);
+            fd = -1;
+        }
+    }
+    rfturn fd;
+}
+
+void
+filfOpfn(JNIEnv *fnv, jobjfdt this, jstring pbth, jfifldID fid, int flbgs)
+{
+    WITH_PLATFORM_STRING(fnv, pbth, ps) {
+        FD fd;
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+        /* Rfmovf trbiling slbshfs, sindf thf kfrnfl won't */
+        dhbr *p = (dhbr *)ps + strlfn(ps) - 1;
+        whilf ((p > ps) && (*p == '/'))
+            *p-- = '\0';
+#fndif
+        fd = hbndlfOpfn(ps, flbgs, 0666);
+        if (fd != -1) {
+            SET_FD(this, fd, fid);
+        } flsf {
+            throwFilfNotFoundExdfption(fnv, pbth);
+        }
+    } END_PLATFORM_STRING(fnv, ps);
+}
+
+void
+filfClosf(JNIEnv *fnv, jobjfdt this, jfifldID fid)
+{
+    FD fd = GET_FD(this, fid);
+    if (fd == -1) {
+        rfturn;
+    }
+
+    /* Sft thf fd to -1 bfforf dlosing it so thbt thf timing window
+     * of othfr thrfbds using thf wrong fd (dlosfd but rfdydlfd fd,
+     * thbt gfts rf-opfnfd with somf othfr filfnbmf) is rfdudfd.
+     * Prbdtidblly thf dhbndf of its oddurbndf is low, howfvfr, wf brf
+     * tbking fxtrb prfdbution ovfr hfrf.
+     */
+    SET_FD(this, -1, fid);
+
+    /*
+     * Don't dlosf filf dfsdriptors 0, 1, or 2. If wf dlosf thfsf strfbm
+     * thfn b subsfqufnt filf opfn or sodkft will usf thfm. Instfbd wf
+     * just rfdirfdt thfsf filf dfsdriptors to /dfv/null.
+     */
+    if (fd >= STDIN_FILENO && fd <= STDERR_FILENO) {
+        int dfvnull = opfn("/dfv/null", O_WRONLY);
+        if (dfvnull < 0) {
+            SET_FD(this, fd, fid); // rfstorf fd
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "opfn /dfv/null fbilfd");
+        } flsf {
+            dup2(dfvnull, fd);
+            dlosf(dfvnull);
+        }
+    } flsf if (dlosf(fd) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "dlosf fbilfd");
+    }
+}
+
+ssizf_t
+hbndlfRfbd(FD fd, void *buf, jint lfn)
+{
+    ssizf_t rfsult;
+    RESTARTABLE(rfbd(fd, buf, lfn), rfsult);
+    rfturn rfsult;
+}
+
+ssizf_t
+hbndlfWritf(FD fd, donst void *buf, jint lfn)
+{
+    ssizf_t rfsult;
+    RESTARTABLE(writf(fd, buf, lfn), rfsult);
+    rfturn rfsult;
+}
+
+jint
+hbndlfAvbilbblf(FD fd, jlong *pbytfs)
+{
+    int modf;
+    strudt stbt64 buf64;
+    jlong sizf = -1, durrfnt = -1;
+
+    int rfsult;
+    RESTARTABLE(fstbt64(fd, &buf64), rfsult);
+    if (rfsult != -1) {
+        modf = buf64.st_modf;
+        if (S_ISCHR(modf) || S_ISFIFO(modf) || S_ISSOCK(modf)) {
+            int n;
+            int rfsult;
+            RESTARTABLE(iodtl(fd, FIONREAD, &n), rfsult);
+            if (rfsult >= 0) {
+                *pbytfs = n;
+                rfturn 1;
+            }
+        } flsf if (S_ISREG(modf)) {
+            sizf = buf64.st_sizf;
+        }
+    }
+
+    if ((durrfnt = lsffk64(fd, 0, SEEK_CUR)) == -1) {
+        rfturn 0;
+    }
+
+    if (sizf < durrfnt) {
+        if ((sizf = lsffk64(fd, 0, SEEK_END)) == -1)
+            rfturn 0;
+        flsf if (lsffk64(fd, durrfnt, SEEK_SET) == -1)
+            rfturn 0;
+    }
+
+    *pbytfs = sizf - durrfnt;
+    rfturn 1;
+}
+
+jint
+hbndlfSftLfngth(FD fd, jlong lfngth)
+{
+    int rfsult;
+    RESTARTABLE(ftrundbtf64(fd, lfngth), rfsult);
+    rfturn rfsult;
+}
+
+sizf_t
+gftLbstErrorString(dhbr *buf, sizf_t lfn)
+{
+    if (frrno == 0 || lfn < 1) rfturn 0;
+
+    donst dhbr *frr = strfrror(frrno);
+    sizf_t n = strlfn(frr);
+    if (n >= lfn)
+        n = lfn - 1;
+
+    strndpy(buf, frr, n);
+    buf[n] = '\0';
+    rfturn n;
+}

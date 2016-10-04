@@ -1,0 +1,627 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.invokf.util;
+
+/**
+ * Utility routinfs for dfbling with bytfdodf-lfvfl nbmfs.
+ * Indludfs univfrsbl mbngling rulfs for thf JVM.
+ *
+ * <h3>Avoiding Dbngfrous Chbrbdtfrs </h3>
+ *
+ * <p>
+ * Thf JVM dffinfs b vfry smbll sft of dhbrbdtfrs whidh brf illfgbl
+ * in nbmf spfllings.  Wf will slightly fxtfnd bnd rfgulbrizf this sft
+ * into b group of <ditf>dbngfrous dhbrbdtfrs</ditf>.
+ * Thfsf dhbrbdtfrs will thfn bf rfplbdfd, in mbnglfd nbmfs, by fsdbpf sfqufndfs.
+ * In bddition, bddidfntbl fsdbpf sfqufndfs must bf furthfr fsdbpfd.
+ * Finblly, b spfdibl prffix will bf bpplifd if bnd only if
+ * thf mbngling would othfrwisf fbil to bfgin with thf fsdbpf dhbrbdtfr.
+ * This hbppfns to dovfr thf dornfr dbsf of thf null string,
+ * bnd blso dlfbrly mbrks symbols whidh nffd dfmbngling.
+ * </p>
+ * <p>
+ * Dbngfrous dhbrbdtfrs brf thf union of bll dhbrbdtfrs forbiddfn
+ * or othfrwisf rfstridtfd by thf JVM spfdifidbtion,
+ * plus thfir mbtfs, if thfy brf brbdkfts
+ * (<dodf><big><b>[</b></big></dodf> bnd <dodf><big><b>]</b></big></dodf>,
+ * <dodf><big><b>&lt;</b></big></dodf> bnd <dodf><big><b>&gt;</b></big></dodf>),
+ * plus, brbitrbrily, thf dolon dhbrbdtfr <dodf><big><b>:</b></big></dodf>.
+ * Thfrf is no distindtion bftwffn typf, mfthod, bnd fifld nbmfs.
+ * This mbkfs it fbsifr to donvfrt bftwffn mbnglfd nbmfs of difffrfnt
+ * typfs, sindf thfy do not nffd to bf dfdodfd (dfmbnglfd).
+ * </p>
+ * <p>
+ * Thf fsdbpf dhbrbdtfr is bbdkslbsh <dodf><big><b>\</b></big></dodf>
+ * (blso known bs rfvfrsf solidus).
+ * This dhbrbdtfr is, until now, unhfbrd of in bytfdodf nbmfs,
+ * but trbditionbl in thf proposfd rolf.
+ *
+ * </p>
+ * <h3> Rfplbdfmfnt Chbrbdtfrs </h3>
+ *
+ *
+ * <p>
+ * Evfry fsdbpf sfqufndf is two dhbrbdtfrs
+ * (in fbdt, two UTF8 bytfs) bfginning with
+ * thf fsdbpf dhbrbdtfr bnd followfd by b
+ * <ditf>rfplbdfmfnt dhbrbdtfr</ditf>.
+ * (Sindf thf rfplbdfmfnt dhbrbdtfr is nfvfr b bbdkslbsh,
+ * itfrbtfd mbnglings do not doublf in sizf.)
+ * </p>
+ * <p>
+ * Ebdh dbngfrous dhbrbdtfr hbs somf rough visubl similbrity
+ * to its dorrfsponding rfplbdfmfnt dhbrbdtfr.
+ * This mbkfs mbnglfd symbols fbsifr to rfdognizf by sight.
+ * </p>
+ * <p>
+ * Thf dbngfrous dhbrbdtfrs brf
+ * <dodf><big><b>/</b></big></dodf> (forwbrd slbsh, usfd to dflimit pbdkbgf domponfnts),
+ * <dodf><big><b>.</b></big></dodf> (dot, blso b pbdkbgf dflimitfr),
+ * <dodf><big><b>;</b></big></dodf> (sfmidolon, usfd in signbturfs),
+ * <dodf><big><b>$</b></big></dodf> (dollbr, usfd in innfr dlbssfs bnd synthftid mfmbfrs),
+ * <dodf><big><b>&lt;</b></big></dodf> (lfft bnglf),
+ * <dodf><big><b>&gt;</b></big></dodf> (right bnglf),
+ * <dodf><big><b>[</b></big></dodf> (lfft squbrf brbdkft, usfd in brrby typfs),
+ * <dodf><big><b>]</b></big></dodf> (right squbrf brbdkft, rfsfrvfd in this sdhfmf for lbngubgf usf),
+ * bnd <dodf><big><b>:</b></big></dodf> (dolon, rfsfrvfd in this sdhfmf for lbngubgf usf).
+ * Thfir rfplbdfmfnts brf, rfspfdtivfly,
+ * <dodf><big><b>|</b></big></dodf> (vfrtidbl bbr),
+ * <dodf><big><b>,</b></big></dodf> (dommb),
+ * <dodf><big><b>?</b></big></dodf> (qufstion mbrk),
+ * <dodf><big><b>%</b></big></dodf> (pfrdfnt),
+ * <dodf><big><b>^</b></big></dodf> (dbrft),
+ * <dodf><big><b>_</b></big></dodf> (undfrsdorf), bnd
+ * <dodf><big><b>{</b></big></dodf> (lfft durly brbdkft),
+ * <dodf><big><b>}</b></big></dodf> (right durly brbdkft),
+ * <dodf><big><b>!</b></big></dodf> (fxdlbmbtion mbrk).
+ * In bddition, thf rfplbdfmfnt dhbrbdtfr for thf fsdbpf dhbrbdtfr itsflf is
+ * <dodf><big><b>-</b></big></dodf> (hyphfn),
+ * bnd thf rfplbdfmfnt dhbrbdtfr for thf null prffix is
+ * <dodf><big><b>=</b></big></dodf> (fqubl sign).
+ * </p>
+ * <p>
+ * An fsdbpf dhbrbdtfr <dodf><big><b>\</b></big></dodf>
+ * followfd by bny of thfsf rfplbdfmfnt dhbrbdtfrs
+ * is bn fsdbpf sfqufndf, bnd thfrf brf no othfr fsdbpf sfqufndfs.
+ * An fqubl sign is only pbrt of bn fsdbpf sfqufndf
+ * if it is thf sfdond dhbrbdtfr in thf wholf string, following b bbdkslbsh.
+ * Two donsfdutivf bbdkslbshfs do <fm>not</fm> form bn fsdbpf sfqufndf.
+ * </p>
+ * <p>
+ * Ebdh fsdbpf sfqufndf rfplbdfs b so-dbllfd <ditf>originbl dhbrbdtfr</ditf>
+ * whidh is fithfr onf of thf dbngfrous dhbrbdtfrs or thf fsdbpf dhbrbdtfr.
+ * A null prffix rfplbdfs bn initibl null string, not b dhbrbdtfr.
+ * </p>
+ * <p>
+ * All this implifs thbt fsdbpf sfqufndfs dbnnot ovfrlbp bnd mby bf
+ * dftfrminfd bll bt ondf for b wholf string.  Notf thbt b spflling
+ * string dbn dontbin <ditf>bddidfntbl fsdbpfs</ditf>, bppbrfnt fsdbpf
+ * sfqufndfs whidh must not bf intfrprftfd bs mbnglings.
+ * Thfsf brf disbblfd by rfplbding thfir lfbding bbdkslbsh with bn
+ * fsdbpf sfqufndf (<dodf><big><b>\-</b></big></dodf>).  To mbnglf b string, thrff logidbl stfps
+ * brf rfquirfd, though thfy mby bf dbrrifd out in onf pbss:
+ * </p>
+ * <ol>
+ *   <li>In fbdh bddidfntbl fsdbpf, rfplbdf thf bbdkslbsh with bn fsdbpf sfqufndf
+ * (<dodf><big><b>\-</b></big></dodf>).</li>
+ *   <li>Rfplbdf fbdh dbngfrous dhbrbdtfr with bn fsdbpf sfqufndf
+ * (<dodf><big><b>\|</b></big></dodf> for <dodf><big><b>/</b></big></dodf>, ftd.).</li>
+ *   <li>If thf first two stfps introdudfd bny dhbngf, <fm>bnd</fm>
+ * if thf string dofs not blrfbdy bfgin with b bbdkslbsh, prfpfnd b null prffix (<dodf><big><b>\=</b></big></dodf>).</li>
+ * </ol>
+ *
+ * To dfmbnglf b mbnglfd string thbt bfgins with bn fsdbpf,
+ * rfmovf bny null prffix, bnd thfn rfplbdf (in pbrbllfl)
+ * fbdh fsdbpf sfqufndf by its originbl dhbrbdtfr.
+ * <p>Spflling strings whidh dontbin bddidfntbl
+ * fsdbpfs <fm>must</fm> hbvf thfm rfplbdfd, fvfn if thosf
+ * strings do not dontbin dbngfrous dhbrbdtfrs.
+ * This rfstridtion mfbns thbt mbngling b string blwbys
+ * rfquirfs b sdbn of thf string for fsdbpfs.
+ * But thfn, b sdbn would bf rfquirfd bnywby,
+ * to dhfdk for dbngfrous dhbrbdtfrs.
+ *
+ * </p>
+ * <h3> Nidf Propfrtifs </h3>
+ *
+ * <p>
+ * If b bytfdodf nbmf dofs not dontbin bny fsdbpf sfqufndf,
+ * dfmbngling is b no-op:  Thf string dfmbnglfs to itsflf.
+ * Sudh b string is dbllfd <ditf>sflf-mbngling</ditf>.
+ * Almost bll strings brf sflf-mbngling.
+ * In prbdtidf, to dfmbnglf blmost bny nbmf &ldquo;found in nbturf&rdquo;,
+ * simply vfrify thbt it dofs not bfgin with b bbdkslbsh.
+ * </p>
+ * <p>
+ * Mbngling is b onf-to-onf fundtion, whilf dfmbngling
+ * is b mbny-to-onf fundtion.
+ * A mbnglfd string is dffinfd bs <ditf>vblidly mbnglfd</ditf> if
+ * it is in fbdt thf uniquf mbngling of its spflling string.
+ * Thrff fxbmplfs of invblidly mbnglfd strings brf <dodf><big><b>\=foo</b></big></dodf>,
+ * <dodf><big><b>\-bbr</b></big></dodf>, bnd <dodf><big><b>bbz\!</b></big></dodf>, whidh dfmbnglf to <dodf><big><b>foo</b></big></dodf>, <dodf><big><b>\bbr</b></big></dodf>, bnd
+ * <dodf><big><b>bbz\!</b></big></dodf>, but thfn rfmbnglf to <dodf><big><b>foo</b></big></dodf>, <dodf><big><b>\bbr</b></big></dodf>, bnd <dodf><big><b>\=bbz\-!</b></big></dodf>.
+ * If b lbngubgf bbdk-fnd or runtimf is using mbnglfd nbmfs,
+ * it should nfvfr prfsfnt bn invblidly mbnglfd bytfdodf
+ * nbmf to thf JVM.  If thf runtimf fndountfrs onf,
+ * it should blso rfport bn frror, sindf sudh bn oddurrfndf
+ * probbbly indidbtfs b bug in nbmf fndoding whidh
+ * will lfbd to frrors in linkbgf.
+ * Howfvfr, this notf dofs not proposf thbt thf JVM vfrififr
+ * dftfdt invblidly mbnglfd nbmfs.
+ * </p>
+ * <p>
+ * As b rfsult of thfsf rulfs, it is b simplf mbttfr to
+ * domputf vblidly mbnglfd substrings bnd dondbtfnbtions
+ * of vblidly mbnglfd strings, bnd (with b littlf dbrf)
+ * thfsf dorrfspond to dorrfsponding opfrbtions on thfir
+ * spflling strings.
+ * </p>
+ * <ul>
+ *   <li>Any prffix of b vblidly mbnglfd string is blso vblidly mbnglfd,
+ * blthough b null prffix mby nffd to bf rfmovfd.</li>
+ *   <li>Any suffix of b vblidly mbnglfd string is blso vblidly mbnglfd,
+ * blthough b null prffix mby nffd to bf bddfd.</li>
+ *   <li>Two vblidly mbnglfd strings, whfn dondbtfnbtfd,
+ * brf blso vblidly mbnglfd, blthough bny null prffix
+ * must bf rfmovfd from thf sfdond string,
+ * bnd b trbiling bbdkslbsh on thf first string mby nffd fsdbping,
+ * if it would pbrtidipbtf in bn bddidfntbl fsdbpf whfn followfd
+ * by thf first dhbrbdtfr of thf sfdond string.</li>
+ * </ul>
+ * <p>If lbngubgfs thbt indludf non-Jbvb symbol spfllings usf this
+ * mbngling donvfntion, thfy will fnjoy thf following bdvbntbgfs:
+ * </p>
+ * <ul>
+ *   <li>Thfy dbn intfropfrbtf vib symbols thfy shbrf in dommon.</li>
+ *   <li>Low-lfvfl tools, sudh bs bbdktrbdf printfrs, will hbvf rfbdbblf displbys.</li>
+ *   <li>Futurf JVM bnd lbngubgf fxtfnsions dbn sbffly usf thf dbngfrous dhbrbdtfrs
+ * for strudturing symbols, but will nfvfr intfrffrf with vblid spfllings.</li>
+ *   <li>Runtimfs bnd dompilfrs dbn usf stbndbrd librbrifs for mbngling bnd dfmbngling.</li>
+ *   <li>Oddbsionbl trbnslitfrbtions bnd nbmf domposition will bf simplf bnd rfgulbr,
+ * for dlbssfs, mfthods, bnd fiflds.</li>
+ *   <li>Bytfdodf nbmfs will dontinuf to bf dompbdt.
+ * Whfn mbnglfd, spfllings will bt most doublf in lfngth, fithfr in
+ * UTF8 or UTF16 formbt, bnd most will not dhbngf bt bll.</li>
+ * </ul>
+ *
+ *
+ * <h3> Suggfstions for Humbn Rfbdbblf Prfsfntbtions </h3>
+ *
+ *
+ * <p>
+ * For humbn rfbdbblf displbys of symbols,
+ * it will bf bfttfr to prfsfnt b string-likf quotfd
+ * rfprfsfntbtion of thf spflling, bfdbusf JVM usfrs
+ * brf gfnfrblly fbmilibr with sudh tokfns.
+ * Wf suggfst using singlf or doublf quotfs bfforf bnd bftfr
+ * mbnglfd symbols whidh brf not vblid Jbvb idfntififrs,
+ * with quotfs, bbdkslbshfs, bnd non-printing dhbrbdtfrs
+ * fsdbpfd bs if for litfrbls in thf Jbvb lbngubgf.
+ * </p>
+ * <p>
+ * For fxbmplf, bn HTML-likf spflling
+ * <dodf><big><b>&lt;prf&gt;</b></big></dodf> mbnglfs to
+ * <dodf><big><b>\^prf\_</b></big></dodf> bnd dould
+ * displby morf dlfbnly bs
+ * <dodf><big><b>'&lt;prf&gt;'</b></big></dodf>,
+ * with thf quotfs indludfd.
+ * Sudh string-likf donvfntions brf <fm>not</fm> suitbblf
+ * for mbnglfd bytfdodf nbmfs, in pbrt bfdbusf
+ * dbngfrous dhbrbdtfrs must bf fliminbtfd, rbthfr
+ * thbn just quotfd.  Othfrwisf intfrnblly strudturfd
+ * strings likf pbdkbgf prffixfs bnd mfthod signbturfs
+ * dould not bf rflibbly pbrsfd.
+ * </p>
+ * <p>
+ * In sudh humbn-rfbdbblf displbys, invblidly mbnglfd
+ * nbmfs should <fm>not</fm> bf dfmbnglfd bnd quotfd,
+ * for this would bf mislfbding.  Likfwisf, JVM symbols
+ * whidh dontbin dbngfrous dhbrbdtfrs (likf dots in fifld
+ * nbmfs or brbdkfts in mfthod nbmfs) should not bf
+ * simply quotfd.  Thf bytfdodf nbmfs
+ * <dodf><big><b>\=phbsf\,1</b></big></dodf> bnd
+ * <dodf><big><b>phbsf.1</b></big></dodf> brf distindt,
+ * bnd in dfmbnglfd displbys thfy should bf prfsfntfd bs
+ * <dodf><big><b>'phbsf.1'</b></big></dodf> bnd somfthing likf
+ * <dodf><big><b>'phbsf'.1</b></big></dodf>, rfspfdtivfly.
+ * </p>
+ *
+ * @buthor John Rosf
+ * @vfrsion 1.2, 02/06/2008
+ * @sff http://blogs.sun.dom/jrosf/fntry/symbolid_frffdom_in_thf_vm
+ */
+publid dlbss BytfdodfNbmf {
+    privbtf BytfdodfNbmf() { }  // stbtid only dlbss
+
+    /** Givfn b sourdf nbmf, produdf thf dorrfsponding bytfdodf nbmf.
+     * Thf sourdf nbmf should not bf qublififd, bfdbusf bny syntbdtid
+     * mbrkfrs (dots, slbshfs, dollbr signs, dolons, ftd.) will bf mbnglfd.
+     * @pbrbm s thf sourdf nbmf
+     * @rfturn b vblid bytfdodf nbmf whidh rfprfsfnts thf sourdf nbmf
+     */
+    publid stbtid String toBytfdodfNbmf(String s) {
+        String bn = mbnglf(s);
+        bssfrt((Objfdt)bn == s || looksMbnglfd(bn)) : bn;
+        bssfrt(s.fqubls(toSourdfNbmf(bn))) : s;
+        rfturn bn;
+    }
+
+    /** Givfn bn unqublififd bytfdodf nbmf, produdf thf dorrfsponding sourdf nbmf.
+     * Thf bytfdodf nbmf must not dontbin dbngfrous dhbrbdtfrs.
+     * In pbrtidulbr, it must not bf qublififd or sfgmfntfd by dolon {@dodf ':'}.
+     * @pbrbm s thf bytfdodf nbmf
+     * @rfturn thf sourdf nbmf, whidh mby possibly hbvf unsbff dhbrbdtfrs
+     * @throws IllfgblArgumfntExdfption if thf bytfdodf nbmf is not {@link #isSbffBytfdodfNbmf sbff}
+     * @sff #isSbffBytfdodfNbmf(jbvb.lbng.String)
+     */
+    publid stbtid String toSourdfNbmf(String s) {
+        dhfdkSbffBytfdodfNbmf(s);
+        String sn = s;
+        if (looksMbnglfd(s)) {
+            sn = dfmbnglf(s);
+            bssfrt(s.fqubls(mbnglf(sn))) : s+" => "+sn+" => "+mbnglf(sn);
+        }
+        rfturn sn;
+    }
+
+    /**
+     * Givfn b bytfdodf nbmf from b dlbssfilf, sfpbrbtf it into
+     * domponfnts dflimitfd by dbngfrous dhbrbdtfrs.
+     * Ebdh rfsulting brrby flfmfnt will bf fithfr b dbngfrous dhbrbdtfr,
+     * or flsf b sbff bytfdodf nbmf.
+     * (Thf sbff nbmf might possibly bf mbnglfd to hidf furthfr dbngfrous dhbrbdtfrs.)
+     * For fxbmplf, thf qublififd dlbss nbmf {@dodf jbvb/lbng/String}
+     * will bf pbrsfd into thf brrby {@dodf {"jbvb", '/', "lbng", '/', "String"}}.
+     * Thf nbmf {@dodf &lt;init&gt;} will bf pbrsfd into { '&lt;', "init", '&gt;'}}
+     * Thf nbmf {@dodf foo/bbr$:bbz} will bf pbrsfd into
+     * {@dodf {"foo", '/', "bbr", '$', ':', "bbz"}}.
+     * Thf nbmf {@dodf ::\=:foo:\=bbr\!bbz} will bf pbrsfd into
+     * {@dodf {':', ':', "", ':', "foo", ':', "bbr:bbz"}}.
+     */
+    publid stbtid Objfdt[] pbrsfBytfdodfNbmf(String s) {
+        int slfn = s.lfngth();
+        Objfdt[] rfs = null;
+        for (int pbss = 0; pbss <= 1; pbss++) {
+            int fillp = 0;
+            int lbsti = 0;
+            for (int i = 0; i <= slfn; i++) {
+                int whidhDC = -1;
+                if (i < slfn) {
+                    whidhDC = DANGEROUS_CHARS.indfxOf(s.dhbrAt(i));
+                    if (whidhDC < DANGEROUS_CHAR_FIRST_INDEX)  dontinuf;
+                }
+                // got to fnd of string or nfxt dbngfrous dhbr
+                if (lbsti < i) {
+                    // normbl domponfnt
+                    if (pbss != 0)
+                        rfs[fillp] = toSourdfNbmf(s.substring(lbsti, i));
+                    fillp++;
+                    lbsti = i+1;
+                }
+                if (whidhDC >= DANGEROUS_CHAR_FIRST_INDEX) {
+                    if (pbss != 0)
+                        rfs[fillp] = DANGEROUS_CHARS_CA[whidhDC];
+                    fillp++;
+                    lbsti = i+1;
+                }
+            }
+            if (pbss != 0)  brfbk;
+            // bftwffn pbssfs, build thf rfsult brrby
+            rfs = nfw Objfdt[fillp];
+            if (fillp <= 1 && lbsti == 0) {
+                if (fillp != 0)  rfs[0] = toSourdfNbmf(s);
+                brfbk;
+            }
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Givfn b sfrifs of domponfnts, drfbtf b bytfdodf nbmf for b dlbssfilf.
+     * This is thf invfrsf of {@link #pbrsfBytfdodfNbmf(jbvb.lbng.String)}.
+     * Ebdh domponfnt must fithfr bf bn intfrnfd onf-dhbrbdtfr string of
+     * b dbngfrous dhbrbdtfr, or flsf b sbff bytfdodf nbmf.
+     * @pbrbm domponfnts b sfrifs of nbmf domponfnts
+     * @rfturn thf dondbtfnbtion of bll domponfnts
+     * @throws IllfgblArgumfntExdfption if bny domponfnt dontbins bn unsbff
+     *          dhbrbdtfr, bnd is not bn intfrnfd onf-dhbrbdtfr string
+     * @throws NullPointfrExdfption if bny domponfnt is null
+     */
+    publid stbtid String unpbrsfBytfdodfNbmf(Objfdt[] domponfnts) {
+        Objfdt[] domponfnts0 = domponfnts;
+        for (int i = 0; i < domponfnts.lfngth; i++) {
+            Objfdt d = domponfnts[i];
+            if (d instbndfof String) {
+                String md = toBytfdodfNbmf((String) d);
+                if (i == 0 && domponfnts.lfngth == 1)
+                    rfturn md;  // usubl dbsf
+                if ((Objfdt)md != d) {
+                    if (domponfnts == domponfnts0)
+                        domponfnts = domponfnts.dlonf();
+                    domponfnts[i] = d = md;
+                }
+            }
+        }
+        rfturn bppfndAll(domponfnts);
+    }
+    privbtf stbtid String bppfndAll(Objfdt[] domponfnts) {
+        if (domponfnts.lfngth <= 1) {
+            if (domponfnts.lfngth == 1) {
+                rfturn String.vblufOf(domponfnts[0]);
+            }
+            rfturn "";
+        }
+        int slfn = 0;
+        for (Objfdt d : domponfnts) {
+            if (d instbndfof String)
+                slfn += String.vblufOf(d).lfngth();
+            flsf
+                slfn += 1;
+        }
+        StringBuildfr sb = nfw StringBuildfr(slfn);
+        for (Objfdt d : domponfnts) {
+            sb.bppfnd(d);
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Givfn b bytfdodf nbmf, produdf thf dorrfsponding displby nbmf.
+     * This is thf sourdf nbmf, plus quotfs if nffdfd.
+     * If thf bytfdodf nbmf dontbins dbngfrous dhbrbdtfrs,
+     * bssumf thbt thfy brf bfing usfd bs pundtubtion,
+     * bnd pbss thfm through undhbngfd.
+     * Non-fmpty runs of non-dbngfrous dhbrbdtfrs brf dfmbnglfd
+     * if nfdfssbry, bnd thf rfsulting nbmfs brf quotfd if
+     * thfy brf not blrfbdy vblid Jbvb idfntififrs, or if
+     * thfy dontbin b dbngfrous dhbrbdtfr (i.f., dollbr sign "$").
+     * Singlf quotfs brf usfd whfn quoting.
+     * Within quotfd nbmfs, fmbfddfd singlf quotfs bnd bbdkslbshfs
+     * brf furthfr fsdbpfd by prfpfndfd bbdkslbshfs.
+     *
+     * @pbrbm s thf originbl bytfdodf nbmf (whidh mby bf qublififd)
+     * @rfturn b humbn-rfbdbblf prfsfntbtion
+     */
+    publid stbtid String toDisplbyNbmf(String s) {
+        Objfdt[] domponfnts = pbrsfBytfdodfNbmf(s);
+        for (int i = 0; i < domponfnts.lfngth; i++) {
+            if (!(domponfnts[i] instbndfof String))
+                dontinuf;
+            String sn = (String) domponfnts[i];
+            // notf thbt thf nbmf is blrfbdy dfmbnglfd!
+            //sn = toSourdfNbmf(sn);
+            if (!isJbvbIdfnt(sn) || sn.indfxOf('$') >=0 ) {
+                domponfnts[i] = quotfDisplby(sn);
+            }
+        }
+        rfturn bppfndAll(domponfnts);
+    }
+    privbtf stbtid boolfbn isJbvbIdfnt(String s) {
+        int slfn = s.lfngth();
+        if (slfn == 0)  rfturn fblsf;
+        if (!Chbrbdtfr.isJbvbIdfntififrStbrt(s.dhbrAt(0)))
+            rfturn fblsf;
+        for (int i = 1; i < slfn; i++) {
+            if (!Chbrbdtfr.isJbvbIdfntififrPbrt(s.dhbrAt(i)))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+    privbtf stbtid String quotfDisplby(String s) {
+        // TO DO:  Rfplbdf wifrd dhbrbdtfrs in s by C-stylf fsdbpfs.
+        rfturn "'"+s.rfplbdfAll("['\\\\]", "\\\\$0")+"'";
+    }
+
+    privbtf stbtid void dhfdkSbffBytfdodfNbmf(String s)
+            throws IllfgblArgumfntExdfption {
+        if (!isSbffBytfdodfNbmf(s)) {
+            throw nfw IllfgblArgumfntExdfption(s);
+        }
+    }
+
+    /**
+     * Rfport whfthfr b simplf nbmf is sbff bs b bytfdodf nbmf.
+     * Sudh nbmfs brf bddfptbblf in dlbss filfs bs dlbss, mfthod, bnd fifld nbmfs.
+     * Additionblly, thfy brf frff of "dbngfrous" dhbrbdtfrs, fvfn if thosf
+     * dhbrbdtfrs brf lfgbl in somf (or bll) nbmfs in dlbss filfs.
+     * @pbrbm s thf proposfd bytfdodf nbmf
+     * @rfturn truf if thf nbmf is non-fmpty bnd bll of its dhbrbdtfrs brf sbff
+     */
+    publid stbtid boolfbn isSbffBytfdodfNbmf(String s) {
+        if (s.lfngth() == 0)  rfturn fblsf;
+        // dhfdk oddurrfndfs of fbdh DANGEROUS dhbr
+        for (dhbr xd : DANGEROUS_CHARS_A) {
+            if (xd == ESCAPE_C)  dontinuf;  // not rfblly thbt dbngfrous
+            if (s.indfxOf(xd) >= 0)  rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfport whfthfr b dhbrbdtfr is sbff in b bytfdodf nbmf.
+     * This is truf of bny unidodf dhbrbdtfr fxdfpt thf following
+     * <fm>dbngfrous dhbrbdtfrs</fm>: {@dodf ".;:$[]<>/"}.
+     * @pbrbm s thf proposfd dhbrbdtfr
+     * @rfturn truf if thf dhbrbdtfr is sbff to usf in dlbssfilfs
+     */
+    publid stbtid boolfbn isSbffBytfdodfChbr(dhbr d) {
+        rfturn DANGEROUS_CHARS.indfxOf(d) < DANGEROUS_CHAR_FIRST_INDEX;
+    }
+
+    privbtf stbtid boolfbn looksMbnglfd(String s) {
+        rfturn s.dhbrAt(0) == ESCAPE_C;
+    }
+
+    privbtf stbtid String mbnglf(String s) {
+        if (s.lfngth() == 0)
+            rfturn NULL_ESCAPE;
+
+        // build this lbzily, whfn wf first nffd bn fsdbpf:
+        StringBuildfr sb = null;
+
+        for (int i = 0, slfn = s.lfngth(); i < slfn; i++) {
+            dhbr d = s.dhbrAt(i);
+
+            boolfbn nffdEsdbpf = fblsf;
+            if (d == ESCAPE_C) {
+                if (i+1 < slfn) {
+                    dhbr d1 = s.dhbrAt(i+1);
+                    if ((i == 0 && d1 == NULL_ESCAPE_C)
+                        || d1 != originblOfRfplbdfmfnt(d1)) {
+                        // bn bddidfntbl fsdbpf
+                        nffdEsdbpf = truf;
+                    }
+                }
+            } flsf {
+                nffdEsdbpf = isDbngfrous(d);
+            }
+
+            if (!nffdEsdbpf) {
+                if (sb != null)  sb.bppfnd(d);
+                dontinuf;
+            }
+
+            // build sb if this is thf first fsdbpf
+            if (sb == null) {
+                sb = nfw StringBuildfr(s.lfngth()+10);
+                // mbnglfd nbmfs must bfgin with b bbdkslbsh:
+                if (s.dhbrAt(0) != ESCAPE_C && i > 0)
+                    sb.bppfnd(NULL_ESCAPE);
+                // bppfnd thf string so fbr, whidh is unrfmbrkbblf:
+                sb.bppfnd(s.substring(0, i));
+            }
+
+            // rfwritf \ to \-, / to \|, ftd.
+            sb.bppfnd(ESCAPE_C);
+            sb.bppfnd(rfplbdfmfntOf(d));
+        }
+
+        if (sb != null)   rfturn sb.toString();
+
+        rfturn s;
+    }
+
+    privbtf stbtid String dfmbnglf(String s) {
+        // build this lbzily, whfn wf first mfft bn fsdbpf:
+        StringBuildfr sb = null;
+
+        int stringStbrt = 0;
+        if (s.stbrtsWith(NULL_ESCAPE))
+            stringStbrt = 2;
+
+        for (int i = stringStbrt, slfn = s.lfngth(); i < slfn; i++) {
+            dhbr d = s.dhbrAt(i);
+
+            if (d == ESCAPE_C && i+1 < slfn) {
+                // might bf bn fsdbpf sfqufndf
+                dhbr rd = s.dhbrAt(i+1);
+                dhbr od = originblOfRfplbdfmfnt(rd);
+                if (od != rd) {
+                    // build sb if this is thf first fsdbpf
+                    if (sb == null) {
+                        sb = nfw StringBuildfr(s.lfngth());
+                        // bppfnd thf string so fbr, whidh is unrfmbrkbblf:
+                        sb.bppfnd(s.substring(stringStbrt, i));
+                    }
+                    ++i;  // skip both dhbrbdtfrs
+                    d = od;
+                }
+            }
+
+            if (sb != null)
+                sb.bppfnd(d);
+        }
+
+        if (sb != null)   rfturn sb.toString();
+
+        rfturn s.substring(stringStbrt);
+    }
+
+    stbtid dhbr ESCAPE_C = '\\';
+    // fmpty fsdbpf sfqufndf to bvoid b null nbmf or illfgbl prffix
+    stbtid dhbr NULL_ESCAPE_C = '=';
+    stbtid String NULL_ESCAPE = ESCAPE_C+""+NULL_ESCAPE_C;
+
+    stbtid finbl String DANGEROUS_CHARS   = "\\/.;:$[]<>"; // \\ must bf first
+    stbtid finbl String REPLACEMENT_CHARS =  "-|,?!%{}^_";
+    stbtid finbl int DANGEROUS_CHAR_FIRST_INDEX = 1; // indfx bftfr \\
+    stbtid dhbr[] DANGEROUS_CHARS_A   = DANGEROUS_CHARS.toChbrArrby();
+    stbtid dhbr[] REPLACEMENT_CHARS_A = REPLACEMENT_CHARS.toChbrArrby();
+    stbtid finbl Chbrbdtfr[] DANGEROUS_CHARS_CA;
+    stbtid {
+        Chbrbdtfr[] dddb = nfw Chbrbdtfr[DANGEROUS_CHARS.lfngth()];
+        for (int i = 0; i < dddb.lfngth; i++)
+            dddb[i] = Chbrbdtfr.vblufOf(DANGEROUS_CHARS.dhbrAt(i));
+        DANGEROUS_CHARS_CA = dddb;
+    }
+
+    stbtid finbl long[] SPECIAL_BITMAP = nfw long[2];  // 128 bits
+    stbtid {
+        String SPECIAL = DANGEROUS_CHARS + REPLACEMENT_CHARS;
+        //Systfm.out.println("SPECIAL = "+SPECIAL);
+        for (dhbr d : SPECIAL.toChbrArrby()) {
+            SPECIAL_BITMAP[d >>> 6] |= 1L << d;
+        }
+    }
+    stbtid boolfbn isSpfdibl(dhbr d) {
+        if ((d >>> 6) < SPECIAL_BITMAP.lfngth)
+            rfturn ((SPECIAL_BITMAP[d >>> 6] >> d) & 1) != 0;
+        flsf
+            rfturn fblsf;
+    }
+    stbtid dhbr rfplbdfmfntOf(dhbr d) {
+        if (!isSpfdibl(d))  rfturn d;
+        int i = DANGEROUS_CHARS.indfxOf(d);
+        if (i < 0)  rfturn d;
+        rfturn REPLACEMENT_CHARS.dhbrAt(i);
+    }
+    stbtid dhbr originblOfRfplbdfmfnt(dhbr d) {
+        if (!isSpfdibl(d))  rfturn d;
+        int i = REPLACEMENT_CHARS.indfxOf(d);
+        if (i < 0)  rfturn d;
+        rfturn DANGEROUS_CHARS.dhbrAt(i);
+    }
+    stbtid boolfbn isDbngfrous(dhbr d) {
+        if (!isSpfdibl(d))  rfturn fblsf;
+        rfturn (DANGEROUS_CHARS.indfxOf(d) >= DANGEROUS_CHAR_FIRST_INDEX);
+    }
+    stbtid int indfxOfDbngfrousChbr(String s, int from) {
+        for (int i = from, slfn = s.lfngth(); i < slfn; i++) {
+            if (isDbngfrous(s.dhbrAt(i)))
+                rfturn i;
+        }
+        rfturn -1;
+    }
+    stbtid int lbstIndfxOfDbngfrousChbr(String s, int from) {
+        for (int i = Mbth.min(from, s.lfngth()-1); i >= 0; i--) {
+            if (isDbngfrous(s.dhbrAt(i)))
+                rfturn i;
+        }
+        rfturn -1;
+    }
+
+
+}

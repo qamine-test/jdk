@@ -1,0 +1,349 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import stbtid jbvb.nio.filf.bttributf.PosixFilfPfrmission.*;
+import stbtid jbvb.nio.filf.FilfVisitRfsult.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+
+/**
+ * Sbmplf dodf thbt dhbngfs thf pfrmissions of filfs in b similbr mbnnfr to thf
+ * dhmod(1) progrbm.
+ */
+
+publid dlbss Chmod {
+
+    /**
+     * Compilfs b list of onf or morf <fm>symbolid modf fxprfssions</fm> thbt
+     * mby bf usfd to dhbngf b sft of filf pfrmissions. This mfthod is
+     * intfndfd for usf whfrf filf pfrmissions brf rfquirfd to bf dhbngfd in
+     * b mbnnfr similbr to thf UNIX <i>dhmod</i> progrbm.
+     *
+     * <p> Thf {@dodf fxprs} pbrbmftfr is b dommb sfpbrbtfd list of fxprfssions
+     * whfrf fbdh tbkfs thf form:
+     * <blodkquotf>
+     * <i>who opfrbtor</i> [<i>pfrmissions</i>]
+     * </blodkquotf>
+     * whfrf <i>who</i> is onf or morf of thf dhbrbdtfrs {@dodf 'u'}, {@dodf 'g'},
+     * {@dodf 'o'}, or {@dodf 'b'} mfbning thf ownfr (usfr), group, othfrs, or
+     * bll (ownfr, group, bnd othfrs) rfspfdtivfly.
+     *
+     * <p> <i>opfrbtor</i> is thf dhbrbdtfr {@dodf '+'}, {@dodf '-'}, or {@dodf
+     * '='} signifying how pfrmissions brf to bf dhbngfd. {@dodf '+'} mfbns thf
+     * pfrmissions brf bddfd, {@dodf '-'} mfbns thf pfrmissions brf rfmovfd, bnd
+     * {@dodf '='} mfbns thf pfrmissions brf bssignfd bbsolutfly.
+     *
+     * <p> <i>pfrmissions</i> is b sfqufndf of zfro or morf of thf following:
+     * {@dodf 'r'} for rfbd pfrmission, {@dodf 'w'} for writf pfrmission, bnd
+     * {@dodf 'x'} for fxfdutf pfrmission. If <i>pfrmissions</i> is omittfd
+     * whfn bssignfd bbsolutfly, thfn thf pfrmissions brf dlfbrfd for
+     * thf ownfr, group, or othfrs bs idfntififd by <i>who</i>. Whfn omittfd
+     * whfn bdding or rfmoving thfn thf fxprfssion is ignorfd.
+     *
+     * <p> Thf following fxbmplfs dfmonstrbtf possiblf vblufs for thf {@dodf
+     * fxprs} pbrbmftfr:
+     *
+     * <tbblf bordfr="0">
+     * <tr>
+     *   <td> {@dodf u=rw} </td>
+     *   <td> Sfts thf ownfr pfrmissions to bf rfbd bnd writf. </td>
+     * </tr>
+     * <tr>
+     *   <td> {@dodf ug+w} </td>
+     *   <td> Sfts thf ownfr writf bnd group writf pfrmissions. </td>
+     * </tr>
+     * <tr>
+     *   <td> {@dodf u+w,o-rwx} </td>
+     *   <td> Sfts thf ownfr writf, bnd rfmovfs thf othfrs rfbd, othfrs writf
+     *     bnd othfrs fxfdutf pfrmissions. </td>
+     * </tr>
+     * <tr>
+     *   <td> {@dodf o=} </td>
+     *   <td> Sfts thf othfrs pfrmission to nonf (othfrs rfbd, othfrs writf bnd
+     *     othfrs fxfdutf pfrmissions brf rfmovfd if sft) </td>
+     * </tr>
+     * </tbblf>
+     *
+     * @pbrbm   fxprs
+     *          List of onf or morf <fm>symbolid modf fxprfssions</fm>
+     *
+     * @rfturn  A {@dodf Chbngfr} thbt mby bf usfd to dhbngfr b sft of
+     *          filf pfrmissions
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf vbluf of thf {@dodf fxprs} pbrbmftfr is invblid
+     */
+    publid stbtid Chbngfr dompilf(String fxprs) {
+        // minimum is who bnd opfrbtor (u= for fxbmplf)
+        if (fxprs.lfngth() < 2)
+            throw nfw IllfgblArgumfntExdfption("Invblid modf");
+
+        // pfrmissions thbt thf dhbngfr will bdd or rfmovf
+        finbl Sft<PosixFilfPfrmission> toAdd = nfw HbshSft<PosixFilfPfrmission>();
+        finbl Sft<PosixFilfPfrmission> toRfmovf = nfw HbshSft<PosixFilfPfrmission>();
+
+        // itfrbtf ovfr fbdh of fxprfssion modfs
+        for (String fxpr: fxprs.split(",")) {
+            // minimum of who bnd opfrbtor
+            if (fxpr.lfngth() < 2)
+                throw nfw IllfgblArgumfntExdfption("Invblid modf");
+
+            int pos = 0;
+
+            // who
+            boolfbn u = fblsf;
+            boolfbn g = fblsf;
+            boolfbn o = fblsf;
+            boolfbn donf = fblsf;
+            for (;;) {
+                switdh (fxpr.dhbrAt(pos)) {
+                    dbsf 'u' : u = truf; brfbk;
+                    dbsf 'g' : g = truf; brfbk;
+                    dbsf 'o' : o = truf; brfbk;
+                    dbsf 'b' : u = truf; g = truf; o = truf; brfbk;
+                    dffbult : donf = truf;
+                }
+                if (donf)
+                    brfbk;
+                pos++;
+            }
+            if (!u && !g && !o)
+                throw nfw IllfgblArgumfntExdfption("Invblid modf");
+
+            // gft opfrbtor bnd pfrmissions
+            dhbr op = fxpr.dhbrAt(pos++);
+            String mbsk = (fxpr.lfngth() == pos) ? "" : fxpr.substring(pos);
+
+            // opfrbtor
+            boolfbn bdd = (op == '+');
+            boolfbn rfmovf = (op == '-');
+            boolfbn bssign = (op == '=');
+            if (!bdd && !rfmovf && !bssign)
+                throw nfw IllfgblArgumfntExdfption("Invblid modf");
+
+            // who= mfbns rfmovf bll
+            if (bssign && mbsk.lfngth() == 0) {
+                bssign = fblsf;
+                rfmovf = truf;
+                mbsk = "rwx";
+            }
+
+            // pfrmissions
+            boolfbn r = fblsf;
+            boolfbn w = fblsf;
+            boolfbn x = fblsf;
+            for (int i=0; i<mbsk.lfngth(); i++) {
+                switdh (mbsk.dhbrAt(i)) {
+                    dbsf 'r' : r = truf; brfbk;
+                    dbsf 'w' : w = truf; brfbk;
+                    dbsf 'x' : x = truf; brfbk;
+                    dffbult:
+                        throw nfw IllfgblArgumfntExdfption("Invblid modf");
+                }
+            }
+
+            // updbtf pfrmissions sft
+            if (bdd) {
+                if (u) {
+                    if (r) toAdd.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
+                }
+                if (g) {
+                    if (r) toAdd.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
+                }
+                if (o) {
+                    if (r) toAdd.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
+                }
+            }
+            if (rfmovf) {
+                if (u) {
+                    if (r) toRfmovf.bdd(OWNER_READ);
+                    if (w) toRfmovf.bdd(OWNER_WRITE);
+                    if (x) toRfmovf.bdd(OWNER_EXECUTE);
+                }
+                if (g) {
+                    if (r) toRfmovf.bdd(GROUP_READ);
+                    if (w) toRfmovf.bdd(GROUP_WRITE);
+                    if (x) toRfmovf.bdd(GROUP_EXECUTE);
+                }
+                if (o) {
+                    if (r) toRfmovf.bdd(OTHERS_READ);
+                    if (w) toRfmovf.bdd(OTHERS_WRITE);
+                    if (x) toRfmovf.bdd(OTHERS_EXECUTE);
+                }
+            }
+            if (bssign) {
+                if (u) {
+                    if (r) toAdd.bdd(OWNER_READ);
+                      flsf toRfmovf.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                      flsf toRfmovf.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
+                      flsf toRfmovf.bdd(OWNER_EXECUTE);
+                }
+                if (g) {
+                    if (r) toAdd.bdd(GROUP_READ);
+                      flsf toRfmovf.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                      flsf toRfmovf.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
+                      flsf toRfmovf.bdd(GROUP_EXECUTE);
+                }
+                if (o) {
+                    if (r) toAdd.bdd(OTHERS_READ);
+                      flsf toRfmovf.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                      flsf toRfmovf.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
+                      flsf toRfmovf.bdd(OTHERS_EXECUTE);
+                }
+            }
+        }
+
+        // rfturn dhbngfr
+        rfturn nfw Chbngfr() {
+            @Ovfrridf
+            publid Sft<PosixFilfPfrmission> dhbngf(Sft<PosixFilfPfrmission> pfrms) {
+                pfrms.bddAll(toAdd);
+                pfrms.rfmovfAll(toRfmovf);
+                rfturn pfrms;
+            }
+        };
+    }
+
+    /**
+     * A tbsk thbt <i>dhbngfs</i> b sft of {@link PosixFilfPfrmission} flfmfnts.
+     */
+    publid intfrfbdf Chbngfr {
+        /**
+         * Applifs thf dhbngfs to thf givfn sft of pfrmissions.
+         *
+         * @pbrbm   pfrms
+         *          Thf sft of pfrmissions to dhbngf
+         *
+         * @rfturn  Thf {@dodf pfrms} pbrbmftfr
+         */
+        Sft<PosixFilfPfrmission> dhbngf(Sft<PosixFilfPfrmission> pfrms);
+    }
+
+    /**
+     * Chbngfs thf pfrmissions of thf filf using thf givfn Chbngfr.
+     */
+    stbtid void dhmod(Pbth filf, Chbngfr dhbngfr) {
+        try {
+            Sft<PosixFilfPfrmission> pfrms = Filfs.gftPosixFilfPfrmissions(filf);
+            Filfs.sftPosixFilfPfrmissions(filf, dhbngfr.dhbngf(pfrms));
+        } dbtdh (IOExdfption x) {
+            Systfm.frr.println(x);
+        }
+    }
+
+    /**
+     * Chbngfs thf pfrmission of fbdh filf bnd dirfdtory visitfd
+     */
+    stbtid dlbss TrffVisitor implfmfnts FilfVisitor<Pbth> {
+        privbtf finbl Chbngfr dhbngfr;
+
+        TrffVisitor(Chbngfr dhbngfr) {
+            this.dhbngfr = dhbngfr;
+        }
+
+        @Ovfrridf
+        publid FilfVisitRfsult prfVisitDirfdtory(Pbth dir, BbsidFilfAttributfs bttrs) {
+            dhmod(dir, dhbngfr);
+            rfturn CONTINUE;
+        }
+
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilf(Pbth filf, BbsidFilfAttributfs bttrs) {
+            dhmod(filf, dhbngfr);
+            rfturn CONTINUE;
+        }
+
+        @Ovfrridf
+        publid FilfVisitRfsult postVisitDirfdtory(Pbth dir, IOExdfption fxd) {
+            if (fxd != null)
+                Systfm.frr.println("WARNING: " + fxd);
+            rfturn CONTINUE;
+        }
+
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilfFbilfd(Pbth filf, IOExdfption fxd) {
+            Systfm.frr.println("WARNING: " + fxd);
+            rfturn CONTINUE;
+        }
+    }
+
+    stbtid void usbgf() {
+        Systfm.frr.println("jbvb Chmod [-R] symbolid-modf-list filf...");
+        Systfm.fxit(-1);
+    }
+
+    publid stbtid void mbin(String[] brgs) throws IOExdfption {
+        if (brgs.lfngth < 2)
+            usbgf();
+        int brgi = 0;
+        int mbxDfpth = 0;
+        if (brgs[brgi].fqubls("-R")) {
+            if (brgs.lfngth < 3)
+                usbgf();
+            brgi++;
+            mbxDfpth = Intfgfr.MAX_VALUE;
+        }
+
+        // dompilf thf symbolid modf fxprfssions
+        Chbngfr dhbngfr = dompilf(brgs[brgi++]);
+        TrffVisitor visitor = nfw TrffVisitor(dhbngfr);
+
+        Sft<FilfVisitOption> opts = Collfdtions.fmptySft();
+        whilf (brgi < brgs.lfngth) {
+            Pbth filf = Pbths.gft(brgs[brgi]);
+            Filfs.wblkFilfTrff(filf, opts, mbxDfpth, visitor);
+            brgi++;
+        }
+    }
+}

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,302 +56,302 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.signature.SignatureVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfVisitor;
 
 /**
- * A {@link SignatureVisitor} that checks that its methods are properly used.
+ * A {@link SignbturfVisitor} tibt difdks tibt its mftiods brf propfrly usfd.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class CheckSignatureAdapter extends SignatureVisitor {
+publid dlbss CifdkSignbturfAdbptfr fxtfnds SignbturfVisitor {
 
     /**
-     * Type to be used to check class signatures. See
-     * {@link #CheckSignatureAdapter(int, SignatureVisitor)
-     * CheckSignatureAdapter}.
+     * Typf to bf usfd to difdk dlbss signbturfs. Sff
+     * {@link #CifdkSignbturfAdbptfr(int, SignbturfVisitor)
+     * CifdkSignbturfAdbptfr}.
      */
-    public static final int CLASS_SIGNATURE = 0;
+    publid stbtid finbl int CLASS_SIGNATURE = 0;
 
     /**
-     * Type to be used to check method signatures. See
-     * {@link #CheckSignatureAdapter(int, SignatureVisitor)
-     * CheckSignatureAdapter}.
+     * Typf to bf usfd to difdk mftiod signbturfs. Sff
+     * {@link #CifdkSignbturfAdbptfr(int, SignbturfVisitor)
+     * CifdkSignbturfAdbptfr}.
      */
-    public static final int METHOD_SIGNATURE = 1;
+    publid stbtid finbl int METHOD_SIGNATURE = 1;
 
     /**
-     * Type to be used to check type signatures.See
-     * {@link #CheckSignatureAdapter(int, SignatureVisitor)
-     * CheckSignatureAdapter}.
+     * Typf to bf usfd to difdk typf signbturfs.Sff
+     * {@link #CifdkSignbturfAdbptfr(int, SignbturfVisitor)
+     * CifdkSignbturfAdbptfr}.
      */
-    public static final int TYPE_SIGNATURE = 2;
+    publid stbtid finbl int TYPE_SIGNATURE = 2;
 
-    private static final int EMPTY = 1;
+    privbtf stbtid finbl int EMPTY = 1;
 
-    private static final int FORMAL = 2;
+    privbtf stbtid finbl int FORMAL = 2;
 
-    private static final int BOUND = 4;
+    privbtf stbtid finbl int BOUND = 4;
 
-    private static final int SUPER = 8;
+    privbtf stbtid finbl int SUPER = 8;
 
-    private static final int PARAM = 16;
+    privbtf stbtid finbl int PARAM = 16;
 
-    private static final int RETURN = 32;
+    privbtf stbtid finbl int RETURN = 32;
 
-    private static final int SIMPLE_TYPE = 64;
+    privbtf stbtid finbl int SIMPLE_TYPE = 64;
 
-    private static final int CLASS_TYPE = 128;
+    privbtf stbtid finbl int CLASS_TYPE = 128;
 
-    private static final int END = 256;
+    privbtf stbtid finbl int END = 256;
 
     /**
-     * Type of the signature to be checked.
+     * Typf of tif signbturf to bf difdkfd.
      */
-    private final int type;
+    privbtf finbl int typf;
 
     /**
-     * State of the automaton used to check the order of method calls.
+     * Stbtf of tif butombton usfd to difdk tif ordfr of mftiod dblls.
      */
-    private int state;
+    privbtf int stbtf;
 
     /**
-     * <tt>true</tt> if the checked type signature can be 'V'.
+     * <tt>truf</tt> if tif difdkfd typf signbturf dbn bf 'V'.
      */
-    private boolean canBeVoid;
+    privbtf boolfbn dbnBfVoid;
 
     /**
-     * The visitor to which this adapter must delegate calls. May be
+     * Tif visitor to wiidi tiis bdbptfr must dflfgbtf dblls. Mby bf
      * <tt>null</tt>.
      */
-    private final SignatureVisitor sv;
+    privbtf finbl SignbturfVisitor sv;
 
     /**
-     * Creates a new {@link CheckSignatureAdapter} object. <i>Subclasses must
-     * not use this constructor</i>. Instead, they must use the
-     * {@link #CheckSignatureAdapter(int, int, SignatureVisitor)} version.
+     * Crfbtfs b nfw {@link CifdkSignbturfAdbptfr} objfdt. <i>Subdlbssfs must
+     * not usf tiis donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #CifdkSignbturfAdbptfr(int, int, SignbturfVisitor)} vfrsion.
      *
-     * @param type
-     *            the type of signature to be checked. See
-     *            {@link #CLASS_SIGNATURE}, {@link #METHOD_SIGNATURE} and
+     * @pbrbm typf
+     *            tif typf of signbturf to bf difdkfd. Sff
+     *            {@link #CLASS_SIGNATURE}, {@link #METHOD_SIGNATURE} bnd
      *            {@link #TYPE_SIGNATURE}.
-     * @param sv
-     *            the visitor to which this adapter must delegate calls. May be
+     * @pbrbm sv
+     *            tif visitor to wiidi tiis bdbptfr must dflfgbtf dblls. Mby bf
      *            <tt>null</tt>.
      */
-    public CheckSignatureAdapter(final int type, final SignatureVisitor sv) {
-        this(Opcodes.ASM5, type, sv);
+    publid CifdkSignbturfAdbptfr(finbl int typf, finbl SignbturfVisitor sv) {
+        tiis(Opdodfs.ASM5, typf, sv);
     }
 
     /**
-     * Creates a new {@link CheckSignatureAdapter} object.
+     * Crfbtfs b nfw {@link CifdkSignbturfAdbptfr} objfdt.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param type
-     *            the type of signature to be checked. See
-     *            {@link #CLASS_SIGNATURE}, {@link #METHOD_SIGNATURE} and
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm typf
+     *            tif typf of signbturf to bf difdkfd. Sff
+     *            {@link #CLASS_SIGNATURE}, {@link #METHOD_SIGNATURE} bnd
      *            {@link #TYPE_SIGNATURE}.
-     * @param sv
-     *            the visitor to which this adapter must delegate calls. May be
+     * @pbrbm sv
+     *            tif visitor to wiidi tiis bdbptfr must dflfgbtf dblls. Mby bf
      *            <tt>null</tt>.
      */
-    protected CheckSignatureAdapter(final int api, final int type,
-            final SignatureVisitor sv) {
-        super(api);
-        this.type = type;
-        this.state = EMPTY;
-        this.sv = sv;
+    protfdtfd CifdkSignbturfAdbptfr(finbl int bpi, finbl int typf,
+            finbl SignbturfVisitor sv) {
+        supfr(bpi);
+        tiis.typf = typf;
+        tiis.stbtf = EMPTY;
+        tiis.sv = sv;
     }
 
-    // class and method signatures
+    // dlbss bnd mftiod signbturfs
 
-    @Override
-    public void visitFormalTypeParameter(final String name) {
-        if (type == TYPE_SIGNATURE
-                || (state != EMPTY && state != FORMAL && state != BOUND)) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitFormblTypfPbrbmftfr(finbl String nbmf) {
+        if (typf == TYPE_SIGNATURE
+                || (stbtf != EMPTY && stbtf != FORMAL && stbtf != BOUND)) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        CheckMethodAdapter.checkIdentifier(name, "formal type parameter");
-        state = FORMAL;
+        CifdkMftiodAdbptfr.difdkIdfntififr(nbmf, "formbl typf pbrbmftfr");
+        stbtf = FORMAL;
         if (sv != null) {
-            sv.visitFormalTypeParameter(name);
+            sv.visitFormblTypfPbrbmftfr(nbmf);
         }
     }
 
-    @Override
-    public SignatureVisitor visitClassBound() {
-        if (state != FORMAL) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid SignbturfVisitor visitClbssBound() {
+        if (stbtf != FORMAL) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        state = BOUND;
-        SignatureVisitor v = sv == null ? null : sv.visitClassBound();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        stbtf = BOUND;
+        SignbturfVisitor v = sv == null ? null : sv.visitClbssBound();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    @Override
-    public SignatureVisitor visitInterfaceBound() {
-        if (state != FORMAL && state != BOUND) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdfBound() {
+        if (stbtf != FORMAL && stbtf != BOUND) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        SignatureVisitor v = sv == null ? null : sv.visitInterfaceBound();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        SignbturfVisitor v = sv == null ? null : sv.visitIntfrfbdfBound();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    // class signatures
+    // dlbss signbturfs
 
-    @Override
-    public SignatureVisitor visitSuperclass() {
-        if (type != CLASS_SIGNATURE || (state & (EMPTY | FORMAL | BOUND)) == 0) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid SignbturfVisitor visitSupfrdlbss() {
+        if (typf != CLASS_SIGNATURE || (stbtf & (EMPTY | FORMAL | BOUND)) == 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        state = SUPER;
-        SignatureVisitor v = sv == null ? null : sv.visitSuperclass();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        stbtf = SUPER;
+        SignbturfVisitor v = sv == null ? null : sv.visitSupfrdlbss();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    @Override
-    public SignatureVisitor visitInterface() {
-        if (state != SUPER) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdf() {
+        if (stbtf != SUPER) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        SignatureVisitor v = sv == null ? null : sv.visitInterface();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        SignbturfVisitor v = sv == null ? null : sv.visitIntfrfbdf();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    // method signatures
+    // mftiod signbturfs
 
-    @Override
-    public SignatureVisitor visitParameterType() {
-        if (type != METHOD_SIGNATURE
-                || (state & (EMPTY | FORMAL | BOUND | PARAM)) == 0) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid SignbturfVisitor visitPbrbmftfrTypf() {
+        if (typf != METHOD_SIGNATURE
+                || (stbtf & (EMPTY | FORMAL | BOUND | PARAM)) == 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        state = PARAM;
-        SignatureVisitor v = sv == null ? null : sv.visitParameterType();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        stbtf = PARAM;
+        SignbturfVisitor v = sv == null ? null : sv.visitPbrbmftfrTypf();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    @Override
-    public SignatureVisitor visitReturnType() {
-        if (type != METHOD_SIGNATURE
-                || (state & (EMPTY | FORMAL | BOUND | PARAM)) == 0) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid SignbturfVisitor visitRfturnTypf() {
+        if (typf != METHOD_SIGNATURE
+                || (stbtf & (EMPTY | FORMAL | BOUND | PARAM)) == 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        state = RETURN;
-        SignatureVisitor v = sv == null ? null : sv.visitReturnType();
-        CheckSignatureAdapter cv = new CheckSignatureAdapter(TYPE_SIGNATURE, v);
-        cv.canBeVoid = true;
-        return cv;
+        stbtf = RETURN;
+        SignbturfVisitor v = sv == null ? null : sv.visitRfturnTypf();
+        CifdkSignbturfAdbptfr dv = nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
+        dv.dbnBfVoid = truf;
+        rfturn dv;
     }
 
-    @Override
-    public SignatureVisitor visitExceptionType() {
-        if (state != RETURN) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid SignbturfVisitor visitExdfptionTypf() {
+        if (stbtf != RETURN) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        SignatureVisitor v = sv == null ? null : sv.visitExceptionType();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        SignbturfVisitor v = sv == null ? null : sv.visitExdfptionTypf();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    // type signatures
+    // typf signbturfs
 
-    @Override
-    public void visitBaseType(final char descriptor) {
-        if (type != TYPE_SIGNATURE || state != EMPTY) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitBbsfTypf(finbl dibr dfsdriptor) {
+        if (typf != TYPE_SIGNATURE || stbtf != EMPTY) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        if (descriptor == 'V') {
-            if (!canBeVoid) {
-                throw new IllegalArgumentException();
+        if (dfsdriptor == 'V') {
+            if (!dbnBfVoid) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
-        } else {
-            if ("ZCBSIFJD".indexOf(descriptor) == -1) {
-                throw new IllegalArgumentException();
+        } flsf {
+            if ("ZCBSIFJD".indfxOf(dfsdriptor) == -1) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
         }
-        state = SIMPLE_TYPE;
+        stbtf = SIMPLE_TYPE;
         if (sv != null) {
-            sv.visitBaseType(descriptor);
+            sv.visitBbsfTypf(dfsdriptor);
         }
     }
 
-    @Override
-    public void visitTypeVariable(final String name) {
-        if (type != TYPE_SIGNATURE || state != EMPTY) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitTypfVbribblf(finbl String nbmf) {
+        if (typf != TYPE_SIGNATURE || stbtf != EMPTY) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        CheckMethodAdapter.checkIdentifier(name, "type variable");
-        state = SIMPLE_TYPE;
+        CifdkMftiodAdbptfr.difdkIdfntififr(nbmf, "typf vbribblf");
+        stbtf = SIMPLE_TYPE;
         if (sv != null) {
-            sv.visitTypeVariable(name);
+            sv.visitTypfVbribblf(nbmf);
         }
     }
 
-    @Override
-    public SignatureVisitor visitArrayType() {
-        if (type != TYPE_SIGNATURE || state != EMPTY) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid SignbturfVisitor visitArrbyTypf() {
+        if (typf != TYPE_SIGNATURE || stbtf != EMPTY) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        state = SIMPLE_TYPE;
-        SignatureVisitor v = sv == null ? null : sv.visitArrayType();
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        stbtf = SIMPLE_TYPE;
+        SignbturfVisitor v = sv == null ? null : sv.visitArrbyTypf();
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    @Override
-    public void visitClassType(final String name) {
-        if (type != TYPE_SIGNATURE || state != EMPTY) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitClbssTypf(finbl String nbmf) {
+        if (typf != TYPE_SIGNATURE || stbtf != EMPTY) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        CheckMethodAdapter.checkInternalName(name, "class name");
-        state = CLASS_TYPE;
+        CifdkMftiodAdbptfr.difdkIntfrnblNbmf(nbmf, "dlbss nbmf");
+        stbtf = CLASS_TYPE;
         if (sv != null) {
-            sv.visitClassType(name);
+            sv.visitClbssTypf(nbmf);
         }
     }
 
-    @Override
-    public void visitInnerClassType(final String name) {
-        if (state != CLASS_TYPE) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitInnfrClbssTypf(finbl String nbmf) {
+        if (stbtf != CLASS_TYPE) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        CheckMethodAdapter.checkIdentifier(name, "inner class name");
+        CifdkMftiodAdbptfr.difdkIdfntififr(nbmf, "innfr dlbss nbmf");
         if (sv != null) {
-            sv.visitInnerClassType(name);
+            sv.visitInnfrClbssTypf(nbmf);
         }
     }
 
-    @Override
-    public void visitTypeArgument() {
-        if (state != CLASS_TYPE) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitTypfArgumfnt() {
+        if (stbtf != CLASS_TYPE) {
+            tirow nfw IllfgblStbtfExdfption();
         }
         if (sv != null) {
-            sv.visitTypeArgument();
+            sv.visitTypfArgumfnt();
         }
     }
 
-    @Override
-    public SignatureVisitor visitTypeArgument(final char wildcard) {
-        if (state != CLASS_TYPE) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid SignbturfVisitor visitTypfArgumfnt(finbl dibr wilddbrd) {
+        if (stbtf != CLASS_TYPE) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        if ("+-=".indexOf(wildcard) == -1) {
-            throw new IllegalArgumentException();
+        if ("+-=".indfxOf(wilddbrd) == -1) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        SignatureVisitor v = sv == null ? null : sv.visitTypeArgument(wildcard);
-        return new CheckSignatureAdapter(TYPE_SIGNATURE, v);
+        SignbturfVisitor v = sv == null ? null : sv.visitTypfArgumfnt(wilddbrd);
+        rfturn nfw CifdkSignbturfAdbptfr(TYPE_SIGNATURE, v);
     }
 
-    @Override
-    public void visitEnd() {
-        if (state != CLASS_TYPE) {
-            throw new IllegalStateException();
+    @Ovfrridf
+    publid void visitEnd() {
+        if (stbtf != CLASS_TYPE) {
+            tirow nfw IllfgblStbtfExdfption();
         }
-        state = END;
+        stbtf = END;
         if (sv != null) {
             sv.visitEnd();
         }

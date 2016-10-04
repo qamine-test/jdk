@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.plugins.jpeg;
+pbdkbgf jbvbx.imbgfio.plugins.jpfg;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * A class encapsulating a single JPEG quantization table.
- * The elements appear in natural order (as opposed to zig-zag order).
- * Static variables are provided for the "standard" tables taken from
- *  Annex K of the JPEG specification, as well as the default tables
- * conventionally used for visually lossless encoding.
+ * A dlbss fndbpsulbting b singlf JPEG qubntizbtion tbblf.
+ * Tif flfmfnts bppfbr in nbturbl ordfr (bs opposfd to zig-zbg ordfr).
+ * Stbtid vbribblfs brf providfd for tif "stbndbrd" tbblfs tbkfn from
+ *  Annfx K of tif JPEG spfdifidbtion, bs wfll bs tif dffbult tbblfs
+ * donvfntionblly usfd for visublly losslfss fndoding.
  * <p>
- * For more information about the operation of the standard JPEG plug-in,
- * see the <A HREF="../../metadata/doc-files/jpeg_metadata.html">JPEG
- * metadata format specification and usage notes</A>
+ * For morf informbtion bbout tif opfrbtion of tif stbndbrd JPEG plug-in,
+ * sff tif <A HREF="../../mftbdbtb/dod-filfs/jpfg_mftbdbtb.itml">JPEG
+ * mftbdbtb formbt spfdifidbtion bnd usbgf notfs</A>
  */
 
-public class JPEGQTable {
+publid dlbss JPEGQTbblf {
 
-    private static final int[] k1 = {
+    privbtf stbtid finbl int[] k1 = {
         16,  11,  10,  16,  24,  40,  51,  61,
         12,  12,  14,  19,  26,  58,  60,  55,
         14,  13,  16,  24,  40,  57,  69,  56,
@@ -52,7 +52,7 @@ public class JPEGQTable {
         72,  92,  95,  98,  112, 100, 103, 99,
     };
 
-    private static final int[] k1div2 = {
+    privbtf stbtid finbl int[] k1div2 = {
         8,   6,   5,   8,   12,  20,  26,  31,
         6,   6,   7,   10,  13,  29,  30,  28,
         7,   7,   8,   12,  20,  29,  35,  28,
@@ -63,7 +63,7 @@ public class JPEGQTable {
         36,  46,  48,  49,  56,  50,  52,  50,
     };
 
-    private static final int[] k2 = {
+    privbtf stbtid finbl int[] k2 = {
         17,  18,  24,  47,  99,  99,  99,  99,
         18,  21,  26,  66,  99,  99,  99,  99,
         24,  26,  56,  99,  99,  99,  99,  99,
@@ -74,7 +74,7 @@ public class JPEGQTable {
         99,  99,  99,  99,  99,  99,  99,  99,
     };
 
-    private static final int[] k2div2 = {
+    privbtf stbtid finbl int[] k2div2 = {
         9,   9,   12,  24,  50,  50,  50,  50,
         9,   11,  13,  33,  50,  50,  50,  50,
         12,  13,  28,  50,  50,  50,  50,  50,
@@ -86,125 +86,125 @@ public class JPEGQTable {
     };
 
     /**
-     * The sample luminance quantization table given in the JPEG
-     * specification, table K.1. According to the specification,
-     * these values produce "good" quality output.
-     * @see #K1Div2Luminance
+     * Tif sbmplf luminbndf qubntizbtion tbblf givfn in tif JPEG
+     * spfdifidbtion, tbblf K.1. Addording to tif spfdifidbtion,
+     * tifsf vblufs produdf "good" qublity output.
+     * @sff #K1Div2Luminbndf
      */
-    public static final JPEGQTable
-        K1Luminance = new JPEGQTable(k1, false);
+    publid stbtid finbl JPEGQTbblf
+        K1Luminbndf = nfw JPEGQTbblf(k1, fblsf);
 
     /**
-     * The sample luminance quantization table given in the JPEG
-     * specification, table K.1, with all elements divided by 2.
-     * According to the specification, these values produce "very good"
-     * quality output. This is the table usually used for "visually lossless"
-     * encoding, and is the default luminance table used if the default
-     * tables and quality settings are used.
-     * @see #K1Luminance
+     * Tif sbmplf luminbndf qubntizbtion tbblf givfn in tif JPEG
+     * spfdifidbtion, tbblf K.1, witi bll flfmfnts dividfd by 2.
+     * Addording to tif spfdifidbtion, tifsf vblufs produdf "vfry good"
+     * qublity output. Tiis is tif tbblf usublly usfd for "visublly losslfss"
+     * fndoding, bnd is tif dffbult luminbndf tbblf usfd if tif dffbult
+     * tbblfs bnd qublity sfttings brf usfd.
+     * @sff #K1Luminbndf
      */
-    public static final JPEGQTable
-        K1Div2Luminance = new JPEGQTable(k1div2, false);
+    publid stbtid finbl JPEGQTbblf
+        K1Div2Luminbndf = nfw JPEGQTbblf(k1div2, fblsf);
 
     /**
-     * The sample chrominance quantization table given in the JPEG
-     * specification, table K.2. According to the specification,
-     * these values produce "good" quality output.
-     * @see #K2Div2Chrominance
+     * Tif sbmplf dirominbndf qubntizbtion tbblf givfn in tif JPEG
+     * spfdifidbtion, tbblf K.2. Addording to tif spfdifidbtion,
+     * tifsf vblufs produdf "good" qublity output.
+     * @sff #K2Div2Cirominbndf
      */
-    public static final JPEGQTable K2Chrominance =
-        new JPEGQTable(k2, false);
+    publid stbtid finbl JPEGQTbblf K2Cirominbndf =
+        nfw JPEGQTbblf(k2, fblsf);
 
     /**
-     * The sample chrominance quantization table given in the JPEG
-     * specification, table K.1, with all elements divided by 2.
-     * According to the specification, these values produce "very good"
-     * quality output. This is the table usually used for "visually lossless"
-     * encoding, and is the default chrominance table used if the default
-     * tables and quality settings are used.
-     * @see #K2Chrominance
+     * Tif sbmplf dirominbndf qubntizbtion tbblf givfn in tif JPEG
+     * spfdifidbtion, tbblf K.1, witi bll flfmfnts dividfd by 2.
+     * Addording to tif spfdifidbtion, tifsf vblufs produdf "vfry good"
+     * qublity output. Tiis is tif tbblf usublly usfd for "visublly losslfss"
+     * fndoding, bnd is tif dffbult dirominbndf tbblf usfd if tif dffbult
+     * tbblfs bnd qublity sfttings brf usfd.
+     * @sff #K2Cirominbndf
      */
-    public static final JPEGQTable K2Div2Chrominance =
-        new JPEGQTable(k2div2, false);
+    publid stbtid finbl JPEGQTbblf K2Div2Cirominbndf =
+        nfw JPEGQTbblf(k2div2, fblsf);
 
-    private int[] qTable;
+    privbtf int[] qTbblf;
 
-    private JPEGQTable(int[] table, boolean copy) {
-        qTable = (copy) ? Arrays.copyOf(table, table.length) : table;
+    privbtf JPEGQTbblf(int[] tbblf, boolfbn dopy) {
+        qTbblf = (dopy) ? Arrbys.dopyOf(tbblf, tbblf.lfngti) : tbblf;
     }
 
     /**
-     * Constructs a quantization table from the argument, which must
-     * contain 64 elements in natural order (not zig-zag order).
-     * A copy is made of the the input array.
-     * @param table the quantization table, as an <code>int</code> array.
-     * @throws IllegalArgumentException if <code>table</code> is
-     * <code>null</code> or <code>table.length</code> is not equal to 64.
+     * Construdts b qubntizbtion tbblf from tif brgumfnt, wiidi must
+     * dontbin 64 flfmfnts in nbturbl ordfr (not zig-zbg ordfr).
+     * A dopy is mbdf of tif tif input brrby.
+     * @pbrbm tbblf tif qubntizbtion tbblf, bs bn <dodf>int</dodf> brrby.
+     * @tirows IllfgblArgumfntExdfption if <dodf>tbblf</dodf> is
+     * <dodf>null</dodf> or <dodf>tbblf.lfngti</dodf> is not fqubl to 64.
      */
-    public JPEGQTable(int[] table) {
-        if (table == null) {
-            throw new IllegalArgumentException("table must not be null.");
+    publid JPEGQTbblf(int[] tbblf) {
+        if (tbblf == null) {
+            tirow nfw IllfgblArgumfntExdfption("tbblf must not bf null.");
         }
-        if (table.length != 64) {
-            throw new IllegalArgumentException("table.length != 64");
+        if (tbblf.lfngti != 64) {
+            tirow nfw IllfgblArgumfntExdfption("tbblf.lfngti != 64");
         }
-        qTable = Arrays.copyOf(table, table.length);
+        qTbblf = Arrbys.dopyOf(tbblf, tbblf.lfngti);
     }
 
     /**
-     * Returns a copy of the current quantization table as an array
-     * of {@code int}s in natural (not zig-zag) order.
-     * @return A copy of the current quantization table.
+     * Rfturns b dopy of tif durrfnt qubntizbtion tbblf bs bn brrby
+     * of {@dodf int}s in nbturbl (not zig-zbg) ordfr.
+     * @rfturn A dopy of tif durrfnt qubntizbtion tbblf.
      */
-    public int[] getTable() {
-        return Arrays.copyOf(qTable, qTable.length);
+    publid int[] gftTbblf() {
+        rfturn Arrbys.dopyOf(qTbblf, qTbblf.lfngti);
     }
 
     /**
-     * Returns a new quantization table where the values are multiplied
-     * by <code>scaleFactor</code> and then clamped to the range 1..32767
-     * (or to 1..255 if <code>forceBaseline</code> is true).
+     * Rfturns b nfw qubntizbtion tbblf wifrf tif vblufs brf multiplifd
+     * by <dodf>sdblfFbdtor</dodf> bnd tifn dlbmpfd to tif rbngf 1..32767
+     * (or to 1..255 if <dodf>fordfBbsflinf</dodf> is truf).
      * <p>
-     * Values of <code>scaleFactor</code> less than 1 tend to improve
-     * the quality level of the table, and values greater than 1.0
-     * degrade the quality level of the table.
-     * @param scaleFactor multiplication factor for the table.
-     * @param forceBaseline if <code>true</code>,
-     * the values will be clamped to the range 1..255
-     * @return a new quantization table that is a linear multiple
-     * of the current table.
+     * Vblufs of <dodf>sdblfFbdtor</dodf> lfss tibn 1 tfnd to improvf
+     * tif qublity lfvfl of tif tbblf, bnd vblufs grfbtfr tibn 1.0
+     * dfgrbdf tif qublity lfvfl of tif tbblf.
+     * @pbrbm sdblfFbdtor multiplidbtion fbdtor for tif tbblf.
+     * @pbrbm fordfBbsflinf if <dodf>truf</dodf>,
+     * tif vblufs will bf dlbmpfd to tif rbngf 1..255
+     * @rfturn b nfw qubntizbtion tbblf tibt is b linfbr multiplf
+     * of tif durrfnt tbblf.
      */
-    public JPEGQTable getScaledInstance(float scaleFactor,
-                                        boolean forceBaseline) {
-        int max = (forceBaseline) ? 255 : 32767;
-        int[] scaledTable = new int[qTable.length];
-        for (int i=0; i<qTable.length; i++) {
-            int sv = (int)((qTable[i] * scaleFactor)+0.5f);
+    publid JPEGQTbblf gftSdblfdInstbndf(flobt sdblfFbdtor,
+                                        boolfbn fordfBbsflinf) {
+        int mbx = (fordfBbsflinf) ? 255 : 32767;
+        int[] sdblfdTbblf = nfw int[qTbblf.lfngti];
+        for (int i=0; i<qTbblf.lfngti; i++) {
+            int sv = (int)((qTbblf[i] * sdblfFbdtor)+0.5f);
             if (sv < 1) {
                 sv = 1;
             }
-            if (sv > max) {
-                sv = max;
+            if (sv > mbx) {
+                sv = mbx;
             }
-            scaledTable[i] = sv;
+            sdblfdTbblf[i] = sv;
         }
-        return new JPEGQTable(scaledTable);
+        rfturn nfw JPEGQTbblf(sdblfdTbblf);
     }
 
     /**
-     * Returns a {@code String} representing this quantization table.
-     * @return a {@code String} representing this quantization table.
+     * Rfturns b {@dodf String} rfprfsfnting tiis qubntizbtion tbblf.
+     * @rfturn b {@dodf String} rfprfsfnting tiis qubntizbtion tbblf.
      */
-    public String toString() {
-        String ls = System.getProperty("line.separator", "\n");
-        StringBuilder sb = new StringBuilder("JPEGQTable:"+ls);
-        for (int i=0; i < qTable.length; i++) {
+    publid String toString() {
+        String ls = Systfm.gftPropfrty("linf.sfpbrbtor", "\n");
+        StringBuildfr sb = nfw StringBuildfr("JPEGQTbblf:"+ls);
+        for (int i=0; i < qTbblf.lfngti; i++) {
             if (i % 8 == 0) {
-                sb.append('\t');
+                sb.bppfnd('\t');
             }
-            sb.append(qTable[i]);
-            sb.append(((i % 8) == 7) ? ls : ' ');
+            sb.bppfnd(qTbblf[i]);
+            sb.bppfnd(((i % 8) == 7) ? ls : ' ');
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

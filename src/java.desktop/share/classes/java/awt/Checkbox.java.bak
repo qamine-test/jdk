@@ -1,869 +1,869 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.CheckboxPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.pffr.CifdkboxPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
 
 
 /**
- * A check box is a graphical component that can be in either an
- * "on" (<code>true</code>) or "off" (<code>false</code>) state.
- * Clicking on a check box changes its state from
+ * A difdk box is b grbpiidbl domponfnt tibt dbn bf in fitifr bn
+ * "on" (<dodf>truf</dodf>) or "off" (<dodf>fblsf</dodf>) stbtf.
+ * Clidking on b difdk box dibngfs its stbtf from
  * "on" to "off," or from "off" to "on."
  * <p>
- * The following code example creates a set of check boxes in
- * a grid layout:
+ * Tif following dodf fxbmplf drfbtfs b sft of difdk boxfs in
+ * b grid lbyout:
  *
- * <hr><blockquote><pre>
- * setLayout(new GridLayout(3, 1));
- * add(new Checkbox("one", null, true));
- * add(new Checkbox("two"));
- * add(new Checkbox("three"));
- * </pre></blockquote><hr>
+ * <ir><blodkquotf><prf>
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * bdd(nfw Cifdkbox("onf", null, truf));
+ * bdd(nfw Cifdkbox("two"));
+ * bdd(nfw Cifdkbox("tirff"));
+ * </prf></blodkquotf><ir>
  * <p>
- * This image depicts the check boxes and grid layout
- * created by this code example:
+ * Tiis imbgf dfpidts tif difdk boxfs bnd grid lbyout
+ * drfbtfd by tiis dodf fxbmplf:
  * <p>
- * <img src="doc-files/Checkbox-1.gif" alt="The following context describes the graphic."
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/Cifdkbox-1.gif" blt="Tif following dontfxt dfsdribfs tif grbpiid."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * The button labeled <code>one</code> is in the "on" state, and the
- * other two are in the "off" state. In this example, which uses the
- * <code>GridLayout</code> class, the states of the three check
- * boxes are set independently.
+ * Tif button lbbflfd <dodf>onf</dodf> is in tif "on" stbtf, bnd tif
+ * otifr two brf in tif "off" stbtf. In tiis fxbmplf, wiidi usfs tif
+ * <dodf>GridLbyout</dodf> dlbss, tif stbtfs of tif tirff difdk
+ * boxfs brf sft indfpfndfntly.
  * <p>
- * Alternatively, several check boxes can be grouped together under
- * the control of a single object, using the
- * <code>CheckboxGroup</code> class.
- * In a check box group, at most one button can be in the "on"
- * state at any given time. Clicking on a check box to turn it on
- * forces any other check box in the same group that is on
- * into the "off" state.
+ * Altfrnbtivfly, sfvfrbl difdk boxfs dbn bf groupfd togftifr undfr
+ * tif dontrol of b singlf objfdt, using tif
+ * <dodf>CifdkboxGroup</dodf> dlbss.
+ * In b difdk box group, bt most onf button dbn bf in tif "on"
+ * stbtf bt bny givfn timf. Clidking on b difdk box to turn it on
+ * fordfs bny otifr difdk box in tif sbmf group tibt is on
+ * into tif "off" stbtf.
  *
- * @author      Sami Shaio
- * @see         java.awt.GridLayout
- * @see         java.awt.CheckboxGroup
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.GridLbyout
+ * @sff         jbvb.bwt.CifdkboxGroup
+ * @sindf       1.0
  */
-public class Checkbox extends Component implements ItemSelectable, Accessible {
+publid dlbss Cifdkbox fxtfnds Componfnt implfmfnts ItfmSflfdtbblf, Addfssiblf {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * The label of the Checkbox.
-     * This field can be null.
-     * @serial
-     * @see #getLabel()
-     * @see #setLabel(String)
+     * Tif lbbfl of tif Cifdkbox.
+     * Tiis fifld dbn bf null.
+     * @sfribl
+     * @sff #gftLbbfl()
+     * @sff #sftLbbfl(String)
      */
-    String label;
+    String lbbfl;
 
     /**
-     * The state of the <code>Checkbox</code>.
-     * @serial
-     * @see #getState()
-     * @see #setState(boolean)
+     * Tif stbtf of tif <dodf>Cifdkbox</dodf>.
+     * @sfribl
+     * @sff #gftStbtf()
+     * @sff #sftStbtf(boolfbn)
      */
-    boolean state;
+    boolfbn stbtf;
 
     /**
-     * The check box group.
-         * This field can be null indicating that the checkbox
-         * is not a group checkbox.
-         * @serial
-     * @see #getCheckboxGroup()
-     * @see #setCheckboxGroup(CheckboxGroup)
+     * Tif difdk box group.
+         * Tiis fifld dbn bf null indidbting tibt tif difdkbox
+         * is not b group difdkbox.
+         * @sfribl
+     * @sff #gftCifdkboxGroup()
+     * @sff #sftCifdkboxGroup(CifdkboxGroup)
      */
-    CheckboxGroup group;
+    CifdkboxGroup group;
 
-    transient ItemListener itemListener;
+    trbnsifnt ItfmListfnfr itfmListfnfr;
 
-    private static final String base = "checkbox";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "difdkbox";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 7270714317450821763L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7270714317450821763L;
 
     /**
-     * Helper function for setState and CheckboxGroup.setSelectedCheckbox
-     * Should remain package-private.
+     * Hflpfr fundtion for sftStbtf bnd CifdkboxGroup.sftSflfdtfdCifdkbox
+     * Siould rfmbin pbdkbgf-privbtf.
      */
-    void setStateInternal(boolean state) {
-        this.state = state;
-        CheckboxPeer peer = (CheckboxPeer)this.peer;
-        if (peer != null) {
-            peer.setState(state);
+    void sftStbtfIntfrnbl(boolfbn stbtf) {
+        tiis.stbtf = stbtf;
+        CifdkboxPffr pffr = (CifdkboxPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftStbtf(stbtf);
         }
     }
 
     /**
-     * Creates a check box with an empty string for its label.
-     * The state of this check box is set to "off," and it is not
-     * part of any check box group.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Crfbtfs b difdk box witi bn fmpty string for its lbbfl.
+     * Tif stbtf of tiis difdk box is sft to "off," bnd it is not
+     * pbrt of bny difdk box group.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Checkbox() throws HeadlessException {
-        this("", false, null);
+    publid Cifdkbox() tirows HfbdlfssExdfption {
+        tiis("", fblsf, null);
     }
 
     /**
-     * Creates a check box with the specified label.  The state
-     * of this check box is set to "off," and it is not part of
-     * any check box group.
+     * Crfbtfs b difdk box witi tif spfdififd lbbfl.  Tif stbtf
+     * of tiis difdk box is sft to "off," bnd it is not pbrt of
+     * bny difdk box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @exception HeadlessException if
-     *      <code>GraphicsEnvironment.isHeadless</code>
-     *      returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm     lbbfl   b string lbbfl for tiis difdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @fxdfption HfbdlfssExdfption if
+     *      <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *      rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Checkbox(String label) throws HeadlessException {
-        this(label, false, null);
+    publid Cifdkbox(String lbbfl) tirows HfbdlfssExdfption {
+        tiis(lbbfl, fblsf, null);
     }
 
     /**
-     * Creates a check box with the specified label
-     * and sets the specified state.
-     * This check box is not part of any check box group.
+     * Crfbtfs b difdk box witi tif spfdififd lbbfl
+     * bnd sfts tif spfdififd stbtf.
+     * Tiis difdk box is not pbrt of bny difdk box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label
-     * @param     state    the initial state of this check box
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code>
-     *     returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm     lbbfl   b string lbbfl for tiis difdk box,
+     *                        or <dodf>null</dodf> for no lbbfl
+     * @pbrbm     stbtf    tif initibl stbtf of tiis difdk box
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *     rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Checkbox(String label, boolean state) throws HeadlessException {
-        this(label, state, null);
+    publid Cifdkbox(String lbbfl, boolfbn stbtf) tirows HfbdlfssExdfption {
+        tiis(lbbfl, stbtf, null);
     }
 
     /**
-     * Constructs a Checkbox with the specified label, set to the
-     * specified state, and in the specified check box group.
+     * Construdts b Cifdkbox witi tif spfdififd lbbfl, sft to tif
+     * spfdififd stbtf, bnd in tif spfdififd difdk box group.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @param     state   the initial state of this check box.
-     * @param     group   a check box group for this check box,
-     *                           or <code>null</code> for no group.
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code>
-     *     returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since     1.1
+     * @pbrbm     lbbfl   b string lbbfl for tiis difdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @pbrbm     stbtf   tif initibl stbtf of tiis difdk box.
+     * @pbrbm     group   b difdk box group for tiis difdk box,
+     *                           or <dodf>null</dodf> for no group.
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *     rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.1
      */
-    public Checkbox(String label, boolean state, CheckboxGroup group)
-        throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        this.label = label;
-        this.state = state;
-        this.group = group;
-        if (state && (group != null)) {
-            group.setSelectedCheckbox(this);
+    publid Cifdkbox(String lbbfl, boolfbn stbtf, CifdkboxGroup group)
+        tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        tiis.lbbfl = lbbfl;
+        tiis.stbtf = stbtf;
+        tiis.group = group;
+        if (stbtf && (group != null)) {
+            group.sftSflfdtfdCifdkbox(tiis);
         }
     }
 
     /**
-     * Creates a check box with the specified label, in the specified
-     * check box group, and set to the specified state.
+     * Crfbtfs b difdk box witi tif spfdififd lbbfl, in tif spfdififd
+     * difdk box group, bnd sft to tif spfdififd stbtf.
      *
-     * @param     label   a string label for this check box,
-     *                        or <code>null</code> for no label.
-     * @param     group   a check box group for this check box,
-     *                           or <code>null</code> for no group.
-     * @param     state   the initial state of this check box.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code>
-     *    returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since     1.1
+     * @pbrbm     lbbfl   b string lbbfl for tiis difdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @pbrbm     group   b difdk box group for tiis difdk box,
+     *                           or <dodf>null</dodf> for no group.
+     * @pbrbm     stbtf   tif initibl stbtf of tiis difdk box.
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *    rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.1
      */
-    public Checkbox(String label, CheckboxGroup group, boolean state)
-        throws HeadlessException {
-        this(label, state, group);
+    publid Cifdkbox(String lbbfl, CifdkboxGroup group, boolfbn stbtf)
+        tirows HfbdlfssExdfption {
+        tiis(lbbfl, stbtf, group);
     }
 
     /**
-     * Constructs a name for this component.  Called by
-     * <code>getName</code> when the name is <code>null</code>.
+     * Construdts b nbmf for tiis domponfnt.  Cbllfd by
+     * <dodf>gftNbmf</dodf> wifn tif nbmf is <dodf>null</dodf>.
      *
-     * @return a name for this component
+     * @rfturn b nbmf for tiis domponfnt
      */
-    String constructComponentName() {
-        synchronized (Checkbox.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Cifdkbox.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the peer of the Checkbox. The peer allows you to change the
-     * look of the Checkbox without changing its functionality.
+     * Crfbtfs tif pffr of tif Cifdkbox. Tif pffr bllows you to dibngf tif
+     * look of tif Cifdkbox witiout dibnging its fundtionblity.
      *
-     * @see     java.awt.Toolkit#createCheckbox(java.awt.Checkbox)
-     * @see     java.awt.Component#getToolkit()
+     * @sff     jbvb.bwt.Toolkit#drfbtfCifdkbox(jbvb.bwt.Cifdkbox)
+     * @sff     jbvb.bwt.Componfnt#gftToolkit()
      */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (peer == null)
-                peer = getToolkit().createCheckbox(this);
-            super.addNotify();
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfCifdkbox(tiis);
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Gets the label of this check box.
+     * Gfts tif lbbfl of tiis difdk box.
      *
-     * @return   the label of this check box, or <code>null</code>
-     *                  if this check box has no label.
-     * @see      #setLabel(String)
+     * @rfturn   tif lbbfl of tiis difdk box, or <dodf>null</dodf>
+     *                  if tiis difdk box ibs no lbbfl.
+     * @sff      #sftLbbfl(String)
      */
-    public String getLabel() {
-        return label;
+    publid String gftLbbfl() {
+        rfturn lbbfl;
     }
 
     /**
-     * Sets this check box's label to be the string argument.
+     * Sfts tiis difdk box's lbbfl to bf tif string brgumfnt.
      *
-     * @param    label   a string to set as the new label, or
-     *                        <code>null</code> for no label.
-     * @see      #getLabel
+     * @pbrbm    lbbfl   b string to sft bs tif nfw lbbfl, or
+     *                        <dodf>null</dodf> for no lbbfl.
+     * @sff      #gftLbbfl
      */
-    public void setLabel(String label) {
-        boolean testvalid = false;
+    publid void sftLbbfl(String lbbfl) {
+        boolfbn tfstvblid = fblsf;
 
-        synchronized (this) {
-            if (label != this.label && (this.label == null ||
-                                        !this.label.equals(label))) {
-                this.label = label;
-                CheckboxPeer peer = (CheckboxPeer)this.peer;
-                if (peer != null) {
-                    peer.setLabel(label);
+        syndironizfd (tiis) {
+            if (lbbfl != tiis.lbbfl && (tiis.lbbfl == null ||
+                                        !tiis.lbbfl.fqubls(lbbfl))) {
+                tiis.lbbfl = lbbfl;
+                CifdkboxPffr pffr = (CifdkboxPffr)tiis.pffr;
+                if (pffr != null) {
+                    pffr.sftLbbfl(lbbfl);
                 }
-                testvalid = true;
+                tfstvblid = truf;
             }
         }
 
-        // This could change the preferred size of the Component.
-        if (testvalid) {
-            invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        if (tfstvblid) {
+            invblidbtfIfVblid();
         }
     }
 
     /**
-     * Determines whether this check box is in the "on" or "off" state.
-     * The boolean value <code>true</code> indicates the "on" state,
-     * and <code>false</code> indicates the "off" state.
+     * Dftfrminfs wiftifr tiis difdk box is in tif "on" or "off" stbtf.
+     * Tif boolfbn vbluf <dodf>truf</dodf> indidbtfs tif "on" stbtf,
+     * bnd <dodf>fblsf</dodf> indidbtfs tif "off" stbtf.
      *
-     * @return    the state of this check box, as a boolean value
-     * @see       #setState
+     * @rfturn    tif stbtf of tiis difdk box, bs b boolfbn vbluf
+     * @sff       #sftStbtf
      */
-    public boolean getState() {
-        return state;
+    publid boolfbn gftStbtf() {
+        rfturn stbtf;
     }
 
     /**
-     * Sets the state of this check box to the specified state.
-     * The boolean value <code>true</code> indicates the "on" state,
-     * and <code>false</code> indicates the "off" state.
+     * Sfts tif stbtf of tiis difdk box to tif spfdififd stbtf.
+     * Tif boolfbn vbluf <dodf>truf</dodf> indidbtfs tif "on" stbtf,
+     * bnd <dodf>fblsf</dodf> indidbtfs tif "off" stbtf.
      *
-     * <p>Note that this method should be primarily used to
-     * initialize the state of the checkbox.  Programmatically
-     * setting the state of the checkbox will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Notf tibt tiis mftiod siould bf primbrily usfd to
+     * initiblizf tif stbtf of tif difdkbox.  Progrbmmbtidblly
+     * sftting tif stbtf of tif difdkbox will <i>not</i> triggfr
+     * bn <dodf>ItfmEvfnt</dodf>.  Tif only wby to triggfr bn
+     * <dodf>ItfmEvfnt</dodf> is by usfr intfrbdtion.
      *
-     * @param     state   the boolean state of the check box
-     * @see       #getState
+     * @pbrbm     stbtf   tif boolfbn stbtf of tif difdk box
+     * @sff       #gftStbtf
      */
-    public void setState(boolean state) {
-        /* Cannot hold check box lock when calling group.setSelectedCheckbox. */
-        CheckboxGroup group = this.group;
+    publid void sftStbtf(boolfbn stbtf) {
+        /* Cbnnot iold difdk box lodk wifn dblling group.sftSflfdtfdCifdkbox. */
+        CifdkboxGroup group = tiis.group;
         if (group != null) {
-            if (state) {
-                group.setSelectedCheckbox(this);
-            } else if (group.getSelectedCheckbox() == this) {
-                state = true;
+            if (stbtf) {
+                group.sftSflfdtfdCifdkbox(tiis);
+            } flsf if (group.gftSflfdtfdCifdkbox() == tiis) {
+                stbtf = truf;
             }
         }
-        setStateInternal(state);
+        sftStbtfIntfrnbl(stbtf);
     }
 
     /**
-     * Returns an array (length 1) containing the checkbox
-     * label or null if the checkbox is not selected.
-     * @see ItemSelectable
+     * Rfturns bn brrby (lfngti 1) dontbining tif difdkbox
+     * lbbfl or null if tif difdkbox is not sflfdtfd.
+     * @sff ItfmSflfdtbblf
      */
-    public Object[] getSelectedObjects() {
-        if (state) {
-            Object[] items = new Object[1];
-            items[0] = label;
-            return items;
+    publid Objfdt[] gftSflfdtfdObjfdts() {
+        if (stbtf) {
+            Objfdt[] itfms = nfw Objfdt[1];
+            itfms[0] = lbbfl;
+            rfturn itfms;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Determines this check box's group.
-     * @return     this check box's group, or <code>null</code>
-     *               if the check box is not part of a check box group.
-     * @see        #setCheckboxGroup(CheckboxGroup)
+     * Dftfrminfs tiis difdk box's group.
+     * @rfturn     tiis difdk box's group, or <dodf>null</dodf>
+     *               if tif difdk box is not pbrt of b difdk box group.
+     * @sff        #sftCifdkboxGroup(CifdkboxGroup)
      */
-    public CheckboxGroup getCheckboxGroup() {
-        return group;
+    publid CifdkboxGroup gftCifdkboxGroup() {
+        rfturn group;
     }
 
     /**
-     * Sets this check box's group to the specified check box group.
-     * If this check box is already in a different check box group,
-     * it is first taken out of that group.
+     * Sfts tiis difdk box's group to tif spfdififd difdk box group.
+     * If tiis difdk box is blrfbdy in b difffrfnt difdk box group,
+     * it is first tbkfn out of tibt group.
      * <p>
-     * If the state of this check box is <code>true</code> and the new
-     * group already has a check box selected, this check box's state
-     * is changed to <code>false</code>.  If the state of this check
-     * box is <code>true</code> and the new group has no check box
-     * selected, this check box becomes the selected checkbox for
-     * the new group and its state is <code>true</code>.
+     * If tif stbtf of tiis difdk box is <dodf>truf</dodf> bnd tif nfw
+     * group blrfbdy ibs b difdk box sflfdtfd, tiis difdk box's stbtf
+     * is dibngfd to <dodf>fblsf</dodf>.  If tif stbtf of tiis difdk
+     * box is <dodf>truf</dodf> bnd tif nfw group ibs no difdk box
+     * sflfdtfd, tiis difdk box bfdomfs tif sflfdtfd difdkbox for
+     * tif nfw group bnd its stbtf is <dodf>truf</dodf>.
      *
-     * @param     g   the new check box group, or <code>null</code>
-     *                to remove this check box from any check box group
-     * @see       #getCheckboxGroup
+     * @pbrbm     g   tif nfw difdk box group, or <dodf>null</dodf>
+     *                to rfmovf tiis difdk box from bny difdk box group
+     * @sff       #gftCifdkboxGroup
      */
-    public void setCheckboxGroup(CheckboxGroup g) {
-        CheckboxGroup oldGroup;
-        boolean oldState;
+    publid void sftCifdkboxGroup(CifdkboxGroup g) {
+        CifdkboxGroup oldGroup;
+        boolfbn oldStbtf;
 
-        /* Do nothing if this check box has already belonged
-         * to the check box group g.
+        /* Do notiing if tiis difdk box ibs blrfbdy bflongfd
+         * to tif difdk box group g.
          */
-        if (this.group == g) {
-            return;
+        if (tiis.group == g) {
+            rfturn;
         }
 
-        synchronized (this) {
-            oldGroup = this.group;
-            oldState = getState();
+        syndironizfd (tiis) {
+            oldGroup = tiis.group;
+            oldStbtf = gftStbtf();
 
-            this.group = g;
-            CheckboxPeer peer = (CheckboxPeer)this.peer;
-            if (peer != null) {
-                peer.setCheckboxGroup(g);
+            tiis.group = g;
+            CifdkboxPffr pffr = (CifdkboxPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftCifdkboxGroup(g);
             }
-            if (this.group != null && getState()) {
-                if (this.group.getSelectedCheckbox() != null) {
-                    setState(false);
-                } else {
-                    this.group.setSelectedCheckbox(this);
+            if (tiis.group != null && gftStbtf()) {
+                if (tiis.group.gftSflfdtfdCifdkbox() != null) {
+                    sftStbtf(fblsf);
+                } flsf {
+                    tiis.group.sftSflfdtfdCifdkbox(tiis);
                 }
             }
         }
 
-        /* Locking check box below could cause deadlock with
-         * CheckboxGroup's setSelectedCheckbox method.
+        /* Lodking difdk box bflow dould dbusf dfbdlodk witi
+         * CifdkboxGroup's sftSflfdtfdCifdkbox mftiod.
          *
-         * Fix for 4726853 by kdm@sparc.spb.su
-         * Here we should check if this check box was selected
-         * in the previous group and set selected check box to
-         * null for that group if so.
+         * Fix for 4726853 by kdm@spbrd.spb.su
+         * Hfrf wf siould difdk if tiis difdk box wbs sflfdtfd
+         * in tif prfvious group bnd sft sflfdtfd difdk box to
+         * null for tibt group if so.
          */
-        if (oldGroup != null && oldState) {
-            oldGroup.setSelectedCheckbox(null);
+        if (oldGroup != null && oldStbtf) {
+            oldGroup.sftSflfdtfdCifdkbox(null);
         }
     }
 
     /**
-     * Adds the specified item listener to receive item events from
-     * this check box.  Item events are sent to listeners in response
-     * to user input, but not in response to calls to setState().
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds tif spfdififd itfm listfnfr to rfdfivf itfm fvfnts from
+     * tiis difdk box.  Itfm fvfnts brf sfnt to listfnfrs in rfsponsf
+     * to usfr input, but not in rfsponsf to dblls to sftStbtf().
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param         l    the item listener
-     * @see           #removeItemListener
-     * @see           #getItemListeners
-     * @see           #setState
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since         1.1
+     * @pbrbm         l    tif itfm listfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           #sftStbtf
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
      */
-    public synchronized void addItemListener(ItemListener l) {
+    publid syndironizfd void bddItfmListfnfr(ItfmListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        itemListener = AWTEventMulticaster.add(itemListener, l);
-        newEventsOnly = true;
+        itfmListfnfr = AWTEvfntMultidbstfr.bdd(itfmListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified item listener so that the item listener
-     * no longer receives item events from this check box.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd itfm listfnfr so tibt tif itfm listfnfr
+     * no longfr rfdfivfs itfm fvfnts from tiis difdk box.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param         l    the item listener
-     * @see           #addItemListener
-     * @see           #getItemListeners
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since         1.1
+     * @pbrbm         l    tif itfm listfnfr
+     * @sff           #bddItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
      */
-    public synchronized void removeItemListener(ItemListener l) {
+    publid syndironizfd void rfmovfItfmListfnfr(ItfmListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        itemListener = AWTEventMulticaster.remove(itemListener, l);
+        itfmListfnfr = AWTEvfntMultidbstfr.rfmovf(itfmListfnfr, l);
     }
 
     /**
-     * Returns an array of all the item listeners
-     * registered on this checkbox.
+     * Rfturns bn brrby of bll tif itfm listfnfrs
+     * rfgistfrfd on tiis difdkbox.
      *
-     * @return all of this checkbox's <code>ItemListener</code>s
-     *         or an empty array if no item
-     *         listeners are currently registered
+     * @rfturn bll of tiis difdkbox's <dodf>ItfmListfnfr</dodf>s
+     *         or bn fmpty brrby if no itfm
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see           #addItemListener
-     * @see           #removeItemListener
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since 1.4
+     * @sff           #bddItfmListfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf 1.4
      */
-    public synchronized ItemListener[] getItemListeners() {
-        return getListeners(ItemListener.class);
+    publid syndironizfd ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn gftListfnfrs(ItfmListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Checkbox</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Cifdkbox</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Checkbox</code> <code>c</code>
-     * for its item listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Cifdkbox</dodf> <dodf>d</dodf>
+     * for its itfm listfnfrs witi tif following dodf:
      *
-     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.class));</pre>
+     * <prf>ItfmListfnfr[] ils = (ItfmListfnfr[])(d.gftListfnfrs(ItfmListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this checkbox,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis difdkbox,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getItemListeners
-     * @since 1.3
+     * @sff #gftItfmListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == ItemListener.class) {
-            l = itemListener;
-        } else {
-            return super.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == ItfmListfnfr.dlbss) {
+            l = itfmListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
-            if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
-                itemListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == ItfmEvfnt.ITEM_STATE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.ITEM_EVENT_MASK) != 0 ||
+                itfmListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes events on this check box.
-     * If the event is an instance of <code>ItemEvent</code>,
-     * this method invokes the <code>processItemEvent</code> method.
-     * Otherwise, it calls its superclass's <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts on tiis difdk box.
+     * If tif fvfnt is bn instbndf of <dodf>ItfmEvfnt</dodf>,
+     * tiis mftiod invokfs tif <dodf>prodfssItfmEvfnt</dodf> mftiod.
+     * Otifrwisf, it dblls its supfrdlbss's <dodf>prodfssEvfnt</dodf> mftiod.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param         e the event
-     * @see           java.awt.event.ItemEvent
-     * @see           #processItemEvent
-     * @since         1.1
+     * @pbrbm         f tif fvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           #prodfssItfmEvfnt
+     * @sindf         1.1
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof ItemEvent) {
-            processItemEvent((ItemEvent)e);
-            return;
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof ItfmEvfnt) {
+            prodfssItfmEvfnt((ItfmEvfnt)f);
+            rfturn;
         }
-        super.processEvent(e);
+        supfr.prodfssEvfnt(f);
     }
 
     /**
-     * Processes item events occurring on this check box by
-     * dispatching them to any registered
-     * <code>ItemListener</code> objects.
+     * Prodfssfs itfm fvfnts oddurring on tiis difdk box by
+     * dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>ItfmListfnfr</dodf> objfdts.
      * <p>
-     * This method is not called unless item events are
-     * enabled for this component. Item events are enabled
-     * when one of the following occurs:
+     * Tiis mftiod is not dbllfd unlfss itfm fvfnts brf
+     * fnbblfd for tiis domponfnt. Itfm fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
      * <ul>
-     * <li>An <code>ItemListener</code> object is registered
-     * via <code>addItemListener</code>.
-     * <li>Item events are enabled via <code>enableEvents</code>.
+     * <li>An <dodf>ItfmListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddItfmListfnfr</dodf>.
+     * <li>Itfm fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the item event
-     * @see         java.awt.event.ItemEvent
-     * @see         java.awt.event.ItemListener
-     * @see         #addItemListener
-     * @see         java.awt.Component#enableEvents
-     * @since       1.1
+     * @pbrbm       f tif itfm fvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sff         #bddItfmListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected void processItemEvent(ItemEvent e) {
-        ItemListener listener = itemListener;
-        if (listener != null) {
-            listener.itemStateChanged(e);
+    protfdtfd void prodfssItfmEvfnt(ItfmEvfnt f) {
+        ItfmListfnfr listfnfr = itfmListfnfr;
+        if (listfnfr != null) {
+            listfnfr.itfmStbtfCibngfd(f);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Checkbox</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Cifdkbox</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return    the parameter string of this check box
+     * @rfturn    tif pbrbmftfr string of tiis difdk box
      */
-    protected String paramString() {
-        String str = super.paramString();
-        String label = this.label;
-        if (label != null) {
-            str += ",label=" + label;
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        String lbbfl = tiis.lbbfl;
+        if (lbbfl != null) {
+            str += ",lbbfl=" + lbbfl;
         }
-        return str + ",state=" + state;
+        rfturn str + ",stbtf=" + stbtf;
     }
 
 
-    /* Serialization support.
+    /* Sfriblizbtion support.
      */
 
     /*
-     * Serialized data version
-     * @serial
+     * Sfriblizfd dbtb vfrsion
+     * @sfribl
      */
-    private int checkboxSerializedDataVersion = 1;
+    privbtf int difdkboxSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ItemListeners</code>
-     * as optional data.  The non-serializable
-     * <code>ItemListeners</code> are detected and
-     * no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>ItfmListfnfrs</dodf>
+     * bs optionbl dbtb.  Tif non-sfriblizbblf
+     * <dodf>ItfmListfnfrs</dodf> brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>itemListenerK</code> indicating an
-     *     <code>ItemListener</code> object
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf> indidbtfs
+     *   tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>itfmListfnfrK</dodf> indidbting bn
+     *     <dodf>ItfmListfnfr</dodf> objfdt
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#itemListenerK
-     * @see #readObject(ObjectInputStream)
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#itfmListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws java.io.IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows jbvb.io.IOExdfption
     {
-      s.defaultWriteObject();
+      s.dffbultWritfObjfdt();
 
-      AWTEventMulticaster.save(s, itemListenerK, itemListener);
-      s.writeObject(null);
+      AWTEvfntMultidbstfr.sbvf(s, itfmListfnfrK, itfmListfnfr);
+      s.writfObjfdt(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
-     * item events fired by the <code>Checkbox</code>.
-     * Unrecognized keys or values will be ignored.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if it
+     * isn't <dodf>null</dodf> bdds b listfnfr to rfdfivf
+     * itfm fvfnts firfd by tif <dodf>Cifdkbox</dodf>.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @serial
-     * @see #removeItemListener(ItemListener)
-     * @see #addItemListener(ItemListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff #rfmovfItfmListfnfr(ItfmListfnfr)
+     * @sff #bddItfmListfnfr(ItfmListfnfr)
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbpiidsEnvironmfnt.difdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
 
-      Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
-        String key = ((String)keyOrNull).intern();
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
+        if (itfmListfnfrK == kfy)
+          bddItfmListfnfr((ItfmListfnfr)(s.rfbdObjfdt()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
       }
     }
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the AccessibleContext associated with this Checkbox.
-     * For checkboxes, the AccessibleContext takes the form of an
-     * AccessibleAWTCheckbox.
-     * A new AccessibleAWTCheckbox is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Cifdkbox.
+     * For difdkboxfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfAWTCifdkbox.
+     * A nfw AddfssiblfAWTCifdkbox is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleAWTCheckbox that serves as the
-     *         AccessibleContext of this Checkbox
-     * @since 1.3
+     * @rfturn bn AddfssiblfAWTCifdkbox tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis Cifdkbox
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTCheckbox();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTCifdkbox();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Checkbox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to checkbox user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Cifdkbox</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to difdkbox usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTCheckbox extends AccessibleAWTComponent
-        implements ItemListener, AccessibleAction, AccessibleValue
+    protfdtfd dlbss AddfssiblfAWTCifdkbox fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts ItfmListfnfr, AddfssiblfAdtion, AddfssiblfVbluf
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 7881579233144754107L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 7881579233144754107L;
 
         /**
-         * Constructor for {@code AccessibleAWTCheckbox}
+         * Construdtor for {@dodf AddfssiblfAWTCifdkbox}
          */
-        public AccessibleAWTCheckbox() {
-            super();
-            Checkbox.this.addItemListener(this);
+        publid AddfssiblfAWTCifdkbox() {
+            supfr();
+            Cifdkbox.tiis.bddItfmListfnfr(tiis);
         }
 
         /**
-         * Fire accessible property change events when the state of the
-         * toggle button changes.
+         * Firf bddfssiblf propfrty dibngf fvfnts wifn tif stbtf of tif
+         * togglf button dibngfs.
          */
-        public void itemStateChanged(ItemEvent e) {
-            Checkbox cb = (Checkbox) e.getSource();
-            if (Checkbox.this.accessibleContext != null) {
-                if (cb.getState()) {
-                    Checkbox.this.accessibleContext.firePropertyChange(
-                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            null, AccessibleState.CHECKED);
-                } else {
-                    Checkbox.this.accessibleContext.firePropertyChange(
-                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            AccessibleState.CHECKED, null);
+        publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+            Cifdkbox db = (Cifdkbox) f.gftSourdf();
+            if (Cifdkbox.tiis.bddfssiblfContfxt != null) {
+                if (db.gftStbtf()) {
+                    Cifdkbox.tiis.bddfssiblfContfxt.firfPropfrtyCibngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            null, AddfssiblfStbtf.CHECKED);
+                } flsf {
+                    Cifdkbox.tiis.bddfssiblfContfxt.firfPropfrtyCibngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            AddfssiblfStbtf.CHECKED, null);
                 }
             }
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Returns the number of Actions available in this object.
-         * If there is more than one, the first one is the "default"
-         * action.
+         * Rfturns tif numbfr of Adtions bvbilbblf in tiis objfdt.
+         * If tifrf is morf tibn onf, tif first onf is tif "dffbult"
+         * bdtion.
          *
-         * @return the number of Actions in this object
+         * @rfturn tif numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 0;  //  To be fully implemented in a future release
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 0;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Rfturn b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
          */
-        public String getAccessibleActionDescription(int i) {
-            return null;  //  To be fully implemented in a future release
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Perform the specified Action on the object
+         * Pfrform tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the the action was performed; else false.
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif tif bdtion wbs pfrformfd; flsf fblsf.
          */
-        public boolean doAccessibleAction(int i) {
-            return false;    //  To be fully implemented in a future release
+        publid boolfbn doAddfssiblfAdtion(int i) {
+            rfturn fblsf;    //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Get the value of this object as a Number.  If the value has not been
-         * set, the return value will be null.
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.  If tif vbluf ibs not bffn
+         * sft, tif rfturn vbluf will bf null.
          *
-         * @return value of the object
-         * @see #setCurrentAccessibleValue
+         * @rfturn vbluf of tif objfdt
+         * @sff #sftCurrfntAddfssiblfVbluf
          */
-        public Number getCurrentAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set; else False
-         * @see #getCurrentAccessibleValue
+         * @rfturn Truf if tif vbluf wbs sft; flsf Fblsf
+         * @sff #gftCurrfntAddfssiblfVbluf
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            return false;  //  To be fully implemented in a future release
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            rfturn fblsf;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Minimum value of the object; null if this object does not
-         * have a minimum value
-         * @see #getMaximumAccessibleValue
+         * @rfturn Minimum vbluf of tif objfdt; null if tiis objfdt dofs not
+         * ibvf b minimum vbluf
+         * @sff #gftMbximumAddfssiblfVbluf
          */
-        public Number getMinimumAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Maximum value of the object; null if this object does not
-         * have a maximum value
-         * @see #getMinimumAccessibleValue
+         * @rfturn Mbximum vbluf of tif objfdt; null if tiis objfdt dofs not
+         * ibvf b mbximum vbluf
+         * @sff #gftMinimumAddfssiblfVbluf
          */
-        public Number getMaximumAccessibleValue() {
-            return null;  //  To be fully implemented in a future release
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of
-         * the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of
+         * tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.CHECK_BOX;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.CHECK_BOX;
         }
 
         /**
-         * Get the state set of this object.
+         * Gft tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleState containing the current state
-         * of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining tif durrfnt stbtf
+         * of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getState()) {
-                states.add(AccessibleState.CHECKED);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftStbtf()) {
+                stbtfs.bdd(AddfssiblfStbtf.CHECKED);
             }
-            return states;
+            rfturn stbtfs;
         }
 
 
-    } // inner class AccessibleAWTCheckbox
+    } // innfr dlbss AddfssiblfAWTCifdkbox
 
 }

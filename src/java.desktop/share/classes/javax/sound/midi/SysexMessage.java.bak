@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 /**
- * A <code>SysexMessage</code> object represents a MIDI system exclusive message.
+ * A <dodf>SysfxMfssbgf</dodf> objfdt rfprfsfnts b MIDI systfm fxdlusivf mfssbgf.
  * <p>
- * When a system exclusive message is read from a MIDI file, it always has
- * a defined length.  Data from a system exclusive message from a MIDI file
- * should be stored in the data array of a <code>SysexMessage</code> as
- * follows: the system exclusive message status byte (0xF0 or 0xF7), all
- * message data bytes, and finally the end-of-exclusive flag (0xF7).
- * The length reported by the <code>SysexMessage</code> object is therefore
- * the length of the system exclusive data plus two: one byte for the status
- * byte and one for the end-of-exclusive flag.
+ * Wifn b systfm fxdlusivf mfssbgf is rfbd from b MIDI filf, it blwbys ibs
+ * b dffinfd lfngti.  Dbtb from b systfm fxdlusivf mfssbgf from b MIDI filf
+ * siould bf storfd in tif dbtb brrby of b <dodf>SysfxMfssbgf</dodf> bs
+ * follows: tif systfm fxdlusivf mfssbgf stbtus bytf (0xF0 or 0xF7), bll
+ * mfssbgf dbtb bytfs, bnd finblly tif fnd-of-fxdlusivf flbg (0xF7).
+ * Tif lfngti rfportfd by tif <dodf>SysfxMfssbgf</dodf> objfdt is tifrfforf
+ * tif lfngti of tif systfm fxdlusivf dbtb plus two: onf bytf for tif stbtus
+ * bytf bnd onf for tif fnd-of-fxdlusivf flbg.
  * <p>
- * As dictated by the Standard MIDI Files specification, two status byte values are legal
- * for a <code>SysexMessage</code> read from a MIDI file:
+ * As didtbtfd by tif Stbndbrd MIDI Filfs spfdifidbtion, two stbtus bytf vblufs brf lfgbl
+ * for b <dodf>SysfxMfssbgf</dodf> rfbd from b MIDI filf:
  * <ul>
- * <li>0xF0: System Exclusive message (same as in MIDI wire protocol)</li>
- * <li>0xF7: Special System Exclusive message</li>
+ * <li>0xF0: Systfm Exdlusivf mfssbgf (sbmf bs in MIDI wirf protodol)</li>
+ * <li>0xF7: Spfdibl Systfm Exdlusivf mfssbgf</li>
  * </ul>
  * <p>
- * When Java Sound is used to handle system exclusive data that is being received
- * using MIDI wire protocol, it should place the data in one or more
- * <code>SysexMessages</code>.  In this case, the length of the system exclusive data
- * is not known in advance; the end of the system exclusive data is marked by an
- * end-of-exclusive flag (0xF7) in the MIDI wire byte stream.
+ * Wifn Jbvb Sound is usfd to ibndlf systfm fxdlusivf dbtb tibt is bfing rfdfivfd
+ * using MIDI wirf protodol, it siould plbdf tif dbtb in onf or morf
+ * <dodf>SysfxMfssbgfs</dodf>.  In tiis dbsf, tif lfngti of tif systfm fxdlusivf dbtb
+ * is not known in bdvbndf; tif fnd of tif systfm fxdlusivf dbtb is mbrkfd by bn
+ * fnd-of-fxdlusivf flbg (0xF7) in tif MIDI wirf bytf strfbm.
  * <ul>
- * <li>0xF0: System Exclusive message (same as in MIDI wire protocol)</li>
- * <li>0xF7: End of Exclusive (EOX)</li>
+ * <li>0xF0: Systfm Exdlusivf mfssbgf (sbmf bs in MIDI wirf protodol)</li>
+ * <li>0xF7: End of Exdlusivf (EOX)</li>
  * </ul>
- * The first <code>SysexMessage</code> object containing data for a particular system
- * exclusive message should have the status value 0xF0.  If this message contains all
- * the system exclusive data
- * for the message, it should end with the status byte 0xF7 (EOX).
- * Otherwise, additional system exclusive data should be sent in one or more
- * <code>SysexMessages</code> with a status value of 0xF7.  The <code>SysexMessage</code>
- * containing the last of the data for the system exclusive message should end with the
- * value 0xF7 (EOX) to mark the end of the system exclusive message.
+ * Tif first <dodf>SysfxMfssbgf</dodf> objfdt dontbining dbtb for b pbrtidulbr systfm
+ * fxdlusivf mfssbgf siould ibvf tif stbtus vbluf 0xF0.  If tiis mfssbgf dontbins bll
+ * tif systfm fxdlusivf dbtb
+ * for tif mfssbgf, it siould fnd witi tif stbtus bytf 0xF7 (EOX).
+ * Otifrwisf, bdditionbl systfm fxdlusivf dbtb siould bf sfnt in onf or morf
+ * <dodf>SysfxMfssbgfs</dodf> witi b stbtus vbluf of 0xF7.  Tif <dodf>SysfxMfssbgf</dodf>
+ * dontbining tif lbst of tif dbtb for tif systfm fxdlusivf mfssbgf siould fnd witi tif
+ * vbluf 0xF7 (EOX) to mbrk tif fnd of tif systfm fxdlusivf mfssbgf.
  * <p>
- * If system exclusive data from <code>SysexMessages</code> objects is being transmitted
- * using MIDI wire protocol, only the initial 0xF0 status byte, the system exclusive
- * data itself, and the final 0xF7 (EOX) byte should be propagated; any 0xF7 status
- * bytes used to indicate that a <code>SysexMessage</code> contains continuing system
- * exclusive data should not be propagated via MIDI wire protocol.
+ * If systfm fxdlusivf dbtb from <dodf>SysfxMfssbgfs</dodf> objfdts is bfing trbnsmittfd
+ * using MIDI wirf protodol, only tif initibl 0xF0 stbtus bytf, tif systfm fxdlusivf
+ * dbtb itsflf, bnd tif finbl 0xF7 (EOX) bytf siould bf propbgbtfd; bny 0xF7 stbtus
+ * bytfs usfd to indidbtf tibt b <dodf>SysfxMfssbgf</dodf> dontbins dontinuing systfm
+ * fxdlusivf dbtb siould not bf propbgbtfd vib MIDI wirf protodol.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
-public class SysexMessage extends MidiMessage {
+publid dlbss SysfxMfssbgf fxtfnds MidiMfssbgf {
 
 
-    // Status byte defines
-
-
-    /**
-     * Status byte for System Exclusive message (0xF0, or 240).
-     * @see MidiMessage#getStatus
-     */
-    public static final int SYSTEM_EXCLUSIVE                    = 0xF0; // 240
+    // Stbtus bytf dffinfs
 
 
     /**
-     * Status byte for Special System Exclusive message (0xF7, or 247), which is used
-     * in MIDI files.  It has the same value as END_OF_EXCLUSIVE, which
-     * is used in the real-time "MIDI wire" protocol.
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Systfm Exdlusivf mfssbgf (0xF0, or 240).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int SPECIAL_SYSTEM_EXCLUSIVE    = 0xF7; // 247
+    publid stbtid finbl int SYSTEM_EXCLUSIVE                    = 0xF0; // 240
 
 
-    // Instance variables
+    /**
+     * Stbtus bytf for Spfdibl Systfm Exdlusivf mfssbgf (0xF7, or 247), wiidi is usfd
+     * in MIDI filfs.  It ibs tif sbmf vbluf bs END_OF_EXCLUSIVE, wiidi
+     * is usfd in tif rfbl-timf "MIDI wirf" protodol.
+     * @sff MidiMfssbgf#gftStbtus
+     */
+    publid stbtid finbl int SPECIAL_SYSTEM_EXCLUSIVE    = 0xF7; // 247
+
+
+    // Instbndf vbribblfs
 
 
     /*
-     * The data bytes for this system exclusive message.  These are
-     * initialized to <code>null</code> and are set explicitly
-     * by {@link #setMessage(int, byte[], int, long) setMessage}.
+     * Tif dbtb bytfs for tiis systfm fxdlusivf mfssbgf.  Tifsf brf
+     * initiblizfd to <dodf>null</dodf> bnd brf sft fxpliditly
+     * by {@link #sftMfssbgf(int, bytf[], int, long) sftMfssbgf}.
      */
-    //protected byte[] data = null;
+    //protfdtfd bytf[] dbtb = null;
 
 
     /**
-     * Constructs a new <code>SysexMessage</code>. The
-     * contents of the new message are guaranteed to specify
-     * a valid MIDI message.  Subsequently, you may set the
-     * contents of the message using one of the <code>setMessage</code>
-     * methods.
-     * @see #setMessage
+     * Construdts b nfw <dodf>SysfxMfssbgf</dodf>. Tif
+     * dontfnts of tif nfw mfssbgf brf gubrbntffd to spfdify
+     * b vblid MIDI mfssbgf.  Subsfqufntly, you mby sft tif
+     * dontfnts of tif mfssbgf using onf of tif <dodf>sftMfssbgf</dodf>
+     * mftiods.
+     * @sff #sftMfssbgf
      */
-    public SysexMessage() {
-        this(new byte[2]);
-        // Default sysex message data: SOX followed by EOX
-        data[0] = (byte) (SYSTEM_EXCLUSIVE & 0xFF);
-        data[1] = (byte) (ShortMessage.END_OF_EXCLUSIVE & 0xFF);
+    publid SysfxMfssbgf() {
+        tiis(nfw bytf[2]);
+        // Dffbult sysfx mfssbgf dbtb: SOX followfd by EOX
+        dbtb[0] = (bytf) (SYSTEM_EXCLUSIVE & 0xFF);
+        dbtb[1] = (bytf) (SiortMfssbgf.END_OF_EXCLUSIVE & 0xFF);
     }
 
     /**
-     * Constructs a new {@code SysexMessage} and sets the data for
-     * the message. The first byte of the data array must be a valid system
-     * exclusive status byte (0xF0 or 0xF7).
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Construdts b nfw {@dodf SysfxMfssbgf} bnd sfts tif dbtb for
+     * tif mfssbgf. Tif first bytf of tif dbtb brrby must bf b vblid systfm
+     * fxdlusivf stbtus bytf (0xF0 or 0xF7).
+     * Tif dontfnts of tif mfssbgf dbn bf dibngfd by using onf of
+     * tif {@dodf sftMfssbgf} mftiods.
      *
-     * @param data the system exclusive message data including the status byte
-     * @param length the length of the valid message data in the array,
-     *     including the status byte; it should be non-negative and less than
-     *     or equal to {@code data.length}
-     * @throws InvalidMidiDataException if the parameter values
-     *     do not specify a valid MIDI meta message.
-     * @see #setMessage(byte[], int)
-     * @see #setMessage(int, byte[], int)
-     * @see #getData()
-     * @since 1.7
+     * @pbrbm dbtb tif systfm fxdlusivf mfssbgf dbtb indluding tif stbtus bytf
+     * @pbrbm lfngti tif lfngti of tif vblid mfssbgf dbtb in tif brrby,
+     *     indluding tif stbtus bytf; it siould bf non-nfgbtivf bnd lfss tibn
+     *     or fqubl to {@dodf dbtb.lfngti}
+     * @tirows InvblidMidiDbtbExdfption if tif pbrbmftfr vblufs
+     *     do not spfdify b vblid MIDI mftb mfssbgf.
+     * @sff #sftMfssbgf(bytf[], int)
+     * @sff #sftMfssbgf(int, bytf[], int)
+     * @sff #gftDbtb()
+     * @sindf 1.7
      */
-    public SysexMessage(byte[] data, int length)
-            throws InvalidMidiDataException {
-        super(null);
-        setMessage(data, length);
+    publid SysfxMfssbgf(bytf[] dbtb, int lfngti)
+            tirows InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(dbtb, lfngti);
     }
 
     /**
-     * Constructs a new {@code SysexMessage} and sets the data for the message.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Construdts b nfw {@dodf SysfxMfssbgf} bnd sfts tif dbtb for tif mfssbgf.
+     * Tif dontfnts of tif mfssbgf dbn bf dibngfd by using onf of
+     * tif {@dodf sftMfssbgf} mftiods.
      *
-     * @param status the status byte for the message; it must be a valid system
-     *     exclusive status byte (0xF0 or 0xF7)
-     * @param data the system exclusive message data (without the status byte)
-     * @param length the length of the valid message data in the array;
-     *     it should be non-negative and less than or equal to
-     *     {@code data.length}
-     * @throws InvalidMidiDataException if the parameter values
-     *     do not specify a valid MIDI meta message.
-     * @see #setMessage(byte[], int)
-     * @see #setMessage(int, byte[], int)
-     * @see #getData()
-     * @since 1.7
+     * @pbrbm stbtus tif stbtus bytf for tif mfssbgf; it must bf b vblid systfm
+     *     fxdlusivf stbtus bytf (0xF0 or 0xF7)
+     * @pbrbm dbtb tif systfm fxdlusivf mfssbgf dbtb (witiout tif stbtus bytf)
+     * @pbrbm lfngti tif lfngti of tif vblid mfssbgf dbtb in tif brrby;
+     *     it siould bf non-nfgbtivf bnd lfss tibn or fqubl to
+     *     {@dodf dbtb.lfngti}
+     * @tirows InvblidMidiDbtbExdfption if tif pbrbmftfr vblufs
+     *     do not spfdify b vblid MIDI mftb mfssbgf.
+     * @sff #sftMfssbgf(bytf[], int)
+     * @sff #sftMfssbgf(int, bytf[], int)
+     * @sff #gftDbtb()
+     * @sindf 1.7
      */
-    public SysexMessage(int status, byte[] data, int length)
-            throws InvalidMidiDataException {
-        super(null);
-        setMessage(status, data, length);
+    publid SysfxMfssbgf(int stbtus, bytf[] dbtb, int lfngti)
+            tirows InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(stbtus, dbtb, lfngti);
     }
 
 
     /**
-     * Constructs a new <code>SysexMessage</code>.
-     * @param data an array of bytes containing the complete message.
-     * The message data may be changed using the <code>setMessage</code>
-     * method.
-     * @see #setMessage
+     * Construdts b nfw <dodf>SysfxMfssbgf</dodf>.
+     * @pbrbm dbtb bn brrby of bytfs dontbining tif domplftf mfssbgf.
+     * Tif mfssbgf dbtb mby bf dibngfd using tif <dodf>sftMfssbgf</dodf>
+     * mftiod.
+     * @sff #sftMfssbgf
      */
-    protected SysexMessage(byte[] data) {
-        super(data);
+    protfdtfd SysfxMfssbgf(bytf[] dbtb) {
+        supfr(dbtb);
     }
 
 
     /**
-     * Sets the data for the system exclusive message.   The
-     * first byte of the data array must be a valid system
-     * exclusive status byte (0xF0 or 0xF7).
-     * @param data the system exclusive message data
-     * @param length the length of the valid message data in
-     * the array, including the status byte.
+     * Sfts tif dbtb for tif systfm fxdlusivf mfssbgf.   Tif
+     * first bytf of tif dbtb brrby must bf b vblid systfm
+     * fxdlusivf stbtus bytf (0xF0 or 0xF7).
+     * @pbrbm dbtb tif systfm fxdlusivf mfssbgf dbtb
+     * @pbrbm lfngti tif lfngti of tif vblid mfssbgf dbtb in
+     * tif brrby, indluding tif stbtus bytf.
      */
-    public void setMessage(byte[] data, int length) throws InvalidMidiDataException {
-        int status = (data[0] & 0xFF);
-        if ((status != 0xF0) && (status != 0xF7)) {
-            throw new InvalidMidiDataException("Invalid status byte for sysex message: 0x" + Integer.toHexString(status));
+    publid void sftMfssbgf(bytf[] dbtb, int lfngti) tirows InvblidMidiDbtbExdfption {
+        int stbtus = (dbtb[0] & 0xFF);
+        if ((stbtus != 0xF0) && (stbtus != 0xF7)) {
+            tirow nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf for sysfx mfssbgf: 0x" + Intfgfr.toHfxString(stbtus));
         }
-        super.setMessage(data, length);
+        supfr.sftMfssbgf(dbtb, lfngti);
     }
 
 
     /**
-     * Sets the data for the system exclusive message.
-     * @param status the status byte for the message (0xF0 or 0xF7)
-     * @param data the system exclusive message data
-     * @param length the length of the valid message data in
-     * the array
-     * @throws InvalidMidiDataException if the status byte is invalid for a sysex message
+     * Sfts tif dbtb for tif systfm fxdlusivf mfssbgf.
+     * @pbrbm stbtus tif stbtus bytf for tif mfssbgf (0xF0 or 0xF7)
+     * @pbrbm dbtb tif systfm fxdlusivf mfssbgf dbtb
+     * @pbrbm lfngti tif lfngti of tif vblid mfssbgf dbtb in
+     * tif brrby
+     * @tirows InvblidMidiDbtbExdfption if tif stbtus bytf is invblid for b sysfx mfssbgf
      */
-    public void setMessage(int status, byte[] data, int length) throws InvalidMidiDataException {
-        if ( (status != 0xF0) && (status != 0xF7) ) {
-            throw new InvalidMidiDataException("Invalid status byte for sysex message: 0x" + Integer.toHexString(status));
+    publid void sftMfssbgf(int stbtus, bytf[] dbtb, int lfngti) tirows InvblidMidiDbtbExdfption {
+        if ( (stbtus != 0xF0) && (stbtus != 0xF7) ) {
+            tirow nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf for sysfx mfssbgf: 0x" + Intfgfr.toHfxString(stbtus));
         }
-        if (length < 0 || length > data.length) {
-            throw new IndexOutOfBoundsException("length out of bounds: "+length);
+        if (lfngti < 0 || lfngti > dbtb.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("lfngti out of bounds: "+lfngti);
         }
-        this.length = length + 1;
+        tiis.lfngti = lfngti + 1;
 
-        if (this.data==null || this.data.length < this.length) {
-            this.data = new byte[this.length];
+        if (tiis.dbtb==null || tiis.dbtb.lfngti < tiis.lfngti) {
+            tiis.dbtb = nfw bytf[tiis.lfngti];
         }
 
-        this.data[0] = (byte) (status & 0xFF);
-        if (length > 0) {
-            System.arraycopy(data, 0, this.data, 1, length);
+        tiis.dbtb[0] = (bytf) (stbtus & 0xFF);
+        if (lfngti > 0) {
+            Systfm.brrbydopy(dbtb, 0, tiis.dbtb, 1, lfngti);
         }
     }
 
 
     /**
-     * Obtains a copy of the data for the system exclusive message.
-     * The returned array of bytes does not include the status byte.
-     * @return array containing the system exclusive message data.
+     * Obtbins b dopy of tif dbtb for tif systfm fxdlusivf mfssbgf.
+     * Tif rfturnfd brrby of bytfs dofs not indludf tif stbtus bytf.
+     * @rfturn brrby dontbining tif systfm fxdlusivf mfssbgf dbtb.
      */
-    public byte[] getData() {
-        byte[] returnedArray = new byte[length - 1];
-        System.arraycopy(data, 1, returnedArray, 0, (length - 1));
-        return returnedArray;
+    publid bytf[] gftDbtb() {
+        bytf[] rfturnfdArrby = nfw bytf[lfngti - 1];
+        Systfm.brrbydopy(dbtb, 1, rfturnfdArrby, 0, (lfngti - 1));
+        rfturn rfturnfdArrby;
     }
 
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
-     * @return a clone of this instance
+     * Crfbtfs b nfw objfdt of tif sbmf dlbss bnd witi tif sbmf dontfnts
+     * bs tiis objfdt.
+     * @rfturn b dlonf of tiis instbndf
      */
-    public Object clone() {
-        byte[] newData = new byte[length];
-        System.arraycopy(data, 0, newData, 0, newData.length);
-        SysexMessage event = new SysexMessage(newData);
-        return event;
+    publid Objfdt dlonf() {
+        bytf[] nfwDbtb = nfw bytf[lfngti];
+        Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, nfwDbtb.lfngti);
+        SysfxMfssbgf fvfnt = nfw SysfxMfssbgf(nfwDbtb);
+        rfturn fvfnt;
     }
 }

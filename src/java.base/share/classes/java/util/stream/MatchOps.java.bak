@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.DoublePredicate;
-import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.DoublfPrfdidbtf;
+import jbvb.util.fundtion.IntPrfdidbtf;
+import jbvb.util.fundtion.LongPrfdidbtf;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * Factory for instances of a short-circuiting {@code TerminalOp} that implement
- * quantified predicate matching on the elements of a stream. Supported variants
- * include match-all, match-any, and match-none.
+ * Fbdtory for instbndfs of b siort-dirduiting {@dodf TfrminblOp} tibt implfmfnt
+ * qubntififd prfdidbtf mbtdiing on tif flfmfnts of b strfbm. Supportfd vbribnts
+ * indludf mbtdi-bll, mbtdi-bny, bnd mbtdi-nonf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class MatchOps {
+finbl dlbss MbtdiOps {
 
-    private MatchOps() { }
+    privbtf MbtdiOps() { }
 
     /**
-     * Enum describing quantified match options -- all match, any match, none
-     * match.
+     * Enum dfsdribing qubntififd mbtdi options -- bll mbtdi, bny mbtdi, nonf
+     * mbtdi.
      */
-    enum MatchKind {
-        /** Do all elements match the predicate? */
-        ANY(true, true),
+    fnum MbtdiKind {
+        /** Do bll flfmfnts mbtdi tif prfdidbtf? */
+        ANY(truf, truf),
 
-        /** Do any elements match the predicate? */
-        ALL(false, false),
+        /** Do bny flfmfnts mbtdi tif prfdidbtf? */
+        ALL(fblsf, fblsf),
 
-        /** Do no elements match the predicate? */
-        NONE(true, false);
+        /** Do no flfmfnts mbtdi tif prfdidbtf? */
+        NONE(truf, fblsf);
 
-        private final boolean stopOnPredicateMatches;
-        private final boolean shortCircuitResult;
+        privbtf finbl boolfbn stopOnPrfdidbtfMbtdifs;
+        privbtf finbl boolfbn siortCirduitRfsult;
 
-        private MatchKind(boolean stopOnPredicateMatches,
-                          boolean shortCircuitResult) {
-            this.stopOnPredicateMatches = stopOnPredicateMatches;
-            this.shortCircuitResult = shortCircuitResult;
+        privbtf MbtdiKind(boolfbn stopOnPrfdidbtfMbtdifs,
+                          boolfbn siortCirduitRfsult) {
+            tiis.stopOnPrfdidbtfMbtdifs = stopOnPrfdidbtfMbtdifs;
+            tiis.siortCirduitRfsult = siortCirduitRfsult;
         }
     }
 
     /**
-     * Constructs a quantified predicate matcher for a Stream.
+     * Construdts b qubntififd prfdidbtf mbtdifr for b Strfbm.
      *
-     * @param <T> the type of stream elements
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm <T> tif typf of strfbm flfmfnts
+     * @pbrbm prfdidbtf tif {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdiKind tif kind of qubntififd mbtdi (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif dfsirfd qubntififd mbtdi
+     *         dritfrib
      */
-    public static <T> TerminalOp<T, Boolean> makeRef(Predicate<? super T> predicate,
-            MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<T> {
-            MatchSink() {
-                super(matchKind);
+    publid stbtid <T> TfrminblOp<T, Boolfbn> mbkfRff(Prfdidbtf<? supfr T> prfdidbtf,
+            MbtdiKind mbtdiKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdiKind);
+        dlbss MbtdiSink fxtfnds BoolfbnTfrminblSink<T> {
+            MbtdiSink() {
+                supfr(mbtdiKind);
             }
 
-            @Override
-            public void accept(T t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
-                    stop = true;
-                    value = matchKind.shortCircuitResult;
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdiKind.stopOnPrfdidbtfMbtdifs) {
+                    stop = truf;
+                    vbluf = mbtdiKind.siortCirduitRfsult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.REFERENCE, matchKind, MatchSink::new);
+        rfturn nfw MbtdiOp<>(StrfbmSibpf.REFERENCE, mbtdiKind, MbtdiSink::nfw);
     }
 
     /**
-     * Constructs a quantified predicate matcher for an {@code IntStream}.
+     * Construdts b qubntififd prfdidbtf mbtdifr for bn {@dodf IntStrfbm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm prfdidbtf tif {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdiKind tif kind of qubntififd mbtdi (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif dfsirfd qubntififd mbtdi
+     *         dritfrib
      */
-    public static TerminalOp<Integer, Boolean> makeInt(IntPredicate predicate,
-                                                       MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Integer> implements Sink.OfInt {
-            MatchSink() {
-                super(matchKind);
+    publid stbtid TfrminblOp<Intfgfr, Boolfbn> mbkfInt(IntPrfdidbtf prfdidbtf,
+                                                       MbtdiKind mbtdiKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdiKind);
+        dlbss MbtdiSink fxtfnds BoolfbnTfrminblSink<Intfgfr> implfmfnts Sink.OfInt {
+            MbtdiSink() {
+                supfr(mbtdiKind);
             }
 
-            @Override
-            public void accept(int t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
-                    stop = true;
-                    value = matchKind.shortCircuitResult;
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdiKind.stopOnPrfdidbtfMbtdifs) {
+                    stop = truf;
+                    vbluf = mbtdiKind.siortCirduitRfsult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.INT_VALUE, matchKind, MatchSink::new);
+        rfturn nfw MbtdiOp<>(StrfbmSibpf.INT_VALUE, mbtdiKind, MbtdiSink::nfw);
     }
 
     /**
-     * Constructs a quantified predicate matcher for a {@code LongStream}.
+     * Construdts b qubntififd prfdidbtf mbtdifr for b {@dodf LongStrfbm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm prfdidbtf tif {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdiKind tif kind of qubntififd mbtdi (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif dfsirfd qubntififd mbtdi
+     *         dritfrib
      */
-    public static TerminalOp<Long, Boolean> makeLong(LongPredicate predicate,
-                                                     MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Long> implements Sink.OfLong {
+    publid stbtid TfrminblOp<Long, Boolfbn> mbkfLong(LongPrfdidbtf prfdidbtf,
+                                                     MbtdiKind mbtdiKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdiKind);
+        dlbss MbtdiSink fxtfnds BoolfbnTfrminblSink<Long> implfmfnts Sink.OfLong {
 
-            MatchSink() {
-                super(matchKind);
+            MbtdiSink() {
+                supfr(mbtdiKind);
             }
 
-            @Override
-            public void accept(long t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
-                    stop = true;
-                    value = matchKind.shortCircuitResult;
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdiKind.stopOnPrfdidbtfMbtdifs) {
+                    stop = truf;
+                    vbluf = mbtdiKind.siortCirduitRfsult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.LONG_VALUE, matchKind, MatchSink::new);
+        rfturn nfw MbtdiOp<>(StrfbmSibpf.LONG_VALUE, mbtdiKind, MbtdiSink::nfw);
     }
 
     /**
-     * Constructs a quantified predicate matcher for a {@code DoubleStream}.
+     * Construdts b qubntififd prfdidbtf mbtdifr for b {@dodf DoublfStrfbm}.
      *
-     * @param predicate the {@code Predicate} to apply to stream elements
-     * @param matchKind the kind of quantified match (all, any, none)
-     * @return a {@code TerminalOp} implementing the desired quantified match
-     *         criteria
+     * @pbrbm prfdidbtf tif {@dodf Prfdidbtf} to bpply to strfbm flfmfnts
+     * @pbrbm mbtdiKind tif kind of qubntififd mbtdi (bll, bny, nonf)
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif dfsirfd qubntififd mbtdi
+     *         dritfrib
      */
-    public static TerminalOp<Double, Boolean> makeDouble(DoublePredicate predicate,
-                                                         MatchKind matchKind) {
-        Objects.requireNonNull(predicate);
-        Objects.requireNonNull(matchKind);
-        class MatchSink extends BooleanTerminalSink<Double> implements Sink.OfDouble {
+    publid stbtid TfrminblOp<Doublf, Boolfbn> mbkfDoublf(DoublfPrfdidbtf prfdidbtf,
+                                                         MbtdiKind mbtdiKind) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        Objfdts.rfquirfNonNull(mbtdiKind);
+        dlbss MbtdiSink fxtfnds BoolfbnTfrminblSink<Doublf> implfmfnts Sink.OfDoublf {
 
-            MatchSink() {
-                super(matchKind);
+            MbtdiSink() {
+                supfr(mbtdiKind);
             }
 
-            @Override
-            public void accept(double t) {
-                if (!stop && predicate.test(t) == matchKind.stopOnPredicateMatches) {
-                    stop = true;
-                    value = matchKind.shortCircuitResult;
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                if (!stop && prfdidbtf.tfst(t) == mbtdiKind.stopOnPrfdidbtfMbtdifs) {
+                    stop = truf;
+                    vbluf = mbtdiKind.siortCirduitRfsult;
                 }
             }
         }
 
-        return new MatchOp<>(StreamShape.DOUBLE_VALUE, matchKind, MatchSink::new);
+        rfturn nfw MbtdiOp<>(StrfbmSibpf.DOUBLE_VALUE, mbtdiKind, MbtdiSink::nfw);
     }
 
     /**
-     * A short-circuiting {@code TerminalOp} that evaluates a predicate on the
-     * elements of a stream and determines whether all, any or none of those
-     * elements match the predicate.
+     * A siort-dirduiting {@dodf TfrminblOp} tibt fvblubtfs b prfdidbtf on tif
+     * flfmfnts of b strfbm bnd dftfrminfs wiftifr bll, bny or nonf of tiosf
+     * flfmfnts mbtdi tif prfdidbtf.
      *
-     * @param <T> the output type of the stream pipeline
+     * @pbrbm <T> tif output typf of tif strfbm pipflinf
      */
-    private static final class MatchOp<T> implements TerminalOp<T, Boolean> {
-        private final StreamShape inputShape;
-        final MatchKind matchKind;
-        final Supplier<BooleanTerminalSink<T>> sinkSupplier;
+    privbtf stbtid finbl dlbss MbtdiOp<T> implfmfnts TfrminblOp<T, Boolfbn> {
+        privbtf finbl StrfbmSibpf inputSibpf;
+        finbl MbtdiKind mbtdiKind;
+        finbl Supplifr<BoolfbnTfrminblSink<T>> sinkSupplifr;
 
         /**
-         * Constructs a {@code MatchOp}.
+         * Construdts b {@dodf MbtdiOp}.
          *
-         * @param shape the output shape of the stream pipeline
-         * @param matchKind the kind of quantified match (all, any, none)
-         * @param sinkSupplier {@code Supplier} for a {@code Sink} of the
-         *        appropriate shape which implements the matching operation
+         * @pbrbm sibpf tif output sibpf of tif strfbm pipflinf
+         * @pbrbm mbtdiKind tif kind of qubntififd mbtdi (bll, bny, nonf)
+         * @pbrbm sinkSupplifr {@dodf Supplifr} for b {@dodf Sink} of tif
+         *        bppropribtf sibpf wiidi implfmfnts tif mbtdiing opfrbtion
          */
-        MatchOp(StreamShape shape,
-                MatchKind matchKind,
-                Supplier<BooleanTerminalSink<T>> sinkSupplier) {
-            this.inputShape = shape;
-            this.matchKind = matchKind;
-            this.sinkSupplier = sinkSupplier;
+        MbtdiOp(StrfbmSibpf sibpf,
+                MbtdiKind mbtdiKind,
+                Supplifr<BoolfbnTfrminblSink<T>> sinkSupplifr) {
+            tiis.inputSibpf = sibpf;
+            tiis.mbtdiKind = mbtdiKind;
+            tiis.sinkSupplifr = sinkSupplifr;
         }
 
-        @Override
-        public int getOpFlags() {
-            return StreamOpFlag.IS_SHORT_CIRCUIT | StreamOpFlag.NOT_ORDERED;
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn StrfbmOpFlbg.IS_SHORT_CIRCUIT | StrfbmOpFlbg.NOT_ORDERED;
         }
 
-        @Override
-        public StreamShape inputShape() {
-            return inputShape;
+        @Ovfrridf
+        publid StrfbmSibpf inputSibpf() {
+            rfturn inputSibpf;
         }
 
-        @Override
-        public <S> Boolean evaluateSequential(PipelineHelper<T> helper,
-                                              Spliterator<S> spliterator) {
-            return helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).getAndClearState();
+        @Ovfrridf
+        publid <S> Boolfbn fvblubtfSfqufntibl(PipflinfHflpfr<T> iflpfr,
+                                              Splitfrbtor<S> splitfrbtor) {
+            rfturn iflpfr.wrbpAndCopyInto(sinkSupplifr.gft(), splitfrbtor).gftAndClfbrStbtf();
         }
 
-        @Override
-        public <S> Boolean evaluateParallel(PipelineHelper<T> helper,
-                                            Spliterator<S> spliterator) {
-            // Approach for parallel implementation:
-            // - Decompose as per usual
-            // - run match on leaf chunks, call result "b"
-            // - if b == matchKind.shortCircuitOn, complete early and return b
-            // - else if we complete normally, return !shortCircuitOn
+        @Ovfrridf
+        publid <S> Boolfbn fvblubtfPbrbllfl(PipflinfHflpfr<T> iflpfr,
+                                            Splitfrbtor<S> splitfrbtor) {
+            // Approbdi for pbrbllfl implfmfntbtion:
+            // - Dfdomposf bs pfr usubl
+            // - run mbtdi on lfbf diunks, dbll rfsult "b"
+            // - if b == mbtdiKind.siortCirduitOn, domplftf fbrly bnd rfturn b
+            // - flsf if wf domplftf normblly, rfturn !siortCirduitOn
 
-            return new MatchTask<>(this, helper, spliterator).invoke();
+            rfturn nfw MbtdiTbsk<>(tiis, iflpfr, splitfrbtor).invokf();
         }
     }
 
     /**
-     * Boolean specific terminal sink to avoid the boxing costs when returning
-     * results.  Subclasses implement the shape-specific functionality.
+     * Boolfbn spfdifid tfrminbl sink to bvoid tif boxing dosts wifn rfturning
+     * rfsults.  Subdlbssfs implfmfnt tif sibpf-spfdifid fundtionblity.
      *
-     * @param <T> The output type of the stream pipeline
+     * @pbrbm <T> Tif output typf of tif strfbm pipflinf
      */
-    private static abstract class BooleanTerminalSink<T> implements Sink<T> {
-        boolean stop;
-        boolean value;
+    privbtf stbtid bbstrbdt dlbss BoolfbnTfrminblSink<T> implfmfnts Sink<T> {
+        boolfbn stop;
+        boolfbn vbluf;
 
-        BooleanTerminalSink(MatchKind matchKind) {
-            value = !matchKind.shortCircuitResult;
+        BoolfbnTfrminblSink(MbtdiKind mbtdiKind) {
+            vbluf = !mbtdiKind.siortCirduitRfsult;
         }
 
-        public boolean getAndClearState() {
-            return value;
+        publid boolfbn gftAndClfbrStbtf() {
+            rfturn vbluf;
         }
 
-        @Override
-        public boolean cancellationRequested() {
-            return stop;
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn stop;
         }
     }
 
     /**
-     * ForkJoinTask implementation to implement a parallel short-circuiting
-     * quantified match
+     * ForkJoinTbsk implfmfntbtion to implfmfnt b pbrbllfl siort-dirduiting
+     * qubntififd mbtdi
      *
-     * @param <P_IN> the type of source elements for the pipeline
-     * @param <P_OUT> the type of output elements for the pipeline
+     * @pbrbm <P_IN> tif typf of sourdf flfmfnts for tif pipflinf
+     * @pbrbm <P_OUT> tif typf of output flfmfnts for tif pipflinf
      */
-    @SuppressWarnings("serial")
-    private static final class MatchTask<P_IN, P_OUT>
-            extends AbstractShortCircuitTask<P_IN, P_OUT, Boolean, MatchTask<P_IN, P_OUT>> {
-        private final MatchOp<P_OUT> op;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss MbtdiTbsk<P_IN, P_OUT>
+            fxtfnds AbstrbdtSiortCirduitTbsk<P_IN, P_OUT, Boolfbn, MbtdiTbsk<P_IN, P_OUT>> {
+        privbtf finbl MbtdiOp<P_OUT> op;
 
         /**
-         * Constructor for root node
+         * Construdtor for root nodf
          */
-        MatchTask(MatchOp<P_OUT> op, PipelineHelper<P_OUT> helper,
-                  Spliterator<P_IN> spliterator) {
-            super(helper, spliterator);
-            this.op = op;
+        MbtdiTbsk(MbtdiOp<P_OUT> op, PipflinfHflpfr<P_OUT> iflpfr,
+                  Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(iflpfr, splitfrbtor);
+            tiis.op = op;
         }
 
         /**
-         * Constructor for non-root node
+         * Construdtor for non-root nodf
          */
-        MatchTask(MatchTask<P_IN, P_OUT> parent, Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
+        MbtdiTbsk(MbtdiTbsk<P_IN, P_OUT> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            tiis.op = pbrfnt.op;
         }
 
-        @Override
-        protected MatchTask<P_IN, P_OUT> makeChild(Spliterator<P_IN> spliterator) {
-            return new MatchTask<>(this, spliterator);
+        @Ovfrridf
+        protfdtfd MbtdiTbsk<P_IN, P_OUT> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw MbtdiTbsk<>(tiis, splitfrbtor);
         }
 
-        @Override
-        protected Boolean doLeaf() {
-            boolean b = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).getAndClearState();
-            if (b == op.matchKind.shortCircuitResult)
-                shortCircuit(b);
-            return null;
+        @Ovfrridf
+        protfdtfd Boolfbn doLfbf() {
+            boolfbn b = iflpfr.wrbpAndCopyInto(op.sinkSupplifr.gft(), splitfrbtor).gftAndClfbrStbtf();
+            if (b == op.mbtdiKind.siortCirduitRfsult)
+                siortCirduit(b);
+            rfturn null;
         }
 
-        @Override
-        protected Boolean getEmptyResult() {
-            return !op.matchKind.shortCircuitResult;
+        @Ovfrridf
+        protfdtfd Boolfbn gftEmptyRfsult() {
+            rfturn !op.mbtdiKind.siortCirduitRfsult;
         }
     }
 }

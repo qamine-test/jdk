@@ -1,568 +1,568 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
 /**
- * This class provides support for general purpose compression using the
- * popular ZLIB compression library. The ZLIB compression library was
- * initially developed as part of the PNG graphics standard and is not
- * protected by patents. It is fully described in the specifications at
- * the <a href="package-summary.html#package_description">java.util.zip
- * package description</a>.
+ * Tiis dlbss providfs support for gfnfrbl purposf domprfssion using tif
+ * populbr ZLIB domprfssion librbry. Tif ZLIB domprfssion librbry wbs
+ * initiblly dfvflopfd bs pbrt of tif PNG grbpiids stbndbrd bnd is not
+ * protfdtfd by pbtfnts. It is fully dfsdribfd in tif spfdifidbtions bt
+ * tif <b irff="pbdkbgf-summbry.itml#pbdkbgf_dfsdription">jbvb.util.zip
+ * pbdkbgf dfsdription</b>.
  *
- * <p>The following code fragment demonstrates a trivial compression
- * and decompression of a string using <tt>Deflater</tt> and
- * <tt>Inflater</tt>.
+ * <p>Tif following dodf frbgmfnt dfmonstrbtfs b trivibl domprfssion
+ * bnd dfdomprfssion of b string using <tt>Dfflbtfr</tt> bnd
+ * <tt>Inflbtfr</tt>.
  *
- * <blockquote><pre>
+ * <blodkquotf><prf>
  * try {
- *     // Encode a String into bytes
- *     String inputString = "blahblahblah";
- *     byte[] input = inputString.getBytes("UTF-8");
+ *     // Endodf b String into bytfs
+ *     String inputString = "blbiblbiblbi";
+ *     bytf[] input = inputString.gftBytfs("UTF-8");
  *
- *     // Compress the bytes
- *     byte[] output = new byte[100];
- *     Deflater compresser = new Deflater();
- *     compresser.setInput(input);
- *     compresser.finish();
- *     int compressedDataLength = compresser.deflate(output);
- *     compresser.end();
+ *     // Comprfss tif bytfs
+ *     bytf[] output = nfw bytf[100];
+ *     Dfflbtfr domprfssfr = nfw Dfflbtfr();
+ *     domprfssfr.sftInput(input);
+ *     domprfssfr.finisi();
+ *     int domprfssfdDbtbLfngti = domprfssfr.dfflbtf(output);
+ *     domprfssfr.fnd();
  *
- *     // Decompress the bytes
- *     Inflater decompresser = new Inflater();
- *     decompresser.setInput(output, 0, compressedDataLength);
- *     byte[] result = new byte[100];
- *     int resultLength = decompresser.inflate(result);
- *     decompresser.end();
+ *     // Dfdomprfss tif bytfs
+ *     Inflbtfr dfdomprfssfr = nfw Inflbtfr();
+ *     dfdomprfssfr.sftInput(output, 0, domprfssfdDbtbLfngti);
+ *     bytf[] rfsult = nfw bytf[100];
+ *     int rfsultLfngti = dfdomprfssfr.inflbtf(rfsult);
+ *     dfdomprfssfr.fnd();
  *
- *     // Decode the bytes into a String
- *     String outputString = new String(result, 0, resultLength, "UTF-8");
- * } catch(java.io.UnsupportedEncodingException ex) {
- *     // handle
- * } catch (java.util.zip.DataFormatException ex) {
- *     // handle
+ *     // Dfdodf tif bytfs into b String
+ *     String outputString = nfw String(rfsult, 0, rfsultLfngti, "UTF-8");
+ * } dbtdi(jbvb.io.UnsupportfdEndodingExdfption fx) {
+ *     // ibndlf
+ * } dbtdi (jbvb.util.zip.DbtbFormbtExdfption fx) {
+ *     // ibndlf
  * }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
- * @see         Inflater
- * @author      David Connelly
+ * @sff         Inflbtfr
+ * @butior      Dbvid Connflly
  */
-public
-class Deflater {
+publid
+dlbss Dfflbtfr {
 
-    private final ZStreamRef zsRef;
-    private byte[] buf = new byte[0];
-    private int off, len;
-    private int level, strategy;
-    private boolean setParams;
-    private boolean finish, finished;
-    private long bytesRead;
-    private long bytesWritten;
+    privbtf finbl ZStrfbmRff zsRff;
+    privbtf bytf[] buf = nfw bytf[0];
+    privbtf int off, lfn;
+    privbtf int lfvfl, strbtfgy;
+    privbtf boolfbn sftPbrbms;
+    privbtf boolfbn finisi, finisifd;
+    privbtf long bytfsRfbd;
+    privbtf long bytfsWrittfn;
 
     /**
-     * Compression method for the deflate algorithm (the only one currently
-     * supported).
+     * Comprfssion mftiod for tif dfflbtf blgoritim (tif only onf durrfntly
+     * supportfd).
      */
-    public static final int DEFLATED = 8;
+    publid stbtid finbl int DEFLATED = 8;
 
     /**
-     * Compression level for no compression.
+     * Comprfssion lfvfl for no domprfssion.
      */
-    public static final int NO_COMPRESSION = 0;
+    publid stbtid finbl int NO_COMPRESSION = 0;
 
     /**
-     * Compression level for fastest compression.
+     * Comprfssion lfvfl for fbstfst domprfssion.
      */
-    public static final int BEST_SPEED = 1;
+    publid stbtid finbl int BEST_SPEED = 1;
 
     /**
-     * Compression level for best compression.
+     * Comprfssion lfvfl for bfst domprfssion.
      */
-    public static final int BEST_COMPRESSION = 9;
+    publid stbtid finbl int BEST_COMPRESSION = 9;
 
     /**
-     * Default compression level.
+     * Dffbult domprfssion lfvfl.
      */
-    public static final int DEFAULT_COMPRESSION = -1;
+    publid stbtid finbl int DEFAULT_COMPRESSION = -1;
 
     /**
-     * Compression strategy best used for data consisting mostly of small
-     * values with a somewhat random distribution. Forces more Huffman coding
-     * and less string matching.
+     * Comprfssion strbtfgy bfst usfd for dbtb donsisting mostly of smbll
+     * vblufs witi b somfwibt rbndom distribution. Fordfs morf Huffmbn doding
+     * bnd lfss string mbtdiing.
      */
-    public static final int FILTERED = 1;
+    publid stbtid finbl int FILTERED = 1;
 
     /**
-     * Compression strategy for Huffman coding only.
+     * Comprfssion strbtfgy for Huffmbn doding only.
      */
-    public static final int HUFFMAN_ONLY = 2;
+    publid stbtid finbl int HUFFMAN_ONLY = 2;
 
     /**
-     * Default compression strategy.
+     * Dffbult domprfssion strbtfgy.
      */
-    public static final int DEFAULT_STRATEGY = 0;
+    publid stbtid finbl int DEFAULT_STRATEGY = 0;
 
     /**
-     * Compression flush mode used to achieve best compression result.
+     * Comprfssion flusi modf usfd to bdiifvf bfst domprfssion rfsult.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
-     * @since 1.7
+     * @sff Dfflbtfr#dfflbtf(bytf[], int, int, int)
+     * @sindf 1.7
      */
-    public static final int NO_FLUSH = 0;
+    publid stbtid finbl int NO_FLUSH = 0;
 
     /**
-     * Compression flush mode used to flush out all pending output; may
-     * degrade compression for some compression algorithms.
+     * Comprfssion flusi modf usfd to flusi out bll pfnding output; mby
+     * dfgrbdf domprfssion for somf domprfssion blgoritims.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
-     * @since 1.7
+     * @sff Dfflbtfr#dfflbtf(bytf[], int, int, int)
+     * @sindf 1.7
      */
-    public static final int SYNC_FLUSH = 2;
+    publid stbtid finbl int SYNC_FLUSH = 2;
 
     /**
-     * Compression flush mode used to flush out all pending output and
-     * reset the deflater. Using this mode too often can seriously degrade
-     * compression.
+     * Comprfssion flusi modf usfd to flusi out bll pfnding output bnd
+     * rfsft tif dfflbtfr. Using tiis modf too oftfn dbn sfriously dfgrbdf
+     * domprfssion.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
-     * @since 1.7
+     * @sff Dfflbtfr#dfflbtf(bytf[], int, int, int)
+     * @sindf 1.7
      */
-    public static final int FULL_FLUSH = 3;
+    publid stbtid finbl int FULL_FLUSH = 3;
 
-    static {
-        /* Zip library is loaded from System.initializeSystemClass */
+    stbtid {
+        /* Zip librbry is lobdfd from Systfm.initiblizfSystfmClbss */
         initIDs();
     }
 
     /**
-     * Creates a new compressor using the specified compression level.
-     * If 'nowrap' is true then the ZLIB header and checksum fields will
-     * not be used in order to support the compression format used in
-     * both GZIP and PKZIP.
-     * @param level the compression level (0-9)
-     * @param nowrap if true then use GZIP compatible compression
+     * Crfbtfs b nfw domprfssor using tif spfdififd domprfssion lfvfl.
+     * If 'nowrbp' is truf tifn tif ZLIB ifbdfr bnd difdksum fiflds will
+     * not bf usfd in ordfr to support tif domprfssion formbt usfd in
+     * boti GZIP bnd PKZIP.
+     * @pbrbm lfvfl tif domprfssion lfvfl (0-9)
+     * @pbrbm nowrbp if truf tifn usf GZIP dompbtiblf domprfssion
      */
-    public Deflater(int level, boolean nowrap) {
-        this.level = level;
-        this.strategy = DEFAULT_STRATEGY;
-        this.zsRef = new ZStreamRef(init(level, DEFAULT_STRATEGY, nowrap));
+    publid Dfflbtfr(int lfvfl, boolfbn nowrbp) {
+        tiis.lfvfl = lfvfl;
+        tiis.strbtfgy = DEFAULT_STRATEGY;
+        tiis.zsRff = nfw ZStrfbmRff(init(lfvfl, DEFAULT_STRATEGY, nowrbp));
     }
 
     /**
-     * Creates a new compressor using the specified compression level.
-     * Compressed data will be generated in ZLIB format.
-     * @param level the compression level (0-9)
+     * Crfbtfs b nfw domprfssor using tif spfdififd domprfssion lfvfl.
+     * Comprfssfd dbtb will bf gfnfrbtfd in ZLIB formbt.
+     * @pbrbm lfvfl tif domprfssion lfvfl (0-9)
      */
-    public Deflater(int level) {
-        this(level, false);
+    publid Dfflbtfr(int lfvfl) {
+        tiis(lfvfl, fblsf);
     }
 
     /**
-     * Creates a new compressor with the default compression level.
-     * Compressed data will be generated in ZLIB format.
+     * Crfbtfs b nfw domprfssor witi tif dffbult domprfssion lfvfl.
+     * Comprfssfd dbtb will bf gfnfrbtfd in ZLIB formbt.
      */
-    public Deflater() {
-        this(DEFAULT_COMPRESSION, false);
+    publid Dfflbtfr() {
+        tiis(DEFAULT_COMPRESSION, fblsf);
     }
 
     /**
-     * Sets input data for compression. This should be called whenever
-     * needsInput() returns true indicating that more input data is required.
-     * @param b the input data bytes
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @see Deflater#needsInput
+     * Sfts input dbtb for domprfssion. Tiis siould bf dbllfd wifnfvfr
+     * nffdsInput() rfturns truf indidbting tibt morf input dbtb is rfquirfd.
+     * @pbrbm b tif input dbtb bytfs
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif lfngti of tif dbtb
+     * @sff Dfflbtfr#nffdsInput
      */
-    public void setInput(byte[] b, int off, int len) {
+    publid void sftInput(bytf[] b, int off, int lfn) {
         if (b== null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            this.buf = b;
-            this.off = off;
-            this.len = len;
+        syndironizfd (zsRff) {
+            tiis.buf = b;
+            tiis.off = off;
+            tiis.lfn = lfn;
         }
     }
 
     /**
-     * Sets input data for compression. This should be called whenever
-     * needsInput() returns true indicating that more input data is required.
-     * @param b the input data bytes
-     * @see Deflater#needsInput
+     * Sfts input dbtb for domprfssion. Tiis siould bf dbllfd wifnfvfr
+     * nffdsInput() rfturns truf indidbting tibt morf input dbtb is rfquirfd.
+     * @pbrbm b tif input dbtb bytfs
+     * @sff Dfflbtfr#nffdsInput
      */
-    public void setInput(byte[] b) {
-        setInput(b, 0, b.length);
+    publid void sftInput(bytf[] b) {
+        sftInput(b, 0, b.lfngti);
     }
 
     /**
-     * Sets preset dictionary for compression. A preset dictionary is used
-     * when the history buffer can be predetermined. When the data is later
-     * uncompressed with Inflater.inflate(), Inflater.getAdler() can be called
-     * in order to get the Adler-32 value of the dictionary required for
-     * decompression.
-     * @param b the dictionary data bytes
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @see Inflater#inflate
-     * @see Inflater#getAdler
+     * Sfts prfsft didtionbry for domprfssion. A prfsft didtionbry is usfd
+     * wifn tif iistory bufffr dbn bf prfdftfrminfd. Wifn tif dbtb is lbtfr
+     * undomprfssfd witi Inflbtfr.inflbtf(), Inflbtfr.gftAdlfr() dbn bf dbllfd
+     * in ordfr to gft tif Adlfr-32 vbluf of tif didtionbry rfquirfd for
+     * dfdomprfssion.
+     * @pbrbm b tif didtionbry dbtb bytfs
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif lfngti of tif dbtb
+     * @sff Inflbtfr#inflbtf
+     * @sff Inflbtfr#gftAdlfr
      */
-    public void setDictionary(byte[] b, int off, int len) {
+    publid void sftDidtionbry(bytf[] b, int off, int lfn) {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            ensureOpen();
-            setDictionary(zsRef.address(), b, off, len);
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            sftDidtionbry(zsRff.bddrfss(), b, off, lfn);
         }
     }
 
     /**
-     * Sets preset dictionary for compression. A preset dictionary is used
-     * when the history buffer can be predetermined. When the data is later
-     * uncompressed with Inflater.inflate(), Inflater.getAdler() can be called
-     * in order to get the Adler-32 value of the dictionary required for
-     * decompression.
-     * @param b the dictionary data bytes
-     * @see Inflater#inflate
-     * @see Inflater#getAdler
+     * Sfts prfsft didtionbry for domprfssion. A prfsft didtionbry is usfd
+     * wifn tif iistory bufffr dbn bf prfdftfrminfd. Wifn tif dbtb is lbtfr
+     * undomprfssfd witi Inflbtfr.inflbtf(), Inflbtfr.gftAdlfr() dbn bf dbllfd
+     * in ordfr to gft tif Adlfr-32 vbluf of tif didtionbry rfquirfd for
+     * dfdomprfssion.
+     * @pbrbm b tif didtionbry dbtb bytfs
+     * @sff Inflbtfr#inflbtf
+     * @sff Inflbtfr#gftAdlfr
      */
-    public void setDictionary(byte[] b) {
-        setDictionary(b, 0, b.length);
+    publid void sftDidtionbry(bytf[] b) {
+        sftDidtionbry(b, 0, b.lfngti);
     }
 
     /**
-     * Sets the compression strategy to the specified value.
+     * Sfts tif domprfssion strbtfgy to tif spfdififd vbluf.
      *
-     * <p> If the compression strategy is changed, the next invocation
-     * of {@code deflate} will compress the input available so far with
-     * the old strategy (and may be flushed); the new strategy will take
-     * effect only after that invocation.
+     * <p> If tif domprfssion strbtfgy is dibngfd, tif nfxt invodbtion
+     * of {@dodf dfflbtf} will domprfss tif input bvbilbblf so fbr witi
+     * tif old strbtfgy (bnd mby bf flusifd); tif nfw strbtfgy will tbkf
+     * ffffdt only bftfr tibt invodbtion.
      *
-     * @param strategy the new compression strategy
-     * @exception IllegalArgumentException if the compression strategy is
-     *                                     invalid
+     * @pbrbm strbtfgy tif nfw domprfssion strbtfgy
+     * @fxdfption IllfgblArgumfntExdfption if tif domprfssion strbtfgy is
+     *                                     invblid
      */
-    public void setStrategy(int strategy) {
-        switch (strategy) {
-          case DEFAULT_STRATEGY:
-          case FILTERED:
-          case HUFFMAN_ONLY:
-            break;
-          default:
-            throw new IllegalArgumentException();
+    publid void sftStrbtfgy(int strbtfgy) {
+        switdi (strbtfgy) {
+          dbsf DEFAULT_STRATEGY:
+          dbsf FILTERED:
+          dbsf HUFFMAN_ONLY:
+            brfbk;
+          dffbult:
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        synchronized (zsRef) {
-            if (this.strategy != strategy) {
-                this.strategy = strategy;
-                setParams = true;
+        syndironizfd (zsRff) {
+            if (tiis.strbtfgy != strbtfgy) {
+                tiis.strbtfgy = strbtfgy;
+                sftPbrbms = truf;
             }
         }
     }
 
     /**
-     * Sets the compression level to the specified value.
+     * Sfts tif domprfssion lfvfl to tif spfdififd vbluf.
      *
-     * <p> If the compression level is changed, the next invocation
-     * of {@code deflate} will compress the input available so far
-     * with the old level (and may be flushed); the new level will
-     * take effect only after that invocation.
+     * <p> If tif domprfssion lfvfl is dibngfd, tif nfxt invodbtion
+     * of {@dodf dfflbtf} will domprfss tif input bvbilbblf so fbr
+     * witi tif old lfvfl (bnd mby bf flusifd); tif nfw lfvfl will
+     * tbkf ffffdt only bftfr tibt invodbtion.
      *
-     * @param level the new compression level (0-9)
-     * @exception IllegalArgumentException if the compression level is invalid
+     * @pbrbm lfvfl tif nfw domprfssion lfvfl (0-9)
+     * @fxdfption IllfgblArgumfntExdfption if tif domprfssion lfvfl is invblid
      */
-    public void setLevel(int level) {
-        if ((level < 0 || level > 9) && level != DEFAULT_COMPRESSION) {
-            throw new IllegalArgumentException("invalid compression level");
+    publid void sftLfvfl(int lfvfl) {
+        if ((lfvfl < 0 || lfvfl > 9) && lfvfl != DEFAULT_COMPRESSION) {
+            tirow nfw IllfgblArgumfntExdfption("invblid domprfssion lfvfl");
         }
-        synchronized (zsRef) {
-            if (this.level != level) {
-                this.level = level;
-                setParams = true;
+        syndironizfd (zsRff) {
+            if (tiis.lfvfl != lfvfl) {
+                tiis.lfvfl = lfvfl;
+                sftPbrbms = truf;
             }
         }
     }
 
     /**
-     * Returns true if the input data buffer is empty and setInput()
-     * should be called in order to provide more input.
-     * @return true if the input data buffer is empty and setInput()
-     * should be called in order to provide more input
+     * Rfturns truf if tif input dbtb bufffr is fmpty bnd sftInput()
+     * siould bf dbllfd in ordfr to providf morf input.
+     * @rfturn truf if tif input dbtb bufffr is fmpty bnd sftInput()
+     * siould bf dbllfd in ordfr to providf morf input
      */
-    public boolean needsInput() {
-        return len <= 0;
+    publid boolfbn nffdsInput() {
+        rfturn lfn <= 0;
     }
 
     /**
-     * When called, indicates that compression should end with the current
-     * contents of the input buffer.
+     * Wifn dbllfd, indidbtfs tibt domprfssion siould fnd witi tif durrfnt
+     * dontfnts of tif input bufffr.
      */
-    public void finish() {
-        synchronized (zsRef) {
-            finish = true;
+    publid void finisi() {
+        syndironizfd (zsRff) {
+            finisi = truf;
         }
     }
 
     /**
-     * Returns true if the end of the compressed data output stream has
-     * been reached.
-     * @return true if the end of the compressed data output stream has
-     * been reached
+     * Rfturns truf if tif fnd of tif domprfssfd dbtb output strfbm ibs
+     * bffn rfbdifd.
+     * @rfturn truf if tif fnd of tif domprfssfd dbtb output strfbm ibs
+     * bffn rfbdifd
      */
-    public boolean finished() {
-        synchronized (zsRef) {
-            return finished;
+    publid boolfbn finisifd() {
+        syndironizfd (zsRff) {
+            rfturn finisifd;
         }
     }
 
     /**
-     * Compresses the input data and fills specified buffer with compressed
-     * data. Returns actual number of bytes of compressed data. A return value
-     * of 0 indicates that {@link #needsInput() needsInput} should be called
-     * in order to determine if more input data is required.
+     * Comprfssfs tif input dbtb bnd fills spfdififd bufffr witi domprfssfd
+     * dbtb. Rfturns bdtubl numbfr of bytfs of domprfssfd dbtb. A rfturn vbluf
+     * of 0 indidbtfs tibt {@link #nffdsInput() nffdsInput} siould bf dbllfd
+     * in ordfr to dftfrminf if morf input dbtb is rfquirfd.
      *
-     * <p>This method uses {@link #NO_FLUSH} as its compression flush mode.
-     * An invocation of this method of the form {@code deflater.deflate(b, off, len)}
-     * yields the same result as the invocation of
-     * {@code deflater.deflate(b, off, len, Deflater.NO_FLUSH)}.
+     * <p>Tiis mftiod usfs {@link #NO_FLUSH} bs its domprfssion flusi modf.
+     * An invodbtion of tiis mftiod of tif form {@dodf dfflbtfr.dfflbtf(b, off, lfn)}
+     * yiflds tif sbmf rfsult bs tif invodbtion of
+     * {@dodf dfflbtfr.dfflbtf(b, off, lfn, Dfflbtfr.NO_FLUSH)}.
      *
-     * @param b the buffer for the compressed data
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes of compressed data
-     * @return the actual number of bytes of compressed data written to the
-     *         output buffer
+     * @pbrbm b tif bufffr for tif domprfssfd dbtb
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif mbximum numbfr of bytfs of domprfssfd dbtb
+     * @rfturn tif bdtubl numbfr of bytfs of domprfssfd dbtb writtfn to tif
+     *         output bufffr
      */
-    public int deflate(byte[] b, int off, int len) {
-        return deflate(b, off, len, NO_FLUSH);
+    publid int dfflbtf(bytf[] b, int off, int lfn) {
+        rfturn dfflbtf(b, off, lfn, NO_FLUSH);
     }
 
     /**
-     * Compresses the input data and fills specified buffer with compressed
-     * data. Returns actual number of bytes of compressed data. A return value
-     * of 0 indicates that {@link #needsInput() needsInput} should be called
-     * in order to determine if more input data is required.
+     * Comprfssfs tif input dbtb bnd fills spfdififd bufffr witi domprfssfd
+     * dbtb. Rfturns bdtubl numbfr of bytfs of domprfssfd dbtb. A rfturn vbluf
+     * of 0 indidbtfs tibt {@link #nffdsInput() nffdsInput} siould bf dbllfd
+     * in ordfr to dftfrminf if morf input dbtb is rfquirfd.
      *
-     * <p>This method uses {@link #NO_FLUSH} as its compression flush mode.
-     * An invocation of this method of the form {@code deflater.deflate(b)}
-     * yields the same result as the invocation of
-     * {@code deflater.deflate(b, 0, b.length, Deflater.NO_FLUSH)}.
+     * <p>Tiis mftiod usfs {@link #NO_FLUSH} bs its domprfssion flusi modf.
+     * An invodbtion of tiis mftiod of tif form {@dodf dfflbtfr.dfflbtf(b)}
+     * yiflds tif sbmf rfsult bs tif invodbtion of
+     * {@dodf dfflbtfr.dfflbtf(b, 0, b.lfngti, Dfflbtfr.NO_FLUSH)}.
      *
-     * @param b the buffer for the compressed data
-     * @return the actual number of bytes of compressed data written to the
-     *         output buffer
+     * @pbrbm b tif bufffr for tif domprfssfd dbtb
+     * @rfturn tif bdtubl numbfr of bytfs of domprfssfd dbtb writtfn to tif
+     *         output bufffr
      */
-    public int deflate(byte[] b) {
-        return deflate(b, 0, b.length, NO_FLUSH);
+    publid int dfflbtf(bytf[] b) {
+        rfturn dfflbtf(b, 0, b.lfngti, NO_FLUSH);
     }
 
     /**
-     * Compresses the input data and fills the specified buffer with compressed
-     * data. Returns actual number of bytes of data compressed.
+     * Comprfssfs tif input dbtb bnd fills tif spfdififd bufffr witi domprfssfd
+     * dbtb. Rfturns bdtubl numbfr of bytfs of dbtb domprfssfd.
      *
-     * <p>Compression flush mode is one of the following three modes:
+     * <p>Comprfssion flusi modf is onf of tif following tirff modfs:
      *
      * <ul>
-     * <li>{@link #NO_FLUSH}: allows the deflater to decide how much data
-     * to accumulate, before producing output, in order to achieve the best
-     * compression (should be used in normal use scenario). A return value
-     * of 0 in this flush mode indicates that {@link #needsInput()} should
-     * be called in order to determine if more input data is required.
+     * <li>{@link #NO_FLUSH}: bllows tif dfflbtfr to dfdidf iow mudi dbtb
+     * to bddumulbtf, bfforf produding output, in ordfr to bdiifvf tif bfst
+     * domprfssion (siould bf usfd in normbl usf sdfnbrio). A rfturn vbluf
+     * of 0 in tiis flusi modf indidbtfs tibt {@link #nffdsInput()} siould
+     * bf dbllfd in ordfr to dftfrminf if morf input dbtb is rfquirfd.
      *
-     * <li>{@link #SYNC_FLUSH}: all pending output in the deflater is flushed,
-     * to the specified output buffer, so that an inflater that works on
-     * compressed data can get all input data available so far (In particular
-     * the {@link #needsInput()} returns {@code true} after this invocation
-     * if enough output space is provided). Flushing with {@link #SYNC_FLUSH}
-     * may degrade compression for some compression algorithms and so it
-     * should be used only when necessary.
+     * <li>{@link #SYNC_FLUSH}: bll pfnding output in tif dfflbtfr is flusifd,
+     * to tif spfdififd output bufffr, so tibt bn inflbtfr tibt works on
+     * domprfssfd dbtb dbn gft bll input dbtb bvbilbblf so fbr (In pbrtidulbr
+     * tif {@link #nffdsInput()} rfturns {@dodf truf} bftfr tiis invodbtion
+     * if fnougi output spbdf is providfd). Flusiing witi {@link #SYNC_FLUSH}
+     * mby dfgrbdf domprfssion for somf domprfssion blgoritims bnd so it
+     * siould bf usfd only wifn nfdfssbry.
      *
-     * <li>{@link #FULL_FLUSH}: all pending output is flushed out as with
-     * {@link #SYNC_FLUSH}. The compression state is reset so that the inflater
-     * that works on the compressed output data can restart from this point
-     * if previous compressed data has been damaged or if random access is
-     * desired. Using {@link #FULL_FLUSH} too often can seriously degrade
-     * compression.
+     * <li>{@link #FULL_FLUSH}: bll pfnding output is flusifd out bs witi
+     * {@link #SYNC_FLUSH}. Tif domprfssion stbtf is rfsft so tibt tif inflbtfr
+     * tibt works on tif domprfssfd output dbtb dbn rfstbrt from tiis point
+     * if prfvious domprfssfd dbtb ibs bffn dbmbgfd or if rbndom bddfss is
+     * dfsirfd. Using {@link #FULL_FLUSH} too oftfn dbn sfriously dfgrbdf
+     * domprfssion.
      * </ul>
      *
-     * <p>In the case of {@link #FULL_FLUSH} or {@link #SYNC_FLUSH}, if
-     * the return value is {@code len}, the space available in output
-     * buffer {@code b}, this method should be invoked again with the same
-     * {@code flush} parameter and more output space.
+     * <p>In tif dbsf of {@link #FULL_FLUSH} or {@link #SYNC_FLUSH}, if
+     * tif rfturn vbluf is {@dodf lfn}, tif spbdf bvbilbblf in output
+     * bufffr {@dodf b}, tiis mftiod siould bf invokfd bgbin witi tif sbmf
+     * {@dodf flusi} pbrbmftfr bnd morf output spbdf.
      *
-     * @param b the buffer for the compressed data
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes of compressed data
-     * @param flush the compression flush mode
-     * @return the actual number of bytes of compressed data written to
-     *         the output buffer
+     * @pbrbm b tif bufffr for tif domprfssfd dbtb
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif mbximum numbfr of bytfs of domprfssfd dbtb
+     * @pbrbm flusi tif domprfssion flusi modf
+     * @rfturn tif bdtubl numbfr of bytfs of domprfssfd dbtb writtfn to
+     *         tif output bufffr
      *
-     * @throws IllegalArgumentException if the flush mode is invalid
-     * @since 1.7
+     * @tirows IllfgblArgumfntExdfption if tif flusi modf is invblid
+     * @sindf 1.7
      */
-    public int deflate(byte[] b, int off, int len, int flush) {
+    publid int dfflbtf(bytf[] b, int off, int lfn, int flusi) {
         if (b == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        synchronized (zsRef) {
-            ensureOpen();
-            if (flush == NO_FLUSH || flush == SYNC_FLUSH ||
-                flush == FULL_FLUSH) {
-                int thisLen = this.len;
-                int n = deflateBytes(zsRef.address(), b, off, len, flush);
-                bytesWritten += n;
-                bytesRead += (thisLen - this.len);
-                return n;
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            if (flusi == NO_FLUSH || flusi == SYNC_FLUSH ||
+                flusi == FULL_FLUSH) {
+                int tiisLfn = tiis.lfn;
+                int n = dfflbtfBytfs(zsRff.bddrfss(), b, off, lfn, flusi);
+                bytfsWrittfn += n;
+                bytfsRfbd += (tiisLfn - tiis.lfn);
+                rfturn n;
             }
-            throw new IllegalArgumentException();
+            tirow nfw IllfgblArgumfntExdfption();
         }
     }
 
     /**
-     * Returns the ADLER-32 value of the uncompressed data.
-     * @return the ADLER-32 value of the uncompressed data
+     * Rfturns tif ADLER-32 vbluf of tif undomprfssfd dbtb.
+     * @rfturn tif ADLER-32 vbluf of tif undomprfssfd dbtb
      */
-    public int getAdler() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return getAdler(zsRef.address());
+    publid int gftAdlfr() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn gftAdlfr(zsRff.bddrfss());
         }
     }
 
     /**
-     * Returns the total number of uncompressed bytes input so far.
+     * Rfturns tif totbl numbfr of undomprfssfd bytfs input so fbr.
      *
-     * <p>Since the number of bytes may be greater than
-     * Integer.MAX_VALUE, the {@link #getBytesRead()} method is now
-     * the preferred means of obtaining this information.</p>
+     * <p>Sindf tif numbfr of bytfs mby bf grfbtfr tibn
+     * Intfgfr.MAX_VALUE, tif {@link #gftBytfsRfbd()} mftiod is now
+     * tif prfffrrfd mfbns of obtbining tiis informbtion.</p>
      *
-     * @return the total number of uncompressed bytes input so far
+     * @rfturn tif totbl numbfr of undomprfssfd bytfs input so fbr
      */
-    public int getTotalIn() {
-        return (int) getBytesRead();
+    publid int gftTotblIn() {
+        rfturn (int) gftBytfsRfbd();
     }
 
     /**
-     * Returns the total number of uncompressed bytes input so far.
+     * Rfturns tif totbl numbfr of undomprfssfd bytfs input so fbr.
      *
-     * @return the total (non-negative) number of uncompressed bytes input so far
-     * @since 1.5
+     * @rfturn tif totbl (non-nfgbtivf) numbfr of undomprfssfd bytfs input so fbr
+     * @sindf 1.5
      */
-    public long getBytesRead() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return bytesRead;
+    publid long gftBytfsRfbd() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn bytfsRfbd;
         }
     }
 
     /**
-     * Returns the total number of compressed bytes output so far.
+     * Rfturns tif totbl numbfr of domprfssfd bytfs output so fbr.
      *
-     * <p>Since the number of bytes may be greater than
-     * Integer.MAX_VALUE, the {@link #getBytesWritten()} method is now
-     * the preferred means of obtaining this information.</p>
+     * <p>Sindf tif numbfr of bytfs mby bf grfbtfr tibn
+     * Intfgfr.MAX_VALUE, tif {@link #gftBytfsWrittfn()} mftiod is now
+     * tif prfffrrfd mfbns of obtbining tiis informbtion.</p>
      *
-     * @return the total number of compressed bytes output so far
+     * @rfturn tif totbl numbfr of domprfssfd bytfs output so fbr
      */
-    public int getTotalOut() {
-        return (int) getBytesWritten();
+    publid int gftTotblOut() {
+        rfturn (int) gftBytfsWrittfn();
     }
 
     /**
-     * Returns the total number of compressed bytes output so far.
+     * Rfturns tif totbl numbfr of domprfssfd bytfs output so fbr.
      *
-     * @return the total (non-negative) number of compressed bytes output so far
-     * @since 1.5
+     * @rfturn tif totbl (non-nfgbtivf) numbfr of domprfssfd bytfs output so fbr
+     * @sindf 1.5
      */
-    public long getBytesWritten() {
-        synchronized (zsRef) {
-            ensureOpen();
-            return bytesWritten;
+    publid long gftBytfsWrittfn() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfturn bytfsWrittfn;
         }
     }
 
     /**
-     * Resets deflater so that a new set of input data can be processed.
-     * Keeps current compression level and strategy settings.
+     * Rfsfts dfflbtfr so tibt b nfw sft of input dbtb dbn bf prodfssfd.
+     * Kffps durrfnt domprfssion lfvfl bnd strbtfgy sfttings.
      */
-    public void reset() {
-        synchronized (zsRef) {
-            ensureOpen();
-            reset(zsRef.address());
-            finish = false;
-            finished = false;
-            off = len = 0;
-            bytesRead = bytesWritten = 0;
+    publid void rfsft() {
+        syndironizfd (zsRff) {
+            fnsurfOpfn();
+            rfsft(zsRff.bddrfss());
+            finisi = fblsf;
+            finisifd = fblsf;
+            off = lfn = 0;
+            bytfsRfbd = bytfsWrittfn = 0;
         }
     }
 
     /**
-     * Closes the compressor and discards any unprocessed input.
-     * This method should be called when the compressor is no longer
-     * being used, but will also be called automatically by the
-     * finalize() method. Once this method is called, the behavior
-     * of the Deflater object is undefined.
+     * Closfs tif domprfssor bnd disdbrds bny unprodfssfd input.
+     * Tiis mftiod siould bf dbllfd wifn tif domprfssor is no longfr
+     * bfing usfd, but will blso bf dbllfd butombtidblly by tif
+     * finblizf() mftiod. Ondf tiis mftiod is dbllfd, tif bfibvior
+     * of tif Dfflbtfr objfdt is undffinfd.
      */
-    public void end() {
-        synchronized (zsRef) {
-            long addr = zsRef.address();
-            zsRef.clear();
-            if (addr != 0) {
-                end(addr);
+    publid void fnd() {
+        syndironizfd (zsRff) {
+            long bddr = zsRff.bddrfss();
+            zsRff.dlfbr();
+            if (bddr != 0) {
+                fnd(bddr);
                 buf = null;
             }
         }
     }
 
     /**
-     * Closes the compressor when garbage is collected.
+     * Closfs tif domprfssor wifn gbrbbgf is dollfdtfd.
      */
-    protected void finalize() {
-        end();
+    protfdtfd void finblizf() {
+        fnd();
     }
 
-    private void ensureOpen() {
-        assert Thread.holdsLock(zsRef);
-        if (zsRef.address() == 0)
-            throw new NullPointerException("Deflater has been closed");
+    privbtf void fnsurfOpfn() {
+        bssfrt Tirfbd.ioldsLodk(zsRff);
+        if (zsRff.bddrfss() == 0)
+            tirow nfw NullPointfrExdfption("Dfflbtfr ibs bffn dlosfd");
     }
 
-    private static native void initIDs();
-    private native static long init(int level, int strategy, boolean nowrap);
-    private native static void setDictionary(long addr, byte[] b, int off, int len);
-    private native int deflateBytes(long addr, byte[] b, int off, int len,
-                                    int flush);
-    private native static int getAdler(long addr);
-    private native static void reset(long addr);
-    private native static void end(long addr);
+    privbtf stbtid nbtivf void initIDs();
+    privbtf nbtivf stbtid long init(int lfvfl, int strbtfgy, boolfbn nowrbp);
+    privbtf nbtivf stbtid void sftDidtionbry(long bddr, bytf[] b, int off, int lfn);
+    privbtf nbtivf int dfflbtfBytfs(long bddr, bytf[] b, int off, int lfn,
+                                    int flusi);
+    privbtf nbtivf stbtid int gftAdlfr(long bddr);
+    privbtf nbtivf stbtid void rfsft(long bddr);
+    privbtf nbtivf stbtid void fnd(long bddr);
 }

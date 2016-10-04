@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifdef __solaris__
-#define _POSIX_C_SOURCE 199506L
-#endif
+#ifdff __solbris__
+#dffinf _POSIX_C_SOURCE 199506L
+#fndif
 
-#include <jni.h>
-#include "com_sun_security_auth_module_UnixSystem.h"
-#include <stdio.h>
-#include <pwd.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <jni.i>
+#indludf "dom_sun_sfdurity_buti_modulf_UnixSystfm.i"
+#indludf <stdio.i>
+#indludf <pwd.i>
+#indludf <sys/typfs.i>
+#indludf <unistd.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
 JNIEXPORT void JNICALL
-Java_com_sun_security_auth_module_UnixSystem_getUnixInfo
-                                                (JNIEnv *env, jobject obj) {
+Jbvb_dom_sun_sfdurity_buti_modulf_UnixSystfm_gftUnixInfo
+                                                (JNIEnv *fnv, jobjfdt obj) {
 
     int i;
-    char pwd_buf[1024];
-    struct passwd *pwd;
-    struct passwd resbuf;
-    jfieldID userNameID;
-    jfieldID userID;
-    jfieldID groupID;
-    jfieldID supplementaryGroupID;
+    dibr pwd_buf[1024];
+    strudt pbsswd *pwd;
+    strudt pbsswd rfsbuf;
+    jfifldID usfrNbmfID;
+    jfifldID usfrID;
+    jfifldID groupID;
+    jfifldID supplfmfntbryGroupID;
 
     jstring jstr;
-    jlongArray jgroups;
-    jlong *jgroupsAsArray;
-    jsize numSuppGroups;
+    jlongArrby jgroups;
+    jlong *jgroupsAsArrby;
+    jsizf numSuppGroups;
     gid_t *groups;
-    jclass cls;
+    jdlbss dls;
 
-    numSuppGroups = getgroups(0, NULL);
-    groups = (gid_t *)calloc(numSuppGroups, sizeof(gid_t));
+    numSuppGroups = gftgroups(0, NULL);
+    groups = (gid_t *)dbllod(numSuppGroups, sizfof(gid_t));
     if (groups == NULL) {
-        jclass cls = (*env)->FindClass(env,"java/lang/OutOfMemoryError");
-        if (cls != NULL)
-            (*env)->ThrowNew(env, cls, NULL);
-        return;
+        jdlbss dls = (*fnv)->FindClbss(fnv,"jbvb/lbng/OutOfMfmoryError");
+        if (dls != NULL)
+            (*fnv)->TirowNfw(fnv, dls, NULL);
+        rfturn;
     }
 
-    cls = (*env)->GetObjectClass(env, obj);
+    dls = (*fnv)->GftObjfdtClbss(fnv, obj);
 
-    memset(pwd_buf, 0, sizeof(pwd_buf));
+    mfmsft(pwd_buf, 0, sizfof(pwd_buf));
 
-    if (getpwuid_r(getuid(), &resbuf, pwd_buf, sizeof(pwd_buf), &pwd) == 0 &&
+    if (gftpwuid_r(gftuid(), &rfsbuf, pwd_buf, sizfof(pwd_buf), &pwd) == 0 &&
         pwd != NULL &&
-        getgroups(numSuppGroups, groups) != -1) {
+        gftgroups(numSuppGroups, groups) != -1) {
 
-        userNameID = (*env)->GetFieldID(env, cls, "username", "Ljava/lang/String;");
-        if (userNameID == 0)
-            goto cleanUpAndReturn;
+        usfrNbmfID = (*fnv)->GftFifldID(fnv, dls, "usfrnbmf", "Ljbvb/lbng/String;");
+        if (usfrNbmfID == 0)
+            goto dlfbnUpAndRfturn;
 
-        userID = (*env)->GetFieldID(env, cls, "uid", "J");
-        if (userID == 0)
-            goto cleanUpAndReturn;
+        usfrID = (*fnv)->GftFifldID(fnv, dls, "uid", "J");
+        if (usfrID == 0)
+            goto dlfbnUpAndRfturn;
 
-        groupID = (*env)->GetFieldID(env, cls, "gid", "J");
+        groupID = (*fnv)->GftFifldID(fnv, dls, "gid", "J");
         if (groupID == 0)
-            goto cleanUpAndReturn;
+            goto dlfbnUpAndRfturn;
 
-        supplementaryGroupID = (*env)->GetFieldID(env, cls, "groups", "[J");
-        if (supplementaryGroupID == 0)
-            goto cleanUpAndReturn;
+        supplfmfntbryGroupID = (*fnv)->GftFifldID(fnv, dls, "groups", "[J");
+        if (supplfmfntbryGroupID == 0)
+            goto dlfbnUpAndRfturn;
 
-        jstr = (*env)->NewStringUTF(env, pwd->pw_name);
+        jstr = (*fnv)->NfwStringUTF(fnv, pwd->pw_nbmf);
         if (jstr == NULL)
-            goto cleanUpAndReturn;
-        (*env)->SetObjectField(env, obj, userNameID, jstr);
+            goto dlfbnUpAndRfturn;
+        (*fnv)->SftObjfdtFifld(fnv, obj, usfrNbmfID, jstr);
 
-        (*env)->SetLongField(env, obj, userID, pwd->pw_uid);
+        (*fnv)->SftLongFifld(fnv, obj, usfrID, pwd->pw_uid);
 
-        (*env)->SetLongField(env, obj, groupID, pwd->pw_gid);
+        (*fnv)->SftLongFifld(fnv, obj, groupID, pwd->pw_gid);
 
-        jgroups = (*env)->NewLongArray(env, numSuppGroups);
+        jgroups = (*fnv)->NfwLongArrby(fnv, numSuppGroups);
         if (jgroups == NULL)
-            goto cleanUpAndReturn;
-        jgroupsAsArray = (*env)->GetLongArrayElements(env, jgroups, 0);
-        if (jgroupsAsArray == NULL)
-            goto cleanUpAndReturn;
+            goto dlfbnUpAndRfturn;
+        jgroupsAsArrby = (*fnv)->GftLongArrbyElfmfnts(fnv, jgroups, 0);
+        if (jgroupsAsArrby == NULL)
+            goto dlfbnUpAndRfturn;
         for (i = 0; i < numSuppGroups; i++)
-            jgroupsAsArray[i] = groups[i];
-        (*env)->ReleaseLongArrayElements(env, jgroups, jgroupsAsArray, 0);
-        (*env)->SetObjectField(env, obj, supplementaryGroupID, jgroups);
+            jgroupsAsArrby[i] = groups[i];
+        (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, jgroups, jgroupsAsArrby, 0);
+        (*fnv)->SftObjfdtFifld(fnv, obj, supplfmfntbryGroupID, jgroups);
     }
-cleanUpAndReturn:
-    free(groups);
-    return;
+dlfbnUpAndRfturn:
+    frff(groups);
+    rfturn;
 }

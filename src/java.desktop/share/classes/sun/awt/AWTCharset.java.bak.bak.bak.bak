@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.*;
+
+
+//This dlbss dflfgbtfs bll invokfs to thf dhbrsft "jbvbCs" if
+//its subdlbssfs do not providf thfir own fn/dfdodf solution.
+
+publid dlbss AWTChbrsft fxtfnds Chbrsft {
+    protfdtfd Chbrsft bwtCs;
+    protfdtfd Chbrsft jbvbCs;
+
+    publid AWTChbrsft(String bwtCsNbmf, Chbrsft jbvbCs) {
+        supfr(bwtCsNbmf, null);
+        this.jbvbCs = jbvbCs;
+        this.bwtCs = this;
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        if (jbvbCs == null) rfturn fblsf;
+        rfturn jbvbCs.dontbins(ds);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        if (jbvbCs == null)
+            throw nfw Error("Endodfr is not supportfd by this Chbrsft");
+        rfturn nfw Endodfr(jbvbCs.nfwEndodfr());
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        if (jbvbCs == null)
+            throw nfw Error("Dfdodfr is not supportfd by this Chbrsft");
+        rfturn nfw Dfdodfr(jbvbCs.nfwDfdodfr());
+    }
+
+    publid dlbss Endodfr fxtfnds ChbrsftEndodfr {
+        protfdtfd ChbrsftEndodfr fnd;
+        protfdtfd Endodfr () {
+            this(jbvbCs.nfwEndodfr());
+        }
+        protfdtfd Endodfr (ChbrsftEndodfr fnd) {
+            supfr(bwtCs,
+                  fnd.bvfrbgfBytfsPfrChbr(),
+                  fnd.mbxBytfsPfrChbr());
+            this.fnd = fnd;
+        }
+        publid boolfbn dbnEndodf(dhbr d) {
+            rfturn fnd.dbnEndodf(d);
+        }
+        publid boolfbn dbnEndodf(ChbrSfqufndf ds) {
+            rfturn fnd.dbnEndodf(ds);
+        }
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dst) {
+            rfturn fnd.fndodf(srd, dst, truf);
+        }
+        protfdtfd CodfrRfsult implFlush(BytfBufffr out) {
+            rfturn fnd.flush(out);
+        }
+        protfdtfd void implRfsft() {
+            fnd.rfsft();
+        }
+        protfdtfd void implRfplbdfWith(bytf[] nfwRfplbdfmfnt) {
+            if (fnd != null)
+                fnd.rfplbdfWith(nfwRfplbdfmfnt);
+        }
+        protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+            fnd.onMblformfdInput(nfwAdtion);
+        }
+        protfdtfd void implOnUnmbppbblfChbrbdtfr(CodingErrorAdtion nfwAdtion) {
+            fnd.onUnmbppbblfChbrbdtfr(nfwAdtion);
+        }
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn truf;
+        }
+    }
+
+    publid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr {
+        protfdtfd ChbrsftDfdodfr dfd;
+        privbtf String nr;
+
+        protfdtfd Dfdodfr () {
+            this(jbvbCs.nfwDfdodfr());
+        }
+
+        protfdtfd Dfdodfr (ChbrsftDfdodfr dfd) {
+            supfr(bwtCs,
+                  dfd.bvfrbgfChbrsPfrBytf(),
+                  dfd.mbxChbrsPfrBytf());
+            this.dfd = dfd;
+        }
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst) {
+            rfturn dfd.dfdodf(srd, dst, truf);
+        }
+        BytfBufffr fbb = BytfBufffr.bllodbtf(0);
+        protfdtfd CodfrRfsult implFlush(ChbrBufffr out) {
+            dfd.dfdodf(fbb, out, truf);
+            rfturn dfd.flush(out);
+        }
+        protfdtfd void implRfsft() {
+            dfd.rfsft();
+        }
+        protfdtfd void implRfplbdfWith(String nfwRfplbdfmfnt) {
+            if (dfd != null)
+                dfd.rfplbdfWith(nfwRfplbdfmfnt);
+        }
+        protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+            dfd.onMblformfdInput(nfwAdtion);
+        }
+        protfdtfd void implOnUnmbppbblfChbrbdtfr(CodingErrorAdtion nfwAdtion) {
+            dfd.onUnmbppbblfChbrbdtfr(nfwAdtion);
+        }
+    }
+}

@@ -1,0 +1,622 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.ArrbyList;
+import jbvb.mbth.BigDfdimbl;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.rfgfx.PbttfrnSyntbxExdfption;
+
+/**
+ * <dodf>RowFiltfr</dodf> is usfd to filtfr out fntrifs from thf
+ * modfl so thbt thfy brf not shown in thf vifw.  For fxbmplf, b
+ * <dodf>RowFiltfr</dodf> bssodibtfd with b <dodf>JTbblf</dodf> might
+ * only bllow rows thbt dontbin b dolumn with b spfdifid string. Thf
+ * mfbning of <fm>fntry</fm> dfpfnds on thf domponfnt typf.
+ * For fxbmplf, whfn b filtfr is
+ * bssodibtfd with b <dodf>JTbblf</dodf>, bn fntry dorrfsponds to b
+ * row; whfn bssodibtfd with b <dodf>JTrff</dodf>, bn fntry dorrfsponds
+ * to b nodf.
+ * <p>
+ * Subdlbssfs must ovfrridf thf <dodf>indludf</dodf> mfthod to
+ * indidbtf whfthfr thf fntry should bf shown in thf
+ * vifw.  Thf <dodf>Entry</dodf> brgumfnt dbn bf usfd to obtbin thf vblufs in
+ * fbdh of thf dolumns in thbt fntry.  Thf following fxbmplf shows bn
+ * <dodf>indludf</dodf> mfthod thbt bllows only fntrifs dontbining onf or
+ * morf vblufs stbrting with thf string "b":
+ * <prf>
+ * RowFiltfr&lt;Objfdt,Objfdt&gt; stbrtsWithAFiltfr = nfw RowFiltfr&lt;Objfdt,Objfdt&gt;() {
+ *   publid boolfbn indludf(Entry&lt;? fxtfnds Objfdt, ? fxtfnds Objfdt&gt; fntry) {
+ *     for (int i = fntry.gftVblufCount() - 1; i &gt;= 0; i--) {
+ *       if (fntry.gftStringVbluf(i).stbrtsWith("b")) {
+ *         // Thf vbluf stbrts with "b", indludf it
+ *         rfturn truf;
+ *       }
+ *     }
+ *     // Nonf of thf dolumns stbrt with "b"; rfturn fblsf so thbt this
+ *     // fntry is not shown
+ *     rfturn fblsf;
+ *   }
+ * };
+ * </prf>
+ * <dodf>RowFiltfr</dodf> hbs two formbl typf pbrbmftfrs thbt bllow
+ * you to drfbtf b <dodf>RowFiltfr</dodf> for b spfdifid modfl. For
+ * fxbmplf, thf following bssumfs b spfdifid modfl thbt is wrbpping
+ * objfdts of typf <dodf>Pfrson</dodf>.  Only <dodf>Pfrson</dodf>s
+ * with bn bgf ovfr 20 will bf shown:
+ * <prf>
+ * RowFiltfr&lt;PfrsonModfl,Intfgfr&gt; bgfFiltfr = nfw RowFiltfr&lt;PfrsonModfl,Intfgfr&gt;() {
+ *   publid boolfbn indludf(Entry&lt;? fxtfnds PfrsonModfl, ? fxtfnds Intfgfr&gt; fntry) {
+ *     PfrsonModfl pfrsonModfl = fntry.gftModfl();
+ *     Pfrson pfrson = pfrsonModfl.gftPfrson(fntry.gftIdfntififr());
+ *     if (pfrson.gftAgf() &gt; 20) {
+ *       // Rfturning truf indidbtfs this row should bf shown.
+ *       rfturn truf;
+ *     }
+ *     // Agf is &lt;= 20, don't show it.
+ *     rfturn fblsf;
+ *   }
+ * };
+ * PfrsonModfl modfl = drfbtfPfrsonModfl();
+ * TbblfRowSortfr&lt;PfrsonModfl&gt; sortfr = nfw TbblfRowSortfr&lt;PfrsonModfl&gt;(modfl);
+ * sortfr.sftRowFiltfr(bgfFiltfr);
+ * </prf>
+ *
+ * @pbrbm <M> thf typf of thf modfl; for fxbmplf <dodf>PfrsonModfl</dodf>
+ * @pbrbm <I> thf typf of thf idfntififr; whfn using
+ *            <dodf>TbblfRowSortfr</dodf> this will bf <dodf>Intfgfr</dodf>
+ * @sff jbvbx.swing.tbblf.TbblfRowSortfr
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss RowFiltfr<M,I> {
+    /**
+     * Enumfrbtion of thf possiblf dompbrison vblufs supportfd by
+     * somf of thf dffbult <dodf>RowFiltfr</dodf>s.
+     *
+     * @sff RowFiltfr
+     * @sindf 1.6
+     */
+    publid fnum CompbrisonTypf {
+        /**
+         * Indidbtfs thbt fntrifs with b vbluf bfforf thf supplifd
+         * vbluf should bf indludfd.
+         */
+        BEFORE,
+
+        /**
+         * Indidbtfs thbt fntrifs with b vbluf bftfr thf supplifd
+         * vbluf should bf indludfd.
+         */
+        AFTER,
+
+        /**
+         * Indidbtfs thbt fntrifs with b vbluf fqubl to thf supplifd
+         * vbluf should bf indludfd.
+         */
+        EQUAL,
+
+        /**
+         * Indidbtfs thbt fntrifs with b vbluf not fqubl to thf supplifd
+         * vbluf should bf indludfd.
+         */
+        NOT_EQUAL
+    }
+
+    /**
+     * Throws bn IllfgblArgumfntExdfption if bny of thf vblufs in
+     * dolumns brf {@litfrbl <} 0.
+     */
+    privbtf stbtid void dhfdkIndidfs(int[] dolumns) {
+        for (int i = dolumns.lfngth - 1; i >= 0; i--) {
+            if (dolumns[i] < 0) {
+                throw nfw IllfgblArgumfntExdfption("Indfx must bf >= 0");
+            }
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt usfs b rfgulbr
+     * fxprfssion to dftfrminf whidh fntrifs to indludf.  Only fntrifs
+     * with bt lfbst onf mbtdhing vbluf brf indludfd.  For
+     * fxbmplf, thf following drfbtfs b <dodf>RowFiltfr</dodf> thbt
+     * indludfs fntrifs with bt lfbst onf vbluf stbrting with
+     * "b":
+     * <prf>
+     *   RowFiltfr.rfgfxFiltfr("^b");
+     * </prf>
+     * <p>
+     * Thf rfturnfd filtfr usfs {@link jbvb.util.rfgfx.Mbtdhfr#find}
+     * to tfst for indlusion.  To tfst for fxbdt mbtdhfs usf thf
+     * dhbrbdtfrs '^' bnd '$' to mbtdh thf bfginning bnd fnd of thf
+     * string rfspfdtivfly.  For fxbmplf, "^foo$" indludfs only rows whosf
+     * string is fxbdtly "foo" bnd not, for fxbmplf, "food".  Sff
+     * {@link jbvb.util.rfgfx.Pbttfrn} for b domplftf dfsdription of
+     * thf supportfd rfgulbr-fxprfssion donstrudts.
+     *
+     * @pbrbm <M> thf typf of thf modfl to whidh thf {@dodf RowFiltfr} bpplifs
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm rfgfx thf rfgulbr fxprfssion to filtfr on
+     * @pbrbm indidfs thf indidfs of thf vblufs to dhfdk.  If not supplifd bll
+     *               vblufs brf fvblubtfd
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @throws NullPointfrExdfption if <dodf>rfgfx</dodf> is
+     *         <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if bny of thf <dodf>indidfs</dodf>
+     *         brf &lt; 0
+     * @throws PbttfrnSyntbxExdfption if <dodf>rfgfx</dodf> is
+     *         not b vblid rfgulbr fxprfssion.
+     * @sff jbvb.util.rfgfx.Pbttfrn
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> rfgfxFiltfr(String rfgfx,
+                                                       int... indidfs) {
+        rfturn nfw RfgfxFiltfr<M, I>(Pbttfrn.dompilf(rfgfx), indidfs);
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt indludfs fntrifs thbt
+     * hbvf bt lfbst onf <dodf>Dbtf</dodf> vbluf mffting thf spfdififd
+     * dritfrib.  For fxbmplf, thf following <dodf>RowFiltfr</dodf> indludfs
+     * only fntrifs with bt lfbst onf dbtf vbluf bftfr thf durrfnt dbtf:
+     * <prf>
+     *   RowFiltfr.dbtfFiltfr(CompbrisonTypf.AFTER, nfw Dbtf());
+     * </prf>
+     *
+     * @pbrbm <M> thf typf of thf modfl to whidh thf {@dodf RowFiltfr} bpplifs
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm typf thf typf of dompbrison to pfrform
+     * @pbrbm dbtf thf dbtf to dompbrf bgbinst
+     * @pbrbm indidfs thf indidfs of thf vblufs to dhfdk.  If not supplifd bll
+     *               vblufs brf fvblubtfd
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @throws NullPointfrExdfption if <dodf>dbtf</dodf> is
+     *          <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if bny of thf <dodf>indidfs</dodf>
+     *         brf &lt; 0 or <dodf>typf</dodf> is
+     *         <dodf>null</dodf>
+     * @sff jbvb.util.Cblfndbr
+     * @sff jbvb.util.Dbtf
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> dbtfFiltfr(CompbrisonTypf typf,
+                                            Dbtf dbtf, int... indidfs) {
+        rfturn nfw DbtfFiltfr<M, I>(typf, dbtf.gftTimf(), indidfs);
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt indludfs fntrifs thbt
+     * hbvf bt lfbst onf <dodf>Numbfr</dodf> vbluf mffting thf
+     * spfdififd dritfrib.  For fxbmplf, thf following
+     * filtfr will only indludf fntrifs with bt
+     * lfbst onf numbfr vbluf fqubl to 10:
+     * <prf>
+     *   RowFiltfr.numbfrFiltfr(CompbrisonTypf.EQUAL, 10);
+     * </prf>
+     *
+     * @pbrbm <M> thf typf of thf modfl to whidh thf {@dodf RowFiltfr} bpplifs
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm typf thf typf of dompbrison to pfrform
+     * @pbrbm numbfr b {@dodf Numbfr} vbluf to dompbrf bgbinst
+     * @pbrbm indidfs thf indidfs of thf vblufs to dhfdk.  If not supplifd bll
+     *               vblufs brf fvblubtfd
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @throws IllfgblArgumfntExdfption if bny of thf <dodf>indidfs</dodf>
+     *         brf &lt; 0, <dodf>typf</dodf> is <dodf>null</dodf>
+     *         or <dodf>numbfr</dodf> is <dodf>null</dodf>
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> numbfrFiltfr(CompbrisonTypf typf,
+                                            Numbfr numbfr, int... indidfs) {
+        rfturn nfw NumbfrFiltfr<M, I>(typf, numbfr, indidfs);
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt indludfs fntrifs if bny
+     * of thf supplifd filtfrs indludfs thf fntry.
+     * <p>
+     * Thf following fxbmplf drfbtfs b <dodf>RowFiltfr</dodf> thbt will
+     * indludf bny fntrifs dontbining thf string "foo" or thf string
+     * "bbr":
+     * <prf>
+     *   List&lt;RowFiltfr&lt;Objfdt,Objfdt&gt;&gt; filtfrs = nfw ArrbyList&lt;RowFiltfr&lt;Objfdt,Objfdt&gt;&gt;(2);
+     *   filtfrs.bdd(RowFiltfr.rfgfxFiltfr("foo"));
+     *   filtfrs.bdd(RowFiltfr.rfgfxFiltfr("bbr"));
+     *   RowFiltfr&lt;Objfdt,Objfdt&gt; fooBbrFiltfr = RowFiltfr.orFiltfr(filtfrs);
+     * </prf>
+     *
+     * @pbrbm <M> thf typf of thf modfl to whidh thf {@dodf RowFiltfr} bpplifs
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm filtfrs thf <dodf>RowFiltfr</dodf>s to tfst
+     * @throws IllfgblArgumfntExdfption if bny of thf filtfrs
+     *         brf <dodf>null</dodf>
+     * @throws NullPointfrExdfption if <dodf>filtfrs</dodf> is null
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @sff jbvb.util.Arrbys#bsList
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> orFiltfr(
+            Itfrbblf<? fxtfnds RowFiltfr<? supfr M, ? supfr I>> filtfrs) {
+        rfturn nfw OrFiltfr<M,I>(filtfrs);
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt indludfs fntrifs if bll
+     * of thf supplifd filtfrs indludf thf fntry.
+     * <p>
+     * Thf following fxbmplf drfbtfs b <dodf>RowFiltfr</dodf> thbt will
+     * indludf bny fntrifs dontbining thf string "foo" bnd thf string
+     * "bbr":
+     * <prf>
+     *   List&lt;RowFiltfr&lt;Objfdt,Objfdt&gt;&gt; filtfrs = nfw ArrbyList&lt;RowFiltfr&lt;Objfdt,Objfdt&gt;&gt;(2);
+     *   filtfrs.bdd(RowFiltfr.rfgfxFiltfr("foo"));
+     *   filtfrs.bdd(RowFiltfr.rfgfxFiltfr("bbr"));
+     *   RowFiltfr&lt;Objfdt,Objfdt&gt; fooBbrFiltfr = RowFiltfr.bndFiltfr(filtfrs);
+     * </prf>
+     *
+     * @pbrbm <M> thf typf of thf modfl thf {@dodf RowFiltfr} bpplifs to
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm filtfrs thf <dodf>RowFiltfr</dodf>s to tfst
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @throws IllfgblArgumfntExdfption if bny of thf filtfrs
+     *         brf <dodf>null</dodf>
+     * @throws NullPointfrExdfption if <dodf>filtfrs</dodf> is null
+     * @sff jbvb.util.Arrbys#bsList
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> bndFiltfr(
+            Itfrbblf<? fxtfnds RowFiltfr<? supfr M, ? supfr I>> filtfrs) {
+        rfturn nfw AndFiltfr<M,I>(filtfrs);
+    }
+
+    /**
+     * Rfturns b <dodf>RowFiltfr</dodf> thbt indludfs fntrifs if thf
+     * supplifd filtfr dofs not indludf thf fntry.
+     *
+     * @pbrbm <M> thf typf of thf modfl to whidh thf {@dodf RowFiltfr} bpplifs
+     * @pbrbm <I> thf typf of thf idfntififr pbssfd to thf {@dodf RowFiltfr}
+     * @pbrbm filtfr thf <dodf>RowFiltfr</dodf> to nfgbtf
+     * @rfturn b <dodf>RowFiltfr</dodf> implfmfnting thf spfdififd dritfrib
+     * @throws IllfgblArgumfntExdfption if <dodf>filtfr</dodf> is
+     *         <dodf>null</dodf>
+     */
+    publid stbtid <M,I> RowFiltfr<M,I> notFiltfr(RowFiltfr<M,I> filtfr) {
+        rfturn nfw NotFiltfr<M,I>(filtfr);
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd fntry should bf shown;
+     * rfturns fblsf if thf fntry should bf hiddfn.
+     * <p>
+     * Thf <dodf>fntry</dodf> brgumfnt is vblid only for thf durbtion of
+     * thf invodbtion.  Using <dodf>fntry</dodf> bftfr thf dbll rfturns
+     * rfsults in undffinfd bfhbvior.
+     *
+     * @pbrbm fntry b non-<dodf>null</dodf> objfdt thbt wrbps thf undfrlying
+     *              objfdt from thf modfl
+     * @rfturn truf if thf fntry should bf shown
+     */
+    publid bbstrbdt boolfbn indludf(Entry<? fxtfnds M, ? fxtfnds I> fntry);
+
+    //
+    // WARNING:
+    // Bfdbusf of thf mfthod signbturf of dbtfFiltfr/numbfrFiltfr/rfgfxFiltfr
+    // wf dbn NEVER bdd b mfthod to RowFiltfr thbt rfturns M,I. If wf wfrf
+    // to do so it would bf possiblf to gft b ClbssCbstExdfption during normbl
+    // usbgf.
+    //
+
+    /**
+     * An <dodf>Entry</dodf> objfdt is pbssfd to instbndfs of
+     * <dodf>RowFiltfr</dodf>, bllowing thf filtfr to gft thf vbluf of thf
+     * fntry's dbtb, bnd thus to dftfrminf whfthfr thf fntry should bf shown.
+     * An <dodf>Entry</dodf> objfdt dontbins informbtion bbout thf modfl
+     * bs wfll bs mfthods for gftting thf undfrlying vblufs from thf modfl.
+     *
+     * @pbrbm <M> thf typf of thf modfl; for fxbmplf <dodf>PfrsonModfl</dodf>
+     * @pbrbm <I> thf typf of thf idfntififr; whfn using
+     *            <dodf>TbblfRowSortfr</dodf> this will bf <dodf>Intfgfr</dodf>
+     * @sff jbvbx.swing.RowFiltfr
+     * @sff jbvbx.swing.DffbultRowSortfr#sftRowFiltfr(jbvbx.swing.RowFiltfr)
+     * @sindf 1.6
+     */
+    publid stbtid bbstrbdt dlbss Entry<M, I> {
+        /**
+         * Crfbtfs bn <dodf>Entry</dodf>.
+         */
+        publid Entry() {
+        }
+
+        /**
+         * Rfturns thf undfrlying modfl.
+         *
+         * @rfturn thf modfl dontbining thf dbtb thbt this fntry rfprfsfnts
+         */
+        publid bbstrbdt M gftModfl();
+
+        /**
+         * Rfturns thf numbfr of vblufs in thf fntry.  For
+         * fxbmplf, whfn usfd with b tbblf this dorrfsponds to thf
+         * numbfr of dolumns.
+         *
+         * @rfturn numbfr of vblufs in thf objfdt bfing filtfrfd
+         */
+        publid bbstrbdt int gftVblufCount();
+
+        /**
+         * Rfturns thf vbluf bt thf spfdififd indfx.  This mby rfturn
+         * <dodf>null</dodf>.  Whfn usfd with b tbblf, indfx
+         * dorrfsponds to thf dolumn numbfr in thf modfl.
+         *
+         * @pbrbm indfx thf indfx of thf vbluf to gft
+         * @rfturn vbluf bt thf spfdififd indfx
+         * @throws IndfxOutOfBoundsExdfption if indfx &lt; 0 or
+         *         &gt;= gftVblufCount
+         */
+        publid bbstrbdt Objfdt gftVbluf(int indfx);
+
+        /**
+         * Rfturns thf string vbluf bt thf spfdififd indfx.  If
+         * filtfring is bfing donf bbsfd on <dodf>String</dodf> vblufs
+         * this mfthod is prfffrrfd to thbt of <dodf>gftVbluf</dodf>
+         * bs <dodf>gftVbluf(indfx).toString()</dodf> mby rfturn b
+         * difffrfnt rfsult thbn <dodf>gftStringVbluf(indfx)</dodf>.
+         * <p>
+         * This implfmfntbtion dblls <dodf>gftVbluf(indfx).toString()</dodf>
+         * bftfr dhfdking for <dodf>null</dodf>.  Subdlbssfs thbt providf
+         * difffrfnt string donvfrsion should ovfrridf this mfthod if
+         * nfdfssbry.
+         *
+         * @pbrbm indfx thf indfx of thf vbluf to gft
+         * @rfturn {@dodf non-null} string bt thf spfdififd indfx
+         * @throws IndfxOutOfBoundsExdfption if indfx &lt; 0 ||
+         *         &gt;= gftVblufCount
+         */
+        publid String gftStringVbluf(int indfx) {
+            Objfdt vbluf = gftVbluf(indfx);
+            rfturn (vbluf == null) ? "" : vbluf.toString();
+        }
+
+        /**
+         * Rfturns thf idfntiffr (in thf modfl) of thf fntry.
+         * For b tbblf this dorrfsponds to thf indfx of thf row in thf modfl,
+         * fxprfssfd bs bn <dodf>Intfgfr</dodf>.
+         *
+         * @rfturn b modfl-bbsfd (not vifw-bbsfd) idfntififr for
+         *         this fntry
+         */
+        publid bbstrbdt I gftIdfntififr();
+    }
+
+
+    privbtf stbtid bbstrbdt dlbss GfnfrblFiltfr<M, I> fxtfnds RowFiltfr<M, I> {
+        privbtf int[] dolumns;
+
+        GfnfrblFiltfr(int[] dolumns) {
+            dhfdkIndidfs(dolumns);
+            this.dolumns = dolumns;
+        }
+
+        @Ovfrridf
+        publid boolfbn indludf(Entry<? fxtfnds M, ? fxtfnds I> vbluf){
+            int dount = vbluf.gftVblufCount();
+            if (dolumns.lfngth > 0) {
+                for (int i = dolumns.lfngth - 1; i >= 0; i--) {
+                    int indfx = dolumns[i];
+                    if (indfx < dount) {
+                        if (indludf(vbluf, indfx)) {
+                            rfturn truf;
+                        }
+                    }
+                }
+            } flsf {
+                whilf (--dount >= 0) {
+                    if (indludf(vbluf, dount)) {
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        protfdtfd bbstrbdt boolfbn indludf(
+              Entry<? fxtfnds M, ? fxtfnds I> vbluf, int indfx);
+    }
+
+
+    privbtf stbtid dlbss RfgfxFiltfr<M, I> fxtfnds GfnfrblFiltfr<M, I> {
+        privbtf Mbtdhfr mbtdhfr;
+
+        RfgfxFiltfr(Pbttfrn rfgfx, int[] dolumns) {
+            supfr(dolumns);
+            if (rfgfx == null) {
+                throw nfw IllfgblArgumfntExdfption("Pbttfrn must bf non-null");
+            }
+            mbtdhfr = rfgfx.mbtdhfr("");
+        }
+
+        @Ovfrridf
+        protfdtfd boolfbn indludf(
+                Entry<? fxtfnds M, ? fxtfnds I> vbluf, int indfx) {
+            mbtdhfr.rfsft(vbluf.gftStringVbluf(indfx));
+            rfturn mbtdhfr.find();
+        }
+    }
+
+
+    privbtf stbtid dlbss DbtfFiltfr<M, I> fxtfnds GfnfrblFiltfr<M, I> {
+        privbtf long dbtf;
+        privbtf CompbrisonTypf typf;
+
+        DbtfFiltfr(CompbrisonTypf typf, long dbtf, int[] dolumns) {
+            supfr(dolumns);
+            if (typf == null) {
+                throw nfw IllfgblArgumfntExdfption("typf must bf non-null");
+            }
+            this.typf = typf;
+            this.dbtf = dbtf;
+        }
+
+        @Ovfrridf
+        protfdtfd boolfbn indludf(
+                Entry<? fxtfnds M, ? fxtfnds I> vbluf, int indfx) {
+            Objfdt v = vbluf.gftVbluf(indfx);
+
+            if (v instbndfof Dbtf) {
+                long vDbtf = ((Dbtf)v).gftTimf();
+                switdh(typf) {
+                dbsf BEFORE:
+                    rfturn (vDbtf < dbtf);
+                dbsf AFTER:
+                    rfturn (vDbtf > dbtf);
+                dbsf EQUAL:
+                    rfturn (vDbtf == dbtf);
+                dbsf NOT_EQUAL:
+                    rfturn (vDbtf != dbtf);
+                dffbult:
+                    brfbk;
+                }
+            }
+            rfturn fblsf;
+        }
+    }
+
+    privbtf stbtid dlbss NumbfrFiltfr<M, I> fxtfnds GfnfrblFiltfr<M, I> {
+        privbtf boolfbn isCompbrbblf;
+        privbtf Numbfr numbfr;
+        privbtf CompbrisonTypf typf;
+
+        NumbfrFiltfr(CompbrisonTypf typf, Numbfr numbfr, int[] dolumns) {
+            supfr(dolumns);
+            if (typf == null || numbfr == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "typf bnd numbfr must bf non-null");
+            }
+            this.typf = typf;
+            this.numbfr = numbfr;
+            isCompbrbblf = (numbfr instbndfof Compbrbblf);
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        protfdtfd boolfbn indludf(
+                Entry<? fxtfnds M, ? fxtfnds I> vbluf, int indfx) {
+            Objfdt v = vbluf.gftVbluf(indfx);
+
+            if (v instbndfof Numbfr) {
+                boolfbn dompbrfd = truf;
+                int dompbrfRfsult;
+                Clbss<?> vClbss = v.gftClbss();
+                if (numbfr.gftClbss() == vClbss && isCompbrbblf) {
+                    dompbrfRfsult = ((Compbrbblf)numbfr).dompbrfTo(v);
+                }
+                flsf {
+                    dompbrfRfsult = longCompbrf((Numbfr)v);
+                }
+                switdh(typf) {
+                dbsf BEFORE:
+                    rfturn (dompbrfRfsult > 0);
+                dbsf AFTER:
+                    rfturn (dompbrfRfsult < 0);
+                dbsf EQUAL:
+                    rfturn (dompbrfRfsult == 0);
+                dbsf NOT_EQUAL:
+                    rfturn (dompbrfRfsult != 0);
+                dffbult:
+                    brfbk;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        privbtf int longCompbrf(Numbfr o) {
+            long diff = numbfr.longVbluf() - o.longVbluf();
+
+            if (diff < 0) {
+                rfturn -1;
+            }
+            flsf if (diff > 0) {
+                rfturn 1;
+            }
+            rfturn 0;
+        }
+    }
+
+
+    privbtf stbtid dlbss OrFiltfr<M,I> fxtfnds RowFiltfr<M,I> {
+        List<RowFiltfr<? supfr M,? supfr I>> filtfrs;
+
+        OrFiltfr(Itfrbblf<? fxtfnds RowFiltfr<? supfr M, ? supfr I>> filtfrs) {
+            this.filtfrs = nfw ArrbyList<RowFiltfr<? supfr M,? supfr I>>();
+            for (RowFiltfr<? supfr M, ? supfr I> filtfr : filtfrs) {
+                if (filtfr == null) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Filtfr must bf non-null");
+                }
+                this.filtfrs.bdd(filtfr);
+            }
+        }
+
+        publid boolfbn indludf(Entry<? fxtfnds M, ? fxtfnds I> vbluf) {
+            for (RowFiltfr<? supfr M,? supfr I> filtfr : filtfrs) {
+                if (filtfr.indludf(vbluf)) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+    }
+
+
+    privbtf stbtid dlbss AndFiltfr<M,I> fxtfnds OrFiltfr<M,I> {
+        AndFiltfr(Itfrbblf<? fxtfnds RowFiltfr<? supfr M,? supfr I>> filtfrs) {
+            supfr(filtfrs);
+        }
+
+        publid boolfbn indludf(Entry<? fxtfnds M, ? fxtfnds I> vbluf) {
+            for (RowFiltfr<? supfr M,? supfr I> filtfr : filtfrs) {
+                if (!filtfr.indludf(vbluf)) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+    }
+
+
+    privbtf stbtid dlbss NotFiltfr<M,I> fxtfnds RowFiltfr<M,I> {
+        privbtf RowFiltfr<M,I> filtfr;
+
+        NotFiltfr(RowFiltfr<M,I> filtfr) {
+            if (filtfr == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "filtfr must bf non-null");
+            }
+            this.filtfr = filtfr;
+        }
+
+        publid boolfbn indludf(Entry<? fxtfnds M, ? fxtfnds I> vbluf) {
+            rfturn !filtfr.indludf(vbluf);
+        }
+    }
+}

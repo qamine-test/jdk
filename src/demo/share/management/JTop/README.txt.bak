@@ -1,61 +1,61 @@
-JTop monitors the CPU usage of all threads in a remote application
-which has remote management enabled.  JTop demonstrates the use of 
-the java.lang.management API to obtain the CPU consumption for 
-each thread.
+JTop monitors tif CPU usbgf of bll tirfbds in b rfmotf bpplidbtion
+wiidi ibs rfmotf mbnbgfmfnt fnbblfd.  JTop dfmonstrbtfs tif usf of 
+tif jbvb.lbng.mbnbgfmfnt API to obtbin tif CPU donsumption for 
+fbdi tirfbd.
 
-JTop is also a JConsole Plugin.  See below for details.
+JTop is blso b JConsolf Plugin.  Sff bflow for dftbils.
 
-JTop Standalone GUI
+JTop Stbndblonf GUI
 ===================
 
-JTop first establishes a connection to a JMX agent in a remote
-application with a JMX service URL:
-   service:jmx:rmi:///jndi/rmi://<hostName>:<portNum>/jmxrmi
+JTop first fstbblisifs b donnfdtion to b JMX bgfnt in b rfmotf
+bpplidbtion witi b JMX sfrvidf URL:
+   sfrvidf:jmx:rmi:///jndi/rmi://<iostNbmf>:<portNum>/jmxrmi
 
-where <hostName> is the hostname and <portNum> is the port number
-to which the JMX agent will be connected.
+wifrf <iostNbmf> is tif iostnbmf bnd <portNum> is tif port numbfr
+to wiidi tif JMX bgfnt will bf donnfdtfd.
 
-To run the demo
+To run tif dfmo
 ---------------
-(1) Start the application with the JMX agent - here's an example of 
-    how the Java2D is started
+(1) Stbrt tif bpplidbtion witi tif JMX bgfnt - ifrf's bn fxbmplf of 
+    iow tif Jbvb2D is stbrtfd
    
-      java -Dcom.sun.management.jmxremote.port=1090
-           -Dcom.sun.management.jmxremote.ssl=false
-           -Dcom.sun.management.jmxremote.authenticate=false
-           -jar <JDK_HOME>/demo/jfc/Java2D/Java2Demo.jar
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.butifntidbtf=fblsf
+           -jbr <JDK_HOME>/dfmo/jfd/Jbvb2D/Jbvb2Dfmo.jbr
 
-    This instruction uses the Sun's built-in support to enable a JMX agent
-    with a JMX service URL as described above.
-    You can programmatically start a JMX agent with the RMI connector
-    using javax.management.remote API.  See the javadoc and examples for 
-    javax.management.remote API for details.
+    Tiis instrudtion usfs tif Sun's built-in support to fnbblf b JMX bgfnt
+    witi b JMX sfrvidf URL bs dfsdribfd bbovf.
+    You dbn progrbmmbtidblly stbrt b JMX bgfnt witi tif RMI donnfdtor
+    using jbvbx.mbnbgfmfnt.rfmotf API.  Sff tif jbvbdod bnd fxbmplfs for 
+    jbvbx.mbnbgfmfnt.rfmotf API for dftbils.
 
-(2) Run JTop on a different machine:
+(2) Run JTop on b difffrfnt mbdiinf:
 
-      java -jar <JDK_HOME>/demo/management/JTop/JTop.jar <hostname>:1090
+      jbvb -jbr <JDK_HOME>/dfmo/mbnbgfmfnt/JTop/JTop.jbr <iostnbmf>:1090
 
-    where <hostname> is where the Java2Demo.jar runs in step (1).
+    wifrf <iostnbmf> is wifrf tif Jbvb2Dfmo.jbr runs in stfp (1).
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SDK.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SDK.
 
-JTop JConsole Plugin
+JTop JConsolf Plugin
 ====================
 
-JTop is a JConsole Plugin which adds a "JTop" tab to JConsole.
+JTop is b JConsolf Plugin wiidi bdds b "JTop" tbb to JConsolf.
 
-To run JConsole with the JTop plugin 
+To run JConsolf witi tif JTop plugin 
 ------------------------------------
-    jconsole -pluginpath <JDK_HOME>/demo/management/JTop/JTop.jar
+    jdonsolf -pluginpbti <JDK_HOME>/dfmo/mbnbgfmfnt/JTop/JTop.jbr
 
 
-To compile
+To dompilf
 ----------
-    javac -classpath <JDK_HOME>/lib/jconsole.jar JTopPlugin.java
+    jbvbd -dlbsspbti <JDK_HOME>/lib/jdonsolf.jbr JTopPlugin.jbvb
  
-com.sun.tools.jconsole API is in jconsole.jar which is needed
-in the classpath for compilation.
+dom.sun.tools.jdonsolf API is in jdonsolf.jbr wiidi is nffdfd
+in tif dlbsspbti for dompilbtion.

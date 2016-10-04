@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.io.IOException;
-import java.security.PublicKey;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PublidKfy;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.x509.NameConstraintsExtension;
-import sun.security.x509.X500Name;
+import sun.sfdurity.x509.NbmfConstrbintsExtfnsion;
+import sun.sfdurity.x509.X500Nbmf;
 
 /**
- * A trust anchor or most-trusted Certification Authority (CA).
+ * A trust bndior or most-trustfd Cfrtifidbtion Autiority (CA).
  * <p>
- * This class represents a "most-trusted CA", which is used as a trust anchor
- * for validating X.509 certification paths. A most-trusted CA includes the
- * public key of the CA, the CA's name, and any constraints upon the set of
- * paths which may be validated using this key. These parameters can be
- * specified in the form of a trusted {@code X509Certificate} or as
- * individual parameters.
+ * Tiis dlbss rfprfsfnts b "most-trustfd CA", wiidi is usfd bs b trust bndior
+ * for vblidbting X.509 dfrtifidbtion pbtis. A most-trustfd CA indludfs tif
+ * publid kfy of tif CA, tif CA's nbmf, bnd bny donstrbints upon tif sft of
+ * pbtis wiidi mby bf vblidbtfd using tiis kfy. Tifsf pbrbmftfrs dbn bf
+ * spfdififd in tif form of b trustfd {@dodf X509Cfrtifidbtf} or bs
+ * individubl pbrbmftfrs.
  * <p>
- * <b>Concurrent Access</b>
- * <p>All {@code TrustAnchor} objects must be immutable and
- * thread-safe. That is, multiple threads may concurrently invoke the
- * methods defined in this class on a single {@code TrustAnchor}
- * object (or more than one) with no ill effects. Requiring
- * {@code TrustAnchor} objects to be immutable and thread-safe
- * allows them to be passed around to various pieces of code without
- * worrying about coordinating access. This stipulation applies to all
- * public fields and methods of this class and any added or overridden
- * by subclasses.
+ * <b>Condurrfnt Addfss</b>
+ * <p>All {@dodf TrustAndior} objfdts must bf immutbblf bnd
+ * tirfbd-sbff. Tibt is, multiplf tirfbds mby dondurrfntly invokf tif
+ * mftiods dffinfd in tiis dlbss on b singlf {@dodf TrustAndior}
+ * objfdt (or morf tibn onf) witi no ill ffffdts. Rfquiring
+ * {@dodf TrustAndior} objfdts to bf immutbblf bnd tirfbd-sbff
+ * bllows tifm to bf pbssfd bround to vbrious pifdfs of dodf witiout
+ * worrying bbout doordinbting bddfss. Tiis stipulbtion bpplifs to bll
+ * publid fiflds bnd mftiods of tiis dlbss bnd bny bddfd or ovfrriddfn
+ * by subdlbssfs.
  *
- * @see PKIXParameters#PKIXParameters(Set)
- * @see PKIXBuilderParameters#PKIXBuilderParameters(Set, CertSelector)
+ * @sff PKIXPbrbmftfrs#PKIXPbrbmftfrs(Sft)
+ * @sff PKIXBuildfrPbrbmftfrs#PKIXBuildfrPbrbmftfrs(Sft, CfrtSflfdtor)
  *
- * @since       1.4
- * @author      Sean Mullan
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
  */
-public class TrustAnchor {
+publid dlbss TrustAndior {
 
-    private final PublicKey pubKey;
-    private final String caName;
-    private final X500Principal caPrincipal;
-    private final X509Certificate trustedCert;
-    private byte[] ncBytes;
-    private NameConstraintsExtension nc;
+    privbtf finbl PublidKfy pubKfy;
+    privbtf finbl String dbNbmf;
+    privbtf finbl X500Prindipbl dbPrindipbl;
+    privbtf finbl X509Cfrtifidbtf trustfdCfrt;
+    privbtf bytf[] ndBytfs;
+    privbtf NbmfConstrbintsExtfnsion nd;
 
     /**
-     * Creates an instance of {@code TrustAnchor} with the specified
-     * {@code X509Certificate} and optional name constraints, which
-     * are intended to be used as additional constraints when validating
-     * an X.509 certification path.
+     * Crfbtfs bn instbndf of {@dodf TrustAndior} witi tif spfdififd
+     * {@dodf X509Cfrtifidbtf} bnd optionbl nbmf donstrbints, wiidi
+     * brf intfndfd to bf usfd bs bdditionbl donstrbints wifn vblidbting
+     * bn X.509 dfrtifidbtion pbti.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * should contain the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in
-     * <a href="http://www.ietf.org/rfc/rfc3280">RFC 3280</a>
-     * and X.509. The ASN.1 definition of this structure appears below.
+     * Tif nbmf donstrbints brf spfdififd bs b bytf brrby. Tiis bytf brrby
+     * siould dontbin tif DER fndodfd form of tif nbmf donstrbints, bs tify
+     * would bppfbr in tif NbmfConstrbints strudturf dffinfd in
+     * <b irff="ittp://www.iftf.org/rfd/rfd3280">RFC 3280</b>
+     * bnd X.509. Tif ASN.1 dffinition of tiis strudturf bppfbrs bflow.
      *
-     * <pre>{@code
-     *  NameConstraints ::= SEQUENCE {
-     *       permittedSubtrees       [0]     GeneralSubtrees OPTIONAL,
-     *       excludedSubtrees        [1]     GeneralSubtrees OPTIONAL }
+     * <prf>{@dodf
+     *  NbmfConstrbints ::= SEQUENCE {
+     *       pfrmittfdSubtrffs       [0]     GfnfrblSubtrffs OPTIONAL,
+     *       fxdludfdSubtrffs        [1]     GfnfrblSubtrffs OPTIONAL }
      *
-     *  GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
+     *  GfnfrblSubtrffs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblSubtrff
      *
-     *  GeneralSubtree ::= SEQUENCE {
-     *       base                    GeneralName,
-     *       minimum         [0]     BaseDistance DEFAULT 0,
-     *       maximum         [1]     BaseDistance OPTIONAL }
+     *  GfnfrblSubtrff ::= SEQUENCE {
+     *       bbsf                    GfnfrblNbmf,
+     *       minimum         [0]     BbsfDistbndf DEFAULT 0,
+     *       mbximum         [1]     BbsfDistbndf OPTIONAL }
      *
-     *  BaseDistance ::= INTEGER (0..MAX)
+     *  BbsfDistbndf ::= INTEGER (0..MAX)
      *
-     *  GeneralName ::= CHOICE {
-     *       otherName                       [0]     OtherName,
-     *       rfc822Name                      [1]     IA5String,
-     *       dNSName                         [2]     IA5String,
-     *       x400Address                     [3]     ORAddress,
-     *       directoryName                   [4]     Name,
-     *       ediPartyName                    [5]     EDIPartyName,
-     *       uniformResourceIdentifier       [6]     IA5String,
-     *       iPAddress                       [7]     OCTET STRING,
-     *       registeredID                    [8]     OBJECT IDENTIFIER}
-     * }</pre>
+     *  GfnfrblNbmf ::= CHOICE {
+     *       otifrNbmf                       [0]     OtifrNbmf,
+     *       rfd822Nbmf                      [1]     IA5String,
+     *       dNSNbmf                         [2]     IA5String,
+     *       x400Addrfss                     [3]     ORAddrfss,
+     *       dirfdtoryNbmf                   [4]     Nbmf,
+     *       fdiPbrtyNbmf                    [5]     EDIPbrtyNbmf,
+     *       uniformRfsourdfIdfntififr       [6]     IA5String,
+     *       iPAddrfss                       [7]     OCTET STRING,
+     *       rfgistfrfdID                    [8]     OBJECT IDENTIFIER}
+     * }</prf>
      * <p>
-     * Note that the name constraints byte array supplied is cloned to protect
-     * against subsequent modifications.
+     * Notf tibt tif nbmf donstrbints bytf brrby supplifd is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
      *
-     * @param trustedCert a trusted {@code X509Certificate}
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws IllegalArgumentException if the name constraints cannot be
-     * decoded
-     * @throws NullPointerException if the specified
-     * {@code X509Certificate} is {@code null}
+     * @pbrbm trustfdCfrt b trustfd {@dodf X509Cfrtifidbtf}
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining tif ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for difdking nbmf donstrbints.
+     * Only tif vbluf of tif fxtfnsion is indludfd, not tif OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit tif pbrbmftfr.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf donstrbints dbnnot bf
+     * dfdodfd
+     * @tirows NullPointfrExdfption if tif spfdififd
+     * {@dodf X509Cfrtifidbtf} is {@dodf null}
      */
-    public TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints)
+    publid TrustAndior(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints)
     {
-        if (trustedCert == null)
-            throw new NullPointerException("the trustedCert parameter must " +
-                "be non-null");
-        this.trustedCert = trustedCert;
-        this.pubKey = null;
-        this.caName = null;
-        this.caPrincipal = null;
-        setNameConstraints(nameConstraints);
+        if (trustfdCfrt == null)
+            tirow nfw NullPointfrExdfption("tif trustfdCfrt pbrbmftfr must " +
+                "bf non-null");
+        tiis.trustfdCfrt = trustfdCfrt;
+        tiis.pubKfy = null;
+        tiis.dbNbmf = null;
+        tiis.dbPrindipbl = null;
+        sftNbmfConstrbints(nbmfConstrbints);
     }
 
     /**
-     * Creates an instance of {@code TrustAnchor} where the
-     * most-trusted CA is specified as an X500Principal and public key.
-     * Name constraints are an optional parameter, and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Crfbtfs bn instbndf of {@dodf TrustAndior} wifrf tif
+     * most-trustfd CA is spfdififd bs bn X500Prindipbl bnd publid kfy.
+     * Nbmf donstrbints brf bn optionbl pbrbmftfr, bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints wifn vblidbting bn X.509 dfrtifidbtion pbti.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * Tif nbmf donstrbints brf spfdififd bs b bytf brrby. Tiis bytf brrby
+     * dontbins tif DER fndodfd form of tif nbmf donstrbints, bs tify
+     * would bppfbr in tif NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Tif ASN.1 notbtion for tiis strudturf is supplifd in tif
+     * dodumfntbtion for
+     * {@link #TrustAndior(X509Cfrtifidbtf, bytf[])
+     * TrustAndior(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
      * <p>
-     * Note that the name constraints byte array supplied here is cloned to
-     * protect against subsequent modifications.
+     * Notf tibt tif nbmf donstrbints bytf brrby supplifd ifrf is dlonfd to
+     * protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @param caPrincipal the name of the most-trusted CA as X500Principal
-     * @param pubKey the public key of the most-trusted CA
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws NullPointerException if the specified {@code caPrincipal} or
-     * {@code pubKey} parameter is {@code null}
-     * @since 1.5
+     * @pbrbm dbPrindipbl tif nbmf of tif most-trustfd CA bs X500Prindipbl
+     * @pbrbm pubKfy tif publid kfy of tif most-trustfd CA
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining tif ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for difdking nbmf donstrbints.
+     * Only tif vbluf of tif fxtfnsion is indludfd, not tif OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit tif pbrbmftfr.
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf dbPrindipbl} or
+     * {@dodf pubKfy} pbrbmftfr is {@dodf null}
+     * @sindf 1.5
      */
-    public TrustAnchor(X500Principal caPrincipal, PublicKey pubKey,
-            byte[] nameConstraints) {
-        if ((caPrincipal == null) || (pubKey == null)) {
-            throw new NullPointerException();
+    publid TrustAndior(X500Prindipbl dbPrindipbl, PublidKfy pubKfy,
+            bytf[] nbmfConstrbints) {
+        if ((dbPrindipbl == null) || (pubKfy == null)) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.trustedCert = null;
-        this.caPrincipal = caPrincipal;
-        this.caName = caPrincipal.getName();
-        this.pubKey = pubKey;
-        setNameConstraints(nameConstraints);
+        tiis.trustfdCfrt = null;
+        tiis.dbPrindipbl = dbPrindipbl;
+        tiis.dbNbmf = dbPrindipbl.gftNbmf();
+        tiis.pubKfy = pubKfy;
+        sftNbmfConstrbints(nbmfConstrbints);
     }
 
     /**
-     * Creates an instance of {@code TrustAnchor} where the
-     * most-trusted CA is specified as a distinguished name and public key.
-     * Name constraints are an optional parameter, and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Crfbtfs bn instbndf of {@dodf TrustAndior} wifrf tif
+     * most-trustfd CA is spfdififd bs b distinguisifd nbmf bnd publid kfy.
+     * Nbmf donstrbints brf bn optionbl pbrbmftfr, bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints wifn vblidbting bn X.509 dfrtifidbtion pbti.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * Tif nbmf donstrbints brf spfdififd bs b bytf brrby. Tiis bytf brrby
+     * dontbins tif DER fndodfd form of tif nbmf donstrbints, bs tify
+     * would bppfbr in tif NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Tif ASN.1 notbtion for tiis strudturf is supplifd in tif
+     * dodumfntbtion for
+     * {@link #TrustAndior(X509Cfrtifidbtf, bytf[])
+     * TrustAndior(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
      * <p>
-     * Note that the name constraints byte array supplied here is cloned to
-     * protect against subsequent modifications.
+     * Notf tibt tif nbmf donstrbints bytf brrby supplifd ifrf is dlonfd to
+     * protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @param caName the X.500 distinguished name of the most-trusted CA in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * {@code String} format
-     * @param pubKey the public key of the most-trusted CA
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws IllegalArgumentException if the specified
-     * {@code caName} parameter is empty {@code (caName.length() == 0)}
-     * or incorrectly formatted or the name constraints cannot be decoded
-     * @throws NullPointerException if the specified {@code caName} or
-     * {@code pubKey} parameter is {@code null}
+     * @pbrbm dbNbmf tif X.500 distinguisifd nbmf of tif most-trustfd CA in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * {@dodf String} formbt
+     * @pbrbm pubKfy tif publid kfy of tif most-trustfd CA
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining tif ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for difdking nbmf donstrbints.
+     * Only tif vbluf of tif fxtfnsion is indludfd, not tif OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit tif pbrbmftfr.
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd
+     * {@dodf dbNbmf} pbrbmftfr is fmpty {@dodf (dbNbmf.lfngti() == 0)}
+     * or indorrfdtly formbttfd or tif nbmf donstrbints dbnnot bf dfdodfd
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf dbNbmf} or
+     * {@dodf pubKfy} pbrbmftfr is {@dodf null}
      */
-    public TrustAnchor(String caName, PublicKey pubKey, byte[] nameConstraints)
+    publid TrustAndior(String dbNbmf, PublidKfy pubKfy, bytf[] nbmfConstrbints)
     {
-        if (pubKey == null)
-            throw new NullPointerException("the pubKey parameter must be " +
+        if (pubKfy == null)
+            tirow nfw NullPointfrExdfption("tif pubKfy pbrbmftfr must bf " +
                 "non-null");
-        if (caName == null)
-            throw new NullPointerException("the caName parameter must be " +
+        if (dbNbmf == null)
+            tirow nfw NullPointfrExdfption("tif dbNbmf pbrbmftfr must bf " +
                 "non-null");
-        if (caName.length() == 0)
-            throw new IllegalArgumentException("the caName " +
-                "parameter must be a non-empty String");
-        // check if caName is formatted correctly
-        this.caPrincipal = new X500Principal(caName);
-        this.pubKey = pubKey;
-        this.caName = caName;
-        this.trustedCert = null;
-        setNameConstraints(nameConstraints);
+        if (dbNbmf.lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption("tif dbNbmf " +
+                "pbrbmftfr must bf b non-fmpty String");
+        // difdk if dbNbmf is formbttfd dorrfdtly
+        tiis.dbPrindipbl = nfw X500Prindipbl(dbNbmf);
+        tiis.pubKfy = pubKfy;
+        tiis.dbNbmf = dbNbmf;
+        tiis.trustfdCfrt = null;
+        sftNbmfConstrbints(nbmfConstrbints);
     }
 
     /**
-     * Returns the most-trusted CA certificate.
+     * Rfturns tif most-trustfd CA dfrtifidbtf.
      *
-     * @return a trusted {@code X509Certificate} or {@code null}
-     * if the trust anchor was not specified as a trusted certificate
+     * @rfturn b trustfd {@dodf X509Cfrtifidbtf} or {@dodf null}
+     * if tif trust bndior wbs not spfdififd bs b trustfd dfrtifidbtf
      */
-    public final X509Certificate getTrustedCert() {
-        return this.trustedCert;
+    publid finbl X509Cfrtifidbtf gftTrustfdCfrt() {
+        rfturn tiis.trustfdCfrt;
     }
 
     /**
-     * Returns the name of the most-trusted CA as an X500Principal.
+     * Rfturns tif nbmf of tif most-trustfd CA bs bn X500Prindipbl.
      *
-     * @return the X.500 distinguished name of the most-trusted CA, or
-     * {@code null} if the trust anchor was not specified as a trusted
-     * public key and name or X500Principal pair
-     * @since 1.5
+     * @rfturn tif X.500 distinguisifd nbmf of tif most-trustfd CA, or
+     * {@dodf null} if tif trust bndior wbs not spfdififd bs b trustfd
+     * publid kfy bnd nbmf or X500Prindipbl pbir
+     * @sindf 1.5
      */
-    public final X500Principal getCA() {
-        return this.caPrincipal;
+    publid finbl X500Prindipbl gftCA() {
+        rfturn tiis.dbPrindipbl;
     }
 
     /**
-     * Returns the name of the most-trusted CA in RFC 2253 {@code String}
-     * format.
+     * Rfturns tif nbmf of tif most-trustfd CA in RFC 2253 {@dodf String}
+     * formbt.
      *
-     * @return the X.500 distinguished name of the most-trusted CA, or
-     * {@code null} if the trust anchor was not specified as a trusted
-     * public key and name or X500Principal pair
+     * @rfturn tif X.500 distinguisifd nbmf of tif most-trustfd CA, or
+     * {@dodf null} if tif trust bndior wbs not spfdififd bs b trustfd
+     * publid kfy bnd nbmf or X500Prindipbl pbir
      */
-    public final String getCAName() {
-        return this.caName;
+    publid finbl String gftCANbmf() {
+        rfturn tiis.dbNbmf;
     }
 
     /**
-     * Returns the public key of the most-trusted CA.
+     * Rfturns tif publid kfy of tif most-trustfd CA.
      *
-     * @return the public key of the most-trusted CA, or {@code null}
-     * if the trust anchor was not specified as a trusted public key and name
-     * or X500Principal pair
+     * @rfturn tif publid kfy of tif most-trustfd CA, or {@dodf null}
+     * if tif trust bndior wbs not spfdififd bs b trustfd publid kfy bnd nbmf
+     * or X500Prindipbl pbir
      */
-    public final PublicKey getCAPublicKey() {
-        return this.pubKey;
+    publid finbl PublidKfy gftCAPublidKfy() {
+        rfturn tiis.pubKfy;
     }
 
     /**
-     * Decode the name constraints and clone them if not null.
+     * Dfdodf tif nbmf donstrbints bnd dlonf tifm if not null.
      */
-    private void setNameConstraints(byte[] bytes) {
-        if (bytes == null) {
-            ncBytes = null;
-            nc = null;
-        } else {
-            ncBytes = bytes.clone();
-            // validate DER encoding
+    privbtf void sftNbmfConstrbints(bytf[] bytfs) {
+        if (bytfs == null) {
+            ndBytfs = null;
+            nd = null;
+        } flsf {
+            ndBytfs = bytfs.dlonf();
+            // vblidbtf DER fndoding
             try {
-                nc = new NameConstraintsExtension(Boolean.FALSE, bytes);
-            } catch (IOException ioe) {
-                IllegalArgumentException iae =
-                    new IllegalArgumentException(ioe.getMessage());
-                iae.initCause(ioe);
-                throw iae;
+                nd = nfw NbmfConstrbintsExtfnsion(Boolfbn.FALSE, bytfs);
+            } dbtdi (IOExdfption iof) {
+                IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(iof.gftMfssbgf());
+                ibf.initCbusf(iof);
+                tirow ibf;
             }
         }
     }
 
     /**
-     * Returns the name constraints parameter. The specified name constraints
-     * are associated with this trust anchor and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Rfturns tif nbmf donstrbints pbrbmftfr. Tif spfdififd nbmf donstrbints
+     * brf bssodibtfd witi tiis trust bndior bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints wifn vblidbting bn X.509 dfrtifidbtion pbti.
      * <p>
-     * The name constraints are returned as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * Tif nbmf donstrbints brf rfturnfd bs b bytf brrby. Tiis bytf brrby
+     * dontbins tif DER fndodfd form of tif nbmf donstrbints, bs tify
+     * would bppfbr in tif NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Tif ASN.1 notbtion for tiis strudturf is supplifd in tif
+     * dodumfntbtion for
+     * {@link #TrustAndior(X509Cfrtifidbtf, bytf[])
+     * TrustAndior(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Notf tibt tif bytf brrby rfturnfd is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @return a byte array containing the ASN.1 DER encoding of
-     *         a NameConstraints extension used for checking name constraints,
-     *         or {@code null} if not set.
+     * @rfturn b bytf brrby dontbining tif ASN.1 DER fndoding of
+     *         b NbmfConstrbints fxtfnsion usfd for difdking nbmf donstrbints,
+     *         or {@dodf null} if not sft.
      */
-    public final byte [] getNameConstraints() {
-        return ncBytes == null ? null : ncBytes.clone();
+    publid finbl bytf [] gftNbmfConstrbints() {
+        rfturn ndBytfs == null ? null : ndBytfs.dlonf();
     }
 
     /**
-     * Returns a formatted string describing the {@code TrustAnchor}.
+     * Rfturns b formbttfd string dfsdribing tif {@dodf TrustAndior}.
      *
-     * @return a formatted string describing the {@code TrustAnchor}
+     * @rfturn b formbttfd string dfsdribing tif {@dodf TrustAndior}
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
-        if (pubKey != null) {
-            sb.append("  Trusted CA Public Key: " + pubKey.toString() + "\n");
-            sb.append("  Trusted CA Issuer Name: "
-                + String.valueOf(caName) + "\n");
-        } else {
-            sb.append("  Trusted CA cert: " + trustedCert.toString() + "\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        if (pubKfy != null) {
+            sb.bppfnd("  Trustfd CA Publid Kfy: " + pubKfy.toString() + "\n");
+            sb.bppfnd("  Trustfd CA Issufr Nbmf: "
+                + String.vblufOf(dbNbmf) + "\n");
+        } flsf {
+            sb.bppfnd("  Trustfd CA dfrt: " + trustfdCfrt.toString() + "\n");
         }
-        if (nc != null)
-            sb.append("  Name Constraints: " + nc.toString() + "\n");
-        return sb.toString();
+        if (nd != null)
+            sb.bppfnd("  Nbmf Constrbints: " + nd.toString() + "\n");
+        rfturn sb.toString();
     }
 }

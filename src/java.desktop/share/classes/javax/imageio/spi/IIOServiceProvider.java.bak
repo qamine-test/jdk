@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
-import java.util.Locale;
-import javax.imageio.spi.RegisterableService;
-import javax.imageio.spi.ServiceRegistry;
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.spi.RfgistfrbblfSfrvidf;
+import jbvbx.imbgfio.spi.SfrvidfRfgistry;
 
 /**
- * A superinterface for functionality common to all Image I/O service
- * provider interfaces (SPIs).  For more information on service
- * provider classes, see the class comment for the
- * <code>IIORegistry</code> class.
+ * A supfrintfrfbdf for fundtionblity dommon to bll Imbgf I/O sfrvidf
+ * providfr intfrfbdfs (SPIs).  For morf informbtion on sfrvidf
+ * providfr dlbssfs, sff tif dlbss dommfnt for tif
+ * <dodf>IIORfgistry</dodf> dlbss.
  *
- * @see IIORegistry
- * @see javax.imageio.spi.ImageReaderSpi
- * @see javax.imageio.spi.ImageWriterSpi
- * @see javax.imageio.spi.ImageTranscoderSpi
- * @see javax.imageio.spi.ImageInputStreamSpi
+ * @sff IIORfgistry
+ * @sff jbvbx.imbgfio.spi.ImbgfRfbdfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfWritfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfTrbnsdodfrSpi
+ * @sff jbvbx.imbgfio.spi.ImbgfInputStrfbmSpi
  *
  */
-public abstract class IIOServiceProvider implements RegisterableService {
+publid bbstrbdt dlbss IIOSfrvidfProvidfr implfmfnts RfgistfrbblfSfrvidf {
 
     /**
-     * A <code>String</code> to be returned from
-     * <code>getVendorName</code>, initially <code>null</code>.
-     * Constructors should set this to a non-<code>null</code> value.
+     * A <dodf>String</dodf> to bf rfturnfd from
+     * <dodf>gftVfndorNbmf</dodf>, initiblly <dodf>null</dodf>.
+     * Construdtors siould sft tiis to b non-<dodf>null</dodf> vbluf.
      */
-    protected String vendorName;
+    protfdtfd String vfndorNbmf;
 
     /**
-     * A <code>String</code> to be returned from
-     * <code>getVersion</code>, initially null.  Constructors should
-     * set this to a non-<code>null</code> value.
+     * A <dodf>String</dodf> to bf rfturnfd from
+     * <dodf>gftVfrsion</dodf>, initiblly null.  Construdtors siould
+     * sft tiis to b non-<dodf>null</dodf> vbluf.
      */
-    protected String version;
+    protfdtfd String vfrsion;
 
     /**
-     * Constructs an <code>IIOServiceProvider</code> with a given
-     * vendor name and version identifier.
+     * Construdts bn <dodf>IIOSfrvidfProvidfr</dodf> witi b givfn
+     * vfndor nbmf bnd vfrsion idfntififr.
      *
-     * @param vendorName the vendor name.
-     * @param version a version identifier.
+     * @pbrbm vfndorNbmf tif vfndor nbmf.
+     * @pbrbm vfrsion b vfrsion idfntififr.
      *
-     * @exception IllegalArgumentException if <code>vendorName</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>version</code>
-     * is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfndorNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfrsion</dodf>
+     * is <dodf>null</dodf>.
      */
-    public IIOServiceProvider(String vendorName,
-                              String version) {
-        if (vendorName == null) {
-            throw new IllegalArgumentException("vendorName == null!");
+    publid IIOSfrvidfProvidfr(String vfndorNbmf,
+                              String vfrsion) {
+        if (vfndorNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("vfndorNbmf == null!");
         }
-        if (version == null) {
-            throw new IllegalArgumentException("version == null!");
+        if (vfrsion == null) {
+            tirow nfw IllfgblArgumfntExdfption("vfrsion == null!");
         }
-        this.vendorName = vendorName;
-        this.version = version;
+        tiis.vfndorNbmf = vfndorNbmf;
+        tiis.vfrsion = vfrsion;
     }
 
     /**
-     * Constructs a blank <code>IIOServiceProvider</code>.  It is up
-     * to the subclass to initialize instance variables and/or
-     * override method implementations in order to ensure that the
-     * <code>getVendorName</code> and <code>getVersion</code> methods
-     * will return non-<code>null</code> values.
+     * Construdts b blbnk <dodf>IIOSfrvidfProvidfr</dodf>.  It is up
+     * to tif subdlbss to initiblizf instbndf vbribblfs bnd/or
+     * ovfrridf mftiod implfmfntbtions in ordfr to fnsurf tibt tif
+     * <dodf>gftVfndorNbmf</dodf> bnd <dodf>gftVfrsion</dodf> mftiods
+     * will rfturn non-<dodf>null</dodf> vblufs.
      */
-    public IIOServiceProvider() {
+    publid IIOSfrvidfProvidfr() {
     }
 
     /**
-     * A callback that will be called exactly once after the Spi class
-     * has been instantiated and registered in a
-     * <code>ServiceRegistry</code>.  This may be used to verify that
-     * the environment is suitable for this service, for example that
-     * native libraries can be loaded.  If the service cannot function
-     * in the environment where it finds itself, it should deregister
-     * itself from the registry.
+     * A dbllbbdk tibt will bf dbllfd fxbdtly ondf bftfr tif Spi dlbss
+     * ibs bffn instbntibtfd bnd rfgistfrfd in b
+     * <dodf>SfrvidfRfgistry</dodf>.  Tiis mby bf usfd to vfrify tibt
+     * tif fnvironmfnt is suitbblf for tiis sfrvidf, for fxbmplf tibt
+     * nbtivf librbrifs dbn bf lobdfd.  If tif sfrvidf dbnnot fundtion
+     * in tif fnvironmfnt wifrf it finds itsflf, it siould dfrfgistfr
+     * itsflf from tif rfgistry.
      *
-     * <p> Only the registry should call this method.
+     * <p> Only tif rfgistry siould dbll tiis mftiod.
      *
-     * <p> The default implementation does nothing.
+     * <p> Tif dffbult implfmfntbtion dofs notiing.
      *
-     * @see ServiceRegistry#registerServiceProvider(Object provider)
+     * @sff SfrvidfRfgistry#rfgistfrSfrvidfProvidfr(Objfdt providfr)
      */
-    public void onRegistration(ServiceRegistry registry,
-                               Class<?> category) {}
+    publid void onRfgistrbtion(SfrvidfRfgistry rfgistry,
+                               Clbss<?> dbtfgory) {}
 
     /**
-     * A callback that will be whenever the Spi class has been
-     * deregistered from a <code>ServiceRegistry</code>.
+     * A dbllbbdk tibt will bf wifnfvfr tif Spi dlbss ibs bffn
+     * dfrfgistfrfd from b <dodf>SfrvidfRfgistry</dodf>.
      *
-     * <p> Only the registry should call this method.
+     * <p> Only tif rfgistry siould dbll tiis mftiod.
      *
-     * <p> The default implementation does nothing.
+     * <p> Tif dffbult implfmfntbtion dofs notiing.
      *
-     * @see ServiceRegistry#deregisterServiceProvider(Object provider)
+     * @sff SfrvidfRfgistry#dfrfgistfrSfrvidfProvidfr(Objfdt providfr)
      */
-    public void onDeregistration(ServiceRegistry registry,
-                                 Class<?> category) {}
+    publid void onDfrfgistrbtion(SfrvidfRfgistry rfgistry,
+                                 Clbss<?> dbtfgory) {}
 
     /**
-     * Returns the name of the vendor responsible for creating this
-     * service provider and its associated implementation.  Because
-     * the vendor name may be used to select a service provider,
-     * it is not localized.
+     * Rfturns tif nbmf of tif vfndor rfsponsiblf for drfbting tiis
+     * sfrvidf providfr bnd its bssodibtfd implfmfntbtion.  Bfdbusf
+     * tif vfndor nbmf mby bf usfd to sflfdt b sfrvidf providfr,
+     * it is not lodblizfd.
      *
-     * <p> The default implementation returns the value of the
-     * <code>vendorName</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>vfndorNbmf</dodf> instbndf vbribblf.
      *
-     * @return a non-<code>null</code> <code>String</code> containing
-     * the name of the vendor.
+     * @rfturn b non-<dodf>null</dodf> <dodf>String</dodf> dontbining
+     * tif nbmf of tif vfndor.
      */
-    public String getVendorName() {
-        return vendorName;
+    publid String gftVfndorNbmf() {
+        rfturn vfndorNbmf;
     }
 
     /**
-     * Returns a string describing the version
-     * number of this service provider and its associated
-     * implementation.  Because the version may be used by transcoders
-     * to identify the service providers they understand, this method
-     * is not localized.
+     * Rfturns b string dfsdribing tif vfrsion
+     * numbfr of tiis sfrvidf providfr bnd its bssodibtfd
+     * implfmfntbtion.  Bfdbusf tif vfrsion mby bf usfd by trbnsdodfrs
+     * to idfntify tif sfrvidf providfrs tify undfrstbnd, tiis mftiod
+     * is not lodblizfd.
      *
-     * <p> The default implementation returns the value of the
-     * <code>version</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>vfrsion</dodf> instbndf vbribblf.
      *
-     * @return a non-<code>null</code> <code>String</code> containing
-     * the version of this service provider.
+     * @rfturn b non-<dodf>null</dodf> <dodf>String</dodf> dontbining
+     * tif vfrsion of tiis sfrvidf providfr.
      */
-    public String getVersion() {
-        return version;
+    publid String gftVfrsion() {
+        rfturn vfrsion;
     }
 
     /**
-     * Returns a brief, human-readable description of this service
-     * provider and its associated implementation.  The resulting
-     * string should be localized for the supplied
-     * <code>Locale</code>, if possible.
+     * Rfturns b briff, iumbn-rfbdbblf dfsdription of tiis sfrvidf
+     * providfr bnd its bssodibtfd implfmfntbtion.  Tif rfsulting
+     * string siould bf lodblizfd for tif supplifd
+     * <dodf>Lodblf</dodf>, if possiblf.
      *
-     * @param locale a <code>Locale</code> for which the return value
-     * should be localized.
+     * @pbrbm lodblf b <dodf>Lodblf</dodf> for wiidi tif rfturn vbluf
+     * siould bf lodblizfd.
      *
-     * @return a <code>String</code> containing a description of this
-     * service provider.
+     * @rfturn b <dodf>String</dodf> dontbining b dfsdription of tiis
+     * sfrvidf providfr.
      */
-    public abstract String getDescription(Locale locale);
+    publid bbstrbdt String gftDfsdription(Lodblf lodblf);
 }

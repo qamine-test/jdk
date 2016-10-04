@@ -1,0 +1,358 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf "gtk2_intfrfbdf.h"
+#indludf "dom_sun_jbvb_swing_plbf_gtk_GTKEnginf.h"
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_brrow
+ * Signbturf: (IIILjbvb/lbng/String;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1brrow(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jint brrow_typf)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_brrow(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+            x, y, w, h, brrow_typf, TRUE);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_box
+ * Signbturf: (IIILjbvb/lbng/String;IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1box(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h,
+        jint synth_stbtf, jint dir)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_box(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+                   x, y, w, h, synth_stbtf, dir);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_box_gbp
+ * Signbturf: (IIILjbvb/lbng/String;IIIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1box_1gbp(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h,
+        jint gbp_sidf, jint gbp_x, jint gbp_w)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_box_gbp(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+            x, y, w, h, gbp_sidf, gbp_x, gbp_w);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_dhfdk
+ * Signbturf: (IILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1dhfdk(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint synth_stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_dhfdk(widgft_typf, synth_stbtf, gftStrFor(fnv, dftbil),
+                     x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_fxpbndfr
+ * Signbturf: (IILjbvb/lbng/String;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1fxpbndfr(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jint fxpbndfr_stylf)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_fxpbndfr(widgft_typf, stbtf, gftStrFor(fnv, dftbil),
+            x, y, w, h, fxpbndfr_stylf);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_fxtfnsion
+ * Signbturf: (IIILjbvb/lbng/String;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1fxtfnsion(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jint plbdfmfnt)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_fxtfnsion(widgft_typf, stbtf, shbdow_typf,
+            gftStrFor(fnv, dftbil), x, y, w, h, plbdfmfnt);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_flbt_box
+ * Signbturf: (IIILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1flbt_1box(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jboolfbn hbs_fodus)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_flbt_box(widgft_typf, stbtf, shbdow_typf,
+            gftStrFor(fnv, dftbil), x, y, w, h, hbs_fodus);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_fodus
+ * Signbturf: (IILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1fodus(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_fodus(widgft_typf, stbtf, gftStrFor(fnv, dftbil),
+            x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_hbndlf
+ * Signbturf: (IIILjbvb/lbng/String;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1hbndlf(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jint orifntbtion)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_hbndlf(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+            x, y, w, h, orifntbtion);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_hlinf
+ * Signbturf: (IILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1hlinf(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_hlinf(widgft_typf, stbtf, gftStrFor(fnv, dftbil),
+            x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_option
+ * Signbturf: (IILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1option(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint synth_stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_option(widgft_typf, synth_stbtf, gftStrFor(fnv, dftbil),
+                      x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_shbdow
+ * Signbturf: (IIILjbvb/lbng/String;IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1shbdow(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h,
+        jint synth_stbtf, jint dir)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_shbdow(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+                      x, y, w, h, synth_stbtf, dir);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_slidfr
+ * Signbturf: (IIILjbvb/lbng/String;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1slidfr(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jint shbdow_typf, jstring dftbil,
+        jint x, jint y, jint w, jint h, jint orifntbtion)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_slidfr(widgft_typf, stbtf, shbdow_typf, gftStrFor(fnv, dftbil),
+            x, y, w, h, orifntbtion);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_vlinf
+ * Signbturf: (IILjbvb/lbng/String;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1vlinf(
+        JNIEnv *fnv, jobjfdt this,
+        jint widgft_typf, jint stbtf, jstring dftbil,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_pbint_vlinf(widgft_typf, stbtf, gftStrFor(fnv, dftbil),
+            x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_pbint_bbdkground
+ * Signbturf: (IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1pbint_1bbdkground(
+        JNIEnv *fnv, jobjfdt this, jint widgft_typf, jint stbtf,
+        jint x, jint y, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk_pbint_bbdkground(widgft_typf, stbtf, x, y, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivfStbrtPbinting
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivfStbrtPbinting(
+        JNIEnv *fnv, jobjfdt this, jint w, jint h)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_init_pbinting(fnv, w, h);
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivfFinishPbinting
+ * Signbturf: ([III)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivfFinishPbinting(
+        JNIEnv *fnv, jobjfdt this, jintArrby dfst, jint width, jint hfight)
+{
+    jint trbnspbrfndy;
+    gint *bufffr = (gint*) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, dfst, 0);
+    fp_gdk_thrfbds_fntfr();
+    trbnspbrfndy = gtk2_dopy_imbgf(bufffr, width, hfight);
+    fp_gdk_thrfbds_lfbvf();
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dfst, bufffr, 0);
+    rfturn trbnspbrfndy;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_switdh_thfmf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1switdh_1thfmf(
+        JNIEnv *fnv, jobjfdt this)
+{
+    // Notf thbt flush_gtk_fvfnt_loop tbkfs dbrf of lodks (7053002)
+    flush_gtk_fvfnt_loop();
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivf_gft_gtk_sftting
+ * Signbturf: (I)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivf_1gft_1gtk_1sftting(
+        JNIEnv *fnv, jobjfdt this, jint propfrty)
+{
+    jobjfdt obj;
+    fp_gdk_thrfbds_fntfr();
+    obj = gtk2_gft_sftting(fnv, propfrty);
+    fp_gdk_thrfbds_lfbvf();
+    rfturn obj;
+}
+
+/*
+ * Clbss:     dom_sun_jbvb_swing_plbf_gtk_GTKEnginf
+ * Mfthod:    nbtivfSftRbngfVbluf
+ * Signbturf: (IDDDD)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_dom_sun_jbvb_swing_plbf_gtk_GTKEnginf_nbtivfSftRbngfVbluf(
+        JNIEnv *fnv, jobjfdt this, jint widgft_typf,
+        jdoublf vbluf, jdoublf min, jdoublf mbx, jdoublf visiblf)
+{
+    fp_gdk_thrfbds_fntfr();
+    gtk2_sft_rbngf_vbluf(widgft_typf, vbluf, min, mbx, visiblf);
+    fp_gdk_thrfbds_lfbvf();
+}

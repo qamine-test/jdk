@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf    <jni.h>
+
+#indludf    "JPLISAgfnt.h"
+#indludf    "JPLISAssfrt.h"
+#indludf    "Utilitifs.h"
+#indludf    "JbvbExdfptions.h"
+#indludf    "FilfSystfmSupport.h"   /* For uintptr_t */
+#indludf    "sun_instrumfnt_InstrumfntbtionImpl.h"
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+/**
+ * This modulf dontbins thf nbtivf mfthod implfmfntbtions to bbdk thf
+ * sun.instrumfnt.InstrumfntbtionImpl dlbss.
+ * Thf bridgf bftwffn Jbvb bnd nbtivf dodf is built by storing b nbtivf
+ * pointfr to thf JPLISAgfnt dbtb strudturf in b 64 bit sdblbr fifld
+ * in thf InstrumfntbtionImpl instbndf whidh is pbssfd to fbdh mfthod.
+ */
+
+
+/*
+ * Nbtivf mfthods
+ */
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    isModifibblfClbss0
+ * Signbturf: (Ljbvb/lbng/Clbss;)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_isModifibblfClbss0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jdlbss dlbzz) {
+    rfturn isModifibblfClbss(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbzz);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    isRftrbnsformClbssfsSupportfd0
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_isRftrbnsformClbssfsSupportfd0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt) {
+    rfturn isRftrbnsformClbssfsSupportfd(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    sftHbsRftrbnsformbblfTrbnsformfrs
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_sftHbsRftrbnsformbblfTrbnsformfrs
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jboolfbn hbs) {
+    sftHbsRftrbnsformbblfTrbnsformfrs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, hbs);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    rftrbnsformClbssfs0
+ * Signbturf: ([Ljbvb/lbng/Clbss;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_instrumfnt_InstrumfntbtionImpl_rftrbnsformClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jobjfdtArrby dlbssfs) {
+    rftrbnsformClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssfs);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    rfdffinfClbssfs0
+ * Signbturf: ([Ljbvb/lbng/instrumfnt/ClbssDffinition;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_rfdffinfClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jobjfdtArrby dlbssDffinitions) {
+    rfdffinfClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssDffinitions);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    gftAllLobdfdClbssfs0
+ * Signbturf: ()[Ljbvb/lbng/Clbss;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftAllLobdfdClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt) {
+    rfturn gftAllLobdfdClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    gftInitibtfdClbssfs0
+ * Signbturf: (Ljbvb/lbng/ClbssLobdfr;)[Ljbvb/lbng/Clbss;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftInitibtfdClbssfs0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jobjfdt dlbssLobdfr) {
+    rfturn gftInitibtfdClbssfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, dlbssLobdfr);
+}
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    gftObjfdtSizf0
+ * Signbturf: (Ljbvb/lbng/Objfdt;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_gftObjfdtSizf0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jobjfdt objfdtToSizf) {
+    rfturn gftObjfdtSizf(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, objfdtToSizf);
+}
+
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    bppfndToClbssLobdfrSfbrdh0
+ * Signbturf: (Ljbvb/lbng/String;Z)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_bppfndToClbssLobdfrSfbrdh0
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jstring jbrFilf, jboolfbn isBootLobdfr) {
+    bppfndToClbssLobdfrSfbrdh(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, jbrFilf, isBootLobdfr);
+}
+
+
+/*
+ * Clbss:     sun_instrumfnt_InstrumfntbtionImpl
+ * Mfthod:    sftNbtivfMfthodPrffixfs
+ * Signbturf: ([Ljbvb/lbng/String;Z)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_instrumfnt_InstrumfntbtionImpl_sftNbtivfMfthodPrffixfs
+  (JNIEnv * jnifnv, jobjfdt implThis, jlong bgfnt, jobjfdtArrby prffixArrby, jboolfbn isRftrbnsformbblf) {
+    sftNbtivfMfthodPrffixfs(jnifnv, (JPLISAgfnt*)(intptr_t)bgfnt, prffixArrby, isRftrbnsformbblf);
+}

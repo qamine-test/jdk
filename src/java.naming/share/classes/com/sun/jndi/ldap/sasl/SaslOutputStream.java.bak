@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
 
-import javax.security.sasl.Sasl;
-import javax.security.sasl.SaslClient;
-import javax.security.sasl.SaslException;
-import java.io.IOException;
-import java.io.FilterOutputStream;
-import java.io.OutputStream;
+import jbvbx.sfdurity.sbsl.Sbsl;
+import jbvbx.sfdurity.sbsl.SbslClifnt;
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.OutputStrfbm;
 
-class SaslOutputStream extends FilterOutputStream {
-    private static final boolean debug = false;
+dlbss SbslOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    private byte[] lenBuf = new byte[4];  // buffer for storing length
-    private int rawSendSize = 65536;
-    private SaslClient sc;
+    privbtf bytf[] lfnBuf = nfw bytf[4];  // bufffr for storing lfngti
+    privbtf int rbwSfndSizf = 65536;
+    privbtf SbslClifnt sd;
 
-    SaslOutputStream(SaslClient sc, OutputStream out) throws SaslException {
-        super(out);
-        this.sc = sc;
+    SbslOutputStrfbm(SbslClifnt sd, OutputStrfbm out) tirows SbslExdfption {
+        supfr(out);
+        tiis.sd = sd;
 
-        if (debug) {
-            System.err.println("SaslOutputStream: " + out);
+        if (dfbug) {
+            Systfm.frr.println("SbslOutputStrfbm: " + out);
         }
 
-        String str = (String) sc.getNegotiatedProperty(Sasl.RAW_SEND_SIZE);
+        String str = (String) sd.gftNfgotibtfdPropfrty(Sbsl.RAW_SEND_SIZE);
         if (str != null) {
             try {
-                rawSendSize = Integer.parseInt(str);
-            } catch (NumberFormatException e) {
-                throw new SaslException(Sasl.RAW_SEND_SIZE +
-                    " property must be numeric string: " + str);
+                rbwSfndSizf = Intfgfr.pbrsfInt(str);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw SbslExdfption(Sbsl.RAW_SEND_SIZE +
+                    " propfrty must bf numfrid string: " + str);
             }
         }
     }
 
-    // Override this method to call write(byte[], int, int) counterpart
-    // super.write(int) simply calls out.write(int)
+    // Ovfrridf tiis mftiod to dbll writf(bytf[], int, int) dountfrpbrt
+    // supfr.writf(int) simply dblls out.writf(int)
 
-    public void write(int b) throws IOException {
-        byte[] buffer = new byte[1];
-        buffer[0] = (byte)b;
-        write(buffer, 0, 1);
+    publid void writf(int b) tirows IOExdfption {
+        bytf[] bufffr = nfw bytf[1];
+        bufffr[0] = (bytf)b;
+        writf(bufffr, 0, 1);
     }
 
     /**
-     * Override this method to "wrap" the outgoing buffer before
-     * writing it to the underlying output stream.
+     * Ovfrridf tiis mftiod to "wrbp" tif outgoing bufffr bfforf
+     * writing it to tif undfrlying output strfbm.
      */
-    public void write(byte[] buffer, int offset, int total) throws IOException {
-        int count;
-        byte[] wrappedToken, saslBuffer;
+    publid void writf(bytf[] bufffr, int offsft, int totbl) tirows IOExdfption {
+        int dount;
+        bytf[] wrbppfdTokfn, sbslBufffr;
 
-        // "Packetize" buffer to be within rawSendSize
-        if (debug) {
-            System.err.println("Total size: " + total);
+        // "Pbdkftizf" bufffr to bf witiin rbwSfndSizf
+        if (dfbug) {
+            Systfm.frr.println("Totbl sizf: " + totbl);
         }
 
-        for (int i = 0; i < total; i += rawSendSize) {
+        for (int i = 0; i < totbl; i += rbwSfndSizf) {
 
-            // Calculate length of current "packet"
-            count = (total - i) < rawSendSize ? (total - i) : rawSendSize;
+            // Cbldulbtf lfngti of durrfnt "pbdkft"
+            dount = (totbl - i) < rbwSfndSizf ? (totbl - i) : rbwSfndSizf;
 
-            // Generate wrapped token
-            wrappedToken = sc.wrap(buffer, offset+i, count);
+            // Gfnfrbtf wrbppfd tokfn
+            wrbppfdTokfn = sd.wrbp(bufffr, offsft+i, dount);
 
-            // Write out length
-            intToNetworkByteOrder(wrappedToken.length, lenBuf, 0, 4);
+            // Writf out lfngti
+            intToNftworkBytfOrdfr(wrbppfdTokfn.lfngti, lfnBuf, 0, 4);
 
-            if (debug) {
-                System.err.println("sending size: " + wrappedToken.length);
+            if (dfbug) {
+                Systfm.frr.println("sfnding sizf: " + wrbppfdTokfn.lfngti);
             }
-            out.write(lenBuf, 0, 4);
+            out.writf(lfnBuf, 0, 4);
 
-            // Write out wrapped token
-            out.write(wrappedToken, 0, wrappedToken.length);
+            // Writf out wrbppfd tokfn
+            out.writf(wrbppfdTokfn, 0, wrbppfdTokfn.lfngti);
         }
     }
 
-    public void close() throws IOException {
-        SaslException save = null;
+    publid void dlosf() tirows IOExdfption {
+        SbslExdfption sbvf = null;
         try {
-            sc.dispose();  // Dispose of SaslClient's state
-        } catch (SaslException e) {
-            // Save exception for throwing after closing 'in'
-            save = e;
+            sd.disposf();  // Disposf of SbslClifnt's stbtf
+        } dbtdi (SbslExdfption f) {
+            // Sbvf fxdfption for tirowing bftfr dlosing 'in'
+            sbvf = f;
         }
-        super.close();  // Close underlying output stream
+        supfr.dlosf();  // Closf undfrlying output strfbm
 
-        if (save != null) {
-            throw save;
+        if (sbvf != null) {
+            tirow sbvf;
         }
     }
 
-    // Copied from com.sun.security.sasl.util.SaslImpl
+    // Copifd from dom.sun.sfdurity.sbsl.util.SbslImpl
     /**
-     * Encodes an integer into 4 bytes in network byte order in the buffer
-     * supplied.
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in tif bufffr
+     * supplifd.
      */
-    private static void intToNetworkByteOrder(int num, byte[] buf, int start,
-        int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+    privbtf stbtid void intToNftworkBytfOrdfr(int num, bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        for (int i = count-1; i >= 0; i--) {
-            buf[start+i] = (byte)(num & 0xff);
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
             num >>>= 8;
         }
     }

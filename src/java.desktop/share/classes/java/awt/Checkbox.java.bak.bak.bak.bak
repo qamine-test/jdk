@@ -1,0 +1,869 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.ChfdkboxPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
+
+
+/**
+ * A dhfdk box is b grbphidbl domponfnt thbt dbn bf in fithfr bn
+ * "on" (<dodf>truf</dodf>) or "off" (<dodf>fblsf</dodf>) stbtf.
+ * Clidking on b dhfdk box dhbngfs its stbtf from
+ * "on" to "off," or from "off" to "on."
+ * <p>
+ * Thf following dodf fxbmplf drfbtfs b sft of dhfdk boxfs in
+ * b grid lbyout:
+ *
+ * <hr><blodkquotf><prf>
+ * sftLbyout(nfw GridLbyout(3, 1));
+ * bdd(nfw Chfdkbox("onf", null, truf));
+ * bdd(nfw Chfdkbox("two"));
+ * bdd(nfw Chfdkbox("thrff"));
+ * </prf></blodkquotf><hr>
+ * <p>
+ * This imbgf dfpidts thf dhfdk boxfs bnd grid lbyout
+ * drfbtfd by this dodf fxbmplf:
+ * <p>
+ * <img srd="dod-filfs/Chfdkbox-1.gif" blt="Thf following dontfxt dfsdribfs thf grbphid."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Thf button lbbflfd <dodf>onf</dodf> is in thf "on" stbtf, bnd thf
+ * othfr two brf in thf "off" stbtf. In this fxbmplf, whidh usfs thf
+ * <dodf>GridLbyout</dodf> dlbss, thf stbtfs of thf thrff dhfdk
+ * boxfs brf sft indfpfndfntly.
+ * <p>
+ * Altfrnbtivfly, sfvfrbl dhfdk boxfs dbn bf groupfd togfthfr undfr
+ * thf dontrol of b singlf objfdt, using thf
+ * <dodf>ChfdkboxGroup</dodf> dlbss.
+ * In b dhfdk box group, bt most onf button dbn bf in thf "on"
+ * stbtf bt bny givfn timf. Clidking on b dhfdk box to turn it on
+ * fordfs bny othfr dhfdk box in thf sbmf group thbt is on
+ * into thf "off" stbtf.
+ *
+ * @buthor      Sbmi Shbio
+ * @sff         jbvb.bwt.GridLbyout
+ * @sff         jbvb.bwt.ChfdkboxGroup
+ * @sindf       1.0
+ */
+publid dlbss Chfdkbox fxtfnds Componfnt implfmfnts ItfmSflfdtbblf, Addfssiblf {
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Thf lbbfl of thf Chfdkbox.
+     * This fifld dbn bf null.
+     * @sfribl
+     * @sff #gftLbbfl()
+     * @sff #sftLbbfl(String)
+     */
+    String lbbfl;
+
+    /**
+     * Thf stbtf of thf <dodf>Chfdkbox</dodf>.
+     * @sfribl
+     * @sff #gftStbtf()
+     * @sff #sftStbtf(boolfbn)
+     */
+    boolfbn stbtf;
+
+    /**
+     * Thf dhfdk box group.
+         * This fifld dbn bf null indidbting thbt thf dhfdkbox
+         * is not b group dhfdkbox.
+         * @sfribl
+     * @sff #gftChfdkboxGroup()
+     * @sff #sftChfdkboxGroup(ChfdkboxGroup)
+     */
+    ChfdkboxGroup group;
+
+    trbnsifnt ItfmListfnfr itfmListfnfr;
+
+    privbtf stbtid finbl String bbsf = "dhfdkbox";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7270714317450821763L;
+
+    /**
+     * Hflpfr fundtion for sftStbtf bnd ChfdkboxGroup.sftSflfdtfdChfdkbox
+     * Should rfmbin pbdkbgf-privbtf.
+     */
+    void sftStbtfIntfrnbl(boolfbn stbtf) {
+        this.stbtf = stbtf;
+        ChfdkboxPffr pffr = (ChfdkboxPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftStbtf(stbtf);
+        }
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with bn fmpty string for its lbbfl.
+     * Thf stbtf of this dhfdk box is sft to "off," bnd it is not
+     * pbrt of bny dhfdk box group.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Chfdkbox() throws HfbdlfssExdfption {
+        this("", fblsf, null);
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with thf spfdififd lbbfl.  Thf stbtf
+     * of this dhfdk box is sft to "off," bnd it is not pbrt of
+     * bny dhfdk box group.
+     *
+     * @pbrbm     lbbfl   b string lbbfl for this dhfdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @fxdfption HfbdlfssExdfption if
+     *      <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *      rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Chfdkbox(String lbbfl) throws HfbdlfssExdfption {
+        this(lbbfl, fblsf, null);
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with thf spfdififd lbbfl
+     * bnd sfts thf spfdififd stbtf.
+     * This dhfdk box is not pbrt of bny dhfdk box group.
+     *
+     * @pbrbm     lbbfl   b string lbbfl for this dhfdk box,
+     *                        or <dodf>null</dodf> for no lbbfl
+     * @pbrbm     stbtf    thf initibl stbtf of this dhfdk box
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *     rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Chfdkbox(String lbbfl, boolfbn stbtf) throws HfbdlfssExdfption {
+        this(lbbfl, stbtf, null);
+    }
+
+    /**
+     * Construdts b Chfdkbox with thf spfdififd lbbfl, sft to thf
+     * spfdififd stbtf, bnd in thf spfdififd dhfdk box group.
+     *
+     * @pbrbm     lbbfl   b string lbbfl for this dhfdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @pbrbm     stbtf   thf initibl stbtf of this dhfdk box.
+     * @pbrbm     group   b dhfdk box group for this dhfdk box,
+     *                           or <dodf>null</dodf> for no group.
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *     rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.1
+     */
+    publid Chfdkbox(String lbbfl, boolfbn stbtf, ChfdkboxGroup group)
+        throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        this.lbbfl = lbbfl;
+        this.stbtf = stbtf;
+        this.group = group;
+        if (stbtf && (group != null)) {
+            group.sftSflfdtfdChfdkbox(this);
+        }
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with thf spfdififd lbbfl, in thf spfdififd
+     * dhfdk box group, bnd sft to thf spfdififd stbtf.
+     *
+     * @pbrbm     lbbfl   b string lbbfl for this dhfdk box,
+     *                        or <dodf>null</dodf> for no lbbfl.
+     * @pbrbm     group   b dhfdk box group for this dhfdk box,
+     *                           or <dodf>null</dodf> for no group.
+     * @pbrbm     stbtf   thf initibl stbtf of this dhfdk box.
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *    rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.1
+     */
+    publid Chfdkbox(String lbbfl, ChfdkboxGroup group, boolfbn stbtf)
+        throws HfbdlfssExdfption {
+        this(lbbfl, stbtf, group);
+    }
+
+    /**
+     * Construdts b nbmf for this domponfnt.  Cbllfd by
+     * <dodf>gftNbmf</dodf> whfn thf nbmf is <dodf>null</dodf>.
+     *
+     * @rfturn b nbmf for this domponfnt
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (Chfdkbox.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf pffr of thf Chfdkbox. Thf pffr bllows you to dhbngf thf
+     * look of thf Chfdkbox without dhbnging its fundtionblity.
+     *
+     * @sff     jbvb.bwt.Toolkit#drfbtfChfdkbox(jbvb.bwt.Chfdkbox)
+     * @sff     jbvb.bwt.Componfnt#gftToolkit()
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfChfdkbox(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Gfts thf lbbfl of this dhfdk box.
+     *
+     * @rfturn   thf lbbfl of this dhfdk box, or <dodf>null</dodf>
+     *                  if this dhfdk box hbs no lbbfl.
+     * @sff      #sftLbbfl(String)
+     */
+    publid String gftLbbfl() {
+        rfturn lbbfl;
+    }
+
+    /**
+     * Sfts this dhfdk box's lbbfl to bf thf string brgumfnt.
+     *
+     * @pbrbm    lbbfl   b string to sft bs thf nfw lbbfl, or
+     *                        <dodf>null</dodf> for no lbbfl.
+     * @sff      #gftLbbfl
+     */
+    publid void sftLbbfl(String lbbfl) {
+        boolfbn tfstvblid = fblsf;
+
+        syndhronizfd (this) {
+            if (lbbfl != this.lbbfl && (this.lbbfl == null ||
+                                        !this.lbbfl.fqubls(lbbfl))) {
+                this.lbbfl = lbbfl;
+                ChfdkboxPffr pffr = (ChfdkboxPffr)this.pffr;
+                if (pffr != null) {
+                    pffr.sftLbbfl(lbbfl);
+                }
+                tfstvblid = truf;
+            }
+        }
+
+        // This dould dhbngf thf prfffrrfd sizf of thf Componfnt.
+        if (tfstvblid) {
+            invblidbtfIfVblid();
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr this dhfdk box is in thf "on" or "off" stbtf.
+     * Thf boolfbn vbluf <dodf>truf</dodf> indidbtfs thf "on" stbtf,
+     * bnd <dodf>fblsf</dodf> indidbtfs thf "off" stbtf.
+     *
+     * @rfturn    thf stbtf of this dhfdk box, bs b boolfbn vbluf
+     * @sff       #sftStbtf
+     */
+    publid boolfbn gftStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Sfts thf stbtf of this dhfdk box to thf spfdififd stbtf.
+     * Thf boolfbn vbluf <dodf>truf</dodf> indidbtfs thf "on" stbtf,
+     * bnd <dodf>fblsf</dodf> indidbtfs thf "off" stbtf.
+     *
+     * <p>Notf thbt this mfthod should bf primbrily usfd to
+     * initiblizf thf stbtf of thf dhfdkbox.  Progrbmmbtidblly
+     * sftting thf stbtf of thf dhfdkbox will <i>not</i> triggfr
+     * bn <dodf>ItfmEvfnt</dodf>.  Thf only wby to triggfr bn
+     * <dodf>ItfmEvfnt</dodf> is by usfr intfrbdtion.
+     *
+     * @pbrbm     stbtf   thf boolfbn stbtf of thf dhfdk box
+     * @sff       #gftStbtf
+     */
+    publid void sftStbtf(boolfbn stbtf) {
+        /* Cbnnot hold dhfdk box lodk whfn dblling group.sftSflfdtfdChfdkbox. */
+        ChfdkboxGroup group = this.group;
+        if (group != null) {
+            if (stbtf) {
+                group.sftSflfdtfdChfdkbox(this);
+            } flsf if (group.gftSflfdtfdChfdkbox() == this) {
+                stbtf = truf;
+            }
+        }
+        sftStbtfIntfrnbl(stbtf);
+    }
+
+    /**
+     * Rfturns bn brrby (lfngth 1) dontbining thf dhfdkbox
+     * lbbfl or null if thf dhfdkbox is not sflfdtfd.
+     * @sff ItfmSflfdtbblf
+     */
+    publid Objfdt[] gftSflfdtfdObjfdts() {
+        if (stbtf) {
+            Objfdt[] itfms = nfw Objfdt[1];
+            itfms[0] = lbbfl;
+            rfturn itfms;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Dftfrminfs this dhfdk box's group.
+     * @rfturn     this dhfdk box's group, or <dodf>null</dodf>
+     *               if thf dhfdk box is not pbrt of b dhfdk box group.
+     * @sff        #sftChfdkboxGroup(ChfdkboxGroup)
+     */
+    publid ChfdkboxGroup gftChfdkboxGroup() {
+        rfturn group;
+    }
+
+    /**
+     * Sfts this dhfdk box's group to thf spfdififd dhfdk box group.
+     * If this dhfdk box is blrfbdy in b difffrfnt dhfdk box group,
+     * it is first tbkfn out of thbt group.
+     * <p>
+     * If thf stbtf of this dhfdk box is <dodf>truf</dodf> bnd thf nfw
+     * group blrfbdy hbs b dhfdk box sflfdtfd, this dhfdk box's stbtf
+     * is dhbngfd to <dodf>fblsf</dodf>.  If thf stbtf of this dhfdk
+     * box is <dodf>truf</dodf> bnd thf nfw group hbs no dhfdk box
+     * sflfdtfd, this dhfdk box bfdomfs thf sflfdtfd dhfdkbox for
+     * thf nfw group bnd its stbtf is <dodf>truf</dodf>.
+     *
+     * @pbrbm     g   thf nfw dhfdk box group, or <dodf>null</dodf>
+     *                to rfmovf this dhfdk box from bny dhfdk box group
+     * @sff       #gftChfdkboxGroup
+     */
+    publid void sftChfdkboxGroup(ChfdkboxGroup g) {
+        ChfdkboxGroup oldGroup;
+        boolfbn oldStbtf;
+
+        /* Do nothing if this dhfdk box hbs blrfbdy bflongfd
+         * to thf dhfdk box group g.
+         */
+        if (this.group == g) {
+            rfturn;
+        }
+
+        syndhronizfd (this) {
+            oldGroup = this.group;
+            oldStbtf = gftStbtf();
+
+            this.group = g;
+            ChfdkboxPffr pffr = (ChfdkboxPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftChfdkboxGroup(g);
+            }
+            if (this.group != null && gftStbtf()) {
+                if (this.group.gftSflfdtfdChfdkbox() != null) {
+                    sftStbtf(fblsf);
+                } flsf {
+                    this.group.sftSflfdtfdChfdkbox(this);
+                }
+            }
+        }
+
+        /* Lodking dhfdk box bflow dould dbusf dfbdlodk with
+         * ChfdkboxGroup's sftSflfdtfdChfdkbox mfthod.
+         *
+         * Fix for 4726853 by kdm@spbrd.spb.su
+         * Hfrf wf should dhfdk if this dhfdk box wbs sflfdtfd
+         * in thf prfvious group bnd sft sflfdtfd dhfdk box to
+         * null for thbt group if so.
+         */
+        if (oldGroup != null && oldStbtf) {
+            oldGroup.sftSflfdtfdChfdkbox(null);
+        }
+    }
+
+    /**
+     * Adds thf spfdififd itfm listfnfr to rfdfivf itfm fvfnts from
+     * this dhfdk box.  Itfm fvfnts brf sfnt to listfnfrs in rfsponsf
+     * to usfr input, but not in rfsponsf to dblls to sftStbtf().
+     * If l is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm         l    thf itfm listfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           #sftStbtf
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
+     */
+    publid syndhronizfd void bddItfmListfnfr(ItfmListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        itfmListfnfr = AWTEvfntMultidbstfr.bdd(itfmListfnfr, l);
+        nfwEvfntsOnly = truf;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd itfm listfnfr so thbt thf itfm listfnfr
+     * no longfr rfdfivfs itfm fvfnts from this dhfdk box.
+     * If l is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm         l    thf itfm listfnfr
+     * @sff           #bddItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
+     */
+    publid syndhronizfd void rfmovfItfmListfnfr(ItfmListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        itfmListfnfr = AWTEvfntMultidbstfr.rfmovf(itfmListfnfr, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf itfm listfnfrs
+     * rfgistfrfd on this dhfdkbox.
+     *
+     * @rfturn bll of this dhfdkbox's <dodf>ItfmListfnfr</dodf>s
+     *         or bn fmpty brrby if no itfm
+     *         listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff           #bddItfmListfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf 1.4
+     */
+    publid syndhronizfd ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn gftListfnfrs(ItfmListfnfr.dlbss);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this <dodf>Chfdkbox</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl, sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Chfdkbox</dodf> <dodf>d</dodf>
+     * for its itfm listfnfrs with thf following dodf:
+     *
+     * <prf>ItfmListfnfr[] ils = (ItfmListfnfr[])(d.gftListfnfrs(ItfmListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this dhfdkbox,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftItfmListfnfrs
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == ItfmListfnfr.dlbss) {
+            l = itfmListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
+        }
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
+    }
+
+    // REMIND: rfmovf whfn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == ItfmEvfnt.ITEM_STATE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.ITEM_EVENT_MASK) != 0 ||
+                itfmListfnfr != null) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        rfturn supfr.fvfntEnbblfd(f);
+    }
+
+    /**
+     * Prodfssfs fvfnts on this dhfdk box.
+     * If thf fvfnt is bn instbndf of <dodf>ItfmEvfnt</dodf>,
+     * this mfthod invokfs thf <dodf>prodfssItfmEvfnt</dodf> mfthod.
+     * Othfrwisf, it dblls its supfrdlbss's <dodf>prodfssEvfnt</dodf> mfthod.
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm         f thf fvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           #prodfssItfmEvfnt
+     * @sindf         1.1
+     */
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof ItfmEvfnt) {
+            prodfssItfmEvfnt((ItfmEvfnt)f);
+            rfturn;
+        }
+        supfr.prodfssEvfnt(f);
+    }
+
+    /**
+     * Prodfssfs itfm fvfnts oddurring on this dhfdk box by
+     * dispbtdhing thfm to bny rfgistfrfd
+     * <dodf>ItfmListfnfr</dodf> objfdts.
+     * <p>
+     * This mfthod is not dbllfd unlfss itfm fvfnts brf
+     * fnbblfd for this domponfnt. Itfm fvfnts brf fnbblfd
+     * whfn onf of thf following oddurs:
+     * <ul>
+     * <li>An <dodf>ItfmListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddItfmListfnfr</dodf>.
+     * <li>Itfm fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
+     * </ul>
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm       f thf itfm fvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sff         #bddItfmListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
+     */
+    protfdtfd void prodfssItfmEvfnt(ItfmEvfnt f) {
+        ItfmListfnfr listfnfr = itfmListfnfr;
+        if (listfnfr != null) {
+            listfnfr.itfmStbtfChbngfd(f);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>Chfdkbox</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn    thf pbrbmftfr string of this dhfdk box
+     */
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        String lbbfl = this.lbbfl;
+        if (lbbfl != null) {
+            str += ",lbbfl=" + lbbfl;
+        }
+        rfturn str + ",stbtf=" + stbtf;
+    }
+
+
+    /* Sfriblizbtion support.
+     */
+
+    /*
+     * Sfriblizfd dbtb vfrsion
+     * @sfribl
+     */
+    privbtf int dhfdkboxSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>ItfmListfnfrs</dodf>
+     * bs optionbl dbtb.  Thf non-sfriblizbblf
+     * <dodf>ItfmListfnfrs</dodf> brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf thfm.
+     *
+     * @pbrbm s thf <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; thf pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; thf <dodf>String</dodf> indidbtfs
+     *   thf typf of objfdt bnd is onf of thf following:
+     *   <dodf>itfmListfnfrK</dodf> indidbting bn
+     *     <dodf>ItfmListfnfr</dodf> objfdt
+     *
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#itfmListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      throws jbvb.io.IOExdfption
+    {
+      s.dffbultWritfObjfdt();
+
+      AWTEvfntMultidbstfr.sbvf(s, itfmListfnfrK, itfmListfnfr);
+      s.writfObjfdt(null);
+    }
+
+    /**
+     * Rfbds thf <dodf>ObjfdtInputStrfbm</dodf> bnd if it
+     * isn't <dodf>null</dodf> bdds b listfnfr to rfdfivf
+     * itfm fvfnts firfd by thf <dodf>Chfdkbox</dodf>.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
+     *
+     * @pbrbm s thf <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff #rfmovfItfmListfnfr(ItfmListfnfr)
+     * @sff #bddItfmListfnfr(ItfmListfnfr)
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+      GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
+
+      Objfdt kfyOrNull;
+      whilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
+
+        if (itfmListfnfrK == kfy)
+          bddItfmListfnfr((ItfmListfnfr)(s.rfbdObjfdt()));
+
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
+      }
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this Chfdkbox.
+     * For dhfdkboxfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfAWTChfdkbox.
+     * A nfw AddfssiblfAWTChfdkbox is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTChfdkbox thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this Chfdkbox
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTChfdkbox();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Chfdkbox</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to dhfdkbox usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTChfdkbox fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts ItfmListfnfr, AddfssiblfAdtion, AddfssiblfVbluf
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 7881579233144754107L;
+
+        /**
+         * Construdtor for {@dodf AddfssiblfAWTChfdkbox}
+         */
+        publid AddfssiblfAWTChfdkbox() {
+            supfr();
+            Chfdkbox.this.bddItfmListfnfr(this);
+        }
+
+        /**
+         * Firf bddfssiblf propfrty dhbngf fvfnts whfn thf stbtf of thf
+         * togglf button dhbngfs.
+         */
+        publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+            Chfdkbox db = (Chfdkbox) f.gftSourdf();
+            if (Chfdkbox.this.bddfssiblfContfxt != null) {
+                if (db.gftStbtf()) {
+                    Chfdkbox.this.bddfssiblfContfxt.firfPropfrtyChbngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            null, AddfssiblfStbtf.CHECKED);
+                } flsf {
+                    Chfdkbox.this.bddfssiblfContfxt.firfPropfrtyChbngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            AddfssiblfStbtf.CHECKED, null);
+                }
+            }
+        }
+
+        /**
+         * Gft thf AddfssiblfAdtion bssodibtfd with this objfdt.  In thf
+         * implfmfntbtion of thf Jbvb Addfssibility API for this dlbss,
+         * rfturn this objfdt, whidh is rfsponsiblf for implfmfnting thf
+         * AddfssiblfAdtion intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn this;
+        }
+
+        /**
+         * Gft thf AddfssiblfVbluf bssodibtfd with this objfdt.  In thf
+         * implfmfntbtion of thf Jbvb Addfssibility API for this dlbss,
+         * rfturn this objfdt, whidh is rfsponsiblf for implfmfnting thf
+         * AddfssiblfVbluf intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn this;
+        }
+
+        /**
+         * Rfturns thf numbfr of Adtions bvbilbblf in this objfdt.
+         * If thfrf is morf thbn onf, thf first onf is thf "dffbult"
+         * bdtion.
+         *
+         * @rfturn thf numbfr of Adtions in this objfdt
+         */
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 0;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Rfturn b dfsdription of thf spfdififd bdtion of thf objfdt.
+         *
+         * @pbrbm i zfro-bbsfd indfx of thf bdtions
+         */
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Pfrform thf spfdififd Adtion on thf objfdt
+         *
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if thf thf bdtion wbs pfrformfd; flsf fblsf.
+         */
+        publid boolfbn doAddfssiblfAdtion(int i) {
+            rfturn fblsf;    //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Gft thf vbluf of this objfdt bs b Numbfr.  If thf vbluf hbs not bffn
+         * sft, thf rfturn vbluf will bf null.
+         *
+         * @rfturn vbluf of thf objfdt
+         * @sff #sftCurrfntAddfssiblfVbluf
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Sft thf vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Truf if thf vbluf wbs sft; flsf Fblsf
+         * @sff #gftCurrfntAddfssiblfVbluf
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            rfturn fblsf;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Gft thf minimum vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Minimum vbluf of thf objfdt; null if this objfdt dofs not
+         * hbvf b minimum vbluf
+         * @sff #gftMbximumAddfssiblfVbluf
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Gft thf mbximum vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Mbximum vbluf of thf objfdt; null if this objfdt dofs not
+         * hbvf b mbximum vbluf
+         * @sff #gftMinimumAddfssiblfVbluf
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of
+         * thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.CHECK_BOX;
+        }
+
+        /**
+         * Gft thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining thf durrfnt stbtf
+         * of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftStbtf()) {
+                stbtfs.bdd(AddfssiblfStbtf.CHECKED);
+            }
+            rfturn stbtfs;
+        }
+
+
+    } // innfr dlbss AddfssiblfAWTChfdkbox
+
+}

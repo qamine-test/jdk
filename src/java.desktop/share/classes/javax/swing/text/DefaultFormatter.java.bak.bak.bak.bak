@@ -1,0 +1,767 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.swing.SwingUtilitifs2;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * <dodf>DffbultFormbttfr</dodf> formbts brbitrbry objfdts. Formbtting is donf
+ * by invoking thf <dodf>toString</dodf> mfthod. In ordfr to donvfrt thf
+ * vbluf bbdk to b String, your dlbss must providf b donstrudtor thbt
+ * tbkfs b String brgumfnt. If no singlf brgumfnt donstrudtor thbt tbkfs b
+ * String is found, thf rfturnfd vbluf will bf thf String pbssfd into
+ * <dodf>stringToVbluf</dodf>.
+ * <p>
+ * Instbndfs of <dodf>DffbultFormbttfr</dodf> dbn not bf usfd in multiplf
+ * instbndfs of <dodf>JFormbttfdTfxtFifld</dodf>. To obtbin b dopy of
+ * bn blrfbdy donfigurfd <dodf>DffbultFormbttfr</dodf>, usf thf
+ * <dodf>dlonf</dodf> mfthod.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.JFormbttfdTfxtFifld.AbstrbdtFormbttfr
+ *
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultFormbttfr fxtfnds JFormbttfdTfxtFifld.AbstrbdtFormbttfr
+                    implfmfnts Clonfbblf, Sfriblizbblf {
+    /** Indidbtfs if thf vbluf bfing fditfd must mbtdh thf mbsk. */
+    privbtf boolfbn bllowsInvblid;
+
+    /** If truf, fditing modf is in ovfrwritf (or strikfthough). */
+    privbtf boolfbn ovfrwritfModf;
+
+    /** If truf, bny timf b vblid fdit hbppfns dommitEdit is invokfd. */
+    privbtf boolfbn dommitOnEdit;
+
+    /** Clbss usfd to drfbtf nfw instbndfs. */
+    privbtf Clbss<?> vblufClbss;
+
+    /** NbvigbtionFiltfr thbt forwbrds dblls bbdk to DffbultFormbttfr. */
+    privbtf NbvigbtionFiltfr nbvigbtionFiltfr;
+
+    /** DodumfntFiltfr thbt forwbrds dblls bbdk to DffbultFormbttfr. */
+    privbtf DodumfntFiltfr dodumfntFiltfr;
+
+    /** Usfd during rfplbdf to trbdk thf rfgion to rfplbdf. */
+    trbnsifnt RfplbdfHoldfr rfplbdfHoldfr;
+
+
+    /**
+     * Crfbtfs b DffbultFormbttfr.
+     */
+    publid DffbultFormbttfr() {
+        ovfrwritfModf = truf;
+        bllowsInvblid = truf;
+    }
+
+    /**
+     * Instblls thf <dodf>DffbultFormbttfr</dodf> onto b pbrtidulbr
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * This will invokf <dodf>vblufToString</dodf> to donvfrt thf
+     * durrfnt vbluf from thf <dodf>JFormbttfdTfxtFifld</dodf> to
+     * b String. This will thfn instbll thf <dodf>Adtion</dodf>s from
+     * <dodf>gftAdtions</dodf>, thf <dodf>DodumfntFiltfr</dodf>
+     * rfturnfd from <dodf>gftDodumfntFiltfr</dodf> bnd thf
+     * <dodf>NbvigbtionFiltfr</dodf> rfturnfd from
+     * <dodf>gftNbvigbtionFiltfr</dodf> onto thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <p>
+     * Subdlbssfs will typidblly only nffd to ovfrridf this if thfy
+     * wish to instbll bdditionbl listfnfrs on thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <p>
+     * If thfrf is b <dodf>PbrsfExdfption</dodf> in donvfrting thf
+     * durrfnt vbluf to b String, this will sft thf tfxt to bn fmpty
+     * String, bnd mbrk thf <dodf>JFormbttfdTfxtFifld</dodf> bs bfing
+     * in bn invblid stbtf.
+     * <p>
+     * Whilf this is b publid mfthod, this is typidblly only usfful
+     * for subdlbssfrs of <dodf>JFormbttfdTfxtFifld</dodf>.
+     * <dodf>JFormbttfdTfxtFifld</dodf> will invokf this mfthod bt
+     * thf bppropribtf timfs whfn thf vbluf dhbngfs, or its intfrnbl
+     * stbtf dhbngfs.
+     *
+     * @pbrbm ftf JFormbttfdTfxtFifld to formbt for, mby bf null indidbting
+     *            uninstbll from durrfnt JFormbttfdTfxtFifld.
+     */
+    publid void instbll(JFormbttfdTfxtFifld ftf) {
+        supfr.instbll(ftf);
+        positionCursorAtInitiblLodbtion();
+    }
+
+    /**
+     * Sfts whfn fdits brf publishfd bbdk to thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>. If truf, <dodf>dommitEdit</dodf>
+     * is invokfd bftfr fvfry vblid fdit (bny timf thf tfxt is fditfd). On
+     * thf othfr hbnd, if this is fblsf thbn thf <dodf>DffbultFormbttfr</dodf>
+     * dofs not publish fdits bbdk to thf <dodf>JFormbttfdTfxtFifld</dodf>.
+     * As sudh, thf only timf thf vbluf of thf <dodf>JFormbttfdTfxtFifld</dodf>
+     * will dhbngf is whfn <dodf>dommitEdit</dodf> is invokfd on
+     * <dodf>JFormbttfdTfxtFifld</dodf>, typidblly whfn fntfr is prfssfd
+     * or fodus lfbvfs thf <dodf>JFormbttfdTfxtFifld</dodf>.
+     *
+     * @pbrbm dommit Usfd to indidbtf whfn fdits brf dommittfd bbdk to thf
+     *               JTfxtComponfnt
+     */
+    publid void sftCommitsOnVblidEdit(boolfbn dommit) {
+        dommitOnEdit = dommit;
+    }
+
+    /**
+     * Rfturns whfn fdits brf publishfd bbdk to thf
+     * <dodf>JFormbttfdTfxtFifld</dodf>.
+     *
+     * @rfturn truf if fdits brf dommittfd bftfr fvfry vblid fdit
+     */
+    publid boolfbn gftCommitsOnVblidEdit() {
+        rfturn dommitOnEdit;
+    }
+
+    /**
+     * Configurfs thf bfhbvior whfn insfrting dhbrbdtfrs. If
+     * <dodf>ovfrwritfModf</dodf> is truf (thf dffbult), nfw dhbrbdtfrs
+     * ovfrwritf fxisting dhbrbdtfrs in thf modfl.
+     *
+     * @pbrbm ovfrwritfModf Indidbtfs if ovfrwritf or ovfrstrikf modf is usfd
+     */
+    publid void sftOvfrwritfModf(boolfbn ovfrwritfModf) {
+        this.ovfrwritfModf = ovfrwritfModf;
+    }
+
+    /**
+     * Rfturns thf bfhbvior whfn insfrting dhbrbdtfrs.
+     *
+     * @rfturn truf if nfwly insfrtfd dhbrbdtfrs ovfrwritf fxisting dhbrbdtfrs
+     */
+    publid boolfbn gftOvfrwritfModf() {
+        rfturn ovfrwritfModf;
+    }
+
+    /**
+     * Sfts whfthfr or not thf vbluf bfing fditfd is bllowfd to bf invblid
+     * for b lfngth of timf (thbt is, <dodf>stringToVbluf</dodf> throws
+     * b <dodf>PbrsfExdfption</dodf>).
+     * It is oftfn donvfnifnt to bllow thf usfr to tfmporbrily input bn
+     * invblid vbluf.
+     *
+     * @pbrbm bllowsInvblid Usfd to indidbtf if thf fditfd vbluf must blwbys
+     *        bf vblid
+     */
+    publid void sftAllowsInvblid(boolfbn bllowsInvblid) {
+        this.bllowsInvblid = bllowsInvblid;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf vbluf bfing fditfd is bllowfd to bf invblid
+     * for b lfngth of timf.
+     *
+     * @rfturn fblsf if thf fditfd vbluf must blwbys bf vblid
+     */
+    publid boolfbn gftAllowsInvblid() {
+        rfturn bllowsInvblid;
+    }
+
+    /**
+     * Sfts thbt dlbss thbt is usfd to drfbtf nfw Objfdts. If thf
+     * pbssfd in dlbss dofs not hbvf b singlf brgumfnt donstrudtor thbt
+     * tbkfs b String, String vblufs will bf usfd.
+     *
+     * @pbrbm vblufClbss Clbss usfd to donstrudt rfturn vbluf from
+     *        stringToVbluf
+     */
+    publid void sftVblufClbss(Clbss<?> vblufClbss) {
+        this.vblufClbss = vblufClbss;
+    }
+
+    /**
+     * Rfturns thbt dlbss thbt is usfd to drfbtf nfw Objfdts.
+     *
+     * @rfturn Clbss usfd to donstrudt rfturn vbluf from stringToVbluf
+     */
+    publid Clbss<?> gftVblufClbss() {
+        rfturn vblufClbss;
+    }
+
+    /**
+     * Convfrts thf pbssfd in String into bn instbndf of
+     * <dodf>gftVblufClbss</dodf> by wby of thf donstrudtor thbt
+     * tbkfs b String brgumfnt. If <dodf>gftVblufClbss</dodf>
+     * rfturns null, thf Clbss of thf durrfnt vbluf in thf
+     * <dodf>JFormbttfdTfxtFifld</dodf> will bf usfd. If this is null, b
+     * String will bf rfturnfd. If thf donstrudtor throws bn fxdfption, b
+     * <dodf>PbrsfExdfption</dodf> will bf thrown. If thfrf is no singlf
+     * brgumfnt String donstrudtor, <dodf>string</dodf> will bf rfturnfd.
+     *
+     * @throws PbrsfExdfption if thfrf is bn frror in thf donvfrsion
+     * @pbrbm string String to donvfrt
+     * @rfturn Objfdt rfprfsfntbtion of tfxt
+     */
+    publid Objfdt stringToVbluf(String string) throws PbrsfExdfption {
+        Clbss<?> vd = gftVblufClbss();
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
+
+        if (vd == null && ftf != null) {
+            Objfdt vbluf = ftf.gftVbluf();
+
+            if (vbluf != null) {
+                vd = vbluf.gftClbss();
+            }
+        }
+        if (vd != null) {
+            Construdtor<?> dons;
+
+            try {
+                RfflfdtUtil.dhfdkPbdkbgfAddfss(vd);
+                SwingUtilitifs2.dhfdkAddfss(vd.gftModififrs());
+                dons = vd.gftConstrudtor(nfw Clbss<?>[]{String.dlbss});
+
+            } dbtdh (NoSudhMfthodExdfption nsmf) {
+                dons = null;
+            }
+
+            if (dons != null) {
+                try {
+                    SwingUtilitifs2.dhfdkAddfss(dons.gftModififrs());
+                    rfturn dons.nfwInstbndf(nfw Objfdt[] { string });
+                } dbtdh (Throwbblf fx) {
+                    throw nfw PbrsfExdfption("Error drfbting instbndf", 0);
+                }
+            }
+        }
+        rfturn string;
+    }
+
+    /**
+     * Convfrts thf pbssfd in Objfdt into b String by wby of thf
+     * <dodf>toString</dodf> mfthod.
+     *
+     * @throws PbrsfExdfption if thfrf is bn frror in thf donvfrsion
+     * @pbrbm vbluf Vbluf to donvfrt
+     * @rfturn String rfprfsfntbtion of vbluf
+     */
+    publid String vblufToString(Objfdt vbluf) throws PbrsfExdfption {
+        if (vbluf == null) {
+            rfturn "";
+        }
+        rfturn vbluf.toString();
+    }
+
+    /**
+     * Rfturns thf <dodf>DodumfntFiltfr</dodf> usfd to rfstridt thf dhbrbdtfrs
+     * thbt dbn bf input into thf <dodf>JFormbttfdTfxtFifld</dodf>.
+     *
+     * @rfturn DodumfntFiltfr to rfstridt fdits
+     */
+    protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+        if (dodumfntFiltfr == null) {
+            dodumfntFiltfr = nfw DffbultDodumfntFiltfr();
+        }
+        rfturn dodumfntFiltfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>NbvigbtionFiltfr</dodf> usfd to rfstridt whfrf thf
+     * dursor dbn bf plbdfd.
+     *
+     * @rfturn NbvigbtionFiltfr to rfstridt nbvigbtion
+     */
+    protfdtfd NbvigbtionFiltfr gftNbvigbtionFiltfr() {
+        if (nbvigbtionFiltfr == null) {
+            nbvigbtionFiltfr = nfw DffbultNbvigbtionFiltfr();
+        }
+        rfturn nbvigbtionFiltfr;
+    }
+
+    /**
+     * Crfbtfs b dopy of thf DffbultFormbttfr.
+     *
+     * @rfturn dopy of thf DffbultFormbttfr
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        DffbultFormbttfr formbttfr = (DffbultFormbttfr)supfr.dlonf();
+
+        formbttfr.nbvigbtionFiltfr = null;
+        formbttfr.dodumfntFiltfr = null;
+        formbttfr.rfplbdfHoldfr = null;
+        rfturn formbttfr;
+    }
+
+
+    /**
+     * Positions thf dursor bt thf initibl lodbtion.
+     */
+    void positionCursorAtInitiblLodbtion() {
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
+        if (ftf != null) {
+            ftf.sftCbrftPosition(gftInitiblVisublPosition());
+        }
+    }
+
+    /**
+     * Rfturns thf initibl lodbtion to position thf dursor bt. This forwbrds
+     * thf dbll to <dodf>gftNfxtNbvigbtbblfChbr</dodf>.
+     */
+    int gftInitiblVisublPosition() {
+        rfturn gftNfxtNbvigbtbblfChbr(0, 1);
+    }
+
+    /**
+     * Subdlbssfs should ovfrridf this if thfy wbnt dursor nbvigbtion
+     * to skip dfrtbin dhbrbdtfrs. A rfturn vbluf of fblsf indidbtfs
+     * thf dhbrbdtfr bt <dodf>offsft</dodf> should bf skippfd whfn
+     * nbvigbting throught thf fifld.
+     */
+    boolfbn isNbvigbtbblf(int offsft) {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns truf if thf tfxt in <dodf>tfxt</dodf> dbn bf insfrtfd.  This
+     * dofs not mfbn thf tfxt will ultimbtfly bf insfrtfd, it is usfd if
+     * tfxt dbn triviblly rfjfdt dfrtbin dhbrbdtfrs.
+     */
+    boolfbn isLfgblInsfrtTfxt(String tfxt) {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf nfxt fditbblf dhbrbdtfr stbrting bt offsft indrfmfnting
+     * thf offsft by <dodf>dirfdtion</dodf>.
+     */
+    privbtf int gftNfxtNbvigbtbblfChbr(int offsft, int dirfdtion) {
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngth();
+
+        whilf (offsft >= 0 && offsft < mbx) {
+            if (isNbvigbtbblf(offsft)) {
+                rfturn offsft;
+            }
+            offsft += dirfdtion;
+        }
+        rfturn offsft;
+    }
+
+    /**
+     * A donvfnifndf mfthods to rfturn thf rfsult of dflfting
+     * <dodf>dflftfLfngth</dodf> dhbrbdtfrs bt <dodf>offsft</dodf>
+     * bnd insfrting <dodf>rfplbdfString</dodf> bt <dodf>offsft</dodf>
+     * in thf durrfnt tfxt fifld.
+     */
+    String gftRfplbdfString(int offsft, int dflftfLfngth,
+                            String rfplbdfString) {
+        String string = gftFormbttfdTfxtFifld().gftTfxt();
+        String rfsult;
+
+        rfsult = string.substring(0, offsft);
+        if (rfplbdfString != null) {
+            rfsult += rfplbdfString;
+        }
+        if (offsft + dflftfLfngth < string.lfngth()) {
+            rfsult += string.substring(offsft + dflftfLfngth);
+        }
+        rfturn rfsult;
+    }
+
+    /*
+     * Rfturns truf if thf opfrbtion dfsdribfd by <dodf>rh</dodf> will
+     * rfsult in b lfgbl fdit.  This mby sft thf <dodf>vbluf</dodf>
+     * fifld of <dodf>rh</dodf>.
+     */
+    boolfbn isVblidEdit(RfplbdfHoldfr rh) {
+        if (!gftAllowsInvblid()) {
+            String nfwString = gftRfplbdfString(rh.offsft, rh.lfngth, rh.tfxt);
+
+            try {
+                rh.vbluf = stringToVbluf(nfwString);
+
+                rfturn truf;
+            } dbtdh (PbrsfExdfption pf) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Invokfs <dodf>dommitEdit</dodf> on thf JFormbttfdTfxtFifld.
+     */
+    void dommitEdit() throws PbrsfExdfption {
+        JFormbttfdTfxtFifld ftf = gftFormbttfdTfxtFifld();
+
+        if (ftf != null) {
+            ftf.dommitEdit();
+        }
+    }
+
+    /**
+     * Pushfs thf vbluf to thf JFormbttfdTfxtFifld if thf durrfnt vbluf
+     * is vblid bnd invokfs <dodf>sftEditVblid</dodf> bbsfd on thf
+     * vblidity of thf vbluf.
+     */
+    void updbtfVbluf() {
+        updbtfVbluf(null);
+    }
+
+    /**
+     * Pushfs thf <dodf>vbluf</dodf> to thf fditor if wf brf to
+     * dommit on fdits. If <dodf>vbluf</dodf> is null, thf durrfnt vbluf
+     * will bf obtbinfd from thf tfxt domponfnt.
+     */
+    void updbtfVbluf(Objfdt vbluf) {
+        try {
+            if (vbluf == null) {
+                String string = gftFormbttfdTfxtFifld().gftTfxt();
+
+                vbluf = stringToVbluf(string);
+            }
+
+            if (gftCommitsOnVblidEdit()) {
+                dommitEdit();
+            }
+            sftEditVblid(truf);
+        } dbtdh (PbrsfExdfption pf) {
+            sftEditVblid(fblsf);
+        }
+    }
+
+    /**
+     * Rfturns thf nfxt dursor position from offsft by indrfmfnting
+     * <dodf>dirfdtion</dodf>. This usfs
+     * <dodf>gftNfxtNbvigbtbblfChbr</dodf>
+     * bs wfll bs donstrbining thf lodbtion to thf mbx position.
+     */
+    int gftNfxtCursorPosition(int offsft, int dirfdtion) {
+        int nfwOffsft = gftNfxtNbvigbtbblfChbr(offsft, dirfdtion);
+        int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngth();
+
+        if (!gftAllowsInvblid()) {
+            if (dirfdtion == -1 && offsft == nfwOffsft) {
+                // Cbsf whfrf hit bbdkspbdf bnd only dhbrbdtfrs bfforf
+                // offsft brf fixfd.
+                nfwOffsft = gftNfxtNbvigbtbblfChbr(nfwOffsft, 1);
+                if (nfwOffsft >= mbx) {
+                    nfwOffsft = offsft;
+                }
+            }
+            flsf if (dirfdtion == 1 && nfwOffsft >= mbx) {
+                // Don't go bfyond lbst fditbblf dhbrbdtfr.
+                nfwOffsft = gftNfxtNbvigbtbblfChbr(mbx - 1, -1);
+                if (nfwOffsft < mbx) {
+                    nfwOffsft++;
+                }
+            }
+        }
+        rfturn nfwOffsft;
+    }
+
+    /**
+     * Rfsfts thf dursor by using gftNfxtCursorPosition.
+     */
+    void rfpositionCursor(int offsft, int dirfdtion) {
+        gftFormbttfdTfxtFifld().gftCbrft().sftDot(gftNfxtCursorPosition
+                                                  (offsft, dirfdtion));
+    }
+
+
+    /**
+     * Finds thf nfxt nbvigbblf dhbrbdtfr.
+     */
+    int gftNfxtVisublPositionFrom(JTfxtComponfnt tfxt, int pos,
+                                  Position.Bibs bibs, int dirfdtion,
+                                  Position.Bibs[] bibsRft)
+                                           throws BbdLodbtionExdfption {
+        int vbluf = tfxt.gftUI().gftNfxtVisublPositionFrom(tfxt, pos, bibs,
+                                                           dirfdtion, bibsRft);
+
+        if (vbluf == -1) {
+            rfturn -1;
+        }
+        if (!gftAllowsInvblid() && (dirfdtion == SwingConstbnts.EAST ||
+                                    dirfdtion == SwingConstbnts.WEST)) {
+            int lbst = -1;
+
+            whilf (!isNbvigbtbblf(vbluf) && vbluf != lbst) {
+                lbst = vbluf;
+                vbluf = tfxt.gftUI().gftNfxtVisublPositionFrom(
+                              tfxt, vbluf, bibs, dirfdtion,bibsRft);
+            }
+            int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngth();
+            if (lbst == vbluf || vbluf == mbx) {
+                if (vbluf == 0) {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                    vbluf = gftInitiblVisublPosition();
+                }
+                if (vbluf >= mbx && mbx > 0) {
+                    // Pfnding: should not bssumf forwbrd!
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                    vbluf = gftNfxtNbvigbtbblfChbr(mbx - 1, -1) + 1;
+                }
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns truf if thf fdit dfsdribfd by <dodf>rh</dodf> will rfsult
+     * in b lfgbl vbluf.
+     */
+    boolfbn dbnRfplbdf(RfplbdfHoldfr rh) {
+        rfturn isVblidEdit(rh);
+    }
+
+    /**
+     * DodumfntFiltfr mfthod, funnfls into <dodf>rfplbdf</dodf>.
+     */
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                     int lfngth, String tfxt,
+                     AttributfSft bttrs) throws BbdLodbtionExdfption {
+        RfplbdfHoldfr rh = gftRfplbdfHoldfr(fb, offsft, lfngth, tfxt, bttrs);
+
+        rfplbdf(rh);
+    }
+
+    /**
+     * If thf fdit dfsdribfd by <dodf>rh</dodf> is lfgbl, this will
+     * rfturn truf, dommit thf fdit (if nfdfssbry) bnd updbtf thf dursor
+     * position.  This forwbrds to <dodf>dbnRfplbdf</dodf> bnd
+     * <dodf>isLfgblInsfrtTfxt</dodf> bs nfdfssbry to dftfrminf if
+     * thf fdit is in fbdt lfgbl.
+     * <p>
+     * All of thf DodumfntFiltfr mfthods funnfl into hfrf, you should
+     * gfnfrblly only hbvf to ovfrridf this.
+     */
+    boolfbn rfplbdf(RfplbdfHoldfr rh) throws BbdLodbtionExdfption {
+        boolfbn vblid = truf;
+        int dirfdtion = 1;
+
+        if (rh.lfngth > 0 && (rh.tfxt == null || rh.tfxt.lfngth() == 0) &&
+               (gftFormbttfdTfxtFifld().gftSflfdtionStbrt() != rh.offsft ||
+                   rh.lfngth > 1)) {
+            dirfdtion = -1;
+        }
+
+        if (gftOvfrwritfModf() && rh.tfxt != null &&
+            gftFormbttfdTfxtFifld().gftSflfdtfdTfxt() == null)
+        {
+            rh.lfngth = Mbth.min(Mbth.mbx(rh.lfngth, rh.tfxt.lfngth()),
+                                 rh.fb.gftDodumfnt().gftLfngth() - rh.offsft);
+        }
+        if ((rh.tfxt != null && !isLfgblInsfrtTfxt(rh.tfxt)) ||
+            !dbnRfplbdf(rh) ||
+            (rh.lfngth == 0 && (rh.tfxt == null || rh.tfxt.lfngth() == 0))) {
+            vblid = fblsf;
+        }
+        if (vblid) {
+            int dursor = rh.dursorPosition;
+
+            rh.fb.rfplbdf(rh.offsft, rh.lfngth, rh.tfxt, rh.bttrs);
+            if (dursor == -1) {
+                dursor = rh.offsft;
+                if (dirfdtion == 1 && rh.tfxt != null) {
+                    dursor = rh.offsft + rh.tfxt.lfngth();
+                }
+            }
+            updbtfVbluf(rh.vbluf);
+            rfpositionCursor(dursor, dirfdtion);
+            rfturn truf;
+        }
+        flsf {
+            invblidEdit();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * NbvigbtionFiltfr mfthod, subdlbssfs thbt wish finfr dontrol should
+     * ovfrridf this.
+     */
+    void sftDot(NbvigbtionFiltfr.FiltfrBypbss fb, int dot, Position.Bibs bibs){
+        fb.sftDot(dot, bibs);
+    }
+
+    /**
+     * NbvigbtionFiltfr mfthod, subdlbssfs thbt wish finfr dontrol should
+     * ovfrridf this.
+     */
+    void movfDot(NbvigbtionFiltfr.FiltfrBypbss fb, int dot,
+                 Position.Bibs bibs) {
+        fb.movfDot(dot, bibs);
+    }
+
+
+    /**
+     * Rfturns thf RfplbdfHoldfr to trbdk thf rfplbdf of thf spfdififd
+     * tfxt.
+     */
+    RfplbdfHoldfr gftRfplbdfHoldfr(DodumfntFiltfr.FiltfrBypbss fb, int offsft,
+                                   int lfngth, String tfxt,
+                                   AttributfSft bttrs) {
+        if (rfplbdfHoldfr == null) {
+            rfplbdfHoldfr = nfw RfplbdfHoldfr();
+        }
+        rfplbdfHoldfr.rfsft(fb, offsft, lfngth, tfxt, bttrs);
+        rfturn rfplbdfHoldfr;
+    }
+
+
+    /**
+     * RfplbdfHoldfr is usfd to trbdk whfrf insfrt/rfmovf/rfplbdf is
+     * going to hbppfn.
+     */
+    stbtid dlbss RfplbdfHoldfr {
+        /** Thf FiltfrBypbss thbt wbs pbssfd to thf DodumfntFiltfr mfthod. */
+        DodumfntFiltfr.FiltfrBypbss fb;
+        /** Offsft whfrf thf rfmovf/insfrt is going to oddur. */
+        int offsft;
+        /** Lfngth of tfxt to rfmovf. */
+        int lfngth;
+        /** Thf tfxt to insfrt, mby bf null. */
+        String tfxt;
+        /** AttributfSft to bttbdh to tfxt, mby bf null. */
+        AttributfSft bttrs;
+        /** Thf rfsulting vbluf, this mby nfvfr bf sft. */
+        Objfdt vbluf;
+        /** Position thf dursor should bf bdjustfd from.  If this is -1
+         * thf dursor position will bf bdjustfd bbsfd on thf dirfdtion of
+         * thf rfplbdf (-1: offsft, 1: offsft + tfxt.lfngth()), othfrwisf
+         * thf dursor position is bdustfd from this position.
+         */
+        int dursorPosition;
+
+        void rfsft(DodumfntFiltfr.FiltfrBypbss fb, int offsft, int lfngth,
+                   String tfxt, AttributfSft bttrs) {
+            this.fb = fb;
+            this.offsft = offsft;
+            this.lfngth = lfngth;
+            this.tfxt = tfxt;
+            this.bttrs = bttrs;
+            this.vbluf = null;
+            dursorPosition = -1;
+        }
+    }
+
+
+    /**
+     * NbvigbtionFiltfr implfmfntbtion thbt dblls bbdk to mfthods with
+     * sbmf nbmf in DffbultFormbttfr.
+     */
+    privbtf dlbss DffbultNbvigbtionFiltfr fxtfnds NbvigbtionFiltfr
+                             implfmfnts Sfriblizbblf {
+        publid void sftDot(FiltfrBypbss fb, int dot, Position.Bibs bibs) {
+            JTfxtComponfnt td = DffbultFormbttfr.this.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss thf filtfr
+                fb.sftDot(dot, bibs);
+            } flsf {
+                DffbultFormbttfr.this.sftDot(fb, dot, bibs);
+            }
+        }
+
+        publid void movfDot(FiltfrBypbss fb, int dot, Position.Bibs bibs) {
+            JTfxtComponfnt td = DffbultFormbttfr.this.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss thf filtfr
+                fb.movfDot(dot, bibs);
+            } flsf {
+                DffbultFormbttfr.this.movfDot(fb, dot, bibs);
+            }
+        }
+
+        publid int gftNfxtVisublPositionFrom(JTfxtComponfnt tfxt, int pos,
+                                             Position.Bibs bibs,
+                                             int dirfdtion,
+                                             Position.Bibs[] bibsRft)
+                                           throws BbdLodbtionExdfption {
+            if (tfxt.domposfdTfxtExists()) {
+                // forwbrd thf dbll to thf UI dirfdtly
+                rfturn tfxt.gftUI().gftNfxtVisublPositionFrom(
+                        tfxt, pos, bibs, dirfdtion, bibsRft);
+            } flsf {
+                rfturn DffbultFormbttfr.this.gftNfxtVisublPositionFrom(
+                        tfxt, pos, bibs, dirfdtion, bibsRft);
+            }
+        }
+    }
+
+
+    /**
+     * DodumfntFiltfr implfmfntbtion thbt dblls bbdk to thf rfplbdf
+     * mfthod of DffbultFormbttfr.
+     */
+    privbtf dlbss DffbultDodumfntFiltfr fxtfnds DodumfntFiltfr implfmfnts
+                             Sfriblizbblf {
+        publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngth) throws
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.this.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists()) {
+                // bypbss thf filtfr
+                fb.rfmovf(offsft, lfngth);
+            } flsf {
+                DffbultFormbttfr.this.rfplbdf(fb, offsft, lfngth, null, null);
+            }
+        }
+
+        publid void insfrtString(FiltfrBypbss fb, int offsft,
+                                 String string, AttributfSft bttr) throws
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.this.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists() ||
+                Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                // bypbss thf filtfr
+                fb.insfrtString(offsft, string, bttr);
+            } flsf {
+                DffbultFormbttfr.this.rfplbdf(fb, offsft, 0, string, bttr);
+            }
+        }
+
+        publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngth,
+                                 String tfxt, AttributfSft bttr) throws
+                              BbdLodbtionExdfption {
+            JTfxtComponfnt td = DffbultFormbttfr.this.gftFormbttfdTfxtFifld();
+            if (td.domposfdTfxtExists() ||
+                Utilitifs.isComposfdTfxtAttributfDffinfd(bttr)) {
+                // bypbss thf filtfr
+                fb.rfplbdf(offsft, lfngth, tfxt, bttr);
+            } flsf {
+                DffbultFormbttfr.this.rfplbdf(fb, offsft, lfngth, tfxt, bttr);
+            }
+        }
+    }
+}

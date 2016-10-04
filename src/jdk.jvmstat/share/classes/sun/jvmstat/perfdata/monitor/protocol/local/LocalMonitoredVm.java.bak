@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
 
-import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.*;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.perfdata.monitor.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
 
 /**
- * Concrete implementation of the AbstractMonitoredVm class for the
- * <em>local:</em> protocol for the HotSpot PerfData monitoring implementation.
+ * Condrftf implfmfntbtion of tif AbstrbdtMonitorfdVm dlbss for tif
+ * <fm>lodbl:</fm> protodol for tif HotSpot PfrfDbtb monitoring implfmfntbtion.
  * <p>
- * This class provides the ability to attach to the instrumentation buffer
- * of a live target Java Virtual Machine through a HotSpot specific attach
- * mechanism.
+ * Tiis dlbss providfs tif bbility to bttbdi to tif instrumfntbtion bufffr
+ * of b livf tbrgft Jbvb Virtubl Mbdiinf tirougi b HotSpot spfdifid bttbdi
+ * mfdibnism.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class LocalMonitoredVm extends AbstractMonitoredVm {
+publid dlbss LodblMonitorfdVm fxtfnds AbstrbdtMonitorfdVm {
 
     /**
-     * List of registered listeners.
+     * List of rfgistfrfd listfnfrs.
      */
-    private ArrayList<VmListener> listeners;
+    privbtf ArrbyList<VmListfnfr> listfnfrs;
 
     /**
-     * Task performing listener notification.
+     * Tbsk pfrforming listfnfr notifidbtion.
      */
-    private NotifierTask task;
+    privbtf NotififrTbsk tbsk;
 
     /**
-     * Create a LocalMonitoredVm instance.
+     * Crfbtf b LodblMonitorfdVm instbndf.
      *
-     * @param vmid the vm identifier specifying the target JVM
-     * @param interval the sampling interval
+     * @pbrbm vmid tif vm idfntififr spfdifying tif tbrgft JVM
+     * @pbrbm intfrvbl tif sbmpling intfrvbl
      */
-    public LocalMonitoredVm(VmIdentifier vmid, int interval)
-           throws MonitorException {
-        super(vmid, interval);
-        this.pdb = new PerfDataBuffer(vmid);
-        listeners = new ArrayList<VmListener>();
+    publid LodblMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+           tirows MonitorExdfption {
+        supfr(vmid, intfrvbl);
+        tiis.pdb = nfw PfrfDbtbBufffr(vmid);
+        listfnfrs = nfw ArrbyList<VmListfnfr>();
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inifritDod}.
      */
-    public void detach() {
-        if (interval > 0) {
+    publid void dftbdi() {
+        if (intfrvbl > 0) {
             /*
-             * if the notifier task is running, stop it, otherwise it can
-             * access non-existent memory once we've detached from the
-             * underlying buffer.
+             * if tif notififr tbsk is running, stop it, otifrwisf it dbn
+             * bddfss non-fxistfnt mfmory ondf wf'vf dftbdifd from tif
+             * undfrlying bufffr.
              */
-            if (task != null) {
-                task.cancel();
-                task = null;
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                tbsk = null;
             }
         }
-        super.detach();
+        supfr.dftbdi();
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inifritDod}.
      */
-    public void addVmListener(VmListener l) {
-        synchronized(listeners) {
-            listeners.add(l);
-            if (task == null) {
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                timer.schedule(task, interval, interval);
+    publid void bddVmListfnfr(VmListfnfr l) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.bdd(l);
+            if (tbsk == null) {
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                timfr.sdifdulf(tbsk, intfrvbl, intfrvbl);
             }
         }
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inifritDod}.
      */
-    public void removeVmListener(VmListener l) {
-        synchronized(listeners) {
-            listeners.remove(l);
-            if (listeners.isEmpty() && task != null) {
-                task.cancel();
-                task = null;
+    publid void rfmovfVmListfnfr(VmListfnfr l) {
+        syndironizfd(listfnfrs) {
+            listfnfrs.rfmovf(l);
+            if (listfnfrs.isEmpty() && tbsk != null) {
+                tbsk.dbndfl();
+                tbsk = null;
             }
         }
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inifritDod}.
      */
-    public void setInterval(int newInterval) {
-        synchronized(listeners) {
-            if (newInterval == interval) {
-                return;
+    publid void sftIntfrvbl(int nfwIntfrvbl) {
+        syndironizfd(listfnfrs) {
+            if (nfwIntfrvbl == intfrvbl) {
+                rfturn;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntfrvbl = intfrvbl;
+            supfr.sftIntfrvbl(nfwIntfrvbl);
 
-            if (task != null) {
-                task.cancel();
-                NotifierTask oldTask = task;
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                CountedTimerTaskUtils.reschedule(timer, oldTask, task,
-                                                 oldInterval, newInterval);
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                NotififrTbsk oldTbsk = tbsk;
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                CountfdTimfrTbskUtils.rfsdifdulf(timfr, oldTbsk, tbsk,
+                                                 oldIntfrvbl, nfwIntfrvbl);
             }
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Firf MonitorfdVmStrudturfCibngfd fvfnts.
      *
-     * @param inserted List of Monitor objects inserted.
-     * @param removed List of Monitor objects removed.
+     * @pbrbm insfrtfd List of Monitor objfdts insfrtfd.
+     * @pbrbm rfmovfd List of Monitor objfdts rfmovfd.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorStatusChangedEvents(List<Monitor> inserted, List<Monitor> removed) {
-        MonitorStatusChangeEvent ev = null;
-        ArrayList<VmListener> registered = null;
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf
+    void firfMonitorStbtusCibngfdEvfnts(List<Monitor> insfrtfd, List<Monitor> rfmovfd) {
+        MonitorStbtusCibngfEvfnt fv = null;
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
 
-        synchronized (listeners) {
-            registered = (ArrayList)listeners.clone();
+        syndironizfd (listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
-            VmListener l = i.next();
-            // lazily create the event object;
-            if (ev == null) {
-                ev = new MonitorStatusChangeEvent(this, inserted, removed);
+        for (Itfrbtor<VmListfnfr> i = rfgistfrfd.itfrbtor(); i.ibsNfxt(); /* fmpty */) {
+            VmListfnfr l = i.nfxt();
+            // lbzily drfbtf tif fvfnt objfdt;
+            if (fv == null) {
+                fv = nfw MonitorStbtusCibngfEvfnt(tiis, insfrtfd, rfmovfd);
             }
-            l.monitorStatusChanged(ev);
+            l.monitorStbtusCibngfd(fv);
         }
     }
 
     /**
-     * Fire MonitoredUpdated events.
+     * Firf MonitorfdUpdbtfd fvfnts.
      */
-    void fireMonitorsUpdatedEvents() {
-        VmEvent ev = null;
-        ArrayList<VmListener> registered = null;
+    void firfMonitorsUpdbtfdEvfnts() {
+        VmEvfnt fv = null;
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
 
-        synchronized (listeners) {
-            registered = cast(listeners.clone());
+        syndironizfd (listfnfrs) {
+            rfgistfrfd = dbst(listfnfrs.dlonf());
         }
 
-        for (VmListener l :  registered) {
-            // lazily create the event object;
-            if (ev == null) {
-                ev = new VmEvent(this);
+        for (VmListfnfr l :  rfgistfrfd) {
+            // lbzily drfbtf tif fvfnt objfdt;
+            if (fv == null) {
+                fv = nfw VmEvfnt(tiis);
             }
-            l.monitorsUpdated(ev);
+            l.monitorsUpdbtfd(fv);
         }
     }
 
     /**
-     * Class to notify listeners of Monitor related events for
-     * the target JVM.
+     * Clbss to notify listfnfrs of Monitor rflbtfd fvfnts for
+     * tif tbrgft JVM.
      */
-    private class NotifierTask extends CountedTimerTask {
-        public void run() {
-            super.run();
+    privbtf dlbss NotififrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
             try {
-                MonitorStatus status = getMonitorStatus();
-                List<Monitor> inserted = status.getInserted();
-                List<Monitor> removed = status.getRemoved();
+                MonitorStbtus stbtus = gftMonitorStbtus();
+                List<Monitor> insfrtfd = stbtus.gftInsfrtfd();
+                List<Monitor> rfmovfd = stbtus.gftRfmovfd();
 
-                if (!inserted.isEmpty() || !removed.isEmpty()) {
-                    fireMonitorStatusChangedEvents(inserted, removed);
+                if (!insfrtfd.isEmpty() || !rfmovfd.isEmpty()) {
+                    firfMonitorStbtusCibngfdEvfnts(insfrtfd, rfmovfd);
                 }
-                fireMonitorsUpdatedEvents();
-            } catch (MonitorException e) {
-                // XXX: use logging api
-                System.err.println("Exception updating monitors for "
-                                   + getVmIdentifier());
-                e.printStackTrace();
+                firfMonitorsUpdbtfdEvfnts();
+            } dbtdi (MonitorExdfption f) {
+                // XXX: usf logging bpi
+                Systfm.frr.println("Exdfption updbting monitors for "
+                                   + gftVmIdfntififr());
+                f.printStbdkTrbdf();
             }
         }
     }
-    // Suppress unchecked cast warning msg.
-    @SuppressWarnings("unchecked")
-    static <T> T cast(Object x) {
-        return (T) x;
+    // Supprfss undifdkfd dbst wbrning msg.
+    @SupprfssWbrnings("undifdkfd")
+    stbtid <T> T dbst(Objfdt x) {
+        rfturn (T) x;
     }
 }

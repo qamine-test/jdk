@@ -1,0 +1,456 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import jbvb.util.logging.Loggfr;
+import jbvb.tfxt.*;
+import dom.sun.nft.httpsfrvfr.*;
+
+dlbss ExdhbngfImpl {
+
+    Hfbdfrs rfqHdrs, rspHdrs;
+    Rfqufst rfq;
+    String mfthod;
+    boolfbn writffinishfd;
+    URI uri;
+    HttpConnfdtion donnfdtion;
+    long rfqContfntLfn;
+    long rspContfntLfn;
+    /* rbw strfbms whidh bddfss thf sodkft dirfdtly */
+    InputStrfbm ris;
+    OutputStrfbm ros;
+    Thrfbd thrfbd;
+    /* dlosf thf undfrlying donnfdtion whfn this fxdhbngf finishfd */
+    boolfbn dlosf;
+    boolfbn dlosfd;
+    boolfbn http10 = fblsf;
+
+    /* for formbtting thf Dbtf: hfbdfr */
+    privbtf stbtid finbl String pbttfrn = "EEE, dd MMM yyyy HH:mm:ss zzz";
+    privbtf stbtid finbl TimfZonf gmtTZ = TimfZonf.gftTimfZonf("GMT");
+    privbtf stbtid finbl ThrfbdLodbl<DbtfFormbt> dbtfFormbt =
+         nfw ThrfbdLodbl<DbtfFormbt>() {
+             @Ovfrridf protfdtfd DbtfFormbt initiblVbluf() {
+                 DbtfFormbt df = nfw SimplfDbtfFormbt(pbttfrn, Lodblf.US);
+                 df.sftTimfZonf(gmtTZ);
+                 rfturn df;
+         }
+     };
+
+    privbtf stbtid finbl String HEAD = "HEAD";
+
+    /* strfbms whidh tbkf dbrf of thf HTTP protodol frbming
+     * bnd brf pbssfd up to highfr lbyfrs
+     */
+    InputStrfbm uis;
+    OutputStrfbm uos;
+    LfftOvfrInputStrfbm uis_orig; // uis mby hbvf bf b usfr supplifd wrbppfr
+    PlbdfholdfrOutputStrfbm uos_orig;
+
+    boolfbn sfntHfbdfrs; /* truf bftfr rfsponsf hfbdfrs sfnt */
+    Mbp<String,Objfdt> bttributfs;
+    int rdodf = -1;
+    HttpPrindipbl prindipbl;
+    SfrvfrImpl sfrvfr;
+
+    ExdhbngfImpl (
+        String m, URI u, Rfqufst rfq, long lfn, HttpConnfdtion donnfdtion
+    ) throws IOExdfption {
+        this.rfq = rfq;
+        this.rfqHdrs = rfq.hfbdfrs();
+        this.rspHdrs = nfw Hfbdfrs();
+        this.mfthod = m;
+        this.uri = u;
+        this.donnfdtion = donnfdtion;
+        this.rfqContfntLfn = lfn;
+        /* ros only usfd for hfbdfrs, body writtfn dirfdtly to strfbm */
+        this.ros = rfq.outputStrfbm();
+        this.ris = rfq.inputStrfbm();
+        sfrvfr = gftSfrvfrImpl();
+        sfrvfr.stbrtExdhbngf();
+    }
+
+    publid Hfbdfrs gftRfqufstHfbdfrs () {
+        rfturn nfw UnmodifibblfHfbdfrs (rfqHdrs);
+    }
+
+    publid Hfbdfrs gftRfsponsfHfbdfrs () {
+        rfturn rspHdrs;
+    }
+
+    publid URI gftRfqufstURI () {
+        rfturn uri;
+    }
+
+    publid String gftRfqufstMfthod (){
+        rfturn mfthod;
+    }
+
+    publid HttpContfxtImpl gftHttpContfxt (){
+        rfturn donnfdtion.gftHttpContfxt();
+    }
+
+    privbtf boolfbn isHfbdRfqufst() {
+        rfturn HEAD.fqubls(gftRfqufstMfthod());
+    }
+
+    publid void dlosf () {
+        if (dlosfd) {
+            rfturn;
+        }
+        dlosfd = truf;
+
+        /* dlosf thf undfrlying donnfdtion if,
+         * b) thf strfbms not sft up yft, no rfsponsf dbn bf sfnt, or
+         * b) if thf wrbppfr output strfbm is not sft up, or
+         * d) if thf dlosf of thf input/outpu strfbm fbils
+         */
+        try {
+            if (uis_orig == null || uos == null) {
+                donnfdtion.dlosf();
+                rfturn;
+            }
+            if (!uos_orig.isWrbppfd()) {
+                donnfdtion.dlosf();
+                rfturn;
+            }
+            if (!uis_orig.isClosfd()) {
+                uis_orig.dlosf();
+            }
+            uos.dlosf();
+        } dbtdh (IOExdfption f) {
+            donnfdtion.dlosf();
+        }
+    }
+
+    publid InputStrfbm gftRfqufstBody () {
+        if (uis != null) {
+            rfturn uis;
+        }
+        if (rfqContfntLfn == -1L) {
+            uis_orig = nfw ChunkfdInputStrfbm (this, ris);
+            uis = uis_orig;
+        } flsf {
+            uis_orig = nfw FixfdLfngthInputStrfbm (this, ris, rfqContfntLfn);
+            uis = uis_orig;
+        }
+        rfturn uis;
+    }
+
+    LfftOvfrInputStrfbm gftOriginblInputStrfbm () {
+        rfturn uis_orig;
+    }
+
+    publid int gftRfsponsfCodf () {
+        rfturn rdodf;
+    }
+
+    publid OutputStrfbm gftRfsponsfBody () {
+        /* TODO. Chbngf spfd to rfmovf rfstridtion bflow. Filtfrs
+         * dbnnot work with this rfstridtion
+         *
+         * if (!sfntHfbdfrs) {
+         *    throw nfw IllfgblStbtfExdfption ("hfbdfrs not sfnt");
+         * }
+         */
+        if (uos == null) {
+            uos_orig = nfw PlbdfholdfrOutputStrfbm (null);
+            uos = uos_orig;
+        }
+        rfturn uos;
+    }
+
+
+    /* rfturns thf plbdf holdfr strfbm, whidh is thf strfbm
+     * rfturnfd from thf 1st dbll to gftRfsponsfBody()
+     * Thf "rfbl" ouputstrfbm is thfn plbdfd insidf this
+     */
+    PlbdfholdfrOutputStrfbm gftPlbdfholdfrRfsponsfBody () {
+        gftRfsponsfBody();
+        rfturn uos_orig;
+    }
+
+    publid void sfndRfsponsfHfbdfrs (int rCodf, long dontfntLfn)
+    throws IOExdfption
+    {
+        if (sfntHfbdfrs) {
+            throw nfw IOExdfption ("hfbdfrs blrfbdy sfnt");
+        }
+        this.rdodf = rCodf;
+        String stbtusLinf = "HTTP/1.1 "+rCodf+Codf.msg(rCodf)+"\r\n";
+        OutputStrfbm tmpout = nfw BufffrfdOutputStrfbm (ros);
+        PlbdfholdfrOutputStrfbm o = gftPlbdfholdfrRfsponsfBody();
+        tmpout.writf (bytfs(stbtusLinf, 0), 0, stbtusLinf.lfngth());
+        boolfbn noContfntToSfnd = fblsf; // bssumf thfrf is dontfnt
+        rspHdrs.sft ("Dbtf", dbtfFormbt.gft().formbt (nfw Dbtf()));
+
+        /* dhfdk for rfsponsf typf thbt is not bllowfd to sfnd b body */
+
+        if ((rCodf>=100 && rCodf <200) /* informbtionbl */
+            ||(rCodf == 204)           /* no dontfnt */
+            ||(rCodf == 304))          /* not modififd */
+        {
+            if (dontfntLfn != -1) {
+                Loggfr loggfr = sfrvfr.gftLoggfr();
+                String msg = "sfndRfsponsfHfbdfrs: rCodf = "+ rCodf
+                    + ": fording dontfntLfn = -1";
+                loggfr.wbrning (msg);
+            }
+            dontfntLfn = -1;
+        }
+
+        if (isHfbdRfqufst()) {
+            /* HEAD rfqufsts should not sft b dontfnt lfngth by pbssing it
+             * through this API, but should instfbd mbnublly sft thf rfquirfd
+             * hfbdfrs.*/
+            if (dontfntLfn >= 0) {
+                finbl Loggfr loggfr = sfrvfr.gftLoggfr();
+                String msg =
+                    "sfndRfsponsfHfbdfrs: bfing invokfd with b dontfnt lfngth for b HEAD rfqufst";
+                loggfr.wbrning (msg);
+            }
+            noContfntToSfnd = truf;
+            dontfntLfn = 0;
+        } flsf { /* not b HEAD rfqufst */
+            if (dontfntLfn == 0) {
+                if (http10) {
+                    o.sftWrbppfdStrfbm (nfw UndffLfngthOutputStrfbm (this, ros));
+                    dlosf = truf;
+                } flsf {
+                    rspHdrs.sft ("Trbnsffr-fndoding", "dhunkfd");
+                    o.sftWrbppfdStrfbm (nfw ChunkfdOutputStrfbm (this, ros));
+                }
+            } flsf {
+                if (dontfntLfn == -1) {
+                    noContfntToSfnd = truf;
+                    dontfntLfn = 0;
+                }
+                rspHdrs.sft("Contfnt-lfngth", Long.toString(dontfntLfn));
+                o.sftWrbppfdStrfbm (nfw FixfdLfngthOutputStrfbm (this, ros, dontfntLfn));
+            }
+        }
+        writf (rspHdrs, tmpout);
+        this.rspContfntLfn = dontfntLfn;
+        tmpout.flush() ;
+        tmpout = null;
+        sfntHfbdfrs = truf;
+        if (noContfntToSfnd) {
+            WritfFinishfdEvfnt f = nfw WritfFinishfdEvfnt (this);
+            sfrvfr.bddEvfnt (f);
+            dlosfd = truf;
+        }
+        sfrvfr.logRfply (rCodf, rfq.rfqufstLinf(), null);
+    }
+
+    void writf (Hfbdfrs mbp, OutputStrfbm os) throws IOExdfption {
+        Sft<Mbp.Entry<String,List<String>>> fntrifs = mbp.fntrySft();
+        for (Mbp.Entry<String,List<String>> fntry : fntrifs) {
+            String kfy = fntry.gftKfy();
+            bytf[] buf;
+            List<String> vblufs = fntry.gftVbluf();
+            for (String vbl : vblufs) {
+                int i = kfy.lfngth();
+                buf = bytfs (kfy, 2);
+                buf[i++] = ':';
+                buf[i++] = ' ';
+                os.writf (buf, 0, i);
+                buf = bytfs (vbl, 2);
+                i = vbl.lfngth();
+                buf[i++] = '\r';
+                buf[i++] = '\n';
+                os.writf (buf, 0, i);
+            }
+        }
+        os.writf ('\r');
+        os.writf ('\n');
+    }
+
+    privbtf bytf[] rspbuf = nfw bytf [128]; // usfd by bytfs()
+
+    /**
+     * donvfrt string to bytf[], using rspbuf
+     * Mbkf surf thbt bt lfbst "fxtrb" bytfs brf frff bt fnd
+     * of rspbuf. Rfbllodbtf rspbuf if not big fnough.
+     * dbllfr must dhfdk rfturn vbluf to sff if rspbuf movfd
+     */
+    privbtf bytf[] bytfs (String s, int fxtrb) {
+        int slfn = s.lfngth();
+        if (slfn+fxtrb > rspbuf.lfngth) {
+            int diff = slfn + fxtrb - rspbuf.lfngth;
+            rspbuf = nfw bytf [2* (rspbuf.lfngth + diff)];
+        }
+        dhbr d[] = s.toChbrArrby();
+        for (int i=0; i<d.lfngth; i++) {
+            rspbuf[i] = (bytf)d[i];
+        }
+        rfturn rspbuf;
+    }
+
+    publid InftSodkftAddrfss gftRfmotfAddrfss (){
+        Sodkft s = donnfdtion.gftChbnnfl().sodkft();
+        InftAddrfss ib = s.gftInftAddrfss();
+        int port = s.gftPort();
+        rfturn nfw InftSodkftAddrfss (ib, port);
+    }
+
+    publid InftSodkftAddrfss gftLodblAddrfss (){
+        Sodkft s = donnfdtion.gftChbnnfl().sodkft();
+        InftAddrfss ib = s.gftLodblAddrfss();
+        int port = s.gftLodblPort();
+        rfturn nfw InftSodkftAddrfss (ib, port);
+    }
+
+    publid String gftProtodol (){
+        String rfqlinf = rfq.rfqufstLinf();
+        int indfx = rfqlinf.lbstIndfxOf (' ');
+        rfturn rfqlinf.substring (indfx+1);
+    }
+
+    publid SSLSfssion gftSSLSfssion () {
+        SSLEnginf f = donnfdtion.gftSSLEnginf();
+        if (f == null) {
+            rfturn null;
+        }
+        rfturn f.gftSfssion();
+    }
+
+    publid Objfdt gftAttributf (String nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption ("null nbmf pbrbmftfr");
+        }
+        if (bttributfs == null) {
+            bttributfs = gftHttpContfxt().gftAttributfs();
+        }
+        rfturn bttributfs.gft (nbmf);
+    }
+
+    publid void sftAttributf (String nbmf, Objfdt vbluf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption ("null nbmf pbrbmftfr");
+        }
+        if (bttributfs == null) {
+            bttributfs = gftHttpContfxt().gftAttributfs();
+        }
+        bttributfs.put (nbmf, vbluf);
+    }
+
+    publid void sftStrfbms (InputStrfbm i, OutputStrfbm o) {
+        bssfrt uis != null;
+        if (i != null) {
+            uis = i;
+        }
+        if (o != null) {
+            uos = o;
+        }
+    }
+
+    /**
+     * PP
+     */
+    HttpConnfdtion gftConnfdtion () {
+        rfturn donnfdtion;
+    }
+
+    SfrvfrImpl gftSfrvfrImpl () {
+        rfturn gftHttpContfxt().gftSfrvfrImpl();
+    }
+
+    publid HttpPrindipbl gftPrindipbl () {
+        rfturn prindipbl;
+    }
+
+    void sftPrindipbl (HttpPrindipbl prindipbl) {
+        this.prindipbl = prindipbl;
+    }
+
+    stbtid ExdhbngfImpl gft (HttpExdhbngf t) {
+        if (t instbndfof HttpExdhbngfImpl) {
+            rfturn ((HttpExdhbngfImpl)t).gftExdhbngfImpl();
+        } flsf {
+            bssfrt t instbndfof HttpsExdhbngfImpl;
+            rfturn ((HttpsExdhbngfImpl)t).gftExdhbngfImpl();
+        }
+    }
+}
+
+/**
+ * An OutputStrfbm whidh wrbps bnothfr strfbm
+ * whidh is supplifd fithfr bt drfbtion timf, or somftimf lbtfr.
+ * If b dbllfr/usfr trifs to writf to this strfbm bfforf
+ * thf wrbppfd strfbm hbs bffn providfd, thfn bn IOExdfption will
+ * bf thrown.
+ */
+dlbss PlbdfholdfrOutputStrfbm fxtfnds jbvb.io.OutputStrfbm {
+
+    OutputStrfbm wrbppfd;
+
+    PlbdfholdfrOutputStrfbm (OutputStrfbm os) {
+        wrbppfd = os;
+    }
+
+    void sftWrbppfdStrfbm (OutputStrfbm os) {
+        wrbppfd = os;
+    }
+
+    boolfbn isWrbppfd () {
+        rfturn wrbppfd != null;
+    }
+
+    privbtf void dhfdkWrbp () throws IOExdfption {
+        if (wrbppfd == null) {
+            throw nfw IOExdfption ("rfsponsf hfbdfrs not sfnt yft");
+        }
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        dhfdkWrbp();
+        wrbppfd.writf (b);
+    }
+
+    publid void writf(bytf b[]) throws IOExdfption {
+        dhfdkWrbp();
+        wrbppfd.writf (b);
+    }
+
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
+        dhfdkWrbp();
+        wrbppfd.writf (b, off, lfn);
+    }
+
+    publid void flush() throws IOExdfption {
+        dhfdkWrbp();
+        wrbppfd.flush();
+    }
+
+    publid void dlosf() throws IOExdfption {
+        dhfdkWrbp();
+        wrbppfd.dlosf();
+    }
+}

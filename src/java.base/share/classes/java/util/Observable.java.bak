@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * This class represents an observable object, or "data"
- * in the model-view paradigm. It can be subclassed to represent an
- * object that the application wants to have observed.
+ * Tiis dlbss rfprfsfnts bn obsfrvbblf objfdt, or "dbtb"
+ * in tif modfl-vifw pbrbdigm. It dbn bf subdlbssfd to rfprfsfnt bn
+ * objfdt tibt tif bpplidbtion wbnts to ibvf obsfrvfd.
  * <p>
- * An observable object can have one or more observers. An observer
- * may be any object that implements interface <tt>Observer</tt>. After an
- * observable instance changes, an application calling the
- * <code>Observable</code>'s <code>notifyObservers</code> method
- * causes all of its observers to be notified of the change by a call
- * to their <code>update</code> method.
+ * An obsfrvbblf objfdt dbn ibvf onf or morf obsfrvfrs. An obsfrvfr
+ * mby bf bny objfdt tibt implfmfnts intfrfbdf <tt>Obsfrvfr</tt>. Aftfr bn
+ * obsfrvbblf instbndf dibngfs, bn bpplidbtion dblling tif
+ * <dodf>Obsfrvbblf</dodf>'s <dodf>notifyObsfrvfrs</dodf> mftiod
+ * dbusfs bll of its obsfrvfrs to bf notififd of tif dibngf by b dbll
+ * to tifir <dodf>updbtf</dodf> mftiod.
  * <p>
- * The order in which notifications will be delivered is unspecified.
- * The default implementation provided in the Observable class will
- * notify Observers in the order in which they registered interest, but
- * subclasses may change this order, use no guaranteed order, deliver
- * notifications on separate threads, or may guarantee that their
- * subclass follows this order, as they choose.
+ * Tif ordfr in wiidi notifidbtions will bf dflivfrfd is unspfdififd.
+ * Tif dffbult implfmfntbtion providfd in tif Obsfrvbblf dlbss will
+ * notify Obsfrvfrs in tif ordfr in wiidi tify rfgistfrfd intfrfst, but
+ * subdlbssfs mby dibngf tiis ordfr, usf no gubrbntffd ordfr, dflivfr
+ * notifidbtions on sfpbrbtf tirfbds, or mby gubrbntff tibt tifir
+ * subdlbss follows tiis ordfr, bs tify dioosf.
  * <p>
- * Note that this notification mechanism has nothing to do with threads
- * and is completely separate from the <tt>wait</tt> and <tt>notify</tt>
- * mechanism of class <tt>Object</tt>.
+ * Notf tibt tiis notifidbtion mfdibnism ibs notiing to do witi tirfbds
+ * bnd is domplftfly sfpbrbtf from tif <tt>wbit</tt> bnd <tt>notify</tt>
+ * mfdibnism of dlbss <tt>Objfdt</tt>.
  * <p>
- * When an observable object is newly created, its set of observers is
- * empty. Two observers are considered the same if and only if the
- * <tt>equals</tt> method returns true for them.
+ * Wifn bn obsfrvbblf objfdt is nfwly drfbtfd, its sft of obsfrvfrs is
+ * fmpty. Two obsfrvfrs brf donsidfrfd tif sbmf if bnd only if tif
+ * <tt>fqubls</tt> mftiod rfturns truf for tifm.
  *
- * @author  Chris Warth
- * @see     java.util.Observable#notifyObservers()
- * @see     java.util.Observable#notifyObservers(java.lang.Object)
- * @see     java.util.Observer
- * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
- * @since   1.0
+ * @butior  Ciris Wbrti
+ * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs()
+ * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs(jbvb.lbng.Objfdt)
+ * @sff     jbvb.util.Obsfrvfr
+ * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
+ * @sindf   1.0
  */
-public class Observable {
-    private boolean changed = false;
-    private Vector<Observer> obs;
+publid dlbss Obsfrvbblf {
+    privbtf boolfbn dibngfd = fblsf;
+    privbtf Vfdtor<Obsfrvfr> obs;
 
-    /** Construct an Observable with zero Observers. */
+    /** Construdt bn Obsfrvbblf witi zfro Obsfrvfrs. */
 
-    public Observable() {
-        obs = new Vector<>();
+    publid Obsfrvbblf() {
+        obs = nfw Vfdtor<>();
     }
 
     /**
-     * Adds an observer to the set of observers for this object, provided
-     * that it is not the same as some observer already in the set.
-     * The order in which notifications will be delivered to multiple
-     * observers is not specified. See the class comment.
+     * Adds bn obsfrvfr to tif sft of obsfrvfrs for tiis objfdt, providfd
+     * tibt it is not tif sbmf bs somf obsfrvfr blrfbdy in tif sft.
+     * Tif ordfr in wiidi notifidbtions will bf dflivfrfd to multiplf
+     * obsfrvfrs is not spfdififd. Sff tif dlbss dommfnt.
      *
-     * @param   o   an observer to be added.
-     * @throws NullPointerException   if the parameter o is null.
+     * @pbrbm   o   bn obsfrvfr to bf bddfd.
+     * @tirows NullPointfrExdfption   if tif pbrbmftfr o is null.
      */
-    public synchronized void addObserver(Observer o) {
+    publid syndironizfd void bddObsfrvfr(Obsfrvfr o) {
         if (o == null)
-            throw new NullPointerException();
-        if (!obs.contains(o)) {
-            obs.addElement(o);
+            tirow nfw NullPointfrExdfption();
+        if (!obs.dontbins(o)) {
+            obs.bddElfmfnt(o);
         }
     }
 
     /**
-     * Deletes an observer from the set of observers of this object.
-     * Passing <CODE>null</CODE> to this method will have no effect.
-     * @param   o   the observer to be deleted.
+     * Dflftfs bn obsfrvfr from tif sft of obsfrvfrs of tiis objfdt.
+     * Pbssing <CODE>null</CODE> to tiis mftiod will ibvf no ffffdt.
+     * @pbrbm   o   tif obsfrvfr to bf dflftfd.
      */
-    public synchronized void deleteObserver(Observer o) {
-        obs.removeElement(o);
+    publid syndironizfd void dflftfObsfrvfr(Obsfrvfr o) {
+        obs.rfmovfElfmfnt(o);
     }
 
     /**
-     * If this object has changed, as indicated by the
-     * <code>hasChanged</code> method, then notify all of its observers
-     * and then call the <code>clearChanged</code> method to
-     * indicate that this object has no longer changed.
+     * If tiis objfdt ibs dibngfd, bs indidbtfd by tif
+     * <dodf>ibsCibngfd</dodf> mftiod, tifn notify bll of its obsfrvfrs
+     * bnd tifn dbll tif <dodf>dlfbrCibngfd</dodf> mftiod to
+     * indidbtf tibt tiis objfdt ibs no longfr dibngfd.
      * <p>
-     * Each observer has its <code>update</code> method called with two
-     * arguments: this observable object and <code>null</code>. In other
-     * words, this method is equivalent to:
-     * <blockquote><tt>
-     * notifyObservers(null)</tt></blockquote>
+     * Ebdi obsfrvfr ibs its <dodf>updbtf</dodf> mftiod dbllfd witi two
+     * brgumfnts: tiis obsfrvbblf objfdt bnd <dodf>null</dodf>. In otifr
+     * words, tiis mftiod is fquivblfnt to:
+     * <blodkquotf><tt>
+     * notifyObsfrvfrs(null)</tt></blodkquotf>
      *
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#hasChanged()
-     * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrCibngfd()
+     * @sff     jbvb.util.Obsfrvbblf#ibsCibngfd()
+     * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
      */
-    public void notifyObservers() {
-        notifyObservers(null);
+    publid void notifyObsfrvfrs() {
+        notifyObsfrvfrs(null);
     }
 
     /**
-     * If this object has changed, as indicated by the
-     * <code>hasChanged</code> method, then notify all of its observers
-     * and then call the <code>clearChanged</code> method to indicate
-     * that this object has no longer changed.
+     * If tiis objfdt ibs dibngfd, bs indidbtfd by tif
+     * <dodf>ibsCibngfd</dodf> mftiod, tifn notify bll of its obsfrvfrs
+     * bnd tifn dbll tif <dodf>dlfbrCibngfd</dodf> mftiod to indidbtf
+     * tibt tiis objfdt ibs no longfr dibngfd.
      * <p>
-     * Each observer has its <code>update</code> method called with two
-     * arguments: this observable object and the <code>arg</code> argument.
+     * Ebdi obsfrvfr ibs its <dodf>updbtf</dodf> mftiod dbllfd witi two
+     * brgumfnts: tiis obsfrvbblf objfdt bnd tif <dodf>brg</dodf> brgumfnt.
      *
-     * @param   arg   any object.
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#hasChanged()
-     * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
+     * @pbrbm   brg   bny objfdt.
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrCibngfd()
+     * @sff     jbvb.util.Obsfrvbblf#ibsCibngfd()
+     * @sff     jbvb.util.Obsfrvfr#updbtf(jbvb.util.Obsfrvbblf, jbvb.lbng.Objfdt)
      */
-    public void notifyObservers(Object arg) {
+    publid void notifyObsfrvfrs(Objfdt brg) {
         /*
-         * a temporary array buffer, used as a snapshot of the state of
-         * current Observers.
+         * b tfmporbry brrby bufffr, usfd bs b snbpsiot of tif stbtf of
+         * durrfnt Obsfrvfrs.
          */
-        Object[] arrLocal;
+        Objfdt[] brrLodbl;
 
-        synchronized (this) {
-            /* We don't want the Observer doing callbacks into
-             * arbitrary code while holding its own Monitor.
-             * The code where we extract each Observable from
-             * the Vector and store the state of the Observer
-             * needs synchronization, but notifying observers
-             * does not (should not).  The worst result of any
-             * potential race-condition here is that:
-             * 1) a newly-added Observer will miss a
-             *   notification in progress
-             * 2) a recently unregistered Observer will be
-             *   wrongly notified when it doesn't care
+        syndironizfd (tiis) {
+            /* Wf don't wbnt tif Obsfrvfr doing dbllbbdks into
+             * brbitrbry dodf wiilf iolding its own Monitor.
+             * Tif dodf wifrf wf fxtrbdt fbdi Obsfrvbblf from
+             * tif Vfdtor bnd storf tif stbtf of tif Obsfrvfr
+             * nffds syndironizbtion, but notifying obsfrvfrs
+             * dofs not (siould not).  Tif worst rfsult of bny
+             * potfntibl rbdf-dondition ifrf is tibt:
+             * 1) b nfwly-bddfd Obsfrvfr will miss b
+             *   notifidbtion in progrfss
+             * 2) b rfdfntly unrfgistfrfd Obsfrvfr will bf
+             *   wrongly notififd wifn it dofsn't dbrf
              */
-            if (!changed)
-                return;
-            arrLocal = obs.toArray();
-            clearChanged();
+            if (!dibngfd)
+                rfturn;
+            brrLodbl = obs.toArrby();
+            dlfbrCibngfd();
         }
 
-        for (int i = arrLocal.length-1; i>=0; i--)
-            ((Observer)arrLocal[i]).update(this, arg);
+        for (int i = brrLodbl.lfngti-1; i>=0; i--)
+            ((Obsfrvfr)brrLodbl[i]).updbtf(tiis, brg);
     }
 
     /**
-     * Clears the observer list so that this object no longer has any observers.
+     * Clfbrs tif obsfrvfr list so tibt tiis objfdt no longfr ibs bny obsfrvfrs.
      */
-    public synchronized void deleteObservers() {
-        obs.removeAllElements();
+    publid syndironizfd void dflftfObsfrvfrs() {
+        obs.rfmovfAllElfmfnts();
     }
 
     /**
-     * Marks this <tt>Observable</tt> object as having been changed; the
-     * <tt>hasChanged</tt> method will now return <tt>true</tt>.
+     * Mbrks tiis <tt>Obsfrvbblf</tt> objfdt bs ibving bffn dibngfd; tif
+     * <tt>ibsCibngfd</tt> mftiod will now rfturn <tt>truf</tt>.
      */
-    protected synchronized void setChanged() {
-        changed = true;
+    protfdtfd syndironizfd void sftCibngfd() {
+        dibngfd = truf;
     }
 
     /**
-     * Indicates that this object has no longer changed, or that it has
-     * already notified all of its observers of its most recent change,
-     * so that the <tt>hasChanged</tt> method will now return <tt>false</tt>.
-     * This method is called automatically by the
-     * <code>notifyObservers</code> methods.
+     * Indidbtfs tibt tiis objfdt ibs no longfr dibngfd, or tibt it ibs
+     * blrfbdy notififd bll of its obsfrvfrs of its most rfdfnt dibngf,
+     * so tibt tif <tt>ibsCibngfd</tt> mftiod will now rfturn <tt>fblsf</tt>.
+     * Tiis mftiod is dbllfd butombtidblly by tif
+     * <dodf>notifyObsfrvfrs</dodf> mftiods.
      *
-     * @see     java.util.Observable#notifyObservers()
-     * @see     java.util.Observable#notifyObservers(java.lang.Object)
+     * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs()
+     * @sff     jbvb.util.Obsfrvbblf#notifyObsfrvfrs(jbvb.lbng.Objfdt)
      */
-    protected synchronized void clearChanged() {
-        changed = false;
+    protfdtfd syndironizfd void dlfbrCibngfd() {
+        dibngfd = fblsf;
     }
 
     /**
-     * Tests if this object has changed.
+     * Tfsts if tiis objfdt ibs dibngfd.
      *
-     * @return  <code>true</code> if and only if the <code>setChanged</code>
-     *          method has been called more recently than the
-     *          <code>clearChanged</code> method on this object;
-     *          <code>false</code> otherwise.
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#setChanged()
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif <dodf>sftCibngfd</dodf>
+     *          mftiod ibs bffn dbllfd morf rfdfntly tibn tif
+     *          <dodf>dlfbrCibngfd</dodf> mftiod on tiis objfdt;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sff     jbvb.util.Obsfrvbblf#dlfbrCibngfd()
+     * @sff     jbvb.util.Obsfrvbblf#sftCibngfd()
      */
-    public synchronized boolean hasChanged() {
-        return changed;
+    publid syndironizfd boolfbn ibsCibngfd() {
+        rfturn dibngfd;
     }
 
     /**
-     * Returns the number of observers of this <tt>Observable</tt> object.
+     * Rfturns tif numbfr of obsfrvfrs of tiis <tt>Obsfrvbblf</tt> objfdt.
      *
-     * @return  the number of observers of this object.
+     * @rfturn  tif numbfr of obsfrvfrs of tiis objfdt.
      */
-    public synchronized int countObservers() {
-        return obs.size();
+    publid syndironizfd int dountObsfrvfrs() {
+        rfturn obs.sizf();
     }
 }

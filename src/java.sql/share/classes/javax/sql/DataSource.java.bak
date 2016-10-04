@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Wrapper;
+import jbvb.sql.Connfdtion;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.Wrbppfr;
 
 /**
- * <p>A factory for connections to the physical data source that this
- * {@code DataSource} object represents.  An alternative to the
- * {@code DriverManager} facility, a {@code DataSource} object
- * is the preferred means of getting a connection. An object that implements
- * the {@code DataSource} interface will typically be
- * registered with a naming service based on the
- * Java&trade; Naming and Directory (JNDI) API.
+ * <p>A fbdtory for donnfdtions to tif piysidbl dbtb sourdf tibt tiis
+ * {@dodf DbtbSourdf} objfdt rfprfsfnts.  An bltfrnbtivf to tif
+ * {@dodf DrivfrMbnbgfr} fbdility, b {@dodf DbtbSourdf} objfdt
+ * is tif prfffrrfd mfbns of gftting b donnfdtion. An objfdt tibt implfmfnts
+ * tif {@dodf DbtbSourdf} intfrfbdf will typidblly bf
+ * rfgistfrfd witi b nbming sfrvidf bbsfd on tif
+ * Jbvb&trbdf; Nbming bnd Dirfdtory (JNDI) API.
  * <P>
- * The {@code DataSource} interface is implemented by a driver vendor.
- * There are three types of implementations:
+ * Tif {@dodf DbtbSourdf} intfrfbdf is implfmfntfd by b drivfr vfndor.
+ * Tifrf brf tirff typfs of implfmfntbtions:
  * <OL>
- *   <LI>Basic implementation -- produces a standard {@code Connection}
- *       object
- *   <LI>Connection pooling implementation -- produces a {@code Connection}
- *       object that will automatically participate in connection pooling.  This
- *       implementation works with a middle-tier connection pooling manager.
- *   <LI>Distributed transaction implementation -- produces a
- *       {@code Connection} object that may be used for distributed
- *       transactions and almost always participates in connection pooling.
- *       This implementation works with a middle-tier
- *       transaction manager and almost always with a connection
- *       pooling manager.
+ *   <LI>Bbsid implfmfntbtion -- produdfs b stbndbrd {@dodf Connfdtion}
+ *       objfdt
+ *   <LI>Connfdtion pooling implfmfntbtion -- produdfs b {@dodf Connfdtion}
+ *       objfdt tibt will butombtidblly pbrtidipbtf in donnfdtion pooling.  Tiis
+ *       implfmfntbtion works witi b middlf-tifr donnfdtion pooling mbnbgfr.
+ *   <LI>Distributfd trbnsbdtion implfmfntbtion -- produdfs b
+ *       {@dodf Connfdtion} objfdt tibt mby bf usfd for distributfd
+ *       trbnsbdtions bnd blmost blwbys pbrtidipbtfs in donnfdtion pooling.
+ *       Tiis implfmfntbtion works witi b middlf-tifr
+ *       trbnsbdtion mbnbgfr bnd blmost blwbys witi b donnfdtion
+ *       pooling mbnbgfr.
  * </OL>
  * <P>
- * A {@code DataSource} object has properties that can be modified
- * when necessary.  For example, if the data source is moved to a different
- * server, the property for the server can be changed.  The benefit is that
- * because the data source's properties can be changed, any code accessing
- * that data source does not need to be changed.
+ * A {@dodf DbtbSourdf} objfdt ibs propfrtifs tibt dbn bf modififd
+ * wifn nfdfssbry.  For fxbmplf, if tif dbtb sourdf is movfd to b difffrfnt
+ * sfrvfr, tif propfrty for tif sfrvfr dbn bf dibngfd.  Tif bfnffit is tibt
+ * bfdbusf tif dbtb sourdf's propfrtifs dbn bf dibngfd, bny dodf bddfssing
+ * tibt dbtb sourdf dofs not nffd to bf dibngfd.
  * <P>
- * A driver that is accessed via a {@code DataSource} object does not
- * register itself with the {@code DriverManager}.  Rather, a
- * {@code DataSource} object is retrieved though a lookup operation
- * and then used to create a {@code Connection} object.  With a basic
- * implementation, the connection obtained through a {@code DataSource}
- * object is identical to a connection obtained through the
- * {@code DriverManager} facility.
+ * A drivfr tibt is bddfssfd vib b {@dodf DbtbSourdf} objfdt dofs not
+ * rfgistfr itsflf witi tif {@dodf DrivfrMbnbgfr}.  Rbtifr, b
+ * {@dodf DbtbSourdf} objfdt is rftrifvfd tiougi b lookup opfrbtion
+ * bnd tifn usfd to drfbtf b {@dodf Connfdtion} objfdt.  Witi b bbsid
+ * implfmfntbtion, tif donnfdtion obtbinfd tirougi b {@dodf DbtbSourdf}
+ * objfdt is idfntidbl to b donnfdtion obtbinfd tirougi tif
+ * {@dodf DrivfrMbnbgfr} fbdility.
  * <p>
- * An implementation of {@code DataSource} must include a public no-arg
- * constructor.
+ * An implfmfntbtion of {@dodf DbtbSourdf} must indludf b publid no-brg
+ * donstrudtor.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface DataSource  extends CommonDataSource, Wrapper {
+publid intfrfbdf DbtbSourdf  fxtfnds CommonDbtbSourdf, Wrbppfr {
 
   /**
-   * <p>Attempts to establish a connection with the data source that
-   * this {@code DataSource} object represents.
+   * <p>Attfmpts to fstbblisi b donnfdtion witi tif dbtb sourdf tibt
+   * tiis {@dodf DbtbSourdf} objfdt rfprfsfnts.
    *
-   * @return  a connection to the data source
-   * @exception SQLException if a database access error occurs
-   * @throws java.sql.SQLTimeoutException  when the driver has determined that the
-   * timeout value specified by the {@code setLoginTimeout} method
-   * has been exceeded and has at least tried to cancel the
-   * current database connection attempt
+   * @rfturn  b donnfdtion to tif dbtb sourdf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @tirows jbvb.sql.SQLTimfoutExdfption  wifn tif drivfr ibs dftfrminfd tibt tif
+   * timfout vbluf spfdififd by tif {@dodf sftLoginTimfout} mftiod
+   * ibs bffn fxdffdfd bnd ibs bt lfbst trifd to dbndfl tif
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
    */
-  Connection getConnection() throws SQLException;
+  Connfdtion gftConnfdtion() tirows SQLExdfption;
 
   /**
-   * <p>Attempts to establish a connection with the data source that
-   * this {@code DataSource} object represents.
+   * <p>Attfmpts to fstbblisi b donnfdtion witi tif dbtb sourdf tibt
+   * tiis {@dodf DbtbSourdf} objfdt rfprfsfnts.
    *
-   * @param username the database user on whose behalf the connection is
-   *  being made
-   * @param password the user's password
-   * @return  a connection to the data source
-   * @exception SQLException if a database access error occurs
-   * @throws java.sql.SQLTimeoutException  when the driver has determined that the
-   * timeout value specified by the {@code setLoginTimeout} method
-   * has been exceeded and has at least tried to cancel the
-   * current database connection attempt
-   * @since 1.4
+   * @pbrbm usfrnbmf tif dbtbbbsf usfr on wiosf bfiblf tif donnfdtion is
+   *  bfing mbdf
+   * @pbrbm pbssword tif usfr's pbssword
+   * @rfturn  b donnfdtion to tif dbtb sourdf
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @tirows jbvb.sql.SQLTimfoutExdfption  wifn tif drivfr ibs dftfrminfd tibt tif
+   * timfout vbluf spfdififd by tif {@dodf sftLoginTimfout} mftiod
+   * ibs bffn fxdffdfd bnd ibs bt lfbst trifd to dbndfl tif
+   * durrfnt dbtbbbsf donnfdtion bttfmpt
+   * @sindf 1.4
    */
-  Connection getConnection(String username, String password)
-    throws SQLException;
+  Connfdtion gftConnfdtion(String usfrnbmf, String pbssword)
+    tirows SQLExdfption;
 }

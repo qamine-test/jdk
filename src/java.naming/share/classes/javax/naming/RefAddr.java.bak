@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This class represents the address of a communications end-point.
-  * It consists of a type that describes the communication mechanism
-  * and an address contents determined by an RefAddr subclass.
+  * Tiis dlbss rfprfsfnts tif bddrfss of b dommunidbtions fnd-point.
+  * It donsists of b typf tibt dfsdribfs tif dommunidbtion mfdibnism
+  * bnd bn bddrfss dontfnts dftfrminfd by bn RffAddr subdlbss.
   *<p>
-  * For example, an address type could be "BSD Printer Address",
-  * which specifies that it is an address to be used with the BSD printing
-  * protocol. Its contents could be the machine name identifying the
-  * location of the printer server that understands this protocol.
+  * For fxbmplf, bn bddrfss typf dould bf "BSD Printfr Addrfss",
+  * wiidi spfdififs tibt it is bn bddrfss to bf usfd witi tif BSD printing
+  * protodol. Its dontfnts dould bf tif mbdiinf nbmf idfntifying tif
+  * lodbtion of tif printfr sfrvfr tibt undfrstbnds tiis protodol.
   *<p>
-  * A RefAddr is contained within a Reference.
+  * A RffAddr is dontbinfd witiin b Rfffrfndf.
   *<p>
-  * RefAddr is an abstract class. Concrete implementations of it
-  * determine its synchronization properties.
+  * RffAddr is bn bbstrbdt dlbss. Condrftf implfmfntbtions of it
+  * dftfrminf its syndironizbtion propfrtifs.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see Reference
-  * @see LinkRef
-  * @see StringRefAddr
-  * @see BinaryRefAddr
-  * @since 1.3
+  * @sff Rfffrfndf
+  * @sff LinkRff
+  * @sff StringRffAddr
+  * @sff BinbryRffAddr
+  * @sindf 1.3
   */
 
   /*<p>
-  * The serialized form of a RefAddr object consists of only its type name
+  * Tif sfriblizfd form of b RffAddr objfdt donsists of only its typf nbmf
   * String.
   */
 
-public abstract class RefAddr implements java.io.Serializable {
+publid bbstrbdt dlbss RffAddr implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * Contains the type of this address.
-     * @serial
+     * Contbins tif typf of tiis bddrfss.
+     * @sfribl
      */
-    protected String addrType;
+    protfdtfd String bddrTypf;
 
     /**
-      * Constructs a new instance of RefAddr using its address type.
+      * Construdts b nfw instbndf of RffAddr using its bddrfss typf.
       *
-      * @param addrType A non-null string describing the type of the address.
+      * @pbrbm bddrTypf A non-null string dfsdribing tif typf of tif bddrfss.
       */
-    protected RefAddr(String addrType) {
-        this.addrType = addrType;
+    protfdtfd RffAddr(String bddrTypf) {
+        tiis.bddrTypf = bddrTypf;
     }
 
     /**
-      * Retrieves the address type of this address.
+      * Rftrifvfs tif bddrfss typf of tiis bddrfss.
       *
-      * @return The non-null address type of this address.
+      * @rfturn Tif non-null bddrfss typf of tiis bddrfss.
       */
-    public String getType() {
-        return addrType;
+    publid String gftTypf() {
+        rfturn bddrTypf;
     }
 
     /**
-      * Retrieves the contents of this address.
+      * Rftrifvfs tif dontfnts of tiis bddrfss.
       *
-      * @return The possibly null address contents.
+      * @rfturn Tif possibly null bddrfss dontfnts.
       */
-    public abstract Object getContent();
+    publid bbstrbdt Objfdt gftContfnt();
 
     /**
-      * Determines whether obj is equal to this RefAddr.
+      * Dftfrminfs wiftifr obj is fqubl to tiis RffAddr.
       *<p>
-      * obj is equal to this RefAddr if all of these conditions are true
+      * obj is fqubl to tiis RffAddr if bll of tifsf donditions brf truf
       *<ul>
       *<li> non-null
-      *<li> instance of RefAddr
-      *<li> obj has the same address type as this RefAddr (using String.compareTo())
-      *<li> both obj and this RefAddr's contents are null or they are equal
-      *         (using the equals() test).
+      *<li> instbndf of RffAddr
+      *<li> obj ibs tif sbmf bddrfss typf bs tiis RffAddr (using String.dompbrfTo())
+      *<li> boti obj bnd tiis RffAddr's dontfnts brf null or tify brf fqubl
+      *         (using tif fqubls() tfst).
       *</ul>
-      * @param obj possibly null obj to check.
-      * @return true if obj is equal to this refaddr; false otherwise.
-      * @see #getContent
-      * @see #getType
+      * @pbrbm obj possibly null obj to difdk.
+      * @rfturn truf if obj is fqubl to tiis rffbddr; fblsf otifrwisf.
+      * @sff #gftContfnt
+      * @sff #gftTypf
       */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof RefAddr)) {
-            RefAddr target = (RefAddr)obj;
-            if (addrType.compareTo(target.addrType) == 0) {
-                Object thisobj = this.getContent();
-                Object thatobj = target.getContent();
-                if (thisobj == thatobj)
-                    return true;
-                if (thisobj != null)
-                    return thisobj.equals(thatobj);
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof RffAddr)) {
+            RffAddr tbrgft = (RffAddr)obj;
+            if (bddrTypf.dompbrfTo(tbrgft.bddrTypf) == 0) {
+                Objfdt tiisobj = tiis.gftContfnt();
+                Objfdt tibtobj = tbrgft.gftContfnt();
+                if (tiisobj == tibtobj)
+                    rfturn truf;
+                if (tiisobj != null)
+                    rfturn tiisobj.fqubls(tibtobj);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-      * Computes the hash code of this address using its address type and contents.
-      * The hash code is the sum of the hash code of the address type and
-      * the hash code of the address contents.
+      * Computfs tif ibsi dodf of tiis bddrfss using its bddrfss typf bnd dontfnts.
+      * Tif ibsi dodf is tif sum of tif ibsi dodf of tif bddrfss typf bnd
+      * tif ibsi dodf of tif bddrfss dontfnts.
       *
-      * @return The hash code of this address as an int.
-      * @see java.lang.Object#hashCode
+      * @rfturn Tif ibsi dodf of tiis bddrfss bs bn int.
+      * @sff jbvb.lbng.Objfdt#ibsiCodf
       */
-    public int hashCode() {
-        return (getContent() == null)
-                ? addrType.hashCode()
-                : addrType.hashCode() + getContent().hashCode();
+    publid int ibsiCodf() {
+        rfturn (gftContfnt() == null)
+                ? bddrTypf.ibsiCodf()
+                : bddrTypf.ibsiCodf() + gftContfnt().ibsiCodf();
     }
 
     /**
-      * Generates the string representation of this address.
-      * The string consists of the address's type and contents with labels.
-      * This representation is intended for display only and not to be parsed.
-      * @return The non-null string representation of this address.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis bddrfss.
+      * Tif string donsists of tif bddrfss's typf bnd dontfnts witi lbbfls.
+      * Tiis rfprfsfntbtion is intfndfd for displby only bnd not to bf pbrsfd.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis bddrfss.
       */
-    public String toString(){
-        StringBuilder str = new StringBuilder("Type: " + addrType + "\n");
+    publid String toString(){
+        StringBuildfr str = nfw StringBuildfr("Typf: " + bddrTypf + "\n");
 
-        str.append("Content: " + getContent() + "\n");
-        return (str.toString());
+        str.bppfnd("Contfnt: " + gftContfnt() + "\n");
+        rfturn (str.toString());
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -1468165120479154358L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1468165120479154358L;
 }

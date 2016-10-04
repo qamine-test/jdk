@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.ReferenceType;
-import com.sun.jdi.request.*;
+import dom.sun.jdi.RfffrfndfTypf;
+import dom.sun.jdi.rfqufst.*;
 
-class ExceptionSpec extends EventRequestSpec {
-    private boolean notifyCaught;
-    private boolean notifyUncaught;
+dlbss ExdfptionSpfd fxtfnds EvfntRfqufstSpfd {
+    privbtf boolfbn notifyCbugit;
+    privbtf boolfbn notifyUndbugit;
 
-    private ExceptionSpec(ReferenceTypeSpec refSpec) {
-        this(refSpec, true, true);
+    privbtf ExdfptionSpfd(RfffrfndfTypfSpfd rffSpfd) {
+        tiis(rffSpfd, truf, truf);
     }
 
-    ExceptionSpec(ReferenceTypeSpec refSpec,
-                  boolean notifyCaught,
-                  boolean notifyUncaught) {
-        super(refSpec);
-        this.notifyCaught = notifyCaught;
-        this.notifyUncaught = notifyUncaught;
+    ExdfptionSpfd(RfffrfndfTypfSpfd rffSpfd,
+                  boolfbn notifyCbugit,
+                  boolfbn notifyUndbugit) {
+        supfr(rffSpfd);
+        tiis.notifyCbugit = notifyCbugit;
+        tiis.notifyUndbugit = notifyUndbugit;
     }
 
     /**
-     * The 'refType' is known to match, return the EventRequest.
+     * Tif 'rffTypf' is known to mbtdi, rfturn tif EvfntRfqufst.
      */
-    @Override
-    EventRequest resolveEventRequest(ReferenceType refType) {
-        EventRequestManager em = refType.virtualMachine().eventRequestManager();
-        ExceptionRequest excReq = em.createExceptionRequest(refType,
-                                                            notifyCaught,
-                                                            notifyUncaught);
-        excReq.enable();
-        return excReq;
+    @Ovfrridf
+    EvfntRfqufst rfsolvfEvfntRfqufst(RfffrfndfTypf rffTypf) {
+        EvfntRfqufstMbnbgfr fm = rffTypf.virtublMbdiinf().fvfntRfqufstMbnbgfr();
+        ExdfptionRfqufst fxdRfq = fm.drfbtfExdfptionRfqufst(rffTypf,
+                                                            notifyCbugit,
+                                                            notifyUndbugit);
+        fxdRfq.fnbblf();
+        rfturn fxdRfq;
     }
 
-    public boolean notifyCaught() {
-        return notifyCaught;
+    publid boolfbn notifyCbugit() {
+        rfturn notifyCbugit;
     }
 
-    public boolean notifyUncaught() {
-        return notifyUncaught;
+    publid boolfbn notifyUndbugit() {
+        rfturn notifyUndbugit;
     }
 
-    @Override
-    public int hashCode() {
-        //Reference: Effective Java[tm] (Bloch, 2001), Item 8
-        int result = 17;
-        result = (37 * result) + (notifyCaught() ? 0: 1);
-        result = (37 * result) + (notifyUncaught() ? 0: 1);
-        result = (37 * result) + refSpec.hashCode();
-        return result;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        //Rfffrfndf: Efffdtivf Jbvb[tm] (Blodi, 2001), Itfm 8
+        int rfsult = 17;
+        rfsult = (37 * rfsult) + (notifyCbugit() ? 0: 1);
+        rfsult = (37 * rfsult) + (notifyUndbugit() ? 0: 1);
+        rfsult = (37 * rfsult) + rffSpfd.ibsiCodf();
+        rfturn rfsult;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof ExceptionSpec) {
-            ExceptionSpec es = (ExceptionSpec)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof ExdfptionSpfd) {
+            ExdfptionSpfd fs = (ExdfptionSpfd)obj;
 
-            if (refSpec.equals(es.refSpec) &&
-                (this.notifyCaught() == es.notifyCaught()) &&
-                (this.notifyUncaught() == es.notifyUncaught())) {
-                return true;
+            if (rffSpfd.fqubls(fs.rffSpfd) &&
+                (tiis.notifyCbugit() == fs.notifyCbugit()) &&
+                (tiis.notifyUndbugit() == fs.notifyUndbugit())) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public String toString() {
+    @Ovfrridf
+    publid String toString() {
         String s;
-        if (notifyCaught && !notifyUncaught) {
-            s = MessageOutput.format("exceptionSpec caught",
-                                     refSpec.toString());
-        } else if (notifyUncaught && !notifyCaught) {
-            s = MessageOutput.format("exceptionSpec uncaught",
-                                     refSpec.toString());
-        } else {
-            s = MessageOutput.format("exceptionSpec all",
-                                     refSpec.toString());
+        if (notifyCbugit && !notifyUndbugit) {
+            s = MfssbgfOutput.formbt("fxdfptionSpfd dbugit",
+                                     rffSpfd.toString());
+        } flsf if (notifyUndbugit && !notifyCbugit) {
+            s = MfssbgfOutput.formbt("fxdfptionSpfd undbugit",
+                                     rffSpfd.toString());
+        } flsf {
+            s = MfssbgfOutput.formbt("fxdfptionSpfd bll",
+                                     rffSpfd.toString());
         }
-        return s;
+        rfturn s;
     }
 }

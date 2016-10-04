@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.util.Arrbys; // JDK 1.2
+import jbvb.util.Hbshtbblf;
+
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.ldbp.Control;
+
+/**
+ * Extfnds SimplfClifntId to bdd propfrty vblufs spfdifid for Digfst-MD5.
+ * This indludfs:
+ * rfblm, buthzid, qop, strfngth, mbxbufffr, mutubl-buth, rfusf,
+ * bll polidy-rflbtfd sflfdtion propfrtifs.
+ * Two DigfstClifntIds brf idfntidbl iff thfy pbss thf SimplfClifntId
+ * fqubls() tfst bnd thbt bll of thfsf propfrty vblufs brf thf sbmf.
+ *
+ * @buthor Rosbnnb Lff
+ */
+dlbss DigfstClifntId fxtfnds SimplfClifntId {
+    privbtf stbtid finbl String[] SASL_PROPS = {
+        "jbvb.nbming.sfdurity.sbsl.buthorizbtionId",
+        "jbvb.nbming.sfdurity.sbsl.rfblm",
+        "jbvbx.sfdurity.sbsl.qop",
+        "jbvbx.sfdurity.sbsl.strfngth",
+        "jbvbx.sfdurity.sbsl.rfusf",
+        "jbvbx.sfdurity.sbsl.sfrvfr.buthfntidbtion",
+        "jbvbx.sfdurity.sbsl.mbxbufffr",
+        "jbvbx.sfdurity.sbsl.polidy.noplbintfxt",
+        "jbvbx.sfdurity.sbsl.polidy.nobdtivf",
+        "jbvbx.sfdurity.sbsl.polidy.nodidtionbry",
+        "jbvbx.sfdurity.sbsl.polidy.nobnonymous",
+        "jbvbx.sfdurity.sbsl.polidy.forwbrd",
+        "jbvbx.sfdurity.sbsl.polidy.drfdfntibls",
+    };
+
+    finbl privbtf String[] propvbls;
+    finbl privbtf int myHbsh;
+    privbtf int pHbsh = 0;
+
+    DigfstClifntId(int vfrsion, String hostnbmf, int port,
+        String protodol, Control[] bindCtls, OutputStrfbm trbdf,
+        String sodkftFbdtory, String usfrnbmf,
+        Objfdt pbsswd, Hbshtbblf<?,?> fnv) {
+
+        supfr(vfrsion, hostnbmf, port, protodol, bindCtls, trbdf,
+            sodkftFbdtory, usfrnbmf, pbsswd);
+
+        if (fnv == null) {
+            propvbls = null;
+        } flsf {
+            // Could bf smbrtfr bnd bpply dffbult vblufs for props
+            // but for now, wf just rfdord bnd dhfdk fxbdt mbtdhfs
+            propvbls = nfw String[SASL_PROPS.lfngth];
+            for (int i = 0; i < SASL_PROPS.lfngth; i++) {
+                propvbls[i] = (String) fnv.gft(SASL_PROPS[i]);
+                if (propvbls[i] != null) {
+                    pHbsh = pHbsh * 31 + propvbls[i].hbshCodf();
+                }
+            }
+        }
+        myHbsh = supfr.hbshCodf() + pHbsh;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof DigfstClifntId)) {
+            rfturn fblsf;
+        }
+        DigfstClifntId othfr = (DigfstClifntId)obj;
+        rfturn myHbsh == othfr.myHbsh
+            && pHbsh == othfr.pHbsh
+            && supfr.fqubls(obj)
+            && Arrbys.fqubls(propvbls, othfr.propvbls);
+    }
+
+    publid int hbshCodf() {
+        rfturn myHbsh;
+    }
+
+    publid String toString() {
+        if (propvbls != null) {
+            StringBuildfr sb = nfw StringBuildfr();
+            for (int i = 0; i < propvbls.lfngth; i++) {
+                sb.bppfnd(':');
+                if (propvbls[i] != null) {
+                    sb.bppfnd(propvbls[i]);
+                }
+            }
+            rfturn supfr.toString() + sb.toString();
+        } flsf {
+            rfturn supfr.toString();
+        }
+    }
+}

@@ -1,548 +1,548 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.request.EventRequestManager;
-import com.sun.jdi.request.ThreadStartRequest;
-import com.sun.jdi.request.ThreadDeathRequest;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr;
+import dom.sun.jdi.rfqufst.TirfbdStbrtRfqufst;
+import dom.sun.jdi.rfqufst.TirfbdDfbtiRfqufst;
 
-import java.util.*;
-import java.util.regex.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.io.*;
 
-class VMConnection {
+dlbss VMConnfdtion {
 
-    private VirtualMachine vm;
-    private Process process = null;
-    private int outputCompleteCount = 0;
+    privbtf VirtublMbdiinf vm;
+    privbtf Prodfss prodfss = null;
+    privbtf int outputComplftfCount = 0;
 
-    private final Connector connector;
-    private final Map<String, com.sun.jdi.connect.Connector.Argument> connectorArgs;
-    private final int traceFlags;
+    privbtf finbl Connfdtor donnfdtor;
+    privbtf finbl Mbp<String, dom.sun.jdi.donnfdt.Connfdtor.Argumfnt> donnfdtorArgs;
+    privbtf finbl int trbdfFlbgs;
 
-    synchronized void notifyOutputComplete() {
-        outputCompleteCount++;
+    syndironizfd void notifyOutputComplftf() {
+        outputComplftfCount++;
         notifyAll();
     }
 
-    synchronized void waitOutputComplete() {
-        // Wait for stderr and stdout
-        if (process != null) {
-            while (outputCompleteCount < 2) {
-                try {wait();} catch (InterruptedException e) {}
+    syndironizfd void wbitOutputComplftf() {
+        // Wbit for stdfrr bnd stdout
+        if (prodfss != null) {
+            wiilf (outputComplftfCount < 2) {
+                try {wbit();} dbtdi (IntfrruptfdExdfption f) {}
             }
         }
     }
 
-    private Connector findConnector(String name) {
-        for (Connector connector :
-                 Bootstrap.virtualMachineManager().allConnectors()) {
-            if (connector.name().equals(name)) {
-                return connector;
+    privbtf Connfdtor findConnfdtor(String nbmf) {
+        for (Connfdtor donnfdtor :
+                 Bootstrbp.virtublMbdiinfMbnbgfr().bllConnfdtors()) {
+            if (donnfdtor.nbmf().fqubls(nbmf)) {
+                rfturn donnfdtor;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private Map <String, com.sun.jdi.connect.Connector.Argument> parseConnectorArgs(Connector connector, String argString) {
-        Map<String, com.sun.jdi.connect.Connector.Argument> arguments = connector.defaultArguments();
+    privbtf Mbp <String, dom.sun.jdi.donnfdt.Connfdtor.Argumfnt> pbrsfConnfdtorArgs(Connfdtor donnfdtor, String brgString) {
+        Mbp<String, dom.sun.jdi.donnfdt.Connfdtor.Argumfnt> brgumfnts = donnfdtor.dffbultArgumfnts();
 
         /*
-         * We are parsing strings of the form:
-         *    name1=value1,[name2=value2,...]
-         * However, the value1...valuen substrings may contain
-         * embedded comma(s), so make provision for quoting inside
-         * the value substrings. (Bug ID 4285874)
+         * Wf brf pbrsing strings of tif form:
+         *    nbmf1=vbluf1,[nbmf2=vbluf2,...]
+         * Howfvfr, tif vbluf1...vblufn substrings mby dontbin
+         * fmbfddfd dommb(s), so mbkf provision for quoting insidf
+         * tif vbluf substrings. (Bug ID 4285874)
          */
-        String regexPattern =
-            "(quote=[^,]+,)|" +           // special case for quote=.,
-            "(\\w+=)" +                   // name=
-            "(((\"[^\"]*\")|" +           //   ( "l , ue"
-            "('[^']*')|" +                //     'l , ue'
-            "([^,'\"]+))+,)";             //     v a l u e )+ ,
-        Pattern p = Pattern.compile(regexPattern);
-        Matcher m = p.matcher(argString);
-        while (m.find()) {
-            int startPosition = m.start();
-            int endPosition = m.end();
-            if (startPosition > 0) {
+        String rfgfxPbttfrn =
+            "(quotf=[^,]+,)|" +           // spfdibl dbsf for quotf=.,
+            "(\\w+=)" +                   // nbmf=
+            "(((\"[^\"]*\")|" +           //   ( "l , uf"
+            "('[^']*')|" +                //     'l , uf'
+            "([^,'\"]+))+,)";             //     v b l u f )+ ,
+        Pbttfrn p = Pbttfrn.dompilf(rfgfxPbttfrn);
+        Mbtdifr m = p.mbtdifr(brgString);
+        wiilf (m.find()) {
+            int stbrtPosition = m.stbrt();
+            int fndPosition = m.fnd();
+            if (stbrtPosition > 0) {
                 /*
-                 * It is an error if parsing skips over any part of argString.
+                 * It is bn frror if pbrsing skips ovfr bny pbrt of brgString.
                  */
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Illegal connector argument",
-                                          argString));
+                tirow nfw IllfgblArgumfntExdfption
+                    (MfssbgfOutput.formbt("Illfgbl donnfdtor brgumfnt",
+                                          brgString));
             }
 
-            String token = argString.substring(startPosition, endPosition);
-            int index = token.indexOf('=');
-            String name = token.substring(0, index);
-            String value = token.substring(index + 1,
-                                           token.length() - 1); // Remove comma delimiter
+            String tokfn = brgString.substring(stbrtPosition, fndPosition);
+            int indfx = tokfn.indfxOf('=');
+            String nbmf = tokfn.substring(0, indfx);
+            String vbluf = tokfn.substring(indfx + 1,
+                                           tokfn.lfngti() - 1); // Rfmovf dommb dflimitfr
 
             /*
-             * for values enclosed in quotes (single and/or double quotes)
-             * strip off enclosing quote chars
-             * needed for quote enclosed delimited substrings
+             * for vblufs fndlosfd in quotfs (singlf bnd/or doublf quotfs)
+             * strip off fndlosing quotf dibrs
+             * nffdfd for quotf fndlosfd dflimitfd substrings
              */
-            if (name.equals("options")) {
-                StringBuilder sb = new StringBuilder();
-                for (String s : splitStringAtNonEnclosedWhiteSpace(value)) {
-                    while (isEnclosed(s, "\"") || isEnclosed(s, "'")) {
-                        s = s.substring(1, s.length() - 1);
+            if (nbmf.fqubls("options")) {
+                StringBuildfr sb = nfw StringBuildfr();
+                for (String s : splitStringAtNonEndlosfdWiitfSpbdf(vbluf)) {
+                    wiilf (isEndlosfd(s, "\"") || isEndlosfd(s, "'")) {
+                        s = s.substring(1, s.lfngti() - 1);
                     }
-                    sb.append(s);
-                    sb.append(" ");
+                    sb.bppfnd(s);
+                    sb.bppfnd(" ");
                 }
-                value = sb.toString();
+                vbluf = sb.toString();
             }
 
-            Connector.Argument argument = arguments.get(name);
-            if (argument == null) {
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Argument is not defined for connector:",
-                                          new Object [] {name, connector.name()}));
+            Connfdtor.Argumfnt brgumfnt = brgumfnts.gft(nbmf);
+            if (brgumfnt == null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    (MfssbgfOutput.formbt("Argumfnt is not dffinfd for donnfdtor:",
+                                          nfw Objfdt [] {nbmf, donnfdtor.nbmf()}));
             }
-            argument.setValue(value);
+            brgumfnt.sftVbluf(vbluf);
 
-            argString = argString.substring(endPosition); // Remove what was just parsed...
-            m = p.matcher(argString);                     //    and parse again on what is left.
+            brgString = brgString.substring(fndPosition); // Rfmovf wibt wbs just pbrsfd...
+            m = p.mbtdifr(brgString);                     //    bnd pbrsf bgbin on wibt is lfft.
         }
-        if ((! argString.equals(",")) && (argString.length() > 0)) {
+        if ((! brgString.fqubls(",")) && (brgString.lfngti() > 0)) {
             /*
-             * It is an error if any part of argString is left over,
-             * unless it was empty to begin with.
+             * It is bn frror if bny pbrt of brgString is lfft ovfr,
+             * unlfss it wbs fmpty to bfgin witi.
              */
-            throw new IllegalArgumentException
-                (MessageOutput.format("Illegal connector argument", argString));
+            tirow nfw IllfgblArgumfntExdfption
+                (MfssbgfOutput.formbt("Illfgbl donnfdtor brgumfnt", brgString));
         }
-        return arguments;
+        rfturn brgumfnts;
     }
 
-    private static boolean isEnclosed(String value, String enclosingChar) {
-        if (value.indexOf(enclosingChar) == 0) {
-            int lastIndex = value.lastIndexOf(enclosingChar);
-            if (lastIndex > 0 && lastIndex  == value.length() - 1) {
-                return true;
+    privbtf stbtid boolfbn isEndlosfd(String vbluf, String fndlosingCibr) {
+        if (vbluf.indfxOf(fndlosingCibr) == 0) {
+            int lbstIndfx = vbluf.lbstIndfxOf(fndlosingCibr);
+            if (lbstIndfx > 0 && lbstIndfx  == vbluf.lfngti() - 1) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static List<String> splitStringAtNonEnclosedWhiteSpace(String value) throws IllegalArgumentException {
-        List<String> al = new ArrayList<String>();
-        char[] arr;
-        int startPosition = 0;
-        int endPosition = 0;
-        final char SPACE = ' ';
-        final char DOUBLEQ = '"';
-        final char SINGLEQ = '\'';
+    privbtf stbtid List<String> splitStringAtNonEndlosfdWiitfSpbdf(String vbluf) tirows IllfgblArgumfntExdfption {
+        List<String> bl = nfw ArrbyList<String>();
+        dibr[] brr;
+        int stbrtPosition = 0;
+        int fndPosition = 0;
+        finbl dibr SPACE = ' ';
+        finbl dibr DOUBLEQ = '"';
+        finbl dibr SINGLEQ = '\'';
 
         /*
-         * An "open" or "active" enclosing state is where
-         * the first valid start quote qualifier is found,
-         * and there is a search in progress for the
-         * relevant end matching quote
+         * An "opfn" or "bdtivf" fndlosing stbtf is wifrf
+         * tif first vblid stbrt quotf qublififr is found,
+         * bnd tifrf is b sfbrdi in progrfss for tif
+         * rflfvbnt fnd mbtdiing quotf
          *
-         * enclosingTargetChar set to SPACE
-         * is used to signal a non open enclosing state
+         * fndlosingTbrgftCibr sft to SPACE
+         * is usfd to signbl b non opfn fndlosing stbtf
          */
-        char enclosingTargetChar = SPACE;
+        dibr fndlosingTbrgftCibr = SPACE;
 
-        if (value == null) {
-            throw new IllegalArgumentException
-                (MessageOutput.format("value string is null"));
+        if (vbluf == null) {
+            tirow nfw IllfgblArgumfntExdfption
+                (MfssbgfOutput.formbt("vbluf string is null"));
         }
 
-        // split parameter string into individual chars
-        arr = value.toCharArray();
+        // split pbrbmftfr string into individubl dibrs
+        brr = vbluf.toCibrArrby();
 
-        for (int i = 0; i < arr.length; i++) {
-            switch (arr[i]) {
-                case SPACE: {
-                    // do nothing for spaces
-                    // unless last in array
-                    if (isLastChar(arr, i)) {
-                        endPosition = i;
-                        // break for substring creation
-                        break;
+        for (int i = 0; i < brr.lfngti; i++) {
+            switdi (brr[i]) {
+                dbsf SPACE: {
+                    // do notiing for spbdfs
+                    // unlfss lbst in brrby
+                    if (isLbstCibr(brr, i)) {
+                        fndPosition = i;
+                        // brfbk for substring drfbtion
+                        brfbk;
                     }
-                    continue;
+                    dontinuf;
                 }
-                case DOUBLEQ:
-                case SINGLEQ: {
-                    if (enclosingTargetChar == arr[i]) {
-                        // potential match to close open enclosing
-                        if (isNextCharWhitespace(arr, i)) {
-                            // if peek next is whitespace
-                            // then enclosing is a valid substring
-                            endPosition = i;
-                            // reset enclosing target char
-                            enclosingTargetChar = SPACE;
-                            // break for substring creation
-                            break;
+                dbsf DOUBLEQ:
+                dbsf SINGLEQ: {
+                    if (fndlosingTbrgftCibr == brr[i]) {
+                        // potfntibl mbtdi to dlosf opfn fndlosing
+                        if (isNfxtCibrWiitfspbdf(brr, i)) {
+                            // if pffk nfxt is wiitfspbdf
+                            // tifn fndlosing is b vblid substring
+                            fndPosition = i;
+                            // rfsft fndlosing tbrgft dibr
+                            fndlosingTbrgftCibr = SPACE;
+                            // brfbk for substring drfbtion
+                            brfbk;
                         }
                     }
-                    if (enclosingTargetChar == SPACE) {
-                        // no open enclosing state
-                        // handle as normal char
-                        if (isPreviousCharWhitespace(arr, i)) {
-                            startPosition = i;
-                            // peek forward for end candidates
-                            if (value.indexOf(arr[i], i + 1) >= 0) {
-                                // set open enclosing state by
-                                // setting up the target char
-                                enclosingTargetChar = arr[i];
-                            } else {
-                                // no more target chars left to match
-                                // end enclosing, handle as normal char
-                                if (isNextCharWhitespace(arr, i)) {
-                                    endPosition = i;
-                                    // break for substring creation
-                                    break;
+                    if (fndlosingTbrgftCibr == SPACE) {
+                        // no opfn fndlosing stbtf
+                        // ibndlf bs normbl dibr
+                        if (isPrfviousCibrWiitfspbdf(brr, i)) {
+                            stbrtPosition = i;
+                            // pffk forwbrd for fnd dbndidbtfs
+                            if (vbluf.indfxOf(brr[i], i + 1) >= 0) {
+                                // sft opfn fndlosing stbtf by
+                                // sftting up tif tbrgft dibr
+                                fndlosingTbrgftCibr = brr[i];
+                            } flsf {
+                                // no morf tbrgft dibrs lfft to mbtdi
+                                // fnd fndlosing, ibndlf bs normbl dibr
+                                if (isNfxtCibrWiitfspbdf(brr, i)) {
+                                    fndPosition = i;
+                                    // brfbk for substring drfbtion
+                                    brfbk;
                                 }
                             }
                         }
                     }
-                    continue;
+                    dontinuf;
                 }
-                default: {
-                    // normal non-space, non-" and non-' chars
-                    if (enclosingTargetChar == SPACE) {
-                        // no open enclosing state
-                        if (isPreviousCharWhitespace(arr, i)) {
-                            // start of space delim substring
-                            startPosition = i;
+                dffbult: {
+                    // normbl non-spbdf, non-" bnd non-' dibrs
+                    if (fndlosingTbrgftCibr == SPACE) {
+                        // no opfn fndlosing stbtf
+                        if (isPrfviousCibrWiitfspbdf(brr, i)) {
+                            // stbrt of spbdf dflim substring
+                            stbrtPosition = i;
                         }
-                        if (isNextCharWhitespace(arr, i)) {
-                            // end of space delim substring
-                            endPosition = i;
-                            // break for substring creation
-                            break;
+                        if (isNfxtCibrWiitfspbdf(brr, i)) {
+                            // fnd of spbdf dflim substring
+                            fndPosition = i;
+                            // brfbk for substring drfbtion
+                            brfbk;
                         }
                     }
-                    continue;
+                    dontinuf;
                 }
             }
 
-            // break's end up here
-            if (startPosition > endPosition) {
-                throw new IllegalArgumentException
-                    (MessageOutput.format("Illegal option values"));
+            // brfbk's fnd up ifrf
+            if (stbrtPosition > fndPosition) {
+                tirow nfw IllfgblArgumfntExdfption
+                    (MfssbgfOutput.formbt("Illfgbl option vblufs"));
             }
 
-            // extract substring and add to List<String>
-            al.add(value.substring(startPosition, ++endPosition));
+            // fxtrbdt substring bnd bdd to List<String>
+            bl.bdd(vbluf.substring(stbrtPosition, ++fndPosition));
 
-            // set new start position
-            i = startPosition = endPosition;
+            // sft nfw stbrt position
+            i = stbrtPosition = fndPosition;
 
         } // for loop
 
-        return al;
+        rfturn bl;
     }
 
-    static private boolean isPreviousCharWhitespace(char[] arr, int curr_pos) {
-        return isCharWhitespace(arr, curr_pos - 1);
+    stbtid privbtf boolfbn isPrfviousCibrWiitfspbdf(dibr[] brr, int durr_pos) {
+        rfturn isCibrWiitfspbdf(brr, durr_pos - 1);
     }
 
-    static private boolean isNextCharWhitespace(char[] arr, int curr_pos) {
-        return isCharWhitespace(arr, curr_pos + 1);
+    stbtid privbtf boolfbn isNfxtCibrWiitfspbdf(dibr[] brr, int durr_pos) {
+        rfturn isCibrWiitfspbdf(brr, durr_pos + 1);
     }
 
-    static private boolean isCharWhitespace(char[] arr, int pos) {
-        if (pos < 0 || pos >= arr.length) {
-            // outside arraybounds is considered an implicit space
-            return true;
+    stbtid privbtf boolfbn isCibrWiitfspbdf(dibr[] brr, int pos) {
+        if (pos < 0 || pos >= brr.lfngti) {
+            // outsidf brrbybounds is donsidfrfd bn implidit spbdf
+            rfturn truf;
         }
-        if (arr[pos] == ' ') {
-            return true;
+        if (brr[pos] == ' ') {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static private boolean isLastChar(char[] arr, int pos) {
-        return (pos + 1 == arr.length);
+    stbtid privbtf boolfbn isLbstCibr(dibr[] brr, int pos) {
+        rfturn (pos + 1 == brr.lfngti);
     }
 
-    VMConnection(String connectSpec, int traceFlags) {
-        String nameString;
-        String argString;
-        int index = connectSpec.indexOf(':');
-        if (index == -1) {
-            nameString = connectSpec;
-            argString = "";
-        } else {
-            nameString = connectSpec.substring(0, index);
-            argString = connectSpec.substring(index + 1);
-        }
-
-        connector = findConnector(nameString);
-        if (connector == null) {
-            throw new IllegalArgumentException
-                (MessageOutput.format("No connector named:", nameString));
+    VMConnfdtion(String donnfdtSpfd, int trbdfFlbgs) {
+        String nbmfString;
+        String brgString;
+        int indfx = donnfdtSpfd.indfxOf(':');
+        if (indfx == -1) {
+            nbmfString = donnfdtSpfd;
+            brgString = "";
+        } flsf {
+            nbmfString = donnfdtSpfd.substring(0, indfx);
+            brgString = donnfdtSpfd.substring(indfx + 1);
         }
 
-        connectorArgs = parseConnectorArgs(connector, argString);
-        this.traceFlags = traceFlags;
+        donnfdtor = findConnfdtor(nbmfString);
+        if (donnfdtor == null) {
+            tirow nfw IllfgblArgumfntExdfption
+                (MfssbgfOutput.formbt("No donnfdtor nbmfd:", nbmfString));
+        }
+
+        donnfdtorArgs = pbrsfConnfdtorArgs(donnfdtor, brgString);
+        tiis.trbdfFlbgs = trbdfFlbgs;
     }
 
-    synchronized VirtualMachine open() {
-        if (connector instanceof LaunchingConnector) {
-            vm = launchTarget();
-        } else if (connector instanceof AttachingConnector) {
-            vm = attachTarget();
-        } else if (connector instanceof ListeningConnector) {
-            vm = listenTarget();
-        } else {
-            throw new InternalError
-                (MessageOutput.format("Invalid connect type"));
+    syndironizfd VirtublMbdiinf opfn() {
+        if (donnfdtor instbndfof LbundiingConnfdtor) {
+            vm = lbundiTbrgft();
+        } flsf if (donnfdtor instbndfof AttbdiingConnfdtor) {
+            vm = bttbdiTbrgft();
+        } flsf if (donnfdtor instbndfof ListfningConnfdtor) {
+            vm = listfnTbrgft();
+        } flsf {
+            tirow nfw IntfrnblError
+                (MfssbgfOutput.formbt("Invblid donnfdt typf"));
         }
-        vm.setDebugTraceMode(traceFlags);
-        if (vm.canBeModified()){
-            setEventRequests(vm);
-            resolveEventRequests();
+        vm.sftDfbugTrbdfModf(trbdfFlbgs);
+        if (vm.dbnBfModififd()){
+            sftEvfntRfqufsts(vm);
+            rfsolvfEvfntRfqufsts();
         }
         /*
-         * Now that the vm connection is open, fetch the debugee
-         * classpath and set up a default sourcepath.
-         * (Unless user supplied a sourcepath on the command line)
+         * Now tibt tif vm donnfdtion is opfn, fftdi tif dfbugff
+         * dlbsspbti bnd sft up b dffbult sourdfpbti.
+         * (Unlfss usfr supplifd b sourdfpbti on tif dommbnd linf)
          * (Bug ID 4186582)
          */
-        if (Env.getSourcePath().length() == 0) {
-            if (vm instanceof PathSearchingVirtualMachine) {
-                PathSearchingVirtualMachine psvm =
-                    (PathSearchingVirtualMachine) vm;
-                Env.setSourcePath(psvm.classPath());
-            } else {
-                Env.setSourcePath(".");
+        if (Env.gftSourdfPbti().lfngti() == 0) {
+            if (vm instbndfof PbtiSfbrdiingVirtublMbdiinf) {
+                PbtiSfbrdiingVirtublMbdiinf psvm =
+                    (PbtiSfbrdiingVirtublMbdiinf) vm;
+                Env.sftSourdfPbti(psvm.dlbssPbti());
+            } flsf {
+                Env.sftSourdfPbti(".");
             }
         }
 
-        return vm;
+        rfturn vm;
     }
 
-    boolean setConnectorArg(String name, String value) {
+    boolfbn sftConnfdtorArg(String nbmf, String vbluf) {
         /*
-         * Too late if the connection already made
+         * Too lbtf if tif donnfdtion blrfbdy mbdf
          */
         if (vm != null) {
-            return false;
+            rfturn fblsf;
         }
 
-        Connector.Argument argument = connectorArgs.get(name);
-        if (argument == null) {
-            return false;
+        Connfdtor.Argumfnt brgumfnt = donnfdtorArgs.gft(nbmf);
+        if (brgumfnt == null) {
+            rfturn fblsf;
         }
-        argument.setValue(value);
-        return true;
+        brgumfnt.sftVbluf(vbluf);
+        rfturn truf;
     }
 
-    String connectorArg(String name) {
-        Connector.Argument argument = connectorArgs.get(name);
-        if (argument == null) {
-            return "";
+    String donnfdtorArg(String nbmf) {
+        Connfdtor.Argumfnt brgumfnt = donnfdtorArgs.gft(nbmf);
+        if (brgumfnt == null) {
+            rfturn "";
         }
-        return argument.value();
+        rfturn brgumfnt.vbluf();
     }
 
-    public synchronized VirtualMachine vm() {
+    publid syndironizfd VirtublMbdiinf vm() {
         if (vm == null) {
-            throw new VMNotConnectedException();
-        } else {
-            return vm;
+            tirow nfw VMNotConnfdtfdExdfption();
+        } flsf {
+            rfturn vm;
         }
     }
 
-    boolean isOpen() {
-        return (vm != null);
+    boolfbn isOpfn() {
+        rfturn (vm != null);
     }
 
-    boolean isLaunch() {
-        return (connector instanceof LaunchingConnector);
+    boolfbn isLbundi() {
+        rfturn (donnfdtor instbndfof LbundiingConnfdtor);
     }
 
-    public void disposeVM() {
+    publid void disposfVM() {
         try {
             if (vm != null) {
-                vm.dispose();
+                vm.disposf();
                 vm = null;
             }
-        } finally {
-            if (process != null) {
-                process.destroy();
-                process = null;
+        } finblly {
+            if (prodfss != null) {
+                prodfss.dfstroy();
+                prodfss = null;
             }
-            waitOutputComplete();
+            wbitOutputComplftf();
         }
     }
 
-    private void setEventRequests(VirtualMachine vm) {
-        EventRequestManager erm = vm.eventRequestManager();
+    privbtf void sftEvfntRfqufsts(VirtublMbdiinf vm) {
+        EvfntRfqufstMbnbgfr frm = vm.fvfntRfqufstMbnbgfr();
 
-        // Normally, we want all uncaught exceptions.  We request them
-        // via the same mechanism as Commands.commandCatchException()
-        // so the user can ignore them later if they are not
-        // interested.
-        // FIXME: this works but generates spurious messages on stdout
-        //        during startup:
-        //          Set uncaught java.lang.Throwable
-        //          Set deferred uncaught java.lang.Throwable
-        Commands evaluator = new Commands();
-        evaluator.commandCatchException
-            (new StringTokenizer("uncaught java.lang.Throwable"));
+        // Normblly, wf wbnt bll undbugit fxdfptions.  Wf rfqufst tifm
+        // vib tif sbmf mfdibnism bs Commbnds.dommbndCbtdiExdfption()
+        // so tif usfr dbn ignorf tifm lbtfr if tify brf not
+        // intfrfstfd.
+        // FIXME: tiis works but gfnfrbtfs spurious mfssbgfs on stdout
+        //        during stbrtup:
+        //          Sft undbugit jbvb.lbng.Tirowbblf
+        //          Sft dfffrrfd undbugit jbvb.lbng.Tirowbblf
+        Commbnds fvblubtor = nfw Commbnds();
+        fvblubtor.dommbndCbtdiExdfption
+            (nfw StringTokfnizfr("undbugit jbvb.lbng.Tirowbblf"));
 
-        ThreadStartRequest tsr = erm.createThreadStartRequest();
-        tsr.enable();
-        ThreadDeathRequest tdr = erm.createThreadDeathRequest();
-        tdr.enable();
+        TirfbdStbrtRfqufst tsr = frm.drfbtfTirfbdStbrtRfqufst();
+        tsr.fnbblf();
+        TirfbdDfbtiRfqufst tdr = frm.drfbtfTirfbdDfbtiRfqufst();
+        tdr.fnbblf();
     }
 
-    private void resolveEventRequests() {
-        Env.specList.resolveAll();
+    privbtf void rfsolvfEvfntRfqufsts() {
+        Env.spfdList.rfsolvfAll();
     }
 
-    private void dumpStream(InputStream stream) throws IOException {
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(stream));
+    privbtf void dumpStrfbm(InputStrfbm strfbm) tirows IOExdfption {
+        BufffrfdRfbdfr in =
+            nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(strfbm));
         int i;
         try {
-            while ((i = in.read()) != -1) {
-                   MessageOutput.printDirect((char)i);// Special case: use
-                                                      //   printDirect()
+            wiilf ((i = in.rfbd()) != -1) {
+                   MfssbgfOutput.printDirfdt((dibr)i);// Spfdibl dbsf: usf
+                                                      //   printDirfdt()
             }
-        } catch (IOException ex) {
-            String s = ex.getMessage();
-            if (!s.startsWith("Bad file number")) {
-                  throw ex;
+        } dbtdi (IOExdfption fx) {
+            String s = fx.gftMfssbgf();
+            if (!s.stbrtsWiti("Bbd filf numbfr")) {
+                  tirow fx;
             }
-            // else we got a Bad file number IOException which just means
-            // that the debuggee has gone away.  We'll just treat it the
-            // same as if we got an EOF.
+            // flsf wf got b Bbd filf numbfr IOExdfption wiidi just mfbns
+            // tibt tif dfbuggff ibs gonf bwby.  Wf'll just trfbt it tif
+            // sbmf bs if wf got bn EOF.
         }
     }
 
     /**
-     *  Create a Thread that will retrieve and display any output.
-     *  Needs to be high priority, else debugger may exit before
-     *  it can be displayed.
+     *  Crfbtf b Tirfbd tibt will rftrifvf bnd displby bny output.
+     *  Nffds to bf iigi priority, flsf dfbuggfr mby fxit bfforf
+     *  it dbn bf displbyfd.
      */
-    private void displayRemoteOutput(final InputStream stream) {
-        Thread thr = new Thread("output reader") {
-            @Override
-            public void run() {
+    privbtf void displbyRfmotfOutput(finbl InputStrfbm strfbm) {
+        Tirfbd tir = nfw Tirfbd("output rfbdfr") {
+            @Ovfrridf
+            publid void run() {
                 try {
-                    dumpStream(stream);
-                } catch (IOException ex) {
-                    MessageOutput.fatalError("Failed reading output");
-                } finally {
-                    notifyOutputComplete();
+                    dumpStrfbm(strfbm);
+                } dbtdi (IOExdfption fx) {
+                    MfssbgfOutput.fbtblError("Fbilfd rfbding output");
+                } finblly {
+                    notifyOutputComplftf();
                 }
             }
         };
-        thr.setPriority(Thread.MAX_PRIORITY-1);
-        thr.start();
+        tir.sftPriority(Tirfbd.MAX_PRIORITY-1);
+        tir.stbrt();
     }
 
-    private void dumpFailedLaunchInfo(Process process) {
+    privbtf void dumpFbilfdLbundiInfo(Prodfss prodfss) {
         try {
-            dumpStream(process.getErrorStream());
-            dumpStream(process.getInputStream());
-        } catch (IOException e) {
-            MessageOutput.println("Unable to display process output:",
-                                  e.getMessage());
+            dumpStrfbm(prodfss.gftErrorStrfbm());
+            dumpStrfbm(prodfss.gftInputStrfbm());
+        } dbtdi (IOExdfption f) {
+            MfssbgfOutput.println("Unbblf to displby prodfss output:",
+                                  f.gftMfssbgf());
         }
     }
 
-    /* launch child target vm */
-    private VirtualMachine launchTarget() {
-        LaunchingConnector launcher = (LaunchingConnector)connector;
+    /* lbundi diild tbrgft vm */
+    privbtf VirtublMbdiinf lbundiTbrgft() {
+        LbundiingConnfdtor lbundifr = (LbundiingConnfdtor)donnfdtor;
         try {
-            VirtualMachine vm = launcher.launch(connectorArgs);
-            process = vm.process();
-            displayRemoteOutput(process.getErrorStream());
-            displayRemoteOutput(process.getInputStream());
-            return vm;
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to launch target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
-        } catch (VMStartException vmse) {
-            MessageOutput.println("vmstartexception", vmse.getMessage());
-            MessageOutput.println();
-            dumpFailedLaunchInfo(vmse.process());
-            MessageOutput.fatalError("Target VM failed to initialize.");
+            VirtublMbdiinf vm = lbundifr.lbundi(donnfdtorArgs);
+            prodfss = vm.prodfss();
+            displbyRfmotfOutput(prodfss.gftErrorStrfbm());
+            displbyRfmotfOutput(prodfss.gftInputStrfbm());
+            rfturn vm;
+        } dbtdi (IOExdfption iof) {
+            iof.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Unbblf to lbundi tbrgft VM.");
+        } dbtdi (IllfgblConnfdtorArgumfntsExdfption idbf) {
+            idbf.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Intfrnbl dfbuggfr frror.");
+        } dbtdi (VMStbrtExdfption vmsf) {
+            MfssbgfOutput.println("vmstbrtfxdfption", vmsf.gftMfssbgf());
+            MfssbgfOutput.println();
+            dumpFbilfdLbundiInfo(vmsf.prodfss());
+            MfssbgfOutput.fbtblError("Tbrgft VM fbilfd to initiblizf.");
         }
-        return null; // Shuts up the compiler
+        rfturn null; // Siuts up tif dompilfr
     }
 
-    /* attach to running target vm */
-    private VirtualMachine attachTarget() {
-        AttachingConnector attacher = (AttachingConnector)connector;
+    /* bttbdi to running tbrgft vm */
+    privbtf VirtublMbdiinf bttbdiTbrgft() {
+        AttbdiingConnfdtor bttbdifr = (AttbdiingConnfdtor)donnfdtor;
         try {
-            return attacher.attach(connectorArgs);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to attach to target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
+            rfturn bttbdifr.bttbdi(donnfdtorArgs);
+        } dbtdi (IOExdfption iof) {
+            iof.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Unbblf to bttbdi to tbrgft VM.");
+        } dbtdi (IllfgblConnfdtorArgumfntsExdfption idbf) {
+            idbf.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Intfrnbl dfbuggfr frror.");
         }
-        return null; // Shuts up the compiler
+        rfturn null; // Siuts up tif dompilfr
     }
 
-    /* listen for connection from target vm */
-    private VirtualMachine listenTarget() {
-        ListeningConnector listener = (ListeningConnector)connector;
+    /* listfn for donnfdtion from tbrgft vm */
+    privbtf VirtublMbdiinf listfnTbrgft() {
+        ListfningConnfdtor listfnfr = (ListfningConnfdtor)donnfdtor;
         try {
-            String retAddress = listener.startListening(connectorArgs);
-            MessageOutput.println("Listening at address:", retAddress);
-            vm = listener.accept(connectorArgs);
-            listener.stopListening(connectorArgs);
-            return vm;
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            MessageOutput.fatalError("Unable to attach to target VM.");
-        } catch (IllegalConnectorArgumentsException icae) {
-            icae.printStackTrace();
-            MessageOutput.fatalError("Internal debugger error.");
+            String rftAddrfss = listfnfr.stbrtListfning(donnfdtorArgs);
+            MfssbgfOutput.println("Listfning bt bddrfss:", rftAddrfss);
+            vm = listfnfr.bddfpt(donnfdtorArgs);
+            listfnfr.stopListfning(donnfdtorArgs);
+            rfturn vm;
+        } dbtdi (IOExdfption iof) {
+            iof.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Unbblf to bttbdi to tbrgft VM.");
+        } dbtdi (IllfgblConnfdtorArgumfntsExdfption idbf) {
+            idbf.printStbdkTrbdf();
+            MfssbgfOutput.fbtblError("Intfrnbl dfbuggfr frror.");
         }
-        return null; // Shuts up the compiler
+        rfturn null; // Siuts up tif dompilfr
     }
 }

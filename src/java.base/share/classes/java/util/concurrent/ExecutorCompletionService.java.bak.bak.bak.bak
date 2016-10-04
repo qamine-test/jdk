@@ -1,0 +1,205 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A {@link ComplftionSfrvidf} thbt usfs b supplifd {@link Exfdutor}
+ * to fxfdutf tbsks.  This dlbss brrbngfs thbt submittfd tbsks brf,
+ * upon domplftion, plbdfd on b qufuf bddfssiblf using {@dodf tbkf}.
+ * Thf dlbss is lightwfight fnough to bf suitbblf for trbnsifnt usf
+ * whfn prodfssing groups of tbsks.
+ *
+ * <p>
+ *
+ * <b>Usbgf Exbmplfs.</b>
+ *
+ * Supposf you hbvf b sft of solvfrs for b dfrtbin problfm, fbdh
+ * rfturning b vbluf of somf typf {@dodf Rfsult}, bnd would likf to
+ * run thfm dondurrfntly, prodfssing thf rfsults of fbdh of thfm thbt
+ * rfturn b non-null vbluf, in somf mfthod {@dodf usf(Rfsult r)}. You
+ * dould writf this bs:
+ *
+ * <prf> {@dodf
+ * void solvf(Exfdutor f,
+ *            Collfdtion<Cbllbblf<Rfsult>> solvfrs)
+ *     throws IntfrruptfdExdfption, ExfdutionExdfption {
+ *     ComplftionSfrvidf<Rfsult> fds
+ *         = nfw ExfdutorComplftionSfrvidf<Rfsult>(f);
+ *     for (Cbllbblf<Rfsult> s : solvfrs)
+ *         fds.submit(s);
+ *     int n = solvfrs.sizf();
+ *     for (int i = 0; i < n; ++i) {
+ *         Rfsult r = fds.tbkf().gft();
+ *         if (r != null)
+ *             usf(r);
+ *     }
+ * }}</prf>
+ *
+ * Supposf instfbd thbt you would likf to usf thf first non-null rfsult
+ * of thf sft of tbsks, ignoring bny thbt fndountfr fxdfptions,
+ * bnd dbndflling bll othfr tbsks whfn thf first onf is rfbdy:
+ *
+ * <prf> {@dodf
+ * void solvf(Exfdutor f,
+ *            Collfdtion<Cbllbblf<Rfsult>> solvfrs)
+ *     throws IntfrruptfdExdfption {
+ *     ComplftionSfrvidf<Rfsult> fds
+ *         = nfw ExfdutorComplftionSfrvidf<Rfsult>(f);
+ *     int n = solvfrs.sizf();
+ *     List<Futurf<Rfsult>> futurfs
+ *         = nfw ArrbyList<Futurf<Rfsult>>(n);
+ *     Rfsult rfsult = null;
+ *     try {
+ *         for (Cbllbblf<Rfsult> s : solvfrs)
+ *             futurfs.bdd(fds.submit(s));
+ *         for (int i = 0; i < n; ++i) {
+ *             try {
+ *                 Rfsult r = fds.tbkf().gft();
+ *                 if (r != null) {
+ *                     rfsult = r;
+ *                     brfbk;
+ *                 }
+ *             } dbtdh (ExfdutionExdfption ignorf) {}
+ *         }
+ *     }
+ *     finblly {
+ *         for (Futurf<Rfsult> f : futurfs)
+ *             f.dbndfl(truf);
+ *     }
+ *
+ *     if (rfsult != null)
+ *         usf(rfsult);
+ * }}</prf>
+ */
+publid dlbss ExfdutorComplftionSfrvidf<V> implfmfnts ComplftionSfrvidf<V> {
+    privbtf finbl Exfdutor fxfdutor;
+    privbtf finbl AbstrbdtExfdutorSfrvidf bfs;
+    privbtf finbl BlodkingQufuf<Futurf<V>> domplftionQufuf;
+
+    /**
+     * FuturfTbsk fxtfnsion to fnqufuf upon domplftion
+     */
+    privbtf dlbss QufufingFuturf fxtfnds FuturfTbsk<Void> {
+        QufufingFuturf(RunnbblfFuturf<V> tbsk) {
+            supfr(tbsk, null);
+            this.tbsk = tbsk;
+        }
+        protfdtfd void donf() { domplftionQufuf.bdd(tbsk); }
+        privbtf finbl Futurf<V> tbsk;
+    }
+
+    privbtf RunnbblfFuturf<V> nfwTbskFor(Cbllbblf<V> tbsk) {
+        if (bfs == null)
+            rfturn nfw FuturfTbsk<V>(tbsk);
+        flsf
+            rfturn bfs.nfwTbskFor(tbsk);
+    }
+
+    privbtf RunnbblfFuturf<V> nfwTbskFor(Runnbblf tbsk, V rfsult) {
+        if (bfs == null)
+            rfturn nfw FuturfTbsk<V>(tbsk, rfsult);
+        flsf
+            rfturn bfs.nfwTbskFor(tbsk, rfsult);
+    }
+
+    /**
+     * Crfbtfs bn ExfdutorComplftionSfrvidf using thf supplifd
+     * fxfdutor for bbsf tbsk fxfdution bnd b
+     * {@link LinkfdBlodkingQufuf} bs b domplftion qufuf.
+     *
+     * @pbrbm fxfdutor thf fxfdutor to usf
+     * @throws NullPointfrExdfption if fxfdutor is {@dodf null}
+     */
+    publid ExfdutorComplftionSfrvidf(Exfdutor fxfdutor) {
+        if (fxfdutor == null)
+            throw nfw NullPointfrExdfption();
+        this.fxfdutor = fxfdutor;
+        this.bfs = (fxfdutor instbndfof AbstrbdtExfdutorSfrvidf) ?
+            (AbstrbdtExfdutorSfrvidf) fxfdutor : null;
+        this.domplftionQufuf = nfw LinkfdBlodkingQufuf<Futurf<V>>();
+    }
+
+    /**
+     * Crfbtfs bn ExfdutorComplftionSfrvidf using thf supplifd
+     * fxfdutor for bbsf tbsk fxfdution bnd thf supplifd qufuf bs its
+     * domplftion qufuf.
+     *
+     * @pbrbm fxfdutor thf fxfdutor to usf
+     * @pbrbm domplftionQufuf thf qufuf to usf bs thf domplftion qufuf
+     *        normblly onf dfdidbtfd for usf by this sfrvidf. This
+     *        qufuf is trfbtfd bs unboundfd -- fbilfd bttfmptfd
+     *        {@dodf Qufuf.bdd} opfrbtions for domplftfd tbsks dbusf
+     *        thfm not to bf rftrifvbblf.
+     * @throws NullPointfrExdfption if fxfdutor or domplftionQufuf brf {@dodf null}
+     */
+    publid ExfdutorComplftionSfrvidf(Exfdutor fxfdutor,
+                                     BlodkingQufuf<Futurf<V>> domplftionQufuf) {
+        if (fxfdutor == null || domplftionQufuf == null)
+            throw nfw NullPointfrExdfption();
+        this.fxfdutor = fxfdutor;
+        this.bfs = (fxfdutor instbndfof AbstrbdtExfdutorSfrvidf) ?
+            (AbstrbdtExfdutorSfrvidf) fxfdutor : null;
+        this.domplftionQufuf = domplftionQufuf;
+    }
+
+    publid Futurf<V> submit(Cbllbblf<V> tbsk) {
+        if (tbsk == null) throw nfw NullPointfrExdfption();
+        RunnbblfFuturf<V> f = nfwTbskFor(tbsk);
+        fxfdutor.fxfdutf(nfw QufufingFuturf(f));
+        rfturn f;
+    }
+
+    publid Futurf<V> submit(Runnbblf tbsk, V rfsult) {
+        if (tbsk == null) throw nfw NullPointfrExdfption();
+        RunnbblfFuturf<V> f = nfwTbskFor(tbsk, rfsult);
+        fxfdutor.fxfdutf(nfw QufufingFuturf(f));
+        rfturn f;
+    }
+
+    publid Futurf<V> tbkf() throws IntfrruptfdExdfption {
+        rfturn domplftionQufuf.tbkf();
+    }
+
+    publid Futurf<V> poll() {
+        rfturn domplftionQufuf.poll();
+    }
+
+    publid Futurf<V> poll(long timfout, TimfUnit unit)
+            throws IntfrruptfdExdfption {
+        rfturn domplftionQufuf.poll(timfout, unit);
+    }
+
+}

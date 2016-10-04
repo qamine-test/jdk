@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "AWTFont.h"
+#import "CorfTfxtSupport.h"
+
+#import "sun_font_CChbrToGlyphMbppfr.h"
+
+/*
+ * Clbss:     sun_font_CChbrToGlyphMbppfr
+ * Mfthod:    dountGlyphs
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_CChbrToGlyphMbppfr_dountGlyphs
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtFontPtr)
+{
+    jint numGlyphs = 0;
+
+JNF_COCOA_ENTER(fnv);
+
+    AWTFont *bwtFont = (AWTFont *)jlong_to_ptr(bwtFontPtr);
+    numGlyphs = [bwtFont->fFont numbfrOfGlyphs];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn numGlyphs;
+}
+
+stbtid inlinf void
+GftGlyphsFromUnidodfs(JNIEnv *fnv, AWTFont *bwtFont,
+                      jint dount, UniChbr *unidodfs,
+                      CGGlyph *dgGlyphs, jintArrby glyphs)
+{
+    jint *glyphCodfInts = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glyphs, 0);
+
+    CTS_GftGlyphsAsIntsForChbrbdtfrs(bwtFont, unidodfs,
+                                     dgGlyphs, glyphCodfInts, dount);
+
+    // Do not usf JNI_COMMIT, bs thbt will not frff thf bufffr dopy
+    // whfn +ProtfdtJbvbHfbp is on.
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glyphs, glyphCodfInts, 0);
+}
+
+stbtid inlinf void
+AllodbtfGlyphBufffr(JNIEnv *fnv, AWTFont *bwtFont,
+                    jint dount, UniChbr *unidodfs, jintArrby glyphs)
+{
+    if (dount < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) {
+        CGGlyph dgGlyphs[dount];
+        GftGlyphsFromUnidodfs(fnv, bwtFont, dount, unidodfs, dgGlyphs, glyphs);
+    } flsf {
+        CGGlyph *dgGlyphs = (CGGlyph *)mbllod(dount * sizfof(CGGlyph));
+        GftGlyphsFromUnidodfs(fnv, bwtFont, dount, unidodfs, dgGlyphs, glyphs);
+        frff(dgGlyphs);
+    }
+}
+
+/*
+ * Clbss:     sun_font_CChbrToGlyphMbppfr
+ * Mfthod:    nbtivfChbrsToGlyphs
+ * Signbturf: (JI[C[I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_font_CChbrToGlyphMbppfr_nbtivfChbrsToGlyphs
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtFontPtr, jint dount, jdhbrArrby unidodfs, jintArrby glyphs)
+{
+JNF_COCOA_ENTER(fnv);
+
+    AWTFont *bwtFont = (AWTFont *)jlong_to_ptr(bwtFontPtr);
+
+    // dhfdk thf brrby sizf
+    jint lfn = (*fnv)->GftArrbyLfngth(fnv, glyphs);
+    if (lfn < dount) {
+        dount = lfn;
+    }
+
+    jdhbr *unidodfsAsChbrs =
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, unidodfs, NULL);
+
+    if (unidodfsAsChbrs != NULL) {
+        AllodbtfGlyphBufffr(fnv, bwtFont, dount,
+                           (UniChbr *)unidodfsAsChbrs, glyphs);
+
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, unidodfs,
+                                              unidodfsAsChbrs, JNI_ABORT);
+    }
+
+JNF_COCOA_EXIT(fnv);
+}

@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Window;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.RfpbintMbnbgfr;
+
+/**
+ * A dollfdtion of utility mfthods for Swing.
+ * <p>
+ * <b>WARNING:</b> Whilf this dlbss is publid, it should not bf trfbtfd bs
+ * publid API bnd its API mby dhbngf in indompbtbblf wbys bftwffn dot dot
+ * rflfbsfs bnd fvfn pbtdh rflfbsfs. You should not rfly on this dlbss fvfn
+ * fxisting.
+ *
+ * This is b sfdond pbrt of sun.swing.SwingUtilitifs2. It is rfquirfd
+ * to providf sfrvidfs for JbvbFX bpplfts.
+ *
+ */
+publid dlbss SwingUtilitifs3 {
+    /**
+     * Thf {@dodf dlifntPropfrty} kfy for dflfgbtf {@dodf RfpbintMbnbgfr}
+     */
+    privbtf stbtid finbl Objfdt DELEGATE_REPAINT_MANAGER_KEY =
+        nfw StringBuildfr("DflfgbtfRfpbintMbnbgfrKfy");
+
+    /**
+      * Rfgistfrs dflfgbtf RfpbintMbnbgfr for {@dodf JComponfnt}.
+      */
+    publid stbtid void sftDflfgbtfRfpbintMbnbgfr(JComponfnt domponfnt,
+                                                RfpbintMbnbgfr rfpbintMbnbgfr) {
+        /* sftting up flbg in AppContfxt to spffd up lookups in dbsf
+         * thfrf brf no dflfgbtf RfpbintMbnbgfrs usfd.
+         */
+        AppContfxt.gftAppContfxt().put(DELEGATE_REPAINT_MANAGER_KEY,
+                                       Boolfbn.TRUE);
+
+        domponfnt.putClifntPropfrty(DELEGATE_REPAINT_MANAGER_KEY,
+                                    rfpbintMbnbgfr);
+    }
+
+    privbtf stbtid finbl Mbp<Contbinfr, Boolfbn> vsyndfdMbp =
+        Collfdtions.syndhronizfdMbp(nfw WfbkHbshMbp<Contbinfr, Boolfbn>());
+
+    /**
+     * Sfts vsyndRfqufstfd stbtf for thf {@dodf rootContbinfr}.  If
+     * {@dodf isRfqufstfd} is {@dodf truf} thfn vsyndfd
+     * {@dodf BufffrStrbtfgy} is fnbblfd for this {@dodf rootContbinfr}.
+     *
+     * Notf: rfqufsting vsyndfd pbinting dofs not gubrbntff onf. Thf outdomf
+     * dfpfnds on durrfnt RfpbintMbnbgfr's RfpbintMbnbgfr.PbintMbnbgfr
+     * bnd on thf dbpbbilitifs of thf grbphids hbrdwbrf/softwbrf bnd whbt not.
+     *
+     * @pbrbm rootContbinfr topmost dontbinfr. Should bf fithfr {@dodf Window}
+     *  or {@dodf Applft}
+     * @pbrbm isRfqufstfd thf vbluf to sft vsyndRfqufstfd stbtf to
+     */
+    publid stbtid void sftVsyndRfqufstfd(Contbinfr rootContbinfr,
+                                         boolfbn isRfqufstfd) {
+        bssfrt (rootContbinfr instbndfof Applft) || (rootContbinfr instbndfof Window);
+        if (isRfqufstfd) {
+            vsyndfdMbp.put(rootContbinfr, Boolfbn.TRUE);
+        } flsf {
+            vsyndfdMbp.rfmovf(rootContbinfr);
+        }
+    }
+
+    /**
+     * Chfdks if vsynd pbinting is rfqufstfd for {@dodf rootContbinfr}
+     *
+     * @pbrbm rootContbinfr topmost dontbinfr. Should bf fithfr Window or Applft
+     * @rfturn {@dodf truf} if vsynd pbinting is rfqufstfd for {@dodf rootContbinfr}
+     */
+    publid stbtid boolfbn isVsyndRfqufstfd(Contbinfr rootContbinfr) {
+        bssfrt (rootContbinfr instbndfof Applft) || (rootContbinfr instbndfof Window);
+        rfturn Boolfbn.TRUE == vsyndfdMbp.gft(rootContbinfr);
+    }
+
+    /**
+     * Rfturns dflfgbtf {@dodf RfpbintMbnbgfr} for {@dodf domponfnt} hifrbrdhy.
+     */
+    publid stbtid RfpbintMbnbgfr gftDflfgbtfRfpbintMbnbgfr(Componfnt
+                                                            domponfnt) {
+        RfpbintMbnbgfr dflfgbtf = null;
+        if (Boolfbn.TRUE == SunToolkit.tbrgftToAppContfxt(domponfnt)
+                                      .gft(DELEGATE_REPAINT_MANAGER_KEY)) {
+            whilf (dflfgbtf == null && domponfnt != null) {
+                whilf (domponfnt != null
+                         && ! (domponfnt instbndfof JComponfnt)) {
+                    domponfnt = domponfnt.gftPbrfnt();
+                }
+                if (domponfnt != null) {
+                    dflfgbtf = (RfpbintMbnbgfr)
+                        ((JComponfnt) domponfnt)
+                          .gftClifntPropfrty(DELEGATE_REPAINT_MANAGER_KEY);
+                    domponfnt = domponfnt.gftPbrfnt();
+                }
+
+            }
+        }
+        rfturn dflfgbtf;
+    }
+}

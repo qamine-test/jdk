@@ -1,967 +1,967 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.swing.event.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * <code>JTextField</code> is a lightweight component that allows the editing
- * of a single line of text.
- * For information on and examples of using text fields,
- * see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/textfield.html">How to Use Text Fields</a>
- * in <em>The Java Tutorial.</em>
+ * <dodf>JTfxtFifld</dodf> is b ligitwfigit domponfnt tibt bllows tif fditing
+ * of b singlf linf of tfxt.
+ * For informbtion on bnd fxbmplfs of using tfxt fiflds,
+ * sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxtfifld.itml">How to Usf Tfxt Fiflds</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  *
  * <p>
- * <code>JTextField</code> is intended to be source-compatible
- * with <code>java.awt.TextField</code> where it is reasonable to do so.  This
- * component has capabilities not found in the <code>java.awt.TextField</code>
- * class.  The superclass should be consulted for additional capabilities.
+ * <dodf>JTfxtFifld</dodf> is intfndfd to bf sourdf-dompbtiblf
+ * witi <dodf>jbvb.bwt.TfxtFifld</dodf> wifrf it is rfbsonbblf to do so.  Tiis
+ * domponfnt ibs dbpbbilitifs not found in tif <dodf>jbvb.bwt.TfxtFifld</dodf>
+ * dlbss.  Tif supfrdlbss siould bf donsultfd for bdditionbl dbpbbilitifs.
  * <p>
- * <code>JTextField</code> has a method to establish the string used as the
- * command string for the action event that gets fired.  The
- * <code>java.awt.TextField</code> used the text of the field as the command
- * string for the <code>ActionEvent</code>.
- * <code>JTextField</code> will use the command
- * string set with the <code>setActionCommand</code> method if not <code>null</code>,
- * otherwise it will use the text of the field as a compatibility with
- * <code>java.awt.TextField</code>.
+ * <dodf>JTfxtFifld</dodf> ibs b mftiod to fstbblisi tif string usfd bs tif
+ * dommbnd string for tif bdtion fvfnt tibt gfts firfd.  Tif
+ * <dodf>jbvb.bwt.TfxtFifld</dodf> usfd tif tfxt of tif fifld bs tif dommbnd
+ * string for tif <dodf>AdtionEvfnt</dodf>.
+ * <dodf>JTfxtFifld</dodf> will usf tif dommbnd
+ * string sft witi tif <dodf>sftAdtionCommbnd</dodf> mftiod if not <dodf>null</dodf>,
+ * otifrwisf it will usf tif tfxt of tif fifld bs b dompbtibility witi
+ * <dodf>jbvb.bwt.TfxtFifld</dodf>.
  * <p>
- * The method <code>setEchoChar</code> and <code>getEchoChar</code>
- * are not provided directly to avoid a new implementation of a
- * pluggable look-and-feel inadvertently exposing password characters.
- * To provide password-like services a separate class <code>JPasswordField</code>
- * extends <code>JTextField</code> to provide this service with an independently
- * pluggable look-and-feel.
+ * Tif mftiod <dodf>sftEdioCibr</dodf> bnd <dodf>gftEdioCibr</dodf>
+ * brf not providfd dirfdtly to bvoid b nfw implfmfntbtion of b
+ * pluggbblf look-bnd-fffl inbdvfrtfntly fxposing pbssword dibrbdtfrs.
+ * To providf pbssword-likf sfrvidfs b sfpbrbtf dlbss <dodf>JPbsswordFifld</dodf>
+ * fxtfnds <dodf>JTfxtFifld</dodf> to providf tiis sfrvidf witi bn indfpfndfntly
+ * pluggbblf look-bnd-fffl.
  * <p>
- * The <code>java.awt.TextField</code> could be monitored for changes by adding
- * a <code>TextListener</code> for <code>TextEvent</code>'s.
- * In the <code>JTextComponent</code> based
- * components, changes are broadcasted from the model via a
- * <code>DocumentEvent</code> to <code>DocumentListeners</code>.
- * The <code>DocumentEvent</code> gives
- * the location of the change and the kind of change if desired.
- * The code fragment might look something like:
- * <pre><code>
- * &nbsp;   DocumentListener myListener = ??;
- * &nbsp;   JTextField myArea = ??;
- * &nbsp;   myArea.getDocument().addDocumentListener(myListener);
- * </code></pre>
+ * Tif <dodf>jbvb.bwt.TfxtFifld</dodf> dould bf monitorfd for dibngfs by bdding
+ * b <dodf>TfxtListfnfr</dodf> for <dodf>TfxtEvfnt</dodf>'s.
+ * In tif <dodf>JTfxtComponfnt</dodf> bbsfd
+ * domponfnts, dibngfs brf brobddbstfd from tif modfl vib b
+ * <dodf>DodumfntEvfnt</dodf> to <dodf>DodumfntListfnfrs</dodf>.
+ * Tif <dodf>DodumfntEvfnt</dodf> givfs
+ * tif lodbtion of tif dibngf bnd tif kind of dibngf if dfsirfd.
+ * Tif dodf frbgmfnt migit look somftiing likf:
+ * <prf><dodf>
+ * &nbsp;   DodumfntListfnfr myListfnfr = ??;
+ * &nbsp;   JTfxtFifld myArfb = ??;
+ * &nbsp;   myArfb.gftDodumfnt().bddDodumfntListfnfr(myListfnfr);
+ * </dodf></prf>
  * <p>
- * The horizontal alignment of <code>JTextField</code> can be set to be left
- * justified, leading justified, centered, right justified or trailing justified.
- * Right/trailing justification is useful if the required size
- * of the field text is smaller than the size allocated to it.
- * This is determined by the <code>setHorizontalAlignment</code>
- * and <code>getHorizontalAlignment</code> methods.  The default
- * is to be leading justified.
+ * Tif iorizontbl blignmfnt of <dodf>JTfxtFifld</dodf> dbn bf sft to bf lfft
+ * justififd, lfbding justififd, dfntfrfd, rigit justififd or trbiling justififd.
+ * Rigit/trbiling justifidbtion is usfful if tif rfquirfd sizf
+ * of tif fifld tfxt is smbllfr tibn tif sizf bllodbtfd to it.
+ * Tiis is dftfrminfd by tif <dodf>sftHorizontblAlignmfnt</dodf>
+ * bnd <dodf>gftHorizontblAlignmfnt</dodf> mftiods.  Tif dffbult
+ * is to bf lfbding justififd.
  * <p>
- * How the text field consumes VK_ENTER events depends
- * on whether the text field has any action listeners.
- * If so, then VK_ENTER results in the listeners
- * getting an ActionEvent,
- * and the VK_ENTER event is consumed.
- * This is compatible with how AWT text fields handle VK_ENTER events.
- * If the text field has no action listeners, then as of v 1.3 the VK_ENTER
- * event is not consumed.  Instead, the bindings of ancestor components
- * are processed, which enables the default button feature of
+ * How tif tfxt fifld donsumfs VK_ENTER fvfnts dfpfnds
+ * on wiftifr tif tfxt fifld ibs bny bdtion listfnfrs.
+ * If so, tifn VK_ENTER rfsults in tif listfnfrs
+ * gftting bn AdtionEvfnt,
+ * bnd tif VK_ENTER fvfnt is donsumfd.
+ * Tiis is dompbtiblf witi iow AWT tfxt fiflds ibndlf VK_ENTER fvfnts.
+ * If tif tfxt fifld ibs no bdtion listfnfrs, tifn bs of v 1.3 tif VK_ENTER
+ * fvfnt is not donsumfd.  Instfbd, tif bindings of bndfstor domponfnts
+ * brf prodfssfd, wiidi fnbblfs tif dffbult button ffbturf of
  * JFC/Swing to work.
  * <p>
- * Customized fields can easily be created by extending the model and
- * changing the default model provided.  For example, the following piece
- * of code will create a field that holds only upper case characters.  It
- * will work even if text is pasted into from the clipboard or it is altered via
- * programmatic changes.
- * <pre><code>
+ * Customizfd fiflds dbn fbsily bf drfbtfd by fxtfnding tif modfl bnd
+ * dibnging tif dffbult modfl providfd.  For fxbmplf, tif following pifdf
+ * of dodf will drfbtf b fifld tibt iolds only uppfr dbsf dibrbdtfrs.  It
+ * will work fvfn if tfxt is pbstfd into from tif dlipbobrd or it is bltfrfd vib
+ * progrbmmbtid dibngfs.
+ * <prf><dodf>
 
-&nbsp;public class UpperCaseField extends JTextField {
+&nbsp;publid dlbss UppfrCbsfFifld fxtfnds JTfxtFifld {
 &nbsp;
-&nbsp;    public UpperCaseField(int cols) {
-&nbsp;        super(cols);
+&nbsp;    publid UppfrCbsfFifld(int dols) {
+&nbsp;        supfr(dols);
 &nbsp;    }
 &nbsp;
-&nbsp;    protected Document createDefaultModel() {
-&nbsp;        return new UpperCaseDocument();
+&nbsp;    protfdtfd Dodumfnt drfbtfDffbultModfl() {
+&nbsp;        rfturn nfw UppfrCbsfDodumfnt();
 &nbsp;    }
 &nbsp;
-&nbsp;    static class UpperCaseDocument extends PlainDocument {
+&nbsp;    stbtid dlbss UppfrCbsfDodumfnt fxtfnds PlbinDodumfnt {
 &nbsp;
-&nbsp;        public void insertString(int offs, String str, AttributeSet a)
-&nbsp;            throws BadLocationException {
+&nbsp;        publid void insfrtString(int offs, String str, AttributfSft b)
+&nbsp;            tirows BbdLodbtionExdfption {
 &nbsp;
 &nbsp;            if (str == null) {
-&nbsp;                return;
+&nbsp;                rfturn;
 &nbsp;            }
-&nbsp;            char[] upper = str.toCharArray();
-&nbsp;            for (int i = 0; i &lt; upper.length; i++) {
-&nbsp;                upper[i] = Character.toUpperCase(upper[i]);
+&nbsp;            dibr[] uppfr = str.toCibrArrby();
+&nbsp;            for (int i = 0; i &lt; uppfr.lfngti; i++) {
+&nbsp;                uppfr[i] = Cibrbdtfr.toUppfrCbsf(uppfr[i]);
 &nbsp;            }
-&nbsp;            super.insertString(offs, new String(upper), a);
+&nbsp;            supfr.insfrtString(offs, nfw String(uppfr), b);
 &nbsp;        }
 &nbsp;    }
 &nbsp;}
 
- * </code></pre>
+ * </dodf></prf>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which allows for the editing of a single line of text.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt wiidi bllows for tif fditing of b singlf linf of tfxt.
  *
- * @author  Timothy Prinzing
- * @see #setActionCommand
- * @see JPasswordField
- * @see #addActionListener
- * @since 1.2
+ * @butior  Timotiy Prinzing
+ * @sff #sftAdtionCommbnd
+ * @sff JPbsswordFifld
+ * @sff #bddAdtionListfnfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTextField extends JTextComponent implements SwingConstants {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTfxtFifld fxtfnds JTfxtComponfnt implfmfnts SwingConstbnts {
 
     /**
-     * Constructs a new <code>TextField</code>.  A default model is created,
-     * the initial string is <code>null</code>,
-     * and the number of columns is set to 0.
+     * Construdts b nfw <dodf>TfxtFifld</dodf>.  A dffbult modfl is drfbtfd,
+     * tif initibl string is <dodf>null</dodf>,
+     * bnd tif numbfr of dolumns is sft to 0.
      */
-    public JTextField() {
-        this(null, null, 0);
+    publid JTfxtFifld() {
+        tiis(null, null, 0);
     }
 
     /**
-     * Constructs a new <code>TextField</code> initialized with the
-     * specified text. A default model is created and the number of
-     * columns is 0.
+     * Construdts b nfw <dodf>TfxtFifld</dodf> initiblizfd witi tif
+     * spfdififd tfxt. A dffbult modfl is drfbtfd bnd tif numbfr of
+     * dolumns is 0.
      *
-     * @param text the text to be displayed, or <code>null</code>
+     * @pbrbm tfxt tif tfxt to bf displbyfd, or <dodf>null</dodf>
      */
-    public JTextField(String text) {
-        this(null, text, 0);
+    publid JTfxtFifld(String tfxt) {
+        tiis(null, tfxt, 0);
     }
 
     /**
-     * Constructs a new empty <code>TextField</code> with the specified
-     * number of columns.
-     * A default model is created and the initial string is set to
-     * <code>null</code>.
+     * Construdts b nfw fmpty <dodf>TfxtFifld</dodf> witi tif spfdififd
+     * numbfr of dolumns.
+     * A dffbult modfl is drfbtfd bnd tif initibl string is sft to
+     * <dodf>null</dodf>.
      *
-     * @param columns  the number of columns to use to calculate
-     *   the preferred width; if columns is set to zero, the
-     *   preferred width will be whatever naturally results from
-     *   the component implementation
+     * @pbrbm dolumns  tif numbfr of dolumns to usf to dbldulbtf
+     *   tif prfffrrfd widti; if dolumns is sft to zfro, tif
+     *   prfffrrfd widti will bf wibtfvfr nbturblly rfsults from
+     *   tif domponfnt implfmfntbtion
      */
-    public JTextField(int columns) {
-        this(null, null, columns);
+    publid JTfxtFifld(int dolumns) {
+        tiis(null, null, dolumns);
     }
 
     /**
-     * Constructs a new <code>TextField</code> initialized with the
-     * specified text and columns.  A default model is created.
+     * Construdts b nfw <dodf>TfxtFifld</dodf> initiblizfd witi tif
+     * spfdififd tfxt bnd dolumns.  A dffbult modfl is drfbtfd.
      *
-     * @param text the text to be displayed, or <code>null</code>
-     * @param columns  the number of columns to use to calculate
-     *   the preferred width; if columns is set to zero, the
-     *   preferred width will be whatever naturally results from
-     *   the component implementation
+     * @pbrbm tfxt tif tfxt to bf displbyfd, or <dodf>null</dodf>
+     * @pbrbm dolumns  tif numbfr of dolumns to usf to dbldulbtf
+     *   tif prfffrrfd widti; if dolumns is sft to zfro, tif
+     *   prfffrrfd widti will bf wibtfvfr nbturblly rfsults from
+     *   tif domponfnt implfmfntbtion
      */
-    public JTextField(String text, int columns) {
-        this(null, text, columns);
+    publid JTfxtFifld(String tfxt, int dolumns) {
+        tiis(null, tfxt, dolumns);
     }
 
     /**
-     * Constructs a new <code>JTextField</code> that uses the given text
-     * storage model and the given number of columns.
-     * This is the constructor through which the other constructors feed.
-     * If the document is <code>null</code>, a default model is created.
+     * Construdts b nfw <dodf>JTfxtFifld</dodf> tibt usfs tif givfn tfxt
+     * storbgf modfl bnd tif givfn numbfr of dolumns.
+     * Tiis is tif donstrudtor tirougi wiidi tif otifr donstrudtors fffd.
+     * If tif dodumfnt is <dodf>null</dodf>, b dffbult modfl is drfbtfd.
      *
-     * @param doc  the text storage to use; if this is <code>null</code>,
-     *          a default will be provided by calling the
-     *          <code>createDefaultModel</code> method
-     * @param text  the initial string to display, or <code>null</code>
-     * @param columns  the number of columns to use to calculate
-     *   the preferred width &gt;= 0; if <code>columns</code>
-     *   is set to zero, the preferred width will be whatever
-     *   naturally results from the component implementation
-     * @exception IllegalArgumentException if <code>columns</code> &lt; 0
+     * @pbrbm dod  tif tfxt storbgf to usf; if tiis is <dodf>null</dodf>,
+     *          b dffbult will bf providfd by dblling tif
+     *          <dodf>drfbtfDffbultModfl</dodf> mftiod
+     * @pbrbm tfxt  tif initibl string to displby, or <dodf>null</dodf>
+     * @pbrbm dolumns  tif numbfr of dolumns to usf to dbldulbtf
+     *   tif prfffrrfd widti &gt;= 0; if <dodf>dolumns</dodf>
+     *   is sft to zfro, tif prfffrrfd widti will bf wibtfvfr
+     *   nbturblly rfsults from tif domponfnt implfmfntbtion
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolumns</dodf> &lt; 0
      */
-    public JTextField(Document doc, String text, int columns) {
-        if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
+    publid JTfxtFifld(Dodumfnt dod, String tfxt, int dolumns) {
+        if (dolumns < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dolumns lfss tibn zfro.");
         }
-        visibility = new DefaultBoundedRangeModel();
-        visibility.addChangeListener(new ScrollRepainter());
-        this.columns = columns;
-        if (doc == null) {
-            doc = createDefaultModel();
+        visibility = nfw DffbultBoundfdRbngfModfl();
+        visibility.bddCibngfListfnfr(nfw SdrollRfpbintfr());
+        tiis.dolumns = dolumns;
+        if (dod == null) {
+            dod = drfbtfDffbultModfl();
         }
-        setDocument(doc);
-        if (text != null) {
-            setText(text);
+        sftDodumfnt(dod);
+        if (tfxt != null) {
+            sftTfxt(tfxt);
         }
     }
 
     /**
-     * Gets the class ID for a UI.
+     * Gfts tif dlbss ID for b UI.
      *
-     * @return the string "TextFieldUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "TfxtFifldUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Associates the editor with a text document.
-     * The currently registered factory is used to build a view for
-     * the document, which gets displayed by the editor after revalidation.
-     * A PropertyChange event ("document") is propagated to each listener.
+     * Assodibtfs tif fditor witi b tfxt dodumfnt.
+     * Tif durrfntly rfgistfrfd fbdtory is usfd to build b vifw for
+     * tif dodumfnt, wiidi gfts displbyfd by tif fditor bftfr rfvblidbtion.
+     * A PropfrtyCibngf fvfnt ("dodumfnt") is propbgbtfd to fbdi listfnfr.
      *
-     * @param doc  the document to display/edit
-     * @see #getDocument
-     * @beaninfo
-     *  description: the text document model
-     *        bound: true
-     *       expert: true
+     * @pbrbm dod  tif dodumfnt to displby/fdit
+     * @sff #gftDodumfnt
+     * @bfbninfo
+     *  dfsdription: tif tfxt dodumfnt modfl
+     *        bound: truf
+     *       fxpfrt: truf
      */
-    public void setDocument(Document doc) {
-        if (doc != null) {
-            doc.putProperty("filterNewlines", Boolean.TRUE);
+    publid void sftDodumfnt(Dodumfnt dod) {
+        if (dod != null) {
+            dod.putPropfrty("filtfrNfwlinfs", Boolfbn.TRUE);
         }
-        super.setDocument(doc);
+        supfr.sftDodumfnt(dod);
     }
 
     /**
-     * Calls to <code>revalidate</code> that come from within the
-     * textfield itself will
-     * be handled by validating the textfield, unless the textfield
-     * is contained within a <code>JViewport</code>,
-     * in which case this returns false.
+     * Cblls to <dodf>rfvblidbtf</dodf> tibt domf from witiin tif
+     * tfxtfifld itsflf will
+     * bf ibndlfd by vblidbting tif tfxtfifld, unlfss tif tfxtfifld
+     * is dontbinfd witiin b <dodf>JVifwport</dodf>,
+     * in wiidi dbsf tiis rfturns fblsf.
      *
-     * @return if the parent of this textfield is a <code>JViewPort</code>
-     *          return false, otherwise return true
+     * @rfturn if tif pbrfnt of tiis tfxtfifld is b <dodf>JVifwPort</dodf>
+     *          rfturn fblsf, otifrwisf rfturn truf
      *
-     * @see JComponent#revalidate
-     * @see JComponent#isValidateRoot
-     * @see java.awt.Container#isValidateRoot
+     * @sff JComponfnt#rfvblidbtf
+     * @sff JComponfnt#isVblidbtfRoot
+     * @sff jbvb.bwt.Contbinfr#isVblidbtfRoot
      */
-    @Override
-    public boolean isValidateRoot() {
-        return !(SwingUtilities.getUnwrappedParent(this) instanceof JViewport);
+    @Ovfrridf
+    publid boolfbn isVblidbtfRoot() {
+        rfturn !(SwingUtilitifs.gftUnwrbppfdPbrfnt(tiis) instbndfof JVifwport);
     }
 
 
     /**
-     * Returns the horizontal alignment of the text.
-     * Valid keys are:
+     * Rfturns tif iorizontbl blignmfnt of tif tfxt.
+     * Vblid kfys brf:
      * <ul>
-     * <li><code>JTextField.LEFT</code>
-     * <li><code>JTextField.CENTER</code>
-     * <li><code>JTextField.RIGHT</code>
-     * <li><code>JTextField.LEADING</code>
-     * <li><code>JTextField.TRAILING</code>
+     * <li><dodf>JTfxtFifld.LEFT</dodf>
+     * <li><dodf>JTfxtFifld.CENTER</dodf>
+     * <li><dodf>JTfxtFifld.RIGHT</dodf>
+     * <li><dodf>JTfxtFifld.LEADING</dodf>
+     * <li><dodf>JTfxtFifld.TRAILING</dodf>
      * </ul>
      *
-     * @return the horizontal alignment
+     * @rfturn tif iorizontbl blignmfnt
      */
-    public int getHorizontalAlignment() {
-        return horizontalAlignment;
+    publid int gftHorizontblAlignmfnt() {
+        rfturn iorizontblAlignmfnt;
     }
 
     /**
-     * Sets the horizontal alignment of the text.
-     * Valid keys are:
+     * Sfts tif iorizontbl blignmfnt of tif tfxt.
+     * Vblid kfys brf:
      * <ul>
-     * <li><code>JTextField.LEFT</code>
-     * <li><code>JTextField.CENTER</code>
-     * <li><code>JTextField.RIGHT</code>
-     * <li><code>JTextField.LEADING</code>
-     * <li><code>JTextField.TRAILING</code>
+     * <li><dodf>JTfxtFifld.LEFT</dodf>
+     * <li><dodf>JTfxtFifld.CENTER</dodf>
+     * <li><dodf>JTfxtFifld.RIGHT</dodf>
+     * <li><dodf>JTfxtFifld.LEADING</dodf>
+     * <li><dodf>JTfxtFifld.TRAILING</dodf>
      * </ul>
-     * <code>invalidate</code> and <code>repaint</code> are called when the
-     * alignment is set,
-     * and a <code>PropertyChange</code> event ("horizontalAlignment") is fired.
+     * <dodf>invblidbtf</dodf> bnd <dodf>rfpbint</dodf> brf dbllfd wifn tif
+     * blignmfnt is sft,
+     * bnd b <dodf>PropfrtyCibngf</dodf> fvfnt ("iorizontblAlignmfnt") is firfd.
      *
-     * @param alignment the alignment
-     * @exception IllegalArgumentException if <code>alignment</code>
-     *  is not a valid key
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Set the field alignment to LEFT, CENTER, RIGHT,
-     *              LEADING (the default) or TRAILING
-     *        enum: LEFT JTextField.LEFT CENTER JTextField.CENTER RIGHT JTextField.RIGHT
-     *              LEADING JTextField.LEADING TRAILING JTextField.TRAILING
+     * @pbrbm blignmfnt tif blignmfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>blignmfnt</dodf>
+     *  is not b vblid kfy
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sft tif fifld blignmfnt to LEFT, CENTER, RIGHT,
+     *              LEADING (tif dffbult) or TRAILING
+     *        fnum: LEFT JTfxtFifld.LEFT CENTER JTfxtFifld.CENTER RIGHT JTfxtFifld.RIGHT
+     *              LEADING JTfxtFifld.LEADING TRAILING JTfxtFifld.TRAILING
      */
-     public void setHorizontalAlignment(int alignment) {
-        if (alignment == horizontalAlignment) return;
-        int oldValue = horizontalAlignment;
-        if ((alignment == LEFT) || (alignment == CENTER) ||
-            (alignment == RIGHT)|| (alignment == LEADING) ||
-            (alignment == TRAILING)) {
-            horizontalAlignment = alignment;
-        } else {
-            throw new IllegalArgumentException("horizontalAlignment");
+     publid void sftHorizontblAlignmfnt(int blignmfnt) {
+        if (blignmfnt == iorizontblAlignmfnt) rfturn;
+        int oldVbluf = iorizontblAlignmfnt;
+        if ((blignmfnt == LEFT) || (blignmfnt == CENTER) ||
+            (blignmfnt == RIGHT)|| (blignmfnt == LEADING) ||
+            (blignmfnt == TRAILING)) {
+            iorizontblAlignmfnt = blignmfnt;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("iorizontblAlignmfnt");
         }
-        firePropertyChange("horizontalAlignment", oldValue, horizontalAlignment);
-        invalidate();
-        repaint();
+        firfPropfrtyCibngf("iorizontblAlignmfnt", oldVbluf, iorizontblAlignmfnt);
+        invblidbtf();
+        rfpbint();
     }
 
     /**
-     * Creates the default implementation of the model
-     * to be used at construction if one isn't explicitly
-     * given.  An instance of <code>PlainDocument</code> is returned.
+     * Crfbtfs tif dffbult implfmfntbtion of tif modfl
+     * to bf usfd bt donstrudtion if onf isn't fxpliditly
+     * givfn.  An instbndf of <dodf>PlbinDodumfnt</dodf> is rfturnfd.
      *
-     * @return the default model implementation
+     * @rfturn tif dffbult modfl implfmfntbtion
      */
-    protected Document createDefaultModel() {
-        return new PlainDocument();
+    protfdtfd Dodumfnt drfbtfDffbultModfl() {
+        rfturn nfw PlbinDodumfnt();
     }
 
     /**
-     * Returns the number of columns in this <code>TextField</code>.
+     * Rfturns tif numbfr of dolumns in tiis <dodf>TfxtFifld</dodf>.
      *
-     * @return the number of columns &gt;= 0
+     * @rfturn tif numbfr of dolumns &gt;= 0
      */
-    public int getColumns() {
-        return columns;
+    publid int gftColumns() {
+        rfturn dolumns;
     }
 
     /**
-     * Sets the number of columns in this <code>TextField</code>,
-     * and then invalidate the layout.
+     * Sfts tif numbfr of dolumns in tiis <dodf>TfxtFifld</dodf>,
+     * bnd tifn invblidbtf tif lbyout.
      *
-     * @param columns the number of columns &gt;= 0
-     * @exception IllegalArgumentException if <code>columns</code>
-     *          is less than 0
-     * @beaninfo
-     * description: the number of columns preferred for display
+     * @pbrbm dolumns tif numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dolumns</dodf>
+     *          is lfss tibn 0
+     * @bfbninfo
+     * dfsdription: tif numbfr of dolumns prfffrrfd for displby
      */
-    public void setColumns(int columns) {
-        int oldVal = this.columns;
-        if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
+    publid void sftColumns(int dolumns) {
+        int oldVbl = tiis.dolumns;
+        if (dolumns < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dolumns lfss tibn zfro.");
         }
-        if (columns != oldVal) {
-            this.columns = columns;
-            invalidate();
-        }
-    }
-
-    /**
-     * Returns the column width.
-     * The meaning of what a column is can be considered a fairly weak
-     * notion for some fonts.  This method is used to define the width
-     * of a column.  By default this is defined to be the width of the
-     * character <em>m</em> for the font used.  This method can be
-     * redefined to be some alternative amount
-     *
-     * @return the column width &gt;= 1
-     */
-    protected int getColumnWidth() {
-        if (columnWidth == 0) {
-            FontMetrics metrics = getFontMetrics(getFont());
-            columnWidth = metrics.charWidth('m');
-        }
-        return columnWidth;
-    }
-
-    /**
-     * Returns the preferred size <code>Dimensions</code> needed for this
-     * <code>TextField</code>.  If a non-zero number of columns has been
-     * set, the width is set to the columns multiplied by
-     * the column width.
-     *
-     * @return the dimension of this textfield
-     */
-    public Dimension getPreferredSize() {
-        Dimension size = super.getPreferredSize();
-        if (columns != 0) {
-            Insets insets = getInsets();
-            size.width = columns * getColumnWidth() +
-                insets.left + insets.right;
-        }
-        return size;
-    }
-
-    /**
-     * Sets the current font.  This removes cached row height and column
-     * width so the new font will be reflected.
-     * <code>revalidate</code> is called after setting the font.
-     *
-     * @param f the new font
-     */
-    public void setFont(Font f) {
-        super.setFont(f);
-        columnWidth = 0;
-    }
-
-    /**
-     * Adds the specified action listener to receive
-     * action events from this textfield.
-     *
-     * @param l the action listener to be added
-     */
-    public synchronized void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class, l);
-    }
-
-    /**
-     * Removes the specified action listener so that it no longer
-     * receives action events from this textfield.
-     *
-     * @param l the action listener to be removed
-     */
-    public synchronized void removeActionListener(ActionListener l) {
-        if ((l != null) && (getAction() == l)) {
-            setAction(null);
-        } else {
-            listenerList.remove(ActionListener.class, l);
+        if (dolumns != oldVbl) {
+            tiis.dolumns = dolumns;
+            invblidbtf();
         }
     }
 
     /**
-     * Returns an array of all the <code>ActionListener</code>s added
-     * to this JTextField with addActionListener().
+     * Rfturns tif dolumn widti.
+     * Tif mfbning of wibt b dolumn is dbn bf donsidfrfd b fbirly wfbk
+     * notion for somf fonts.  Tiis mftiod is usfd to dffinf tif widti
+     * of b dolumn.  By dffbult tiis is dffinfd to bf tif widti of tif
+     * dibrbdtfr <fm>m</fm> for tif font usfd.  Tiis mftiod dbn bf
+     * rfdffinfd to bf somf bltfrnbtivf bmount
      *
-     * @return all of the <code>ActionListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn tif dolumn widti &gt;= 1
      */
-    public synchronized ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+    protfdtfd int gftColumnWidti() {
+        if (dolumnWidti == 0) {
+            FontMftrids mftrids = gftFontMftrids(gftFont());
+            dolumnWidti = mftrids.dibrWidti('m');
+        }
+        rfturn dolumnWidti;
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created.
-     * The listener list is processed in last to
-     * first order.
-     * @see EventListenerList
+     * Rfturns tif prfffrrfd sizf <dodf>Dimfnsions</dodf> nffdfd for tiis
+     * <dodf>TfxtFifld</dodf>.  If b non-zfro numbfr of dolumns ibs bffn
+     * sft, tif widti is sft to tif dolumns multiplifd by
+     * tif dolumn widti.
+     *
+     * @rfturn tif dimfnsion of tiis tfxtfifld
      */
-    protected void fireActionPerformed() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        int modifiers = 0;
-        AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
-            modifiers = ((InputEvent)currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
-            modifiers = ((ActionEvent)currentEvent).getModifiers();
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion sizf = supfr.gftPrfffrrfdSizf();
+        if (dolumns != 0) {
+            Insfts insfts = gftInsfts();
+            sizf.widti = dolumns * gftColumnWidti() +
+                insfts.lfft + insfts.rigit;
         }
-        ActionEvent e =
-            new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                            (command != null) ? command : getText(),
-                            EventQueue.getMostRecentEventTime(), modifiers);
+        rfturn sizf;
+    }
 
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+    /**
+     * Sfts tif durrfnt font.  Tiis rfmovfs dbdifd row ifigit bnd dolumn
+     * widti so tif nfw font will bf rfflfdtfd.
+     * <dodf>rfvblidbtf</dodf> is dbllfd bftfr sftting tif font.
+     *
+     * @pbrbm f tif nfw font
+     */
+    publid void sftFont(Font f) {
+        supfr.sftFont(f);
+        dolumnWidti = 0;
+    }
+
+    /**
+     * Adds tif spfdififd bdtion listfnfr to rfdfivf
+     * bdtion fvfnts from tiis tfxtfifld.
+     *
+     * @pbrbm l tif bdtion listfnfr to bf bddfd
+     */
+    publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs tif spfdififd bdtion listfnfr so tibt it no longfr
+     * rfdfivfs bdtion fvfnts from tiis tfxtfifld.
+     *
+     * @pbrbm l tif bdtion listfnfr to bf rfmovfd
+     */
+    publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        if ((l != null) && (gftAdtion() == l)) {
+            sftAdtion(null);
+        } flsf {
+            listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif <dodf>AdtionListfnfr</dodf>s bddfd
+     * to tiis JTfxtFifld witi bddAdtionListfnfr().
+     *
+     * @rfturn bll of tif <dodf>AdtionListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid syndironizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd.
+     * Tif listfnfr list is prodfssfd in lbst to
+     * first ordfr.
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfAdtionPfrformfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        int modififrs = 0;
+        AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+        if (durrfntEvfnt instbndfof InputEvfnt) {
+            modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+        } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+            modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
+        }
+        AdtionEvfnt f =
+            nfw AdtionEvfnt(tiis, AdtionEvfnt.ACTION_PERFORMED,
+                            (dommbnd != null) ? dommbnd : gftTfxt(),
+                            EvfntQufuf.gftMostRfdfntEvfntTimf(), modififrs);
+
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
             }
         }
     }
 
     /**
-     * Sets the command string used for action events.
+     * Sfts tif dommbnd string usfd for bdtion fvfnts.
      *
-     * @param command the command string
+     * @pbrbm dommbnd tif dommbnd string
      */
-    public void setActionCommand(String command) {
-        this.command = command;
+    publid void sftAdtionCommbnd(String dommbnd) {
+        tiis.dommbnd = dommbnd;
     }
 
-    private Action action;
-    private PropertyChangeListener actionPropertyChangeListener;
+    privbtf Adtion bdtion;
+    privbtf PropfrtyCibngfListfnfr bdtionPropfrtyCibngfListfnfr;
 
     /**
-     * Sets the <code>Action</code> for the <code>ActionEvent</code> source.
-     * The new <code>Action</code> replaces
-     * any previously set <code>Action</code> but does not affect
-     * <code>ActionListeners</code> independently
-     * added with <code>addActionListener</code>.
-     * If the <code>Action</code> is already a registered
-     * <code>ActionListener</code>
-     * for the <code>ActionEvent</code> source, it is not re-registered.
+     * Sfts tif <dodf>Adtion</dodf> for tif <dodf>AdtionEvfnt</dodf> sourdf.
+     * Tif nfw <dodf>Adtion</dodf> rfplbdfs
+     * bny prfviously sft <dodf>Adtion</dodf> but dofs not bfffdt
+     * <dodf>AdtionListfnfrs</dodf> indfpfndfntly
+     * bddfd witi <dodf>bddAdtionListfnfr</dodf>.
+     * If tif <dodf>Adtion</dodf> is blrfbdy b rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf>
+     * for tif <dodf>AdtionEvfnt</dodf> sourdf, it is not rf-rfgistfrfd.
      * <p>
-     * Setting the <code>Action</code> results in immediately changing
-     * all the properties described in <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a>.
-     * Subsequently, the textfield's properties are automatically updated
-     * as the <code>Action</code>'s properties change.
+     * Sftting tif <dodf>Adtion</dodf> rfsults in immfdibtfly dibnging
+     * bll tif propfrtifs dfsdribfd in <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b>.
+     * Subsfqufntly, tif tfxtfifld's propfrtifs brf butombtidblly updbtfd
+     * bs tif <dodf>Adtion</dodf>'s propfrtifs dibngf.
      * <p>
-     * This method uses three other methods to set
-     * and help track the <code>Action</code>'s property values.
-     * It uses the <code>configurePropertiesFromAction</code> method
-     * to immediately change the textfield's properties.
-     * To track changes in the <code>Action</code>'s property values,
-     * this method registers the <code>PropertyChangeListener</code>
-     * returned by <code>createActionPropertyChangeListener</code>. The
-     * default {@code PropertyChangeListener} invokes the
-     * {@code actionPropertyChanged} method when a property in the
-     * {@code Action} changes.
+     * Tiis mftiod usfs tirff otifr mftiods to sft
+     * bnd iflp trbdk tif <dodf>Adtion</dodf>'s propfrty vblufs.
+     * It usfs tif <dodf>donfigurfPropfrtifsFromAdtion</dodf> mftiod
+     * to immfdibtfly dibngf tif tfxtfifld's propfrtifs.
+     * To trbdk dibngfs in tif <dodf>Adtion</dodf>'s propfrty vblufs,
+     * tiis mftiod rfgistfrs tif <dodf>PropfrtyCibngfListfnfr</dodf>
+     * rfturnfd by <dodf>drfbtfAdtionPropfrtyCibngfListfnfr</dodf>. Tif
+     * dffbult {@dodf PropfrtyCibngfListfnfr} invokfs tif
+     * {@dodf bdtionPropfrtyCibngfd} mftiod wifn b propfrty in tif
+     * {@dodf Adtion} dibngfs.
      *
-     * @param a the <code>Action</code> for the <code>JTextField</code>,
-     *          or <code>null</code>
-     * @since 1.3
-     * @see Action
-     * @see #getAction
-     * @see #configurePropertiesFromAction
-     * @see #createActionPropertyChangeListener
-     * @see #actionPropertyChanged
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the Action instance connected with this ActionEvent source
+     * @pbrbm b tif <dodf>Adtion</dodf> for tif <dodf>JTfxtFifld</dodf>,
+     *          or <dodf>null</dodf>
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #gftAdtion
+     * @sff #donfigurfPropfrtifsFromAdtion
+     * @sff #drfbtfAdtionPropfrtyCibngfListfnfr
+     * @sff #bdtionPropfrtyCibngfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: tif Adtion instbndf donnfdtfd witi tiis AdtionEvfnt sourdf
      */
-    public void setAction(Action a) {
-        Action oldValue = getAction();
-        if (action==null || !action.equals(a)) {
-            action = a;
-            if (oldValue!=null) {
-                removeActionListener(oldValue);
-                oldValue.removePropertyChangeListener(actionPropertyChangeListener);
-                actionPropertyChangeListener = null;
+    publid void sftAdtion(Adtion b) {
+        Adtion oldVbluf = gftAdtion();
+        if (bdtion==null || !bdtion.fqubls(b)) {
+            bdtion = b;
+            if (oldVbluf!=null) {
+                rfmovfAdtionListfnfr(oldVbluf);
+                oldVbluf.rfmovfPropfrtyCibngfListfnfr(bdtionPropfrtyCibngfListfnfr);
+                bdtionPropfrtyCibngfListfnfr = null;
             }
-            configurePropertiesFromAction(action);
-            if (action!=null) {
-                // Don't add if it is already a listener
-                if (!isListener(ActionListener.class, action)) {
-                    addActionListener(action);
+            donfigurfPropfrtifsFromAdtion(bdtion);
+            if (bdtion!=null) {
+                // Don't bdd if it is blrfbdy b listfnfr
+                if (!isListfnfr(AdtionListfnfr.dlbss, bdtion)) {
+                    bddAdtionListfnfr(bdtion);
                 }
-                // Reverse linkage:
-                actionPropertyChangeListener = createActionPropertyChangeListener(action);
-                action.addPropertyChangeListener(actionPropertyChangeListener);
+                // Rfvfrsf linkbgf:
+                bdtionPropfrtyCibngfListfnfr = drfbtfAdtionPropfrtyCibngfListfnfr(bdtion);
+                bdtion.bddPropfrtyCibngfListfnfr(bdtionPropfrtyCibngfListfnfr);
             }
-            firePropertyChange("action", oldValue, action);
+            firfPropfrtyCibngf("bdtion", oldVbluf, bdtion);
         }
     }
 
-    private boolean isListener(Class<?> c, ActionListener a) {
-        boolean isListener = false;
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==c && listeners[i+1]==a) {
-                    isListener=true;
+    privbtf boolfbn isListfnfr(Clbss<?> d, AdtionListfnfr b) {
+        boolfbn isListfnfr = fblsf;
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==d && listfnfrs[i+1]==b) {
+                    isListfnfr=truf;
             }
         }
-        return isListener;
+        rfturn isListfnfr;
     }
 
     /**
-     * Returns the currently set <code>Action</code> for this
-     * <code>ActionEvent</code> source, or <code>null</code>
-     * if no <code>Action</code> is set.
+     * Rfturns tif durrfntly sft <dodf>Adtion</dodf> for tiis
+     * <dodf>AdtionEvfnt</dodf> sourdf, or <dodf>null</dodf>
+     * if no <dodf>Adtion</dodf> is sft.
      *
-     * @return the <code>Action</code> for this <code>ActionEvent</code> source,
-     *          or <code>null</code>
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @rfturn tif <dodf>Adtion</dodf> for tiis <dodf>AdtionEvfnt</dodf> sourdf,
+     *          or <dodf>null</dodf>
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    public Action getAction() {
-        return action;
+    publid Adtion gftAdtion() {
+        rfturn bdtion;
     }
 
     /**
-     * Sets the properties on this textfield to match those in the specified
-     * <code>Action</code>.  Refer to <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for more
-     * details as to which properties this sets.
+     * Sfts tif propfrtifs on tiis tfxtfifld to mbtdi tiosf in tif spfdififd
+     * <dodf>Adtion</dodf>.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+     * dftbils bs to wiidi propfrtifs tiis sfts.
      *
-     * @param a the <code>Action</code> from which to get the properties,
-     *          or <code>null</code>
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @pbrbm b tif <dodf>Adtion</dodf> from wiidi to gft tif propfrtifs,
+     *          or <dodf>null</dodf>
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    protected void configurePropertiesFromAction(Action a) {
-        AbstractAction.setEnabledFromAction(this, a);
-        AbstractAction.setToolTipTextFromAction(this, a);
-        setActionCommandFromAction(a);
+    protfdtfd void donfigurfPropfrtifsFromAdtion(Adtion b) {
+        AbstrbdtAdtion.sftEnbblfdFromAdtion(tiis, b);
+        AbstrbdtAdtion.sftToolTipTfxtFromAdtion(tiis, b);
+        sftAdtionCommbndFromAdtion(b);
     }
 
     /**
-     * Updates the textfield's state in response to property changes in
-     * associated action. This method is invoked from the
-     * {@code PropertyChangeListener} returned from
-     * {@code createActionPropertyChangeListener}. Subclasses do not normally
-     * need to invoke this. Subclasses that support additional {@code Action}
-     * properties should override this and
-     * {@code configurePropertiesFromAction}.
+     * Updbtfs tif tfxtfifld's stbtf in rfsponsf to propfrty dibngfs in
+     * bssodibtfd bdtion. Tiis mftiod is invokfd from tif
+     * {@dodf PropfrtyCibngfListfnfr} rfturnfd from
+     * {@dodf drfbtfAdtionPropfrtyCibngfListfnfr}. Subdlbssfs do not normblly
+     * nffd to invokf tiis. Subdlbssfs tibt support bdditionbl {@dodf Adtion}
+     * propfrtifs siould ovfrridf tiis bnd
+     * {@dodf donfigurfPropfrtifsFromAdtion}.
      * <p>
-     * Refer to the table at <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for a list of
-     * the properties this method sets.
+     * Rfffr to tif tbblf bt <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for b list of
+     * tif propfrtifs tiis mftiod sfts.
      *
-     * @param action the <code>Action</code> associated with this textfield
-     * @param propertyName the name of the property that changed
-     * @since 1.6
-     * @see Action
-     * @see #configurePropertiesFromAction
+     * @pbrbm bdtion tif <dodf>Adtion</dodf> bssodibtfd witi tiis tfxtfifld
+     * @pbrbm propfrtyNbmf tif nbmf of tif propfrty tibt dibngfd
+     * @sindf 1.6
+     * @sff Adtion
+     * @sff #donfigurfPropfrtifsFromAdtion
      */
-    protected void actionPropertyChanged(Action action, String propertyName) {
-        if (propertyName == Action.ACTION_COMMAND_KEY) {
-            setActionCommandFromAction(action);
-        } else if (propertyName == "enabled") {
-            AbstractAction.setEnabledFromAction(this, action);
-        } else if (propertyName == Action.SHORT_DESCRIPTION) {
-            AbstractAction.setToolTipTextFromAction(this, action);
+    protfdtfd void bdtionPropfrtyCibngfd(Adtion bdtion, String propfrtyNbmf) {
+        if (propfrtyNbmf == Adtion.ACTION_COMMAND_KEY) {
+            sftAdtionCommbndFromAdtion(bdtion);
+        } flsf if (propfrtyNbmf == "fnbblfd") {
+            AbstrbdtAdtion.sftEnbblfdFromAdtion(tiis, bdtion);
+        } flsf if (propfrtyNbmf == Adtion.SHORT_DESCRIPTION) {
+            AbstrbdtAdtion.sftToolTipTfxtFromAdtion(tiis, bdtion);
         }
     }
 
-    private void setActionCommandFromAction(Action action) {
-        setActionCommand((action == null) ? null :
-                         (String)action.getValue(Action.ACTION_COMMAND_KEY));
+    privbtf void sftAdtionCommbndFromAdtion(Adtion bdtion) {
+        sftAdtionCommbnd((bdtion == null) ? null :
+                         (String)bdtion.gftVbluf(Adtion.ACTION_COMMAND_KEY));
     }
 
     /**
-     * Creates and returns a <code>PropertyChangeListener</code> that is
-     * responsible for listening for changes from the specified
-     * <code>Action</code> and updating the appropriate properties.
+     * Crfbtfs bnd rfturns b <dodf>PropfrtyCibngfListfnfr</dodf> tibt is
+     * rfsponsiblf for listfning for dibngfs from tif spfdififd
+     * <dodf>Adtion</dodf> bnd updbting tif bppropribtf propfrtifs.
      * <p>
-     * <b>Warning:</b> If you subclass this do not create an anonymous
-     * inner class.  If you do the lifetime of the textfield will be tied to
-     * that of the <code>Action</code>.
+     * <b>Wbrning:</b> If you subdlbss tiis do not drfbtf bn bnonymous
+     * innfr dlbss.  If you do tif lifftimf of tif tfxtfifld will bf tifd to
+     * tibt of tif <dodf>Adtion</dodf>.
      *
-     * @param a the textfield's action
-     * @return a {@code PropertyChangeListener} that is responsible for
-     *         listening for changes from the specified {@code Action} and
-     *         updating the appropriate properties
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @pbrbm b tif tfxtfifld's bdtion
+     * @rfturn b {@dodf PropfrtyCibngfListfnfr} tibt is rfsponsiblf for
+     *         listfning for dibngfs from tif spfdififd {@dodf Adtion} bnd
+     *         updbting tif bppropribtf propfrtifs
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
-        return new TextFieldActionPropertyChangeListener(this, a);
+    protfdtfd PropfrtyCibngfListfnfr drfbtfAdtionPropfrtyCibngfListfnfr(Adtion b) {
+        rfturn nfw TfxtFifldAdtionPropfrtyCibngfListfnfr(tiis, b);
     }
 
-    private static class TextFieldActionPropertyChangeListener extends
-                         ActionPropertyChangeListener<JTextField> {
-        TextFieldActionPropertyChangeListener(JTextField tf, Action a) {
-            super(tf, a);
+    privbtf stbtid dlbss TfxtFifldAdtionPropfrtyCibngfListfnfr fxtfnds
+                         AdtionPropfrtyCibngfListfnfr<JTfxtFifld> {
+        TfxtFifldAdtionPropfrtyCibngfListfnfr(JTfxtFifld tf, Adtion b) {
+            supfr(tf, b);
         }
 
-        protected void actionPropertyChanged(JTextField textField,
-                                             Action action,
-                                             PropertyChangeEvent e) {
-            if (AbstractAction.shouldReconfigure(e)) {
-                textField.configurePropertiesFromAction(action);
-            } else {
-                textField.actionPropertyChanged(action, e.getPropertyName());
+        protfdtfd void bdtionPropfrtyCibngfd(JTfxtFifld tfxtFifld,
+                                             Adtion bdtion,
+                                             PropfrtyCibngfEvfnt f) {
+            if (AbstrbdtAdtion.siouldRfdonfigurf(f)) {
+                tfxtFifld.donfigurfPropfrtifsFromAdtion(bdtion);
+            } flsf {
+                tfxtFifld.bdtionPropfrtyCibngfd(bdtion, f.gftPropfrtyNbmf());
             }
         }
     }
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the plugged-in UI
-     * augmented by the collection of commands that the
-     * editor itself supports.  These are useful for binding
-     * to events, such as in a keymap.
+     * Fftdifs tif dommbnd list for tif fditor.  Tiis is
+     * tif list of dommbnds supportfd by tif pluggfd-in UI
+     * bugmfntfd by tif dollfdtion of dommbnds tibt tif
+     * fditor itsflf supports.  Tifsf brf usfful for binding
+     * to fvfnts, sudi bs in b kfymbp.
      *
-     * @return the command list
+     * @rfturn tif dommbnd list
      */
-    public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
+    publid Adtion[] gftAdtions() {
+        rfturn TfxtAdtion.bugmfntList(supfr.gftAdtions(), dffbultAdtions);
     }
 
     /**
-     * Processes action events occurring on this textfield by
-     * dispatching them to any registered <code>ActionListener</code> objects.
-     * This is normally called by the controller registered with
-     * textfield.
+     * Prodfssfs bdtion fvfnts oddurring on tiis tfxtfifld by
+     * dispbtdiing tifm to bny rfgistfrfd <dodf>AdtionListfnfr</dodf> objfdts.
+     * Tiis is normblly dbllfd by tif dontrollfr rfgistfrfd witi
+     * tfxtfifld.
      */
-    public void postActionEvent() {
-        fireActionPerformed();
+    publid void postAdtionEvfnt() {
+        firfAdtionPfrformfd();
     }
 
-    // --- Scrolling support -----------------------------------
+    // --- Sdrolling support -----------------------------------
 
     /**
-     * Gets the visibility of the text field.  This can
-     * be adjusted to change the location of the visible
-     * area if the size of the field is greater than
-     * the area that was allocated to the field.
+     * Gfts tif visibility of tif tfxt fifld.  Tiis dbn
+     * bf bdjustfd to dibngf tif lodbtion of tif visiblf
+     * brfb if tif sizf of tif fifld is grfbtfr tibn
+     * tif brfb tibt wbs bllodbtfd to tif fifld.
      *
      * <p>
-     * The fields look-and-feel implementation manages
-     * the values of the minimum, maximum, and extent
-     * properties on the <code>BoundedRangeModel</code>.
+     * Tif fiflds look-bnd-fffl implfmfntbtion mbnbgfs
+     * tif vblufs of tif minimum, mbximum, bnd fxtfnt
+     * propfrtifs on tif <dodf>BoundfdRbngfModfl</dodf>.
      *
-     * @return the visibility
-     * @see BoundedRangeModel
+     * @rfturn tif visibility
+     * @sff BoundfdRbngfModfl
      */
-    public BoundedRangeModel getHorizontalVisibility() {
-        return visibility;
+    publid BoundfdRbngfModfl gftHorizontblVisibility() {
+        rfturn visibility;
     }
 
     /**
-     * Gets the scroll offset, in pixels.
+     * Gfts tif sdroll offsft, in pixfls.
      *
-     * @return the offset &gt;= 0
+     * @rfturn tif offsft &gt;= 0
      */
-    public int getScrollOffset() {
-        return visibility.getValue();
+    publid int gftSdrollOffsft() {
+        rfturn visibility.gftVbluf();
     }
 
     /**
-     * Sets the scroll offset, in pixels.
+     * Sfts tif sdroll offsft, in pixfls.
      *
-     * @param scrollOffset the offset &gt;= 0
+     * @pbrbm sdrollOffsft tif offsft &gt;= 0
      */
-    public void setScrollOffset(int scrollOffset) {
-        visibility.setValue(scrollOffset);
+    publid void sftSdrollOffsft(int sdrollOffsft) {
+        visibility.sftVbluf(sdrollOffsft);
     }
 
     /**
-     * Scrolls the field left or right.
+     * Sdrolls tif fifld lfft or rigit.
      *
-     * @param r the region to scroll
+     * @pbrbm r tif rfgion to sdroll
      */
-    public void scrollRectToVisible(Rectangle r) {
-        // convert to coordinate system of the bounded range
-        Insets i = getInsets();
-        int x0 = r.x + visibility.getValue() - i.left;
-        int x1 = x0 + r.width;
-        if (x0 < visibility.getValue()) {
-            // Scroll to the left
-            visibility.setValue(x0);
-        } else if(x1 > visibility.getValue() + visibility.getExtent()) {
-            // Scroll to the right
-            visibility.setValue(x1 - visibility.getExtent());
+    publid void sdrollRfdtToVisiblf(Rfdtbnglf r) {
+        // donvfrt to doordinbtf systfm of tif boundfd rbngf
+        Insfts i = gftInsfts();
+        int x0 = r.x + visibility.gftVbluf() - i.lfft;
+        int x1 = x0 + r.widti;
+        if (x0 < visibility.gftVbluf()) {
+            // Sdroll to tif lfft
+            visibility.sftVbluf(x0);
+        } flsf if(x1 > visibility.gftVbluf() + visibility.gftExtfnt()) {
+            // Sdroll to tif rigit
+            visibility.sftVbluf(x1 - visibility.gftExtfnt());
         }
     }
 
     /**
-     * Returns true if the receiver has an <code>ActionListener</code>
-     * installed.
+     * Rfturns truf if tif rfdfivfr ibs bn <dodf>AdtionListfnfr</dodf>
+     * instbllfd.
      */
-    boolean hasActionListener() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                return true;
+    boolfbn ibsAdtionListfnfr() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // --- variables -------------------------------------------
+    // --- vbribblfs -------------------------------------------
 
     /**
-     * Name of the action to send notification that the
-     * contents of the field have been accepted.  Typically
-     * this is bound to a carriage-return.
+     * Nbmf of tif bdtion to sfnd notifidbtion tibt tif
+     * dontfnts of tif fifld ibvf bffn bddfptfd.  Typidblly
+     * tiis is bound to b dbrribgf-rfturn.
      */
-    public static final String notifyAction = "notify-field-accept";
+    publid stbtid finbl String notifyAdtion = "notify-fifld-bddfpt";
 
-    private BoundedRangeModel visibility;
-    private int horizontalAlignment = LEADING;
-    private int columns;
-    private int columnWidth;
-    private String command;
+    privbtf BoundfdRbngfModfl visibility;
+    privbtf int iorizontblAlignmfnt = LEADING;
+    privbtf int dolumns;
+    privbtf int dolumnWidti;
+    privbtf String dommbnd;
 
-    private static final Action[] defaultActions = {
-        new NotifyAction()
+    privbtf stbtid finbl Adtion[] dffbultAdtions = {
+        nfw NotifyAdtion()
     };
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "TextFieldUI";
+    privbtf stbtid finbl String uiClbssID = "TfxtFifldUI";
 
-    // --- Action implementations -----------------------------------
+    // --- Adtion implfmfntbtions -----------------------------------
 
-    // Note that JFormattedTextField.CommitAction extends this
-    static class NotifyAction extends TextAction {
+    // Notf tibt JFormbttfdTfxtFifld.CommitAdtion fxtfnds tiis
+    stbtid dlbss NotifyAdtion fxtfnds TfxtAdtion {
 
-        NotifyAction() {
-            super(notifyAction);
+        NotifyAdtion() {
+            supfr(notifyAdtion);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JTextField) {
-                JTextField field = (JTextField) target;
-                field.postActionEvent();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
+            if (tbrgft instbndfof JTfxtFifld) {
+                JTfxtFifld fifld = (JTfxtFifld) tbrgft;
+                fifld.postAdtionEvfnt();
             }
         }
 
-        public boolean isEnabled() {
-            JTextComponent target = getFocusedComponent();
-            if (target instanceof JTextField) {
-                return ((JTextField)target).hasActionListener();
+        publid boolfbn isEnbblfd() {
+            JTfxtComponfnt tbrgft = gftFodusfdComponfnt();
+            if (tbrgft instbndfof JTfxtFifld) {
+                rfturn ((JTfxtFifld)tbrgft).ibsAdtionListfnfr();
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
-    class ScrollRepainter implements ChangeListener, Serializable {
+    dlbss SdrollRfpbintfr implfmfnts CibngfListfnfr, Sfriblizbblf {
 
-        public void stateChanged(ChangeEvent e) {
-            repaint();
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            rfpbint();
         }
 
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JTextField</code>.
-     * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JTfxtFifld</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JTextField</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JTfxtFifld</dodf>
      */
-    protected String paramString() {
-        String horizontalAlignmentString;
-        if (horizontalAlignment == LEFT) {
-            horizontalAlignmentString = "LEFT";
-        } else if (horizontalAlignment == CENTER) {
-            horizontalAlignmentString = "CENTER";
-        } else if (horizontalAlignment == RIGHT) {
-            horizontalAlignmentString = "RIGHT";
-        } else if (horizontalAlignment == LEADING) {
-            horizontalAlignmentString = "LEADING";
-        } else if (horizontalAlignment == TRAILING) {
-            horizontalAlignmentString = "TRAILING";
-        } else horizontalAlignmentString = "";
-        String commandString = (command != null ?
-                                command : "");
+    protfdtfd String pbrbmString() {
+        String iorizontblAlignmfntString;
+        if (iorizontblAlignmfnt == LEFT) {
+            iorizontblAlignmfntString = "LEFT";
+        } flsf if (iorizontblAlignmfnt == CENTER) {
+            iorizontblAlignmfntString = "CENTER";
+        } flsf if (iorizontblAlignmfnt == RIGHT) {
+            iorizontblAlignmfntString = "RIGHT";
+        } flsf if (iorizontblAlignmfnt == LEADING) {
+            iorizontblAlignmfntString = "LEADING";
+        } flsf if (iorizontblAlignmfnt == TRAILING) {
+            iorizontblAlignmfntString = "TRAILING";
+        } flsf iorizontblAlignmfntString = "";
+        String dommbndString = (dommbnd != null ?
+                                dommbnd : "");
 
-        return super.paramString() +
-        ",columns=" + columns +
-        ",columnWidth=" + columnWidth +
-        ",command=" + commandString +
-        ",horizontalAlignment=" + horizontalAlignmentString;
+        rfturn supfr.pbrbmString() +
+        ",dolumns=" + dolumns +
+        ",dolumnWidti=" + dolumnWidti +
+        ",dommbnd=" + dommbndString +
+        ",iorizontblAlignmfnt=" + iorizontblAlignmfntString;
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JTextField</code>. For <code>JTextFields</code>,
-     * the <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJTextField</code>.
-     * A new <code>AccessibleJTextField</code> instance is created
-     * if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>JTfxtFifld</dodf>. For <dodf>JTfxtFiflds</dodf>,
+     * tif <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfJTfxtFifld</dodf>.
+     * A nfw <dodf>AddfssiblfJTfxtFifld</dodf> instbndf is drfbtfd
+     * if nfdfssbry.
      *
-     * @return an <code>AccessibleJTextField</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JTextField</code>
+     * @rfturn bn <dodf>AddfssiblfJTfxtFifld</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>JTfxtFifld</dodf>
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTextField();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTfxtFifld();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTextField</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text field user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTfxtFifld</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tfxt fifld usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTextField extends AccessibleJTextComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTfxtFifld fxtfnds AddfssiblfJTfxtComponfnt {
 
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet describing the states
-         * of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing tif stbtfs
+         * of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.SINGLE_LINE);
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.SINGLE_LINE);
+            rfturn stbtfs;
         }
     }
 }

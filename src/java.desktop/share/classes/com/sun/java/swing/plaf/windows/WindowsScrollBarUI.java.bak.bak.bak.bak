@@ -1,0 +1,503 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsSdrollBbrUI fxtfnds BbsidSdrollBbrUI {
+    privbtf Grid thumbGrid;
+    privbtf Grid highlightGrid;
+    privbtf Dimfnsion horizontblThumbSizf;
+    privbtf Dimfnsion vfrtidblThumbSizf;
+
+    /**
+     * Crfbtfs b UI for b JSdrollBbr.
+     *
+     * @pbrbm d thf tfxt fifld
+     * @rfturn thf UI
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsSdrollBbrUI();
+    }
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            sdrollbbr.sftBordfr(null);
+            horizontblThumbSizf = gftSizf(sdrollbbr, xp, Pbrt.SBP_THUMBBTNHORZ);
+            vfrtidblThumbSizf = gftSizf(sdrollbbr, xp, Pbrt.SBP_THUMBBTNVERT);
+        } flsf {
+            horizontblThumbSizf = null;
+            vfrtidblThumbSizf = null;
+        }
+    }
+
+    privbtf stbtid Dimfnsion gftSizf(Componfnt domponfnt, XPStylf xp, Pbrt pbrt) {
+        Skin skin = xp.gftSkin(domponfnt, pbrt);
+        rfturn nfw Dimfnsion(skin.gftWidth(), skin.gftHfight());
+    }
+
+    @Ovfrridf
+    protfdtfd Dimfnsion gftMinimumThumbSizf() {
+        if ((horizontblThumbSizf == null) || (vfrtidblThumbSizf == null)) {
+            rfturn supfr.gftMinimumThumbSizf();
+        }
+        rfturn JSdrollBbr.HORIZONTAL == sdrollbbr.gftOrifntbtion()
+                ? horizontblThumbSizf
+                : vfrtidblThumbSizf;
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        thumbGrid = highlightGrid = null;
+    }
+
+    protfdtfd void donfigurfSdrollBbrColors() {
+        supfr.donfigurfSdrollBbrColors();
+        Color dolor = UIMbnbgfr.gftColor("SdrollBbr.trbdkForfground");
+        if (dolor != null && trbdkColor != null) {
+            thumbGrid = Grid.gftGrid(dolor, trbdkColor);
+        }
+
+        dolor = UIMbnbgfr.gftColor("SdrollBbr.trbdkHighlightForfground");
+        if (dolor != null && trbdkHighlightColor != null) {
+            highlightGrid = Grid.gftGrid(dolor, trbdkHighlightColor);
+        }
+    }
+
+    protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion)  {
+        rfturn nfw WindowsArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbHighlight"));
+    }
+
+    protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion)  {
+        rfturn nfw WindowsArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbHighlight"));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    protfdtfd ArrowButtonListfnfr drfbtfArrowButtonListfnfr(){
+        // wf nffd to rfpbint thf fntirf sdrollbbr bfdbusf stbtf dhbngf for fbdh
+        // button dbusfs b stbtf dhbngf for thf thumb bnd othfr button on Vistb
+        if(XPStylf.isVistb()) {
+            rfturn nfw ArrowButtonListfnfr() {
+                publid void mousfEntfrfd(MousfEvfnt fvt) {
+                    rfpbint();
+                    supfr.mousfEntfrfd(fvt);
+                }
+                publid void mousfExitfd(MousfEvfnt fvt) {
+                    rfpbint();
+                    supfr.mousfExitfd(fvt);
+                }
+                privbtf void rfpbint() {
+                    sdrollbbr.rfpbint();
+                }
+            };
+        } flsf {
+            rfturn supfr.drfbtfArrowButtonListfnfr();
+        }
+    }
+
+    protfdtfd void pbintTrbdk(Grbphids g, JComponfnt d, Rfdtbnglf trbdkBounds){
+        boolfbn v = (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL);
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            JSdrollBbr sb = (JSdrollBbr)d;
+            Stbtf stbtf = Stbtf.NORMAL;
+            // Pfnding: Implfmfnt rollovfr (hot) bnd prfssfd
+            if (!sb.isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            }
+            Pbrt pbrt = v ? Pbrt.SBP_LOWERTRACKVERT : Pbrt.SBP_LOWERTRACKHORZ;
+            xp.gftSkin(sb, pbrt).pbintSkin(g, trbdkBounds, stbtf);
+        } flsf if (thumbGrid == null) {
+            supfr.pbintTrbdk(g, d, trbdkBounds);
+        }
+        flsf {
+            thumbGrid.pbint(g, trbdkBounds.x, trbdkBounds.y, trbdkBounds.width,
+                            trbdkBounds.hfight);
+            if (trbdkHighlight == DECREASE_HIGHLIGHT) {
+                pbintDfdrfbsfHighlight(g);
+            }
+            flsf if (trbdkHighlight == INCREASE_HIGHLIGHT) {
+                pbintIndrfbsfHighlight(g);
+            }
+        }
+    }
+
+    protfdtfd void pbintThumb(Grbphids g, JComponfnt d, Rfdtbnglf thumbBounds) {
+        boolfbn v = (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL);
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            JSdrollBbr sb = (JSdrollBbr)d;
+            Stbtf stbtf = Stbtf.NORMAL;
+            if (!sb.isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            } flsf if (isDrbgging) {
+                stbtf = Stbtf.PRESSED;
+            } flsf if (isThumbRollovfr()) {
+                stbtf = Stbtf.HOT;
+            } flsf if (XPStylf.isVistb()) {
+                if ((indrButton != null && indrButton.gftModfl().isRollovfr()) ||
+                    (dfdrButton != null && dfdrButton.gftModfl().isRollovfr())) {
+                    stbtf = Stbtf.HOVER;
+                }
+            }
+            // Pbint thumb
+            Pbrt thumbPbrt = v ? Pbrt.SBP_THUMBBTNVERT : Pbrt.SBP_THUMBBTNHORZ;
+            xp.gftSkin(sb, thumbPbrt).pbintSkin(g, thumbBounds, stbtf);
+            // Pbint grippfr
+            Pbrt grippfrPbrt = v ? Pbrt.SBP_GRIPPERVERT : Pbrt.SBP_GRIPPERHORZ;
+            Skin skin = xp.gftSkin(sb, grippfrPbrt);
+            Insfts grippfrInsfts = xp.gftMbrgin(d, thumbPbrt, null, Prop.CONTENTMARGINS);
+            if (grippfrInsfts == null ||
+                (v && (thumbBounds.hfight - grippfrInsfts.top -
+                       grippfrInsfts.bottom >= skin.gftHfight())) ||
+                (!v && (thumbBounds.width - grippfrInsfts.lfft -
+                        grippfrInsfts.right >= skin.gftWidth()))) {
+                skin.pbintSkin(g,
+                               thumbBounds.x + (thumbBounds.width  - skin.gftWidth()) / 2,
+                               thumbBounds.y + (thumbBounds.hfight - skin.gftHfight()) / 2,
+                               skin.gftWidth(), skin.gftHfight(), stbtf);
+            }
+        } flsf {
+            supfr.pbintThumb(g, d, thumbBounds);
+        }
+    }
+
+
+    protfdtfd void pbintDfdrfbsfHighlight(Grbphids g) {
+        if (highlightGrid == null) {
+            supfr.pbintDfdrfbsfHighlight(g);
+        }
+        flsf {
+            Insfts insfts = sdrollbbr.gftInsfts();
+            Rfdtbnglf thumbR = gftThumbBounds();
+            int x, y, w, h;
+
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                x = insfts.lfft;
+                y = dfdrButton.gftY() + dfdrButton.gftHfight();
+                w = sdrollbbr.gftWidth() - (insfts.lfft + insfts.right);
+                h = thumbR.y - y;
+            }
+            flsf {
+                x = dfdrButton.gftX() + dfdrButton.gftHfight();
+                y = insfts.top;
+                w = thumbR.x - x;
+                h = sdrollbbr.gftHfight() - (insfts.top + insfts.bottom);
+            }
+            highlightGrid.pbint(g, x, y, w, h);
+        }
+    }
+
+
+    protfdtfd void pbintIndrfbsfHighlight(Grbphids g) {
+        if (highlightGrid == null) {
+            supfr.pbintDfdrfbsfHighlight(g);
+        }
+        flsf {
+            Insfts insfts = sdrollbbr.gftInsfts();
+            Rfdtbnglf thumbR = gftThumbBounds();
+            int x, y, w, h;
+
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                x = insfts.lfft;
+                y = thumbR.y + thumbR.hfight;
+                w = sdrollbbr.gftWidth() - (insfts.lfft + insfts.right);
+                h = indrButton.gftY() - y;
+            }
+            flsf {
+                x = thumbR.x + thumbR.width;
+                y = insfts.top;
+                w = indrButton.gftX() - x;
+                h = sdrollbbr.gftHfight() - (insfts.top + insfts.bottom);
+            }
+            highlightGrid.pbint(g, x, y, w, h);
+        }
+    }
+
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    protfdtfd void sftThumbRollovfr(boolfbn bdtivf) {
+        boolfbn old = isThumbRollovfr();
+        supfr.sftThumbRollovfr(bdtivf);
+        // wf nffd to rfpbint thf fntirf sdrollbbr bfdbusf stbtf dhbngf for thumb
+        // dbusfs stbtf dhbngf for indr bnd dfdr buttons on Vistb
+        if(XPStylf.isVistb() && bdtivf != old) {
+            sdrollbbr.rfpbint();
+        }
+    }
+
+    /**
+     * WindowsArrowButton is usfd for thf buttons to position thf
+     * dodumfnt up/down. It difffrs from BbsidArrowButton in thbt thf
+     * prfffrrfd sizf is blwbys b squbrf.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss WindowsArrowButton fxtfnds BbsidArrowButton {
+
+        publid WindowsArrowButton(int dirfdtion, Color bbdkground, Color shbdow,
+                         Color dbrkShbdow, Color highlight) {
+            supfr(dirfdtion, bbdkground, shbdow, dbrkShbdow, highlight);
+        }
+
+        publid WindowsArrowButton(int dirfdtion) {
+            supfr(dirfdtion);
+        }
+
+        publid void pbint(Grbphids g) {
+            XPStylf xp = XPStylf.gftXP();
+            if (xp != null) {
+                ButtonModfl modfl = gftModfl();
+                Skin skin = xp.gftSkin(this, Pbrt.SBP_ARROWBTN);
+                Stbtf stbtf = null;
+
+                boolfbn jointRollovfr = XPStylf.isVistb() && (isThumbRollovfr() ||
+                    (this == indrButton && dfdrButton.gftModfl().isRollovfr()) ||
+                    (this == dfdrButton && indrButton.gftModfl().isRollovfr()));
+
+                // normbl, rollovfr, prfssfd, disbblfd
+                if (modfl.isArmfd() && modfl.isPrfssfd()) {
+                    switdh (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPPRESSED;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNPRESSED;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTPRESSED;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTPRESSED; brfbk;
+                    }
+                } flsf if (!modfl.isEnbblfd()) {
+                    switdh (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPDISABLED;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNDISABLED;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTDISABLED;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTDISABLED; brfbk;
+                    }
+                } flsf if (modfl.isRollovfr() || modfl.isPrfssfd()) {
+                    switdh (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPHOT;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNHOT;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTHOT;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTHOT; brfbk;
+                    }
+                } flsf if (jointRollovfr) {
+                    switdh (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPHOVER;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNHOVER;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTHOVER;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTHOVER; brfbk;
+                    }
+                } flsf {
+                    switdh (dirfdtion) {
+                        dbsf NORTH: stbtf = Stbtf.UPNORMAL;    brfbk;
+                        dbsf SOUTH: stbtf = Stbtf.DOWNNORMAL;  brfbk;
+                        dbsf WEST:  stbtf = Stbtf.LEFTNORMAL;  brfbk;
+                        dbsf EAST:  stbtf = Stbtf.RIGHTNORMAL; brfbk;
+                    }
+                }
+
+                skin.pbintSkin(g, 0, 0, gftWidth(), gftHfight(), stbtf);
+            } flsf {
+                supfr.pbint(g);
+            }
+        }
+
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            int sizf = 16;
+            if (sdrollbbr != null) {
+                switdh (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    sizf = sdrollbbr.gftWidth();
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    sizf = sdrollbbr.gftHfight();
+                    brfbk;
+                }
+                sizf = Mbth.mbx(sizf, 5);
+            }
+            rfturn nfw Dimfnsion(sizf, sizf);
+        }
+    }
+
+
+    /**
+     * This should bf pullfd out into its own dlbss if morf dlbssfs nffd to
+     * usf it.
+     * <p>
+     * Grid is usfd to drbw thf trbdk for windows sdrollbbrs. Grids
+     * brf dbdhfd in b HbshMbp, with thf kfy bfing thf rgb domponfnts
+     * of thf forfground/bbdkground dolors. Furthfr thf Grid is hfld through
+     * b WfbkRff so thbt it dbn bf frffd whfn no longfr nffdfd. As thf
+     * Grid is rbthfr fxpfnsivf to drbw, it is drbwn in b BufffrfdImbgf.
+     */
+    privbtf stbtid dlbss Grid {
+        privbtf stbtid finbl int BUFFER_SIZE = 64;
+        privbtf stbtid HbshMbp<String, WfbkRfffrfndf<Grid>> mbp;
+
+        privbtf BufffrfdImbgf imbgf;
+
+        stbtid {
+            mbp = nfw HbshMbp<String, WfbkRfffrfndf<Grid>>();
+        }
+
+        publid stbtid Grid gftGrid(Color fg, Color bg) {
+            String kfy = fg.gftRGB() + " " + bg.gftRGB();
+            WfbkRfffrfndf<Grid> rff = mbp.gft(kfy);
+            Grid grid = (rff == null) ? null : rff.gft();
+            if (grid == null) {
+                grid = nfw Grid(fg, bg);
+                mbp.put(kfy, nfw WfbkRfffrfndf<Grid>(grid));
+            }
+            rfturn grid;
+        }
+
+        publid Grid(Color fg, Color bg) {
+            int dmbp[] = { fg.gftRGB(), bg.gftRGB() };
+            IndfxColorModfl idm = nfw IndfxColorModfl(8, 2, dmbp, 0, fblsf, -1,
+                                                      DbtbBufffr.TYPE_BYTE);
+            imbgf = nfw BufffrfdImbgf(BUFFER_SIZE, BUFFER_SIZE,
+                                      BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
+            Grbphids g = imbgf.gftGrbphids();
+            try {
+                g.sftClip(0, 0, BUFFER_SIZE, BUFFER_SIZE);
+                pbintGrid(g, fg, bg);
+            }
+            finblly {
+                g.disposf();
+            }
+        }
+
+        /**
+         * Pbints thf grid into thf spfdififd Grbphids bt thf spfdififd
+         * lodbtion.
+         */
+        publid void pbint(Grbphids g, int x, int y, int w, int h) {
+            Rfdtbnglf dlipRfdt = g.gftClipBounds();
+            int minX = Mbth.mbx(x, dlipRfdt.x);
+            int minY = Mbth.mbx(y, dlipRfdt.y);
+            int mbxX = Mbth.min(dlipRfdt.x + dlipRfdt.width, x + w);
+            int mbxY = Mbth.min(dlipRfdt.y + dlipRfdt.hfight, y + h);
+
+            if (mbxX <= minX || mbxY <= minY) {
+                rfturn;
+            }
+            int xOffsft = (minX - x) % 2;
+            for (int xCountfr = minX; xCountfr < mbxX;
+                 xCountfr += BUFFER_SIZE) {
+                int yOffsft = (minY - y) % 2;
+                int width = Mbth.min(BUFFER_SIZE - xOffsft,
+                                     mbxX - xCountfr);
+
+                for (int yCountfr = minY; yCountfr < mbxY;
+                     yCountfr += BUFFER_SIZE) {
+                    int hfight = Mbth.min(BUFFER_SIZE - yOffsft,
+                                          mbxY - yCountfr);
+
+                    g.drbwImbgf(imbgf, xCountfr, yCountfr,
+                                xCountfr + width, yCountfr + hfight,
+                                xOffsft, yOffsft,
+                                xOffsft + width, yOffsft + hfight, null);
+                    if (yOffsft != 0) {
+                        yCountfr -= yOffsft;
+                        yOffsft = 0;
+                    }
+                }
+                if (xOffsft != 0) {
+                    xCountfr -= xOffsft;
+                    xOffsft = 0;
+                }
+            }
+        }
+
+        /**
+         * Adtublly rfndfrs thf grid into thf Grbphids <dodf>g</dodf>.
+         */
+        privbtf void pbintGrid(Grbphids g, Color fg, Color bg) {
+            Rfdtbnglf dlipRfdt = g.gftClipBounds();
+            g.sftColor(bg);
+            g.fillRfdt(dlipRfdt.x, dlipRfdt.y, dlipRfdt.width,
+                       dlipRfdt.hfight);
+            g.sftColor(fg);
+            g.trbnslbtf(dlipRfdt.x, dlipRfdt.y);
+            int width = dlipRfdt.width;
+            int hfight = dlipRfdt.hfight;
+            int xCountfr = dlipRfdt.x % 2;
+            for (int fnd = width - hfight; xCountfr < fnd; xCountfr += 2) {
+                g.drbwLinf(xCountfr, 0, xCountfr + hfight, hfight);
+            }
+            for (int fnd = width; xCountfr < fnd; xCountfr += 2) {
+                g.drbwLinf(xCountfr, 0, width, width - xCountfr);
+            }
+
+            int yCountfr = ((dlipRfdt.x % 2) == 0) ? 2 : 1;
+            for (int fnd = hfight - width; yCountfr < fnd; yCountfr += 2) {
+                g.drbwLinf(0, yCountfr, width, yCountfr + width);
+            }
+            for (int fnd = hfight; yCountfr < fnd; yCountfr += 2) {
+                g.drbwLinf(0, yCountfr, hfight - yCountfr, hfight);
+            }
+            g.trbnslbtf(-dlipRfdt.x, -dlipRfdt.y);
+        }
+    }
+}

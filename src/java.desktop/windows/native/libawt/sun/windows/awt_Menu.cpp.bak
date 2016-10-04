@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Menu.h"
-#include "awt_MenuBar.h"
-#include "awt_Frame.h"
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
-#include <java_awt_MenuBar.h>
-#include <sun_awt_windows_WMenuBarPeer.h>
+#indludf "bwt_Mfnu.i"
+#indludf "bwt_MfnuBbr.i"
+#indludf "bwt_Frbmf.i"
+#indludf <jbvb_bwt_Mfnu.i>
+#indludf <sun_bwt_windows_WMfnuPffr.i>
+#indludf <jbvb_bwt_MfnuBbr.i>
+#indludf <sun_bwt_windows_WMfnuBbrPffr.i>
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
 /************************************************************************
- * AwtMenuItem fields
+ * AwtMfnuItfm fiflds
  */
 
-jmethodID AwtMenu::countItemsMID;
-jmethodID AwtMenu::getItemMID;
+jmftiodID AwtMfnu::dountItfmsMID;
+jmftiodID AwtMfnu::gftItfmMID;
 
 
 /************************************************************************
- * AwtMenuItem methods
+ * AwtMfnuItfm mftiods
  */
 
-AwtMenu::AwtMenu() {
-    m_hMenu = NULL;
+AwtMfnu::AwtMfnu() {
+    m_iMfnu = NULL;
 }
 
-AwtMenu::~AwtMenu()
+AwtMfnu::~AwtMfnu()
 {
 }
 
-void AwtMenu::Dispose()
+void AwtMfnu::Disposf()
 {
-    if (m_hMenu != NULL) {
+    if (m_iMfnu != NULL) {
         /*
-         * Don't verify -- may not be a valid anymore if its window
-         * was disposed of first.
+         * Don't vfrify -- mby not bf b vblid bnymorf if its window
+         * wbs disposfd of first.
          */
-        ::DestroyMenu(m_hMenu);
-        m_hMenu = NULL;
+        ::DfstroyMfnu(m_iMfnu);
+        m_iMfnu = NULL;
     }
 
-    AwtMenuItem::Dispose();
+    AwtMfnuItfm::Disposf();
 }
 
-LPCTSTR AwtMenu::GetClassName() {
-    return TEXT("SunAwtMenu");
+LPCTSTR AwtMfnu::GftClbssNbmf() {
+    rfturn TEXT("SunAwtMfnu");
 }
 
-/* Create a new AwtMenu object and menu.   */
-AwtMenu* AwtMenu::Create(jobject self, AwtMenu* parentMenu)
+/* Crfbtf b nfw AwtMfnu objfdt bnd mfnu.   */
+AwtMfnu* AwtMfnu::Crfbtf(jobjfdt sflf, AwtMfnu* pbrfntMfnu)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
-    AwtMenu* menu = NULL;
+    jobjfdt tbrgft = NULL;
+    AwtMfnu* mfnu = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
         }
 
-        target = env->GetObjectField(self, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
 
-        menu = new AwtMenu();
+        mfnu = nfw AwtMfnu();
 
-        SetLastError(0);
-        HMENU hMenu = ::CreateMenu();
+        SftLbstError(0);
+        HMENU iMfnu = ::CrfbtfMfnu();
         // fix for 5088782
-        if (!CheckMenuCreation(env, self, hMenu))
+        if (!CifdkMfnuCrfbtion(fnv, sflf, iMfnu))
         {
-            env->DeleteLocalRef(target);
-            return NULL;
+            fnv->DflftfLodblRff(tbrgft);
+            rfturn NULL;
         }
 
-        menu->SetHMenu(hMenu);
+        mfnu->SftHMfnu(iMfnu);
 
-        menu->LinkObjects(env, self);
-        menu->SetMenuContainer(parentMenu);
-        if (parentMenu != NULL) {
-            parentMenu->AddItem(menu);
+        mfnu->LinkObjfdts(fnv, sflf);
+        mfnu->SftMfnuContbinfr(pbrfntMfnu);
+        if (pbrfntMfnu != NULL) {
+            pbrfntMfnu->AddItfm(mfnu);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        throw;
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        tirow;
     }
 
-done:
-    if (target != NULL) {
-        env->DeleteLocalRef(target);
+donf:
+    if (tbrgft != NULL) {
+        fnv->DflftfLodblRff(tbrgft);
     }
 
-    return menu;
+    rfturn mfnu;
 }
 
-void AwtMenu::UpdateLayout()
+void AwtMfnu::UpdbtfLbyout()
 {
-    UpdateLayout(GetHMenu());
-    RedrawMenuBar();
+    UpdbtfLbyout(GftHMfnu());
+    RfdrbwMfnuBbr();
 }
 
-void AwtMenu::UpdateLayout(const HMENU hmenu)
+void AwtMfnu::UpdbtfLbyout(donst HMENU imfnu)
 {
-    const int nMenuItemCount = ::GetMenuItemCount(hmenu);
-    static MENUITEMINFO  mii;
-    for (int idx = 0; idx < nMenuItemCount; ++idx) {
-        memset(&mii, 0, sizeof(mii));
-        mii.cbSize = sizeof(mii);
-        mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
+    donst int nMfnuItfmCount = ::GftMfnuItfmCount(imfnu);
+    stbtid MENUITEMINFO  mii;
+    for (int idx = 0; idx < nMfnuItfmCount; ++idx) {
+        mfmsft(&mii, 0, sizfof(mii));
+        mii.dbSizf = sizfof(mii);
+        mii.fMbsk = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID
                   | MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
-        if (::GetMenuItemInfo(hmenu, idx, TRUE, &mii)) {
-            VERIFY(::RemoveMenu(hmenu, idx, MF_BYPOSITION));
-            VERIFY(::InsertMenuItem(hmenu, idx, TRUE, &mii));
-            if (mii.hSubMenu !=  NULL) {
-                UpdateLayout(mii.hSubMenu);
+        if (::GftMfnuItfmInfo(imfnu, idx, TRUE, &mii)) {
+            VERIFY(::RfmovfMfnu(imfnu, idx, MF_BYPOSITION));
+            VERIFY(::InsfrtMfnuItfm(imfnu, idx, TRUE, &mii));
+            if (mii.iSubMfnu !=  NULL) {
+                UpdbtfLbyout(mii.iSubMfnu);
             }
         }
     }
 }
 
-void AwtMenu::UpdateContainerLayout()
+void AwtMfnu::UpdbtfContbinfrLbyout()
 {
-    AwtMenu* menu = GetMenuContainer();
-    if (menu != NULL) {
-        menu->UpdateLayout();
-    } else {
-        UpdateLayout();
+    AwtMfnu* mfnu = GftMfnuContbinfr();
+    if (mfnu != NULL) {
+        mfnu->UpdbtfLbyout();
+    } flsf {
+        UpdbtfLbyout();
     }
 }
 
-AwtMenuBar* AwtMenu::GetMenuBar() {
-    return (GetMenuContainer() == NULL) ? NULL : GetMenuContainer()->GetMenuBar();
+AwtMfnuBbr* AwtMfnu::GftMfnuBbr() {
+    rfturn (GftMfnuContbinfr() == NULL) ? NULL : GftMfnuContbinfr()->GftMfnuBbr();
 }
 
-HWND AwtMenu::GetOwnerHWnd() {
-    return (GetMenuContainer() == NULL) ? NULL : GetMenuContainer()->GetOwnerHWnd();
+HWND AwtMfnu::GftOwnfrHWnd() {
+    rfturn (GftMfnuContbinfr() == NULL) ? NULL : GftMfnuContbinfr()->GftOwnfrHWnd();
 }
 
-void AwtMenu::AddSeparator() {
-    VERIFY(::AppendMenu(GetHMenu(), MF_SEPARATOR, 0, 0));
+void AwtMfnu::AddSfpbrbtor() {
+    VERIFY(::AppfndMfnu(GftHMfnu(), MF_SEPARATOR, 0, 0));
 }
 
-void AwtMenu::AddItem(AwtMenuItem* item)
+void AwtMfnu::AddItfm(AwtMfnuItfm* itfm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
     }
 
-    if (item->IsSeparator()) {
-        AddSeparator();
-    } else {
-        /* jitem is a java.awt.MenuItem */
-        jobject jitem = item->GetTarget(env);
+    if (itfm->IsSfpbrbtor()) {
+        AddSfpbrbtor();
+    } flsf {
+        /* jitfm is b jbvb.bwt.MfnuItfm */
+        jobjfdt jitfm = itfm->GftTbrgft(fnv);
 
-        jboolean enabled =
-            (jboolean)env->GetBooleanField(jitem, AwtMenuItem::enabledID);
+        jboolfbn fnbblfd =
+            (jboolfbn)fnv->GftBoolfbnFifld(jitfm, AwtMfnuItfm::fnbblfdID);
 
-        UINT flags = MF_STRING | (enabled ? MF_ENABLED : MF_GRAYED);
-        flags |= MF_OWNERDRAW;
-        LPCTSTR itemInfo = (LPCTSTR) this;
+        UINT flbgs = MF_STRING | (fnbblfd ? MF_ENABLED : MF_GRAYED);
+        flbgs |= MF_OWNERDRAW;
+        LPCTSTR itfmInfo = (LPCTSTR) tiis;
 
-        if (_tcscmp(item->GetClassName(), TEXT("SunAwtMenu")) == 0) {
-            flags |= MF_POPUP;
-            itemInfo = (LPCTSTR) item;
+        if (_tdsdmp(itfm->GftClbssNbmf(), TEXT("SunAwtMfnu")) == 0) {
+            flbgs |= MF_POPUP;
+            itfmInfo = (LPCTSTR) itfm;
         }
 
-        VERIFY(::AppendMenu(GetHMenu(), flags, item->GetID(), itemInfo));
-        if (GetRTL()) {
+        VERIFY(::AppfndMfnu(GftHMfnu(), flbgs, itfm->GftID(), itfmInfo));
+        if (GftRTL()) {
             MENUITEMINFO  mif;
-            memset(&mif, 0, sizeof(MENUITEMINFO));
-            mif.cbSize = sizeof(MENUITEMINFO);
-            mif.fMask = MIIM_TYPE;
-            ::GetMenuItemInfo(GetHMenu(), item->GetID(), FALSE, &mif);
-            mif.fType |= MFT_RIGHTJUSTIFY | MFT_RIGHTORDER;
-            ::SetMenuItemInfo(GetHMenu(), item->GetID(), FALSE, &mif);
+            mfmsft(&mif, 0, sizfof(MENUITEMINFO));
+            mif.dbSizf = sizfof(MENUITEMINFO);
+            mif.fMbsk = MIIM_TYPE;
+            ::GftMfnuItfmInfo(GftHMfnu(), itfm->GftID(), FALSE, &mif);
+            mif.fTypf |= MFT_RIGHTJUSTIFY | MFT_RIGHTORDER;
+            ::SftMfnuItfmInfo(GftHMfnu(), itfm->GftID(), FALSE, &mif);
         }
 
-        env->DeleteLocalRef(jitem);
+        fnv->DflftfLodblRff(jitfm);
     }
 }
 
-void AwtMenu::DeleteItem(UINT index)
+void AwtMfnu::DflftfItfm(UINT indfx)
 {
-    VERIFY(::RemoveMenu(GetHMenu(), index, MF_BYPOSITION));
+    VERIFY(::RfmovfMfnu(GftHMfnu(), indfx, MF_BYPOSITION));
 }
 
-void AwtMenu::SendDrawItem(AwtMenuItem* awtMenuItem,
-                           DRAWITEMSTRUCT& drawInfo)
+void AwtMfnu::SfndDrbwItfm(AwtMfnuItfm* bwtMfnuItfm,
+                           DRAWITEMSTRUCT& drbwInfo)
 {
-    awtMenuItem->DrawItem(drawInfo);
+    bwtMfnuItfm->DrbwItfm(drbwInfo);
 }
 
-void AwtMenu::SendMeasureItem(AwtMenuItem* awtMenuItem,
-                              HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMfnu::SfndMfbsurfItfm(AwtMfnuItfm* bwtMfnuItfm,
+                              HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo)
 {
-    awtMenuItem->MeasureItem(hDC, measureInfo);
+    bwtMfnuItfm->MfbsurfItfm(iDC, mfbsurfInfo);
 }
 
-int AwtMenu::CountItem(jobject target)
+int AwtMfnu::CountItfm(jobjfdt tbrgft)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jint nCount = env->CallIntMethod(target, AwtMenu::countItemsMID);
-    DASSERT(!safe_ExceptionOccurred(env));
-    return nCount;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jint nCount = fnv->CbllIntMftiod(tbrgft, AwtMfnu::dountItfmsMID);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    rfturn nCount;
 }
 
-AwtMenuItem* AwtMenu::GetItem(jobject target, jint index)
+AwtMfnuItfm* AwtMfnu::GftItfm(jobjfdt tbrgft, jint indfx)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
-        return NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
     }
-    jobject menuItem = env->CallObjectMethod(target, AwtMenu::getItemMID,
-                                             index);
-    DASSERT(!safe_ExceptionOccurred(env));
+    jobjfdt mfnuItfm = fnv->CbllObjfdtMftiod(tbrgft, AwtMfnu::gftItfmMID,
+                                             indfx);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
 
-    jobject wMenuItemPeer = GetPeerForTarget(env, menuItem);
+    jobjfdt wMfnuItfmPffr = GftPffrForTbrgft(fnv, mfnuItfm);
 
-    PDATA pData;
-    AwtMenuItem* awtMenuItem = NULL;
+    PDATA pDbtb;
+    AwtMfnuItfm* bwtMfnuItfm = NULL;
 
-    JNI_CHECK_PEER_GOTO(wMenuItemPeer, done);
-    awtMenuItem = (AwtMenuItem*)pData;
+    JNI_CHECK_PEER_GOTO(wMfnuItfmPffr, donf);
+    bwtMfnuItfm = (AwtMfnuItfm*)pDbtb;
 
- done:
-    env->DeleteLocalRef(menuItem);
-    env->DeleteLocalRef(wMenuItemPeer);
+ donf:
+    fnv->DflftfLodblRff(mfnuItfm);
+    fnv->DflftfLodblRff(wMfnuItfmPffr);
 
-    return awtMenuItem;
+    rfturn bwtMfnuItfm;
 }
 
-void AwtMenu::DrawItems(DRAWITEMSTRUCT& drawInfo)
+void AwtMfnu::DrbwItfms(DRAWITEMSTRUCT& drbwInfo)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
     }
-    /* target is a java.awt.Menu */
-    jobject target = GetTarget(env);
+    /* tbrgft is b jbvb.bwt.Mfnu */
+    jobjfdt tbrgft = GftTbrgft(fnv);
 
-    int nCount = CountItem(target);
+    int nCount = CountItfm(tbrgft);
     for (int i = 0; i < nCount; i++) {
-        AwtMenuItem* awtMenuItem = GetItem(target, i);
-        if (awtMenuItem != NULL) {
-            SendDrawItem(awtMenuItem, drawInfo);
+        AwtMfnuItfm* bwtMfnuItfm = GftItfm(tbrgft, i);
+        if (bwtMfnuItfm != NULL) {
+            SfndDrbwItfm(bwtMfnuItfm, drbwInfo);
         }
     }
-    env->DeleteLocalRef(target);
+    fnv->DflftfLodblRff(tbrgft);
 }
 
-void AwtMenu::DrawItem(DRAWITEMSTRUCT& drawInfo)
+void AwtMfnu::DrbwItfm(DRAWITEMSTRUCT& drbwInfo)
 {
-    DASSERT(drawInfo.CtlType == ODT_MENU);
+    DASSERT(drbwInfo.CtlTypf == ODT_MENU);
 
-    if (drawInfo.itemID == GetID()) {
-        DrawSelf(drawInfo);
-        return;
+    if (drbwInfo.itfmID == GftID()) {
+        DrbwSflf(drbwInfo);
+        rfturn;
     }
-    DrawItems(drawInfo);
+    DrbwItfms(drbwInfo);
 }
 
-void AwtMenu::MeasureItems(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMfnu::MfbsurfItfms(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
     }
-   /* target is a java.awt.Menu */
-    jobject target = GetTarget(env);
-    int nCount = CountItem(target);
+   /* tbrgft is b jbvb.bwt.Mfnu */
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    int nCount = CountItfm(tbrgft);
     for (int i = 0; i < nCount; i++) {
-        AwtMenuItem* awtMenuItem = GetItem(target, i);
-        if (awtMenuItem != NULL) {
-            SendMeasureItem(awtMenuItem, hDC, measureInfo);
+        AwtMfnuItfm* bwtMfnuItfm = GftItfm(tbrgft, i);
+        if (bwtMfnuItfm != NULL) {
+            SfndMfbsurfItfm(bwtMfnuItfm, iDC, mfbsurfInfo);
         }
     }
-    env->DeleteLocalRef(target);
+    fnv->DflftfLodblRff(tbrgft);
 }
 
-void AwtMenu::MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo)
+void AwtMfnu::MfbsurfItfm(HDC iDC, MEASUREITEMSTRUCT& mfbsurfInfo)
 {
-    DASSERT(measureInfo.CtlType == ODT_MENU);
+    DASSERT(mfbsurfInfo.CtlTypf == ODT_MENU);
 
-    if (measureInfo.itemID == GetID()) {
-        MeasureSelf(hDC, measureInfo);
-        return;
+    if (mfbsurfInfo.itfmID == GftID()) {
+        MfbsurfSflf(iDC, mfbsurfInfo);
+        rfturn;
     }
 
-    MeasureItems(hDC, measureInfo);
+    MfbsurfItfms(iDC, mfbsurfInfo);
 }
 
-BOOL AwtMenu::IsTopMenu()
+BOOL AwtMfnu::IsTopMfnu()
 {
-    return (GetMenuBar() == GetMenuContainer());
+    rfturn (GftMfnuBbr() == GftMfnuContbinfr());
 }
 
-LRESULT AwtMenu::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtMfnu::WinTirfbdExfdProd(ExfdutfArgs * brgs)
 {
-    switch( args->cmdId ) {
-        case MENU_ADDSEPARATOR:
-            this->AddSeparator();
-            break;
+    switdi( brgs->dmdId ) {
+        dbsf MENU_ADDSEPARATOR:
+            tiis->AddSfpbrbtor();
+            brfbk;
 
-        case MENU_DELITEM:
-            this->DeleteItem(static_cast<UINT>(args->param1));
-            break;
+        dbsf MENU_DELITEM:
+            tiis->DflftfItfm(stbtid_dbst<UINT>(brgs->pbrbm1));
+            brfbk;
 
-        default:
-            AwtMenuItem::WinThreadExecProc(args);
-            break;
+        dffbult:
+            AwtMfnuItfm::WinTirfbdExfdProd(brgs);
+            brfbk;
     }
-    return 0L;
+    rfturn 0L;
 }
 
 /************************************************************************
- * WMenuPeer native methods
+ * WMfnuPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Menu_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Mfnu_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    AwtMenu::countItemsMID = env->GetMethodID(cls, "countItemsImpl", "()I");
-    DASSERT(AwtMenu::countItemsMID != NULL);
-    CHECK_NULL(AwtMenu::countItemsMID);
+    AwtMfnu::dountItfmsMID = fnv->GftMftiodID(dls, "dountItfmsImpl", "()I");
+    DASSERT(AwtMfnu::dountItfmsMID != NULL);
+    CHECK_NULL(AwtMfnu::dountItfmsMID);
 
-    AwtMenu::getItemMID = env->GetMethodID(cls, "getItemImpl",
-                                           "(I)Ljava/awt/MenuItem;");
-    DASSERT(AwtMenu::getItemMID != NULL);
+    AwtMfnu::gftItfmMID = fnv->GftMftiodID(dls, "gftItfmImpl",
+                                           "(I)Ljbvb/bwt/MfnuItfm;");
+    DASSERT(AwtMfnu::gftItfmMID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * WMenuPeer native methods
+ * WMfnuPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    addSeparator
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WMfnuPffr
+ * Mftiod:    bddSfpbrbtor
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_addSeparator(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WMfnuPffr_bddSfpbrbtor(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(self);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(sflf);
 
-    AwtObject::WinThreadExec(self, AwtMenu::MENU_ADDSEPARATOR);
+    AwtObjfdt::WinTirfbdExfd(sflf, AwtMfnu::MENU_ADDSEPARATOR);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    delItem
- * Signature: (I)V
+ * Clbss:     sun_bwt_windows_WMfnuPffr
+ * Mftiod:    dflItfm
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_delItem(JNIEnv *env, jobject self,
-                                       jint index)
+Jbvb_sun_bwt_windows_WMfnuPffr_dflItfm(JNIEnv *fnv, jobjfdt sflf,
+                                       jint indfx)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(self);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(sflf);
 
-    AwtObject::WinThreadExec(self, AwtMenu::MENU_DELITEM, index);
+    AwtObjfdt::WinTirfbdExfd(sflf, AwtMfnu::MENU_DELITEM, indfx);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    createMenu
- * Signature: (Lsun/awt/windows/WMenuBarPeer;)V
+ * Clbss:     sun_bwt_windows_WMfnuPffr
+ * Mftiod:    drfbtfMfnu
+ * Signbturf: (Lsun/bwt/windows/WMfnuBbrPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_createMenu(JNIEnv *env, jobject self,
-                                          jobject menuBar)
+Jbvb_sun_bwt_windows_WMfnuPffr_drfbtfMfnu(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdt mfnuBbr)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(menuBar);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(mfnuBbr);
 
-    AwtMenuBar* awtMenuBar = (AwtMenuBar *)pData;
-    AwtToolkit::CreateComponent(self, awtMenuBar,
-                                (AwtToolkit::ComponentFactory)AwtMenu::Create,FALSE);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    AwtMfnuBbr* bwtMfnuBbr = (AwtMfnuBbr *)pDbtb;
+    AwtToolkit::CrfbtfComponfnt(sflf, bwtMfnuBbr,
+                                (AwtToolkit::ComponfntFbdtory)AwtMfnu::Crfbtf,FALSE);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WMenuPeer
- * Method:    createSubMenu
- * Signature: (Lsun/awt/windows/WMenuPeer;)V
+ * Clbss:     sun_bwt_windows_WMfnuPffr
+ * Mftiod:    drfbtfSubMfnu
+ * Signbturf: (Lsun/bwt/windows/WMfnuPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WMenuPeer_createSubMenu(JNIEnv *env, jobject self,
-                                             jobject menu)
+Jbvb_sun_bwt_windows_WMfnuPffr_drfbtfSubMfnu(JNIEnv *fnv, jobjfdt sflf,
+                                             jobjfdt mfnu)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(menu);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(mfnu);
 
-    AwtMenu* awtMenu = (AwtMenu *)pData;
-    AwtToolkit::CreateComponent(self, awtMenu,
-                                (AwtToolkit::ComponentFactory)AwtMenu::Create,FALSE);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    AwtMfnu* bwtMfnu = (AwtMfnu *)pDbtb;
+    AwtToolkit::CrfbtfComponfnt(sflf, bwtMfnu,
+                                (AwtToolkit::ComponfntFbdtory)AwtMfnu::Crfbtf,FALSE);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Arrays;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Arrbys;
 
-import java.security.*;
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.GCMParameterSpec;
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.GCMPbrbmftfrSpfd;
 
-import java.nio.*;
+import jbvb.nio.*;
 
-import sun.security.ssl.CipherSuite.*;
-import static sun.security.ssl.CipherSuite.*;
-import static sun.security.ssl.CipherSuite.CipherType.*;
+import sun.sfdurity.ssl.CipifrSuitf.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.*;
+import stbtid sun.sfdurity.ssl.CipifrSuitf.CipifrTypf.*;
 
-import sun.misc.HexDumpEncoder;
+import sun.misd.HfxDumpEndodfr;
 
 
 /**
- * This class handles bulk data enciphering/deciphering for each SSLv3
- * message.  This provides data confidentiality.  Stream ciphers (such
- * as RC4) don't need to do padding; block ciphers (e.g. DES) need it.
+ * Tiis dlbss ibndlfs bulk dbtb fndipifring/dfdipifring for fbdi SSLv3
+ * mfssbgf.  Tiis providfs dbtb donfidfntiblity.  Strfbm dipifrs (sudi
+ * bs RC4) don't nffd to do pbdding; blodk dipifrs (f.g. DES) nffd it.
  *
- * Individual instances are obtained by calling the static method
- * newCipherBox(), which should only be invoked by BulkCipher.newCipher().
+ * Individubl instbndfs brf obtbinfd by dblling tif stbtid mftiod
+ * nfwCipifrBox(), wiidi siould only bf invokfd by BulkCipifr.nfwCipifr().
  *
- * In RFC 2246, with bock ciphers in CBC mode, the Initialization
- * Vector (IV) for the first record is generated with the other keys
- * and secrets when the security parameters are set.  The IV for
- * subsequent records is the last ciphertext block from the previous
- * record.
+ * In RFC 2246, witi bodk dipifrs in CBC modf, tif Initiblizbtion
+ * Vfdtor (IV) for tif first rfdord is gfnfrbtfd witi tif otifr kfys
+ * bnd sfdrfts wifn tif sfdurity pbrbmftfrs brf sft.  Tif IV for
+ * subsfqufnt rfdords is tif lbst dipifrtfxt blodk from tif prfvious
+ * rfdord.
  *
- * In RFC 4346, the implicit Initialization Vector (IV) is replaced
- * with an explicit IV to protect against CBC attacks.  RFC 4346
- * recommends two algorithms used to generated the per-record IV.
- * The implementation uses the algorithm (2)(b), as described at
- * section 6.2.3.2 of RFC 4346.
+ * In RFC 4346, tif implidit Initiblizbtion Vfdtor (IV) is rfplbdfd
+ * witi bn fxplidit IV to protfdt bgbinst CBC bttbdks.  RFC 4346
+ * rfdommfnds two blgoritims usfd to gfnfrbtfd tif pfr-rfdord IV.
+ * Tif implfmfntbtion usfs tif blgoritim (2)(b), bs dfsdribfd bt
+ * sfdtion 6.2.3.2 of RFC 4346.
  *
- * The usage of IV in CBC block cipher can be illustrated in
- * the following diagrams.
+ * Tif usbgf of IV in CBC blodk dipifr dbn bf illustrbtfd in
+ * tif following dibgrbms.
  *
- *   (random)
+ *   (rbndom)
  *        R         P1                    IV        C1
  *        |          |                     |         |
  *  SIV---+    |-----+    |-...            |-----    |------
@@ -80,1034 +80,1034 @@ import sun.misc.HexDumpEncoder;
  *        |----|     |----|           SIV--+    |----|     |-...
  *        |          |                     |       |
  *       IV         C1                     R      P1
- *                                     (discard)
+ *                                     (disdbrd)
  *
- *       CBC Encryption                    CBC Decryption
+ *       CBC Endryption                    CBC Dfdryption
  *
- * NOTE that any ciphering involved in key exchange (e.g. with RSA) is
- * handled separately.
+ * NOTE tibt bny dipifring involvfd in kfy fxdibngf (f.g. witi RSA) is
+ * ibndlfd sfpbrbtfly.
  *
- * @author David Brownell
- * @author Andreas Sterbenz
+ * @butior Dbvid Brownfll
+ * @butior Andrfbs Stfrbfnz
  */
-final class CipherBox {
+finbl dlbss CipifrBox {
 
-    // A CipherBox that implements the identity operation
-    final static CipherBox NULL = new CipherBox();
+    // A CipifrBox tibt implfmfnts tif idfntity opfrbtion
+    finbl stbtid CipifrBox NULL = nfw CipifrBox();
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
-    // the protocol version this cipher conforms to
-    private final ProtocolVersion protocolVersion;
+    // tif protodol vfrsion tiis dipifr donforms to
+    privbtf finbl ProtodolVfrsion protodolVfrsion;
 
-    // cipher object
-    private final Cipher cipher;
+    // dipifr objfdt
+    privbtf finbl Cipifr dipifr;
 
     /**
-     * secure random
+     * sfdurf rbndom
      */
-    private SecureRandom random;
+    privbtf SfdurfRbndom rbndom;
 
     /**
-     * fixed IV, the implicit nonce of AEAD cipher suite, only apply to
-     * AEAD cipher suites
+     * fixfd IV, tif implidit nondf of AEAD dipifr suitf, only bpply to
+     * AEAD dipifr suitfs
      */
-    private final byte[] fixedIv;
+    privbtf finbl bytf[] fixfdIv;
 
     /**
-     * the key, reserved only for AEAD cipher initialization
+     * tif kfy, rfsfrvfd only for AEAD dipifr initiblizbtion
      */
-    private final Key key;
+    privbtf finbl Kfy kfy;
 
     /**
-     * the operation mode, reserved for AEAD cipher initialization
+     * tif opfrbtion modf, rfsfrvfd for AEAD dipifr initiblizbtion
      */
-    private final int mode;
+    privbtf finbl int modf;
 
     /**
-     * the authentication tag size, only apply to AEAD cipher suites
+     * tif butifntidbtion tbg sizf, only bpply to AEAD dipifr suitfs
      */
-    private final int tagSize;
+    privbtf finbl int tbgSizf;
 
     /**
-     * the record IV length, only apply to AEAD cipher suites
+     * tif rfdord IV lfngti, only bpply to AEAD dipifr suitfs
      */
-    private final int recordIvSize;
+    privbtf finbl int rfdordIvSizf;
 
     /**
-     * cipher type
+     * dipifr typf
      */
-    private final CipherType cipherType;
+    privbtf finbl CipifrTypf dipifrTypf;
 
     /**
-     * Fixed masks of various block size, as the initial decryption IVs
-     * for TLS 1.1 or later.
+     * Fixfd mbsks of vbrious blodk sizf, bs tif initibl dfdryption IVs
+     * for TLS 1.1 or lbtfr.
      *
-     * For performance, we do not use random IVs. As the initial decryption
-     * IVs will be discarded by TLS decryption processes, so the fixed masks
-     * do not hurt cryptographic strength.
+     * For pfrformbndf, wf do not usf rbndom IVs. As tif initibl dfdryption
+     * IVs will bf disdbrdfd by TLS dfdryption prodfssfs, so tif fixfd mbsks
+     * do not iurt dryptogrbpiid strfngti.
      */
-    private static Hashtable<Integer, IvParameterSpec> masks;
+    privbtf stbtid Hbsitbblf<Intfgfr, IvPbrbmftfrSpfd> mbsks;
 
     /**
-     * NULL cipherbox. Identity operation, no encryption.
+     * NULL dipifrbox. Idfntity opfrbtion, no fndryption.
      */
-    private CipherBox() {
-        this.protocolVersion = ProtocolVersion.DEFAULT;
-        this.cipher = null;
-        this.cipherType = STREAM_CIPHER;
-        this.fixedIv = new byte[0];
-        this.key = null;
-        this.mode = Cipher.ENCRYPT_MODE;    // choose at random
-        this.random = null;
-        this.tagSize = 0;
-        this.recordIvSize = 0;
+    privbtf CipifrBox() {
+        tiis.protodolVfrsion = ProtodolVfrsion.DEFAULT;
+        tiis.dipifr = null;
+        tiis.dipifrTypf = STREAM_CIPHER;
+        tiis.fixfdIv = nfw bytf[0];
+        tiis.kfy = null;
+        tiis.modf = Cipifr.ENCRYPT_MODE;    // dioosf bt rbndom
+        tiis.rbndom = null;
+        tiis.tbgSizf = 0;
+        tiis.rfdordIvSizf = 0;
     }
 
     /**
-     * Construct a new CipherBox using the cipher transformation.
+     * Construdt b nfw CipifrBox using tif dipifr trbnsformbtion.
      *
-     * @exception NoSuchAlgorithmException if no appropriate JCE Cipher
-     * implementation could be found.
+     * @fxdfption NoSudiAlgoritimExdfption if no bppropribtf JCE Cipifr
+     * implfmfntbtion dould bf found.
      */
-    private CipherBox(ProtocolVersion protocolVersion, BulkCipher bulkCipher,
-            SecretKey key, IvParameterSpec iv, SecureRandom random,
-            boolean encrypt) throws NoSuchAlgorithmException {
+    privbtf CipifrBox(ProtodolVfrsion protodolVfrsion, BulkCipifr bulkCipifr,
+            SfdrftKfy kfy, IvPbrbmftfrSpfd iv, SfdurfRbndom rbndom,
+            boolfbn fndrypt) tirows NoSudiAlgoritimExdfption {
         try {
-            this.protocolVersion = protocolVersion;
-            this.cipher = JsseJce.getCipher(bulkCipher.transformation);
-            this.mode = encrypt ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
+            tiis.protodolVfrsion = protodolVfrsion;
+            tiis.dipifr = JssfJdf.gftCipifr(bulkCipifr.trbnsformbtion);
+            tiis.modf = fndrypt ? Cipifr.ENCRYPT_MODE : Cipifr.DECRYPT_MODE;
 
-            if (random == null) {
-                random = JsseJce.getSecureRandom();
+            if (rbndom == null) {
+                rbndom = JssfJdf.gftSfdurfRbndom();
             }
-            this.random = random;
-            this.cipherType = bulkCipher.cipherType;
+            tiis.rbndom = rbndom;
+            tiis.dipifrTypf = bulkCipifr.dipifrTypf;
 
             /*
-             * RFC 4346 recommends two algorithms used to generated the
-             * per-record IV. The implementation uses the algorithm (2)(b),
-             * as described at section 6.2.3.2 of RFC 4346.
+             * RFC 4346 rfdommfnds two blgoritims usfd to gfnfrbtfd tif
+             * pfr-rfdord IV. Tif implfmfntbtion usfs tif blgoritim (2)(b),
+             * bs dfsdribfd bt sfdtion 6.2.3.2 of RFC 4346.
              *
-             * As we don't care about the initial IV value for TLS 1.1 or
-             * later, so if the "iv" parameter is null, we use the default
-             * value generated by Cipher.init() for encryption, and a fixed
-             * mask for decryption.
+             * As wf don't dbrf bbout tif initibl IV vbluf for TLS 1.1 or
+             * lbtfr, so if tif "iv" pbrbmftfr is null, wf usf tif dffbult
+             * vbluf gfnfrbtfd by Cipifr.init() for fndryption, bnd b fixfd
+             * mbsk for dfdryption.
              */
-            if (iv == null && bulkCipher.ivSize != 0 &&
-                    mode == Cipher.DECRYPT_MODE &&
-                    protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                iv = getFixedMask(bulkCipher.ivSize);
+            if (iv == null && bulkCipifr.ivSizf != 0 &&
+                    modf == Cipifr.DECRYPT_MODE &&
+                    protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                iv = gftFixfdMbsk(bulkCipifr.ivSizf);
             }
 
-            if (cipherType == AEAD_CIPHER) {
-                // AEAD must completely initialize the cipher for each packet,
-                // and so we save initialization parameters for packet
-                // processing time.
+            if (dipifrTypf == AEAD_CIPHER) {
+                // AEAD must domplftfly initiblizf tif dipifr for fbdi pbdkft,
+                // bnd so wf sbvf initiblizbtion pbrbmftfrs for pbdkft
+                // prodfssing timf.
 
-                // Set the tag size for AEAD cipher
-                tagSize = bulkCipher.tagSize;
+                // Sft tif tbg sizf for AEAD dipifr
+                tbgSizf = bulkCipifr.tbgSizf;
 
-                // Reserve the key for AEAD cipher initialization
-                this.key = key;
+                // Rfsfrvf tif kfy for AEAD dipifr initiblizbtion
+                tiis.kfy = kfy;
 
-                fixedIv = iv.getIV();
-                if (fixedIv == null ||
-                        fixedIv.length != bulkCipher.fixedIvSize) {
-                    throw new RuntimeException("Improper fixed IV for AEAD");
+                fixfdIv = iv.gftIV();
+                if (fixfdIv == null ||
+                        fixfdIv.lfngti != bulkCipifr.fixfdIvSizf) {
+                    tirow nfw RuntimfExdfption("Impropfr fixfd IV for AEAD");
                 }
 
-                // Set the record IV length for AEAD cipher
-                recordIvSize = bulkCipher.ivSize - bulkCipher.fixedIvSize;
+                // Sft tif rfdord IV lfngti for AEAD dipifr
+                rfdordIvSizf = bulkCipifr.ivSizf - bulkCipifr.fixfdIvSizf;
 
-                // DON'T initialize the cipher for AEAD!
-            } else {
-                // CBC only requires one initialization during its lifetime
-                // (future packets/IVs set the proper CBC state), so we can
-                // initialize now.
+                // DON'T initiblizf tif dipifr for AEAD!
+            } flsf {
+                // CBC only rfquirfs onf initiblizbtion during its lifftimf
+                // (futurf pbdkfts/IVs sft tif propfr CBC stbtf), so wf dbn
+                // initiblizf now.
 
-                // Zeroize the variables that only apply to AEAD cipher
-                this.tagSize = 0;
-                this.fixedIv = new byte[0];
-                this.recordIvSize = 0;
-                this.key = null;
+                // Zfroizf tif vbribblfs tibt only bpply to AEAD dipifr
+                tiis.tbgSizf = 0;
+                tiis.fixfdIv = nfw bytf[0];
+                tiis.rfdordIvSizf = 0;
+                tiis.kfy = null;
 
-                // Initialize the cipher
-                cipher.init(mode, key, iv, random);
+                // Initiblizf tif dipifr
+                dipifr.init(modf, kfy, iv, rbndom);
             }
-        } catch (NoSuchAlgorithmException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new NoSuchAlgorithmException
-                    ("Could not create cipher " + bulkCipher, e);
-        } catch (ExceptionInInitializerError e) {
-            throw new NoSuchAlgorithmException
-                    ("Could not create cipher " + bulkCipher, e);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption
+                    ("Could not drfbtf dipifr " + bulkCipifr, f);
+        } dbtdi (ExdfptionInInitiblizfrError f) {
+            tirow nfw NoSudiAlgoritimExdfption
+                    ("Could not drfbtf dipifr " + bulkCipifr, f);
         }
     }
 
     /*
-     * Factory method to obtain a new CipherBox object.
+     * Fbdtory mftiod to obtbin b nfw CipifrBox objfdt.
      */
-    static CipherBox newCipherBox(ProtocolVersion version, BulkCipher cipher,
-            SecretKey key, IvParameterSpec iv, SecureRandom random,
-            boolean encrypt) throws NoSuchAlgorithmException {
-        if (cipher.allowed == false) {
-            throw new NoSuchAlgorithmException("Unsupported cipher " + cipher);
+    stbtid CipifrBox nfwCipifrBox(ProtodolVfrsion vfrsion, BulkCipifr dipifr,
+            SfdrftKfy kfy, IvPbrbmftfrSpfd iv, SfdurfRbndom rbndom,
+            boolfbn fndrypt) tirows NoSudiAlgoritimExdfption {
+        if (dipifr.bllowfd == fblsf) {
+            tirow nfw NoSudiAlgoritimExdfption("Unsupportfd dipifr " + dipifr);
         }
 
-        if (cipher == B_NULL) {
-            return NULL;
-        } else {
-            return new CipherBox(version, cipher, key, iv, random, encrypt);
+        if (dipifr == B_NULL) {
+            rfturn NULL;
+        } flsf {
+            rfturn nfw CipifrBox(vfrsion, dipifr, kfy, iv, rbndom, fndrypt);
         }
     }
 
     /*
-     * Get a fixed mask, as the initial decryption IVs for TLS 1.1 or later.
+     * Gft b fixfd mbsk, bs tif initibl dfdryption IVs for TLS 1.1 or lbtfr.
      */
-    private static IvParameterSpec getFixedMask(int ivSize) {
-        if (masks == null) {
-            masks = new Hashtable<Integer, IvParameterSpec>(5);
+    privbtf stbtid IvPbrbmftfrSpfd gftFixfdMbsk(int ivSizf) {
+        if (mbsks == null) {
+            mbsks = nfw Hbsitbblf<Intfgfr, IvPbrbmftfrSpfd>(5);
         }
 
-        IvParameterSpec iv = masks.get(ivSize);
+        IvPbrbmftfrSpfd iv = mbsks.gft(ivSizf);
         if (iv == null) {
-            iv = new IvParameterSpec(new byte[ivSize]);
-            masks.put(ivSize, iv);
+            iv = nfw IvPbrbmftfrSpfd(nfw bytf[ivSizf]);
+            mbsks.put(ivSizf, iv);
         }
 
-        return iv;
+        rfturn iv;
     }
 
     /*
-     * Encrypts a block of data, returning the size of the
-     * resulting block.
+     * Endrypts b blodk of dbtb, rfturning tif sizf of tif
+     * rfsulting blodk.
      */
-    int encrypt(byte[] buf, int offset, int len) {
-        if (cipher == null) {
-            return len;
+    int fndrypt(bytf[] buf, int offsft, int lfn) {
+        if (dipifr == null) {
+            rfturn lfn;
         }
 
         try {
-            int blockSize = cipher.getBlockSize();
-            if (cipherType == BLOCK_CIPHER) {
-                len = addPadding(buf, offset, len, blockSize);
+            int blodkSizf = dipifr.gftBlodkSizf();
+            if (dipifrTypf == BLOCK_CIPHER) {
+                lfn = bddPbdding(buf, offsft, lfn, blodkSizf);
             }
 
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
                 try {
-                    HexDumpEncoder hd = new HexDumpEncoder();
+                    HfxDumpEndodfr id = nfw HfxDumpEndodfr();
 
-                    System.out.println(
-                        "Padded plaintext before ENCRYPTION:  len = "
-                        + len);
-                    hd.encodeBuffer(
-                        new ByteArrayInputStream(buf, offset, len),
-                        System.out);
-                } catch (IOException e) { }
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bfforf ENCRYPTION:  lfn = "
+                        + lfn);
+                    id.fndodfBufffr(
+                        nfw BytfArrbyInputStrfbm(buf, offsft, lfn),
+                        Systfm.out);
+                } dbtdi (IOExdfption f) { }
             }
 
 
-            if (cipherType == AEAD_CIPHER) {
+            if (dipifrTypf == AEAD_CIPHER) {
                 try {
-                    return cipher.doFinal(buf, offset, len, buf, offset);
-                } catch (IllegalBlockSizeException | BadPaddingException ibe) {
-                    // unlikely to happen
-                    throw new RuntimeException(
-                        "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibe);
+                    rfturn dipifr.doFinbl(buf, offsft, lfn, buf, offsft);
+                } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption ibf) {
+                    // unlikfly to ibppfn
+                    tirow nfw RuntimfExdfption(
+                        "Cipifr frror in AEAD modf in JCE providfr " +
+                        dipifr.gftProvidfr().gftNbmf(), ibf);
                 }
-            } else {
-                int newLen = cipher.update(buf, offset, len, buf, offset);
-                if (newLen != len) {
-                    // catch BouncyCastle buffering error
-                    throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+            } flsf {
+                int nfwLfn = dipifr.updbtf(buf, offsft, lfn, buf, offsft);
+                if (nfwLfn != lfn) {
+                    // dbtdi BoundyCbstlf bufffring frror
+                    tirow nfw RuntimfExdfption("Cipifr bufffring frror " +
+                        "in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
                 }
-                return newLen;
+                rfturn nfwLfn;
             }
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+        } dbtdi (SiortBufffrExdfption f) {
+            // unlikfly to ibppfn, wf siould ibvf fnougi bufffr spbdf ifrf
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
         }
     }
 
     /*
-     * Encrypts a ByteBuffer block of data, returning the size of the
-     * resulting block.
+     * Endrypts b BytfBufffr blodk of dbtb, rfturning tif sizf of tif
+     * rfsulting blodk.
      *
-     * The byte buffers position and limit initially define the amount
-     * to encrypt.  On return, the position and limit are
-     * set to last position padded/encrypted.  The limit may have changed
-     * because of the added padding bytes.
+     * Tif bytf bufffrs position bnd limit initiblly dffinf tif bmount
+     * to fndrypt.  On rfturn, tif position bnd limit brf
+     * sft to lbst position pbddfd/fndryptfd.  Tif limit mby ibvf dibngfd
+     * bfdbusf of tif bddfd pbdding bytfs.
      */
-    int encrypt(ByteBuffer bb, int outLimit) {
+    int fndrypt(BytfBufffr bb, int outLimit) {
 
-        int len = bb.remaining();
+        int lfn = bb.rfmbining();
 
-        if (cipher == null) {
+        if (dipifr == null) {
             bb.position(bb.limit());
-            return len;
+            rfturn lfn;
         }
 
         int pos = bb.position();
 
-        int blockSize = cipher.getBlockSize();
-        if (cipherType == BLOCK_CIPHER) {
-            // addPadding adjusts pos/limit
-            len = addPadding(bb, blockSize);
+        int blodkSizf = dipifr.gftBlodkSizf();
+        if (dipifrTypf == BLOCK_CIPHER) {
+            // bddPbdding bdjusts pos/limit
+            lfn = bddPbdding(bb, blodkSizf);
             bb.position(pos);
         }
 
-        if (debug != null && Debug.isOn("plaintext")) {
+        if (dfbug != null && Dfbug.isOn("plbintfxt")) {
             try {
-                HexDumpEncoder hd = new HexDumpEncoder();
+                HfxDumpEndodfr id = nfw HfxDumpEndodfr();
 
-                System.out.println(
-                    "Padded plaintext before ENCRYPTION:  len = "
-                    + len);
-                hd.encodeBuffer(bb.duplicate(), System.out);
+                Systfm.out.println(
+                    "Pbddfd plbintfxt bfforf ENCRYPTION:  lfn = "
+                    + lfn);
+                id.fndodfBufffr(bb.duplidbtf(), Systfm.out);
 
-            } catch (IOException e) { }
+            } dbtdi (IOExdfption f) { }
         }
 
         /*
-         * Encrypt "in-place".  This does not add its own padding.
+         * Endrypt "in-plbdf".  Tiis dofs not bdd its own pbdding.
          */
-        ByteBuffer dup = bb.duplicate();
-        if (cipherType == AEAD_CIPHER) {
+        BytfBufffr dup = bb.duplidbtf();
+        if (dipifrTypf == AEAD_CIPHER) {
             try {
-                int outputSize = cipher.getOutputSize(dup.remaining());
-                if (outputSize > bb.remaining()) {
-                    // need to expand the limit of the output buffer for
-                    // the authentication tag.
+                int outputSizf = dipifr.gftOutputSizf(dup.rfmbining());
+                if (outputSizf > bb.rfmbining()) {
+                    // nffd to fxpbnd tif limit of tif output bufffr for
+                    // tif butifntidbtion tbg.
                     //
-                    // DON'T worry about the buffer's capacity, we have
-                    // reserved space for the authentication tag.
-                    if (outLimit < pos + outputSize) {
-                        // unlikely to happen
-                        throw new ShortBufferException(
-                                    "need more space in output buffer");
+                    // DON'T worry bbout tif bufffr's dbpbdity, wf ibvf
+                    // rfsfrvfd spbdf for tif butifntidbtion tbg.
+                    if (outLimit < pos + outputSizf) {
+                        // unlikfly to ibppfn
+                        tirow nfw SiortBufffrExdfption(
+                                    "nffd morf spbdf in output bufffr");
                     }
-                    bb.limit(pos + outputSize);
+                    bb.limit(pos + outputSizf);
                 }
-                int newLen = cipher.doFinal(dup, bb);
-                if (newLen != outputSize) {
-                    throw new RuntimeException(
-                            "Cipher buffering error in JCE provider " +
-                            cipher.getProvider().getName());
+                int nfwLfn = dipifr.doFinbl(dup, bb);
+                if (nfwLfn != outputSizf) {
+                    tirow nfw RuntimfExdfption(
+                            "Cipifr bufffring frror in JCE providfr " +
+                            dipifr.gftProvidfr().gftNbmf());
                 }
-                return newLen;
-            } catch (IllegalBlockSizeException |
-                           BadPaddingException | ShortBufferException ibse) {
-                // unlikely to happen
-                throw new RuntimeException(
-                        "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibse);
+                rfturn nfwLfn;
+            } dbtdi (IllfgblBlodkSizfExdfption |
+                           BbdPbddingExdfption | SiortBufffrExdfption ibsf) {
+                // unlikfly to ibppfn
+                tirow nfw RuntimfExdfption(
+                        "Cipifr frror in AEAD modf in JCE providfr " +
+                        dipifr.gftProvidfr().gftNbmf(), ibsf);
             }
-        } else {
-            int newLen;
+        } flsf {
+            int nfwLfn;
             try {
-                newLen = cipher.update(dup, bb);
-            } catch (ShortBufferException sbe) {
-                // unlikely to happen
-                throw new RuntimeException("Cipher buffering error " +
-                    "in JCE provider " + cipher.getProvider().getName());
+                nfwLfn = dipifr.updbtf(dup, bb);
+            } dbtdi (SiortBufffrExdfption sbf) {
+                // unlikfly to ibppfn
+                tirow nfw RuntimfExdfption("Cipifr bufffring frror " +
+                    "in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
             }
 
             if (bb.position() != dup.position()) {
-                throw new RuntimeException("bytebuffer padding error");
+                tirow nfw RuntimfExdfption("bytfbufffr pbdding frror");
             }
 
-            if (newLen != len) {
-                // catch BouncyCastle buffering error
-                throw new RuntimeException("Cipher buffering error " +
-                    "in JCE provider " + cipher.getProvider().getName());
+            if (nfwLfn != lfn) {
+                // dbtdi BoundyCbstlf bufffring frror
+                tirow nfw RuntimfExdfption("Cipifr bufffring frror " +
+                    "in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
             }
-            return newLen;
+            rfturn nfwLfn;
         }
     }
 
 
     /*
-     * Decrypts a block of data, returning the size of the
-     * resulting block if padding was required.
+     * Dfdrypts b blodk of dbtb, rfturning tif sizf of tif
+     * rfsulting blodk if pbdding wbs rfquirfd.
      *
-     * For SSLv3 and TLSv1.0, with block ciphers in CBC mode the
-     * Initialization Vector (IV) for the first record is generated by
-     * the handshake protocol, the IV for subsequent records is the
-     * last ciphertext block from the previous record.
+     * For SSLv3 bnd TLSv1.0, witi blodk dipifrs in CBC modf tif
+     * Initiblizbtion Vfdtor (IV) for tif first rfdord is gfnfrbtfd by
+     * tif ibndsibkf protodol, tif IV for subsfqufnt rfdords is tif
+     * lbst dipifrtfxt blodk from tif prfvious rfdord.
      *
-     * From TLSv1.1, the implicit IV is replaced with an explicit IV to
-     * protect against CBC attacks.
+     * From TLSv1.1, tif implidit IV is rfplbdfd witi bn fxplidit IV to
+     * protfdt bgbinst CBC bttbdks.
      *
-     * Differentiating between bad_record_mac and decryption_failed alerts
-     * may permit certain attacks against CBC mode. It is preferable to
-     * uniformly use the bad_record_mac alert to hide the specific type of
-     * the error.
+     * Difffrfntibting bftwffn bbd_rfdord_mbd bnd dfdryption_fbilfd blfrts
+     * mby pfrmit dfrtbin bttbdks bgbinst CBC modf. It is prfffrbblf to
+     * uniformly usf tif bbd_rfdord_mbd blfrt to iidf tif spfdifid typf of
+     * tif frror.
      */
-    int decrypt(byte[] buf, int offset, int len,
-            int tagLen) throws BadPaddingException {
-        if (cipher == null) {
-            return len;
+    int dfdrypt(bytf[] buf, int offsft, int lfn,
+            int tbgLfn) tirows BbdPbddingExdfption {
+        if (dipifr == null) {
+            rfturn lfn;
         }
 
         try {
-            int newLen;
-            if (cipherType == AEAD_CIPHER) {
+            int nfwLfn;
+            if (dipifrTypf == AEAD_CIPHER) {
                 try {
-                    newLen = cipher.doFinal(buf, offset, len, buf, offset);
-                } catch (IllegalBlockSizeException ibse) {
-                    // unlikely to happen
-                    throw new RuntimeException(
-                        "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibse);
+                    nfwLfn = dipifr.doFinbl(buf, offsft, lfn, buf, offsft);
+                } dbtdi (IllfgblBlodkSizfExdfption ibsf) {
+                    // unlikfly to ibppfn
+                    tirow nfw RuntimfExdfption(
+                        "Cipifr frror in AEAD modf in JCE providfr " +
+                        dipifr.gftProvidfr().gftNbmf(), ibsf);
                 }
-            } else {
-                newLen = cipher.update(buf, offset, len, buf, offset);
-                if (newLen != len) {
-                    // catch BouncyCastle buffering error
-                    throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+            } flsf {
+                nfwLfn = dipifr.updbtf(buf, offsft, lfn, buf, offsft);
+                if (nfwLfn != lfn) {
+                    // dbtdi BoundyCbstlf bufffring frror
+                    tirow nfw RuntimfExdfption("Cipifr bufffring frror " +
+                        "in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
                 }
             }
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
                 try {
-                    HexDumpEncoder hd = new HexDumpEncoder();
+                    HfxDumpEndodfr id = nfw HfxDumpEndodfr();
 
-                    System.out.println(
-                        "Padded plaintext after DECRYPTION:  len = "
-                        + newLen);
-                    hd.encodeBuffer(
-                        new ByteArrayInputStream(buf, offset, newLen),
-                        System.out);
-                } catch (IOException e) { }
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bftfr DECRYPTION:  lfn = "
+                        + nfwLfn);
+                    id.fndodfBufffr(
+                        nfw BytfArrbyInputStrfbm(buf, offsft, nfwLfn),
+                        Systfm.out);
+                } dbtdi (IOExdfption f) { }
             }
 
-            if (cipherType == BLOCK_CIPHER) {
-                int blockSize = cipher.getBlockSize();
-                newLen = removePadding(
-                    buf, offset, newLen, tagLen, blockSize, protocolVersion);
+            if (dipifrTypf == BLOCK_CIPHER) {
+                int blodkSizf = dipifr.gftBlodkSizf();
+                nfwLfn = rfmovfPbdding(
+                    buf, offsft, nfwLfn, tbgLfn, blodkSizf, protodolVfrsion);
 
-                if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                    if (newLen < blockSize) {
-                        throw new BadPaddingException("invalid explicit IV");
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    if (nfwLfn < blodkSizf) {
+                        tirow nfw BbdPbddingExdfption("invblid fxplidit IV");
                     }
                 }
             }
-            return newLen;
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+            rfturn nfwLfn;
+        } dbtdi (SiortBufffrExdfption f) {
+            // unlikfly to ibppfn, wf siould ibvf fnougi bufffr spbdf ifrf
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
         }
     }
 
 
     /*
-     * Decrypts a block of data, returning the size of the
-     * resulting block if padding was required.  position and limit
-     * point to the end of the decrypted/depadded data.  The initial
-     * limit and new limit may be different, given we may
-     * have stripped off some padding bytes.
+     * Dfdrypts b blodk of dbtb, rfturning tif sizf of tif
+     * rfsulting blodk if pbdding wbs rfquirfd.  position bnd limit
+     * point to tif fnd of tif dfdryptfd/dfpbddfd dbtb.  Tif initibl
+     * limit bnd nfw limit mby bf difffrfnt, givfn wf mby
+     * ibvf strippfd off somf pbdding bytfs.
      *
-     *  @see decrypt(byte[], int, int)
+     *  @sff dfdrypt(bytf[], int, int)
      */
-    int decrypt(ByteBuffer bb, int tagLen) throws BadPaddingException {
+    int dfdrypt(BytfBufffr bb, int tbgLfn) tirows BbdPbddingExdfption {
 
-        int len = bb.remaining();
+        int lfn = bb.rfmbining();
 
-        if (cipher == null) {
+        if (dipifr == null) {
             bb.position(bb.limit());
-            return len;
+            rfturn lfn;
         }
 
         try {
             /*
-             * Decrypt "in-place".
+             * Dfdrypt "in-plbdf".
              */
             int pos = bb.position();
-            ByteBuffer dup = bb.duplicate();
-            int newLen;
-            if (cipherType == AEAD_CIPHER) {
+            BytfBufffr dup = bb.duplidbtf();
+            int nfwLfn;
+            if (dipifrTypf == AEAD_CIPHER) {
                 try {
-                    newLen = cipher.doFinal(dup, bb);
-                } catch (IllegalBlockSizeException ibse) {
-                    // unlikely to happen
-                    throw new RuntimeException(
-                        "Cipher error in AEAD mode \"" + ibse.getMessage() +
-                        " \"in JCE provider " + cipher.getProvider().getName());
+                    nfwLfn = dipifr.doFinbl(dup, bb);
+                } dbtdi (IllfgblBlodkSizfExdfption ibsf) {
+                    // unlikfly to ibppfn
+                    tirow nfw RuntimfExdfption(
+                        "Cipifr frror in AEAD modf \"" + ibsf.gftMfssbgf() +
+                        " \"in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
                 }
-            } else {
-                newLen = cipher.update(dup, bb);
-                if (newLen != len) {
-                    // catch BouncyCastle buffering error
-                    throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+            } flsf {
+                nfwLfn = dipifr.updbtf(dup, bb);
+                if (nfwLfn != lfn) {
+                    // dbtdi BoundyCbstlf bufffring frror
+                    tirow nfw RuntimfExdfption("Cipifr bufffring frror " +
+                        "in JCE providfr " + dipifr.gftProvidfr().gftNbmf());
                 }
             }
 
-            // reset the limit to the end of the decryted data
-            bb.limit(pos + newLen);
+            // rfsft tif limit to tif fnd of tif dfdrytfd dbtb
+            bb.limit(pos + nfwLfn);
 
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (dfbug != null && Dfbug.isOn("plbintfxt")) {
                 try {
-                    HexDumpEncoder hd = new HexDumpEncoder();
+                    HfxDumpEndodfr id = nfw HfxDumpEndodfr();
 
-                    System.out.println(
-                        "Padded plaintext after DECRYPTION:  len = "
-                        + newLen);
+                    Systfm.out.println(
+                        "Pbddfd plbintfxt bftfr DECRYPTION:  lfn = "
+                        + nfwLfn);
 
-                    hd.encodeBuffer(
-                        (ByteBuffer)bb.duplicate().position(pos), System.out);
-                } catch (IOException e) { }
+                    id.fndodfBufffr(
+                        (BytfBufffr)bb.duplidbtf().position(pos), Systfm.out);
+                } dbtdi (IOExdfption f) { }
             }
 
             /*
-             * Remove the block padding.
+             * Rfmovf tif blodk pbdding.
              */
-            if (cipherType == BLOCK_CIPHER) {
-                int blockSize = cipher.getBlockSize();
+            if (dipifrTypf == BLOCK_CIPHER) {
+                int blodkSizf = dipifr.gftBlodkSizf();
                 bb.position(pos);
-                newLen = removePadding(bb, tagLen, blockSize, protocolVersion);
+                nfwLfn = rfmovfPbdding(bb, tbgLfn, blodkSizf, protodolVfrsion);
 
-                // check the explicit IV of TLS v1.1 or later
-                if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                    if (newLen < blockSize) {
-                        throw new BadPaddingException("invalid explicit IV");
+                // difdk tif fxplidit IV of TLS v1.1 or lbtfr
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    if (nfwLfn < blodkSizf) {
+                        tirow nfw BbdPbddingExdfption("invblid fxplidit IV");
                     }
 
-                    // reset the position to the end of the decrypted data
+                    // rfsft tif position to tif fnd of tif dfdryptfd dbtb
                     bb.position(bb.limit());
                 }
             }
-            return newLen;
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+            rfturn nfwLfn;
+        } dbtdi (SiortBufffrExdfption f) {
+            // unlikfly to ibppfn, wf siould ibvf fnougi bufffr spbdf ifrf
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(f.toString());
         }
     }
 
-    private static int addPadding(byte[] buf, int offset, int len,
-            int blockSize) {
-        int     newlen = len + 1;
-        byte    pad;
+    privbtf stbtid int bddPbdding(bytf[] buf, int offsft, int lfn,
+            int blodkSizf) {
+        int     nfwlfn = lfn + 1;
+        bytf    pbd;
         int     i;
 
-        if ((newlen % blockSize) != 0) {
-            newlen += blockSize - 1;
-            newlen -= newlen % blockSize;
+        if ((nfwlfn % blodkSizf) != 0) {
+            nfwlfn += blodkSizf - 1;
+            nfwlfn -= nfwlfn % blodkSizf;
         }
-        pad = (byte) (newlen - len);
+        pbd = (bytf) (nfwlfn - lfn);
 
-        if (buf.length < (newlen + offset)) {
-            throw new IllegalArgumentException("no space to pad buffer");
+        if (buf.lfngti < (nfwlfn + offsft)) {
+            tirow nfw IllfgblArgumfntExdfption("no spbdf to pbd bufffr");
         }
 
         /*
-         * TLS version of the padding works for both SSLv3 and TLSv1
+         * TLS vfrsion of tif pbdding works for boti SSLv3 bnd TLSv1
          */
-        for (i = 0, offset += len; i < pad; i++) {
-            buf [offset++] = (byte) (pad - 1);
+        for (i = 0, offsft += lfn; i < pbd; i++) {
+            buf [offsft++] = (bytf) (pbd - 1);
         }
-        return newlen;
+        rfturn nfwlfn;
     }
 
     /*
-     * Apply the padding to the buffer.
+     * Apply tif pbdding to tif bufffr.
      *
-     * Limit is advanced to the new buffer length.
-     * Position is equal to limit.
+     * Limit is bdvbndfd to tif nfw bufffr lfngti.
+     * Position is fqubl to limit.
      */
-    private static int addPadding(ByteBuffer bb, int blockSize) {
+    privbtf stbtid int bddPbdding(BytfBufffr bb, int blodkSizf) {
 
-        int     len = bb.remaining();
-        int     offset = bb.position();
+        int     lfn = bb.rfmbining();
+        int     offsft = bb.position();
 
-        int     newlen = len + 1;
-        byte    pad;
+        int     nfwlfn = lfn + 1;
+        bytf    pbd;
         int     i;
 
-        if ((newlen % blockSize) != 0) {
-            newlen += blockSize - 1;
-            newlen -= newlen % blockSize;
+        if ((nfwlfn % blodkSizf) != 0) {
+            nfwlfn += blodkSizf - 1;
+            nfwlfn -= nfwlfn % blodkSizf;
         }
-        pad = (byte) (newlen - len);
+        pbd = (bytf) (nfwlfn - lfn);
 
         /*
-         * Update the limit to what will be padded.
+         * Updbtf tif limit to wibt will bf pbddfd.
          */
-        bb.limit(newlen + offset);
+        bb.limit(nfwlfn + offsft);
 
         /*
-         * TLS version of the padding works for both SSLv3 and TLSv1
+         * TLS vfrsion of tif pbdding works for boti SSLv3 bnd TLSv1
          */
-        for (i = 0, offset += len; i < pad; i++) {
-            bb.put(offset++, (byte) (pad - 1));
+        for (i = 0, offsft += lfn; i < pbd; i++) {
+            bb.put(offsft++, (bytf) (pbd - 1));
         }
 
-        bb.position(offset);
-        bb.limit(offset);
+        bb.position(offsft);
+        bb.limit(offsft);
 
-        return newlen;
+        rfturn nfwlfn;
     }
 
     /*
-     * A constant-time check of the padding.
+     * A donstbnt-timf difdk of tif pbdding.
      *
-     * NOTE that we are checking both the padding and the padLen bytes here.
+     * NOTE tibt wf brf difdking boti tif pbdding bnd tif pbdLfn bytfs ifrf.
      *
-     * The caller MUST ensure that the len parameter is a positive number.
+     * Tif dbllfr MUST fnsurf tibt tif lfn pbrbmftfr is b positivf numbfr.
      */
-    private static int[] checkPadding(
-            byte[] buf, int offset, int len, byte pad) {
+    privbtf stbtid int[] difdkPbdding(
+            bytf[] buf, int offsft, int lfn, bytf pbd) {
 
-        if (len <= 0) {
-            throw new RuntimeException("padding len must be positive");
+        if (lfn <= 0) {
+            tirow nfw RuntimfExdfption("pbdding lfn must bf positivf");
         }
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};    // {missed #, matched #}
+        // An brrby of iits is usfd to prfvfnt Hotspot optimizbtion for
+        // tif purposf of b donstbnt-timf difdk.
+        int[] rfsults = {0, 0};    // {missfd #, mbtdifd #}
         for (int i = 0; i <= 256;) {
-            for (int j = 0; j < len && i <= 256; j++, i++) {     // j <= i
-                if (buf[offset + j] != pad) {
-                    results[0]++;       // mismatched padding data
-                } else {
-                    results[1]++;       // matched padding data
+            for (int j = 0; j < lfn && i <= 256; j++, i++) {     // j <= i
+                if (buf[offsft + j] != pbd) {
+                    rfsults[0]++;       // mismbtdifd pbdding dbtb
+                } flsf {
+                    rfsults[1]++;       // mbtdifd pbdding dbtb
                 }
             }
         }
 
-        return results;
+        rfturn rfsults;
     }
 
     /*
-     * A constant-time check of the padding.
+     * A donstbnt-timf difdk of tif pbdding.
      *
-     * NOTE that we are checking both the padding and the padLen bytes here.
+     * NOTE tibt wf brf difdking boti tif pbdding bnd tif pbdLfn bytfs ifrf.
      *
-     * The caller MUST ensure that the bb parameter has remaining.
+     * Tif dbllfr MUST fnsurf tibt tif bb pbrbmftfr ibs rfmbining.
      */
-    private static int[] checkPadding(ByteBuffer bb, byte pad) {
+    privbtf stbtid int[] difdkPbdding(BytfBufffr bb, bytf pbd) {
 
-        if (!bb.hasRemaining()) {
-            throw new RuntimeException("hasRemaining() must be positive");
+        if (!bb.ibsRfmbining()) {
+            tirow nfw RuntimfExdfption("ibsRfmbining() must bf positivf");
         }
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};    // {missed #, matched #}
-        bb.mark();
-        for (int i = 0; i <= 256; bb.reset()) {
-            for (; bb.hasRemaining() && i <= 256; i++) {
-                if (bb.get() != pad) {
-                    results[0]++;       // mismatched padding data
-                } else {
-                    results[1]++;       // matched padding data
+        // An brrby of iits is usfd to prfvfnt Hotspot optimizbtion for
+        // tif purposf of b donstbnt-timf difdk.
+        int[] rfsults = {0, 0};    // {missfd #, mbtdifd #}
+        bb.mbrk();
+        for (int i = 0; i <= 256; bb.rfsft()) {
+            for (; bb.ibsRfmbining() && i <= 256; i++) {
+                if (bb.gft() != pbd) {
+                    rfsults[0]++;       // mismbtdifd pbdding dbtb
+                } flsf {
+                    rfsults[1]++;       // mbtdifd pbdding dbtb
                 }
             }
         }
 
-        return results;
+        rfturn rfsults;
     }
 
     /*
-     * Typical TLS padding format for a 64 bit block cipher is as follows:
+     * Typidbl TLS pbdding formbt for b 64 bit blodk dipifr is bs follows:
      *   xx xx xx xx xx xx xx 00
      *   xx xx xx xx xx xx 01 01
      *   ...
      *   xx 06 06 06 06 06 06 06
      *   07 07 07 07 07 07 07 07
-     * TLS also allows any amount of padding from 1 and 256 bytes as long
-     * as it makes the data a multiple of the block size
+     * TLS blso bllows bny bmount of pbdding from 1 bnd 256 bytfs bs long
+     * bs it mbkfs tif dbtb b multiplf of tif blodk sizf
      */
-    private static int removePadding(byte[] buf, int offset, int len,
-            int tagLen, int blockSize,
-            ProtocolVersion protocolVersion) throws BadPaddingException {
+    privbtf stbtid int rfmovfPbdding(bytf[] buf, int offsft, int lfn,
+            int tbgLfn, int blodkSizf,
+            ProtodolVfrsion protodolVfrsion) tirows BbdPbddingExdfption {
 
-        // last byte is length byte (i.e. actual padding length - 1)
-        int padOffset = offset + len - 1;
-        int padLen = buf[padOffset] & 0xFF;
+        // lbst bytf is lfngti bytf (i.f. bdtubl pbdding lfngti - 1)
+        int pbdOffsft = offsft + lfn - 1;
+        int pbdLfn = buf[pbdOffsft] & 0xFF;
 
-        int newLen = len - (padLen + 1);
-        if ((newLen - tagLen) < 0) {
-            // If the buffer is not long enough to contain the padding plus
-            // a MAC tag, do a dummy constant-time padding check.
+        int nfwLfn = lfn - (pbdLfn + 1);
+        if ((nfwLfn - tbgLfn) < 0) {
+            // If tif bufffr is not long fnougi to dontbin tif pbdding plus
+            // b MAC tbg, do b dummy donstbnt-timf pbdding difdk.
             //
-            // Note that it is a dummy check, so we won't care about what is
-            // the actual padding data.
-            checkPadding(buf, offset, len, (byte)(padLen & 0xFF));
+            // Notf tibt it is b dummy difdk, so wf won't dbrf bbout wibt is
+            // tif bdtubl pbdding dbtb.
+            difdkPbdding(buf, offsft, lfn, (bytf)(pbdLfn & 0xFF));
 
-            throw new BadPaddingException("Invalid Padding length: " + padLen);
+            tirow nfw BbdPbddingExdfption("Invblid Pbdding lfngti: " + pbdLfn);
         }
 
-        // The padding data should be filled with the padding length value.
-        int[] results = checkPadding(buf, offset + newLen,
-                        padLen + 1, (byte)(padLen & 0xFF));
-        if (protocolVersion.v >= ProtocolVersion.TLS10.v) {
-            if (results[0] != 0) {          // padding data has invalid bytes
-                throw new BadPaddingException("Invalid TLS padding data");
+        // Tif pbdding dbtb siould bf fillfd witi tif pbdding lfngti vbluf.
+        int[] rfsults = difdkPbdding(buf, offsft + nfwLfn,
+                        pbdLfn + 1, (bytf)(pbdLfn & 0xFF));
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            if (rfsults[0] != 0) {          // pbdding dbtb ibs invblid bytfs
+                tirow nfw BbdPbddingExdfption("Invblid TLS pbdding dbtb");
             }
-        } else { // SSLv3
-            // SSLv3 requires 0 <= length byte < block size
-            // some implementations do 1 <= length byte <= block size,
-            // so accept that as well
-            // v3 does not require any particular value for the other bytes
-            if (padLen > blockSize) {
-                throw new BadPaddingException("Invalid SSLv3 padding");
+        } flsf { // SSLv3
+            // SSLv3 rfquirfs 0 <= lfngti bytf < blodk sizf
+            // somf implfmfntbtions do 1 <= lfngti bytf <= blodk sizf,
+            // so bddfpt tibt bs wfll
+            // v3 dofs not rfquirf bny pbrtidulbr vbluf for tif otifr bytfs
+            if (pbdLfn > blodkSizf) {
+                tirow nfw BbdPbddingExdfption("Invblid SSLv3 pbdding");
             }
         }
-        return newLen;
+        rfturn nfwLfn;
     }
 
     /*
-     * Position/limit is equal the removed padding.
+     * Position/limit is fqubl tif rfmovfd pbdding.
      */
-    private static int removePadding(ByteBuffer bb,
-            int tagLen, int blockSize,
-            ProtocolVersion protocolVersion) throws BadPaddingException {
+    privbtf stbtid int rfmovfPbdding(BytfBufffr bb,
+            int tbgLfn, int blodkSizf,
+            ProtodolVfrsion protodolVfrsion) tirows BbdPbddingExdfption {
 
-        int len = bb.remaining();
-        int offset = bb.position();
+        int lfn = bb.rfmbining();
+        int offsft = bb.position();
 
-        // last byte is length byte (i.e. actual padding length - 1)
-        int padOffset = offset + len - 1;
-        int padLen = bb.get(padOffset) & 0xFF;
+        // lbst bytf is lfngti bytf (i.f. bdtubl pbdding lfngti - 1)
+        int pbdOffsft = offsft + lfn - 1;
+        int pbdLfn = bb.gft(pbdOffsft) & 0xFF;
 
-        int newLen = len - (padLen + 1);
-        if ((newLen - tagLen) < 0) {
-            // If the buffer is not long enough to contain the padding plus
-            // a MAC tag, do a dummy constant-time padding check.
+        int nfwLfn = lfn - (pbdLfn + 1);
+        if ((nfwLfn - tbgLfn) < 0) {
+            // If tif bufffr is not long fnougi to dontbin tif pbdding plus
+            // b MAC tbg, do b dummy donstbnt-timf pbdding difdk.
             //
-            // Note that it is a dummy check, so we won't care about what is
-            // the actual padding data.
-            checkPadding(bb.duplicate(), (byte)(padLen & 0xFF));
+            // Notf tibt it is b dummy difdk, so wf won't dbrf bbout wibt is
+            // tif bdtubl pbdding dbtb.
+            difdkPbdding(bb.duplidbtf(), (bytf)(pbdLfn & 0xFF));
 
-            throw new BadPaddingException("Invalid Padding length: " + padLen);
+            tirow nfw BbdPbddingExdfption("Invblid Pbdding lfngti: " + pbdLfn);
         }
 
-        // The padding data should be filled with the padding length value.
-        int[] results = checkPadding(
-                (ByteBuffer)bb.duplicate().position(offset + newLen),
-                (byte)(padLen & 0xFF));
-        if (protocolVersion.v >= ProtocolVersion.TLS10.v) {
-            if (results[0] != 0) {          // padding data has invalid bytes
-                throw new BadPaddingException("Invalid TLS padding data");
+        // Tif pbdding dbtb siould bf fillfd witi tif pbdding lfngti vbluf.
+        int[] rfsults = difdkPbdding(
+                (BytfBufffr)bb.duplidbtf().position(offsft + nfwLfn),
+                (bytf)(pbdLfn & 0xFF));
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            if (rfsults[0] != 0) {          // pbdding dbtb ibs invblid bytfs
+                tirow nfw BbdPbddingExdfption("Invblid TLS pbdding dbtb");
             }
-        } else { // SSLv3
-            // SSLv3 requires 0 <= length byte < block size
-            // some implementations do 1 <= length byte <= block size,
-            // so accept that as well
-            // v3 does not require any particular value for the other bytes
-            if (padLen > blockSize) {
-                throw new BadPaddingException("Invalid SSLv3 padding");
+        } flsf { // SSLv3
+            // SSLv3 rfquirfs 0 <= lfngti bytf < blodk sizf
+            // somf implfmfntbtions do 1 <= lfngti bytf <= blodk sizf,
+            // so bddfpt tibt bs wfll
+            // v3 dofs not rfquirf bny pbrtidulbr vbluf for tif otifr bytfs
+            if (pbdLfn > blodkSizf) {
+                tirow nfw BbdPbddingExdfption("Invblid SSLv3 pbdding");
             }
         }
 
         /*
-         * Reset buffer limit to remove padding.
+         * Rfsft bufffr limit to rfmovf pbdding.
          */
-        bb.position(offset + newLen);
-        bb.limit(offset + newLen);
+        bb.position(offsft + nfwLfn);
+        bb.limit(offsft + nfwLfn);
 
-        return newLen;
+        rfturn nfwLfn;
     }
 
     /*
-     * Dispose of any intermediate state in the underlying cipher.
-     * For PKCS11 ciphers, this will release any attached sessions, and
-     * thus make finalization faster.
+     * Disposf of bny intfrmfdibtf stbtf in tif undfrlying dipifr.
+     * For PKCS11 dipifrs, tiis will rflfbsf bny bttbdifd sfssions, bnd
+     * tius mbkf finblizbtion fbstfr.
      */
-    void dispose() {
+    void disposf() {
         try {
-            if (cipher != null) {
-                // ignore return value.
-                cipher.doFinal();
+            if (dipifr != null) {
+                // ignorf rfturn vbluf.
+                dipifr.doFinbl();
             }
-        } catch (Exception e) {
-            // swallow all types of exceptions.
+        } dbtdi (Exdfption f) {
+            // swbllow bll typfs of fxdfptions.
         }
     }
 
     /*
-     * Does the cipher use CBC mode?
+     * Dofs tif dipifr usf CBC modf?
      *
-     * @return true if the cipher use CBC mode, false otherwise.
+     * @rfturn truf if tif dipifr usf CBC modf, fblsf otifrwisf.
      */
-    boolean isCBCMode() {
-        return cipherType == BLOCK_CIPHER;
+    boolfbn isCBCModf() {
+        rfturn dipifrTypf == BLOCK_CIPHER;
     }
 
     /*
-     * Does the cipher use AEAD mode?
+     * Dofs tif dipifr usf AEAD modf?
      *
-     * @return true if the cipher use AEAD mode, false otherwise.
+     * @rfturn truf if tif dipifr usf AEAD modf, fblsf otifrwisf.
      */
-    boolean isAEADMode() {
-        return cipherType == AEAD_CIPHER;
+    boolfbn isAEADModf() {
+        rfturn dipifrTypf == AEAD_CIPHER;
     }
 
     /*
-     * Is the cipher null?
+     * Is tif dipifr null?
      *
-     * @return true if the cipher is null, false otherwise.
+     * @rfturn truf if tif dipifr is null, fblsf otifrwisf.
      */
-    boolean isNullCipher() {
-        return cipher == null;
+    boolfbn isNullCipifr() {
+        rfturn dipifr == null;
     }
 
     /*
-     * Gets the explicit nonce/IV size of the cipher.
+     * Gfts tif fxplidit nondf/IV sizf of tif dipifr.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
-     * size of explicit nonce for AEAD mode.
+     * Tif rfturnfd vbluf is tif SfdurityPbrbmftfrs.rfdord_iv_lfngti in
+     * RFC 4346/5246.  It is tif sizf of fxplidit IV for CBC modf, bnd tif
+     * sizf of fxplidit nondf for AEAD modf.
      *
-     * @return the explicit nonce size of the cipher.
+     * @rfturn tif fxplidit nondf sizf of tif dipifr.
      */
-    int getExplicitNonceSize() {
-        switch (cipherType) {
-            case BLOCK_CIPHER:
-                // For block ciphers, the explicit IV length is of length
-                // SecurityParameters.record_iv_length, which is equal to
-                // the SecurityParameters.block_size.
-                if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                    return cipher.getBlockSize();
+    int gftExpliditNondfSizf() {
+        switdi (dipifrTypf) {
+            dbsf BLOCK_CIPHER:
+                // For blodk dipifrs, tif fxplidit IV lfngti is of lfngti
+                // SfdurityPbrbmftfrs.rfdord_iv_lfngti, wiidi is fqubl to
+                // tif SfdurityPbrbmftfrs.blodk_sizf.
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    rfturn dipifr.gftBlodkSizf();
                 }
-                break;
-            case AEAD_CIPHER:
-                return recordIvSize;
-                        // It is also the length of sequence number, which is
-                        // used as the nonce_explicit for AEAD cipher suites.
+                brfbk;
+            dbsf AEAD_CIPHER:
+                rfturn rfdordIvSizf;
+                        // It is blso tif lfngti of sfqufndf numbfr, wiidi is
+                        // usfd bs tif nondf_fxplidit for AEAD dipifr suitfs.
         }
 
-        return 0;
+        rfturn 0;
     }
 
     /*
-     * Applies the explicit nonce/IV to this cipher. This method is used to
-     * decrypt an SSL/TLS input record.
+     * Applifs tif fxplidit nondf/IV to tiis dipifr. Tiis mftiod is usfd to
+     * dfdrypt bn SSL/TLS input rfdord.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
-     * size of explicit nonce for AEAD mode.
+     * Tif rfturnfd vbluf is tif SfdurityPbrbmftfrs.rfdord_iv_lfngti in
+     * RFC 4346/5246.  It is tif sizf of fxplidit IV for CBC modf, bnd tif
+     * sizf of fxplidit nondf for AEAD modf.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  bb the byte buffer to get the explicit nonce from
+     * @pbrbm  butifntidbtor tif butifntidbtor to gft tif bdditionbl
+     *         butifntidbtion dbtb
+     * @pbrbm  dontfntTypf tif dontfnt typf of tif input rfdord
+     * @pbrbm  bb tif bytf bufffr to gft tif fxplidit nondf from
      *
-     * @return the explicit nonce size of the cipher.
+     * @rfturn tif fxplidit nondf sizf of tif dipifr.
      */
-    int applyExplicitNonce(Authenticator authenticator, byte contentType,
-            ByteBuffer bb) throws BadPaddingException {
-        switch (cipherType) {
-            case BLOCK_CIPHER:
-                // sanity check length of the ciphertext
-                int tagLen = (authenticator instanceof MAC) ?
-                                    ((MAC)authenticator).MAClen() : 0;
-                if (tagLen != 0) {
-                    if (!sanityCheck(tagLen, bb.remaining())) {
-                        throw new BadPaddingException(
-                                "ciphertext sanity check failed");
+    int bpplyExpliditNondf(Autifntidbtor butifntidbtor, bytf dontfntTypf,
+            BytfBufffr bb) tirows BbdPbddingExdfption {
+        switdi (dipifrTypf) {
+            dbsf BLOCK_CIPHER:
+                // sbnity difdk lfngti of tif dipifrtfxt
+                int tbgLfn = (butifntidbtor instbndfof MAC) ?
+                                    ((MAC)butifntidbtor).MAClfn() : 0;
+                if (tbgLfn != 0) {
+                    if (!sbnityCifdk(tbgLfn, bb.rfmbining())) {
+                        tirow nfw BbdPbddingExdfption(
+                                "dipifrtfxt sbnity difdk fbilfd");
                     }
                 }
 
-                // For block ciphers, the explicit IV length is of length
-                // SecurityParameters.record_iv_length, which is equal to
-                // the SecurityParameters.block_size.
-                if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                    return cipher.getBlockSize();
+                // For blodk dipifrs, tif fxplidit IV lfngti is of lfngti
+                // SfdurityPbrbmftfrs.rfdord_iv_lfngti, wiidi is fqubl to
+                // tif SfdurityPbrbmftfrs.blodk_sizf.
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    rfturn dipifr.gftBlodkSizf();
                 }
-                break;
-            case AEAD_CIPHER:
-                if (bb.remaining() < (recordIvSize + tagSize)) {
-                    throw new BadPaddingException(
-                                        "invalid AEAD cipher fragment");
+                brfbk;
+            dbsf AEAD_CIPHER:
+                if (bb.rfmbining() < (rfdordIvSizf + tbgSizf)) {
+                    tirow nfw BbdPbddingExdfption(
+                                        "invblid AEAD dipifr frbgmfnt");
                 }
 
-                // initialize the AEAD cipher for the unique IV
-                byte[] iv = Arrays.copyOf(fixedIv,
-                                    fixedIv.length + recordIvSize);
-                bb.get(iv, fixedIv.length, recordIvSize);
-                bb.position(bb.position() - recordIvSize);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                // initiblizf tif AEAD dipifr for tif uniquf IV
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                    fixfdIv.lfngti + rfdordIvSizf);
+                bb.gft(iv, fixfdIv.lfngti, rfdordIvSizf);
+                bb.position(bb.position() - rfdordIvSizf);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
                 try {
-                    cipher.init(mode, key, spec, random);
-                } catch (InvalidKeyException |
-                            InvalidAlgorithmParameterException ikae) {
-                    // unlikely to happen
-                    throw new RuntimeException(
-                                "invalid key or spec in GCM mode", ikae);
+                    dipifr.init(modf, kfy, spfd, rbndom);
+                } dbtdi (InvblidKfyExdfption |
+                            InvblidAlgoritimPbrbmftfrExdfption ikbf) {
+                    // unlikfly to ibppfn
+                    tirow nfw RuntimfExdfption(
+                                "invblid kfy or spfd in GCM modf", ikbf);
                 }
 
-                // update the additional authentication data
-                byte[] aad = authenticator.acquireAuthenticationBytes(
-                        contentType, bb.remaining() - recordIvSize - tagSize);
-                cipher.updateAAD(aad);
+                // updbtf tif bdditionbl butifntidbtion dbtb
+                bytf[] bbd = butifntidbtor.bdquirfAutifntidbtionBytfs(
+                        dontfntTypf, bb.rfmbining() - rfdordIvSizf - tbgSizf);
+                dipifr.updbtfAAD(bbd);
 
-                return recordIvSize;
-                        // It is also the length of sequence number, which is
-                        // used as the nonce_explicit for AEAD cipher suites.
+                rfturn rfdordIvSizf;
+                        // It is blso tif lfngti of sfqufndf numbfr, wiidi is
+                        // usfd bs tif nondf_fxplidit for AEAD dipifr suitfs.
         }
 
-       return 0;
+       rfturn 0;
     }
 
     /*
-     * Applies the explicit nonce/IV to this cipher. This method is used to
-     * decrypt an SSL/TLS input record.
+     * Applifs tif fxplidit nondf/IV to tiis dipifr. Tiis mftiod is usfd to
+     * dfdrypt bn SSL/TLS input rfdord.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
-     * size of explicit nonce for AEAD mode.
+     * Tif rfturnfd vbluf is tif SfdurityPbrbmftfrs.rfdord_iv_lfngti in
+     * RFC 4346/5246.  It is tif sizf of fxplidit IV for CBC modf, bnd tif
+     * sizf of fxplidit nondf for AEAD modf.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  buf the byte array to get the explicit nonce from
-     * @param  offset the offset of the byte buffer
-     * @param  cipheredLength the ciphered fragment length of the output
-     *         record, it is the TLSCiphertext.length in RFC 4346/5246.
+     * @pbrbm  butifntidbtor tif butifntidbtor to gft tif bdditionbl
+     *         butifntidbtion dbtb
+     * @pbrbm  dontfntTypf tif dontfnt typf of tif input rfdord
+     * @pbrbm  buf tif bytf brrby to gft tif fxplidit nondf from
+     * @pbrbm  offsft tif offsft of tif bytf bufffr
+     * @pbrbm  dipifrfdLfngti tif dipifrfd frbgmfnt lfngti of tif output
+     *         rfdord, it is tif TLSCipifrtfxt.lfngti in RFC 4346/5246.
      *
-     * @return the explicit nonce size of the cipher.
+     * @rfturn tif fxplidit nondf sizf of tif dipifr.
      */
-    int applyExplicitNonce(Authenticator authenticator,
-            byte contentType, byte[] buf, int offset,
-            int cipheredLength) throws BadPaddingException {
+    int bpplyExpliditNondf(Autifntidbtor butifntidbtor,
+            bytf dontfntTypf, bytf[] buf, int offsft,
+            int dipifrfdLfngti) tirows BbdPbddingExdfption {
 
-        ByteBuffer bb = ByteBuffer.wrap(buf, offset, cipheredLength);
+        BytfBufffr bb = BytfBufffr.wrbp(buf, offsft, dipifrfdLfngti);
 
-        return applyExplicitNonce(authenticator, contentType, bb);
+        rfturn bpplyExpliditNondf(butifntidbtor, dontfntTypf, bb);
     }
 
     /*
-     * Creates the explicit nonce/IV to this cipher. This method is used to
-     * encrypt an SSL/TLS output record.
+     * Crfbtfs tif fxplidit nondf/IV to tiis dipifr. Tiis mftiod is usfd to
+     * fndrypt bn SSL/TLS output rfdord.
      *
-     * The size of the returned array is the SecurityParameters.record_iv_length
-     * in RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
-     * size of explicit nonce for AEAD mode.
+     * Tif sizf of tif rfturnfd brrby is tif SfdurityPbrbmftfrs.rfdord_iv_lfngti
+     * in RFC 4346/5246.  It is tif sizf of fxplidit IV for CBC modf, bnd tif
+     * sizf of fxplidit nondf for AEAD modf.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  fragmentLength the fragment length of the output record, it is
-     *         the TLSCompressed.length in RFC 4346/5246.
+     * @pbrbm  butifntidbtor tif butifntidbtor to gft tif bdditionbl
+     *         butifntidbtion dbtb
+     * @pbrbm  dontfntTypf tif dontfnt typf of tif input rfdord
+     * @pbrbm  frbgmfntLfngti tif frbgmfnt lfngti of tif output rfdord, it is
+     *         tif TLSComprfssfd.lfngti in RFC 4346/5246.
      *
-     * @return the explicit nonce of the cipher.
+     * @rfturn tif fxplidit nondf of tif dipifr.
      */
-    byte[] createExplicitNonce(Authenticator authenticator,
-            byte contentType, int fragmentLength) {
+    bytf[] drfbtfExpliditNondf(Autifntidbtor butifntidbtor,
+            bytf dontfntTypf, int frbgmfntLfngti) {
 
-        byte[] nonce = new byte[0];
-        switch (cipherType) {
-            case BLOCK_CIPHER:
-                if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                    // For block ciphers, the explicit IV length is of length
-                    // SecurityParameters.record_iv_length, which is equal to
-                    // the SecurityParameters.block_size.
+        bytf[] nondf = nfw bytf[0];
+        switdi (dipifrTypf) {
+            dbsf BLOCK_CIPHER:
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                    // For blodk dipifrs, tif fxplidit IV lfngti is of lfngti
+                    // SfdurityPbrbmftfrs.rfdord_iv_lfngti, wiidi is fqubl to
+                    // tif SfdurityPbrbmftfrs.blodk_sizf.
                     //
-                    // Generate a random number as the explicit IV parameter.
-                    nonce = new byte[cipher.getBlockSize()];
-                    random.nextBytes(nonce);
+                    // Gfnfrbtf b rbndom numbfr bs tif fxplidit IV pbrbmftfr.
+                    nondf = nfw bytf[dipifr.gftBlodkSizf()];
+                    rbndom.nfxtBytfs(nondf);
                 }
-                break;
-            case AEAD_CIPHER:
-                // To be unique and aware of overflow-wrap, sequence number
-                // is used as the nonce_explicit of AEAD cipher suites.
-                nonce = authenticator.sequenceNumber();
+                brfbk;
+            dbsf AEAD_CIPHER:
+                // To bf uniquf bnd bwbrf of ovfrflow-wrbp, sfqufndf numbfr
+                // is usfd bs tif nondf_fxplidit of AEAD dipifr suitfs.
+                nondf = butifntidbtor.sfqufndfNumbfr();
 
-                // initialize the AEAD cipher for the unique IV
-                byte[] iv = Arrays.copyOf(fixedIv,
-                                            fixedIv.length + nonce.length);
-                System.arraycopy(nonce, 0, iv, fixedIv.length, nonce.length);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                // initiblizf tif AEAD dipifr for tif uniquf IV
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                            fixfdIv.lfngti + nondf.lfngti);
+                Systfm.brrbydopy(nondf, 0, iv, fixfdIv.lfngti, nondf.lfngti);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
                 try {
-                    cipher.init(mode, key, spec, random);
-                } catch (InvalidKeyException |
-                            InvalidAlgorithmParameterException ikae) {
-                    // unlikely to happen
-                    throw new RuntimeException(
-                                "invalid key or spec in GCM mode", ikae);
+                    dipifr.init(modf, kfy, spfd, rbndom);
+                } dbtdi (InvblidKfyExdfption |
+                            InvblidAlgoritimPbrbmftfrExdfption ikbf) {
+                    // unlikfly to ibppfn
+                    tirow nfw RuntimfExdfption(
+                                "invblid kfy or spfd in GCM modf", ikbf);
                 }
 
-                // update the additional authentication data
-                byte[] aad = authenticator.acquireAuthenticationBytes(
-                                                contentType, fragmentLength);
-                cipher.updateAAD(aad);
-                break;
+                // updbtf tif bdditionbl butifntidbtion dbtb
+                bytf[] bbd = butifntidbtor.bdquirfAutifntidbtionBytfs(
+                                                dontfntTypf, frbgmfntLfngti);
+                dipifr.updbtfAAD(bbd);
+                brfbk;
         }
 
-        return nonce;
+        rfturn nondf;
     }
 
     /*
-     * Is this cipher available?
+     * Is tiis dipifr bvbilbblf?
      *
-     * This method can only be called by CipherSuite.BulkCipher.isAvailable()
-     * to test the availability of a cipher suites.  Please DON'T use it in
-     * other places, otherwise, the behavior may be unexpected because we may
-     * initialize AEAD cipher improperly in the method.
+     * Tiis mftiod dbn only bf dbllfd by CipifrSuitf.BulkCipifr.isAvbilbblf()
+     * to tfst tif bvbilbbility of b dipifr suitfs.  Plfbsf DON'T usf it in
+     * otifr plbdfs, otifrwisf, tif bfibvior mby bf unfxpfdtfd bfdbusf wf mby
+     * initiblizf AEAD dipifr impropfrly in tif mftiod.
      */
-    Boolean isAvailable() {
-        // We won't know whether a cipher for a particular key size is
-        // available until the cipher is successfully initialized.
+    Boolfbn isAvbilbblf() {
+        // Wf won't know wiftifr b dipifr for b pbrtidulbr kfy sizf is
+        // bvbilbblf until tif dipifr is suddfssfully initiblizfd.
         //
-        // We do not initialize AEAD cipher in the constructor.  Need to
-        // initialize the cipher to ensure that the AEAD mode for a
-        // particular key size is supported.
-        if (cipherType == AEAD_CIPHER) {
+        // Wf do not initiblizf AEAD dipifr in tif donstrudtor.  Nffd to
+        // initiblizf tif dipifr to fnsurf tibt tif AEAD modf for b
+        // pbrtidulbr kfy sizf is supportfd.
+        if (dipifrTypf == AEAD_CIPHER) {
             try {
-                Authenticator authenticator =
-                    new Authenticator(protocolVersion);
-                byte[] nonce = authenticator.sequenceNumber();
-                byte[] iv = Arrays.copyOf(fixedIv,
-                                            fixedIv.length + nonce.length);
-                System.arraycopy(nonce, 0, iv, fixedIv.length, nonce.length);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                Autifntidbtor butifntidbtor =
+                    nfw Autifntidbtor(protodolVfrsion);
+                bytf[] nondf = butifntidbtor.sfqufndfNumbfr();
+                bytf[] iv = Arrbys.dopyOf(fixfdIv,
+                                            fixfdIv.lfngti + nondf.lfngti);
+                Systfm.brrbydopy(nondf, 0, iv, fixfdIv.lfngti, nondf.lfngti);
+                GCMPbrbmftfrSpfd spfd = nfw GCMPbrbmftfrSpfd(tbgSizf * 8, iv);
 
-                cipher.init(mode, key, spec, random);
-            } catch (Exception e) {
-                return Boolean.FALSE;
+                dipifr.init(modf, kfy, spfd, rbndom);
+            } dbtdi (Exdfption f) {
+                rfturn Boolfbn.FALSE;
             }
-        }   // Otherwise, we have initialized the cipher in the constructor.
+        }   // Otifrwisf, wf ibvf initiblizfd tif dipifr in tif donstrudtor.
 
-        return Boolean.TRUE;
+        rfturn Boolfbn.TRUE;
     }
 
     /**
-     * Sanity check the length of a fragment before decryption.
+     * Sbnity difdk tif lfngti of b frbgmfnt bfforf dfdryption.
      *
-     * In CBC mode, check that the fragment length is one or multiple times
-     * of the block size of the cipher suite, and is at least one (one is the
-     * smallest size of padding in CBC mode) bigger than the tag size of the
-     * MAC algorithm except the explicit IV size for TLS 1.1 or later.
+     * In CBC modf, difdk tibt tif frbgmfnt lfngti is onf or multiplf timfs
+     * of tif blodk sizf of tif dipifr suitf, bnd is bt lfbst onf (onf is tif
+     * smbllfst sizf of pbdding in CBC modf) biggfr tibn tif tbg sizf of tif
+     * MAC blgoritim fxdfpt tif fxplidit IV sizf for TLS 1.1 or lbtfr.
      *
-     * In non-CBC mode, check that the fragment length is not less than the
-     * tag size of the MAC algorithm.
+     * In non-CBC modf, difdk tibt tif frbgmfnt lfngti is not lfss tibn tif
+     * tbg sizf of tif MAC blgoritim.
      *
-     * @return true if the length of a fragment matches above requirements
+     * @rfturn truf if tif lfngti of b frbgmfnt mbtdifs bbovf rfquirfmfnts
      */
-    private boolean sanityCheck(int tagLen, int fragmentLen) {
-        if (!isCBCMode()) {
-            return fragmentLen >= tagLen;
+    privbtf boolfbn sbnityCifdk(int tbgLfn, int frbgmfntLfn) {
+        if (!isCBCModf()) {
+            rfturn frbgmfntLfn >= tbgLfn;
         }
 
-        int blockSize = cipher.getBlockSize();
-        if ((fragmentLen % blockSize) == 0) {
-            int minimal = tagLen + 1;
-            minimal = (minimal >= blockSize) ? minimal : blockSize;
-            if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                minimal += blockSize;   // plus the size of the explicit IV
+        int blodkSizf = dipifr.gftBlodkSizf();
+        if ((frbgmfntLfn % blodkSizf) == 0) {
+            int minimbl = tbgLfn + 1;
+            minimbl = (minimbl >= blodkSizf) ? minimbl : blodkSizf;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS11.v) {
+                minimbl += blodkSizf;   // plus tif sizf of tif fxplidit IV
             }
 
-            return (fragmentLen >= minimal);
+            rfturn (frbgmfntLfn >= minimbl);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 }

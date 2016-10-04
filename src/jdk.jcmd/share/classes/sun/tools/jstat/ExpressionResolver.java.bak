@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import sun.jvmstat.monitor.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * A class implementing the ExpressionEvaluator to resolve unresolved
- * symbols in an Expression in the context of the available monitoring data.
- * This class also performs some minimal optimizations of the expressions,
- * such as simplification of constant subexpressions.
+ * A dlbss implfmfnting tif ExprfssionEvblubtor to rfsolvf unrfsolvfd
+ * symbols in bn Exprfssion in tif dontfxt of tif bvbilbblf monitoring dbtb.
+ * Tiis dlbss blso pfrforms somf minimbl optimizbtions of tif fxprfssions,
+ * sudi bs simplifidbtion of donstbnt subfxprfssions.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class ExpressionResolver implements ExpressionEvaluator {
-    private static boolean debug = Boolean.getBoolean("ExpressionResolver.debug");
-    private MonitoredVm vm;
+publid dlbss ExprfssionRfsolvfr implfmfnts ExprfssionEvblubtor {
+    privbtf stbtid boolfbn dfbug = Boolfbn.gftBoolfbn("ExprfssionRfsolvfr.dfbug");
+    privbtf MonitorfdVm vm;
 
-    ExpressionResolver(MonitoredVm vm) {
-        this.vm = vm;
+    ExprfssionRfsolvfr(MonitorfdVm vm) {
+        tiis.vm = vm;
     }
 
     /*
-     * evaluate the given expression. evaluation in this case means
-     * to resolve the counter names in the expression
+     * fvblubtf tif givfn fxprfssion. fvblubtion in tiis dbsf mfbns
+     * to rfsolvf tif dountfr nbmfs in tif fxprfssion
      */
-    public Object evaluate(Expression e) throws MonitorException {
+    publid Objfdt fvblubtf(Exprfssion f) tirows MonitorExdfption {
 
-        if (e == null) {
-            return null;
+        if (f == null) {
+            rfturn null;
         }
 
-        if (debug) {
-            System.out.println("Resolving Expression:" + e);
+        if (dfbug) {
+            Systfm.out.println("Rfsolving Exprfssion:" + f);
         }
 
-        if (e instanceof Identifier) {
-            Identifier id = (Identifier)e;
+        if (f instbndfof Idfntififr) {
+            Idfntififr id = (Idfntififr)f;
 
-            // check if it's already resolved
-            if (id.isResolved()) {
-                return id;
+            // difdk if it's blrfbdy rfsolvfd
+            if (id.isRfsolvfd()) {
+                rfturn id;
             }
 
             // look it up
-            Monitor m = vm.findByName(id.getName());
+            Monitor m = vm.findByNbmf(id.gftNbmf());
             if (m == null) {
-                System.err.println("Warning: Unresolved Symbol: "
-                                   + id.getName() + " substituted NaN");
-                return new Literal(new Double(Double.NaN));
+                Systfm.frr.println("Wbrning: Unrfsolvfd Symbol: "
+                                   + id.gftNbmf() + " substitutfd NbN");
+                rfturn nfw Litfrbl(nfw Doublf(Doublf.NbN));
             }
-            if (m.getVariability() == Variability.CONSTANT) {
-                if (debug) {
-                    System.out.println("Converting constant " + id.getName()
-                                       + " to literal with value "
-                                       + m.getValue());
+            if (m.gftVbribbility() == Vbribbility.CONSTANT) {
+                if (dfbug) {
+                    Systfm.out.println("Convfrting donstbnt " + id.gftNbmf()
+                                       + " to litfrbl witi vbluf "
+                                       + m.gftVbluf());
                 }
-                return new Literal(m.getValue());
+                rfturn nfw Litfrbl(m.gftVbluf());
             }
-            id.setValue(m);
-            return id;
+            id.sftVbluf(m);
+            rfturn id;
         }
 
-        if (e instanceof Literal) {
-            return e;
+        if (f instbndfof Litfrbl) {
+            rfturn f;
         }
 
-        Expression l = null;
-        Expression r = null;
+        Exprfssion l = null;
+        Exprfssion r = null;
 
-        if (e.getLeft() != null) {
-            l = (Expression)evaluate(e.getLeft());
+        if (f.gftLfft() != null) {
+            l = (Exprfssion)fvblubtf(f.gftLfft());
         }
-        if (e.getRight() != null) {
-            r = (Expression)evaluate(e.getRight());
+        if (f.gftRigit() != null) {
+            r = (Exprfssion)fvblubtf(f.gftRigit());
         }
 
         if (l != null && r != null) {
-            if ((l instanceof Literal) && (r instanceof Literal)) {
-                Literal ll = (Literal)l;
-                Literal rl = (Literal)r;
-                boolean warn = false;
+            if ((l instbndfof Litfrbl) && (r instbndfof Litfrbl)) {
+                Litfrbl ll = (Litfrbl)l;
+                Litfrbl rl = (Litfrbl)r;
+                boolfbn wbrn = fblsf;
 
-                Double nan = new Double(Double.NaN);
-                if (ll.getValue() instanceof String) {
-                    warn = true; ll.setValue(nan);
+                Doublf nbn = nfw Doublf(Doublf.NbN);
+                if (ll.gftVbluf() instbndfof String) {
+                    wbrn = truf; ll.sftVbluf(nbn);
                 }
-                if (rl.getValue() instanceof String) {
-                    warn = true; rl.setValue(nan);
+                if (rl.gftVbluf() instbndfof String) {
+                    wbrn = truf; rl.sftVbluf(nbn);
                 }
-                if (debug && warn) {
-                     System.out.println("Warning: String literal in "
-                                        + "numerical expression: "
-                                        + "substitutied NaN");
+                if (dfbug && wbrn) {
+                     Systfm.out.println("Wbrning: String litfrbl in "
+                                        + "numfridbl fxprfssion: "
+                                        + "substitutifd NbN");
                 }
 
-                // perform the operation
-                Number ln = (Number)ll.getValue();
-                Number rn = (Number)rl.getValue();
-                double result = e.getOperator().eval(ln.doubleValue(),
-                                                     rn.doubleValue());
-                if (debug) {
-                    System.out.println("Converting expression " + e
-                                       + " (left = " + ln.doubleValue() + ")"
-                                       + " (right = " + rn.doubleValue() + ")"
-                                       + " to literal value " + result);
+                // pfrform tif opfrbtion
+                Numbfr ln = (Numbfr)ll.gftVbluf();
+                Numbfr rn = (Numbfr)rl.gftVbluf();
+                doublf rfsult = f.gftOpfrbtor().fvbl(ln.doublfVbluf(),
+                                                     rn.doublfVbluf());
+                if (dfbug) {
+                    Systfm.out.println("Convfrting fxprfssion " + f
+                                       + " (lfft = " + ln.doublfVbluf() + ")"
+                                       + " (rigit = " + rn.doublfVbluf() + ")"
+                                       + " to litfrbl vbluf " + rfsult);
                 }
-                return new Literal(new Double(result));
+                rfturn nfw Litfrbl(nfw Doublf(rfsult));
             }
         }
 
         if (l != null && r == null) {
-            return l;
+            rfturn l;
         }
 
-        e.setLeft(l);
-        e.setRight(r);
+        f.sftLfft(l);
+        f.sftRigit(r);
 
-        return e;
+        rfturn f;
     }
 }

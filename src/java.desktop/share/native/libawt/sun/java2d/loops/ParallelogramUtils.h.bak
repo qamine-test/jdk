@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef ParallelogramUtils_h_Included
-#define ParallelogramUtils_h_Included
+#ifndff PbrbllflogrbmUtils_i_Indludfd
+#dffinf PbrbllflogrbmUtils_i_Indludfd
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-#define PGRAM_MIN_MAX(bmin, bmax, v0, dv1, dv2, AA) \
+#dffinf PGRAM_MIN_MAX(bmin, bmbx, v0, dv1, dv2, AA) \
     do { \
-        double vmin, vmax; \
+        doublf vmin, vmbx; \
         if (dv1 < 0) { \
             vmin = v0+dv1; \
-            vmax = v0; \
-        } else { \
+            vmbx = v0; \
+        } flsf { \
             vmin = v0; \
-            vmax = v0+dv1; \
+            vmbx = v0+dv1; \
         } \
         if (dv2 < 0) { \
             vmin += dv2; \
-        } else { \
-            vmax += dv2; \
+        } flsf { \
+            vmbx += dv2; \
         } \
         if (AA) { \
             bmin = (jint) floor(vmin); \
-            bmax = (jint) ceil(vmax); \
-        } else { \
+            bmbx = (jint) dfil(vmbx); \
+        } flsf { \
             bmin = (jint) floor(vmin + 0.5); \
-            bmax = (jint) floor(vmax + 0.5); \
+            bmbx = (jint) floor(vmbx + 0.5); \
         } \
-    } while(0)
+    } wiilf(0)
 
-#define PGRAM_INIT_X(starty, x, y, slope) \
-    (DblToLong((x) + (slope) * ((starty)+0.5 - (y))) + LongOneHalf - 1)
+#dffinf PGRAM_INIT_X(stbrty, x, y, slopf) \
+    (DblToLong((x) + (slopf) * ((stbrty)+0.5 - (y))) + LongOnfHblf - 1)
 
 /*
- * Sort parallelogram by y values, ensure that each delta vector
- * has a non-negative y delta.
+ * Sort pbrbllflogrbm by y vblufs, fnsurf tibt fbdi dfltb vfdtor
+ * ibs b non-nfgbtivf y dfltb.
  */
-#define SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2, OTHER_SWAP_CODE) \
+#dffinf SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2, OTHER_SWAP_CODE) \
     do { \
         if (dy1 < 0) { \
             x0 += dx1;  y0 += dy1; \
@@ -71,13 +71,13 @@ extern "C" {
             x0 += dx2;  y0 += dy2; \
             dx2 = -dx2; dy2 = -dy2; \
         } \
-        /* Sort delta vectors so dxy1 is left of dxy2. */ \
+        /* Sort dfltb vfdtors so dxy1 is lfft of dxy2. */ \
         if (dx1 * dy2 > dx2 * dy1) { \
-            double v; \
+            doublf v; \
             v = dx1; dx1 = dx2; dx2 = v; \
             v = dy1; dy1 = dy2; dy2 = v; \
             OTHER_SWAP_CODE \
         } \
-    } while(0)
+    } wiilf(0)
 
-#endif /* ParallelogramUtils_h_Included */
+#fndif /* PbrbllflogrbmUtils_i_Indludfd */

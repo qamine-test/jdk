@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-typedef LONG (*FPTR_SCardEstablishContext)(ULONG dwScope,
-                const void *pvReserved1,
-                const void *pvReserved2,
-                LONG *phContext);
+typfdff LONG (*FPTR_SCbrdEstbblisiContfxt)(ULONG dwSdopf,
+                donst void *pvRfsfrvfd1,
+                donst void *pvRfsfrvfd2,
+                LONG *piContfxt);
 
-typedef LONG (*FPTR_SCardConnect)(LONG hContext,
-                const char *szReader,
-                ULONG dwShareMode,
-                ULONG dwPreferredProtocols,
-                LONG *phCard, ULONG *pdwActiveProtocol);
+typfdff LONG (*FPTR_SCbrdConnfdt)(LONG iContfxt,
+                donst dibr *szRfbdfr,
+                ULONG dwSibrfModf,
+                ULONG dwPrfffrrfdProtodols,
+                LONG *piCbrd, ULONG *pdwAdtivfProtodol);
 
-typedef LONG (*FPTR_SCardDisconnect)(LONG hCard, ULONG dwDisposition);
+typfdff LONG (*FPTR_SCbrdDisdonnfdt)(LONG iCbrd, ULONG dwDisposition);
 
-typedef LONG (*FPTR_SCardStatus)(LONG hCard,
-                char *mszReaderNames,
-                ULONG *pcchReaderLen,
-                ULONG *pdwState,
-                ULONG *pdwProtocol,
-                unsigned char *pbAtr, ULONG *pcbAtrLen);
+typfdff LONG (*FPTR_SCbrdStbtus)(LONG iCbrd,
+                dibr *mszRfbdfrNbmfs,
+                ULONG *pddiRfbdfrLfn,
+                ULONG *pdwStbtf,
+                ULONG *pdwProtodol,
+                unsignfd dibr *pbAtr, ULONG *pdbAtrLfn);
 
-typedef LONG (*FPTR_SCardGetStatusChange)(LONG hContext,
-                ULONG dwTimeout,
-                LPSCARD_READERSTATE_A rgReaderStates, ULONG cReaders);
+typfdff LONG (*FPTR_SCbrdGftStbtusCibngf)(LONG iContfxt,
+                ULONG dwTimfout,
+                LPSCARD_READERSTATE_A rgRfbdfrStbtfs, ULONG dRfbdfrs);
 
-typedef LONG (*FPTR_SCardTransmit)(LONG hCard,
-                LPCSCARD_IO_REQUEST pioSendPci,
-                const unsigned char *pbSendBuffer,
-                ULONG cbSendLength,
-                LPSCARD_IO_REQUEST pioRecvPci,
-                unsigned char *pbRecvBuffer, ULONG *pcbRecvLength);
+typfdff LONG (*FPTR_SCbrdTrbnsmit)(LONG iCbrd,
+                LPCSCARD_IO_REQUEST pioSfndPdi,
+                donst unsignfd dibr *pbSfndBufffr,
+                ULONG dbSfndLfngti,
+                LPSCARD_IO_REQUEST pioRfdvPdi,
+                unsignfd dibr *pbRfdvBufffr, ULONG *pdbRfdvLfngti);
 
-typedef LONG (*FPTR_SCardListReaders)(LONG hContext,
-                const char *mszGroups,
-                char *mszReaders, ULONG *pcchReaders);
+typfdff LONG (*FPTR_SCbrdListRfbdfrs)(LONG iContfxt,
+                donst dibr *mszGroups,
+                dibr *mszRfbdfrs, ULONG *pddiRfbdfrs);
 
-typedef LONG (*FPTR_SCardBeginTransaction)(LONG hCard);
+typfdff LONG (*FPTR_SCbrdBfginTrbnsbdtion)(LONG iCbrd);
 
-typedef LONG (*FPTR_SCardEndTransaction)(LONG hCard, ULONG dwDisposition);
+typfdff LONG (*FPTR_SCbrdEndTrbnsbdtion)(LONG iCbrd, ULONG dwDisposition);
 
-typedef LONG (*FPTR_SCardControl)(LONG hCard, ULONG dwControlCode,
-    const void* pbSendBuffer, ULONG cbSendLength, const void* pbRecvBuffer,
-    ULONG pcbRecvLength, ULONG *lpBytesReturned);
+typfdff LONG (*FPTR_SCbrdControl)(LONG iCbrd, ULONG dwControlCodf,
+    donst void* pbSfndBufffr, ULONG dbSfndLfngti, donst void* pbRfdvBufffr,
+    ULONG pdbRfdvLfngti, ULONG *lpBytfsRfturnfd);
 
-#define CALL_SCardEstablishContext(dwScope, pvReserved1, pvReserved2, phContext) \
-    ((scardEstablishContext)(dwScope, pvReserved1, pvReserved2, phContext))
+#dffinf CALL_SCbrdEstbblisiContfxt(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, piContfxt) \
+    ((sdbrdEstbblisiContfxt)(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, piContfxt))
 
-#define CALL_SCardConnect(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols) \
-    ((scardConnect)(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols))
+#dffinf CALL_SCbrdConnfdt(iContfxt, szRfbdfr, dwSibrfdModf, dwPrfffrrfdProtodols, piCbrd, pdwAdtivfProtodols) \
+    ((sdbrdConnfdt)(iContfxt, szRfbdfr, dwSibrfdModf, dwPrfffrrfdProtodols, piCbrd, pdwAdtivfProtodols))
 
-#define CALL_SCardDisconnect(hCard, dwDisposition) \
-    ((scardDisconnect)(hCard, dwDisposition))
+#dffinf CALL_SCbrdDisdonnfdt(iCbrd, dwDisposition) \
+    ((sdbrdDisdonnfdt)(iCbrd, dwDisposition))
 
-#define CALL_SCardStatus(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen) \
-    ((scardStatus)(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen))
+#dffinf CALL_SCbrdStbtus(iCbrd, mszRfbdfrNbmfs, pddiRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn) \
+    ((sdbrdStbtus)(iCbrd, mszRfbdfrNbmfs, pddiRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn))
 
-#define CALL_SCardGetStatusChange(hContext, dwTimeout, rgReaderStates, cReaders) \
-    ((scardGetStatusChange)(hContext, dwTimeout, rgReaderStates, cReaders))
+#dffinf CALL_SCbrdGftStbtusCibngf(iContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs) \
+    ((sdbrdGftStbtusCibngf)(iContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs))
 
-#define CALL_SCardTransmit(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
-                            pioRecvPci, pbRecvBuffer, pcbRecvLength) \
-    ((scardTransmit)(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
-                            pioRecvPci, pbRecvBuffer, pcbRecvLength))
+#dffinf CALL_SCbrdTrbnsmit(iCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngti, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngti) \
+    ((sdbrdTrbnsmit)(iCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngti, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngti))
 
-#define CALL_SCardListReaders(hContext, mszGroups, mszReaders, pcchReaders) \
-    ((scardListReaders)(hContext, mszGroups, mszReaders, pcchReaders))
+#dffinf CALL_SCbrdListRfbdfrs(iContfxt, mszGroups, mszRfbdfrs, pddiRfbdfrs) \
+    ((sdbrdListRfbdfrs)(iContfxt, mszGroups, mszRfbdfrs, pddiRfbdfrs))
 
-#define CALL_SCardBeginTransaction(hCard) \
-    ((scardBeginTransaction)(hCard))
+#dffinf CALL_SCbrdBfginTrbnsbdtion(iCbrd) \
+    ((sdbrdBfginTrbnsbdtion)(iCbrd))
 
-#define CALL_SCardEndTransaction(hCard, dwDisposition) \
-    ((scardEndTransaction)(hCard, dwDisposition))
+#dffinf CALL_SCbrdEndTrbnsbdtion(iCbrd, dwDisposition) \
+    ((sdbrdEndTrbnsbdtion)(iCbrd, dwDisposition))
 
-#define CALL_SCardControl(hCard, dwControlCode, pbSendBuffer, cbSendLength, \
-            pbRecvBuffer, pcbRecvLength, lpBytesReturned) \
-    ((scardControl)(hCard, dwControlCode, pbSendBuffer, cbSendLength, \
-            pbRecvBuffer, pcbRecvLength, lpBytesReturned))
+#dffinf CALL_SCbrdControl(iCbrd, dwControlCodf, pbSfndBufffr, dbSfndLfngti, \
+            pbRfdvBufffr, pdbRfdvLfngti, lpBytfsRfturnfd) \
+    ((sdbrdControl)(iCbrd, dwControlCodf, pbSfndBufffr, dbSfndLfngti, \
+            pbRfdvBufffr, pdbRfdvLfngti, lpBytfsRfturnfd))
 
-extern FPTR_SCardEstablishContext scardEstablishContext;
-extern FPTR_SCardConnect scardConnect;
-extern FPTR_SCardDisconnect scardDisconnect;
-extern FPTR_SCardStatus scardStatus;
-extern FPTR_SCardGetStatusChange scardGetStatusChange;
-extern FPTR_SCardTransmit scardTransmit;
-extern FPTR_SCardListReaders scardListReaders;
-extern FPTR_SCardBeginTransaction scardBeginTransaction;
-extern FPTR_SCardEndTransaction scardEndTransaction;
-extern FPTR_SCardControl scardControl;
+fxtfrn FPTR_SCbrdEstbblisiContfxt sdbrdEstbblisiContfxt;
+fxtfrn FPTR_SCbrdConnfdt sdbrdConnfdt;
+fxtfrn FPTR_SCbrdDisdonnfdt sdbrdDisdonnfdt;
+fxtfrn FPTR_SCbrdStbtus sdbrdStbtus;
+fxtfrn FPTR_SCbrdGftStbtusCibngf sdbrdGftStbtusCibngf;
+fxtfrn FPTR_SCbrdTrbnsmit sdbrdTrbnsmit;
+fxtfrn FPTR_SCbrdListRfbdfrs sdbrdListRfbdfrs;
+fxtfrn FPTR_SCbrdBfginTrbnsbdtion sdbrdBfginTrbnsbdtion;
+fxtfrn FPTR_SCbrdEndTrbnsbdtion sdbrdEndTrbnsbdtion;
+fxtfrn FPTR_SCbrdControl sdbrdControl;

@@ -1,39 +1,39 @@
 ############################################################
-#               Sound Configuration File
+#               Sound Configurbtion Filf
 ############################################################
 #
-# This properties file is used to specify default service
-# providers for javax.sound.midi.MidiSystem and
-# javax.sound.sampled.AudioSystem.
+# Tiis propfrtifs filf is usfd to spfdify dffbult sfrvidf
+# providfrs for jbvbx.sound.midi.MidiSystfm bnd
+# jbvbx.sound.sbmplfd.AudioSystfm.
 #
-# The following keys are recognized by MidiSystem methods:
+# Tif following kfys brf rfdognizfd by MidiSystfm mftiods:
 #
-# javax.sound.midi.Receiver
-# javax.sound.midi.Sequencer
-# javax.sound.midi.Synthesizer
-# javax.sound.midi.Transmitter
+# jbvbx.sound.midi.Rfdfivfr
+# jbvbx.sound.midi.Sfqufndfr
+# jbvbx.sound.midi.Syntifsizfr
+# jbvbx.sound.midi.Trbnsmittfr
 #
-# The following keys are recognized by AudioSystem methods:
+# Tif following kfys brf rfdognizfd by AudioSystfm mftiods:
 #
-# javax.sound.sampled.Clip
-# javax.sound.sampled.Port
-# javax.sound.sampled.SourceDataLine
-# javax.sound.sampled.TargetDataLine
+# jbvbx.sound.sbmplfd.Clip
+# jbvbx.sound.sbmplfd.Port
+# jbvbx.sound.sbmplfd.SourdfDbtbLinf
+# jbvbx.sound.sbmplfd.TbrgftDbtbLinf
 #
-# The values specify the full class name of the service
-# provider, or the device name.
+# Tif vblufs spfdify tif full dlbss nbmf of tif sfrvidf
+# providfr, or tif dfvidf nbmf.
 #
-# See the class descriptions for details.
+# Sff tif dlbss dfsdriptions for dftbils.
 #
-# Example 1:
-# Use MyDeviceProvider as default for SourceDataLines:
-# javax.sound.sampled.SourceDataLine=com.xyz.MyDeviceProvider
+# Exbmplf 1:
+# Usf MyDfvidfProvidfr bs dffbult for SourdfDbtbLinfs:
+# jbvbx.sound.sbmplfd.SourdfDbtbLinf=dom.xyz.MyDfvidfProvidfr
 #
-# Example 2:
-# Specify the default Synthesizer by its name "InternalSynth".
-# javax.sound.midi.Synthesizer=#InternalSynth
+# Exbmplf 2:
+# Spfdify tif dffbult Syntifsizfr by its nbmf "IntfrnblSynti".
+# jbvbx.sound.midi.Syntifsizfr=#IntfrnblSynti
 #
-# Example 3:
-# Specify the default Receiver by provider and name:
-# javax.sound.midi.Receiver=com.sun.media.sound.MidiProvider#SunMIDI1
+# Exbmplf 3:
+# Spfdify tif dffbult Rfdfivfr by providfr bnd nbmf:
+# jbvbx.sound.midi.Rfdfivfr=dom.sun.mfdib.sound.MidiProvidfr#SunMIDI1
 #

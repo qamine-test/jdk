@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.jules;
+pbdkbgf sun.jbvb2d.julfs;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class IdleTileCache {
-    final static int IDLE_TILE_SYNC_GRANULARITY = 16;
-    final static ArrayList<JulesTile> idleBuffers = new ArrayList<JulesTile>();
+publid dlbss IdlfTilfCbdif {
+    finbl stbtid int IDLE_TILE_SYNC_GRANULARITY = 16;
+    finbl stbtid ArrbyList<JulfsTilf> idlfBufffrs = nfw ArrbyList<JulfsTilf>();
 
-    ArrayList<JulesTile> idleTileWorkerCacheList = new ArrayList<JulesTile>();
-    ArrayList<JulesTile> idleTileConsumerCacheList =
-              new ArrayList<JulesTile>(IDLE_TILE_SYNC_GRANULARITY);
+    ArrbyList<JulfsTilf> idlfTilfWorkfrCbdifList = nfw ArrbyList<JulfsTilf>();
+    ArrbyList<JulfsTilf> idlfTilfConsumfrCbdifList =
+              nfw ArrbyList<JulfsTilf>(IDLE_TILE_SYNC_GRANULARITY);
 
     /**
-     * Return a cached Tile, if possible from cache.
-     * Allowed caller: Rasterizer/Producer-Thread
+     * Rfturn b dbdifd Tilf, if possiblf from dbdif.
+     * Allowfd dbllfr: Rbstfrizfr/Produdfr-Tirfbd
      *
-     * @param: maxCache - Specify the maximum amount of tiles needed
+     * @pbrbm: mbxCbdif - Spfdify tif mbximum bmount of tilfs nffdfd
      */
-    public JulesTile getIdleTileWorker(int maxCache) {
-        /* Try to fetch idle tiles from the global cache list */
-        if (idleTileWorkerCacheList.size() == 0) {
-            idleTileWorkerCacheList.ensureCapacity(maxCache);
+    publid JulfsTilf gftIdlfTilfWorkfr(int mbxCbdif) {
+        /* Try to fftdi idlf tilfs from tif globbl dbdif list */
+        if (idlfTilfWorkfrCbdifList.sizf() == 0) {
+            idlfTilfWorkfrCbdifList.fnsurfCbpbdity(mbxCbdif);
 
-            synchronized (idleBuffers) {
-                for (int i = 0; i < maxCache && idleBuffers.size() > 0; i++) {
-                    idleTileWorkerCacheList.add(
-                            idleBuffers.remove(idleBuffers.size() - 1));
+            syndironizfd (idlfBufffrs) {
+                for (int i = 0; i < mbxCbdif && idlfBufffrs.sizf() > 0; i++) {
+                    idlfTilfWorkfrCbdifList.bdd(
+                            idlfBufffrs.rfmovf(idlfBufffrs.sizf() - 1));
                 }
             }
         }
 
-        if (idleTileWorkerCacheList.size() > 0) {
-            return idleTileWorkerCacheList.remove(idleTileWorkerCacheList.size() - 1);
+        if (idlfTilfWorkfrCbdifList.sizf() > 0) {
+            rfturn idlfTilfWorkfrCbdifList.rfmovf(idlfTilfWorkfrCbdifList.sizf() - 1);
         }
 
-        return new JulesTile();
+        rfturn nfw JulfsTilf();
     }
 
     /**
-     * Release tile and allow it to be re-used by another thread. Allowed
-     *  Allowed caller: MaskBlit/Consumer-Thread
+     * Rflfbsf tilf bnd bllow it to bf rf-usfd by bnotifr tirfbd. Allowfd
+     *  Allowfd dbllfr: MbskBlit/Consumfr-Tirfbd
      */
-    public void releaseTile(JulesTile tile) {
-        if (tile != null && tile.hasBuffer()) {
-            idleTileConsumerCacheList.add(tile);
+    publid void rflfbsfTilf(JulfsTilf tilf) {
+        if (tilf != null && tilf.ibsBufffr()) {
+            idlfTilfConsumfrCbdifList.bdd(tilf);
 
-            if (idleTileConsumerCacheList.size() > IDLE_TILE_SYNC_GRANULARITY) {
-                synchronized (idleBuffers) {
-                    idleBuffers.addAll(idleTileConsumerCacheList);
+            if (idlfTilfConsumfrCbdifList.sizf() > IDLE_TILE_SYNC_GRANULARITY) {
+                syndironizfd (idlfBufffrs) {
+                    idlfBufffrs.bddAll(idlfTilfConsumfrCbdifList);
                 }
-                idleTileConsumerCacheList.clear();
+                idlfTilfConsumfrCbdifList.dlfbr();
             }
         }
     }
 
     /**
-     * Releases thread-local tiles cached for use by the rasterizing thread.
-     * Allowed caller: Rasterizer/Producer-Thread
+     * Rflfbsfs tirfbd-lodbl tilfs dbdifd for usf by tif rbstfrizing tirfbd.
+     * Allowfd dbllfr: Rbstfrizfr/Produdfr-Tirfbd
      */
-    public void disposeRasterizerResources() {
-        releaseTiles(idleTileWorkerCacheList);
+    publid void disposfRbstfrizfrRfsourdfs() {
+        rflfbsfTilfs(idlfTilfWorkfrCbdifList);
     }
 
     /**
-     * Releases thread-local tiles cached for performance reasons. Allowed
-     * Allowed caller: MaskBlit/Consumer-Thread
+     * Rflfbsfs tirfbd-lodbl tilfs dbdifd for pfrformbndf rfbsons. Allowfd
+     * Allowfd dbllfr: MbskBlit/Consumfr-Tirfbd
      */
-    public void disposeConsumerResources() {
-        releaseTiles(idleTileConsumerCacheList);
+    publid void disposfConsumfrRfsourdfs() {
+        rflfbsfTilfs(idlfTilfConsumfrCbdifList);
     }
 
     /**
-     * Release a list of tiles and allow it to be re-used by another thread.
-     * Thread safe.
+     * Rflfbsf b list of tilfs bnd bllow it to bf rf-usfd by bnotifr tirfbd.
+     * Tirfbd sbff.
      */
-    public void releaseTiles(List<JulesTile> tileList) {
-        if (tileList.size() > 0) {
-            synchronized (idleBuffers) {
-                idleBuffers.addAll(tileList);
+    publid void rflfbsfTilfs(List<JulfsTilf> tilfList) {
+        if (tilfList.sizf() > 0) {
+            syndironizfd (idlfBufffrs) {
+                idlfBufffrs.bddAll(tilfList);
             }
-            tileList.clear();
+            tilfList.dlfbr();
         }
     }
 }

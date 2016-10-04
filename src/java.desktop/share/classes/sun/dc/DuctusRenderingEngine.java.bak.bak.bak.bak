@@ -1,0 +1,836 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.dd;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.Pbth2D;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+
+import sun.bwt.gfom.PbthConsumfr2D;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.pipf.AATilfGfnfrbtor;
+import sun.jbvb2d.pipf.RfndfringEnginf;
+
+import sun.dd.pr.Rbstfrizfr;
+import sun.dd.pr.PbthStrokfr;
+import sun.dd.pr.PbthDbshfr;
+import sun.dd.pr.PRExdfption;
+import sun.dd.pbth.PbthConsumfr;
+import sun.dd.pbth.PbthExdfption;
+import sun.dd.pbth.FbstPbthProdudfr;
+
+publid dlbss DudtusRfndfringEnginf fxtfnds RfndfringEnginf {
+    stbtid finbl flobt PfnUnits = 0.01f;
+    stbtid finbl int MinPfnUnits = 100;
+    stbtid finbl int MinPfnUnitsAA = 20;
+    stbtid finbl flobt MinPfnSizfAA = PfnUnits * MinPfnUnitsAA;
+
+    stbtid finbl flobt UPPER_BND = Flobt.MAX_VALUE / 2.0f;
+    stbtid finbl flobt LOWER_BND = -UPPER_BND;
+
+    privbtf stbtid finbl int RbstfrizfrCbps[] = {
+        Rbstfrizfr.BUTT, Rbstfrizfr.ROUND, Rbstfrizfr.SQUARE
+    };
+
+    privbtf stbtid finbl int RbstfrizfrCornfrs[] = {
+        Rbstfrizfr.MITER, Rbstfrizfr.ROUND, Rbstfrizfr.BEVEL
+    };
+
+    stbtid flobt[] gftTrbnsformMbtrix(AffinfTrbnsform trbnsform) {
+        flobt mbtrix[] = nfw flobt[4];
+        doublf dmbtrix[] = nfw doublf[6];
+        trbnsform.gftMbtrix(dmbtrix);
+        for (int i = 0; i < 4; i++) {
+            mbtrix[i] = (flobt) dmbtrix[i];
+        }
+        rfturn mbtrix;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid Shbpf drfbtfStrokfdShbpf(Shbpf srd,
+                                    flobt width,
+                                    int dbps,
+                                    int join,
+                                    flobt mitfrlimit,
+                                    flobt dbshfs[],
+                                    flobt dbshphbsf)
+    {
+        FillAdbptfr fillfr = nfw FillAdbptfr();
+        PbthStrokfr strokfr = nfw PbthStrokfr(fillfr);
+        PbthDbshfr dbshfr = null;
+
+        try {
+            PbthConsumfr donsumfr;
+
+            strokfr.sftPfnDibmftfr(width);
+            strokfr.sftPfnT4(null);
+            strokfr.sftCbps(RbstfrizfrCbps[dbps]);
+            strokfr.sftCornfrs(RbstfrizfrCornfrs[join], mitfrlimit);
+            if (dbshfs != null) {
+                dbshfr = nfw PbthDbshfr(strokfr);
+                dbshfr.sftDbsh(dbshfs, dbshphbsf);
+                dbshfr.sftDbshT4(null);
+                donsumfr = dbshfr;
+            } flsf {
+                donsumfr = strokfr;
+            }
+
+            fffdConsumfr(donsumfr, srd.gftPbthItfrbtor(null));
+        } finblly {
+            strokfr.disposf();
+            if (dbshfr != null) {
+                dbshfr.disposf();
+            }
+        }
+
+        rfturn fillfr.gftShbpf();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void strokfTo(Shbpf srd,
+                         AffinfTrbnsform trbnsform,
+                         BbsidStrokf bs,
+                         boolfbn thin,
+                         boolfbn normblizf,
+                         boolfbn bntiblibs,
+                         PbthConsumfr2D sr)
+    {
+        PbthStrokfr strokfr = nfw PbthStrokfr(sr);
+        PbthConsumfr donsumfr = strokfr;
+
+        flobt mbtrix[] = null;
+        if (!thin) {
+            strokfr.sftPfnDibmftfr(bs.gftLinfWidth());
+            if (trbnsform != null) {
+                mbtrix = gftTrbnsformMbtrix(trbnsform);
+            }
+            strokfr.sftPfnT4(mbtrix);
+            strokfr.sftPfnFitting(PfnUnits, MinPfnUnits);
+        }
+        strokfr.sftCbps(RbstfrizfrCbps[bs.gftEndCbp()]);
+        strokfr.sftCornfrs(RbstfrizfrCornfrs[bs.gftLinfJoin()],
+                           bs.gftMitfrLimit());
+        flobt[] dbshfs = bs.gftDbshArrby();
+        if (dbshfs != null) {
+            PbthDbshfr dbshfr = nfw PbthDbshfr(strokfr);
+            dbshfr.sftDbsh(dbshfs, bs.gftDbshPhbsf());
+            if (trbnsform != null && mbtrix == null) {
+                mbtrix = gftTrbnsformMbtrix(trbnsform);
+            }
+            dbshfr.sftDbshT4(mbtrix);
+            donsumfr = dbshfr;
+        }
+
+        try {
+            PbthItfrbtor pi = srd.gftPbthItfrbtor(trbnsform);
+
+            fffdConsumfr(pi, donsumfr, normblizf, 0.25f);
+        } dbtdh (PbthExdfption f) {
+            throw nfw IntfrnblError("Unbblf to Strokf shbpf ("+
+                                    f.gftMfssbgf()+")", f);
+        } finblly {
+            whilf (donsumfr != null && donsumfr != sr) {
+                PbthConsumfr nfxt = donsumfr.gftConsumfr();
+                donsumfr.disposf();
+                donsumfr = nfxt;
+            }
+        }
+    }
+
+    /*
+     * Fffd b pbth from b PbthItfrbtor to b Dudtus PbthConsumfr.
+     */
+    publid stbtid void fffdConsumfr(PbthItfrbtor pi, PbthConsumfr donsumfr,
+                                    boolfbn normblizf, flobt norm)
+        throws PbthExdfption
+    {
+        donsumfr.bfginPbth();
+        boolfbn pbthClosfd = fblsf;
+        boolfbn skip = fblsf;
+        boolfbn subpbthStbrtfd = fblsf;
+        flobt mx = 0.0f;
+        flobt my = 0.0f;
+        flobt point[]  = nfw flobt[6];
+        flobt rnd = (0.5f - norm);
+        flobt bx = 0.0f;
+        flobt by = 0.0f;
+
+        whilf (!pi.isDonf()) {
+            int typf = pi.durrfntSfgmfnt(point);
+            if (pbthClosfd == truf) {
+                pbthClosfd = fblsf;
+                if (typf != PbthItfrbtor.SEG_MOVETO) {
+                    // Fordf durrfnt point bbdk to lbst movfto point
+                    donsumfr.bfginSubpbth(mx, my);
+                    subpbthStbrtfd = truf;
+                }
+            }
+            if (normblizf) {
+                int indfx;
+                switdh (typf) {
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    indfx = 4;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    indfx = 2;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    indfx = 0;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                dffbult:
+                    indfx = -1;
+                    brfbk;
+                }
+                if (indfx >= 0) {
+                    flobt ox = point[indfx];
+                    flobt oy = point[indfx+1];
+                    flobt nfwbx = (flobt) Mbth.floor(ox + rnd) + norm;
+                    flobt nfwby = (flobt) Mbth.floor(oy + rnd) + norm;
+                    point[indfx] = nfwbx;
+                    point[indfx+1] = nfwby;
+                    nfwbx -= ox;
+                    nfwby -= oy;
+                    switdh (typf) {
+                    dbsf PbthItfrbtor.SEG_CUBICTO:
+                        point[0] += bx;
+                        point[1] += by;
+                        point[2] += nfwbx;
+                        point[3] += nfwby;
+                        brfbk;
+                    dbsf PbthItfrbtor.SEG_QUADTO:
+                        point[0] += (nfwbx + bx) / 2;
+                        point[1] += (nfwby + by) / 2;
+                        brfbk;
+                    dbsf PbthItfrbtor.SEG_MOVETO:
+                    dbsf PbthItfrbtor.SEG_LINETO:
+                    dbsf PbthItfrbtor.SEG_CLOSE:
+                        brfbk;
+                    }
+                    bx = nfwbx;
+                    by = nfwby;
+                }
+            }
+            switdh (typf) {
+            dbsf PbthItfrbtor.SEG_MOVETO:
+
+                /* Chfdking SEG_MOVETO doordinbtfs if thfy brf out of thf
+                 * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs NbN
+                 * bnd Infinity vblufs. Skipping nfxt pbth sfgmfnt in dbsf of
+                 * invblid dbtb.
+                 */
+                if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                    point[1] < UPPER_BND && point[1] > LOWER_BND)
+                {
+                    mx = point[0];
+                    my = point[1];
+                    donsumfr.bfginSubpbth(mx, my);
+                    subpbthStbrtfd = truf;
+                    skip = fblsf;
+                } flsf {
+                    skip = truf;
+                }
+                brfbk;
+            dbsf PbthItfrbtor.SEG_LINETO:
+                /* Chfdking SEG_LINETO doordinbtfs if thfy brf out of thf
+                 * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt in dbsf
+                 * of invblid dbtb. If sfgmfnt is skippfd its fndpoint
+                 * (if vblid) is usfd to bfgin nfw subpbth.
+                 */
+                if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                    point[1] < UPPER_BND && point[1] > LOWER_BND)
+                {
+                    if (skip) {
+                        donsumfr.bfginSubpbth(point[0], point[1]);
+                        subpbthStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        donsumfr.bppfndLinf(point[0], point[1]);
+                    }
+                }
+                brfbk;
+            dbsf PbthItfrbtor.SEG_QUADTO:
+                // Qubdrbtid durvfs tbkf two points
+
+                /* Chfdking SEG_QUADTO doordinbtfs if thfy brf out of thf
+                 * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt in dbsf
+                 * of invblid fndpoints's dbtb. Equivblfnt to thf SEG_LINETO
+                 * if fndpoint doordinbtfs brf vblid but thfrf brf invblid dbtb
+                 * bmong othfr doordinbtfs
+                 */
+                if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
+                    point[3] < UPPER_BND && point[3] > LOWER_BND)
+                {
+                    if (skip) {
+                        donsumfr.bfginSubpbth(point[2], point[3]);
+                        subpbthStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                            point[1] < UPPER_BND && point[1] > LOWER_BND)
+                        {
+                            donsumfr.bppfndQubdrbtid(point[0], point[1],
+                                                     point[2], point[3]);
+                        } flsf {
+                            donsumfr.bppfndLinf(point[2], point[3]);
+                        }
+                    }
+                }
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                // Cubid durvfs tbkf thrff points
+
+                /* Chfdking SEG_CUBICTO doordinbtfs if thfy brf out of thf
+                 * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs NbN
+                 * bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt in dbsf
+                 * of invblid fndpoints's dbtb. Equivblfnt to thf SEG_LINETO
+                 * if fndpoint doordinbtfs brf vblid but thfrf brf invblid dbtb
+                 * bmong othfr doordinbtfs
+                 */
+                if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
+                    point[5] < UPPER_BND && point[5] > LOWER_BND)
+                {
+                    if (skip) {
+                        donsumfr.bfginSubpbth(point[4], point[5]);
+                        subpbthStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                            point[1] < UPPER_BND && point[1] > LOWER_BND &&
+                            point[2] < UPPER_BND && point[2] > LOWER_BND &&
+                            point[3] < UPPER_BND && point[3] > LOWER_BND)
+                        {
+                            donsumfr.bppfndCubid(point[0], point[1],
+                                                 point[2], point[3],
+                                                 point[4], point[5]);
+                        } flsf {
+                            donsumfr.bppfndLinf(point[4], point[5]);
+                        }
+                    }
+                }
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CLOSE:
+                if (subpbthStbrtfd) {
+                    donsumfr.dlosfdSubpbth();
+                    subpbthStbrtfd = fblsf;
+                    pbthClosfd = truf;
+                }
+                brfbk;
+            }
+            pi.nfxt();
+        }
+
+        donsumfr.fndPbth();
+    }
+
+    privbtf stbtid Rbstfrizfr thfRbstfrizfr;
+
+    publid syndhronizfd stbtid Rbstfrizfr gftRbstfrizfr() {
+        Rbstfrizfr r = thfRbstfrizfr;
+        if (r == null) {
+            r = nfw Rbstfrizfr();
+        } flsf {
+            thfRbstfrizfr = null;
+        }
+        rfturn r;
+    }
+
+    publid syndhronizfd stbtid void dropRbstfrizfr(Rbstfrizfr r) {
+        r.rfsft();
+        thfRbstfrizfr = r;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid flobt gftMinimumAAPfnSizf() {
+        rfturn MinPfnSizfAA;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid AATilfGfnfrbtor gftAATilfGfnfrbtor(Shbpf s,
+                                              AffinfTrbnsform bt,
+                                              Rfgion dlip,
+                                              BbsidStrokf bs,
+                                              boolfbn thin,
+                                              boolfbn normblizf,
+                                              int bbox[])
+    {
+        Rbstfrizfr r = gftRbstfrizfr();
+        PbthItfrbtor pi = s.gftPbthItfrbtor(bt);
+
+        if (bs != null) {
+            flobt mbtrix[] = null;
+            r.sftUsbgf(Rbstfrizfr.STROKE);
+            if (thin) {
+                r.sftPfnDibmftfr(MinPfnSizfAA);
+            } flsf {
+                r.sftPfnDibmftfr(bs.gftLinfWidth());
+                if (bt != null) {
+                    mbtrix = gftTrbnsformMbtrix(bt);
+                    r.sftPfnT4(mbtrix);
+                }
+                r.sftPfnFitting(PfnUnits, MinPfnUnitsAA);
+            }
+            r.sftCbps(RbstfrizfrCbps[bs.gftEndCbp()]);
+            r.sftCornfrs(RbstfrizfrCornfrs[bs.gftLinfJoin()],
+                         bs.gftMitfrLimit());
+            flobt[] dbshfs = bs.gftDbshArrby();
+            if (dbshfs != null) {
+                r.sftDbsh(dbshfs, bs.gftDbshPhbsf());
+                if (bt != null && mbtrix == null) {
+                    mbtrix = gftTrbnsformMbtrix(bt);
+                }
+                r.sftDbshT4(mbtrix);
+            }
+        } flsf {
+            r.sftUsbgf(pi.gftWindingRulf() == PbthItfrbtor.WIND_EVEN_ODD
+                       ? Rbstfrizfr.EOFILL
+                       : Rbstfrizfr.NZFILL);
+        }
+
+        r.bfginPbth();
+        {
+            boolfbn pbthClosfd = fblsf;
+            boolfbn skip = fblsf;
+            boolfbn subpbthStbrtfd = fblsf;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = nfw flobt[6];
+            flobt bx = 0.0f;
+            flobt by = 0.0f;
+
+            whilf (!pi.isDonf()) {
+                int typf = pi.durrfntSfgmfnt(point);
+                if (pbthClosfd == truf) {
+                    pbthClosfd = fblsf;
+                    if (typf != PbthItfrbtor.SEG_MOVETO) {
+                        // Fordf durrfnt point bbdk to lbst movfto point
+                        r.bfginSubpbth(mx, my);
+                        subpbthStbrtfd = truf;
+                    }
+                }
+                if (normblizf) {
+                    int indfx;
+                    switdh (typf) {
+                    dbsf PbthItfrbtor.SEG_CUBICTO:
+                        indfx = 4;
+                        brfbk;
+                    dbsf PbthItfrbtor.SEG_QUADTO:
+                        indfx = 2;
+                        brfbk;
+                    dbsf PbthItfrbtor.SEG_MOVETO:
+                    dbsf PbthItfrbtor.SEG_LINETO:
+                        indfx = 0;
+                        brfbk;
+                    dbsf PbthItfrbtor.SEG_CLOSE:
+                    dffbult:
+                        indfx = -1;
+                        brfbk;
+                    }
+                    if (indfx >= 0) {
+                        flobt ox = point[indfx];
+                        flobt oy = point[indfx+1];
+                        flobt nfwbx = (flobt) Mbth.floor(ox) + 0.5f;
+                        flobt nfwby = (flobt) Mbth.floor(oy) + 0.5f;
+                        point[indfx] = nfwbx;
+                        point[indfx+1] = nfwby;
+                        nfwbx -= ox;
+                        nfwby -= oy;
+                        switdh (typf) {
+                        dbsf PbthItfrbtor.SEG_CUBICTO:
+                            point[0] += bx;
+                            point[1] += by;
+                            point[2] += nfwbx;
+                            point[3] += nfwby;
+                            brfbk;
+                        dbsf PbthItfrbtor.SEG_QUADTO:
+                            point[0] += (nfwbx + bx) / 2;
+                            point[1] += (nfwby + by) / 2;
+                            brfbk;
+                        dbsf PbthItfrbtor.SEG_MOVETO:
+                        dbsf PbthItfrbtor.SEG_LINETO:
+                        dbsf PbthItfrbtor.SEG_CLOSE:
+                            brfbk;
+                        }
+                        bx = nfwbx;
+                        by = nfwby;
+                    }
+                }
+                switdh (typf) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+
+                   /* Chfdking SEG_MOVETO doordinbtfs if thfy brf out of thf
+                    * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs NbN
+                    * bnd Infinity vblufs. Skipping nfxt pbth sfgmfnt in dbsf
+                    * of invblid dbtb.
+                    */
+
+                    if (point[0] < UPPER_BND &&  point[0] > LOWER_BND &&
+                        point[1] < UPPER_BND &&  point[1] > LOWER_BND)
+                    {
+                        mx = point[0];
+                        my = point[1];
+                        r.bfginSubpbth(mx, my);
+                        subpbthStbrtfd = truf;
+                        skip = fblsf;
+                    } flsf {
+                        skip = truf;
+                    }
+                    brfbk;
+
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    /* Chfdking SEG_LINETO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt
+                     * in dbsf of invblid dbtb. If sfgmfnt is skippfd its
+                     * fndpoint (if vblid) is usfd to bfgin nfw subpbth.
+                     */
+                    if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                        point[1] < UPPER_BND && point[1] > LOWER_BND)
+                    {
+                        if (skip) {
+                            r.bfginSubpbth(point[0], point[1]);
+                            subpbthStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
+                            r.bppfndLinf(point[0], point[1]);
+                        }
+                    }
+                    brfbk;
+
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    // Qubdrbtid durvfs tbkf two points
+
+                    /* Chfdking SEG_QUADTO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt
+                     * in dbsf of invblid fndpoints's dbtb. Equivblfnt to thf
+                     * SEG_LINETO if fndpoint doordinbtfs brf vblid but thfrf
+                     * brf invblid dbtb bmong othfr doordinbtfs
+                     */
+                    if (point[2] < UPPER_BND && point[2] > LOWER_BND &&
+                        point[3] < UPPER_BND && point[3] > LOWER_BND)
+                    {
+                        if (skip) {
+                            r.bfginSubpbth(point[2], point[3]);
+                            subpbthStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
+                            if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                                point[1] < UPPER_BND && point[1] > LOWER_BND)
+                            {
+                                r.bppfndQubdrbtid(point[0], point[1],
+                                                  point[2], point[3]);
+                            } flsf {
+                                r.bppfndLinf(point[2], point[3]);
+                            }
+                        }
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    // Cubid durvfs tbkf thrff points
+
+                    /* Chfdking SEG_CUBICTO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf. This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring  durrfnt pbth sfgmfnt
+                     * in dbsf of invblid fndpoints's dbtb. Equivblfnt to thf
+                     * SEG_LINETO if fndpoint doordinbtfs brf vblid but thfrf
+                     * brf invblid dbtb bmong othfr doordinbtfs
+                     */
+
+                    if (point[4] < UPPER_BND && point[4] > LOWER_BND &&
+                        point[5] < UPPER_BND && point[5] > LOWER_BND)
+                    {
+                        if (skip) {
+                            r.bfginSubpbth(point[4], point[5]);
+                            subpbthStbrtfd = truf;
+                            skip = fblsf;
+                        } flsf {
+                            if (point[0] < UPPER_BND && point[0] > LOWER_BND &&
+                                point[1] < UPPER_BND && point[1] > LOWER_BND &&
+                                point[2] < UPPER_BND && point[2] > LOWER_BND &&
+                                point[3] < UPPER_BND && point[3] > LOWER_BND)
+                            {
+                                r.bppfndCubid(point[0], point[1],
+                                              point[2], point[3],
+                                              point[4], point[5]);
+                            } flsf {
+                                r.bppfndLinf(point[4], point[5]);
+                            }
+                        }
+                    }
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    if (subpbthStbrtfd) {
+                        r.dlosfdSubpbth();
+                        subpbthStbrtfd = fblsf;
+                        pbthClosfd = truf;
+                    }
+                    brfbk;
+                }
+                pi.nfxt();
+            }
+        }
+
+        try {
+            r.fndPbth();
+            r.gftAlphbBox(bbox);
+            dlip.dlipBoxToBounds(bbox);
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+                dropRbstfrizfr(r);
+                rfturn null;
+            }
+            r.sftOutputArfb(bbox[0], bbox[1],
+                            bbox[2] - bbox[0],
+                            bbox[3] - bbox[1]);
+        } dbtdh (PRExdfption f) {
+            /*
+             * This fxfption is thrown from thf nbtivf pbrt of thf Dudtus
+             * (only in dbsf of b dfbug build) to indidbtf thbt somf
+             * sfgmfnts of thf pbth hbvf vfry lbrgf doordinbtfs.
+             * Sff 4485298 for morf info.
+             */
+            Systfm.frr.println("DudtusRfndfringEnginf.gftAATilfGfnfrbtor: "+f);
+        }
+
+        rfturn r;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                              doublf dx1, doublf dy1,
+                                              doublf dx2, doublf dy2,
+                                              doublf lw1, doublf lw2,
+                                              Rfgion dlip,
+                                              int bbox[])
+    {
+        // REMIND: Dfbl with lbrgf doordinbtfs!
+        doublf ldx1, ldy1, ldx2, ldy2;
+        boolfbn innfrpgrbm = (lw1 > 0 && lw2 > 0);
+
+        if (innfrpgrbm) {
+            ldx1 = dx1 * lw1;
+            ldy1 = dy1 * lw1;
+            ldx2 = dx2 * lw2;
+            ldy2 = dy2 * lw2;
+            x -= (ldx1 + ldx2) / 2.0;
+            y -= (ldy1 + ldy2) / 2.0;
+            dx1 += ldx1;
+            dy1 += ldy1;
+            dx2 += ldx2;
+            dy2 += ldy2;
+            if (lw1 > 1 && lw2 > 1) {
+                // Innfr pbrbllflogrbm wbs fntirfly donsumfd by strokf...
+                innfrpgrbm = fblsf;
+            }
+        } flsf {
+            ldx1 = ldy1 = ldx2 = ldy2 = 0;
+        }
+
+        Rbstfrizfr r = gftRbstfrizfr();
+
+        r.sftUsbgf(Rbstfrizfr.EOFILL);
+
+        r.bfginPbth();
+        r.bfginSubpbth((flobt) x, (flobt) y);
+        r.bppfndLinf((flobt) (x+dx1), (flobt) (y+dy1));
+        r.bppfndLinf((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+        r.bppfndLinf((flobt) (x+dx2), (flobt) (y+dy2));
+        r.dlosfdSubpbth();
+        if (innfrpgrbm) {
+            x += ldx1 + ldx2;
+            y += ldy1 + ldy2;
+            dx1 -= 2.0 * ldx1;
+            dy1 -= 2.0 * ldy1;
+            dx2 -= 2.0 * ldx2;
+            dy2 -= 2.0 * ldy2;
+            r.bfginSubpbth((flobt) x, (flobt) y);
+            r.bppfndLinf((flobt) (x+dx1), (flobt) (y+dy1));
+            r.bppfndLinf((flobt) (x+dx1+dx2), (flobt) (y+dy1+dy2));
+            r.bppfndLinf((flobt) (x+dx2), (flobt) (y+dy2));
+            r.dlosfdSubpbth();
+        }
+
+        try {
+            r.fndPbth();
+            r.gftAlphbBox(bbox);
+            dlip.dlipBoxToBounds(bbox);
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+                dropRbstfrizfr(r);
+                rfturn null;
+            }
+            r.sftOutputArfb(bbox[0], bbox[1],
+                            bbox[2] - bbox[0],
+                            bbox[3] - bbox[1]);
+        } dbtdh (PRExdfption f) {
+            /*
+             * This fxfption is thrown from thf nbtivf pbrt of thf Dudtus
+             * (only in dbsf of b dfbug build) to indidbtf thbt somf
+             * sfgmfnts of thf pbth hbvf vfry lbrgf doordinbtfs.
+             * Sff 4485298 for morf info.
+             */
+            Systfm.frr.println("DudtusRfndfringEnginf.gftAATilfGfnfrbtor: "+f);
+        }
+
+        rfturn r;
+    }
+
+    privbtf void fffdConsumfr(PbthConsumfr donsumfr, PbthItfrbtor pi) {
+        try {
+            donsumfr.bfginPbth();
+            boolfbn pbthClosfd = fblsf;
+            flobt mx = 0.0f;
+            flobt my = 0.0f;
+            flobt point[]  = nfw flobt[6];
+
+            whilf (!pi.isDonf()) {
+                int typf = pi.durrfntSfgmfnt(point);
+                if (pbthClosfd == truf) {
+                    pbthClosfd = fblsf;
+                    if (typf != PbthItfrbtor.SEG_MOVETO) {
+                        // Fordf durrfnt point bbdk to lbst movfto point
+                        donsumfr.bfginSubpbth(mx, my);
+                    }
+                }
+                switdh (typf) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    mx = point[0];
+                    my = point[1];
+                    donsumfr.bfginSubpbth(point[0], point[1]);
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    donsumfr.bppfndLinf(point[0], point[1]);
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    donsumfr.bppfndQubdrbtid(point[0], point[1],
+                                             point[2], point[3]);
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    donsumfr.bppfndCubid(point[0], point[1],
+                                         point[2], point[3],
+                                         point[4], point[5]);
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    donsumfr.dlosfdSubpbth();
+                    pbthClosfd = truf;
+                    brfbk;
+                }
+                pi.nfxt();
+            }
+
+            donsumfr.fndPbth();
+        } dbtdh (PbthExdfption f) {
+            throw nfw IntfrnblError("Unbblf to Strokf shbpf ("+
+                                    f.gftMfssbgf()+")", f);
+        }
+    }
+
+    privbtf dlbss FillAdbptfr implfmfnts PbthConsumfr {
+        boolfbn dlosfd;
+        Pbth2D.Flobt pbth;
+
+        publid FillAdbptfr() {
+            // Dudtus only supplifs flobt doordinbtfs so
+            // Pbth2D.Doublf is not nfdfssbry hfrf.
+            pbth = nfw Pbth2D.Flobt(Pbth2D.WIND_NON_ZERO);
+        }
+
+        publid Shbpf gftShbpf() {
+            rfturn pbth;
+        }
+
+        publid void disposf() {
+        }
+
+        publid PbthConsumfr gftConsumfr() {
+            rfturn null;
+        }
+
+        publid void bfginPbth() {}
+
+        publid void bfginSubpbth(flobt x0, flobt y0) {
+            if (dlosfd) {
+                pbth.dlosfPbth();
+                dlosfd = fblsf;
+            }
+            pbth.movfTo(x0, y0);
+        }
+
+        publid void bppfndLinf(flobt x1, flobt y1) {
+            pbth.linfTo(x1, y1);
+        }
+
+        publid void bppfndQubdrbtid(flobt xm, flobt ym, flobt x1, flobt y1) {
+            pbth.qubdTo(xm, ym, x1, y1);
+        }
+
+        publid void bppfndCubid(flobt xm, flobt ym,
+                                flobt xn, flobt yn,
+                                flobt x1, flobt y1) {
+            pbth.durvfTo(xm, ym, xn, yn, x1, y1);
+        }
+
+        publid void dlosfdSubpbth() {
+            dlosfd = truf;
+        }
+
+        publid void fndPbth() {
+            if (dlosfd) {
+                pbth.dlosfPbth();
+                dlosfd = fblsf;
+            }
+        }
+
+        publid void usfProxy(FbstPbthProdudfr proxy)
+            throws PbthExdfption
+        {
+            proxy.sfndTo(this);
+        }
+
+        publid long gftCPbthConsumfr() {
+            rfturn 0;
+        }
+    }
+}

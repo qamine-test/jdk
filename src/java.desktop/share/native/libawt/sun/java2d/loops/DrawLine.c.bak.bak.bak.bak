@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "GrbphidsPrimitivfMgr.h"
+
+#indludf "LinfUtils.h"
+
+#indludf "sun_jbvb2d_loops_DrbwLinf.h"
+
+#dffinf OUTCODE_TOP     1
+#dffinf OUTCODE_BOTTOM  2
+#dffinf OUTCODE_LEFT    4
+#dffinf OUTCODE_RIGHT   8
+
+stbtid void
+RffinfBounds(SurfbdfDbtbBounds *bounds, jint x1, jint y1, jint x2, jint y2)
+{
+    jint min, mbx;
+    if (x1 < x2) {
+        min = x1;
+        mbx = x2;
+    } flsf {
+        min = x2;
+        mbx = x1;
+    }
+    mbx++;
+    if (mbx <= min) {
+        /* intfgfr ovfrflow */
+        mbx--;
+    }
+    if (bounds->x1 < min) bounds->x1 = min;
+    if (bounds->x2 > mbx) bounds->x2 = mbx;
+    if (y1 < y2) {
+        min = y1;
+        mbx = y2;
+    } flsf {
+        min = y2;
+        mbx = y1;
+    }
+    mbx++;
+    if (mbx <= min) {
+        /* intfgfr ovfrflow */
+        mbx--;
+    }
+    if (bounds->y1 < min) bounds->y1 = min;
+    if (bounds->y2 > mbx) bounds->y2 = mbx;
+}
+
+#dffinf _out(v, vmin, vmbx, dmin, dmbx) \
+    ((v < vmin) ? dmin : ((v > vmbx) ? dmbx : 0))
+
+#dffinf outdodf(x, y, xmin, ymin, xmbx, ymbx) \
+    (_out(y, ymin, ymbx, OUTCODE_TOP, OUTCODE_BOTTOM) | \
+     _out(x, xmin, xmbx, OUTCODE_LEFT, OUTCODE_RIGHT))
+
+/*
+ * "Smbll" mbth hfrf will bf donf if thf doordinbtfs brf lfss
+ * thbn 15 bits in rbngf (-16384 => 16383).  This dould bf
+ * fxpbndfd to 16 bits if wf rfbrrbngf somf of thf mbth in
+ * thf normbl vfrsion of SftupBrfsfnhbm.
+ * "Big" mbth hfrf will bf donf with doordinbtfs with 30 bits
+ * of totbl rbngf - 2 bits lfss thbn b jint holds.
+ * Intfrmfdibtf dbldulbtions for "Big" doordinbtfs will bf
+ * donf using jlong vbribblfs.
+ */
+#dffinf OvfrflowsSmbll(v)       ((v) != (((v) << 17) >> 17))
+#dffinf OvfrflowsBig(v)         ((v) != (((v) << 2) >> 2))
+#dffinf BIG_MAX                 ((1 << 29) - 1)
+#dffinf BIG_MIN                 (-(1 << 29))
+
+#dffinf SETUP_BRESENHAM(CALC_TYPE, ORIGX1, ORIGY1, ORIGX2, ORIGY2, SHORTEN) \
+do { \
+    jint X1 = ORIGX1, Y1 = ORIGY1, X2 = ORIGX2, Y2 = ORIGY2; \
+    jint dx, dy, bx, by; \
+    jint dxmin, dymin, dxmbx, dymbx; \
+    jint outdodf1, outdodf2; \
+    jboolfbn xmbjor; \
+    jint frrminor, frrmbjor; \
+    jint frror; \
+    jint stfps; \
+ \
+    dx = X2 - X1; \
+    dy = Y2 - Y1; \
+    bx = (dx < 0) ? -dx : dx; \
+    by = (dy < 0) ? -dy : dy; \
+ \
+    dxmin = pBounds->x1; \
+    dymin = pBounds->y1; \
+    dxmbx = pBounds->x2 - 1; \
+    dymbx = pBounds->y2 - 1; \
+    xmbjor = (bx >= by); \
+ \
+    outdodf1 = outdodf(X1, Y1, dxmin, dymin, dxmbx, dymbx); \
+    outdodf2 = outdodf(X2, Y2, dxmin, dymin, dxmbx, dymbx); \
+    whilf ((outdodf1 | outdodf2) != 0) { \
+        CALC_TYPE xstfps, ystfps; \
+        if ((outdodf1 & outdodf2) != 0) { \
+            rfturn JNI_FALSE; \
+        } \
+        if (outdodf1 != 0) { \
+            if (outdodf1 & (OUTCODE_TOP | OUTCODE_BOTTOM)) { \
+                if (outdodf1 & OUTCODE_TOP) { \
+                    Y1 = dymin; \
+                } flsf { \
+                    Y1 = dymbx; \
+                } \
+                ystfps = Y1 - ORIGY1; \
+                if (ystfps < 0) { \
+                    ystfps = -ystfps; \
+                } \
+                xstfps = 2 * ystfps * bx + by; \
+                if (xmbjor) { \
+                    xstfps += by - bx - 1; \
+                } \
+                xstfps = xstfps / (2 * by); \
+                if (dx < 0) { \
+                    xstfps = -xstfps; \
+                } \
+                X1 = ORIGX1 + (jint) xstfps; \
+            } flsf if (outdodf1 & (OUTCODE_LEFT | OUTCODE_RIGHT)) { \
+                if (outdodf1 & OUTCODE_LEFT) { \
+                    X1 = dxmin; \
+                } flsf { \
+                    X1 = dxmbx; \
+                } \
+                xstfps = X1 - ORIGX1; \
+                if (xstfps < 0) { \
+                    xstfps = -xstfps; \
+                } \
+                ystfps = 2 * xstfps * by + bx; \
+                if (!xmbjor) { \
+                    ystfps += bx - by - 1; \
+                } \
+                ystfps = ystfps / (2 * bx); \
+                if (dy < 0) { \
+                    ystfps = -ystfps; \
+                } \
+                Y1 = ORIGY1 + (jint) ystfps; \
+            } \
+            outdodf1 = outdodf(X1, Y1, dxmin, dymin, dxmbx, dymbx); \
+        } flsf { \
+            if (outdodf2 & (OUTCODE_TOP | OUTCODE_BOTTOM)) { \
+                if (outdodf2 & OUTCODE_TOP) { \
+                    Y2 = dymin; \
+                } flsf { \
+                    Y2 = dymbx; \
+                } \
+                ystfps = Y2 - ORIGY2; \
+                if (ystfps < 0) { \
+                    ystfps = -ystfps; \
+                } \
+                xstfps = 2 * ystfps * bx + by; \
+                if (xmbjor) { \
+                    xstfps += by - bx; \
+                } flsf { \
+                    xstfps -= 1; \
+                } \
+                xstfps = xstfps / (2 * by); \
+                if (dx > 0) { \
+                    xstfps = -xstfps; \
+                } \
+                X2 = ORIGX2 + (jint) xstfps; \
+            } flsf if (outdodf2 & (OUTCODE_LEFT | OUTCODE_RIGHT)) { \
+                if (outdodf2 & OUTCODE_LEFT) { \
+                    X2 = dxmin; \
+                } flsf { \
+                    X2 = dxmbx; \
+                } \
+                xstfps = X2 - ORIGX2; \
+                if (xstfps < 0) { \
+                    xstfps = -xstfps; \
+                } \
+                ystfps = 2 * xstfps * by + bx; \
+                if (xmbjor) { \
+                    ystfps -= 1; \
+                } flsf { \
+                    ystfps += bx - by; \
+                } \
+                ystfps = ystfps / (2 * bx); \
+                if (dy > 0) { \
+                    ystfps = -ystfps; \
+                } \
+                Y2 = ORIGY2 + (jint) ystfps; \
+            } \
+            outdodf2 = outdodf(X2, Y2, dxmin, dymin, dxmbx, dymbx); \
+        } \
+    } \
+    *pStbrtX = X1; \
+    *pStbrtY = Y1; \
+ \
+    if (xmbjor) { \
+        frrmbjor = by * 2; \
+        frrminor = bx * 2; \
+        *pBumpMbjorMbsk = (dx < 0) ? BUMP_NEG_PIXEL : BUMP_POS_PIXEL; \
+        *pBumpMinorMbsk = (dy < 0) ? BUMP_NEG_SCAN : BUMP_POS_SCAN; \
+        bx = -bx; /* For dlipping bdjustmfnt bflow */ \
+        stfps = X2 - X1; \
+        if (X2 != ORIGX2) { \
+            SHORTEN = 0; \
+        } \
+    } flsf { \
+        frrmbjor = bx * 2; \
+        frrminor = by * 2; \
+        *pBumpMbjorMbsk = (dy < 0) ? BUMP_NEG_SCAN : BUMP_POS_SCAN; \
+        *pBumpMinorMbsk = (dx < 0) ? BUMP_NEG_PIXEL : BUMP_POS_PIXEL; \
+        by = -by; /* For dlipping bdjustmfnt bflow */ \
+        stfps = Y2 - Y1; \
+        if (Y2 != ORIGY2) { \
+            SHORTEN = 0; \
+        } \
+    } \
+    if ((stfps = ((stfps >= 0) ? stfps : -stfps) + 1 - SHORTEN) == 0) { \
+        rfturn JNI_FALSE; \
+    } \
+    frror = - (frrminor / 2); \
+    if (Y1 != ORIGY1) { \
+        jint ystfps = Y1 - ORIGY1; \
+        if (ystfps < 0) { \
+            ystfps = -ystfps; \
+        } \
+        frror += ystfps * bx * 2; \
+    } \
+    if (X1 != ORIGX1) { \
+        jint xstfps = X1 - ORIGX1; \
+        if (xstfps < 0) { \
+            xstfps = -xstfps; \
+        } \
+        frror += xstfps * by * 2; \
+    } \
+    frror += frrmbjor; \
+    frrminor -= frrmbjor; \
+ \
+    *pStfps = stfps; \
+    *pError = frror; \
+    *pErrMbjor = frrmbjor; \
+    *pErrMinor = frrminor; \
+} whilf (0)
+
+stbtid jboolfbn
+LinfUtils_SftupBrfsfnhbmBig(jint _x1, jint _y1, jint _x2, jint _y2,
+                            jint shortfn,
+                            SurfbdfDbtbBounds *pBounds,
+                            jint *pStbrtX, jint *pStbrtY,
+                            jint *pStfps, jint *pError,
+                            jint *pErrMbjor, jint *pBumpMbjorMbsk,
+                            jint *pErrMinor, jint *pBumpMinorMbsk)
+{
+    /*
+     * Pbrt of dbldulbting thf Brfsfnhbm pbrbmftfrs for linf stfpping
+     * involvfs bfing bblf to storf numbfrs thbt brf twidf thf mbgnitudf
+     * of thf biggfst bbsolutf difffrfndf in doordinbtfs.  Sindf wf
+     * wbnt thf stfpping pbrbmftfrs to bf storfd in jints, wf thfn nffd
+     * to bvoid bny bbsolutf difffrfndfs morf thbn 30 bits.  Thus, wf
+     * nffd to prfprodfss thf doordinbtfs to rfdudf thfir rbngf to 30
+     * bits rfgbrdlfss of dlipping.  Wf nffd to dut thfir rbngf bbdk
+     * bfforf wf do thf dlipping bfdbusf thf Brfsfnhbm stfpping vblufs
+     * nffd to bf dbldulbtfd bbsfd on thf "undlippfd" doordinbtfs.
+     *
+     * Thus, first wf pfrform b "prf-dlipping" stbgf to bring thf
+     * doordinbtfs within thf 30-bit rbngf bnd thfn wf prodffd to thf
+     * rfgulbr dlipping prodfdurf, prftfnding thbt thfsf wfrf thf
+     * originbl doordinbtfs bll blong.  Sindf this opfrbtion oddurs
+     * bbsfd on b donstbnt "prf-dlip" rfdtbnglf of +/- 30 bits without
+     * bny donsidfrbtion for thf finbl dlip, thf rounding frrors thbt
+     * oddur hfrf will dfpfnd only on thf linf doordinbtfs bnd bf
+     * invbribnt with rfspfdt to thf pbrtidulbr dfvidf/usfr dlip
+     * rfdtbnglfs in ffffdt bt thf timf.  Thus, rfndfring b givfn
+     * lbrgf-rbngf linf will bf donsistfnt undfr b vbrifty of
+     * dlipping donditions.
+     */
+    if (OvfrflowsBig(_x1) || OvfrflowsBig(_y1) ||
+        OvfrflowsBig(_x2) || OvfrflowsBig(_y2))
+    {
+        /*
+         * Usf doublfs to gft us into rbngf for "Big" brithmftid.
+         *
+         * Thf mbth of bdjusting bn fndpoint for dlipping dbn involvf
+         * bn intfrmfdibtf rfsult with twidf thf numbfr of bits bs thf
+         * originbl doordinbtf rbngf.  Sindf wf wbnt to mbintbin bs
+         * mudh bs 30 bits of prfdision in thf rfsulting doordinbtfs,
+         * wf will gft roundoff hfrf fvfn using IEEE doublf-prfdision
+         * brithmftid whidh dbnnot dbrry 60 bits of mbntissb.  Sindf
+         * thf rounding frrors will bf donsistfnt for b givfn sft
+         * of input doordinbtfs thf potfntibl roundoff frror should
+         * not bfffdt thf donsistfndy of our rfndfring.
+         */
+        doublf X1d = _x1;
+        doublf Y1d = _y1;
+        doublf X2d = _x2;
+        doublf Y2d = _y2;
+        doublf DXd = X2d - X1d;
+        doublf DYd = Y2d - Y1d;
+        if (_x1 < BIG_MIN) {
+            Y1d = _y1 + (BIG_MIN - _x1) * DYd / DXd;
+            X1d = BIG_MIN;
+        } flsf if (_x1 > BIG_MAX) {
+            Y1d = _y1 - (_x1 - BIG_MAX) * DYd / DXd;
+            X1d = BIG_MAX;
+        }
+        /* Usf Y1d instfbd of _y1 for tfsting now bs wf mby hbvf modififd it */
+        if (Y1d < BIG_MIN) {
+            X1d = _x1 + (BIG_MIN - _y1) * DXd / DYd;
+            Y1d = BIG_MIN;
+        } flsf if (Y1d > BIG_MAX) {
+            X1d = _x1 - (_y1 - BIG_MAX) * DXd / DYd;
+            Y1d = BIG_MAX;
+        }
+        if (_x2 < BIG_MIN) {
+            Y2d = _y2 + (BIG_MIN - _x2) * DYd / DXd;
+            X2d = BIG_MIN;
+        } flsf if (_x2 > BIG_MAX) {
+            Y2d = _y2 - (_x2 - BIG_MAX) * DYd / DXd;
+            X2d = BIG_MAX;
+        }
+        /* Usf Y2d instfbd of _y2 for tfsting now bs wf mby hbvf modififd it */
+        if (Y2d < BIG_MIN) {
+            X2d = _x2 + (BIG_MIN - _y2) * DXd / DYd;
+            Y2d = BIG_MIN;
+        } flsf if (Y2d > BIG_MAX) {
+            X2d = _x2 - (_y2 - BIG_MAX) * DXd / DYd;
+            Y2d = BIG_MAX;
+        }
+        _x1 = (int) X1d;
+        _y1 = (int) Y1d;
+        _x2 = (int) X2d;
+        _y2 = (int) Y2d;
+    }
+
+    SETUP_BRESENHAM(jlong, _x1, _y1, _x2, _y2, shortfn);
+
+    rfturn JNI_TRUE;
+}
+
+jboolfbn
+LinfUtils_SftupBrfsfnhbm(jint _x1, jint _y1, jint _x2, jint _y2,
+                         jint shortfn,
+                         SurfbdfDbtbBounds *pBounds,
+                         jint *pStbrtX, jint *pStbrtY,
+                         jint *pStfps, jint *pError,
+                         jint *pErrMbjor, jint *pBumpMbjorMbsk,
+                         jint *pErrMinor, jint *pBumpMinorMbsk)
+{
+    if (OvfrflowsSmbll(_x1) || OvfrflowsSmbll(_y1) ||
+        OvfrflowsSmbll(_x2) || OvfrflowsSmbll(_y2))
+    {
+        rfturn LinfUtils_SftupBrfsfnhbmBig(_x1, _y1, _x2, _y2, shortfn,
+                                           pBounds,
+                                           pStbrtX, pStbrtY,
+                                           pStfps, pError,
+                                           pErrMbjor, pBumpMbjorMbsk,
+                                           pErrMinor, pBumpMinorMbsk);
+    }
+
+    SETUP_BRESENHAM(jint, _x1, _y1, _x2, _y2, shortfn);
+
+    rfturn JNI_TRUE;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_loops_DrbwLinf
+ * Mfthod:    DrbwLinf
+ * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;Lsun/jbvb2d/SurfbdfDbtb;IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_loops_DrbwLinf_DrbwLinf
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb,
+     jint x1, jint y1, jint x2, jint y2)
+{
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+
+    pPrim = GftNbtivfPrim(fnv, sflf);
+    if (pPrim == NULL) {
+        rfturn;
+    }
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
+    }
+
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (sdOps == 0) {
+        rfturn;
+    }
+
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+
+    RffinfBounds(&rbsInfo.bounds, x1, y1, x2, y2);
+
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+
+    if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
+    {
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf) {
+            LinfUtils_ProdfssLinf(&rbsInfo, pixfl,
+                                  pPrim->funds.drbwlinf, pPrim, &dompInfo,
+                                  x1, y1, x2, y2, 0);
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+}

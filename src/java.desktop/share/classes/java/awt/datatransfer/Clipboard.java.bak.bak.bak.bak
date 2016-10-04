@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.bwt.EvfntQufuf;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Arrbys;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * A dlbss thbt implfmfnts b mfdhbnism to trbnsffr dbtb using
+ * dut/dopy/pbstf opfrbtions.
+ * <p>
+ * {@link FlbvorListfnfr}s mby bf rfgistfrfd on bn instbndf of thf
+ * Clipbobrd dlbss to bf notififd bbout dhbngfs to thf sft of
+ * {@link DbtbFlbvor}s bvbilbblf on this dlipbobrd (sff
+ * {@link #bddFlbvorListfnfr}).
+ *
+ * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+ * @sff jbvb.bwt.Toolkit#gftSystfmSflfdtion
+ *
+ * @buthor      Amy Fowlfr
+ * @buthor      Alfxbndfr Gfrbsimov
+ */
+publid dlbss Clipbobrd {
+
+    String nbmf;
+
+    /**
+     * Thf ownfr of thf dlipbobrd.
+     */
+    protfdtfd ClipbobrdOwnfr ownfr;
+    /**
+     * Contfnts of thf dlipbobrd.
+     */
+    protfdtfd Trbnsffrbblf dontfnts;
+
+    /**
+     * An bggrfgbtf of flbvor listfnfrs rfgistfrfd on this lodbl dlipbobrd.
+     *
+     * @sindf 1.5
+     */
+    privbtf Sft<FlbvorListfnfr> flbvorListfnfrs;
+
+    /**
+     * A sft of <dodf>DbtbFlbvor</dodf>s thbt is bvbilbblf on
+     * this lodbl dlipbobrd. It is usfd for trbdking dhbngfs
+     * of <dodf>DbtbFlbvor</dodf>s bvbilbblf on this dlipbobrd.
+     *
+     * @sindf 1.5
+     */
+    privbtf Sft<DbtbFlbvor> durrfntDbtbFlbvors;
+
+    /**
+     * Crfbtfs b dlipbobrd objfdt.
+     * @pbrbm nbmf for thf dlipbobrd
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+     */
+    publid Clipbobrd(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturns thf nbmf of this dlipbobrd objfdt.
+     * @rfturn thf nbmf of this dlipbobrd objfdt
+     *
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Sfts thf durrfnt dontfnts of thf dlipbobrd to thf spfdififd
+     * trbnsffrbblf objfdt bnd rfgistfrs thf spfdififd dlipbobrd ownfr
+     * bs thf ownfr of thf nfw dontfnts.
+     * <p>
+     * If thfrf is bn fxisting ownfr difffrfnt from thf brgumfnt
+     * <dodf>ownfr</dodf>, thbt ownfr is notififd thbt it no longfr
+     * holds ownfrship of thf dlipbobrd dontfnts vib bn invodbtion
+     * of <dodf>ClipbobrdOwnfr.lostOwnfrship()</dodf> on thbt ownfr.
+     * An implfmfntbtion of <dodf>sftContfnts()</dodf> is frff not
+     * to invokf <dodf>lostOwnfrship()</dodf> dirfdtly from this mfthod.
+     * For fxbmplf, <dodf>lostOwnfrship()</dodf> mby bf invokfd lbtfr on
+     * b difffrfnt thrfbd. Thf sbmf bpplifs to <dodf>FlbvorListfnfr</dodf>s
+     * rfgistfrfd on this dlipbobrd.
+     * <p>
+     * Thf mfthod throws <dodf>IllfgblStbtfExdfption</dodf> if thf dlipbobrd
+     * is durrfntly unbvbilbblf. For fxbmplf, on somf plbtforms, thf systfm
+     * dlipbobrd is unbvbilbblf whilf it is bddfssfd by bnothfr bpplidbtion.
+     *
+     * @pbrbm dontfnts thf trbnsffrbblf objfdt rfprfsfnting thf
+     *                 dlipbobrd dontfnt
+     * @pbrbm ownfr thf objfdt whidh owns thf dlipbobrd dontfnt
+     * @throws IllfgblStbtfExdfption if thf dlipbobrd is durrfntly unbvbilbblf
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+     */
+    publid syndhronizfd void sftContfnts(Trbnsffrbblf dontfnts, ClipbobrdOwnfr ownfr) {
+        finbl ClipbobrdOwnfr oldOwnfr = this.ownfr;
+        finbl Trbnsffrbblf oldContfnts = this.dontfnts;
+
+        this.ownfr = ownfr;
+        this.dontfnts = dontfnts;
+
+        if (oldOwnfr != null && oldOwnfr != ownfr) {
+            EvfntQufuf.invokfLbtfr(() -> oldOwnfr.lostOwnfrship(Clipbobrd.this, oldContfnts));
+        }
+        firfFlbvorsChbngfd();
+    }
+
+    /**
+     * Rfturns b trbnsffrbblf objfdt rfprfsfnting thf durrfnt dontfnts
+     * of thf dlipbobrd.  If thf dlipbobrd durrfntly hbs no dontfnts,
+     * it rfturns <dodf>null</dodf>. Thf pbrbmftfr Objfdt rfqufstor is
+     * not durrfntly usfd.  Thf mfthod throws
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf dlipbobrd is durrfntly
+     * unbvbilbblf.  For fxbmplf, on somf plbtforms, thf systfm dlipbobrd is
+     * unbvbilbblf whilf it is bddfssfd by bnothfr bpplidbtion.
+     *
+     * @pbrbm rfqufstor thf objfdt rfqufsting thf dlip dbtb  (not usfd)
+     * @rfturn thf durrfnt trbnsffrbblf objfdt on thf dlipbobrd
+     * @throws IllfgblStbtfExdfption if thf dlipbobrd is durrfntly unbvbilbblf
+     * @sff jbvb.bwt.Toolkit#gftSystfmClipbobrd
+     */
+    publid syndhronizfd Trbnsffrbblf gftContfnts(Objfdt rfqufstor) {
+        rfturn dontfnts;
+    }
+
+
+    /**
+     * Rfturns bn brrby of <dodf>DbtbFlbvor</dodf>s in whidh thf durrfnt
+     * dontfnts of this dlipbobrd dbn bf providfd. If thfrf brf no
+     * <dodf>DbtbFlbvor</dodf>s bvbilbblf, this mfthod rfturns b zfro-lfngth
+     * brrby.
+     *
+     * @rfturn bn brrby of <dodf>DbtbFlbvor</dodf>s in whidh thf durrfnt
+     *         dontfnts of this dlipbobrd dbn bf providfd
+     *
+     * @throws IllfgblStbtfExdfption if this dlipbobrd is durrfntly unbvbilbblf
+     *
+     * @sindf 1.5
+     */
+    publid DbtbFlbvor[] gftAvbilbblfDbtbFlbvors() {
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            rfturn nfw DbtbFlbvor[0];
+        }
+        rfturn dntnts.gftTrbnsffrDbtbFlbvors();
+    }
+
+    /**
+     * Rfturns whfthfr or not thf durrfnt dontfnts of this dlipbobrd dbn bf
+     * providfd in thf spfdififd <dodf>DbtbFlbvor</dodf>.
+     *
+     * @pbrbm flbvor thf rfqufstfd <dodf>DbtbFlbvor</dodf> for thf dontfnts
+     *
+     * @rfturn <dodf>truf</dodf> if thf durrfnt dontfnts of this dlipbobrd
+     *         dbn bf providfd in thf spfdififd <dodf>DbtbFlbvor</dodf>;
+     *         <dodf>fblsf</dodf> othfrwisf
+     *
+     * @throws NullPointfrExdfption if <dodf>flbvor</dodf> is <dodf>null</dodf>
+     * @throws IllfgblStbtfExdfption if this dlipbobrd is durrfntly unbvbilbblf
+     *
+     * @sindf 1.5
+     */
+    publid boolfbn isDbtbFlbvorAvbilbblf(DbtbFlbvor flbvor) {
+        if (flbvor == null) {
+            throw nfw NullPointfrExdfption("flbvor");
+        }
+
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            rfturn fblsf;
+        }
+        rfturn dntnts.isDbtbFlbvorSupportfd(flbvor);
+    }
+
+    /**
+     * Rfturns bn objfdt rfprfsfnting thf durrfnt dontfnts of this dlipbobrd
+     * in thf spfdififd <dodf>DbtbFlbvor</dodf>.
+     * Thf dlbss of thf objfdt rfturnfd is dffinfd by thf rfprfsfntbtion
+     * dlbss of <dodf>flbvor</dodf>.
+     *
+     * @pbrbm flbvor thf rfqufstfd <dodf>DbtbFlbvor</dodf> for thf dontfnts
+     *
+     * @rfturn bn objfdt rfprfsfnting thf durrfnt dontfnts of this dlipbobrd
+     *         in thf spfdififd <dodf>DbtbFlbvor</dodf>
+     *
+     * @throws NullPointfrExdfption if <dodf>flbvor</dodf> is <dodf>null</dodf>
+     * @throws IllfgblStbtfExdfption if this dlipbobrd is durrfntly unbvbilbblf
+     * @throws UnsupportfdFlbvorExdfption if thf rfqufstfd <dodf>DbtbFlbvor</dodf>
+     *         is not bvbilbblf
+     * @throws IOExdfption if thf dbtb in thf rfqufstfd <dodf>DbtbFlbvor</dodf>
+     *         dbn not bf rftrifvfd
+     *
+     * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+     *
+     * @sindf 1.5
+     */
+    publid Objfdt gftDbtb(DbtbFlbvor flbvor)
+        throws UnsupportfdFlbvorExdfption, IOExdfption {
+        if (flbvor == null) {
+            throw nfw NullPointfrExdfption("flbvor");
+        }
+
+        Trbnsffrbblf dntnts = gftContfnts(null);
+        if (dntnts == null) {
+            throw nfw UnsupportfdFlbvorExdfption(flbvor);
+        }
+        rfturn dntnts.gftTrbnsffrDbtb(flbvor);
+    }
+
+
+    /**
+     * Rfgistfrs thf spfdififd <dodf>FlbvorListfnfr</dodf> to rfdfivf
+     * <dodf>FlbvorEvfnt</dodf>s from this dlipbobrd.
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>, no fxdfption
+     * is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm listfnfr thf listfnfr to bf bddfd
+     *
+     * @sff #rfmovfFlbvorListfnfr
+     * @sff #gftFlbvorListfnfrs
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
+     */
+    publid syndhronizfd void bddFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+
+        if (flbvorListfnfrs == null) {
+            flbvorListfnfrs = nfw HbshSft<>();
+            durrfntDbtbFlbvors = gftAvbilbblfDbtbFlbvorSft();
+        }
+
+        flbvorListfnfrs.bdd(listfnfr);
+    }
+
+    /**
+     * Rfmovfs thf spfdififd <dodf>FlbvorListfnfr</dodf> so thbt it no longfr
+     * rfdfivfs <dodf>FlbvorEvfnt</dodf>s from this <dodf>Clipbobrd</dodf>.
+     * This mfthod pfrforms no fundtion, nor dofs it throw bn fxdfption, if
+     * thf listfnfr spfdififd by thf brgumfnt wbs not prfviously bddfd to this
+     * <dodf>Clipbobrd</dodf>.
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>, no fxdfption
+     * is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm listfnfr thf listfnfr to bf rfmovfd
+     *
+     * @sff #bddFlbvorListfnfr
+     * @sff #gftFlbvorListfnfrs
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
+     */
+    publid syndhronizfd void rfmovfFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null || flbvorListfnfrs == null) {
+            rfturn;
+        }
+        flbvorListfnfrs.rfmovf(listfnfr);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>FlbvorListfnfr</dodf>s durrfntly
+     * rfgistfrfd on this <dodf>Clipbobrd</dodf>.
+     *
+     * @rfturn bll of this dlipbobrd's <dodf>FlbvorListfnfr</dodf>s or bn fmpty
+     *         brrby if no listfnfrs brf durrfntly rfgistfrfd
+     * @sff #bddFlbvorListfnfr
+     * @sff #rfmovfFlbvorListfnfr
+     * @sff FlbvorListfnfr
+     * @sff FlbvorEvfnt
+     * @sindf 1.5
+     */
+    publid syndhronizfd FlbvorListfnfr[] gftFlbvorListfnfrs() {
+        rfturn flbvorListfnfrs == null ? nfw FlbvorListfnfr[0] :
+            flbvorListfnfrs.toArrby(nfw FlbvorListfnfr[flbvorListfnfrs.sizf()]);
+    }
+
+    /**
+     * Chfdks dhbngf of thf <dodf>DbtbFlbvor</dodf>s bnd, if nfdfssbry,
+     * notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for notifidbtion
+     * on <dodf>FlbvorEvfnt</dodf>s.
+     *
+     * @sindf 1.5
+     */
+    privbtf void firfFlbvorsChbngfd() {
+        if (flbvorListfnfrs == null) {
+            rfturn;
+        }
+
+        Sft<DbtbFlbvor> prfvDbtbFlbvors = durrfntDbtbFlbvors;
+        durrfntDbtbFlbvors = gftAvbilbblfDbtbFlbvorSft();
+        if (Objfdts.fqubls(prfvDbtbFlbvors, durrfntDbtbFlbvors)) {
+            rfturn;
+        }
+        flbvorListfnfrs.forEbdh(listfnfr ->
+                EvfntQufuf.invokfLbtfr(() ->
+                        listfnfr.flbvorsChbngfd(nfw FlbvorEvfnt(Clipbobrd.this))));
+    }
+
+    /**
+     * Rfturns b sft of <dodf>DbtbFlbvor</dodf>s durrfntly bvbilbblf
+     * on this dlipbobrd.
+     *
+     * @rfturn b sft of <dodf>DbtbFlbvor</dodf>s durrfntly bvbilbblf
+     *         on this dlipbobrd
+     *
+     * @sindf 1.5
+     */
+    privbtf Sft<DbtbFlbvor> gftAvbilbblfDbtbFlbvorSft() {
+        Sft<DbtbFlbvor> sft = nfw HbshSft<>();
+        Trbnsffrbblf dontfnts = gftContfnts(null);
+        if (dontfnts != null) {
+            DbtbFlbvor[] flbvors = dontfnts.gftTrbnsffrDbtbFlbvors();
+            if (flbvors != null) {
+                sft.bddAll(Arrbys.bsList(flbvors));
+            }
+        }
+        rfturn sft;
+    }
+}

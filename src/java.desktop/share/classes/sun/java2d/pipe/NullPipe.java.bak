@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.font.GlyphVector;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.font.GlypiVfdtor;
+import sun.jbvb2d.SunGrbpiids2D;
 
 /**
- * This is a class that implements all of the basic pixel rendering
- * methods as NOPs.
- * This class is useful for installing as the pipeline when the
- * clip is determined to be empty or when the composite operation is
- * determined to have no effect (i.e. rule == SRC_OVER, extraAlpha == 0.0).
+ * Tiis is b dlbss tibt implfmfnts bll of tif bbsid pixfl rfndfring
+ * mftiods bs NOPs.
+ * Tiis dlbss is usfful for instblling bs tif pipflinf wifn tif
+ * dlip is dftfrminfd to bf fmpty or wifn tif dompositf opfrbtion is
+ * dftfrminfd to ibvf no ffffdt (i.f. rulf == SRC_OVER, fxtrbAlpib == 0.0).
  */
-public class NullPipe
-    implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, TextPipe,
-    DrawImagePipe
+publid dlbss NullPipf
+    implfmfnts PixflDrbwPipf, PixflFillPipf, SibpfDrbwPipf, TfxtPipf,
+    DrbwImbgfPipf
 {
-    public void drawLine(SunGraphics2D sg,
+    publid void drbwLinf(SunGrbpiids2D sg,
                          int x1, int y1, int x2, int y2) {
     }
 
-    public void drawRect(SunGraphics2D sg,
-                         int x, int y, int width, int height) {
+    publid void drbwRfdt(SunGrbpiids2D sg,
+                         int x, int y, int widti, int ifigit) {
     }
 
-    public void fillRect(SunGraphics2D sg,
-                         int x, int y, int width, int height) {
+    publid void fillRfdt(SunGrbpiids2D sg,
+                         int x, int y, int widti, int ifigit) {
     }
 
-    public void drawRoundRect(SunGraphics2D sg,
-                              int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
+    publid void drbwRoundRfdt(SunGrbpiids2D sg,
+                              int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit) {
     }
 
-    public void fillRoundRect(SunGraphics2D sg,
-                              int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
+    publid void fillRoundRfdt(SunGrbpiids2D sg,
+                              int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit) {
     }
 
-    public void drawOval(SunGraphics2D sg,
-                         int x, int y, int width, int height) {
+    publid void drbwOvbl(SunGrbpiids2D sg,
+                         int x, int y, int widti, int ifigit) {
     }
 
-    public void fillOval(SunGraphics2D sg,
-                         int x, int y, int width, int height) {
+    publid void fillOvbl(SunGrbpiids2D sg,
+                         int x, int y, int widti, int ifigit) {
     }
 
-    public void drawArc(SunGraphics2D sg,
-                        int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
+    publid void drbwArd(SunGrbpiids2D sg,
+                        int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf) {
     }
 
-    public void fillArc(SunGraphics2D sg,
-                        int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
+    publid void fillArd(SunGrbpiids2D sg,
+                        int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf) {
     }
 
-    public void drawPolyline(SunGraphics2D sg,
+    publid void drbwPolylinf(SunGrbpiids2D sg,
                              int xPoints[], int yPoints[],
                              int nPoints) {
     }
 
-    public void drawPolygon(SunGraphics2D sg,
+    publid void drbwPolygon(SunGrbpiids2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
     }
 
-    public void fillPolygon(SunGraphics2D sg,
+    publid void fillPolygon(SunGrbpiids2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
+    publid void drbw(SunGrbpiids2D sg, Sibpf s) {
     }
 
-    public void fill(SunGraphics2D sg, Shape s) {
+    publid void fill(SunGrbpiids2D sg, Sibpf s) {
     }
 
-    public void drawString(SunGraphics2D sg, String s, double x, double y) {
+    publid void drbwString(SunGrbpiids2D sg, String s, doublf x, doublf y) {
     }
 
-    public void drawGlyphVector(SunGraphics2D sg, GlyphVector g,
-                                float x, float y) {
+    publid void drbwGlypiVfdtor(SunGrbpiids2D sg, GlypiVfdtor g,
+                                flobt x, flobt y) {
     }
 
-    public void drawChars(SunGraphics2D sg,
-                                char data[], int offset, int length,
+    publid void drbwCibrs(SunGrbpiids2D sg,
+                                dibr dbtb[], int offsft, int lfngti,
                                 int x, int y) {
     }
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer) {
-        return false;
+                             ImbgfObsfrvfr obsfrvfr) {
+        rfturn fblsf;
     }
-    public boolean copyImage(SunGraphics2D sg, Image img,
-                             int dx, int dy, int sx, int sy, int w, int h,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
+                             int dx, int dy, int sx, int sy, int w, int i,
                              Color bgColor,
-                             ImageObserver observer) {
-        return false;
+                             ImbgfObsfrvfr obsfrvfr) {
+        rfturn fblsf;
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
-                              int w, int h,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img, int x, int y,
+                              int w, int i,
                               Color bgColor,
-                              ImageObserver observer) {
-        return false;
+                              ImbgfObsfrvfr obsfrvfr) {
+        rfturn fblsf;
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer) {
-        return false;
+                              ImbgfObsfrvfr obsfrvfr) {
+        rfturn fblsf;
     }
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer) {
-        return false;
+    publid boolfbn trbnsformImbgf(SunGrbpiids2D sg, Imbgf img,
+                                  AffinfTrbnsform btfm,
+                                  ImbgfObsfrvfr obsfrvfr) {
+        rfturn fblsf;
     }
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y) {
+    publid void trbnsformImbgf(SunGrbpiids2D sg, BufffrfdImbgf img,
+                               BufffrfdImbgfOp op, int x, int y) {
     }
 }

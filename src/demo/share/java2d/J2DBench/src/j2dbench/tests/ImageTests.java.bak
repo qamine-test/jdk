@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,946 +30,946 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests;
+pbdkbgf j2dbfndi.tfsts;
 
-import j2dbench.Destinations;
-import j2dbench.Group;
-import j2dbench.Modifier;
-import j2dbench.Option;
-import j2dbench.TestEnvironment;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Canvas;
-import java.awt.AlphaComposite;
-import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ByteLookupTable;
-import java.awt.image.ConvolveOp;
-import java.awt.image.DataBuffer;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Kernel;
-import java.awt.image.LookupOp;
-import java.awt.image.Raster;
-import java.awt.image.RasterOp;
-import java.awt.image.RescaleOp;
-import java.awt.image.ShortLookupTable;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferShort;
-import java.util.ArrayList;
-import javax.swing.JComponent;
+import j2dbfndi.Dfstinbtions;
+import j2dbfndi.Group;
+import j2dbfndi.Modififr;
+import j2dbfndi.Option;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BytfLookupTbblf;
+import jbvb.bwt.imbgf.ConvolvfOp;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Kfrnfl;
+import jbvb.bwt.imbgf.LookupOp;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RbstfrOp;
+import jbvb.bwt.imbgf.RfsdblfOp;
+import jbvb.bwt.imbgf.SiortLookupTbblf;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DbtbBufffrSiort;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.JComponfnt;
 
-public abstract class ImageTests extends GraphicsTests {
-    public static boolean hasVolatileImage;
-    public static boolean hasCompatImage;
+publid bbstrbdt dlbss ImbgfTfsts fxtfnds GrbpiidsTfsts {
+    publid stbtid boolfbn ibsVolbtilfImbgf;
+    publid stbtid boolfbn ibsCompbtImbgf;
 
-    static {
+    stbtid {
         try {
-            hasVolatileImage = (VolatileImage.class != null);
-        } catch (NoClassDefFoundError e) {
+            ibsVolbtilfImbgf = (VolbtilfImbgf.dlbss != null);
+        } dbtdi (NoClbssDffFoundError f) {
         }
         try {
-            new Canvas().getGraphicsConfiguration();
-            hasCompatImage = true;
-        } catch (NoSuchMethodError e) {
+            nfw Cbnvbs().gftGrbpiidsConfigurbtion();
+            ibsCompbtImbgf = truf;
+        } dbtdi (NoSudiMftiodError f) {
         }
     }
 
-    static Group imageroot;
-    static Group.EnableSet imgsrcroot;
-    static Group.EnableSet bufimgsrcroot;
+    stbtid Group imbgfroot;
+    stbtid Group.EnbblfSft imgsrdroot;
+    stbtid Group.EnbblfSft bufimgsrdroot;
 
-    static Group imgtestroot;
-    static Group imgoptionsroot;
+    stbtid Group imgtfstroot;
+    stbtid Group imgoptionsroot;
 
-    static Group imageOpRoot;
-    static Group imageOpOptRoot;
-    static Group imageOpTestRoot;
-    static Group graphicsTestRoot;
-    static Group bufImgOpTestRoot;
-    static Group rasterOpTestRoot;
-    static Option opList;
-    static Option doTouchSrc;
+    stbtid Group imbgfOpRoot;
+    stbtid Group imbgfOpOptRoot;
+    stbtid Group imbgfOpTfstRoot;
+    stbtid Group grbpiidsTfstRoot;
+    stbtid Group bufImgOpTfstRoot;
+    stbtid Group rbstfrOpTfstRoot;
+    stbtid Option opList;
+    stbtid Option doToudiSrd;
 
-    static String transNodeNames[] = {
-        null, "opaque", "bitmask", "translucent",
+    stbtid String trbnsNodfNbmfs[] = {
+        null, "opbquf", "bitmbsk", "trbnsludfnt",
     };
 
-    static String transDescriptions[] = {
-        null, "Opaque", "Bitmask", "Translucent",
+    stbtid String trbnsDfsdriptions[] = {
+        null, "Opbquf", "Bitmbsk", "Trbnsludfnt",
     };
 
-    public static void init() {
-        imageroot = new Group(graphicsroot, "imaging",
-                              "Imaging Benchmarks");
-        imageroot.setTabbed();
+    publid stbtid void init() {
+        imbgfroot = nfw Group(grbpiidsroot, "imbging",
+                              "Imbging Bfndimbrks");
+        imbgfroot.sftTbbbfd();
 
-        imgsrcroot = new Group.EnableSet(imageroot, "src",
-                                         "Image Rendering Sources");
-        imgsrcroot.setBordered(true);
+        imgsrdroot = nfw Group.EnbblfSft(imbgfroot, "srd",
+                                         "Imbgf Rfndfring Sourdfs");
+        imgsrdroot.sftBordfrfd(truf);
 
-        imgoptionsroot = new Group(imgsrcroot, "options",
-                                "Image Source Options");
-        imgoptionsroot.setBordered(true);
-        doTouchSrc =
-            new Option.Toggle(imgoptionsroot, "touchsrc",
-                              "Touch src image before every operation",
-                               Option.Toggle.Off);
+        imgoptionsroot = nfw Group(imgsrdroot, "options",
+                                "Imbgf Sourdf Options");
+        imgoptionsroot.sftBordfrfd(truf);
+        doToudiSrd =
+            nfw Option.Togglf(imgoptionsroot, "toudisrd",
+                              "Toudi srd imbgf bfforf fvfry opfrbtion",
+                               Option.Togglf.Off);
 
-        imgtestroot = new Group(imageroot, "tests",
-                                "Image Rendering Tests");
-        imgtestroot.setBordered(true);
+        imgtfstroot = nfw Group(imbgfroot, "tfsts",
+                                "Imbgf Rfndfring Tfsts");
+        imgtfstroot.sftBordfrfd(truf);
 
-        new OffScreen();
+        nfw OffSdrffn();
 
-        if (hasGraphics2D) {
-            if (hasCompatImage) {
-                new CompatImg(Transparency.OPAQUE);
-                new CompatImg(Transparency.BITMASK);
-                new CompatImg(Transparency.TRANSLUCENT);
+        if (ibsGrbpiids2D) {
+            if (ibsCompbtImbgf) {
+                nfw CompbtImg(Trbnspbrfndy.OPAQUE);
+                nfw CompbtImg(Trbnspbrfndy.BITMASK);
+                nfw CompbtImg(Trbnspbrfndy.TRANSLUCENT);
             }
 
-            if (hasVolatileImage) {
-                new VolatileImg();
+            if (ibsVolbtilfImbgf) {
+                nfw VolbtilfImg();
             }
 
-            bufimgsrcroot =
-                new Group.EnableSet(imgsrcroot, "bufimg",
-                                    "BufferedImage Rendering Sources");
-            new BufImg(BufferedImage.TYPE_INT_RGB);
-            new BufImg(BufferedImage.TYPE_INT_ARGB);
-            new BufImg(BufferedImage.TYPE_BYTE_GRAY);
-            new BufImg(BufferedImage.TYPE_3BYTE_BGR);
-            new BmByteIndexBufImg();
-            new BufImg(BufferedImage.TYPE_INT_RGB, true);
-            new BufImg(BufferedImage.TYPE_INT_ARGB, true);
-            new BufImg(BufferedImage.TYPE_3BYTE_BGR, true);
+            bufimgsrdroot =
+                nfw Group.EnbblfSft(imgsrdroot, "bufimg",
+                                    "BufffrfdImbgf Rfndfring Sourdfs");
+            nfw BufImg(BufffrfdImbgf.TYPE_INT_RGB);
+            nfw BufImg(BufffrfdImbgf.TYPE_INT_ARGB);
+            nfw BufImg(BufffrfdImbgf.TYPE_BYTE_GRAY);
+            nfw BufImg(BufffrfdImbgf.TYPE_3BYTE_BGR);
+            nfw BmBytfIndfxBufImg();
+            nfw BufImg(BufffrfdImbgf.TYPE_INT_RGB, truf);
+            nfw BufImg(BufffrfdImbgf.TYPE_INT_ARGB, truf);
+            nfw BufImg(BufffrfdImbgf.TYPE_3BYTE_BGR, truf);
 
-            imageOpRoot = new Group(imageroot, "imageops",
-                                    "Image Op Benchmarks");
-            imageOpOptRoot = new Group(imageOpRoot, "opts", "Options");
-            imageOpTestRoot = new Group(imageOpRoot, "tests", "Tests");
-            graphicsTestRoot = new Group(imageOpTestRoot, "graphics2d",
-                                         "Graphics2D Tests");
-            bufImgOpTestRoot = new Group(imageOpTestRoot, "bufimgop",
-                                         "BufferedImageOp Tests");
-            rasterOpTestRoot = new Group(imageOpTestRoot, "rasterop",
-                                         "RasterOp Tests");
+            imbgfOpRoot = nfw Group(imbgfroot, "imbgfops",
+                                    "Imbgf Op Bfndimbrks");
+            imbgfOpOptRoot = nfw Group(imbgfOpRoot, "opts", "Options");
+            imbgfOpTfstRoot = nfw Group(imbgfOpRoot, "tfsts", "Tfsts");
+            grbpiidsTfstRoot = nfw Group(imbgfOpTfstRoot, "grbpiids2d",
+                                         "Grbpiids2D Tfsts");
+            bufImgOpTfstRoot = nfw Group(imbgfOpTfstRoot, "bufimgop",
+                                         "BufffrfdImbgfOp Tfsts");
+            rbstfrOpTfstRoot = nfw Group(imbgfOpTfstRoot, "rbstfrop",
+                                         "RbstfrOp Tfsts");
 
-            ArrayList opStrs = new ArrayList();
-            ArrayList opDescs = new ArrayList();
-            opStrs.add("convolve3x3zero");
-            opDescs.add("ConvolveOp (3x3 blur, zero)");
-            opStrs.add("convolve3x3noop");
-            opDescs.add("ConvolveOp (3x3 blur, noop)");
-            opStrs.add("convolve5x5zero");
-            opDescs.add("ConvolveOp (5x5 edge, zero)");
-            opStrs.add("convolve5x5noop");
-            opDescs.add("ConvolveOp (5x5 edge, noop)");
-            opStrs.add("lookup1byte");
-            opDescs.add("LookupOp (1 band, byte)");
-            opStrs.add("lookup1short");
-            opDescs.add("LookupOp (1 band, short)");
-            opStrs.add("lookup3byte");
-            opDescs.add("LookupOp (3 band, byte)");
-            opStrs.add("lookup3short");
-            opDescs.add("LookupOp (3 band, short)");
-            opStrs.add("rescale1band");
-            opDescs.add("RescaleOp (1 band)");
-            opStrs.add("rescale3band");
-            opDescs.add("RescaleOp (3 band)");
-            String[] opStrArr = new String[opStrs.size()];
-            opStrArr = (String[])opStrs.toArray(opStrArr);
-            String[] opDescArr = new String[opDescs.size()];
-            opDescArr = (String[])opDescs.toArray(opDescArr);
+            ArrbyList opStrs = nfw ArrbyList();
+            ArrbyList opDfsds = nfw ArrbyList();
+            opStrs.bdd("donvolvf3x3zfro");
+            opDfsds.bdd("ConvolvfOp (3x3 blur, zfro)");
+            opStrs.bdd("donvolvf3x3noop");
+            opDfsds.bdd("ConvolvfOp (3x3 blur, noop)");
+            opStrs.bdd("donvolvf5x5zfro");
+            opDfsds.bdd("ConvolvfOp (5x5 fdgf, zfro)");
+            opStrs.bdd("donvolvf5x5noop");
+            opDfsds.bdd("ConvolvfOp (5x5 fdgf, noop)");
+            opStrs.bdd("lookup1bytf");
+            opDfsds.bdd("LookupOp (1 bbnd, bytf)");
+            opStrs.bdd("lookup1siort");
+            opDfsds.bdd("LookupOp (1 bbnd, siort)");
+            opStrs.bdd("lookup3bytf");
+            opDfsds.bdd("LookupOp (3 bbnd, bytf)");
+            opStrs.bdd("lookup3siort");
+            opDfsds.bdd("LookupOp (3 bbnd, siort)");
+            opStrs.bdd("rfsdblf1bbnd");
+            opDfsds.bdd("RfsdblfOp (1 bbnd)");
+            opStrs.bdd("rfsdblf3bbnd");
+            opDfsds.bdd("RfsdblfOp (3 bbnd)");
+            String[] opStrArr = nfw String[opStrs.sizf()];
+            opStrArr = (String[])opStrs.toArrby(opStrArr);
+            String[] opDfsdArr = nfw String[opDfsds.sizf()];
+            opDfsdArr = (String[])opDfsds.toArrby(opDfsdArr);
             opList =
-                new Option.ObjectList(imageOpOptRoot,
-                                      "op", "Operation",
+                nfw Option.ObjfdtList(imbgfOpOptRoot,
+                                      "op", "Opfrbtion",
                                       opStrArr, opStrArr,
-                                      opStrArr, opDescArr,
+                                      opStrArr, opDfsdArr,
                                       0x1);
-            ((Option.ObjectList) opList).setNumRows(4);
+            ((Option.ObjfdtList) opList).sftNumRows(4);
 
-            new DrawImageOp();
-            new BufImgOpFilter(false);
-            new BufImgOpFilter(true);
-            new RasterOpFilter(false);
-            new RasterOpFilter(true);
+            nfw DrbwImbgfOp();
+            nfw BufImgOpFiltfr(fblsf);
+            nfw BufImgOpFiltfr(truf);
+            nfw RbstfrOpFiltfr(fblsf);
+            nfw RbstfrOpFiltfr(truf);
         }
 
-        new DrawImage();
-        new DrawImageBg();
-        new DrawImageScale("up", 1.5f);
-        new DrawImageScale("down", .75f);
-        new DrawImageTransform();
+        nfw DrbwImbgf();
+        nfw DrbwImbgfBg();
+        nfw DrbwImbgfSdblf("up", 1.5f);
+        nfw DrbwImbgfSdblf("down", .75f);
+        nfw DrbwImbgfTrbnsform();
     }
 
-    public static class Context extends GraphicsTests.Context {
-        boolean touchSrc;
-        Image src;
-        AffineTransform tx;
+    publid stbtid dlbss Contfxt fxtfnds GrbpiidsTfsts.Contfxt {
+        boolfbn toudiSrd;
+        Imbgf srd;
+        AffinfTrbnsform tx;
     }
 
-    public ImageTests(Group parent, String nodeName, String description) {
-        this(parent, nodeName, description, null);
+    publid ImbgfTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        tiis(pbrfnt, nodfNbmf, dfsdription, null);
     }
 
-    public ImageTests(Group parent, String nodeName, String description,
-                      Modifier.Filter srcFilter)
+    publid ImbgfTfsts(Group pbrfnt, String nodfNbmf, String dfsdription,
+                      Modififr.Filtfr srdFiltfr)
     {
-        super(parent, nodeName, description);
-        addDependency(imgsrcroot, srcFilter);
-        addDependency(doTouchSrc);
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndy(imgsrdroot, srdFiltfr);
+        bddDfpfndfndy(doToudiSrd);
     }
 
-    public GraphicsTests.Context createContext() {
-        return new ImageTests.Context();
+    publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+        rfturn nfw ImbgfTfsts.Contfxt();
     }
 
-    public void initContext(TestEnvironment env, GraphicsTests.Context ctx) {
-        super.initContext(env, ctx);
-        ImageTests.Context ictx = (ImageTests.Context) ctx;
+    publid void initContfxt(TfstEnvironmfnt fnv, GrbpiidsTfsts.Contfxt dtx) {
+        supfr.initContfxt(fnv, dtx);
+        ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
 
-        ictx.src = env.getSrcImage();
-        ictx.touchSrc = env.isEnabled(doTouchSrc);
+        idtx.srd = fnv.gftSrdImbgf();
+        idtx.toudiSrd = fnv.isEnbblfd(doToudiSrd);
     }
 
-    public abstract static class TriStateImageType extends Group {
-        Image theImage;
+    publid bbstrbdt stbtid dlbss TriStbtfImbgfTypf fxtfnds Group {
+        Imbgf tifImbgf;
 
-        public TriStateImageType(Group parent, String nodename, String desc,
-                                 int transparency)
+        publid TriStbtfImbgfTypf(Group pbrfnt, String nodfnbmf, String dfsd,
+                                 int trbnspbrfndy)
         {
-            super(parent, nodename, desc);
-            setHorizontal();
-            new DrawableImage(this, Transparency.OPAQUE, true);
-            new DrawableImage(this, Transparency.BITMASK,
-                              (transparency != Transparency.OPAQUE));
-            new DrawableImage(this, Transparency.TRANSLUCENT,
-                              (transparency == Transparency.TRANSLUCENT));
+            supfr(pbrfnt, nodfnbmf, dfsd);
+            sftHorizontbl();
+            nfw DrbwbblfImbgf(tiis, Trbnspbrfndy.OPAQUE, truf);
+            nfw DrbwbblfImbgf(tiis, Trbnspbrfndy.BITMASK,
+                              (trbnspbrfndy != Trbnspbrfndy.OPAQUE));
+            nfw DrbwbblfImbgf(tiis, Trbnspbrfndy.TRANSLUCENT,
+                              (trbnspbrfndy == Trbnspbrfndy.TRANSLUCENT));
         }
 
-        public Image getImage(TestEnvironment env, int w, int h) {
-            if (theImage == null ||
-                theImage.getWidth(null) != w ||
-                theImage.getHeight(null) != h)
+        publid Imbgf gftImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            if (tifImbgf == null ||
+                tifImbgf.gftWidti(null) != w ||
+                tifImbgf.gftHfigit(null) != i)
             {
-                theImage = makeImage(env, w, h);
+                tifImbgf = mbkfImbgf(fnv, w, i);
             }
-            return theImage;
+            rfturn tifImbgf;
         }
 
-        public abstract Image makeImage(TestEnvironment env, int w, int h);
+        publid bbstrbdt Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i);
     }
 
-    public static class OffScreen extends TriStateImageType {
-        public OffScreen() {
-            super(imgsrcroot, "offscr", "Offscreen Image", Transparency.OPAQUE);
+    publid stbtid dlbss OffSdrffn fxtfnds TriStbtfImbgfTypf {
+        publid OffSdrffn() {
+            supfr(imgsrdroot, "offsdr", "Offsdrffn Imbgf", Trbnspbrfndy.OPAQUE);
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            return c.createImage(w, h);
-        }
-    }
-
-    public static class VolatileImg extends TriStateImageType {
-        public VolatileImg() {
-            super(imgsrcroot, "volimg", "Volatile Image", Transparency.OPAQUE);
-        }
-
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            return c.createVolatileImage(w, h);
+        publid Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            Cbnvbs d = fnv.gftCbnvbs();
+            rfturn d.drfbtfImbgf(w, i);
         }
     }
 
-    public static class CompatImg extends TriStateImageType {
-        int transparency;
-
-        public CompatImg(int transparency) {
-            super(imgsrcroot,
-                  Destinations.CompatImg.ShortNames[transparency],
-                  Destinations.CompatImg.LongDescriptions[transparency],
-                  transparency);
-            this.transparency = transparency;
+    publid stbtid dlbss VolbtilfImg fxtfnds TriStbtfImbgfTypf {
+        publid VolbtilfImg() {
+            supfr(imgsrdroot, "volimg", "Volbtilf Imbgf", Trbnspbrfndy.OPAQUE);
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            Canvas c = env.getCanvas();
-            GraphicsConfiguration gc = c.getGraphicsConfiguration();
-            return gc.createCompatibleImage(w, h, transparency);
+        publid Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            Cbnvbs d = fnv.gftCbnvbs();
+            rfturn d.drfbtfVolbtilfImbgf(w, i);
         }
     }
 
-    public static class BufImg extends TriStateImageType {
-        int type;
-        boolean unmanaged;
+    publid stbtid dlbss CompbtImg fxtfnds TriStbtfImbgfTypf {
+        int trbnspbrfndy;
 
-        static int Transparencies[] = {
-            Transparency.TRANSLUCENT, // "custom",
-            Transparency.OPAQUE,      // "IntXrgb",
-            Transparency.TRANSLUCENT, // "IntArgb",
-            Transparency.TRANSLUCENT, // "IntArgbPre",
-            Transparency.OPAQUE,      // "IntXbgr",
-            Transparency.OPAQUE,      // "3ByteBgr",
-            Transparency.TRANSLUCENT, // "4ByteAbgr",
-            Transparency.TRANSLUCENT, // "4ByteAbgrPre",
-            Transparency.OPAQUE,      // "Short565",
-            Transparency.OPAQUE,      // "Short555",
-            Transparency.OPAQUE,      // "ByteGray",
-            Transparency.OPAQUE,      // "ShortGray",
-            Transparency.OPAQUE,      // "ByteBinary",
-            Transparency.OPAQUE,      // "ByteIndexed",
+        publid CompbtImg(int trbnspbrfndy) {
+            supfr(imgsrdroot,
+                  Dfstinbtions.CompbtImg.SiortNbmfs[trbnspbrfndy],
+                  Dfstinbtions.CompbtImg.LongDfsdriptions[trbnspbrfndy],
+                  trbnspbrfndy);
+            tiis.trbnspbrfndy = trbnspbrfndy;
+        }
+
+        publid Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            Cbnvbs d = fnv.gftCbnvbs();
+            GrbpiidsConfigurbtion gd = d.gftGrbpiidsConfigurbtion();
+            rfturn gd.drfbtfCompbtiblfImbgf(w, i, trbnspbrfndy);
+        }
+    }
+
+    publid stbtid dlbss BufImg fxtfnds TriStbtfImbgfTypf {
+        int typf;
+        boolfbn unmbnbgfd;
+
+        stbtid int Trbnspbrfndifs[] = {
+            Trbnspbrfndy.TRANSLUCENT, // "dustom",
+            Trbnspbrfndy.OPAQUE,      // "IntXrgb",
+            Trbnspbrfndy.TRANSLUCENT, // "IntArgb",
+            Trbnspbrfndy.TRANSLUCENT, // "IntArgbPrf",
+            Trbnspbrfndy.OPAQUE,      // "IntXbgr",
+            Trbnspbrfndy.OPAQUE,      // "3BytfBgr",
+            Trbnspbrfndy.TRANSLUCENT, // "4BytfAbgr",
+            Trbnspbrfndy.TRANSLUCENT, // "4BytfAbgrPrf",
+            Trbnspbrfndy.OPAQUE,      // "Siort565",
+            Trbnspbrfndy.OPAQUE,      // "Siort555",
+            Trbnspbrfndy.OPAQUE,      // "BytfGrby",
+            Trbnspbrfndy.OPAQUE,      // "SiortGrby",
+            Trbnspbrfndy.OPAQUE,      // "BytfBinbry",
+            Trbnspbrfndy.OPAQUE,      // "BytfIndfxfd",
         };
 
-        public BufImg(int type) {
-            this(type, false);
+        publid BufImg(int typf) {
+            tiis(typf, fblsf);
         }
 
-        public BufImg(int type, boolean unmanaged) {
-            super(bufimgsrcroot,
-                  (unmanaged ? "unmanaged" : "") +
-                  Destinations.BufImg.ShortNames[type],
-                  (unmanaged ? "Unmanaged " : "") +
-                  Destinations.BufImg.Descriptions[type],
-                  Transparencies[type]);
-            this.type = type;
-            this.unmanaged = unmanaged;
+        publid BufImg(int typf, boolfbn unmbnbgfd) {
+            supfr(bufimgsrdroot,
+                  (unmbnbgfd ? "unmbnbgfd" : "") +
+                  Dfstinbtions.BufImg.SiortNbmfs[typf],
+                  (unmbnbgfd ? "Unmbnbgfd " : "") +
+                  Dfstinbtions.BufImg.Dfsdriptions[typf],
+                  Trbnspbrfndifs[typf]);
+            tiis.typf = typf;
+            tiis.unmbnbgfd = unmbnbgfd;
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            BufferedImage img = new BufferedImage(w, h, type);
-            if (unmanaged) {
-                DataBuffer db = img.getRaster().getDataBuffer();
-                if (db instanceof DataBufferInt) {
-                    ((DataBufferInt)db).getData();
-                } else if (db instanceof DataBufferShort) {
-                    ((DataBufferShort)db).getData();
-                } else if (db instanceof DataBufferByte) {
-                    ((DataBufferByte)db).getData();
-                } else {
+        publid Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            BufffrfdImbgf img = nfw BufffrfdImbgf(w, i, typf);
+            if (unmbnbgfd) {
+                DbtbBufffr db = img.gftRbstfr().gftDbtbBufffr();
+                if (db instbndfof DbtbBufffrInt) {
+                    ((DbtbBufffrInt)db).gftDbtb();
+                } flsf if (db instbndfof DbtbBufffrSiort) {
+                    ((DbtbBufffrSiort)db).gftDbtb();
+                } flsf if (db instbndfof DbtbBufffrBytf) {
+                    ((DbtbBufffrBytf)db).gftDbtb();
+                } flsf {
                     try {
-                        img.setAccelerationPriority(0.0f);
-                    } catch (Throwable e) {}
+                        img.sftAddflfrbtionPriority(0.0f);
+                    } dbtdi (Tirowbblf f) {}
                 }
             }
-            return img;
+            rfturn img;
         }
     }
 
-    public static class BmByteIndexBufImg extends TriStateImageType {
-        static IndexColorModel icm;
+    publid stbtid dlbss BmBytfIndfxBufImg fxtfnds TriStbtfImbgfTypf {
+        stbtid IndfxColorModfl idm;
 
-        public BmByteIndexBufImg() {
-            super(bufimgsrcroot,
-                  "ByteIndexedBm",
-                  "8-bit Transparent Indexed Image",
-                  Transparency.BITMASK);
+        publid BmBytfIndfxBufImg() {
+            supfr(bufimgsrdroot,
+                  "BytfIndfxfdBm",
+                  "8-bit Trbnspbrfnt Indfxfd Imbgf",
+                  Trbnspbrfndy.BITMASK);
         }
 
-        public Image makeImage(TestEnvironment env, int w, int h) {
-            if (icm == null) {
-                int cmap[] = new int[256];
-                // Workaround for transparency rendering bug in earlier VMs
-                // Can only render transparency if first cmap entry is 0x0
-                // This bug is fixed in 1.4.2 (Mantis)
+        publid Imbgf mbkfImbgf(TfstEnvironmfnt fnv, int w, int i) {
+            if (idm == null) {
+                int dmbp[] = nfw int[256];
+                // Workbround for trbnspbrfndy rfndfring bug in fbrlifr VMs
+                // Cbn only rfndfr trbnspbrfndy if first dmbp fntry is 0x0
+                // Tiis bug is fixfd in 1.4.2 (Mbntis)
                 int i = 1;
                 for (int r = 0; r < 256; r += 51) {
                     for (int g = 0; g < 256; g += 51) {
                         for (int b = 0; b < 256; b += 51) {
-                            cmap[i++] = (0xff<<24)|(r<<16)|(g<<8)|b;
+                            dmbp[i++] = (0xff<<24)|(r<<16)|(g<<8)|b;
                         }
                     }
                 }
 
-                // Leave the rest of the colormap transparent
+                // Lfbvf tif rfst of tif dolormbp trbnspbrfnt
 
-                icm = new IndexColorModel(8, 256, cmap, 0, true, 255,
-                                          DataBuffer.TYPE_BYTE);
+                idm = nfw IndfxColorModfl(8, 256, dmbp, 0, truf, 255,
+                                          DbtbBufffr.TYPE_BYTE);
             }
-            return new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED,
-                                     icm);
+            rfturn nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_BYTE_INDEXED,
+                                     idm);
         }
     }
 
-    public static class DrawableImage extends Option.Enable {
-        static Color transparentBlack  = makeAlphaColor(Color.black, 0);
-        static Color translucentRed    = makeAlphaColor(Color.red, 192);
-        static Color translucentGreen  = makeAlphaColor(Color.green, 128);
-        static Color translucentYellow = makeAlphaColor(Color.yellow, 64);
+    publid stbtid dlbss DrbwbblfImbgf fxtfnds Option.Enbblf {
+        stbtid Color trbnspbrfntBlbdk  = mbkfAlpibColor(Color.blbdk, 0);
+        stbtid Color trbnsludfntRfd    = mbkfAlpibColor(Color.rfd, 192);
+        stbtid Color trbnsludfntGrffn  = mbkfAlpibColor(Color.grffn, 128);
+        stbtid Color trbnsludfntYfllow = mbkfAlpibColor(Color.yfllow, 64);
 
-        static Color colorsets[][] = new Color[][] {
+        stbtid Color dolorsfts[][] = nfw Color[][] {
             null,
             {
-                Color.blue,       Color.red,
-                Color.green,      Color.yellow,
-                Color.blue,
+                Color.bluf,       Color.rfd,
+                Color.grffn,      Color.yfllow,
+                Color.bluf,
             },
             {
-                transparentBlack, Color.red,
-                Color.green,      transparentBlack,
-                transparentBlack,
+                trbnspbrfntBlbdk, Color.rfd,
+                Color.grffn,      trbnspbrfntBlbdk,
+                trbnspbrfntBlbdk,
             },
             {
-                Color.blue,       translucentRed,
-                translucentGreen, translucentYellow,
-                translucentRed,
+                Color.bluf,       trbnsludfntRfd,
+                trbnsludfntGrffn, trbnsludfntYfllow,
+                trbnsludfntRfd,
             },
         };
 
-        TriStateImageType tsit;
-        int transparency;
-        boolean possible;
+        TriStbtfImbgfTypf tsit;
+        int trbnspbrfndy;
+        boolfbn possiblf;
 
-        public DrawableImage(TriStateImageType parent, int transparency,
-                             boolean possible)
+        publid DrbwbblfImbgf(TriStbtfImbgfTypf pbrfnt, int trbnspbrfndy,
+                             boolfbn possiblf)
         {
-            super(parent,
-                  transNodeNames[transparency],
-                  transDescriptions[transparency],
-                  false);
-            this.tsit = parent;
-            this.transparency = transparency;
-            this.possible = possible;
+            supfr(pbrfnt,
+                  trbnsNodfNbmfs[trbnspbrfndy],
+                  trbnsDfsdriptions[trbnspbrfndy],
+                  fblsf);
+            tiis.tsit = pbrfnt;
+            tiis.trbnspbrfndy = trbnspbrfndy;
+            tiis.possiblf = possiblf;
         }
 
-        public int getTransparency() {
-            return transparency;
+        publid int gftTrbnspbrfndy() {
+            rfturn trbnspbrfndy;
         }
 
-        public JComponent getJComponent() {
-            JComponent comp = super.getJComponent();
-            comp.setEnabled(possible);
-            return comp;
+        publid JComponfnt gftJComponfnt() {
+            JComponfnt domp = supfr.gftJComponfnt();
+            domp.sftEnbblfd(possiblf);
+            rfturn domp;
         }
 
-        public String setValueFromString(String value) {
-            if (!possible && !value.equalsIgnoreCase("disabled")) {
-                return "Bad Value";
+        publid String sftVblufFromString(String vbluf) {
+            if (!possiblf && !vbluf.fqublsIgnorfCbsf("disbblfd")) {
+                rfturn "Bbd Vbluf";
             }
-            return super.setValueFromString(value);
+            rfturn supfr.sftVblufFromString(vbluf);
         }
 
-        public void modifyTest(TestEnvironment env) {
-            int size = env.getIntValue(sizeList);
-            Image src = tsit.getImage(env, size, size);
-            Graphics g = src.getGraphics();
-            if (hasGraphics2D) {
-                ((Graphics2D) g).setComposite(AlphaComposite.Src);
+        publid void modifyTfst(TfstEnvironmfnt fnv) {
+            int sizf = fnv.gftIntVbluf(sizfList);
+            Imbgf srd = tsit.gftImbgf(fnv, sizf, sizf);
+            Grbpiids g = srd.gftGrbpiids();
+            if (ibsGrbpiids2D) {
+                ((Grbpiids2D) g).sftCompositf(AlpibCompositf.Srd);
             }
-            if (size == 1) {
-                g.setColor(colorsets[transparency][4]);
-                g.fillRect(0, 0, 1, 1);
-            } else {
-                int mid = size/2;
-                g.setColor(colorsets[transparency][0]);
-                g.fillRect(0, 0, mid, mid);
-                g.setColor(colorsets[transparency][1]);
-                g.fillRect(mid, 0, size-mid, mid);
-                g.setColor(colorsets[transparency][2]);
-                g.fillRect(0, mid, mid, size-mid);
-                g.setColor(colorsets[transparency][3]);
-                g.fillRect(mid, mid, size-mid, size-mid);
+            if (sizf == 1) {
+                g.sftColor(dolorsfts[trbnspbrfndy][4]);
+                g.fillRfdt(0, 0, 1, 1);
+            } flsf {
+                int mid = sizf/2;
+                g.sftColor(dolorsfts[trbnspbrfndy][0]);
+                g.fillRfdt(0, 0, mid, mid);
+                g.sftColor(dolorsfts[trbnspbrfndy][1]);
+                g.fillRfdt(mid, 0, sizf-mid, mid);
+                g.sftColor(dolorsfts[trbnspbrfndy][2]);
+                g.fillRfdt(0, mid, mid, sizf-mid);
+                g.sftColor(dolorsfts[trbnspbrfndy][3]);
+                g.fillRfdt(mid, mid, sizf-mid, sizf-mid);
             }
-            g.dispose();
-            env.setSrcImage(src);
+            g.disposf();
+            fnv.sftSrdImbgf(srd);
         }
 
-        public void restoreTest(TestEnvironment env) {
-            env.setSrcImage(null);
+        publid void rfstorfTfst(TfstEnvironmfnt fnv) {
+            fnv.sftSrdImbgf(null);
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return "from "+getModifierValueName(value);
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn "from "+gftModififrVblufNbmf(vbluf);
         }
 
-        public String getModifierValueName(Object val) {
-            return getParent().getNodeName()+" "+getNodeName();
+        publid String gftModififrVblufNbmf(Objfdt vbl) {
+            rfturn gftPbrfnt().gftNodfNbmf()+" "+gftNodfNbmf();
         }
     }
 
-    public static class DrawImage extends ImageTests {
-        public DrawImage() {
-            super(imgtestroot, "drawimage", "drawImage(img, x, y, obs);");
+    publid stbtid dlbss DrbwImbgf fxtfnds ImbgfTfsts {
+        publid DrbwImbgf() {
+            supfr(imgtfstroot, "drbwimbgf", "drbwImbgf(img, x, y, obs);");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
-            int x = ictx.initX;
-            int y = ictx.initY;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            if (ictx.animate) {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
+            int x = idtx.initX;
+            int y = idtx.initY;
+            Grbpiids g = idtx.grbpiids;
+            g.trbnslbtf(idtx.orgX, idtx.orgY);
+            Imbgf srd = idtx.srd;
+            if (idtx.bnimbtf) {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
                 }
-            } else {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+            } flsf {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, null);
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, null);
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, null);
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, null);
+                    } wiilf (--numRfps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbtf(-idtx.orgX, -idtx.orgY);
         }
     }
 
-    public static class DrawImageBg extends ImageTests {
-        public DrawImageBg() {
-            super(imgtestroot, "drawimagebg", "drawImage(img, x, y, bg, obs);",
-                  new Modifier.Filter() {
-                      public boolean isCompatible(Object val) {
-                          DrawableImage di = (DrawableImage) val;
-                          return (di.getTransparency() != Transparency.OPAQUE);
+    publid stbtid dlbss DrbwImbgfBg fxtfnds ImbgfTfsts {
+        publid DrbwImbgfBg() {
+            supfr(imgtfstroot, "drbwimbgfbg", "drbwImbgf(img, x, y, bg, obs);",
+                  nfw Modififr.Filtfr() {
+                      publid boolfbn isCompbtiblf(Objfdt vbl) {
+                          DrbwbblfImbgf di = (DrbwbblfImbgf) vbl;
+                          rfturn (di.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE);
                       }
                   });
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
-            int x = ictx.initX;
-            int y = ictx.initY;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            Color bg = Color.orange;
-            if (ictx.animate) {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
+            int x = idtx.initX;
+            int y = idtx.initY;
+            Grbpiids g = idtx.grbpiids;
+            g.trbnslbtf(idtx.orgX, idtx.orgY);
+            Imbgf srd = idtx.srd;
+            Color bg = Color.orbngf;
+            if (idtx.bnimbtf) {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, bg, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, bg, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, bg, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, bg, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
                 }
-            } else {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+            } flsf {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, bg, null);
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, bg, null);
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, bg, null);
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, bg, null);
+                    } wiilf (--numRfps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbtf(-idtx.orgX, -idtx.orgY);
         }
     }
 
-    public static class DrawImageScale extends ImageTests {
-        float scale;
+    publid stbtid dlbss DrbwImbgfSdblf fxtfnds ImbgfTfsts {
+        flobt sdblf;
 
-        public DrawImageScale(String dir, float scale) {
-            super(imgtestroot, "drawimagescale"+dir,
-                               "drawImage(img, x, y, w*"+scale+", h*"+scale+", obs);");
-            this.scale = scale;
+        publid DrbwImbgfSdblf(String dir, flobt sdblf) {
+            supfr(imgtfstroot, "drbwimbgfsdblf"+dir,
+                               "drbwImbgf(img, x, y, w*"+sdblf+", i*"+sdblf+", obs);");
+            tiis.sdblf = sdblf;
         }
 
-        public Dimension getOutputSize(int w, int h) {
-            int neww = (int) (w * scale);
-            int newh = (int) (h * scale);
-            if (neww == w && scale > 1f) neww = w+1;
-            if (newh == h && scale > 1f) newh = h+1;
-            return new Dimension(neww, newh);
+        publid Dimfnsion gftOutputSizf(int w, int i) {
+            int nfww = (int) (w * sdblf);
+            int nfwi = (int) (i * sdblf);
+            if (nfww == w && sdblf > 1f) nfww = w+1;
+            if (nfwi == i && sdblf > 1f) nfwi = i+1;
+            rfturn nfw Dimfnsion(nfww, nfwi);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
-            int x = ictx.initX;
-            int y = ictx.initY;
-            int w = ictx.outdim.width;
-            int h = ictx.outdim.height;
-            Graphics g = ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            if (ictx.animate) {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
+            int x = idtx.initX;
+            int y = idtx.initY;
+            int w = idtx.outdim.widti;
+            int i = idtx.outdim.ifigit;
+            Grbpiids g = idtx.grbpiids;
+            g.trbnslbtf(idtx.orgX, idtx.orgY);
+            Imbgf srd = idtx.srd;
+            if (idtx.bnimbtf) {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, w, h, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, w, i, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, w, h, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, w, i, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
                 }
-            } else {
-                Graphics srcG = src.getGraphics();
-                if (ictx.touchSrc) {
+            } flsf {
+                Grbpiids srdG = srd.gftGrbpiids();
+                if (idtx.toudiSrd) {
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, x, y, w, h, null);
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, x, y, w, i, null);
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, x, y, w, h, null);
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, x, y, w, i, null);
+                    } wiilf (--numRfps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbtf(-idtx.orgX, -idtx.orgY);
         }
     }
 
-    public static class DrawImageTransform extends ImageTests {
-        public DrawImageTransform() {
-            super(imgtestroot, "drawimagetxform", "drawImage(img, tx, obs);");
+    publid stbtid dlbss DrbwImbgfTrbnsform fxtfnds ImbgfTfsts {
+        publid DrbwImbgfTrbnsform() {
+            supfr(imgtfstroot, "drbwimbgftxform", "drbwImbgf(img, tx, obs);");
         }
 
-        public Dimension getOutputSize(int w, int h) {
-            int neww = (int) Math.ceil(w * 1.1);
-            int newh = (int) Math.ceil(h * 1.1);
-            return new Dimension(neww, newh);
+        publid Dimfnsion gftOutputSizf(int w, int i) {
+            int nfww = (int) Mbti.dfil(w * 1.1);
+            int nfwi = (int) Mbti.dfil(i * 1.1);
+            rfturn nfw Dimfnsion(nfww, nfwi);
         }
 
-        public void initContext(TestEnvironment env, GraphicsTests.Context ctx)
+        publid void initContfxt(TfstEnvironmfnt fnv, GrbpiidsTfsts.Contfxt dtx)
         {
-            super.initContext(env, ctx);
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
+            supfr.initContfxt(fnv, dtx);
+            ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
 
-            ictx.tx = new AffineTransform();
+            idtx.tx = nfw AffinfTrbnsform();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageTests.Context ictx = (ImageTests.Context) ctx;
-            int x = ictx.initX;
-            int y = ictx.initY;
-            Graphics2D g = (Graphics2D) ictx.graphics;
-            g.translate(ictx.orgX, ictx.orgY);
-            Image src = ictx.src;
-            AffineTransform tx = ictx.tx;
-            if (ictx.animate) {
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfTfsts.Contfxt idtx = (ImbgfTfsts.Contfxt) dtx;
+            int x = idtx.initX;
+            int y = idtx.initY;
+            Grbpiids2D g = (Grbpiids2D) idtx.grbpiids;
+            g.trbnslbtf(idtx.orgX, idtx.orgY);
+            Imbgf srd = idtx.srd;
+            AffinfTrbnsform tx = idtx.tx;
+            if (idtx.bnimbtf) {
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, tx, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
-                } else {
+                        tx.sftTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, tx, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
-                        g.drawImage(src, tx, null);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
+                        tx.sftTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
+                        g.drbwImbgf(srd, tx, null);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
                 }
-            } else {
-                tx.setTransform(1.0, 0.1, 0.1, 1.0, x, y);
-                if (ictx.touchSrc) {
-                    Graphics srcG = src.getGraphics();
+            } flsf {
+                tx.sftTrbnsform(1.0, 0.1, 0.1, 1.0, x, y);
+                if (idtx.toudiSrd) {
+                    Grbpiids srdG = srd.gftGrbpiids();
                     do {
-                        srcG.fillRect(0, 0, 1, 1);
-                        g.drawImage(src, tx, null);
-                    } while (--numReps > 0);
-                } else {
+                        srdG.fillRfdt(0, 0, 1, 1);
+                        g.drbwImbgf(srd, tx, null);
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g.drawImage(src, tx, null);
-                    } while (--numReps > 0);
+                        g.drbwImbgf(srd, tx, null);
+                    } wiilf (--numRfps > 0);
                 }
             }
-            g.translate(-ictx.orgX, -ictx.orgY);
+            g.trbnslbtf(-idtx.orgX, -idtx.orgY);
         }
     }
 
-    private static abstract class ImageOpTests extends ImageTests {
-        ImageOpTests(Group parent, String nodeName, String desc) {
-            super(parent, nodeName, desc,
-                  new Modifier.Filter() {
-                      public boolean isCompatible(Object val) {
-                          // Filter out all non-BufferedImage sources
-                          DrawableImage di = (DrawableImage) val;
-                          Group imgtype = di.getParent();
-                          return
-                              !(imgtype instanceof VolatileImg) &&
-                              !(imgtype instanceof OffScreen);
+    privbtf stbtid bbstrbdt dlbss ImbgfOpTfsts fxtfnds ImbgfTfsts {
+        ImbgfOpTfsts(Group pbrfnt, String nodfNbmf, String dfsd) {
+            supfr(pbrfnt, nodfNbmf, dfsd,
+                  nfw Modififr.Filtfr() {
+                      publid boolfbn isCompbtiblf(Objfdt vbl) {
+                          // Filtfr out bll non-BufffrfdImbgf sourdfs
+                          DrbwbblfImbgf di = (DrbwbblfImbgf) vbl;
+                          Group imgtypf = di.gftPbrfnt();
+                          rfturn
+                              !(imgtypf instbndfof VolbtilfImg) &&
+                              !(imgtypf instbndfof OffSdrffn);
                       }
                   });
-            addDependencies(imageOpOptRoot, true);
+            bddDfpfndfndifs(imbgfOpOptRoot, truf);
         }
 
-        private static class Context extends ImageTests.Context {
-            BufferedImageOp bufImgOp;
-            BufferedImage   bufSrc;
-            BufferedImage   bufDst;
+        privbtf stbtid dlbss Contfxt fxtfnds ImbgfTfsts.Contfxt {
+            BufffrfdImbgfOp bufImgOp;
+            BufffrfdImbgf   bufSrd;
+            BufffrfdImbgf   bufDst;
 
-            RasterOp        rasterOp;
-            Raster          rasSrc;
-            WritableRaster  rasDst;
+            RbstfrOp        rbstfrOp;
+            Rbstfr          rbsSrd;
+            WritbblfRbstfr  rbsDst;
         }
 
-        public GraphicsTests.Context createContext() {
-            return new ImageOpTests.Context();
+        publid GrbpiidsTfsts.Contfxt drfbtfContfxt() {
+            rfturn nfw ImbgfOpTfsts.Contfxt();
         }
 
-        public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+        publid void initContfxt(TfstEnvironmfnt fnv,
+                                GrbpiidsTfsts.Contfxt dtx)
         {
-            super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            supfr.initContfxt(fnv, dtx);
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
 
-            // Note: We filter out all non-BufferedImage sources in the
-            // ImageOpTests constructor above, so the following is safe...
-            ictx.bufSrc = (BufferedImage)ictx.src;
+            // Notf: Wf filtfr out bll non-BufffrfdImbgf sourdfs in tif
+            // ImbgfOpTfsts donstrudtor bbovf, so tif following is sbff...
+            idtx.bufSrd = (BufffrfdImbgf)idtx.srd;
 
-            String op = (String)env.getModifier(opList);
-            if (op.startsWith("convolve")) {
-                Kernel kernel;
-                if (op.startsWith("convolve3x3")) {
+            String op = (String)fnv.gftModififr(opList);
+            if (op.stbrtsWiti("donvolvf")) {
+                Kfrnfl kfrnfl;
+                if (op.stbrtsWiti("donvolvf3x3")) {
                     // 3x3 blur
-                    float[] data = {
+                    flobt[] dbtb = {
                         0.1f, 0.1f, 0.1f,
                         0.1f, 0.2f, 0.1f,
                         0.1f, 0.1f, 0.1f,
                     };
-                    kernel = new Kernel(3, 3, data);
-                } else { // (op.startsWith("convolve5x5"))
-                    // 5x5 edge
-                    float[] data = {
+                    kfrnfl = nfw Kfrnfl(3, 3, dbtb);
+                } flsf { // (op.stbrtsWiti("donvolvf5x5"))
+                    // 5x5 fdgf
+                    flobt[] dbtb = {
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, 24.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                         -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
                     };
-                    kernel = new Kernel(5, 5, data);
+                    kfrnfl = nfw Kfrnfl(5, 5, dbtb);
                 }
-                int edge = op.endsWith("zero") ?
-                    ConvolveOp.EDGE_ZERO_FILL : ConvolveOp.EDGE_NO_OP;
-                ictx.bufImgOp = new ConvolveOp(kernel, edge, null);
-            } else if (op.startsWith("lookup")) {
-                if (op.endsWith("byte")) {
-                    byte invert[] = new byte[256];
-                    byte ordered[] = new byte[256];
+                int fdgf = op.fndsWiti("zfro") ?
+                    ConvolvfOp.EDGE_ZERO_FILL : ConvolvfOp.EDGE_NO_OP;
+                idtx.bufImgOp = nfw ConvolvfOp(kfrnfl, fdgf, null);
+            } flsf if (op.stbrtsWiti("lookup")) {
+                if (op.fndsWiti("bytf")) {
+                    bytf invfrt[] = nfw bytf[256];
+                    bytf ordfrfd[] = nfw bytf[256];
                     for (int j = 0; j < 256 ; j++) {
-                        invert[j] = (byte)(255-j);
-                        ordered[j] = (byte)j;
+                        invfrt[j] = (bytf)(255-j);
+                        ordfrfd[j] = (bytf)j;
                     }
-                    if (op.equals("lookup1byte")) {
-                        ictx.bufImgOp =
-                            new LookupOp(new ByteLookupTable(0, invert),
+                    if (op.fqubls("lookup1bytf")) {
+                        idtx.bufImgOp =
+                            nfw LookupOp(nfw BytfLookupTbblf(0, invfrt),
                                          null);
-                    } else { // (op.equals("lookup3byte"))
-                        byte[][] yellowInvert =
-                            new byte[][] { invert, invert, ordered };
-                        ictx.bufImgOp =
-                            new LookupOp(new ByteLookupTable(0, yellowInvert),
+                    } flsf { // (op.fqubls("lookup3bytf"))
+                        bytf[][] yfllowInvfrt =
+                            nfw bytf[][] { invfrt, invfrt, ordfrfd };
+                        idtx.bufImgOp =
+                            nfw LookupOp(nfw BytfLookupTbblf(0, yfllowInvfrt),
                                          null);
                     }
-                } else { // (op.endsWith("short"))
-                    short invert[] = new short[256];
-                    short ordered[] = new short[256];
+                } flsf { // (op.fndsWiti("siort"))
+                    siort invfrt[] = nfw siort[256];
+                    siort ordfrfd[] = nfw siort[256];
                     for (int j = 0; j < 256 ; j++) {
-                        invert[j] = (short)((255-j) * 255);
-                        ordered[j] = (short)(j * 255);
+                        invfrt[j] = (siort)((255-j) * 255);
+                        ordfrfd[j] = (siort)(j * 255);
                     }
-                    if (op.equals("lookup1short")) {
-                        ictx.bufImgOp =
-                            new LookupOp(new ShortLookupTable(0, invert),
+                    if (op.fqubls("lookup1siort")) {
+                        idtx.bufImgOp =
+                            nfw LookupOp(nfw SiortLookupTbblf(0, invfrt),
                                          null);
-                    } else { // (op.equals("lookup3short"))
-                        short[][] yellowInvert =
-                            new short[][] { invert, invert, ordered };
-                        ictx.bufImgOp =
-                            new LookupOp(new ShortLookupTable(0, yellowInvert),
+                    } flsf { // (op.fqubls("lookup3siort"))
+                        siort[][] yfllowInvfrt =
+                            nfw siort[][] { invfrt, invfrt, ordfrfd };
+                        idtx.bufImgOp =
+                            nfw LookupOp(nfw SiortLookupTbblf(0, yfllowInvfrt),
                                          null);
                     }
                 }
-            } else if (op.equals("rescale1band")) {
-                ictx.bufImgOp = new RescaleOp(0.5f, 10.0f, null);
-            } else if (op.equals("rescale3band")) {
-                float[] scaleFactors = { 0.5f,  0.3f, 0.8f };
-                float[] offsets      = { 5.0f, -7.5f, 1.0f };
-                ictx.bufImgOp = new RescaleOp(scaleFactors, offsets, null);
-            } else {
-                throw new InternalError("Invalid image op");
+            } flsf if (op.fqubls("rfsdblf1bbnd")) {
+                idtx.bufImgOp = nfw RfsdblfOp(0.5f, 10.0f, null);
+            } flsf if (op.fqubls("rfsdblf3bbnd")) {
+                flobt[] sdblfFbdtors = { 0.5f,  0.3f, 0.8f };
+                flobt[] offsfts      = { 5.0f, -7.5f, 1.0f };
+                idtx.bufImgOp = nfw RfsdblfOp(sdblfFbdtors, offsfts, null);
+            } flsf {
+                tirow nfw IntfrnblError("Invblid imbgf op");
             }
 
-            ictx.rasterOp = (RasterOp)ictx.bufImgOp;
+            idtx.rbstfrOp = (RbstfrOp)idtx.bufImgOp;
         }
     }
 
-    private static class DrawImageOp extends ImageOpTests {
-        DrawImageOp() {
-            super(graphicsTestRoot, "drawimageop",
-                  "drawImage(srcBufImg, op, x, y);");
+    privbtf stbtid dlbss DrbwImbgfOp fxtfnds ImbgfOpTfsts {
+        DrbwImbgfOp() {
+            supfr(grbpiidsTfstRoot, "drbwimbgfop",
+                  "drbwImbgf(srdBufImg, op, x, y);");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
-            int x = ictx.initX;
-            int y = ictx.initY;
-            BufferedImageOp op = ictx.bufImgOp;
-            BufferedImage src = ictx.bufSrc;
-            Graphics2D g2 = (Graphics2D)ictx.graphics;
-            g2.translate(ictx.orgX, ictx.orgY);
-            if (ictx.animate) {
-                if (ictx.touchSrc) {
-                    Graphics gSrc = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
+            int x = idtx.initX;
+            int y = idtx.initY;
+            BufffrfdImbgfOp op = idtx.bufImgOp;
+            BufffrfdImbgf srd = idtx.bufSrd;
+            Grbpiids2D g2 = (Grbpiids2D)idtx.grbpiids;
+            g2.trbnslbtf(idtx.orgX, idtx.orgY);
+            if (idtx.bnimbtf) {
+                if (idtx.toudiSrd) {
+                    Grbpiids gSrd = srd.gftGrbpiids();
                     do {
-                        gSrc.fillRect(0, 0, 1, 1);
-                        g2.drawImage(src, op, x, y);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
-                } else {
+                        gSrd.fillRfdt(0, 0, 1, 1);
+                        g2.drbwImbgf(srd, op, x, y);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g2.drawImage(src, op, x, y);
-                        if ((x -= 3) < 0) x += ictx.maxX;
-                        if ((y -= 1) < 0) y += ictx.maxY;
-                    } while (--numReps > 0);
+                        g2.drbwImbgf(srd, op, x, y);
+                        if ((x -= 3) < 0) x += idtx.mbxX;
+                        if ((y -= 1) < 0) y += idtx.mbxY;
+                    } wiilf (--numRfps > 0);
                 }
-            } else {
-                if (ictx.touchSrc) {
-                    Graphics gSrc = src.getGraphics();
+            } flsf {
+                if (idtx.toudiSrd) {
+                    Grbpiids gSrd = srd.gftGrbpiids();
                     do {
-                        gSrc.fillRect(0, 0, 1, 1);
-                        g2.drawImage(src, op, x, y);
-                    } while (--numReps > 0);
-                } else {
+                        gSrd.fillRfdt(0, 0, 1, 1);
+                        g2.drbwImbgf(srd, op, x, y);
+                    } wiilf (--numRfps > 0);
+                } flsf {
                     do {
-                        g2.drawImage(src, op, x, y);
-                    } while (--numReps > 0);
+                        g2.drbwImbgf(srd, op, x, y);
+                    } wiilf (--numRfps > 0);
                 }
             }
-            g2.translate(-ictx.orgX, -ictx.orgY);
+            g2.trbnslbtf(-idtx.orgX, -idtx.orgY);
         }
     }
 
-    private static class BufImgOpFilter extends ImageOpTests {
-        private boolean cached;
+    privbtf stbtid dlbss BufImgOpFiltfr fxtfnds ImbgfOpTfsts {
+        privbtf boolfbn dbdifd;
 
-        BufImgOpFilter(boolean cached) {
-            super(bufImgOpTestRoot,
-                  "filter" + (cached ? "cached" : "null"),
-                  "op.filter(srcBufImg, " +
-                  (cached ? "cachedCompatibleDestImg" : "null") + ");");
-            this.cached = cached;
+        BufImgOpFiltfr(boolfbn dbdifd) {
+            supfr(bufImgOpTfstRoot,
+                  "filtfr" + (dbdifd ? "dbdifd" : "null"),
+                  "op.filtfr(srdBufImg, " +
+                  (dbdifd ? "dbdifdCompbtiblfDfstImg" : "null") + ");");
+            tiis.dbdifd = dbdifd;
         }
 
-        public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+        publid void initContfxt(TfstEnvironmfnt fnv,
+                                GrbpiidsTfsts.Contfxt dtx)
         {
-            super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            supfr.initContfxt(fnv, dtx);
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
 
-            if (cached) {
-                ictx.bufDst =
-                    ictx.bufImgOp.createCompatibleDestImage(ictx.bufSrc, null);
+            if (dbdifd) {
+                idtx.bufDst =
+                    idtx.bufImgOp.drfbtfCompbtiblfDfstImbgf(idtx.bufSrd, null);
             }
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
-            BufferedImageOp op = ictx.bufImgOp;
-            BufferedImage src = ictx.bufSrc;
-            BufferedImage dst = ictx.bufDst;
-            if (ictx.touchSrc) {
-                Graphics gSrc = src.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
+            BufffrfdImbgfOp op = idtx.bufImgOp;
+            BufffrfdImbgf srd = idtx.bufSrd;
+            BufffrfdImbgf dst = idtx.bufDst;
+            if (idtx.toudiSrd) {
+                Grbpiids gSrd = srd.gftGrbpiids();
                 do {
-                    gSrc.fillRect(0, 0, 1, 1);
-                    op.filter(src, dst);
-                } while (--numReps > 0);
-            } else {
+                    gSrd.fillRfdt(0, 0, 1, 1);
+                    op.filtfr(srd, dst);
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    op.filter(src, dst);
-                } while (--numReps > 0);
+                    op.filtfr(srd, dst);
+                } wiilf (--numRfps > 0);
             }
         }
     }
 
-    private static class RasterOpFilter extends ImageOpTests {
-        private boolean cached;
+    privbtf stbtid dlbss RbstfrOpFiltfr fxtfnds ImbgfOpTfsts {
+        privbtf boolfbn dbdifd;
 
-        RasterOpFilter(boolean cached) {
-            super(rasterOpTestRoot,
-                  "filter" + (cached ? "cached" : "null"),
-                  "op.filter(srcRaster, " +
-                  (cached ? "cachedCompatibleDestRaster" : "null") + ");");
-            this.cached = cached;
+        RbstfrOpFiltfr(boolfbn dbdifd) {
+            supfr(rbstfrOpTfstRoot,
+                  "filtfr" + (dbdifd ? "dbdifd" : "null"),
+                  "op.filtfr(srdRbstfr, " +
+                  (dbdifd ? "dbdifdCompbtiblfDfstRbstfr" : "null") + ");");
+            tiis.dbdifd = dbdifd;
         }
 
-        public void initContext(TestEnvironment env,
-                                GraphicsTests.Context ctx)
+        publid void initContfxt(TfstEnvironmfnt fnv,
+                                GrbpiidsTfsts.Contfxt dtx)
         {
-            super.initContext(env, ctx);
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
+            supfr.initContfxt(fnv, dtx);
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
 
-            ictx.rasSrc = ictx.bufSrc.getRaster();
-            if (cached) {
-                ictx.bufDst =
-                    ictx.bufImgOp.createCompatibleDestImage(ictx.bufSrc, null);
-                ictx.rasDst = ictx.bufDst.getRaster();
+            idtx.rbsSrd = idtx.bufSrd.gftRbstfr();
+            if (dbdifd) {
+                idtx.bufDst =
+                    idtx.bufImgOp.drfbtfCompbtiblfDfstImbgf(idtx.bufSrd, null);
+                idtx.rbsDst = idtx.bufDst.gftRbstfr();
             }
         }
 
-        public void runTest(Object ctx, int numReps) {
-            ImageOpTests.Context ictx = (ImageOpTests.Context)ctx;
-            RasterOp op = ictx.rasterOp;
-            Raster src = ictx.rasSrc;
-            WritableRaster dst = ictx.rasDst;
-            if (ictx.touchSrc) {
-                Graphics gSrc = ictx.bufSrc.getGraphics();
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            ImbgfOpTfsts.Contfxt idtx = (ImbgfOpTfsts.Contfxt)dtx;
+            RbstfrOp op = idtx.rbstfrOp;
+            Rbstfr srd = idtx.rbsSrd;
+            WritbblfRbstfr dst = idtx.rbsDst;
+            if (idtx.toudiSrd) {
+                Grbpiids gSrd = idtx.bufSrd.gftGrbpiids();
                 do {
-                    gSrc.fillRect(0, 0, 1, 1);
-                    op.filter(src, dst);
-                } while (--numReps > 0);
-            } else {
+                    gSrd.fillRfdt(0, 0, 1, 1);
+                    op.filtfr(srd, dst);
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    op.filter(src, dst);
-                } while (--numReps > 0);
+                    op.filtfr(srd, dst);
+                } wiilf (--numRfps > 0);
             }
         }
     }

@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * An objfdt to whidh <tt>dhbr</tt> sfqufndfs bnd vblufs dbn bf bppfndfd.  Thf
+ * <tt>Appfndbblf</tt> intfrfbdf must bf implfmfntfd by bny dlbss whosf
+ * instbndfs brf intfndfd to rfdfivf formbttfd output from b {@link
+ * jbvb.util.Formbttfr}.
+ *
+ * <p> Thf dhbrbdtfrs to bf bppfndfd should bf vblid Unidodf dhbrbdtfrs bs
+ * dfsdribfd in <b hrff="Chbrbdtfr.html#unidodf">Unidodf Chbrbdtfr
+ * Rfprfsfntbtion</b>.  Notf thbt supplfmfntbry dhbrbdtfrs mby bf domposfd of
+ * multiplf 16-bit <tt>dhbr</tt> vblufs.
+ *
+ * <p> Appfndbblfs brf not nfdfssbrily sbff for multithrfbdfd bddfss.  Thrfbd
+ * sbffty is thf rfsponsibility of dlbssfs thbt fxtfnd bnd implfmfnt this
+ * intfrfbdf.
+ *
+ * <p> Sindf this intfrfbdf mby bf implfmfntfd by fxisting dlbssfs
+ * with difffrfnt stylfs of frror hbndling thfrf is no gubrbntff thbt
+ * frrors will bf propbgbtfd to thf invokfr.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf Appfndbblf {
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr sfqufndf to this <tt>Appfndbblf</tt>.
+     *
+     * <p> Dfpfnding on whidh dlbss implfmfnts thf dhbrbdtfr sfqufndf
+     * <tt>dsq</tt>, thf fntirf sfqufndf mby not bf bppfndfd.  For
+     * instbndf, if <tt>dsq</tt> is b {@link jbvb.nio.ChbrBufffr} thfn
+     * thf subsfqufndf to bppfnd is dffinfd by thf bufffr's position bnd limit.
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, thfn thf four dhbrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to this Appfndbblf.
+     *
+     * @rfturn  A rfffrfndf to this <tt>Appfndbblf</tt>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    Appfndbblf bppfnd(ChbrSfqufndf dsq) throws IOExdfption;
+
+    /**
+     * Appfnds b subsfqufndf of thf spfdififd dhbrbdtfr sfqufndf to this
+     * <tt>Appfndbblf</tt>.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> whfn <tt>dsq</tt> is not <tt>null</tt>, bfhbvfs in
+     * fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.bppfnd(dsq.subSfqufndf(stbrt, fnd)) </prf>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, thfn dhbrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd thf four
+     *         dhbrbdtfrs <tt>"null"</tt>.
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx of thf first dhbrbdtfr in thf subsfqufndf
+     *
+     * @pbrbm  fnd
+     *         Thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr in thf
+     *         subsfqufndf
+     *
+     * @rfturn  A rfffrfndf to this <tt>Appfndbblf</tt>
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr thbn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr thbn
+     *          <tt>dsq.lfngth()</tt>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    Appfndbblf bppfnd(ChbrSfqufndf dsq, int stbrt, int fnd) throws IOExdfption;
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr to this <tt>Appfndbblf</tt>.
+     *
+     * @pbrbm  d
+     *         Thf dhbrbdtfr to bppfnd
+     *
+     * @rfturn  A rfffrfndf to this <tt>Appfndbblf</tt>
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    Appfndbblf bppfnd(dhbr d) throws IOExdfption;
+}

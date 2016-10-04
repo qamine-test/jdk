@@ -1,0 +1,277 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * An objfdt thbt dbn bf usfd to gft informbtion bbout thf typfs
+ * bnd propfrtifs of thf dolumns in b <dodf>RfsultSft</dodf> objfdt.
+ * Thf following dodf frbgmfnt drfbtfs thf <dodf>RfsultSft</dodf> objfdt rs,
+ * drfbtfs thf <dodf>RfsultSftMftbDbtb</dodf> objfdt rsmd, bnd usfs rsmd
+ * to find out how mbny dolumns rs hbs bnd whfthfr thf first dolumn in rs
+ * dbn bf usfd in b <dodf>WHERE</dodf> dlbusf.
+ * <PRE>
+ *
+ *     RfsultSft rs = stmt.fxfdutfQufry("SELECT b, b, d FROM TABLE2");
+ *     RfsultSftMftbDbtb rsmd = rs.gftMftbDbtb();
+ *     int numbfrOfColumns = rsmd.gftColumnCount();
+ *     boolfbn b = rsmd.isSfbrdhbblf(1);
+ *
+ * </PRE>
+ */
+
+publid intfrfbdf RfsultSftMftbDbtb fxtfnds Wrbppfr {
+
+    /**
+     * Rfturns thf numbfr of dolumns in this <dodf>RfsultSft</dodf> objfdt.
+     *
+     * @rfturn thf numbfr of dolumns
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftColumnCount() throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr thf dfsignbtfd dolumn is butombtidblly numbfrfd.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isAutoIndrfmfnt(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr b dolumn's dbsf mbttfrs.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isCbsfSfnsitivf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr thf dfsignbtfd dolumn dbn bf usfd in b whfrf dlbusf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isSfbrdhbblf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr thf dfsignbtfd dolumn is b dbsh vbluf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isCurrfndy(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thf nullbbility of vblufs in thf dfsignbtfd dolumn.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn thf nullbbility stbtus of thf givfn dolumn; onf of <dodf>dolumnNoNulls</dodf>,
+     *          <dodf>dolumnNullbblf</dodf> or <dodf>dolumnNullbblfUnknown</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int isNullbblf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Thf donstbnt indidbting thbt b
+     * dolumn dofs not bllow <dodf>NULL</dodf> vblufs.
+     */
+    int dolumnNoNulls = 0;
+
+    /**
+     * Thf donstbnt indidbting thbt b
+     * dolumn bllows <dodf>NULL</dodf> vblufs.
+     */
+    int dolumnNullbblf = 1;
+
+    /**
+     * Thf donstbnt indidbting thbt thf
+     * nullbbility of b dolumn's vblufs is unknown.
+     */
+    int dolumnNullbblfUnknown = 2;
+
+    /**
+     * Indidbtfs whfthfr vblufs in thf dfsignbtfd dolumn brf signfd numbfrs.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isSignfd(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs thf dfsignbtfd dolumn's normbl mbximum width in dhbrbdtfrs.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn thf normbl mbximum numbfr of dhbrbdtfrs bllowfd bs thf width
+     *          of thf dfsignbtfd dolumn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftColumnDisplbySizf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gfts thf dfsignbtfd dolumn's suggfstfd titlf for usf in printouts bnd
+     * displbys. Thf suggfstfd titlf is usublly spfdififd by thf SQL <dodf>AS</dodf>
+     * dlbusf.  If b SQL <dodf>AS</dodf> is not spfdififd, thf vbluf rfturnfd from
+     * <dodf>gftColumnLbbfl</dodf> will bf thf sbmf bs thf vbluf rfturnfd by thf
+     * <dodf>gftColumnNbmf</dodf> mfthod.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn thf suggfstfd dolumn titlf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftColumnLbbfl(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gft thf dfsignbtfd dolumn's nbmf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn dolumn nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftColumnNbmf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gft thf dfsignbtfd dolumn's tbblf's sdhfmb.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn sdhfmb nbmf or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftSdhfmbNbmf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gft thf dfsignbtfd dolumn's spfdififd dolumn sizf.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. 0 is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn prfdision
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftPrfdision(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gfts thf dfsignbtfd dolumn's numbfr of digits to right of thf dfdimbl point.
+     * 0 is rfturnfd for dbtb typfs whfrf thf sdblf is not bpplidbblf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn sdblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    int gftSdblf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gfts thf dfsignbtfd dolumn's tbblf nbmf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn tbblf nbmf or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftTbblfNbmf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Gfts thf dfsignbtfd dolumn's tbblf's dbtblog nbmf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn thf nbmf of thf dbtblog for thf tbblf in whidh thf givfn dolumn
+     *          bppfbrs or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftCbtblogNbmf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd dolumn's SQL typf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn SQL typf from jbvb.sql.Typfs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Typfs
+     */
+    int gftColumnTypf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd dolumn's dbtbbbsf-spfdifid typf nbmf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn typf nbmf usfd by thf dbtbbbsf. If thf dolumn typf is
+     * b usfr-dffinfd typf, thfn b fully-qublififd typf nbmf is rfturnfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    String gftColumnTypfNbmf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr thf dfsignbtfd dolumn is dffinitfly not writbblf.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isRfbdOnly(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr it is possiblf for b writf on thf dfsignbtfd dolumn to suddffd.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isWritbblf(int dolumn) throws SQLExdfption;
+
+    /**
+     * Indidbtfs whfthfr b writf on thf dfsignbtfd dolumn will dffinitfly suddffd.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    boolfbn isDffinitflyWritbblf(int dolumn) throws SQLExdfption;
+
+    //--------------------------JDBC 2.0-----------------------------------
+
+    /**
+     * <p>Rfturns thf fully-qublififd nbmf of thf Jbvb dlbss whosf instbndfs
+     * brf mbnufbdturfd if thf mfthod <dodf>RfsultSft.gftObjfdt</dodf>
+     * is dbllfd to rftrifvf b vbluf
+     * from thf dolumn.  <dodf>RfsultSft.gftObjfdt</dodf> mby rfturn b subdlbss of thf
+     * dlbss rfturnfd by this mfthod.
+     *
+     * @pbrbm dolumn thf first dolumn is 1, thf sfdond is 2, ...
+     * @rfturn thf fully-qublififd nbmf of thf dlbss in thf Jbvb progrbmming
+     *         lbngubgf thbt would bf usfd by thf mfthod
+     * <dodf>RfsultSft.gftObjfdt</dodf> to rftrifvf thf vbluf in thf spfdififd
+     * dolumn. This is thf dlbss nbmf usfd for dustom mbpping.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
+     */
+    String gftColumnClbssNbmf(int dolumn) throws SQLExdfption;
+}

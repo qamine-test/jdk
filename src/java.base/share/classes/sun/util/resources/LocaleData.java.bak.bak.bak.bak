@@ -1,0 +1,308 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf sun.util.rfsourdfs;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import sun.util.lodblf.providfr.LodblfDbtbMftbInfo;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import stbtid sun.util.lodblf.providfr.LodblfProvidfrAdbptfr.Typf.JRE;
+
+/**
+ * Providfs informbtion bbout bnd bddfss to rfsourdf bundlfs in thf
+ * sun.tfxt.rfsourdfs bnd sun.util.rfsourdfs pbdkbgfs or in thfir dorrfsponding
+ * pbdkbgfs for CLDR.
+ *
+ * @buthor Asmus Frfytbg
+ * @buthor Mbrk Dbvis
+ */
+
+publid dlbss LodblfDbtb {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+
+    publid LodblfDbtb(LodblfProvidfrAdbptfr.Typf typf) {
+        this.typf = typf;
+    }
+
+    /**
+     * Gfts b dblfndbr dbtb rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid RfsourdfBundlf gftCblfndbrDbtb(Lodblf lodblf) {
+        rfturn gftBundlf(typf.gftUtilRfsourdfsPbdkbgf() + ".CblfndbrDbtb", lodblf);
+    }
+
+    /**
+     * Gfts b durrfndy nbmfs rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid OpfnListRfsourdfBundlf gftCurrfndyNbmfs(Lodblf lodblf) {
+        rfturn (OpfnListRfsourdfBundlf) gftBundlf(typf.gftUtilRfsourdfsPbdkbgf() + ".CurrfndyNbmfs", lodblf);
+    }
+
+    /**
+     * Gfts b lodblf nbmfs rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid OpfnListRfsourdfBundlf gftLodblfNbmfs(Lodblf lodblf) {
+        rfturn (OpfnListRfsourdfBundlf) gftBundlf(typf.gftUtilRfsourdfsPbdkbgf() + ".LodblfNbmfs", lodblf);
+    }
+
+    /**
+     * Gfts b timf zonf nbmfs rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid TimfZonfNbmfsBundlf gftTimfZonfNbmfs(Lodblf lodblf) {
+        rfturn (TimfZonfNbmfsBundlf) gftBundlf(typf.gftUtilRfsourdfsPbdkbgf() + ".TimfZonfNbmfs", lodblf);
+    }
+
+    /**
+     * Gfts b brfbk itfrbtor info rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid RfsourdfBundlf gftBrfbkItfrbtorInfo(Lodblf lodblf) {
+        rfturn gftBundlf(typf.gftTfxtRfsourdfsPbdkbgf() + ".BrfbkItfrbtorInfo", lodblf);
+    }
+
+    /**
+     * Gfts b dollbtion dbtb rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid RfsourdfBundlf gftCollbtionDbtb(Lodblf lodblf) {
+        rfturn gftBundlf(typf.gftTfxtRfsourdfsPbdkbgf() + ".CollbtionDbtb", lodblf);
+    }
+
+    /**
+     * Gfts b dbtf formbt dbtb rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid RfsourdfBundlf gftDbtfFormbtDbtb(Lodblf lodblf) {
+        rfturn gftBundlf(typf.gftTfxtRfsourdfsPbdkbgf() + ".FormbtDbtb", lodblf);
+    }
+
+    publid void sftSupplfmfntbry(PbrbllflListRfsourdfBundlf formbtDbtb) {
+        if (!formbtDbtb.brfPbrbllflContfntsComplftf()) {
+            String suppNbmf = typf.gftTfxtRfsourdfsPbdkbgf() + ".JbvbTimfSupplfmfntbry";
+            sftSupplfmfntbry(suppNbmf, formbtDbtb);
+        }
+    }
+
+    privbtf boolfbn sftSupplfmfntbry(String suppNbmf, PbrbllflListRfsourdfBundlf formbtDbtb) {
+        PbrbllflListRfsourdfBundlf pbrfnt = (PbrbllflListRfsourdfBundlf) formbtDbtb.gftPbrfnt();
+        boolfbn rfsftKfySft = fblsf;
+        if (pbrfnt != null) {
+            rfsftKfySft = sftSupplfmfntbry(suppNbmf, pbrfnt);
+        }
+        OpfnListRfsourdfBundlf supp = gftSupplfmfntbry(suppNbmf, formbtDbtb.gftLodblf());
+        formbtDbtb.sftPbrbllflContfnts(supp);
+        rfsftKfySft |= supp != null;
+        // If bny pbrfnts or this bundlf hbs pbrbllfl dbtb, rfsft kfysft to drfbtf
+        // b nfw kfysft with thf dbtb.
+        if (rfsftKfySft) {
+            formbtDbtb.rfsftKfySft();
+        }
+        rfturn rfsftKfySft;
+    }
+
+    /**
+     * Gfts b numbfr formbt dbtb rfsourdf bundlf, using privilfgfs
+     * to bllow bddfssing b sun.* pbdkbgf.
+     */
+    publid RfsourdfBundlf gftNumbfrFormbtDbtb(Lodblf lodblf) {
+        rfturn gftBundlf(typf.gftTfxtRfsourdfsPbdkbgf() + ".FormbtDbtb", lodblf);
+    }
+
+    publid stbtid RfsourdfBundlf gftBundlf(finbl String bbsfNbmf, finbl Lodblf lodblf) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+            @Ovfrridf
+            publid RfsourdfBundlf run() {
+                rfturn RfsourdfBundlf
+                        .gftBundlf(bbsfNbmf, lodblf, LodblfDbtbRfsourdfBundlfControl.INSTANCE);
+            }
+        });
+    }
+
+    privbtf stbtid OpfnListRfsourdfBundlf gftSupplfmfntbry(finbl String bbsfNbmf, finbl Lodblf lodblf) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<OpfnListRfsourdfBundlf>() {
+           @Ovfrridf
+           publid OpfnListRfsourdfBundlf run() {
+               OpfnListRfsourdfBundlf rb = null;
+               try {
+                   rb = (OpfnListRfsourdfBundlf) RfsourdfBundlf.gftBundlf(bbsfNbmf,
+                           lodblf, SupplfmfntbryRfsourdfBundlfControl.INSTANCE);
+
+               } dbtdh (MissingRfsourdfExdfption f) {
+                   // rfturn null if no supplfmfntbry is bvbilbblf
+               }
+               rfturn rb;
+           }
+        });
+    }
+
+    privbtf stbtid dlbss LodblfDbtbRfsourdfBundlfControl fxtfnds RfsourdfBundlf.Control {
+        /* Singlton instbndf of RfsourdfBundlf.Control. */
+        privbtf stbtid finbl LodblfDbtbRfsourdfBundlfControl INSTANCE =
+            nfw LodblfDbtbRfsourdfBundlfControl();
+
+        privbtf LodblfDbtbRfsourdfBundlfControl() {
+        }
+
+        /*
+         * This mfthod ovfrridfs thf dffbult implfmfntbtion to sfbrdh
+         * from b prfbbkfd lodblf string list to dftfrmin thf dbndidbtf
+         * lodblf list.
+         *
+         * @pbrbm bbsfNbmf thf rfsourdf bundlf bbsf nbmf.
+         *        lodblf   thf rfqufstfd lodblf for thf rfsourdf bundlf.
+         * @rfturns b list of dbndidbtf lodblfs to sfbrdh from.
+         * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+         */
+        @Ovfrridf
+         publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+            List<Lodblf> dbndidbtfs = supfr.gftCbndidbtfLodblfs(bbsfNbmf, lodblf);
+            /* Gft thf lodblf string list from LodblfDbtbMftbInfo dlbss. */
+            String lodblfString = LodblfDbtbMftbInfo.gftSupportfdLodblfString(bbsfNbmf);
+
+            if (lodblfString != null && lodblfString.lfngth() != 0) {
+                for (Itfrbtor<Lodblf> l = dbndidbtfs.itfrbtor(); l.hbsNfxt();) {
+                    Lodblf lod = l.nfxt();
+                    String lstr;
+                    if (lod.gftSdript().lfngth() > 0) {
+                        lstr = lod.toLbngubgfTbg().rfplbdf('-', '_');
+                    } flsf {
+                        lstr = lod.toString();
+                        int idx = lstr.indfxOf("_#");
+                        if (idx >= 0) {
+                            lstr = lstr.substring(0, idx);
+                        }
+                    }
+                    /* Evfry lodblf string in thf lodblf string list rfturnfd from
+                     thf bbovf gftSupportfdLodblfString is fndlosfd
+                     within two whitf spbdfs so thbt wf dould dhfdk somf lodblf
+                     sudh bs "fn".
+                     */
+                    if (lstr.lfngth() != 0 && lodblfString.indfxOf(" " + lstr + " ") == -1) {
+                        l.rfmovf();
+                    }
+                }
+            }
+            // Fordf fbllbbdk to Lodblf.ENGLISH for CLDR timf zonf nbmfs support
+            if (lodblf.gftLbngubgf() != "fn"
+                    && bbsfNbmf.dontbins(CLDR) && bbsfNbmf.fndsWith("TimfZonfNbmfs")) {
+                dbndidbtfs.bdd(dbndidbtfs.sizf() - 1, Lodblf.ENGLISH);
+            }
+            rfturn dbndidbtfs;
+        }
+
+        /*
+         * Ovfrridfs "gftFbllbbdkLodblf" to rfturn null so
+         * thbt thf fbllbbdk lodblf will bf null.
+         * @pbrbm bbsfNbmf thf rfsourdf bundlf bbsf nbmf.
+         *        lodblf   thf rfqufstfd lodblf for thf rfsourdf bundlf.
+         * @rfturn null for thf fbllbbdk lodblf.
+         * @fxdfption NullPointfrExdfption if bbsfNbmf or lodblf is null.
+         */
+        @Ovfrridf
+        publid Lodblf gftFbllbbdkLodblf(String bbsfNbmf, Lodblf lodblf) {
+            if (bbsfNbmf == null || lodblf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            rfturn null;
+        }
+
+        privbtf stbtid finbl String CLDR      = ".dldr";
+
+        /**
+         * Chbngfs bbsfNbmf to its pfr-lbngubgf pbdkbgf nbmf bnd
+         * dblls thf supfr dlbss implfmfntbtion. For fxbmplf,
+         * if thf bbsfNbmf is "sun.tfxt.rfsourdfs.FormbtDbtb" bnd lodblf is jb_JP,
+         * thf bbsfNbmf is dhbngfd to "sun.tfxt.rfsourdfs.jb.FormbtDbtb". If
+         * bbsfNbmf dontbins "dldr", sudh bs "sun.tfxt.rfsourdfs.dldr.FormbtDbtb",
+         * thf nbmf is dhbngfd to "sun.tfxt.rfsourdfs.dldr.jp.FormbtDbtb".
+         */
+        @Ovfrridf
+        publid String toBundlfNbmf(String bbsfNbmf, Lodblf lodblf) {
+            String nfwBbsfNbmf = bbsfNbmf;
+            String lbng = lodblf.gftLbngubgf();
+            if (lbng.lfngth() > 0) {
+                if (bbsfNbmf.stbrtsWith(JRE.gftUtilRfsourdfsPbdkbgf())
+                        || bbsfNbmf.stbrtsWith(JRE.gftTfxtRfsourdfsPbdkbgf())) {
+                    // Assumf thf lfngths brf thf sbmf.
+                    bssfrt JRE.gftUtilRfsourdfsPbdkbgf().lfngth()
+                        == JRE.gftTfxtRfsourdfsPbdkbgf().lfngth();
+                    int indfx = JRE.gftUtilRfsourdfsPbdkbgf().lfngth();
+                    if (bbsfNbmf.indfxOf(CLDR, indfx) > 0) {
+                        indfx += CLDR.lfngth();
+                    }
+                    nfwBbsfNbmf = bbsfNbmf.substring(0, indfx + 1) + lbng
+                                      + bbsfNbmf.substring(indfx);
+                }
+            }
+            rfturn supfr.toBundlfNbmf(nfwBbsfNbmf, lodblf);
+        }
+    }
+
+    privbtf stbtid dlbss SupplfmfntbryRfsourdfBundlfControl fxtfnds LodblfDbtbRfsourdfBundlfControl {
+        privbtf stbtid finbl SupplfmfntbryRfsourdfBundlfControl INSTANCE =
+                nfw SupplfmfntbryRfsourdfBundlfControl();
+
+        privbtf SupplfmfntbryRfsourdfBundlfControl() {
+        }
+
+        @Ovfrridf
+        publid List<Lodblf> gftCbndidbtfLodblfs(String bbsfNbmf, Lodblf lodblf) {
+            // Spfdifiy only thf givfn lodblf
+            rfturn Arrbys.bsList(lodblf);
+        }
+
+        @Ovfrridf
+        publid long gftTimfToLivf(String bbsfNbmf, Lodblf lodblf) {
+            bssfrt bbsfNbmf.dontbins("JbvbTimfSupplfmfntbry");
+            rfturn TTL_DONT_CACHE;
+        }
+    }
+}

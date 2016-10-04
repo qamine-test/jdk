@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * A GubrdfdObjfdt is bn objfdt thbt is usfd to protfdt bddfss to
+ * bnothfr objfdt.
+ *
+ * <p>A GubrdfdObjfdt fndbpsulbtfs b tbrgft objfdt bnd b Gubrd objfdt,
+ * sudh thbt bddfss to thf tbrgft objfdt is possiblf
+ * only if thf Gubrd objfdt bllows it.
+ * Ondf bn objfdt is fndbpsulbtfd by b GubrdfdObjfdt,
+ * bddfss to thbt objfdt is dontrollfd by thf {@dodf gftObjfdt}
+ * mfthod, whidh invokfs thf
+ * {@dodf dhfdkGubrd} mfthod on thf Gubrd objfdt thbt is
+ * gubrding bddfss. If bddfss is not bllowfd,
+ * bn fxdfption is thrown.
+ *
+ * @sff Gubrd
+ * @sff Pfrmission
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ * @buthor Li Gong
+ */
+
+publid dlbss GubrdfdObjfdt implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5240450096227834308L;
+
+    privbtf Objfdt objfdt; // thf objfdt wf brf gubrding
+    privbtf Gubrd gubrd;   // thf gubrd
+
+    /**
+     * Construdts b GubrdfdObjfdt using thf spfdififd objfdt bnd gubrd.
+     * If thf Gubrd objfdt is null, thfn no rfstridtions will
+     * bf plbdfd on who dbn bddfss thf objfdt.
+     *
+     * @pbrbm objfdt thf objfdt to bf gubrdfd.
+     *
+     * @pbrbm gubrd thf Gubrd objfdt thbt gubrds bddfss to thf objfdt.
+     */
+
+    publid GubrdfdObjfdt(Objfdt objfdt, Gubrd gubrd)
+    {
+        this.gubrd = gubrd;
+        this.objfdt = objfdt;
+    }
+
+    /**
+     * Rftrifvfs thf gubrdfd objfdt, or throws bn fxdfption if bddfss
+     * to thf gubrdfd objfdt is dfnifd by thf gubrd.
+     *
+     * @rfturn thf gubrdfd objfdt.
+     *
+     * @fxdfption SfdurityExdfption if bddfss to thf gubrdfd objfdt is
+     * dfnifd.
+     */
+    publid Objfdt gftObjfdt()
+        throws SfdurityExdfption
+    {
+        if (gubrd != null)
+            gubrd.dhfdkGubrd(objfdt);
+
+        rfturn objfdt;
+    }
+
+    /**
+     * Writfs this objfdt out to b strfbm (i.f., sfriblizfs it).
+     * Wf dhfdk thf gubrd if thfrf is onf.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+        throws jbvb.io.IOExdfption
+    {
+        if (gubrd != null)
+            gubrd.dhfdkGubrd(objfdt);
+
+        oos.dffbultWritfObjfdt();
+    }
+}

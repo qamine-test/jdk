@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include <jni_util.h>
+#indludf <jni_util.i>
 
-#include "j2secmod.h"
+#indludf "j2sfdmod.i"
 
-void *findFunction(JNIEnv *env, jlong jHandle, const char *functionName) {
-    HINSTANCE hModule = (HINSTANCE)jHandle;
-    void *fAddress = GetProcAddress(hModule, functionName);
-    if (fAddress == NULL) {
-        char errorMessage[256];
-        _snprintf(errorMessage, sizeof(errorMessage), "Symbol not found: %s", functionName);
-        throwNullPointerException(env, errorMessage);
-        return NULL;
+void *findFundtion(JNIEnv *fnv, jlong jHbndlf, donst dibr *fundtionNbmf) {
+    HINSTANCE iModulf = (HINSTANCE)jHbndlf;
+    void *fAddrfss = GftProdAddrfss(iModulf, fundtionNbmf);
+    if (fAddrfss == NULL) {
+        dibr frrorMfssbgf[256];
+        _snprintf(frrorMfssbgf, sizfof(frrorMfssbgf), "Symbol not found: %s", fundtionNbmf);
+        tirowNullPointfrExdfption(fnv, frrorMfssbgf);
+        rfturn NULL;
     }
-    return fAddress;
+    rfturn fAddrfss;
 }
 
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_Secmod_nssGetLibraryHandle
-  (JNIEnv *env, jclass thisClass, jstring jLibName)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_Sfdmod_nssGftLibrbryHbndlf
+  (JNIEnv *fnv, jdlbss tiisClbss, jstring jLibNbmf)
 {
-    const char *libName = (*env)->GetStringUTFChars(env, jLibName, NULL);
-    HMODULE hModule = GetModuleHandle(libName);
-    dprintf2("-handle for %s: %d\n", libName, hModule);
-    (*env)->ReleaseStringUTFChars(env, jLibName, libName);
-    return (jlong)hModule;
+    donst dibr *libNbmf = (*fnv)->GftStringUTFCibrs(fnv, jLibNbmf, NULL);
+    HMODULE iModulf = GftModulfHbndlf(libNbmf);
+    dprintf2("-ibndlf for %s: %d\n", libNbmf, iModulf);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, jLibNbmf, libNbmf);
+    rfturn (jlong)iModulf;
 }
 
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_Secmod_nssLoadLibrary
-  (JNIEnv *env, jclass thisClass, jstring jName)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_Sfdmod_nssLobdLibrbry
+  (JNIEnv *fnv, jdlbss tiisClbss, jstring jNbmf)
 {
-    HINSTANCE hModule;
+    HINSTANCE iModulf;
     LPVOID lpMsgBuf;
 
-    const char *libName = (*env)->GetStringUTFChars(env, jName, NULL);
-    dprintf1("-lib %s\n", libName);
+    donst dibr *libNbmf = (*fnv)->GftStringUTFCibrs(fnv, jNbmf, NULL);
+    dprintf1("-lib %s\n", libNbmf);
 
-    hModule = LoadLibrary(libName);
-    (*env)->ReleaseStringUTFChars(env, jName, libName);
+    iModulf = LobdLibrbry(libNbmf);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, jNbmf, libNbmf);
 
-    if (hModule == NULL) {
-        FormatMessage(
+    if (iModulf == NULL) {
+        FormbtMfssbgf(
             FORMAT_MESSAGE_ALLOCATE_BUFFER |
             FORMAT_MESSAGE_FROM_SYSTEM |
             FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
-            GetLastError(),
-            0, /* Default language */
+            GftLbstError(),
+            0, /* Dffbult lbngubgf */
             (LPTSTR) &lpMsgBuf,
             0,
             NULL
         );
-        dprintf1("-error: %s\n", lpMsgBuf);
-        throwIOException(env, (char*)lpMsgBuf);
-        LocalFree(lpMsgBuf);
-        return 0;
+        dprintf1("-frror: %s\n", lpMsgBuf);
+        tirowIOExdfption(fnv, (dibr*)lpMsgBuf);
+        LodblFrff(lpMsgBuf);
+        rfturn 0;
     }
-    dprintf2("-handle: %d (0X%X)\n", hModule, hModule);
-    return (jlong)hModule;
+    dprintf2("-ibndlf: %d (0X%X)\n", iModulf, iModulf);
+    rfturn (jlong)iModulf;
 }

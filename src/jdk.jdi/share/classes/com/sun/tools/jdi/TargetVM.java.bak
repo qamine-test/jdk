@@ -1,372 +1,372 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import com.sun.jdi.connect.spi.Connection;
-import com.sun.jdi.event.EventSet;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.donnfdt.spi.Connfdtion;
+import dom.sun.jdi.fvfnt.EvfntSft;
 
-import java.util.*;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
-public class TargetVM implements Runnable {
-    private Map<String, Packet> waitingQueue = new HashMap<String, Packet>(32,0.75f);
-    private boolean shouldListen = true;
-    private List<EventQueue> eventQueues = Collections.synchronizedList(new ArrayList<EventQueue>(2));
-    private VirtualMachineImpl vm;
-    private Connection connection;
-    private Thread readerThread;
-    private EventController eventController = null;
-    private boolean eventsHeld = false;
+publid dlbss TbrgftVM implfmfnts Runnbblf {
+    privbtf Mbp<String, Pbdkft> wbitingQufuf = nfw HbsiMbp<String, Pbdkft>(32,0.75f);
+    privbtf boolfbn siouldListfn = truf;
+    privbtf List<EvfntQufuf> fvfntQufufs = Collfdtions.syndironizfdList(nfw ArrbyList<EvfntQufuf>(2));
+    privbtf VirtublMbdiinfImpl vm;
+    privbtf Connfdtion donnfdtion;
+    privbtf Tirfbd rfbdfrTirfbd;
+    privbtf EvfntControllfr fvfntControllfr = null;
+    privbtf boolfbn fvfntsHfld = fblsf;
 
     /*
-     * TO DO: The limit numbers below are somewhat arbitrary and should
-     * be configurable in the future.
+     * TO DO: Tif limit numbfrs bflow brf somfwibt brbitrbry bnd siould
+     * bf donfigurbblf in tif futurf.
      */
-    static private final int OVERLOADED_QUEUE = 2000;
-    static private final int UNDERLOADED_QUEUE = 100;
+    stbtid privbtf finbl int OVERLOADED_QUEUE = 2000;
+    stbtid privbtf finbl int UNDERLOADED_QUEUE = 100;
 
-    TargetVM(VirtualMachineImpl vm, Connection connection) {
-        this.vm = vm;
-        this.connection = connection;
-        this.readerThread = new Thread(vm.threadGroupForJDI(),
-                                       this, "JDI Target VM Interface");
-        this.readerThread.setDaemon(true);
+    TbrgftVM(VirtublMbdiinfImpl vm, Connfdtion donnfdtion) {
+        tiis.vm = vm;
+        tiis.donnfdtion = donnfdtion;
+        tiis.rfbdfrTirfbd = nfw Tirfbd(vm.tirfbdGroupForJDI(),
+                                       tiis, "JDI Tbrgft VM Intfrfbdf");
+        tiis.rfbdfrTirfbd.sftDbfmon(truf);
     }
 
-    void start() {
-        readerThread.start();
+    void stbrt() {
+        rfbdfrTirfbd.stbrt();
     }
 
-    private void dumpPacket(Packet packet, boolean sending) {
-        String direction = sending ? "Sending" : "Receiving";
-        if (sending) {
-            vm.printTrace(direction + " Command. id=" + packet.id +
-                          ", length=" + packet.data.length +
-                          ", commandSet=" + packet.cmdSet +
-                          ", command=" + packet.cmd +
-                          ", flags=" + packet.flags);
-        } else {
-            String type = (packet.flags & Packet.Reply) != 0 ?
-                          "Reply" : "Event";
-            vm.printTrace(direction + " " + type + ". id=" + packet.id +
-                          ", length=" + packet.data.length +
-                          ", errorCode=" + packet.errorCode +
-                          ", flags=" + packet.flags);
+    privbtf void dumpPbdkft(Pbdkft pbdkft, boolfbn sfnding) {
+        String dirfdtion = sfnding ? "Sfnding" : "Rfdfiving";
+        if (sfnding) {
+            vm.printTrbdf(dirfdtion + " Commbnd. id=" + pbdkft.id +
+                          ", lfngti=" + pbdkft.dbtb.lfngti +
+                          ", dommbndSft=" + pbdkft.dmdSft +
+                          ", dommbnd=" + pbdkft.dmd +
+                          ", flbgs=" + pbdkft.flbgs);
+        } flsf {
+            String typf = (pbdkft.flbgs & Pbdkft.Rfply) != 0 ?
+                          "Rfply" : "Evfnt";
+            vm.printTrbdf(dirfdtion + " " + typf + ". id=" + pbdkft.id +
+                          ", lfngti=" + pbdkft.dbtb.lfngti +
+                          ", frrorCodf=" + pbdkft.frrorCodf +
+                          ", flbgs=" + pbdkft.flbgs);
         }
-        StringBuilder line = new StringBuilder(80);
-        line.append("0000: ");
-        for (int i = 0; i < packet.data.length; i++) {
+        StringBuildfr linf = nfw StringBuildfr(80);
+        linf.bppfnd("0000: ");
+        for (int i = 0; i < pbdkft.dbtb.lfngti; i++) {
             if ((i > 0) && (i % 16 == 0)) {
-                vm.printTrace(line.toString());
-                line.setLength(0);
-                line.append(String.valueOf(i));
-                line.append(": ");
-                int len = line.length();
-                for (int j = 0; j < 6 - len; j++) {
-                    line.insert(0, '0');
+                vm.printTrbdf(linf.toString());
+                linf.sftLfngti(0);
+                linf.bppfnd(String.vblufOf(i));
+                linf.bppfnd(": ");
+                int lfn = linf.lfngti();
+                for (int j = 0; j < 6 - lfn; j++) {
+                    linf.insfrt(0, '0');
                 }
             }
-            int val = 0xff & packet.data[i];
-            String str = Integer.toHexString(val);
-            if (str.length() == 1) {
-                line.append('0');
+            int vbl = 0xff & pbdkft.dbtb[i];
+            String str = Intfgfr.toHfxString(vbl);
+            if (str.lfngti() == 1) {
+                linf.bppfnd('0');
             }
-            line.append(str);
-            line.append(' ');
+            linf.bppfnd(str);
+            linf.bppfnd(' ');
         }
-        if (line.length() > 6) {
-            vm.printTrace(line.toString());
+        if (linf.lfngti() > 6) {
+            vm.printTrbdf(linf.toString());
         }
     }
 
-    public void run() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_SENDS) != 0) {
-            vm.printTrace("Target VM interface thread running");
+    publid void run() {
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_SENDS) != 0) {
+            vm.printTrbdf("Tbrgft VM intfrfbdf tirfbd running");
         }
-        Packet p=null,p2;
+        Pbdkft p=null,p2;
         String idString;
 
-        while(shouldListen) {
+        wiilf(siouldListfn) {
 
-            boolean done = false;
+            boolfbn donf = fblsf;
             try {
-                byte b[] = connection.readPacket();
-                if (b.length == 0) {
-                    done = true;
+                bytf b[] = donnfdtion.rfbdPbdkft();
+                if (b.lfngti == 0) {
+                    donf = truf;
                 }
-                p = Packet.fromByteArray(b);
-            } catch (IOException e) {
-                done = true;
+                p = Pbdkft.fromBytfArrby(b);
+            } dbtdi (IOExdfption f) {
+                donf = truf;
             }
 
-            if (done) {
-                shouldListen = false;
+            if (donf) {
+                siouldListfn = fblsf;
                 try {
-                    connection.close();
-                } catch (IOException ioe) { }
-                break;
+                    donnfdtion.dlosf();
+                } dbtdi (IOExdfption iof) { }
+                brfbk;
             }
 
-            if ((vm.traceFlags & VirtualMachineImpl.TRACE_RAW_RECEIVES) != 0)  {
-                dumpPacket(p, false);
+            if ((vm.trbdfFlbgs & VirtublMbdiinfImpl.TRACE_RAW_RECEIVES) != 0)  {
+                dumpPbdkft(p, fblsf);
             }
 
-            if((p.flags & Packet.Reply) == 0) {
-                // It's a command
-                handleVMCommand(p);
-            } else {
-                /*if(p.errorCode != Packet.ReplyNoError) {
-                    System.err.println("Packet " + p.id + " returned failure = " + p.errorCode);
+            if((p.flbgs & Pbdkft.Rfply) == 0) {
+                // It's b dommbnd
+                ibndlfVMCommbnd(p);
+            } flsf {
+                /*if(p.frrorCodf != Pbdkft.RfplyNoError) {
+                    Systfm.frr.println("Pbdkft " + p.id + " rfturnfd fbilurf = " + p.frrorCodf);
                 }*/
 
-                vm.state().notifyCommandComplete(p.id);
-                idString = String.valueOf(p.id);
+                vm.stbtf().notifyCommbndComplftf(p.id);
+                idString = String.vblufOf(p.id);
 
-                synchronized(waitingQueue) {
-                    p2 = waitingQueue.get(idString);
+                syndironizfd(wbitingQufuf) {
+                    p2 = wbitingQufuf.gft(idString);
 
                     if (p2 != null)
-                        waitingQueue.remove(idString);
+                        wbitingQufuf.rfmovf(idString);
                 }
 
                 if(p2 == null) {
-                    // Whoa! a reply without a sender. Problem.
-                    // FIX ME! Need to post an error.
+                    // Wiob! b rfply witiout b sfndfr. Problfm.
+                    // FIX ME! Nffd to post bn frror.
 
-                    System.err.println("Recieved reply with no sender!");
-                    continue;
+                    Systfm.frr.println("Rfdifvfd rfply witi no sfndfr!");
+                    dontinuf;
                 }
-                p2.errorCode = p.errorCode;
-                p2.data = p.data;
-                p2.replied = true;
+                p2.frrorCodf = p.frrorCodf;
+                p2.dbtb = p.dbtb;
+                p2.rfplifd = truf;
 
-                synchronized(p2) {
+                syndironizfd(p2) {
                     p2.notify();
                 }
             }
         }
 
-        // inform the VM mamager that this VM is history
-        vm.vmManager.disposeVirtualMachine(vm);
+        // inform tif VM mbmbgfr tibt tiis VM is iistory
+        vm.vmMbnbgfr.disposfVirtublMbdiinf(vm);
 
-        // close down all the event queues
-        // Closing a queue causes a VMDisconnectEvent to
-        // be put onto the queue.
-        synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
-                ((EventQueueImpl)iter.next()).close();
+        // dlosf down bll tif fvfnt qufufs
+        // Closing b qufuf dbusfs b VMDisdonnfdtEvfnt to
+        // bf put onto tif qufuf.
+        syndironizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                ((EvfntQufufImpl)itfr.nfxt()).dlosf();
             }
         }
 
-        // indirectly throw VMDisconnectedException to
-        // command requesters.
-        synchronized(waitingQueue) {
-            Iterator<Packet> iter = waitingQueue.values().iterator();
-            while (iter.hasNext()) {
-                Packet packet = iter.next();
-                synchronized(packet) {
-                    packet.notify();
+        // indirfdtly tirow VMDisdonnfdtfdExdfption to
+        // dommbnd rfqufstfrs.
+        syndironizfd(wbitingQufuf) {
+            Itfrbtor<Pbdkft> itfr = wbitingQufuf.vblufs().itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Pbdkft pbdkft = itfr.nfxt();
+                syndironizfd(pbdkft) {
+                    pbdkft.notify();
                 }
             }
-            waitingQueue.clear();
+            wbitingQufuf.dlfbr();
         }
 
-        if ((vm.traceFlags & VirtualMachine.TRACE_SENDS) != 0) {
-            vm.printTrace("Target VM interface thread exiting");
-        }
-    }
-
-    protected void handleVMCommand(Packet p) {
-        switch (p.cmdSet) {
-            case JDWP.Event.COMMAND_SET:
-                handleEventCmdSet(p);
-                break;
-
-            default:
-                System.err.println("Ignoring cmd " + p.id + "/" +
-                                   p.cmdSet + "/" + p.cmd + " from the VM");
-                return;
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_SENDS) != 0) {
+            vm.printTrbdf("Tbrgft VM intfrfbdf tirfbd fxiting");
         }
     }
 
-    /* Events should not be constructed on this thread (the thread
-     * which reads all data from the transport). This means that the
-     * packet cannot be converted to real JDI objects as that may
-     * involve further communications with the back end which would
-     * deadlock.
+    protfdtfd void ibndlfVMCommbnd(Pbdkft p) {
+        switdi (p.dmdSft) {
+            dbsf JDWP.Evfnt.COMMAND_SET:
+                ibndlfEvfntCmdSft(p);
+                brfbk;
+
+            dffbult:
+                Systfm.frr.println("Ignoring dmd " + p.id + "/" +
+                                   p.dmdSft + "/" + p.dmd + " from tif VM");
+                rfturn;
+        }
+    }
+
+    /* Evfnts siould not bf donstrudtfd on tiis tirfbd (tif tirfbd
+     * wiidi rfbds bll dbtb from tif trbnsport). Tiis mfbns tibt tif
+     * pbdkft dbnnot bf donvfrtfd to rfbl JDI objfdts bs tibt mby
+     * involvf furtifr dommunidbtions witi tif bbdk fnd wiidi would
+     * dfbdlodk.
      *
-     * Instead the whole packet is passed for lazy eval by a queue
-     * reading thread.
+     * Instfbd tif wiolf pbdkft is pbssfd for lbzy fvbl by b qufuf
+     * rfbding tirfbd.
      */
-    protected void handleEventCmdSet(Packet p) {
-        EventSet eventSet = new EventSetImpl(vm, p);
+    protfdtfd void ibndlfEvfntCmdSft(Pbdkft p) {
+        EvfntSft fvfntSft = nfw EvfntSftImpl(vm, p);
 
-        if (eventSet != null) {
-            queueEventSet(eventSet);
+        if (fvfntSft != null) {
+            qufufEvfntSft(fvfntSft);
         }
     }
 
-    private EventController eventController() {
-        if (eventController == null) {
-            eventController = new EventController(vm);
+    privbtf EvfntControllfr fvfntControllfr() {
+        if (fvfntControllfr == null) {
+            fvfntControllfr = nfw EvfntControllfr(vm);
         }
-        return eventController;
+        rfturn fvfntControllfr;
     }
 
-    private synchronized void controlEventFlow(int maxQueueSize) {
-        if (!eventsHeld && (maxQueueSize > OVERLOADED_QUEUE)) {
-            eventController().hold();
-            eventsHeld = true;
-        } else if (eventsHeld && (maxQueueSize < UNDERLOADED_QUEUE)) {
-            eventController().release();
-            eventsHeld = false;
+    privbtf syndironizfd void dontrolEvfntFlow(int mbxQufufSizf) {
+        if (!fvfntsHfld && (mbxQufufSizf > OVERLOADED_QUEUE)) {
+            fvfntControllfr().iold();
+            fvfntsHfld = truf;
+        } flsf if (fvfntsHfld && (mbxQufufSizf < UNDERLOADED_QUEUE)) {
+            fvfntControllfr().rflfbsf();
+            fvfntsHfld = fblsf;
         }
     }
 
-    void notifyDequeueEventSet() {
-        int maxQueueSize = 0;
-        synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
-                EventQueueImpl queue = (EventQueueImpl)iter.next();
-                maxQueueSize = Math.max(maxQueueSize, queue.size());
+    void notifyDfqufufEvfntSft() {
+        int mbxQufufSizf = 0;
+        syndironizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                EvfntQufufImpl qufuf = (EvfntQufufImpl)itfr.nfxt();
+                mbxQufufSizf = Mbti.mbx(mbxQufufSizf, qufuf.sizf());
             }
         }
-        controlEventFlow(maxQueueSize);
+        dontrolEvfntFlow(mbxQufufSizf);
     }
 
-    private void queueEventSet(EventSet eventSet) {
-        int maxQueueSize = 0;
+    privbtf void qufufEvfntSft(EvfntSft fvfntSft) {
+        int mbxQufufSizf = 0;
 
-        synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
-                EventQueueImpl queue = (EventQueueImpl)iter.next();
-                queue.enqueue(eventSet);
-                maxQueueSize = Math.max(maxQueueSize, queue.size());
+        syndironizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                EvfntQufufImpl qufuf = (EvfntQufufImpl)itfr.nfxt();
+                qufuf.fnqufuf(fvfntSft);
+                mbxQufufSizf = Mbti.mbx(mbxQufufSizf, qufuf.sizf());
             }
         }
 
-        controlEventFlow(maxQueueSize);
+        dontrolEvfntFlow(mbxQufufSizf);
     }
 
-    void send(Packet packet) {
-        String id = String.valueOf(packet.id);
+    void sfnd(Pbdkft pbdkft) {
+        String id = String.vblufOf(pbdkft.id);
 
-        synchronized(waitingQueue) {
-            waitingQueue.put(id, packet);
+        syndironizfd(wbitingQufuf) {
+            wbitingQufuf.put(id, pbdkft);
         }
 
-        if ((vm.traceFlags & VirtualMachineImpl.TRACE_RAW_SENDS) != 0) {
-            dumpPacket(packet, true);
+        if ((vm.trbdfFlbgs & VirtublMbdiinfImpl.TRACE_RAW_SENDS) != 0) {
+            dumpPbdkft(pbdkft, truf);
         }
 
         try {
-            connection.writePacket(packet.toByteArray());
-        } catch (IOException e) {
-            throw new VMDisconnectedException(e.getMessage());
+            donnfdtion.writfPbdkft(pbdkft.toBytfArrby());
+        } dbtdi (IOExdfption f) {
+            tirow nfw VMDisdonnfdtfdExdfption(f.gftMfssbgf());
         }
     }
 
-    void waitForReply(Packet packet) {
-        synchronized(packet) {
-            while ((!packet.replied) && shouldListen) {
-                try { packet.wait(); } catch (InterruptedException e) {;}
+    void wbitForRfply(Pbdkft pbdkft) {
+        syndironizfd(pbdkft) {
+            wiilf ((!pbdkft.rfplifd) && siouldListfn) {
+                try { pbdkft.wbit(); } dbtdi (IntfrruptfdExdfption f) {;}
             }
 
-            if (!packet.replied) {
-                throw new VMDisconnectedException();
+            if (!pbdkft.rfplifd) {
+                tirow nfw VMDisdonnfdtfdExdfption();
             }
         }
     }
 
-    void addEventQueue(EventQueueImpl queue) {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("New event queue added");
+    void bddEvfntQufuf(EvfntQufufImpl qufuf) {
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Nfw fvfnt qufuf bddfd");
         }
-        eventQueues.add(queue);
+        fvfntQufufs.bdd(qufuf);
     }
 
-    void stopListening() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Target VM i/f closing event queues");
+    void stopListfning() {
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Tbrgft VM i/f dlosing fvfnt qufufs");
         }
-        shouldListen = false;
+        siouldListfn = fblsf;
         try {
-            connection.close();
-        } catch (IOException ioe) { }
+            donnfdtion.dlosf();
+        } dbtdi (IOExdfption iof) { }
     }
 
-    static private class EventController extends Thread {
-        VirtualMachineImpl vm;
-        int controlRequest = 0;
+    stbtid privbtf dlbss EvfntControllfr fxtfnds Tirfbd {
+        VirtublMbdiinfImpl vm;
+        int dontrolRfqufst = 0;
 
-        EventController(VirtualMachineImpl vm) {
-            super(vm.threadGroupForJDI(), "JDI Event Control Thread");
-            this.vm = vm;
-            setDaemon(true);
-            setPriority((MAX_PRIORITY + NORM_PRIORITY)/2);
-            super.start();
+        EvfntControllfr(VirtublMbdiinfImpl vm) {
+            supfr(vm.tirfbdGroupForJDI(), "JDI Evfnt Control Tirfbd");
+            tiis.vm = vm;
+            sftDbfmon(truf);
+            sftPriority((MAX_PRIORITY + NORM_PRIORITY)/2);
+            supfr.stbrt();
         }
 
-        synchronized void hold() {
-            controlRequest++;
+        syndironizfd void iold() {
+            dontrolRfqufst++;
             notifyAll();
         }
 
-        synchronized void release() {
-            controlRequest--;
+        syndironizfd void rflfbsf() {
+            dontrolRfqufst--;
             notifyAll();
         }
 
-        public void run() {
-            while(true) {
-                int currentRequest;
-                synchronized(this) {
-                    while (controlRequest == 0) {
-                        try {wait();} catch (InterruptedException e) {}
+        publid void run() {
+            wiilf(truf) {
+                int durrfntRfqufst;
+                syndironizfd(tiis) {
+                    wiilf (dontrolRfqufst == 0) {
+                        try {wbit();} dbtdi (IntfrruptfdExdfption f) {}
                     }
-                    currentRequest = controlRequest;
-                    controlRequest = 0;
+                    durrfntRfqufst = dontrolRfqufst;
+                    dontrolRfqufst = 0;
                 }
                 try {
-                    if (currentRequest > 0) {
-                        JDWP.VirtualMachine.HoldEvents.process(vm);
-                    } else {
-                        JDWP.VirtualMachine.ReleaseEvents.process(vm);
+                    if (durrfntRfqufst > 0) {
+                        JDWP.VirtublMbdiinf.HoldEvfnts.prodfss(vm);
+                    } flsf {
+                        JDWP.VirtublMbdiinf.RflfbsfEvfnts.prodfss(vm);
                     }
-                } catch (JDWPException e) {
+                } dbtdi (JDWPExdfption f) {
                     /*
-                     * Don't want to terminate the thread, so the
-                     * stack trace is printed and we continue.
+                     * Don't wbnt to tfrminbtf tif tirfbd, so tif
+                     * stbdk trbdf is printfd bnd wf dontinuf.
                      */
-                    e.toJDIException().printStackTrace(System.err);
+                    f.toJDIExdfption().printStbdkTrbdf(Systfm.frr);
                 }
             }
         }

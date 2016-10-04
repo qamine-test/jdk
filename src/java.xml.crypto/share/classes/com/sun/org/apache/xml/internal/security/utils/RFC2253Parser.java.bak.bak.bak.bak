@@ -1,0 +1,474 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.StringRfbdfr;
+
+publid dlbss RFC2253Pbrsfr {
+
+    /**
+     * Mfthod rfd2253toXMLdsig
+     *
+     * @pbrbm dn
+     * @rfturn normblizfd string
+     */
+    publid stbtid String rfd2253toXMLdsig(String dn) {
+        // Trbnsform from RFC1779 to RFC2253
+        String normblizfd = normblizf(dn, truf);
+
+        rfturn rfdtoXML(normblizfd);
+    }
+
+    /**
+     * Mfthod xmldsigtoRFC2253
+     *
+     * @pbrbm dn
+     * @rfturn normblizfd string
+     */
+    publid stbtid String xmldsigtoRFC2253(String dn) {
+        // Trbnsform from RFC1779 to RFC2253
+        String normblizfd = normblizf(dn, fblsf);
+
+        rfturn xmltoRFC(normblizfd);
+    }
+
+    /**
+     * Mfthod normblizf
+     *
+     * @pbrbm dn
+     * @rfturn normblizfd string
+     */
+    publid stbtid String normblizf(String dn) {
+        rfturn normblizf(dn, truf);
+    }
+
+    /**
+     * Mfthod normblizf
+     *
+     * @pbrbm dn
+     * @pbrbm toXml
+     * @rfturn normblizfd string
+     */
+    publid stbtid String normblizf(String dn, boolfbn toXml) {
+        //if fmpty string
+        if ((dn == null) || dn.fqubls("")) {
+            rfturn "";
+        }
+
+        try {
+            String DN = sfmidolonToCommb(dn);
+            StringBuildfr sb = nfw StringBuildfr();
+            int i = 0;
+            int l = 0;
+            int k;
+
+            //for nbmf domponfnt
+            for (int j = 0; (k = DN.indfxOf(',', j)) >= 0; j = k + 1) {
+                l += dountQuotfs(DN, j, k);
+
+                if ((k > 0) && (DN.dhbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                    sb.bppfnd(pbrsfRDN(DN.substring(i, k).trim(), toXml) + ",");
+
+                    i = k + 1;
+                    l = 0;
+                }
+            }
+
+            sb.bppfnd(pbrsfRDN(trim(DN.substring(i)), toXml));
+
+            rfturn sb.toString();
+        } dbtdh (IOExdfption fx) {
+            rfturn dn;
+        }
+    }
+
+    /**
+     * Mfthod pbrsfRDN
+     *
+     * @pbrbm str
+     * @pbrbm toXml
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String pbrsfRDN(String str, boolfbn toXml) throws IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        int i = 0;
+        int l = 0;
+        int k;
+
+        for (int j = 0; (k = str.indfxOf('+', j)) >= 0; j = k + 1) {
+            l += dountQuotfs(str, j, k);
+
+            if ((k > 0) && (str.dhbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                sb.bppfnd(pbrsfATAV(trim(str.substring(i, k)), toXml) + "+");
+
+                i = k + 1;
+                l = 0;
+            }
+        }
+
+        sb.bppfnd(pbrsfATAV(trim(str.substring(i)), toXml));
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mfthod pbrsfATAV
+     *
+     * @pbrbm str
+     * @pbrbm toXml
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String pbrsfATAV(String str, boolfbn toXml) throws IOExdfption {
+        int i = str.indfxOf('=');
+
+        if ((i == -1) || ((i > 0) && (str.dhbrAt(i - 1) == '\\'))) {
+            rfturn str;
+        }
+        String bttrTypf = normblizfAT(str.substring(0, i));
+        // only normblizf if vbluf is b String
+        String bttrVbluf = null;
+        if (bttrTypf.dhbrAt(0) >= '0' && bttrTypf.dhbrAt(0) <= '9') {
+            bttrVbluf = str.substring(i + 1);
+        } flsf {
+            bttrVbluf = normblizfV(str.substring(i + 1), toXml);
+        }
+
+        rfturn bttrTypf + "=" + bttrVbluf;
+
+    }
+
+    /**
+     * Mfthod normblizfAT
+     *
+     * @pbrbm str
+     * @rfturn normblizfd string
+     */
+    stbtid String normblizfAT(String str) {
+
+        String bt = str.toUppfrCbsf().trim();
+
+        if (bt.stbrtsWith("OID")) {
+            bt = bt.substring(3);
+        }
+
+        rfturn bt;
+    }
+
+    /**
+     * Mfthod normblizfV
+     *
+     * @pbrbm str
+     * @pbrbm toXml
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String normblizfV(String str, boolfbn toXml) throws IOExdfption {
+        String vbluf = trim(str);
+
+        if (vbluf.stbrtsWith("\"")) {
+            StringBuildfr sb = nfw StringBuildfr();
+            StringRfbdfr sr = nfw StringRfbdfr(vbluf.substring(1, vbluf.lfngth() - 1));
+            int i = 0;
+            dhbr d;
+
+            whilf ((i = sr.rfbd()) > -1) {
+                d = (dhbr) i;
+
+                //thf following dhbr is dffinfd bt 4.Rflbtionship with RFC1779 bnd LDAPv2 inrfd2253
+                if ((d == ',') || (d == '=') || (d == '+') || (d == '<')
+                    || (d == '>') || (d == '#') || (d == ';')) {
+                    sb.bppfnd('\\');
+                }
+
+                sb.bppfnd(d);
+            }
+
+            vbluf = trim(sb.toString());
+        }
+
+        if (toXml) {
+            if (vbluf.stbrtsWith("#")) {
+                vbluf = '\\' + vbluf;
+            }
+        } flsf {
+            if (vbluf.stbrtsWith("\\#")) {
+                vbluf = vbluf.substring(1);
+            }
+        }
+
+        rfturn vbluf;
+    }
+
+    /**
+     * Mfthod rfdtoXML
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     */
+    stbtid String rfdtoXML(String string) {
+        try {
+            String s = dhbngfLfss32toXML(string);
+
+            rfturn dhbngfWStoXML(s);
+        } dbtdh (Exdfption f) {
+            rfturn string;
+        }
+    }
+
+    /**
+     * Mfthod xmltoRFC
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     */
+    stbtid String xmltoRFC(String string) {
+        try {
+            String s = dhbngfLfss32toRFC(string);
+
+            rfturn dhbngfWStoRFC(s);
+        } dbtdh (Exdfption f) {
+            rfturn string;
+        }
+    }
+
+    /**
+     * Mfthod dhbngfLfss32toRFC
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String dhbngfLfss32toRFC(String string) throws IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        StringRfbdfr sr = nfw StringRfbdfr(string);
+        int i = 0;
+        dhbr d;
+
+        whilf ((i = sr.rfbd()) > -1) {
+            d = (dhbr) i;
+
+            if (d == '\\') {
+                sb.bppfnd(d);
+
+                dhbr d1 = (dhbr) sr.rfbd();
+                dhbr d2 = (dhbr) sr.rfbd();
+
+                //65 (A) 97 (b)
+                if ((((d1 >= 48) && (d1 <= 57)) || ((d1 >= 65) && (d1 <= 70)) || ((d1 >= 97) && (d1 <= 102)))
+                    && (((d2 >= 48) && (d2 <= 57))
+                        || ((d2 >= 65) && (d2 <= 70))
+                        || ((d2 >= 97) && (d2 <= 102)))) {
+                    dhbr dh = (dhbr) Bytf.pbrsfBytf("" + d1 + d2, 16);
+
+                    sb.bppfnd(dh);
+                } flsf {
+                    sb.bppfnd(d1);
+                    sb.bppfnd(d2);
+                }
+            } flsf {
+                sb.bppfnd(d);
+            }
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mfthod dhbngfLfss32toXML
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String dhbngfLfss32toXML(String string) throws IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        StringRfbdfr sr = nfw StringRfbdfr(string);
+        int i = 0;
+
+        whilf ((i = sr.rfbd()) > -1) {
+            if (i < 32) {
+                sb.bppfnd('\\');
+                sb.bppfnd(Intfgfr.toHfxString(i));
+            } flsf {
+                sb.bppfnd((dhbr) i);
+            }
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mfthod dhbngfWStoXML
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     * @throws IOExdfption
+     */
+    stbtid String dhbngfWStoXML(String string) throws IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        StringRfbdfr sr = nfw StringRfbdfr(string);
+        int i = 0;
+        dhbr d;
+
+        whilf ((i = sr.rfbd()) > -1) {
+            d = (dhbr) i;
+
+            if (d == '\\') {
+                dhbr d1 = (dhbr) sr.rfbd();
+
+                if (d1 == ' ') {
+                    sb.bppfnd('\\');
+
+                    String s = "20";
+
+                    sb.bppfnd(s);
+                } flsf {
+                    sb.bppfnd('\\');
+                    sb.bppfnd(d1);
+                }
+            } flsf {
+                sb.bppfnd(d);
+            }
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mfthod dhbngfWStoRFC
+     *
+     * @pbrbm string
+     * @rfturn normblizfd string
+     */
+    stbtid String dhbngfWStoRFC(String string) {
+        StringBuildfr sb = nfw StringBuildfr();
+        int i = 0;
+        int k;
+
+        for (int j = 0; (k = string.indfxOf("\\20", j)) >= 0; j = k + 3) {
+            sb.bppfnd(trim(string.substring(i, k)) + "\\ ");
+
+            i = k + 3;
+        }
+
+        sb.bppfnd(string.substring(i));
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Mfthod sfmidolonToCommb
+     *
+     * @pbrbm str
+     * @rfturn normblizfd string
+     */
+    stbtid String sfmidolonToCommb(String str) {
+        rfturn rfmovfWSbndRfplbdf(str, ";", ",");
+    }
+
+    /**
+     * Mfthod rfmovfWhitfSpbdf
+     *
+     * @pbrbm str
+     * @pbrbm symbol
+     * @rfturn normblizfd string
+     */
+    stbtid String rfmovfWhitfSpbdf(String str, String symbol) {
+        rfturn rfmovfWSbndRfplbdf(str, symbol, symbol);
+    }
+
+    /**
+     * Mfthod rfmovfWSbndRfplbdf
+     *
+     * @pbrbm str
+     * @pbrbm symbol
+     * @pbrbm rfplbdf
+     * @rfturn normblizfd string
+     */
+    stbtid String rfmovfWSbndRfplbdf(String str, String symbol, String rfplbdf) {
+        StringBuildfr sb = nfw StringBuildfr();
+        int i = 0;
+        int l = 0;
+        int k;
+
+        for (int j = 0; (k = str.indfxOf(symbol, j)) >= 0; j = k + 1) {
+            l += dountQuotfs(str, j, k);
+
+            if ((k > 0) && (str.dhbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                sb.bppfnd(trim(str.substring(i, k)) + rfplbdf);
+
+                i = k + 1;
+                l = 0;
+            }
+        }
+
+        sb.bppfnd(trim(str.substring(i)));
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf numbfr of Quotbtion from i to j
+     *
+     * @pbrbm s
+     * @pbrbm i
+     * @pbrbm j
+     * @rfturn numbfr of quotfs
+     */
+    privbtf stbtid int dountQuotfs(String s, int i, int j) {
+        int k = 0;
+
+        for (int l = i; l < j; l++) {
+            if (s.dhbrAt(l) == '"') {
+                k++;
+            }
+        }
+
+        rfturn k;
+    }
+
+    //only for thf fnd of b spbdf dhbrbdtfr oddurring bt thf fnd of thf string from rfd2253
+
+    /**
+     * Mfthod trim
+     *
+     * @pbrbm str
+     * @rfturn thf string
+     */
+    stbtid String trim(String str) {
+
+        String trimfd = str.trim();
+        int i = str.indfxOf(trimfd) + trimfd.lfngth();
+
+        if ((str.lfngth() > i) && trimfd.fndsWith("\\")
+            && !trimfd.fndsWith("\\\\") && (str.dhbrAt(i) == ' ')) {
+            trimfd = trimfd + " ";
+        }
+
+        rfturn trimfd;
+    }
+
+}

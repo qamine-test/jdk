@@ -1,0 +1,489 @@
+'\" t
+.\"  Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: tnbmfsfrv.1
+.\"
+.if n .pl 99999
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
+.fi     
+.sp     
+.TP
+-ORBInitiblPort \fInbmfsfrvfrport\fR
+.br
+Thf initibl port whfrf thf nbming sfrvidf listfns for thf bootstrbp protodol usfd to implfmfnt thf ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mfthods\&.
+.SH DESCRIPTION    
+Jbvb IDL indludfs thf Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss thbt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Thf Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf thf \f3tnbmfsfrv\fR dommbnd for thf \f3orbd\fR dommbnd in bny of thf fxbmplfs thbt usf b Trbnsifnt Nbming Sfrvidf\&.
+.PP
+Sff orbd(1) or Nbming Sfrvidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/jidlNbming\&.html
+.PP
+Thf CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm thbt providfs b dirfdtory strudturf for filfs\&. Thf Trbnsifnt Nbming Sfrvidf providfd with Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of thf COS Nbming Sfrvidf spfdifidbtion\&.
+.PP
+Objfdt rfffrfndfs brf storfd in thf nbmf spbdf by nbmf bnd fbdh objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf thf sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr thf initibl nbming dontfxt\&. Thf initibl nbming dontfxt is thf only pfrsistfnt binding in thf nbmf spbdf\&. Thf rfst of thf nbmf spbdf is lost whfn thf Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
+.PP
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know thf port of b host running b nbming sfrvidf or hbvf bddfss to bn initibl nbming dontfxt string for thbt nbming sfrvidf\&. Thf nbming sfrvidf dbn fithfr bf thf Jbvb IDL nbming sfrvidf or bnothfr COS-domplibnt nbming sfrvidf\&.
+.SS START\ THE\ NAMING\ SERVICE    
+You must stbrt thf Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft thbt usfs its nbming sfrvidf\&. Instbllbtion of thf Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) thbt stbrts thf Jbvb IDL nbming sfrvidf\&. Stbrt thf nbming sfrvidf so it runs in thf bbdkground\&.
+.PP
+If you do not spfdify othfrwisf, thfn thf Jbvb IDL nbming sfrvidf listfns on port 900 for thf bootstrbp protodol usfd to implfmfnt thf ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mfthods\fR, bs follows:
+.sp     
+.nf     
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If you do not spfdify thf nbmf sfrvfr port, thfn port 900 is usfd by dffbult\&. Whfn running Orbdlf Solbris softwbrf, you must bfdomf thf root usfr to stbrt b prodfss on b port bflow 1024\&. For this rfbson, it is rfdommfndfd thbt you usf b port numbfr grfbtfr thbn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run thf nbming sfrvidf in thf bbdkground, from b UNIX dommbnd shfll, fntfr:
+.sp     
+.nf     
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+From bn MS-DOS systfm prompt (Windows), fntfr:
+.sp     
+.nf     
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Clifnts of thf nbmf sfrvfr must bf mbdf bwbrf of thf nfw port numbfr\&. Do this by sftting thf \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to thf nfw port numbfr whfn you drfbtf thf ORB objfdt\&.
+.SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
+In most of thf Jbvb IDL bnd RMI-IIOP tutoribls, thf nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on thf dfvflopmfnt mbdhinf\&. In rfbl-world dfploymfnt, thf dlifnt bnd sfrvfr probbbly run on difffrfnt host mbdhinfs from thf Nbming Sfrvidf\&.
+.PP
+For thf dlifnt bnd sfrvfr to find thf Nbming Sfrvidf, thfy must bf mbdf bwbrf of thf port numbfr bnd host on whidh thf nbming sfrvidf is running\&. Do this by sftting thf \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in thf dlifnt bnd sfrvfr filfs to thf mbdhinf nbmf bnd port numbfr on whidh thf Nbming Sfrvidf is running\&. An fxbmplf of this is shown in Gftting Stbrtfd Using RMI-IIOP bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.html
+.PP
+You dould blso usf thf dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfrhostnbmf\fR to tfll thf dlifnt bnd sfrvfr whfrf to find thf nbming sfrvidf\&. For onf fxbmplf of doing this using thf dommbnd-linf option, sff Jbvb IDL: Thf Hfllo World Exbmplf on Two Mbdhinfs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/tutoribl/jidl2mbdhinfs\&.html
+.PP
+For fxbmplf, supposf thf Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on host \f3nbmfsfrvfrhost\fR\&. Thf dlifnt is running on host \f3dlifnthost,\fR bnd thf sfrvfr is running on host \f3sfrvfrhost\fR\&.
+.PP
+Stbrt \f3tnbmfsfrv\fR on thf host \f3nbmfsfrvfrhost\fR:
+.sp     
+.nf     
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Stbrt thf sfrvfr on thf \f3sfrvfrhost\fR:
+.sp     
+.nf     
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfrhost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Stbrt thf dlifnt on thf \f3dlifnthost\fR:
+.sp     
+.nf     
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfrhost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS STOP\ THE\ NAMING\ SERVICE    
+To stop thf Jbvb IDL nbming sfrvidf, usf thf rflfvbnt opfrbting systfm dommbnd, sudh bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Thf nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly shut down\&. Notf thbt nbmfs rfgistfrfd with thf Jbvb IDL nbming sfrvidf disbppfbr whfn thf sfrvidf is tfrminbtfd\&.
+.SH OPTIONS    
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf, whfrf \f3option\fR is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH EXAMPLES    
+.SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
+Thf following fxbmplf shows how to bdd nbmfs to thf nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt thbt drfbtfs thf following simplf trff\&.
+.sp     
+.nf     
+\f3Initibl Nbming Contfxt\fP
+.fi     
+.nf     
+\f3     plbns\fP
+.fi     
+.nf     
+\f3     Pfrsonbl\fP
+.fi     
+.nf     
+\f3          dblfndbr\fP
+.fi     
+.nf     
+\f3          sdhfdulf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+In this fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt thbt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdhfdulf\fR\&.
+.sp     
+.nf     
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+.fi     
+.nf     
+\f3import org\&.omg\&.CORBA\&.*;\fP
+.fi     
+.nf     
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3publid dlbss NbmfClifnt {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3        try {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+In Stbrt thf Nbming Sfrvidf, thf \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Thf following dodf fnsurfs thbt thf dlifnt progrbm is bwbrf of this port numbfr\&.
+.sp     
+.nf     
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+.fi     
+.nf     
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+.fi     
+.nf     
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This dodf obtbins thf initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Thf sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR thbt is bttbdhfd to vbrious nbmfs bnd bddfd into thf nbmf spbdf\&.
+.sp     
+.nf     
+\f3            NbmingContfxt dtx =\fP
+.fi     
+.nf     
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
+.fi     
+.nf     
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+.fi     
+.nf     
+\f3             NbmingContfxt objrff = dtx;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to thf dummy objfdt rfffrfndf\&. \f3plbns\fR is thfn bddfd undfr thf initibl nbming dontfxt using thf \f3rfbind\fR mfthod\&. Thf \f3rfbind\fR mfthod fnbblfs you to run this progrbm ovfr bnd ovfr bgbin without gftting thf fxdfptions from using thf \f3bind\fR mfthod\&.
+.sp     
+.nf     
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
+.fi     
+.nf     
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
+.fi     
+.nf     
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
+.fi     
+.nf     
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Thf rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to thf \f3nbmf\fR bnd bddfd undfr thf initibl nbming dontfxt\&.
+.sp     
+.nf     
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
+.fi     
+.nf     
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
+.fi     
+.nf     
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
+.fi     
+.nf     
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf rfmbindfr of thf dodf binds thf dummy objfdt rfffrfndf using thf nbmfs \f3sdhfdulf\fR bnd \f3dblfndbr\fR undfr thf \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
+.sp     
+.nf     
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdhfdulf", "tfxt");\fP
+.fi     
+.nf     
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
+.fi     
+.nf     
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
+.fi     
+.nf     
+\f3            Systfm\&.out\&.println("sdhfdulf rfbind suddfssful!");\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
+.fi     
+.nf     
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
+.fi     
+.nf     
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
+.fi     
+.nf     
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
+.fi     
+.nf     
+\f3        } dbtdh (Exdfption f) {\fP
+.fi     
+.nf     
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
+.fi     
+.nf     
+\f3        }\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS BROWSING\ THE\ NAME\ SPACE    
+Thf following sbmplf progrbm shofs how to browsf thf nbmf spbdf\&.
+.sp     
+.nf     
+\f3import jbvb\&.util\&.Propfrtifs;\fP
+.fi     
+.nf     
+\f3import org\&.omg\&.CORBA\&.*;\fP
+.fi     
+.nf     
+\f3import org\&.omg\&.CosNbming\&.*;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3publid dlbss NbmfClifntList {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3    publid stbtid void mbin(String brgs[]) {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3        try {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+In Stbrt thf Nbming Sfrvidf, thf \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Thf following dodf fnsurfs thbt thf dlifnt progrbm is bwbrf of this port numbfr\&.
+.sp     
+.nf     
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
+.fi     
+.nf     
+\f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
+.fi     
+.nf     
+\f3            ORB orb = ORB\&.init(brgs, props);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf following dodf obtbins thf initibl nbming dontfxt\&.
+.sp     
+.nf     
+\f3            NbmingContfxt nd =\fP
+.fi     
+.nf     
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
+.fi     
+.nf     
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf \f3list\fR mfthod lists thf bindings in thf nbming dontfxt\&. In this dbsf, up to 1000 bindings from thf initibl nbming dontfxt will bf rfturnfd in thf \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in thf \f3BindingItfrbtorHoldfr\fR\&.
+.sp     
+.nf     
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
+.fi     
+.nf     
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
+.fi     
+.nf     
+\f3            nd\&.list(1000, bl, blIt);\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This dodf gfts thf brrby of bindings out of thf rfturnfd \f3BindingListHoldfr\fR\&. If thfrf brf no bindings, thfn thf progrbm fnds\&.
+.sp     
+.nf     
+\f3            Binding bindings[] = bl\&.vbluf;\fP
+.fi     
+.nf     
+\f3            if (bindings\&.lfngth == 0) rfturn;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf rfmbindfr of thf dodf loops through thf bindings bnd prints outs thf nbmfs\&.
+.sp     
+.nf     
+\f3            for (int i=0; i < bindings\&.lfngth; i++) {\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3                // gft thf objfdt rfffrfndf for fbdh binding\fP
+.fi     
+.nf     
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
+.fi     
+.nf     
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
+.fi     
+.nf     
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngth\-1;\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3                // dhfdk to sff if this is b nbming dontfxt\fP
+.fi     
+.nf     
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
+.fi     
+.nf     
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
+.fi     
+.nf     
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+.fi     
+.nf     
+\f3                } flsf {\fP
+.fi     
+.nf     
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
+.fi     
+.nf     
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
+.fi     
+.nf     
+\f3                }\fP
+.fi     
+.nf     
+\f3            }\fP
+.fi     
+.nf     
+\f3        } dbtdh (Exdfption f) {\fP
+.fi     
+.nf     
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
+.fi     
+.nf     
+\f3        }\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+orbd(1)
+.RE
+.br
+'pl 8.5i
+'bp

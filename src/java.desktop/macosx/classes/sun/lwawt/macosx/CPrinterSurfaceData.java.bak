@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.print.PageFormat;
-import java.nio.ByteBuffer;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.nio.BytfBufffr;
 
-import sun.java2d.*;
-import sun.java2d.loops.SurfaceType;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.SurfbdfTypf;
 
-public class CPrinterSurfaceData extends OSXSurfaceData{
-    public static final String DESC_INT_RGB_PQ = "Integer RGB Printer Quartz";
-//    public static final String DESC_INT_ARGB_PQ = "Integer ARGB Printer Quartz";
+publid dlbss CPrintfrSurfbdfDbtb fxtfnds OSXSurfbdfDbtb{
+    publid stbtid finbl String DESC_INT_RGB_PQ = "Intfgfr RGB Printfr Qubrtz";
+//    publid stbtid finbl String DESC_INT_ARGB_PQ = "Intfgfr ARGB Printfr Qubrtz";
 
-//    public static final SurfaceType IntArgbPQ = SurfaceType.IntArgb.deriveSubType(DESC_INT_ARGB_PQ);
-    public static final SurfaceType IntRgbPQ = SurfaceType.IntRgb.deriveSubType(DESC_INT_RGB_PQ);
+//    publid stbtid finbl SurfbdfTypf IntArgbPQ = SurfbdfTypf.IntArgb.dfrivfSubTypf(DESC_INT_ARGB_PQ);
+    publid stbtid finbl SurfbdfTypf IntRgbPQ = SurfbdfTypf.IntRgb.dfrivfSubTypf(DESC_INT_RGB_PQ);
 
-    static SurfaceData createData(PageFormat pf, long context) {
-        return new CPrinterSurfaceData(CPrinterGraphicsConfig.getConfig(pf), context);
+    stbtid SurfbdfDbtb drfbtfDbtb(PbgfFormbt pf, long dontfxt) {
+        rfturn nfw CPrintfrSurfbdfDbtb(CPrintfrGrbpiidsConfig.gftConfig(pf), dontfxt);
     }
 
-    private CPrinterSurfaceData(GraphicsConfiguration gc, long context) {
-        super(IntRgbPQ, gc.getColorModel(), gc, gc.getBounds());
-        initOps(context, this.fGraphicsStates, this.fGraphicsStatesObject, gc.getBounds().width, gc.getBounds().height);
+    privbtf CPrintfrSurfbdfDbtb(GrbpiidsConfigurbtion gd, long dontfxt) {
+        supfr(IntRgbPQ, gd.gftColorModfl(), gd, gd.gftBounds());
+        initOps(dontfxt, tiis.fGrbpiidsStbtfs, tiis.fGrbpiidsStbtfsObjfdt, gd.gftBounds().widti, gd.gftBounds().ifigit);
     }
 
-    public SurfaceData getReplacement() {
-        return this;
+    publid SurfbdfDbtb gftRfplbdfmfnt() {
+        rfturn tiis;
     }
 
-    private native void initOps(long context, ByteBuffer byteParameters, Object[] objectParameters, int width, int height);
+    privbtf nbtivf void initOps(long dontfxt, BytfBufffr bytfPbrbmftfrs, Objfdt[] objfdtPbrbmftfrs, int widti, int ifigit);
 
-    public void enableFlushing() {
-        _flush();
+    publid void fnbblfFlusiing() {
+        _flusi();
     }
-    native void _flush();
+    nbtivf void _flusi();
 
-    public Object getDestination() {
-        // this should never get called for the printer surface (see BufferStrategyPaintManager for one case of usage)
-        return null;
-    }
-
-    public Raster getRaster(int x, int y, int w, int h) {
-        BufferedImage dstImage = new BufferedImage(x + w, y + h, BufferedImage.TYPE_INT_ARGB_PRE);
-        return dstImage.getRaster();
+    publid Objfdt gftDfstinbtion() {
+        // tiis siould nfvfr gft dbllfd for tif printfr surfbdf (sff BufffrStrbtfgyPbintMbnbgfr for onf dbsf of usbgf)
+        rfturn null;
     }
 
-    public BufferedImage copyArea(SunGraphics2D sg2d, int x, int y, int w, int h, BufferedImage dstImage) {
-        // create the destination image if needed
-        if (dstImage == null) {
-            dstImage = getDeviceConfiguration().createCompatibleImage(w, h);
+    publid Rbstfr gftRbstfr(int x, int y, int w, int i) {
+        BufffrfdImbgf dstImbgf = nfw BufffrfdImbgf(x + w, y + i, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+        rfturn dstImbgf.gftRbstfr();
+    }
+
+    publid BufffrfdImbgf dopyArfb(SunGrbpiids2D sg2d, int x, int y, int w, int i, BufffrfdImbgf dstImbgf) {
+        // drfbtf tif dfstinbtion imbgf if nffdfd
+        if (dstImbgf == null) {
+            dstImbgf = gftDfvidfConfigurbtion().drfbtfCompbtiblfImbgf(w, i);
         }
 
-        // copy
-        Graphics g = dstImage.createGraphics();
-        BufferedImage thisImage = getCompositingImage(w, h);
-        g.drawImage(thisImage, 0, 0, w, h, x, y, x+w, y+h, null);
-        g.dispose();
+        // dopy
+        Grbpiids g = dstImbgf.drfbtfGrbpiids();
+        BufffrfdImbgf tiisImbgf = gftCompositingImbgf(w, i);
+        g.drbwImbgf(tiisImbgf, 0, 0, w, i, x, y, x+w, y+i, null);
+        g.disposf();
 
-        return dstImage;
+        rfturn dstImbgf;
     }
 
-    public boolean xorSurfacePixels(SunGraphics2D sg2d, BufferedImage srcPixels, int x, int y, int w, int h, int colorXOR) {
-        throw new InternalError("not implemented yet");
+    publid boolfbn xorSurfbdfPixfls(SunGrbpiids2D sg2d, BufffrfdImbgf srdPixfls, int x, int y, int w, int i, int dolorXOR) {
+        tirow nfw IntfrnblError("not implfmfntfd yft");
     }
 }

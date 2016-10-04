@@ -1,1470 +1,1470 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.util.*;
-import java.io.*;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
-import com.sun.rowset.*;
-import java.text.MessageFormat;
-import javax.sql.rowset.*;
-import javax.sql.rowset.serial.SQLInputImpl;
-import javax.sql.rowset.serial.SerialArray;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialClob;
-import javax.sql.rowset.serial.SerialStruct;
-import javax.sql.rowset.spi.*;
+import dom.sun.rowsft.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.sfribl.SQLInputImpl;
+import jbvbx.sql.rowsft.sfribl.SfriblArrby;
+import jbvbx.sql.rowsft.sfribl.SfriblBlob;
+import jbvbx.sql.rowsft.sfribl.SfriblClob;
+import jbvbx.sql.rowsft.sfribl.SfriblStrudt;
+import jbvbx.sql.rowsft.spi.*;
 
 
 /**
- * The facility called on internally by the <code>RIOptimisticProvider</code> implementation to
- * propagate changes back to the data source from which the rowset got its data.
+ * Tif fbdility dbllfd on intfrnblly by tif <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion to
+ * propbgbtf dibngfs bbdk to tif dbtb sourdf from wiidi tif rowsft got its dbtb.
  * <P>
- * A <code>CachedRowSetWriter</code> object, called a writer, has the public
- * method <code>writeData</code> for writing modified data to the underlying data source.
- * This method is invoked by the rowset internally and is never invoked directly by an application.
- * A writer also has public methods for setting and getting
- * the <code>CachedRowSetReader</code> object, called a reader, that is associated
- * with the writer. The remainder of the methods in this class are private and
- * are invoked internally, either directly or indirectly, by the method
- * <code>writeData</code>.
+ * A <dodf>CbdifdRowSftWritfr</dodf> objfdt, dbllfd b writfr, ibs tif publid
+ * mftiod <dodf>writfDbtb</dodf> for writing modififd dbtb to tif undfrlying dbtb sourdf.
+ * Tiis mftiod is invokfd by tif rowsft intfrnblly bnd is nfvfr invokfd dirfdtly by bn bpplidbtion.
+ * A writfr blso ibs publid mftiods for sftting bnd gftting
+ * tif <dodf>CbdifdRowSftRfbdfr</dodf> objfdt, dbllfd b rfbdfr, tibt is bssodibtfd
+ * witi tif writfr. Tif rfmbindfr of tif mftiods in tiis dlbss brf privbtf bnd
+ * brf invokfd intfrnblly, fitifr dirfdtly or indirfdtly, by tif mftiod
+ * <dodf>writfDbtb</dodf>.
  * <P>
- * Typically the <code>SyncFactory</code> manages the <code>RowSetReader</code> and
- * the <code>RowSetWriter</code> implementations using <code>SyncProvider</code> objects.
- * Standard JDBC RowSet implementations provide an object instance of this
- * writer by invoking the <code>SyncProvider.getRowSetWriter()</code> method.
+ * Typidblly tif <dodf>SyndFbdtory</dodf> mbnbgfs tif <dodf>RowSftRfbdfr</dodf> bnd
+ * tif <dodf>RowSftWritfr</dodf> implfmfntbtions using <dodf>SyndProvidfr</dodf> objfdts.
+ * Stbndbrd JDBC RowSft implfmfntbtions providf bn objfdt instbndf of tiis
+ * writfr by invoking tif <dodf>SyndProvidfr.gftRowSftWritfr()</dodf> mftiod.
  *
- * @version 0.2
- * @author Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @vfrsion 0.2
+ * @butior Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
  */
-public class CachedRowSetWriter implements TransactionalWriter, Serializable {
+publid dlbss CbdifdRowSftWritfr implfmfnts TrbnsbdtionblWritfr, Sfriblizbblf {
 
 /**
- * The <code>Connection</code> object that this writer will use to make a
- * connection to the data source to which it will write data.
+ * Tif <dodf>Connfdtion</dodf> objfdt tibt tiis writfr will usf to mbkf b
+ * donnfdtion to tif dbtb sourdf to wiidi it will writf dbtb.
  *
  */
-    private transient Connection con;
+    privbtf trbnsifnt Connfdtion don;
 
 /**
- * The SQL <code>SELECT</code> command that this writer will call
- * internally. The method <code>initSQLStatements</code> builds this
- * command by supplying the words "SELECT" and "FROM," and using
- * metadata to get the table name and column names .
+ * Tif SQL <dodf>SELECT</dodf> dommbnd tibt tiis writfr will dbll
+ * intfrnblly. Tif mftiod <dodf>initSQLStbtfmfnts</dodf> builds tiis
+ * dommbnd by supplying tif words "SELECT" bnd "FROM," bnd using
+ * mftbdbtb to gft tif tbblf nbmf bnd dolumn nbmfs .
  *
- * @serial
+ * @sfribl
  */
-    private String selectCmd;
+    privbtf String sflfdtCmd;
 
 /**
- * The SQL <code>UPDATE</code> command that this writer will call
- * internally to write data to the rowset's underlying data source.
- * The method <code>initSQLStatements</code> builds this <code>String</code>
- * object.
+ * Tif SQL <dodf>UPDATE</dodf> dommbnd tibt tiis writfr will dbll
+ * intfrnblly to writf dbtb to tif rowsft's undfrlying dbtb sourdf.
+ * Tif mftiod <dodf>initSQLStbtfmfnts</dodf> builds tiis <dodf>String</dodf>
+ * objfdt.
  *
- * @serial
+ * @sfribl
  */
-    private String updateCmd;
+    privbtf String updbtfCmd;
 
 /**
- * The SQL <code>WHERE</code> clause the writer will use for update
- * statements in the <code>PreparedStatement</code> object
- * it sends to the underlying data source.
+ * Tif SQL <dodf>WHERE</dodf> dlbusf tif writfr will usf for updbtf
+ * stbtfmfnts in tif <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+ * it sfnds to tif undfrlying dbtb sourdf.
  *
- * @serial
+ * @sfribl
  */
-    private String updateWhere;
+    privbtf String updbtfWifrf;
 
 /**
- * The SQL <code>DELETE</code> command that this writer will call
- * internally to delete a row in the rowset's underlying data source.
+ * Tif SQL <dodf>DELETE</dodf> dommbnd tibt tiis writfr will dbll
+ * intfrnblly to dflftf b row in tif rowsft's undfrlying dbtb sourdf.
  *
- * @serial
+ * @sfribl
  */
-    private String deleteCmd;
+    privbtf String dflftfCmd;
 
 /**
- * The SQL <code>WHERE</code> clause the writer will use for delete
- * statements in the <code>PreparedStatement</code> object
- * it sends to the underlying data source.
+ * Tif SQL <dodf>WHERE</dodf> dlbusf tif writfr will usf for dflftf
+ * stbtfmfnts in tif <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+ * it sfnds to tif undfrlying dbtb sourdf.
  *
- * @serial
+ * @sfribl
  */
-    private String deleteWhere;
+    privbtf String dflftfWifrf;
 
 /**
- * The SQL <code>INSERT INTO</code> command that this writer will internally use
- * to insert data into the rowset's underlying data source.  The method
- * <code>initSQLStatements</code> builds this command with a question
- * mark parameter placeholder for each column in the rowset.
+ * Tif SQL <dodf>INSERT INTO</dodf> dommbnd tibt tiis writfr will intfrnblly usf
+ * to insfrt dbtb into tif rowsft's undfrlying dbtb sourdf.  Tif mftiod
+ * <dodf>initSQLStbtfmfnts</dodf> builds tiis dommbnd witi b qufstion
+ * mbrk pbrbmftfr plbdfioldfr for fbdi dolumn in tif rowsft.
  *
- * @serial
+ * @sfribl
  */
-    private String insertCmd;
+    privbtf String insfrtCmd;
 
 /**
- * An array containing the column numbers of the columns that are
- * needed to uniquely identify a row in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * An brrby dontbining tif dolumn numbfrs of tif dolumns tibt brf
+ * nffdfd to uniqufly idfntify b row in tif <dodf>CbdifdRowSft</dodf> objfdt
+ * for wiidi tiis <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr.
  *
- * @serial
+ * @sfribl
  */
-    private int[] keyCols;
+    privbtf int[] kfyCols;
 
 /**
- * An array of the parameters that should be used to set the parameter
- * placeholders in a <code>PreparedStatement</code> object that this
- * writer will execute.
+ * An brrby of tif pbrbmftfrs tibt siould bf usfd to sft tif pbrbmftfr
+ * plbdfioldfrs in b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt tiis
+ * writfr will fxfdutf.
  *
- * @serial
+ * @sfribl
  */
-    private Object[] params;
+    privbtf Objfdt[] pbrbms;
 
 /**
- * The <code>CachedRowSetReader</code> object that has been
- * set as the reader for the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * Tif <dodf>CbdifdRowSftRfbdfr</dodf> objfdt tibt ibs bffn
+ * sft bs tif rfbdfr for tif <dodf>CbdifdRowSft</dodf> objfdt
+ * for wiidi tiis <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr.
  *
- * @serial
+ * @sfribl
  */
-    private CachedRowSetReader reader;
+    privbtf CbdifdRowSftRfbdfr rfbdfr;
 
 /**
- * The <code>ResultSetMetaData</code> object that contains information
- * about the columns in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * Tif <dodf>RfsultSftMftbDbtb</dodf> objfdt tibt dontbins informbtion
+ * bbout tif dolumns in tif <dodf>CbdifdRowSft</dodf> objfdt
+ * for wiidi tiis <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr.
  *
- * @serial
+ * @sfribl
  */
-    private ResultSetMetaData callerMd;
+    privbtf RfsultSftMftbDbtb dbllfrMd;
 
 /**
- * The number of columns in the <code>CachedRowSet</code> object
- * for which this <code>CachedRowSetWriter</code> object is the writer.
+ * Tif numbfr of dolumns in tif <dodf>CbdifdRowSft</dodf> objfdt
+ * for wiidi tiis <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr.
  *
- * @serial
+ * @sfribl
  */
-    private int callerColumnCount;
+    privbtf int dbllfrColumnCount;
 
 /**
- * This <code>CachedRowSet<code> will hold the conflicting values
- *  retrieved from the db and hold it.
+ * Tiis <dodf>CbdifdRowSft<dodf> will iold tif donflidting vblufs
+ *  rftrifvfd from tif db bnd iold it.
  */
-    private CachedRowSetImpl crsResolve;
+    privbtf CbdifdRowSftImpl drsRfsolvf;
 
 /**
- * This <code>ArrayList<code> will hold the values of SyncResolver.*
+ * Tiis <dodf>ArrbyList<dodf> will iold tif vblufs of SyndRfsolvfr.*
  */
-    private ArrayList<Integer> status;
+    privbtf ArrbyList<Intfgfr> stbtus;
 
 /**
- * This will check whether the same field value has changed both
- * in database and CachedRowSet.
+ * Tiis will difdk wiftifr tif sbmf fifld vbluf ibs dibngfd boti
+ * in dbtbbbsf bnd CbdifdRowSft.
  */
-    private int iChangedValsInDbAndCRS;
+    privbtf int iCibngfdVblsInDbAndCRS;
 
 /**
- * This will hold the number of cols for which the values have
- * changed only in database.
+ * Tiis will iold tif numbfr of dols for wiidi tif vblufs ibvf
+ * dibngfd only in dbtbbbsf.
  */
-    private int iChangedValsinDbOnly ;
+    privbtf int iCibngfdVblsinDbOnly ;
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
 
-    public CachedRowSetWriter() {
+    publid CbdifdRowSftWritfr() {
        try {
-               resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-       } catch(IOException ioe) {
-               throw new RuntimeException(ioe);
+               rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+       } dbtdi(IOExdfption iof) {
+               tirow nfw RuntimfExdfption(iof);
        }
     }
 
 /**
- * Propagates changes in the given <code>RowSet</code> object
- * back to its underlying data source and returns <code>true</code>
- * if successful. The writer will check to see if
- * the data in the pre-modified rowset (the original values) differ
- * from the data in the underlying data source.  If data in the data
- * source has been modified by someone else, there is a conflict,
- * and in that case, the writer will not write to the data source.
- * In other words, the writer uses an optimistic concurrency algorithm:
- * It checks for conflicts before making changes rather than restricting
- * access for concurrent users.
+ * Propbgbtfs dibngfs in tif givfn <dodf>RowSft</dodf> objfdt
+ * bbdk to its undfrlying dbtb sourdf bnd rfturns <dodf>truf</dodf>
+ * if suddfssful. Tif writfr will difdk to sff if
+ * tif dbtb in tif prf-modififd rowsft (tif originbl vblufs) difffr
+ * from tif dbtb in tif undfrlying dbtb sourdf.  If dbtb in tif dbtb
+ * sourdf ibs bffn modififd by somfonf flsf, tifrf is b donflidt,
+ * bnd in tibt dbsf, tif writfr will not writf to tif dbtb sourdf.
+ * In otifr words, tif writfr usfs bn optimistid dondurrfndy blgoritim:
+ * It difdks for donflidts bfforf mbking dibngfs rbtifr tibn rfstridting
+ * bddfss for dondurrfnt usfrs.
  * <P>
- * This method is called by the rowset internally when
- * the application invokes the method <code>acceptChanges</code>.
- * The <code>writeData</code> method in turn calls private methods that
- * it defines internally.
- * The following is a general summary of what the method
- * <code>writeData</code> does, much of which is accomplished
- * through calls to its own internal methods.
+ * Tiis mftiod is dbllfd by tif rowsft intfrnblly wifn
+ * tif bpplidbtion invokfs tif mftiod <dodf>bddfptCibngfs</dodf>.
+ * Tif <dodf>writfDbtb</dodf> mftiod in turn dblls privbtf mftiods tibt
+ * it dffinfs intfrnblly.
+ * Tif following is b gfnfrbl summbry of wibt tif mftiod
+ * <dodf>writfDbtb</dodf> dofs, mudi of wiidi is bddomplisifd
+ * tirougi dblls to its own intfrnbl mftiods.
  * <OL>
- * <LI>Creates a <code>CachedRowSet</code> object from the given
- *     <code>RowSet</code> object
- * <LI>Makes a connection with the data source
+ * <LI>Crfbtfs b <dodf>CbdifdRowSft</dodf> objfdt from tif givfn
+ *     <dodf>RowSft</dodf> objfdt
+ * <LI>Mbkfs b donnfdtion witi tif dbtb sourdf
  *   <UL>
- *      <LI>Disables autocommit mode if it is not already disabled
- *      <LI>Sets the transaction isolation level to that of the rowset
+ *      <LI>Disbblfs butodommit modf if it is not blrfbdy disbblfd
+ *      <LI>Sfts tif trbnsbdtion isolbtion lfvfl to tibt of tif rowsft
  *   </UL>
- * <LI>Checks to see if the reader has read new data since the writer
- *     was last called and, if so, calls the method
- *    <code>initSQLStatements</code> to initialize new SQL statements
+ * <LI>Cifdks to sff if tif rfbdfr ibs rfbd nfw dbtb sindf tif writfr
+ *     wbs lbst dbllfd bnd, if so, dblls tif mftiod
+ *    <dodf>initSQLStbtfmfnts</dodf> to initiblizf nfw SQL stbtfmfnts
  *   <UL>
- *       <LI>Builds new <code>SELECT</code>, <code>UPDATE</code>,
- *           <code>INSERT</code>, and <code>DELETE</code> statements
- *       <LI>Uses the <code>CachedRowSet</code> object's metadata to
- *           determine the table name, column names, and the columns
- *           that make up the primary key
+ *       <LI>Builds nfw <dodf>SELECT</dodf>, <dodf>UPDATE</dodf>,
+ *           <dodf>INSERT</dodf>, bnd <dodf>DELETE</dodf> stbtfmfnts
+ *       <LI>Usfs tif <dodf>CbdifdRowSft</dodf> objfdt's mftbdbtb to
+ *           dftfrminf tif tbblf nbmf, dolumn nbmfs, bnd tif dolumns
+ *           tibt mbkf up tif primbry kfy
  *   </UL>
- * <LI>When there is no conflict, propagates changes made to the
- *     <code>CachedRowSet</code> object back to its underlying data source
+ * <LI>Wifn tifrf is no donflidt, propbgbtfs dibngfs mbdf to tif
+ *     <dodf>CbdifdRowSft</dodf> objfdt bbdk to its undfrlying dbtb sourdf
  *   <UL>
- *      <LI>Iterates through each row of the <code>CachedRowSet</code> object
- *          to determine whether it has been updated, inserted, or deleted
- *      <LI>If the corresponding row in the data source has not been changed
- *          since the rowset last read its
- *          values, the writer will use the appropriate command to update,
- *          insert, or delete the row
- *      <LI>If any data in the data source does not match the original values
- *          for the <code>CachedRowSet</code> object, the writer will roll
- *          back any changes it has made to the row in the data source.
+ *      <LI>Itfrbtfs tirougi fbdi row of tif <dodf>CbdifdRowSft</dodf> objfdt
+ *          to dftfrminf wiftifr it ibs bffn updbtfd, insfrtfd, or dflftfd
+ *      <LI>If tif dorrfsponding row in tif dbtb sourdf ibs not bffn dibngfd
+ *          sindf tif rowsft lbst rfbd its
+ *          vblufs, tif writfr will usf tif bppropribtf dommbnd to updbtf,
+ *          insfrt, or dflftf tif row
+ *      <LI>If bny dbtb in tif dbtb sourdf dofs not mbtdi tif originbl vblufs
+ *          for tif <dodf>CbdifdRowSft</dodf> objfdt, tif writfr will roll
+ *          bbdk bny dibngfs it ibs mbdf to tif row in tif dbtb sourdf.
  *   </UL>
  * </OL>
  *
- * @return <code>true</code> if changes to the rowset were successfully
- *         written to the rowset's underlying data source;
- *         <code>false</code> otherwise
+ * @rfturn <dodf>truf</dodf> if dibngfs to tif rowsft wfrf suddfssfully
+ *         writtfn to tif rowsft's undfrlying dbtb sourdf;
+ *         <dodf>fblsf</dodf> otifrwisf
  */
-    public boolean writeData(RowSetInternal caller) throws SQLException {
-        long conflicts = 0;
-        boolean showDel = false;
-        PreparedStatement pstmtIns = null;
-        iChangedValsInDbAndCRS = 0;
-        iChangedValsinDbOnly = 0;
+    publid boolfbn writfDbtb(RowSftIntfrnbl dbllfr) tirows SQLExdfption {
+        long donflidts = 0;
+        boolfbn siowDfl = fblsf;
+        PrfpbrfdStbtfmfnt pstmtIns = null;
+        iCibngfdVblsInDbAndCRS = 0;
+        iCibngfdVblsinDbOnly = 0;
 
-        // We assume caller is a CachedRowSet
-        CachedRowSetImpl crs = (CachedRowSetImpl)caller;
-        // crsResolve = new CachedRowSetImpl();
-        this.crsResolve = new CachedRowSetImpl();;
+        // Wf bssumf dbllfr is b CbdifdRowSft
+        CbdifdRowSftImpl drs = (CbdifdRowSftImpl)dbllfr;
+        // drsRfsolvf = nfw CbdifdRowSftImpl();
+        tiis.drsRfsolvf = nfw CbdifdRowSftImpl();;
 
-        // The reader is registered with the writer at design time.
-        // This is not required, in general.  The reader has logic
-        // to get a JDBC connection, so call it.
+        // Tif rfbdfr is rfgistfrfd witi tif writfr bt dfsign timf.
+        // Tiis is not rfquirfd, in gfnfrbl.  Tif rfbdfr ibs logid
+        // to gft b JDBC donnfdtion, so dbll it.
 
-        con = reader.connect(caller);
+        don = rfbdfr.donnfdt(dbllfr);
 
 
-        if (con == null) {
-            throw new SQLException(resBundle.handleGetObject("crswriter.connect").toString());
+        if (don == null) {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drswritfr.donnfdt").toString());
         }
 
         /*
          // Fix 6200646.
-         // Don't change the connection or transaction properties. This will fail in a
-         // J2EE container.
-        if (con.getAutoCommit() == true)  {
-            con.setAutoCommit(false);
+         // Don't dibngf tif donnfdtion or trbnsbdtion propfrtifs. Tiis will fbil in b
+         // J2EE dontbinfr.
+        if (don.gftAutoCommit() == truf)  {
+            don.sftAutoCommit(fblsf);
         }
 
-        con.setTransactionIsolation(crs.getTransactionIsolation());
+        don.sftTrbnsbdtionIsolbtion(drs.gftTrbnsbdtionIsolbtion());
         */
 
-        initSQLStatements(crs);
+        initSQLStbtfmfnts(drs);
         int iColCount;
 
-        RowSetMetaDataImpl rsmdWrite = (RowSetMetaDataImpl)crs.getMetaData();
-        RowSetMetaDataImpl rsmdResolv = new RowSetMetaDataImpl();
+        RowSftMftbDbtbImpl rsmdWritf = (RowSftMftbDbtbImpl)drs.gftMftbDbtb();
+        RowSftMftbDbtbImpl rsmdRfsolv = nfw RowSftMftbDbtbImpl();
 
-        iColCount = rsmdWrite.getColumnCount();
-        int sz= crs.size()+1;
-        status = new ArrayList<>(sz);
+        iColCount = rsmdWritf.gftColumnCount();
+        int sz= drs.sizf()+1;
+        stbtus = nfw ArrbyList<>(sz);
 
-        status.add(0,null);
-        rsmdResolv.setColumnCount(iColCount);
+        stbtus.bdd(0,null);
+        rsmdRfsolv.sftColumnCount(iColCount);
 
         for(int i =1; i <= iColCount; i++) {
-            rsmdResolv.setColumnType(i, rsmdWrite.getColumnType(i));
-            rsmdResolv.setColumnName(i, rsmdWrite.getColumnName(i));
-            rsmdResolv.setNullable(i, ResultSetMetaData.columnNullableUnknown);
+            rsmdRfsolv.sftColumnTypf(i, rsmdWritf.gftColumnTypf(i));
+            rsmdRfsolv.sftColumnNbmf(i, rsmdWritf.gftColumnNbmf(i));
+            rsmdRfsolv.sftNullbblf(i, RfsultSftMftbDbtb.dolumnNullbblfUnknown);
         }
-        this.crsResolve.setMetaData(rsmdResolv);
+        tiis.drsRfsolvf.sftMftbDbtb(rsmdRfsolv);
 
-        // moved outside the insert inner loop
-        //pstmtIns = con.prepareStatement(insertCmd);
+        // movfd outsidf tif insfrt innfr loop
+        //pstmtIns = don.prfpbrfStbtfmfnt(insfrtCmd);
 
-        if (callerColumnCount < 1) {
-            // No data, so return success.
-            if (reader.getCloseConnection() == true)
-                    con.close();
-            return true;
+        if (dbllfrColumnCount < 1) {
+            // No dbtb, so rfturn suddfss.
+            if (rfbdfr.gftClosfConnfdtion() == truf)
+                    don.dlosf();
+            rfturn truf;
         }
-        // We need to see rows marked for deletion.
-        showDel = crs.getShowDeleted();
-        crs.setShowDeleted(true);
+        // Wf nffd to sff rows mbrkfd for dflftion.
+        siowDfl = drs.gftSiowDflftfd();
+        drs.sftSiowDflftfd(truf);
 
-        // Look at all the rows.
-        crs.beforeFirst();
+        // Look bt bll tif rows.
+        drs.bfforfFirst();
 
         int rows =1;
-        while (crs.next()) {
-            if (crs.rowDeleted()) {
-                // The row has been deleted.
-                if (deleteOriginalRow(crs, this.crsResolve)) {
-                       status.add(rows, SyncResolver.DELETE_ROW_CONFLICT);
-                       conflicts++;
-                } else {
-                      // delete happened without any occurrence of conflicts
-                      // so update status accordingly
-                       status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+        wiilf (drs.nfxt()) {
+            if (drs.rowDflftfd()) {
+                // Tif row ibs bffn dflftfd.
+                if (dflftfOriginblRow(drs, tiis.drsRfsolvf)) {
+                       stbtus.bdd(rows, SyndRfsolvfr.DELETE_ROW_CONFLICT);
+                       donflidts++;
+                } flsf {
+                      // dflftf ibppfnfd witiout bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                       stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
                 }
 
-           } else if (crs.rowInserted()) {
-                // The row has been inserted.
+           } flsf if (drs.rowInsfrtfd()) {
+                // Tif row ibs bffn insfrtfd.
 
-                pstmtIns = con.prepareStatement(insertCmd);
-                if (insertNewRow(crs, pstmtIns, this.crsResolve)) {
-                          status.add(rows, SyncResolver.INSERT_ROW_CONFLICT);
-                          conflicts++;
-                } else {
-                      // insert happened without any occurrence of conflicts
-                      // so update status accordingly
-                       status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                pstmtIns = don.prfpbrfStbtfmfnt(insfrtCmd);
+                if (insfrtNfwRow(drs, pstmtIns, tiis.drsRfsolvf)) {
+                          stbtus.bdd(rows, SyndRfsolvfr.INSERT_ROW_CONFLICT);
+                          donflidts++;
+                } flsf {
+                      // insfrt ibppfnfd witiout bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                       stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
                 }
-            } else  if (crs.rowUpdated()) {
-                  // The row has been updated.
-                       if (updateOriginalRow(crs)) {
-                             status.add(rows, SyncResolver.UPDATE_ROW_CONFLICT);
-                             conflicts++;
-               } else {
-                      // update happened without any occurrence of conflicts
-                      // so update status accordingly
-                      status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+            } flsf  if (drs.rowUpdbtfd()) {
+                  // Tif row ibs bffn updbtfd.
+                       if (updbtfOriginblRow(drs)) {
+                             stbtus.bdd(rows, SyndRfsolvfr.UPDATE_ROW_CONFLICT);
+                             donflidts++;
+               } flsf {
+                      // updbtf ibppfnfd witiout bny oddurrfndf of donflidts
+                      // so updbtf stbtus bddordingly
+                      stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
                }
 
-            } else {
-               /** The row is neither of inserted, updated or deleted.
-                *  So set nulls in the this.crsResolve for this row,
-                *  as nothing is to be done for such rows.
-                *  Also note that if such a row has been changed in database
-                *  and we have not changed(inserted, updated or deleted)
-                *  that is fine.
+            } flsf {
+               /** Tif row is nfitifr of insfrtfd, updbtfd or dflftfd.
+                *  So sft nulls in tif tiis.drsRfsolvf for tiis row,
+                *  bs notiing is to bf donf for sudi rows.
+                *  Also notf tibt if sudi b row ibs bffn dibngfd in dbtbbbsf
+                *  bnd wf ibvf not dibngfd(insfrtfd, updbtfd or dflftfd)
+                *  tibt is finf.
                 **/
-                int icolCount = crs.getMetaData().getColumnCount();
-                status.add(rows, SyncResolver.NO_ROW_CONFLICT);
+                int idolCount = drs.gftMftbDbtb().gftColumnCount();
+                stbtus.bdd(rows, SyndRfsolvfr.NO_ROW_CONFLICT);
 
-                this.crsResolve.moveToInsertRow();
-                for(int cols=0;cols<iColCount;cols++) {
-                   this.crsResolve.updateNull(cols+1);
-                } //end for
+                tiis.drsRfsolvf.movfToInsfrtRow();
+                for(int dols=0;dols<iColCount;dols++) {
+                   tiis.drsRfsolvf.updbtfNull(dols+1);
+                } //fnd for
 
-                this.crsResolve.insertRow();
-                this.crsResolve.moveToCurrentRow();
+                tiis.drsRfsolvf.insfrtRow();
+                tiis.drsRfsolvf.movfToCurrfntRow();
 
-                } //end if
+                } //fnd if
          rows++;
-      } //end while
+      } //fnd wiilf
 
-        // close the insert statement
+        // dlosf tif insfrt stbtfmfnt
         if(pstmtIns!=null)
-        pstmtIns.close();
-        // reset
-        crs.setShowDeleted(showDel);
+        pstmtIns.dlosf();
+        // rfsft
+        drs.sftSiowDflftfd(siowDfl);
 
-        crs.beforeFirst();
-        this.crsResolve.beforeFirst();
+        drs.bfforfFirst();
+        tiis.drsRfsolvf.bfforfFirst();
 
-    if(conflicts != 0) {
-        SyncProviderException spe = new SyncProviderException(conflicts + " " +
-                resBundle.handleGetObject("crswriter.conflictsno").toString());
-        //SyncResolver syncRes = spe.getSyncResolver();
+    if(donflidts != 0) {
+        SyndProvidfrExdfption spf = nfw SyndProvidfrExdfption(donflidts + " " +
+                rfsBundlf.ibndlfGftObjfdt("drswritfr.donflidtsno").toString());
+        //SyndRfsolvfr syndRfs = spf.gftSyndRfsolvfr();
 
-         SyncResolverImpl syncResImpl = (SyncResolverImpl) spe.getSyncResolver();
+         SyndRfsolvfrImpl syndRfsImpl = (SyndRfsolvfrImpl) spf.gftSyndRfsolvfr();
 
-         syncResImpl.setCachedRowSet(crs);
-         syncResImpl.setCachedRowSetResolver(this.crsResolve);
+         syndRfsImpl.sftCbdifdRowSft(drs);
+         syndRfsImpl.sftCbdifdRowSftRfsolvfr(tiis.drsRfsolvf);
 
-         syncResImpl.setStatus(status);
-         syncResImpl.setCachedRowSetWriter(this);
+         syndRfsImpl.sftStbtus(stbtus);
+         syndRfsImpl.sftCbdifdRowSftWritfr(tiis);
 
-        throw spe;
-    } else {
-         return true;
+        tirow spf;
+    } flsf {
+         rfturn truf;
     }
        /*
-       if (conflict == true) {
-            con.rollback();
-            return false;
-        } else {
-            con.commit();
-                if (reader.getCloseConnection() == true) {
-                       con.close();
+       if (donflidt == truf) {
+            don.rollbbdk();
+            rfturn fblsf;
+        } flsf {
+            don.dommit();
+                if (rfbdfr.gftClosfConnfdtion() == truf) {
+                       don.dlosf();
                 }
-            return true;
+            rfturn truf;
         }
         */
 
-  } //end writeData
+  } //fnd writfDbtb
 
 /**
- * Updates the given <code>CachedRowSet</code> object's underlying data
- * source so that updates to the rowset are reflected in the original
- * data source, and returns <code>false</code> if the update was successful.
- * A return value of <code>true</code> indicates that there is a conflict,
- * meaning that a value updated in the rowset has already been changed by
- * someone else in the underlying data source.  A conflict can also exist
- * if, for example, more than one row in the data source would be affected
- * by the update or if no rows would be affected.  In any case, if there is
- * a conflict, this method does not update the underlying data source.
+ * Updbtfs tif givfn <dodf>CbdifdRowSft</dodf> objfdt's undfrlying dbtb
+ * sourdf so tibt updbtfs to tif rowsft brf rfflfdtfd in tif originbl
+ * dbtb sourdf, bnd rfturns <dodf>fblsf</dodf> if tif updbtf wbs suddfssful.
+ * A rfturn vbluf of <dodf>truf</dodf> indidbtfs tibt tifrf is b donflidt,
+ * mfbning tibt b vbluf updbtfd in tif rowsft ibs blrfbdy bffn dibngfd by
+ * somfonf flsf in tif undfrlying dbtb sourdf.  A donflidt dbn blso fxist
+ * if, for fxbmplf, morf tibn onf row in tif dbtb sourdf would bf bfffdtfd
+ * by tif updbtf or if no rows would bf bfffdtfd.  In bny dbsf, if tifrf is
+ * b donflidt, tiis mftiod dofs not updbtf tif undfrlying dbtb sourdf.
  * <P>
- * This method is called internally by the method <code>writeData</code>
- * if a row in the <code>CachedRowSet</code> object for which this
- * <code>CachedRowSetWriter</code> object is the writer has been updated.
+ * Tiis mftiod is dbllfd intfrnblly by tif mftiod <dodf>writfDbtb</dodf>
+ * if b row in tif <dodf>CbdifdRowSft</dodf> objfdt for wiidi tiis
+ * <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr ibs bffn updbtfd.
  *
- * @return <code>false</code> if the update to the underlying data source is
- *         successful; <code>true</code> otherwise
- * @throws SQLException if a database access error occurs
+ * @rfturn <dodf>fblsf</dodf> if tif updbtf to tif undfrlying dbtb sourdf is
+ *         suddfssful; <dodf>truf</dodf> otifrwisf
+ * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
  */
-    private boolean updateOriginalRow(CachedRowSet crs)
-        throws SQLException {
-        PreparedStatement pstmt;
+    privbtf boolfbn updbtfOriginblRow(CbdifdRowSft drs)
+        tirows SQLExdfption {
+        PrfpbrfdStbtfmfnt pstmt;
         int i = 0;
         int idx = 0;
 
-        // Select the row from the database.
-        ResultSet origVals = crs.getOriginalRow();
-        origVals.next();
+        // Sflfdt tif row from tif dbtbbbsf.
+        RfsultSft origVbls = drs.gftOriginblRow();
+        origVbls.nfxt();
 
         try {
-            updateWhere = buildWhereClause(updateWhere, origVals);
+            updbtfWifrf = buildWifrfClbusf(updbtfWifrf, origVbls);
 
 
              /**
-              *  The following block of code is for checking a particular type of
-              *  query where in there is a where clause. Without this block, if a
-              *  SQL statement is built the "where" clause will appear twice hence
-              *  the DB errors out and a SQLException is thrown. This code also
-              *  considers that the where clause is in the right place as the
-              *  CachedRowSet object would already have been populated with this
-              *  query before coming to this point.
+              *  Tif following blodk of dodf is for difdking b pbrtidulbr typf of
+              *  qufry wifrf in tifrf is b wifrf dlbusf. Witiout tiis blodk, if b
+              *  SQL stbtfmfnt is built tif "wifrf" dlbusf will bppfbr twidf ifndf
+              *  tif DB frrors out bnd b SQLExdfption is tirown. Tiis dodf blso
+              *  donsidfrs tibt tif wifrf dlbusf is in tif rigit plbdf bs tif
+              *  CbdifdRowSft objfdt would blrfbdy ibvf bffn populbtfd witi tiis
+              *  qufry bfforf doming to tiis point.
               **/
 
 
-            String tempselectCmd = selectCmd.toLowerCase();
+            String tfmpsflfdtCmd = sflfdtCmd.toLowfrCbsf();
 
-            int idxWhere = tempselectCmd.indexOf("where");
+            int idxWifrf = tfmpsflfdtCmd.indfxOf("wifrf");
 
-            if(idxWhere != -1)
+            if(idxWifrf != -1)
             {
-               String tempSelect = selectCmd.substring(0,idxWhere);
-               selectCmd = tempSelect;
+               String tfmpSflfdt = sflfdtCmd.substring(0,idxWifrf);
+               sflfdtCmd = tfmpSflfdt;
             }
 
-            pstmt = con.prepareStatement(selectCmd + updateWhere,
-                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstmt = don.prfpbrfStbtfmfnt(sflfdtCmd + updbtfWifrf,
+                        RfsultSft.TYPE_SCROLL_SENSITIVE, RfsultSft.CONCUR_READ_ONLY);
 
-            for (i = 0; i < keyCols.length; i++) {
-                if (params[i] != null) {
-                    pstmt.setObject(++idx, params[i]);
-                } else {
-                    continue;
+            for (i = 0; i < kfyCols.lfngti; i++) {
+                if (pbrbms[i] != null) {
+                    pstmt.sftObjfdt(++idx, pbrbms[i]);
+                } flsf {
+                    dontinuf;
                 }
             }
 
             try {
-                pstmt.setMaxRows(crs.getMaxRows());
-                pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-                pstmt.setEscapeProcessing(crs.getEscapeProcessing());
-                pstmt.setQueryTimeout(crs.getQueryTimeout());
-            } catch (Exception ex) {
-                // Older driver don't support these operations.
+                pstmt.sftMbxRows(drs.gftMbxRows());
+                pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+                pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+                pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+            } dbtdi (Exdfption fx) {
+                // Oldfr drivfr don't support tifsf opfrbtions.
             }
 
-            ResultSet rs = null;
-            rs = pstmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
+            RfsultSft rs = null;
+            rs = pstmt.fxfdutfQufry();
+            RfsultSftMftbDbtb rsmd = rs.gftMftbDbtb();
 
-            if (rs.next()) {
-                if (rs.next()) {
-                   /** More than one row conflict.
-                    *  If rs has only one row we are able to
-                    *  uniquely identify the row where update
-                    *  have to happen else if more than one
-                    *  row implies we cannot uniquely identify the row
-                    *  where we have to do updates.
-                    *  crs.setKeyColumns needs to be set to
-                    *  come out of this situation.
+            if (rs.nfxt()) {
+                if (rs.nfxt()) {
+                   /** Morf tibn onf row donflidt.
+                    *  If rs ibs only onf row wf brf bblf to
+                    *  uniqufly idfntify tif row wifrf updbtf
+                    *  ibvf to ibppfn flsf if morf tibn onf
+                    *  row implifs wf dbnnot uniqufly idfntify tif row
+                    *  wifrf wf ibvf to do updbtfs.
+                    *  drs.sftKfyColumns nffds to bf sft to
+                    *  domf out of tiis situbtion.
                     */
 
-                   return true;
+                   rfturn truf;
                 }
 
-                // don't close the rs
-                // we require the record in rs to be used.
-                // rs.close();
-                // pstmt.close();
+                // don't dlosf tif rs
+                // wf rfquirf tif rfdord in rs to bf usfd.
+                // rs.dlosf();
+                // pstmt.dlosf();
                 rs.first();
 
-                // how many fields need to be updated
-                int colsNotChanged = 0;
-                Vector<Integer> cols = new Vector<>();
-                String updateExec = updateCmd;
-                Object orig;
-                Object curr;
-                Object rsval;
-                boolean boolNull = true;
-                Object objVal = null;
+                // iow mbny fiflds nffd to bf updbtfd
+                int dolsNotCibngfd = 0;
+                Vfdtor<Intfgfr> dols = nfw Vfdtor<>();
+                String updbtfExfd = updbtfCmd;
+                Objfdt orig;
+                Objfdt durr;
+                Objfdt rsvbl;
+                boolfbn boolNull = truf;
+                Objfdt objVbl = null;
 
-                // There's only one row and the cursor
-                // needs to be on that row.
+                // Tifrf's only onf row bnd tif dursor
+                // nffds to bf on tibt row.
 
-                boolean first = true;
-                boolean flag = true;
+                boolfbn first = truf;
+                boolfbn flbg = truf;
 
-          this.crsResolve.moveToInsertRow();
+          tiis.drsRfsolvf.movfToInsfrtRow();
 
-          for (i = 1; i <= callerColumnCount; i++) {
-                orig = origVals.getObject(i);
-                curr = crs.getObject(i);
-                rsval = rs.getObject(i);
+          for (i = 1; i <= dbllfrColumnCount; i++) {
+                orig = origVbls.gftObjfdt(i);
+                durr = drs.gftObjfdt(i);
+                rsvbl = rs.gftObjfdt(i);
                 /*
-                 * the following block creates equivalent objects
-                 * that would have been created if this rs is populated
-                 * into a CachedRowSet so that comparison of the column values
-                 * from the ResultSet and CachedRowSet are possible
+                 * tif following blodk drfbtfs fquivblfnt objfdts
+                 * tibt would ibvf bffn drfbtfd if tiis rs is populbtfd
+                 * into b CbdifdRowSft so tibt dompbrison of tif dolumn vblufs
+                 * from tif RfsultSft bnd CbdifdRowSft brf possiblf
                  */
-                Map<String, Class<?>> map = (crs.getTypeMap() == null)?con.getTypeMap():crs.getTypeMap();
-                if (rsval instanceof Struct) {
+                Mbp<String, Clbss<?>> mbp = (drs.gftTypfMbp() == null)?don.gftTypfMbp():drs.gftTypfMbp();
+                if (rsvbl instbndfof Strudt) {
 
-                    Struct s = (Struct)rsval;
+                    Strudt s = (Strudt)rsvbl;
 
-                    // look up the class in the map
-                    Class<?> c = null;
-                    c = map.get(s.getSQLTypeName());
-                    if (c != null) {
-                        // create new instance of the class
-                        SQLData obj = null;
+                    // look up tif dlbss in tif mbp
+                    Clbss<?> d = null;
+                    d = mbp.gft(s.gftSQLTypfNbmf());
+                    if (d != null) {
+                        // drfbtf nfw instbndf of tif dlbss
+                        SQLDbtb obj = null;
                         try {
-                            obj = (SQLData)ReflectUtil.newInstance(c);
-                        } catch (Exception ex) {
-                            throw new SQLException("Unable to Instantiate: ", ex);
+                            obj = (SQLDbtb)RfflfdtUtil.nfwInstbndf(d);
+                        } dbtdi (Exdfption fx) {
+                            tirow nfw SQLExdfption("Unbblf to Instbntibtf: ", fx);
                         }
-                        // get the attributes from the struct
-                        Object attribs[] = s.getAttributes(map);
-                        // create the SQLInput "stream"
-                        SQLInputImpl sqlInput = new SQLInputImpl(attribs, map);
-                        // read the values...
-                        obj.readSQL(sqlInput, s.getSQLTypeName());
-                        rsval = obj;
+                        // gft tif bttributfs from tif strudt
+                        Objfdt bttribs[] = s.gftAttributfs(mbp);
+                        // drfbtf tif SQLInput "strfbm"
+                        SQLInputImpl sqlInput = nfw SQLInputImpl(bttribs, mbp);
+                        // rfbd tif vblufs...
+                        obj.rfbdSQL(sqlInput, s.gftSQLTypfNbmf());
+                        rsvbl = obj;
                     }
-                } else if (rsval instanceof SQLData) {
-                    rsval = new SerialStruct((SQLData)rsval, map);
-                } else if (rsval instanceof Blob) {
-                    rsval = new SerialBlob((Blob)rsval);
-                } else if (rsval instanceof Clob) {
-                    rsval = new SerialClob((Clob)rsval);
-                } else if (rsval instanceof java.sql.Array) {
-                    rsval = new SerialArray((java.sql.Array)rsval, map);
+                } flsf if (rsvbl instbndfof SQLDbtb) {
+                    rsvbl = nfw SfriblStrudt((SQLDbtb)rsvbl, mbp);
+                } flsf if (rsvbl instbndfof Blob) {
+                    rsvbl = nfw SfriblBlob((Blob)rsvbl);
+                } flsf if (rsvbl instbndfof Clob) {
+                    rsvbl = nfw SfriblClob((Clob)rsvbl);
+                } flsf if (rsvbl instbndfof jbvb.sql.Arrby) {
+                    rsvbl = nfw SfriblArrby((jbvb.sql.Arrby)rsvbl, mbp);
                 }
 
-                // reset boolNull if it had been set
-                boolNull = true;
+                // rfsft boolNull if it ibd bffn sft
+                boolNull = truf;
 
-                /** This addtional checking has been added when the current value
-                 *  in the DB is null, but the DB had a different value when the
-                 *  data was actaully fetched into the CachedRowSet.
+                /** Tiis bddtionbl difdking ibs bffn bddfd wifn tif durrfnt vbluf
+                 *  in tif DB is null, but tif DB ibd b difffrfnt vbluf wifn tif
+                 *  dbtb wbs bdtbully fftdifd into tif CbdifdRowSft.
                  **/
 
-                if(rsval == null && orig != null) {
-                   // value in db has changed
-                    // don't proceed with synchronization
-                    // get the value in db and pass it to the resolver.
+                if(rsvbl == null && orig != null) {
+                   // vbluf in db ibs dibngfd
+                    // don't prodffd witi syndironizbtion
+                    // gft tif vbluf in db bnd pbss it to tif rfsolvfr.
 
-                    iChangedValsinDbOnly++;
-                   // Set the boolNull to false,
-                   // in order to set the actual value;
-                     boolNull = false;
-                     objVal = rsval;
+                    iCibngfdVblsinDbOnly++;
+                   // Sft tif boolNull to fblsf,
+                   // in ordfr to sft tif bdtubl vbluf;
+                     boolNull = fblsf;
+                     objVbl = rsvbl;
                 }
 
-                /** Adding the checking for rsval to be "not" null or else
-                 *  it would through a NullPointerException when the values
-                 *  are compared.
+                /** Adding tif difdking for rsvbl to bf "not" null or flsf
+                 *  it would tirougi b NullPointfrExdfption wifn tif vblufs
+                 *  brf dompbrfd.
                  **/
 
-                else if(rsval != null && (!rsval.equals(orig)))
+                flsf if(rsvbl != null && (!rsvbl.fqubls(orig)))
                 {
-                    // value in db has changed
-                    // don't proceed with synchronization
-                    // get the value in db and pass it to the resolver.
+                    // vbluf in db ibs dibngfd
+                    // don't prodffd witi syndironizbtion
+                    // gft tif vbluf in db bnd pbss it to tif rfsolvfr.
 
-                    iChangedValsinDbOnly++;
-                   // Set the boolNull to false,
-                   // in order to set the actual value;
-                     boolNull = false;
-                     objVal = rsval;
-                } else if (  (orig == null || curr == null) ) {
+                    iCibngfdVblsinDbOnly++;
+                   // Sft tif boolNull to fblsf,
+                   // in ordfr to sft tif bdtubl vbluf;
+                     boolNull = fblsf;
+                     objVbl = rsvbl;
+                } flsf if (  (orig == null || durr == null) ) {
 
-                        /** Adding the additonal condition of checking for "flag"
-                         *  boolean variable, which would otherwise result in
-                         *  building a invalid query, as the comma would not be
-                         *  added to the query string.
+                        /** Adding tif bdditonbl dondition of difdking for "flbg"
+                         *  boolfbn vbribblf, wiidi would otifrwisf rfsult in
+                         *  building b invblid qufry, bs tif dommb would not bf
+                         *  bddfd to tif qufry string.
                          **/
 
-                        if (first == false || flag == false) {
-                          updateExec += ", ";
+                        if (first == fblsf || flbg == fblsf) {
+                          updbtfExfd += ", ";
                          }
-                        updateExec += crs.getMetaData().getColumnName(i);
-                        cols.add(i);
-                        updateExec += " = ? ";
-                        first = false;
+                        updbtfExfd += drs.gftMftbDbtb().gftColumnNbmf(i);
+                        dols.bdd(i);
+                        updbtfExfd += " = ? ";
+                        first = fblsf;
 
-                /** Adding the extra condition for orig to be "not" null as the
-                 *  condition for orig to be null is take prior to this, if this
-                 *  is not added it will result in a NullPointerException when
-                 *  the values are compared.
+                /** Adding tif fxtrb dondition for orig to bf "not" null bs tif
+                 *  dondition for orig to bf null is tbkf prior to tiis, if tiis
+                 *  is not bddfd it will rfsult in b NullPointfrExdfption wifn
+                 *  tif vblufs brf dompbrfd.
                  **/
 
-                }  else if (orig.equals(curr)) {
-                       colsNotChanged++;
-                     //nothing to update in this case since values are equal
+                }  flsf if (orig.fqubls(durr)) {
+                       dolsNotCibngfd++;
+                     //notiing to updbtf in tiis dbsf sindf vblufs brf fqubl
 
-                /** Adding the extra condition for orig to be "not" null as the
-                 *  condition for orig to be null is take prior to this, if this
-                 *  is not added it will result in a NullPointerException when
-                 *  the values are compared.
+                /** Adding tif fxtrb dondition for orig to bf "not" null bs tif
+                 *  dondition for orig to bf null is tbkf prior to tiis, if tiis
+                 *  is not bddfd it will rfsult in b NullPointfrExdfption wifn
+                 *  tif vblufs brf dompbrfd.
                  **/
 
-                } else if(orig.equals(curr) == false) {
-                      // When values from db and values in CachedRowSet are not equal,
-                      // if db value is same as before updation for each col in
-                      // the row before fetching into CachedRowSet,
-                      // only then we go ahead with updation, else we
-                      // throw SyncProviderException.
+                } flsf if(orig.fqubls(durr) == fblsf) {
+                      // Wifn vblufs from db bnd vblufs in CbdifdRowSft brf not fqubl,
+                      // if db vbluf is sbmf bs bfforf updbtion for fbdi dol in
+                      // tif row bfforf fftdiing into CbdifdRowSft,
+                      // only tifn wf go bifbd witi updbtion, flsf wf
+                      // tirow SyndProvidfrExdfption.
 
-                      // if value has changed in db after fetching from db
-                      // for some cols of the row and at the same time, some other cols
-                      // have changed in CachedRowSet, no synchronization happens
+                      // if vbluf ibs dibngfd in db bftfr fftdiing from db
+                      // for somf dols of tif row bnd bt tif sbmf timf, somf otifr dols
+                      // ibvf dibngfd in CbdifdRowSft, no syndironizbtion ibppfns
 
-                      // Synchronization happens only when data when fetching is
-                      // same or at most has changed in cachedrowset
+                      // Syndironizbtion ibppfns only wifn dbtb wifn fftdiing is
+                      // sbmf or bt most ibs dibngfd in dbdifdrowsft
 
-                      // check orig value with what is there in crs for a column
-                      // before updation in crs.
+                      // difdk orig vbluf witi wibt is tifrf in drs for b dolumn
+                      // bfforf updbtion in drs.
 
-                         if(crs.columnUpdated(i)) {
-                             if(rsval.equals(orig)) {
-                               // At this point we are sure that
-                               // the value updated in crs was from
-                               // what is in db now and has not changed
-                                 if (flag == false || first == false) {
-                                    updateExec += ", ";
+                         if(drs.dolumnUpdbtfd(i)) {
+                             if(rsvbl.fqubls(orig)) {
+                               // At tiis point wf brf surf tibt
+                               // tif vbluf updbtfd in drs wbs from
+                               // wibt is in db now bnd ibs not dibngfd
+                                 if (flbg == fblsf || first == fblsf) {
+                                    updbtfExfd += ", ";
                                  }
-                                updateExec += crs.getMetaData().getColumnName(i);
-                                cols.add(i);
-                                updateExec += " = ? ";
-                                flag = false;
-                             } else {
-                               // Here the value has changed in the db after
-                               // data was fetched
-                               // Plus store this row from CachedRowSet and keep it
-                               // in a new CachedRowSet
-                               boolNull= false;
-                               objVal = rsval;
-                               iChangedValsInDbAndCRS++;
+                                updbtfExfd += drs.gftMftbDbtb().gftColumnNbmf(i);
+                                dols.bdd(i);
+                                updbtfExfd += " = ? ";
+                                flbg = fblsf;
+                             } flsf {
+                               // Hfrf tif vbluf ibs dibngfd in tif db bftfr
+                               // dbtb wbs fftdifd
+                               // Plus storf tiis row from CbdifdRowSft bnd kffp it
+                               // in b nfw CbdifdRowSft
+                               boolNull= fblsf;
+                               objVbl = rsvbl;
+                               iCibngfdVblsInDbAndCRS++;
                              }
                          }
                   }
 
                     if(!boolNull) {
-                        this.crsResolve.updateObject(i,objVal);
-                                 } else {
-                                      this.crsResolve.updateNull(i);
+                        tiis.drsRfsolvf.updbtfObjfdt(i,objVbl);
+                                 } flsf {
+                                      tiis.drsRfsolvf.updbtfNull(i);
                                  }
-                } //end for
+                } //fnd for
 
-                rs.close();
-                pstmt.close();
+                rs.dlosf();
+                pstmt.dlosf();
 
-               this.crsResolve.insertRow();
-                   this.crsResolve.moveToCurrentRow();
+               tiis.drsRfsolvf.insfrtRow();
+                   tiis.drsRfsolvf.movfToCurrfntRow();
 
                 /**
-                 * if nothing has changed return now - this can happen
-                 * if column is updated to the same value.
-                 * if colsNotChanged == callerColumnCount implies we are updating
-                 * the database with ALL COLUMNS HAVING SAME VALUES,
-                 * so skip going to database, else do as usual.
+                 * if notiing ibs dibngfd rfturn now - tiis dbn ibppfn
+                 * if dolumn is updbtfd to tif sbmf vbluf.
+                 * if dolsNotCibngfd == dbllfrColumnCount implifs wf brf updbting
+                 * tif dbtbbbsf witi ALL COLUMNS HAVING SAME VALUES,
+                 * so skip going to dbtbbbsf, flsf do bs usubl.
                  **/
-                if ( (first == false && cols.size() == 0)  ||
-                     colsNotChanged == callerColumnCount ) {
-                    return false;
+                if ( (first == fblsf && dols.sizf() == 0)  ||
+                     dolsNotCibngfd == dbllfrColumnCount ) {
+                    rfturn fblsf;
                 }
 
-                if(iChangedValsInDbAndCRS != 0 || iChangedValsinDbOnly != 0) {
-                   return true;
+                if(iCibngfdVblsInDbAndCRS != 0 || iCibngfdVblsinDbOnly != 0) {
+                   rfturn truf;
                 }
 
 
-                updateExec += updateWhere;
+                updbtfExfd += updbtfWifrf;
 
-                pstmt = con.prepareStatement(updateExec);
+                pstmt = don.prfpbrfStbtfmfnt(updbtfExfd);
 
-                // Comments needed here
-                for (i = 0; i < cols.size(); i++) {
-                    Object obj = crs.getObject(cols.get(i));
+                // Commfnts nffdfd ifrf
+                for (i = 0; i < dols.sizf(); i++) {
+                    Objfdt obj = drs.gftObjfdt(dols.gft(i));
                     if (obj != null)
-                        pstmt.setObject(i + 1, obj);
-                    else
-                        pstmt.setNull(i + 1,crs.getMetaData().getColumnType(i + 1));
+                        pstmt.sftObjfdt(i + 1, obj);
+                    flsf
+                        pstmt.sftNull(i + 1,drs.gftMftbDbtb().gftColumnTypf(i + 1));
                 }
                 idx = i;
 
-                // Comments needed here
-                for (i = 0; i < keyCols.length; i++) {
-                    if (params[i] != null) {
-                        pstmt.setObject(++idx, params[i]);
-                    } else {
-                        continue;
+                // Commfnts nffdfd ifrf
+                for (i = 0; i < kfyCols.lfngti; i++) {
+                    if (pbrbms[i] != null) {
+                        pstmt.sftObjfdt(++idx, pbrbms[i]);
+                    } flsf {
+                        dontinuf;
                     }
                 }
 
-                i = pstmt.executeUpdate();
+                i = pstmt.fxfdutfUpdbtf();
 
                /**
-                * i should be equal to 1(row count), because we update
-                * one row(returned as row count) at a time, if all goes well.
-                * if 1 != 1, this implies we have not been able to
-                * do updations properly i.e there is a conflict in database
-                * versus what is in CachedRowSet for this particular row.
+                * i siould bf fqubl to 1(row dount), bfdbusf wf updbtf
+                * onf row(rfturnfd bs row dount) bt b timf, if bll gofs wfll.
+                * if 1 != 1, tiis implifs wf ibvf not bffn bblf to
+                * do updbtions propfrly i.f tifrf is b donflidt in dbtbbbsf
+                * vfrsus wibt is in CbdifdRowSft for tiis pbrtidulbr row.
                 **/
 
-                 return false;
+                 rfturn fblsf;
 
-            } else {
+            } flsf {
                 /**
-                 * Cursor will be here, if the ResultSet may not return even a single row
-                 * i.e. we can't find the row where to update because it has been deleted
-                 * etc. from the db.
-                 * Present the whole row as null to user, to force null to be sync'ed
-                 * and hence nothing to be synced.
+                 * Cursor will bf ifrf, if tif RfsultSft mby not rfturn fvfn b singlf row
+                 * i.f. wf dbn't find tif row wifrf to updbtf bfdbusf it ibs bffn dflftfd
+                 * ftd. from tif db.
+                 * Prfsfnt tif wiolf row bs null to usfr, to fordf null to bf synd'fd
+                 * bnd ifndf notiing to bf syndfd.
                  *
                  * NOTE:
                  * ------
-                 * In the database if a column that is mapped to java.sql.Types.REAL stores
-                 * a Double value and is compared with value got from ResultSet.getFloat()
-                 * no row is retrieved and will throw a SyncProviderException. For details
-                 * see bug Id 5053830
+                 * In tif dbtbbbsf if b dolumn tibt is mbppfd to jbvb.sql.Typfs.REAL storfs
+                 * b Doublf vbluf bnd is dompbrfd witi vbluf got from RfsultSft.gftFlobt()
+                 * no row is rftrifvfd bnd will tirow b SyndProvidfrExdfption. For dftbils
+                 * sff bug Id 5053830
                  **/
-                return true;
+                rfturn truf;
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // if executeUpdate fails it will come here,
-            // update crsResolve with null rows
-            this.crsResolve.moveToInsertRow();
+        } dbtdi (SQLExdfption fx) {
+            fx.printStbdkTrbdf();
+            // if fxfdutfUpdbtf fbils it will domf ifrf,
+            // updbtf drsRfsolvf witi null rows
+            tiis.drsRfsolvf.movfToInsfrtRow();
 
-            for(i = 1; i <= callerColumnCount; i++) {
-               this.crsResolve.updateNull(i);
+            for(i = 1; i <= dbllfrColumnCount; i++) {
+               tiis.drsRfsolvf.updbtfNull(i);
             }
 
-            this.crsResolve.insertRow();
-            this.crsResolve.moveToCurrentRow();
+            tiis.drsRfsolvf.insfrtRow();
+            tiis.drsRfsolvf.movfToCurrfntRow();
 
-            return true;
+            rfturn truf;
         }
     }
 
    /**
-    * Inserts a row that has been inserted into the given
-    * <code>CachedRowSet</code> object into the data source from which
-    * the rowset is derived, returning <code>false</code> if the insertion
-    * was successful.
+    * Insfrts b row tibt ibs bffn insfrtfd into tif givfn
+    * <dodf>CbdifdRowSft</dodf> objfdt into tif dbtb sourdf from wiidi
+    * tif rowsft is dfrivfd, rfturning <dodf>fblsf</dodf> if tif insfrtion
+    * wbs suddfssful.
     *
-    * @param crs the <code>CachedRowSet</code> object that has had a row inserted
-    *            and to whose underlying data source the row will be inserted
-    * @param pstmt the <code>PreparedStatement</code> object that will be used
-    *              to execute the insertion
-    * @return <code>false</code> to indicate that the insertion was successful;
-    *         <code>true</code> otherwise
-    * @throws SQLException if a database access error occurs
+    * @pbrbm drs tif <dodf>CbdifdRowSft</dodf> objfdt tibt ibs ibd b row insfrtfd
+    *            bnd to wiosf undfrlying dbtb sourdf tif row will bf insfrtfd
+    * @pbrbm pstmt tif <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt will bf usfd
+    *              to fxfdutf tif insfrtion
+    * @rfturn <dodf>fblsf</dodf> to indidbtf tibt tif insfrtion wbs suddfssful;
+    *         <dodf>truf</dodf> otifrwisf
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
     */
-   private boolean insertNewRow(CachedRowSet crs,
-       PreparedStatement pstmt, CachedRowSetImpl crsRes) throws SQLException {
+   privbtf boolfbn insfrtNfwRow(CbdifdRowSft drs,
+       PrfpbrfdStbtfmfnt pstmt, CbdifdRowSftImpl drsRfs) tirows SQLExdfption {
 
-       boolean returnVal = false;
+       boolfbn rfturnVbl = fblsf;
 
-       try (PreparedStatement pstmtSel = con.prepareStatement(selectCmd,
-                       ResultSet.TYPE_SCROLL_SENSITIVE,
-                       ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = pstmtSel.executeQuery();
-            ResultSet rs2 = con.getMetaData().getPrimaryKeys(null, null,
-                       crs.getTableName())
+       try (PrfpbrfdStbtfmfnt pstmtSfl = don.prfpbrfStbtfmfnt(sflfdtCmd,
+                       RfsultSft.TYPE_SCROLL_SENSITIVE,
+                       RfsultSft.CONCUR_READ_ONLY);
+            RfsultSft rs = pstmtSfl.fxfdutfQufry();
+            RfsultSft rs2 = don.gftMftbDbtb().gftPrimbryKfys(null, null,
+                       drs.gftTbblfNbmf())
        ) {
 
-           ResultSetMetaData rsmd = crs.getMetaData();
-           int icolCount = rsmd.getColumnCount();
-           String[] primaryKeys = new String[icolCount];
+           RfsultSftMftbDbtb rsmd = drs.gftMftbDbtb();
+           int idolCount = rsmd.gftColumnCount();
+           String[] primbryKfys = nfw String[idolCount];
            int k = 0;
-           while (rs2.next()) {
-               primaryKeys[k] = rs2.getString("COLUMN_NAME");
+           wiilf (rs2.nfxt()) {
+               primbryKfys[k] = rs2.gftString("COLUMN_NAME");
                k++;
            }
 
-           if (rs.next()) {
-               for (String pkName : primaryKeys) {
-                   if (!isPKNameValid(pkName, rsmd)) {
+           if (rs.nfxt()) {
+               for (String pkNbmf : primbryKfys) {
+                   if (!isPKNbmfVblid(pkNbmf, rsmd)) {
 
-                       /* We came here as one of the the primary keys
-                        * of the table is not present in the cached
-                        * rowset object, it should be an autoincrement column
-                        * and not included while creating CachedRowSet
-                        * Object, proceed to check for other primary keys
+                       /* Wf dbmf ifrf bs onf of tif tif primbry kfys
+                        * of tif tbblf is not prfsfnt in tif dbdifd
+                        * rowsft objfdt, it siould bf bn butoindrfmfnt dolumn
+                        * bnd not indludfd wiilf drfbting CbdifdRowSft
+                        * Objfdt, prodffd to difdk for otifr primbry kfys
                         */
-                       continue;
+                       dontinuf;
                    }
 
-                   Object crsPK = crs.getObject(pkName);
-                   if (crsPK == null) {
+                   Objfdt drsPK = drs.gftObjfdt(pkNbmf);
+                   if (drsPK == null) {
                        /*
-                        * It is possible that the PK is null on some databases
-                        * and will be filled in at insert time (MySQL for example)
+                        * It is possiblf tibt tif PK is null on somf dbtbbbsfs
+                        * bnd will bf fillfd in bt insfrt timf (MySQL for fxbmplf)
                         */
-                       break;
+                       brfbk;
                    }
 
-                   String rsPK = rs.getObject(pkName).toString();
-                   if (crsPK.toString().equals(rsPK)) {
-                       returnVal = true;
-                       this.crsResolve.moveToInsertRow();
-                       for (int i = 1; i <= icolCount; i++) {
-                           String colname = (rs.getMetaData()).getColumnName(i);
-                           if (colname.equals(pkName))
-                               this.crsResolve.updateObject(i,rsPK);
-                           else
-                               this.crsResolve.updateNull(i);
+                   String rsPK = rs.gftObjfdt(pkNbmf).toString();
+                   if (drsPK.toString().fqubls(rsPK)) {
+                       rfturnVbl = truf;
+                       tiis.drsRfsolvf.movfToInsfrtRow();
+                       for (int i = 1; i <= idolCount; i++) {
+                           String dolnbmf = (rs.gftMftbDbtb()).gftColumnNbmf(i);
+                           if (dolnbmf.fqubls(pkNbmf))
+                               tiis.drsRfsolvf.updbtfObjfdt(i,rsPK);
+                           flsf
+                               tiis.drsRfsolvf.updbtfNull(i);
                        }
-                       this.crsResolve.insertRow();
-                       this.crsResolve.moveToCurrentRow();
+                       tiis.drsRfsolvf.insfrtRow();
+                       tiis.drsRfsolvf.movfToCurrfntRow();
                    }
                }
            }
 
-           if (returnVal) {
-               return returnVal;
+           if (rfturnVbl) {
+               rfturn rfturnVbl;
            }
 
            try {
-               for (int i = 1; i <= icolCount; i++) {
-                   Object obj = crs.getObject(i);
+               for (int i = 1; i <= idolCount; i++) {
+                   Objfdt obj = drs.gftObjfdt(i);
                    if (obj != null) {
-                       pstmt.setObject(i, obj);
-                   } else {
-                       pstmt.setNull(i,crs.getMetaData().getColumnType(i));
+                       pstmt.sftObjfdt(i, obj);
+                   } flsf {
+                       pstmt.sftNull(i,drs.gftMftbDbtb().gftColumnTypf(i));
                    }
                }
 
-               pstmt.executeUpdate();
-               return false;
+               pstmt.fxfdutfUpdbtf();
+               rfturn fblsf;
 
-           } catch (SQLException ex) {
+           } dbtdi (SQLExdfption fx) {
                /*
-                * Cursor will come here if executeUpdate fails.
-                * There can be many reasons why the insertion failed,
-                * one can be violation of primary key.
-                * Hence we cannot exactly identify why the insertion failed,
-                * present the current row as a null row to the caller.
+                * Cursor will domf ifrf if fxfdutfUpdbtf fbils.
+                * Tifrf dbn bf mbny rfbsons wiy tif insfrtion fbilfd,
+                * onf dbn bf violbtion of primbry kfy.
+                * Hfndf wf dbnnot fxbdtly idfntify wiy tif insfrtion fbilfd,
+                * prfsfnt tif durrfnt row bs b null row to tif dbllfr.
                 */
-               this.crsResolve.moveToInsertRow();
+               tiis.drsRfsolvf.movfToInsfrtRow();
 
-               for (int i = 1; i <= icolCount; i++) {
-                   this.crsResolve.updateNull(i);
+               for (int i = 1; i <= idolCount; i++) {
+                   tiis.drsRfsolvf.updbtfNull(i);
                }
 
-               this.crsResolve.insertRow();
-               this.crsResolve.moveToCurrentRow();
+               tiis.drsRfsolvf.insfrtRow();
+               tiis.drsRfsolvf.movfToCurrfntRow();
 
-               return true;
+               rfturn truf;
            }
        }
    }
 
 /**
- * Deletes the row in the underlying data source that corresponds to
- * a row that has been deleted in the given <code> CachedRowSet</code> object
- * and returns <code>false</code> if the deletion was successful.
+ * Dflftfs tif row in tif undfrlying dbtb sourdf tibt dorrfsponds to
+ * b row tibt ibs bffn dflftfd in tif givfn <dodf> CbdifdRowSft</dodf> objfdt
+ * bnd rfturns <dodf>fblsf</dodf> if tif dflftion wbs suddfssful.
  * <P>
- * This method is called internally by this writer's <code>writeData</code>
- * method when a row in the rowset has been deleted. The values in the
- * deleted row are the same as those that are stored in the original row
- * of the given <code>CachedRowSet</code> object.  If the values in the
- * original row differ from the row in the underlying data source, the row
- * in the data source is not deleted, and <code>deleteOriginalRow</code>
- * returns <code>true</code> to indicate that there was a conflict.
+ * Tiis mftiod is dbllfd intfrnblly by tiis writfr's <dodf>writfDbtb</dodf>
+ * mftiod wifn b row in tif rowsft ibs bffn dflftfd. Tif vblufs in tif
+ * dflftfd row brf tif sbmf bs tiosf tibt brf storfd in tif originbl row
+ * of tif givfn <dodf>CbdifdRowSft</dodf> objfdt.  If tif vblufs in tif
+ * originbl row difffr from tif row in tif undfrlying dbtb sourdf, tif row
+ * in tif dbtb sourdf is not dflftfd, bnd <dodf>dflftfOriginblRow</dodf>
+ * rfturns <dodf>truf</dodf> to indidbtf tibt tifrf wbs b donflidt.
  *
  *
- * @return <code>false</code> if the deletion was successful, which means that
- *         there was no conflict; <code>true</code> otherwise
- * @throws SQLException if there was a database access error
+ * @rfturn <dodf>fblsf</dodf> if tif dflftion wbs suddfssful, wiidi mfbns tibt
+ *         tifrf wbs no donflidt; <dodf>truf</dodf> otifrwisf
+ * @tirows SQLExdfption if tifrf wbs b dbtbbbsf bddfss frror
  */
-    private boolean deleteOriginalRow(CachedRowSet crs, CachedRowSetImpl crsRes) throws SQLException {
-        PreparedStatement pstmt;
+    privbtf boolfbn dflftfOriginblRow(CbdifdRowSft drs, CbdifdRowSftImpl drsRfs) tirows SQLExdfption {
+        PrfpbrfdStbtfmfnt pstmt;
         int i;
         int idx = 0;
-        String strSelect;
-    // Select the row from the database.
-        ResultSet origVals = crs.getOriginalRow();
-        origVals.next();
+        String strSflfdt;
+    // Sflfdt tif row from tif dbtbbbsf.
+        RfsultSft origVbls = drs.gftOriginblRow();
+        origVbls.nfxt();
 
-        deleteWhere = buildWhereClause(deleteWhere, origVals);
-        pstmt = con.prepareStatement(selectCmd + deleteWhere,
-                ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        dflftfWifrf = buildWifrfClbusf(dflftfWifrf, origVbls);
+        pstmt = don.prfpbrfStbtfmfnt(sflfdtCmd + dflftfWifrf,
+                RfsultSft.TYPE_SCROLL_SENSITIVE, RfsultSft.CONCUR_READ_ONLY);
 
-        for (i = 0; i < keyCols.length; i++) {
-            if (params[i] != null) {
-                pstmt.setObject(++idx, params[i]);
-            } else {
-                continue;
+        for (i = 0; i < kfyCols.lfngti; i++) {
+            if (pbrbms[i] != null) {
+                pstmt.sftObjfdt(++idx, pbrbms[i]);
+            } flsf {
+                dontinuf;
             }
         }
 
         try {
-            pstmt.setMaxRows(crs.getMaxRows());
-            pstmt.setMaxFieldSize(crs.getMaxFieldSize());
-            pstmt.setEscapeProcessing(crs.getEscapeProcessing());
-            pstmt.setQueryTimeout(crs.getQueryTimeout());
-        } catch (Exception ex) {
+            pstmt.sftMbxRows(drs.gftMbxRows());
+            pstmt.sftMbxFifldSizf(drs.gftMbxFifldSizf());
+            pstmt.sftEsdbpfProdfssing(drs.gftEsdbpfProdfssing());
+            pstmt.sftQufryTimfout(drs.gftQufryTimfout());
+        } dbtdi (Exdfption fx) {
             /*
-             * Older driver don't support these operations...
+             * Oldfr drivfr don't support tifsf opfrbtions...
              */
             ;
         }
 
-        ResultSet rs = pstmt.executeQuery();
+        RfsultSft rs = pstmt.fxfdutfQufry();
 
-        if (rs.next() == true) {
-            if (rs.next()) {
-                // more than one row
-                return true;
+        if (rs.nfxt() == truf) {
+            if (rs.nfxt()) {
+                // morf tibn onf row
+                rfturn truf;
             }
             rs.first();
 
-            // Now check all the values in rs to be same in
-            // db also before actually going ahead with deleting
-            boolean boolChanged = false;
+            // Now difdk bll tif vblufs in rs to bf sbmf in
+            // db blso bfforf bdtublly going bifbd witi dflfting
+            boolfbn boolCibngfd = fblsf;
 
-            crsRes.moveToInsertRow();
+            drsRfs.movfToInsfrtRow();
 
-            for (i = 1; i <= crs.getMetaData().getColumnCount(); i++) {
+            for (i = 1; i <= drs.gftMftbDbtb().gftColumnCount(); i++) {
 
-                Object original = origVals.getObject(i);
-                Object changed = rs.getObject(i);
+                Objfdt originbl = origVbls.gftObjfdt(i);
+                Objfdt dibngfd = rs.gftObjfdt(i);
 
-                if(original != null && changed != null ) {
-                  if(! (original.toString()).equals(changed.toString()) ) {
-                      boolChanged = true;
-                      crsRes.updateObject(i,origVals.getObject(i));
+                if(originbl != null && dibngfd != null ) {
+                  if(! (originbl.toString()).fqubls(dibngfd.toString()) ) {
+                      boolCibngfd = truf;
+                      drsRfs.updbtfObjfdt(i,origVbls.gftObjfdt(i));
                   }
-                } else {
-                   crsRes.updateNull(i);
+                } flsf {
+                   drsRfs.updbtfNull(i);
                }
             }
 
-           crsRes.insertRow();
-           crsRes.moveToCurrentRow();
+           drsRfs.insfrtRow();
+           drsRfs.movfToCurrfntRow();
 
-           if(boolChanged) {
-               // do not delete as values in db have changed
-               // deletion will not happen for this row from db
-                   // exit now returning true. i.e. conflict
-               return true;
-            } else {
-                // delete the row.
-                // Go ahead with deleting,
-                // don't do anything here
+           if(boolCibngfd) {
+               // do not dflftf bs vblufs in db ibvf dibngfd
+               // dflftion will not ibppfn for tiis row from db
+                   // fxit now rfturning truf. i.f. donflidt
+               rfturn truf;
+            } flsf {
+                // dflftf tif row.
+                // Go bifbd witi dflfting,
+                // don't do bnytiing ifrf
             }
 
-            String cmd = deleteCmd + deleteWhere;
-            pstmt = con.prepareStatement(cmd);
+            String dmd = dflftfCmd + dflftfWifrf;
+            pstmt = don.prfpbrfStbtfmfnt(dmd);
 
             idx = 0;
-            for (i = 0; i < keyCols.length; i++) {
-                if (params[i] != null) {
-                    pstmt.setObject(++idx, params[i]);
-                } else {
-                    continue;
+            for (i = 0; i < kfyCols.lfngti; i++) {
+                if (pbrbms[i] != null) {
+                    pstmt.sftObjfdt(++idx, pbrbms[i]);
+                } flsf {
+                    dontinuf;
                 }
             }
 
-            if (pstmt.executeUpdate() != 1) {
-                return true;
+            if (pstmt.fxfdutfUpdbtf() != 1) {
+                rfturn truf;
             }
-            pstmt.close();
-        } else {
-            // didn't find the row
-            return true;
+            pstmt.dlosf();
+        } flsf {
+            // didn't find tif row
+            rfturn truf;
         }
 
-        // no conflict
-        return false;
+        // no donflidt
+        rfturn fblsf;
     }
 
     /**
-     * Sets the reader for this writer to the given reader.
+     * Sfts tif rfbdfr for tiis writfr to tif givfn rfbdfr.
      *
-     * @throws SQLException if a database access error occurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    public void setReader(CachedRowSetReader reader) throws SQLException {
-        this.reader = reader;
+    publid void sftRfbdfr(CbdifdRowSftRfbdfr rfbdfr) tirows SQLExdfption {
+        tiis.rfbdfr = rfbdfr;
     }
 
     /**
-     * Gets the reader for this writer.
+     * Gfts tif rfbdfr for tiis writfr.
      *
-     * @throws SQLException if a database access error occurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    public CachedRowSetReader getReader() throws SQLException {
-        return reader;
+    publid CbdifdRowSftRfbdfr gftRfbdfr() tirows SQLExdfption {
+        rfturn rfbdfr;
     }
 
     /**
-     * Composes a <code>SELECT</code>, <code>UPDATE</code>, <code>INSERT</code>,
-     * and <code>DELETE</code> statement that can be used by this writer to
-     * write data to the data source backing the given <code>CachedRowSet</code>
-     * object.
+     * Composfs b <dodf>SELECT</dodf>, <dodf>UPDATE</dodf>, <dodf>INSERT</dodf>,
+     * bnd <dodf>DELETE</dodf> stbtfmfnt tibt dbn bf usfd by tiis writfr to
+     * writf dbtb to tif dbtb sourdf bbdking tif givfn <dodf>CbdifdRowSft</dodf>
+     * objfdt.
      *
-     * @ param caller a <code>CachedRowSet</code> object for which this
-     *                <code>CachedRowSetWriter</code> object is the writer
-     * @throws SQLException if a database access error occurs
+     * @ pbrbm dbllfr b <dodf>CbdifdRowSft</dodf> objfdt for wiidi tiis
+     *                <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    private void initSQLStatements(CachedRowSet caller) throws SQLException {
+    privbtf void initSQLStbtfmfnts(CbdifdRowSft dbllfr) tirows SQLExdfption {
 
         int i;
 
-        callerMd = caller.getMetaData();
-        callerColumnCount = callerMd.getColumnCount();
-        if (callerColumnCount < 1)
-            // No data, so return.
-            return;
+        dbllfrMd = dbllfr.gftMftbDbtb();
+        dbllfrColumnCount = dbllfrMd.gftColumnCount();
+        if (dbllfrColumnCount < 1)
+            // No dbtb, so rfturn.
+            rfturn;
 
         /*
-         * If the RowSet has a Table name we should use it.
-         * This is really a hack to get round the fact that
-         * a lot of the jdbc drivers can't provide the tab.
+         * If tif RowSft ibs b Tbblf nbmf wf siould usf it.
+         * Tiis is rfblly b ibdk to gft round tif fbdt tibt
+         * b lot of tif jdbd drivfrs dbn't providf tif tbb.
          */
-        String table = caller.getTableName();
-        if (table == null) {
+        String tbblf = dbllfr.gftTbblfNbmf();
+        if (tbblf == null) {
             /*
-             * attempt to build a table name using the info
-             * that the driver gave us for the first column
-             * in the source result set.
+             * bttfmpt to build b tbblf nbmf using tif info
+             * tibt tif drivfr gbvf us for tif first dolumn
+             * in tif sourdf rfsult sft.
              */
-            table = callerMd.getTableName(1);
-            if (table == null || table.length() == 0) {
-                throw new SQLException(resBundle.handleGetObject("crswriter.tname").toString());
+            tbblf = dbllfrMd.gftTbblfNbmf(1);
+            if (tbblf == null || tbblf.lfngti() == 0) {
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("drswritfr.tnbmf").toString());
             }
         }
-        String catalog = callerMd.getCatalogName(1);
-            String schema = callerMd.getSchemaName(1);
-        DatabaseMetaData dbmd = con.getMetaData();
+        String dbtblog = dbllfrMd.gftCbtblogNbmf(1);
+            String sdifmb = dbllfrMd.gftSdifmbNbmf(1);
+        DbtbbbsfMftbDbtb dbmd = don.gftMftbDbtb();
 
         /*
-         * Compose a SELECT statement.  There are three parts.
+         * Composf b SELECT stbtfmfnt.  Tifrf brf tirff pbrts.
          */
 
-        // Project List
-        selectCmd = "SELECT ";
-        for (i=1; i <= callerColumnCount; i++) {
-            selectCmd += callerMd.getColumnName(i);
-            if ( i <  callerMd.getColumnCount() )
-                selectCmd += ", ";
-            else
-                selectCmd += " ";
+        // Projfdt List
+        sflfdtCmd = "SELECT ";
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            sflfdtCmd += dbllfrMd.gftColumnNbmf(i);
+            if ( i <  dbllfrMd.gftColumnCount() )
+                sflfdtCmd += ", ";
+            flsf
+                sflfdtCmd += " ";
         }
 
-        // FROM clause.
-        selectCmd += "FROM " + buildTableName(dbmd, catalog, schema, table);
+        // FROM dlbusf.
+        sflfdtCmd += "FROM " + buildTbblfNbmf(dbmd, dbtblog, sdifmb, tbblf);
 
         /*
-         * Compose an UPDATE statement.
+         * Composf bn UPDATE stbtfmfnt.
          */
-        updateCmd = "UPDATE " + buildTableName(dbmd, catalog, schema, table);
+        updbtfCmd = "UPDATE " + buildTbblfNbmf(dbmd, dbtblog, sdifmb, tbblf);
 
 
         /**
-         *  The following block of code is for checking a particular type of
-         *  query where in there is a where clause. Without this block, if a
-         *  SQL statement is built the "where" clause will appear twice hence
-         *  the DB errors out and a SQLException is thrown. This code also
-         *  considers that the where clause is in the right place as the
-         *  CachedRowSet object would already have been populated with this
-         *  query before coming to this point.
+         *  Tif following blodk of dodf is for difdking b pbrtidulbr typf of
+         *  qufry wifrf in tifrf is b wifrf dlbusf. Witiout tiis blodk, if b
+         *  SQL stbtfmfnt is built tif "wifrf" dlbusf will bppfbr twidf ifndf
+         *  tif DB frrors out bnd b SQLExdfption is tirown. Tiis dodf blso
+         *  donsidfrs tibt tif wifrf dlbusf is in tif rigit plbdf bs tif
+         *  CbdifdRowSft objfdt would blrfbdy ibvf bffn populbtfd witi tiis
+         *  qufry bfforf doming to tiis point.
          **/
 
-        String tempupdCmd = updateCmd.toLowerCase();
+        String tfmpupdCmd = updbtfCmd.toLowfrCbsf();
 
-        int idxupWhere = tempupdCmd.indexOf("where");
+        int idxupWifrf = tfmpupdCmd.indfxOf("wifrf");
 
-        if(idxupWhere != -1)
+        if(idxupWifrf != -1)
         {
-           updateCmd = updateCmd.substring(0,idxupWhere);
+           updbtfCmd = updbtfCmd.substring(0,idxupWifrf);
         }
-        updateCmd += "SET ";
+        updbtfCmd += "SET ";
 
         /*
-         * Compose an INSERT statement.
+         * Composf bn INSERT stbtfmfnt.
          */
-        insertCmd = "INSERT INTO " + buildTableName(dbmd, catalog, schema, table);
+        insfrtCmd = "INSERT INTO " + buildTbblfNbmf(dbmd, dbtblog, sdifmb, tbblf);
         // Column list
-        insertCmd += "(";
-        for (i=1; i <= callerColumnCount; i++) {
-            insertCmd += callerMd.getColumnName(i);
-            if ( i <  callerMd.getColumnCount() )
-                insertCmd += ", ";
-            else
-                insertCmd += ") VALUES (";
+        insfrtCmd += "(";
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            insfrtCmd += dbllfrMd.gftColumnNbmf(i);
+            if ( i <  dbllfrMd.gftColumnCount() )
+                insfrtCmd += ", ";
+            flsf
+                insfrtCmd += ") VALUES (";
         }
-        for (i=1; i <= callerColumnCount; i++) {
-            insertCmd += "?";
-            if (i < callerColumnCount)
-                insertCmd += ", ";
-            else
-                insertCmd += ")";
+        for (i=1; i <= dbllfrColumnCount; i++) {
+            insfrtCmd += "?";
+            if (i < dbllfrColumnCount)
+                insfrtCmd += ", ";
+            flsf
+                insfrtCmd += ")";
         }
 
         /*
-         * Compose a DELETE statement.
+         * Composf b DELETE stbtfmfnt.
          */
-        deleteCmd = "DELETE FROM " + buildTableName(dbmd, catalog, schema, table);
+        dflftfCmd = "DELETE FROM " + buildTbblfNbmf(dbmd, dbtblog, sdifmb, tbblf);
 
         /*
-         * set the key desriptors that will be
-         * needed to construct where clauses.
+         * sft tif kfy dfsriptors tibt will bf
+         * nffdfd to donstrudt wifrf dlbusfs.
          */
-        buildKeyDesc(caller);
+        buildKfyDfsd(dbllfr);
     }
 
     /**
-     * Returns a fully qualified table name built from the given catalog and
-     * table names. The given metadata object is used to get the proper order
-     * and separator.
+     * Rfturns b fully qublififd tbblf nbmf built from tif givfn dbtblog bnd
+     * tbblf nbmfs. Tif givfn mftbdbtb objfdt is usfd to gft tif propfr ordfr
+     * bnd sfpbrbtor.
      *
-     * @param dbmd a <code>DatabaseMetaData</code> object that contains metadata
-     *          about this writer's <code>CachedRowSet</code> object
-     * @param catalog a <code>String</code> object with the rowset's catalog
-     *          name
-     * @param table a <code>String</code> object with the name of the table from
-     *          which this writer's rowset was derived
-     * @return a <code>String</code> object with the fully qualified name of the
-     *          table from which this writer's rowset was derived
-     * @throws SQLException if a database access error occurs
+     * @pbrbm dbmd b <dodf>DbtbbbsfMftbDbtb</dodf> objfdt tibt dontbins mftbdbtb
+     *          bbout tiis writfr's <dodf>CbdifdRowSft</dodf> objfdt
+     * @pbrbm dbtblog b <dodf>String</dodf> objfdt witi tif rowsft's dbtblog
+     *          nbmf
+     * @pbrbm tbblf b <dodf>String</dodf> objfdt witi tif nbmf of tif tbblf from
+     *          wiidi tiis writfr's rowsft wbs dfrivfd
+     * @rfturn b <dodf>String</dodf> objfdt witi tif fully qublififd nbmf of tif
+     *          tbblf from wiidi tiis writfr's rowsft wbs dfrivfd
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    private String buildTableName(DatabaseMetaData dbmd,
-        String catalog, String schema, String table) throws SQLException {
+    privbtf String buildTbblfNbmf(DbtbbbsfMftbDbtb dbmd,
+        String dbtblog, String sdifmb, String tbblf) tirows SQLExdfption {
 
-       // trim all the leading and trailing whitespaces,
-       // white spaces can never be catalog, schema or a table name.
+       // trim bll tif lfbding bnd trbiling wiitfspbdfs,
+       // wiitf spbdfs dbn nfvfr bf dbtblog, sdifmb or b tbblf nbmf.
 
-        String cmd = "";
+        String dmd = "";
 
-        catalog = catalog.trim();
-        schema = schema.trim();
-        table = table.trim();
+        dbtblog = dbtblog.trim();
+        sdifmb = sdifmb.trim();
+        tbblf = tbblf.trim();
 
-        if (dbmd.isCatalogAtStart() == true) {
-            if (catalog != null && catalog.length() > 0) {
-                cmd += catalog + dbmd.getCatalogSeparator();
+        if (dbmd.isCbtblogAtStbrt() == truf) {
+            if (dbtblog != null && dbtblog.lfngti() > 0) {
+                dmd += dbtblog + dbmd.gftCbtblogSfpbrbtor();
             }
-            if (schema != null && schema.length() > 0) {
-                cmd += schema + ".";
+            if (sdifmb != null && sdifmb.lfngti() > 0) {
+                dmd += sdifmb + ".";
             }
-            cmd += table;
-        } else {
-            if (schema != null && schema.length() > 0) {
-                cmd += schema + ".";
+            dmd += tbblf;
+        } flsf {
+            if (sdifmb != null && sdifmb.lfngti() > 0) {
+                dmd += sdifmb + ".";
             }
-            cmd += table;
-            if (catalog != null && catalog.length() > 0) {
-                cmd += dbmd.getCatalogSeparator() + catalog;
+            dmd += tbblf;
+            if (dbtblog != null && dbtblog.lfngti() > 0) {
+                dmd += dbmd.gftCbtblogSfpbrbtor() + dbtblog;
             }
         }
-        cmd += " ";
-        return cmd;
+        dmd += " ";
+        rfturn dmd;
     }
 
     /**
-     * Assigns to the given <code>CachedRowSet</code> object's
-     * <code>params</code>
-     * field an array whose length equals the number of columns needed
-     * to uniquely identify a row in the rowset. The array is given
-     * values by the method <code>buildWhereClause</code>.
+     * Assigns to tif givfn <dodf>CbdifdRowSft</dodf> objfdt's
+     * <dodf>pbrbms</dodf>
+     * fifld bn brrby wiosf lfngti fqubls tif numbfr of dolumns nffdfd
+     * to uniqufly idfntify b row in tif rowsft. Tif brrby is givfn
+     * vblufs by tif mftiod <dodf>buildWifrfClbusf</dodf>.
      * <P>
-     * If the <code>CachedRowSet</code> object's <code>keyCols</code>
-     * field has length <code>0</code> or is <code>null</code>, the array
-     * is set with the column number of every column in the rowset.
-     * Otherwise, the array in the field <code>keyCols</code> is set with only
-     * the column numbers of the columns that are required to form a unique
-     * identifier for a row.
+     * If tif <dodf>CbdifdRowSft</dodf> objfdt's <dodf>kfyCols</dodf>
+     * fifld ibs lfngti <dodf>0</dodf> or is <dodf>null</dodf>, tif brrby
+     * is sft witi tif dolumn numbfr of fvfry dolumn in tif rowsft.
+     * Otifrwisf, tif brrby in tif fifld <dodf>kfyCols</dodf> is sft witi only
+     * tif dolumn numbfrs of tif dolumns tibt brf rfquirfd to form b uniquf
+     * idfntififr for b row.
      *
-     * @param crs the <code>CachedRowSet</code> object for which this
-     *     <code>CachedRowSetWriter</code> object is the writer
+     * @pbrbm drs tif <dodf>CbdifdRowSft</dodf> objfdt for wiidi tiis
+     *     <dodf>CbdifdRowSftWritfr</dodf> objfdt is tif writfr
      *
-     * @throws SQLException if a database access error occurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    private void buildKeyDesc(CachedRowSet crs) throws SQLException {
+    privbtf void buildKfyDfsd(CbdifdRowSft drs) tirows SQLExdfption {
 
-        keyCols = crs.getKeyColumns();
-        ResultSetMetaData resultsetmd = crs.getMetaData();
-        if (keyCols == null || keyCols.length == 0) {
-            ArrayList<Integer> listKeys = new ArrayList<Integer>();
+        kfyCols = drs.gftKfyColumns();
+        RfsultSftMftbDbtb rfsultsftmd = drs.gftMftbDbtb();
+        if (kfyCols == null || kfyCols.lfngti == 0) {
+            ArrbyList<Intfgfr> listKfys = nfw ArrbyList<Intfgfr>();
 
-            for (int i = 0; i < callerColumnCount; i++ ) {
-                if(resultsetmd.getColumnType(i+1) != java.sql.Types.CLOB &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.STRUCT &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.SQLXML &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.BLOB &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.ARRAY &&
-                        resultsetmd.getColumnType(i+1) != java.sql.Types.OTHER )
-                    listKeys.add(i+1);
+            for (int i = 0; i < dbllfrColumnCount; i++ ) {
+                if(rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.CLOB &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.STRUCT &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.SQLXML &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.BLOB &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.ARRAY &&
+                        rfsultsftmd.gftColumnTypf(i+1) != jbvb.sql.Typfs.OTHER )
+                    listKfys.bdd(i+1);
             }
-            keyCols = new int[listKeys.size()];
-            for (int i = 0; i < listKeys.size(); i++ )
-                keyCols[i] = listKeys.get(i);
+            kfyCols = nfw int[listKfys.sizf()];
+            for (int i = 0; i < listKfys.sizf(); i++ )
+                kfyCols[i] = listKfys.gft(i);
         }
-        params = new Object[keyCols.length];
+        pbrbms = nfw Objfdt[kfyCols.lfngti];
     }
 
     /**
-         * Constructs an SQL <code>WHERE</code> clause using the given
-         * string as a starting point. The resulting clause will contain
-         * a column name and " = ?" for each key column, that is, each column
-         * that is needed to form a unique identifier for a row in the rowset.
-         * This <code>WHERE</code> clause can be added to
-         * a <code>PreparedStatement</code> object that updates, inserts, or
-         * deletes a row.
+         * Construdts bn SQL <dodf>WHERE</dodf> dlbusf using tif givfn
+         * string bs b stbrting point. Tif rfsulting dlbusf will dontbin
+         * b dolumn nbmf bnd " = ?" for fbdi kfy dolumn, tibt is, fbdi dolumn
+         * tibt is nffdfd to form b uniquf idfntififr for b row in tif rowsft.
+         * Tiis <dodf>WHERE</dodf> dlbusf dbn bf bddfd to
+         * b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt updbtfs, insfrts, or
+         * dflftfs b row.
          * <P>
-         * This method uses the given result set to access values in the
-         * <code>CachedRowSet</code> object that called this writer.  These
-         * values are used to build the array of parameters that will serve as
-         * replacements for the "?" parameter placeholders in the
-         * <code>PreparedStatement</code> object that is sent to the
-         * <code>CachedRowSet</code> object's underlying data source.
+         * Tiis mftiod usfs tif givfn rfsult sft to bddfss vblufs in tif
+         * <dodf>CbdifdRowSft</dodf> objfdt tibt dbllfd tiis writfr.  Tifsf
+         * vblufs brf usfd to build tif brrby of pbrbmftfrs tibt will sfrvf bs
+         * rfplbdfmfnts for tif "?" pbrbmftfr plbdfioldfrs in tif
+         * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt tibt is sfnt to tif
+         * <dodf>CbdifdRowSft</dodf> objfdt's undfrlying dbtb sourdf.
          *
-         * @param whereClause a <code>String</code> object that is an empty
+         * @pbrbm wifrfClbusf b <dodf>String</dodf> objfdt tibt is bn fmpty
          *                    string ("")
-         * @param rs a <code>ResultSet</code> object that can be used
-         *           to access the <code>CachedRowSet</code> object's data
-         * @return a <code>WHERE</code> clause of the form "<code>WHERE</code>
-         *         columnName = ? AND columnName = ? AND columnName = ? ..."
-         * @throws SQLException if a database access error occurs
+         * @pbrbm rs b <dodf>RfsultSft</dodf> objfdt tibt dbn bf usfd
+         *           to bddfss tif <dodf>CbdifdRowSft</dodf> objfdt's dbtb
+         * @rfturn b <dodf>WHERE</dodf> dlbusf of tif form "<dodf>WHERE</dodf>
+         *         dolumnNbmf = ? AND dolumnNbmf = ? AND dolumnNbmf = ? ..."
+         * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
          */
-    private String buildWhereClause(String whereClause,
-                                    ResultSet rs) throws SQLException {
-        whereClause = "WHERE ";
+    privbtf String buildWifrfClbusf(String wifrfClbusf,
+                                    RfsultSft rs) tirows SQLExdfption {
+        wifrfClbusf = "WHERE ";
 
-        for (int i = 0; i < keyCols.length; i++) {
+        for (int i = 0; i < kfyCols.lfngti; i++) {
             if (i > 0) {
-                    whereClause += "AND ";
+                    wifrfClbusf += "AND ";
             }
-            whereClause += callerMd.getColumnName(keyCols[i]);
-            params[i] = rs.getObject(keyCols[i]);
-            if (rs.wasNull() == true) {
-                whereClause += " IS NULL ";
-            } else {
-                whereClause += " = ? ";
+            wifrfClbusf += dbllfrMd.gftColumnNbmf(kfyCols[i]);
+            pbrbms[i] = rs.gftObjfdt(kfyCols[i]);
+            if (rs.wbsNull() == truf) {
+                wifrfClbusf += " IS NULL ";
+            } flsf {
+                wifrfClbusf += " = ? ";
             }
         }
-        return whereClause;
+        rfturn wifrfClbusf;
     }
 
-    void updateResolvedConflictToDB(CachedRowSet crs, Connection con) throws SQLException {
-          //String updateExe = ;
-          PreparedStatement pStmt  ;
-          String strWhere = "WHERE " ;
-          String strExec =" ";
-          String strUpdate = "UPDATE ";
-          int icolCount = crs.getMetaData().getColumnCount();
-          int keyColumns[] = crs.getKeyColumns();
-          Object param[];
-          String strSet="";
+    void updbtfRfsolvfdConflidtToDB(CbdifdRowSft drs, Connfdtion don) tirows SQLExdfption {
+          //String updbtfExf = ;
+          PrfpbrfdStbtfmfnt pStmt  ;
+          String strWifrf = "WHERE " ;
+          String strExfd =" ";
+          String strUpdbtf = "UPDATE ";
+          int idolCount = drs.gftMftbDbtb().gftColumnCount();
+          int kfyColumns[] = drs.gftKfyColumns();
+          Objfdt pbrbm[];
+          String strSft="";
 
-        strWhere = buildWhereClause(strWhere, crs);
+        strWifrf = buildWifrfClbusf(strWifrf, drs);
 
-        if (keyColumns == null || keyColumns.length == 0) {
-            keyColumns = new int[icolCount];
-            for (int i = 0; i < keyColumns.length; ) {
-                keyColumns[i] = ++i;
+        if (kfyColumns == null || kfyColumns.lfngti == 0) {
+            kfyColumns = nfw int[idolCount];
+            for (int i = 0; i < kfyColumns.lfngti; ) {
+                kfyColumns[i] = ++i;
             }
           }
-          param = new Object[keyColumns.length];
+          pbrbm = nfw Objfdt[kfyColumns.lfngti];
 
-         strUpdate = "UPDATE " + buildTableName(con.getMetaData(),
-                            crs.getMetaData().getCatalogName(1),
-                           crs.getMetaData().getSchemaName(1),
-                           crs.getTableName());
+         strUpdbtf = "UPDATE " + buildTbblfNbmf(don.gftMftbDbtb(),
+                            drs.gftMftbDbtb().gftCbtblogNbmf(1),
+                           drs.gftMftbDbtb().gftSdifmbNbmf(1),
+                           drs.gftTbblfNbmf());
 
-         // changed or updated values will become part of
-         // set clause here
-         strUpdate += "SET ";
+         // dibngfd or updbtfd vblufs will bfdomf pbrt of
+         // sft dlbusf ifrf
+         strUpdbtf += "SET ";
 
-        boolean first = true;
+        boolfbn first = truf;
 
-        for (int i=1; i<=icolCount;i++) {
-           if (crs.columnUpdated(i)) {
-                  if (first == false) {
-                    strSet += ", ";
+        for (int i=1; i<=idolCount;i++) {
+           if (drs.dolumnUpdbtfd(i)) {
+                  if (first == fblsf) {
+                    strSft += ", ";
                   }
-                 strSet += crs.getMetaData().getColumnName(i);
-                 strSet += " = ? ";
-                 first = false;
-         } //end if
-      } //end for
+                 strSft += drs.gftMftbDbtb().gftColumnNbmf(i);
+                 strSft += " = ? ";
+                 first = fblsf;
+         } //fnd if
+      } //fnd for
 
-         // keycols will become part of where clause
-         strUpdate += strSet;
-         strWhere = "WHERE ";
+         // kfydols will bfdomf pbrt of wifrf dlbusf
+         strUpdbtf += strSft;
+         strWifrf = "WHERE ";
 
-        for (int i = 0; i < keyColumns.length; i++) {
+        for (int i = 0; i < kfyColumns.lfngti; i++) {
             if (i > 0) {
-                    strWhere += "AND ";
+                    strWifrf += "AND ";
             }
-            strWhere += crs.getMetaData().getColumnName(keyColumns[i]);
-            param[i] = crs.getObject(keyColumns[i]);
-            if (crs.wasNull() == true) {
-                strWhere += " IS NULL ";
-            } else {
-                strWhere += " = ? ";
+            strWifrf += drs.gftMftbDbtb().gftColumnNbmf(kfyColumns[i]);
+            pbrbm[i] = drs.gftObjfdt(kfyColumns[i]);
+            if (drs.wbsNull() == truf) {
+                strWifrf += " IS NULL ";
+            } flsf {
+                strWifrf += " = ? ";
             }
         }
-          strUpdate += strWhere;
+          strUpdbtf += strWifrf;
 
-        pStmt = con.prepareStatement(strUpdate);
+        pStmt = don.prfpbrfStbtfmfnt(strUpdbtf);
 
         int idx =0;
-          for (int i = 0; i < icolCount; i++) {
-             if(crs.columnUpdated(i+1)) {
-              Object obj = crs.getObject(i+1);
+          for (int i = 0; i < idolCount; i++) {
+             if(drs.dolumnUpdbtfd(i+1)) {
+              Objfdt obj = drs.gftObjfdt(i+1);
               if (obj != null) {
-                  pStmt.setObject(++idx, obj);
-              } else {
-                  pStmt.setNull(i + 1,crs.getMetaData().getColumnType(i + 1));
-             } //end if ..else
-           } //end if crs.column...
-        } //end for
+                  pStmt.sftObjfdt(++idx, obj);
+              } flsf {
+                  pStmt.sftNull(i + 1,drs.gftMftbDbtb().gftColumnTypf(i + 1));
+             } //fnd if ..flsf
+           } //fnd if drs.dolumn...
+        } //fnd for
 
-          // Set the key cols for after WHERE =? clause
-          for (int i = 0; i < keyColumns.length; i++) {
-              if (param[i] != null) {
-                  pStmt.setObject(++idx, param[i]);
+          // Sft tif kfy dols for bftfr WHERE =? dlbusf
+          for (int i = 0; i < kfyColumns.lfngti; i++) {
+              if (pbrbm[i] != null) {
+                  pStmt.sftObjfdt(++idx, pbrbm[i]);
               }
           }
 
-        int id = pStmt.executeUpdate();
+        int id = pStmt.fxfdutfUpdbtf();
       }
 
 
     /**
      *
      */
-    public void commit() throws SQLException {
-        con.commit();
-        if (reader.getCloseConnection() == true) {
-            con.close();
+    publid void dommit() tirows SQLExdfption {
+        don.dommit();
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
         }
     }
 
-     public void commit(CachedRowSetImpl crs, boolean updateRowset) throws SQLException {
-        con.commit();
-        if(updateRowset) {
-          if(crs.getCommand() != null)
-            crs.execute(con);
+     publid void dommit(CbdifdRowSftImpl drs, boolfbn updbtfRowsft) tirows SQLExdfption {
+        don.dommit();
+        if(updbtfRowsft) {
+          if(drs.gftCommbnd() != null)
+            drs.fxfdutf(don);
         }
 
-        if (reader.getCloseConnection() == true) {
-            con.close();
-        }
-    }
-
-    /**
-     *
-     */
-    public void rollback() throws SQLException {
-        con.rollback();
-        if (reader.getCloseConnection() == true) {
-            con.close();
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
         }
     }
 
     /**
      *
      */
-    public void rollback(Savepoint s) throws SQLException {
-        con.rollback(s);
-        if (reader.getCloseConnection() == true) {
-            con.close();
+    publid void rollbbdk() tirows SQLExdfption {
+        don.rollbbdk();
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
         }
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of  Res Bundle happens here .
+    /**
+     *
+     */
+    publid void rollbbdk(Sbvfpoint s) tirows SQLExdfption {
+        don.rollbbdk(s);
+        if (rfbdfr.gftClosfConnfdtion() == truf) {
+            don.dlosf();
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of  Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
 
-    static final long serialVersionUID =-8506030970299413976L;
+    stbtid finbl long sfriblVfrsionUID =-8506030970299413976L;
 
     /**
-     * Validate whether the Primary Key is known to the CachedRowSet.  If it is
-     * not, it is an auto-generated key
-     * @param pk - Primary Key to validate
-     * @param rsmd - ResultSetMetadata for the RowSet
-     * @return true if found, false otherwise (auto generated key)
+     * Vblidbtf wiftifr tif Primbry Kfy is known to tif CbdifdRowSft.  If it is
+     * not, it is bn buto-gfnfrbtfd kfy
+     * @pbrbm pk - Primbry Kfy to vblidbtf
+     * @pbrbm rsmd - RfsultSftMftbdbtb for tif RowSft
+     * @rfturn truf if found, fblsf otifrwisf (buto gfnfrbtfd kfy)
      */
-    private boolean isPKNameValid(String pk, ResultSetMetaData rsmd) throws SQLException {
-        boolean isValid = false;
-        int cols = rsmd.getColumnCount();
-        for(int i = 1; i<= cols; i++) {
-            String colName = rsmd.getColumnClassName(i);
-            if(colName.equalsIgnoreCase(pk)) {
-                isValid = true;
-                break;
+    privbtf boolfbn isPKNbmfVblid(String pk, RfsultSftMftbDbtb rsmd) tirows SQLExdfption {
+        boolfbn isVblid = fblsf;
+        int dols = rsmd.gftColumnCount();
+        for(int i = 1; i<= dols; i++) {
+            String dolNbmf = rsmd.gftColumnClbssNbmf(i);
+            if(dolNbmf.fqublsIgnorfCbsf(pk)) {
+                isVblid = truf;
+                brfbk;
             }
         }
 
-        return isValid;
+        rfturn isVblid;
     }
 }

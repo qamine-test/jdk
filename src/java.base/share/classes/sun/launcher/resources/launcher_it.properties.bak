@@ -1,54 +1,54 @@
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# Translators please note do not translate the options themselves
-java.launcher.opt.header  =   Uso: {0} [-opzioni] class [argomenti...]\n           (per eseguire una classe)\n   oppure  {0} [-opzioni] -jar filejar [argomenti...]\n           (per eseguire un file jar)\ndove le opzioni sono:\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.ifbdfr  =   Uso: {0} [-opzioni] dlbss [brgomfnti...]\n           (pfr fsfguirf unb dlbssf)\n   oppurf  {0} [-opzioni] -jbr filfjbr [brgomfnti...]\n           (pfr fsfguirf un filf jbr)\ndovf lf opzioni sono:\n
 
-java.launcher.opt.datamodel  =\    -d{0}\t  usare un modello di dati {0}-bit se disponibile\n
-java.launcher.opt.vmselect   =\    {0}\t  per selezionare la VM "{1}"\n
-java.launcher.opt.hotspot    =\    {0}\t  \u00E8 un sinonimo per la VM "{1}" [non valido]\n
+jbvb.lbundifr.opt.dbtbmodfl  =\    -d{0}\t  usbrf un modfllo di dbti {0}-bit sf disponibilf\n
+jbvb.lbundifr.opt.vmsflfdt   =\    {0}\t  pfr sflfzionbrf lb VM "{1}"\n
+jbvb.lbundifr.opt.iotspot    =\    {0}\t  \u00E8 un sinonimo pfr lb VM "{1}" [non vblido]\n
 
-java.launcher.ergo.message1  =\                  La VM predefinita \u00E8 {0}
-java.launcher.ergo.message2  =\                  perch\u00E9 si utilizza un computer di classe server.\n
+jbvb.lbundifr.frgo.mfssbgf1  =\                  Lb VM prfdffinitb \u00E8 {0}
+jbvb.lbundifr.frgo.mfssbgf2  =\                  pfrdi\u00E9 si utilizzb un domputfr di dlbssf sfrvfr.\n
 
-# Translators please note do not translate the options themselves
-java.launcher.opt.footer     =\    -cp <classpath di ricerca di directory e file zip/jar>\n    -classpath <classpath di ricerca di directory e file zip/jar>\n                  Una lista separata da {0} di directory, archivi JAR,\n                  e archivi ZIP utilizzata per la ricerca di file di classe.\n    -D<nome>=<valore>\n                  imposta una propriet\u00E0 di sistema\n    -verbose:[class|gc|jni]\n                  abilita l''output descrittivo\n    -version      stampa la versione del prodotto ed esce\n    -version:<valore>\n                  richiede l''esecuzione della versione specificata\n    -showversion  stampa la versione del prodotto e continua\n    -jre-restrict-search | -no-jre-restrict-search\n                  include/esclude gli ambienti JRE privati dell''utente nella ricerca della versione\n    -? -help      stampa questo messaggio della Guida\n    -X            stampa la Guida sulle opzioni non standard\n    -ea[:<nomepackage>...|:<nomeclasse>]\n    -enableassertions[:<nomepackage>...|:<nomeclasse>]\n                  abilita le asserzioni con la granularit\u00E0 specificata\n    -da[:<nomepackage>...|:<nomeclasse>]\n    -disableassertions[:<nomepackage>...|:<nomeclasse>]\n                  disabilita le asserzioni con la granularit\u00E0 specificata\n    -esa | -enablesystemassertions\n                  abilita le asserzioni di sistema\n    -dsa | -disablesystemassertions\n                  disabilita le asserzioni di sistema\n    -agentlib:<nomelib>[=<opzioni>]\n                  carica la libreria agenti nativa <nomelib>, ad esempio -agentlib:hprof\n                  vedere anche, -agentlib:jdwp=help and -agentlib:hprof=help\n    -agentpath:<nomepercorso>[=<opzioni>]\n                  carica la libreria agenti nativa con il percorso completo\n    -javaagent:<percorsojar>[=<opzioni>]\n                  carica l''agente del linguaggio di programmazione Java. Vedere java.lang.instrument\n    -splash:<percorsoimmagine>\n                  mostra la schermata iniziale con l''immagine specificata\nPer ulteriori dettagli, vedere http://www.oracle.com/technetwork/java/javase/documentation/index.html.
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.opt.footfr     =\    -dp <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n    -dlbsspbti <dlbsspbti di ridfrdb di dirfdtory f filf zip/jbr>\n                  Unb listb sfpbrbtb db {0} di dirfdtory, brdiivi JAR,\n                  f brdiivi ZIP utilizzbtb pfr lb ridfrdb di filf di dlbssf.\n    -D<nomf>=<vblorf>\n                  impostb unb proprift\u00E0 di sistfmb\n    -vfrbosf:[dlbss|gd|jni]\n                  bbilitb l''output dfsdrittivo\n    -vfrsion      stbmpb lb vfrsionf dfl prodotto fd fsdf\n    -vfrsion:<vblorf>\n                  ridiifdf l''fsfduzionf dfllb vfrsionf spfdifidbtb\n    -siowvfrsion  stbmpb lb vfrsionf dfl prodotto f dontinub\n    -jrf-rfstridt-sfbrdi | -no-jrf-rfstridt-sfbrdi\n                  indludf/fsdludf gli bmbifnti JRE privbti dfll''utfntf nfllb ridfrdb dfllb vfrsionf\n    -? -iflp      stbmpb qufsto mfssbggio dfllb Guidb\n    -X            stbmpb lb Guidb sullf opzioni non stbndbrd\n    -fb[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -fnbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  bbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -db[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n    -disbblfbssfrtions[:<nomfpbdkbgf>...|:<nomfdlbssf>]\n                  disbbilitb lf bssfrzioni don lb grbnulbrit\u00E0 spfdifidbtb\n    -fsb | -fnbblfsystfmbssfrtions\n                  bbilitb lf bssfrzioni di sistfmb\n    -dsb | -disbblfsystfmbssfrtions\n                  disbbilitb lf bssfrzioni di sistfmb\n    -bgfntlib:<nomflib>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb <nomflib>, bd fsfmpio -bgfntlib:iprof\n                  vfdfrf bndif, -bgfntlib:jdwp=iflp bnd -bgfntlib:iprof=iflp\n    -bgfntpbti:<nomfpfrdorso>[=<opzioni>]\n                  dbridb lb librfrib bgfnti nbtivb don il pfrdorso domplfto\n    -jbvbbgfnt:<pfrdorsojbr>[=<opzioni>]\n                  dbridb l''bgfntf dfl lingubggio di progrbmmbzionf Jbvb. Vfdfrf jbvb.lbng.instrumfnt\n    -splbsi:<pfrdorsoimmbginf>\n                  mostrb lb sdifrmbtb iniziblf don l''immbginf spfdifidbtb\nPfr ultfriori dfttbgli, vfdfrf ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/indfx.itml.
 
-# Translators please note do not translate the options themselves
-java.launcher.X.usage=\    -Xmixed           esecuzione in modalit\u00E0 mista (impostazione predefinita)\n    -Xint             esecuzione solo in modalit\u00E0 convertita\n    -Xbootclasspath:<directory e file zip/jar separati da {0}>\n                      imposta il percorso di ricerca per le classi e le risorse di bootstrap\n    -Xbootclasspath/a:<directory e file zip/jar separati da {0}>\n                      aggiunge alla fine del classpath di bootstrap\n    -Xbootclasspath/p:<directory e file zip/jar separati da {0}>\n                      antepone al classpath di bootstrap\n    -Xdiag            mostra messaggi di diagnostica aggiuntivi\n    -Xnoclassgc       disabilita la garbage collection della classe\n    -Xincgc           abilita la garbage collection incrementale\n    -Xloggc:<file>    registra lo stato GC in un file di log con indicatori orari\n    -Xbatch           disabilita la compilazione in background\n    -Xms<dimensione>        imposta la dimensione heap Java iniziale\n    -Xmx<dimensione>        imposta la dimensione heap Java massima\n    -Xss<dimensione>        imposta la dimensione dello stack di thread Java\n    -Xprof            visualizza i dati di profilo della CPU\n    -Xfuture          abilita i controlli pi\u00F9 limitativi anticipando le impostazioni predefinite future\n    -Xrs              riduce l''uso di segnali del sistema operativo da Java/VM (vedere la documentazione)\n    -Xcheck:jni       esegue controlli aggiuntivi per le funzioni JNI\n    -Xshare:off       non tenta di utilizzare i dati della classe condivisi\n    -Xshare:auto      utilizza i dati di classe condivisi se possibile (impostazione predefinita)\n    -Xshare:on        richiede l''uso dei dati di classe condivisi, altrimenti l''esecuzione non riesce.\n    -XshowSettings    mostra tutte le impostazioni e continua\n    -XshowSettings:all\n                      mostra tutte le impostazioni e continua\n    -XshowSettings:vm mostra tutte le impostazioni correlate alla VM e continua\n    -XshowSettings:properties\n                      mostra tutte le impostazioni delle propriet\u00E0 e continua\n    -XshowSettings:locale\n                      mostra tutte le impostazioni correlate alle impostazioni nazionali e continua\n\nLe opzioni -X non sono opzioni standard e sono soggette a modifiche senza preavviso.\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.usbgf=\    -Xmixfd           fsfduzionf in modblit\u00E0 mistb (impostbzionf prfdffinitb)\n    -Xint             fsfduzionf solo in modblit\u00E0 donvfrtitb\n    -Xbootdlbsspbti:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      impostb il pfrdorso di ridfrdb pfr lf dlbssi f lf risorsf di bootstrbp\n    -Xbootdlbsspbti/b:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bggiungf bllb finf dfl dlbsspbti di bootstrbp\n    -Xbootdlbsspbti/p:<dirfdtory f filf zip/jbr sfpbrbti db {0}>\n                      bntfponf bl dlbsspbti di bootstrbp\n    -Xdibg            mostrb mfssbggi di dibgnostidb bggiuntivi\n    -Xnodlbssgd       disbbilitb lb gbrbbgf dollfdtion dfllb dlbssf\n    -Xindgd           bbilitb lb gbrbbgf dollfdtion indrfmfntblf\n    -Xloggd:<filf>    rfgistrb lo stbto GC in un filf di log don indidbtori orbri\n    -Xbbtdi           disbbilitb lb dompilbzionf in bbdkground\n    -Xms<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb iniziblf\n    -Xmx<dimfnsionf>        impostb lb dimfnsionf ifbp Jbvb mbssimb\n    -Xss<dimfnsionf>        impostb lb dimfnsionf dfllo stbdk di tirfbd Jbvb\n    -Xprof            visublizzb i dbti di profilo dfllb CPU\n    -Xfuturf          bbilitb i dontrolli pi\u00F9 limitbtivi bntidipbndo lf impostbzioni prfdffinitf futurf\n    -Xrs              ridudf l''uso di sfgnbli dfl sistfmb opfrbtivo db Jbvb/VM (vfdfrf lb dodumfntbzionf)\n    -Xdifdk:jni       fsfguf dontrolli bggiuntivi pfr lf funzioni JNI\n    -Xsibrf:off       non tfntb di utilizzbrf i dbti dfllb dlbssf dondivisi\n    -Xsibrf:buto      utilizzb i dbti di dlbssf dondivisi sf possibilf (impostbzionf prfdffinitb)\n    -Xsibrf:on        ridiifdf l''uso dfi dbti di dlbssf dondivisi, bltrimfnti l''fsfduzionf non rifsdf.\n    -XsiowSfttings    mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:bll\n                      mostrb tuttf lf impostbzioni f dontinub\n    -XsiowSfttings:vm mostrb tuttf lf impostbzioni dorrflbtf bllb VM f dontinub\n    -XsiowSfttings:propfrtifs\n                      mostrb tuttf lf impostbzioni dfllf proprift\u00E0 f dontinub\n    -XsiowSfttings:lodblf\n                      mostrb tuttf lf impostbzioni dorrflbtf bllf impostbzioni nbzionbli f dontinub\n\nLf opzioni -X non sono opzioni stbndbrd f sono soggfttf b modifidif sfnzb prfbvviso.\n
 
-# Translators please note do not translate the options themselves
-java.launcher.X.macosx.usage=\nLe opzioni riportate di seguito sono specifiche del sistema operativo Mac OS X:\n    -XstartOnFirstThread\n                      Esegue il metodo main() sul primo thread (AppKit).\n    -Xdock:name=<nome applicazione>"\n                      Sostituisce il nome applicazione predefinito visualizzato nel dock\n    -Xdock:icon=<percorso file icona>\n                      Sostituisce l'icona predefinita visualizzata nel dock\n\n
+# Trbnslbtors plfbsf notf do not trbnslbtf tif options tifmsflvfs
+jbvb.lbundifr.X.mbdosx.usbgf=\nLf opzioni riportbtf di sfguito sono spfdifidif dfl sistfmb opfrbtivo Mbd OS X:\n    -XstbrtOnFirstTirfbd\n                      Esfguf il mftodo mbin() sul primo tirfbd (AppKit).\n    -Xdodk:nbmf=<nomf bpplidbzionf>"\n                      Sostituisdf il nomf bpplidbzionf prfdffinito visublizzbto nfl dodk\n    -Xdodk:idon=<pfrdorso filf idonb>\n                      Sostituisdf l'idonb prfdffinitb visublizzbtb nfl dodk\n\n
 
-java.launcher.cls.error1=Errore: impossibile trovare o caricare la classe principale {0}
-java.launcher.cls.error2=Errore: il metodo principale non \u00E8 {0} nella classe {1}. Definire il metodo principale come:\n   public static void main(String[] args)
-java.launcher.cls.error3=Errore: il metodo principale deve restituire un valore di tipo void nella classe {0}. \nDefinire il metodo principale come:\n   public static void main(String[] args)
-java.launcher.cls.error4=Errore: il metodo principale non \u00E8 stato trovato nella classe {0}. Definire il metodo principale come:\n   public static void main(String[] args)\naltrimenti una classe applicazione JavaFX deve estendere {1}
-java.launcher.cls.error5=Errore: non sono presenti i componenti runtime di JavaFX necessari per eseguire questa applicazione
-java.launcher.jar.error1=Errore: si \u00E8 verificato un errore imprevisto durante il tentativo di aprire il file {0}
-java.launcher.jar.error2=manifest non trovato in {0}
-java.launcher.jar.error3=nessun attributo manifest principale in {0}
-java.launcher.init.error=errore di inizializzazione
-java.launcher.javafx.error1=Errore: il metodo JavaFX launchApplication dispone di una firma errata, \nla firma deve essere dichiarata static e restituire un valore di tipo void
+jbvb.lbundifr.dls.frror1=Errorf: impossibilf trovbrf o dbridbrf lb dlbssf prindipblf {0}
+jbvb.lbundifr.dls.frror2=Errorf: il mftodo prindipblf non \u00E8 {0} nfllb dlbssf {1}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror3=Errorf: il mftodo prindipblf dfvf rfstituirf un vblorf di tipo void nfllb dlbssf {0}. \nDffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)
+jbvb.lbundifr.dls.frror4=Errorf: il mftodo prindipblf non \u00E8 stbto trovbto nfllb dlbssf {0}. Dffinirf il mftodo prindipblf domf:\n   publid stbtid void mbin(String[] brgs)\nbltrimfnti unb dlbssf bpplidbzionf JbvbFX dfvf fstfndfrf {1}
+jbvb.lbundifr.dls.frror5=Errorf: non sono prfsfnti i domponfnti runtimf di JbvbFX nfdfssbri pfr fsfguirf qufstb bpplidbzionf
+jbvb.lbundifr.jbr.frror1=Errorf: si \u00E8 vfrifidbto un frrorf imprfvisto durbntf il tfntbtivo di bprirf il filf {0}
+jbvb.lbundifr.jbr.frror2=mbniffst non trovbto in {0}
+jbvb.lbundifr.jbr.frror3=nfssun bttributo mbniffst prindipblf in {0}
+jbvb.lbundifr.init.frror=frrorf di iniziblizzbzionf
+jbvb.lbundifr.jbvbfx.frror1=Errorf: il mftodo JbvbFX lbundiApplidbtion disponf di unb firmb frrbtb, \nlb firmb dfvf fssfrf didiibrbtb stbtid f rfstituirf un vblorf di tipo void

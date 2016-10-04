@@ -1,963 +1,963 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.MousfInputAdbptfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidIntfrnblFrbmfUI;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtils.*;
-import com.apple.laf.AquaUtils.Painter;
+import dom.bpplf.lbf.AqubUtils.*;
+import dom.bpplf.lbf.AqubUtils.Pbintfr;
 
-import sun.lwawt.macosx.CPlatformWindow;
+import sun.lwbwt.mbdosx.CPlbtformWindow;
 
 /**
- * From AquaInternalFrameUI
+ * From AqubIntfrnblFrbmfUI
  *
- * InternalFrame implementation for Aqua LAF
+ * IntfrnblFrbmf implfmfntbtion for Aqub LAF
  *
- * We want to inherit most of the inner classes, but not the base class,
- * so be very careful about subclassing so you know you get what you want
+ * Wf wbnt to inifrit most of tif innfr dlbssfs, but not tif bbsf dlbss,
+ * so bf vfry dbrfful bbout subdlbssing so you know you gft wibt you wbnt
  *
  */
-public class AquaInternalFrameUI extends BasicInternalFrameUI implements SwingConstants {
-    protected static final String IS_PALETTE_PROPERTY = "JInternalFrame.isPalette";
-    private static final String FRAME_TYPE = "JInternalFrame.frameType";
-    private static final String NORMAL_FRAME = "normal";
-    private static final String PALETTE_FRAME = "palette";
-    private static final String OPTION_DIALOG = "optionDialog";
+publid dlbss AqubIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI implfmfnts SwingConstbnts {
+    protfdtfd stbtid finbl String IS_PALETTE_PROPERTY = "JIntfrnblFrbmf.isPblfttf";
+    privbtf stbtid finbl String FRAME_TYPE = "JIntfrnblFrbmf.frbmfTypf";
+    privbtf stbtid finbl String NORMAL_FRAME = "normbl";
+    privbtf stbtid finbl String PALETTE_FRAME = "pblfttf";
+    privbtf stbtid finbl String OPTION_DIALOG = "optionDiblog";
 
-    // Instance variables
-    PropertyChangeListener fPropertyListener;
+    // Instbndf vbribblfs
+    PropfrtyCibngfListfnfr fPropfrtyListfnfr;
 
-    protected Color fSelectedTextColor;
-    protected Color fNotSelectedTextColor;
+    protfdtfd Color fSflfdtfdTfxtColor;
+    protfdtfd Color fNotSflfdtfdTfxtColor;
 
-    AquaInternalFrameBorder fAquaBorder;
+    AqubIntfrnblFrbmfBordfr fAqubBordfr;
 
-    // for button tracking
-    boolean fMouseOverPressedButton;
-    int fWhichButtonPressed = -1;
-    boolean fRollover = false;
-    boolean fDocumentEdited = false; // to indicate whether we should use the dirty document red dot.
-    boolean fIsPallet;
+    // for button trbdking
+    boolfbn fMousfOvfrPrfssfdButton;
+    int fWiidiButtonPrfssfd = -1;
+    boolfbn fRollovfr = fblsf;
+    boolfbn fDodumfntEditfd = fblsf; // to indidbtf wiftifr wf siould usf tif dirty dodumfnt rfd dot.
+    boolfbn fIsPbllft;
 
-    public int getWhichButtonPressed() {
-        return fWhichButtonPressed;
+    publid int gftWiidiButtonPrfssfd() {
+        rfturn fWiidiButtonPrfssfd;
     }
 
-    public boolean getMouseOverPressedButton() {
-        return fMouseOverPressedButton;
+    publid boolfbn gftMousfOvfrPrfssfdButton() {
+        rfturn fMousfOvfrPrfssfdButton;
     }
 
-    public boolean getRollover() {
-        return fRollover;
+    publid boolfbn gftRollovfr() {
+        rfturn fRollovfr;
     }
 
-    // ComponentUI Interface Implementation methods
-    public static ComponentUI createUI(final JComponent b) {
-        return new AquaInternalFrameUI((JInternalFrame)b);
+    // ComponfntUI Intfrfbdf Implfmfntbtion mftiods
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt b) {
+        rfturn nfw AqubIntfrnblFrbmfUI((JIntfrnblFrbmf)b);
     }
 
-    public AquaInternalFrameUI(final JInternalFrame b) {
-        super(b);
+    publid AqubIntfrnblFrbmfUI(finbl JIntfrnblFrbmf b) {
+        supfr(b);
     }
 
-    /// Inherit  (but be careful to check everything they call):
-    public void installUI(final JComponent c) {
-//        super.installUI(c);  // Swing 1.1.1 has a bug in installUI - it doesn't check for null northPane
-        frame = (JInternalFrame)c;
-        frame.add(frame.getRootPane(), "Center");
+    /// Inifrit  (but bf dbrfful to difdk fvfrytiing tify dbll):
+    publid void instbllUI(finbl JComponfnt d) {
+//        supfr.instbllUI(d);  // Swing 1.1.1 ibs b bug in instbllUI - it dofsn't difdk for null nortiPbnf
+        frbmf = (JIntfrnblFrbmf)d;
+        frbmf.bdd(frbmf.gftRootPbnf(), "Cfntfr");
 
-        installDefaults();
-        installListeners();
-        installComponents();
-        installKeyboardActions();
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllComponfnts();
+        instbllKfybobrdAdtions();
 
-        Object paletteProp = c.getClientProperty(IS_PALETTE_PROPERTY);
-        if (paletteProp != null) {
-            setPalette(((Boolean)paletteProp).booleanValue());
-        } else {
-            paletteProp = c.getClientProperty(FRAME_TYPE);
-            if (paletteProp != null) {
-                setFrameType((String)paletteProp);
-            } else {
-                setFrameType(NORMAL_FRAME);
+        Objfdt pblfttfProp = d.gftClifntPropfrty(IS_PALETTE_PROPERTY);
+        if (pblfttfProp != null) {
+            sftPblfttf(((Boolfbn)pblfttfProp).boolfbnVbluf());
+        } flsf {
+            pblfttfProp = d.gftClifntPropfrty(FRAME_TYPE);
+            if (pblfttfProp != null) {
+                sftFrbmfTypf((String)pblfttfProp);
+            } flsf {
+                sftFrbmfTypf(NORMAL_FRAME);
             }
         }
 
-        // We only have a southPane, for grow box room, created in setFrameType
-        frame.setMinimumSize(new Dimension(fIsPallet ? 120 : 150, fIsPallet ? 39 : 65));
-        frame.setOpaque(false);
+        // Wf only ibvf b soutiPbnf, for grow box room, drfbtfd in sftFrbmfTypf
+        frbmf.sftMinimumSizf(nfw Dimfnsion(fIsPbllft ? 120 : 150, fIsPbllft ? 39 : 65));
+        frbmf.sftOpbquf(fblsf);
 
-        c.setBorder(new CompoundUIBorder(fIsPallet ? paletteWindowShadow.get() : documentWindowShadow.get(), c.getBorder()));
+        d.sftBordfr(nfw CompoundUIBordfr(fIsPbllft ? pblfttfWindowSibdow.gft() : dodumfntWindowSibdow.gft(), d.gftBordfr()));
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        fSelectedTextColor = UIManager.getColor("InternalFrame.activeTitleForeground");
-        fNotSelectedTextColor = UIManager.getColor("InternalFrame.inactiveTitleForeground");
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        fSflfdtfdTfxtColor = UIMbnbgfr.gftColor("IntfrnblFrbmf.bdtivfTitlfForfground");
+        fNotSflfdtfdTfxtColor = UIMbnbgfr.gftColor("IntfrnblFrbmf.inbdtivfTitlfForfground");
     }
 
-    public void setSouthPane(final JComponent c) {
-        if (southPane != null) {
-            frame.remove(southPane);
-            deinstallMouseHandlers(southPane);
+    publid void sftSoutiPbnf(finbl JComponfnt d) {
+        if (soutiPbnf != null) {
+            frbmf.rfmovf(soutiPbnf);
+            dfinstbllMousfHbndlfrs(soutiPbnf);
         }
-        if (c != null) {
-            frame.add(c);
-            installMouseHandlers(c);
+        if (d != null) {
+            frbmf.bdd(d);
+            instbllMousfHbndlfrs(d);
         }
-        southPane = c;
+        soutiPbnf = d;
     }
 
-    static final RecyclableSingleton<Icon> closeIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_CLOSE_BOX);
-        }
-    };
-    public static Icon exportCloseIcon() {
-        return closeIcon.get();
-    }
-
-    static final RecyclableSingleton<Icon> minimizeIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_COLLAPSE_BOX);
+    stbtid finbl RfdydlbblfSinglfton<Idon> dlosfIdon = nfw RfdydlbblfSinglfton<Idon>() {
+        protfdtfd Idon gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfButtonIdon(Widgft.TITLE_BAR_CLOSE_BOX);
         }
     };
-    public static Icon exportMinimizeIcon() {
-        return minimizeIcon.get();
+    publid stbtid Idon fxportClosfIdon() {
+        rfturn dlosfIdon.gft();
     }
 
-    static final RecyclableSingleton<Icon> zoomIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_ZOOM_BOX);
+    stbtid finbl RfdydlbblfSinglfton<Idon> minimizfIdon = nfw RfdydlbblfSinglfton<Idon>() {
+        protfdtfd Idon gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfButtonIdon(Widgft.TITLE_BAR_COLLAPSE_BOX);
         }
     };
-    public static Icon exportZoomIcon() {
-        return zoomIcon.get();
+    publid stbtid Idon fxportMinimizfIdon() {
+        rfturn minimizfIdon.gft();
     }
 
-    static class AquaInternalFrameButtonIcon extends AquaIcon.JRSUIIcon {
-        public AquaInternalFrameButtonIcon(final Widget widget) {
-            painter.state.set(widget);
+    stbtid finbl RfdydlbblfSinglfton<Idon> zoomIdon = nfw RfdydlbblfSinglfton<Idon>() {
+        protfdtfd Idon gftInstbndf() {
+            rfturn nfw AqubIntfrnblFrbmfButtonIdon(Widgft.TITLE_BAR_ZOOM_BOX);
+        }
+    };
+    publid stbtid Idon fxportZoomIdon() {
+        rfturn zoomIdon.gft();
+    }
+
+    stbtid dlbss AqubIntfrnblFrbmfButtonIdon fxtfnds AqubIdon.JRSUIIdon {
+        publid AqubIntfrnblFrbmfButtonIdon(finbl Widgft widgft) {
+            pbintfr.stbtf.sft(widgft);
         }
 
-        public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            painter.state.set(getStateFor(c));
-            super.paintIcon(c, g, x, y);
+        publid void pbintIdon(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y) {
+            pbintfr.stbtf.sft(gftStbtfFor(d));
+            supfr.pbintIdon(d, g, x, y);
         }
 
-        State getStateFor(final Component c) {
-            return State.ROLLOVER;
+        Stbtf gftStbtfFor(finbl Componfnt d) {
+            rfturn Stbtf.ROLLOVER;
         }
 
-        public int getIconWidth() {
-            return 19;
+        publid int gftIdonWidti() {
+            rfturn 19;
         }
 
-        public int getIconHeight() {
-            return 19;
+        publid int gftIdonHfigit() {
+            rfturn 19;
         }
     }
 
-    protected void installKeyboardActions() {
-    } //$ Not Mac-ish - should we support?
+    protfdtfd void instbllKfybobrdAdtions() {
+    } //$ Not Mbd-isi - siould wf support?
 
-    protected ResizeBox resizeBox;
-    protected void installComponents() {
-        final JLayeredPane layeredPane = frame.getLayeredPane();
-        if (resizeBox != null) {
-            resizeBox.removeListeners();
-            layeredPane.removeComponentListener(resizeBox);
-            layeredPane.remove(resizeBox);
-            resizeBox = null;
+    protfdtfd RfsizfBox rfsizfBox;
+    protfdtfd void instbllComponfnts() {
+        finbl JLbyfrfdPbnf lbyfrfdPbnf = frbmf.gftLbyfrfdPbnf();
+        if (rfsizfBox != null) {
+            rfsizfBox.rfmovfListfnfrs();
+            lbyfrfdPbnf.rfmovfComponfntListfnfr(rfsizfBox);
+            lbyfrfdPbnf.rfmovf(rfsizfBox);
+            rfsizfBox = null;
         }
 
-        resizeBox = new ResizeBox(layeredPane);
-        resizeBox.repositionResizeBox();
+        rfsizfBox = nfw RfsizfBox(lbyfrfdPbnf);
+        rfsizfBox.rfpositionRfsizfBox();
 
-        layeredPane.add(resizeBox);
-        layeredPane.setLayer(resizeBox, JLayeredPane.DRAG_LAYER);
-        layeredPane.addComponentListener(resizeBox);
+        lbyfrfdPbnf.bdd(rfsizfBox);
+        lbyfrfdPbnf.sftLbyfr(rfsizfBox, JLbyfrfdPbnf.DRAG_LAYER);
+        lbyfrfdPbnf.bddComponfntListfnfr(rfsizfBox);
 
-        resizeBox.addListeners();
-        resizeBox.setVisible(frame.isResizable());
+        rfsizfBox.bddListfnfrs();
+        rfsizfBox.sftVisiblf(frbmf.isRfsizbblf());
     }
 
-    /// Inherit all the listeners - that's the main reason we subclass Basic!
-    protected void installListeners() {
-        fPropertyListener = new PropertyListener();
-        frame.addPropertyChangeListener(fPropertyListener);
-        super.installListeners();
+    /// Inifrit bll tif listfnfrs - tibt's tif mbin rfbson wf subdlbss Bbsid!
+    protfdtfd void instbllListfnfrs() {
+        fPropfrtyListfnfr = nfw PropfrtyListfnfr();
+        frbmf.bddPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
+        supfr.instbllListfnfrs();
     }
 
-    // uninstallDefaults
-    // uninstallComponents
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        frame.removePropertyChangeListener(fPropertyListener);
+    // uninstbllDffbults
+    // uninstbllComponfnts
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        frbmf.rfmovfPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
     }
 
-    protected void uninstallKeyboardActions() {
+    protfdtfd void uninstbllKfybobrdAdtions() {
     }
 
-    // Called when a DesktopIcon replaces an InternalFrame & vice versa
-    //protected void replacePane(JComponent currentPane, JComponent newPane) {}
-    protected void installMouseHandlers(final JComponent c) {
-        c.addMouseListener(borderListener);
-        c.addMouseMotionListener(borderListener);
+    // Cbllfd wifn b DfsktopIdon rfplbdfs bn IntfrnblFrbmf & vidf vfrsb
+    //protfdtfd void rfplbdfPbnf(JComponfnt durrfntPbnf, JComponfnt nfwPbnf) {}
+    protfdtfd void instbllMousfHbndlfrs(finbl JComponfnt d) {
+        d.bddMousfListfnfr(bordfrListfnfr);
+        d.bddMousfMotionListfnfr(bordfrListfnfr);
     }
 
-    protected void deinstallMouseHandlers(final JComponent c) {
-        c.removeMouseListener(borderListener);
-        c.removeMouseMotionListener(borderListener);
+    protfdtfd void dfinstbllMousfHbndlfrs(finbl JComponfnt d) {
+        d.rfmovfMousfListfnfr(bordfrListfnfr);
+        d.rfmovfMousfMotionListfnfr(bordfrListfnfr);
     }
 
-    ActionMap createActionMap() {
-        final ActionMap map = new ActionMapUIResource();
-        // add action for the system menu
-        // Set the ActionMap's parent to the Auditory Feedback Action Map
-        final AquaLookAndFeel lf = (AquaLookAndFeel)UIManager.getLookAndFeel();
-        final ActionMap audioMap = lf.getAudioActionMap();
-        map.setParent(audioMap);
-        return map;
+    AdtionMbp drfbtfAdtionMbp() {
+        finbl AdtionMbp mbp = nfw AdtionMbpUIRfsourdf();
+        // bdd bdtion for tif systfm mfnu
+        // Sft tif AdtionMbp's pbrfnt to tif Auditory Fffdbbdk Adtion Mbp
+        finbl AqubLookAndFffl lf = (AqubLookAndFffl)UIMbnbgfr.gftLookAndFffl();
+        finbl AdtionMbp budioMbp = lf.gftAudioAdtionMbp();
+        mbp.sftPbrfnt(budioMbp);
+        rfturn mbp;
     }
 
-    public Dimension getPreferredSize(JComponent x) {
-        Dimension preferredSize = super.getPreferredSize(x);
-        Dimension minimumSize = frame.getMinimumSize();
-        if (preferredSize.width < minimumSize.width) {
-            preferredSize.width = minimumSize.width;
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt x) {
+        Dimfnsion prfffrrfdSizf = supfr.gftPrfffrrfdSizf(x);
+        Dimfnsion minimumSizf = frbmf.gftMinimumSizf();
+        if (prfffrrfdSizf.widti < minimumSizf.widti) {
+            prfffrrfdSizf.widti = minimumSizf.widti;
         }
-        if (preferredSize.height < minimumSize.height) {
-            preferredSize.height = minimumSize.height;
+        if (prfffrrfdSizf.ifigit < minimumSizf.ifigit) {
+            prfffrrfdSizf.ifigit = minimumSizf.ifigit;
         }
-        return preferredSize;
+        rfturn prfffrrfdSizf;
     }
 
-    public void setNorthPane(final JComponent c) {
-        replacePane(northPane, c);
-        northPane = c;
+    publid void sftNortiPbnf(finbl JComponfnt d) {
+        rfplbdfPbnf(nortiPbnf, d);
+        nortiPbnf = d;
     }
 
     /**
-     * Installs necessary mouse handlers on <code>newPane</code>
-     * and adds it to the frame.
-     * Reverse process for the <code>currentPane</code>.
+     * Instblls nfdfssbry mousf ibndlfrs on <dodf>nfwPbnf</dodf>
+     * bnd bdds it to tif frbmf.
+     * Rfvfrsf prodfss for tif <dodf>durrfntPbnf</dodf>.
      */
-    protected void replacePane(final JComponent currentPane, final JComponent newPane) {
-        if (currentPane != null) {
-            deinstallMouseHandlers(currentPane);
-            frame.remove(currentPane);
+    protfdtfd void rfplbdfPbnf(finbl JComponfnt durrfntPbnf, finbl JComponfnt nfwPbnf) {
+        if (durrfntPbnf != null) {
+            dfinstbllMousfHbndlfrs(durrfntPbnf);
+            frbmf.rfmovf(durrfntPbnf);
         }
-        if (newPane != null) {
-            frame.add(newPane);
-            installMouseHandlers(newPane);
+        if (nfwPbnf != null) {
+            frbmf.bdd(nfwPbnf);
+            instbllMousfHbndlfrs(nfwPbnf);
         }
     }
 
-    // Our "Border" listener is shared by the AquaDesktopIcon
-    protected MouseInputAdapter createBorderListener(final JInternalFrame w) {
-        return new AquaBorderListener();
+    // Our "Bordfr" listfnfr is sibrfd by tif AqubDfsktopIdon
+    protfdtfd MousfInputAdbptfr drfbtfBordfrListfnfr(finbl JIntfrnblFrbmf w) {
+        rfturn nfw AqubBordfrListfnfr();
     }
 
     /**
-     * Mac-specific stuff begins here
+     * Mbd-spfdifid stuff bfgins ifrf
      */
-    void setFrameType(final String frameType) {
-        // Basic sets the background of the contentPane to null so it can inherit JInternalFrame.setBackground
-        // but if *that's* null, we get the JDesktop, which makes ours look invisible!
-        // So JInternalFrame has to have a background color
-        // See Sun bugs 4268949 & 4320889
-        final Color bg = frame.getBackground();
-        final boolean replaceColor = (bg == null || bg instanceof UIResource);
+    void sftFrbmfTypf(finbl String frbmfTypf) {
+        // Bbsid sfts tif bbdkground of tif dontfntPbnf to null so it dbn inifrit JIntfrnblFrbmf.sftBbdkground
+        // but if *tibt's* null, wf gft tif JDfsktop, wiidi mbkfs ours look invisiblf!
+        // So JIntfrnblFrbmf ibs to ibvf b bbdkground dolor
+        // Sff Sun bugs 4268949 & 4320889
+        finbl Color bg = frbmf.gftBbdkground();
+        finbl boolfbn rfplbdfColor = (bg == null || bg instbndfof UIRfsourdf);
 
-        final Font font = frame.getFont();
-        final boolean replaceFont = (font == null || font instanceof UIResource);
+        finbl Font font = frbmf.gftFont();
+        finbl boolfbn rfplbdfFont = (font == null || font instbndfof UIRfsourdf);
 
-        boolean isPalette = false;
-        if (frameType.equals(OPTION_DIALOG)) {
-            fAquaBorder = AquaInternalFrameBorder.dialog();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.optionDialogBackground"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.optionDialogTitleFont"));
-        } else if (frameType.equals(PALETTE_FRAME)) {
-            fAquaBorder = AquaInternalFrameBorder.utility();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.paletteBackground"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.paletteTitleFont"));
-            isPalette = true;
-        } else {
-            fAquaBorder = AquaInternalFrameBorder.window();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.background"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.titleFont"));
+        boolfbn isPblfttf = fblsf;
+        if (frbmfTypf.fqubls(OPTION_DIALOG)) {
+            fAqubBordfr = AqubIntfrnblFrbmfBordfr.diblog();
+            if (rfplbdfColor) frbmf.sftBbdkground(UIMbnbgfr.gftColor("IntfrnblFrbmf.optionDiblogBbdkground"));
+            if (rfplbdfFont) frbmf.sftFont(UIMbnbgfr.gftFont("IntfrnblFrbmf.optionDiblogTitlfFont"));
+        } flsf if (frbmfTypf.fqubls(PALETTE_FRAME)) {
+            fAqubBordfr = AqubIntfrnblFrbmfBordfr.utility();
+            if (rfplbdfColor) frbmf.sftBbdkground(UIMbnbgfr.gftColor("IntfrnblFrbmf.pblfttfBbdkground"));
+            if (rfplbdfFont) frbmf.sftFont(UIMbnbgfr.gftFont("IntfrnblFrbmf.pblfttfTitlfFont"));
+            isPblfttf = truf;
+        } flsf {
+            fAqubBordfr = AqubIntfrnblFrbmfBordfr.window();
+            if (rfplbdfColor) frbmf.sftBbdkground(UIMbnbgfr.gftColor("IntfrnblFrbmf.bbdkground"));
+            if (rfplbdfFont) frbmf.sftFont(UIMbnbgfr.gftFont("IntfrnblFrbmf.titlfFont"));
         }
-        // We don't get the borders from UIManager, in case someone changes them - this class will not work with
-        // different borders.  If they want different ones, they have to make their own InternalFrameUI class
+        // Wf don't gft tif bordfrs from UIMbnbgfr, in dbsf somfonf dibngfs tifm - tiis dlbss will not work witi
+        // difffrfnt bordfrs.  If tify wbnt difffrfnt onfs, tify ibvf to mbkf tifir own IntfrnblFrbmfUI dlbss
 
-        fAquaBorder.setColors(fSelectedTextColor, fNotSelectedTextColor);
-        frame.setBorder(fAquaBorder);
+        fAqubBordfr.sftColors(fSflfdtfdTfxtColor, fNotSflfdtfdTfxtColor);
+        frbmf.sftBordfr(fAqubBordfr);
 
-        fIsPallet = isPalette;
+        fIsPbllft = isPblfttf;
     }
 
-    public void setPalette(final boolean isPalette) {
-        setFrameType(isPalette ? PALETTE_FRAME : NORMAL_FRAME);
+    publid void sftPblfttf(finbl boolfbn isPblfttf) {
+        sftFrbmfTypf(isPblfttf ? PALETTE_FRAME : NORMAL_FRAME);
     }
 
-    public boolean isDocumentEdited() {
-        return fDocumentEdited;
+    publid boolfbn isDodumfntEditfd() {
+        rfturn fDodumfntEditfd;
     }
 
-    public void setDocumentEdited(final boolean flag) {
-        fDocumentEdited = flag;
+    publid void sftDodumfntEditfd(finbl boolfbn flbg) {
+        fDodumfntEditfd = flbg;
     }
 
 /*
-    // helpful debug drawing, shows component and content bounds
-    public void paint(final Graphics g, final JComponent c) {
-        super.paint(g, c);
+    // iflpful dfbug drbwing, siows domponfnt bnd dontfnt bounds
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        supfr.pbint(g, d);
 
-        g.setColor(Color.green);
-        g.drawRect(0, 0, frame.getWidth() - 1, frame.getHeight() - 1);
+        g.sftColor(Color.grffn);
+        g.drbwRfdt(0, 0, frbmf.gftWidti() - 1, frbmf.gftHfigit() - 1);
 
-        final Insets insets = frame.getInsets();
-        g.setColor(Color.orange);
-        g.drawRect(insets.left - 2, insets.top - 2, frame.getWidth() - insets.left - insets.right + 4, frame.getHeight() - insets.top - insets.bottom + 4);
+        finbl Insfts insfts = frbmf.gftInsfts();
+        g.sftColor(Color.orbngf);
+        g.drbwRfdt(insfts.lfft - 2, insfts.top - 2, frbmf.gftWidti() - insfts.lfft - insfts.rigit + 4, frbmf.gftHfigit() - insfts.top - insfts.bottom + 4);
     }
 */
 
-    // Border Listener Class
+    // Bordfr Listfnfr Clbss
     /**
-     * Listens for border adjustments.
+     * Listfns for bordfr bdjustmfnts.
      */
-    protected class AquaBorderListener extends MouseInputAdapter {
-        // _x & _y are the mousePressed location in absolute coordinate system
+    protfdtfd dlbss AqubBordfrListfnfr fxtfnds MousfInputAdbptfr {
+        // _x & _y brf tif mousfPrfssfd lodbtion in bbsolutf doordinbtf systfm
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y brf tif mousfPrfssfd lodbtion in sourdf vifw's doordinbtf systfm
         int __x, __y;
-        Rectangle startingBounds;
-        boolean fDraggingFrame;
-        int resizeDir;
+        Rfdtbnglf stbrtingBounds;
+        boolfbn fDrbggingFrbmf;
+        int rfsizfDir;
 
-        protected final int RESIZE_NONE = 0;
-        private boolean discardRelease = false;
+        protfdtfd finbl int RESIZE_NONE = 0;
+        privbtf boolfbn disdbrdRflfbsf = fblsf;
 
-        public void mouseClicked(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        publid void mousfClidkfd(finbl MousfEvfnt f) {
+            if (didForwbrdEvfnt(f)) rfturn;
 
-            if (e.getClickCount() <= 1 || e.getSource() != getNorthPane()) return;
+            if (f.gftClidkCount() <= 1 || f.gftSourdf() != gftNortiPbnf()) rfturn;
 
-            if (frame.isIconifiable() && frame.isIcon()) {
+            if (frbmf.isIdonifibblf() && frbmf.isIdon()) {
                 try {
-                    frame.setIcon(false);
-                } catch(final PropertyVetoException e2) {}
-            } else if (frame.isMaximizable()) {
-                if (!frame.isMaximum()) try {
-                    frame.setMaximum(true);
-                } catch(final PropertyVetoException e2) {}
-                else try {
-                    frame.setMaximum(false);
-                } catch(final PropertyVetoException e3) {}
+                    frbmf.sftIdon(fblsf);
+                } dbtdi(finbl PropfrtyVftoExdfption f2) {}
+            } flsf if (frbmf.isMbximizbblf()) {
+                if (!frbmf.isMbximum()) try {
+                    frbmf.sftMbximum(truf);
+                } dbtdi(finbl PropfrtyVftoExdfption f2) {}
+                flsf try {
+                    frbmf.sftMbximum(fblsf);
+                } dbtdi(finbl PropfrtyVftoExdfption f3) {}
             }
         }
 
-        public void updateRollover(final MouseEvent e) {
-            final boolean oldRollover = fRollover;
-            final Insets i = frame.getInsets();
-            fRollover = (isTitleBarDraggableArea(e) && fAquaBorder.getWithinRolloverArea(i, e.getX(), e.getY()));
-            if (fRollover != oldRollover) {
-                repaintButtons();
+        publid void updbtfRollovfr(finbl MousfEvfnt f) {
+            finbl boolfbn oldRollovfr = fRollovfr;
+            finbl Insfts i = frbmf.gftInsfts();
+            fRollovfr = (isTitlfBbrDrbggbblfArfb(f) && fAqubBordfr.gftWitiinRollovfrArfb(i, f.gftX(), f.gftY()));
+            if (fRollovfr != oldRollovfr) {
+                rfpbintButtons();
             }
         }
 
-        public void repaintButtons() {
-            fAquaBorder.repaintButtonArea(frame);
+        publid void rfpbintButtons() {
+            fAqubBordfr.rfpbintButtonArfb(frbmf);
         }
 
-        public void mouseReleased(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        publid void mousfRflfbsfd(finbl MousfEvfnt f) {
+            if (didForwbrdEvfnt(f)) rfturn;
 
-            fDraggingFrame = false;
+            fDrbggingFrbmf = fblsf;
 
-            if (fWhichButtonPressed != -1) {
-                final int newButton = fAquaBorder.getWhichButtonHit(frame, e.getX(), e.getY());
+            if (fWiidiButtonPrfssfd != -1) {
+                finbl int nfwButton = fAqubBordfr.gftWiidiButtonHit(frbmf, f.gftX(), f.gftY());
 
-                final int buttonPresed = fWhichButtonPressed;
-                fWhichButtonPressed = -1;
-                fMouseOverPressedButton = false;
+                finbl int buttonPrfsfd = fWiidiButtonPrfssfd;
+                fWiidiButtonPrfssfd = -1;
+                fMousfOvfrPrfssfdButton = fblsf;
 
-                if (buttonPresed == newButton) {
-                    fMouseOverPressedButton = false;
-                    fRollover = false; // not sure if this is needed?
+                if (buttonPrfsfd == nfwButton) {
+                    fMousfOvfrPrfssfdButton = fblsf;
+                    fRollovfr = fblsf; // not surf if tiis is nffdfd?
 
-                    fAquaBorder.doButtonAction(frame, buttonPresed);
+                    fAqubBordfr.doButtonAdtion(frbmf, buttonPrfsfd);
                 }
 
-                updateRollover(e);
-                repaintButtons();
-                return;
+                updbtfRollovfr(f);
+                rfpbintButtons();
+                rfturn;
             }
 
-            if (discardRelease) {
-                discardRelease = false;
-                return;
+            if (disdbrdRflfbsf) {
+                disdbrdRflfbsf = fblsf;
+                rfturn;
             }
-            if (resizeDir == RESIZE_NONE) getDesktopManager().endDraggingFrame(frame);
-            else {
-                final Container c = frame.getTopLevelAncestor();
-                if (c instanceof JFrame) {
-                    ((JFrame)frame.getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            if (rfsizfDir == RESIZE_NONE) gftDfsktopMbnbgfr().fndDrbggingFrbmf(frbmf);
+            flsf {
+                finbl Contbinfr d = frbmf.gftTopLfvflAndfstor();
+                if (d instbndfof JFrbmf) {
+                    ((JFrbmf)frbmf.gftTopLfvflAndfstor()).gftGlbssPbnf().sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
 
-                    ((JFrame)frame.getTopLevelAncestor()).getGlassPane().setVisible(false);
-                } else if (c instanceof JApplet) {
-                    ((JApplet)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JApplet)c).getGlassPane().setVisible(false);
-                } else if (c instanceof JWindow) {
-                    ((JWindow)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JWindow)c).getGlassPane().setVisible(false);
-                } else if (c instanceof JDialog) {
-                    ((JDialog)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JDialog)c).getGlassPane().setVisible(false);
+                    ((JFrbmf)frbmf.gftTopLfvflAndfstor()).gftGlbssPbnf().sftVisiblf(fblsf);
+                } flsf if (d instbndfof JApplft) {
+                    ((JApplft)d).gftGlbssPbnf().sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+                    ((JApplft)d).gftGlbssPbnf().sftVisiblf(fblsf);
+                } flsf if (d instbndfof JWindow) {
+                    ((JWindow)d).gftGlbssPbnf().sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+                    ((JWindow)d).gftGlbssPbnf().sftVisiblf(fblsf);
+                } flsf if (d instbndfof JDiblog) {
+                    ((JDiblog)d).gftGlbssPbnf().sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+                    ((JDiblog)d).gftGlbssPbnf().sftVisiblf(fblsf);
                 }
-                getDesktopManager().endResizingFrame(frame);
+                gftDfsktopMbnbgfr().fndRfsizingFrbmf(frbmf);
             }
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
-            resizeDir = RESIZE_NONE;
+            stbrtingBounds = null;
+            rfsizfDir = RESIZE_NONE;
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            if (didForwbrdEvfnt(f)) rfturn;
 
-            final Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
-            __x = e.getX();
-            __y = e.getY();
+            finbl Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(), f.gftX(), f.gftY(), null);
+            __x = f.gftX();
+            __y = f.gftY();
             _x = p.x;
             _y = p.y;
-            startingBounds = frame.getBounds();
-            resizeDir = RESIZE_NONE;
+            stbrtingBounds = frbmf.gftBounds();
+            rfsizfDir = RESIZE_NONE;
 
-            if (updatePressed(e)) { return; }
+            if (updbtfPrfssfd(f)) { rfturn; }
 
-            if (!frame.isSelected()) {
+            if (!frbmf.isSflfdtfd()) {
                 try {
-                    frame.setSelected(true);
-                } catch(final PropertyVetoException e1) {}
+                    frbmf.sftSflfdtfd(truf);
+                } dbtdi(finbl PropfrtyVftoExdfption f1) {}
             }
 
-            if (isTitleBarDraggableArea(e)) {
-                getDesktopManager().beginDraggingFrame(frame);
-                fDraggingFrame = true;
-                return;
+            if (isTitlfBbrDrbggbblfArfb(f)) {
+                gftDfsktopMbnbgfr().bfginDrbggingFrbmf(frbmf);
+                fDrbggingFrbmf = truf;
+                rfturn;
             }
 
-            if (e.getSource() == getNorthPane()) {
-                getDesktopManager().beginDraggingFrame(frame);
-                return;
+            if (f.gftSourdf() == gftNortiPbnf()) {
+                gftDfsktopMbnbgfr().bfginDrbggingFrbmf(frbmf);
+                rfturn;
             }
 
-            if (!frame.isResizable()) { return; }
+            if (!frbmf.isRfsizbblf()) { rfturn; }
 
-            if (e.getSource() == frame) {
-                discardRelease = true;
-                return;
+            if (f.gftSourdf() == frbmf) {
+                disdbrdRflfbsf = truf;
+                rfturn;
             }
         }
 
-        // returns true if we have handled the pressed
-        public boolean updatePressed(final MouseEvent e) {
-            // get the component.
-            fWhichButtonPressed = getButtonHit(e);
-            fMouseOverPressedButton = true;
-            repaintButtons();
-            return (fWhichButtonPressed >= 0);
-            // e.getX(), e.getY()
+        // rfturns truf if wf ibvf ibndlfd tif prfssfd
+        publid boolfbn updbtfPrfssfd(finbl MousfEvfnt f) {
+            // gft tif domponfnt.
+            fWiidiButtonPrfssfd = gftButtonHit(f);
+            fMousfOvfrPrfssfdButton = truf;
+            rfpbintButtons();
+            rfturn (fWiidiButtonPrfssfd >= 0);
+            // f.gftX(), f.gftY()
         }
 
-        public int getButtonHit(final MouseEvent e) {
-            return fAquaBorder.getWhichButtonHit(frame, e.getX(), e.getY());
+        publid int gftButtonHit(finbl MousfEvfnt f) {
+            rfturn fAqubBordfr.gftWiidiButtonHit(frbmf, f.gftX(), f.gftY());
         }
 
-        public boolean isTitleBarDraggableArea(final MouseEvent e) {
-            if (e.getSource() != frame) return false;
+        publid boolfbn isTitlfBbrDrbggbblfArfb(finbl MousfEvfnt f) {
+            if (f.gftSourdf() != frbmf) rfturn fblsf;
 
-            final Point point = e.getPoint();
-            final Insets insets = frame.getInsets();
+            finbl Point point = f.gftPoint();
+            finbl Insfts insfts = frbmf.gftInsfts();
 
-            if (point.y < insets.top - fAquaBorder.getTitleHeight()) return false;
-            if (point.y > insets.top) return false;
-            if (point.x < insets.left) return false;
-            if (point.x > frame.getWidth() - insets.left - insets.right) return false;
+            if (point.y < insfts.top - fAqubBordfr.gftTitlfHfigit()) rfturn fblsf;
+            if (point.y > insfts.top) rfturn fblsf;
+            if (point.x < insfts.lfft) rfturn fblsf;
+            if (point.x > frbmf.gftWidti() - insfts.lfft - insfts.rigit) rfturn fblsf;
 
-            return true;
+            rfturn truf;
         }
 
-        public void mouseDragged(final MouseEvent e) {
-// do not forward drags
-//            if (didForwardEvent(e)) return;
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+// do not forwbrd drbgs
+//            if (didForwbrdEvfnt(f)) rfturn;
 
-            if (startingBounds == null) {
-                // (STEVE) Yucky work around for bug ID 4106552
-                return;
+            if (stbrtingBounds == null) {
+                // (STEVE) Yudky work bround for bug ID 4106552
+                rfturn;
             }
 
-            if (fWhichButtonPressed != -1) {
-                // track the button we started on.
-                final int newButton = getButtonHit(e);
-                fMouseOverPressedButton = (fWhichButtonPressed == newButton);
-                repaintButtons();
-                return;
+            if (fWiidiButtonPrfssfd != -1) {
+                // trbdk tif button wf stbrtfd on.
+                finbl int nfwButton = gftButtonHit(f);
+                fMousfOvfrPrfssfdButton = (fWiidiButtonPrfssfd == nfwButton);
+                rfpbintButtons();
+                rfturn;
             }
 
-            final Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
-            final int deltaX = _x - p.x;
-            final int deltaY = _y - p.y;
-            int newX, newY;
+            finbl Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(), f.gftX(), f.gftY(), null);
+            finbl int dfltbX = _x - p.x;
+            finbl int dfltbY = _y - p.y;
+            int nfwX, nfwY;
 
-            // Handle a MOVE
-            if (!fDraggingFrame && e.getSource() != getNorthPane()) return;
+            // Hbndlf b MOVE
+            if (!fDrbggingFrbmf && f.gftSourdf() != gftNortiPbnf()) rfturn;
 
-            if (frame.isMaximum() || ((e.getModifiers() & InputEvent.BUTTON1_MASK) != InputEvent.BUTTON1_MASK)) {
-                // don't allow moving of frames if maximixed or left mouse
-                // button was not used.
-                return;
+            if (frbmf.isMbximum() || ((f.gftModififrs() & InputEvfnt.BUTTON1_MASK) != InputEvfnt.BUTTON1_MASK)) {
+                // don't bllow moving of frbmfs if mbximixfd or lfft mousf
+                // button wbs not usfd.
+                rfturn;
             }
 
-            final Dimension s = frame.getParent().getSize();
-            final int pWidth = s.width;
-            final int pHeight = s.height;
+            finbl Dimfnsion s = frbmf.gftPbrfnt().gftSizf();
+            finbl int pWidti = s.widti;
+            finbl int pHfigit = s.ifigit;
 
-            final Insets i = frame.getInsets();
-            newX = startingBounds.x - deltaX;
-            newY = startingBounds.y - deltaY;
+            finbl Insfts i = frbmf.gftInsfts();
+            nfwX = stbrtingBounds.x - dfltbX;
+            nfwY = stbrtingBounds.y - dfltbY;
 
-            // Make sure we stay in-bounds
-            if (newX + i.left <= -__x) newX = -__x - i.left;
-            if (newY + i.top <= -__y) newY = -__y - i.top;
-            if (newX + __x + i.right > pWidth) newX = pWidth - __x - i.right;
-            if (newY + __y + i.bottom > pHeight) newY = pHeight - __y - i.bottom;
+            // Mbkf surf wf stby in-bounds
+            if (nfwX + i.lfft <= -__x) nfwX = -__x - i.lfft;
+            if (nfwY + i.top <= -__y) nfwY = -__y - i.top;
+            if (nfwX + __x + i.rigit > pWidti) nfwX = pWidti - __x - i.rigit;
+            if (nfwY + __y + i.bottom > pHfigit) nfwY = pHfigit - __y - i.bottom;
 
-            getDesktopManager().dragFrame(frame, newX, newY);
-            return;
+            gftDfsktopMbnbgfr().drbgFrbmf(frbmf, nfwX, nfwY);
+            rfturn;
         }
 
-        public void mouseMoved(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
-            updateRollover(e);
+        publid void mousfMovfd(finbl MousfEvfnt f) {
+            if (didForwbrdEvfnt(f)) rfturn;
+            updbtfRollovfr(f);
         }
 
-        // guards against accidental infinite recursion
-        boolean isTryingToForwardEvent = false;
-        boolean didForwardEvent(final MouseEvent e) {
-            if (isTryingToForwardEvent) return true; // we didn't actually...but we wound up back where we started.
+        // gubrds bgbinst bddidfntbl infinitf rfdursion
+        boolfbn isTryingToForwbrdEvfnt = fblsf;
+        boolfbn didForwbrdEvfnt(finbl MousfEvfnt f) {
+            if (isTryingToForwbrdEvfnt) rfturn truf; // wf didn't bdtublly...but wf wound up bbdk wifrf wf stbrtfd.
 
-            isTryingToForwardEvent = true;
-            final boolean didForwardEvent = didForwardEventInternal(e);
-            isTryingToForwardEvent = false;
+            isTryingToForwbrdEvfnt = truf;
+            finbl boolfbn didForwbrdEvfnt = didForwbrdEvfntIntfrnbl(f);
+            isTryingToForwbrdEvfnt = fblsf;
 
-            return didForwardEvent;
+            rfturn didForwbrdEvfnt;
         }
 
-        boolean didForwardEventInternal(final MouseEvent e) {
-            if (fDraggingFrame) return false;
+        boolfbn didForwbrdEvfntIntfrnbl(finbl MousfEvfnt f) {
+            if (fDrbggingFrbmf) rfturn fblsf;
 
-            final Point originalPoint = e.getPoint();
-            if (!isEventInWindowShadow(originalPoint)) return false;
+            finbl Point originblPoint = f.gftPoint();
+            if (!isEvfntInWindowSibdow(originblPoint)) rfturn fblsf;
 
-            final Container parent = frame.getParent();
-            if (!(parent instanceof JDesktopPane)) return false;
-            final JDesktopPane pane = (JDesktopPane)parent;
-            final Point parentPoint = SwingUtilities.convertPoint(frame, originalPoint, parent);
+            finbl Contbinfr pbrfnt = frbmf.gftPbrfnt();
+            if (!(pbrfnt instbndfof JDfsktopPbnf)) rfturn fblsf;
+            finbl JDfsktopPbnf pbnf = (JDfsktopPbnf)pbrfnt;
+            finbl Point pbrfntPoint = SwingUtilitifs.donvfrtPoint(frbmf, originblPoint, pbrfnt);
 
-        /*     // debug drawing
-            Graphics g = parent.getGraphics();
-            g.setColor(Color.red);
-            g.drawLine(parentPoint.x, parentPoint.y, parentPoint.x, parentPoint.y);
+        /*     // dfbug drbwing
+            Grbpiids g = pbrfnt.gftGrbpiids();
+            g.sftColor(Color.rfd);
+            g.drbwLinf(pbrfntPoint.x, pbrfntPoint.y, pbrfntPoint.x, pbrfntPoint.y);
         */
 
-            final Component hitComponent = findComponentToHitBehindMe(pane, parentPoint);
-            if (hitComponent == null || hitComponent == frame) return false;
+            finbl Componfnt iitComponfnt = findComponfntToHitBfiindMf(pbnf, pbrfntPoint);
+            if (iitComponfnt == null || iitComponfnt == frbmf) rfturn fblsf;
 
-            final Point hitComponentPoint = SwingUtilities.convertPoint(pane, parentPoint, hitComponent);
-            hitComponent.dispatchEvent(new MouseEvent(hitComponent, e.getID(), e.getWhen(), e.getModifiers(), hitComponentPoint.x, hitComponentPoint.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
-            return true;
+            finbl Point iitComponfntPoint = SwingUtilitifs.donvfrtPoint(pbnf, pbrfntPoint, iitComponfnt);
+            iitComponfnt.dispbtdiEvfnt(nfw MousfEvfnt(iitComponfnt, f.gftID(), f.gftWifn(), f.gftModififrs(), iitComponfntPoint.x, iitComponfntPoint.y, f.gftClidkCount(), f.isPopupTriggfr(), f.gftButton()));
+            rfturn truf;
         }
 
-        Component findComponentToHitBehindMe(final JDesktopPane pane, final Point parentPoint) {
-            final JInternalFrame[] allFrames = pane.getAllFrames();
+        Componfnt findComponfntToHitBfiindMf(finbl JDfsktopPbnf pbnf, finbl Point pbrfntPoint) {
+            finbl JIntfrnblFrbmf[] bllFrbmfs = pbnf.gftAllFrbmfs();
 
-            boolean foundSelf = false;
-            for (final JInternalFrame f : allFrames) {
-                if (f == frame) { foundSelf = true; continue; }
-                if (!foundSelf) continue;
+            boolfbn foundSflf = fblsf;
+            for (finbl JIntfrnblFrbmf f : bllFrbmfs) {
+                if (f == frbmf) { foundSflf = truf; dontinuf; }
+                if (!foundSflf) dontinuf;
 
-                final Rectangle bounds = f.getBounds();
-                if (bounds.contains(parentPoint)) return f;
+                finbl Rfdtbnglf bounds = f.gftBounds();
+                if (bounds.dontbins(pbrfntPoint)) rfturn f;
             }
 
-            return pane;
+            rfturn pbnf;
         }
 
-        boolean isEventInWindowShadow(final Point point) {
-            final Rectangle bounds = frame.getBounds();
-            final Insets insets = frame.getInsets();
-            insets.top -= fAquaBorder.getTitleHeight();
+        boolfbn isEvfntInWindowSibdow(finbl Point point) {
+            finbl Rfdtbnglf bounds = frbmf.gftBounds();
+            finbl Insfts insfts = frbmf.gftInsfts();
+            insfts.top -= fAqubBordfr.gftTitlfHfigit();
 
-            if (point.x < insets.left) return true;
-            if (point.x > bounds.width - insets.right) return true;
-            if (point.y < insets.top) return true;
-            if (point.y > bounds.height - insets.bottom) return true;
+            if (point.x < insfts.lfft) rfturn truf;
+            if (point.x > bounds.widti - insfts.rigit) rfturn truf;
+            if (point.y < insfts.top) rfturn truf;
+            if (point.y > bounds.ifigit - insfts.bottom) rfturn truf;
 
-            return false;
+            rfturn fblsf;
         }
     }
 
-    static void updateComponentTreeUIActivation(final Component c, final Object active) {
-        if (c instanceof javax.swing.JComponent) {
-            ((javax.swing.JComponent)c).putClientProperty(AquaFocusHandler.FRAME_ACTIVE_PROPERTY, active);
+    stbtid void updbtfComponfntTrffUIAdtivbtion(finbl Componfnt d, finbl Objfdt bdtivf) {
+        if (d instbndfof jbvbx.swing.JComponfnt) {
+            ((jbvbx.swing.JComponfnt)d).putClifntPropfrty(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY, bdtivf);
         }
 
-        Component[] children = null;
+        Componfnt[] diildrfn = null;
 
-        if (c instanceof javax.swing.JMenu) {
-            children = ((javax.swing.JMenu)c).getMenuComponents();
-        } else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        if (d instbndfof jbvbx.swing.JMfnu) {
+            diildrfn = ((jbvbx.swing.JMfnu)d).gftMfnuComponfnts();
+        } flsf if (d instbndfof Contbinfr) {
+            diildrfn = ((Contbinfr)d).gftComponfnts();
         }
 
-        if (children != null) {
-            for (final Component element : children) {
-                updateComponentTreeUIActivation(element, active);
+        if (diildrfn != null) {
+            for (finbl Componfnt flfmfnt : diildrfn) {
+                updbtfComponfntTrffUIAdtivbtion(flfmfnt, bdtivf);
             }
         }
     }
 
-    class PropertyListener implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String name = e.getPropertyName();
-            if (FRAME_TYPE.equals(name)) {
-                if (e.getNewValue() instanceof String) {
-                    setFrameType((String)e.getNewValue());
+    dlbss PropfrtyListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+            finbl String nbmf = f.gftPropfrtyNbmf();
+            if (FRAME_TYPE.fqubls(nbmf)) {
+                if (f.gftNfwVbluf() instbndfof String) {
+                    sftFrbmfTypf((String)f.gftNfwVbluf());
                 }
-            } else if (IS_PALETTE_PROPERTY.equals(name)) {
-                if (e.getNewValue() != null) {
-                    setPalette(((Boolean)e.getNewValue()).booleanValue());
-                } else {
-                    setPalette(false);
+            } flsf if (IS_PALETTE_PROPERTY.fqubls(nbmf)) {
+                if (f.gftNfwVbluf() != null) {
+                    sftPblfttf(((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf());
+                } flsf {
+                    sftPblfttf(fblsf);
                 }
-                // TODO: CPlatformWindow?
-            } else if ("windowModified".equals(name) || CPlatformWindow.WINDOW_DOCUMENT_MODIFIED.equals(name)) {
-                // repaint title bar
-                setDocumentEdited(((Boolean)e.getNewValue()).booleanValue());
-                frame.repaint(0, 0, frame.getWidth(), frame.getBorder().getBorderInsets(frame).top);
-            } else if ("resizable".equals(name) || "state".equals(name) || "iconable".equals(name) || "maximizable".equals(name) || "closable".equals(name)) {
-                if ("resizable".equals(name)) {
-                    frame.revalidate();
+                // TODO: CPlbtformWindow?
+            } flsf if ("windowModififd".fqubls(nbmf) || CPlbtformWindow.WINDOW_DOCUMENT_MODIFIED.fqubls(nbmf)) {
+                // rfpbint titlf bbr
+                sftDodumfntEditfd(((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf());
+                frbmf.rfpbint(0, 0, frbmf.gftWidti(), frbmf.gftBordfr().gftBordfrInsfts(frbmf).top);
+            } flsf if ("rfsizbblf".fqubls(nbmf) || "stbtf".fqubls(nbmf) || "idonbblf".fqubls(nbmf) || "mbximizbblf".fqubls(nbmf) || "dlosbblf".fqubls(nbmf)) {
+                if ("rfsizbblf".fqubls(nbmf)) {
+                    frbmf.rfvblidbtf();
                 }
-                frame.repaint();
-            } else if ("title".equals(name)) {
-                frame.repaint();
-            } else if ("componentOrientation".equals(name)) {
-                frame.revalidate();
-                frame.repaint();
-            } else if (JInternalFrame.IS_SELECTED_PROPERTY.equals(name)) {
-                final Component source = (Component)(e.getSource());
-                updateComponentTreeUIActivation(source, frame.isSelected() ? Boolean.TRUE : Boolean.FALSE);
+                frbmf.rfpbint();
+            } flsf if ("titlf".fqubls(nbmf)) {
+                frbmf.rfpbint();
+            } flsf if ("domponfntOrifntbtion".fqubls(nbmf)) {
+                frbmf.rfvblidbtf();
+                frbmf.rfpbint();
+            } flsf if (JIntfrnblFrbmf.IS_SELECTED_PROPERTY.fqubls(nbmf)) {
+                finbl Componfnt sourdf = (Componfnt)(f.gftSourdf());
+                updbtfComponfntTrffUIAdtivbtion(sourdf, frbmf.isSflfdtfd() ? Boolfbn.TRUE : Boolfbn.FALSE);
             }
 
         }
-    } // end class PaletteListener
+    } // fnd dlbss PblfttfListfnfr
 
-    static final InternalFrameShadow documentWindowShadow = new InternalFrameShadow() {
-        Border getForegroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
-                    g.setColor(new Color(0, 0, 0, 196));
-                    g.fillRoundRect(x, y, w, h, 16, 16);
-                    g.fillRect(x, y + h - 16, w, 16);
+    stbtid finbl IntfrnblFrbmfSibdow dodumfntWindowSibdow = nfw IntfrnblFrbmfSibdow() {
+        Bordfr gftForfgroundSibdowBordfr() {
+            rfturn nfw AqubUtils.SlidfdSibdowBordfr(nfw Pbintfr() {
+                publid void pbint(finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+                    g.sftColor(nfw Color(0, 0, 0, 196));
+                    g.fillRoundRfdt(x, y, w, i, 16, 16);
+                    g.fillRfdt(x, y + i - 16, w, 16);
                 }
-            }, new Painter() {
-                public void paint(final Graphics g, int x, int y, int w, int h) {
-                    g.setColor(new Color(0, 0, 0, 64));
-                    g.drawLine(x + 2, y - 8, x + w - 2, y - 8);
+            }, nfw Pbintfr() {
+                publid void pbint(finbl Grbpiids g, int x, int y, int w, int i) {
+                    g.sftColor(nfw Color(0, 0, 0, 64));
+                    g.drbwLinf(x + 2, y - 8, x + w - 2, y - 8);
                 }
             },
             0, 7, 1.1f, 1.0f, 24, 51, 51, 25, 25, 25, 25);
         }
 
-        Border getBackgroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
-                    g.setColor(new Color(0, 0, 0, 128));
-                    g.fillRoundRect(x - 3, y - 8, w + 6, h, 16, 16);
-                    g.fillRect(x - 3, y + h - 20, w + 6, 19);
+        Bordfr gftBbdkgroundSibdowBordfr() {
+            rfturn nfw AqubUtils.SlidfdSibdowBordfr(nfw Pbintfr() {
+                publid void pbint(finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+                    g.sftColor(nfw Color(0, 0, 0, 128));
+                    g.fillRoundRfdt(x - 3, y - 8, w + 6, i, 16, 16);
+                    g.fillRfdt(x - 3, y + i - 20, w + 6, 19);
                 }
-            }, new Painter() {
-                public void paint(final Graphics g, int x, int y, int w, int h) {
-                    g.setColor(new Color(0, 0, 0, 32));
-                    g.drawLine(x, y - 11, x + w - 1, y - 11);
+            }, nfw Pbintfr() {
+                publid void pbint(finbl Grbpiids g, int x, int y, int w, int i) {
+                    g.sftColor(nfw Color(0, 0, 0, 32));
+                    g.drbwLinf(x, y - 11, x + w - 1, y - 11);
                 }
             },
             0, 0, 3.0f, 1.0f, 10, 51, 51, 25, 25, 25, 25);
         }
     };
 
-    static final InternalFrameShadow paletteWindowShadow = new InternalFrameShadow() {
-        Border getForegroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
-                    g.setColor(new Color(0, 0, 0, 128));
-                    g.fillRect(x, y + 3, w, h - 3);
+    stbtid finbl IntfrnblFrbmfSibdow pblfttfWindowSibdow = nfw IntfrnblFrbmfSibdow() {
+        Bordfr gftForfgroundSibdowBordfr() {
+            rfturn nfw AqubUtils.SlidfdSibdowBordfr(nfw Pbintfr() {
+                publid void pbint(finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+                    g.sftColor(nfw Color(0, 0, 0, 128));
+                    g.fillRfdt(x, y + 3, w, i - 3);
                 }
             }, null,
             0, 3, 1.0f, 1.0f, 10, 25, 25, 12, 12, 12, 12);
         }
 
-        Border getBackgroundShadowBorder() {
-            return getForegroundShadowBorder();
+        Bordfr gftBbdkgroundSibdowBordfr() {
+            rfturn gftForfgroundSibdowBordfr();
         }
     };
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class CompoundUIBorder extends CompoundBorder implements UIResource {
-        public CompoundUIBorder(final Border inside, final Border outside) { super(inside, outside); }
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss CompoundUIBordfr fxtfnds CompoundBordfr implfmfnts UIRfsourdf {
+        publid CompoundUIBordfr(finbl Bordfr insidf, finbl Bordfr outsidf) { supfr(insidf, outsidf); }
     }
 
-    abstract static class InternalFrameShadow extends RecyclableSingleton<Border> {
-        abstract Border getForegroundShadowBorder();
-        abstract Border getBackgroundShadowBorder();
+    bbstrbdt stbtid dlbss IntfrnblFrbmfSibdow fxtfnds RfdydlbblfSinglfton<Bordfr> {
+        bbstrbdt Bordfr gftForfgroundSibdowBordfr();
+        bbstrbdt Bordfr gftBbdkgroundSibdowBordfr();
 
-        protected Border getInstance() {
-            final Border fgShadow = getForegroundShadowBorder();
-            final Border bgShadow = getBackgroundShadowBorder();
+        protfdtfd Bordfr gftInstbndf() {
+            finbl Bordfr fgSibdow = gftForfgroundSibdowBordfr();
+            finbl Bordfr bgSibdow = gftBbdkgroundSibdowBordfr();
 
-            return new Border() {
-                public Insets getBorderInsets(final Component c) {
-                    return fgShadow.getBorderInsets(c);
+            rfturn nfw Bordfr() {
+                publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+                    rfturn fgSibdow.gftBordfrInsfts(d);
                 }
 
-                public boolean isBorderOpaque() {
-                    return false;
+                publid boolfbn isBordfrOpbquf() {
+                    rfturn fblsf;
                 }
 
-                public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-                    if (((JInternalFrame)c).isSelected()) {
-                        fgShadow.paintBorder(c, g, x, y, w, h);
-                    } else {
-                        bgShadow.paintBorder(c, g, x, y, w, h);
+                publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+                    if (((JIntfrnblFrbmf)d).isSflfdtfd()) {
+                        fgSibdow.pbintBordfr(d, g, x, y, w, i);
+                    } flsf {
+                        bgSibdow.pbintBordfr(d, g, x, y, w, i);
                     }
                 }
             };
         }
     }
 
-    static final RecyclableSingleton<Icon> RESIZE_ICON = new RecyclableSingleton<Icon>() {
-        @Override
-        protected Icon getInstance() {
-            return new AquaIcon.ScalingJRSUIIcon(11, 11) {
-                public void initIconPainter(final AquaPainter<JRSUIState> iconState) {
-                    iconState.state.set(Widget.GROW_BOX_TEXTURED);
-                    iconState.state.set(WindowType.UTILITY);
+    stbtid finbl RfdydlbblfSinglfton<Idon> RESIZE_ICON = nfw RfdydlbblfSinglfton<Idon>() {
+        @Ovfrridf
+        protfdtfd Idon gftInstbndf() {
+            rfturn nfw AqubIdon.SdblingJRSUIIdon(11, 11) {
+                publid void initIdonPbintfr(finbl AqubPbintfr<JRSUIStbtf> idonStbtf) {
+                    idonStbtf.stbtf.sft(Widgft.GROW_BOX_TEXTURED);
+                    idonStbtf.stbtf.sft(WindowTypf.UTILITY);
                 }
             };
         }
     };
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class ResizeBox extends JLabel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, PropertyChangeListener, UIResource {
-        final JLayeredPane layeredPane;
-        Dimension originalSize;
-        Point originalLocation;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss RfsizfBox fxtfnds JLbbfl implfmfnts MousfListfnfr, MousfMotionListfnfr, MousfWifflListfnfr, ComponfntListfnfr, PropfrtyCibngfListfnfr, UIRfsourdf {
+        finbl JLbyfrfdPbnf lbyfrfdPbnf;
+        Dimfnsion originblSizf;
+        Point originblLodbtion;
 
-        public ResizeBox(final JLayeredPane layeredPane) {
-            super(RESIZE_ICON.get());
-            setSize(11, 11);
-            this.layeredPane = layeredPane;
+        publid RfsizfBox(finbl JLbyfrfdPbnf lbyfrfdPbnf) {
+            supfr(RESIZE_ICON.gft());
+            sftSizf(11, 11);
+            tiis.lbyfrfdPbnf = lbyfrfdPbnf;
 
-            addMouseListener(this);
-            addMouseMotionListener(this);
-            addMouseWheelListener(this);
+            bddMousfListfnfr(tiis);
+            bddMousfMotionListfnfr(tiis);
+            bddMousfWifflListfnfr(tiis);
         }
 
-        void addListeners() {
-            frame.addPropertyChangeListener("resizable", this);
+        void bddListfnfrs() {
+            frbmf.bddPropfrtyCibngfListfnfr("rfsizbblf", tiis);
         }
 
-        void removeListeners() {
-            frame.removePropertyChangeListener("resizable", this);
+        void rfmovfListfnfrs() {
+            frbmf.rfmovfPropfrtyCibngfListfnfr("rfsizbblf", tiis);
         }
 
-        void repositionResizeBox() {
-            if (frame == null) { setSize(0, 0); } else { setSize(11, 11); }
-            setLocation(layeredPane.getWidth() - 12, layeredPane.getHeight() - 12);
+        void rfpositionRfsizfBox() {
+            if (frbmf == null) { sftSizf(0, 0); } flsf { sftSizf(11, 11); }
+            sftLodbtion(lbyfrfdPbnf.gftWidti() - 12, lbyfrfdPbnf.gftHfigit() - 12);
         }
 
-        void resizeInternalFrame(final Point pt) {
-            if (originalLocation == null || frame == null) return;
+        void rfsizfIntfrnblFrbmf(finbl Point pt) {
+            if (originblLodbtion == null || frbmf == null) rfturn;
 
-            final Container parent = frame.getParent();
-            if (!(parent instanceof JDesktopPane)) return;
+            finbl Contbinfr pbrfnt = frbmf.gftPbrfnt();
+            if (!(pbrfnt instbndfof JDfsktopPbnf)) rfturn;
 
-            final Point newPoint = SwingUtilities.convertPoint(this, pt, frame);
-            int deltaX = originalLocation.x - newPoint.x;
-            int deltaY = originalLocation.y - newPoint.y;
-            final Dimension min = frame.getMinimumSize();
-            final Dimension max = frame.getMaximumSize();
+            finbl Point nfwPoint = SwingUtilitifs.donvfrtPoint(tiis, pt, frbmf);
+            int dfltbX = originblLodbtion.x - nfwPoint.x;
+            int dfltbY = originblLodbtion.y - nfwPoint.y;
+            finbl Dimfnsion min = frbmf.gftMinimumSizf();
+            finbl Dimfnsion mbx = frbmf.gftMbximumSizf();
 
-            final int newX = frame.getX();
-            final int newY = frame.getY();
-            int newW = frame.getWidth();
-            int newH = frame.getHeight();
+            finbl int nfwX = frbmf.gftX();
+            finbl int nfwY = frbmf.gftY();
+            int nfwW = frbmf.gftWidti();
+            int nfwH = frbmf.gftHfigit();
 
-            final Rectangle parentBounds = parent.getBounds();
+            finbl Rfdtbnglf pbrfntBounds = pbrfnt.gftBounds();
 
-            if (originalSize.width - deltaX < min.width) {
-                deltaX = originalSize.width - min.width;
-            }  else if (originalSize.width - deltaX > max.width) {
-                deltaX = -(max.width - originalSize.width);
+            if (originblSizf.widti - dfltbX < min.widti) {
+                dfltbX = originblSizf.widti - min.widti;
+            }  flsf if (originblSizf.widti - dfltbX > mbx.widti) {
+                dfltbX = -(mbx.widti - originblSizf.widti);
             }
 
-            if (newX + originalSize.width - deltaX > parentBounds.width) {
-                deltaX = newX + originalSize.width - parentBounds.width;
+            if (nfwX + originblSizf.widti - dfltbX > pbrfntBounds.widti) {
+                dfltbX = nfwX + originblSizf.widti - pbrfntBounds.widti;
             }
 
-            if (originalSize.height - deltaY < min.height) {
-                deltaY = originalSize.height - min.height;
-            }  else if (originalSize.height - deltaY > max.height) {
-                deltaY = -(max.height - originalSize.height);
+            if (originblSizf.ifigit - dfltbY < min.ifigit) {
+                dfltbY = originblSizf.ifigit - min.ifigit;
+            }  flsf if (originblSizf.ifigit - dfltbY > mbx.ifigit) {
+                dfltbY = -(mbx.ifigit - originblSizf.ifigit);
             }
 
-            if (newY + originalSize.height - deltaY > parentBounds.height) {
-                deltaY = newY + originalSize.height - parentBounds.height;
+            if (nfwY + originblSizf.ifigit - dfltbY > pbrfntBounds.ifigit) {
+                dfltbY = nfwY + originblSizf.ifigit - pbrfntBounds.ifigit;
             }
 
-            newW = originalSize.width - deltaX;
-            newH = originalSize.height - deltaY;
+            nfwW = originblSizf.widti - dfltbX;
+            nfwH = originblSizf.ifigit - dfltbY;
 
-            getDesktopManager().resizeFrame(frame, newX, newY, newW, newH);
+            gftDfsktopMbnbgfr().rfsizfFrbmf(frbmf, nfwX, nfwY, nfwW, nfwH);
         }
 
-        boolean testGrowboxPoint(final int x, final int y, final int w, final int h) {
-            return (w - x) + (h - y) < 12;
+        boolfbn tfstGrowboxPoint(finbl int x, finbl int y, finbl int w, finbl int i) {
+            rfturn (w - x) + (i - y) < 12;
         }
 
-        void forwardEventToFrame(final MouseEvent e) {
-            final Point pt = new Point();
-            final Component c = getComponentToForwardTo(e, pt);
-            if (c == null) return;
-            c.dispatchEvent(new MouseEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
+        void forwbrdEvfntToFrbmf(finbl MousfEvfnt f) {
+            finbl Point pt = nfw Point();
+            finbl Componfnt d = gftComponfntToForwbrdTo(f, pt);
+            if (d == null) rfturn;
+            d.dispbtdiEvfnt(nfw MousfEvfnt(d, f.gftID(), f.gftWifn(), f.gftModififrs(), pt.x, pt.y, f.gftClidkCount(), f.isPopupTriggfr(), f.gftButton()));
         }
 
-        Component getComponentToForwardTo(final MouseEvent e, final Point dst) {
-            if (frame == null) return null;
-            final Container contentPane = frame.getContentPane();
-            if (contentPane == null) return null;
-            Point pt = SwingUtilities.convertPoint(this, e.getPoint(), contentPane);
-            final Component c = SwingUtilities.getDeepestComponentAt(contentPane, pt.x, pt.y);
-            if (c == null) return null;
-            pt = SwingUtilities.convertPoint(contentPane, pt, c);
-            if (dst != null) dst.setLocation(pt);
-            return c;
+        Componfnt gftComponfntToForwbrdTo(finbl MousfEvfnt f, finbl Point dst) {
+            if (frbmf == null) rfturn null;
+            finbl Contbinfr dontfntPbnf = frbmf.gftContfntPbnf();
+            if (dontfntPbnf == null) rfturn null;
+            Point pt = SwingUtilitifs.donvfrtPoint(tiis, f.gftPoint(), dontfntPbnf);
+            finbl Componfnt d = SwingUtilitifs.gftDffpfstComponfntAt(dontfntPbnf, pt.x, pt.y);
+            if (d == null) rfturn null;
+            pt = SwingUtilitifs.donvfrtPoint(dontfntPbnf, pt, d);
+            if (dst != null) dst.sftLodbtion(pt);
+            rfturn d;
         }
 
-        public void mouseClicked(final MouseEvent e) {
-            forwardEventToFrame(e);
+        publid void mousfClidkfd(finbl MousfEvfnt f) {
+            forwbrdEvfntToFrbmf(f);
         }
 
-        public void mouseEntered(final MouseEvent e) { }
+        publid void mousfEntfrfd(finbl MousfEvfnt f) { }
 
-        public void mouseExited(final MouseEvent e) { }
+        publid void mousfExitfd(finbl MousfEvfnt f) { }
 
-        public void mousePressed(final MouseEvent e) {
-            if (frame == null) return;
+        publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            if (frbmf == null) rfturn;
 
-            if (frame.isResizable() && !frame.isMaximum() && testGrowboxPoint(e.getX(), e.getY(), getWidth(), getHeight())) {
-                originalLocation = SwingUtilities.convertPoint(this, e.getPoint(), frame);
-                originalSize = frame.getSize();
-                getDesktopManager().beginResizingFrame(frame, SwingConstants.SOUTH_EAST);
-                return;
+            if (frbmf.isRfsizbblf() && !frbmf.isMbximum() && tfstGrowboxPoint(f.gftX(), f.gftY(), gftWidti(), gftHfigit())) {
+                originblLodbtion = SwingUtilitifs.donvfrtPoint(tiis, f.gftPoint(), frbmf);
+                originblSizf = frbmf.gftSizf();
+                gftDfsktopMbnbgfr().bfginRfsizingFrbmf(frbmf, SwingConstbnts.SOUTH_EAST);
+                rfturn;
             }
 
-            forwardEventToFrame(e);
+            forwbrdEvfntToFrbmf(f);
         }
 
-        public void mouseReleased(final MouseEvent e) {
-            if (originalLocation != null) {
-                resizeInternalFrame(e.getPoint());
-                originalLocation = null;
-                getDesktopManager().endResizingFrame(frame);
-                return;
+        publid void mousfRflfbsfd(finbl MousfEvfnt f) {
+            if (originblLodbtion != null) {
+                rfsizfIntfrnblFrbmf(f.gftPoint());
+                originblLodbtion = null;
+                gftDfsktopMbnbgfr().fndRfsizingFrbmf(frbmf);
+                rfturn;
             }
 
-            forwardEventToFrame(e);
+            forwbrdEvfntToFrbmf(f);
         }
 
-        public void mouseDragged(final MouseEvent e) {
-            resizeInternalFrame(e.getPoint());
-            repositionResizeBox();
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            rfsizfIntfrnblFrbmf(f.gftPoint());
+            rfpositionRfsizfBox();
         }
 
-        public void mouseMoved(final MouseEvent e) { }
+        publid void mousfMovfd(finbl MousfEvfnt f) { }
 
-        public void mouseWheelMoved(final MouseWheelEvent e) {
-            final Point pt = new Point();
-            final Component c = getComponentToForwardTo(e, pt);
-            if (c == null) return;
-            c.dispatchEvent(new MouseWheelEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getScrollType(), e.getScrollAmount(), e.getWheelRotation()));
+        publid void mousfWifflMovfd(finbl MousfWifflEvfnt f) {
+            finbl Point pt = nfw Point();
+            finbl Componfnt d = gftComponfntToForwbrdTo(f, pt);
+            if (d == null) rfturn;
+            d.dispbtdiEvfnt(nfw MousfWifflEvfnt(d, f.gftID(), f.gftWifn(), f.gftModififrs(), pt.x, pt.y, f.gftClidkCount(), f.isPopupTriggfr(), f.gftSdrollTypf(), f.gftSdrollAmount(), f.gftWifflRotbtion()));
         }
 
-        public void componentResized(final ComponentEvent e) {
-            repositionResizeBox();
+        publid void domponfntRfsizfd(finbl ComponfntEvfnt f) {
+            rfpositionRfsizfBox();
         }
 
-        public void componentShown(final ComponentEvent e) {
-            repositionResizeBox();
+        publid void domponfntSiown(finbl ComponfntEvfnt f) {
+            rfpositionRfsizfBox();
         }
 
-        public void componentMoved(final ComponentEvent e) {
-            repositionResizeBox();
+        publid void domponfntMovfd(finbl ComponfntEvfnt f) {
+            rfpositionRfsizfBox();
         }
 
-        public void componentHidden(final ComponentEvent e) { }
+        publid void domponfntHiddfn(finbl ComponfntEvfnt f) { }
 
-        public void propertyChange(final PropertyChangeEvent evt) {
-            if (!"resizable".equals(evt.getPropertyName())) return;
-            setVisible(Boolean.TRUE.equals(evt.getNewValue()));
+        publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+            if (!"rfsizbblf".fqubls(fvt.gftPropfrtyNbmf())) rfturn;
+            sftVisiblf(Boolfbn.TRUE.fqubls(fvt.gftNfwVbluf()));
         }
     }
 }

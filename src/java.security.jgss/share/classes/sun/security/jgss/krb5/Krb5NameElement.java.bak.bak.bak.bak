@@ -1,0 +1,333 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.KrbExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Lodblf;
+
+/**
+ * Implfmfnts thf GSSNbmfSpi for thf krb5 mfdhbnism.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+publid dlbss Krb5NbmfElfmfnt
+    implfmfnts GSSNbmfSpi {
+
+    privbtf PrindipblNbmf krb5PrindipblNbmf;
+
+    privbtf String gssNbmfStr = null;
+    privbtf Oid gssNbmfTypf = null;
+
+    // XXX Movf this dondfpt into PrindipblNbmf's bsn1Endodf() somftimf
+    privbtf stbtid String CHAR_ENCODING = "UTF-8";
+
+    privbtf Krb5NbmfElfmfnt(PrindipblNbmf prindipblNbmf,
+                            String gssNbmfStr,
+                            Oid gssNbmfTypf) {
+        this.krb5PrindipblNbmf = prindipblNbmf;
+        this.gssNbmfStr = gssNbmfStr;
+        this.gssNbmfTypf = gssNbmfTypf;
+    }
+
+    /**
+     * Instbntibtfs b nfw Krb5NbmfElfmfnt objfdt. Intfrnblly it storfs thf
+     * informbtion providfd by thf input pbrbmftfrs so thbt thfy mby lbtfr
+     * bf usfd for output whfn b printbblf rfprfsfntbion of this nbmf is
+     * nffdfd in GSS-API formbt rbthfr thbn in Kfrbfros formbt.
+     *
+     */
+    stbtid Krb5NbmfElfmfnt gftInstbndf(String gssNbmfStr, Oid gssNbmfTypf)
+        throws GSSExdfption {
+
+        /*
+         * A null gssNbmfTypf implifs thbt thf mfdhbnism dffbult
+         * Krb5MfdhFbdtory.NT_GSS_KRB5_PRINCIPAL bf usfd.
+         */
+        if (gssNbmfTypf == null)
+            gssNbmfTypf = Krb5MfdhFbdtory.NT_GSS_KRB5_PRINCIPAL;
+        flsf
+            if (!gssNbmfTypf.fqubls(GSSNbmf.NT_USER_NAME) &&
+                !gssNbmfTypf.fqubls(GSSNbmf.NT_HOSTBASED_SERVICE) &&
+                !gssNbmfTypf.fqubls(Krb5MfdhFbdtory.NT_GSS_KRB5_PRINCIPAL) &&
+                !gssNbmfTypf.fqubls(GSSNbmf.NT_EXPORT_NAME))
+                throw nfw GSSExdfption(GSSExdfption.BAD_NAMETYPE, -1,
+                                       gssNbmfTypf.toString()
+                                       +" is bn unsupportfd nbmftypf");
+
+        PrindipblNbmf prindipblNbmf;
+        try {
+
+            if (gssNbmfTypf.fqubls(GSSNbmf.NT_EXPORT_NAME) ||
+                gssNbmfTypf.fqubls(Krb5MfdhFbdtory.NT_GSS_KRB5_PRINCIPAL)) {
+                prindipblNbmf = nfw PrindipblNbmf(gssNbmfStr,
+                                  PrindipblNbmf.KRB_NT_PRINCIPAL);
+            } flsf {
+
+                String[] domponfnts = gftComponfnts(gssNbmfStr);
+
+                /*
+                 * Wf hbvf forms of GSS nbmf strings thbt dbn domf in:
+                 *
+                 * 1. nbmfs of thf form "foo" with just onf
+                 * domponfnt. (This might indludf b "@" but only in fsdbpfd
+                 * form likf "\@")
+                 * 2. nbmfs of thf form "foo@bbr" with two domponfnts
+                 *
+                 * Thf nbmftypfs thbt brf bddfptfd brf NT_USER_NAME, bnd
+                 * NT_HOSTBASED_SERVICE.
+                 */
+
+                if (gssNbmfTypf.fqubls(GSSNbmf.NT_USER_NAME))
+                    prindipblNbmf = nfw PrindipblNbmf(gssNbmfStr,
+                                    PrindipblNbmf.KRB_NT_PRINCIPAL);
+                flsf {
+                    String hostNbmf = null;
+                    String sfrvidf = domponfnts[0];
+                    if (domponfnts.lfngth >= 2)
+                        hostNbmf = domponfnts[1];
+
+                    String prindipbl = gftHostBbsfdInstbndf(sfrvidf, hostNbmf);
+                    prindipblNbmf = nfw PrindipblNbmf(prindipbl,
+                            PrindipblNbmf.KRB_NT_SRV_HST);
+                }
+            }
+
+        } dbtdh (KrbExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.BAD_NAME, -1, f.gftMfssbgf());
+        }
+
+        rfturn nfw Krb5NbmfElfmfnt(prindipblNbmf, gssNbmfStr, gssNbmfTypf);
+    }
+
+    stbtid Krb5NbmfElfmfnt gftInstbndf(PrindipblNbmf prindipblNbmf) {
+        rfturn nfw Krb5NbmfElfmfnt(prindipblNbmf,
+                                   prindipblNbmf.gftNbmf(),
+                                   Krb5MfdhFbdtory.NT_GSS_KRB5_PRINCIPAL);
+    }
+
+    privbtf stbtid String[] gftComponfnts(String gssNbmfStr)
+        throws GSSExdfption {
+
+        String[] rftVbl;
+
+        // XXX Pfrhbps providf this pbrsing dodf in PrindipblNbmf
+
+        // Look for @ bs in sfrvidf@host
+        // Assumfs host nbmf will not hbvf bn fsdbpfd '@'
+        int sfpbrbtorPos = gssNbmfStr.lbstIndfxOf('@', gssNbmfStr.lfngth());
+
+        // Not rfblly b sfpbrbtor if it is fsdbpfd. Thfn this is just pbrt
+        // of thf prindipbl nbmf or sfrvidf nbmf
+        if ((sfpbrbtorPos > 0) &&
+                (gssNbmfStr.dhbrAt(sfpbrbtorPos-1) == '\\')) {
+            // Is thf `\` dhbrbdtfr fsdbpfd itsflf?
+            if ((sfpbrbtorPos - 2 < 0) ||
+                (gssNbmfStr.dhbrAt(sfpbrbtorPos-2) != '\\'))
+                sfpbrbtorPos = -1;
+        }
+
+        if (sfpbrbtorPos > 0) {
+            String sfrvidfNbmf = gssNbmfStr.substring(0, sfpbrbtorPos);
+            String hostNbmf = gssNbmfStr.substring(sfpbrbtorPos+1);
+            rftVbl = nfw String[] { sfrvidfNbmf, hostNbmf};
+        } flsf {
+            rftVbl = nfw String[] {gssNbmfStr};
+        }
+
+        rfturn rftVbl;
+
+    }
+
+    privbtf stbtid String gftHostBbsfdInstbndf(String sfrvidfNbmf,
+                                               String hostNbmf)
+        throws GSSExdfption {
+            StringBufffr tfmp = nfw StringBufffr(sfrvidfNbmf);
+
+            try {
+                // A lbdk of "@" dffbults to thf sfrvidf bfing on thf lodbl
+                // host bs pfr RFC 2743
+                // XXX Movf this pbrt into JGSS frbmfwork
+                if (hostNbmf == null)
+                    hostNbmf = InftAddrfss.gftLodblHost().gftHostNbmf();
+
+            } dbtdh (UnknownHostExdfption f) {
+                // usf hostnbmf bs it is
+            }
+            hostNbmf = hostNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+
+            tfmp = tfmp.bppfnd('/').bppfnd(hostNbmf);
+            rfturn tfmp.toString();
+    }
+
+    publid finbl PrindipblNbmf gftKrb5PrindipblNbmf() {
+        rfturn krb5PrindipblNbmf;
+    }
+
+    /**
+     * Equbl mfthod for thf GSSNbmfSpi objfdts.
+     * If fithfr nbmf dfnotfs bn bnonymous prindipbl, thf dbll should
+     * rfturn fblsf.
+     *
+     * @pbrbm nbmf to bf dompbrfd with
+     * @rfturns truf if thfy both rfffr to thf sbmf fntity, flsf fblsf
+     * @fxdfption GSSExdfption with mbjor dodfs of BAD_NAMETYPE,
+     *  BAD_NAME, FAILURE
+     */
+    publid boolfbn fqubls(GSSNbmfSpi othfr) throws GSSExdfption {
+
+        if (othfr == this)
+            rfturn truf;
+
+        if (othfr instbndfof Krb5NbmfElfmfnt) {
+                Krb5NbmfElfmfnt thbt = (Krb5NbmfElfmfnt) othfr;
+                rfturn (this.krb5PrindipblNbmf.gftNbmf().fqubls(
+                            thbt.krb5PrindipblNbmf.gftNbmf()));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Compbrfs this <dodf>GSSNbmfSpi</dodf> objfdt to bnothfr Objfdt
+     * thbt might bf b <dodf>GSSNbmfSpi</dodf>. Thf bfhbviour is fxbdtly
+     * thf sbmf bs in {@link #fqubls(GSSNbmfSpi) fqubls} fxdfpt thbt
+     * no GSSExdfption is thrown; instfbd, fblsf will bf rfturnfd in thf
+     * situbtion whfrf bn frror oddurs.
+     *
+     * @pbrbm bnothfr thf objfdt to bf dompbrfd to
+     * @rfturns truf if thfy both rfffr to thf sbmf fntity, flsf fblsf
+     * @sff #fqubls(GSSNbmfSpi)
+     */
+    publid boolfbn fqubls(Objfdt bnothfr) {
+        if (this == bnothfr) {
+            rfturn truf;
+        }
+
+        try {
+            if (bnothfr instbndfof Krb5NbmfElfmfnt)
+                 rfturn fqubls((Krb5NbmfElfmfnt) bnothfr);
+        } dbtdh (GSSExdfption f) {
+            // ignorf fxdfption
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this GSSNbmfSpi.
+     *
+     * @rfturn b hbshCodf vbluf
+     */
+    publid int hbshCodf() {
+        rfturn 37 * 17 + krb5PrindipblNbmf.gftNbmf().hbshCodf();
+    }
+
+
+    /**
+     * Rfturns thf prindipbl nbmf in thf form usfr@REALM or
+     * host/sfrvidf@REALM but with thf following donstrbints thbt brf
+     * imposfd by RFC 1964:
+     * <prf>
+     *  (1) bll oddurrfndfs of thf dhbrbdtfrs `@`,  `/`, bnd `\` within
+     *   prindipbl domponfnts or rfblm nbmfs shbll bf quotfd with bn
+     *   immfdibtfly-prfdfding `\`.
+     *
+     *   (2) bll oddurrfndfs of thf null, bbdkspbdf, tbb, or nfwlinf
+     *   dhbrbdtfrs within prindipbl domponfnts or rfblm nbmfs will bf
+     *   rfprfsfntfd, rfspfdtivfly, with `\0`, `\b`, `\t`, or `\n`.
+     *
+     *   (3) thf `\` quoting dhbrbdtfr shbll not bf fmittfd within bn
+     *   fxportfd nbmf fxdfpt to bddommodbtf dbsfs (1) bnd (2).
+     * </prf>
+     */
+    publid bytf[] fxport() throws GSSExdfption {
+        // XXX Apply thf bbovf donstrbints.
+        bytf[] rftVbl = null;
+        try {
+            rftVbl = krb5PrindipblNbmf.gftNbmf().gftBytfs(CHAR_ENCODING);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            // Cbn't hbppfn
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * Gft thf mfdhbnism typf thbt this NbmfElfmfnt dorrfsponds to.
+     *
+     * @rfturn thf Oid of thf mfdhbnism typf
+     */
+    publid Oid gftMfdhbnism() {
+        rfturn (Krb5MfdhFbdtory.GSS_KRB5_MECH_OID);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion for this nbmf. Thf printfd
+     * nbmf typf dbn bf obtbinfd by dblling gftStringNbmfTypf().
+     *
+     * @rfturn string form of this nbmf
+     * @sff #gftStringNbmfTypf()
+     * @ovfrridfs Objfdt#toString
+     */
+    publid String toString() {
+        rfturn (gssNbmfStr);
+        // For tfsting: rfturn (supfr.toString());
+    }
+
+    /**
+     * Rfturns thf nbmf typf oid.
+     */
+    publid Oid gftGSSNbmfTypf() {
+        rfturn (gssNbmfTypf);
+    }
+
+    /**
+     * Rfturns thf oid dfsdribing thf formbt of thf printbblf nbmf.
+     *
+     * @rfturn thf Oid for thf formbt of thf printfd nbmf
+     */
+    publid Oid gftStringNbmfTypf() {
+        // XXX For NT_EXPORT_NAME rfturn b difffrfnt nbmf typf. Infbdt,
+        // don't fvfn storf NT_EXPORT_NAME in thf dons.
+        rfturn (gssNbmfTypf);
+    }
+
+    /**
+     * Indidbtfs if this nbmf objfdt rfprfsfnts bn Anonymous nbmf.
+     */
+    publid boolfbn isAnonymousNbmf() {
+        rfturn (gssNbmfTypf.fqubls(GSSNbmf.NT_ANONYMOUS));
+    }
+
+    publid Providfr gftProvidfr() {
+        rfturn Krb5MfdhFbdtory.PROVIDER;
+    }
+
+}

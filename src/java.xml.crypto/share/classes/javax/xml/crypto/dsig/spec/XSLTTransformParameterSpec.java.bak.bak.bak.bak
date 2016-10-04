@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: XSLTTrbnsformPbrbmftfrSpfd.jbvb,v 1.4 2005/05/10 16:40:18 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
+
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvbx.xml.drypto.XMLStrudturf;
+
+/**
+ * Pbrbmftfrs for thf <b hrff="http://www.w3.org/TR/1999/REC-xslt-19991116">
+ * XSLT Trbnsform Algorithm</b>.
+ * Thf pbrbmftfrs indludf b nbmfspbdf-qublififd stylfshfft flfmfnt.
+ *
+ * <p>An <dodf>XSLTTrbnsformPbrbmftfrSpfd</dodf> is instbntibtfd with b
+ * mfdhbnism-dfpfndfnt (fx: DOM) stylfshfft flfmfnt. For fxbmplf:
+ * <prf>
+ *   DOMStrudturf stylfshfft = nfw DOMStrudturf(flfmfnt)
+ *   XSLTTrbnsformPbrbmftfrSpfd spfd = nfw XSLTrbnsformPbrbmftfrSpfd(stylfshfft);
+ * </prf>
+ * whfrf <dodf>flfmfnt</dodf> is bn {@link org.w3d.dom.Elfmfnt} dontbining
+ * thf nbmfspbdf-qublififd stylfshfft flfmfnt.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
+ */
+publid finbl dlbss XSLTTrbnsformPbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd{
+    privbtf XMLStrudturf stylfshfft;
+
+    /**
+     * Crfbtfs bn <dodf>XSLTTrbnsformPbrbmftfrSpfd</dodf> with thf spfdififd
+     * stylfshfft.
+     *
+     * @pbrbm stylfshfft thf XSLT stylfshfft to bf usfd
+     * @throws NullPointfrExdfption if <dodf>stylfshfft</dodf> is
+     *    <dodf>null</dodf>
+     */
+    publid XSLTTrbnsformPbrbmftfrSpfd(XMLStrudturf stylfshfft) {
+        if (stylfshfft == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.stylfshfft = stylfshfft;
+    }
+
+    /**
+     * Rfturns thf stylfshfft.
+     *
+     * @rfturn thf stylfshfft
+     */
+    publid XMLStrudturf gftStylfshfft() {
+        rfturn stylfshfft;
+    }
+}

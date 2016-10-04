@@ -1,1146 +1,1146 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import sun.invoke.util.Wrapper;
-import java.lang.ref.WeakReference;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.invoke.util.BytecodeDescriptor;
-import static java.lang.invoke.MethodHandleStatics.*;
-import sun.invoke.util.VerifyType;
+import sun.invokf.util.Wrbppfr;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import sun.invokf.util.BytfdodfDfsdriptor;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import sun.invokf.util.VfrifyTypf;
 
 /**
- * A method type represents the arguments and return type accepted and
- * returned by a method handle, or the arguments and return type passed
- * and expected  by a method handle caller.  Method types must be properly
- * matched between a method handle and all its callers,
- * and the JVM's operations enforce this matching at, specifically
- * during calls to {@link MethodHandle#invokeExact MethodHandle.invokeExact}
- * and {@link MethodHandle#invoke MethodHandle.invoke}, and during execution
- * of {@code invokedynamic} instructions.
+ * A mftiod typf rfprfsfnts tif brgumfnts bnd rfturn typf bddfptfd bnd
+ * rfturnfd by b mftiod ibndlf, or tif brgumfnts bnd rfturn typf pbssfd
+ * bnd fxpfdtfd  by b mftiod ibndlf dbllfr.  Mftiod typfs must bf propfrly
+ * mbtdifd bftwffn b mftiod ibndlf bnd bll its dbllfrs,
+ * bnd tif JVM's opfrbtions fnfordf tiis mbtdiing bt, spfdifidblly
+ * during dblls to {@link MftiodHbndlf#invokfExbdt MftiodHbndlf.invokfExbdt}
+ * bnd {@link MftiodHbndlf#invokf MftiodHbndlf.invokf}, bnd during fxfdution
+ * of {@dodf invokfdynbmid} instrudtions.
  * <p>
- * The structure is a return type accompanied by any number of parameter types.
- * The types (primitive, {@code void}, and reference) are represented by {@link Class} objects.
- * (For ease of exposition, we treat {@code void} as if it were a type.
- * In fact, it denotes the absence of a return type.)
+ * Tif strudturf is b rfturn typf bddompbnifd by bny numbfr of pbrbmftfr typfs.
+ * Tif typfs (primitivf, {@dodf void}, bnd rfffrfndf) brf rfprfsfntfd by {@link Clbss} objfdts.
+ * (For fbsf of fxposition, wf trfbt {@dodf void} bs if it wfrf b typf.
+ * In fbdt, it dfnotfs tif bbsfndf of b rfturn typf.)
  * <p>
- * All instances of {@code MethodType} are immutable.
- * Two instances are completely interchangeable if they compare equal.
- * Equality depends on pairwise correspondence of the return and parameter types and on nothing else.
+ * All instbndfs of {@dodf MftiodTypf} brf immutbblf.
+ * Two instbndfs brf domplftfly intfrdibngfbblf if tify dompbrf fqubl.
+ * Equblity dfpfnds on pbirwisf dorrfspondfndf of tif rfturn bnd pbrbmftfr typfs bnd on notiing flsf.
  * <p>
- * This type can be created only by factory methods.
- * All factory methods may cache values, though caching is not guaranteed.
- * Some factory methods are static, while others are virtual methods which
- * modify precursor method types, e.g., by changing a selected parameter.
+ * Tiis typf dbn bf drfbtfd only by fbdtory mftiods.
+ * All fbdtory mftiods mby dbdif vblufs, tiougi dbdiing is not gubrbntffd.
+ * Somf fbdtory mftiods brf stbtid, wiilf otifrs brf virtubl mftiods wiidi
+ * modify prfdursor mftiod typfs, f.g., by dibnging b sflfdtfd pbrbmftfr.
  * <p>
- * Factory methods which operate on groups of parameter types
- * are systematically presented in two versions, so that both Java arrays and
- * Java lists can be used to work with groups of parameter types.
- * The query methods {@code parameterArray} and {@code parameterList}
- * also provide a choice between arrays and lists.
+ * Fbdtory mftiods wiidi opfrbtf on groups of pbrbmftfr typfs
+ * brf systfmbtidblly prfsfntfd in two vfrsions, so tibt boti Jbvb brrbys bnd
+ * Jbvb lists dbn bf usfd to work witi groups of pbrbmftfr typfs.
+ * Tif qufry mftiods {@dodf pbrbmftfrArrby} bnd {@dodf pbrbmftfrList}
+ * blso providf b dioidf bftwffn brrbys bnd lists.
  * <p>
- * {@code MethodType} objects are sometimes derived from bytecode instructions
- * such as {@code invokedynamic}, specifically from the type descriptor strings associated
- * with the instructions in a class file's constant pool.
+ * {@dodf MftiodTypf} objfdts brf somftimfs dfrivfd from bytfdodf instrudtions
+ * sudi bs {@dodf invokfdynbmid}, spfdifidblly from tif typf dfsdriptor strings bssodibtfd
+ * witi tif instrudtions in b dlbss filf's donstbnt pool.
  * <p>
- * Like classes and strings, method types can also be represented directly
- * in a class file's constant pool as constants.
- * A method type may be loaded by an {@code ldc} instruction which refers
- * to a suitable {@code CONSTANT_MethodType} constant pool entry.
- * The entry refers to a {@code CONSTANT_Utf8} spelling for the descriptor string.
- * (For full details on method type constants,
- * see sections 4.4.8 and 5.4.3.5 of the Java Virtual Machine Specification.)
+ * Likf dlbssfs bnd strings, mftiod typfs dbn blso bf rfprfsfntfd dirfdtly
+ * in b dlbss filf's donstbnt pool bs donstbnts.
+ * A mftiod typf mby bf lobdfd by bn {@dodf ldd} instrudtion wiidi rfffrs
+ * to b suitbblf {@dodf CONSTANT_MftiodTypf} donstbnt pool fntry.
+ * Tif fntry rfffrs to b {@dodf CONSTANT_Utf8} spflling for tif dfsdriptor string.
+ * (For full dftbils on mftiod typf donstbnts,
+ * sff sfdtions 4.4.8 bnd 5.4.3.5 of tif Jbvb Virtubl Mbdiinf Spfdifidbtion.)
  * <p>
- * When the JVM materializes a {@code MethodType} from a descriptor string,
- * all classes named in the descriptor must be accessible, and will be loaded.
- * (But the classes need not be initialized, as is the case with a {@code CONSTANT_Class}.)
- * This loading may occur at any time before the {@code MethodType} object is first derived.
- * @author John Rose, JSR 292 EG
+ * Wifn tif JVM mbtfriblizfs b {@dodf MftiodTypf} from b dfsdriptor string,
+ * bll dlbssfs nbmfd in tif dfsdriptor must bf bddfssiblf, bnd will bf lobdfd.
+ * (But tif dlbssfs nffd not bf initiblizfd, bs is tif dbsf witi b {@dodf CONSTANT_Clbss}.)
+ * Tiis lobding mby oddur bt bny timf bfforf tif {@dodf MftiodTypf} objfdt is first dfrivfd.
+ * @butior Join Rosf, JSR 292 EG
  */
-public final
-class MethodType implements java.io.Serializable {
-    private static final long serialVersionUID = 292L;  // {rtype, {ptype...}}
+publid finbl
+dlbss MftiodTypf implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 292L;  // {rtypf, {ptypf...}}
 
-    // The rtype and ptypes fields define the structural identity of the method type:
-    private final Class<?>   rtype;
-    private final Class<?>[] ptypes;
+    // Tif rtypf bnd ptypfs fiflds dffinf tif strudturbl idfntity of tif mftiod typf:
+    privbtf finbl Clbss<?>   rtypf;
+    privbtf finbl Clbss<?>[] ptypfs;
 
-    // The remaining fields are caches of various sorts:
-    private @Stable MethodTypeForm form; // erased form, plus cached data about primitives
-    private @Stable MethodType wrapAlt;  // alternative wrapped/unwrapped version
-    private @Stable Invokers invokers;   // cache of handy higher-order adapters
-    private @Stable String methodDescriptor;  // cache for toMethodDescriptorString
-
-    /**
-     * Check the given parameters for validity and store them into the final fields.
-     */
-    private MethodType(Class<?> rtype, Class<?>[] ptypes, boolean trusted) {
-        checkRtype(rtype);
-        checkPtypes(ptypes);
-        this.rtype = rtype;
-        // defensively copy the array passed in by the user
-        this.ptypes = trusted ? ptypes : Arrays.copyOf(ptypes, ptypes.length);
-    }
+    // Tif rfmbining fiflds brf dbdifs of vbrious sorts:
+    privbtf @Stbblf MftiodTypfForm form; // frbsfd form, plus dbdifd dbtb bbout primitivfs
+    privbtf @Stbblf MftiodTypf wrbpAlt;  // bltfrnbtivf wrbppfd/unwrbppfd vfrsion
+    privbtf @Stbblf Invokfrs invokfrs;   // dbdif of ibndy iigifr-ordfr bdbptfrs
+    privbtf @Stbblf String mftiodDfsdriptor;  // dbdif for toMftiodDfsdriptorString
 
     /**
-     * Construct a temporary unchecked instance of MethodType for use only as a key to the intern table.
-     * Does not check the given parameters for validity, and must be discarded after it is used as a searching key.
-     * The parameters are reversed for this constructor, so that is is not accidentally used.
+     * Cifdk tif givfn pbrbmftfrs for vblidity bnd storf tifm into tif finbl fiflds.
      */
-    private MethodType(Class<?>[] ptypes, Class<?> rtype) {
-        this.rtype = rtype;
-        this.ptypes = ptypes;
+    privbtf MftiodTypf(Clbss<?> rtypf, Clbss<?>[] ptypfs, boolfbn trustfd) {
+        difdkRtypf(rtypf);
+        difdkPtypfs(ptypfs);
+        tiis.rtypf = rtypf;
+        // dfffnsivfly dopy tif brrby pbssfd in by tif usfr
+        tiis.ptypfs = trustfd ? ptypfs : Arrbys.dopyOf(ptypfs, ptypfs.lfngti);
     }
 
-    /*trusted*/ MethodTypeForm form() { return form; }
-    /*trusted*/ Class<?> rtype() { return rtype; }
-    /*trusted*/ Class<?>[] ptypes() { return ptypes; }
-
-    void setForm(MethodTypeForm f) { form = f; }
-
-    /** This number, mandated by the JVM spec as 255,
-     *  is the maximum number of <em>slots</em>
-     *  that any Java method can receive in its argument list.
-     *  It limits both JVM signatures and method type objects.
-     *  The longest possible invocation will look like
-     *  {@code staticMethod(arg1, arg2, ..., arg255)} or
-     *  {@code x.virtualMethod(arg1, arg2, ..., arg254)}.
+    /**
+     * Construdt b tfmporbry undifdkfd instbndf of MftiodTypf for usf only bs b kfy to tif intfrn tbblf.
+     * Dofs not difdk tif givfn pbrbmftfrs for vblidity, bnd must bf disdbrdfd bftfr it is usfd bs b sfbrdiing kfy.
+     * Tif pbrbmftfrs brf rfvfrsfd for tiis donstrudtor, so tibt is is not bddidfntblly usfd.
      */
-    /*non-public*/ static final int MAX_JVM_ARITY = 255;  // this is mandated by the JVM spec.
-
-    /** This number is the maximum arity of a method handle, 254.
-     *  It is derived from the absolute JVM-imposed arity by subtracting one,
-     *  which is the slot occupied by the method handle itself at the
-     *  beginning of the argument list used to invoke the method handle.
-     *  The longest possible invocation will look like
-     *  {@code mh.invoke(arg1, arg2, ..., arg254)}.
-     */
-    // Issue:  Should we allow MH.invokeWithArguments to go to the full 255?
-    /*non-public*/ static final int MAX_MH_ARITY = MAX_JVM_ARITY-1;  // deduct one for mh receiver
-
-    /** This number is the maximum arity of a method handle invoker, 253.
-     *  It is derived from the absolute JVM-imposed arity by subtracting two,
-     *  which are the slots occupied by invoke method handle, and the
-     *  target method handle, which are both at the beginning of the argument
-     *  list used to invoke the target method handle.
-     *  The longest possible invocation will look like
-     *  {@code invokermh.invoke(targetmh, arg1, arg2, ..., arg253)}.
-     */
-    /*non-public*/ static final int MAX_MH_INVOKER_ARITY = MAX_MH_ARITY-1;  // deduct one more for invoker
-
-    private static void checkRtype(Class<?> rtype) {
-        Objects.requireNonNull(rtype);
+    privbtf MftiodTypf(Clbss<?>[] ptypfs, Clbss<?> rtypf) {
+        tiis.rtypf = rtypf;
+        tiis.ptypfs = ptypfs;
     }
-    private static void checkPtype(Class<?> ptype) {
-        Objects.requireNonNull(ptype);
-        if (ptype == void.class)
-            throw newIllegalArgumentException("parameter type cannot be void");
+
+    /*trustfd*/ MftiodTypfForm form() { rfturn form; }
+    /*trustfd*/ Clbss<?> rtypf() { rfturn rtypf; }
+    /*trustfd*/ Clbss<?>[] ptypfs() { rfturn ptypfs; }
+
+    void sftForm(MftiodTypfForm f) { form = f; }
+
+    /** Tiis numbfr, mbndbtfd by tif JVM spfd bs 255,
+     *  is tif mbximum numbfr of <fm>slots</fm>
+     *  tibt bny Jbvb mftiod dbn rfdfivf in its brgumfnt list.
+     *  It limits boti JVM signbturfs bnd mftiod typf objfdts.
+     *  Tif longfst possiblf invodbtion will look likf
+     *  {@dodf stbtidMftiod(brg1, brg2, ..., brg255)} or
+     *  {@dodf x.virtublMftiod(brg1, brg2, ..., brg254)}.
+     */
+    /*non-publid*/ stbtid finbl int MAX_JVM_ARITY = 255;  // tiis is mbndbtfd by tif JVM spfd.
+
+    /** Tiis numbfr is tif mbximum brity of b mftiod ibndlf, 254.
+     *  It is dfrivfd from tif bbsolutf JVM-imposfd brity by subtrbdting onf,
+     *  wiidi is tif slot oddupifd by tif mftiod ibndlf itsflf bt tif
+     *  bfginning of tif brgumfnt list usfd to invokf tif mftiod ibndlf.
+     *  Tif longfst possiblf invodbtion will look likf
+     *  {@dodf mi.invokf(brg1, brg2, ..., brg254)}.
+     */
+    // Issuf:  Siould wf bllow MH.invokfWitiArgumfnts to go to tif full 255?
+    /*non-publid*/ stbtid finbl int MAX_MH_ARITY = MAX_JVM_ARITY-1;  // dfdudt onf for mi rfdfivfr
+
+    /** Tiis numbfr is tif mbximum brity of b mftiod ibndlf invokfr, 253.
+     *  It is dfrivfd from tif bbsolutf JVM-imposfd brity by subtrbdting two,
+     *  wiidi brf tif slots oddupifd by invokf mftiod ibndlf, bnd tif
+     *  tbrgft mftiod ibndlf, wiidi brf boti bt tif bfginning of tif brgumfnt
+     *  list usfd to invokf tif tbrgft mftiod ibndlf.
+     *  Tif longfst possiblf invodbtion will look likf
+     *  {@dodf invokfrmi.invokf(tbrgftmi, brg1, brg2, ..., brg253)}.
+     */
+    /*non-publid*/ stbtid finbl int MAX_MH_INVOKER_ARITY = MAX_MH_ARITY-1;  // dfdudt onf morf for invokfr
+
+    privbtf stbtid void difdkRtypf(Clbss<?> rtypf) {
+        Objfdts.rfquirfNonNull(rtypf);
     }
-    /** Return number of extra slots (count of long/double args). */
-    private static int checkPtypes(Class<?>[] ptypes) {
+    privbtf stbtid void difdkPtypf(Clbss<?> ptypf) {
+        Objfdts.rfquirfNonNull(ptypf);
+        if (ptypf == void.dlbss)
+            tirow nfwIllfgblArgumfntExdfption("pbrbmftfr typf dbnnot bf void");
+    }
+    /** Rfturn numbfr of fxtrb slots (dount of long/doublf brgs). */
+    privbtf stbtid int difdkPtypfs(Clbss<?>[] ptypfs) {
         int slots = 0;
-        for (Class<?> ptype : ptypes) {
-            checkPtype(ptype);
-            if (ptype == double.class || ptype == long.class) {
+        for (Clbss<?> ptypf : ptypfs) {
+            difdkPtypf(ptypf);
+            if (ptypf == doublf.dlbss || ptypf == long.dlbss) {
                 slots++;
             }
         }
-        checkSlotCount(ptypes.length + slots);
-        return slots;
+        difdkSlotCount(ptypfs.lfngti + slots);
+        rfturn slots;
     }
-    static void checkSlotCount(int count) {
-        assert((MAX_JVM_ARITY & (MAX_JVM_ARITY+1)) == 0);
-        // MAX_JVM_ARITY must be power of 2 minus 1 for following code trick to work:
-        if ((count & MAX_JVM_ARITY) != count)
-            throw newIllegalArgumentException("bad parameter count "+count);
+    stbtid void difdkSlotCount(int dount) {
+        bssfrt((MAX_JVM_ARITY & (MAX_JVM_ARITY+1)) == 0);
+        // MAX_JVM_ARITY must bf powfr of 2 minus 1 for following dodf tridk to work:
+        if ((dount & MAX_JVM_ARITY) != dount)
+            tirow nfwIllfgblArgumfntExdfption("bbd pbrbmftfr dount "+dount);
     }
-    private static IndexOutOfBoundsException newIndexOutOfBoundsException(Object num) {
-        if (num instanceof Integer)  num = "bad index: "+num;
-        return new IndexOutOfBoundsException(num.toString());
+    privbtf stbtid IndfxOutOfBoundsExdfption nfwIndfxOutOfBoundsExdfption(Objfdt num) {
+        if (num instbndfof Intfgfr)  num = "bbd indfx: "+num;
+        rfturn nfw IndfxOutOfBoundsExdfption(num.toString());
     }
 
-    static final ConcurrentWeakInternSet<MethodType> internTable = new ConcurrentWeakInternSet<>();
+    stbtid finbl CondurrfntWfbkIntfrnSft<MftiodTypf> intfrnTbblf = nfw CondurrfntWfbkIntfrnSft<>();
 
-    static final Class<?>[] NO_PTYPES = {};
-
-    /**
-     * Finds or creates an instance of the given method type.
-     * @param rtype  the return type
-     * @param ptypes the parameter types
-     * @return a method type with the given components
-     * @throws NullPointerException if {@code rtype} or {@code ptypes} or any element of {@code ptypes} is null
-     * @throws IllegalArgumentException if any element of {@code ptypes} is {@code void.class}
-     */
-    public static
-    MethodType methodType(Class<?> rtype, Class<?>[] ptypes) {
-        return makeImpl(rtype, ptypes, false);
-    }
+    stbtid finbl Clbss<?>[] NO_PTYPES = {};
 
     /**
-     * Finds or creates a method type with the given components.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param rtype  the return type
-     * @param ptypes the parameter types
-     * @return a method type with the given components
-     * @throws NullPointerException if {@code rtype} or {@code ptypes} or any element of {@code ptypes} is null
-     * @throws IllegalArgumentException if any element of {@code ptypes} is {@code void.class}
+     * Finds or drfbtfs bn instbndf of tif givfn mftiod typf.
+     * @pbrbm rtypf  tif rfturn typf
+     * @pbrbm ptypfs tif pbrbmftfr typfs
+     * @rfturn b mftiod typf witi tif givfn domponfnts
+     * @tirows NullPointfrExdfption if {@dodf rtypf} or {@dodf ptypfs} or bny flfmfnt of {@dodf ptypfs} is null
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfs} is {@dodf void.dlbss}
      */
-    public static
-    MethodType methodType(Class<?> rtype, List<Class<?>> ptypes) {
-        boolean notrust = false;  // random List impl. could return evil ptypes array
-        return makeImpl(rtype, listToArray(ptypes), notrust);
-    }
-
-    private static Class<?>[] listToArray(List<Class<?>> ptypes) {
-        // sanity check the size before the toArray call, since size might be huge
-        checkSlotCount(ptypes.size());
-        return ptypes.toArray(NO_PTYPES);
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf, Clbss<?>[] ptypfs) {
+        rfturn mbkfImpl(rtypf, ptypfs, fblsf);
     }
 
     /**
-     * Finds or creates a method type with the given components.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * The leading parameter type is prepended to the remaining array.
-     * @param rtype  the return type
-     * @param ptype0 the first parameter type
-     * @param ptypes the remaining parameter types
-     * @return a method type with the given components
-     * @throws NullPointerException if {@code rtype} or {@code ptype0} or {@code ptypes} or any element of {@code ptypes} is null
-     * @throws IllegalArgumentException if {@code ptype0} or {@code ptypes} or any element of {@code ptypes} is {@code void.class}
+     * Finds or drfbtfs b mftiod typf witi tif givfn domponfnts.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm rtypf  tif rfturn typf
+     * @pbrbm ptypfs tif pbrbmftfr typfs
+     * @rfturn b mftiod typf witi tif givfn domponfnts
+     * @tirows NullPointfrExdfption if {@dodf rtypf} or {@dodf ptypfs} or bny flfmfnt of {@dodf ptypfs} is null
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfs} is {@dodf void.dlbss}
      */
-    public static
-    MethodType methodType(Class<?> rtype, Class<?> ptype0, Class<?>... ptypes) {
-        Class<?>[] ptypes1 = new Class<?>[1+ptypes.length];
-        ptypes1[0] = ptype0;
-        System.arraycopy(ptypes, 0, ptypes1, 1, ptypes.length);
-        return makeImpl(rtype, ptypes1, true);
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf, List<Clbss<?>> ptypfs) {
+        boolfbn notrust = fblsf;  // rbndom List impl. dould rfturn fvil ptypfs brrby
+        rfturn mbkfImpl(rtypf, listToArrby(ptypfs), notrust);
+    }
+
+    privbtf stbtid Clbss<?>[] listToArrby(List<Clbss<?>> ptypfs) {
+        // sbnity difdk tif sizf bfforf tif toArrby dbll, sindf sizf migit bf iugf
+        difdkSlotCount(ptypfs.sizf());
+        rfturn ptypfs.toArrby(NO_PTYPES);
     }
 
     /**
-     * Finds or creates a method type with the given components.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * The resulting method has no parameter types.
-     * @param rtype  the return type
-     * @return a method type with the given return value
-     * @throws NullPointerException if {@code rtype} is null
+     * Finds or drfbtfs b mftiod typf witi tif givfn domponfnts.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * Tif lfbding pbrbmftfr typf is prfpfndfd to tif rfmbining brrby.
+     * @pbrbm rtypf  tif rfturn typf
+     * @pbrbm ptypf0 tif first pbrbmftfr typf
+     * @pbrbm ptypfs tif rfmbining pbrbmftfr typfs
+     * @rfturn b mftiod typf witi tif givfn domponfnts
+     * @tirows NullPointfrExdfption if {@dodf rtypf} or {@dodf ptypf0} or {@dodf ptypfs} or bny flfmfnt of {@dodf ptypfs} is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf ptypf0} or {@dodf ptypfs} or bny flfmfnt of {@dodf ptypfs} is {@dodf void.dlbss}
      */
-    public static
-    MethodType methodType(Class<?> rtype) {
-        return makeImpl(rtype, NO_PTYPES, true);
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf, Clbss<?> ptypf0, Clbss<?>... ptypfs) {
+        Clbss<?>[] ptypfs1 = nfw Clbss<?>[1+ptypfs.lfngti];
+        ptypfs1[0] = ptypf0;
+        Systfm.brrbydopy(ptypfs, 0, ptypfs1, 1, ptypfs.lfngti);
+        rfturn mbkfImpl(rtypf, ptypfs1, truf);
     }
 
     /**
-     * Finds or creates a method type with the given components.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * The resulting method has the single given parameter type.
-     * @param rtype  the return type
-     * @param ptype0 the parameter type
-     * @return a method type with the given return value and parameter type
-     * @throws NullPointerException if {@code rtype} or {@code ptype0} is null
-     * @throws IllegalArgumentException if {@code ptype0} is {@code void.class}
+     * Finds or drfbtfs b mftiod typf witi tif givfn domponfnts.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * Tif rfsulting mftiod ibs no pbrbmftfr typfs.
+     * @pbrbm rtypf  tif rfturn typf
+     * @rfturn b mftiod typf witi tif givfn rfturn vbluf
+     * @tirows NullPointfrExdfption if {@dodf rtypf} is null
      */
-    public static
-    MethodType methodType(Class<?> rtype, Class<?> ptype0) {
-        return makeImpl(rtype, new Class<?>[]{ ptype0 }, true);
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf) {
+        rfturn mbkfImpl(rtypf, NO_PTYPES, truf);
     }
 
     /**
-     * Finds or creates a method type with the given components.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * The resulting method has the same parameter types as {@code ptypes},
-     * and the specified return type.
-     * @param rtype  the return type
-     * @param ptypes the method type which supplies the parameter types
-     * @return a method type with the given components
-     * @throws NullPointerException if {@code rtype} or {@code ptypes} is null
+     * Finds or drfbtfs b mftiod typf witi tif givfn domponfnts.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * Tif rfsulting mftiod ibs tif singlf givfn pbrbmftfr typf.
+     * @pbrbm rtypf  tif rfturn typf
+     * @pbrbm ptypf0 tif pbrbmftfr typf
+     * @rfturn b mftiod typf witi tif givfn rfturn vbluf bnd pbrbmftfr typf
+     * @tirows NullPointfrExdfption if {@dodf rtypf} or {@dodf ptypf0} is null
+     * @tirows IllfgblArgumfntExdfption if {@dodf ptypf0} is {@dodf void.dlbss}
      */
-    public static
-    MethodType methodType(Class<?> rtype, MethodType ptypes) {
-        return makeImpl(rtype, ptypes.ptypes, true);
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf, Clbss<?> ptypf0) {
+        rfturn mbkfImpl(rtypf, nfw Clbss<?>[]{ ptypf0 }, truf);
     }
 
     /**
-     * Sole factory method to find or create an interned method type.
-     * @param rtype desired return type
-     * @param ptypes desired parameter types
-     * @param trusted whether the ptypes can be used without cloning
-     * @return the unique method type of the desired structure
+     * Finds or drfbtfs b mftiod typf witi tif givfn domponfnts.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * Tif rfsulting mftiod ibs tif sbmf pbrbmftfr typfs bs {@dodf ptypfs},
+     * bnd tif spfdififd rfturn typf.
+     * @pbrbm rtypf  tif rfturn typf
+     * @pbrbm ptypfs tif mftiod typf wiidi supplifs tif pbrbmftfr typfs
+     * @rfturn b mftiod typf witi tif givfn domponfnts
+     * @tirows NullPointfrExdfption if {@dodf rtypf} or {@dodf ptypfs} is null
      */
-    /*trusted*/ static
-    MethodType makeImpl(Class<?> rtype, Class<?>[] ptypes, boolean trusted) {
-        MethodType mt = internTable.get(new MethodType(ptypes, rtype));
+    publid stbtid
+    MftiodTypf mftiodTypf(Clbss<?> rtypf, MftiodTypf ptypfs) {
+        rfturn mbkfImpl(rtypf, ptypfs.ptypfs, truf);
+    }
+
+    /**
+     * Solf fbdtory mftiod to find or drfbtf bn intfrnfd mftiod typf.
+     * @pbrbm rtypf dfsirfd rfturn typf
+     * @pbrbm ptypfs dfsirfd pbrbmftfr typfs
+     * @pbrbm trustfd wiftifr tif ptypfs dbn bf usfd witiout dloning
+     * @rfturn tif uniquf mftiod typf of tif dfsirfd strudturf
+     */
+    /*trustfd*/ stbtid
+    MftiodTypf mbkfImpl(Clbss<?> rtypf, Clbss<?>[] ptypfs, boolfbn trustfd) {
+        MftiodTypf mt = intfrnTbblf.gft(nfw MftiodTypf(ptypfs, rtypf));
         if (mt != null)
-            return mt;
-        if (ptypes.length == 0) {
-            ptypes = NO_PTYPES; trusted = true;
+            rfturn mt;
+        if (ptypfs.lfngti == 0) {
+            ptypfs = NO_PTYPES; trustfd = truf;
         }
-        mt = new MethodType(rtype, ptypes, trusted);
-        // promote the object to the Real Thing, and reprobe
-        mt.form = MethodTypeForm.findForm(mt);
-        return internTable.add(mt);
+        mt = nfw MftiodTypf(rtypf, ptypfs, trustfd);
+        // promotf tif objfdt to tif Rfbl Tiing, bnd rfprobf
+        mt.form = MftiodTypfForm.findForm(mt);
+        rfturn intfrnTbblf.bdd(mt);
     }
-    private static final MethodType[] objectOnlyTypes = new MethodType[20];
+    privbtf stbtid finbl MftiodTypf[] objfdtOnlyTypfs = nfw MftiodTypf[20];
 
     /**
-     * Finds or creates a method type whose components are {@code Object} with an optional trailing {@code Object[]} array.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * All parameters and the return type will be {@code Object},
-     * except the final array parameter if any, which will be {@code Object[]}.
-     * @param objectArgCount number of parameters (excluding the final array parameter if any)
-     * @param finalArray whether there will be a trailing array parameter, of type {@code Object[]}
-     * @return a generally applicable method type, for all calls of the given fixed argument count and a collected array of further arguments
-     * @throws IllegalArgumentException if {@code objectArgCount} is negative or greater than 255 (or 254, if {@code finalArray} is true)
-     * @see #genericMethodType(int)
+     * Finds or drfbtfs b mftiod typf wiosf domponfnts brf {@dodf Objfdt} witi bn optionbl trbiling {@dodf Objfdt[]} brrby.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * All pbrbmftfrs bnd tif rfturn typf will bf {@dodf Objfdt},
+     * fxdfpt tif finbl brrby pbrbmftfr if bny, wiidi will bf {@dodf Objfdt[]}.
+     * @pbrbm objfdtArgCount numbfr of pbrbmftfrs (fxdluding tif finbl brrby pbrbmftfr if bny)
+     * @pbrbm finblArrby wiftifr tifrf will bf b trbiling brrby pbrbmftfr, of typf {@dodf Objfdt[]}
+     * @rfturn b gfnfrblly bpplidbblf mftiod typf, for bll dblls of tif givfn fixfd brgumfnt dount bnd b dollfdtfd brrby of furtifr brgumfnts
+     * @tirows IllfgblArgumfntExdfption if {@dodf objfdtArgCount} is nfgbtivf or grfbtfr tibn 255 (or 254, if {@dodf finblArrby} is truf)
+     * @sff #gfnfridMftiodTypf(int)
      */
-    public static
-    MethodType genericMethodType(int objectArgCount, boolean finalArray) {
-        MethodType mt;
-        checkSlotCount(objectArgCount);
-        int ivarargs = (!finalArray ? 0 : 1);
-        int ootIndex = objectArgCount*2 + ivarargs;
-        if (ootIndex < objectOnlyTypes.length) {
-            mt = objectOnlyTypes[ootIndex];
-            if (mt != null)  return mt;
+    publid stbtid
+    MftiodTypf gfnfridMftiodTypf(int objfdtArgCount, boolfbn finblArrby) {
+        MftiodTypf mt;
+        difdkSlotCount(objfdtArgCount);
+        int ivbrbrgs = (!finblArrby ? 0 : 1);
+        int ootIndfx = objfdtArgCount*2 + ivbrbrgs;
+        if (ootIndfx < objfdtOnlyTypfs.lfngti) {
+            mt = objfdtOnlyTypfs[ootIndfx];
+            if (mt != null)  rfturn mt;
         }
-        Class<?>[] ptypes = new Class<?>[objectArgCount + ivarargs];
-        Arrays.fill(ptypes, Object.class);
-        if (ivarargs != 0)  ptypes[objectArgCount] = Object[].class;
-        mt = makeImpl(Object.class, ptypes, true);
-        if (ootIndex < objectOnlyTypes.length) {
-            objectOnlyTypes[ootIndex] = mt;     // cache it here also!
+        Clbss<?>[] ptypfs = nfw Clbss<?>[objfdtArgCount + ivbrbrgs];
+        Arrbys.fill(ptypfs, Objfdt.dlbss);
+        if (ivbrbrgs != 0)  ptypfs[objfdtArgCount] = Objfdt[].dlbss;
+        mt = mbkfImpl(Objfdt.dlbss, ptypfs, truf);
+        if (ootIndfx < objfdtOnlyTypfs.lfngti) {
+            objfdtOnlyTypfs[ootIndfx] = mt;     // dbdif it ifrf blso!
         }
-        return mt;
+        rfturn mt;
     }
 
     /**
-     * Finds or creates a method type whose components are all {@code Object}.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * All parameters and the return type will be Object.
-     * @param objectArgCount number of parameters
-     * @return a generally applicable method type, for all calls of the given argument count
-     * @throws IllegalArgumentException if {@code objectArgCount} is negative or greater than 255
-     * @see #genericMethodType(int, boolean)
+     * Finds or drfbtfs b mftiod typf wiosf domponfnts brf bll {@dodf Objfdt}.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * All pbrbmftfrs bnd tif rfturn typf will bf Objfdt.
+     * @pbrbm objfdtArgCount numbfr of pbrbmftfrs
+     * @rfturn b gfnfrblly bpplidbblf mftiod typf, for bll dblls of tif givfn brgumfnt dount
+     * @tirows IllfgblArgumfntExdfption if {@dodf objfdtArgCount} is nfgbtivf or grfbtfr tibn 255
+     * @sff #gfnfridMftiodTypf(int, boolfbn)
      */
-    public static
-    MethodType genericMethodType(int objectArgCount) {
-        return genericMethodType(objectArgCount, false);
+    publid stbtid
+    MftiodTypf gfnfridMftiodTypf(int objfdtArgCount) {
+        rfturn gfnfridMftiodTypf(objfdtArgCount, fblsf);
     }
 
     /**
-     * Finds or creates a method type with a single different parameter type.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param num    the index (zero-based) of the parameter type to change
-     * @param nptype a new parameter type to replace the old one with
-     * @return the same type, except with the selected parameter changed
-     * @throws IndexOutOfBoundsException if {@code num} is not a valid index into {@code parameterArray()}
-     * @throws IllegalArgumentException if {@code nptype} is {@code void.class}
-     * @throws NullPointerException if {@code nptype} is null
+     * Finds or drfbtfs b mftiod typf witi b singlf difffrfnt pbrbmftfr typf.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm num    tif indfx (zfro-bbsfd) of tif pbrbmftfr typf to dibngf
+     * @pbrbm nptypf b nfw pbrbmftfr typf to rfplbdf tif old onf witi
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr dibngfd
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf num} is not b vblid indfx into {@dodf pbrbmftfrArrby()}
+     * @tirows IllfgblArgumfntExdfption if {@dodf nptypf} is {@dodf void.dlbss}
+     * @tirows NullPointfrExdfption if {@dodf nptypf} is null
      */
-    public MethodType changeParameterType(int num, Class<?> nptype) {
-        if (parameterType(num) == nptype)  return this;
-        checkPtype(nptype);
-        Class<?>[] nptypes = ptypes.clone();
-        nptypes[num] = nptype;
-        return makeImpl(rtype, nptypes, true);
+    publid MftiodTypf dibngfPbrbmftfrTypf(int num, Clbss<?> nptypf) {
+        if (pbrbmftfrTypf(num) == nptypf)  rfturn tiis;
+        difdkPtypf(nptypf);
+        Clbss<?>[] nptypfs = ptypfs.dlonf();
+        nptypfs[num] = nptypf;
+        rfturn mbkfImpl(rtypf, nptypfs, truf);
     }
 
     /**
-     * Finds or creates a method type with additional parameter types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param num    the position (zero-based) of the inserted parameter type(s)
-     * @param ptypesToInsert zero or more new parameter types to insert into the parameter list
-     * @return the same type, except with the selected parameter(s) inserted
-     * @throws IndexOutOfBoundsException if {@code num} is negative or greater than {@code parameterCount()}
-     * @throws IllegalArgumentException if any element of {@code ptypesToInsert} is {@code void.class}
-     *                                  or if the resulting method type would have more than 255 parameter slots
-     * @throws NullPointerException if {@code ptypesToInsert} or any of its elements is null
+     * Finds or drfbtfs b mftiod typf witi bdditionbl pbrbmftfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm num    tif position (zfro-bbsfd) of tif insfrtfd pbrbmftfr typf(s)
+     * @pbrbm ptypfsToInsfrt zfro or morf nfw pbrbmftfr typfs to insfrt into tif pbrbmftfr list
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) insfrtfd
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf num} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfsToInsfrt} is {@dodf void.dlbss}
+     *                                  or if tif rfsulting mftiod typf would ibvf morf tibn 255 pbrbmftfr slots
+     * @tirows NullPointfrExdfption if {@dodf ptypfsToInsfrt} or bny of its flfmfnts is null
      */
-    public MethodType insertParameterTypes(int num, Class<?>... ptypesToInsert) {
-        int len = ptypes.length;
-        if (num < 0 || num > len)
-            throw newIndexOutOfBoundsException(num);
-        int ins = checkPtypes(ptypesToInsert);
-        checkSlotCount(parameterSlotCount() + ptypesToInsert.length + ins);
-        int ilen = ptypesToInsert.length;
-        if (ilen == 0)  return this;
-        Class<?>[] nptypes = Arrays.copyOfRange(ptypes, 0, len+ilen);
-        System.arraycopy(nptypes, num, nptypes, num+ilen, len-num);
-        System.arraycopy(ptypesToInsert, 0, nptypes, num, ilen);
-        return makeImpl(rtype, nptypes, true);
+    publid MftiodTypf insfrtPbrbmftfrTypfs(int num, Clbss<?>... ptypfsToInsfrt) {
+        int lfn = ptypfs.lfngti;
+        if (num < 0 || num > lfn)
+            tirow nfwIndfxOutOfBoundsExdfption(num);
+        int ins = difdkPtypfs(ptypfsToInsfrt);
+        difdkSlotCount(pbrbmftfrSlotCount() + ptypfsToInsfrt.lfngti + ins);
+        int ilfn = ptypfsToInsfrt.lfngti;
+        if (ilfn == 0)  rfturn tiis;
+        Clbss<?>[] nptypfs = Arrbys.dopyOfRbngf(ptypfs, 0, lfn+ilfn);
+        Systfm.brrbydopy(nptypfs, num, nptypfs, num+ilfn, lfn-num);
+        Systfm.brrbydopy(ptypfsToInsfrt, 0, nptypfs, num, ilfn);
+        rfturn mbkfImpl(rtypf, nptypfs, truf);
     }
 
     /**
-     * Finds or creates a method type with additional parameter types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param ptypesToInsert zero or more new parameter types to insert after the end of the parameter list
-     * @return the same type, except with the selected parameter(s) appended
-     * @throws IllegalArgumentException if any element of {@code ptypesToInsert} is {@code void.class}
-     *                                  or if the resulting method type would have more than 255 parameter slots
-     * @throws NullPointerException if {@code ptypesToInsert} or any of its elements is null
+     * Finds or drfbtfs b mftiod typf witi bdditionbl pbrbmftfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm ptypfsToInsfrt zfro or morf nfw pbrbmftfr typfs to insfrt bftfr tif fnd of tif pbrbmftfr list
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) bppfndfd
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfsToInsfrt} is {@dodf void.dlbss}
+     *                                  or if tif rfsulting mftiod typf would ibvf morf tibn 255 pbrbmftfr slots
+     * @tirows NullPointfrExdfption if {@dodf ptypfsToInsfrt} or bny of its flfmfnts is null
      */
-    public MethodType appendParameterTypes(Class<?>... ptypesToInsert) {
-        return insertParameterTypes(parameterCount(), ptypesToInsert);
+    publid MftiodTypf bppfndPbrbmftfrTypfs(Clbss<?>... ptypfsToInsfrt) {
+        rfturn insfrtPbrbmftfrTypfs(pbrbmftfrCount(), ptypfsToInsfrt);
     }
 
     /**
-     * Finds or creates a method type with additional parameter types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param num    the position (zero-based) of the inserted parameter type(s)
-     * @param ptypesToInsert zero or more new parameter types to insert into the parameter list
-     * @return the same type, except with the selected parameter(s) inserted
-     * @throws IndexOutOfBoundsException if {@code num} is negative or greater than {@code parameterCount()}
-     * @throws IllegalArgumentException if any element of {@code ptypesToInsert} is {@code void.class}
-     *                                  or if the resulting method type would have more than 255 parameter slots
-     * @throws NullPointerException if {@code ptypesToInsert} or any of its elements is null
+     * Finds or drfbtfs b mftiod typf witi bdditionbl pbrbmftfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm num    tif position (zfro-bbsfd) of tif insfrtfd pbrbmftfr typf(s)
+     * @pbrbm ptypfsToInsfrt zfro or morf nfw pbrbmftfr typfs to insfrt into tif pbrbmftfr list
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) insfrtfd
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf num} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfsToInsfrt} is {@dodf void.dlbss}
+     *                                  or if tif rfsulting mftiod typf would ibvf morf tibn 255 pbrbmftfr slots
+     * @tirows NullPointfrExdfption if {@dodf ptypfsToInsfrt} or bny of its flfmfnts is null
      */
-    public MethodType insertParameterTypes(int num, List<Class<?>> ptypesToInsert) {
-        return insertParameterTypes(num, listToArray(ptypesToInsert));
+    publid MftiodTypf insfrtPbrbmftfrTypfs(int num, List<Clbss<?>> ptypfsToInsfrt) {
+        rfturn insfrtPbrbmftfrTypfs(num, listToArrby(ptypfsToInsfrt));
     }
 
     /**
-     * Finds or creates a method type with additional parameter types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param ptypesToInsert zero or more new parameter types to insert after the end of the parameter list
-     * @return the same type, except with the selected parameter(s) appended
-     * @throws IllegalArgumentException if any element of {@code ptypesToInsert} is {@code void.class}
-     *                                  or if the resulting method type would have more than 255 parameter slots
-     * @throws NullPointerException if {@code ptypesToInsert} or any of its elements is null
+     * Finds or drfbtfs b mftiod typf witi bdditionbl pbrbmftfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm ptypfsToInsfrt zfro or morf nfw pbrbmftfr typfs to insfrt bftfr tif fnd of tif pbrbmftfr list
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) bppfndfd
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfsToInsfrt} is {@dodf void.dlbss}
+     *                                  or if tif rfsulting mftiod typf would ibvf morf tibn 255 pbrbmftfr slots
+     * @tirows NullPointfrExdfption if {@dodf ptypfsToInsfrt} or bny of its flfmfnts is null
      */
-    public MethodType appendParameterTypes(List<Class<?>> ptypesToInsert) {
-        return insertParameterTypes(parameterCount(), ptypesToInsert);
+    publid MftiodTypf bppfndPbrbmftfrTypfs(List<Clbss<?>> ptypfsToInsfrt) {
+        rfturn insfrtPbrbmftfrTypfs(pbrbmftfrCount(), ptypfsToInsfrt);
     }
 
      /**
-     * Finds or creates a method type with modified parameter types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param start  the position (zero-based) of the first replaced parameter type(s)
-     * @param end    the position (zero-based) after the last replaced parameter type(s)
-     * @param ptypesToInsert zero or more new parameter types to insert into the parameter list
-     * @return the same type, except with the selected parameter(s) replaced
-     * @throws IndexOutOfBoundsException if {@code start} is negative or greater than {@code parameterCount()}
-     *                                  or if {@code end} is negative or greater than {@code parameterCount()}
-     *                                  or if {@code start} is greater than {@code end}
-     * @throws IllegalArgumentException if any element of {@code ptypesToInsert} is {@code void.class}
-     *                                  or if the resulting method type would have more than 255 parameter slots
-     * @throws NullPointerException if {@code ptypesToInsert} or any of its elements is null
+     * Finds or drfbtfs b mftiod typf witi modififd pbrbmftfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm stbrt  tif position (zfro-bbsfd) of tif first rfplbdfd pbrbmftfr typf(s)
+     * @pbrbm fnd    tif position (zfro-bbsfd) bftfr tif lbst rfplbdfd pbrbmftfr typf(s)
+     * @pbrbm ptypfsToInsfrt zfro or morf nfw pbrbmftfr typfs to insfrt into tif pbrbmftfr list
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) rfplbdfd
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf stbrt} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     *                                  or if {@dodf fnd} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     *                                  or if {@dodf stbrt} is grfbtfr tibn {@dodf fnd}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt of {@dodf ptypfsToInsfrt} is {@dodf void.dlbss}
+     *                                  or if tif rfsulting mftiod typf would ibvf morf tibn 255 pbrbmftfr slots
+     * @tirows NullPointfrExdfption if {@dodf ptypfsToInsfrt} or bny of its flfmfnts is null
      */
-    /*non-public*/ MethodType replaceParameterTypes(int start, int end, Class<?>... ptypesToInsert) {
-        if (start == end)
-            return insertParameterTypes(start, ptypesToInsert);
-        int len = ptypes.length;
-        if (!(0 <= start && start <= end && end <= len))
-            throw newIndexOutOfBoundsException("start="+start+" end="+end);
-        int ilen = ptypesToInsert.length;
-        if (ilen == 0)
-            return dropParameterTypes(start, end);
-        return dropParameterTypes(start, end).insertParameterTypes(start, ptypesToInsert);
+    /*non-publid*/ MftiodTypf rfplbdfPbrbmftfrTypfs(int stbrt, int fnd, Clbss<?>... ptypfsToInsfrt) {
+        if (stbrt == fnd)
+            rfturn insfrtPbrbmftfrTypfs(stbrt, ptypfsToInsfrt);
+        int lfn = ptypfs.lfngti;
+        if (!(0 <= stbrt && stbrt <= fnd && fnd <= lfn))
+            tirow nfwIndfxOutOfBoundsExdfption("stbrt="+stbrt+" fnd="+fnd);
+        int ilfn = ptypfsToInsfrt.lfngti;
+        if (ilfn == 0)
+            rfturn dropPbrbmftfrTypfs(stbrt, fnd);
+        rfturn dropPbrbmftfrTypfs(stbrt, fnd).insfrtPbrbmftfrTypfs(stbrt, ptypfsToInsfrt);
     }
 
     /**
-     * Finds or creates a method type with some parameter types omitted.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param start  the index (zero-based) of the first parameter type to remove
-     * @param end    the index (greater than {@code start}) of the first parameter type after not to remove
-     * @return the same type, except with the selected parameter(s) removed
-     * @throws IndexOutOfBoundsException if {@code start} is negative or greater than {@code parameterCount()}
-     *                                  or if {@code end} is negative or greater than {@code parameterCount()}
-     *                                  or if {@code start} is greater than {@code end}
+     * Finds or drfbtfs b mftiod typf witi somf pbrbmftfr typfs omittfd.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm stbrt  tif indfx (zfro-bbsfd) of tif first pbrbmftfr typf to rfmovf
+     * @pbrbm fnd    tif indfx (grfbtfr tibn {@dodf stbrt}) of tif first pbrbmftfr typf bftfr not to rfmovf
+     * @rfturn tif sbmf typf, fxdfpt witi tif sflfdtfd pbrbmftfr(s) rfmovfd
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf stbrt} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     *                                  or if {@dodf fnd} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
+     *                                  or if {@dodf stbrt} is grfbtfr tibn {@dodf fnd}
      */
-    public MethodType dropParameterTypes(int start, int end) {
-        int len = ptypes.length;
-        if (!(0 <= start && start <= end && end <= len))
-            throw newIndexOutOfBoundsException("start="+start+" end="+end);
-        if (start == end)  return this;
-        Class<?>[] nptypes;
-        if (start == 0) {
-            if (end == len) {
-                // drop all parameters
-                nptypes = NO_PTYPES;
-            } else {
-                // drop initial parameter(s)
-                nptypes = Arrays.copyOfRange(ptypes, end, len);
+    publid MftiodTypf dropPbrbmftfrTypfs(int stbrt, int fnd) {
+        int lfn = ptypfs.lfngti;
+        if (!(0 <= stbrt && stbrt <= fnd && fnd <= lfn))
+            tirow nfwIndfxOutOfBoundsExdfption("stbrt="+stbrt+" fnd="+fnd);
+        if (stbrt == fnd)  rfturn tiis;
+        Clbss<?>[] nptypfs;
+        if (stbrt == 0) {
+            if (fnd == lfn) {
+                // drop bll pbrbmftfrs
+                nptypfs = NO_PTYPES;
+            } flsf {
+                // drop initibl pbrbmftfr(s)
+                nptypfs = Arrbys.dopyOfRbngf(ptypfs, fnd, lfn);
             }
-        } else {
-            if (end == len) {
-                // drop trailing parameter(s)
-                nptypes = Arrays.copyOfRange(ptypes, 0, start);
-            } else {
-                int tail = len - end;
-                nptypes = Arrays.copyOfRange(ptypes, 0, start + tail);
-                System.arraycopy(ptypes, end, nptypes, start, tail);
+        } flsf {
+            if (fnd == lfn) {
+                // drop trbiling pbrbmftfr(s)
+                nptypfs = Arrbys.dopyOfRbngf(ptypfs, 0, stbrt);
+            } flsf {
+                int tbil = lfn - fnd;
+                nptypfs = Arrbys.dopyOfRbngf(ptypfs, 0, stbrt + tbil);
+                Systfm.brrbydopy(ptypfs, fnd, nptypfs, stbrt, tbil);
             }
         }
-        return makeImpl(rtype, nptypes, true);
+        rfturn mbkfImpl(rtypf, nptypfs, truf);
     }
 
     /**
-     * Finds or creates a method type with a different return type.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * @param nrtype a return parameter type to replace the old one with
-     * @return the same type, except with the return type change
-     * @throws NullPointerException if {@code nrtype} is null
+     * Finds or drfbtfs b mftiod typf witi b difffrfnt rfturn typf.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * @pbrbm nrtypf b rfturn pbrbmftfr typf to rfplbdf tif old onf witi
+     * @rfturn tif sbmf typf, fxdfpt witi tif rfturn typf dibngf
+     * @tirows NullPointfrExdfption if {@dodf nrtypf} is null
      */
-    public MethodType changeReturnType(Class<?> nrtype) {
-        if (returnType() == nrtype)  return this;
-        return makeImpl(nrtype, ptypes, true);
+    publid MftiodTypf dibngfRfturnTypf(Clbss<?> nrtypf) {
+        if (rfturnTypf() == nrtypf)  rfturn tiis;
+        rfturn mbkfImpl(nrtypf, ptypfs, truf);
     }
 
     /**
-     * Reports if this type contains a primitive argument or return value.
-     * The return type {@code void} counts as a primitive.
-     * @return true if any of the types are primitives
+     * Rfports if tiis typf dontbins b primitivf brgumfnt or rfturn vbluf.
+     * Tif rfturn typf {@dodf void} dounts bs b primitivf.
+     * @rfturn truf if bny of tif typfs brf primitivfs
      */
-    public boolean hasPrimitives() {
-        return form.hasPrimitives();
+    publid boolfbn ibsPrimitivfs() {
+        rfturn form.ibsPrimitivfs();
     }
 
     /**
-     * Reports if this type contains a wrapper argument or return value.
-     * Wrappers are types which box primitive values, such as {@link Integer}.
-     * The reference type {@code java.lang.Void} counts as a wrapper,
-     * if it occurs as a return type.
-     * @return true if any of the types are wrappers
+     * Rfports if tiis typf dontbins b wrbppfr brgumfnt or rfturn vbluf.
+     * Wrbppfrs brf typfs wiidi box primitivf vblufs, sudi bs {@link Intfgfr}.
+     * Tif rfffrfndf typf {@dodf jbvb.lbng.Void} dounts bs b wrbppfr,
+     * if it oddurs bs b rfturn typf.
+     * @rfturn truf if bny of tif typfs brf wrbppfrs
      */
-    public boolean hasWrappers() {
-        return unwrap() != this;
+    publid boolfbn ibsWrbppfrs() {
+        rfturn unwrbp() != tiis;
     }
 
     /**
-     * Erases all reference types to {@code Object}.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * All primitive types (including {@code void}) will remain unchanged.
-     * @return a version of the original type with all reference types replaced
+     * Erbsfs bll rfffrfndf typfs to {@dodf Objfdt}.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * All primitivf typfs (indluding {@dodf void}) will rfmbin undibngfd.
+     * @rfturn b vfrsion of tif originbl typf witi bll rfffrfndf typfs rfplbdfd
      */
-    public MethodType erase() {
-        return form.erasedType();
+    publid MftiodTypf frbsf() {
+        rfturn form.frbsfdTypf();
     }
 
     /**
-     * Erases all reference types to {@code Object}, and all subword types to {@code int}.
-     * This is the reduced type polymorphism used by private methods
-     * such as {@link MethodHandle#invokeBasic invokeBasic}.
-     * @return a version of the original type with all reference and subword types replaced
+     * Erbsfs bll rfffrfndf typfs to {@dodf Objfdt}, bnd bll subword typfs to {@dodf int}.
+     * Tiis is tif rfdudfd typf polymorpiism usfd by privbtf mftiods
+     * sudi bs {@link MftiodHbndlf#invokfBbsid invokfBbsid}.
+     * @rfturn b vfrsion of tif originbl typf witi bll rfffrfndf bnd subword typfs rfplbdfd
      */
-    /*non-public*/ MethodType basicType() {
-        return form.basicType();
+    /*non-publid*/ MftiodTypf bbsidTypf() {
+        rfturn form.bbsidTypf();
     }
 
     /**
-     * @return a version of the original type with MethodHandle prepended as the first argument
+     * @rfturn b vfrsion of tif originbl typf witi MftiodHbndlf prfpfndfd bs tif first brgumfnt
      */
-    /*non-public*/ MethodType invokerType() {
-        return insertParameterTypes(0, MethodHandle.class);
+    /*non-publid*/ MftiodTypf invokfrTypf() {
+        rfturn insfrtPbrbmftfrTypfs(0, MftiodHbndlf.dlbss);
     }
 
     /**
-     * Converts all types, both reference and primitive, to {@code Object}.
-     * Convenience method for {@link #genericMethodType(int) genericMethodType}.
-     * The expression {@code type.wrap().erase()} produces the same value
-     * as {@code type.generic()}.
-     * @return a version of the original type with all types replaced
+     * Convfrts bll typfs, boti rfffrfndf bnd primitivf, to {@dodf Objfdt}.
+     * Convfnifndf mftiod for {@link #gfnfridMftiodTypf(int) gfnfridMftiodTypf}.
+     * Tif fxprfssion {@dodf typf.wrbp().frbsf()} produdfs tif sbmf vbluf
+     * bs {@dodf typf.gfnfrid()}.
+     * @rfturn b vfrsion of tif originbl typf witi bll typfs rfplbdfd
      */
-    public MethodType generic() {
-        return genericMethodType(parameterCount());
+    publid MftiodTypf gfnfrid() {
+        rfturn gfnfridMftiodTypf(pbrbmftfrCount());
     }
 
     /**
-     * Converts all primitive types to their corresponding wrapper types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * All reference types (including wrapper types) will remain unchanged.
-     * A {@code void} return type is changed to the type {@code java.lang.Void}.
-     * The expression {@code type.wrap().erase()} produces the same value
-     * as {@code type.generic()}.
-     * @return a version of the original type with all primitive types replaced
+     * Convfrts bll primitivf typfs to tifir dorrfsponding wrbppfr typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * All rfffrfndf typfs (indluding wrbppfr typfs) will rfmbin undibngfd.
+     * A {@dodf void} rfturn typf is dibngfd to tif typf {@dodf jbvb.lbng.Void}.
+     * Tif fxprfssion {@dodf typf.wrbp().frbsf()} produdfs tif sbmf vbluf
+     * bs {@dodf typf.gfnfrid()}.
+     * @rfturn b vfrsion of tif originbl typf witi bll primitivf typfs rfplbdfd
      */
-    public MethodType wrap() {
-        return hasPrimitives() ? wrapWithPrims(this) : this;
+    publid MftiodTypf wrbp() {
+        rfturn ibsPrimitivfs() ? wrbpWitiPrims(tiis) : tiis;
     }
 
     /**
-     * Converts all wrapper types to their corresponding primitive types.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * All primitive types (including {@code void}) will remain unchanged.
-     * A return type of {@code java.lang.Void} is changed to {@code void}.
-     * @return a version of the original type with all wrapper types replaced
+     * Convfrts bll wrbppfr typfs to tifir dorrfsponding primitivf typfs.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * All primitivf typfs (indluding {@dodf void}) will rfmbin undibngfd.
+     * A rfturn typf of {@dodf jbvb.lbng.Void} is dibngfd to {@dodf void}.
+     * @rfturn b vfrsion of tif originbl typf witi bll wrbppfr typfs rfplbdfd
      */
-    public MethodType unwrap() {
-        MethodType noprims = !hasPrimitives() ? this : wrapWithPrims(this);
-        return unwrapWithNoPrims(noprims);
+    publid MftiodTypf unwrbp() {
+        MftiodTypf noprims = !ibsPrimitivfs() ? tiis : wrbpWitiPrims(tiis);
+        rfturn unwrbpWitiNoPrims(noprims);
     }
 
-    private static MethodType wrapWithPrims(MethodType pt) {
-        assert(pt.hasPrimitives());
-        MethodType wt = pt.wrapAlt;
+    privbtf stbtid MftiodTypf wrbpWitiPrims(MftiodTypf pt) {
+        bssfrt(pt.ibsPrimitivfs());
+        MftiodTypf wt = pt.wrbpAlt;
         if (wt == null) {
-            // fill in lazily
-            wt = MethodTypeForm.canonicalize(pt, MethodTypeForm.WRAP, MethodTypeForm.WRAP);
-            assert(wt != null);
-            pt.wrapAlt = wt;
+            // fill in lbzily
+            wt = MftiodTypfForm.dbnonidblizf(pt, MftiodTypfForm.WRAP, MftiodTypfForm.WRAP);
+            bssfrt(wt != null);
+            pt.wrbpAlt = wt;
         }
-        return wt;
+        rfturn wt;
     }
 
-    private static MethodType unwrapWithNoPrims(MethodType wt) {
-        assert(!wt.hasPrimitives());
-        MethodType uwt = wt.wrapAlt;
+    privbtf stbtid MftiodTypf unwrbpWitiNoPrims(MftiodTypf wt) {
+        bssfrt(!wt.ibsPrimitivfs());
+        MftiodTypf uwt = wt.wrbpAlt;
         if (uwt == null) {
-            // fill in lazily
-            uwt = MethodTypeForm.canonicalize(wt, MethodTypeForm.UNWRAP, MethodTypeForm.UNWRAP);
+            // fill in lbzily
+            uwt = MftiodTypfForm.dbnonidblizf(wt, MftiodTypfForm.UNWRAP, MftiodTypfForm.UNWRAP);
             if (uwt == null)
-                uwt = wt;    // type has no wrappers or prims at all
-            wt.wrapAlt = uwt;
+                uwt = wt;    // typf ibs no wrbppfrs or prims bt bll
+            wt.wrbpAlt = uwt;
         }
-        return uwt;
+        rfturn uwt;
     }
 
     /**
-     * Returns the parameter type at the specified index, within this method type.
-     * @param num the index (zero-based) of the desired parameter type
-     * @return the selected parameter type
-     * @throws IndexOutOfBoundsException if {@code num} is not a valid index into {@code parameterArray()}
+     * Rfturns tif pbrbmftfr typf bt tif spfdififd indfx, witiin tiis mftiod typf.
+     * @pbrbm num tif indfx (zfro-bbsfd) of tif dfsirfd pbrbmftfr typf
+     * @rfturn tif sflfdtfd pbrbmftfr typf
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf num} is not b vblid indfx into {@dodf pbrbmftfrArrby()}
      */
-    public Class<?> parameterType(int num) {
-        return ptypes[num];
+    publid Clbss<?> pbrbmftfrTypf(int num) {
+        rfturn ptypfs[num];
     }
     /**
-     * Returns the number of parameter types in this method type.
-     * @return the number of parameter types
+     * Rfturns tif numbfr of pbrbmftfr typfs in tiis mftiod typf.
+     * @rfturn tif numbfr of pbrbmftfr typfs
      */
-    public int parameterCount() {
-        return ptypes.length;
+    publid int pbrbmftfrCount() {
+        rfturn ptypfs.lfngti;
     }
     /**
-     * Returns the return type of this method type.
-     * @return the return type
+     * Rfturns tif rfturn typf of tiis mftiod typf.
+     * @rfturn tif rfturn typf
      */
-    public Class<?> returnType() {
-        return rtype;
+    publid Clbss<?> rfturnTypf() {
+        rfturn rtypf;
     }
 
     /**
-     * Presents the parameter types as a list (a convenience method).
-     * The list will be immutable.
-     * @return the parameter types (as an immutable list)
+     * Prfsfnts tif pbrbmftfr typfs bs b list (b donvfnifndf mftiod).
+     * Tif list will bf immutbblf.
+     * @rfturn tif pbrbmftfr typfs (bs bn immutbblf list)
      */
-    public List<Class<?>> parameterList() {
-        return Collections.unmodifiableList(Arrays.asList(ptypes));
+    publid List<Clbss<?>> pbrbmftfrList() {
+        rfturn Collfdtions.unmodifibblfList(Arrbys.bsList(ptypfs));
     }
 
-    /*non-public*/ Class<?> lastParameterType() {
-        int len = ptypes.length;
-        return len == 0 ? void.class : ptypes[len-1];
+    /*non-publid*/ Clbss<?> lbstPbrbmftfrTypf() {
+        int lfn = ptypfs.lfngti;
+        rfturn lfn == 0 ? void.dlbss : ptypfs[lfn-1];
     }
 
     /**
-     * Presents the parameter types as an array (a convenience method).
-     * Changes to the array will not result in changes to the type.
-     * @return the parameter types (as a fresh copy if necessary)
+     * Prfsfnts tif pbrbmftfr typfs bs bn brrby (b donvfnifndf mftiod).
+     * Cibngfs to tif brrby will not rfsult in dibngfs to tif typf.
+     * @rfturn tif pbrbmftfr typfs (bs b frfsi dopy if nfdfssbry)
      */
-    public Class<?>[] parameterArray() {
-        return ptypes.clone();
+    publid Clbss<?>[] pbrbmftfrArrby() {
+        rfturn ptypfs.dlonf();
     }
 
     /**
-     * Compares the specified object with this type for equality.
-     * That is, it returns <tt>true</tt> if and only if the specified object
-     * is also a method type with exactly the same parameters and return type.
-     * @param x object to compare
-     * @see Object#equals(Object)
+     * Compbrfs tif spfdififd objfdt witi tiis typf for fqublity.
+     * Tibt is, it rfturns <tt>truf</tt> if bnd only if tif spfdififd objfdt
+     * is blso b mftiod typf witi fxbdtly tif sbmf pbrbmftfrs bnd rfturn typf.
+     * @pbrbm x objfdt to dompbrf
+     * @sff Objfdt#fqubls(Objfdt)
      */
-    @Override
-    public boolean equals(Object x) {
-        return this == x || x instanceof MethodType && equals((MethodType)x);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt x) {
+        rfturn tiis == x || x instbndfof MftiodTypf && fqubls((MftiodTypf)x);
     }
 
-    private boolean equals(MethodType that) {
-        return this.rtype == that.rtype
-            && Arrays.equals(this.ptypes, that.ptypes);
+    privbtf boolfbn fqubls(MftiodTypf tibt) {
+        rfturn tiis.rtypf == tibt.rtypf
+            && Arrbys.fqubls(tiis.ptypfs, tibt.ptypfs);
     }
 
     /**
-     * Returns the hash code value for this method type.
-     * It is defined to be the same as the hashcode of a List
-     * whose elements are the return type followed by the
-     * parameter types.
-     * @return the hash code value for this method type
-     * @see Object#hashCode()
-     * @see #equals(Object)
-     * @see List#hashCode()
+     * Rfturns tif ibsi dodf vbluf for tiis mftiod typf.
+     * It is dffinfd to bf tif sbmf bs tif ibsidodf of b List
+     * wiosf flfmfnts brf tif rfturn typf followfd by tif
+     * pbrbmftfr typfs.
+     * @rfturn tif ibsi dodf vbluf for tiis mftiod typf
+     * @sff Objfdt#ibsiCodf()
+     * @sff #fqubls(Objfdt)
+     * @sff List#ibsiCodf()
      */
-    @Override
-    public int hashCode() {
-      int hashCode = 31 + rtype.hashCode();
-      for (Class<?> ptype : ptypes)
-          hashCode = 31*hashCode + ptype.hashCode();
-      return hashCode;
+    @Ovfrridf
+    publid int ibsiCodf() {
+      int ibsiCodf = 31 + rtypf.ibsiCodf();
+      for (Clbss<?> ptypf : ptypfs)
+          ibsiCodf = 31*ibsiCodf + ptypf.ibsiCodf();
+      rfturn ibsiCodf;
     }
 
     /**
-     * Returns a string representation of the method type,
-     * of the form {@code "(PT0,PT1...)RT"}.
-     * The string representation of a method type is a
-     * parenthesis enclosed, comma separated list of type names,
-     * followed immediately by the return type.
+     * Rfturns b string rfprfsfntbtion of tif mftiod typf,
+     * of tif form {@dodf "(PT0,PT1...)RT"}.
+     * Tif string rfprfsfntbtion of b mftiod typf is b
+     * pbrfntifsis fndlosfd, dommb sfpbrbtfd list of typf nbmfs,
+     * followfd immfdibtfly by tif rfturn typf.
      * <p>
-     * Each type is represented by its
-     * {@link java.lang.Class#getSimpleName simple name}.
+     * Ebdi typf is rfprfsfntfd by its
+     * {@link jbvb.lbng.Clbss#gftSimplfNbmf simplf nbmf}.
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        for (int i = 0; i < ptypes.length; i++) {
-            if (i > 0)  sb.append(",");
-            sb.append(ptypes[i].getSimpleName());
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        for (int i = 0; i < ptypfs.lfngti; i++) {
+            if (i > 0)  sb.bppfnd(",");
+            sb.bppfnd(ptypfs[i].gftSimplfNbmf());
         }
-        sb.append(")");
-        sb.append(rtype.getSimpleName());
-        return sb.toString();
+        sb.bppfnd(")");
+        sb.bppfnd(rtypf.gftSimplfNbmf());
+        rfturn sb.toString();
     }
 
 
-    /*non-public*/
-    boolean isViewableAs(MethodType newType) {
-        if (!VerifyType.isNullConversion(returnType(), newType.returnType()))
-            return false;
-        int argc = parameterCount();
-        if (argc != newType.parameterCount())
-            return false;
-        for (int i = 0; i < argc; i++) {
-            if (!VerifyType.isNullConversion(newType.parameterType(i), parameterType(i)))
-                return false;
+    /*non-publid*/
+    boolfbn isVifwbblfAs(MftiodTypf nfwTypf) {
+        if (!VfrifyTypf.isNullConvfrsion(rfturnTypf(), nfwTypf.rfturnTypf()))
+            rfturn fblsf;
+        int brgd = pbrbmftfrCount();
+        if (brgd != nfwTypf.pbrbmftfrCount())
+            rfturn fblsf;
+        for (int i = 0; i < brgd; i++) {
+            if (!VfrifyTypf.isNullConvfrsion(nfwTypf.pbrbmftfrTypf(i), pbrbmftfrTypf(i)))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
-    /*non-public*/
-    boolean isCastableTo(MethodType newType) {
-        int argc = parameterCount();
-        if (argc != newType.parameterCount())
-            return false;
-        return true;
+    /*non-publid*/
+    boolfbn isCbstbblfTo(MftiodTypf nfwTypf) {
+        int brgd = pbrbmftfrCount();
+        if (brgd != nfwTypf.pbrbmftfrCount())
+            rfturn fblsf;
+        rfturn truf;
     }
-    /*non-public*/
-    boolean isConvertibleTo(MethodType newType) {
-        if (!canConvert(returnType(), newType.returnType()))
-            return false;
-        int argc = parameterCount();
-        if (argc != newType.parameterCount())
-            return false;
-        for (int i = 0; i < argc; i++) {
-            if (!canConvert(newType.parameterType(i), parameterType(i)))
-                return false;
+    /*non-publid*/
+    boolfbn isConvfrtiblfTo(MftiodTypf nfwTypf) {
+        if (!dbnConvfrt(rfturnTypf(), nfwTypf.rfturnTypf()))
+            rfturn fblsf;
+        int brgd = pbrbmftfrCount();
+        if (brgd != nfwTypf.pbrbmftfrCount())
+            rfturn fblsf;
+        for (int i = 0; i < brgd; i++) {
+            if (!dbnConvfrt(nfwTypf.pbrbmftfrTypf(i), pbrbmftfrTypf(i)))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
-    /*non-public*/
-    static boolean canConvert(Class<?> src, Class<?> dst) {
-        // short-circuit a few cases:
-        if (src == dst || dst == Object.class)  return true;
-        // the remainder of this logic is documented in MethodHandle.asType
-        if (src.isPrimitive()) {
-            // can force void to an explicit null, a la reflect.Method.invoke
-            // can also force void to a primitive zero, by analogy
-            if (src == void.class)  return true;  //or !dst.isPrimitive()?
-            Wrapper sw = Wrapper.forPrimitiveType(src);
-            if (dst.isPrimitive()) {
-                // P->P must widen
-                return Wrapper.forPrimitiveType(dst).isConvertibleFrom(sw);
-            } else {
-                // P->R must box and widen
-                return dst.isAssignableFrom(sw.wrapperType());
+    /*non-publid*/
+    stbtid boolfbn dbnConvfrt(Clbss<?> srd, Clbss<?> dst) {
+        // siort-dirduit b ffw dbsfs:
+        if (srd == dst || dst == Objfdt.dlbss)  rfturn truf;
+        // tif rfmbindfr of tiis logid is dodumfntfd in MftiodHbndlf.bsTypf
+        if (srd.isPrimitivf()) {
+            // dbn fordf void to bn fxplidit null, b lb rfflfdt.Mftiod.invokf
+            // dbn blso fordf void to b primitivf zfro, by bnblogy
+            if (srd == void.dlbss)  rfturn truf;  //or !dst.isPrimitivf()?
+            Wrbppfr sw = Wrbppfr.forPrimitivfTypf(srd);
+            if (dst.isPrimitivf()) {
+                // P->P must widfn
+                rfturn Wrbppfr.forPrimitivfTypf(dst).isConvfrtiblfFrom(sw);
+            } flsf {
+                // P->R must box bnd widfn
+                rfturn dst.isAssignbblfFrom(sw.wrbppfrTypf());
             }
-        } else if (dst.isPrimitive()) {
-            // any value can be dropped
-            if (dst == void.class)  return true;
-            Wrapper dw = Wrapper.forPrimitiveType(dst);
-            // R->P must be able to unbox (from a dynamically chosen type) and widen
-            // For example:
-            //   Byte/Number/Comparable/Object -> dw:Byte -> byte.
-            //   Character/Comparable/Object -> dw:Character -> char
-            //   Boolean/Comparable/Object -> dw:Boolean -> boolean
-            // This means that dw must be cast-compatible with src.
-            if (src.isAssignableFrom(dw.wrapperType())) {
-                return true;
+        } flsf if (dst.isPrimitivf()) {
+            // bny vbluf dbn bf droppfd
+            if (dst == void.dlbss)  rfturn truf;
+            Wrbppfr dw = Wrbppfr.forPrimitivfTypf(dst);
+            // R->P must bf bblf to unbox (from b dynbmidblly diosfn typf) bnd widfn
+            // For fxbmplf:
+            //   Bytf/Numbfr/Compbrbblf/Objfdt -> dw:Bytf -> bytf.
+            //   Cibrbdtfr/Compbrbblf/Objfdt -> dw:Cibrbdtfr -> dibr
+            //   Boolfbn/Compbrbblf/Objfdt -> dw:Boolfbn -> boolfbn
+            // Tiis mfbns tibt dw must bf dbst-dompbtiblf witi srd.
+            if (srd.isAssignbblfFrom(dw.wrbppfrTypf())) {
+                rfturn truf;
             }
-            // The above does not work if the source reference is strongly typed
-            // to a wrapper whose primitive must be widened.  For example:
-            //   Byte -> unbox:byte -> short/int/long/float/double
-            //   Character -> unbox:char -> int/long/float/double
-            if (Wrapper.isWrapperType(src) &&
-                dw.isConvertibleFrom(Wrapper.forWrapperType(src))) {
-                // can unbox from src and then widen to dst
-                return true;
+            // Tif bbovf dofs not work if tif sourdf rfffrfndf is strongly typfd
+            // to b wrbppfr wiosf primitivf must bf widfnfd.  For fxbmplf:
+            //   Bytf -> unbox:bytf -> siort/int/long/flobt/doublf
+            //   Cibrbdtfr -> unbox:dibr -> int/long/flobt/doublf
+            if (Wrbppfr.isWrbppfrTypf(srd) &&
+                dw.isConvfrtiblfFrom(Wrbppfr.forWrbppfrTypf(srd))) {
+                // dbn unbox from srd bnd tifn widfn to dst
+                rfturn truf;
             }
-            // We have already covered cases which arise due to runtime unboxing
-            // of a reference type which covers several wrapper types:
-            //   Object -> cast:Integer -> unbox:int -> long/float/double
-            //   Serializable -> cast:Byte -> unbox:byte -> byte/short/int/long/float/double
-            // An marginal case is Number -> dw:Character -> char, which would be OK if there were a
-            // subclass of Number which wraps a value that can convert to char.
-            // Since there is none, we don't need an extra check here to cover char or boolean.
-            return false;
-        } else {
-            // R->R always works, since null is always valid dynamically
-            return true;
+            // Wf ibvf blrfbdy dovfrfd dbsfs wiidi brisf duf to runtimf unboxing
+            // of b rfffrfndf typf wiidi dovfrs sfvfrbl wrbppfr typfs:
+            //   Objfdt -> dbst:Intfgfr -> unbox:int -> long/flobt/doublf
+            //   Sfriblizbblf -> dbst:Bytf -> unbox:bytf -> bytf/siort/int/long/flobt/doublf
+            // An mbrginbl dbsf is Numbfr -> dw:Cibrbdtfr -> dibr, wiidi would bf OK if tifrf wfrf b
+            // subdlbss of Numbfr wiidi wrbps b vbluf tibt dbn donvfrt to dibr.
+            // Sindf tifrf is nonf, wf don't nffd bn fxtrb difdk ifrf to dovfr dibr or boolfbn.
+            rfturn fblsf;
+        } flsf {
+            // R->R blwbys works, sindf null is blwbys vblid dynbmidblly
+            rfturn truf;
         }
     }
 
-    /// Queries which have to do with the bytecode architecture
+    /// Qufrifs wiidi ibvf to do witi tif bytfdodf brdiitfdturf
 
-    /** Reports the number of JVM stack slots required to invoke a method
-     * of this type.  Note that (for historical reasons) the JVM requires
-     * a second stack slot to pass long and double arguments.
-     * So this method returns {@link #parameterCount() parameterCount} plus the
-     * number of long and double parameters (if any).
+    /** Rfports tif numbfr of JVM stbdk slots rfquirfd to invokf b mftiod
+     * of tiis typf.  Notf tibt (for iistoridbl rfbsons) tif JVM rfquirfs
+     * b sfdond stbdk slot to pbss long bnd doublf brgumfnts.
+     * So tiis mftiod rfturns {@link #pbrbmftfrCount() pbrbmftfrCount} plus tif
+     * numbfr of long bnd doublf pbrbmftfrs (if bny).
      * <p>
-     * This method is included for the benefit of applications that must
-     * generate bytecodes that process method handles and invokedynamic.
-     * @return the number of JVM stack slots for this type's parameters
+     * Tiis mftiod is indludfd for tif bfnffit of bpplidbtions tibt must
+     * gfnfrbtf bytfdodfs tibt prodfss mftiod ibndlfs bnd invokfdynbmid.
+     * @rfturn tif numbfr of JVM stbdk slots for tiis typf's pbrbmftfrs
      */
-    /*non-public*/ int parameterSlotCount() {
-        return form.parameterSlotCount();
+    /*non-publid*/ int pbrbmftfrSlotCount() {
+        rfturn form.pbrbmftfrSlotCount();
     }
 
-    /*non-public*/ Invokers invokers() {
-        Invokers inv = invokers;
-        if (inv != null)  return inv;
-        invokers = inv = new Invokers(this);
-        return inv;
+    /*non-publid*/ Invokfrs invokfrs() {
+        Invokfrs inv = invokfrs;
+        if (inv != null)  rfturn inv;
+        invokfrs = inv = nfw Invokfrs(tiis);
+        rfturn inv;
     }
 
-    /** Reports the number of JVM stack slots which carry all parameters including and after
-     * the given position, which must be in the range of 0 to
-     * {@code parameterCount} inclusive.  Successive parameters are
-     * more shallowly stacked, and parameters are indexed in the bytecodes
-     * according to their trailing edge.  Thus, to obtain the depth
-     * in the outgoing call stack of parameter {@code N}, obtain
-     * the {@code parameterSlotDepth} of its trailing edge
-     * at position {@code N+1}.
+    /** Rfports tif numbfr of JVM stbdk slots wiidi dbrry bll pbrbmftfrs indluding bnd bftfr
+     * tif givfn position, wiidi must bf in tif rbngf of 0 to
+     * {@dodf pbrbmftfrCount} indlusivf.  Suddfssivf pbrbmftfrs brf
+     * morf sibllowly stbdkfd, bnd pbrbmftfrs brf indfxfd in tif bytfdodfs
+     * bddording to tifir trbiling fdgf.  Tius, to obtbin tif dfpti
+     * in tif outgoing dbll stbdk of pbrbmftfr {@dodf N}, obtbin
+     * tif {@dodf pbrbmftfrSlotDfpti} of its trbiling fdgf
+     * bt position {@dodf N+1}.
      * <p>
-     * Parameters of type {@code long} and {@code double} occupy
-     * two stack slots (for historical reasons) and all others occupy one.
-     * Therefore, the number returned is the number of arguments
-     * <em>including</em> and <em>after</em> the given parameter,
-     * <em>plus</em> the number of long or double arguments
-     * at or after after the argument for the given parameter.
+     * Pbrbmftfrs of typf {@dodf long} bnd {@dodf doublf} oddupy
+     * two stbdk slots (for iistoridbl rfbsons) bnd bll otifrs oddupy onf.
+     * Tifrfforf, tif numbfr rfturnfd is tif numbfr of brgumfnts
+     * <fm>indluding</fm> bnd <fm>bftfr</fm> tif givfn pbrbmftfr,
+     * <fm>plus</fm> tif numbfr of long or doublf brgumfnts
+     * bt or bftfr bftfr tif brgumfnt for tif givfn pbrbmftfr.
      * <p>
-     * This method is included for the benefit of applications that must
-     * generate bytecodes that process method handles and invokedynamic.
-     * @param num an index (zero-based, inclusive) within the parameter types
-     * @return the index of the (shallowest) JVM stack slot transmitting the
-     *         given parameter
-     * @throws IllegalArgumentException if {@code num} is negative or greater than {@code parameterCount()}
+     * Tiis mftiod is indludfd for tif bfnffit of bpplidbtions tibt must
+     * gfnfrbtf bytfdodfs tibt prodfss mftiod ibndlfs bnd invokfdynbmid.
+     * @pbrbm num bn indfx (zfro-bbsfd, indlusivf) witiin tif pbrbmftfr typfs
+     * @rfturn tif indfx of tif (sibllowfst) JVM stbdk slot trbnsmitting tif
+     *         givfn pbrbmftfr
+     * @tirows IllfgblArgumfntExdfption if {@dodf num} is nfgbtivf or grfbtfr tibn {@dodf pbrbmftfrCount()}
      */
-    /*non-public*/ int parameterSlotDepth(int num) {
-        if (num < 0 || num > ptypes.length)
-            parameterType(num);  // force a range check
-        return form.parameterToArgSlot(num-1);
+    /*non-publid*/ int pbrbmftfrSlotDfpti(int num) {
+        if (num < 0 || num > ptypfs.lfngti)
+            pbrbmftfrTypf(num);  // fordf b rbngf difdk
+        rfturn form.pbrbmftfrToArgSlot(num-1);
     }
 
-    /** Reports the number of JVM stack slots required to receive a return value
-     * from a method of this type.
-     * If the {@link #returnType() return type} is void, it will be zero,
-     * else if the return type is long or double, it will be two, else one.
+    /** Rfports tif numbfr of JVM stbdk slots rfquirfd to rfdfivf b rfturn vbluf
+     * from b mftiod of tiis typf.
+     * If tif {@link #rfturnTypf() rfturn typf} is void, it will bf zfro,
+     * flsf if tif rfturn typf is long or doublf, it will bf two, flsf onf.
      * <p>
-     * This method is included for the benefit of applications that must
-     * generate bytecodes that process method handles and invokedynamic.
-     * @return the number of JVM stack slots (0, 1, or 2) for this type's return value
-     * Will be removed for PFD.
+     * Tiis mftiod is indludfd for tif bfnffit of bpplidbtions tibt must
+     * gfnfrbtf bytfdodfs tibt prodfss mftiod ibndlfs bnd invokfdynbmid.
+     * @rfturn tif numbfr of JVM stbdk slots (0, 1, or 2) for tiis typf's rfturn vbluf
+     * Will bf rfmovfd for PFD.
      */
-    /*non-public*/ int returnSlotCount() {
-        return form.returnSlotCount();
+    /*non-publid*/ int rfturnSlotCount() {
+        rfturn form.rfturnSlotCount();
     }
 
     /**
-     * Finds or creates an instance of a method type, given the spelling of its bytecode descriptor.
-     * Convenience method for {@link #methodType(java.lang.Class, java.lang.Class[]) methodType}.
-     * Any class or interface name embedded in the descriptor string
-     * will be resolved by calling {@link ClassLoader#loadClass(java.lang.String)}
-     * on the given loader (or if it is null, on the system class loader).
+     * Finds or drfbtfs bn instbndf of b mftiod typf, givfn tif spflling of its bytfdodf dfsdriptor.
+     * Convfnifndf mftiod for {@link #mftiodTypf(jbvb.lbng.Clbss, jbvb.lbng.Clbss[]) mftiodTypf}.
+     * Any dlbss or intfrfbdf nbmf fmbfddfd in tif dfsdriptor string
+     * will bf rfsolvfd by dblling {@link ClbssLobdfr#lobdClbss(jbvb.lbng.String)}
+     * on tif givfn lobdfr (or if it is null, on tif systfm dlbss lobdfr).
      * <p>
-     * Note that it is possible to encounter method types which cannot be
-     * constructed by this method, because their component types are
-     * not all reachable from a common class loader.
+     * Notf tibt it is possiblf to fndountfr mftiod typfs wiidi dbnnot bf
+     * donstrudtfd by tiis mftiod, bfdbusf tifir domponfnt typfs brf
+     * not bll rfbdibblf from b dommon dlbss lobdfr.
      * <p>
-     * This method is included for the benefit of applications that must
-     * generate bytecodes that process method handles and {@code invokedynamic}.
-     * @param descriptor a bytecode-level type descriptor string "(T...)T"
-     * @param loader the class loader in which to look up the types
-     * @return a method type matching the bytecode-level type descriptor
-     * @throws NullPointerException if the string is null
-     * @throws IllegalArgumentException if the string is not well-formed
-     * @throws TypeNotPresentException if a named type cannot be found
+     * Tiis mftiod is indludfd for tif bfnffit of bpplidbtions tibt must
+     * gfnfrbtf bytfdodfs tibt prodfss mftiod ibndlfs bnd {@dodf invokfdynbmid}.
+     * @pbrbm dfsdriptor b bytfdodf-lfvfl typf dfsdriptor string "(T...)T"
+     * @pbrbm lobdfr tif dlbss lobdfr in wiidi to look up tif typfs
+     * @rfturn b mftiod typf mbtdiing tif bytfdodf-lfvfl typf dfsdriptor
+     * @tirows NullPointfrExdfption if tif string is null
+     * @tirows IllfgblArgumfntExdfption if tif string is not wfll-formfd
+     * @tirows TypfNotPrfsfntExdfption if b nbmfd typf dbnnot bf found
      */
-    public static MethodType fromMethodDescriptorString(String descriptor, ClassLoader loader)
-        throws IllegalArgumentException, TypeNotPresentException
+    publid stbtid MftiodTypf fromMftiodDfsdriptorString(String dfsdriptor, ClbssLobdfr lobdfr)
+        tirows IllfgblArgumfntExdfption, TypfNotPrfsfntExdfption
     {
-        if (!descriptor.startsWith("(") ||  // also generates NPE if needed
-            descriptor.indexOf(')') < 0 ||
-            descriptor.indexOf('.') >= 0)
-            throw new IllegalArgumentException("not a method descriptor: "+descriptor);
-        List<Class<?>> types = BytecodeDescriptor.parseMethod(descriptor, loader);
-        Class<?> rtype = types.remove(types.size() - 1);
-        checkSlotCount(types.size());
-        Class<?>[] ptypes = listToArray(types);
-        return makeImpl(rtype, ptypes, true);
+        if (!dfsdriptor.stbrtsWiti("(") ||  // blso gfnfrbtfs NPE if nffdfd
+            dfsdriptor.indfxOf(')') < 0 ||
+            dfsdriptor.indfxOf('.') >= 0)
+            tirow nfw IllfgblArgumfntExdfption("not b mftiod dfsdriptor: "+dfsdriptor);
+        List<Clbss<?>> typfs = BytfdodfDfsdriptor.pbrsfMftiod(dfsdriptor, lobdfr);
+        Clbss<?> rtypf = typfs.rfmovf(typfs.sizf() - 1);
+        difdkSlotCount(typfs.sizf());
+        Clbss<?>[] ptypfs = listToArrby(typfs);
+        rfturn mbkfImpl(rtypf, ptypfs, truf);
     }
 
     /**
-     * Produces a bytecode descriptor representation of the method type.
+     * Produdfs b bytfdodf dfsdriptor rfprfsfntbtion of tif mftiod typf.
      * <p>
-     * Note that this is not a strict inverse of {@link #fromMethodDescriptorString fromMethodDescriptorString}.
-     * Two distinct classes which share a common name but have different class loaders
-     * will appear identical when viewed within descriptor strings.
+     * Notf tibt tiis is not b stridt invfrsf of {@link #fromMftiodDfsdriptorString fromMftiodDfsdriptorString}.
+     * Two distindt dlbssfs wiidi sibrf b dommon nbmf but ibvf difffrfnt dlbss lobdfrs
+     * will bppfbr idfntidbl wifn vifwfd witiin dfsdriptor strings.
      * <p>
-     * This method is included for the benefit of applications that must
-     * generate bytecodes that process method handles and {@code invokedynamic}.
-     * {@link #fromMethodDescriptorString(java.lang.String, java.lang.ClassLoader) fromMethodDescriptorString},
-     * because the latter requires a suitable class loader argument.
-     * @return the bytecode type descriptor representation
+     * Tiis mftiod is indludfd for tif bfnffit of bpplidbtions tibt must
+     * gfnfrbtf bytfdodfs tibt prodfss mftiod ibndlfs bnd {@dodf invokfdynbmid}.
+     * {@link #fromMftiodDfsdriptorString(jbvb.lbng.String, jbvb.lbng.ClbssLobdfr) fromMftiodDfsdriptorString},
+     * bfdbusf tif lbttfr rfquirfs b suitbblf dlbss lobdfr brgumfnt.
+     * @rfturn tif bytfdodf typf dfsdriptor rfprfsfntbtion
      */
-    public String toMethodDescriptorString() {
-        String desc = methodDescriptor;
-        if (desc == null) {
-            desc = BytecodeDescriptor.unparse(this);
-            methodDescriptor = desc;
+    publid String toMftiodDfsdriptorString() {
+        String dfsd = mftiodDfsdriptor;
+        if (dfsd == null) {
+            dfsd = BytfdodfDfsdriptor.unpbrsf(tiis);
+            mftiodDfsdriptor = dfsd;
         }
-        return desc;
+        rfturn dfsd;
     }
 
-    /*non-public*/ static String toFieldDescriptorString(Class<?> cls) {
-        return BytecodeDescriptor.unparse(cls);
+    /*non-publid*/ stbtid String toFifldDfsdriptorString(Clbss<?> dls) {
+        rfturn BytfdodfDfsdriptor.unpbrsf(dls);
     }
 
-    /// Serialization.
+    /// Sfriblizbtion.
 
     /**
-     * There are no serializable fields for {@code MethodType}.
+     * Tifrf brf no sfriblizbblf fiflds for {@dodf MftiodTypf}.
      */
-    private static final java.io.ObjectStreamField[] serialPersistentFields = { };
+    privbtf stbtid finbl jbvb.io.ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = { };
 
     /**
-     * Save the {@code MethodType} instance to a stream.
+     * Sbvf tif {@dodf MftiodTypf} instbndf to b strfbm.
      *
-     * @serialData
-     * For portability, the serialized format does not refer to named fields.
-     * Instead, the return type and parameter type arrays are written directly
-     * from the {@code writeObject} method, using two calls to {@code s.writeObject}
-     * as follows:
-     * <blockquote><pre>{@code
-s.writeObject(this.returnType());
-s.writeObject(this.parameterArray());
-     * }</pre></blockquote>
+     * @sfriblDbtb
+     * For portbbility, tif sfriblizfd formbt dofs not rfffr to nbmfd fiflds.
+     * Instfbd, tif rfturn typf bnd pbrbmftfr typf brrbys brf writtfn dirfdtly
+     * from tif {@dodf writfObjfdt} mftiod, using two dblls to {@dodf s.writfObjfdt}
+     * bs follows:
+     * <blodkquotf><prf>{@dodf
+s.writfObjfdt(tiis.rfturnTypf());
+s.writfObjfdt(tiis.pbrbmftfrArrby());
+     * }</prf></blodkquotf>
      * <p>
-     * The deserialized field values are checked as if they were
-     * provided to the factory method {@link #methodType(Class,Class[]) methodType}.
-     * For example, null values, or {@code void} parameter types,
-     * will lead to exceptions during deserialization.
-     * @param s the stream to write the object to
-     * @throws java.io.IOException if there is a problem writing the object
+     * Tif dfsfriblizfd fifld vblufs brf difdkfd bs if tify wfrf
+     * providfd to tif fbdtory mftiod {@link #mftiodTypf(Clbss,Clbss[]) mftiodTypf}.
+     * For fxbmplf, null vblufs, or {@dodf void} pbrbmftfr typfs,
+     * will lfbd to fxdfptions during dfsfriblizbtion.
+     * @pbrbm s tif strfbm to writf tif objfdt to
+     * @tirows jbvb.io.IOExdfption if tifrf is b problfm writing tif objfdt
      */
-    private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-        s.defaultWriteObject();  // requires serialPersistentFields to be an empty array
-        s.writeObject(returnType());
-        s.writeObject(parameterArray());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s) tirows jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();  // rfquirfs sfriblPfrsistfntFiflds to bf bn fmpty brrby
+        s.writfObjfdt(rfturnTypf());
+        s.writfObjfdt(pbrbmftfrArrby());
     }
 
     /**
-     * Reconstitute the {@code MethodType} instance from a stream (that is,
-     * deserialize it).
-     * This instance is a scratch object with bogus final fields.
-     * It provides the parameters to the factory method called by
-     * {@link #readResolve readResolve}.
-     * After that call it is discarded.
-     * @param s the stream to read the object from
-     * @throws java.io.IOException if there is a problem reading the object
-     * @throws ClassNotFoundException if one of the component classes cannot be resolved
-     * @see #MethodType()
-     * @see #readResolve
-     * @see #writeObject
+     * Rfdonstitutf tif {@dodf MftiodTypf} instbndf from b strfbm (tibt is,
+     * dfsfriblizf it).
+     * Tiis instbndf is b sdrbtdi objfdt witi bogus finbl fiflds.
+     * It providfs tif pbrbmftfrs to tif fbdtory mftiod dbllfd by
+     * {@link #rfbdRfsolvf rfbdRfsolvf}.
+     * Aftfr tibt dbll it is disdbrdfd.
+     * @pbrbm s tif strfbm to rfbd tif objfdt from
+     * @tirows jbvb.io.IOExdfption if tifrf is b problfm rfbding tif objfdt
+     * @tirows ClbssNotFoundExdfption if onf of tif domponfnt dlbssfs dbnnot bf rfsolvfd
+     * @sff #MftiodTypf()
+     * @sff #rfbdRfsolvf
+     * @sff #writfObjfdt
      */
-    private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();  // requires serialPersistentFields to be an empty array
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s) tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();  // rfquirfs sfriblPfrsistfntFiflds to bf bn fmpty brrby
 
-        Class<?>   returnType     = (Class<?>)   s.readObject();
-        Class<?>[] parameterArray = (Class<?>[]) s.readObject();
+        Clbss<?>   rfturnTypf     = (Clbss<?>)   s.rfbdObjfdt();
+        Clbss<?>[] pbrbmftfrArrby = (Clbss<?>[]) s.rfbdObjfdt();
 
-        // Probably this object will never escape, but let's check
-        // the field values now, just to be sure.
-        checkRtype(returnType);
-        checkPtypes(parameterArray);
+        // Probbbly tiis objfdt will nfvfr fsdbpf, but lft's difdk
+        // tif fifld vblufs now, just to bf surf.
+        difdkRtypf(rfturnTypf);
+        difdkPtypfs(pbrbmftfrArrby);
 
-        parameterArray = parameterArray.clone();  // make sure it is unshared
-        MethodType_init(returnType, parameterArray);
+        pbrbmftfrArrby = pbrbmftfrArrby.dlonf();  // mbkf surf it is unsibrfd
+        MftiodTypf_init(rfturnTypf, pbrbmftfrArrby);
     }
 
     /**
-     * For serialization only.
-     * Sets the final fields to null, pending {@code Unsafe.putObject}.
+     * For sfriblizbtion only.
+     * Sfts tif finbl fiflds to null, pfnding {@dodf Unsbff.putObjfdt}.
      */
-    private MethodType() {
-        this.rtype = null;
-        this.ptypes = null;
+    privbtf MftiodTypf() {
+        tiis.rtypf = null;
+        tiis.ptypfs = null;
     }
-    private void MethodType_init(Class<?> rtype, Class<?>[] ptypes) {
-        // In order to communicate these values to readResolve, we must
-        // store them into the implementation-specific final fields.
-        checkRtype(rtype);
-        checkPtypes(ptypes);
-        UNSAFE.putObject(this, rtypeOffset, rtype);
-        UNSAFE.putObject(this, ptypesOffset, ptypes);
+    privbtf void MftiodTypf_init(Clbss<?> rtypf, Clbss<?>[] ptypfs) {
+        // In ordfr to dommunidbtf tifsf vblufs to rfbdRfsolvf, wf must
+        // storf tifm into tif implfmfntbtion-spfdifid finbl fiflds.
+        difdkRtypf(rtypf);
+        difdkPtypfs(ptypfs);
+        UNSAFE.putObjfdt(tiis, rtypfOffsft, rtypf);
+        UNSAFE.putObjfdt(tiis, ptypfsOffsft, ptypfs);
     }
 
-    // Support for resetting final fields while deserializing
-    private static final long rtypeOffset, ptypesOffset;
-    static {
+    // Support for rfsftting finbl fiflds wiilf dfsfriblizing
+    privbtf stbtid finbl long rtypfOffsft, ptypfsOffsft;
+    stbtid {
         try {
-            rtypeOffset = UNSAFE.objectFieldOffset
-                (MethodType.class.getDeclaredField("rtype"));
-            ptypesOffset = UNSAFE.objectFieldOffset
-                (MethodType.class.getDeclaredField("ptypes"));
-        } catch (Exception ex) {
-            throw new Error(ex);
+            rtypfOffsft = UNSAFE.objfdtFifldOffsft
+                (MftiodTypf.dlbss.gftDfdlbrfdFifld("rtypf"));
+            ptypfsOffsft = UNSAFE.objfdtFifldOffsft
+                (MftiodTypf.dlbss.gftDfdlbrfdFifld("ptypfs"));
+        } dbtdi (Exdfption fx) {
+            tirow nfw Error(fx);
         }
     }
 
     /**
-     * Resolves and initializes a {@code MethodType} object
-     * after serialization.
-     * @return the fully initialized {@code MethodType} object
+     * Rfsolvfs bnd initiblizfs b {@dodf MftiodTypf} objfdt
+     * bftfr sfriblizbtion.
+     * @rfturn tif fully initiblizfd {@dodf MftiodTypf} objfdt
      */
-    private Object readResolve() {
-        // Do not use a trusted path for deserialization:
-        //return makeImpl(rtype, ptypes, true);
-        // Verify all operands, and make sure ptypes is unshared:
-        return methodType(rtype, ptypes);
+    privbtf Objfdt rfbdRfsolvf() {
+        // Do not usf b trustfd pbti for dfsfriblizbtion:
+        //rfturn mbkfImpl(rtypf, ptypfs, truf);
+        // Vfrify bll opfrbnds, bnd mbkf surf ptypfs is unsibrfd:
+        rfturn mftiodTypf(rtypf, ptypfs);
     }
 
     /**
-     * Simple implementation of weak concurrent intern set.
+     * Simplf implfmfntbtion of wfbk dondurrfnt intfrn sft.
      *
-     * @param <T> interned type
+     * @pbrbm <T> intfrnfd typf
      */
-    private static class ConcurrentWeakInternSet<T> {
+    privbtf stbtid dlbss CondurrfntWfbkIntfrnSft<T> {
 
-        private final ConcurrentMap<WeakEntry<T>, WeakEntry<T>> map;
-        private final ReferenceQueue<T> stale;
+        privbtf finbl CondurrfntMbp<WfbkEntry<T>, WfbkEntry<T>> mbp;
+        privbtf finbl RfffrfndfQufuf<T> stblf;
 
-        public ConcurrentWeakInternSet() {
-            this.map = new ConcurrentHashMap<>();
-            this.stale = new ReferenceQueue<>();
+        publid CondurrfntWfbkIntfrnSft() {
+            tiis.mbp = nfw CondurrfntHbsiMbp<>();
+            tiis.stblf = nfw RfffrfndfQufuf<>();
         }
 
         /**
-         * Get the existing interned element.
-         * This method returns null if no element is interned.
+         * Gft tif fxisting intfrnfd flfmfnt.
+         * Tiis mftiod rfturns null if no flfmfnt is intfrnfd.
          *
-         * @param elem element to look up
-         * @return the interned element
+         * @pbrbm flfm flfmfnt to look up
+         * @rfturn tif intfrnfd flfmfnt
          */
-        public T get(T elem) {
-            if (elem == null) throw new NullPointerException();
-            expungeStaleElements();
+        publid T gft(T flfm) {
+            if (flfm == null) tirow nfw NullPointfrExdfption();
+            fxpungfStblfElfmfnts();
 
-            WeakEntry<T> value = map.get(new WeakEntry<>(elem));
-            if (value != null) {
-                T res = value.get();
-                if (res != null) {
-                    return res;
+            WfbkEntry<T> vbluf = mbp.gft(nfw WfbkEntry<>(flfm));
+            if (vbluf != null) {
+                T rfs = vbluf.gft();
+                if (rfs != null) {
+                    rfturn rfs;
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Interns the element.
-         * Always returns non-null element, matching the one in the intern set.
-         * Under the race against another add(), it can return <i>different</i>
-         * element, if another thread beats us to interning it.
+         * Intfrns tif flfmfnt.
+         * Alwbys rfturns non-null flfmfnt, mbtdiing tif onf in tif intfrn sft.
+         * Undfr tif rbdf bgbinst bnotifr bdd(), it dbn rfturn <i>difffrfnt</i>
+         * flfmfnt, if bnotifr tirfbd bfbts us to intfrning it.
          *
-         * @param elem element to add
-         * @return element that was actually added
+         * @pbrbm flfm flfmfnt to bdd
+         * @rfturn flfmfnt tibt wbs bdtublly bddfd
          */
-        public T add(T elem) {
-            if (elem == null) throw new NullPointerException();
+        publid T bdd(T flfm) {
+            if (flfm == null) tirow nfw NullPointfrExdfption();
 
-            // Playing double race here, and so spinloop is required.
-            // First race is with two concurrent updaters.
-            // Second race is with GC purging weak ref under our feet.
-            // Hopefully, we almost always end up with a single pass.
-            T interned;
-            WeakEntry<T> e = new WeakEntry<>(elem, stale);
+            // Plbying doublf rbdf ifrf, bnd so spinloop is rfquirfd.
+            // First rbdf is witi two dondurrfnt updbtfrs.
+            // Sfdond rbdf is witi GC purging wfbk rff undfr our ffft.
+            // Hopffully, wf blmost blwbys fnd up witi b singlf pbss.
+            T intfrnfd;
+            WfbkEntry<T> f = nfw WfbkEntry<>(flfm, stblf);
             do {
-                expungeStaleElements();
-                WeakEntry<T> exist = map.putIfAbsent(e, e);
-                interned = (exist == null) ? elem : exist.get();
-            } while (interned == null);
-            return interned;
+                fxpungfStblfElfmfnts();
+                WfbkEntry<T> fxist = mbp.putIfAbsfnt(f, f);
+                intfrnfd = (fxist == null) ? flfm : fxist.gft();
+            } wiilf (intfrnfd == null);
+            rfturn intfrnfd;
         }
 
-        private void expungeStaleElements() {
-            Reference<? extends T> reference;
-            while ((reference = stale.poll()) != null) {
-                map.remove(reference);
+        privbtf void fxpungfStblfElfmfnts() {
+            Rfffrfndf<? fxtfnds T> rfffrfndf;
+            wiilf ((rfffrfndf = stblf.poll()) != null) {
+                mbp.rfmovf(rfffrfndf);
             }
         }
 
-        private static class WeakEntry<T> extends WeakReference<T> {
+        privbtf stbtid dlbss WfbkEntry<T> fxtfnds WfbkRfffrfndf<T> {
 
-            public final int hashcode;
+            publid finbl int ibsidodf;
 
-            public WeakEntry(T key, ReferenceQueue<T> queue) {
-                super(key, queue);
-                hashcode = key.hashCode();
+            publid WfbkEntry(T kfy, RfffrfndfQufuf<T> qufuf) {
+                supfr(kfy, qufuf);
+                ibsidodf = kfy.ibsiCodf();
             }
 
-            public WeakEntry(T key) {
-                super(key);
-                hashcode = key.hashCode();
+            publid WfbkEntry(T kfy) {
+                supfr(kfy);
+                ibsidodf = kfy.ibsiCodf();
             }
 
-            @Override
-            public boolean equals(Object obj) {
-                if (obj instanceof WeakEntry) {
-                    Object that = ((WeakEntry) obj).get();
-                    Object mine = get();
-                    return (that == null || mine == null) ? (this == obj) : mine.equals(that);
+            @Ovfrridf
+            publid boolfbn fqubls(Objfdt obj) {
+                if (obj instbndfof WfbkEntry) {
+                    Objfdt tibt = ((WfbkEntry) obj).gft();
+                    Objfdt minf = gft();
+                    rfturn (tibt == null || minf == null) ? (tiis == obj) : minf.fqubls(tibt);
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            @Override
-            public int hashCode() {
-                return hashcode;
+            @Ovfrridf
+            publid int ibsiCodf() {
+                rfturn ibsidodf;
             }
 
         }

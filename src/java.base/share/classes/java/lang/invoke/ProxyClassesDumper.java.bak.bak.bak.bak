@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.lbng.invokf;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import jbvb.io.FilfPfrmission;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.InvblidPbthExdfption;
+import jbvb.nio.filf.Pbth;
+import jbvb.nio.filf.Pbths;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+
+/**
+ * Hflpfr dlbss usfd by InnfrClbssLbmbdbMftbfbdtory to log gfnfrbtfd dlbssfs
+ *
+ * @implNotf
+ * <p> Bfdbusf this dlbss is dbllfd by LbmbdbMftbfbdtory, mbkf usf
+ * of lbmbdb lfbd to rfdursivf dblls dbusf stbdk ovfrflow.
+ */
+finbl dlbss ProxyClbssfsDumpfr {
+    privbtf stbtid finbl dhbr[] HEX = {
+        '0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+    privbtf stbtid finbl dhbr[] BAD_CHARS = {
+        '\\', ':', '*', '?', '"', '<', '>', '|'
+    };
+    privbtf stbtid finbl String[] REPLACEMENT = {
+        "%5C", "%3A", "%2A", "%3F", "%22", "%3C", "%3E", "%7C"
+    };
+
+    privbtf finbl Pbth dumpDir;
+
+    publid stbtid ProxyClbssfsDumpfr gftInstbndf(String pbth) {
+        if (null == pbth) {
+            rfturn null;
+        }
+        try {
+            pbth = pbth.trim();
+            finbl Pbth dir = Pbths.gft(pbth.lfngth() == 0 ? "." : pbth);
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() {
+                        vblidbtfDumpDir(dir);
+                        rfturn null;
+                    }
+                }, null, nfw FilfPfrmission("<<ALL FILES>>", "rfbd, writf"));
+            rfturn nfw ProxyClbssfsDumpfr(dir);
+        } dbtdh (InvblidPbthExdfption fx) {
+            PlbtformLoggfr.gftLoggfr(ProxyClbssfsDumpfr.dlbss.gftNbmf())
+                          .wbrning("Pbth " + pbth + " is not vblid - dumping disbblfd", fx);
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            PlbtformLoggfr.gftLoggfr(ProxyClbssfsDumpfr.dlbss.gftNbmf())
+                          .wbrning(ibf.gftMfssbgf() + " - dumping disbblfd");
+        }
+        rfturn null;
+    }
+
+    privbtf ProxyClbssfsDumpfr(Pbth pbth) {
+        dumpDir = Objfdts.rfquirfNonNull(pbth);
+    }
+
+    privbtf stbtid void vblidbtfDumpDir(Pbth pbth) {
+        if (!Filfs.fxists(pbth)) {
+            throw nfw IllfgblArgumfntExdfption("Dirfdtory " + pbth + " dofs not fxist");
+        } flsf if (!Filfs.isDirfdtory(pbth)) {
+            throw nfw IllfgblArgumfntExdfption("Pbth " + pbth + " is not b dirfdtory");
+        } flsf if (!Filfs.isWritbblf(pbth)) {
+            throw nfw IllfgblArgumfntExdfption("Dirfdtory " + pbth + " is not writbblf");
+        }
+    }
+
+    publid stbtid String fndodfForFilfnbmf(String dlbssNbmf) {
+        finbl int lfn = dlbssNbmf.lfngth();
+        StringBuildfr sb = nfw StringBuildfr(lfn);
+
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = dlbssNbmf.dhbrAt(i);
+            // dontrol dhbrbdtfrs
+            if (d <= 31) {
+                sb.bppfnd('%');
+                sb.bppfnd(HEX[d >> 4 & 0x0F]);
+                sb.bppfnd(HEX[d & 0x0F]);
+            } flsf {
+                int j = 0;
+                for (; j < BAD_CHARS.lfngth; j++) {
+                    if (d == BAD_CHARS[j]) {
+                        sb.bppfnd(REPLACEMENT[j]);
+                        brfbk;
+                    }
+                }
+                if (j >= BAD_CHARS.lfngth) {
+                    sb.bppfnd(d);
+                }
+            }
+        }
+
+        rfturn sb.toString();
+    }
+
+    publid void dumpClbss(String dlbssNbmf, finbl bytf[] dlbssBytfs) {
+        Pbth filf;
+        try {
+            filf = dumpDir.rfsolvf(fndodfForFilfnbmf(dlbssNbmf) + ".dlbss");
+        } dbtdh (InvblidPbthExdfption fx) {
+            PlbtformLoggfr.gftLoggfr(ProxyClbssfsDumpfr.dlbss.gftNbmf())
+                          .wbrning("Invblid pbth for dlbss " + dlbssNbmf);
+            rfturn;
+        }
+
+        try {
+            Pbth dir = filf.gftPbrfnt();
+            Filfs.drfbtfDirfdtorifs(dir);
+            Filfs.writf(filf, dlbssBytfs);
+        } dbtdh (Exdfption ignorf) {
+            PlbtformLoggfr.gftLoggfr(ProxyClbssfsDumpfr.dlbss.gftNbmf())
+                          .wbrning("Exdfption writing to pbth bt " + filf.toString());
+            // simply don't dbrf if this opfrbtion fbilfd
+        }
+    }
+}

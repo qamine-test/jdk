@@ -1,88 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 
-Provides classes for reading and writing the standard ZIP and GZIP
-file formats.  Also includes classes for compressing and decompressing
-data using the DEFLATE compression algorithm, which is used by the
-ZIP and GZIP file formats. Additionally, there are utility classes
-for computing the CRC-32 and Adler-32 checksums of arbitrary
-input streams.
+Providfs dlbssfs for rfbding bnd writing tif stbndbrd ZIP bnd GZIP
+filf formbts.  Also indludfs dlbssfs for domprfssing bnd dfdomprfssing
+dbtb using tif DEFLATE domprfssion blgoritim, wiidi is usfd by tif
+ZIP bnd GZIP filf formbts. Additionblly, tifrf brf utility dlbssfs
+for domputing tif CRC-32 bnd Adlfr-32 difdksums of brbitrbry
+input strfbms.
 
 
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 <ul>
-  <li><a href="http://www.info-zip.org/doc/appnote-19970311-iz.zip">
-      Info-ZIP Application Note 970311
-      </a> - a detailed description of the Info-ZIP format upon which
-      the <code>java.util.zip</code> classes are based.
-  <li><a name="zip64">An implementation may optionally support the ZIP64(tm) format extensions
-      defined by the </a>
-      <a href="http://www.pkware.com/documents/casestudies/APPNOTE.TXT">
-      PKWARE ZIP File Format Specification</a>. The ZIP64(tm) format extensions
-      are used to overcome the size limitations of the original ZIP format.
-  <li><a name="lang_encoding">APPENDIX D of </a><a href="http://www.pkware.com/documents/casestudies/APPNOTE.TXT">
-      PKWARE ZIP File Format Specification</a> - Language Encoding Flag (EFS) to
-      encode ZIP entry filename and comment fields using UTF-8.
-  <li><a href="http://www.ietf.org/rfc/rfc1950.txt">
-      ZLIB Compressed Data Format Specification version 3.3</a>
+  <li><b irff="ittp://www.info-zip.org/dod/bppnotf-19970311-iz.zip">
+      Info-ZIP Applidbtion Notf 970311
+      </b> - b dftbilfd dfsdription of tif Info-ZIP formbt upon wiidi
+      tif <dodf>jbvb.util.zip</dodf> dlbssfs brf bbsfd.
+  <li><b nbmf="zip64">An implfmfntbtion mby optionblly support tif ZIP64(tm) formbt fxtfnsions
+      dffinfd by tif </b>
+      <b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b>. Tif ZIP64(tm) formbt fxtfnsions
+      brf usfd to ovfrdomf tif sizf limitbtions of tif originbl ZIP formbt.
+  <li><b nbmf="lbng_fndoding">APPENDIX D of </b><b irff="ittp://www.pkwbrf.dom/dodumfnts/dbsfstudifs/APPNOTE.TXT">
+      PKWARE ZIP Filf Formbt Spfdifidbtion</b> - Lbngubgf Endoding Flbg (EFS) to
+      fndodf ZIP fntry filfnbmf bnd dommfnt fiflds using UTF-8.
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1950.txt">
+      ZLIB Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 3.3</b>
       &nbsp;
-      <a href="http://www.ietf.org/rfc/rfc1950.txt.pdf">(pdf)</a>
+      <b irff="ittp://www.iftf.org/rfd/rfd1950.txt.pdf">(pdf)</b>
       (RFC 1950)
-  <li><a href="http://www.ietf.org/rfc/rfc1951.txt">
-      DEFLATE Compressed Data Format Specification version 1.3</a>
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1951.txt">
+      DEFLATE Comprfssfd Dbtb Formbt Spfdifidbtion vfrsion 1.3</b>
       &nbsp;
-      <a href="http://www.ietf.org/rfc/rfc1951.txt.pdf">(pdf)</a>
+      <b irff="ittp://www.iftf.org/rfd/rfd1951.txt.pdf">(pdf)</b>
       (RFC 1951)
-  <li><a href="http://www.ietf.org/rfc/rfc1952.txt">
-      GZIP file format specification version 4.3</a>
+  <li><b irff="ittp://www.iftf.org/rfd/rfd1952.txt">
+      GZIP filf formbt spfdifidbtion vfrsion 4.3</b>
       &nbsp;
-      <a href="http://www.ietf.org/rfc/rfc1952.txt.pdf">(pdf)</a>
+      <b irff="ittp://www.iftf.org/rfd/rfd1952.txt.pdf">(pdf)</b>
       (RFC 1952)
-  <li>CRC-32 checksum is described in RFC 1952 (above)
-  <li>Adler-32 checksum is described in RFC 1950 (above)
+  <li>CRC-32 difdksum is dfsdribfd in RFC 1952 (bbovf)
+  <li>Adlfr-32 difdksum is dfsdribfd in RFC 1950 (bbovf)
 </ul>
 
 
 <!--
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.1
+@sindf 1.1
 </body>
-</html>
+</itml>
 
 

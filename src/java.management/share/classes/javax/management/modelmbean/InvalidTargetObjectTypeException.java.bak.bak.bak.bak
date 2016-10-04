@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
+
+/**
+ * Exdfption thrown whfn bn invblid tbrgft objfdt typf is spfdififd.
+ *
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>1190536278266811217L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss InvblidTbrgftObjfdtTypfExdfption  fxtfnds Exdfption
+{
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 3711724570458346634L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 1190536278266811217L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("msgStr", String.dlbss),
+      nfw ObjfdtStrfbmFifld("rflbtfdExdfpt", Exdfption.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("fxdfption", Exdfption.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld fxdfption Exdfption Endbpsulbtfd {@link Exdfption}
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: No dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    /**
+     * @sfribl Endbpsulbtfd {@link Exdfption}
+     */
+    Exdfption fxdfption;
+
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid InvblidTbrgftObjfdtTypfExdfption ()
+    {
+      supfr("InvblidTbrgftObjfdtTypfExdfption: ");
+      fxdfption = null;
+    }
+
+
+    /**
+     * Construdtor from b string.
+     *
+     * @pbrbm s String vbluf thbt will bf indorporbtfd in thf mfssbgf for
+     *    this fxdfption.
+     */
+
+    publid InvblidTbrgftObjfdtTypfExdfption (String s)
+    {
+      supfr("InvblidTbrgftObjfdtTypfExdfption: " + s);
+      fxdfption = null;
+    }
+
+
+    /**
+     * Construdtor tbking bn fxdfption bnd b string.
+     *
+     * @pbrbm f Exdfption thbt wf mby hbvf dbught to rfissuf bs bn
+     *    InvblidTbrgftObjfdtTypfExdfption.  Thf mfssbgf will bf usfd, bnd wf mby wbnt to
+     *    donsidfr ovfrriding thf printStbdkTrbdf() mfthods to gft dbtb
+     *    pointing bbdk to originbl throw stbdk.
+     * @pbrbm s String vbluf thbt will bf indorporbtfd in mfssbgf for
+     *    this fxdfption.
+     */
+
+    publid InvblidTbrgftObjfdtTypfExdfption (Exdfption f, String s)
+    {
+      supfr("InvblidTbrgftObjfdtTypfExdfption: " +
+            s +
+            ((f != null)?("\n\t triggfrfd by:" + f.toString()):""));
+      fxdfption = f;
+    }
+
+    /**
+     * Dfsfriblizfs bn {@link InvblidTbrgftObjfdtTypfExdfption} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
+      {
+        // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+        //
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        fxdfption = (Exdfption) fiflds.gft("rflbtfdExdfpt", null);
+        if (fiflds.dffbultfd("rflbtfdExdfpt"))
+        {
+          throw nfw NullPointfrExdfption("rflbtfdExdfpt");
+        }
+      }
+      flsf
+      {
+        // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+        //
+        in.dffbultRfbdObjfdt();
+      }
+    }
+
+
+    /**
+     * Sfriblizfs bn {@link InvblidTbrgftObjfdtTypfExdfption} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("rflbtfdExdfpt", fxdfption);
+        fiflds.put("msgStr", ((fxdfption != null)?fxdfption.gftMfssbgf():""));
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+}

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.RobotPeer;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.RobotPffr;
 
-final class WRobotPeer extends WObjectPeer implements RobotPeer
+finbl dlbss WRobotPffr fxtfnds WObjfdtPffr implfmfnts RobotPffr
 {
-    WRobotPeer() {
-        create();
+    WRobotPffr() {
+        drfbtf();
     }
-    WRobotPeer(GraphicsDevice screen) {
-        create();
-    }
-
-    private synchronized native void _dispose();
-
-    @Override
-    protected void disposeImpl() {
-        _dispose();
+    WRobotPffr(GrbpiidsDfvidf sdrffn) {
+        drfbtf();
     }
 
-    public native void create();
-    public native void mouseMoveImpl(int x, int y);
-    @Override
-    public void mouseMove(int x, int y) {
-        mouseMoveImpl(x, y);
-    }
-    @Override
-    public native void mousePress(int buttons);
-    @Override
-    public native void mouseRelease(int buttons);
-    @Override
-    public native void mouseWheel(int wheelAmt);
+    privbtf syndironizfd nbtivf void _disposf();
 
-    @Override
-    public native void keyPress( int keycode );
-    @Override
-    public native void keyRelease( int keycode );
-
-    @Override
-    public int getRGBPixel(int x, int y) {
-         // See 7002846: that's ineffective, but works correctly with non-opaque windows
-        return getRGBPixels(new Rectangle(x, y, 1, 1))[0];
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        _disposf();
     }
 
-    @Override
-    public int [] getRGBPixels(Rectangle bounds) {
-        int pixelArray[] = new int[bounds.width*bounds.height];
-        getRGBPixels(bounds.x, bounds.y, bounds.width, bounds.height, pixelArray);
-        return pixelArray;
+    publid nbtivf void drfbtf();
+    publid nbtivf void mousfMovfImpl(int x, int y);
+    @Ovfrridf
+    publid void mousfMovf(int x, int y) {
+        mousfMovfImpl(x, y);
+    }
+    @Ovfrridf
+    publid nbtivf void mousfPrfss(int buttons);
+    @Ovfrridf
+    publid nbtivf void mousfRflfbsf(int buttons);
+    @Ovfrridf
+    publid nbtivf void mousfWiffl(int wifflAmt);
+
+    @Ovfrridf
+    publid nbtivf void kfyPrfss( int kfydodf );
+    @Ovfrridf
+    publid nbtivf void kfyRflfbsf( int kfydodf );
+
+    @Ovfrridf
+    publid int gftRGBPixfl(int x, int y) {
+         // Sff 7002846: tibt's inffffdtivf, but works dorrfdtly witi non-opbquf windows
+        rfturn gftRGBPixfls(nfw Rfdtbnglf(x, y, 1, 1))[0];
     }
 
-    private native void getRGBPixels(int x, int y, int width, int height, int pixelArray[]);
+    @Ovfrridf
+    publid int [] gftRGBPixfls(Rfdtbnglf bounds) {
+        int pixflArrby[] = nfw int[bounds.widti*bounds.ifigit];
+        gftRGBPixfls(bounds.x, bounds.y, bounds.widti, bounds.ifigit, pixflArrby);
+        rfturn pixflArrby;
+    }
+
+    privbtf nbtivf void gftRGBPixfls(int x, int y, int widti, int ifigit, int pixflArrby[]);
 }

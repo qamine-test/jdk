@@ -1,0 +1,205 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jps.1
+.\"
+.if n .pl 99999
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jps \- Lists thf instrumfntfd Jbvb Virtubl Mbdhinfs (JVMs) on thf tbrgft systfm\&. This dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjps\fR [ \fIoptions\fR ] [ \fIhostid\fR ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Commbnd-linf options\&. Sff Options\&.
+.TP     
+\fIhostid\fR
+Thf idfntififr of thf host for whidh thf prodfss rfport should bf gfnfrbtfd\&. Thf \f3hostid\fR dbn indludf optionbl domponfnts thbt indidbtf thf dommunidbtions protodol, port numbfr, bnd othfr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
+.SH DESCRIPTION    
+Thf \f3jps\fR dommbnd lists thf instrumfntfd Jbvb HotSpot VMs on thf tbrgft systfm\&. Thf dommbnd is limitfd to rfporting informbtion on JVMs for whidh it hbs thf bddfss pfrmissions\&.
+.PP
+If thf \f3jps\fR dommbnd is run without spfdifying b \f3hostid\fR, thfn it sfbrdhfs for instrumfntfd JVMs on thf lodbl host\&. If stbrtfd with b \f3hostid\fR, thfn it sfbrdhfs for JVMs on thf indidbtfd host, using thf spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on thf tbrgft host\&.
+.PP
+Thf \f3jps\fR dommbnd rfports thf lodbl JVM idfntififr, or \f3lvmid\fR, for fbdh instrumfntfd JVM found on thf tbrgft systfm\&. Thf \f3lvmid\fR is typidblly, but not nfdfssbrily, thf opfrbting systfm\&'s prodfss idfntififr for thf JVM prodfss\&. With no options, \f3jps\fR lists fbdh Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by thf short form of thf bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Thf short form of thf dlbss nbmf or JAR filf nbmf omits thf dlbss\&'s pbdkbgf informbtion or thf JAR filfs pbth informbtion\&.
+.PP
+Thf \f3jps\fR dommbnd usfs thf Jbvb lbundhfr to find thf dlbss nbmf bnd brgumfnts pbssfd to thf mbin mfthod\&. If thf tbrgft JVM is stbrtfd with b dustom lbundhfr, thfn thf dlbss or JAR filf nbmf bnd thf brgumfnts to thf \f3mbin\fR mfthod brf not bvbilbblf\&. In this dbsf, thf \f3jps\fR dommbnd outputs thf string \f3Unknown\fR for thf dlbss nbmf or JAR filf nbmf bnd for thf brgumfnts to thf \f3mbin\fR mfthod\&.
+.PP
+Thf list of JVMs produdfd by thf \f3jps\fR dommbnd dbn bf limitfd by thf pfrmissions grbntfd to thf prindipbl running thf dommbnd\&. Thf dommbnd only lists thf JVMs for whidh thf prindiplf hbs bddfss rights bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdhbnisms\&.
+.SH OPTIONS    
+Thf \f3jps\fR dommbnd supports b numbfr of options thbt modify thf output of thf dommbnd\&. Thfsf options brf subjfdt to dhbngf or rfmovbl in thf futurf\&.
+.TP
+-q
+.br
+Supprfssfs thf output of thf dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to thf \f3mbin\fR mfthod, produding only b list of lodbl JVM idfntififrs\&.
+.TP
+-m
+.br
+Displbys thf brgumfnts pbssfd to thf \f3mbin\fR mfthod\&. Thf output mby bf \f3null\fR for fmbfddfd JVMs\&.
+.TP
+-l
+.br
+Displbys thf full pbdkbgf nbmf for thf bpplidbtion\&'s \f3mbin\fR dlbss or thf full pbth nbmf to thf bpplidbtion\&'s JAR filf\&.
+.TP
+-v
+.br
+Displbys thf brgumfnts pbssfd to thf JVM\&.
+.TP
+-V
+.br
+Supprfssfs thf output of thf dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to thf mbin mfthod, produding only b list of lodbl JVM idfntififrs\&.
+.TP
+-J\f3option\fR
+.br
+Pbssfs \f3option\fR to thf JVM, whfrf option is onf of thf \f3options\fR dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH HOST\ IDENTIFIER    
+Thf host idfntififr, or \f3hostid\fR is b string thbt indidbtfs thf tbrgft systfm\&. Thf syntbx of thf \f3hostid\fR string dorrfsponds to thf syntbx of b URI:
+.sp     
+.nf     
+\f3[protodol:][[//]hostnbmf][:port][/sfrvfrnbmf]\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.TP     
+\fIprotodol\fR
+Thf dommunidbtions protodol\&. If thf \f3protodol\fR is omittfd bnd b \f3hostnbmf\fR is not spfdififd, thfn thf dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If thf protodol is omittfd bnd b host nbmf is spfdififd, thfn thf dffbult protodol is \f3rmi\fR\&.
+.TP     
+hostnbmf
+A hostnbmf or IP bddrfss thbt indidbtfs thf tbrgft host\&. If you omit thf \f3hostnbmf\fR pbrbmftfr, thfn thf tbrgft host is thf lodbl host\&.
+.TP     
+port
+Thf dffbult port for dommunidbting with thf rfmotf sfrvfr\&. If thf \f3hostnbmf\fR pbrbmftfr is omittfd or thf \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, thfn thf \f3port\fR pbrbmftfr is ignorfd\&. Othfrwisf, trfbtmfnt of thf \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For thf dffbult \f3rmi\fR protodol, thf \f3port\fR pbrbmftfr indidbtfs thf port numbfr for thf rmirfgistry on thf rfmotf host\&. If thf \f3port\fR pbrbmftfr is omittfd, bnd thf \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, thfn thf dffbult rmirfgistry port (1099) is usfd\&.
+.TP     
+sfrvfrnbmf
+Thf trfbtmfnt of this pbrbmftfr dfpfnds on thf implfmfntbtion\&. For thf optimizfd, lodbl protodol, this fifld is ignorfd\&. For thf \f3rmi\fR protodol, this pbrbmftfr is b string thbt rfprfsfnts thf nbmf of thf RMI rfmotf objfdt on thf rfmotf host\&. Sff thf \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
+.SH OUTPUT\ FORMAT    
+Thf output of thf \f3jps\fR dommbnd follows thf following pbttfrn:
+.sp     
+.nf     
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+All output tokfns brf sfpbrbtfd by whitf spbdf\&. An \f3brg\fR vbluf thbt indludfs fmbfddfd whitf spbdf introdudfs bmbiguity whfn bttfmpting to mbp brgumfnts to thfir bdtubl positionbl pbrbmftfrs\&.
+.PP
+\fINotf:\fR It is rfdommfndfd thbt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf thf formbt might dhbngf in futurf rflfbsfs\&. If you writf sdripts thbt pbrsf \f3jps\fR output, thfn fxpfdt to modify thfm for futurf rflfbsfs of this tool\&.
+.SH EXAMPLES    
+This sfdtion providfs fxbmplfs of thf \f3jps\fR dommbnd\&.
+.PP
+List thf instrumfntfd JVMs on thf lodbl host:
+.sp     
+.nf     
+\f3jps\fP
+.fi     
+.nf     
+\f318027 Jbvb2Dfmo\&.JAR\fP
+.fi     
+.nf     
+\f318032 jps\fP
+.fi     
+.nf     
+\f318005 jstbt\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf following fxbmplf lists thf instrumfntfd JVMs on b rfmotf host\&. This fxbmplf bssumfs thbt thf \f3jstbt\fR sfrvfr bnd fithfr thf its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on thf rfmotf host on thf dffbult port (port 1099)\&. It blso bssumfs thbt thf lodbl host hbs bppropribtf pfrmissions to bddfss thf rfmotf host\&. This fxbmplf blso indludfs thf \f3-l\fR option to output thf long form of thf dlbss nbmfs or JAR filf nbmfs\&.
+.sp     
+.nf     
+\f3jps \-l rfmotf\&.dombin\fP
+.fi     
+.nf     
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+.fi     
+.nf     
+\f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf following fxbmplf lists thf instrumfntfd JVMs on b rfmotf host with b non-dffbult port for thf RMI rfgistry\&. This fxbmplf bssumfs thbt thf \f3jstbtd\fR sfrvfr, with bn intfrnbl RMI rfgistry bound to port 2002, is running on thf rfmotf host\&. This fxbmplf blso usfs thf \f3-m\fR option to indludf thf brgumfnts pbssfd to thf \f3mbin\fR mfthod of fbdh of thf listfd Jbvb bpplidbtions\&.
+.sp     
+.nf     
+\f3jps \-m rfmotf\&.dombin:2002\fP
+.fi     
+.nf     
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
+.fi     
+.nf     
+\f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jstbt(1)
+.TP 0.2i    
+\(bu
+jstbtd(1)
+.TP 0.2i    
+\(bu
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

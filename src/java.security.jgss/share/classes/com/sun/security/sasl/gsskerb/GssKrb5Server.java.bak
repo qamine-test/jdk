@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl.gsskerb;
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
 
-import javax.security.sasl.*;
-import java.io.*;
-import java.util.Map;
-import java.util.logging.Level;
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
 
 // JAAS
-import javax.security.auth.callback.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
 
 // JGSS
-import org.ietf.jgss.*;
+import org.iftf.jgss.*;
 
 /**
-  * Implements the GSSAPI SASL server mechanism for Kerberos V5.
-  * (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>,
-  * <a HREF="http://www.ietf.org/internet-drafts/draft-ietf-cat-sasl-gssapi-00.txt">draft-ietf-cat-sasl-gssapi-00.txt</a>).
+  * Implfmfnts tif GSSAPI SASL sfrvfr mfdibnism for Kfrbfros V5.
+  * (<A HREF="ittp://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>,
+  * <b HREF="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-dbt-sbsl-gssbpi-00.txt">drbft-iftf-dbt-sbsl-gssbpi-00.txt</b>).
   *
-  * Expects thread's Subject to contain server's Kerberos credentials
-  * - If not, underlying KRB5 mech will attempt to acquire Kerberos creds
-  *   by logging into Kerberos (via default TextCallbackHandler).
-  * - These creds will be used for exchange with client.
+  * Expfdts tirfbd's Subjfdt to dontbin sfrvfr's Kfrbfros drfdfntibls
+  * - If not, undfrlying KRB5 mfdi will bttfmpt to bdquirf Kfrbfros drfds
+  *   by logging into Kfrbfros (vib dffbult TfxtCbllbbdkHbndlfr).
+  * - Tifsf drfds will bf usfd for fxdibngf witi dlifnt.
   *
-  * Required callbacks:
-  * - AuthorizeCallback
-  *      handler must verify that authid/authzids are allowed and set
-  *      authorized ID to be the canonicalized authzid (if applicable).
+  * Rfquirfd dbllbbdks:
+  * - AutiorizfCbllbbdk
+  *      ibndlfr must vfrify tibt butiid/butizids brf bllowfd bnd sft
+  *      butiorizfd ID to bf tif dbnonidblizfd butizid (if bpplidbblf).
   *
-  * Environment properties that affect behavior of implementation:
+  * Environmfnt propfrtifs tibt bfffdt bfibvior of implfmfntbtion:
   *
-  * javax.security.sasl.qop
-  * - quality of protection; list of auth, auth-int, auth-conf; default is "auth"
-  * javax.security.sasl.maxbuf
-  * - max receive buffer size; default is 65536
-  * javax.security.sasl.sendmaxbuffer
-  * - max send buffer size; default is 65536; (min with client max recv size)
+  * jbvbx.sfdurity.sbsl.qop
+  * - qublity of protfdtion; list of buti, buti-int, buti-donf; dffbult is "buti"
+  * jbvbx.sfdurity.sbsl.mbxbuf
+  * - mbx rfdfivf bufffr sizf; dffbult is 65536
+  * jbvbx.sfdurity.sbsl.sfndmbxbufffr
+  * - mbx sfnd bufffr sizf; dffbult is 65536; (min witi dlifnt mbx rfdv sizf)
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final class GssKrb5Server extends GssKrb5Base implements SaslServer {
-    private static final String MY_CLASS_NAME = GssKrb5Server.class.getName();
+finbl dlbss GssKrb5Sfrvfr fxtfnds GssKrb5Bbsf implfmfnts SbslSfrvfr {
+    privbtf stbtid finbl String MY_CLASS_NAME = GssKrb5Sfrvfr.dlbss.gftNbmf();
 
-    private int handshakeStage = 0;
-    private String peer;
-    private String me;
-    private String authzid;
-    private CallbackHandler cbh;
+    privbtf int ibndsibkfStbgf = 0;
+    privbtf String pffr;
+    privbtf String mf;
+    privbtf String butizid;
+    privbtf CbllbbdkHbndlfr dbi;
 
-    // When serverName is null, the server will be unbound. We need to save and
-    // check the protocol name after the context is established. This value
-    // will be null if serverName is not null.
-    private final String protocolSaved;
+    // Wifn sfrvfrNbmf is null, tif sfrvfr will bf unbound. Wf nffd to sbvf bnd
+    // difdk tif protodol nbmf bftfr tif dontfxt is fstbblisifd. Tiis vbluf
+    // will bf null if sfrvfrNbmf is not null.
+    privbtf finbl String protodolSbvfd;
     /**
-     * Creates a SASL mechanism with server credentials that it needs
-     * to participate in GSS-API/Kerberos v5 authentication exchange
-     * with the client.
+     * Crfbtfs b SASL mfdibnism witi sfrvfr drfdfntibls tibt it nffds
+     * to pbrtidipbtf in GSS-API/Kfrbfros v5 butifntidbtion fxdibngf
+     * witi tif dlifnt.
      */
-    GssKrb5Server(String protocol, String serverName,
-        Map<String, ?> props, CallbackHandler cbh) throws SaslException {
+    GssKrb5Sfrvfr(String protodol, String sfrvfrNbmf,
+        Mbp<String, ?> props, CbllbbdkHbndlfr dbi) tirows SbslExdfption {
 
-        super(props, MY_CLASS_NAME);
+        supfr(props, MY_CLASS_NAME);
 
-        this.cbh = cbh;
+        tiis.dbi = dbi;
 
-        String service;
-        if (serverName == null) {
-            protocolSaved = protocol;
-            service = null;
-        } else {
-            protocolSaved = null;
-            service = protocol + "@" + serverName;
+        String sfrvidf;
+        if (sfrvfrNbmf == null) {
+            protodolSbvfd = protodol;
+            sfrvidf = null;
+        } flsf {
+            protodolSbvfd = null;
+            sfrvidf = protodol + "@" + sfrvfrNbmf;
         }
 
-        logger.log(Level.FINE, "KRB5SRV01:Using service name: {0}", service);
+        loggfr.log(Lfvfl.FINE, "KRB5SRV01:Using sfrvidf nbmf: {0}", sfrvidf);
 
         try {
-            GSSManager mgr = GSSManager.getInstance();
+            GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
 
-            // Create the name for the requested service entity for Krb5 mech
-            GSSName serviceName = service == null ? null:
-                    mgr.createName(service, GSSName.NT_HOSTBASED_SERVICE, KRB5_OID);
+            // Crfbtf tif nbmf for tif rfqufstfd sfrvidf fntity for Krb5 mfdi
+            GSSNbmf sfrvidfNbmf = sfrvidf == null ? null:
+                    mgr.drfbtfNbmf(sfrvidf, GSSNbmf.NT_HOSTBASED_SERVICE, KRB5_OID);
 
-            GSSCredential cred = mgr.createCredential(serviceName,
-                GSSCredential.INDEFINITE_LIFETIME,
-                KRB5_OID, GSSCredential.ACCEPT_ONLY);
+            GSSCrfdfntibl drfd = mgr.drfbtfCrfdfntibl(sfrvidfNbmf,
+                GSSCrfdfntibl.INDEFINITE_LIFETIME,
+                KRB5_OID, GSSCrfdfntibl.ACCEPT_ONLY);
 
-            // Create a context using the server's credentials
-            secCtx = mgr.createContext(cred);
+            // Crfbtf b dontfxt using tif sfrvfr's drfdfntibls
+            sfdCtx = mgr.drfbtfContfxt(drfd);
 
-            if ((allQop&INTEGRITY_ONLY_PROTECTION) != 0) {
-                // Might need integrity
-                secCtx.requestInteg(true);
+            if ((bllQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+                // Migit nffd intfgrity
+                sfdCtx.rfqufstIntfg(truf);
             }
 
-            if ((allQop&PRIVACY_PROTECTION) != 0) {
-                // Might need privacy
-                secCtx.requestConf(true);
+            if ((bllQop&PRIVACY_PROTECTION) != 0) {
+                // Migit nffd privbdy
+                sfdCtx.rfqufstConf(truf);
             }
-        } catch (GSSException e) {
-            throw new SaslException("Failure to initialize security context", e);
+        } dbtdi (GSSExdfption f) {
+            tirow nfw SbslExdfption("Fbilurf to initiblizf sfdurity dontfxt", f);
         }
-        logger.log(Level.FINE, "KRB5SRV02:Initialization complete");
+        loggfr.log(Lfvfl.FINE, "KRB5SRV02:Initiblizbtion domplftf");
     }
 
 
     /**
-     * Processes the response data.
+     * Prodfssfs tif rfsponsf dbtb.
      *
-     * The client sends response data to which the server must
-     * process using GSS_accept_sec_context.
-     * As per RFC 2222, the GSS authenication completes (GSS_S_COMPLETE)
-     * we do an extra hand shake to determine the negotiated security protection
-     * and buffer sizes.
+     * Tif dlifnt sfnds rfsponsf dbtb to wiidi tif sfrvfr must
+     * prodfss using GSS_bddfpt_sfd_dontfxt.
+     * As pfr RFC 2222, tif GSS butifnidbtion domplftfs (GSS_S_COMPLETE)
+     * wf do bn fxtrb ibnd sibkf to dftfrminf tif nfgotibtfd sfdurity protfdtion
+     * bnd bufffr sizfs.
      *
-     * @param responseData A non-null but possible empty byte array containing the
-     * response data from the client.
-     * @return A non-null byte array containing the challenge to be
-     * sent to the client, or null when no more data is to be sent.
+     * @pbrbm rfsponsfDbtb A non-null but possiblf fmpty bytf brrby dontbining tif
+     * rfsponsf dbtb from tif dlifnt.
+     * @rfturn A non-null bytf brrby dontbining tif dibllfngf to bf
+     * sfnt to tif dlifnt, or null wifn no morf dbtb is to bf sfnt.
      */
-    public byte[] evaluateResponse(byte[] responseData) throws SaslException {
-        if (completed) {
-            throw new SaslException(
-                "SASL authentication already complete");
+    publid bytf[] fvblubtfRfsponsf(bytf[] rfsponsfDbtb) tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw SbslExdfption(
+                "SASL butifntidbtion blrfbdy domplftf");
         }
 
-        if (logger.isLoggable(Level.FINER)) {
-            traceOutput(MY_CLASS_NAME, "evaluateResponse",
-                "KRB5SRV03:Response [raw]:", responseData);
+        if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+            trbdfOutput(MY_CLASS_NAME, "fvblubtfRfsponsf",
+                "KRB5SRV03:Rfsponsf [rbw]:", rfsponsfDbtb);
         }
 
-        switch (handshakeStage) {
-        case 1:
-            return doHandshake1(responseData);
+        switdi (ibndsibkfStbgf) {
+        dbsf 1:
+            rfturn doHbndsibkf1(rfsponsfDbtb);
 
-        case 2:
-            return doHandshake2(responseData);
+        dbsf 2:
+            rfturn doHbndsibkf2(rfsponsfDbtb);
 
-        default:
-            // Security context not established yet; continue with accept
+        dffbult:
+            // Sfdurity dontfxt not fstbblisifd yft; dontinuf witi bddfpt
 
             try {
-                byte[] gssOutToken = secCtx.acceptSecContext(responseData,
-                    0, responseData.length);
+                bytf[] gssOutTokfn = sfdCtx.bddfptSfdContfxt(rfsponsfDbtb,
+                    0, rfsponsfDbtb.lfngti);
 
-                if (logger.isLoggable(Level.FINER)) {
-                    traceOutput(MY_CLASS_NAME, "evaluateResponse",
-                        "KRB5SRV04:Challenge: [after acceptSecCtx]", gssOutToken);
+                if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                    trbdfOutput(MY_CLASS_NAME, "fvblubtfRfsponsf",
+                        "KRB5SRV04:Cibllfngf: [bftfr bddfptSfdCtx]", gssOutTokfn);
                 }
 
-                if (secCtx.isEstablished()) {
-                    handshakeStage = 1;
+                if (sfdCtx.isEstbblisifd()) {
+                    ibndsibkfStbgf = 1;
 
-                    peer = secCtx.getSrcName().toString();
-                    me = secCtx.getTargName().toString();
+                    pffr = sfdCtx.gftSrdNbmf().toString();
+                    mf = sfdCtx.gftTbrgNbmf().toString();
 
-                    logger.log(Level.FINE,
-                            "KRB5SRV05:Peer name is : {0}, my name is : {1}",
-                            new Object[]{peer, me});
+                    loggfr.log(Lfvfl.FINE,
+                            "KRB5SRV05:Pffr nbmf is : {0}, my nbmf is : {1}",
+                            nfw Objfdt[]{pffr, mf});
 
-                    // me might take the form of proto@host or proto/host
-                    if (protocolSaved != null &&
-                            !protocolSaved.equalsIgnoreCase(me.split("[/@]")[0])) {
-                        throw new SaslException(
-                                "GSS context targ name protocol error: " + me);
+                    // mf migit tbkf tif form of proto@iost or proto/iost
+                    if (protodolSbvfd != null &&
+                            !protodolSbvfd.fqublsIgnorfCbsf(mf.split("[/@]")[0])) {
+                        tirow nfw SbslExdfption(
+                                "GSS dontfxt tbrg nbmf protodol frror: " + mf);
                     }
 
-                    if (gssOutToken == null) {
-                        return doHandshake1(EMPTY);
+                    if (gssOutTokfn == null) {
+                        rfturn doHbndsibkf1(EMPTY);
                     }
                 }
 
-                return gssOutToken;
-            } catch (GSSException e) {
-                throw new SaslException("GSS initiate failed", e);
+                rfturn gssOutTokfn;
+            } dbtdi (GSSExdfption f) {
+                tirow nfw SbslExdfption("GSS initibtf fbilfd", f);
             }
         }
     }
 
-    private byte[] doHandshake1(byte[] responseData) throws SaslException {
+    privbtf bytf[] doHbndsibkf1(bytf[] rfsponsfDbtb) tirows SbslExdfption {
         try {
-            // Security context already established. responseData
-            // should contain no data
-            if (responseData != null && responseData.length > 0) {
-                throw new SaslException(
-                    "Handshake expecting no response data from server");
+            // Sfdurity dontfxt blrfbdy fstbblisifd. rfsponsfDbtb
+            // siould dontbin no dbtb
+            if (rfsponsfDbtb != null && rfsponsfDbtb.lfngti > 0) {
+                tirow nfw SbslExdfption(
+                    "Hbndsibkf fxpfdting no rfsponsf dbtb from sfrvfr");
             }
 
-            // Construct 4 octets of data:
-            // First octet contains bitmask specifying protections supported
-            // 2nd-4th octets contains max receive buffer of server
+            // Construdt 4 odtfts of dbtb:
+            // First odtft dontbins bitmbsk spfdifying protfdtions supportfd
+            // 2nd-4ti odtfts dontbins mbx rfdfivf bufffr of sfrvfr
 
-            byte[] gssInToken = new byte[4];
-            gssInToken[0] = allQop;
-            intToNetworkByteOrder(recvMaxBufSize, gssInToken, 1, 3);
+            bytf[] gssInTokfn = nfw bytf[4];
+            gssInTokfn[0] = bllQop;
+            intToNftworkBytfOrdfr(rfdvMbxBufSizf, gssInTokfn, 1, 3);
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE,
-                    "KRB5SRV06:Supported protections: {0}; recv max buf size: {1}",
-                    new Object[]{allQop,
-                                 recvMaxBufSize});
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+                    "KRB5SRV06:Supportfd protfdtions: {0}; rfdv mbx buf sizf: {1}",
+                    nfw Objfdt[]{bllQop,
+                                 rfdvMbxBufSizf});
             }
 
-            handshakeStage = 2;  // progress to next stage
+            ibndsibkfStbgf = 2;  // progrfss to nfxt stbgf
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake1",
-                    "KRB5SRV07:Challenge [raw]", gssInToken);
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndsibkf1",
+                    "KRB5SRV07:Cibllfngf [rbw]", gssInTokfn);
             }
 
-            byte[] gssOutToken = secCtx.wrap(gssInToken, 0, gssInToken.length,
-                new MessageProp(0 /* gop */, false /* privacy */));
+            bytf[] gssOutTokfn = sfdCtx.wrbp(gssInTokfn, 0, gssInTokfn.lfngti,
+                nfw MfssbgfProp(0 /* gop */, fblsf /* privbdy */));
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake1",
-                    "KRB5SRV08:Challenge [after wrap]", gssOutToken);
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndsibkf1",
+                    "KRB5SRV08:Cibllfngf [bftfr wrbp]", gssOutTokfn);
             }
-            return gssOutToken;
+            rfturn gssOutTokfn;
 
-        } catch (GSSException e) {
-            throw new SaslException("Problem wrapping handshake1", e);
+        } dbtdi (GSSExdfption f) {
+            tirow nfw SbslExdfption("Problfm wrbpping ibndsibkf1", f);
         }
     }
 
-    private byte[] doHandshake2(byte[] responseData) throws SaslException {
+    privbtf bytf[] doHbndsibkf2(bytf[] rfsponsfDbtb) tirows SbslExdfption {
         try {
-            // Expecting 4 octets from client selected protection
-            // and client's receive buffer size
-            byte[] gssOutToken = secCtx.unwrap(responseData, 0,
-                responseData.length, new MessageProp(0, false));
+            // Expfdting 4 odtfts from dlifnt sflfdtfd protfdtion
+            // bnd dlifnt's rfdfivf bufffr sizf
+            bytf[] gssOutTokfn = sfdCtx.unwrbp(rfsponsfDbtb, 0,
+                rfsponsfDbtb.lfngti, nfw MfssbgfProp(0, fblsf));
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(MY_CLASS_NAME, "doHandshake2",
-                    "KRB5SRV09:Response [after unwrap]", gssOutToken);
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(MY_CLASS_NAME, "doHbndsibkf2",
+                    "KRB5SRV09:Rfsponsf [bftfr unwrbp]", gssOutTokfn);
             }
 
-            // First octet is a bit-mask specifying the selected protection
-            byte selectedQop = gssOutToken[0];
-            if ((selectedQop&allQop) == 0) {
-                throw new SaslException("Client selected unsupported protection: "
-                    + selectedQop);
+            // First odtft is b bit-mbsk spfdifying tif sflfdtfd protfdtion
+            bytf sflfdtfdQop = gssOutTokfn[0];
+            if ((sflfdtfdQop&bllQop) == 0) {
+                tirow nfw SbslExdfption("Clifnt sflfdtfd unsupportfd protfdtion: "
+                    + sflfdtfdQop);
             }
-            if ((selectedQop&PRIVACY_PROTECTION) != 0) {
-                privacy = true;
-                integrity = true;
-            } else if ((selectedQop&INTEGRITY_ONLY_PROTECTION) != 0) {
-                integrity = true;
-            }
-
-            // 2nd-4th octets specifies maximum buffer size expected by
-            // client (in network byte order). This is the server's send
-            // buffer maximum.
-            int clntMaxBufSize = networkByteOrderToInt(gssOutToken, 1, 3);
-
-            // Determine the max send buffer size based on what the
-            // client is able to receive and our specified max
-            sendMaxBufSize = (sendMaxBufSize == 0) ? clntMaxBufSize :
-                Math.min(sendMaxBufSize, clntMaxBufSize);
-
-            // Update context to limit size of returned buffer
-            rawSendSize = secCtx.getWrapSizeLimit(JGSS_QOP, privacy,
-                sendMaxBufSize);
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE,
-            "KRB5SRV10:Selected protection: {0}; privacy: {1}; integrity: {2}",
-                    new Object[]{selectedQop,
-                                 Boolean.valueOf(privacy),
-                                 Boolean.valueOf(integrity)});
-                logger.log(Level.FINE,
-"KRB5SRV11:Client max recv size: {0}; server max send size: {1}; rawSendSize: {2}",
-                    new Object[] {clntMaxBufSize,
-                                  sendMaxBufSize,
-                                  rawSendSize});
+            if ((sflfdtfdQop&PRIVACY_PROTECTION) != 0) {
+                privbdy = truf;
+                intfgrity = truf;
+            } flsf if ((sflfdtfdQop&INTEGRITY_ONLY_PROTECTION) != 0) {
+                intfgrity = truf;
             }
 
-            // Get authorization identity, if any
-            if (gssOutToken.length > 4) {
+            // 2nd-4ti odtfts spfdififs mbximum bufffr sizf fxpfdtfd by
+            // dlifnt (in nftwork bytf ordfr). Tiis is tif sfrvfr's sfnd
+            // bufffr mbximum.
+            int dlntMbxBufSizf = nftworkBytfOrdfrToInt(gssOutTokfn, 1, 3);
+
+            // Dftfrminf tif mbx sfnd bufffr sizf bbsfd on wibt tif
+            // dlifnt is bblf to rfdfivf bnd our spfdififd mbx
+            sfndMbxBufSizf = (sfndMbxBufSizf == 0) ? dlntMbxBufSizf :
+                Mbti.min(sfndMbxBufSizf, dlntMbxBufSizf);
+
+            // Updbtf dontfxt to limit sizf of rfturnfd bufffr
+            rbwSfndSizf = sfdCtx.gftWrbpSizfLimit(JGSS_QOP, privbdy,
+                sfndMbxBufSizf);
+
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE,
+            "KRB5SRV10:Sflfdtfd protfdtion: {0}; privbdy: {1}; intfgrity: {2}",
+                    nfw Objfdt[]{sflfdtfdQop,
+                                 Boolfbn.vblufOf(privbdy),
+                                 Boolfbn.vblufOf(intfgrity)});
+                loggfr.log(Lfvfl.FINE,
+"KRB5SRV11:Clifnt mbx rfdv sizf: {0}; sfrvfr mbx sfnd sizf: {1}; rbwSfndSizf: {2}",
+                    nfw Objfdt[] {dlntMbxBufSizf,
+                                  sfndMbxBufSizf,
+                                  rbwSfndSizf});
+            }
+
+            // Gft butiorizbtion idfntity, if bny
+            if (gssOutTokfn.lfngti > 4) {
                 try {
-                    authzid = new String(gssOutToken, 4,
-                        gssOutToken.length - 4, "UTF-8");
-                } catch (UnsupportedEncodingException uee) {
-                    throw new SaslException ("Cannot decode authzid", uee);
+                    butizid = nfw String(gssOutTokfn, 4,
+                        gssOutTokfn.lfngti - 4, "UTF-8");
+                } dbtdi (UnsupportfdEndodingExdfption uff) {
+                    tirow nfw SbslExdfption ("Cbnnot dfdodf butizid", uff);
                 }
-            } else {
-                authzid = peer;
+            } flsf {
+                butizid = pffr;
             }
-            logger.log(Level.FINE, "KRB5SRV12:Authzid: {0}", authzid);
+            loggfr.log(Lfvfl.FINE, "KRB5SRV12:Autizid: {0}", butizid);
 
-            AuthorizeCallback acb = new AuthorizeCallback(peer, authzid);
+            AutiorizfCbllbbdk bdb = nfw AutiorizfCbllbbdk(pffr, butizid);
 
-            // In Kerberos, realm is embedded in peer name
-            cbh.handle(new Callback[] {acb});
-            if (acb.isAuthorized()) {
-                authzid = acb.getAuthorizedID();
-                completed = true;
-            } else {
-                // Authorization failed
-                throw new SaslException(peer +
-                    " is not authorized to connect as " + authzid);
+            // In Kfrbfros, rfblm is fmbfddfd in pffr nbmf
+            dbi.ibndlf(nfw Cbllbbdk[] {bdb});
+            if (bdb.isAutiorizfd()) {
+                butizid = bdb.gftAutiorizfdID();
+                domplftfd = truf;
+            } flsf {
+                // Autiorizbtion fbilfd
+                tirow nfw SbslExdfption(pffr +
+                    " is not butiorizfd to donnfdt bs " + butizid);
             }
 
-            return null;
-        } catch (GSSException e) {
-            throw new SaslException("Final handshake step failed", e);
-        } catch (IOException e) {
-            throw new SaslException("Problem with callback handler", e);
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("Problem with callback handler", e);
+            rfturn null;
+        } dbtdi (GSSExdfption f) {
+            tirow nfw SbslExdfption("Finbl ibndsibkf stfp fbilfd", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw SbslExdfption("Problfm witi dbllbbdk ibndlfr", f);
+        } dbtdi (UnsupportfdCbllbbdkExdfption f) {
+            tirow nfw SbslExdfption("Problfm witi dbllbbdk ibndlfr", f);
         }
     }
 
-    public String getAuthorizationID() {
-        if (completed) {
-            return authzid;
-        } else {
-            throw new IllegalStateException("Authentication incomplete");
+    publid String gftAutiorizbtionID() {
+        if (domplftfd) {
+            rfturn butizid;
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("Autifntidbtion indomplftf");
         }
     }
 
-    public Object getNegotiatedProperty(String propName) {
-        if (!completed) {
-            throw new IllegalStateException("Authentication incomplete");
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption("Autifntidbtion indomplftf");
         }
 
-        Object result;
-        switch (propName) {
-            case Sasl.BOUND_SERVER_NAME:
+        Objfdt rfsult;
+        switdi (propNbmf) {
+            dbsf Sbsl.BOUND_SERVER_NAME:
                 try {
-                    // me might take the form of proto@host or proto/host
-                    result = me.split("[/@]")[1];
-                } catch (Exception e) {
-                    result = null;
+                    // mf migit tbkf tif form of proto@iost or proto/iost
+                    rfsult = mf.split("[/@]")[1];
+                } dbtdi (Exdfption f) {
+                    rfsult = null;
                 }
-                break;
-            default:
-                result = super.getNegotiatedProperty(propName);
+                brfbk;
+            dffbult:
+                rfsult = supfr.gftNfgotibtfdPropfrty(propNbmf);
         }
-        return result;
+        rfturn rfsult;
     }
 }

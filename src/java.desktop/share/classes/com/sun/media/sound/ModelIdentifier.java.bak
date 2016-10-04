@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * This class stores the identity of source and destinations in connection
- * blocks, see ModelConnectionBlock.
+ * Tiis dlbss storfs tif idfntity of sourdf bnd dfstinbtions in donnfdtion
+ * blodks, sff ModflConnfdtionBlodk.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelIdentifier {
+publid finbl dlbss ModflIdfntififr {
 
     /*
-     *  Object    Variable
+     *  Objfdt    Vbribblf
      *  ------    --------
      *
-     *  // INPUT parameters
-     *  noteon    keynumber                7 bit midi value
-     *            velocity                 7 bit midi vale
+     *  // INPUT pbrbmftfrs
+     *  notfon    kfynumbfr                7 bit midi vbluf
+     *            vflodity                 7 bit midi vblf
      *            on                       1 or 0
      *
-     *  midi      pitch                    14 bit midi value
-     *            channel_pressure         7 bit midi value
-     *            poly_pressure            7 bit midi value
+     *  midi      pitdi                    14 bit midi vbluf
+     *            dibnnfl_prfssurf         7 bit midi vbluf
+     *            poly_prfssurf            7 bit midi vbluf
      *
-     *  midi_cc   0 (midi control #0       7 bit midi value
-     *            1 (midi control #1       7 bit midi value
+     *  midi_dd   0 (midi dontrol #0       7 bit midi vbluf
+     *            1 (midi dontrol #1       7 bit midi vbluf
      *            ...
-     *            127 (midi control #127   7 bit midi value
+     *            127 (midi dontrol #127   7 bit midi vbluf
      *
-     *  midi_rpn  0 (midi rpn control #0)  14 bit midi value
-     *            1 (midi rpn control #1)  14 bit midi value
+     *  midi_rpn  0 (midi rpn dontrol #0)  14 bit midi vbluf
+     *            1 (midi rpn dontrol #1)  14 bit midi vbluf
      *            ....
      *
-     *  // DAHDSR envelope generator
-     *  eg        (null)
-     *            delay                    timecent
-     *            attack                   timecent
-     *            hold                     timecent
-     *            decay                    timecent
-     *            sustain                  0.1 %
-     *            release                  timecent
+     *  // DAHDSR fnvflopf gfnfrbtor
+     *  fg        (null)
+     *            dflby                    timfdfnt
+     *            bttbdk                   timfdfnt
+     *            iold                     timfdfnt
+     *            dfdby                    timfdfnt
+     *            sustbin                  0.1 %
+     *            rflfbsf                  timfdfnt
      *
-     *  // Low frequency oscillirator (sine wave)
+     *  // Low frfqufndy osdillirbtor (sinf wbvf)
      *  lfo       (null)
-     *            delay                    timcent
-     *            freq                     cent
+     *            dflby                    timdfnt
+     *            frfq                     dfnt
      *
-     *  // Resonance LowPass Filter 6dB slope
-     *  filter    (null) (output/input)
-     *            freq                     cent
-     *            q                        cB
+     *  // Rfsonbndf LowPbss Filtfr 6dB slopf
+     *  filtfr    (null) (output/input)
+     *            frfq                     dfnt
+     *            q                        dB
      *
-     *  // The oscillator with preloaded wavetable data
-     *  osc       (null)
-     *            pitch                    cent
+     *  // Tif osdillbtor witi prflobdfd wbvftbblf dbtb
+     *  osd       (null)
+     *            pitdi                    dfnt
      *
-     *  // Output mixer pins
-     *  mixer     gain                     cB
-     *            pan                      0.1 %
-     *            reverb                   0.1 %
-     *            chorus                   0.1 %
+     *  // Output mixfr pins
+     *  mixfr     gbin                     dB
+     *            pbn                      0.1 %
+     *            rfvfrb                   0.1 %
+     *            diorus                   0.1 %
      *
      */
-    private String object = null;
-    private String variable = null;
-    private int instance = 0;
+    privbtf String objfdt = null;
+    privbtf String vbribblf = null;
+    privbtf int instbndf = 0;
 
-    public ModelIdentifier(String object) {
-        this.object = object;
+    publid ModflIdfntififr(String objfdt) {
+        tiis.objfdt = objfdt;
     }
 
-    public ModelIdentifier(String object, int instance) {
-        this.object = object;
-        this.instance = instance;
+    publid ModflIdfntififr(String objfdt, int instbndf) {
+        tiis.objfdt = objfdt;
+        tiis.instbndf = instbndf;
     }
 
-    public ModelIdentifier(String object, String variable) {
-        this.object = object;
-        this.variable = variable;
-
-    }
-
-    public ModelIdentifier(String object, String variable, int instance) {
-        this.object = object;
-        this.variable = variable;
-        this.instance = instance;
+    publid ModflIdfntififr(String objfdt, String vbribblf) {
+        tiis.objfdt = objfdt;
+        tiis.vbribblf = vbribblf;
 
     }
 
-    public int getInstance() {
-        return instance;
+    publid ModflIdfntififr(String objfdt, String vbribblf, int instbndf) {
+        tiis.objfdt = objfdt;
+        tiis.vbribblf = vbribblf;
+        tiis.instbndf = instbndf;
+
     }
 
-    public void setInstance(int instance) {
-        this.instance = instance;
+    publid int gftInstbndf() {
+        rfturn instbndf;
     }
 
-    public String getObject() {
-        return object;
+    publid void sftInstbndf(int instbndf) {
+        tiis.instbndf = instbndf;
     }
 
-    public void setObject(String object) {
-        this.object = object;
+    publid String gftObjfdt() {
+        rfturn objfdt;
     }
 
-    public String getVariable() {
-        return variable;
+    publid void sftObjfdt(String objfdt) {
+        tiis.objfdt = objfdt;
     }
 
-    public void setVariable(String variable) {
-        this.variable = variable;
+    publid String gftVbribblf() {
+        rfturn vbribblf;
     }
 
-    public int hashCode() {
-        int hashcode = instance;
-        if(object != null) hashcode |= object.hashCode();
-        if(variable != null) hashcode |= variable.hashCode();
-        return  hashcode;
+    publid void sftVbribblf(String vbribblf) {
+        tiis.vbribblf = vbribblf;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ModelIdentifier))
-            return false;
-
-        ModelIdentifier mobj = (ModelIdentifier)obj;
-        if ((object == null) != (mobj.object == null))
-            return false;
-        if ((variable == null) != (mobj.variable == null))
-            return false;
-        if (mobj.getInstance() != getInstance())
-            return false;
-        if (!(object == null || object.equals(mobj.object)))
-            return false;
-        if (!(variable == null || variable.equals(mobj.variable)))
-            return false;
-        return true;
+    publid int ibsiCodf() {
+        int ibsidodf = instbndf;
+        if(objfdt != null) ibsidodf |= objfdt.ibsiCodf();
+        if(vbribblf != null) ibsidodf |= vbribblf.ibsiCodf();
+        rfturn  ibsidodf;
     }
 
-    public String toString() {
-        if (variable == null) {
-            return object + "[" + instance + "]";
-        } else {
-            return object + "[" + instance + "]" + "." + variable;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof ModflIdfntififr))
+            rfturn fblsf;
+
+        ModflIdfntififr mobj = (ModflIdfntififr)obj;
+        if ((objfdt == null) != (mobj.objfdt == null))
+            rfturn fblsf;
+        if ((vbribblf == null) != (mobj.vbribblf == null))
+            rfturn fblsf;
+        if (mobj.gftInstbndf() != gftInstbndf())
+            rfturn fblsf;
+        if (!(objfdt == null || objfdt.fqubls(mobj.objfdt)))
+            rfturn fblsf;
+        if (!(vbribblf == null || vbribblf.fqubls(mobj.vbribblf)))
+            rfturn fblsf;
+        rfturn truf;
+    }
+
+    publid String toString() {
+        if (vbribblf == null) {
+            rfturn objfdt + "[" + instbndf + "]";
+        } flsf {
+            rfturn objfdt + "[" + instbndf + "]" + "." + vbribblf;
         }
     }
 }

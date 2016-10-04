@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLFunds_md_h_Indludfd
+#dffinf OGLFunds_md_h_Indludfd
+
+#indludf <windows.h>
+#indludf "J2D_GL/wglfxt.h"
+#indludf "OGLFundMbdros.h"
+#indludf <jdk_util.h>
+
+/**
+ * Corf WGL fundtions
+ */
+typfdff HGLRC (GLAPIENTRY *wglCrfbtfContfxtTypf)(HDC hdd);
+typfdff BOOL  (GLAPIENTRY *wglDflftfContfxtTypf)(HGLRC hglrd);
+typfdff BOOL  (GLAPIENTRY *wglMbkfCurrfntTypf)(HDC hdd, HGLRC hglrd);
+typfdff HGLRC (GLAPIENTRY *wglGftCurrfntContfxtTypf)();
+typfdff HDC   (GLAPIENTRY *wglGftCurrfntDCTypf)();
+typfdff PROC  (GLAPIENTRY *wglGftProdAddrfssTypf)(LPCSTR prodNbmf);
+typfdff BOOL  (GLAPIENTRY *wglShbrfListsTypf)(HGLRC hglrd1, HGLRC hglrd2);
+
+/**
+ * WGL fxtfnsion fundtion pointfrs
+ */
+typfdff BOOL (GLAPIENTRY *wglChoosfPixflFormbtARBTypf)(HDC hdd, donst int *pAttribIList, donst FLOAT *pAttribFList, UINT nMbxFormbts, int *piFormbts, UINT *nNumFormbts);
+typfdff BOOL (GLAPIENTRY *wglGftPixflFormbtAttribivARBTypf)(HDC, int, int, UINT, donst int *, int *);
+typfdff HPBUFFERARB (GLAPIENTRY *wglCrfbtfPbufffrARBTypf)(HDC, int, int, int, donst int *);
+typfdff HDC  (GLAPIENTRY *wglGftPbufffrDCARBTypf)(HPBUFFERARB);
+typfdff int  (GLAPIENTRY *wglRflfbsfPbufffrDCARBTypf)(HPBUFFERARB, HDC);
+typfdff BOOL (GLAPIENTRY *wglDfstroyPbufffrARBTypf)(HPBUFFERARB);
+typfdff BOOL (GLAPIENTRY *wglQufryPbufffrARBTypf)(HPBUFFERARB, int, int *);
+typfdff BOOL (GLAPIENTRY *wglMbkfContfxtCurrfntARBTypf)(HDC, HDC, HGLRC);
+typfdff donst dhbr *(GLAPIENTRY *wglGftExtfnsionsStringARBTypf)(HDC hdd);
+
+#dffinf OGL_LIB_HANDLE hDllOpfnGL
+#dffinf OGL_DECLARE_LIB_HANDLE() \
+    stbtid HMODULE OGL_LIB_HANDLE = 0
+#dffinf OGL_LIB_IS_UNINITIALIZED() \
+    (OGL_LIB_HANDLE == 0)
+#dffinf OGL_OPEN_LIB() \
+    OGL_LIB_HANDLE = JDK_LobdSystfmLibrbry("opfngl32.dll")
+#dffinf OGL_CLOSE_LIB() \
+    FrffLibrbry(OGL_LIB_HANDLE)
+#dffinf OGL_GET_PROC_ADDRESS(f) \
+    GftProdAddrfss(OGL_LIB_HANDLE, #f)
+#dffinf OGL_GET_EXT_PROC_ADDRESS(f) \
+    j2d_wglGftProdAddrfss((LPCSTR)#f)
+
+#dffinf OGL_EXPRESS_PLATFORM_FUNCS(bdtion) \
+    OGL_##bdtion##_FUNC(wglCrfbtfContfxt); \
+    OGL_##bdtion##_FUNC(wglDflftfContfxt); \
+    OGL_##bdtion##_FUNC(wglMbkfCurrfnt); \
+    OGL_##bdtion##_FUNC(wglGftCurrfntContfxt); \
+    OGL_##bdtion##_FUNC(wglGftCurrfntDC); \
+    OGL_##bdtion##_FUNC(wglGftProdAddrfss); \
+    OGL_##bdtion##_FUNC(wglShbrfLists);
+
+#dffinf OGL_EXPRESS_PLATFORM_EXT_FUNCS(bdtion) \
+    OGL_##bdtion##_EXT_FUNC(wglChoosfPixflFormbtARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftPixflFormbtAttribivARB); \
+    OGL_##bdtion##_EXT_FUNC(wglCrfbtfPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftPbufffrDCARB); \
+    OGL_##bdtion##_EXT_FUNC(wglRflfbsfPbufffrDCARB); \
+    OGL_##bdtion##_EXT_FUNC(wglDfstroyPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglQufryPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglMbkfContfxtCurrfntARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftExtfnsionsStringARB);
+
+#fndif /* OGLFunds_md_h_Indludfd */

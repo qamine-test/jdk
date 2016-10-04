@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicToolBarUI;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidToolBbrUI;
 
-import com.apple.laf.AquaUtils.*;
+import dom.bpplf.lbf.AqubUtils.*;
 
-public class AquaToolBarUI extends BasicToolBarUI implements SwingConstants {
-    private static RecyclableSingleton<ToolBarBorder> toolBarBorder = new RecyclableSingletonFromDefaultConstructor<ToolBarBorder>(ToolBarBorder.class);
-    public static Border getToolBarBorder() {
-        return toolBarBorder.get();
+publid dlbss AqubToolBbrUI fxtfnds BbsidToolBbrUI implfmfnts SwingConstbnts {
+    privbtf stbtid RfdydlbblfSinglfton<ToolBbrBordfr> toolBbrBordfr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<ToolBbrBordfr>(ToolBbrBordfr.dlbss);
+    publid stbtid Bordfr gftToolBbrBordfr() {
+        rfturn toolBbrBordfr.gft();
     }
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaToolBarUI();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubToolBbrUI();
     }
 
-    protected void setBorderToNonRollover(final Component c) { }
-    protected void setBorderToNormal(final Component c) { }
-    protected void setBorderToRollover(final Component c) { }
+    protfdtfd void sftBordfrToNonRollovfr(finbl Componfnt d) { }
+    protfdtfd void sftBordfrToNormbl(finbl Componfnt d) { }
+    protfdtfd void sftBordfrToRollovfr(finbl Componfnt d) { }
 
-    protected RootPaneContainer createFloatingWindow(final JToolBar toolbar) {
-        final RootPaneContainer window = super.createFloatingWindow(toolbar);
-        window.getRootPane().putClientProperty("Window.style", "small");
-        return window;
+    protfdtfd RootPbnfContbinfr drfbtfFlobtingWindow(finbl JToolBbr toolbbr) {
+        finbl RootPbnfContbinfr window = supfr.drfbtfFlobtingWindow(toolbbr);
+        window.gftRootPbnf().putClifntPropfrty("Window.stylf", "smbll");
+        rfturn window;
     }
 
-    /* ToolBarBorder and drag-off handle, based loosly on MetalBumps */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ToolBarBorder extends AbstractBorder implements UIResource, javax.swing.SwingConstants {
-        protected void fillHandle(final Graphics g, final int x1, final int y1, final int x2, final int y2, final boolean horizontal) {
-            g.setColor(UIManager.getColor("ToolBar.borderHandleColor"));
-            if (horizontal) {
-                final int h = y2 - y1 - 2;
-                g.fillRect(x1 + 2, y1 + 1, 1, h);
-                g.fillRect(x1 + 5, y1 + 1, 1, h);
-            } else {
-                final int w = x2 - x1 - 2;
-                g.fillRect(x1 + 1, y1 + 2, w, 1);
-                g.fillRect(x1 + 1, y1 + 5, w, 1);
+    /* ToolBbrBordfr bnd drbg-off ibndlf, bbsfd loosly on MftblBumps */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss ToolBbrBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf, jbvbx.swing.SwingConstbnts {
+        protfdtfd void fillHbndlf(finbl Grbpiids g, finbl int x1, finbl int y1, finbl int x2, finbl int y2, finbl boolfbn iorizontbl) {
+            g.sftColor(UIMbnbgfr.gftColor("ToolBbr.bordfrHbndlfColor"));
+            if (iorizontbl) {
+                finbl int i = y2 - y1 - 2;
+                g.fillRfdt(x1 + 2, y1 + 1, 1, i);
+                g.fillRfdt(x1 + 5, y1 + 1, 1, i);
+            } flsf {
+                finbl int w = x2 - x1 - 2;
+                g.fillRfdt(x1 + 1, y1 + 2, w, 1);
+                g.fillRfdt(x1 + 1, y1 + 5, w, 1);
             }
         }
 
-        public void paintBorder(final java.awt.Component c, final Graphics g, int x, int y, final int w, final int h) {
-            g.translate(x, y);
+        publid void pbintBordfr(finbl jbvb.bwt.Componfnt d, finbl Grbpiids g, int x, int y, finbl int w, finbl int i) {
+            g.trbnslbtf(x, y);
 
-            if (c.isOpaque()) {
-                AquaUtils.fillRect(g, c, c.getBackground(), 0, 0, w - 1, h - 1);
+            if (d.isOpbquf()) {
+                AqubUtils.fillRfdt(g, d, d.gftBbdkground(), 0, 0, w - 1, i - 1);
             }
 
-            final Color oldColor = g.getColor();
+            finbl Color oldColor = g.gftColor();
 
-            final JToolBar jtb = (JToolBar)c;
-            final ComponentOrientation orient = jtb.getComponentOrientation();
-            final boolean horizontal = jtb.getOrientation() == SwingConstants.HORIZONTAL;
+            finbl JToolBbr jtb = (JToolBbr)d;
+            finbl ComponfntOrifntbtion orifnt = jtb.gftComponfntOrifntbtion();
+            finbl boolfbn iorizontbl = jtb.gftOrifntbtion() == SwingConstbnts.HORIZONTAL;
 
-            if (jtb.isFloatable()) {
-                if (horizontal) {
-                    if (orient.isLeftToRight()) {
-                        fillHandle(g, 2, 2, 10, h - 2, true);
-                    } else {
-                        fillHandle(g, w - 10, 2, w - 2, h - 2, true);
+            if (jtb.isFlobtbblf()) {
+                if (iorizontbl) {
+                    if (orifnt.isLfftToRigit()) {
+                        fillHbndlf(g, 2, 2, 10, i - 2, truf);
+                    } flsf {
+                        fillHbndlf(g, w - 10, 2, w - 2, i - 2, truf);
                     }
-                } else {
-                    fillHandle(g, 2, 2, w - 2, 10, false);
+                } flsf {
+                    fillHbndlf(g, 2, 2, w - 2, 10, fblsf);
                 }
             }
 
-            g.setColor(oldColor);
+            g.sftColor(oldColor);
 
-            g.translate(-x, -y);
+            g.trbnslbtf(-x, -y);
         }
 
-        public Insets getBorderInsets(final java.awt.Component c) {
-            final Insets borderInsets = new Insets(5, 5, 5, 5);
-            return getBorderInsets(c, borderInsets);
+        publid Insfts gftBordfrInsfts(finbl jbvb.bwt.Componfnt d) {
+            finbl Insfts bordfrInsfts = nfw Insfts(5, 5, 5, 5);
+            rfturn gftBordfrInsfts(d, bordfrInsfts);
         }
 
-        public Insets getBorderInsets(final java.awt.Component c, final Insets borderInsets) {
-            borderInsets.left = 4;
-            borderInsets.right = 4;
-            borderInsets.top = 2;
-            borderInsets.bottom = 2;
+        publid Insfts gftBordfrInsfts(finbl jbvb.bwt.Componfnt d, finbl Insfts bordfrInsfts) {
+            bordfrInsfts.lfft = 4;
+            bordfrInsfts.rigit = 4;
+            bordfrInsfts.top = 2;
+            bordfrInsfts.bottom = 2;
 
-            if (((JToolBar)c).isFloatable()) {
-                if (((JToolBar)c).getOrientation() == HORIZONTAL) {
-                    borderInsets.left = 12;
-                    // We don't have to adjust for right-to-left
-                } else { // vertical
-                    borderInsets.top = 12;
+            if (((JToolBbr)d).isFlobtbblf()) {
+                if (((JToolBbr)d).gftOrifntbtion() == HORIZONTAL) {
+                    bordfrInsfts.lfft = 12;
+                    // Wf don't ibvf to bdjust for rigit-to-lfft
+                } flsf { // vfrtidbl
+                    bordfrInsfts.top = 12;
                 }
             }
 
-            final Insets margin = ((JToolBar)c).getMargin();
+            finbl Insfts mbrgin = ((JToolBbr)d).gftMbrgin();
 
-            if (margin != null) {
-                borderInsets.left += margin.left;
-                borderInsets.top += margin.top;
-                borderInsets.right += margin.right;
-                borderInsets.bottom += margin.bottom;
+            if (mbrgin != null) {
+                bordfrInsfts.lfft += mbrgin.lfft;
+                bordfrInsfts.top += mbrgin.top;
+                bordfrInsfts.rigit += mbrgin.rigit;
+                bordfrInsfts.bottom += mbrgin.bottom;
             }
 
-            return borderInsets;
+            rfturn bordfrInsfts;
         }
 
-        public boolean isBorderOpaque() {
-            return true;
+        publid boolfbn isBordfrOpbquf() {
+            rfturn truf;
         }
     }
 
-    @Override
-    public final void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            AquaUtils.fillRect(g, c);
+    @Ovfrridf
+    publid finbl void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            AqubUtils.fillRfdt(g, d);
         }
-        paint(g, c);
+        pbint(g, d);
     }
 }

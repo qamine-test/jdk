@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the MPI Arbitrary Precision Integer Arithmetic library.
+ * Tif Originbl Codf is tif MPI Arbitrbry Prfdision Intfgfr Aritimftid librbry.
  *
- * The Initial Developer of the Original Code is
- * Michael J. Fromberger.
- * Portions created by the Initial Developer are Copyright (C) 1998
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Midibfl J. Frombfrgfr.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 1998
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Netscape Communications Corporation
+ *   Nftsdbpf Communidbtions Corporbtion
  *
  *********************************************************************** */
 
-/*  Arbitrary precision integer arithmetic library
+/*  Arbitrbry prfdision intfgfr britimftid librbry
  *
- *  NOTE WELL: the content of this header file is NOT part of the "public"
- *  API for the MPI library, and may change at any time.
- *  Application programs that use libmpi should NOT include this header file.
+ *  NOTE WELL: tif dontfnt of tiis ifbdfr filf is NOT pbrt of tif "publid"
+ *  API for tif MPI librbry, bnd mby dibngf bt bny timf.
+ *  Applidbtion progrbms tibt usf libmpi siould NOT indludf tiis ifbdfr filf.
  */
 
-#ifndef _MPI_PRIV_H
-#define _MPI_PRIV_H
+#ifndff _MPI_PRIV_H
+#dffinf _MPI_PRIV_H
 
-/* $Id: mpi-priv.h,v 1.20 2005/11/22 07:16:43 relyea%netscape.com Exp $ */
+/* $Id: mpi-priv.i,v 1.20 2005/11/22 07:16:43 rflyfb%nftsdbpf.dom Exp $ */
 
-#include "mpi.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#endif /* _KERNEL */
+#indludf "mpi.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <dtypf.i>
+#fndif /* _KERNEL */
 
 #if MP_DEBUG
-#include <stdio.h>
+#indludf <stdio.i>
 
-#define DIAG(T,V) {fprintf(stderr,T);mp_print(V,stderr);fputc('\n',stderr);}
-#else
-#define DIAG(T,V)
-#endif
+#dffinf DIAG(T,V) {fprintf(stdfrr,T);mp_print(V,stdfrr);fputd('\n',stdfrr);}
+#flsf
+#dffinf DIAG(T,V)
+#fndif
 
-/* If we aren't using a wired-in logarithm table, we need to include
-   the math library to get the log() function
+/* If wf brfn't using b wirfd-in logbritim tbblf, wf nffd to indludf
+   tif mbti librbry to gft tif log() fundtion
  */
 
-/* {{{ s_logv_2[] - log table for 2 in various bases */
+/* {{{ s_logv_2[] - log tbblf for 2 in vbrious bbsfs */
 
 #if MP_LOGTAB
 /*
-  A table of the logs of 2 for various bases (the 0 and 1 entries of
-  this table are meaningless and should not be referenced).
+  A tbblf of tif logs of 2 for vbrious bbsfs (tif 0 bnd 1 fntrifs of
+  tiis tbblf brf mfbninglfss bnd siould not bf rfffrfndfd).
 
-  This table is used to compute output lengths for the mp_toradix()
-  function.  Since a number n in radix r takes up about log_r(n)
-  digits, we estimate the output size by taking the least integer
-  greater than log_r(n), where:
+  Tiis tbblf is usfd to domputf output lfngtis for tif mp_torbdix()
+  fundtion.  Sindf b numbfr n in rbdix r tbkfs up bbout log_r(n)
+  digits, wf fstimbtf tif output sizf by tbking tif lfbst intfgfr
+  grfbtfr tibn log_r(n), wifrf:
 
   log_r(n) = log_2(n) * log_r(2)
 
-  This table, therefore, is a table of log_r(2) for 2 <= r <= 36,
-  which are the output bases supported.
+  Tiis tbblf, tifrfforf, is b tbblf of log_r(2) for 2 <= r <= 36,
+  wiidi brf tif output bbsfs supportfd.
  */
 
-extern const float s_logv_2[];
-#define LOG_V_2(R)  s_logv_2[(R)]
+fxtfrn donst flobt s_logv_2[];
+#dffinf LOG_V_2(R)  s_logv_2[(R)]
 
-#else
+#flsf
 
 /*
-   If MP_LOGTAB is not defined, use the math library to compute the
-   logarithms on the fly.  Otherwise, use the table.
-   Pick which works best for your system.
+   If MP_LOGTAB is not dffinfd, usf tif mbti librbry to domputf tif
+   logbritims on tif fly.  Otifrwisf, usf tif tbblf.
+   Pidk wiidi works bfst for your systfm.
  */
 
-#include <math.h>
-#define LOG_V_2(R)  (log(2.0)/log(R))
+#indludf <mbti.i>
+#dffinf LOG_V_2(R)  (log(2.0)/log(R))
 
-#endif /* if MP_LOGTAB */
+#fndif /* if MP_LOGTAB */
 
 /* }}} */
 
-/* {{{ Digit arithmetic macros */
+/* {{{ Digit britimftid mbdros */
 
 /*
-  When adding and multiplying digits, the results can be larger than
-  can be contained in an mp_digit.  Thus, an mp_word is used.  These
-  macros mask off the upper and lower digits of the mp_word (the
-  mp_word may be more than 2 mp_digits wide, but we only concern
-  ourselves with the low-order 2 mp_digits)
+  Wifn bdding bnd multiplying digits, tif rfsults dbn bf lbrgfr tibn
+  dbn bf dontbinfd in bn mp_digit.  Tius, bn mp_word is usfd.  Tifsf
+  mbdros mbsk off tif uppfr bnd lowfr digits of tif mp_word (tif
+  mp_word mby bf morf tibn 2 mp_digits widf, but wf only dondfrn
+  oursflvfs witi tif low-ordfr 2 mp_digits)
  */
 
-#define  CARRYOUT(W)  (mp_digit)((W)>>DIGIT_BIT)
-#define  ACCUM(W)     (mp_digit)(W)
+#dffinf  CARRYOUT(W)  (mp_digit)((W)>>DIGIT_BIT)
+#dffinf  ACCUM(W)     (mp_digit)(W)
 
-#define MP_MIN(a,b)   (((a) < (b)) ? (a) : (b))
-#define MP_MAX(a,b)   (((a) > (b)) ? (a) : (b))
-#define MP_HOWMANY(a,b) (((a) + (b) - 1)/(b))
-#define MP_ROUNDUP(a,b) (MP_HOWMANY(a,b) * (b))
-
-/* }}} */
-
-/* {{{ Comparison constants */
-
-#define  MP_LT       -1
-#define  MP_EQ        0
-#define  MP_GT        1
+#dffinf MP_MIN(b,b)   (((b) < (b)) ? (b) : (b))
+#dffinf MP_MAX(b,b)   (((b) > (b)) ? (b) : (b))
+#dffinf MP_HOWMANY(b,b) (((b) + (b) - 1)/(b))
+#dffinf MP_ROUNDUP(b,b) (MP_HOWMANY(b,b) * (b))
 
 /* }}} */
 
-/* {{{ private function declarations */
+/* {{{ Compbrison donstbnts */
+
+#dffinf  MP_LT       -1
+#dffinf  MP_EQ        0
+#dffinf  MP_GT        1
+
+/* }}} */
+
+/* {{{ privbtf fundtion dfdlbrbtions */
 
 /*
-   If MP_MACRO is false, these will be defined as actual functions;
-   otherwise, suitable macro definitions will be used.  This works
-   around the fact that ANSI C89 doesn't support an 'inline' keyword
-   (although I hear C9x will ... about bloody time).  At present, the
-   macro definitions are identical to the function bodies, but they'll
-   expand in place, instead of generating a function call.
+   If MP_MACRO is fblsf, tifsf will bf dffinfd bs bdtubl fundtions;
+   otifrwisf, suitbblf mbdro dffinitions will bf usfd.  Tiis works
+   bround tif fbdt tibt ANSI C89 dofsn't support bn 'inlinf' kfyword
+   (bltiougi I ifbr C9x will ... bbout bloody timf).  At prfsfnt, tif
+   mbdro dffinitions brf idfntidbl to tif fundtion bodifs, but tify'll
+   fxpbnd in plbdf, instfbd of gfnfrbting b fundtion dbll.
 
-   I chose these particular functions to be made into macros because
-   some profiling showed they are called a lot on a typical workload,
-   and yet they are primarily housekeeping.
+   I diosf tifsf pbrtidulbr fundtions to bf mbdf into mbdros bfdbusf
+   somf profiling siowfd tify brf dbllfd b lot on b typidbl worklobd,
+   bnd yft tify brf primbrily iousfkffping.
  */
 #if MP_MACRO == 0
- void     s_mp_setz(mp_digit *dp, mp_size count); /* zero digits           */
- void     s_mp_copy(const mp_digit *sp, mp_digit *dp, mp_size count); /* copy */
- void    *s_mp_alloc(size_t nb, size_t ni, int flag); /* general allocator    */
- void     s_mp_free(void *ptr, mp_size);          /* general free function */
-extern unsigned long mp_allocs;
-extern unsigned long mp_frees;
-extern unsigned long mp_copies;
-#else
+ void     s_mp_sftz(mp_digit *dp, mp_sizf dount); /* zfro digits           */
+ void     s_mp_dopy(donst mp_digit *sp, mp_digit *dp, mp_sizf dount); /* dopy */
+ void    *s_mp_bllod(sizf_t nb, sizf_t ni, int flbg); /* gfnfrbl bllodbtor    */
+ void     s_mp_frff(void *ptr, mp_sizf);          /* gfnfrbl frff fundtion */
+fxtfrn unsignfd long mp_bllods;
+fxtfrn unsignfd long mp_frffs;
+fxtfrn unsignfd long mp_dopifs;
+#flsf
 
- /* Even if these are defined as macros, we need to respect the settings
-    of the MP_MEMSET and MP_MEMCPY configuration options...
+ /* Evfn if tifsf brf dffinfd bs mbdros, wf nffd to rfspfdt tif sfttings
+    of tif MP_MEMSET bnd MP_MEMCPY donfigurbtion options...
   */
  #if MP_MEMSET == 0
-  #define  s_mp_setz(dp, count) \
-       {int ix;for(ix=0;ix<(count);ix++)(dp)[ix]=0;}
- #else
-  #define  s_mp_setz(dp, count) memset(dp, 0, (count) * sizeof(mp_digit))
- #endif /* MP_MEMSET */
+  #dffinf  s_mp_sftz(dp, dount) \
+       {int ix;for(ix=0;ix<(dount);ix++)(dp)[ix]=0;}
+ #flsf
+  #dffinf  s_mp_sftz(dp, dount) mfmsft(dp, 0, (dount) * sizfof(mp_digit))
+ #fndif /* MP_MEMSET */
 
  #if MP_MEMCPY == 0
-  #define  s_mp_copy(sp, dp, count) \
-       {int ix;for(ix=0;ix<(count);ix++)(dp)[ix]=(sp)[ix];}
- #else
-  #define  s_mp_copy(sp, dp, count) memcpy(dp, sp, (count) * sizeof(mp_digit))
- #endif /* MP_MEMCPY */
+  #dffinf  s_mp_dopy(sp, dp, dount) \
+       {int ix;for(ix=0;ix<(dount);ix++)(dp)[ix]=(sp)[ix];}
+ #flsf
+  #dffinf  s_mp_dopy(sp, dp, dount) mfmdpy(dp, sp, (dount) * sizfof(mp_digit))
+ #fndif /* MP_MEMCPY */
 
- #define  s_mp_alloc(nb, ni)  calloc(nb, ni)
- #define  s_mp_free(ptr) {if(ptr) free(ptr);}
-#endif /* MP_MACRO */
+ #dffinf  s_mp_bllod(nb, ni)  dbllod(nb, ni)
+ #dffinf  s_mp_frff(ptr) {if(ptr) frff(ptr);}
+#fndif /* MP_MACRO */
 
-mp_err   s_mp_grow(mp_int *mp, mp_size min);   /* increase allocated size */
-mp_err   s_mp_pad(mp_int *mp, mp_size min);    /* left pad with zeroes    */
+mp_frr   s_mp_grow(mp_int *mp, mp_sizf min);   /* indrfbsf bllodbtfd sizf */
+mp_frr   s_mp_pbd(mp_int *mp, mp_sizf min);    /* lfft pbd witi zfrofs    */
 
 #if MP_MACRO == 0
- void     s_mp_clamp(mp_int *mp);               /* clip leading zeroes     */
-#else
- #define  s_mp_clamp(mp)\
-  { mp_size used = MP_USED(mp); \
-    while (used > 1 && DIGIT(mp, used - 1) == 0) --used; \
-    MP_USED(mp) = used; \
+ void     s_mp_dlbmp(mp_int *mp);               /* dlip lfbding zfrofs     */
+#flsf
+ #dffinf  s_mp_dlbmp(mp)\
+  { mp_sizf usfd = MP_USED(mp); \
+    wiilf (usfd > 1 && DIGIT(mp, usfd - 1) == 0) --usfd; \
+    MP_USED(mp) = usfd; \
   }
-#endif /* MP_MACRO */
+#fndif /* MP_MACRO */
 
-void     s_mp_exch(mp_int *a, mp_int *b);      /* swap a and b in place   */
+void     s_mp_fxdi(mp_int *b, mp_int *b);      /* swbp b bnd b in plbdf   */
 
-mp_err   s_mp_lshd(mp_int *mp, mp_size p);     /* left-shift by p digits  */
-void     s_mp_rshd(mp_int *mp, mp_size p);     /* right-shift by p digits */
-mp_err   s_mp_mul_2d(mp_int *mp, mp_digit d);  /* multiply by 2^d in place */
-void     s_mp_div_2d(mp_int *mp, mp_digit d);  /* divide by 2^d in place  */
-void     s_mp_mod_2d(mp_int *mp, mp_digit d);  /* modulo 2^d in place     */
-void     s_mp_div_2(mp_int *mp);               /* divide by 2 in place    */
-mp_err   s_mp_mul_2(mp_int *mp);               /* multiply by 2 in place  */
-mp_err   s_mp_norm(mp_int *a, mp_int *b, mp_digit *pd);
-                                               /* normalize for division  */
-mp_err   s_mp_add_d(mp_int *mp, mp_digit d);   /* unsigned digit addition */
-mp_err   s_mp_sub_d(mp_int *mp, mp_digit d);   /* unsigned digit subtract */
-mp_err   s_mp_mul_d(mp_int *mp, mp_digit d);   /* unsigned digit multiply */
-mp_err   s_mp_div_d(mp_int *mp, mp_digit d, mp_digit *r);
-                                               /* unsigned digit divide   */
-mp_err   s_mp_reduce(mp_int *x, const mp_int *m, const mp_int *mu);
-                                               /* Barrett reduction       */
-mp_err   s_mp_add(mp_int *a, const mp_int *b); /* magnitude addition      */
-mp_err   s_mp_add_3arg(const mp_int *a, const mp_int *b, mp_int *c);
-mp_err   s_mp_sub(mp_int *a, const mp_int *b); /* magnitude subtract      */
-mp_err   s_mp_sub_3arg(const mp_int *a, const mp_int *b, mp_int *c);
-mp_err   s_mp_add_offset(mp_int *a, mp_int *b, mp_size offset);
-                                               /* a += b * RADIX^offset   */
-mp_err   s_mp_mul(mp_int *a, const mp_int *b); /* magnitude multiply      */
+mp_frr   s_mp_lsid(mp_int *mp, mp_sizf p);     /* lfft-siift by p digits  */
+void     s_mp_rsid(mp_int *mp, mp_sizf p);     /* rigit-siift by p digits */
+mp_frr   s_mp_mul_2d(mp_int *mp, mp_digit d);  /* multiply by 2^d in plbdf */
+void     s_mp_div_2d(mp_int *mp, mp_digit d);  /* dividf by 2^d in plbdf  */
+void     s_mp_mod_2d(mp_int *mp, mp_digit d);  /* modulo 2^d in plbdf     */
+void     s_mp_div_2(mp_int *mp);               /* dividf by 2 in plbdf    */
+mp_frr   s_mp_mul_2(mp_int *mp);               /* multiply by 2 in plbdf  */
+mp_frr   s_mp_norm(mp_int *b, mp_int *b, mp_digit *pd);
+                                               /* normblizf for division  */
+mp_frr   s_mp_bdd_d(mp_int *mp, mp_digit d);   /* unsignfd digit bddition */
+mp_frr   s_mp_sub_d(mp_int *mp, mp_digit d);   /* unsignfd digit subtrbdt */
+mp_frr   s_mp_mul_d(mp_int *mp, mp_digit d);   /* unsignfd digit multiply */
+mp_frr   s_mp_div_d(mp_int *mp, mp_digit d, mp_digit *r);
+                                               /* unsignfd digit dividf   */
+mp_frr   s_mp_rfdudf(mp_int *x, donst mp_int *m, donst mp_int *mu);
+                                               /* Bbrrftt rfdudtion       */
+mp_frr   s_mp_bdd(mp_int *b, donst mp_int *b); /* mbgnitudf bddition      */
+mp_frr   s_mp_bdd_3brg(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr   s_mp_sub(mp_int *b, donst mp_int *b); /* mbgnitudf subtrbdt      */
+mp_frr   s_mp_sub_3brg(donst mp_int *b, donst mp_int *b, mp_int *d);
+mp_frr   s_mp_bdd_offsft(mp_int *b, mp_int *b, mp_sizf offsft);
+                                               /* b += b * RADIX^offsft   */
+mp_frr   s_mp_mul(mp_int *b, donst mp_int *b); /* mbgnitudf multiply      */
 #if MP_SQUARE
-mp_err   s_mp_sqr(mp_int *a);                  /* magnitude square        */
-#else
-#define  s_mp_sqr(a) s_mp_mul(a, a)
-#endif
-mp_err   s_mp_div(mp_int *rem, mp_int *div, mp_int *quot); /* magnitude div */
-mp_err   s_mp_exptmod(const mp_int *a, const mp_int *b, const mp_int *m, mp_int *c);
-mp_err   s_mp_2expt(mp_int *a, mp_digit k);    /* a = 2^k                 */
-int      s_mp_cmp(const mp_int *a, const mp_int *b); /* magnitude comparison */
-int      s_mp_cmp_d(const mp_int *a, mp_digit d); /* magnitude digit compare */
-int      s_mp_ispow2(const mp_int *v);         /* is v a power of 2?      */
-int      s_mp_ispow2d(mp_digit d);             /* is d a power of 2?      */
+mp_frr   s_mp_sqr(mp_int *b);                  /* mbgnitudf squbrf        */
+#flsf
+#dffinf  s_mp_sqr(b) s_mp_mul(b, b)
+#fndif
+mp_frr   s_mp_div(mp_int *rfm, mp_int *div, mp_int *quot); /* mbgnitudf div */
+mp_frr   s_mp_fxptmod(donst mp_int *b, donst mp_int *b, donst mp_int *m, mp_int *d);
+mp_frr   s_mp_2fxpt(mp_int *b, mp_digit k);    /* b = 2^k                 */
+int      s_mp_dmp(donst mp_int *b, donst mp_int *b); /* mbgnitudf dompbrison */
+int      s_mp_dmp_d(donst mp_int *b, mp_digit d); /* mbgnitudf digit dompbrf */
+int      s_mp_ispow2(donst mp_int *v);         /* is v b powfr of 2?      */
+int      s_mp_ispow2d(mp_digit d);             /* is d b powfr of 2?      */
 
-int      s_mp_tovalue(char ch, int r);          /* convert ch to value    */
-char     s_mp_todigit(mp_digit val, int r, int low); /* convert val to digit */
-int      s_mp_outlen(int bits, int r);          /* output length in bytes */
-mp_digit s_mp_invmod_radix(mp_digit P);   /* returns (P ** -1) mod RADIX */
-mp_err   s_mp_invmod_odd_m( const mp_int *a, const mp_int *m, mp_int *c);
-mp_err   s_mp_invmod_2d(    const mp_int *a, mp_size k,       mp_int *c);
-mp_err   s_mp_invmod_even_m(const mp_int *a, const mp_int *m, mp_int *c);
+int      s_mp_tovbluf(dibr di, int r);          /* donvfrt di to vbluf    */
+dibr     s_mp_todigit(mp_digit vbl, int r, int low); /* donvfrt vbl to digit */
+int      s_mp_outlfn(int bits, int r);          /* output lfngti in bytfs */
+mp_digit s_mp_invmod_rbdix(mp_digit P);   /* rfturns (P ** -1) mod RADIX */
+mp_frr   s_mp_invmod_odd_m( donst mp_int *b, donst mp_int *m, mp_int *d);
+mp_frr   s_mp_invmod_2d(    donst mp_int *b, mp_sizf k,       mp_int *d);
+mp_frr   s_mp_invmod_fvfn_m(donst mp_int *b, donst mp_int *m, mp_int *d);
 
-#ifdef NSS_USE_COMBA
+#ifdff NSS_USE_COMBA
 
-#define IS_POWER_OF_2(a) ((a) && !((a) & ((a)-1)))
+#dffinf IS_POWER_OF_2(b) ((b) && !((b) & ((b)-1)))
 
-void s_mp_mul_comba_4(const mp_int *A, const mp_int *B, mp_int *C);
-void s_mp_mul_comba_8(const mp_int *A, const mp_int *B, mp_int *C);
-void s_mp_mul_comba_16(const mp_int *A, const mp_int *B, mp_int *C);
-void s_mp_mul_comba_32(const mp_int *A, const mp_int *B, mp_int *C);
+void s_mp_mul_dombb_4(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_8(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_16(donst mp_int *A, donst mp_int *B, mp_int *C);
+void s_mp_mul_dombb_32(donst mp_int *A, donst mp_int *B, mp_int *C);
 
-void s_mp_sqr_comba_4(const mp_int *A, mp_int *B);
-void s_mp_sqr_comba_8(const mp_int *A, mp_int *B);
-void s_mp_sqr_comba_16(const mp_int *A, mp_int *B);
-void s_mp_sqr_comba_32(const mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_4(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_8(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_16(donst mp_int *A, mp_int *B);
+void s_mp_sqr_dombb_32(donst mp_int *A, mp_int *B);
 
-#endif /* end NSS_USE_COMBA */
+#fndif /* fnd NSS_USE_COMBA */
 
-/* ------ mpv functions, operate on arrays of digits, not on mp_int's ------ */
-#if defined (__OS2__) && defined (__IBMC__)
-#define MPI_ASM_DECL __cdecl
-#else
-#define MPI_ASM_DECL
-#endif
+/* ------ mpv fundtions, opfrbtf on brrbys of digits, not on mp_int's ------ */
+#if dffinfd (__OS2__) && dffinfd (__IBMC__)
+#dffinf MPI_ASM_DECL __ddfdl
+#flsf
+#dffinf MPI_ASM_DECL
+#fndif
 
-#ifdef MPI_AMD64
+#ifdff MPI_AMD64
 
-mp_digit MPI_ASM_DECL s_mpv_mul_set_vec64(mp_digit*, mp_digit *, mp_size, mp_digit);
-mp_digit MPI_ASM_DECL s_mpv_mul_add_vec64(mp_digit*, const mp_digit*, mp_size, mp_digit);
+mp_digit MPI_ASM_DECL s_mpv_mul_sft_vfd64(mp_digit*, mp_digit *, mp_sizf, mp_digit);
+mp_digit MPI_ASM_DECL s_mpv_mul_bdd_vfd64(mp_digit*, donst mp_digit*, mp_sizf, mp_digit);
 
-/* c = a * b */
-#define s_mpv_mul_d(a, a_len, b, c) \
-        ((unsigned long*)c)[a_len] = s_mpv_mul_set_vec64(c, a, a_len, b)
+/* d = b * b */
+#dffinf s_mpv_mul_d(b, b_lfn, b, d) \
+        ((unsignfd long*)d)[b_lfn] = s_mpv_mul_sft_vfd64(d, b, b_lfn, b)
 
-/* c += a * b */
-#define s_mpv_mul_d_add(a, a_len, b, c) \
-        ((unsigned long*)c)[a_len] = s_mpv_mul_add_vec64(c, a, a_len, b)
+/* d += b * b */
+#dffinf s_mpv_mul_d_bdd(b, b_lfn, b, d) \
+        ((unsignfd long*)d)[b_lfn] = s_mpv_mul_bdd_vfd64(d, b, b_lfn, b)
 
-#else
+#flsf
 
-void     MPI_ASM_DECL s_mpv_mul_d(const mp_digit *a, mp_size a_len,
-                                        mp_digit b, mp_digit *c);
-void     MPI_ASM_DECL s_mpv_mul_d_add(const mp_digit *a, mp_size a_len,
-                                            mp_digit b, mp_digit *c);
+void     MPI_ASM_DECL s_mpv_mul_d(donst mp_digit *b, mp_sizf b_lfn,
+                                        mp_digit b, mp_digit *d);
+void     MPI_ASM_DECL s_mpv_mul_d_bdd(donst mp_digit *b, mp_sizf b_lfn,
+                                            mp_digit b, mp_digit *d);
 
-#endif
+#fndif
 
-void     MPI_ASM_DECL s_mpv_mul_d_add_prop(const mp_digit *a,
-                                                mp_size a_len, mp_digit b,
-                                                mp_digit *c);
-void     MPI_ASM_DECL s_mpv_sqr_add_prop(const mp_digit *a,
-                                                mp_size a_len,
+void     MPI_ASM_DECL s_mpv_mul_d_bdd_prop(donst mp_digit *b,
+                                                mp_sizf b_lfn, mp_digit b,
+                                                mp_digit *d);
+void     MPI_ASM_DECL s_mpv_sqr_bdd_prop(donst mp_digit *b,
+                                                mp_sizf b_lfn,
                                                 mp_digit *sqrs);
 
-mp_err   MPI_ASM_DECL s_mpv_div_2dx1d(mp_digit Nhi, mp_digit Nlo,
-                            mp_digit divisor, mp_digit *quot, mp_digit *rem);
+mp_frr   MPI_ASM_DECL s_mpv_div_2dx1d(mp_digit Nii, mp_digit Nlo,
+                            mp_digit divisor, mp_digit *quot, mp_digit *rfm);
 
-/* c += a * b * (MP_RADIX ** offset);  */
-#define s_mp_mul_d_add_offset(a, b, c, off) \
-(s_mpv_mul_d_add_prop(MP_DIGITS(a), MP_USED(a), b, MP_DIGITS(c) + off), MP_OKAY)
+/* d += b * b * (MP_RADIX ** offsft);  */
+#dffinf s_mp_mul_d_bdd_offsft(b, b, d, off) \
+(s_mpv_mul_d_bdd_prop(MP_DIGITS(b), MP_USED(b), b, MP_DIGITS(d) + off), MP_OKAY)
 
-typedef struct {
+typfdff strudt {
   mp_int       N;       /* modulus N */
-  mp_digit     n0prime; /* n0' = - (n0 ** -1) mod MP_RADIX */
-  mp_size      b;       /* R == 2 ** b,  also b = # significant bits in N */
+  mp_digit     n0primf; /* n0' = - (n0 ** -1) mod MP_RADIX */
+  mp_sizf      b;       /* R == 2 ** b,  blso b = # signifidbnt bits in N */
 } mp_mont_modulus;
 
-mp_err s_mp_mul_mont(const mp_int *a, const mp_int *b, mp_int *c,
+mp_frr s_mp_mul_mont(donst mp_int *b, donst mp_int *b, mp_int *d,
                        mp_mont_modulus *mmm);
-mp_err s_mp_redc(mp_int *T, mp_mont_modulus *mmm);
+mp_frr s_mp_rfdd(mp_int *T, mp_mont_modulus *mmm);
 
 /*
- * s_mpi_getProcessorLineSize() returns the size in bytes of the cache line
- * if a cache exists, or zero if there is no cache. If more than one
- * cache line exists, it should return the smallest line size (which is
- * usually the L1 cache).
+ * s_mpi_gftProdfssorLinfSizf() rfturns tif sizf in bytfs of tif dbdif linf
+ * if b dbdif fxists, or zfro if tifrf is no dbdif. If morf tibn onf
+ * dbdif linf fxists, it siould rfturn tif smbllfst linf sizf (wiidi is
+ * usublly tif L1 dbdif).
  *
- * mp_modexp uses this information to make sure that private key information
- * isn't being leaked through the cache.
+ * mp_modfxp usfs tiis informbtion to mbkf surf tibt privbtf kfy informbtion
+ * isn't bfing lfbkfd tirougi tif dbdif.
  *
- * see mpcpucache.c for the implementation.
+ * sff mpdpudbdif.d for tif implfmfntbtion.
  */
-unsigned long s_mpi_getProcessorLineSize();
+unsignfd long s_mpi_gftProdfssorLinfSizf();
 
 /* }}} */
-#endif /* _MPI_PRIV_H */
+#fndif /* _MPI_PRIV_H */

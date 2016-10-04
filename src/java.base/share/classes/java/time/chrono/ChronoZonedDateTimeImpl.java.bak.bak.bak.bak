@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.SECONDS;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.ChronoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.zonf.ZonfOffsftTrbnsition;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+
+/**
+ * A dbtf-timf with b timf-zonf in thf dblfndbr nfutrbl API.
+ * <p>
+ * {@dodf ZonfChronoDbtfTimf} is bn immutbblf rfprfsfntbtion of b dbtf-timf with b timf-zonf.
+ * This dlbss storfs bll dbtf bnd timf fiflds, to b prfdision of nbnosfdonds,
+ * bs wfll bs b timf-zonf bnd zonf offsft.
+ * <p>
+ * Thf purposf of storing thf timf-zonf is to distinguish thf bmbiguous dbsf whfrf
+ * thf lodbl timf-linf ovfrlbps, typidblly bs b rfsult of thf fnd of dbylight timf.
+ * Informbtion bbout thf lodbl-timf dbn bf obtbinfd using mfthods on thf timf-zonf.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sfribl Dodumfnt thf dflfgbtion of this dlbss in thf sfriblizfd-form spfdifidbtion.
+ * @pbrbm <D> thf dondrftf typf for thf dbtf of this dbtf-timf
+ * @sindf 1.8
+ */
+finbl dlbss ChronoZonfdDbtfTimfImpl<D fxtfnds ChronoLodblDbtf>
+        implfmfnts ChronoZonfdDbtfTimf<D>, Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5261813987200935591L;
+
+    /**
+     * Thf lodbl dbtf-timf.
+     */
+    privbtf finbl trbnsifnt ChronoLodblDbtfTimfImpl<D> dbtfTimf;
+    /**
+     * Thf zonf offsft.
+     */
+    privbtf finbl trbnsifnt ZonfOffsft offsft;
+    /**
+     * Thf zonf ID.
+     */
+    privbtf finbl trbnsifnt ZonfId zonf;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf from b lodbl dbtf-timf using thf prfffrrfd offsft if possiblf.
+     *
+     * @pbrbm lodblDbtfTimf  thf lodbl dbtf-timf, not null
+     * @pbrbm zonf  thf zonf idfntififr, not null
+     * @pbrbm prfffrrfdOffsft  thf zonf offsft, null if no prfffrfndf
+     * @rfturn thf zonfd dbtf-timf, not null
+     */
+    stbtid <R fxtfnds ChronoLodblDbtf> ChronoZonfdDbtfTimf<R> ofBfst(
+            ChronoLodblDbtfTimfImpl<R> lodblDbtfTimf, ZonfId zonf, ZonfOffsft prfffrrfdOffsft) {
+        Objfdts.rfquirfNonNull(lodblDbtfTimf, "lodblDbtfTimf");
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        if (zonf instbndfof ZonfOffsft) {
+            rfturn nfw ChronoZonfdDbtfTimfImpl<>(lodblDbtfTimf, (ZonfOffsft) zonf, zonf);
+        }
+        ZonfRulfs rulfs = zonf.gftRulfs();
+        LodblDbtfTimf isoLDT = LodblDbtfTimf.from(lodblDbtfTimf);
+        List<ZonfOffsft> vblidOffsfts = rulfs.gftVblidOffsfts(isoLDT);
+        ZonfOffsft offsft;
+        if (vblidOffsfts.sizf() == 1) {
+            offsft = vblidOffsfts.gft(0);
+        } flsf if (vblidOffsfts.sizf() == 0) {
+            ZonfOffsftTrbnsition trbns = rulfs.gftTrbnsition(isoLDT);
+            lodblDbtfTimf = lodblDbtfTimf.plusSfdonds(trbns.gftDurbtion().gftSfdonds());
+            offsft = trbns.gftOffsftAftfr();
+        } flsf {
+            if (prfffrrfdOffsft != null && vblidOffsfts.dontbins(prfffrrfdOffsft)) {
+                offsft = prfffrrfdOffsft;
+            } flsf {
+                offsft = vblidOffsfts.gft(0);
+            }
+        }
+        Objfdts.rfquirfNonNull(offsft, "offsft");  // protfdt bgbinst bbd ZonfRulfs
+        rfturn nfw ChronoZonfdDbtfTimfImpl<>(lodblDbtfTimf, offsft, zonf);
+    }
+
+    /**
+     * Obtbins bn instbndf from bn instbnt using thf spfdififd timf-zonf.
+     *
+     * @pbrbm dhrono  thf dhronology, not null
+     * @pbrbm instbnt  thf instbnt, not null
+     * @pbrbm zonf  thf zonf idfntififr, not null
+     * @rfturn thf zonfd dbtf-timf, not null
+     */
+    stbtid ChronoZonfdDbtfTimfImpl<?> ofInstbnt(Chronology dhrono, Instbnt instbnt, ZonfId zonf) {
+        ZonfRulfs rulfs = zonf.gftRulfs();
+        ZonfOffsft offsft = rulfs.gftOffsft(instbnt);
+        Objfdts.rfquirfNonNull(offsft, "offsft");  // protfdt bgbinst bbd ZonfRulfs
+        LodblDbtfTimf ldt = LodblDbtfTimf.ofEpodhSfdond(instbnt.gftEpodhSfdond(), instbnt.gftNbno(), offsft);
+        ChronoLodblDbtfTimfImpl<?> dldt = (ChronoLodblDbtfTimfImpl<?>)dhrono.lodblDbtfTimf(ldt);
+        rfturn nfw ChronoZonfdDbtfTimfImpl<>(dldt, offsft, zonf);
+    }
+
+    /**
+     * Obtbins bn instbndf from bn {@dodf Instbnt}.
+     *
+     * @pbrbm instbnt  thf instbnt to drfbtf thf dbtf-timf from, not null
+     * @pbrbm zonf  thf timf-zonf to usf, vblidbtfd not null
+     * @rfturn thf zonfd dbtf-timf, vblidbtfd not null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf ChronoZonfdDbtfTimfImpl<D> drfbtf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (ChronoZonfdDbtfTimfImpl<D>)ofInstbnt(gftChronology(), instbnt, zonf);
+    }
+
+    /**
+     * Cbsts thf {@dodf Tfmporbl} to {@dodf ChronoZonfdDbtfTimfImpl} fnsuring it bbs thf spfdififd dhronology.
+     *
+     * @pbrbm dhrono  thf dhronology to dhfdk for, not null
+     * @pbrbm tfmporbl  b dbtf-timf to dbst, not null
+     * @rfturn thf dbtf-timf dhfdkfd bnd dbst to {@dodf ChronoZonfdDbtfTimfImpl}, not null
+     * @throws ClbssCbstExdfption if thf dbtf-timf dbnnot bf dbst to ChronoZonfdDbtfTimfImpl
+     *  or thf dhronology is not fqubl this Chronology
+     */
+    stbtid <R fxtfnds ChronoLodblDbtf> ChronoZonfdDbtfTimfImpl<R> fnsurfVblid(Chronology dhrono, Tfmporbl tfmporbl) {
+        @SupprfssWbrnings("undhfdkfd")
+        ChronoZonfdDbtfTimfImpl<R> othfr = (ChronoZonfdDbtfTimfImpl<R>) tfmporbl;
+        if (dhrono.fqubls(othfr.gftChronology()) == fblsf) {
+            throw nfw ClbssCbstExdfption("Chronology mismbtdh, rfquirfd: " + dhrono.gftId()
+                    + ", bdtubl: " + othfr.gftChronology().gftId());
+        }
+        rfturn othfr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Construdtor.
+     *
+     * @pbrbm dbtfTimf  thf dbtf-timf, not null
+     * @pbrbm offsft  thf zonf offsft, not null
+     * @pbrbm zonf  thf zonf ID, not null
+     */
+    privbtf ChronoZonfdDbtfTimfImpl(ChronoLodblDbtfTimfImpl<D> dbtfTimf, ZonfOffsft offsft, ZonfId zonf) {
+        this.dbtfTimf = Objfdts.rfquirfNonNull(dbtfTimf, "dbtfTimf");
+        this.offsft = Objfdts.rfquirfNonNull(offsft, "offsft");
+        this.zonf = Objfdts.rfquirfNonNull(zonf, "zonf");
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ZonfOffsft gftOffsft() {
+        rfturn offsft;
+    }
+
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> withEbrlifrOffsftAtOvfrlbp() {
+        ZonfOffsftTrbnsition trbns = gftZonf().gftRulfs().gftTrbnsition(LodblDbtfTimf.from(this));
+        if (trbns != null && trbns.isOvfrlbp()) {
+            ZonfOffsft fbrlifrOffsft = trbns.gftOffsftBfforf();
+            if (fbrlifrOffsft.fqubls(offsft) == fblsf) {
+                rfturn nfw ChronoZonfdDbtfTimfImpl<>(dbtfTimf, fbrlifrOffsft, zonf);
+            }
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> withLbtfrOffsftAtOvfrlbp() {
+        ZonfOffsftTrbnsition trbns = gftZonf().gftRulfs().gftTrbnsition(LodblDbtfTimf.from(this));
+        if (trbns != null) {
+            ZonfOffsft offsft = trbns.gftOffsftAftfr();
+            if (offsft.fqubls(gftOffsft()) == fblsf) {
+                rfturn nfw ChronoZonfdDbtfTimfImpl<>(dbtfTimf, offsft, zonf);
+            }
+        }
+        rfturn this;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoLodblDbtfTimf<D> toLodblDbtfTimf() {
+        rfturn dbtfTimf;
+    }
+
+    @Ovfrridf
+    publid ZonfId gftZonf() {
+        rfturn zonf;
+    }
+
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> withZonfSbmfLodbl(ZonfId zonf) {
+        rfturn ofBfst(dbtfTimf, zonf, offsft);
+    }
+
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> withZonfSbmfInstbnt(ZonfId zonf) {
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn this.zonf.fqubls(zonf) ? this : drfbtf(dbtfTimf.toInstbnt(offsft), zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        rfturn fifld instbndfof ChronoFifld || (fifld != null && fifld.isSupportfdBy(this));
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> with(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof ChronoFifld) {
+            ChronoFifld f = (ChronoFifld) fifld;
+            switdh (f) {
+                dbsf INSTANT_SECONDS: rfturn plus(nfwVbluf - toEpodhSfdond(), SECONDS);
+                dbsf OFFSET_SECONDS: {
+                    ZonfOffsft offsft = ZonfOffsft.ofTotblSfdonds(f.dhfdkVblidIntVbluf(nfwVbluf));
+                    rfturn drfbtf(dbtfTimf.toInstbnt(offsft), zonf);
+                }
+            }
+            rfturn ofBfst(dbtfTimf.with(fifld, nfwVbluf), zonf, offsft);
+        }
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), fifld.bdjustInto(this, nfwVbluf));
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid ChronoZonfdDbtfTimf<D> plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof ChronoUnit) {
+            rfturn with(dbtfTimf.plus(bmountToAdd, unit));
+        }
+        rfturn ChronoZonfdDbtfTimfImpl.fnsurfVblid(gftChronology(), unit.bddTo(this, bmountToAdd));   /// TODO: Gfnfrids rfplbdfmfnt Risk!
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Objfdts.rfquirfNonNull(fndExdlusivf, "fndExdlusivf");
+        @SupprfssWbrnings("undhfdkfd")
+        ChronoZonfdDbtfTimf<D> fnd = (ChronoZonfdDbtfTimf<D>) gftChronology().zonfdDbtfTimf(fndExdlusivf);
+        if (unit instbndfof ChronoUnit) {
+            fnd = fnd.withZonfSbmfInstbnt(offsft);
+            rfturn dbtfTimf.until(fnd.toLodblDbtfTimf(), unit);
+        }
+        Objfdts.rfquirfNonNull(unit, "unit");
+        rfturn unit.bftwffn(this, fnd);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Writfs thf ChronoZonfdDbtfTimf using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(3);                  // idfntififs b ChronoZonfdDbtfTimf
+     *  out.writfObjfdt(toLodblDbtfTimf());
+     *  out.writfObjfdt(gftOffsft());
+     *  out.writfObjfdt(gftZonf());
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_ZONE_DATE_TIME_TYPE, this);
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    void writfExtfrnbl(ObjfdtOutput out) throws IOExdfption {
+        out.writfObjfdt(dbtfTimf);
+        out.writfObjfdt(offsft);
+        out.writfObjfdt(zonf);
+    }
+
+    stbtid ChronoZonfdDbtfTimf<?> rfbdExtfrnbl(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        ChronoLodblDbtfTimf<?> dbtfTimf = (ChronoLodblDbtfTimf<?>) in.rfbdObjfdt();
+        ZonfOffsft offsft = (ZonfOffsft) in.rfbdObjfdt();
+        ZonfId zonf = (ZonfId) in.rfbdObjfdt();
+        rfturn dbtfTimf.btZonf(offsft).withZonfSbmfLodbl(zonf);
+        // TODO: ZDT usfs ofLfnifnt()
+    }
+
+    //-------------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof ChronoZonfdDbtfTimf) {
+            rfturn dompbrfTo((ChronoZonfdDbtfTimf<?>) obj) == 0;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn toLodblDbtfTimf().hbshCodf() ^ gftOffsft().hbshCodf() ^ Intfgfr.rotbtfLfft(gftZonf().hbshCodf(), 3);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        String str = toLodblDbtfTimf().toString() + gftOffsft().toString();
+        if (gftOffsft() != gftZonf()) {
+            str += '[' + gftZonf().toString() + ']';
+        }
+        rfturn str;
+    }
+
+
+}

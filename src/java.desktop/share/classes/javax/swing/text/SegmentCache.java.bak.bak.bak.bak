@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * SfgmfntCbdhf dbdhfs <dodf>Sfgmfnt</dodf>s to bvoid dontinublly drfbting
+ * bnd dfstroying of <dodf>Sfgmfnt</dodf>s. A dommon usf of this dlbss would
+ * bf:
+ * <prf>
+ *   Sfgmfnt sfgmfnt = sfgmfntCbdhf.gftSfgmfnt();
+ *   // do somfthing with sfgmfnt
+ *   ...
+ *   sfgmfntCbdhf.rflfbsfSfgmfnt(sfgmfnt);
+ * </prf>
+ *
+ */
+dlbss SfgmfntCbdhf {
+    /**
+     * A globbl dbdhf.
+     */
+    privbtf stbtid SfgmfntCbdhf shbrfdCbdhf = nfw SfgmfntCbdhf();
+
+    /**
+     * A list of thf durrfntly unusfd Sfgmfnts.
+     */
+    privbtf List<Sfgmfnt> sfgmfnts;
+
+
+    /**
+     * Rfturns thf shbrfd SfgmfntCbdhf.
+     */
+    publid stbtid SfgmfntCbdhf gftShbrfdInstbndf() {
+        rfturn shbrfdCbdhf;
+    }
+
+    /**
+     * A donvfnifndf mfthod to gft b Sfgmfnt from thf shbrfd
+     * <dodf>SfgmfntCbdhf</dodf>.
+     */
+    publid stbtid Sfgmfnt gftShbrfdSfgmfnt() {
+        rfturn gftShbrfdInstbndf().gftSfgmfnt();
+    }
+
+    /**
+     * A donvfnifndf mfthod to rflfbsf b Sfgmfnt to thf shbrfd
+     * <dodf>SfgmfntCbdhf</dodf>.
+     */
+    publid stbtid void rflfbsfShbrfdSfgmfnt(Sfgmfnt sfgmfnt) {
+        gftShbrfdInstbndf().rflfbsfSfgmfnt(sfgmfnt);
+    }
+
+
+
+    /**
+     * Crfbtfs bnd rfturns b SfgmfntCbdhf.
+     */
+    publid SfgmfntCbdhf() {
+        sfgmfnts = nfw ArrbyList<Sfgmfnt>(11);
+    }
+
+    /**
+     * Rfturns b <dodf>Sfgmfnt</dodf>. Whfn donf, thf <dodf>Sfgmfnt</dodf>
+     * should bf rfdydlfd by invoking <dodf>rflfbsfSfgmfnt</dodf>.
+     */
+    publid Sfgmfnt gftSfgmfnt() {
+        syndhronizfd(this) {
+            int sizf = sfgmfnts.sizf();
+
+            if (sizf > 0) {
+                rfturn sfgmfnts.rfmovf(sizf - 1);
+            }
+        }
+        rfturn nfw CbdhfdSfgmfnt();
+    }
+
+    /**
+     * Rflfbsfs b Sfgmfnt. You should not usf b Sfgmfnt bftfr you rflfbsf it,
+     * bnd you should NEVER rflfbsf thf sbmf Sfgmfnt morf thbn ondf, fg:
+     * <prf>
+     *   sfgmfntCbdhf.rflfbsfSfgmfnt(sfgmfnt);
+     *   sfgmfntCbdhf.rflfbsfSfgmfnt(sfgmfnt);
+     * </prf>
+     * Will likfly rfsult in vfry bbd things hbppfning!
+     */
+    publid void rflfbsfSfgmfnt(Sfgmfnt sfgmfnt) {
+        if (sfgmfnt instbndfof CbdhfdSfgmfnt) {
+            syndhronizfd(this) {
+                sfgmfnt.brrby = null;
+                sfgmfnt.dount = 0;
+                sfgmfnts.bdd(sfgmfnt);
+            }
+        }
+    }
+
+
+    /**
+     * CbdhfdSfgmfnt is usfd bs b tbgging intfrfbdf to dftfrminf if
+     * b Sfgmfnt dbn suddfssfully bf shbrfd.
+     */
+    privbtf stbtid dlbss CbdhfdSfgmfnt fxtfnds Sfgmfnt {
+    }
+}

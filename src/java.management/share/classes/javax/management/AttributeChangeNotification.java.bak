@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 
 /**
- * Provides definitions of the attribute change notifications sent by MBeans.
+ * Providfs dffinitions of tif bttributf dibngf notifidbtions sfnt by MBfbns.
  * <P>
- * It's up to the MBean owning the attribute of interest to create and send
- * attribute change notifications when the attribute change occurs.
- * So the <CODE>NotificationBroadcaster</CODE> interface has to be implemented
- * by any MBean for which an attribute change is of interest.
+ * It's up to tif MBfbn owning tif bttributf of intfrfst to drfbtf bnd sfnd
+ * bttributf dibngf notifidbtions wifn tif bttributf dibngf oddurs.
+ * So tif <CODE>NotifidbtionBrobddbstfr</CODE> intfrfbdf ibs to bf implfmfntfd
+ * by bny MBfbn for wiidi bn bttributf dibngf is of intfrfst.
  * <P>
- * Example:
- * If an MBean called <CODE>myMbean</CODE> needs to notify registered listeners
- * when its attribute:
+ * Exbmplf:
+ * If bn MBfbn dbllfd <CODE>myMbfbn</CODE> nffds to notify rfgistfrfd listfnfrs
+ * wifn its bttributf:
  * <BLOCKQUOTE><CODE>
  *      String myString
  * </CODE></BLOCKQUOTE>
- * is modified, <CODE>myMbean</CODE> creates and emits the following notification:
+ * is modififd, <CODE>myMbfbn</CODE> drfbtfs bnd fmits tif following notifidbtion:
  * <BLOCKQUOTE><CODE>
- * new AttributeChangeNotification(myMbean, sequenceNumber, timeStamp, msg,
- *                                 "myString", "String", oldValue, newValue);
+ * nfw AttributfCibngfNotifidbtion(myMbfbn, sfqufndfNumbfr, timfStbmp, msg,
+ *                                 "myString", "String", oldVbluf, nfwVbluf);
  * </CODE></BLOCKQUOTE>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class AttributeChangeNotification extends javax.management.Notification {
+publid dlbss AttributfCibngfNotifidbtion fxtfnds jbvbx.mbnbgfmfnt.Notifidbtion {
 
-    /* Serial version */
-    private static final long serialVersionUID = 535176054565814134L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 535176054565814134L;
 
     /**
-     * Notification type which indicates that the observed MBean attribute value has changed.
-     * <BR>The value of this type string is <CODE>jmx.attribute.change</CODE>.
+     * Notifidbtion typf wiidi indidbtfs tibt tif obsfrvfd MBfbn bttributf vbluf ibs dibngfd.
+     * <BR>Tif vbluf of tiis typf string is <CODE>jmx.bttributf.dibngf</CODE>.
      */
-    public static final String ATTRIBUTE_CHANGE = "jmx.attribute.change";
+    publid stbtid finbl String ATTRIBUTE_CHANGE = "jmx.bttributf.dibngf";
 
 
     /**
-     * @serial The MBean attribute name.
+     * @sfribl Tif MBfbn bttributf nbmf.
      */
-    private String attributeName = null;
+    privbtf String bttributfNbmf = null;
 
     /**
-     * @serial The MBean attribute type.
+     * @sfribl Tif MBfbn bttributf typf.
      */
-    private String attributeType = null;
+    privbtf String bttributfTypf = null;
 
     /**
-     * @serial The MBean attribute old value.
+     * @sfribl Tif MBfbn bttributf old vbluf.
      */
-    private Object oldValue = null;
+    privbtf Objfdt oldVbluf = null;
 
     /**
-     * @serial The MBean attribute new value.
+     * @sfribl Tif MBfbn bttributf nfw vbluf.
      */
-    private Object newValue = null;
+    privbtf Objfdt nfwVbluf = null;
 
 
     /**
-     * Constructs an attribute change notification object.
-     * In addition to the information common to all notification, the caller must supply the name and type
-     * of the attribute, as well as its old and new values.
+     * Construdts bn bttributf dibngf notifidbtion objfdt.
+     * In bddition to tif informbtion dommon to bll notifidbtion, tif dbllfr must supply tif nbmf bnd typf
+     * of tif bttributf, bs wfll bs its old bnd nfw vblufs.
      *
-     * @param source The notification producer, that is, the MBean the attribute belongs to.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The date at which the notification is being sent.
-     * @param msg A String containing the message of the notification.
-     * @param attributeName A String giving the name of the attribute.
-     * @param attributeType A String containing the type of the attribute.
-     * @param oldValue An object representing value of the attribute before the change.
-     * @param newValue An object representing value of the attribute after the change.
+     * @pbrbm sourdf Tif notifidbtion produdfr, tibt is, tif MBfbn tif bttributf bflongs to.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif dbtf bt wiidi tif notifidbtion is bfing sfnt.
+     * @pbrbm msg A String dontbining tif mfssbgf of tif notifidbtion.
+     * @pbrbm bttributfNbmf A String giving tif nbmf of tif bttributf.
+     * @pbrbm bttributfTypf A String dontbining tif typf of tif bttributf.
+     * @pbrbm oldVbluf An objfdt rfprfsfnting vbluf of tif bttributf bfforf tif dibngf.
+     * @pbrbm nfwVbluf An objfdt rfprfsfnting vbluf of tif bttributf bftfr tif dibngf.
      */
-    public AttributeChangeNotification(Object source, long sequenceNumber, long timeStamp, String msg,
-                                       String attributeName, String attributeType, Object oldValue, Object newValue) {
+    publid AttributfCibngfNotifidbtion(Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String msg,
+                                       String bttributfNbmf, String bttributfTypf, Objfdt oldVbluf, Objfdt nfwVbluf) {
 
-        super(AttributeChangeNotification.ATTRIBUTE_CHANGE, source, sequenceNumber, timeStamp, msg);
-        this.attributeName = attributeName;
-        this.attributeType = attributeType;
-        this.oldValue = oldValue;
-        this.newValue = newValue;
+        supfr(AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE, sourdf, sfqufndfNumbfr, timfStbmp, msg);
+        tiis.bttributfNbmf = bttributfNbmf;
+        tiis.bttributfTypf = bttributfTypf;
+        tiis.oldVbluf = oldVbluf;
+        tiis.nfwVbluf = nfwVbluf;
     }
 
 
     /**
-     * Gets the name of the attribute which has changed.
+     * Gfts tif nbmf of tif bttributf wiidi ibs dibngfd.
      *
-     * @return A String containing the name of the attribute.
+     * @rfturn A String dontbining tif nbmf of tif bttributf.
      */
-    public String getAttributeName() {
-        return attributeName;
+    publid String gftAttributfNbmf() {
+        rfturn bttributfNbmf;
     }
 
     /**
-     * Gets the type of the attribute which has changed.
+     * Gfts tif typf of tif bttributf wiidi ibs dibngfd.
      *
-     * @return A String containing the type of the attribute.
+     * @rfturn A String dontbining tif typf of tif bttributf.
      */
-    public String getAttributeType() {
-        return attributeType;
+    publid String gftAttributfTypf() {
+        rfturn bttributfTypf;
     }
 
     /**
-     * Gets the old value of the attribute which has changed.
+     * Gfts tif old vbluf of tif bttributf wiidi ibs dibngfd.
      *
-     * @return An Object containing the old value of the attribute.
+     * @rfturn An Objfdt dontbining tif old vbluf of tif bttributf.
      */
-    public Object getOldValue() {
-        return oldValue;
+    publid Objfdt gftOldVbluf() {
+        rfturn oldVbluf;
     }
 
     /**
-     * Gets the new value of the attribute which has changed.
+     * Gfts tif nfw vbluf of tif bttributf wiidi ibs dibngfd.
      *
-     * @return An Object containing the new value of the attribute.
+     * @rfturn An Objfdt dontbining tif nfw vbluf of tif bttributf.
      */
-    public Object getNewValue() {
-        return newValue;
+    publid Objfdt gftNfwVbluf() {
+        rfturn nfwVbluf;
     }
 
 }

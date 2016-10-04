@@ -1,0 +1,624 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+
+/**
+ * This dlbss rfprfsfnts b dompound nbmf -- b nbmf from
+ * b hifrbrdhidbl nbmf spbdf.
+ * Ebdh domponfnt in b dompound nbmf is bn btomid nbmf.
+ * <p>
+ * Thf domponfnts of b dompound nbmf brf numbfrfd.  Thf indfxfs of b
+ * dompound nbmf with N domponfnts rbngf from 0 up to, but not indluding, N.
+ * This rbngf mby bf writtfn bs [0,N).
+ * Thf most signifidbnt domponfnt is bt indfx 0.
+ * An fmpty dompound nbmf hbs no domponfnts.
+ *
+ * <h1>Compound Nbmf Syntbx</h1>
+ * Thf syntbx of b dompound nbmf is spfdififd using b sft of propfrtifs:
+ *<dl>
+ *  <dt>jndi.syntbx.dirfdtion
+ *  <dd>Dirfdtion for pbrsing ("right_to_lfft", "lfft_to_right", "flbt").
+ *      If unspfdififd, dffbults to "flbt", whidh mfbns thf nbmfspbdf is flbt
+ *      with no hifrbrdhidbl strudturf.
+ *
+ *  <dt>jndi.syntbx.sfpbrbtor
+ *  <dd>Sfpbrbtor bftwffn btomid nbmf domponfnts.
+ *      Rfquirfd unlfss dirfdtion is "flbt".
+ *
+ *  <dt>jndi.syntbx.ignorfdbsf
+ *  <dd>If prfsfnt, "truf" mfbns ignorf thf dbsf whfn dompbring nbmf
+ *      domponfnts. If its vbluf is not "truf", or if thf propfrty is not
+ *      prfsfnt, dbsf is donsidfrfd whfn dompbring nbmf domponfnts.
+ *
+ *  <dt>jndi.syntbx.fsdbpf
+ *  <dd>If prfsfnt, spfdififs thf fsdbpf string for ovfrriding sfpbrbtor,
+ *      fsdbpfs bnd quotfs.
+ *
+ *  <dt>jndi.syntbx.bfginquotf
+ *  <dd>If prfsfnt, spfdififs thf string dflimiting stbrt of b quotfd string.
+ *
+ *  <dt>jndi.syntbx.fndquotf
+ *  <dd>String dflimiting fnd of quotfd string.
+ *      If prfsfnt, spfdififs thf string dflimiting thf fnd of b quotfd string.
+ *      If not prfsfnt, usf syntbx.bfginquotf bs fnd quotf.
+ *  <dt>jndi.syntbx.bfginquotf2
+ *  <dd>Altfrnbtivf sft of bfgin/fnd quotfs.
+ *
+ *  <dt>jndi.syntbx.fndquotf2
+ *  <dd>Altfrnbtivf sft of bfgin/fnd quotfs.
+ *
+ *  <dt>jndi.syntbx.trimblbnks
+ *  <dd>If prfsfnt, "truf" mfbns trim bny lfbding bnd trbiling whitfspbdfs
+ *      in b nbmf domponfnt for dompbrison purposfs. If its vbluf is not
+ *      "truf", or if thf propfrty is not prfsfnt, blbnks brf signifidbnt.
+ *  <dt>jndi.syntbx.sfpbrbtor.bvb
+ *  <dd>If prfsfnt, spfdififs thf string thbt sfpbrbtfs
+ *      bttributf-vbluf-bssfrtions whfn spfdifying multiplf bttributf/vbluf
+ *      pbirs. (f.g. ","  in bgf=65,gfndfr=mblf).
+ *  <dt>jndi.syntbx.sfpbrbtor.typfvbl
+ *  <dd>If prfsfnt, spfdififs thf string thbt sfpbrbtors bttributf
+ *              from vbluf (f.g. "=" in "bgf=65")
+ *</dl>
+ * Thfsf propfrtifs brf intfrprftfd bddording to thf following rulfs:
+ *<ol>
+ *<li>
+ * In b string without quotfs or fsdbpfs, bny instbndf of thf
+ * sfpbrbtor dflimits two btomid nbmfs. Ebdh btomid nbmf is rfffrrfd
+ * to bs b <fm>domponfnt</fm>.
+ *<li>
+ * A sfpbrbtor, quotf or fsdbpf is fsdbpfd if prfdfdfd immfdibtfly
+ * (on thf lfft) by thf fsdbpf.
+ *<li>
+ * If thfrf brf two sfts of quotfs, b spfdifid bfgin-quotf must bf mbtdhfd
+ * by its dorrfsponding fnd-quotf.
+ *<li>
+ * A non-fsdbpfd bfgin-quotf whidh prfdfdfs b domponfnt must bf
+ * mbtdhfd by b non-fsdbpfd fnd-quotf bt thf fnd of thf domponfnt.
+ * A domponfnt thus quotfd is rfffrrfd to bs b
+ * <fm>quotfd domponfnt</fm>. It is pbrsfd by
+ * rfmoving thf bfing- bnd fnd- quotfs, bnd by trfbting thf intfrvfning
+ * dhbrbdtfrs bs ordinbry dhbrbdtfrs unlfss onf of thf rulfs involving
+ * quotfd domponfnts listfd bflow bpplifs.
+ *<li>
+ * Quotfs fmbfddfd in non-quotfd domponfnts brf trfbtfd bs ordinbry strings
+ * bnd nffd not bf mbtdhfd.
+ *<li>
+ * A sfpbrbtor thbt is fsdbpfd or bppfbrs bftwffn non-fsdbpfd
+ * quotfs is trfbtfd bs bn ordinbry string bnd not b sfpbrbtor.
+ *<li>
+ * An fsdbpf string within b quotfd domponfnt bdts bs bn fsdbpf only whfn
+ * followfd by thf dorrfsponding fnd-quotf string.
+ * This dbn bf usfd to fmbfd bn fsdbpfd quotf within b quotfd domponfnt.
+ *<li>
+ * An fsdbpfd fsdbpf string is not trfbtfd bs bn fsdbpf string.
+ *<li>
+ * An fsdbpf string thbt dofs not prfdfdf b mftb string (quotfs or sfpbrbtor)
+ * bnd is not bt thf fnd of b domponfnt is trfbtfd bs bn ordinbry string.
+ *<li>
+ * A lfbding sfpbrbtor (thf dompound nbmf string bfgins with
+ * b sfpbrbtor) dfnotfs b lfbding fmpty btomid domponfnt (donsisting
+ * of bn fmpty string).
+ * A trbiling sfpbrbtor (thf dompound nbmf string fnds with
+ * b sfpbrbtor) dfnotfs b trbiling fmpty btomid domponfnt.
+ * Adjbdfnt sfpbrbtors dfnotf bn fmpty btomid domponfnt.
+ *</ol>
+ * <p>
+ * Thf string form of thf dompound nbmf follows thf syntbx dfsdribfd bbovf.
+ * Whfn thf domponfnts of thf dompound nbmf brf turnfd into thfir
+ * string rfprfsfntbtion, thf rfsfrvfd syntbx rulfs dfsdribfd bbovf brf
+ * bpplifd (f.g. fmbfddfd sfpbrbtors brf fsdbpfd or quotfd)
+ * so thbt whfn thf sbmf string is pbrsfd, it will yifld thf sbmf domponfnts
+ * of thf originbl dompound nbmf.
+ *
+ *<h1>Multithrfbdfd Addfss</h1>
+ * A <tt>CompoundNbmf</tt> instbndf is not syndhronizfd bgbinst dondurrfnt
+ * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify b
+ * <tt>CompoundNbmf</tt> should lodk thf objfdt.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @sindf 1.3
+ */
+
+publid dlbss CompoundNbmf implfmfnts Nbmf {
+
+    /**
+      * Implfmfntbtion of this dompound nbmf.
+      * This fifld is initiblizfd by thf donstrudtors bnd dbnnot bf null.
+      * It should bf trfbtfd bs b rfbd-only vbribblf by subdlbssfs.
+      */
+    protfdtfd trbnsifnt NbmfImpl impl;
+    /**
+      * Syntbx propfrtifs for this dompound nbmf.
+      * This fifld is initiblizfd by thf donstrudtors bnd dbnnot bf null.
+      * It should bf trfbtfd bs b rfbd-only vbribblf by subdlbssfs.
+      * Any nfdfssbry dhbngfs to mySyntbx should bf mbdf within donstrudtors
+      * bnd not bftfr thf dompound nbmf hbs bffn instbntibtfd.
+      */
+    protfdtfd trbnsifnt Propfrtifs mySyntbx;
+
+    /**
+      * Construdts b nfw dompound nbmf instbndf using thf domponfnts
+      * spfdififd in domps bnd syntbx. This protfdtfd mfthod is intfndfd
+      * to bf usfd by subdlbssfs of CompoundNbmf whfn thfy ovfrridf
+      * mfthods sudh bs dlonf(), gftPrffix(), gftSuffix().
+      *
+      * @pbrbm domps  A non-null fnumfrbtion of thf domponfnts to bdd.
+      *   Ebdh flfmfnt of thf fnumfrbtion is of dlbss String.
+      *               Thf fnumfrbtion will bf donsumfd to fxtrbdt its
+      *               flfmfnts.
+      * @pbrbm syntbx   A non-null propfrtifs thbt spfdify thf syntbx of
+      *                 this dompound nbmf. Sff dlbss dfsdription for
+      *                 dontfnts of propfrtifs.
+      */
+    protfdtfd CompoundNbmf(Enumfrbtion<String> domps, Propfrtifs syntbx) {
+        if (syntbx == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mySyntbx = syntbx;
+        impl = nfw NbmfImpl(syntbx, domps);
+    }
+
+    /**
+      * Construdts b nfw dompound nbmf instbndf by pbrsing thf string n
+      * using thf syntbx spfdififd by thf syntbx propfrtifs supplifd.
+      *
+      * @pbrbm  n       Thf non-null string to pbrsf.
+      * @pbrbm syntbx   A non-null list of propfrtifs thbt spfdify thf syntbx of
+      *                 this dompound nbmf.  Sff dlbss dfsdription for
+      *                 dontfnts of propfrtifs.
+      * @fxdfption      InvblidNbmfExdfption If 'n' violbtfs thf syntbx spfdififd
+      *                 by <dodf>syntbx</dodf>.
+      */
+    publid CompoundNbmf(String n, Propfrtifs syntbx) throws InvblidNbmfExdfption {
+        if (syntbx == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        mySyntbx = syntbx;
+        impl = nfw NbmfImpl(syntbx, n);
+    }
+
+    /**
+      * Gfnfrbtfs thf string rfprfsfntbtion of this dompound nbmf, using
+      * thf syntbx rulfs of thf dompound nbmf. Thf syntbx rulfs
+      * brf dfsdribfd in thf dlbss dfsdription.
+      * An fmpty domponfnt is rfprfsfntfd by bn fmpty string.
+      *
+      * Thf string rfprfsfntbtion thus gfnfrbtfd dbn bf pbssfd to
+      * thf CompoundNbmf donstrudtor with thf sbmf syntbx propfrtifs
+      * to drfbtf b nfw fquivblfnt dompound nbmf.
+      *
+      * @rfturn A non-null string rfprfsfntbtion of this dompound nbmf.
+      */
+    publid String toString() {
+        rfturn (impl.toString());
+    }
+
+    /**
+      * Dftfrminfs whfthfr obj is syntbdtidblly fqubl to this dompound nbmf.
+      * If obj is null or not b CompoundNbmf, fblsf is rfturnfd.
+      * Two dompound nbmfs brf fqubl if fbdh domponfnt in onf is "fqubl"
+      * to thf dorrfsponding domponfnt in thf othfr.
+      *<p>
+      * Equblity is blso dffinfd in tfrms of thf syntbx of this dompound nbmf.
+      * Thf dffbult implfmfntbtion of CompoundNbmf usfs thf syntbx propfrtifs
+      * jndi.syntbx.ignorfdbsf bnd jndi.syntbx.trimblbnks whfn dompbring
+      * two domponfnts for fqublity.  If dbsf is ignorfd, two strings
+      * with thf sbmf sfqufndf of dhbrbdtfrs but with difffrfnt dbsfs
+      * brf donsidfrfd fqubl. If blbnks brf bfing trimmfd, lfbding bnd trbiling
+      * blbnks brf ignorfd for thf purposf of thf dompbrison.
+      *<p>
+      * Both dompound nbmfs must hbvf thf sbmf numbfr of domponfnts.
+      *<p>
+      * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of thf two dompound
+      * nbmfs brf not dompbrfd for fqublity. Thfy might bf in thf futurf.
+      *
+      * @pbrbm  obj     Thf possibly null objfdt to dompbrf bgbinst.
+      * @rfturn truf if obj is fqubl to this dompound nbmf, fblsf othfrwisf.
+      * @sff #dompbrfTo(jbvb.lbng.Objfdt obj)
+      */
+    publid boolfbn fqubls(Objfdt obj) {
+        // %%% dhfdk syntbx too?
+        rfturn (obj != null &&
+                obj instbndfof CompoundNbmf &&
+                impl.fqubls(((CompoundNbmf)obj).impl));
+    }
+
+    /**
+      * Computfs thf hbsh dodf of this dompound nbmf.
+      * Thf hbsh dodf is thf sum of thf hbsh dodfs of thf "dbnonidblizfd"
+      * forms of individubl domponfnts of this dompound nbmf.
+      * Ebdh domponfnt is "dbnonidblizfd" bddording to thf
+      * dompound nbmf's syntbx bfforf its hbsh dodf is domputfd.
+      * For b dbsf-insfnsitivf nbmf, for fxbmplf, thf uppfrdbsfd form of
+      * b nbmf hbs thf sbmf hbsh dodf bs its lowfrdbsfd fquivblfnt.
+      *
+      * @rfturn An int rfprfsfnting thf hbsh dodf of this nbmf.
+      */
+    publid int hbshCodf() {
+        rfturn impl.hbshCodf();
+    }
+
+    /**
+      * Crfbtfs b dopy of this dompound nbmf.
+      * Chbngfs to thf domponfnts of this dompound nbmf won't
+      * bfffdt thf nfw dopy bnd vidf vfrsb.
+      * Thf dlonf bnd this dompound nbmf shbrf thf sbmf syntbx.
+      *
+      * @rfturn A non-null dopy of this dompound nbmf.
+      */
+    publid Objfdt dlonf() {
+        rfturn (nfw CompoundNbmf(gftAll(), mySyntbx));
+    }
+
+    /**
+     * Compbrfs this CompoundNbmf with thf spfdififd Objfdt for ordfr.
+     * Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this Nbmf is lfss
+     * thbn, fqubl to, or grfbtfr thbn thf givfn Objfdt.
+     * <p>
+     * If obj is null or not bn instbndf of CompoundNbmf, ClbssCbstExdfption
+     * is thrown.
+     * <p>
+     * Sff fqubls() for whbt it mfbns for two dompound nbmfs to bf fqubl.
+     * If two dompound nbmfs brf fqubl, 0 is rfturnfd.
+     *<p>
+     * Ordfring of dompound nbmfs dfpfnd on thf syntbx of thf dompound nbmf.
+     * By dffbult, thfy follow lfxidogrbphidbl rulfs for string dompbrison
+     * with thf fxtfnsion thbt this bpplifs to bll thf domponfnts in thf
+     * dompound nbmf bnd thbt dompbrison of individubl domponfnts is
+     * bfffdtfd by thf jndi.syntbx.ignorfdbsf bnd jndi.syntbx.trimblbnks
+     * propfrtifs, idfntidbl to how thfy bfffdt fqubls().
+     * If this dompound nbmf is "lfxidogrbphidblly" lfssfr thbn obj,
+     * b nfgbtivf numbfr is rfturnfd.
+     * If this dompound nbmf is "lfxidogrbphidblly" grfbtfr thbn obj,
+     * b positivf numbfr is rfturnfd.
+     *<p>
+     * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of thf two dompound
+     * nbmfs brf not dompbrfd whfn dhfdking ordfr. Thfy might bf in thf futurf.
+     * @pbrbm   obj     Thf non-null objfdt to dompbrf bgbinst.
+     * @rfturn  b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this Nbmf
+     *          is lfss thbn, fqubl to, or grfbtfr thbn thf givfn Objfdt.
+     * @fxdfption ClbssCbstExdfption if obj is not b CompoundNbmf.
+     * @sff #fqubls(jbvb.lbng.Objfdt)
+     */
+    publid int dompbrfTo(Objfdt obj) {
+        if (!(obj instbndfof CompoundNbmf)) {
+            throw nfw ClbssCbstExdfption("Not b CompoundNbmf");
+        }
+        rfturn impl.dompbrfTo(((CompoundNbmf)obj).impl);
+    }
+
+    /**
+      * Rftrifvfs thf numbfr of domponfnts in this dompound nbmf.
+      *
+      * @rfturn Thf nonnfgbtivf numbfr of domponfnts in this dompound nbmf.
+      */
+    publid int sizf() {
+        rfturn (impl.sizf());
+    }
+
+    /**
+      * Dftfrminfs whfthfr this dompound nbmf is fmpty.
+      * A dompound nbmf is fmpty if it hbs zfro domponfnts.
+      *
+      * @rfturn truf if this dompound nbmf is fmpty, fblsf othfrwisf.
+      */
+    publid boolfbn isEmpty() {
+        rfturn (impl.isEmpty());
+    }
+
+    /**
+      * Rftrifvfs thf domponfnts of this dompound nbmf bs bn fnumfrbtion
+      * of strings.
+      * Thf ffffdts of updbtfs to this dompound nbmf on this fnumfrbtion
+      * is undffinfd.
+      *
+      * @rfturn A non-null fnumfrbtion of thf domponfnts of this
+      * dompound nbmf. Ebdh flfmfnt of thf fnumfrbtion is of dlbss String.
+      */
+    publid Enumfrbtion<String> gftAll() {
+        rfturn (impl.gftAll());
+    }
+
+    /**
+      * Rftrifvfs b domponfnt of this dompound nbmf.
+      *
+      * @pbrbm  posn    Thf 0-bbsfd indfx of thf domponfnt to rftrifvf.
+      *                 Must bf in thf rbngf [0,sizf()).
+      * @rfturn Thf domponfnt bt indfx posn.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption if posn is outsidf thf
+      *         spfdififd rbngf.
+      */
+    publid String gft(int posn) {
+        rfturn (impl.gft(posn));
+    }
+
+    /**
+      * Crfbtfs b dompound nbmf whosf domponfnts donsist of b prffix of thf
+      * domponfnts in this dompound nbmf.
+      * Thf rfsult bnd this dompound nbmf shbrf thf sbmf syntbx.
+      * Subsfqufnt dhbngfs to
+      * this dompound nbmf do not bfffdt thf nbmf thbt is rfturnfd bnd
+      * vidf vfrsb.
+      *
+      * @pbrbm  posn    Thf 0-bbsfd indfx of thf domponfnt bt whidh to stop.
+      *                 Must bf in thf rbngf [0,sizf()].
+      * @rfturn A dompound nbmf donsisting of thf domponfnts bt indfxfs in
+      *         thf rbngf [0,posn).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf thf spfdififd rbngf.
+      */
+    publid Nbmf gftPrffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftPrffix(posn);
+        rfturn (nfw CompoundNbmf(domps, mySyntbx));
+    }
+
+    /**
+      * Crfbtfs b dompound nbmf whosf domponfnts donsist of b suffix of thf
+      * domponfnts in this dompound nbmf.
+      * Thf rfsult bnd this dompound nbmf shbrf thf sbmf syntbx.
+      * Subsfqufnt dhbngfs to
+      * this dompound nbmf do not bfffdt thf nbmf thbt is rfturnfd.
+      *
+      * @pbrbm  posn    Thf 0-bbsfd indfx of thf domponfnt bt whidh to stbrt.
+      *                 Must bf in thf rbngf [0,sizf()].
+      * @rfturn A dompound nbmf donsisting of thf domponfnts bt indfxfs in
+      *         thf rbngf [posn,sizf()).  If posn is fqubl to
+      *         sizf(), bn fmpty dompound nbmf is rfturnfd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf thf spfdififd rbngf.
+      */
+    publid Nbmf gftSuffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftSuffix(posn);
+        rfturn (nfw CompoundNbmf(domps, mySyntbx));
+    }
+
+    /**
+      * Dftfrminfs whfthfr b dompound nbmf is b prffix of this dompound nbmf.
+      * A dompound nbmf 'n' is b prffix if it is fqubl to
+      * gftPrffix(n.sizf())--in othfr words, this dompound nbmf
+      * stbrts with 'n'.
+      * If n is null or not b dompound nbmf, fblsf is rfturnfd.
+      *<p>
+      * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of n
+      *  brf not usfd whfn doing thf dompbrison. Thfy might bf in thf futurf.
+      * @pbrbm  n       Thf possibly null dompound nbmf to dhfdk.
+      * @rfturn truf if n is b CompoundNbmf bnd
+      *                 is b prffix of this dompound nbmf, fblsf othfrwisf.
+      */
+    publid boolfbn stbrtsWith(Nbmf n) {
+        if (n instbndfof CompoundNbmf) {
+            rfturn (impl.stbrtsWith(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+      * Dftfrminfs whfthfr b dompound nbmf is b suffix of this dompound nbmf.
+      * A dompound nbmf 'n' is b suffix if it is fqubl to
+      * gftSuffix(sizf()-n.sizf())--in othfr words, this
+      * dompound nbmf fnds with 'n'.
+      * If n is null or not b dompound nbmf, fblsf is rfturnfd.
+      *<p>
+      * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of n
+      *  brf not usfd whfn doing thf dompbrison. Thfy might bf in thf futurf.
+      * @pbrbm  n       Thf possibly null dompound nbmf to dhfdk.
+      * @rfturn truf if n is b CompoundNbmf bnd
+      *         is b suffix of this dompound nbmf, fblsf othfrwisf.
+      */
+    publid boolfbn fndsWith(Nbmf n) {
+        if (n instbndfof CompoundNbmf) {
+            rfturn (impl.fndsWith(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+      * Adds thf domponfnts of b dompound nbmf -- in ordfr -- to thf fnd of
+      * this dompound nbmf.
+      *<p>
+      * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of suffix
+      *  is not usfd or dhfdkfd. Thfy might bf in thf futurf.
+      * @pbrbm suffix   Thf non-null domponfnts to bdd.
+      * @rfturn Thf updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If suffix is not b dompound nbmf,
+      *            or if thf bddition of thf domponfnts violbtfs thf syntbx
+      *            of this dompound nbmf (f.g. fxdffding numbfr of domponfnts).
+      */
+    publid Nbmf bddAll(Nbmf suffix) throws InvblidNbmfExdfption {
+        if (suffix instbndfof CompoundNbmf) {
+            impl.bddAll(suffix.gftAll());
+            rfturn this;
+        } flsf {
+            throw nfw InvblidNbmfExdfption("Not b dompound nbmf: " +
+                suffix.toString());
+        }
+    }
+
+    /**
+      * Adds thf domponfnts of b dompound nbmf -- in ordfr -- bt b spfdififd
+      * position within this dompound nbmf.
+      * Componfnts of this dompound nbmf bt or bftfr thf indfx of thf first
+      * nfw domponfnt brf shiftfd up (bwby from indfx 0)
+      * to bddommodbtf thf nfw domponfnts.
+      *<p>
+      * Implfmfntbtion notf: Currfntly thf syntbx propfrtifs of suffix
+      *  is not usfd or dhfdkfd. Thfy might bf in thf futurf.
+      *
+      * @pbrbm n        Thf non-null domponfnts to bdd.
+      * @pbrbm posn     Thf indfx in this nbmf bt whidh to bdd thf nfw
+      *                 domponfnts.  Must bf in thf rbngf [0,sizf()].
+      * @rfturn Thf updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf thf spfdififd rbngf.
+      * @fxdfption InvblidNbmfExdfption If n is not b dompound nbmf,
+      *            or if thf bddition of thf domponfnts violbtfs thf syntbx
+      *            of this dompound nbmf (f.g. fxdffding numbfr of domponfnts).
+      */
+    publid Nbmf bddAll(int posn, Nbmf n) throws InvblidNbmfExdfption {
+        if (n instbndfof CompoundNbmf) {
+            impl.bddAll(posn, n.gftAll());
+            rfturn this;
+        } flsf {
+            throw nfw InvblidNbmfExdfption("Not b dompound nbmf: " +
+                n.toString());
+        }
+    }
+
+    /**
+      * Adds b singlf domponfnt to thf fnd of this dompound nbmf.
+      *
+      * @pbrbm domp     Thf non-null domponfnt to bdd.
+      * @rfturn Thf updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt fnd of thf nbmf
+      *                         would violbtf thf dompound nbmf's syntbx.
+      */
+    publid Nbmf bdd(String domp) throws InvblidNbmfExdfption{
+        impl.bdd(domp);
+        rfturn this;
+    }
+
+    /**
+      * Adds b singlf domponfnt bt b spfdififd position within this
+      * dompound nbmf.
+      * Componfnts of this dompound nbmf bt or bftfr thf indfx of thf nfw
+      * domponfnt brf shiftfd up by onf (bwby from indfx 0)
+      * to bddommodbtf thf nfw domponfnt.
+      *
+      * @pbrbm  domp    Thf non-null domponfnt to bdd.
+      * @pbrbm  posn    Thf indfx bt whidh to bdd thf nfw domponfnt.
+      *                 Must bf in thf rbngf [0,sizf()].
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf thf spfdififd rbngf.
+      * @rfturn Thf updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt thf spfdififd position
+      *                         would violbtf thf dompound nbmf's syntbx.
+      */
+    publid Nbmf bdd(int posn, String domp) throws InvblidNbmfExdfption{
+        impl.bdd(posn, domp);
+        rfturn this;
+    }
+
+    /**
+      * Dflftfs b domponfnt from this dompound nbmf.
+      * Thf domponfnt of this dompound nbmf bt position 'posn' is rfmovfd,
+      * bnd domponfnts bt indidfs grfbtfr thbn 'posn'
+      * brf shiftfd down (towbrds indfx 0) by onf.
+      *
+      * @pbrbm  posn    Thf indfx of thf domponfnt to dflftf.
+      *                 Must bf in thf rbngf [0,sizf()).
+      * @rfturn Thf domponfnt rfmovfd (b String).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf thf spfdififd rbngf (indludfs dbsf whfrf
+      *         dompound nbmf is fmpty).
+      * @fxdfption InvblidNbmfExdfption If dflfting thf domponfnt
+      *                         would violbtf thf dompound nbmf's syntbx.
+      */
+    publid Objfdt rfmovf(int posn) throws InvblidNbmfExdfption {
+        rfturn impl.rfmovf(posn);
+    }
+
+    /**
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
+     * @sfriblDbtb Thf syntbx <tt>Propfrtifs</tt>, followfd by
+     * thf numbfr of domponfnts (bn <tt>int</tt>), bnd thf individubl
+     * domponfnts (fbdh b <tt>String</tt>).
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption {
+        s.writfObjfdt(mySyntbx);
+        s.writfInt(sizf());
+        Enumfrbtion<String> domps = gftAll();
+        whilf (domps.hbsMorfElfmfnts()) {
+            s.writfObjfdt(domps.nfxtElfmfnt());
+        }
+    }
+
+    /**
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        mySyntbx = (Propfrtifs)s.rfbdObjfdt();
+        impl = nfw NbmfImpl(mySyntbx);
+        int n = s.rfbdInt();    // numbfr of domponfnts
+        try {
+            whilf (--n >= 0) {
+                bdd((String)s.rfbdObjfdt());
+            }
+        } dbtdh (InvblidNbmfExdfption f) {
+            throw (nfw jbvb.io.StrfbmCorruptfdExdfption("Invblid nbmf"));
+        }
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3513100557083972036L;
+
+/*
+//   For tfsting
+
+    publid stbtid void mbin(String[] brgs) {
+        Propfrtifs dotSyntbx = nfw Propfrtifs();
+        dotSyntbx.put("jndi.syntbx.dirfdtion", "right_to_lfft");
+        dotSyntbx.put("jndi.syntbx.sfpbrbtor", ".");
+        dotSyntbx.put("jndi.syntbx.ignorfdbsf", "truf");
+        dotSyntbx.put("jndi.syntbx.fsdbpf", "\\");
+//      dotSyntbx.put("jndi.syntbx.bfginquotf", "\"");
+//      dotSyntbx.put("jndi.syntbx.bfginquotf2", "'");
+
+        Nbmf first = null;
+        try {
+            for (int i = 0; i < brgs.lfngth; i++) {
+                Nbmf nbmf;
+                Enumfrbtion f;
+                Systfm.out.println("Givfn nbmf: " + brgs[i]);
+                nbmf = nfw CompoundNbmf(brgs[i], dotSyntbx);
+                if (first == null) {
+                    first = nbmf;
+                }
+                f = nbmf.gftComponfnts();
+                whilf (f.hbsMorfElfmfnts()) {
+                    Systfm.out.println("Elfmfnt: " + f.nfxtElfmfnt());
+                }
+                Systfm.out.println("Construdtfd nbmf: " + nbmf.toString());
+
+                Systfm.out.println("Compbrf " + first.toString() + " with "
+                    + nbmf.toString() + " = " + first.dompbrfTo(nbmf));
+            }
+        } dbtdh (Exdfption nf) {
+            nf.printStbdkTrbdf();
+        }
+    }
+*/
+}

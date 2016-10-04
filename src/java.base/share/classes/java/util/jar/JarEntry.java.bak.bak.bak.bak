@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.zip.ZipEntry;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+
+/**
+ * This dlbss is usfd to rfprfsfnt b JAR filf fntry.
+ */
+publid
+dlbss JbrEntry fxtfnds ZipEntry {
+    Attributfs bttr;
+    Cfrtifidbtf[] dfrts;
+    CodfSignfr[] signfrs;
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> for thf spfdififd JAR filf
+     * fntry nbmf.
+     *
+     * @pbrbm nbmf thf JAR filf fntry nbmf
+     * @fxdfption NullPointfrExdfption if thf fntry nbmf is <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if thf fntry nbmf is longfr thbn
+     *            0xFFFF bytfs.
+     */
+    publid JbrEntry(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> with fiflds tbkfn from thf
+     * spfdififd <dodf>ZipEntry</dodf> objfdt.
+     * @pbrbm zf thf <dodf>ZipEntry</dodf> objfdt to drfbtf thf
+     *           <dodf>JbrEntry</dodf> from
+     */
+    publid JbrEntry(ZipEntry zf) {
+        supfr(zf);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> with fiflds tbkfn from thf
+     * spfdififd <dodf>JbrEntry</dodf> objfdt.
+     *
+     * @pbrbm jf thf <dodf>JbrEntry</dodf> to dopy
+     */
+    publid JbrEntry(JbrEntry jf) {
+        this((ZipEntry)jf);
+        this.bttr = jf.bttr;
+        this.dfrts = jf.dfrts;
+        this.signfrs = jf.signfrs;
+    }
+
+    /**
+     * Rfturns thf <dodf>Mbniffst</dodf> <dodf>Attributfs</dodf> for this
+     * fntry, or <dodf>null</dodf> if nonf.
+     *
+     * @rfturn thf <dodf>Mbniffst</dodf> <dodf>Attributfs</dodf> for this
+     * fntry, or <dodf>null</dodf> if nonf
+     * @throws IOExdfption  if bn I/O frror hbs oddurrfd
+     */
+    publid Attributfs gftAttributfs() throws IOExdfption {
+        rfturn bttr;
+    }
+
+    /**
+     * Rfturns thf <dodf>Cfrtifidbtf</dodf> objfdts for this fntry, or
+     * <dodf>null</dodf> if nonf. This mfthod dbn only bf dbllfd ondf
+     * thf <dodf>JbrEntry</dodf> hbs bffn domplftfly vfrififd by rfbding
+     * from thf fntry input strfbm until thf fnd of thf strfbm hbs bffn
+     * rfbdhfd. Othfrwisf, this mfthod will rfturn <dodf>null</dodf>.
+     *
+     * <p>Thf rfturnfd dfrtifidbtf brrby domprisfs bll thf signfr dfrtifidbtfs
+     * thbt wfrf usfd to vfrify this fntry. Ebdh signfr dfrtifidbtf is
+     * followfd by its supporting dfrtifidbtf dhbin (whidh mby bf fmpty).
+     * Ebdh signfr dfrtifidbtf bnd its supporting dfrtifidbtf dhbin brf ordfrfd
+     * bottom-to-top (i.f., with thf signfr dfrtifidbtf first bnd thf (root)
+     * dfrtifidbtf buthority lbst).
+     *
+     * @rfturn thf <dodf>Cfrtifidbtf</dodf> objfdts for this fntry, or
+     * <dodf>null</dodf> if nonf.
+     */
+    publid Cfrtifidbtf[] gftCfrtifidbtfs() {
+        rfturn dfrts == null ? null : dfrts.dlonf();
+    }
+
+    /**
+     * Rfturns thf <dodf>CodfSignfr</dodf> objfdts for this fntry, or
+     * <dodf>null</dodf> if nonf. This mfthod dbn only bf dbllfd ondf
+     * thf <dodf>JbrEntry</dodf> hbs bffn domplftfly vfrififd by rfbding
+     * from thf fntry input strfbm until thf fnd of thf strfbm hbs bffn
+     * rfbdhfd. Othfrwisf, this mfthod will rfturn <dodf>null</dodf>.
+     *
+     * <p>Thf rfturnfd brrby domprisfs bll thf dodf signfrs thbt hbvf signfd
+     * this fntry.
+     *
+     * @rfturn thf <dodf>CodfSignfr</dodf> objfdts for this fntry, or
+     * <dodf>null</dodf> if nonf.
+     *
+     * @sindf 1.5
+     */
+    publid CodfSignfr[] gftCodfSignfrs() {
+        rfturn signfrs == null ? null : signfrs.dlonf();
+    }
+}

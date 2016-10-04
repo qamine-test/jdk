@@ -1,0 +1,1511 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+   // ISSUE: this dlbss dfpfnds on nothing in AWT -- movf to jbvb.util?
+
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.io.*;
+import jbvb.util.*;
+
+
+/**
+ * A <dodf>DffbultMutbblfTrffNodf</dodf> is b gfnfrbl-purposf nodf in b trff dbtb
+ * strudturf.
+ * For fxbmplfs of using dffbult mutbblf trff nodfs, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+ * in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * <p>
+ *
+ * A trff nodf mby hbvf bt most onf pbrfnt bnd 0 or morf dhildrfn.
+ * <dodf>DffbultMutbblfTrffNodf</dodf> providfs opfrbtions for fxbmining bnd modifying b
+ * nodf's pbrfnt bnd dhildrfn bnd blso opfrbtions for fxbmining thf trff thbt
+ * thf nodf is b pbrt of.  A nodf's trff is thf sft of bll nodfs thbt dbn bf
+ * rfbdhfd by stbrting bt thf nodf bnd following bll thf possiblf links to
+ * pbrfnts bnd dhildrfn.  A nodf with no pbrfnt is thf root of its trff; b
+ * nodf with no dhildrfn is b lfbf.  A trff mby donsist of mbny subtrffs,
+ * fbdh nodf bdting bs thf root for its own subtrff.
+ * <p>
+ * This dlbss providfs fnumfrbtions for fffidifntly trbvfrsing b trff or
+ * subtrff in vbrious ordfrs or for following thf pbth bftwffn two nodfs.
+ * A <dodf>DffbultMutbblfTrffNodf</dodf> mby blso hold b rfffrfndf to b usfr objfdt, thf
+ * usf of whidh is lfft to thf usfr.  Asking b <dodf>DffbultMutbblfTrffNodf</dodf> for its
+ * string rfprfsfntbtion with <dodf>toString()</dodf> rfturns thf string
+ * rfprfsfntbtion of its usfr objfdt.
+ * <p>
+ * <b>This is not b thrfbd sbff dlbss.</b>If you intfnd to usf
+ * b DffbultMutbblfTrffNodf (or b trff of TrffNodfs) in morf thbn onf thrfbd, you
+ * nffd to do your own syndhronizing. A good donvfntion to bdopt is
+ * syndhronizing on thf root nodf of b trff.
+ * <p>
+ * Whilf DffbultMutbblfTrffNodf implfmfnts thf MutbblfTrffNodf intfrfbdf bnd
+ * will bllow you to bdd in bny implfmfntbtion of MutbblfTrffNodf not bll
+ * of thf mfthods in DffbultMutbblfTrffNodf will bf bpplidbblf to bll
+ * MutbblfTrffNodfs implfmfntbtions. Espfdiblly with somf of thf fnumfrbtions
+ * thbt brf providfd, using somf of thfsf mfthods bssumfs thf
+ * DffbultMutbblfTrffNodf dontbins only DffbultMutbblfNodf instbndfs. All
+ * of thf TrffNodf/MutbblfTrffNodf mfthods will bfhbvf bs dffinfd no
+ * mbttfr whbt implfmfntbtions brf bddfd.
+ *
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff MutbblfTrffNodf
+ *
+ * @buthor Rob Dbvis
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultMutbblfTrffNodf implfmfnts Clonfbblf,
+       MutbblfTrffNodf, Sfriblizbblf
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = -4298474751201349152L;
+
+    /**
+     * An fnumfrbtion thbt is blwbys fmpty. This is usfd whfn bn fnumfrbtion
+     * of b lfbf nodf's dhildrfn is rfqufstfd.
+     */
+    stbtid publid finbl Enumfrbtion<TrffNodf> EMPTY_ENUMERATION
+        = Collfdtions.fmptyEnumfrbtion();
+
+    /** this nodf's pbrfnt, or null if this nodf hbs no pbrfnt */
+    protfdtfd MutbblfTrffNodf   pbrfnt;
+
+    /** brrby of dhildrfn, mby bf null if this nodf hbs no dhildrfn */
+    protfdtfd Vfdtor<TrffNodf> dhildrfn;
+
+    /** optionbl usfr objfdt */
+    trbnsifnt protfdtfd Objfdt  usfrObjfdt;
+
+    /** truf if thf nodf is bblf to hbvf dhildrfn */
+    protfdtfd boolfbn           bllowsChildrfn;
+
+
+    /**
+     * Crfbtfs b trff nodf thbt hbs no pbrfnt bnd no dhildrfn, but whidh
+     * bllows dhildrfn.
+     */
+    publid DffbultMutbblfTrffNodf() {
+        this(null);
+    }
+
+    /**
+     * Crfbtfs b trff nodf with no pbrfnt, no dhildrfn, but whidh bllows
+     * dhildrfn, bnd initiblizfs it with thf spfdififd usfr objfdt.
+     *
+     * @pbrbm usfrObjfdt bn Objfdt providfd by thf usfr thbt donstitutfs
+     *                   thf nodf's dbtb
+     */
+    publid DffbultMutbblfTrffNodf(Objfdt usfrObjfdt) {
+        this(usfrObjfdt, truf);
+    }
+
+    /**
+     * Crfbtfs b trff nodf with no pbrfnt, no dhildrfn, initiblizfd with
+     * thf spfdififd usfr objfdt, bnd thbt bllows dhildrfn only if
+     * spfdififd.
+     *
+     * @pbrbm usfrObjfdt bn Objfdt providfd by thf usfr thbt donstitutfs
+     *        thf nodf's dbtb
+     * @pbrbm bllowsChildrfn if truf, thf nodf is bllowfd to hbvf dhild
+     *        nodfs -- othfrwisf, it is blwbys b lfbf nodf
+     */
+    publid DffbultMutbblfTrffNodf(Objfdt usfrObjfdt, boolfbn bllowsChildrfn) {
+        supfr();
+        pbrfnt = null;
+        this.bllowsChildrfn = bllowsChildrfn;
+        this.usfrObjfdt = usfrObjfdt;
+    }
+
+
+    //
+    //  Primitivfs
+    //
+
+    /**
+     * Rfmovfs <dodf>nfwChild</dodf> from its prfsfnt pbrfnt (if it hbs b
+     * pbrfnt), sfts thf dhild's pbrfnt to this nodf, bnd thfn bdds thf dhild
+     * to this nodf's dhild brrby bt indfx <dodf>dhildIndfx</dodf>.
+     * <dodf>nfwChild</dodf> must not bf null bnd must not bf bn bndfstor of
+     * this nodf.
+     *
+     * @pbrbm   nfwChild        thf MutbblfTrffNodf to insfrt undfr this nodf
+     * @pbrbm   dhildIndfx      thf indfx in this nodf's dhild brrby
+     *                          whfrf this nodf is to bf insfrtfd
+     * @fxdfption       ArrbyIndfxOutOfBoundsExdfption  if
+     *                          <dodf>dhildIndfx</dodf> is out of bounds
+     * @fxdfption       IllfgblArgumfntExdfption        if
+     *                          <dodf>nfwChild</dodf> is null or is bn
+     *                          bndfstor of this nodf
+     * @fxdfption       IllfgblStbtfExdfption   if this nodf dofs not bllow
+     *                                          dhildrfn
+     * @sff     #isNodfDfsdfndbnt
+     */
+    publid void insfrt(MutbblfTrffNodf nfwChild, int dhildIndfx) {
+        if (!bllowsChildrfn) {
+            throw nfw IllfgblStbtfExdfption("nodf dofs not bllow dhildrfn");
+        } flsf if (nfwChild == null) {
+            throw nfw IllfgblArgumfntExdfption("nfw dhild is null");
+        } flsf if (isNodfAndfstor(nfwChild)) {
+            throw nfw IllfgblArgumfntExdfption("nfw dhild is bn bndfstor");
+        }
+
+            MutbblfTrffNodf oldPbrfnt = (MutbblfTrffNodf)nfwChild.gftPbrfnt();
+
+            if (oldPbrfnt != null) {
+                oldPbrfnt.rfmovf(nfwChild);
+            }
+            nfwChild.sftPbrfnt(this);
+            if (dhildrfn == null) {
+                dhildrfn = nfw Vfdtor<>();
+            }
+            dhildrfn.insfrtElfmfntAt(nfwChild, dhildIndfx);
+    }
+
+    /**
+     * Rfmovfs thf dhild bt thf spfdififd indfx from this nodf's dhildrfn
+     * bnd sfts thbt nodf's pbrfnt to null. Thf dhild nodf to rfmovf
+     * must bf b <dodf>MutbblfTrffNodf</dodf>.
+     *
+     * @pbrbm   dhildIndfx      thf indfx in this nodf's dhild brrby
+     *                          of thf dhild to rfmovf
+     * @fxdfption       ArrbyIndfxOutOfBoundsExdfption  if
+     *                          <dodf>dhildIndfx</dodf> is out of bounds
+     */
+    publid void rfmovf(int dhildIndfx) {
+        MutbblfTrffNodf dhild = (MutbblfTrffNodf)gftChildAt(dhildIndfx);
+        dhildrfn.rfmovfElfmfntAt(dhildIndfx);
+        dhild.sftPbrfnt(null);
+    }
+
+    /**
+     * Sfts this nodf's pbrfnt to <dodf>nfwPbrfnt</dodf> but dofs not
+     * dhbngf thf pbrfnt's dhild brrby.  This mfthod is dbllfd from
+     * <dodf>insfrt()</dodf> bnd <dodf>rfmovf()</dodf> to
+     * rfbssign b dhild's pbrfnt, it should not bf mfssbgfd from bnywhfrf
+     * flsf.
+     *
+     * @pbrbm   nfwPbrfnt       this nodf's nfw pbrfnt
+     */
+    @Trbnsifnt
+    publid void sftPbrfnt(MutbblfTrffNodf nfwPbrfnt) {
+        pbrfnt = nfwPbrfnt;
+    }
+
+    /**
+     * Rfturns this nodf's pbrfnt or null if this nodf hbs no pbrfnt.
+     *
+     * @rfturn  this nodf's pbrfnt TrffNodf, or null if this nodf hbs no pbrfnt
+     */
+    publid TrffNodf gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns thf dhild bt thf spfdififd indfx in this nodf's dhild brrby.
+     *
+     * @pbrbm   indfx   bn indfx into this nodf's dhild brrby
+     * @fxdfption       ArrbyIndfxOutOfBoundsExdfption  if <dodf>indfx</dodf>
+     *                                          is out of bounds
+     * @rfturn  thf TrffNodf in this nodf's dhild brrby bt  thf spfdififd indfx
+     */
+    publid TrffNodf gftChildAt(int indfx) {
+        if (dhildrfn == null) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption("nodf hbs no dhildrfn");
+        }
+        rfturn dhildrfn.flfmfntAt(indfx);
+    }
+
+    /**
+     * Rfturns thf numbfr of dhildrfn of this nodf.
+     *
+     * @rfturn  bn int giving thf numbfr of dhildrfn of this nodf
+     */
+    publid int gftChildCount() {
+        if (dhildrfn == null) {
+            rfturn 0;
+        } flsf {
+            rfturn dhildrfn.sizf();
+        }
+    }
+
+    /**
+     * Rfturns thf indfx of thf spfdififd dhild in this nodf's dhild brrby.
+     * If thf spfdififd nodf is not b dhild of this nodf, rfturns
+     * <dodf>-1</dodf>.  This mfthod pfrforms b linfbr sfbrdh bnd is O(n)
+     * whfrf n is thf numbfr of dhildrfn.
+     *
+     * @pbrbm   bChild  thf TrffNodf to sfbrdh for bmong this nodf's dhildrfn
+     * @fxdfption       IllfgblArgumfntExdfption        if <dodf>bChild</dodf>
+     *                                                  is null
+     * @rfturn  bn int giving thf indfx of thf nodf in this nodf's dhild
+     *          brrby, or <dodf>-1</dodf> if thf spfdififd nodf is b not
+     *          b dhild of this nodf
+     */
+    publid int gftIndfx(TrffNodf bChild) {
+        if (bChild == null) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is null");
+        }
+
+        if (!isNodfChild(bChild)) {
+            rfturn -1;
+        }
+        rfturn dhildrfn.indfxOf(bChild);        // linfbr sfbrdh
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b forwbrd-ordfr fnumfrbtion of this nodf's
+     * dhildrfn.  Modifying this nodf's dhild brrby invblidbtfs bny dhild
+     * fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @rfturn  bn Enumfrbtion of this nodf's dhildrfn
+     */
+    publid Enumfrbtion<TrffNodf> dhildrfn() {
+        if (dhildrfn == null) {
+            rfturn EMPTY_ENUMERATION;
+        } flsf {
+            rfturn dhildrfn.flfmfnts();
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not this nodf is bllowfd to hbvf dhildrfn.
+     * If <dodf>bllows</dodf> is fblsf, bll of this nodf's dhildrfn brf
+     * rfmovfd.
+     * <p>
+     * Notf: By dffbult, b nodf bllows dhildrfn.
+     *
+     * @pbrbm   bllows  truf if this nodf is bllowfd to hbvf dhildrfn
+     */
+    publid void sftAllowsChildrfn(boolfbn bllows) {
+        if (bllows != bllowsChildrfn) {
+            bllowsChildrfn = bllows;
+            if (!bllowsChildrfn) {
+                rfmovfAllChildrfn();
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if this nodf is bllowfd to hbvf dhildrfn.
+     *
+     * @rfturn  truf if this nodf bllows dhildrfn, flsf fblsf
+     */
+    publid boolfbn gftAllowsChildrfn() {
+        rfturn bllowsChildrfn;
+    }
+
+    /**
+     * Sfts thf usfr objfdt for this nodf to <dodf>usfrObjfdt</dodf>.
+     *
+     * @pbrbm   usfrObjfdt      thf Objfdt thbt donstitutfs this nodf's
+     *                          usfr-spfdififd dbtb
+     * @sff     #gftUsfrObjfdt
+     * @sff     #toString
+     */
+    publid void sftUsfrObjfdt(Objfdt usfrObjfdt) {
+        this.usfrObjfdt = usfrObjfdt;
+    }
+
+    /**
+     * Rfturns this nodf's usfr objfdt.
+     *
+     * @rfturn  thf Objfdt storfd bt this nodf by thf usfr
+     * @sff     #sftUsfrObjfdt
+     * @sff     #toString
+     */
+    publid Objfdt gftUsfrObjfdt() {
+        rfturn usfrObjfdt;
+    }
+
+
+    //
+    //  Dfrivfd mfthods
+    //
+
+    /**
+     * Rfmovfs thf subtrff rootfd bt this nodf from thf trff, giving this
+     * nodf b null pbrfnt.  Dofs nothing if this nodf is thf root of its
+     * trff.
+     */
+    publid void rfmovfFromPbrfnt() {
+        MutbblfTrffNodf pbrfnt = (MutbblfTrffNodf)gftPbrfnt();
+        if (pbrfnt != null) {
+            pbrfnt.rfmovf(this);
+        }
+    }
+
+    /**
+     * Rfmovfs <dodf>bChild</dodf> from this nodf's dhild brrby, giving it b
+     * null pbrfnt.
+     *
+     * @pbrbm   bChild  b dhild of this nodf to rfmovf
+     * @fxdfption       IllfgblArgumfntExdfption        if <dodf>bChild</dodf>
+     *                                  is null or is not b dhild of this nodf
+     */
+    publid void rfmovf(MutbblfTrffNodf bChild) {
+        if (bChild == null) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is null");
+        }
+
+        if (!isNodfChild(bChild)) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is not b dhild");
+        }
+        rfmovf(gftIndfx(bChild));       // linfbr sfbrdh
+    }
+
+    /**
+     * Rfmovfs bll of this nodf's dhildrfn, sftting thfir pbrfnts to null.
+     * If this nodf hbs no dhildrfn, this mfthod dofs nothing.
+     */
+    publid void rfmovfAllChildrfn() {
+        for (int i = gftChildCount()-1; i >= 0; i--) {
+            rfmovf(i);
+        }
+    }
+
+    /**
+     * Rfmovfs <dodf>nfwChild</dodf> from its pbrfnt bnd mbkfs it b dhild of
+     * this nodf by bdding it to thf fnd of this nodf's dhild brrby.
+     *
+     * @sff             #insfrt
+     * @pbrbm   nfwChild        nodf to bdd bs b dhild of this nodf
+     * @fxdfption       IllfgblArgumfntExdfption    if <dodf>nfwChild</dodf>
+     *                                          is null
+     * @fxdfption       IllfgblStbtfExdfption   if this nodf dofs not bllow
+     *                                          dhildrfn
+     */
+    publid void bdd(MutbblfTrffNodf nfwChild) {
+        if(nfwChild != null && nfwChild.gftPbrfnt() == this)
+            insfrt(nfwChild, gftChildCount() - 1);
+        flsf
+            insfrt(nfwChild, gftChildCount());
+    }
+
+
+
+    //
+    //  Trff Qufrifs
+    //
+
+    /**
+     * Rfturns truf if <dodf>bnothfrNodf</dodf> is bn bndfstor of this nodf
+     * -- if it is this nodf, this nodf's pbrfnt, or bn bndfstor of this
+     * nodf's pbrfnt.  (Notf thbt b nodf is donsidfrfd bn bndfstor of itsflf.)
+     * If <dodf>bnothfrNodf</dodf> is null, this mfthod rfturns fblsf.  This
+     * opfrbtion is bt worst O(h) whfrf h is thf distbndf from thf root to
+     * this nodf.
+     *
+     * @sff             #isNodfDfsdfndbnt
+     * @sff             #gftShbrfdAndfstor
+     * @pbrbm   bnothfrNodf     nodf to tfst bs bn bndfstor of this nodf
+     * @rfturn  truf if this nodf is b dfsdfndbnt of <dodf>bnothfrNodf</dodf>
+     */
+    publid boolfbn isNodfAndfstor(TrffNodf bnothfrNodf) {
+        if (bnothfrNodf == null) {
+            rfturn fblsf;
+        }
+
+        TrffNodf bndfstor = this;
+
+        do {
+            if (bndfstor == bnothfrNodf) {
+                rfturn truf;
+            }
+        } whilf((bndfstor = bndfstor.gftPbrfnt()) != null);
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if <dodf>bnothfrNodf</dodf> is b dfsdfndbnt of this nodf
+     * -- if it is this nodf, onf of this nodf's dhildrfn, or b dfsdfndbnt of
+     * onf of this nodf's dhildrfn.  Notf thbt b nodf is donsidfrfd b
+     * dfsdfndbnt of itsflf.  If <dodf>bnothfrNodf</dodf> is null, rfturns
+     * fblsf.  This opfrbtion is bt worst O(h) whfrf h is thf distbndf from thf
+     * root to <dodf>bnothfrNodf</dodf>.
+     *
+     * @sff     #isNodfAndfstor
+     * @sff     #gftShbrfdAndfstor
+     * @pbrbm   bnothfrNodf     nodf to tfst bs dfsdfndbnt of this nodf
+     * @rfturn  truf if this nodf is bn bndfstor of <dodf>bnothfrNodf</dodf>
+     */
+    publid boolfbn isNodfDfsdfndbnt(DffbultMutbblfTrffNodf bnothfrNodf) {
+        if (bnothfrNodf == null)
+            rfturn fblsf;
+
+        rfturn bnothfrNodf.isNodfAndfstor(this);
+    }
+
+    /**
+     * Rfturns thf nfbrfst dommon bndfstor to this nodf bnd <dodf>bNodf</dodf>.
+     * Rfturns null, if no sudh bndfstor fxists -- if this nodf bnd
+     * <dodf>bNodf</dodf> brf in difffrfnt trffs or if <dodf>bNodf</dodf> is
+     * null.  A nodf is donsidfrfd bn bndfstor of itsflf.
+     *
+     * @sff     #isNodfAndfstor
+     * @sff     #isNodfDfsdfndbnt
+     * @pbrbm   bNodf   nodf to find dommon bndfstor with
+     * @rfturn  nfbrfst bndfstor dommon to this nodf bnd <dodf>bNodf</dodf>,
+     *          or null if nonf
+     */
+    publid TrffNodf gftShbrfdAndfstor(DffbultMutbblfTrffNodf bNodf) {
+        if (bNodf == this) {
+            rfturn this;
+        } flsf if (bNodf == null) {
+            rfturn null;
+        }
+
+        int             lfvfl1, lfvfl2, diff;
+        TrffNodf        nodf1, nodf2;
+
+        lfvfl1 = gftLfvfl();
+        lfvfl2 = bNodf.gftLfvfl();
+
+        if (lfvfl2 > lfvfl1) {
+            diff = lfvfl2 - lfvfl1;
+            nodf1 = bNodf;
+            nodf2 = this;
+        } flsf {
+            diff = lfvfl1 - lfvfl2;
+            nodf1 = this;
+            nodf2 = bNodf;
+        }
+
+        // Go up thf trff until thf nodfs brf bt thf sbmf lfvfl
+        whilf (diff > 0) {
+            nodf1 = nodf1.gftPbrfnt();
+            diff--;
+        }
+
+        // Movf up thf trff until wf find b dommon bndfstor.  Sindf wf know
+        // thbt both nodfs brf bt thf sbmf lfvfl, wf won't dross pbths
+        // unknowingly (if thfrf is b dommon bndfstor, both nodfs hit it in
+        // thf sbmf itfrbtion).
+
+        do {
+            if (nodf1 == nodf2) {
+                rfturn nodf1;
+            }
+            nodf1 = nodf1.gftPbrfnt();
+            nodf2 = nodf2.gftPbrfnt();
+        } whilf (nodf1 != null);// only nffd to dhfdk onf -- thfy'rf bt thf
+        // sbmf lfvfl so if onf is null, thf othfr is
+
+        if (nodf1 != null || nodf2 != null) {
+            throw nfw Error ("nodfs should bf null");
+        }
+
+        rfturn null;
+    }
+
+
+    /**
+     * Rfturns truf if bnd only if <dodf>bNodf</dodf> is in thf sbmf trff
+     * bs this nodf.  Rfturns fblsf if <dodf>bNodf</dodf> is null.
+     *
+     * @pbrbm   bNodf nodf to find dommon bndfstor with
+     * @sff     #gftShbrfdAndfstor
+     * @sff     #gftRoot
+     * @rfturn  truf if <dodf>bNodf</dodf> is in thf sbmf trff bs this nodf;
+     *          fblsf if <dodf>bNodf</dodf> is null
+     */
+    publid boolfbn isNodfRflbtfd(DffbultMutbblfTrffNodf bNodf) {
+        rfturn (bNodf != null) && (gftRoot() == bNodf.gftRoot());
+    }
+
+
+    /**
+     * Rfturns thf dfpth of thf trff rootfd bt this nodf -- thf longfst
+     * distbndf from this nodf to b lfbf.  If this nodf hbs no dhildrfn,
+     * rfturns 0.  This opfrbtion is mudh morf fxpfnsivf thbn
+     * <dodf>gftLfvfl()</dodf> bfdbusf it must ffffdtivfly trbvfrsf thf fntirf
+     * trff rootfd bt this nodf.
+     *
+     * @sff     #gftLfvfl
+     * @rfturn  thf dfpth of thf trff whosf root is this nodf
+     */
+    publid int gftDfpth() {
+        Objfdt  lbst = null;
+        Enumfrbtion<TrffNodf> fnum_ = brfbdthFirstEnumfrbtion();
+
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            lbst = fnum_.nfxtElfmfnt();
+        }
+
+        if (lbst == null) {
+            throw nfw Error ("nodfs should bf null");
+        }
+
+        rfturn ((DffbultMutbblfTrffNodf)lbst).gftLfvfl() - gftLfvfl();
+    }
+
+
+
+    /**
+     * Rfturns thf numbfr of lfvfls bbovf this nodf -- thf distbndf from
+     * thf root to this nodf.  If this nodf is thf root, rfturns 0.
+     *
+     * @sff     #gftDfpth
+     * @rfturn  thf numbfr of lfvfls bbovf this nodf
+     */
+    publid int gftLfvfl() {
+        TrffNodf bndfstor;
+        int lfvfls = 0;
+
+        bndfstor = this;
+        whilf((bndfstor = bndfstor.gftPbrfnt()) != null){
+            lfvfls++;
+        }
+
+        rfturn lfvfls;
+    }
+
+
+    /**
+      * Rfturns thf pbth from thf root, to gft to this nodf.  Thf lbst
+      * flfmfnt in thf pbth is this nodf.
+      *
+      * @rfturn bn brrby of TrffNodf objfdts giving thf pbth, whfrf thf
+      *         first flfmfnt in thf pbth is thf root bnd thf lbst
+      *         flfmfnt is this nodf.
+      */
+    publid TrffNodf[] gftPbth() {
+        rfturn gftPbthToRoot(this, 0);
+    }
+
+    /**
+     * Builds thf pbrfnts of nodf up to bnd indluding thf root nodf,
+     * whfrf thf originbl nodf is thf lbst flfmfnt in thf rfturnfd brrby.
+     * Thf lfngth of thf rfturnfd brrby givfs thf nodf's dfpth in thf
+     * trff.
+     *
+     * @pbrbm bNodf  thf TrffNodf to gft thf pbth for
+     * @pbrbm dfpth  bn int giving thf numbfr of stfps blrfbdy tbkfn towbrds
+     *        thf root (on rfdursivf dblls), usfd to sizf thf rfturnfd brrby
+     * @rfturn bn brrby of TrffNodfs giving thf pbth from thf root to thf
+     *         spfdififd nodf
+     */
+    protfdtfd TrffNodf[] gftPbthToRoot(TrffNodf bNodf, int dfpth) {
+        TrffNodf[]              rftNodfs;
+
+        /* Chfdk for null, in dbsf somfonf pbssfd in b null nodf, or
+           thfy pbssfd in bn flfmfnt thbt isn't rootfd bt root. */
+        if(bNodf == null) {
+            if(dfpth == 0)
+                rfturn null;
+            flsf
+                rftNodfs = nfw TrffNodf[dfpth];
+        }
+        flsf {
+            dfpth++;
+            rftNodfs = gftPbthToRoot(bNodf.gftPbrfnt(), dfpth);
+            rftNodfs[rftNodfs.lfngth - dfpth] = bNodf;
+        }
+        rfturn rftNodfs;
+    }
+
+    /**
+      * Rfturns thf usfr objfdt pbth, from thf root, to gft to this nodf.
+      * If somf of thf TrffNodfs in thf pbth hbvf null usfr objfdts, thf
+      * rfturnfd pbth will dontbin nulls.
+      *
+      * @rfturn thf usfr objfdt pbth, from thf root, to gft to this nodf
+      */
+    publid Objfdt[] gftUsfrObjfdtPbth() {
+        TrffNodf[]          rfblPbth = gftPbth();
+        Objfdt[]            rftPbth = nfw Objfdt[rfblPbth.lfngth];
+
+        for(int dountfr = 0; dountfr < rfblPbth.lfngth; dountfr++)
+            rftPbth[dountfr] = ((DffbultMutbblfTrffNodf)rfblPbth[dountfr])
+                               .gftUsfrObjfdt();
+        rfturn rftPbth;
+    }
+
+    /**
+     * Rfturns thf root of thf trff thbt dontbins this nodf.  Thf root is
+     * thf bndfstor with b null pbrfnt.
+     *
+     * @sff     #isNodfAndfstor
+     * @rfturn  thf root of thf trff thbt dontbins this nodf
+     */
+    publid TrffNodf gftRoot() {
+        TrffNodf bndfstor = this;
+        TrffNodf prfvious;
+
+        do {
+            prfvious = bndfstor;
+            bndfstor = bndfstor.gftPbrfnt();
+        } whilf (bndfstor != null);
+
+        rfturn prfvious;
+    }
+
+
+    /**
+     * Rfturns truf if this nodf is thf root of thf trff.  Thf root is
+     * thf only nodf in thf trff with b null pbrfnt; fvfry trff hbs fxbdtly
+     * onf root.
+     *
+     * @rfturn  truf if this nodf is thf root of its trff
+     */
+    publid boolfbn isRoot() {
+        rfturn gftPbrfnt() == null;
+    }
+
+
+    /**
+     * Rfturns thf nodf thbt follows this nodf in b prfordfr trbvfrsbl of this
+     * nodf's trff.  Rfturns null if this nodf is thf lbst nodf of thf
+     * trbvfrsbl.  This is bn infffidifnt wby to trbvfrsf thf fntirf trff; usf
+     * bn fnumfrbtion, instfbd.
+     *
+     * @sff     #prfordfrEnumfrbtion
+     * @rfturn  thf nodf thbt follows this nodf in b prfordfr trbvfrsbl, or
+     *          null if this nodf is lbst
+     */
+    publid DffbultMutbblfTrffNodf gftNfxtNodf() {
+        if (gftChildCount() == 0) {
+            // No dhildrfn, so look for nfxtSibling
+            DffbultMutbblfTrffNodf nfxtSibling = gftNfxtSibling();
+
+            if (nfxtSibling == null) {
+                DffbultMutbblfTrffNodf bNodf = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+                do {
+                    if (bNodf == null) {
+                        rfturn null;
+                    }
+
+                    nfxtSibling = bNodf.gftNfxtSibling();
+                    if (nfxtSibling != null) {
+                        rfturn nfxtSibling;
+                    }
+
+                    bNodf = (DffbultMutbblfTrffNodf)bNodf.gftPbrfnt();
+                } whilf(truf);
+            } flsf {
+                rfturn nfxtSibling;
+            }
+        } flsf {
+            rfturn (DffbultMutbblfTrffNodf)gftChildAt(0);
+        }
+    }
+
+
+    /**
+     * Rfturns thf nodf thbt prfdfdfs this nodf in b prfordfr trbvfrsbl of
+     * this nodf's trff.  Rfturns <dodf>null</dodf> if this nodf is thf
+     * first nodf of thf trbvfrsbl -- thf root of thf trff.
+     * This is bn infffidifnt wby to
+     * trbvfrsf thf fntirf trff; usf bn fnumfrbtion, instfbd.
+     *
+     * @sff     #prfordfrEnumfrbtion
+     * @rfturn  thf nodf thbt prfdfdfs this nodf in b prfordfr trbvfrsbl, or
+     *          null if this nodf is thf first
+     */
+    publid DffbultMutbblfTrffNodf gftPrfviousNodf() {
+        DffbultMutbblfTrffNodf prfviousSibling;
+        DffbultMutbblfTrffNodf myPbrfnt = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+        if (myPbrfnt == null) {
+            rfturn null;
+        }
+
+        prfviousSibling = gftPrfviousSibling();
+
+        if (prfviousSibling != null) {
+            if (prfviousSibling.gftChildCount() == 0)
+                rfturn prfviousSibling;
+            flsf
+                rfturn prfviousSibling.gftLbstLfbf();
+        } flsf {
+            rfturn myPbrfnt;
+        }
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn fnumfrbtion thbt trbvfrsfs thf subtrff rootfd bt
+     * this nodf in prfordfr.  Thf first nodf rfturnfd by thf fnumfrbtion's
+     * <dodf>nfxtElfmfnt()</dodf> mfthod is this nodf.<P>
+     *
+     * Modifying thf trff by insfrting, rfmoving, or moving b nodf invblidbtfs
+     * bny fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @sff     #postordfrEnumfrbtion
+     * @rfturn  bn fnumfrbtion for trbvfrsing thf trff in prfordfr
+     */
+    publid Enumfrbtion<TrffNodf> prfordfrEnumfrbtion() {
+        rfturn nfw PrfordfrEnumfrbtion(this);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn fnumfrbtion thbt trbvfrsfs thf subtrff rootfd bt
+     * this nodf in postordfr.  Thf first nodf rfturnfd by thf fnumfrbtion's
+     * <dodf>nfxtElfmfnt()</dodf> mfthod is thf lfftmost lfbf.  This is thf
+     * sbmf bs b dfpth-first trbvfrsbl.<P>
+     *
+     * Modifying thf trff by insfrting, rfmoving, or moving b nodf invblidbtfs
+     * bny fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @sff     #dfpthFirstEnumfrbtion
+     * @sff     #prfordfrEnumfrbtion
+     * @rfturn  bn fnumfrbtion for trbvfrsing thf trff in postordfr
+     */
+    publid Enumfrbtion<TrffNodf> postordfrEnumfrbtion() {
+        rfturn nfw PostordfrEnumfrbtion(this);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn fnumfrbtion thbt trbvfrsfs thf subtrff rootfd bt
+     * this nodf in brfbdth-first ordfr.  Thf first nodf rfturnfd by thf
+     * fnumfrbtion's <dodf>nfxtElfmfnt()</dodf> mfthod is this nodf.<P>
+     *
+     * Modifying thf trff by insfrting, rfmoving, or moving b nodf invblidbtfs
+     * bny fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @sff     #dfpthFirstEnumfrbtion
+     * @rfturn  bn fnumfrbtion for trbvfrsing thf trff in brfbdth-first ordfr
+     */
+    publid Enumfrbtion<TrffNodf> brfbdthFirstEnumfrbtion() {
+        rfturn nfw BrfbdthFirstEnumfrbtion(this);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn fnumfrbtion thbt trbvfrsfs thf subtrff rootfd bt
+     * this nodf in dfpth-first ordfr.  Thf first nodf rfturnfd by thf
+     * fnumfrbtion's <dodf>nfxtElfmfnt()</dodf> mfthod is thf lfftmost lfbf.
+     * This is thf sbmf bs b postordfr trbvfrsbl.<P>
+     *
+     * Modifying thf trff by insfrting, rfmoving, or moving b nodf invblidbtfs
+     * bny fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @sff     #brfbdthFirstEnumfrbtion
+     * @sff     #postordfrEnumfrbtion
+     * @rfturn  bn fnumfrbtion for trbvfrsing thf trff in dfpth-first ordfr
+     */
+    publid Enumfrbtion<TrffNodf> dfpthFirstEnumfrbtion() {
+        rfturn postordfrEnumfrbtion();
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn fnumfrbtion thbt follows thf pbth from
+     * <dodf>bndfstor</dodf> to this nodf.  Thf fnumfrbtion's
+     * <dodf>nfxtElfmfnt()</dodf> mfthod first rfturns <dodf>bndfstor</dodf>,
+     * thfn thf dhild of <dodf>bndfstor</dodf> thbt is bn bndfstor of this
+     * nodf, bnd so on, bnd finblly rfturns this nodf.  Crfbtion of thf
+     * fnumfrbtion is O(m) whfrf m is thf numbfr of nodfs bftwffn this nodf
+     * bnd <dodf>bndfstor</dodf>, indlusivf.  Ebdh <dodf>nfxtElfmfnt()</dodf>
+     * mfssbgf is O(1).<P>
+     *
+     * Modifying thf trff by insfrting, rfmoving, or moving b nodf invblidbtfs
+     * bny fnumfrbtions drfbtfd bfforf thf modifidbtion.
+     *
+     * @pbrbm           bndfstor thf nodf to stbrt fnumfrbtion from
+     * @sff             #isNodfAndfstor
+     * @sff             #isNodfDfsdfndbnt
+     * @fxdfption       IllfgblArgumfntExdfption if <dodf>bndfstor</dodf> is
+     *                                          not bn bndfstor of this nodf
+     * @rfturn  bn fnumfrbtion for following thf pbth from bn bndfstor of
+     *          this nodf to this onf
+     */
+    publid Enumfrbtion<TrffNodf> pbthFromAndfstorEnumfrbtion(TrffNodf bndfstor) {
+        rfturn nfw PbthBftwffnNodfsEnumfrbtion(bndfstor, this);
+    }
+
+
+    //
+    //  Child Qufrifs
+    //
+
+    /**
+     * Rfturns truf if <dodf>bNodf</dodf> is b dhild of this nodf.  If
+     * <dodf>bNodf</dodf> is null, this mfthod rfturns fblsf.
+     *
+     * @pbrbm   bNodf thf nodf to dftfrminbtf whfthfr it is b dhild
+     * @rfturn  truf if <dodf>bNodf</dodf> is b dhild of this nodf; fblsf if
+     *                  <dodf>bNodf</dodf> is null
+     */
+    publid boolfbn isNodfChild(TrffNodf bNodf) {
+        boolfbn rftvbl;
+
+        if (bNodf == null) {
+            rftvbl = fblsf;
+        } flsf {
+            if (gftChildCount() == 0) {
+                rftvbl = fblsf;
+            } flsf {
+                rftvbl = (bNodf.gftPbrfnt() == this);
+            }
+        }
+
+        rfturn rftvbl;
+    }
+
+
+    /**
+     * Rfturns this nodf's first dhild.  If this nodf hbs no dhildrfn,
+     * throws NoSudhElfmfntExdfption.
+     *
+     * @rfturn  thf first dhild of this nodf
+     * @fxdfption       NoSudhElfmfntExdfption  if this nodf hbs no dhildrfn
+     */
+    publid TrffNodf gftFirstChild() {
+        if (gftChildCount() == 0) {
+            throw nfw NoSudhElfmfntExdfption("nodf hbs no dhildrfn");
+        }
+        rfturn gftChildAt(0);
+    }
+
+
+    /**
+     * Rfturns this nodf's lbst dhild.  If this nodf hbs no dhildrfn,
+     * throws NoSudhElfmfntExdfption.
+     *
+     * @rfturn  thf lbst dhild of this nodf
+     * @fxdfption       NoSudhElfmfntExdfption  if this nodf hbs no dhildrfn
+     */
+    publid TrffNodf gftLbstChild() {
+        if (gftChildCount() == 0) {
+            throw nfw NoSudhElfmfntExdfption("nodf hbs no dhildrfn");
+        }
+        rfturn gftChildAt(gftChildCount()-1);
+    }
+
+
+    /**
+     * Rfturns thf dhild in this nodf's dhild brrby thbt immfdibtfly
+     * follows <dodf>bChild</dodf>, whidh must bf b dhild of this nodf.  If
+     * <dodf>bChild</dodf> is thf lbst dhild, rfturns null.  This mfthod
+     * pfrforms b linfbr sfbrdh of this nodf's dhildrfn for
+     * <dodf>bChild</dodf> bnd is O(n) whfrf n is thf numbfr of dhildrfn; to
+     * trbvfrsf thf fntirf brrby of dhildrfn, usf bn fnumfrbtion instfbd.
+     *
+     * @pbrbm           bChild thf dhild nodf to look for nfxt dhild bftfr it
+     * @sff             #dhildrfn
+     * @fxdfption       IllfgblArgumfntExdfption if <dodf>bChild</dodf> is
+     *                                  null or is not b dhild of this nodf
+     * @rfturn  thf dhild of this nodf thbt immfdibtfly follows
+     *          <dodf>bChild</dodf>
+     */
+    publid TrffNodf gftChildAftfr(TrffNodf bChild) {
+        if (bChild == null) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is null");
+        }
+
+        int indfx = gftIndfx(bChild);           // linfbr sfbrdh
+
+        if (indfx == -1) {
+            throw nfw IllfgblArgumfntExdfption("nodf is not b dhild");
+        }
+
+        if (indfx < gftChildCount() - 1) {
+            rfturn gftChildAt(indfx + 1);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+
+    /**
+     * Rfturns thf dhild in this nodf's dhild brrby thbt immfdibtfly
+     * prfdfdfs <dodf>bChild</dodf>, whidh must bf b dhild of this nodf.  If
+     * <dodf>bChild</dodf> is thf first dhild, rfturns null.  This mfthod
+     * pfrforms b linfbr sfbrdh of this nodf's dhildrfn for <dodf>bChild</dodf>
+     * bnd is O(n) whfrf n is thf numbfr of dhildrfn.
+     *
+     * @pbrbm           bChild thf dhild nodf to look for prfvious dhild bfforf it
+     * @fxdfption       IllfgblArgumfntExdfption if <dodf>bChild</dodf> is null
+     *                                          or is not b dhild of this nodf
+     * @rfturn  thf dhild of this nodf thbt immfdibtfly prfdfdfs
+     *          <dodf>bChild</dodf>
+     */
+    publid TrffNodf gftChildBfforf(TrffNodf bChild) {
+        if (bChild == null) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is null");
+        }
+
+        int indfx = gftIndfx(bChild);           // linfbr sfbrdh
+
+        if (indfx == -1) {
+            throw nfw IllfgblArgumfntExdfption("brgumfnt is not b dhild");
+        }
+
+        if (indfx > 0) {
+            rfturn gftChildAt(indfx - 1);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+
+    //
+    //  Sibling Qufrifs
+    //
+
+
+    /**
+     * Rfturns truf if <dodf>bnothfrNodf</dodf> is b sibling of (hbs thf
+     * sbmf pbrfnt bs) this nodf.  A nodf is its own sibling.  If
+     * <dodf>bnothfrNodf</dodf> is null, rfturns fblsf.
+     *
+     * @pbrbm   bnothfrNodf     nodf to tfst bs sibling of this nodf
+     * @rfturn  truf if <dodf>bnothfrNodf</dodf> is b sibling of this nodf
+     */
+    publid boolfbn isNodfSibling(TrffNodf bnothfrNodf) {
+        boolfbn rftvbl;
+
+        if (bnothfrNodf == null) {
+            rftvbl = fblsf;
+        } flsf if (bnothfrNodf == this) {
+            rftvbl = truf;
+        } flsf {
+            TrffNodf  myPbrfnt = gftPbrfnt();
+            rftvbl = (myPbrfnt != null && myPbrfnt == bnothfrNodf.gftPbrfnt());
+
+            if (rftvbl && !((DffbultMutbblfTrffNodf)gftPbrfnt())
+                           .isNodfChild(bnothfrNodf)) {
+                throw nfw Error("sibling hbs difffrfnt pbrfnt");
+            }
+        }
+
+        rfturn rftvbl;
+    }
+
+
+    /**
+     * Rfturns thf numbfr of siblings of this nodf.  A nodf is its own sibling
+     * (if it hbs no pbrfnt or no siblings, this mfthod rfturns
+     * <dodf>1</dodf>).
+     *
+     * @rfturn  thf numbfr of siblings of this nodf
+     */
+    publid int gftSiblingCount() {
+        TrffNodf myPbrfnt = gftPbrfnt();
+
+        if (myPbrfnt == null) {
+            rfturn 1;
+        } flsf {
+            rfturn myPbrfnt.gftChildCount();
+        }
+    }
+
+
+    /**
+     * Rfturns thf nfxt sibling of this nodf in thf pbrfnt's dhildrfn brrby.
+     * Rfturns null if this nodf hbs no pbrfnt or is thf pbrfnt's lbst dhild.
+     * This mfthod pfrforms b linfbr sfbrdh thbt is O(n) whfrf n is thf numbfr
+     * of dhildrfn; to trbvfrsf thf fntirf brrby, usf thf pbrfnt's dhild
+     * fnumfrbtion instfbd.
+     *
+     * @sff     #dhildrfn
+     * @rfturn  thf sibling of this nodf thbt immfdibtfly follows this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftNfxtSibling() {
+        DffbultMutbblfTrffNodf rftvbl;
+
+        DffbultMutbblfTrffNodf myPbrfnt = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+        if (myPbrfnt == null) {
+            rftvbl = null;
+        } flsf {
+            rftvbl = (DffbultMutbblfTrffNodf)myPbrfnt.gftChildAftfr(this);      // linfbr sfbrdh
+        }
+
+        if (rftvbl != null && !isNodfSibling(rftvbl)) {
+            throw nfw Error("dhild of pbrfnt is not b sibling");
+        }
+
+        rfturn rftvbl;
+    }
+
+
+    /**
+     * Rfturns thf prfvious sibling of this nodf in thf pbrfnt's dhildrfn
+     * brrby.  Rfturns null if this nodf hbs no pbrfnt or is thf pbrfnt's
+     * first dhild.  This mfthod pfrforms b linfbr sfbrdh thbt is O(n) whfrf n
+     * is thf numbfr of dhildrfn.
+     *
+     * @rfturn  thf sibling of this nodf thbt immfdibtfly prfdfdfs this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftPrfviousSibling() {
+        DffbultMutbblfTrffNodf rftvbl;
+
+        DffbultMutbblfTrffNodf myPbrfnt = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+        if (myPbrfnt == null) {
+            rftvbl = null;
+        } flsf {
+            rftvbl = (DffbultMutbblfTrffNodf)myPbrfnt.gftChildBfforf(this);     // linfbr sfbrdh
+        }
+
+        if (rftvbl != null && !isNodfSibling(rftvbl)) {
+            throw nfw Error("dhild of pbrfnt is not b sibling");
+        }
+
+        rfturn rftvbl;
+    }
+
+
+
+    //
+    //  Lfbf Qufrifs
+    //
+
+    /**
+     * Rfturns truf if this nodf hbs no dhildrfn.  To distinguish bftwffn
+     * nodfs thbt hbvf no dhildrfn bnd nodfs thbt <i>dbnnot</i> hbvf
+     * dhildrfn (f.g. to distinguish filfs from fmpty dirfdtorifs), usf this
+     * mfthod in donjundtion with <dodf>gftAllowsChildrfn</dodf>
+     *
+     * @sff     #gftAllowsChildrfn
+     * @rfturn  truf if this nodf hbs no dhildrfn
+     */
+    publid boolfbn isLfbf() {
+        rfturn (gftChildCount() == 0);
+    }
+
+
+    /**
+     * Finds bnd rfturns thf first lfbf thbt is b dfsdfndbnt of this nodf --
+     * fithfr this nodf or its first dhild's first lfbf.
+     * Rfturns this nodf if it is b lfbf.
+     *
+     * @sff     #isLfbf
+     * @sff     #isNodfDfsdfndbnt
+     * @rfturn  thf first lfbf in thf subtrff rootfd bt this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftFirstLfbf() {
+        DffbultMutbblfTrffNodf nodf = this;
+
+        whilf (!nodf.isLfbf()) {
+            nodf = (DffbultMutbblfTrffNodf)nodf.gftFirstChild();
+        }
+
+        rfturn nodf;
+    }
+
+
+    /**
+     * Finds bnd rfturns thf lbst lfbf thbt is b dfsdfndbnt of this nodf --
+     * fithfr this nodf or its lbst dhild's lbst lfbf.
+     * Rfturns this nodf if it is b lfbf.
+     *
+     * @sff     #isLfbf
+     * @sff     #isNodfDfsdfndbnt
+     * @rfturn  thf lbst lfbf in thf subtrff rootfd bt this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftLbstLfbf() {
+        DffbultMutbblfTrffNodf nodf = this;
+
+        whilf (!nodf.isLfbf()) {
+            nodf = (DffbultMutbblfTrffNodf)nodf.gftLbstChild();
+        }
+
+        rfturn nodf;
+    }
+
+
+    /**
+     * Rfturns thf lfbf bftfr this nodf or null if this nodf is thf
+     * lbst lfbf in thf trff.
+     * <p>
+     * In this implfmfntbtion of thf <dodf>MutbblfNodf</dodf> intfrfbdf,
+     * this opfrbtion is vfry infffidifnt. In ordfr to dftfrminf thf
+     * nfxt nodf, this mfthod first pfrforms b linfbr sfbrdh in thf
+     * pbrfnt's dhild-list in ordfr to find thf durrfnt nodf.
+     * <p>
+     * Thbt implfmfntbtion mbkfs thf opfrbtion suitbblf for short
+     * trbvfrsbls from b known position. But to trbvfrsf bll of thf
+     * lfbvfs in thf trff, you should usf <dodf>dfpthFirstEnumfrbtion</dodf>
+     * to fnumfrbtf thf nodfs in thf trff bnd usf <dodf>isLfbf</dodf>
+     * on fbdh nodf to dftfrminf whidh brf lfbvfs.
+     *
+     * @sff     #dfpthFirstEnumfrbtion
+     * @sff     #isLfbf
+     * @rfturn  rfturns thf nfxt lfbf pbst this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftNfxtLfbf() {
+        DffbultMutbblfTrffNodf nfxtSibling;
+        DffbultMutbblfTrffNodf myPbrfnt = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+        if (myPbrfnt == null)
+            rfturn null;
+
+        nfxtSibling = gftNfxtSibling(); // linfbr sfbrdh
+
+        if (nfxtSibling != null)
+            rfturn nfxtSibling.gftFirstLfbf();
+
+        rfturn myPbrfnt.gftNfxtLfbf();  // tbil rfdursion
+    }
+
+
+    /**
+     * Rfturns thf lfbf bfforf this nodf or null if this nodf is thf
+     * first lfbf in thf trff.
+     * <p>
+     * In this implfmfntbtion of thf <dodf>MutbblfNodf</dodf> intfrfbdf,
+     * this opfrbtion is vfry infffidifnt. In ordfr to dftfrminf thf
+     * prfvious nodf, this mfthod first pfrforms b linfbr sfbrdh in thf
+     * pbrfnt's dhild-list in ordfr to find thf durrfnt nodf.
+     * <p>
+     * Thbt implfmfntbtion mbkfs thf opfrbtion suitbblf for short
+     * trbvfrsbls from b known position. But to trbvfrsf bll of thf
+     * lfbvfs in thf trff, you should usf <dodf>dfpthFirstEnumfrbtion</dodf>
+     * to fnumfrbtf thf nodfs in thf trff bnd usf <dodf>isLfbf</dodf>
+     * on fbdh nodf to dftfrminf whidh brf lfbvfs.
+     *
+     * @sff             #dfpthFirstEnumfrbtion
+     * @sff             #isLfbf
+     * @rfturn  rfturns thf lfbf bfforf this nodf
+     */
+    publid DffbultMutbblfTrffNodf gftPrfviousLfbf() {
+        DffbultMutbblfTrffNodf prfviousSibling;
+        DffbultMutbblfTrffNodf myPbrfnt = (DffbultMutbblfTrffNodf)gftPbrfnt();
+
+        if (myPbrfnt == null)
+            rfturn null;
+
+        prfviousSibling = gftPrfviousSibling(); // linfbr sfbrdh
+
+        if (prfviousSibling != null)
+            rfturn prfviousSibling.gftLbstLfbf();
+
+        rfturn myPbrfnt.gftPrfviousLfbf();              // tbil rfdursion
+    }
+
+
+    /**
+     * Rfturns thf totbl numbfr of lfbvfs thbt brf dfsdfndbnts of this nodf.
+     * If this nodf is b lfbf, rfturns <dodf>1</dodf>.  This mfthod is O(n)
+     * whfrf n is thf numbfr of dfsdfndbnts of this nodf.
+     *
+     * @sff     #isNodfAndfstor
+     * @rfturn  thf numbfr of lfbvfs bfnfbth this nodf
+     */
+    publid int gftLfbfCount() {
+        int dount = 0;
+
+        TrffNodf nodf;
+        Enumfrbtion<TrffNodf> fnum_ = brfbdthFirstEnumfrbtion(); // ordfr mbttfrs not
+
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            nodf = fnum_.nfxtElfmfnt();
+            if (nodf.isLfbf()) {
+                dount++;
+            }
+        }
+
+        if (dount < 1) {
+            throw nfw Error("trff hbs zfro lfbvfs");
+        }
+
+        rfturn dount;
+    }
+
+
+    //
+    //  Ovfrridfs
+    //
+
+    /**
+     * Rfturns thf rfsult of sfnding <dodf>toString()</dodf> to this nodf's
+     * usfr objfdt, or thf fmpty string if thf nodf hbs no usfr objfdt.
+     *
+     * @sff     #gftUsfrObjfdt
+     */
+    publid String toString() {
+        if (usfrObjfdt == null) {
+            rfturn "";
+        } flsf {
+            rfturn usfrObjfdt.toString();
+        }
+    }
+
+    /**
+     * Ovfrriddfn to mbkf dlonf publid.  Rfturns b shbllow dopy of this nodf;
+     * thf nfw nodf hbs no pbrfnt or dhildrfn bnd hbs b rfffrfndf to thf sbmf
+     * usfr objfdt, if bny.
+     *
+     * @rfturn  b dopy of this nodf
+     */
+    publid Objfdt dlonf() {
+        DffbultMutbblfTrffNodf nfwNodf;
+
+        try {
+            nfwNodf = (DffbultMutbblfTrffNodf)supfr.dlonf();
+
+            // shbllow dopy -- thf nfw nodf hbs no pbrfnt or dhildrfn
+            nfwNodf.dhildrfn = null;
+            nfwNodf.pbrfnt = null;
+
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // Won't hbppfn bfdbusf wf implfmfnt Clonfbblf
+            throw nfw Error(f.toString());
+        }
+
+        rfturn nfwNodf;
+    }
+
+
+    // Sfriblizbtion support.
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        Objfdt[]             tVblufs;
+
+        s.dffbultWritfObjfdt();
+        // Sbvf thf usfrObjfdt, if its Sfriblizbblf.
+        if(usfrObjfdt != null && usfrObjfdt instbndfof Sfriblizbblf) {
+            tVblufs = nfw Objfdt[2];
+            tVblufs[0] = "usfrObjfdt";
+            tVblufs[1] = usfrObjfdt;
+        }
+        flsf
+            tVblufs = nfw Objfdt[0];
+        s.writfObjfdt(tVblufs);
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        Objfdt[]      tVblufs;
+
+        s.dffbultRfbdObjfdt();
+
+        tVblufs = (Objfdt[])s.rfbdObjfdt();
+
+        if(tVblufs.lfngth > 0 && tVblufs[0].fqubls("usfrObjfdt"))
+            usfrObjfdt = tVblufs[1];
+    }
+
+    privbtf finbl dlbss PrfordfrEnumfrbtion implfmfnts Enumfrbtion<TrffNodf> {
+        privbtf finbl Stbdk<Enumfrbtion<TrffNodf>> stbdk = nfw Stbdk<>();
+
+        publid PrfordfrEnumfrbtion(TrffNodf rootNodf) {
+            supfr();
+            Vfdtor<TrffNodf> v = nfw Vfdtor<TrffNodf>(1);
+            v.bddElfmfnt(rootNodf);     // PENDING: don't rfblly nffd b vfdtor
+            stbdk.push(v.flfmfnts());
+        }
+
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn (!stbdk.fmpty() && stbdk.pffk().hbsMorfElfmfnts());
+        }
+
+        publid TrffNodf nfxtElfmfnt() {
+            Enumfrbtion<TrffNodf> fnumfr = stbdk.pffk();
+            TrffNodf    nodf = fnumfr.nfxtElfmfnt();
+            @SupprfssWbrnings("undhfdkfd")
+            Enumfrbtion<TrffNodf> dhildrfn = nodf.dhildrfn();
+
+            if (!fnumfr.hbsMorfElfmfnts()) {
+                stbdk.pop();
+            }
+            if (dhildrfn.hbsMorfElfmfnts()) {
+                stbdk.push(dhildrfn);
+            }
+            rfturn nodf;
+        }
+
+    }  // End of dlbss PrfordfrEnumfrbtion
+
+
+
+    finbl dlbss PostordfrEnumfrbtion implfmfnts Enumfrbtion<TrffNodf> {
+        protfdtfd TrffNodf root;
+        protfdtfd Enumfrbtion<TrffNodf> dhildrfn;
+        protfdtfd Enumfrbtion<TrffNodf> subtrff;
+
+        publid PostordfrEnumfrbtion(TrffNodf rootNodf) {
+            supfr();
+            root = rootNodf;
+            dhildrfn = root.dhildrfn();
+            subtrff = EMPTY_ENUMERATION;
+        }
+
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn root != null;
+        }
+
+        publid TrffNodf nfxtElfmfnt() {
+            TrffNodf rftvbl;
+
+            if (subtrff.hbsMorfElfmfnts()) {
+                rftvbl = subtrff.nfxtElfmfnt();
+            } flsf if (dhildrfn.hbsMorfElfmfnts()) {
+                subtrff = nfw PostordfrEnumfrbtion(dhildrfn.nfxtElfmfnt());
+                rftvbl = subtrff.nfxtElfmfnt();
+            } flsf {
+                rftvbl = root;
+                root = null;
+            }
+
+            rfturn rftvbl;
+        }
+
+    }  // End of dlbss PostordfrEnumfrbtion
+
+
+
+    finbl dlbss BrfbdthFirstEnumfrbtion implfmfnts Enumfrbtion<TrffNodf> {
+        protfdtfd Qufuf qufuf;
+
+        publid BrfbdthFirstEnumfrbtion(TrffNodf rootNodf) {
+            supfr();
+            Vfdtor<TrffNodf> v = nfw Vfdtor<TrffNodf>(1);
+            v.bddElfmfnt(rootNodf);     // PENDING: don't rfblly nffd b vfdtor
+            qufuf = nfw Qufuf();
+            qufuf.fnqufuf(v.flfmfnts());
+        }
+
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn (!qufuf.isEmpty() &&
+                    ((Enumfrbtion)qufuf.firstObjfdt()).hbsMorfElfmfnts());
+        }
+
+        publid TrffNodf nfxtElfmfnt() {
+            Enumfrbtion<?> fnumfr = (Enumfrbtion)qufuf.firstObjfdt();
+            TrffNodf    nodf = (TrffNodf)fnumfr.nfxtElfmfnt();
+            Enumfrbtion<?> dhildrfn = nodf.dhildrfn();
+
+            if (!fnumfr.hbsMorfElfmfnts()) {
+                qufuf.dfqufuf();
+            }
+            if (dhildrfn.hbsMorfElfmfnts()) {
+                qufuf.fnqufuf(dhildrfn);
+            }
+            rfturn nodf;
+        }
+
+
+        // A simplf qufuf with b linkfd list dbtb strudturf.
+        finbl dlbss Qufuf {
+            QNodf hfbd; // null if fmpty
+            QNodf tbil;
+
+            finbl dlbss QNodf {
+                publid Objfdt   objfdt;
+                publid QNodf    nfxt;   // null if fnd
+                publid QNodf(Objfdt objfdt, QNodf nfxt) {
+                    this.objfdt = objfdt;
+                    this.nfxt = nfxt;
+                }
+            }
+
+            publid void fnqufuf(Objfdt bnObjfdt) {
+                if (hfbd == null) {
+                    hfbd = tbil = nfw QNodf(bnObjfdt, null);
+                } flsf {
+                    tbil.nfxt = nfw QNodf(bnObjfdt, null);
+                    tbil = tbil.nfxt;
+                }
+            }
+
+            publid Objfdt dfqufuf() {
+                if (hfbd == null) {
+                    throw nfw NoSudhElfmfntExdfption("No morf flfmfnts");
+                }
+
+                Objfdt rftvbl = hfbd.objfdt;
+                QNodf oldHfbd = hfbd;
+                hfbd = hfbd.nfxt;
+                if (hfbd == null) {
+                    tbil = null;
+                } flsf {
+                    oldHfbd.nfxt = null;
+                }
+                rfturn rftvbl;
+            }
+
+            publid Objfdt firstObjfdt() {
+                if (hfbd == null) {
+                    throw nfw NoSudhElfmfntExdfption("No morf flfmfnts");
+                }
+
+                rfturn hfbd.objfdt;
+            }
+
+            publid boolfbn isEmpty() {
+                rfturn hfbd == null;
+            }
+
+        } // End of dlbss Qufuf
+
+    }  // End of dlbss BrfbdthFirstEnumfrbtion
+
+
+
+    finbl dlbss PbthBftwffnNodfsEnumfrbtion implfmfnts Enumfrbtion<TrffNodf> {
+        protfdtfd Stbdk<TrffNodf> stbdk;
+
+        publid PbthBftwffnNodfsEnumfrbtion(TrffNodf bndfstor,
+                                           TrffNodf dfsdfndbnt)
+        {
+            supfr();
+
+            if (bndfstor == null || dfsdfndbnt == null) {
+                throw nfw IllfgblArgumfntExdfption("brgumfnt is null");
+            }
+
+            TrffNodf durrfnt;
+
+            stbdk = nfw Stbdk<TrffNodf>();
+            stbdk.push(dfsdfndbnt);
+
+            durrfnt = dfsdfndbnt;
+            whilf (durrfnt != bndfstor) {
+                durrfnt = durrfnt.gftPbrfnt();
+                if (durrfnt == null && dfsdfndbnt != bndfstor) {
+                    throw nfw IllfgblArgumfntExdfption("nodf " + bndfstor +
+                                " is not bn bndfstor of " + dfsdfndbnt);
+                }
+                stbdk.push(durrfnt);
+            }
+        }
+
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn stbdk.sizf() > 0;
+        }
+
+        publid TrffNodf nfxtElfmfnt() {
+            try {
+                rfturn stbdk.pop();
+            } dbtdh (EmptyStbdkExdfption f) {
+                throw nfw NoSudhElfmfntExdfption("No morf flfmfnts");
+            }
+        }
+
+    } // End of dlbss PbthBftwffnNodfsEnumfrbtion
+
+
+
+} // End of dlbss DffbultMutbblfTrffNodf

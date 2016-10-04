@@ -1,1001 +1,1001 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
+#indludf "bwt.i"
 
-#include "stdhdrs.h"
-#include <commdlg.h>
-#include <winspool.h>
-#include <limits.h>
-#include <float.h>
+#indludf "stdidrs.i"
+#indludf <dommdlg.i>
+#indludf <winspool.i>
+#indludf <limits.i>
+#indludf <flobt.i>
 
-#include "awt_Toolkit.h"
-#include "awt_PrintControl.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_PrintControl.i"
 
-/* values for parameter "type" of XXX_getJobStatus() */
-#define GETJOBCOUNT  1
-#define ACCEPTJOB    2
+/* vblufs for pbrbmftfr "typf" of XXX_gftJobStbtus() */
+#dffinf GETJOBCOUNT  1
+#dffinf ACCEPTJOB    2
 
-static const char *HPRINTER_STR = "hPrintJob";
+stbtid donst dibr *HPRINTER_STR = "iPrintJob";
 
-/* constants for DeviceCapability buffer lengths */
-#define PAPERNAME_LENGTH 64
-#define TRAYNAME_LENGTH 24
+/* donstbnts for DfvidfCbpbbility bufffr lfngtis */
+#dffinf PAPERNAME_LENGTH 64
+#dffinf TRAYNAME_LENGTH 24
 
 
-static BOOL IsSupportedLevel(HANDLE hPrinter, DWORD dwLevel) {
-    BOOL isSupported = FALSE;
-    DWORD cbBuf = 0;
-    LPBYTE pPrinter = NULL;
+stbtid BOOL IsSupportfdLfvfl(HANDLE iPrintfr, DWORD dwLfvfl) {
+    BOOL isSupportfd = FALSE;
+    DWORD dbBuf = 0;
+    LPBYTE pPrintfr = NULL;
 
-    DASSERT(hPrinter != NULL);
+    DASSERT(iPrintfr != NULL);
 
-    VERIFY(::GetPrinter(hPrinter, dwLevel, NULL, 0, &cbBuf) == 0);
-    if (::GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-        pPrinter = new BYTE[cbBuf];
-        if (::GetPrinter(hPrinter, dwLevel, pPrinter, cbBuf, &cbBuf)) {
-            isSupported = TRUE;
+    VERIFY(::GftPrintfr(iPrintfr, dwLfvfl, NULL, 0, &dbBuf) == 0);
+    if (::GftLbstError() == ERROR_INSUFFICIENT_BUFFER) {
+        pPrintfr = nfw BYTE[dbBuf];
+        if (::GftPrintfr(iPrintfr, dwLfvfl, pPrintfr, dbBuf, &dbBuf)) {
+            isSupportfd = TRUE;
         }
-        delete[] pPrinter;
+        dflftf[] pPrintfr;
     }
 
-    return isSupported;
+    rfturn isSupportfd;
 }
 
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT jstring JNICALL
-Java_sun_print_Win32PrintServiceLookup_getDefaultPrinterName(JNIEnv *env,
-                                                             jobject peer)
+Jbvb_sun_print_Win32PrintSfrvidfLookup_gftDffbultPrintfrNbmf(JNIEnv *fnv,
+                                                             jobjfdt pffr)
 {
     TRY;
 
-    TCHAR cBuffer[250];
+    TCHAR dBufffr[250];
     OSVERSIONINFO osv;
     PRINTER_INFO_2 *ppi2 = NULL;
-    DWORD dwNeeded = 0;
-    DWORD dwReturned = 0;
-    LPTSTR pPrinterName = NULL;
-    jstring jPrinterName;
+    DWORD dwNffdfd = 0;
+    DWORD dwRfturnfd = 0;
+    LPTSTR pPrintfrNbmf = NULL;
+    jstring jPrintfrNbmf;
 
-    // What version of Windows are you running?
-    osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&osv);
+    // Wibt vfrsion of Windows brf you running?
+    osv.dwOSVfrsionInfoSizf = sizfof(OSVERSIONINFO);
+    GftVfrsionEx(&osv);
 
-    // If Windows 2000, XP, Vista
-    if (osv.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+    // If Windows 2000, XP, Vistb
+    if (osv.dwPlbtformId == VER_PLATFORM_WIN32_NT) {
 
-       // Retrieve the default string from Win.ini (the registry).
-       // String will be in form "printername,drivername,portname".
+       // Rftrifvf tif dffbult string from Win.ini (tif rfgistry).
+       // String will bf in form "printfrnbmf,drivfrnbmf,portnbmf".
 
-       if (GetProfileString(TEXT("windows"), TEXT("device"), TEXT(",,,"),
-                            cBuffer, 250) <= 0) {
-           return NULL;
+       if (GftProfilfString(TEXT("windows"), TEXT("dfvidf"), TEXT(",,,"),
+                            dBufffr, 250) <= 0) {
+           rfturn NULL;
        }
-       // Copy printer name into passed-in buffer...
-       int index = 0;
-       int len = lstrlen(cBuffer);
-       while ((index < len) && cBuffer[index] != _T(',')) {
-              index++;
+       // Copy printfr nbmf into pbssfd-in bufffr...
+       int indfx = 0;
+       int lfn = lstrlfn(dBufffr);
+       wiilf ((indfx < lfn) && dBufffr[indfx] != _T(',')) {
+              indfx++;
        }
-       if (index==0) {
-         return NULL;
+       if (indfx==0) {
+         rfturn NULL;
        }
 
-       pPrinterName = (LPTSTR)GlobalAlloc(GPTR, (index+1)*sizeof(TCHAR));
-       lstrcpyn(pPrinterName, cBuffer, index+1);
-       jPrinterName = JNU_NewStringPlatform(env, pPrinterName);
-       GlobalFree(pPrinterName);
-       return jPrinterName;
-    } else {
-        return NULL;
+       pPrintfrNbmf = (LPTSTR)GlobblAllod(GPTR, (indfx+1)*sizfof(TCHAR));
+       lstrdpyn(pPrintfrNbmf, dBufffr, indfx+1);
+       jPrintfrNbmf = JNU_NfwStringPlbtform(fnv, pPrintfrNbmf);
+       GlobblFrff(pPrintfrNbmf);
+       rfturn jPrintfrNbmf;
+    } flsf {
+        rfturn NULL;
     }
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_print_Win32PrintServiceLookup_getAllPrinterNames(JNIEnv *env,
-                                                          jobject peer)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidfLookup_gftAllPrintfrNbmfs(JNIEnv *fnv,
+                                                          jobjfdt pffr)
 {
     TRY;
 
-    DWORD cbNeeded = 0;
-    DWORD cReturned = 0;
-    LPBYTE pPrinterEnum = NULL;
+    DWORD dbNffdfd = 0;
+    DWORD dRfturnfd = 0;
+    LPBYTE pPrintfrEnum = NULL;
 
     jstring utf_str;
-    jclass clazz = env->FindClass("java/lang/String");
-    if (clazz == NULL) {
-        return NULL;
+    jdlbss dlbzz = fnv->FindClbss("jbvb/lbng/String");
+    if (dlbzz == NULL) {
+        rfturn NULL;
     }
-    jobjectArray nameArray;
+    jobjfdtArrby nbmfArrby;
 
     try {
-        ::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-                       NULL, 4, NULL, 0, &cbNeeded, &cReturned);
-        pPrinterEnum = new BYTE[cbNeeded];
-        ::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-                       NULL, 4, pPrinterEnum, cbNeeded, &cbNeeded,
-                       &cReturned);
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                       NULL, 4, NULL, 0, &dbNffdfd, &dRfturnfd);
+        pPrintfrEnum = nfw BYTE[dbNffdfd];
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                       NULL, 4, pPrintfrEnum, dbNffdfd, &dbNffdfd,
+                       &dRfturnfd);
 
-        if (cReturned > 0) {
-            nameArray = env->NewObjectArray(cReturned, clazz, NULL);
-            if (nameArray == NULL) {
-                throw std::bad_alloc();
+        if (dRfturnfd > 0) {
+            nbmfArrby = fnv->NfwObjfdtArrby(dRfturnfd, dlbzz, NULL);
+            if (nbmfArrby == NULL) {
+                tirow std::bbd_bllod();
             }
-        } else {
-            nameArray = NULL;
+        } flsf {
+            nbmfArrby = NULL;
         }
 
 
-        for (DWORD i = 0; i < cReturned; i++) {
+        for (DWORD i = 0; i < dRfturnfd; i++) {
             PRINTER_INFO_4 *info4 = (PRINTER_INFO_4 *)
-                (pPrinterEnum + i * sizeof(PRINTER_INFO_4));
-            utf_str = JNU_NewStringPlatform(env, info4->pPrinterName);
+                (pPrintfrEnum + i * sizfof(PRINTER_INFO_4));
+            utf_str = JNU_NfwStringPlbtform(fnv, info4->pPrintfrNbmf);
             if (utf_str == NULL) {
-                throw std::bad_alloc();
+                tirow std::bbd_bllod();
             }
-            env->SetObjectArrayElement(nameArray, i, utf_str);
-            env->DeleteLocalRef(utf_str);
+            fnv->SftObjfdtArrbyElfmfnt(nbmfArrby, i, utf_str);
+            fnv->DflftfLodblRff(utf_str);
         }
-    } catch (std::bad_alloc&) {
-        delete [] pPrinterEnum;
-        throw;
+    } dbtdi (std::bbd_bllod&) {
+        dflftf [] pPrintfrEnum;
+        tirow;
     }
 
-    delete [] pPrinterEnum;
-    return nameArray;
+    dflftf [] pPrintfrEnum;
+    rfturn nbmfArrby;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_print_Win32PrintServiceLookup_notifyFirstPrinterChange(JNIEnv *env,
-                                                                jobject peer,
-                                                                jstring printer) {
-    HANDLE hPrinter;
+Jbvb_sun_print_Win32PrintSfrvidfLookup_notifyFirstPrintfrCibngf(JNIEnv *fnv,
+                                                                jobjfdt pffr,
+                                                                jstring printfr) {
+    HANDLE iPrintfr;
 
-    LPTSTR printerName = NULL;
-    if (printer != NULL) {
-        printerName = (LPTSTR)JNU_GetStringPlatformChars(env,
-                                                         printer,
+    LPTSTR printfrNbmf = NULL;
+    if (printfr != NULL) {
+        printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv,
+                                                         printfr,
                                                          NULL);
-        JNU_ReleaseStringPlatformChars(env, printer, printerName);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
     }
 
-    // printerName - "Win NT/2K/XP: If NULL, it indicates the local printer
-    // server" - MSDN.   Win9x : OpenPrinter returns 0.
-    BOOL ret = OpenPrinter(printerName, &hPrinter, NULL);
-    if (!ret) {
-      return (jlong)-1;
+    // printfrNbmf - "Win NT/2K/XP: If NULL, it indidbtfs tif lodbl printfr
+    // sfrvfr" - MSDN.   Win9x : OpfnPrintfr rfturns 0.
+    BOOL rft = OpfnPrintfr(printfrNbmf, &iPrintfr, NULL);
+    if (!rft) {
+      rfturn (jlong)-1;
     }
 
     // PRINTER_CHANGE_PRINTER = PRINTER_CHANGE_ADD_PRINTER |
     //                          PRINTER_CHANGE_SET_PRINTER |
     //                          PRINTER_CHANGE_DELETE_PRINTER |
     //                          PRINTER_CHANGE_FAILED_CONNECTION_PRINTER
-    HANDLE chgObj = FindFirstPrinterChangeNotification(hPrinter,
+    HANDLE digObj = FindFirstPrintfrCibngfNotifidbtion(iPrintfr,
                                                        PRINTER_CHANGE_PRINTER,
                                                        0,
                                                        NULL);
-    return (chgObj == INVALID_HANDLE_VALUE) ? (jlong)-1 : (jlong)chgObj;
+    rfturn (digObj == INVALID_HANDLE_VALUE) ? (jlong)-1 : (jlong)digObj;
 }
 
 
 
 JNIEXPORT void JNICALL
-Java_sun_print_Win32PrintServiceLookup_notifyClosePrinterChange(JNIEnv *env,
-                                                                jobject peer,
-                                                                jlong chgObject) {
-    FindClosePrinterChangeNotification((HANDLE)chgObject);
+Jbvb_sun_print_Win32PrintSfrvidfLookup_notifyClosfPrintfrCibngf(JNIEnv *fnv,
+                                                                jobjfdt pffr,
+                                                                jlong digObjfdt) {
+    FindClosfPrintfrCibngfNotifidbtion((HANDLE)digObjfdt);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_print_Win32PrintServiceLookup_notifyPrinterChange(JNIEnv *env,
-                                                           jobject peer,
-                                                           jlong chgObject) {
-    DWORD dwChange;
+Jbvb_sun_print_Win32PrintSfrvidfLookup_notifyPrintfrCibngf(JNIEnv *fnv,
+                                                           jobjfdt pffr,
+                                                           jlong digObjfdt) {
+    DWORD dwCibngf;
 
-    DWORD ret = WaitForSingleObject((HANDLE)chgObject, INFINITE);
-    if (ret == WAIT_OBJECT_0) {
-        return(FindNextPrinterChangeNotification((HANDLE)chgObject,
-                                                  &dwChange, NULL, NULL));
-    } else {
-        return 0;
+    DWORD rft = WbitForSinglfObjfdt((HANDLE)digObjfdt, INFINITE);
+    if (rft == WAIT_OBJECT_0) {
+        rfturn(FindNfxtPrintfrCibngfNotifidbtion((HANDLE)digObjfdt,
+                                                  &dwCibngf, NULL, NULL));
+    } flsf {
+        rfturn 0;
     }
 }
 
 
-JNIEXPORT jfloatArray JNICALL
-Java_sun_print_Win32PrintService_getMediaPrintableArea(JNIEnv *env,
-                                                  jobject peer,
-                                                  jstring printer,
-                                                  jint  papersize)
+JNIEXPORT jflobtArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftMfdibPrintbblfArfb(JNIEnv *fnv,
+                                                  jobjfdt pffr,
+                                                  jstring printfr,
+                                                  jint  pbpfrsizf)
 {
     TRY;
 
-    LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env,
-                                                            printer, NULL);
-    if (printerName == NULL) {
-        return NULL;
+    LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv,
+                                                            printfr, NULL);
+    if (printfrNbmf == NULL) {
+        rfturn NULL;
     }
 
-    jfloatArray printableArray = NULL;
+    jflobtArrby printbblfArrby = NULL;
 
     SAVE_CONTROLWORD
-    HDC pdc = CreateDC(TEXT("WINSPOOL"), printerName, NULL, NULL);
+    HDC pdd = CrfbtfDC(TEXT("WINSPOOL"), printfrNbmf, NULL, NULL);
     RESTORE_CONTROLWORD
-    if (pdc) {
-        HANDLE hPrinter;
-        /* Start by opening the printer */
-        if (!::OpenPrinter(printerName, &hPrinter, NULL)) {
-            JNU_ReleaseStringPlatformChars(env, printer, printerName);
-            return printableArray;
+    if (pdd) {
+        HANDLE iPrintfr;
+        /* Stbrt by opfning tif printfr */
+        if (!::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)) {
+            JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+            rfturn printbblfArrby;
         }
 
-        PDEVMODE pDevMode;
+        PDEVMODE pDfvModf;
 
-        if (!AwtPrintControl::getDevmode(hPrinter, printerName, &pDevMode)) {
-            /* if failure, cleanup and return failure */
+        if (!AwtPrintControl::gftDfvmodf(iPrintfr, printfrNbmf, &pDfvModf)) {
+            /* if fbilurf, dlfbnup bnd rfturn fbilurf */
 
-            if (pDevMode != NULL) {
-                ::GlobalFree(pDevMode);
+            if (pDfvModf != NULL) {
+                ::GlobblFrff(pDfvModf);
             }
-            DeleteDC(pdc);
-            ::ClosePrinter(hPrinter);
-            JNU_ReleaseStringPlatformChars(env, printer, printerName);
-            return printableArray;
+            DflftfDC(pdd);
+            ::ClosfPrintfr(iPrintfr);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+            rfturn printbblfArrby;
         }
 
-        pDevMode->dmFields |= (DM_PAPERSIZE | DM_ORIENTATION);
-        pDevMode->dmPaperSize = (short)papersize;
-        pDevMode->dmOrientation = DMORIENT_PORTRAIT;
-        ::ResetDC(pdc, pDevMode);
+        pDfvModf->dmFiflds |= (DM_PAPERSIZE | DM_ORIENTATION);
+        pDfvModf->dmPbpfrSizf = (siort)pbpfrsizf;
+        pDfvModf->dmOrifntbtion = DMORIENT_PORTRAIT;
+        ::RfsftDC(pdd, pDfvModf);
         RESTORE_CONTROLWORD
 
-        int left = GetDeviceCaps(pdc, PHYSICALOFFSETX);
-        int top = GetDeviceCaps(pdc, PHYSICALOFFSETY);
-        int width = GetDeviceCaps(pdc, HORZRES);
-        int height = GetDeviceCaps(pdc, VERTRES);
+        int lfft = GftDfvidfCbps(pdd, PHYSICALOFFSETX);
+        int top = GftDfvidfCbps(pdd, PHYSICALOFFSETY);
+        int widti = GftDfvidfCbps(pdd, HORZRES);
+        int ifigit = GftDfvidfCbps(pdd, VERTRES);
 
-        int resx = GetDeviceCaps(pdc, LOGPIXELSX);
-        int resy = GetDeviceCaps(pdc, LOGPIXELSY);
+        int rfsx = GftDfvidfCbps(pdd, LOGPIXELSX);
+        int rfsy = GftDfvidfCbps(pdd, LOGPIXELSY);
 
-        printableArray=env->NewFloatArray(4);
-        if (printableArray != NULL) {
-            jfloat *iPrintables =
-                env->GetFloatArrayElements(printableArray, NULL);
-            if (iPrintables != NULL) {
-                iPrintables[0] = (float)left/resx;
-                iPrintables[1] = (float)top/resy;
-                iPrintables[2] = (float)width/resx;
-                iPrintables[3] = (float)height/resy;
-                env->ReleaseFloatArrayElements(printableArray, iPrintables, 0);
+        printbblfArrby=fnv->NfwFlobtArrby(4);
+        if (printbblfArrby != NULL) {
+            jflobt *iPrintbblfs =
+                fnv->GftFlobtArrbyElfmfnts(printbblfArrby, NULL);
+            if (iPrintbblfs != NULL) {
+                iPrintbblfs[0] = (flobt)lfft/rfsx;
+                iPrintbblfs[1] = (flobt)top/rfsy;
+                iPrintbblfs[2] = (flobt)widti/rfsx;
+                iPrintbblfs[3] = (flobt)ifigit/rfsy;
+                fnv->RflfbsfFlobtArrbyElfmfnts(printbblfArrby, iPrintbblfs, 0);
             }
         }
-        GlobalFree(pDevMode);
-        DeleteDC(pdc);
+        GlobblFrff(pDfvModf);
+        DflftfDC(pdd);
     }
 
-    JNU_ReleaseStringPlatformChars(env, printer, printerName);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
 
-    return printableArray;
+    rfturn printbblfArrby;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-jintArray getIDs(JNIEnv *env, jstring printer, jstring port, int dm_id)
+jintArrby gftIDs(JNIEnv *fnv, jstring printfr, jstring port, int dm_id)
 {
 
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
   SAVE_CONTROLWORD
-  int numIDs = ::DeviceCapabilities(printerName, printerPort, dm_id,
+  int numIDs = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort, dm_id,
                                     NULL, NULL);
   RESTORE_CONTROLWORD
 
-  jintArray idArray = NULL;
+  jintArrby idArrby = NULL;
   if (numIDs > 0) {
-      idArray = env->NewIntArray(numIDs);
-      if (idArray != NULL) {
-          jint *jpcIndices = env->GetIntArrayElements(idArray, NULL);
-          if (jpcIndices != NULL) {
-              jint *saveFormats = jpcIndices;
+      idArrby = fnv->NfwIntArrby(numIDs);
+      if (idArrby != NULL) {
+          jint *jpdIndidfs = fnv->GftIntArrbyElfmfnts(idArrby, NULL);
+          if (jpdIndidfs != NULL) {
+              jint *sbvfFormbts = jpdIndidfs;
               LPTSTR buf = NULL;
               try {
-                  buf = (LPTSTR)new char[numIDs * sizeof(WORD)];
-              } catch (std::bad_alloc&) {
+                  buf = (LPTSTR)nfw dibr[numIDs * sizfof(WORD)];
+              } dbtdi (std::bbd_bllod&) {
                   buf = NULL;
               }
               if (buf != NULL) {
-                  if (::DeviceCapabilities(printerName, printerPort,
+                  if (::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                            dm_id, buf, NULL) != -1) {
                       WORD *id = (WORD *)buf;
                       for (int i = 0; i < numIDs; i++, id++) {
-                          jpcIndices[i] = *id;
+                          jpdIndidfs[i] = *id;
                       }
                   }
                   RESTORE_CONTROLWORD
-                  delete[] buf;
+                  dflftf[] buf;
               }
-              env->ReleaseIntArrayElements(idArray, saveFormats, 0);
+              fnv->RflfbsfIntArrbyElfmfnts(idArrby, sbvfFormbts, 0);
           }
       }
   }
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, port, printerPort);
-  return idArray;
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+  rfturn idArrby;
 }
 
-JNIEXPORT jintArray JNICALL
-Java_sun_print_Win32PrintService_getAllMediaIDs(JNIEnv *env,
-                                                jobject peer,
-                                                jstring printer,
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllMfdibIDs(JNIEnv *fnv,
+                                                jobjfdt pffr,
+                                                jstring printfr,
                                                 jstring port)
 {
-    return getIDs(env, printer, port, DC_PAPERS);
+    rfturn gftIDs(fnv, printfr, port, DC_PAPERS);
 }
 
 
-JNIEXPORT jintArray JNICALL
-Java_sun_print_Win32PrintService_getAllMediaTrays(JNIEnv *env,
-                                                  jobject peer,
-                                                  jstring printer,
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllMfdibTrbys(JNIEnv *fnv,
+                                                  jobjfdt pffr,
+                                                  jstring printfr,
                                                   jstring port)
 {
-    return getIDs(env, printer, port, DC_BINS);
+    rfturn gftIDs(fnv, printfr, port, DC_BINS);
 }
 
 
-JNIEXPORT jintArray JNICALL
-Java_sun_print_Win32PrintService_getAllMediaSizes(JNIEnv *env,
-                                                  jobject peer,
-                                                  jstring printer,
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllMfdibSizfs(JNIEnv *fnv,
+                                                  jobjfdt pffr,
+                                                  jstring printfr,
                                                   jstring port)
 {
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
   SAVE_CONTROLWORD
-  int nPapers = ::DeviceCapabilities(printerName, printerPort, DC_PAPERSIZE,
+  int nPbpfrs = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort, DC_PAPERSIZE,
                                      NULL, NULL) ;
   RESTORE_CONTROLWORD
 
-  jintArray mediaArray = NULL;
-  jint *saveFormats = NULL;
+  jintArrby mfdibArrby = NULL;
+  jint *sbvfFormbts = NULL;
 
-  if (nPapers > 0) {
-      mediaArray = env->NewIntArray(nPapers*2);
-      if (mediaArray != NULL) {
-          jint *jpcIndices = env->GetIntArrayElements(mediaArray, NULL);
-          if (jpcIndices != NULL) {
-              saveFormats = jpcIndices;
+  if (nPbpfrs > 0) {
+      mfdibArrby = fnv->NfwIntArrby(nPbpfrs*2);
+      if (mfdibArrby != NULL) {
+          jint *jpdIndidfs = fnv->GftIntArrbyElfmfnts(mfdibArrby, NULL);
+          if (jpdIndidfs != NULL) {
+              sbvfFormbts = jpdIndidfs;
               LPTSTR buf = NULL;
               try {
-                  buf = (LPTSTR)new char[nPapers * sizeof(POINT)];
-              } catch (std::bad_alloc&) {
+                  buf = (LPTSTR)nfw dibr[nPbpfrs * sizfof(POINT)];
+              } dbtdi (std::bbd_bllod&) {
                   buf = NULL;
               }
               if (buf != NULL) {
-                  if (::DeviceCapabilities(printerName, printerPort,
+                  if (::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                            DC_PAPERSIZE, buf, NULL) != -1) {
                       POINT *pDim = (POINT *)buf;
-                      for (int i = 0; i < nPapers; i++) {
-                          jpcIndices[i*2] = (pDim+i)->x;
-                          jpcIndices[i*2+1] = (pDim+i)->y;
+                      for (int i = 0; i < nPbpfrs; i++) {
+                          jpdIndidfs[i*2] = (pDim+i)->x;
+                          jpdIndidfs[i*2+1] = (pDim+i)->y;
                       }
                   }
                   RESTORE_CONTROLWORD
-                  delete[] buf;
+                  dflftf[] buf;
               }
-              env->ReleaseIntArrayElements(mediaArray, saveFormats, 0);
-              saveFormats = NULL;
+              fnv->RflfbsfIntArrbyElfmfnts(mfdibArrby, sbvfFormbts, 0);
+              sbvfFormbts = NULL;
           }
       }
   }
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, port, printerPort);
-  if (mediaArray != NULL && saveFormats != NULL) {
-      env->ReleaseIntArrayElements(mediaArray, saveFormats, 0);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+  if (mfdibArrby != NULL && sbvfFormbts != NULL) {
+      fnv->RflfbsfIntArrbyElfmfnts(mfdibArrby, sbvfFormbts, 0);
   }
-  return mediaArray;
+  rfturn mfdibArrby;
 
 }
 
 
-jobjectArray getAllDCNames(JNIEnv *env, jobject peer, jstring printer,
-                 jstring port, unsigned int dc_id, unsigned int buf_len)
+jobjfdtArrby gftAllDCNbmfs(JNIEnv *fnv, jobjfdt pffr, jstring printfr,
+                 jstring port, unsignfd int dd_id, unsignfd int buf_lfn)
 {
 
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
   jstring utf_str;
-  jobjectArray names = NULL;
+  jobjfdtArrby nbmfs = NULL;
   LPTSTR buf = NULL;
   SAVE_CONTROLWORD
-  int cReturned = ::DeviceCapabilities(printerName, printerPort,
-                                         dc_id, NULL, NULL);
+  int dRfturnfd = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
+                                         dd_id, NULL, NULL);
   RESTORE_CONTROLWORD
-  if (cReturned <= 0) {
-      JNU_ReleaseStringPlatformChars(env, printer, printerName);
-      JNU_ReleaseStringPlatformChars(env, port, printerPort);
-      return NULL;
+  if (dRfturnfd <= 0) {
+      JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+      rfturn NULL;
   }
 
   try {
-      buf = (LPTSTR)new char[cReturned * buf_len * sizeof(TCHAR)];
-  } catch (std::bad_alloc&) {
+      buf = (LPTSTR)nfw dibr[dRfturnfd * buf_lfn * sizfof(TCHAR)];
+  } dbtdi (std::bbd_bllod&) {
       buf = NULL;
   }
   if (buf == NULL) {
-      JNU_ReleaseStringPlatformChars(env, printer, printerName);
-      JNU_ReleaseStringPlatformChars(env, port, printerPort);
-      JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-     return NULL;
+      JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+      JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+     rfturn NULL;
   }
 
-  cReturned = ::DeviceCapabilities(printerName, printerPort,
-                                   dc_id, buf, NULL);
+  dRfturnfd = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
+                                   dd_id, buf, NULL);
   RESTORE_CONTROLWORD
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, port, printerPort);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
 
-  if (cReturned > 0) {
-      jclass cls = env->FindClass("java/lang/String");
-      if (cls != NULL) {
-          names = env->NewObjectArray(cReturned, cls, NULL);
+  if (dRfturnfd > 0) {
+      jdlbss dls = fnv->FindClbss("jbvb/lbng/String");
+      if (dls != NULL) {
+          nbmfs = fnv->NfwObjfdtArrby(dRfturnfd, dls, NULL);
       }
-      if (names == NULL || cls == NULL) {
-          delete buf;
-          return names;
+      if (nbmfs == NULL || dls == NULL) {
+          dflftf buf;
+          rfturn nbmfs;
       }
 
-      for (int i = 0; i < cReturned; i++) {
-          utf_str = JNU_NewStringPlatform(env, buf+(buf_len*i));
+      for (int i = 0; i < dRfturnfd; i++) {
+          utf_str = JNU_NfwStringPlbtform(fnv, buf+(buf_lfn*i));
             if (utf_str == NULL) {
-                delete buf;
-                return names;
+                dflftf buf;
+                rfturn nbmfs;
             }
-            env->SetObjectArrayElement(names, i, utf_str);
-            env->DeleteLocalRef(utf_str);
+            fnv->SftObjfdtArrbyElfmfnt(nbmfs, i, utf_str);
+            fnv->DflftfLodblRff(utf_str);
         }
     }
-    delete[] buf;
-    return names;
+    dflftf[] buf;
+    rfturn nbmfs;
 
 }
 
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_print_Win32PrintService_getAllMediaNames(JNIEnv *env,
-                                                  jobject peer,
-                                                  jstring printer,
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllMfdibNbmfs(JNIEnv *fnv,
+                                                  jobjfdt pffr,
+                                                  jstring printfr,
                                                   jstring port)
 {
-  return getAllDCNames(env, peer, printer, port, DC_PAPERNAMES, PAPERNAME_LENGTH);
+  rfturn gftAllDCNbmfs(fnv, pffr, printfr, port, DC_PAPERNAMES, PAPERNAME_LENGTH);
 }
 
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_print_Win32PrintService_getAllMediaTrayNames(JNIEnv *env,
-                                                  jobject peer,
-                                                  jstring printer,
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllMfdibTrbyNbmfs(JNIEnv *fnv,
+                                                  jobjfdt pffr,
+                                                  jstring printfr,
                                                   jstring port)
 {
-  return getAllDCNames(env, peer, printer, port, DC_BINNAMES, TRAYNAME_LENGTH);
+  rfturn gftAllDCNbmfs(fnv, pffr, printfr, port, DC_BINNAMES, TRAYNAME_LENGTH);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_print_Win32PrintService_getCopiesSupported(JNIEnv *env,
-                                                    jobject peer,
-                                                    jstring printer,
+Jbvb_sun_print_Win32PrintSfrvidf_gftCopifsSupportfd(JNIEnv *fnv,
+                                                    jobjfdt pffr,
+                                                    jstring printfr,
                                                     jstring port)
 {
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return 1;
+      rfturn 1;
   }
 
   SAVE_CONTROLWORD
-  int numCopies = ::DeviceCapabilities(printerName, printerPort,
+  int numCopifs = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                        DC_COPIES,   NULL, NULL);
   RESTORE_CONTROLWORD
 
-  if (numCopies == -1)
-    return 1; // default
+  if (numCopifs == -1)
+    rfturn 1; // dffbult
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, port, printerPort);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
 
-  return numCopies;
+  rfturn numCopifs;
 }
 
 
 /*
-PostScript Drivers return wrong support info for the following code:
+PostSdript Drivfrs rfturn wrong support info for tif following dodf:
 
- DWORD dmFields = (::DeviceCapabilities(printerName,
+ DWORD dmFiflds = (::DfvidfCbpbbilitifs(printfrNbmf,
                                          NULL, DC_FIELDS,   NULL, NULL)) ;
 
-  if ((dmFields & DM_YRESOLUTION) )
-    isSupported = true;
+  if ((dmFiflds & DM_YRESOLUTION) )
+    isSupportfd = truf;
 
-Returns not supported even if it supports resolution. Therefore, we use the
-function _getAllResolutions.
+Rfturns not supportfd fvfn if it supports rfsolution. Tifrfforf, wf usf tif
+fundtion _gftAllRfsolutions.
 */
-JNIEXPORT jintArray JNICALL
-Java_sun_print_Win32PrintService_getAllResolutions(JNIEnv *env,
-                                                   jobject peer,
-                                                   jstring printer,
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftAllRfsolutions(JNIEnv *fnv,
+                                                   jobjfdt pffr,
+                                                   jstring printfr,
                                                    jstring port)
 {
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
- if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+ if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
   SAVE_CONTROLWORD
-  int nResolutions = ::DeviceCapabilities(printerName, printerPort,
+  int nRfsolutions = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                           DC_ENUMRESOLUTIONS, NULL, NULL);
   RESTORE_CONTROLWORD
 
-  jintArray resolutionArray = NULL;
-  if (nResolutions > 0) {
-    resolutionArray = env->NewIntArray(nResolutions*2);
-    if (resolutionArray != NULL) {
-        jint *jpcIndices = env->GetIntArrayElements(resolutionArray, NULL);
-        if (jpcIndices != NULL) {
-            jint *saveFormats = jpcIndices;
-            LPTSTR resBuf = NULL;
+  jintArrby rfsolutionArrby = NULL;
+  if (nRfsolutions > 0) {
+    rfsolutionArrby = fnv->NfwIntArrby(nRfsolutions*2);
+    if (rfsolutionArrby != NULL) {
+        jint *jpdIndidfs = fnv->GftIntArrbyElfmfnts(rfsolutionArrby, NULL);
+        if (jpdIndidfs != NULL) {
+            jint *sbvfFormbts = jpdIndidfs;
+            LPTSTR rfsBuf = NULL;
             try {
-                resBuf = (LPTSTR)new char[nResolutions * sizeof(LONG) * 2];
-            } catch (std::bad_alloc&) {
-                resBuf = NULL;
+                rfsBuf = (LPTSTR)nfw dibr[nRfsolutions * sizfof(LONG) * 2];
+            } dbtdi (std::bbd_bllod&) {
+                rfsBuf = NULL;
             }
-            if (resBuf != NULL) {
-                if (::DeviceCapabilities(printerName, printerPort,
-                                         DC_ENUMRESOLUTIONS, resBuf,
+            if (rfsBuf != NULL) {
+                if (::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
+                                         DC_ENUMRESOLUTIONS, rfsBuf,
                                          NULL) != -1) {
-                    LONG *pResolution = (LONG *)resBuf;
-                    for (int i = 0; i < nResolutions; i++) {
-                        jpcIndices[i*2] = *pResolution++;
-                        jpcIndices[i*2+1] = *pResolution++;
+                    LONG *pRfsolution = (LONG *)rfsBuf;
+                    for (int i = 0; i < nRfsolutions; i++) {
+                        jpdIndidfs[i*2] = *pRfsolution++;
+                        jpdIndidfs[i*2+1] = *pRfsolution++;
                     }
                 }
                 RESTORE_CONTROLWORD
-                delete[] resBuf;
+                dflftf[] rfsBuf;
             }
-            env->ReleaseIntArrayElements(resolutionArray, saveFormats, 0);
+            fnv->RflfbsfIntArrbyElfmfnts(rfsolutionArrby, sbvfFormbts, 0);
         }
     }
   }
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, printer, printerPort);
-  return resolutionArray;
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrPort);
+  rfturn rfsolutionArrby;
 }
 
 
-static BOOL IsDCPostscript( HDC hDC )
+stbtid BOOL IsDCPostsdript( HDC iDC )
 {
-    int         nEscapeCode;
-    CHAR        szTechnology[MAX_PATH] = "";
+    int         nEsdbpfCodf;
+    CHAR        szTfdinology[MAX_PATH] = "";
 
-    // If it supports POSTSCRIPT_PASSTHROUGH, it must be PS.
-    nEscapeCode = POSTSCRIPT_PASSTHROUGH;
-    if( ::ExtEscape( hDC, QUERYESCSUPPORT, sizeof(int),
-                     (LPCSTR)&nEscapeCode, 0, NULL ) > 0 )
-        return TRUE;
+    // If it supports POSTSCRIPT_PASSTHROUGH, it must bf PS.
+    nEsdbpfCodf = POSTSCRIPT_PASSTHROUGH;
+    if( ::ExtEsdbpf( iDC, QUERYESCSUPPORT, sizfof(int),
+                     (LPCSTR)&nEsdbpfCodf, 0, NULL ) > 0 )
+        rfturn TRUE;
 
-    // If it doesn't support GETTECHNOLOGY, we won't be able to tell.
-    nEscapeCode = GETTECHNOLOGY;
-    if( ::ExtEscape( hDC, QUERYESCSUPPORT, sizeof(int),
-                     (LPCSTR)&nEscapeCode, 0, NULL ) <= 0 )
-        return FALSE;
+    // If it dofsn't support GETTECHNOLOGY, wf won't bf bblf to tfll.
+    nEsdbpfCodf = GETTECHNOLOGY;
+    if( ::ExtEsdbpf( iDC, QUERYESCSUPPORT, sizfof(int),
+                     (LPCSTR)&nEsdbpfCodf, 0, NULL ) <= 0 )
+        rfturn FALSE;
 
-    // Get the technology string and check if the word "postscript" is in it.
-    if( ::ExtEscape( hDC, GETTECHNOLOGY, 0, NULL, MAX_PATH,
-                     (LPSTR)szTechnology ) <= 0 )
-        return FALSE;
-    _strupr_s(szTechnology, MAX_PATH);
-    if(!strstr( szTechnology, "POSTSCRIPT" ) == NULL )
-        return TRUE;
+    // Gft tif tfdinology string bnd difdk if tif word "postsdript" is in it.
+    if( ::ExtEsdbpf( iDC, GETTECHNOLOGY, 0, NULL, MAX_PATH,
+                     (LPSTR)szTfdinology ) <= 0 )
+        rfturn FALSE;
+    _strupr_s(szTfdinology, MAX_PATH);
+    if(!strstr( szTfdinology, "POSTSCRIPT" ) == NULL )
+        rfturn TRUE;
 
-    // The word "postscript" was not found and it didn't support
-    //   POSTSCRIPT_PASSTHROUGH, so it's not a PS printer.
-        return FALSE;
+    // Tif word "postsdript" wbs not found bnd it didn't support
+    //   POSTSCRIPT_PASSTHROUGH, so it's not b PS printfr.
+        rfturn FALSE;
 }
 
 
 JNIEXPORT jstring JNICALL
-Java_sun_print_Win32PrintService_getPrinterPort(JNIEnv *env,
-                                                jobject peer,
-                                                jstring printer)
+Jbvb_sun_print_Win32PrintSfrvidf_gftPrintfrPort(JNIEnv *fnv,
+                                                jobjfdt pffr,
+                                                jstring printfr)
 {
 
-  if (printer == NULL) {
-    return NULL;
+  if (printfr == NULL) {
+    rfturn NULL;
   }
 
   jstring jPort;
-  LPTSTR printerName = NULL, printerPort = TEXT("LPT1");
-  LPBYTE buffer = NULL;
-  DWORD cbBuf = 0;
+  LPTSTR printfrNbmf = NULL, printfrPort = TEXT("LPT1");
+  LPBYTE bufffr = NULL;
+  DWORD dbBuf = 0;
 
   try {
-    VERIFY(AwtPrintControl::FindPrinter(NULL, NULL, &cbBuf, NULL, NULL));
-    buffer = new BYTE[cbBuf];
-    AwtPrintControl::FindPrinter(printer, buffer, &cbBuf,
-                                      &printerName, &printerPort);
-  } catch (std::bad_alloc&) {
-    delete [] buffer;
-    JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-    return NULL;
+    VERIFY(AwtPrintControl::FindPrintfr(NULL, NULL, &dbBuf, NULL, NULL));
+    bufffr = nfw BYTE[dbBuf];
+    AwtPrintControl::FindPrintfr(printfr, bufffr, &dbBuf,
+                                      &printfrNbmf, &printfrPort);
+  } dbtdi (std::bbd_bllod&) {
+    dflftf [] bufffr;
+    JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+    rfturn NULL;
   }
 
-  if (printerPort == NULL) {
-    printerPort = TEXT("LPT1");
+  if (printfrPort == NULL) {
+    printfrPort = TEXT("LPT1");
   }
-  jPort = JNU_NewStringPlatform(env, printerPort);
-  delete [] buffer;
-  return jPort;
+  jPort = JNU_NfwStringPlbtform(fnv, printfrPort);
+  dflftf [] bufffr;
+  rfturn jPort;
 
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_print_Win32PrintService_getCapabilities(JNIEnv *env,
-                                                 jobject peer,
-                                                 jstring printer,
+Jbvb_sun_print_Win32PrintSfrvidf_gftCbpbbilitifs(JNIEnv *fnv,
+                                                 jobjfdt pffr,
+                                                 jstring printfr,
                                                  jstring port)
 {
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
-  // 0x1000 is a flag to indicate that getCapabilities has already been called.
-  // 0x0001 is a flag for color support and supported is the default.
-  jint ret = 0x1001;
-  DWORD dmFields;
+  // 0x1000 is b flbg to indidbtf tibt gftCbpbbilitifs ibs blrfbdy bffn dbllfd.
+  // 0x0001 is b flbg for dolor support bnd supportfd is tif dffbult.
+  jint rft = 0x1001;
+  DWORD dmFiflds;
 
-  // get Duplex
+  // gft Duplfx
   SAVE_CONTROLWORD
-  DWORD isDuplex = (::DeviceCapabilities(printerName, printerPort,
+  DWORD isDuplfx = (::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                          DC_DUPLEX,   NULL, NULL)) ;
 
   /*
-    Check if duplexer is installed either physically or manually thru the
-    printer setting dialog by checking if DM_DUPLEX is set.
+    Cifdk if duplfxfr is instbllfd fitifr piysidblly or mbnublly tiru tif
+    printfr sftting diblog by difdking if DM_DUPLEX is sft.
   */
-  dmFields = (::DeviceCapabilities(printerName, printerPort,
+  dmFiflds = (::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                    DC_FIELDS,   NULL, NULL)) ;
 
-  if ((dmFields & DM_DUPLEX) && isDuplex) {
-      ret |= 0x0002;
+  if ((dmFiflds & DM_DUPLEX) && isDuplfx) {
+      rft |= 0x0002;
   }
 
-  // get Collation
-  if ((dmFields & DM_COLLATE) ) {
-      ret |= 0x0004;
+  // gft Collbtion
+  if ((dmFiflds & DM_COLLATE) ) {
+      rft |= 0x0004;
   }
 
-  // get Print Quality
-  if ((dmFields & DM_PRINTQUALITY) ) {
-      ret |= 0x0008;
+  // gft Print Qublity
+  if ((dmFiflds & DM_PRINTQUALITY) ) {
+      rft |= 0x0008;
   }
 
-  HDC pdc = CreateDC(TEXT("WINSPOOL"), printerName, NULL, NULL);
-  if (pdc != NULL) {
-      // get Color
-      int bpp = GetDeviceCaps(pdc, BITSPIXEL);
-      int nColors = GetDeviceCaps(pdc, NUMCOLORS);
+  HDC pdd = CrfbtfDC(TEXT("WINSPOOL"), printfrNbmf, NULL, NULL);
+  if (pdd != NULL) {
+      // gft Color
+      int bpp = GftDfvidfCbps(pdd, BITSPIXEL);
+      int nColors = GftDfvidfCbps(pdd, NUMCOLORS);
 
-      if (!(dmFields & DM_COLOR) || ((bpp == 1)
+      if (!(dmFiflds & DM_COLOR) || ((bpp == 1)
                                      && ((nColors == 2) || (nColors == 256)))) {
-          ret &= ~0x0001;
+          rft &= ~0x0001;
       }
 
-      // check support for PostScript
-      if (IsDCPostscript(pdc)) {
-            ret |= 0x0010;
+      // difdk support for PostSdript
+      if (IsDCPostsdript(pdd)) {
+            rft |= 0x0010;
       }
 
-      DeleteDC(pdc);
+      DflftfDC(pdd);
   }
 
   RESTORE_CONTROLWORD
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, printer, printerPort);
-  return ret;
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrPort);
+  rfturn rft;
 }
 
 
-#define GETDEFAULT_ERROR        -50
-#define NDEFAULT 9
+#dffinf GETDEFAULT_ERROR        -50
+#dffinf NDEFAULT 9
 
-JNIEXPORT jintArray JNICALL
-Java_sun_print_Win32PrintService_getDefaultSettings(JNIEnv *env,
-                                                    jobject peer,
-                                                    jstring printer,
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_print_Win32PrintSfrvidf_gftDffbultSfttings(JNIEnv *fnv,
+                                                    jobjfdt pffr,
+                                                    jstring printfr,
                                                     jstring port)
 {
-  HANDLE      hPrinter;
-  LPDEVMODE   pDevMode = NULL;
+  HANDLE      iPrintfr;
+  LPDEVMODE   pDfvModf = NULL;
 
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  LPTSTR printerPort = (LPTSTR)JNU_GetStringPlatformChars(env, port, NULL);
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  LPTSTR printfrPort = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, port, NULL);
 
-  if (printerName == NULL || printerPort == NULL) {
-      if (printerName != NULL) {
-          JNU_ReleaseStringPlatformChars(env, printer, printerName);
+  if (printfrNbmf == NULL || printfrPort == NULL) {
+      if (printfrNbmf != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
       }
-      if (printerPort != NULL) {
-          JNU_ReleaseStringPlatformChars(env, port, printerPort);
+      if (printfrPort != NULL) {
+          JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
       }
-      return NULL;
+      rfturn NULL;
   }
 
-  jint* defIndices = NULL;
-  jintArray defaultArray = env->NewIntArray(NDEFAULT);
-  if (defaultArray != NULL) {
-      defIndices = env->GetIntArrayElements(defaultArray, NULL);
+  jint* dffIndidfs = NULL;
+  jintArrby dffbultArrby = fnv->NfwIntArrby(NDEFAULT);
+  if (dffbultArrby != NULL) {
+      dffIndidfs = fnv->GftIntArrbyElfmfnts(dffbultArrby, NULL);
   }
-  if (defIndices == NULL) {
-      JNU_ReleaseStringPlatformChars(env, printer, printerName);
-      JNU_ReleaseStringPlatformChars(env, port, printerPort);
-      return NULL;
+  if (dffIndidfs == NULL) {
+      JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+      rfturn NULL;
   }
 
-  jint *saveFormats = defIndices;
+  jint *sbvfFormbts = dffIndidfs;
 
   for (int i=0; i < NDEFAULT; i++) {
-      defIndices[i] = GETDEFAULT_ERROR;
+      dffIndidfs[i] = GETDEFAULT_ERROR;
   }
 
-  /* Start by opening the printer */
-  if (!::OpenPrinter(printerName, &hPrinter, NULL)) {
-      env->ReleaseIntArrayElements(defaultArray, saveFormats, 0);
-      JNU_ReleaseStringPlatformChars(env, printer, printerName);
-      JNU_ReleaseStringPlatformChars(env, port, printerPort);
-      return defaultArray;
+  /* Stbrt by opfning tif printfr */
+  if (!::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)) {
+      fnv->RflfbsfIntArrbyElfmfnts(dffbultArrby, sbvfFormbts, 0);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+      rfturn dffbultArrby;
   }
 
-  if (!AwtPrintControl::getDevmode(hPrinter, printerName, &pDevMode)) {
-      /* if failure, cleanup and return failure */
-      if (pDevMode != NULL) {
-          ::GlobalFree(pDevMode);
+  if (!AwtPrintControl::gftDfvmodf(iPrintfr, printfrNbmf, &pDfvModf)) {
+      /* if fbilurf, dlfbnup bnd rfturn fbilurf */
+      if (pDfvModf != NULL) {
+          ::GlobblFrff(pDfvModf);
       }
-      ::ClosePrinter(hPrinter);
-      env->ReleaseIntArrayElements(defaultArray, saveFormats, 0);
-      JNU_ReleaseStringPlatformChars(env, printer, printerName);
-      JNU_ReleaseStringPlatformChars(env, port, printerPort);
-      return defaultArray;
+      ::ClosfPrintfr(iPrintfr);
+      fnv->RflfbsfIntArrbyElfmfnts(dffbultArrby, sbvfFormbts, 0);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+      JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
+      rfturn dffbultArrby;
   }
 
-  /* Have seen one driver which reports a default paper id which is not
-   * one of their supported paper ids. If what is returned is not
-   * a supported paper, use one of the supported sizes instead.
+  /* Hbvf sffn onf drivfr wiidi rfports b dffbult pbpfr id wiidi is not
+   * onf of tifir supportfd pbpfr ids. If wibt is rfturnfd is not
+   * b supportfd pbpfr, usf onf of tif supportfd sizfs instfbd.
    *
    */
-  if (pDevMode->dmFields & DM_PAPERSIZE) {
-      defIndices[0] = pDevMode->dmPaperSize;
+  if (pDfvModf->dmFiflds & DM_PAPERSIZE) {
+      dffIndidfs[0] = pDfvModf->dmPbpfrSizf;
 
       SAVE_CONTROLWORD
 
-      int numSizes = ::DeviceCapabilities(printerName, printerPort,
+      int numSizfs = ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
                                           DC_PAPERS, NULL, NULL);
-      if (numSizes > 0) {
-          LPTSTR papers = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, numSizes, sizeof(WORD));
-          if (papers != NULL &&
-              ::DeviceCapabilities(printerName, printerPort,
-                                   DC_PAPERS, papers, NULL) != -1) {
-              int present = 0;
-              for (int i=0;i<numSizes;i++) {
-                  if (papers[i] == pDevMode->dmPaperSize) {
-                      present = 1;
+      if (numSizfs > 0) {
+          LPTSTR pbpfrs = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, numSizfs, sizfof(WORD));
+          if (pbpfrs != NULL &&
+              ::DfvidfCbpbbilitifs(printfrNbmf, printfrPort,
+                                   DC_PAPERS, pbpfrs, NULL) != -1) {
+              int prfsfnt = 0;
+              for (int i=0;i<numSizfs;i++) {
+                  if (pbpfrs[i] == pDfvModf->dmPbpfrSizf) {
+                      prfsfnt = 1;
                   }
               }
-              if (!present) {
-                  defIndices[0] = papers[0];
+              if (!prfsfnt) {
+                  dffIndidfs[0] = pbpfrs[0];
               }
-              if (papers != NULL) {
-                  free((char*)papers);
+              if (pbpfrs != NULL) {
+                  frff((dibr*)pbpfrs);
               }
           }
       }
       RESTORE_CONTROLWORD
   }
 
-  if (pDevMode->dmFields & DM_MEDIATYPE) {
-      defIndices[1] = pDevMode->dmMediaType;
+  if (pDfvModf->dmFiflds & DM_MEDIATYPE) {
+      dffIndidfs[1] = pDfvModf->dmMfdibTypf;
   }
 
-  if (pDevMode->dmFields & DM_YRESOLUTION) {
-     defIndices[2]  = pDevMode->dmYResolution;
+  if (pDfvModf->dmFiflds & DM_YRESOLUTION) {
+     dffIndidfs[2]  = pDfvModf->dmYRfsolution;
   }
 
-  if (pDevMode->dmFields & DM_PRINTQUALITY) {
-      defIndices[3] = pDevMode->dmPrintQuality;
+  if (pDfvModf->dmFiflds & DM_PRINTQUALITY) {
+      dffIndidfs[3] = pDfvModf->dmPrintQublity;
   }
 
-  if (pDevMode->dmFields & DM_COPIES) {
-      defIndices[4] = pDevMode->dmCopies;
+  if (pDfvModf->dmFiflds & DM_COPIES) {
+      dffIndidfs[4] = pDfvModf->dmCopifs;
   }
 
-  if (pDevMode->dmFields & DM_ORIENTATION) {
-      defIndices[5] = pDevMode->dmOrientation;
+  if (pDfvModf->dmFiflds & DM_ORIENTATION) {
+      dffIndidfs[5] = pDfvModf->dmOrifntbtion;
   }
 
-  if (pDevMode->dmFields & DM_DUPLEX) {
-      defIndices[6] = pDevMode->dmDuplex;
+  if (pDfvModf->dmFiflds & DM_DUPLEX) {
+      dffIndidfs[6] = pDfvModf->dmDuplfx;
   }
 
-  if (pDevMode->dmFields & DM_COLLATE) {
-      defIndices[7] = pDevMode->dmCollate;
+  if (pDfvModf->dmFiflds & DM_COLLATE) {
+      dffIndidfs[7] = pDfvModf->dmCollbtf;
   }
 
-  if (pDevMode->dmFields & DM_COLOR) {
-      defIndices[8] = pDevMode->dmColor;
+  if (pDfvModf->dmFiflds & DM_COLOR) {
+      dffIndidfs[8] = pDfvModf->dmColor;
   }
 
-  GlobalFree(pDevMode);
-  ::ClosePrinter(hPrinter);
+  GlobblFrff(pDfvModf);
+  ::ClosfPrintfr(iPrintfr);
 
-  env->ReleaseIntArrayElements(defaultArray, saveFormats, 0);
+  fnv->RflfbsfIntArrbyElfmfnts(dffbultArrby, sbvfFormbts, 0);
 
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-  JNU_ReleaseStringPlatformChars(env, port, printerPort);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, port, printfrPort);
 
-  return defaultArray;
+  rfturn dffbultArrby;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_print_Win32PrintService_getJobStatus(JNIEnv *env,
-                                          jobject peer,
-                                          jstring printer,
-                                          jint type)
+Jbvb_sun_print_Win32PrintSfrvidf_gftJobStbtus(JNIEnv *fnv,
+                                          jobjfdt pffr,
+                                          jstring printfr,
+                                          jint typf)
 {
-    HANDLE hPrinter;
-    DWORD  cByteNeeded;
-    DWORD  cByteUsed;
-    PRINTER_INFO_2 *pPrinterInfo = NULL;
-    int ret=0;
+    HANDLE iPrintfr;
+    DWORD  dBytfNffdfd;
+    DWORD  dBytfUsfd;
+    PRINTER_INFO_2 *pPrintfrInfo = NULL;
+    int rft=0;
 
-    LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-    if (printerName == NULL) {
-        return -1;
+    LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+    if (printfrNbmf == NULL) {
+        rfturn -1;
     }
 
-    // Start by opening the printer
-    if (!::OpenPrinter(printerName, &hPrinter, NULL)) {
-        JNU_ReleaseStringPlatformChars(env, printer, printerName);
-        return -1;
+    // Stbrt by opfning tif printfr
+    if (!::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+        rfturn -1;
     }
 
-    if (!::GetPrinter(hPrinter, 2, NULL, 0, &cByteNeeded)) {
-        if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-            ::ClosePrinter(hPrinter);
-            JNU_ReleaseStringPlatformChars(env, printer, printerName);
-            return -1;
+    if (!::GftPrintfr(iPrintfr, 2, NULL, 0, &dBytfNffdfd)) {
+        if (GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+            ::ClosfPrintfr(iPrintfr);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+            rfturn -1;
         }
     }
 
-    pPrinterInfo = (PRINTER_INFO_2 *)::GlobalAlloc(GPTR, cByteNeeded);
-    if (!(pPrinterInfo)) {
-        /* failure to allocate memory */
-        ::ClosePrinter(hPrinter);
-        JNU_ReleaseStringPlatformChars(env, printer, printerName);
-        return -1;
+    pPrintfrInfo = (PRINTER_INFO_2 *)::GlobblAllod(GPTR, dBytfNffdfd);
+    if (!(pPrintfrInfo)) {
+        /* fbilurf to bllodbtf mfmory */
+        ::ClosfPrintfr(iPrintfr);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+        rfturn -1;
     }
 
-    /* get the printer info */
-    if (!::GetPrinter(hPrinter,
+    /* gft tif printfr info */
+    if (!::GftPrintfr(iPrintfr,
                       2,
-                      (LPBYTE)pPrinterInfo,
-                      cByteNeeded,
-                      &cByteUsed))
+                      (LPBYTE)pPrintfrInfo,
+                      dBytfNffdfd,
+                      &dBytfUsfd))
         {
-            /* failure to access the printer */
-            ::GlobalFree(pPrinterInfo);
-            pPrinterInfo = NULL;
-            ::ClosePrinter(hPrinter);
-            JNU_ReleaseStringPlatformChars(env, printer, printerName);
-            return -1;
+            /* fbilurf to bddfss tif printfr */
+            ::GlobblFrff(pPrintfrInfo);
+            pPrintfrInfo = NULL;
+            ::ClosfPrintfr(iPrintfr);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+            rfturn -1;
         }
 
-    if (type == GETJOBCOUNT) {
-        ret = pPrinterInfo->cJobs;
-    } else if (type == ACCEPTJOB) {
-        if (pPrinterInfo->Status &
+    if (typf == GETJOBCOUNT) {
+        rft = pPrintfrInfo->dJobs;
+    } flsf if (typf == ACCEPTJOB) {
+        if (pPrintfrInfo->Stbtus &
             (PRINTER_STATUS_ERROR |
              PRINTER_STATUS_NOT_AVAILABLE |
              PRINTER_STATUS_NO_TONER |
@@ -1003,159 +1003,159 @@ Java_sun_print_Win32PrintService_getJobStatus(JNIEnv *env,
              PRINTER_STATUS_OFFLINE |
              PRINTER_STATUS_USER_INTERVENTION |
              PRINTER_STATUS_DOOR_OPEN)) {
-            ret = 0;
+            rft = 0;
         }
-        else {
-            ret = 1;
+        flsf {
+            rft = 1;
         }
     }
 
-    ::GlobalFree(pPrinterInfo);
-    ::ClosePrinter(hPrinter);
-    JNU_ReleaseStringPlatformChars(env, printer, printerName);
-    return ret;
+    ::GlobblFrff(pPrintfrInfo);
+    ::ClosfPrintfr(iPrintfr);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+    rfturn rft;
 }
 
 
-static jfieldID getIdOfLongField(JNIEnv *env, jobject self,
-                                 const char *fieldName) {
-  jclass myClass = env->GetObjectClass(self);
-  jfieldID fieldId = env->GetFieldID(myClass, fieldName, "J");
-  DASSERT(fieldId != 0);
-  return fieldId;
+stbtid jfifldID gftIdOfLongFifld(JNIEnv *fnv, jobjfdt sflf,
+                                 donst dibr *fifldNbmf) {
+  jdlbss myClbss = fnv->GftObjfdtClbss(sflf);
+  jfifldID fifldId = fnv->GftFifldID(myClbss, fifldNbmf, "J");
+  DASSERT(fifldId != 0);
+  rfturn fifldId;
 }
 
 
-static inline HANDLE getHPrinter(JNIEnv *env, jobject self) {
-  jfieldID fieldId = getIdOfLongField(env, self, HPRINTER_STR);
-  if (fieldId == (jfieldID)0) {
-      return (HANDLE)NULL;
+stbtid inlinf HANDLE gftHPrintfr(JNIEnv *fnv, jobjfdt sflf) {
+  jfifldID fifldId = gftIdOfLongFifld(fnv, sflf, HPRINTER_STR);
+  if (fifldId == (jfifldID)0) {
+      rfturn (HANDLE)NULL;
   }
-  return (HANDLE)(env->GetLongField(self, fieldId));
+  rfturn (HANDLE)(fnv->GftLongFifld(sflf, fifldId));
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_print_Win32PrintJob_startPrintRawData(JNIEnv *env,
-                                               jobject peer,
-                                               jstring printer,
-                                               jstring jobname)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_Win32PrintJob_stbrtPrintRbwDbtb(JNIEnv *fnv,
+                                               jobjfdt pffr,
+                                               jstring printfr,
+                                               jstring jobnbmf)
 {
-  HANDLE      hPrinter;
-  DOC_INFO_1  DocInfo;
-  LPTSTR printerName = (LPTSTR)JNU_GetStringPlatformChars(env, printer, NULL);
-  if (printerName == NULL) {
-      return false;
+  HANDLE      iPrintfr;
+  DOC_INFO_1  DodInfo;
+  LPTSTR printfrNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, printfr, NULL);
+  if (printfrNbmf == NULL) {
+      rfturn fblsf;
   }
-  DASSERT(jobname != NULL);
-  LPTSTR lpJobName = (LPTSTR)JNU_GetStringPlatformChars(env, jobname, NULL);
-  LPTSTR jname = _tcsdup(lpJobName);
-  JNU_ReleaseStringPlatformChars(env, jobname, lpJobName);
+  DASSERT(jobnbmf != NULL);
+  LPTSTR lpJobNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv, jobnbmf, NULL);
+  LPTSTR jnbmf = _tdsdup(lpJobNbmf);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, jobnbmf, lpJobNbmf);
 
-  // Start by opening the printer
-  if (!::OpenPrinter(printerName, &hPrinter, NULL)) {
-    JNU_ReleaseStringPlatformChars(env, printer, printerName);
-    free((LPTSTR)jname);
-    return false;
-  }
-
-  JNU_ReleaseStringPlatformChars(env, printer, printerName);
-
-  // Fill in the structure with info about this "document."
-  DocInfo.pDocName = jname;
-  DocInfo.pOutputFile = NULL;
-  DocInfo.pDatatype = TEXT("RAW");
-
-  // Inform the spooler the document is beginning.
-  if( (::StartDocPrinter(hPrinter, 1, (LPBYTE)&DocInfo)) == 0 ) {
-    ::ClosePrinter( hPrinter );
-    free((LPTSTR)jname);
-    return false;
+  // Stbrt by opfning tif printfr
+  if (!::OpfnPrintfr(printfrNbmf, &iPrintfr, NULL)) {
+    JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
+    frff((LPTSTR)jnbmf);
+    rfturn fblsf;
   }
 
-  free((LPTSTR)jname);
+  JNU_RflfbsfStringPlbtformCibrs(fnv, printfr, printfrNbmf);
 
-  // Start a page.
-  if( ! ::StartPagePrinter( hPrinter ) ) {
-    ::EndDocPrinter( hPrinter );
-    ::ClosePrinter( hPrinter );
-    return false;
+  // Fill in tif strudturf witi info bbout tiis "dodumfnt."
+  DodInfo.pDodNbmf = jnbmf;
+  DodInfo.pOutputFilf = NULL;
+  DodInfo.pDbtbtypf = TEXT("RAW");
+
+  // Inform tif spoolfr tif dodumfnt is bfginning.
+  if( (::StbrtDodPrintfr(iPrintfr, 1, (LPBYTE)&DodInfo)) == 0 ) {
+    ::ClosfPrintfr( iPrintfr );
+    frff((LPTSTR)jnbmf);
+    rfturn fblsf;
   }
 
-  // store handle
-  jfieldID fieldId = getIdOfLongField(env, peer, HPRINTER_STR);
-  if (fieldId == (jfieldID)0) {
-      return false;
-  } else {
-      env->SetLongField(peer, fieldId, reinterpret_cast<jlong>(hPrinter));
-      return true;
+  frff((LPTSTR)jnbmf);
+
+  // Stbrt b pbgf.
+  if( ! ::StbrtPbgfPrintfr( iPrintfr ) ) {
+    ::EndDodPrintfr( iPrintfr );
+    ::ClosfPrintfr( iPrintfr );
+    rfturn fblsf;
+  }
+
+  // storf ibndlf
+  jfifldID fifldId = gftIdOfLongFifld(fnv, pffr, HPRINTER_STR);
+  if (fifldId == (jfifldID)0) {
+      rfturn fblsf;
+  } flsf {
+      fnv->SftLongFifld(pffr, fifldId, rfintfrprft_dbst<jlong>(iPrintfr));
+      rfturn truf;
   }
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_print_Win32PrintJob_printRawData(JNIEnv *env,
-                                          jobject peer,
-                                          jbyteArray dataArray,
-                                          jint count)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_Win32PrintJob_printRbwDbtb(JNIEnv *fnv,
+                                          jobjfdt pffr,
+                                          jbytfArrby dbtbArrby,
+                                          jint dount)
 {
-  jboolean  ret=true;
-  jint      dwBytesWritten;
-  jbyte*    data = NULL;
+  jboolfbn  rft=truf;
+  jint      dwBytfsWrittfn;
+  jbytf*    dbtb = NULL;
 
-  // retrieve handle
-  HANDLE    hPrinter = getHPrinter(env, peer);
-  if (hPrinter == NULL) {
-    return false;
+  // rftrifvf ibndlf
+  HANDLE    iPrintfr = gftHPrintfr(fnv, pffr);
+  if (iPrintfr == NULL) {
+    rfturn fblsf;
   }
 
   try {
-    data=(jbyte *)env->GetPrimitiveArrayCritical(dataArray, 0);
-    if (data == NULL) {
-        return false;
+    dbtb=(jbytf *)fnv->GftPrimitivfArrbyCritidbl(dbtbArrby, 0);
+    if (dbtb == NULL) {
+        rfturn fblsf;
     }
 
-    // Send the data to the printer.
-    if( ! ::WritePrinter(hPrinter, data, count,(LPDWORD)&dwBytesWritten)) {
-      env->ReleasePrimitiveArrayCritical(dataArray, data, 0);
-      return false;
+    // Sfnd tif dbtb to tif printfr.
+    if( ! ::WritfPrintfr(iPrintfr, dbtb, dount,(LPDWORD)&dwBytfsWrittfn)) {
+      fnv->RflfbsfPrimitivfArrbyCritidbl(dbtbArrby, dbtb, 0);
+      rfturn fblsf;
     }
 
-    // Check to see if correct number of bytes were written.
-    if( dwBytesWritten != count ) {
-      ret = false;
+    // Cifdk to sff if dorrfdt numbfr of bytfs wfrf writtfn.
+    if( dwBytfsWrittfn != dount ) {
+      rft = fblsf;
     }
 
-  } catch (...) {
-    if (data != NULL) {
-      env->ReleasePrimitiveArrayCritical(dataArray, data, 0);
+  } dbtdi (...) {
+    if (dbtb != NULL) {
+      fnv->RflfbsfPrimitivfArrbyCritidbl(dbtbArrby, dbtb, 0);
     }
-    JNU_ThrowInternalError(env, "Problem in Win32PrintJob_printRawData");
-    return false;
+    JNU_TirowIntfrnblError(fnv, "Problfm in Win32PrintJob_printRbwDbtb");
+    rfturn fblsf;
   }
 
-  env->ReleasePrimitiveArrayCritical(dataArray, data, 0);
-  return ret;
+  fnv->RflfbsfPrimitivfArrbyCritidbl(dbtbArrby, dbtb, 0);
+  rfturn rft;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_print_Win32PrintJob_endPrintRawData(JNIEnv *env,
-                                          jobject peer)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_Win32PrintJob_fndPrintRbwDbtb(JNIEnv *fnv,
+                                          jobjfdt pffr)
 {
-  // retrieve handle
-  HANDLE hPrinter = getHPrinter(env, peer);
-  if (hPrinter == NULL) {
-    return false;
+  // rftrifvf ibndlf
+  HANDLE iPrintfr = gftHPrintfr(fnv, pffr);
+  if (iPrintfr == NULL) {
+    rfturn fblsf;
   }
 
-  if ((::EndPagePrinter(hPrinter) != 0) &&
-      (::EndDocPrinter(hPrinter) != 0) &&
-      (::ClosePrinter(hPrinter) != 0)) {
-    return true;
-  } else {
-    return false;
+  if ((::EndPbgfPrintfr(iPrintfr) != 0) &&
+      (::EndDodPrintfr(iPrintfr) != 0) &&
+      (::ClosfPrintfr(iPrintfr) != 0)) {
+    rfturn truf;
+  } flsf {
+    rfturn fblsf;
   }
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

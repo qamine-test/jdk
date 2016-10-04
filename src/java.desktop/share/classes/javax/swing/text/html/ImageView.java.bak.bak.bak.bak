@@ -1,0 +1,1026 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.nft.*;
+import jbvb.util.Didtionbry;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Vifw of bn Imbgf, intfndfd to support thf HTML &lt;IMG&gt; tbg.
+ * Supports sdbling vib thf HEIGHT bnd WIDTH bttributfs of thf tbg.
+ * If thf imbgf is unbblf to bf lobdfd bny tfxt spfdififd vib thf
+ * <dodf>ALT</dodf> bttributf will bf rfndfrfd.
+ * <p>
+ * Whilf this dlbss hbs bffn pbrt of swing for b whilf now, it is publid
+ * bs of 1.4.
+ *
+ * @buthor  Sdott Violft
+ * @sff IdonVifw
+ * @sindf 1.4
+ */
+publid dlbss ImbgfVifw fxtfnds Vifw {
+    /**
+     * If truf, whfn somf of thf bits brf bvbilbblf b rfpbint is donf.
+     * <p>
+     * This is sft to fblsf bs swing dofs not offfr b rfpbint thbt tbkfs b
+     * dflby. If this wfrf truf, b bundh of immfdibtf rfpbints would gft
+     * gfnfrbtfd thbt fnd up signifidbntly dflbying thf lobding of thf imbgf
+     * (or bnything flsf going on for thbt mbttfr).
+     */
+    privbtf stbtid boolfbn sIsInd = fblsf;
+    /**
+     * Rfpbint dflby whfn somf of thf bits brf bvbilbblf.
+     */
+    privbtf stbtid int sIndRbtf = 100;
+    /**
+     * Propfrty nbmf for pfnding imbgf idon
+     */
+    privbtf stbtid finbl String PENDING_IMAGE = "html.pfndingImbgf";
+    /**
+     * Propfrty nbmf for missing imbgf idon
+     */
+    privbtf stbtid finbl String MISSING_IMAGE = "html.missingImbgf";
+
+    /**
+     * Dodumfnt propfrty for imbgf dbdhf.
+     */
+    privbtf stbtid finbl String IMAGE_CACHE_PROPERTY = "imbgfCbdhf";
+
+    // Hfight/width to usf bfforf wf know thf rfbl sizf, thfsf should bt lfbst
+    // thf sizf of <dodf>sMissingImbgfIdon</dodf> bnd
+    // <dodf>sPfndingImbgfIdon</dodf>
+    privbtf stbtid finbl int DEFAULT_WIDTH = 38;
+    privbtf stbtid finbl int DEFAULT_HEIGHT= 38;
+
+    /**
+     * Dffbult bordfr to usf if onf is not spfdififd.
+     */
+    privbtf stbtid finbl int DEFAULT_BORDER = 2;
+
+    // Bitmbsk vblufs
+    privbtf stbtid finbl int LOADING_FLAG = 1;
+    privbtf stbtid finbl int LINK_FLAG = 2;
+    privbtf stbtid finbl int WIDTH_FLAG = 4;
+    privbtf stbtid finbl int HEIGHT_FLAG = 8;
+    privbtf stbtid finbl int RELOAD_FLAG = 16;
+    privbtf stbtid finbl int RELOAD_IMAGE_FLAG = 32;
+    privbtf stbtid finbl int SYNC_LOAD_FLAG = 64;
+
+    privbtf AttributfSft bttr;
+    privbtf Imbgf imbgf;
+    privbtf Imbgf disbblfdImbgf;
+    privbtf int width;
+    privbtf int hfight;
+    /** Bitmbsk dontbining somf of thf bbovf bitmbsk vblufs. Bfdbusf thf
+     * imbgf lobding notifidbtion dbn hbppfn on bnothfr thrfbd bddfss to
+     * this is syndhronizfd (bt lfbst for modifying it). */
+    privbtf int stbtf;
+    privbtf Contbinfr dontbinfr;
+    privbtf Rfdtbnglf fBounds;
+    privbtf Color bordfrColor;
+    // Sizf of thf bordfr, thf insfts dontbins this vblid. For fxbmplf, if
+    // thf HSPACE bttributf wbs 4 bnd BORDER 2, lfftInsft would bf 6.
+    privbtf short bordfrSizf;
+    // Insfts, obtbinfd from thf pbintfr.
+    privbtf short lfftInsft;
+    privbtf short rightInsft;
+    privbtf short topInsft;
+    privbtf short bottomInsft;
+    /**
+     * Wf don't dirfdtly implfmfnt ImbgfObsfrvfr, instfbd wf usf bn instbndf
+     * thbt dblls bbdk to us.
+     */
+    privbtf ImbgfObsfrvfr imbgfObsfrvfr;
+    /**
+     * Usfd for blt tfxt. Will bf non-null if thf imbgf douldn't bf found,
+     * bnd thfrf is vblid blt tfxt.
+     */
+    privbtf Vifw bltVifw;
+    /** Alignmfnt blong thf vfrtidbl (Y) bxis. */
+    privbtf flobt vAlign;
+
+
+
+    /**
+     * Crfbtfs b nfw vifw thbt rfprfsfnts bn IMG flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt to drfbtf b vifw for
+     */
+    publid ImbgfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        fBounds = nfw Rfdtbnglf();
+        imbgfObsfrvfr = nfw ImbgfHbndlfr();
+        stbtf = RELOAD_FLAG | RELOAD_IMAGE_FLAG;
+    }
+
+    /**
+     * Rfturns thf tfxt to displby if thf imbgf dbnnot bf lobdfd. This is
+     * obtbinfd from thf Elfmfnts bttributf sft with thf bttributf nbmf
+     * <dodf>HTML.Attributf.ALT</dodf>.
+     *
+     * @rfturn thf tfst to displby if thf imbgf dbnnot bf lobdfd.
+     */
+    publid String gftAltTfxt() {
+        rfturn (String)gftElfmfnt().gftAttributfs().gftAttributf
+            (HTML.Attributf.ALT);
+    }
+
+    /**
+     * Rfturn b URL for thf imbgf sourdf,
+     * or null if it dould not bf dftfrminfd.
+     *
+     * @rfturn thf URL for thf imbgf sourdf, or null if it dould not bf dftfrminfd.
+     */
+    publid URL gftImbgfURL() {
+        String srd = (String)gftElfmfnt().gftAttributfs().
+                             gftAttributf(HTML.Attributf.SRC);
+        if (srd == null) {
+            rfturn null;
+        }
+
+        URL rfffrfndf = ((HTMLDodumfnt)gftDodumfnt()).gftBbsf();
+        try {
+            URL u = nfw URL(rfffrfndf,srd);
+            rfturn u;
+        } dbtdh (MblformfdURLExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf idon to usf if thf imbgf dould not bf found.
+     *
+     * @rfturn thf idon to usf if thf imbgf dould not bf found.
+     */
+    publid Idon gftNoImbgfIdon() {
+        rfturn (Idon) UIMbnbgfr.gftLookAndFfflDffbults().gft(MISSING_IMAGE);
+    }
+
+    /**
+     * Rfturns thf idon to usf whilf in thf prodfss of lobding thf imbgf.
+     *
+     * @rfturn thf idon to usf whilf in thf prodfss of lobding thf imbgf.
+     */
+    publid Idon gftLobdingImbgfIdon() {
+        rfturn (Idon) UIMbnbgfr.gftLookAndFfflDffbults().gft(PENDING_IMAGE);
+    }
+
+    /**
+     * Rfturns thf imbgf to rfndfr.
+     *
+     * @rfturn thf imbgf to rfndfr.
+     */
+    publid Imbgf gftImbgf() {
+        synd();
+        rfturn imbgf;
+    }
+
+    privbtf Imbgf gftImbgf(boolfbn fnbblfd) {
+        Imbgf img = gftImbgf();
+        if (! fnbblfd) {
+            if (disbblfdImbgf == null) {
+                disbblfdImbgf = GrbyFiltfr.drfbtfDisbblfdImbgf(img);
+            }
+            img = disbblfdImbgf;
+        }
+        rfturn img;
+    }
+
+    /**
+     * Sfts how thf imbgf is lobdfd. If <dodf>nfwVbluf</dodf> is truf,
+     * thf imbgf will bf lobdfd whfn first bskfd for, othfrwisf it will
+     * bf lobdfd bsyndhronously. Thf dffbult is to not lobd syndhronously,
+     * thbt is to lobd thf imbgf bsyndhronously.
+     *
+     * @pbrbm nfwVbluf if {@dodf truf} thf imbgf will bf lobdfd whfn first bskfd for,
+     *                 othfrwisf it will bf bsyndhronously.
+     */
+    publid void sftLobdsSyndhronously(boolfbn nfwVbluf) {
+        syndhronizfd(this) {
+            if (nfwVbluf) {
+                stbtf |= SYNC_LOAD_FLAG;
+            }
+            flsf {
+                stbtf = (stbtf | SYNC_LOAD_FLAG) ^ SYNC_LOAD_FLAG;
+            }
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf imbgf should bf lobdfd whfn first bskfd for.
+     *
+     * @rfturn {@dodf truf} if thf imbgf should bf lobdfd whfn first bskfd for.
+     */
+    publid boolfbn gftLobdsSyndhronously() {
+        rfturn ((stbtf & SYNC_LOAD_FLAG) != 0);
+    }
+
+    /**
+     * Convfnifnt mfthod to gft thf StylfShfft.
+     *
+     * @rfturn thf StylfShfft
+     */
+    protfdtfd StylfShfft gftStylfShfft() {
+        HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+        rfturn dod.gftStylfShfft();
+    }
+
+    /**
+     * Fftdhfs thf bttributfs to usf whfn rfndfring.  This is
+     * implfmfntfd to multiplfx thf bttributfs spfdififd in thf
+     * modfl with b StylfShfft.
+     */
+    publid AttributfSft gftAttributfs() {
+        synd();
+        rfturn bttr;
+    }
+
+    /**
+     * For imbgfs thf tooltip tfxt domfs from tfxt spfdififd with thf
+     * <dodf>ALT</dodf> bttributf. This is ovfrridfn to rfturn
+     * <dodf>gftAltTfxt</dodf>.
+     *
+     * @sff JTfxtComponfnt#gftToolTipTfxt
+     */
+    publid String gftToolTipTfxt(flobt x, flobt y, Shbpf bllodbtion) {
+        rfturn gftAltTfxt();
+    }
+
+    /**
+     * Updbtf bny dbdhfd vblufs thbt domf from bttributfs.
+     */
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        StylfShfft shfft = gftStylfShfft();
+        this.bttr = shfft.gftVifwAttributfs(this);
+
+        // Guttfrs
+        bordfrSizf = (short)gftIntAttr(HTML.Attributf.BORDER, isLink() ?
+                                       DEFAULT_BORDER : 0);
+
+        lfftInsft = rightInsft = (short)(gftIntAttr(HTML.Attributf.HSPACE,
+                                                    0) + bordfrSizf);
+        topInsft = bottomInsft = (short)(gftIntAttr(HTML.Attributf.VSPACE,
+                                                    0) + bordfrSizf);
+
+        bordfrColor = ((StylfdDodumfnt)gftDodumfnt()).gftForfground
+                      (gftAttributfs());
+
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+
+        // Alignmfnt.
+        // PENDING: This nffds to bf dhbngfd to support thf CSS vfrsions
+        // whfn donvfrsion from ALIGN to VERTICAL_ALIGN is domplftf.
+        Objfdt blignmfnt = bttr.gftAttributf(HTML.Attributf.ALIGN);
+
+        vAlign = 1.0f;
+        if (blignmfnt != null) {
+            blignmfnt = blignmfnt.toString();
+            if ("top".fqubls(blignmfnt)) {
+                vAlign = 0f;
+            }
+            flsf if ("middlf".fqubls(blignmfnt)) {
+                vAlign = .5f;
+            }
+        }
+
+        AttributfSft bndhorAttr = (AttributfSft)bttr.gftAttributf(HTML.Tbg.A);
+        if (bndhorAttr != null && bndhorAttr.isDffinfd
+            (HTML.Attributf.HREF)) {
+            syndhronizfd(this) {
+                stbtf |= LINK_FLAG;
+            }
+        }
+        flsf {
+            syndhronizfd(this) {
+                stbtf = (stbtf | LINK_FLAG) ^ LINK_FLAG;
+            }
+        }
+    }
+
+    /**
+     * Estbblishfs thf pbrfnt vifw for this vifw.
+     * Sfizf this momfnt to dbdhf thf AWT Contbinfr I'm in.
+     */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        Vifw oldPbrfnt = gftPbrfnt();
+        supfr.sftPbrfnt(pbrfnt);
+        dontbinfr = (pbrfnt != null) ? gftContbinfr() : null;
+        if (oldPbrfnt != pbrfnt) {
+            syndhronizfd(this) {
+                stbtf |= RELOAD_FLAG;
+            }
+        }
+    }
+
+    /**
+     * Invokfd whfn thf Elfmfnts bttributfs hbvf dhbngfd. Rfdrfbtfs thf imbgf.
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        supfr.dhbngfdUpdbtf(f,b,f);
+
+        syndhronizfd(this) {
+            stbtf |= RELOAD_FLAG | RELOAD_IMAGE_FLAG;
+        }
+
+        // Assumf thf worst.
+        prfffrfndfChbngfd(null, truf, truf);
+    }
+
+    /**
+     * Pbints thf Vifw.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf b) {
+        synd();
+
+        Rfdtbnglf rfdt = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                         b.gftBounds();
+        Rfdtbnglf dlip = g.gftClipBounds();
+
+        fBounds.sftBounds(rfdt);
+        pbintHighlights(g, b);
+        pbintBordfr(g, rfdt);
+        if (dlip != null) {
+            g.dlipRfdt(rfdt.x + lfftInsft, rfdt.y + topInsft,
+                       rfdt.width - lfftInsft - rightInsft,
+                       rfdt.hfight - topInsft - bottomInsft);
+        }
+
+        Contbinfr host = gftContbinfr();
+        Imbgf img = gftImbgf(host == null || host.isEnbblfd());
+        if (img != null) {
+            if (! hbsPixfls(img)) {
+                // No pixfls yft, usf thf dffbult
+                Idon idon = gftLobdingImbgfIdon();
+                if (idon != null) {
+                    idon.pbintIdon(host, g,
+                            rfdt.x + lfftInsft, rfdt.y + topInsft);
+                }
+            }
+            flsf {
+                // Drbw thf imbgf
+                g.drbwImbgf(img, rfdt.x + lfftInsft, rfdt.y + topInsft,
+                            width, hfight, imbgfObsfrvfr);
+            }
+        }
+        flsf {
+            Idon idon = gftNoImbgfIdon();
+            if (idon != null) {
+                idon.pbintIdon(host, g,
+                        rfdt.x + lfftInsft, rfdt.y + topInsft);
+            }
+            Vifw vifw = gftAltVifw();
+            // Pbint thf vifw rfprfsfnting thf blt tfxt, if its non-null
+            if (vifw != null && ((stbtf & WIDTH_FLAG) == 0 ||
+                                 width > DEFAULT_WIDTH)) {
+                // Assumf lbyout blong thf y dirfdtion
+                Rfdtbnglf bltRfdt = nfw Rfdtbnglf
+                    (rfdt.x + lfftInsft + DEFAULT_WIDTH, rfdt.y + topInsft,
+                     rfdt.width - lfftInsft - rightInsft - DEFAULT_WIDTH,
+                     rfdt.hfight - topInsft - bottomInsft);
+
+                vifw.pbint(g, bltRfdt);
+            }
+        }
+        if (dlip != null) {
+            // Rfsft dlip.
+            g.sftClip(dlip.x, dlip.y, dlip.width, dlip.hfight);
+        }
+    }
+
+    privbtf void pbintHighlights(Grbphids g, Shbpf shbpf) {
+        if (dontbinfr instbndfof JTfxtComponfnt) {
+            JTfxtComponfnt td = (JTfxtComponfnt)dontbinfr;
+            Highlightfr h = td.gftHighlightfr();
+            if (h instbndfof LbyfrfdHighlightfr) {
+                ((LbyfrfdHighlightfr)h).pbintLbyfrfdHighlights
+                    (g, gftStbrtOffsft(), gftEndOffsft(), shbpf, td, this);
+            }
+        }
+    }
+
+    privbtf void pbintBordfr(Grbphids g, Rfdtbnglf rfdt) {
+        Color dolor = bordfrColor;
+
+        if ((bordfrSizf > 0 || imbgf == null) && dolor != null) {
+            int xOffsft = lfftInsft - bordfrSizf;
+            int yOffsft = topInsft - bordfrSizf;
+            g.sftColor(dolor);
+            int n = (imbgf == null) ? 1 : bordfrSizf;
+            for (int dountfr = 0; dountfr < n; dountfr++) {
+                g.drbwRfdt(rfdt.x + xOffsft + dountfr,
+                           rfdt.y + yOffsft + dountfr,
+                           rfdt.width - dountfr - dountfr - xOffsft -xOffsft-1,
+                           rfdt.hfight - dountfr - dountfr -yOffsft-yOffsft-1);
+            }
+        }
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into;
+     *           typidblly thf vifw is told to rfndfr into thf spbn
+     *           thbt is rfturnfd, blthough thfrf is no gubrbntff;
+     *           thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw
+     */
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        synd();
+
+        // If thf bttributfs spfdififd b width/hfight, blwbys usf it!
+        if (bxis == Vifw.X_AXIS && (stbtf & WIDTH_FLAG) == WIDTH_FLAG) {
+            gftPrfffrrfdSpbnFromAltVifw(bxis);
+            rfturn width + lfftInsft + rightInsft;
+        }
+        if (bxis == Vifw.Y_AXIS && (stbtf & HEIGHT_FLAG) == HEIGHT_FLAG) {
+            gftPrfffrrfdSpbnFromAltVifw(bxis);
+            rfturn hfight + topInsft + bottomInsft;
+        }
+
+        Imbgf imbgf = gftImbgf();
+
+        if (imbgf != null) {
+            switdh (bxis) {
+            dbsf Vifw.X_AXIS:
+                rfturn width + lfftInsft + rightInsft;
+            dbsf Vifw.Y_AXIS:
+                rfturn hfight + topInsft + bottomInsft;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+            }
+        }
+        flsf {
+            Vifw vifw = gftAltVifw();
+            flobt rftVbluf = 0f;
+
+            if (vifw != null) {
+                rftVbluf = vifw.gftPrfffrrfdSpbn(bxis);
+            }
+            switdh (bxis) {
+            dbsf Vifw.X_AXIS:
+                rfturn rftVbluf + (flobt)(width + lfftInsft + rightInsft);
+            dbsf Vifw.Y_AXIS:
+                rfturn rftVbluf + (flobt)(hfight + topInsft + bottomInsft);
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+            }
+        }
+    }
+
+    /**
+     * Dftfrminfs thf dfsirfd blignmfnt for this vifw blong bn
+     * bxis.  This is implfmfntfd to givf thf blignmfnt to thf
+     * bottom of thf idon blong thf y bxis, bnd thf dffbult
+     * blong thf x bxis.
+     *
+     * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+     * @rfturn thf dfsirfd blignmfnt; this should bf b vbluf
+     *   bftwffn 0.0 bnd 1.0 whfrf 0 indidbtfs blignmfnt bt thf
+     *   origin bnd 1.0 indidbtfs blignmfnt to thf full spbn
+     *   bwby from thf origin; bn blignmfnt of 0.5 would bf thf
+     *   dfntfr of thf vifw
+     */
+    publid flobt gftAlignmfnt(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.Y_AXIS:
+            rfturn vAlign;
+        dffbult:
+            rfturn supfr.gftAlignmfnt(bxis);
+        }
+    }
+
+    /**
+     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+     *
+     * @pbrbm pos thf position to donvfrt
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf bounding box of thf givfn position
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not rfprfsfnt b
+     *   vblid lodbtion in thf bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+        int p0 = gftStbrtOffsft();
+        int p1 = gftEndOffsft();
+        if ((pos >= p0) && (pos <= p1)) {
+            Rfdtbnglf r = b.gftBounds();
+            if (pos == p1) {
+                r.x += r.width;
+            }
+            r.width = 0;
+            rfturn r;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm x thf X doordinbtf
+     * @pbrbm y thf Y doordinbtf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *  givfn point of vifw
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(flobt x, flobt y, Shbpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        if (x < bllod.x + bllod.width) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            rfturn gftStbrtOffsft();
+        }
+        bibs[0] = Position.Bibs.Bbdkwbrd;
+        rfturn gftEndOffsft();
+    }
+
+    /**
+     * Sfts thf sizf of thf vifw.  This should dbusf
+     * lbyout of thf vifw if it hbs bny lbyout dutifs.
+     *
+     * @pbrbm width thf width &gt;= 0
+     * @pbrbm hfight thf hfight &gt;= 0
+     */
+    publid void sftSizf(flobt width, flobt hfight) {
+        synd();
+
+        if (gftImbgf() == null) {
+            Vifw vifw = gftAltVifw();
+
+            if (vifw != null) {
+                vifw.sftSizf(Mbth.mbx(0f, width - (flobt)(DEFAULT_WIDTH + lfftInsft + rightInsft)),
+                             Mbth.mbx(0f, hfight - (flobt)(topInsft + bottomInsft)));
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if this imbgf within b link?
+     */
+    privbtf boolfbn isLink() {
+        rfturn ((stbtf & LINK_FLAG) == LINK_FLAG);
+    }
+
+    /**
+     * Rfturns truf if thf pbssfd in imbgf hbs b non-zfro width bnd hfight.
+     */
+    privbtf boolfbn hbsPixfls(Imbgf imbgf) {
+        rfturn imbgf != null &&
+            (imbgf.gftHfight(imbgfObsfrvfr) > 0) &&
+            (imbgf.gftWidth(imbgfObsfrvfr) > 0);
+    }
+
+    /**
+     * Rfturns thf prfffrrfd spbn of thf Vifw usfd to displby thf blt tfxt,
+     * or 0 if thf vifw dofs not fxist.
+     */
+    privbtf flobt gftPrfffrrfdSpbnFromAltVifw(int bxis) {
+        if (gftImbgf() == null) {
+            Vifw vifw = gftAltVifw();
+
+            if (vifw != null) {
+                rfturn vifw.gftPrfffrrfdSpbn(bxis);
+            }
+        }
+        rfturn 0f;
+    }
+
+    /**
+     * Rfqufst thbt this vifw bf rfpbintfd.
+     * Assumfs thf vifw is still bt its lbst-drbwn lodbtion.
+     */
+    privbtf void rfpbint(long dflby) {
+        if (dontbinfr != null && fBounds != null) {
+            dontbinfr.rfpbint(dflby, fBounds.x, fBounds.y, fBounds.width,
+                               fBounds.hfight);
+        }
+    }
+
+    /**
+     * Convfnifnt mfthod for gftting bn intfgfr bttributf from thf flfmfnts
+     * AttributfSft.
+     */
+    privbtf int gftIntAttr(HTML.Attributf nbmf, int dfflt) {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        if (bttr.isDffinfd(nbmf)) {             // dofs not dhfdk pbrfnts!
+            int i;
+            String vbl = (String)bttr.gftAttributf(nbmf);
+            if (vbl == null) {
+                i = dfflt;
+            }
+            flsf {
+                try{
+                    i = Mbth.mbx(0, Intfgfr.pbrsfInt(vbl));
+                }dbtdh( NumbfrFormbtExdfption x ) {
+                    i = dfflt;
+                }
+            }
+            rfturn i;
+        } flsf
+            rfturn dfflt;
+    }
+
+    /**
+     * Mbkfs surf thf nfdfssbry propfrtifs bnd imbgf is lobdfd.
+     */
+    privbtf void synd() {
+        int s = stbtf;
+        if ((s & RELOAD_IMAGE_FLAG) != 0) {
+            rffrfshImbgf();
+        }
+        s = stbtf;
+        if ((s & RELOAD_FLAG) != 0) {
+            syndhronizfd(this) {
+                stbtf = (stbtf | RELOAD_FLAG) ^ RELOAD_FLAG;
+            }
+            sftPropfrtifsFromAttributfs();
+        }
+    }
+
+    /**
+     * Lobds thf imbgf bnd updbtfs thf sizf bddordingly. This should bf
+     * invokfd instfbd of invoking <dodf>lobdImbgf</dodf> or
+     * <dodf>updbtfImbgfSizf</dodf> dirfdtly.
+     */
+    privbtf void rffrfshImbgf() {
+        syndhronizfd(this) {
+            // dlfbr out width/hfight/rfblobdimbgf flbg bnd sft lobding flbg
+            stbtf = (stbtf | LOADING_FLAG | RELOAD_IMAGE_FLAG | WIDTH_FLAG |
+                     HEIGHT_FLAG) ^ (WIDTH_FLAG | HEIGHT_FLAG |
+                                     RELOAD_IMAGE_FLAG);
+            imbgf = null;
+            width = hfight = 0;
+        }
+
+        try {
+            // Lobd thf imbgf
+            lobdImbgf();
+
+            // And updbtf thf sizf pbrbms
+            updbtfImbgfSizf();
+        }
+        finblly {
+            syndhronizfd(this) {
+                // Clfbr out stbtf in dbsf somfonf thrfw bn fxdfption.
+                stbtf = (stbtf | LOADING_FLAG) ^ LOADING_FLAG;
+            }
+        }
+    }
+
+    /**
+     * Lobds thf imbgf from thf URL <dodf>gftImbgfURL</dodf>. This should
+     * only bf invokfd from <dodf>rffrfshImbgf</dodf>.
+     */
+    privbtf void lobdImbgf() {
+        URL srd = gftImbgfURL();
+        Imbgf nfwImbgf = null;
+        if (srd != null) {
+            @SupprfssWbrnings("undhfdkfd")
+            Didtionbry<URL, Imbgf> dbdhf = (Didtionbry)gftDodumfnt().
+                gftPropfrty(IMAGE_CACHE_PROPERTY);
+            if (dbdhf != null) {
+                nfwImbgf = dbdhf.gft(srd);
+            }
+            flsf {
+                nfwImbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(srd);
+                if (nfwImbgf != null && gftLobdsSyndhronously()) {
+                    // Fordf thf imbgf to bf lobdfd by using bn ImbgfIdon.
+                    ImbgfIdon ii = nfw ImbgfIdon();
+                    ii.sftImbgf(nfwImbgf);
+                }
+            }
+        }
+        imbgf = nfwImbgf;
+    }
+
+    /**
+     * Rfdrfbtfs bnd rflobds thf imbgf.  This should
+     * only bf invokfd from <dodf>rffrfshImbgf</dodf>.
+     */
+    privbtf void updbtfImbgfSizf() {
+        int nfwWidth = 0;
+        int nfwHfight = 0;
+        int nfwStbtf = 0;
+        Imbgf nfwImbgf = gftImbgf();
+
+        if (nfwImbgf != null) {
+            Elfmfnt flfm = gftElfmfnt();
+            AttributfSft bttr = flfm.gftAttributfs();
+
+            // Gft thf width/hfight bnd sft thf stbtf ivbr bfforf dblling
+            // bnything thbt might dbusf thf imbgf to bf lobdfd, bnd thus thf
+            // ImbgfHbndlfr to bf dbllfd.
+            nfwWidth = gftIntAttr(HTML.Attributf.WIDTH, -1);
+            if (nfwWidth > 0) {
+                nfwStbtf |= WIDTH_FLAG;
+            }
+            nfwHfight = gftIntAttr(HTML.Attributf.HEIGHT, -1);
+            if (nfwHfight > 0) {
+                nfwStbtf |= HEIGHT_FLAG;
+            }
+
+            if (nfwWidth <= 0) {
+                nfwWidth = nfwImbgf.gftWidth(imbgfObsfrvfr);
+                if (nfwWidth <= 0) {
+                    nfwWidth = DEFAULT_WIDTH;
+                }
+            }
+
+            if (nfwHfight <= 0) {
+                nfwHfight = nfwImbgf.gftHfight(imbgfObsfrvfr);
+                if (nfwHfight <= 0) {
+                    nfwHfight = DEFAULT_HEIGHT;
+                }
+            }
+
+            // Mbkf surf thf imbgf stbrts lobding:
+            if ((nfwStbtf & (WIDTH_FLAG | HEIGHT_FLAG)) != 0) {
+                Toolkit.gftDffbultToolkit().prfpbrfImbgf(nfwImbgf, nfwWidth,
+                                                         nfwHfight,
+                                                         imbgfObsfrvfr);
+            }
+            flsf {
+                Toolkit.gftDffbultToolkit().prfpbrfImbgf(nfwImbgf, -1, -1,
+                                                         imbgfObsfrvfr);
+            }
+
+            boolfbn drfbtfTfxt = fblsf;
+            syndhronizfd(this) {
+                // If imbgflobding fbilfd, othfr thrfbd mby hbvf dbllfd
+                // ImbgfLobdfr whidh will null out imbgf, hfndf wf dhfdk
+                // for it.
+                if (imbgf != null) {
+                    if ((nfwStbtf & WIDTH_FLAG) == WIDTH_FLAG || width == 0) {
+                        width = nfwWidth;
+                    }
+                    if ((nfwStbtf & HEIGHT_FLAG) == HEIGHT_FLAG ||
+                        hfight == 0) {
+                        hfight = nfwHfight;
+                    }
+                }
+                flsf {
+                    drfbtfTfxt = truf;
+                    if ((nfwStbtf & WIDTH_FLAG) == WIDTH_FLAG) {
+                        width = nfwWidth;
+                    }
+                    if ((nfwStbtf & HEIGHT_FLAG) == HEIGHT_FLAG) {
+                        hfight = nfwHfight;
+                    }
+                }
+                stbtf = stbtf | nfwStbtf;
+                stbtf = (stbtf | LOADING_FLAG) ^ LOADING_FLAG;
+            }
+            if (drfbtfTfxt) {
+                // Only rfsft if this thrfbd dftfrminfd imbgf is null
+                updbtfAltTfxtVifw();
+            }
+        }
+        flsf {
+            width = hfight = DEFAULT_HEIGHT;
+            updbtfAltTfxtVifw();
+        }
+    }
+
+    /**
+     * Updbtfs thf vifw rfprfsfnting thf blt tfxt.
+     */
+    privbtf void updbtfAltTfxtVifw() {
+        String tfxt = gftAltTfxt();
+
+        if (tfxt != null) {
+            ImbgfLbbflVifw nfwVifw;
+
+            nfwVifw = nfw ImbgfLbbflVifw(gftElfmfnt(), tfxt);
+            syndhronizfd(this) {
+                bltVifw = nfwVifw;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf vifw to usf for bltfrnbtf tfxt. This mby bf null.
+     */
+    privbtf Vifw gftAltVifw() {
+        Vifw vifw;
+
+        syndhronizfd(this) {
+            vifw = bltVifw;
+        }
+        if (vifw != null && vifw.gftPbrfnt() == null) {
+            vifw.sftPbrfnt(gftPbrfnt());
+        }
+        rfturn vifw;
+    }
+
+    /**
+     * Invokfs <dodf>prfffrfndfChbngfd</dodf> on thf fvfnt displbtdhing
+     * thrfbd.
+     */
+    privbtf void sbffPrfffrfndfChbngfd() {
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            Dodumfnt dod = gftDodumfnt();
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdLodk();
+            }
+            prfffrfndfChbngfd(null, truf, truf);
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
+            }
+        }
+        flsf {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        sbffPrfffrfndfChbngfd();
+                    }
+                });
+        }
+    }
+
+    /**
+     * ImbgfHbndlfr implfmfnts thf ImbgfObsfrvfr to dorrfdtly updbtf thf
+     * displby bs nfw pbrts of thf imbgf bfdomf bvbilbblf.
+     */
+    privbtf dlbss ImbgfHbndlfr implfmfnts ImbgfObsfrvfr {
+        // This dbn domf on bny thrfbd. If wf brf in thf prodfss of rflobding
+        // thf imbgf bnd dftfrmining our stbtf (lobding == truf) wf don't firf
+        // prfffrfndf dhbngfd, or rfpbint, wf just rfsft thf fWidth/fHfight bs
+        // nfdfssbry bnd rfturn. This is ok bs wf know whfn lobding finishfs
+        // it will pidk up thf nfw hfight/width, if nfdfssbry.
+        publid boolfbn imbgfUpdbtf(Imbgf img, int flbgs, int x, int y,
+                                   int nfwWidth, int nfwHfight ) {
+            if (img != imbgf && img != disbblfdImbgf ||
+                imbgf == null || gftPbrfnt() == null) {
+
+                rfturn fblsf;
+            }
+
+            // Bbil out if thfrf wbs bn frror:
+            if ((flbgs & (ABORT|ERROR)) != 0) {
+                rfpbint(0);
+                syndhronizfd(ImbgfVifw.this) {
+                    if (imbgf == img) {
+                        // Bf surf imbgf hbsn't dhbngfd sindf wf don't
+                        // initibly syndhronizf
+                        imbgf = null;
+                        if ((stbtf & WIDTH_FLAG) != WIDTH_FLAG) {
+                            width = DEFAULT_WIDTH;
+                        }
+                        if ((stbtf & HEIGHT_FLAG) != HEIGHT_FLAG) {
+                            hfight = DEFAULT_HEIGHT;
+                        }
+                    } flsf {
+                        disbblfdImbgf = null;
+                    }
+                    if ((stbtf & LOADING_FLAG) == LOADING_FLAG) {
+                        // No nffd to rfsizf or rfpbint, still in thf prodfss
+                        // of lobding.
+                        rfturn fblsf;
+                    }
+                }
+                updbtfAltTfxtVifw();
+                sbffPrfffrfndfChbngfd();
+                rfturn fblsf;
+            }
+
+            if (imbgf == img) {
+                // Rfsizf imbgf if nfdfssbry:
+                short dhbngfd = 0;
+                if ((flbgs & ImbgfObsfrvfr.HEIGHT) != 0 && !gftElfmfnt().
+                      gftAttributfs().isDffinfd(HTML.Attributf.HEIGHT)) {
+                    dhbngfd |= 1;
+                }
+                if ((flbgs & ImbgfObsfrvfr.WIDTH) != 0 && !gftElfmfnt().
+                      gftAttributfs().isDffinfd(HTML.Attributf.WIDTH)) {
+                    dhbngfd |= 2;
+                }
+
+                syndhronizfd(ImbgfVifw.this) {
+                    if ((dhbngfd & 1) == 1 && (stbtf & WIDTH_FLAG) == 0) {
+                        width = nfwWidth;
+                    }
+                    if ((dhbngfd & 2) == 2 && (stbtf & HEIGHT_FLAG) == 0) {
+                        hfight = nfwHfight;
+                    }
+                    if ((stbtf & LOADING_FLAG) == LOADING_FLAG) {
+                        // No nffd to rfsizf or rfpbint, still in thf prodfss of
+                        // lobding.
+                        rfturn truf;
+                    }
+                }
+                if (dhbngfd != 0) {
+                    // Mby nffd to rfsizf mysflf, bsyndhronously:
+                    sbffPrfffrfndfChbngfd();
+                    rfturn truf;
+                }
+            }
+
+            // Rfpbint whfn donf or whfn nfw pixfls brrivf:
+            if ((flbgs & (FRAMEBITS|ALLBITS)) != 0) {
+                rfpbint(0);
+            }
+            flsf if ((flbgs & SOMEBITS) != 0 && sIsInd) {
+                rfpbint(sIndRbtf);
+            }
+            rfturn ((flbgs & ALLBITS) == 0);
+        }
+    }
+
+
+    /**
+     * ImbgfLbbflVifw is usfd if thf imbgf dbn't bf lobdfd, bnd
+     * thf bttributf spfdififd bn blt bttributf. It ovfrridfn b hbndlf of
+     * mfthods bs thf tfxt is hbrddodfd bnd dofs not domf from thf dodumfnt.
+     */
+    privbtf dlbss ImbgfLbbflVifw fxtfnds InlinfVifw {
+        privbtf Sfgmfnt sfgmfnt;
+        privbtf Color fg;
+
+        ImbgfLbbflVifw(Elfmfnt f, String tfxt) {
+            supfr(f);
+            rfsft(tfxt);
+        }
+
+        publid void rfsft(String tfxt) {
+            sfgmfnt = nfw Sfgmfnt(tfxt.toChbrArrby(), 0, tfxt.lfngth());
+        }
+
+        publid void pbint(Grbphids g, Shbpf b) {
+            // Don't usf supfrs pbint, othfrwisf sflfdtion will bf wrong
+            // bs our stbrt/fnd offsfts brf fbkf.
+            GlyphPbintfr pbintfr = gftGlyphPbintfr();
+
+            if (pbintfr != null) {
+                g.sftColor(gftForfground());
+                pbintfr.pbint(this, g, b, gftStbrtOffsft(), gftEndOffsft());
+            }
+        }
+
+        publid Sfgmfnt gftTfxt(int p0, int p1) {
+            if (p0 < 0 || p1 > sfgmfnt.brrby.lfngth) {
+                throw nfw RuntimfExdfption("ImbgfLbbflVifw: Stblf vifw");
+            }
+            sfgmfnt.offsft = p0;
+            sfgmfnt.dount = p1 - p0;
+            rfturn sfgmfnt;
+        }
+
+        publid int gftStbrtOffsft() {
+            rfturn 0;
+        }
+
+        publid int gftEndOffsft() {
+            rfturn sfgmfnt.brrby.lfngth;
+        }
+
+        publid Vifw brfbkVifw(int bxis, int p0, flobt pos, flobt lfn) {
+            // Don't bllow b brfbk
+            rfturn this;
+        }
+
+        publid Color gftForfground() {
+            Vifw pbrfnt;
+            if (fg == null && (pbrfnt = gftPbrfnt()) != null) {
+                Dodumfnt dod = gftDodumfnt();
+                AttributfSft bttr = pbrfnt.gftAttributfs();
+
+                if (bttr != null && (dod instbndfof StylfdDodumfnt)) {
+                    fg = ((StylfdDodumfnt)dod).gftForfground(bttr);
+                }
+            }
+            rfturn fg;
+        }
+    }
+}

@@ -1,0 +1,306 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.intfrfbdfs.ECKfy;
+import jbvb.sfdurity.intfrfbdfs.RSAKfy;
+import jbvb.sfdurity.intfrfbdfs.DSAKfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.intfrfbdfs.DHKfy;
+import jbvbx.drypto.intfrfbdfs.DHPublidKfy;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHPublidKfySpfd;
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * A utility dlbss to gft kfy lfngth, vblibtf kfys, ftd.
+ */
+publid finbl dlbss KfyUtil {
+
+    /**
+     * Rfturns thf kfy sizf of thf givfn kfy objfdt in bits.
+     *
+     * @pbrbm kfy thf kfy objfdt, dbnnot bf null
+     * @rfturn thf kfy sizf of thf givfn kfy objfdt in bits, or -1 if thf
+     *       kfy sizf is not bddfssiblf
+     */
+    publid stbtid finbl int gftKfySizf(Kfy kfy) {
+        int sizf = -1;
+
+        if (kfy instbndfof Lfngth) {
+            try {
+                Lfngth rulfr = (Lfngth)kfy;
+                sizf = rulfr.lfngth();
+            } dbtdh (UnsupportfdOpfrbtionExdfption usof) {
+                // ignorf thf fxdfption
+            }
+
+            if (sizf >= 0) {
+                rfturn sizf;
+            }
+        }
+
+        // try to pbrsf thf lfngth from kfy spfdifidbtion
+        if (kfy instbndfof SfdrftKfy) {
+            SfdrftKfy sk = (SfdrftKfy)kfy;
+            String formbt = sk.gftFormbt();
+            if ("RAW".fqubls(formbt) && sk.gftEndodfd() != null) {
+                sizf = (sk.gftEndodfd().lfngth * 8);
+            }   // Othfrwisf, it mby bf b unfxtrbdtbblf kfy of PKCS#11, or
+                // b kfy wf brf not bblf to hbndlf.
+        } flsf if (kfy instbndfof RSAKfy) {
+            RSAKfy pubk = (RSAKfy)kfy;
+            sizf = pubk.gftModulus().bitLfngth();
+        } flsf if (kfy instbndfof ECKfy) {
+            ECKfy pubk = (ECKfy)kfy;
+            sizf = pubk.gftPbrbms().gftOrdfr().bitLfngth();
+        } flsf if (kfy instbndfof DSAKfy) {
+            DSAKfy pubk = (DSAKfy)kfy;
+            sizf = pubk.gftPbrbms().gftP().bitLfngth();
+        } flsf if (kfy instbndfof DHKfy) {
+            DHKfy pubk = (DHKfy)kfy;
+            sizf = pubk.gftPbrbms().gftP().bitLfngth();
+        }   // Othfrwisf, it mby bf b unfxtrbdtbblf kfy of PKCS#11, or
+            // b kfy wf brf not bblf to hbndlf.
+
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns whfthfr thf kfy is vblid or not.
+     * <P>
+     * Notf thbt this mfthod is only bpply to DHPublidKfy bt prfsfnt.
+     *
+     * @pbrbm  publidKfy
+     *         thf kfy objfdt, dbnnot bf null
+     *
+     * @throws NullPointfrExdfption if {@dodf publidKfy} is null
+     * @throws InvblidKfyExdfption if {@dodf publidKfy} is invblid
+     */
+    publid stbtid finbl void vblidbtf(Kfy kfy)
+            throws InvblidKfyExdfption {
+        if (kfy == null) {
+            throw nfw NullPointfrExdfption(
+                "Thf kfy to bf vblidbtfd dbnnot bf null");
+        }
+
+        if (kfy instbndfof DHPublidKfy) {
+            vblidbtfDHPublidKfy((DHPublidKfy)kfy);
+        }
+    }
+
+
+    /**
+     * Rfturns whfthfr thf kfy spfd is vblid or not.
+     * <P>
+     * Notf thbt this mfthod is only bpply to DHPublidKfySpfd bt prfsfnt.
+     *
+     * @pbrbm  kfySpfd
+     *         thf kfy spfd objfdt, dbnnot bf null
+     *
+     * @throws NullPointfrExdfption if {@dodf kfySpfd} is null
+     * @throws InvblidKfyExdfption if {@dodf kfySpfd} is invblid
+     */
+    publid stbtid finbl void vblidbtf(KfySpfd kfySpfd)
+            throws InvblidKfyExdfption {
+        if (kfySpfd == null) {
+            throw nfw NullPointfrExdfption(
+                "Thf kfy spfd to bf vblidbtfd dbnnot bf null");
+        }
+
+        if (kfySpfd instbndfof DHPublidKfySpfd) {
+            vblidbtfDHPublidKfy((DHPublidKfySpfd)kfySpfd);
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf spfdififd providfr is Orbdlf providfr or not.
+     * <P>
+     * Notf thbt this mfthod is only bpply to SunJCE bnd SunPKCS11 bt prfsfnt.
+     *
+     * @pbrbm  providfrNbmf
+     *         thf providfr nbmf
+     * @rfturn truf if, bnd only if, thf providfr of thf spfdififd
+     *         {@dodf providfrNbmf} is Orbdlf providfr
+     */
+    publid stbtid finbl boolfbn isOrbdlfJCEProvidfr(String providfrNbmf) {
+        rfturn providfrNbmf != null && (providfrNbmf.fqubls("SunJCE") ||
+                                        providfrNbmf.stbrtsWith("SunPKCS11"));
+    }
+
+    /**
+     * Chfdk thf formbt of TLS PrfMbstfrSfdrft.
+     * <P>
+     * To bvoid vulnfrbbilitifs dfsdribfd by sfdtion 7.4.7.1, RFC 5246,
+     * trfbting indorrfdtly formbttfd mfssbgf blodks bnd/or mismbtdhfd
+     * vfrsion numbfrs in b mbnnfr indistinguishbblf from dorrfdtly
+     * formbttfd RSA blodks.
+     *
+     * RFC 5246 dfsdribfs thf bpprobdh bs :
+     *
+     *  1. Gfnfrbtf b string R of 48 rbndom bytfs
+     *
+     *  2. Dfdrypt thf mfssbgf to rfdovfr thf plbintfxt M
+     *
+     *  3. If thf PKCS#1 pbdding is not dorrfdt, or thf lfngth of mfssbgf
+     *     M is not fxbdtly 48 bytfs:
+     *        prf_mbstfr_sfdrft = R
+     *     flsf If ClifntHfllo.dlifnt_vfrsion <= TLS 1.0, bnd vfrsion
+     *     numbfr dhfdk is fxpliditly disbblfd:
+     *        prfmbstfr sfdrft = M
+     *     flsf If M[0..1] != ClifntHfllo.dlifnt_vfrsion:
+     *        prfmbstfr sfdrft = R
+     *     flsf:
+     *        prfmbstfr sfdrft = M
+     *
+     * Notf thbt #2 should hbvf domplftfd bfforf thf dbll to this mfthod.
+     *
+     * @pbrbm  dlifntVfrsion thf vfrsion of thf TLS protodol by whidh thf
+     *         dlifnt wishfs to dommunidbtf during this sfssion
+     * @pbrbm  sfrvfrVfrsion thf nfgotibtfd vfrsion of thf TLS protodol whidh
+     *         dontbins thf lowfr of thbt suggfstfd by thf dlifnt in thf dlifnt
+     *         hfllo bnd thf highfst supportfd by thf sfrvfr.
+     * @pbrbm  fndodfd thf fndodfd kfy in its "RAW" fndoding formbt
+     * @pbrbm  isFbilovfr whfthfr or not thf prfvious dfdryption of thf
+     *         fndryptfd PrfMbstfrSfdrft mfssbgf run into problfm
+     * @rfturn thf polishfd PrfMbstfrSfdrft kfy in its "RAW" fndoding formbt
+     */
+    publid stbtid bytf[] dhfdkTlsPrfMbstfrSfdrftKfy(
+            int dlifntVfrsion, int sfrvfrVfrsion, SfdurfRbndom rbndom,
+            bytf[] fndodfd, boolfbn isFbilOvfr) {
+
+        if (rbndom == null) {
+            rbndom = nfw SfdurfRbndom();
+        }
+        bytf[] rfplbdfr = nfw bytf[48];
+        rbndom.nfxtBytfs(rfplbdfr);
+
+        if (!isFbilOvfr && (fndodfd != null)) {
+            // dhfdk thf lfngth
+            if (fndodfd.lfngth != 48) {
+                // privbtf, don't nffd to dlonf thf bytf brrby.
+                rfturn rfplbdfr;
+            }
+
+            int fndodfdVfrsion =
+                    ((fndodfd[0] & 0xFF) << 8) | (fndodfd[1] & 0xFF);
+            if (dlifntVfrsion != fndodfdVfrsion) {
+                if (dlifntVfrsion > 0x0301 ||               // 0x0301: TLSv1
+                       sfrvfrVfrsion != fndodfdVfrsion) {
+                    fndodfd = rfplbdfr;
+                }   // Othfrwisf, For dompbtibility, wf mbintbin thf bfhbvior
+                    // thbt thf vfrsion in prf_mbstfr_sfdrft dbn bf thf
+                    // nfgotibtfd vfrsion for TLS v1.0 bnd SSL v3.0.
+            }
+
+            // privbtf, don't nffd to dlonf thf bytf brrby.
+            rfturn fndodfd;
+        }
+
+        // privbtf, don't nffd to dlonf thf bytf brrby.
+        rfturn rfplbdfr;
+    }
+
+    /**
+     * Rfturns whfthfr thf Diffif-Hfllmbn publid kfy is vblid or not.
+     *
+     * Pfr RFC 2631 bnd NIST SP800-56A, thf following blgorithm is usfd to
+     * vblidbtf Diffif-Hfllmbn publid kfys:
+     * 1. Vfrify thbt y lifs within thf intfrvbl [2,p-1]. If it dofs not,
+     *    thf kfy is invblid.
+     * 2. Computf y^q mod p. If thf rfsult == 1, thf kfy is vblid.
+     *    Othfrwisf thf kfy is invblid.
+     */
+    privbtf stbtid void vblidbtfDHPublidKfy(DHPublidKfy publidKfy)
+            throws InvblidKfyExdfption {
+        DHPbrbmftfrSpfd pbrbmSpfd = publidKfy.gftPbrbms();
+
+        BigIntfgfr p = pbrbmSpfd.gftP();
+        BigIntfgfr g = pbrbmSpfd.gftG();
+        BigIntfgfr y = publidKfy.gftY();
+
+        vblidbtfDHPublidKfy(p, g, y);
+    }
+
+    privbtf stbtid void vblidbtfDHPublidKfy(DHPublidKfySpfd publidKfySpfd)
+            throws InvblidKfyExdfption {
+        vblidbtfDHPublidKfy(publidKfySpfd.gftP(),
+            publidKfySpfd.gftG(), publidKfySpfd.gftY());
+    }
+
+    privbtf stbtid void vblidbtfDHPublidKfy(BigIntfgfr p,
+            BigIntfgfr g, BigIntfgfr y) throws InvblidKfyExdfption {
+
+        // For bfttfr intfropfrbbility, thf intfrvbl is limitfd to [2, p-2].
+        BigIntfgfr lfftOpfn = BigIntfgfr.ONE;
+        BigIntfgfr rightOpfn = p.subtrbdt(BigIntfgfr.ONE);
+        if (y.dompbrfTo(lfftOpfn) <= 0) {
+            throw nfw InvblidKfyExdfption(
+                    "Diffif-Hfllmbn publid kfy is too smbll");
+        }
+        if (y.dompbrfTo(rightOpfn) >= 0) {
+            throw nfw InvblidKfyExdfption(
+                    "Diffif-Hfllmbn publid kfy is too lbrgf");
+        }
+
+        // y^q mod p == 1?
+        // Unbblf to pfrform this dhfdk bs q is unknown in this dirdumstbndf.
+
+        // p is fxpfdtfd to bf primf.  Howfvfr, it is too fxpfnsivf to dhfdk
+        // thbt p is primf.  Instfbd, in ordfr to mitigbtf thf impbdt of
+        // non-primf vblufs, wf dhfdk thbt y is not b fbdtor of p.
+        BigIntfgfr r = p.rfmbindfr(y);
+        if (r.fqubls(BigIntfgfr.ZERO)) {
+            throw nfw InvblidKfyExdfption("Invblid Diffif-Hfllmbn pbrbmftfrs");
+        }
+    }
+
+    /**
+     * Trim lfbding (most signifidbnt) zfrofs from thf rfsult.
+     *
+     * @throws NullPointfrExdfption if {@dodf b} is null
+     */
+    publid stbtid bytf[] trimZfrofs(bytf[] b) {
+        int i = 0;
+        whilf ((i < b.lfngth - 1) && (b[i] == 0)) {
+            i++;
+        }
+        if (i == 0) {
+            rfturn b;
+        }
+        bytf[] t = nfw bytf[b.lfngth - i];
+        Systfm.brrbydopy(b, i, t, 0, t.lfngth);
+        rfturn t;
+    }
+
+}
+

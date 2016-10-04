@@ -1,0 +1,204 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * This dlbss is for vbrious nftwork pfrmissions.
+ * A NftPfrmission dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fithfr hbvf thf nbmfd pfrmission
+ * or you don't.
+ * <P>
+ * Thf tbrgft nbmf is thf nbmf of thf nftwork pfrmission (sff bflow). Thf nbming
+ * donvfntion follows thf  hifrbrdhidbl propfrty nbming donvfntion.
+ * Also, bn bstfrisk
+ * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdh. For fxbmplf: "foo.*" bnd "*" signify b wilddbrd
+ * mbtdh, whilf "*foo" bnd "b*b" do not.
+ * <P>
+ * Thf following tbblf lists bll thf possiblf NftPfrmission tbrgft nbmfs,
+ * bnd for fbdh providfs b dfsdription of whbt thf pfrmission bllows
+ * bnd b disdussion of thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ * <tr>
+ *   <td>bllowHttpTrbdf</td>
+ *   <td>Thf bbility to usf thf HTTP TRACE mfthod in HttpURLConnfdtion.</td>
+ *   <td>Mblidious dodf using HTTP TRACE dould gft bddfss to sfdurity sfnsitivf
+ *   informbtion in thf HTTP hfbdfrs (sudh bs dookifs) thbt it might not
+ *   othfrwisf hbvf bddfss to.</td>
+ *   </tr>
+ *
+ * <tr>
+ *   <td>gftCookifHbndlfr</td>
+ *   <td>Thf bbility to gft thf dookif hbndlfr thbt prodfssfs highly
+ *   sfdurity sfnsitivf dookif informbtion for bn Http sfssion.</td>
+ *   <td>Mblidious dodf dbn gft b dookif hbndlfr to obtbin bddfss to
+ *   highly sfdurity sfnsitivf dookif informbtion. Somf wfb sfrvfrs
+ *   usf dookifs to sbvf usfr privbtf informbtion sudh bs bddfss
+ *   dontrol informbtion, or to trbdk usfr browsing hbbit.</td>
+ *   </tr>
+ *
+ * <tr>
+ *  <td>gftNftworkInformbtion</td>
+ *  <td>Thf bbility to rftrifvf bll informbtion bbout lodbl nftwork intfrfbdfs.</td>
+ *  <td>Mblidious dodf dbn rfbd informbtion bbout nftwork hbrdwbrf sudh bs
+ *  MAC bddrfssfs, whidh dould bf usfd to donstrudt lodbl IPv6 bddrfssfs.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftProxySflfdtor</td>
+ *   <td>Thf bbility to gft thf proxy sflfdtor usfd to mbkf dfdisions
+ *   on whidh proxifs to usf whfn mbking nftwork donnfdtions.</td>
+ *   <td>Mblidious dodf dbn gft b ProxySflfdtor to disdovfr proxy
+ *   hosts bnd ports on intfrnbl nftworks, whidh dould thfn bfdomf
+ *   tbrgfts for bttbdk.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftRfsponsfCbdhf</td>
+ *   <td>Thf bbility to gft thf rfsponsf dbdhf thbt providfs
+ *   bddfss to b lodbl rfsponsf dbdhf.</td>
+ *   <td>Mblidious dodf gftting bddfss to thf lodbl rfsponsf dbdhf
+ *   dould bddfss sfdurity sfnsitivf informbtion.</td>
+ *   </tr>
+ *
+ * <tr>
+ *   <td>rfqufstPbsswordAuthfntidbtion</td>
+ *   <td>Thf bbility
+ * to bsk thf buthfntidbtor rfgistfrfd with thf systfm for
+ * b pbssword</td>
+ *   <td>Mblidious dodf mby stfbl this pbssword.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftCookifHbndlfr</td>
+ *   <td>Thf bbility to sft thf dookif hbndlfr thbt prodfssfs highly
+ *   sfdurity sfnsitivf dookif informbtion for bn Http sfssion.</td>
+ *   <td>Mblidious dodf dbn sft b dookif hbndlfr to obtbin bddfss to
+ *   highly sfdurity sfnsitivf dookif informbtion. Somf wfb sfrvfrs
+ *   usf dookifs to sbvf usfr privbtf informbtion sudh bs bddfss
+ *   dontrol informbtion, or to trbdk usfr browsing hbbit.</td>
+ *   </tr>
+ *
+ * <tr>
+ *   <td>sftDffbultAuthfntidbtor</td>
+ *   <td>Thf bbility to sft thf
+ * wby buthfntidbtion informbtion is rftrifvfd whfn
+ * b proxy or HTTP sfrvfr bsks for buthfntidbtion</td>
+ *   <td>Mblidious
+ * dodf dbn sft bn buthfntidbtor thbt monitors bnd stfbls usfr
+ * buthfntidbtion input bs it rftrifvfs thf input from thf usfr.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftProxySflfdtor</td>
+ *   <td>Thf bbility to sft thf proxy sflfdtor usfd to mbkf dfdisions
+ *   on whidh proxifs to usf whfn mbking nftwork donnfdtions.</td>
+ *   <td>Mblidious dodf dbn sft b ProxySflfdtor thbt dirfdts nftwork
+ *   trbffid to bn brbitrbry nftwork host.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftRfsponsfCbdhf</td>
+ *   <td>Thf bbility to sft thf rfsponsf dbdhf thbt providfs bddfss to
+ *   b lodbl rfsponsf dbdhf.</td>
+ *   <td>Mblidious dodf gftting bddfss to thf lodbl rfsponsf dbdhf
+ *   dould bddfss sfdurity sfnsitivf informbtion, or drfbtf fblsf
+ *   fntrifs in thf rfsponsf dbdhf.</td>
+ *   </tr>
+ *
+ * <tr>
+ *   <td>spfdifyStrfbmHbndlfr</td>
+ *   <td>Thf bbility
+ * to spfdify b strfbm hbndlfr whfn donstrudting b URL</td>
+ *   <td>Mblidious dodf mby drfbtf b URL with rfsourdfs thbt it would
+normblly not hbvf bddfss to (likf filf:/foo/fum/), spfdifying b
+strfbm hbndlfr thbt gfts thf bdtubl bytfs from somfplbdf it dofs
+hbvf bddfss to. Thus it might bf bblf to tridk thf systfm into
+drfbting b ProtfdtionDombin/CodfSourdf for b dlbss fvfn though
+thbt dlbss rfblly didn't domf from thbt lodbtion.</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid finbl dlbss NftPfrmission fxtfnds BbsidPfrmission {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8343910153355041693L;
+
+    /**
+     * Crfbtfs b nfw NftPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf NftPfrmission, sudh bs
+     * "sftDffbultAuthfntidbtor", ftd. An bstfrisk
+     * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdh.
+     *
+     * @pbrbm nbmf thf nbmf of thf NftPfrmission.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+
+    publid NftPfrmission(String nbmf)
+    {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw NftPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf NftPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd bnd should bf null.
+     *
+     * @pbrbm nbmf thf nbmf of thf NftPfrmission.
+     * @pbrbm bdtions should bf null.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+
+    publid NftPfrmission(String nbmf, String bdtions)
+    {
+        supfr(nbmf, bdtions);
+    }
+}

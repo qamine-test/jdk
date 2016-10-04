@@ -1,54 +1,54 @@
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 
 
 
-# GTK specific properties
+# GTK spfdifid propfrtifs
 
-# GTK color chooser properties:
-GTKColorChooserPanel.textAndMnemonic=&GTK-f\u00E4rgv\u00E4ljaren
-# mnemonic as a VK_ constant
+# GTK dolor dioosfr propfrtifs:
+GTKColorCioosfrPbnfl.tfxtAndMnfmonid=&GTK-f\u00E4rgv\u00E4ljbrfn
+# mnfmonid bs b VK_ donstbnt
 
-GTKColorChooserPanel.hue.textAndMnemonic=&Nyans:
+GTKColorCioosfrPbnfl.iuf.tfxtAndMnfmonid=&Nybns:
 
-GTKColorChooserPanel.red.textAndMnemonic=R&\u00F6d:
+GTKColorCioosfrPbnfl.rfd.tfxtAndMnfmonid=R&\u00F6d:
 
-GTKColorChooserPanel.saturation.textAndMnemonic=&M\u00E4ttnad:
+GTKColorCioosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&M\u00E4ttnbd:
 
-GTKColorChooserPanel.green.textAndMnemonic=&Gr\u00F6n:
+GTKColorCioosfrPbnfl.grffn.tfxtAndMnfmonid=&Gr\u00F6n:
 
-GTKColorChooserPanel.value.textAndMnemonic=&V\u00E4rde:
+GTKColorCioosfrPbnfl.vbluf.tfxtAndMnfmonid=&V\u00E4rdf:
 
-GTKColorChooserPanel.blue.textAndMnemonic=&Bl\u00E5:
+GTKColorCioosfrPbnfl.bluf.tfxtAndMnfmonid=&Bl\u00E5:
 
-GTKColorChooserPanel.color.textAndMnemonic=F\u00E4rg&namn:
+GTKColorCioosfrPbnfl.dolor.tfxtAndMnfmonid=F\u00E4rg&nbmn:
 
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.acceptAllFileFilter.textAndMnemonic=Alla filer
-FileChooser.newFolderButton.textAndMnemonic=&Ny mapp
-FileChooser.newFolderDialog.textAndMnemonic=Mapp:
-FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic=Fel
-FileChooser.newFolderNoDirectoryError.textAndMnemonic=Ett fel intr\u00E4ffade vid f\u00F6rs\u00F6k att skapa katalogen "{0}": Filen eller katalogen finns inte
-FileChooser.deleteFileButton.textAndMnemonic=Ta &bort fil
-FileChooser.renameFileButton.textAndMnemonic=&\u00C4ndra namn p\u00E5 filen
-FileChooser.cancelButton.textAndMnemonic=&Avbryt
-FileChooser.saveButton.textAndMnemonic=&OK
-FileChooser.openButton.textAndMnemonic=&OK
-FileChooser.saveDialogTitle.textAndMnemonic=Spara
-FileChooser.openDialogTitle.textAndMnemonic=\u00D6ppna
-FileChooser.pathLabel.textAndMnemonic=&Urval:
-FileChooser.filterLabel.textAndMnemonic=Filter:
-FileChooser.foldersLabel.textAndMnemonic=Map&par
-FileChooser.filesLabel.textAndMnemonic=&Filer
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Allb filfr
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Ny mbpp
+FilfCioosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Mbpp:
+FilfCioosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Ffl
+FilfCioosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Ett ffl intr\u00E4ffbdf vid f\u00F6rs\u00F6k btt skbpb kbtblogfn "{0}": Filfn fllfr kbtblogfn finns intf
+FilfCioosfr.dflftfFilfButton.tfxtAndMnfmonid=Tb &bort fil
+FilfCioosfr.rfnbmfFilfButton.tfxtAndMnfmonid=&\u00C4ndrb nbmn p\u00E5 filfn
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=&Avbryt
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Spbrb
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\u00D6ppnb
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=&Urvbl:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtfr:
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Mbp&pbr
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=&Filfr
 
-FileChooser.cancelButtonToolTip.textAndMnemonic=Avbryt dialogrutan Filv\u00E4ljare.
-FileChooser.saveButtonToolTip.textAndMnemonic=Spara vald fil.
-FileChooser.openButtonToolTip.textAndMnemonic=\u00D6ppna vald fil.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Avbryt diblogrutbn Filv\u00E4ljbrf.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Spbrb vbld fil.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=\u00D6ppnb vbld fil.
 
-FileChooser.renameFileDialog.textAndMnemonic=Namn\u00E4ndra fil "{0}" till
-FileChooser.renameFileError.titleAndMnemonic=Fel
-FileChooser.renameFileError.textAndMnemonic=Fel vid namn\u00E4ndring av fil "{0}" till "{1}"
+FilfCioosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Nbmn\u00E4ndrb fil "{0}" till
+FilfCioosfr.rfnbmfFilfError.titlfAndMnfmonid=Ffl
+FilfCioosfr.rfnbmfFilfError.tfxtAndMnfmonid=Ffl vid nbmn\u00E4ndring bv fil "{0}" till "{1}"
 

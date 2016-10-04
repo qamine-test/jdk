@@ -1,0 +1,868 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * A hbrdwbrf or softwbrf dfvidf thbt plbys bbdk b MIDI
+ * <dodf>{@link Sfqufndf sfqufndf}</dodf> is known bs b <fm>sfqufndfr</fm>.
+ * A MIDI sfqufndf dontbins lists of timf-stbmpfd MIDI dbtb, sudh bs
+ * might bf rfbd from b stbndbrd MIDI filf.  Most
+ * sfqufndfrs blso providf fundtions for drfbting bnd fditing sfqufndfs.
+ * <p>
+ * Thf <dodf>Sfqufndfr</dodf> intfrfbdf indludfs mfthods for thf following
+ * bbsid MIDI sfqufndfr opfrbtions:
+ * <ul>
+ * <li>obtbining b sfqufndf from MIDI filf dbtb</li>
+ * <li>stbrting bnd stopping plbybbdk</li>
+ * <li>moving to bn brbitrbry position in thf sfqufndf</li>
+ * <li>dhbnging thf tfmpo (spffd) of plbybbdk</li>
+ * <li>syndhronizing plbybbdk to bn intfrnbl dlodk or to rfdfivfd MIDI
+ * mfssbgfs</li>
+ * <li>dontrolling thf timing of bnothfr dfvidf</li>
+ * </ul>
+ * In bddition, thf following opfrbtions brf supportfd, fithfr dirfdtly, or
+ * indirfdtly through objfdts thbt thf <dodf>Sfqufndfr</dodf> hbs bddfss to:
+ * <ul>
+ * <li>fditing thf dbtb by bdding or dflfting individubl MIDI fvfnts or fntirf
+ * trbdks</li>
+ * <li>muting or soloing individubl trbdks in thf sfqufndf</li>
+ * <li>notifying listfnfr objfdts bbout bny mftb-fvfnts or
+ * dontrol-dhbngf fvfnts fndountfrfd whilf plbying bbdk thf sfqufndf.</li>
+ * </ul>
+ *
+ * @sff Sfqufndfr.SyndModf
+ * @sff #bddMftbEvfntListfnfr
+ * @sff ControllfrEvfntListfnfr
+ * @sff Rfdfivfr
+ * @sff Trbnsmittfr
+ * @sff MidiDfvidf
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+publid intfrfbdf Sfqufndfr fxtfnds MidiDfvidf {
+
+
+    /**
+     * A vbluf indidbting thbt looping should dontinuf
+     * indffinitfly rbthfr thbn domplftf bftfr b spfdifid
+     * numbfr of loops.
+     *
+     * @sff #sftLoopCount
+     * @sindf 1.5
+     */
+    publid stbtid finbl int LOOP_CONTINUOUSLY = -1;
+
+
+
+    /**
+     * Sfts thf durrfnt sfqufndf on whidh thf sfqufndfr opfrbtfs.
+     *
+     * <p>This mfthod dbn bf dbllfd fvfn if thf
+     * <dodf>Sfqufndfr</dodf> is dlosfd.
+     *
+     * @pbrbm sfqufndf thf sfqufndf to bf lobdfd.
+     * @throws InvblidMidiDbtbExdfption if thf sfqufndf dontbins invblid
+     * MIDI dbtb, or is not supportfd.
+     */
+    publid void sftSfqufndf(Sfqufndf sfqufndf) throws InvblidMidiDbtbExdfption;
+
+
+    /**
+     * Sfts thf durrfnt sfqufndf on whidh thf sfqufndfr opfrbtfs.
+     * Thf strfbm must point to MIDI filf dbtb.
+     *
+     * <p>This mfthod dbn bf dbllfd fvfn if thf
+     * <dodf>Sfqufndfr</dodf> is dlosfd.
+     *
+     * @pbrbm strfbm strfbm dontbining MIDI filf dbtb.
+     * @throws IOExdfption if bn I/O fxdfption oddurs during rfbding of thf strfbm.
+     * @throws InvblidMidiDbtbExdfption if invblid dbtb is fndountfrfd
+     * in thf strfbm, or thf strfbm is not supportfd.
+     */
+    publid void sftSfqufndf(InputStrfbm strfbm) throws IOExdfption, InvblidMidiDbtbExdfption;
+
+
+    /**
+     * Obtbins thf sfqufndf on whidh thf Sfqufndfr is durrfntly opfrbting.
+     *
+     * <p>This mfthod dbn bf dbllfd fvfn if thf
+     * <dodf>Sfqufndfr</dodf> is dlosfd.
+     *
+     * @rfturn thf durrfnt sfqufndf, or <dodf>null</dodf> if no sfqufndf is durrfntly sft.
+     */
+    publid Sfqufndf gftSfqufndf();
+
+
+    /**
+     * Stbrts plbybbdk of thf MIDI dbtb in thf durrfntly
+     * lobdfd sfqufndf.
+     * Plbybbdk will bfgin from thf durrfnt position.
+     * If thf plbybbdk position rfbdhfs thf loop fnd point,
+     * bnd thf loop dount is grfbtfr thbn 0, plbybbdk will
+     * rfsumf bt thf loop stbrt point for thf numbfr of
+     * rfpftitions sft with <dodf>sftLoopCount</dodf>.
+     * Aftfr thbt, or if thf loop dount is 0, plbybbdk will
+     * dontinuf to plby to thf fnd of thf sfqufndf.
+     *
+     * <p>Thf implfmfntbtion fnsurfs thbt thf synthfsizfr
+     * is brought to b donsistfnt stbtf whfn jumping
+     * to thf loop stbrt point by sfnding bppropribtf
+     * dontrollfrs, pitdh bfnd, bnd progrbm dhbngf fvfnts.
+     *
+     * @throws IllfgblStbtfExdfption if thf <dodf>Sfqufndfr</dodf> is
+     * dlosfd.
+     *
+     * @sff #sftLoopStbrtPoint
+     * @sff #sftLoopEndPoint
+     * @sff #sftLoopCount
+     * @sff #stop
+     */
+    publid void stbrt();
+
+
+    /**
+     * Stops rfdording, if bdtivf, bnd plbybbdk of thf durrfntly lobdfd sfqufndf,
+     * if bny.
+     *
+     * @throws IllfgblStbtfExdfption if thf <dodf>Sfqufndfr</dodf> is
+     * dlosfd.
+     *
+     * @sff #stbrt
+     * @sff #isRunning
+     */
+    publid void stop();
+
+
+    /**
+     * Indidbtfs whfthfr thf Sfqufndfr is durrfntly running.  Thf dffbult is <dodf>fblsf</dodf>.
+     * Thf Sfqufndfr stbrts running whfn fithfr <dodf>{@link #stbrt}</dodf> or <dodf>{@link #stbrtRfdording}</dodf>
+     * is dbllfd.  <dodf>isRunning</dodf> thfn rfturns <dodf>truf</dodf> until plbybbdk of thf
+     * sfqufndf domplftfs or <dodf>{@link #stop}</dodf> is dbllfd.
+     * @rfturn <dodf>truf</dodf> if thf Sfqufndfr is running, othfrwisf <dodf>fblsf</dodf>
+     */
+    publid boolfbn isRunning();
+
+
+    /**
+     * Stbrts rfdording bnd plbybbdk of MIDI dbtb.  Dbtb is rfdordfd to bll fnbblfd trbdks,
+     * on thf dhbnnfl(s) for whidh thfy wfrf fnbblfd.  Rfdording bfgins bt thf durrfnt position
+     * of thf sfqufndfr.   Any fvfnts blrfbdy in thf trbdk brf ovfrwrittfn for thf durbtion
+     * of thf rfdording sfssion.  Evfnts from thf durrfntly lobdfd sfqufndf,
+     * if bny, brf dflivfrfd to thf sfqufndfr's trbnsmittfr(s) blong with mfssbgfs
+     * rfdfivfd during rfdording.
+     * <p>
+     * Notf thbt trbdks brf not by dffbult fnbblfd for rfdording.  In ordfr to rfdord MIDI dbtb,
+     * bt lfbst onf trbdk must bf spfdifidblly fnbblfd for rfdording.
+     *
+     * @throws IllfgblStbtfExdfption if thf <dodf>Sfqufndfr</dodf> is
+     * dlosfd.
+     *
+     * @sff #stbrtRfdording
+     * @sff #rfdordEnbblf
+     * @sff #rfdordDisbblf
+     */
+    publid void stbrtRfdording();
+
+
+    /**
+     * Stops rfdording, if bdtivf.  Plbybbdk of thf durrfnt sfqufndf dontinufs.
+     *
+     * @throws IllfgblStbtfExdfption if thf <dodf>Sfqufndfr</dodf> is
+     * dlosfd.
+     *
+     * @sff #stbrtRfdording
+     * @sff #isRfdording
+     */
+    publid void stopRfdording();
+
+
+    /**
+     * Indidbtfs whfthfr thf Sfqufndfr is durrfntly rfdording.  Thf dffbult is <dodf>fblsf</dodf>.
+     * Thf Sfqufndfr bfgins rfdording whfn <dodf>{@link #stbrtRfdording}</dodf> is dbllfd,
+     * bnd thfn rfturns <dodf>truf</dodf> until <dodf>{@link #stop}</dodf> or <dodf>{@link #stopRfdording}</dodf>
+     * is dbllfd.
+     * @rfturn <dodf>truf</dodf> if thf Sfqufndfr is rfdording, othfrwisf <dodf>fblsf</dodf>
+     */
+    publid boolfbn isRfdording();
+
+
+    /**
+     * Prfpbrfs thf spfdififd trbdk for rfdording fvfnts rfdfivfd on b pbrtidulbr dhbnnfl.
+     * Ondf fnbblfd, b trbdk will rfdfivf fvfnts whfn rfdording is bdtivf.
+     * @pbrbm trbdk thf trbdk to whidh fvfnts will bf rfdordfd
+     * @pbrbm dhbnnfl thf dhbnnfl on whidh fvfnts will bf rfdfivfd.  If -1 is spfdififd
+     * for thf dhbnnfl vbluf, thf trbdk will rfdfivf dbtb from bll dhbnnfls.
+     * @throws IllfgblArgumfntExdfption thrown if thf trbdk is not pbrt of thf durrfnt
+     * sfqufndf.
+     */
+    publid void rfdordEnbblf(Trbdk trbdk, int dhbnnfl);
+
+
+    /**
+     * Disbblfs rfdording to thf spfdififd trbdk.  Evfnts will no longfr bf rfdordfd
+     * into this trbdk.
+     * @pbrbm trbdk thf trbdk to disbblf for rfdording, or <dodf>null</dodf> to disbblf
+     * rfdording for bll trbdks.
+     */
+    publid void rfdordDisbblf(Trbdk trbdk);
+
+
+    /**
+     * Obtbins thf durrfnt tfmpo, fxprfssfd in bfbts pfr minutf.  Thf
+     * bdtubl tfmpo of plbybbdk is thf produdt of thf rfturnfd vbluf
+     * bnd thf tfmpo fbdtor.
+     *
+     * @rfturn thf durrfnt tfmpo in bfbts pfr minutf
+     *
+     * @sff #gftTfmpoFbdtor
+     * @sff #sftTfmpoInBPM(flobt)
+     * @sff #gftTfmpoInMPQ
+     */
+    publid flobt gftTfmpoInBPM();
+
+
+    /**
+     * Sfts thf tfmpo in bfbts pfr minutf.   Thf bdtubl tfmpo of plbybbdk
+     * is thf produdt of thf spfdififd vbluf bnd thf tfmpo fbdtor.
+     *
+     * @pbrbm bpm dfsirfd nfw tfmpo in bfbts pfr minutf
+     * @sff #gftTfmpoFbdtor
+     * @sff #sftTfmpoInMPQ(flobt)
+     * @sff #gftTfmpoInBPM
+     */
+    publid void sftTfmpoInBPM(flobt bpm);
+
+
+    /**
+     * Obtbins thf durrfnt tfmpo, fxprfssfd in midrosfdonds pfr qubrtfr
+     * notf.  Thf bdtubl tfmpo of plbybbdk is thf produdt of thf rfturnfd
+     * vbluf bnd thf tfmpo fbdtor.
+     *
+     * @rfturn thf durrfnt tfmpo in midrosfdonds pfr qubrtfr notf
+     * @sff #gftTfmpoFbdtor
+     * @sff #sftTfmpoInMPQ(flobt)
+     * @sff #gftTfmpoInBPM
+     */
+    publid flobt gftTfmpoInMPQ();
+
+
+    /**
+     * Sfts thf tfmpo in midrosfdonds pfr qubrtfr notf.  Thf bdtubl tfmpo
+     * of plbybbdk is thf produdt of thf spfdififd vbluf bnd thf tfmpo
+     * fbdtor.
+     *
+     * @pbrbm mpq dfsirfd nfw tfmpo in midrosfdonds pfr qubrtfr notf.
+     * @sff #gftTfmpoFbdtor
+     * @sff #sftTfmpoInBPM(flobt)
+     * @sff #gftTfmpoInMPQ
+     */
+    publid void sftTfmpoInMPQ(flobt mpq);
+
+
+    /**
+     * Sdblfs thf sfqufndfr's bdtubl plbybbdk tfmpo by thf fbdtor providfd.
+     * Thf dffbult is 1.0.  A vbluf of 1.0 rfprfsfnts thf nbturbl rbtf (thf
+     * tfmpo spfdififd in thf sfqufndf), 2.0 mfbns twidf bs fbst, ftd.
+     * Thf tfmpo fbdtor dofs not bfffdt thf vblufs rfturnfd by
+     * <dodf>{@link #gftTfmpoInMPQ}</dodf> bnd <dodf>{@link #gftTfmpoInBPM}</dodf>.
+     * Thosf vblufs indidbtf thf tfmpo prior to sdbling.
+     * <p>
+     * Notf thbt thf tfmpo fbdtor dbnnot bf bdjustfd whfn fxtfrnbl
+     * syndhronizbtion is usfd.  In thbt situbtion,
+     * <dodf>sftTfmpoFbdtor</dodf> blwbys sfts thf tfmpo fbdtor to 1.0.
+     *
+     * @pbrbm fbdtor thf rfqufstfd tfmpo sdblbr
+     * @sff #gftTfmpoFbdtor
+     */
+    publid void sftTfmpoFbdtor(flobt fbdtor);
+
+
+    /**
+     * Rfturns thf durrfnt tfmpo fbdtor for thf sfqufndfr.  Thf dffbult is
+     * 1.0.
+     *
+     * @rfturn tfmpo fbdtor.
+     * @sff #sftTfmpoFbdtor(flobt)
+     */
+    publid flobt gftTfmpoFbdtor();
+
+
+    /**
+     * Obtbins thf lfngth of thf durrfnt sfqufndf, fxprfssfd in MIDI tidks,
+     * or 0 if no sfqufndf is sft.
+     * @rfturn lfngth of thf sfqufndf in tidks
+     */
+    publid long gftTidkLfngth();
+
+
+    /**
+     * Obtbins thf durrfnt position in thf sfqufndf, fxprfssfd in MIDI
+     * tidks.  (Thf durbtion of b tidk in sfdonds is dftfrminfd both by
+     * thf tfmpo bnd by thf timing rfsolution storfd in thf
+     * <dodf>{@link Sfqufndf}</dodf>.)
+     *
+     * @rfturn durrfnt tidk
+     * @sff #sftTidkPosition
+     */
+    publid long gftTidkPosition();
+
+
+    /**
+     * Sfts thf durrfnt sfqufndfr position in MIDI tidks
+     * @pbrbm tidk thf dfsirfd tidk position
+     * @sff #gftTidkPosition
+     */
+    publid void sftTidkPosition(long tidk);
+
+
+    /**
+     * Obtbins thf lfngth of thf durrfnt sfqufndf, fxprfssfd in midrosfdonds,
+     * or 0 if no sfqufndf is sft.
+     * @rfturn lfngth of thf sfqufndf in midrosfdonds.
+     */
+    publid long gftMidrosfdondLfngth();
+
+
+    /**
+     * Obtbins thf durrfnt position in thf sfqufndf, fxprfssfd in
+     * midrosfdonds.
+     * @rfturn thf durrfnt position in midrosfdonds
+     * @sff #sftMidrosfdondPosition
+     */
+    publid long gftMidrosfdondPosition();
+
+
+    /**
+     * Sfts thf durrfnt position in thf sfqufndf, fxprfssfd in midrosfdonds
+     * @pbrbm midrosfdonds dfsirfd position in midrosfdonds
+     * @sff #gftMidrosfdondPosition
+     */
+    publid void sftMidrosfdondPosition(long midrosfdonds);
+
+
+    /**
+     * Sfts thf sourdf of timing informbtion usfd by this sfqufndfr.
+     * Thf sfqufndfr syndhronizfs to thf mbstfr, whidh is thf intfrnbl dlodk,
+     * MIDI dlodk, or MIDI timf dodf, dfpfnding on thf vbluf of
+     * <dodf>synd</dodf>.  Thf <dodf>synd</dodf> brgumfnt must bf onf
+     * of thf supportfd modfs, bs rfturnfd by
+     * <dodf>{@link #gftMbstfrSyndModfs}</dodf>.
+     *
+     * @pbrbm synd thf dfsirfd mbstfr syndhronizbtion modf
+     *
+     * @sff SyndModf#INTERNAL_CLOCK
+     * @sff SyndModf#MIDI_SYNC
+     * @sff SyndModf#MIDI_TIME_CODE
+     * @sff #gftMbstfrSyndModf
+     */
+    publid void sftMbstfrSyndModf(SyndModf synd);
+
+
+    /**
+     * Obtbins thf durrfnt mbstfr syndhronizbtion modf for this sfqufndfr.
+     *
+     * @rfturn thf durrfnt mbstfr syndhronizbtion modf
+     *
+     * @sff #sftMbstfrSyndModf(Sfqufndfr.SyndModf)
+     * @sff #gftMbstfrSyndModfs
+     */
+    publid SyndModf gftMbstfrSyndModf();
+
+
+    /**
+     * Obtbins thf sft of mbstfr syndhronizbtion modfs supportfd by this
+     * sfqufndfr.
+     *
+     * @rfturn thf bvbilbblf mbstfr syndhronizbtion modfs
+     *
+     * @sff SyndModf#INTERNAL_CLOCK
+     * @sff SyndModf#MIDI_SYNC
+     * @sff SyndModf#MIDI_TIME_CODE
+     * @sff #gftMbstfrSyndModf
+     * @sff #sftMbstfrSyndModf(Sfqufndfr.SyndModf)
+     */
+    publid SyndModf[] gftMbstfrSyndModfs();
+
+
+    /**
+     * Sfts thf slbvf syndhronizbtion modf for thf sfqufndfr.
+     * This indidbtfs thf typf of timing informbtion sfnt by thf sfqufndfr
+     * to its rfdfivfr.  Thf <dodf>synd</dodf> brgumfnt must bf onf
+     * of thf supportfd modfs, bs rfturnfd by
+     * <dodf>{@link #gftSlbvfSyndModfs}</dodf>.
+     *
+     * @pbrbm synd thf dfsirfd slbvf syndhronizbtion modf
+     *
+     * @sff SyndModf#MIDI_SYNC
+     * @sff SyndModf#MIDI_TIME_CODE
+     * @sff SyndModf#NO_SYNC
+     * @sff #gftSlbvfSyndModfs
+     */
+    publid void sftSlbvfSyndModf(SyndModf synd);
+
+
+    /**
+     * Obtbins thf durrfnt slbvf syndhronizbtion modf for this sfqufndfr.
+     *
+     * @rfturn thf durrfnt slbvf syndhronizbtion modf
+     *
+     * @sff #sftSlbvfSyndModf(Sfqufndfr.SyndModf)
+     * @sff #gftSlbvfSyndModfs
+     */
+    publid SyndModf gftSlbvfSyndModf();
+
+
+    /**
+     * Obtbins thf sft of slbvf syndhronizbtion modfs supportfd by thf sfqufndfr.
+     *
+     * @rfturn thf bvbilbblf slbvf syndhronizbtion modfs
+     *
+     * @sff SyndModf#MIDI_SYNC
+     * @sff SyndModf#MIDI_TIME_CODE
+     * @sff SyndModf#NO_SYNC
+     */
+    publid SyndModf[] gftSlbvfSyndModfs();
+
+
+    /**
+     * Sfts thf mutf stbtf for b trbdk.  This mfthod mby fbil for b numbfr
+     * of rfbsons.  For fxbmplf, thf trbdk numbfr spfdififd mby not bf vblid
+     * for thf durrfnt sfqufndf, or thf sfqufndfr mby not support this fundtionblity.
+     * An bpplidbtion whidh nffds to vfrify whfthfr this opfrbtion suddffdfd should
+     * follow this dbll with b dbll to <dodf>{@link #gftTrbdkMutf}</dodf>.
+     *
+     * @pbrbm trbdk thf trbdk numbfr.  Trbdks in thf durrfnt sfqufndf brf numbfrfd
+     * from 0 to thf numbfr of trbdks in thf sfqufndf minus 1.
+     * @pbrbm mutf thf nfw mutf stbtf for thf trbdk.  <dodf>truf</dodf> implifs thf
+     * trbdk should bf mutfd, <dodf>fblsf</dodf> implifs thf trbdk should bf unmutfd.
+     * @sff #gftSfqufndf
+     */
+    publid void sftTrbdkMutf(int trbdk, boolfbn mutf);
+
+
+    /**
+     * Obtbins thf durrfnt mutf stbtf for b trbdk.  Thf dffbult mutf
+     * stbtf for bll trbdks whidh hbvf not bffn mutfd is fblsf.  In bny
+     * dbsf whfrf thf spfdififd trbdk hbs not bffn mutfd, this mfthod should
+     * rfturn fblsf.  This bpplifs if thf sfqufndfr dofs not support muting
+     * of trbdks, bnd if thf spfdififd trbdk indfx is not vblid.
+     *
+     * @pbrbm trbdk thf trbdk numbfr.  Trbdks in thf durrfnt sfqufndf brf numbfrfd
+     * from 0 to thf numbfr of trbdks in thf sfqufndf minus 1.
+     * @rfturn <dodf>truf</dodf> if mutfd, <dodf>fblsf</dodf> if not.
+     */
+    publid boolfbn gftTrbdkMutf(int trbdk);
+
+    /**
+     * Sfts thf solo stbtf for b trbdk.  If <dodf>solo</dodf> is <dodf>truf</dodf>
+     * only this trbdk bnd othfr solo'd trbdks will sound. If <dodf>solo</dodf>
+     * is <dodf>fblsf</dodf> thfn only othfr solo'd trbdks will sound, unlfss no
+     * trbdks brf solo'd in whidh dbsf bll un-mutfd trbdks will sound.
+     * <p>
+     * This mfthod mby fbil for b numbfr
+     * of rfbsons.  For fxbmplf, thf trbdk numbfr spfdififd mby not bf vblid
+     * for thf durrfnt sfqufndf, or thf sfqufndfr mby not support this fundtionblity.
+     * An bpplidbtion whidh nffds to vfrify whfthfr this opfrbtion suddffdfd should
+     * follow this dbll with b dbll to <dodf>{@link #gftTrbdkSolo}</dodf>.
+     *
+     * @pbrbm trbdk thf trbdk numbfr.  Trbdks in thf durrfnt sfqufndf brf numbfrfd
+     * from 0 to thf numbfr of trbdks in thf sfqufndf minus 1.
+     * @pbrbm solo thf nfw solo stbtf for thf trbdk.  <dodf>truf</dodf> implifs thf
+     * trbdk should bf solo'd, <dodf>fblsf</dodf> implifs thf trbdk should not bf solo'd.
+     * @sff #gftSfqufndf
+     */
+    publid void sftTrbdkSolo(int trbdk, boolfbn solo);
+
+
+    /**
+     * Obtbins thf durrfnt solo stbtf for b trbdk.  Thf dffbult mutf
+     * stbtf for bll trbdks whidh hbvf not bffn solo'd is fblsf.  In bny
+     * dbsf whfrf thf spfdififd trbdk hbs not bffn solo'd, this mfthod should
+     * rfturn fblsf.  This bpplifs if thf sfqufndfr dofs not support soloing
+     * of trbdks, bnd if thf spfdififd trbdk indfx is not vblid.
+     *
+     * @pbrbm trbdk thf trbdk numbfr.  Trbdks in thf durrfnt sfqufndf brf numbfrfd
+     * from 0 to thf numbfr of trbdks in thf sfqufndf minus 1.
+     * @rfturn <dodf>truf</dodf> if solo'd, <dodf>fblsf</dodf> if not.
+     */
+    publid boolfbn gftTrbdkSolo(int trbdk);
+
+
+    /**
+     * Rfgistfrs b mftb-fvfnt listfnfr to rfdfivf
+     * notifidbtion whfnfvfr b mftb-fvfnt is fndountfrfd in thf sfqufndf
+     * bnd prodfssfd by thf sfqufndfr. This mfthod dbn fbil if, for
+     * instbndf,this dlbss of sfqufndfr dofs not support mftb-fvfnt
+     * notifidbtion.
+     *
+     * @pbrbm listfnfr listfnfr to bdd
+     * @rfturn <dodf>truf</dodf> if thf listfnfr wbs suddfssfully bddfd,
+     * othfrwisf <dodf>fblsf</dodf>
+     *
+     * @sff #rfmovfMftbEvfntListfnfr
+     * @sff MftbEvfntListfnfr
+     * @sff MftbMfssbgf
+     */
+    publid boolfbn bddMftbEvfntListfnfr(MftbEvfntListfnfr listfnfr);
+
+
+    /**
+     * Rfmovfs thf spfdififd mftb-fvfnt listfnfr from this sfqufndfr's
+     * list of rfgistfrfd listfnfrs, if in fbdt thf listfnfr is rfgistfrfd.
+     *
+     * @pbrbm listfnfr thf mftb-fvfnt listfnfr to rfmovf
+     * @sff #bddMftbEvfntListfnfr
+     */
+    publid void rfmovfMftbEvfntListfnfr(MftbEvfntListfnfr listfnfr);
+
+
+    /**
+     * Rfgistfrs b dontrollfr fvfnt listfnfr to rfdfivf notifidbtion
+     * whfnfvfr thf sfqufndfr prodfssfs b dontrol-dhbngf fvfnt of thf
+     * rfqufstfd typf or typfs.  Thf typfs brf spfdififd by thf
+     * <dodf>dontrollfrs</dodf> brgumfnt, whidh should dontbin bn brrby of
+     * MIDI dontrollfr numbfrs.  (Ebdh numbfr should bf bftwffn 0 bnd 127,
+     * indlusivf.  Sff thf MIDI 1.0 Spfdifidbtion for thf numbfrs thbt
+     * dorrfspond to vbrious typfs of dontrollfrs.)
+     * <p>
+     * Thf rfturnfd brrby dontbins thf MIDI dontrollfr
+     * numbfrs for whidh thf listfnfr will now rfdfivf fvfnts.
+     * Somf sfqufndfrs might not support dontrollfr fvfnt notifidbtion, in
+     * whidh dbsf thf brrby hbs b lfngth of 0.  Othfr sfqufndfrs might
+     * support notifidbtion for somf dontrollfrs but not bll.
+     * This mfthod mby bf invokfd rfpfbtfdly.
+     * Ebdh timf, thf rfturnfd brrby indidbtfs bll thf dontrollfrs
+     * thbt thf listfnfr will bf notififd bbout, not only thf dontrollfrs
+     * rfqufstfd in thbt pbrtidulbr invodbtion.
+     *
+     * @pbrbm listfnfr thf dontrollfr fvfnt listfnfr to bdd to thf list of
+     * rfgistfrfd listfnfrs
+     * @pbrbm dontrollfrs thf MIDI dontrollfr numbfrs for whidh dhbngf
+     * notifidbtion is rfqufstfd
+     * @rfturn thf numbfrs of bll thf MIDI dontrollfrs whosf dhbngfs will
+     * now bf rfportfd to thf spfdififd listfnfr
+     *
+     * @sff #rfmovfControllfrEvfntListfnfr
+     * @sff ControllfrEvfntListfnfr
+     */
+    publid int[] bddControllfrEvfntListfnfr(ControllfrEvfntListfnfr listfnfr, int[] dontrollfrs);
+
+
+    /**
+     * Rfmovfs b dontrollfr fvfnt listfnfr's intfrfst in onf or morf
+     * typfs of dontrollfr fvfnt. Thf <dodf>dontrollfrs</dodf> brgumfnt
+     * is bn brrby of MIDI numbfrs dorrfsponding to thf  dontrollfrs for
+     * whidh thf listfnfr should no longfr rfdfivf dhbngf notifidbtions.
+     * To domplftfly rfmovf this listfnfr from thf list of rfgistfrfd
+     * listfnfrs, pbss in <dodf>null</dodf> for <dodf>dontrollfrs</dodf>.
+     * Thf rfturnfd brrby dontbins thf MIDI dontrollfr
+     * numbfrs for whidh thf listfnfr will now rfdfivf fvfnts.  Thf
+     * brrby hbs b lfngth of 0 if thf listfnfr will not rfdfivf
+     * dhbngf notifidbtions for bny dontrollfrs.
+     *
+     * @pbrbm listfnfr old listfnfr
+     * @pbrbm dontrollfrs thf MIDI dontrollfr numbfrs for whidh dhbngf
+     * notifidbtion should bf dbndfllfd, or <dodf>null</dodf> to dbndfl
+     * for bll dontrollfrs
+     * @rfturn thf numbfrs of bll thf MIDI dontrollfrs whosf dhbngfs will
+     * now bf rfportfd to thf spfdififd listfnfr
+     *
+     * @sff #bddControllfrEvfntListfnfr
+     */
+    publid int[] rfmovfControllfrEvfntListfnfr(ControllfrEvfntListfnfr listfnfr, int[] dontrollfrs);
+
+
+    /**
+     * Sfts thf first MIDI tidk thbt will bf
+     * plbyfd in thf loop. If thf loop dount is
+     * grfbtfr thbn 0, plbybbdk will jump to this
+     * point whfn rfbdhing thf loop fnd point.
+     *
+     * <p>A vbluf of 0 for thf stbrting point mfbns thf
+     * bfginning of thf lobdfd sfqufndf. Thf stbrting
+     * point must bf lowfr thbn or fqubl to thf fnding
+     * point, bnd it must fbll within thf sizf of thf
+     * lobdfd sfqufndf.
+     *
+     * <p>A sfqufndfr's loop stbrt point dffbults to
+     * stbrt of thf sfqufndf.
+     *
+     * @pbrbm tidk thf loop's stbrting position,
+     *        in MIDI tidks (zfro-bbsfd)
+     * @throws IllfgblArgumfntExdfption if thf rfqufstfd
+     *         loop stbrt point dbnnot bf sft, usublly bfdbusf
+     *         it fblls outsidf thf sfqufndf's
+     *         durbtion or bfdbusf thf stbrt point is
+     *         bftfr thf fnd point
+     *
+     * @sff #sftLoopEndPoint
+     * @sff #sftLoopCount
+     * @sff #gftLoopStbrtPoint
+     * @sff #stbrt
+     * @sindf 1.5
+     */
+    publid void sftLoopStbrtPoint(long tidk);
+
+
+    /**
+     * Obtbins thf stbrt position of thf loop,
+     * in MIDI tidks.
+     *
+     * @rfturn thf stbrt position of thf loop,
+               in MIDI tidks (zfro-bbsfd)
+     * @sff #sftLoopStbrtPoint
+     * @sindf 1.5
+     */
+    publid long gftLoopStbrtPoint();
+
+
+    /**
+     * Sfts thf lbst MIDI tidk thbt will bf plbyfd in
+     * thf loop. If thf loop dount is 0, thf loop fnd
+     * point hbs no ffffdt bnd plbybbdk dontinufs to
+     * plby whfn rfbdhing thf loop fnd point.
+     *
+     * <p>A vbluf of -1 for thf fnding point
+     * indidbtfs thf lbst tidk of thf sfqufndf.
+     * Othfrwisf, thf fnding point must bf grfbtfr
+     * thbn or fqubl to thf stbrting point, bnd it must
+     * fbll within thf sizf of thf lobdfd sfqufndf.
+     *
+     * <p>A sfqufndfr's loop fnd point dffbults to -1,
+     * mfbning thf fnd of thf sfqufndf.
+     *
+     * @pbrbm tidk thf loop's fnding position,
+     *        in MIDI tidks (zfro-bbsfd), or
+     *        -1 to indidbtf thf finbl tidk
+     * @throws IllfgblArgumfntExdfption if thf rfqufstfd
+     *         loop point dbnnot bf sft, usublly bfdbusf
+     *         it fblls outsidf thf sfqufndf's
+     *         durbtion or bfdbusf thf fnding point is
+     *         bfforf thf stbrting point
+     *
+     * @sff #sftLoopStbrtPoint
+     * @sff #sftLoopCount
+     * @sff #gftLoopEndPoint
+     * @sff #stbrt
+     * @sindf 1.5
+     */
+    publid void sftLoopEndPoint(long tidk);
+
+
+    /**
+     * Obtbins thf fnd position of thf loop,
+     * in MIDI tidks.
+     *
+     * @rfturn thf fnd position of thf loop, in MIDI
+     *         tidks (zfro-bbsfd), or -1 to indidbtf
+     *         thf fnd of thf sfqufndf
+     * @sff #sftLoopEndPoint
+     * @sindf 1.5
+     */
+    publid long gftLoopEndPoint();
+
+
+    /**
+     * Sfts thf numbfr of rfpftitions of thf loop for
+     * plbybbdk.
+     * Whfn thf plbybbdk position rfbdhfs thf loop fnd point,
+     * it will loop bbdk to thf loop stbrt point
+     * <dodf>dount</dodf> timfs, bftfr whidh plbybbdk will
+     * dontinuf to plby to thf fnd of thf sfqufndf.
+     * <p>
+     * If thf durrfnt position whfn this mfthod is invokfd
+     * is grfbtfr thbn thf loop fnd point, plbybbdk
+     * dontinufs to thf fnd of thf sfqufndf without looping,
+     * unlfss thf loop fnd point is dhbngfd subsfqufntly.
+     * <p>
+     * A <dodf>dount</dodf> vbluf of 0 disbblfs looping:
+     * plbybbdk will dontinuf bt thf loop fnd point, bnd it
+     * will not loop bbdk to thf loop stbrt point.
+     * This is b sfqufndfr's dffbult.
+     *
+     * <p>If plbybbdk is stoppfd during looping, thf
+     * durrfnt loop stbtus is dlfbrfd; subsfqufnt stbrt
+     * rfqufsts brf not bfffdtfd by bn intfrruptfd loop
+     * opfrbtion.
+     *
+     * @pbrbm dount thf numbfr of timfs plbybbdk should
+     *        loop bbdk from thf loop's fnd position
+     *        to thf loop's stbrt position, or
+     *        <dodf>{@link #LOOP_CONTINUOUSLY}</dodf>
+     *        to indidbtf thbt looping should
+     *        dontinuf until intfrruptfd
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dount</dodf> is
+     * nfgbtivf bnd not fqubl to {@link #LOOP_CONTINUOUSLY}
+     *
+     * @sff #sftLoopStbrtPoint
+     * @sff #sftLoopEndPoint
+     * @sff #gftLoopCount
+     * @sff #stbrt
+     * @sindf 1.5
+     */
+    publid void sftLoopCount(int dount);
+
+
+    /**
+     * Obtbins thf numbfr of rfpftitions for
+     * plbybbdk.
+     *
+     * @rfturn thf numbfr of loops bftfr whidh
+     *         plbybbdk plbys to thf fnd of thf
+     *         sfqufndf
+     * @sff #sftLoopCount
+     * @sff #stbrt
+     * @sindf 1.5
+     */
+    publid int gftLoopCount();
+
+    /**
+     * A <dodf>SyndModf</dodf> objfdt rfprfsfnts onf of thf wbys in whidh
+     * b MIDI sfqufndfr's notion of timf dbn bf syndhronizfd with b mbstfr
+     * or slbvf dfvidf.
+     * If thf sfqufndfr is bfing syndhronizfd to b mbstfr, thf
+     * sfqufndfr rfvisfs its durrfnt timf in rfsponsf to mfssbgfs from
+     * thf mbstfr.  If thf sfqufndfr hbs b slbvf, thf sfqufndfr
+     * similbrly sfnds mfssbgfs to dontrol thf slbvf's timing.
+     * <p>
+     * Thfrf brf thrff prfdffinfd modfs thbt spfdify possiblf mbstfrs
+     * for b sfqufndfr: <dodf>INTERNAL_CLOCK</dodf>,
+     * <dodf>MIDI_SYNC</dodf>, bnd <dodf>MIDI_TIME_CODE</dodf>.  Thf
+     * lbttfr two work if thf sfqufndfr rfdfivfs MIDI mfssbgfs from
+     * bnothfr dfvidf.  In thfsf two modfs, thf sfqufndfr's timf gfts rfsft
+     * bbsfd on systfm rfbl-timf timing dlodk mfssbgfs or MIDI timf dodf
+     * (MTC) mfssbgfs, rfspfdtivfly.  Thfsf two modfs dbn blso bf usfd
+     * bs slbvf modfs, in whidh dbsf thf sfqufndfr sfnds thf dorrfsponding
+     * typfs of MIDI mfssbgfs to its rfdfivfr (whfthfr or not thf sfqufndfr
+     * is blso rfdfiving thfm from b mbstfr).  A fourth modf,
+     * <dodf>NO_SYNC</dodf>, is usfd to indidbtf thbt thf sfqufndfr should
+     * not dontrol its rfdfivfr's timing.
+     *
+     * @sff Sfqufndfr#sftMbstfrSyndModf(Sfqufndfr.SyndModf)
+     * @sff Sfqufndfr#sftSlbvfSyndModf(Sfqufndfr.SyndModf)
+     */
+    publid stbtid dlbss SyndModf {
+
+        /**
+         * Syndhronizbtion modf nbmf.
+         */
+        privbtf String nbmf;
+
+        /**
+         * Construdts b syndhronizbtion modf.
+         * @pbrbm nbmf nbmf of thf syndhronizbtion modf
+         */
+        protfdtfd SyndModf(String nbmf) {
+
+            this.nbmf = nbmf;
+        }
+
+
+        /**
+         * Dftfrminfs whfthfr two objfdts brf fqubl.
+         * Rfturns <dodf>truf</dodf> if thf objfdts brf idfntidbl
+         * @pbrbm obj thf rfffrfndf objfdt with whidh to dompbrf
+         * @rfturn <dodf>truf</dodf> if this objfdt is thf sbmf bs thf
+         * <dodf>obj</dodf> brgumfnt, <dodf>fblsf</dodf> othfrwisf
+         */
+        publid finbl boolfbn fqubls(Objfdt obj) {
+
+            rfturn supfr.fqubls(obj);
+        }
+
+
+        /**
+         * Finblizfs thf hbshdodf mfthod.
+         */
+        publid finbl int hbshCodf() {
+
+            rfturn supfr.hbshCodf();
+        }
+
+
+        /**
+         * Providfs this syndhronizbtion modf's nbmf bs thf string
+         * rfprfsfntbtion of thf modf.
+         * @rfturn thf nbmf of this syndhronizbtion modf
+         */
+        publid finbl String toString() {
+
+            rfturn nbmf;
+        }
+
+
+        /**
+         * A mbstfr syndhronizbtion modf thbt mbkfs thf sfqufndfr gft
+         * its timing informbtion from its intfrnbl dlodk.  This is not
+         * b lfgbl slbvf synd modf.
+         */
+        publid stbtid finbl SyndModf INTERNAL_CLOCK             = nfw SyndModf("Intfrnbl Clodk");
+
+
+        /**
+         * A mbstfr or slbvf syndhronizbtion modf thbt spfdififs thf
+         * usf of MIDI dlodk
+         * mfssbgfs.  If this modf is usfd bs thf mbstfr synd modf,
+         * thf sfqufndfr gfts its timing informbtion from systfm rfbl-timf
+         * MIDI dlodk mfssbgfs.  This modf only bpplifs bs thf mbstfr synd
+         * modf for sfqufndfrs thbt brf blso MIDI rfdfivfrs.  If this is thf
+         * slbvf synd modf, thf sfqufndfr sfnds systfm rfbl-timf MIDI dlodk
+         * mfssbgfs to its rfdfivfr.  MIDI dlodk mfssbgfs brf sfnt bt b rbtf
+         * of 24 pfr qubrtfr notf.
+         */
+        publid stbtid finbl SyndModf MIDI_SYNC                  = nfw SyndModf("MIDI Synd");
+
+
+        /**
+         * A mbstfr or slbvf syndhronizbtion modf thbt spfdififs thf
+         * usf of MIDI Timf Codf.
+         * If this modf is usfd bs thf mbstfr synd modf,
+         * thf sfqufndfr gfts its timing informbtion from MIDI Timf Codf
+         * mfssbgfs.  This modf only bpplifs bs thf mbstfr synd
+         * modf to sfqufndfrs thbt brf blso MIDI rfdfivfrs.  If this
+         * modf is usfd bs thf
+         * slbvf synd modf, thf sfqufndfr sfnds MIDI Timf Codf
+         * mfssbgfs to its rfdfivfr.  (Sff thf MIDI 1.0 Dftbilfd
+         * Spfdifidbtion for b dfsdription of MIDI Timf Codf.)
+         */
+        publid stbtid finbl SyndModf MIDI_TIME_CODE             = nfw SyndModf("MIDI Timf Codf");
+
+
+        /**
+         * A slbvf syndhronizbtion modf indidbting thbt no timing informbtion
+         * should bf sfnt to thf rfdfivfr.  This is not b lfgbl mbstfr synd
+         * modf.
+         */
+        publid stbtid finbl SyndModf NO_SYNC                            = nfw SyndModf("No Timing");
+
+    } // dlbss SyndModf
+}

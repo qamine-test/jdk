@@ -1,1074 +1,1074 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.text.ParseException;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.tfxt.PbrsfExdfption;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
 
-import java.beans.*;
-import java.text.*;
-import java.util.*;
-import sun.swing.DefaultLookup;
+import jbvb.bfbns.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import sun.swing.DffbultLookup;
 
 
 /**
- * The default Spinner UI delegate.
+ * Tif dffbult Spinnfr UI dflfgbtf.
  *
- * @author Hans Muller
- * @since 1.4
+ * @butior Hbns Mullfr
+ * @sindf 1.4
  */
-public class BasicSpinnerUI extends SpinnerUI
+publid dlbss BbsidSpinnfrUI fxtfnds SpinnfrUI
 {
     /**
-     * The spinner that we're a UI delegate for.  Initialized by
-     * the <code>installUI</code> method, and reset to null
-     * by <code>uninstallUI</code>.
+     * Tif spinnfr tibt wf'rf b UI dflfgbtf for.  Initiblizfd by
+     * tif <dodf>instbllUI</dodf> mftiod, bnd rfsft to null
+     * by <dodf>uninstbllUI</dodf>.
      *
-     * @see #installUI
-     * @see #uninstallUI
+     * @sff #instbllUI
+     * @sff #uninstbllUI
      */
-    protected JSpinner spinner;
-    private Handler handler;
+    protfdtfd JSpinnfr spinnfr;
+    privbtf Hbndlfr ibndlfr;
 
 
     /**
-     * The mouse/action listeners that are added to the spinner's
-     * arrow buttons.  These listeners are shared by all
-     * spinner arrow buttons.
+     * Tif mousf/bdtion listfnfrs tibt brf bddfd to tif spinnfr's
+     * brrow buttons.  Tifsf listfnfrs brf sibrfd by bll
+     * spinnfr brrow buttons.
      *
-     * @see #createNextButton
-     * @see #createPreviousButton
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
      */
-    private static final ArrowButtonHandler nextButtonHandler = new ArrowButtonHandler("increment", true);
-    private static final ArrowButtonHandler previousButtonHandler = new ArrowButtonHandler("decrement", false);
-    private PropertyChangeListener propertyChangeListener;
+    privbtf stbtid finbl ArrowButtonHbndlfr nfxtButtonHbndlfr = nfw ArrowButtonHbndlfr("indrfmfnt", truf);
+    privbtf stbtid finbl ArrowButtonHbndlfr prfviousButtonHbndlfr = nfw ArrowButtonHbndlfr("dfdrfmfnt", fblsf);
+    privbtf PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
 
 
     /**
-     * Used by the default LayoutManager class - SpinnerLayout for
-     * missing (null) editor/nextButton/previousButton children.
+     * Usfd by tif dffbult LbyoutMbnbgfr dlbss - SpinnfrLbyout for
+     * missing (null) fditor/nfxtButton/prfviousButton diildrfn.
      */
-    private static final Dimension zeroSize = new Dimension(0, 0);
+    privbtf stbtid finbl Dimfnsion zfroSizf = nfw Dimfnsion(0, 0);
 
 
     /**
-     * Returns a new instance of BasicSpinnerUI.  SpinnerListUI
-     * delegates are allocated one per JSpinner.
+     * Rfturns b nfw instbndf of BbsidSpinnfrUI.  SpinnfrListUI
+     * dflfgbtfs brf bllodbtfd onf pfr JSpinnfr.
      *
-     * @param c the JSpinner (not used)
-     * @see ComponentUI#createUI
-     * @return a new BasicSpinnerUI object
+     * @pbrbm d tif JSpinnfr (not usfd)
+     * @sff ComponfntUI#drfbtfUI
+     * @rfturn b nfw BbsidSpinnfrUI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicSpinnerUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidSpinnfrUI();
     }
 
 
-    private void maybeAdd(Component c, String s) {
-        if (c != null) {
-            spinner.add(c, s);
+    privbtf void mbybfAdd(Componfnt d, String s) {
+        if (d != null) {
+            spinnfr.bdd(d, s);
         }
     }
 
 
     /**
-     * Calls <code>installDefaults</code>, <code>installListeners</code>,
-     * and then adds the components returned by <code>createNextButton</code>,
-     * <code>createPreviousButton</code>, and <code>createEditor</code>.
+     * Cblls <dodf>instbllDffbults</dodf>, <dodf>instbllListfnfrs</dodf>,
+     * bnd tifn bdds tif domponfnts rfturnfd by <dodf>drfbtfNfxtButton</dodf>,
+     * <dodf>drfbtfPrfviousButton</dodf>, bnd <dodf>drfbtfEditor</dodf>.
      *
-     * @param c the JSpinner
-     * @see #installDefaults
-     * @see #installListeners
-     * @see #createNextButton
-     * @see #createPreviousButton
-     * @see #createEditor
+     * @pbrbm d tif JSpinnfr
+     * @sff #instbllDffbults
+     * @sff #instbllListfnfrs
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
+     * @sff #drfbtfEditor
      */
-    public void installUI(JComponent c) {
-        this.spinner = (JSpinner)c;
-        installDefaults();
-        installListeners();
-        maybeAdd(createNextButton(), "Next");
-        maybeAdd(createPreviousButton(), "Previous");
-        maybeAdd(createEditor(), "Editor");
-        updateEnabledState();
-        installKeyboardActions();
+    publid void instbllUI(JComponfnt d) {
+        tiis.spinnfr = (JSpinnfr)d;
+        instbllDffbults();
+        instbllListfnfrs();
+        mbybfAdd(drfbtfNfxtButton(), "Nfxt");
+        mbybfAdd(drfbtfPrfviousButton(), "Prfvious");
+        mbybfAdd(drfbtfEditor(), "Editor");
+        updbtfEnbblfdStbtf();
+        instbllKfybobrdAdtions();
     }
 
 
     /**
-     * Calls <code>uninstallDefaults</code>, <code>uninstallListeners</code>,
-     * and then removes all of the spinners children.
+     * Cblls <dodf>uninstbllDffbults</dodf>, <dodf>uninstbllListfnfrs</dodf>,
+     * bnd tifn rfmovfs bll of tif spinnfrs diildrfn.
      *
-     * @param c the JSpinner (not used)
+     * @pbrbm d tif JSpinnfr (not usfd)
      */
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        this.spinner = null;
-        c.removeAll();
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        tiis.spinnfr = null;
+        d.rfmovfAll();
     }
 
 
     /**
-     * Initializes <code>PropertyChangeListener</code> with
-     * a shared object that delegates interesting PropertyChangeEvents
-     * to protected methods.
+     * Initiblizfs <dodf>PropfrtyCibngfListfnfr</dodf> witi
+     * b sibrfd objfdt tibt dflfgbtfs intfrfsting PropfrtyCibngfEvfnts
+     * to protfdtfd mftiods.
      * <p>
-     * This method is called by <code>installUI</code>.
+     * Tiis mftiod is dbllfd by <dodf>instbllUI</dodf>.
      *
-     * @see #replaceEditor
-     * @see #uninstallListeners
+     * @sff #rfplbdfEditor
+     * @sff #uninstbllListfnfrs
      */
-    protected void installListeners() {
-        propertyChangeListener = createPropertyChangeListener();
-        spinner.addPropertyChangeListener(propertyChangeListener);
-        if (DefaultLookup.getBoolean(spinner, this,
-            "Spinner.disableOnBoundaryValues", false)) {
-            spinner.addChangeListener(getHandler());
+    protfdtfd void instbllListfnfrs() {
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        spinnfr.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        if (DffbultLookup.gftBoolfbn(spinnfr, tiis,
+            "Spinnfr.disbblfOnBoundbryVblufs", fblsf)) {
+            spinnfr.bddCibngfListfnfr(gftHbndlfr());
         }
-        JComponent editor = spinner.getEditor();
-        if (editor != null && editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor != null && fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
             if (tf != null) {
-                tf.addFocusListener(nextButtonHandler);
-                tf.addFocusListener(previousButtonHandler);
+                tf.bddFodusListfnfr(nfxtButtonHbndlfr);
+                tf.bddFodusListfnfr(prfviousButtonHbndlfr);
             }
         }
     }
 
 
     /**
-     * Removes the <code>PropertyChangeListener</code> added
-     * by installListeners.
+     * Rfmovfs tif <dodf>PropfrtyCibngfListfnfr</dodf> bddfd
+     * by instbllListfnfrs.
      * <p>
-     * This method is called by <code>uninstallUI</code>.
+     * Tiis mftiod is dbllfd by <dodf>uninstbllUI</dodf>.
      *
-     * @see #installListeners
+     * @sff #instbllListfnfrs
      */
-    protected void uninstallListeners() {
-        spinner.removePropertyChangeListener(propertyChangeListener);
-        spinner.removeChangeListener(handler);
-        JComponent editor = spinner.getEditor();
-        removeEditorBorderListener(editor);
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JTextField tf = ((JSpinner.DefaultEditor)editor).getTextField();
+    protfdtfd void uninstbllListfnfrs() {
+        spinnfr.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        spinnfr.rfmovfCibngfListfnfr(ibndlfr);
+        JComponfnt fditor = spinnfr.gftEditor();
+        rfmovfEditorBordfrListfnfr(fditor);
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JTfxtFifld tf = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
             if (tf != null) {
-                tf.removeFocusListener(nextButtonHandler);
-                tf.removeFocusListener(previousButtonHandler);
+                tf.rfmovfFodusListfnfr(nfxtButtonHbndlfr);
+                tf.rfmovfFodusListfnfr(prfviousButtonHbndlfr);
             }
         }
-        propertyChangeListener = null;
-        handler = null;
+        propfrtyCibngfListfnfr = null;
+        ibndlfr = null;
     }
 
 
     /**
-     * Initialize the <code>JSpinner</code> <code>border</code>,
-     * <code>foreground</code>, and <code>background</code>, properties
-     * based on the corresponding "Spinner.*" properties from defaults table.
-     * The <code>JSpinners</code> layout is set to the value returned by
-     * <code>createLayout</code>.  This method is called by <code>installUI</code>.
+     * Initiblizf tif <dodf>JSpinnfr</dodf> <dodf>bordfr</dodf>,
+     * <dodf>forfground</dodf>, bnd <dodf>bbdkground</dodf>, propfrtifs
+     * bbsfd on tif dorrfsponding "Spinnfr.*" propfrtifs from dffbults tbblf.
+     * Tif <dodf>JSpinnfrs</dodf> lbyout is sft to tif vbluf rfturnfd by
+     * <dodf>drfbtfLbyout</dodf>.  Tiis mftiod is dbllfd by <dodf>instbllUI</dodf>.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
-     * @see #createLayout
-     * @see LookAndFeel#installBorder
-     * @see LookAndFeel#installColors
+     * @sff #uninstbllDffbults
+     * @sff #instbllUI
+     * @sff #drfbtfLbyout
+     * @sff LookAndFffl#instbllBordfr
+     * @sff LookAndFffl#instbllColors
      */
-    protected void installDefaults() {
-        spinner.setLayout(createLayout());
-        LookAndFeel.installBorder(spinner, "Spinner.border");
-        LookAndFeel.installColorsAndFont(spinner, "Spinner.background", "Spinner.foreground", "Spinner.font");
-        LookAndFeel.installProperty(spinner, "opaque", Boolean.TRUE);
+    protfdtfd void instbllDffbults() {
+        spinnfr.sftLbyout(drfbtfLbyout());
+        LookAndFffl.instbllBordfr(spinnfr, "Spinnfr.bordfr");
+        LookAndFffl.instbllColorsAndFont(spinnfr, "Spinnfr.bbdkground", "Spinnfr.forfground", "Spinnfr.font");
+        LookAndFffl.instbllPropfrty(spinnfr, "opbquf", Boolfbn.TRUE);
     }
 
 
     /**
-     * Sets the <code>JSpinner's</code> layout manager to null.  This
-     * method is called by <code>uninstallUI</code>.
+     * Sfts tif <dodf>JSpinnfr's</dodf> lbyout mbnbgfr to null.  Tiis
+     * mftiod is dbllfd by <dodf>uninstbllUI</dodf>.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
+     * @sff #instbllDffbults
+     * @sff #uninstbllUI
      */
-    protected void uninstallDefaults() {
-        spinner.setLayout(null);
+    protfdtfd void uninstbllDffbults() {
+        spinnfr.sftLbyout(null);
     }
 
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
 
     /**
-     * Installs the necessary listeners on the next button, <code>c</code>,
-     * to update the <code>JSpinner</code> in response to a user gesture.
+     * Instblls tif nfdfssbry listfnfrs on tif nfxt button, <dodf>d</dodf>,
+     * to updbtf tif <dodf>JSpinnfr</dodf> in rfsponsf to b usfr gfsturf.
      *
-     * @param c Component to install the listeners on
-     * @throws NullPointerException if <code>c</code> is null.
-     * @see #createNextButton
-     * @since 1.5
+     * @pbrbm d Componfnt to instbll tif listfnfrs on
+     * @tirows NullPointfrExdfption if <dodf>d</dodf> is null.
+     * @sff #drfbtfNfxtButton
+     * @sindf 1.5
      */
-    protected void installNextButtonListeners(Component c) {
-        installButtonListeners(c, nextButtonHandler);
+    protfdtfd void instbllNfxtButtonListfnfrs(Componfnt d) {
+        instbllButtonListfnfrs(d, nfxtButtonHbndlfr);
     }
 
     /**
-     * Installs the necessary listeners on the previous button, <code>c</code>,
-     * to update the <code>JSpinner</code> in response to a user gesture.
+     * Instblls tif nfdfssbry listfnfrs on tif prfvious button, <dodf>d</dodf>,
+     * to updbtf tif <dodf>JSpinnfr</dodf> in rfsponsf to b usfr gfsturf.
      *
-     * @param c Component to install the listeners on.
-     * @throws NullPointerException if <code>c</code> is null.
-     * @see #createPreviousButton
-     * @since 1.5
+     * @pbrbm d Componfnt to instbll tif listfnfrs on.
+     * @tirows NullPointfrExdfption if <dodf>d</dodf> is null.
+     * @sff #drfbtfPrfviousButton
+     * @sindf 1.5
      */
-    protected void installPreviousButtonListeners(Component c) {
-        installButtonListeners(c, previousButtonHandler);
+    protfdtfd void instbllPrfviousButtonListfnfrs(Componfnt d) {
+        instbllButtonListfnfrs(d, prfviousButtonHbndlfr);
     }
 
-    private void installButtonListeners(Component c,
-                                        ArrowButtonHandler handler) {
-        if (c instanceof JButton) {
-            ((JButton)c).addActionListener(handler);
+    privbtf void instbllButtonListfnfrs(Componfnt d,
+                                        ArrowButtonHbndlfr ibndlfr) {
+        if (d instbndfof JButton) {
+            ((JButton)d).bddAdtionListfnfr(ibndlfr);
         }
-        c.addMouseListener(handler);
+        d.bddMousfListfnfr(ibndlfr);
     }
 
     /**
-     * Creates a <code>LayoutManager</code> that manages the <code>editor</code>,
-     * <code>nextButton</code>, and <code>previousButton</code>
-     * children of the JSpinner.  These three children must be
-     * added with a constraint that identifies their role:
-     * "Editor", "Next", and "Previous". The default layout manager
-     * can handle the absence of any of these children.
+     * Crfbtfs b <dodf>LbyoutMbnbgfr</dodf> tibt mbnbgfs tif <dodf>fditor</dodf>,
+     * <dodf>nfxtButton</dodf>, bnd <dodf>prfviousButton</dodf>
+     * diildrfn of tif JSpinnfr.  Tifsf tirff diildrfn must bf
+     * bddfd witi b donstrbint tibt idfntififs tifir rolf:
+     * "Editor", "Nfxt", bnd "Prfvious". Tif dffbult lbyout mbnbgfr
+     * dbn ibndlf tif bbsfndf of bny of tifsf diildrfn.
      *
-     * @return a LayoutManager for the editor, next button, and previous button.
-     * @see #createNextButton
-     * @see #createPreviousButton
-     * @see #createEditor
+     * @rfturn b LbyoutMbnbgfr for tif fditor, nfxt button, bnd prfvious button.
+     * @sff #drfbtfNfxtButton
+     * @sff #drfbtfPrfviousButton
+     * @sff #drfbtfEditor
      */
-    protected LayoutManager createLayout() {
-        return getHandler();
-    }
-
-
-    /**
-     * Creates a <code>PropertyChangeListener</code> that can be
-     * added to the JSpinner itself.  Typically, this listener
-     * will call replaceEditor when the "editor" property changes,
-     * since it's the <code>SpinnerUI's</code> responsibility to
-     * add the editor to the JSpinner (and remove the old one).
-     * This method is called by <code>installListeners</code>.
-     *
-     * @return A PropertyChangeListener for the JSpinner itself
-     * @see #installListeners
-     */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn gftHbndlfr();
     }
 
 
     /**
-     * Creates a decrement button, i.e. component that replaces the spinner
-     * value with the object returned by <code>spinner.getPreviousValue</code>.
-     * By default the <code>previousButton</code> is a {@code JButton}. If the
-     * decrement button is not needed this method should return {@code null}.
+     * Crfbtfs b <dodf>PropfrtyCibngfListfnfr</dodf> tibt dbn bf
+     * bddfd to tif JSpinnfr itsflf.  Typidblly, tiis listfnfr
+     * will dbll rfplbdfEditor wifn tif "fditor" propfrty dibngfs,
+     * sindf it's tif <dodf>SpinnfrUI's</dodf> rfsponsibility to
+     * bdd tif fditor to tif JSpinnfr (bnd rfmovf tif old onf).
+     * Tiis mftiod is dbllfd by <dodf>instbllListfnfrs</dodf>.
      *
-     * @return a component that will replace the spinner's value with the
-     *     previous value in the sequence, or {@code null}
-     * @see #installUI
-     * @see #createNextButton
-     * @see #installPreviousButtonListeners
+     * @rfturn A PropfrtyCibngfListfnfr for tif JSpinnfr itsflf
+     * @sff #instbllListfnfrs
      */
-    protected Component createPreviousButton() {
-        Component c = createArrowButton(SwingConstants.SOUTH);
-        c.setName("Spinner.previousButton");
-        installPreviousButtonListeners(c);
-        return c;
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
 
     /**
-     * Creates an increment button, i.e. component that replaces the spinner
-     * value with the object returned by <code>spinner.getNextValue</code>.
-     * By default the <code>nextButton</code> is a {@code JButton}. If the
-     * increment button is not needed this method should return {@code null}.
+     * Crfbtfs b dfdrfmfnt button, i.f. domponfnt tibt rfplbdfs tif spinnfr
+     * vbluf witi tif objfdt rfturnfd by <dodf>spinnfr.gftPrfviousVbluf</dodf>.
+     * By dffbult tif <dodf>prfviousButton</dodf> is b {@dodf JButton}. If tif
+     * dfdrfmfnt button is not nffdfd tiis mftiod siould rfturn {@dodf null}.
      *
-     * @return a component that will replace the spinner's value with the
-     *     next value in the sequence, or {@code null}
-     * @see #installUI
-     * @see #createPreviousButton
-     * @see #installNextButtonListeners
+     * @rfturn b domponfnt tibt will rfplbdf tif spinnfr's vbluf witi tif
+     *     prfvious vbluf in tif sfqufndf, or {@dodf null}
+     * @sff #instbllUI
+     * @sff #drfbtfNfxtButton
+     * @sff #instbllPrfviousButtonListfnfrs
      */
-    protected Component createNextButton() {
-        Component c = createArrowButton(SwingConstants.NORTH);
-        c.setName("Spinner.nextButton");
-        installNextButtonListeners(c);
-        return c;
+    protfdtfd Componfnt drfbtfPrfviousButton() {
+        Componfnt d = drfbtfArrowButton(SwingConstbnts.SOUTH);
+        d.sftNbmf("Spinnfr.prfviousButton");
+        instbllPrfviousButtonListfnfrs(d);
+        rfturn d;
     }
 
-    private Component createArrowButton(int direction) {
-        JButton b = new BasicArrowButton(direction);
-        Border buttonBorder = UIManager.getBorder("Spinner.arrowButtonBorder");
-        if (buttonBorder instanceof UIResource) {
-            // Wrap the border to avoid having the UIResource be replaced by
-            // the ButtonUI. This is the opposite of using BorderUIResource.
-            b.setBorder(new CompoundBorder(buttonBorder, null));
-        } else {
-            b.setBorder(buttonBorder);
+
+    /**
+     * Crfbtfs bn indrfmfnt button, i.f. domponfnt tibt rfplbdfs tif spinnfr
+     * vbluf witi tif objfdt rfturnfd by <dodf>spinnfr.gftNfxtVbluf</dodf>.
+     * By dffbult tif <dodf>nfxtButton</dodf> is b {@dodf JButton}. If tif
+     * indrfmfnt button is not nffdfd tiis mftiod siould rfturn {@dodf null}.
+     *
+     * @rfturn b domponfnt tibt will rfplbdf tif spinnfr's vbluf witi tif
+     *     nfxt vbluf in tif sfqufndf, or {@dodf null}
+     * @sff #instbllUI
+     * @sff #drfbtfPrfviousButton
+     * @sff #instbllNfxtButtonListfnfrs
+     */
+    protfdtfd Componfnt drfbtfNfxtButton() {
+        Componfnt d = drfbtfArrowButton(SwingConstbnts.NORTH);
+        d.sftNbmf("Spinnfr.nfxtButton");
+        instbllNfxtButtonListfnfrs(d);
+        rfturn d;
+    }
+
+    privbtf Componfnt drfbtfArrowButton(int dirfdtion) {
+        JButton b = nfw BbsidArrowButton(dirfdtion);
+        Bordfr buttonBordfr = UIMbnbgfr.gftBordfr("Spinnfr.brrowButtonBordfr");
+        if (buttonBordfr instbndfof UIRfsourdf) {
+            // Wrbp tif bordfr to bvoid ibving tif UIRfsourdf bf rfplbdfd by
+            // tif ButtonUI. Tiis is tif oppositf of using BordfrUIRfsourdf.
+            b.sftBordfr(nfw CompoundBordfr(buttonBordfr, null));
+        } flsf {
+            b.sftBordfr(buttonBordfr);
         }
-        b.setInheritsPopupMenu(true);
-        return b;
+        b.sftInifritsPopupMfnu(truf);
+        rfturn b;
     }
 
 
     /**
-     * This method is called by installUI to get the editor component
-     * of the <code>JSpinner</code>.  By default it just returns
-     * <code>JSpinner.getEditor()</code>.  Subclasses can override
-     * <code>createEditor</code> to return a component that contains
-     * the spinner's editor or null, if they're going to handle adding
-     * the editor to the <code>JSpinner</code> in an
-     * <code>installUI</code> override.
+     * Tiis mftiod is dbllfd by instbllUI to gft tif fditor domponfnt
+     * of tif <dodf>JSpinnfr</dodf>.  By dffbult it just rfturns
+     * <dodf>JSpinnfr.gftEditor()</dodf>.  Subdlbssfs dbn ovfrridf
+     * <dodf>drfbtfEditor</dodf> to rfturn b domponfnt tibt dontbins
+     * tif spinnfr's fditor or null, if tify'rf going to ibndlf bdding
+     * tif fditor to tif <dodf>JSpinnfr</dodf> in bn
+     * <dodf>instbllUI</dodf> ovfrridf.
      * <p>
-     * Typically this method would be overridden to wrap the editor
-     * with a container with a custom border, since one can't assume
-     * that the editors border can be set directly.
+     * Typidblly tiis mftiod would bf ovfrriddfn to wrbp tif fditor
+     * witi b dontbinfr witi b dustom bordfr, sindf onf dbn't bssumf
+     * tibt tif fditors bordfr dbn bf sft dirfdtly.
      * <p>
-     * The <code>replaceEditor</code> method is called when the spinners
-     * editor is changed with <code>JSpinner.setEditor</code>.  If you've
-     * overriden this method, then you'll probably want to override
-     * <code>replaceEditor</code> as well.
+     * Tif <dodf>rfplbdfEditor</dodf> mftiod is dbllfd wifn tif spinnfrs
+     * fditor is dibngfd witi <dodf>JSpinnfr.sftEditor</dodf>.  If you'vf
+     * ovfrridfn tiis mftiod, tifn you'll probbbly wbnt to ovfrridf
+     * <dodf>rfplbdfEditor</dodf> bs wfll.
      *
-     * @return the JSpinners editor JComponent, spinner.getEditor() by default
-     * @see #installUI
-     * @see #replaceEditor
-     * @see JSpinner#getEditor
+     * @rfturn tif JSpinnfrs fditor JComponfnt, spinnfr.gftEditor() by dffbult
+     * @sff #instbllUI
+     * @sff #rfplbdfEditor
+     * @sff JSpinnfr#gftEditor
      */
-    protected JComponent createEditor() {
-        JComponent editor = spinner.getEditor();
-        maybeRemoveEditorBorder(editor);
-        installEditorBorderListener(editor);
-        editor.setInheritsPopupMenu(true);
-        updateEditorAlignment(editor);
-        return editor;
+    protfdtfd JComponfnt drfbtfEditor() {
+        JComponfnt fditor = spinnfr.gftEditor();
+        mbybfRfmovfEditorBordfr(fditor);
+        instbllEditorBordfrListfnfr(fditor);
+        fditor.sftInifritsPopupMfnu(truf);
+        updbtfEditorAlignmfnt(fditor);
+        rfturn fditor;
     }
 
 
     /**
-     * Called by the <code>PropertyChangeListener</code> when the
-     * <code>JSpinner</code> editor property changes.  It's the responsibility
-     * of this method to remove the old editor and add the new one.  By
-     * default this operation is just:
-     * <pre>
-     * spinner.remove(oldEditor);
-     * spinner.add(newEditor, "Editor");
-     * </pre>
-     * The implementation of <code>replaceEditor</code> should be coordinated
-     * with the <code>createEditor</code> method.
+     * Cbllfd by tif <dodf>PropfrtyCibngfListfnfr</dodf> wifn tif
+     * <dodf>JSpinnfr</dodf> fditor propfrty dibngfs.  It's tif rfsponsibility
+     * of tiis mftiod to rfmovf tif old fditor bnd bdd tif nfw onf.  By
+     * dffbult tiis opfrbtion is just:
+     * <prf>
+     * spinnfr.rfmovf(oldEditor);
+     * spinnfr.bdd(nfwEditor, "Editor");
+     * </prf>
+     * Tif implfmfntbtion of <dodf>rfplbdfEditor</dodf> siould bf doordinbtfd
+     * witi tif <dodf>drfbtfEditor</dodf> mftiod.
      *
-     * @param oldEditor an old instance of editor
-     * @param newEditor a new instance of editor
-     * @see #createEditor
-     * @see #createPropertyChangeListener
+     * @pbrbm oldEditor bn old instbndf of fditor
+     * @pbrbm nfwEditor b nfw instbndf of fditor
+     * @sff #drfbtfEditor
+     * @sff #drfbtfPropfrtyCibngfListfnfr
      */
-    protected void replaceEditor(JComponent oldEditor, JComponent newEditor) {
-        spinner.remove(oldEditor);
-        maybeRemoveEditorBorder(newEditor);
-        installEditorBorderListener(newEditor);
-        newEditor.setInheritsPopupMenu(true);
-        spinner.add(newEditor, "Editor");
+    protfdtfd void rfplbdfEditor(JComponfnt oldEditor, JComponfnt nfwEditor) {
+        spinnfr.rfmovf(oldEditor);
+        mbybfRfmovfEditorBordfr(nfwEditor);
+        instbllEditorBordfrListfnfr(nfwEditor);
+        nfwEditor.sftInifritsPopupMfnu(truf);
+        spinnfr.bdd(nfwEditor, "Editor");
     }
 
-    private void updateEditorAlignment(JComponent editor) {
-        if (editor instanceof JSpinner.DefaultEditor) {
-            // if editor alignment isn't set in LAF, we get 0 (CENTER) here
-            int alignment = UIManager.getInt("Spinner.editorAlignment");
-            JTextField text = ((JSpinner.DefaultEditor)editor).getTextField();
-            text.setHorizontalAlignment(alignment);
+    privbtf void updbtfEditorAlignmfnt(JComponfnt fditor) {
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            // if fditor blignmfnt isn't sft in LAF, wf gft 0 (CENTER) ifrf
+            int blignmfnt = UIMbnbgfr.gftInt("Spinnfr.fditorAlignmfnt");
+            JTfxtFifld tfxt = ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
+            tfxt.sftHorizontblAlignmfnt(blignmfnt);
         }
     }
 
     /**
-     * Remove the border around the inner editor component for LaFs
-     * that install an outside border around the spinner,
+     * Rfmovf tif bordfr bround tif innfr fditor domponfnt for LbFs
+     * tibt instbll bn outsidf bordfr bround tif spinnfr,
      */
-    private void maybeRemoveEditorBorder(JComponent editor) {
-        if (!UIManager.getBoolean("Spinner.editorBorderPainted")) {
-            if (editor instanceof JPanel &&
-                editor.getBorder() == null &&
-                editor.getComponentCount() > 0) {
+    privbtf void mbybfRfmovfEditorBordfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftBordfr() == null &&
+                fditor.gftComponfntCount() > 0) {
 
-                editor = (JComponent)editor.getComponent(0);
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
             }
 
-            if (editor != null && editor.getBorder() instanceof UIResource) {
-                editor.setBorder(null);
+            if (fditor != null && fditor.gftBordfr() instbndfof UIRfsourdf) {
+                fditor.sftBordfr(null);
             }
         }
     }
 
     /**
-     * Remove the border around the inner editor component for LaFs
-     * that install an outside border around the spinner,
+     * Rfmovf tif bordfr bround tif innfr fditor domponfnt for LbFs
+     * tibt instbll bn outsidf bordfr bround tif spinnfr,
      */
-    private void installEditorBorderListener(JComponent editor) {
-        if (!UIManager.getBoolean("Spinner.editorBorderPainted")) {
-            if (editor instanceof JPanel &&
-                editor.getBorder() == null &&
-                editor.getComponentCount() > 0) {
+    privbtf void instbllEditorBordfrListfnfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftBordfr() == null &&
+                fditor.gftComponfntCount() > 0) {
 
-                editor = (JComponent)editor.getComponent(0);
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
             }
-            if (editor != null &&
-                (editor.getBorder() == null ||
-                 editor.getBorder() instanceof UIResource)) {
-                editor.addPropertyChangeListener(getHandler());
+            if (fditor != null &&
+                (fditor.gftBordfr() == null ||
+                 fditor.gftBordfr() instbndfof UIRfsourdf)) {
+                fditor.bddPropfrtyCibngfListfnfr(gftHbndlfr());
             }
         }
     }
 
-    private void removeEditorBorderListener(JComponent editor) {
-        if (!UIManager.getBoolean("Spinner.editorBorderPainted")) {
-            if (editor instanceof JPanel &&
-                editor.getComponentCount() > 0) {
+    privbtf void rfmovfEditorBordfrListfnfr(JComponfnt fditor) {
+        if (!UIMbnbgfr.gftBoolfbn("Spinnfr.fditorBordfrPbintfd")) {
+            if (fditor instbndfof JPbnfl &&
+                fditor.gftComponfntCount() > 0) {
 
-                editor = (JComponent)editor.getComponent(0);
+                fditor = (JComponfnt)fditor.gftComponfnt(0);
             }
-            if (editor != null) {
-                editor.removePropertyChangeListener(getHandler());
+            if (fditor != null) {
+                fditor.rfmovfPropfrtyCibngfListfnfr(gftHbndlfr());
             }
         }
     }
 
 
     /**
-     * Updates the enabled state of the children Components based on the
-     * enabled state of the <code>JSpinner</code>.
+     * Updbtfs tif fnbblfd stbtf of tif diildrfn Componfnts bbsfd on tif
+     * fnbblfd stbtf of tif <dodf>JSpinnfr</dodf>.
      */
-    private void updateEnabledState() {
-        updateEnabledState(spinner, spinner.isEnabled());
+    privbtf void updbtfEnbblfdStbtf() {
+        updbtfEnbblfdStbtf(spinnfr, spinnfr.isEnbblfd());
     }
 
 
     /**
-     * Recursively updates the enabled state of the child
-     * <code>Component</code>s of <code>c</code>.
+     * Rfdursivfly updbtfs tif fnbblfd stbtf of tif diild
+     * <dodf>Componfnt</dodf>s of <dodf>d</dodf>.
      */
-    private void updateEnabledState(Container c, boolean enabled) {
-        for (int counter = c.getComponentCount() - 1; counter >= 0;counter--) {
-            Component child = c.getComponent(counter);
+    privbtf void updbtfEnbblfdStbtf(Contbinfr d, boolfbn fnbblfd) {
+        for (int dountfr = d.gftComponfntCount() - 1; dountfr >= 0;dountfr--) {
+            Componfnt diild = d.gftComponfnt(dountfr);
 
-            if (DefaultLookup.getBoolean(spinner, this,
-                "Spinner.disableOnBoundaryValues", false)) {
-                SpinnerModel model = spinner.getModel();
-                if (child.getName() == "Spinner.nextButton" &&
-                    model.getNextValue() == null) {
-                    child.setEnabled(false);
+            if (DffbultLookup.gftBoolfbn(spinnfr, tiis,
+                "Spinnfr.disbblfOnBoundbryVblufs", fblsf)) {
+                SpinnfrModfl modfl = spinnfr.gftModfl();
+                if (diild.gftNbmf() == "Spinnfr.nfxtButton" &&
+                    modfl.gftNfxtVbluf() == null) {
+                    diild.sftEnbblfd(fblsf);
                 }
-                else if (child.getName() == "Spinner.previousButton" &&
-                         model.getPreviousValue() == null) {
-                    child.setEnabled(false);
+                flsf if (diild.gftNbmf() == "Spinnfr.prfviousButton" &&
+                         modfl.gftPrfviousVbluf() == null) {
+                    diild.sftEnbblfd(fblsf);
                 }
-                else {
-                    child.setEnabled(enabled);
+                flsf {
+                    diild.sftEnbblfd(fnbblfd);
                 }
             }
-            else {
-                child.setEnabled(enabled);
+            flsf {
+                diild.sftEnbblfd(fnbblfd);
             }
-            if (child instanceof Container) {
-                updateEnabledState((Container)child, enabled);
+            if (diild instbndfof Contbinfr) {
+                updbtfEnbblfdStbtf((Contbinfr)diild, fnbblfd);
             }
         }
     }
 
 
     /**
-     * Installs the keyboard Actions onto the JSpinner.
+     * Instblls tif kfybobrd Adtions onto tif JSpinnfr.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    protected void installKeyboardActions() {
-        InputMap iMap = getInputMap(JComponent.
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp iMbp = gftInputMbp(JComponfnt.
                                    WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        SwingUtilities.replaceUIInputMap(spinner, JComponent.
+        SwingUtilitifs.rfplbdfUIInputMbp(spinnfr, JComponfnt.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                                         iMap);
+                                         iMbp);
 
-        LazyActionMap.installLazyActionMap(spinner, BasicSpinnerUI.class,
-                "Spinner.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(spinnfr, BbsidSpinnfrUI.dlbss,
+                "Spinnfr.bdtionMbp");
     }
 
     /**
-     * Returns the InputMap to install for <code>condition</code>.
+     * Rfturns tif InputMbp to instbll for <dodf>dondition</dodf>.
      */
-    private InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(spinner, this,
-                    "Spinner.ancestorInputMap");
+    privbtf InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            rfturn (InputMbp)DffbultLookup.gft(spinnfr, tiis,
+                    "Spinnfr.bndfstorInputMbp");
         }
-        return null;
+        rfturn null;
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put("increment", nextButtonHandler);
-        map.put("decrement", previousButtonHandler);
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put("indrfmfnt", nfxtButtonHbndlfr);
+        mbp.put("dfdrfmfnt", prfviousButtonHbndlfr);
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        JComponent editor = spinner.getEditor();
-        Insets insets = spinner.getInsets();
-        width = width - insets.left - insets.right;
-        height = height - insets.top - insets.bottom;
-        if (width >= 0 && height >= 0) {
-            int baseline = editor.getBaseline(width, height);
-            if (baseline >= 0) {
-                return insets.top + baseline;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        JComponfnt fditor = spinnfr.gftEditor();
+        Insfts insfts = spinnfr.gftInsfts();
+        widti = widti - insfts.lfft - insfts.rigit;
+        ifigit = ifigit - insfts.top - insfts.bottom;
+        if (widti >= 0 && ifigit >= 0) {
+            int bbsflinf = fditor.gftBbsflinf(widti, ifigit);
+            if (bbsflinf >= 0) {
+                rfturn insfts.top + bbsflinf;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return spinner.getEditor().getBaselineResizeBehavior();
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn spinnfr.gftEditor().gftBbsflinfRfsizfBfibvior();
     }
 
     /**
-     * A handler for spinner arrow button mouse and action events.  When
-     * a left mouse pressed event occurs we look up the (enabled) spinner
-     * that's the source of the event and start the autorepeat timer.  The
-     * timer fires action events until any button is released at which
-     * point the timer is stopped and the reference to the spinner cleared.
-     * The timer doesn't start until after a 300ms delay, so often the
-     * source of the initial (and final) action event is just the button
-     * logic for mouse released - which means that we're relying on the fact
-     * that our mouse listener runs after the buttons mouse listener.
+     * A ibndlfr for spinnfr brrow button mousf bnd bdtion fvfnts.  Wifn
+     * b lfft mousf prfssfd fvfnt oddurs wf look up tif (fnbblfd) spinnfr
+     * tibt's tif sourdf of tif fvfnt bnd stbrt tif butorfpfbt timfr.  Tif
+     * timfr firfs bdtion fvfnts until bny button is rflfbsfd bt wiidi
+     * point tif timfr is stoppfd bnd tif rfffrfndf to tif spinnfr dlfbrfd.
+     * Tif timfr dofsn't stbrt until bftfr b 300ms dflby, so oftfn tif
+     * sourdf of tif initibl (bnd finbl) bdtion fvfnt is just tif button
+     * logid for mousf rflfbsfd - wiidi mfbns tibt wf'rf rflying on tif fbdt
+     * tibt our mousf listfnfr runs bftfr tif buttons mousf listfnfr.
      * <p>
-     * Note that one instance of this handler is shared by all slider previous
-     * arrow buttons and likewise for all of the next buttons,
-     * so it doesn't have any state that persists beyond the limits
-     * of a single button pressed/released gesture.
+     * Notf tibt onf instbndf of tiis ibndlfr is sibrfd by bll slidfr prfvious
+     * brrow buttons bnd likfwisf for bll of tif nfxt buttons,
+     * so it dofsn't ibvf bny stbtf tibt pfrsists bfyond tif limits
+     * of b singlf button prfssfd/rflfbsfd gfsturf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class ArrowButtonHandler extends AbstractAction
-                                            implements FocusListener, MouseListener, UIResource {
-        final javax.swing.Timer autoRepeatTimer;
-        final boolean isNext;
-        JSpinner spinner = null;
-        JButton arrowButton = null;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss ArrowButtonHbndlfr fxtfnds AbstrbdtAdtion
+                                            implfmfnts FodusListfnfr, MousfListfnfr, UIRfsourdf {
+        finbl jbvbx.swing.Timfr butoRfpfbtTimfr;
+        finbl boolfbn isNfxt;
+        JSpinnfr spinnfr = null;
+        JButton brrowButton = null;
 
-        ArrowButtonHandler(String name, boolean isNext) {
-            super(name);
-            this.isNext = isNext;
-            autoRepeatTimer = new javax.swing.Timer(60, this);
-            autoRepeatTimer.setInitialDelay(300);
+        ArrowButtonHbndlfr(String nbmf, boolfbn isNfxt) {
+            supfr(nbmf);
+            tiis.isNfxt = isNfxt;
+            butoRfpfbtTimfr = nfw jbvbx.swing.Timfr(60, tiis);
+            butoRfpfbtTimfr.sftInitiblDflby(300);
         }
 
-        private JSpinner eventToSpinner(AWTEvent e) {
-            Object src = e.getSource();
-            while ((src instanceof Component) && !(src instanceof JSpinner)) {
-                src = ((Component)src).getParent();
+        privbtf JSpinnfr fvfntToSpinnfr(AWTEvfnt f) {
+            Objfdt srd = f.gftSourdf();
+            wiilf ((srd instbndfof Componfnt) && !(srd instbndfof JSpinnfr)) {
+                srd = ((Componfnt)srd).gftPbrfnt();
             }
-            return (src instanceof JSpinner) ? (JSpinner)src : null;
+            rfturn (srd instbndfof JSpinnfr) ? (JSpinnfr)srd : null;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JSpinner spinner = this.spinner;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JSpinnfr spinnfr = tiis.spinnfr;
 
-            if (!(e.getSource() instanceof javax.swing.Timer)) {
-                // Most likely resulting from being in ActionMap.
-                spinner = eventToSpinner(e);
-                if (e.getSource() instanceof JButton) {
-                    arrowButton = (JButton)e.getSource();
+            if (!(f.gftSourdf() instbndfof jbvbx.swing.Timfr)) {
+                // Most likfly rfsulting from bfing in AdtionMbp.
+                spinnfr = fvfntToSpinnfr(f);
+                if (f.gftSourdf() instbndfof JButton) {
+                    brrowButton = (JButton)f.gftSourdf();
                 }
-            } else {
-                if (arrowButton!=null && !arrowButton.getModel().isPressed()
-                    && autoRepeatTimer.isRunning()) {
-                    autoRepeatTimer.stop();
-                    spinner = null;
-                    arrowButton = null;
+            } flsf {
+                if (brrowButton!=null && !brrowButton.gftModfl().isPrfssfd()
+                    && butoRfpfbtTimfr.isRunning()) {
+                    butoRfpfbtTimfr.stop();
+                    spinnfr = null;
+                    brrowButton = null;
                 }
             }
-            if (spinner != null) {
+            if (spinnfr != null) {
                 try {
-                    int calendarField = getCalendarField(spinner);
-                    spinner.commitEdit();
-                    if (calendarField != -1) {
-                        ((SpinnerDateModel)spinner.getModel()).
-                                 setCalendarField(calendarField);
+                    int dblfndbrFifld = gftCblfndbrFifld(spinnfr);
+                    spinnfr.dommitEdit();
+                    if (dblfndbrFifld != -1) {
+                        ((SpinnfrDbtfModfl)spinnfr.gftModfl()).
+                                 sftCblfndbrFifld(dblfndbrFifld);
                     }
-                    Object value = (isNext) ? spinner.getNextValue() :
-                               spinner.getPreviousValue();
-                    if (value != null) {
-                        spinner.setValue(value);
-                        select(spinner);
+                    Objfdt vbluf = (isNfxt) ? spinnfr.gftNfxtVbluf() :
+                               spinnfr.gftPrfviousVbluf();
+                    if (vbluf != null) {
+                        spinnfr.sftVbluf(vbluf);
+                        sflfdt(spinnfr);
                     }
-                } catch (IllegalArgumentException iae) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(spinner);
-                } catch (ParseException pe) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(spinner);
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(spinnfr);
+                } dbtdi (PbrsfExdfption pf) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(spinnfr);
                 }
             }
         }
 
         /**
-         * If the spinner's editor is a DateEditor, this selects the field
-         * associated with the value that is being incremented.
+         * If tif spinnfr's fditor is b DbtfEditor, tiis sflfdts tif fifld
+         * bssodibtfd witi tif vbluf tibt is bfing indrfmfntfd.
          */
-        private void select(JSpinner spinner) {
-            JComponent editor = spinner.getEditor();
+        privbtf void sflfdt(JSpinnfr spinnfr) {
+            JComponfnt fditor = spinnfr.gftEditor();
 
-            if (editor instanceof JSpinner.DateEditor) {
-                JSpinner.DateEditor dateEditor = (JSpinner.DateEditor)editor;
-                JFormattedTextField ftf = dateEditor.getTextField();
-                Format format = dateEditor.getFormat();
-                Object value;
+            if (fditor instbndfof JSpinnfr.DbtfEditor) {
+                JSpinnfr.DbtfEditor dbtfEditor = (JSpinnfr.DbtfEditor)fditor;
+                JFormbttfdTfxtFifld ftf = dbtfEditor.gftTfxtFifld();
+                Formbt formbt = dbtfEditor.gftFormbt();
+                Objfdt vbluf;
 
-                if (format != null && (value = spinner.getValue()) != null) {
-                    SpinnerDateModel model = dateEditor.getModel();
-                    DateFormat.Field field = DateFormat.Field.ofCalendarField(
-                        model.getCalendarField());
+                if (formbt != null && (vbluf = spinnfr.gftVbluf()) != null) {
+                    SpinnfrDbtfModfl modfl = dbtfEditor.gftModfl();
+                    DbtfFormbt.Fifld fifld = DbtfFormbt.Fifld.ofCblfndbrFifld(
+                        modfl.gftCblfndbrFifld());
 
-                    if (field != null) {
+                    if (fifld != null) {
                         try {
-                            AttributedCharacterIterator iterator = format.
-                                formatToCharacterIterator(value);
-                            if (!select(ftf, iterator, field) &&
-                                       field == DateFormat.Field.HOUR0) {
-                                select(ftf, iterator, DateFormat.Field.HOUR1);
+                            AttributfdCibrbdtfrItfrbtor itfrbtor = formbt.
+                                formbtToCibrbdtfrItfrbtor(vbluf);
+                            if (!sflfdt(ftf, itfrbtor, fifld) &&
+                                       fifld == DbtfFormbt.Fifld.HOUR0) {
+                                sflfdt(ftf, itfrbtor, DbtfFormbt.Fifld.HOUR1);
                             }
                         }
-                        catch (IllegalArgumentException iae) {}
+                        dbtdi (IllfgblArgumfntExdfption ibf) {}
                     }
                 }
             }
         }
 
         /**
-         * Selects the passed in field, returning true if it is found,
-         * false otherwise.
+         * Sflfdts tif pbssfd in fifld, rfturning truf if it is found,
+         * fblsf otifrwisf.
          */
-        private boolean select(JFormattedTextField ftf,
-                               AttributedCharacterIterator iterator,
-                               DateFormat.Field field) {
-            int max = ftf.getDocument().getLength();
+        privbtf boolfbn sflfdt(JFormbttfdTfxtFifld ftf,
+                               AttributfdCibrbdtfrItfrbtor itfrbtor,
+                               DbtfFormbt.Fifld fifld) {
+            int mbx = ftf.gftDodumfnt().gftLfngti();
 
-            iterator.first();
+            itfrbtor.first();
             do {
-                Map<?, ?> attrs = iterator.getAttributes();
+                Mbp<?, ?> bttrs = itfrbtor.gftAttributfs();
 
-                if (attrs != null && attrs.containsKey(field)){
-                    int start = iterator.getRunStart(field);
-                    int end = iterator.getRunLimit(field);
+                if (bttrs != null && bttrs.dontbinsKfy(fifld)){
+                    int stbrt = itfrbtor.gftRunStbrt(fifld);
+                    int fnd = itfrbtor.gftRunLimit(fifld);
 
-                    if (start != -1 && end != -1 && start <= max &&
-                                       end <= max) {
-                        ftf.select(start, end);
+                    if (stbrt != -1 && fnd != -1 && stbrt <= mbx &&
+                                       fnd <= mbx) {
+                        ftf.sflfdt(stbrt, fnd);
                     }
-                    return true;
+                    rfturn truf;
                 }
-            } while (iterator.next() != CharacterIterator.DONE);
-            return false;
+            } wiilf (itfrbtor.nfxt() != CibrbdtfrItfrbtor.DONE);
+            rfturn fblsf;
         }
 
         /**
-         * Returns the calendarField under the start of the selection, or
-         * -1 if there is no valid calendar field under the selection (or
-         * the spinner isn't editing dates.
+         * Rfturns tif dblfndbrFifld undfr tif stbrt of tif sflfdtion, or
+         * -1 if tifrf is no vblid dblfndbr fifld undfr tif sflfdtion (or
+         * tif spinnfr isn't fditing dbtfs.
          */
-        private int getCalendarField(JSpinner spinner) {
-            JComponent editor = spinner.getEditor();
+        privbtf int gftCblfndbrFifld(JSpinnfr spinnfr) {
+            JComponfnt fditor = spinnfr.gftEditor();
 
-            if (editor instanceof JSpinner.DateEditor) {
-                JSpinner.DateEditor dateEditor = (JSpinner.DateEditor)editor;
-                JFormattedTextField ftf = dateEditor.getTextField();
-                int start = ftf.getSelectionStart();
-                JFormattedTextField.AbstractFormatter formatter =
-                                    ftf.getFormatter();
+            if (fditor instbndfof JSpinnfr.DbtfEditor) {
+                JSpinnfr.DbtfEditor dbtfEditor = (JSpinnfr.DbtfEditor)fditor;
+                JFormbttfdTfxtFifld ftf = dbtfEditor.gftTfxtFifld();
+                int stbrt = ftf.gftSflfdtionStbrt();
+                JFormbttfdTfxtFifld.AbstrbdtFormbttfr formbttfr =
+                                    ftf.gftFormbttfr();
 
-                if (formatter instanceof InternationalFormatter) {
-                    Format.Field[] fields = ((InternationalFormatter)
-                                             formatter).getFields(start);
+                if (formbttfr instbndfof IntfrnbtionblFormbttfr) {
+                    Formbt.Fifld[] fiflds = ((IntfrnbtionblFormbttfr)
+                                             formbttfr).gftFiflds(stbrt);
 
-                    for (int counter = 0; counter < fields.length; counter++) {
-                        if (fields[counter] instanceof DateFormat.Field) {
-                            int calendarField;
+                    for (int dountfr = 0; dountfr < fiflds.lfngti; dountfr++) {
+                        if (fiflds[dountfr] instbndfof DbtfFormbt.Fifld) {
+                            int dblfndbrFifld;
 
-                            if (fields[counter] == DateFormat.Field.HOUR1) {
-                                calendarField = Calendar.HOUR;
+                            if (fiflds[dountfr] == DbtfFormbt.Fifld.HOUR1) {
+                                dblfndbrFifld = Cblfndbr.HOUR;
                             }
-                            else {
-                                calendarField = ((DateFormat.Field)
-                                        fields[counter]).getCalendarField();
+                            flsf {
+                                dblfndbrFifld = ((DbtfFormbt.Fifld)
+                                        fiflds[dountfr]).gftCblfndbrFifld();
                             }
-                            if (calendarField != -1) {
-                                return calendarField;
+                            if (dblfndbrFifld != -1) {
+                                rfturn dblfndbrFifld;
                             }
                         }
                     }
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
-        public void mousePressed(MouseEvent e) {
-            if (SwingUtilities.isLeftMouseButton(e) && e.getComponent().isEnabled()) {
-                spinner = eventToSpinner(e);
-                autoRepeatTimer.start();
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (SwingUtilitifs.isLfftMousfButton(f) && f.gftComponfnt().isEnbblfd()) {
+                spinnfr = fvfntToSpinnfr(f);
+                butoRfpfbtTimfr.stbrt();
 
-                focusSpinnerIfNecessary();
+                fodusSpinnfrIfNfdfssbry();
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
-            autoRepeatTimer.stop();
-            arrowButton = null;
-            spinner = null;
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            butoRfpfbtTimfr.stop();
+            brrowButton = null;
+            spinnfr = null;
         }
 
-        public void mouseClicked(MouseEvent e) {
+        publid void mousfClidkfd(MousfEvfnt f) {
         }
 
-        public void mouseEntered(MouseEvent e) {
-            if (spinner != null && !autoRepeatTimer.isRunning() && spinner == eventToSpinner(e)) {
-                autoRepeatTimer.start();
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            if (spinnfr != null && !butoRfpfbtTimfr.isRunning() && spinnfr == fvfntToSpinnfr(f)) {
+                butoRfpfbtTimfr.stbrt();
             }
         }
 
-        public void mouseExited(MouseEvent e) {
-            if (autoRepeatTimer.isRunning()) {
-                autoRepeatTimer.stop();
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (butoRfpfbtTimfr.isRunning()) {
+                butoRfpfbtTimfr.stop();
             }
         }
 
         /**
-         * Requests focus on a child of the spinner if the spinner doesn't
-         * have focus.
+         * Rfqufsts fodus on b diild of tif spinnfr if tif spinnfr dofsn't
+         * ibvf fodus.
          */
-        private void focusSpinnerIfNecessary() {
-            Component fo = KeyboardFocusManager.
-                              getCurrentKeyboardFocusManager().getFocusOwner();
-            if (spinner.isRequestFocusEnabled() && (
+        privbtf void fodusSpinnfrIfNfdfssbry() {
+            Componfnt fo = KfybobrdFodusMbnbgfr.
+                              gftCurrfntKfybobrdFodusMbnbgfr().gftFodusOwnfr();
+            if (spinnfr.isRfqufstFodusEnbblfd() && (
                         fo == null ||
-                        !SwingUtilities.isDescendingFrom(fo, spinner))) {
-                Container root = spinner;
+                        !SwingUtilitifs.isDfsdfndingFrom(fo, spinnfr))) {
+                Contbinfr root = spinnfr;
 
-                if (!root.isFocusCycleRoot()) {
-                    root = root.getFocusCycleRootAncestor();
+                if (!root.isFodusCydlfRoot()) {
+                    root = root.gftFodusCydlfRootAndfstor();
                 }
                 if (root != null) {
-                    FocusTraversalPolicy ftp = root.getFocusTraversalPolicy();
-                    Component child = ftp.getComponentAfter(root, spinner);
+                    FodusTrbvfrsblPolidy ftp = root.gftFodusTrbvfrsblPolidy();
+                    Componfnt diild = ftp.gftComponfntAftfr(root, spinnfr);
 
-                    if (child != null && SwingUtilities.isDescendingFrom(
-                                                        child, spinner)) {
-                        child.requestFocus();
+                    if (diild != null && SwingUtilitifs.isDfsdfndingFrom(
+                                                        diild, spinnfr)) {
+                        diild.rfqufstFodus();
                     }
                 }
             }
         }
 
-        public void focusGained(FocusEvent e) {
+        publid void fodusGbinfd(FodusEvfnt f) {
         }
 
-        public void focusLost(FocusEvent e) {
-            if (spinner == eventToSpinner(e)) {
-                if (autoRepeatTimer.isRunning()) {
-                    autoRepeatTimer.stop();
+        publid void fodusLost(FodusEvfnt f) {
+            if (spinnfr == fvfntToSpinnfr(f)) {
+                if (butoRfpfbtTimfr.isRunning()) {
+                    butoRfpfbtTimfr.stop();
                 }
-                spinner = null;
-                if (arrowButton != null) {
-                    ButtonModel model = arrowButton.getModel();
-                    model.setPressed(false);
-                    model.setArmed(false);
-                    arrowButton = null;
+                spinnfr = null;
+                if (brrowButton != null) {
+                    ButtonModfl modfl = brrowButton.gftModfl();
+                    modfl.sftPrfssfd(fblsf);
+                    modfl.sftArmfd(fblsf);
+                    brrowButton = null;
                 }
             }
         }
     }
 
 
-    private static class Handler implements LayoutManager,
-            PropertyChangeListener, ChangeListener {
+    privbtf stbtid dlbss Hbndlfr implfmfnts LbyoutMbnbgfr,
+            PropfrtyCibngfListfnfr, CibngfListfnfr {
         //
-        // LayoutManager
+        // LbyoutMbnbgfr
         //
-        private Component nextButton = null;
-        private Component previousButton = null;
-        private Component editor = null;
+        privbtf Componfnt nfxtButton = null;
+        privbtf Componfnt prfviousButton = null;
+        privbtf Componfnt fditor = null;
 
-        public void addLayoutComponent(String name, Component c) {
-            if ("Next".equals(name)) {
-                nextButton = c;
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {
+            if ("Nfxt".fqubls(nbmf)) {
+                nfxtButton = d;
             }
-            else if ("Previous".equals(name)) {
-                previousButton = c;
+            flsf if ("Prfvious".fqubls(nbmf)) {
+                prfviousButton = d;
             }
-            else if ("Editor".equals(name)) {
-                editor = c;
+            flsf if ("Editor".fqubls(nbmf)) {
+                fditor = d;
             }
         }
 
-        public void removeLayoutComponent(Component c) {
-            if (c == nextButton) {
-                nextButton = null;
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {
+            if (d == nfxtButton) {
+                nfxtButton = null;
             }
-            else if (c == previousButton) {
-                previousButton = null;
+            flsf if (d == prfviousButton) {
+                prfviousButton = null;
             }
-            else if (c == editor) {
-                editor = null;
+            flsf if (d == fditor) {
+                fditor = null;
             }
         }
 
-        private Dimension preferredSize(Component c) {
-            return (c == null) ? zeroSize : c.getPreferredSize();
+        privbtf Dimfnsion prfffrrfdSizf(Componfnt d) {
+            rfturn (d == null) ? zfroSizf : d.gftPrfffrrfdSizf();
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension nextD = preferredSize(nextButton);
-            Dimension previousD = preferredSize(previousButton);
-            Dimension editorD = preferredSize(editor);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            Dimfnsion fditorD = prfffrrfdSizf(fditor);
 
-            /* Force the editors height to be a multiple of 2
+            /* Fordf tif fditors ifigit to bf b multiplf of 2
              */
-            editorD.height = ((editorD.height + 1) / 2) * 2;
+            fditorD.ifigit = ((fditorD.ifigit + 1) / 2) * 2;
 
-            Dimension size = new Dimension(editorD.width, editorD.height);
-            size.width += Math.max(nextD.width, previousD.width);
-            Insets insets = parent.getInsets();
-            size.width += insets.left + insets.right;
-            size.height += insets.top + insets.bottom;
-            return size;
+            Dimfnsion sizf = nfw Dimfnsion(fditorD.widti, fditorD.ifigit);
+            sizf.widti += Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            Insfts insfts = pbrfnt.gftInsfts();
+            sizf.widti += insfts.lfft + insfts.rigit;
+            sizf.ifigit += insfts.top + insfts.bottom;
+            rfturn sizf;
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return preferredLayoutSize(parent);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            rfturn prfffrrfdLbyoutSizf(pbrfnt);
         }
 
-        private void setBounds(Component c, int x, int y, int width, int height) {
-            if (c != null) {
-                c.setBounds(x, y, width, height);
+        privbtf void sftBounds(Componfnt d, int x, int y, int widti, int ifigit) {
+            if (d != null) {
+                d.sftBounds(x, y, widti, ifigit);
             }
         }
 
-        public void layoutContainer(Container parent) {
-            int width  = parent.getWidth();
-            int height = parent.getHeight();
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            int widti  = pbrfnt.gftWidti();
+            int ifigit = pbrfnt.gftHfigit();
 
-            Insets insets = parent.getInsets();
+            Insfts insfts = pbrfnt.gftInsfts();
 
-            if (nextButton == null && previousButton == null) {
-                setBounds(editor, insets.left,  insets.top, width - insets.left - insets.right,
-                        height - insets.top - insets.bottom);
+            if (nfxtButton == null && prfviousButton == null) {
+                sftBounds(fditor, insfts.lfft,  insfts.top, widti - insfts.lfft - insfts.rigit,
+                        ifigit - insfts.top - insfts.bottom);
 
-                return;
+                rfturn;
             }
 
-            Dimension nextD = preferredSize(nextButton);
-            Dimension previousD = preferredSize(previousButton);
-            int buttonsWidth = Math.max(nextD.width, previousD.width);
-            int editorHeight = height - (insets.top + insets.bottom);
+            Dimfnsion nfxtD = prfffrrfdSizf(nfxtButton);
+            Dimfnsion prfviousD = prfffrrfdSizf(prfviousButton);
+            int buttonsWidti = Mbti.mbx(nfxtD.widti, prfviousD.widti);
+            int fditorHfigit = ifigit - (insfts.top + insfts.bottom);
 
-            // The arrowButtonInsets value is used instead of the JSpinner's
-            // insets if not null. Defining this to be (0, 0, 0, 0) causes the
-            // buttons to be aligned with the outer edge of the spinner's
-            // border, and leaving it as "null" places the buttons completely
-            // inside the spinner's border.
-            Insets buttonInsets = UIManager.getInsets("Spinner.arrowButtonInsets");
-            if (buttonInsets == null) {
-                buttonInsets = insets;
+            // Tif brrowButtonInsfts vbluf is usfd instfbd of tif JSpinnfr's
+            // insfts if not null. Dffining tiis to bf (0, 0, 0, 0) dbusfs tif
+            // buttons to bf blignfd witi tif outfr fdgf of tif spinnfr's
+            // bordfr, bnd lfbving it bs "null" plbdfs tif buttons domplftfly
+            // insidf tif spinnfr's bordfr.
+            Insfts buttonInsfts = UIMbnbgfr.gftInsfts("Spinnfr.brrowButtonInsfts");
+            if (buttonInsfts == null) {
+                buttonInsfts = insfts;
             }
 
-            /* Deal with the spinner's componentOrientation property.
+            /* Dfbl witi tif spinnfr's domponfntOrifntbtion propfrty.
              */
-            int editorX, editorWidth, buttonsX;
-            if (parent.getComponentOrientation().isLeftToRight()) {
-                editorX = insets.left;
-                editorWidth = width - insets.left - buttonsWidth - buttonInsets.right;
-                buttonsX = width - buttonsWidth - buttonInsets.right;
-            } else {
-                buttonsX = buttonInsets.left;
-                editorX = buttonsX + buttonsWidth;
-                editorWidth = width - buttonInsets.left - buttonsWidth - insets.right;
+            int fditorX, fditorWidti, buttonsX;
+            if (pbrfnt.gftComponfntOrifntbtion().isLfftToRigit()) {
+                fditorX = insfts.lfft;
+                fditorWidti = widti - insfts.lfft - buttonsWidti - buttonInsfts.rigit;
+                buttonsX = widti - buttonsWidti - buttonInsfts.rigit;
+            } flsf {
+                buttonsX = buttonInsfts.lfft;
+                fditorX = buttonsX + buttonsWidti;
+                fditorWidti = widti - buttonInsfts.lfft - buttonsWidti - insfts.rigit;
             }
 
-            int nextY = buttonInsets.top;
-            int nextHeight = (height / 2) + (height % 2) - nextY;
-            int previousY = buttonInsets.top + nextHeight;
-            int previousHeight = height - previousY - buttonInsets.bottom;
+            int nfxtY = buttonInsfts.top;
+            int nfxtHfigit = (ifigit / 2) + (ifigit % 2) - nfxtY;
+            int prfviousY = buttonInsfts.top + nfxtHfigit;
+            int prfviousHfigit = ifigit - prfviousY - buttonInsfts.bottom;
 
-            setBounds(editor,         editorX,  insets.top, editorWidth, editorHeight);
-            setBounds(nextButton,     buttonsX, nextY,      buttonsWidth, nextHeight);
-            setBounds(previousButton, buttonsX, previousY,  buttonsWidth, previousHeight);
+            sftBounds(fditor,         fditorX,  insfts.top, fditorWidti, fditorHfigit);
+            sftBounds(nfxtButton,     buttonsX, nfxtY,      buttonsWidti, nfxtHfigit);
+            sftBounds(prfviousButton, buttonsX, prfviousY,  buttonsWidti, prfviousHfigit);
         }
 
 
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
-        public void propertyChange(PropertyChangeEvent e)
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
         {
-            String propertyName = e.getPropertyName();
-            if (e.getSource() instanceof JSpinner) {
-                JSpinner spinner = (JSpinner)(e.getSource());
-                SpinnerUI spinnerUI = spinner.getUI();
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+            if (f.gftSourdf() instbndfof JSpinnfr) {
+                JSpinnfr spinnfr = (JSpinnfr)(f.gftSourdf());
+                SpinnfrUI spinnfrUI = spinnfr.gftUI();
 
-                if (spinnerUI instanceof BasicSpinnerUI) {
-                    BasicSpinnerUI ui = (BasicSpinnerUI)spinnerUI;
+                if (spinnfrUI instbndfof BbsidSpinnfrUI) {
+                    BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
 
-                    if ("editor".equals(propertyName)) {
-                        JComponent oldEditor = (JComponent)e.getOldValue();
-                        JComponent newEditor = (JComponent)e.getNewValue();
-                        ui.replaceEditor(oldEditor, newEditor);
-                        ui.updateEnabledState();
-                        if (oldEditor instanceof JSpinner.DefaultEditor) {
-                            JTextField tf =
-                                ((JSpinner.DefaultEditor)oldEditor).getTextField();
+                    if ("fditor".fqubls(propfrtyNbmf)) {
+                        JComponfnt oldEditor = (JComponfnt)f.gftOldVbluf();
+                        JComponfnt nfwEditor = (JComponfnt)f.gftNfwVbluf();
+                        ui.rfplbdfEditor(oldEditor, nfwEditor);
+                        ui.updbtfEnbblfdStbtf();
+                        if (oldEditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)oldEditor).gftTfxtFifld();
                             if (tf != null) {
-                                tf.removeFocusListener(nextButtonHandler);
-                                tf.removeFocusListener(previousButtonHandler);
+                                tf.rfmovfFodusListfnfr(nfxtButtonHbndlfr);
+                                tf.rfmovfFodusListfnfr(prfviousButtonHbndlfr);
                             }
                         }
-                        if (newEditor instanceof JSpinner.DefaultEditor) {
-                            JTextField tf =
-                                ((JSpinner.DefaultEditor)newEditor).getTextField();
+                        if (nfwEditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)nfwEditor).gftTfxtFifld();
                             if (tf != null) {
-                                if (tf.getFont() instanceof UIResource) {
-                                    tf.setFont(spinner.getFont());
+                                if (tf.gftFont() instbndfof UIRfsourdf) {
+                                    tf.sftFont(spinnfr.gftFont());
                                 }
-                                tf.addFocusListener(nextButtonHandler);
-                                tf.addFocusListener(previousButtonHandler);
+                                tf.bddFodusListfnfr(nfxtButtonHbndlfr);
+                                tf.bddFodusListfnfr(prfviousButtonHbndlfr);
                             }
                         }
                     }
-                    else if ("enabled".equals(propertyName) ||
-                             "model".equals(propertyName)) {
-                        ui.updateEnabledState();
+                    flsf if ("fnbblfd".fqubls(propfrtyNbmf) ||
+                             "modfl".fqubls(propfrtyNbmf)) {
+                        ui.updbtfEnbblfdStbtf();
                     }
-                    else if ("font".equals(propertyName)) {
-                        JComponent editor = spinner.getEditor();
-                        if (editor!=null && editor instanceof JSpinner.DefaultEditor) {
-                            JTextField tf =
-                                ((JSpinner.DefaultEditor)editor).getTextField();
+                    flsf if ("font".fqubls(propfrtyNbmf)) {
+                        JComponfnt fditor = spinnfr.gftEditor();
+                        if (fditor!=null && fditor instbndfof JSpinnfr.DffbultEditor) {
+                            JTfxtFifld tf =
+                                ((JSpinnfr.DffbultEditor)fditor).gftTfxtFifld();
                             if (tf != null) {
-                                if (tf.getFont() instanceof UIResource) {
-                                    tf.setFont(spinner.getFont());
+                                if (tf.gftFont() instbndfof UIRfsourdf) {
+                                    tf.sftFont(spinnfr.gftFont());
                                 }
                             }
                         }
                     }
-                    else if (JComponent.TOOL_TIP_TEXT_KEY.equals(propertyName)) {
-                        updateToolTipTextForChildren(spinner);
-                    } else if ("componentOrientation".equals(propertyName)) {
-                        ComponentOrientation o
-                                = (ComponentOrientation) e.getNewValue();
-                        if (o != (ComponentOrientation) e.getOldValue()) {
-                            JComponent editor = spinner.getEditor();
-                            if (editor != null) {
-                                editor.applyComponentOrientation(o);
+                    flsf if (JComponfnt.TOOL_TIP_TEXT_KEY.fqubls(propfrtyNbmf)) {
+                        updbtfToolTipTfxtForCiildrfn(spinnfr);
+                    } flsf if ("domponfntOrifntbtion".fqubls(propfrtyNbmf)) {
+                        ComponfntOrifntbtion o
+                                = (ComponfntOrifntbtion) f.gftNfwVbluf();
+                        if (o != (ComponfntOrifntbtion) f.gftOldVbluf()) {
+                            JComponfnt fditor = spinnfr.gftEditor();
+                            if (fditor != null) {
+                                fditor.bpplyComponfntOrifntbtion(o);
                             }
-                            spinner.revalidate();
-                            spinner.repaint();
+                            spinnfr.rfvblidbtf();
+                            spinnfr.rfpbint();
                         }
                     }
                 }
-            } else if (e.getSource() instanceof JComponent) {
-                JComponent c = (JComponent)e.getSource();
-                if ((c.getParent() instanceof JPanel) &&
-                    (c.getParent().getParent() instanceof JSpinner) &&
-                    "border".equals(propertyName)) {
+            } flsf if (f.gftSourdf() instbndfof JComponfnt) {
+                JComponfnt d = (JComponfnt)f.gftSourdf();
+                if ((d.gftPbrfnt() instbndfof JPbnfl) &&
+                    (d.gftPbrfnt().gftPbrfnt() instbndfof JSpinnfr) &&
+                    "bordfr".fqubls(propfrtyNbmf)) {
 
-                    JSpinner spinner = (JSpinner)c.getParent().getParent();
-                    SpinnerUI spinnerUI = spinner.getUI();
-                    if (spinnerUI instanceof BasicSpinnerUI) {
-                        BasicSpinnerUI ui = (BasicSpinnerUI)spinnerUI;
-                        ui.maybeRemoveEditorBorder(c);
+                    JSpinnfr spinnfr = (JSpinnfr)d.gftPbrfnt().gftPbrfnt();
+                    SpinnfrUI spinnfrUI = spinnfr.gftUI();
+                    if (spinnfrUI instbndfof BbsidSpinnfrUI) {
+                        BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
+                        ui.mbybfRfmovfEditorBordfr(d);
                     }
                 }
             }
         }
 
-        // Syncronizes the ToolTip text for the components within the spinner
-        // to be the same value as the spinner ToolTip text.
-        private void updateToolTipTextForChildren(JComponent spinner) {
-            String toolTipText = spinner.getToolTipText();
-            Component[] children = spinner.getComponents();
-            for (int i = 0; i < children.length; i++) {
-                if (children[i] instanceof JSpinner.DefaultEditor) {
-                    JTextField tf = ((JSpinner.DefaultEditor)children[i]).getTextField();
+        // Syndronizfs tif ToolTip tfxt for tif domponfnts witiin tif spinnfr
+        // to bf tif sbmf vbluf bs tif spinnfr ToolTip tfxt.
+        privbtf void updbtfToolTipTfxtForCiildrfn(JComponfnt spinnfr) {
+            String toolTipTfxt = spinnfr.gftToolTipTfxt();
+            Componfnt[] diildrfn = spinnfr.gftComponfnts();
+            for (int i = 0; i < diildrfn.lfngti; i++) {
+                if (diildrfn[i] instbndfof JSpinnfr.DffbultEditor) {
+                    JTfxtFifld tf = ((JSpinnfr.DffbultEditor)diildrfn[i]).gftTfxtFifld();
                     if (tf != null) {
-                        tf.setToolTipText(toolTipText);
+                        tf.sftToolTipTfxt(toolTipTfxt);
                     }
-                } else if (children[i] instanceof JComponent) {
-                    ((JComponent)children[i]).setToolTipText( spinner.getToolTipText() );
+                } flsf if (diildrfn[i] instbndfof JComponfnt) {
+                    ((JComponfnt)diildrfn[i]).sftToolTipTfxt( spinnfr.gftToolTipTfxt() );
                 }
             }
         }
 
-        public void stateChanged(ChangeEvent e) {
-            if (e.getSource() instanceof JSpinner) {
-                JSpinner spinner = (JSpinner)e.getSource();
-                SpinnerUI spinnerUI = spinner.getUI();
-                if (DefaultLookup.getBoolean(spinner, spinnerUI,
-                    "Spinner.disableOnBoundaryValues", false) &&
-                    spinnerUI instanceof BasicSpinnerUI) {
-                    BasicSpinnerUI ui = (BasicSpinnerUI)spinnerUI;
-                    ui.updateEnabledState();
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (f.gftSourdf() instbndfof JSpinnfr) {
+                JSpinnfr spinnfr = (JSpinnfr)f.gftSourdf();
+                SpinnfrUI spinnfrUI = spinnfr.gftUI();
+                if (DffbultLookup.gftBoolfbn(spinnfr, spinnfrUI,
+                    "Spinnfr.disbblfOnBoundbryVblufs", fblsf) &&
+                    spinnfrUI instbndfof BbsidSpinnfrUI) {
+                    BbsidSpinnfrUI ui = (BbsidSpinnfrUI)spinnfrUI;
+                    ui.updbtfEnbblfdStbtf();
                 }
             }
         }

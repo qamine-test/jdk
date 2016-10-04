@@ -1,0 +1,419 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmFifld;
+
+/**
+ *
+ * This dlbss implfmfnts bn IP Sodkft Addrfss (IP bddrfss + port numbfr)
+ * It dbn blso bf b pbir (hostnbmf + port numbfr), in whidh dbsf bn bttfmpt
+ * will bf mbdf to rfsolvf thf hostnbmf. If rfsolution fbils thfn thf bddrfss
+ * is sbid to bf <I>unrfsolvfd</I> but dbn still bf usfd on somf dirdumstbndfs
+ * likf donnfdting through b proxy.
+ * <p>
+ * It providfs bn immutbblf objfdt usfd by sodkfts for binding, donnfdting, or
+ * bs rfturnfd vblufs.
+ * <p>
+ * Thf <i>wilddbrd</i> is b spfdibl lodbl IP bddrfss. It usublly mfbns "bny"
+ * bnd dbn only bf usfd for {@dodf bind} opfrbtions.
+ *
+ * @sff jbvb.nft.Sodkft
+ * @sff jbvb.nft.SfrvfrSodkft
+ * @sindf 1.4
+ */
+publid dlbss InftSodkftAddrfss
+    fxtfnds SodkftAddrfss
+{
+    // Privbtf implfmfntbtion dlbss pointfd to by bll publid mfthods.
+    privbtf stbtid dlbss InftSodkftAddrfssHoldfr {
+        // Thf hostnbmf of thf Sodkft Addrfss
+        privbtf String hostnbmf;
+        // Thf IP bddrfss of thf Sodkft Addrfss
+        privbtf InftAddrfss bddr;
+        // Thf port numbfr of thf Sodkft Addrfss
+        privbtf int port;
+
+        privbtf InftSodkftAddrfssHoldfr(String hostnbmf, InftAddrfss bddr, int port) {
+            this.hostnbmf = hostnbmf;
+            this.bddr = bddr;
+            this.port = port;
+        }
+
+        privbtf int gftPort() {
+            rfturn port;
+        }
+
+        privbtf InftAddrfss gftAddrfss() {
+            rfturn bddr;
+        }
+
+        privbtf String gftHostNbmf() {
+            if (hostnbmf != null)
+                rfturn hostnbmf;
+            if (bddr != null)
+                rfturn bddr.gftHostNbmf();
+            rfturn null;
+        }
+
+        privbtf String gftHostString() {
+            if (hostnbmf != null)
+                rfturn hostnbmf;
+            if (bddr != null) {
+                if (bddr.holdfr().gftHostNbmf() != null)
+                    rfturn bddr.holdfr().gftHostNbmf();
+                flsf
+                    rfturn bddr.gftHostAddrfss();
+            }
+            rfturn null;
+        }
+
+        privbtf boolfbn isUnrfsolvfd() {
+            rfturn bddr == null;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            if (isUnrfsolvfd()) {
+                rfturn hostnbmf + ":" + port;
+            } flsf {
+                rfturn bddr.toString() + ":" + port;
+            }
+        }
+
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            if (obj == null || !(obj instbndfof InftSodkftAddrfssHoldfr))
+                rfturn fblsf;
+            InftSodkftAddrfssHoldfr thbt = (InftSodkftAddrfssHoldfr)obj;
+            boolfbn sbmfIP;
+            if (bddr != null)
+                sbmfIP = bddr.fqubls(thbt.bddr);
+            flsf if (hostnbmf != null)
+                sbmfIP = (thbt.bddr == null) &&
+                    hostnbmf.fqublsIgnorfCbsf(thbt.hostnbmf);
+            flsf
+                sbmfIP = (thbt.bddr == null) && (thbt.hostnbmf == null);
+            rfturn sbmfIP && (port == thbt.port);
+        }
+
+        @Ovfrridf
+        publid finbl int hbshCodf() {
+            if (bddr != null)
+                rfturn bddr.hbshCodf() + port;
+            if (hostnbmf != null)
+                rfturn hostnbmf.toLowfrCbsf().hbshCodf() + port;
+            rfturn port;
+        }
+    }
+
+    privbtf finbl trbnsifnt InftSodkftAddrfssHoldfr holdfr;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5076001401234631237L;
+
+    privbtf stbtid int dhfdkPort(int port) {
+        if (port < 0 || port > 0xFFFF)
+            throw nfw IllfgblArgumfntExdfption("port out of rbngf:" + port);
+        rfturn port;
+    }
+
+    privbtf stbtid String dhfdkHost(String hostnbmf) {
+        if (hostnbmf == null)
+            throw nfw IllfgblArgumfntExdfption("hostnbmf dbn't bf null");
+        rfturn hostnbmf;
+    }
+
+    /**
+     * Crfbtfs b sodkft bddrfss whfrf thf IP bddrfss is thf wilddbrd bddrfss
+     * bnd thf port numbfr b spfdififd vbluf.
+     * <p>
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft thf systfm pidk up bn
+     * fphfmfrbl port in b {@dodf bind} opfrbtion.
+     *
+     * @pbrbm   port    Thf port numbfr
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf spfdififd
+     * rbngf of vblid port vblufs.
+     */
+    publid InftSodkftAddrfss(int port) {
+        this(InftAddrfss.bnyLodblAddrfss(), port);
+    }
+
+    /**
+     *
+     * Crfbtfs b sodkft bddrfss from bn IP bddrfss bnd b port numbfr.
+     * <p>
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft thf systfm pidk up bn
+     * fphfmfrbl port in b {@dodf bind} opfrbtion.
+     * <P>
+     * A {@dodf null} bddrfss will bssign thf <i>wilddbrd</i> bddrfss.
+     *
+     * @pbrbm   bddr    Thf IP bddrfss
+     * @pbrbm   port    Thf port numbfr
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf spfdififd
+     * rbngf of vblid port vblufs.
+     */
+    publid InftSodkftAddrfss(InftAddrfss bddr, int port) {
+        holdfr = nfw InftSodkftAddrfssHoldfr(
+                        null,
+                        bddr == null ? InftAddrfss.bnyLodblAddrfss() : bddr,
+                        dhfdkPort(port));
+    }
+
+    /**
+     *
+     * Crfbtfs b sodkft bddrfss from b hostnbmf bnd b port numbfr.
+     * <p>
+     * An bttfmpt will bf mbdf to rfsolvf thf hostnbmf into bn InftAddrfss.
+     * If thbt bttfmpt fbils, thf bddrfss will bf flbggfd bs <I>unrfsolvfd</I>.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkConnfdt} mfthod
+     * is dbllfd with thf host nbmf bs its brgumfnt to dhfdk thf pfrmission
+     * to rfsolvf it. This dould rfsult in b SfdurityExdfption.
+     * <P>
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft thf systfm pidk up bn
+     * fphfmfrbl port in b {@dodf bind} opfrbtion.
+     *
+     * @pbrbm   hostnbmf thf Host nbmf
+     * @pbrbm   port    Thf port numbfr
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf rbngf
+     * of vblid port vblufs, or if thf hostnbmf pbrbmftfr is <TT>null</TT>.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *                           pfrmission to rfsolvf thf host nbmf is
+     *                           dfnifd.
+     * @sff     #isUnrfsolvfd()
+     */
+    publid InftSodkftAddrfss(String hostnbmf, int port) {
+        dhfdkHost(hostnbmf);
+        InftAddrfss bddr = null;
+        String host = null;
+        try {
+            bddr = InftAddrfss.gftByNbmf(hostnbmf);
+        } dbtdh(UnknownHostExdfption f) {
+            host = hostnbmf;
+        }
+        holdfr = nfw InftSodkftAddrfssHoldfr(host, bddr, dhfdkPort(port));
+    }
+
+    // privbtf donstrudtor for drfbting unrfsolvfd instbndfs
+    privbtf InftSodkftAddrfss(int port, String hostnbmf) {
+        holdfr = nfw InftSodkftAddrfssHoldfr(hostnbmf, null, port);
+    }
+
+    /**
+     *
+     * Crfbtfs bn unrfsolvfd sodkft bddrfss from b hostnbmf bnd b port numbfr.
+     * <p>
+     * No bttfmpt will bf mbdf to rfsolvf thf hostnbmf into bn InftAddrfss.
+     * Thf bddrfss will bf flbggfd bs <I>unrfsolvfd</I>.
+     * <p>
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft thf systfm pidk up bn
+     * fphfmfrbl port in b {@dodf bind} opfrbtion.
+     *
+     * @pbrbm   host    thf Host nbmf
+     * @pbrbm   port    Thf port numbfr
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf
+     *                  thf rbngf of vblid port vblufs, or if thf hostnbmf
+     *                  pbrbmftfr is <TT>null</TT>.
+     * @sff     #isUnrfsolvfd()
+     * @rfturn  b {@dodf InftSodkftAddrfss} rfprfsfnting thf unrfsolvfd
+     *          sodkft bddrfss
+     * @sindf 1.5
+     */
+    publid stbtid InftSodkftAddrfss drfbtfUnrfsolvfd(String host, int port) {
+        rfturn nfw InftSodkftAddrfss(dhfdkPort(port), dhfdkHost(host));
+    }
+
+    /**
+     * @sfriblFifld hostnbmf String
+     * @sfriblFifld bddr InftAddrfss
+     * @sfriblFifld port int
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+         nfw ObjfdtStrfbmFifld("hostnbmf", String.dlbss),
+         nfw ObjfdtStrfbmFifld("bddr", InftAddrfss.dlbss),
+         nfw ObjfdtStrfbmFifld("port", int.dlbss)};
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+        throws IOExdfption
+    {
+        // Don't dbll dffbultWritfObjfdt()
+         ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+         pfiflds.put("hostnbmf", holdfr.hostnbmf);
+         pfiflds.put("bddr", holdfr.bddr);
+         pfiflds.put("port", holdfr.port);
+         out.writfFiflds();
+     }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Don't dbll dffbultRfbdObjfdt()
+        ObjfdtInputStrfbm.GftFifld oisFiflds = in.rfbdFiflds();
+        finbl String oisHostnbmf = (String)oisFiflds.gft("hostnbmf", null);
+        finbl InftAddrfss oisAddr = (InftAddrfss)oisFiflds.gft("bddr", null);
+        finbl int oisPort = oisFiflds.gft("port", -1);
+
+        // Chfdk thbt our invbribnts brf sbtisfifd
+        dhfdkPort(oisPort);
+        if (oisHostnbmf == null && oisAddr == null)
+            throw nfw InvblidObjfdtExdfption("hostnbmf bnd bddr " +
+                                             "dbn't both bf null");
+
+        InftSodkftAddrfssHoldfr h = nfw InftSodkftAddrfssHoldfr(oisHostnbmf,
+                                                                oisAddr,
+                                                                oisPort);
+        UNSAFE.putObjfdt(this, FIELDS_OFFSET, h);
+    }
+
+    privbtf void rfbdObjfdtNoDbtb()
+        throws ObjfdtStrfbmExdfption
+    {
+        throw nfw InvblidObjfdtExdfption("Strfbm dbtb rfquirfd");
+    }
+
+    privbtf stbtid finbl long FIELDS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    stbtid {
+        try {
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            FIELDS_OFFSET = unsbff.objfdtFifldOffsft(
+                    InftSodkftAddrfss.dlbss.gftDfdlbrfdFifld("holdfr"));
+            UNSAFE = unsbff;
+        } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    /**
+     * Gfts thf port numbfr.
+     *
+     * @rfturn thf port numbfr.
+     */
+    publid finbl int gftPort() {
+        rfturn holdfr.gftPort();
+    }
+
+    /**
+     *
+     * Gfts thf {@dodf InftAddrfss}.
+     *
+     * @rfturn thf InftAdrfss or {@dodf null} if it is unrfsolvfd.
+     */
+    publid finbl InftAddrfss gftAddrfss() {
+        rfturn holdfr.gftAddrfss();
+    }
+
+    /**
+     * Gfts thf {@dodf hostnbmf}.
+     * Notf: This mfthod mby triggfr b nbmf sfrvidf rfvfrsf lookup if thf
+     * bddrfss wbs drfbtfd with b litfrbl IP bddrfss.
+     *
+     * @rfturn  thf hostnbmf pbrt of thf bddrfss.
+     */
+    publid finbl String gftHostNbmf() {
+        rfturn holdfr.gftHostNbmf();
+    }
+
+    /**
+     * Rfturns thf hostnbmf, or thf String form of thf bddrfss if it
+     * dofsn't hbvf b hostnbmf (it wbs drfbtfd using b litfrbl).
+     * This hbs thf bfnffit of <b>not</b> bttfmpting b rfvfrsf lookup.
+     *
+     * @rfturn thf hostnbmf, or String rfprfsfntbtion of thf bddrfss.
+     * @sindf 1.7
+     */
+    publid finbl String gftHostString() {
+        rfturn holdfr.gftHostString();
+    }
+
+    /**
+     * Chfdks whfthfr thf bddrfss hbs bffn rfsolvfd or not.
+     *
+     * @rfturn {@dodf truf} if thf hostnbmf douldn't bf rfsolvfd into
+     *          bn {@dodf InftAddrfss}.
+     */
+    publid finbl boolfbn isUnrfsolvfd() {
+        rfturn holdfr.isUnrfsolvfd();
+    }
+
+    /**
+     * Construdts b string rfprfsfntbtion of this InftSodkftAddrfss.
+     * This String is donstrudtfd by dblling toString() on thf InftAddrfss
+     * bnd dondbtfnbting thf port numbfr (with b dolon). If thf bddrfss
+     * is unrfsolvfd thfn thf pbrt bfforf thf dolon will only dontbin thf hostnbmf.
+     *
+     * @rfturn  b string rfprfsfntbtion of this objfdt.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn holdfr.toString();
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf bddrfss bs
+     * this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf InftSodkftAddrfss} rfprfsfnt thf sbmf
+     * bddrfss if both thf InftAddrfssfs (or hostnbmfs if it is unrfsolvfd) bnd port
+     * numbfrs brf fqubl.
+     * If both bddrfssfs brf unrfsolvfd, thfn thf hostnbmf bnd thf port numbfr
+     * brf dompbrfd.
+     *
+     * Notf: Hostnbmfs brf dbsf insfnsitivf. f.g. "FooBbr" bnd "foobbr" brf
+     * donsidfrfd fqubl.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff jbvb.nft.InftAddrfss#fqubls(jbvb.lbng.Objfdt)
+     */
+    @Ovfrridf
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof InftSodkftAddrfss))
+            rfturn fblsf;
+        rfturn holdfr.fqubls(((InftSodkftAddrfss) obj).holdfr);
+    }
+
+    /**
+     * Rfturns b hbshdodf for this sodkft bddrfss.
+     *
+     * @rfturn  b hbsh dodf vbluf for this sodkft bddrfss.
+     */
+    @Ovfrridf
+    publid finbl int hbshCodf() {
+        rfturn holdfr.hbshCodf();
+    }
+}

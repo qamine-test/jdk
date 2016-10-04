@@ -1,130 +1,130 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
- * HanLayoutEngine.h: OpenType processing for Han fonts.
+ * HbnLbyoutEnginf.i: OpfnTypf prodfssing for Hbn fonts.
  *
- * (C) Copyright IBM Corp. 1998-2008 - All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 1998-2008 - All Rigits Rfsfrvfd.
  */
 
-#ifndef __HANLAYOUTENGINE_H
-#define __HANLAYOUTENGINE_H
+#ifndff __HANLAYOUTENGINE_H
+#dffinf __HANLAYOUTENGINE_H
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "OpfnTypfLbyoutEnginf.i"
 
-#include "GlyphSubstitutionTables.h"
+#indludf "GlypiSubstitutionTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
 /**
- * This class implements OpenType layout for Han fonts. It overrides
- * the characerProcessing method to assign the correct OpenType feature
- * tags for the CJK language-specific forms.
+ * Tiis dlbss implfmfnts OpfnTypf lbyout for Hbn fonts. It ovfrridfs
+ * tif dibrbdfrProdfssing mftiod to bssign tif dorrfdt OpfnTypf ffbturf
+ * tbgs for tif CJK lbngubgf-spfdifid forms.
  *
- * @internal
+ * @intfrnbl
  */
-class HanOpenTypeLayoutEngine : public OpenTypeLayoutEngine
+dlbss HbnOpfnTypfLbyoutEnginf : publid OpfnTypfLbyoutEnginf
 {
-public:
+publid:
     /**
-     * This is the main constructor. It constructs an instance of HanOpenTypeLayoutEngine for
-     * a particular font, script and language. It takes the GSUB table as a parameter since
-     * LayoutEngine::layoutEngineFactory has to read the GSUB table to know that it has a
-     * Han OpenType font.
+     * Tiis is tif mbin donstrudtor. It donstrudts bn instbndf of HbnOpfnTypfLbyoutEnginf for
+     * b pbrtidulbr font, sdript bnd lbngubgf. It tbkfs tif GSUB tbblf bs b pbrbmftfr sindf
+     * LbyoutEnginf::lbyoutEnginfFbdtory ibs to rfbd tif GSUB tbblf to know tibt it ibs b
+     * Hbn OpfnTypf font.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param gsubTable - the GSUB table
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbndf - tif font
+     * @pbrbm sdriptCodf - tif sdript
+     * @pbrbm lbngbugfCodf - tif lbngubgf
+     * @pbrbm gsubTbblf - tif GSUB tbblf
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
      *
-     * @see LayoutEngine::layoutEngineFactory
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLangaugeTags.h for script and language codes
+     * @sff LbyoutEnginf::lbyoutEnginfFbdtory
+     * @sff OpfnTypfLbyoutEnginf
+     * @sff SdriptAndLbngbugfTbgs.i for sdript bnd lbngubgf dodfs
      *
-     * @internal
+     * @intfrnbl
      */
-    HanOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                            le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTablem, LEErrorCode &success);
+    HbnOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                            lf_int32 typoFlbgs, donst LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> &gsubTbblfm, LEErrorCodf &suddfss);
 
-
-    /**
-     * The destructor, virtual for correct polymorphic invocation.
-     *
-     * @internal
-     */
-    virtual ~HanOpenTypeLayoutEngine();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * Tif dfstrudtor, virtubl for dorrfdt polymorpiid invodbtion.
      *
-     * @stable ICU 2.8
+     * @intfrnbl
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl ~HbnOpfnTypfLbyoutEnginf();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    static UClassID getStaticClassID();
-
-protected:
+    virtubl UClbssID gftDynbmidClbssID() donst;
 
     /**
-     * This method does Han OpenType character processing. It assigns the OpenType feature
-     * tags to the characters to generate the correct language-specific variants.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the characters are in a right to left directional run
-     * @param glyphStorage - the object holding the glyph storage. The char index and auxillary data arrays will be set.
-     *
-     * Output parameters:
-     * @param outChars - the output character arrayt
-     * @param charIndices - the output character index array
-     * @param featureTags - the output feature tag array
-     * @param success - set to an error code if the operation fails
-     *
-     * @return the output character count
-     *
-     * @internal
+     * @stbblf ICU 2.8
      */
-    virtual le_int32 characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-            LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    stbtid UClbssID gftStbtidClbssID();
+
+protfdtfd:
+
+    /**
+     * Tiis mftiod dofs Hbn OpfnTypf dibrbdtfr prodfssing. It bssigns tif OpfnTypf ffbturf
+     * tbgs to tif dibrbdtfrs to gfnfrbtf tif dorrfdt lbngubgf-spfdifid vbribnts.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dibrs - tif input dibrbdtfr dontfxt
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr to prodfss
+     * @pbrbm dount - tif numbfr of dibrbdtfrs to prodfss
+     * @pbrbm mbx - tif numbfr of dibrbdtfrs in tif input dontfxt
+     * @pbrbm rigitToLfft - <dodf>TRUE</dodf> if tif dibrbdtfrs brf in b rigit to lfft dirfdtionbl run
+     * @pbrbm glypiStorbgf - tif objfdt iolding tif glypi storbgf. Tif dibr indfx bnd buxillbry dbtb brrbys will bf sft.
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm outCibrs - tif output dibrbdtfr brrbyt
+     * @pbrbm dibrIndidfs - tif output dibrbdtfr indfx brrby
+     * @pbrbm ffbturfTbgs - tif output ffbturf tbg brrby
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @rfturn tif output dibrbdtfr dount
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+            LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

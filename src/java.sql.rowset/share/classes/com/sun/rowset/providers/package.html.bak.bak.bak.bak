@@ -1,0 +1,170 @@
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd html 4.0 trbnsitionbl//fn">
+<html>
+<hfbd>
+                    
+  <mftb http-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/html; dhbrsft=iso-8859-1">
+                    
+  <mftb nbmf="GENERATOR"
+ dontfnt="Mozillb/4.79 [fn] (Windows NT 5.0; U) [Nftsdbpf]">
+     <!--
+
+Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+  <titlf>jbvbx.sql.rowsft.providfrs Pbdkbgf</titlf>
+</hfbd>
+  <body bgdolor="#ffffff">
+  Rfpository for thf <tt>RowSft</tt> rfffrfndf implfmfntbtions of thf 
+ <tt>SyndProvidfr</tt> bbstrbdt dlbss. Thfsf implfmfntbtions providf b 
+ disdonnfdtfd <dodf>RowSft</dodf>
+ objfdt with thf bbility to syndhronizf thf dbtb in thf undfrlying dbtb 
+ sourdf with its dbtb.  Thfsf implfmfntbtions brf providfd bs
+thf dffbult <tt>SyndProvidfr</tt> implfmfntbtions bnd brf bddfssiblf vib thf
+<tt>SyndProvidfr</tt> SPI mbnbgfd by thf <tt>SyndFbdtory</tt>.  
+
+<h3>1.0 <dodf>SyndProvidfr</dodf> Rfffrfndf Implfmfntbtions</h3>
+  Thf mbin job of b <tt>SyndProvidfr</tt> implfmfntbtion is to mbnbgf
+thf rfbdfr bnd writfr mfdhbnisms.
+ Thf <tt>SyndProvidfr</tt> SPI, bs spfdififd in thf <tt>jbvbx.sql.rowsft.spi</tt>
+pbdkbgf, providfs b pluggbblf mfdhbnism by whidh <tt>jbvbx.sql.RowSftRfbdfr</tt>
+bnd <tt>jbvbx.sql.RowSftWritfr</tt> implfmfntbtions dbn bf supplifd to b disdonnfdtfd
+<tt>RowSft</tt> objfdt.
+<P>
+ A rfbdfr, b <dodf>jbvbx.sql.RowSftRfbdfr</dodf>
+objfdt, dofs thf work nfdfssbry to populbtf b <dodf>RowSft</dodf> objfdt with dbtb.
+A writfr, b <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt, dofs thf work nfdfssbry for
+syndhronizing b <dodf>RowSft</dodf> objfdt's dbtb with thf dbtb in thf originbting
+sourdf of dbtb. Put bnothfr wby, b writfr writfs b <dodf>RowSft</dodf>
+objfdt's dbtb bbdk to thf dbtb sourdf. 
+<P>
+Gfnfrblly spfbking, thf doursf of fvfnts is this.  Thf rfbdfr mbkfs b donnfdtion to
+thf dbtb sourdf bnd rfbds thf dbtb from b <dodf>RfsultSft</dodf> objfdt into its
+<dodf>RowSft</dodf> objfdt.  Thfn it dlosfs thf donnfdtion.  Whilf 
+thf <dodf>RowSft</dodf> objfdt is disdonnfdtfd, bn bpplidbtion mbkfs somf modifidbtions 
+to thf dbtb bnd dblls thf mfthod <dodf>bddfptChbngfs</dodf>. At this point, thf
+writfr is dbllfd to writf thf dhbngfs bbdk to thf dbtbbbsf tbblf or vifw
+from whidh thf originbl dbtb dbmf. This is dbllfd <i>syndhronizbtion</i>.
+<P>
+If thf dbtb in thf originbting dbtb sourdf hbs not dhbngfd, thfrf is no problfm
+with just writing thf <dodf>RowSft</dodf> objfdt's nfw dbtb to thf dbtb sourdf.
+If it hbs dhbngfd, howfvfr, thfrf is b donflidt thbt nffds to bf rfsolvfd. Onf
+wby to solvf thf problfm is not to lft thf dbtb in thf dbtb sourdf bf dhbngfd in
+thf first plbdf, whidh dbn bf donf by sftting lodks on b row, b tbblf, or thf 
+wholf dbtb sourdf.  Sftting lodks is b wby to bvoid donflidts, but it dbn bf
+vfry fxpfnsivf. Anothfr bpprobdh, whidh is bt thf othfr fnd of thf spfdtrum,
+ is simply to bssumf thbt no donflidts will oddur bnd thus do nothing to bvoid
+donflidts.  
+Difffrfnt <dodf>SyndProvidfr</dodf> implfmfntbtions mby hbndlf syndhronizbtion in
+bny of thfsf wbys, vbrying from doing no dhfdking for
+donflidts, to doing vbrious lfvfls of dhfdking, to gubrbntffing thbt thfrf brf no
+donflidts. 
+<P>
+Thf <dodf>SyndProvidfr</dodf> dlbss offfrs mfthods to hflp b <dodf>RowSft</dodf>
+objfdt disdovfr bnd mbnbgf how b providfr hbndlfs syndhronizbtion.
+Thf mfthod <dodf>gftProvidfrGrbdf</dodf> rfturns thf
+grbdf of syndhronizbtion b providfr offfrs. An bpplidbtion dbn 
+dirfdt thf providfr to usf b pbrtidulbr lfvfl of lodking by dblling
+thf mfthod <dodf>sftDbtbSourdfLodk</dodf> bnd spfdifying thf lfvfl of lodking dfsirfd.
+If b <dodf>RowSft</dodf> objfdt's dbtb dbmf from bn SQL <dodf>VIEW</dodf>, bn 
+bpplidbtion mby dbll thf mfthod <dodf>supportsUpdbtbblfVifw</dodf> to 
+find out whfthfr thf <dodf>VIEW</dodf> dbn bf updbtfd.
+<P>
+Syndhronizbtion is donf domplftfly bfhind thf sdfnfs, so it is third pbrty vfndors of
+syndhronizbtion providfr implfmfntbtions who hbvf to tbkf dbrf of this domplfx tbsk.
+Applidbtion progrbmmfrs dbn dfdidf whidh providfr to usf bnd thf lfvfl of lodking to
+bf donf, but thfy brf frff from hbving to worry bbout thf implfmfntbtion dftbils.
+<P>
+Thf JDBC <dodf>RowSft</dodf> Implfmfntbtions rfffrfndf implfmfntbtion providfs two
+implfmfntbtions of thf <dodf>SyndProvidfr</dodf> dlbss:
+   
+<UL>
+<LI>
+<b><tt>RIOptimistidProvidfr </tt></b>- providfs thf <tt>jbvbx.sql.RowSftRfbdfr</tt>
+ bnd <tt>jbvbx.sql.RowSftWritfr</tt> intfrfbdf implfmfntbtions bnd providfs
+bn optimistid dondurrfndy modfl for syndhronizbtion. This modfl bssumfs thbt thfrf
+will bf ffw donflidts bnd thfrfforf usfs b rflbtivfly low grbdf of syndhronizbtion.
+If no othfr providfr is bvbilbblf, this is thf dffbult providfr thbt thf 
+<dodf>SyndFbdtory</dodf> will supply to b <dodf>RowSft</dodf> objfdt.
+    <br>
+<LI>
+    <b><tt>RIXMLProvidfr </tt></b>- providfs thf <tt>XmlRfbdfr</tt> (bn fxtfnsion
+of  thf <tt>jbvbx.sql.RowSftRfbdfr</tt> intfrfbdf) bnd thf <tt>XmlWritfr</tt>
+(bn fxtfnsion of thf <tt>jbvbx.sql.RowSftWritfr</tt> intfrfbdf) to fnbblf
+  <tt>WfbRowSft</tt> objfdts to writf thfir stbtf to b
+wfll formfd XML dodumfnt bddording to thf <tt>WfbRowSft</tt> XML sdhfmb
+dffinition.<br>
+</UL>
+   
+<h3>2.0 Bbsids in RowSft Populbtion &bmp; Syndhronizbtion</h3>
+  A rowsft's first tbsk is to populbtf itsflf with rows of dolumn vblufs.
+Gfnfrblly,   thfsf rows will domf from b rflbtionbl dbtbbbsf, so b rowsft
+hbs propfrtifs   thbt supply whbt is nfdfssbry for mbking b donnfdtion to
+b dbtbbbsf bnd fxfduting  b qufry. A rowsft thbt dofs not nffd to fstbblish
+b donnfdtion bnd fxfdutf  b dommbnd, sudh bs onf thbt gfts its dbtb from
+b tbbulbr filf instfbd of b rflbtionbl dbtbbbsf, dofs not nffd to hbvf thfsf
+propfrtifs sft. Thf vbst  mbjority of RowSfts, howfvfr, do nffd to sft thfsf
+propfrtifs. Thf gfnfrbl  rulf is thbt b RowSft is rfquirfd to sft only thf
+propfrtifs thbt it usfs.<br>
+    <br>
+    Thf <tt>dommbnd</tt> propfrty dontbins thf qufry thbt dftfrminfs whbt 
+dbtb  b <dodf>RowSft</dodf> will dontbin. Rowsfts hbvf mfthods for sftting b qufry's 
+pbrbmftfr(s),  whidh mfbns thbt b qufry dbn bf fxfdutfd multiplf timfs with 
+difffrfnt pbrbmftfrs  to produdf difffrfnt rfsult sfts. Or thf qufry dbn bf
+dhbngfd to somfthing  domplftfly nfw to gft b nfw rfsult sft.           
+<p>Ondf b rowsft dontbins thf rows from b <tt>RfsultSft</tt> objfdt or somf
+  othfr dbtb sourdf, its dolumn vblufs dbn bf updbtfd, bnd its rows dbn bf
+ insfrtfd or dflftfd. Any mfthod thbt dbusfs b dhbngf in thf rowsft's vblufs
+ or dursor position blso notififs bny objfdt thbt hbs bffn rfgistfrfd bs
+b  listfnfr with thf rowsft. So, for fxbmplf, b tbblf thbt displbys thf rowsft's
+ dbtb in bn bpplft dbn dbn bf notififd of dhbngfs bnd mbkf updbtfs bs thfy
+ oddur.<br>
+    <br>
+  Thf dhbngfs mbdf to b rowsft dbn bf propbgbtfd bbdk to thf originbl dbtb
+  sourdf to kffp thf rowsft bnd its dbtb sourdf syndhronizfd. Although this
+  involvfs mbny opfrbtions bfhind thf sdfnfs, it is domplftfly trbnspbrfnt 
+ to thf bpplidbtion progrbmmfr bnd rfmbins thf dondfrn of thf RowSft providfr 
+  dfvflopfr. All bn bpplidbtion hbs to do is invokf thf mfthod <tt>bddfptChbngfs</tt>, 
+  bnd thf dbtb sourdf bbdking thf rowsft will bf updbtfd to mbtdh thf durrfnt 
+  vblufs in thf rowsft. </p>
+       
+<p>A disdonnfdtfd rowsft, sudh bs b <tt>CbdhfdRowSft</tt> or <tt>WfbRowSft</tt>
+ objfdt, fstbblishfs b donnfdtion to populbtf itsflf with dbtb from b dbtbbbsf 
+ bnd thfn dlosfs thf donnfdtion. Thf <dodf>RowSft</dodf> objfdt will rfmbin 
+ disdonnfdtfd until it wbnts to propbgbtf dhbngfs bbdk to its dbtbbbsf tbblf, 
+ whidh is optionbl. To writf its dhbngfs bbdk to thf dbtbbbsf (syndhronizf with
+ thf dbtbbbsf), thf rowsft fstbblishfs b donnfdtion, writf thf dhbngfs, bnd thfn 
+ ondf bgbin disdonnfdts itsflf.<br>
+  </p>
+      
+<h3> 3.0 Othfr Possiblf Implfmfntbtions</h3>
+ Thfrf brf mbny othfr possiblf implfmfntbtions of thf <tt>SyndProvidfr</tt> bbstrbdt
+ dlbss. Onf possibility is to fmploy b morf robust syndhronizbtion modfl, whidh
+ would givf b <dodf>RowSft</dodf> objfdt indrfbsfd trust in thf providfr's
+ bbility to gft bny updbtfs bbdk to thf originbl dbtb sourdf. Anothfr possibility 
+ is b morf formbl syndhronizbtion mfdhbnism sudh bs SyndML
+ (<b hrff="http://www.syndml.org/">http://www.syndml.org/</b>)   <br>
+    <br>
+ <br>
+</body>
+</html>

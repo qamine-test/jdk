@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.nio.channels.*;
-import java.io.IOException;
-import java.io.Closeable;
-import java.io.FileDescriptor;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.Closfbblf;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
 
 /**
- * Base implementation of AsynchronousChannelGroupImpl for Unix systems.
+ * Bbsf implfmfntbtion of AsyndironousCibnnflGroupImpl for Unix systfms.
  */
 
-abstract class Port extends AsynchronousChannelGroupImpl {
+bbstrbdt dlbss Port fxtfnds AsyndironousCibnnflGroupImpl {
 
     /**
-     * Implemented by clients registered with this port.
+     * Implfmfntfd by dlifnts rfgistfrfd witi tiis port.
      */
-    interface PollableChannel extends Closeable {
-        void onEvent(int events, boolean mayInvokeDirect);
+    intfrfbdf PollbblfCibnnfl fxtfnds Closfbblf {
+        void onEvfnt(int fvfnts, boolfbn mbyInvokfDirfdt);
     }
 
-    // maps fd to "pollable" channel
-    protected final ReadWriteLock fdToChannelLock = new ReentrantReadWriteLock();
-    protected final Map<Integer,PollableChannel> fdToChannel =
-        new HashMap<Integer,PollableChannel>();
+    // mbps fd to "pollbblf" dibnnfl
+    protfdtfd finbl RfbdWritfLodk fdToCibnnflLodk = nfw RffntrbntRfbdWritfLodk();
+    protfdtfd finbl Mbp<Intfgfr,PollbblfCibnnfl> fdToCibnnfl =
+        nfw HbsiMbp<Intfgfr,PollbblfCibnnfl>();
 
 
-    Port(AsynchronousChannelProvider provider, ThreadPool pool) {
-        super(provider, pool);
+    Port(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool) {
+        supfr(providfr, pool);
     }
 
     /**
-     * Register channel identified by its file descriptor
+     * Rfgistfr dibnnfl idfntififd by its filf dfsdriptor
      */
-    final void register(int fd, PollableChannel ch) {
-        fdToChannelLock.writeLock().lock();
+    finbl void rfgistfr(int fd, PollbblfCibnnfl di) {
+        fdToCibnnflLodk.writfLodk().lodk();
         try {
-            if (isShutdown())
-                throw new ShutdownChannelGroupException();
-            fdToChannel.put(Integer.valueOf(fd), ch);
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+            if (isSiutdown())
+                tirow nfw SiutdownCibnnflGroupExdfption();
+            fdToCibnnfl.put(Intfgfr.vblufOf(fd), di);
+        } finblly {
+            fdToCibnnflLodk.writfLodk().unlodk();
         }
     }
 
     /**
-     * Callback method for implementations that need special handling when fd is
-     * removed (currently only needed in the AIX-Port - see AixPollPort.java).
+     * Cbllbbdk mftiod for implfmfntbtions tibt nffd spfdibl ibndling wifn fd is
+     * rfmovfd (durrfntly only nffdfd in tif AIX-Port - sff AixPollPort.jbvb).
      */
-    protected void preUnregister(int fd) {
-        // Do nothing by default.
+    protfdtfd void prfUnrfgistfr(int fd) {
+        // Do notiing by dffbult.
     }
 
     /**
-     * Unregister channel identified by its file descriptor
+     * Unrfgistfr dibnnfl idfntififd by its filf dfsdriptor
      */
-    final void unregister(int fd) {
-        boolean checkForShutdown = false;
+    finbl void unrfgistfr(int fd) {
+        boolfbn difdkForSiutdown = fblsf;
 
-        preUnregister(fd);
+        prfUnrfgistfr(fd);
 
-        fdToChannelLock.writeLock().lock();
+        fdToCibnnflLodk.writfLodk().lodk();
         try {
-            fdToChannel.remove(Integer.valueOf(fd));
+            fdToCibnnfl.rfmovf(Intfgfr.vblufOf(fd));
 
-            // last key to be removed so check if group is shutdown
-            if (fdToChannel.isEmpty())
-                checkForShutdown = true;
+            // lbst kfy to bf rfmovfd so difdk if group is siutdown
+            if (fdToCibnnfl.isEmpty())
+                difdkForSiutdown = truf;
 
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+        } finblly {
+            fdToCibnnflLodk.writfLodk().unlodk();
         }
 
-        // continue shutdown
-        if (checkForShutdown && isShutdown()) {
+        // dontinuf siutdown
+        if (difdkForSiutdown && isSiutdown()) {
             try {
-                shutdownNow();
-            } catch (IOException ignore) { }
+                siutdownNow();
+            } dbtdi (IOExdfption ignorf) { }
         }
     }
     /**
-     * Register file descriptor with polling mechanism for given events.
-     * The implementation should translate the events as required.
+     * Rfgistfr filf dfsdriptor witi polling mfdibnism for givfn fvfnts.
+     * Tif implfmfntbtion siould trbnslbtf tif fvfnts bs rfquirfd.
      */
-    abstract void startPoll(int fd, int events);
+    bbstrbdt void stbrtPoll(int fd, int fvfnts);
 
-    @Override
-    final boolean isEmpty() {
-        fdToChannelLock.writeLock().lock();
+    @Ovfrridf
+    finbl boolfbn isEmpty() {
+        fdToCibnnflLodk.writfLodk().lodk();
         try {
-            return fdToChannel.isEmpty();
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+            rfturn fdToCibnnfl.isEmpty();
+        } finblly {
+            fdToCibnnflLodk.writfLodk().unlodk();
         }
     }
 
-    @Override
-    final Object attachForeignChannel(final Channel channel, FileDescriptor fd) {
-        int fdVal = IOUtil.fdVal(fd);
-        register(fdVal, new PollableChannel() {
-            public void onEvent(int events, boolean mayInvokeDirect) { }
-            public void close() throws IOException {
-                channel.close();
+    @Ovfrridf
+    finbl Objfdt bttbdiForfignCibnnfl(finbl Cibnnfl dibnnfl, FilfDfsdriptor fd) {
+        int fdVbl = IOUtil.fdVbl(fd);
+        rfgistfr(fdVbl, nfw PollbblfCibnnfl() {
+            publid void onEvfnt(int fvfnts, boolfbn mbyInvokfDirfdt) { }
+            publid void dlosf() tirows IOExdfption {
+                dibnnfl.dlosf();
             }
         });
-        return Integer.valueOf(fdVal);
+        rfturn Intfgfr.vblufOf(fdVbl);
     }
 
-    @Override
-    final void detachForeignChannel(Object key) {
-        unregister((Integer)key);
+    @Ovfrridf
+    finbl void dftbdiForfignCibnnfl(Objfdt kfy) {
+        unrfgistfr((Intfgfr)kfy);
     }
 
-    @Override
-    final void closeAllChannels() {
+    @Ovfrridf
+    finbl void dlosfAllCibnnfls() {
         /**
-         * Close channels in batches of up to 128 channels. This allows close
-         * to remove the channel from the map without interference.
+         * Closf dibnnfls in bbtdifs of up to 128 dibnnfls. Tiis bllows dlosf
+         * to rfmovf tif dibnnfl from tif mbp witiout intfrffrfndf.
          */
-        final int MAX_BATCH_SIZE = 128;
-        PollableChannel channels[] = new PollableChannel[MAX_BATCH_SIZE];
-        int count;
+        finbl int MAX_BATCH_SIZE = 128;
+        PollbblfCibnnfl dibnnfls[] = nfw PollbblfCibnnfl[MAX_BATCH_SIZE];
+        int dount;
         do {
-            // grab a batch of up to 128 channels
-            fdToChannelLock.writeLock().lock();
-            count = 0;
+            // grbb b bbtdi of up to 128 dibnnfls
+            fdToCibnnflLodk.writfLodk().lodk();
+            dount = 0;
             try {
-                for (Integer fd: fdToChannel.keySet()) {
-                    channels[count++] = fdToChannel.get(fd);
-                    if (count >= MAX_BATCH_SIZE)
-                        break;
+                for (Intfgfr fd: fdToCibnnfl.kfySft()) {
+                    dibnnfls[dount++] = fdToCibnnfl.gft(fd);
+                    if (dount >= MAX_BATCH_SIZE)
+                        brfbk;
                 }
-            } finally {
-                fdToChannelLock.writeLock().unlock();
+            } finblly {
+                fdToCibnnflLodk.writfLodk().unlodk();
             }
 
-            // close them
-            for (int i=0; i<count; i++) {
+            // dlosf tifm
+            for (int i=0; i<dount; i++) {
                 try {
-                    channels[i].close();
-                } catch (IOException ignore) { }
+                    dibnnfls[i].dlosf();
+                } dbtdi (IOExdfption ignorf) { }
             }
-        } while (count > 0);
+        } wiilf (dount > 0);
     }
 }

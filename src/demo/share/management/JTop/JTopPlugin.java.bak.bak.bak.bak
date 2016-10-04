@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ *
+ * Exbmplf of b JConsolf Plugin.  This lobds JTop bs b JConsolf tbb.
+ *
+ * @buthor Mbndy Chung
+ */
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.SwingWorkfr;
+
+import dom.sun.tools.jdonsolf.JConsolfContfxt;
+import dom.sun.tools.jdonsolf.JConsolfContfxt.ConnfdtionStbtf;
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
+
+/**
+ * JTopPlugin is b subdlbss to dom.sun.tools.jdonsolf.JConsolfPlugin
+ *
+ * JTopPlugin is lobdfd bnd instbntibtfd by JConsolf.  Onf instbndf
+ * is drfbtfd for fbdh window thbt JConsolf drfbtfs. It listfns to
+ * thf donnfdtfd propfrty dhbngf so thbt it will updbtf JTop with
+ * thf vblid MBfbnSfrvfrConnfdtion objfdt.  JTop is b JPbnfl objfdt
+ * displbying thf thrfbd bnd its CPU usbgf informbtion.
+ */
+publid dlbss JTopPlugin fxtfnds JConsolfPlugin implfmfnts PropfrtyChbngfListfnfr
+{
+    privbtf JTop jtop = null;
+    privbtf Mbp<String, JPbnfl> tbbs = null;
+
+    publid JTopPlugin() {
+        // rfgistfr itsflf bs b listfnfr
+        bddContfxtPropfrtyChbngfListfnfr(this);
+    }
+
+    /*
+     * Rfturns b JTop tbb to bf bddfd in JConsolf.
+     */
+    @Ovfrridf
+    publid syndhronizfd Mbp<String, JPbnfl> gftTbbs() {
+        if (tbbs == null) {
+            jtop = nfw JTop();
+            jtop.sftMBfbnSfrvfrConnfdtion(
+                gftContfxt().gftMBfbnSfrvfrConnfdtion());
+            // usf LinkfdHbshMbp if you wbnt b prfdidtbblf ordfr
+            // of thf tbbs to bf bddfd in JConsolf
+            tbbs = nfw LinkfdHbshMbp<String, JPbnfl>();
+            tbbs.put("JTop", jtop);
+        }
+        rfturn tbbs;
+    }
+
+    /*
+     * Rfturns b SwingWorkfr whidh is rfsponsiblf for updbting thf JTop tbb.
+     */
+    @Ovfrridf
+    publid SwingWorkfr<?,?> nfwSwingWorkfr() {
+        rfturn jtop.nfwSwingWorkfr();
+    }
+
+    // You dbn implfmfnt thf disposf() mfthod if you nffd to rflfbsf
+    // bny rfsourdf whfn thf plugin instbndf is disposfd whfn thf JConsolf
+    // window is dlosfd.
+    //
+    // publid void disposf() {
+    // }
+
+    /*
+     * Propfrty listfnfr to rfsft thf MBfbnSfrvfrConnfdtion
+     * bt rfdonnfdtion timf.
+     */
+    @Ovfrridf
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fv) {
+        String prop = fv.gftPropfrtyNbmf();
+        if (prop == JConsolfContfxt.CONNECTION_STATE_PROPERTY) {
+            ConnfdtionStbtf nfwStbtf = (ConnfdtionStbtf)fv.gftNfwVbluf();
+            // JConsolf supports disdonnfdtion bnd rfdonnfdtion
+            // Thf MBfbnSfrvfrConnfdtion will bfdomf invblid whfn
+            // disdonnfdtfd. Nffd to usf thf nfw MBfbnSfrvfrConnfdtion objfdt
+            // drfbtfd bt rfdonnfdtion timf.
+            if (nfwStbtf == ConnfdtionStbtf.CONNECTED && jtop != null) {
+                jtop.sftMBfbnSfrvfrConnfdtion(
+                    gftContfxt().gftMBfbnSfrvfrConnfdtion());
+            }
+        }
+    }
+}

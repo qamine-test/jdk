@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Thf mbpping in thf Jbvb progrbmming lbngubgf for thf SQL typf
+ * <dodf>ARRAY</dodf>.
+ * By dffbult, bn <dodf>Arrby</dodf> vbluf is b trbnsbdtion-durbtion
+ * rfffrfndf to bn SQL <dodf>ARRAY</dodf> vbluf.  By dffbult, bn <dodf>Arrby</dodf>
+ * objfdt is implfmfntfd using bn SQL LOCATOR(brrby) intfrnblly, whidh
+ * mfbns thbt bn <dodf>Arrby</dodf> objfdt dontbins b logidbl pointfr
+ * to thf dbtb in thf SQL <dodf>ARRAY</dodf> vbluf rbthfr
+ * thbn dontbining thf <dodf>ARRAY</dodf> vbluf's dbtb.
+ * <p>
+ * Thf <dodf>Arrby</dodf> intfrfbdf providfs mfthods for bringing bn SQL
+ * <dodf>ARRAY</dodf> vbluf's dbtb to thf dlifnt bs fithfr bn brrby or b
+ * <dodf>RfsultSft</dodf> objfdt.
+ * If thf flfmfnts of thf SQL <dodf>ARRAY</dodf>
+ * brf b UDT, thfy mby bf dustom mbppfd.  To drfbtf b dustom mbpping,
+ * b progrbmmfr must do two things:
+ * <ul>
+ * <li>drfbtf b dlbss thbt implfmfnts thf {@link SQLDbtb}
+ * intfrfbdf for thf UDT to bf dustom mbppfd.
+ * <li>mbkf bn fntry in b typf mbp thbt dontbins
+ *   <ul>
+ *   <li>thf fully-qublififd SQL typf nbmf of thf UDT
+ *   <li>thf <dodf>Clbss</dodf> objfdt for thf dlbss implfmfnting
+ *       <dodf>SQLDbtb</dodf>
+ *   </ul>
+ * </ul>
+ * <p>
+ * Whfn b typf mbp with bn fntry for
+ * thf bbsf typf is supplifd to thf mfthods <dodf>gftArrby</dodf>
+ * bnd <dodf>gftRfsultSft</dodf>, thf mbpping
+ * it dontbins will bf usfd to mbp thf flfmfnts of thf <dodf>ARRAY</dodf> vbluf.
+ * If no typf mbp is supplifd, whidh would typidblly bf thf dbsf,
+ * thf donnfdtion's typf mbp is usfd by dffbult.
+ * If thf donnfdtion's typf mbp or b typf mbp supplifd to b mfthod hbs no fntry
+ * for thf bbsf typf, thf flfmfnts brf mbppfd bddording to thf stbndbrd mbpping.
+ * <p>
+ * All mfthods on thf <dodf>Arrby</dodf> intfrfbdf must bf fully implfmfntfd if thf
+ * JDBC drivfr supports thf dbtb typf.
+ *
+ * @sindf 1.2
+ */
+
+publid intfrfbdf Arrby {
+
+  /**
+   * Rftrifvfs thf SQL typf nbmf of thf flfmfnts in
+   * thf brrby dfsignbtfd by this <dodf>Arrby</dodf> objfdt.
+   * If thf flfmfnts brf b built-in typf, it rfturns
+   * thf dbtbbbsf-spfdifid typf nbmf of thf flfmfnts.
+   * If thf flfmfnts brf b usfr-dffinfd typf (UDT),
+   * this mfthod rfturns thf fully-qublififd SQL typf nbmf.
+   *
+   * @rfturn b <dodf>String</dodf> thbt is thf dbtbbbsf-spfdifid
+   * nbmf for b built-in bbsf typf; or thf fully-qublififd SQL typf
+   * nbmf for b bbsf typf thbt is b UDT
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting
+   * to bddfss thf typf nbmf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  String gftBbsfTypfNbmf() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf JDBC typf of thf flfmfnts in thf brrby dfsignbtfd
+   * by this <dodf>Arrby</dodf> objfdt.
+   *
+   * @rfturn b donstbnt from thf dlbss {@link jbvb.sql.Typfs} thbt is
+   * thf typf dodf for thf flfmfnts in thf brrby dfsignbtfd by this
+   * <dodf>Arrby</dodf> objfdt
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting
+   * to bddfss thf bbsf typf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  int gftBbsfTypf() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf dontfnts of thf SQL <dodf>ARRAY</dodf> vbluf dfsignbtfd
+   * by this
+   * <dodf>Arrby</dodf> objfdt in thf form of bn brrby in thf Jbvb
+   * progrbmming lbngubgf. This vfrsion of thf mfthod <dodf>gftArrby</dodf>
+   * usfs thf typf mbp bssodibtfd with thf donnfdtion for dustomizbtions of
+   * thf typf mbppings.
+   * <p>
+   * <strong>Notf:</strong> Whfn <dodf>gftArrby</dodf> is usfd to mbtfriblizf
+   * b bbsf typf thbt mbps to b primitivf dbtb typf, thfn it is
+   * implfmfntbtion-dffinfd whfthfr thf brrby rfturnfd is bn brrby of
+   * thbt primitivf dbtb typf or bn brrby of <dodf>Objfdt</dodf>.
+   *
+   * @rfturn bn brrby in thf Jbvb progrbmming lbngubgf thbt dontbins
+   * thf ordfrfd flfmfnts of thf SQL <dodf>ARRAY</dodf> vbluf
+   * dfsignbtfd by this <dodf>Arrby</dodf> objfdt
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  Objfdt gftArrby() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf dontfnts of thf SQL <dodf>ARRAY</dodf> vbluf dfsignbtfd by this
+   * <dodf>Arrby</dodf> objfdt.
+   * This mfthod usfs
+   * thf spfdififd <dodf>mbp</dodf> for typf mbp dustomizbtions
+   * unlfss thf bbsf typf of thf brrby dofs not mbtdh b usfr-dffinfd
+   * typf in <dodf>mbp</dodf>, in whidh dbsf it
+   * usfs thf stbndbrd mbpping. This vfrsion of thf mfthod
+   * <dodf>gftArrby</dodf> usfs fithfr thf givfn typf mbp or thf stbndbrd mbpping;
+   * it nfvfr usfs thf typf mbp bssodibtfd with thf donnfdtion.
+   * <p>
+   * <strong>Notf:</strong> Whfn <dodf>gftArrby</dodf> is usfd to mbtfriblizf
+   * b bbsf typf thbt mbps to b primitivf dbtb typf, thfn it is
+   * implfmfntbtion-dffinfd whfthfr thf brrby rfturnfd is bn brrby of
+   * thbt primitivf dbtb typf or bn brrby of <dodf>Objfdt</dodf>.
+   *
+   * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt thbt dontbins mbppings
+   *            of SQL typf nbmfs to dlbssfs in thf Jbvb progrbmming lbngubgf
+   * @rfturn bn brrby in thf Jbvb progrbmming lbngubgf thbt dontbins thf ordfrfd
+   *         flfmfnts of thf SQL brrby dfsignbtfd by this objfdt
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   *                         bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  Objfdt gftArrby(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b slidf of thf SQL <dodf>ARRAY</dodf>
+   * vbluf dfsignbtfd by this <dodf>Arrby</dodf> objfdt, bfginning with thf
+   * spfdififd <dodf>indfx</dodf> bnd dontbining up to <dodf>dount</dodf>
+   * suddfssivf flfmfnts of thf SQL brrby.  This mfthod usfs thf typf mbp
+   * bssodibtfd with thf donnfdtion for dustomizbtions of thf typf mbppings.
+   * <p>
+   * <strong>Notf:</strong> Whfn <dodf>gftArrby</dodf> is usfd to mbtfriblizf
+   * b bbsf typf thbt mbps to b primitivf dbtb typf, thfn it is
+   * implfmfntbtion-dffinfd whfthfr thf brrby rfturnfd is bn brrby of
+   * thbt primitivf dbtb typf or bn brrby of <dodf>Objfdt</dodf>.
+   *
+   * @pbrbm indfx thf brrby indfx of thf first flfmfnt to rftrifvf;
+   *              thf first flfmfnt is bt indfx 1
+   * @pbrbm dount thf numbfr of suddfssivf SQL brrby flfmfnts to rftrifvf
+   * @rfturn bn brrby dontbining up to <dodf>dount</dodf> donsfdutivf flfmfnts
+   * of thf SQL brrby, bfginning with flfmfnt <dodf>indfx</dodf>
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  Objfdt gftArrby(long indfx, int dount) throws SQLExdfption;
+
+  /**
+   * Rftrfivfs b slidf of thf SQL <dodf>ARRAY</dodf> vbluf
+   * dfsignbtfd by this <dodf>Arrby</dodf> objfdt, bfginning with thf spfdififd
+   * <dodf>indfx</dodf> bnd dontbining up to <dodf>dount</dodf>
+   * suddfssivf flfmfnts of thf SQL brrby.
+   * <P>
+   * This mfthod usfs
+   * thf spfdififd <dodf>mbp</dodf> for typf mbp dustomizbtions
+   * unlfss thf bbsf typf of thf brrby dofs not mbtdh b usfr-dffinfd
+   * typf in <dodf>mbp</dodf>, in whidh dbsf it
+   * usfs thf stbndbrd mbpping. This vfrsion of thf mfthod
+   * <dodf>gftArrby</dodf> usfs fithfr thf givfn typf mbp or thf stbndbrd mbpping;
+   * it nfvfr usfs thf typf mbp bssodibtfd with thf donnfdtion.
+   * <p>
+   * <strong>Notf:</strong> Whfn <dodf>gftArrby</dodf> is usfd to mbtfriblizf
+   * b bbsf typf thbt mbps to b primitivf dbtb typf, thfn it is
+   * implfmfntbtion-dffinfd whfthfr thf brrby rfturnfd is bn brrby of
+   * thbt primitivf dbtb typf or bn brrby of <dodf>Objfdt</dodf>.
+   *
+   * @pbrbm indfx thf brrby indfx of thf first flfmfnt to rftrifvf;
+   *              thf first flfmfnt is bt indfx 1
+   * @pbrbm dount thf numbfr of suddfssivf SQL brrby flfmfnts to
+   * rftrifvf
+   * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt
+   * thbt dontbins SQL typf nbmfs bnd thf dlbssfs in
+   * thf Jbvb progrbmming lbngubgf to whidh thfy brf mbppfd
+   * @rfturn bn brrby dontbining up to <dodf>dount</dodf>
+   * donsfdutivf flfmfnts of thf SQL <dodf>ARRAY</dodf> vbluf dfsignbtfd by this
+   * <dodf>Arrby</dodf> objfdt, bfginning with flfmfnt
+   * <dodf>indfx</dodf>
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  Objfdt gftArrby(long indfx, int dount, jbvb.util.Mbp<String,Clbss<?>> mbp)
+    throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b rfsult sft thbt dontbins thf flfmfnts of thf SQL
+   * <dodf>ARRAY</dodf> vbluf
+   * dfsignbtfd by this <dodf>Arrby</dodf> objfdt.  If bppropribtf,
+   * thf flfmfnts of thf brrby brf mbppfd using thf donnfdtion's typf
+   * mbp; othfrwisf, thf stbndbrd mbpping is usfd.
+   * <p>
+   * Thf rfsult sft dontbins onf row for fbdh brrby flfmfnt, with
+   * two dolumns in fbdh row.  Thf sfdond dolumn storfs thf flfmfnt
+   * vbluf; thf first dolumn storfs thf indfx into thf brrby for
+   * thbt flfmfnt (with thf first brrby flfmfnt bfing bt indfx 1).
+   * Thf rows brf in bsdfnding ordfr dorrfsponding to
+   * thf ordfr of thf indidfs.
+   *
+   * @rfturn b {@link RfsultSft} objfdt dontbining onf row for fbdh
+   * of thf flfmfnts in thf brrby dfsignbtfd by this <dodf>Arrby</dodf>
+   * objfdt, with thf rows in bsdfnding ordfr bbsfd on thf indidfs.
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  RfsultSft gftRfsultSft () throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b rfsult sft thbt dontbins thf flfmfnts of thf SQL
+   * <dodf>ARRAY</dodf> vbluf dfsignbtfd by this <dodf>Arrby</dodf> objfdt.
+   * This mfthod usfs
+   * thf spfdififd <dodf>mbp</dodf> for typf mbp dustomizbtions
+   * unlfss thf bbsf typf of thf brrby dofs not mbtdh b usfr-dffinfd
+   * typf in <dodf>mbp</dodf>, in whidh dbsf it
+   * usfs thf stbndbrd mbpping. This vfrsion of thf mfthod
+   * <dodf>gftRfsultSft</dodf> usfs fithfr thf givfn typf mbp or thf stbndbrd mbpping;
+   * it nfvfr usfs thf typf mbp bssodibtfd with thf donnfdtion.
+   * <p>
+   * Thf rfsult sft dontbins onf row for fbdh brrby flfmfnt, with
+   * two dolumns in fbdh row.  Thf sfdond dolumn storfs thf flfmfnt
+   * vbluf; thf first dolumn storfs thf indfx into thf brrby for
+   * thbt flfmfnt (with thf first brrby flfmfnt bfing bt indfx 1).
+   * Thf rows brf in bsdfnding ordfr dorrfsponding to
+   * thf ordfr of thf indidfs.
+   *
+   * @pbrbm mbp dontbins thf mbpping of SQL usfr-dffinfd typfs to
+   * dlbssfs in thf Jbvb progrbmming lbngubgf
+   * @rfturn b <dodf>RfsultSft</dodf> objfdt dontbining onf row for fbdh
+   * of thf flfmfnts in thf brrby dfsignbtfd by this <dodf>Arrby</dodf>
+   * objfdt, with thf rows in bsdfnding ordfr bbsfd on thf indidfs.
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  RfsultSft gftRfsultSft (jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b rfsult sft holding thf flfmfnts of thf subbrrby thbt
+   * stbrts bt indfx <dodf>indfx</dodf> bnd dontbins up to
+   * <dodf>dount</dodf> suddfssivf flfmfnts.  This mfthod usfs
+   * thf donnfdtion's typf mbp to mbp thf flfmfnts of thf brrby if
+   * thf mbp dontbins bn fntry for thf bbsf typf. Othfrwisf, thf
+   * stbndbrd mbpping is usfd.
+   * <P>
+   * Thf rfsult sft hbs onf row for fbdh flfmfnt of thf SQL brrby
+   * dfsignbtfd by this objfdt, with thf first row dontbining thf
+   * flfmfnt bt indfx <dodf>indfx</dodf>.  Thf rfsult sft hbs
+   * up to <dodf>dount</dodf> rows in bsdfnding ordfr bbsfd on thf
+   * indidfs.  Ebdh row hbs two dolumns:  Thf sfdond dolumn storfs
+   * thf flfmfnt vbluf; thf first dolumn storfs thf indfx into thf
+   * brrby for thbt flfmfnt.
+   *
+   * @pbrbm indfx thf brrby indfx of thf first flfmfnt to rftrifvf;
+   *              thf first flfmfnt is bt indfx 1
+   * @pbrbm dount thf numbfr of suddfssivf SQL brrby flfmfnts to rftrifvf
+   * @rfturn b <dodf>RfsultSft</dodf> objfdt dontbining up to
+   * <dodf>dount</dodf> donsfdutivf flfmfnts of thf SQL brrby
+   * dfsignbtfd by this <dodf>Arrby</dodf> objfdt, stbrting bt
+   * indfx <dodf>indfx</dodf>.
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  RfsultSft gftRfsultSft(long indfx, int dount) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b rfsult sft holding thf flfmfnts of thf subbrrby thbt
+   * stbrts bt indfx <dodf>indfx</dodf> bnd dontbins up to
+   * <dodf>dount</dodf> suddfssivf flfmfnts.
+   * This mfthod usfs
+   * thf spfdififd <dodf>mbp</dodf> for typf mbp dustomizbtions
+   * unlfss thf bbsf typf of thf brrby dofs not mbtdh b usfr-dffinfd
+   * typf in <dodf>mbp</dodf>, in whidh dbsf it
+   * usfs thf stbndbrd mbpping. This vfrsion of thf mfthod
+   * <dodf>gftRfsultSft</dodf> usfs fithfr thf givfn typf mbp or thf stbndbrd mbpping;
+   * it nfvfr usfs thf typf mbp bssodibtfd with thf donnfdtion.
+   * <P>
+   * Thf rfsult sft hbs onf row for fbdh flfmfnt of thf SQL brrby
+   * dfsignbtfd by this objfdt, with thf first row dontbining thf
+   * flfmfnt bt indfx <dodf>indfx</dodf>.  Thf rfsult sft hbs
+   * up to <dodf>dount</dodf> rows in bsdfnding ordfr bbsfd on thf
+   * indidfs.  Ebdh row hbs two dolumns:  Thf sfdond dolumn storfs
+   * thf flfmfnt vbluf; thf first dolumn storfs thf indfx into thf
+   * brrby for thbt flfmfnt.
+   *
+   * @pbrbm indfx thf brrby indfx of thf first flfmfnt to rftrifvf;
+   *              thf first flfmfnt is bt indfx 1
+   * @pbrbm dount thf numbfr of suddfssivf SQL brrby flfmfnts to rftrifvf
+   * @pbrbm mbp thf <dodf>Mbp</dodf> objfdt thbt dontbins thf mbpping
+   * of SQL typf nbmfs to dlbssfs in thf Jbvb(tm) progrbmming lbngubgf
+   * @rfturn b <dodf>RfsultSft</dodf> objfdt dontbining up to
+   * <dodf>dount</dodf> donsfdutivf flfmfnts of thf SQL brrby
+   * dfsignbtfd by this <dodf>Arrby</dodf> objfdt, stbrting bt
+   * indfx <dodf>indfx</dodf>.
+   * @fxdfption SQLExdfption if bn frror oddurs whilf bttfmpting to
+   * bddfss thf brrby
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.2
+   */
+  RfsultSft gftRfsultSft (long indfx, int dount,
+                          jbvb.util.Mbp<String,Clbss<?>> mbp)
+    throws SQLExdfption;
+    /**
+     * This mfthod frffs thf <dodf>Arrby</dodf> objfdt bnd rflfbsfs thf rfsourdfs thbt
+     * it holds. Thf objfdt is invblid ondf thf <dodf>frff</dodf>
+     * mfthod is dbllfd.
+     * <p>
+     * Aftfr <dodf>frff</dodf> hbs bffn dbllfd, bny bttfmpt to invokf b
+     * mfthod othfr thbn <dodf>frff</dodf> will rfsult in b <dodf>SQLExdfption</dodf>
+     * bfing thrown.  If <dodf>frff</dodf> is dbllfd multiplf timfs, thf subsfqufnt
+     * dblls to <dodf>frff</dodf> brf trfbtfd bs b no-op.
+     *
+     * @throws SQLExdfption if bn frror oddurs rflfbsing
+     * thf Arrby's rfsourdfs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+     * this mfthod
+     * @sindf 1.6
+     */
+    void frff() throws SQLExdfption;
+
+}

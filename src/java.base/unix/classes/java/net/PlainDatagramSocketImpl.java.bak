@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2007,2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007,2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import jdk.net.*;
-import static sun.net.ExtendedOptionsImpl.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Collfdtions;
+import jdk.nft.*;
+import stbtid sun.nft.ExtfndfdOptionsImpl.*;
 
 /*
- * On Unix systems we simply delegate to native methods.
+ * On Unix systfms wf simply dflfgbtf to nbtivf mftiods.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-class PlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
+dlbss PlbinDbtbgrbmSodkftImpl fxtfnds AbstrbdtPlbinDbtbgrbmSodkftImpl
 {
-    static {
+    stbtid {
         init();
     }
 
-    protected <T> void setOption(SocketOption<T> name, T value) throws IOException {
-        if (!name.equals(ExtendedSocketOptions.SO_FLOW_SLA)) {
-            super.setOption(name, value);
-        } else {
-            if (isClosed()) {
-                throw new SocketException("Socket closed");
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) tirows IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            supfr.sftOption(nbmf, vbluf);
+        } flsf {
+            if (isClosfd()) {
+                tirow nfw SodkftExdfption("Sodkft dlosfd");
             }
-            checkSetOptionPermission(name);
-            checkValueType(value, SocketFlow.class);
-            setFlowOption(getFileDescriptor(), (SocketFlow)value);
+            difdkSftOptionPfrmission(nbmf);
+            difdkVblufTypf(vbluf, SodkftFlow.dlbss);
+            sftFlowOption(gftFilfDfsdriptor(), (SodkftFlow)vbluf);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T> T getOption(SocketOption<T> name) throws IOException {
-        if (!name.equals(ExtendedSocketOptions.SO_FLOW_SLA)) {
-            return super.getOption(name);
+    @SupprfssWbrnings("undifdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            rfturn supfr.gftOption(nbmf);
         }
-        if (isClosed()) {
-            throw new SocketException("Socket closed");
+        if (isClosfd()) {
+            tirow nfw SodkftExdfption("Sodkft dlosfd");
         }
-        checkGetOptionPermission(name);
-        SocketFlow flow = SocketFlow.create();
-        getFlowOption(getFileDescriptor(), flow);
-        return (T)flow;
+        difdkGftOptionPfrmission(nbmf);
+        SodkftFlow flow = SodkftFlow.drfbtf();
+        gftFlowOption(gftFilfDfsdriptor(), flow);
+        rfturn (T)flow;
     }
 
-    protected Set<SocketOption<?>> supportedOptions() {
-        HashSet<SocketOption<?>> options = new HashSet<>(
-            super.supportedOptions());
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        HbsiSft<SodkftOption<?>> options = nfw HbsiSft<>(
+            supfr.supportfdOptions());
 
-        if (flowSupported()) {
-            options.add(ExtendedSocketOptions.SO_FLOW_SLA);
+        if (flowSupportfd()) {
+            options.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
         }
-        return options;
+        rfturn options;
     }
 
-    protected synchronized native void bind0(int lport, InetAddress laddr)
-        throws SocketException;
+    protfdtfd syndironizfd nbtivf void bind0(int lport, InftAddrfss lbddr)
+        tirows SodkftExdfption;
 
-    protected native void send(DatagramPacket p) throws IOException;
+    protfdtfd nbtivf void sfnd(DbtbgrbmPbdkft p) tirows IOExdfption;
 
-    protected synchronized native int peek(InetAddress i) throws IOException;
+    protfdtfd syndironizfd nbtivf int pffk(InftAddrfss i) tirows IOExdfption;
 
-    protected synchronized native int peekData(DatagramPacket p) throws IOException;
+    protfdtfd syndironizfd nbtivf int pffkDbtb(DbtbgrbmPbdkft p) tirows IOExdfption;
 
-    protected synchronized native void receive0(DatagramPacket p)
-        throws IOException;
+    protfdtfd syndironizfd nbtivf void rfdfivf0(DbtbgrbmPbdkft p)
+        tirows IOExdfption;
 
-    protected native void setTimeToLive(int ttl) throws IOException;
+    protfdtfd nbtivf void sftTimfToLivf(int ttl) tirows IOExdfption;
 
-    protected native int getTimeToLive() throws IOException;
+    protfdtfd nbtivf int gftTimfToLivf() tirows IOExdfption;
 
-    @Deprecated
-    protected native void setTTL(byte ttl) throws IOException;
+    @Dfprfdbtfd
+    protfdtfd nbtivf void sftTTL(bytf ttl) tirows IOExdfption;
 
-    @Deprecated
-    protected native byte getTTL() throws IOException;
+    @Dfprfdbtfd
+    protfdtfd nbtivf bytf gftTTL() tirows IOExdfption;
 
-    protected native void join(InetAddress inetaddr, NetworkInterface netIf)
-        throws IOException;
+    protfdtfd nbtivf void join(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        tirows IOExdfption;
 
-    protected native void leave(InetAddress inetaddr, NetworkInterface netIf)
-        throws IOException;
+    protfdtfd nbtivf void lfbvf(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        tirows IOExdfption;
 
-    protected native void datagramSocketCreate() throws SocketException;
+    protfdtfd nbtivf void dbtbgrbmSodkftCrfbtf() tirows SodkftExdfption;
 
-    protected native void datagramSocketClose();
+    protfdtfd nbtivf void dbtbgrbmSodkftClosf();
 
-    protected native void socketSetOption(int opt, Object val)
-        throws SocketException;
+    protfdtfd nbtivf void sodkftSftOption(int opt, Objfdt vbl)
+        tirows SodkftExdfption;
 
-    protected native Object socketGetOption(int opt) throws SocketException;
+    protfdtfd nbtivf Objfdt sodkftGftOption(int opt) tirows SodkftExdfption;
 
-    protected native void connect0(InetAddress address, int port) throws SocketException;
+    protfdtfd nbtivf void donnfdt0(InftAddrfss bddrfss, int port) tirows SodkftExdfption;
 
-    protected native void disconnect0(int family);
+    protfdtfd nbtivf void disdonnfdt0(int fbmily);
 
     /**
-     * Perform class load-time initializations.
+     * Pfrform dlbss lobd-timf initiblizbtions.
      */
-    private native static void init();
+    privbtf nbtivf stbtid void init();
 }

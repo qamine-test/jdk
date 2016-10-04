@@ -1,0 +1,286 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jbvb imports
+//
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.RuntimfMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmRuntimfMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmRTBootClbssPbthSupport;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmRuntimf" group.
+ */
+publid dlbss JvmRuntimfImpl implfmfnts JvmRuntimfMBfbn {
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmRTBootClbssPbthSupport".
+     *
+     * "Indidbtfs whfthfr thf Jbvb virtubl mbdhinf supports thf
+     * boot dlbss pbth mfdhbnism usfd by thf systfm dlbss lobdfr
+     * to sfbrdh for dlbss filfs.
+     *
+     * Sff jbvb.mbnbgfmfnt.RuntimfMXBfbn.isBootClbssPbthSupportfd()
+     * "
+     *
+     */
+    stbtid finbl EnumJvmRTBootClbssPbthSupport
+        JvmRTBootClbssPbthSupportSupportfd =
+        nfw EnumJvmRTBootClbssPbthSupport("supportfd");
+    stbtid finbl EnumJvmRTBootClbssPbthSupport
+        JvmRTBootClbssPbthSupportUnSupportfd =
+        nfw EnumJvmRTBootClbssPbthSupport("unsupportfd");
+
+    /**
+     * Construdtor for thf "JvmRuntimf" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
+     */
+    publid JvmRuntimfImpl(SnmpMib myMib) {
+
+    }
+
+
+    /**
+     * Construdtor for thf "JvmRuntimf" group.
+     * If thf group dontbins b tbblf, thf fntrifs drfbtfd through bn SNMP SET
+     * will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
+     */
+    publid JvmRuntimfImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
+
+    }
+
+    stbtid RuntimfMXBfbn gftRuntimfMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftRuntimfMXBfbn();
+    }
+
+    privbtf stbtid String vblidDisplbyStringTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
+    }
+
+    privbtf stbtid String vblidPbthElfmfntTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidPbthElfmfntTC(str);
+    }
+
+    privbtf stbtid String vblidJbvbObjfdtNbmfTC(String str) {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(str);
+    }
+
+
+    stbtid String[] splitPbth(String pbth) {
+        finbl String[] itfms = pbth.split(jbvb.io.Filf.pbthSfpbrbtor);
+        // for (int i=0;i<itfms.lfngth;i++) {
+        //    itfms[i]=vblidPbthElfmfntTC(itfms[i]);
+        // }
+        rfturn itfms;
+    }
+
+    stbtid String[] gftClbssPbth(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftClbssPbth";
+
+        // If thf list is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl String[] dbdhfd = (String[])m.gft(tbg);
+            if (dbdhfd != null) rfturn dbdhfd;
+        }
+
+        finbl String[] brgs = splitPbth(gftRuntimfMXBfbn().gftClbssPbth());
+
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
+    }
+
+    stbtid String[] gftBootClbssPbth(Objfdt usfrDbtb) {
+        if (!gftRuntimfMXBfbn().isBootClbssPbthSupportfd())
+        rfturn nfw String[0];
+
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftBootClbssPbth";
+
+        // If thf list is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl String[] dbdhfd = (String[])m.gft(tbg);
+            if (dbdhfd != null) rfturn dbdhfd;
+        }
+
+        finbl String[] brgs = splitPbth(gftRuntimfMXBfbn().gftBootClbssPbth());
+
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
+    }
+
+    stbtid String[] gftLibrbryPbth(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftLibrbryPbth";
+
+        // If thf list is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl String[] dbdhfd = (String[])m.gft(tbg);
+            if (dbdhfd != null) rfturn dbdhfd;
+        }
+
+        finbl String[] brgs = splitPbth(gftRuntimfMXBfbn().gftLibrbryPbth());
+
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
+    }
+
+    stbtid String[] gftInputArgumfnts(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m =
+                Util.dbst((usfrDbtb instbndfof Mbp)?usfrDbtb:null);
+        finbl String tbg = "JvmRuntimf.gftInputArgumfnts";
+
+        // If thf list is in thf dbdhf, simply rfturn it.
+        //
+        if (m != null) {
+            finbl String[] dbdhfd = (String[])m.gft(tbg);
+            if (dbdhfd != null) rfturn dbdhfd;
+        }
+
+        finbl List<String> l = gftRuntimfMXBfbn().gftInputArgumfnts();
+        finbl String[] brgs = l.toArrby(nfw String[0]);
+
+        if (m != null) m.put(tbg,brgs);
+        rfturn brgs;
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTSpfdVfndor" vbribblf.
+     */
+    publid String gftJvmRTSpfdVfndor() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdVfndor());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTSpfdNbmf" vbribblf.
+     */
+    publid String gftJvmRTSpfdNbmf() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdNbmf());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTVfrsion" vbribblf.
+     */
+    publid String gftJvmRTVMVfrsion() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftVmVfrsion());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTVfndor" vbribblf.
+     */
+    publid String gftJvmRTVMVfndor() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftVmVfndor());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTMbnbgfmfntSpfdVfrsion" vbribblf.
+     */
+    publid String gftJvmRTMbnbgfmfntSpfdVfrsion() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().
+                                    gftMbnbgfmfntSpfdVfrsion());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTVMNbmf" vbribblf.
+     */
+    publid String gftJvmRTVMNbmf() throws SnmpStbtusExdfption {
+        rfturn vblidJbvbObjfdtNbmfTC(gftRuntimfMXBfbn().gftVmNbmf());
+    }
+
+
+    /**
+     * Gfttfr for thf "JvmRTInputArgsCount" vbribblf.
+     */
+    publid Intfgfr gftJvmRTInputArgsCount() throws SnmpStbtusExdfption {
+
+        finbl String[] brgs = gftInputArgumfnts(JvmContfxtFbdtory.
+                                                gftUsfrDbtb());
+        rfturn brgs.lfngth;
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTBootClbssPbthSupport" vbribblf.
+     */
+    publid EnumJvmRTBootClbssPbthSupport gftJvmRTBootClbssPbthSupport()
+        throws SnmpStbtusExdfption {
+        if(gftRuntimfMXBfbn().isBootClbssPbthSupportfd())
+            rfturn JvmRTBootClbssPbthSupportSupportfd;
+        flsf
+            rfturn JvmRTBootClbssPbthSupportUnSupportfd;
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTUptimfMs" vbribblf.
+     */
+    publid Long gftJvmRTUptimfMs() throws SnmpStbtusExdfption {
+        rfturn gftRuntimfMXBfbn().gftUptimf();
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTStbrtTimfMs" vbribblf.
+     */
+    publid Long gftJvmRTStbrtTimfMs() throws SnmpStbtusExdfption {
+        rfturn gftRuntimfMXBfbn().gftStbrtTimf();
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTSpfdVfrsion" vbribblf.
+     */
+    publid String gftJvmRTSpfdVfrsion() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftSpfdVfrsion());
+    }
+
+    /**
+     * Gfttfr for thf "JvmRTNbmf" vbribblf.
+     */
+    publid String gftJvmRTNbmf() throws SnmpStbtusExdfption {
+        rfturn vblidDisplbyStringTC(gftRuntimfMXBfbn().gftNbmf());
+    }
+
+}

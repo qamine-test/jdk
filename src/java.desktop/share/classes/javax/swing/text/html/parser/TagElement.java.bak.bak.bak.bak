@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvbx.swing.tfxt.html.HTML;
+/**
+ * A gfnfrid HTML TbgElfmfnt dlbss. Thf mfthods dffinf how whitf
+ * spbdf is intfrprftfd bround thf tbg.
+ *
+ * @buthor      Sunitb Mbni
+ */
+
+publid dlbss TbgElfmfnt {
+
+    Elfmfnt flfm;
+    HTML.Tbg htmlTbg;
+    boolfbn insfrtfdByErrorRfdovfry;
+
+    /**
+     * Crfbtfs b gfnfrid HTML TbgElfmfnt dlbss with {@dodf fidtionbl} fqubls to {@dodf fblsf}.
+     *
+     * @pbrbm flfm bn flfmfnt
+     */
+    publid TbgElfmfnt(Elfmfnt flfm) {
+        this(flfm, fblsf);
+    }
+
+    /**
+     * Crfbtfs b gfnfrid HTML TbgElfmfnt dlbss.
+     *
+     * @pbrbm flfm bn flfmfnt
+     * @pbrbm fidtionbl if {@dodf truf} thf tbg is insfrtfd by frror rfdovfry.
+     */
+    publid TbgElfmfnt (Elfmfnt flfm, boolfbn fidtionbl) {
+        this.flfm = flfm;
+        htmlTbg = HTML.gftTbg(flfm.gftNbmf());
+        if (htmlTbg == null) {
+            htmlTbg = nfw HTML.UnknownTbg(flfm.gftNbmf());
+        }
+        insfrtfdByErrorRfdovfry = fidtionbl;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this tbg dbusfs b
+     * linf brfbk to thf flow of dbtb, othfrwisf rfturns
+     * {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if this tbg dbusfs b
+     *   linf brfbk to thf flow of dbtb, othfrwisf rfturns
+     *   {@dodf fblsf}
+     */
+    publid boolfbn brfbksFlow() {
+        rfturn htmlTbg.brfbksFlow();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this tbg is prf-formbttfd.
+     *
+     * @rfturn {@dodf truf} if this tbg is prf-formbttfd,
+     *   othfrwisf rfturns {@dodf fblsf}
+     */
+    publid boolfbn isPrfformbttfd() {
+        rfturn htmlTbg.isPrfformbttfd();
+    }
+
+    /**
+     * Rfturns thf flfmfnt.
+     *
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftElfmfnt() {
+        rfturn flfm;
+    }
+
+    /**
+     * Rfturns thf tbg donstbnt dorrfsponding to thf nbmf of thf {@dodf flfmfnt}
+     *
+     * @rfturn thf tbg donstbnt dorrfsponding to thf nbmf of thf {@dodf flfmfnt}
+     */
+    publid HTML.Tbg gftHTMLTbg() {
+        rfturn htmlTbg;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf tbg is fidtionbl.
+     *
+     * @rfturn {@dodf truf} if thf tbg is fidtionbl.
+     */
+    publid boolfbn fidtionbl() {
+        rfturn insfrtfdByErrorRfdovfry;
+    }
+}

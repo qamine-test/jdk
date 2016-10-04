@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+/**
+* Thf <dodf>LinfMftrids</dodf> dlbss bllows bddfss to thf
+* mftrids nffdfd to lbyout dhbrbdtfrs blong b linf
+* bnd to lbyout of b sft of linfs.  A <dodf>LinfMftrids</dodf>
+* objfdt fndbpsulbtfs thf mfbsurfmfnt informbtion bssodibtfd
+* with b run of tfxt.
+* <p>
+* Fonts dbn hbvf difffrfnt mftrids for difffrfnt rbngfs of
+* dhbrbdtfrs.  Thf <dodf>gftLinfMftrids</dodf> mfthods of
+* {@link jbvb.bwt.Font Font} tbkf somf tfxt bs bn brgumfnt
+* bnd rfturn b <dodf>LinfMftrids</dodf> objfdt dfsdribing thf
+* mftrids of thf initibl numbfr of dhbrbdtfrs in thbt tfxt, bs
+* rfturnfd by {@link #gftNumChbrs}.
+*/
+
+
+publid bbstrbdt dlbss LinfMftrids {
+
+
+    /**
+     * Rfturns thf numbfr of dhbrbdtfrs (<dodf>dhbr</dodf> vblufs) in thf tfxt whosf
+     * mftrids brf fndbpsulbtfd by this <dodf>LinfMftrids</dodf>
+     * objfdt.
+     * @rfturn thf numbfr of dhbrbdtfrs (<dodf>dhbr</dodf> vblufs) in thf tfxt with whidh
+     *         this <dodf>LinfMftrids</dodf> wbs drfbtfd.
+     */
+    publid bbstrbdt int gftNumChbrs();
+
+    /**
+     * Rfturns thf bsdfnt of thf tfxt.  Thf bsdfnt
+     * is thf distbndf from thf bbsflinf
+     * to thf bsdfndfr linf.  Thf bsdfnt usublly rfprfsfnts thf
+     * thf hfight of thf dbpitbl lfttfrs of thf tfxt.  Somf dhbrbdtfrs
+     * dbn fxtfnd bbovf thf bsdfndfr linf.
+     * @rfturn thf bsdfnt of thf tfxt.
+     */
+    publid bbstrbdt flobt gftAsdfnt();
+
+    /**
+     * Rfturns thf dfsdfnt of thf tfxt.  Thf dfsdfnt
+     * is thf distbndf from thf bbsflinf
+     * to thf dfsdfndfr linf.  Thf dfsdfnt usublly rfprfsfnts
+     * thf distbndf to thf bottom of lowfr dbsf lfttfrs likf
+     * 'p'.  Somf dhbrbdtfrs dbn fxtfnd bflow thf dfsdfndfr
+     * linf.
+     * @rfturn thf dfsdfnt of thf tfxt.
+     */
+    publid bbstrbdt flobt gftDfsdfnt();
+
+    /**
+     * Rfturns thf lfbding of thf tfxt. Thf
+     * lfbding is thf rfdommfndfd
+     * distbndf from thf bottom of thf dfsdfndfr linf to thf
+     * top of thf nfxt linf.
+     * @rfturn thf lfbding of thf tfxt.
+     */
+    publid bbstrbdt flobt gftLfbding();
+
+    /**
+     * Rfturns thf hfight of thf tfxt.  Thf
+     * hfight is fqubl to thf sum of thf bsdfnt, thf
+     * dfsdfnt bnd thf lfbding.
+     * @rfturn thf hfight of thf tfxt.
+     */
+    publid bbstrbdt flobt gftHfight();
+
+    /**
+     * Rfturns thf bbsflinf indfx of thf tfxt.
+     * Thf indfx is onf of
+     * {@link jbvb.bwt.Font#ROMAN_BASELINE ROMAN_BASELINE},
+     * {@link jbvb.bwt.Font#CENTER_BASELINE CENTER_BASELINE},
+     * {@link jbvb.bwt.Font#HANGING_BASELINE HANGING_BASELINE}.
+     * @rfturn thf bbsflinf of thf tfxt.
+     */
+    publid bbstrbdt int gftBbsflinfIndfx();
+
+    /**
+     * Rfturns thf bbsflinf offsfts of thf tfxt,
+     * rflbtivf to thf bbsflinf of thf tfxt.  Thf
+     * offsfts brf indfxfd by bbsflinf indfx.  For
+     * fxbmplf, if thf bbsflinf indfx is
+     * <dodf>CENTER_BASELINE</dodf> thfn
+     * <dodf>offsfts[HANGING_BASELINE]</dodf> is usublly
+     * nfgbtivf, <dodf>offsfts[CENTER_BASELINE]</dodf>
+     * is zfro, bnd <dodf>offsfts[ROMAN_BASELINE]</dodf>
+     * is usublly positivf.
+     * @rfturn thf bbsflinf offsfts of thf tfxt.
+     */
+    publid bbstrbdt flobt[] gftBbsflinfOffsfts();
+
+    /**
+     * Rfturns thf position of thf strikf-through linf
+     * rflbtivf to thf bbsflinf.
+     * @rfturn thf position of thf strikf-through linf.
+     */
+    publid bbstrbdt flobt gftStrikfthroughOffsft();
+
+    /**
+     * Rfturns thf thidknfss of thf strikf-through linf.
+     * @rfturn thf thidknfss of thf strikf-through linf.
+     */
+    publid bbstrbdt flobt gftStrikfthroughThidknfss();
+
+    /**
+     * Rfturns thf position of thf undfrlinf rflbtivf to
+     * thf bbsflinf.
+     * @rfturn thf position of thf undfrlinf.
+     */
+    publid bbstrbdt flobt gftUndfrlinfOffsft();
+
+    /**
+     * Rfturns thf thidknfss of thf undfrlinf.
+     * @rfturn thf thidknfss of thf undfrlinf.
+     */
+    publid bbstrbdt flobt gftUndfrlinfThidknfss();
+}

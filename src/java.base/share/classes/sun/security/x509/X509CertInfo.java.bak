@@ -1,958 +1,958 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import java.security.cert.*;
-import java.util.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.*;
 
-import sun.security.util.*;
-import sun.misc.HexDumpEncoder;
+import sun.sfdurity.util.*;
+import sun.misd.HfxDumpEndodfr;
 
 
 /**
- * The X509CertInfo class represents X.509 certificate information.
+ * Tif X509CfrtInfo dlbss rfprfsfnts X.509 dfrtifidbtf informbtion.
  *
- * <P>X.509 certificates have several base data elements, including:<UL>
+ * <P>X.509 dfrtifidbtfs ibvf sfvfrbl bbsf dbtb flfmfnts, indluding:<UL>
  *
- * <LI>The <em>Subject Name</em>, an X.500 Distinguished Name for
- *      the entity (subject) for which the certificate was issued.
+ * <LI>Tif <fm>Subjfdt Nbmf</fm>, bn X.500 Distinguisifd Nbmf for
+ *      tif fntity (subjfdt) for wiidi tif dfrtifidbtf wbs issufd.
  *
- * <LI>The <em>Subject Public Key</em>, the public key of the subject.
- *      This is one of the most important parts of the certificate.
+ * <LI>Tif <fm>Subjfdt Publid Kfy</fm>, tif publid kfy of tif subjfdt.
+ *      Tiis is onf of tif most importbnt pbrts of tif dfrtifidbtf.
  *
- * <LI>The <em>Validity Period</em>, a time period (e.g. six months)
- *      within which the certificate is valid (unless revoked).
+ * <LI>Tif <fm>Vblidity Pfriod</fm>, b timf pfriod (f.g. six montis)
+ *      witiin wiidi tif dfrtifidbtf is vblid (unlfss rfvokfd).
  *
- * <LI>The <em>Issuer Name</em>, an X.500 Distinguished Name for the
- *      Certificate Authority (CA) which issued the certificate.
+ * <LI>Tif <fm>Issufr Nbmf</fm>, bn X.500 Distinguisifd Nbmf for tif
+ *      Cfrtifidbtf Autiority (CA) wiidi issufd tif dfrtifidbtf.
  *
- * <LI>A <em>Serial Number</em> assigned by the CA, for use in
- *      certificate revocation and other applications.
+ * <LI>A <fm>Sfribl Numbfr</fm> bssignfd by tif CA, for usf in
+ *      dfrtifidbtf rfvodbtion bnd otifr bpplidbtions.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
- * @see X509CertImpl
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
+ * @sff X509CfrtImpl
  */
-public class X509CertInfo implements CertAttrSet<String> {
+publid dlbss X509CfrtInfo implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info";
-    // Certificate attribute names
-    public static final String NAME = "info";
-    public static final String DN_NAME = "dname";
-    public static final String VERSION = CertificateVersion.NAME;
-    public static final String SERIAL_NUMBER = CertificateSerialNumber.NAME;
-    public static final String ALGORITHM_ID = CertificateAlgorithmId.NAME;
-    public static final String ISSUER = "issuer";
-    public static final String SUBJECT = "subject";
-    public static final String VALIDITY = CertificateValidity.NAME;
-    public static final String KEY = CertificateX509Key.NAME;
-    public static final String ISSUER_ID = "issuerID";
-    public static final String SUBJECT_ID = "subjectID";
-    public static final String EXTENSIONS = CertificateExtensions.NAME;
+    publid stbtid finbl String IDENT = "x509.info";
+    // Cfrtifidbtf bttributf nbmfs
+    publid stbtid finbl String NAME = "info";
+    publid stbtid finbl String DN_NAME = "dnbmf";
+    publid stbtid finbl String VERSION = CfrtifidbtfVfrsion.NAME;
+    publid stbtid finbl String SERIAL_NUMBER = CfrtifidbtfSfriblNumbfr.NAME;
+    publid stbtid finbl String ALGORITHM_ID = CfrtifidbtfAlgoritimId.NAME;
+    publid stbtid finbl String ISSUER = "issufr";
+    publid stbtid finbl String SUBJECT = "subjfdt";
+    publid stbtid finbl String VALIDITY = CfrtifidbtfVblidity.NAME;
+    publid stbtid finbl String KEY = CfrtifidbtfX509Kfy.NAME;
+    publid stbtid finbl String ISSUER_ID = "issufrID";
+    publid stbtid finbl String SUBJECT_ID = "subjfdtID";
+    publid stbtid finbl String EXTENSIONS = CfrtifidbtfExtfnsions.NAME;
 
-    // X509.v1 data
-    protected CertificateVersion version = new CertificateVersion();
-    protected CertificateSerialNumber   serialNum = null;
-    protected CertificateAlgorithmId    algId = null;
-    protected X500Name                  issuer = null;
-    protected X500Name                  subject = null;
-    protected CertificateValidity       interval = null;
-    protected CertificateX509Key        pubKey = null;
+    // X509.v1 dbtb
+    protfdtfd CfrtifidbtfVfrsion vfrsion = nfw CfrtifidbtfVfrsion();
+    protfdtfd CfrtifidbtfSfriblNumbfr   sfriblNum = null;
+    protfdtfd CfrtifidbtfAlgoritimId    blgId = null;
+    protfdtfd X500Nbmf                  issufr = null;
+    protfdtfd X500Nbmf                  subjfdt = null;
+    protfdtfd CfrtifidbtfVblidity       intfrvbl = null;
+    protfdtfd CfrtifidbtfX509Kfy        pubKfy = null;
 
-    // X509.v2 & v3 extensions
-    protected UniqueIdentity   issuerUniqueId = null;
-    protected UniqueIdentity  subjectUniqueId = null;
+    // X509.v2 & v3 fxtfnsions
+    protfdtfd UniqufIdfntity   issufrUniqufId = null;
+    protfdtfd UniqufIdfntity  subjfdtUniqufId = null;
 
-    // X509.v3 extensions
-    protected CertificateExtensions     extensions = null;
+    // X509.v3 fxtfnsions
+    protfdtfd CfrtifidbtfExtfnsions     fxtfnsions = null;
 
-    // Attribute numbers for internal manipulation
-    private static final int ATTR_VERSION = 1;
-    private static final int ATTR_SERIAL = 2;
-    private static final int ATTR_ALGORITHM = 3;
-    private static final int ATTR_ISSUER = 4;
-    private static final int ATTR_VALIDITY = 5;
-    private static final int ATTR_SUBJECT = 6;
-    private static final int ATTR_KEY = 7;
-    private static final int ATTR_ISSUER_ID = 8;
-    private static final int ATTR_SUBJECT_ID = 9;
-    private static final int ATTR_EXTENSIONS = 10;
+    // Attributf numbfrs for intfrnbl mbnipulbtion
+    privbtf stbtid finbl int ATTR_VERSION = 1;
+    privbtf stbtid finbl int ATTR_SERIAL = 2;
+    privbtf stbtid finbl int ATTR_ALGORITHM = 3;
+    privbtf stbtid finbl int ATTR_ISSUER = 4;
+    privbtf stbtid finbl int ATTR_VALIDITY = 5;
+    privbtf stbtid finbl int ATTR_SUBJECT = 6;
+    privbtf stbtid finbl int ATTR_KEY = 7;
+    privbtf stbtid finbl int ATTR_ISSUER_ID = 8;
+    privbtf stbtid finbl int ATTR_SUBJECT_ID = 9;
+    privbtf stbtid finbl int ATTR_EXTENSIONS = 10;
 
-    // DER encoded CertificateInfo data
-    private byte[]      rawCertInfo = null;
+    // DER fndodfd CfrtifidbtfInfo dbtb
+    privbtf bytf[]      rbwCfrtInfo = null;
 
-    // The certificate attribute name to integer mapping stored here
-    private static final Map<String,Integer> map = new HashMap<String,Integer>();
-    static {
-        map.put(VERSION, Integer.valueOf(ATTR_VERSION));
-        map.put(SERIAL_NUMBER, Integer.valueOf(ATTR_SERIAL));
-        map.put(ALGORITHM_ID, Integer.valueOf(ATTR_ALGORITHM));
-        map.put(ISSUER, Integer.valueOf(ATTR_ISSUER));
-        map.put(VALIDITY, Integer.valueOf(ATTR_VALIDITY));
-        map.put(SUBJECT, Integer.valueOf(ATTR_SUBJECT));
-        map.put(KEY, Integer.valueOf(ATTR_KEY));
-        map.put(ISSUER_ID, Integer.valueOf(ATTR_ISSUER_ID));
-        map.put(SUBJECT_ID, Integer.valueOf(ATTR_SUBJECT_ID));
-        map.put(EXTENSIONS, Integer.valueOf(ATTR_EXTENSIONS));
+    // Tif dfrtifidbtf bttributf nbmf to intfgfr mbpping storfd ifrf
+    privbtf stbtid finbl Mbp<String,Intfgfr> mbp = nfw HbsiMbp<String,Intfgfr>();
+    stbtid {
+        mbp.put(VERSION, Intfgfr.vblufOf(ATTR_VERSION));
+        mbp.put(SERIAL_NUMBER, Intfgfr.vblufOf(ATTR_SERIAL));
+        mbp.put(ALGORITHM_ID, Intfgfr.vblufOf(ATTR_ALGORITHM));
+        mbp.put(ISSUER, Intfgfr.vblufOf(ATTR_ISSUER));
+        mbp.put(VALIDITY, Intfgfr.vblufOf(ATTR_VALIDITY));
+        mbp.put(SUBJECT, Intfgfr.vblufOf(ATTR_SUBJECT));
+        mbp.put(KEY, Intfgfr.vblufOf(ATTR_KEY));
+        mbp.put(ISSUER_ID, Intfgfr.vblufOf(ATTR_ISSUER_ID));
+        mbp.put(SUBJECT_ID, Intfgfr.vblufOf(ATTR_SUBJECT_ID));
+        mbp.put(EXTENSIONS, Intfgfr.vblufOf(ATTR_EXTENSIONS));
     }
 
     /**
-     * Construct an uninitialized X509CertInfo on which <a href="#decode">
-     * decode</a> must later be called (or which may be deserialized).
+     * Construdt bn uninitiblizfd X509CfrtInfo on wiidi <b irff="#dfdodf">
+     * dfdodf</b> must lbtfr bf dbllfd (or wiidi mby bf dfsfriblizfd).
      */
-    public X509CertInfo() { }
+    publid X509CfrtInfo() { }
 
     /**
-     * Unmarshals a certificate from its encoded form, parsing the
-     * encoded bytes.  This form of constructor is used by agents which
-     * need to examine and use certificate contents.  That is, this is
-     * one of the more commonly used constructors.  Note that the buffer
-     * must include only a certificate, and no "garbage" may be left at
-     * the end.  If you need to ignore data at the end of a certificate,
-     * use another constructor.
+     * Unmbrsibls b dfrtifidbtf from its fndodfd form, pbrsing tif
+     * fndodfd bytfs.  Tiis form of donstrudtor is usfd by bgfnts wiidi
+     * nffd to fxbminf bnd usf dfrtifidbtf dontfnts.  Tibt is, tiis is
+     * onf of tif morf dommonly usfd donstrudtors.  Notf tibt tif bufffr
+     * must indludf only b dfrtifidbtf, bnd no "gbrbbgf" mby bf lfft bt
+     * tif fnd.  If you nffd to ignorf dbtb bt tif fnd of b dfrtifidbtf,
+     * usf bnotifr donstrudtor.
      *
-     * @param cert the encoded bytes, with no trailing data.
-     * @exception CertificateParsingException on parsing errors.
+     * @pbrbm dfrt tif fndodfd bytfs, witi no trbiling dbtb.
+     * @fxdfption CfrtifidbtfPbrsingExdfption on pbrsing frrors.
      */
-    public X509CertInfo(byte[] cert) throws CertificateParsingException {
+    publid X509CfrtInfo(bytf[] dfrt) tirows CfrtifidbtfPbrsingExdfption {
         try {
-            DerValue    in = new DerValue(cert);
+            DfrVbluf    in = nfw DfrVbluf(dfrt);
 
-            parse(in);
-        } catch (IOException e) {
-            throw new CertificateParsingException(e);
+            pbrsf(in);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(f);
         }
     }
 
     /**
-     * Unmarshal a certificate from its encoded form, parsing a DER value.
-     * This form of constructor is used by agents which need to examine
-     * and use certificate contents.
+     * Unmbrsibl b dfrtifidbtf from its fndodfd form, pbrsing b DER vbluf.
+     * Tiis form of donstrudtor is usfd by bgfnts wiidi nffd to fxbminf
+     * bnd usf dfrtifidbtf dontfnts.
      *
-     * @param derVal the der value containing the encoded cert.
-     * @exception CertificateParsingException on parsing errors.
+     * @pbrbm dfrVbl tif dfr vbluf dontbining tif fndodfd dfrt.
+     * @fxdfption CfrtifidbtfPbrsingExdfption on pbrsing frrors.
      */
-    public X509CertInfo(DerValue derVal) throws CertificateParsingException {
+    publid X509CfrtInfo(DfrVbluf dfrVbl) tirows CfrtifidbtfPbrsingExdfption {
         try {
-            parse(derVal);
-        } catch (IOException e) {
-            throw new CertificateParsingException(e);
+            pbrsf(dfrVbl);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(f);
         }
     }
 
     /**
-     * Appends the certificate to an output stream.
+     * Appfnds tif dfrtifidbtf to bn output strfbm.
      *
-     * @param out an output stream to which the certificate is appended.
-     * @exception CertificateException on encoding errors.
-     * @exception IOException on other errors.
+     * @pbrbm out bn output strfbm to wiidi tif dfrtifidbtf is bppfndfd.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    public void encode(OutputStream out)
-    throws CertificateException, IOException {
-        if (rawCertInfo == null) {
-            DerOutputStream tmp = new DerOutputStream();
-            emit(tmp);
-            rawCertInfo = tmp.toByteArray();
+    publid void fndodf(OutputStrfbm out)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        if (rbwCfrtInfo == null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            fmit(tmp);
+            rbwCfrtInfo = tmp.toBytfArrby();
         }
-        out.write(rawCertInfo.clone());
+        out.writf(rbwCfrtInfo.dlonf());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(VERSION);
-        elements.addElement(SERIAL_NUMBER);
-        elements.addElement(ALGORITHM_ID);
-        elements.addElement(ISSUER);
-        elements.addElement(VALIDITY);
-        elements.addElement(SUBJECT);
-        elements.addElement(KEY);
-        elements.addElement(ISSUER_ID);
-        elements.addElement(SUBJECT_ID);
-        elements.addElement(EXTENSIONS);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(VERSION);
+        flfmfnts.bddElfmfnt(SERIAL_NUMBER);
+        flfmfnts.bddElfmfnt(ALGORITHM_ID);
+        flfmfnts.bddElfmfnt(ISSUER);
+        flfmfnts.bddElfmfnt(VALIDITY);
+        flfmfnts.bddElfmfnt(SUBJECT);
+        flfmfnts.bddElfmfnt(KEY);
+        flfmfnts.bddElfmfnt(ISSUER_ID);
+        flfmfnts.bddElfmfnt(SUBJECT_ID);
+        flfmfnts.bddElfmfnt(EXTENSIONS);
 
-        return elements.elements();
+        rfturn flfmfnts.flfmfnts();
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return(NAME);
+    publid String gftNbmf() {
+        rfturn(NAME);
     }
 
     /**
-     * Returns the encoded certificate info.
+     * Rfturns tif fndodfd dfrtifidbtf info.
      *
-     * @exception CertificateEncodingException on encoding information errors.
+     * @fxdfption CfrtifidbtfEndodingExdfption on fndoding informbtion frrors.
      */
-    public byte[] getEncodedInfo() throws CertificateEncodingException {
+    publid bytf[] gftEndodfdInfo() tirows CfrtifidbtfEndodingExdfption {
         try {
-            if (rawCertInfo == null) {
-                DerOutputStream tmp = new DerOutputStream();
-                emit(tmp);
-                rawCertInfo = tmp.toByteArray();
+            if (rbwCfrtInfo == null) {
+                DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+                fmit(tmp);
+                rbwCfrtInfo = tmp.toBytfArrby();
             }
-            return rawCertInfo.clone();
-        } catch (IOException e) {
-            throw new CertificateEncodingException(e.toString());
-        } catch (CertificateException e) {
-            throw new CertificateEncodingException(e.toString());
+            rfturn rbwCfrtInfo.dlonf();
+        } dbtdi (IOExdfption f) {
+            tirow nfw CfrtifidbtfEndodingExdfption(f.toString());
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw CfrtifidbtfEndodingExdfption(f.toString());
         }
     }
 
     /**
-     * Compares two X509CertInfo objects.  This is false if the
-     * certificates are not both X.509 certs, otherwise it
-     * compares them as binary data.
+     * Compbrfs two X509CfrtInfo objfdts.  Tiis is fblsf if tif
+     * dfrtifidbtfs brf not boti X.509 dfrts, otifrwisf it
+     * dompbrfs tifm bs binbry dbtb.
      *
-     * @param other the object being compared with this one
-     * @return true iff the certificates are equivalent
+     * @pbrbm otifr tif objfdt bfing dompbrfd witi tiis onf
+     * @rfturn truf iff tif dfrtifidbtfs brf fquivblfnt
      */
-    public boolean equals(Object other) {
-        if (other instanceof X509CertInfo) {
-            return equals((X509CertInfo) other);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr instbndfof X509CfrtInfo) {
+            rfturn fqubls((X509CfrtInfo) otifr);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Compares two certificates, returning false if any data
-     * differs between the two.
+     * Compbrfs two dfrtifidbtfs, rfturning fblsf if bny dbtb
+     * difffrs bftwffn tif two.
      *
-     * @param other the object being compared with this one
-     * @return true iff the certificates are equivalent
+     * @pbrbm otifr tif objfdt bfing dompbrfd witi tiis onf
+     * @rfturn truf iff tif dfrtifidbtfs brf fquivblfnt
      */
-    public boolean equals(X509CertInfo other) {
-        if (this == other) {
-            return(true);
-        } else if (rawCertInfo == null || other.rawCertInfo == null) {
-            return(false);
-        } else if (rawCertInfo.length != other.rawCertInfo.length) {
-            return(false);
+    publid boolfbn fqubls(X509CfrtInfo otifr) {
+        if (tiis == otifr) {
+            rfturn(truf);
+        } flsf if (rbwCfrtInfo == null || otifr.rbwCfrtInfo == null) {
+            rfturn(fblsf);
+        } flsf if (rbwCfrtInfo.lfngti != otifr.rbwCfrtInfo.lfngti) {
+            rfturn(fblsf);
         }
-        for (int i = 0; i < rawCertInfo.length; i++) {
-            if (rawCertInfo[i] != other.rawCertInfo[i]) {
-                return(false);
+        for (int i = 0; i < rbwCfrtInfo.lfngti; i++) {
+            if (rbwCfrtInfo[i] != otifr.rbwCfrtInfo[i]) {
+                rfturn(fblsf);
             }
         }
-        return(true);
+        rfturn(truf);
     }
 
     /**
-     * Calculates a hash code value for the object.  Objects
-     * which are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.  Objfdts
+     * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
-        int     retval = 0;
+    publid int ibsiCodf() {
+        int     rftvbl = 0;
 
-        for (int i = 1; i < rawCertInfo.length; i++) {
-            retval += rawCertInfo[i] * i;
+        for (int i = 1; i < rbwCfrtInfo.lfngti; i++) {
+            rftvbl += rbwCfrtInfo[i] * i;
         }
-        return(retval);
+        rfturn(rftvbl);
     }
 
     /**
-     * Returns a printable representation of the certificate.
+     * Rfturns b printbblf rfprfsfntbtion of tif dfrtifidbtf.
      */
-    public String toString() {
+    publid String toString() {
 
-        if (subject == null || pubKey == null || interval == null
-            || issuer == null || algId == null || serialNum == null) {
-                throw new NullPointerException("X.509 cert is incomplete");
+        if (subjfdt == null || pubKfy == null || intfrvbl == null
+            || issufr == null || blgId == null || sfriblNum == null) {
+                tirow nfw NullPointfrExdfption("X.509 dfrt is indomplftf");
         }
-        StringBuilder sb = new StringBuilder();
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append("[\n");
-        sb.append("  " + version.toString() + "\n");
-        sb.append("  Subject: " + subject.toString() + "\n");
-        sb.append("  Signature Algorithm: " + algId.toString() + "\n");
-        sb.append("  Key:  " + pubKey.toString() + "\n");
-        sb.append("  " + interval.toString() + "\n");
-        sb.append("  Issuer: " + issuer.toString() + "\n");
-        sb.append("  " + serialNum.toString() + "\n");
+        sb.bppfnd("[\n");
+        sb.bppfnd("  " + vfrsion.toString() + "\n");
+        sb.bppfnd("  Subjfdt: " + subjfdt.toString() + "\n");
+        sb.bppfnd("  Signbturf Algoritim: " + blgId.toString() + "\n");
+        sb.bppfnd("  Kfy:  " + pubKfy.toString() + "\n");
+        sb.bppfnd("  " + intfrvbl.toString() + "\n");
+        sb.bppfnd("  Issufr: " + issufr.toString() + "\n");
+        sb.bppfnd("  " + sfriblNum.toString() + "\n");
 
-        // optional v2, v3 extras
-        if (issuerUniqueId != null) {
-            sb.append("  Issuer Id:\n" + issuerUniqueId.toString() + "\n");
+        // optionbl v2, v3 fxtrbs
+        if (issufrUniqufId != null) {
+            sb.bppfnd("  Issufr Id:\n" + issufrUniqufId.toString() + "\n");
         }
-        if (subjectUniqueId != null) {
-            sb.append("  Subject Id:\n" + subjectUniqueId.toString() + "\n");
+        if (subjfdtUniqufId != null) {
+            sb.bppfnd("  Subjfdt Id:\n" + subjfdtUniqufId.toString() + "\n");
         }
-        if (extensions != null) {
-            Collection<Extension> allExts = extensions.getAllExtensions();
-            Extension[] exts = allExts.toArray(new Extension[0]);
-            sb.append("\nCertificate Extensions: " + exts.length);
-            for (int i = 0; i < exts.length; i++) {
-                sb.append("\n[" + (i+1) + "]: ");
-                Extension ext = exts[i];
+        if (fxtfnsions != null) {
+            Collfdtion<Extfnsion> bllExts = fxtfnsions.gftAllExtfnsions();
+            Extfnsion[] fxts = bllExts.toArrby(nfw Extfnsion[0]);
+            sb.bppfnd("\nCfrtifidbtf Extfnsions: " + fxts.lfngti);
+            for (int i = 0; i < fxts.lfngti; i++) {
+                sb.bppfnd("\n[" + (i+1) + "]: ");
+                Extfnsion fxt = fxts[i];
                 try {
-                    if (OIDMap.getClass(ext.getExtensionId()) == null) {
-                        sb.append(ext.toString());
-                        byte[] extValue = ext.getExtensionValue();
-                        if (extValue != null) {
-                            DerOutputStream out = new DerOutputStream();
-                            out.putOctetString(extValue);
-                            extValue = out.toByteArray();
-                            HexDumpEncoder enc = new HexDumpEncoder();
-                            sb.append("Extension unknown: "
-                                      + "DER encoded OCTET string =\n"
-                                      + enc.encodeBuffer(extValue) + "\n");
+                    if (OIDMbp.gftClbss(fxt.gftExtfnsionId()) == null) {
+                        sb.bppfnd(fxt.toString());
+                        bytf[] fxtVbluf = fxt.gftExtfnsionVbluf();
+                        if (fxtVbluf != null) {
+                            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+                            out.putOdtftString(fxtVbluf);
+                            fxtVbluf = out.toBytfArrby();
+                            HfxDumpEndodfr fnd = nfw HfxDumpEndodfr();
+                            sb.bppfnd("Extfnsion unknown: "
+                                      + "DER fndodfd OCTET string =\n"
+                                      + fnd.fndodfBufffr(fxtVbluf) + "\n");
                         }
-                    } else
-                        sb.append(ext.toString()); //sub-class exists
-                } catch (Exception e) {
-                    sb.append(", Error parsing this extension");
+                    } flsf
+                        sb.bppfnd(fxt.toString()); //sub-dlbss fxists
+                } dbtdi (Exdfption f) {
+                    sb.bppfnd(", Error pbrsing tiis fxtfnsion");
                 }
             }
-            Map<String,Extension> invalid = extensions.getUnparseableExtensions();
-            if (invalid.isEmpty() == false) {
-                sb.append("\nUnparseable certificate extensions: " + invalid.size());
+            Mbp<String,Extfnsion> invblid = fxtfnsions.gftUnpbrsfbblfExtfnsions();
+            if (invblid.isEmpty() == fblsf) {
+                sb.bppfnd("\nUnpbrsfbblf dfrtifidbtf fxtfnsions: " + invblid.sizf());
                 int i = 1;
-                for (Extension ext : invalid.values()) {
-                    sb.append("\n[" + (i++) + "]: ");
-                    sb.append(ext);
+                for (Extfnsion fxt : invblid.vblufs()) {
+                    sb.bppfnd("\n[" + (i++) + "]: ");
+                    sb.bppfnd(fxt);
                 }
             }
         }
-        sb.append("\n]");
-        return sb.toString();
+        sb.bppfnd("\n]");
+        rfturn sb.toString();
     }
 
     /**
-     * Set the certificate attribute.
+     * Sft tif dfrtifidbtf bttributf.
      *
-     * @params name the name of the Certificate attribute.
-     * @params val the value of the Certificate attribute.
-     * @exception CertificateException on invalid attributes.
-     * @exception IOException on other errors.
+     * @pbrbms nbmf tif nbmf of tif Cfrtifidbtf bttributf.
+     * @pbrbms vbl tif vbluf of tif Cfrtifidbtf bttributf.
+     * @fxdfption CfrtifidbtfExdfption on invblid bttributfs.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    public void set(String name, Object val)
-    throws CertificateException, IOException {
-        X509AttributeName attrName = new X509AttributeName(name);
+    publid void sft(String nbmf, Objfdt vbl)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        X509AttributfNbmf bttrNbmf = nfw X509AttributfNbmf(nbmf);
 
-        int attr = attributeMap(attrName.getPrefix());
-        if (attr == 0) {
-            throw new CertificateException("Attribute name not recognized: "
-                                           + name);
+        int bttr = bttributfMbp(bttrNbmf.gftPrffix());
+        if (bttr == 0) {
+            tirow nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd: "
+                                           + nbmf);
         }
-        // set rawCertInfo to null, so that we are forced to re-encode
-        rawCertInfo = null;
-        String suffix = attrName.getSuffix();
+        // sft rbwCfrtInfo to null, so tibt wf brf fordfd to rf-fndodf
+        rbwCfrtInfo = null;
+        String suffix = bttrNbmf.gftSuffix();
 
-        switch (attr) {
-        case ATTR_VERSION:
+        switdi (bttr) {
+        dbsf ATTR_VERSION:
             if (suffix == null) {
-                setVersion(val);
-            } else {
-                version.set(suffix, val);
+                sftVfrsion(vbl);
+            } flsf {
+                vfrsion.sft(suffix, vbl);
             }
-            break;
+            brfbk;
 
-        case ATTR_SERIAL:
+        dbsf ATTR_SERIAL:
             if (suffix == null) {
-                setSerialNumber(val);
-            } else {
-                serialNum.set(suffix, val);
+                sftSfriblNumbfr(vbl);
+            } flsf {
+                sfriblNum.sft(suffix, vbl);
             }
-            break;
+            brfbk;
 
-        case ATTR_ALGORITHM:
+        dbsf ATTR_ALGORITHM:
             if (suffix == null) {
-                setAlgorithmId(val);
-            } else {
-                algId.set(suffix, val);
+                sftAlgoritimId(vbl);
+            } flsf {
+                blgId.sft(suffix, vbl);
             }
-            break;
+            brfbk;
 
-        case ATTR_ISSUER:
-            setIssuer(val);
-            break;
+        dbsf ATTR_ISSUER:
+            sftIssufr(vbl);
+            brfbk;
 
-        case ATTR_VALIDITY:
+        dbsf ATTR_VALIDITY:
             if (suffix == null) {
-                setValidity(val);
-            } else {
-                interval.set(suffix, val);
+                sftVblidity(vbl);
+            } flsf {
+                intfrvbl.sft(suffix, vbl);
             }
-            break;
+            brfbk;
 
-        case ATTR_SUBJECT:
-            setSubject(val);
-            break;
+        dbsf ATTR_SUBJECT:
+            sftSubjfdt(vbl);
+            brfbk;
 
-        case ATTR_KEY:
+        dbsf ATTR_KEY:
             if (suffix == null) {
-                setKey(val);
-            } else {
-                pubKey.set(suffix, val);
+                sftKfy(vbl);
+            } flsf {
+                pubKfy.sft(suffix, vbl);
             }
-            break;
+            brfbk;
 
-        case ATTR_ISSUER_ID:
-            setIssuerUniqueId(val);
-            break;
+        dbsf ATTR_ISSUER_ID:
+            sftIssufrUniqufId(vbl);
+            brfbk;
 
-        case ATTR_SUBJECT_ID:
-            setSubjectUniqueId(val);
-            break;
+        dbsf ATTR_SUBJECT_ID:
+            sftSubjfdtUniqufId(vbl);
+            brfbk;
 
-        case ATTR_EXTENSIONS:
+        dbsf ATTR_EXTENSIONS:
             if (suffix == null) {
-                setExtensions(val);
-            } else {
-                if (extensions == null)
-                    extensions = new CertificateExtensions();
-                extensions.set(suffix, val);
+                sftExtfnsions(vbl);
+            } flsf {
+                if (fxtfnsions == null)
+                    fxtfnsions = nfw CfrtifidbtfExtfnsions();
+                fxtfnsions.sft(suffix, vbl);
             }
-            break;
-        }
-    }
-
-    /**
-     * Delete the certificate attribute.
-     *
-     * @params name the name of the Certificate attribute.
-     * @exception CertificateException on invalid attributes.
-     * @exception IOException on other errors.
-     */
-    public void delete(String name)
-    throws CertificateException, IOException {
-        X509AttributeName attrName = new X509AttributeName(name);
-
-        int attr = attributeMap(attrName.getPrefix());
-        if (attr == 0) {
-            throw new CertificateException("Attribute name not recognized: "
-                                           + name);
-        }
-        // set rawCertInfo to null, so that we are forced to re-encode
-        rawCertInfo = null;
-        String suffix = attrName.getSuffix();
-
-        switch (attr) {
-        case ATTR_VERSION:
-            if (suffix == null) {
-                version = null;
-            } else {
-                version.delete(suffix);
-            }
-            break;
-        case (ATTR_SERIAL):
-            if (suffix == null) {
-                serialNum = null;
-            } else {
-                serialNum.delete(suffix);
-            }
-            break;
-        case (ATTR_ALGORITHM):
-            if (suffix == null) {
-                algId = null;
-            } else {
-                algId.delete(suffix);
-            }
-            break;
-        case (ATTR_ISSUER):
-            issuer = null;
-            break;
-        case (ATTR_VALIDITY):
-            if (suffix == null) {
-                interval = null;
-            } else {
-                interval.delete(suffix);
-            }
-            break;
-        case (ATTR_SUBJECT):
-            subject = null;
-            break;
-        case (ATTR_KEY):
-            if (suffix == null) {
-                pubKey = null;
-            } else {
-                pubKey.delete(suffix);
-            }
-            break;
-        case (ATTR_ISSUER_ID):
-            issuerUniqueId = null;
-            break;
-        case (ATTR_SUBJECT_ID):
-            subjectUniqueId = null;
-            break;
-        case (ATTR_EXTENSIONS):
-            if (suffix == null) {
-                extensions = null;
-            } else {
-                if (extensions != null)
-                   extensions.delete(suffix);
-            }
-            break;
+            brfbk;
         }
     }
 
     /**
-     * Get the certificate attribute.
+     * Dflftf tif dfrtifidbtf bttributf.
      *
-     * @params name the name of the Certificate attribute.
-     *
-     * @exception CertificateException on invalid attributes.
-     * @exception IOException on other errors.
+     * @pbrbms nbmf tif nbmf of tif Cfrtifidbtf bttributf.
+     * @fxdfption CfrtifidbtfExdfption on invblid bttributfs.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    public Object get(String name)
-    throws CertificateException, IOException {
-        X509AttributeName attrName = new X509AttributeName(name);
+    publid void dflftf(String nbmf)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        X509AttributfNbmf bttrNbmf = nfw X509AttributfNbmf(nbmf);
 
-        int attr = attributeMap(attrName.getPrefix());
-        if (attr == 0) {
-            throw new CertificateParsingException(
-                          "Attribute name not recognized: " + name);
+        int bttr = bttributfMbp(bttrNbmf.gftPrffix());
+        if (bttr == 0) {
+            tirow nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd: "
+                                           + nbmf);
         }
-        String suffix = attrName.getSuffix();
+        // sft rbwCfrtInfo to null, so tibt wf brf fordfd to rf-fndodf
+        rbwCfrtInfo = null;
+        String suffix = bttrNbmf.gftSuffix();
 
-        switch (attr) { // frequently used attributes first
-        case (ATTR_EXTENSIONS):
+        switdi (bttr) {
+        dbsf ATTR_VERSION:
             if (suffix == null) {
-                return(extensions);
-            } else {
-                if (extensions == null) {
-                    return null;
-                } else {
-                    return(extensions.get(suffix));
+                vfrsion = null;
+            } flsf {
+                vfrsion.dflftf(suffix);
+            }
+            brfbk;
+        dbsf (ATTR_SERIAL):
+            if (suffix == null) {
+                sfriblNum = null;
+            } flsf {
+                sfriblNum.dflftf(suffix);
+            }
+            brfbk;
+        dbsf (ATTR_ALGORITHM):
+            if (suffix == null) {
+                blgId = null;
+            } flsf {
+                blgId.dflftf(suffix);
+            }
+            brfbk;
+        dbsf (ATTR_ISSUER):
+            issufr = null;
+            brfbk;
+        dbsf (ATTR_VALIDITY):
+            if (suffix == null) {
+                intfrvbl = null;
+            } flsf {
+                intfrvbl.dflftf(suffix);
+            }
+            brfbk;
+        dbsf (ATTR_SUBJECT):
+            subjfdt = null;
+            brfbk;
+        dbsf (ATTR_KEY):
+            if (suffix == null) {
+                pubKfy = null;
+            } flsf {
+                pubKfy.dflftf(suffix);
+            }
+            brfbk;
+        dbsf (ATTR_ISSUER_ID):
+            issufrUniqufId = null;
+            brfbk;
+        dbsf (ATTR_SUBJECT_ID):
+            subjfdtUniqufId = null;
+            brfbk;
+        dbsf (ATTR_EXTENSIONS):
+            if (suffix == null) {
+                fxtfnsions = null;
+            } flsf {
+                if (fxtfnsions != null)
+                   fxtfnsions.dflftf(suffix);
+            }
+            brfbk;
+        }
+    }
+
+    /**
+     * Gft tif dfrtifidbtf bttributf.
+     *
+     * @pbrbms nbmf tif nbmf of tif Cfrtifidbtf bttributf.
+     *
+     * @fxdfption CfrtifidbtfExdfption on invblid bttributfs.
+     * @fxdfption IOExdfption on otifr frrors.
+     */
+    publid Objfdt gft(String nbmf)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        X509AttributfNbmf bttrNbmf = nfw X509AttributfNbmf(nbmf);
+
+        int bttr = bttributfMbp(bttrNbmf.gftPrffix());
+        if (bttr == 0) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                          "Attributf nbmf not rfdognizfd: " + nbmf);
+        }
+        String suffix = bttrNbmf.gftSuffix();
+
+        switdi (bttr) { // frfqufntly usfd bttributfs first
+        dbsf (ATTR_EXTENSIONS):
+            if (suffix == null) {
+                rfturn(fxtfnsions);
+            } flsf {
+                if (fxtfnsions == null) {
+                    rfturn null;
+                } flsf {
+                    rfturn(fxtfnsions.gft(suffix));
                 }
             }
-        case (ATTR_SUBJECT):
+        dbsf (ATTR_SUBJECT):
             if (suffix == null) {
-                return(subject);
-            } else {
-                return(getX500Name(suffix, false));
+                rfturn(subjfdt);
+            } flsf {
+                rfturn(gftX500Nbmf(suffix, fblsf));
             }
-        case (ATTR_ISSUER):
+        dbsf (ATTR_ISSUER):
             if (suffix == null) {
-                return(issuer);
-            } else {
-                return(getX500Name(suffix, true));
+                rfturn(issufr);
+            } flsf {
+                rfturn(gftX500Nbmf(suffix, truf));
             }
-        case (ATTR_KEY):
+        dbsf (ATTR_KEY):
             if (suffix == null) {
-                return(pubKey);
-            } else {
-                return(pubKey.get(suffix));
+                rfturn(pubKfy);
+            } flsf {
+                rfturn(pubKfy.gft(suffix));
             }
-        case (ATTR_ALGORITHM):
+        dbsf (ATTR_ALGORITHM):
             if (suffix == null) {
-                return(algId);
-            } else {
-                return(algId.get(suffix));
+                rfturn(blgId);
+            } flsf {
+                rfturn(blgId.gft(suffix));
             }
-        case (ATTR_VALIDITY):
+        dbsf (ATTR_VALIDITY):
             if (suffix == null) {
-                return(interval);
-            } else {
-                return(interval.get(suffix));
+                rfturn(intfrvbl);
+            } flsf {
+                rfturn(intfrvbl.gft(suffix));
             }
-        case (ATTR_VERSION):
+        dbsf (ATTR_VERSION):
             if (suffix == null) {
-                return(version);
-            } else {
-                return(version.get(suffix));
+                rfturn(vfrsion);
+            } flsf {
+                rfturn(vfrsion.gft(suffix));
             }
-        case (ATTR_SERIAL):
+        dbsf (ATTR_SERIAL):
             if (suffix == null) {
-                return(serialNum);
-            } else {
-                return(serialNum.get(suffix));
+                rfturn(sfriblNum);
+            } flsf {
+                rfturn(sfriblNum.gft(suffix));
             }
-        case (ATTR_ISSUER_ID):
-            return(issuerUniqueId);
-        case (ATTR_SUBJECT_ID):
-            return(subjectUniqueId);
+        dbsf (ATTR_ISSUER_ID):
+            rfturn(issufrUniqufId);
+        dbsf (ATTR_SUBJECT_ID):
+            rfturn(subjfdtUniqufId);
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Get the Issuer or Subject name
+     * Gft tif Issufr or Subjfdt nbmf
      */
-    private Object getX500Name(String name, boolean getIssuer)
-        throws IOException {
-        if (name.equalsIgnoreCase(X509CertInfo.DN_NAME)) {
-            return getIssuer ? issuer : subject;
-        } else if (name.equalsIgnoreCase("x500principal")) {
-            return getIssuer ? issuer.asX500Principal()
-                             : subject.asX500Principal();
-        } else {
-            throw new IOException("Attribute name not recognized.");
+    privbtf Objfdt gftX500Nbmf(String nbmf, boolfbn gftIssufr)
+        tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(X509CfrtInfo.DN_NAME)) {
+            rfturn gftIssufr ? issufr : subjfdt;
+        } flsf if (nbmf.fqublsIgnorfCbsf("x500prindipbl")) {
+            rfturn gftIssufr ? issufr.bsX500Prindipbl()
+                             : subjfdt.bsX500Prindipbl();
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd.");
         }
     }
 
     /*
-     * This routine unmarshals the certificate information.
+     * Tiis routinf unmbrsibls tif dfrtifidbtf informbtion.
      */
-    private void parse(DerValue val)
-    throws CertificateParsingException, IOException {
-        DerInputStream  in;
-        DerValue        tmp;
+    privbtf void pbrsf(DfrVbluf vbl)
+    tirows CfrtifidbtfPbrsingExdfption, IOExdfption {
+        DfrInputStrfbm  in;
+        DfrVbluf        tmp;
 
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new CertificateParsingException("signed fields invalid");
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw CfrtifidbtfPbrsingExdfption("signfd fiflds invblid");
         }
-        rawCertInfo = val.toByteArray();
+        rbwCfrtInfo = vbl.toBytfArrby();
 
-        in = val.data;
+        in = vbl.dbtb;
 
-        // Version
-        tmp = in.getDerValue();
-        if (tmp.isContextSpecific((byte)0)) {
-            version = new CertificateVersion(tmp);
-            tmp = in.getDerValue();
-        }
-
-        // Serial number ... an integer
-        serialNum = new CertificateSerialNumber(tmp);
-
-        // Algorithm Identifier
-        algId = new CertificateAlgorithmId(in);
-
-        // Issuer name
-        issuer = new X500Name(in);
-        if (issuer.isEmpty()) {
-            throw new CertificateParsingException(
-                "Empty issuer DN not allowed in X509Certificates");
+        // Vfrsion
+        tmp = in.gftDfrVbluf();
+        if (tmp.isContfxtSpfdifid((bytf)0)) {
+            vfrsion = nfw CfrtifidbtfVfrsion(tmp);
+            tmp = in.gftDfrVbluf();
         }
 
-        // validity:  SEQUENCE { start date, end date }
-        interval = new CertificateValidity(in);
+        // Sfribl numbfr ... bn intfgfr
+        sfriblNum = nfw CfrtifidbtfSfriblNumbfr(tmp);
 
-        // subject name
-        subject = new X500Name(in);
-        if ((version.compare(CertificateVersion.V1) == 0) &&
-                subject.isEmpty()) {
-            throw new CertificateParsingException(
-                      "Empty subject DN not allowed in v1 certificate");
+        // Algoritim Idfntififr
+        blgId = nfw CfrtifidbtfAlgoritimId(in);
+
+        // Issufr nbmf
+        issufr = nfw X500Nbmf(in);
+        if (issufr.isEmpty()) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                "Empty issufr DN not bllowfd in X509Cfrtifidbtfs");
         }
 
-        // public key
-        pubKey = new CertificateX509Key(in);
+        // vblidity:  SEQUENCE { stbrt dbtf, fnd dbtf }
+        intfrvbl = nfw CfrtifidbtfVblidity(in);
 
-        // If more data available, make sure version is not v1.
-        if (in.available() != 0) {
-            if (version.compare(CertificateVersion.V1) == 0) {
-                throw new CertificateParsingException(
-                          "no more data allowed for version 1 certificate");
+        // subjfdt nbmf
+        subjfdt = nfw X500Nbmf(in);
+        if ((vfrsion.dompbrf(CfrtifidbtfVfrsion.V1) == 0) &&
+                subjfdt.isEmpty()) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                      "Empty subjfdt DN not bllowfd in v1 dfrtifidbtf");
+        }
+
+        // publid kfy
+        pubKfy = nfw CfrtifidbtfX509Kfy(in);
+
+        // If morf dbtb bvbilbblf, mbkf surf vfrsion is not v1.
+        if (in.bvbilbblf() != 0) {
+            if (vfrsion.dompbrf(CfrtifidbtfVfrsion.V1) == 0) {
+                tirow nfw CfrtifidbtfPbrsingExdfption(
+                          "no morf dbtb bllowfd for vfrsion 1 dfrtifidbtf");
             }
-        } else {
-            return;
+        } flsf {
+            rfturn;
         }
 
-        // Get the issuerUniqueId if present
-        tmp = in.getDerValue();
-        if (tmp.isContextSpecific((byte)1)) {
-            issuerUniqueId = new UniqueIdentity(tmp);
-            if (in.available() == 0)
-                return;
-            tmp = in.getDerValue();
+        // Gft tif issufrUniqufId if prfsfnt
+        tmp = in.gftDfrVbluf();
+        if (tmp.isContfxtSpfdifid((bytf)1)) {
+            issufrUniqufId = nfw UniqufIdfntity(tmp);
+            if (in.bvbilbblf() == 0)
+                rfturn;
+            tmp = in.gftDfrVbluf();
         }
 
-        // Get the subjectUniqueId if present.
-        if (tmp.isContextSpecific((byte)2)) {
-            subjectUniqueId = new UniqueIdentity(tmp);
-            if (in.available() == 0)
-                return;
-            tmp = in.getDerValue();
+        // Gft tif subjfdtUniqufId if prfsfnt.
+        if (tmp.isContfxtSpfdifid((bytf)2)) {
+            subjfdtUniqufId = nfw UniqufIdfntity(tmp);
+            if (in.bvbilbblf() == 0)
+                rfturn;
+            tmp = in.gftDfrVbluf();
         }
 
-        // Get the extensions.
-        if (version.compare(CertificateVersion.V3) != 0) {
-            throw new CertificateParsingException(
-                      "Extensions not allowed in v2 certificate");
+        // Gft tif fxtfnsions.
+        if (vfrsion.dompbrf(CfrtifidbtfVfrsion.V3) != 0) {
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                      "Extfnsions not bllowfd in v2 dfrtifidbtf");
         }
-        if (tmp.isConstructed() && tmp.isContextSpecific((byte)3)) {
-            extensions = new CertificateExtensions(tmp.data);
+        if (tmp.isConstrudtfd() && tmp.isContfxtSpfdifid((bytf)3)) {
+            fxtfnsions = nfw CfrtifidbtfExtfnsions(tmp.dbtb);
         }
 
-        // verify X.509 V3 Certificate
-        verifyCert(subject, extensions);
+        // vfrify X.509 V3 Cfrtifidbtf
+        vfrifyCfrt(subjfdt, fxtfnsions);
 
     }
 
     /*
-     * Verify if X.509 V3 Certificate is compliant with RFC 3280.
+     * Vfrify if X.509 V3 Cfrtifidbtf is domplibnt witi RFC 3280.
      */
-    private void verifyCert(X500Name subject,
-        CertificateExtensions extensions)
-        throws CertificateParsingException, IOException {
+    privbtf void vfrifyCfrt(X500Nbmf subjfdt,
+        CfrtifidbtfExtfnsions fxtfnsions)
+        tirows CfrtifidbtfPbrsingExdfption, IOExdfption {
 
-        // if SubjectName is empty, check for SubjectAlternativeNameExtension
-        if (subject.isEmpty()) {
-            if (extensions == null) {
-                throw new CertificateParsingException("X.509 Certificate is " +
-                        "incomplete: subject field is empty, and certificate " +
-                        "has no extensions");
+        // if SubjfdtNbmf is fmpty, difdk for SubjfdtAltfrnbtivfNbmfExtfnsion
+        if (subjfdt.isEmpty()) {
+            if (fxtfnsions == null) {
+                tirow nfw CfrtifidbtfPbrsingExdfption("X.509 Cfrtifidbtf is " +
+                        "indomplftf: subjfdt fifld is fmpty, bnd dfrtifidbtf " +
+                        "ibs no fxtfnsions");
             }
-            SubjectAlternativeNameExtension subjectAltNameExt = null;
-            SubjectAlternativeNameExtension extValue = null;
-            GeneralNames names = null;
+            SubjfdtAltfrnbtivfNbmfExtfnsion subjfdtAltNbmfExt = null;
+            SubjfdtAltfrnbtivfNbmfExtfnsion fxtVbluf = null;
+            GfnfrblNbmfs nbmfs = null;
             try {
-                subjectAltNameExt = (SubjectAlternativeNameExtension)
-                        extensions.get(SubjectAlternativeNameExtension.NAME);
-                names = subjectAltNameExt.get(
-                        SubjectAlternativeNameExtension.SUBJECT_NAME);
-            } catch (IOException e) {
-                throw new CertificateParsingException("X.509 Certificate is " +
-                        "incomplete: subject field is empty, and " +
-                        "SubjectAlternativeName extension is absent");
+                subjfdtAltNbmfExt = (SubjfdtAltfrnbtivfNbmfExtfnsion)
+                        fxtfnsions.gft(SubjfdtAltfrnbtivfNbmfExtfnsion.NAME);
+                nbmfs = subjfdtAltNbmfExt.gft(
+                        SubjfdtAltfrnbtivfNbmfExtfnsion.SUBJECT_NAME);
+            } dbtdi (IOExdfption f) {
+                tirow nfw CfrtifidbtfPbrsingExdfption("X.509 Cfrtifidbtf is " +
+                        "indomplftf: subjfdt fifld is fmpty, bnd " +
+                        "SubjfdtAltfrnbtivfNbmf fxtfnsion is bbsfnt");
             }
 
-            // SubjectAlternativeName extension is empty or not marked critical
-            if (names == null || names.isEmpty()) {
-                throw new CertificateParsingException("X.509 Certificate is " +
-                        "incomplete: subject field is empty, and " +
-                        "SubjectAlternativeName extension is empty");
-            } else if (subjectAltNameExt.isCritical() == false) {
-                throw new CertificateParsingException("X.509 Certificate is " +
-                        "incomplete: SubjectAlternativeName extension MUST " +
-                        "be marked critical when subject field is empty");
+            // SubjfdtAltfrnbtivfNbmf fxtfnsion is fmpty or not mbrkfd dritidbl
+            if (nbmfs == null || nbmfs.isEmpty()) {
+                tirow nfw CfrtifidbtfPbrsingExdfption("X.509 Cfrtifidbtf is " +
+                        "indomplftf: subjfdt fifld is fmpty, bnd " +
+                        "SubjfdtAltfrnbtivfNbmf fxtfnsion is fmpty");
+            } flsf if (subjfdtAltNbmfExt.isCritidbl() == fblsf) {
+                tirow nfw CfrtifidbtfPbrsingExdfption("X.509 Cfrtifidbtf is " +
+                        "indomplftf: SubjfdtAltfrnbtivfNbmf fxtfnsion MUST " +
+                        "bf mbrkfd dritidbl wifn subjfdt fifld is fmpty");
             }
         }
     }
 
     /*
-     * Marshal the contents of a "raw" certificate into a DER sequence.
+     * Mbrsibl tif dontfnts of b "rbw" dfrtifidbtf into b DER sfqufndf.
      */
-    private void emit(DerOutputStream out)
-    throws CertificateException, IOException {
-        DerOutputStream tmp = new DerOutputStream();
+    privbtf void fmit(DfrOutputStrfbm out)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        // version number, iff not V1
-        version.encode(tmp);
+        // vfrsion numbfr, iff not V1
+        vfrsion.fndodf(tmp);
 
-        // Encode serial number, issuer signing algorithm, issuer name
-        // and validity
-        serialNum.encode(tmp);
-        algId.encode(tmp);
+        // Endodf sfribl numbfr, issufr signing blgoritim, issufr nbmf
+        // bnd vblidity
+        sfriblNum.fndodf(tmp);
+        blgId.fndodf(tmp);
 
-        if ((version.compare(CertificateVersion.V1) == 0) &&
-            (issuer.toString() == null))
-            throw new CertificateParsingException(
-                      "Null issuer DN not allowed in v1 certificate");
+        if ((vfrsion.dompbrf(CfrtifidbtfVfrsion.V1) == 0) &&
+            (issufr.toString() == null))
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                      "Null issufr DN not bllowfd in v1 dfrtifidbtf");
 
-        issuer.encode(tmp);
-        interval.encode(tmp);
+        issufr.fndodf(tmp);
+        intfrvbl.fndodf(tmp);
 
-        // Encode subject (principal) and associated key
-        if ((version.compare(CertificateVersion.V1) == 0) &&
-            (subject.toString() == null))
-            throw new CertificateParsingException(
-                      "Null subject DN not allowed in v1 certificate");
-        subject.encode(tmp);
-        pubKey.encode(tmp);
+        // Endodf subjfdt (prindipbl) bnd bssodibtfd kfy
+        if ((vfrsion.dompbrf(CfrtifidbtfVfrsion.V1) == 0) &&
+            (subjfdt.toString() == null))
+            tirow nfw CfrtifidbtfPbrsingExdfption(
+                      "Null subjfdt DN not bllowfd in v1 dfrtifidbtf");
+        subjfdt.fndodf(tmp);
+        pubKfy.fndodf(tmp);
 
-        // Encode issuerUniqueId & subjectUniqueId.
-        if (issuerUniqueId != null) {
-            issuerUniqueId.encode(tmp, DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                          false,(byte)1));
+        // Endodf issufrUniqufId & subjfdtUniqufId.
+        if (issufrUniqufId != null) {
+            issufrUniqufId.fndodf(tmp, DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                          fblsf,(bytf)1));
         }
-        if (subjectUniqueId != null) {
-            subjectUniqueId.encode(tmp, DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                           false,(byte)2));
-        }
-
-        // Write all the extensions.
-        if (extensions != null) {
-            extensions.encode(tmp);
+        if (subjfdtUniqufId != null) {
+            subjfdtUniqufId.fndodf(tmp, DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                           fblsf,(bytf)2));
         }
 
-        // Wrap the data; encoding of the "raw" cert is now complete.
-        out.write(DerValue.tag_Sequence, tmp);
+        // Writf bll tif fxtfnsions.
+        if (fxtfnsions != null) {
+            fxtfnsions.fndodf(tmp);
+        }
+
+        // Wrbp tif dbtb; fndoding of tif "rbw" dfrt is now domplftf.
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
     }
 
     /**
-     * Returns the integer attribute number for the passed attribute name.
+     * Rfturns tif intfgfr bttributf numbfr for tif pbssfd bttributf nbmf.
      */
-    private int attributeMap(String name) {
-        Integer num = map.get(name);
+    privbtf int bttributfMbp(String nbmf) {
+        Intfgfr num = mbp.gft(nbmf);
         if (num == null) {
-            return 0;
+            rfturn 0;
         }
-        return num.intValue();
+        rfturn num.intVbluf();
     }
 
     /**
-     * Set the version number of the certificate.
+     * Sft tif vfrsion numbfr of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the Extensions
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif Extfnsions
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setVersion(Object val) throws CertificateException {
-        if (!(val instanceof CertificateVersion)) {
-            throw new CertificateException("Version class type invalid.");
+    privbtf void sftVfrsion(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof CfrtifidbtfVfrsion)) {
+            tirow nfw CfrtifidbtfExdfption("Vfrsion dlbss typf invblid.");
         }
-        version = (CertificateVersion)val;
+        vfrsion = (CfrtifidbtfVfrsion)vbl;
     }
 
     /**
-     * Set the serial number of the certificate.
+     * Sft tif sfribl numbfr of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the CertificateSerialNumber
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif CfrtifidbtfSfriblNumbfr
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setSerialNumber(Object val) throws CertificateException {
-        if (!(val instanceof CertificateSerialNumber)) {
-            throw new CertificateException("SerialNumber class type invalid.");
+    privbtf void sftSfriblNumbfr(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof CfrtifidbtfSfriblNumbfr)) {
+            tirow nfw CfrtifidbtfExdfption("SfriblNumbfr dlbss typf invblid.");
         }
-        serialNum = (CertificateSerialNumber)val;
+        sfriblNum = (CfrtifidbtfSfriblNumbfr)vbl;
     }
 
     /**
-     * Set the algorithm id of the certificate.
+     * Sft tif blgoritim id of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the AlgorithmId
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif AlgoritimId
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setAlgorithmId(Object val) throws CertificateException {
-        if (!(val instanceof CertificateAlgorithmId)) {
-            throw new CertificateException(
-                             "AlgorithmId class type invalid.");
+    privbtf void sftAlgoritimId(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof CfrtifidbtfAlgoritimId)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "AlgoritimId dlbss typf invblid.");
         }
-        algId = (CertificateAlgorithmId)val;
+        blgId = (CfrtifidbtfAlgoritimId)vbl;
     }
 
     /**
-     * Set the issuer name of the certificate.
+     * Sft tif issufr nbmf of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the issuer
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif issufr
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setIssuer(Object val) throws CertificateException {
-        if (!(val instanceof X500Name)) {
-            throw new CertificateException(
-                             "Issuer class type invalid.");
+    privbtf void sftIssufr(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof X500Nbmf)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "Issufr dlbss typf invblid.");
         }
-        issuer = (X500Name)val;
+        issufr = (X500Nbmf)vbl;
     }
 
     /**
-     * Set the validity interval of the certificate.
+     * Sft tif vblidity intfrvbl of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the CertificateValidity
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif CfrtifidbtfVblidity
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setValidity(Object val) throws CertificateException {
-        if (!(val instanceof CertificateValidity)) {
-            throw new CertificateException(
-                             "CertificateValidity class type invalid.");
+    privbtf void sftVblidity(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof CfrtifidbtfVblidity)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "CfrtifidbtfVblidity dlbss typf invblid.");
         }
-        interval = (CertificateValidity)val;
+        intfrvbl = (CfrtifidbtfVblidity)vbl;
     }
 
     /**
-     * Set the subject name of the certificate.
+     * Sft tif subjfdt nbmf of tif dfrtifidbtf.
      *
-     * @params val the Object class value for the Subject
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif Subjfdt
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setSubject(Object val) throws CertificateException {
-        if (!(val instanceof X500Name)) {
-            throw new CertificateException(
-                             "Subject class type invalid.");
+    privbtf void sftSubjfdt(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof X500Nbmf)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "Subjfdt dlbss typf invblid.");
         }
-        subject = (X500Name)val;
+        subjfdt = (X500Nbmf)vbl;
     }
 
     /**
-     * Set the public key in the certificate.
+     * Sft tif publid kfy in tif dfrtifidbtf.
      *
-     * @params val the Object class value for the PublicKey
-     * @exception CertificateException on invalid data.
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif PublidKfy
+     * @fxdfption CfrtifidbtfExdfption on invblid dbtb.
      */
-    private void setKey(Object val) throws CertificateException {
-        if (!(val instanceof CertificateX509Key)) {
-            throw new CertificateException(
-                             "Key class type invalid.");
+    privbtf void sftKfy(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (!(vbl instbndfof CfrtifidbtfX509Kfy)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "Kfy dlbss typf invblid.");
         }
-        pubKey = (CertificateX509Key)val;
+        pubKfy = (CfrtifidbtfX509Kfy)vbl;
     }
 
     /**
-     * Set the Issuer Unique Identity in the certificate.
+     * Sft tif Issufr Uniquf Idfntity in tif dfrtifidbtf.
      *
-     * @params val the Object class value for the IssuerUniqueId
-     * @exception CertificateException
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif IssufrUniqufId
+     * @fxdfption CfrtifidbtfExdfption
      */
-    private void setIssuerUniqueId(Object val) throws CertificateException {
-        if (version.compare(CertificateVersion.V2) < 0) {
-            throw new CertificateException("Invalid version");
+    privbtf void sftIssufrUniqufId(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (vfrsion.dompbrf(CfrtifidbtfVfrsion.V2) < 0) {
+            tirow nfw CfrtifidbtfExdfption("Invblid vfrsion");
         }
-        if (!(val instanceof UniqueIdentity)) {
-            throw new CertificateException(
-                             "IssuerUniqueId class type invalid.");
+        if (!(vbl instbndfof UniqufIdfntity)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "IssufrUniqufId dlbss typf invblid.");
         }
-        issuerUniqueId = (UniqueIdentity)val;
+        issufrUniqufId = (UniqufIdfntity)vbl;
     }
 
     /**
-     * Set the Subject Unique Identity in the certificate.
+     * Sft tif Subjfdt Uniquf Idfntity in tif dfrtifidbtf.
      *
-     * @params val the Object class value for the SubjectUniqueId
-     * @exception CertificateException
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif SubjfdtUniqufId
+     * @fxdfption CfrtifidbtfExdfption
      */
-    private void setSubjectUniqueId(Object val) throws CertificateException {
-        if (version.compare(CertificateVersion.V2) < 0) {
-            throw new CertificateException("Invalid version");
+    privbtf void sftSubjfdtUniqufId(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (vfrsion.dompbrf(CfrtifidbtfVfrsion.V2) < 0) {
+            tirow nfw CfrtifidbtfExdfption("Invblid vfrsion");
         }
-        if (!(val instanceof UniqueIdentity)) {
-            throw new CertificateException(
-                             "SubjectUniqueId class type invalid.");
+        if (!(vbl instbndfof UniqufIdfntity)) {
+            tirow nfw CfrtifidbtfExdfption(
+                             "SubjfdtUniqufId dlbss typf invblid.");
         }
-        subjectUniqueId = (UniqueIdentity)val;
+        subjfdtUniqufId = (UniqufIdfntity)vbl;
     }
 
     /**
-     * Set the extensions in the certificate.
+     * Sft tif fxtfnsions in tif dfrtifidbtf.
      *
-     * @params val the Object class value for the Extensions
-     * @exception CertificateException
+     * @pbrbms vbl tif Objfdt dlbss vbluf for tif Extfnsions
+     * @fxdfption CfrtifidbtfExdfption
      */
-    private void setExtensions(Object val) throws CertificateException {
-        if (version.compare(CertificateVersion.V3) < 0) {
-            throw new CertificateException("Invalid version");
+    privbtf void sftExtfnsions(Objfdt vbl) tirows CfrtifidbtfExdfption {
+        if (vfrsion.dompbrf(CfrtifidbtfVfrsion.V3) < 0) {
+            tirow nfw CfrtifidbtfExdfption("Invblid vfrsion");
         }
-        if (!(val instanceof CertificateExtensions)) {
-          throw new CertificateException(
-                             "Extensions class type invalid.");
+        if (!(vbl instbndfof CfrtifidbtfExtfnsions)) {
+          tirow nfw CfrtifidbtfExdfption(
+                             "Extfnsions dlbss typf invblid.");
         }
-        extensions = (CertificateExtensions)val;
+        fxtfnsions = (CfrtifidbtfExtfnsions)vbl;
     }
 }

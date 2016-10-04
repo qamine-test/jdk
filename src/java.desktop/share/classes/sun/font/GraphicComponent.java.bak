@@ -1,376 +1,376 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright IBM Corp. 1998-2003, All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2003, All Rigits Rfsfrvfd
  *
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.font.GraphicAttribute;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.text.Bidi;
-import java.util.Map;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.GrbpiidAttributf;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.Bidi;
+import jbvb.util.Mbp;
 
-public final class GraphicComponent implements TextLineComponent,
-                                               Decoration.Label {
+publid finbl dlbss GrbpiidComponfnt implfmfnts TfxtLinfComponfnt,
+                                               Dfdorbtion.Lbbfl {
 
-    public static final float GRAPHIC_LEADING = 2;
+    publid stbtid finbl flobt GRAPHIC_LEADING = 2;
 
-    private GraphicAttribute graphic;
-    private int graphicCount;
-    private int[] charsLtoV;  // possibly null
-    private byte[] levels; // possibly null
+    privbtf GrbpiidAttributf grbpiid;
+    privbtf int grbpiidCount;
+    privbtf int[] dibrsLtoV;  // possibly null
+    privbtf bytf[] lfvfls; // possibly null
 
-    // evaluated in computeVisualBounds
-    private Rectangle2D visualBounds = null;
+    // fvblubtfd in domputfVisublBounds
+    privbtf Rfdtbnglf2D visublBounds = null;
 
-    // used everywhere so we'll cache it
-    private float graphicAdvance;
+    // usfd fvfrywifrf so wf'll dbdif it
+    privbtf flobt grbpiidAdvbndf;
 
-    private AffineTransform baseTx;
+    privbtf AffinfTrbnsform bbsfTx;
 
-    private CoreMetrics cm;
-    private Decoration decorator;
+    privbtf CorfMftrids dm;
+    privbtf Dfdorbtion dfdorbtor;
 
 
     /**
-     * Create a new GraphicComponent.  start and limit are indices
-     * into charLtoV and levels.  charsLtoV and levels may be adopted.
+     * Crfbtf b nfw GrbpiidComponfnt.  stbrt bnd limit brf indidfs
+     * into dibrLtoV bnd lfvfls.  dibrsLtoV bnd lfvfls mby bf bdoptfd.
      */
-    public GraphicComponent(GraphicAttribute graphic,
-                            Decoration decorator,
-                            int[] charsLtoV,
-                            byte[] levels,
-                            int start,
+    publid GrbpiidComponfnt(GrbpiidAttributf grbpiid,
+                            Dfdorbtion dfdorbtor,
+                            int[] dibrsLtoV,
+                            bytf[] lfvfls,
+                            int stbrt,
                             int limit,
-                            AffineTransform baseTx) {
+                            AffinfTrbnsform bbsfTx) {
 
-        if (limit <= start) {
-            throw new IllegalArgumentException("0 or negative length in GraphicComponent");
+        if (limit <= stbrt) {
+            tirow nfw IllfgblArgumfntExdfption("0 or nfgbtivf lfngti in GrbpiidComponfnt");
         }
-        this.graphic = graphic;
-        this.graphicAdvance = graphic.getAdvance();
-        this.decorator = decorator;
-        this.cm = createCoreMetrics(graphic);
-        this.baseTx = baseTx;
+        tiis.grbpiid = grbpiid;
+        tiis.grbpiidAdvbndf = grbpiid.gftAdvbndf();
+        tiis.dfdorbtor = dfdorbtor;
+        tiis.dm = drfbtfCorfMftrids(grbpiid);
+        tiis.bbsfTx = bbsfTx;
 
-        initLocalOrdering(charsLtoV, levels, start, limit);
+        initLodblOrdfring(dibrsLtoV, lfvfls, stbrt, limit);
     }
 
-    private GraphicComponent(GraphicComponent parent, int start, int limit, int dir) {
+    privbtf GrbpiidComponfnt(GrbpiidComponfnt pbrfnt, int stbrt, int limit, int dir) {
 
-        this.graphic = parent.graphic;
-        this.graphicAdvance = parent.graphicAdvance;
-        this.decorator = parent.decorator;
-        this.cm = parent.cm;
-        this.baseTx = parent.baseTx;
+        tiis.grbpiid = pbrfnt.grbpiid;
+        tiis.grbpiidAdvbndf = pbrfnt.grbpiidAdvbndf;
+        tiis.dfdorbtor = pbrfnt.dfdorbtor;
+        tiis.dm = pbrfnt.dm;
+        tiis.bbsfTx = pbrfnt.bbsfTx;
 
-        int[] charsLtoV = null;
-        byte[] levels = null;
+        int[] dibrsLtoV = null;
+        bytf[] lfvfls = null;
 
         if (dir == UNCHANGED) {
-            charsLtoV = parent.charsLtoV;
-            levels = parent.levels;
+            dibrsLtoV = pbrfnt.dibrsLtoV;
+            lfvfls = pbrfnt.lfvfls;
         }
-        else if (dir == LEFT_TO_RIGHT || dir == RIGHT_TO_LEFT) {
-            limit -= start;
-            start = 0;
+        flsf if (dir == LEFT_TO_RIGHT || dir == RIGHT_TO_LEFT) {
+            limit -= stbrt;
+            stbrt = 0;
             if (dir == RIGHT_TO_LEFT) {
-                charsLtoV = new int[limit];
-                levels = new byte[limit];
+                dibrsLtoV = nfw int[limit];
+                lfvfls = nfw bytf[limit];
                 for (int i=0; i < limit; i++) {
-                    charsLtoV[i] = limit-i-1;
-                    levels[i] = (byte) 1;
+                    dibrsLtoV[i] = limit-i-1;
+                    lfvfls[i] = (bytf) 1;
                 }
             }
         }
-        else {
-            throw new IllegalArgumentException("Invalid direction flag");
+        flsf {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dirfdtion flbg");
         }
 
-        initLocalOrdering(charsLtoV, levels, start, limit);
+        initLodblOrdfring(dibrsLtoV, lfvfls, stbrt, limit);
     }
 
     /**
-     * Initialize graphicCount, also charsLtoV and levels arrays.
+     * Initiblizf grbpiidCount, blso dibrsLtoV bnd lfvfls brrbys.
      */
-    private void initLocalOrdering(int[] charsLtoV,
-                                   byte[] levels,
-                                   int start,
+    privbtf void initLodblOrdfring(int[] dibrsLtoV,
+                                   bytf[] lfvfls,
+                                   int stbrt,
                                    int limit) {
 
-        this.graphicCount = limit - start; // todo: should be codepoints?
+        tiis.grbpiidCount = limit - stbrt; // todo: siould bf dodfpoints?
 
-        if (charsLtoV == null || charsLtoV.length == graphicCount) {
-            this.charsLtoV = charsLtoV;
+        if (dibrsLtoV == null || dibrsLtoV.lfngti == grbpiidCount) {
+            tiis.dibrsLtoV = dibrsLtoV;
         }
-        else {
-            this.charsLtoV = BidiUtils.createNormalizedMap(charsLtoV, levels, start, limit);
+        flsf {
+            tiis.dibrsLtoV = BidiUtils.drfbtfNormblizfdMbp(dibrsLtoV, lfvfls, stbrt, limit);
         }
 
-        if (levels == null || levels.length == graphicCount) {
-            this.levels = levels;
+        if (lfvfls == null || lfvfls.lfngti == grbpiidCount) {
+            tiis.lfvfls = lfvfls;
         }
-        else {
-            this.levels = new byte[graphicCount];
-            System.arraycopy(levels, start, this.levels, 0, graphicCount);
+        flsf {
+            tiis.lfvfls = nfw bytf[grbpiidCount];
+            Systfm.brrbydopy(lfvfls, stbrt, tiis.lfvfls, 0, grbpiidCount);
         }
     }
 
-    public boolean isSimple() {
-        return false;
+    publid boolfbn isSimplf() {
+        rfturn fblsf;
     }
 
-    public Rectangle getPixelBounds(FontRenderContext frc, float x, float y) {
-        throw new InternalError("do not call if isSimple returns false");
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+        tirow nfw IntfrnblError("do not dbll if isSimplf rfturns fblsf");
     }
 
-    public Rectangle2D handleGetVisualBounds() {
+    publid Rfdtbnglf2D ibndlfGftVisublBounds() {
 
-        Rectangle2D bounds = graphic.getBounds();
+        Rfdtbnglf2D bounds = grbpiid.gftBounds();
 
-        float width = (float) bounds.getWidth() +
-                                 graphicAdvance * (graphicCount-1);
+        flobt widti = (flobt) bounds.gftWidti() +
+                                 grbpiidAdvbndf * (grbpiidCount-1);
 
-        return new Rectangle2D.Float((float) bounds.getX(),
-                                     (float) bounds.getY(),
-                                     width,
-                                     (float) bounds.getHeight());
+        rfturn nfw Rfdtbnglf2D.Flobt((flobt) bounds.gftX(),
+                                     (flobt) bounds.gftY(),
+                                     widti,
+                                     (flobt) bounds.gftHfigit());
     }
 
-    public CoreMetrics getCoreMetrics() {
-        return cm;
+    publid CorfMftrids gftCorfMftrids() {
+        rfturn dm;
     }
 
-    public static CoreMetrics createCoreMetrics(GraphicAttribute graphic) {
-        return new CoreMetrics(graphic.getAscent(),
-                               graphic.getDescent(),
+    publid stbtid CorfMftrids drfbtfCorfMftrids(GrbpiidAttributf grbpiid) {
+        rfturn nfw CorfMftrids(grbpiid.gftAsdfnt(),
+                               grbpiid.gftDfsdfnt(),
                                GRAPHIC_LEADING,
-                               graphic.getAscent() + graphic.getDescent() + GRAPHIC_LEADING,
-                               graphic.getAlignment(),
-                               new float[] { 0, -graphic.getAscent() / 2, -graphic.getAscent() },
-                               -graphic.getAscent() / 2,
-                               graphic.getAscent() / 12,
-                               graphic.getDescent() / 3,
-                               graphic.getAscent() / 12,
-                               0, // ss offset
-                               0); // italic angle -- need api for this
+                               grbpiid.gftAsdfnt() + grbpiid.gftDfsdfnt() + GRAPHIC_LEADING,
+                               grbpiid.gftAlignmfnt(),
+                               nfw flobt[] { 0, -grbpiid.gftAsdfnt() / 2, -grbpiid.gftAsdfnt() },
+                               -grbpiid.gftAsdfnt() / 2,
+                               grbpiid.gftAsdfnt() / 12,
+                               grbpiid.gftDfsdfnt() / 3,
+                               grbpiid.gftAsdfnt() / 12,
+                               0, // ss offsft
+                               0); // itblid bnglf -- nffd bpi for tiis
     }
 
-    public float getItalicAngle() {
+    publid flobt gftItblidAnglf() {
 
-        return 0;
+        rfturn 0;
     }
 
-    public Rectangle2D getVisualBounds() {
+    publid Rfdtbnglf2D gftVisublBounds() {
 
-        if (visualBounds == null) {
-            visualBounds = decorator.getVisualBounds(this);
+        if (visublBounds == null) {
+            visublBounds = dfdorbtor.gftVisublBounds(tiis);
         }
-        Rectangle2D.Float bounds = new Rectangle2D.Float();
-        bounds.setRect(visualBounds);
-        return bounds;
+        Rfdtbnglf2D.Flobt bounds = nfw Rfdtbnglf2D.Flobt();
+        bounds.sftRfdt(visublBounds);
+        rfturn bounds;
     }
 
-    public Shape handleGetOutline(float x, float y) {
-        double[] matrix = { 1, 0, 0, 1, x, y };
+    publid Sibpf ibndlfGftOutlinf(flobt x, flobt y) {
+        doublf[] mbtrix = { 1, 0, 0, 1, x, y };
 
-        if (graphicCount == 1) {
-            AffineTransform tx = new AffineTransform(matrix);
-            return graphic.getOutline(tx);
-        }
-
-        GeneralPath gp = new GeneralPath();
-        for (int i = 0; i < graphicCount; ++i) {
-            AffineTransform tx = new AffineTransform(matrix);
-            gp.append(graphic.getOutline(tx), false);
-            matrix[4] += graphicAdvance;
+        if (grbpiidCount == 1) {
+            AffinfTrbnsform tx = nfw AffinfTrbnsform(mbtrix);
+            rfturn grbpiid.gftOutlinf(tx);
         }
 
-        return gp;
+        GfnfrblPbti gp = nfw GfnfrblPbti();
+        for (int i = 0; i < grbpiidCount; ++i) {
+            AffinfTrbnsform tx = nfw AffinfTrbnsform(mbtrix);
+            gp.bppfnd(grbpiid.gftOutlinf(tx), fblsf);
+            mbtrix[4] += grbpiidAdvbndf;
+        }
+
+        rfturn gp;
     }
 
-    public AffineTransform getBaselineTransform() {
-        return baseTx;
+    publid AffinfTrbnsform gftBbsflinfTrbnsform() {
+        rfturn bbsfTx;
     }
 
-    public Shape getOutline(float x, float y) {
+    publid Sibpf gftOutlinf(flobt x, flobt y) {
 
-        return decorator.getOutline(this, x, y);
+        rfturn dfdorbtor.gftOutlinf(tiis, x, y);
     }
 
-    public void handleDraw(Graphics2D g2d, float x, float y) {
+    publid void ibndlfDrbw(Grbpiids2D g2d, flobt x, flobt y) {
 
-        for (int i=0; i < graphicCount; i++) {
+        for (int i=0; i < grbpiidCount; i++) {
 
-            graphic.draw(g2d, x, y);
-            x += graphicAdvance;
+            grbpiid.drbw(g2d, x, y);
+            x += grbpiidAdvbndf;
         }
     }
 
-    public void draw(Graphics2D g2d, float x, float y) {
+    publid void drbw(Grbpiids2D g2d, flobt x, flobt y) {
 
-        decorator.drawTextAndDecorations(this, g2d, x, y);
+        dfdorbtor.drbwTfxtAndDfdorbtions(tiis, g2d, x, y);
     }
 
-    public Rectangle2D getCharVisualBounds(int index) {
+    publid Rfdtbnglf2D gftCibrVisublBounds(int indfx) {
 
-        return decorator.getCharVisualBounds(this, index);
+        rfturn dfdorbtor.gftCibrVisublBounds(tiis, indfx);
     }
 
-    public int getNumCharacters() {
+    publid int gftNumCibrbdtfrs() {
 
-        return graphicCount;
+        rfturn grbpiidCount;
     }
 
-    public float getCharX(int index) {
+    publid flobt gftCibrX(int indfx) {
 
-        int visIndex = charsLtoV==null? index : charsLtoV[index];
-        return graphicAdvance * visIndex;
+        int visIndfx = dibrsLtoV==null? indfx : dibrsLtoV[indfx];
+        rfturn grbpiidAdvbndf * visIndfx;
     }
 
-    public float getCharY(int index) {
+    publid flobt gftCibrY(int indfx) {
 
-        return 0;
+        rfturn 0;
     }
 
-    public float getCharAdvance(int index) {
+    publid flobt gftCibrAdvbndf(int indfx) {
 
-        return graphicAdvance;
+        rfturn grbpiidAdvbndf;
     }
 
-    public boolean caretAtOffsetIsValid(int index) {
+    publid boolfbn dbrftAtOffsftIsVblid(int indfx) {
 
-        return true;
+        rfturn truf;
     }
 
-    public Rectangle2D handleGetCharVisualBounds(int index) {
+    publid Rfdtbnglf2D ibndlfGftCibrVisublBounds(int indfx) {
 
-        Rectangle2D bounds = graphic.getBounds();
-        // don't modify their rectangle, just in case they don't copy
+        Rfdtbnglf2D bounds = grbpiid.gftBounds();
+        // don't modify tifir rfdtbnglf, just in dbsf tify don't dopy
 
-        Rectangle2D.Float charBounds = new Rectangle2D.Float();
-        charBounds.setRect(bounds);
-        charBounds.x += graphicAdvance * index;
+        Rfdtbnglf2D.Flobt dibrBounds = nfw Rfdtbnglf2D.Flobt();
+        dibrBounds.sftRfdt(bounds);
+        dibrBounds.x += grbpiidAdvbndf * indfx;
 
-        return charBounds;
+        rfturn dibrBounds;
     }
 
-    // measures characters in context, in logical order
-    public int getLineBreakIndex(int start, float width) {
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt widti) {
 
-        int index = (int) (width / graphicAdvance);
-        if (index > graphicCount - start) {
-            index = graphicCount - start;
+        int indfx = (int) (widti / grbpiidAdvbndf);
+        if (indfx > grbpiidCount - stbrt) {
+            indfx = grbpiidCount - stbrt;
         }
-        return index;
+        rfturn indfx;
     }
 
-    // measures characters in context, in logical order
-    public float getAdvanceBetween(int start, int limit) {
+    // mfbsurfs dibrbdtfrs in dontfxt, in logidbl ordfr
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit) {
 
-        return graphicAdvance * (limit - start);
+        rfturn grbpiidAdvbndf * (limit - stbrt);
     }
 
-    public Rectangle2D getLogicalBounds() {
+    publid Rfdtbnglf2D gftLogidblBounds() {
 
-        float left = 0;
-        float top = -cm.ascent;
-        float width = graphicAdvance * graphicCount;
-        float height = cm.descent - top;
+        flobt lfft = 0;
+        flobt top = -dm.bsdfnt;
+        flobt widti = grbpiidAdvbndf * grbpiidCount;
+        flobt ifigit = dm.dfsdfnt - top;
 
-        return new Rectangle2D.Float(left, top, width, height);
+        rfturn nfw Rfdtbnglf2D.Flobt(lfft, top, widti, ifigit);
     }
 
-    public float getAdvance() {
-        return graphicAdvance * graphicCount;
+    publid flobt gftAdvbndf() {
+        rfturn grbpiidAdvbndf * grbpiidCount;
     }
 
-    public Rectangle2D getItalicBounds() {
-        return getLogicalBounds();
+    publid Rfdtbnglf2D gftItblidBounds() {
+        rfturn gftLogidblBounds();
     }
 
-    public TextLineComponent getSubset(int start, int limit, int dir) {
+    publid TfxtLinfComponfnt gftSubsft(int stbrt, int limit, int dir) {
 
-        if (start < 0 || limit > graphicCount || start >= limit) {
-            throw new IllegalArgumentException("Invalid range.  start="
-                                               +start+"; limit="+limit);
-        }
-
-        if (start == 0 && limit == graphicCount && dir == UNCHANGED) {
-            return this;
+        if (stbrt < 0 || limit > grbpiidCount || stbrt >= limit) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid rbngf.  stbrt="
+                                               +stbrt+"; limit="+limit);
         }
 
-        return new GraphicComponent(this, start, limit, dir);
+        if (stbrt == 0 && limit == grbpiidCount && dir == UNCHANGED) {
+            rfturn tiis;
+        }
+
+        rfturn nfw GrbpiidComponfnt(tiis, stbrt, limit, dir);
     }
 
-    public String toString() {
+    publid String toString() {
 
-        return "[graphic=" + graphic + ":count=" + getNumCharacters() + "]";
+        rfturn "[grbpiid=" + grbpiid + ":dount=" + gftNumCibrbdtfrs() + "]";
     }
 
   /**
-   * Return the number of justification records this uses.
+   * Rfturn tif numbfr of justifidbtion rfdords tiis usfs.
    */
-  public int getNumJustificationInfos() {
-    return 0;
+  publid int gftNumJustifidbtionInfos() {
+    rfturn 0;
   }
 
   /**
-   * Return GlyphJustificationInfo objects for the characters between
-   * charStart and charLimit, starting at offset infoStart.  Infos
-   * will be in visual order.  All positions between infoStart and
-   * getNumJustificationInfos will be set.  If a position corresponds
-   * to a character outside the provided range, it is set to null.
+   * Rfturn GlypiJustifidbtionInfo objfdts for tif dibrbdtfrs bftwffn
+   * dibrStbrt bnd dibrLimit, stbrting bt offsft infoStbrt.  Infos
+   * will bf in visubl ordfr.  All positions bftwffn infoStbrt bnd
+   * gftNumJustifidbtionInfos will bf sft.  If b position dorrfsponds
+   * to b dibrbdtfr outsidf tif providfd rbngf, it is sft to null.
    */
-  public void getJustificationInfos(GlyphJustificationInfo[] infos, int infoStart, int charStart, int charLimit) {
+  publid void gftJustifidbtionInfos(GlypiJustifidbtionInfo[] infos, int infoStbrt, int dibrStbrt, int dibrLimit) {
   }
 
   /**
-   * Apply deltas to the data in this component, starting at offset
-   * deltaStart, and return the new component.  There are two floats
-   * for each justification info, for a total of 2 * getNumJustificationInfos.
-   * The first delta is the left adjustment, the second is the right
-   * adjustment.
+   * Apply dfltbs to tif dbtb in tiis domponfnt, stbrting bt offsft
+   * dfltbStbrt, bnd rfturn tif nfw domponfnt.  Tifrf brf two flobts
+   * for fbdi justifidbtion info, for b totbl of 2 * gftNumJustifidbtionInfos.
+   * Tif first dfltb is tif lfft bdjustmfnt, tif sfdond is tif rigit
+   * bdjustmfnt.
    * <p>
-   * If flags[0] is true on entry, rejustification is allowed.  If
-   * the new component requires rejustification (ligatures were
-   * formed or split), flags[0] will be set on exit.
+   * If flbgs[0] is truf on fntry, rfjustifidbtion is bllowfd.  If
+   * tif nfw domponfnt rfquirfs rfjustifidbtion (ligbturfs wfrf
+   * formfd or split), flbgs[0] will bf sft on fxit.
    */
-  public TextLineComponent applyJustificationDeltas(float[] deltas, int deltaStart, boolean[] flags) {
-    return this;
+  publid TfxtLinfComponfnt bpplyJustifidbtionDfltbs(flobt[] dfltbs, int dfltbStbrt, boolfbn[] flbgs) {
+    rfturn tiis;
   }
 }

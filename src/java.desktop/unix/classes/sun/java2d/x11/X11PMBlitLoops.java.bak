@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.x11;
+pbdkbgf sun.jbvb2d.x11;
 
-import sun.awt.SunToolkit;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.GraphicsPrimitiveProxy;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.pipe.Region;
-import sun.java2d.SurfaceData;
-import java.awt.Composite;
-import java.awt.image.IndexColorModel;
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivfMgr;
+import sun.jbvb2d.loops.GrbpiidsPrimitivfProxy;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
 
 /**
  * X11PMBlitLoops
  *
- * This class accelerates Blits between two surfaces of types *PM.  Since
- * the onscreen surface is of that type and some of the offscreen surfaces
- * may be of that type (if they were created via X11OffScreenImage), then
- * this type of Blit will accelerated double-buffer copies between those
- * two surfaces.
+ * Tiis dlbss bddflfrbtfs Blits bftwffn two surfbdfs of typfs *PM.  Sindf
+ * tif onsdrffn surfbdf is of tibt typf bnd somf of tif offsdrffn surfbdfs
+ * mby bf of tibt typf (if tify wfrf drfbtfd vib X11OffSdrffnImbgf), tifn
+ * tiis typf of Blit will bddflfrbtfd doublf-bufffr dopifs bftwffn tiosf
+ * two surfbdfs.
 */
-public class X11PMBlitLoops extends Blit {
+publid dlbss X11PMBlitLoops fxtfnds Blit {
 
-    public static void register()
+    publid stbtid void rfgistfr()
     {
-        GraphicsPrimitive[] primitives = {
-            new X11PMBlitLoops(X11SurfaceData.IntBgrX11,
-                               X11SurfaceData.IntBgrX11, false),
-            new X11PMBlitLoops(X11SurfaceData.IntRgbX11,
-                               X11SurfaceData.IntRgbX11, false),
-            new X11PMBlitLoops(X11SurfaceData.ThreeByteBgrX11,
-                               X11SurfaceData.ThreeByteBgrX11, false),
-            new X11PMBlitLoops(X11SurfaceData.ThreeByteRgbX11,
-                               X11SurfaceData.ThreeByteRgbX11, false),
-            new X11PMBlitLoops(X11SurfaceData.ByteIndexedOpaqueX11,
-                               X11SurfaceData.ByteIndexedOpaqueX11, false),
-            new X11PMBlitLoops(X11SurfaceData.ByteGrayX11,
-                               X11SurfaceData.ByteGrayX11, false),
-            new X11PMBlitLoops(X11SurfaceData.Index8GrayX11,
-                               X11SurfaceData.Index8GrayX11, false),
-            new X11PMBlitLoops(X11SurfaceData.UShort555RgbX11,
-                               X11SurfaceData.UShort555RgbX11, false),
-            new X11PMBlitLoops(X11SurfaceData.UShort565RgbX11,
-                               X11SurfaceData.UShort565RgbX11, false),
-            new X11PMBlitLoops(X11SurfaceData.UShortIndexedX11,
-                               X11SurfaceData.UShortIndexedX11, false),
+        GrbpiidsPrimitivf[] primitivfs = {
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntBgrX11,
+                               X11SurfbdfDbtb.IntBgrX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntRgbX11,
+                               X11SurfbdfDbtb.IntRgbX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.TirffBytfBgrX11,
+                               X11SurfbdfDbtb.TirffBytfBgrX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.TirffBytfRgbX11,
+                               X11SurfbdfDbtb.TirffBytfRgbX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.BytfIndfxfdOpbqufX11,
+                               X11SurfbdfDbtb.BytfIndfxfdOpbqufX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.BytfGrbyX11,
+                               X11SurfbdfDbtb.BytfGrbyX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.Indfx8GrbyX11,
+                               X11SurfbdfDbtb.Indfx8GrbyX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiort555RgbX11,
+                               X11SurfbdfDbtb.USiort555RgbX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiort565RgbX11,
+                               X11SurfbdfDbtb.USiort565RgbX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiortIndfxfdX11,
+                               X11SurfbdfDbtb.USiortIndfxfdX11, fblsf),
 
-            // 1-bit transparent to opaque loops
-            new X11PMBlitLoops(X11SurfaceData.IntBgrX11_BM,
-                               X11SurfaceData.IntBgrX11, true),
-            new X11PMBlitLoops(X11SurfaceData.IntRgbX11_BM,
-                               X11SurfaceData.IntRgbX11, true),
-            new X11PMBlitLoops(X11SurfaceData.ThreeByteBgrX11_BM,
-                               X11SurfaceData.ThreeByteBgrX11, true),
-            new X11PMBlitLoops(X11SurfaceData.ThreeByteRgbX11_BM,
-                               X11SurfaceData.ThreeByteRgbX11, true),
-            new X11PMBlitLoops(X11SurfaceData.ByteIndexedX11_BM,
-                               X11SurfaceData.ByteIndexedOpaqueX11, true),
-            new X11PMBlitLoops(X11SurfaceData.ByteGrayX11_BM,
-                               X11SurfaceData.ByteGrayX11, true),
-            new X11PMBlitLoops(X11SurfaceData.Index8GrayX11_BM,
-                               X11SurfaceData.Index8GrayX11, true),
-            new X11PMBlitLoops(X11SurfaceData.UShort555RgbX11_BM,
-                               X11SurfaceData.UShort555RgbX11, true),
-            new X11PMBlitLoops(X11SurfaceData.UShort565RgbX11_BM,
-                               X11SurfaceData.UShort565RgbX11, true),
-            new X11PMBlitLoops(X11SurfaceData.UShortIndexedX11_BM,
-                               X11SurfaceData.UShortIndexedX11, true),
+            // 1-bit trbnspbrfnt to opbquf loops
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                               X11SurfbdfDbtb.IntBgrX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                               X11SurfbdfDbtb.IntRgbX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.TirffBytfBgrX11_BM,
+                               X11SurfbdfDbtb.TirffBytfBgrX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.TirffBytfRgbX11_BM,
+                               X11SurfbdfDbtb.TirffBytfRgbX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.BytfIndfxfdX11_BM,
+                               X11SurfbdfDbtb.BytfIndfxfdOpbqufX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.BytfGrbyX11_BM,
+                               X11SurfbdfDbtb.BytfGrbyX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.Indfx8GrbyX11_BM,
+                               X11SurfbdfDbtb.Indfx8GrbyX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiort555RgbX11_BM,
+                               X11SurfbdfDbtb.USiort555RgbX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiort565RgbX11_BM,
+                               X11SurfbdfDbtb.USiort565RgbX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.USiortIndfxfdX11_BM,
+                               X11SurfbdfDbtb.USiortIndfxfdX11, truf),
 
-            new X11PMBlitLoops(X11SurfaceData.IntRgbX11,
-                               X11SurfaceData.IntArgbPreX11, true),
-            new X11PMBlitLoops(X11SurfaceData.IntRgbX11,
-                               X11SurfaceData.IntArgbPreX11, false),
-            new X11PMBlitLoops(X11SurfaceData.IntRgbX11_BM,
-                               X11SurfaceData.IntArgbPreX11, true),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntRgbX11,
+                               X11SurfbdfDbtb.IntArgbPrfX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntRgbX11,
+                               X11SurfbdfDbtb.IntArgbPrfX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                               X11SurfbdfDbtb.IntArgbPrfX11, truf),
 
-            new X11PMBlitLoops(X11SurfaceData.IntBgrX11,
-                               X11SurfaceData.FourByteAbgrPreX11, true),
-            new X11PMBlitLoops(X11SurfaceData.IntBgrX11,
-                               X11SurfaceData.FourByteAbgrPreX11, false),
-            new X11PMBlitLoops(X11SurfaceData.IntBgrX11_BM,
-                               X11SurfaceData.FourByteAbgrPreX11, true),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntBgrX11,
+                               X11SurfbdfDbtb.FourBytfAbgrPrfX11, truf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntBgrX11,
+                               X11SurfbdfDbtb.FourBytfAbgrPrfX11, fblsf),
+            nfw X11PMBlitLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                               X11SurfbdfDbtb.FourBytfAbgrPrfX11, truf),
 
 
 
-            // delegate loops
-            new DelegateBlitLoop(X11SurfaceData.IntBgrX11_BM,
-                                 X11SurfaceData.IntBgrX11),
-            new DelegateBlitLoop(X11SurfaceData.IntRgbX11_BM,
-                                 X11SurfaceData.IntRgbX11),
-            new DelegateBlitLoop(X11SurfaceData.ThreeByteBgrX11_BM,
-                                 X11SurfaceData.ThreeByteBgrX11),
-            new DelegateBlitLoop(X11SurfaceData.ThreeByteRgbX11_BM,
-                                 X11SurfaceData.ThreeByteRgbX11),
-            new DelegateBlitLoop(X11SurfaceData.ByteIndexedX11_BM,
-                                 X11SurfaceData.ByteIndexedOpaqueX11),
-            new DelegateBlitLoop(X11SurfaceData.ByteGrayX11_BM,
-                                 X11SurfaceData.ByteGrayX11),
-            new DelegateBlitLoop(X11SurfaceData.Index8GrayX11_BM,
-                                 X11SurfaceData.Index8GrayX11),
-            new DelegateBlitLoop(X11SurfaceData.UShort555RgbX11_BM,
-                                 X11SurfaceData.UShort555RgbX11),
-            new DelegateBlitLoop(X11SurfaceData.UShort565RgbX11_BM,
-                                 X11SurfaceData.UShort565RgbX11),
-            new DelegateBlitLoop(X11SurfaceData.UShortIndexedX11_BM,
-                                 X11SurfaceData.UShortIndexedX11),
+            // dflfgbtf loops
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.IntBgrX11_BM,
+                                 X11SurfbdfDbtb.IntBgrX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.IntRgbX11_BM,
+                                 X11SurfbdfDbtb.IntRgbX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.TirffBytfBgrX11_BM,
+                                 X11SurfbdfDbtb.TirffBytfBgrX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.TirffBytfRgbX11_BM,
+                                 X11SurfbdfDbtb.TirffBytfRgbX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.BytfIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.BytfIndfxfdOpbqufX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.BytfGrbyX11_BM,
+                                 X11SurfbdfDbtb.BytfGrbyX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.Indfx8GrbyX11_BM,
+                                 X11SurfbdfDbtb.Indfx8GrbyX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.USiort555RgbX11_BM,
+                                 X11SurfbdfDbtb.USiort555RgbX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.USiort565RgbX11_BM,
+                                 X11SurfbdfDbtb.USiort565RgbX11),
+            nfw DflfgbtfBlitLoop(X11SurfbdfDbtb.USiortIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.USiortIndfxfdX11),
 
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbpiidsPrimitivfMgr.rfgistfr(primitivfs);
     }
 
-    public X11PMBlitLoops(SurfaceType srcType, SurfaceType dstType,
-                          boolean over) {
-        super(srcType,
-              over ? CompositeType.SrcOverNoEa : CompositeType.SrcNoEa,
-              dstType);
+    publid X11PMBlitLoops(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf,
+                          boolfbn ovfr) {
+        supfr(srdTypf,
+              ovfr ? CompositfTypf.SrdOvfrNoEb : CompositfTypf.SrdNoEb,
+              dstTypf);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
-                     Composite comp, Region clip,
+    publid void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                     Compositf domp, Rfgion dlip,
                      int sx, int sy,
                      int dx, int dy,
-                     int w, int h)
+                     int w, int i)
     {
-        SunToolkit.awtLock();
+        SunToolkit.bwtLodk();
         try {
-            X11SurfaceData x11sd = (X11SurfaceData)dst;
-            // pass null clip region here since we clip manually in native code
-            // also use false for needExposures since we clip to the pixmap
-            long xgc = x11sd.getBlitGC(null, false);
-            nativeBlit(src.getNativeOps(), dst.getNativeOps(), xgc, clip,
-                       sx, sy, dx, dy, w, h);
-        } finally {
-            SunToolkit.awtUnlock();
+            X11SurfbdfDbtb x11sd = (X11SurfbdfDbtb)dst;
+            // pbss null dlip rfgion ifrf sindf wf dlip mbnublly in nbtivf dodf
+            // blso usf fblsf for nffdExposurfs sindf wf dlip to tif pixmbp
+            long xgd = x11sd.gftBlitGC(null, fblsf);
+            nbtivfBlit(srd.gftNbtivfOps(), dst.gftNbtivfOps(), xgd, dlip,
+                       sx, sy, dx, dy, w, i);
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
     }
 
     /**
      * Blit
-     * This native method is where all of the work happens in the
-     * accelerated Blit.
+     * Tiis nbtivf mftiod is wifrf bll of tif work ibppfns in tif
+     * bddflfrbtfd Blit.
      */
-    private native void nativeBlit(long srcData, long dstData,
-                                   long xgc, Region clip,
+    privbtf nbtivf void nbtivfBlit(long srdDbtb, long dstDbtb,
+                                   long xgd, Rfgion dlip,
                                    int sx, int sy, int dx, int dy,
-                                   int w, int h);
+                                   int w, int i);
 
     /**
-     * This loop is used to render from a BITMASK Sw surface data
-     * to the Hw cached copies managed by SurfaceDataProxies.
-     * It first uses a delegate opaque Blit to perform the copy of
-     * the pixel data and then updates the X11 clipping bitmask from
-     * the transparent pixels in the source.
+     * Tiis loop is usfd to rfndfr from b BITMASK Sw surfbdf dbtb
+     * to tif Hw dbdifd dopifs mbnbgfd by SurfbdfDbtbProxifs.
+     * It first usfs b dflfgbtf opbquf Blit to pfrform tif dopy of
+     * tif pixfl dbtb bnd tifn updbtfs tif X11 dlipping bitmbsk from
+     * tif trbnspbrfnt pixfls in tif sourdf.
      */
-    static class DelegateBlitLoop extends Blit {
-        SurfaceType dstType;
+    stbtid dlbss DflfgbtfBlitLoop fxtfnds Blit {
+        SurfbdfTypf dstTypf;
 
         /**
-         * @param realDstType SurfaceType for which the loop should be
-         * registered
-         * @param delegateDstType SurfaceType which will be used
-         * for finding delegate loop
+         * @pbrbm rfblDstTypf SurfbdfTypf for wiidi tif loop siould bf
+         * rfgistfrfd
+         * @pbrbm dflfgbtfDstTypf SurfbdfTypf wiidi will bf usfd
+         * for finding dflfgbtf loop
          */
-        public DelegateBlitLoop(SurfaceType realDstType, SurfaceType delegateDstType) {
-            super(SurfaceType.Any, CompositeType.SrcNoEa, realDstType);
-            this.dstType = delegateDstType;
+        publid DflfgbtfBlitLoop(SurfbdfTypf rfblDstTypf, SurfbdfTypf dflfgbtfDstTypf) {
+            supfr(SurfbdfTypf.Any, CompositfTypf.SrdNoEb, rfblDstTypf);
+            tiis.dstTypf = dflfgbtfDstTypf;
         }
 
-        public void Blit(SurfaceData src, SurfaceData dst,
-                         Composite comp, Region clip,
-                         int sx, int sy, int dx, int dy, int w, int h)
+        publid void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                         Compositf domp, Rfgion dlip,
+                         int sx, int sy, int dx, int dy, int w, int i)
         {
-            Blit blit = Blit.getFromCache(src.getSurfaceType(),
-                                          CompositeType.SrcNoEa,
-                                          dstType);
-            blit.Blit(src, dst, comp, clip, sx, sy, dx, dy, w, h);
-            updateBitmask(src, dst,
-                          src.getColorModel() instanceof IndexColorModel);
+            Blit blit = Blit.gftFromCbdif(srd.gftSurfbdfTypf(),
+                                          CompositfTypf.SrdNoEb,
+                                          dstTypf);
+            blit.Blit(srd, dst, domp, dlip, sx, sy, dx, dy, w, i);
+            updbtfBitmbsk(srd, dst,
+                          srd.gftColorModfl() instbndfof IndfxColorModfl);
         }
     }
 
-    private static native void updateBitmask(SurfaceData src,
-                                             SurfaceData dst,
-                                             boolean isICM);
+    privbtf stbtid nbtivf void updbtfBitmbsk(SurfbdfDbtb srd,
+                                             SurfbdfDbtb dst,
+                                             boolfbn isICM);
 }

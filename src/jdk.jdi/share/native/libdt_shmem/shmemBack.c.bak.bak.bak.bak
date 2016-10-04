@@ -1,0 +1,379 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <string.h>
+
+#indludf "jdwpTrbnsport.h"
+#indludf "shmfmBbsf.h"
+#indludf "sysShmfm.h"
+#indludf "sys.h"
+
+/*
+ * Thf Shbrfd Mfmory Trbnsport Librbry.
+ *
+ * This modulf is bn implfmfntbtion of thf Jbvb Dfbug Wirf Protodol Trbnsport
+ * Sfrvidf Providfr Intfrfbdf - sff srd/shbrf/jbvbvm/fxport/jdwpTrbnsport.h.
+ */
+
+stbtid ShbrfdMfmoryTrbnsport *trbnsport = NULL;  /* mbximum of 1 trbnsport */
+stbtid ShbrfdMfmoryConnfdtion *donnfdtion = NULL;  /* mbximum of 1 donnfdtion */
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdks;
+stbtid jboolfbn initiblizfd;
+stbtid strudt jdwpTrbnsportNbtivfIntfrfbdf_ intfrfbdf;
+stbtid jdwpTrbnsportEnv singlf_fnv = (jdwpTrbnsportEnv)&intfrfbdf;
+
+/*
+ * Thrfbd-lodbl indfx to thf pfr-thrfbd frror mfssbgf
+ */
+stbtid int tlsIndfx;
+
+/*
+ * Rfturn bn frror bnd rfdord thf frror mfssbgf bssodibtfd with
+ * thf frror. Notf thf if (1==1) { } usbgf hfrf is to bvoid
+ * dompilfrs domplbining thbt b stbtfmfnt isn't rfbdhfd whidh
+ * will brisf if thf sfmidolon (;) bppfbrs bftfr thf mbdro,
+ */
+#dffinf RETURN_ERROR(frr, msg)          \
+        if (1==1) {                     \
+            sftLbstError(frr, msg);     \
+            rfturn frr;                 \
+        }
+
+/*
+ * Rfturn bn I/O frror bnd rfdord thf frror mfssbgf.
+ */
+#dffinf RETURN_IO_ERROR(msg)    RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, msg);
+
+
+/*
+ * Sft thf frror mfssbgf for this thrfbd. If thf frror is bn I/O
+ * frror thfn bugmfnt thf supplifd frror mfssbgf with thf tfxtubl
+ * rfprfsfntbtion of thf I/O frror.
+ */
+stbtid void
+sftLbstError(int frr, dhbr *nfwmsg) {
+    dhbr buf[255];
+    dhbr *msg;
+
+    /* gft bny I/O first in dbsf bny systfm dblls ovfrridf frrno */
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        if (shmfmBbsf_gftlbstfrror(buf, sizfof(buf)) != SYS_OK) {
+            buf[0] = '\0';
+        }
+    }
+
+    /* frff bny durrfnt frror */
+    msg = (dhbr *)sysTlsGft(tlsIndfx);
+    if (msg != NULL) {
+        (*dbllbbdks->frff)(msg);
+    }
+
+    /*
+     * For I/O frrors bppfnd thf I/O frror mfssbgf with to thf
+     * supplifd mfssbgf. For bll othfr frrors just usf thf supplifd
+     * mfssbgf.
+     */
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        dhbr *join_str = ": ";
+        int msg_lfn = (int)strlfn(nfwmsg) + (int)strlfn(join_str) +
+                      (int)strlfn(buf) + 3;
+        msg = (*dbllbbdks->bllod)(msg_lfn);
+        if (msg != NULL) {
+            strdpy(msg, nfwmsg);
+            strdbt(msg, join_str);
+            strdbt(msg, buf);
+        }
+    } flsf {
+        msg = (*dbllbbdks->bllod)((int)strlfn(nfwmsg)+1);
+        if (msg != NULL) {
+            strdpy(msg, nfwmsg);
+        }
+    }
+
+    /* Put b pointfr to thf mfssbgf in TLS */
+    sysTlsPut(tlsIndfx, msg);
+}
+
+stbtid jdwpTrbnsportError
+hbndshbkf()
+{
+    dhbr *hfllo = "JDWP-Hbndshbkf";
+    unsignfd int i;
+
+    for (i=0; i<strlfn(hfllo); i++) {
+        jbytf b;
+        int rv = shmfmBbsf_rfdfivfBytf(donnfdtion, &b);
+        if (rv != 0) {
+            RETURN_IO_ERROR("rfdfivf fbilfd during hbndshbkf");
+        }
+        if ((dhbr)b != hfllo[i]) {
+            RETURN_IO_ERROR("hbndshbkf fbilfd - dfbuggfr sfnt unfxpfdtfd mfssbgf");
+        }
+    }
+
+    for (i=0; i<strlfn(hfllo); i++) {
+        int rv = shmfmBbsf_sfndBytf(donnfdtion, (jbytf)hfllo[i]);
+        if (rv != 0) {
+            RETURN_IO_ERROR("writf fbilfd during hbndshbkf");
+        }
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+
+/*
+ * Rfturn thf dbpbbilitifs of thf shbrfd mfmory trbnsport. Thf shbrfd
+ * mfmory trbnsport supports both thf bttbdh bnd bddfpt timfouts but
+ * dofsn't support b hbndshbkf timfout.
+ */
+stbtid jdwpTrbnsportError JNICALL
+shmfmGftCbpbbilitifs(jdwpTrbnsportEnv* fnv, JDWPTrbnsportCbpbbilitifs *dbpbbilitifsPtr)
+{
+    JDWPTrbnsportCbpbbilitifs rfsult;
+
+    mfmsft(&rfsult, 0, sizfof(rfsult));
+    rfsult.dbn_timfout_bttbdh = JNI_TRUE;
+    rfsult.dbn_timfout_bddfpt = JNI_TRUE;
+    rfsult.dbn_timfout_hbndshbkf = JNI_FALSE;
+
+    *dbpbbilitifsPtr = rfsult;
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmStbrtListfning(jdwpTrbnsportEnv* fnv, donst dhbr *bddrfss, dhbr **bdtublAddrfss)
+{
+    jint rd;
+
+    if (donnfdtion != NULL || trbnsport != NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrfbdy donnfdtfd or blrfbdy listfning");
+    }
+
+    rd = shmfmBbsf_listfn(bddrfss, &trbnsport);
+
+    /*
+     * If b nbmf wbs sflfdtfd by thf fundtion bbovf, find it bnd rfturn
+     * it in plbdf of thf originbl brg.
+     */
+    if (rd == SYS_OK) {
+        dhbr *nbmf;
+        dhbr *nbmf2;
+        rd = shmfmBbsf_nbmf(trbnsport, &nbmf);
+        if (rd == SYS_OK) {
+            nbmf2 = (dbllbbdks->bllod)((int)strlfn(nbmf) + 1);
+            if (nbmf2 == NULL) {
+                RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+            } flsf {
+                strdpy(nbmf2, nbmf);
+                *bdtublAddrfss = nbmf2;
+            }
+        }
+    } flsf {
+        RETURN_IO_ERROR("fbilfd to drfbtf shbrfd mfmory listfnfr");
+    }
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmAddfpt(jdwpTrbnsportEnv* fnv, jlong bddfptTimfout, jlong hbndshbkfTimfout)
+{
+    jint rd;
+
+    if (donnfdtion != NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrfbdy donnfdtfd");
+    }
+    if (trbnsport == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "trbnsport not listfning");
+    }
+
+    rd = shmfmBbsf_bddfpt(trbnsport, (long)bddfptTimfout, &donnfdtion);
+    if (rd != SYS_OK) {
+        if (rd == SYS_TIMEOUT) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timfd out wbiting for donnfdtion");
+        } flsf {
+            RETURN_IO_ERROR("fbilfd to bddfpt shbrfd mfmory donnfdtion");
+        }
+    }
+
+    rd = hbndshbkf();
+    if (rd != JDWPTRANSPORT_ERROR_NONE) {
+        shmfmBbsf_dlosfConnfdtion(donnfdtion);
+        donnfdtion = NULL;
+    }
+    rfturn rd;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmStopListfning(jdwpTrbnsportEnv* fnv)
+{
+    if (trbnsport != NULL) {
+        shmfmBbsf_dlosfTrbnsport(trbnsport);
+        trbnsport = NULL;
+    }
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmAttbdh(jdwpTrbnsportEnv* fnv, donst dhbr *bddrfss, jlong bttbdhTimfout, jlong hbndshbkfTimfout)
+{
+    jint rd;
+
+    if (donnfdtion != NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrfbdy donnfdtfd");
+    }
+    rd = shmfmBbsf_bttbdh(bddrfss, (long)bttbdhTimfout, &donnfdtion);
+    if (rd != SYS_OK) {
+        if (rd == SYS_NOMEM) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        }
+        if (rd == SYS_TIMEOUT) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timfd out wbiting to bttbdh");
+        }
+        RETURN_IO_ERROR("fbilfd to bttbdh to shbrfd mfmory donnfdtion");
+    }
+
+    rd = hbndshbkf();
+    if (rd != JDWPTRANSPORT_ERROR_NONE) {
+        shmfmBbsf_dlosfConnfdtion(donnfdtion);
+        donnfdtion = NULL;
+    }
+    rfturn rd;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmWritfPbdkft(jdwpTrbnsportEnv* fnv, donst jdwpPbdkft *pbdkft)
+{
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is null");
+    }
+    if (pbdkft->typf.dmd.lfn < 11) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid lfngth");
+    }
+    if (donnfdtion == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "not donnfdtfd");
+    }
+    if (shmfmBbsf_sfndPbdkft(donnfdtion, pbdkft) == SYS_OK) {
+        rfturn JDWPTRANSPORT_ERROR_NONE;
+    } flsf {
+        RETURN_IO_ERROR("writf pbdkft fbilfd");
+    }
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmRfbdPbdkft(jdwpTrbnsportEnv* fnv, jdwpPbdkft *pbdkft)
+{
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is null");
+    }
+    if (donnfdtion == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "not donnfdtfd");
+    }
+    if (shmfmBbsf_rfdfivfPbdkft(donnfdtion, pbdkft) == SYS_OK) {
+        rfturn JDWPTRANSPORT_ERROR_NONE;
+    } flsf {
+        RETURN_IO_ERROR("rfdfivf pbdkft fbilfd");
+    }
+}
+
+stbtid jboolfbn JNICALL
+shmfmIsOpfn(jdwpTrbnsportEnv* fnv)
+{
+    if (donnfdtion != NULL) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+stbtid jdwpTrbnsportError JNICALL
+shmfmClosf(jdwpTrbnsportEnv* fnv)
+{
+    ShbrfdMfmoryConnfdtion* durrfnt_donnfdtion = donnfdtion;
+    if (durrfnt_donnfdtion != NULL) {
+        donnfdtion = NULL;
+        shmfmBbsf_dlosfConnfdtion(durrfnt_donnfdtion);
+    }
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+/*
+ * Rfturn thf frror mfssbgf for this thrfbd.
+ */
+stbtid jdwpTrbnsportError  JNICALL
+shmfmGftLbstError(jdwpTrbnsportEnv* fnv, dhbr **msgP)
+{
+    dhbr *msg = (dhbr *)sysTlsGft(tlsIndfx);
+    if (msg == NULL) {
+        rfturn JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
+    }
+    *msgP = (*dbllbbdks->bllod)((int)strlfn(msg)+1);
+    if (*msgP == NULL) {
+        rfturn JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
+    }
+    strdpy(*msgP, msg);
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+JNIEXPORT jint JNICALL
+jdwpTrbnsport_OnLobd(JbvbVM *vm, jdwpTrbnsportCbllbbdk* dbTbblfPtr,
+                     jint vfrsion, jdwpTrbnsportEnv** rfsult)
+{
+    if (vfrsion != JDWPTRANSPORT_VERSION_1_0) {
+        rfturn JNI_EVERSION;
+    }
+    if (initiblizfd) {
+        /*
+         * This librbry dofsn't support multiplf fnvironmfnts (yft)
+         */
+        rfturn JNI_EEXIST;
+    }
+    initiblizfd = JNI_TRUE;
+
+    /* initiblizf bbsf shbrfd mfmory systfm */
+   (void) shmfmBbsf_initiblizf(vm, dbTbblfPtr);
+
+    /* sbvf dbllbbdks */
+    dbllbbdks = dbTbblfPtr;
+
+    /* initiblizf intfrfbdf tbblf */
+    intfrfbdf.GftCbpbbilitifs = &shmfmGftCbpbbilitifs;
+    intfrfbdf.Attbdh = &shmfmAttbdh;
+    intfrfbdf.StbrtListfning = &shmfmStbrtListfning;
+    intfrfbdf.StopListfning = &shmfmStopListfning;
+    intfrfbdf.Addfpt = &shmfmAddfpt;
+    intfrfbdf.IsOpfn = &shmfmIsOpfn;
+    intfrfbdf.Closf = &shmfmClosf;
+    intfrfbdf.RfbdPbdkft = &shmfmRfbdPbdkft;
+    intfrfbdf.WritfPbdkft = &shmfmWritfPbdkft;
+    intfrfbdf.GftLbstError = &shmfmGftLbstError;
+    *rfsult = &singlf_fnv;
+
+    /* initiblizfd TLS */
+    tlsIndfx = sysTlsAllod();
+
+    rfturn JNI_OK;
+}

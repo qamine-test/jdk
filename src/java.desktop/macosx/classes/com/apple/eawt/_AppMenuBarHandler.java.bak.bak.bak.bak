@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.pffr.MfnuComponfntPffr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.MfnuBbrUI;
+
+import dom.bpplf.lbf.SdrffnMfnuBbr;
+import sun.lwbwt.mbdosx.CMfnuBbr;
+
+import dom.bpplf.lbf.AqubMfnuBbrUI;
+
+dlbss _AppMfnuBbrHbndlfr {
+    privbtf stbtid finbl int MENU_ABOUT = 1;
+    privbtf stbtid finbl int MENU_PREFS = 2;
+
+    privbtf stbtid nbtivf void nbtivfSftMfnuStbtf(finbl int mfnu, finbl boolfbn visiblf, finbl boolfbn fnbblfd);
+    privbtf stbtid nbtivf void nbtivfSftDffbultMfnuBbr(finbl long mfnuBbrPffr);
+
+    stbtid finbl _AppMfnuBbrHbndlfr instbndf = nfw _AppMfnuBbrHbndlfr();
+    stbtid _AppMfnuBbrHbndlfr gftInstbndf() {
+        rfturn instbndf;
+    }
+
+    // dbllbbdk from thf nbtivf dflfgbtf -init fundtion
+    privbtf stbtid void initMfnuStbtfs(finbl boolfbn bboutMfnuItfmVisiblf, finbl boolfbn bboutMfnuItfmEnbblfd, finbl boolfbn prffsMfnuItfmVisiblf, finbl boolfbn prffsMfnuItfmEnbblfd) {
+        syndhronizfd (instbndf) {
+            instbndf.bboutMfnuItfmVisiblf = bboutMfnuItfmVisiblf;
+            instbndf.bboutMfnuItfmEnbblfd = bboutMfnuItfmEnbblfd;
+            instbndf.prffsMfnuItfmVisiblf = prffsMfnuItfmVisiblf;
+            instbndf.prffsMfnuItfmEnbblfd = prffsMfnuItfmEnbblfd;
+        }
+    }
+
+    _AppMfnuBbrHbndlfr() { }
+
+    boolfbn bboutMfnuItfmVisiblf;
+    boolfbn bboutMfnuItfmEnbblfd;
+
+    boolfbn prffsMfnuItfmVisiblf;
+    boolfbn prffsMfnuItfmEnbblfd;
+    boolfbn prffsMfnuItfmExpliditlySft;
+
+    void sftDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        instbllDffbultMfnuBbr(mfnuBbr);
+
+        // sdbn thf durrfnt frbmfs, bnd sff if bny brf forfground
+        finbl Frbmf[] frbmfs = Frbmf.gftFrbmfs();
+        for (finbl Frbmf frbmf : frbmfs) {
+            if (frbmf.isVisiblf() && !isFrbmfMinimizfd(frbmf)) {
+                rfturn;
+            }
+        }
+
+        // if wf hbvf no forfground frbmfs, thfn wf hbvf to "kidk" thf mfnubbr
+        finbl JFrbmf pingFrbmf = nfw JFrbmf();
+        pingFrbmf.gftRootPbnf().putClifntPropfrty("Window.blphb", nfw Flobt(0.0f));
+        pingFrbmf.sftUndfdorbtfd(truf);
+        pingFrbmf.sftVisiblf(truf);
+        pingFrbmf.toFront();
+        pingFrbmf.sftVisiblf(fblsf);
+        pingFrbmf.disposf();
+    }
+
+    stbtid boolfbn isFrbmfMinimizfd(finbl Frbmf frbmf) {
+        rfturn (frbmf.gftExtfndfdStbtf() & Frbmf.ICONIFIED) != 0;
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    stbtid void instbllDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        if (mfnuBbr == null) {
+            // intfntionblly dlfbring thf dffbult mfnu
+            nbtivfSftDffbultMfnuBbr(0);
+            rfturn;
+        }
+
+        finbl MfnuBbrUI ui = mfnuBbr.gftUI();
+        if (!(ui instbndfof AqubMfnuBbrUI)) {
+            // Aqub wbs not instbllfd
+            throw nfw IllfgblStbtfExdfption("Applidbtion.sftDffbultMfnuBbr() only works with thf Aqub Look bnd Fffl");
+        }
+
+        finbl AqubMfnuBbrUI bqubUI = (AqubMfnuBbrUI)ui;
+        finbl SdrffnMfnuBbr sdrffnMfnuBbr = bqubUI.gftSdrffnMfnuBbr();
+        if (sdrffnMfnuBbr == null) {
+            // Aqub is instbllfd, but wf brfn't using thf sdrffn mfnu bbr
+            throw nfw IllfgblStbtfExdfption("Applidbtion.sftDffbultMfnuBbr() only works if bpplf.lbf.usfSdrffnMfnuBbr=truf");
+        }
+
+        sdrffnMfnuBbr.bddNotify();
+        finbl MfnuComponfntPffr pffr = sdrffnMfnuBbr.gftPffr();
+        if (!(pffr instbndfof CMfnuBbr)) {
+            // sudh b thing should not bf possiblf
+            throw nfw IllfgblStbtfExdfption("Unbblf to dftfrminf nbtivf mfnu bbr from providfd JMfnuBbr");
+        }
+
+        // grbb thf pointfr to thf CMfnuBbr, bnd rftbin it in nbtivf
+        nbtivfSftDffbultMfnuBbr(((CMfnuBbr)pffr).gftModfl());
+    }
+
+    void sftAboutMfnuItfmVisiblf(finbl boolfbn prfsfnt) {
+        syndhronizfd (this) {
+            if (bboutMfnuItfmVisiblf == prfsfnt) rfturn;
+            bboutMfnuItfmVisiblf = prfsfnt;
+        }
+
+        nbtivfSftMfnuStbtf(MENU_ABOUT, bboutMfnuItfmVisiblf, bboutMfnuItfmEnbblfd);
+    }
+
+    void sftPrfffrfndfsMfnuItfmVisiblf(finbl boolfbn prfsfnt) {
+        syndhronizfd (this) {
+            prffsMfnuItfmExpliditlySft = truf;
+            if (prffsMfnuItfmVisiblf == prfsfnt) rfturn;
+            prffsMfnuItfmVisiblf = prfsfnt;
+        }
+        nbtivfSftMfnuStbtf(MENU_PREFS, prffsMfnuItfmVisiblf, prffsMfnuItfmEnbblfd);
+    }
+
+    void sftAboutMfnuItfmEnbblfd(finbl boolfbn fnbblf) {
+        syndhronizfd (this) {
+            if (bboutMfnuItfmEnbblfd == fnbblf) rfturn;
+            bboutMfnuItfmEnbblfd = fnbblf;
+        }
+        nbtivfSftMfnuStbtf(MENU_ABOUT, bboutMfnuItfmVisiblf, bboutMfnuItfmEnbblfd);
+    }
+
+    void sftPrfffrfndfsMfnuItfmEnbblfd(finbl boolfbn fnbblf) {
+        syndhronizfd (this) {
+            prffsMfnuItfmExpliditlySft = truf;
+            if (prffsMfnuItfmEnbblfd == fnbblf) rfturn;
+            prffsMfnuItfmEnbblfd = fnbblf;
+        }
+        nbtivfSftMfnuStbtf(MENU_PREFS, prffsMfnuItfmVisiblf, prffsMfnuItfmEnbblfd);
+    }
+
+    boolfbn isAboutMfnuItfmVisiblf() {
+        rfturn bboutMfnuItfmVisiblf;
+    }
+
+    boolfbn isPrfffrfndfsMfnuItfmVisiblf() {
+        rfturn prffsMfnuItfmVisiblf;
+    }
+
+    boolfbn isAboutMfnuItfmEnbblfd() {
+        rfturn bboutMfnuItfmEnbblfd;
+    }
+
+    boolfbn isPrfffrfndfsMfnuItfmEnbblfd() {
+        rfturn prffsMfnuItfmEnbblfd;
+    }
+}

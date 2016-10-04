@@ -1,0 +1,1419 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.LightwfightPffr;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.LinkfdList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Sft;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.TimfdWindowEvfnt;
+
+/**
+ * Thf dffbult KfybobrdFodusMbnbgfr for AWT bpplidbtions. Fodus trbvfrsbl is
+ * donf in rfsponsf to b Componfnt's fodus trbvfrsbl kfys, bnd using b
+ * Contbinfr's FodusTrbvfrsblPolidy.
+ * <p>
+ * Plfbsf sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.html">
+ * How to Usf thf Fodus Subsystfm</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>, bnd thf
+ * <b hrff="../../jbvb/bwt/dod-filfs/FodusSpfd.html">Fodus Spfdifidbtion</b>
+ * for morf informbtion.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff FodusTrbvfrsblPolidy
+ * @sff Componfnt#sftFodusTrbvfrsblKfys
+ * @sff Componfnt#gftFodusTrbvfrsblKfys
+ * @sindf 1.4
+ */
+publid dlbss DffbultKfybobrdFodusMbnbgfr fxtfnds KfybobrdFodusMbnbgfr {
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fodus.DffbultKfybobrdFodusMbnbgfr");
+
+    // null wfbk rfffrfndfs to not drfbtf too mbny objfdts
+    privbtf stbtid finbl WfbkRfffrfndf<Window> NULL_WINDOW_WR =
+        nfw WfbkRfffrfndf<Window>(null);
+    privbtf stbtid finbl WfbkRfffrfndf<Componfnt> NULL_COMPONENT_WR =
+        nfw WfbkRfffrfndf<Componfnt>(null);
+    privbtf WfbkRfffrfndf<Window> rfblOppositfWindowWR = NULL_WINDOW_WR;
+    privbtf WfbkRfffrfndf<Componfnt> rfblOppositfComponfntWR = NULL_COMPONENT_WR;
+    privbtf int inSfndMfssbgf;
+    privbtf LinkfdList<KfyEvfnt> fnqufufdKfyEvfnts = nfw LinkfdList<KfyEvfnt>();
+    privbtf LinkfdList<TypfAhfbdMbrkfr> typfAhfbdMbrkfrs = nfw LinkfdList<TypfAhfbdMbrkfr>();
+    privbtf boolfbn donsumfNfxtKfyTypfd;
+
+    stbtid {
+        AWTAddfssor.sftDffbultKfybobrdFodusMbnbgfrAddfssor(
+            nfw AWTAddfssor.DffbultKfybobrdFodusMbnbgfrAddfssor() {
+                publid void donsumfNfxtKfyTypfd(DffbultKfybobrdFodusMbnbgfr dkfm, KfyEvfnt f) {
+                    dkfm.donsumfNfxtKfyTypfd(f);
+                }
+            });
+    }
+
+    privbtf stbtid dlbss TypfAhfbdMbrkfr {
+        long bftfr;
+        Componfnt untilFodusfd;
+
+        TypfAhfbdMbrkfr(long bftfr, Componfnt untilFodusfd) {
+            this.bftfr = bftfr;
+            this.untilFodusfd = untilFodusfd;
+        }
+        /**
+         * Rfturns string rfprfsfntbtion of thf mbrkfr
+         */
+        publid String toString() {
+            rfturn ">>> Mbrkfr bftfr " + bftfr + " on " + untilFodusfd;
+        }
+    }
+
+    privbtf Window gftOwningFrbmfDiblog(Window window) {
+        whilf (window != null && !(window instbndfof Frbmf ||
+                                   window instbndfof Diblog)) {
+            window = (Window)window.gftPbrfnt();
+        }
+        rfturn window;
+    }
+
+    /*
+     * This sfrifs of rfstorfFodus mfthods is usfd for rfdovfring from b
+     * rfjfdtfd fodus or bdtivbtion dhbngf. Rfjfdtions typidblly oddur whfn
+     * thf usfr bttfmpts to fodus b non-fodusbblf Componfnt or Window.
+     */
+    privbtf void rfstorfFodus(FodusEvfnt ff, Window nfwFodusfdWindow) {
+        Componfnt rfblOppositfComponfnt = this.rfblOppositfComponfntWR.gft();
+        Componfnt vftofdComponfnt = ff.gftComponfnt();
+
+        if (nfwFodusfdWindow != null && rfstorfFodus(nfwFodusfdWindow,
+                                                     vftofdComponfnt, fblsf))
+        {
+        } flsf if (rfblOppositfComponfnt != null &&
+                   doRfstorfFodus(rfblOppositfComponfnt, vftofdComponfnt, fblsf)) {
+        } flsf if (ff.gftOppositfComponfnt() != null &&
+                   doRfstorfFodus(ff.gftOppositfComponfnt(), vftofdComponfnt, fblsf)) {
+        } flsf {
+            dlfbrGlobblFodusOwnfrPriv();
+        }
+    }
+    privbtf void rfstorfFodus(WindowEvfnt wf) {
+        Window rfblOppositfWindow = this.rfblOppositfWindowWR.gft();
+        if (rfblOppositfWindow != null
+            && rfstorfFodus(rfblOppositfWindow, null, fblsf))
+        {
+            // do nothing, fvfrything is donf in rfstorfFodus()
+        } flsf if (wf.gftOppositfWindow() != null &&
+                   rfstorfFodus(wf.gftOppositfWindow(), null, fblsf))
+        {
+            // do nothing, fvfrything is donf in rfstorfFodus()
+        } flsf {
+            dlfbrGlobblFodusOwnfrPriv();
+        }
+    }
+    privbtf boolfbn rfstorfFodus(Window bWindow, Componfnt vftofdComponfnt,
+                                 boolfbn dlfbrOnFbilurf) {
+        Componfnt toFodus =
+            KfybobrdFodusMbnbgfr.gftMostRfdfntFodusOwnfr(bWindow);
+
+        if (toFodus != null && toFodus != vftofdComponfnt && doRfstorfFodus(toFodus, vftofdComponfnt, fblsf)) {
+            rfturn truf;
+        } flsf if (dlfbrOnFbilurf) {
+            dlfbrGlobblFodusOwnfrPriv();
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+    privbtf boolfbn rfstorfFodus(Componfnt toFodus, boolfbn dlfbrOnFbilurf) {
+        rfturn doRfstorfFodus(toFodus, null, dlfbrOnFbilurf);
+    }
+    privbtf boolfbn doRfstorfFodus(Componfnt toFodus, Componfnt vftofdComponfnt,
+                                   boolfbn dlfbrOnFbilurf)
+    {
+        if (toFodus != vftofdComponfnt && toFodus.isShowing() && toFodus.dbnBfFodusOwnfr() &&
+            toFodus.rfqufstFodus(fblsf, CbusfdFodusEvfnt.Cbusf.ROLLBACK))
+        {
+            rfturn truf;
+        } flsf {
+            Componfnt nfxtFodus = toFodus.gftNfxtFodusCbndidbtf();
+            if (nfxtFodus != null && nfxtFodus != vftofdComponfnt &&
+                nfxtFodus.rfqufstFodusInWindow(CbusfdFodusEvfnt.Cbusf.ROLLBACK))
+            {
+                rfturn truf;
+            } flsf if (dlfbrOnFbilurf) {
+                dlfbrGlobblFodusOwnfrPriv();
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * A spfdibl typf of SfntEvfnt whidh updbtfs b dountfr in thf tbrgft
+     * KfybobrdFodusMbnbgfr if it is bn instbndf of
+     * DffbultKfybobrdFodusMbnbgfr.
+     */
+    privbtf stbtid dlbss DffbultKfybobrdFodusMbnbgfrSfntEvfnt
+        fxtfnds SfntEvfnt
+    {
+        /*
+         * sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -2924743257508701758L;
+
+        publid DffbultKfybobrdFodusMbnbgfrSfntEvfnt(AWTEvfnt nfstfd,
+                                                    AppContfxt toNotify) {
+            supfr(nfstfd, toNotify);
+        }
+        publid finbl void dispbtdh() {
+            KfybobrdFodusMbnbgfr mbnbgfr =
+                KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+            DffbultKfybobrdFodusMbnbgfr dffbultMbnbgfr =
+                (mbnbgfr instbndfof DffbultKfybobrdFodusMbnbgfr)
+                ? (DffbultKfybobrdFodusMbnbgfr)mbnbgfr
+                : null;
+
+            if (dffbultMbnbgfr != null) {
+                syndhronizfd (dffbultMbnbgfr) {
+                    dffbultMbnbgfr.inSfndMfssbgf++;
+                }
+            }
+
+            supfr.dispbtdh();
+
+            if (dffbultMbnbgfr != null) {
+                syndhronizfd (dffbultMbnbgfr) {
+                    dffbultMbnbgfr.inSfndMfssbgf--;
+                }
+            }
+        }
+    }
+
+    /**
+     * Sfnds b synthftid AWTEvfnt to b Componfnt. If thf Componfnt is in
+     * thf durrfnt AppContfxt, thfn thf fvfnt is immfdibtfly dispbtdhfd.
+     * If thf Componfnt is in b difffrfnt AppContfxt, thfn thf fvfnt is
+     * postfd to thf othfr AppContfxt's EvfntQufuf, bnd this mfthod blodks
+     * until thf fvfnt is hbndlfd or tbrgft AppContfxt is disposfd.
+     * Rfturns truf if suddfssfuly dispbtdhfd fvfnt, fblsf if fbilfd
+     * to dispbtdh.
+     */
+    stbtid boolfbn sfndMfssbgf(Componfnt tbrgft, AWTEvfnt f) {
+        f.isPostfd = truf;
+        AppContfxt myAppContfxt = AppContfxt.gftAppContfxt();
+        finbl AppContfxt tbrgftAppContfxt = tbrgft.bppContfxt;
+        finbl SfntEvfnt sf =
+            nfw DffbultKfybobrdFodusMbnbgfrSfntEvfnt(f, myAppContfxt);
+
+        if (myAppContfxt == tbrgftAppContfxt) {
+            sf.dispbtdh();
+        } flsf {
+            if (tbrgftAppContfxt.isDisposfd()) {
+                rfturn fblsf;
+            }
+            SunToolkit.postEvfnt(tbrgftAppContfxt, sf);
+            if (EvfntQufuf.isDispbtdhThrfbd()) {
+                EvfntDispbtdhThrfbd fdt = (EvfntDispbtdhThrfbd)
+                    Thrfbd.durrfntThrfbd();
+                fdt.pumpEvfnts(SfntEvfnt.ID, nfw Conditionbl() {
+                        publid boolfbn fvblubtf() {
+                            rfturn !sf.dispbtdhfd && !tbrgftAppContfxt.isDisposfd();
+                        }
+                    });
+            } flsf {
+                syndhronizfd (sf) {
+                    whilf (!sf.dispbtdhfd && !tbrgftAppContfxt.isDisposfd()) {
+                        try {
+                            sf.wbit(1000);
+                        } dbtdh (IntfrruptfdExdfption if) {
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn sf.dispbtdhfd;
+    }
+
+    /*
+     * Chfdks if thf fodus window fvfnt follows kfy fvfnts wbiting in thf typf-bhfbd
+     * qufuf (if bny). This mby hbppfn whfn b usfr typfs bhfbd in thf window, thf dlifnt
+     * listfnfrs hbng EDT for b whilf, bnd thf usfr switdhfs b/w toplfvfls. In thbt
+     * dbsf thf fodus window fvfnts mby bf dispbtdhfd bfforf thf typf-bhfbd fvfnts
+     * gft hbndlfd. This mby lfbd to wrong fodus bfhbvior bnd in ordfr to bvoid it,
+     * thf fodus window fvfnts brf rfpostfd to thf fnd of thf fvfnt qufuf. Sff 6981400.
+     */
+    privbtf boolfbn rfpostIfFollowsKfyEvfnts(WindowEvfnt f) {
+        if (!(f instbndfof TimfdWindowEvfnt)) {
+            rfturn fblsf;
+        }
+        TimfdWindowEvfnt wf = (TimfdWindowEvfnt)f;
+        long timf = wf.gftWhfn();
+        syndhronizfd (this) {
+            KfyEvfnt kf = fnqufufdKfyEvfnts.isEmpty() ? null : fnqufufdKfyEvfnts.gftFirst();
+            if (kf != null && timf >= kf.gftWhfn()) {
+                TypfAhfbdMbrkfr mbrkfr = typfAhfbdMbrkfrs.isEmpty() ? null : typfAhfbdMbrkfrs.gftFirst();
+                if (mbrkfr != null) {
+                    Window toplfvfl = mbrkfr.untilFodusfd.gftContbiningWindow();
+                    // Chfdk thbt thf domponfnt bwbiting fodus bflongs to
+                    // thf durrfnt fodusfd window. Sff 8015454.
+                    if (toplfvfl != null && toplfvfl.isFodusfd()) {
+                        SunToolkit.postEvfnt(AppContfxt.gftAppContfxt(), nfw SfqufndfdEvfnt(f));
+                        rfturn truf;
+                    }
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * This mfthod is dbllfd by thf AWT fvfnt dispbtdhfr rfqufsting thbt thf
+     * durrfnt KfybobrdFodusMbnbgfr dispbtdh thf spfdififd fvfnt on its bfhblf.
+     * DffbultKfybobrdFodusMbnbgfrs dispbtdh bll FodusEvfnts, bll WindowEvfnts
+     * rflbtfd to fodus, bnd bll KfyEvfnts. Thfsf fvfnts brf dispbtdhfd bbsfd
+     * on thf KfybobrdFodusMbnbgfr's notion of thf fodus ownfr bnd thf fodusfd
+     * bnd bdtivf Windows, somftimfs ovfrriding thf sourdf of thf spfdififd
+     * AWTEvfnt. If this mfthod rfturns <dodf>fblsf</dodf>, thfn thf AWT fvfnt
+     * dispbtdhfr will bttfmpt to dispbtdh thf fvfnt itsflf.
+     *
+     * @pbrbm f thf AWTEvfnt to bf dispbtdhfd
+     * @rfturn <dodf>truf</dodf> if this mfthod dispbtdhfd thf fvfnt;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn dispbtdhEvfnt(AWTEvfnt f) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE) && (f instbndfof WindowEvfnt || f instbndfof FodusEvfnt)) {
+            fodusLog.finf("" + f);
+        }
+        switdh (f.gftID()) {
+            dbsf WindowEvfnt.WINDOW_GAINED_FOCUS: {
+                if (rfpostIfFollowsKfyEvfnts((WindowEvfnt)f)) {
+                    brfbk;
+                }
+
+                WindowEvfnt wf = (WindowEvfnt)f;
+                Window oldFodusfdWindow = gftGlobblFodusfdWindow();
+                Window nfwFodusfdWindow = wf.gftWindow();
+                if (nfwFodusfdWindow == oldFodusfdWindow) {
+                    brfbk;
+                }
+
+                if (!(nfwFodusfdWindow.isFodusbblfWindow()
+                      && nfwFodusfdWindow.isVisiblf()
+                      && nfwFodusfdWindow.isDisplbybblf()))
+                {
+                    // wf dbn not bddfpt fodus on sudh window, so rfjfdt it.
+                    rfstorfFodus(wf);
+                    brfbk;
+                }
+                // If thfrf fxists b durrfnt fodusfd window, thfn notify it
+                // thbt it hbs lost fodus.
+                if (oldFodusfdWindow != null) {
+                    boolfbn isEvfntDispbtdhfd =
+                        sfndMfssbgf(oldFodusfdWindow,
+                                nfw WindowEvfnt(oldFodusfdWindow,
+                                                WindowEvfnt.WINDOW_LOST_FOCUS,
+                                                nfwFodusfdWindow));
+                    // Fbilfd to dispbtdh, dlfbr by oursflfvfs
+                    if (!isEvfntDispbtdhfd) {
+                        sftGlobblFodusOwnfr(null);
+                        sftGlobblFodusfdWindow(null);
+                    }
+                }
+
+                // Bfdbusf thf nbtivf librbrifs do not post WINDOW_ACTIVATED
+                // fvfnts, wf nffd to synthfsizf onf if thf bdtivf Window
+                // dhbngfd.
+                Window nfwAdtivfWindow =
+                    gftOwningFrbmfDiblog(nfwFodusfdWindow);
+                Window durrfntAdtivfWindow = gftGlobblAdtivfWindow();
+                if (nfwAdtivfWindow != durrfntAdtivfWindow) {
+                    sfndMfssbgf(nfwAdtivfWindow,
+                                nfw WindowEvfnt(nfwAdtivfWindow,
+                                                WindowEvfnt.WINDOW_ACTIVATED,
+                                                durrfntAdtivfWindow));
+                    if (nfwAdtivfWindow != gftGlobblAdtivfWindow()) {
+                        // Adtivbtion dhbngf wbs rfjfdtfd. Unlikfly, but
+                        // possiblf.
+                        rfstorfFodus(wf);
+                        brfbk;
+                    }
+                }
+
+                sftGlobblFodusfdWindow(nfwFodusfdWindow);
+
+                if (nfwFodusfdWindow != gftGlobblFodusfdWindow()) {
+                    // Fodus dhbngf wbs rfjfdtfd. Will hbppfn if
+                    // nfwFodusfdWindow is not b fodusbblf Window.
+                    rfstorfFodus(wf);
+                    brfbk;
+                }
+
+                // Rfstorf fodus to thf Componfnt whidh lbst hfld it. Wf do
+                // this hfrf so thbt dlifnt dodf dbn ovfrridf our dhoidf in
+                // b WINDOW_GAINED_FOCUS hbndlfr.
+                //
+                // Mbkf surf thbt thf fodus dhbngf rfqufst dofsn't dhbngf thf
+                // fodusfd Window in dbsf wf brf no longfr thf fodusfd Window
+                // whfn thf rfqufst is hbndlfd.
+                if (inSfndMfssbgf == 0) {
+                    // Idfntify whidh Componfnt should initiblly gbin fodus
+                    // in thf Window.
+                    //
+                    // * If wf'rf in SfndMfssbgf, thfn this is b synthftid
+                    //   WINDOW_GAINED_FOCUS mfssbgf whidh wbs gfnfrbtfd by b
+                    //   thf FOCUS_GAINED hbndlfr. Allow thf Componfnt to
+                    //   whidh thf FOCUS_GAINED mfssbgf wbs tbrgftfd to
+                    //   rfdfivf thf fodus.
+                    // * Othfrwisf, look up thf dorrfdt Componfnt hfrf.
+                    //   Wf don't usf Window.gftMostRfdfntFodusOwnfr bfdbusf
+                    //   window is fodusfd now bnd 'null' will bf rfturnfd
+
+
+                    // Cbldulbting of most rfdfnt fodus ownfr bnd fodus
+                    // rfqufst should bf syndhronizfd on KfybobrdFodusMbnbgfr.dlbss
+                    // to prfvfnt from thrfbd rbdf whfn usfr will rfqufst
+                    // fodus bftwffn dbldulbtion bnd our rfqufst.
+                    // But if fodus trbnsffr is syndhronous, this syndhronizbtion
+                    // mby dbusf dfbdlodk, thus wf don't syndhronizf this blodk.
+                    Componfnt toFodus = KfybobrdFodusMbnbgfr.
+                        gftMostRfdfntFodusOwnfr(nfwFodusfdWindow);
+                    if ((toFodus == null) &&
+                        nfwFodusfdWindow.isFodusbblfWindow())
+                    {
+                        toFodus = nfwFodusfdWindow.gftFodusTrbvfrsblPolidy().
+                            gftInitiblComponfnt(nfwFodusfdWindow);
+                    }
+                    Componfnt tfmpLost = null;
+                    syndhronizfd(KfybobrdFodusMbnbgfr.dlbss) {
+                        tfmpLost = nfwFodusfdWindow.sftTfmporbryLostComponfnt(null);
+                    }
+
+                    // Thf domponfnt whidh lbst hbs thf fodus whfn this window wbs fodusfd
+                    // should rfdfivf fodus first
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        fodusLog.finfr("tfmpLost {0}, toFodus {1}",
+                                       tfmpLost, toFodus);
+                    }
+                    if (tfmpLost != null) {
+                        tfmpLost.rfqufstFodusInWindow(CbusfdFodusEvfnt.Cbusf.ACTIVATION);
+                    }
+
+                    if (toFodus != null && toFodus != tfmpLost) {
+                        // If thfrf is b domponfnt whidh rfqufstfd fodus whfn this window
+                        // wbs inbdtivf it fxpfdts to rfdfivf fodus bftfr bdtivbtion.
+                        toFodus.rfqufstFodusInWindow(CbusfdFodusEvfnt.Cbusf.ACTIVATION);
+                    }
+                }
+
+                Window rfblOppositfWindow = this.rfblOppositfWindowWR.gft();
+                if (rfblOppositfWindow != wf.gftOppositfWindow()) {
+                    wf = nfw WindowEvfnt(nfwFodusfdWindow,
+                                         WindowEvfnt.WINDOW_GAINED_FOCUS,
+                                         rfblOppositfWindow);
+                }
+                rfturn typfAhfbdAssfrtions(nfwFodusfdWindow, wf);
+            }
+
+            dbsf WindowEvfnt.WINDOW_ACTIVATED: {
+                WindowEvfnt wf = (WindowEvfnt)f;
+                Window oldAdtivfWindow = gftGlobblAdtivfWindow();
+                Window nfwAdtivfWindow = wf.gftWindow();
+                if (oldAdtivfWindow == nfwAdtivfWindow) {
+                    brfbk;
+                }
+
+                // If thfrf fxists b durrfnt bdtivf window, thfn notify it thbt
+                // it hbs lost bdtivbtion.
+                if (oldAdtivfWindow != null) {
+                    boolfbn isEvfntDispbtdhfd =
+                        sfndMfssbgf(oldAdtivfWindow,
+                                nfw WindowEvfnt(oldAdtivfWindow,
+                                                WindowEvfnt.WINDOW_DEACTIVATED,
+                                                nfwAdtivfWindow));
+                    // Fbilfd to dispbtdh, dlfbr by oursflfvfs
+                    if (!isEvfntDispbtdhfd) {
+                        sftGlobblAdtivfWindow(null);
+                    }
+                    if (gftGlobblAdtivfWindow() != null) {
+                        // Adtivbtion dhbngf wbs rfjfdtfd. Unlikfly, but
+                        // possiblf.
+                        brfbk;
+                    }
+                }
+
+                sftGlobblAdtivfWindow(nfwAdtivfWindow);
+
+                if (nfwAdtivfWindow != gftGlobblAdtivfWindow()) {
+                    // Adtivbtion dhbngf wbs rfjfdtfd. Unlikfly, but
+                    // possiblf.
+                    brfbk;
+                }
+
+                rfturn typfAhfbdAssfrtions(nfwAdtivfWindow, wf);
+            }
+
+            dbsf FodusEvfnt.FOCUS_GAINED: {
+                FodusEvfnt ff = (FodusEvfnt)f;
+                CbusfdFodusEvfnt.Cbusf dbusf = (ff instbndfof CbusfdFodusEvfnt) ?
+                    ((CbusfdFodusEvfnt)ff).gftCbusf() : CbusfdFodusEvfnt.Cbusf.UNKNOWN;
+                Componfnt oldFodusOwnfr = gftGlobblFodusOwnfr();
+                Componfnt nfwFodusOwnfr = ff.gftComponfnt();
+                if (oldFodusOwnfr == nfwFodusOwnfr) {
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fodusLog.finf("Skipping {0} bfdbusf fodus ownfr is thf sbmf", f);
+                    }
+                    // Wf dbn't just drop thf fvfnt - thfrf dould bf
+                    // typf-bhfbd mbrkfrs bssodibtfd with it.
+                    dfqufufKfyEvfnts(-1, nfwFodusOwnfr);
+                    brfbk;
+                }
+
+                // If thfrf fxists b durrfnt fodus ownfr, thfn notify it thbt
+                // it hbs lost fodus.
+                if (oldFodusOwnfr != null) {
+                    boolfbn isEvfntDispbtdhfd =
+                        sfndMfssbgf(oldFodusOwnfr,
+                                    nfw CbusfdFodusEvfnt(oldFodusOwnfr,
+                                                   FodusEvfnt.FOCUS_LOST,
+                                                   ff.isTfmporbry(),
+                                                   nfwFodusOwnfr, dbusf));
+                    // Fbilfd to dispbtdh, dlfbr by oursflfvfs
+                    if (!isEvfntDispbtdhfd) {
+                        sftGlobblFodusOwnfr(null);
+                        if (!ff.isTfmporbry()) {
+                            sftGlobblPfrmbnfntFodusOwnfr(null);
+                        }
+                    }
+                }
+
+                // Bfdbusf thf nbtivf windowing systfm hbs b difffrfnt notion
+                // of thf durrfnt fodus bnd bdtivbtion stbtfs, it is possiblf
+                // thbt b Componfnt outsidf of thf fodusfd Window rfdfivfs b
+                // FOCUS_GAINED fvfnt. Wf synthfsizf b WINDOW_GAINED_FOCUS
+                // fvfnt in thbt dbsf.
+                finbl Window nfwFodusfdWindow = SunToolkit.gftContbiningWindow(nfwFodusOwnfr);
+                finbl Window durrfntFodusfdWindow = gftGlobblFodusfdWindow();
+                if (nfwFodusfdWindow != null &&
+                    nfwFodusfdWindow != durrfntFodusfdWindow)
+                {
+                    sfndMfssbgf(nfwFodusfdWindow,
+                                nfw WindowEvfnt(nfwFodusfdWindow,
+                                        WindowEvfnt.WINDOW_GAINED_FOCUS,
+                                                durrfntFodusfdWindow));
+                    if (nfwFodusfdWindow != gftGlobblFodusfdWindow()) {
+                        // Fodus dhbngf wbs rfjfdtfd. Will hbppfn if
+                        // nfwFodusfdWindow is not b fodusbblf Window.
+
+                        // Nffd to rfdovfr typf-bhfbd, but don't bothfr
+                        // rfstoring fodus. Thbt wbs donf by thf
+                        // WINDOW_GAINED_FOCUS hbndlfr
+                        dfqufufKfyEvfnts(-1, nfwFodusOwnfr);
+                        brfbk;
+                    }
+                }
+
+                if (!(nfwFodusOwnfr.isFodusbblf() && nfwFodusOwnfr.isShowing() &&
+                    // Rffusf fodus on b disbblfd domponfnt if thf fodus fvfnt
+                    // isn't of UNKNOWN rfbson (i.f. not b rfsult of b dirfdt rfqufst
+                    // but trbvfrsbl, bdtivbtion or systfm gfnfrbtfd).
+                    (nfwFodusOwnfr.isEnbblfd() || dbusf.fqubls(CbusfdFodusEvfnt.Cbusf.UNKNOWN))))
+                {
+                    // wf should not bddfpt fodus on sudh domponfnt, so rfjfdt it.
+                    dfqufufKfyEvfnts(-1, nfwFodusOwnfr);
+                    if (KfybobrdFodusMbnbgfr.isAutoFodusTrbnsffrEnbblfd()) {
+                        // If FOCUS_GAINED is for b disposfd domponfnt (howfvfr
+                        // it shouldn't hbppfn) its toplfvfl pbrfnt is null. In this
+                        // dbsf wf hbvf to try to rfstorf fodus in thf durrfnt fodusfd
+                        // window (for thf dftbils: 6607170).
+                        if (nfwFodusfdWindow == null) {
+                            rfstorfFodus(ff, durrfntFodusfdWindow);
+                        } flsf {
+                            rfstorfFodus(ff, nfwFodusfdWindow);
+                        }
+                        sftMostRfdfntFodusOwnfr(nfwFodusfdWindow, null); // sff: 8013773
+                    }
+                    brfbk;
+                }
+
+                sftGlobblFodusOwnfr(nfwFodusOwnfr);
+
+                if (nfwFodusOwnfr != gftGlobblFodusOwnfr()) {
+                    // Fodus dhbngf wbs rfjfdtfd. Will hbppfn if
+                    // nfwFodusOwnfr is not fodus trbvfrsbblf.
+                    dfqufufKfyEvfnts(-1, nfwFodusOwnfr);
+                    if (KfybobrdFodusMbnbgfr.isAutoFodusTrbnsffrEnbblfd()) {
+                        rfstorfFodus(ff, nfwFodusfdWindow);
+                    }
+                    brfbk;
+                }
+
+                if (!ff.isTfmporbry()) {
+                    sftGlobblPfrmbnfntFodusOwnfr(nfwFodusOwnfr);
+
+                    if (nfwFodusOwnfr != gftGlobblPfrmbnfntFodusOwnfr()) {
+                        // Fodus dhbngf wbs rfjfdtfd. Unlikfly, but possiblf.
+                        dfqufufKfyEvfnts(-1, nfwFodusOwnfr);
+                        if (KfybobrdFodusMbnbgfr.isAutoFodusTrbnsffrEnbblfd()) {
+                            rfstorfFodus(ff, nfwFodusfdWindow);
+                        }
+                        brfbk;
+                    }
+                }
+
+                sftNbtivfFodusOwnfr(gftHfbvywfight(nfwFodusOwnfr));
+
+                Componfnt rfblOppositfComponfnt = this.rfblOppositfComponfntWR.gft();
+                if (rfblOppositfComponfnt != null &&
+                    rfblOppositfComponfnt != ff.gftOppositfComponfnt()) {
+                    ff = nfw CbusfdFodusEvfnt(nfwFodusOwnfr,
+                                        FodusEvfnt.FOCUS_GAINED,
+                                        ff.isTfmporbry(),
+                                        rfblOppositfComponfnt, dbusf);
+                    ((AWTEvfnt) ff).isPostfd = truf;
+                }
+                rfturn typfAhfbdAssfrtions(nfwFodusOwnfr, ff);
+            }
+
+            dbsf FodusEvfnt.FOCUS_LOST: {
+                FodusEvfnt ff = (FodusEvfnt)f;
+                Componfnt durrfntFodusOwnfr = gftGlobblFodusOwnfr();
+                if (durrfntFodusOwnfr == null) {
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE))
+                        fodusLog.finf("Skipping {0} bfdbusf fodus ownfr is null", f);
+                    brfbk;
+                }
+                // Ignorf dbsfs whfrf b Componfnt losfs fodus to itsflf.
+                // If wf mbkf b mistbkf bfdbusf of rftbrgfting, thfn thf
+                // FOCUS_GAINED hbndlfr will dorrfdt it.
+                if (durrfntFodusOwnfr == ff.gftOppositfComponfnt()) {
+                    if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE))
+                        fodusLog.finf("Skipping {0} bfdbusf durrfnt fodus ownfr is fqubl to oppositf", f);
+                    brfbk;
+                }
+
+                sftGlobblFodusOwnfr(null);
+
+                if (gftGlobblFodusOwnfr() != null) {
+                    // Fodus dhbngf wbs rfjfdtfd. Unlikfly, but possiblf.
+                    rfstorfFodus(durrfntFodusOwnfr, truf);
+                    brfbk;
+                }
+
+                if (!ff.isTfmporbry()) {
+                    sftGlobblPfrmbnfntFodusOwnfr(null);
+
+                    if (gftGlobblPfrmbnfntFodusOwnfr() != null) {
+                        // Fodus dhbngf wbs rfjfdtfd. Unlikfly, but possiblf.
+                        rfstorfFodus(durrfntFodusOwnfr, truf);
+                        brfbk;
+                    }
+                } flsf {
+                    Window owningWindow = durrfntFodusOwnfr.gftContbiningWindow();
+                    if (owningWindow != null) {
+                        owningWindow.sftTfmporbryLostComponfnt(durrfntFodusOwnfr);
+                    }
+                }
+
+                sftNbtivfFodusOwnfr(null);
+
+                ff.sftSourdf(durrfntFodusOwnfr);
+
+                rfblOppositfComponfntWR = (ff.gftOppositfComponfnt() != null)
+                    ? nfw WfbkRfffrfndf<Componfnt>(durrfntFodusOwnfr)
+                    : NULL_COMPONENT_WR;
+
+                rfturn typfAhfbdAssfrtions(durrfntFodusOwnfr, ff);
+            }
+
+            dbsf WindowEvfnt.WINDOW_DEACTIVATED: {
+                WindowEvfnt wf = (WindowEvfnt)f;
+                Window durrfntAdtivfWindow = gftGlobblAdtivfWindow();
+                if (durrfntAdtivfWindow == null) {
+                    brfbk;
+                }
+
+                if (durrfntAdtivfWindow != f.gftSourdf()) {
+                    // Thf fvfnt is lost in timf.
+                    // Allow listfnfrs to prfdfss thf fvfnt but do not
+                    // dhbngf bny globbl stbtfs
+                    brfbk;
+                }
+
+                sftGlobblAdtivfWindow(null);
+                if (gftGlobblAdtivfWindow() != null) {
+                    // Adtivbtion dhbngf wbs rfjfdtfd. Unlikfly, but possiblf.
+                    brfbk;
+                }
+
+                wf.sftSourdf(durrfntAdtivfWindow);
+                rfturn typfAhfbdAssfrtions(durrfntAdtivfWindow, wf);
+            }
+
+            dbsf WindowEvfnt.WINDOW_LOST_FOCUS: {
+                if (rfpostIfFollowsKfyEvfnts((WindowEvfnt)f)) {
+                    brfbk;
+                }
+
+                WindowEvfnt wf = (WindowEvfnt)f;
+                Window durrfntFodusfdWindow = gftGlobblFodusfdWindow();
+                Window losingFodusWindow = wf.gftWindow();
+                Window bdtivfWindow = gftGlobblAdtivfWindow();
+                Window oppositfWindow = wf.gftOppositfWindow();
+                if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE))
+                    fodusLog.finf("Adtivf {0}, Currfnt fodusfd {1}, losing fodus {2} oppositf {3}",
+                                  bdtivfWindow, durrfntFodusfdWindow,
+                                  losingFodusWindow, oppositfWindow);
+                if (durrfntFodusfdWindow == null) {
+                    brfbk;
+                }
+
+                // Spfdibl dbsf -- if thf nbtivf windowing systfm posts bn
+                // fvfnt dlbiming thbt thf bdtivf Window hbs lost fodus to thf
+                // fodusfd Window, thfn disdbrd thf fvfnt. This is bn brtifbdt
+                // of thf nbtivf windowing systfm not knowing whidh Window is
+                // rfblly fodusfd.
+                if (inSfndMfssbgf == 0 && losingFodusWindow == bdtivfWindow &&
+                    oppositfWindow == durrfntFodusfdWindow)
+                {
+                    brfbk;
+                }
+
+                Componfnt durrfntFodusOwnfr = gftGlobblFodusOwnfr();
+                if (durrfntFodusOwnfr != null) {
+                    // Thf fodus ownfr should blwbys rfdfivf b FOCUS_LOST fvfnt
+                    // bfforf thf Window is dffodusfd.
+                    Componfnt oppositfComp = null;
+                    if (oppositfWindow != null) {
+                        oppositfComp = oppositfWindow.gftTfmporbryLostComponfnt();
+                        if (oppositfComp == null) {
+                            oppositfComp = oppositfWindow.gftMostRfdfntFodusOwnfr();
+                        }
+                    }
+                    if (oppositfComp == null) {
+                        oppositfComp = oppositfWindow;
+                    }
+                    sfndMfssbgf(durrfntFodusOwnfr,
+                                nfw CbusfdFodusEvfnt(durrfntFodusOwnfr,
+                                               FodusEvfnt.FOCUS_LOST,
+                                               truf,
+                                               oppositfComp, CbusfdFodusEvfnt.Cbusf.ACTIVATION));
+                }
+
+                sftGlobblFodusfdWindow(null);
+                if (gftGlobblFodusfdWindow() != null) {
+                    // Fodus dhbngf wbs rfjfdtfd. Unlikfly, but possiblf.
+                    rfstorfFodus(durrfntFodusfdWindow, null, truf);
+                    brfbk;
+                }
+
+                wf.sftSourdf(durrfntFodusfdWindow);
+                rfblOppositfWindowWR = (oppositfWindow != null)
+                    ? nfw WfbkRfffrfndf<Window>(durrfntFodusfdWindow)
+                    : NULL_WINDOW_WR;
+                typfAhfbdAssfrtions(durrfntFodusfdWindow, wf);
+
+                if (oppositfWindow == null) {
+                    // Thfn wf nffd to dfbdtivf thf bdtivf Window bs wfll.
+                    // No nffd to synthfsizf in othfr dbsfs, bfdbusf
+                    // WINDOW_ACTIVATED will hbndlf it if nfdfssbry.
+                    sfndMfssbgf(bdtivfWindow,
+                                nfw WindowEvfnt(bdtivfWindow,
+                                                WindowEvfnt.WINDOW_DEACTIVATED,
+                                                null));
+                    if (gftGlobblAdtivfWindow() != null) {
+                        // Adtivbtion dhbngf wbs rfjfdtfd. Unlikfly,
+                        // but possiblf.
+                        rfstorfFodus(durrfntFodusfdWindow, null, truf);
+                    }
+                }
+                brfbk;
+            }
+
+            dbsf KfyEvfnt.KEY_TYPED:
+            dbsf KfyEvfnt.KEY_PRESSED:
+            dbsf KfyEvfnt.KEY_RELEASED:
+                rfturn typfAhfbdAssfrtions(null, f);
+
+            dffbult:
+                rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Cbllfd by <dodf>dispbtdhEvfnt</dodf> if no othfr
+     * KfyEvfntDispbtdhfr in thf dispbtdhfr dhbin dispbtdhfd thf KfyEvfnt, or
+     * if no othfr KfyEvfntDispbtdhfrs brf rfgistfrfd. If thf fvfnt hbs not
+     * bffn donsumfd, its tbrgft is fnbblfd, bnd thf fodus ownfr is not null,
+     * this mfthod dispbtdhfs thf fvfnt to its tbrgft. This mfthod will blso
+     * subsfqufntly dispbtdh thf fvfnt to bll rfgistfrfd
+     * KfyEvfntPostProdfssors. Aftfr bll this opfrbtions brf finishfd,
+     * thf fvfnt is pbssfd to pffrs for prodfssing.
+     * <p>
+     * In bll dbsfs, this mfthod rfturns <dodf>truf</dodf>, sindf
+     * DffbultKfybobrdFodusMbnbgfr is dfsignfd so thbt nfithfr
+     * <dodf>dispbtdhEvfnt</dodf>, nor thf AWT fvfnt dispbtdhfr, should tbkf
+     * furthfr bdtion on thf fvfnt in bny situbtion.
+     *
+     * @pbrbm f thf KfyEvfnt to bf dispbtdhfd
+     * @rfturn <dodf>truf</dodf>
+     * @sff Componfnt#dispbtdhEvfnt
+     */
+    publid boolfbn dispbtdhKfyEvfnt(KfyEvfnt f) {
+        Componfnt fodusOwnfr = (((AWTEvfnt)f).isPostfd) ? gftFodusOwnfr() : f.gftComponfnt();
+
+        if (fodusOwnfr != null && fodusOwnfr.isShowing() && fodusOwnfr.dbnBfFodusOwnfr()) {
+            if (!f.isConsumfd()) {
+                Componfnt domp = f.gftComponfnt();
+                if (domp != null && domp.isEnbblfd()) {
+                    rfdispbtdhEvfnt(domp, f);
+                }
+            }
+        }
+        boolfbn stopPostProdfssing = fblsf;
+        jbvb.util.List<KfyEvfntPostProdfssor> prodfssors = gftKfyEvfntPostProdfssors();
+        if (prodfssors != null) {
+            for (jbvb.util.Itfrbtor<KfyEvfntPostProdfssor> itfr = prodfssors.itfrbtor();
+                 !stopPostProdfssing && itfr.hbsNfxt(); )
+            {
+                stopPostProdfssing = itfr.nfxt().
+                            postProdfssKfyEvfnt(f);
+            }
+        }
+        if (!stopPostProdfssing) {
+            postProdfssKfyEvfnt(f);
+        }
+
+        // Allow thf pffr to prodfss KfyEvfnt
+        Componfnt sourdf = f.gftComponfnt();
+        ComponfntPffr pffr = sourdf.gftPffr();
+
+        if (pffr == null || pffr instbndfof LightwfightPffr) {
+            // if fodus ownfr is lightwfight thfn its nbtivf dontbinfr
+            // prodfssfs fvfnt
+            Contbinfr tbrgft = sourdf.gftNbtivfContbinfr();
+            if (tbrgft != null) {
+                pffr = tbrgft.gftPffr();
+            }
+        }
+        if (pffr != null) {
+            pffr.hbndlfEvfnt(f);
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod will bf dbllfd by <dodf>dispbtdhKfyEvfnt</dodf>. It will
+     * hbndlf bny undonsumfd KfyEvfnts thbt mbp to bn AWT
+     * <dodf>MfnuShortdut</dodf> by donsuming thf fvfnt bnd bdtivbting thf
+     * shortdut.
+     *
+     * @pbrbm f thf KfyEvfnt to post-prodfss
+     * @rfturn <dodf>truf</dodf>
+     * @sff #dispbtdhKfyEvfnt
+     * @sff MfnuShortdut
+     */
+    publid boolfbn postProdfssKfyEvfnt(KfyEvfnt f) {
+        if (!f.isConsumfd()) {
+            Componfnt tbrgft = f.gftComponfnt();
+            Contbinfr p = (Contbinfr)
+                (tbrgft instbndfof Contbinfr ? tbrgft : tbrgft.gftPbrfnt());
+            if (p != null) {
+                p.postProdfssKfyEvfnt(f);
+            }
+        }
+        rfturn truf;
+    }
+
+    privbtf void pumpApprovfdKfyEvfnts() {
+        KfyEvfnt kf;
+        do {
+            kf = null;
+            syndhronizfd (this) {
+                if (fnqufufdKfyEvfnts.sizf() != 0) {
+                    kf = fnqufufdKfyEvfnts.gftFirst();
+                    if (typfAhfbdMbrkfrs.sizf() != 0) {
+                        TypfAhfbdMbrkfr mbrkfr = typfAhfbdMbrkfrs.gftFirst();
+                        // Fixfd 5064013: mby bppfbrs thbt thf fvfnts hbvf thf sbmf timf
+                        // if (kf.gftWhfn() >= mbrkfr.bftfr) {
+                        // Thf fix is rollfd out.
+
+                        if (kf.gftWhfn() > mbrkfr.bftfr) {
+                            kf = null;
+                        }
+                    }
+                    if (kf != null) {
+                        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                            fodusLog.finfr("Pumping bpprovfd fvfnt {0}", kf);
+                        }
+                        fnqufufdKfyEvfnts.rfmovfFirst();
+                    }
+                }
+            }
+            if (kf != null) {
+                prfDispbtdhKfyEvfnt(kf);
+            }
+        } whilf (kf != null);
+    }
+
+    /**
+     * Dumps thf list of typf-bhfbd qufuf mbrkfrs to stdfrr
+     */
+    void dumpMbrkfrs() {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fodusLog.finfst(">>> Mbrkfrs dump, timf: {0}", Systfm.durrfntTimfMillis());
+            syndhronizfd (this) {
+                if (typfAhfbdMbrkfrs.sizf() != 0) {
+                    Itfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.itfrbtor();
+                    whilf (itfr.hbsNfxt()) {
+                        TypfAhfbdMbrkfr mbrkfr = itfr.nfxt();
+                        fodusLog.finfst("    {0}", mbrkfr);
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf boolfbn typfAhfbdAssfrtions(Componfnt tbrgft, AWTEvfnt f) {
+
+        // Clfbr bny pfnding fvfnts hfrf bs wfll bs in thf FOCUS_GAINED
+        // hbndlfr. Wf nffd this dbll hfrf in dbsf b mbrkfr wbs rfmovfd in
+        // rfsponsf to b dbll to dfqufufKfyEvfnts.
+        pumpApprovfdKfyEvfnts();
+
+        switdh (f.gftID()) {
+            dbsf KfyEvfnt.KEY_TYPED:
+            dbsf KfyEvfnt.KEY_PRESSED:
+            dbsf KfyEvfnt.KEY_RELEASED: {
+                KfyEvfnt kf = (KfyEvfnt)f;
+                syndhronizfd (this) {
+                    if (f.isPostfd && typfAhfbdMbrkfrs.sizf() != 0) {
+                        TypfAhfbdMbrkfr mbrkfr = typfAhfbdMbrkfrs.gftFirst();
+                        // Fixfd 5064013: mby bppfbrs thbt thf fvfnts hbvf thf sbmf timf
+                        // if (kf.gftWhfn() >= mbrkfr.bftfr) {
+                        // Thf fix is rollfd out.
+
+                        if (kf.gftWhfn() > mbrkfr.bftfr) {
+                            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                                fodusLog.finfr("Storing fvfnt {0} bfdbusf of mbrkfr {1}", kf, mbrkfr);
+                            }
+                            fnqufufdKfyEvfnts.bddLbst(kf);
+                            rfturn truf;
+                        }
+                    }
+                }
+
+                // KfyEvfnt wbs postfd bfforf fodus dhbngf rfqufst
+                rfturn prfDispbtdhKfyEvfnt(kf);
+            }
+
+            dbsf FodusEvfnt.FOCUS_GAINED:
+                if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    fodusLog.finfst("Mbrkfrs bfforf FOCUS_GAINED on {0}", tbrgft);
+                }
+                dumpMbrkfrs();
+                // Sfbrdh thf mbrkfr list for thf first mbrkfr tifd to
+                // thf Componfnt whidh just gbinfd fodus. Thfn rfmovf
+                // thbt mbrkfr, bny mbrkfrs whidh immfdibtfly follow
+                // bnd brf tifd to thf sbmf domponfnt, bnd bll mbrkfrs
+                // thbt prfdffd it. This hbndlfs thf dbsf whfrf
+                // multiplf fodus rfqufsts wfrf mbdf for thf sbmf
+                // Componfnt in b row bnd whfn wf lost somf of thf
+                // fbrlifr rfqufsts. Sindf FOCUS_GAINED fvfnts will
+                // not bf gfnfrbtfd for thfsf bdditionbl rfqufsts, wf
+                // nffd to dlfbr thosf mbrkfrs too.
+                syndhronizfd (this) {
+                    boolfbn found = fblsf;
+                    if (hbsMbrkfr(tbrgft)) {
+                        for (Itfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.itfrbtor();
+                             itfr.hbsNfxt(); )
+                        {
+                            if (itfr.nfxt().untilFodusfd == tbrgft) {
+                                found = truf;
+                            } flsf if (found) {
+                                brfbk;
+                            }
+                            itfr.rfmovf();
+                        }
+                    } flsf {
+                        // Exdfption dondition - fvfnt without mbrkfr
+                        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                            fodusLog.finfr("Evfnt without mbrkfr {0}", f);
+                        }
+                    }
+                }
+                fodusLog.finfst("Mbrkfrs bftfr FOCUS_GAINED");
+                dumpMbrkfrs();
+
+                rfdispbtdhEvfnt(tbrgft, f);
+
+                // Now, dispbtdh bny pfnding KfyEvfnts whidh hbvf bffn
+                // rflfbsfd bfdbusf of thf FOCUS_GAINED fvfnt so thbt wf don't
+                // hbvf to wbit for bnothfr fvfnt to bf postfd to thf qufuf.
+                pumpApprovfdKfyEvfnts();
+                rfturn truf;
+
+            dffbult:
+                rfdispbtdhEvfnt(tbrgft, f);
+                rfturn truf;
+        }
+    }
+
+    /**
+     * Rfturns truf if thfrf brf somf mbrkfr bssodibtfd with domponfnt <dodf>domp</dodf>
+     * in b mbrkfrs' qufuf
+     * @sindf 1.5
+     */
+    privbtf boolfbn hbsMbrkfr(Componfnt domp) {
+        for (Itfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.itfrbtor(); itfr.hbsNfxt(); ) {
+            if (itfr.nfxt().untilFodusfd == domp) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Clfbrs mbrkfrs qufuf
+     * @sindf 1.5
+     */
+    void dlfbrMbrkfrs() {
+        syndhronizfd(this) {
+            typfAhfbdMbrkfrs.dlfbr();
+        }
+    }
+
+    privbtf boolfbn prfDispbtdhKfyEvfnt(KfyEvfnt kf) {
+        if (((AWTEvfnt) kf).isPostfd) {
+            Componfnt fodusOwnfr = gftFodusOwnfr();
+            kf.sftSourdf(((fodusOwnfr != null) ? fodusOwnfr : gftFodusfdWindow()));
+        }
+        if (kf.gftSourdf() == null) {
+            rfturn truf;
+        }
+
+        // Expliditly sft thf kfy fvfnt timfstbmp hfrf (not in Componfnt.dispbtdhEvfntImpl):
+        // - A kfy fvfnt is bnywby pbssfd to this mfthod whidh stbrts its bdtubl dispbtdhing.
+        // - If b kfy fvfnt is put to thf typf bhfbd qufuf, its timf stbmp should not bf rfgistfrfd
+        //   until its dispbtdhing bdtublly stbrts (by this mfthod).
+        EvfntQufuf.sftCurrfntEvfntAndMostRfdfntTimf(kf);
+
+        /**
+         * Fix for 4495473.
+         * This fix bllows to dorrfdtly dispbtdh fvfnts whfn nbtivf
+         * fvfnt proxying mfdhbnism is bdtivf.
+         * If it is bdtivf wf should rfdispbtdh kfy fvfnts bftfr
+         * wf dftfdtfd its dorrfdt tbrgft.
+         */
+        if (KfybobrdFodusMbnbgfr.isProxyAdtivf(kf)) {
+            Componfnt sourdf = (Componfnt)kf.gftSourdf();
+            Contbinfr tbrgft = sourdf.gftNbtivfContbinfr();
+            if (tbrgft != null) {
+                ComponfntPffr pffr = tbrgft.gftPffr();
+                if (pffr != null) {
+                    pffr.hbndlfEvfnt(kf);
+                    /**
+                     * Fix for 4478780 - donsumf fvfnt bftfr it wbs dispbtdhfd by pffr.
+                     */
+                    kf.donsumf();
+                }
+            }
+            rfturn truf;
+        }
+
+        jbvb.util.List<KfyEvfntDispbtdhfr> dispbtdhfrs = gftKfyEvfntDispbtdhfrs();
+        if (dispbtdhfrs != null) {
+            for (jbvb.util.Itfrbtor<KfyEvfntDispbtdhfr> itfr = dispbtdhfrs.itfrbtor();
+                 itfr.hbsNfxt(); )
+             {
+                 if (itfr.nfxt().
+                     dispbtdhKfyEvfnt(kf))
+                 {
+                     rfturn truf;
+                 }
+             }
+        }
+        rfturn dispbtdhKfyEvfnt(kf);
+    }
+
+    /*
+     * @pbrbm f is b KEY_PRESSED fvfnt thbt dbn bf usfd
+     *          to trbdk thf nfxt KEY_TYPED rflbtfd.
+     */
+    privbtf void donsumfNfxtKfyTypfd(KfyEvfnt f) {
+        donsumfNfxtKfyTypfd = truf;
+    }
+
+    privbtf void donsumfTrbvfrsblKfy(KfyEvfnt f) {
+        f.donsumf();
+        donsumfNfxtKfyTypfd = (f.gftID() == KfyEvfnt.KEY_PRESSED) &&
+                              !f.isAdtionKfy();
+    }
+
+    /*
+     * rfturn truf if fvfnt wbs donsumfd
+     */
+    privbtf boolfbn donsumfProdfssfdKfyEvfnt(KfyEvfnt f) {
+        if ((f.gftID() == KfyEvfnt.KEY_TYPED) && donsumfNfxtKfyTypfd) {
+            f.donsumf();
+            donsumfNfxtKfyTypfd = fblsf;
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * This mfthod initibtfs b fodus trbvfrsbl opfrbtion if bnd only if thf
+     * KfyEvfnt rfprfsfnts b fodus trbvfrsbl kfy for thf spfdififd
+     * fodusfdComponfnt. It is fxpfdtfd thbt fodusfdComponfnt is thf durrfnt
+     * fodus ownfr, blthough this nffd not bf thf dbsf. If it is not,
+     * fodus trbvfrsbl will nfvfrthflfss prodffd bs if fodusfdComponfnt
+     * wfrf thf fodus ownfr.
+     *
+     * @pbrbm fodusfdComponfnt thf Componfnt thbt is thf bbsis for b fodus
+     *        trbvfrsbl opfrbtion if thf spfdififd fvfnt rfprfsfnts b fodus
+     *        trbvfrsbl kfy for thf Componfnt
+     * @pbrbm f thf fvfnt thbt mby rfprfsfnt b fodus trbvfrsbl kfy
+     */
+    publid void prodfssKfyEvfnt(Componfnt fodusfdComponfnt, KfyEvfnt f) {
+        // donsumf prodfssfd fvfnt if nffdfd
+        if (donsumfProdfssfdKfyEvfnt(f)) {
+            rfturn;
+        }
+
+        // KEY_TYPED fvfnts dbnnot bf fodus trbvfrsbl kfys
+        if (f.gftID() == KfyEvfnt.KEY_TYPED) {
+            rfturn;
+        }
+
+        if (fodusfdComponfnt.gftFodusTrbvfrsblKfysEnbblfd() &&
+            !f.isConsumfd())
+        {
+            AWTKfyStrokf strokf = AWTKfyStrokf.gftAWTKfyStrokfForEvfnt(f),
+                oppStrokf = AWTKfyStrokf.gftAWTKfyStrokf(strokf.gftKfyCodf(),
+                                                 strokf.gftModififrs(),
+                                                 !strokf.isOnKfyRflfbsf());
+            Sft<AWTKfyStrokf> toTfst;
+            boolfbn dontbins, dontbinsOpp;
+
+            toTfst = fodusfdComponfnt.gftFodusTrbvfrsblKfys(
+                KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS);
+            dontbins = toTfst.dontbins(strokf);
+            dontbinsOpp = toTfst.dontbins(oppStrokf);
+
+            if (dontbins || dontbinsOpp) {
+                donsumfTrbvfrsblKfy(f);
+                if (dontbins) {
+                    fodusNfxtComponfnt(fodusfdComponfnt);
+                }
+                rfturn;
+            } flsf if (f.gftID() == KfyEvfnt.KEY_PRESSED) {
+                // Fix for 6637607: donsumfNfxtKfyTypfd should bf rfsft.
+                donsumfNfxtKfyTypfd = fblsf;
+            }
+
+            toTfst = fodusfdComponfnt.gftFodusTrbvfrsblKfys(
+                KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS);
+            dontbins = toTfst.dontbins(strokf);
+            dontbinsOpp = toTfst.dontbins(oppStrokf);
+
+            if (dontbins || dontbinsOpp) {
+                donsumfTrbvfrsblKfy(f);
+                if (dontbins) {
+                    fodusPrfviousComponfnt(fodusfdComponfnt);
+                }
+                rfturn;
+            }
+
+            toTfst = fodusfdComponfnt.gftFodusTrbvfrsblKfys(
+                KfybobrdFodusMbnbgfr.UP_CYCLE_TRAVERSAL_KEYS);
+            dontbins = toTfst.dontbins(strokf);
+            dontbinsOpp = toTfst.dontbins(oppStrokf);
+
+            if (dontbins || dontbinsOpp) {
+                donsumfTrbvfrsblKfy(f);
+                if (dontbins) {
+                    upFodusCydlf(fodusfdComponfnt);
+                }
+                rfturn;
+            }
+
+            if (!((fodusfdComponfnt instbndfof Contbinfr) &&
+                  ((Contbinfr)fodusfdComponfnt).isFodusCydlfRoot())) {
+                rfturn;
+            }
+
+            toTfst = fodusfdComponfnt.gftFodusTrbvfrsblKfys(
+                KfybobrdFodusMbnbgfr.DOWN_CYCLE_TRAVERSAL_KEYS);
+            dontbins = toTfst.dontbins(strokf);
+            dontbinsOpp = toTfst.dontbins(oppStrokf);
+
+            if (dontbins || dontbinsOpp) {
+                donsumfTrbvfrsblKfy(f);
+                if (dontbins) {
+                    downFodusCydlf((Contbinfr)fodusfdComponfnt);
+                }
+            }
+        }
+    }
+
+    /**
+     * Dflbys dispbtdhing of KfyEvfnts until thf spfdififd Componfnt bfdomfs
+     * thf fodus ownfr. KfyEvfnts with timfstbmps lbtfr thbn thf spfdififd
+     * timfstbmp will bf fnqufufd until thf spfdififd Componfnt rfdfivfs b
+     * FOCUS_GAINED fvfnt, or thf AWT dbndfls thf dflby rfqufst by invoking
+     * <dodf>dfqufufKfyEvfnts</dodf> or <dodf>disdbrdKfyEvfnts</dodf>.
+     *
+     * @pbrbm bftfr timfstbmp of durrfnt fvfnt, or thf durrfnt, systfm timf if
+     *        thf durrfnt fvfnt hbs no timfstbmp, or thf AWT dbnnot dftfrminf
+     *        whidh fvfnt is durrfntly bfing hbndlfd
+     * @pbrbm untilFodusfd Componfnt whidh will rfdfivf b FOCUS_GAINED fvfnt
+     *        bfforf bny pfnding KfyEvfnts
+     * @sff #dfqufufKfyEvfnts
+     * @sff #disdbrdKfyEvfnts
+     */
+    protfdtfd syndhronizfd void fnqufufKfyEvfnts(long bftfr,
+                                                 Componfnt untilFodusfd) {
+        if (untilFodusfd == null) {
+            rfturn;
+        }
+
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Enqufuf bt {0} for {1}",
+                       bftfr, untilFodusfd);
+        }
+
+        int insfrtionIndfx = 0,
+            i = typfAhfbdMbrkfrs.sizf();
+        ListItfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.listItfrbtor(i);
+
+        for (; i > 0; i--) {
+            TypfAhfbdMbrkfr mbrkfr = itfr.prfvious();
+            if (mbrkfr.bftfr <= bftfr) {
+                insfrtionIndfx = i;
+                brfbk;
+            }
+        }
+
+        typfAhfbdMbrkfrs.bdd(insfrtionIndfx,
+                             nfw TypfAhfbdMbrkfr(bftfr, untilFodusfd));
+    }
+
+    /**
+     * Rflfbsfs for normbl dispbtdhing to thf durrfnt fodus ownfr bll
+     * KfyEvfnts whidh wfrf fnqufufd bfdbusf of b dbll to
+     * <dodf>fnqufufKfyEvfnts</dodf> with thf sbmf timfstbmp bnd Componfnt.
+     * If thf givfn timfstbmp is lfss thbn zfro, thf outstbnding fnqufuf
+     * rfqufst for thf givfn Componfnt with thf <b>oldfst</b> timfstbmp (if
+     * bny) should bf dbndfllfd.
+     *
+     * @pbrbm bftfr thf timfstbmp spfdififd in thf dbll to
+     *        <dodf>fnqufufKfyEvfnts</dodf>, or bny vbluf &lt; 0
+     * @pbrbm untilFodusfd thf Componfnt spfdififd in thf dbll to
+     *        <dodf>fnqufufKfyEvfnts</dodf>
+     * @sff #fnqufufKfyEvfnts
+     * @sff #disdbrdKfyEvfnts
+     */
+    protfdtfd syndhronizfd void dfqufufKfyEvfnts(long bftfr,
+                                                 Componfnt untilFodusfd) {
+        if (untilFodusfd == null) {
+            rfturn;
+        }
+
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Dfqufuf bt {0} for {1}",
+                       bftfr, untilFodusfd);
+        }
+
+        TypfAhfbdMbrkfr mbrkfr;
+        ListItfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.listItfrbtor
+            ((bftfr >= 0) ? typfAhfbdMbrkfrs.sizf() : 0);
+
+        if (bftfr < 0) {
+            whilf (itfr.hbsNfxt()) {
+                mbrkfr = itfr.nfxt();
+                if (mbrkfr.untilFodusfd == untilFodusfd)
+                {
+                    itfr.rfmovf();
+                    rfturn;
+                }
+            }
+        } flsf {
+            whilf (itfr.hbsPrfvious()) {
+                mbrkfr = itfr.prfvious();
+                if (mbrkfr.untilFodusfd == untilFodusfd &&
+                    mbrkfr.bftfr == bftfr)
+                {
+                    itfr.rfmovf();
+                    rfturn;
+                }
+            }
+        }
+    }
+
+    /**
+     * Disdbrds bll KfyEvfnts whidh wfrf fnqufufd bfdbusf of onf or morf dblls
+     * to <dodf>fnqufufKfyEvfnts</dodf> with thf spfdififd Componfnt, or onf of
+     * its dfsdfndbnts.
+     *
+     * @pbrbm domp thf Componfnt spfdififd in onf or morf dblls to
+     *        <dodf>fnqufufKfyEvfnts</dodf>, or b pbrfnt of sudh b Componfnt
+     * @sff #fnqufufKfyEvfnts
+     * @sff #dfqufufKfyEvfnts
+     */
+    protfdtfd syndhronizfd void disdbrdKfyEvfnts(Componfnt domp) {
+        if (domp == null) {
+            rfturn;
+        }
+
+        long stbrt = -1;
+
+        for (Itfrbtor<TypfAhfbdMbrkfr> itfr = typfAhfbdMbrkfrs.itfrbtor(); itfr.hbsNfxt(); ) {
+            TypfAhfbdMbrkfr mbrkfr = itfr.nfxt();
+            Componfnt toTfst = mbrkfr.untilFodusfd;
+            boolfbn mbtdh = (toTfst == domp);
+            whilf (!mbtdh && toTfst != null && !(toTfst instbndfof Window)) {
+                toTfst = toTfst.gftPbrfnt();
+                mbtdh = (toTfst == domp);
+            }
+            if (mbtdh) {
+                if (stbrt < 0) {
+                    stbrt = mbrkfr.bftfr;
+                }
+                itfr.rfmovf();
+            } flsf if (stbrt >= 0) {
+                purgfStbmpfdEvfnts(stbrt, mbrkfr.bftfr);
+                stbrt = -1;
+            }
+        }
+
+        purgfStbmpfdEvfnts(stbrt, -1);
+    }
+
+    // Notfs:
+    //   * must bf dbllfd insidf b syndhronizfd blodk
+    //   * if 'stbrt' is < 0, thfn this fundtion dofs nothing
+    //   * if 'fnd' is < 0, thfn bll KfyEvfnts from 'stbrt' to thf fnd of thf
+    //     qufuf will bf rfmovfd
+    privbtf void purgfStbmpfdEvfnts(long stbrt, long fnd) {
+        if (stbrt < 0) {
+            rfturn;
+        }
+
+        for (Itfrbtor<KfyEvfnt> itfr = fnqufufdKfyEvfnts.itfrbtor(); itfr.hbsNfxt(); ) {
+            KfyEvfnt kf = itfr.nfxt();
+            long timf = kf.gftWhfn();
+
+            if (stbrt < timf && (fnd < 0 || timf <= fnd)) {
+                itfr.rfmovf();
+            }
+
+            if (fnd >= 0 && timf > fnd) {
+                brfbk;
+            }
+        }
+    }
+
+    /**
+     * Fodusfs thf Componfnt bfforf bComponfnt, typidblly bbsfd on b
+     * FodusTrbvfrsblPolidy.
+     *
+     * @pbrbm bComponfnt thf Componfnt thbt is thf bbsis for thf fodus
+     *        trbvfrsbl opfrbtion
+     * @sff FodusTrbvfrsblPolidy
+     * @sff Componfnt#trbnsffrFodusBbdkwbrd
+     */
+    publid void fodusPrfviousComponfnt(Componfnt bComponfnt) {
+        if (bComponfnt != null) {
+            bComponfnt.trbnsffrFodusBbdkwbrd();
+        }
+    }
+
+    /**
+     * Fodusfs thf Componfnt bftfr bComponfnt, typidblly bbsfd on b
+     * FodusTrbvfrsblPolidy.
+     *
+     * @pbrbm bComponfnt thf Componfnt thbt is thf bbsis for thf fodus
+     *        trbvfrsbl opfrbtion
+     * @sff FodusTrbvfrsblPolidy
+     * @sff Componfnt#trbnsffrFodus
+     */
+    publid void fodusNfxtComponfnt(Componfnt bComponfnt) {
+        if (bComponfnt != null) {
+            bComponfnt.trbnsffrFodus();
+        }
+    }
+
+    /**
+     * Movfs thf fodus up onf fodus trbvfrsbl dydlf. Typidblly, thf fodus ownfr
+     * is sft to bComponfnt's fodus dydlf root, bnd thf durrfnt fodus dydlf
+     * root is sft to thf nfw fodus ownfr's fodus dydlf root. If, howfvfr,
+     * bComponfnt's fodus dydlf root is b Window, thfn thf fodus ownfr is sft
+     * to thf fodus dydlf root's dffbult Componfnt to fodus, bnd thf durrfnt
+     * fodus dydlf root is undhbngfd.
+     *
+     * @pbrbm bComponfnt thf Componfnt thbt is thf bbsis for thf fodus
+     *        trbvfrsbl opfrbtion
+     * @sff Componfnt#trbnsffrFodusUpCydlf
+     */
+    publid void upFodusCydlf(Componfnt bComponfnt) {
+        if (bComponfnt != null) {
+            bComponfnt.trbnsffrFodusUpCydlf();
+        }
+    }
+
+    /**
+     * Movfs thf fodus down onf fodus trbvfrsbl dydlf. If bContbinfr is b fodus
+     * dydlf root, thfn thf fodus ownfr is sft to bContbinfr's dffbult
+     * Componfnt to fodus, bnd thf durrfnt fodus dydlf root is sft to
+     * bContbinfr. If bContbinfr is not b fodus dydlf root, thfn no fodus
+     * trbvfrsbl opfrbtion oddurs.
+     *
+     * @pbrbm bContbinfr thf Contbinfr thbt is thf bbsis for thf fodus
+     *        trbvfrsbl opfrbtion
+     * @sff Contbinfr#trbnsffrFodusDownCydlf
+     */
+    publid void downFodusCydlf(Contbinfr bContbinfr) {
+        if (bContbinfr != null && bContbinfr.isFodusCydlfRoot()) {
+            bContbinfr.trbnsffrFodusDownCydlf();
+        }
+    }
+}

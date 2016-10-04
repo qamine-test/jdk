@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * Signals that a method has been invoked at an illegal or
- * inappropriate time.  In other words, the Java environment or
- * Java application is not in an appropriate state for the requested
- * operation.
+ * Signbls tibt b mftiod ibs bffn invokfd bt bn illfgbl or
+ * inbppropribtf timf.  In otifr words, tif Jbvb fnvironmfnt or
+ * Jbvb bpplidbtion is not in bn bppropribtf stbtf for tif rfqufstfd
+ * opfrbtion.
  *
- * @author  Jonni Kanerva
- * @since   1.1
+ * @butior  Jonni Kbnfrvb
+ * @sindf   1.1
  */
-public
-class IllegalStateException extends RuntimeException {
+publid
+dlbss IllfgblStbtfExdfption fxtfnds RuntimfExdfption {
     /**
-     * Constructs an IllegalStateException with no detail message.
-     * A detail message is a String that describes this particular exception.
+     * Construdts bn IllfgblStbtfExdfption witi no dftbil mfssbgf.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
      */
-    public IllegalStateException() {
-        super();
+    publid IllfgblStbtfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an IllegalStateException with the specified detail
-     * message.  A detail message is a String that describes this particular
-     * exception.
+     * Construdts bn IllfgblStbtfExdfption witi tif spfdififd dftbil
+     * mfssbgf.  A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr
+     * fxdfption.
      *
-     * @param s the String that contains a detailed message
+     * @pbrbm s tif String tibt dontbins b dftbilfd mfssbgf
      */
-    public IllegalStateException(String s) {
-        super(s);
+    publid IllfgblStbtfExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Constructs a new exception with the specified detail message and
-     * cause.
+     * Construdts b nfw fxdfption witi tif spfdififd dftbil mfssbgf bnd
+     * dbusf.
      *
-     * <p>Note that the detail message associated with <code>cause</code> is
-     * <i>not</i> automatically incorporated in this exception's detail
-     * message.
+     * <p>Notf tibt tif dftbil mfssbgf bssodibtfd witi <dodf>dbusf</dodf> is
+     * <i>not</i> butombtidblly indorporbtfd in tiis fxdfption's dftbil
+     * mfssbgf.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link Throwable#getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value
-     *         is permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  mfssbgf tif dftbil mfssbgf (wiidi is sbvfd for lbtfr rftrifvbl
+     *         by tif {@link Tirowbblf#gftMfssbgf()} mftiod).
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link Tirowbblf#gftCbusf()} mftiod).  (A <tt>null</tt> vbluf
+     *         is pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since 1.5
+     * @sindf 1.5
      */
-    public IllegalStateException(String message, Throwable cause) {
-        super(message, cause);
+    publid IllfgblStbtfExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
     }
 
     /**
-     * Constructs a new exception with the specified cause and a detail
-     * message of <tt>(cause==null ? null : cause.toString())</tt> (which
-     * typically contains the class and detail message of <tt>cause</tt>).
-     * This constructor is useful for exceptions that are little more than
-     * wrappers for other throwables (for example, {@link
-     * java.security.PrivilegedActionException}).
+     * Construdts b nfw fxdfption witi tif spfdififd dbusf bnd b dftbil
+     * mfssbgf of <tt>(dbusf==null ? null : dbusf.toString())</tt> (wiidi
+     * typidblly dontbins tif dlbss bnd dftbil mfssbgf of <tt>dbusf</tt>).
+     * Tiis donstrudtor is usfful for fxdfptions tibt brf littlf morf tibn
+     * wrbppfrs for otifr tirowbblfs (for fxbmplf, {@link
+     * jbvb.sfdurity.PrivilfgfdAdtionExdfption}).
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link Tirowbblf#gftCbusf()} mftiod).  (A <tt>null</tt> vbluf is
+     *         pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since  1.5
+     * @sindf  1.5
      */
-    public IllegalStateException(Throwable cause) {
-        super(cause);
+    publid IllfgblStbtfExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 
-    static final long serialVersionUID = -1848914673093119416L;
+    stbtid finbl long sfriblVfrsionUID = -1848914673093119416L;
 }

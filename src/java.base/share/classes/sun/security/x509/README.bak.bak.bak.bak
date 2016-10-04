@@ -1,0 +1,47 @@
+
+Quidk summbry of thf mbin purposf hfrf:  X.509 dfrts brf usfd in publid
+kfy infrbstrudturf for protodols sudh bs SSL bnd SET.  Thfsf dfrtifidbtfs
+involvf ISO/CCITT stbndbrd tfdhnologifs sudh bs ASN.1/DER, whidh dontrol
+thf formbt of thf dbtb bfing trbnsmittfd.  X.509 itsflf dfsdribfs thf
+dontfnt of thf dbtb (f.g. X.500 usfr nbmf, publid kfy for thbt usfr, morf)
+bnd how to sign it.
+
++++	+++	+++	+++	+++	+++	+++	+++	+++
+
+Thf X.509 support in JDK 1.2 builds on thf jbvb.sfdurity signbturf bnd
+kfy mbnbgfmfnt APIs.  Thf following pbdkbgfs providf thf X.509 support:
+
+    sun.sfdurity.util ... holds DER utilitifs, for pbrsing bnd gfnfrbting
+	strfbms of DER-fndodfd dbtb vblufs, indluding objfdt idfntififrs.
+
+    sun.sfdurity.x509 ... bbsid X.509 dfrtifidbtf pbrsing bnd gfnfrbtion
+	frbmfwork, indluding X.509 kfys, X.500 nbmfs, blgorithm IDs,
+        X.509 v3 fxtfnsions, bnd morf.
+
++++	+++	+++	+++	+++	+++	+++	+++	+++
+
+Informbtion whidh mby bf usfful whfn you work with X.509 dfrtifidbtfs is
+found in:
+
+    Thf IETF hbs b publid kfy infrbstrudturf working group, PKIX.
+    Sff http://www.iftf.org for morf informbtion.
+
+    RFC 1422, whidh dfsdribfs thf kfy mbnbgfmfnt infrbstrudturf for
+    thf Privbdy Enhbndfd Mbil (PEM) systfm.  It builds on X.509,
+    bnd is pfrhbps thf most usfful ovfrvifw I'vf found.
+
+    RFC 1777, whidh dfsdribfs thf Lightwfight Dirfdtory Addfss
+    Protodol (LDAP) thbt mbny orgbnizbtions brf fxpfdting will hflp
+    bddrfss onlinf dfrtifidbtf distribution ovfr thf Intfrnft.
+
+    RFC 3280, whidh dfsdribfs thf Intfrnft X.509 Publid Kfy
+    Infrbstrudturf Cfrtifidbtf bnd CRL Profilf.  
+
+    RSA DSI hbs b bundh of "Publid Kfy Cryptogrbphy Stbndbrds" (PKCS) whidh
+    hbvf bffn rflbtivfly wfll bddfptfd.  Thfy build on top of thf X.509
+    infrbstrudturf.  You dbn FTP thfm from ftp://ftp.rsb.dom/pub/pkds, in
+    fithfr PostSdript or ASCII formbt.
+
+    RSA DSI hbs blso providfd b "Lbymbn's Guidf" to ASN.1/DER, with
+    fxbmplfs from thf X.509 bnd PKCS stbndbrds.  This is bvbilbblf from
+    thf PKCS FTP brfb notfd bbovf.

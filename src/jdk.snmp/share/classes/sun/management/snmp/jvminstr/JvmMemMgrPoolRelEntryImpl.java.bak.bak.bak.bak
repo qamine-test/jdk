@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// jdmk imports
+//
+
+
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMgrPoolRflEntryMBfbn;
+
+/**
+ * Thf dlbss is usfd for implfmfnting thf "JvmMfmMgrPoolRflEntry" group.
+ */
+publid dlbss JvmMfmMgrPoolRflEntryImpl
+    implfmfnts JvmMfmMgrPoolRflEntryMBfbn {
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmMfmMbnbgfrIndfx".
+     *
+     * "An indfx opbqufly domputfd by thf bgfnt bnd whidh uniqufly
+     * idfntififs b Mfmory Mbnbgfr."
+     *
+     */
+    finbl protfdtfd int JvmMfmMbnbgfrIndfx;
+
+    /**
+     * Vbribblf for storing thf vbluf of "JvmMfmPoolIndfx".
+     *
+     * "An indfx vbluf opbqufly domputfd by thf bgfnt whidh uniqufly
+     * idfntififs b row in thf jvmMfmPoolTbblf.
+     * "
+     *
+     */
+    finbl protfdtfd int JvmMfmPoolIndfx;
+    finbl protfdtfd String mmmNbmf;
+    finbl protfdtfd String mpmNbmf;
+
+    /**
+     * Construdtor for thf "JvmMfmMgrPoolRflEntry" group.
+     */
+    publid JvmMfmMgrPoolRflEntryImpl(String mmmNbmf,
+                                     String mpmNbmf,
+                                     int mmbrd, int mpbrd) {
+        JvmMfmMbnbgfrIndfx = mmbrd;
+        JvmMfmPoolIndfx    = mpbrd;
+
+        this.mmmNbmf = mmmNbmf;
+        this.mpmNbmf = mpmNbmf;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmMgrRflPoolNbmf" vbribblf.
+     */
+    publid String gftJvmMfmMgrRflPoolNbmf() throws SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(mpmNbmf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmMgrRflMbnbgfrNbmf" vbribblf.
+     */
+    publid String gftJvmMfmMgrRflMbnbgfrNbmf() throws SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjfdtNbmfTC(mmmNbmf);
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmMbnbgfrIndfx" vbribblf.
+     */
+    publid Intfgfr gftJvmMfmMbnbgfrIndfx() throws SnmpStbtusExdfption {
+        rfturn JvmMfmMbnbgfrIndfx;
+    }
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolIndfx" vbribblf.
+     */
+    publid Intfgfr gftJvmMfmPoolIndfx() throws SnmpStbtusExdfption {
+        rfturn JvmMfmPoolIndfx;
+    }
+
+}

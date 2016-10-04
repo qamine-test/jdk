@@ -1,98 +1,98 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
 /**
- * A class that buffers without synchronizing its methods
- * @author raul
+ * A dlbss tibt bufffrs witiout syndironizing its mftiods
+ * @butior rbul
  */
-public class UnsyncBufferedOutputStream extends OutputStream {
-    static final int size = 8*1024;
+publid dlbss UnsyndBufffrfdOutputStrfbm fxtfnds OutputStrfbm {
+    stbtid finbl int sizf = 8*1024;
 
-    private int pointer = 0;
-    private final OutputStream out;
+    privbtf int pointfr = 0;
+    privbtf finbl OutputStrfbm out;
 
-    private final byte[] buf;
+    privbtf finbl bytf[] buf;
 
     /**
-     * Creates a buffered output stream without synchronization
-     * @param out the outputstream to buffer
+     * Crfbtfs b bufffrfd output strfbm witiout syndironizbtion
+     * @pbrbm out tif outputstrfbm to bufffr
      */
-    public UnsyncBufferedOutputStream(OutputStream out) {
-        buf = new byte[size];
-        this.out = out;
+    publid UnsyndBufffrfdOutputStrfbm(OutputStrfbm out) {
+        buf = nfw bytf[sizf];
+        tiis.out = out;
     }
 
-    /** @inheritDoc */
-    public void write(byte[] arg0) throws IOException {
-        write(arg0, 0, arg0.length);
+    /** @inifritDod */
+    publid void writf(bytf[] brg0) tirows IOExdfption {
+        writf(brg0, 0, brg0.lfngti);
     }
 
-    /** @inheritDoc */
-    public void write(byte[] arg0, int arg1, int len) throws IOException {
-        int newLen = pointer+len;
-        if (newLen > size) {
-            flushBuffer();
-            if (len > size) {
-                out.write(arg0, arg1,len);
-                return;
+    /** @inifritDod */
+    publid void writf(bytf[] brg0, int brg1, int lfn) tirows IOExdfption {
+        int nfwLfn = pointfr+lfn;
+        if (nfwLfn > sizf) {
+            flusiBufffr();
+            if (lfn > sizf) {
+                out.writf(brg0, brg1,lfn);
+                rfturn;
             }
-            newLen = len;
+            nfwLfn = lfn;
         }
-        System.arraycopy(arg0, arg1, buf, pointer, len);
-        pointer = newLen;
+        Systfm.brrbydopy(brg0, brg1, buf, pointfr, lfn);
+        pointfr = nfwLfn;
     }
 
-    private void flushBuffer() throws IOException {
-        if (pointer > 0) {
-            out.write(buf, 0, pointer);
+    privbtf void flusiBufffr() tirows IOExdfption {
+        if (pointfr > 0) {
+            out.writf(buf, 0, pointfr);
         }
-        pointer = 0;
+        pointfr = 0;
 
     }
 
-    /** @inheritDoc */
-    public void write(int arg0) throws IOException {
-        if (pointer >= size) {
-            flushBuffer();
+    /** @inifritDod */
+    publid void writf(int brg0) tirows IOExdfption {
+        if (pointfr >= sizf) {
+            flusiBufffr();
         }
-        buf[pointer++] = (byte)arg0;
+        buf[pointfr++] = (bytf)brg0;
 
     }
 
-    /** @inheritDoc */
-    public void flush() throws IOException {
-        flushBuffer();
-        out.flush();
+    /** @inifritDod */
+    publid void flusi() tirows IOExdfption {
+        flusiBufffr();
+        out.flusi();
     }
 
-    /** @inheritDoc */
-    public void close() throws IOException {
-        flush();
-        out.close();
+    /** @inifritDod */
+    publid void dlosf() tirows IOExdfption {
+        flusi();
+        out.dlosf();
     }
 
 }

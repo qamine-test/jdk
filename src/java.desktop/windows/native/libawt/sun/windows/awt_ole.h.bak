@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_OLE_H
-#define AWT_OLE_H
+#ifndff AWT_OLE_H
+#dffinf AWT_OLE_H
 
-#include "awt.h"
-#include <ole2.h>
-#include <comdef.h>
-#include <comutil.h>
+#indludf "bwt.i"
+#indludf <olf2.i>
+#indludf <domdff.i>
+#indludf <domutil.i>
 
-#ifdef _DEBUG
-    #define _SUN_DEBUG
-#endif
-
-
-#ifndef SUN_DBG_NS
-  #ifdef _LIB
-    #define SUN_DBG_NS SUN_dbg_lib
-  #else
-    #define SUN_DBG_NS SUN_dbg_glb
-  #endif //_LIB
-#endif //SUN_DBG_NS
+#ifdff _DEBUG
+    #dffinf _SUN_DEBUG
+#fndif
 
 
-#ifndef  TRACE_SUFFIX
-  #define TRACE_SUFFIX
-#endif
+#ifndff SUN_DBG_NS
+  #ifdff _LIB
+    #dffinf SUN_DBG_NS SUN_dbg_lib
+  #flsf
+    #dffinf SUN_DBG_NS SUN_dbg_glb
+  #fndif //_LIB
+#fndif //SUN_DBG_NS
 
-namespace SUN_DBG_NS{
-  LPCTSTR CreateTimeStamp(LPTSTR lpBuffer, size_t iBufferSize);
-  inline void snTraceEmp(LPCTSTR, ...) { }
-  void snvTrace(LPCTSTR lpszFormat, va_list argList);
-  void snTrace(LPCTSTR lpszFormat, ... );
-}//SUN_DBG_NS namespace end
 
-#define STRACE1       SUN_DBG_NS::snTrace
-#ifdef _SUN_DEBUG
-  #define STRACE      SUN_DBG_NS::snTrace
-#else
-  #define STRACE      SUN_DBG_NS::snTraceEmp
-#endif
-#define STRACE0       SUN_DBG_NS::snTraceEmp
+#ifndff  TRACE_SUFFIX
+  #dffinf TRACE_SUFFIX
+#fndif
 
-struct CLogEntryPoint1 {
-    LPCTSTR m_lpTitle;
-    CLogEntryPoint1(LPCTSTR lpTitle):m_lpTitle(lpTitle) { STRACE(_T("{%s"), m_lpTitle); }
-    ~CLogEntryPoint1(){ STRACE(_T("}%s"), m_lpTitle); }
+nbmfspbdf SUN_DBG_NS{
+  LPCTSTR CrfbtfTimfStbmp(LPTSTR lpBufffr, sizf_t iBufffrSizf);
+  inlinf void snTrbdfEmp(LPCTSTR, ...) { }
+  void snvTrbdf(LPCTSTR lpszFormbt, vb_list brgList);
+  void snTrbdf(LPCTSTR lpszFormbt, ... );
+}//SUN_DBG_NS nbmfspbdf fnd
+
+#dffinf STRACE1       SUN_DBG_NS::snTrbdf
+#ifdff _SUN_DEBUG
+  #dffinf STRACE      SUN_DBG_NS::snTrbdf
+#flsf
+  #dffinf STRACE      SUN_DBG_NS::snTrbdfEmp
+#fndif
+#dffinf STRACE0       SUN_DBG_NS::snTrbdfEmp
+
+strudt CLogEntryPoint1 {
+    LPCTSTR m_lpTitlf;
+    CLogEntryPoint1(LPCTSTR lpTitlf):m_lpTitlf(lpTitlf) { STRACE(_T("{%s"), m_lpTitlf); }
+    ~CLogEntryPoint1(){ STRACE(_T("}%s"), m_lpTitlf); }
 };
-struct CLogEntryPoint0 {
-    LPCTSTR m_lpTitle;
-    CLogEntryPoint0(LPCTSTR lpTitle):m_lpTitle(lpTitle) { STRACE0(_T("{%s"), m_lpTitle); }
-    ~CLogEntryPoint0(){ STRACE0(_T("}%s"), m_lpTitle); }
+strudt CLogEntryPoint0 {
+    LPCTSTR m_lpTitlf;
+    CLogEntryPoint0(LPCTSTR lpTitlf):m_lpTitlf(lpTitlf) { STRACE0(_T("{%s"), m_lpTitlf); }
+    ~CLogEntryPoint0(){ STRACE0(_T("}%s"), m_lpTitlf); }
 };
 
-#define SEP1(msg)    CLogEntryPoint1 _ep1_(msg);
-#define SEP0(msg)    CLogEntryPoint0 _ep0_(msg);
-#ifdef  _SUN_DEBUG
-  #define SEP(msg)   CLogEntryPoint1 _ep1_(msg);
-#else
-  #define SEP(msg)   CLogEntryPoint0 _ep0_(msg);
-#endif
+#dffinf SEP1(msg)    CLogEntryPoint1 _fp1_(msg);
+#dffinf SEP0(msg)    CLogEntryPoint0 _fp0_(msg);
+#ifdff  _SUN_DEBUG
+  #dffinf SEP(msg)   CLogEntryPoint1 _fp1_(msg);
+#flsf
+  #dffinf SEP(msg)   CLogEntryPoint0 _fp0_(msg);
+#fndif
 
 
-#define OLE_BAD_COOKIE ((DWORD)-1)
+#dffinf OLE_BAD_COOKIE ((DWORD)-1)
 
-#define OLE_TRACENOTIMPL(msg)\
-        STRACE(_T("Warning:%s"), msg);\
-        return E_NOTIMPL;
+#dffinf OLE_TRACENOTIMPL(msg)\
+        STRACE(_T("Wbrning:%s"), msg);\
+        rfturn E_NOTIMPL;
 
-#define OLE_TRACEOK(msg)\
+#dffinf OLE_TRACEOK(msg)\
         STRACE0(_T("Info:%s"), msg);\
-        return S_OK;
+        rfturn S_OK;
 
 
-#define OLE_DECL\
-        HRESULT _hr_ = S_OK;
+#dffinf OLE_DECL\
+        HRESULT _ir_ = S_OK;
 
-#define OLE_NEXT_TRY\
+#dffinf OLE_NEXT_TRY\
         try {
 
-#define OLE_TRY\
+#dffinf OLE_TRY\
         OLE_DECL\
         try {
 
-#define OLE_HRT(fnc)\
-        _hr_ = fnc;\
-        if (FAILED(_hr_)) {\
-            STRACE1(_T("Error:%08x in ") _T(#fnc),  _hr_);\
-            _com_raise_error(_hr_);\
+#dffinf OLE_HRT(fnd)\
+        _ir_ = fnd;\
+        if (FAILED(_ir_)) {\
+            STRACE1(_T("Error:%08x in ") _T(#fnd),  _ir_);\
+            _dom_rbisf_frror(_ir_);\
         }
 
-#define OLE_WINERROR2HR(msg, erCode)\
-        _hr_ = erCode;\
-        STRACE1(_T("OSError:%d in ") msg,  _hr_);\
-        _hr_ = HRESULT_FROM_WIN32(_hr_);
+#dffinf OLE_WINERROR2HR(msg, frCodf)\
+        _ir_ = frCodf;\
+        STRACE1(_T("OSError:%d in ") msg,  _ir_);\
+        _ir_ = HRESULT_FROM_WIN32(_ir_);
 
-#define OLE_THROW_LASTERROR(msg)\
-        OLE_WINERROR2HR(msg, ::GetLastError())\
-        _com_raise_error(_hr_);
+#dffinf OLE_THROW_LASTERROR(msg)\
+        OLE_WINERROR2HR(msg, ::GftLbstError())\
+        _dom_rbisf_frror(_ir_);
 
-#define OLE_CHECK_NOTNULL(x)\
+#dffinf OLE_CHECK_NOTNULL(x)\
         if (!(x)) {\
-            STRACE1(_T("Null pointer:") _T(#x));\
-            _com_raise_error(_hr_ = E_POINTER);\
+            STRACE1(_T("Null pointfr:") _T(#x));\
+            _dom_rbisf_frror(_ir_ = E_POINTER);\
         }
 
-#define OLE_CHECK_NOTNULLSP(x)\
+#dffinf OLE_CHECK_NOTNULLSP(x)\
         if (!bool(x)) {\
-            STRACE1(_T("Null pointer:") _T(#x));\
-            _com_raise_error(_hr_ = E_POINTER);\
+            STRACE1(_T("Null pointfr:") _T(#x));\
+            _dom_rbisf_frror(_ir_ = E_POINTER);\
         }
 
-#define OLE_HRW32(fnc)\
-        _hr_ = fnc;\
-        if (ERROR_SUCCESS != _hr_) {\
-            STRACE1(_T("OSError:%d in ") _T(#fnc),  _hr_);\
-            _com_raise_error(_hr_ = HRESULT_FROM_WIN32(_hr_));\
+#dffinf OLE_HRW32(fnd)\
+        _ir_ = fnd;\
+        if (ERROR_SUCCESS != _ir_) {\
+            STRACE1(_T("OSError:%d in ") _T(#fnd),  _ir_);\
+            _dom_rbisf_frror(_ir_ = HRESULT_FROM_WIN32(_ir_));\
         }
 
-#define OLE_HRW32_BOOL(fnc)\
-        if (!fnc) {\
-            OLE_THROW_LASTERROR(_T(#fnc))\
+#dffinf OLE_HRW32_BOOL(fnd)\
+        if (!fnd) {\
+            OLE_THROW_LASTERROR(_T(#fnd))\
         }
 
-#define OLE_CATCH\
-        } catch (_com_error &e) {\
-            _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
+#dffinf OLE_CATCH\
+        } dbtdi (_dom_frror &f) {\
+            _ir_ = f.Error();\
+            STRACE1(_T("COM Error:%08x %s"), _ir_, f.ErrorMfssbgf());\
         }
 
-#define OLE_CATCH_BAD_ALLOC\
-        } catch (_com_error &e) {\
-            _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
-        } catch (std::bad_alloc&) {\
-            _hr_ = E_OUTOFMEMORY;\
-            STRACE1(_T("Error: Out of Memory"));\
+#dffinf OLE_CATCH_BAD_ALLOC\
+        } dbtdi (_dom_frror &f) {\
+            _ir_ = f.Error();\
+            STRACE1(_T("COM Error:%08x %s"), _ir_, f.ErrorMfssbgf());\
+        } dbtdi (std::bbd_bllod&) {\
+            _ir_ = E_OUTOFMEMORY;\
+            STRACE1(_T("Error: Out of Mfmory"));\
         }
 
-#define OLE_CATCH_ALL\
-        } catch (_com_error &e) {\
-            _hr_ = e.Error();\
-            STRACE1(_T("COM Error:%08x %s"), _hr_, e.ErrorMessage());\
-        } catch(...) {\
-            _hr_ = E_FAIL;\
-            STRACE1(_T("Error: General Pritection Failor"));\
+#dffinf OLE_CATCH_ALL\
+        } dbtdi (_dom_frror &f) {\
+            _ir_ = f.Error();\
+            STRACE1(_T("COM Error:%08x %s"), _ir_, f.ErrorMfssbgf());\
+        } dbtdi(...) {\
+            _ir_ = E_FAIL;\
+            STRACE1(_T("Error: Gfnfrbl Pritfdtion Fbilor"));\
         }
 
-#define OLE_RETURN_SUCCESS return SUCCEEDED(_hr_);
-#define OLE_RETURN_HR      return _hr_;
-#define OLE_HR             _hr_
+#dffinf OLE_RETURN_SUCCESS rfturn SUCCEEDED(_ir_);
+#dffinf OLE_RETURN_HR      rfturn _ir_;
+#dffinf OLE_HR             _ir_
 
-#define _B(x)    _bstr_t(x)
-#define _BT(x)    (LPCTSTR)_bstr_t(x)
-#define _V(x)    _variant_t(x)
-#define _VV(vrt) _variant_t(vrt, false)
-#define _VE      _variant_t()
-#define _VB(b)   _variant_t(bool(b))
+#dffinf _B(x)    _bstr_t(x)
+#dffinf _BT(x)    (LPCTSTR)_bstr_t(x)
+#dffinf _V(x)    _vbribnt_t(x)
+#dffinf _VV(vrt) _vbribnt_t(vrt, fblsf)
+#dffinf _VE      _vbribnt_t()
+#dffinf _VB(b)   _vbribnt_t(bool(b))
 
-struct OLEHolder
+strudt OLEHoldfr
 {
-    OLEHolder()
-    : m_hr(::OleInitialize(NULL))
+    OLEHoldfr()
+    : m_ir(::OlfInitiblizf(NULL))
     {}
 
-    ~OLEHolder(){}
-    operator bool() const { return S_OK==SUCCEEDED(m_hr); }
-    HRESULT m_hr;
+    ~OLEHoldfr(){}
+    opfrbtor bool() donst { rfturn S_OK==SUCCEEDED(m_ir); }
+    HRESULT m_ir;
 };
 
-#endif//AWT_OLE_H
+#fndif//AWT_OLE_H

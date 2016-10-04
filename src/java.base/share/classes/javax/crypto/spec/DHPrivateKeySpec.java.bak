@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto.spec;
+pbdkbgf jbvbx.drypto.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This class specifies a Diffie-Hellman private key with its associated
- * parameters.
+ * Tiis dlbss spfdififs b Diffif-Hfllmbn privbtf kfy witi its bssodibtfd
+ * pbrbmftfrs.
  *
- * <p>Note that this class does not perform any validation on specified
- * parameters. Thus, the specified values are returned directly even
- * if they are null.
+ * <p>Notf tibt tiis dlbss dofs not pfrform bny vblidbtion on spfdififd
+ * pbrbmftfrs. Tius, tif spfdififd vblufs brf rfturnfd dirfdtly fvfn
+ * if tify brf null.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @see DHPublicKeySpec
- * @since 1.4
+ * @sff DHPublidKfySpfd
+ * @sindf 1.4
  */
-public class DHPrivateKeySpec implements java.security.spec.KeySpec {
+publid dlbss DHPrivbtfKfySpfd implfmfnts jbvb.sfdurity.spfd.KfySpfd {
 
-    // The private value
-    private BigInteger x;
+    // Tif privbtf vbluf
+    privbtf BigIntfgfr x;
 
-    // The prime modulus
-    private BigInteger p;
+    // Tif primf modulus
+    privbtf BigIntfgfr p;
 
-    // The base generator
-    private BigInteger g;
+    // Tif bbsf gfnfrbtor
+    privbtf BigIntfgfr g;
 
     /**
-     * Constructor that takes a private value <code>x</code>, a prime
-     * modulus <code>p</code>, and a base generator <code>g</code>.
-     * @param x private value x
-     * @param p prime modulus p
-     * @param g base generator g
+     * Construdtor tibt tbkfs b privbtf vbluf <dodf>x</dodf>, b primf
+     * modulus <dodf>p</dodf>, bnd b bbsf gfnfrbtor <dodf>g</dodf>.
+     * @pbrbm x privbtf vbluf x
+     * @pbrbm p primf modulus p
+     * @pbrbm g bbsf gfnfrbtor g
      */
-    public DHPrivateKeySpec(BigInteger x, BigInteger p, BigInteger g) {
-        this.x = x;
-        this.p = p;
-        this.g = g;
+    publid DHPrivbtfKfySpfd(BigIntfgfr x, BigIntfgfr p, BigIntfgfr g) {
+        tiis.x = x;
+        tiis.p = p;
+        tiis.g = g;
     }
 
     /**
-     * Returns the private value <code>x</code>.
+     * Rfturns tif privbtf vbluf <dodf>x</dodf>.
      *
-     * @return the private value <code>x</code>
+     * @rfturn tif privbtf vbluf <dodf>x</dodf>
      */
-    public BigInteger getX() {
-        return this.x;
+    publid BigIntfgfr gftX() {
+        rfturn tiis.x;
     }
 
     /**
-     * Returns the prime modulus <code>p</code>.
+     * Rfturns tif primf modulus <dodf>p</dodf>.
      *
-     * @return the prime modulus <code>p</code>
+     * @rfturn tif primf modulus <dodf>p</dodf>
      */
-    public BigInteger getP() {
-        return this.p;
+    publid BigIntfgfr gftP() {
+        rfturn tiis.p;
     }
 
     /**
-     * Returns the base generator <code>g</code>.
+     * Rfturns tif bbsf gfnfrbtor <dodf>g</dodf>.
      *
-     * @return the base generator <code>g</code>
+     * @rfturn tif bbsf gfnfrbtor <dodf>g</dodf>
      */
-    public BigInteger getG() {
-        return this.g;
+    publid BigIntfgfr gftG() {
+        rfturn tiis.g;
     }
 }

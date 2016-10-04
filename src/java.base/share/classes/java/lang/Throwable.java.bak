@@ -1,1080 +1,1080 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
-import  java.io.*;
-import  java.util.*;
+pbdkbgf jbvb.lbng;
+import  jbvb.io.*;
+import  jbvb.util.*;
 
 /**
- * The {@code Throwable} class is the superclass of all errors and
- * exceptions in the Java language. Only objects that are instances of this
- * class (or one of its subclasses) are thrown by the Java Virtual Machine or
- * can be thrown by the Java {@code throw} statement. Similarly, only
- * this class or one of its subclasses can be the argument type in a
- * {@code catch} clause.
+ * Tif {@dodf Tirowbblf} dlbss is tif supfrdlbss of bll frrors bnd
+ * fxdfptions in tif Jbvb lbngubgf. Only objfdts tibt brf instbndfs of tiis
+ * dlbss (or onf of its subdlbssfs) brf tirown by tif Jbvb Virtubl Mbdiinf or
+ * dbn bf tirown by tif Jbvb {@dodf tirow} stbtfmfnt. Similbrly, only
+ * tiis dlbss or onf of its subdlbssfs dbn bf tif brgumfnt typf in b
+ * {@dodf dbtdi} dlbusf.
  *
- * For the purposes of compile-time checking of exceptions, {@code
- * Throwable} and any subclass of {@code Throwable} that is not also a
- * subclass of either {@link RuntimeException} or {@link Error} are
- * regarded as checked exceptions.
+ * For tif purposfs of dompilf-timf difdking of fxdfptions, {@dodf
+ * Tirowbblf} bnd bny subdlbss of {@dodf Tirowbblf} tibt is not blso b
+ * subdlbss of fitifr {@link RuntimfExdfption} or {@link Error} brf
+ * rfgbrdfd bs difdkfd fxdfptions.
  *
- * <p>Instances of two subclasses, {@link java.lang.Error} and
- * {@link java.lang.Exception}, are conventionally used to indicate
- * that exceptional situations have occurred. Typically, these instances
- * are freshly created in the context of the exceptional situation so
- * as to include relevant information (such as stack trace data).
+ * <p>Instbndfs of two subdlbssfs, {@link jbvb.lbng.Error} bnd
+ * {@link jbvb.lbng.Exdfption}, brf donvfntionblly usfd to indidbtf
+ * tibt fxdfptionbl situbtions ibvf oddurrfd. Typidblly, tifsf instbndfs
+ * brf frfsily drfbtfd in tif dontfxt of tif fxdfptionbl situbtion so
+ * bs to indludf rflfvbnt informbtion (sudi bs stbdk trbdf dbtb).
  *
- * <p>A throwable contains a snapshot of the execution stack of its
- * thread at the time it was created. It can also contain a message
- * string that gives more information about the error. Over time, a
- * throwable can {@linkplain Throwable#addSuppressed suppress} other
- * throwables from being propagated.  Finally, the throwable can also
- * contain a <i>cause</i>: another throwable that caused this
- * throwable to be constructed.  The recording of this causal information
- * is referred to as the <i>chained exception</i> facility, as the
- * cause can, itself, have a cause, and so on, leading to a "chain" of
- * exceptions, each caused by another.
+ * <p>A tirowbblf dontbins b snbpsiot of tif fxfdution stbdk of its
+ * tirfbd bt tif timf it wbs drfbtfd. It dbn blso dontbin b mfssbgf
+ * string tibt givfs morf informbtion bbout tif frror. Ovfr timf, b
+ * tirowbblf dbn {@linkplbin Tirowbblf#bddSupprfssfd supprfss} otifr
+ * tirowbblfs from bfing propbgbtfd.  Finblly, tif tirowbblf dbn blso
+ * dontbin b <i>dbusf</i>: bnotifr tirowbblf tibt dbusfd tiis
+ * tirowbblf to bf donstrudtfd.  Tif rfdording of tiis dbusbl informbtion
+ * is rfffrrfd to bs tif <i>dibinfd fxdfption</i> fbdility, bs tif
+ * dbusf dbn, itsflf, ibvf b dbusf, bnd so on, lfbding to b "dibin" of
+ * fxdfptions, fbdi dbusfd by bnotifr.
  *
- * <p>One reason that a throwable may have a cause is that the class that
- * throws it is built atop a lower layered abstraction, and an operation on
- * the upper layer fails due to a failure in the lower layer.  It would be bad
- * design to let the throwable thrown by the lower layer propagate outward, as
- * it is generally unrelated to the abstraction provided by the upper layer.
- * Further, doing so would tie the API of the upper layer to the details of
- * its implementation, assuming the lower layer's exception was a checked
- * exception.  Throwing a "wrapped exception" (i.e., an exception containing a
- * cause) allows the upper layer to communicate the details of the failure to
- * its caller without incurring either of these shortcomings.  It preserves
- * the flexibility to change the implementation of the upper layer without
- * changing its API (in particular, the set of exceptions thrown by its
- * methods).
+ * <p>Onf rfbson tibt b tirowbblf mby ibvf b dbusf is tibt tif dlbss tibt
+ * tirows it is built btop b lowfr lbyfrfd bbstrbdtion, bnd bn opfrbtion on
+ * tif uppfr lbyfr fbils duf to b fbilurf in tif lowfr lbyfr.  It would bf bbd
+ * dfsign to lft tif tirowbblf tirown by tif lowfr lbyfr propbgbtf outwbrd, bs
+ * it is gfnfrblly unrflbtfd to tif bbstrbdtion providfd by tif uppfr lbyfr.
+ * Furtifr, doing so would tif tif API of tif uppfr lbyfr to tif dftbils of
+ * its implfmfntbtion, bssuming tif lowfr lbyfr's fxdfption wbs b difdkfd
+ * fxdfption.  Tirowing b "wrbppfd fxdfption" (i.f., bn fxdfption dontbining b
+ * dbusf) bllows tif uppfr lbyfr to dommunidbtf tif dftbils of tif fbilurf to
+ * its dbllfr witiout indurring fitifr of tifsf siortdomings.  It prfsfrvfs
+ * tif flfxibility to dibngf tif implfmfntbtion of tif uppfr lbyfr witiout
+ * dibnging its API (in pbrtidulbr, tif sft of fxdfptions tirown by its
+ * mftiods).
  *
- * <p>A second reason that a throwable may have a cause is that the method
- * that throws it must conform to a general-purpose interface that does not
- * permit the method to throw the cause directly.  For example, suppose
- * a persistent collection conforms to the {@link java.util.Collection
- * Collection} interface, and that its persistence is implemented atop
- * {@code java.io}.  Suppose the internals of the {@code add} method
- * can throw an {@link java.io.IOException IOException}.  The implementation
- * can communicate the details of the {@code IOException} to its caller
- * while conforming to the {@code Collection} interface by wrapping the
- * {@code IOException} in an appropriate unchecked exception.  (The
- * specification for the persistent collection should indicate that it is
- * capable of throwing such exceptions.)
+ * <p>A sfdond rfbson tibt b tirowbblf mby ibvf b dbusf is tibt tif mftiod
+ * tibt tirows it must donform to b gfnfrbl-purposf intfrfbdf tibt dofs not
+ * pfrmit tif mftiod to tirow tif dbusf dirfdtly.  For fxbmplf, supposf
+ * b pfrsistfnt dollfdtion donforms to tif {@link jbvb.util.Collfdtion
+ * Collfdtion} intfrfbdf, bnd tibt its pfrsistfndf is implfmfntfd btop
+ * {@dodf jbvb.io}.  Supposf tif intfrnbls of tif {@dodf bdd} mftiod
+ * dbn tirow bn {@link jbvb.io.IOExdfption IOExdfption}.  Tif implfmfntbtion
+ * dbn dommunidbtf tif dftbils of tif {@dodf IOExdfption} to its dbllfr
+ * wiilf donforming to tif {@dodf Collfdtion} intfrfbdf by wrbpping tif
+ * {@dodf IOExdfption} in bn bppropribtf undifdkfd fxdfption.  (Tif
+ * spfdifidbtion for tif pfrsistfnt dollfdtion siould indidbtf tibt it is
+ * dbpbblf of tirowing sudi fxdfptions.)
  *
- * <p>A cause can be associated with a throwable in two ways: via a
- * constructor that takes the cause as an argument, or via the
- * {@link #initCause(Throwable)} method.  New throwable classes that
- * wish to allow causes to be associated with them should provide constructors
- * that take a cause and delegate (perhaps indirectly) to one of the
- * {@code Throwable} constructors that takes a cause.
+ * <p>A dbusf dbn bf bssodibtfd witi b tirowbblf in two wbys: vib b
+ * donstrudtor tibt tbkfs tif dbusf bs bn brgumfnt, or vib tif
+ * {@link #initCbusf(Tirowbblf)} mftiod.  Nfw tirowbblf dlbssfs tibt
+ * wisi to bllow dbusfs to bf bssodibtfd witi tifm siould providf donstrudtors
+ * tibt tbkf b dbusf bnd dflfgbtf (pfribps indirfdtly) to onf of tif
+ * {@dodf Tirowbblf} donstrudtors tibt tbkfs b dbusf.
  *
- * Because the {@code initCause} method is public, it allows a cause to be
- * associated with any throwable, even a "legacy throwable" whose
- * implementation predates the addition of the exception chaining mechanism to
- * {@code Throwable}.
+ * Bfdbusf tif {@dodf initCbusf} mftiod is publid, it bllows b dbusf to bf
+ * bssodibtfd witi bny tirowbblf, fvfn b "lfgbdy tirowbblf" wiosf
+ * implfmfntbtion prfdbtfs tif bddition of tif fxdfption dibining mfdibnism to
+ * {@dodf Tirowbblf}.
  *
- * <p>By convention, class {@code Throwable} and its subclasses have two
- * constructors, one that takes no arguments and one that takes a
- * {@code String} argument that can be used to produce a detail message.
- * Further, those subclasses that might likely have a cause associated with
- * them should have two more constructors, one that takes a
- * {@code Throwable} (the cause), and one that takes a
- * {@code String} (the detail message) and a {@code Throwable} (the
- * cause).
+ * <p>By donvfntion, dlbss {@dodf Tirowbblf} bnd its subdlbssfs ibvf two
+ * donstrudtors, onf tibt tbkfs no brgumfnts bnd onf tibt tbkfs b
+ * {@dodf String} brgumfnt tibt dbn bf usfd to produdf b dftbil mfssbgf.
+ * Furtifr, tiosf subdlbssfs tibt migit likfly ibvf b dbusf bssodibtfd witi
+ * tifm siould ibvf two morf donstrudtors, onf tibt tbkfs b
+ * {@dodf Tirowbblf} (tif dbusf), bnd onf tibt tbkfs b
+ * {@dodf String} (tif dftbil mfssbgf) bnd b {@dodf Tirowbblf} (tif
+ * dbusf).
  *
- * @author  unascribed
- * @author  Josh Bloch (Added exception chaining and programmatic access to
- *          stack trace in 1.4.)
- * @jls 11.2 Compile-Time Checking of Exceptions
- * @since 1.0
+ * @butior  unbsdribfd
+ * @butior  Josi Blodi (Addfd fxdfption dibining bnd progrbmmbtid bddfss to
+ *          stbdk trbdf in 1.4.)
+ * @jls 11.2 Compilf-Timf Cifdking of Exdfptions
+ * @sindf 1.0
  */
-public class Throwable implements Serializable {
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -3042686055658047285L;
+publid dlbss Tirowbblf implfmfnts Sfriblizbblf {
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3042686055658047285L;
 
     /**
-     * Native code saves some indication of the stack backtrace in this slot.
+     * Nbtivf dodf sbvfs somf indidbtion of tif stbdk bbdktrbdf in tiis slot.
      */
-    private transient Object backtrace;
+    privbtf trbnsifnt Objfdt bbdktrbdf;
 
     /**
-     * Specific details about the Throwable.  For example, for
-     * {@code FileNotFoundException}, this contains the name of
-     * the file that could not be found.
+     * Spfdifid dftbils bbout tif Tirowbblf.  For fxbmplf, for
+     * {@dodf FilfNotFoundExdfption}, tiis dontbins tif nbmf of
+     * tif filf tibt dould not bf found.
      *
-     * @serial
+     * @sfribl
      */
-    private String detailMessage;
+    privbtf String dftbilMfssbgf;
 
 
     /**
-     * Holder class to defer initializing sentinel objects only used
-     * for serialization.
+     * Holdfr dlbss to dfffr initiblizing sfntinfl objfdts only usfd
+     * for sfriblizbtion.
      */
-    private static class SentinelHolder {
+    privbtf stbtid dlbss SfntinflHoldfr {
         /**
-         * {@linkplain #setStackTrace(StackTraceElement[]) Setting the
-         * stack trace} to a one-element array containing this sentinel
-         * value indicates future attempts to set the stack trace will be
-         * ignored.  The sentinal is equal to the result of calling:<br>
-         * {@code new StackTraceElement("", "", null, Integer.MIN_VALUE)}
+         * {@linkplbin #sftStbdkTrbdf(StbdkTrbdfElfmfnt[]) Sftting tif
+         * stbdk trbdf} to b onf-flfmfnt brrby dontbining tiis sfntinfl
+         * vbluf indidbtfs futurf bttfmpts to sft tif stbdk trbdf will bf
+         * ignorfd.  Tif sfntinbl is fqubl to tif rfsult of dblling:<br>
+         * {@dodf nfw StbdkTrbdfElfmfnt("", "", null, Intfgfr.MIN_VALUE)}
          */
-        public static final StackTraceElement STACK_TRACE_ELEMENT_SENTINEL =
-            new StackTraceElement("", "", null, Integer.MIN_VALUE);
+        publid stbtid finbl StbdkTrbdfElfmfnt STACK_TRACE_ELEMENT_SENTINEL =
+            nfw StbdkTrbdfElfmfnt("", "", null, Intfgfr.MIN_VALUE);
 
         /**
-         * Sentinel value used in the serial form to indicate an immutable
-         * stack trace.
+         * Sfntinfl vbluf usfd in tif sfribl form to indidbtf bn immutbblf
+         * stbdk trbdf.
          */
-        public static final StackTraceElement[] STACK_TRACE_SENTINEL =
-            new StackTraceElement[] {STACK_TRACE_ELEMENT_SENTINEL};
+        publid stbtid finbl StbdkTrbdfElfmfnt[] STACK_TRACE_SENTINEL =
+            nfw StbdkTrbdfElfmfnt[] {STACK_TRACE_ELEMENT_SENTINEL};
     }
 
     /**
-     * A shared value for an empty stack.
+     * A sibrfd vbluf for bn fmpty stbdk.
      */
-    private static final StackTraceElement[] UNASSIGNED_STACK = new StackTraceElement[0];
+    privbtf stbtid finbl StbdkTrbdfElfmfnt[] UNASSIGNED_STACK = nfw StbdkTrbdfElfmfnt[0];
 
     /*
-     * To allow Throwable objects to be made immutable and safely
-     * reused by the JVM, such as OutOfMemoryErrors, fields of
-     * Throwable that are writable in response to user actions, cause,
-     * stackTrace, and suppressedExceptions obey the following
-     * protocol:
+     * To bllow Tirowbblf objfdts to bf mbdf immutbblf bnd sbffly
+     * rfusfd by tif JVM, sudi bs OutOfMfmoryErrors, fiflds of
+     * Tirowbblf tibt brf writbblf in rfsponsf to usfr bdtions, dbusf,
+     * stbdkTrbdf, bnd supprfssfdExdfptions obfy tif following
+     * protodol:
      *
-     * 1) The fields are initialized to a non-null sentinel value
-     * which indicates the value has logically not been set.
+     * 1) Tif fiflds brf initiblizfd to b non-null sfntinfl vbluf
+     * wiidi indidbtfs tif vbluf ibs logidblly not bffn sft.
      *
-     * 2) Writing a null to the field indicates further writes
-     * are forbidden
+     * 2) Writing b null to tif fifld indidbtfs furtifr writfs
+     * brf forbiddfn
      *
-     * 3) The sentinel value may be replaced with another non-null
-     * value.
+     * 3) Tif sfntinfl vbluf mby bf rfplbdfd witi bnotifr non-null
+     * vbluf.
      *
-     * For example, implementations of the HotSpot JVM have
-     * preallocated OutOfMemoryError objects to provide for better
-     * diagnosability of that situation.  These objects are created
-     * without calling the constructor for that class and the fields
-     * in question are initialized to null.  To support this
-     * capability, any new fields added to Throwable that require
-     * being initialized to a non-null value require a coordinated JVM
-     * change.
+     * For fxbmplf, implfmfntbtions of tif HotSpot JVM ibvf
+     * prfbllodbtfd OutOfMfmoryError objfdts to providf for bfttfr
+     * dibgnosbbility of tibt situbtion.  Tifsf objfdts brf drfbtfd
+     * witiout dblling tif donstrudtor for tibt dlbss bnd tif fiflds
+     * in qufstion brf initiblizfd to null.  To support tiis
+     * dbpbbility, bny nfw fiflds bddfd to Tirowbblf tibt rfquirf
+     * bfing initiblizfd to b non-null vbluf rfquirf b doordinbtfd JVM
+     * dibngf.
      */
 
     /**
-     * The throwable that caused this throwable to get thrown, or null if this
-     * throwable was not caused by another throwable, or if the causative
-     * throwable is unknown.  If this field is equal to this throwable itself,
-     * it indicates that the cause of this throwable has not yet been
-     * initialized.
+     * Tif tirowbblf tibt dbusfd tiis tirowbblf to gft tirown, or null if tiis
+     * tirowbblf wbs not dbusfd by bnotifr tirowbblf, or if tif dbusbtivf
+     * tirowbblf is unknown.  If tiis fifld is fqubl to tiis tirowbblf itsflf,
+     * it indidbtfs tibt tif dbusf of tiis tirowbblf ibs not yft bffn
+     * initiblizfd.
      *
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private Throwable cause = this;
+    privbtf Tirowbblf dbusf = tiis;
 
     /**
-     * The stack trace, as returned by {@link #getStackTrace()}.
+     * Tif stbdk trbdf, bs rfturnfd by {@link #gftStbdkTrbdf()}.
      *
-     * The field is initialized to a zero-length array.  A {@code
-     * null} value of this field indicates subsequent calls to {@link
-     * #setStackTrace(StackTraceElement[])} and {@link
-     * #fillInStackTrace()} will be be no-ops.
+     * Tif fifld is initiblizfd to b zfro-lfngti brrby.  A {@dodf
+     * null} vbluf of tiis fifld indidbtfs subsfqufnt dblls to {@link
+     * #sftStbdkTrbdf(StbdkTrbdfElfmfnt[])} bnd {@link
+     * #fillInStbdkTrbdf()} will bf bf no-ops.
      *
-     * @serial
-     * @since 1.4
+     * @sfribl
+     * @sindf 1.4
      */
-    private StackTraceElement[] stackTrace = UNASSIGNED_STACK;
+    privbtf StbdkTrbdfElfmfnt[] stbdkTrbdf = UNASSIGNED_STACK;
 
-    // Setting this static field introduces an acceptable
-    // initialization dependency on a few java.util classes.
-    private static final List<Throwable> SUPPRESSED_SENTINEL =
-        Collections.unmodifiableList(new ArrayList<Throwable>(0));
+    // Sftting tiis stbtid fifld introdudfs bn bddfptbblf
+    // initiblizbtion dfpfndfndy on b ffw jbvb.util dlbssfs.
+    privbtf stbtid finbl List<Tirowbblf> SUPPRESSED_SENTINEL =
+        Collfdtions.unmodifibblfList(nfw ArrbyList<Tirowbblf>(0));
 
     /**
-     * The list of suppressed exceptions, as returned by {@link
-     * #getSuppressed()}.  The list is initialized to a zero-element
-     * unmodifiable sentinel list.  When a serialized Throwable is
-     * read in, if the {@code suppressedExceptions} field points to a
-     * zero-element list, the field is reset to the sentinel value.
+     * Tif list of supprfssfd fxdfptions, bs rfturnfd by {@link
+     * #gftSupprfssfd()}.  Tif list is initiblizfd to b zfro-flfmfnt
+     * unmodifibblf sfntinfl list.  Wifn b sfriblizfd Tirowbblf is
+     * rfbd in, if tif {@dodf supprfssfdExdfptions} fifld points to b
+     * zfro-flfmfnt list, tif fifld is rfsft to tif sfntinfl vbluf.
      *
-     * @serial
-     * @since 1.7
+     * @sfribl
+     * @sindf 1.7
      */
-    private List<Throwable> suppressedExceptions = SUPPRESSED_SENTINEL;
+    privbtf List<Tirowbblf> supprfssfdExdfptions = SUPPRESSED_SENTINEL;
 
-    /** Message for trying to suppress a null exception. */
-    private static final String NULL_CAUSE_MESSAGE = "Cannot suppress a null exception.";
+    /** Mfssbgf for trying to supprfss b null fxdfption. */
+    privbtf stbtid finbl String NULL_CAUSE_MESSAGE = "Cbnnot supprfss b null fxdfption.";
 
-    /** Message for trying to suppress oneself. */
-    private static final String SELF_SUPPRESSION_MESSAGE = "Self-suppression not permitted";
+    /** Mfssbgf for trying to supprfss onfsflf. */
+    privbtf stbtid finbl String SELF_SUPPRESSION_MESSAGE = "Sflf-supprfssion not pfrmittfd";
 
-    /** Caption  for labeling causative exception stack traces */
-    private static final String CAUSE_CAPTION = "Caused by: ";
+    /** Cbption  for lbbfling dbusbtivf fxdfption stbdk trbdfs */
+    privbtf stbtid finbl String CAUSE_CAPTION = "Cbusfd by: ";
 
-    /** Caption for labeling suppressed exception stack traces */
-    private static final String SUPPRESSED_CAPTION = "Suppressed: ";
+    /** Cbption for lbbfling supprfssfd fxdfption stbdk trbdfs */
+    privbtf stbtid finbl String SUPPRESSED_CAPTION = "Supprfssfd: ";
 
     /**
-     * Constructs a new throwable with {@code null} as its detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
+     * Construdts b nfw tirowbblf witi {@dodf null} bs its dftbil mfssbgf.
+     * Tif dbusf is not initiblizfd, bnd mby subsfqufntly bf initiblizfd by b
+     * dbll to {@link #initCbusf}.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>Tif {@link #fillInStbdkTrbdf()} mftiod is dbllfd to initiblizf
+     * tif stbdk trbdf dbtb in tif nfwly drfbtfd tirowbblf.
      */
-    public Throwable() {
-        fillInStackTrace();
+    publid Tirowbblf() {
+        fillInStbdkTrbdf();
     }
 
     /**
-     * Constructs a new throwable with the specified detail message.  The
-     * cause is not initialized, and may subsequently be initialized by
-     * a call to {@link #initCause}.
+     * Construdts b nfw tirowbblf witi tif spfdififd dftbil mfssbgf.  Tif
+     * dbusf is not initiblizfd, bnd mby subsfqufntly bf initiblizfd by
+     * b dbll to {@link #initCbusf}.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>Tif {@link #fillInStbdkTrbdf()} mftiod is dbllfd to initiblizf
+     * tif stbdk trbdf dbtb in tif nfwly drfbtfd tirowbblf.
      *
-     * @param   message   the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
+     * @pbrbm   mfssbgf   tif dftbil mfssbgf. Tif dftbil mfssbgf is sbvfd for
+     *          lbtfr rftrifvbl by tif {@link #gftMfssbgf()} mftiod.
      */
-    public Throwable(String message) {
-        fillInStackTrace();
-        detailMessage = message;
+    publid Tirowbblf(String mfssbgf) {
+        fillInStbdkTrbdf();
+        dftbilMfssbgf = mfssbgf;
     }
 
     /**
-     * Constructs a new throwable with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this throwable's detail message.
+     * Construdts b nfw tirowbblf witi tif spfdififd dftbil mfssbgf bnd
+     * dbusf.  <p>Notf tibt tif dftbil mfssbgf bssodibtfd witi
+     * {@dodf dbusf} is <i>not</i> butombtidblly indorporbtfd in
+     * tiis tirowbblf's dftbil mfssbgf.
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>Tif {@link #fillInStbdkTrbdf()} mftiod is dbllfd to initiblizf
+     * tif stbdk trbdf dbtb in tif nfwly drfbtfd tirowbblf.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  mfssbgf tif dftbil mfssbgf (wiidi is sbvfd for lbtfr rftrifvbl
+     *         by tif {@link #gftMfssbgf()} mftiod).
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link #gftCbusf()} mftiod).  (A {@dodf null} vbluf is
+     *         pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since  1.4
+     * @sindf  1.4
      */
-    public Throwable(String message, Throwable cause) {
-        fillInStackTrace();
-        detailMessage = message;
-        this.cause = cause;
+    publid Tirowbblf(String mfssbgf, Tirowbblf dbusf) {
+        fillInStbdkTrbdf();
+        dftbilMfssbgf = mfssbgf;
+        tiis.dbusf = dbusf;
     }
 
     /**
-     * Constructs a new throwable with the specified cause and a detail
-     * message of {@code (cause==null ? null : cause.toString())} (which
-     * typically contains the class and detail message of {@code cause}).
-     * This constructor is useful for throwables that are little more than
-     * wrappers for other throwables (for example, {@link
-     * java.security.PrivilegedActionException}).
+     * Construdts b nfw tirowbblf witi tif spfdififd dbusf bnd b dftbil
+     * mfssbgf of {@dodf (dbusf==null ? null : dbusf.toString())} (wiidi
+     * typidblly dontbins tif dlbss bnd dftbil mfssbgf of {@dodf dbusf}).
+     * Tiis donstrudtor is usfful for tirowbblfs tibt brf littlf morf tibn
+     * wrbppfrs for otifr tirowbblfs (for fxbmplf, {@link
+     * jbvb.sfdurity.PrivilfgfdAdtionExdfption}).
      *
-     * <p>The {@link #fillInStackTrace()} method is called to initialize
-     * the stack trace data in the newly created throwable.
+     * <p>Tif {@link #fillInStbdkTrbdf()} mftiod is dbllfd to initiblizf
+     * tif stbdk trbdf dbtb in tif nfwly drfbtfd tirowbblf.
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link #gftCbusf()} mftiod).  (A {@dodf null} vbluf is
+     *         pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since  1.4
+     * @sindf  1.4
      */
-    public Throwable(Throwable cause) {
-        fillInStackTrace();
-        detailMessage = (cause==null ? null : cause.toString());
-        this.cause = cause;
+    publid Tirowbblf(Tirowbblf dbusf) {
+        fillInStbdkTrbdf();
+        dftbilMfssbgf = (dbusf==null ? null : dbusf.toString());
+        tiis.dbusf = dbusf;
     }
 
     /**
-     * Constructs a new throwable with the specified detail message,
-     * cause, {@linkplain #addSuppressed suppression} enabled or
-     * disabled, and writable stack trace enabled or disabled.  If
-     * suppression is disabled, {@link #getSuppressed} for this object
-     * will return a zero-length array and calls to {@link
-     * #addSuppressed} that would otherwise append an exception to the
-     * suppressed list will have no effect.  If the writable stack
-     * trace is false, this constructor will not call {@link
-     * #fillInStackTrace()}, a {@code null} will be written to the
-     * {@code stackTrace} field, and subsequent calls to {@code
-     * fillInStackTrace} and {@link
-     * #setStackTrace(StackTraceElement[])} will not set the stack
-     * trace.  If the writable stack trace is false, {@link
-     * #getStackTrace} will return a zero length array.
+     * Construdts b nfw tirowbblf witi tif spfdififd dftbil mfssbgf,
+     * dbusf, {@linkplbin #bddSupprfssfd supprfssion} fnbblfd or
+     * disbblfd, bnd writbblf stbdk trbdf fnbblfd or disbblfd.  If
+     * supprfssion is disbblfd, {@link #gftSupprfssfd} for tiis objfdt
+     * will rfturn b zfro-lfngti brrby bnd dblls to {@link
+     * #bddSupprfssfd} tibt would otifrwisf bppfnd bn fxdfption to tif
+     * supprfssfd list will ibvf no ffffdt.  If tif writbblf stbdk
+     * trbdf is fblsf, tiis donstrudtor will not dbll {@link
+     * #fillInStbdkTrbdf()}, b {@dodf null} will bf writtfn to tif
+     * {@dodf stbdkTrbdf} fifld, bnd subsfqufnt dblls to {@dodf
+     * fillInStbdkTrbdf} bnd {@link
+     * #sftStbdkTrbdf(StbdkTrbdfElfmfnt[])} will not sft tif stbdk
+     * trbdf.  If tif writbblf stbdk trbdf is fblsf, {@link
+     * #gftStbdkTrbdf} will rfturn b zfro lfngti brrby.
      *
-     * <p>Note that the other constructors of {@code Throwable} treat
-     * suppression as being enabled and the stack trace as being
-     * writable.  Subclasses of {@code Throwable} should document any
-     * conditions under which suppression is disabled and document
-     * conditions under which the stack trace is not writable.
-     * Disabling of suppression should only occur in exceptional
-     * circumstances where special requirements exist, such as a
-     * virtual machine reusing exception objects under low-memory
-     * situations.  Circumstances where a given exception object is
-     * repeatedly caught and rethrown, such as to implement control
-     * flow between two sub-systems, is another situation where
-     * immutable throwable objects would be appropriate.
+     * <p>Notf tibt tif otifr donstrudtors of {@dodf Tirowbblf} trfbt
+     * supprfssion bs bfing fnbblfd bnd tif stbdk trbdf bs bfing
+     * writbblf.  Subdlbssfs of {@dodf Tirowbblf} siould dodumfnt bny
+     * donditions undfr wiidi supprfssion is disbblfd bnd dodumfnt
+     * donditions undfr wiidi tif stbdk trbdf is not writbblf.
+     * Disbbling of supprfssion siould only oddur in fxdfptionbl
+     * dirdumstbndfs wifrf spfdibl rfquirfmfnts fxist, sudi bs b
+     * virtubl mbdiinf rfusing fxdfption objfdts undfr low-mfmory
+     * situbtions.  Cirdumstbndfs wifrf b givfn fxdfption objfdt is
+     * rfpfbtfdly dbugit bnd rftirown, sudi bs to implfmfnt dontrol
+     * flow bftwffn two sub-systfms, is bnotifr situbtion wifrf
+     * immutbblf tirowbblf objfdts would bf bppropribtf.
      *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled or disabled
-     * @param writableStackTrace whether or not the stack trace should be
-     *                           writable
+     * @pbrbm  mfssbgf tif dftbil mfssbgf.
+     * @pbrbm dbusf tif dbusf.  (A {@dodf null} vbluf is pfrmittfd,
+     * bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
+     * @pbrbm fnbblfSupprfssion wiftifr or not supprfssion is fnbblfd or disbblfd
+     * @pbrbm writbblfStbdkTrbdf wiftifr or not tif stbdk trbdf siould bf
+     *                           writbblf
      *
-     * @see OutOfMemoryError
-     * @see NullPointerException
-     * @see ArithmeticException
-     * @since 1.7
+     * @sff OutOfMfmoryError
+     * @sff NullPointfrExdfption
+     * @sff AritimftidExdfption
+     * @sindf 1.7
      */
-    protected Throwable(String message, Throwable cause,
-                        boolean enableSuppression,
-                        boolean writableStackTrace) {
-        if (writableStackTrace) {
-            fillInStackTrace();
-        } else {
-            stackTrace = null;
+    protfdtfd Tirowbblf(String mfssbgf, Tirowbblf dbusf,
+                        boolfbn fnbblfSupprfssion,
+                        boolfbn writbblfStbdkTrbdf) {
+        if (writbblfStbdkTrbdf) {
+            fillInStbdkTrbdf();
+        } flsf {
+            stbdkTrbdf = null;
         }
-        detailMessage = message;
-        this.cause = cause;
-        if (!enableSuppression)
-            suppressedExceptions = null;
+        dftbilMfssbgf = mfssbgf;
+        tiis.dbusf = dbusf;
+        if (!fnbblfSupprfssion)
+            supprfssfdExdfptions = null;
     }
 
     /**
-     * Returns the detail message string of this throwable.
+     * Rfturns tif dftbil mfssbgf string of tiis tirowbblf.
      *
-     * @return  the detail message string of this {@code Throwable} instance
-     *          (which may be {@code null}).
+     * @rfturn  tif dftbil mfssbgf string of tiis {@dodf Tirowbblf} instbndf
+     *          (wiidi mby bf {@dodf null}).
      */
-    public String getMessage() {
-        return detailMessage;
+    publid String gftMfssbgf() {
+        rfturn dftbilMfssbgf;
     }
 
     /**
-     * Creates a localized description of this throwable.
-     * Subclasses may override this method in order to produce a
-     * locale-specific message.  For subclasses that do not override this
-     * method, the default implementation returns the same result as
-     * {@code getMessage()}.
+     * Crfbtfs b lodblizfd dfsdription of tiis tirowbblf.
+     * Subdlbssfs mby ovfrridf tiis mftiod in ordfr to produdf b
+     * lodblf-spfdifid mfssbgf.  For subdlbssfs tibt do not ovfrridf tiis
+     * mftiod, tif dffbult implfmfntbtion rfturns tif sbmf rfsult bs
+     * {@dodf gftMfssbgf()}.
      *
-     * @return  The localized description of this throwable.
-     * @since   1.1
+     * @rfturn  Tif lodblizfd dfsdription of tiis tirowbblf.
+     * @sindf   1.1
      */
-    public String getLocalizedMessage() {
-        return getMessage();
+    publid String gftLodblizfdMfssbgf() {
+        rfturn gftMfssbgf();
     }
 
     /**
-     * Returns the cause of this throwable or {@code null} if the
-     * cause is nonexistent or unknown.  (The cause is the throwable that
-     * caused this throwable to get thrown.)
+     * Rfturns tif dbusf of tiis tirowbblf or {@dodf null} if tif
+     * dbusf is nonfxistfnt or unknown.  (Tif dbusf is tif tirowbblf tibt
+     * dbusfd tiis tirowbblf to gft tirown.)
      *
-     * <p>This implementation returns the cause that was supplied via one of
-     * the constructors requiring a {@code Throwable}, or that was set after
-     * creation with the {@link #initCause(Throwable)} method.  While it is
-     * typically unnecessary to override this method, a subclass can override
-     * it to return a cause set by some other means.  This is appropriate for
-     * a "legacy chained throwable" that predates the addition of chained
-     * exceptions to {@code Throwable}.  Note that it is <i>not</i>
-     * necessary to override any of the {@code PrintStackTrace} methods,
-     * all of which invoke the {@code getCause} method to determine the
-     * cause of a throwable.
+     * <p>Tiis implfmfntbtion rfturns tif dbusf tibt wbs supplifd vib onf of
+     * tif donstrudtors rfquiring b {@dodf Tirowbblf}, or tibt wbs sft bftfr
+     * drfbtion witi tif {@link #initCbusf(Tirowbblf)} mftiod.  Wiilf it is
+     * typidblly unnfdfssbry to ovfrridf tiis mftiod, b subdlbss dbn ovfrridf
+     * it to rfturn b dbusf sft by somf otifr mfbns.  Tiis is bppropribtf for
+     * b "lfgbdy dibinfd tirowbblf" tibt prfdbtfs tif bddition of dibinfd
+     * fxdfptions to {@dodf Tirowbblf}.  Notf tibt it is <i>not</i>
+     * nfdfssbry to ovfrridf bny of tif {@dodf PrintStbdkTrbdf} mftiods,
+     * bll of wiidi invokf tif {@dodf gftCbusf} mftiod to dftfrminf tif
+     * dbusf of b tirowbblf.
      *
-     * @return  the cause of this throwable or {@code null} if the
-     *          cause is nonexistent or unknown.
-     * @since 1.4
+     * @rfturn  tif dbusf of tiis tirowbblf or {@dodf null} if tif
+     *          dbusf is nonfxistfnt or unknown.
+     * @sindf 1.4
      */
-    public synchronized Throwable getCause() {
-        return (cause==this ? null : cause);
+    publid syndironizfd Tirowbblf gftCbusf() {
+        rfturn (dbusf==tiis ? null : dbusf);
     }
 
     /**
-     * Initializes the <i>cause</i> of this throwable to the specified value.
-     * (The cause is the throwable that caused this throwable to get thrown.)
+     * Initiblizfs tif <i>dbusf</i> of tiis tirowbblf to tif spfdififd vbluf.
+     * (Tif dbusf is tif tirowbblf tibt dbusfd tiis tirowbblf to gft tirown.)
      *
-     * <p>This method can be called at most once.  It is generally called from
-     * within the constructor, or immediately after creating the
-     * throwable.  If this throwable was created
-     * with {@link #Throwable(Throwable)} or
-     * {@link #Throwable(String,Throwable)}, this method cannot be called
-     * even once.
+     * <p>Tiis mftiod dbn bf dbllfd bt most ondf.  It is gfnfrblly dbllfd from
+     * witiin tif donstrudtor, or immfdibtfly bftfr drfbting tif
+     * tirowbblf.  If tiis tirowbblf wbs drfbtfd
+     * witi {@link #Tirowbblf(Tirowbblf)} or
+     * {@link #Tirowbblf(String,Tirowbblf)}, tiis mftiod dbnnot bf dbllfd
+     * fvfn ondf.
      *
-     * <p>An example of using this method on a legacy throwable type
-     * without other support for setting the cause is:
+     * <p>An fxbmplf of using tiis mftiod on b lfgbdy tirowbblf typf
+     * witiout otifr support for sftting tif dbusf is:
      *
-     * <pre>
+     * <prf>
      * try {
-     *     lowLevelOp();
-     * } catch (LowLevelException le) {
-     *     throw (HighLevelException)
-     *           new HighLevelException().initCause(le); // Legacy constructor
+     *     lowLfvflOp();
+     * } dbtdi (LowLfvflExdfption lf) {
+     *     tirow (HigiLfvflExdfption)
+     *           nfw HigiLfvflExdfption().initCbusf(lf); // Lfgbdy donstrudtor
      * }
-     * </pre>
+     * </prf>
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link #gftCbusf()} mftiod).  (A {@dodf null} vbluf is
+     *         pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @return  a reference to this {@code Throwable} instance.
-     * @throws IllegalArgumentException if {@code cause} is this
-     *         throwable.  (A throwable cannot be its own cause.)
-     * @throws IllegalStateException if this throwable was
-     *         created with {@link #Throwable(Throwable)} or
-     *         {@link #Throwable(String,Throwable)}, or this method has already
-     *         been called on this throwable.
-     * @since  1.4
+     * @rfturn  b rfffrfndf to tiis {@dodf Tirowbblf} instbndf.
+     * @tirows IllfgblArgumfntExdfption if {@dodf dbusf} is tiis
+     *         tirowbblf.  (A tirowbblf dbnnot bf its own dbusf.)
+     * @tirows IllfgblStbtfExdfption if tiis tirowbblf wbs
+     *         drfbtfd witi {@link #Tirowbblf(Tirowbblf)} or
+     *         {@link #Tirowbblf(String,Tirowbblf)}, or tiis mftiod ibs blrfbdy
+     *         bffn dbllfd on tiis tirowbblf.
+     * @sindf  1.4
      */
-    public synchronized Throwable initCause(Throwable cause) {
-        if (this.cause != this)
-            throw new IllegalStateException("Can't overwrite cause with " +
-                                            Objects.toString(cause, "a null"), this);
-        if (cause == this)
-            throw new IllegalArgumentException("Self-causation not permitted", this);
-        this.cause = cause;
-        return this;
+    publid syndironizfd Tirowbblf initCbusf(Tirowbblf dbusf) {
+        if (tiis.dbusf != tiis)
+            tirow nfw IllfgblStbtfExdfption("Cbn't ovfrwritf dbusf witi " +
+                                            Objfdts.toString(dbusf, "b null"), tiis);
+        if (dbusf == tiis)
+            tirow nfw IllfgblArgumfntExdfption("Sflf-dbusbtion not pfrmittfd", tiis);
+        tiis.dbusf = dbusf;
+        rfturn tiis;
     }
 
     /**
-     * Returns a short description of this throwable.
-     * The result is the concatenation of:
+     * Rfturns b siort dfsdription of tiis tirowbblf.
+     * Tif rfsult is tif dondbtfnbtion of:
      * <ul>
-     * <li> the {@linkplain Class#getName() name} of the class of this object
-     * <li> ": " (a colon and a space)
-     * <li> the result of invoking this object's {@link #getLocalizedMessage}
-     *      method
+     * <li> tif {@linkplbin Clbss#gftNbmf() nbmf} of tif dlbss of tiis objfdt
+     * <li> ": " (b dolon bnd b spbdf)
+     * <li> tif rfsult of invoking tiis objfdt's {@link #gftLodblizfdMfssbgf}
+     *      mftiod
      * </ul>
-     * If {@code getLocalizedMessage} returns {@code null}, then just
-     * the class name is returned.
+     * If {@dodf gftLodblizfdMfssbgf} rfturns {@dodf null}, tifn just
+     * tif dlbss nbmf is rfturnfd.
      *
-     * @return a string representation of this throwable.
+     * @rfturn b string rfprfsfntbtion of tiis tirowbblf.
      */
-    public String toString() {
-        String s = getClass().getName();
-        String message = getLocalizedMessage();
-        return (message != null) ? (s + ": " + message) : s;
+    publid String toString() {
+        String s = gftClbss().gftNbmf();
+        String mfssbgf = gftLodblizfdMfssbgf();
+        rfturn (mfssbgf != null) ? (s + ": " + mfssbgf) : s;
     }
 
     /**
-     * Prints this throwable and its backtrace to the
-     * standard error stream. This method prints a stack trace for this
-     * {@code Throwable} object on the error output stream that is
-     * the value of the field {@code System.err}. The first line of
-     * output contains the result of the {@link #toString()} method for
-     * this object.  Remaining lines represent data previously recorded by
-     * the method {@link #fillInStackTrace()}. The format of this
-     * information depends on the implementation, but the following
-     * example may be regarded as typical:
-     * <blockquote><pre>
-     * java.lang.NullPointerException
-     *         at MyClass.mash(MyClass.java:9)
-     *         at MyClass.crunch(MyClass.java:6)
-     *         at MyClass.main(MyClass.java:3)
-     * </pre></blockquote>
-     * This example was produced by running the program:
-     * <pre>
-     * class MyClass {
-     *     public static void main(String[] args) {
-     *         crunch(null);
+     * Prints tiis tirowbblf bnd its bbdktrbdf to tif
+     * stbndbrd frror strfbm. Tiis mftiod prints b stbdk trbdf for tiis
+     * {@dodf Tirowbblf} objfdt on tif frror output strfbm tibt is
+     * tif vbluf of tif fifld {@dodf Systfm.frr}. Tif first linf of
+     * output dontbins tif rfsult of tif {@link #toString()} mftiod for
+     * tiis objfdt.  Rfmbining linfs rfprfsfnt dbtb prfviously rfdordfd by
+     * tif mftiod {@link #fillInStbdkTrbdf()}. Tif formbt of tiis
+     * informbtion dfpfnds on tif implfmfntbtion, but tif following
+     * fxbmplf mby bf rfgbrdfd bs typidbl:
+     * <blodkquotf><prf>
+     * jbvb.lbng.NullPointfrExdfption
+     *         bt MyClbss.mbsi(MyClbss.jbvb:9)
+     *         bt MyClbss.drundi(MyClbss.jbvb:6)
+     *         bt MyClbss.mbin(MyClbss.jbvb:3)
+     * </prf></blodkquotf>
+     * Tiis fxbmplf wbs produdfd by running tif progrbm:
+     * <prf>
+     * dlbss MyClbss {
+     *     publid stbtid void mbin(String[] brgs) {
+     *         drundi(null);
      *     }
-     *     static void crunch(int[] a) {
-     *         mash(a);
+     *     stbtid void drundi(int[] b) {
+     *         mbsi(b);
      *     }
-     *     static void mash(int[] b) {
-     *         System.out.println(b[0]);
+     *     stbtid void mbsi(int[] b) {
+     *         Systfm.out.println(b[0]);
      *     }
      * }
-     * </pre>
-     * The backtrace for a throwable with an initialized, non-null cause
-     * should generally include the backtrace for the cause.  The format
-     * of this information depends on the implementation, but the following
-     * example may be regarded as typical:
-     * <pre>
-     * HighLevelException: MidLevelException: LowLevelException
-     *         at Junk.a(Junk.java:13)
-     *         at Junk.main(Junk.java:4)
-     * Caused by: MidLevelException: LowLevelException
-     *         at Junk.c(Junk.java:23)
-     *         at Junk.b(Junk.java:17)
-     *         at Junk.a(Junk.java:11)
-     *         ... 1 more
-     * Caused by: LowLevelException
-     *         at Junk.e(Junk.java:30)
-     *         at Junk.d(Junk.java:27)
-     *         at Junk.c(Junk.java:21)
-     *         ... 3 more
-     * </pre>
-     * Note the presence of lines containing the characters {@code "..."}.
-     * These lines indicate that the remainder of the stack trace for this
-     * exception matches the indicated number of frames from the bottom of the
-     * stack trace of the exception that was caused by this exception (the
-     * "enclosing" exception).  This shorthand can greatly reduce the length
-     * of the output in the common case where a wrapped exception is thrown
-     * from same method as the "causative exception" is caught.  The above
-     * example was produced by running the program:
-     * <pre>
-     * public class Junk {
-     *     public static void main(String args[]) {
-     *         try {
-     *             a();
-     *         } catch(HighLevelException e) {
-     *             e.printStackTrace();
-     *         }
-     *     }
-     *     static void a() throws HighLevelException {
+     * </prf>
+     * Tif bbdktrbdf for b tirowbblf witi bn initiblizfd, non-null dbusf
+     * siould gfnfrblly indludf tif bbdktrbdf for tif dbusf.  Tif formbt
+     * of tiis informbtion dfpfnds on tif implfmfntbtion, but tif following
+     * fxbmplf mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     * HigiLfvflExdfption: MidLfvflExdfption: LowLfvflExdfption
+     *         bt Junk.b(Junk.jbvb:13)
+     *         bt Junk.mbin(Junk.jbvb:4)
+     * Cbusfd by: MidLfvflExdfption: LowLfvflExdfption
+     *         bt Junk.d(Junk.jbvb:23)
+     *         bt Junk.b(Junk.jbvb:17)
+     *         bt Junk.b(Junk.jbvb:11)
+     *         ... 1 morf
+     * Cbusfd by: LowLfvflExdfption
+     *         bt Junk.f(Junk.jbvb:30)
+     *         bt Junk.d(Junk.jbvb:27)
+     *         bt Junk.d(Junk.jbvb:21)
+     *         ... 3 morf
+     * </prf>
+     * Notf tif prfsfndf of linfs dontbining tif dibrbdtfrs {@dodf "..."}.
+     * Tifsf linfs indidbtf tibt tif rfmbindfr of tif stbdk trbdf for tiis
+     * fxdfption mbtdifs tif indidbtfd numbfr of frbmfs from tif bottom of tif
+     * stbdk trbdf of tif fxdfption tibt wbs dbusfd by tiis fxdfption (tif
+     * "fndlosing" fxdfption).  Tiis siortibnd dbn grfbtly rfdudf tif lfngti
+     * of tif output in tif dommon dbsf wifrf b wrbppfd fxdfption is tirown
+     * from sbmf mftiod bs tif "dbusbtivf fxdfption" is dbugit.  Tif bbovf
+     * fxbmplf wbs produdfd by running tif progrbm:
+     * <prf>
+     * publid dlbss Junk {
+     *     publid stbtid void mbin(String brgs[]) {
      *         try {
      *             b();
-     *         } catch(MidLevelException e) {
-     *             throw new HighLevelException(e);
+     *         } dbtdi(HigiLfvflExdfption f) {
+     *             f.printStbdkTrbdf();
      *         }
      *     }
-     *     static void b() throws MidLevelException {
-     *         c();
+     *     stbtid void b() tirows HigiLfvflExdfption {
+     *         try {
+     *             b();
+     *         } dbtdi(MidLfvflExdfption f) {
+     *             tirow nfw HigiLfvflExdfption(f);
+     *         }
      *     }
-     *     static void c() throws MidLevelException {
+     *     stbtid void b() tirows MidLfvflExdfption {
+     *         d();
+     *     }
+     *     stbtid void d() tirows MidLfvflExdfption {
      *         try {
      *             d();
-     *         } catch(LowLevelException e) {
-     *             throw new MidLevelException(e);
+     *         } dbtdi(LowLfvflExdfption f) {
+     *             tirow nfw MidLfvflExdfption(f);
      *         }
      *     }
-     *     static void d() throws LowLevelException {
-     *        e();
+     *     stbtid void d() tirows LowLfvflExdfption {
+     *        f();
      *     }
-     *     static void e() throws LowLevelException {
-     *         throw new LowLevelException();
+     *     stbtid void f() tirows LowLfvflExdfption {
+     *         tirow nfw LowLfvflExdfption();
      *     }
      * }
      *
-     * class HighLevelException extends Exception {
-     *     HighLevelException(Throwable cause) { super(cause); }
+     * dlbss HigiLfvflExdfption fxtfnds Exdfption {
+     *     HigiLfvflExdfption(Tirowbblf dbusf) { supfr(dbusf); }
      * }
      *
-     * class MidLevelException extends Exception {
-     *     MidLevelException(Throwable cause)  { super(cause); }
+     * dlbss MidLfvflExdfption fxtfnds Exdfption {
+     *     MidLfvflExdfption(Tirowbblf dbusf)  { supfr(dbusf); }
      * }
      *
-     * class LowLevelException extends Exception {
+     * dlbss LowLfvflExdfption fxtfnds Exdfption {
      * }
-     * </pre>
-     * As of release 7, the platform supports the notion of
-     * <i>suppressed exceptions</i> (in conjunction with the {@code
-     * try}-with-resources statement). Any exceptions that were
-     * suppressed in order to deliver an exception are printed out
-     * beneath the stack trace.  The format of this information
-     * depends on the implementation, but the following example may be
-     * regarded as typical:
+     * </prf>
+     * As of rflfbsf 7, tif plbtform supports tif notion of
+     * <i>supprfssfd fxdfptions</i> (in donjundtion witi tif {@dodf
+     * try}-witi-rfsourdfs stbtfmfnt). Any fxdfptions tibt wfrf
+     * supprfssfd in ordfr to dflivfr bn fxdfption brf printfd out
+     * bfnfbti tif stbdk trbdf.  Tif formbt of tiis informbtion
+     * dfpfnds on tif implfmfntbtion, but tif following fxbmplf mby bf
+     * rfgbrdfd bs typidbl:
      *
-     * <pre>
-     * Exception in thread "main" java.lang.Exception: Something happened
-     *  at Foo.bar(Foo.java:10)
-     *  at Foo.main(Foo.java:5)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 0
-     *          at Resource.close(Resource.java:26)
-     *          at Foo.bar(Foo.java:9)
-     *          ... 1 more
-     * </pre>
-     * Note that the "... n more" notation is used on suppressed exceptions
-     * just at it is used on causes. Unlike causes, suppressed exceptions are
-     * indented beyond their "containing exceptions."
+     * <prf>
+     * Exdfption in tirfbd "mbin" jbvb.lbng.Exdfption: Somftiing ibppfnfd
+     *  bt Foo.bbr(Foo.jbvb:10)
+     *  bt Foo.mbin(Foo.jbvb:5)
+     *  Supprfssfd: Rfsourdf$ClosfFbilExdfption: Rfsourdf ID = 0
+     *          bt Rfsourdf.dlosf(Rfsourdf.jbvb:26)
+     *          bt Foo.bbr(Foo.jbvb:9)
+     *          ... 1 morf
+     * </prf>
+     * Notf tibt tif "... n morf" notbtion is usfd on supprfssfd fxdfptions
+     * just bt it is usfd on dbusfs. Unlikf dbusfs, supprfssfd fxdfptions brf
+     * indfntfd bfyond tifir "dontbining fxdfptions."
      *
-     * <p>An exception can have both a cause and one or more suppressed
-     * exceptions:
-     * <pre>
-     * Exception in thread "main" java.lang.Exception: Main block
-     *  at Foo3.main(Foo3.java:7)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 2
-     *          at Resource.close(Resource.java:26)
-     *          at Foo3.main(Foo3.java:5)
-     *  Suppressed: Resource$CloseFailException: Resource ID = 1
-     *          at Resource.close(Resource.java:26)
-     *          at Foo3.main(Foo3.java:5)
-     * Caused by: java.lang.Exception: I did it
-     *  at Foo3.main(Foo3.java:8)
-     * </pre>
-     * Likewise, a suppressed exception can have a cause:
-     * <pre>
-     * Exception in thread "main" java.lang.Exception: Main block
-     *  at Foo4.main(Foo4.java:6)
-     *  Suppressed: Resource2$CloseFailException: Resource ID = 1
-     *          at Resource2.close(Resource2.java:20)
-     *          at Foo4.main(Foo4.java:5)
-     *  Caused by: java.lang.Exception: Rats, you caught me
-     *          at Resource2$CloseFailException.&lt;init&gt;(Resource2.java:45)
-     *          ... 2 more
-     * </pre>
+     * <p>An fxdfption dbn ibvf boti b dbusf bnd onf or morf supprfssfd
+     * fxdfptions:
+     * <prf>
+     * Exdfption in tirfbd "mbin" jbvb.lbng.Exdfption: Mbin blodk
+     *  bt Foo3.mbin(Foo3.jbvb:7)
+     *  Supprfssfd: Rfsourdf$ClosfFbilExdfption: Rfsourdf ID = 2
+     *          bt Rfsourdf.dlosf(Rfsourdf.jbvb:26)
+     *          bt Foo3.mbin(Foo3.jbvb:5)
+     *  Supprfssfd: Rfsourdf$ClosfFbilExdfption: Rfsourdf ID = 1
+     *          bt Rfsourdf.dlosf(Rfsourdf.jbvb:26)
+     *          bt Foo3.mbin(Foo3.jbvb:5)
+     * Cbusfd by: jbvb.lbng.Exdfption: I did it
+     *  bt Foo3.mbin(Foo3.jbvb:8)
+     * </prf>
+     * Likfwisf, b supprfssfd fxdfption dbn ibvf b dbusf:
+     * <prf>
+     * Exdfption in tirfbd "mbin" jbvb.lbng.Exdfption: Mbin blodk
+     *  bt Foo4.mbin(Foo4.jbvb:6)
+     *  Supprfssfd: Rfsourdf2$ClosfFbilExdfption: Rfsourdf ID = 1
+     *          bt Rfsourdf2.dlosf(Rfsourdf2.jbvb:20)
+     *          bt Foo4.mbin(Foo4.jbvb:5)
+     *  Cbusfd by: jbvb.lbng.Exdfption: Rbts, you dbugit mf
+     *          bt Rfsourdf2$ClosfFbilExdfption.&lt;init&gt;(Rfsourdf2.jbvb:45)
+     *          ... 2 morf
+     * </prf>
      */
-    public void printStackTrace() {
-        printStackTrace(System.err);
+    publid void printStbdkTrbdf() {
+        printStbdkTrbdf(Systfm.frr);
     }
 
     /**
-     * Prints this throwable and its backtrace to the specified print stream.
+     * Prints tiis tirowbblf bnd its bbdktrbdf to tif spfdififd print strfbm.
      *
-     * @param s {@code PrintStream} to use for output
+     * @pbrbm s {@dodf PrintStrfbm} to usf for output
      */
-    public void printStackTrace(PrintStream s) {
-        printStackTrace(new WrappedPrintStream(s));
+    publid void printStbdkTrbdf(PrintStrfbm s) {
+        printStbdkTrbdf(nfw WrbppfdPrintStrfbm(s));
     }
 
-    private void printStackTrace(PrintStreamOrWriter s) {
-        // Guard against malicious overrides of Throwable.equals by
-        // using a Set with identity equality semantics.
-        Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<>());
-        dejaVu.add(this);
+    privbtf void printStbdkTrbdf(PrintStrfbmOrWritfr s) {
+        // Gubrd bgbinst mblidious ovfrridfs of Tirowbblf.fqubls by
+        // using b Sft witi idfntity fqublity sfmbntids.
+        Sft<Tirowbblf> dfjbVu = Collfdtions.nfwSftFromMbp(nfw IdfntityHbsiMbp<>());
+        dfjbVu.bdd(tiis);
 
-        synchronized (s.lock()) {
-            // Print our stack trace
-            s.println(this);
-            StackTraceElement[] trace = getOurStackTrace();
-            for (StackTraceElement traceElement : trace)
-                s.println("\tat " + traceElement);
+        syndironizfd (s.lodk()) {
+            // Print our stbdk trbdf
+            s.println(tiis);
+            StbdkTrbdfElfmfnt[] trbdf = gftOurStbdkTrbdf();
+            for (StbdkTrbdfElfmfnt trbdfElfmfnt : trbdf)
+                s.println("\tbt " + trbdfElfmfnt);
 
-            // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
-                se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION, "\t", dejaVu);
+            // Print supprfssfd fxdfptions, if bny
+            for (Tirowbblf sf : gftSupprfssfd())
+                sf.printEndlosfdStbdkTrbdf(s, trbdf, SUPPRESSED_CAPTION, "\t", dfjbVu);
 
-            // Print cause, if any
-            Throwable ourCause = getCause();
-            if (ourCause != null)
-                ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, "", dejaVu);
+            // Print dbusf, if bny
+            Tirowbblf ourCbusf = gftCbusf();
+            if (ourCbusf != null)
+                ourCbusf.printEndlosfdStbdkTrbdf(s, trbdf, CAUSE_CAPTION, "", dfjbVu);
         }
     }
 
     /**
-     * Print our stack trace as an enclosed exception for the specified
-     * stack trace.
+     * Print our stbdk trbdf bs bn fndlosfd fxdfption for tif spfdififd
+     * stbdk trbdf.
      */
-    private void printEnclosedStackTrace(PrintStreamOrWriter s,
-                                         StackTraceElement[] enclosingTrace,
-                                         String caption,
-                                         String prefix,
-                                         Set<Throwable> dejaVu) {
-        assert Thread.holdsLock(s.lock());
-        if (dejaVu.contains(this)) {
-            s.println("\t[CIRCULAR REFERENCE:" + this + "]");
-        } else {
-            dejaVu.add(this);
-            // Compute number of frames in common between this and enclosing trace
-            StackTraceElement[] trace = getOurStackTrace();
-            int m = trace.length - 1;
-            int n = enclosingTrace.length - 1;
-            while (m >= 0 && n >=0 && trace[m].equals(enclosingTrace[n])) {
+    privbtf void printEndlosfdStbdkTrbdf(PrintStrfbmOrWritfr s,
+                                         StbdkTrbdfElfmfnt[] fndlosingTrbdf,
+                                         String dbption,
+                                         String prffix,
+                                         Sft<Tirowbblf> dfjbVu) {
+        bssfrt Tirfbd.ioldsLodk(s.lodk());
+        if (dfjbVu.dontbins(tiis)) {
+            s.println("\t[CIRCULAR REFERENCE:" + tiis + "]");
+        } flsf {
+            dfjbVu.bdd(tiis);
+            // Computf numbfr of frbmfs in dommon bftwffn tiis bnd fndlosing trbdf
+            StbdkTrbdfElfmfnt[] trbdf = gftOurStbdkTrbdf();
+            int m = trbdf.lfngti - 1;
+            int n = fndlosingTrbdf.lfngti - 1;
+            wiilf (m >= 0 && n >=0 && trbdf[m].fqubls(fndlosingTrbdf[n])) {
                 m--; n--;
             }
-            int framesInCommon = trace.length - 1 - m;
+            int frbmfsInCommon = trbdf.lfngti - 1 - m;
 
-            // Print our stack trace
-            s.println(prefix + caption + this);
+            // Print our stbdk trbdf
+            s.println(prffix + dbption + tiis);
             for (int i = 0; i <= m; i++)
-                s.println(prefix + "\tat " + trace[i]);
-            if (framesInCommon != 0)
-                s.println(prefix + "\t... " + framesInCommon + " more");
+                s.println(prffix + "\tbt " + trbdf[i]);
+            if (frbmfsInCommon != 0)
+                s.println(prffix + "\t... " + frbmfsInCommon + " morf");
 
-            // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
-                se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION,
-                                           prefix +"\t", dejaVu);
+            // Print supprfssfd fxdfptions, if bny
+            for (Tirowbblf sf : gftSupprfssfd())
+                sf.printEndlosfdStbdkTrbdf(s, trbdf, SUPPRESSED_CAPTION,
+                                           prffix +"\t", dfjbVu);
 
-            // Print cause, if any
-            Throwable ourCause = getCause();
-            if (ourCause != null)
-                ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, prefix, dejaVu);
+            // Print dbusf, if bny
+            Tirowbblf ourCbusf = gftCbusf();
+            if (ourCbusf != null)
+                ourCbusf.printEndlosfdStbdkTrbdf(s, trbdf, CAUSE_CAPTION, prffix, dfjbVu);
         }
     }
 
     /**
-     * Prints this throwable and its backtrace to the specified
-     * print writer.
+     * Prints tiis tirowbblf bnd its bbdktrbdf to tif spfdififd
+     * print writfr.
      *
-     * @param s {@code PrintWriter} to use for output
-     * @since   1.1
+     * @pbrbm s {@dodf PrintWritfr} to usf for output
+     * @sindf   1.1
      */
-    public void printStackTrace(PrintWriter s) {
-        printStackTrace(new WrappedPrintWriter(s));
+    publid void printStbdkTrbdf(PrintWritfr s) {
+        printStbdkTrbdf(nfw WrbppfdPrintWritfr(s));
     }
 
     /**
-     * Wrapper class for PrintStream and PrintWriter to enable a single
-     * implementation of printStackTrace.
+     * Wrbppfr dlbss for PrintStrfbm bnd PrintWritfr to fnbblf b singlf
+     * implfmfntbtion of printStbdkTrbdf.
      */
-    private abstract static class PrintStreamOrWriter {
-        /** Returns the object to be locked when using this StreamOrWriter */
-        abstract Object lock();
+    privbtf bbstrbdt stbtid dlbss PrintStrfbmOrWritfr {
+        /** Rfturns tif objfdt to bf lodkfd wifn using tiis StrfbmOrWritfr */
+        bbstrbdt Objfdt lodk();
 
-        /** Prints the specified string as a line on this StreamOrWriter */
-        abstract void println(Object o);
+        /** Prints tif spfdififd string bs b linf on tiis StrfbmOrWritfr */
+        bbstrbdt void println(Objfdt o);
     }
 
-    private static class WrappedPrintStream extends PrintStreamOrWriter {
-        private final PrintStream printStream;
+    privbtf stbtid dlbss WrbppfdPrintStrfbm fxtfnds PrintStrfbmOrWritfr {
+        privbtf finbl PrintStrfbm printStrfbm;
 
-        WrappedPrintStream(PrintStream printStream) {
-            this.printStream = printStream;
+        WrbppfdPrintStrfbm(PrintStrfbm printStrfbm) {
+            tiis.printStrfbm = printStrfbm;
         }
 
-        Object lock() {
-            return printStream;
+        Objfdt lodk() {
+            rfturn printStrfbm;
         }
 
-        void println(Object o) {
-            printStream.println(o);
-        }
-    }
-
-    private static class WrappedPrintWriter extends PrintStreamOrWriter {
-        private final PrintWriter printWriter;
-
-        WrappedPrintWriter(PrintWriter printWriter) {
-            this.printWriter = printWriter;
-        }
-
-        Object lock() {
-            return printWriter;
-        }
-
-        void println(Object o) {
-            printWriter.println(o);
+        void println(Objfdt o) {
+            printStrfbm.println(o);
         }
     }
 
-    /**
-     * Fills in the execution stack trace. This method records within this
-     * {@code Throwable} object information about the current state of
-     * the stack frames for the current thread.
-     *
-     * <p>If the stack trace of this {@code Throwable} {@linkplain
-     * Throwable#Throwable(String, Throwable, boolean, boolean) is not
-     * writable}, calling this method has no effect.
-     *
-     * @return  a reference to this {@code Throwable} instance.
-     * @see     java.lang.Throwable#printStackTrace()
-     */
-    public synchronized Throwable fillInStackTrace() {
-        if (stackTrace != null ||
-            backtrace != null /* Out of protocol state */ ) {
-            fillInStackTrace(0);
-            stackTrace = UNASSIGNED_STACK;
-        }
-        return this;
-    }
+    privbtf stbtid dlbss WrbppfdPrintWritfr fxtfnds PrintStrfbmOrWritfr {
+        privbtf finbl PrintWritfr printWritfr;
 
-    private native Throwable fillInStackTrace(int dummy);
-
-    /**
-     * Provides programmatic access to the stack trace information printed by
-     * {@link #printStackTrace()}.  Returns an array of stack trace elements,
-     * each representing one stack frame.  The zeroth element of the array
-     * (assuming the array's length is non-zero) represents the top of the
-     * stack, which is the last method invocation in the sequence.  Typically,
-     * this is the point at which this throwable was created and thrown.
-     * The last element of the array (assuming the array's length is non-zero)
-     * represents the bottom of the stack, which is the first method invocation
-     * in the sequence.
-     *
-     * <p>Some virtual machines may, under some circumstances, omit one
-     * or more stack frames from the stack trace.  In the extreme case,
-     * a virtual machine that has no stack trace information concerning
-     * this throwable is permitted to return a zero-length array from this
-     * method.  Generally speaking, the array returned by this method will
-     * contain one element for every frame that would be printed by
-     * {@code printStackTrace}.  Writes to the returned array do not
-     * affect future calls to this method.
-     *
-     * @return an array of stack trace elements representing the stack trace
-     *         pertaining to this throwable.
-     * @since  1.4
-     */
-    public StackTraceElement[] getStackTrace() {
-        return getOurStackTrace().clone();
-    }
-
-    private synchronized StackTraceElement[] getOurStackTrace() {
-        // Initialize stack trace field with information from
-        // backtrace if this is the first call to this method
-        if (stackTrace == UNASSIGNED_STACK ||
-            (stackTrace == null && backtrace != null) /* Out of protocol state */) {
-            int depth = getStackTraceDepth();
-            stackTrace = new StackTraceElement[depth];
-            for (int i=0; i < depth; i++)
-                stackTrace[i] = getStackTraceElement(i);
-        } else if (stackTrace == null) {
-            return UNASSIGNED_STACK;
-        }
-        return stackTrace;
-    }
-
-    /**
-     * Sets the stack trace elements that will be returned by
-     * {@link #getStackTrace()} and printed by {@link #printStackTrace()}
-     * and related methods.
-     *
-     * This method, which is designed for use by RPC frameworks and other
-     * advanced systems, allows the client to override the default
-     * stack trace that is either generated by {@link #fillInStackTrace()}
-     * when a throwable is constructed or deserialized when a throwable is
-     * read from a serialization stream.
-     *
-     * <p>If the stack trace of this {@code Throwable} {@linkplain
-     * Throwable#Throwable(String, Throwable, boolean, boolean) is not
-     * writable}, calling this method has no effect other than
-     * validating its argument.
-     *
-     * @param   stackTrace the stack trace elements to be associated with
-     * this {@code Throwable}.  The specified array is copied by this
-     * call; changes in the specified array after the method invocation
-     * returns will have no affect on this {@code Throwable}'s stack
-     * trace.
-     *
-     * @throws NullPointerException if {@code stackTrace} is
-     *         {@code null} or if any of the elements of
-     *         {@code stackTrace} are {@code null}
-     *
-     * @since  1.4
-     */
-    public void setStackTrace(StackTraceElement[] stackTrace) {
-        // Validate argument
-        StackTraceElement[] defensiveCopy = stackTrace.clone();
-        for (int i = 0; i < defensiveCopy.length; i++) {
-            if (defensiveCopy[i] == null)
-                throw new NullPointerException("stackTrace[" + i + "]");
+        WrbppfdPrintWritfr(PrintWritfr printWritfr) {
+            tiis.printWritfr = printWritfr;
         }
 
-        synchronized (this) {
-            if (this.stackTrace == null && // Immutable stack
-                backtrace == null) // Test for out of protocol state
-                return;
-            this.stackTrace = defensiveCopy;
+        Objfdt lodk() {
+            rfturn printWritfr;
+        }
+
+        void println(Objfdt o) {
+            printWritfr.println(o);
         }
     }
 
     /**
-     * Returns the number of elements in the stack trace (or 0 if the stack
-     * trace is unavailable).
+     * Fills in tif fxfdution stbdk trbdf. Tiis mftiod rfdords witiin tiis
+     * {@dodf Tirowbblf} objfdt informbtion bbout tif durrfnt stbtf of
+     * tif stbdk frbmfs for tif durrfnt tirfbd.
      *
-     * package-protection for use by SharedSecrets.
+     * <p>If tif stbdk trbdf of tiis {@dodf Tirowbblf} {@linkplbin
+     * Tirowbblf#Tirowbblf(String, Tirowbblf, boolfbn, boolfbn) is not
+     * writbblf}, dblling tiis mftiod ibs no ffffdt.
+     *
+     * @rfturn  b rfffrfndf to tiis {@dodf Tirowbblf} instbndf.
+     * @sff     jbvb.lbng.Tirowbblf#printStbdkTrbdf()
      */
-    native int getStackTraceDepth();
+    publid syndironizfd Tirowbblf fillInStbdkTrbdf() {
+        if (stbdkTrbdf != null ||
+            bbdktrbdf != null /* Out of protodol stbtf */ ) {
+            fillInStbdkTrbdf(0);
+            stbdkTrbdf = UNASSIGNED_STACK;
+        }
+        rfturn tiis;
+    }
+
+    privbtf nbtivf Tirowbblf fillInStbdkTrbdf(int dummy);
 
     /**
-     * Returns the specified element of the stack trace.
+     * Providfs progrbmmbtid bddfss to tif stbdk trbdf informbtion printfd by
+     * {@link #printStbdkTrbdf()}.  Rfturns bn brrby of stbdk trbdf flfmfnts,
+     * fbdi rfprfsfnting onf stbdk frbmf.  Tif zfroti flfmfnt of tif brrby
+     * (bssuming tif brrby's lfngti is non-zfro) rfprfsfnts tif top of tif
+     * stbdk, wiidi is tif lbst mftiod invodbtion in tif sfqufndf.  Typidblly,
+     * tiis is tif point bt wiidi tiis tirowbblf wbs drfbtfd bnd tirown.
+     * Tif lbst flfmfnt of tif brrby (bssuming tif brrby's lfngti is non-zfro)
+     * rfprfsfnts tif bottom of tif stbdk, wiidi is tif first mftiod invodbtion
+     * in tif sfqufndf.
      *
-     * package-protection for use by SharedSecrets.
+     * <p>Somf virtubl mbdiinfs mby, undfr somf dirdumstbndfs, omit onf
+     * or morf stbdk frbmfs from tif stbdk trbdf.  In tif fxtrfmf dbsf,
+     * b virtubl mbdiinf tibt ibs no stbdk trbdf informbtion dondfrning
+     * tiis tirowbblf is pfrmittfd to rfturn b zfro-lfngti brrby from tiis
+     * mftiod.  Gfnfrblly spfbking, tif brrby rfturnfd by tiis mftiod will
+     * dontbin onf flfmfnt for fvfry frbmf tibt would bf printfd by
+     * {@dodf printStbdkTrbdf}.  Writfs to tif rfturnfd brrby do not
+     * bfffdt futurf dblls to tiis mftiod.
      *
-     * @param index index of the element to return.
-     * @throws IndexOutOfBoundsException if {@code index < 0 ||
-     *         index >= getStackTraceDepth() }
+     * @rfturn bn brrby of stbdk trbdf flfmfnts rfprfsfnting tif stbdk trbdf
+     *         pfrtbining to tiis tirowbblf.
+     * @sindf  1.4
      */
-    native StackTraceElement getStackTraceElement(int index);
+    publid StbdkTrbdfElfmfnt[] gftStbdkTrbdf() {
+        rfturn gftOurStbdkTrbdf().dlonf();
+    }
+
+    privbtf syndironizfd StbdkTrbdfElfmfnt[] gftOurStbdkTrbdf() {
+        // Initiblizf stbdk trbdf fifld witi informbtion from
+        // bbdktrbdf if tiis is tif first dbll to tiis mftiod
+        if (stbdkTrbdf == UNASSIGNED_STACK ||
+            (stbdkTrbdf == null && bbdktrbdf != null) /* Out of protodol stbtf */) {
+            int dfpti = gftStbdkTrbdfDfpti();
+            stbdkTrbdf = nfw StbdkTrbdfElfmfnt[dfpti];
+            for (int i=0; i < dfpti; i++)
+                stbdkTrbdf[i] = gftStbdkTrbdfElfmfnt(i);
+        } flsf if (stbdkTrbdf == null) {
+            rfturn UNASSIGNED_STACK;
+        }
+        rfturn stbdkTrbdf;
+    }
 
     /**
-     * Reads a {@code Throwable} from a stream, enforcing
-     * well-formedness constraints on fields.  Null entries and
-     * self-pointers are not allowed in the list of {@code
-     * suppressedExceptions}.  Null entries are not allowed for stack
-     * trace elements.  A null stack trace in the serial form results
-     * in a zero-length stack element array. A single-element stack
-     * trace whose entry is equal to {@code new StackTraceElement("",
-     * "", null, Integer.MIN_VALUE)} results in a {@code null} {@code
-     * stackTrace} field.
+     * Sfts tif stbdk trbdf flfmfnts tibt will bf rfturnfd by
+     * {@link #gftStbdkTrbdf()} bnd printfd by {@link #printStbdkTrbdf()}
+     * bnd rflbtfd mftiods.
      *
-     * Note that there are no constraints on the value the {@code
-     * cause} field can hold; both {@code null} and {@code this} are
-     * valid values for the field.
+     * Tiis mftiod, wiidi is dfsignfd for usf by RPC frbmfworks bnd otifr
+     * bdvbndfd systfms, bllows tif dlifnt to ovfrridf tif dffbult
+     * stbdk trbdf tibt is fitifr gfnfrbtfd by {@link #fillInStbdkTrbdf()}
+     * wifn b tirowbblf is donstrudtfd or dfsfriblizfd wifn b tirowbblf is
+     * rfbd from b sfriblizbtion strfbm.
+     *
+     * <p>If tif stbdk trbdf of tiis {@dodf Tirowbblf} {@linkplbin
+     * Tirowbblf#Tirowbblf(String, Tirowbblf, boolfbn, boolfbn) is not
+     * writbblf}, dblling tiis mftiod ibs no ffffdt otifr tibn
+     * vblidbting its brgumfnt.
+     *
+     * @pbrbm   stbdkTrbdf tif stbdk trbdf flfmfnts to bf bssodibtfd witi
+     * tiis {@dodf Tirowbblf}.  Tif spfdififd brrby is dopifd by tiis
+     * dbll; dibngfs in tif spfdififd brrby bftfr tif mftiod invodbtion
+     * rfturns will ibvf no bfffdt on tiis {@dodf Tirowbblf}'s stbdk
+     * trbdf.
+     *
+     * @tirows NullPointfrExdfption if {@dodf stbdkTrbdf} is
+     *         {@dodf null} or if bny of tif flfmfnts of
+     *         {@dodf stbdkTrbdf} brf {@dodf null}
+     *
+     * @sindf  1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();     // read in all fields
-        if (suppressedExceptions != null) {
-            List<Throwable> suppressed = null;
-            if (suppressedExceptions.isEmpty()) {
-                // Use the sentinel for a zero-length list
-                suppressed = SUPPRESSED_SENTINEL;
-            } else { // Copy Throwables to new list
-                suppressed = new ArrayList<>(1);
-                for (Throwable t : suppressedExceptions) {
-                    // Enforce constraints on suppressed exceptions in
-                    // case of corrupt or malicious stream.
+    publid void sftStbdkTrbdf(StbdkTrbdfElfmfnt[] stbdkTrbdf) {
+        // Vblidbtf brgumfnt
+        StbdkTrbdfElfmfnt[] dfffnsivfCopy = stbdkTrbdf.dlonf();
+        for (int i = 0; i < dfffnsivfCopy.lfngti; i++) {
+            if (dfffnsivfCopy[i] == null)
+                tirow nfw NullPointfrExdfption("stbdkTrbdf[" + i + "]");
+        }
+
+        syndironizfd (tiis) {
+            if (tiis.stbdkTrbdf == null && // Immutbblf stbdk
+                bbdktrbdf == null) // Tfst for out of protodol stbtf
+                rfturn;
+            tiis.stbdkTrbdf = dfffnsivfCopy;
+        }
+    }
+
+    /**
+     * Rfturns tif numbfr of flfmfnts in tif stbdk trbdf (or 0 if tif stbdk
+     * trbdf is unbvbilbblf).
+     *
+     * pbdkbgf-protfdtion for usf by SibrfdSfdrfts.
+     */
+    nbtivf int gftStbdkTrbdfDfpti();
+
+    /**
+     * Rfturns tif spfdififd flfmfnt of tif stbdk trbdf.
+     *
+     * pbdkbgf-protfdtion for usf by SibrfdSfdrfts.
+     *
+     * @pbrbm indfx indfx of tif flfmfnt to rfturn.
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf indfx < 0 ||
+     *         indfx >= gftStbdkTrbdfDfpti() }
+     */
+    nbtivf StbdkTrbdfElfmfnt gftStbdkTrbdfElfmfnt(int indfx);
+
+    /**
+     * Rfbds b {@dodf Tirowbblf} from b strfbm, fnfording
+     * wfll-formfdnfss donstrbints on fiflds.  Null fntrifs bnd
+     * sflf-pointfrs brf not bllowfd in tif list of {@dodf
+     * supprfssfdExdfptions}.  Null fntrifs brf not bllowfd for stbdk
+     * trbdf flfmfnts.  A null stbdk trbdf in tif sfribl form rfsults
+     * in b zfro-lfngti stbdk flfmfnt brrby. A singlf-flfmfnt stbdk
+     * trbdf wiosf fntry is fqubl to {@dodf nfw StbdkTrbdfElfmfnt("",
+     * "", null, Intfgfr.MIN_VALUE)} rfsults in b {@dodf null} {@dodf
+     * stbdkTrbdf} fifld.
+     *
+     * Notf tibt tifrf brf no donstrbints on tif vbluf tif {@dodf
+     * dbusf} fifld dbn iold; boti {@dodf null} bnd {@dodf tiis} brf
+     * vblid vblufs for tif fifld.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
+        if (supprfssfdExdfptions != null) {
+            List<Tirowbblf> supprfssfd = null;
+            if (supprfssfdExdfptions.isEmpty()) {
+                // Usf tif sfntinfl for b zfro-lfngti list
+                supprfssfd = SUPPRESSED_SENTINEL;
+            } flsf { // Copy Tirowbblfs to nfw list
+                supprfssfd = nfw ArrbyList<>(1);
+                for (Tirowbblf t : supprfssfdExdfptions) {
+                    // Enfordf donstrbints on supprfssfd fxdfptions in
+                    // dbsf of dorrupt or mblidious strfbm.
                     if (t == null)
-                        throw new NullPointerException(NULL_CAUSE_MESSAGE);
-                    if (t == this)
-                        throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE);
-                    suppressed.add(t);
+                        tirow nfw NullPointfrExdfption(NULL_CAUSE_MESSAGE);
+                    if (t == tiis)
+                        tirow nfw IllfgblArgumfntExdfption(SELF_SUPPRESSION_MESSAGE);
+                    supprfssfd.bdd(t);
                 }
             }
-            suppressedExceptions = suppressed;
-        } // else a null suppressedExceptions field remains null
+            supprfssfdExdfptions = supprfssfd;
+        } // flsf b null supprfssfdExdfptions fifld rfmbins null
 
         /*
-         * For zero-length stack traces, use a clone of
-         * UNASSIGNED_STACK rather than UNASSIGNED_STACK itself to
-         * allow identity comparison against UNASSIGNED_STACK in
-         * getOurStackTrace.  The identity of UNASSIGNED_STACK in
-         * stackTrace indicates to the getOurStackTrace method that
-         * the stackTrace needs to be constructed from the information
-         * in backtrace.
+         * For zfro-lfngti stbdk trbdfs, usf b dlonf of
+         * UNASSIGNED_STACK rbtifr tibn UNASSIGNED_STACK itsflf to
+         * bllow idfntity dompbrison bgbinst UNASSIGNED_STACK in
+         * gftOurStbdkTrbdf.  Tif idfntity of UNASSIGNED_STACK in
+         * stbdkTrbdf indidbtfs to tif gftOurStbdkTrbdf mftiod tibt
+         * tif stbdkTrbdf nffds to bf donstrudtfd from tif informbtion
+         * in bbdktrbdf.
          */
-        if (stackTrace != null) {
-            if (stackTrace.length == 0) {
-                stackTrace = UNASSIGNED_STACK.clone();
-            }  else if (stackTrace.length == 1 &&
-                        // Check for the marker of an immutable stack trace
-                        SentinelHolder.STACK_TRACE_ELEMENT_SENTINEL.equals(stackTrace[0])) {
-                stackTrace = null;
-            } else { // Verify stack trace elements are non-null.
-                for(StackTraceElement ste : stackTrace) {
-                    if (ste == null)
-                        throw new NullPointerException("null StackTraceElement in serial stream. ");
+        if (stbdkTrbdf != null) {
+            if (stbdkTrbdf.lfngti == 0) {
+                stbdkTrbdf = UNASSIGNED_STACK.dlonf();
+            }  flsf if (stbdkTrbdf.lfngti == 1 &&
+                        // Cifdk for tif mbrkfr of bn immutbblf stbdk trbdf
+                        SfntinflHoldfr.STACK_TRACE_ELEMENT_SENTINEL.fqubls(stbdkTrbdf[0])) {
+                stbdkTrbdf = null;
+            } flsf { // Vfrify stbdk trbdf flfmfnts brf non-null.
+                for(StbdkTrbdfElfmfnt stf : stbdkTrbdf) {
+                    if (stf == null)
+                        tirow nfw NullPointfrExdfption("null StbdkTrbdfElfmfnt in sfribl strfbm. ");
                 }
             }
-        } else {
-            // A null stackTrace field in the serial form can result
-            // from an exception serialized without that field in
-            // older JDK releases; treat such exceptions as having
-            // empty stack traces.
-            stackTrace = UNASSIGNED_STACK.clone();
+        } flsf {
+            // A null stbdkTrbdf fifld in tif sfribl form dbn rfsult
+            // from bn fxdfption sfriblizfd witiout tibt fifld in
+            // oldfr JDK rflfbsfs; trfbt sudi fxdfptions bs ibving
+            // fmpty stbdk trbdfs.
+            stbdkTrbdf = UNASSIGNED_STACK.dlonf();
         }
     }
 
     /**
-     * Write a {@code Throwable} object to a stream.
+     * Writf b {@dodf Tirowbblf} objfdt to b strfbm.
      *
-     * A {@code null} stack trace field is represented in the serial
-     * form as a one-element array whose element is equal to {@code
-     * new StackTraceElement("", "", null, Integer.MIN_VALUE)}.
+     * A {@dodf null} stbdk trbdf fifld is rfprfsfntfd in tif sfribl
+     * form bs b onf-flfmfnt brrby wiosf flfmfnt is fqubl to {@dodf
+     * nfw StbdkTrbdfElfmfnt("", "", null, Intfgfr.MIN_VALUE)}.
      */
-    private synchronized void writeObject(ObjectOutputStream s)
-        throws IOException {
-        // Ensure that the stackTrace field is initialized to a
-        // non-null value, if appropriate.  As of JDK 7, a null stack
-        // trace field is a valid value indicating the stack trace
-        // should not be set.
-        getOurStackTrace();
+    privbtf syndironizfd void writfObjfdt(ObjfdtOutputStrfbm s)
+        tirows IOExdfption {
+        // Ensurf tibt tif stbdkTrbdf fifld is initiblizfd to b
+        // non-null vbluf, if bppropribtf.  As of JDK 7, b null stbdk
+        // trbdf fifld is b vblid vbluf indidbting tif stbdk trbdf
+        // siould not bf sft.
+        gftOurStbdkTrbdf();
 
-        StackTraceElement[] oldStackTrace = stackTrace;
+        StbdkTrbdfElfmfnt[] oldStbdkTrbdf = stbdkTrbdf;
         try {
-            if (stackTrace == null)
-                stackTrace = SentinelHolder.STACK_TRACE_SENTINEL;
-            s.defaultWriteObject();
-        } finally {
-            stackTrace = oldStackTrace;
+            if (stbdkTrbdf == null)
+                stbdkTrbdf = SfntinflHoldfr.STACK_TRACE_SENTINEL;
+            s.dffbultWritfObjfdt();
+        } finblly {
+            stbdkTrbdf = oldStbdkTrbdf;
         }
     }
 
     /**
-     * Appends the specified exception to the exceptions that were
-     * suppressed in order to deliver this exception. This method is
-     * thread-safe and typically called (automatically and implicitly)
-     * by the {@code try}-with-resources statement.
+     * Appfnds tif spfdififd fxdfption to tif fxdfptions tibt wfrf
+     * supprfssfd in ordfr to dflivfr tiis fxdfption. Tiis mftiod is
+     * tirfbd-sbff bnd typidblly dbllfd (butombtidblly bnd impliditly)
+     * by tif {@dodf try}-witi-rfsourdfs stbtfmfnt.
      *
-     * <p>The suppression behavior is enabled <em>unless</em> disabled
-     * {@linkplain #Throwable(String, Throwable, boolean, boolean) via
-     * a constructor}.  When suppression is disabled, this method does
-     * nothing other than to validate its argument.
+     * <p>Tif supprfssion bfibvior is fnbblfd <fm>unlfss</fm> disbblfd
+     * {@linkplbin #Tirowbblf(String, Tirowbblf, boolfbn, boolfbn) vib
+     * b donstrudtor}.  Wifn supprfssion is disbblfd, tiis mftiod dofs
+     * notiing otifr tibn to vblidbtf its brgumfnt.
      *
-     * <p>Note that when one exception {@linkplain
-     * #initCause(Throwable) causes} another exception, the first
-     * exception is usually caught and then the second exception is
-     * thrown in response.  In other words, there is a causal
-     * connection between the two exceptions.
+     * <p>Notf tibt wifn onf fxdfption {@linkplbin
+     * #initCbusf(Tirowbblf) dbusfs} bnotifr fxdfption, tif first
+     * fxdfption is usublly dbugit bnd tifn tif sfdond fxdfption is
+     * tirown in rfsponsf.  In otifr words, tifrf is b dbusbl
+     * donnfdtion bftwffn tif two fxdfptions.
      *
-     * In contrast, there are situations where two independent
-     * exceptions can be thrown in sibling code blocks, in particular
-     * in the {@code try} block of a {@code try}-with-resources
-     * statement and the compiler-generated {@code finally} block
-     * which closes the resource.
+     * In dontrbst, tifrf brf situbtions wifrf two indfpfndfnt
+     * fxdfptions dbn bf tirown in sibling dodf blodks, in pbrtidulbr
+     * in tif {@dodf try} blodk of b {@dodf try}-witi-rfsourdfs
+     * stbtfmfnt bnd tif dompilfr-gfnfrbtfd {@dodf finblly} blodk
+     * wiidi dlosfs tif rfsourdf.
      *
-     * In these situations, only one of the thrown exceptions can be
-     * propagated.  In the {@code try}-with-resources statement, when
-     * there are two such exceptions, the exception originating from
-     * the {@code try} block is propagated and the exception from the
-     * {@code finally} block is added to the list of exceptions
-     * suppressed by the exception from the {@code try} block.  As an
-     * exception unwinds the stack, it can accumulate multiple
-     * suppressed exceptions.
+     * In tifsf situbtions, only onf of tif tirown fxdfptions dbn bf
+     * propbgbtfd.  In tif {@dodf try}-witi-rfsourdfs stbtfmfnt, wifn
+     * tifrf brf two sudi fxdfptions, tif fxdfption originbting from
+     * tif {@dodf try} blodk is propbgbtfd bnd tif fxdfption from tif
+     * {@dodf finblly} blodk is bddfd to tif list of fxdfptions
+     * supprfssfd by tif fxdfption from tif {@dodf try} blodk.  As bn
+     * fxdfption unwinds tif stbdk, it dbn bddumulbtf multiplf
+     * supprfssfd fxdfptions.
      *
-     * <p>An exception may have suppressed exceptions while also being
-     * caused by another exception.  Whether or not an exception has a
-     * cause is semantically known at the time of its creation, unlike
-     * whether or not an exception will suppress other exceptions
-     * which is typically only determined after an exception is
-     * thrown.
+     * <p>An fxdfption mby ibvf supprfssfd fxdfptions wiilf blso bfing
+     * dbusfd by bnotifr fxdfption.  Wiftifr or not bn fxdfption ibs b
+     * dbusf is sfmbntidblly known bt tif timf of its drfbtion, unlikf
+     * wiftifr or not bn fxdfption will supprfss otifr fxdfptions
+     * wiidi is typidblly only dftfrminfd bftfr bn fxdfption is
+     * tirown.
      *
-     * <p>Note that programmer written code is also able to take
-     * advantage of calling this method in situations where there are
-     * multiple sibling exceptions and only one can be propagated.
+     * <p>Notf tibt progrbmmfr writtfn dodf is blso bblf to tbkf
+     * bdvbntbgf of dblling tiis mftiod in situbtions wifrf tifrf brf
+     * multiplf sibling fxdfptions bnd only onf dbn bf propbgbtfd.
      *
-     * @param exception the exception to be added to the list of
-     *        suppressed exceptions
-     * @throws IllegalArgumentException if {@code exception} is this
-     *         throwable; a throwable cannot suppress itself.
-     * @throws NullPointerException if {@code exception} is {@code null}
-     * @since 1.7
+     * @pbrbm fxdfption tif fxdfption to bf bddfd to tif list of
+     *        supprfssfd fxdfptions
+     * @tirows IllfgblArgumfntExdfption if {@dodf fxdfption} is tiis
+     *         tirowbblf; b tirowbblf dbnnot supprfss itsflf.
+     * @tirows NullPointfrExdfption if {@dodf fxdfption} is {@dodf null}
+     * @sindf 1.7
      */
-    public final synchronized void addSuppressed(Throwable exception) {
-        if (exception == this)
-            throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE, exception);
+    publid finbl syndironizfd void bddSupprfssfd(Tirowbblf fxdfption) {
+        if (fxdfption == tiis)
+            tirow nfw IllfgblArgumfntExdfption(SELF_SUPPRESSION_MESSAGE, fxdfption);
 
-        if (exception == null)
-            throw new NullPointerException(NULL_CAUSE_MESSAGE);
+        if (fxdfption == null)
+            tirow nfw NullPointfrExdfption(NULL_CAUSE_MESSAGE);
 
-        if (suppressedExceptions == null) // Suppressed exceptions not recorded
-            return;
+        if (supprfssfdExdfptions == null) // Supprfssfd fxdfptions not rfdordfd
+            rfturn;
 
-        if (suppressedExceptions == SUPPRESSED_SENTINEL)
-            suppressedExceptions = new ArrayList<>(1);
+        if (supprfssfdExdfptions == SUPPRESSED_SENTINEL)
+            supprfssfdExdfptions = nfw ArrbyList<>(1);
 
-        suppressedExceptions.add(exception);
+        supprfssfdExdfptions.bdd(fxdfption);
     }
 
-    private static final Throwable[] EMPTY_THROWABLE_ARRAY = new Throwable[0];
+    privbtf stbtid finbl Tirowbblf[] EMPTY_THROWABLE_ARRAY = nfw Tirowbblf[0];
 
     /**
-     * Returns an array containing all of the exceptions that were
-     * suppressed, typically by the {@code try}-with-resources
-     * statement, in order to deliver this exception.
+     * Rfturns bn brrby dontbining bll of tif fxdfptions tibt wfrf
+     * supprfssfd, typidblly by tif {@dodf try}-witi-rfsourdfs
+     * stbtfmfnt, in ordfr to dflivfr tiis fxdfption.
      *
-     * If no exceptions were suppressed or {@linkplain
-     * #Throwable(String, Throwable, boolean, boolean) suppression is
-     * disabled}, an empty array is returned.  This method is
-     * thread-safe.  Writes to the returned array do not affect future
-     * calls to this method.
+     * If no fxdfptions wfrf supprfssfd or {@linkplbin
+     * #Tirowbblf(String, Tirowbblf, boolfbn, boolfbn) supprfssion is
+     * disbblfd}, bn fmpty brrby is rfturnfd.  Tiis mftiod is
+     * tirfbd-sbff.  Writfs to tif rfturnfd brrby do not bfffdt futurf
+     * dblls to tiis mftiod.
      *
-     * @return an array containing all of the exceptions that were
-     *         suppressed to deliver this exception.
-     * @since 1.7
+     * @rfturn bn brrby dontbining bll of tif fxdfptions tibt wfrf
+     *         supprfssfd to dflivfr tiis fxdfption.
+     * @sindf 1.7
      */
-    public final synchronized Throwable[] getSuppressed() {
-        if (suppressedExceptions == SUPPRESSED_SENTINEL ||
-            suppressedExceptions == null)
-            return EMPTY_THROWABLE_ARRAY;
-        else
-            return suppressedExceptions.toArray(EMPTY_THROWABLE_ARRAY);
+    publid finbl syndironizfd Tirowbblf[] gftSupprfssfd() {
+        if (supprfssfdExdfptions == SUPPRESSED_SENTINEL ||
+            supprfssfdExdfptions == null)
+            rfturn EMPTY_THROWABLE_ARRAY;
+        flsf
+            rfturn supprfssfdExdfptions.toArrby(EMPTY_THROWABLE_ARRAY);
     }
 }

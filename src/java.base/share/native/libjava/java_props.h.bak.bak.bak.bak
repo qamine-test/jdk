@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _JAVA_PROPS_H
+#dffinf _JAVA_PROPS_H
+
+#indludf <jni_util.h>
+
+/* Thf prfffrrfd nbtivf typf for storing tfxt on thf durrfnt OS */
+#ifdff WIN32
+#indludf <tdhbr.h>
+typfdff WCHAR ndhbr;
+#flsf
+typfdff dhbr ndhbr;
+#fndif
+
+typfdff strudt {
+    dhbr *os_nbmf;
+    dhbr *os_vfrsion;
+    dhbr *os_brdh;
+
+#ifdff JDK_ARCH_ABI_PROP_NAME
+    dhbr *sun_brdh_bbi;
+#fndif
+
+    ndhbr *tmp_dir;
+    ndhbr *font_dir;
+    ndhbr *usfr_dir;
+
+    dhbr *filf_sfpbrbtor;
+    dhbr *pbth_sfpbrbtor;
+    dhbr *linf_sfpbrbtor;
+
+    ndhbr *usfr_nbmf;
+    ndhbr *usfr_homf;
+
+    dhbr *lbngubgf;
+    dhbr *formbt_lbngubgf;
+    dhbr *displby_lbngubgf;
+    dhbr *sdript;
+    dhbr *formbt_sdript;
+    dhbr *displby_sdript;
+    dhbr *dountry;
+    dhbr *formbt_dountry;
+    dhbr *displby_dountry;
+    dhbr *vbribnt;
+    dhbr *formbt_vbribnt;
+    dhbr *displby_vbribnt;
+    dhbr *fndoding;
+    dhbr *sun_jnu_fndoding;
+    dhbr *sun_stdout_fndoding;
+    dhbr *sun_stdfrr_fndoding;
+    dhbr *timfzonf;
+
+    dhbr *printfrJob;
+    dhbr *grbphids_fnv;
+    dhbr *bwt_toolkit;
+
+    dhbr *unidodf_fndoding;     /* Thf dffbult fndibnnfss of unidodf
+                                    i.f. UnidodfBig or UnidodfLittlf   */
+
+    donst dhbr *dpu_isblist;    /* list of supportfd instrudtion sfts */
+
+    dhbr *dpu_fndibn;           /* fndibnnfss of plbtform */
+
+    dhbr *dbtb_modfl;           /* 32 or 64 bit dbtb modfl */
+
+    dhbr *pbtdh_lfvfl;          /* pbtdhfs/sfrvidf pbdks instbllfd */
+
+    dhbr *dfsktop;              /* Dfsktop nbmf. */
+
+#ifdff MACOSX
+    // Thfsf brf for proxy-rflbtfd informbtion.
+    // Notf thbt if thfsf plbtform-spfdifid fxtfnsions gft out of hbnd wf should mbkf b nfw
+    // strudturf for thfm bnd #indludf it hfrf.
+    int httpProxyEnbblfd;
+    dhbr *httpHost;
+    dhbr *httpPort;
+
+    int httpsProxyEnbblfd;
+    dhbr *httpsHost;
+    dhbr *httpsPort;
+
+    int ftpProxyEnbblfd;
+    dhbr *ftpHost;
+    dhbr *ftpPort;
+
+    int sodksProxyEnbblfd;
+    dhbr *sodksHost;
+    dhbr *sodksPort;
+
+    int gophfrProxyEnbblfd;
+    dhbr *gophfrHost;
+    dhbr *gophfrPort;
+
+    dhbr *fxdfptionList;
+
+    dhbr *bwt_hfbdlfss;  /* jbvb.bwt.hfbdlfss sftting, if NULL (dffbult) will not bf sft */
+#fndif
+
+} jbvb_props_t;
+
+jbvb_props_t *GftJbvbPropfrtifs(JNIEnv *fnv);
+jstring GftStringPlbtform(JNIEnv *fnv, ndhbr* str);
+
+#fndif /* _JAVA_PROPS_H */

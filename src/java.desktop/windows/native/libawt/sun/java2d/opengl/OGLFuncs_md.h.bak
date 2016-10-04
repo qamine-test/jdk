@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef OGLFuncs_md_h_Included
-#define OGLFuncs_md_h_Included
+#ifndff OGLFunds_md_i_Indludfd
+#dffinf OGLFunds_md_i_Indludfd
 
-#include <windows.h>
-#include "J2D_GL/wglext.h"
-#include "OGLFuncMacros.h"
-#include <jdk_util.h>
+#indludf <windows.i>
+#indludf "J2D_GL/wglfxt.i"
+#indludf "OGLFundMbdros.i"
+#indludf <jdk_util.i>
 
 /**
- * Core WGL functions
+ * Corf WGL fundtions
  */
-typedef HGLRC (GLAPIENTRY *wglCreateContextType)(HDC hdc);
-typedef BOOL  (GLAPIENTRY *wglDeleteContextType)(HGLRC hglrc);
-typedef BOOL  (GLAPIENTRY *wglMakeCurrentType)(HDC hdc, HGLRC hglrc);
-typedef HGLRC (GLAPIENTRY *wglGetCurrentContextType)();
-typedef HDC   (GLAPIENTRY *wglGetCurrentDCType)();
-typedef PROC  (GLAPIENTRY *wglGetProcAddressType)(LPCSTR procName);
-typedef BOOL  (GLAPIENTRY *wglShareListsType)(HGLRC hglrc1, HGLRC hglrc2);
+typfdff HGLRC (GLAPIENTRY *wglCrfbtfContfxtTypf)(HDC idd);
+typfdff BOOL  (GLAPIENTRY *wglDflftfContfxtTypf)(HGLRC iglrd);
+typfdff BOOL  (GLAPIENTRY *wglMbkfCurrfntTypf)(HDC idd, HGLRC iglrd);
+typfdff HGLRC (GLAPIENTRY *wglGftCurrfntContfxtTypf)();
+typfdff HDC   (GLAPIENTRY *wglGftCurrfntDCTypf)();
+typfdff PROC  (GLAPIENTRY *wglGftProdAddrfssTypf)(LPCSTR prodNbmf);
+typfdff BOOL  (GLAPIENTRY *wglSibrfListsTypf)(HGLRC iglrd1, HGLRC iglrd2);
 
 /**
- * WGL extension function pointers
+ * WGL fxtfnsion fundtion pointfrs
  */
-typedef BOOL (GLAPIENTRY *wglChoosePixelFormatARBType)(HDC hdc, const int *pAttribIList, const FLOAT *pAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
-typedef BOOL (GLAPIENTRY *wglGetPixelFormatAttribivARBType)(HDC, int, int, UINT, const int *, int *);
-typedef HPBUFFERARB (GLAPIENTRY *wglCreatePbufferARBType)(HDC, int, int, int, const int *);
-typedef HDC  (GLAPIENTRY *wglGetPbufferDCARBType)(HPBUFFERARB);
-typedef int  (GLAPIENTRY *wglReleasePbufferDCARBType)(HPBUFFERARB, HDC);
-typedef BOOL (GLAPIENTRY *wglDestroyPbufferARBType)(HPBUFFERARB);
-typedef BOOL (GLAPIENTRY *wglQueryPbufferARBType)(HPBUFFERARB, int, int *);
-typedef BOOL (GLAPIENTRY *wglMakeContextCurrentARBType)(HDC, HDC, HGLRC);
-typedef const char *(GLAPIENTRY *wglGetExtensionsStringARBType)(HDC hdc);
+typfdff BOOL (GLAPIENTRY *wglCioosfPixflFormbtARBTypf)(HDC idd, donst int *pAttribIList, donst FLOAT *pAttribFList, UINT nMbxFormbts, int *piFormbts, UINT *nNumFormbts);
+typfdff BOOL (GLAPIENTRY *wglGftPixflFormbtAttribivARBTypf)(HDC, int, int, UINT, donst int *, int *);
+typfdff HPBUFFERARB (GLAPIENTRY *wglCrfbtfPbufffrARBTypf)(HDC, int, int, int, donst int *);
+typfdff HDC  (GLAPIENTRY *wglGftPbufffrDCARBTypf)(HPBUFFERARB);
+typfdff int  (GLAPIENTRY *wglRflfbsfPbufffrDCARBTypf)(HPBUFFERARB, HDC);
+typfdff BOOL (GLAPIENTRY *wglDfstroyPbufffrARBTypf)(HPBUFFERARB);
+typfdff BOOL (GLAPIENTRY *wglQufryPbufffrARBTypf)(HPBUFFERARB, int, int *);
+typfdff BOOL (GLAPIENTRY *wglMbkfContfxtCurrfntARBTypf)(HDC, HDC, HGLRC);
+typfdff donst dibr *(GLAPIENTRY *wglGftExtfnsionsStringARBTypf)(HDC idd);
 
-#define OGL_LIB_HANDLE hDllOpenGL
-#define OGL_DECLARE_LIB_HANDLE() \
-    static HMODULE OGL_LIB_HANDLE = 0
-#define OGL_LIB_IS_UNINITIALIZED() \
+#dffinf OGL_LIB_HANDLE iDllOpfnGL
+#dffinf OGL_DECLARE_LIB_HANDLE() \
+    stbtid HMODULE OGL_LIB_HANDLE = 0
+#dffinf OGL_LIB_IS_UNINITIALIZED() \
     (OGL_LIB_HANDLE == 0)
-#define OGL_OPEN_LIB() \
-    OGL_LIB_HANDLE = JDK_LoadSystemLibrary("opengl32.dll")
-#define OGL_CLOSE_LIB() \
-    FreeLibrary(OGL_LIB_HANDLE)
-#define OGL_GET_PROC_ADDRESS(f) \
-    GetProcAddress(OGL_LIB_HANDLE, #f)
-#define OGL_GET_EXT_PROC_ADDRESS(f) \
-    j2d_wglGetProcAddress((LPCSTR)#f)
+#dffinf OGL_OPEN_LIB() \
+    OGL_LIB_HANDLE = JDK_LobdSystfmLibrbry("opfngl32.dll")
+#dffinf OGL_CLOSE_LIB() \
+    FrffLibrbry(OGL_LIB_HANDLE)
+#dffinf OGL_GET_PROC_ADDRESS(f) \
+    GftProdAddrfss(OGL_LIB_HANDLE, #f)
+#dffinf OGL_GET_EXT_PROC_ADDRESS(f) \
+    j2d_wglGftProdAddrfss((LPCSTR)#f)
 
-#define OGL_EXPRESS_PLATFORM_FUNCS(action) \
-    OGL_##action##_FUNC(wglCreateContext); \
-    OGL_##action##_FUNC(wglDeleteContext); \
-    OGL_##action##_FUNC(wglMakeCurrent); \
-    OGL_##action##_FUNC(wglGetCurrentContext); \
-    OGL_##action##_FUNC(wglGetCurrentDC); \
-    OGL_##action##_FUNC(wglGetProcAddress); \
-    OGL_##action##_FUNC(wglShareLists);
+#dffinf OGL_EXPRESS_PLATFORM_FUNCS(bdtion) \
+    OGL_##bdtion##_FUNC(wglCrfbtfContfxt); \
+    OGL_##bdtion##_FUNC(wglDflftfContfxt); \
+    OGL_##bdtion##_FUNC(wglMbkfCurrfnt); \
+    OGL_##bdtion##_FUNC(wglGftCurrfntContfxt); \
+    OGL_##bdtion##_FUNC(wglGftCurrfntDC); \
+    OGL_##bdtion##_FUNC(wglGftProdAddrfss); \
+    OGL_##bdtion##_FUNC(wglSibrfLists);
 
-#define OGL_EXPRESS_PLATFORM_EXT_FUNCS(action) \
-    OGL_##action##_EXT_FUNC(wglChoosePixelFormatARB); \
-    OGL_##action##_EXT_FUNC(wglGetPixelFormatAttribivARB); \
-    OGL_##action##_EXT_FUNC(wglCreatePbufferARB); \
-    OGL_##action##_EXT_FUNC(wglGetPbufferDCARB); \
-    OGL_##action##_EXT_FUNC(wglReleasePbufferDCARB); \
-    OGL_##action##_EXT_FUNC(wglDestroyPbufferARB); \
-    OGL_##action##_EXT_FUNC(wglQueryPbufferARB); \
-    OGL_##action##_EXT_FUNC(wglMakeContextCurrentARB); \
-    OGL_##action##_EXT_FUNC(wglGetExtensionsStringARB);
+#dffinf OGL_EXPRESS_PLATFORM_EXT_FUNCS(bdtion) \
+    OGL_##bdtion##_EXT_FUNC(wglCioosfPixflFormbtARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftPixflFormbtAttribivARB); \
+    OGL_##bdtion##_EXT_FUNC(wglCrfbtfPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftPbufffrDCARB); \
+    OGL_##bdtion##_EXT_FUNC(wglRflfbsfPbufffrDCARB); \
+    OGL_##bdtion##_EXT_FUNC(wglDfstroyPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglQufryPbufffrARB); \
+    OGL_##bdtion##_EXT_FUNC(wglMbkfContfxtCurrfntARB); \
+    OGL_##bdtion##_EXT_FUNC(wglGftExtfnsionsStringARB);
 
-#endif /* OGLFuncs_md_h_Included */
+#fndif /* OGLFunds_md_i_Indludfd */

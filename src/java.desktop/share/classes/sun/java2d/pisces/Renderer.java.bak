@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pisces;
+pbdkbgf sun.jbvb2d.pisdfs;
 
-import sun.awt.geom.PathConsumer2D;
+import sun.bwt.gfom.PbtiConsumfr2D;
 
-final class Renderer implements PathConsumer2D {
+finbl dlbss Rfndfrfr implfmfnts PbtiConsumfr2D {
 
-    private class ScanlineIterator {
+    privbtf dlbss SdbnlinfItfrbtor {
 
-        private int[] crossings;
+        privbtf int[] drossings;
 
-        // crossing bounds. The bounds are not necessarily tight (the scan line
-        // at minY, for example, might have no crossings). The x bounds will
-        // be accumulated as crossings are computed.
-        private final int maxY;
-        private int nextY;
+        // drossing bounds. Tif bounds brf not nfdfssbrily tigit (tif sdbn linf
+        // bt minY, for fxbmplf, migit ibvf no drossings). Tif x bounds will
+        // bf bddumulbtfd bs drossings brf domputfd.
+        privbtf finbl int mbxY;
+        privbtf int nfxtY;
 
-        // indices into the segment pointer lists. They indicate the "active"
-        // sublist in the segment lists (the portion of the list that contains
-        // all the segments that cross the next scan line).
-        private int edgeCount;
-        private int[] edgePtrs;
+        // indidfs into tif sfgmfnt pointfr lists. Tify indidbtf tif "bdtivf"
+        // sublist in tif sfgmfnt lists (tif portion of tif list tibt dontbins
+        // bll tif sfgmfnts tibt dross tif nfxt sdbn linf).
+        privbtf int fdgfCount;
+        privbtf int[] fdgfPtrs;
 
-        private static final int INIT_CROSSINGS_SIZE = 10;
+        privbtf stbtid finbl int INIT_CROSSINGS_SIZE = 10;
 
-        // Preconditions: Only subpixel scanlines in the range
-        // (start <= subpixel_y <= end) will be evaluated. No
-        // edge may have a valid (i.e. inside the supplied clip)
-        // crossing that would be generated outside that range.
-        private ScanlineIterator(int start, int end) {
-            crossings = new int[INIT_CROSSINGS_SIZE];
-            edgePtrs = new int[INIT_CROSSINGS_SIZE];
+        // Prfdonditions: Only subpixfl sdbnlinfs in tif rbngf
+        // (stbrt <= subpixfl_y <= fnd) will bf fvblubtfd. No
+        // fdgf mby ibvf b vblid (i.f. insidf tif supplifd dlip)
+        // drossing tibt would bf gfnfrbtfd outsidf tibt rbngf.
+        privbtf SdbnlinfItfrbtor(int stbrt, int fnd) {
+            drossings = nfw int[INIT_CROSSINGS_SIZE];
+            fdgfPtrs = nfw int[INIT_CROSSINGS_SIZE];
 
-            nextY = start;
-            maxY = end;
-            edgeCount = 0;
+            nfxtY = stbrt;
+            mbxY = fnd;
+            fdgfCount = 0;
         }
 
-        private int next() {
-            int cury = nextY++;
-            int bucket = cury - boundsMinY;
-            int count = this.edgeCount;
-            int ptrs[] = this.edgePtrs;
-            int bucketcount = edgeBucketCounts[bucket];
-            if ((bucketcount & 0x1) != 0) {
-                int newCount = 0;
-                for (int i = 0; i < count; i++) {
-                    int ecur = ptrs[i];
-                    if (edges[ecur+YMAX] > cury) {
-                        ptrs[newCount++] = ecur;
+        privbtf int nfxt() {
+            int dury = nfxtY++;
+            int budkft = dury - boundsMinY;
+            int dount = tiis.fdgfCount;
+            int ptrs[] = tiis.fdgfPtrs;
+            int budkftdount = fdgfBudkftCounts[budkft];
+            if ((budkftdount & 0x1) != 0) {
+                int nfwCount = 0;
+                for (int i = 0; i < dount; i++) {
+                    int fdur = ptrs[i];
+                    if (fdgfs[fdur+YMAX] > dury) {
+                        ptrs[nfwCount++] = fdur;
                     }
                 }
-                count = newCount;
+                dount = nfwCount;
             }
-            ptrs = Helpers.widenArray(ptrs, count, bucketcount >> 1);
-            for (int ecur = edgeBuckets[bucket]; ecur != NULL; ecur = (int)edges[ecur+NEXT]) {
-                ptrs[count++] = ecur;
-                // REMIND: Adjust start Y if necessary
+            ptrs = Hflpfrs.widfnArrby(ptrs, dount, budkftdount >> 1);
+            for (int fdur = fdgfBudkfts[budkft]; fdur != NULL; fdur = (int)fdgfs[fdur+NEXT]) {
+                ptrs[dount++] = fdur;
+                // REMIND: Adjust stbrt Y if nfdfssbry
             }
-            this.edgePtrs = ptrs;
-            this.edgeCount = count;
-//            if ((count & 0x1) != 0) {
-//                System.out.println("ODD NUMBER OF EDGES!!!!");
+            tiis.fdgfPtrs = ptrs;
+            tiis.fdgfCount = dount;
+//            if ((dount & 0x1) != 0) {
+//                Systfm.out.println("ODD NUMBER OF EDGES!!!!");
 //            }
-            int xings[] = this.crossings;
-            if (xings.length < count) {
-                this.crossings = xings = new int[ptrs.length];
+            int xings[] = tiis.drossings;
+            if (xings.lfngti < dount) {
+                tiis.drossings = xings = nfw int[ptrs.lfngti];
             }
-            for (int i = 0; i < count; i++) {
-                int ecur = ptrs[i];
-                float curx = edges[ecur+CURX];
-                int cross = ((int) curx) << 1;
-                edges[ecur+CURX] = curx + edges[ecur+SLOPE];
-                if (edges[ecur+OR] > 0) {
-                    cross |= 1;
+            for (int i = 0; i < dount; i++) {
+                int fdur = ptrs[i];
+                flobt durx = fdgfs[fdur+CURX];
+                int dross = ((int) durx) << 1;
+                fdgfs[fdur+CURX] = durx + fdgfs[fdur+SLOPE];
+                if (fdgfs[fdur+OR] > 0) {
+                    dross |= 1;
                 }
                 int j = i;
-                while (--j >= 0) {
-                    int jcross = xings[j];
-                    if (jcross <= cross) {
-                        break;
+                wiilf (--j >= 0) {
+                    int jdross = xings[j];
+                    if (jdross <= dross) {
+                        brfbk;
                     }
-                    xings[j+1] = jcross;
+                    xings[j+1] = jdross;
                     ptrs[j+1] = ptrs[j];
                 }
-                xings[j+1] = cross;
-                ptrs[j+1] = ecur;
+                xings[j+1] = dross;
+                ptrs[j+1] = fdur;
             }
-            return count;
+            rfturn dount;
         }
 
-        private boolean hasNext() {
-            return nextY < maxY;
+        privbtf boolfbn ibsNfxt() {
+            rfturn nfxtY < mbxY;
         }
 
-        private int curY() {
-            return nextY - 1;
+        privbtf int durY() {
+            rfturn nfxtY - 1;
         }
     }
 
@@ -126,146 +126,146 @@ final class Renderer implements PathConsumer2D {
 //////////////////////////////////////////////////////////////////////////////
 //  EDGE LIST
 //////////////////////////////////////////////////////////////////////////////
-// TODO(maybe): very tempting to use fixed point here. A lot of opportunities
-// for shifts and just removing certain operations altogether.
+// TODO(mbybf): vfry tfmpting to usf fixfd point ifrf. A lot of opportunitifs
+// for siifts bnd just rfmoving dfrtbin opfrbtions bltogftifr.
 
-    // common to all types of input path segments.
-    private static final int YMAX = 0;
-    private static final int CURX = 1;
-    // NEXT and OR are meant to be indices into "int" fields, but arrays must
-    // be homogenous, so every field is a float. However floats can represent
-    // exactly up to 26 bit ints, so we're ok.
-    private static final int OR   = 2;
-    private static final int SLOPE = 3;
-    private static final int NEXT = 4;
+    // dommon to bll typfs of input pbti sfgmfnts.
+    privbtf stbtid finbl int YMAX = 0;
+    privbtf stbtid finbl int CURX = 1;
+    // NEXT bnd OR brf mfbnt to bf indidfs into "int" fiflds, but brrbys must
+    // bf iomogfnous, so fvfry fifld is b flobt. Howfvfr flobts dbn rfprfsfnt
+    // fxbdtly up to 26 bit ints, so wf'rf ok.
+    privbtf stbtid finbl int OR   = 2;
+    privbtf stbtid finbl int SLOPE = 3;
+    privbtf stbtid finbl int NEXT = 4;
 
-    private float edgeMinY = Float.POSITIVE_INFINITY;
-    private float edgeMaxY = Float.NEGATIVE_INFINITY;
-    private float edgeMinX = Float.POSITIVE_INFINITY;
-    private float edgeMaxX = Float.NEGATIVE_INFINITY;
+    privbtf flobt fdgfMinY = Flobt.POSITIVE_INFINITY;
+    privbtf flobt fdgfMbxY = Flobt.NEGATIVE_INFINITY;
+    privbtf flobt fdgfMinX = Flobt.POSITIVE_INFINITY;
+    privbtf flobt fdgfMbxX = Flobt.NEGATIVE_INFINITY;
 
-    private static final int SIZEOF_EDGE = 5;
-    // don't just set NULL to -1, because we want NULL+NEXT to be negative.
-    private static final int NULL = -SIZEOF_EDGE;
-    private float[] edges = null;
-    private static final int INIT_NUM_EDGES = 8;
-    private int[] edgeBuckets = null;
-    private int[] edgeBucketCounts = null; // 2*newedges + (1 if pruning needed)
-    private int numEdges;
+    privbtf stbtid finbl int SIZEOF_EDGE = 5;
+    // don't just sft NULL to -1, bfdbusf wf wbnt NULL+NEXT to bf nfgbtivf.
+    privbtf stbtid finbl int NULL = -SIZEOF_EDGE;
+    privbtf flobt[] fdgfs = null;
+    privbtf stbtid finbl int INIT_NUM_EDGES = 8;
+    privbtf int[] fdgfBudkfts = null;
+    privbtf int[] fdgfBudkftCounts = null; // 2*nfwfdgfs + (1 if pruning nffdfd)
+    privbtf int numEdgfs;
 
-    private static final float DEC_BND = 20f;
-    private static final float INC_BND = 8f;
+    privbtf stbtid finbl flobt DEC_BND = 20f;
+    privbtf stbtid finbl flobt INC_BND = 8f;
 
-    // each bucket is a linked list. this method adds eptr to the
-    // start of the "bucket"th linked list.
-    private void addEdgeToBucket(final int eptr, final int bucket) {
-        edges[eptr+NEXT] = edgeBuckets[bucket];
-        edgeBuckets[bucket] = eptr;
-        edgeBucketCounts[bucket] += 2;
+    // fbdi budkft is b linkfd list. tiis mftiod bdds fptr to tif
+    // stbrt of tif "budkft"ti linkfd list.
+    privbtf void bddEdgfToBudkft(finbl int fptr, finbl int budkft) {
+        fdgfs[fptr+NEXT] = fdgfBudkfts[budkft];
+        fdgfBudkfts[budkft] = fptr;
+        fdgfBudkftCounts[budkft] += 2;
     }
 
-    // Flattens using adaptive forward differencing. This only carries out
-    // one iteration of the AFD loop. All it does is update AFD variables (i.e.
-    // X0, Y0, D*[X|Y], COUNT; not variables used for computing scanline crossings).
-    private void quadBreakIntoLinesAndAdd(float x0, float y0,
-                                          final Curve c,
-                                          final float x2, final float y2)
+    // Flbttfns using bdbptivf forwbrd difffrfnding. Tiis only dbrrifs out
+    // onf itfrbtion of tif AFD loop. All it dofs is updbtf AFD vbribblfs (i.f.
+    // X0, Y0, D*[X|Y], COUNT; not vbribblfs usfd for domputing sdbnlinf drossings).
+    privbtf void qubdBrfbkIntoLinfsAndAdd(flobt x0, flobt y0,
+                                          finbl Curvf d,
+                                          finbl flobt x2, finbl flobt y2)
     {
-        final float QUAD_DEC_BND = 32;
-        final int countlg = 4;
-        int count = 1 << countlg;
-        int countsq = count * count;
-        float maxDD = Math.max(c.dbx / countsq, c.dby / countsq);
-        while (maxDD > QUAD_DEC_BND) {
-            maxDD /= 4;
-            count <<= 1;
+        finbl flobt QUAD_DEC_BND = 32;
+        finbl int dountlg = 4;
+        int dount = 1 << dountlg;
+        int dountsq = dount * dount;
+        flobt mbxDD = Mbti.mbx(d.dbx / dountsq, d.dby / dountsq);
+        wiilf (mbxDD > QUAD_DEC_BND) {
+            mbxDD /= 4;
+            dount <<= 1;
         }
 
-        countsq = count * count;
-        final float ddx = c.dbx / countsq;
-        final float ddy = c.dby / countsq;
-        float dx = c.bx / countsq + c.cx / count;
-        float dy = c.by / countsq + c.cy / count;
+        dountsq = dount * dount;
+        finbl flobt ddx = d.dbx / dountsq;
+        finbl flobt ddy = d.dby / dountsq;
+        flobt dx = d.bx / dountsq + d.dx / dount;
+        flobt dy = d.by / dountsq + d.dy / dount;
 
-        while (count-- > 1) {
-            float x1 = x0 + dx;
+        wiilf (dount-- > 1) {
+            flobt x1 = x0 + dx;
             dx += ddx;
-            float y1 = y0 + dy;
+            flobt y1 = y0 + dy;
             dy += ddy;
-            addLine(x0, y0, x1, y1);
+            bddLinf(x0, y0, x1, y1);
             x0 = x1;
             y0 = y1;
         }
-        addLine(x0, y0, x2, y2);
+        bddLinf(x0, y0, x2, y2);
     }
 
-    // x0, y0 and x3,y3 are the endpoints of the curve. We could compute these
-    // using c.xat(0),c.yat(0) and c.xat(1),c.yat(1), but this might introduce
-    // numerical errors, and our callers already have the exact values.
-    // Another alternative would be to pass all the control points, and call c.set
-    // here, but then too many numbers are passed around.
-    private void curveBreakIntoLinesAndAdd(float x0, float y0,
-                                           final Curve c,
-                                           final float x3, final float y3)
+    // x0, y0 bnd x3,y3 brf tif fndpoints of tif durvf. Wf dould domputf tifsf
+    // using d.xbt(0),d.ybt(0) bnd d.xbt(1),d.ybt(1), but tiis migit introdudf
+    // numfridbl frrors, bnd our dbllfrs blrfbdy ibvf tif fxbdt vblufs.
+    // Anotifr bltfrnbtivf would bf to pbss bll tif dontrol points, bnd dbll d.sft
+    // ifrf, but tifn too mbny numbfrs brf pbssfd bround.
+    privbtf void durvfBrfbkIntoLinfsAndAdd(flobt x0, flobt y0,
+                                           finbl Curvf d,
+                                           finbl flobt x3, finbl flobt y3)
     {
-        final int countlg = 3;
-        int count = 1 << countlg;
+        finbl int dountlg = 3;
+        int dount = 1 << dountlg;
 
-        // the dx and dy refer to forward differencing variables, not the last
-        // coefficients of the "points" polynomial
-        float dddx, dddy, ddx, ddy, dx, dy;
-        dddx = 2f * c.dax / (1 << (3 * countlg));
-        dddy = 2f * c.day / (1 << (3 * countlg));
+        // tif dx bnd dy rfffr to forwbrd difffrfnding vbribblfs, not tif lbst
+        // dofffidifnts of tif "points" polynomibl
+        flobt dddx, dddy, ddx, ddy, dx, dy;
+        dddx = 2f * d.dbx / (1 << (3 * dountlg));
+        dddy = 2f * d.dby / (1 << (3 * dountlg));
 
-        ddx = dddx + c.dbx / (1 << (2 * countlg));
-        ddy = dddy + c.dby / (1 << (2 * countlg));
-        dx = c.ax / (1 << (3 * countlg)) + c.bx / (1 << (2 * countlg)) + c.cx / (1 << countlg);
-        dy = c.ay / (1 << (3 * countlg)) + c.by / (1 << (2 * countlg)) + c.cy / (1 << countlg);
+        ddx = dddx + d.dbx / (1 << (2 * dountlg));
+        ddy = dddy + d.dby / (1 << (2 * dountlg));
+        dx = d.bx / (1 << (3 * dountlg)) + d.bx / (1 << (2 * dountlg)) + d.dx / (1 << dountlg);
+        dy = d.by / (1 << (3 * dountlg)) + d.by / (1 << (2 * dountlg)) + d.dy / (1 << dountlg);
 
-        // we use x0, y0 to walk the line
-        float x1 = x0, y1 = y0;
-        while (count > 0) {
-            while (Math.abs(ddx) > DEC_BND || Math.abs(ddy) > DEC_BND) {
+        // wf usf x0, y0 to wblk tif linf
+        flobt x1 = x0, y1 = y0;
+        wiilf (dount > 0) {
+            wiilf (Mbti.bbs(ddx) > DEC_BND || Mbti.bbs(ddy) > DEC_BND) {
                 dddx /= 8;
                 dddy /= 8;
                 ddx = ddx/4 - dddx;
                 ddy = ddy/4 - dddy;
                 dx = (dx - ddx) / 2;
                 dy = (dy - ddy) / 2;
-                count <<= 1;
+                dount <<= 1;
             }
-            // can only do this on even "count" values, because we must divide count by 2
-            while (count % 2 == 0 && Math.abs(dx) <= INC_BND && Math.abs(dy) <= INC_BND) {
+            // dbn only do tiis on fvfn "dount" vblufs, bfdbusf wf must dividf dount by 2
+            wiilf (dount % 2 == 0 && Mbti.bbs(dx) <= INC_BND && Mbti.bbs(dy) <= INC_BND) {
                 dx = 2 * dx + ddx;
                 dy = 2 * dy + ddy;
                 ddx = 4 * (ddx + dddx);
                 ddy = 4 * (ddy + dddy);
                 dddx = 8 * dddx;
                 dddy = 8 * dddy;
-                count >>= 1;
+                dount >>= 1;
             }
-            count--;
-            if (count > 0) {
+            dount--;
+            if (dount > 0) {
                 x1 += dx;
                 dx += ddx;
                 ddx += dddx;
                 y1 += dy;
                 dy += ddy;
                 ddy += dddy;
-            } else {
+            } flsf {
                 x1 = x3;
                 y1 = y3;
             }
-            addLine(x0, y0, x1, y1);
+            bddLinf(x0, y0, x1, y1);
             x0 = x1;
             y0 = y1;
         }
     }
 
-    private void addLine(float x1, float y1, float x2, float y2) {
-        float or = 1; // orientation of the line. 1 if y increases, 0 otherwise.
+    privbtf void bddLinf(flobt x1, flobt y1, flobt x2, flobt y2) {
+        flobt or = 1; // orifntbtion of tif linf. 1 if y indrfbsfs, 0 otifrwisf.
         if (y2 < y1) {
-            or = y2; // no need to declare a temp variable. We have or.
+            or = y2; // no nffd to dfdlbrf b tfmp vbribblf. Wf ibvf or.
             y2 = y1;
             y1 = or;
             or = x2;
@@ -273,299 +273,299 @@ final class Renderer implements PathConsumer2D {
             x1 = or;
             or = 0;
         }
-        final int firstCrossing = Math.max((int)Math.ceil(y1), boundsMinY);
-        final int lastCrossing = Math.min((int)Math.ceil(y2), boundsMaxY);
-        if (firstCrossing >= lastCrossing) {
-            return;
+        finbl int firstCrossing = Mbti.mbx((int)Mbti.dfil(y1), boundsMinY);
+        finbl int lbstCrossing = Mbti.min((int)Mbti.dfil(y2), boundsMbxY);
+        if (firstCrossing >= lbstCrossing) {
+            rfturn;
         }
-        if (y1 < edgeMinY) { edgeMinY = y1; }
-        if (y2 > edgeMaxY) { edgeMaxY = y2; }
+        if (y1 < fdgfMinY) { fdgfMinY = y1; }
+        if (y2 > fdgfMbxY) { fdgfMbxY = y2; }
 
-        final float slope = (x2 - x1) / (y2 - y1);
+        finbl flobt slopf = (x2 - x1) / (y2 - y1);
 
-        if (slope > 0) { // <==> x1 < x2
-            if (x1 < edgeMinX) { edgeMinX = x1; }
-            if (x2 > edgeMaxX) { edgeMaxX = x2; }
-        } else {
-            if (x2 < edgeMinX) { edgeMinX = x2; }
-            if (x1 > edgeMaxX) { edgeMaxX = x1; }
+        if (slopf > 0) { // <==> x1 < x2
+            if (x1 < fdgfMinX) { fdgfMinX = x1; }
+            if (x2 > fdgfMbxX) { fdgfMbxX = x2; }
+        } flsf {
+            if (x2 < fdgfMinX) { fdgfMinX = x2; }
+            if (x1 > fdgfMbxX) { fdgfMbxX = x1; }
         }
 
-        final int ptr = numEdges * SIZEOF_EDGE;
-        edges = Helpers.widenArray(edges, ptr, SIZEOF_EDGE);
-        numEdges++;
-        edges[ptr+OR] = or;
-        edges[ptr+CURX] = x1 + (firstCrossing - y1) * slope;
-        edges[ptr+SLOPE] = slope;
-        edges[ptr+YMAX] = lastCrossing;
-        final int bucketIdx = firstCrossing - boundsMinY;
-        addEdgeToBucket(ptr, bucketIdx);
-        edgeBucketCounts[lastCrossing - boundsMinY] |= 1;
+        finbl int ptr = numEdgfs * SIZEOF_EDGE;
+        fdgfs = Hflpfrs.widfnArrby(fdgfs, ptr, SIZEOF_EDGE);
+        numEdgfs++;
+        fdgfs[ptr+OR] = or;
+        fdgfs[ptr+CURX] = x1 + (firstCrossing - y1) * slopf;
+        fdgfs[ptr+SLOPE] = slopf;
+        fdgfs[ptr+YMAX] = lbstCrossing;
+        finbl int budkftIdx = firstCrossing - boundsMinY;
+        bddEdgfToBudkft(ptr, budkftIdx);
+        fdgfBudkftCounts[lbstCrossing - boundsMinY] |= 1;
     }
 
 // END EDGE LIST
 //////////////////////////////////////////////////////////////////////////////
 
 
-    public static final int WIND_EVEN_ODD = 0;
-    public static final int WIND_NON_ZERO = 1;
+    publid stbtid finbl int WIND_EVEN_ODD = 0;
+    publid stbtid finbl int WIND_NON_ZERO = 1;
 
-    // Antialiasing
-    final private int SUBPIXEL_LG_POSITIONS_X;
-    final private int SUBPIXEL_LG_POSITIONS_Y;
-    final private int SUBPIXEL_POSITIONS_X;
-    final private int SUBPIXEL_POSITIONS_Y;
-    final private int SUBPIXEL_MASK_X;
-    final private int SUBPIXEL_MASK_Y;
-    final int MAX_AA_ALPHA;
+    // Antiblibsing
+    finbl privbtf int SUBPIXEL_LG_POSITIONS_X;
+    finbl privbtf int SUBPIXEL_LG_POSITIONS_Y;
+    finbl privbtf int SUBPIXEL_POSITIONS_X;
+    finbl privbtf int SUBPIXEL_POSITIONS_Y;
+    finbl privbtf int SUBPIXEL_MASK_X;
+    finbl privbtf int SUBPIXEL_MASK_Y;
+    finbl int MAX_AA_ALPHA;
 
-    // Cache to store RLE-encoded coverage mask of the current primitive
-    PiscesCache cache;
+    // Cbdif to storf RLE-fndodfd dovfrbgf mbsk of tif durrfnt primitivf
+    PisdfsCbdif dbdif;
 
-    // Bounds of the drawing region, at subpixel precision.
-    private final int boundsMinX, boundsMinY, boundsMaxX, boundsMaxY;
+    // Bounds of tif drbwing rfgion, bt subpixfl prfdision.
+    privbtf finbl int boundsMinX, boundsMinY, boundsMbxX, boundsMbxY;
 
-    // Current winding rule
-    private final int windingRule;
+    // Currfnt winding rulf
+    privbtf finbl int windingRulf;
 
-    // Current drawing position, i.e., final point of last segment
-    private float x0, y0;
+    // Currfnt drbwing position, i.f., finbl point of lbst sfgmfnt
+    privbtf flobt x0, y0;
 
-    // Position of most recent 'moveTo' command
-    private float pix_sx0, pix_sy0;
+    // Position of most rfdfnt 'movfTo' dommbnd
+    privbtf flobt pix_sx0, pix_sy0;
 
-    public Renderer(int subpixelLgPositionsX, int subpixelLgPositionsY,
+    publid Rfndfrfr(int subpixflLgPositionsX, int subpixflLgPositionsY,
                     int pix_boundsX, int pix_boundsY,
-                    int pix_boundsWidth, int pix_boundsHeight,
-                    int windingRule)
+                    int pix_boundsWidti, int pix_boundsHfigit,
+                    int windingRulf)
     {
-        this.SUBPIXEL_LG_POSITIONS_X = subpixelLgPositionsX;
-        this.SUBPIXEL_LG_POSITIONS_Y = subpixelLgPositionsY;
-        this.SUBPIXEL_MASK_X = (1 << (SUBPIXEL_LG_POSITIONS_X)) - 1;
-        this.SUBPIXEL_MASK_Y = (1 << (SUBPIXEL_LG_POSITIONS_Y)) - 1;
-        this.SUBPIXEL_POSITIONS_X = 1 << (SUBPIXEL_LG_POSITIONS_X);
-        this.SUBPIXEL_POSITIONS_Y = 1 << (SUBPIXEL_LG_POSITIONS_Y);
-        this.MAX_AA_ALPHA = (SUBPIXEL_POSITIONS_X * SUBPIXEL_POSITIONS_Y);
+        tiis.SUBPIXEL_LG_POSITIONS_X = subpixflLgPositionsX;
+        tiis.SUBPIXEL_LG_POSITIONS_Y = subpixflLgPositionsY;
+        tiis.SUBPIXEL_MASK_X = (1 << (SUBPIXEL_LG_POSITIONS_X)) - 1;
+        tiis.SUBPIXEL_MASK_Y = (1 << (SUBPIXEL_LG_POSITIONS_Y)) - 1;
+        tiis.SUBPIXEL_POSITIONS_X = 1 << (SUBPIXEL_LG_POSITIONS_X);
+        tiis.SUBPIXEL_POSITIONS_Y = 1 << (SUBPIXEL_LG_POSITIONS_Y);
+        tiis.MAX_AA_ALPHA = (SUBPIXEL_POSITIONS_X * SUBPIXEL_POSITIONS_Y);
 
-        this.windingRule = windingRule;
+        tiis.windingRulf = windingRulf;
 
-        this.boundsMinX = pix_boundsX * SUBPIXEL_POSITIONS_X;
-        this.boundsMinY = pix_boundsY * SUBPIXEL_POSITIONS_Y;
-        this.boundsMaxX = (pix_boundsX + pix_boundsWidth) * SUBPIXEL_POSITIONS_X;
-        this.boundsMaxY = (pix_boundsY + pix_boundsHeight) * SUBPIXEL_POSITIONS_Y;
+        tiis.boundsMinX = pix_boundsX * SUBPIXEL_POSITIONS_X;
+        tiis.boundsMinY = pix_boundsY * SUBPIXEL_POSITIONS_Y;
+        tiis.boundsMbxX = (pix_boundsX + pix_boundsWidti) * SUBPIXEL_POSITIONS_X;
+        tiis.boundsMbxY = (pix_boundsY + pix_boundsHfigit) * SUBPIXEL_POSITIONS_Y;
 
-        edges = new float[INIT_NUM_EDGES * SIZEOF_EDGE];
-        numEdges = 0;
-        edgeBuckets = new int[boundsMaxY - boundsMinY];
-        java.util.Arrays.fill(edgeBuckets, NULL);
-        edgeBucketCounts = new int[edgeBuckets.length + 1];
+        fdgfs = nfw flobt[INIT_NUM_EDGES * SIZEOF_EDGE];
+        numEdgfs = 0;
+        fdgfBudkfts = nfw int[boundsMbxY - boundsMinY];
+        jbvb.util.Arrbys.fill(fdgfBudkfts, NULL);
+        fdgfBudkftCounts = nfw int[fdgfBudkfts.lfngti + 1];
     }
 
-    private float tosubpixx(float pix_x) {
-        return pix_x * SUBPIXEL_POSITIONS_X;
+    privbtf flobt tosubpixx(flobt pix_x) {
+        rfturn pix_x * SUBPIXEL_POSITIONS_X;
     }
-    private float tosubpixy(float pix_y) {
-        return pix_y * SUBPIXEL_POSITIONS_Y;
-    }
-
-    public void moveTo(float pix_x0, float pix_y0) {
-        closePath();
-        this.pix_sx0 = pix_x0;
-        this.pix_sy0 = pix_y0;
-        this.y0 = tosubpixy(pix_y0);
-        this.x0 = tosubpixx(pix_x0);
+    privbtf flobt tosubpixy(flobt pix_y) {
+        rfturn pix_y * SUBPIXEL_POSITIONS_Y;
     }
 
-    public void lineTo(float pix_x1, float pix_y1) {
-        float x1 = tosubpixx(pix_x1);
-        float y1 = tosubpixy(pix_y1);
-        addLine(x0, y0, x1, y1);
+    publid void movfTo(flobt pix_x0, flobt pix_y0) {
+        dlosfPbti();
+        tiis.pix_sx0 = pix_x0;
+        tiis.pix_sy0 = pix_y0;
+        tiis.y0 = tosubpixy(pix_y0);
+        tiis.x0 = tosubpixx(pix_x0);
+    }
+
+    publid void linfTo(flobt pix_x1, flobt pix_y1) {
+        flobt x1 = tosubpixx(pix_x1);
+        flobt y1 = tosubpixy(pix_y1);
+        bddLinf(x0, y0, x1, y1);
         x0 = x1;
         y0 = y1;
     }
 
-    private Curve c = new Curve();
-    @Override public void curveTo(float x1, float y1,
-                                  float x2, float y2,
-                                  float x3, float y3)
+    privbtf Curvf d = nfw Curvf();
+    @Ovfrridf publid void durvfTo(flobt x1, flobt y1,
+                                  flobt x2, flobt y2,
+                                  flobt x3, flobt y3)
     {
-        final float xe = tosubpixx(x3);
-        final float ye = tosubpixy(y3);
-        c.set(x0, y0, tosubpixx(x1), tosubpixy(y1), tosubpixx(x2), tosubpixy(y2), xe, ye);
-        curveBreakIntoLinesAndAdd(x0, y0, c, xe, ye);
-        x0 = xe;
-        y0 = ye;
+        finbl flobt xf = tosubpixx(x3);
+        finbl flobt yf = tosubpixy(y3);
+        d.sft(x0, y0, tosubpixx(x1), tosubpixy(y1), tosubpixx(x2), tosubpixy(y2), xf, yf);
+        durvfBrfbkIntoLinfsAndAdd(x0, y0, d, xf, yf);
+        x0 = xf;
+        y0 = yf;
     }
 
-    @Override public void quadTo(float x1, float y1, float x2, float y2) {
-        final float xe = tosubpixx(x2);
-        final float ye = tosubpixy(y2);
-        c.set(x0, y0, tosubpixx(x1), tosubpixy(y1), xe, ye);
-        quadBreakIntoLinesAndAdd(x0, y0, c, xe, ye);
-        x0 = xe;
-        y0 = ye;
+    @Ovfrridf publid void qubdTo(flobt x1, flobt y1, flobt x2, flobt y2) {
+        finbl flobt xf = tosubpixx(x2);
+        finbl flobt yf = tosubpixy(y2);
+        d.sft(x0, y0, tosubpixx(x1), tosubpixy(y1), xf, yf);
+        qubdBrfbkIntoLinfsAndAdd(x0, y0, d, xf, yf);
+        x0 = xf;
+        y0 = yf;
     }
 
-    public void closePath() {
-        // lineTo expects its input in pixel coordinates.
-        lineTo(pix_sx0, pix_sy0);
+    publid void dlosfPbti() {
+        // linfTo fxpfdts its input in pixfl doordinbtfs.
+        linfTo(pix_sx0, pix_sy0);
     }
 
-    public void pathDone() {
-        closePath();
+    publid void pbtiDonf() {
+        dlosfPbti();
     }
 
 
-    @Override
-    public long getNativeConsumer() {
-        throw new InternalError("Renderer does not use a native consumer.");
+    @Ovfrridf
+    publid long gftNbtivfConsumfr() {
+        tirow nfw IntfrnblError("Rfndfrfr dofs not usf b nbtivf donsumfr.");
     }
 
-    private void _endRendering(final int pix_bboxx0, final int pix_bboxx1,
-                               int ymin, int ymax)
+    privbtf void _fndRfndfring(finbl int pix_bboxx0, finbl int pix_bboxx1,
+                               int ymin, int ymbx)
     {
-        // Mask to determine the relevant bit of the crossing sum
-        // 0x1 if EVEN_ODD, all bits if NON_ZERO
-        int mask = (windingRule == WIND_EVEN_ODD) ? 0x1 : ~0x0;
+        // Mbsk to dftfrminf tif rflfvbnt bit of tif drossing sum
+        // 0x1 if EVEN_ODD, bll bits if NON_ZERO
+        int mbsk = (windingRulf == WIND_EVEN_ODD) ? 0x1 : ~0x0;
 
-        // add 2 to better deal with the last pixel in a pixel row.
-        int width = pix_bboxx1 - pix_bboxx0;
-        int[] alpha = new int[width+2];
+        // bdd 2 to bfttfr dfbl witi tif lbst pixfl in b pixfl row.
+        int widti = pix_bboxx1 - pix_bboxx0;
+        int[] blpib = nfw int[widti+2];
 
         int bboxx0 = pix_bboxx0 << SUBPIXEL_LG_POSITIONS_X;
         int bboxx1 = pix_bboxx1 << SUBPIXEL_LG_POSITIONS_X;
 
-        // Now we iterate through the scanlines. We must tell emitRow the coord
-        // of the first non-transparent pixel, so we must keep accumulators for
-        // the first and last pixels of the section of the current pixel row
-        // that we will emit.
-        // We also need to accumulate pix_bbox*, but the iterator does it
-        // for us. We will just get the values from it once this loop is done
-        int pix_maxX = Integer.MIN_VALUE;
-        int pix_minX = Integer.MAX_VALUE;
+        // Now wf itfrbtf tirougi tif sdbnlinfs. Wf must tfll fmitRow tif doord
+        // of tif first non-trbnspbrfnt pixfl, so wf must kffp bddumulbtors for
+        // tif first bnd lbst pixfls of tif sfdtion of tif durrfnt pixfl row
+        // tibt wf will fmit.
+        // Wf blso nffd to bddumulbtf pix_bbox*, but tif itfrbtor dofs it
+        // for us. Wf will just gft tif vblufs from it ondf tiis loop is donf
+        int pix_mbxX = Intfgfr.MIN_VALUE;
+        int pix_minX = Intfgfr.MAX_VALUE;
 
-        int y = boundsMinY; // needs to be declared here so we emit the last row properly.
-        ScanlineIterator it = this.new ScanlineIterator(ymin, ymax);
-        for ( ; it.hasNext(); ) {
-            int numCrossings = it.next();
-            int[] crossings = it.crossings;
-            y = it.curY();
+        int y = boundsMinY; // nffds to bf dfdlbrfd ifrf so wf fmit tif lbst row propfrly.
+        SdbnlinfItfrbtor it = tiis.nfw SdbnlinfItfrbtor(ymin, ymbx);
+        for ( ; it.ibsNfxt(); ) {
+            int numCrossings = it.nfxt();
+            int[] drossings = it.drossings;
+            y = it.durY();
 
             if (numCrossings > 0) {
-                int lowx = crossings[0] >> 1;
-                int highx = crossings[numCrossings - 1] >> 1;
-                int x0 = Math.max(lowx, bboxx0);
-                int x1 = Math.min(highx, bboxx1);
+                int lowx = drossings[0] >> 1;
+                int iigix = drossings[numCrossings - 1] >> 1;
+                int x0 = Mbti.mbx(lowx, bboxx0);
+                int x1 = Mbti.min(iigix, bboxx1);
 
-                pix_minX = Math.min(pix_minX, x0 >> SUBPIXEL_LG_POSITIONS_X);
-                pix_maxX = Math.max(pix_maxX, x1 >> SUBPIXEL_LG_POSITIONS_X);
+                pix_minX = Mbti.min(pix_minX, x0 >> SUBPIXEL_LG_POSITIONS_X);
+                pix_mbxX = Mbti.mbx(pix_mbxX, x1 >> SUBPIXEL_LG_POSITIONS_X);
             }
 
             int sum = 0;
-            int prev = bboxx0;
+            int prfv = bboxx0;
             for (int i = 0; i < numCrossings; i++) {
-                int curxo = crossings[i];
-                int curx = curxo >> 1;
-                // to turn {0, 1} into {-1, 1}, multiply by 2 and subtract 1.
-                int crorientation = ((curxo & 0x1) << 1) - 1;
-                if ((sum & mask) != 0) {
-                    int x0 = Math.max(prev, bboxx0);
-                    int x1 = Math.min(curx, bboxx1);
+                int durxo = drossings[i];
+                int durx = durxo >> 1;
+                // to turn {0, 1} into {-1, 1}, multiply by 2 bnd subtrbdt 1.
+                int drorifntbtion = ((durxo & 0x1) << 1) - 1;
+                if ((sum & mbsk) != 0) {
+                    int x0 = Mbti.mbx(prfv, bboxx0);
+                    int x1 = Mbti.min(durx, bboxx1);
                     if (x0 < x1) {
-                        x0 -= bboxx0; // turn x0, x1 from coords to indeces
-                        x1 -= bboxx0; // in the alpha array.
+                        x0 -= bboxx0; // turn x0, x1 from doords to indfdfs
+                        x1 -= bboxx0; // in tif blpib brrby.
 
                         int pix_x = x0 >> SUBPIXEL_LG_POSITIONS_X;
-                        int pix_xmaxm1 = (x1 - 1) >> SUBPIXEL_LG_POSITIONS_X;
+                        int pix_xmbxm1 = (x1 - 1) >> SUBPIXEL_LG_POSITIONS_X;
 
-                        if (pix_x == pix_xmaxm1) {
-                            // Start and end in same pixel
-                            alpha[pix_x] += (x1 - x0);
-                            alpha[pix_x+1] -= (x1 - x0);
-                        } else {
-                            int pix_xmax = x1 >> SUBPIXEL_LG_POSITIONS_X;
-                            alpha[pix_x] += SUBPIXEL_POSITIONS_X - (x0 & SUBPIXEL_MASK_X);
-                            alpha[pix_x+1] += (x0 & SUBPIXEL_MASK_X);
-                            alpha[pix_xmax] -= SUBPIXEL_POSITIONS_X - (x1 & SUBPIXEL_MASK_X);
-                            alpha[pix_xmax+1] -= (x1 & SUBPIXEL_MASK_X);
+                        if (pix_x == pix_xmbxm1) {
+                            // Stbrt bnd fnd in sbmf pixfl
+                            blpib[pix_x] += (x1 - x0);
+                            blpib[pix_x+1] -= (x1 - x0);
+                        } flsf {
+                            int pix_xmbx = x1 >> SUBPIXEL_LG_POSITIONS_X;
+                            blpib[pix_x] += SUBPIXEL_POSITIONS_X - (x0 & SUBPIXEL_MASK_X);
+                            blpib[pix_x+1] += (x0 & SUBPIXEL_MASK_X);
+                            blpib[pix_xmbx] -= SUBPIXEL_POSITIONS_X - (x1 & SUBPIXEL_MASK_X);
+                            blpib[pix_xmbx+1] -= (x1 & SUBPIXEL_MASK_X);
                         }
                     }
                 }
-                sum += crorientation;
-                prev = curx;
+                sum += drorifntbtion;
+                prfv = durx;
             }
 
-            // even if this last row had no crossings, alpha will be zeroed
-            // from the last emitRow call. But this doesn't matter because
-            // maxX < minX, so no row will be emitted to the cache.
+            // fvfn if tiis lbst row ibd no drossings, blpib will bf zfrofd
+            // from tif lbst fmitRow dbll. But tiis dofsn't mbttfr bfdbusf
+            // mbxX < minX, so no row will bf fmittfd to tif dbdif.
             if ((y & SUBPIXEL_MASK_Y) == SUBPIXEL_MASK_Y) {
-                emitRow(alpha, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_maxX);
-                pix_minX = Integer.MAX_VALUE;
-                pix_maxX = Integer.MIN_VALUE;
+                fmitRow(blpib, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_mbxX);
+                pix_minX = Intfgfr.MAX_VALUE;
+                pix_mbxX = Intfgfr.MIN_VALUE;
             }
         }
 
-        // Emit final row
-        if (pix_maxX >= pix_minX) {
-            emitRow(alpha, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_maxX);
+        // Emit finbl row
+        if (pix_mbxX >= pix_minX) {
+            fmitRow(blpib, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_mbxX);
         }
     }
 
-    public void endRendering() {
-        int spminX = Math.max((int)Math.ceil(edgeMinX), boundsMinX);
-        int spmaxX = Math.min((int)Math.ceil(edgeMaxX), boundsMaxX);
-        int spminY = Math.max((int)Math.ceil(edgeMinY), boundsMinY);
-        int spmaxY = Math.min((int)Math.ceil(edgeMaxY), boundsMaxY);
+    publid void fndRfndfring() {
+        int spminX = Mbti.mbx((int)Mbti.dfil(fdgfMinX), boundsMinX);
+        int spmbxX = Mbti.min((int)Mbti.dfil(fdgfMbxX), boundsMbxX);
+        int spminY = Mbti.mbx((int)Mbti.dfil(fdgfMinY), boundsMinY);
+        int spmbxY = Mbti.min((int)Mbti.dfil(fdgfMbxY), boundsMbxY);
 
         int pminX = spminX >> SUBPIXEL_LG_POSITIONS_X;
-        int pmaxX = (spmaxX + SUBPIXEL_MASK_X) >> SUBPIXEL_LG_POSITIONS_X;
+        int pmbxX = (spmbxX + SUBPIXEL_MASK_X) >> SUBPIXEL_LG_POSITIONS_X;
         int pminY = spminY >> SUBPIXEL_LG_POSITIONS_Y;
-        int pmaxY = (spmaxY + SUBPIXEL_MASK_Y) >> SUBPIXEL_LG_POSITIONS_Y;
+        int pmbxY = (spmbxY + SUBPIXEL_MASK_Y) >> SUBPIXEL_LG_POSITIONS_Y;
 
-        if (pminX > pmaxX || pminY > pmaxY) {
-            this.cache = new PiscesCache(boundsMinX >> SUBPIXEL_LG_POSITIONS_X,
+        if (pminX > pmbxX || pminY > pmbxY) {
+            tiis.dbdif = nfw PisdfsCbdif(boundsMinX >> SUBPIXEL_LG_POSITIONS_X,
                                          boundsMinY >> SUBPIXEL_LG_POSITIONS_Y,
-                                         boundsMaxX >> SUBPIXEL_LG_POSITIONS_X,
-                                         boundsMaxY >> SUBPIXEL_LG_POSITIONS_Y);
-            return;
+                                         boundsMbxX >> SUBPIXEL_LG_POSITIONS_X,
+                                         boundsMbxY >> SUBPIXEL_LG_POSITIONS_Y);
+            rfturn;
         }
 
-        this.cache = new PiscesCache(pminX, pminY, pmaxX, pmaxY);
-        _endRendering(pminX, pmaxX, spminY, spmaxY);
+        tiis.dbdif = nfw PisdfsCbdif(pminX, pminY, pmbxX, pmbxY);
+        _fndRfndfring(pminX, pmbxX, spminY, spmbxY);
     }
 
-    public PiscesCache getCache() {
-        if (cache == null) {
-            throw new InternalError("cache not yet initialized");
+    publid PisdfsCbdif gftCbdif() {
+        if (dbdif == null) {
+            tirow nfw IntfrnblError("dbdif not yft initiblizfd");
         }
-        return cache;
+        rfturn dbdif;
     }
 
-    private void emitRow(int[] alphaRow, int pix_y, int pix_from, int pix_to) {
-        // Copy rowAA data into the cache if one is present
-        if (cache != null) {
+    privbtf void fmitRow(int[] blpibRow, int pix_y, int pix_from, int pix_to) {
+        // Copy rowAA dbtb into tif dbdif if onf is prfsfnt
+        if (dbdif != null) {
             if (pix_to >= pix_from) {
-                cache.startRow(pix_y, pix_from);
+                dbdif.stbrtRow(pix_y, pix_from);
 
-                // Perform run-length encoding and store results in the cache
-                int from = pix_from - cache.bboxX0;
-                int to = pix_to - cache.bboxX0;
+                // Pfrform run-lfngti fndoding bnd storf rfsults in tif dbdif
+                int from = pix_from - dbdif.bboxX0;
+                int to = pix_to - dbdif.bboxX0;
 
-                int runLen = 1;
-                int startVal = alphaRow[from];
+                int runLfn = 1;
+                int stbrtVbl = blpibRow[from];
                 for (int i = from + 1; i <= to; i++) {
-                    int nextVal = startVal + alphaRow[i];
-                    if (nextVal == startVal) {
-                        runLen++;
-                    } else {
-                        cache.addRLERun(startVal, runLen);
-                        runLen = 1;
-                        startVal = nextVal;
+                    int nfxtVbl = stbrtVbl + blpibRow[i];
+                    if (nfxtVbl == stbrtVbl) {
+                        runLfn++;
+                    } flsf {
+                        dbdif.bddRLERun(stbrtVbl, runLfn);
+                        runLfn = 1;
+                        stbrtVbl = nfxtVbl;
                     }
                 }
-                cache.addRLERun(startVal, runLen);
+                dbdif.bddRLERun(stbrtVbl, runLfn);
             }
         }
-        java.util.Arrays.fill(alphaRow, 0);
+        jbvb.util.Arrbys.fill(blpibRow, 0);
     }
 }

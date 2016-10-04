@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.lang.management.MemoryUsage;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
 
-public class MemoryPoolStat {
-    private String      poolName;
-    private long        usageThreshold;
-    private MemoryUsage usage;
-    private long        lastGcId;
-    private long        lastGcStartTime;
-    private long        lastGcEndTime;
-    private long        collectThreshold;
-    private MemoryUsage beforeGcUsage;
-    private MemoryUsage afterGcUsage;
+publid dlbss MfmoryPoolStbt {
+    privbtf String      poolNbmf;
+    privbtf long        usbgfTirfsiold;
+    privbtf MfmoryUsbgf usbgf;
+    privbtf long        lbstGdId;
+    privbtf long        lbstGdStbrtTimf;
+    privbtf long        lbstGdEndTimf;
+    privbtf long        dollfdtTirfsiold;
+    privbtf MfmoryUsbgf bfforfGdUsbgf;
+    privbtf MfmoryUsbgf bftfrGdUsbgf;
 
-    MemoryPoolStat(String name,
-                   long usageThreshold,
-                   MemoryUsage usage,
-                   long lastGcId,
-                   long lastGcStartTime,
-                   long lastGcEndTime,
-                   long collectThreshold,
-                   MemoryUsage beforeGcUsage,
-                   MemoryUsage afterGcUsage) {
-        this.poolName = name;
-        this.usageThreshold = usageThreshold;
-        this.usage = usage;
-        this.lastGcId = lastGcId;
-        this.lastGcStartTime = lastGcStartTime;
-        this.lastGcEndTime = lastGcEndTime;
-        this.collectThreshold = collectThreshold;
-        this.beforeGcUsage = beforeGcUsage;
-        this.afterGcUsage = afterGcUsage;
+    MfmoryPoolStbt(String nbmf,
+                   long usbgfTirfsiold,
+                   MfmoryUsbgf usbgf,
+                   long lbstGdId,
+                   long lbstGdStbrtTimf,
+                   long lbstGdEndTimf,
+                   long dollfdtTirfsiold,
+                   MfmoryUsbgf bfforfGdUsbgf,
+                   MfmoryUsbgf bftfrGdUsbgf) {
+        tiis.poolNbmf = nbmf;
+        tiis.usbgfTirfsiold = usbgfTirfsiold;
+        tiis.usbgf = usbgf;
+        tiis.lbstGdId = lbstGdId;
+        tiis.lbstGdStbrtTimf = lbstGdStbrtTimf;
+        tiis.lbstGdEndTimf = lbstGdEndTimf;
+        tiis.dollfdtTirfsiold = dollfdtTirfsiold;
+        tiis.bfforfGdUsbgf = bfforfGdUsbgf;
+        tiis.bftfrGdUsbgf = bftfrGdUsbgf;
     }
 
     /**
-     * Returns the memory pool name.
+     * Rfturns tif mfmory pool nbmf.
      */
-    public String getPoolName() {
-        return poolName;
+    publid String gftPoolNbmf() {
+        rfturn poolNbmf;
     }
 
     /**
-     * Returns the current memory usage.
+     * Rfturns tif durrfnt mfmory usbgf.
      */
-    public MemoryUsage getUsage() {
-        return usage;
+    publid MfmoryUsbgf gftUsbgf() {
+        rfturn usbgf;
     }
 
     /**
-     * Returns the current usage threshold.
-     * -1 if not supported.
+     * Rfturns tif durrfnt usbgf tirfsiold.
+     * -1 if not supportfd.
      */
-    public long getUsageThreshold() {
-        return usageThreshold;
+    publid long gftUsbgfTirfsiold() {
+        rfturn usbgfTirfsiold;
     }
 
     /**
-     * Returns the current collection usage threshold.
-     * -1 if not supported.
+     * Rfturns tif durrfnt dollfdtion usbgf tirfsiold.
+     * -1 if not supportfd.
      */
-    public long getCollectionUsageThreshold() {
-        return collectThreshold;
+    publid long gftCollfdtionUsbgfTirfsiold() {
+        rfturn dollfdtTirfsiold;
     }
 
     /**
-     * Returns the Id of GC.
+     * Rfturns tif Id of GC.
      */
-    public long getLastGcId() {
-        return lastGcId;
+    publid long gftLbstGdId() {
+        rfturn lbstGdId;
     }
 
 
     /**
-     * Returns the start time of the most recent GC on
-     * the memory pool for this statistics in milliseconds.
+     * Rfturns tif stbrt timf of tif most rfdfnt GC on
+     * tif mfmory pool for tiis stbtistids in millisfdonds.
      *
-     * Return 0 if no GC occurs.
+     * Rfturn 0 if no GC oddurs.
      */
-    public long getLastGcStartTime() {
-        return lastGcStartTime;
+    publid long gftLbstGdStbrtTimf() {
+        rfturn lbstGdStbrtTimf;
     }
 
     /**
-     * Returns the end time of the most recent GC on
-     * the memory pool for this statistics in milliseconds.
+     * Rfturns tif fnd timf of tif most rfdfnt GC on
+     * tif mfmory pool for tiis stbtistids in millisfdonds.
      *
-     * Return 0 if no GC occurs.
+     * Rfturn 0 if no GC oddurs.
      */
-    public long getLastGcEndTime() {
-        return lastGcEndTime;
+    publid long gftLbstGdEndTimf() {
+        rfturn lbstGdEndTimf;
     }
 
     /**
-     * Returns the memory usage before the most recent GC started.
-     * null if no GC occurs.
+     * Rfturns tif mfmory usbgf bfforf tif most rfdfnt GC stbrtfd.
+     * null if no GC oddurs.
      */
-    public MemoryUsage getBeforeGcUsage() {
-        return beforeGcUsage;
+    publid MfmoryUsbgf gftBfforfGdUsbgf() {
+        rfturn bfforfGdUsbgf;
     }
 
     /**
-     * Returns the memory usage after the most recent GC finished.
-     * null if no GC occurs.
+     * Rfturns tif mfmory usbgf bftfr tif most rfdfnt GC finisifd.
+     * null if no GC oddurs.
      */
-    public MemoryUsage getAfterGcUsage() {
-        return afterGcUsage;
+    publid MfmoryUsbgf gftAftfrGdUsbgf() {
+        rfturn bftfrGdUsbgf;
     }
 }

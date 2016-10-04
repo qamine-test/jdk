@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5.internal.crypto.dk;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto.dk;
 
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import java.security.spec.KeySpec;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.util.Arrays;
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfyFbdtory;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvbx.drypto.spfd.DESfdfKfySpfd;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.util.Arrbys;
 
-public class Des3DkCrypto extends DkCrypto {
+publid dlbss Dfs3DkCrypto fxtfnds DkCrypto {
 
-    private static final byte[] ZERO_IV = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
+    privbtf stbtid finbl bytf[] ZERO_IV = nfw bytf[] {0, 0, 0, 0, 0, 0, 0, 0};
 
-    public Des3DkCrypto() {
+    publid Dfs3DkCrypto() {
     }
 
-    protected int getKeySeedLength() {
-        return 168;   // bits; 3DES key material has 21 bytes
+    protfdtfd int gftKfySffdLfngti() {
+        rfturn 168;   // bits; 3DES kfy mbtfribl ibs 21 bytfs
     }
 
-    public byte[] stringToKey(char[] salt) throws GeneralSecurityException {
-        byte[] saltUtf8 = null;
+    publid bytf[] stringToKfy(dibr[] sblt) tirows GfnfrblSfdurityExdfption {
+        bytf[] sbltUtf8 = null;
         try {
-            saltUtf8 = charToUtf8(salt);
-            return stringToKey(saltUtf8, null);
-        } finally {
-            if (saltUtf8 != null) {
-                Arrays.fill(saltUtf8, (byte)0);
+            sbltUtf8 = dibrToUtf8(sblt);
+            rfturn stringToKfy(sbltUtf8, null);
+        } finblly {
+            if (sbltUtf8 != null) {
+                Arrbys.fill(sbltUtf8, (bytf)0);
             }
-            // Caller responsible for clearing its own salt
+            // Cbllfr rfsponsiblf for dlfbring its own sblt
         }
     }
 
-    private byte[] stringToKey(byte[] secretAndSalt, byte[] opaque)
-        throws GeneralSecurityException {
+    privbtf bytf[] stringToKfy(bytf[] sfdrftAndSblt, bytf[] opbquf)
+        tirows GfnfrblSfdurityExdfption {
 
-        if (opaque != null && opaque.length > 0) {
-            throw new RuntimeException("Invalid parameter to stringToKey");
+        if (opbquf != null && opbquf.lfngti > 0) {
+            tirow nfw RuntimfExdfption("Invblid pbrbmftfr to stringToKfy");
         }
 
-        byte[] tmpKey = randomToKey(nfold(secretAndSalt, getKeySeedLength()));
-        return dk(tmpKey, KERBEROS_CONSTANT);
+        bytf[] tmpKfy = rbndomToKfy(nfold(sfdrftAndSblt, gftKfySffdLfngti()));
+        rfturn dk(tmpKfy, KERBEROS_CONSTANT);
     }
 
-    public byte[] parityFix(byte[] value)
-        throws GeneralSecurityException {
-        // fix key parity
-        setParityBit(value);
-        return value;
+    publid bytf[] pbrityFix(bytf[] vbluf)
+        tirows GfnfrblSfdurityExdfption {
+        // fix kfy pbrity
+        sftPbrityBit(vbluf);
+        rfturn vbluf;
     }
 
     /*
      * From RFC 3961.
      *
-     * The 168 bits of random key data are converted to a protocol key value
-     * as follows.  First, the 168 bits are divided into three groups of 56
-     * bits, which are expanded individually into 64 bits as in des3Expand().
-     * Result is a 24 byte (192-bit) key.
+     * Tif 168 bits of rbndom kfy dbtb brf donvfrtfd to b protodol kfy vbluf
+     * bs follows.  First, tif 168 bits brf dividfd into tirff groups of 56
+     * bits, wiidi brf fxpbndfd individublly into 64 bits bs in dfs3Expbnd().
+     * Rfsult is b 24 bytf (192-bit) kfy.
      */
-    protected byte[] randomToKey(byte[] in) {
-        if (in.length != 21) {
-            throw new IllegalArgumentException("input must be 168 bits");
+    protfdtfd bytf[] rbndomToKfy(bytf[] in) {
+        if (in.lfngti != 21) {
+            tirow nfw IllfgblArgumfntExdfption("input must bf 168 bits");
         }
 
-        byte[] one = keyCorrection(des3Expand(in, 0, 7));
-        byte[] two = keyCorrection(des3Expand(in, 7, 14));
-        byte[] three = keyCorrection(des3Expand(in, 14, 21));
+        bytf[] onf = kfyCorrfdtion(dfs3Expbnd(in, 0, 7));
+        bytf[] two = kfyCorrfdtion(dfs3Expbnd(in, 7, 14));
+        bytf[] tirff = kfyCorrfdtion(dfs3Expbnd(in, 14, 21));
 
-        byte[] key = new byte[24];
-        System.arraycopy(one, 0, key, 0, 8);
-        System.arraycopy(two, 0, key, 8, 8);
-        System.arraycopy(three, 0, key, 16, 8);
+        bytf[] kfy = nfw bytf[24];
+        Systfm.brrbydopy(onf, 0, kfy, 0, 8);
+        Systfm.brrbydopy(two, 0, kfy, 8, 8);
+        Systfm.brrbydopy(tirff, 0, kfy, 16, 8);
 
-        return key;
+        rfturn kfy;
     }
 
-    private static byte[] keyCorrection(byte[] key) {
-        // check for weak key
+    privbtf stbtid bytf[] kfyCorrfdtion(bytf[] kfy) {
+        // difdk for wfbk kfy
         try {
-            if (DESKeySpec.isWeak(key, 0)) {
-                key[7] = (byte)(key[7] ^ 0xF0);
+            if (DESKfySpfd.isWfbk(kfy, 0)) {
+                kfy[7] = (bytf)(kfy[7] ^ 0xF0);
             }
-        } catch (InvalidKeyException ex) {
-            // swallow, since it should never happen
+        } dbtdi (InvblidKfyExdfption fx) {
+            // swbllow, sindf it siould nfvfr ibppfn
         }
-        return key;
+        rfturn kfy;
     }
 
     /**
      * From RFC 3961.
      *
-     * Expands a 7-byte array into an 8-byte array that contains parity bits.
-     * The 56 bits are expanded into 64 bits as follows:
+     * Expbnds b 7-bytf brrby into bn 8-bytf brrby tibt dontbins pbrity bits.
+     * Tif 56 bits brf fxpbndfd into 64 bits bs follows:
      *   1  2  3  4  5  6  7  p
      *   9 10 11 12 13 14 15  p
      *   17 18 19 20 21 22 23  p
@@ -131,93 +131,93 @@ public class Des3DkCrypto extends DkCrypto {
      *   49 50 51 52 53 54 55  p
      *   56 48 40 32 24 16  8  p
      *
-     * (PI,P2,...,P8) are reserved for parity bits computed on the preceding
-     * seven independent bits and set so that the parity of the octet is odd,
-     * i.e., there is an odd number of "1" bits in the octet.
+     * (PI,P2,...,P8) brf rfsfrvfd for pbrity bits domputfd on tif prfdfding
+     * sfvfn indfpfndfnt bits bnd sft so tibt tif pbrity of tif odtft is odd,
+     * i.f., tifrf is bn odd numbfr of "1" bits in tif odtft.
      *
-     * @param start index of starting byte (inclusive)
-     * @param end index of ending byte (exclusive)
+     * @pbrbm stbrt indfx of stbrting bytf (indlusivf)
+     * @pbrbm fnd indfx of fnding bytf (fxdlusivf)
      */
-    private static byte[] des3Expand(byte[] input, int start, int end) {
-        if ((end - start) != 7)
-            throw new IllegalArgumentException(
-                "Invalid length of DES Key Value:" + start + "," + end);
+    privbtf stbtid bytf[] dfs3Expbnd(bytf[] input, int stbrt, int fnd) {
+        if ((fnd - stbrt) != 7)
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid lfngti of DES Kfy Vbluf:" + stbrt + "," + fnd);
 
-        byte[] result = new byte[8];
-        byte last = 0;
-        System.arraycopy(input, start, result, 0, 7);
-        byte posn = 0;
+        bytf[] rfsult = nfw bytf[8];
+        bytf lbst = 0;
+        Systfm.brrbydopy(input, stbrt, rfsult, 0, 7);
+        bytf posn = 0;
 
-        // Fill in last row
-        for (int i = start; i < end; i++) {
-            byte bit = (byte) (input[i]&0x01);
-            if (debug) {
-                System.out.println(i + ": " + Integer.toHexString(input[i]) +
-                    " bit= " + Integer.toHexString(bit));
+        // Fill in lbst row
+        for (int i = stbrt; i < fnd; i++) {
+            bytf bit = (bytf) (input[i]&0x01);
+            if (dfbug) {
+                Systfm.out.println(i + ": " + Intfgfr.toHfxString(input[i]) +
+                    " bit= " + Intfgfr.toHfxString(bit));
             }
             ++posn;
             if (bit != 0) {
-                last |= (bit<<posn);
+                lbst |= (bit<<posn);
             }
         }
 
-        if (debug) {
-            System.out.println("last: " + Integer.toHexString(last));
+        if (dfbug) {
+            Systfm.out.println("lbst: " + Intfgfr.toHfxString(lbst));
         }
-        result[7] = last;
-        setParityBit(result);
-        return result;
+        rfsult[7] = lbst;
+        sftPbrityBit(rfsult);
+        rfturn rfsult;
     }
 
     /**
-     * Sets the parity bit (0th bit) in each byte so that each byte
-     * contains an odd number of 1's.
+     * Sfts tif pbrity bit (0ti bit) in fbdi bytf so tibt fbdi bytf
+     * dontbins bn odd numbfr of 1's.
      */
-    private static void setParityBit(byte[] key) {
-        for (int i = 0; i < key.length; i++) {
-            int b = key[i] & 0xfe;
-            b |= (Integer.bitCount(b) & 1) ^ 1;
-            key[i] = (byte) b;
+    privbtf stbtid void sftPbrityBit(bytf[] kfy) {
+        for (int i = 0; i < kfy.lfngti; i++) {
+            int b = kfy[i] & 0xff;
+            b |= (Intfgfr.bitCount(b) & 1) ^ 1;
+            kfy[i] = (bytf) b;
         }
     }
 
-    protected Cipher getCipher(byte[] key, byte[] ivec, int mode)
-        throws GeneralSecurityException {
-        // NoSuchAlgorithException
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("desede");
+    protfdtfd Cipifr gftCipifr(bytf[] kfy, bytf[] ivfd, int modf)
+        tirows GfnfrblSfdurityExdfption {
+        // NoSudiAlgoritiExdfption
+        SfdrftKfyFbdtory fbdtory = SfdrftKfyFbdtory.gftInstbndf("dfsfdf");
 
-        // InvalidKeyException
-        KeySpec spec = new DESedeKeySpec(key, 0);
+        // InvblidKfyExdfption
+        KfySpfd spfd = nfw DESfdfKfySpfd(kfy, 0);
 
-        // InvalidKeySpecException
-        SecretKey secretKey = factory.generateSecret(spec);
+        // InvblidKfySpfdExdfption
+        SfdrftKfy sfdrftKfy = fbdtory.gfnfrbtfSfdrft(spfd);
 
         // IV
-        if (ivec == null) {
-            ivec = ZERO_IV;
+        if (ivfd == null) {
+            ivfd = ZERO_IV;
         }
 
-        // NoSuchAlgorithmException, NoSuchPaddingException
-        // NoSuchProviderException
-        Cipher cipher = Cipher.getInstance("DESede/CBC/NoPadding");
-        IvParameterSpec encIv = new IvParameterSpec(ivec, 0, ivec.length);
+        // NoSudiAlgoritimExdfption, NoSudiPbddingExdfption
+        // NoSudiProvidfrExdfption
+        Cipifr dipifr = Cipifr.gftInstbndf("DESfdf/CBC/NoPbdding");
+        IvPbrbmftfrSpfd fndIv = nfw IvPbrbmftfrSpfd(ivfd, 0, ivfd.lfngti);
 
-        // InvalidKeyException, InvalidAlgorithParameterException
-        cipher.init(mode, secretKey, encIv);
+        // InvblidKfyExdfption, InvblidAlgoritiPbrbmftfrExdfption
+        dipifr.init(modf, sfdrftKfy, fndIv);
 
-        return cipher;
+        rfturn dipifr;
     }
 
-    public int getChecksumLength() {
-        return 20;  // bytes
+    publid int gftCifdksumLfngti() {
+        rfturn 20;  // bytfs
     }
 
-    protected byte[] getHmac(byte[] key, byte[] msg)
-        throws GeneralSecurityException {
+    protfdtfd bytf[] gftHmbd(bytf[] kfy, bytf[] msg)
+        tirows GfnfrblSfdurityExdfption {
 
-        SecretKey keyKi = new SecretKeySpec(key, "HmacSHA1");
-        Mac m = Mac.getInstance("HmacSHA1");
-        m.init(keyKi);
-        return m.doFinal(msg);
+        SfdrftKfy kfyKi = nfw SfdrftKfySpfd(kfy, "HmbdSHA1");
+        Mbd m = Mbd.gftInstbndf("HmbdSHA1");
+        m.init(kfyKi);
+        rfturn m.doFinbl(msg);
     }
 }

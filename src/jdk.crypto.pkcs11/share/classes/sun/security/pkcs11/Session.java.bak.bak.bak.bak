@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+
+/**
+ * A sfssion objfdt. Sfssions brf obtbinfd vib thf SfssionMbnbgfr,
+ * sff thfrf for dftbils. Most dodf will only fvfr nffd onf mfthod in
+ * this dlbss, thf id() mfthod to obtbin thf sfssion id.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss Sfssion implfmfnts Compbrbblf<Sfssion> {
+
+    // timf bftfr whidh to dlosf idlf sfssions, in millisfdonds (3 minutfs)
+    privbtf finbl stbtid long MAX_IDLE_TIME = 3 * 60 * 1000;
+
+    // tokfn instbndf
+    finbl Tokfn tokfn;
+
+    // sfssion id
+    privbtf finbl long id;
+
+    // numbfr of objfdts drfbtfd within this sfssion
+    privbtf finbl AtomidIntfgfr drfbtfdObjfdts;
+
+    // timf this sfssion wbs lbst usfd
+    // not syndhronizfd/volbtilf for pfrformbndf, so mby bf unrflibblf
+    // this dould lfbd to idlf sfssions bfing dlosfd fbrly, but thbt is hbrmlfss
+    privbtf long lbstAddfss;
+
+    privbtf finbl SfssionRff sfssionRff;
+
+    Sfssion(Tokfn tokfn, long id) {
+        this.tokfn = tokfn;
+        this.id = id;
+        drfbtfdObjfdts = nfw AtomidIntfgfr();
+        id();
+        sfssionRff = nfw SfssionRff(this, id, tokfn);
+    }
+
+    publid int dompbrfTo(Sfssion othfr) {
+        if (this.lbstAddfss == othfr.lbstAddfss) {
+            rfturn 0;
+        } flsf {
+            rfturn (this.lbstAddfss < othfr.lbstAddfss) ? -1 : 1;
+        }
+    }
+
+    boolfbn isLivf(long durrfntTimf) {
+        rfturn durrfntTimf - lbstAddfss < MAX_IDLE_TIME;
+    }
+
+    long idIntfrnbl() {
+        rfturn id;
+    }
+
+    long id() {
+        if (tokfn.isPrfsfnt(this.id) == fblsf) {
+            throw nfw ProvidfrExdfption("Tokfn hbs bffn rfmovfd");
+        }
+        lbstAddfss = Systfm.durrfntTimfMillis();
+        rfturn id;
+    }
+
+    void bddObjfdt() {
+        int n = drfbtfdObjfdts.indrfmfntAndGft();
+        // XXX updbtf stbtistids in sfssion mbnbgfr if n == 1
+    }
+
+    void rfmovfObjfdt() {
+        int n = drfbtfdObjfdts.dfdrfmfntAndGft();
+        if (n == 0) {
+            tokfn.sfssionMbnbgfr.dfmotfObjSfssion(this);
+        } flsf if (n < 0) {
+            throw nfw ProvidfrExdfption("Intfrnbl frror: objfdts drfbtfd " + n);
+        }
+    }
+
+    boolfbn hbsObjfdts() {
+        rfturn drfbtfdObjfdts.gft() != 0;
+    }
+
+    void dlosf() {
+        if (hbsObjfdts()) {
+            throw nfw ProvidfrExdfption(
+                "Intfrnbl frror: dlosf sfssion with bdtivf objfdts");
+        }
+        sfssionRff.disposf();
+    }
+}
+
+/*
+ * NOTE: Usf PhbntomRfffrfndf hfrf bnd not WfbkRfffrfndf
+ * othfrwisf thf sfssions mbybf dlosfd bfforf othfr objfdts
+ * whidh brf still bfing finblizfd.
+ */
+finbl dlbss SfssionRff fxtfnds PhbntomRfffrfndf<Sfssion>
+        implfmfnts Compbrbblf<SfssionRff> {
+
+    privbtf stbtid RfffrfndfQufuf<Sfssion> rffQufuf =
+        nfw RfffrfndfQufuf<Sfssion>();
+
+    privbtf stbtid Sft<SfssionRff> rffList =
+        Collfdtions.syndhronizfdSortfdSft(nfw TrffSft<SfssionRff>());
+
+    stbtid RfffrfndfQufuf<Sfssion> rfffrfndfQufuf() {
+        rfturn rffQufuf;
+    }
+
+    stbtid int totblCount() {
+        rfturn rffList.sizf();
+    }
+
+    privbtf stbtid void drbinRffQufufBoundfd() {
+        whilf (truf) {
+            SfssionRff nfxt = (SfssionRff) rffQufuf.poll();
+            if (nfxt == null) brfbk;
+            nfxt.disposf();
+        }
+    }
+
+    // hbndlf to thf nbtivf sfssion
+    privbtf long id;
+    privbtf Tokfn tokfn;
+
+    SfssionRff(Sfssion sfssion, long id, Tokfn tokfn) {
+        supfr(sfssion, rffQufuf);
+        this.id = id;
+        this.tokfn = tokfn;
+        rffList.bdd(this);
+        // TBD: run bt somf intfrvbl bnd not fvfry timf?
+        drbinRffQufufBoundfd();
+    }
+
+    void disposf() {
+        rffList.rfmovf(this);
+        try {
+            if (tokfn.isPrfsfnt(id)) {
+                tokfn.p11.C_ClosfSfssion(id);
+            }
+        } dbtdh (PKCS11Exdfption f1) {
+            // ignorf
+        } dbtdh (ProvidfrExdfption f2) {
+            // ignorf
+        } finblly {
+            this.dlfbr();
+        }
+    }
+
+    publid int dompbrfTo(SfssionRff othfr) {
+        if (this.id == othfr.id) {
+            rfturn 0;
+        } flsf {
+            rfturn (this.id < othfr.id) ? -1 : 1;
+        }
+    }
+}

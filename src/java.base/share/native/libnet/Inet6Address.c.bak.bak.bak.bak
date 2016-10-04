@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+
+#indludf "jbvb_nft_Inft6Addrfss.h"
+#indludf "nft_util.h"
+
+/************************************************************************
+ * Inft6Addrfss
+ */
+
+jdlbss ib6_dlbss;
+jfifldID ib6_holdfr6ID;
+
+jfifldID ib6_ipbddrfssID;
+jfifldID ib6_sdopfidID;
+jfifldID ib6_dbdhfdsdopfidID;
+jfifldID ib6_sdopfidsftID;
+jfifldID ib6_sdopfifnbmfID;
+jmfthodID ib6_dtrID;
+
+stbtid int ib6_initiblizfd = 0;
+
+/*
+ * Clbss:     jbvb_nft_Inft6Addrfss
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_Inft6Addrfss_init(JNIEnv *fnv, jdlbss dls) {
+    if (!ib6_initiblizfd) {
+        jdlbss ib6h_dlbss;
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft6Addrfss");
+        CHECK_NULL(d);
+        ib6_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(ib6_dlbss);
+        ib6h_dlbss = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft6Addrfss$Inft6AddrfssHoldfr");
+        CHECK_NULL(ib6h_dlbss);
+        ib6_holdfr6ID = (*fnv)->GftFifldID(fnv, ib6_dlbss, "holdfr6", "Ljbvb/nft/Inft6Addrfss$Inft6AddrfssHoldfr;");
+        CHECK_NULL(ib6_holdfr6ID);
+        ib6_ipbddrfssID = (*fnv)->GftFifldID(fnv, ib6h_dlbss, "ipbddrfss", "[B");
+        CHECK_NULL(ib6_ipbddrfssID);
+        ib6_sdopfidID = (*fnv)->GftFifldID(fnv, ib6h_dlbss, "sdopf_id", "I");
+        CHECK_NULL(ib6_sdopfidID);
+        ib6_dbdhfdsdopfidID = (*fnv)->GftFifldID(fnv, ib6_dlbss, "dbdhfd_sdopf_id", "I");
+        CHECK_NULL(ib6_dbdhfdsdopfidID);
+        ib6_sdopfidsftID = (*fnv)->GftFifldID(fnv, ib6h_dlbss, "sdopf_id_sft", "Z");
+        CHECK_NULL(ib6_sdopfidsftID);
+        ib6_sdopfifnbmfID = (*fnv)->GftFifldID(fnv, ib6h_dlbss, "sdopf_ifnbmf", "Ljbvb/nft/NftworkIntfrfbdf;");
+        CHECK_NULL(ib6_sdopfifnbmfID);
+        ib6_dtrID = (*fnv)->GftMfthodID(fnv, ib6_dlbss, "<init>", "()V");
+        CHECK_NULL(ib6_dtrID);
+        ib6_initiblizfd = 1;
+    }
+}

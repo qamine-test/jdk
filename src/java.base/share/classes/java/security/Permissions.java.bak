@@ -1,603 +1,603 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Collections;
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Collfdtions;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 /**
- * This class represents a heterogeneous collection of Permissions. That is,
- * it contains different types of Permission objects, organized into
- * PermissionCollections. For example, if any
- * {@code java.io.FilePermission} objects are added to an instance of
- * this class, they are all stored in a single
- * PermissionCollection. It is the PermissionCollection returned by a call to
- * the {@code newPermissionCollection} method in the FilePermission class.
- * Similarly, any {@code java.lang.RuntimePermission} objects are
- * stored in the PermissionCollection returned by a call to the
- * {@code newPermissionCollection} method in the
- * RuntimePermission class. Thus, this class represents a collection of
- * PermissionCollections.
+ * Tiis dlbss rfprfsfnts b iftfrogfnfous dollfdtion of Pfrmissions. Tibt is,
+ * it dontbins difffrfnt typfs of Pfrmission objfdts, orgbnizfd into
+ * PfrmissionCollfdtions. For fxbmplf, if bny
+ * {@dodf jbvb.io.FilfPfrmission} objfdts brf bddfd to bn instbndf of
+ * tiis dlbss, tify brf bll storfd in b singlf
+ * PfrmissionCollfdtion. It is tif PfrmissionCollfdtion rfturnfd by b dbll to
+ * tif {@dodf nfwPfrmissionCollfdtion} mftiod in tif FilfPfrmission dlbss.
+ * Similbrly, bny {@dodf jbvb.lbng.RuntimfPfrmission} objfdts brf
+ * storfd in tif PfrmissionCollfdtion rfturnfd by b dbll to tif
+ * {@dodf nfwPfrmissionCollfdtion} mftiod in tif
+ * RuntimfPfrmission dlbss. Tius, tiis dlbss rfprfsfnts b dollfdtion of
+ * PfrmissionCollfdtions.
  *
- * <p>When the {@code add} method is called to add a Permission, the
- * Permission is stored in the appropriate PermissionCollection. If no such
- * collection exists yet, the Permission object's class is determined and the
- * {@code newPermissionCollection} method is called on that class to create
- * the PermissionCollection and add it to the Permissions object. If
- * {@code newPermissionCollection} returns null, then a default
- * PermissionCollection that uses a hashtable will be created and used. Each
- * hashtable entry stores a Permission object as both the key and the value.
+ * <p>Wifn tif {@dodf bdd} mftiod is dbllfd to bdd b Pfrmission, tif
+ * Pfrmission is storfd in tif bppropribtf PfrmissionCollfdtion. If no sudi
+ * dollfdtion fxists yft, tif Pfrmission objfdt's dlbss is dftfrminfd bnd tif
+ * {@dodf nfwPfrmissionCollfdtion} mftiod is dbllfd on tibt dlbss to drfbtf
+ * tif PfrmissionCollfdtion bnd bdd it to tif Pfrmissions objfdt. If
+ * {@dodf nfwPfrmissionCollfdtion} rfturns null, tifn b dffbult
+ * PfrmissionCollfdtion tibt usfs b ibsitbblf will bf drfbtfd bnd usfd. Ebdi
+ * ibsitbblf fntry storfs b Pfrmission objfdt bs boti tif kfy bnd tif vbluf.
  *
- * <p> Enumerations returned via the {@code elements} method are
- * not <em>fail-fast</em>.  Modifications to a collection should not be
- * performed while enumerating over that collection.
+ * <p> Enumfrbtions rfturnfd vib tif {@dodf flfmfnts} mftiod brf
+ * not <fm>fbil-fbst</fm>.  Modifidbtions to b dollfdtion siould not bf
+ * pfrformfd wiilf fnumfrbting ovfr tibt dollfdtion.
  *
- * @see Permission
- * @see PermissionCollection
- * @see AllPermission
+ * @sff Pfrmission
+ * @sff PfrmissionCollfdtion
+ * @sff AllPfrmission
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial exclude
+ * @sfribl fxdludf
  */
 
-public final class Permissions extends PermissionCollection
-implements Serializable
+publid finbl dlbss Pfrmissions fxtfnds PfrmissionCollfdtion
+implfmfnts Sfriblizbblf
 {
     /**
-     * Key is permissions Class, value is PermissionCollection for that class.
-     * Not serialized; see serialization section at end of class.
+     * Kfy is pfrmissions Clbss, vbluf is PfrmissionCollfdtion for tibt dlbss.
+     * Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss.
      */
-    private transient Map<Class<?>, PermissionCollection> permsMap;
+    privbtf trbnsifnt Mbp<Clbss<?>, PfrmissionCollfdtion> pfrmsMbp;
 
-    // optimization. keep track of whether unresolved permissions need to be
-    // checked
-    private transient boolean hasUnresolved = false;
+    // optimizbtion. kffp trbdk of wiftifr unrfsolvfd pfrmissions nffd to bf
+    // difdkfd
+    privbtf trbnsifnt boolfbn ibsUnrfsolvfd = fblsf;
 
-    // optimization. keep track of the AllPermission collection
-    // - package private for ProtectionDomain optimization
-    PermissionCollection allPermission;
+    // optimizbtion. kffp trbdk of tif AllPfrmission dollfdtion
+    // - pbdkbgf privbtf for ProtfdtionDombin optimizbtion
+    PfrmissionCollfdtion bllPfrmission;
 
     /**
-     * Creates a new Permissions object containing no PermissionCollections.
+     * Crfbtfs b nfw Pfrmissions objfdt dontbining no PfrmissionCollfdtions.
      */
-    public Permissions() {
-        permsMap = new HashMap<Class<?>, PermissionCollection>(11);
-        allPermission = null;
+    publid Pfrmissions() {
+        pfrmsMbp = nfw HbsiMbp<Clbss<?>, PfrmissionCollfdtion>(11);
+        bllPfrmission = null;
     }
 
     /**
-     * Adds a permission object to the PermissionCollection for the class the
-     * permission belongs to. For example, if <i>permission</i> is a
-     * FilePermission, it is added to the FilePermissionCollection stored
-     * in this Permissions object.
+     * Adds b pfrmission objfdt to tif PfrmissionCollfdtion for tif dlbss tif
+     * pfrmission bflongs to. For fxbmplf, if <i>pfrmission</i> is b
+     * FilfPfrmission, it is bddfd to tif FilfPfrmissionCollfdtion storfd
+     * in tiis Pfrmissions objfdt.
      *
-     * This method creates
-     * a new PermissionCollection object (and adds the permission to it)
-     * if an appropriate collection does not yet exist. <p>
+     * Tiis mftiod drfbtfs
+     * b nfw PfrmissionCollfdtion objfdt (bnd bdds tif pfrmission to it)
+     * if bn bppropribtf dollfdtion dofs not yft fxist. <p>
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception SecurityException if this Permissions object is
-     * marked as readonly.
+     * @fxdfption SfdurityExdfption if tiis Pfrmissions objfdt is
+     * mbrkfd bs rfbdonly.
      *
-     * @see PermissionCollection#isReadOnly()
+     * @sff PfrmissionCollfdtion#isRfbdOnly()
      */
 
-    public void add(Permission permission) {
-        if (isReadOnly())
-            throw new SecurityException(
-              "attempt to add a Permission to a readonly Permissions object");
+    publid void bdd(Pfrmission pfrmission) {
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption(
+              "bttfmpt to bdd b Pfrmission to b rfbdonly Pfrmissions objfdt");
 
-        PermissionCollection pc;
+        PfrmissionCollfdtion pd;
 
-        synchronized (this) {
-            pc = getPermissionCollection(permission, true);
-            pc.add(permission);
+        syndironizfd (tiis) {
+            pd = gftPfrmissionCollfdtion(pfrmission, truf);
+            pd.bdd(pfrmission);
         }
 
-        // No sync; staleness -> optimizations delayed, which is OK
-        if (permission instanceof AllPermission) {
-            allPermission = pc;
+        // No synd; stblfnfss -> optimizbtions dflbyfd, wiidi is OK
+        if (pfrmission instbndfof AllPfrmission) {
+            bllPfrmission = pd;
         }
-        if (permission instanceof UnresolvedPermission) {
-            hasUnresolved = true;
+        if (pfrmission instbndfof UnrfsolvfdPfrmission) {
+            ibsUnrfsolvfd = truf;
         }
     }
 
     /**
-     * Checks to see if this object's PermissionCollection for permissions of
-     * the specified permission's class implies the permissions
-     * expressed in the <i>permission</i> object. Returns true if the
-     * combination of permissions in the appropriate PermissionCollection
-     * (e.g., a FilePermissionCollection for a FilePermission) together
-     * imply the specified permission.
+     * Cifdks to sff if tiis objfdt's PfrmissionCollfdtion for pfrmissions of
+     * tif spfdififd pfrmission's dlbss implifs tif pfrmissions
+     * fxprfssfd in tif <i>pfrmission</i> objfdt. Rfturns truf if tif
+     * dombinbtion of pfrmissions in tif bppropribtf PfrmissionCollfdtion
+     * (f.g., b FilfPfrmissionCollfdtion for b FilfPfrmission) togftifr
+     * imply tif spfdififd pfrmission.
      *
-     * <p>For example, suppose there is a FilePermissionCollection in this
-     * Permissions object, and it contains one FilePermission that specifies
-     * "read" access for  all files in all subdirectories of the "/tmp"
-     * directory, and another FilePermission that specifies "write" access
-     * for all files in the "/tmp/scratch/foo" directory.
-     * Then if the {@code implies} method
-     * is called with a permission specifying both "read" and "write" access
-     * to files in the "/tmp/scratch/foo" directory, {@code true} is
-     * returned.
+     * <p>For fxbmplf, supposf tifrf is b FilfPfrmissionCollfdtion in tiis
+     * Pfrmissions objfdt, bnd it dontbins onf FilfPfrmission tibt spfdififs
+     * "rfbd" bddfss for  bll filfs in bll subdirfdtorifs of tif "/tmp"
+     * dirfdtory, bnd bnotifr FilfPfrmission tibt spfdififs "writf" bddfss
+     * for bll filfs in tif "/tmp/sdrbtdi/foo" dirfdtory.
+     * Tifn if tif {@dodf implifs} mftiod
+     * is dbllfd witi b pfrmission spfdifying boti "rfbd" bnd "writf" bddfss
+     * to filfs in tif "/tmp/sdrbtdi/foo" dirfdtory, {@dodf truf} is
+     * rfturnfd.
      *
-     * <p>Additionally, if this PermissionCollection contains the
-     * AllPermission, this method will always return true.
+     * <p>Additionblly, if tiis PfrmissionCollfdtion dontbins tif
+     * AllPfrmission, tiis mftiod will blwbys rfturn truf.
      * <p>
-     * @param permission the Permission object to check.
+     * @pbrbm pfrmission tif Pfrmission objfdt to difdk.
      *
-     * @return true if "permission" is implied by the permissions in the
-     * PermissionCollection it
-     * belongs to, false if not.
+     * @rfturn truf if "pfrmission" is implifd by tif pfrmissions in tif
+     * PfrmissionCollfdtion it
+     * bflongs to, fblsf if not.
      */
 
-    public boolean implies(Permission permission) {
-        // No sync; staleness -> skip optimization, which is OK
-        if (allPermission != null) {
-            return true; // AllPermission has already been added
-        } else {
-            synchronized (this) {
-                PermissionCollection pc = getPermissionCollection(permission,
-                    false);
-                if (pc != null) {
-                    return pc.implies(permission);
-                } else {
-                    // none found
-                    return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        // No synd; stblfnfss -> skip optimizbtion, wiidi is OK
+        if (bllPfrmission != null) {
+            rfturn truf; // AllPfrmission ibs blrfbdy bffn bddfd
+        } flsf {
+            syndironizfd (tiis) {
+                PfrmissionCollfdtion pd = gftPfrmissionCollfdtion(pfrmission,
+                    fblsf);
+                if (pd != null) {
+                    rfturn pd.implifs(pfrmission);
+                } flsf {
+                    // nonf found
+                    rfturn fblsf;
                 }
             }
         }
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in all the
-     * PermissionCollections in this Permissions object.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in bll tif
+     * PfrmissionCollfdtions in tiis Pfrmissions objfdt.
      *
-     * @return an enumeration of all the Permissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
      */
 
-    public Enumeration<Permission> elements() {
-        // go through each Permissions in the hash table
-        // and call their elements() function.
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // go tirougi fbdi Pfrmissions in tif ibsi tbblf
+        // bnd dbll tifir flfmfnts() fundtion.
 
-        synchronized (this) {
-            return new PermissionsEnumerator(permsMap.values().iterator());
+        syndironizfd (tiis) {
+            rfturn nfw PfrmissionsEnumfrbtor(pfrmsMbp.vblufs().itfrbtor());
         }
     }
 
     /**
-     * Gets the PermissionCollection in this Permissions object for
-     * permissions whose type is the same as that of <i>p</i>.
-     * For example, if <i>p</i> is a FilePermission,
-     * the FilePermissionCollection
-     * stored in this Permissions object will be returned.
+     * Gfts tif PfrmissionCollfdtion in tiis Pfrmissions objfdt for
+     * pfrmissions wiosf typf is tif sbmf bs tibt of <i>p</i>.
+     * For fxbmplf, if <i>p</i> is b FilfPfrmission,
+     * tif FilfPfrmissionCollfdtion
+     * storfd in tiis Pfrmissions objfdt will bf rfturnfd.
      *
-     * If createEmpty is true,
-     * this method creates a new PermissionCollection object for the specified
-     * type of permission objects if one does not yet exist.
-     * To do so, it first calls the {@code newPermissionCollection} method
-     * on <i>p</i>.  Subclasses of class Permission
-     * override that method if they need to store their permissions in a
-     * particular PermissionCollection object in order to provide the
-     * correct semantics when the {@code PermissionCollection.implies}
-     * method is called.
-     * If the call returns a PermissionCollection, that collection is stored
-     * in this Permissions object. If the call returns null and createEmpty
-     * is true, then
-     * this method instantiates and stores a default PermissionCollection
-     * that uses a hashtable to store its permission objects.
+     * If drfbtfEmpty is truf,
+     * tiis mftiod drfbtfs b nfw PfrmissionCollfdtion objfdt for tif spfdififd
+     * typf of pfrmission objfdts if onf dofs not yft fxist.
+     * To do so, it first dblls tif {@dodf nfwPfrmissionCollfdtion} mftiod
+     * on <i>p</i>.  Subdlbssfs of dlbss Pfrmission
+     * ovfrridf tibt mftiod if tify nffd to storf tifir pfrmissions in b
+     * pbrtidulbr PfrmissionCollfdtion objfdt in ordfr to providf tif
+     * dorrfdt sfmbntids wifn tif {@dodf PfrmissionCollfdtion.implifs}
+     * mftiod is dbllfd.
+     * If tif dbll rfturns b PfrmissionCollfdtion, tibt dollfdtion is storfd
+     * in tiis Pfrmissions objfdt. If tif dbll rfturns null bnd drfbtfEmpty
+     * is truf, tifn
+     * tiis mftiod instbntibtfs bnd storfs b dffbult PfrmissionCollfdtion
+     * tibt usfs b ibsitbblf to storf its pfrmission objfdts.
      *
-     * createEmpty is ignored when creating empty PermissionCollection
-     * for unresolved permissions because of the overhead of determining the
-     * PermissionCollection to use.
+     * drfbtfEmpty is ignorfd wifn drfbting fmpty PfrmissionCollfdtion
+     * for unrfsolvfd pfrmissions bfdbusf of tif ovfrifbd of dftfrmining tif
+     * PfrmissionCollfdtion to usf.
      *
-     * createEmpty should be set to false when this method is invoked from
-     * implies() because it incurs the additional overhead of creating and
-     * adding an empty PermissionCollection that will just return false.
-     * It should be set to true when invoked from add().
+     * drfbtfEmpty siould bf sft to fblsf wifn tiis mftiod is invokfd from
+     * implifs() bfdbusf it indurs tif bdditionbl ovfrifbd of drfbting bnd
+     * bdding bn fmpty PfrmissionCollfdtion tibt will just rfturn fblsf.
+     * It siould bf sft to truf wifn invokfd from bdd().
      */
-    private PermissionCollection getPermissionCollection(Permission p,
-        boolean createEmpty) {
-        Class<?> c = p.getClass();
+    privbtf PfrmissionCollfdtion gftPfrmissionCollfdtion(Pfrmission p,
+        boolfbn drfbtfEmpty) {
+        Clbss<?> d = p.gftClbss();
 
-        PermissionCollection pc = permsMap.get(c);
+        PfrmissionCollfdtion pd = pfrmsMbp.gft(d);
 
-        if (!hasUnresolved && !createEmpty) {
-            return pc;
-        } else if (pc == null) {
+        if (!ibsUnrfsolvfd && !drfbtfEmpty) {
+            rfturn pd;
+        } flsf if (pd == null) {
 
-            // Check for unresolved permissions
-            pc = (hasUnresolved ? getUnresolvedPermissions(p) : null);
+            // Cifdk for unrfsolvfd pfrmissions
+            pd = (ibsUnrfsolvfd ? gftUnrfsolvfdPfrmissions(p) : null);
 
-            // if still null, create a new collection
-            if (pc == null && createEmpty) {
+            // if still null, drfbtf b nfw dollfdtion
+            if (pd == null && drfbtfEmpty) {
 
-                pc = p.newPermissionCollection();
+                pd = p.nfwPfrmissionCollfdtion();
 
-                // still no PermissionCollection?
-                // We'll give them a PermissionsHash.
-                if (pc == null)
-                    pc = new PermissionsHash();
+                // still no PfrmissionCollfdtion?
+                // Wf'll givf tifm b PfrmissionsHbsi.
+                if (pd == null)
+                    pd = nfw PfrmissionsHbsi();
             }
 
-            if (pc != null) {
-                permsMap.put(c, pc);
+            if (pd != null) {
+                pfrmsMbp.put(d, pd);
             }
         }
-        return pc;
+        rfturn pd;
     }
 
     /**
-     * Resolves any unresolved permissions of type p.
+     * Rfsolvfs bny unrfsolvfd pfrmissions of typf p.
      *
-     * @param p the type of unresolved permission to resolve
+     * @pbrbm p tif typf of unrfsolvfd pfrmission to rfsolvf
      *
-     * @return PermissionCollection containing the unresolved permissions,
-     *  or null if there were no unresolved permissions of type p.
+     * @rfturn PfrmissionCollfdtion dontbining tif unrfsolvfd pfrmissions,
+     *  or null if tifrf wfrf no unrfsolvfd pfrmissions of typf p.
      *
      */
-    private PermissionCollection getUnresolvedPermissions(Permission p)
+    privbtf PfrmissionCollfdtion gftUnrfsolvfdPfrmissions(Pfrmission p)
     {
-        // Called from within synchronized method so permsMap doesn't need lock
+        // Cbllfd from witiin syndironizfd mftiod so pfrmsMbp dofsn't nffd lodk
 
-        UnresolvedPermissionCollection uc =
-        (UnresolvedPermissionCollection) permsMap.get(UnresolvedPermission.class);
+        UnrfsolvfdPfrmissionCollfdtion ud =
+        (UnrfsolvfdPfrmissionCollfdtion) pfrmsMbp.gft(UnrfsolvfdPfrmission.dlbss);
 
-        // we have no unresolved permissions if uc is null
-        if (uc == null)
-            return null;
+        // wf ibvf no unrfsolvfd pfrmissions if ud is null
+        if (ud == null)
+            rfturn null;
 
-        List<UnresolvedPermission> unresolvedPerms =
-                                        uc.getUnresolvedPermissions(p);
+        List<UnrfsolvfdPfrmission> unrfsolvfdPfrms =
+                                        ud.gftUnrfsolvfdPfrmissions(p);
 
-        // we have no unresolved permissions of this type if unresolvedPerms is null
-        if (unresolvedPerms == null)
-            return null;
+        // wf ibvf no unrfsolvfd pfrmissions of tiis typf if unrfsolvfdPfrms is null
+        if (unrfsolvfdPfrms == null)
+            rfturn null;
 
-        java.security.cert.Certificate certs[] = null;
+        jbvb.sfdurity.dfrt.Cfrtifidbtf dfrts[] = null;
 
-        Object signers[] = p.getClass().getSigners();
+        Objfdt signfrs[] = p.gftClbss().gftSignfrs();
 
         int n = 0;
-        if (signers != null) {
-            for (int j=0; j < signers.length; j++) {
-                if (signers[j] instanceof java.security.cert.Certificate) {
+        if (signfrs != null) {
+            for (int j=0; j < signfrs.lfngti; j++) {
+                if (signfrs[j] instbndfof jbvb.sfdurity.dfrt.Cfrtifidbtf) {
                     n++;
                 }
             }
-            certs = new java.security.cert.Certificate[n];
+            dfrts = nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[n];
             n = 0;
-            for (int j=0; j < signers.length; j++) {
-                if (signers[j] instanceof java.security.cert.Certificate) {
-                    certs[n++] = (java.security.cert.Certificate)signers[j];
+            for (int j=0; j < signfrs.lfngti; j++) {
+                if (signfrs[j] instbndfof jbvb.sfdurity.dfrt.Cfrtifidbtf) {
+                    dfrts[n++] = (jbvb.sfdurity.dfrt.Cfrtifidbtf)signfrs[j];
                 }
             }
         }
 
-        PermissionCollection pc = null;
-        synchronized (unresolvedPerms) {
-            int len = unresolvedPerms.size();
-            for (int i = 0; i < len; i++) {
-                UnresolvedPermission up = unresolvedPerms.get(i);
-                Permission perm = up.resolve(p, certs);
-                if (perm != null) {
-                    if (pc == null) {
-                        pc = p.newPermissionCollection();
-                        if (pc == null)
-                            pc = new PermissionsHash();
+        PfrmissionCollfdtion pd = null;
+        syndironizfd (unrfsolvfdPfrms) {
+            int lfn = unrfsolvfdPfrms.sizf();
+            for (int i = 0; i < lfn; i++) {
+                UnrfsolvfdPfrmission up = unrfsolvfdPfrms.gft(i);
+                Pfrmission pfrm = up.rfsolvf(p, dfrts);
+                if (pfrm != null) {
+                    if (pd == null) {
+                        pd = p.nfwPfrmissionCollfdtion();
+                        if (pd == null)
+                            pd = nfw PfrmissionsHbsi();
                     }
-                    pc.add(perm);
+                    pd.bdd(pfrm);
                 }
             }
         }
-        return pc;
+        rfturn pd;
     }
 
-    private static final long serialVersionUID = 4858622370623524688L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4858622370623524688L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Hashtable perms;
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility witi fbrlifr rflfbsfs,
+    // wiidi ibd tif sfriblizbblf fifld:
+    // privbtf Hbsitbblf pfrms;
 
     /**
-     * @serialField perms java.util.Hashtable
-     *     A table of the Permission classes and PermissionCollections.
-     * @serialField allPermission java.security.PermissionCollection
+     * @sfriblFifld pfrms jbvb.util.Hbsitbblf
+     *     A tbblf of tif Pfrmission dlbssfs bnd PfrmissionCollfdtions.
+     * @sfriblFifld bllPfrmission jbvb.sfdurity.PfrmissionCollfdtion
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
-        new ObjectStreamField("allPermission", PermissionCollection.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrms", Hbsitbblf.dlbss),
+        nfw ObjfdtStrfbmFifld("bllPfrmission", PfrmissionCollfdtion.dlbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @sfriblDbtb Dffbult fiflds.
      */
     /*
-     * Writes the contents of the permsMap field out as a Hashtable for
-     * serialization compatibility with earlier releases. allPermission
-     * unchanged.
+     * Writfs tif dontfnts of tif pfrmsMbp fifld out bs b Hbsitbblf for
+     * sfriblizbtion dompbtibility witi fbrlifr rflfbsfs. bllPfrmission
+     * undibngfd.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
 
-        // Copy perms into a Hashtable
-        Hashtable<Class<?>, PermissionCollection> perms =
-            new Hashtable<>(permsMap.size()*2); // no sync; estimate
-        synchronized (this) {
-            perms.putAll(permsMap);
+        // Copy pfrms into b Hbsitbblf
+        Hbsitbblf<Clbss<?>, PfrmissionCollfdtion> pfrms =
+            nfw Hbsitbblf<>(pfrmsMbp.sizf()*2); // no synd; fstimbtf
+        syndironizfd (tiis) {
+            pfrms.putAll(pfrmsMbp);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
+        // Writf out sfriblizbblf fiflds
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
 
-        pfields.put("allPermission", allPermission); // no sync; staleness OK
-        pfields.put("perms", perms);
-        out.writeFields();
+        pfiflds.put("bllPfrmission", bllPfrmission); // no synd; stblfnfss OK
+        pfiflds.put("pfrms", pfrms);
+        out.writfFiflds();
     }
 
     /*
-     * Reads in a Hashtable of Class/PermissionCollections and saves them in the
-     * permsMap field. Reads in allPermission.
+     * Rfbds in b Hbsitbblf of Clbss/PfrmissionCollfdtions bnd sbvfs tifm in tif
+     * pfrmsMbp fifld. Rfbds in bllPfrmission.
      */
-    private void readObject(ObjectInputStream in) throws IOException,
-    ClassNotFoundException {
-        // Don't call defaultReadObject()
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    ClbssNotFoundExdfption {
+        // Don't dbll dffbultRfbdObjfdt()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
 
-        // Get allPermission
-        allPermission = (PermissionCollection) gfields.get("allPermission", null);
+        // Gft bllPfrmission
+        bllPfrmission = (PfrmissionCollfdtion) gfiflds.gft("bllPfrmission", null);
 
-        // Get permissions
-        // writeObject writes a Hashtable<Class<?>, PermissionCollection> for
-        // the perms key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<Class<?>, PermissionCollection> perms =
-            (Hashtable<Class<?>, PermissionCollection>)gfields.get("perms", null);
-        permsMap = new HashMap<Class<?>, PermissionCollection>(perms.size()*2);
-        permsMap.putAll(perms);
+        // Gft pfrmissions
+        // writfObjfdt writfs b Hbsitbblf<Clbss<?>, PfrmissionCollfdtion> for
+        // tif pfrms kfy, so tiis dbst is sbff, unlfss tif dbtb is dorrupt.
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<Clbss<?>, PfrmissionCollfdtion> pfrms =
+            (Hbsitbblf<Clbss<?>, PfrmissionCollfdtion>)gfiflds.gft("pfrms", null);
+        pfrmsMbp = nfw HbsiMbp<Clbss<?>, PfrmissionCollfdtion>(pfrms.sizf()*2);
+        pfrmsMbp.putAll(pfrms);
 
-        // Set hasUnresolved
-        UnresolvedPermissionCollection uc =
-        (UnresolvedPermissionCollection) permsMap.get(UnresolvedPermission.class);
-        hasUnresolved = (uc != null && uc.elements().hasMoreElements());
+        // Sft ibsUnrfsolvfd
+        UnrfsolvfdPfrmissionCollfdtion ud =
+        (UnrfsolvfdPfrmissionCollfdtion) pfrmsMbp.gft(UnrfsolvfdPfrmission.dlbss);
+        ibsUnrfsolvfd = (ud != null && ud.flfmfnts().ibsMorfElfmfnts());
     }
 }
 
-final class PermissionsEnumerator implements Enumeration<Permission> {
+finbl dlbss PfrmissionsEnumfrbtor implfmfnts Enumfrbtion<Pfrmission> {
 
-    // all the perms
-    private Iterator<PermissionCollection> perms;
-    // the current set
-    private Enumeration<Permission> permset;
+    // bll tif pfrms
+    privbtf Itfrbtor<PfrmissionCollfdtion> pfrms;
+    // tif durrfnt sft
+    privbtf Enumfrbtion<Pfrmission> pfrmsft;
 
-    PermissionsEnumerator(Iterator<PermissionCollection> e) {
-        perms = e;
-        permset = getNextEnumWithMore();
+    PfrmissionsEnumfrbtor(Itfrbtor<PfrmissionCollfdtion> f) {
+        pfrms = f;
+        pfrmsft = gftNfxtEnumWitiMorf();
     }
 
-    // No need to synchronize; caller should sync on object as required
-    public boolean hasMoreElements() {
-        // if we enter with permissionimpl null, we know
-        // there are no more left.
+    // No nffd to syndironizf; dbllfr siould synd on objfdt bs rfquirfd
+    publid boolfbn ibsMorfElfmfnts() {
+        // if wf fntfr witi pfrmissionimpl null, wf know
+        // tifrf brf no morf lfft.
 
-        if (permset == null)
-            return  false;
+        if (pfrmsft == null)
+            rfturn  fblsf;
 
-        // try to see if there are any left in the current one
+        // try to sff if tifrf brf bny lfft in tif durrfnt onf
 
-        if (permset.hasMoreElements())
-            return true;
+        if (pfrmsft.ibsMorfElfmfnts())
+            rfturn truf;
 
-        // get the next one that has something in it...
-        permset = getNextEnumWithMore();
+        // gft tif nfxt onf tibt ibs somftiing in it...
+        pfrmsft = gftNfxtEnumWitiMorf();
 
-        // if it is null, we are done!
-        return (permset != null);
+        // if it is null, wf brf donf!
+        rfturn (pfrmsft != null);
     }
 
-    // No need to synchronize; caller should sync on object as required
-    public Permission nextElement() {
+    // No nffd to syndironizf; dbllfr siould synd on objfdt bs rfquirfd
+    publid Pfrmission nfxtElfmfnt() {
 
-        // hasMoreElements will update permset to the next permset
-        // with something in it...
+        // ibsMorfElfmfnts will updbtf pfrmsft to tif nfxt pfrmsft
+        // witi somftiing in it...
 
-        if (hasMoreElements()) {
-            return permset.nextElement();
-        } else {
-            throw new NoSuchElementException("PermissionsEnumerator");
+        if (ibsMorfElfmfnts()) {
+            rfturn pfrmsft.nfxtElfmfnt();
+        } flsf {
+            tirow nfw NoSudiElfmfntExdfption("PfrmissionsEnumfrbtor");
         }
 
     }
 
-    private Enumeration<Permission> getNextEnumWithMore() {
-        while (perms.hasNext()) {
-            PermissionCollection pc = perms.next();
-            Enumeration<Permission> next =pc.elements();
-            if (next.hasMoreElements())
-                return next;
+    privbtf Enumfrbtion<Pfrmission> gftNfxtEnumWitiMorf() {
+        wiilf (pfrms.ibsNfxt()) {
+            PfrmissionCollfdtion pd = pfrms.nfxt();
+            Enumfrbtion<Pfrmission> nfxt =pd.flfmfnts();
+            if (nfxt.ibsMorfElfmfnts())
+                rfturn nfxt;
         }
-        return null;
+        rfturn null;
 
     }
 }
 
 /**
- * A PermissionsHash stores a homogeneous set of permissions in a hashtable.
+ * A PfrmissionsHbsi storfs b iomogfnfous sft of pfrmissions in b ibsitbblf.
  *
- * @see Permission
- * @see Permissions
+ * @sff Pfrmission
+ * @sff Pfrmissions
  *
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial include
+ * @sfribl indludf
  */
 
-final class PermissionsHash extends PermissionCollection
-implements Serializable
+finbl dlbss PfrmissionsHbsi fxtfnds PfrmissionCollfdtion
+implfmfnts Sfriblizbblf
 {
     /**
-     * Key and value are (same) permissions objects.
-     * Not serialized; see serialization section at end of class.
+     * Kfy bnd vbluf brf (sbmf) pfrmissions objfdts.
+     * Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss.
      */
-    private transient Map<Permission, Permission> permsMap;
+    privbtf trbnsifnt Mbp<Pfrmission, Pfrmission> pfrmsMbp;
 
     /**
-     * Create an empty PermissionsHash object.
+     * Crfbtf bn fmpty PfrmissionsHbsi objfdt.
      */
 
-    PermissionsHash() {
-        permsMap = new HashMap<Permission, Permission>(11);
+    PfrmissionsHbsi() {
+        pfrmsMbp = nfw HbsiMbp<Pfrmission, Pfrmission>(11);
     }
 
     /**
-     * Adds a permission to the PermissionsHash.
+     * Adds b pfrmission to tif PfrmissionsHbsi.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      */
 
-    public void add(Permission permission) {
-        synchronized (this) {
-            permsMap.put(permission, permission);
+    publid void bdd(Pfrmission pfrmission) {
+        syndironizfd (tiis) {
+            pfrmsMbp.put(pfrmission, pfrmission);
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * tif sft, fblsf if not.
      */
 
-    public boolean implies(Permission permission) {
-        // attempt a fast lookup and implies. If that fails
-        // then enumerate through all the permissions.
-        synchronized (this) {
-            Permission p = permsMap.get(permission);
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        // bttfmpt b fbst lookup bnd implifs. If tibt fbils
+        // tifn fnumfrbtf tirougi bll tif pfrmissions.
+        syndironizfd (tiis) {
+            Pfrmission p = pfrmsMbp.gft(pfrmission);
 
-            // If permission is found, then p.equals(permission)
+            // If pfrmission is found, tifn p.fqubls(pfrmission)
             if (p == null) {
-                for (Permission p_ : permsMap.values()) {
-                    if (p_.implies(permission))
-                        return true;
+                for (Pfrmission p_ : pfrmsMbp.vblufs()) {
+                    if (p_.implifs(pfrmission))
+                        rfturn truf;
                 }
-                return false;
-            } else {
-                return true;
+                rfturn fblsf;
+            } flsf {
+                rfturn truf;
             }
         }
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in the container.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in tif dontbinfr.
      *
-     * @return an enumeration of all the Permissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
      */
 
-    public Enumeration<Permission> elements() {
-        // Convert Iterator of Map values into an Enumeration
-        synchronized (this) {
-            return Collections.enumeration(permsMap.values());
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor of Mbp vblufs into bn Enumfrbtion
+        syndironizfd (tiis) {
+            rfturn Collfdtions.fnumfrbtion(pfrmsMbp.vblufs());
         }
     }
 
-    private static final long serialVersionUID = -8491988220802933440L;
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Hashtable perms;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8491988220802933440L;
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility witi fbrlifr rflfbsfs,
+    // wiidi ibd tif sfriblizbblf fifld:
+    // privbtf Hbsitbblf pfrms;
     /**
-     * @serialField perms java.util.Hashtable
-     *     A table of the Permissions (both key and value are same).
+     * @sfriblFifld pfrms jbvb.util.Hbsitbblf
+     *     A tbblf of tif Pfrmissions (boti kfy bnd vbluf brf sbmf).
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrms", Hbsitbblf.dlbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @sfriblDbtb Dffbult fiflds.
      */
     /*
-     * Writes the contents of the permsMap field out as a Hashtable for
-     * serialization compatibility with earlier releases.
+     * Writfs tif dontfnts of tif pfrmsMbp fifld out bs b Hbsitbblf for
+     * sfriblizbtion dompbtibility witi fbrlifr rflfbsfs.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
 
-        // Copy perms into a Hashtable
-        Hashtable<Permission, Permission> perms =
-                new Hashtable<>(permsMap.size()*2);
-        synchronized (this) {
-            perms.putAll(permsMap);
+        // Copy pfrms into b Hbsitbblf
+        Hbsitbblf<Pfrmission, Pfrmission> pfrms =
+                nfw Hbsitbblf<>(pfrmsMbp.sizf()*2);
+        syndironizfd (tiis) {
+            pfrms.putAll(pfrmsMbp);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("perms", perms);
-        out.writeFields();
+        // Writf out sfriblizbblf fiflds
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrms", pfrms);
+        out.writfFiflds();
     }
 
     /*
-     * Reads in a Hashtable of Permission/Permission and saves them in the
-     * permsMap field.
+     * Rfbds in b Hbsitbblf of Pfrmission/Pfrmission bnd sbvfs tifm in tif
+     * pfrmsMbp fifld.
      */
-    private void readObject(ObjectInputStream in) throws IOException,
-    ClassNotFoundException {
-        // Don't call defaultReadObject()
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption,
+    ClbssNotFoundExdfption {
+        // Don't dbll dffbultRfbdObjfdt()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
 
-        // Get permissions
-        // writeObject writes a Hashtable<Class<?>, PermissionCollection> for
-        // the perms key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<Permission, Permission> perms =
-                (Hashtable<Permission, Permission>)gfields.get("perms", null);
-        permsMap = new HashMap<Permission, Permission>(perms.size()*2);
-        permsMap.putAll(perms);
+        // Gft pfrmissions
+        // writfObjfdt writfs b Hbsitbblf<Clbss<?>, PfrmissionCollfdtion> for
+        // tif pfrms kfy, so tiis dbst is sbff, unlfss tif dbtb is dorrupt.
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<Pfrmission, Pfrmission> pfrms =
+                (Hbsitbblf<Pfrmission, Pfrmission>)gfiflds.gft("pfrms", null);
+        pfrmsMbp = nfw HbsiMbp<Pfrmission, Pfrmission>(pfrms.sizf()*2);
+        pfrmsMbp.putAll(pfrms);
     }
 }

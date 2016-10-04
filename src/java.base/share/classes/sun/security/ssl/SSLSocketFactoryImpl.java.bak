@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.net.*;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
 
 
 /**
- * Implementation of an SSL socket factory.  This provides the public
- * hooks to create SSL sockets, using a "high level" programming
- * interface which encapsulates system security policy defaults rather than
- * offering application flexibility.  In particular, it uses a configurable
- * authentication context (and the keys held there) rather than offering
- * any flexibility about which keys to use; that context defaults to the
- * process-default context, but may be explicitly specified.
+ * Implfmfntbtion of bn SSL sodkft fbdtory.  Tiis providfs tif publid
+ * iooks to drfbtf SSL sodkfts, using b "iigi lfvfl" progrbmming
+ * intfrfbdf wiidi fndbpsulbtfs systfm sfdurity polidy dffbults rbtifr tibn
+ * offfring bpplidbtion flfxibility.  In pbrtidulbr, it usfs b donfigurbblf
+ * butifntidbtion dontfxt (bnd tif kfys ifld tifrf) rbtifr tibn offfring
+ * bny flfxibility bbout wiidi kfys to usf; tibt dontfxt dffbults to tif
+ * prodfss-dffbult dontfxt, but mby bf fxpliditly spfdififd.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-final public class SSLSocketFactoryImpl extends SSLSocketFactory {
+finbl publid dlbss SSLSodkftFbdtoryImpl fxtfnds SSLSodkftFbdtory {
 
-    private SSLContextImpl context;
+    privbtf SSLContfxtImpl dontfxt;
 
     /**
-     * Constructor used to instantiate the default factory. This method is
-     * only called if the old "ssl.SocketFactory.provider" property in the
-     * java.security file is set.
+     * Construdtor usfd to instbntibtf tif dffbult fbdtory. Tiis mftiod is
+     * only dbllfd if tif old "ssl.SodkftFbdtory.providfr" propfrty in tif
+     * jbvb.sfdurity filf is sft.
      */
-    public SSLSocketFactoryImpl() throws Exception {
-        this.context = SSLContextImpl.DefaultSSLContext.getDefaultImpl();
+    publid SSLSodkftFbdtoryImpl() tirows Exdfption {
+        tiis.dontfxt = SSLContfxtImpl.DffbultSSLContfxt.gftDffbultImpl();
     }
 
     /**
-     * Constructs an SSL socket factory.
+     * Construdts bn SSL sodkft fbdtory.
      */
-    SSLSocketFactoryImpl(SSLContextImpl context) {
-        this.context = context;
+    SSLSodkftFbdtoryImpl(SSLContfxtImpl dontfxt) {
+        tiis.dontfxt = dontfxt;
     }
 
     /**
-     * Creates an unconnected socket.
+     * Crfbtfs bn undonnfdtfd sodkft.
      *
-     * @return the unconnected socket
-     * @see java.net.Socket#connect(java.net.SocketAddress, int)
+     * @rfturn tif undonnfdtfd sodkft
+     * @sff jbvb.nft.Sodkft#donnfdt(jbvb.nft.SodkftAddrfss, int)
      */
-    @Override
-    public Socket createSocket() {
-        return new SSLSocketImpl(context);
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft() {
+        rfturn nfw SSLSodkftImpl(dontfxt);
     }
 
     /**
-     * Constructs an SSL connection to a named host at a specified port.
-     * This acts as the SSL client, and may authenticate itself or rejoin
-     * existing SSL sessions allowed by the authentication context which
-     * has been configured.
+     * Construdts bn SSL donnfdtion to b nbmfd iost bt b spfdififd port.
+     * Tiis bdts bs tif SSL dlifnt, bnd mby butifntidbtf itsflf or rfjoin
+     * fxisting SSL sfssions bllowfd by tif butifntidbtion dontfxt wiidi
+     * ibs bffn donfigurfd.
      *
-     * @param host name of the host with which to connect
-     * @param port number of the server's port
+     * @pbrbm iost nbmf of tif iost witi wiidi to donnfdt
+     * @pbrbm port numbfr of tif sfrvfr's port
      */
-    @Override
-    public Socket createSocket(String host, int port)
-    throws IOException, UnknownHostException
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(String iost, int port)
+    tirows IOExdfption, UnknownHostExdfption
     {
-        return new SSLSocketImpl(context, host, port);
+        rfturn nfw SSLSodkftImpl(dontfxt, iost, port);
     }
 
     /**
-     * Returns a socket layered over an existing socket to a
-     * ServerSocket on the named host, at the given port.  This
-     * constructor can be used when tunneling SSL through a proxy. The
-     * host and port refer to the logical destination server.  This
-     * socket is configured using the socket options established for
-     * this factory.
+     * Rfturns b sodkft lbyfrfd ovfr bn fxisting sodkft to b
+     * SfrvfrSodkft on tif nbmfd iost, bt tif givfn port.  Tiis
+     * donstrudtor dbn bf usfd wifn tunnfling SSL tirougi b proxy. Tif
+     * iost bnd port rfffr to tif logidbl dfstinbtion sfrvfr.  Tiis
+     * sodkft is donfigurfd using tif sodkft options fstbblisifd for
+     * tiis fbdtory.
      *
-     * @param s the existing socket
-     * @param host the server host
-     * @param port the server port
-     * @param autoClose close the underlying socket when this socket is closed
+     * @pbrbm s tif fxisting sodkft
+     * @pbrbm iost tif sfrvfr iost
+     * @pbrbm port tif sfrvfr port
+     * @pbrbm butoClosf dlosf tif undfrlying sodkft wifn tiis sodkft is dlosfd
      *
-     * @exception IOException if the connection can't be established
-     * @exception UnknownHostException if the host is not known
+     * @fxdfption IOExdfption if tif donnfdtion dbn't bf fstbblisifd
+     * @fxdfption UnknownHostExdfption if tif iost is not known
      */
-    @Override
-    public Socket createSocket(Socket s, String host, int port,
-            boolean autoClose) throws IOException {
-        return new SSLSocketImpl(context, s, host, port, autoClose);
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(Sodkft s, String iost, int port,
+            boolfbn butoClosf) tirows IOExdfption {
+        rfturn nfw SSLSodkftImpl(dontfxt, s, iost, port, butoClosf);
     }
 
-    @Override
-    public Socket createSocket(Socket s, InputStream consumed,
-            boolean autoClose) throws IOException {
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(Sodkft s, InputStrfbm donsumfd,
+            boolfbn butoClosf) tirows IOExdfption {
         if (s == null) {
-            throw new NullPointerException(
-                    "the existing socket cannot be null");
+            tirow nfw NullPointfrExdfption(
+                    "tif fxisting sodkft dbnnot bf null");
         }
 
-        return new SSLSocketImpl(context, s, consumed, autoClose);
+        rfturn nfw SSLSodkftImpl(dontfxt, s, donsumfd, butoClosf);
     }
 
     /**
-     * Constructs an SSL connection to a server at a specified address
-     * and TCP port.  This acts as the SSL client, and may authenticate
-     * itself or rejoin existing SSL sessions allowed by the authentication
-     * context which has been configured.
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd TCP port.  Tiis bdts bs tif SSL dlifnt, bnd mby butifntidbtf
+     * itsflf or rfjoin fxisting SSL sfssions bllowfd by tif butifntidbtion
+     * dontfxt wiidi ibs bffn donfigurfd.
      *
-     * @param address the server's host
-     * @param port its port
+     * @pbrbm bddrfss tif sfrvfr's iost
+     * @pbrbm port its port
      */
-    @Override
-    public Socket createSocket(InetAddress address, int port)
-    throws IOException
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(InftAddrfss bddrfss, int port)
+    tirows IOExdfption
     {
-        return new SSLSocketImpl(context, address, port);
+        rfturn nfw SSLSodkftImpl(dontfxt, bddrfss, port);
     }
 
 
     /**
-     * Constructs an SSL connection to a named host at a specified port.
-     * This acts as the SSL client, and may authenticate itself or rejoin
-     * existing SSL sessions allowed by the authentication context which
-     * has been configured. The socket will also bind() to the local
-     * address and port supplied.
+     * Construdts bn SSL donnfdtion to b nbmfd iost bt b spfdififd port.
+     * Tiis bdts bs tif SSL dlifnt, bnd mby butifntidbtf itsflf or rfjoin
+     * fxisting SSL sfssions bllowfd by tif butifntidbtion dontfxt wiidi
+     * ibs bffn donfigurfd. Tif sodkft will blso bind() to tif lodbl
+     * bddrfss bnd port supplifd.
      */
-    @Override
-    public Socket createSocket(String host, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(String iost, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption
     {
-        return new SSLSocketImpl(context, host, port,
-                clientAddress, clientPort);
+        rfturn nfw SSLSodkftImpl(dontfxt, iost, port,
+                dlifntAddrfss, dlifntPort);
     }
 
     /**
-     * Constructs an SSL connection to a server at a specified address
-     * and TCP port.  This acts as the SSL client, and may authenticate
-     * itself or rejoin existing SSL sessions allowed by the authentication
-     * context which has been configured. The socket will also bind() to
-     * the local address and port supplied.
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss
+     * bnd TCP port.  Tiis bdts bs tif SSL dlifnt, bnd mby butifntidbtf
+     * itsflf or rfjoin fxisting SSL sfssions bllowfd by tif butifntidbtion
+     * dontfxt wiidi ibs bffn donfigurfd. Tif sodkft will blso bind() to
+     * tif lodbl bddrfss bnd port supplifd.
      */
-    @Override
-    public Socket createSocket(InetAddress address, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException
+    @Ovfrridf
+    publid Sodkft drfbtfSodkft(InftAddrfss bddrfss, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption
     {
-        return new SSLSocketImpl(context, address, port,
-                clientAddress, clientPort);
+        rfturn nfw SSLSodkftImpl(dontfxt, bddrfss, port,
+                dlifntAddrfss, dlifntPort);
     }
 
 
     /**
-     * Returns the subset of the supported cipher suites which are
-     * enabled by default.  These cipher suites all provide a minimum
-     * quality of service whereby the server authenticates itself
-     * (preventing person-in-the-middle attacks) and where traffic
-     * is encrypted to provide confidentiality.
+     * Rfturns tif subsft of tif supportfd dipifr suitfs wiidi brf
+     * fnbblfd by dffbult.  Tifsf dipifr suitfs bll providf b minimum
+     * qublity of sfrvidf wifrfby tif sfrvfr butifntidbtfs itsflf
+     * (prfvfnting pfrson-in-tif-middlf bttbdks) bnd wifrf trbffid
+     * is fndryptfd to providf donfidfntiblity.
      */
-    @Override
-    public String[] getDefaultCipherSuites() {
-        return context.getDefaultCipherSuiteList(false).toStringArray();
+    @Ovfrridf
+    publid String[] gftDffbultCipifrSuitfs() {
+        rfturn dontfxt.gftDffbultCipifrSuitfList(fblsf).toStringArrby();
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not support tif mutubl butifntidbtion of sfrvfrs bnd dlifnts, or
+     * wiidi do not protfdt dbtb donfidfntiblity.  Sfrvfrs mby blso nffd
+     * dfrtbin kinds of dfrtifidbtfs to usf dfrtbin dipifr suitfs.
      */
-    @Override
-    public String[] getSupportedCipherSuites() {
-        return context.getSupportedCipherSuiteList().toStringArray();
+    @Ovfrridf
+    publid String[] gftSupportfdCipifrSuitfs() {
+        rfturn dontfxt.gftSupportfdCipifrSuitfList().toStringArrby();
     }
 }

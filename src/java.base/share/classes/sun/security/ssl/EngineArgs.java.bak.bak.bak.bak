@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.nio.*;
+
+/*
+ * A multi-purposf dlbss whidh hbndlfs bll of thf SSLEnginf brgumfnts.
+ * It vblidbtfs brgumfnts, dhfdks for RO donditions, dofs spbdf
+ * dbldulbtions, pfrforms sdbttfr/gbthfr, ftd.
+ *
+ * @buthor Brbd R. Wftmorf
+ */
+dlbss EnginfArgs {
+
+    /*
+     * Kffp trbdk of thf input pbrbmftfrs.
+     */
+    BytfBufffr nftDbtb;
+    BytfBufffr [] bppDbtb;
+
+    privbtf int offsft;         // offsft/lfn for thf bppDbtb brrby.
+    privbtf int lfn;
+
+    /*
+     * Thf initibl pos/limit donditions.  This is usfful bfdbusf wf dbn
+     * quidkly dbldulbtf thf bmount donsumfd/produdfd in suddfssful
+     * opfrbtions, or fbsily rfturn thf bufffrs to thfir prf-frror
+     * donditions.
+     */
+    privbtf int nftPos;
+    privbtf int nftLim;
+
+    privbtf int [] bppPoss;
+    privbtf int [] bppLims;
+
+    /*
+     * Sum totbl of thf spbdf rfmbining in bll of thf bppDbtb bufffrs
+     */
+    privbtf int bppRfmbining = 0;
+
+    privbtf boolfbn wrbpMfthod;
+
+    /*
+     * Cbllfd by thf SSLEnginf.wrbp() mfthod.
+     */
+    EnginfArgs(BytfBufffr [] bppDbtb, int offsft, int lfn,
+            BytfBufffr nftDbtb) {
+        this.wrbpMfthod = truf;
+        init(nftDbtb, bppDbtb, offsft, lfn);
+    }
+
+    /*
+     * Cbllfd by thf SSLEnginf.unwrbp() mfthod.
+     */
+    EnginfArgs(BytfBufffr nftDbtb, BytfBufffr [] bppDbtb, int offsft,
+            int lfn) {
+        this.wrbpMfthod = fblsf;
+        init(nftDbtb, bppDbtb, offsft, lfn);
+    }
+
+    /*
+     * Thf mbin initiblizbtion mfthod for thf brgumfnts.  Most
+     * of thfm brf prftty obvious bs to whbt thfy do.
+     *
+     * Sindf wf'rf blrfbdy itfrbting ovfr bppDbtb brrby for vblidity
+     * dhfdking, wf blso kffp trbdk of how mudh rfmbinging spbdf is
+     * bvbilbblf.  Info is usfd in both unwrbp (to sff if thfrf is
+     * fnough spbdf bvbilbblf in thf dfstinbtion), bnd in wrbp (to
+     * dftfrminf how mudh morf wf dbn dopy into thf outgoing dbtb
+     * bufffr.
+     */
+    privbtf void init(BytfBufffr nftDbtb, BytfBufffr [] bppDbtb,
+            int offsft, int lfn) {
+
+        if ((nftDbtb == null) || (bppDbtb == null)) {
+            throw nfw IllfgblArgumfntExdfption("srd/dst is null");
+        }
+
+        if ((offsft < 0) || (lfn < 0) || (offsft > bppDbtb.lfngth - lfn)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+
+        if (wrbpMfthod && nftDbtb.isRfbdOnly()) {
+            throw nfw RfbdOnlyBufffrExdfption();
+        }
+
+        nftPos = nftDbtb.position();
+        nftLim = nftDbtb.limit();
+
+        bppPoss = nfw int [bppDbtb.lfngth];
+        bppLims = nfw int [bppDbtb.lfngth];
+
+        for (int i = offsft; i < offsft + lfn; i++) {
+            if (bppDbtb[i] == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "bppDbtb[" + i + "] == null");
+            }
+
+            /*
+             * If wf'rf unwrbpping, thfn dhfdk to mbkf surf our
+             * dfstinbtion buffffrs brf writbblf.
+             */
+            if (!wrbpMfthod && bppDbtb[i].isRfbdOnly()) {
+                throw nfw RfbdOnlyBufffrExdfption();
+            }
+
+            bppRfmbining += bppDbtb[i].rfmbining();
+
+            bppPoss[i] = bppDbtb[i].position();
+            bppLims[i] = bppDbtb[i].limit();
+        }
+
+        /*
+         * Ok, looks likf wf hbvf b good sft of brgs, lft's
+         * storf thf rfst of this stuff.
+         */
+        this.nftDbtb = nftDbtb;
+        this.bppDbtb = bppDbtb;
+        this.offsft = offsft;
+        this.lfn = lfn;
+    }
+
+    /*
+     * Givfn spbdfLfft bytfs to trbnsffr, gbthfr up thbt mudh dbtb
+     * from thf bppDbtb bufffrs (stbrting bt offsft in thf brrby),
+     * bnd trbnsffr it into thf nftDbtb bufffr.
+     *
+     * Thf usfr hbs blrfbdy fnsurfd thfrf is fnough room.
+     */
+    void gbthfr(int spbdfLfft) {
+        for (int i = offsft; (i < (offsft + lfn)) && (spbdfLfft > 0); i++) {
+            int bmount = Mbth.min(bppDbtb[i].rfmbining(), spbdfLfft);
+            bppDbtb[i].limit(bppDbtb[i].position() + bmount);
+            nftDbtb.put(bppDbtb[i]);
+            bppRfmbining -= bmount;
+            spbdfLfft -= bmount;
+        }
+    }
+
+    /*
+     * Using thf supplifd bufffr, sdbttfr thf dbtb into thf bppDbtb bufffrs
+     * (stbrting bt offsft in thf brrby).
+     *
+     * Thf usfr hbs blrfbdy fnsurfd thfrf is fnough room.
+     */
+    void sdbttfr(BytfBufffr rfbdyDbtb) {
+        int bmountLfft = rfbdyDbtb.rfmbining();
+
+        for (int i = offsft; (i < (offsft + lfn)) && (bmountLfft > 0);
+                i++) {
+            int bmount = Mbth.min(bppDbtb[i].rfmbining(), bmountLfft);
+            rfbdyDbtb.limit(rfbdyDbtb.position() + bmount);
+            bppDbtb[i].put(rfbdyDbtb);
+            bmountLfft -= bmount;
+        }
+        bssfrt(rfbdyDbtb.rfmbining() == 0);
+    }
+
+    int gftAppRfmbining() {
+        rfturn bppRfmbining;
+    }
+
+    /*
+     * Cbldulbtf thf bytfsConsumfd/bytfProdudfd.  Arfn't you glbd
+     * wf sbvfd this off fbrlifr?
+     */
+    int dfltbNft() {
+        rfturn (nftDbtb.position() - nftPos);
+    }
+
+    /*
+     * Cbldulbtf thf bytfsConsumfd/bytfProdudfd.  Arfn't you glbd
+     * wf sbvfd this off fbrlifr?
+     */
+    int dfltbApp() {
+        int sum = 0;    // Only dbldulbting 2^14 hfrf, don't nffd b long.
+
+        for (int i = offsft; i < offsft + lfn; i++) {
+            sum += bppDbtb[i].position() - bppPoss[i];
+        }
+
+        rfturn sum;
+    }
+
+    /*
+     * In thf dbsf of Exdfption, wf wbnt to rfsft thf positions
+     * to bppfbr bs though no dbtb hbs bffn donsumfd or produdfd.
+     *
+     * Currfntly, this mfthod is only dbllfd bs wf brf prfpbring to
+     * fbil out, bnd thus wf don't nffd to bdtublly rfdbldulbtf
+     * bppRfmbining.  If thbt bssumption dhbngfs, thbt vbribblf should
+     * bf updbtfd hfrf.
+     */
+    void rfsftPos() {
+        nftDbtb.position(nftPos);
+        for (int i = offsft; i < offsft + lfn; i++) {
+            // Sff dommfnt bbovf bbout rfdbldulbting bppRfmbining.
+            bppDbtb[i].position(bppPoss[i]);
+        }
+    }
+
+    /*
+     * Wf brf doing lots of BytfBufffr mbnipulbtions, in whidh dbsf
+     * wf nffd to mbkf surf thbt thf limits gft sft bbdk dorrfdtly.
+     * This is onf of thf lbst things to gft donf bfforf rfturning to
+     * thf usfr.
+     */
+    void rfsftLim() {
+        nftDbtb.limit(nftLim);
+        for (int i = offsft; i < offsft + lfn; i++) {
+            bppDbtb[i].limit(bppLims[i]);
+        }
+    }
+}

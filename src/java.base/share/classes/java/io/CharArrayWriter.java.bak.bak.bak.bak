@@ -1,0 +1,280 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss implfmfnts b dhbrbdtfr bufffr thbt dbn bf usfd bs bn Writfr.
+ * Thf bufffr butombtidblly grows whfn dbtb is writtfn to thf strfbm.  Thf dbtb
+ * dbn bf rftrifvfd using toChbrArrby() bnd toString().
+ * <P>
+ * Notf: Invoking dlosf() on this dlbss hbs no ffffdt, bnd mfthods
+ * of this dlbss dbn bf dbllfd bftfr thf strfbm hbs dlosfd
+ * without gfnfrbting bn IOExdfption.
+ *
+ * @buthor      Hfrb Jfllinfk
+ * @sindf       1.1
+ */
+publid
+dlbss ChbrArrbyWritfr fxtfnds Writfr {
+    /**
+     * Thf bufffr whfrf dbtb is storfd.
+     */
+    protfdtfd dhbr buf[];
+
+    /**
+     * Thf numbfr of dhbrs in thf bufffr.
+     */
+    protfdtfd int dount;
+
+    /**
+     * Crfbtfs b nfw ChbrArrbyWritfr.
+     */
+    publid ChbrArrbyWritfr() {
+        this(32);
+    }
+
+    /**
+     * Crfbtfs b nfw ChbrArrbyWritfr with thf spfdififd initibl sizf.
+     *
+     * @pbrbm initiblSizf  bn int spfdifying thf initibl bufffr sizf.
+     * @fxdfption IllfgblArgumfntExdfption if initiblSizf is nfgbtivf
+     */
+    publid ChbrArrbyWritfr(int initiblSizf) {
+        if (initiblSizf < 0) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf initibl sizf: "
+                                               + initiblSizf);
+        }
+        buf = nfw dhbr[initiblSizf];
+    }
+
+    /**
+     * Writfs b dhbrbdtfr to thf bufffr.
+     */
+    publid void writf(int d) {
+        syndhronizfd (lodk) {
+            int nfwdount = dount + 1;
+            if (nfwdount > buf.lfngth) {
+                buf = Arrbys.dopyOf(buf, Mbth.mbx(buf.lfngth << 1, nfwdount));
+            }
+            buf[dount] = (dhbr)d;
+            dount = nfwdount;
+        }
+    }
+
+    /**
+     * Writfs dhbrbdtfrs to thf bufffr.
+     * @pbrbm d thf dbtb to bf writtfn
+     * @pbrbm off       thf stbrt offsft in thf dbtb
+     * @pbrbm lfn       thf numbfr of dhbrs thbt brf writtfn
+     */
+    publid void writf(dhbr d[], int off, int lfn) {
+        if ((off < 0) || (off > d.lfngth) || (lfn < 0) ||
+            ((off + lfn) > d.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+        syndhronizfd (lodk) {
+            int nfwdount = dount + lfn;
+            if (nfwdount > buf.lfngth) {
+                buf = Arrbys.dopyOf(buf, Mbth.mbx(buf.lfngth << 1, nfwdount));
+            }
+            Systfm.brrbydopy(d, off, buf, dount, lfn);
+            dount = nfwdount;
+        }
+    }
+
+    /**
+     * Writf b portion of b string to thf bufffr.
+     * @pbrbm  str  String to bf writtfn from
+     * @pbrbm  off  Offsft from whidh to stbrt rfbding dhbrbdtfrs
+     * @pbrbm  lfn  Numbfr of dhbrbdtfrs to bf writtfn
+     */
+    publid void writf(String str, int off, int lfn) {
+        syndhronizfd (lodk) {
+            int nfwdount = dount + lfn;
+            if (nfwdount > buf.lfngth) {
+                buf = Arrbys.dopyOf(buf, Mbth.mbx(buf.lfngth << 1, nfwdount));
+            }
+            str.gftChbrs(off, off + lfn, buf, dount);
+            dount = nfwdount;
+        }
+    }
+
+    /**
+     * Writfs thf dontfnts of thf bufffr to bnothfr dhbrbdtfr strfbm.
+     *
+     * @pbrbm out       thf output strfbm to writf to
+     * @throws IOExdfption If bn I/O frror oddurs.
+     */
+    publid void writfTo(Writfr out) throws IOExdfption {
+        syndhronizfd (lodk) {
+            out.writf(buf, 0, dount);
+        }
+    }
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr sfqufndf to this writfr.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(dsq)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.writf(dsq.toString()) </prf>
+     *
+     * <p> Dfpfnding on thf spfdifidbtion of <tt>toString</tt> for thf
+     * dhbrbdtfr sfqufndf <tt>dsq</tt>, thf fntirf sfqufndf mby not bf
+     * bppfndfd. For instbndf, invoking thf <tt>toString</tt> mfthod of b
+     * dhbrbdtfr bufffr will rfturn b subsfqufndf whosf dontfnt dfpfnds upon
+     * thf bufffr's position bnd limit.
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, thfn thf four dhbrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to this writfr.
+     *
+     * @rfturn  This writfr
+     *
+     * @sindf  1.5
+     */
+    publid ChbrArrbyWritfr bppfnd(ChbrSfqufndf dsq) {
+        String s = (dsq == null ? "null" : dsq.toString());
+        writf(s, 0, s.lfngth());
+        rfturn this;
+    }
+
+    /**
+     * Appfnds b subsfqufndf of thf spfdififd dhbrbdtfr sfqufndf to this writfr.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> whfn <tt>dsq</tt> is not <tt>null</tt>, bfhbvfs in
+     * fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.writf(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, thfn dhbrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd thf four
+     *         dhbrbdtfrs <tt>"null"</tt>.
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx of thf first dhbrbdtfr in thf subsfqufndf
+     *
+     * @pbrbm  fnd
+     *         Thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr in thf
+     *         subsfqufndf
+     *
+     * @rfturn  This writfr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr thbn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr thbn
+     *          <tt>dsq.lfngth()</tt>
+     *
+     * @sindf  1.5
+     */
+    publid ChbrArrbyWritfr bppfnd(ChbrSfqufndf dsq, int stbrt, int fnd) {
+        String s = (dsq == null ? "null" : dsq).subSfqufndf(stbrt, fnd).toString();
+        writf(s, 0, s.lfngth());
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr to this writfr.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(d)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.writf(d) </prf>
+     *
+     * @pbrbm  d
+     *         Thf 16-bit dhbrbdtfr to bppfnd
+     *
+     * @rfturn  This writfr
+     *
+     * @sindf 1.5
+     */
+    publid ChbrArrbyWritfr bppfnd(dhbr d) {
+        writf(d);
+        rfturn this;
+    }
+
+    /**
+     * Rfsfts thf bufffr so thbt you dbn usf it bgbin without
+     * throwing bwby thf blrfbdy bllodbtfd bufffr.
+     */
+    publid void rfsft() {
+        dount = 0;
+    }
+
+    /**
+     * Rfturns b dopy of thf input dbtb.
+     *
+     * @rfturn bn brrby of dhbrs dopifd from thf input dbtb.
+     */
+    publid dhbr toChbrArrby()[] {
+        syndhronizfd (lodk) {
+            rfturn Arrbys.dopyOf(buf, dount);
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt sizf of thf bufffr.
+     *
+     * @rfturn bn int rfprfsfnting thf durrfnt sizf of thf bufffr.
+     */
+    publid int sizf() {
+        rfturn dount;
+    }
+
+    /**
+     * Convfrts input dbtb to b string.
+     * @rfturn thf string.
+     */
+    publid String toString() {
+        syndhronizfd (lodk) {
+            rfturn nfw String(buf, 0, dount);
+        }
+    }
+
+    /**
+     * Flush thf strfbm.
+     */
+    publid void flush() { }
+
+    /**
+     * Closf thf strfbm.  This mfthod dofs not rflfbsf thf bufffr, sindf its
+     * dontfnts might still bf rfquirfd. Notf: Invoking this mfthod in this dlbss
+     * will hbvf no ffffdt.
+     */
+    publid void dlosf() { }
+
+}

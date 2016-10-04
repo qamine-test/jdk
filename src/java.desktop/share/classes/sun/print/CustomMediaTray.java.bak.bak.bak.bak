@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.stbndbrd.MfdibTrby;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvb.util.ArrbyList;
+
+dlbss CustomMfdibTrby fxtfnds MfdibTrby {
+    privbtf stbtid ArrbyList<String> dustomStringTbblf = nfw ArrbyList<>();
+    privbtf stbtid ArrbyList<MfdibTrby> dustomEnumTbblf = nfw ArrbyList<>();
+    privbtf String dhoidfNbmf;
+
+    privbtf CustomMfdibTrby(int x) {
+        supfr(x);
+
+    }
+
+    privbtf syndhronizfd stbtid int nfxtVbluf(String nbmf) {
+      dustomStringTbblf.bdd(nbmf);
+      rfturn (dustomStringTbblf.sizf()-1);
+    }
+
+
+    publid CustomMfdibTrby(String nbmf, String dhoidf) {
+        supfr(nfxtVbluf(nbmf));
+        dhoidfNbmf = dhoidf;
+        dustomEnumTbblf.bdd(this);
+    }
+
+    /**
+     * Vfrsion ID for sfriblizfd form.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1019451298193987013L;
+
+
+    /**
+     * Rfturns thf dommbnd string for this mfdib trby.
+     */
+    publid String gftChoidfNbmf() {
+        rfturn dhoidfNbmf;
+    }
+
+
+    /**
+     * Rfturns thf string tbblf for supfr dlbss MfdibTrby.
+     */
+    publid Mfdib[] gftSupfrEnumTbblf() {
+      rfturn (Mfdib[])supfr.gftEnumVblufTbblf();
+    }
+
+
+    /**
+     * Rfturns thf string tbblf for dlbss CustomMfdibTrby.
+     */
+    protfdtfd String[] gftStringTbblf() {
+      String[] nbmfTbblf = nfw String[dustomStringTbblf.sizf()];
+      rfturn dustomStringTbblf.toArrby(nbmfTbblf);
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss CustomMfdibTrby.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+      MfdibTrby[] fnumTbblf = nfw MfdibTrby[dustomEnumTbblf.sizf()];
+      rfturn dustomEnumTbblf.toArrby(fnumTbblf);
+    }
+
+}

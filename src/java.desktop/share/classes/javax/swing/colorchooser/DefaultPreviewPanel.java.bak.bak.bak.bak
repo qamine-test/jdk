@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.io.Sfriblizbblf;
+import sun.swing.SwingUtilitifs2;
+
+
+/**
+ * Thf stbndbrd prfvifw pbnfl for thf dolor dhoosfr.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ * @sff JColorChoosfr
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss DffbultPrfvifwPbnfl fxtfnds JPbnfl {
+
+    privbtf int squbrfSizf = 25;
+    privbtf int squbrfGbp = 5;
+    privbtf int innfrGbp = 5;
+
+
+    privbtf int tfxtGbp = 5;
+    privbtf Font font = nfw Font(Font.DIALOG, Font.PLAIN, 12);
+    privbtf String sbmplfTfxt;
+
+    privbtf int swbtdhWidth = 50;
+
+    privbtf Color oldColor = null;
+
+    privbtf JColorChoosfr gftColorChoosfr() {
+        rfturn (JColorChoosfr)SwingUtilitifs.gftAndfstorOfClbss(
+                                   JColorChoosfr.dlbss, this);
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        JComponfnt host = gftColorChoosfr();
+        if (host == null) {
+            host = this;
+        }
+        FontMftrids fm = host.gftFontMftrids(gftFont());
+
+        int bsdfnt = fm.gftAsdfnt();
+        int hfight = fm.gftHfight();
+        int width = SwingUtilitifs2.stringWidth(host, fm, gftSbmplfTfxt());
+
+        int y = hfight*3 + tfxtGbp*3;
+        int x = squbrfSizf * 3 + squbrfGbp*2 + swbtdhWidth + width + tfxtGbp*3;
+        rfturn nfw Dimfnsion( x,y );
+    }
+
+    publid void pbintComponfnt(Grbphids g) {
+        if (oldColor == null)
+            oldColor = gftForfground();
+
+        g.sftColor(gftBbdkground());
+        g.fillRfdt(0,0,gftWidth(),gftHfight());
+
+        if (this.gftComponfntOrifntbtion().isLfftToRight()) {
+            int squbrfWidth = pbintSqubrfs(g, 0);
+            int tfxtWidth = pbintTfxt(g, squbrfWidth);
+            pbintSwbtdh(g, squbrfWidth + tfxtWidth);
+        } flsf {
+            int swbtdhWidth = pbintSwbtdh(g, 0);
+            int tfxtWidth = pbintTfxt(g, swbtdhWidth);
+            pbintSqubrfs(g , swbtdhWidth + tfxtWidth);
+
+        }
+    }
+
+    privbtf int pbintSwbtdh(Grbphids g, int offsftX) {
+        int swbtdhX = offsftX;
+        g.sftColor(oldColor);
+        g.fillRfdt(swbtdhX, 0, swbtdhWidth, (squbrfSizf) + (squbrfGbp/2));
+        g.sftColor(gftForfground());
+        g.fillRfdt(swbtdhX, (squbrfSizf) + (squbrfGbp/2), swbtdhWidth, (squbrfSizf) + (squbrfGbp/2) );
+        rfturn (swbtdhX+swbtdhWidth);
+    }
+
+    privbtf int pbintTfxt(Grbphids g, int offsftX) {
+        g.sftFont(gftFont());
+        JComponfnt host = gftColorChoosfr();
+        if (host == null) {
+            host = this;
+        }
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(host, g);
+
+        int bsdfnt = fm.gftAsdfnt();
+        int hfight = fm.gftHfight();
+        int width = SwingUtilitifs2.stringWidth(host, fm, gftSbmplfTfxt());
+
+        int tfxtXOffsft = offsftX + tfxtGbp;
+
+        Color dolor = gftForfground();
+
+        g.sftColor(dolor);
+
+        SwingUtilitifs2.drbwString(host, g, gftSbmplfTfxt(),tfxtXOffsft+(tfxtGbp/2),
+                                   bsdfnt+2);
+
+        g.fillRfdt(tfxtXOffsft,
+                   ( hfight) + tfxtGbp,
+                   width + (tfxtGbp),
+                   hfight +2);
+
+        g.sftColor(Color.blbdk);
+        SwingUtilitifs2.drbwString(host, g, gftSbmplfTfxt(),
+                     tfxtXOffsft+(tfxtGbp/2),
+                     hfight+bsdfnt+tfxtGbp+2);
+
+
+        g.sftColor(Color.whitf);
+
+        g.fillRfdt(tfxtXOffsft,
+                   ( hfight + tfxtGbp) * 2,
+                   width + (tfxtGbp),
+                   hfight +2);
+
+        g.sftColor(dolor);
+        SwingUtilitifs2.drbwString(host, g, gftSbmplfTfxt(),
+                     tfxtXOffsft+(tfxtGbp/2),
+                     ((hfight+tfxtGbp) * 2)+bsdfnt+2);
+
+        rfturn width + tfxtGbp*3;
+
+    }
+
+    privbtf int pbintSqubrfs(Grbphids g, int offsftX) {
+
+        int squbrfXOffsft = offsftX;
+        Color dolor = gftForfground();
+
+        g.sftColor(Color.whitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.whitf);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft,squbrfSizf+squbrfGbp,squbrfSizf,squbrfSizf);
+
+        g.trbnslbtf(squbrfSizf+squbrfGbp, 0);
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.whitf);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+        g.trbnslbtf(-(squbrfSizf+squbrfGbp), 0);
+
+        g.trbnslbtf(squbrfSizf+squbrfGbp, squbrfSizf+squbrfGbp);
+        g.sftColor(Color.whitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.trbnslbtf(-(squbrfSizf+squbrfGbp), -(squbrfSizf+squbrfGbp));
+
+
+
+        g.trbnslbtf((squbrfSizf+squbrfGbp)*2, 0);
+        g.sftColor(Color.whitf);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft+innfrGbp*2,
+                   innfrGbp*2,
+                   squbrfSizf - (innfrGbp*4),
+                   squbrfSizf - (innfrGbp*4));
+        g.trbnslbtf(-((squbrfSizf+squbrfGbp)*2), 0);
+
+        g.trbnslbtf((squbrfSizf+squbrfGbp)*2, (squbrfSizf+squbrfGbp));
+        g.sftColor(Color.blbdk);
+        g.fillRfdt(squbrfXOffsft,0,squbrfSizf,squbrfSizf);
+        g.sftColor(dolor);
+        g.fillRfdt(squbrfXOffsft+innfrGbp,
+                   innfrGbp,
+                   squbrfSizf - (innfrGbp*2),
+                   squbrfSizf - (innfrGbp*2));
+        g.trbnslbtf(-((squbrfSizf+squbrfGbp)*2), -(squbrfSizf+squbrfGbp));
+
+        rfturn (squbrfSizf*3+squbrfGbp*2);
+
+    }
+
+    privbtf String gftSbmplfTfxt() {
+        if (this.sbmplfTfxt == null) {
+            this.sbmplfTfxt = UIMbnbgfr.gftString("ColorChoosfr.sbmplfTfxt", gftLodblf());
+        }
+        rfturn this.sbmplfTfxt;
+    }
+}

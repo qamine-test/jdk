@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /**
- * Ported from awt_wm.c, SCCS v1.11, author Valeriy Ushakov
- * Author: Denis Mikhalkin
+ * Portfd from bwt_wm.d, SCCS v1.11, butior Vblfriy Usibkov
+ * Autior: Dfnis Mikiblkin
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import sun.awt.IconInfo;
-import sun.misc.Unsafe;
-import java.awt.Insets;
-import java.awt.Frame;
-import java.awt.Rectangle;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.IdonInfo;
+import sun.misd.Unsbff;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.LinkfdList;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.rfgfx.Pbttfrn;
+import sun.util.logging.PlbtformLoggfr;
 
 
 /**
- * Class incapsulating knowledge about window managers in general
- * Descendants should provide some information about specific window manager.
+ * Clbss indbpsulbting knowlfdgf bbout window mbnbgfrs in gfnfrbl
+ * Dfsdfndbnts siould providf somf informbtion bbout spfdifid window mbnbgfr.
  */
-final class XWM
+finbl dlbss XWM
 {
 
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XWM");
-    private final static PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XWM");
-    private final static PlatformLogger stateLog = PlatformLogger.getLogger("sun.awt.X11.states.XWM");
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XWM");
+    privbtf finbl stbtid PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XWM");
+    privbtf finbl stbtid PlbtformLoggfr stbtfLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.stbtfs.XWM");
 
-    static final XAtom XA_MWM_HINTS = new XAtom();
+    stbtid finbl XAtom XA_MWM_HINTS = nfw XAtom();
 
-    private static Unsafe unsafe = XlibWrapper.unsafe;
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
 
 
 /* Good old ICCCM */
-    static XAtom XA_WM_STATE = new XAtom();
+    stbtid XAtom XA_WM_STATE = nfw XAtom();
 
 
-    XAtom XA_UTF8_STRING = XAtom.get("UTF8_STRING");    /* like STRING but encoding is UTF-8 */
+    XAtom XA_UTF8_STRING = XAtom.gft("UTF8_STRING");    /* likf STRING but fndoding is UTF-8 */
 
-/* Currently we only care about max_v and max_h in _NET_WM_STATE */
-    final static int AWT_NET_N_KNOWN_STATES=2;
+/* Currfntly wf only dbrf bbout mbx_v bnd mbx_i in _NET_WM_STATE */
+    finbl stbtid int AWT_NET_N_KNOWN_STATES=2;
 
-/* Enlightenment */
-    final static XAtom XA_E_FRAME_SIZE = new XAtom();
+/* Enligitfnmfnt */
+    finbl stbtid XAtom XA_E_FRAME_SIZE = nfw XAtom();
 
 /* KWin (KDE2) */
-    final static XAtom XA_KDE_NET_WM_FRAME_STRUT = new XAtom();
+    finbl stbtid XAtom XA_KDE_NET_WM_FRAME_STRUT = nfw XAtom();
 
 /* KWM (KDE 1.x) OBSOLETE??? */
-    final static XAtom XA_KWM_WIN_ICONIFIED = new XAtom();
-    final static XAtom XA_KWM_WIN_MAXIMIZED = new XAtom();
+    finbl stbtid XAtom XA_KWM_WIN_ICONIFIED = nfw XAtom();
+    finbl stbtid XAtom XA_KWM_WIN_MAXIMIZED = nfw XAtom();
 
-/* OpenLook */
-    final static XAtom XA_OL_DECOR_DEL = new XAtom();
-    final static XAtom XA_OL_DECOR_HEADER = new XAtom();
-    final static XAtom XA_OL_DECOR_RESIZE = new XAtom();
-    final static XAtom XA_OL_DECOR_PIN = new XAtom();
-    final static XAtom XA_OL_DECOR_CLOSE = new XAtom();
+/* OpfnLook */
+    finbl stbtid XAtom XA_OL_DECOR_DEL = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_HEADER = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_RESIZE = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_PIN = nfw XAtom();
+    finbl stbtid XAtom XA_OL_DECOR_CLOSE = nfw XAtom();
 
 /* EWMH */
-    final static XAtom XA_NET_FRAME_EXTENTS = new XAtom();
-    final static XAtom XA_NET_REQUEST_FRAME_EXTENTS = new XAtom();
+    finbl stbtid XAtom XA_NET_FRAME_EXTENTS = nfw XAtom();
+    finbl stbtid XAtom XA_NET_REQUEST_FRAME_EXTENTS = nfw XAtom();
 
-    final static int
+    finbl stbtid int
         UNDETERMINED_WM = 1,
         NO_WM = 2,
         OTHER_WM = 3,
@@ -105,87 +105,87 @@ final class XWM
         LG3D_WM = 13,
         CWM_WM = 14,
         MUTTER_WM = 15;
-    public String toString() {
-        switch  (WMID) {
-          case NO_WM:
-              return "NO WM";
-          case OTHER_WM:
-              return "Other WM";
-          case OPENLOOK_WM:
-              return "OPENLOOK";
-          case MOTIF_WM:
-              return "MWM";
-          case CDE_WM:
-              return "DTWM";
-          case ENLIGHTEN_WM:
-              return "Enlightenment";
-          case KDE2_WM:
-              return "KWM2";
-          case SAWFISH_WM:
-              return "Sawfish";
-          case ICE_WM:
-              return "IceWM";
-          case METACITY_WM:
-              return "Metacity";
-          case COMPIZ_WM:
-              return "Compiz";
-          case LG3D_WM:
-              return "LookingGlass";
-          case CWM_WM:
-              return "CWM";
-          case MUTTER_WM:
-              return "Mutter";
-          case UNDETERMINED_WM:
-          default:
-              return "Undetermined WM";
+    publid String toString() {
+        switdi  (WMID) {
+          dbsf NO_WM:
+              rfturn "NO WM";
+          dbsf OTHER_WM:
+              rfturn "Otifr WM";
+          dbsf OPENLOOK_WM:
+              rfturn "OPENLOOK";
+          dbsf MOTIF_WM:
+              rfturn "MWM";
+          dbsf CDE_WM:
+              rfturn "DTWM";
+          dbsf ENLIGHTEN_WM:
+              rfturn "Enligitfnmfnt";
+          dbsf KDE2_WM:
+              rfturn "KWM2";
+          dbsf SAWFISH_WM:
+              rfturn "Sbwfisi";
+          dbsf ICE_WM:
+              rfturn "IdfWM";
+          dbsf METACITY_WM:
+              rfturn "Mftbdity";
+          dbsf COMPIZ_WM:
+              rfturn "Compiz";
+          dbsf LG3D_WM:
+              rfturn "LookingGlbss";
+          dbsf CWM_WM:
+              rfturn "CWM";
+          dbsf MUTTER_WM:
+              rfturn "Muttfr";
+          dbsf UNDETERMINED_WM:
+          dffbult:
+              rfturn "Undftfrminfd WM";
         }
     }
 
 
     int WMID;
-    static final Insets zeroInsets = new Insets(0, 0, 0, 0);
-    static final Insets defaultInsets = new Insets(25, 5, 5, 5);
+    stbtid finbl Insfts zfroInsfts = nfw Insfts(0, 0, 0, 0);
+    stbtid finbl Insfts dffbultInsfts = nfw Insfts(25, 5, 5, 5);
 
     XWM(int WMID) {
-        this.WMID = WMID;
-        initializeProtocols();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Window manager: " + toString());
+        tiis.WMID = WMID;
+        initiblizfProtodols();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Window mbnbgfr: " + toString());
         }
     }
-    int getID() {
-        return WMID;
+    int gftID() {
+        rfturn WMID;
     }
 
 
-    static Insets normalize(Insets insets) {
-        if (insets.top > 64 || insets.top < 0) {
-            insets.top = 28;
+    stbtid Insfts normblizf(Insfts insfts) {
+        if (insfts.top > 64 || insfts.top < 0) {
+            insfts.top = 28;
         }
-        if (insets.left > 32 || insets.left < 0) {
-            insets.left = 6;
+        if (insfts.lfft > 32 || insfts.lfft < 0) {
+            insfts.lfft = 6;
         }
-        if (insets.right > 32 || insets.right < 0) {
-            insets.right = 6;
+        if (insfts.rigit > 32 || insfts.rigit < 0) {
+            insfts.rigit = 6;
         }
-        if (insets.bottom > 32 || insets.bottom < 0) {
-            insets.bottom = 6;
+        if (insfts.bottom > 32 || insfts.bottom < 0) {
+            insfts.bottom = 6;
         }
-        return insets;
+        rfturn insfts;
     }
 
-    static XNETProtocol g_net_protocol = null;
-    static XWINProtocol g_win_protocol = null;
-    static boolean isNetWMName(String name) {
-        if (g_net_protocol != null) {
-            return g_net_protocol.isWMName(name);
-        } else {
-            return false;
+    stbtid XNETProtodol g_nft_protodol = null;
+    stbtid XWINProtodol g_win_protodol = null;
+    stbtid boolfbn isNftWMNbmf(String nbmf) {
+        if (g_nft_protodol != null) {
+            rfturn g_nft_protodol.isWMNbmf(nbmf);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    static void initAtoms() {
-        final Object[][] atomInitList ={
+    stbtid void initAtoms() {
+        finbl Objfdt[][] btomInitList ={
             { XA_WM_STATE,                      "WM_STATE"                  },
 
             { XA_KDE_NET_WM_FRAME_STRUT,    "_KDE_NET_WM_FRAME_STRUT"       },
@@ -205,1529 +205,1529 @@ final class XWM
             { XA_NET_REQUEST_FRAME_EXTENTS,  "_NET_REQUEST_FRAME_EXTENTS"    },
         };
 
-        String[] names = new String[atomInitList.length];
-        for (int index = 0; index < names.length; index++) {
-            names[index] = (String)atomInitList[index][1];
+        String[] nbmfs = nfw String[btomInitList.lfngti];
+        for (int indfx = 0; indfx < nbmfs.lfngti; indfx++) {
+            nbmfs[indfx] = (String)btomInitList[indfx][1];
         }
 
-        int atomSize = XAtom.getAtomSize();
-        long atoms = unsafe.allocateMemory(names.length*atomSize);
-        XToolkit.awtLock();
+        int btomSizf = XAtom.gftAtomSizf();
+        long btoms = unsbff.bllodbtfMfmory(nbmfs.lfngti*btomSizf);
+        XToolkit.bwtLodk();
         try {
-            int status = XlibWrapper.XInternAtoms(XToolkit.getDisplay(), names, false, atoms);
-            if (status == 0) {
-                return;
+            int stbtus = XlibWrbppfr.XIntfrnAtoms(XToolkit.gftDisplby(), nbmfs, fblsf, btoms);
+            if (stbtus == 0) {
+                rfturn;
             }
-            for (int atom = 0, atomPtr = 0; atom < names.length; atom++, atomPtr += atomSize) {
-                ((XAtom)(atomInitList[atom][0])).setValues(XToolkit.getDisplay(), names[atom], XAtom.getAtom(atoms + atomPtr));
+            for (int btom = 0, btomPtr = 0; btom < nbmfs.lfngti; btom++, btomPtr += btomSizf) {
+                ((XAtom)(btomInitList[btom][0])).sftVblufs(XToolkit.gftDisplby(), nbmfs[btom], XAtom.gftAtom(btoms + btomPtr));
             }
-        } finally {
-            XToolkit.awtUnlock();
-            unsafe.freeMemory(atoms);
+        } finblly {
+            XToolkit.bwtUnlodk();
+            unsbff.frffMfmory(btoms);
         }
     }
 
     /*
      * MUST BE CALLED UNDER AWTLOCK.
      *
-     * If *any* window manager is running?
+     * If *bny* window mbnbgfr is running?
      *
-     * According to ICCCM 2.0 section 4.3.
-     * WM will acquire ownership of a selection named WM_Sn, where n is
-     * the screen number.
+     * Addording to ICCCM 2.0 sfdtion 4.3.
+     * WM will bdquirf ownfrsiip of b sflfdtion nbmfd WM_Sn, wifrf n is
+     * tif sdrffn numbfr.
      *
-     * No selection owner, but, perhaps it is not ICCCM compliant WM
-     * (e.g. CDE/Sawfish).
-     * Try selecting for SubstructureRedirect, that only one client
-     * can select for, and if the request fails, than some other WM is
-     * already running.
+     * No sflfdtion ownfr, but, pfribps it is not ICCCM domplibnt WM
+     * (f.g. CDE/Sbwfisi).
+     * Try sflfdting for SubstrudturfRfdirfdt, tibt only onf dlifnt
+     * dbn sflfdt for, bnd if tif rfqufst fbils, tibn somf otifr WM is
+     * blrfbdy running.
      *
-     * We also treat eXcursion as NO_WM.
+     * Wf blso trfbt fXdursion bs NO_WM.
      */
-    private static boolean isNoWM() {
+    privbtf stbtid boolfbn isNoWM() {
         /*
-         * Quick checks for specific servers.
+         * Quidk difdks for spfdifid sfrvfrs.
          */
-        String vendor_string = XlibWrapper.ServerVendor(XToolkit.getDisplay());
-        if (vendor_string.indexOf("eXcursion") != -1) {
+        String vfndor_string = XlibWrbppfr.SfrvfrVfndor(XToolkit.gftDisplby());
+        if (vfndor_string.indfxOf("fXdursion") != -1) {
             /*
-             * Use NO_WM since in all other aspects eXcursion is like not
-             * having a window manager running. I.e. it does not reparent
-             * top level shells.
+             * Usf NO_WM sindf in bll otifr bspfdts fXdursion is likf not
+             * ibving b window mbnbgfr running. I.f. it dofs not rfpbrfnt
+             * top lfvfl siflls.
              */
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("eXcursion means NO_WM");
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("fXdursion mfbns NO_WM");
             }
-            return true;
+            rfturn truf;
         }
 
-        XSetWindowAttributes substruct = new XSetWindowAttributes();
+        XSftWindowAttributfs substrudt = nfw XSftWindowAttributfs();
         try {
             /*
-             * Let's check an owner of WM_Sn selection for the default screen.
+             * Lft's difdk bn ownfr of WM_Sn sflfdtion for tif dffbult sdrffn.
              */
-            final long default_screen_number =
-                XlibWrapper.DefaultScreen(XToolkit.getDisplay());
-            final String selection_name = "WM_S" + default_screen_number;
+            finbl long dffbult_sdrffn_numbfr =
+                XlibWrbppfr.DffbultSdrffn(XToolkit.gftDisplby());
+            finbl String sflfdtion_nbmf = "WM_S" + dffbult_sdrffn_numbfr;
 
-            long selection_owner =
-                XlibWrapper.XGetSelectionOwner(XToolkit.getDisplay(),
-                                               XAtom.get(selection_name).getAtom());
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("selection owner of " + selection_name
-                             + " is " + selection_owner);
+            long sflfdtion_ownfr =
+                XlibWrbppfr.XGftSflfdtionOwnfr(XToolkit.gftDisplby(),
+                                               XAtom.gft(sflfdtion_nbmf).gftAtom());
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("sflfdtion ownfr of " + sflfdtion_nbmf
+                             + " is " + sflfdtion_ownfr);
             }
 
-            if (selection_owner != XConstants.None) {
-                return false;
+            if (sflfdtion_ownfr != XConstbnts.Nonf) {
+                rfturn fblsf;
             }
 
-            winmgr_running = false;
-            substruct.set_event_mask(XConstants.SubstructureRedirectMask);
+            winmgr_running = fblsf;
+            substrudt.sft_fvfnt_mbsk(XConstbnts.SubstrudturfRfdirfdtMbsk);
 
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(detectWMHandler);
-            XlibWrapper.XChangeWindowAttributes(XToolkit.getDisplay(),
-                                                XToolkit.getDefaultRootWindow(),
-                                                XConstants.CWEventMask,
-                                                substruct.pData);
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(dftfdtWMHbndlfr);
+            XlibWrbppfr.XCibngfWindowAttributfs(XToolkit.gftDisplby(),
+                                                XToolkit.gftDffbultRootWindow(),
+                                                XConstbnts.CWEvfntMbsk,
+                                                substrudt.pDbtb);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
             /*
-             * If no WM is running then our selection for SubstructureRedirect
-             * succeeded and needs to be undone (hey we are *not* a WM ;-).
+             * If no WM is running tifn our sflfdtion for SubstrudturfRfdirfdt
+             * suddffdfd bnd nffds to bf undonf (ify wf brf *not* b WM ;-).
              */
             if (!winmgr_running) {
-                substruct.set_event_mask(0);
-                XlibWrapper.XChangeWindowAttributes(XToolkit.getDisplay(),
-                                                    XToolkit.getDefaultRootWindow(),
-                                                    XConstants.CWEventMask,
-                                                    substruct.pData);
-                if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    insLog.finer("It looks like there is no WM thus NO_WM");
+                substrudt.sft_fvfnt_mbsk(0);
+                XlibWrbppfr.XCibngfWindowAttributfs(XToolkit.gftDisplby(),
+                                                    XToolkit.gftDffbultRootWindow(),
+                                                    XConstbnts.CWEvfntMbsk,
+                                                    substrudt.pDbtb);
+                if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    insLog.finfr("It looks likf tifrf is no WM tius NO_WM");
                 }
             }
 
-            return !winmgr_running;
-        } finally {
-            substruct.dispose();
+            rfturn !winmgr_running;
+        } finblly {
+            substrudt.disposf();
         }
     }
 
-    static XAtom XA_ENLIGHTENMENT_COMMS = new XAtom("ENLIGHTENMENT_COMMS", false);
+    stbtid XAtom XA_ENLIGHTENMENT_COMMS = nfw XAtom("ENLIGHTENMENT_COMMS", fblsf);
     /*
-     * Helper function for isEnlightenment().
-     * Enlightenment uses STRING property for its comms window id.  Gaaa!
-     * The property is ENLIGHTENMENT_COMMS, STRING/8 and the string format
-     * is "WINID %8x".  Gee, I haven't been using scanf for *ages*... :-)
+     * Hflpfr fundtion for isEnligitfnmfnt().
+     * Enligitfnmfnt usfs STRING propfrty for its domms window id.  Gbbb!
+     * Tif propfrty is ENLIGHTENMENT_COMMS, STRING/8 bnd tif string formbt
+     * is "WINID %8x".  Gff, I ibvfn't bffn using sdbnf for *bgfs*... :-)
      */
-    static long getECommsWindowIDProperty(long window) {
+    stbtid long gftECommsWindowIDPropfrty(long window) {
 
-        if (!XA_ENLIGHTENMENT_COMMS.isInterned()) {
-            return 0;
+        if (!XA_ENLIGHTENMENT_COMMS.isIntfrnfd()) {
+            rfturn 0;
         }
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, XA_ENLIGHTENMENT_COMMS, 0, 14, false,
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, XA_ENLIGHTENMENT_COMMS, 0, 14, fblsf,
                                      XAtom.XA_STRING);
         try {
-            int status = getter.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return 0;
+            int stbtus = gfttfr.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn 0;
             }
 
-            if (getter.getActualType() != XAtom.XA_STRING
-                || getter.getActualFormat() != 8
-                || getter.getNumberOfItems() != 14 || getter.getBytesAfter() != 0)
+            if (gfttfr.gftAdtublTypf() != XAtom.XA_STRING
+                || gfttfr.gftAdtublFormbt() != 8
+                || gfttfr.gftNumbfrOfItfms() != 14 || gfttfr.gftBytfsAftfr() != 0)
             {
-                return 0;
+                rfturn 0;
             }
 
-            // Convert data to String, ASCII
-            byte[] bytes = XlibWrapper.getStringBytes(getter.getData());
-            String id = new String(bytes);
+            // Convfrt dbtb to String, ASCII
+            bytf[] bytfs = XlibWrbppfr.gftStringBytfs(gfttfr.gftDbtb());
+            String id = nfw String(bytfs);
 
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("ENLIGHTENMENT_COMMS is " + id);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("ENLIGHTENMENT_COMMS is " + id);
             }
 
-            // Parse WINID
-            Pattern winIdPat = Pattern.compile("WINID\\s+(\\p{XDigit}{0,8})");
+            // Pbrsf WINID
+            Pbttfrn winIdPbt = Pbttfrn.dompilf("WINID\\s+(\\p{XDigit}{0,8})");
             try {
-                Matcher match = winIdPat.matcher(id);
-                if (match.matches()) {
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("Match group count: " + match.groupCount());
+                Mbtdifr mbtdi = winIdPbt.mbtdifr(id);
+                if (mbtdi.mbtdifs()) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Mbtdi group dount: " + mbtdi.groupCount());
                     }
-                    String longId = match.group(1);
-                    if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                        log.finest("Match group 1 " + longId);
+                    String longId = mbtdi.group(1);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Mbtdi group 1 " + longId);
                     }
-                    long winid = Long.parseLong(longId, 16);
-                    if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                        log.finer("Enlightenment communication window " + winid);
+                    long winid = Long.pbrsfLong(longId, 16);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        log.finfr("Enligitfnmfnt dommunidbtion window " + winid);
                     }
-                    return winid;
-                } else {
-                    log.finer("ENLIGHTENMENT_COMMS has wrong format");
-                    return 0;
+                    rfturn winid;
+                } flsf {
+                    log.finfr("ENLIGHTENMENT_COMMS ibs wrong formbt");
+                    rfturn 0;
                 }
-            } catch (Exception e) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    e.printStackTrace();
+            } dbtdi (Exdfption f) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    f.printStbdkTrbdf();
                 }
-                return 0;
+                rfturn 0;
             }
-        } finally {
-            getter.dispose();
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /*
-     * Is Enlightenment WM running?  Congruent to awt_wm_checkAnchor, but
-     * uses STRING property peculiar to Enlightenment.
+     * Is Enligitfnmfnt WM running?  Congrufnt to bwt_wm_difdkAndior, but
+     * usfs STRING propfrty pfdulibr to Enligitfnmfnt.
      */
-    static boolean isEnlightenment() {
+    stbtid boolfbn isEnligitfnmfnt() {
 
-        long root_xref = getECommsWindowIDProperty(XToolkit.getDefaultRootWindow());
-        if (root_xref == 0) {
-            return false;
+        long root_xrff = gftECommsWindowIDPropfrty(XToolkit.gftDffbultRootWindow());
+        if (root_xrff == 0) {
+            rfturn fblsf;
         }
 
-        long self_xref = getECommsWindowIDProperty(root_xref);
-        if (self_xref != root_xref) {
-            return false;
+        long sflf_xrff = gftECommsWindowIDPropfrty(root_xrff);
+        if (sflf_xrff != root_xrff) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /*
      * Is CDE running?
      *
-     * XXX: This is hairy...  CDE is MWM as well.  It seems we simply test
-     * for default setup and will be bitten if user changes things...
+     * XXX: Tiis is ibiry...  CDE is MWM bs wfll.  It sffms wf simply tfst
+     * for dffbult sftup bnd will bf bittfn if usfr dibngfs tiings...
      *
-     * Check for _DT_SM_WINDOW_INFO(_DT_SM_WINDOW_INFO) on root.  Take the
-     * second element of the property and check for presence of
-     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on that window.
+     * Cifdk for _DT_SM_WINDOW_INFO(_DT_SM_WINDOW_INFO) on root.  Tbkf tif
+     * sfdond flfmfnt of tif propfrty bnd difdk for prfsfndf of
+     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on tibt window.
      *
-     * XXX: Any header that defines this structures???
+     * XXX: Any ifbdfr tibt dffinfs tiis strudturfs???
      */
-    static final XAtom XA_DT_SM_WINDOW_INFO = new XAtom("_DT_SM_WINDOW_INFO", false);
-    static final XAtom XA_DT_SM_STATE_INFO = new XAtom("_DT_SM_STATE_INFO", false);
-    static boolean isCDE() {
+    stbtid finbl XAtom XA_DT_SM_WINDOW_INFO = nfw XAtom("_DT_SM_WINDOW_INFO", fblsf);
+    stbtid finbl XAtom XA_DT_SM_STATE_INFO = nfw XAtom("_DT_SM_STATE_INFO", fblsf);
+    stbtid boolfbn isCDE() {
 
-        if (!XA_DT_SM_WINDOW_INFO.isInterned()) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("{0} is not interned", XA_DT_SM_WINDOW_INFO);
+        if (!XA_DT_SM_WINDOW_INFO.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_DT_SM_WINDOW_INFO);
             }
-            return false;
+            rfturn fblsf;
         }
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(XToolkit.getDefaultRootWindow(),
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
                                      XA_DT_SM_WINDOW_INFO, 0, 2,
-                                     false, XA_DT_SM_WINDOW_INFO);
+                                     fblsf, XA_DT_SM_WINDOW_INFO);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                log.finer("Getting of _DT_SM_WINDOW_INFO is not successfull");
-                return false;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                log.finfr("Gftting of _DT_SM_WINDOW_INFO is not suddfssfull");
+                rfturn fblsf;
             }
-            if (getter.getActualType() != XA_DT_SM_WINDOW_INFO.getAtom()
-                || getter.getActualFormat() != 32
-                || getter.getNumberOfItems() != 2 || getter.getBytesAfter() != 0)
+            if (gfttfr.gftAdtublTypf() != XA_DT_SM_WINDOW_INFO.gftAtom()
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != 2 || gfttfr.gftBytfsAftfr() != 0)
             {
-                log.finer("Wrong format of _DT_SM_WINDOW_INFO");
-                return false;
+                log.finfr("Wrong formbt of _DT_SM_WINDOW_INFO");
+                rfturn fblsf;
             }
 
-            long wmwin = Native.getWindow(getter.getData(), 1); //unsafe.getInt(getter.getData()+4);
+            long wmwin = Nbtivf.gftWindow(gfttfr.gftDbtb(), 1); //unsbff.gftInt(gfttfr.gftDbtb()+4);
 
             if (wmwin == 0) {
-                log.fine("WARNING: DT_SM_WINDOW_INFO exists but returns zero windows");
-                return false;
+                log.finf("WARNING: DT_SM_WINDOW_INFO fxists but rfturns zfro windows");
+                rfturn fblsf;
             }
 
-            /* Now check that this window has _DT_SM_STATE_INFO (ignore contents) */
-            if (!XA_DT_SM_STATE_INFO.isInterned()) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("{0} is not interned", XA_DT_SM_STATE_INFO);
+            /* Now difdk tibt tiis window ibs _DT_SM_STATE_INFO (ignorf dontfnts) */
+            if (!XA_DT_SM_STATE_INFO.isIntfrnfd()) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("{0} is not intfrnfd", XA_DT_SM_STATE_INFO);
                 }
-                return false;
+                rfturn fblsf;
             }
-            WindowPropertyGetter getter2 =
-                new WindowPropertyGetter(wmwin, XA_DT_SM_STATE_INFO, 0, 1,
-                                         false, XA_DT_SM_STATE_INFO);
+            WindowPropfrtyGfttfr gfttfr2 =
+                nfw WindowPropfrtyGfttfr(wmwin, XA_DT_SM_STATE_INFO, 0, 1,
+                                         fblsf, XA_DT_SM_STATE_INFO);
             try {
-                status = getter2.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+                stbtus = gfttfr2.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
 
 
-                if (status != XConstants.Success || getter2.getData() == 0) {
-                    log.finer("Getting of _DT_SM_STATE_INFO is not successfull");
-                    return false;
+                if (stbtus != XConstbnts.Suddfss || gfttfr2.gftDbtb() == 0) {
+                    log.finfr("Gftting of _DT_SM_STATE_INFO is not suddfssfull");
+                    rfturn fblsf;
                 }
-                if (getter2.getActualType() != XA_DT_SM_STATE_INFO.getAtom()
-                    || getter2.getActualFormat() != 32)
+                if (gfttfr2.gftAdtublTypf() != XA_DT_SM_STATE_INFO.gftAtom()
+                    || gfttfr2.gftAdtublFormbt() != 32)
                 {
-                    log.finer("Wrong format of _DT_SM_STATE_INFO");
-                    return false;
+                    log.finfr("Wrong formbt of _DT_SM_STATE_INFO");
+                    rfturn fblsf;
                 }
 
-                return true;
-            } finally {
-                getter2.dispose();
+                rfturn truf;
+            } finblly {
+                gfttfr2.disposf();
             }
-        } finally {
-            getter.dispose();
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /*
-     * Is MWM running?  (Note that CDE will test positive as well).
+     * Is MWM running?  (Notf tibt CDE will tfst positivf bs wfll).
      *
-     * Check for _MOTIF_WM_INFO(_MOTIF_WM_INFO) on root.  Take the
-     * second element of the property and check for presence of
-     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on that window.
+     * Cifdk for _MOTIF_WM_INFO(_MOTIF_WM_INFO) on root.  Tbkf tif
+     * sfdond flfmfnt of tif propfrty bnd difdk for prfsfndf of
+     * _DT_SM_STATE_INFO(_DT_SM_STATE_INFO) on tibt window.
      */
-    static final XAtom XA_MOTIF_WM_INFO = new XAtom("_MOTIF_WM_INFO", false);
-    static final XAtom XA_DT_WORKSPACE_CURRENT = new XAtom("_DT_WORKSPACE_CURRENT", false);
-    static boolean isMotif() {
+    stbtid finbl XAtom XA_MOTIF_WM_INFO = nfw XAtom("_MOTIF_WM_INFO", fblsf);
+    stbtid finbl XAtom XA_DT_WORKSPACE_CURRENT = nfw XAtom("_DT_WORKSPACE_CURRENT", fblsf);
+    stbtid boolfbn isMotif() {
 
-        if (!(XA_MOTIF_WM_INFO.isInterned()/* && XA_DT_WORKSPACE_CURRENT.isInterned()*/) ) {
-            return false;
+        if (!(XA_MOTIF_WM_INFO.isIntfrnfd()/* && XA_DT_WORKSPACE_CURRENT.isIntfrnfd()*/) ) {
+            rfturn fblsf;
         }
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(XToolkit.getDefaultRootWindow(),
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
                                      XA_MOTIF_WM_INFO, 0,
-                                     MWMConstants.PROP_MOTIF_WM_INFO_ELEMENTS,
-                                     false, XA_MOTIF_WM_INFO);
+                                     MWMConstbnts.PROP_MOTIF_WM_INFO_ELEMENTS,
+                                     fblsf, XA_MOTIF_WM_INFO);
         try {
-            int status = getter.execute();
+            int stbtus = gfttfr.fxfdutf();
 
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return false;
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn fblsf;
             }
 
-            if (getter.getActualType() != XA_MOTIF_WM_INFO.getAtom()
-                || getter.getActualFormat() != 32
-                || getter.getNumberOfItems() != MWMConstants.PROP_MOTIF_WM_INFO_ELEMENTS
-                || getter.getBytesAfter() != 0)
+            if (gfttfr.gftAdtublTypf() != XA_MOTIF_WM_INFO.gftAtom()
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != MWMConstbnts.PROP_MOTIF_WM_INFO_ELEMENTS
+                || gfttfr.gftBytfsAftfr() != 0)
             {
-                return false;
+                rfturn fblsf;
             }
 
-            long wmwin = Native.getLong(getter.getData(), 1);
+            long wmwin = Nbtivf.gftLong(gfttfr.gftDbtb(), 1);
             if (wmwin != 0) {
-                if (XA_DT_WORKSPACE_CURRENT.isInterned()) {
-                    /* Now check that this window has _DT_WORKSPACE_CURRENT */
-                    XAtom[] curws = XA_DT_WORKSPACE_CURRENT.getAtomListProperty(wmwin);
-                    if (curws.length == 0) {
-                        return false;
+                if (XA_DT_WORKSPACE_CURRENT.isIntfrnfd()) {
+                    /* Now difdk tibt tiis window ibs _DT_WORKSPACE_CURRENT */
+                    XAtom[] durws = XA_DT_WORKSPACE_CURRENT.gftAtomListPropfrty(wmwin);
+                    if (durws.lfngti == 0) {
+                        rfturn fblsf;
                     }
-                    return true;
-                } else {
-                    // No DT_WORKSPACE, however in our tests MWM sometimes can be without desktop -
-                    // and that is still MWM.  So simply check for the validity of this window
-                    // (through WM_STATE property).
-                    WindowPropertyGetter state_getter =
-                        new WindowPropertyGetter(wmwin,
+                    rfturn truf;
+                } flsf {
+                    // No DT_WORKSPACE, iowfvfr in our tfsts MWM somftimfs dbn bf witiout dfsktop -
+                    // bnd tibt is still MWM.  So simply difdk for tif vblidity of tiis window
+                    // (tirougi WM_STATE propfrty).
+                    WindowPropfrtyGfttfr stbtf_gfttfr =
+                        nfw WindowPropfrtyGfttfr(wmwin,
                                                  XA_WM_STATE,
-                                                 0, 1, false,
+                                                 0, 1, fblsf,
                                                  XA_WM_STATE);
                     try {
-                        if (state_getter.execute() == XConstants.Success &&
-                            state_getter.getData() != 0 &&
-                            state_getter.getActualType() == XA_WM_STATE.getAtom())
+                        if (stbtf_gfttfr.fxfdutf() == XConstbnts.Suddfss &&
+                            stbtf_gfttfr.gftDbtb() != 0 &&
+                            stbtf_gfttfr.gftAdtublTypf() == XA_WM_STATE.gftAtom())
                         {
-                            return true;
+                            rfturn truf;
                         }
-                    } finally {
-                        state_getter.dispose();
+                    } finblly {
+                        stbtf_gfttfr.disposf();
                     }
                 }
             }
-        } finally {
-            getter.dispose();
+        } finblly {
+            gfttfr.disposf();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Is Sawfish running?
+     * Is Sbwfisi running?
      */
-    static boolean isSawfish() {
-        return isNetWMName("Sawfish");
+    stbtid boolfbn isSbwfisi() {
+        rfturn isNftWMNbmf("Sbwfisi");
     }
 
     /*
      * Is KDE2 (KWin) running?
      */
-    static boolean isKDE2() {
-        return isNetWMName("KWin");
+    stbtid boolfbn isKDE2() {
+        rfturn isNftWMNbmf("KWin");
     }
 
-    static boolean isCompiz() {
-        return isNetWMName("compiz");
+    stbtid boolfbn isCompiz() {
+        rfturn isNftWMNbmf("dompiz");
     }
 
-    static boolean isLookingGlass() {
-        return isNetWMName("LG3D");
+    stbtid boolfbn isLookingGlbss() {
+        rfturn isNftWMNbmf("LG3D");
     }
 
-    static boolean isCWM() {
-        return isNetWMName("CWM");
+    stbtid boolfbn isCWM() {
+        rfturn isNftWMNbmf("CWM");
     }
 
     /*
-     * Is Metacity running?
+     * Is Mftbdity running?
      */
-    static boolean isMetacity() {
-        return isNetWMName("Metacity");
+    stbtid boolfbn isMftbdity() {
+        rfturn isNftWMNbmf("Mftbdity");
 //         || (
 //             XA_NET_SUPPORTING_WM_CHECK.
-//             getIntProperty(XToolkit.getDefaultRootWindow(), XA_NET_SUPPORTING_WM_CHECK.
-//                            getIntProperty(XToolkit.getDefaultRootWindow(), XAtom.XA_CARDINAL)) == 0);
+//             gftIntPropfrty(XToolkit.gftDffbultRootWindow(), XA_NET_SUPPORTING_WM_CHECK.
+//                            gftIntPropfrty(XToolkit.gftDffbultRootWindow(), XAtom.XA_CARDINAL)) == 0);
     }
 
-    static boolean isMutter() {
-        return isNetWMName("Mutter") || isNetWMName("GNOME Shell");
+    stbtid boolfbn isMuttfr() {
+        rfturn isNftWMNbmf("Muttfr") || isNftWMNbmf("GNOME Sifll");
     }
 
-    static boolean isNonReparentingWM() {
-        return (XWM.getWMID() == XWM.COMPIZ_WM || XWM.getWMID() == XWM.LG3D_WM || XWM.getWMID() == XWM.CWM_WM);
+    stbtid boolfbn isNonRfpbrfntingWM() {
+        rfturn (XWM.gftWMID() == XWM.COMPIZ_WM || XWM.gftWMID() == XWM.LG3D_WM || XWM.gftWMID() == XWM.CWM_WM);
     }
 
     /*
-     * Prepare IceWM check.
+     * Prfpbrf IdfWM difdk.
      *
-     * The only way to detect IceWM, seems to be by setting
-     * _ICEWM_WINOPTHINT(_ICEWM_WINOPTHINT/8) on root and checking if it
-     * was immediately deleted by IceWM.
+     * Tif only wby to dftfdt IdfWM, sffms to bf by sftting
+     * _ICEWM_WINOPTHINT(_ICEWM_WINOPTHINT/8) on root bnd difdking if it
+     * wbs immfdibtfly dflftfd by IdfWM.
      *
-     * But messing with PropertyNotify here is way too much trouble, so
-     * approximate the check by setting the property in this function and
-     * checking if it still exists later on.
+     * But mfssing witi PropfrtyNotify ifrf is wby too mudi troublf, so
+     * bpproximbtf tif difdk by sftting tif propfrty in tiis fundtion bnd
+     * difdking if it still fxists lbtfr on.
      *
-     * Gaa, dirty dances...
+     * Gbb, dirty dbndfs...
      */
-    static final XAtom XA_ICEWM_WINOPTHINT = new XAtom("_ICEWM_WINOPTHINT", false);
-    static final char opt[] = {
+    stbtid finbl XAtom XA_ICEWM_WINOPTHINT = nfw XAtom("_ICEWM_WINOPTHINT", fblsf);
+    stbtid finbl dibr opt[] = {
         'A','W','T','_','I','C','E','W','M','_','T','E','S','T','\0',
-        'a','l','l','W','o','r','k','s','p','a','c','e','s','\0',
+        'b','l','l','W','o','r','k','s','p','b','d','f','s','\0',
         '0','\0'
     };
-    static boolean prepareIsIceWM() {
+    stbtid boolfbn prfpbrfIsIdfWM() {
         /*
-         * Choose something innocuous: "AWT_ICEWM_TEST allWorkspaces 0".
-         * IceWM expects "class\0option\0arg\0" with zero bytes as delimiters.
+         * Cioosf somftiing innoduous: "AWT_ICEWM_TEST bllWorkspbdfs 0".
+         * IdfWM fxpfdts "dlbss\0option\0brg\0" witi zfro bytfs bs dflimitfrs.
          */
 
-        if (!XA_ICEWM_WINOPTHINT.isInterned()) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("{0} is not interned", XA_ICEWM_WINOPTHINT);
+        if (!XA_ICEWM_WINOPTHINT.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_ICEWM_WINOPTHINT);
             }
-            return false;
+            rfturn fblsf;
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.VerifyChangePropertyHandler.getInstance());
-            XlibWrapper.XChangePropertyS(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(),
-                                         XA_ICEWM_WINOPTHINT.getAtom(),
-                                         XA_ICEWM_WINOPTHINT.getAtom(),
-                                         8, XConstants.PropModeReplace,
-                                         new String(opt));
-            XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.VfrifyCibngfPropfrtyHbndlfr.gftInstbndf());
+            XlibWrbppfr.XCibngfPropfrtyS(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                         XA_ICEWM_WINOPTHINT.gftAtom(),
+                                         XA_ICEWM_WINOPTHINT.gftAtom(),
+                                         8, XConstbnts.PropModfRfplbdf,
+                                         nfw String(opt));
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-            if ((XErrorHandlerUtil.saved_error != null) &&
-                (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                log.finer("Erorr getting XA_ICEWM_WINOPTHINT property");
-                return false;
+            if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                log.finfr("Erorr gftting XA_ICEWM_WINOPTHINT propfrty");
+                rfturn fblsf;
             }
-            log.finer("Prepared for IceWM detection");
-            return true;
-        } finally {
-            XToolkit.awtUnlock();
+            log.finfr("Prfpbrfd for IdfWM dftfdtion");
+            rfturn truf;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * Is IceWM running?
+     * Is IdfWM running?
      *
-     * Note well: Only call this if awt_wm_prepareIsIceWM succeeded, or a
-     * false positive will be reported.
+     * Notf wfll: Only dbll tiis if bwt_wm_prfpbrfIsIdfWM suddffdfd, or b
+     * fblsf positivf will bf rfportfd.
      */
-    static boolean isIceWM() {
-        if (!XA_ICEWM_WINOPTHINT.isInterned()) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("{0} is not interned", XA_ICEWM_WINOPTHINT);
+    stbtid boolfbn isIdfWM() {
+        if (!XA_ICEWM_WINOPTHINT.isIntfrnfd()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("{0} is not intfrnfd", XA_ICEWM_WINOPTHINT);
             }
-            return false;
+            rfturn fblsf;
         }
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(XToolkit.getDefaultRootWindow(),
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(XToolkit.gftDffbultRootWindow(),
                                      XA_ICEWM_WINOPTHINT, 0, 0xFFFF,
-                                     true, XA_ICEWM_WINOPTHINT);
+                                     truf, XA_ICEWM_WINOPTHINT);
         try {
-            int status = getter.execute();
-            boolean res = (status == XConstants.Success && getter.getActualType() != 0);
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Status getting XA_ICEWM_WINOPTHINT: " + !res);
+            int stbtus = gfttfr.fxfdutf();
+            boolfbn rfs = (stbtus == XConstbnts.Suddfss && gfttfr.gftAdtublTypf() != 0);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Stbtus gftting XA_ICEWM_WINOPTHINT: " + !rfs);
             }
-            return !res || isNetWMName("IceWM");
-        } finally {
-            getter.dispose();
+            rfturn !rfs || isNftWMNbmf("IdfWM");
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /*
-     * Is OpenLook WM running?
+     * Is OpfnLook WM running?
      *
-     * This one is pretty lame, but the only property peculiar to OLWM is
-     * _SUN_WM_PROTOCOLS(ATOM[]).  Fortunately, olwm deletes it on exit.
+     * Tiis onf is prftty lbmf, but tif only propfrty pfdulibr to OLWM is
+     * _SUN_WM_PROTOCOLS(ATOM[]).  Fortunbtfly, olwm dflftfs it on fxit.
      */
-    static final XAtom XA_SUN_WM_PROTOCOLS = new XAtom("_SUN_WM_PROTOCOLS", false);
-    static boolean isOpenLook() {
-        if (!XA_SUN_WM_PROTOCOLS.isInterned()) {
-            return false;
+    stbtid finbl XAtom XA_SUN_WM_PROTOCOLS = nfw XAtom("_SUN_WM_PROTOCOLS", fblsf);
+    stbtid boolfbn isOpfnLook() {
+        if (!XA_SUN_WM_PROTOCOLS.isIntfrnfd()) {
+            rfturn fblsf;
         }
 
-        XAtom[] list = XA_SUN_WM_PROTOCOLS.getAtomListProperty(XToolkit.getDefaultRootWindow());
-        return (list.length != 0);
+        XAtom[] list = XA_SUN_WM_PROTOCOLS.gftAtomListPropfrty(XToolkit.gftDffbultRootWindow());
+        rfturn (list.lfngti != 0);
     }
 
     /*
-     * Temporary error handler that checks if selecting for
-     * SubstructureRedirect failed.
+     * Tfmporbry frror ibndlfr tibt difdks if sflfdting for
+     * SubstrudturfRfdirfdt fbilfd.
      */
-    private static boolean winmgr_running = false;
-    private static XErrorHandler detectWMHandler = new XErrorHandler.XBaseErrorHandler() {
-        @Override
-        public int handleError(long display, XErrorEvent err) {
-            if ((err.get_request_code() == XProtocolConstants.X_ChangeWindowAttributes) &&
-                (err.get_error_code() == XConstants.BadAccess))
+    privbtf stbtid boolfbn winmgr_running = fblsf;
+    privbtf stbtid XErrorHbndlfr dftfdtWMHbndlfr = nfw XErrorHbndlfr.XBbsfErrorHbndlfr() {
+        @Ovfrridf
+        publid int ibndlfError(long displby, XErrorEvfnt frr) {
+            if ((frr.gft_rfqufst_dodf() == XProtodolConstbnts.X_CibngfWindowAttributfs) &&
+                (frr.gft_frror_dodf() == XConstbnts.BbdAddfss))
             {
-                winmgr_running = true;
-                return 0;
+                winmgr_running = truf;
+                rfturn 0;
             }
-            return super.handleError(display, err);
+            rfturn supfr.ibndlfError(displby, frr);
         }
     };
 
     /*
-     * Make an educated guess about running window manager.
-     * XXX: ideally, we should detect wm restart.
+     * Mbkf bn fdudbtfd gufss bbout running window mbnbgfr.
+     * XXX: idfblly, wf siould dftfdt wm rfstbrt.
      */
-    static int awt_wmgr = XWM.UNDETERMINED_WM;
-    static XWM wm;
-    static XWM getWM() {
+    stbtid int bwt_wmgr = XWM.UNDETERMINED_WM;
+    stbtid XWM wm;
+    stbtid XWM gftWM() {
         if (wm == null) {
-            wm = new XWM(awt_wmgr = getWMID()/*XWM.OTHER_WM*/);
+            wm = nfw XWM(bwt_wmgr = gftWMID()/*XWM.OTHER_WM*/);
         }
-        return wm;
+        rfturn wm;
     }
-    static int getWMID() {
-        if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            insLog.finest("awt_wmgr = " + awt_wmgr);
+    stbtid int gftWMID() {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            insLog.finfst("bwt_wmgr = " + bwt_wmgr);
         }
         /*
-         * Ideally, we should support cases when a different WM is started
-         * during a Java app lifetime.
+         * Idfblly, wf siould support dbsfs wifn b difffrfnt WM is stbrtfd
+         * during b Jbvb bpp lifftimf.
          */
 
-        if (awt_wmgr != XWM.UNDETERMINED_WM) {
-            return awt_wmgr;
+        if (bwt_wmgr != XWM.UNDETERMINED_WM) {
+            rfturn bwt_wmgr;
         }
 
-        XSetWindowAttributes substruct = new XSetWindowAttributes();
-        XToolkit.awtLock();
+        XSftWindowAttributfs substrudt = nfw XSftWindowAttributfs();
+        XToolkit.bwtLodk();
         try {
             if (isNoWM()) {
-                awt_wmgr = XWM.NO_WM;
-                return awt_wmgr;
+                bwt_wmgr = XWM.NO_WM;
+                rfturn bwt_wmgr;
             }
 
-            // Initialize _NET protocol - used to detect Window Manager.
-            // Later, WM will initialize its own version of protocol
-            XNETProtocol l_net_protocol = g_net_protocol = new XNETProtocol();
-            l_net_protocol.detect();
-            if (log.isLoggable(PlatformLogger.Level.FINE) && l_net_protocol.active()) {
-                log.fine("_NET_WM_NAME is " + l_net_protocol.getWMName());
+            // Initiblizf _NET protodol - usfd to dftfdt Window Mbnbgfr.
+            // Lbtfr, WM will initiblizf its own vfrsion of protodol
+            XNETProtodol l_nft_protodol = g_nft_protodol = nfw XNETProtodol();
+            l_nft_protodol.dftfdt();
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE) && l_nft_protodol.bdtivf()) {
+                log.finf("_NET_WM_NAME is " + l_nft_protodol.gftWMNbmf());
             }
-            XWINProtocol win = g_win_protocol = new XWINProtocol();
-            win.detect();
+            XWINProtodol win = g_win_protodol = nfw XWINProtodol();
+            win.dftfdt();
 
-            /* actual check for IceWM to follow below */
-            boolean doIsIceWM = prepareIsIceWM(); /* and let IceWM to act */
+            /* bdtubl difdk for IdfWM to follow bflow */
+            boolfbn doIsIdfWM = prfpbrfIsIdfWM(); /* bnd lft IdfWM to bdt */
 
             /*
-             * Ok, some WM is out there.  Check which one by testing for
-             * "distinguishing" atoms.
+             * Ok, somf WM is out tifrf.  Cifdk wiidi onf by tfsting for
+             * "distinguisiing" btoms.
              */
-            if (isEnlightenment()) {
-                awt_wmgr = XWM.ENLIGHTEN_WM;
-            } else if (isMetacity()) {
-                awt_wmgr = XWM.METACITY_WM;
-            } else if (isMutter()) {
-                awt_wmgr = XWM.MUTTER_WM;
-            } else if (isSawfish()) {
-                awt_wmgr = XWM.SAWFISH_WM;
-            } else if (isKDE2()) {
-                awt_wmgr =XWM.KDE2_WM;
-            } else if (isCompiz()) {
-                awt_wmgr = XWM.COMPIZ_WM;
-            } else if (isLookingGlass()) {
-                awt_wmgr = LG3D_WM;
-            } else if (isCWM()) {
-                awt_wmgr = CWM_WM;
-            } else if (doIsIceWM && isIceWM()) {
-                awt_wmgr = XWM.ICE_WM;
+            if (isEnligitfnmfnt()) {
+                bwt_wmgr = XWM.ENLIGHTEN_WM;
+            } flsf if (isMftbdity()) {
+                bwt_wmgr = XWM.METACITY_WM;
+            } flsf if (isMuttfr()) {
+                bwt_wmgr = XWM.MUTTER_WM;
+            } flsf if (isSbwfisi()) {
+                bwt_wmgr = XWM.SAWFISH_WM;
+            } flsf if (isKDE2()) {
+                bwt_wmgr =XWM.KDE2_WM;
+            } flsf if (isCompiz()) {
+                bwt_wmgr = XWM.COMPIZ_WM;
+            } flsf if (isLookingGlbss()) {
+                bwt_wmgr = LG3D_WM;
+            } flsf if (isCWM()) {
+                bwt_wmgr = CWM_WM;
+            } flsf if (doIsIdfWM && isIdfWM()) {
+                bwt_wmgr = XWM.ICE_WM;
             }
             /*
-             * We don't check for legacy WM when we already know that WM
-             * supports WIN or _NET wm spec.
+             * Wf don't difdk for lfgbdy WM wifn wf blrfbdy know tibt WM
+             * supports WIN or _NET wm spfd.
              */
-            else if (l_net_protocol.active()) {
-                awt_wmgr = XWM.OTHER_WM;
-            } else if (win.active()) {
-                awt_wmgr = XWM.OTHER_WM;
+            flsf if (l_nft_protodol.bdtivf()) {
+                bwt_wmgr = XWM.OTHER_WM;
+            } flsf if (win.bdtivf()) {
+                bwt_wmgr = XWM.OTHER_WM;
             }
             /*
-             * Check for legacy WMs.
+             * Cifdk for lfgbdy WMs.
              */
-            else if (isCDE()) { /* XXX: must come before isMotif */
-                awt_wmgr = XWM.CDE_WM;
-            } else if (isMotif()) {
-                awt_wmgr = XWM.MOTIF_WM;
-            } else if (isOpenLook()) {
-                awt_wmgr = XWM.OPENLOOK_WM;
-            } else {
-                awt_wmgr = XWM.OTHER_WM;
+            flsf if (isCDE()) { /* XXX: must domf bfforf isMotif */
+                bwt_wmgr = XWM.CDE_WM;
+            } flsf if (isMotif()) {
+                bwt_wmgr = XWM.MOTIF_WM;
+            } flsf if (isOpfnLook()) {
+                bwt_wmgr = XWM.OPENLOOK_WM;
+            } flsf {
+                bwt_wmgr = XWM.OTHER_WM;
             }
 
-            return awt_wmgr;
-        } finally {
-            XToolkit.awtUnlock();
-            substruct.dispose();
+            rfturn bwt_wmgr;
+        } finblly {
+            XToolkit.bwtUnlodk();
+            substrudt.disposf();
         }
     }
 
 
 /*****************************************************************************\
  *
- * Size and decoration hints ...
+ * Sizf bnd dfdorbtion iints ...
  *
 \*****************************************************************************/
 
 
     /*
-     * Remove size hints specified by the mask.
-     * XXX: Why do we need this in the first place???
+     * Rfmovf sizf iints spfdififd by tif mbsk.
+     * XXX: Wiy do wf nffd tiis in tif first plbdf???
      */
-    static void removeSizeHints(XDecoratedPeer window, long mask) {
-        mask &= XUtilConstants.PMaxSize | XUtilConstants.PMinSize;
+    stbtid void rfmovfSizfHints(XDfdorbtfdPffr window, long mbsk) {
+        mbsk &= XUtilConstbnts.PMbxSizf | XUtilConstbnts.PMinSizf;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XSizeHints hints = window.getHints();
-            if ((hints.get_flags() & mask) == 0) {
-                return;
+            XSizfHints iints = window.gftHints();
+            if ((iints.gft_flbgs() & mbsk) == 0) {
+                rfturn;
             }
 
-            hints.set_flags(hints.get_flags() & ~mask);
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("Setting hints, flags " + XlibWrapper.hintsToString(hints.get_flags()));
+            iints.sft_flbgs(iints.gft_flbgs() & ~mbsk);
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("Sftting iints, flbgs " + XlibWrbppfr.iintsToString(iints.gft_flbgs()));
             }
-            XlibWrapper.XSetWMNormalHints(XToolkit.getDisplay(),
-                                          window.getWindow(),
-                                          hints.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XSftWMNormblHints(XToolkit.gftDisplby(),
+                                          window.gftWindow(),
+                                          iints.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * If MWM_DECOR_ALL bit is set, then the rest of the bit-mask is taken
-     * to be subtracted from the decorations.  Normalize decoration spec
-     * so that we can map motif decor to something else bit-by-bit in the
-     * rest of the code.
+     * If MWM_DECOR_ALL bit is sft, tifn tif rfst of tif bit-mbsk is tbkfn
+     * to bf subtrbdtfd from tif dfdorbtions.  Normblizf dfdorbtion spfd
+     * so tibt wf dbn mbp motif dfdor to somftiing flsf bit-by-bit in tif
+     * rfst of tif dodf.
      */
-    static int normalizeMotifDecor(int decorations) {
-        if ((decorations & MWMConstants.MWM_DECOR_ALL) == 0) {
-            return decorations;
+    stbtid int normblizfMotifDfdor(int dfdorbtions) {
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) == 0) {
+            rfturn dfdorbtions;
         }
-        int d = MWMConstants.MWM_DECOR_BORDER | MWMConstants.MWM_DECOR_RESIZEH
-            | MWMConstants.MWM_DECOR_TITLE
-            | MWMConstants.MWM_DECOR_MENU | MWMConstants.MWM_DECOR_MINIMIZE
-            | MWMConstants.MWM_DECOR_MAXIMIZE;
-        d &= ~decorations;
-        return d;
+        int d = MWMConstbnts.MWM_DECOR_BORDER | MWMConstbnts.MWM_DECOR_RESIZEH
+            | MWMConstbnts.MWM_DECOR_TITLE
+            | MWMConstbnts.MWM_DECOR_MENU | MWMConstbnts.MWM_DECOR_MINIMIZE
+            | MWMConstbnts.MWM_DECOR_MAXIMIZE;
+        d &= ~dfdorbtions;
+        rfturn d;
     }
 
     /*
-     * If MWM_FUNC_ALL bit is set, then the rest of the bit-mask is taken
-     * to be subtracted from the functions.  Normalize function spec
-     * so that we can map motif func to something else bit-by-bit in the
-     * rest of the code.
+     * If MWM_FUNC_ALL bit is sft, tifn tif rfst of tif bit-mbsk is tbkfn
+     * to bf subtrbdtfd from tif fundtions.  Normblizf fundtion spfd
+     * so tibt wf dbn mbp motif fund to somftiing flsf bit-by-bit in tif
+     * rfst of tif dodf.
      */
-    static int normalizeMotifFunc(int functions) {
-        if ((functions & MWMConstants.MWM_FUNC_ALL) == 0) {
-            return functions;
+    stbtid int normblizfMotifFund(int fundtions) {
+        if ((fundtions & MWMConstbnts.MWM_FUNC_ALL) == 0) {
+            rfturn fundtions;
         }
-        int f = MWMConstants.MWM_FUNC_RESIZE |
-                MWMConstants.MWM_FUNC_MOVE |
-                MWMConstants.MWM_FUNC_MAXIMIZE |
-                MWMConstants.MWM_FUNC_MINIMIZE |
-                MWMConstants.MWM_FUNC_CLOSE;
-        f &= ~functions;
-        return f;
+        int f = MWMConstbnts.MWM_FUNC_RESIZE |
+                MWMConstbnts.MWM_FUNC_MOVE |
+                MWMConstbnts.MWM_FUNC_MAXIMIZE |
+                MWMConstbnts.MWM_FUNC_MINIMIZE |
+                MWMConstbnts.MWM_FUNC_CLOSE;
+        f &= ~fundtions;
+        rfturn f;
     }
 
     /*
-     * Infer OL properties from MWM decorations.
-     * Use _OL_DECOR_DEL(ATOM[]) to remove unwanted ones.
+     * Inffr OL propfrtifs from MWM dfdorbtions.
+     * Usf _OL_DECOR_DEL(ATOM[]) to rfmovf unwbntfd onfs.
      */
-    static void setOLDecor(XWindow window, boolean resizable, int decorations) {
+    stbtid void sftOLDfdor(XWindow window, boolfbn rfsizbblf, int dfdorbtions) {
         if (window == null) {
-            return;
+            rfturn;
         }
 
-        XAtomList decorDel = new XAtomList();
-        decorations = normalizeMotifDecor(decorations);
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-            insLog.finer("Setting OL_DECOR to " + Integer.toBinaryString(decorations));
+        XAtomList dfdorDfl = nfw XAtomList();
+        dfdorbtions = normblizfMotifDfdor(dfdorbtions);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Sftting OL_DECOR to " + Intfgfr.toBinbryString(dfdorbtions));
         }
-        if ((decorations & MWMConstants.MWM_DECOR_TITLE) == 0) {
-            decorDel.add(XA_OL_DECOR_HEADER);
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_TITLE) == 0) {
+            dfdorDfl.bdd(XA_OL_DECOR_HEADER);
         }
-        if ((decorations & (MWMConstants.MWM_DECOR_RESIZEH | MWMConstants.MWM_DECOR_MAXIMIZE)) == 0) {
-            decorDel.add(XA_OL_DECOR_RESIZE);
+        if ((dfdorbtions & (MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE)) == 0) {
+            dfdorDfl.bdd(XA_OL_DECOR_RESIZE);
         }
-        if ((decorations & (MWMConstants.MWM_DECOR_MENU |
-                            MWMConstants.MWM_DECOR_MAXIMIZE |
-                            MWMConstants.MWM_DECOR_MINIMIZE)) == 0)
+        if ((dfdorbtions & (MWMConstbnts.MWM_DECOR_MENU |
+                            MWMConstbnts.MWM_DECOR_MAXIMIZE |
+                            MWMConstbnts.MWM_DECOR_MINIMIZE)) == 0)
         {
-            decorDel.add(XA_OL_DECOR_CLOSE);
+            dfdorDfl.bdd(XA_OL_DECOR_CLOSE);
         }
-        if (decorDel.size() == 0) {
-            insLog.finer("Deleting OL_DECOR");
-            XA_OL_DECOR_DEL.DeleteProperty(window);
-        } else {
-            if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-                insLog.finer("Setting OL_DECOR to " + decorDel);
+        if (dfdorDfl.sizf() == 0) {
+            insLog.finfr("Dflfting OL_DECOR");
+            XA_OL_DECOR_DEL.DflftfPropfrty(window);
+        } flsf {
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("Sftting OL_DECOR to " + dfdorDfl);
             }
-            XA_OL_DECOR_DEL.setAtomListProperty(window, decorDel);
+            XA_OL_DECOR_DEL.sftAtomListPropfrty(window, dfdorDfl);
         }
     }
 
     /*
-     * Set MWM decorations.  Set MWM functions depending on resizability.
+     * Sft MWM dfdorbtions.  Sft MWM fundtions dfpfnding on rfsizbbility.
      */
-    static void setMotifDecor(XWindow window, boolean resizable, int decorations, int functions) {
-        /* Apparently some WMs don't implement MWM_*_ALL semantic correctly */
-        if ((decorations & MWMConstants.MWM_DECOR_ALL) != 0
-            && (decorations != MWMConstants.MWM_DECOR_ALL))
+    stbtid void sftMotifDfdor(XWindow window, boolfbn rfsizbblf, int dfdorbtions, int fundtions) {
+        /* Appbrfntly somf WMs don't implfmfnt MWM_*_ALL sfmbntid dorrfdtly */
+        if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) != 0
+            && (dfdorbtions != MWMConstbnts.MWM_DECOR_ALL))
         {
-            decorations = normalizeMotifDecor(decorations);
+            dfdorbtions = normblizfMotifDfdor(dfdorbtions);
         }
-        if ((functions & MWMConstants.MWM_FUNC_ALL) != 0
-            && (functions != MWMConstants.MWM_FUNC_ALL))
+        if ((fundtions & MWMConstbnts.MWM_FUNC_ALL) != 0
+            && (fundtions != MWMConstbnts.MWM_FUNC_ALL))
         {
-            functions = normalizeMotifFunc(functions);
+            fundtions = normblizfMotifFund(fundtions);
         }
 
-        PropMwmHints hints = window.getMWMHints();
-        hints.set_flags(hints.get_flags() |
-                        MWMConstants.MWM_HINTS_FUNCTIONS |
-                        MWMConstants.MWM_HINTS_DECORATIONS);
-        hints.set_functions(functions);
-        hints.set_decorations(decorations);
+        PropMwmHints iints = window.gftMWMHints();
+        iints.sft_flbgs(iints.gft_flbgs() |
+                        MWMConstbnts.MWM_HINTS_FUNCTIONS |
+                        MWMConstbnts.MWM_HINTS_DECORATIONS);
+        iints.sft_fundtions(fundtions);
+        iints.sft_dfdorbtions(dfdorbtions);
 
-        if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-            stateLog.finer("Setting MWM_HINTS to " + hints);
+        if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            stbtfLog.finfr("Sftting MWM_HINTS to " + iints);
         }
-        window.setMWMHints(hints);
+        window.sftMWMHints(iints);
     }
 
     /*
-     * Under some window managers if shell is already mapped, we MUST
-     * unmap and later remap in order to effect the changes we make in the
-     * window manager decorations.
+     * Undfr somf window mbnbgfrs if sifll is blrfbdy mbppfd, wf MUST
+     * unmbp bnd lbtfr rfmbp in ordfr to ffffdt tif dibngfs wf mbkf in tif
+     * window mbnbgfr dfdorbtions.
      *
-     * N.B.  This unmapping / remapping of the shell exposes a bug in
-     * X/Motif or the Motif Window Manager.  When you attempt to map a
-     * widget which is positioned (partially) off-screen, the window is
-     * relocated to be entirely on screen. Good idea.  But if both the x
-     * and the y coordinates are less than the origin (0,0), the first
-     * (re)map will move the window to the origin, and any subsequent
-     * (re)map will relocate the window at some other point on the screen.
-     * I have written a short Motif test program to discover this bug.
-     * This should occur infrequently and it does not cause any real
-     * problem.  So for now we'll let it be.
+     * N.B.  Tiis unmbpping / rfmbpping of tif sifll fxposfs b bug in
+     * X/Motif or tif Motif Window Mbnbgfr.  Wifn you bttfmpt to mbp b
+     * widgft wiidi is positionfd (pbrtiblly) off-sdrffn, tif window is
+     * rflodbtfd to bf fntirfly on sdrffn. Good idfb.  But if boti tif x
+     * bnd tif y doordinbtfs brf lfss tibn tif origin (0,0), tif first
+     * (rf)mbp will movf tif window to tif origin, bnd bny subsfqufnt
+     * (rf)mbp will rflodbtf tif window bt somf otifr point on tif sdrffn.
+     * I ibvf writtfn b siort Motif tfst progrbm to disdovfr tiis bug.
+     * Tiis siould oddur infrfqufntly bnd it dofs not dbusf bny rfbl
+     * problfm.  So for now wf'll lft it bf.
      */
-    static boolean needRemap(XDecoratedPeer window) {
-        // Don't remap EmbeddedFrame,
-        // e.g. for TrayIcon it causes problems.
-        return !window.isEmbedded();
+    stbtid boolfbn nffdRfmbp(XDfdorbtfdPffr window) {
+        // Don't rfmbp EmbfddfdFrbmf,
+        // f.g. for TrbyIdon it dbusfs problfms.
+        rfturn !window.isEmbfddfd();
     }
 
     /*
-     * Set decoration hints on the shell to wdata->decor adjusted
-     * appropriately if not resizable.
+     * Sft dfdorbtion iints on tif sifll to wdbtb->dfdor bdjustfd
+     * bppropribtfly if not rfsizbblf.
      */
-    static void setShellDecor(XDecoratedPeer window) {
-        int decorations = window.getDecorations();
-        int functions = window.getFunctions();
-        boolean resizable = window.isResizable();
+    stbtid void sftSifllDfdor(XDfdorbtfdPffr window) {
+        int dfdorbtions = window.gftDfdorbtions();
+        int fundtions = window.gftFundtions();
+        boolfbn rfsizbblf = window.isRfsizbblf();
 
-        if (!resizable) {
-            if ((decorations & MWMConstants.MWM_DECOR_ALL) != 0) {
-                decorations |= MWMConstants.MWM_DECOR_RESIZEH | MWMConstants.MWM_DECOR_MAXIMIZE;
-            } else {
-                decorations &= ~(MWMConstants.MWM_DECOR_RESIZEH | MWMConstants.MWM_DECOR_MAXIMIZE);
+        if (!rfsizbblf) {
+            if ((dfdorbtions & MWMConstbnts.MWM_DECOR_ALL) != 0) {
+                dfdorbtions |= MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE;
+            } flsf {
+                dfdorbtions &= ~(MWMConstbnts.MWM_DECOR_RESIZEH | MWMConstbnts.MWM_DECOR_MAXIMIZE);
             }
         }
-        setMotifDecor(window, resizable, decorations, functions);
-        setOLDecor(window, resizable, decorations);
+        sftMotifDfdor(window, rfsizbblf, dfdorbtions, fundtions);
+        sftOLDfdor(window, rfsizbblf, dfdorbtions);
 
-        /* Some WMs need remap to redecorate the window */
-        if (window.isShowing() && needRemap(window)) {
+        /* Somf WMs nffd rfmbp to rfdfdorbtf tif window */
+        if (window.isSiowing() && nffdRfmbp(window)) {
             /*
-             * Do the re/mapping at the Xlib level.  Since we essentially
-             * work around a WM bug we don't want this hack to be exposed
-             * to Intrinsics (i.e. don't mess with grabs, callbacks etc).
+             * Do tif rf/mbpping bt tif Xlib lfvfl.  Sindf wf fssfntiblly
+             * work bround b WM bug wf don't wbnt tiis ibdk to bf fxposfd
+             * to Intrinsids (i.f. don't mfss witi grbbs, dbllbbdks ftd).
              */
-            window.xSetVisible(false);
-            XToolkit.XSync();
-            window.xSetVisible(true);
+            window.xSftVisiblf(fblsf);
+            XToolkit.XSynd();
+            window.xSftVisiblf(truf);
         }
     }
 
     /*
-     * Make specified shell resizable.
+     * Mbkf spfdififd sifll rfsizbblf.
      */
-    static void setShellResizable(XDecoratedPeer window) {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("Setting shell resizable " + window);
+    stbtid void sftSifllRfsizbblf(XDfdorbtfdPffr window) {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting sifll rfsizbblf " + window);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            Rectangle shellBounds = window.getShellBounds();
-            shellBounds.translate(-window.currentInsets.left, -window.currentInsets.top);
-            window.updateSizeHints(window.getDimensions());
-            requestWMExtents(window.getWindow());
-            XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), window.getShell(),
-                                          shellBounds.x, shellBounds.y, shellBounds.width, shellBounds.height);
-            /* REMINDER: will need to revisit when setExtendedStateBounds is added */
-            //Fix for 4320050: Minimum size for java.awt.Frame is not being enforced.
-            //We need to update frame's minimum size, not to reset it
-            removeSizeHints(window, XUtilConstants.PMaxSize);
-            window.updateMinimumSize();
+            Rfdtbnglf sifllBounds = window.gftSifllBounds();
+            sifllBounds.trbnslbtf(-window.durrfntInsfts.lfft, -window.durrfntInsfts.top);
+            window.updbtfSizfHints(window.gftDimfnsions());
+            rfqufstWMExtfnts(window.gftWindow());
+            XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), window.gftSifll(),
+                                          sifllBounds.x, sifllBounds.y, sifllBounds.widti, sifllBounds.ifigit);
+            /* REMINDER: will nffd to rfvisit wifn sftExtfndfdStbtfBounds is bddfd */
+            //Fix for 4320050: Minimum sizf for jbvb.bwt.Frbmf is not bfing fnfordfd.
+            //Wf nffd to updbtf frbmf's minimum sizf, not to rfsft it
+            rfmovfSizfHints(window, XUtilConstbnts.PMbxSizf);
+            window.updbtfMinimumSizf();
 
-            /* Restore decorations */
-            setShellDecor(window);
-        } finally {
-            XToolkit.awtUnlock();
+            /* Rfstorf dfdorbtions */
+            sftSifllDfdor(window);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * Make specified shell non-resizable.
-     * If justChangeSize is false, update decorations as well.
-     * @param shellBounds bounds of the shell window
+     * Mbkf spfdififd sifll non-rfsizbblf.
+     * If justCibngfSizf is fblsf, updbtf dfdorbtions bs wfll.
+     * @pbrbm sifllBounds bounds of tif sifll window
      */
-    static void setShellNotResizable(XDecoratedPeer window, WindowDimensions newDimensions, Rectangle shellBounds,
-                                     boolean justChangeSize)
+    stbtid void sftSifllNotRfsizbblf(XDfdorbtfdPffr window, WindowDimfnsions nfwDimfnsions, Rfdtbnglf sifllBounds,
+                                     boolfbn justCibngfSizf)
     {
-        if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-            insLog.fine("Setting non-resizable shell " + window + ", dimensions " + newDimensions +
-                        ", shellBounds " + shellBounds +", just change size: " + justChangeSize);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting non-rfsizbblf sifll " + window + ", dimfnsions " + nfwDimfnsions +
+                        ", sifllBounds " + sifllBounds +", just dibngf sizf: " + justCibngfSizf);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            /* Fix min/max size hints at the specified values */
-            if (!shellBounds.isEmpty()) {
-                window.updateSizeHints(newDimensions);
-                requestWMExtents(window.getWindow());
-                XToolkit.XSync();
-                XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), window.getShell(),
-                                              shellBounds.x, shellBounds.y, shellBounds.width, shellBounds.height);
+            /* Fix min/mbx sizf iints bt tif spfdififd vblufs */
+            if (!sifllBounds.isEmpty()) {
+                window.updbtfSizfHints(nfwDimfnsions);
+                rfqufstWMExtfnts(window.gftWindow());
+                XToolkit.XSynd();
+                XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), window.gftSifll(),
+                                              sifllBounds.x, sifllBounds.y, sifllBounds.widti, sifllBounds.ifigit);
             }
-            if (!justChangeSize) {  /* update decorations */
-                setShellDecor(window);
+            if (!justCibngfSizf) {  /* updbtf dfdorbtions */
+                sftSifllDfdor(window);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
 /*****************************************************************************\
- * Protocols support
+ * Protodols support
  */
-    private HashMap<Class<?>, Collection<?>> protocolsMap = new HashMap<Class<?>, Collection<?>>();
+    privbtf HbsiMbp<Clbss<?>, Collfdtion<?>> protodolsMbp = nfw HbsiMbp<Clbss<?>, Collfdtion<?>>();
     /**
-     * Returns all protocols supporting given protocol interface
+     * Rfturns bll protodols supporting givfn protodol intfrfbdf
      */
-    <T> Collection<T> getProtocols(Class<T> protocolInterface) {
-        @SuppressWarnings("unchecked")
-        Collection<T> res = (Collection<T>) protocolsMap.get(protocolInterface);
-        if (res != null) {
-            return res;
-        } else {
-            return new LinkedList<T>();
+    <T> Collfdtion<T> gftProtodols(Clbss<T> protodolIntfrfbdf) {
+        @SupprfssWbrnings("undifdkfd")
+        Collfdtion<T> rfs = (Collfdtion<T>) protodolsMbp.gft(protodolIntfrfbdf);
+        if (rfs != null) {
+            rfturn rfs;
+        } flsf {
+            rfturn nfw LinkfdList<T>();
         }
     }
 
-    private <T> void addProtocol(Class<T> protocolInterface, T protocol) {
-        Collection<T> protocols = getProtocols(protocolInterface);
-        protocols.add(protocol);
-        protocolsMap.put(protocolInterface, protocols);
+    privbtf <T> void bddProtodol(Clbss<T> protodolIntfrfbdf, T protodol) {
+        Collfdtion<T> protodols = gftProtodols(protodolIntfrfbdf);
+        protodols.bdd(protodol);
+        protodolsMbp.put(protodolIntfrfbdf, protodols);
     }
 
-    boolean supportsDynamicLayout() {
-        int wm = getWMID();
-        switch (wm) {
-          case XWM.ENLIGHTEN_WM:
-          case XWM.KDE2_WM:
-          case XWM.SAWFISH_WM:
-          case XWM.ICE_WM:
-          case XWM.METACITY_WM:
-              return true;
-          case XWM.OPENLOOK_WM:
-          case XWM.MOTIF_WM:
-          case XWM.CDE_WM:
-              return false;
-          default:
-              return false;
+    boolfbn supportsDynbmidLbyout() {
+        int wm = gftWMID();
+        switdi (wm) {
+          dbsf XWM.ENLIGHTEN_WM:
+          dbsf XWM.KDE2_WM:
+          dbsf XWM.SAWFISH_WM:
+          dbsf XWM.ICE_WM:
+          dbsf XWM.METACITY_WM:
+              rfturn truf;
+          dbsf XWM.OPENLOOK_WM:
+          dbsf XWM.MOTIF_WM:
+          dbsf XWM.CDE_WM:
+              rfturn fblsf;
+          dffbult:
+              rfturn fblsf;
         }
     }
 
 
     /**
-     * Check if state is supported.
-     * Note that a compound state is always reported as not supported.
-     * Note also that MAXIMIZED_BOTH is considered not a compound state.
-     * Therefore, a compound state is just ICONIFIED | anything else.
+     * Cifdk if stbtf is supportfd.
+     * Notf tibt b dompound stbtf is blwbys rfportfd bs not supportfd.
+     * Notf blso tibt MAXIMIZED_BOTH is donsidfrfd not b dompound stbtf.
+     * Tifrfforf, b dompound stbtf is just ICONIFIED | bnytiing flsf.
      *
      */
-    @SuppressWarnings("fallthrough")
-    boolean supportsExtendedState(int state) {
-        switch (state) {
-          case Frame.MAXIMIZED_VERT:
-          case Frame.MAXIMIZED_HORIZ:
+    @SupprfssWbrnings("fblltirougi")
+    boolfbn supportsExtfndfdStbtf(int stbtf) {
+        switdi (stbtf) {
+          dbsf Frbmf.MAXIMIZED_VERT:
+          dbsf Frbmf.MAXIMIZED_HORIZ:
               /*
-               * WMs that talk NET/WIN protocol, but do not support
-               * unidirectional maximization.
+               * WMs tibt tblk NET/WIN protodol, but do not support
+               * unidirfdtionbl mbximizbtion.
                */
-              if (getWMID() == METACITY_WM) {
-                  /* "This is a deliberate policy decision." -hp */
-                  return false;
+              if (gftWMID() == METACITY_WM) {
+                  /* "Tiis is b dflibfrbtf polidy dfdision." -ip */
+                  rfturn fblsf;
               }
               /* FALLTROUGH */
-          case Frame.MAXIMIZED_BOTH:
-              for (XStateProtocol proto : getProtocols(XStateProtocol.class)) {
-                  if (proto.supportsState(state)) {
-                      return true;
+          dbsf Frbmf.MAXIMIZED_BOTH:
+              for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+                  if (proto.supportsStbtf(stbtf)) {
+                      rfturn truf;
                   }
               }
               /* FALLTROUGH */
-          default:
-              return false;
+          dffbult:
+              rfturn fblsf;
         }
     }
 
 /*****************************************************************************\
  *
- * Reading state from different protocols
+ * Rfbding stbtf from difffrfnt protodols
  *
 \*****************************************************************************/
 
 
-    int getExtendedState(XWindowPeer window) {
-        int state = 0;
-        for (XStateProtocol proto : getProtocols(XStateProtocol.class)) {
-            state |= proto.getState(window);
+    int gftExtfndfdStbtf(XWindowPffr window) {
+        int stbtf = 0;
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            stbtf |= proto.gftStbtf(window);
         }
-        if (state != 0) {
-            return state;
-        } else {
-            return Frame.NORMAL;
+        if (stbtf != 0) {
+            rfturn stbtf;
+        } flsf {
+            rfturn Frbmf.NORMAL;
         }
     }
 
 /*****************************************************************************\
  *
- * Notice window state change when WM changes a property on the window ...
+ * Notidf window stbtf dibngf wifn WM dibngfs b propfrty on tif window ...
  *
 \*****************************************************************************/
 
 
     /*
-     * Check if property change is a window state protocol message.
+     * Cifdk if propfrty dibngf is b window stbtf protodol mfssbgf.
      */
-    boolean isStateChange(XDecoratedPeer window, XPropertyEvent e) {
-        if (!window.isShowing()) {
-            stateLog.finer("Window is not showing");
-            return false;
+    boolfbn isStbtfCibngf(XDfdorbtfdPffr window, XPropfrtyEvfnt f) {
+        if (!window.isSiowing()) {
+            stbtfLog.finfr("Window is not siowing");
+            rfturn fblsf;
         }
 
-        int wm_state = window.getWMState();
-        if (wm_state == XUtilConstants.WithdrawnState) {
-            stateLog.finer("WithdrawnState");
-            return false;
-        } else {
-            if (stateLog.isLoggable(PlatformLogger.Level.FINER)) {
-                stateLog.finer("Window WM_STATE is " + wm_state);
+        int wm_stbtf = window.gftWMStbtf();
+        if (wm_stbtf == XUtilConstbnts.WitidrbwnStbtf) {
+            stbtfLog.finfr("WitidrbwnStbtf");
+            rfturn fblsf;
+        } flsf {
+            if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                stbtfLog.finfr("Window WM_STATE is " + wm_stbtf);
             }
         }
-        boolean is_state_change = false;
-        if (e.get_atom() == XA_WM_STATE.getAtom()) {
-            is_state_change = true;
+        boolfbn is_stbtf_dibngf = fblsf;
+        if (f.gft_btom() == XA_WM_STATE.gftAtom()) {
+            is_stbtf_dibngf = truf;
         }
 
-        for (XStateProtocol proto : getProtocols(XStateProtocol.class)) {
-            is_state_change |= proto.isStateChange(e);
-            if (stateLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                stateLog.finest(proto + ": is state changed = " + is_state_change);
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            is_stbtf_dibngf |= proto.isStbtfCibngf(f);
+            if (stbtfLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                stbtfLog.finfst(proto + ": is stbtf dibngfd = " + is_stbtf_dibngf);
             }
         }
-        return is_state_change;
+        rfturn is_stbtf_dibngf;
     }
 
     /*
-     * Returns current state (including extended) of a given window.
+     * Rfturns durrfnt stbtf (indluding fxtfndfd) of b givfn window.
      */
-    int getState(XDecoratedPeer window) {
-        int res = 0;
-        final int wm_state = window.getWMState();
-        if (wm_state == XUtilConstants.IconicState) {
-            res = Frame.ICONIFIED;
-        } else {
-            res = Frame.NORMAL;
+    int gftStbtf(XDfdorbtfdPffr window) {
+        int rfs = 0;
+        finbl int wm_stbtf = window.gftWMStbtf();
+        if (wm_stbtf == XUtilConstbnts.IdonidStbtf) {
+            rfs = Frbmf.ICONIFIED;
+        } flsf {
+            rfs = Frbmf.NORMAL;
         }
-        res |= getExtendedState(window);
-        return res;
+        rfs |= gftExtfndfdStbtf(window);
+        rfturn rfs;
     }
 
 /*****************************************************************************\
  *
- * Setting/changing window state ...
+ * Sftting/dibnging window stbtf ...
  *
 \*****************************************************************************/
 
     /**
-     * Moves window to the specified layer, layer is one of the constants defined
-     * in XLayerProtocol
+     * Movfs window to tif spfdififd lbyfr, lbyfr is onf of tif donstbnts dffinfd
+     * in XLbyfrProtodol
      */
-    void setLayer(XWindowPeer window, int layer) {
-        for (XLayerProtocol proto : getProtocols(XLayerProtocol.class)) {
-            if (proto.supportsLayer(layer)) {
-                proto.setLayer(window, layer);
+    void sftLbyfr(XWindowPffr window, int lbyfr) {
+        for (XLbyfrProtodol proto : gftProtodols(XLbyfrProtodol.dlbss)) {
+            if (proto.supportsLbyfr(lbyfr)) {
+                proto.sftLbyfr(window, lbyfr);
             }
         }
-        XToolkit.XSync();
+        XToolkit.XSynd();
     }
 
-    void setExtendedState(XWindowPeer window, int state) {
-        for (XStateProtocol proto : getProtocols(XStateProtocol.class)) {
-            if (proto.supportsState(state)) {
-                proto.setState(window, state);
-                break;
+    void sftExtfndfdStbtf(XWindowPffr window, int stbtf) {
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            if (proto.supportsStbtf(stbtf)) {
+                proto.sftStbtf(window, stbtf);
+                brfbk;
             }
         }
 
-        if (!window.isShowing()) {
+        if (!window.isSiowing()) {
             /*
-             * Purge KWM bits.
-             * Not really tested with KWM, only with WindowMaker.
+             * Purgf KWM bits.
+             * Not rfblly tfstfd witi KWM, only witi WindowMbkfr.
              */
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XDeleteProperty(XToolkit.getDisplay(),
-                                            window.getWindow(),
-                                            XA_KWM_WIN_ICONIFIED.getAtom());
-                XlibWrapper.XDeleteProperty(XToolkit.getDisplay(),
-                                            window.getWindow(),
-                                            XA_KWM_WIN_MAXIMIZED.getAtom());
+                XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(),
+                                            window.gftWindow(),
+                                            XA_KWM_WIN_ICONIFIED.gftAtom());
+                XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(),
+                                            window.gftWindow(),
+                                            XA_KWM_WIN_MAXIMIZED.gftAtom());
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlodk();
             }
         }
-        XToolkit.XSync();
+        XToolkit.XSynd();
     }
 
 
     /*
-     * Work around for 4775545.
+     * Work bround for 4775545.
      *
-     * If WM exits while the top-level is shaded, the shaded hint remains
-     * on the top-level properties.  When WM restarts and sees the shaded
-     * window it can reparent it into a "pre-shaded" decoration frame
-     * (Metacity does), and our insets logic will go crazy, b/c it will
-     * see a huge nagative bottom inset.  There's no clean solution for
-     * this, so let's just be weasels and drop the shaded hint if we
-     * detect that WM exited.  NB: we are in for a race condition with WM
-     * restart here.  NB2: e.g. WindowMaker saves the state in a private
-     * property that this code knows nothing about, so this workaround is
-     * not effective; other WMs might play similar tricks.
+     * If WM fxits wiilf tif top-lfvfl is sibdfd, tif sibdfd iint rfmbins
+     * on tif top-lfvfl propfrtifs.  Wifn WM rfstbrts bnd sffs tif sibdfd
+     * window it dbn rfpbrfnt it into b "prf-sibdfd" dfdorbtion frbmf
+     * (Mftbdity dofs), bnd our insfts logid will go drbzy, b/d it will
+     * sff b iugf nbgbtivf bottom insft.  Tifrf's no dlfbn solution for
+     * tiis, so lft's just bf wfbsfls bnd drop tif sibdfd iint if wf
+     * dftfdt tibt WM fxitfd.  NB: wf brf in for b rbdf dondition witi WM
+     * rfstbrt ifrf.  NB2: f.g. WindowMbkfr sbvfs tif stbtf in b privbtf
+     * propfrty tibt tiis dodf knows notiing bbout, so tiis workbround is
+     * not ffffdtivf; otifr WMs migit plby similbr tridks.
      */
-    void unshadeKludge(XDecoratedPeer window) {
-        assert(window.isShowing());
+    void unsibdfKludgf(XDfdorbtfdPffr window) {
+        bssfrt(window.isSiowing());
 
-        for (XStateProtocol proto : getProtocols(XStateProtocol.class)) {
-            proto.unshadeKludge(window);
+        for (XStbtfProtodol proto : gftProtodols(XStbtfProtodol.dlbss)) {
+            proto.unsibdfKludgf(window);
         }
-        XToolkit.XSync();
+        XToolkit.XSynd();
     }
 
-    static boolean inited = false;
-    static void init() {
-        if (inited) {
-            return;
+    stbtid boolfbn initfd = fblsf;
+    stbtid void init() {
+        if (initfd) {
+            rfturn;
         }
 
         initAtoms();
-        getWM();
-        inited = true;
+        gftWM();
+        initfd = truf;
     }
 
-    void initializeProtocols() {
-        XNETProtocol net_protocol = g_net_protocol;
-        if (net_protocol != null) {
-            if (!net_protocol.active()) {
-                net_protocol = null;
-            } else {
-                if (net_protocol.doStateProtocol()) {
-                    addProtocol(XStateProtocol.class, net_protocol);
+    void initiblizfProtodols() {
+        XNETProtodol nft_protodol = g_nft_protodol;
+        if (nft_protodol != null) {
+            if (!nft_protodol.bdtivf()) {
+                nft_protodol = null;
+            } flsf {
+                if (nft_protodol.doStbtfProtodol()) {
+                    bddProtodol(XStbtfProtodol.dlbss, nft_protodol);
                 }
-                if (net_protocol.doLayerProtocol()) {
-                    addProtocol(XLayerProtocol.class, net_protocol);
+                if (nft_protodol.doLbyfrProtodol()) {
+                    bddProtodol(XLbyfrProtodol.dlbss, nft_protodol);
                 }
             }
         }
 
-        XWINProtocol win = g_win_protocol;
+        XWINProtodol win = g_win_protodol;
         if (win != null) {
-            if (win.active()) {
-                if (win.doStateProtocol()) {
-                    addProtocol(XStateProtocol.class, win);
+            if (win.bdtivf()) {
+                if (win.doStbtfProtodol()) {
+                    bddProtodol(XStbtfProtodol.dlbss, win);
                 }
-                if (win.doLayerProtocol()) {
-                    addProtocol(XLayerProtocol.class, win);
+                if (win.doLbyfrProtodol()) {
+                    bddProtodol(XLbyfrProtodol.dlbss, win);
                 }
             }
         }
     }
 
-    HashMap<Class<?>, Insets> storedInsets = new HashMap<>();
-    Insets guessInsets(XDecoratedPeer window) {
-        Insets res = storedInsets.get(window.getClass());
-        if (res == null) {
-            switch (WMID) {
-              case ENLIGHTEN_WM:
-                  res = new Insets(19, 4, 4, 4);
-                  break;
-              case CDE_WM:
-                  res = new Insets(28, 6, 6, 6);
-                  break;
-              case NO_WM:
-              case LG3D_WM:
-                  res = zeroInsets;
-                  break;
-              case MOTIF_WM:
-              case OPENLOOK_WM:
-              default:
-                  res = defaultInsets;
+    HbsiMbp<Clbss<?>, Insfts> storfdInsfts = nfw HbsiMbp<>();
+    Insfts gufssInsfts(XDfdorbtfdPffr window) {
+        Insfts rfs = storfdInsfts.gft(window.gftClbss());
+        if (rfs == null) {
+            switdi (WMID) {
+              dbsf ENLIGHTEN_WM:
+                  rfs = nfw Insfts(19, 4, 4, 4);
+                  brfbk;
+              dbsf CDE_WM:
+                  rfs = nfw Insfts(28, 6, 6, 6);
+                  brfbk;
+              dbsf NO_WM:
+              dbsf LG3D_WM:
+                  rfs = zfroInsfts;
+                  brfbk;
+              dbsf MOTIF_WM:
+              dbsf OPENLOOK_WM:
+              dffbult:
+                  rfs = dffbultInsfts;
             }
         }
-        if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            insLog.finest("WM guessed insets: " + res);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            insLog.finfst("WM gufssfd insfts: " + rfs);
         }
-        return res;
+        rfturn rfs;
     }
     /*
-     * Some buggy WMs ignore window gravity when processing
-     * ConfigureRequest and position window as if the gravity is Static.
-     * We work around this in MWindowPeer.pReshape().
+     * Somf buggy WMs ignorf window grbvity wifn prodfssing
+     * ConfigurfRfqufst bnd position window bs if tif grbvity is Stbtid.
+     * Wf work bround tiis in MWindowPffr.pRfsibpf().
      *
-     * Starting with 1.5 we have introduced an Environment variable
-     * _JAVA_AWT_WM_STATIC_GRAVITY that can be set to indicate to Java
-     * explicitly that the WM has this behaviour, example is FVWM.
+     * Stbrting witi 1.5 wf ibvf introdudfd bn Environmfnt vbribblf
+     * _JAVA_AWT_WM_STATIC_GRAVITY tibt dbn bf sft to indidbtf to Jbvb
+     * fxpliditly tibt tif WM ibs tiis bfibviour, fxbmplf is FVWM.
      */
 
-    static int awtWMStaticGravity = -1;
-    static boolean configureGravityBuggy() {
+    stbtid int bwtWMStbtidGrbvity = -1;
+    stbtid boolfbn donfigurfGrbvityBuggy() {
 
-        if (awtWMStaticGravity == -1) {
-            awtWMStaticGravity = (XToolkit.getEnv("_JAVA_AWT_WM_STATIC_GRAVITY") != null) ? 1 : 0;
+        if (bwtWMStbtidGrbvity == -1) {
+            bwtWMStbtidGrbvity = (XToolkit.gftEnv("_JAVA_AWT_WM_STATIC_GRAVITY") != null) ? 1 : 0;
         }
 
-        if (awtWMStaticGravity == 1) {
-            return true;
+        if (bwtWMStbtidGrbvity == 1) {
+            rfturn truf;
         }
 
-        switch(getWMID()) {
-          case XWM.ICE_WM:
+        switdi(gftWMID()) {
+          dbsf XWM.ICE_WM:
               /*
-               * See bug #228981 at IceWM's SourceForge pages.
-               * Latest stable version 1.0.8-6 still has this problem.
+               * Sff bug #228981 bt IdfWM's SourdfForgf pbgfs.
+               * Lbtfst stbblf vfrsion 1.0.8-6 still ibs tiis problfm.
                */
               /**
-               * Version 1.2.2 doesn't have this problem
+               * Vfrsion 1.2.2 dofsn't ibvf tiis problfm
                */
-              // Detect IceWM version
-              if (g_net_protocol != null) {
-                  String wm_name = g_net_protocol.getWMName();
-                  Pattern pat = Pattern.compile("^IceWM (\\d+)\\.(\\d+)\\.(\\d+).*$");
+              // Dftfdt IdfWM vfrsion
+              if (g_nft_protodol != null) {
+                  String wm_nbmf = g_nft_protodol.gftWMNbmf();
+                  Pbttfrn pbt = Pbttfrn.dompilf("^IdfWM (\\d+)\\.(\\d+)\\.(\\d+).*$");
                   try {
-                      Matcher match = pat.matcher(wm_name);
-                      if (match.matches()) {
-                          int v1 = Integer.parseInt(match.group(1));
-                          int v2 = Integer.parseInt(match.group(2));
-                          int v3 = Integer.parseInt(match.group(3));
-                          return !(v1 > 1 || (v1 == 1 && (v2 > 2 || (v2 == 2 && v3 >=2))));
+                      Mbtdifr mbtdi = pbt.mbtdifr(wm_nbmf);
+                      if (mbtdi.mbtdifs()) {
+                          int v1 = Intfgfr.pbrsfInt(mbtdi.group(1));
+                          int v2 = Intfgfr.pbrsfInt(mbtdi.group(2));
+                          int v3 = Intfgfr.pbrsfInt(mbtdi.group(3));
+                          rfturn !(v1 > 1 || (v1 == 1 && (v2 > 2 || (v2 == 2 && v3 >=2))));
                       }
-                  } catch (Exception e) {
-                      return true;
+                  } dbtdi (Exdfption f) {
+                      rfturn truf;
                   }
               }
-              return true;
-          case XWM.ENLIGHTEN_WM:
-              /* At least E16 is buggy. */
-              return true;
-          default:
-              return false;
+              rfturn truf;
+          dbsf XWM.ENLIGHTEN_WM:
+              /* At lfbst E16 is buggy. */
+              rfturn truf;
+          dffbult:
+              rfturn fblsf;
         }
     }
 
     /*
-     * @return if WM implements the insets property - returns insets with values
-     * specified in that property, null otherwise.
+     * @rfturn if WM implfmfnts tif insfts propfrty - rfturns insfts witi vblufs
+     * spfdififd in tibt propfrty, null otifrwisf.
      */
-    public static Insets getInsetsFromExtents(long window) {
-        if (window == XConstants.None) {
-            return null;
+    publid stbtid Insfts gftInsftsFromExtfnts(long window) {
+        if (window == XConstbnts.Nonf) {
+            rfturn null;
         }
-        XNETProtocol net_protocol = getWM().getNETProtocol();
-        if (net_protocol != null && net_protocol.active()) {
-            Insets insets = getInsetsFromProp(window, XA_NET_FRAME_EXTENTS);
-            if (insLog.isLoggable(PlatformLogger.Level.FINE)) {
-                insLog.fine("_NET_FRAME_EXTENTS: {0}", insets);
+        XNETProtodol nft_protodol = gftWM().gftNETProtodol();
+        if (nft_protodol != null && nft_protodol.bdtivf()) {
+            Insfts insfts = gftInsftsFromProp(window, XA_NET_FRAME_EXTENTS);
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                insLog.finf("_NET_FRAME_EXTENTS: {0}", insfts);
             }
 
-            if (insets != null) {
-                return insets;
+            if (insfts != null) {
+                rfturn insfts;
             }
         }
-        switch(getWMID()) {
-          case XWM.KDE2_WM:
-              return getInsetsFromProp(window, XA_KDE_NET_WM_FRAME_STRUT);
-          case XWM.ENLIGHTEN_WM:
-              return getInsetsFromProp(window, XA_E_FRAME_SIZE);
-          default:
-              return null;
+        switdi(gftWMID()) {
+          dbsf XWM.KDE2_WM:
+              rfturn gftInsftsFromProp(window, XA_KDE_NET_WM_FRAME_STRUT);
+          dbsf XWM.ENLIGHTEN_WM:
+              rfturn gftInsftsFromProp(window, XA_E_FRAME_SIZE);
+          dffbult:
+              rfturn null;
         }
     }
 
     /**
-     * Helper function reads property of type CARDINAL[4] = { left, right, top, bottom }
-     * and converts it to Insets object.
+     * Hflpfr fundtion rfbds propfrty of typf CARDINAL[4] = { lfft, rigit, top, bottom }
+     * bnd donvfrts it to Insfts objfdt.
      */
-    public static Insets getInsetsFromProp(long window, XAtom atom) {
-        if (window == XConstants.None) {
-            return null;
+    publid stbtid Insfts gftInsftsFromProp(long window, XAtom btom) {
+        if (window == XConstbnts.Nonf) {
+            rfturn null;
         }
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, atom,
-                                     0, 4, false, XAtom.XA_CARDINAL);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, btom,
+                                     0, 4, fblsf, XAtom.XA_CARDINAL);
         try {
-            if (getter.execute() != XConstants.Success
-                || getter.getData() == 0
-                || getter.getActualType() != XAtom.XA_CARDINAL
-                || getter.getActualFormat() != 32)
+            if (gfttfr.fxfdutf() != XConstbnts.Suddfss
+                || gfttfr.gftDbtb() == 0
+                || gfttfr.gftAdtublTypf() != XAtom.XA_CARDINAL
+                || gfttfr.gftAdtublFormbt() != 32)
             {
-                return null;
-            } else {
-                return new Insets((int)Native.getCard32(getter.getData(), 2), // top
-                                  (int)Native.getCard32(getter.getData(), 0), // left
-                                  (int)Native.getCard32(getter.getData(), 3), // bottom
-                                  (int)Native.getCard32(getter.getData(), 1)); // right
+                rfturn null;
+            } flsf {
+                rfturn nfw Insfts((int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 2), // top
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 0), // lfft
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 3), // bottom
+                                  (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb(), 1)); // rigit
             }
-        } finally {
-            getter.dispose();
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /**
-     * Asks WM to fill Frame Extents (insets) for the window.
+     * Asks WM to fill Frbmf Extfnts (insfts) for tif window.
      */
-    public static void requestWMExtents(long window) {
-        if (window == XConstants.None) { // not initialized
-            return;
+    publid stbtid void rfqufstWMExtfnts(long window) {
+        if (window == XConstbnts.Nonf) { // not initiblizfd
+            rfturn;
         }
 
-        log.fine("Requesting FRAME_EXTENTS");
+        log.finf("Rfqufsting FRAME_EXTENTS");
 
-        XClientMessageEvent msg = new XClientMessageEvent();
-        msg.zero();
-        msg.set_type(XConstants.ClientMessage);
-        msg.set_display(XToolkit.getDisplay());
-        msg.set_window(window);
-        msg.set_format(32);
-        XToolkit.awtLock();
+        XClifntMfssbgfEvfnt msg = nfw XClifntMfssbgfEvfnt();
+        msg.zfro();
+        msg.sft_typf(XConstbnts.ClifntMfssbgf);
+        msg.sft_displby(XToolkit.gftDisplby());
+        msg.sft_window(window);
+        msg.sft_formbt(32);
+        XToolkit.bwtLodk();
         try {
-            XNETProtocol net_protocol = getWM().getNETProtocol();
-            if (net_protocol != null && net_protocol.active()) {
-                msg.set_message_type(XA_NET_REQUEST_FRAME_EXTENTS.getAtom());
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(),
-                                       false,
-                                       XConstants.SubstructureRedirectMask | XConstants.SubstructureNotifyMask,
-                                       msg.getPData());
+            XNETProtodol nft_protodol = gftWM().gftNETProtodol();
+            if (nft_protodol != null && nft_protodol.bdtivf()) {
+                msg.sft_mfssbgf_typf(XA_NET_REQUEST_FRAME_EXTENTS.gftAtom());
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                       fblsf,
+                                       XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                                       msg.gftPDbtb());
             }
-            if (getWMID() == XWM.KDE2_WM) {
-                msg.set_message_type(XA_KDE_NET_WM_FRAME_STRUT.getAtom());
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(),
-                                       false,
-                                       XConstants.SubstructureRedirectMask | XConstants.SubstructureNotifyMask,
-                                       msg.getPData());
+            if (gftWMID() == XWM.KDE2_WM) {
+                msg.sft_mfssbgf_typf(XA_KDE_NET_WM_FRAME_STRUT.gftAtom());
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), XToolkit.gftDffbultRootWindow(),
+                                       fblsf,
+                                       XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                                       msg.gftPDbtb());
             }
-            // XXX: should we wait for response? XIfEvent() would be useful here :)
-        } finally {
-            XToolkit.awtUnlock();
-            msg.dispose();
+            // XXX: siould wf wbit for rfsponsf? XIfEvfnt() would bf usfful ifrf :)
+        } finblly {
+            XToolkit.bwtUnlodk();
+            msg.disposf();
         }
     }
 
-    /* syncTopLEvelPos() is necessary to insure that the window manager has in
-     * fact moved us to our final position relative to the reParented WM window.
-     * We have noted a timing window which our shell has not been moved so we
-     * screw up the insets thinking they are 0,0.  Wait (for a limited period of
-     * time to let the WM hava a chance to move us.
-     * @param window window ID of the shell, assuming it is the window
-     * which will NOT have zero coordinates after the complete
-     * reparenting
+    /* syndTopLEvflPos() is nfdfssbry to insurf tibt tif window mbnbgfr ibs in
+     * fbdt movfd us to our finbl position rflbtivf to tif rfPbrfntfd WM window.
+     * Wf ibvf notfd b timing window wiidi our sifll ibs not bffn movfd so wf
+     * sdrfw up tif insfts tiinking tify brf 0,0.  Wbit (for b limitfd pfriod of
+     * timf to lft tif WM ibvb b dibndf to movf us.
+     * @pbrbm window window ID of tif sifll, bssuming it is tif window
+     * wiidi will NOT ibvf zfro doordinbtfs bftfr tif domplftf
+     * rfpbrfnting
      */
-    boolean syncTopLevelPos(long window, XWindowAttributes attrs) {
-        int tries = 0;
-        XToolkit.awtLock();
+    boolfbn syndTopLfvflPos(long window, XWindowAttributfs bttrs) {
+        int trifs = 0;
+        XToolkit.bwtLodk();
         try {
             do {
-                XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), window, attrs.pData);
-                if (attrs.get_x() != 0 || attrs.get_y() != 0) {
-                    return true;
+                XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(), window, bttrs.pDbtb);
+                if (bttrs.gft_x() != 0 || bttrs.gft_y() != 0) {
+                    rfturn truf;
                 }
-                tries++;
-                XToolkit.XSync();
-            } while (tries < 50);
+                trifs++;
+                XToolkit.XSynd();
+            } wiilf (trifs < 50);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
-        return false;
+        rfturn fblsf;
     }
 
-    Insets getInsets(XDecoratedPeer win, long window, long parent) {
+    Insfts gftInsfts(XDfdorbtfdPffr win, long window, long pbrfnt) {
         /*
-         * Unfortunately the concept of "insets" borrowed to AWT
-         * from Win32 is *absolutely*, *unbelievably* foreign to
-         * X11.  Few WMs provide the size of frame decor
-         * (i.e. insets) in a property they set on the client
-         * window, so we check if we can get away with just
-         * peeking at it.  [Future versions of wm-spec might add a
-         * standardized hint for this].
+         * Unfortunbtfly tif dondfpt of "insfts" borrowfd to AWT
+         * from Win32 is *bbsolutfly*, *unbflifvbbly* forfign to
+         * X11.  Ffw WMs providf tif sizf of frbmf dfdor
+         * (i.f. insfts) in b propfrty tify sft on tif dlifnt
+         * window, so wf difdk if wf dbn gft bwby witi just
+         * pffking bt it.  [Futurf vfrsions of wm-spfd migit bdd b
+         * stbndbrdizfd iint for tiis].
          *
-         * Otherwise we do some special casing.  Actually the
-         * fallback code ("default" case) seems to cover most of
-         * the existing WMs (modulo Reparent/Configure order
-         * perhaps?).
+         * Otifrwisf wf do somf spfdibl dbsing.  Adtublly tif
+         * fbllbbdk dodf ("dffbult" dbsf) sffms to dovfr most of
+         * tif fxisting WMs (modulo Rfpbrfnt/Configurf ordfr
+         * pfribps?).
          *
-         * Fallback code tries to account for the two most common cases:
+         * Fbllbbdk dodf trifs to bddount for tif two most dommon dbsfs:
          *
-         * . single reparenting
-         *       parent window is the WM frame
-         *       [twm, olwm, sawfish]
+         * . singlf rfpbrfnting
+         *       pbrfnt window is tif WM frbmf
+         *       [twm, olwm, sbwfisi]
          *
-         * . double reparenting
-         *       parent is a lining exactly the size of the client
-         *       grandpa is the WM frame
-         *       [mwm, e!, kwin, fvwm2 ... ]
+         * . doublf rfpbrfnting
+         *       pbrfnt is b lining fxbdtly tif sizf of tif dlifnt
+         *       grbndpb is tif WM frbmf
+         *       [mwm, f!, kwin, fvwm2 ... ]
          */
-        Insets correctWM = XWM.getInsetsFromExtents(window);
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-            insLog.finer("Got insets from property: {0}", correctWM);
+        Insfts dorrfdtWM = XWM.gftInsftsFromExtfnts(window);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Got insfts from propfrty: {0}", dorrfdtWM);
         }
 
-        if (correctWM == null) {
-            correctWM = new Insets(0,0,0,0);
+        if (dorrfdtWM == null) {
+            dorrfdtWM = nfw Insfts(0,0,0,0);
 
-            correctWM.top = -1;
-            correctWM.left = -1;
+            dorrfdtWM.top = -1;
+            dorrfdtWM.lfft = -1;
 
-            XWindowAttributes lwinAttr = new XWindowAttributes();
-            XWindowAttributes pattr = new XWindowAttributes();
+            XWindowAttributfs lwinAttr = nfw XWindowAttributfs();
+            XWindowAttributfs pbttr = nfw XWindowAttributfs();
             try {
-                switch (XWM.getWMID()) {
-                  /* should've been done in awt_wm_getInsetsFromProp */
-                  case XWM.ENLIGHTEN_WM: {
-                      /* enlightenment does double reparenting */
-                      syncTopLevelPos(parent, lwinAttr);
-                      correctWM.left = lwinAttr.get_x();
-                      correctWM.top = lwinAttr.get_y();
+                switdi (XWM.gftWMID()) {
+                  /* siould'vf bffn donf in bwt_wm_gftInsftsFromProp */
+                  dbsf XWM.ENLIGHTEN_WM: {
+                      /* fnligitfnmfnt dofs doublf rfpbrfnting */
+                      syndTopLfvflPos(pbrfnt, lwinAttr);
+                      dorrfdtWM.lfft = lwinAttr.gft_x();
+                      dorrfdtWM.top = lwinAttr.gft_y();
                       /*
-                       * Now get the actual dimensions of the parent window
-                       * resolve the difference.  We can't rely on the left
-                       * to be equal to right or bottom...  Enlightment
-                       * breaks that assumption.
+                       * Now gft tif bdtubl dimfnsions of tif pbrfnt window
+                       * rfsolvf tif difffrfndf.  Wf dbn't rfly on tif lfft
+                       * to bf fqubl to rigit or bottom...  Enligitmfnt
+                       * brfbks tibt bssumption.
                        */
-                      XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                       XlibUtil.getParentWindow(parent),
-                                                       pattr.pData);
-                      correctWM.right = pattr.get_width() -
-                          (lwinAttr.get_width() + correctWM.left);
-                      correctWM.bottom = pattr.get_height() -
-                          (lwinAttr.get_height() + correctWM.top);
+                      XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                       XlibUtil.gftPbrfntWindow(pbrfnt),
+                                                       pbttr.pDbtb);
+                      dorrfdtWM.rigit = pbttr.gft_widti() -
+                          (lwinAttr.gft_widti() + dorrfdtWM.lfft);
+                      dorrfdtWM.bottom = pbttr.gft_ifigit() -
+                          (lwinAttr.gft_ifigit() + dorrfdtWM.top);
 
-                      break;
+                      brfbk;
                   }
-                  case XWM.ICE_WM: // for 1.2.2.
-                  case XWM.KDE2_WM: /* should've been done in getInsetsFromProp */
-                  case XWM.CDE_WM:
-                  case XWM.MOTIF_WM: {
-                      /* these are double reparenting too */
-                      if (syncTopLevelPos(parent, lwinAttr)) {
-                          correctWM.top = lwinAttr.get_y();
-                          correctWM.left = lwinAttr.get_x();
-                          correctWM.right = correctWM.left;
-                          correctWM.bottom = correctWM.left;
-                      } else {
-                          return null;
+                  dbsf XWM.ICE_WM: // for 1.2.2.
+                  dbsf XWM.KDE2_WM: /* siould'vf bffn donf in gftInsftsFromProp */
+                  dbsf XWM.CDE_WM:
+                  dbsf XWM.MOTIF_WM: {
+                      /* tifsf brf doublf rfpbrfnting too */
+                      if (syndTopLfvflPos(pbrfnt, lwinAttr)) {
+                          dorrfdtWM.top = lwinAttr.gft_y();
+                          dorrfdtWM.lfft = lwinAttr.gft_x();
+                          dorrfdtWM.rigit = dorrfdtWM.lfft;
+                          dorrfdtWM.bottom = dorrfdtWM.lfft;
+                      } flsf {
+                          rfturn null;
                       }
-                      break;
+                      brfbk;
                   }
-                  case XWM.SAWFISH_WM:
-                  case XWM.OPENLOOK_WM: {
-                      /* single reparenting */
-                      syncTopLevelPos(window, lwinAttr);
-                      correctWM.top    = lwinAttr.get_y();
-                      correctWM.left   = lwinAttr.get_x();
-                      correctWM.right  = correctWM.left;
-                      correctWM.bottom = correctWM.left;
-                      break;
+                  dbsf XWM.SAWFISH_WM:
+                  dbsf XWM.OPENLOOK_WM: {
+                      /* singlf rfpbrfnting */
+                      syndTopLfvflPos(window, lwinAttr);
+                      dorrfdtWM.top    = lwinAttr.gft_y();
+                      dorrfdtWM.lfft   = lwinAttr.gft_x();
+                      dorrfdtWM.rigit  = dorrfdtWM.lfft;
+                      dorrfdtWM.bottom = dorrfdtWM.lfft;
+                      brfbk;
                   }
-                  case XWM.OTHER_WM:
-                  default: {                /* this is very similar to the E! case above */
-                      if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                          insLog.finest("Getting correct insets for OTHER_WM/default, parent: {0}", parent);
+                  dbsf XWM.OTHER_WM:
+                  dffbult: {                /* tiis is vfry similbr to tif E! dbsf bbovf */
+                      if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                          insLog.finfst("Gftting dorrfdt insfts for OTHER_WM/dffbult, pbrfnt: {0}", pbrfnt);
                       }
-                      syncTopLevelPos(parent, lwinAttr);
-                      int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                                    window, lwinAttr.pData);
-                      status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                                parent, pattr.pData);
-                      if (lwinAttr.get_root() == parent) {
-                          insLog.finest("our parent is root so insets should be zero");
-                          correctWM = new Insets(0, 0, 0, 0);
-                          break;
+                      syndTopLfvflPos(pbrfnt, lwinAttr);
+                      int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                    window, lwinAttr.pDbtb);
+                      stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                pbrfnt, pbttr.pDbtb);
+                      if (lwinAttr.gft_root() == pbrfnt) {
+                          insLog.finfst("our pbrfnt is root so insfts siould bf zfro");
+                          dorrfdtWM = nfw Insfts(0, 0, 0, 0);
+                          brfbk;
                       }
 
                       /*
-                       * Check for double-reparenting WM.
+                       * Cifdk for doublf-rfpbrfnting WM.
                        *
-                       * If the parent is exactly the same size as the
-                       * top-level assume taht it's the "lining" window and
-                       * that the grandparent is the actual frame (NB: we
-                       * have already handled undecorated windows).
+                       * If tif pbrfnt is fxbdtly tif sbmf sizf bs tif
+                       * top-lfvfl bssumf tbit it's tif "lining" window bnd
+                       * tibt tif grbndpbrfnt is tif bdtubl frbmf (NB: wf
+                       * ibvf blrfbdy ibndlfd undfdorbtfd windows).
                        *
-                       * XXX: what about timing issues that syncTopLevelPos
-                       * is supposed to work around?
+                       * XXX: wibt bbout timing issufs tibt syndTopLfvflPos
+                       * is supposfd to work bround?
                        */
-                      if (lwinAttr.get_x() == 0 && lwinAttr.get_y() == 0
-                          && lwinAttr.get_width()+2*lwinAttr.get_border_width() == pattr.get_width()
-                          && lwinAttr.get_height()+2*lwinAttr.get_border_width() == pattr.get_height())
+                      if (lwinAttr.gft_x() == 0 && lwinAttr.gft_y() == 0
+                          && lwinAttr.gft_widti()+2*lwinAttr.gft_bordfr_widti() == pbttr.gft_widti()
+                          && lwinAttr.gft_ifigit()+2*lwinAttr.gft_bordfr_widti() == pbttr.gft_ifigit())
                       {
-                          if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                              insLog.finest("Double reparenting detected, pattr({2})={0}, lwinAttr({3})={1}",
-                                        lwinAttr, pattr, parent, window);
+                          if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                              insLog.finfst("Doublf rfpbrfnting dftfdtfd, pbttr({2})={0}, lwinAttr({3})={1}",
+                                        lwinAttr, pbttr, pbrfnt, window);
                           }
-                          lwinAttr.set_x(pattr.get_x());
-                          lwinAttr.set_y(pattr.get_y());
-                          lwinAttr.set_border_width(lwinAttr.get_border_width()+pattr.get_border_width());
+                          lwinAttr.sft_x(pbttr.gft_x());
+                          lwinAttr.sft_y(pbttr.gft_y());
+                          lwinAttr.sft_bordfr_widti(lwinAttr.gft_bordfr_widti()+pbttr.gft_bordfr_widti());
 
-                          final long grand_parent = XlibUtil.getParentWindow(parent);
+                          finbl long grbnd_pbrfnt = XlibUtil.gftPbrfntWindow(pbrfnt);
 
-                          if (grand_parent == lwinAttr.get_root()) {
-                              // This is not double-reparenting in a
-                              // general sense - we simply don't have
-                              // correct insets - return null to try to
-                              // get insets later
-                              return null;
-                          } else {
-                              parent = grand_parent;
-                              XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                               parent,
-                                                               pattr.pData);
+                          if (grbnd_pbrfnt == lwinAttr.gft_root()) {
+                              // Tiis is not doublf-rfpbrfnting in b
+                              // gfnfrbl sfnsf - wf simply don't ibvf
+                              // dorrfdt insfts - rfturn null to try to
+                              // gft insfts lbtfr
+                              rfturn null;
+                          } flsf {
+                              pbrfnt = grbnd_pbrfnt;
+                              XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                               pbrfnt,
+                                                               pbttr.pDbtb);
                           }
                       }
                       /*
-                       * XXX: To be absolutely correct, we'd need to take
-                       * parent's border-width into account too, but the
-                       * rest of the code is happily unaware about border
-                       * widths and inner/outer distinction, so for the time
-                       * being, just ignore it.
+                       * XXX: To bf bbsolutfly dorrfdt, wf'd nffd to tbkf
+                       * pbrfnt's bordfr-widti into bddount too, but tif
+                       * rfst of tif dodf is ibppily unbwbrf bbout bordfr
+                       * widtis bnd innfr/outfr distindtion, so for tif timf
+                       * bfing, just ignorf it.
                        */
-                      if (insLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                          insLog.finest("Attrs before calculation: pattr({2})={0}, lwinAttr({3})={1}",
-                                    lwinAttr, pattr, parent, window);
+                      if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                          insLog.finfst("Attrs bfforf dbldulbtion: pbttr({2})={0}, lwinAttr({3})={1}",
+                                    lwinAttr, pbttr, pbrfnt, window);
                       }
-                      correctWM = new Insets(lwinAttr.get_y() + lwinAttr.get_border_width(),
-                                             lwinAttr.get_x() + lwinAttr.get_border_width(),
-                                             pattr.get_height() - (lwinAttr.get_y() + lwinAttr.get_height() + 2*lwinAttr.get_border_width()),
-                                             pattr.get_width() -  (lwinAttr.get_x() + lwinAttr.get_width() + 2*lwinAttr.get_border_width()));
-                      break;
-                  } /* default */
-                } /* switch (runningWM) */
-            } finally {
-                lwinAttr.dispose();
-                pattr.dispose();
+                      dorrfdtWM = nfw Insfts(lwinAttr.gft_y() + lwinAttr.gft_bordfr_widti(),
+                                             lwinAttr.gft_x() + lwinAttr.gft_bordfr_widti(),
+                                             pbttr.gft_ifigit() - (lwinAttr.gft_y() + lwinAttr.gft_ifigit() + 2*lwinAttr.gft_bordfr_widti()),
+                                             pbttr.gft_widti() -  (lwinAttr.gft_x() + lwinAttr.gft_widti() + 2*lwinAttr.gft_bordfr_widti()));
+                      brfbk;
+                  } /* dffbult */
+                } /* switdi (runningWM) */
+            } finblly {
+                lwinAttr.disposf();
+                pbttr.disposf();
             }
         }
-        if (storedInsets.get(win.getClass()) == null) {
-            storedInsets.put(win.getClass(), correctWM);
+        if (storfdInsfts.gft(win.gftClbss()) == null) {
+            storfdInsfts.put(win.gftClbss(), dorrfdtWM);
         }
-        return correctWM;
+        rfturn dorrfdtWM;
     }
-    boolean isDesktopWindow( long w ) {
-        if (g_net_protocol != null) {
-            XAtomList wtype = XAtom.get("_NET_WM_WINDOW_TYPE").getAtomListPropertyList( w );
-            return wtype.contains( XAtom.get("_NET_WM_WINDOW_TYPE_DESKTOP") );
-        } else {
-            return false;
+    boolfbn isDfsktopWindow( long w ) {
+        if (g_nft_protodol != null) {
+            XAtomList wtypf = XAtom.gft("_NET_WM_WINDOW_TYPE").gftAtomListPropfrtyList( w );
+            rfturn wtypf.dontbins( XAtom.gft("_NET_WM_WINDOW_TYPE_DESKTOP") );
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public XNETProtocol getNETProtocol() {
-        return g_net_protocol;
+    publid XNETProtodol gftNETProtodol() {
+        rfturn g_nft_protodol;
     }
 
     /**
-     * Sets _NET_WN_ICON property on the window using the arrays of
-     * raster-data for icons. If icons is null, removes _NET_WM_ICON
-     * property.
-     * This method invokes XNETProtocol.setWMIcon() for WMs that
-     * support NET protocol.
+     * Sfts _NET_WN_ICON propfrty on tif window using tif brrbys of
+     * rbstfr-dbtb for idons. If idons is null, rfmovfs _NET_WM_ICON
+     * propfrty.
+     * Tiis mftiod invokfs XNETProtodol.sftWMIdon() for WMs tibt
+     * support NET protodol.
      *
-     * @return true if hint was modified successfully, false otherwise
+     * @rfturn truf if iint wbs modififd suddfssfully, fblsf otifrwisf
      */
-    public boolean setNetWMIcon(XWindowPeer window, java.util.List<IconInfo> icons) {
-        if (g_net_protocol != null && g_net_protocol.active()) {
-            g_net_protocol.setWMIcons(window, icons);
-            return getWMID() != ICE_WM;
+    publid boolfbn sftNftWMIdon(XWindowPffr window, jbvb.util.List<IdonInfo> idons) {
+        if (g_nft_protodol != null && g_nft_protodol.bdtivf()) {
+            g_nft_protodol.sftWMIdons(window, idons);
+            rfturn gftWMID() != ICE_WM;
         }
-        return false;
+        rfturn fblsf;
     }
 }

@@ -1,0 +1,226 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.bordfr;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * A dlbss whidh implfmfnts b simplf ftdhfd bordfr whidh dbn
+ * fithfr bf ftdhfd-in or ftdhfd-out.  If no highlight/shbdow
+ * dolors brf initiblizfd whfn thf bordfr is drfbtfd, thfn
+ * thfsf dolors will bf dynbmidblly dfrivfd from thf bbdkground
+ * dolor of thf domponfnt brgumfnt pbssfd into thf pbintBordfr()
+ * mfthod.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ * @buthor Amy Fowlfr
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss EtdhfdBordfr fxtfnds AbstrbdtBordfr
+{
+    /** Rbisfd ftdhfd typf. */
+    publid stbtid finbl int RAISED  = 0;
+    /** Lowfrfd ftdhfd typf. */
+    publid stbtid finbl int LOWERED = 1;
+
+    protfdtfd int ftdhTypf;
+    protfdtfd Color highlight;
+    protfdtfd Color shbdow;
+
+    /**
+     * Crfbtfs b lowfrfd ftdhfd bordfr whosf dolors will bf dfrivfd
+     * from thf bbdkground dolor of thf domponfnt pbssfd into
+     * thf pbintBordfr mfthod.
+     */
+    publid EtdhfdBordfr()    {
+        this(LOWERED);
+    }
+
+    /**
+     * Crfbtfs bn ftdhfd bordfr with thf spfdififd ftdh-typf
+     * whosf dolors will bf dfrivfd
+     * from thf bbdkground dolor of thf domponfnt pbssfd into
+     * thf pbintBordfr mfthod.
+     *
+     * @pbrbm ftdhTypf thf typf of ftdh to bf drbwn by thf bordfr
+     */
+    publid EtdhfdBordfr(int ftdhTypf)    {
+        this(ftdhTypf, null, null);
+    }
+
+    /**
+     * Crfbtfs b lowfrfd ftdhfd bordfr with thf spfdififd highlight bnd
+     * shbdow dolors.
+     *
+     * @pbrbm highlight thf dolor to usf for thf ftdhfd highlight
+     * @pbrbm shbdow thf dolor to usf for thf ftdhfd shbdow
+     */
+    publid EtdhfdBordfr(Color highlight, Color shbdow)    {
+        this(LOWERED, highlight, shbdow);
+    }
+
+    /**
+     * Crfbtfs bn ftdhfd bordfr with thf spfdififd ftdh-typf,
+     * highlight bnd shbdow dolors.
+     *
+     * @pbrbm ftdhTypf thf typf of ftdh to bf drbwn by thf bordfr
+     * @pbrbm highlight thf dolor to usf for thf ftdhfd highlight
+     * @pbrbm shbdow thf dolor to usf for thf ftdhfd shbdow
+     */
+    @ConstrudtorPropfrtifs({"ftdhTypf", "highlightColor", "shbdowColor"})
+    publid EtdhfdBordfr(int ftdhTypf, Color highlight, Color shbdow)    {
+        this.ftdhTypf = ftdhTypf;
+        this.highlight = highlight;
+        this.shbdow = shbdow;
+    }
+
+    /**
+     * Pbints thf bordfr for thf spfdififd domponfnt with thf
+     * spfdififd position bnd sizf.
+     *
+     * @pbrbm d thf domponfnt for whidh this bordfr is bfing pbintfd
+     * @pbrbm g thf pbint grbphids
+     * @pbrbm x thf x position of thf pbintfd bordfr
+     * @pbrbm y thf y position of thf pbintfd bordfr
+     * @pbrbm width thf width of thf pbintfd bordfr
+     * @pbrbm hfight thf hfight of thf pbintfd bordfr
+     */
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+        int w = width;
+        int h = hfight;
+
+        g.trbnslbtf(x, y);
+
+        g.sftColor(ftdhTypf == LOWERED? gftShbdowColor(d) : gftHighlightColor(d));
+        g.drbwRfdt(0, 0, w-2, h-2);
+
+        g.sftColor(ftdhTypf == LOWERED? gftHighlightColor(d) : gftShbdowColor(d));
+        g.drbwLinf(1, h-3, 1, 1);
+        g.drbwLinf(1, 1, w-3, 1);
+
+        g.drbwLinf(0, h-1, w-1, h-1);
+        g.drbwLinf(w-1, h-1, w-1, 0);
+
+        g.trbnslbtf(-x, -y);
+    }
+
+    /**
+     * Rfinitiblizf thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
+     *
+     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+     */
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.sft(2, 2, 2, 2);
+        rfturn insfts;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf bordfr is opbquf.
+     * This implfmfntbtion rfturns truf.
+     *
+     * @rfturn truf
+     */
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
+
+    /**
+     * Rfturns whidh ftdh-typf is sft on thf ftdhfd bordfr.
+     *
+     * @rfturn thf ftdhfd bordfr typf, fithfr {@dodf RAISED} or {@dodf LOWERED}
+     */
+    publid int gftEtdhTypf() {
+        rfturn ftdhTypf;
+    }
+
+    /**
+     * Rfturns thf highlight dolor of thf ftdhfd bordfr
+     * whfn rfndfrfd on thf spfdififd domponfnt.  If no highlight
+     * dolor wbs spfdififd bt instbntibtion, thf highlight dolor
+     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
+     *
+     * @pbrbm d thf domponfnt for whidh thf highlight mby bf dfrivfd
+     * @rfturn thf highlight {@dodf Color} of this {@dodf EtdhfdBordfr}
+     * @sindf 1.3
+     */
+    publid Color gftHighlightColor(Componfnt d)   {
+        rfturn highlight != null? highlight :
+                                       d.gftBbdkground().brightfr();
+    }
+
+    /**
+     * Rfturns thf highlight dolor of thf ftdhfd bordfr.
+     * Will rfturn null if no highlight dolor wbs spfdififd
+     * bt instbntibtion.
+     *
+     * @rfturn thf highlight {@dodf Color} of this {@dodf EtdhfdBordfr} or null
+     *         if nonf wbs spfdififd
+     * @sindf 1.3
+     */
+    publid Color gftHighlightColor()   {
+        rfturn highlight;
+    }
+
+    /**
+     * Rfturns thf shbdow dolor of thf ftdhfd bordfr
+     * whfn rfndfrfd on thf spfdififd domponfnt.  If no shbdow
+     * dolor wbs spfdififd bt instbntibtion, thf shbdow dolor
+     * is dfrivfd from thf spfdififd domponfnt's bbdkground dolor.
+     *
+     * @pbrbm d thf domponfnt for whidh thf shbdow mby bf dfrivfd
+     * @rfturn thf shbdow {@dodf Color} of this {@dodf EtdhfdBordfr}
+     * @sindf 1.3
+     */
+    publid Color gftShbdowColor(Componfnt d)   {
+        rfturn shbdow != null? shbdow : d.gftBbdkground().dbrkfr();
+    }
+
+    /**
+     * Rfturns thf shbdow dolor of thf ftdhfd bordfr.
+     * Will rfturn null if no shbdow dolor wbs spfdififd
+     * bt instbntibtion.
+     *
+     * @rfturn thf shbdow {@dodf Color} of this {@dodf EtdhfdBordfr} or null
+     *         if nonf wbs spfdififd
+     * @sindf 1.3
+     */
+    publid Color gftShbdowColor()   {
+        rfturn shbdow;
+    }
+
+}

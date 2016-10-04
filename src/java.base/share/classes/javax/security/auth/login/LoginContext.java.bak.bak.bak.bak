@@ -1,0 +1,966 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.login;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.LinkfdList;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.AuthPfrmission;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import sun.sfdurity.util.PfndingExdfption;
+import sun.sfdurity.util.RfsourdfsMgr;
+
+/**
+ * <p> Thf {@dodf LoginContfxt} dlbss dfsdribfs thf bbsid mfthods usfd
+ * to buthfntidbtf Subjfdts bnd providfs b wby to dfvflop bn
+ * bpplidbtion indfpfndfnt of thf undfrlying buthfntidbtion tfdhnology.
+ * A {@dodf Configurbtion} spfdififs thf buthfntidbtion tfdhnology, or
+ * {@dodf LoginModulf}, to bf usfd with b pbrtidulbr bpplidbtion.
+ * Difffrfnt LoginModulfs dbn bf pluggfd in undfr bn bpplidbtion
+ * without rfquiring bny modifidbtions to thf bpplidbtion itsflf.
+ *
+ * <p> In bddition to supporting <i>pluggbblf</i> buthfntidbtion, this dlbss
+ * blso supports thf notion of <i>stbdkfd</i> buthfntidbtion.
+ * Applidbtions mby bf donfigurfd to usf morf thbn onf
+ * LoginModulf.  For fxbmplf, onf dould
+ * donfigurf both b Kfrbfros LoginModulf bnd b smbrt dbrd
+ * LoginModulf undfr bn bpplidbtion.
+ *
+ * <p> A typidbl dbllfr instbntibtfs b LoginContfxt with
+ * b <i>nbmf</i> bnd b {@dodf CbllbbdkHbndlfr}.
+ * LoginContfxt usfs thf <i>nbmf</i> bs thf indfx into b
+ * Configurbtion to dftfrminf whidh LoginModulfs should bf usfd,
+ * bnd whidh onfs must suddffd in ordfr for thf ovfrbll buthfntidbtion to
+ * suddffd.  Thf {@dodf CbllbbdkHbndlfr} is pbssfd to thf undfrlying
+ * LoginModulfs so thfy mby dommunidbtf bnd intfrbdt with usfrs
+ * (prompting for b usfrnbmf bnd pbssword vib b grbphidbl usfr intfrfbdf,
+ * for fxbmplf).
+ *
+ * <p> Ondf thf dbllfr hbs instbntibtfd b LoginContfxt,
+ * it invokfs thf {@dodf login} mfthod to buthfntidbtf
+ * b {@dodf Subjfdt}.  Thf {@dodf login} mfthod invokfs
+ * thf donfigurfd modulfs to pfrform thfir rfspfdtivf typfs of buthfntidbtion
+ * (usfrnbmf/pbssword, smbrt dbrd pin vfrifidbtion, ftd.).
+ * Notf thbt thf LoginModulfs will not bttfmpt buthfntidbtion rftrifs nor
+ * introdudf dflbys if thf buthfntidbtion fbils.
+ * Sudh tbsks bflong to thf LoginContfxt dbllfr.
+ *
+ * <p> If thf {@dodf login} mfthod rfturns without
+ * throwing bn fxdfption, thfn thf ovfrbll buthfntidbtion suddffdfd.
+ * Thf dbllfr dbn thfn rftrifvf
+ * thf nfwly buthfntidbtfd Subjfdt by invoking thf
+ * {@dodf gftSubjfdt} mfthod.  Prindipbls bnd Crfdfntibls bssodibtfd
+ * with thf Subjfdt mby bf rftrifvfd by invoking thf Subjfdt's
+ * rfspfdtivf {@dodf gftPrindipbls}, {@dodf gftPublidCrfdfntibls},
+ * bnd {@dodf gftPrivbtfCrfdfntibls} mfthods.
+ *
+ * <p> To logout thf Subjfdt, thf dbllfr dblls
+ * thf {@dodf logout} mfthod.  As with thf {@dodf login}
+ * mfthod, this {@dodf logout} mfthod invokfs thf {@dodf logout}
+ * mfthod for thf donfigurfd modulfs.
+ *
+ * <p> A LoginContfxt should not bf usfd to buthfntidbtf
+ * morf thbn onf Subjfdt.  A sfpbrbtf LoginContfxt
+ * should bf usfd to buthfntidbtf fbdh difffrfnt Subjfdt.
+ *
+ * <p> Thf following dodumfntbtion bpplifs to bll LoginContfxt donstrudtors:
+ * <ol>
+ *
+ * <li> {@dodf Subjfdt}
+ * <ul>
+ * <li> If thf donstrudtor hbs b Subjfdt
+ * input pbrbmftfr, thf LoginContfxt usfs thf dbllfr-spfdififd
+ * Subjfdt objfdt.
+ *
+ * <li> If thf dbllfr spfdififs b {@dodf null} Subjfdt
+ * bnd b {@dodf null} vbluf is pfrmittfd,
+ * thf LoginContfxt instbntibtfs b nfw Subjfdt.
+ *
+ * <li> If thf donstrudtor dofs <b>not</b> hbvf b Subjfdt
+ * input pbrbmftfr, thf LoginContfxt instbntibtfs b nfw Subjfdt.
+ * <p>
+ * </ul>
+ *
+ * <li> {@dodf Configurbtion}
+ * <ul>
+ * <li> If thf donstrudtor hbs b Configurbtion
+ * input pbrbmftfr bnd thf dbllfr spfdififs b non-null Configurbtion,
+ * thf LoginContfxt usfs thf dbllfr-spfdififd Configurbtion.
+ * <p>
+ * If thf donstrudtor dofs <b>not</b> hbvf b Configurbtion
+ * input pbrbmftfr, or if thf dbllfr spfdififs b {@dodf null}
+ * Configurbtion objfdt, thf donstrudtor usfs thf following dbll to
+ * gft thf instbllfd Configurbtion:
+ * <prf>
+ *      donfig = Configurbtion.gftConfigurbtion();
+ * </prf>
+ * For both dbsfs,
+ * thf <i>nbmf</i> brgumfnt givfn to thf donstrudtor is pbssfd to thf
+ * {@dodf Configurbtion.gftAppConfigurbtionEntry} mfthod.
+ * If thf Configurbtion hbs no fntrifs for thf spfdififd <i>nbmf</i>,
+ * thfn thf {@dodf LoginContfxt} dblls
+ * {@dodf gftAppConfigurbtionEntry} with thf nbmf, "<i>othfr</i>"
+ * (thf dffbult fntry nbmf).  If thfrf is no fntry for "<i>othfr</i>",
+ * thfn b {@dodf LoginExdfption} is thrown.
+ *
+ * <li> Whfn LoginContfxt usfs thf instbllfd Configurbtion, thf dbllfr
+ * rfquirfs thf drfbtfLoginContfxt.<fm>nbmf</fm> bnd possibly
+ * drfbtfLoginContfxt.othfr AuthPfrmissions. Furthfrmorf, thf
+ * LoginContfxt will invokf donfigurfd modulfs from within bn
+ * {@dodf AddfssControllfr.doPrivilfgfd} dbll so thbt modulfs thbt
+ * pfrform sfdurity-sfnsitivf tbsks (sudh bs donnfdting to rfmotf hosts,
+ * bnd updbting thf Subjfdt) will rfquirf thf rfspfdtivf pfrmissions, but
+ * thf dbllfrs of thf LoginContfxt will not rfquirf thosf pfrmissions.
+ *
+ * <li> Whfn LoginContfxt usfs b dbllfr-spfdififd Configurbtion, thf dbllfr
+ * dofs not rfquirf bny drfbtfLoginContfxt AuthPfrmission.  Thf LoginContfxt
+ * sbvfs thf {@dodf AddfssControlContfxt} for thf dbllfr,
+ * bnd invokfs thf donfigurfd modulfs from within bn
+ * {@dodf AddfssControllfr.doPrivilfgfd} dbll donstrbinfd by thbt dontfxt.
+ * This mfbns thf dbllfr dontfxt (storfd whfn thf LoginContfxt wbs drfbtfd)
+ * must hbvf suffidifnt pfrmissions to pfrform bny sfdurity-sfnsitivf tbsks
+ * thbt thf modulfs mby pfrform.
+ * <p>
+ * </ul>
+ *
+ * <li> {@dodf CbllbbdkHbndlfr}
+ * <ul>
+ * <li> If thf donstrudtor hbs b CbllbbdkHbndlfr
+ * input pbrbmftfr, thf LoginContfxt usfs thf dbllfr-spfdififd
+ * CbllbbdkHbndlfr objfdt.
+ *
+ * <li> If thf donstrudtor dofs <b>not</b> hbvf b CbllbbdkHbndlfr
+ * input pbrbmftfr, or if thf dbllfr spfdififs b {@dodf null}
+ * CbllbbdkHbndlfr objfdt (bnd b {@dodf null} vbluf is pfrmittfd),
+ * thf LoginContfxt qufrifs thf
+ * {@dodf buth.login.dffbultCbllbbdkHbndlfr} sfdurity propfrty for thf
+ * fully qublififd dlbss nbmf of b dffbult hbndlfr
+ * implfmfntbtion. If thf sfdurity propfrty is not sft,
+ * thfn thf undfrlying modulfs will not hbvf b
+ * CbllbbdkHbndlfr for usf in dommunidbting
+ * with usfrs.  Thf dbllfr thus bssumfs thbt thf donfigurfd
+ * modulfs hbvf bltfrnbtivf mfbns for buthfntidbting thf usfr.
+ *
+ *
+ * <li> Whfn thf LoginContfxt usfs thf instbllfd Configurbtion (instfbd of
+ * b dbllfr-spfdififd Configurbtion, sff bbovf),
+ * thfn this LoginContfxt must wrbp bny
+ * dbllfr-spfdififd or dffbult CbllbbdkHbndlfr implfmfntbtion
+ * in b nfw CbllbbdkHbndlfr implfmfntbtion
+ * whosf {@dodf hbndlf} mfthod implfmfntbtion invokfs thf
+ * spfdififd CbllbbdkHbndlfr's {@dodf hbndlf} mfthod in b
+ * {@dodf jbvb.sfdurity.AddfssControllfr.doPrivilfgfd} dbll
+ * donstrbinfd by thf dbllfr's durrfnt {@dodf AddfssControlContfxt}.
+ * </ul>
+ * </ol>
+ *
+ * @sff jbvb.sfdurity.Sfdurity
+ * @sff jbvbx.sfdurity.buth.AuthPfrmission
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ * @sff jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr
+ * @sff jbvbx.sfdurity.buth.login.Configurbtion
+ * @sff jbvbx.sfdurity.buth.spi.LoginModulf
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+publid dlbss LoginContfxt {
+
+    privbtf stbtid finbl String INIT_METHOD             = "initiblizf";
+    privbtf stbtid finbl String LOGIN_METHOD            = "login";
+    privbtf stbtid finbl String COMMIT_METHOD           = "dommit";
+    privbtf stbtid finbl String ABORT_METHOD            = "bbort";
+    privbtf stbtid finbl String LOGOUT_METHOD           = "logout";
+    privbtf stbtid finbl String OTHER                   = "othfr";
+    privbtf stbtid finbl String DEFAULT_HANDLER         =
+                                "buth.login.dffbultCbllbbdkHbndlfr";
+    privbtf Subjfdt subjfdt = null;
+    privbtf boolfbn subjfdtProvidfd = fblsf;
+    privbtf boolfbn loginSuddffdfd = fblsf;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String,?> stbtf = nfw HbshMbp<String,Objfdt>();
+
+    privbtf Configurbtion donfig;
+    privbtf AddfssControlContfxt drfbtorAdd = null;  // dustomizfd donfig only
+    privbtf ModulfInfo[] modulfStbdk;
+    privbtf ClbssLobdfr dontfxtClbssLobdfr = null;
+    privbtf stbtid finbl Clbss<?>[] PARAMS = { };
+
+    // stbtf sbvfd in thf fvfnt b usfr-spfdififd bsyndhronous fxdfption
+    // wbs spfdififd bnd thrown
+
+    privbtf int modulfIndfx = 0;
+    privbtf LoginExdfption firstError = null;
+    privbtf LoginExdfption firstRfquirfdError = null;
+    privbtf boolfbn suddfss = fblsf;
+
+    privbtf stbtid finbl sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("logindontfxt", "\t[LoginContfxt]");
+
+    privbtf void init(String nbmf) throws LoginExdfption {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null && drfbtorAdd == null) {
+            sm.dhfdkPfrmission(nfw AuthPfrmission
+                                ("drfbtfLoginContfxt." + nbmf));
+        }
+
+        if (nbmf == null)
+            throw nfw LoginExdfption
+                (RfsourdfsMgr.gftString("Invblid.null.input.nbmf"));
+
+        // gft thf Configurbtion
+        if (donfig == null) {
+            donfig = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion<Configurbtion>() {
+                publid Configurbtion run() {
+                    rfturn Configurbtion.gftConfigurbtion();
+                }
+            });
+        }
+
+        // gft thf LoginModulfs donfigurfd for this bpplidbtion
+        AppConfigurbtionEntry[] fntrifs = donfig.gftAppConfigurbtionEntry(nbmf);
+        if (fntrifs == null) {
+
+            if (sm != null && drfbtorAdd == null) {
+                sm.dhfdkPfrmission(nfw AuthPfrmission
+                                ("drfbtfLoginContfxt." + OTHER));
+            }
+
+            fntrifs = donfig.gftAppConfigurbtionEntry(OTHER);
+            if (fntrifs == null) {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                        ("No.LoginModulfs.donfigurfd.for.nbmf"));
+                Objfdt[] sourdf = {nbmf};
+                throw nfw LoginExdfption(form.formbt(sourdf));
+            }
+        }
+        modulfStbdk = nfw ModulfInfo[fntrifs.lfngth];
+        for (int i = 0; i < fntrifs.lfngth; i++) {
+            // dlonf rfturnfd brrby
+            modulfStbdk[i] = nfw ModulfInfo
+                                (nfw AppConfigurbtionEntry
+                                        (fntrifs[i].gftLoginModulfNbmf(),
+                                        fntrifs[i].gftControlFlbg(),
+                                        fntrifs[i].gftOptions()),
+                                null);
+        }
+
+        dontfxtClbssLobdfr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    ClbssLobdfr lobdfr =
+                            Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                    if (lobdfr == null) {
+                        // Don't usf bootstrbp dlbss lobdfr dirfdtly to fnsurf
+                        // propfr pbdkbgf bddfss dontrol!
+                        lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    }
+
+                    rfturn lobdfr;
+                }
+        });
+    }
+
+    privbtf void lobdDffbultCbllbbdkHbndlfr() throws LoginExdfption {
+
+        // gft thf dffbult hbndlfr dlbss
+        try {
+
+            finbl ClbssLobdfr finblLobdfr = dontfxtClbssLobdfr;
+
+            this.dbllbbdkHbndlfr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<CbllbbdkHbndlfr>() {
+                publid CbllbbdkHbndlfr run() throws Exdfption {
+                    String dffbultHbndlfr = jbvb.sfdurity.Sfdurity.gftPropfrty
+                        (DEFAULT_HANDLER);
+                    if (dffbultHbndlfr == null || dffbultHbndlfr.lfngth() == 0)
+                        rfturn null;
+                    Clbss<? fxtfnds CbllbbdkHbndlfr> d = Clbss.forNbmf(
+                            dffbultHbndlfr, truf,
+                            finblLobdfr).bsSubdlbss(CbllbbdkHbndlfr.dlbss);
+                    rfturn d.nfwInstbndf();
+                }
+            });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw nfw LoginExdfption(pbf.gftExdfption().toString());
+        }
+
+        // sfdurf it with thf dbllfr's ACC
+        if (this.dbllbbdkHbndlfr != null && drfbtorAdd == null) {
+            this.dbllbbdkHbndlfr = nfw SfdurfCbllbbdkHbndlfr
+                                (jbvb.sfdurity.AddfssControllfr.gftContfxt(),
+                                this.dbllbbdkHbndlfr);
+        }
+    }
+
+    /**
+     * Instbntibtf b nfw {@dodf LoginContfxt} objfdt with b nbmf.
+     *
+     * @pbrbm nbmf thf nbmf usfd bs thf indfx into thf
+     *          {@dodf Configurbtion}.
+     *
+     * @fxdfption LoginExdfption if thf dbllfr-spfdififd {@dodf nbmf}
+     *          dofs not bppfbr in thf {@dodf Configurbtion}
+     *          bnd thfrf is no {@dodf Configurbtion} fntry
+     *          for "<i>othfr</i>", or if thf
+     *          <i>buth.login.dffbultCbllbbdkHbndlfr</i>
+     *          sfdurity propfrty wbs sft, but thf implfmfntbtion
+     *          dlbss dould not bf lobdfd.
+     *          <p>
+     * @fxdfption SfdurityExdfption if b SfdurityMbnbgfr is sft bnd
+     *          thf dbllfr dofs not hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.<i>nbmf</i>"),
+     *          or if b donfigurbtion fntry for <i>nbmf</i> dofs not fxist bnd
+     *          thf dbllfr dofs not bdditionblly hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.othfr")
+     */
+    publid LoginContfxt(String nbmf) throws LoginExdfption {
+        init(nbmf);
+        lobdDffbultCbllbbdkHbndlfr();
+    }
+
+    /**
+     * Instbntibtf b nfw {@dodf LoginContfxt} objfdt with b nbmf
+     * bnd b {@dodf Subjfdt} objfdt.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd bs thf indfx into thf
+     *          {@dodf Configurbtion}. <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} to buthfntidbtf.
+     *
+     * @fxdfption LoginExdfption if thf dbllfr-spfdififd {@dodf nbmf}
+     *          dofs not bppfbr in thf {@dodf Configurbtion}
+     *          bnd thfrf is no {@dodf Configurbtion} fntry
+     *          for "<i>othfr</i>", if thf dbllfr-spfdififd {@dodf subjfdt}
+     *          is {@dodf null}, or if thf
+     *          <i>buth.login.dffbultCbllbbdkHbndlfr</i>
+     *          sfdurity propfrty wbs sft, but thf implfmfntbtion
+     *          dlbss dould not bf lobdfd.
+     *          <p>
+     * @fxdfption SfdurityExdfption if b SfdurityMbnbgfr is sft bnd
+     *          thf dbllfr dofs not hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.<i>nbmf</i>"),
+     *          or if b donfigurbtion fntry for <i>nbmf</i> dofs not fxist bnd
+     *          thf dbllfr dofs not bdditionblly hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.othfr")
+     */
+    publid LoginContfxt(String nbmf, Subjfdt subjfdt)
+    throws LoginExdfption {
+        init(nbmf);
+        if (subjfdt == null)
+            throw nfw LoginExdfption
+                (RfsourdfsMgr.gftString("invblid.null.Subjfdt.providfd"));
+        this.subjfdt = subjfdt;
+        subjfdtProvidfd = truf;
+        lobdDffbultCbllbbdkHbndlfr();
+    }
+
+    /**
+     * Instbntibtf b nfw {@dodf LoginContfxt} objfdt with b nbmf
+     * bnd b {@dodf CbllbbdkHbndlfr} objfdt.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd bs thf indfx into thf
+     *          {@dodf Configurbtion}. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr thf {@dodf CbllbbdkHbndlfr} objfdt usfd by
+     *          LoginModulfs to dommunidbtf with thf usfr.
+     *
+     * @fxdfption LoginExdfption if thf dbllfr-spfdififd {@dodf nbmf}
+     *          dofs not bppfbr in thf {@dodf Configurbtion}
+     *          bnd thfrf is no {@dodf Configurbtion} fntry
+     *          for "<i>othfr</i>", or if thf dbllfr-spfdififd
+     *          {@dodf dbllbbdkHbndlfr} is {@dodf null}.
+     *          <p>
+     * @fxdfption SfdurityExdfption if b SfdurityMbnbgfr is sft bnd
+     *          thf dbllfr dofs not hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.<i>nbmf</i>"),
+     *          or if b donfigurbtion fntry for <i>nbmf</i> dofs not fxist bnd
+     *          thf dbllfr dofs not bdditionblly hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.othfr")
+     */
+    publid LoginContfxt(String nbmf, CbllbbdkHbndlfr dbllbbdkHbndlfr)
+    throws LoginExdfption {
+        init(nbmf);
+        if (dbllbbdkHbndlfr == null)
+            throw nfw LoginExdfption(RfsourdfsMgr.gftString
+                                ("invblid.null.CbllbbdkHbndlfr.providfd"));
+        this.dbllbbdkHbndlfr = nfw SfdurfCbllbbdkHbndlfr
+                                (jbvb.sfdurity.AddfssControllfr.gftContfxt(),
+                                dbllbbdkHbndlfr);
+    }
+
+    /**
+     * Instbntibtf b nfw {@dodf LoginContfxt} objfdt with b nbmf,
+     * b {@dodf Subjfdt} to bf buthfntidbtfd, bnd b
+     * {@dodf CbllbbdkHbndlfr} objfdt.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd bs thf indfx into thf
+     *          {@dodf Configurbtion}. <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} to buthfntidbtf. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr thf {@dodf CbllbbdkHbndlfr} objfdt usfd by
+     *          LoginModulfs to dommunidbtf with thf usfr.
+     *
+     * @fxdfption LoginExdfption if thf dbllfr-spfdififd {@dodf nbmf}
+     *          dofs not bppfbr in thf {@dodf Configurbtion}
+     *          bnd thfrf is no {@dodf Configurbtion} fntry
+     *          for "<i>othfr</i>", or if thf dbllfr-spfdififd
+     *          {@dodf subjfdt} is {@dodf null},
+     *          or if thf dbllfr-spfdififd
+     *          {@dodf dbllbbdkHbndlfr} is {@dodf null}.
+     *          <p>
+     * @fxdfption SfdurityExdfption if b SfdurityMbnbgfr is sft bnd
+     *          thf dbllfr dofs not hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.<i>nbmf</i>"),
+     *          or if b donfigurbtion fntry for <i>nbmf</i> dofs not fxist bnd
+     *          thf dbllfr dofs not bdditionblly hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.othfr")
+     */
+    publid LoginContfxt(String nbmf, Subjfdt subjfdt,
+                        CbllbbdkHbndlfr dbllbbdkHbndlfr) throws LoginExdfption {
+        this(nbmf, subjfdt);
+        if (dbllbbdkHbndlfr == null)
+            throw nfw LoginExdfption(RfsourdfsMgr.gftString
+                                ("invblid.null.CbllbbdkHbndlfr.providfd"));
+        this.dbllbbdkHbndlfr = nfw SfdurfCbllbbdkHbndlfr
+                                (jbvb.sfdurity.AddfssControllfr.gftContfxt(),
+                                dbllbbdkHbndlfr);
+    }
+
+    /**
+     * Instbntibtf b nfw {@dodf LoginContfxt} objfdt with b nbmf,
+     * b {@dodf Subjfdt} to bf buthfntidbtfd,
+     * b {@dodf CbllbbdkHbndlfr} objfdt, bnd b login
+     * {@dodf Configurbtion}.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd bs thf indfx into thf dbllfr-spfdififd
+     *          {@dodf Configurbtion}. <p>
+     *
+     * @pbrbm subjfdt thf {@dodf Subjfdt} to buthfntidbtf,
+     *          or {@dodf null}. <p>
+     *
+     * @pbrbm dbllbbdkHbndlfr thf {@dodf CbllbbdkHbndlfr} objfdt usfd by
+     *          LoginModulfs to dommunidbtf with thf usfr, or {@dodf null}.
+     *          <p>
+     *
+     * @pbrbm donfig thf {@dodf Configurbtion} thbt lists thf
+     *          login modulfs to bf dbllfd to pfrform thf buthfntidbtion,
+     *          or {@dodf null}.
+     *
+     * @fxdfption LoginExdfption if thf dbllfr-spfdififd {@dodf nbmf}
+     *          dofs not bppfbr in thf {@dodf Configurbtion}
+     *          bnd thfrf is no {@dodf Configurbtion} fntry
+     *          for "<i>othfr</i>".
+     *          <p>
+     * @fxdfption SfdurityExdfption if b SfdurityMbnbgfr is sft,
+     *          <i>donfig</i> is {@dodf null},
+     *          bnd fithfr thf dbllfr dofs not hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.<i>nbmf</i>"),
+     *          or if b donfigurbtion fntry for <i>nbmf</i> dofs not fxist bnd
+     *          thf dbllfr dofs not bdditionblly hbvf
+     *          AuthPfrmission("drfbtfLoginContfxt.othfr")
+     *
+     * @sindf 1.5
+     */
+    publid LoginContfxt(String nbmf, Subjfdt subjfdt,
+                        CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                        Configurbtion donfig) throws LoginExdfption {
+        this.donfig = donfig;
+        if (donfig != null) {
+            drfbtorAdd = jbvb.sfdurity.AddfssControllfr.gftContfxt();
+        }
+
+        init(nbmf);
+        if (subjfdt != null) {
+            this.subjfdt = subjfdt;
+            subjfdtProvidfd = truf;
+        }
+        if (dbllbbdkHbndlfr == null) {
+            lobdDffbultCbllbbdkHbndlfr();
+        } flsf if (drfbtorAdd == null) {
+            this.dbllbbdkHbndlfr = nfw SfdurfCbllbbdkHbndlfr
+                                (jbvb.sfdurity.AddfssControllfr.gftContfxt(),
+                                dbllbbdkHbndlfr);
+        } flsf {
+            this.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        }
+    }
+
+    /**
+     * Pfrform thf buthfntidbtion.
+     *
+     * <p> This mfthod invokfs thf {@dodf login} mfthod for fbdh
+     * LoginModulf donfigurfd for thf <i>nbmf</i> spfdififd to thf
+     * {@dodf LoginContfxt} donstrudtor, bs dftfrminfd by thf login
+     * {@dodf Configurbtion}.  Ebdh {@dodf LoginModulf}
+     * thfn pfrforms its rfspfdtivf typf of buthfntidbtion
+     * (usfrnbmf/pbssword, smbrt dbrd pin vfrifidbtion, ftd.).
+     *
+     * <p> This mfthod domplftfs b 2-phbsf buthfntidbtion prodfss by
+     * dblling fbdh donfigurfd LoginModulf's {@dodf dommit} mfthod
+     * if thf ovfrbll buthfntidbtion suddffdfd (thf rflfvbnt REQUIRED,
+     * REQUISITE, SUFFICIENT, bnd OPTIONAL LoginModulfs suddffdfd),
+     * or by dblling fbdh donfigurfd LoginModulf's {@dodf bbort} mfthod
+     * if thf ovfrbll buthfntidbtion fbilfd.  If buthfntidbtion suddffdfd,
+     * fbdh suddfssful LoginModulf's {@dodf dommit} mfthod bssodibtfs
+     * thf rflfvbnt Prindipbls bnd Crfdfntibls with thf {@dodf Subjfdt}.
+     * If buthfntidbtion fbilfd, fbdh LoginModulf's {@dodf bbort} mfthod
+     * rfmovfs/dfstroys bny prfviously storfd stbtf.
+     *
+     * <p> If thf {@dodf dommit} phbsf of thf buthfntidbtion prodfss
+     * fbils, thfn thf ovfrbll buthfntidbtion fbils bnd this mfthod
+     * invokfs thf {@dodf bbort} mfthod for fbdh donfigurfd
+     * {@dodf LoginModulf}.
+     *
+     * <p> If thf {@dodf bbort} phbsf
+     * fbils for bny rfbson, thfn this mfthod propbgbtfs thf
+     * originbl fxdfption thrown fithfr during thf {@dodf login} phbsf
+     * or thf {@dodf dommit} phbsf.  In fithfr dbsf, thf ovfrbll
+     * buthfntidbtion fbils.
+     *
+     * <p> In thf dbsf whfrf multiplf LoginModulfs fbil,
+     * this mfthod propbgbtfs thf fxdfption rbisfd by thf first
+     * {@dodf LoginModulf} whidh fbilfd.
+     *
+     * <p> Notf thbt if this mfthod fntfrs thf {@dodf bbort} phbsf
+     * (fithfr thf {@dodf login} or {@dodf dommit} phbsf fbilfd),
+     * this mfthod invokfs bll LoginModulfs donfigurfd for thf
+     * bpplidbtion rfgbrdlfss of thfir rfspfdtivf {@dodf Configurbtion}
+     * flbg pbrbmftfrs.  Essfntiblly this mfbns thbt {@dodf Rfquisitf}
+     * bnd {@dodf Suffidifnt} sfmbntids brf ignorfd during thf
+     * {@dodf bbort} phbsf.  This gubrbntffs thbt propfr dlfbnup
+     * bnd stbtf rfstorbtion dbn tbkf plbdf.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf buthfntidbtion fbils.
+     */
+    publid void login() throws LoginExdfption {
+
+        loginSuddffdfd = fblsf;
+
+        if (subjfdt == null) {
+            subjfdt = nfw Subjfdt();
+        }
+
+        try {
+            // modulf invokfd in doPrivilfgfd
+            invokfPriv(LOGIN_METHOD);
+            invokfPriv(COMMIT_METHOD);
+            loginSuddffdfd = truf;
+        } dbtdh (LoginExdfption lf) {
+            try {
+                invokfPriv(ABORT_METHOD);
+            } dbtdh (LoginExdfption lf2) {
+                throw lf;
+            }
+            throw lf;
+        }
+    }
+
+    /**
+     * Logout thf {@dodf Subjfdt}.
+     *
+     * <p> This mfthod invokfs thf {@dodf logout} mfthod for fbdh
+     * {@dodf LoginModulf} donfigurfd for this {@dodf LoginContfxt}.
+     * Ebdh {@dodf LoginModulf} pfrforms its rfspfdtivf logout prodfdurf
+     * whidh mby indludf rfmoving/dfstroying
+     * {@dodf Prindipbl} bnd {@dodf Crfdfntibl} informbtion
+     * from thf {@dodf Subjfdt} bnd stbtf dlfbnup.
+     *
+     * <p> Notf thbt this mfthod invokfs bll LoginModulfs donfigurfd for thf
+     * bpplidbtion rfgbrdlfss of thfir rfspfdtivf
+     * {@dodf Configurbtion} flbg pbrbmftfrs.  Essfntiblly this mfbns
+     * thbt {@dodf Rfquisitf} bnd {@dodf Suffidifnt} sfmbntids brf
+     * ignorfd for this mfthod.  This gubrbntffs thbt propfr dlfbnup
+     * bnd stbtf rfstorbtion dbn tbkf plbdf.
+     *
+     * <p>
+     *
+     * @fxdfption LoginExdfption if thf logout fbils.
+     */
+    publid void logout() throws LoginExdfption {
+        if (subjfdt == null) {
+            throw nfw LoginExdfption(RfsourdfsMgr.gftString
+                ("null.subjfdt.logout.dbllfd.bfforf.login"));
+        }
+
+        // modulf invokfd in doPrivilfgfd
+        invokfPriv(LOGOUT_METHOD);
+    }
+
+    /**
+     * Rfturn thf buthfntidbtfd Subjfdt.
+     *
+     * <p>
+     *
+     * @rfturn thf buthfntidbtfd Subjfdt.  If thf dbllfr spfdififd b
+     *          Subjfdt to this LoginContfxt's donstrudtor,
+     *          this mfthod rfturns thf dbllfr-spfdififd Subjfdt.
+     *          If b Subjfdt wbs not spfdififd bnd buthfntidbtion suddffds,
+     *          this mfthod rfturns thf Subjfdt instbntibtfd bnd usfd for
+     *          buthfntidbtion by this LoginContfxt.
+     *          If b Subjfdt wbs not spfdififd, bnd buthfntidbtion fbils or
+     *          hbs not bffn bttfmptfd, this mfthod rfturns null.
+     */
+    publid Subjfdt gftSubjfdt() {
+        if (!loginSuddffdfd && !subjfdtProvidfd)
+            rfturn null;
+        rfturn subjfdt;
+    }
+
+    privbtf void dlfbrStbtf() {
+        modulfIndfx = 0;
+        firstError = null;
+        firstRfquirfdError = null;
+        suddfss = fblsf;
+    }
+
+    privbtf void throwExdfption(LoginExdfption originblError, LoginExdfption lf)
+    throws LoginExdfption {
+
+        // first dlfbr stbtf
+        dlfbrStbtf();
+
+        // throw thf fxdfption
+        LoginExdfption frror = (originblError != null) ? originblError : lf;
+        throw frror;
+    }
+
+    /**
+     * Invokfs thf login, dommit, bnd logout mfthods
+     * from b LoginModulf insidf b doPrivilfgfd blodk rfstridtfd
+     * by drfbtorAdd (mby bf null).
+     *
+     * This vfrsion is dbllfd if thf dbllfr did not instbntibtf
+     * thf LoginContfxt with b Configurbtion objfdt.
+     */
+    privbtf void invokfPriv(finbl String mfthodNbmf) throws LoginExdfption {
+        try {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() throws LoginExdfption {
+                    invokf(mfthodNbmf);
+                    rfturn null;
+                }
+            }, drfbtorAdd);
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw (LoginExdfption)pbf.gftExdfption();
+        }
+    }
+
+    privbtf void invokf(String mfthodNbmf) throws LoginExdfption {
+
+        // stbrt bt modulfIndfx
+        // - this dbn only bf non-zfro if mfthodNbmf is LOGIN_METHOD
+
+        for (int i = modulfIndfx; i < modulfStbdk.lfngth; i++, modulfIndfx++) {
+            try {
+
+                int mIndfx = 0;
+                Mfthod[] mfthods = null;
+
+                if (modulfStbdk[i].modulf != null) {
+                    mfthods = modulfStbdk[i].modulf.gftClbss().gftMfthods();
+                } flsf {
+
+                    // instbntibtf thf LoginModulf
+                    //
+                    // Allow bny objfdt to bf b LoginModulf bs long bs it
+                    // donforms to thf intfrfbdf.
+                    Clbss<?> d = Clbss.forNbmf(
+                                modulfStbdk[i].fntry.gftLoginModulfNbmf(),
+                                truf,
+                                dontfxtClbssLobdfr);
+
+                    Construdtor<?> donstrudtor = d.gftConstrudtor(PARAMS);
+                    Objfdt[] brgs = { };
+                    modulfStbdk[i].modulf = donstrudtor.nfwInstbndf(brgs);
+
+                    // dbll thf LoginModulf's initiblizf mfthod
+                    mfthods = modulfStbdk[i].modulf.gftClbss().gftMfthods();
+                    for (mIndfx = 0; mIndfx < mfthods.lfngth; mIndfx++) {
+                        if (mfthods[mIndfx].gftNbmf().fqubls(INIT_METHOD)) {
+                            brfbk;
+                        }
+                    }
+
+                    Objfdt[] initArgs = {subjfdt,
+                                        dbllbbdkHbndlfr,
+                                        stbtf,
+                                        modulfStbdk[i].fntry.gftOptions() };
+                    // invokf thf LoginModulf initiblizf mfthod
+                    //
+                    // Throws ArrbyIndfxOutOfBoundsExdfption if no sudh
+                    // mfthod dffinfd.  Mby improvf to usf LoginExdfption in
+                    // thf futurf.
+                    mfthods[mIndfx].invokf(modulfStbdk[i].modulf, initArgs);
+                }
+
+                // find thf rfqufstfd mfthod in thf LoginModulf
+                for (mIndfx = 0; mIndfx < mfthods.lfngth; mIndfx++) {
+                    if (mfthods[mIndfx].gftNbmf().fqubls(mfthodNbmf)) {
+                        brfbk;
+                    }
+                }
+
+                // sft up thf brgumfnts to bf pbssfd to thf LoginModulf mfthod
+                Objfdt[] brgs = { };
+
+                // invokf thf LoginModulf mfthod
+                //
+                // Throws ArrbyIndfxOutOfBoundsExdfption if no sudh
+                // mfthod dffinfd.  Mby improvf to usf LoginExdfption in
+                // thf futurf.
+                boolfbn stbtus = ((Boolfbn)mfthods[mIndfx].invokf
+                                (modulfStbdk[i].modulf, brgs)).boolfbnVbluf();
+
+                if (stbtus == truf) {
+
+                    // if SUFFICIENT, rfturn if no prior REQUIRED frrors
+                    if (!mfthodNbmf.fqubls(ABORT_METHOD) &&
+                        !mfthodNbmf.fqubls(LOGOUT_METHOD) &&
+                        modulfStbdk[i].fntry.gftControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModulfControlFlbg.SUFFICIENT &&
+                        firstRfquirfdError == null) {
+
+                        // dlfbr stbtf
+                        dlfbrStbtf();
+
+                        if (dfbug != null)
+                            dfbug.println(mfthodNbmf + " SUFFICIENT suddfss");
+                        rfturn;
+                    }
+
+                    if (dfbug != null)
+                        dfbug.println(mfthodNbmf + " suddfss");
+                    suddfss = truf;
+                } flsf {
+                    if (dfbug != null)
+                        dfbug.println(mfthodNbmf + " ignorfd");
+                }
+
+            } dbtdh (NoSudhMfthodExdfption nsmf) {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                        ("unbblf.to.instbntibtf.LoginModulf.modulf.bfdbusf.it.dofs.not.providf.b.no.brgumfnt.donstrudtor"));
+                Objfdt[] sourdf = {modulfStbdk[i].fntry.gftLoginModulfNbmf()};
+                throwExdfption(null, nfw LoginExdfption(form.formbt(sourdf)));
+            } dbtdh (InstbntibtionExdfption if) {
+                throwExdfption(null, nfw LoginExdfption(RfsourdfsMgr.gftString
+                        ("unbblf.to.instbntibtf.LoginModulf.") +
+                        if.gftMfssbgf()));
+            } dbtdh (ClbssNotFoundExdfption dnff) {
+                throwExdfption(null, nfw LoginExdfption(RfsourdfsMgr.gftString
+                        ("unbblf.to.find.LoginModulf.dlbss.") +
+                        dnff.gftMfssbgf()));
+            } dbtdh (IllfgblAddfssExdfption ibf) {
+                throwExdfption(null, nfw LoginExdfption(RfsourdfsMgr.gftString
+                        ("unbblf.to.bddfss.LoginModulf.") +
+                        ibf.gftMfssbgf()));
+            } dbtdh (InvodbtionTbrgftExdfption itf) {
+
+                // fbilurf dbsfs
+
+                LoginExdfption lf;
+
+                if (itf.gftCbusf() instbndfof PfndingExdfption &&
+                    mfthodNbmf.fqubls(LOGIN_METHOD)) {
+
+                    // XXX
+                    //
+                    // if b modulf's LOGIN_METHOD thrfw b PfndingExdfption
+                    // thfn immfdibtfly throw it.
+                    //
+                    // whfn LoginContfxt is dbllfd bgbin,
+                    // thf modulf thbt thrfw thf fxdfption is invokfd first
+                    // (thf modulf list is not invokfd from thf stbrt).
+                    // prfviously thrown fxdfption stbtf is still prfsfnt.
+                    //
+                    // it is bssumfd thbt thf modulf whidh thrfw
+                    // thf fxdfption dbn hbvf its
+                    // LOGIN_METHOD invokfd twidf in b row
+                    // without bny dommit/bbort in bftwffn.
+                    //
+                    // in bll dbsfs whfn LoginContfxt rfturns
+                    // (fithfr vib nbturbl rfturn or by throwing bn fxdfption)
+                    // wf nffd to dbll dlfbrStbtf bfforf rfturning.
+                    // thf only timf thbt is not truf is in this dbsf -
+                    // do not dbll throwExdfption hfrf.
+
+                    throw (PfndingExdfption)itf.gftCbusf();
+
+                } flsf if (itf.gftCbusf() instbndfof LoginExdfption) {
+
+                    lf = (LoginExdfption)itf.gftCbusf();
+
+                } flsf if (itf.gftCbusf() instbndfof SfdurityExdfption) {
+
+                    // do not wbnt privbdy lfbk
+                    // (f.g., sfnsitivf filf pbth in fxdfption msg)
+
+                    lf = nfw LoginExdfption("Sfdurity Exdfption");
+                    lf.initCbusf(nfw SfdurityExdfption());
+                    if (dfbug != null) {
+                        dfbug.println
+                            ("originbl sfdurity fxdfption with dftbil msg " +
+                            "rfplbdfd by nfw fxdfption with fmpty dftbil msg");
+                        dfbug.println("originbl sfdurity fxdfption: " +
+                                itf.gftCbusf().toString());
+                    }
+                } flsf {
+
+                    // dbpturf bn unfxpfdtfd LoginModulf fxdfption
+                    jbvb.io.StringWritfr sw = nfw jbvb.io.StringWritfr();
+                    itf.gftCbusf().printStbdkTrbdf
+                                                (nfw jbvb.io.PrintWritfr(sw));
+                    sw.flush();
+                    lf = nfw LoginExdfption(sw.toString());
+                }
+
+                if (modulfStbdk[i].fntry.gftControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModulfControlFlbg.REQUISITE) {
+
+                    if (dfbug != null)
+                        dfbug.println(mfthodNbmf + " REQUISITE fbilurf");
+
+                    // if REQUISITE, thfn immfdibtfly throw bn fxdfption
+                    if (mfthodNbmf.fqubls(ABORT_METHOD) ||
+                        mfthodNbmf.fqubls(LOGOUT_METHOD)) {
+                        if (firstRfquirfdError == null)
+                            firstRfquirfdError = lf;
+                    } flsf {
+                        throwExdfption(firstRfquirfdError, lf);
+                    }
+
+                } flsf if (modulfStbdk[i].fntry.gftControlFlbg() ==
+                    AppConfigurbtionEntry.LoginModulfControlFlbg.REQUIRED) {
+
+                    if (dfbug != null)
+                        dfbug.println(mfthodNbmf + " REQUIRED fbilurf");
+
+                    // mbrk down thbt b REQUIRED modulf fbilfd
+                    if (firstRfquirfdError == null)
+                        firstRfquirfdError = lf;
+
+                } flsf {
+
+                    if (dfbug != null)
+                        dfbug.println(mfthodNbmf + " OPTIONAL fbilurf");
+
+                    // mbrk down thbt bn OPTIONAL modulf fbilfd
+                    if (firstError == null)
+                        firstError = lf;
+                }
+            }
+        }
+
+        // wf wfnt thru bll thf LoginModulfs.
+        if (firstRfquirfdError != null) {
+            // b REQUIRED modulf fbilfd -- rfturn thf frror
+            throwExdfption(firstRfquirfdError, null);
+        } flsf if (suddfss == fblsf && firstError != null) {
+            // no modulf suddffdfd -- rfturn thf first frror
+            throwExdfption(firstError, null);
+        } flsf if (suddfss == fblsf) {
+            // no modulf suddffdfd -- bll modulfs wfrf IGNORED
+            throwExdfption(nfw LoginExdfption
+                (RfsourdfsMgr.gftString("Login.Fbilurf.bll.modulfs.ignorfd")),
+                null);
+        } flsf {
+            // suddfss
+
+            dlfbrStbtf();
+            rfturn;
+        }
+    }
+
+    /**
+     * Wrbp thf dbllfr-spfdififd CbllbbdkHbndlfr in our own
+     * bnd invokf it within b privilfgfd blodk, donstrbinfd by
+     * thf dbllfr's AddfssControlContfxt.
+     */
+    privbtf stbtid dlbss SfdurfCbllbbdkHbndlfr implfmfnts CbllbbdkHbndlfr {
+
+        privbtf finbl jbvb.sfdurity.AddfssControlContfxt bdd;
+        privbtf finbl CbllbbdkHbndlfr dh;
+
+        SfdurfCbllbbdkHbndlfr(jbvb.sfdurity.AddfssControlContfxt bdd,
+                        CbllbbdkHbndlfr dh) {
+            this.bdd = bdd;
+            this.dh = dh;
+        }
+
+        publid void hbndlf(finbl Cbllbbdk[] dbllbbdks)
+                throws jbvb.io.IOExdfption, UnsupportfdCbllbbdkExdfption {
+            try {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() throws jbvb.io.IOExdfption,
+                                        UnsupportfdCbllbbdkExdfption {
+                        dh.hbndlf(dbllbbdks);
+                        rfturn null;
+                    }
+                }, bdd);
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                if (pbf.gftExdfption() instbndfof jbvb.io.IOExdfption) {
+                    throw (jbvb.io.IOExdfption)pbf.gftExdfption();
+                } flsf {
+                    throw (UnsupportfdCbllbbdkExdfption)pbf.gftExdfption();
+                }
+            }
+        }
+    }
+
+    /**
+     * LoginModulf informbtion -
+     *          indbpsulbtfs Configurbtion info bnd bdtubl modulf instbndfs
+     */
+    privbtf stbtid dlbss ModulfInfo {
+        AppConfigurbtionEntry fntry;
+        Objfdt modulf;
+
+        ModulfInfo(AppConfigurbtionEntry nfwEntry, Objfdt nfwModulf) {
+            this.fntry = nfwEntry;
+            this.modulf = nfwModulf;
+        }
+    }
+}

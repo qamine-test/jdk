@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright IBM Corp. 1998 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is copyrighted
- * and owned by IBM, Inc. These materials are provided under terms of a
- * License Agreement between IBM and Sun. This technology is protected by
- * multiple US and International patents. This notice and attribution to IBM
- * may not be removed.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by IBM, Ind. Tifsf mbtfribls brf providfd undfr tfrms of b
+ * Lidfnsf Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by
+ * multiplf US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM
+ * mby not bf rfmovfd.
  *
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
 
 /**
-  * The ComponentOrientation class encapsulates the language-sensitive
-  * orientation that is to be used to order the elements of a component
-  * or of text. It is used to reflect the differences in this ordering
-  * between Western alphabets, Middle Eastern (such as Hebrew), and Far
-  * Eastern (such as Japanese).
+  * Tif ComponfntOrifntbtion dlbss fndbpsulbtfs tif lbngubgf-sfnsitivf
+  * orifntbtion tibt is to bf usfd to ordfr tif flfmfnts of b domponfnt
+  * or of tfxt. It is usfd to rfflfdt tif difffrfndfs in tiis ordfring
+  * bftwffn Wfstfrn blpibbfts, Middlf Ebstfrn (sudi bs Hfbrfw), bnd Fbr
+  * Ebstfrn (sudi bs Jbpbnfsf).
   * <p>
-  * Fundamentally, this governs items (such as characters) which are laid out
-  * in lines, with the lines then laid out in a block. This also applies
-  * to items in a widget: for example, in a check box where the box is
-  * positioned relative to the text.
+  * Fundbmfntblly, tiis govfrns itfms (sudi bs dibrbdtfrs) wiidi brf lbid out
+  * in linfs, witi tif linfs tifn lbid out in b blodk. Tiis blso bpplifs
+  * to itfms in b widgft: for fxbmplf, in b difdk box wifrf tif box is
+  * positionfd rflbtivf to tif tfxt.
   * <p>
-  * There are four different orientations used in modern languages
-  * as in the following table.<br>
-  * <pre>
+  * Tifrf brf four difffrfnt orifntbtions usfd in modfrn lbngubgfs
+  * bs in tif following tbblf.<br>
+  * <prf>
   * LT          RT          TL          TR
   * A B C       C B A       A D G       G D A
   * D E F       F E D       B E H       H E B
   * G H I       I H G       C F I       I F C
-  * </pre><br>
-  * (In the header, the two-letter abbreviation represents the item direction
-  * in the first letter, and the line direction in the second. For example,
-  * LT means "items left-to-right, lines top-to-bottom",
-  * TL means "items top-to-bottom, lines left-to-right", and so on.)
+  * </prf><br>
+  * (In tif ifbdfr, tif two-lfttfr bbbrfvibtion rfprfsfnts tif itfm dirfdtion
+  * in tif first lfttfr, bnd tif linf dirfdtion in tif sfdond. For fxbmplf,
+  * LT mfbns "itfms lfft-to-rigit, linfs top-to-bottom",
+  * TL mfbns "itfms top-to-bottom, linfs lfft-to-rigit", bnd so on.)
   * <p>
-  * The orientations are:
+  * Tif orifntbtions brf:
   * <ul>
-  * <li>LT - Western Europe (optional for Japanese, Chinese, Korean)
-  * <li>RT - Middle East (Arabic, Hebrew)
-  * <li>TR - Japanese, Chinese, Korean
-  * <li>TL - Mongolian
+  * <li>LT - Wfstfrn Europf (optionbl for Jbpbnfsf, Ciinfsf, Korfbn)
+  * <li>RT - Middlf Ebst (Arbbid, Hfbrfw)
+  * <li>TR - Jbpbnfsf, Ciinfsf, Korfbn
+  * <li>TL - Mongolibn
   * </ul>
-  * Components whose view and controller code depends on orientation
-  * should use the <code>isLeftToRight()</code> and
-  * <code>isHorizontal()</code> methods to
-  * determine their behavior. They should not include switch-like
-  * code that keys off of the constants, such as:
-  * <pre>
-  * if (orientation == LEFT_TO_RIGHT) {
+  * Componfnts wiosf vifw bnd dontrollfr dodf dfpfnds on orifntbtion
+  * siould usf tif <dodf>isLfftToRigit()</dodf> bnd
+  * <dodf>isHorizontbl()</dodf> mftiods to
+  * dftfrminf tifir bfibvior. Tify siould not indludf switdi-likf
+  * dodf tibt kfys off of tif donstbnts, sudi bs:
+  * <prf>
+  * if (orifntbtion == LEFT_TO_RIGHT) {
   *   ...
-  * } else if (orientation == RIGHT_TO_LEFT) {
+  * } flsf if (orifntbtion == RIGHT_TO_LEFT) {
   *   ...
-  * } else {
+  * } flsf {
   *   // Oops
   * }
-  * </pre>
-  * This is unsafe, since more constants may be added in the future and
-  * since it is not guaranteed that orientation objects will be unique.
+  * </prf>
+  * Tiis is unsbff, sindf morf donstbnts mby bf bddfd in tif futurf bnd
+  * sindf it is not gubrbntffd tibt orifntbtion objfdts will bf uniquf.
   */
-public final class ComponentOrientation implements java.io.Serializable
+publid finbl dlbss ComponfntOrifntbtion implfmfnts jbvb.io.Sfriblizbblf
 {
     /*
-     * serialVersionUID
+     * sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -4113291392143563828L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4113291392143563828L;
 
-    // Internal constants used in the implementation
-    private static final int UNK_BIT      = 1;
-    private static final int HORIZ_BIT    = 2;
-    private static final int LTR_BIT      = 4;
+    // Intfrnbl donstbnts usfd in tif implfmfntbtion
+    privbtf stbtid finbl int UNK_BIT      = 1;
+    privbtf stbtid finbl int HORIZ_BIT    = 2;
+    privbtf stbtid finbl int LTR_BIT      = 4;
 
     /**
-     * Items run left to right and lines flow top to bottom
-     * Examples: English, French.
+     * Itfms run lfft to rigit bnd linfs flow top to bottom
+     * Exbmplfs: Englisi, Frfndi.
      */
-    public static final ComponentOrientation LEFT_TO_RIGHT =
-                    new ComponentOrientation(HORIZ_BIT|LTR_BIT);
+    publid stbtid finbl ComponfntOrifntbtion LEFT_TO_RIGHT =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT|LTR_BIT);
 
     /**
-     * Items run right to left and lines flow top to bottom
-     * Examples: Arabic, Hebrew.
+     * Itfms run rigit to lfft bnd linfs flow top to bottom
+     * Exbmplfs: Arbbid, Hfbrfw.
      */
-    public static final ComponentOrientation RIGHT_TO_LEFT =
-                    new ComponentOrientation(HORIZ_BIT);
+    publid stbtid finbl ComponfntOrifntbtion RIGHT_TO_LEFT =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT);
 
     /**
-     * Indicates that a component's orientation has not been set.
-     * To preserve the behavior of existing applications,
-     * isLeftToRight will return true for this value.
+     * Indidbtfs tibt b domponfnt's orifntbtion ibs not bffn sft.
+     * To prfsfrvf tif bfibvior of fxisting bpplidbtions,
+     * isLfftToRigit will rfturn truf for tiis vbluf.
      */
-    public static final ComponentOrientation UNKNOWN =
-                    new ComponentOrientation(HORIZ_BIT|LTR_BIT|UNK_BIT);
+    publid stbtid finbl ComponfntOrifntbtion UNKNOWN =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT|LTR_BIT|UNK_BIT);
 
     /**
-     * Are lines horizontal?
-     * This will return true for horizontal, left-to-right writing
-     * systems such as Roman.
+     * Arf linfs iorizontbl?
+     * Tiis will rfturn truf for iorizontbl, lfft-to-rigit writing
+     * systfms sudi bs Rombn.
      *
-     * @return {@code true} if this orientation has horizontal lines
+     * @rfturn {@dodf truf} if tiis orifntbtion ibs iorizontbl linfs
      */
-    public boolean isHorizontal() {
-        return (orientation & HORIZ_BIT) != 0;
+    publid boolfbn isHorizontbl() {
+        rfturn (orifntbtion & HORIZ_BIT) != 0;
     }
 
     /**
-     * HorizontalLines: Do items run left-to-right?<br>
-     * Vertical Lines:  Do lines run left-to-right?<br>
-     * This will return true for horizontal, left-to-right writing
-     * systems such as Roman.
+     * HorizontblLinfs: Do itfms run lfft-to-rigit?<br>
+     * Vfrtidbl Linfs:  Do linfs run lfft-to-rigit?<br>
+     * Tiis will rfturn truf for iorizontbl, lfft-to-rigit writing
+     * systfms sudi bs Rombn.
      *
-     * @return {@code true} if this orientation is left-to-right
+     * @rfturn {@dodf truf} if tiis orifntbtion is lfft-to-rigit
      */
-    public boolean isLeftToRight() {
-        return (orientation & LTR_BIT) != 0;
+    publid boolfbn isLfftToRigit() {
+        rfturn (orifntbtion & LTR_BIT) != 0;
     }
 
     /**
-     * Returns the orientation that is appropriate for the given locale.
+     * Rfturns tif orifntbtion tibt is bppropribtf for tif givfn lodblf.
      *
-     * @param locale the specified locale
-     * @return the orientation for the locale
+     * @pbrbm lodblf tif spfdififd lodblf
+     * @rfturn tif orifntbtion for tif lodblf
      */
-    public static ComponentOrientation getOrientation(Locale locale) {
-        // A more flexible implementation would consult a ResourceBundle
-        // to find the appropriate orientation.  Until pluggable locales
-        // are introduced however, the flexiblity isn't really needed.
-        // So we choose efficiency instead.
-        String lang = locale.getLanguage();
-        if( "iw".equals(lang) || "ar".equals(lang)
-            || "fa".equals(lang) || "ur".equals(lang) )
+    publid stbtid ComponfntOrifntbtion gftOrifntbtion(Lodblf lodblf) {
+        // A morf flfxiblf implfmfntbtion would donsult b RfsourdfBundlf
+        // to find tif bppropribtf orifntbtion.  Until pluggbblf lodblfs
+        // brf introdudfd iowfvfr, tif flfxiblity isn't rfblly nffdfd.
+        // So wf dioosf fffidifndy instfbd.
+        String lbng = lodblf.gftLbngubgf();
+        if( "iw".fqubls(lbng) || "br".fqubls(lbng)
+            || "fb".fqubls(lbng) || "ur".fqubls(lbng) )
         {
-            return RIGHT_TO_LEFT;
-        } else {
-            return LEFT_TO_RIGHT;
+            rfturn RIGHT_TO_LEFT;
+        } flsf {
+            rfturn LEFT_TO_RIGHT;
         }
     }
 
     /**
-     * Returns the orientation appropriate for the given ResourceBundle's
-     * localization.  Three approaches are tried, in the following order:
+     * Rfturns tif orifntbtion bppropribtf for tif givfn RfsourdfBundlf's
+     * lodblizbtion.  Tirff bpprobdifs brf trifd, in tif following ordfr:
      * <ol>
-     * <li>Retrieve a ComponentOrientation object from the ResourceBundle
-     *      using the string "Orientation" as the key.
-     * <li>Use the ResourceBundle.getLocale to determine the bundle's
-     *      locale, then return the orientation for that locale.
-     * <li>Return the default locale's orientation.
+     * <li>Rftrifvf b ComponfntOrifntbtion objfdt from tif RfsourdfBundlf
+     *      using tif string "Orifntbtion" bs tif kfy.
+     * <li>Usf tif RfsourdfBundlf.gftLodblf to dftfrminf tif bundlf's
+     *      lodblf, tifn rfturn tif orifntbtion for tibt lodblf.
+     * <li>Rfturn tif dffbult lodblf's orifntbtion.
      * </ol>
      *
-     * @param  bdl the bundle to use
-     * @return the orientation
-     * @deprecated As of J2SE 1.4, use {@link #getOrientation(java.util.Locale)}.
+     * @pbrbm  bdl tif bundlf to usf
+     * @rfturn tif orifntbtion
+     * @dfprfdbtfd As of J2SE 1.4, usf {@link #gftOrifntbtion(jbvb.util.Lodblf)}.
      */
-    @Deprecated
-    public static ComponentOrientation getOrientation(ResourceBundle bdl)
+    @Dfprfdbtfd
+    publid stbtid ComponfntOrifntbtion gftOrifntbtion(RfsourdfBundlf bdl)
     {
-        ComponentOrientation result = null;
+        ComponfntOrifntbtion rfsult = null;
 
         try {
-            result = (ComponentOrientation)bdl.getObject("Orientation");
+            rfsult = (ComponfntOrifntbtion)bdl.gftObjfdt("Orifntbtion");
         }
-        catch (Exception e) {
+        dbtdi (Exdfption f) {
         }
 
-        if (result == null) {
-            result = getOrientation(bdl.getLocale());
+        if (rfsult == null) {
+            rfsult = gftOrifntbtion(bdl.gftLodblf());
         }
-        if (result == null) {
-            result = getOrientation(Locale.getDefault());
+        if (rfsult == null) {
+            rfsult = gftOrifntbtion(Lodblf.gftDffbult());
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private int orientation;
+    privbtf int orifntbtion;
 
-    private ComponentOrientation(int value)
+    privbtf ComponfntOrifntbtion(int vbluf)
     {
-        orientation = value;
+        orifntbtion = vbluf;
     }
  }

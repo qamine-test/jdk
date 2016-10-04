@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,334 +30,334 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import javax.management.InstanceNotFoundException;
-import javax.management.Notification;
-import junit.framework.*;
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.logging.Logger;
-import javax.management.AttributeChangeNotification;
-import javax.management.JMException;
-import javax.management.JMX;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import junit.frbmfwork.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.EnumSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
 
 /**
- * Unit tests for {@code ScanManager}
+ * Unit tfsts for {@dodf SdbnMbnbgfr}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public class ScanManagerTest extends TestCase {
+publid dlbss SdbnMbnbgfrTfst fxtfnds TfstCbsf {
 
-    public ScanManagerTest(String testName) {
-        super(testName);
+    publid SdbnMbnbgfrTfst(String tfstNbmf) {
+        supfr(tfstNbmf);
     }
 
-    protected void setUp() throws Exception {
+    protfdtfd void sftUp() tirows Exdfption {
     }
 
-    protected void tearDown() throws Exception {
+    protfdtfd void tfbrDown() tirows Exdfption {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ScanManagerTest.class);
+    publid stbtid Tfst suitf() {
+        TfstSuitf suitf = nfw TfstSuitf(SdbnMbnbgfrTfst.dlbss);
 
-        return suite;
-    }
-
-    /**
-     * Test of makeSingletonName method, of class com.sun.jmx.examples.scandir.ScanManager.
-     */
-    public void testMakeSingletonName() {
-        System.out.println("makeSingletonName");
-
-        Class clazz = ScanManagerMXBean.class;
-
-        ObjectName expResult = ScanManager.SCAN_MANAGER_NAME;
-        ObjectName result = ScanManager.makeSingletonName(clazz);
-        assertEquals(expResult, result);
-
+        rfturn suitf;
     }
 
     /**
-     * Test of register method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of mbkfSinglftonNbmf mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testRegister() throws Exception {
-        System.out.println("register");
+    publid void tfstMbkfSinglftonNbmf() {
+        Systfm.out.println("mbkfSinglftonNbmf");
 
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        Clbss dlbzz = SdbnMbnbgfrMXBfbn.dlbss;
+
+        ObjfdtNbmf fxpRfsult = SdbnMbnbgfr.SCAN_MANAGER_NAME;
+        ObjfdtNbmf rfsult = SdbnMbnbgfr.mbkfSinglftonNbmf(dlbzz);
+        bssfrtEqubls(fxpRfsult, rfsult);
+
+    }
+
+    /**
+     * Tfst of rfgistfr mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstRfgistfr() tirows Exdfption {
+        Systfm.out.println("rfgistfr");
+
+        MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
 
 
-        ScanManagerMXBean result = ScanManager.register(mbs);
+        SdbnMbnbgfrMXBfbn rfsult = SdbnMbnbgfr.rfgistfr(mbs);
         try {
-            assertEquals(STOPPED,result.getState());
-        } finally {
+            bssfrtEqubls(STOPPED,rfsult.gftStbtf());
+        } finblly {
             try {
-                mbs.unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                mbs.unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
 
     }
 
-    public interface Call {
-        public void call() throws Exception;
-        public void cancel() throws Exception;
+    publid intfrfbdf Cbll {
+        publid void dbll() tirows Exdfption;
+        publid void dbndfl() tirows Exdfption;
     }
 
     /**
-     * Test of addNotificationListener method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of bddNotifidbtionListfnfr mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testAddNotificationListener() throws Exception {
-        System.out.println("addNotificationListener");
+    publid void tfstAddNotifidbtionListfnfr() tirows Exdfption {
+        Systfm.out.println("bddNotifidbtionListfnfr");
 
-        final ScanManagerMXBean manager = ScanManager.register();
-        final Call op = new Call() {
-            public void call() throws Exception {
-                manager.schedule(100000,0);
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        finbl Cbll op = nfw Cbll() {
+            publid void dbll() tirows Exdfption {
+                mbnbgfr.sdifdulf(100000,0);
             }
-            public void cancel() throws Exception {
-                manager.stop();
+            publid void dbndfl() tirows Exdfption {
+                mbnbgfr.stop();
             }
         };
         try {
-            doTestOperation(manager,op,
-                            EnumSet.of(RUNNING,SCHEDULED),
-                            "schedule");
-        } finally {
+            doTfstOpfrbtion(mbnbgfr,op,
+                            EnumSft.of(RUNNING,SCHEDULED),
+                            "sdifdulf");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
     }
 
     /**
-     * Test of addNotificationListener method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of bddNotifidbtionListfnfr mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    private void doTestOperation(
-            ScanManagerMXBean proxy,
-            Call op,
-            EnumSet<ScanState> after,
-            String testName)
-        throws Exception {
-        System.out.println("doTestOperation: "+testName);
+    privbtf void doTfstOpfrbtion(
+            SdbnMbnbgfrMXBfbn proxy,
+            Cbll op,
+            EnumSft<SdbnStbtf> bftfr,
+            String tfstNbmf)
+        tirows Exdfption {
+        Systfm.out.println("doTfstOpfrbtion: "+tfstNbmf);
 
-        final LinkedBlockingQueue<Notification> queue =
-                new LinkedBlockingQueue<Notification>();
+        finbl LinkfdBlodkingQufuf<Notifidbtion> qufuf =
+                nfw LinkfdBlodkingQufuf<Notifidbtion>();
 
-        NotificationListener listener = new NotificationListener() {
-            public void handleNotification(Notification notification,
-                        Object handback) {
+        NotifidbtionListfnfr listfnfr = nfw NotifidbtionListfnfr() {
+            publid void ibndlfNotifidbtion(Notifidbtion notifidbtion,
+                        Objfdt ibndbbdk) {
                 try {
-                    queue.put(notification);
-                } catch (Exception x) {
-                    System.err.println("Failed to queue notif: "+x);
+                    qufuf.put(notifidbtion);
+                } dbtdi (Exdfption x) {
+                    Systfm.frr.println("Fbilfd to qufuf notif: "+x);
                 }
             }
         };
-        NotificationFilter filter = null;
-        Object handback = null;
-        final ScanState before;
-        final NotificationEmitter emitter = (NotificationEmitter)proxy;
-        emitter.addNotificationListener(listener, filter, handback);
-        before = proxy.getState();
-        op.call();
+        NotifidbtionFiltfr filtfr = null;
+        Objfdt ibndbbdk = null;
+        finbl SdbnStbtf bfforf;
+        finbl NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr)proxy;
+        fmittfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+        bfforf = proxy.gftStbtf();
+        op.dbll();
         try {
-            final Notification notification =
-                    queue.poll(3000,TimeUnit.MILLISECONDS);
-            assertEquals(AttributeChangeNotification.ATTRIBUTE_CHANGE,
-                    notification.getType());
-            assertEquals(AttributeChangeNotification.class,
-                    notification.getClass());
-            assertEquals(ScanManager.SCAN_MANAGER_NAME,
-                    notification.getSource());
-            AttributeChangeNotification acn =
-                    (AttributeChangeNotification)notification;
-            assertEquals("State",acn.getAttributeName());
-            assertEquals(ScanState.class.getName(),acn.getAttributeType());
-            assertEquals(before,ScanState.valueOf((String)acn.getOldValue()));
-            assertContained(after,ScanState.valueOf((String)acn.getNewValue()));
-            emitter.removeNotificationListener(listener,filter,handback);
-        } finally {
+            finbl Notifidbtion notifidbtion =
+                    qufuf.poll(3000,TimfUnit.MILLISECONDS);
+            bssfrtEqubls(AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE,
+                    notifidbtion.gftTypf());
+            bssfrtEqubls(AttributfCibngfNotifidbtion.dlbss,
+                    notifidbtion.gftClbss());
+            bssfrtEqubls(SdbnMbnbgfr.SCAN_MANAGER_NAME,
+                    notifidbtion.gftSourdf());
+            AttributfCibngfNotifidbtion bdn =
+                    (AttributfCibngfNotifidbtion)notifidbtion;
+            bssfrtEqubls("Stbtf",bdn.gftAttributfNbmf());
+            bssfrtEqubls(SdbnStbtf.dlbss.gftNbmf(),bdn.gftAttributfTypf());
+            bssfrtEqubls(bfforf,SdbnStbtf.vblufOf((String)bdn.gftOldVbluf()));
+            bssfrtContbinfd(bftfr,SdbnStbtf.vblufOf((String)bdn.gftNfwVbluf()));
+            fmittfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,ibndbbdk);
+        } finblly {
             try {
-                op.cancel();
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                op.dbndfl();
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
     }
 
     /**
-     * Test of preRegister method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of prfRfgistfr mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testPreRegister() throws Exception {
-        System.out.println("preRegister");
+    publid void tfstPrfRfgistfr() tirows Exdfption {
+        Systfm.out.println("prfRfgistfr");
 
-        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("DownUnder:type=Wombat");
-        ScanManager instance = new ScanManager();
+        MBfbnSfrvfr sfrvfr = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        ObjfdtNbmf nbmf = nfw ObjfdtNbmf("DownUndfr:typf=Wombbt");
+        SdbnMbnbgfr instbndf = nfw SdbnMbnbgfr();
 
-        ObjectName expResult = ScanManager.SCAN_MANAGER_NAME;
-        ObjectName result;
+        ObjfdtNbmf fxpRfsult = SdbnMbnbgfr.SCAN_MANAGER_NAME;
+        ObjfdtNbmf rfsult;
         try {
-            result = instance.preRegister(server, name);
-            throw new RuntimeException("bad name accepted!");
-        } catch (IllegalArgumentException x) {
+            rfsult = instbndf.prfRfgistfr(sfrvfr, nbmf);
+            tirow nfw RuntimfExdfption("bbd nbmf bddfptfd!");
+        } dbtdi (IllfgblArgumfntExdfption x) {
             // OK!
-            result = instance.preRegister(server, null);
+            rfsult = instbndf.prfRfgistfr(sfrvfr, null);
         }
-        assertEquals(expResult, result);
-        result = instance.preRegister(server, ScanManager.SCAN_MANAGER_NAME);
-        assertEquals(expResult, result);
+        bssfrtEqubls(fxpRfsult, rfsult);
+        rfsult = instbndf.prfRfgistfr(sfrvfr, SdbnMbnbgfr.SCAN_MANAGER_NAME);
+        bssfrtEqubls(fxpRfsult, rfsult);
     }
 
 
     /**
-     * Test of getState method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of gftStbtf mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testGetState() throws IOException, InstanceNotFoundException {
-        System.out.println("getState");
+    publid void tfstGftStbtf() tirows IOExdfption, InstbndfNotFoundExdfption {
+        Systfm.out.println("gftStbtf");
 
-        ScanManager instance = new ScanManager();
+        SdbnMbnbgfr instbndf = nfw SdbnMbnbgfr();
 
-        ScanState expResult = ScanState.STOPPED;
-        ScanState result = instance.getState();
-        assertEquals(expResult, result);
-        instance.start();
-        final ScanState afterStart = instance.getState();
-        assertContained(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),afterStart);
-        instance.stop();
-        assertEquals(STOPPED,instance.getState());
-        instance.schedule(1000000L,1000000L);
-        assertEquals(SCHEDULED,instance.getState());
-        instance.stop();
-        assertEquals(STOPPED,instance.getState());
+        SdbnStbtf fxpRfsult = SdbnStbtf.STOPPED;
+        SdbnStbtf rfsult = instbndf.gftStbtf();
+        bssfrtEqubls(fxpRfsult, rfsult);
+        instbndf.stbrt();
+        finbl SdbnStbtf bftfrStbrt = instbndf.gftStbtf();
+        bssfrtContbinfd(EnumSft.of(RUNNING,SCHEDULED,COMPLETED),bftfrStbrt);
+        instbndf.stop();
+        bssfrtEqubls(STOPPED,instbndf.gftStbtf());
+        instbndf.sdifdulf(1000000L,1000000L);
+        bssfrtEqubls(SCHEDULED,instbndf.gftStbtf());
+        instbndf.stop();
+        bssfrtEqubls(STOPPED,instbndf.gftStbtf());
     }
 
     /**
-     * Test of schedule method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of sdifdulf mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testSchedule() throws Exception {
-        System.out.println("schedule");
+    publid void tfstSdifdulf() tirows Exdfption {
+        Systfm.out.println("sdifdulf");
 
-        final long delay = 10000L;
-        final long interval = 10000L;
+        finbl long dflby = 10000L;
+        finbl long intfrvbl = 10000L;
 
-        final ScanManagerMXBean manager = ScanManager.register();
-        final Call op = new Call() {
-            public void call() throws Exception {
-                manager.schedule(delay,interval);
-                assertEquals(SCHEDULED,manager.getState());
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        finbl Cbll op = nfw Cbll() {
+            publid void dbll() tirows Exdfption {
+                mbnbgfr.sdifdulf(dflby,intfrvbl);
+                bssfrtEqubls(SCHEDULED,mbnbgfr.gftStbtf());
             }
-            public void cancel() throws Exception {
-                manager.stop();
+            publid void dbndfl() tirows Exdfption {
+                mbnbgfr.stop();
             }
         };
         try {
-            doTestOperation(manager,op,EnumSet.of(SCHEDULED),
-                    "schedule");
-        } finally {
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(SCHEDULED),
+                    "sdifdulf");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
     }
 
-    public static void assertContained(EnumSet<ScanState> allowed,
-            ScanState state) {
-         final String msg = String.valueOf(state) + " is not one of " + allowed;
-         assertTrue(msg,allowed.contains(state));
+    publid stbtid void bssfrtContbinfd(EnumSft<SdbnStbtf> bllowfd,
+            SdbnStbtf stbtf) {
+         finbl String msg = String.vblufOf(stbtf) + " is not onf of " + bllowfd;
+         bssfrtTruf(msg,bllowfd.dontbins(stbtf));
     }
 
     /**
-     * Test of stop method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of stop mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testStop() throws Exception {
-        System.out.println("stop");
-        final ScanManagerMXBean manager = ScanManager.register();
+    publid void tfstStop() tirows Exdfption {
+        Systfm.out.println("stop");
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
         try {
-            manager.schedule(1000000,0);
-            assertContained(EnumSet.of(SCHEDULED),manager.getState());
-            final Call op = new Call() {
-                public void call() throws Exception {
-                    manager.stop();
-                    assertEquals(STOPPED,manager.getState());
+            mbnbgfr.sdifdulf(1000000,0);
+            bssfrtContbinfd(EnumSft.of(SCHEDULED),mbnbgfr.gftStbtf());
+            finbl Cbll op = nfw Cbll() {
+                publid void dbll() tirows Exdfption {
+                    mbnbgfr.stop();
+                    bssfrtEqubls(STOPPED,mbnbgfr.gftStbtf());
                 }
-                public void cancel() throws Exception {
-                    if (manager.getState() != STOPPED)
-                        manager.stop();
+                publid void dbndfl() tirows Exdfption {
+                    if (mbnbgfr.gftStbtf() != STOPPED)
+                        mbnbgfr.stop();
                 }
             };
-            doTestOperation(manager,op,EnumSet.of(STOPPED),"stop");
-        } finally {
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(STOPPED),"stop");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
     }
 
     /**
-     * Test of start method, of class com.sun.jmx.examples.scandir.ScanManager.
+     * Tfst of stbrt mftiod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
      */
-    public void testStart() throws Exception {
-        final ScanManagerMXBean manager = ScanManager.register();
+    publid void tfstStbrt() tirows Exdfption {
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
         try {
-            final Call op = new Call() {
-                public void call() throws Exception {
-                    assertEquals(STOPPED,manager.getState());
-                    manager.start();
-                    assertContained(EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
-                            manager.getState());
+            finbl Cbll op = nfw Cbll() {
+                publid void dbll() tirows Exdfption {
+                    bssfrtEqubls(STOPPED,mbnbgfr.gftStbtf());
+                    mbnbgfr.stbrt();
+                    bssfrtContbinfd(EnumSft.of(RUNNING,SCHEDULED,COMPLETED),
+                            mbnbgfr.gftStbtf());
                 }
-                public void cancel() throws Exception {
-                    manager.stop();
+                publid void dbndfl() tirows Exdfption {
+                    mbnbgfr.stop();
                 }
             };
-            doTestOperation(manager,op,EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
-                    "start");
-        } finally {
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(RUNNING,SCHEDULED,COMPLETED),
+                    "stbrt");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdi (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
             }
         }
     }

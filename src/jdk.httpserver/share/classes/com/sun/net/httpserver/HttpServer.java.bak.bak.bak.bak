@@ -1,0 +1,255 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.nft.ssl.*;
+import dom.sun.nft.httpsfrvfr.spi.HttpSfrvfrProvidfr;
+
+/**
+ * This dlbss implfmfnts b simplf HTTP sfrvfr. A HttpSfrvfr is bound to bn IP bddrfss
+ * bnd port numbfr bnd listfns for indoming TCP donnfdtions from dlifnts on this bddrfss.
+ * Thf sub-dlbss {@link HttpsSfrvfr} implfmfnts b sfrvfr whidh hbndlfs HTTPS rfqufsts.
+ * <p>
+ * Onf or morf {@link HttpHbndlfr} objfdts must bf bssodibtfd with b sfrvfr
+ * in ordfr to prodfss rfqufsts. Ebdh sudh HttpHbndlfr is rfgistfrfd
+ * with b root URI pbth whidh rfprfsfnts thf
+ * lodbtion of thf bpplidbtion or sfrvidf on this sfrvfr. Thf mbpping of b hbndlfr
+ * to b HttpSfrvfr is fndbpsulbtfd by b {@link HttpContfxt} objfdt. HttpContfxts
+ * brf drfbtfd by dblling {@link #drfbtfContfxt(String,HttpHbndlfr)}.
+ * Any rfqufst for whidh no hbndlfr dbn bf found is rfjfdtfd with b 404 rfsponsf.
+ * Mbnbgfmfnt of thrfbds dbn bf donf fxtfrnbl to this objfdt by providing b
+ * {@link jbvb.util.dondurrfnt.Exfdutor} objfdt. If nonf is providfd b dffbult
+ * implfmfntbtion is usfd.
+ * <p>
+ * <b nbmf="mbpping_dfsdription"></b>
+ * <b>Mbpping rfqufst URIs to HttpContfxt pbths</b><p>
+ * Whfn b HTTP rfqufst is rfdfivfd,
+ * thf bppropribtf HttpContfxt (bnd hbndlfr) is lodbtfd by finding thf dontfxt
+ * whosf pbth is thf longfst mbtdhing prffix of thf rfqufst URI's pbth.
+ * Pbths brf mbtdhfd litfrblly, whidh mfbns thbt thf strings brf dompbrfd
+ * dbsf sfnsitivfly, bnd with no donvfrsion to or from bny fndodfd forms.
+ * For fxbmplf. Givfn b HttpSfrvfr with thf following HttpContfxts donfigurfd.<p>
+ * <tbblf >
+ * <tr><td><i>Contfxt</i></td><td><i>Contfxt pbth</i></td></tr>
+ * <tr><td>dtx1</td><td>"/"</td></tr>
+ * <tr><td>dtx2</td><td>"/bpps/"</td></tr>
+ * <tr><td>dtx3</td><td>"/bpps/foo/"</td></tr>
+ * </tbblf>
+ * <p>
+ * thf following tbblf shows somf rfqufst URIs bnd whidh, if bny dontfxt thfy would
+ * mbtdh with.<p>
+ * <tbblf>
+ * <tr><td><i>Rfqufst URI</i></td><td><i>Mbtdhfs dontfxt</i></td></tr>
+ * <tr><td>"http://foo.dom/bpps/foo/bbr"</td><td>dtx3</td></tr>
+ * <tr><td>"http://foo.dom/bpps/Foo/bbr"</td><td>no mbtdh, wrong dbsf</td></tr>
+ * <tr><td>"http://foo.dom/bpps/bpp1"</td><td>dtx2</td></tr>
+ * <tr><td>"http://foo.dom/foo"</td><td>dtx1</td></tr>
+ * </tbblf>
+ * <p>
+ * <b>Notf bbout sodkft bbdklogs</b><p>
+ * Whfn binding to bn bddrfss bnd port numbfr, thf bpplidbtion dbn blso spfdify bn intfgfr
+ * <i>bbdklog</i> pbrbmftfr. This rfprfsfnts thf mbximum numbfr of indoming TCP donnfdtions
+ * whidh thf systfm will qufuf intfrnblly. Connfdtions brf qufufd whilf thfy brf wbiting to
+ * bf bddfptfd by thf HttpSfrvfr. Whfn thf limit is rfbdhfd, furthfr donnfdtions mby bf
+ * rfjfdtfd (or possibly ignorfd) by thf undfrlying TCP implfmfntbtion. Sftting thf right
+ * bbdklog vbluf is b dompromisf bftwffn fffidifnt rfsourdf usbgf in thf TCP lbyfr (not sftting
+ * it too high) bnd bllowing bdfqubtf throughput of indoming rfqufsts (not sftting it too low).
+ * @sindf 1.6
+ */
+
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpSfrvfr {
+
+    /**
+     */
+    protfdtfd HttpSfrvfr () {
+    }
+
+    /**
+     * drfbtfs b HttpSfrvfr instbndf whidh is initiblly not bound to bny lodbl bddrfss/port.
+     * Thf HttpSfrvfr is bdquirfd from thf durrfntly instbllfd {@link HttpSfrvfrProvidfr}
+     * Thf sfrvfr must bf bound using {@link #bind(InftSodkftAddrfss,int)} bfforf it dbn bf usfd.
+     * @throws IOExdfption
+     */
+    publid stbtid HttpSfrvfr drfbtf () throws IOExdfption {
+        rfturn drfbtf (null, 0);
+    }
+
+    /**
+     * Crfbtf b <dodf>HttpSfrvfr</dodf> instbndf whidh will bind to thf
+     * spfdififd {@link jbvb.nft.InftSodkftAddrfss} (IP bddrfss bnd port numbfr)
+     *
+     * A mbximum bbdklog dbn blso bf spfdififd. This is thf mbximum numbfr of
+     * qufufd indoming donnfdtions to bllow on thf listfning sodkft.
+     * Qufufd TCP donnfdtions fxdffding this limit mby bf rfjfdtfd by thf TCP implfmfntbtion.
+     * Thf HttpSfrvfr is bdquirfd from thf durrfntly instbllfd {@link HttpSfrvfrProvidfr}
+     *
+     * @pbrbm bddr thf bddrfss to listfn on, if <dodf>null</dodf> thfn bind() must bf dbllfd
+     *  to sft thf bddrfss
+     * @pbrbm bbdklog thf sodkft bbdklog. If this vbluf is lfss thbn or fqubl to zfro,
+     *          thfn b systfm dffbult vbluf is usfd.
+     * @throws BindExdfption if thf sfrvfr dbnnot bind to thf rfqufstfd bddrfss,
+     *          or if thf sfrvfr is blrfbdy bound.
+     * @throws IOExdfption
+     */
+
+    publid stbtid HttpSfrvfr drfbtf (
+        InftSodkftAddrfss bddr, int bbdklog
+    ) throws IOExdfption {
+        HttpSfrvfrProvidfr providfr = HttpSfrvfrProvidfr.providfr();
+        rfturn providfr.drfbtfHttpSfrvfr (bddr, bbdklog);
+    }
+
+    /**
+     * Binds b durrfntly unbound HttpSfrvfr to thf givfn bddrfss bnd port numbfr.
+     * A mbximum bbdklog dbn blso bf spfdififd. This is thf mbximum numbfr of
+     * qufufd indoming donnfdtions to bllow on thf listfning sodkft.
+     * Qufufd TCP donnfdtions fxdffding this limit mby bf rfjfdtfd by thf TCP implfmfntbtion.
+     * @pbrbm bddr thf bddrfss to listfn on
+     * @pbrbm bbdklog thf sodkft bbdklog. If this vbluf is lfss thbn or fqubl to zfro,
+     *          thfn b systfm dffbult vbluf is usfd.
+     * @throws BindExdfption if thf sfrvfr dbnnot bind to thf rfqufstfd bddrfss or if thf sfrvfr
+     *          is blrfbdy bound.
+     * @throws NullPointfrExdfption if bddr is <dodf>null</dodf>
+     */
+    publid bbstrbdt void bind (InftSodkftAddrfss bddr, int bbdklog) throws IOExdfption;
+
+    /**
+     * Stbrts this sfrvfr in b nfw bbdkground thrfbd. Thf bbdkground thrfbd
+     * inhfrits thf priority, thrfbd group bnd dontfxt dlbss lobdfr
+     * of thf dbllfr.
+     */
+    publid bbstrbdt void stbrt () ;
+
+    /**
+     * sfts this sfrvfr's {@link jbvb.util.dondurrfnt.Exfdutor} objfdt. An
+     * Exfdutor must bf fstbblishfd bfforf {@link #stbrt()} is dbllfd.
+     * All HTTP rfqufsts brf hbndlfd in tbsks givfn to thf fxfdutor.
+     * If this mfthod is not dbllfd (bfforf stbrt()) or if it is
+     * dbllfd with b <dodf>null</dodf> Exfdutor, thfn
+     * b dffbult implfmfntbtion is usfd, whidh usfs thf thrfbd
+     * whidh wbs drfbtfd by thf {@link #stbrt()} mfthod.
+     * @pbrbm fxfdutor thf Exfdutor to sft, or <dodf>null</dodf> for  dffbult
+     *          implfmfntbtion
+     * @throws IllfgblStbtfExdfption if thf sfrvfr is blrfbdy stbrtfd
+     */
+    publid bbstrbdt void sftExfdutor (Exfdutor fxfdutor);
+
+
+    /**
+     * rfturns this sfrvfr's Exfdutor objfdt if onf wbs spfdififd with
+     * {@link #sftExfdutor(Exfdutor)}, or <dodf>null</dodf> if nonf wbs
+     * spfdififd.
+     * @rfturn thf Exfdutor fstbblishfd for this sfrvfr or <dodf>null</dodf> if not sft.
+     */
+    publid bbstrbdt Exfdutor gftExfdutor () ;
+
+    /**
+     * stops this sfrvfr by dlosing thf listfning sodkft bnd disbllowing
+     * bny nfw fxdhbngfs from bfing prodfssfd. Thf mfthod will thfn blodk
+     * until bll durrfnt fxdhbngf hbndlfrs hbvf domplftfd or flsf whfn
+     * bpproximbtfly <i>dflby</i> sfdonds hbvf flbpsfd (whidhfvfr hbppfns
+     * soonfr). Thfn, bll opfn TCP donnfdtions brf dlosfd, thf bbdkground
+     * thrfbd drfbtfd by stbrt() fxits, bnd thf mfthod rfturns.
+     * Ondf stoppfd, b HttpSfrvfr dbnnot bf rf-usfd. <p>
+     *
+     * @pbrbm dflby thf mbximum timf in sfdonds to wbit until fxdhbngfs hbvf finishfd.
+     * @throws IllfgblArgumfntExdfption if dflby is lfss thbn zfro.
+     */
+    publid bbstrbdt void stop (int dflby);
+
+    /**
+     * Crfbtfs b HttpContfxt. A HttpContfxt rfprfsfnts b mbpping from b
+     * URI pbth to b fxdhbngf hbndlfr on this HttpSfrvfr. Ondf drfbtfd, bll rfqufsts
+     * rfdfivfd by thf sfrvfr for thf pbth will bf hbndlfd by dblling
+     * thf givfn hbndlfr objfdt. Thf dontfxt is idfntififd by thf pbth, bnd
+     * dbn lbtfr bf rfmovfd from thf sfrvfr using this with thf {@link #rfmovfContfxt(String)} mfthod.
+     * <p>
+     * Thf pbth spfdififs thf root URI pbth for this dontfxt. Thf first dhbrbdtfr of pbth must bf
+     * '/'. <p>
+     * Thf dlbss ovfrvifw dfsdribfs how indoming rfqufst URIs brf <b hrff="#mbpping_dfsdription">mbppfd</b>
+     * to HttpContfxt instbndfs.
+     * @pbrbm pbth thf root URI pbth to bssodibtf thf dontfxt with
+     * @pbrbm hbndlfr thf hbndlfr to invokf for indoming rfqufsts.
+     * @throws IllfgblArgumfntExdfption if pbth is invblid, or if b dontfxt
+     *          blrfbdy fxists for this pbth
+     * @throws NullPointfrExdfption if fithfr pbth, or hbndlfr brf <dodf>null</dodf>
+     */
+    publid bbstrbdt HttpContfxt drfbtfContfxt (String pbth, HttpHbndlfr hbndlfr) ;
+
+    /**
+     * Crfbtfs b HttpContfxt without initiblly spfdifying b hbndlfr. Thf hbndlfr must lbtfr bf spfdififd using
+     * {@link HttpContfxt#sftHbndlfr(HttpHbndlfr)}.  A HttpContfxt rfprfsfnts b mbpping from b
+     * URI pbth to bn fxdhbngf hbndlfr on this HttpSfrvfr. Ondf drfbtfd, bnd whfn
+     * thf hbndlfr hbs bffn sft, bll rfqufsts
+     * rfdfivfd by thf sfrvfr for thf pbth will bf hbndlfd by dblling
+     * thf hbndlfr objfdt. Thf dontfxt is idfntififd by thf pbth, bnd
+     * dbn lbtfr bf rfmovfd from thf sfrvfr using this with thf {@link #rfmovfContfxt(String)} mfthod.
+     * <p>
+     * Thf pbth spfdififs thf root URI pbth for this dontfxt. Thf first dhbrbdtfr of pbth must bf
+     * '/'. <p>
+     * Thf dlbss ovfrvifw dfsdribfs how indoming rfqufst URIs brf <b hrff="#mbpping_dfsdription">mbppfd</b>
+     * to HttpContfxt instbndfs.
+     * @pbrbm pbth thf root URI pbth to bssodibtf thf dontfxt with
+     * @throws IllfgblArgumfntExdfption if pbth is invblid, or if b dontfxt
+     *          blrfbdy fxists for this pbth
+     * @throws NullPointfrExdfption if pbth is <dodf>null</dodf>
+     */
+    publid bbstrbdt HttpContfxt drfbtfContfxt (String pbth) ;
+
+    /**
+     * Rfmovfs thf dontfxt idfntififd by thf givfn pbth from thf sfrvfr.
+     * Rfmoving b dontfxt dofs not bfffdt fxdhbngfs durrfntly bfing prodfssfd
+     * but prfvfnts nfw onfs from bfing bddfptfd.
+     * @pbrbm pbth thf pbth of thf hbndlfr to rfmovf
+     * @throws IllfgblArgumfntExdfption if no hbndlfr dorrfsponding to this
+     *          pbth fxists.
+     * @throws NullPointfrExdfption if pbth is <dodf>null</dodf>
+     */
+    publid bbstrbdt void rfmovfContfxt (String pbth) throws IllfgblArgumfntExdfption ;
+
+    /**
+     * Rfmovfs thf givfn dontfxt from thf sfrvfr.
+     * Rfmoving b dontfxt dofs not bfffdt fxdhbngfs durrfntly bfing prodfssfd
+     * but prfvfnts nfw onfs from bfing bddfptfd.
+     * @pbrbm dontfxt thf dontfxt to rfmovf
+     * @throws NullPointfrExdfption if dontfxt is <dodf>null</dodf>
+     */
+    publid bbstrbdt void rfmovfContfxt (HttpContfxt dontfxt) ;
+
+    /**
+     * rfturns thf bddrfss this sfrvfr is listfning on
+     * @rfturn thf bddrfss/port numbfr thf sfrvfr is listfning on
+     */
+    publid bbstrbdt InftSodkftAddrfss gftAddrfss() ;
+}

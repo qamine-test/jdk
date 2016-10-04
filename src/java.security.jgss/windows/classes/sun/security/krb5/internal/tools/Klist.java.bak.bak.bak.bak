@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.tools;
+
+import jbvb.nft.InftAddrfss;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.*;
+import sun.sfdurity.krb5.intfrnbl.ktbb.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.ETypf;
+
+/**
+ * This dlbss dbn fxfdutf bs b dommbnd-linf tool to list fntrifs in
+ * drfdfntibl dbdhf bnd kfy tbb.
+ *
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
+ */
+publid dlbss Klist {
+    Objfdt tbrgft;
+    // for drfdfntibls dbdhf, options brf 'f', 'f', 'b' bnd 'n';
+    // for  kfytbb, optionsbrf 't' bnd 'K' bnd 'f'
+    dhbr[] options = nfw dhbr[4];
+    String nbmf;       // thf nbmf of drfdfntibls dbdhf bnd kfytbblf.
+    dhbr bdtion;       // bdtions would bf 'd' for drfdfntibls dbdhf
+    // bnd 'k' for kfytbblf.
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+
+    /**
+     * Thf mbin progrbm thbt dbn bf invokfd bt dommbnd linf.
+     * <br>Usbgf: klist
+     * [[-d] [-f] [-f] [-b [-n]]] [-k [-t] [-K]] [nbmf]
+     * -d spfdififs thbt drfdfntibl dbdhf is to bf listfd
+     * -k spfdififs thbt kfy tbb is to bf listfd
+     * nbmf nbmf of thf drfdfntibls dbdhf or kfytbb
+     * <br>bvbilbblf options for drfdfntibl dbdhfs:
+     * <ul>
+     * <li><b>-f</b>  shows drfdfntibls flbgs
+     * <li><b>-f</b>  shows thf fndryption typf
+     * <li><b>-b</b>  shows bddrfssfs
+     * <li><b>-n</b>  do not rfvfrsf-rfsolvf bddrfssfs
+     * </ul>
+     * bvbilbblf options for kfytbbs:
+     * <li><b>-t</b> shows kfytbb fntry timfstbmps
+     * <li><b>-K</b> shows kfytbb fntry DES kfys
+     */
+    publid stbtid void mbin(String[] brgs) {
+        Klist klist = nfw Klist();
+        if ((brgs == null) || (brgs.lfngth == 0)) {
+            klist.bdtion = 'd'; // dffbult will list dffbult drfdfntibls dbdhf.
+        } flsf {
+            klist.prodfssArgs(brgs);
+        }
+        switdh (klist.bdtion) {
+        dbsf 'd':
+            if (klist.nbmf == null) {
+                klist.tbrgft = CrfdfntiblsCbdhf.gftInstbndf();
+                klist.nbmf = CrfdfntiblsCbdhf.dbdhfNbmf();
+            } flsf
+                klist.tbrgft = CrfdfntiblsCbdhf.gftInstbndf(klist.nbmf);
+
+            if (klist.tbrgft != null)  {
+                klist.displbyCbdhf();
+            } flsf {
+                klist.displbyMfssbgf("Crfdfntibls dbdhf");
+                Systfm.fxit(-1);
+            }
+            brfbk;
+        dbsf 'k':
+            KfyTbb ktbb = KfyTbb.gftInstbndf(klist.nbmf);
+            if (ktbb.isMissing()) {
+                Systfm.out.println("KfyTbb " + klist.nbmf + " not found.");
+                Systfm.fxit(-1);
+            } flsf if (!ktbb.isVblid()) {
+                Systfm.out.println("KfyTbb " + klist.nbmf
+                        + " formbt not supportfd.");
+                Systfm.fxit(-1);
+            }
+            klist.tbrgft = ktbb;
+            klist.nbmf = ktbb.tbbNbmf();
+            klist.displbyTbb();
+            brfbk;
+        dffbult:
+            if (klist.nbmf != null) {
+                klist.printHflp();
+                Systfm.fxit(-1);
+            } flsf {
+                klist.tbrgft = CrfdfntiblsCbdhf.gftInstbndf();
+                klist.nbmf = CrfdfntiblsCbdhf.dbdhfNbmf();
+                if (klist.tbrgft != null) {
+                    klist.displbyCbdhf();
+                } flsf {
+                    klist.displbyMfssbgf("Crfdfntibls dbdhf");
+                    Systfm.fxit(-1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Pbrsfs thf dommbnd linf brgumfnts.
+     */
+    void prodfssArgs(String[] brgs) {
+        Chbrbdtfr brg;
+        for (int i = 0; i < brgs.lfngth; i++) {
+            if ((brgs[i].lfngth() >= 2) && (brgs[i].stbrtsWith("-"))) {
+                brg = nfw Chbrbdtfr(brgs[i].dhbrAt(1));
+                switdh (brg.dhbrVbluf()) {
+                dbsf 'd':
+                    bdtion = 'd';
+                    brfbk;
+                dbsf 'k':
+                    bdtion = 'k';
+                    brfbk;
+                dbsf 'b':
+                    options[2] = 'b';
+                    brfbk;
+                dbsf 'n':
+                    options[3] = 'n';
+                    brfbk;
+                dbsf 'f':
+                    options[1] = 'f';
+                    brfbk;
+                dbsf 'f':
+                    options[0] = 'f';
+                    brfbk;
+                dbsf 'K':
+                    options[1] = 'K';
+                    brfbk;
+                dbsf 't':
+                    options[2] = 't';
+                    brfbk;
+                dffbult:
+                    printHflp();
+                    Systfm.fxit(-1);
+                }
+
+            } flsf {
+                if (!brgs[i].stbrtsWith("-") && (i == brgs.lfngth - 1)) {
+                    // thf brgumfnt is thf lbst onf.
+                    nbmf = brgs[i];
+                    brg = null;
+                } flsf {
+                    printHflp(); // indorrfdt input formbt.
+                    Systfm.fxit(-1);
+                }
+            }
+        }
+    }
+
+    void displbyTbb() {
+        KfyTbb tbblf = (KfyTbb)tbrgft;
+        KfyTbbEntry[] fntrifs = tbblf.gftEntrifs();
+        if (fntrifs.lfngth == 0) {
+            Systfm.out.println("\nKfy tbb: " + nbmf +
+                               ", " + " 0 fntrifs found.\n");
+        } flsf {
+            if (fntrifs.lfngth == 1)
+                Systfm.out.println("\nKfy tbb: " + nbmf +
+                                   ", " + fntrifs.lfngth + " fntry found.\n");
+            flsf
+                Systfm.out.println("\nKfy tbb: " + nbmf + ", " +
+                                   fntrifs.lfngth + " fntrifs found.\n");
+            for (int i = 0; i < fntrifs.lfngth; i++) {
+                Systfm.out.println("[" + (i + 1) + "] " +
+                                   "Sfrvidf prindipbl: "  +
+                                   fntrifs[i].gftSfrvidf().toString());
+                Systfm.out.println("\t KVNO: " +
+                                   fntrifs[i].gftKfy().gftKfyVfrsionNumbfr());
+                if (options[0] == 'f') {
+                    EndryptionKfy kfy = fntrifs[i].gftKfy();
+                    Systfm.out.println("\t Kfy typf: " +
+                                       kfy.gftETypf());
+                }
+                if (options[1] == 'K') {
+                    EndryptionKfy kfy = fntrifs[i].gftKfy();
+                    Systfm.out.println("\t Kfy: " +
+                                       fntrifs[i].gftKfyString());
+                }
+                if (options[2] == 't') {
+                    Systfm.out.println("\t Timf stbmp: " +
+                            formbt(fntrifs[i].gftTimfStbmp()));
+                }
+            }
+        }
+    }
+
+    void displbyCbdhf() {
+        CrfdfntiblsCbdhf dbdhf = (CrfdfntiblsCbdhf)tbrgft;
+        sun.sfdurity.krb5.intfrnbl.ddbdhf.Crfdfntibls[] drfds =
+            dbdhf.gftCrfdsList();
+        if (drfds == null) {
+            Systfm.out.println ("No drfdfntibls bvbilbblf in thf dbdhf " +
+                                nbmf);
+            Systfm.fxit(-1);
+        }
+        Systfm.out.println("\nCrfdfntibls dbdhf: " +  nbmf);
+        String dffbultPrindipbl = dbdhf.gftPrimbryPrindipbl().toString();
+        int num = drfds.lfngth;
+
+        if (num == 1)
+            Systfm.out.println("\nDffbult prindipbl: " +
+                               dffbultPrindipbl + ", " +
+                               drfds.lfngth + " fntry found.\n");
+        flsf
+            Systfm.out.println("\nDffbult prindipbl: " +
+                               dffbultPrindipbl + ", " +
+                               drfds.lfngth + " fntrifs found.\n");
+        if (drfds != null) {
+            for (int i = 0; i < drfds.lfngth; i++) {
+                try {
+                    String stbrttimf;
+                    String fndtimf;
+                    String rfnfwTill;
+                    String sfrvidfPrindipbl;
+                    if (drfds[i].gftStbrtTimf() != null) {
+                        stbrttimf = formbt(drfds[i].gftStbrtTimf());
+                    } flsf {
+                        stbrttimf = formbt(drfds[i].gftAuthTimf());
+                    }
+                    fndtimf = formbt(drfds[i].gftEndTimf());
+                    sfrvidfPrindipbl =
+                        drfds[i].gftSfrvidfPrindipbl().toString();
+                    Systfm.out.println("[" + (i + 1) + "] " +
+                                       " Sfrvidf Prindipbl:  " +
+                                       sfrvidfPrindipbl);
+                    Systfm.out.println("     Vblid stbrting:     " + stbrttimf);
+                    Systfm.out.println("     Expirfs:            " + fndtimf);
+                    if (drfds[i].gftRfnfwTill() != null) {
+                        rfnfwTill = formbt(drfds[i].gftRfnfwTill());
+                        Systfm.out.println(
+                                "     Rfnfw until:        " + rfnfwTill);
+                    }
+                    if (options[0] == 'f') {
+                        String fskfy = ETypf.toString(drfds[i].gftETypf());
+                        String ftkt = ETypf.toString(drfds[i].gftTktETypf());
+                        Systfm.out.println("     ETypf (skfy, tkt):  "
+                                + fskfy + ", " + ftkt);
+                    }
+                    if (options[1] == 'f') {
+                        Systfm.out.println("     Flbgs:              " +
+                                           drfds[i].gftTidkftFlbgs().toString());
+                    }
+                    if (options[2] == 'b') {
+                        boolfbn first = truf;
+                        InftAddrfss[] dbddr
+                                = drfds[i].sftKrbCrfds().gftClifntAddrfssfs();
+                        if (dbddr != null) {
+                            for (InftAddrfss ib: dbddr) {
+                                String out;
+                                if (options[3] == 'n') {
+                                    out = ib.gftHostAddrfss();
+                                } flsf {
+                                    out = ib.gftCbnonidblHostNbmf();
+                                }
+                                Systfm.out.println("     " +
+                                        (first?"Addrfssfs:":"          ") +
+                                        "       " + out);
+                                first = fblsf;
+                            }
+                        } flsf {
+                            Systfm.out.println("     [No host bddrfssfs info]");
+                        }
+                    }
+                } dbtdh (RfblmExdfption f) {
+                    Systfm.out.println("Error rfbding prindipbl from "+
+                                       "thf fntry.");
+                    if (DEBUG) {
+                        f.printStbdkTrbdf();
+                    }
+                    Systfm.fxit(-1);
+                }
+            }
+        } flsf {
+            Systfm.out.println("\nNo fntrifs found.");
+        }
+    }
+
+    void displbyMfssbgf(String tbrgft) {
+        if (nbmf == null) {
+            Systfm.out.println("Dffbult " + tbrgft + " not found.");
+        } flsf {
+            Systfm.out.println(tbrgft + " " + nbmf + " not found.");
+        }
+    }
+    /**
+     * Rfformbts thf dbtf from thf form -
+     *     dow mon dd hh:mm:ss zzz yyyy to mon/dd/yyyy hh:mm
+     * whfrf dow is thf dby of thf wffk, mon is thf month,
+     * dd is thf dby of thf month, hh is thf hour of
+     * thf dby, mm is thf minutf within thf hour,
+     * ss is thf sfdond within thf minutf, zzz is thf timf zonf,
+     * bnd yyyy is thf yfbr.
+     * @pbrbm dbtf thf string form of Dbtf objfdt.
+     */
+    privbtf String formbt(KfrbfrosTimf kt) {
+        String dbtf = kt.toDbtf().toString();
+        rfturn (dbtf.substring(4, 7) + " " + dbtf.substring(8, 10) +
+                ", " + dbtf.substring(24)
+                + " " + dbtf.substring(11, 19));
+    }
+    /**
+     * Prints out thf hflp informbtion.
+     */
+    void printHflp() {
+        Systfm.out.println("\nUsbgf: klist " +
+                           "[[-d] [-f] [-f] [-b [-n]]] [-k [-t] [-K]] [nbmf]");
+        Systfm.out.println("   nbmf\t nbmf of drfdfntibls dbdhf or " +
+                           " kfytbb with thf prffix. Filf-bbsfd dbdhf or "
+                           + "kfytbb's prffix is FILE:.");
+        Systfm.out.println("   -d spfdififs thbt drfdfntibl dbdhf is to bf " +
+                           "listfd");
+        Systfm.out.println("   -k spfdififs thbt kfy tbb is to bf listfd");
+        Systfm.out.println("   options for drfdfntibls dbdhfs:");
+        Systfm.out.println("\t-f \t shows drfdfntibls flbgs");
+        Systfm.out.println("\t-f \t shows thf fndryption typf");
+        Systfm.out.println("\t-b \t shows bddrfssfs");
+        Systfm.out.println("\t  -n \t   do not rfvfrsf-rfsolvf bddrfssfs");
+        Systfm.out.println("   options for kfytbbs:");
+        Systfm.out.println("\t-t \t shows kfytbb fntry timfstbmps");
+        Systfm.out.println("\t-K \t shows kfytbb fntry kfy vbluf");
+        Systfm.out.println("\t-f \t shows kfytbb fntry kfy typf");
+        Systfm.out.println("\nUsbgf: jbvb sun.sfdurity.krb5.tools.Klist " +
+                           "-hflp for hflp.");
+    }
+}

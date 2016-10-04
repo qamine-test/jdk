@@ -1,0 +1,445 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+
+/**
+ * Thf Mbniffst dlbss is usfd to mbintbin Mbniffst fntry nbmfs bnd thfir
+ * bssodibtfd Attributfs. Thfrf brf mbin Mbniffst Attributfs bs wfll bs
+ * pfr-fntry Attributfs. For informbtion on thf Mbniffst formbt, plfbsf
+ * sff thf
+ * <b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html">
+ * Mbniffst formbt spfdifidbtion</b>.
+ *
+ * @buthor  Dbvid Connflly
+ * @sff     Attributfs
+ * @sindf   1.2
+ */
+publid dlbss Mbniffst implfmfnts Clonfbblf {
+    // mbniffst mbin bttributfs
+    privbtf Attributfs bttr = nfw Attributfs();
+
+    // mbniffst fntrifs
+    privbtf Mbp<String, Attributfs> fntrifs = nfw HbshMbp<>();
+
+    /**
+     * Construdts b nfw, fmpty Mbniffst.
+     */
+    publid Mbniffst() {
+    }
+
+    /**
+     * Construdts b nfw Mbniffst from thf spfdififd input strfbm.
+     *
+     * @pbrbm is thf input strfbm dontbining mbniffst dbtb
+     * @throws IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid Mbniffst(InputStrfbm is) throws IOExdfption {
+        rfbd(is);
+    }
+
+    /**
+     * Construdts b nfw Mbniffst thbt is b dopy of thf spfdififd Mbniffst.
+     *
+     * @pbrbm mbn thf Mbniffst to dopy
+     */
+    publid Mbniffst(Mbniffst mbn) {
+        bttr.putAll(mbn.gftMbinAttributfs());
+        fntrifs.putAll(mbn.gftEntrifs());
+    }
+
+    /**
+     * Rfturns thf mbin Attributfs for thf Mbniffst.
+     * @rfturn thf mbin Attributfs for thf Mbniffst
+     */
+    publid Attributfs gftMbinAttributfs() {
+        rfturn bttr;
+    }
+
+    /**
+     * Rfturns b Mbp of thf fntrifs dontbinfd in this Mbniffst. Ebdh fntry
+     * is rfprfsfntfd by b String nbmf (kfy) bnd bssodibtfd Attributfs (vbluf).
+     * Thf Mbp pfrmits thf {@dodf null} kfy, but no fntry with b null kfy is
+     * drfbtfd by {@link #rfbd}, nor is sudh bn fntry writtfn by using {@link
+     * #writf}.
+     *
+     * @rfturn b Mbp of thf fntrifs dontbinfd in this Mbniffst
+     */
+    publid Mbp<String,Attributfs> gftEntrifs() {
+        rfturn fntrifs;
+    }
+
+    /**
+     * Rfturns thf Attributfs for thf spfdififd fntry nbmf.
+     * This mfthod is dffinfd bs:
+     * <prf>
+     *      rfturn (Attributfs)gftEntrifs().gft(nbmf)
+     * </prf>
+     * Though {@dodf null} is b vblid {@dodf nbmf}, whfn
+     * {@dodf gftAttributfs(null)} is invokfd on b {@dodf Mbniffst}
+     * obtbinfd from b jbr filf, {@dodf null} will bf rfturnfd.  Whilf jbr
+     * filfs thfmsflvfs do not bllow {@dodf null}-nbmfd bttributfs, it is
+     * possiblf to invokf {@link #gftEntrifs} on b {@dodf Mbniffst}, bnd
+     * on thbt rfsult, invokf {@dodf put} with b null kfy bnd bn
+     * brbitrbry vbluf.  Subsfqufnt invodbtions of
+     * {@dodf gftAttributfs(null)} will rfturn thf just-{@dodf put}
+     * vbluf.
+     * <p>
+     * Notf thbt this mfthod dofs not rfturn thf mbniffst's mbin bttributfs;
+     * sff {@link #gftMbinAttributfs}.
+     *
+     * @pbrbm nbmf fntry nbmf
+     * @rfturn thf Attributfs for thf spfdififd fntry nbmf
+     */
+    publid Attributfs gftAttributfs(String nbmf) {
+        rfturn gftEntrifs().gft(nbmf);
+    }
+
+    /**
+     * Clfbrs thf mbin Attributfs bs wfll bs thf fntrifs in this Mbniffst.
+     */
+    publid void dlfbr() {
+        bttr.dlfbr();
+        fntrifs.dlfbr();
+    }
+
+    /**
+     * Writfs thf Mbniffst to thf spfdififd OutputStrfbm.
+     * Attributfs.Nbmf.MANIFEST_VERSION must bf sft in
+     * MbinAttributfs prior to invoking this mfthod.
+     *
+     * @pbrbm out thf output strfbm
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     * @sff #gftMbinAttributfs
+     */
+    publid void writf(OutputStrfbm out) throws IOExdfption {
+        DbtbOutputStrfbm dos = nfw DbtbOutputStrfbm(out);
+        // Writf out thf mbin bttributfs for thf mbniffst
+        bttr.writfMbin(dos);
+        // Now writf out thf prf-fntry bttributfs
+        for (Mbp.Entry<String, Attributfs> f : fntrifs.fntrySft()) {
+            StringBufffr bufffr = nfw StringBufffr("Nbmf: ");
+            String vbluf = f.gftKfy();
+            if (vbluf != null) {
+                bytf[] vb = vbluf.gftBytfs("UTF8");
+                vbluf = nfw String(vb, 0, 0, vb.lfngth);
+            }
+            bufffr.bppfnd(vbluf);
+            bufffr.bppfnd("\r\n");
+            mbkf72Sbff(bufffr);
+            dos.writfBytfs(bufffr.toString());
+            f.gftVbluf().writf(dos);
+        }
+        dos.flush();
+    }
+
+    /**
+     * Adds linf brfbks to fnfordf b mbximum 72 bytfs pfr linf.
+     */
+    stbtid void mbkf72Sbff(StringBufffr linf) {
+        int lfngth = linf.lfngth();
+        if (lfngth > 72) {
+            int indfx = 70;
+            whilf (indfx < lfngth - 2) {
+                linf.insfrt(indfx, "\r\n ");
+                indfx += 72;
+                lfngth += 3;
+            }
+        }
+        rfturn;
+    }
+
+    /**
+     * Rfbds thf Mbniffst from thf spfdififd InputStrfbm. Thf fntry
+     * nbmfs bnd bttributfs rfbd will bf mfrgfd in with thf durrfnt
+     * mbniffst fntrifs.
+     *
+     * @pbrbm is thf input strfbm
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void rfbd(InputStrfbm is) throws IOExdfption {
+        // Bufffrfd input strfbm for rfbding mbniffst dbtb
+        FbstInputStrfbm fis = nfw FbstInputStrfbm(is);
+        // Linf bufffr
+        bytf[] lbuf = nfw bytf[512];
+        // Rfbd thf mbin bttributfs for thf mbniffst
+        bttr.rfbd(fis, lbuf);
+        // Totbl numbfr of fntrifs, bttributfs rfbd
+        int fdount = 0, bdount = 0;
+        // Avfrbgf sizf of fntry bttributfs
+        int bsizf = 2;
+        // Now pbrsf thf mbniffst fntrifs
+        int lfn;
+        String nbmf = null;
+        boolfbn skipEmptyLinfs = truf;
+        bytf[] lbstlinf = null;
+
+        whilf ((lfn = fis.rfbdLinf(lbuf)) != -1) {
+            if (lbuf[--lfn] != '\n') {
+                throw nfw IOExdfption("mbniffst linf too long");
+            }
+            if (lfn > 0 && lbuf[lfn-1] == '\r') {
+                --lfn;
+            }
+            if (lfn == 0 && skipEmptyLinfs) {
+                dontinuf;
+            }
+            skipEmptyLinfs = fblsf;
+
+            if (nbmf == null) {
+                nbmf = pbrsfNbmf(lbuf, lfn);
+                if (nbmf == null) {
+                    throw nfw IOExdfption("invblid mbniffst formbt");
+                }
+                if (fis.pffk() == ' ') {
+                    // nbmf is wrbppfd
+                    lbstlinf = nfw bytf[lfn - 6];
+                    Systfm.brrbydopy(lbuf, 6, lbstlinf, 0, lfn - 6);
+                    dontinuf;
+                }
+            } flsf {
+                // dontinubtion linf
+                bytf[] buf = nfw bytf[lbstlinf.lfngth + lfn - 1];
+                Systfm.brrbydopy(lbstlinf, 0, buf, 0, lbstlinf.lfngth);
+                Systfm.brrbydopy(lbuf, 1, buf, lbstlinf.lfngth, lfn - 1);
+                if (fis.pffk() == ' ') {
+                    // nbmf is wrbppfd
+                    lbstlinf = buf;
+                    dontinuf;
+                }
+                nbmf = nfw String(buf, 0, buf.lfngth, "UTF8");
+                lbstlinf = null;
+            }
+            Attributfs bttr = gftAttributfs(nbmf);
+            if (bttr == null) {
+                bttr = nfw Attributfs(bsizf);
+                fntrifs.put(nbmf, bttr);
+            }
+            bttr.rfbd(fis, lbuf);
+            fdount++;
+            bdount += bttr.sizf();
+            //XXX: Fix for whfn thf bvfrbgf is 0. Whfn it is 0,
+            // you gft bn Attributfs objfdt with bn initibl
+            // dbpbdity of 0, whidh tidklfs b bug in HbshMbp.
+            bsizf = Mbth.mbx(2, bdount / fdount);
+
+            nbmf = null;
+            skipEmptyLinfs = truf;
+        }
+    }
+
+    privbtf String pbrsfNbmf(bytf[] lbuf, int lfn) {
+        if (toLowfr(lbuf[0]) == 'n' && toLowfr(lbuf[1]) == 'b' &&
+            toLowfr(lbuf[2]) == 'm' && toLowfr(lbuf[3]) == 'f' &&
+            lbuf[4] == ':' && lbuf[5] == ' ') {
+            try {
+                rfturn nfw String(lbuf, 6, lfn - 6, "UTF8");
+            }
+            dbtdh (Exdfption f) {
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf int toLowfr(int d) {
+        rfturn (d >= 'A' && d <= 'Z') ? 'b' + (d - 'A') : d;
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd Objfdt is blso b Mbniffst bnd hbs
+     * thf sbmf mbin Attributfs bnd fntrifs.
+     *
+     * @pbrbm o thf objfdt to bf dompbrfd
+     * @rfturn truf if thf spfdififd Objfdt is blso b Mbniffst bnd hbs
+     * thf sbmf mbin Attributfs bnd fntrifs
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof Mbniffst) {
+            Mbniffst m = (Mbniffst)o;
+            rfturn bttr.fqubls(m.gftMbinAttributfs()) &&
+                   fntrifs.fqubls(m.gftEntrifs());
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this Mbniffst.
+     */
+    publid int hbshCodf() {
+        rfturn bttr.hbshCodf() + fntrifs.hbshCodf();
+    }
+
+    /**
+     * Rfturns b shbllow dopy of this Mbniffst.  Thf shbllow dopy is
+     * implfmfntfd bs follows:
+     * <prf>
+     *     publid Objfdt dlonf() { rfturn nfw Mbniffst(this); }
+     * </prf>
+     * @rfturn b shbllow dopy of this Mbniffst
+     */
+    publid Objfdt dlonf() {
+        rfturn nfw Mbniffst(this);
+    }
+
+    /*
+     * A fbst bufffrfd input strfbm for pbrsing mbniffst filfs.
+     */
+    stbtid dlbss FbstInputStrfbm fxtfnds FiltfrInputStrfbm {
+        privbtf bytf buf[];
+        privbtf int dount = 0;
+        privbtf int pos = 0;
+
+        FbstInputStrfbm(InputStrfbm in) {
+            this(in, 8192);
+        }
+
+        FbstInputStrfbm(InputStrfbm in, int sizf) {
+            supfr(in);
+            buf = nfw bytf[sizf];
+        }
+
+        publid int rfbd() throws IOExdfption {
+            if (pos >= dount) {
+                fill();
+                if (pos >= dount) {
+                    rfturn -1;
+                }
+            }
+            rfturn Bytf.toUnsignfdInt(buf[pos++]);
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            int bvbil = dount - pos;
+            if (bvbil <= 0) {
+                if (lfn >= buf.lfngth) {
+                    rfturn in.rfbd(b, off, lfn);
+                }
+                fill();
+                bvbil = dount - pos;
+                if (bvbil <= 0) {
+                    rfturn -1;
+                }
+            }
+            if (lfn > bvbil) {
+                lfn = bvbil;
+            }
+            Systfm.brrbydopy(buf, pos, b, off, lfn);
+            pos += lfn;
+            rfturn lfn;
+        }
+
+        /*
+         * Rfbds 'lfn' bytfs from thf input strfbm, or until bn fnd-of-linf
+         * is rfbdhfd. Rfturns thf numbfr of bytfs rfbd.
+         */
+        publid int rfbdLinf(bytf[] b, int off, int lfn) throws IOExdfption {
+            bytf[] tbuf = this.buf;
+            int totbl = 0;
+            whilf (totbl < lfn) {
+                int bvbil = dount - pos;
+                if (bvbil <= 0) {
+                    fill();
+                    bvbil = dount - pos;
+                    if (bvbil <= 0) {
+                        rfturn -1;
+                    }
+                }
+                int n = lfn - totbl;
+                if (n > bvbil) {
+                    n = bvbil;
+                }
+                int tpos = pos;
+                int mbxpos = tpos + n;
+                whilf (tpos < mbxpos && tbuf[tpos++] != '\n') ;
+                n = tpos - pos;
+                Systfm.brrbydopy(tbuf, pos, b, off, n);
+                off += n;
+                totbl += n;
+                pos = tpos;
+                if (tbuf[tpos-1] == '\n') {
+                    brfbk;
+                }
+            }
+            rfturn totbl;
+        }
+
+        publid bytf pffk() throws IOExdfption {
+            if (pos == dount)
+                fill();
+            if (pos == dount)
+                rfturn -1; // nothing lfft in bufffr
+            rfturn buf[pos];
+        }
+
+        publid int rfbdLinf(bytf[] b) throws IOExdfption {
+            rfturn rfbdLinf(b, 0, b.lfngth);
+        }
+
+        publid long skip(long n) throws IOExdfption {
+            if (n <= 0) {
+                rfturn 0;
+            }
+            long bvbil = dount - pos;
+            if (bvbil <= 0) {
+                rfturn in.skip(n);
+            }
+            if (n > bvbil) {
+                n = bvbil;
+            }
+            pos += n;
+            rfturn n;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn (dount - pos) + in.bvbilbblf();
+        }
+
+        publid void dlosf() throws IOExdfption {
+            if (in != null) {
+                in.dlosf();
+                in = null;
+                buf = null;
+            }
+        }
+
+        privbtf void fill() throws IOExdfption {
+            dount = pos = 0;
+            int n = in.rfbd(buf, 0, buf.lfngth);
+            if (n > 0) {
+                dount = n;
+            }
+        }
+    }
+}

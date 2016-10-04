@@ -1,151 +1,151 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.*;
-import sun.security.util.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * Implements the ASN.1 AP-REQ type.
+ * Implfmfnts tif ASN.1 AP-REQ typf.
  *
  * <xmp>
  * AP-REQ               ::= [APPLICATION 14] SEQUENCE {
  *      pvno            [0] INTEGER (5),
- *      msg-type        [1] INTEGER (14),
- *      ap-options      [2] APOptions,
- *      ticket          [3] Ticket,
- *      authenticator   [4] EncryptedData -- Authenticator
+ *      msg-typf        [1] INTEGER (14),
+ *      bp-options      [2] APOptions,
+ *      tidkft          [3] Tidkft,
+ *      butifntidbtor   [4] EndryptfdDbtb -- Autifntidbtor
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
-public class APReq {
+publid dlbss APRfq {
 
-    public int pvno;
-    public int msgType;
-    public APOptions apOptions;
-    public Ticket ticket;
-    public EncryptedData authenticator;
+    publid int pvno;
+    publid int msgTypf;
+    publid APOptions bpOptions;
+    publid Tidkft tidkft;
+    publid EndryptfdDbtb butifntidbtor;
 
-    public APReq(
-            APOptions new_apOptions,
-            Ticket new_ticket,
-            EncryptedData new_authenticator) {
+    publid APRfq(
+            APOptions nfw_bpOptions,
+            Tidkft nfw_tidkft,
+            EndryptfdDbtb nfw_butifntidbtor) {
         pvno = Krb5.PVNO;
-        msgType = Krb5.KRB_AP_REQ;
-        apOptions = new_apOptions;
-        ticket = new_ticket;
-        authenticator = new_authenticator;
+        msgTypf = Krb5.KRB_AP_REQ;
+        bpOptions = nfw_bpOptions;
+        tidkft = nfw_tidkft;
+        butifntidbtor = nfw_butifntidbtor;
     }
 
-    public APReq(byte[] data) throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        init(new DerValue(data));
+    publid APRfq(bytf[] dbtb) tirows Asn1Exdfption, IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        init(nfw DfrVbluf(dbtb));
     }
 
-    public APReq(DerValue encoding) throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        init(encoding);
+    publid APRfq(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        init(fndoding);
     }
 
     /**
-     * Initializes an APReq object.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception KrbApErrException if the value read from the DER-encoded data stream does not match the pre-defined value.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Initiblizfs bn APRfq objfdt.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption KrbApErrExdfption if tif vbluf rfbd from tif DER-fndodfd dbtb strfbm dofs not mbtdi tif prf-dffinfd vbluf.
+     * @fxdfption RfblmExdfption if bn frror oddurs wiilf pbrsing b Rfblm objfdt.
      */
-    private void init(DerValue encoding) throws Asn1Exception,
-            IOException, KrbApErrException, RealmException {
-        DerValue der, subDer;
-        if (((encoding.getTag() & (byte) 0x1F) != Krb5.KRB_AP_REQ)
-                || (encoding.isApplication() != true)
-                || (encoding.isConstructed() != true)) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    privbtf void init(DfrVbluf fndoding) tirows Asn1Exdfption,
+            IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        DfrVbluf dfr, subDfr;
+        if (((fndoding.gftTbg() & (bytf) 0x1F) != Krb5.KRB_AP_REQ)
+                || (fndoding.isApplidbtion() != truf)
+                || (fndoding.isConstrudtfd() != truf)) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) != (byte) 0x00) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & (bytf) 0x1F) != (bytf) 0x00) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        pvno = subDer.getData().getBigInteger().intValue();
+        pvno = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
         if (pvno != Krb5.PVNO) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_BADVERSION);
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADVERSION);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) != (byte) 0x01) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & (bytf) 0x1F) != (bytf) 0x01) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        msgType = subDer.getData().getBigInteger().intValue();
-        if (msgType != Krb5.KRB_AP_REQ) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MSG_TYPE);
+        msgTypf = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        if (msgTypf != Krb5.KRB_AP_REQ) {
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MSG_TYPE);
         }
-        apOptions = APOptions.parse(der.getData(), (byte) 0x02, false);
-        ticket = Ticket.parse(der.getData(), (byte) 0x03, false);
-        authenticator = EncryptedData.parse(der.getData(), (byte) 0x04, false);
-        if (der.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        bpOptions = APOptions.pbrsf(dfr.gftDbtb(), (bytf) 0x02, fblsf);
+        tidkft = Tidkft.pbrsf(dfr.gftDbtb(), (bytf) 0x03, fblsf);
+        butifntidbtor = EndryptfdDbtb.pbrsf(dfr.gftDbtb(), (bytf) 0x04, fblsf);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes an APReq object.
-     * @return byte array of encoded APReq object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs bn APRfq objfdt.
+     * @rfturn bytf brrby of fndodfd APRfq objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(pvno));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x00), temp);
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(msgType));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x01), temp);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x02), apOptions.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x03), ticket.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x04), authenticator.asn1Encode());
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        DerOutputStream apreq = new DerOutputStream();
-        apreq.write(DerValue.createTag(DerValue.TAG_APPLICATION, true, (byte) 0x0E), temp);
-        return apreq.toByteArray();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(pvno));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(msgTypf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x01), tfmp);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x02), bpOptions.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x03), tidkft.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x04), butifntidbtor.bsn1Endodf());
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        DfrOutputStrfbm bprfq = nfw DfrOutputStrfbm();
+        bprfq.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION, truf, (bytf) 0x0E), tfmp);
+        rfturn bprfq.toBytfArrby();
     }
 }

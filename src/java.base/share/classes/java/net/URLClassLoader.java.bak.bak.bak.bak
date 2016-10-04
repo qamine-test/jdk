@@ -1,0 +1,800 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.Closfbblf;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.SfdurfClbssLobdfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import sun.misd.Rfsourdf;
+import sun.misd.URLClbssPbth;
+import sun.nft.www.PbrsfUtil;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * This dlbss lobdfr is usfd to lobd dlbssfs bnd rfsourdfs from b sfbrdh
+ * pbth of URLs rfffrring to both JAR filfs bnd dirfdtorifs. Any URL thbt
+ * fnds with b '/' is bssumfd to rfffr to b dirfdtory. Othfrwisf, thf URL
+ * is bssumfd to rfffr to b JAR filf whidh will bf opfnfd bs nffdfd.
+ * <p>
+ * Thf AddfssControlContfxt of thf thrfbd thbt drfbtfd thf instbndf of
+ * URLClbssLobdfr will bf usfd whfn subsfqufntly lobding dlbssfs bnd
+ * rfsourdfs.
+ * <p>
+ * Thf dlbssfs thbt brf lobdfd brf by dffbult grbntfd pfrmission only to
+ * bddfss thf URLs spfdififd whfn thf URLClbssLobdfr wbs drfbtfd.
+ *
+ * @buthor  Dbvid Connflly
+ * @sindf   1.2
+ */
+publid dlbss URLClbssLobdfr fxtfnds SfdurfClbssLobdfr implfmfnts Closfbblf {
+    /* Thf sfbrdh pbth for dlbssfs bnd rfsourdfs */
+    privbtf finbl URLClbssPbth udp;
+
+    /* Thf dontfxt to bf usfd whfn lobding dlbssfs bnd rfsourdfs */
+    privbtf finbl AddfssControlContfxt bdd;
+
+    /**
+     * Construdts b nfw URLClbssLobdfr for thf givfn URLs. Thf URLs will bf
+     * sfbrdhfd in thf ordfr spfdififd for dlbssfs bnd rfsourdfs bftfr first
+     * sfbrdhing in thf spfdififd pbrfnt dlbss lobdfr. Any URL thbt fnds with
+     * b '/' is bssumfd to rfffr to b dirfdtory. Othfrwisf, thf URL is bssumfd
+     * to rfffr to b JAR filf whidh will bf downlobdfd bnd opfnfd bs nffdfd.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's {@dodf dhfdkCrfbtfClbssLobdfr} mfthod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
+     *
+     * @pbrbm urls thf URLs from whidh to lobd dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt thf pbrfnt dlbss lobdfr for dflfgbtion
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkCrfbtfClbssLobdfr} mfthod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#dhfdkCrfbtfClbssLobdfr
+     */
+    publid URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt) {
+        supfr(pbrfnt);
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbth(urls);
+        this.bdd = AddfssControllfr.gftContfxt();
+    }
+
+    URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                   AddfssControlContfxt bdd) {
+        supfr(pbrfnt);
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbth(urls);
+        this.bdd = bdd;
+    }
+
+    /**
+     * Construdts b nfw URLClbssLobdfr for thf spfdififd URLs using thf
+     * dffbult dflfgbtion pbrfnt {@dodf ClbssLobdfr}. Thf URLs will
+     * bf sfbrdhfd in thf ordfr spfdififd for dlbssfs bnd rfsourdfs bftfr
+     * first sfbrdhing in thf pbrfnt dlbss lobdfr. Any URL thbt fnds with
+     * b '/' is bssumfd to rfffr to b dirfdtory. Othfrwisf, thf URL is
+     * bssumfd to rfffr to b JAR filf whidh will bf downlobdfd bnd opfnfd
+     * bs nffdfd.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's {@dodf dhfdkCrfbtfClbssLobdfr} mfthod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
+     *
+     * @pbrbm urls thf URLs from whidh to lobd dlbssfs bnd rfsourdfs
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkCrfbtfClbssLobdfr} mfthod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#dhfdkCrfbtfClbssLobdfr
+     */
+    publid URLClbssLobdfr(URL[] urls) {
+        supfr();
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbth(urls);
+        this.bdd = AddfssControllfr.gftContfxt();
+    }
+
+    URLClbssLobdfr(URL[] urls, AddfssControlContfxt bdd) {
+        supfr();
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbth(urls);
+        this.bdd = bdd;
+    }
+
+    /**
+     * Construdts b nfw URLClbssLobdfr for thf spfdififd URLs, pbrfnt
+     * dlbss lobdfr, bnd URLStrfbmHbndlfrFbdtory. Thf pbrfnt brgumfnt
+     * will bf usfd bs thf pbrfnt dlbss lobdfr for dflfgbtion. Thf
+     * fbdtory brgumfnt will bf usfd bs thf strfbm hbndlfr fbdtory to
+     * obtbin protodol hbndlfrs whfn drfbting nfw jbr URLs.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's {@dodf dhfdkCrfbtfClbssLobdfr} mfthod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
+     *
+     * @pbrbm urls thf URLs from whidh to lobd dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt thf pbrfnt dlbss lobdfr for dflfgbtion
+     * @pbrbm fbdtory thf URLStrfbmHbndlfrFbdtory to usf whfn drfbting URLs
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkCrfbtfClbssLobdfr} mfthod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#dhfdkCrfbtfClbssLobdfr
+     */
+    publid URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                          URLStrfbmHbndlfrFbdtory fbdtory) {
+        supfr(pbrfnt);
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbth(urls, fbdtory);
+        bdd = AddfssControllfr.gftContfxt();
+    }
+
+    /* A mbp (usfd bs b sft) to kffp trbdk of dlosfbblf lodbl rfsourdfs
+     * (fithfr JbrFilfs or FilfInputStrfbms). Wf don't dbrf bbout
+     * Http rfsourdfs sindf thfy don't nffd to bf dlosfd.
+     *
+     * If thf rfsourdf is doming from b jbr filf
+     * wf kffp b (wfbk) rfffrfndf to thf JbrFilf objfdt whidh dbn
+     * bf dlosfd if URLClbssLobdfr.dlosf() dbllfd. Duf to jbr filf
+     * dbdhing thfrf will typidblly bf only onf JbrFilf objfdt
+     * pfr undfrlying jbr filf.
+     *
+     * For filf rfsourdfs, whidh is probbbly b lfss dommon situbtion
+     * wf hbvf to kffp b wfbk rfffrfndf to fbdh strfbm.
+     */
+
+    privbtf WfbkHbshMbp<Closfbblf,Void>
+        dlosfbblfs = nfw WfbkHbshMbp<>();
+
+    /**
+     * Rfturns bn input strfbm for rfbding thf spfdififd rfsourdf.
+     * If this lobdfr is dlosfd, thfn bny rfsourdfs opfnfd by this mfthod
+     * will bf dlosfd.
+     *
+     * <p> Thf sfbrdh ordfr is dfsdribfd in thf dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.  </p>
+     *
+     * @pbrbm  nbmf
+     *         Thf rfsourdf nbmf
+     *
+     * @rfturn  An input strfbm for rfbding thf rfsourdf, or {@dodf null}
+     *          if thf rfsourdf dould not bf found
+     *
+     * @sindf  1.7
+     */
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf) {
+        URL url = gftRfsourdf(nbmf);
+        try {
+            if (url == null) {
+                rfturn null;
+            }
+            URLConnfdtion urld = url.opfnConnfdtion();
+            InputStrfbm is = urld.gftInputStrfbm();
+            if (urld instbndfof JbrURLConnfdtion) {
+                JbrURLConnfdtion jud = (JbrURLConnfdtion)urld;
+                JbrFilf jbr = jud.gftJbrFilf();
+                syndhronizfd (dlosfbblfs) {
+                    if (!dlosfbblfs.dontbinsKfy(jbr)) {
+                        dlosfbblfs.put(jbr, null);
+                    }
+                }
+            } flsf if (urld instbndfof sun.nft.www.protodol.filf.FilfURLConnfdtion) {
+                syndhronizfd (dlosfbblfs) {
+                    dlosfbblfs.put(is, null);
+                }
+            }
+            rfturn is;
+        } dbtdh (IOExdfption f) {
+            rfturn null;
+        }
+    }
+
+   /**
+    * Closfs this URLClbssLobdfr, so thbt it dbn no longfr bf usfd to lobd
+    * nfw dlbssfs or rfsourdfs thbt brf dffinfd by this lobdfr.
+    * Clbssfs bnd rfsourdfs dffinfd by bny of this lobdfr's pbrfnts in thf
+    * dflfgbtion hifrbrdhy brf still bddfssiblf. Also, bny dlbssfs or rfsourdfs
+    * thbt brf blrfbdy lobdfd, brf still bddfssiblf.
+    * <p>
+    * In thf dbsf of jbr: bnd filf: URLs, it blso dlosfs bny filfs
+    * thbt wfrf opfnfd by it. If bnothfr thrfbd is lobding b
+    * dlbss whfn thf {@dodf dlosf} mfthod is invokfd, thfn thf rfsult of
+    * thbt lobd is undffinfd.
+    * <p>
+    * Thf mfthod mbkfs b bfst fffort bttfmpt to dlosf bll opfnfd filfs,
+    * by dbtdhing {@link IOExdfption}s intfrnblly. Undhfdkfd fxdfptions
+    * bnd frrors brf not dbught. Cblling dlosf on bn blrfbdy dlosfd
+    * lobdfr hbs no ffffdt.
+    *
+    * @fxdfption IOExdfption if dlosing bny filf opfnfd by this dlbss lobdfr
+    * rfsultfd in bn IOExdfption. Any sudh fxdfptions brf dbught intfrnblly.
+    * If only onf is dbught, thfn it is rf-thrown. If morf thbn onf fxdfption
+    * is dbught, thfn thf sfdond bnd following fxdfptions brf bddfd
+    * bs supprfssfd fxdfptions of thf first onf dbught, whidh is thfn rf-thrown.
+    *
+    * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is sft, bnd it dfnifs
+    *   {@link RuntimfPfrmission}{@dodf ("dlosfClbssLobdfr")}
+    *
+    * @sindf 1.7
+    */
+    publid void dlosf() throws IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(nfw RuntimfPfrmission("dlosfClbssLobdfr"));
+        }
+        List<IOExdfption> frrors = udp.dlosfLobdfrs();
+
+        // now dlosf bny rfmbining strfbms.
+
+        syndhronizfd (dlosfbblfs) {
+            Sft<Closfbblf> kfys = dlosfbblfs.kfySft();
+            for (Closfbblf d : kfys) {
+                try {
+                    d.dlosf();
+                } dbtdh (IOExdfption iofx) {
+                    frrors.bdd(iofx);
+                }
+            }
+            dlosfbblfs.dlfbr();
+        }
+
+        if (frrors.isEmpty()) {
+            rfturn;
+        }
+
+        IOExdfption firstfx = frrors.rfmovf(0);
+
+        // Supprfss bny rfmbining fxdfptions
+
+        for (IOExdfption frror: frrors) {
+            firstfx.bddSupprfssfd(frror);
+        }
+        throw firstfx;
+    }
+
+    /**
+     * Appfnds thf spfdififd URL to thf list of URLs to sfbrdh for
+     * dlbssfs bnd rfsourdfs.
+     * <p>
+     * If thf URL spfdififd is {@dodf null} or is blrfbdy in thf
+     * list of URLs, or if this lobdfr is dlosfd, thfn invoking this
+     * mfthod hbs no ffffdt.
+     *
+     * @pbrbm url thf URL to bf bddfd to thf sfbrdh pbth of URLs
+     */
+    protfdtfd void bddURL(URL url) {
+        udp.bddURL(url);
+    }
+
+    /**
+     * Rfturns thf sfbrdh pbth of URLs for lobding dlbssfs bnd rfsourdfs.
+     * This indludfs thf originbl list of URLs spfdififd to thf donstrudtor,
+     * blong with bny URLs subsfqufntly bppfndfd by thf bddURL() mfthod.
+     * @rfturn thf sfbrdh pbth of URLs for lobding dlbssfs bnd rfsourdfs.
+     */
+    publid URL[] gftURLs() {
+        rfturn udp.gftURLs();
+    }
+
+    /**
+     * Finds bnd lobds thf dlbss with thf spfdififd nbmf from thf URL sfbrdh
+     * pbth. Any URLs rfffrring to JAR filfs brf lobdfd bnd opfnfd bs nffdfd
+     * until thf dlbss is found.
+     *
+     * @pbrbm nbmf thf nbmf of thf dlbss
+     * @rfturn thf rfsulting dlbss
+     * @fxdfption ClbssNotFoundExdfption if thf dlbss dould not bf found,
+     *            or if thf lobdfr is dlosfd.
+     * @fxdfption NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     */
+    protfdtfd Clbss<?> findClbss(finbl String nbmf)
+         throws ClbssNotFoundExdfption
+    {
+        try {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Clbss<?>>() {
+                    publid Clbss<?> run() throws ClbssNotFoundExdfption {
+                        String pbth = nbmf.rfplbdf('.', '/').dondbt(".dlbss");
+                        Rfsourdf rfs = udp.gftRfsourdf(pbth, fblsf);
+                        if (rfs != null) {
+                            try {
+                                rfturn dffinfClbss(nbmf, rfs);
+                            } dbtdh (IOExdfption f) {
+                                throw nfw ClbssNotFoundExdfption(nbmf, f);
+                            }
+                        } flsf {
+                            throw nfw ClbssNotFoundExdfption(nbmf);
+                        }
+                    }
+                }, bdd);
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw (ClbssNotFoundExdfption) pbf.gftExdfption();
+        }
+    }
+
+    /*
+     * Rftrifvf thf pbdkbgf using thf spfdififd pbdkbgf nbmf.
+     * If non-null, vfrify thf pbdkbgf using thf spfdififd dodf
+     * sourdf bnd mbniffst.
+     */
+    privbtf Pbdkbgf gftAndVfrifyPbdkbgf(String pkgnbmf,
+                                        Mbniffst mbn, URL url) {
+        Pbdkbgf pkg = gftPbdkbgf(pkgnbmf);
+        if (pkg != null) {
+            // Pbdkbgf found, so dhfdk pbdkbgf sfbling.
+            if (pkg.isSfblfd()) {
+                // Vfrify thbt dodf sourdf URL is thf sbmf.
+                if (!pkg.isSfblfd(url)) {
+                    throw nfw SfdurityExdfption(
+                        "sfbling violbtion: pbdkbgf " + pkgnbmf + " is sfblfd");
+                }
+            } flsf {
+                // Mbkf surf wf brf not bttfmpting to sfbl thf pbdkbgf
+                // bt this dodf sourdf URL.
+                if ((mbn != null) && isSfblfd(pkgnbmf, mbn)) {
+                    throw nfw SfdurityExdfption(
+                        "sfbling violbtion: dbn't sfbl pbdkbgf " + pkgnbmf +
+                        ": blrfbdy lobdfd");
+                }
+            }
+        }
+        rfturn pkg;
+    }
+
+    /*
+     * Dffinfs b Clbss using thf dlbss bytfs obtbinfd from thf spfdififd
+     * Rfsourdf. Thf rfsulting Clbss must bf rfsolvfd bfforf it dbn bf
+     * usfd.
+     */
+    privbtf Clbss<?> dffinfClbss(String nbmf, Rfsourdf rfs) throws IOExdfption {
+        long t0 = Systfm.nbnoTimf();
+        int i = nbmf.lbstIndfxOf('.');
+        URL url = rfs.gftCodfSourdfURL();
+        if (i != -1) {
+            String pkgnbmf = nbmf.substring(0, i);
+            // Chfdk if pbdkbgf blrfbdy lobdfd.
+            Mbniffst mbn = rfs.gftMbniffst();
+            if (gftAndVfrifyPbdkbgf(pkgnbmf, mbn, url) == null) {
+                try {
+                    if (mbn != null) {
+                        dffinfPbdkbgf(pkgnbmf, mbn, url);
+                    } flsf {
+                        dffinfPbdkbgf(pkgnbmf, null, null, null, null, null, null, null);
+                    }
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // pbrbllfl-dbpbblf dlbss lobdfrs: rf-vfrify in dbsf of b
+                    // rbdf dondition
+                    if (gftAndVfrifyPbdkbgf(pkgnbmf, mbn, url) == null) {
+                        // Should nfvfr hbppfn
+                        throw nfw AssfrtionError("Cbnnot find pbdkbgf " +
+                                                 pkgnbmf);
+                    }
+                }
+            }
+        }
+        // Now rfbd thf dlbss bytfs bnd dffinf thf dlbss
+        jbvb.nio.BytfBufffr bb = rfs.gftBytfBufffr();
+        if (bb != null) {
+            // Usf (dirfdt) BytfBufffr:
+            CodfSignfr[] signfrs = rfs.gftCodfSignfrs();
+            CodfSourdf ds = nfw CodfSourdf(url, signfrs);
+            sun.misd.PfrfCountfr.gftRfbdClbssBytfsTimf().bddElbpsfdTimfFrom(t0);
+            rfturn dffinfClbss(nbmf, bb, ds);
+        } flsf {
+            bytf[] b = rfs.gftBytfs();
+            // must rfbd dfrtifidbtfs AFTER rfbding bytfs.
+            CodfSignfr[] signfrs = rfs.gftCodfSignfrs();
+            CodfSourdf ds = nfw CodfSourdf(url, signfrs);
+            sun.misd.PfrfCountfr.gftRfbdClbssBytfsTimf().bddElbpsfdTimfFrom(t0);
+            rfturn dffinfClbss(nbmf, b, 0, b.lfngth, ds);
+        }
+    }
+
+    /**
+     * Dffinfs b nfw pbdkbgf by nbmf in this ClbssLobdfr. Thf bttributfs
+     * dontbinfd in thf spfdififd Mbniffst will bf usfd to obtbin pbdkbgf
+     * vfrsion bnd sfbling informbtion. For sfblfd pbdkbgfs, thf bdditionbl
+     * URL spfdififs thf dodf sourdf URL from whidh thf pbdkbgf wbs lobdfd.
+     *
+     * @pbrbm nbmf  thf pbdkbgf nbmf
+     * @pbrbm mbn   thf Mbniffst dontbining pbdkbgf vfrsion bnd sfbling
+     *              informbtion
+     * @pbrbm url   thf dodf sourdf url for thf pbdkbgf, or null if nonf
+     * @fxdfption   IllfgblArgumfntExdfption if thf pbdkbgf nbmf duplidbtfs
+     *              bn fxisting pbdkbgf fithfr in this dlbss lobdfr or onf
+     *              of its bndfstors
+     * @rfturn thf nfwly dffinfd Pbdkbgf objfdt
+     */
+    protfdtfd Pbdkbgf dffinfPbdkbgf(String nbmf, Mbniffst mbn, URL url)
+        throws IllfgblArgumfntExdfption
+    {
+        String pbth = nbmf.rfplbdf('.', '/').dondbt("/");
+        String spfdTitlf = null, spfdVfrsion = null, spfdVfndor = null;
+        String implTitlf = null, implVfrsion = null, implVfndor = null;
+        String sfblfd = null;
+        URL sfblBbsf = null;
+
+        Attributfs bttr = mbn.gftAttributfs(pbth);
+        if (bttr != null) {
+            spfdTitlf   = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
+            spfdVfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
+            spfdVfndor  = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
+            implTitlf   = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
+            implVfrsion = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
+            implVfndor  = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
+            sfblfd      = bttr.gftVbluf(Nbmf.SEALED);
+        }
+        bttr = mbn.gftMbinAttributfs();
+        if (bttr != null) {
+            if (spfdTitlf == null) {
+                spfdTitlf = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
+            }
+            if (spfdVfrsion == null) {
+                spfdVfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
+            }
+            if (spfdVfndor == null) {
+                spfdVfndor = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
+            }
+            if (implTitlf == null) {
+                implTitlf = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
+            }
+            if (implVfrsion == null) {
+                implVfrsion = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
+            }
+            if (implVfndor == null) {
+                implVfndor = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
+            }
+            if (sfblfd == null) {
+                sfblfd = bttr.gftVbluf(Nbmf.SEALED);
+            }
+        }
+        if ("truf".fqublsIgnorfCbsf(sfblfd)) {
+            sfblBbsf = url;
+        }
+        rfturn dffinfPbdkbgf(nbmf, spfdTitlf, spfdVfrsion, spfdVfndor,
+                             implTitlf, implVfrsion, implVfndor, sfblBbsf);
+    }
+
+    /*
+     * Rfturns truf if thf spfdififd pbdkbgf nbmf is sfblfd bddording to thf
+     * givfn mbniffst.
+     */
+    privbtf boolfbn isSfblfd(String nbmf, Mbniffst mbn) {
+        String pbth = nbmf.rfplbdf('.', '/').dondbt("/");
+        Attributfs bttr = mbn.gftAttributfs(pbth);
+        String sfblfd = null;
+        if (bttr != null) {
+            sfblfd = bttr.gftVbluf(Nbmf.SEALED);
+        }
+        if (sfblfd == null) {
+            if ((bttr = mbn.gftMbinAttributfs()) != null) {
+                sfblfd = bttr.gftVbluf(Nbmf.SEALED);
+            }
+        }
+        rfturn "truf".fqublsIgnorfCbsf(sfblfd);
+    }
+
+    /**
+     * Finds thf rfsourdf with thf spfdififd nbmf on thf URL sfbrdh pbth.
+     *
+     * @pbrbm nbmf thf nbmf of thf rfsourdf
+     * @rfturn b {@dodf URL} for thf rfsourdf, or {@dodf null}
+     * if thf rfsourdf dould not bf found, or if thf lobdfr is dlosfd.
+     */
+    publid URL findRfsourdf(finbl String nbmf) {
+        /*
+         * Thf sbmf rfstridtion to finding dlbssfs bpplifs to rfsourdfs
+         */
+        URL url = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URL>() {
+                publid URL run() {
+                    rfturn udp.findRfsourdf(nbmf, truf);
+                }
+            }, bdd);
+
+        rfturn url != null ? udp.dhfdkURL(url) : null;
+    }
+
+    /**
+     * Rfturns bn Enumfrbtion of URLs rfprfsfnting bll of thf rfsourdfs
+     * on thf URL sfbrdh pbth hbving thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf thf rfsourdf nbmf
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * @rfturn bn {@dodf Enumfrbtion} of {@dodf URL}s
+     *         If thf lobdfr is dlosfd, thf Enumfrbtion will bf fmpty.
+     */
+    publid Enumfrbtion<URL> findRfsourdfs(finbl String nbmf)
+        throws IOExdfption
+    {
+        finbl Enumfrbtion<URL> f = udp.findRfsourdfs(nbmf, truf);
+
+        rfturn nfw Enumfrbtion<URL>() {
+            privbtf URL url = null;
+
+            privbtf boolfbn nfxt() {
+                if (url != null) {
+                    rfturn truf;
+                }
+                do {
+                    URL u = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<URL>() {
+                            publid URL run() {
+                                if (!f.hbsMorfElfmfnts())
+                                    rfturn null;
+                                rfturn f.nfxtElfmfnt();
+                            }
+                        }, bdd);
+                    if (u == null)
+                        brfbk;
+                    url = udp.dhfdkURL(u);
+                } whilf (url == null);
+                rfturn url != null;
+            }
+
+            publid URL nfxtElfmfnt() {
+                if (!nfxt()) {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+                URL u = url;
+                url = null;
+                rfturn u;
+            }
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn nfxt();
+            }
+        };
+    }
+
+    /**
+     * Rfturns thf pfrmissions for thf givfn dodfsourdf objfdt.
+     * Thf implfmfntbtion of this mfthod first dblls supfr.gftPfrmissions
+     * bnd thfn bdds pfrmissions bbsfd on thf URL of thf dodfsourdf.
+     * <p>
+     * If thf protodol of this URL is "jbr", thfn thf pfrmission grbntfd
+     * is bbsfd on thf pfrmission thbt is rfquirfd by thf URL of thf Jbr
+     * filf.
+     * <p>
+     * If thf protodol is "filf" bnd thfrf is bn buthority domponfnt, thfn
+     * pfrmission to donnfdt to bnd bddfpt donnfdtions from thbt buthority
+     * mby bf grbntfd. If thf protodol is "filf"
+     * bnd thf pbth spfdififs b filf, thfn pfrmission to rfbd thbt
+     * filf is grbntfd. If protodol is "filf" bnd thf pbth is
+     * b dirfdtory, pfrmission is grbntfd to rfbd bll filfs
+     * bnd (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in
+     * thbt dirfdtory.
+     * <p>
+     * If thf protodol is not "filf", thfn pfrmission
+     * to donnfdt to bnd bddfpt donnfdtions from thf URL's host is grbntfd.
+     * @pbrbm dodfsourdf thf dodfsourdf
+     * @fxdfption NullPointfrExdfption if {@dodf dodfsourdf} is {@dodf null}.
+     * @rfturn thf pfrmissions grbntfd to thf dodfsourdf
+     */
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
+    {
+        PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+
+        URL url = dodfsourdf.gftLodbtion();
+
+        Pfrmission p;
+        URLConnfdtion urlConnfdtion;
+
+        try {
+            urlConnfdtion = url.opfnConnfdtion();
+            p = urlConnfdtion.gftPfrmission();
+        } dbtdh (jbvb.io.IOExdfption iof) {
+            p = null;
+            urlConnfdtion = null;
+        }
+
+        if (p instbndfof FilfPfrmission) {
+            // if thf pfrmission hbs b sfpbrbtor dhbr on thf fnd,
+            // it mfbns thf dodfbbsf is b dirfdtory, bnd wf nffd
+            // to bdd bn bdditionbl pfrmission to rfbd rfdursivfly
+            String pbth = p.gftNbmf();
+            if (pbth.fndsWith(Filf.sfpbrbtor)) {
+                pbth += "-";
+                p = nfw FilfPfrmission(pbth, SfdurityConstbnts.FILE_READ_ACTION);
+            }
+        } flsf if ((p == null) && (url.gftProtodol().fqubls("filf"))) {
+            String pbth = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorChbr);
+            pbth = PbrsfUtil.dfdodf(pbth);
+            if (pbth.fndsWith(Filf.sfpbrbtor))
+                pbth += "-";
+            p =  nfw FilfPfrmission(pbth, SfdurityConstbnts.FILE_READ_ACTION);
+        } flsf {
+            /**
+             * Not lobding from b 'filf:' URL so wf wbnt to givf thf dlbss
+             * pfrmission to donnfdt to bnd bddfpt from thf rfmotf host
+             * bftfr wf'vf mbdf surf thf host is thf dorrfdt onf bnd is vblid.
+             */
+            URL lodUrl = url;
+            if (urlConnfdtion instbndfof JbrURLConnfdtion) {
+                lodUrl = ((JbrURLConnfdtion)urlConnfdtion).gftJbrFilfURL();
+            }
+            String host = lodUrl.gftHost();
+            if (host != null && (host.lfngth() > 0))
+                p = nfw SodkftPfrmission(host,
+                                         SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION);
+        }
+
+        // mbkf surf thf pfrson thbt drfbtfd this dlbss lobdfr
+        // would hbvf this pfrmission
+
+        if (p != null) {
+            finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                finbl Pfrmission fp = p;
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() throws SfdurityExdfption {
+                        sm.dhfdkPfrmission(fp);
+                        rfturn null;
+                    }
+                }, bdd);
+            }
+            pfrms.bdd(p);
+        }
+        rfturn pfrms;
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of URLClbssLobdfr for thf spfdififd
+     * URLs bnd pbrfnt dlbss lobdfr. If b sfdurity mbnbgfr is
+     * instbllfd, thf {@dodf lobdClbss} mfthod of thf URLClbssLobdfr
+     * rfturnfd by this mfthod will invokf thf
+     * {@dodf SfdurityMbnbgfr.dhfdkPbdkbgfAddfss} mfthod bfforf
+     * lobding thf dlbss.
+     *
+     * @pbrbm urls thf URLs to sfbrdh for dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt thf pbrfnt dlbss lobdfr for dflfgbtion
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @rfturn thf rfsulting dlbss lobdfr
+     */
+    publid stbtid URLClbssLobdfr nfwInstbndf(finbl URL[] urls,
+                                             finbl ClbssLobdfr pbrfnt) {
+        // Sbvf thf dbllfr's dontfxt
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        // Nffd b privilfgfd blodk to drfbtf thf dlbss lobdfr
+        URLClbssLobdfr udl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URLClbssLobdfr>() {
+                publid URLClbssLobdfr run() {
+                    rfturn nfw FbdtoryURLClbssLobdfr(urls, pbrfnt, bdd);
+                }
+            });
+        rfturn udl;
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of URLClbssLobdfr for thf spfdififd
+     * URLs bnd dffbult pbrfnt dlbss lobdfr. If b sfdurity mbnbgfr is
+     * instbllfd, thf {@dodf lobdClbss} mfthod of thf URLClbssLobdfr
+     * rfturnfd by this mfthod will invokf thf
+     * {@dodf SfdurityMbnbgfr.dhfdkPbdkbgfAddfss} bfforf
+     * lobding thf dlbss.
+     *
+     * @pbrbm urls thf URLs to sfbrdh for dlbssfs bnd rfsourdfs
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @rfturn thf rfsulting dlbss lobdfr
+     */
+    publid stbtid URLClbssLobdfr nfwInstbndf(finbl URL[] urls) {
+        // Sbvf thf dbllfr's dontfxt
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        // Nffd b privilfgfd blodk to drfbtf thf dlbss lobdfr
+        URLClbssLobdfr udl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URLClbssLobdfr>() {
+                publid URLClbssLobdfr run() {
+                    rfturn nfw FbdtoryURLClbssLobdfr(urls, bdd);
+                }
+            });
+        rfturn udl;
+    }
+
+    stbtid {
+        sun.misd.ShbrfdSfdrfts.sftJbvbNftAddfss (
+            nfw sun.misd.JbvbNftAddfss() {
+                publid URLClbssPbth gftURLClbssPbth (URLClbssLobdfr u) {
+                    rfturn u.udp;
+                }
+            }
+        );
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
+    }
+}
+
+finbl dlbss FbdtoryURLClbssLobdfr fxtfnds URLClbssLobdfr {
+
+    stbtid {
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
+    }
+
+    FbdtoryURLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                          AddfssControlContfxt bdd) {
+        supfr(urls, pbrfnt, bdd);
+    }
+
+    FbdtoryURLClbssLobdfr(URL[] urls, AddfssControlContfxt bdd) {
+        supfr(urls, bdd);
+    }
+
+    publid finbl Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        throws ClbssNotFoundExdfption
+    {
+        // First dhfdk if wf hbvf pfrmission to bddfss thf pbdkbgf. This
+        // should go bwby ondf wf'vf bddfd support for fxportfd pbdkbgfs.
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            int i = nbmf.lbstIndfxOf('.');
+            if (i != -1) {
+                sm.dhfdkPbdkbgfAddfss(nbmf.substring(0, i));
+            }
+        }
+        rfturn supfr.lobdClbss(nbmf, rfsolvf);
+    }
+}

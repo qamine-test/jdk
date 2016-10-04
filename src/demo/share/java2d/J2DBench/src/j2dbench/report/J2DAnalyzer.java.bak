@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,792 +30,792 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.report;
+pbdkbgf j2dbfndi.rfport;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
 
-public class J2DAnalyzer {
-    static Vector results = new Vector();
-    static GroupResultSetHolder groupHolder;
+publid dlbss J2DAnblyzfr {
+    stbtid Vfdtor rfsults = nfw Vfdtor();
+    stbtid GroupRfsultSftHoldfr groupHoldfr;
 
-    static final int BEST = 1;    /* The best score */
-    static final int WORST = 2;   /* The worst score */
-    static final int AVERAGE = 3; /* Average of all scores */
-    static final int MIDAVG = 4;  /* Average of all but the best and worst */
+    stbtid finbl int BEST = 1;    /* Tif bfst sdorf */
+    stbtid finbl int WORST = 2;   /* Tif worst sdorf */
+    stbtid finbl int AVERAGE = 3; /* Avfrbgf of bll sdorfs */
+    stbtid finbl int MIDAVG = 4;  /* Avfrbgf of bll but tif bfst bnd worst */
 
-    static int mode = MIDAVG;
+    stbtid int modf = MIDAVG;
 
-    public static void usage(PrintStream out) {
-        out.println("usage:");
-        out.println("    java -jar J2DAnalyzer.jar [Option]*");
+    publid stbtid void usbgf(PrintStrfbm out) {
+        out.println("usbgf:");
+        out.println("    jbvb -jbr J2DAnblyzfr.jbr [Option]*");
         out.println();
-        out.println("where options are any of the following in any order:");
-        out.println("   -Help|-Usage          "+
-                    "print out this usage statement");
-        out.println("   -Group:<groupname>    "+
-                    "the following result sets are combined into a group");
+        out.println("wifrf options brf bny of tif following in bny ordfr:");
+        out.println("   -Hflp|-Usbgf          "+
+                    "print out tiis usbgf stbtfmfnt");
+        out.println("   -Group:<groupnbmf>    "+
+                    "tif following rfsult sfts brf dombinfd into b group");
         out.println("   -NoGroup              "+
-                    "the following result sets stand on their own");
-        out.println("   -ShowUncontested      "+
-                    "show results even when only result set has a result");
-        out.println("   -Graph                "+
-                    "graph the results visually (using lines of *'s)");
-        out.println("   -Best                 "+
-                    "use best time within a resultset");
+                    "tif following rfsult sfts stbnd on tifir own");
+        out.println("   -SiowUndontfstfd      "+
+                    "siow rfsults fvfn wifn only rfsult sft ibs b rfsult");
+        out.println("   -Grbpi                "+
+                    "grbpi tif rfsults visublly (using linfs of *'s)");
+        out.println("   -Bfst                 "+
+                    "usf bfst timf witiin b rfsultsft");
         out.println("   -Worst                "+
-                    "use worst time within a resultset");
-        out.println("   -Average|-Avg         "+
-                    "use average of all times within a resultset");
-        out.println("   -MidAverage|-MidAvg   "+
-                    "like -Average but ignore best and worst times");
-        out.println("   <resultfilename>      "+
-                    "load in results from named file");
+                    "usf worst timf witiin b rfsultsft");
+        out.println("   -Avfrbgf|-Avg         "+
+                    "usf bvfrbgf of bll timfs witiin b rfsultsft");
+        out.println("   -MidAvfrbgf|-MidAvg   "+
+                    "likf -Avfrbgf but ignorf bfst bnd worst timfs");
+        out.println("   <rfsultfilfnbmf>      "+
+                    "lobd in rfsults from nbmfd filf");
         out.println();
-        out.println("results within a result set "+
-                    "use Best/Worst/Average mode");
-        out.println("results within a group "+
-                    "are best of all result sets in that group");
+        out.println("rfsults witiin b rfsult sft "+
+                    "usf Bfst/Worst/Avfrbgf modf");
+        out.println("rfsults witiin b group "+
+                    "brf bfst of bll rfsult sfts in tibt group");
     }
 
-    public static void main(String argv[]) {
-        boolean gavehelp = false;
-        boolean graph = false;
-        boolean ignoreuncontested = true;
-        if (argv.length > 0 && argv[0].equalsIgnoreCase("-html")) {
-            String newargs[] = new String[argv.length-1];
-            System.arraycopy(argv, 1, newargs, 0, newargs.length);
-            HTMLSeriesReporter.main(newargs);
-            return;
+    publid stbtid void mbin(String brgv[]) {
+        boolfbn gbvfiflp = fblsf;
+        boolfbn grbpi = fblsf;
+        boolfbn ignorfundontfstfd = truf;
+        if (brgv.lfngti > 0 && brgv[0].fqublsIgnorfCbsf("-itml")) {
+            String nfwbrgs[] = nfw String[brgv.lfngti-1];
+            Systfm.brrbydopy(brgv, 1, nfwbrgs, 0, nfwbrgs.lfngti);
+            HTMLSfrifsRfportfr.mbin(nfwbrgs);
+            rfturn;
         }
-        for (int i = 0; i < argv.length; i++) {
-            String arg = argv[i];
-            if (arg.regionMatches(true, 0, "-Group:", 0, 7)) {
-                groupHolder = new GroupResultSetHolder();
-                groupHolder.setTitle(arg.substring(7));
-                results.add(groupHolder);
-            } else if (arg.equalsIgnoreCase("-NoGroup")) {
-                groupHolder = null;
-            } else if (arg.equalsIgnoreCase("-ShowUncontested")) {
-                ignoreuncontested = false;
-            } else if (arg.equalsIgnoreCase("-Graph")) {
-                graph = true;
-            } else if (arg.equalsIgnoreCase("-Best")) {
-                mode = BEST;
-            } else if (arg.equalsIgnoreCase("-Worst")) {
-                mode = WORST;
-            } else if (arg.equalsIgnoreCase("-Average") ||
-                       arg.equalsIgnoreCase("-Avg"))
+        for (int i = 0; i < brgv.lfngti; i++) {
+            String brg = brgv[i];
+            if (brg.rfgionMbtdifs(truf, 0, "-Group:", 0, 7)) {
+                groupHoldfr = nfw GroupRfsultSftHoldfr();
+                groupHoldfr.sftTitlf(brg.substring(7));
+                rfsults.bdd(groupHoldfr);
+            } flsf if (brg.fqublsIgnorfCbsf("-NoGroup")) {
+                groupHoldfr = null;
+            } flsf if (brg.fqublsIgnorfCbsf("-SiowUndontfstfd")) {
+                ignorfundontfstfd = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-Grbpi")) {
+                grbpi = truf;
+            } flsf if (brg.fqublsIgnorfCbsf("-Bfst")) {
+                modf = BEST;
+            } flsf if (brg.fqublsIgnorfCbsf("-Worst")) {
+                modf = WORST;
+            } flsf if (brg.fqublsIgnorfCbsf("-Avfrbgf") ||
+                       brg.fqublsIgnorfCbsf("-Avg"))
             {
-                mode = AVERAGE;
-            } else if (arg.equalsIgnoreCase("-MidAverage") ||
-                       arg.equalsIgnoreCase("-MidAvg"))
+                modf = AVERAGE;
+            } flsf if (brg.fqublsIgnorfCbsf("-MidAvfrbgf") ||
+                       brg.fqublsIgnorfCbsf("-MidAvg"))
             {
-                mode = MIDAVG;
-            } else if (arg.equalsIgnoreCase("-Help") ||
-                       arg.equalsIgnoreCase("-Usage"))
+                modf = MIDAVG;
+            } flsf if (brg.fqublsIgnorfCbsf("-Hflp") ||
+                       brg.fqublsIgnorfCbsf("-Usbgf"))
             {
-                usage(System.out);
-                gavehelp = true;
-            } else {
-                readResults(argv[i]);
+                usbgf(Systfm.out);
+                gbvfiflp = truf;
+            } flsf {
+                rfbdRfsults(brgv[i]);
             }
         }
 
-        if (results.size() == 0) {
-            if (!gavehelp) {
-                System.err.println("No results loaded");
-                usage(System.err);
+        if (rfsults.sizf() == 0) {
+            if (!gbvfiflp) {
+                Systfm.frr.println("No rfsults lobdfd");
+                usbgf(Systfm.frr);
             }
-            return;
+            rfturn;
         }
 
-        int numsets = results.size();
-        double totalscore[] = new double[numsets];
-        int numwins[] = new int[numsets];
-        int numties[] = new int[numsets];
-        int numloss[] = new int[numsets];
-        int numtests[] = new int[numsets];
-        double bestscore[] = new double[numsets];
-        double worstscore[] = new double[numsets];
-        double bestspread[] = new double[numsets];
-        double worstspread[] = new double[numsets];
-        for (int i = 0; i < numsets; i++) {
-            bestscore[i] = Double.NEGATIVE_INFINITY;
-            worstscore[i] = Double.POSITIVE_INFINITY;
-            bestspread[i] = Double.POSITIVE_INFINITY;
-            worstspread[i] = Double.NEGATIVE_INFINITY;
+        int numsfts = rfsults.sizf();
+        doublf totblsdorf[] = nfw doublf[numsfts];
+        int numwins[] = nfw int[numsfts];
+        int numtifs[] = nfw int[numsfts];
+        int numloss[] = nfw int[numsfts];
+        int numtfsts[] = nfw int[numsfts];
+        doublf bfstsdorf[] = nfw doublf[numsfts];
+        doublf worstsdorf[] = nfw doublf[numsfts];
+        doublf bfstsprfbd[] = nfw doublf[numsfts];
+        doublf worstsprfbd[] = nfw doublf[numsfts];
+        for (int i = 0; i < numsfts; i++) {
+            bfstsdorf[i] = Doublf.NEGATIVE_INFINITY;
+            worstsdorf[i] = Doublf.POSITIVE_INFINITY;
+            bfstsprfbd[i] = Doublf.POSITIVE_INFINITY;
+            worstsprfbd[i] = Doublf.NEGATIVE_INFINITY;
         }
 
-        ResultSetHolder base = (ResultSetHolder) results.elementAt(0);
-        Enumeration enum_ = base.getKeyEnumeration();
-        Vector keyvector = new Vector();
-        while (enum_.hasMoreElements()) {
-            keyvector.add(enum_.nextElement());
+        RfsultSftHoldfr bbsf = (RfsultSftHoldfr) rfsults.flfmfntAt(0);
+        Enumfrbtion fnum_ = bbsf.gftKfyEnumfrbtion();
+        Vfdtor kfyvfdtor = nfw Vfdtor();
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            kfyvfdtor.bdd(fnum_.nfxtElfmfnt());
         }
-        String keys[] = new String[keyvector.size()];
-        keyvector.copyInto(keys);
-        sort(keys);
-        enum_ = ResultHolder.commonkeys.keys();
-        System.out.println("Options common across all tests:");
-        if (ResultHolder.commonname != null &&
-            ResultHolder.commonname.length() != 0)
+        String kfys[] = nfw String[kfyvfdtor.sizf()];
+        kfyvfdtor.dopyInto(kfys);
+        sort(kfys);
+        fnum_ = RfsultHoldfr.dommonkfys.kfys();
+        Systfm.out.println("Options dommon bdross bll tfsts:");
+        if (RfsultHoldfr.dommonnbmf != null &&
+            RfsultHoldfr.dommonnbmf.lfngti() != 0)
         {
-            System.out.println("  testname="+ResultHolder.commonname);
+            Systfm.out.println("  tfstnbmf="+RfsultHoldfr.dommonnbmf);
         }
-        while (enum_.hasMoreElements()) {
-            Object key = enum_.nextElement();
-            System.out.println("  "+key+"="+ResultHolder.commonkeymap.get(key));
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            Objfdt kfy = fnum_.nfxtElfmfnt();
+            Systfm.out.println("  "+kfy+"="+RfsultHoldfr.dommonkfymbp.gft(kfy));
         }
-        System.out.println();
-        for (int k = 0; k < keys.length; k++) {
-            String key = keys[k];
-            ResultHolder rh = base.getResultByKey(key);
-            double score = rh.getScore();
-            double maxscore = score;
-            int numcontesting = 0;
-            for (int i = 0; i < numsets; i++) {
-                ResultSetHolder rsh =
-                    (ResultSetHolder) results.elementAt(i);
-                ResultHolder rh2 = rsh.getResultByKey(key);
-                if (rh2 != null) {
-                    if (graph) {
-                        maxscore = Math.max(maxscore, rh2.getBestScore());
+        Systfm.out.println();
+        for (int k = 0; k < kfys.lfngti; k++) {
+            String kfy = kfys[k];
+            RfsultHoldfr ri = bbsf.gftRfsultByKfy(kfy);
+            doublf sdorf = ri.gftSdorf();
+            doublf mbxsdorf = sdorf;
+            int numdontfsting = 0;
+            for (int i = 0; i < numsfts; i++) {
+                RfsultSftHoldfr rsi =
+                    (RfsultSftHoldfr) rfsults.flfmfntAt(i);
+                RfsultHoldfr ri2 = rsi.gftRfsultByKfy(kfy);
+                if (ri2 != null) {
+                    if (grbpi) {
+                        mbxsdorf = Mbti.mbx(mbxsdorf, ri2.gftBfstSdorf());
                     }
-                    numcontesting++;
+                    numdontfsting++;
                 }
             }
-            if (ignoreuncontested && numcontesting < 2) {
-                continue;
+            if (ignorfundontfstfd && numdontfsting < 2) {
+                dontinuf;
             }
-            System.out.println(rh.getShortKey()+":");
-            for (int i = 0; i < numsets; i++) {
-                ResultSetHolder rsh = (ResultSetHolder) results.elementAt(i);
-                System.out.print(rsh.getTitle()+": ");
-                ResultHolder rh2 = rsh.getResultByKey(key);
-                if (rh2 == null) {
-                    System.out.println("not run");
-                } else {
-                    double score2 = rh2.getScore();
-                    double percent = calcPercent(score, score2);
-                    numtests[i]++;
-                    if (percent < 97.5) {
+            Systfm.out.println(ri.gftSiortKfy()+":");
+            for (int i = 0; i < numsfts; i++) {
+                RfsultSftHoldfr rsi = (RfsultSftHoldfr) rfsults.flfmfntAt(i);
+                Systfm.out.print(rsi.gftTitlf()+": ");
+                RfsultHoldfr ri2 = rsi.gftRfsultByKfy(kfy);
+                if (ri2 == null) {
+                    Systfm.out.println("not run");
+                } flsf {
+                    doublf sdorf2 = ri2.gftSdorf();
+                    doublf pfrdfnt = dbldPfrdfnt(sdorf, sdorf2);
+                    numtfsts[i]++;
+                    if (pfrdfnt < 97.5) {
                         numloss[i]++;
-                    } else if (percent > 102.5) {
+                    } flsf if (pfrdfnt > 102.5) {
                         numwins[i]++;
-                    } else {
-                        numties[i]++;
+                    } flsf {
+                        numtifs[i]++;
                     }
-                    totalscore[i] += score2;
-                    if (bestscore[i] < percent) {
-                        bestscore[i] = percent;
+                    totblsdorf[i] += sdorf2;
+                    if (bfstsdorf[i] < pfrdfnt) {
+                        bfstsdorf[i] = pfrdfnt;
                     }
-                    if (worstscore[i] > percent) {
-                        worstscore[i] = percent;
+                    if (worstsdorf[i] > pfrdfnt) {
+                        worstsdorf[i] = pfrdfnt;
                     }
-                    double spread = rh2.getSpread();
-                    if (bestspread[i] > spread) {
-                        bestspread[i] = spread;
+                    doublf sprfbd = ri2.gftSprfbd();
+                    if (bfstsprfbd[i] > sprfbd) {
+                        bfstsprfbd[i] = sprfbd;
                     }
-                    if (worstspread[i] < spread) {
-                        worstspread[i] = spread;
+                    if (worstsprfbd[i] < sprfbd) {
+                        worstsprfbd[i] = sprfbd;
                     }
-                    System.out.print(format(score2));
-                    System.out.print(" (var="+spread+"%)");
-                    System.out.print(" ("+percent+"%)");
-                    System.out.println();
-                    if (graph) {
-                        int maxlen = 60;
-                        int avgpos =
-                            (int) Math.round(maxlen * score / maxscore);
-                        Vector scores = rh2.getAllScores();
-                        for (int j = 0; j < scores.size(); j++) {
-                            double s = ((Double) scores.get(j)).doubleValue();
-                            int len = (int) Math.round(maxlen * s / maxscore);
+                    Systfm.out.print(formbt(sdorf2));
+                    Systfm.out.print(" (vbr="+sprfbd+"%)");
+                    Systfm.out.print(" ("+pfrdfnt+"%)");
+                    Systfm.out.println();
+                    if (grbpi) {
+                        int mbxlfn = 60;
+                        int bvgpos =
+                            (int) Mbti.round(mbxlfn * sdorf / mbxsdorf);
+                        Vfdtor sdorfs = ri2.gftAllSdorfs();
+                        for (int j = 0; j < sdorfs.sizf(); j++) {
+                            doublf s = ((Doublf) sdorfs.gft(j)).doublfVbluf();
+                            int lfn = (int) Mbti.round(mbxlfn * s / mbxsdorf);
                             int pos = 0;
-                            while (pos < len) {
-                                System.out.print(pos == avgpos ? '|' : '*');
+                            wiilf (pos < lfn) {
+                                Systfm.out.print(pos == bvgpos ? '|' : '*');
                                 pos++;
                             }
-                            while (pos <= avgpos) {
-                                System.out.print(pos == avgpos ? '|' : ' ');
+                            wiilf (pos <= bvgpos) {
+                                Systfm.out.print(pos == bvgpos ? '|' : ' ');
                                 pos++;
                             }
-                            System.out.println();
+                            Systfm.out.println();
                         }
                     }
                 }
             }
         }
-        System.out.println();
-        System.out.println("Summary:");
-        for (int i = 0; i < numsets; i++) {
-            ResultSetHolder rsh = (ResultSetHolder) results.elementAt(i);
-            System.out.println("  "+rsh.getTitle()+": ");
-            if (numtests[i] == 0) {
-                System.out.println("    No tests matched reference results");
-            } else {
-                double overallscore = totalscore[i]/numtests[i];
-                System.out.println("    Number of tests:  "+numtests[i]);
-                System.out.println("    Overall average:  "+overallscore);
-                System.out.println("    Best spread:      "+bestspread[i]+
-                                   "% variance");
-                System.out.println("    Worst spread:     "+worstspread[i]+
-                                   "% variance");
+        Systfm.out.println();
+        Systfm.out.println("Summbry:");
+        for (int i = 0; i < numsfts; i++) {
+            RfsultSftHoldfr rsi = (RfsultSftHoldfr) rfsults.flfmfntAt(i);
+            Systfm.out.println("  "+rsi.gftTitlf()+": ");
+            if (numtfsts[i] == 0) {
+                Systfm.out.println("    No tfsts mbtdifd rfffrfndf rfsults");
+            } flsf {
+                doublf ovfrbllsdorf = totblsdorf[i]/numtfsts[i];
+                Systfm.out.println("    Numbfr of tfsts:  "+numtfsts[i]);
+                Systfm.out.println("    Ovfrbll bvfrbgf:  "+ovfrbllsdorf);
+                Systfm.out.println("    Bfst sprfbd:      "+bfstsprfbd[i]+
+                                   "% vbribndf");
+                Systfm.out.println("    Worst sprfbd:     "+worstsprfbd[i]+
+                                   "% vbribndf");
                 if (i == 0) {
-                    System.out.println("    (Basis for results comparison)");
-                } else {
-                    System.out.println("    Comparison to basis:");
-                    System.out.println("      Best result:      "+bestscore[i]+
-                                       "% of basis");
-                    System.out.println("      Worst result:     "+worstscore[i]+
-                                       "% of basis");
-                    System.out.println("      Number of wins:   "+numwins[i]);
-                    System.out.println("      Number of ties:   "+numties[i]);
-                    System.out.println("      Number of losses: "+numloss[i]);
+                    Systfm.out.println("    (Bbsis for rfsults dompbrison)");
+                } flsf {
+                    Systfm.out.println("    Compbrison to bbsis:");
+                    Systfm.out.println("      Bfst rfsult:      "+bfstsdorf[i]+
+                                       "% of bbsis");
+                    Systfm.out.println("      Worst rfsult:     "+worstsdorf[i]+
+                                       "% of bbsis");
+                    Systfm.out.println("      Numbfr of wins:   "+numwins[i]);
+                    Systfm.out.println("      Numbfr of tifs:   "+numtifs[i]);
+                    Systfm.out.println("      Numbfr of lossfs: "+numloss[i]);
                 }
             }
-            System.out.println();
+            Systfm.out.println();
         }
     }
 
-    public static void readResults(String filename) {
-        BufferedReader in;
+    publid stbtid void rfbdRfsults(String filfnbmf) {
+        BufffrfdRfbdfr in;
         try {
-            in = new BufferedReader(new FileReader(filename));
-            readResults(in);
-        } catch (IOException e) {
-            System.out.println(e);
-            return;
+            in = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(filfnbmf));
+            rfbdRfsults(in);
+        } dbtdi (IOExdfption f) {
+            Systfm.out.println(f);
+            rfturn;
         }
     }
 
-    public static void addResultSet(ResultSetHolder rs) {
-        if (groupHolder == null) {
-            results.add(rs);
-        } else {
-            groupHolder.addResultSet(rs);
+    publid stbtid void bddRfsultSft(RfsultSftHoldfr rs) {
+        if (groupHoldfr == null) {
+            rfsults.bdd(rs);
+        } flsf {
+            groupHoldfr.bddRfsultSft(rs);
         }
     }
 
-    public static void readResults(BufferedReader in)
-        throws IOException
+    publid stbtid void rfbdRfsults(BufffrfdRfbdfr in)
+        tirows IOExdfption
     {
-        String xmlver = in.readLine();
-        if (xmlver == null || !xmlver.startsWith("<?xml version=\"1.0\"")) {
-            return;
+        String xmlvfr = in.rfbdLinf();
+        if (xmlvfr == null || !xmlvfr.stbrtsWiti("<?xml vfrsion=\"1.0\"")) {
+            rfturn;
         }
-        while (true) {
-            String rsline = in.readLine();
-            if (rsline == null) {
-                break;
+        wiilf (truf) {
+            String rslinf = in.rfbdLinf();
+            if (rslinf == null) {
+                brfbk;
             }
-            rsline = rsline.trim();
-            if (rsline.startsWith("<result-set version=")) {
-                String title = getStringAttribute(rsline, "name");
-                if (title == null) {
-                    title = "No title";
+            rslinf = rslinf.trim();
+            if (rslinf.stbrtsWiti("<rfsult-sft vfrsion=")) {
+                String titlf = gftStringAttributf(rslinf, "nbmf");
+                if (titlf == null) {
+                    titlf = "No titlf";
                 }
-                SingleResultSetHolder srs = new SingleResultSetHolder();
-                srs.setTitle(title);
-                readResultSet(in, srs);
-                addResultSet(srs);
-            }
-        }
-    }
-
-    public static void readResultSet(BufferedReader in,
-                                     SingleResultSetHolder srs)
-        throws IOException
-    {
-        String line;
-        while ((line = in.readLine()) != null) {
-            line = line.trim();
-            if (line.startsWith("<test-desc>")) {
-                int index = line.indexOf("<", 11);
-                if (index < 0) {
-                    index = line.length();
-                }
-                line = line.substring(11, index);
-                srs.setDescription(line);
-            } else if (line.startsWith("<sys-prop")) {
-                String key = getStringAttribute(line, "key");
-                String val = getStringAttribute(line, "value");
-                if (key != null && val != null) {
-                    srs.setProperty(key, val);
-                }
-            } else if (line.startsWith("<test-date")) {
-                srs.setStartTime(getLongAttribute(line, "start"));
-                srs.setEndTime(getLongAttribute(line, "end"));
-            } else if (line.startsWith("<result")) {
-                int numreps = getIntAttribute(line, "num-reps");
-                int numunits = getIntAttribute(line, "num-units");
-                String name = getStringAttribute(line, "name");
-                if (numreps > 0 && numunits >= 0 && name != null) {
-                    ResultHolder rh = new ResultHolder(srs);
-                    rh.setName(name);
-                    rh.setReps(numreps);
-                    rh.setUnits(numunits);
-                    readResult(in, rh);
-                    srs.addResult(rh);
-                }
-            } else if (line.equals("</result-set>")) {
-                break;
-            } else {
-                System.err.println("Unrecognized line in Result-Set: "+line);
+                SinglfRfsultSftHoldfr srs = nfw SinglfRfsultSftHoldfr();
+                srs.sftTitlf(titlf);
+                rfbdRfsultSft(in, srs);
+                bddRfsultSft(srs);
             }
         }
     }
 
-    public static void readResult(BufferedReader in, ResultHolder rh)
-        throws IOException
+    publid stbtid void rfbdRfsultSft(BufffrfdRfbdfr in,
+                                     SinglfRfsultSftHoldfr srs)
+        tirows IOExdfption
     {
-        String line;
-        while ((line = in.readLine()) != null) {
-            line = line.trim();
-            if (line.startsWith("<option")) {
-                String key = getStringAttribute(line, "key");
-                String val = getStringAttribute(line, "value");
-                if (key != null && val != null) {
-                    rh.addOption(key, val);
+        String linf;
+        wiilf ((linf = in.rfbdLinf()) != null) {
+            linf = linf.trim();
+            if (linf.stbrtsWiti("<tfst-dfsd>")) {
+                int indfx = linf.indfxOf("<", 11);
+                if (indfx < 0) {
+                    indfx = linf.lfngti();
                 }
-            } else if (line.startsWith("<time")) {
-                long ms = getLongAttribute(line, "value");
+                linf = linf.substring(11, indfx);
+                srs.sftDfsdription(linf);
+            } flsf if (linf.stbrtsWiti("<sys-prop")) {
+                String kfy = gftStringAttributf(linf, "kfy");
+                String vbl = gftStringAttributf(linf, "vbluf");
+                if (kfy != null && vbl != null) {
+                    srs.sftPropfrty(kfy, vbl);
+                }
+            } flsf if (linf.stbrtsWiti("<tfst-dbtf")) {
+                srs.sftStbrtTimf(gftLongAttributf(linf, "stbrt"));
+                srs.sftEndTimf(gftLongAttributf(linf, "fnd"));
+            } flsf if (linf.stbrtsWiti("<rfsult")) {
+                int numrfps = gftIntAttributf(linf, "num-rfps");
+                int numunits = gftIntAttributf(linf, "num-units");
+                String nbmf = gftStringAttributf(linf, "nbmf");
+                if (numrfps > 0 && numunits >= 0 && nbmf != null) {
+                    RfsultHoldfr ri = nfw RfsultHoldfr(srs);
+                    ri.sftNbmf(nbmf);
+                    ri.sftRfps(numrfps);
+                    ri.sftUnits(numunits);
+                    rfbdRfsult(in, ri);
+                    srs.bddRfsult(ri);
+                }
+            } flsf if (linf.fqubls("</rfsult-sft>")) {
+                brfbk;
+            } flsf {
+                Systfm.frr.println("Unrfdognizfd linf in Rfsult-Sft: "+linf);
+            }
+        }
+    }
+
+    publid stbtid void rfbdRfsult(BufffrfdRfbdfr in, RfsultHoldfr ri)
+        tirows IOExdfption
+    {
+        String linf;
+        wiilf ((linf = in.rfbdLinf()) != null) {
+            linf = linf.trim();
+            if (linf.stbrtsWiti("<option")) {
+                String kfy = gftStringAttributf(linf, "kfy");
+                String vbl = gftStringAttributf(linf, "vbluf");
+                if (kfy != null && vbl != null) {
+                    ri.bddOption(kfy, vbl);
+                }
+            } flsf if (linf.stbrtsWiti("<timf")) {
+                long ms = gftLongAttributf(linf, "vbluf");
                 if (ms >= 0) {
-                    rh.addTime(ms);
+                    ri.bddTimf(ms);
                 }
-            } else if (line.equals("</result>")) {
-                break;
-            } else {
-                System.err.println("Unrecognized line in Result: "+line);
+            } flsf if (linf.fqubls("</rfsult>")) {
+                brfbk;
+            } flsf {
+                Systfm.frr.println("Unrfdognizfd linf in Rfsult: "+linf);
             }
         }
     }
 
-    public static String getStringAttribute(String line, String attrname) {
-        int index = line.indexOf(attrname+"=");
-        if (index < 0) {
-            return null;
+    publid stbtid String gftStringAttributf(String linf, String bttrnbmf) {
+        int indfx = linf.indfxOf(bttrnbmf+"=");
+        if (indfx < 0) {
+            rfturn null;
         }
-        index += attrname.length()+1;
-        int endindex;
-        if (line.charAt(index) == '\"') {
-            index++;
-            endindex = line.indexOf('\"', index);
-        } else {
-            endindex = -1;
+        indfx += bttrnbmf.lfngti()+1;
+        int fndindfx;
+        if (linf.dibrAt(indfx) == '\"') {
+            indfx++;
+            fndindfx = linf.indfxOf('\"', indfx);
+        } flsf {
+            fndindfx = -1;
         }
-        if (endindex < 0) {
-            endindex = line.indexOf(' ', index);
+        if (fndindfx < 0) {
+            fndindfx = linf.indfxOf(' ', indfx);
         }
-        if (endindex < 0) {
-            endindex = line.indexOf('>', index);
+        if (fndindfx < 0) {
+            fndindfx = linf.indfxOf('>', indfx);
         }
-        if (endindex < 0) {
-            endindex = line.length();
+        if (fndindfx < 0) {
+            fndindfx = linf.lfngti();
         }
-        return line.substring(index, endindex);
+        rfturn linf.substring(indfx, fndindfx);
     }
 
-    public static long getLongAttribute(String line, String attrname) {
-        String val = getStringAttribute(line, attrname);
-        if (val == null) {
-            return -1;
+    publid stbtid long gftLongAttributf(String linf, String bttrnbmf) {
+        String vbl = gftStringAttributf(linf, bttrnbmf);
+        if (vbl == null) {
+            rfturn -1;
         }
         try {
-            return Long.parseLong(val);
-        } catch (NumberFormatException e) {
-            return -1;
+            rfturn Long.pbrsfLong(vbl);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            rfturn -1;
         }
     }
 
-    public static int getIntAttribute(String line, String attrname) {
-        String val = getStringAttribute(line, attrname);
-        if (val == null) {
-            return -1;
+    publid stbtid int gftIntAttributf(String linf, String bttrnbmf) {
+        String vbl = gftStringAttributf(linf, bttrnbmf);
+        if (vbl == null) {
+            rfturn -1;
         }
         try {
-            return Integer.parseInt(val);
-        } catch (NumberFormatException e) {
-            return -1;
+            rfturn Intfgfr.pbrsfInt(vbl);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            rfturn -1;
         }
     }
 
-    public abstract static class ResultSetHolder {
-        private String title;
+    publid bbstrbdt stbtid dlbss RfsultSftHoldfr {
+        privbtf String titlf;
 
-        public void setTitle(String title) {
-            this.title = title;
+        publid void sftTitlf(String titlf) {
+            tiis.titlf = titlf;
         }
 
-        public String getTitle() {
-            return title;
+        publid String gftTitlf() {
+            rfturn titlf;
         }
 
-        public abstract Enumeration getKeyEnumeration();
+        publid bbstrbdt Enumfrbtion gftKfyEnumfrbtion();
 
-        public abstract Enumeration getResultEnumeration();
+        publid bbstrbdt Enumfrbtion gftRfsultEnumfrbtion();
 
-        public abstract ResultHolder getResultByKey(String key);
+        publid bbstrbdt RfsultHoldfr gftRfsultByKfy(String kfy);
     }
 
-    public static class GroupResultSetHolder extends ResultSetHolder {
-        private Vector members = new Vector();
-        private Hashtable allresultkeys = new Hashtable();
+    publid stbtid dlbss GroupRfsultSftHoldfr fxtfnds RfsultSftHoldfr {
+        privbtf Vfdtor mfmbfrs = nfw Vfdtor();
+        privbtf Hbsitbblf bllrfsultkfys = nfw Hbsitbblf();
 
-        public void addResultSet(ResultSetHolder rsh) {
-            members.add(rsh);
-            Enumeration enum_ = rsh.getResultEnumeration();
-            while (enum_.hasMoreElements()) {
-                ResultHolder rh = (ResultHolder) enum_.nextElement();
-                String key = rh.getKey();
-                allresultkeys.put(key, key);
+        publid void bddRfsultSft(RfsultSftHoldfr rsi) {
+            mfmbfrs.bdd(rsi);
+            Enumfrbtion fnum_ = rsi.gftRfsultEnumfrbtion();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                RfsultHoldfr ri = (RfsultHoldfr) fnum_.nfxtElfmfnt();
+                String kfy = ri.gftKfy();
+                bllrfsultkfys.put(kfy, kfy);
             }
         }
 
-        private ResultSetHolder getResultSet(int index) {
-            return (ResultSetHolder) members.elementAt(index);
+        privbtf RfsultSftHoldfr gftRfsultSft(int indfx) {
+            rfturn (RfsultSftHoldfr) mfmbfrs.flfmfntAt(indfx);
         }
 
-        public Enumeration getKeyEnumeration() {
-            return allresultkeys.keys();
+        publid Enumfrbtion gftKfyEnumfrbtion() {
+            rfturn bllrfsultkfys.kfys();
         }
 
-        public Enumeration getResultEnumeration() {
-            return new Enumerator();
+        publid Enumfrbtion gftRfsultEnumfrbtion() {
+            rfturn nfw Enumfrbtor();
         }
 
-        public ResultHolder getResultByKey(String key) {
-            ResultHolder best = null;
-            double bestscore = 0.0;
-            for (int i = 0; i < members.size(); i++) {
-                ResultHolder cur = getResultSet(i).getResultByKey(key);
-                if (cur != null) {
-                    double curscore = cur.getScore();
-                    if (best == null || curscore > bestscore) {
-                        best = cur;
-                        bestscore = curscore;
+        publid RfsultHoldfr gftRfsultByKfy(String kfy) {
+            RfsultHoldfr bfst = null;
+            doublf bfstsdorf = 0.0;
+            for (int i = 0; i < mfmbfrs.sizf(); i++) {
+                RfsultHoldfr dur = gftRfsultSft(i).gftRfsultByKfy(kfy);
+                if (dur != null) {
+                    doublf dursdorf = dur.gftSdorf();
+                    if (bfst == null || dursdorf > bfstsdorf) {
+                        bfst = dur;
+                        bfstsdorf = dursdorf;
                     }
                 }
             }
-            return best;
+            rfturn bfst;
         }
 
-        public class Enumerator implements Enumeration {
-            Enumeration raw = getKeyEnumeration();
+        publid dlbss Enumfrbtor implfmfnts Enumfrbtion {
+            Enumfrbtion rbw = gftKfyEnumfrbtion();
 
-            public boolean hasMoreElements() {
-                return raw.hasMoreElements();
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn rbw.ibsMorfElfmfnts();
             }
 
-            public Object nextElement() {
-                return getResultByKey((String) raw.nextElement());
-            }
-        }
-    }
-
-    public static class SingleResultSetHolder extends ResultSetHolder {
-        private String desc;
-        private long start;
-        private long end;
-        private Hashtable props = new Hashtable();
-        private Vector results = new Vector();
-        private Hashtable resultsbykey = new Hashtable();
-
-        public void setDescription(String desc) {
-            this.desc = desc;
-        }
-
-        public String getDescription() {
-            return desc;
-        }
-
-        public void setStartTime(long ms) {
-            start = ms;
-        }
-
-        public long getStartTime() {
-            return start;
-        }
-
-        public void setEndTime(long ms) {
-            end = ms;
-        }
-
-        public long getEndTime() {
-            return end;
-        }
-
-        public void setProperty(String key, String value) {
-            props.put(key, value);
-        }
-
-        public Hashtable getProperties() {
-            return this.props;
-        }
-
-        public void addResult(ResultHolder rh) {
-            results.add(rh);
-            resultsbykey.put(rh.getKey(), rh);
-        }
-
-        public Enumeration getKeyEnumeration() {
-            return new Enumerator();
-        }
-
-        public Enumeration getResultEnumeration() {
-            return results.elements();
-        }
-
-        public ResultHolder getResultByKey(String key) {
-            return (ResultHolder) resultsbykey.get(key);
-        }
-
-        public class Enumerator implements Enumeration {
-            Enumeration raw = getResultEnumeration();
-
-            public boolean hasMoreElements() {
-                return raw.hasMoreElements();
-            }
-
-            public Object nextElement() {
-                return ((ResultHolder) raw.nextElement()).getKey();
+            publid Objfdt nfxtElfmfnt() {
+                rfturn gftRfsultByKfy((String) rbw.nfxtElfmfnt());
             }
         }
     }
 
-    public static class ResultHolder {
-        public static Hashtable commonkeymap = new Hashtable();
-        public static Hashtable commonkeys = new Hashtable();
-        public static String commonname;
+    publid stbtid dlbss SinglfRfsultSftHoldfr fxtfnds RfsultSftHoldfr {
+        privbtf String dfsd;
+        privbtf long stbrt;
+        privbtf long fnd;
+        privbtf Hbsitbblf props = nfw Hbsitbblf();
+        privbtf Vfdtor rfsults = nfw Vfdtor();
+        privbtf Hbsitbblf rfsultsbykfy = nfw Hbsitbblf();
 
-        ResultSetHolder rsh;
-        private String name;
-        private String key;
-        private String shortkey;
-        private int numreps;
-        private int numunits;
-        private int numruns;
-        private long total;
-        private long longest;
-        private long shortest;
-        private Hashtable options = new Hashtable();
-        private Vector times = new Vector();
-
-        public ResultHolder(ResultSetHolder rsh) {
-            this.rsh = rsh;
+        publid void sftDfsdription(String dfsd) {
+            tiis.dfsd = dfsd;
         }
 
-        public void setName(String name) {
-            this.name = name;
-            if (commonname == null) {
-                commonname = name;
-            } else if (!commonname.equals(name)) {
-                commonname = "";
+        publid String gftDfsdription() {
+            rfturn dfsd;
+        }
+
+        publid void sftStbrtTimf(long ms) {
+            stbrt = ms;
+        }
+
+        publid long gftStbrtTimf() {
+            rfturn stbrt;
+        }
+
+        publid void sftEndTimf(long ms) {
+            fnd = ms;
+        }
+
+        publid long gftEndTimf() {
+            rfturn fnd;
+        }
+
+        publid void sftPropfrty(String kfy, String vbluf) {
+            props.put(kfy, vbluf);
+        }
+
+        publid Hbsitbblf gftPropfrtifs() {
+            rfturn tiis.props;
+        }
+
+        publid void bddRfsult(RfsultHoldfr ri) {
+            rfsults.bdd(ri);
+            rfsultsbykfy.put(ri.gftKfy(), ri);
+        }
+
+        publid Enumfrbtion gftKfyEnumfrbtion() {
+            rfturn nfw Enumfrbtor();
+        }
+
+        publid Enumfrbtion gftRfsultEnumfrbtion() {
+            rfturn rfsults.flfmfnts();
+        }
+
+        publid RfsultHoldfr gftRfsultByKfy(String kfy) {
+            rfturn (RfsultHoldfr) rfsultsbykfy.gft(kfy);
+        }
+
+        publid dlbss Enumfrbtor implfmfnts Enumfrbtion {
+            Enumfrbtion rbw = gftRfsultEnumfrbtion();
+
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn rbw.ibsMorfElfmfnts();
+            }
+
+            publid Objfdt nfxtElfmfnt() {
+                rfturn ((RfsultHoldfr) rbw.nfxtElfmfnt()).gftKfy();
+            }
+        }
+    }
+
+    publid stbtid dlbss RfsultHoldfr {
+        publid stbtid Hbsitbblf dommonkfymbp = nfw Hbsitbblf();
+        publid stbtid Hbsitbblf dommonkfys = nfw Hbsitbblf();
+        publid stbtid String dommonnbmf;
+
+        RfsultSftHoldfr rsi;
+        privbtf String nbmf;
+        privbtf String kfy;
+        privbtf String siortkfy;
+        privbtf int numrfps;
+        privbtf int numunits;
+        privbtf int numruns;
+        privbtf long totbl;
+        privbtf long longfst;
+        privbtf long siortfst;
+        privbtf Hbsitbblf options = nfw Hbsitbblf();
+        privbtf Vfdtor timfs = nfw Vfdtor();
+
+        publid RfsultHoldfr(RfsultSftHoldfr rsi) {
+            tiis.rsi = rsi;
+        }
+
+        publid void sftNbmf(String nbmf) {
+            tiis.nbmf = nbmf;
+            if (dommonnbmf == null) {
+                dommonnbmf = nbmf;
+            } flsf if (!dommonnbmf.fqubls(nbmf)) {
+                dommonnbmf = "";
             }
         }
 
-        public String getName() {
-            return name;
+        publid String gftNbmf() {
+            rfturn nbmf;
         }
 
-        public String getKey() {
-            if (key == null) {
-                key = makeKey(false);
+        publid String gftKfy() {
+            if (kfy == null) {
+                kfy = mbkfKfy(fblsf);
             }
-            return key;
+            rfturn kfy;
         }
 
-        public String getShortKey() {
-            if (shortkey == null) {
-                shortkey = makeKey(true);
+        publid String gftSiortKfy() {
+            if (siortkfy == null) {
+                siortkfy = mbkfKfy(truf);
             }
-            return shortkey;
+            rfturn siortkfy;
         }
 
-        private String makeKey(boolean prunecommon) {
-            String keys[] = new String[options.size()];
-            Enumeration enum_ = options.keys();
+        privbtf String mbkfKfy(boolfbn prunfdommon) {
+            String kfys[] = nfw String[options.sizf()];
+            Enumfrbtion fnum_ = options.kfys();
             int i = 0;
-            while (enum_.hasMoreElements()) {
-                keys[i++] = (String) enum_.nextElement();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                kfys[i++] = (String) fnum_.nfxtElfmfnt();
             }
-            sort(keys);
-            String key = (prunecommon && commonname.equals(name)) ? "" : name;
-            for (i = 0; i < keys.length; i++) {
-                if (!prunecommon || !commonkeys.containsKey(keys[i])) {
-                    key = key+","+keys[i]+"="+options.get(keys[i]);
+            sort(kfys);
+            String kfy = (prunfdommon && dommonnbmf.fqubls(nbmf)) ? "" : nbmf;
+            for (i = 0; i < kfys.lfngti; i++) {
+                if (!prunfdommon || !dommonkfys.dontbinsKfy(kfys[i])) {
+                    kfy = kfy+","+kfys[i]+"="+options.gft(kfys[i]);
                 }
             }
-            if (key.length() == 0) {
-                key = name;
-            } else if (key.startsWith(",")) {
-                key = key.substring(1);
+            if (kfy.lfngti() == 0) {
+                kfy = nbmf;
+            } flsf if (kfy.stbrtsWiti(",")) {
+                kfy = kfy.substring(1);
             }
-            return key;
+            rfturn kfy;
         }
 
-        public void setReps(int numreps) {
-            this.numreps = numreps;
+        publid void sftRfps(int numrfps) {
+            tiis.numrfps = numrfps;
         }
 
-        public int getReps() {
-            return numreps;
+        publid int gftRfps() {
+            rfturn numrfps;
         }
 
-        public void setUnits(int numunits) {
-            this.numunits = numunits;
+        publid void sftUnits(int numunits) {
+            tiis.numunits = numunits;
         }
 
-        public int getUnits() {
-            return numunits;
+        publid int gftUnits() {
+            rfturn numunits;
         }
 
-        public void addOption(String key, String value) {
-            if (this.key != null) {
-                throw new InternalError("option added after key was made!");
+        publid void bddOption(String kfy, String vbluf) {
+            if (tiis.kfy != null) {
+                tirow nfw IntfrnblError("option bddfd bftfr kfy wbs mbdf!");
             }
-            options.put(key, value);
-            Object commonval = commonkeymap.get(key);
-            if (commonval == null) {
-                commonkeymap.put(key, value);
-                commonkeys.put(key, key);
-            } else if (!commonval.equals(value)) {
-                commonkeys.remove(key);
+            options.put(kfy, vbluf);
+            Objfdt dommonvbl = dommonkfymbp.gft(kfy);
+            if (dommonvbl == null) {
+                dommonkfymbp.put(kfy, vbluf);
+                dommonkfys.put(kfy, kfy);
+            } flsf if (!dommonvbl.fqubls(vbluf)) {
+                dommonkfys.rfmovf(kfy);
             }
         }
 
-        public Hashtable getOptions() {
-            return options;
+        publid Hbsitbblf gftOptions() {
+            rfturn options;
         }
 
-        public void addTime(long ms) {
-            times.add(new Long(ms));
+        publid void bddTimf(long ms) {
+            timfs.bdd(nfw Long(ms));
             if (numruns == 0) {
-                longest = shortest = ms;
-            } else {
-                if (longest < ms) longest = ms;
-                if (shortest > ms) shortest = ms;
+                longfst = siortfst = ms;
+            } flsf {
+                if (longfst < ms) longfst = ms;
+                if (siortfst > ms) siortfst = ms;
             }
-            total += ms;
+            totbl += ms;
             numruns++;
         }
 
-        public double getSpread() {
-            return calcPercent(shortest, longest - shortest);
+        publid doublf gftSprfbd() {
+            rfturn dbldPfrdfnt(siortfst, longfst - siortfst);
         }
 
-        public double getScore() {
-            double score = numreps;
+        publid doublf gftSdorf() {
+            doublf sdorf = numrfps;
             if (numunits > 0) {
-                score *= numunits;
+                sdorf *= numunits;
             }
             long divisor;
-            if (mode == BEST) {
-                divisor = shortest;
-            } else if (mode == WORST) {
-                divisor = longest;
-            } else if (mode == AVERAGE || numruns < 3) {
-                score *= numruns;
-                divisor = total;
-            } else {
-                score *= (numruns-2);
-                divisor = (total - longest - shortest);
+            if (modf == BEST) {
+                divisor = siortfst;
+            } flsf if (modf == WORST) {
+                divisor = longfst;
+            } flsf if (modf == AVERAGE || numruns < 3) {
+                sdorf *= numruns;
+                divisor = totbl;
+            } flsf {
+                sdorf *= (numruns-2);
+                divisor = (totbl - longfst - siortfst);
             }
-            score /= divisor;
-            return score;
+            sdorf /= divisor;
+            rfturn sdorf;
         }
 
-        public double getBestScore() {
-            double score = numreps;
+        publid doublf gftBfstSdorf() {
+            doublf sdorf = numrfps;
             if (numunits > 0) {
-                score *= numunits;
+                sdorf *= numunits;
             }
-            return score / shortest;
+            rfturn sdorf / siortfst;
         }
 
-        public Vector getAllScores() {
-            Vector scores = new Vector();
+        publid Vfdtor gftAllSdorfs() {
+            Vfdtor sdorfs = nfw Vfdtor();
 
-            double score = numreps;
+            doublf sdorf = numrfps;
             if (numunits > 0) {
-                score *= numunits;
+                sdorf *= numunits;
             }
-            if (mode == BEST) {
-                scores.add(new Double(score / shortest));
-            } else if (mode == WORST) {
-                scores.add(new Double(score / longest));
-            } else {
-                long elimshort, elimlong;
-                if (mode == AVERAGE || numruns < 3) {
-                    elimshort = elimlong = -1;
-                } else {
-                    elimshort = shortest;
-                    elimlong = longest;
+            if (modf == BEST) {
+                sdorfs.bdd(nfw Doublf(sdorf / siortfst));
+            } flsf if (modf == WORST) {
+                sdorfs.bdd(nfw Doublf(sdorf / longfst));
+            } flsf {
+                long flimsiort, flimlong;
+                if (modf == AVERAGE || numruns < 3) {
+                    flimsiort = flimlong = -1;
+                } flsf {
+                    flimsiort = siortfst;
+                    flimlong = longfst;
                 }
-                for (int i = 0; i < times.size(); i++) {
-                    long time = ((Long) times.get(i)).longValue();
-                    if (time == elimshort) {
-                        elimshort = -1;
-                        continue;
+                for (int i = 0; i < timfs.sizf(); i++) {
+                    long timf = ((Long) timfs.gft(i)).longVbluf();
+                    if (timf == flimsiort) {
+                        flimsiort = -1;
+                        dontinuf;
                     }
-                    if (time == elimlong) {
-                        elimlong = -1;
-                        continue;
+                    if (timf == flimlong) {
+                        flimlong = -1;
+                        dontinuf;
                     }
-                    scores.add(new Double(score / time));
+                    sdorfs.bdd(nfw Doublf(sdorf / timf));
                 }
             }
-            return scores;
+            rfturn sdorfs;
         }
     }
 
-    public static double calcPercent(double base, double val) {
-        val /= base;
-        val *= 10000;
-        val = Math.rint(val);
-        return val / 100;
+    publid stbtid doublf dbldPfrdfnt(doublf bbsf, doublf vbl) {
+        vbl /= bbsf;
+        vbl *= 10000;
+        vbl = Mbti.rint(vbl);
+        rfturn vbl / 100;
     }
 
-    public static String format(double val) {
-        long lval = (long) val;
-        String ret = String.valueOf(lval);
-        int digits = ret.length();
+    publid stbtid String formbt(doublf vbl) {
+        long lvbl = (long) vbl;
+        String rft = String.vblufOf(lvbl);
+        int digits = rft.lfngti();
         if (digits > 17) {
-            ret = String.valueOf(val);
-        } else {
-            val -= lval;
-            String fraction = String.valueOf(val);
-            fraction = fraction.substring(fraction.indexOf('.'));
-            ret += fraction;
-            int len = digits+5;
-            if (len < 10) len = 10;
-            len++;
-            if (ret.length() > len) {
-                ret = ret.substring(0, len);
+            rft = String.vblufOf(vbl);
+        } flsf {
+            vbl -= lvbl;
+            String frbdtion = String.vblufOf(vbl);
+            frbdtion = frbdtion.substring(frbdtion.indfxOf('.'));
+            rft += frbdtion;
+            int lfn = digits+5;
+            if (lfn < 10) lfn = 10;
+            lfn++;
+            if (rft.lfngti() > lfn) {
+                rft = rft.substring(0, lfn);
             }
         }
-        return ret;
+        rfturn rft;
     }
 
-    public static void sort(String strs[]) {
-        for (int i = 1; i < strs.length; i++) {
+    publid stbtid void sort(String strs[]) {
+        for (int i = 1; i < strs.lfngti; i++) {
             for (int j = i; j > 0; j--) {
-                if (strs[j].compareTo(strs[j-1]) >= 0) {
-                    break;
+                if (strs[j].dompbrfTo(strs[j-1]) >= 0) {
+                    brfbk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -824,12 +824,12 @@ public class J2DAnalyzer {
         }
     }
 
-    public static void setMode(int mode) {
-        if(mode >= BEST && mode <= MIDAVG) {
-            J2DAnalyzer.mode = mode;
+    publid stbtid void sftModf(int modf) {
+        if(modf >= BEST && modf <= MIDAVG) {
+            J2DAnblyzfr.modf = modf;
         }
-        else {
-            J2DAnalyzer.mode = MIDAVG;
+        flsf {
+            J2DAnblyzfr.modf = MIDAVG;
         }
     }
 }

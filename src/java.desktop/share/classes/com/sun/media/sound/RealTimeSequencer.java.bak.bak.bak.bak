@@ -1,0 +1,2084 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+
+import jbvbx.sound.midi.*;
+
+
+/**
+ * A Rfbl Timf Sfqufndfr
+ *
+ * @buthor Floribn Bomfrs
+ */
+
+/* TODO:
+ * - rfnbmf PlbyThrfbd to PlbyEnginf (bfdbusf isn't b thrfbd)
+ */
+finbl dlbss RfblTimfSfqufndfr fxtfnds AbstrbdtMidiDfvidf
+        implfmfnts Sfqufndfr, AutoConnfdtSfqufndfr {
+
+    // STATIC VARIABLES
+
+    /** dfbugging flbgs */
+    privbtf finbl stbtid boolfbn DEBUG_PUMP = fblsf;
+    privbtf finbl stbtid boolfbn DEBUG_PUMP_ALL = fblsf;
+
+    /**
+     * Evfnt Dispbtdhfr thrfbd. Should bf using b shbrfd fvfnt
+     * dispbtdhfr instbndf with b fbdtory in EvfntDispbtdhfr
+     */
+    privbtf stbtid finbl Mbp<ThrfbdGroup, EvfntDispbtdhfr> dispbtdhfrs =
+            nfw WfbkHbshMbp<>();
+
+    /**
+     * All RfblTimfSfqufndfrs shbrf this info objfdt.
+     */
+    stbtid finbl RfblTimfSfqufndfrInfo info = nfw RfblTimfSfqufndfrInfo();
+
+
+    privbtf stbtid finbl Sfqufndfr.SyndModf[] mbstfrSyndModfs = { Sfqufndfr.SyndModf.INTERNAL_CLOCK };
+    privbtf stbtid finbl Sfqufndfr.SyndModf[] slbvfSyndModfs  = { Sfqufndfr.SyndModf.NO_SYNC };
+
+    privbtf stbtid finbl Sfqufndfr.SyndModf mbstfrSyndModf    = Sfqufndfr.SyndModf.INTERNAL_CLOCK;
+    privbtf stbtid finbl Sfqufndfr.SyndModf slbvfSyndModf     = Sfqufndfr.SyndModf.NO_SYNC;
+
+
+    /**
+     * Sfqufndf on whidh this sfqufndfr is opfrbting.
+     */
+    privbtf Sfqufndf sfqufndf = null;
+
+    // dbdhfs
+
+    /**
+     * Sbmf for sftTfmpoInMPQ...
+     * -1 mfbns not sft.
+     */
+    privbtf doublf dbdhfTfmpoMPQ = -1;
+
+
+    /**
+     * dbdhf vbluf for tfmpo fbdtor until sfqufndf is sft
+     * -1 mfbns not sft.
+     */
+    privbtf flobt dbdhfTfmpoFbdtor = -1;
+
+
+    /** if b pbrtidulbr trbdk is mutfd */
+    privbtf boolfbn[] trbdkMutfd = null;
+    /** if b pbrtidulbr trbdk is solo */
+    privbtf boolfbn[] trbdkSolo = null;
+
+    /** tfmpo dbdhf for gftMidrosfdondPosition */
+    privbtf finbl MidiUtils.TfmpoCbdhf tfmpoCbdhf = nfw MidiUtils.TfmpoCbdhf();
+
+    /**
+     * Truf if thf sfqufndf is running.
+     */
+    privbtf boolfbn running = fblsf;
+
+
+    /** thf thrfbd for pushing out thf MIDI mfssbgfs */
+    privbtf PlbyThrfbd plbyThrfbd;
+
+
+    /**
+     * Truf if wf brf rfdording
+     */
+    privbtf boolfbn rfdording = fblsf;
+
+
+    /**
+     * List of trbdks to whidh wf'rf rfdording
+     */
+    privbtf finbl List<RfdordingTrbdk> rfdordingTrbdks = nfw ArrbyList<>();
+
+
+    privbtf long loopStbrt = 0;
+    privbtf long loopEnd = -1;
+    privbtf int loopCount = 0;
+
+
+    /**
+     * Mftb fvfnt listfnfrs
+     */
+    privbtf finbl ArrbyList<Objfdt> mftbEvfntListfnfrs = nfw ArrbyList<>();
+
+
+    /**
+     * Control dhbngf listfnfrs
+     */
+    privbtf finbl ArrbyList<ControllfrListElfmfnt> dontrollfrEvfntListfnfrs = nfw ArrbyList<>();
+
+
+    /** butombtid donnfdtion support */
+    privbtf boolfbn butoConnfdt = fblsf;
+
+    /** if wf nffd to butodonnfdt bt nfxt opfn */
+    privbtf boolfbn doAutoConnfdtAtNfxtOpfn = fblsf;
+
+    /** thf rfdfivfr thbt this dfvidf is buto-donnfdtfd to */
+    Rfdfivfr butoConnfdtfdRfdfivfr = null;
+
+
+    /* ****************************** CONSTRUCTOR ****************************** */
+
+    RfblTimfSfqufndfr() throws MidiUnbvbilbblfExdfption {
+        supfr(info);
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr CONSTRUCTOR");
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr CONSTRUCTOR domplftfd");
+    }
+
+
+    /* ****************************** SEQUENCER METHODS ******************** */
+
+    publid syndhronizfd void sftSfqufndf(Sfqufndf sfqufndf)
+        throws InvblidMidiDbtbExdfption {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftSfqufndf(" + sfqufndf +")");
+
+        if (sfqufndf != this.sfqufndf) {
+            if (this.sfqufndf != null && sfqufndf == null) {
+                sftCbdhfs();
+                stop();
+                // initiblizf somf non-dbdhfd vblufs
+                trbdkMutfd = null;
+                trbdkSolo = null;
+                loopStbrt = 0;
+                loopEnd = -1;
+                loopCount = 0;
+                if (gftDbtbPump() != null) {
+                    gftDbtbPump().sftTidkPos(0);
+                    gftDbtbPump().rfsftLoopCount();
+                }
+            }
+
+            if (plbyThrfbd != null) {
+                plbyThrfbd.sftSfqufndf(sfqufndf);
+            }
+
+            // storf this sfqufndf (do not dopy - wf wbnt to givf thf possibility
+            // of modifying thf sfqufndf bt runtimf)
+            this.sfqufndf = sfqufndf;
+
+            if (sfqufndf != null) {
+                tfmpoCbdhf.rffrfsh(sfqufndf);
+                // rfwind to thf bfginning
+                sftTidkPosition(0);
+                // propbgbtf dbdhfs
+                propbgbtfCbdhfs();
+            }
+        }
+        flsf if (sfqufndf != null) {
+            tfmpoCbdhf.rffrfsh(sfqufndf);
+            if (plbyThrfbd != null) {
+                plbyThrfbd.sftSfqufndf(sfqufndf);
+            }
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: sftSfqufndf(" + sfqufndf +") domplftfd");
+    }
+
+
+    publid syndhronizfd void sftSfqufndf(InputStrfbm strfbm) throws IOExdfption, InvblidMidiDbtbExdfption {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftSfqufndf(" + strfbm +")");
+
+        if (strfbm == null) {
+            sftSfqufndf((Sfqufndf) null);
+            rfturn;
+        }
+
+        Sfqufndf sfq = MidiSystfm.gftSfqufndf(strfbm); // dbn throw IOExdfption, InvblidMidiDbtbExdfption
+
+        sftSfqufndf(sfq);
+
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: sftSfqufndf(" + strfbm +") domplftfd");
+
+    }
+
+
+    publid Sfqufndf gftSfqufndf() {
+        rfturn sfqufndf;
+    }
+
+
+    publid syndhronizfd void stbrt() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: stbrt()");
+
+        // sfqufndfr not opfn: throw bn fxdfption
+        if (!isOpfn()) {
+            throw nfw IllfgblStbtfExdfption("sfqufndfr not opfn");
+        }
+
+        // sfqufndf not bvbilbblf: throw bn fxdfption
+        if (sfqufndf == null) {
+            throw nfw IllfgblStbtfExdfption("sfqufndf not sft");
+        }
+
+        // blrfbdy running: rfturn quiftly
+        if (running == truf) {
+            rfturn;
+        }
+
+        // stbrt plbybbdk
+        implStbrt();
+
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: stbrt() domplftfd");
+    }
+
+
+    publid syndhronizfd void stop() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: stop()");
+
+        if (!isOpfn()) {
+            throw nfw IllfgblStbtfExdfption("sfqufndfr not opfn");
+        }
+        stopRfdording();
+
+        // not running; just rfturn
+        if (running == fblsf) {
+            if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: stop() not running!");
+            rfturn;
+        }
+
+        // stop plbybbdk
+        implStop();
+
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: stop() domplftfd");
+    }
+
+
+    publid boolfbn isRunning() {
+        rfturn running;
+    }
+
+
+    publid void stbrtRfdording() {
+        if (!isOpfn()) {
+            throw nfw IllfgblStbtfExdfption("Sfqufndfr not opfn");
+        }
+
+        stbrt();
+        rfdording = truf;
+    }
+
+
+    publid void stopRfdording() {
+        if (!isOpfn()) {
+            throw nfw IllfgblStbtfExdfption("Sfqufndfr not opfn");
+        }
+        rfdording = fblsf;
+    }
+
+
+    publid boolfbn isRfdording() {
+        rfturn rfdording;
+    }
+
+
+    publid void rfdordEnbblf(Trbdk trbdk, int dhbnnfl) {
+        if (!findTrbdk(trbdk)) {
+            throw nfw IllfgblArgumfntExdfption("Trbdk dofs not fxist in thf durrfnt sfqufndf");
+        }
+
+        syndhronizfd(rfdordingTrbdks) {
+            RfdordingTrbdk rd = RfdordingTrbdk.gft(rfdordingTrbdks, trbdk);
+            if (rd != null) {
+                rd.dhbnnfl = dhbnnfl;
+            } flsf {
+                rfdordingTrbdks.bdd(nfw RfdordingTrbdk(trbdk, dhbnnfl));
+            }
+        }
+
+    }
+
+
+    publid void rfdordDisbblf(Trbdk trbdk) {
+        syndhronizfd(rfdordingTrbdks) {
+            RfdordingTrbdk rd = RfdordingTrbdk.gft(rfdordingTrbdks, trbdk);
+            if (rd != null) {
+                rfdordingTrbdks.rfmovf(rd);
+            }
+        }
+
+    }
+
+
+    privbtf boolfbn findTrbdk(Trbdk trbdk) {
+        boolfbn found = fblsf;
+        if (sfqufndf != null) {
+            Trbdk[] trbdks = sfqufndf.gftTrbdks();
+            for (int i = 0; i < trbdks.lfngth; i++) {
+                if (trbdk == trbdks[i]) {
+                    found = truf;
+                    brfbk;
+                }
+            }
+        }
+        rfturn found;
+    }
+
+
+    publid flobt gftTfmpoInBPM() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftTfmpoInBPM() ");
+
+        rfturn (flobt) MidiUtils.donvfrtTfmpo(gftTfmpoInMPQ());
+    }
+
+
+    publid void sftTfmpoInBPM(flobt bpm) {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftTfmpoInBPM() ");
+        if (bpm <= 0) {
+            // should throw IllfgblArgumfntExdfption
+            bpm = 1.0f;
+        }
+
+        sftTfmpoInMPQ((flobt) MidiUtils.donvfrtTfmpo((doublf) bpm));
+    }
+
+
+    publid flobt gftTfmpoInMPQ() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftTfmpoInMPQ() ");
+
+        if (nffdCbdhing()) {
+            // if thf sfqufndfr is dlosfd, rfturn dbdhfd vbluf
+            if (dbdhfTfmpoMPQ != -1) {
+                rfturn (flobt) dbdhfTfmpoMPQ;
+            }
+            // if sfqufndf is sft, rfturn durrfnt tfmpo
+            if (sfqufndf != null) {
+                rfturn tfmpoCbdhf.gftTfmpoMPQAt(gftTidkPosition());
+            }
+
+            // lbst rfsort: rfturn b stbndbrd tfmpo: 120bpm
+            rfturn (flobt) MidiUtils.DEFAULT_TEMPO_MPQ;
+        }
+        rfturn gftDbtbPump().gftTfmpoMPQ();
+    }
+
+
+    publid void sftTfmpoInMPQ(flobt mpq) {
+        if (mpq <= 0) {
+            // should throw IllfgblArgumfntExdfption
+            mpq = 1.0f;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftTfmpoInMPQ() ");
+
+        if (nffdCbdhing()) {
+            // dbdhf thf vbluf
+            dbdhfTfmpoMPQ = mpq;
+        } flsf {
+            // sft thf nbtivf tfmpo in MPQ
+            gftDbtbPump().sftTfmpoMPQ(mpq);
+
+            // rfsft thf tfmpoInBPM bnd tfmpoInMPQ vblufs so wf won't usf thfm bgbin
+            dbdhfTfmpoMPQ = -1;
+        }
+    }
+
+
+    publid void sftTfmpoFbdtor(flobt fbdtor) {
+        if (fbdtor <= 0) {
+            // should throw IllfgblArgumfntExdfption
+            rfturn;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftTfmpoFbdtor() ");
+
+        if (nffdCbdhing()) {
+            dbdhfTfmpoFbdtor = fbdtor;
+        } flsf {
+            gftDbtbPump().sftTfmpoFbdtor(fbdtor);
+            // don't nffd dbdhf bnymorf
+            dbdhfTfmpoFbdtor = -1;
+        }
+    }
+
+
+    publid flobt gftTfmpoFbdtor() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftTfmpoFbdtor() ");
+
+        if (nffdCbdhing()) {
+            if (dbdhfTfmpoFbdtor != -1) {
+                rfturn dbdhfTfmpoFbdtor;
+            }
+            rfturn 1.0f;
+        }
+        rfturn gftDbtbPump().gftTfmpoFbdtor();
+    }
+
+
+    publid long gftTidkLfngth() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftTidkLfngth() ");
+
+        if (sfqufndf == null) {
+            rfturn 0;
+        }
+
+        rfturn sfqufndf.gftTidkLfngth();
+    }
+
+
+    publid syndhronizfd long gftTidkPosition() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftTidkPosition() ");
+
+        if (gftDbtbPump() == null || sfqufndf == null) {
+            rfturn 0;
+        }
+
+        rfturn gftDbtbPump().gftTidkPos();
+    }
+
+
+    publid syndhronizfd void sftTidkPosition(long tidk) {
+        if (tidk < 0) {
+            // should throw IllfgblArgumfntExdfption
+            rfturn;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftTidkPosition("+tidk+") ");
+
+        if (gftDbtbPump() == null) {
+            if (tidk != 0) {
+                // throw nfw InvblidStbtfExdfption("dbnnot sft position in dlosfd stbtf");
+            }
+        }
+        flsf if (sfqufndf == null) {
+            if (tidk != 0) {
+                // throw nfw InvblidStbtfExdfption("dbnnot sft position if sfqufndf is not sft");
+            }
+        } flsf {
+            gftDbtbPump().sftTidkPos(tidk);
+        }
+    }
+
+
+    publid long gftMidrosfdondLfngth() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftMidrosfdondLfngth() ");
+
+        if (sfqufndf == null) {
+            rfturn 0;
+        }
+
+        rfturn sfqufndf.gftMidrosfdondLfngth();
+    }
+
+
+    publid long gftMidrosfdondPosition() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: gftMidrosfdondPosition() ");
+
+        if (gftDbtbPump() == null || sfqufndf == null) {
+            rfturn 0;
+        }
+        syndhronizfd (tfmpoCbdhf) {
+            rfturn MidiUtils.tidk2midrosfdond(sfqufndf, gftDbtbPump().gftTidkPos(), tfmpoCbdhf);
+        }
+    }
+
+
+    publid void sftMidrosfdondPosition(long midrosfdonds) {
+        if (midrosfdonds < 0) {
+            // should throw IllfgblArgumfntExdfption
+            rfturn;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: sftMidrosfdondPosition("+midrosfdonds+") ");
+
+        if (gftDbtbPump() == null) {
+            if (midrosfdonds != 0) {
+                // throw nfw InvblidStbtfExdfption("dbnnot sft position in dlosfd stbtf");
+            }
+        }
+        flsf if (sfqufndf == null) {
+            if (midrosfdonds != 0) {
+                // throw nfw InvblidStbtfExdfption("dbnnot sft position if sfqufndf is not sft");
+            }
+        } flsf {
+            syndhronizfd(tfmpoCbdhf) {
+                sftTidkPosition(MidiUtils.midrosfdond2tidk(sfqufndf, midrosfdonds, tfmpoCbdhf));
+            }
+        }
+    }
+
+
+    publid void sftMbstfrSyndModf(Sfqufndfr.SyndModf synd) {
+        // not supportfd
+    }
+
+
+    publid Sfqufndfr.SyndModf gftMbstfrSyndModf() {
+        rfturn mbstfrSyndModf;
+    }
+
+
+    publid Sfqufndfr.SyndModf[] gftMbstfrSyndModfs() {
+        Sfqufndfr.SyndModf[] rfturnfdModfs = nfw Sfqufndfr.SyndModf[mbstfrSyndModfs.lfngth];
+        Systfm.brrbydopy(mbstfrSyndModfs, 0, rfturnfdModfs, 0, mbstfrSyndModfs.lfngth);
+        rfturn rfturnfdModfs;
+    }
+
+
+    publid void sftSlbvfSyndModf(Sfqufndfr.SyndModf synd) {
+        // not supportfd
+    }
+
+
+    publid Sfqufndfr.SyndModf gftSlbvfSyndModf() {
+        rfturn slbvfSyndModf;
+    }
+
+
+    publid Sfqufndfr.SyndModf[] gftSlbvfSyndModfs() {
+        Sfqufndfr.SyndModf[] rfturnfdModfs = nfw Sfqufndfr.SyndModf[slbvfSyndModfs.lfngth];
+        Systfm.brrbydopy(slbvfSyndModfs, 0, rfturnfdModfs, 0, slbvfSyndModfs.lfngth);
+        rfturn rfturnfdModfs;
+    }
+
+    int gftTrbdkCount() {
+        Sfqufndf sfq = gftSfqufndf();
+        if (sfq != null) {
+            // $$fb wish thfrf wbs b nidfr wby to gft thf numbfr of trbdks...
+            rfturn sfqufndf.gftTrbdks().lfngth;
+        }
+        rfturn 0;
+    }
+
+
+
+    publid syndhronizfd void sftTrbdkMutf(int trbdk, boolfbn mutf) {
+        int trbdkCount = gftTrbdkCount();
+        if (trbdk < 0 || trbdk >= gftTrbdkCount()) rfturn;
+        trbdkMutfd = fnsurfBoolArrbySizf(trbdkMutfd, trbdkCount);
+        trbdkMutfd[trbdk] = mutf;
+        if (gftDbtbPump() != null) {
+            gftDbtbPump().mutfSoloChbngfd();
+        }
+    }
+
+
+    publid syndhronizfd boolfbn gftTrbdkMutf(int trbdk) {
+        if (trbdk < 0 || trbdk >= gftTrbdkCount()) rfturn fblsf;
+        if (trbdkMutfd == null || trbdkMutfd.lfngth <= trbdk) rfturn fblsf;
+        rfturn trbdkMutfd[trbdk];
+    }
+
+
+    publid syndhronizfd void sftTrbdkSolo(int trbdk, boolfbn solo) {
+        int trbdkCount = gftTrbdkCount();
+        if (trbdk < 0 || trbdk >= gftTrbdkCount()) rfturn;
+        trbdkSolo = fnsurfBoolArrbySizf(trbdkSolo, trbdkCount);
+        trbdkSolo[trbdk] = solo;
+        if (gftDbtbPump() != null) {
+            gftDbtbPump().mutfSoloChbngfd();
+        }
+    }
+
+
+    publid syndhronizfd boolfbn gftTrbdkSolo(int trbdk) {
+        if (trbdk < 0 || trbdk >= gftTrbdkCount()) rfturn fblsf;
+        if (trbdkSolo == null || trbdkSolo.lfngth <= trbdk) rfturn fblsf;
+        rfturn trbdkSolo[trbdk];
+    }
+
+
+    publid boolfbn bddMftbEvfntListfnfr(MftbEvfntListfnfr listfnfr) {
+        syndhronizfd(mftbEvfntListfnfrs) {
+            if (! mftbEvfntListfnfrs.dontbins(listfnfr)) {
+
+                mftbEvfntListfnfrs.bdd(listfnfr);
+            }
+            rfturn truf;
+        }
+    }
+
+
+    publid void rfmovfMftbEvfntListfnfr(MftbEvfntListfnfr listfnfr) {
+        syndhronizfd(mftbEvfntListfnfrs) {
+            int indfx = mftbEvfntListfnfrs.indfxOf(listfnfr);
+            if (indfx >= 0) {
+                mftbEvfntListfnfrs.rfmovf(indfx);
+            }
+        }
+    }
+
+
+    publid int[] bddControllfrEvfntListfnfr(ControllfrEvfntListfnfr listfnfr, int[] dontrollfrs) {
+        syndhronizfd(dontrollfrEvfntListfnfrs) {
+
+            // first find thf listfnfr.  if wf hbvf onf, bdd thf dontrollfrs
+            // if not, drfbtf b nfw flfmfnt for it.
+            ControllfrListElfmfnt dvf = null;
+            boolfbn flbg = fblsf;
+            for(int i=0; i < dontrollfrEvfntListfnfrs.sizf(); i++) {
+
+                dvf = dontrollfrEvfntListfnfrs.gft(i);
+
+                if (dvf.listfnfr.fqubls(listfnfr)) {
+                    dvf.bddControllfrs(dontrollfrs);
+                    flbg = truf;
+                    brfbk;
+                }
+            }
+            if (!flbg) {
+                dvf = nfw ControllfrListElfmfnt(listfnfr, dontrollfrs);
+                dontrollfrEvfntListfnfrs.bdd(dvf);
+            }
+
+            // bnd rfturn bll thf dontrollfrs this listfnfr is intfrfstfd in
+            rfturn dvf.gftControllfrs();
+        }
+    }
+
+
+    publid int[] rfmovfControllfrEvfntListfnfr(ControllfrEvfntListfnfr listfnfr, int[] dontrollfrs) {
+        syndhronizfd(dontrollfrEvfntListfnfrs) {
+            ControllfrListElfmfnt dvf = null;
+            boolfbn flbg = fblsf;
+            for (int i=0; i < dontrollfrEvfntListfnfrs.sizf(); i++) {
+                dvf = dontrollfrEvfntListfnfrs.gft(i);
+                if (dvf.listfnfr.fqubls(listfnfr)) {
+                    dvf.rfmovfControllfrs(dontrollfrs);
+                    flbg = truf;
+                    brfbk;
+                }
+            }
+            if (!flbg) {
+                rfturn nfw int[0];
+            }
+            if (dontrollfrs == null) {
+                int indfx = dontrollfrEvfntListfnfrs.indfxOf(dvf);
+                if (indfx >= 0) {
+                    dontrollfrEvfntListfnfrs.rfmovf(indfx);
+                }
+                rfturn nfw int[0];
+            }
+            rfturn dvf.gftControllfrs();
+        }
+    }
+
+
+    ////////////////// LOOPING (bddfd in 1.5) ///////////////////////
+
+    publid void sftLoopStbrtPoint(long tidk) {
+        if ((tidk > gftTidkLfngth())
+            || ((loopEnd != -1) && (tidk > loopEnd))
+            || (tidk < 0)) {
+            throw nfw IllfgblArgumfntExdfption("invblid loop stbrt point: "+tidk);
+        }
+        loopStbrt = tidk;
+    }
+
+    publid long gftLoopStbrtPoint() {
+        rfturn loopStbrt;
+    }
+
+    publid void sftLoopEndPoint(long tidk) {
+        if ((tidk > gftTidkLfngth())
+            || ((loopStbrt > tidk) && (tidk != -1))
+            || (tidk < -1)) {
+            throw nfw IllfgblArgumfntExdfption("invblid loop fnd point: "+tidk);
+        }
+        loopEnd = tidk;
+    }
+
+    publid long gftLoopEndPoint() {
+        rfturn loopEnd;
+    }
+
+    publid void sftLoopCount(int dount) {
+        if (dount != LOOP_CONTINUOUSLY
+            && dount < 0) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl vbluf for loop dount: "+dount);
+        }
+        loopCount = dount;
+        if (gftDbtbPump() != null) {
+            gftDbtbPump().rfsftLoopCount();
+        }
+    }
+
+    publid int gftLoopCount() {
+        rfturn loopCount;
+    }
+
+
+    /* *********************************** plby dontrol ************************* */
+
+    /*
+     */
+    protfdtfd void implOpfn() throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: implOpfn()");
+
+        //opfnIntfrnblSynth();
+
+        // drfbtf PlbyThrfbd
+        plbyThrfbd = nfw PlbyThrfbd();
+
+        //id = nOpfn();
+        //if (id == 0) {
+        //    throw nfw MidiUnbvbilbblfExdfption("unbblf to opfn sfqufndfr");
+        //}
+        if (sfqufndf != null) {
+            plbyThrfbd.sftSfqufndf(sfqufndf);
+        }
+
+        // propbgbtf dbdhfs
+        propbgbtfCbdhfs();
+
+        if (doAutoConnfdtAtNfxtOpfn) {
+            doAutoConnfdt();
+        }
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: implOpfn() suddffdfd");
+    }
+
+    privbtf void doAutoConnfdt() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: doAutoConnfdt()");
+        Rfdfivfr rfd = null;
+        // first try to donnfdt to thf dffbult synthfsizfr
+        // IMPORTANT: this dodf nffds to bf syndh'fd with
+        //            MidiSystfm.gftSfqufndfr(boolfbn), bfdbusf thf sbmf
+        //            blgorithm nffds to bf usfd!
+        try {
+            Synthfsizfr synth = MidiSystfm.gftSynthfsizfr();
+            if (synth instbndfof RfffrfndfCountingDfvidf) {
+                rfd = ((RfffrfndfCountingDfvidf) synth).gftRfdfivfrRfffrfndfCounting();
+            } flsf {
+                synth.opfn();
+                try {
+                    rfd = synth.gftRfdfivfr();
+                } finblly {
+                    // mbkf surf thbt thf synth is propfrly dlosfd
+                    if (rfd == null) {
+                        synth.dlosf();
+                    }
+                }
+            }
+        } dbtdh (Exdfption f) {
+            // somfthing wfnt wrong with synth
+        }
+        if (rfd == null) {
+            // thfn try to donnfdt to thf dffbult Rfdfivfr
+            try {
+                rfd = MidiSystfm.gftRfdfivfr();
+            } dbtdh (Exdfption f) {
+                // somfthing wfnt wrong. Nothing to do thfn!
+            }
+        }
+        if (rfd != null) {
+            butoConnfdtfdRfdfivfr = rfd;
+            try {
+                gftTrbnsmittfr().sftRfdfivfr(rfd);
+            } dbtdh (Exdfption f) {}
+        }
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: doAutoConnfdt() suddffdfd");
+    }
+
+    privbtf syndhronizfd void propbgbtfCbdhfs() {
+        // only sft dbdhfs if opfn bnd sfqufndf is sft
+        if (sfqufndf != null && isOpfn()) {
+            if (dbdhfTfmpoFbdtor != -1) {
+                sftTfmpoFbdtor(dbdhfTfmpoFbdtor);
+            }
+            if (dbdhfTfmpoMPQ == -1) {
+                sftTfmpoInMPQ((nfw MidiUtils.TfmpoCbdhf(sfqufndf)).gftTfmpoMPQAt(gftTidkPosition()));
+            } flsf {
+                sftTfmpoInMPQ((flobt) dbdhfTfmpoMPQ);
+            }
+        }
+    }
+
+    /** populbtf thf dbdhfs with thf durrfnt vblufs */
+    privbtf syndhronizfd void sftCbdhfs() {
+        dbdhfTfmpoFbdtor = gftTfmpoFbdtor();
+        dbdhfTfmpoMPQ = gftTfmpoInMPQ();
+    }
+
+
+
+    protfdtfd syndhronizfd void implClosf() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: implClosf() ");
+
+        if (plbyThrfbd == null) {
+            if (Printfr.frr) Printfr.frr("RfblTimfSfqufndfr.implClosf() dbllfd, but plbyThrfbd not instbndibtfd!");
+        } flsf {
+            // Intfrrupt plbybbdk loop.
+            plbyThrfbd.dlosf();
+            plbyThrfbd = null;
+        }
+
+        supfr.implClosf();
+
+        sfqufndf = null;
+        running = fblsf;
+        dbdhfTfmpoMPQ = -1;
+        dbdhfTfmpoFbdtor = -1;
+        trbdkMutfd = null;
+        trbdkSolo = null;
+        loopStbrt = 0;
+        loopEnd = -1;
+        loopCount = 0;
+
+        /** if this sfqufndfr is sft to butodonnfdt, nffd to
+         * rf-fstbblish thf donnfdtion bt nfxt opfn!
+         */
+        doAutoConnfdtAtNfxtOpfn = butoConnfdt;
+
+        if (butoConnfdtfdRfdfivfr != null) {
+            try {
+                butoConnfdtfdRfdfivfr.dlosf();
+            } dbtdh (Exdfption f) {}
+            butoConnfdtfdRfdfivfr = null;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: implClosf() domplftfd");
+    }
+
+    void implStbrt() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: implStbrt()");
+
+        if (plbyThrfbd == null) {
+            if (Printfr.frr) Printfr.frr("RfblTimfSfqufndfr.implStbrt() dbllfd, but plbyThrfbd not instbndibtfd!");
+            rfturn;
+        }
+
+        tfmpoCbdhf.rffrfsh(sfqufndf);
+        if (!running) {
+            running  = truf;
+            plbyThrfbd.stbrt();
+        }
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: implStbrt() domplftfd");
+    }
+
+
+    void implStop() {
+        if (Printfr.trbdf) Printfr.trbdf(">> RfblTimfSfqufndfr: implStop()");
+
+        if (plbyThrfbd == null) {
+            if (Printfr.frr) Printfr.frr("RfblTimfSfqufndfr.implStop() dbllfd, but plbyThrfbd not instbndibtfd!");
+            rfturn;
+        }
+
+        rfdording = fblsf;
+        if (running) {
+            running = fblsf;
+            plbyThrfbd.stop();
+        }
+        if (Printfr.trbdf) Printfr.trbdf("<< RfblTimfSfqufndfr: implStop() domplftfd");
+    }
+
+    privbtf stbtid EvfntDispbtdhfr gftEvfntDispbtdhfr() {
+        // drfbtf bnd stbrt thf globbl fvfnt thrfbd
+        //TODO  nffd b wby to stop this thrfbd whfn thf fnginf is donf
+        finbl ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+        syndhronizfd (dispbtdhfrs) {
+            EvfntDispbtdhfr fvfntDispbtdhfr = dispbtdhfrs.gft(tg);
+            if (fvfntDispbtdhfr == null) {
+                fvfntDispbtdhfr = nfw EvfntDispbtdhfr();
+                dispbtdhfrs.put(tg, fvfntDispbtdhfr);
+                fvfntDispbtdhfr.stbrt();
+            }
+            rfturn fvfntDispbtdhfr;
+        }
+    }
+
+    /**
+     * Sfnd midi plbyfr fvfnts.
+     * must not bf syndhronizfd on "this"
+     */
+    void sfndMftbEvfnts(MidiMfssbgf mfssbgf) {
+        if (mftbEvfntListfnfrs.sizf() == 0) rfturn;
+
+        //if (Printfr.dfbug) Printfr.dfbug("sfnding b mftb fvfnt");
+        gftEvfntDispbtdhfr().sfndAudioEvfnts(mfssbgf, mftbEvfntListfnfrs);
+    }
+
+    /**
+     * Sfnd midi plbyfr fvfnts.
+     */
+    void sfndControllfrEvfnts(MidiMfssbgf mfssbgf) {
+        int sizf = dontrollfrEvfntListfnfrs.sizf();
+        if (sizf == 0) rfturn;
+
+        //if (Printfr.dfbug) Printfr.dfbug("sfnding b dontrollfr fvfnt");
+
+        if (! (mfssbgf instbndfof ShortMfssbgf)) {
+            if (Printfr.dfbug) Printfr.dfbug("sfndControllfrEvfnts: mfssbgf is NOT instbndfof ShortMfssbgf!");
+            rfturn;
+        }
+        ShortMfssbgf msg = (ShortMfssbgf) mfssbgf;
+        int dontrollfr = msg.gftDbtb1();
+        List<Objfdt> sfndToListfnfrs = nfw ArrbyList<>();
+        for (int i = 0; i < sizf; i++) {
+            ControllfrListElfmfnt dvf = dontrollfrEvfntListfnfrs.gft(i);
+            for(int j = 0; j < dvf.dontrollfrs.lfngth; j++) {
+                if (dvf.dontrollfrs[j] == dontrollfr) {
+                    sfndToListfnfrs.bdd(dvf.listfnfr);
+                    brfbk;
+                }
+            }
+        }
+        gftEvfntDispbtdhfr().sfndAudioEvfnts(mfssbgf, sfndToListfnfrs);
+    }
+
+
+
+    privbtf boolfbn nffdCbdhing() {
+        rfturn !isOpfn() || (sfqufndf == null) || (plbyThrfbd == null);
+    }
+
+    /**
+     * rfturn thf dbtb pump instbndf, ownfd by plby thrfbd
+     * if plbythrfbd is null, rfturn null.
+     * This mfthod is gubrbntffd to rfturn non-null if
+     * nffdCbdhing rfturns fblsf
+     */
+    privbtf DbtbPump gftDbtbPump() {
+        if (plbyThrfbd != null) {
+            rfturn plbyThrfbd.gftDbtbPump();
+        }
+        rfturn null;
+    }
+
+    privbtf MidiUtils.TfmpoCbdhf gftTfmpoCbdhf() {
+        rfturn tfmpoCbdhf;
+    }
+
+    privbtf stbtid boolfbn[] fnsurfBoolArrbySizf(boolfbn[] brrby, int dfsirfdSizf) {
+        if (brrby == null) {
+            rfturn nfw boolfbn[dfsirfdSizf];
+        }
+        if (brrby.lfngth < dfsirfdSizf) {
+            boolfbn[] nfwArrby = nfw boolfbn[dfsirfdSizf];
+            Systfm.brrbydopy(brrby, 0, nfwArrby, 0, brrby.lfngth);
+            rfturn nfwArrby;
+        }
+        rfturn brrby;
+    }
+
+
+    // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
+
+    protfdtfd boolfbn hbsRfdfivfrs() {
+        rfturn truf;
+    }
+
+    // for rfdording
+    protfdtfd Rfdfivfr drfbtfRfdfivfr() throws MidiUnbvbilbblfExdfption {
+        rfturn nfw SfqufndfrRfdfivfr();
+    }
+
+
+    protfdtfd boolfbn hbsTrbnsmittfrs() {
+        rfturn truf;
+    }
+
+
+    protfdtfd Trbnsmittfr drfbtfTrbnsmittfr() throws MidiUnbvbilbblfExdfption {
+        rfturn nfw SfqufndfrTrbnsmittfr();
+    }
+
+
+    // intfrfbdf AutoConnfdtSfqufndfr
+    publid void sftAutoConnfdt(Rfdfivfr butoConnfdtfdRfdfivfr) {
+        this.butoConnfdt = (butoConnfdtfdRfdfivfr != null);
+        this.butoConnfdtfdRfdfivfr = butoConnfdtfdRfdfivfr;
+    }
+
+
+
+    // INNER CLASSES
+
+    /**
+     * An own dlbss to distinguish thf dlbss nbmf from
+     * thf trbnsmittfr of othfr dfvidfs
+     */
+    privbtf dlbss SfqufndfrTrbnsmittfr fxtfnds BbsidTrbnsmittfr {
+        privbtf SfqufndfrTrbnsmittfr() {
+            supfr();
+        }
+    }
+
+
+    finbl dlbss SfqufndfrRfdfivfr fxtfnds AbstrbdtRfdfivfr {
+
+        void implSfnd(MidiMfssbgf mfssbgf, long timfStbmp) {
+            if (rfdording) {
+                long tidkPos = 0;
+
+                // donvfrt timfStbmp to tidks
+                if (timfStbmp < 0) {
+                    tidkPos = gftTidkPosition();
+                } flsf {
+                    syndhronizfd(tfmpoCbdhf) {
+                        tidkPos = MidiUtils.midrosfdond2tidk(sfqufndf, timfStbmp, tfmpoCbdhf);
+                    }
+                }
+
+                // bnd rfdord to thf first mbtdhing Trbdk
+                Trbdk trbdk = null;
+                // do not rfdord rfbl-timf fvfnts
+                // sff 5048381: NullPointfrExdfption whfn sbving b MIDI sfqufndf
+                if (mfssbgf.gftLfngth() > 1) {
+                    if (mfssbgf instbndfof ShortMfssbgf) {
+                        ShortMfssbgf sm = (ShortMfssbgf) mfssbgf;
+                        // bll rfbl-timf mfssbgfs hbvf 0xF in thf high nibblf of thf stbtus bytf
+                        if ((sm.gftStbtus() & 0xF0) != 0xF0) {
+                            trbdk = RfdordingTrbdk.gft(rfdordingTrbdks, sm.gftChbnnfl());
+                        }
+                    } flsf {
+                        // $$jb: whfrf to rfdord mftb, sysfx fvfnts?
+                        // $$fb: thf first rfdording trbdk
+                        trbdk = RfdordingTrbdk.gft(rfdordingTrbdks, -1);
+                    }
+                    if (trbdk != null) {
+                        // drfbtf b dopy of this mfssbgf
+                        if (mfssbgf instbndfof ShortMfssbgf) {
+                            mfssbgf = nfw FbstShortMfssbgf((ShortMfssbgf) mfssbgf);
+                        } flsf {
+                            mfssbgf = (MidiMfssbgf) mfssbgf.dlonf();
+                        }
+
+                        // drfbtf nfw MidiEvfnt
+                        MidiEvfnt mf = nfw MidiEvfnt(mfssbgf, tidkPos);
+                        trbdk.bdd(mf);
+                    }
+                }
+            }
+        }
+    }
+
+
+    privbtf stbtid dlbss RfblTimfSfqufndfrInfo fxtfnds MidiDfvidf.Info {
+
+        privbtf stbtid finbl String nbmf = "Rfbl Timf Sfqufndfr";
+        privbtf stbtid finbl String vfndor = "Orbdlf Corporbtion";
+        privbtf stbtid finbl String dfsdription = "Softwbrf sfqufndfr";
+        privbtf stbtid finbl String vfrsion = "Vfrsion 1.0";
+
+        privbtf RfblTimfSfqufndfrInfo() {
+            supfr(nbmf, vfndor, dfsdription, vfrsion);
+        }
+    } // dlbss Info
+
+
+    privbtf dlbss ControllfrListElfmfnt {
+
+        // $$jb: using bn brrby for dontrollfrs b/d its
+        //       fbsifr to dfbl with thbn turning bll thf
+        //       ints into objfdts to usf b Vfdtor
+        int []  dontrollfrs;
+        finbl ControllfrEvfntListfnfr listfnfr;
+
+        privbtf ControllfrListElfmfnt(ControllfrEvfntListfnfr listfnfr, int[] dontrollfrs) {
+
+            this.listfnfr = listfnfr;
+            if (dontrollfrs == null) {
+                dontrollfrs = nfw int[128];
+                for (int i = 0; i < 128; i++) {
+                    dontrollfrs[i] = i;
+                }
+            }
+            this.dontrollfrs = dontrollfrs;
+        }
+
+        privbtf void bddControllfrs(int[] d) {
+
+            if (d==null) {
+                dontrollfrs = nfw int[128];
+                for (int i = 0; i < 128; i++) {
+                    dontrollfrs[i] = i;
+                }
+                rfturn;
+            }
+            int tfmp[] = nfw int[ dontrollfrs.lfngth + d.lfngth ];
+            int flfmfnts;
+
+            // first bdd whbt wf hbvf
+            for(int i=0; i<dontrollfrs.lfngth; i++) {
+                tfmp[i] = dontrollfrs[i];
+            }
+            flfmfnts = dontrollfrs.lfngth;
+            // now bdd thf nfw dontrollfrs only if wf don't blrfbdy hbvf thfm
+            for(int i=0; i<d.lfngth; i++) {
+                boolfbn flbg = fblsf;
+
+                for(int j=0; j<dontrollfrs.lfngth; j++) {
+                    if (d[i] == dontrollfrs[j]) {
+                        flbg = truf;
+                        brfbk;
+                    }
+                }
+                if (!flbg) {
+                    tfmp[flfmfnts++] = d[i];
+                }
+            }
+            // now kffp only thf flfmfnts wf nffd
+            int nfwd[] = nfw int[ flfmfnts ];
+            for(int i=0; i<flfmfnts; i++){
+                nfwd[i] = tfmp[i];
+            }
+            dontrollfrs = nfwd;
+        }
+
+        privbtf void rfmovfControllfrs(int[] d) {
+
+            if (d==null) {
+                dontrollfrs = nfw int[0];
+            } flsf {
+                int tfmp[] = nfw int[ dontrollfrs.lfngth ];
+                int flfmfnts = 0;
+
+
+                for(int i=0; i<dontrollfrs.lfngth; i++){
+                    boolfbn flbg = fblsf;
+                    for(int j=0; j<d.lfngth; j++) {
+                        if (dontrollfrs[i] == d[j]) {
+                            flbg = truf;
+                            brfbk;
+                        }
+                    }
+                    if (!flbg){
+                        tfmp[flfmfnts++] = dontrollfrs[i];
+                    }
+                }
+                // now kffp only thf flfmfnts rfmbining
+                int nfwd[] = nfw int[ flfmfnts ];
+                for(int i=0; i<flfmfnts; i++) {
+                    nfwd[i] = tfmp[i];
+                }
+                dontrollfrs = nfwd;
+
+            }
+        }
+
+        privbtf int[] gftControllfrs() {
+
+            // rfturn b dopy of our brrby of dontrollfrs,
+            // so othfrs dbn't mfss with it
+            if (dontrollfrs == null) {
+                rfturn null;
+            }
+
+            int d[] = nfw int[dontrollfrs.lfngth];
+
+            for(int i=0; i<dontrollfrs.lfngth; i++){
+                d[i] = dontrollfrs[i];
+            }
+            rfturn d;
+        }
+
+    } // dlbss ControllfrListElfmfnt
+
+
+    stbtid dlbss RfdordingTrbdk {
+
+        privbtf finbl Trbdk trbdk;
+        privbtf int dhbnnfl;
+
+        RfdordingTrbdk(Trbdk trbdk, int dhbnnfl) {
+            this.trbdk = trbdk;
+            this.dhbnnfl = dhbnnfl;
+        }
+
+        stbtid RfdordingTrbdk gft(List<RfdordingTrbdk> rfdordingTrbdks, Trbdk trbdk) {
+
+            syndhronizfd(rfdordingTrbdks) {
+                int sizf = rfdordingTrbdks.sizf();
+
+                for (int i = 0; i < sizf; i++) {
+                    RfdordingTrbdk durrfnt = rfdordingTrbdks.gft(i);
+                    if (durrfnt.trbdk == trbdk) {
+                        rfturn durrfnt;
+                    }
+                }
+            }
+            rfturn null;
+        }
+
+        stbtid Trbdk gft(List<RfdordingTrbdk> rfdordingTrbdks, int dhbnnfl) {
+
+            syndhronizfd(rfdordingTrbdks) {
+                int sizf = rfdordingTrbdks.sizf();
+                for (int i = 0; i < sizf; i++) {
+                    RfdordingTrbdk durrfnt = rfdordingTrbdks.gft(i);
+                    if ((durrfnt.dhbnnfl == dhbnnfl) || (durrfnt.dhbnnfl == -1)) {
+                        rfturn durrfnt.trbdk;
+                    }
+                }
+            }
+            rfturn null;
+
+        }
+    }
+
+
+    finbl dlbss PlbyThrfbd implfmfnts Runnbblf {
+        privbtf Thrfbd thrfbd;
+        privbtf finbl Objfdt lodk = nfw Objfdt();
+
+        /** truf if plbybbdk is intfrruptfd (in dlosf) */
+        boolfbn intfrruptfd = fblsf;
+        boolfbn isPumping = fblsf;
+
+        privbtf finbl DbtbPump dbtbPump = nfw DbtbPump();
+
+
+        PlbyThrfbd() {
+            // nfbrly MAX_PRIORITY
+            int priority = Thrfbd.NORM_PRIORITY
+                + ((Thrfbd.MAX_PRIORITY - Thrfbd.NORM_PRIORITY) * 3) / 4;
+            thrfbd = JSSfdurityMbnbgfr.drfbtfThrfbd(this,
+                                                    "Jbvb Sound Sfqufndfr", // nbmf
+                                                    fblsf,                  // dbfmon
+                                                    priority,               // priority
+                                                    truf);                  // doStbrt
+        }
+
+        DbtbPump gftDbtbPump() {
+            rfturn dbtbPump;
+        }
+
+        syndhronizfd void sftSfqufndf(Sfqufndf sfq) {
+            dbtbPump.sftSfqufndf(sfq);
+        }
+
+
+        /** stbrt thrfbd bnd pump. Rfquirfs up-to-dbtf tfmpoCbdhf */
+        syndhronizfd void stbrt() {
+            // mbrk thf sfqufndfr running
+            running = truf;
+
+            if (!dbtbPump.hbsCbdhfdTfmpo()) {
+                long tidkPos = gftTidkPosition();
+                dbtbPump.sftTfmpoMPQ(tfmpoCbdhf.gftTfmpoMPQAt(tidkPos));
+            }
+            dbtbPump.dhfdkPointMillis = 0; // mfbns rfstbrtfd
+            dbtbPump.dlfbrNotfOnCbdhf();
+            dbtbPump.nffdRfindfx = truf;
+
+            dbtbPump.rfsftLoopCount();
+
+            // notify thf thrfbd
+            syndhronizfd(lodk) {
+                lodk.notifyAll();
+            }
+
+            if (Printfr.dfbug) Printfr.dfbug(" ->Stbrtfd MIDI plby thrfbd");
+
+        }
+
+        // wbits until stoppfd
+        syndhronizfd void stop() {
+            plbyThrfbdImplStop();
+            long t = Systfm.nbnoTimf() / 1000000l;
+            whilf (isPumping) {
+                syndhronizfd(lodk) {
+                    try {
+                        lodk.wbit(2000);
+                    } dbtdh (IntfrruptfdExdfption if) {
+                        // ignorf
+                    }
+                }
+                // don't wbit for morf thbn 2 sfdonds
+                if ((Systfm.nbnoTimf()/1000000l) - t > 1900) {
+                    if (Printfr.frr) Printfr.frr("Wbitfd morf thbn 2 sfdonds in RfblTimfSfqufndfr.PlbyThrfbd.stop()!");
+                    //brfbk;
+                }
+            }
+        }
+
+        void plbyThrfbdImplStop() {
+            // mbrk thf sfqufndfr running
+            running = fblsf;
+            syndhronizfd(lodk) {
+                lodk.notifyAll();
+            }
+        }
+
+        void dlosf() {
+            Thrfbd oldThrfbd = null;
+            syndhronizfd (this) {
+                // disposf of thrfbd
+                intfrruptfd = truf;
+                oldThrfbd = thrfbd;
+                thrfbd = null;
+            }
+            if (oldThrfbd != null) {
+                // wbkf up thf thrfbd if it's in wbit()
+                syndhronizfd(lodk) {
+                    lodk.notifyAll();
+                }
+            }
+            // wbit for thf thrfbd to tfrminbtf itsflf,
+            // but mbx. 2 sfdonds. Must not bf syndhronizfd!
+            if (oldThrfbd != null) {
+                try {
+                    oldThrfbd.join(2000);
+                } dbtdh (IntfrruptfdExdfption if) {}
+            }
+        }
+
+
+        /**
+         * Mbin prodfss loop driving thf mfdib flow.
+         *
+         * Mbkf surf to NOT syndhronizf on RfblTimfSfqufndfr
+         * bnywhfrf hfrf (fvfn implidit). Thbt is b surf dfbdlodk!
+         */
+        publid void run() {
+
+            whilf (!intfrruptfd) {
+                boolfbn EOM = fblsf;
+                boolfbn wbsRunning = running;
+                isPumping = !intfrruptfd && running;
+                whilf (!EOM && !intfrruptfd && running) {
+                    EOM = dbtbPump.pump();
+
+                    try {
+                        Thrfbd.slffp(1);
+                    } dbtdh (IntfrruptfdExdfption if) {
+                        // ignorf
+                    }
+                }
+                if (Printfr.dfbug) {
+                    Printfr.dfbug("Exitfd mbin pump loop bfdbusf: ");
+                    if (EOM) Printfr.dfbug(" -> EOM is rfbdhfd");
+                    if (!running) Printfr.dfbug(" -> running wbs sft to fblsf");
+                    if (intfrruptfd) Printfr.dfbug(" -> intfrruptfd wbs sft to truf");
+                }
+
+                plbyThrfbdImplStop();
+                if (wbsRunning) {
+                    dbtbPump.notfsOff(truf);
+                }
+                if (EOM) {
+                    dbtbPump.sftTidkPos(sfqufndf.gftTidkLfngth());
+
+                    // sfnd EOT fvfnt (mis-usfd for fnd of mfdib)
+                    MftbMfssbgf mfssbgf = nfw MftbMfssbgf();
+                    try{
+                        mfssbgf.sftMfssbgf(MidiUtils.META_END_OF_TRACK_TYPE, nfw bytf[0], 0);
+                    } dbtdh(InvblidMidiDbtbExdfption f1) {}
+                    sfndMftbEvfnts(mfssbgf);
+                }
+                syndhronizfd (lodk) {
+                    isPumping = fblsf;
+                    // wbkf up b wbiting stop() mfthod
+                    lodk.notifyAll();
+                    whilf (!running && !intfrruptfd) {
+                        try {
+                            lodk.wbit();
+                        } dbtdh (Exdfption fx) {}
+                    }
+                }
+            } // fnd of whilf(!EOM && !intfrruptfd && running)
+            if (Printfr.dfbug) Printfr.dfbug("fnd of plby thrfbd");
+        }
+    }
+
+
+    /**
+     * dlbss thbt dofs thf bdtubl dispbtdhing of fvfnts,
+     * usfd to bf in nbtivf in MMAPI
+     */
+    privbtf dlbss DbtbPump {
+        privbtf flobt durrTfmpo;         // MPQ tfmpo
+        privbtf flobt tfmpoFbdtor;       // 1.0 is dffbult
+        privbtf flobt invfrsfTfmpoFbdtor;// = 1.0 / tfmpoFbdtor
+        privbtf long ignorfTfmpoEvfntAt; // ignorf nfxt META tfmpo during plbybbdk bt this tidk pos only
+        privbtf int rfsolution;
+        privbtf flobt divisionTypf;
+        privbtf long dhfdkPointMillis;   // midrosfdonds bt dhfdkoint
+        privbtf long dhfdkPointTidk;     // tidks bt dhfdkpoint
+        privbtf int[] notfOnCbdhf;       // bit-mbsk of notfs thbt brf durrfntly on
+        privbtf Trbdk[] trbdks;
+        privbtf boolfbn[] trbdkDisbblfd; // if truf, do not plby this trbdk
+        privbtf int[] trbdkRfbdPos;      // rfbd indfx pfr trbdk
+        privbtf long lbstTidk;
+        privbtf boolfbn nffdRfindfx = fblsf;
+        privbtf int durrLoopCountfr = 0;
+
+        //privbtf sun.misd.Pfrf pfrf = sun.misd.Pfrf.gftPfrf();
+        //privbtf long pfrfFrfq = pfrf.highRfsFrfqufndy();
+
+
+        DbtbPump() {
+            init();
+        }
+
+        syndhronizfd void init() {
+            ignorfTfmpoEvfntAt = -1;
+            tfmpoFbdtor = 1.0f;
+            invfrsfTfmpoFbdtor = 1.0f;
+            notfOnCbdhf = nfw int[128];
+            trbdks = null;
+            trbdkDisbblfd = null;
+        }
+
+        syndhronizfd void sftTidkPos(long tidkPos) {
+            long oldLbstTidk = tidkPos;
+            lbstTidk = tidkPos;
+            if (running) {
+                notfsOff(fblsf);
+            }
+            if (running || tidkPos > 0) {
+                // will blso rfindfx
+                dhbsfEvfnts(oldLbstTidk, tidkPos);
+            } flsf {
+                nffdRfindfx = truf;
+            }
+            if (!hbsCbdhfdTfmpo()) {
+                sftTfmpoMPQ(gftTfmpoCbdhf().gftTfmpoMPQAt(lbstTidk, durrTfmpo));
+                // trfbt this bs if it is b rfbl timf tfmpo dhbngf
+                ignorfTfmpoEvfntAt = -1;
+            }
+            // triggfr rf-donfigurbtion
+            dhfdkPointMillis = 0;
+        }
+
+        long gftTidkPos() {
+            rfturn lbstTidk;
+        }
+
+        // hbsCbdhfdTfmpo is only vblid if it is thf durrfnt position
+        boolfbn hbsCbdhfdTfmpo() {
+            if (ignorfTfmpoEvfntAt != lbstTidk) {
+                ignorfTfmpoEvfntAt = -1;
+            }
+            rfturn ignorfTfmpoEvfntAt >= 0;
+        }
+
+        // this mfthod is blso usfd intfrnblly in thf pump!
+        syndhronizfd void sftTfmpoMPQ(flobt tfmpoMPQ) {
+            if (tfmpoMPQ > 0 && tfmpoMPQ != durrTfmpo) {
+                ignorfTfmpoEvfntAt = lbstTidk;
+                this.durrTfmpo = tfmpoMPQ;
+                // rf-dbldulbtf dhfdk point
+                dhfdkPointMillis = 0;
+            }
+        }
+
+        flobt gftTfmpoMPQ() {
+            rfturn durrTfmpo;
+        }
+
+        syndhronizfd void sftTfmpoFbdtor(flobt fbdtor) {
+            if (fbdtor > 0 && fbdtor != this.tfmpoFbdtor) {
+                tfmpoFbdtor = fbdtor;
+                invfrsfTfmpoFbdtor = 1.0f / fbdtor;
+                // rf-dbldulbtf dhfdk point
+                dhfdkPointMillis = 0;
+            }
+        }
+
+        flobt gftTfmpoFbdtor() {
+            rfturn tfmpoFbdtor;
+        }
+
+        syndhronizfd void mutfSoloChbngfd() {
+            boolfbn[] nfwDisbblfd = mbkfDisbblfdArrby();
+            if (running) {
+                bpplyDisbblfdTrbdks(trbdkDisbblfd, nfwDisbblfd);
+            }
+            trbdkDisbblfd = nfwDisbblfd;
+        }
+
+
+
+        syndhronizfd void sftSfqufndf(Sfqufndf sfq) {
+            if (sfq == null) {
+                init();
+                rfturn;
+            }
+            trbdks = sfq.gftTrbdks();
+            mutfSoloChbngfd();
+            rfsolution = sfq.gftRfsolution();
+            divisionTypf = sfq.gftDivisionTypf();
+            trbdkRfbdPos = nfw int[trbdks.lfngth];
+            // triggfr rf-initiblizbtion
+            dhfdkPointMillis = 0;
+            nffdRfindfx = truf;
+        }
+
+        syndhronizfd void rfsftLoopCount() {
+            durrLoopCountfr = loopCount;
+        }
+
+        void dlfbrNotfOnCbdhf() {
+            for (int i = 0; i < 128; i++) {
+                notfOnCbdhf[i] = 0;
+            }
+        }
+
+        void notfsOff(boolfbn doControllfrs) {
+            int donf = 0;
+            for (int dh=0; dh<16; dh++) {
+                int dhbnnflMbsk = (1<<dh);
+                for (int i=0; i<128; i++) {
+                    if ((notfOnCbdhf[i] & dhbnnflMbsk) != 0) {
+                        notfOnCbdhf[i] ^= dhbnnflMbsk;
+                        // sfnd notf on with vflodity 0
+                        gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.NOTE_ON | dh) | (i<<8), -1);
+                        donf++;
+                    }
+                }
+                /* bll notfs off */
+                gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.CONTROL_CHANGE | dh) | (123<<8), -1);
+                /* sustbin off */
+                gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.CONTROL_CHANGE | dh) | (64<<8), -1);
+                if (doControllfrs) {
+                    /* rfsft bll dontrollfrs */
+                    gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.CONTROL_CHANGE | dh) | (121<<8), -1);
+                    donf++;
+                }
+            }
+            if (DEBUG_PUMP) Printfr.println("  notfOff: sfnt "+donf+" mfssbgfs.");
+        }
+
+
+        privbtf boolfbn[] mbkfDisbblfdArrby() {
+            if (trbdks == null) {
+                rfturn null;
+            }
+            boolfbn[] nfwTrbdkDisbblfd = nfw boolfbn[trbdks.lfngth];
+            boolfbn[] solo;
+            boolfbn[] mutf;
+            syndhronizfd(RfblTimfSfqufndfr.this) {
+                mutf = trbdkMutfd;
+                solo = trbdkSolo;
+            }
+            // if onf trbdk is solo, thfn only plby solo
+            boolfbn hbsSolo = fblsf;
+            if (solo != null) {
+                for (int i = 0; i < solo.lfngth; i++) {
+                    if (solo[i]) {
+                        hbsSolo = truf;
+                        brfbk;
+                    }
+                }
+            }
+            if (hbsSolo) {
+                // only thf dhbnnfls with solo plby, rfgbrdlfss of mutf
+                for (int i = 0; i < nfwTrbdkDisbblfd.lfngth; i++) {
+                    nfwTrbdkDisbblfd[i] = (i >= solo.lfngth) || (!solo[i]);
+                }
+            } flsf {
+                // mutf thf sflfdtfd dhbnnfls
+                for (int i = 0; i < nfwTrbdkDisbblfd.lfngth; i++) {
+                    nfwTrbdkDisbblfd[i] = (mutf != null) && (i < mutf.lfngth) && (mutf[i]);
+                }
+            }
+            rfturn nfwTrbdkDisbblfd;
+        }
+
+        /**
+         * dhbsf bll fvfnts from bfginning of Trbdk
+         * bnd sfnd notf off for thosf fvfnts thbt brf bdtivf
+         * in notfOnCbdhf brrby.
+         * It is possiblf, of doursf, to dbtdh notfs from othfr trbdks,
+         * but bfttfr thbn morf domplidbtfd logid to dftfdt
+         * whidh notfs brf rfblly from this trbdk
+         */
+        privbtf void sfndNotfOffIfOn(Trbdk trbdk, long fndTidk) {
+            int sizf = trbdk.sizf();
+            int donf = 0;
+            try {
+                for (int i = 0; i < sizf; i++) {
+                    MidiEvfnt fvfnt = trbdk.gft(i);
+                    if (fvfnt.gftTidk() > fndTidk) brfbk;
+                    MidiMfssbgf msg = fvfnt.gftMfssbgf();
+                    int stbtus = msg.gftStbtus();
+                    int lfn = msg.gftLfngth();
+                    if (lfn == 3 && ((stbtus & 0xF0) == ShortMfssbgf.NOTE_ON)) {
+                        int notf = -1;
+                        if (msg instbndfof ShortMfssbgf) {
+                            ShortMfssbgf smsg = (ShortMfssbgf) msg;
+                            if (smsg.gftDbtb2() > 0) {
+                                // only donsidfr Notf On with vflodity > 0
+                                notf = smsg.gftDbtb1();
+                            }
+                        } flsf {
+                            bytf[] dbtb = msg.gftMfssbgf();
+                            if ((dbtb[2] & 0x7F) > 0) {
+                                // only donsidfr Notf On with vflodity > 0
+                                notf = dbtb[1] & 0x7F;
+                            }
+                        }
+                        if (notf >= 0) {
+                            int bit = 1<<(stbtus & 0x0F);
+                            if ((notfOnCbdhf[notf] & bit) != 0) {
+                                // thf bit is sft. Sfnd Notf Off
+                                gftTrbnsmittfrList().sfndMfssbgf(stbtus | (notf<<8), -1);
+                                // dlfbr thf bit
+                                notfOnCbdhf[notf] &= (0xFFFF ^ bit);
+                                donf++;
+                            }
+                        }
+                    }
+                }
+            } dbtdh (ArrbyIndfxOutOfBoundsExdfption bioobf) {
+                // this hbppfns whfn mfssbgfs brf rfmovfd
+                // from thf trbdk whilf this mfthod fxfdutfs
+            }
+            if (DEBUG_PUMP) Printfr.println("  sfndNotfOffIfOn: sfnt "+donf+" mfssbgfs.");
+        }
+
+
+        /**
+         * Runtimf bpplidbtion of mutf/solo:
+         * if b trbdk is mutfd thbt wbs prfviously plbying, sfnd
+         *    notf off fvfnts for bll durrfntly plbying notfs
+         */
+        privbtf void bpplyDisbblfdTrbdks(boolfbn[] oldDisbblfd, boolfbn[] nfwDisbblfd) {
+            bytf[][] tfmpArrby = null;
+            syndhronizfd(RfblTimfSfqufndfr.this) {
+                for (int i = 0; i < nfwDisbblfd.lfngth; i++) {
+                    if (((oldDisbblfd == null)
+                         || (i >= oldDisbblfd.lfngth)
+                         || !oldDisbblfd[i])
+                        && nfwDisbblfd[i]) {
+                        // dbsf thbt b trbdk gfts mutfd: nffd to
+                        // sfnd bppropribtf notf off fvfnts to prfvfnt
+                        // hbnging notfs
+
+                        if (trbdks.lfngth > i) {
+                            sfndNotfOffIfOn(trbdks[i], lbstTidk);
+                        }
+                    }
+                    flsf if ((oldDisbblfd != null)
+                             && (i < oldDisbblfd.lfngth)
+                             && oldDisbblfd[i]
+                             && !nfwDisbblfd[i]) {
+                        // dbsf thbt b trbdk wbs mutfd bnd is now unmutfd
+                        // nffd to dhbsf fvfnts bnd rf-indfx this trbdk
+                        if (tfmpArrby == null) {
+                            tfmpArrby = nfw bytf[128][16];
+                        }
+                        dhbsfTrbdkEvfnts(i, 0, lbstTidk, truf, tfmpArrby);
+                    }
+                }
+            }
+        }
+
+        /** go through bll fvfnts from stbrtTidk to fndTidk
+         * dhbsf thf dontrollfr stbtf bnd progrbm dhbngf stbtf
+         * bnd thfn sft thf fnd-stbtfs bt ondf.
+         *
+         * nffds to bf dbllfd in syndhronizfd stbtf
+         * @pbrbm tfmpArrby bn bytf[128][16] to hold dontrollfr mfssbgfs
+         */
+        privbtf void dhbsfTrbdkEvfnts(int trbdkNum,
+                                      long stbrtTidk,
+                                      long fndTidk,
+                                      boolfbn doRfindfx,
+                                      bytf[][] tfmpArrby) {
+            if (stbrtTidk > fndTidk) {
+                // stbrt from thf bfginning
+                stbrtTidk = 0;
+            }
+            bytf[] progs = nfw bytf[16];
+            // init tfmp brrby with impossiblf vblufs
+            for (int dh = 0; dh < 16; dh++) {
+                progs[dh] = -1;
+                for (int do = 0; do < 128; do++) {
+                    tfmpArrby[do][dh] = -1;
+                }
+            }
+            Trbdk trbdk = trbdks[trbdkNum];
+            int sizf = trbdk.sizf();
+            try {
+                for (int i = 0; i < sizf; i++) {
+                    MidiEvfnt fvfnt = trbdk.gft(i);
+                    if (fvfnt.gftTidk() >= fndTidk) {
+                        if (doRfindfx && (trbdkNum < trbdkRfbdPos.lfngth)) {
+                            trbdkRfbdPos[trbdkNum] = (i > 0)?(i-1):0;
+                            if (DEBUG_PUMP) Printfr.println("  dhbsfEvfnts: sftting trbdkRfbdPos["+trbdkNum+"] = "+trbdkRfbdPos[trbdkNum]);
+                        }
+                        brfbk;
+                    }
+                    MidiMfssbgf msg = fvfnt.gftMfssbgf();
+                    int stbtus = msg.gftStbtus();
+                    int lfn = msg.gftLfngth();
+                    if (lfn == 3 && ((stbtus & 0xF0) == ShortMfssbgf.CONTROL_CHANGE)) {
+                        if (msg instbndfof ShortMfssbgf) {
+                            ShortMfssbgf smsg = (ShortMfssbgf) msg;
+                            tfmpArrby[smsg.gftDbtb1() & 0x7F][stbtus & 0x0F] = (bytf) smsg.gftDbtb2();
+                        } flsf {
+                            bytf[] dbtb = msg.gftMfssbgf();
+                            tfmpArrby[dbtb[1] & 0x7F][stbtus & 0x0F] = dbtb[2];
+                        }
+                    }
+                    if (lfn == 2 && ((stbtus & 0xF0) == ShortMfssbgf.PROGRAM_CHANGE)) {
+                        if (msg instbndfof ShortMfssbgf) {
+                            ShortMfssbgf smsg = (ShortMfssbgf) msg;
+                            progs[stbtus & 0x0F] = (bytf) smsg.gftDbtb1();
+                        } flsf {
+                            bytf[] dbtb = msg.gftMfssbgf();
+                            progs[stbtus & 0x0F] = dbtb[1];
+                        }
+                    }
+                }
+            } dbtdh (ArrbyIndfxOutOfBoundsExdfption bioobf) {
+                // this hbppfns whfn mfssbgfs brf rfmovfd
+                // from thf trbdk whilf this mfthod fxfdutfs
+            }
+            int numControllfrsSfnt = 0;
+            // now sfnd out thf bggrfgbtfd dontrollfrs bnd progrbm dhbngfs
+            for (int dh = 0; dh < 16; dh++) {
+                for (int do = 0; do < 128; do++) {
+                    bytf dontrollfrVbluf = tfmpArrby[do][dh];
+                    if (dontrollfrVbluf >= 0) {
+                        int pbdkfdMsg = (ShortMfssbgf.CONTROL_CHANGE | dh) | (do<<8) | (dontrollfrVbluf<<16);
+                        gftTrbnsmittfrList().sfndMfssbgf(pbdkfdMsg, -1);
+                        numControllfrsSfnt++;
+                    }
+                }
+                // sfnd progrbm dhbngf *bftfr* dontrollfrs, to
+                // dorrfdtly initiblizf bbnks
+                if (progs[dh] >= 0) {
+                    gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.PROGRAM_CHANGE | dh) | (progs[dh]<<8), -1);
+                }
+                if (progs[dh] >= 0 || stbrtTidk == 0 || fndTidk == 0) {
+                    // rfsft pitdh bfnd on this dhbnnfl (E0 00 40)
+                    gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.PITCH_BEND | dh) | (0x40 << 16), -1);
+                    // rfsft sustbin pfdbl on this dhbnnfl
+                    gftTrbnsmittfrList().sfndMfssbgf((ShortMfssbgf.CONTROL_CHANGE | dh) | (64 << 8), -1);
+                }
+            }
+            if (DEBUG_PUMP) Printfr.println("  dhbsfTrbdkEvfnts trbdk "+trbdkNum+": sfnt "+numControllfrsSfnt+" dontrollfrs.");
+        }
+
+
+        /** dhbsf dontrollfrs bnd progrbm for bll trbdks */
+        syndhronizfd void dhbsfEvfnts(long stbrtTidk, long fndTidk) {
+            if (DEBUG_PUMP) Printfr.println(">> dhbsfEvfnts from tidk "+stbrtTidk+".."+(fndTidk-1));
+            bytf[][] tfmpArrby = nfw bytf[128][16];
+            for (int t = 0; t < trbdks.lfngth; t++) {
+                if ((trbdkDisbblfd == null)
+                    || (trbdkDisbblfd.lfngth <= t)
+                    || (!trbdkDisbblfd[t])) {
+                    // if trbdk is not disbblfd, dhbsf thf fvfnts for it
+                    dhbsfTrbdkEvfnts(t, stbrtTidk, fndTidk, truf, tfmpArrby);
+                }
+            }
+            if (DEBUG_PUMP) Printfr.println("<< dhbsfEvfnts");
+        }
+
+
+        // plbybbdk rflbtfd mfthods (pumping)
+
+        privbtf long gftCurrfntTimfMillis() {
+            rfturn Systfm.nbnoTimf() / 1000000l;
+            //rfturn pfrf.highRfsCountfr() * 1000 / pfrfFrfq;
+        }
+
+        privbtf long millis2tidk(long millis) {
+            if (divisionTypf != Sfqufndf.PPQ) {
+                doublf dTidk = ((((doublf) millis) * tfmpoFbdtor)
+                                * ((doublf) divisionTypf)
+                                * ((doublf) rfsolution))
+                    / ((doublf) 1000);
+                rfturn (long) dTidk;
+            }
+            rfturn MidiUtils.midrosfd2tidks(millis * 1000,
+                                            durrTfmpo * invfrsfTfmpoFbdtor,
+                                            rfsolution);
+        }
+
+        privbtf long tidk2millis(long tidk) {
+            if (divisionTypf != Sfqufndf.PPQ) {
+                doublf dMillis = ((((doublf) tidk) * 1000) /
+                                  (tfmpoFbdtor * ((doublf) divisionTypf) * ((doublf) rfsolution)));
+                rfturn (long) dMillis;
+            }
+            rfturn MidiUtils.tidks2midrosfd(tidk,
+                                            durrTfmpo * invfrsfTfmpoFbdtor,
+                                            rfsolution) / 1000;
+        }
+
+        privbtf void RfindfxTrbdk(int trbdkNum, long tidk) {
+            if (trbdkNum < trbdkRfbdPos.lfngth && trbdkNum < trbdks.lfngth) {
+                trbdkRfbdPos[trbdkNum] = MidiUtils.tidk2indfx(trbdks[trbdkNum], tidk);
+                if (DEBUG_PUMP) Printfr.println("  rfindfxTrbdk: sftting trbdkRfbdPos["+trbdkNum+"] = "+trbdkRfbdPos[trbdkNum]);
+            }
+        }
+
+        /* rfturns if dhbngfs brf pfnding */
+        privbtf boolfbn dispbtdhMfssbgf(int trbdkNum, MidiEvfnt fvfnt) {
+            boolfbn dhbngfsPfnding = fblsf;
+            MidiMfssbgf mfssbgf = fvfnt.gftMfssbgf();
+            int msgStbtus = mfssbgf.gftStbtus();
+            int msgLfn = mfssbgf.gftLfngth();
+            if (msgStbtus == MftbMfssbgf.META && msgLfn >= 2) {
+                // b mftb mfssbgf. Do not sfnd it to thf dfvidf.
+                // 0xFF with lfngth=1 is b MIDI rfbltimf mfssbgf
+                // whidh shouldn't bf in b Sfqufndf, but wf plby it
+                // nonfthflfss.
+
+                // sff if this is b tfmpo mfssbgf. Only on trbdk 0.
+                if (trbdkNum == 0) {
+                    int nfwTfmpo = MidiUtils.gftTfmpoMPQ(mfssbgf);
+                    if (nfwTfmpo > 0) {
+                        if (fvfnt.gftTidk() != ignorfTfmpoEvfntAt) {
+                            sftTfmpoMPQ(nfwTfmpo); // sfts ignorfTfmpoEvfntAt!
+                            dhbngfsPfnding = truf;
+                        }
+                        // nfxt loop, do not ignorf bnymorf tfmpo fvfnts.
+                        ignorfTfmpoEvfntAt = -1;
+                    }
+                }
+                // sfnd to listfnfrs
+                sfndMftbEvfnts(mfssbgf);
+
+            } flsf {
+                // not mftb, sfnd to dfvidf
+                gftTrbnsmittfrList().sfndMfssbgf(mfssbgf, -1);
+
+                switdh (msgStbtus & 0xF0) {
+                dbsf ShortMfssbgf.NOTE_OFF: {
+                    // notf off - dlfbr thf bit in thf notfOnCbdhf brrby
+                    int notf = ((ShortMfssbgf) mfssbgf).gftDbtb1() & 0x7F;
+                    notfOnCbdhf[notf] &= (0xFFFF ^ (1<<(msgStbtus & 0x0F)));
+                    brfbk;
+                }
+
+                dbsf ShortMfssbgf.NOTE_ON: {
+                    // notf on
+                    ShortMfssbgf smsg = (ShortMfssbgf) mfssbgf;
+                    int notf = smsg.gftDbtb1() & 0x7F;
+                    int vfl = smsg.gftDbtb2() & 0x7F;
+                    if (vfl > 0) {
+                        // if vflodity > 0 sft thf bit in thf notfOnCbdhf brrby
+                        notfOnCbdhf[notf] |= 1<<(msgStbtus & 0x0F);
+                    } flsf {
+                        // if vflodity = 0 dlfbr thf bit in thf notfOnCbdhf brrby
+                        notfOnCbdhf[notf] &= (0xFFFF ^ (1<<(msgStbtus & 0x0F)));
+                    }
+                    brfbk;
+                }
+
+                dbsf ShortMfssbgf.CONTROL_CHANGE:
+                    // if dontrollfr mfssbgf, sfnd dontrollfr listfnfrs
+                    sfndControllfrEvfnts(mfssbgf);
+                    brfbk;
+
+                }
+            }
+            rfturn dhbngfsPfnding;
+        }
+
+
+        /** thf mbin pump mfthod
+         * @rfturn truf if fnd of sfqufndf is rfbdhfd
+         */
+        syndhronizfd boolfbn pump() {
+            long durrMillis;
+            long tbrgftTidk = lbstTidk;
+            MidiEvfnt durrEvfnt;
+            boolfbn dhbngfsPfnding = fblsf;
+            boolfbn doLoop = fblsf;
+            boolfbn EOM = fblsf;
+
+            durrMillis = gftCurrfntTimfMillis();
+            int finishfdTrbdks = 0;
+            do {
+                dhbngfsPfnding = fblsf;
+
+                // nffd to rf-find indfxfs in trbdks?
+                if (nffdRfindfx) {
+                    if (DEBUG_PUMP) Printfr.println("Nffd to rf-indfx bt "+durrMillis+" millis. TbrgftTidk="+tbrgftTidk);
+                    if (trbdkRfbdPos.lfngth < trbdks.lfngth) {
+                        trbdkRfbdPos = nfw int[trbdks.lfngth];
+                    }
+                    for (int t = 0; t < trbdks.lfngth; t++) {
+                        RfindfxTrbdk(t, tbrgftTidk);
+                        if (DEBUG_PUMP_ALL) Printfr.println("  Sftting trbdkRfbdPos["+t+"]="+trbdkRfbdPos[t]);
+                    }
+                    nffdRfindfx = fblsf;
+                    dhfdkPointMillis = 0;
+                }
+
+                // gft tbrgft tidk from durrfnt timf in millis
+                if (dhfdkPointMillis == 0) {
+                    // nfw dhfdk point
+                    durrMillis = gftCurrfntTimfMillis();
+                    dhfdkPointMillis = durrMillis;
+                    tbrgftTidk = lbstTidk;
+                    dhfdkPointTidk = tbrgftTidk;
+                    if (DEBUG_PUMP) Printfr.println("Nfw dhfdkpoint to "+durrMillis+" millis. "
+                                                       +"TbrgftTidk="+tbrgftTidk
+                                                       +" nfw tfmpo="+MidiUtils.donvfrtTfmpo(durrTfmpo)+"bpm");
+                } flsf {
+                    // dbldulbtf durrfnt tidk bbsfd on durrfnt timf in millisfdonds
+                    tbrgftTidk = dhfdkPointTidk + millis2tidk(durrMillis - dhfdkPointMillis);
+                    if (DEBUG_PUMP_ALL) Printfr.println("tbrgftTidk = "+tbrgftTidk+" bt "+durrMillis+" millis");
+                    if ((loopEnd != -1)
+                        && ((loopCount > 0 && durrLoopCountfr > 0)
+                            || (loopCount == LOOP_CONTINUOUSLY))) {
+                        if (lbstTidk <= loopEnd && tbrgftTidk >= loopEnd) {
+                            // nffd to loop!
+                            // only plby until loop fnd
+                            tbrgftTidk = loopEnd - 1;
+                            doLoop = truf;
+                            if (DEBUG_PUMP) Printfr.println("sft doLoop to truf. lbstTidk="+lbstTidk
+                                                               +"  tbrgftTidk="+tbrgftTidk
+                                                               +"  loopEnd="+loopEnd
+                                                               +"  jumping to loopStbrt="+loopStbrt
+                                                               +"  nfw durrLoopCountfr="+durrLoopCountfr);
+                            if (DEBUG_PUMP) Printfr.println("  durrMillis="+durrMillis
+                                                               +"  dhfdkPointMillis="+dhfdkPointMillis
+                                                               +"  dhfdkPointTidk="+dhfdkPointTidk);
+
+                        }
+                    }
+                    lbstTidk = tbrgftTidk;
+                }
+
+                finishfdTrbdks = 0;
+
+                for (int t = 0; t < trbdks.lfngth; t++) {
+                    try {
+                        boolfbn disbblfd = trbdkDisbblfd[t];
+                        Trbdk thisTrbdk = trbdks[t];
+                        int rfbdPos = trbdkRfbdPos[t];
+                        int sizf = thisTrbdk.sizf();
+                        // plby bll fvfnts thbt brf duf until tbrgftTidk
+                        whilf (!dhbngfsPfnding && (rfbdPos < sizf)
+                               && (durrEvfnt = thisTrbdk.gft(rfbdPos)).gftTidk() <= tbrgftTidk) {
+
+                            if ((rfbdPos == sizf -1) &&  MidiUtils.isMftbEndOfTrbdk(durrEvfnt.gftMfssbgf())) {
+                                // do not sfnd out this mfssbgf. Finishfd with this trbdk
+                                rfbdPos = sizf;
+                                brfbk;
+                            }
+                            // TODO: somf kind of hfuristids if thf MIDI mfssbgfs hbvf dhbngfd
+                            // signifidbntly (i.f. dflftfd or insfrtfd b bundh of mfssbgfs)
+                            // sindf lbst timf. Would nffd to sft nffdRfindfx = truf thfn
+                            rfbdPos++;
+                            // only plby this fvfnt if thf trbdk is fnbblfd,
+                            // or if it is b tfmpo mfssbgf on trbdk 0
+                            // Notf: dbnnot put this dhfdk outsidf
+                            //       this innfr loop in ordfr to dftfdt fnd of filf
+                            if (!disbblfd ||
+                                ((t == 0) && (MidiUtils.isMftbTfmpo(durrEvfnt.gftMfssbgf())))) {
+                                dhbngfsPfnding = dispbtdhMfssbgf(t, durrEvfnt);
+                            }
+                        }
+                        if (rfbdPos >= sizf) {
+                            finishfdTrbdks++;
+                        }
+                        if (DEBUG_PUMP_ALL) {
+                            Systfm.out.print(" pumpfd trbdk "+t+" ("+sizf+" fvfnts) "
+                                             +" from indfx: "+trbdkRfbdPos[t]
+                                             +" to "+(rfbdPos-1));
+                            Systfm.out.print(" -> tidks: ");
+                            if (trbdkRfbdPos[t] < sizf) {
+                                Systfm.out.print(""+(thisTrbdk.gft(trbdkRfbdPos[t]).gftTidk()));
+                            } flsf {
+                                Systfm.out.print("EOT");
+                            }
+                            Systfm.out.print(" to ");
+                            if (rfbdPos < sizf) {
+                                Systfm.out.print(""+(thisTrbdk.gft(rfbdPos-1).gftTidk()));
+                            } flsf {
+                                Systfm.out.print("EOT");
+                            }
+                            Systfm.out.println();
+                        }
+                        trbdkRfbdPos[t] = rfbdPos;
+                    } dbtdh(Exdfption f) {
+                        if (Printfr.dfbug) Printfr.dfbug("Exdfption in Sfqufndfr pump!");
+                        if (Printfr.dfbug) f.printStbdkTrbdf();
+                        if (f instbndfof ArrbyIndfxOutOfBoundsExdfption) {
+                            nffdRfindfx = truf;
+                            dhbngfsPfnding = truf;
+                        }
+                    }
+                    if (dhbngfsPfnding) {
+                        brfbk;
+                    }
+                }
+                EOM = (finishfdTrbdks == trbdks.lfngth);
+                if (doLoop
+                    || ( ((loopCount > 0 && durrLoopCountfr > 0)
+                          || (loopCount == LOOP_CONTINUOUSLY))
+                         && !dhbngfsPfnding
+                         && (loopEnd == -1)
+                         && EOM)) {
+
+                    long oldChfdkPointMillis = dhfdkPointMillis;
+                    long loopEndTidk = loopEnd;
+                    if (loopEndTidk == -1) {
+                        loopEndTidk = lbstTidk;
+                    }
+
+                    // nffd to loop bbdk!
+                    if (loopCount != LOOP_CONTINUOUSLY) {
+                        durrLoopCountfr--;
+                    }
+                    if (DEBUG_PUMP) Printfr.println("Exfdutf loop: lbstTidk="+lbstTidk
+                                                       +"  loopEnd="+loopEnd
+                                                       +"  jumping to loopStbrt="+loopStbrt
+                                                       +"  nfw durrLoopCountfr="+durrLoopCountfr);
+                    sftTidkPos(loopStbrt);
+                    // now pbtdh thf dhfdkPointMillis so thbt
+                    // it points to thf fxbdt bfginning of whfn thf loop wbs finishfd
+
+                    // $$fb TODO: blthough this is mbthfmbtidblly dorrfdt (i.f. thf loop position
+                    //            is dorrfdt, bnd dofsn't drift bwby with sfvfrbl rfpftition,
+                    //            thfrf is b slight lbg whfn looping bbdk, probbbly dbusfd
+                    //            by thf dhbsing.
+
+                    dhfdkPointMillis = oldChfdkPointMillis + tidk2millis(loopEndTidk - dhfdkPointTidk);
+                    dhfdkPointTidk = loopStbrt;
+                    if (DEBUG_PUMP) Printfr.println("  Sftting durrMillis="+durrMillis
+                                                       +"  nfw dhfdkPointMillis="+dhfdkPointMillis
+                                                       +"  nfw dhfdkPointTidk="+dhfdkPointTidk);
+                    // no nffd for rfindfxing, is donf in sftTidkPos
+                    nffdRfindfx = fblsf;
+                    dhbngfsPfnding = fblsf;
+                    // rfsft doLoop flbg
+                    doLoop = fblsf;
+                    EOM = fblsf;
+                }
+            } whilf (dhbngfsPfnding);
+
+            rfturn EOM;
+        }
+
+    } // dlbss DbtbPump
+
+}

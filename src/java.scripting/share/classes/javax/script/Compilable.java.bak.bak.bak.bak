@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+
+import jbvb.util.Mbp;
+import jbvb.io.Rfbdfr;
+
+/**
+ * Thf optionbl intfrfbdf implfmfntfd by SdriptEnginfs whosf mfthods dompilf sdripts
+ * to b form thbt dbn bf fxfdutfd rfpfbtfdly without rfdompilbtion.
+ *
+ * @buthor Mikf Grogbn
+ * @sindf 1.6
+ */
+publid intfrfbdf Compilbblf {
+    /**
+     * Compilfs thf sdript (sourdf rfprfsfntfd bs b <dodf>String</dodf>) for
+     * lbtfr fxfdution.
+     *
+     * @pbrbm sdript Thf sourdf of thf sdript, rfprfsfntfd bs b <dodf>String</dodf>.
+     *
+     * @rfturn An subdlbss of <dodf>CompilfdSdript</dodf> to bf fxfdutfd lbtfr using onf
+     * of thf <dodf>fvbl</dodf> mfthods of <dodf>CompilfdSdript</dodf>.
+     *
+     * @throws SdriptExdfption if dompilbtion fbils.
+     * @throws NullPointfrExdfption if thf brgumfnt is null.
+     *
+     */
+
+    publid CompilfdSdript dompilf(String sdript) throws
+            SdriptExdfption;
+
+    /**
+     * Compilfs thf sdript (sourdf rfbd from <dodf>Rfbdfr</dodf>) for
+     * lbtfr fxfdution.  Fundtionblity is idfntidbl to
+     * <dodf>dompilf(String)</dodf> othfr thbn thf wby in whidh thf sourdf is
+     * pbssfd.
+     *
+     * @pbrbm sdript Thf rfbdfr from whidh thf sdript sourdf is obtbinfd.
+     *
+     * @rfturn An implfmfntbtion of <dodf>CompilfdSdript</dodf> to bf fxfdutfd
+     * lbtfr using onf of its <dodf>fvbl</dodf> mfthods of <dodf>CompilfdSdript</dodf>.
+     *
+     * @throws SdriptExdfption if dompilbtion fbils.
+     * @throws NullPointfrExdfption if brgumfnt is null.
+     */
+    publid CompilfdSdript dompilf(Rfbdfr sdript) throws
+            SdriptExdfption;
+}

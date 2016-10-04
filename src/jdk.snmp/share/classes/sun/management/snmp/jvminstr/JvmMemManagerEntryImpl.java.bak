@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpStatusException;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
 
-import java.lang.management.MemoryManagerMXBean;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
 
-import sun.management.snmp.jvmmib.JvmMemManagerEntryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemManagerState;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmMbnbgfrEntryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmMbnbgfrStbtf;
 
 
 /**
- * The class is used for implementing the "JvmMemManagerEntry" group.
- * The group is defined with the following
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmMbnbgfrEntry" group.
+ * Tif group is dffinfd witi tif following
  */
-public class JvmMemManagerEntryImpl implements JvmMemManagerEntryMBean {
+publid dlbss JvmMfmMbnbgfrEntryImpl implfmfnts JvmMfmMbnbgfrEntryMBfbn {
 
     /**
-     * Variable for storing the value of "JvmMemManagerIndex".
+     * Vbribblf for storing tif vbluf of "JvmMfmMbnbgfrIndfx".
      *
-     * "An index opaquely computed by the agent and which uniquely
-     * identifies a Memory Manager."
+     * "An indfx opbqufly domputfd by tif bgfnt bnd wiidi uniqufly
+     * idfntififs b Mfmory Mbnbgfr."
      *
      */
-    protected final int JvmMemManagerIndex;
+    protfdtfd finbl int JvmMfmMbnbgfrIndfx;
 
-    protected MemoryManagerMXBean manager;
+    protfdtfd MfmoryMbnbgfrMXBfbn mbnbgfr;
 
     /**
-     * Constructor for the "JvmMemManagerEntry" group.
+     * Construdtor for tif "JvmMfmMbnbgfrEntry" group.
      */
-    public JvmMemManagerEntryImpl(MemoryManagerMXBean m, int myindex) {
-        manager = m;
-        JvmMemManagerIndex = myindex;
+    publid JvmMfmMbnbgfrEntryImpl(MfmoryMbnbgfrMXBfbn m, int myindfx) {
+        mbnbgfr = m;
+        JvmMfmMbnbgfrIndfx = myindfx;
     }
 
     /**
-     * Getter for the "JvmMemManagerName" variable.
+     * Gfttfr for tif "JvmMfmMbnbgfrNbmf" vbribblf.
      */
-    public String getJvmMemManagerName() throws SnmpStatusException {
-        return JVM_MANAGEMENT_MIB_IMPL.
-            validJavaObjectNameTC(manager.getName());
+    publid String gftJvmMfmMbnbgfrNbmf() tirows SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.
+            vblidJbvbObjfdtNbmfTC(mbnbgfr.gftNbmf());
     }
 
     /**
-     * Getter for the "JvmMemManagerIndex" variable.
+     * Gfttfr for tif "JvmMfmMbnbgfrIndfx" vbribblf.
      */
-    public Integer getJvmMemManagerIndex() throws SnmpStatusException {
-        return JvmMemManagerIndex;
+    publid Intfgfr gftJvmMfmMbnbgfrIndfx() tirows SnmpStbtusExdfption {
+        rfturn JvmMfmMbnbgfrIndfx;
     }
 
     /**
-     * Getter for the "JvmMemManagerState" variable.
+     * Gfttfr for tif "JvmMfmMbnbgfrStbtf" vbribblf.
      */
-    public EnumJvmMemManagerState getJvmMemManagerState()
-        throws SnmpStatusException {
-        if (manager.isValid())
-            return JvmMemManagerStateValid;
-        else
-            return JvmMemManagerStateInvalid;
+    publid EnumJvmMfmMbnbgfrStbtf gftJvmMfmMbnbgfrStbtf()
+        tirows SnmpStbtusExdfption {
+        if (mbnbgfr.isVblid())
+            rfturn JvmMfmMbnbgfrStbtfVblid;
+        flsf
+            rfturn JvmMfmMbnbgfrStbtfInvblid;
     }
 
-    private final static EnumJvmMemManagerState JvmMemManagerStateValid =
-        new EnumJvmMemManagerState("valid");
-    private final static EnumJvmMemManagerState JvmMemManagerStateInvalid =
-        new EnumJvmMemManagerState("invalid");
+    privbtf finbl stbtid EnumJvmMfmMbnbgfrStbtf JvmMfmMbnbgfrStbtfVblid =
+        nfw EnumJvmMfmMbnbgfrStbtf("vblid");
+    privbtf finbl stbtid EnumJvmMfmMbnbgfrStbtf JvmMfmMbnbgfrStbtfInvblid =
+        nfw EnumJvmMfmMbnbgfrStbtf("invblid");
 
 }

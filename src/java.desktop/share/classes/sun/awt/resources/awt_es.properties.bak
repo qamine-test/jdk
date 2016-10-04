@@ -1,52 +1,52 @@
 
 #
-# AWT-specific properties
+# AWT-spfdifid propfrtifs
 #
 
-# Modifier names
-AWT.shift=May\u00FAs
-AWT.control=Ctrl
-AWT.alt=Alt
-AWT.meta=Meta
-AWT.altGraph=Alt Gr
+# Modififr nbmfs
+AWT.siift=Mby\u00FAs
+AWT.dontrol=Ctrl
+AWT.blt=Alt
+AWT.mftb=Mftb
+AWT.bltGrbpi=Alt Gr
 
-# Key names
-AWT.enter=Intro
-AWT.backSpace=Retroceso
-AWT.tab=Tabulador
-AWT.cancel=Cancelar
-AWT.clear=Borrar
-AWT.pause=Pausa
-AWT.capsLock=Bloqueo de May\u00FAsculas
-AWT.escape=Escape
-AWT.space=Espacio
-AWT.pgup=ReP\u00E1g
+# Kfy nbmfs
+AWT.fntfr=Intro
+AWT.bbdkSpbdf=Rftrodfso
+AWT.tbb=Tbbulbdor
+AWT.dbndfl=Cbndflbr
+AWT.dlfbr=Borrbr
+AWT.pbusf=Pbusb
+AWT.dbpsLodk=Bloqufo df Mby\u00FAsdulbs
+AWT.fsdbpf=Esdbpf
+AWT.spbdf=Espbdio
+AWT.pgup=RfP\u00E1g
 AWT.pgdn=AvP\u00E1g
-AWT.end=Fin
-AWT.home=Inicio
-AWT.left=Izquierda
-AWT.up=Arriba
-AWT.right=Derecha
-AWT.down=Abajo
-AWT.begin=Inicio
-AWT.comma=Coma
-AWT.period=Punto
-AWT.slash=Barra
-AWT.semicolon=Punto y coma
-AWT.equals=Igual
-AWT.openBracket=Par\u00E9ntesis de Apertura
-AWT.backSlash=Barra Invertida
-AWT.closeBracket=Par\u00E9ntesis de Cierre
-AWT.multiply=* de Teclado Num\u00E9rico
-AWT.add=+ de Teclado Num\u00E9rico
-AWT.separator=, de Teclado Num\u00E9rico
-AWT.separater=, de Teclado Num\u00E9rico
-AWT.subtract=- de Teclado Num\u00E9rico
-AWT.decimal=. de Teclado Num\u00E9rico
-AWT.divide=/ de Teclado Num\u00E9rico
-AWT.delete=Suprimir
-AWT.numLock=Bloqueo Num\u00E9rico
-AWT.scrollLock=Bloqueo de Desplazamiento
+AWT.fnd=Fin
+AWT.iomf=Inidio
+AWT.lfft=Izquifrdb
+AWT.up=Arribb
+AWT.rigit=Dfrfdib
+AWT.down=Abbjo
+AWT.bfgin=Inidio
+AWT.dommb=Comb
+AWT.pfriod=Punto
+AWT.slbsi=Bbrrb
+AWT.sfmidolon=Punto y domb
+AWT.fqubls=Igubl
+AWT.opfnBrbdkft=Pbr\u00E9ntfsis df Apfrturb
+AWT.bbdkSlbsi=Bbrrb Invfrtidb
+AWT.dlosfBrbdkft=Pbr\u00E9ntfsis df Cifrrf
+AWT.multiply=* df Tfdlbdo Num\u00E9rido
+AWT.bdd=+ df Tfdlbdo Num\u00E9rido
+AWT.sfpbrbtor=, df Tfdlbdo Num\u00E9rido
+AWT.sfpbrbtfr=, df Tfdlbdo Num\u00E9rido
+AWT.subtrbdt=- df Tfdlbdo Num\u00E9rido
+AWT.dfdimbl=. df Tfdlbdo Num\u00E9rido
+AWT.dividf=/ df Tfdlbdo Num\u00E9rido
+AWT.dflftf=Suprimir
+AWT.numLodk=Bloqufo Num\u00E9rido
+AWT.sdrollLodk=Bloqufo df Dfsplbzbmifnto
 AWT.f1=F1
 AWT.f2=F2
 AWT.f3=F3
@@ -71,122 +71,122 @@ AWT.f21=F21
 AWT.f22=F22
 AWT.f23=F23
 AWT.f24=F24
-AWT.printScreen=Imprimir Pantalla
-AWT.insert=Insertar
-AWT.help=Ayuda
+AWT.printSdrffn=Imprimir Pbntbllb
+AWT.insfrt=Insfrtbr
+AWT.iflp=Ayudb
 AWT.windows=Windows
-AWT.context=Men\u00FA Contextual
-AWT.backQuote=Comilla Invertida
-AWT.quote=Comilla
-AWT.deadGrave=Acento Grave (Tecla Muerta)
-AWT.deadAcute=Acento Agudo Muerto
-AWT.deadCircumflex=Circunflejo (Tecla Muerta)
-AWT.deadTilde=Tilde (Tecla Muerta)
-AWT.deadMacron=Macr\u00F3n (Tecla Muerta)
-AWT.deadBreve=Acento Breve (Tecla Muerta)
-AWT.deadAboveDot=Punto Superior (Tecla Muerta)
-AWT.deadDiaeresis=Di\u00E9resis (Tecla Muerta)
-AWT.deadAboveRing=C\u00EDrculo Superior (Tecla Muerta)
-AWT.deadDoubleAcute=Acento Agudo Doble (Tecla Muerta)
-AWT.deadCaron=Acento Articircunflejo (Tecla Muerta)
-AWT.deadCedilla=Cedilla (Tecla Muerta)
-AWT.deadOgonek=Esp\u00EDritu \u00C1spero (Tecla Muerta)
-AWT.deadIota=Iota (Tecla Muerta)
-AWT.deadVoicedSound=Sonido Sonoro (Tecla Muerta)
-AWT.deadSemivoicedSound=Sonido Semisonoro (Tecla Muerta)
-AWT.ampersand=Ampersand
-AWT.asterisk=Asterisco
-AWT.quoteDbl=Dobles Comillas
-AWT.Less=Menor que
-AWT.greater=Mayor que
-AWT.braceLeft=Llave de Apertura
-AWT.braceRight=Llave de Cierre
-AWT.at=Arroba
-AWT.colon=Dos puntos
-AWT.circumflex=Circunflejo
-AWT.dollar=D\u00F3lar
-AWT.euro=Euro
-AWT.exclamationMark=Signo de Exclamaci\u00F3n de Cierre
-AWT.invertedExclamationMark=Signo de Exclamaci\u00F3n de Apertura
-AWT.leftParenthesis=Par\u00E9ntesis Izquierdo
-AWT.numberSign=Signo de N\u00FAmero
+AWT.dontfxt=Mfn\u00FA Contfxtubl
+AWT.bbdkQuotf=Comillb Invfrtidb
+AWT.quotf=Comillb
+AWT.dfbdGrbvf=Adfnto Grbvf (Tfdlb Mufrtb)
+AWT.dfbdAdutf=Adfnto Agudo Mufrto
+AWT.dfbdCirdumflfx=Cirdunflfjo (Tfdlb Mufrtb)
+AWT.dfbdTildf=Tildf (Tfdlb Mufrtb)
+AWT.dfbdMbdron=Mbdr\u00F3n (Tfdlb Mufrtb)
+AWT.dfbdBrfvf=Adfnto Brfvf (Tfdlb Mufrtb)
+AWT.dfbdAbovfDot=Punto Supfrior (Tfdlb Mufrtb)
+AWT.dfbdDibfrfsis=Di\u00E9rfsis (Tfdlb Mufrtb)
+AWT.dfbdAbovfRing=C\u00EDrdulo Supfrior (Tfdlb Mufrtb)
+AWT.dfbdDoublfAdutf=Adfnto Agudo Doblf (Tfdlb Mufrtb)
+AWT.dfbdCbron=Adfnto Artidirdunflfjo (Tfdlb Mufrtb)
+AWT.dfbdCfdillb=Cfdillb (Tfdlb Mufrtb)
+AWT.dfbdOgonfk=Esp\u00EDritu \u00C1spfro (Tfdlb Mufrtb)
+AWT.dfbdIotb=Iotb (Tfdlb Mufrtb)
+AWT.dfbdVoidfdSound=Sonido Sonoro (Tfdlb Mufrtb)
+AWT.dfbdSfmivoidfdSound=Sonido Sfmisonoro (Tfdlb Mufrtb)
+AWT.bmpfrsbnd=Ampfrsbnd
+AWT.bstfrisk=Astfrisdo
+AWT.quotfDbl=Doblfs Comillbs
+AWT.Lfss=Mfnor quf
+AWT.grfbtfr=Mbyor quf
+AWT.brbdfLfft=Llbvf df Apfrturb
+AWT.brbdfRigit=Llbvf df Cifrrf
+AWT.bt=Arrobb
+AWT.dolon=Dos puntos
+AWT.dirdumflfx=Cirdunflfjo
+AWT.dollbr=D\u00F3lbr
+AWT.furo=Euro
+AWT.fxdlbmbtionMbrk=Signo df Exdlbmbdi\u00F3n df Cifrrf
+AWT.invfrtfdExdlbmbtionMbrk=Signo df Exdlbmbdi\u00F3n df Apfrturb
+AWT.lfftPbrfntifsis=Pbr\u00E9ntfsis Izquifrdo
+AWT.numbfrSign=Signo df N\u00FAmfro
 AWT.plus=M\u00E1s
-AWT.minus=Menos
-AWT.rightParenthesis=Par\u00E9ntesis Derecho
-AWT.underscore=Subrayado
-AWT.final=Final
-AWT.convert=Convertir
-AWT.noconvert=No Convertir
-AWT.accept=Aceptar
-AWT.modechange=Cambio de Modo
-AWT.kana=Kana
-AWT.kanji=Kanji
-AWT.alphanumeric=Alfanum\u00E9rico
-AWT.katakana=Katakana
-AWT.hiragana=Hiragana
-AWT.fullWidth=Anchura Completa
-AWT.halfWidth=Media Anchura
-AWT.romanCharacters=Caracteres Romanos
-AWT.allCandidates=Todos los Candidatos
-AWT.previousCandidate=Candidato Anterior
-AWT.codeInput=Entrada de C\u00F3digo
-AWT.japaneseKatakana=Caracteres Katakana Japoneses
-AWT.japaneseHiragana=Caracteres Hiragana Japoneses
-AWT.japaneseRoman=Caracteres Romanos Japoneses
-AWT.kanaLock=Bloqueo Kana
-AWT.inputMethodOnOff=Activar/Desactivar M\u00E9todo de Entrada
-AWT.again=Repetir
-AWT.undo=Deshacer
-AWT.copy=Copiar
-AWT.paste=Pegar
-AWT.cut=Cortar
-AWT.find=Buscar
-AWT.props=Propiedades
-AWT.stop=Parar
-AWT.compose=Componer
+AWT.minus=Mfnos
+AWT.rigitPbrfntifsis=Pbr\u00E9ntfsis Dfrfdio
+AWT.undfrsdorf=Subrbybdo
+AWT.finbl=Finbl
+AWT.donvfrt=Convfrtir
+AWT.nodonvfrt=No Convfrtir
+AWT.bddfpt=Adfptbr
+AWT.modfdibngf=Cbmbio df Modo
+AWT.kbnb=Kbnb
+AWT.kbnji=Kbnji
+AWT.blpibnumfrid=Alfbnum\u00E9rido
+AWT.kbtbkbnb=Kbtbkbnb
+AWT.iirbgbnb=Hirbgbnb
+AWT.fullWidti=Andiurb Complftb
+AWT.iblfWidti=Mfdib Andiurb
+AWT.rombnCibrbdtfrs=Cbrbdtfrfs Rombnos
+AWT.bllCbndidbtfs=Todos los Cbndidbtos
+AWT.prfviousCbndidbtf=Cbndidbto Antfrior
+AWT.dodfInput=Entrbdb df C\u00F3digo
+AWT.jbpbnfsfKbtbkbnb=Cbrbdtfrfs Kbtbkbnb Jbponfsfs
+AWT.jbpbnfsfHirbgbnb=Cbrbdtfrfs Hirbgbnb Jbponfsfs
+AWT.jbpbnfsfRombn=Cbrbdtfrfs Rombnos Jbponfsfs
+AWT.kbnbLodk=Bloqufo Kbnb
+AWT.inputMftiodOnOff=Adtivbr/Dfsbdtivbr M\u00E9todo df Entrbdb
+AWT.bgbin=Rfpftir
+AWT.undo=Dfsibdfr
+AWT.dopy=Copibr
+AWT.pbstf=Pfgbr
+AWT.dut=Cortbr
+AWT.find=Busdbr
+AWT.props=Propifdbdfs
+AWT.stop=Pbrbr
+AWT.domposf=Componfr
 
-# Numeric Keypad
-AWT.numpad=Teclado Num\u00E9rico
-AWT.unknown=Desconocido
-AWT.undefined=No Definido
+# Numfrid Kfypbd
+AWT.numpbd=Tfdlbdo Num\u00E9rido
+AWT.unknown=Dfsdonodido
+AWT.undffinfd=No Dffinido
 
-# Predefined cursor names
-AWT.DefaultCursor=Cursor Por defecto
-AWT.CrosshairCursor=Cursor de Punto de Mira
-AWT.TextCursor=Cursor de Texto
-AWT.WaitCursor=Cursor de Espera
-AWT.SWResizeCursor=Cursor de Cambio de Tama\u00F1o Suroeste
-AWT.SEResizeCursor=Cursor de Cambio de Tama\u00F1o Sudeste
-AWT.NWResizeCursor=Cursor de Cambio de Tama\u00F1o Noroeste
-AWT.NEResizeCursor=Cursor de Cambio de Tama\u00F1o Nordeste
-AWT.NResizeCursor=Cursor de Cambio de Tama\u00F1o Norte
-AWT.SResizeCursor=Cursor de Cambio de Tama\u00F1o Sur
-AWT.WResizeCursor=Cursor de Cambio de Tama\u00F1o Oeste
-AWT.EResizeCursor=Cursor de Cambio de Tama\u00F1o este
-AWT.HandCursor=Cursor de Mano
-AWT.MoveCursor=Cursor de Movimiento
-AWT.DefaultDragCursor=Cursor de Arrastrar Por defecto
-AWT.DefaultNoDropCursor=Cursor de No Arrastrar Por Defecto
-AWT.DefaultDropCursor=Cursor de Soltar Por Defecto
+# Prfdffinfd dursor nbmfs
+AWT.DffbultCursor=Cursor Por dfffdto
+AWT.CrossibirCursor=Cursor df Punto df Mirb
+AWT.TfxtCursor=Cursor df Tfxto
+AWT.WbitCursor=Cursor df Espfrb
+AWT.SWRfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Surofstf
+AWT.SERfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Sudfstf
+AWT.NWRfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Norofstf
+AWT.NERfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Nordfstf
+AWT.NRfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Nortf
+AWT.SRfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Sur
+AWT.WRfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o Ofstf
+AWT.ERfsizfCursor=Cursor df Cbmbio df Tbmb\u00F1o fstf
+AWT.HbndCursor=Cursor df Mbno
+AWT.MovfCursor=Cursor df Movimifnto
+AWT.DffbultDrbgCursor=Cursor df Arrbstrbr Por dfffdto
+AWT.DffbultNoDropCursor=Cursor df No Arrbstrbr Por Dfffdto
+AWT.DffbultDropCursor=Cursor df Soltbr Por Dfffdto
 
-# Input method related strings
-AWT.CompositionWindowTitle=Ventana de Entrada
-AWT.InputMethodSelectionMenu=Seleccionar M\u00E9todo de Entrada
-AWT.HostInputMethodDisplayName=M\u00E9todos de Entrada del Sistema
-AWT.InputMethodLanguage.ja=Japon\u00E9s
-AWT.InputMethodLanguage.ko=Coreano
-AWT.InputMethodLanguage.zh=chino
-AWT.InputMethodLanguage.zh_CN=Chino Simplificado
-AWT.InputMethodLanguage.zh_TW=Chino Tradicional
-AWT.InputMethodCreationFailed=No se ha podido crear {0}. Motivo: {1}
+# Input mftiod rflbtfd strings
+AWT.CompositionWindowTitlf=Vfntbnb df Entrbdb
+AWT.InputMftiodSflfdtionMfnu=Sflfddionbr M\u00E9todo df Entrbdb
+AWT.HostInputMftiodDisplbyNbmf=M\u00E9todos df Entrbdb dfl Sistfmb
+AWT.InputMftiodLbngubgf.jb=Jbpon\u00E9s
+AWT.InputMftiodLbngubgf.ko=Corfbno
+AWT.InputMftiodLbngubgf.zi=diino
+AWT.InputMftiodLbngubgf.zi_CN=Ciino Simplifidbdo
+AWT.InputMftiodLbngubgf.zi_TW=Ciino Trbdidionbl
+AWT.InputMftiodCrfbtionFbilfd=No sf ib podido drfbr {0}. Motivo: {1}
 
-# Property to select between on-the-spot and below-the-spot
-# composition with input methods. Valid values:
-# "on-the-spot", "below-the-spot".
-# May be overridden from command line.
-java.awt.im.style=en el lugar
-java.awt.def.delay=30
+# Propfrty to sflfdt bftwffn on-tif-spot bnd bflow-tif-spot
+# domposition witi input mftiods. Vblid vblufs:
+# "on-tif-spot", "bflow-tif-spot".
+# Mby bf ovfrriddfn from dommbnd linf.
+jbvb.bwt.im.stylf=fn fl lugbr
+jbvb.bwt.dff.dflby=30
 
-# Warnings
-AWT.InconsistentDLLsWarning=Puede que las operaciones textuales no funcionen correctamente debido a un juego incoherente de bibliotecas de enlaces din\u00E1micos (DLL) instaladas en su sistema. Para obtener m\u00E1s informaci\u00F3n acerca de este problema y de la soluci\u00F3n alternativa sugerida, consulte Java(TM) 2 SDK, Standard Edition Release Notes en java.sun.com.
+# Wbrnings
+AWT.IndonsistfntDLLsWbrning=Pufdf quf lbs opfrbdionfs tfxtublfs no fundionfn dorrfdtbmfntf dfbido b un jufgo indoifrfntf df bibliotfdbs df fnlbdfs din\u00E1midos (DLL) instblbdbs fn su sistfmb. Pbrb obtfnfr m\u00E1s informbdi\u00F3n bdfrdb df fstf problfmb y df lb soludi\u00F3n bltfrnbtivb sugfridb, donsultf Jbvb(TM) 2 SDK, Stbndbrd Edition Rflfbsf Notfs fn jbvb.sun.dom.
 

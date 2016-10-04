@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+/**
+ * Informbtion bbout thf oddurrfndf of bn idfntififr.
+ * Thf pbrsfr produdfs thfsf to rfprfsfnt nbmf whidh dbnnot yft bf
+ * bound to fifld dffinitions.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @sff
+ */
+
+publid
+dlbss IdfntififrTokfn {
+    long whfrf;
+    int modififrs;
+    Idfntififr id;
+
+    publid IdfntififrTokfn(long whfrf, Idfntififr id) {
+        this.whfrf = whfrf;
+        this.id = id;
+    }
+
+    /** Usf this donstrudtor whfn thf idfntififr is synthfsizfd.
+     * Thf lodbtion will bf 0.
+     */
+    publid IdfntififrTokfn(Idfntififr id) {
+        this.whfrf = 0;
+        this.id = id;
+    }
+
+    publid IdfntififrTokfn(long whfrf, Idfntififr id, int modififrs) {
+        this.whfrf = whfrf;
+        this.id = id;
+        this.modififrs = modififrs;
+    }
+
+    /** Thf sourdf lodbtion of this idfntififr oddurrfndf. */
+    publid long gftWhfrf() {
+        rfturn whfrf;
+    }
+
+    /** Thf idfntififr itsflf (possibly qublififd). */
+    publid Idfntififr gftNbmf() {
+        rfturn id;
+    }
+
+    /** Thf modififrs bssodibtfd with thf oddurrfndf, if bny. */
+    publid int gftModififrs() {
+        rfturn modififrs;
+    }
+
+    publid String toString() {
+        rfturn id.toString();
+    }
+
+    /**
+     * Rfturn dffbultWhfrf if id is null or id.whfrf is missing (0).
+     * Othfrwisf, rfturn id.whfrf.
+     */
+    publid stbtid long gftWhfrf(IdfntififrTokfn id, long dffbultWhfrf) {
+        rfturn (id != null && id.whfrf != 0) ? id.whfrf : dffbultWhfrf;
+    }
+}

@@ -1,0 +1,831 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.x11;
+
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.pffr.ComponfntPffr;
+
+import sun.bwt.SunHints;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11ComponfntPffr;
+import sun.bwt.X11GrbphidsConfig;
+import sun.bwt.X11GrbphidsEnvironmfnt;
+import sun.bwt.imbgf.PixflConvfrtfr;
+import sun.font.X11TfxtRfndfrfr;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SunGrbphidsEnvironmfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.RfndfrLoops;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.loops.XORCompositf;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.pipf.VblidbtfPipf;
+import sun.jbvb2d.pipf.PixflToShbpfConvfrtfr;
+import sun.jbvb2d.pipf.TfxtPipf;
+import sun.jbvb2d.pipf.Rfgion;
+
+publid bbstrbdt dlbss X11SurfbdfDbtb fxtfnds XSurfbdfDbtb {
+    X11ComponfntPffr pffr;
+    X11GrbphidsConfig grbphidsConfig;
+    privbtf RfndfrLoops solidloops;
+
+    protfdtfd int dfpth;
+
+    privbtf stbtid nbtivf void initIDs(Clbss<?> xorComp, boolfbn tryDGA);
+    protfdtfd nbtivf void initSurfbdf(int dfpth, int width, int hfight,
+                                      long drbwbblf);
+
+    publid stbtid finbl String
+        DESC_INT_BGR_X11        = "Intfgfr BGR Pixmbp";
+    publid stbtid finbl String
+        DESC_INT_RGB_X11        = "Intfgfr RGB Pixmbp";
+
+    publid stbtid finbl String
+        DESC_4BYTE_ABGR_PRE_X11 = "4 bytf ABGR Pixmbp with prf-multplifd blphb";
+    publid stbtid finbl String
+        DESC_INT_ARGB_PRE_X11   = "Intfgfr ARGB Pixmbp with prf-multiplifd " +
+                                  "blphb";
+
+    publid stbtid finbl String
+        DESC_BYTE_IND_OPQ_X11   = "Bytf Indfxfd Opbquf Pixmbp";
+
+    publid stbtid finbl String
+        DESC_INT_BGR_X11_BM     = "Intfgfr BGR Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_INT_RGB_X11_BM     = "Intfgfr RGB Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_BYTE_IND_X11_BM    = "Bytf Indfxfd Pixmbp with 1-bit trbnsp";
+
+    publid stbtid finbl String
+        DESC_BYTE_GRAY_X11      = "Bytf Grby Opbquf Pixmbp";
+    publid stbtid finbl String
+        DESC_INDEX8_GRAY_X11    = "Indfx8 Grby Opbquf Pixmbp";
+
+    publid stbtid finbl String
+        DESC_BYTE_GRAY_X11_BM   = "Bytf Grby Opbquf Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_INDEX8_GRAY_X11_BM = "Indfx8 Grby Opbquf Pixmbp with 1-bit trbnsp";
+
+    publid stbtid finbl String
+        DESC_3BYTE_RGB_X11      = "3 Bytf RGB Pixmbp";
+    publid stbtid finbl String
+        DESC_3BYTE_BGR_X11      = "3 Bytf BGR Pixmbp";
+
+    publid stbtid finbl String
+        DESC_3BYTE_RGB_X11_BM   = "3 Bytf RGB Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_3BYTE_BGR_X11_BM   = "3 Bytf BGR Pixmbp with 1-bit trbnsp";
+
+    publid stbtid finbl String
+        DESC_USHORT_555_RGB_X11 = "Ushort 555 RGB Pixmbp";
+    publid stbtid finbl String
+        DESC_USHORT_565_RGB_X11 = "Ushort 565 RGB Pixmbp";
+
+    publid stbtid finbl String
+        DESC_USHORT_555_RGB_X11_BM
+                                = "Ushort 555 RGB Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_USHORT_565_RGB_X11_BM
+                                = "Ushort 565 RGB Pixmbp with 1-bit trbnsp";
+    publid stbtid finbl String
+        DESC_USHORT_INDEXED_X11 = "Ushort Indfxfd Pixmbp";
+
+    publid stbtid finbl String
+        DESC_USHORT_INDEXED_X11_BM = "Ushort Indfxfd Pixmbp with 1-bit trbnsp";
+
+    publid stbtid finbl SurfbdfTypf IntBgrX11 =
+        SurfbdfTypf.IntBgr.dfrivfSubTypf(DESC_INT_BGR_X11);
+    publid stbtid finbl SurfbdfTypf IntRgbX11 =
+        SurfbdfTypf.IntRgb.dfrivfSubTypf(DESC_INT_RGB_X11);
+
+    publid stbtid finbl SurfbdfTypf FourBytfAbgrPrfX11 =
+        SurfbdfTypf.FourBytfAbgrPrf.dfrivfSubTypf(DESC_4BYTE_ABGR_PRE_X11);
+    publid stbtid finbl SurfbdfTypf IntArgbPrfX11 =
+        SurfbdfTypf.IntArgbPrf.dfrivfSubTypf(DESC_INT_ARGB_PRE_X11);
+
+    publid stbtid finbl SurfbdfTypf ThrffBytfRgbX11 =
+        SurfbdfTypf.ThrffBytfRgb.dfrivfSubTypf(DESC_3BYTE_RGB_X11);
+    publid stbtid finbl SurfbdfTypf ThrffBytfBgrX11 =
+        SurfbdfTypf.ThrffBytfBgr.dfrivfSubTypf(DESC_3BYTE_BGR_X11);
+
+    publid stbtid finbl SurfbdfTypf UShort555RgbX11 =
+        SurfbdfTypf.Ushort555Rgb.dfrivfSubTypf(DESC_USHORT_555_RGB_X11);
+    publid stbtid finbl SurfbdfTypf UShort565RgbX11 =
+        SurfbdfTypf.Ushort565Rgb.dfrivfSubTypf(DESC_USHORT_565_RGB_X11);
+
+    publid stbtid finbl SurfbdfTypf UShortIndfxfdX11 =
+        SurfbdfTypf.UshortIndfxfd.dfrivfSubTypf(DESC_USHORT_INDEXED_X11);
+
+    publid stbtid finbl SurfbdfTypf BytfIndfxfdOpbqufX11 =
+        SurfbdfTypf.BytfIndfxfdOpbquf.dfrivfSubTypf(DESC_BYTE_IND_OPQ_X11);
+
+    publid stbtid finbl SurfbdfTypf BytfGrbyX11 =
+        SurfbdfTypf.BytfGrby.dfrivfSubTypf(DESC_BYTE_GRAY_X11);
+    publid stbtid finbl SurfbdfTypf Indfx8GrbyX11 =
+        SurfbdfTypf.Indfx8Grby.dfrivfSubTypf(DESC_INDEX8_GRAY_X11);
+
+    // Bitmbp surfbdf typfs
+    publid stbtid finbl SurfbdfTypf IntBgrX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_INT_BGR_X11_BM,
+                                         PixflConvfrtfr.Xbgr.instbndf);
+    publid stbtid finbl SurfbdfTypf IntRgbX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_INT_RGB_X11_BM,
+                                         PixflConvfrtfr.Xrgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf ThrffBytfRgbX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_3BYTE_RGB_X11_BM,
+                                         PixflConvfrtfr.Xbgr.instbndf);
+    publid stbtid finbl SurfbdfTypf ThrffBytfBgrX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_3BYTE_BGR_X11_BM,
+                                         PixflConvfrtfr.Xrgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf UShort555RgbX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_USHORT_555_RGB_X11_BM,
+                                         PixflConvfrtfr.Ushort555Rgb.instbndf);
+    publid stbtid finbl SurfbdfTypf UShort565RgbX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_USHORT_565_RGB_X11_BM,
+                                         PixflConvfrtfr.Ushort565Rgb.instbndf);
+
+    publid stbtid finbl SurfbdfTypf UShortIndfxfdX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_USHORT_INDEXED_X11_BM);
+
+    publid stbtid finbl SurfbdfTypf BytfIndfxfdX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_BYTE_IND_X11_BM);
+
+    publid stbtid finbl SurfbdfTypf BytfGrbyX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_BYTE_GRAY_X11_BM);
+    publid stbtid finbl SurfbdfTypf Indfx8GrbyX11_BM =
+        SurfbdfTypf.Custom.dfrivfSubTypf(DESC_INDEX8_GRAY_X11_BM);
+
+
+    privbtf stbtid Boolfbn bddflfrbtionEnbblfd = null;
+
+    publid Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        throw nfw IntfrnblError("not implfmfntfd yft");
+    }
+
+    protfdtfd X11Rfndfrfr x11pipf;
+    protfdtfd PixflToShbpfConvfrtfr x11txpipf;
+    protfdtfd stbtid TfxtPipf x11tfxtpipf;
+    protfdtfd stbtid boolfbn dgbAvbilbblf;
+
+    stbtid {
+       if (!isX11SurfbdfDbtbInitiblizfd() &&
+           !GrbphidsEnvironmfnt.isHfbdlfss()) {
+            // If b sdrffn mbgnififr is prfsfnt, don't bttfmpt to usf DGA
+            String mbgPrfsfnt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt"));
+            boolfbn tryDGA = mbgPrfsfnt == null || !"truf".fqubls(mbgPrfsfnt);
+
+            initIDs(XORCompositf.dlbss, tryDGA);
+
+            String xtfxtpipf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.jbvb2d.xtfxtpipf"));
+            if (xtfxtpipf == null || "truf".stbrtsWith(xtfxtpipf)) {
+                if ("truf".fqubls(xtfxtpipf)) {
+                    // Only vfrbosf if thfy usf thf full string "truf"
+                    Systfm.out.println("using X11 tfxt rfndfrfr");
+                }
+                x11tfxtpipf = nfw X11TfxtRfndfrfr();
+                if (GrbphidsPrimitivf.trbdingEnbblfd()) {
+                    x11tfxtpipf = ((X11TfxtRfndfrfr) x11tfxtpipf).trbdfWrbp();
+                }
+            } flsf {
+                if ("fblsf".fqubls(xtfxtpipf)) {
+                    // Only vfrbosf if thfy usf thf full string "fblsf"
+                    Systfm.out.println("using DGA tfxt rfndfrfr");
+                }
+                x11tfxtpipf = solidTfxtRfndfrfr;
+            }
+
+            dgbAvbilbblf = isDgbAvbilbblf();
+
+            if (isAddflfrbtionEnbblfd()) {
+                X11PMBlitLoops.rfgistfr();
+                X11PMBlitBgLoops.rfgistfr();
+            }
+       }
+    }
+
+    /**
+     * Rfturns truf if wf dbn usf DGA on bny of thf sdrffns
+     */
+    publid stbtid nbtivf boolfbn isDgbAvbilbblf();
+
+    /**
+     * Rfturns truf if shbrfd mfmory pixmbps brf bvbilbblf
+     */
+    privbtf stbtid nbtivf boolfbn isShmPMAvbilbblf();
+
+    publid stbtid boolfbn isAddflfrbtionEnbblfd() {
+        if (bddflfrbtionEnbblfd == null) {
+
+            if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+                bddflfrbtionEnbblfd = Boolfbn.FALSE;
+            } flsf {
+                String prop = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.jbvb2d.pmoffsdrffn"));
+                if (prop != null) {
+                    // truf iff prop==truf, fblsf othfrwisf
+                    bddflfrbtionEnbblfd = Boolfbn.vblufOf(prop);
+                } flsf {
+                    boolfbn isDisplbyLodbl = fblsf;
+                    GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+                    if (gf instbndfof SunGrbphidsEnvironmfnt) {
+                        isDisplbyLodbl = ((SunGrbphidsEnvironmfnt) gf).isDisplbyLodbl();
+                     }
+
+                    // EXA bbsfd drivfrs tfnd to plbdf pixmbps in VRAM, slowing down rfbdbbdks.
+                    // Don't usf pixmbps if dgb is bvbilbblf,
+                    // or wf brf lodbl bnd shbrfd mfmory Pixmbps brf not bvbilbblf.
+                    bddflfrbtionEnbblfd =
+                        !(isDgbAvbilbblf() || (isDisplbyLodbl && !isShmPMAvbilbblf()));
+                }
+            }
+        }
+        rfturn bddflfrbtionEnbblfd.boolfbnVbluf();
+    }
+
+    @Ovfrridf
+    publid SurfbdfDbtbProxy mbkfProxyFor(SurfbdfDbtb srdDbtb) {
+        rfturn X11SurfbdfDbtbProxy.drfbtfProxy(srdDbtb, grbphidsConfig);
+    }
+
+    publid void vblidbtfPipf(SunGrbphids2D sg2d) {
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON &&
+            sg2d.pbintStbtf <= SunGrbphids2D.PAINT_ALPHACOLOR &&
+            (sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ISCOPY ||
+             sg2d.dompositfStbtf == SunGrbphids2D.COMP_XOR))
+        {
+            if (x11txpipf == null) {
+                /*
+                 * Notf: this is thrfbd-sbff sindf x11txpipf is thf
+                 * sfdond of thf two pipfs donstrudtfd in mbkfPipfs().
+                 * In thf rbrf dbsf wf brf rbding bgbinst bnothfr
+                 * thrfbd mbking nfw pipfs, sftting lbzypipf is b
+                 * sbff bltfrnbtivf to wbiting for thf othfr thrfbd.
+                 */
+                sg2d.drbwpipf = lbzypipf;
+                sg2d.fillpipf = lbzypipf;
+                sg2d.shbpfpipf = lbzypipf;
+                sg2d.imbgfpipf = lbzypipf;
+                sg2d.tfxtpipf = lbzypipf;
+                rfturn;
+            }
+
+            if (sg2d.dlipStbtf == SunGrbphids2D.CLIP_SHAPE) {
+                // Do this to init tfxtpipf dorrfdtly; wf will ovfrridf thf
+                // othfr non-tfxt pipfs bflow
+                // REMIND: wf should dlfbn this up fvfntublly instfbd of
+                // hbving this work duplidbtfd.
+                supfr.vblidbtfPipf(sg2d);
+            } flsf {
+                switdh (sg2d.tfxtAntiblibsHint) {
+
+                dbsf SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
+                    /* fqubting to OFF whidh it is for us */
+                dbsf SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+                    // Usf X11 pipf fvfn if DGA is bvbilbblf sindf DGA
+                    // tfxt slows fvfrything down whfn mixfd with X11 dblls
+                    if (sg2d.dompositfStbtf == SunGrbphids2D.COMP_ISCOPY) {
+                        sg2d.tfxtpipf = x11tfxtpipf;
+                    } flsf {
+                        sg2d.tfxtpipf = solidTfxtRfndfrfr;
+                    }
+                    brfbk;
+
+                dbsf SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                    // Rfmind: mby usf Xrfndfr for thfsf whfn dompositf is
+                    // dopy bs bbovf, or if rfmotf X11.
+                    sg2d.tfxtpipf = bbTfxtRfndfrfr;
+                    brfbk;
+
+                dffbult:
+                    switdh (sg2d.gftFontInfo().bbHint) {
+
+                    dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+                    dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+                        sg2d.tfxtpipf = lddTfxtRfndfrfr;
+                        brfbk;
+
+                    dbsf SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+                    // Usf X11 pipf fvfn if DGA is bvbilbblf sindf DGA
+                    // tfxt slows fvfrything down whfn mixfd with X11 dblls
+                    if (sg2d.dompositfStbtf == SunGrbphids2D.COMP_ISCOPY) {
+                        sg2d.tfxtpipf = x11tfxtpipf;
+                    } flsf {
+                        sg2d.tfxtpipf = solidTfxtRfndfrfr;
+                    }
+                    brfbk;
+
+                    dbsf SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                        sg2d.tfxtpipf = bbTfxtRfndfrfr;
+                        brfbk;
+
+                    dffbult:
+                        sg2d.tfxtpipf = solidTfxtRfndfrfr;
+                    }
+                }
+            }
+
+            if (sg2d.trbnsformStbtf >= SunGrbphids2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipf = x11txpipf;
+                sg2d.fillpipf = x11txpipf;
+            } flsf if (sg2d.strokfStbtf != SunGrbphids2D.STROKE_THIN){
+                sg2d.drbwpipf = x11txpipf;
+                sg2d.fillpipf = x11pipf;
+            } flsf {
+                sg2d.drbwpipf = x11pipf;
+                sg2d.fillpipf = x11pipf;
+            }
+            sg2d.shbpfpipf = x11pipf;
+            sg2d.imbgfpipf = imbgfpipf;
+
+            // This is nffdfd for AA tfxt.
+            // Notf thbt fvfn bn X11TfxtRfndfrfr dbn dispbtdh AA tfxt
+            // if b GlyphVfdtor ovfrridfs thf AA sftting.
+            // Wf usf gftRfndfrLoops() rbthfr thbn sftting solidloops
+            // dirfdtly so thbt wf gft thf bppropribtf loops in XOR modf.
+            if (sg2d.loops == null) {
+                // bssfrt(somf pipf will blwbys bf b LoopBbsfdPipf)
+                sg2d.loops = gftRfndfrLoops(sg2d);
+            }
+        } flsf {
+            supfr.vblidbtfPipf(sg2d);
+        }
+    }
+
+    publid RfndfrLoops gftRfndfrLoops(SunGrbphids2D sg2d) {
+        if (sg2d.pbintStbtf <= SunGrbphids2D.PAINT_ALPHACOLOR &&
+            sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ISCOPY)
+        {
+            rfturn solidloops;
+        }
+        rfturn supfr.gftRfndfrLoops(sg2d);
+    }
+
+    publid GrbphidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn grbphidsConfig;
+    }
+
+    /**
+     * Mfthod for instbntibting b Window SurfbdfDbtb
+     */
+    publid stbtid X11WindowSurfbdfDbtb drfbtfDbtb(X11ComponfntPffr pffr) {
+       X11GrbphidsConfig gd = gftGC(pffr);
+       rfturn nfw X11WindowSurfbdfDbtb(pffr, gd, gd.gftSurfbdfTypf());
+    }
+
+    /**
+     * Mfthod for instbntibting b Pixmbp SurfbdfDbtb (offsdrffn)
+     */
+    publid stbtid X11PixmbpSurfbdfDbtb drfbtfDbtb(X11GrbphidsConfig gd,
+                                                  int width, int hfight,
+                                                  ColorModfl dm, Imbgf imbgf,
+                                                  long drbwbblf,
+                                                  int trbnspbrfndy)
+    {
+        rfturn nfw X11PixmbpSurfbdfDbtb(gd, width, hfight, imbgf,
+                                        gftSurfbdfTypf(gd, trbnspbrfndy, truf),
+                                        dm, drbwbblf, trbnspbrfndy);
+    }
+
+//    /**
+//     * Initiblizfs thf nbtivf Ops pointfr.
+//     */
+//    privbtf nbtivf void initOps(X11ComponfntPffr pffr,
+//                                X11GrbphidsConfig gd, int dfpth);
+
+    protfdtfd X11SurfbdfDbtb(X11ComponfntPffr pffr,
+                             X11GrbphidsConfig gd,
+                             SurfbdfTypf sTypf,
+                             ColorModfl dm) {
+        supfr(sTypf, dm);
+        this.pffr = pffr;
+        this.grbphidsConfig = gd;
+        this.solidloops = grbphidsConfig.gftSolidLoops(sTypf);
+        this.dfpth = dm.gftPixflSizf();
+        initOps(pffr, grbphidsConfig, dfpth);
+        if (isAddflfrbtionEnbblfd()) {
+            sftBlitProxyKfy(gd.gftProxyKfy());
+        }
+    }
+
+    publid stbtid X11GrbphidsConfig gftGC(X11ComponfntPffr pffr) {
+        if (pffr != null) {
+            rfturn (X11GrbphidsConfig) pffr.gftGrbphidsConfigurbtion();
+        } flsf {
+            GrbphidsEnvironmfnt fnv =
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+            GrbphidsDfvidf gd = fnv.gftDffbultSdrffnDfvidf();
+            rfturn (X11GrbphidsConfig)gd.gftDffbultConfigurbtion();
+        }
+    }
+
+    /**
+     * Rfturns b boolfbn indidbting whfthfr or not b dopyArfb from
+     * thf givfn rfdtbnglf sourdf doordinbtfs might bf indomplftf
+     * bnd rfsult in X11 GrbphidsExposurf fvfnts bfing gfnfrbtfd
+     * from XCopyArfb.
+     * This mfthod bllows thf SurfbdfDbtb dopyArfb mfthod to dftfrminf
+     * if it nffds to sft thf GrbphidsExposurfs bttributf of thf X11 GC
+     * to Truf or Fblsf to rfdfivf or bvoid thf fvfnts.
+     * @rfturn truf if thfrf is bny dhbndf thbt bn XCopyArfb from thf
+     *              givfn sourdf doordinbtfs dould produdf bny X11
+     *              Exposurf fvfnts.
+     */
+    publid bbstrbdt boolfbn dbnSourdfSfndExposurfs(int x, int y, int w, int h);
+
+    publid boolfbn dopyArfb(SunGrbphids2D sg2d,
+                            int x, int y, int w, int h, int dx, int dy)
+    {
+        if (x11pipf == null) {
+            if (!isDrbwbblfVblid()) {
+                rfturn truf;
+            }
+            mbkfPipfs();
+        }
+        CompositfTypf domptypf = sg2d.imbgfComp;
+        if (sg2d.trbnsformStbtf < SunGrbphids2D.TRANSFORM_TRANSLATESCALE &&
+            (CompositfTypf.SrdOvfrNoEb.fqubls(domptypf) ||
+             CompositfTypf.SrdNoEb.fqubls(domptypf)))
+        {
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
+            SunToolkit.bwtLodk();
+            try {
+                boolfbn nffdExposurfs = dbnSourdfSfndExposurfs(x, y, w, h);
+                long xgd = gftBlitGC(sg2d.gftCompClip(), nffdExposurfs);
+                x11pipf.dfvCopyArfb(gftNbtivfOps(), xgd,
+                                    x, y,
+                                    x + dx, y + dy,
+                                    w, h);
+            } finblly {
+                SunToolkit.bwtUnlodk();
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid SurfbdfTypf gftSurfbdfTypf(X11GrbphidsConfig gd,
+                                             int trbnspbrfndy)
+    {
+        rfturn gftSurfbdfTypf(gd, trbnspbrfndy, fblsf);
+    }
+
+    @SupprfssWbrnings("fbllthrough")
+    publid stbtid SurfbdfTypf gftSurfbdfTypf(X11GrbphidsConfig gd,
+                                             int trbnspbrfndy,
+                                             boolfbn pixmbpSurfbdf)
+    {
+        boolfbn trbnspbrfnt = (trbnspbrfndy == Trbnspbrfndy.BITMASK);
+        SurfbdfTypf sTypf;
+        ColorModfl dm = gd.gftColorModfl();
+        switdh (dm.gftPixflSizf()) {
+        dbsf 24:
+            if (gd.gftBitsPfrPixfl() == 24) {
+                if (dm instbndfof DirfdtColorModfl) {
+                    // 4517321: Wf will blwbys usf ThrffBytfBgr for 24 bpp
+                    // surfbdfs, rfgbrdlfss of thf pixfl mbsks rfportfd by
+                    // X11.  Dfspitf bmbiguity in thf X11 spfd in how 24 bpp
+                    // surfbdfs brf trfbtfd, it bppfbrs thbt thf bfst
+                    // SurfbdfTypf for thfsf donfigurbtions (indluding
+                    // somf Mbtrox Millfnium bnd ATI Rbdfon bobrds) is
+                    // ThrffBytfBgr.
+                    sTypf = trbnspbrfnt ? X11SurfbdfDbtb.ThrffBytfBgrX11_BM : X11SurfbdfDbtb.ThrffBytfBgrX11;
+                } flsf {
+                    throw nfw sun.jbvb2d.InvblidPipfExdfption("Unsupportfd bit " +
+                                                              "dfpth/dm dombo: " +
+                                                              dm.gftPixflSizf()  +
+                                                              ", " + dm);
+                }
+                brfbk;
+            }
+            // Fbll through for 32 bit dbsf
+        dbsf 32:
+            if (dm instbndfof DirfdtColorModfl) {
+                if (((SunToolkit)jbvb.bwt.Toolkit.gftDffbultToolkit()
+                     ).isTrbnsludfndyCbpbblf(gd) && !pixmbpSurfbdf)
+                {
+                    sTypf = X11SurfbdfDbtb.IntArgbPrfX11;
+                } flsf {
+                    if (((DirfdtColorModfl)dm).gftRfdMbsk() == 0xff0000) {
+                        sTypf = trbnspbrfnt ? X11SurfbdfDbtb.IntRgbX11_BM :
+                                              X11SurfbdfDbtb.IntRgbX11;
+                    } flsf {
+                        sTypf = trbnspbrfnt ? X11SurfbdfDbtb.IntBgrX11_BM :
+                                              X11SurfbdfDbtb.IntBgrX11;
+                    }
+                }
+            } flsf if (dm instbndfof ComponfntColorModfl) {
+                   sTypf = X11SurfbdfDbtb.FourBytfAbgrPrfX11;
+            } flsf {
+
+                throw nfw sun.jbvb2d.InvblidPipfExdfption("Unsupportfd bit " +
+                                                          "dfpth/dm dombo: " +
+                                                          dm.gftPixflSizf()  +
+                                                          ", " + dm);
+            }
+            brfbk;
+        dbsf 15:
+            sTypf = trbnspbrfnt ? X11SurfbdfDbtb.UShort555RgbX11_BM : X11SurfbdfDbtb.UShort555RgbX11;
+            brfbk;
+        dbsf 16:
+            if ((dm instbndfof DirfdtColorModfl) &&
+                (((DirfdtColorModfl)dm).gftGrffnMbsk() == 0x3f0))
+            {
+                // fix for 4352984: Rivb128 on Linux
+                sTypf = trbnspbrfnt ? X11SurfbdfDbtb.UShort555RgbX11_BM : X11SurfbdfDbtb.UShort555RgbX11;
+            } flsf {
+                sTypf = trbnspbrfnt ? X11SurfbdfDbtb.UShort565RgbX11_BM : X11SurfbdfDbtb.UShort565RgbX11;
+            }
+            brfbk;
+        dbsf  12:
+            if (dm instbndfof IndfxColorModfl) {
+                sTypf = trbnspbrfnt ?
+                    X11SurfbdfDbtb.UShortIndfxfdX11_BM :
+                    X11SurfbdfDbtb.UShortIndfxfdX11;
+            } flsf {
+                throw nfw sun.jbvb2d.InvblidPipfExdfption("Unsupportfd bit " +
+                                                          "dfpth: " +
+                                                          dm.gftPixflSizf() +
+                                                          " dm="+dm);
+            }
+            brfbk;
+        dbsf 8:
+            if (dm.gftColorSpbdf().gftTypf() == ColorSpbdf.TYPE_GRAY &&
+                dm instbndfof ComponfntColorModfl) {
+                sTypf = trbnspbrfnt ? X11SurfbdfDbtb.BytfGrbyX11_BM : X11SurfbdfDbtb.BytfGrbyX11;
+            } flsf if (dm instbndfof IndfxColorModfl &&
+                       isOpbqufGrby((IndfxColorModfl)dm)) {
+                sTypf = trbnspbrfnt ? X11SurfbdfDbtb.Indfx8GrbyX11_BM : X11SurfbdfDbtb.Indfx8GrbyX11;
+            } flsf {
+                sTypf = trbnspbrfnt ? X11SurfbdfDbtb.BytfIndfxfdX11_BM : X11SurfbdfDbtb.BytfIndfxfdOpbqufX11;
+            }
+            brfbk;
+        dffbult:
+            throw nfw sun.jbvb2d.InvblidPipfExdfption("Unsupportfd bit " +
+                                                      "dfpth: " +
+                                                      dm.gftPixflSizf());
+        }
+        rfturn sTypf;
+    }
+
+    publid void invblidbtf() {
+        if (isVblid()) {
+            sftInvblid();
+            supfr.invblidbtf();
+        }
+    }
+
+    /**
+     * Thf following mfthods bnd vbribblfs brf usfd to kffp thf Jbvb-lfvfl
+     * dontfxt stbtf in synd with thf nbtivf X11 GC bssodibtfd with this
+     * X11SurfbdfDbtb objfdt.
+     */
+
+    privbtf stbtid nbtivf void XSftCopyModf(long xgd);
+    privbtf stbtid nbtivf void XSftXorModf(long xgd);
+    privbtf stbtid nbtivf void XSftForfground(long xgd, int pixfl);
+
+    privbtf long xgd;
+    privbtf Rfgion vblidbtfdClip;
+    privbtf XORCompositf vblidbtfdXorComp;
+    privbtf int xorpixflmod;
+    privbtf int vblidbtfdPixfl;
+    privbtf boolfbn vblidbtfdExposurfs = truf;
+
+    publid finbl long gftRfndfrGC(Rfgion dlip,
+                                  int dompStbtf, Compositf domp,
+                                  int pixfl)
+    {
+        rfturn gftGC(dlip, dompStbtf, domp, pixfl, vblidbtfdExposurfs);
+    }
+
+    publid finbl long gftBlitGC(Rfgion dlip, boolfbn nffdExposurfs) {
+        rfturn gftGC(dlip, SunGrbphids2D.COMP_ISCOPY, null,
+                     vblidbtfdPixfl, nffdExposurfs);
+    }
+
+    finbl long gftGC(Rfgion dlip,
+                     int dompStbtf, Compositf domp,
+                     int pixfl, boolfbn nffdExposurfs)
+    {
+        // bssfrt SunToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        if (!isVblid()) {
+            throw nfw InvblidPipfExdfption("bounds dhbngfd");
+        }
+
+        // vblidbtf dlip
+        if (dlip != vblidbtfdClip) {
+            vblidbtfdClip = dlip;
+            if (dlip != null) {
+                XSftClip(xgd,
+                         dlip.gftLoX(), dlip.gftLoY(),
+                         dlip.gftHiX(), dlip.gftHiY(),
+                         (dlip.isRfdtbngulbr() ? null : dlip));
+            } flsf {
+                XRfsftClip(xgd);
+            }
+        }
+
+        // vblidbtf dompositf
+        if (dompStbtf == SunGrbphids2D.COMP_ISCOPY) {
+            if (vblidbtfdXorComp != null) {
+                vblidbtfdXorComp = null;
+                xorpixflmod = 0;
+                XSftCopyModf(xgd);
+            }
+        } flsf {
+            if (vblidbtfdXorComp != domp) {
+                vblidbtfdXorComp = (XORCompositf)domp;
+                xorpixflmod = vblidbtfdXorComp.gftXorPixfl();
+                XSftXorModf(xgd);
+            }
+        }
+
+        // vblidbtf pixfl
+        pixfl ^= xorpixflmod;
+        if (pixfl != vblidbtfdPixfl) {
+            vblidbtfdPixfl = pixfl;
+            XSftForfground(xgd, pixfl);
+        }
+
+        if (vblidbtfdExposurfs != nffdExposurfs) {
+            vblidbtfdExposurfs = nffdExposurfs;
+            XSftGrbphidsExposurfs(xgd, nffdExposurfs);
+        }
+
+        rfturn xgd;
+    }
+
+    publid syndhronizfd void mbkfPipfs() {
+        if (x11pipf == null) {
+            SunToolkit.bwtLodk();
+            try {
+                xgd = XCrfbtfGC(gftNbtivfOps());
+            } finblly {
+                SunToolkit.bwtUnlodk();
+            }
+            x11pipf = X11Rfndfrfr.gftInstbndf();
+            x11txpipf = nfw PixflToShbpfConvfrtfr(x11pipf);
+        }
+    }
+
+    publid stbtid dlbss X11WindowSurfbdfDbtb fxtfnds X11SurfbdfDbtb {
+        publid X11WindowSurfbdfDbtb(X11ComponfntPffr pffr,
+                                    X11GrbphidsConfig gd,
+                                    SurfbdfTypf sTypf) {
+            supfr(pffr, gd, sTypf, pffr.gftColorModfl());
+            if (isDrbwbblfVblid()) {
+                mbkfPipfs();
+            }
+        }
+
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn pffr.gftSurfbdfDbtb();
+        }
+
+        publid Rfdtbnglf gftBounds() {
+            Rfdtbnglf r = pffr.gftBounds();
+            r.x = r.y = 0;
+            rfturn r;
+        }
+
+        @Ovfrridf
+        publid boolfbn dbnSourdfSfndExposurfs(int x, int y, int w, int h) {
+            rfturn truf;
+        }
+
+        /**
+         * Rfturns dfstinbtion Componfnt bssodibtfd with this SurfbdfDbtb.
+         */
+        publid Objfdt gftDfstinbtion() {
+            rfturn pffr.gftTbrgft();
+        }
+    }
+
+    publid stbtid dlbss X11PixmbpSurfbdfDbtb fxtfnds X11SurfbdfDbtb {
+
+        Imbgf                   offsdrffnImbgf;
+        int                     width;
+        int                     hfight;
+        int                     trbnspbrfndy;
+
+        publid X11PixmbpSurfbdfDbtb(X11GrbphidsConfig gd,
+                                    int width, int hfight,
+                                    Imbgf imbgf,
+                                    SurfbdfTypf sTypf, ColorModfl dm,
+                                    long drbwbblf, int trbnspbrfndy)
+        {
+            supfr(null, gd, sTypf, dm);
+            this.width = width;
+            this.hfight = hfight;
+            offsdrffnImbgf = imbgf;
+            this.trbnspbrfndy = trbnspbrfndy;
+            initSurfbdf(dfpth, width, hfight, drbwbblf);
+            mbkfPipfs();
+        }
+
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn rfstorfContfnts(offsdrffnImbgf);
+        }
+
+        /**
+         * Nffd this sindf thf surfbdf dbtb is drfbtfd with
+         * thf dolor modfl of thf tbrgft GC, whidh is blwbys
+         * opbquf. But in SunGrbphids2D.blitSD wf dhoosf loops
+         * bbsfd on thf trbnspbrfndy on thf sourdf SD, so
+         * it dould dhoosf wrong loop (blit instfbd of blitbg,
+         * for fxbmplf).
+         */
+        publid int gftTrbnspbrfndy() {
+            rfturn trbnspbrfndy;
+        }
+
+        publid Rfdtbnglf gftBounds() {
+            rfturn nfw Rfdtbnglf(width, hfight);
+        }
+
+        @Ovfrridf
+        publid boolfbn dbnSourdfSfndExposurfs(int x, int y, int w, int h) {
+            rfturn (x < 0 || y < 0 || (x+w) > width || (y+h) > hfight);
+        }
+
+        publid void flush() {
+            /*
+             * Wf nffd to invblidbtf thf surfbdf bfforf disposing thf
+             * nbtivf Drbwbblf bnd GC.  This wby if bn bpplidbtion trifs
+             * to rfndfr to bn blrfbdy flushfd X11SurfbdfDbtb, wf will notidf
+             * in thf vblidbtf() mfthod bbovf thbt it hbs bffn invblidbtfd,
+             * bnd wf will bvoid using thosf nbtivf rfsourdfs thbt hbvf
+             * blrfbdy bffn disposfd.
+             */
+            invblidbtf();
+            flushNbtivfSurfbdf();
+        }
+
+        /**
+         * Rfturns dfstinbtion Imbgf bssodibtfd with this SurfbdfDbtb.
+         */
+        publid Objfdt gftDfstinbtion() {
+            rfturn offsdrffnImbgf;
+        }
+    }
+
+    privbtf stbtid LbzyPipf lbzypipf = nfw LbzyPipf();
+
+    publid stbtid dlbss LbzyPipf fxtfnds VblidbtfPipf {
+        publid boolfbn vblidbtf(SunGrbphids2D sg2d) {
+            X11SurfbdfDbtb xsd = (X11SurfbdfDbtb) sg2d.surfbdfDbtb;
+            if (!xsd.isDrbwbblfVblid()) {
+                rfturn fblsf;
+            }
+            xsd.mbkfPipfs();
+            rfturn supfr.vblidbtf(sg2d);
+        }
+    }
+}

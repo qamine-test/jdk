@@ -1,167 +1,167 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.trbnsform.Sourdf;
+import jbvbx.xml.trbnsform.Trbnsformfr;
+import jbvbx.xml.trbnsform.TrbnsformfrConfigurbtionExdfption;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
+import jbvbx.xml.trbnsform.TrbnsformfrFbdtory;
+import jbvbx.xml.trbnsform.dom.DOMSourdf;
+import jbvbx.xml.trbnsform.strfbm.StrfbmRfsult;
+import jbvbx.xml.trbnsform.strfbm.StrfbmSourdf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Class TransformXSLT
+ * Clbss TrbnsformXSLT
  *
- * Implements the <CODE>http://www.w3.org/TR/1999/REC-xslt-19991116</CODE>
- * transform.
+ * Implfmfnts tif <CODE>ittp://www.w3.org/TR/1999/REC-xslt-19991116</CODE>
+ * trbnsform.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class TransformXSLT extends TransformSpi {
+publid dlbss TrbnsformXSLT fxtfnds TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI =
-        Transforms.TRANSFORM_XSLT;
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_XSLT;
 
-    static final String XSLTSpecNS              = "http://www.w3.org/1999/XSL/Transform";
-    static final String defaultXSLTSpecNSprefix = "xslt";
-    static final String XSLTSTYLESHEET          = "stylesheet";
+    stbtid finbl String XSLTSpfdNS              = "ittp://www.w3.org/1999/XSL/Trbnsform";
+    stbtid finbl String dffbultXSLTSpfdNSprffix = "xslt";
+    stbtid finbl String XSLTSTYLESHEET          = "stylfsifft";
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(TransformXSLT.class.getName());
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(TrbnsformXSLT.dlbss.gftNbmf());
 
     /**
-     * Method engineGetURI
+     * Mftiod fnginfGftURI
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    protected String engineGetURI() {
-        return implementedTransformURI;
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
     }
 
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream baos, Transform transformObject
-    ) throws IOException, TransformationException {
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm bbos, Trbnsform trbnsformObjfdt
+    ) tirows IOExdfption, TrbnsformbtionExdfption {
         try {
-            Element transformElement = transformObject.getElement();
+            Elfmfnt trbnsformElfmfnt = trbnsformObjfdt.gftElfmfnt();
 
-            Element xsltElement =
-                XMLUtils.selectNode(transformElement.getFirstChild(), XSLTSpecNS, "stylesheet", 0);
+            Elfmfnt xsltElfmfnt =
+                XMLUtils.sflfdtNodf(trbnsformElfmfnt.gftFirstCiild(), XSLTSpfdNS, "stylfsifft", 0);
 
-            if (xsltElement == null) {
-                Object exArgs[] = { "xslt:stylesheet", "Transform" };
+            if (xsltElfmfnt == null) {
+                Objfdt fxArgs[] = { "xslt:stylfsifft", "Trbnsform" };
 
-                throw new TransformationException("xml.WrongContent", exArgs);
+                tirow nfw TrbnsformbtionExdfption("xml.WrongContfnt", fxArgs);
             }
 
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-            // Process XSLT stylesheets in a secure manner
-            tFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            TrbnsformfrFbdtory tFbdtory = TrbnsformfrFbdtory.nfwInstbndf();
+            // Prodfss XSLT stylfsiffts in b sfdurf mbnnfr
+            tFbdtory.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
 
             /*
-             * This transform requires an octet stream as input. If the actual
-             * input is an XPath node-set, then the signature application should
-             * attempt to convert it to octets (apply Canonical XML]) as described
-             * in the Reference Processing Model (section 4.3.3.2).
+             * Tiis trbnsform rfquirfs bn odtft strfbm bs input. If tif bdtubl
+             * input is bn XPbti nodf-sft, tifn tif signbturf bpplidbtion siould
+             * bttfmpt to donvfrt it to odtfts (bpply Cbnonidbl XML]) bs dfsdribfd
+             * in tif Rfffrfndf Prodfssing Modfl (sfdtion 4.3.3.2).
              */
-            Source xmlSource =
-                new StreamSource(new ByteArrayInputStream(input.getBytes()));
-            Source stylesheet;
+            Sourdf xmlSourdf =
+                nfw StrfbmSourdf(nfw BytfArrbyInputStrfbm(input.gftBytfs()));
+            Sourdf stylfsifft;
 
             /*
-             * This complicated transformation of the stylesheet itself is necessary
-             * because of the need to get the pure style sheet. If we simply say
-             * Source stylesheet = new DOMSource(this.xsltElement);
-             * whereby this.xsltElement is not the rootElement of the Document,
-             * this causes problems;
-             * so we convert the stylesheet to byte[] and use this as input stream
+             * Tiis domplidbtfd trbnsformbtion of tif stylfsifft itsflf is nfdfssbry
+             * bfdbusf of tif nffd to gft tif purf stylf sifft. If wf simply sby
+             * Sourdf stylfsifft = nfw DOMSourdf(tiis.xsltElfmfnt);
+             * wifrfby tiis.xsltElfmfnt is not tif rootElfmfnt of tif Dodumfnt,
+             * tiis dbusfs problfms;
+             * so wf donvfrt tif stylfsifft to bytf[] bnd usf tiis bs input strfbm
              */
             {
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                Transformer transformer = tFactory.newTransformer();
-                DOMSource source = new DOMSource(xsltElement);
-                StreamResult result = new StreamResult(os);
+                BytfArrbyOutputStrfbm os = nfw BytfArrbyOutputStrfbm();
+                Trbnsformfr trbnsformfr = tFbdtory.nfwTrbnsformfr();
+                DOMSourdf sourdf = nfw DOMSourdf(xsltElfmfnt);
+                StrfbmRfsult rfsult = nfw StrfbmRfsult(os);
 
-                transformer.transform(source, result);
+                trbnsformfr.trbnsform(sourdf, rfsult);
 
-                stylesheet =
-                    new StreamSource(new ByteArrayInputStream(os.toByteArray()));
+                stylfsifft =
+                    nfw StrfbmSourdf(nfw BytfArrbyInputStrfbm(os.toBytfArrby()));
             }
 
-            Transformer transformer = tFactory.newTransformer(stylesheet);
+            Trbnsformfr trbnsformfr = tFbdtory.nfwTrbnsformfr(stylfsifft);
 
-            // Force Xalan to use \n as line separator on all OSes. This
-            // avoids OS specific signature validation failures due to line
-            // separator differences in the transformed output. Unfortunately,
-            // this is not a standard JAXP property so will not work with non-Xalan
-            // implementations.
+            // Fordf Xblbn to usf \n bs linf sfpbrbtor on bll OSfs. Tiis
+            // bvoids OS spfdifid signbturf vblidbtion fbilurfs duf to linf
+            // sfpbrbtor difffrfndfs in tif trbnsformfd output. Unfortunbtfly,
+            // tiis is not b stbndbrd JAXP propfrty so will not work witi non-Xblbn
+            // implfmfntbtions.
             try {
-                transformer.setOutputProperty("{http://xml.apache.org/xalan}line-separator", "\n");
-            } catch (Exception e) {
-                log.log(java.util.logging.Level.WARNING, "Unable to set Xalan line-separator property: " + e.getMessage());
+                trbnsformfr.sftOutputPropfrty("{ittp://xml.bpbdif.org/xblbn}linf-sfpbrbtor", "\n");
+            } dbtdi (Exdfption f) {
+                log.log(jbvb.util.logging.Lfvfl.WARNING, "Unbblf to sft Xblbn linf-sfpbrbtor propfrty: " + f.gftMfssbgf());
             }
 
-            if (baos == null) {
-                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-                StreamResult outputTarget = new StreamResult(baos1);
-                transformer.transform(xmlSource, outputTarget);
-                return new XMLSignatureInput(baos1.toByteArray());
+            if (bbos == null) {
+                BytfArrbyOutputStrfbm bbos1 = nfw BytfArrbyOutputStrfbm();
+                StrfbmRfsult outputTbrgft = nfw StrfbmRfsult(bbos1);
+                trbnsformfr.trbnsform(xmlSourdf, outputTbrgft);
+                rfturn nfw XMLSignbturfInput(bbos1.toBytfArrby());
             }
-            StreamResult outputTarget = new StreamResult(baos);
+            StrfbmRfsult outputTbrgft = nfw StrfbmRfsult(bbos);
 
-            transformer.transform(xmlSource, outputTarget);
-            XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-            output.setOutputStream(baos);
-            return output;
-        } catch (XMLSecurityException ex) {
-            Object exArgs[] = { ex.getMessage() };
+            trbnsformfr.trbnsform(xmlSourdf, outputTbrgft);
+            XMLSignbturfInput output = nfw XMLSignbturfInput((bytf[])null);
+            output.sftOutputStrfbm(bbos);
+            rfturn output;
+        } dbtdi (XMLSfdurityExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
-        } catch (TransformerConfigurationException ex) {
-            Object exArgs[] = { ex.getMessage() };
+            tirow nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
+        } dbtdi (TrbnsformfrConfigurbtionExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
-        } catch (TransformerException ex) {
-            Object exArgs[] = { ex.getMessage() };
+            tirow nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
+        } dbtdi (TrbnsformfrExdfption fx) {
+            Objfdt fxArgs[] = { fx.gftMfssbgf() };
 
-            throw new TransformationException("generic.EmptyMessage", exArgs, ex);
+            tirow nfw TrbnsformbtionExdfption("gfnfrid.EmptyMfssbgf", fxArgs, fx);
         }
     }
 }

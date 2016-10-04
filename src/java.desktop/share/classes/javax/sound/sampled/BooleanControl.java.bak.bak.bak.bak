@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * A {@dodf BoolfbnControl} providfs thf bbility to switdh bftwffn two possiblf
+ * sfttings thbt bfffdt b linf's budio. Thf sfttings brf boolfbn vblufs
+ * ({@dodf truf} bnd {@dodf fblsf}). A grbphidbl usfr intfrfbdf might rfprfsfnt
+ * thf dontrol by b two-stbtf button, bn on/off switdh, two mutublly fxdlusivf
+ * buttons, or b dhfdkbox (bmong othfr possibilitifs). For fxbmplf, dfprfssing b
+ * button might bdtivbtf b {@link BoolfbnControl.Typf#MUTE MUTE} dontrol to
+ * silfndf thf linf's budio.
+ * <p>
+ * As with othfr {@dodf Control} subdlbssfs, b mfthod is providfd thbt rfturns
+ * string lbbfls for thf vblufs, suitbblf for displby in thf usfr intfrfbdf.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss BoolfbnControl fxtfnds Control {
+
+    /**
+     * Thf {@dodf truf} stbtf lbbfl, sudh bs "truf" or "on".
+     */
+    privbtf finbl String trufStbtfLbbfl;
+
+    /**
+     * Thf {@dodf fblsf} stbtf lbbfl, sudh bs "fblsf" or "off".
+     */
+    privbtf finbl String fblsfStbtfLbbfl;
+
+    /**
+     * Thf durrfnt vbluf.
+     */
+    privbtf boolfbn vbluf;
+
+    /**
+     * Construdts b nfw boolfbn dontrol objfdt with thf givfn pbrbmftfrs.
+     *
+     * @pbrbm  typf thf typf of dontrol rfprfsfntfd this flobt dontrol objfdt
+     * @pbrbm  initiblVbluf thf initibl dontrol vbluf
+     * @pbrbm  trufStbtfLbbfl thf lbbfl for thf stbtf rfprfsfntfd by
+     *         {@dodf truf}, sudh bs "truf" or "on"
+     * @pbrbm  fblsfStbtfLbbfl thf lbbfl for thf stbtf rfprfsfntfd by
+     *         {@dodf fblsf}, sudh bs "fblsf" or "off"
+     */
+    protfdtfd BoolfbnControl(Typf typf, boolfbn initiblVbluf, String trufStbtfLbbfl, String fblsfStbtfLbbfl) {
+
+        supfr(typf);
+        this.vbluf = initiblVbluf;
+        this.trufStbtfLbbfl = trufStbtfLbbfl;
+        this.fblsfStbtfLbbfl = fblsfStbtfLbbfl;
+    }
+
+    /**
+     * Construdts b nfw boolfbn dontrol objfdt with thf givfn pbrbmftfrs. Thf
+     * lbbfls for thf {@dodf truf} bnd {@dodf fblsf} stbtfs dffbult to "truf"
+     * bnd "fblsf".
+     *
+     * @pbrbm  typf thf typf of dontrol rfprfsfntfd by this flobt dontrol objfdt
+     * @pbrbm  initiblVbluf thf initibl dontrol vbluf
+     */
+    protfdtfd BoolfbnControl(Typf typf, boolfbn initiblVbluf) {
+        this(typf, initiblVbluf, "truf", "fblsf");
+    }
+
+    /**
+     * Sfts thf durrfnt vbluf for thf dontrol. Thf dffbult implfmfntbtion simply
+     * sfts thf vbluf bs indidbtfd. Somf dontrols rfquirf thbt thfir linf bf
+     * opfn bfforf thfy dbn bf bfffdtfd by sftting b vbluf.
+     *
+     * @pbrbm  vbluf dfsirfd nfw vbluf
+     */
+    publid void sftVbluf(boolfbn vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Obtbins this dontrol's durrfnt vbluf.
+     *
+     * @rfturn durrfnt vbluf
+     */
+    publid boolfbn gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Obtbins thf lbbfl for thf spfdififd stbtf.
+     *
+     * @pbrbm  stbtf thf stbtf whosf lbbfl will bf rfturnfd
+     * @rfturn thf lbbfl for thf spfdififd stbtf, sudh bs "truf" or "on" for
+     *         {@dodf truf}, or "fblsf" or "off" for {@dodf fblsf}
+     */
+    publid String gftStbtfLbbfl(boolfbn stbtf) {
+        rfturn ((stbtf == truf) ? trufStbtfLbbfl : fblsfStbtfLbbfl);
+    }
+
+    /**
+     * Providfs b string rfprfsfntbtion of thf dontrol.
+     *
+     * @rfturn b string dfsdription
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn nfw String(supfr.toString() + " with durrfnt vbluf: " + gftStbtfLbbfl(gftVbluf()));
+    }
+
+    /**
+     * An instbndf of thf {@dodf BoolfbnControl.Typf} dlbss idfntififs onf kind
+     * of boolfbn dontrol. Stbtid instbndfs brf providfd for thf dommon typfs.
+     *
+     * @buthor Kbrb Kytlf
+     * @sindf 1.3
+     */
+    publid stbtid dlbss Typf fxtfnds Control.Typf {
+
+        /**
+         * Rfprfsfnts b dontrol for thf mutf stbtus of b linf. Notf thbt mutf
+         * stbtus dofs not bfffdt gbin.
+         */
+        publid stbtid finbl Typf MUTE                           = nfw Typf("Mutf");
+
+        /**
+         * Rfprfsfnts b dontrol for whfthfr rfvfrbfrbtion is bpplifd to b linf.
+         * Notf thbt thf stbtus of this dontrol not bfffdt thf rfvfrbfrbtion
+         * sfttings for b linf, but dofs bfffdt whfthfr thfsf sfttings brf usfd.
+         */
+        publid stbtid finbl Typf APPLY_REVERB           = nfw Typf("Apply Rfvfrb");
+
+        /**
+         * Construdts b nfw boolfbn dontrol typf.
+         *
+         * @pbrbm nbmf thf nbmf of thf nfw boolfbn dontrol typf
+         */
+        protfdtfd Typf(finbl String nbmf) {
+            supfr(nbmf);
+        }
+    }
+}

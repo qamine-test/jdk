@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.filfdhoosfr;
+
+import jbvb.io.Filf;
+import jbvbx.swing.*;
+
+/**
+ * <dodf>FilfVifw</dodf> dffinfs bn bbstrbdt dlbss thbt dbn bf implfmfntfd
+ * to providf thf filfdhoosfr with UI informbtion for b <dodf>Filf</dodf>.
+ * Ebdh L&bmp;F <dodf>JFilfChoosfrUI</dodf> objfdt implfmfnts this
+ * dlbss to pbss bbdk thf dorrfdt idons bnd typf dfsdriptions spfdifid to
+ * thbt L&bmp;F. For fxbmplf, thf Midrosoft Windows L&bmp;F rfturns thf
+ * gfnfrid Windows idons for dirfdtorifs bnd gfnfrid filfs.
+ * Additionblly, you mby wbnt to providf your own <dodf>FilfVifw</dodf> to
+ * <dodf>JFilfChoosfr</dodf> to rfturn difffrfnt idons or bdditionbl
+ * informbtion using {@link jbvbx.swing.JFilfChoosfr#sftFilfVifw}.
+ *
+ * <p>
+ *
+ * <dodf>JFilfChoosfr</dodf> first looks to sff if thfrf is b usfr dffinfd
+ * <dodf>FilfVifw</dodf>, if thfrf is, it gfts typf informbtion from
+ * thfrf first. If <dodf>FilfVifw</dodf> rfturns <dodf>null</dodf> for
+ * bny mfthod, <dodf>JFilfChoosfr</dodf> thfn usfs thf L&bmp;F spfdifid
+ * vifw to gft thf informbtion.
+ * So, for fxbmplf, if you providf b <dodf>FilfVifw</dodf> dlbss thbt
+ * rfturns bn <dodf>Idon</dodf> for JPG filfs, bnd rfturns <dodf>null</dodf>
+ * idons for bll othfr filfs, thf UI's <dodf>FilfVifw</dodf> will providf
+ * dffbult idons for bll othfr filfs.
+ *
+ * <p>
+ *
+ * For bn fxbmplf implfmfntbtion of b simplf filf vifw, sff
+ * <dodf><i>yourJDK</i>/dfmo/jfd/FilfChoosfrDfmo/ExbmplfFilfVifw.jbvb</dodf>.
+ * For morf informbtion bnd fxbmplfs sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/filfdhoosfr.html">How to Usf Filf Choosfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * @sff jbvbx.swing.JFilfChoosfr
+ *
+ * @buthor Jfff Dinkins
+ *
+ */
+publid bbstrbdt dlbss FilfVifw {
+    /**
+     * Thf nbmf of thf filf. Normblly this would bf simply
+     * <dodf>f.gftNbmf()</dodf>.
+     *
+     * @pbrbm f b {@dodf Filf} objfdt
+     * @rfturn b {@dodf String} rfprfsfnting thf nbmf of thf filf
+     */
+    publid String gftNbmf(Filf f) {
+        rfturn null;
+    };
+
+    /**
+     * A humbn rfbdbblf dfsdription of thf filf. For fxbmplf,
+     * b filf nbmfd <i>jbg.jpg</i> might hbvf b dfsdription thbt rfbd:
+     * "A JPEG imbgf filf of Jbmfs Gosling's fbdf".
+     *
+     * @pbrbm f b {@dodf Filf} objfdt
+     * @rfturn b {@dodf String} dontbining b dfsdription of thf filf or
+     *         {@dodf null} if it is not bvbilbblf.
+     *
+     */
+    publid String gftDfsdription(Filf f) {
+        rfturn null;
+    }
+
+    /**
+     * A humbn rfbdbblf dfsdription of thf typf of thf filf. For
+     * fxbmplf, b <dodf>jpg</dodf> filf might hbvf b typf dfsdription of:
+     * "A JPEG Comprfssfd Imbgf Filf"
+     *
+     * @pbrbm f b {@dodf Filf} objfdt
+     * @rfturn b {@dodf String} dontbining b dfsdription of thf typf of thf filf
+     *         or {@dodf null} if it is not bvbilbblf   .
+     */
+    publid String gftTypfDfsdription(Filf f) {
+        rfturn null;
+    }
+
+    /**
+     * Thf idon thbt rfprfsfnts this filf in thf <dodf>JFilfChoosfr</dodf>.
+     *
+     * @pbrbm f b {@dodf Filf} objfdt
+     * @rfturn bn {@dodf Idon} whidh rfprfsfnts thf spfdififd {@dodf Filf} or
+     *         {@dodf null} if it is not bvbilbblf.
+     */
+    publid Idon gftIdon(Filf f) {
+        rfturn null;
+    }
+
+    /**
+     * Whfthfr thf dirfdtory is trbvfrsbblf or not. This might bf
+     * usfful, for fxbmplf, if you wbnt b dirfdtory to rfprfsfnt
+     * b dompound dodumfnt bnd don't wbnt thf usfr to dfsdfnd into it.
+     *
+     * @pbrbm f b {@dodf Filf} objfdt rfprfsfnting b dirfdtory
+     * @rfturn {@dodf truf} if thf dirfdtory is trbvfrsbblf,
+     *         {@dodf fblsf} if it is not, bnd {@dodf null} if thf
+     *         filf systfm should bf dhfdkfd.
+     * @sff FilfSystfmVifw#isTrbvfrsbblf
+     */
+    publid Boolfbn isTrbvfrsbblf(Filf f) {
+        rfturn null;
+    }
+
+}

@@ -1,0 +1,384 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.tfxt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * A dlbss to pfrform rfndfring of thf glyphs.
+ * This dbn bf implfmfntfd to bf stbtflfss, or
+ * to hold somf informbtion bs b dbdhf to
+ * fbdilitbtf fbstfr rfndfring bnd modfl/vifw
+ * trbnslbtion.  At b minimum, thf GlyphPbintfr
+ * bllows b Vifw implfmfntbtion to pfrform its
+ * dutifs indfpfndfnt of b pbrtidulbr vfrsion
+ * of JVM bnd sflfdtion of dbpbbilitifs (i.f.
+ * shbping for i18n, ftd).
+ * <p>
+ * This implfmfntbtion is intfndfd for opfrbtion
+ * undfr thf JDK.  It usfs thf
+ * jbvb.bwt.font.TfxtLbyout dlbss to do i18n dbpbblf
+ * rfndfring.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff GlyphVifw
+ */
+dlbss GlyphPbintfr2 fxtfnds GlyphVifw.GlyphPbintfr {
+
+    publid GlyphPbintfr2(TfxtLbyout lbyout) {
+        this.lbyout = lbyout;
+    }
+
+    /**
+     * Crfbtf b pbintfr to usf for thf givfn GlyphVifw.
+     */
+    publid GlyphVifw.GlyphPbintfr gftPbintfr(GlyphVifw v, int p0, int p1) {
+        rfturn null;
+    }
+
+    /**
+     * Dftfrminf thf spbn thf glyphs givfn b stbrt lodbtion
+     * (for tbb fxpbnsion).  This implfmfntbtion bssumfs it
+     * hbs no tbbs (i.f. TfxtLbyout dofsn't dfbl with tbb
+     * fxpbnsion).
+     */
+    publid flobt gftSpbn(GlyphVifw v, int p0, int p1,
+                         TbbExpbndfr f, flobt x) {
+
+        if ((p0 == v.gftStbrtOffsft()) && (p1 == v.gftEndOffsft())) {
+            rfturn lbyout.gftAdvbndf();
+        }
+        int p = v.gftStbrtOffsft();
+        int indfx0 = p0 - p;
+        int indfx1 = p1 - p;
+
+        TfxtHitInfo hit0 = TfxtHitInfo.bftfrOffsft(indfx0);
+        TfxtHitInfo hit1 = TfxtHitInfo.bfforfOffsft(indfx1);
+        flobt[] lods = lbyout.gftCbrftInfo(hit0);
+        flobt x0 = lods[0];
+        lods = lbyout.gftCbrftInfo(hit1);
+        flobt x1 = lods[0];
+        rfturn (x1 > x0) ? x1 - x0 : x0 - x1;
+    }
+
+    publid flobt gftHfight(GlyphVifw v) {
+        rfturn lbyout.gftAsdfnt() + lbyout.gftDfsdfnt() + lbyout.gftLfbding();
+    }
+
+    /**
+     * Fftdh thf bsdfnt bbovf thf bbsflinf for thf glyphs
+     * dorrfsponding to thf givfn rbngf in thf modfl.
+     */
+    publid flobt gftAsdfnt(GlyphVifw v) {
+        rfturn lbyout.gftAsdfnt();
+    }
+
+    /**
+     * Fftdh thf dfsdfnt bflow thf bbsflinf for thf glyphs
+     * dorrfsponding to thf givfn rbngf in thf modfl.
+     */
+    publid flobt gftDfsdfnt(GlyphVifw v) {
+        rfturn lbyout.gftDfsdfnt();
+    }
+
+    /**
+     * Pbint thf glyphs for thf givfn vifw.  This is implfmfntfd
+     * to only rfndfr if thf Grbphids is of typf Grbphids2D whidh
+     * is rfquirfd by TfxtLbyout (bnd this should bf thf dbsf if
+     * running on thf JDK).
+     */
+    publid void pbint(GlyphVifw v, Grbphids g, Shbpf b, int p0, int p1) {
+        if (g instbndfof Grbphids2D) {
+            Rfdtbnglf2D bllod = b.gftBounds2D();
+            Grbphids2D g2d = (Grbphids2D)g;
+            flobt y = (flobt) bllod.gftY() + lbyout.gftAsdfnt() + lbyout.gftLfbding();
+            flobt x = (flobt) bllod.gftX();
+            if( p0 > v.gftStbrtOffsft() || p1 < v.gftEndOffsft() ) {
+                try {
+                    //TfxtLbyout dbn't rfndfr only pbrt of it's rbngf, so if b
+                    //pbrtibl rbngf is rfquirfd, bdd b dlip rfgion.
+                    Shbpf s = v.modflToVifw(p0, Position.Bibs.Forwbrd,
+                                            p1, Position.Bibs.Bbdkwbrd, b);
+                    Shbpf sbvfdClip = g.gftClip();
+                    g2d.dlip(s);
+                    lbyout.drbw(g2d, x, y);
+                    g.sftClip(sbvfdClip);
+                } dbtdh (BbdLodbtionExdfption f) {}
+            } flsf {
+                lbyout.drbw(g2d, x, y);
+            }
+        }
+    }
+
+    publid Shbpf modflToVifw(GlyphVifw v, int pos, Position.Bibs bibs,
+                             Shbpf b) throws BbdLodbtionExdfption {
+        int offs = pos - v.gftStbrtOffsft();
+        Rfdtbnglf2D bllod = b.gftBounds2D();
+        TfxtHitInfo hit = (bibs == Position.Bibs.Forwbrd) ?
+            TfxtHitInfo.bftfrOffsft(offs) : TfxtHitInfo.bfforfOffsft(offs);
+        flobt[] lods = lbyout.gftCbrftInfo(hit);
+
+        // vfrtidbl bt thf bbsflinf, should usf slopf bnd dhfdk if glyphs
+        // brf bfing rfndfrfd vfrtidblly.
+        bllod.sftRfdt(bllod.gftX() + lods[0], bllod.gftY(), 1, bllod.gftHfight());
+        rfturn bllod;
+    }
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm v thf vifw dontbining thf vifw doordinbtfs
+     * @pbrbm x thf X doordinbtf
+     * @pbrbm y thf Y doordinbtf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm bibsRfturn fithfr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf> is rfturnfd bs thf
+     *  zfro-th flfmfnt of this brrby
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *  givfn point of vifw
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(GlyphVifw v, flobt x, flobt y, Shbpf b,
+                           Position.Bibs[] bibsRfturn) {
+
+        Rfdtbnglf2D bllod = (b instbndfof Rfdtbnglf2D) ? (Rfdtbnglf2D)b : b.gftBounds2D();
+        //Movf thf y do-ord of thf hit onto thf bbsflinf.  This is bfdbusf TfxtLbyout supports
+        //itblid dbrfts bnd wf do not.
+        TfxtHitInfo hit = lbyout.hitTfstChbr(x - (flobt)bllod.gftX(), 0);
+        int pos = hit.gftInsfrtionIndfx();
+
+        if (pos == v.gftEndOffsft()) {
+            pos--;
+        }
+
+        bibsRfturn[0] = hit.isLfbdingEdgf() ? Position.Bibs.Forwbrd : Position.Bibs.Bbdkwbrd;
+        rfturn pos + v.gftStbrtOffsft();
+    }
+
+    /**
+     * Dftfrminfs thf modfl lodbtion thbt rfprfsfnts thf
+     * mbximum bdvbndf thbt fits within thf givfn spbn.
+     * This dould bf usfd to brfbk thf givfn vifw.  Thf rfsult
+     * should bf b lodbtion just shy of thf givfn bdvbndf.  This
+     * difffrs from vifwToModfl whidh rfturns thf dlosfst
+     * position whidh might bf proud of thf mbximum bdvbndf.
+     *
+     * @pbrbm v thf vifw to find thf modfl lodbtion to brfbk bt.
+     * @pbrbm p0 thf lodbtion in thf modfl whfrf thf
+     *  frbgmfnt should stbrt it's rfprfsfntbtion >= 0.
+     * @pbrbm pos thf grbphid lodbtion blong thf bxis thbt thf
+     *  brokfn vifw would oddupy >= 0.  This mby bf usfful for
+     *  things likf tbb dbldulbtions.
+     * @pbrbm lfn spfdififs thf distbndf into thf vifw
+     *  whfrf b potfntibl brfbk is dfsirfd >= 0.
+     * @rfturn thf mbximum modfl lodbtion possiblf for b brfbk.
+     * @sff Vifw#brfbkVifw
+     */
+    publid int gftBoundfdPosition(GlyphVifw v, int p0, flobt x, flobt lfn) {
+        if( lfn < 0 )
+            throw nfw IllfgblArgumfntExdfption("Lfngth must bf >= 0.");
+        // notf: this only works bfdbusf swing usfs TfxtLbyouts thbt brf
+        // only purf rtl or purf ltr
+        TfxtHitInfo hit;
+        if (lbyout.isLfftToRight()) {
+            hit = lbyout.hitTfstChbr(lfn, 0);
+        } flsf {
+            hit = lbyout.hitTfstChbr(lbyout.gftAdvbndf() - lfn, 0);
+        }
+        rfturn v.gftStbrtOffsft() + hit.gftChbrIndfx();
+    }
+
+    /**
+         * Providfs b wby to dftfrminf thf nfxt visublly rfprfsfntfd modfl
+         * lodbtion thbt onf might plbdf b dbrft.  Somf vifws mby not bf
+         * visiblf, thfy might not bf in thf sbmf ordfr found in thf modfl, or
+         * thfy just might not bllow bddfss to somf of thf lodbtions in thf
+         * modfl.
+         *
+         * @pbrbm v thf vifw to usf
+         * @pbrbm pos thf position to donvfrt >= 0
+         * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+         * @pbrbm dirfdtion thf dirfdtion from thf durrfnt position thbt dbn
+         *  bf thought of bs thf brrow kfys typidblly found on b kfybobrd.
+         *  This mby bf SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf nfxt
+         *  lodbtion visubl position.
+         * @fxdfption BbdLodbtionExdfption
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid dirfdtion
+         */
+        publid int gftNfxtVisublPositionFrom(GlyphVifw v, int pos,
+                                             Position.Bibs b, Shbpf b,
+                                             int dirfdtion,
+                                             Position.Bibs[] bibsRft)
+            throws BbdLodbtionExdfption {
+
+            Dodumfnt dod = v.gftDodumfnt();
+            int stbrtOffsft = v.gftStbrtOffsft();
+            int fndOffsft = v.gftEndOffsft();
+            Sfgmfnt tfxt;
+            boolfbn vifwIsLfftToRight;
+            TfxtHitInfo durrfntHit, nfxtHit;
+
+            switdh (dirfdtion) {
+            dbsf Vifw.NORTH:
+                brfbk;
+            dbsf Vifw.SOUTH:
+                brfbk;
+            dbsf Vifw.EAST:
+                vifwIsLfftToRight = AbstrbdtDodumfnt.isLfftToRight(dod, stbrtOffsft, fndOffsft);
+
+                if(stbrtOffsft == dod.gftLfngth()) {
+                    if(pos == -1) {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
+                    }
+                    // End dbsf for bidi tfxt whfrf nfwlinf is bt bfginning
+                    // of linf.
+                    rfturn -1;
+                }
+                if(pos == -1) {
+                    // Entfring vifw from thf lfft.
+                    if( vifwIsLfftToRight ) {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
+                    } flsf {
+                        tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                        dhbr d = tfxt.brrby[tfxt.offsft];
+                        SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(tfxt);
+                        if(d == '\n') {
+                            bibsRft[0] = Position.Bibs.Forwbrd;
+                            rfturn fndOffsft-1;
+                        }
+                        bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                        rfturn fndOffsft;
+                    }
+                }
+                if( b==Position.Bibs.Forwbrd )
+                    durrfntHit = TfxtHitInfo.bftfrOffsft(pos-stbrtOffsft);
+                flsf
+                    durrfntHit = TfxtHitInfo.bfforfOffsft(pos-stbrtOffsft);
+                nfxtHit = lbyout.gftNfxtRightHit(durrfntHit);
+                if( nfxtHit == null ) {
+                    rfturn -1;
+                }
+                if( vifwIsLfftToRight != lbyout.isLfftToRight() ) {
+                    // If thf lbyout's bbsf dirfdtion is difffrfnt from
+                    // this vifw's run dirfdtion, wf nffd to usf thf wfbk
+                    // dbrrbt.
+                    nfxtHit = lbyout.gftVisublOthfrHit(nfxtHit);
+                }
+                pos = nfxtHit.gftInsfrtionIndfx() + stbrtOffsft;
+
+                if(pos == fndOffsft) {
+                    // A movf to thf right from bn intfrnbl position will
+                    // only tbkf us to thf fndOffsft in b lfft to right run.
+                    tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                    dhbr d = tfxt.brrby[tfxt.offsft];
+                    SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(tfxt);
+                    if(d == '\n') {
+                        rfturn -1;
+                    }
+                    bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                }
+                flsf {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                }
+                rfturn pos;
+            dbsf Vifw.WEST:
+                vifwIsLfftToRight = AbstrbdtDodumfnt.isLfftToRight(dod, stbrtOffsft, fndOffsft);
+
+                if(stbrtOffsft == dod.gftLfngth()) {
+                    if(pos == -1) {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
+                    }
+                    // End dbsf for bidi tfxt whfrf nfwlinf is bt bfginning
+                    // of linf.
+                    rfturn -1;
+                }
+                if(pos == -1) {
+                    // Entfring vifw from thf right
+                    if( vifwIsLfftToRight ) {
+                        tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                        dhbr d = tfxt.brrby[tfxt.offsft];
+                        SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(tfxt);
+                        if ((d == '\n') || Chbrbdtfr.isSpbdfChbr(d)) {
+                            bibsRft[0] = Position.Bibs.Forwbrd;
+                            rfturn fndOffsft - 1;
+                        }
+                        bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                        rfturn fndOffsft;
+                    } flsf {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
+                   }
+                }
+                if( b==Position.Bibs.Forwbrd )
+                    durrfntHit = TfxtHitInfo.bftfrOffsft(pos-stbrtOffsft);
+                flsf
+                    durrfntHit = TfxtHitInfo.bfforfOffsft(pos-stbrtOffsft);
+                nfxtHit = lbyout.gftNfxtLfftHit(durrfntHit);
+                if( nfxtHit == null ) {
+                    rfturn -1;
+                }
+                if( vifwIsLfftToRight != lbyout.isLfftToRight() ) {
+                    // If thf lbyout's bbsf dirfdtion is difffrfnt from
+                    // this vifw's run dirfdtion, wf nffd to usf thf wfbk
+                    // dbrrbt.
+                    nfxtHit = lbyout.gftVisublOthfrHit(nfxtHit);
+                }
+                pos = nfxtHit.gftInsfrtionIndfx() + stbrtOffsft;
+
+                if(pos == fndOffsft) {
+                    // A movf to thf lfft from bn intfrnbl position will
+                    // only tbkf us to thf fndOffsft in b right to lfft run.
+                    tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                    dhbr d = tfxt.brrby[tfxt.offsft];
+                    SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(tfxt);
+                    if(d == '\n') {
+                        rfturn -1;
+                    }
+                    bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                }
+                flsf {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
+                }
+                rfturn pos;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Bbd dirfdtion: " + dirfdtion);
+            }
+            rfturn pos;
+
+        }
+    // --- vbribblfs ---------------------------------------------
+
+    TfxtLbyout lbyout;
+
+}

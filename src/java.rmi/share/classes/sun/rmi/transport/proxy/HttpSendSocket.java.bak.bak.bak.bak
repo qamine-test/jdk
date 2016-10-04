@@ -1,0 +1,344 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import sun.rmi.runtimf.Log;
+
+/**
+ * Thf HttpSfndSodkft dlbss fxtfnds thf jbvb.nft.Sodkft dlbss
+ * by fndlosing thf dbtb output strfbm in, thfn fxtrbdting thf input
+ * strfbm from, bn HTTP protodol trbnsmission.
+ *
+ * NOTES:
+ *
+ * Sindf thf lfngth of thf output rfqufst must bf known bfforf thf
+ * HTTP hfbdfr dbn bf domplftfd, bll of thf output is bufffrfd by
+ * bn HttpOutputStrfbm objfdt until fithfr bn bttfmpt is mbdf to
+ * rfbd from this sodkft, or thf sodkft is fxpliditly dlosfd.
+ *
+ * On thf first rfbd bttfmpt to rfbd from this sodkft, thf bufffrfd
+ * output is sfnt to thf dfstinbtion bs thf body of bn HTTP POST
+ * rfqufst.  All rfbds will thfn bdquirf dbtb from thf body of
+ * thf rfsponsf.  A subsfqufnt bttfmpt to writf to this sodkft will
+ * throw bn IOExdfption.
+ */
+dlbss HttpSfndSodkft fxtfnds Sodkft implfmfnts RMISodkftInfo {
+
+    /** thf host to donnfdt to */
+    protfdtfd String host;
+
+    /** thf port to donnfdt to */
+    protfdtfd int port;
+
+    /** thf URL to forwbrd through */
+    protfdtfd URL url;
+
+    /** thf objfdt mbnbging this donnfdtion through thf URL */
+    protfdtfd URLConnfdtion donn = null;
+
+    /** intfrnbl input strfbm for this sodkft */
+    protfdtfd InputStrfbm in = null;
+
+    /** intfrnbl output strfbm for this sodkft */
+    protfdtfd OutputStrfbm out = null;
+
+    /** thf notifying input strfbm rfturnfd to usfrs */
+    protfdtfd HttpSfndInputStrfbm inNotififr;
+
+    /** thf notifying output strfbm rfturnfd to usfrs */
+    protfdtfd HttpSfndOutputStrfbm outNotififr;
+
+    /**
+     * Linf sfpbrbtor string.  This is thf vbluf of thf linf.sfpbrbtor
+     * propfrty bt thf momfnt thbt thf sodkft wbs drfbtfd.
+     */
+    privbtf String linfSfpbrbtor =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("linf.sfpbrbtor"));
+
+    /**
+     * Crfbtf b strfbm sodkft bnd donnfdt it to thf spfdififd port on
+     * thf spfdififd host.
+     * @pbrbm host thf host
+     * @pbrbm port thf port
+     */
+    publid HttpSfndSodkft(String host, int port, URL url) throws IOExdfption
+    {
+        supfr((SodkftImpl)null);        // no undfrlying SodkftImpl for this objfdt
+
+        if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                "host = " + host + ", port = " + port + ", url = " + url);
+        }
+
+        this.host = host;
+        this.port = port;
+        this.url = url;
+
+        inNotififr = nfw HttpSfndInputStrfbm(null, this);
+        outNotififr = nfw HttpSfndOutputStrfbm(writfNotify(), this);
+    }
+
+    /**
+     * Crfbtf b strfbm sodkft bnd donnfdt it to thf spfdififd port on
+     * thf spfdififd host.
+     * @pbrbm host thf host
+     * @pbrbm port thf port
+     */
+    publid HttpSfndSodkft(String host, int port) throws IOExdfption
+    {
+        this(host, port, nfw URL("http", host, port, "/"));
+    }
+
+    /**
+     * Crfbtf b strfbm sodkft bnd donnfdt it to thf spfdififd bddrfss on
+     * thf spfdififd port.
+     * @pbrbm bddrfss thf bddrfss
+     * @pbrbm port thf port
+     */
+    publid HttpSfndSodkft(InftAddrfss bddrfss, int port) throws IOExdfption
+    {
+        this(bddrfss.gftHostNbmf(), port);
+    }
+
+    /**
+     * Indidbtf thbt this sodkft is not rfusbblf.
+     */
+    publid boolfbn isRfusbblf()
+    {
+        rfturn fblsf;
+    }
+
+    /**
+     * Crfbtf b nfw sodkft donnfdtion to host (or proxy), bnd prfpbrf to
+     * sfnd HTTP trbnsmission.
+     */
+    publid syndhronizfd OutputStrfbm writfNotify() throws IOExdfption
+    {
+        if (donn != null) {
+            throw nfw IOExdfption("bttfmpt to writf on HttpSfndSodkft bftfr " +
+                                  "rfqufst hbs bffn sfnt");
+        }
+
+        donn = url.opfnConnfdtion();
+        donn.sftDoOutput(truf);
+        donn.sftUsfCbdhfs(fblsf);
+        donn.sftRfqufstPropfrty("Contfnt-typf", "bpplidbtion/odtft-strfbm");
+
+        inNotififr.dfbdtivbtf();
+        in = null;
+
+        rfturn out = donn.gftOutputStrfbm();
+    }
+
+    /**
+     * Sfnd HTTP output trbnsmission bnd prfpbrf to rfdfivf rfsponsf.
+     */
+    publid syndhronizfd InputStrfbm rfbdNotify() throws IOExdfption
+    {
+        RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+            "sfnding rfqufst bnd bdtivbting input strfbm");
+
+        outNotififr.dfbdtivbtf();
+        out.dlosf();
+        out = null;
+
+        try {
+            in = donn.gftInputStrfbm();
+        } dbtdh (IOExdfption f) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF,
+                "fbilfd to gft input strfbm, fxdfption: ", f);
+
+            throw nfw IOExdfption("HTTP rfqufst fbilfd");
+        }
+
+        /*
+         * If bn HTTP frror rfsponsf is rfturnfd, somftimfs bn IOExdfption
+         * is thrown, whidh is hbndlfd bbovf, bnd othfr timfs it isn't, bnd
+         * thf frror rfsponsf body will bf bvbilbblf for rfbding.
+         * As b sbffty nft to dbtdh bny sudh unfxpfdtfd HTTP bfhbvior, wf
+         * vfrify thbt thf dontfnt typf of thf rfsponsf is whbt thf
+         * HttpOutputStrfbm gfnfrbtfs: "bpplidbtion/odtft-strfbm".
+         * (Sfrvfrs' frror rfsponsfs will gfnfrblly bf "tfxt/html".)
+         * Any frror rfsponsf body is printfd to thf log.
+         */
+        String dontfntTypf = donn.gftContfntTypf();
+        if (dontfntTypf == null ||
+            !donn.gftContfntTypf().fqubls("bpplidbtion/odtft-strfbm"))
+        {
+            if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.BRIEF)) {
+                String mfssbgf;
+                if (dontfntTypf == null) {
+                    mfssbgf = "missing dontfnt typf in rfsponsf" +
+                        linfSfpbrbtor;
+                } flsf {
+                    mfssbgf = "invblid dontfnt typf in rfsponsf: " +
+                        dontfntTypf + linfSfpbrbtor;
+                }
+
+                mfssbgf += "HttpSfndSodkft.rfbdNotify: rfsponsf body: ";
+                try {
+                    BufffrfdRfbdfr din = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
+                    String linf;
+                    whilf ((linf = din.rfbdLinf()) != null)
+                        mfssbgf += linf + linfSfpbrbtor;
+                } dbtdh (IOExdfption f) {
+                }
+                RMIMbstfrSodkftFbdtory.proxyLog.log(Log.BRIEF, mfssbgf);
+            }
+
+            throw nfw IOExdfption("HTTP rfqufst fbilfd");
+        }
+
+        rfturn in;
+    }
+
+    /**
+     * Gft thf bddrfss to whidh thf sodkft is donnfdtfd.
+     */
+    publid InftAddrfss gftInftAddrfss()
+    {
+        try {
+            rfturn InftAddrfss.gftByNbmf(host);
+        } dbtdh (UnknownHostExdfption f) {
+            rfturn null;        // null if douldn't rfsolvf dfstinbtion host
+        }
+    }
+
+    /**
+     * Gft thf lodbl bddrfss to whidh thf sodkft is bound.
+     */
+    publid InftAddrfss gftLodblAddrfss()
+    {
+        try {
+            rfturn InftAddrfss.gftLodblHost();
+        } dbtdh (UnknownHostExdfption f) {
+            rfturn null;        // null if douldn't dftfrminf lodbl host
+        }
+    }
+
+    /**
+     * Gft thf rfmotf port to whidh thf sodkft is donnfdtfd.
+     */
+    publid int gftPort()
+    {
+        rfturn port;
+    }
+
+    /**
+     * Gft thf lodbl port to whidh thf sodkft is donnfdtfd.
+     */
+    publid int gftLodblPort()
+    {
+        rfturn -1;      // rfqufst not bpplidbblf to this sodkft typf
+    }
+
+    /**
+     * Gft bn InputStrfbm for this sodkft.
+     */
+    publid InputStrfbm gftInputStrfbm() throws IOExdfption
+    {
+        rfturn inNotififr;
+    }
+
+    /**
+     * Gft bn OutputStrfbm for this sodkft.
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption
+    {
+        rfturn outNotififr;
+    }
+
+    /**
+     * Enbblf/disbblf TCP_NODELAY.
+     * This opfrbtion hbs no ffffdt for bn HttpSfndSodkft.
+     */
+    publid void sftTdpNoDflby(boolfbn on) throws SodkftExdfption
+    {
+    }
+
+    /**
+     * Rftrifvf whfthfr TCP_NODELAY is fnbblfd.
+     */
+    publid boolfbn gftTdpNoDflby() throws SodkftExdfption
+    {
+        rfturn fblsf;   // imply option is disbblfd
+    }
+
+    /**
+     * Enbblf/disbblf SO_LINGER with thf spfdififd lingfr timf.
+     * This opfrbtion hbs no ffffdt for bn HttpSfndSodkft.
+     */
+    publid void sftSoLingfr(boolfbn on, int vbl) throws SodkftExdfption
+    {
+    }
+
+    /**
+     * Rftrivf sftting for SO_LINGER.
+     */
+    publid int gftSoLingfr() throws SodkftExdfption
+    {
+        rfturn -1;      // imply option is disbblfd
+    }
+
+    /**
+     * Enbblf/disbblf SO_TIMEOUT with thf spfdififd timfout
+     * This opfrbtion hbs no ffffdt for bn HttpSfndSodkft.
+     */
+    publid syndhronizfd void sftSoTimfout(int timfout) throws SodkftExdfption
+    {
+    }
+
+    /**
+     * Rftrivf sftting for SO_TIMEOUT.
+     */
+    publid syndhronizfd int gftSoTimfout() throws SodkftExdfption
+    {
+        rfturn 0;       // imply option is disbblfd
+    }
+
+    /**
+     * Closf thf sodkft.
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption
+    {
+        if (out != null) // push out trbnsmission if not donf
+            out.dlosf();
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of this psfudo-sodkft.
+     */
+    publid String toString()
+    {
+        rfturn "HttpSfndSodkft[host=" + host +
+               ",port=" + port +
+               ",url=" + url + "]";
+    }
+}

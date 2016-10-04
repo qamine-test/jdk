@@ -1,691 +1,691 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.*;
-import java.io.File;
+import jbvb.util.*;
+import jbvb.io.Filf;
 
-class SDE {
-    private static final int INIT_SIZE_FILE = 3;
-    private static final int INIT_SIZE_LINE = 100;
-    private static final int INIT_SIZE_STRATUM = 3;
+dlbss SDE {
+    privbtf stbtid finbl int INIT_SIZE_FILE = 3;
+    privbtf stbtid finbl int INIT_SIZE_LINE = 100;
+    privbtf stbtid finbl int INIT_SIZE_STRATUM = 3;
 
-    static final String BASE_STRATUM_NAME = "Java";
+    stbtid finbl String BASE_STRATUM_NAME = "Jbvb";
 
-    /* for C capatibility */
-    static final String NullString = null;
+    /* for C dbpbtibility */
+    stbtid finbl String NullString = null;
 
-    private class FileTableRecord {
-        int fileId;
-        String sourceName;
-        String sourcePath; // do not read - use accessor
-        boolean isConverted = false;
+    privbtf dlbss FilfTbblfRfdord {
+        int filfId;
+        String sourdfNbmf;
+        String sourdfPbti; // do not rfbd - usf bddfssor
+        boolfbn isConvfrtfd = fblsf;
 
         /**
-         * Return the sourcePath, computing it if not set.
-         * If set, convert '/' in the sourcePath to the
-         * local file separator.
+         * Rfturn tif sourdfPbti, domputing it if not sft.
+         * If sft, donvfrt '/' in tif sourdfPbti to tif
+         * lodbl filf sfpbrbtor.
          */
-        String getSourcePath(ReferenceTypeImpl refType) {
-            if (!isConverted) {
-                if (sourcePath == null) {
-                    sourcePath = refType.baseSourceDir() + sourceName;
-                } else {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < sourcePath.length(); ++i) {
-                        char ch = sourcePath.charAt(i);
-                        if (ch == '/') {
-                            sb.append(File.separatorChar);
-                        } else {
-                            sb.append(ch);
+        String gftSourdfPbti(RfffrfndfTypfImpl rffTypf) {
+            if (!isConvfrtfd) {
+                if (sourdfPbti == null) {
+                    sourdfPbti = rffTypf.bbsfSourdfDir() + sourdfNbmf;
+                } flsf {
+                    StringBuildfr sb = nfw StringBuildfr();
+                    for (int i = 0; i < sourdfPbti.lfngti(); ++i) {
+                        dibr di = sourdfPbti.dibrAt(i);
+                        if (di == '/') {
+                            sb.bppfnd(Filf.sfpbrbtorCibr);
+                        } flsf {
+                            sb.bppfnd(di);
                         }
                     }
-                    sourcePath = sb.toString();
+                    sourdfPbti = sb.toString();
                 }
-                isConverted = true;
+                isConvfrtfd = truf;
             }
-            return sourcePath;
+            rfturn sourdfPbti;
         }
     }
 
-    private class LineTableRecord {
-        int jplsStart;
+    privbtf dlbss LinfTbblfRfdord {
+        int jplsStbrt;
         int jplsEnd;
-        int jplsLineInc;
-        int njplsStart;
+        int jplsLinfInd;
+        int njplsStbrt;
         int njplsEnd;
-        int fileId;
+        int filfId;
     }
 
-    private class StratumTableRecord {
+    privbtf dlbss StrbtumTbblfRfdord {
         String id;
-        int fileIndex;
-        int lineIndex;
+        int filfIndfx;
+        int linfIndfx;
     }
 
-    class Stratum {
-        private final int sti; /* stratum index */
+    dlbss Strbtum {
+        privbtf finbl int sti; /* strbtum indfx */
 
-        private Stratum(int sti) {
-            this.sti = sti;
+        privbtf Strbtum(int sti) {
+            tiis.sti = sti;
         }
 
         String id() {
-            return stratumTable[sti].id;
+            rfturn strbtumTbblf[sti].id;
         }
 
-        boolean isJava() {
-            return sti == baseStratumIndex;
-        }
-
-        /**
-         * Return all the sourceNames for this stratum.
-         * Look from our starting fileIndex upto the starting
-         * fileIndex of next stratum - can do this since there
-         * is always a terminator stratum.
-         * Default sourceName (the first one) must be first.
-         */
-        List<String> sourceNames(ReferenceTypeImpl refType) {
-            int i;
-            int fileIndexStart = stratumTable[sti].fileIndex;
-            /* one past end */
-            int fileIndexEnd = stratumTable[sti+1].fileIndex;
-            List<String> result = new ArrayList<String>(fileIndexEnd - fileIndexStart);
-            for (i = fileIndexStart; i < fileIndexEnd; ++i) {
-                result.add(fileTable[i].sourceName);
-            }
-            return result;
+        boolfbn isJbvb() {
+            rfturn sti == bbsfStrbtumIndfx;
         }
 
         /**
-         * Return all the sourcePaths for this stratum.
-         * Look from our starting fileIndex upto the starting
-         * fileIndex of next stratum - can do this since there
-         * is always a terminator stratum.
-         * Default sourcePath (the first one) must be first.
+         * Rfturn bll tif sourdfNbmfs for tiis strbtum.
+         * Look from our stbrting filfIndfx upto tif stbrting
+         * filfIndfx of nfxt strbtum - dbn do tiis sindf tifrf
+         * is blwbys b tfrminbtor strbtum.
+         * Dffbult sourdfNbmf (tif first onf) must bf first.
          */
-        List<String> sourcePaths(ReferenceTypeImpl refType) {
+        List<String> sourdfNbmfs(RfffrfndfTypfImpl rffTypf) {
             int i;
-            int fileIndexStart = stratumTable[sti].fileIndex;
-            /* one past end */
-            int fileIndexEnd = stratumTable[sti+1].fileIndex;
-            List<String> result = new ArrayList<String>(fileIndexEnd - fileIndexStart);
-            for (i = fileIndexStart; i < fileIndexEnd; ++i) {
-                result.add(fileTable[i].getSourcePath(refType));
+            int filfIndfxStbrt = strbtumTbblf[sti].filfIndfx;
+            /* onf pbst fnd */
+            int filfIndfxEnd = strbtumTbblf[sti+1].filfIndfx;
+            List<String> rfsult = nfw ArrbyList<String>(filfIndfxEnd - filfIndfxStbrt);
+            for (i = filfIndfxStbrt; i < filfIndfxEnd; ++i) {
+                rfsult.bdd(filfTbblf[i].sourdfNbmf);
             }
-            return result;
+            rfturn rfsult;
         }
 
-        LineStratum lineStratum(ReferenceTypeImpl refType,
-                                int jplsLine) {
-            int lti = stiLineTableIndex(sti, jplsLine);
+        /**
+         * Rfturn bll tif sourdfPbtis for tiis strbtum.
+         * Look from our stbrting filfIndfx upto tif stbrting
+         * filfIndfx of nfxt strbtum - dbn do tiis sindf tifrf
+         * is blwbys b tfrminbtor strbtum.
+         * Dffbult sourdfPbti (tif first onf) must bf first.
+         */
+        List<String> sourdfPbtis(RfffrfndfTypfImpl rffTypf) {
+            int i;
+            int filfIndfxStbrt = strbtumTbblf[sti].filfIndfx;
+            /* onf pbst fnd */
+            int filfIndfxEnd = strbtumTbblf[sti+1].filfIndfx;
+            List<String> rfsult = nfw ArrbyList<String>(filfIndfxEnd - filfIndfxStbrt);
+            for (i = filfIndfxStbrt; i < filfIndfxEnd; ++i) {
+                rfsult.bdd(filfTbblf[i].gftSourdfPbti(rffTypf));
+            }
+            rfturn rfsult;
+        }
+
+        LinfStrbtum linfStrbtum(RfffrfndfTypfImpl rffTypf,
+                                int jplsLinf) {
+            int lti = stiLinfTbblfIndfx(sti, jplsLinf);
             if (lti < 0) {
-                return null;
-            } else {
-                return new LineStratum(sti, lti, refType,
-                                       jplsLine);
+                rfturn null;
+            } flsf {
+                rfturn nfw LinfStrbtum(sti, lti, rffTypf,
+                                       jplsLinf);
             }
         }
     }
 
-    class LineStratum {
-        private final int sti; /* stratum index */
-        private final int lti; /* line table index */
-        private final ReferenceTypeImpl refType;
-        private final int jplsLine;
-        private String sourceName = null;
-        private String sourcePath = null;
+    dlbss LinfStrbtum {
+        privbtf finbl int sti; /* strbtum indfx */
+        privbtf finbl int lti; /* linf tbblf indfx */
+        privbtf finbl RfffrfndfTypfImpl rffTypf;
+        privbtf finbl int jplsLinf;
+        privbtf String sourdfNbmf = null;
+        privbtf String sourdfPbti = null;
 
-        private LineStratum(int sti, int lti,
-                            ReferenceTypeImpl refType,
-                            int jplsLine) {
-            this.sti = sti;
-            this.lti = lti;
-            this.refType = refType;
-            this.jplsLine = jplsLine;
+        privbtf LinfStrbtum(int sti, int lti,
+                            RfffrfndfTypfImpl rffTypf,
+                            int jplsLinf) {
+            tiis.sti = sti;
+            tiis.lti = lti;
+            tiis.rffTypf = rffTypf;
+            tiis.jplsLinf = jplsLinf;
         }
 
-        public boolean equals(Object obj) {
-            if (obj instanceof LineStratum) {
-                LineStratum other = (LineStratum)obj;
-                return (lti == other.lti) &&
-                       (sti == other.sti) &&
-                       (lineNumber() == other.lineNumber()) &&
-                       (refType.equals(other.refType));
-            } else {
-                return false;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof LinfStrbtum) {
+                LinfStrbtum otifr = (LinfStrbtum)obj;
+                rfturn (lti == otifr.lti) &&
+                       (sti == otifr.sti) &&
+                       (linfNumbfr() == otifr.linfNumbfr()) &&
+                       (rffTypf.fqubls(otifr.rffTypf));
+            } flsf {
+                rfturn fblsf;
             }
         }
 
-        @Override
-        public int hashCode() {
-            return (lineNumber() * 17) ^ refType.hashCode();
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn (linfNumbfr() * 17) ^ rffTypf.ibsiCodf();
         }
 
-        int lineNumber() {
-            return stiLineNumber(sti, lti, jplsLine);
+        int linfNumbfr() {
+            rfturn stiLinfNumbfr(sti, lti, jplsLinf);
         }
 
         /**
-         * Fetch the source name and source path for
-         * this line, converting or constructing
-         * the source path if needed.
+         * Fftdi tif sourdf nbmf bnd sourdf pbti for
+         * tiis linf, donvfrting or donstrudting
+         * tif sourdf pbti if nffdfd.
          */
-        void getSourceInfo() {
-            if (sourceName != null) {
-                // already done
-                return;
+        void gftSourdfInfo() {
+            if (sourdfNbmf != null) {
+                // blrfbdy donf
+                rfturn;
             }
-            int fti = stiFileTableIndex(sti, lti);
+            int fti = stiFilfTbblfIndfx(sti, lti);
             if (fti == -1) {
-                throw new InternalError(
-              "Bad SourceDebugExtension, no matching source id " +
-              lineTable[lti].fileId + " jplsLine: " + jplsLine);
+                tirow nfw IntfrnblError(
+              "Bbd SourdfDfbugExtfnsion, no mbtdiing sourdf id " +
+              linfTbblf[lti].filfId + " jplsLinf: " + jplsLinf);
             }
-            FileTableRecord ftr = fileTable[fti];
-            sourceName = ftr.sourceName;
-            sourcePath = ftr.getSourcePath(refType);
+            FilfTbblfRfdord ftr = filfTbblf[fti];
+            sourdfNbmf = ftr.sourdfNbmf;
+            sourdfPbti = ftr.gftSourdfPbti(rffTypf);
         }
 
-        String sourceName() {
-            getSourceInfo();
-            return sourceName;
+        String sourdfNbmf() {
+            gftSourdfInfo();
+            rfturn sourdfNbmf;
         }
 
-        String sourcePath() {
-            getSourceInfo();
-            return sourcePath;
+        String sourdfPbti() {
+            gftSourdfInfo();
+            rfturn sourdfPbti;
         }
     }
 
-    private FileTableRecord[] fileTable = null;
-    private LineTableRecord[] lineTable = null;
-    private StratumTableRecord[] stratumTable = null;
+    privbtf FilfTbblfRfdord[] filfTbblf = null;
+    privbtf LinfTbblfRfdord[] linfTbblf = null;
+    privbtf StrbtumTbblfRfdord[] strbtumTbblf = null;
 
-    private int fileIndex = 0;
-    private int lineIndex = 0;
-    private int stratumIndex = 0;
-    private int currentFileId = 0;
+    privbtf int filfIndfx = 0;
+    privbtf int linfIndfx = 0;
+    privbtf int strbtumIndfx = 0;
+    privbtf int durrfntFilfId = 0;
 
-    private int defaultStratumIndex = -1;
-    private int baseStratumIndex = -2; /* so as not to match -1 above */
-    private int sdePos = 0;
+    privbtf int dffbultStrbtumIndfx = -1;
+    privbtf int bbsfStrbtumIndfx = -2; /* so bs not to mbtdi -1 bbovf */
+    privbtf int sdfPos = 0;
 
-    final String sourceDebugExtension;
-    String jplsFilename = null;
-    String defaultStratumId = null;
-    boolean isValid = false;
+    finbl String sourdfDfbugExtfnsion;
+    String jplsFilfnbmf = null;
+    String dffbultStrbtumId = null;
+    boolfbn isVblid = fblsf;
 
-    SDE(String sourceDebugExtension) {
-        this.sourceDebugExtension = sourceDebugExtension;
-        decode();
+    SDE(String sourdfDfbugExtfnsion) {
+        tiis.sourdfDfbugExtfnsion = sourdfDfbugExtfnsion;
+        dfdodf();
     }
 
     SDE() {
-        this.sourceDebugExtension = null;
-        createProxyForAbsentSDE();
+        tiis.sourdfDfbugExtfnsion = null;
+        drfbtfProxyForAbsfntSDE();
     }
 
-    char sdePeek() {
-        if (sdePos >= sourceDebugExtension.length()) {
-            syntax();
+    dibr sdfPffk() {
+        if (sdfPos >= sourdfDfbugExtfnsion.lfngti()) {
+            syntbx();
         }
-        return sourceDebugExtension.charAt(sdePos);
+        rfturn sourdfDfbugExtfnsion.dibrAt(sdfPos);
     }
 
-    char sdeRead() {
-        if (sdePos >= sourceDebugExtension.length()) {
-            syntax();
+    dibr sdfRfbd() {
+        if (sdfPos >= sourdfDfbugExtfnsion.lfngti()) {
+            syntbx();
         }
-        return sourceDebugExtension.charAt(sdePos++);
+        rfturn sourdfDfbugExtfnsion.dibrAt(sdfPos++);
     }
 
-    void sdeAdvance() {
-        sdePos++;
+    void sdfAdvbndf() {
+        sdfPos++;
     }
 
-    void syntax() {
-        throw new InternalError("bad SourceDebugExtension syntax - position " +
-                                sdePos);
+    void syntbx() {
+        tirow nfw IntfrnblError("bbd SourdfDfbugExtfnsion syntbx - position " +
+                                sdfPos);
     }
 
-    void syntax(String msg) {
-        throw new InternalError("bad SourceDebugExtension syntax: " + msg);
+    void syntbx(String msg) {
+        tirow nfw IntfrnblError("bbd SourdfDfbugExtfnsion syntbx: " + msg);
     }
 
-    void assureLineTableSize() {
-        int len = lineTable == null? 0 : lineTable.length;
-        if (lineIndex >= len) {
+    void bssurfLinfTbblfSizf() {
+        int lfn = linfTbblf == null? 0 : linfTbblf.lfngti;
+        if (linfIndfx >= lfn) {
             int i;
-            int newLen = len == 0? INIT_SIZE_LINE : len * 2;
-            LineTableRecord[] newTable = new LineTableRecord[newLen];
-            for (i = 0; i < len; ++i) {
-                newTable[i] = lineTable[i];
+            int nfwLfn = lfn == 0? INIT_SIZE_LINE : lfn * 2;
+            LinfTbblfRfdord[] nfwTbblf = nfw LinfTbblfRfdord[nfwLfn];
+            for (i = 0; i < lfn; ++i) {
+                nfwTbblf[i] = linfTbblf[i];
             }
-            for (; i < newLen; ++i) {
-                newTable[i] = new LineTableRecord();
+            for (; i < nfwLfn; ++i) {
+                nfwTbblf[i] = nfw LinfTbblfRfdord();
             }
-            lineTable = newTable;
+            linfTbblf = nfwTbblf;
         }
     }
 
-    void assureFileTableSize() {
-        int len = fileTable == null? 0 : fileTable.length;
-        if (fileIndex >= len) {
+    void bssurfFilfTbblfSizf() {
+        int lfn = filfTbblf == null? 0 : filfTbblf.lfngti;
+        if (filfIndfx >= lfn) {
             int i;
-            int newLen = len == 0? INIT_SIZE_FILE : len * 2;
-            FileTableRecord[] newTable = new FileTableRecord[newLen];
-            for (i = 0; i < len; ++i) {
-                newTable[i] = fileTable[i];
+            int nfwLfn = lfn == 0? INIT_SIZE_FILE : lfn * 2;
+            FilfTbblfRfdord[] nfwTbblf = nfw FilfTbblfRfdord[nfwLfn];
+            for (i = 0; i < lfn; ++i) {
+                nfwTbblf[i] = filfTbblf[i];
             }
-            for (; i < newLen; ++i) {
-                newTable[i] = new FileTableRecord();
+            for (; i < nfwLfn; ++i) {
+                nfwTbblf[i] = nfw FilfTbblfRfdord();
             }
-            fileTable = newTable;
+            filfTbblf = nfwTbblf;
         }
     }
 
-    void assureStratumTableSize() {
-        int len = stratumTable == null? 0 : stratumTable.length;
-        if (stratumIndex >= len) {
+    void bssurfStrbtumTbblfSizf() {
+        int lfn = strbtumTbblf == null? 0 : strbtumTbblf.lfngti;
+        if (strbtumIndfx >= lfn) {
             int i;
-            int newLen = len == 0? INIT_SIZE_STRATUM : len * 2;
-            StratumTableRecord[] newTable = new StratumTableRecord[newLen];
-            for (i = 0; i < len; ++i) {
-                newTable[i] = stratumTable[i];
+            int nfwLfn = lfn == 0? INIT_SIZE_STRATUM : lfn * 2;
+            StrbtumTbblfRfdord[] nfwTbblf = nfw StrbtumTbblfRfdord[nfwLfn];
+            for (i = 0; i < lfn; ++i) {
+                nfwTbblf[i] = strbtumTbblf[i];
             }
-            for (; i < newLen; ++i) {
-                newTable[i] = new StratumTableRecord();
+            for (; i < nfwLfn; ++i) {
+                nfwTbblf[i] = nfw StrbtumTbblfRfdord();
             }
-            stratumTable = newTable;
+            strbtumTbblf = nfwTbblf;
         }
     }
 
-    String readLine() {
-        StringBuilder sb = new StringBuilder();
-        char ch;
+    String rfbdLinf() {
+        StringBuildfr sb = nfw StringBuildfr();
+        dibr di;
 
-        ignoreWhite();
-        while (((ch = sdeRead()) != '\n') && (ch != '\r')) {
-            sb.append(ch);
+        ignorfWiitf();
+        wiilf (((di = sdfRfbd()) != '\n') && (di != '\r')) {
+            sb.bppfnd(di);
         }
-        // check for CR LF
-        if ((ch == '\r') && (sdePeek() == '\n')) {
-            sdeRead();
+        // difdk for CR LF
+        if ((di == '\r') && (sdfPffk() == '\n')) {
+            sdfRfbd();
         }
-        ignoreWhite(); // leading white
-        return sb.toString();
+        ignorfWiitf(); // lfbding wiitf
+        rfturn sb.toString();
     }
 
-    private int defaultStratumTableIndex() {
-        if ((defaultStratumIndex == -1) && (defaultStratumId != null)) {
-            defaultStratumIndex =
-                stratumTableIndex(defaultStratumId);
+    privbtf int dffbultStrbtumTbblfIndfx() {
+        if ((dffbultStrbtumIndfx == -1) && (dffbultStrbtumId != null)) {
+            dffbultStrbtumIndfx =
+                strbtumTbblfIndfx(dffbultStrbtumId);
         }
-        return defaultStratumIndex;
+        rfturn dffbultStrbtumIndfx;
     }
 
-    int stratumTableIndex(String stratumId) {
+    int strbtumTbblfIndfx(String strbtumId) {
         int i;
 
-        if (stratumId == null) {
-            return defaultStratumTableIndex();
+        if (strbtumId == null) {
+            rfturn dffbultStrbtumTbblfIndfx();
         }
-        for (i = 0; i < (stratumIndex-1); ++i) {
-            if (stratumTable[i].id.equals(stratumId)) {
-                return i;
+        for (i = 0; i < (strbtumIndfx-1); ++i) {
+            if (strbtumTbblf[i].id.fqubls(strbtumId)) {
+                rfturn i;
             }
         }
-        return defaultStratumTableIndex();
+        rfturn dffbultStrbtumTbblfIndfx();
     }
 
-    Stratum stratum(String stratumID) {
-        int sti = stratumTableIndex(stratumID);
-        return new Stratum(sti);
+    Strbtum strbtum(String strbtumID) {
+        int sti = strbtumTbblfIndfx(strbtumID);
+        rfturn nfw Strbtum(sti);
     }
 
-    List<String> availableStrata() {
-        List<String> strata = new ArrayList<String>();
+    List<String> bvbilbblfStrbtb() {
+        List<String> strbtb = nfw ArrbyList<String>();
 
-        for (int i = 0; i < (stratumIndex-1); ++i) {
-            StratumTableRecord rec = stratumTable[i];
-            strata.add(rec.id);
+        for (int i = 0; i < (strbtumIndfx-1); ++i) {
+            StrbtumTbblfRfdord rfd = strbtumTbblf[i];
+            strbtb.bdd(rfd.id);
         }
-        return strata;
+        rfturn strbtb;
     }
 
 /*****************************
- * below functions/methods are written to compile under either Java or C
+ * bflow fundtions/mftiods brf writtfn to dompilf undfr fitifr Jbvb or C
  *
- * Needed support functions:
- *   sdePeek()
- *   sdeRead()
- *   sdeAdvance()
- *   readLine()
- *   assureLineTableSize()
- *   assureFileTableSize()
- *   assureStratumTableSize()
- *   syntax()
+ * Nffdfd support fundtions:
+ *   sdfPffk()
+ *   sdfRfbd()
+ *   sdfAdvbndf()
+ *   rfbdLinf()
+ *   bssurfLinfTbblfSizf()
+ *   bssurfFilfTbblfSizf()
+ *   bssurfStrbtumTbblfSizf()
+ *   syntbx()
  *
- *   stratumTableIndex(String)
+ *   strbtumTbblfIndfx(String)
  *
- * Needed support variables:
- *   lineTable
- *   lineIndex
- *   fileTable
- *   fileIndex
- *   currentFileId
+ * Nffdfd support vbribblfs:
+ *   linfTbblf
+ *   linfIndfx
+ *   filfTbblf
+ *   filfIndfx
+ *   durrfntFilfId
  *
- * Needed types:
+ * Nffdfd typfs:
  *   String
  *
- * Needed constants:
+ * Nffdfd donstbnts:
  *   NullString
  */
 
-    void ignoreWhite() {
-        char ch;
+    void ignorfWiitf() {
+        dibr di;
 
-        while (((ch = sdePeek()) == ' ') || (ch == '\t')) {
-            sdeAdvance();
+        wiilf (((di = sdfPffk()) == ' ') || (di == '\t')) {
+            sdfAdvbndf();
         }
     }
 
-    void ignoreLine() {
-        char ch;
+    void ignorfLinf() {
+        dibr di;
 
-        while (((ch = sdeRead()) != '\n') && (ch != '\r')) {
+        wiilf (((di = sdfRfbd()) != '\n') && (di != '\r')) {
         }
-        /* check for CR LF */
-        if ((ch == '\r') && (sdePeek() == '\n')) {
-            sdeAdvance();
+        /* difdk for CR LF */
+        if ((di == '\r') && (sdfPffk() == '\n')) {
+            sdfAdvbndf();
         }
-        ignoreWhite(); /* leading white */
+        ignorfWiitf(); /* lfbding wiitf */
     }
 
-    int readNumber() {
-        int value = 0;
-        char ch;
+    int rfbdNumbfr() {
+        int vbluf = 0;
+        dibr di;
 
-        ignoreWhite();
-        while (((ch = sdePeek()) >= '0') && (ch <= '9')) {
-            sdeAdvance();
-            value = (value * 10) + ch - '0';
+        ignorfWiitf();
+        wiilf (((di = sdfPffk()) >= '0') && (di <= '9')) {
+            sdfAdvbndf();
+            vbluf = (vbluf * 10) + di - '0';
         }
-        ignoreWhite();
-        return value;
+        ignorfWiitf();
+        rfturn vbluf;
     }
 
-    void storeFile(int fileId, String sourceName, String sourcePath) {
-        assureFileTableSize();
-        fileTable[fileIndex].fileId = fileId;
-        fileTable[fileIndex].sourceName = sourceName;
-        fileTable[fileIndex].sourcePath = sourcePath;
-        ++fileIndex;
+    void storfFilf(int filfId, String sourdfNbmf, String sourdfPbti) {
+        bssurfFilfTbblfSizf();
+        filfTbblf[filfIndfx].filfId = filfId;
+        filfTbblf[filfIndfx].sourdfNbmf = sourdfNbmf;
+        filfTbblf[filfIndfx].sourdfPbti = sourdfPbti;
+        ++filfIndfx;
     }
 
-    void fileLine() {
-        int hasAbsolute = 0; /* acts as boolean */
-        int fileId;
-        String sourceName;
-        String sourcePath = null;
+    void filfLinf() {
+        int ibsAbsolutf = 0; /* bdts bs boolfbn */
+        int filfId;
+        String sourdfNbmf;
+        String sourdfPbti = null;
 
-        /* is there an absolute filename? */
-        if (sdePeek() == '+') {
-            sdeAdvance();
-            hasAbsolute = 1;
+        /* is tifrf bn bbsolutf filfnbmf? */
+        if (sdfPffk() == '+') {
+            sdfAdvbndf();
+            ibsAbsolutf = 1;
         }
-        fileId = readNumber();
-        sourceName = readLine();
-        if (hasAbsolute == 1) {
-            sourcePath = readLine();
+        filfId = rfbdNumbfr();
+        sourdfNbmf = rfbdLinf();
+        if (ibsAbsolutf == 1) {
+            sourdfPbti = rfbdLinf();
         }
 
-        storeFile(fileId, sourceName, sourcePath);
+        storfFilf(filfId, sourdfNbmf, sourdfPbti);
     }
 
-    void storeLine(int jplsStart, int jplsEnd, int jplsLineInc,
-                  int njplsStart, int njplsEnd, int fileId) {
-        assureLineTableSize();
-        lineTable[lineIndex].jplsStart = jplsStart;
-        lineTable[lineIndex].jplsEnd = jplsEnd;
-        lineTable[lineIndex].jplsLineInc = jplsLineInc;
-        lineTable[lineIndex].njplsStart = njplsStart;
-        lineTable[lineIndex].njplsEnd = njplsEnd;
-        lineTable[lineIndex].fileId = fileId;
-        ++lineIndex;
-    }
-
-    /**
-     * Parse line translation info.  Syntax is
-     *     <NJ-start-line> [ # <file-id> ] [ , <line-count> ] :
-     *                 <J-start-line> [ , <line-increment> ] CR
-     */
-    void lineLine() {
-        int lineCount = 1;
-        int lineIncrement = 1;
-        int njplsStart;
-        int jplsStart;
-
-        njplsStart = readNumber();
-
-        /* is there a fileID? */
-        if (sdePeek() == '#') {
-            sdeAdvance();
-            currentFileId = readNumber();
-        }
-
-        /* is there a line count? */
-        if (sdePeek() == ',') {
-            sdeAdvance();
-            lineCount = readNumber();
-        }
-
-        if (sdeRead() != ':') {
-            syntax();
-        }
-        jplsStart = readNumber();
-        if (sdePeek() == ',') {
-            sdeAdvance();
-            lineIncrement = readNumber();
-        }
-        ignoreLine(); /* flush the rest */
-
-        storeLine(jplsStart,
-                  jplsStart + (lineCount * lineIncrement) -1,
-                  lineIncrement,
-                  njplsStart,
-                  njplsStart + lineCount -1,
-                  currentFileId);
+    void storfLinf(int jplsStbrt, int jplsEnd, int jplsLinfInd,
+                  int njplsStbrt, int njplsEnd, int filfId) {
+        bssurfLinfTbblfSizf();
+        linfTbblf[linfIndfx].jplsStbrt = jplsStbrt;
+        linfTbblf[linfIndfx].jplsEnd = jplsEnd;
+        linfTbblf[linfIndfx].jplsLinfInd = jplsLinfInd;
+        linfTbblf[linfIndfx].njplsStbrt = njplsStbrt;
+        linfTbblf[linfIndfx].njplsEnd = njplsEnd;
+        linfTbblf[linfIndfx].filfId = filfId;
+        ++linfIndfx;
     }
 
     /**
-     * Until the next stratum section, everything after this
-     * is in stratumId - so, store the current indicies.
+     * Pbrsf linf trbnslbtion info.  Syntbx is
+     *     <NJ-stbrt-linf> [ # <filf-id> ] [ , <linf-dount> ] :
+     *                 <J-stbrt-linf> [ , <linf-indrfmfnt> ] CR
      */
-    void storeStratum(String stratumId) {
-        /* remove redundant strata */
-        if (stratumIndex > 0) {
-            if ((stratumTable[stratumIndex-1].fileIndex
-                                            == fileIndex) &&
-                (stratumTable[stratumIndex-1].lineIndex
-                                            == lineIndex)) {
-                /* nothing changed overwrite it */
-                --stratumIndex;
+    void linfLinf() {
+        int linfCount = 1;
+        int linfIndrfmfnt = 1;
+        int njplsStbrt;
+        int jplsStbrt;
+
+        njplsStbrt = rfbdNumbfr();
+
+        /* is tifrf b filfID? */
+        if (sdfPffk() == '#') {
+            sdfAdvbndf();
+            durrfntFilfId = rfbdNumbfr();
+        }
+
+        /* is tifrf b linf dount? */
+        if (sdfPffk() == ',') {
+            sdfAdvbndf();
+            linfCount = rfbdNumbfr();
+        }
+
+        if (sdfRfbd() != ':') {
+            syntbx();
+        }
+        jplsStbrt = rfbdNumbfr();
+        if (sdfPffk() == ',') {
+            sdfAdvbndf();
+            linfIndrfmfnt = rfbdNumbfr();
+        }
+        ignorfLinf(); /* flusi tif rfst */
+
+        storfLinf(jplsStbrt,
+                  jplsStbrt + (linfCount * linfIndrfmfnt) -1,
+                  linfIndrfmfnt,
+                  njplsStbrt,
+                  njplsStbrt + linfCount -1,
+                  durrfntFilfId);
+    }
+
+    /**
+     * Until tif nfxt strbtum sfdtion, fvfrytiing bftfr tiis
+     * is in strbtumId - so, storf tif durrfnt indidifs.
+     */
+    void storfStrbtum(String strbtumId) {
+        /* rfmovf rfdundbnt strbtb */
+        if (strbtumIndfx > 0) {
+            if ((strbtumTbblf[strbtumIndfx-1].filfIndfx
+                                            == filfIndfx) &&
+                (strbtumTbblf[strbtumIndfx-1].linfIndfx
+                                            == linfIndfx)) {
+                /* notiing dibngfd ovfrwritf it */
+                --strbtumIndfx;
             }
         }
-        /* store the results */
-        assureStratumTableSize();
-        stratumTable[stratumIndex].id = stratumId;
-        stratumTable[stratumIndex].fileIndex = fileIndex;
-        stratumTable[stratumIndex].lineIndex = lineIndex;
-        ++stratumIndex;
-        currentFileId = 0;
+        /* storf tif rfsults */
+        bssurfStrbtumTbblfSizf();
+        strbtumTbblf[strbtumIndfx].id = strbtumId;
+        strbtumTbblf[strbtumIndfx].filfIndfx = filfIndfx;
+        strbtumTbblf[strbtumIndfx].linfIndfx = linfIndfx;
+        ++strbtumIndfx;
+        durrfntFilfId = 0;
     }
 
     /**
-     * The beginning of a stratum's info
+     * Tif bfginning of b strbtum's info
      */
-    void stratumSection() {
-        storeStratum(readLine());
+    void strbtumSfdtion() {
+        storfStrbtum(rfbdLinf());
     }
 
-    void fileSection() {
-        ignoreLine();
-        while (sdePeek() != '*') {
-            fileLine();
+    void filfSfdtion() {
+        ignorfLinf();
+        wiilf (sdfPffk() != '*') {
+            filfLinf();
         }
     }
 
-    void lineSection() {
-        ignoreLine();
-        while (sdePeek() != '*') {
-            lineLine();
-        }
-    }
-
-    /**
-     * Ignore a section we don't know about.
-     */
-    void ignoreSection() {
-        ignoreLine();
-        while (sdePeek() != '*') {
-            ignoreLine();
+    void linfSfdtion() {
+        ignorfLinf();
+        wiilf (sdfPffk() != '*') {
+            linfLinf();
         }
     }
 
     /**
-     * A base "Java" stratum is always available, though
-     * it is not in the SourceDebugExtension.
-     * Create the base stratum.
+     * Ignorf b sfdtion wf don't know bbout.
      */
-    void createJavaStratum() {
-        baseStratumIndex = stratumIndex;
-        storeStratum(BASE_STRATUM_NAME);
-        storeFile(1, jplsFilename, NullString);
-        /* JPL line numbers cannot exceed 65535 */
-        storeLine(1, 65536, 1, 1, 65536, 1);
-        storeStratum("Aux"); /* in case they don't declare */
+    void ignorfSfdtion() {
+        ignorfLinf();
+        wiilf (sdfPffk() != '*') {
+            ignorfLinf();
+        }
     }
 
     /**
-     * Decode a SourceDebugExtension which is in SourceMap format.
-     * This is the entry point into the recursive descent parser.
+     * A bbsf "Jbvb" strbtum is blwbys bvbilbblf, tiougi
+     * it is not in tif SourdfDfbugExtfnsion.
+     * Crfbtf tif bbsf strbtum.
      */
-    void decode() {
-        /* check for "SMAP" - allow EOF if not ours */
-        if ((sourceDebugExtension.length() < 4) ||
-            (sdeRead() != 'S') ||
-            (sdeRead() != 'M') ||
-            (sdeRead() != 'A') ||
-            (sdeRead() != 'P')) {
-            return; /* not our info */
+    void drfbtfJbvbStrbtum() {
+        bbsfStrbtumIndfx = strbtumIndfx;
+        storfStrbtum(BASE_STRATUM_NAME);
+        storfFilf(1, jplsFilfnbmf, NullString);
+        /* JPL linf numbfrs dbnnot fxdffd 65535 */
+        storfLinf(1, 65536, 1, 1, 65536, 1);
+        storfStrbtum("Aux"); /* in dbsf tify don't dfdlbrf */
+    }
+
+    /**
+     * Dfdodf b SourdfDfbugExtfnsion wiidi is in SourdfMbp formbt.
+     * Tiis is tif fntry point into tif rfdursivf dfsdfnt pbrsfr.
+     */
+    void dfdodf() {
+        /* difdk for "SMAP" - bllow EOF if not ours */
+        if ((sourdfDfbugExtfnsion.lfngti() < 4) ||
+            (sdfRfbd() != 'S') ||
+            (sdfRfbd() != 'M') ||
+            (sdfRfbd() != 'A') ||
+            (sdfRfbd() != 'P')) {
+            rfturn; /* not our info */
         }
-        ignoreLine(); /* flush the rest */
-        jplsFilename = readLine();
-        defaultStratumId = readLine();
-        createJavaStratum();
-        while (true) {
-            if (sdeRead() != '*') {
-                syntax();
+        ignorfLinf(); /* flusi tif rfst */
+        jplsFilfnbmf = rfbdLinf();
+        dffbultStrbtumId = rfbdLinf();
+        drfbtfJbvbStrbtum();
+        wiilf (truf) {
+            if (sdfRfbd() != '*') {
+                syntbx();
             }
-            switch (sdeRead()) {
-                case 'S':
-                    stratumSection();
-                    break;
-                case 'F':
-                    fileSection();
-                    break;
-                case 'L':
-                    lineSection();
-                    break;
-                case 'E':
-                    /* set end points */
-                    storeStratum("*terminator*");
-                    isValid = true;
-                    return;
-                default:
-                    ignoreSection();
+            switdi (sdfRfbd()) {
+                dbsf 'S':
+                    strbtumSfdtion();
+                    brfbk;
+                dbsf 'F':
+                    filfSfdtion();
+                    brfbk;
+                dbsf 'L':
+                    linfSfdtion();
+                    brfbk;
+                dbsf 'E':
+                    /* sft fnd points */
+                    storfStrbtum("*tfrminbtor*");
+                    isVblid = truf;
+                    rfturn;
+                dffbult:
+                    ignorfSfdtion();
             }
         }
     }
 
-    void createProxyForAbsentSDE() {
-        jplsFilename = null;
-        defaultStratumId = BASE_STRATUM_NAME;
-        defaultStratumIndex = stratumIndex;
-        createJavaStratum();
-        storeStratum("*terminator*");
+    void drfbtfProxyForAbsfntSDE() {
+        jplsFilfnbmf = null;
+        dffbultStrbtumId = BASE_STRATUM_NAME;
+        dffbultStrbtumIndfx = strbtumIndfx;
+        drfbtfJbvbStrbtum();
+        storfStrbtum("*tfrminbtor*");
     }
 
-    /***************** query functions ***********************/
+    /***************** qufry fundtions ***********************/
 
-    private int stiLineTableIndex(int sti, int jplsLine) {
+    privbtf int stiLinfTbblfIndfx(int sti, int jplsLinf) {
         int i;
-        int lineIndexStart;
-        int lineIndexEnd;
+        int linfIndfxStbrt;
+        int linfIndfxEnd;
 
-        lineIndexStart = stratumTable[sti].lineIndex;
-        /* one past end */
-        lineIndexEnd = stratumTable[sti+1].lineIndex;
-        for (i = lineIndexStart; i < lineIndexEnd; ++i) {
-            if ((jplsLine >= lineTable[i].jplsStart) &&
-                            (jplsLine <= lineTable[i].jplsEnd)) {
-                return i;
+        linfIndfxStbrt = strbtumTbblf[sti].linfIndfx;
+        /* onf pbst fnd */
+        linfIndfxEnd = strbtumTbblf[sti+1].linfIndfx;
+        for (i = linfIndfxStbrt; i < linfIndfxEnd; ++i) {
+            if ((jplsLinf >= linfTbblf[i].jplsStbrt) &&
+                            (jplsLinf <= linfTbblf[i].jplsEnd)) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    private int stiLineNumber(int sti, int lti, int jplsLine) {
-        return lineTable[lti].njplsStart +
-                (((jplsLine - lineTable[lti].jplsStart) /
-                                   lineTable[lti].jplsLineInc));
+    privbtf int stiLinfNumbfr(int sti, int lti, int jplsLinf) {
+        rfturn linfTbblf[lti].njplsStbrt +
+                (((jplsLinf - linfTbblf[lti].jplsStbrt) /
+                                   linfTbblf[lti].jplsLinfInd));
     }
 
-    private int fileTableIndex(int sti, int fileId) {
+    privbtf int filfTbblfIndfx(int sti, int filfId) {
         int i;
-        int fileIndexStart = stratumTable[sti].fileIndex;
-        /* one past end */
-        int fileIndexEnd = stratumTable[sti+1].fileIndex;
-        for (i = fileIndexStart; i < fileIndexEnd; ++i) {
-            if (fileTable[i].fileId == fileId) {
-                return i;
+        int filfIndfxStbrt = strbtumTbblf[sti].filfIndfx;
+        /* onf pbst fnd */
+        int filfIndfxEnd = strbtumTbblf[sti+1].filfIndfx;
+        for (i = filfIndfxStbrt; i < filfIndfxEnd; ++i) {
+            if (filfTbblf[i].filfId == filfId) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    private int stiFileTableIndex(int sti, int lti) {
-        return fileTableIndex(sti, lineTable[lti].fileId);
+    privbtf int stiFilfTbblfIndfx(int sti, int lti) {
+        rfturn filfTbblfIndfx(sti, linfTbblf[lti].filfId);
     }
 
-    boolean isValid() {
-        return isValid;
+    boolfbn isVblid() {
+        rfturn isVblid;
     }
 }

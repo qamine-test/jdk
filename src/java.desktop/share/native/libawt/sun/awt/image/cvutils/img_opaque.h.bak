@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Alpha category of the
- * macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Alpib dbtfgory of tif
+ * mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation of the Alpha macros will ignore all alpha
- * information.  It also provides an empty expansion of the IfAlpha
- * macro which keeps the other macro sets in the image package from
- * wasting time and space on code to fetch or store the alpha
- * information.  This file is only applicable when the incoming
- * data is known to be entirely opaque and there is not yet any
- * image mask or alpha buffer associated with the output data.
+ * Tiis implfmfntbtion of tif Alpib mbdros will ignorf bll blpib
+ * informbtion.  It blso providfs bn fmpty fxpbnsion of tif IfAlpib
+ * mbdro wiidi kffps tif otifr mbdro sfts in tif imbgf pbdkbgf from
+ * wbsting timf bnd spbdf on dodf to fftdi or storf tif blpib
+ * informbtion.  Tiis filf is only bpplidbblf wifn tif indoming
+ * dbtb is known to bf fntirfly opbquf bnd tifrf is not yft bny
+ * imbgf mbsk or blpib bufffr bssodibtfd witi tif output dbtb.
  */
 
 /*
- * The macro IfAlpha is used by the varous pixel conversion macros
- * to conditionally compile code that is only needed if alpha values
- * are going to be used.
+ * Tif mbdro IfAlpib is usfd by tif vbrous pixfl donvfrsion mbdros
+ * to donditionblly dompilf dodf tibt is only nffdfd if blpib vblufs
+ * brf going to bf usfd.
  */
-#define IfAlpha(statements)     /* Omit alpha handling code */
+#dffinf IfAlpib(stbtfmfnts)     /* Omit blpib ibndling dodf */
 
-#define DeclareAlphaVars
+#dffinf DfdlbrfAlpibVbrs
 
-#define InitAlpha(cvdata, dstY, dstX1, dstX2)                   \
-    do {} while (0)
+#dffinf InitAlpib(dvdbtb, dstY, dstX1, dstX2)                   \
+    do {} wiilf (0)
 
-#define StartAlphaRow(cvdata, DSTX1, DSTY)                      \
-    do {} while (0)
+#dffinf StbrtAlpibRow(dvdbtb, DSTX1, DSTY)                      \
+    do {} wiilf (0)
 
-#define ApplyAlpha(cvdata, dstX, dstY, alpha)                   \
-    do {} while (0)
+#dffinf ApplyAlpib(dvdbtb, dstX, dstY, blpib)                   \
+    do {} wiilf (0)
 
-#define EndMaskLine()                                           \
-    do {} while (0)
+#dffinf EndMbskLinf()                                           \
+    do {} wiilf (0)

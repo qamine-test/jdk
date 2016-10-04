@@ -1,1059 +1,1059 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import com.sun.management.HotSpotDiagnosticMXBean;
-import com.sun.tools.jconsole.JConsoleContext;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import java.lang.management.*;
-import static java.lang.management.ManagementFactory.*;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.*;
-import java.rmi.*;
-import java.rmi.registry.*;
-import java.rmi.server.*;
-import java.util.*;
-import javax.management.*;
-import javax.management.remote.*;
-import javax.management.remote.rmi.*;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.swing.event.SwingPropertyChangeSupport;
-import sun.rmi.server.UnicastRef2;
-import sun.rmi.transport.LiveRef;
+import dom.sun.mbnbgfmfnt.HotSpotDibgnostidMXBfbn;
+import dom.sun.tools.jdonsolf.JConsolfContfxt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.*;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.rmi.*;
+import jbvb.rmi.rfgistry.*;
+import jbvb.rmi.sfrvfr.*;
+import jbvb.util.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rfmotf.*;
+import jbvbx.mbnbgfmfnt.rfmotf.rmi.*;
+import jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory;
+import jbvbx.swing.fvfnt.SwingPropfrtyCibngfSupport;
+import sun.rmi.sfrvfr.UnidbstRff2;
+import sun.rmi.trbnsport.LivfRff;
 
-public class ProxyClient implements JConsoleContext {
+publid dlbss ProxyClifnt implfmfnts JConsolfContfxt {
 
-    private ConnectionState connectionState = ConnectionState.DISCONNECTED;
+    privbtf ConnfdtionStbtf donnfdtionStbtf = ConnfdtionStbtf.DISCONNECTED;
 
-    // The SwingPropertyChangeSupport will fire events on the EDT
-    private SwingPropertyChangeSupport propertyChangeSupport =
-                                new SwingPropertyChangeSupport(this, true);
+    // Tif SwingPropfrtyCibngfSupport will firf fvfnts on tif EDT
+    privbtf SwingPropfrtyCibngfSupport propfrtyCibngfSupport =
+                                nfw SwingPropfrtyCibngfSupport(tiis, truf);
 
-    private static Map<String, ProxyClient> cache =
-        Collections.synchronizedMap(new HashMap<String, ProxyClient>());
+    privbtf stbtid Mbp<String, ProxyClifnt> dbdif =
+        Collfdtions.syndironizfdMbp(nfw HbsiMbp<String, ProxyClifnt>());
 
-    private volatile boolean isDead = true;
-    private String hostName = null;
-    private int port = 0;
-    private String userName = null;
-    private String password = null;
-    private boolean hasPlatformMXBeans = false;
-    private boolean hasHotSpotDiagnosticMXBean= false;
-    private boolean hasCompilationMXBean = false;
-    private boolean supportsLockUsage = false;
+    privbtf volbtilf boolfbn isDfbd = truf;
+    privbtf String iostNbmf = null;
+    privbtf int port = 0;
+    privbtf String usfrNbmf = null;
+    privbtf String pbssword = null;
+    privbtf boolfbn ibsPlbtformMXBfbns = fblsf;
+    privbtf boolfbn ibsHotSpotDibgnostidMXBfbn= fblsf;
+    privbtf boolfbn ibsCompilbtionMXBfbn = fblsf;
+    privbtf boolfbn supportsLodkUsbgf = fblsf;
 
-    // REVISIT: VMPanel and other places relying using getUrl().
+    // REVISIT: VMPbnfl bnd otifr plbdfs rflying using gftUrl().
 
-    // set only if it's created for local monitoring
-    private LocalVirtualMachine lvm;
+    // sft only if it's drfbtfd for lodbl monitoring
+    privbtf LodblVirtublMbdiinf lvm;
 
-    // set only if it's created from a given URL via the Advanced tab
-    private String advancedUrl = null;
+    // sft only if it's drfbtfd from b givfn URL vib tif Advbndfd tbb
+    privbtf String bdvbndfdUrl = null;
 
-    private JMXServiceURL jmxUrl = null;
-    private MBeanServerConnection mbsc = null;
-    private SnapshotMBeanServerConnection server = null;
-    private JMXConnector jmxc = null;
-    private RMIServer stub = null;
-    private static final SslRMIClientSocketFactory sslRMIClientSocketFactory =
-            new SslRMIClientSocketFactory();
-    private String registryHostName = null;
-    private int registryPort = 0;
-    private boolean vmConnector = false;
-    private boolean sslRegistry = false;
-    private boolean sslStub = false;
-    final private String connectionName;
-    final private String displayName;
+    privbtf JMXSfrvidfURL jmxUrl = null;
+    privbtf MBfbnSfrvfrConnfdtion mbsd = null;
+    privbtf SnbpsiotMBfbnSfrvfrConnfdtion sfrvfr = null;
+    privbtf JMXConnfdtor jmxd = null;
+    privbtf RMISfrvfr stub = null;
+    privbtf stbtid finbl SslRMIClifntSodkftFbdtory sslRMIClifntSodkftFbdtory =
+            nfw SslRMIClifntSodkftFbdtory();
+    privbtf String rfgistryHostNbmf = null;
+    privbtf int rfgistryPort = 0;
+    privbtf boolfbn vmConnfdtor = fblsf;
+    privbtf boolfbn sslRfgistry = fblsf;
+    privbtf boolfbn sslStub = fblsf;
+    finbl privbtf String donnfdtionNbmf;
+    finbl privbtf String displbyNbmf;
 
-    private ClassLoadingMXBean    classLoadingMBean = null;
-    private CompilationMXBean     compilationMBean = null;
-    private MemoryMXBean          memoryMBean = null;
-    private OperatingSystemMXBean operatingSystemMBean = null;
-    private RuntimeMXBean         runtimeMBean = null;
-    private ThreadMXBean          threadMBean = null;
+    privbtf ClbssLobdingMXBfbn    dlbssLobdingMBfbn = null;
+    privbtf CompilbtionMXBfbn     dompilbtionMBfbn = null;
+    privbtf MfmoryMXBfbn          mfmoryMBfbn = null;
+    privbtf OpfrbtingSystfmMXBfbn opfrbtingSystfmMBfbn = null;
+    privbtf RuntimfMXBfbn         runtimfMBfbn = null;
+    privbtf TirfbdMXBfbn          tirfbdMBfbn = null;
 
-    private com.sun.management.OperatingSystemMXBean sunOperatingSystemMXBean = null;
-    private HotSpotDiagnosticMXBean                  hotspotDiagnosticMXBean = null;
+    privbtf dom.sun.mbnbgfmfnt.OpfrbtingSystfmMXBfbn sunOpfrbtingSystfmMXBfbn = null;
+    privbtf HotSpotDibgnostidMXBfbn                  iotspotDibgnostidMXBfbn = null;
 
-    private List<MemoryPoolProxy>           memoryPoolProxies = null;
-    private List<GarbageCollectorMXBean>    garbageCollectorMBeans = null;
+    privbtf List<MfmoryPoolProxy>           mfmoryPoolProxifs = null;
+    privbtf List<GbrbbgfCollfdtorMXBfbn>    gbrbbgfCollfdtorMBfbns = null;
 
-    final static private String HOTSPOT_DIAGNOSTIC_MXBEAN_NAME =
-        "com.sun.management:type=HotSpotDiagnostic";
+    finbl stbtid privbtf String HOTSPOT_DIAGNOSTIC_MXBEAN_NAME =
+        "dom.sun.mbnbgfmfnt:typf=HotSpotDibgnostid";
 
-    private ProxyClient(String hostName, int port,
-                        String userName, String password) throws IOException {
-        this.connectionName = getConnectionName(hostName, port, userName);
-        this.displayName = connectionName;
-        if (hostName.equals("localhost") && port == 0) {
-            // Monitor self
-            this.hostName = hostName;
-            this.port = port;
-        } else {
-            // Create an RMI connector client and connect it to
-            // the RMI connector server
-            final String urlPath = "/jndi/rmi://" + hostName + ":" + port +
+    privbtf ProxyClifnt(String iostNbmf, int port,
+                        String usfrNbmf, String pbssword) tirows IOExdfption {
+        tiis.donnfdtionNbmf = gftConnfdtionNbmf(iostNbmf, port, usfrNbmf);
+        tiis.displbyNbmf = donnfdtionNbmf;
+        if (iostNbmf.fqubls("lodbliost") && port == 0) {
+            // Monitor sflf
+            tiis.iostNbmf = iostNbmf;
+            tiis.port = port;
+        } flsf {
+            // Crfbtf bn RMI donnfdtor dlifnt bnd donnfdt it to
+            // tif RMI donnfdtor sfrvfr
+            finbl String urlPbti = "/jndi/rmi://" + iostNbmf + ":" + port +
                                    "/jmxrmi";
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            setParameters(url, userName, password);
-            vmConnector = true;
-            registryHostName = hostName;
-            registryPort = port;
-            checkSslConfig();
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", "", 0, urlPbti);
+            sftPbrbmftfrs(url, usfrNbmf, pbssword);
+            vmConnfdtor = truf;
+            rfgistryHostNbmf = iostNbmf;
+            rfgistryPort = port;
+            difdkSslConfig();
         }
     }
 
-    private ProxyClient(String url,
-                        String userName, String password) throws IOException {
-        this.advancedUrl = url;
-        this.connectionName = getConnectionName(url, userName);
-        this.displayName = connectionName;
-        setParameters(new JMXServiceURL(url), userName, password);
+    privbtf ProxyClifnt(String url,
+                        String usfrNbmf, String pbssword) tirows IOExdfption {
+        tiis.bdvbndfdUrl = url;
+        tiis.donnfdtionNbmf = gftConnfdtionNbmf(url, usfrNbmf);
+        tiis.displbyNbmf = donnfdtionNbmf;
+        sftPbrbmftfrs(nfw JMXSfrvidfURL(url), usfrNbmf, pbssword);
     }
 
-    private ProxyClient(LocalVirtualMachine lvm) throws IOException {
-        this.lvm = lvm;
-        this.connectionName = getConnectionName(lvm);
-        this.displayName = "pid: " + lvm.vmid() + " " + lvm.displayName();
+    privbtf ProxyClifnt(LodblVirtublMbdiinf lvm) tirows IOExdfption {
+        tiis.lvm = lvm;
+        tiis.donnfdtionNbmf = gftConnfdtionNbmf(lvm);
+        tiis.displbyNbmf = "pid: " + lvm.vmid() + " " + lvm.displbyNbmf();
     }
 
-    private void setParameters(JMXServiceURL url, String userName, String password) {
-        this.jmxUrl = url;
-        this.hostName = jmxUrl.getHost();
-        this.port = jmxUrl.getPort();
-        this.userName = userName;
-        this.password = password;
+    privbtf void sftPbrbmftfrs(JMXSfrvidfURL url, String usfrNbmf, String pbssword) {
+        tiis.jmxUrl = url;
+        tiis.iostNbmf = jmxUrl.gftHost();
+        tiis.port = jmxUrl.gftPort();
+        tiis.usfrNbmf = usfrNbmf;
+        tiis.pbssword = pbssword;
     }
 
-    private static void checkStub(Remote stub,
-                                  Class<? extends Remote> stubClass) {
-        // Check remote stub is from the expected class.
+    privbtf stbtid void difdkStub(Rfmotf stub,
+                                  Clbss<? fxtfnds Rfmotf> stubClbss) {
+        // Cifdk rfmotf stub is from tif fxpfdtfd dlbss.
         //
-        if (stub.getClass() != stubClass) {
-            if (!Proxy.isProxyClass(stub.getClass())) {
-                throw new SecurityException(
-                    "Expecting a " + stubClass.getName() + " stub!");
-            } else {
-                InvocationHandler handler = Proxy.getInvocationHandler(stub);
-                if (handler.getClass() != RemoteObjectInvocationHandler.class) {
-                    throw new SecurityException(
-                        "Expecting a dynamic proxy instance with a " +
-                        RemoteObjectInvocationHandler.class.getName() +
-                        " invocation handler!");
-                } else {
-                    stub = (Remote) handler;
+        if (stub.gftClbss() != stubClbss) {
+            if (!Proxy.isProxyClbss(stub.gftClbss())) {
+                tirow nfw SfdurityExdfption(
+                    "Expfdting b " + stubClbss.gftNbmf() + " stub!");
+            } flsf {
+                InvodbtionHbndlfr ibndlfr = Proxy.gftInvodbtionHbndlfr(stub);
+                if (ibndlfr.gftClbss() != RfmotfObjfdtInvodbtionHbndlfr.dlbss) {
+                    tirow nfw SfdurityExdfption(
+                        "Expfdting b dynbmid proxy instbndf witi b " +
+                        RfmotfObjfdtInvodbtionHbndlfr.dlbss.gftNbmf() +
+                        " invodbtion ibndlfr!");
+                } flsf {
+                    stub = (Rfmotf) ibndlfr;
                 }
             }
         }
-        // Check RemoteRef in stub is from the expected class
-        // "sun.rmi.server.UnicastRef2".
+        // Cifdk RfmotfRff in stub is from tif fxpfdtfd dlbss
+        // "sun.rmi.sfrvfr.UnidbstRff2".
         //
-        RemoteRef ref = ((RemoteObject)stub).getRef();
-        if (ref.getClass() != UnicastRef2.class) {
-            throw new SecurityException(
-                "Expecting a " + UnicastRef2.class.getName() +
-                " remote reference in stub!");
+        RfmotfRff rff = ((RfmotfObjfdt)stub).gftRff();
+        if (rff.gftClbss() != UnidbstRff2.dlbss) {
+            tirow nfw SfdurityExdfption(
+                "Expfdting b " + UnidbstRff2.dlbss.gftNbmf() +
+                " rfmotf rfffrfndf in stub!");
         }
-        // Check RMIClientSocketFactory in stub is from the expected class
-        // "javax.rmi.ssl.SslRMIClientSocketFactory".
+        // Cifdk RMIClifntSodkftFbdtory in stub is from tif fxpfdtfd dlbss
+        // "jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory".
         //
-        LiveRef liveRef = ((UnicastRef2)ref).getLiveRef();
-        RMIClientSocketFactory csf = liveRef.getClientSocketFactory();
-        if (csf == null || csf.getClass() != SslRMIClientSocketFactory.class) {
-            throw new SecurityException(
-                "Expecting a " + SslRMIClientSocketFactory.class.getName() +
-                " RMI client socket factory in stub!");
+        LivfRff livfRff = ((UnidbstRff2)rff).gftLivfRff();
+        RMIClifntSodkftFbdtory dsf = livfRff.gftClifntSodkftFbdtory();
+        if (dsf == null || dsf.gftClbss() != SslRMIClifntSodkftFbdtory.dlbss) {
+            tirow nfw SfdurityExdfption(
+                "Expfdting b " + SslRMIClifntSodkftFbdtory.dlbss.gftNbmf() +
+                " RMI dlifnt sodkft fbdtory in stub!");
         }
     }
 
-    private static final String rmiServerImplStubClassName =
-        "javax.management.remote.rmi.RMIServerImpl_Stub";
-    private static final Class<? extends Remote> rmiServerImplStubClass;
+    privbtf stbtid finbl String rmiSfrvfrImplStubClbssNbmf =
+        "jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl_Stub";
+    privbtf stbtid finbl Clbss<? fxtfnds Rfmotf> rmiSfrvfrImplStubClbss;
 
-    static {
-        // FIXME: RMIServerImpl_Stub is generated at build time
-        // after jconsole is built.  We need to investigate if
-        // the Makefile can be fixed to build jconsole in the
-        // right order.  As a workaround for now, we dynamically
-        // load RMIServerImpl_Stub class instead of statically
-        // referencing it.
-        Class<? extends Remote> serverStubClass = null;
+    stbtid {
+        // FIXME: RMISfrvfrImpl_Stub is gfnfrbtfd bt build timf
+        // bftfr jdonsolf is built.  Wf nffd to invfstigbtf if
+        // tif Mbkffilf dbn bf fixfd to build jdonsolf in tif
+        // rigit ordfr.  As b workbround for now, wf dynbmidblly
+        // lobd RMISfrvfrImpl_Stub dlbss instfbd of stbtidblly
+        // rfffrfnding it.
+        Clbss<? fxtfnds Rfmotf> sfrvfrStubClbss = null;
         try {
-            serverStubClass = Class.forName(rmiServerImplStubClassName).asSubclass(Remote.class);
-        } catch (ClassNotFoundException e) {
-            // should never reach here
-            throw new InternalError(e.getMessage(), e);
+            sfrvfrStubClbss = Clbss.forNbmf(rmiSfrvfrImplStubClbssNbmf).bsSubdlbss(Rfmotf.dlbss);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            // siould nfvfr rfbdi ifrf
+            tirow nfw IntfrnblError(f.gftMfssbgf(), f);
         }
-        rmiServerImplStubClass = serverStubClass;
+        rmiSfrvfrImplStubClbss = sfrvfrStubClbss;
     }
 
-    private void checkSslConfig() throws IOException {
-        // Get the reference to the RMI Registry and lookup RMIServer stub
+    privbtf void difdkSslConfig() tirows IOExdfption {
+        // Gft tif rfffrfndf to tif RMI Rfgistry bnd lookup RMISfrvfr stub
         //
-        Registry registry;
+        Rfgistry rfgistry;
         try {
-            registry =
-                LocateRegistry.getRegistry(registryHostName, registryPort,
-                                           sslRMIClientSocketFactory);
+            rfgistry =
+                LodbtfRfgistry.gftRfgistry(rfgistryHostNbmf, rfgistryPort,
+                                           sslRMIClifntSodkftFbdtory);
             try {
-                stub = (RMIServer) registry.lookup("jmxrmi");
-            } catch (NotBoundException nbe) {
-                throw (IOException)
-                    new IOException(nbe.getMessage()).initCause(nbe);
+                stub = (RMISfrvfr) rfgistry.lookup("jmxrmi");
+            } dbtdi (NotBoundExdfption nbf) {
+                tirow (IOExdfption)
+                    nfw IOExdfption(nbf.gftMfssbgf()).initCbusf(nbf);
             }
-            sslRegistry = true;
-        } catch (IOException e) {
-            registry =
-                LocateRegistry.getRegistry(registryHostName, registryPort);
+            sslRfgistry = truf;
+        } dbtdi (IOExdfption f) {
+            rfgistry =
+                LodbtfRfgistry.gftRfgistry(rfgistryHostNbmf, rfgistryPort);
             try {
-                stub = (RMIServer) registry.lookup("jmxrmi");
-            } catch (NotBoundException nbe) {
-                throw (IOException)
-                    new IOException(nbe.getMessage()).initCause(nbe);
+                stub = (RMISfrvfr) rfgistry.lookup("jmxrmi");
+            } dbtdi (NotBoundExdfption nbf) {
+                tirow (IOExdfption)
+                    nfw IOExdfption(nbf.gftMfssbgf()).initCbusf(nbf);
             }
-            sslRegistry = false;
+            sslRfgistry = fblsf;
         }
-        // Perform the checks for secure stub
+        // Pfrform tif difdks for sfdurf stub
         //
         try {
-            checkStub(stub, rmiServerImplStubClass);
-            sslStub = true;
-        } catch (SecurityException e) {
-            sslStub = false;
+            difdkStub(stub, rmiSfrvfrImplStubClbss);
+            sslStub = truf;
+        } dbtdi (SfdurityExdfption f) {
+            sslStub = fblsf;
         }
     }
 
     /**
-     * Returns true if the underlying RMI registry is SSL-protected.
+     * Rfturns truf if tif undfrlying RMI rfgistry is SSL-protfdtfd.
      *
-     * @exception UnsupportedOperationException If this {@code ProxyClient}
-     * does not denote a JMX connector for a JMX VM agent.
+     * @fxdfption UnsupportfdOpfrbtionExdfption If tiis {@dodf ProxyClifnt}
+     * dofs not dfnotf b JMX donnfdtor for b JMX VM bgfnt.
      */
-    public boolean isSslRmiRegistry() {
-        // Check for VM connector
+    publid boolfbn isSslRmiRfgistry() {
+        // Cifdk for VM donnfdtor
         //
-        if (!isVmConnector()) {
-            throw new UnsupportedOperationException(
-                "ProxyClient.isSslRmiRegistry() is only supported if this " +
-                "ProxyClient is a JMX connector for a JMX VM agent");
+        if (!isVmConnfdtor()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "ProxyClifnt.isSslRmiRfgistry() is only supportfd if tiis " +
+                "ProxyClifnt is b JMX donnfdtor for b JMX VM bgfnt");
         }
-        return sslRegistry;
+        rfturn sslRfgistry;
     }
 
     /**
-     * Returns true if the retrieved RMI stub is SSL-protected.
+     * Rfturns truf if tif rftrifvfd RMI stub is SSL-protfdtfd.
      *
-     * @exception UnsupportedOperationException If this {@code ProxyClient}
-     * does not denote a JMX connector for a JMX VM agent.
+     * @fxdfption UnsupportfdOpfrbtionExdfption If tiis {@dodf ProxyClifnt}
+     * dofs not dfnotf b JMX donnfdtor for b JMX VM bgfnt.
      */
-    public boolean isSslRmiStub() {
-        // Check for VM connector
+    publid boolfbn isSslRmiStub() {
+        // Cifdk for VM donnfdtor
         //
-        if (!isVmConnector()) {
-            throw new UnsupportedOperationException(
-                "ProxyClient.isSslRmiStub() is only supported if this " +
-                "ProxyClient is a JMX connector for a JMX VM agent");
+        if (!isVmConnfdtor()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "ProxyClifnt.isSslRmiStub() is only supportfd if tiis " +
+                "ProxyClifnt is b JMX donnfdtor for b JMX VM bgfnt");
         }
-        return sslStub;
+        rfturn sslStub;
     }
 
     /**
-     * Returns true if this {@code ProxyClient} denotes
-     * a JMX connector for a JMX VM agent.
+     * Rfturns truf if tiis {@dodf ProxyClifnt} dfnotfs
+     * b JMX donnfdtor for b JMX VM bgfnt.
      */
-    public boolean isVmConnector() {
-        return vmConnector;
+    publid boolfbn isVmConnfdtor() {
+        rfturn vmConnfdtor;
     }
 
-    private void setConnectionState(ConnectionState state) {
-        ConnectionState oldState = this.connectionState;
-        this.connectionState = state;
-        propertyChangeSupport.firePropertyChange(CONNECTION_STATE_PROPERTY,
-                                                 oldState, state);
+    privbtf void sftConnfdtionStbtf(ConnfdtionStbtf stbtf) {
+        ConnfdtionStbtf oldStbtf = tiis.donnfdtionStbtf;
+        tiis.donnfdtionStbtf = stbtf;
+        propfrtyCibngfSupport.firfPropfrtyCibngf(CONNECTION_STATE_PROPERTY,
+                                                 oldStbtf, stbtf);
     }
 
-    public ConnectionState getConnectionState() {
-        return this.connectionState;
+    publid ConnfdtionStbtf gftConnfdtionStbtf() {
+        rfturn tiis.donnfdtionStbtf;
     }
 
-    void flush() {
-        if (server != null) {
-            server.flush();
+    void flusi() {
+        if (sfrvfr != null) {
+            sfrvfr.flusi();
         }
     }
 
-    void connect(boolean requireSSL) {
-        setConnectionState(ConnectionState.CONNECTING);
+    void donnfdt(boolfbn rfquirfSSL) {
+        sftConnfdtionStbtf(ConnfdtionStbtf.CONNECTING);
         try {
-            tryConnect(requireSSL);
-            setConnectionState(ConnectionState.CONNECTED);
-        } catch (Exception e) {
-            if (JConsole.isDebug()) {
-                e.printStackTrace();
+            tryConnfdt(rfquirfSSL);
+            sftConnfdtionStbtf(ConnfdtionStbtf.CONNECTED);
+        } dbtdi (Exdfption f) {
+            if (JConsolf.isDfbug()) {
+                f.printStbdkTrbdf();
             }
-            setConnectionState(ConnectionState.DISCONNECTED);
+            sftConnfdtionStbtf(ConnfdtionStbtf.DISCONNECTED);
         }
     }
 
-    private void tryConnect(boolean requireRemoteSSL) throws IOException {
-        if (jmxUrl == null && "localhost".equals(hostName) && port == 0) {
-            // Monitor self
-            this.jmxc = null;
-            this.mbsc = ManagementFactory.getPlatformMBeanServer();
-            this.server = Snapshot.newSnapshot(mbsc);
-        } else {
-            // Monitor another process
+    privbtf void tryConnfdt(boolfbn rfquirfRfmotfSSL) tirows IOExdfption {
+        if (jmxUrl == null && "lodbliost".fqubls(iostNbmf) && port == 0) {
+            // Monitor sflf
+            tiis.jmxd = null;
+            tiis.mbsd = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+            tiis.sfrvfr = Snbpsiot.nfwSnbpsiot(mbsd);
+        } flsf {
+            // Monitor bnotifr prodfss
             if (lvm != null) {
-                if (!lvm.isManageable()) {
-                    lvm.startManagementAgent();
-                    if (!lvm.isManageable()) {
-                        // FIXME: what to throw
-                        throw new IOException(lvm + "not manageable");
+                if (!lvm.isMbnbgfbblf()) {
+                    lvm.stbrtMbnbgfmfntAgfnt();
+                    if (!lvm.isMbnbgfbblf()) {
+                        // FIXME: wibt to tirow
+                        tirow nfw IOExdfption(lvm + "not mbnbgfbblf");
                     }
                 }
-                if (this.jmxUrl == null) {
-                    this.jmxUrl = new JMXServiceURL(lvm.connectorAddress());
+                if (tiis.jmxUrl == null) {
+                    tiis.jmxUrl = nfw JMXSfrvidfURL(lvm.donnfdtorAddrfss());
                 }
             }
-            Map<String, Object> env = new HashMap<String, Object>();
-            if (requireRemoteSSL) {
-                env.put("jmx.remote.x.check.stub", "true");
+            Mbp<String, Objfdt> fnv = nfw HbsiMbp<String, Objfdt>();
+            if (rfquirfRfmotfSSL) {
+                fnv.put("jmx.rfmotf.x.difdk.stub", "truf");
             }
-            // Need to pass in credentials ?
-            if (userName == null && password == null) {
-                if (isVmConnector()) {
-                    // Check for SSL config on reconnection only
+            // Nffd to pbss in drfdfntibls ?
+            if (usfrNbmf == null && pbssword == null) {
+                if (isVmConnfdtor()) {
+                    // Cifdk for SSL donfig on rfdonnfdtion only
                     if (stub == null) {
-                        checkSslConfig();
+                        difdkSslConfig();
                     }
-                    this.jmxc = new RMIConnector(stub, null);
-                    jmxc.connect(env);
-                } else {
-                    this.jmxc = JMXConnectorFactory.connect(jmxUrl, env);
+                    tiis.jmxd = nfw RMIConnfdtor(stub, null);
+                    jmxd.donnfdt(fnv);
+                } flsf {
+                    tiis.jmxd = JMXConnfdtorFbdtory.donnfdt(jmxUrl, fnv);
                 }
-            } else {
-                env.put(JMXConnector.CREDENTIALS,
-                        new String[] {userName, password});
-                if (isVmConnector()) {
-                    // Check for SSL config on reconnection only
+            } flsf {
+                fnv.put(JMXConnfdtor.CREDENTIALS,
+                        nfw String[] {usfrNbmf, pbssword});
+                if (isVmConnfdtor()) {
+                    // Cifdk for SSL donfig on rfdonnfdtion only
                     if (stub == null) {
-                        checkSslConfig();
+                        difdkSslConfig();
                     }
-                    this.jmxc = new RMIConnector(stub, null);
-                    jmxc.connect(env);
-                } else {
-                    this.jmxc = JMXConnectorFactory.connect(jmxUrl, env);
+                    tiis.jmxd = nfw RMIConnfdtor(stub, null);
+                    jmxd.donnfdt(fnv);
+                } flsf {
+                    tiis.jmxd = JMXConnfdtorFbdtory.donnfdt(jmxUrl, fnv);
                 }
             }
-            this.mbsc = jmxc.getMBeanServerConnection();
-            this.server = Snapshot.newSnapshot(mbsc);
+            tiis.mbsd = jmxd.gftMBfbnSfrvfrConnfdtion();
+            tiis.sfrvfr = Snbpsiot.nfwSnbpsiot(mbsd);
         }
-        this.isDead = false;
+        tiis.isDfbd = fblsf;
 
         try {
-            ObjectName on = new ObjectName(THREAD_MXBEAN_NAME);
-            this.hasPlatformMXBeans = server.isRegistered(on);
-            this.hasHotSpotDiagnosticMXBean =
-                server.isRegistered(new ObjectName(HOTSPOT_DIAGNOSTIC_MXBEAN_NAME));
-            // check if it has 6.0 new APIs
-            if (this.hasPlatformMXBeans) {
-                MBeanOperationInfo[] mopis = server.getMBeanInfo(on).getOperations();
-                // look for findDeadlockedThreads operations;
-                for (MBeanOperationInfo op : mopis) {
-                    if (op.getName().equals("findDeadlockedThreads")) {
-                        this.supportsLockUsage = true;
-                        break;
+            ObjfdtNbmf on = nfw ObjfdtNbmf(THREAD_MXBEAN_NAME);
+            tiis.ibsPlbtformMXBfbns = sfrvfr.isRfgistfrfd(on);
+            tiis.ibsHotSpotDibgnostidMXBfbn =
+                sfrvfr.isRfgistfrfd(nfw ObjfdtNbmf(HOTSPOT_DIAGNOSTIC_MXBEAN_NAME));
+            // difdk if it ibs 6.0 nfw APIs
+            if (tiis.ibsPlbtformMXBfbns) {
+                MBfbnOpfrbtionInfo[] mopis = sfrvfr.gftMBfbnInfo(on).gftOpfrbtions();
+                // look for findDfbdlodkfdTirfbds opfrbtions;
+                for (MBfbnOpfrbtionInfo op : mopis) {
+                    if (op.gftNbmf().fqubls("findDfbdlodkfdTirfbds")) {
+                        tiis.supportsLodkUsbgf = truf;
+                        brfbk;
                     }
                 }
 
-                on = new ObjectName(COMPILATION_MXBEAN_NAME);
-                this.hasCompilationMXBean = server.isRegistered(on);
+                on = nfw ObjfdtNbmf(COMPILATION_MXBEAN_NAME);
+                tiis.ibsCompilbtionMXBfbn = sfrvfr.isRfgistfrfd(on);
             }
-        } catch (MalformedObjectNameException e) {
-            // should not reach here
-            throw new InternalError(e.getMessage());
-        } catch (IntrospectionException |
-                 InstanceNotFoundException |
-                 ReflectionException e) {
-            throw new InternalError(e.getMessage(), e);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            // siould not rfbdi ifrf
+            tirow nfw IntfrnblError(f.gftMfssbgf());
+        } dbtdi (IntrospfdtionExdfption |
+                 InstbndfNotFoundExdfption |
+                 RfflfdtionExdfption f) {
+            tirow nfw IntfrnblError(f.gftMfssbgf(), f);
         }
 
-        if (hasPlatformMXBeans) {
+        if (ibsPlbtformMXBfbns) {
             // WORKAROUND for bug 5056632
-            // Check if the access role is correct by getting a RuntimeMXBean
-            getRuntimeMXBean();
+            // Cifdk if tif bddfss rolf is dorrfdt by gftting b RuntimfMXBfbn
+            gftRuntimfMXBfbn();
         }
     }
 
     /**
-     * Gets a proxy client for a given local virtual machine.
+     * Gfts b proxy dlifnt for b givfn lodbl virtubl mbdiinf.
      */
-    public static ProxyClient getProxyClient(LocalVirtualMachine lvm)
-        throws IOException {
-        final String key = getCacheKey(lvm);
-        ProxyClient proxyClient = cache.get(key);
-        if (proxyClient == null) {
-            proxyClient = new ProxyClient(lvm);
-            cache.put(key, proxyClient);
+    publid stbtid ProxyClifnt gftProxyClifnt(LodblVirtublMbdiinf lvm)
+        tirows IOExdfption {
+        finbl String kfy = gftCbdifKfy(lvm);
+        ProxyClifnt proxyClifnt = dbdif.gft(kfy);
+        if (proxyClifnt == null) {
+            proxyClifnt = nfw ProxyClifnt(lvm);
+            dbdif.put(kfy, proxyClifnt);
         }
-        return proxyClient;
+        rfturn proxyClifnt;
     }
 
-    public static String getConnectionName(LocalVirtualMachine lvm) {
-        return Integer.toString(lvm.vmid());
+    publid stbtid String gftConnfdtionNbmf(LodblVirtublMbdiinf lvm) {
+        rfturn Intfgfr.toString(lvm.vmid());
     }
 
-    private static String getCacheKey(LocalVirtualMachine lvm) {
-        return Integer.toString(lvm.vmid());
+    privbtf stbtid String gftCbdifKfy(LodblVirtublMbdiinf lvm) {
+        rfturn Intfgfr.toString(lvm.vmid());
     }
 
     /**
-     * Gets a proxy client for a given JMXServiceURL.
+     * Gfts b proxy dlifnt for b givfn JMXSfrvidfURL.
      */
-    public static ProxyClient getProxyClient(String url,
-                                             String userName, String password)
-        throws IOException {
-        final String key = getCacheKey(url, userName, password);
-        ProxyClient proxyClient = cache.get(key);
-        if (proxyClient == null) {
-            proxyClient = new ProxyClient(url, userName, password);
-            cache.put(key, proxyClient);
+    publid stbtid ProxyClifnt gftProxyClifnt(String url,
+                                             String usfrNbmf, String pbssword)
+        tirows IOExdfption {
+        finbl String kfy = gftCbdifKfy(url, usfrNbmf, pbssword);
+        ProxyClifnt proxyClifnt = dbdif.gft(kfy);
+        if (proxyClifnt == null) {
+            proxyClifnt = nfw ProxyClifnt(url, usfrNbmf, pbssword);
+            dbdif.put(kfy, proxyClifnt);
         }
-        return proxyClient;
+        rfturn proxyClifnt;
     }
 
-    public static String getConnectionName(String url,
-                                           String userName) {
-        if (userName != null && userName.length() > 0) {
-            return userName + "@" + url;
-        } else {
-            return url;
+    publid stbtid String gftConnfdtionNbmf(String url,
+                                           String usfrNbmf) {
+        if (usfrNbmf != null && usfrNbmf.lfngti() > 0) {
+            rfturn usfrNbmf + "@" + url;
+        } flsf {
+            rfturn url;
         }
     }
 
-    private static String getCacheKey(String url,
-                                      String userName, String password) {
-        return (url == null ? "" : url) + ":" +
-               (userName == null ? "" : userName) + ":" +
-               (password == null ? "" : password);
+    privbtf stbtid String gftCbdifKfy(String url,
+                                      String usfrNbmf, String pbssword) {
+        rfturn (url == null ? "" : url) + ":" +
+               (usfrNbmf == null ? "" : usfrNbmf) + ":" +
+               (pbssword == null ? "" : pbssword);
     }
 
     /**
-     * Gets a proxy client for a given "hostname:port".
+     * Gfts b proxy dlifnt for b givfn "iostnbmf:port".
      */
-    public static ProxyClient getProxyClient(String hostName, int port,
-                                             String userName, String password)
-        throws IOException {
-        final String key = getCacheKey(hostName, port, userName, password);
-        ProxyClient proxyClient = cache.get(key);
-        if (proxyClient == null) {
-            proxyClient = new ProxyClient(hostName, port, userName, password);
-            cache.put(key, proxyClient);
+    publid stbtid ProxyClifnt gftProxyClifnt(String iostNbmf, int port,
+                                             String usfrNbmf, String pbssword)
+        tirows IOExdfption {
+        finbl String kfy = gftCbdifKfy(iostNbmf, port, usfrNbmf, pbssword);
+        ProxyClifnt proxyClifnt = dbdif.gft(kfy);
+        if (proxyClifnt == null) {
+            proxyClifnt = nfw ProxyClifnt(iostNbmf, port, usfrNbmf, pbssword);
+            dbdif.put(kfy, proxyClifnt);
         }
-        return proxyClient;
+        rfturn proxyClifnt;
     }
 
-    public static String getConnectionName(String hostName, int port,
-                                           String userName) {
-        String name = hostName + ":" + port;
-        if (userName != null && userName.length() > 0) {
-            return userName + "@" + name;
-        } else {
-            return name;
+    publid stbtid String gftConnfdtionNbmf(String iostNbmf, int port,
+                                           String usfrNbmf) {
+        String nbmf = iostNbmf + ":" + port;
+        if (usfrNbmf != null && usfrNbmf.lfngti() > 0) {
+            rfturn usfrNbmf + "@" + nbmf;
+        } flsf {
+            rfturn nbmf;
         }
     }
 
-    private static String getCacheKey(String hostName, int port,
-                                      String userName, String password) {
-        return (hostName == null ? "" : hostName) + ":" +
+    privbtf stbtid String gftCbdifKfy(String iostNbmf, int port,
+                                      String usfrNbmf, String pbssword) {
+        rfturn (iostNbmf == null ? "" : iostNbmf) + ":" +
                port + ":" +
-               (userName == null ? "" : userName) + ":" +
-               (password == null ? "" : password);
+               (usfrNbmf == null ? "" : usfrNbmf) + ":" +
+               (pbssword == null ? "" : pbssword);
     }
 
-    public String connectionName() {
-        return connectionName;
+    publid String donnfdtionNbmf() {
+        rfturn donnfdtionNbmf;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    publid String gftDisplbyNbmf() {
+        rfturn displbyNbmf;
     }
 
-    public String toString() {
-        if (!isConnected()) {
-            return Resources.format(Messages.CONNECTION_NAME__DISCONNECTED_, displayName);
-        } else {
-            return displayName;
+    publid String toString() {
+        if (!isConnfdtfd()) {
+            rfturn Rfsourdfs.formbt(Mfssbgfs.CONNECTION_NAME__DISCONNECTED_, displbyNbmf);
+        } flsf {
+            rfturn displbyNbmf;
         }
     }
 
-   public MBeanServerConnection getMBeanServerConnection() {
-       return mbsc;
+   publid MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion() {
+       rfturn mbsd;
    }
 
-    public SnapshotMBeanServerConnection getSnapshotMBeanServerConnection() {
-        return server;
+    publid SnbpsiotMBfbnSfrvfrConnfdtion gftSnbpsiotMBfbnSfrvfrConnfdtion() {
+        rfturn sfrvfr;
     }
 
-    public String getUrl() {
-        return advancedUrl;
+    publid String gftUrl() {
+        rfturn bdvbndfdUrl;
     }
 
-    public String getHostName() {
-        return hostName;
+    publid String gftHostNbmf() {
+        rfturn iostNbmf;
     }
 
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
-    public int getVmid() {
-        return (lvm != null) ? lvm.vmid() : 0;
+    publid int gftVmid() {
+        rfturn (lvm != null) ? lvm.vmid() : 0;
     }
 
-    public String getUserName() {
-        return userName;
+    publid String gftUsfrNbmf() {
+        rfturn usfrNbmf;
     }
 
-    public String getPassword() {
-        return password;
+    publid String gftPbssword() {
+        rfturn pbssword;
     }
 
-    public void disconnect() {
-        // Reset remote stub
+    publid void disdonnfdt() {
+        // Rfsft rfmotf stub
         stub = null;
-        // Close MBeanServer connection
-        if (jmxc != null) {
+        // Closf MBfbnSfrvfr donnfdtion
+        if (jmxd != null) {
             try {
-                jmxc.close();
-            } catch (IOException e) {
-                // Ignore ???
+                jmxd.dlosf();
+            } dbtdi (IOExdfption f) {
+                // Ignorf ???
             }
         }
-        // Reset platform MBean references
-        classLoadingMBean = null;
-        compilationMBean = null;
-        memoryMBean = null;
-        operatingSystemMBean = null;
-        runtimeMBean = null;
-        threadMBean = null;
-        sunOperatingSystemMXBean = null;
-        garbageCollectorMBeans = null;
-        // Set connection state to DISCONNECTED
-        if (!isDead) {
-            isDead = true;
-            setConnectionState(ConnectionState.DISCONNECTED);
+        // Rfsft plbtform MBfbn rfffrfndfs
+        dlbssLobdingMBfbn = null;
+        dompilbtionMBfbn = null;
+        mfmoryMBfbn = null;
+        opfrbtingSystfmMBfbn = null;
+        runtimfMBfbn = null;
+        tirfbdMBfbn = null;
+        sunOpfrbtingSystfmMXBfbn = null;
+        gbrbbgfCollfdtorMBfbns = null;
+        // Sft donnfdtion stbtf to DISCONNECTED
+        if (!isDfbd) {
+            isDfbd = truf;
+            sftConnfdtionStbtf(ConnfdtionStbtf.DISCONNECTED);
         }
     }
 
     /**
-     * Returns the list of domains in which any MBean is
-     * currently registered.
+     * Rfturns tif list of dombins in wiidi bny MBfbn is
+     * durrfntly rfgistfrfd.
      */
-    public String[] getDomains() throws IOException {
-        return server.getDomains();
+    publid String[] gftDombins() tirows IOExdfption {
+        rfturn sfrvfr.gftDombins();
     }
 
     /**
-     * Returns a map of MBeans with ObjectName as the key and MBeanInfo value
-     * of a given domain.  If domain is <tt>null</tt>, all MBeans
-     * are returned.  If no MBean found, an empty map is returned.
+     * Rfturns b mbp of MBfbns witi ObjfdtNbmf bs tif kfy bnd MBfbnInfo vbluf
+     * of b givfn dombin.  If dombin is <tt>null</tt>, bll MBfbns
+     * brf rfturnfd.  If no MBfbn found, bn fmpty mbp is rfturnfd.
      *
      */
-    public Map<ObjectName, MBeanInfo> getMBeans(String domain)
-        throws IOException {
+    publid Mbp<ObjfdtNbmf, MBfbnInfo> gftMBfbns(String dombin)
+        tirows IOExdfption {
 
-        ObjectName name = null;
-        if (domain != null) {
+        ObjfdtNbmf nbmf = null;
+        if (dombin != null) {
             try {
-                name = new ObjectName(domain + ":*");
-            } catch (MalformedObjectNameException e) {
-                // should not reach here
-                assert(false);
+                nbmf = nfw ObjfdtNbmf(dombin + ":*");
+            } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+                // siould not rfbdi ifrf
+                bssfrt(fblsf);
             }
         }
-        Set<ObjectName> mbeans = server.queryNames(name, null);
-        Map<ObjectName,MBeanInfo> result =
-            new HashMap<ObjectName,MBeanInfo>(mbeans.size());
-        Iterator<ObjectName> iterator = mbeans.iterator();
-        while (iterator.hasNext()) {
-            Object object = iterator.next();
-            if (object instanceof ObjectName) {
-                ObjectName o = (ObjectName)object;
+        Sft<ObjfdtNbmf> mbfbns = sfrvfr.qufryNbmfs(nbmf, null);
+        Mbp<ObjfdtNbmf,MBfbnInfo> rfsult =
+            nfw HbsiMbp<ObjfdtNbmf,MBfbnInfo>(mbfbns.sizf());
+        Itfrbtor<ObjfdtNbmf> itfrbtor = mbfbns.itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            Objfdt objfdt = itfrbtor.nfxt();
+            if (objfdt instbndfof ObjfdtNbmf) {
+                ObjfdtNbmf o = (ObjfdtNbmf)objfdt;
                 try {
-                    MBeanInfo info = server.getMBeanInfo(o);
-                    result.put(o, info);
-                } catch (IntrospectionException e) {
-                    // TODO: should log the error
-                } catch (InstanceNotFoundException e) {
-                    // TODO: should log the error
-                } catch (ReflectionException e) {
-                    // TODO: should log the error
+                    MBfbnInfo info = sfrvfr.gftMBfbnInfo(o);
+                    rfsult.put(o, info);
+                } dbtdi (IntrospfdtionExdfption f) {
+                    // TODO: siould log tif frror
+                } dbtdi (InstbndfNotFoundExdfption f) {
+                    // TODO: siould log tif frror
+                } dbtdi (RfflfdtionExdfption f) {
+                    // TODO: siould log tif frror
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a list of attributes of a named MBean.
+     * Rfturns b list of bttributfs of b nbmfd MBfbn.
      *
      */
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-        throws IOException {
-        AttributeList list = null;
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf, String[] bttributfs)
+        tirows IOExdfption {
+        AttributfList list = null;
         try {
-            list = server.getAttributes(name, attributes);
-        } catch (InstanceNotFoundException e) {
-            // TODO: A MBean may have been unregistered.
-            // need to set up listener to listen for MBeanServerNotification.
-        } catch (ReflectionException e) {
-            // TODO: should log the error
+            list = sfrvfr.gftAttributfs(nbmf, bttributfs);
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            // TODO: A MBfbn mby ibvf bffn unrfgistfrfd.
+            // nffd to sft up listfnfr to listfn for MBfbnSfrvfrNotifidbtion.
+        } dbtdi (RfflfdtionExdfption f) {
+            // TODO: siould log tif frror
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Set the value of a specific attribute of a named MBean.
+     * Sft tif vbluf of b spfdifid bttributf of b nbmfd MBfbn.
      */
-    public void setAttribute(ObjectName name, Attribute attribute)
-        throws InvalidAttributeValueException,
-               MBeanException,
-               IOException {
+    publid void sftAttributf(ObjfdtNbmf nbmf, Attributf bttributf)
+        tirows InvblidAttributfVblufExdfption,
+               MBfbnExdfption,
+               IOExdfption {
         try {
-            server.setAttribute(name, attribute);
-        } catch (InstanceNotFoundException e) {
-            // TODO: A MBean may have been unregistered.
-        } catch (AttributeNotFoundException e) {
-            assert(false);
-        } catch (ReflectionException e) {
-            // TODO: should log the error
+            sfrvfr.sftAttributf(nbmf, bttributf);
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            // TODO: A MBfbn mby ibvf bffn unrfgistfrfd.
+        } dbtdi (AttributfNotFoundExdfption f) {
+            bssfrt(fblsf);
+        } dbtdi (RfflfdtionExdfption f) {
+            // TODO: siould log tif frror
         }
     }
 
     /**
-     * Invokes an operation of a named MBean.
+     * Invokfs bn opfrbtion of b nbmfd MBfbn.
      *
-     * @throws MBeanException Wraps an exception thrown by
-     *      the MBean's invoked method.
+     * @tirows MBfbnExdfption Wrbps bn fxdfption tirown by
+     *      tif MBfbn's invokfd mftiod.
      */
-    public Object invoke(ObjectName name, String operationName,
-                         Object[] params, String[] signature)
-        throws IOException, MBeanException {
-        Object result = null;
+    publid Objfdt invokf(ObjfdtNbmf nbmf, String opfrbtionNbmf,
+                         Objfdt[] pbrbms, String[] signbturf)
+        tirows IOExdfption, MBfbnExdfption {
+        Objfdt rfsult = null;
         try {
-            result = server.invoke(name, operationName, params, signature);
-        } catch (InstanceNotFoundException e) {
-            // TODO: A MBean may have been unregistered.
-        } catch (ReflectionException e) {
-            // TODO: should log the error
+            rfsult = sfrvfr.invokf(nbmf, opfrbtionNbmf, pbrbms, signbturf);
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            // TODO: A MBfbn mby ibvf bffn unrfgistfrfd.
+        } dbtdi (RfflfdtionExdfption f) {
+            // TODO: siould log tif frror
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public synchronized ClassLoadingMXBean getClassLoadingMXBean() throws IOException {
-        if (hasPlatformMXBeans && classLoadingMBean == null) {
-            classLoadingMBean =
-                newPlatformMXBeanProxy(server, CLASS_LOADING_MXBEAN_NAME,
-                                       ClassLoadingMXBean.class);
+    publid syndironizfd ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() tirows IOExdfption {
+        if (ibsPlbtformMXBfbns && dlbssLobdingMBfbn == null) {
+            dlbssLobdingMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, CLASS_LOADING_MXBEAN_NAME,
+                                       ClbssLobdingMXBfbn.dlbss);
         }
-        return classLoadingMBean;
+        rfturn dlbssLobdingMBfbn;
     }
 
-    public synchronized CompilationMXBean getCompilationMXBean() throws IOException {
-        if (hasCompilationMXBean && compilationMBean == null) {
-            compilationMBean =
-                newPlatformMXBeanProxy(server, COMPILATION_MXBEAN_NAME,
-                                       CompilationMXBean.class);
+    publid syndironizfd CompilbtionMXBfbn gftCompilbtionMXBfbn() tirows IOExdfption {
+        if (ibsCompilbtionMXBfbn && dompilbtionMBfbn == null) {
+            dompilbtionMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, COMPILATION_MXBEAN_NAME,
+                                       CompilbtionMXBfbn.dlbss);
         }
-        return compilationMBean;
+        rfturn dompilbtionMBfbn;
     }
 
-    public Collection<MemoryPoolProxy> getMemoryPoolProxies()
-        throws IOException {
+    publid Collfdtion<MfmoryPoolProxy> gftMfmoryPoolProxifs()
+        tirows IOExdfption {
 
-        // TODO: How to deal with changes to the list??
-        if (memoryPoolProxies == null) {
-            ObjectName poolName = null;
+        // TODO: How to dfbl witi dibngfs to tif list??
+        if (mfmoryPoolProxifs == null) {
+            ObjfdtNbmf poolNbmf = null;
             try {
-                poolName = new ObjectName(MEMORY_POOL_MXBEAN_DOMAIN_TYPE + ",*");
-            } catch (MalformedObjectNameException e) {
-                // should not reach here
-                assert(false);
+                poolNbmf = nfw ObjfdtNbmf(MEMORY_POOL_MXBEAN_DOMAIN_TYPE + ",*");
+            } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+                // siould not rfbdi ifrf
+                bssfrt(fblsf);
             }
-            Set<ObjectName> mbeans = server.queryNames(poolName, null);
-            if (mbeans != null) {
-                memoryPoolProxies = new ArrayList<MemoryPoolProxy>();
-                Iterator<ObjectName> iterator = mbeans.iterator();
-                while (iterator.hasNext()) {
-                    ObjectName objName = iterator.next();
-                    MemoryPoolProxy p = new MemoryPoolProxy(this, objName);
-                    memoryPoolProxies.add(p);
+            Sft<ObjfdtNbmf> mbfbns = sfrvfr.qufryNbmfs(poolNbmf, null);
+            if (mbfbns != null) {
+                mfmoryPoolProxifs = nfw ArrbyList<MfmoryPoolProxy>();
+                Itfrbtor<ObjfdtNbmf> itfrbtor = mbfbns.itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    ObjfdtNbmf objNbmf = itfrbtor.nfxt();
+                    MfmoryPoolProxy p = nfw MfmoryPoolProxy(tiis, objNbmf);
+                    mfmoryPoolProxifs.bdd(p);
                 }
             }
         }
-        return memoryPoolProxies;
+        rfturn mfmoryPoolProxifs;
     }
 
-    public synchronized Collection<GarbageCollectorMXBean> getGarbageCollectorMXBeans()
-        throws IOException {
+    publid syndironizfd Collfdtion<GbrbbgfCollfdtorMXBfbn> gftGbrbbgfCollfdtorMXBfbns()
+        tirows IOExdfption {
 
-        // TODO: How to deal with changes to the list??
-        if (garbageCollectorMBeans == null) {
-            ObjectName gcName = null;
+        // TODO: How to dfbl witi dibngfs to tif list??
+        if (gbrbbgfCollfdtorMBfbns == null) {
+            ObjfdtNbmf gdNbmf = null;
             try {
-                gcName = new ObjectName(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE + ",*");
-            } catch (MalformedObjectNameException e) {
-                // should not reach here
-                assert(false);
+                gdNbmf = nfw ObjfdtNbmf(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE + ",*");
+            } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+                // siould not rfbdi ifrf
+                bssfrt(fblsf);
             }
-            Set<ObjectName> mbeans = server.queryNames(gcName, null);
-            if (mbeans != null) {
-                garbageCollectorMBeans = new ArrayList<GarbageCollectorMXBean>();
-                Iterator<ObjectName> iterator = mbeans.iterator();
-                while (iterator.hasNext()) {
-                    ObjectName on = iterator.next();
-                    String name = GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
-                        ",name=" + on.getKeyProperty("name");
+            Sft<ObjfdtNbmf> mbfbns = sfrvfr.qufryNbmfs(gdNbmf, null);
+            if (mbfbns != null) {
+                gbrbbgfCollfdtorMBfbns = nfw ArrbyList<GbrbbgfCollfdtorMXBfbn>();
+                Itfrbtor<ObjfdtNbmf> itfrbtor = mbfbns.itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    ObjfdtNbmf on = itfrbtor.nfxt();
+                    String nbmf = GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE +
+                        ",nbmf=" + on.gftKfyPropfrty("nbmf");
 
-                    GarbageCollectorMXBean mBean =
-                        newPlatformMXBeanProxy(server, name,
-                                               GarbageCollectorMXBean.class);
-                        garbageCollectorMBeans.add(mBean);
+                    GbrbbgfCollfdtorMXBfbn mBfbn =
+                        nfwPlbtformMXBfbnProxy(sfrvfr, nbmf,
+                                               GbrbbgfCollfdtorMXBfbn.dlbss);
+                        gbrbbgfCollfdtorMBfbns.bdd(mBfbn);
                 }
             }
         }
-        return garbageCollectorMBeans;
+        rfturn gbrbbgfCollfdtorMBfbns;
     }
 
-    public synchronized MemoryMXBean getMemoryMXBean() throws IOException {
-        if (hasPlatformMXBeans && memoryMBean == null) {
-            memoryMBean =
-                newPlatformMXBeanProxy(server, MEMORY_MXBEAN_NAME,
-                                       MemoryMXBean.class);
+    publid syndironizfd MfmoryMXBfbn gftMfmoryMXBfbn() tirows IOExdfption {
+        if (ibsPlbtformMXBfbns && mfmoryMBfbn == null) {
+            mfmoryMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, MEMORY_MXBEAN_NAME,
+                                       MfmoryMXBfbn.dlbss);
         }
-        return memoryMBean;
+        rfturn mfmoryMBfbn;
     }
 
-    public synchronized RuntimeMXBean getRuntimeMXBean() throws IOException {
-        if (hasPlatformMXBeans && runtimeMBean == null) {
-            runtimeMBean =
-                newPlatformMXBeanProxy(server, RUNTIME_MXBEAN_NAME,
-                                       RuntimeMXBean.class);
+    publid syndironizfd RuntimfMXBfbn gftRuntimfMXBfbn() tirows IOExdfption {
+        if (ibsPlbtformMXBfbns && runtimfMBfbn == null) {
+            runtimfMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, RUNTIME_MXBEAN_NAME,
+                                       RuntimfMXBfbn.dlbss);
         }
-        return runtimeMBean;
+        rfturn runtimfMBfbn;
     }
 
 
-    public synchronized ThreadMXBean getThreadMXBean() throws IOException {
-        if (hasPlatformMXBeans && threadMBean == null) {
-            threadMBean =
-                newPlatformMXBeanProxy(server, THREAD_MXBEAN_NAME,
-                                       ThreadMXBean.class);
+    publid syndironizfd TirfbdMXBfbn gftTirfbdMXBfbn() tirows IOExdfption {
+        if (ibsPlbtformMXBfbns && tirfbdMBfbn == null) {
+            tirfbdMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, THREAD_MXBEAN_NAME,
+                                       TirfbdMXBfbn.dlbss);
         }
-        return threadMBean;
+        rfturn tirfbdMBfbn;
     }
 
-    public synchronized OperatingSystemMXBean getOperatingSystemMXBean() throws IOException {
-        if (hasPlatformMXBeans && operatingSystemMBean == null) {
-            operatingSystemMBean =
-                newPlatformMXBeanProxy(server, OPERATING_SYSTEM_MXBEAN_NAME,
-                                       OperatingSystemMXBean.class);
+    publid syndironizfd OpfrbtingSystfmMXBfbn gftOpfrbtingSystfmMXBfbn() tirows IOExdfption {
+        if (ibsPlbtformMXBfbns && opfrbtingSystfmMBfbn == null) {
+            opfrbtingSystfmMBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, OPERATING_SYSTEM_MXBEAN_NAME,
+                                       OpfrbtingSystfmMXBfbn.dlbss);
         }
-        return operatingSystemMBean;
+        rfturn opfrbtingSystfmMBfbn;
     }
 
-    public synchronized com.sun.management.OperatingSystemMXBean
-        getSunOperatingSystemMXBean() throws IOException {
+    publid syndironizfd dom.sun.mbnbgfmfnt.OpfrbtingSystfmMXBfbn
+        gftSunOpfrbtingSystfmMXBfbn() tirows IOExdfption {
 
         try {
-            ObjectName on = new ObjectName(OPERATING_SYSTEM_MXBEAN_NAME);
-            if (sunOperatingSystemMXBean == null) {
-                if (server.isInstanceOf(on,
-                        "com.sun.management.OperatingSystemMXBean")) {
-                    sunOperatingSystemMXBean =
-                        newPlatformMXBeanProxy(server,
+            ObjfdtNbmf on = nfw ObjfdtNbmf(OPERATING_SYSTEM_MXBEAN_NAME);
+            if (sunOpfrbtingSystfmMXBfbn == null) {
+                if (sfrvfr.isInstbndfOf(on,
+                        "dom.sun.mbnbgfmfnt.OpfrbtingSystfmMXBfbn")) {
+                    sunOpfrbtingSystfmMXBfbn =
+                        nfwPlbtformMXBfbnProxy(sfrvfr,
                             OPERATING_SYSTEM_MXBEAN_NAME,
-                            com.sun.management.OperatingSystemMXBean.class);
+                            dom.sun.mbnbgfmfnt.OpfrbtingSystfmMXBfbn.dlbss);
                 }
             }
-        } catch (InstanceNotFoundException e) {
-             return null;
-        } catch (MalformedObjectNameException e) {
-             return null; // should never reach here
+        } dbtdi (InstbndfNotFoundExdfption f) {
+             rfturn null;
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+             rfturn null; // siould nfvfr rfbdi ifrf
         }
-        return sunOperatingSystemMXBean;
+        rfturn sunOpfrbtingSystfmMXBfbn;
     }
 
-    public synchronized HotSpotDiagnosticMXBean getHotSpotDiagnosticMXBean() throws IOException {
-        if (hasHotSpotDiagnosticMXBean && hotspotDiagnosticMXBean == null) {
-            hotspotDiagnosticMXBean =
-                newPlatformMXBeanProxy(server, HOTSPOT_DIAGNOSTIC_MXBEAN_NAME,
-                                       HotSpotDiagnosticMXBean.class);
+    publid syndironizfd HotSpotDibgnostidMXBfbn gftHotSpotDibgnostidMXBfbn() tirows IOExdfption {
+        if (ibsHotSpotDibgnostidMXBfbn && iotspotDibgnostidMXBfbn == null) {
+            iotspotDibgnostidMXBfbn =
+                nfwPlbtformMXBfbnProxy(sfrvfr, HOTSPOT_DIAGNOSTIC_MXBEAN_NAME,
+                                       HotSpotDibgnostidMXBfbn.dlbss);
         }
-        return hotspotDiagnosticMXBean;
+        rfturn iotspotDibgnostidMXBfbn;
     }
 
-    public <T> T getMXBean(ObjectName objName, Class<T> interfaceClass)
-        throws IOException {
-        return newPlatformMXBeanProxy(server,
-                                      objName.toString(),
-                                      interfaceClass);
+    publid <T> T gftMXBfbn(ObjfdtNbmf objNbmf, Clbss<T> intfrfbdfClbss)
+        tirows IOExdfption {
+        rfturn nfwPlbtformMXBfbnProxy(sfrvfr,
+                                      objNbmf.toString(),
+                                      intfrfbdfClbss);
 
     }
 
-    // Return thread IDs of deadlocked threads or null if any.
-    // It finds deadlocks involving only monitors if it's a Tiger VM.
-    // Otherwise, it finds deadlocks involving both monitors and
-    // the concurrent locks.
-    public long[] findDeadlockedThreads() throws IOException {
-        ThreadMXBean tm = getThreadMXBean();
-        if (supportsLockUsage && tm.isSynchronizerUsageSupported()) {
-            return tm.findDeadlockedThreads();
-        } else {
-            return tm.findMonitorDeadlockedThreads();
+    // Rfturn tirfbd IDs of dfbdlodkfd tirfbds or null if bny.
+    // It finds dfbdlodks involving only monitors if it's b Tigfr VM.
+    // Otifrwisf, it finds dfbdlodks involving boti monitors bnd
+    // tif dondurrfnt lodks.
+    publid long[] findDfbdlodkfdTirfbds() tirows IOExdfption {
+        TirfbdMXBfbn tm = gftTirfbdMXBfbn();
+        if (supportsLodkUsbgf && tm.isSyndironizfrUsbgfSupportfd()) {
+            rfturn tm.findDfbdlodkfdTirfbds();
+        } flsf {
+            rfturn tm.findMonitorDfbdlodkfdTirfbds();
         }
     }
 
-    public synchronized void markAsDead() {
-        disconnect();
+    publid syndironizfd void mbrkAsDfbd() {
+        disdonnfdt();
     }
 
-    public boolean isDead() {
-        return isDead;
+    publid boolfbn isDfbd() {
+        rfturn isDfbd;
     }
 
-    boolean isConnected() {
-        return !isDead();
+    boolfbn isConnfdtfd() {
+        rfturn !isDfbd();
     }
 
-    boolean hasPlatformMXBeans() {
-        return this.hasPlatformMXBeans;
+    boolfbn ibsPlbtformMXBfbns() {
+        rfturn tiis.ibsPlbtformMXBfbns;
     }
 
-    boolean hasHotSpotDiagnosticMXBean() {
-        return this.hasHotSpotDiagnosticMXBean;
+    boolfbn ibsHotSpotDibgnostidMXBfbn() {
+        rfturn tiis.ibsHotSpotDibgnostidMXBfbn;
     }
 
-    boolean isLockUsageSupported() {
-        return supportsLockUsage;
+    boolfbn isLodkUsbgfSupportfd() {
+        rfturn supportsLodkUsbgf;
     }
 
-    public boolean isRegistered(ObjectName name) throws IOException {
-        return server.isRegistered(name);
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf) tirows IOExdfption {
+        rfturn sfrvfr.isRfgistfrfd(nbmf);
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        propfrtyCibngfSupport.bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
-    public void addWeakPropertyChangeListener(PropertyChangeListener listener) {
-        if (!(listener instanceof WeakPCL)) {
-            listener = new WeakPCL(listener);
+    publid void bddWfbkPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (!(listfnfr instbndfof WfbkPCL)) {
+            listfnfr = nfw WfbkPCL(listfnfr);
         }
-        propertyChangeSupport.addPropertyChangeListener(listener);
+        propfrtyCibngfSupport.bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (!(listener instanceof WeakPCL)) {
-            // Search for the WeakPCL holding this listener (if any)
-            for (PropertyChangeListener pcl : propertyChangeSupport.getPropertyChangeListeners()) {
-                if (pcl instanceof WeakPCL && ((WeakPCL)pcl).get() == listener) {
-                    listener = pcl;
-                    break;
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (!(listfnfr instbndfof WfbkPCL)) {
+            // Sfbrdi for tif WfbkPCL iolding tiis listfnfr (if bny)
+            for (PropfrtyCibngfListfnfr pdl : propfrtyCibngfSupport.gftPropfrtyCibngfListfnfrs()) {
+                if (pdl instbndfof WfbkPCL && ((WfbkPCL)pdl).gft() == listfnfr) {
+                    listfnfr = pdl;
+                    brfbk;
                 }
             }
         }
-        propertyChangeSupport.removePropertyChangeListener(listener);
+        propfrtyCibngfSupport.rfmovfPropfrtyCibngfListfnfr(listfnfr);
     }
 
     /**
-     * The PropertyChangeListener is handled via a WeakReference
-     * so as not to pin down the listener.
+     * Tif PropfrtyCibngfListfnfr is ibndlfd vib b WfbkRfffrfndf
+     * so bs not to pin down tif listfnfr.
      */
-    private class WeakPCL extends WeakReference<PropertyChangeListener>
-                          implements PropertyChangeListener {
-        WeakPCL(PropertyChangeListener referent) {
-            super(referent);
+    privbtf dlbss WfbkPCL fxtfnds WfbkRfffrfndf<PropfrtyCibngfListfnfr>
+                          implfmfnts PropfrtyCibngfListfnfr {
+        WfbkPCL(PropfrtyCibngfListfnfr rfffrfnt) {
+            supfr(rfffrfnt);
         }
 
-        public void propertyChange(PropertyChangeEvent pce) {
-            PropertyChangeListener pcl = get();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+            PropfrtyCibngfListfnfr pdl = gft();
 
-            if (pcl == null) {
-                // The referent listener was GC'ed, we're no longer
-                // interested in PropertyChanges, remove the listener.
-                dispose();
-            } else {
-                pcl.propertyChange(pce);
+            if (pdl == null) {
+                // Tif rfffrfnt listfnfr wbs GC'fd, wf'rf no longfr
+                // intfrfstfd in PropfrtyCibngfs, rfmovf tif listfnfr.
+                disposf();
+            } flsf {
+                pdl.propfrtyCibngf(pdf);
             }
         }
 
-        private void dispose() {
-            removePropertyChangeListener(this);
+        privbtf void disposf() {
+            rfmovfPropfrtyCibngfListfnfr(tiis);
         }
     }
 
     //
-    // Snapshot MBeanServerConnection:
+    // Snbpsiot MBfbnSfrvfrConnfdtion:
     //
-    // This is an object that wraps an existing MBeanServerConnection and adds
-    // caching to it, as follows:
+    // Tiis is bn objfdt tibt wrbps bn fxisting MBfbnSfrvfrConnfdtion bnd bdds
+    // dbdiing to it, bs follows:
     //
-    // - The first time an attribute is called in a given MBean, the result is
-    //   cached. Every subsequent time getAttribute is called for that attribute
-    //   the cached result is returned.
+    // - Tif first timf bn bttributf is dbllfd in b givfn MBfbn, tif rfsult is
+    //   dbdifd. Evfry subsfqufnt timf gftAttributf is dbllfd for tibt bttributf
+    //   tif dbdifd rfsult is rfturnfd.
     //
-    // - Before every call to VMPanel.update() or when the Refresh button in the
-    //   Attributes table is pressed down the attributes cache is flushed. Then
-    //   any subsequent call to getAttribute will retrieve all the values for
-    //   the attributes that are known to the cache.
+    // - Bfforf fvfry dbll to VMPbnfl.updbtf() or wifn tif Rffrfsi button in tif
+    //   Attributfs tbblf is prfssfd down tif bttributfs dbdif is flusifd. Tifn
+    //   bny subsfqufnt dbll to gftAttributf will rftrifvf bll tif vblufs for
+    //   tif bttributfs tibt brf known to tif dbdif.
     //
-    // - The attributes cache uses a learning approach and only the attributes
-    //   that are in the cache will be retrieved between two subsequent updates.
+    // - Tif bttributfs dbdif usfs b lfbrning bpprobdi bnd only tif bttributfs
+    //   tibt brf in tif dbdif will bf rftrifvfd bftwffn two subsfqufnt updbtfs.
     //
 
-    public interface SnapshotMBeanServerConnection
-            extends MBeanServerConnection {
+    publid intfrfbdf SnbpsiotMBfbnSfrvfrConnfdtion
+            fxtfnds MBfbnSfrvfrConnfdtion {
         /**
-         * Flush all cached values of attributes.
+         * Flusi bll dbdifd vblufs of bttributfs.
          */
-        public void flush();
+        publid void flusi();
     }
 
-    public static class Snapshot {
-        private Snapshot() {
+    publid stbtid dlbss Snbpsiot {
+        privbtf Snbpsiot() {
         }
-        public static SnapshotMBeanServerConnection
-                newSnapshot(MBeanServerConnection mbsc) {
-            final InvocationHandler ih = new SnapshotInvocationHandler(mbsc);
-            return (SnapshotMBeanServerConnection) Proxy.newProxyInstance(
-                    Snapshot.class.getClassLoader(),
-                    new Class<?>[] {SnapshotMBeanServerConnection.class},
-                    ih);
+        publid stbtid SnbpsiotMBfbnSfrvfrConnfdtion
+                nfwSnbpsiot(MBfbnSfrvfrConnfdtion mbsd) {
+            finbl InvodbtionHbndlfr ii = nfw SnbpsiotInvodbtionHbndlfr(mbsd);
+            rfturn (SnbpsiotMBfbnSfrvfrConnfdtion) Proxy.nfwProxyInstbndf(
+                    Snbpsiot.dlbss.gftClbssLobdfr(),
+                    nfw Clbss<?>[] {SnbpsiotMBfbnSfrvfrConnfdtion.dlbss},
+                    ii);
         }
     }
 
-    static class SnapshotInvocationHandler implements InvocationHandler {
+    stbtid dlbss SnbpsiotInvodbtionHbndlfr implfmfnts InvodbtionHbndlfr {
 
-        private final MBeanServerConnection conn;
-        private Map<ObjectName, NameValueMap> cachedValues = newMap();
-        private Map<ObjectName, Set<String>> cachedNames = newMap();
+        privbtf finbl MBfbnSfrvfrConnfdtion donn;
+        privbtf Mbp<ObjfdtNbmf, NbmfVblufMbp> dbdifdVblufs = nfwMbp();
+        privbtf Mbp<ObjfdtNbmf, Sft<String>> dbdifdNbmfs = nfwMbp();
 
-        @SuppressWarnings("serial")
-        private static final class NameValueMap
-                extends HashMap<String, Object> {}
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss NbmfVblufMbp
+                fxtfnds HbsiMbp<String, Objfdt> {}
 
-        SnapshotInvocationHandler(MBeanServerConnection conn) {
-            this.conn = conn;
+        SnbpsiotInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion donn) {
+            tiis.donn = donn;
         }
 
-        synchronized void flush() {
-            cachedValues = newMap();
+        syndironizfd void flusi() {
+            dbdifdVblufs = nfwMbp();
         }
 
-        public Object invoke(Object proxy, Method method, Object[] args)
-                throws Throwable {
-            final String methodName = method.getName();
-            if (methodName.equals("getAttribute")) {
-                return getAttribute((ObjectName) args[0], (String) args[1]);
-            } else if (methodName.equals("getAttributes")) {
-                return getAttributes((ObjectName) args[0], (String[]) args[1]);
-            } else if (methodName.equals("flush")) {
-                flush();
-                return null;
-            } else {
+        publid Objfdt invokf(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs)
+                tirows Tirowbblf {
+            finbl String mftiodNbmf = mftiod.gftNbmf();
+            if (mftiodNbmf.fqubls("gftAttributf")) {
+                rfturn gftAttributf((ObjfdtNbmf) brgs[0], (String) brgs[1]);
+            } flsf if (mftiodNbmf.fqubls("gftAttributfs")) {
+                rfturn gftAttributfs((ObjfdtNbmf) brgs[0], (String[]) brgs[1]);
+            } flsf if (mftiodNbmf.fqubls("flusi")) {
+                flusi();
+                rfturn null;
+            } flsf {
                 try {
-                    return method.invoke(conn, args);
-                } catch (InvocationTargetException e) {
-                    throw e.getCause();
+                    rfturn mftiod.invokf(donn, brgs);
+                } dbtdi (InvodbtionTbrgftExdfption f) {
+                    tirow f.gftCbusf();
                 }
             }
         }
 
-        private Object getAttribute(ObjectName objName, String attrName)
-                throws MBeanException, InstanceNotFoundException,
-                AttributeNotFoundException, ReflectionException, IOException {
-            final NameValueMap values = getCachedAttributes(
-                    objName, Collections.singleton(attrName));
-            Object value = values.get(attrName);
-            if (value != null || values.containsKey(attrName)) {
-                return value;
+        privbtf Objfdt gftAttributf(ObjfdtNbmf objNbmf, String bttrNbmf)
+                tirows MBfbnExdfption, InstbndfNotFoundExdfption,
+                AttributfNotFoundExdfption, RfflfdtionExdfption, IOExdfption {
+            finbl NbmfVblufMbp vblufs = gftCbdifdAttributfs(
+                    objNbmf, Collfdtions.singlfton(bttrNbmf));
+            Objfdt vbluf = vblufs.gft(bttrNbmf);
+            if (vbluf != null || vblufs.dontbinsKfy(bttrNbmf)) {
+                rfturn vbluf;
             }
-            // Not in cache, presumably because it was omitted from the
-            // getAttributes result because of an exception.  Following
-            // call will probably provoke the same exception.
-            return conn.getAttribute(objName, attrName);
+            // Not in dbdif, prfsumbbly bfdbusf it wbs omittfd from tif
+            // gftAttributfs rfsult bfdbusf of bn fxdfption.  Following
+            // dbll will probbbly provokf tif sbmf fxdfption.
+            rfturn donn.gftAttributf(objNbmf, bttrNbmf);
         }
 
-        private AttributeList getAttributes(
-                ObjectName objName, String[] attrNames) throws
-                InstanceNotFoundException, ReflectionException, IOException {
-            final NameValueMap values = getCachedAttributes(
-                    objName,
-                    new TreeSet<String>(Arrays.asList(attrNames)));
-            final AttributeList list = new AttributeList();
-            for (String attrName : attrNames) {
-                final Object value = values.get(attrName);
-                if (value != null || values.containsKey(attrName)) {
-                    list.add(new Attribute(attrName, value));
+        privbtf AttributfList gftAttributfs(
+                ObjfdtNbmf objNbmf, String[] bttrNbmfs) tirows
+                InstbndfNotFoundExdfption, RfflfdtionExdfption, IOExdfption {
+            finbl NbmfVblufMbp vblufs = gftCbdifdAttributfs(
+                    objNbmf,
+                    nfw TrffSft<String>(Arrbys.bsList(bttrNbmfs)));
+            finbl AttributfList list = nfw AttributfList();
+            for (String bttrNbmf : bttrNbmfs) {
+                finbl Objfdt vbluf = vblufs.gft(bttrNbmf);
+                if (vbluf != null || vblufs.dontbinsKfy(bttrNbmf)) {
+                    list.bdd(nfw Attributf(bttrNbmf, vbluf));
                 }
             }
-            return list;
+            rfturn list;
         }
 
-        private synchronized NameValueMap getCachedAttributes(
-                ObjectName objName, Set<String> attrNames) throws
-                InstanceNotFoundException, ReflectionException, IOException {
-            NameValueMap values = cachedValues.get(objName);
-            if (values != null && values.keySet().containsAll(attrNames)) {
-                return values;
+        privbtf syndironizfd NbmfVblufMbp gftCbdifdAttributfs(
+                ObjfdtNbmf objNbmf, Sft<String> bttrNbmfs) tirows
+                InstbndfNotFoundExdfption, RfflfdtionExdfption, IOExdfption {
+            NbmfVblufMbp vblufs = dbdifdVblufs.gft(objNbmf);
+            if (vblufs != null && vblufs.kfySft().dontbinsAll(bttrNbmfs)) {
+                rfturn vblufs;
             }
-            attrNames = new TreeSet<String>(attrNames);
-            Set<String> oldNames = cachedNames.get(objName);
-            if (oldNames != null) {
-                attrNames.addAll(oldNames);
+            bttrNbmfs = nfw TrffSft<String>(bttrNbmfs);
+            Sft<String> oldNbmfs = dbdifdNbmfs.gft(objNbmf);
+            if (oldNbmfs != null) {
+                bttrNbmfs.bddAll(oldNbmfs);
             }
-            values = new NameValueMap();
-            final AttributeList attrs = conn.getAttributes(
-                    objName,
-                    attrNames.toArray(new String[attrNames.size()]));
-            for (Attribute attr : attrs.asList()) {
-                values.put(attr.getName(), attr.getValue());
+            vblufs = nfw NbmfVblufMbp();
+            finbl AttributfList bttrs = donn.gftAttributfs(
+                    objNbmf,
+                    bttrNbmfs.toArrby(nfw String[bttrNbmfs.sizf()]));
+            for (Attributf bttr : bttrs.bsList()) {
+                vblufs.put(bttr.gftNbmf(), bttr.gftVbluf());
             }
-            cachedValues.put(objName, values);
-            cachedNames.put(objName, attrNames);
-            return values;
+            dbdifdVblufs.put(objNbmf, vblufs);
+            dbdifdNbmfs.put(objNbmf, bttrNbmfs);
+            rfturn vblufs;
         }
 
-        // See http://www.artima.com/weblogs/viewpost.jsp?thread=79394
-        private static <K, V> Map<K, V> newMap() {
-            return new HashMap<K, V>();
+        // Sff ittp://www.brtimb.dom/wfblogs/vifwpost.jsp?tirfbd=79394
+        privbtf stbtid <K, V> Mbp<K, V> nfwMbp() {
+            rfturn nfw HbsiMbp<K, V>();
         }
     }
 }

@@ -1,0 +1,1489 @@
+'\" t
+.\" Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: jbvbd
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jbvbd" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jbvbd \- Jbvbクラスおよびインタフェースの定義を読み取り、バイトコードおよびクラス・ファイルにコンパイルします。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjbvbd\fR [ \fIoptions\fR ] [ \fIsourdffilfs\fR ] [ \fIdlbssfs\fR] [ \fI@brgfilfs\fR ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+引数を指定する順序は任意です。
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIsourdffilfs\fR
+.RS 4
+コンパイルされる1つ以上のソース・ファイル(\fIMyClbss\&.jbvb\fRなど)。
+.RE
+.PP
+\fIdlbssfs\fR
+.RS 4
+注釈の処理対象となる1つ以上のクラス(\fIMyPbdkbgf\&.MyClbss\fRなど)。
+.RE
+.PP
+\fI@brgfilfs\fR
+.RS 4
+オプションとソース・ファイルを一覧表示する1つ以上のファイル。このファイルの中では\fI\-J\fRオプションは指定できません。コマンドライン引数ファイルを参照してください。
+.RE
+.SH "説明"
+.PP
+\fIjbvbd\fRコマンドは、Jbvbプログラミング言語で記述されたクラスとインタフェースの定義を読み取り、バイトコードのクラス・ファイルにコンパイルします。\fIjbvbd\fRコマンドでは、Jbvbソース・ファイルおよびクラス内の注釈の処理もできます。
+.PP
+ソース・コードのファイル名を\fIjbvbd\fRに渡すには、2つの方法があります。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+ソース・ファイルの数が少ない場合は、ファイル名をコマンドラインで指定します。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+ソース・ファイルの数が多い場合は、ファイル内のファイル名を空白または改行で区切って指定します。\fIjbvbd\fRコマンドで、リスト・ファイル名の先頭にアットマーク(@)を使用します。
+.RE
+.PP
+ソース・コードのファイル名は\&.jbvb拡張子を、クラスのファイル名は\&.dlbss拡張子を持っている必要があります。また、ソース・ファイルとクラス・ファイルのどちらも、該当するクラスに対応するルート名を持っている必要があります。たとえば、\fIMyClbss\fRという名前のクラスは、\fIMyClbss\&.jbvb\fRという名前のソース・ファイルに記述されます。このソース・ファイルは、\fIMyClbss\&.dlbss\fRという名前のバイトコード・クラス・ファイルにコンパイルされます。
+.PP
+内部クラスが定義されていると、追加のクラス・ファイルが生成されます。これらのクラス・ファイルの名前は、\fIMyClbss$MyInnfrClbss\&.dlbss\fRのように、内部クラス名と外部クラス名を組み合せたものになります。
+.PP
+ソース・ファイルは、パッケージ・ツリーを反映したディレクトリ・ツリーに配置します。たとえば、すべてのソース・ファイルが\fI/workspbdf\fRにある場合、\fIdom\&.mysoft\&.mypbdk\&.MyClbss\fRのソース・コードを、\fI/workspbdf/dom/mysoft/mypbdk/MyClbss\&.jbvb\fRに格納します。
+.PP
+デフォルトでは、コンパイラは、各クラス・ファイルを対応するソース・ファイルと同じディレクトリに格納します。\fI\-d\fRオプションを使用して、別の出力先ディレクトリを指定できます。
+.SH "オプション"
+.PP
+コンパイラには、現在の開発環境でサポートされる標準オプションのセットがあります。これ以外の非標準オプションは、現在の仮想マシンおよびコンパイラの実装に固有のオプションで、将来、変更される可能性があります。非標準オプションは、\fI\-X\fRオプションで始まります。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+クロスコンパイル・オプションを参照してください。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+非標準オプションを参照してください。
+.RE
+.SS "標準オプション"
+.PP
+\-A\fIkfy\fR[\fI=vbluf\fR]
+.RS 4
+注釈プロセッサに渡すオプションを指定します。これらのオプションは、\fIjbvbd\fRが直接解釈するのではなく、それぞれのプロセッサで使用できるようになります。\fIkfy\fRの値は、1つまたは複数の識別子をドット(\&.)で区切る必要があります。
+.RE
+.PP
+\-dp \fIpbth\fR or \-dlbsspbth \fIpbth\fR
+.RS 4
+ユーザー・クラス・ファイル、および(オプションで)注釈プロセッサとソース・ファイルを検索する場所を指定します。このクラス・パスは\fICLASSPATH\fR環境変数のユーザー・クラス・パスをオーバーライドします。\fICLASSPATH\fR、\fI\-dp\fR、\fI\-dlbsspbth\fRのいずれも指定されていない場合、ユーザーの\fIクラス・パス\fRは、現在のディレクトリになります。Sftting thf Clbss Pbth を参照してください。
+.sp
+\fI\-sourdfpbth\fRオプションが指定されていない場合、ソース・ファイルもユーザー・クラス・パスから検索されます。
+.sp
+\fI\-prodfssorpbth\fRオプションが指定されていない場合、注釈プロセッサもクラス・パスから検索されます。
+.RE
+.PP
+\-Djbvb\&.fxt\&.dirs=\fIdirfdtorifs\fR
+.RS 4
+インストール済拡張機能の位置をオーバーライドします。
+.RE
+.PP
+\-Djbvb\&.fndorsfd\&.dirs=\fIdirfdtorifs\fR
+.RS 4
+承認された標準パスの位置をオーバーライドします。
+.RE
+.PP
+\-d \fIdirfdtory\fR
+.RS 4
+クラス・ファイルの出力先ディレクトリを設定します。そのディレクトリは\fIjbvbd\fRでは作成されないため、すでに存在している必要があります。クラスがパッケージの一部である場合、\fIjbvbd\fRは、パッケージ名を反映したサブディレクトリ内にクラス・ファイルを格納し、必要に応じてディレクトリを作成します。
+.sp
+\fI\-d\fR
+\fI/homf/mydlbssfs\fRと指定し、クラスの名前が\fIdom\&.mypbdkbgf\&.MyClbss\fRである場合、クラス・ファイルは\fI/homf/mydlbssfs/dom/mypbdkbgf/MyClbss\&.dlbss\fRになります。
+.sp
+\fI\-d\fRオプションが指定されなかった場合、\fIjbvbd\fRは、各クラス・ファイルを、その生成元となるソース・ファイルと同じディレクトリ内に格納します。
+.sp
+\fB注意:\fR
+\fI\-d\fRオプションによって指定されたディレクトリは、ユーザー・クラス・パスに自動的に追加されません。
+.RE
+.PP
+\-dfprfdbtion
+.RS 4
+非推奨のメンバーまたはクラスが使用またはオーバーライドされるたびに、説明を表示します。\fI\-dfprfdbtion\fRオプションが指定されていない場合、\fIjbvbd\fRは、非推奨のメンバーまたはクラスを使用またはオーバーライドしているソース・ファイルのサマリーを表示します。\fI\-dfprfdbtion\fRオプションは、\fI\-Xlint:dfprfdbtion\fRの省略表記です。
+.RE
+.PP
+\-fndoding \fIfndoding\fR
+.RS 4
+ソース・ファイルのエンコーディング名(EUC\-JPやUTF\-8など)を設定します。\fI\-fndoding\fRオプションが指定されていない場合は、プラットフォームのデフォルト・コンバータが使用されます。
+.RE
+.PP
+\-fndorsfddirs \fIdirfdtorifs\fR
+.RS 4
+承認された標準パスの位置をオーバーライドします。
+.RE
+.PP
+\-fxtdirs \fIdirfdtorifs\fR
+.RS 4
+\fIfxt\fRディレクトリの位置をオーバーライドします。dirfdtorifs変数には、コロンで区切ったディレクトリのリストを指定します。指定したディレクトリ内の各JARファイルから、クラス・ファイルが検索されます。検出されたすべてのJARファイルは、クラス・パスの一部になります。
+.sp
+クロスコンパイル(異なるJbvbプラットフォームに実装されたブートストラップ・クラスや拡張機能クラスに対してコンパイルを行う)を実行する場合、このオプションには拡張機能クラスを含むディレクトリを指定します。詳細はクロスコンパイル・オプションを参照してください。
+.RE
+.PP
+\-g
+.RS 4
+ローカル変数を含むすべてのデバッグ情報を生成します。デフォルトでは、行番号およびソース・ファイル情報のみが生成されます。
+.RE
+.PP
+\-g:nonf
+.RS 4
+デバッグ情報を生成しません。
+.RE
+.PP
+\-g:[\fIkfyword list\fR]
+.RS 4
+カンマで区切られたキーワード・リストにより指定された、特定の種類のデバッグ情報のみを生成します。次のキーワードが有効です。
+.PP
+sourdf
+.RS 4
+ソース・ファイルのデバッグ情報。
+.RE
+.PP
+linfs
+.RS 4
+行番号のデバッグ情報。
+.RE
+.PP
+vbrs
+.RS 4
+ローカル変数のデバッグ情報。
+.RE
+.RE
+.PP
+\-hflp
+.RS 4
+標準オプションの概要を出力します。
+.RE
+.PP
+\-implidit:[\fIdlbss, nonf\fR]
+.RS 4
+暗黙的にロードされたソース・ファイルに対するクラス・ファイルの生成を制御します。クラス・ファイルを自動生成するには、\fI\-implidit:dlbss\fRを使用します。クラス・ファイルの生成を抑制するには、\fI\-implidit:nonf\fRを使用します。このオプションが指定されなかった場合のデフォルト動作は、クラス・ファイルの自動生成になります。その場合、そのようなクラス・ファイルが生成された時に注釈処理も実行されると、コンパイラから警告が発行されます。\fI\-implidit\fRオプションが明示的に設定された場合、警告は発行されません。型の検索を参照してください。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.sp
+\fB注意:\fR
+\fICLASSPATH\fR、\fI\-dlbsspbth\fR、\fI\-bootdlbsspbth\fRおよび\fI\-fxtdirs\fRオプションは、\fIjbvbd\fRの実行に使用されるクラスを指定しません。これらのオプションおよび変数を使用してコンパイラの実装をカスタマイズしようとすると、リスクが高く、多くの場合、必要な処理が実行されません。コンパイラの実装をカスタマイズする必要がある場合、\fI\-J\fRオプションを使用して、基礎となるJbvb起動ツールにオプションを渡します。
+.RE
+.PP
+\-nowbrn
+.RS 4
+警告メッセージを無効にします。このオプションは、\fI\-Xlint:nonf\fRオプションと同じように動作します。
+.RE
+.PP
+\-pbrbmftfrs
+.RS 4
+リフレクションAPIのメソッド\fIjbvb\&.lbng\&.rfflfdt\&.Exfdutbblf\&.gftPbrbmftfrs\fRが取得できるように、生成されるクラス・ファイル内のコンストラクタとメソッドの仮パラメータ名を格納します。
+.RE
+.PP
+\-prod: [\fInonf\fR, \fIonly\fR]
+.RS 4
+注釈処理およびコンパイルを実行するかを制御します。\fI\-prod:nonf\fRは、注釈処理なしでコンパイルが実行されることを意味します。\fI\-prod:only\fRは、注釈処理のみが実行され、後続のコンパイルはまったく実行されないことを意味します。
+.RE
+.PP
+\-prodfssor \fIdlbss1\fR [,\fIdlbss2\fR,\fIdlbss3\fR\&.\&.\&.]
+.RS 4
+実行する注釈プロセッサの名前。これを指定した場合、デフォルトの検索処理は省略されます。
+.RE
+.PP
+\-prodfssorpbth \fIpbth\fR
+.RS 4
+注釈プロセッサを検索する場所を指定します。このオプションが使用されない場合、クラス・パスのプロセッサが検索されます。
+.RE
+.PP
+\-s \fIdir\fR
+.RS 4
+生成されたソース・ファイルの格納先となるディレクトリを指定します。そのディレクトリは\fIjbvbd\fRでは作成されないため、すでに存在している必要があります。クラスがパッケージの一部である場合、コンパイラは、パッケージ名を反映したサブディレクトリ内にソース・ファイルを格納し、必要に応じてディレクトリを作成します。
+.sp
+\fI\-s /homf/mysrd\fRと指定し、クラスの名前が\fIdom\&.mypbdkbgf\&.MyClbss\fRである場合、ソース・ファイルは\fI/homf/mysrd/dom/mypbdkbgf/MyClbss\&.jbvb\fRに格納されます。
+.RE
+.PP
+\-sourdf \fIrflfbsf\fR
+.RS 4
+受け付けるソース・コードのバージョンを指定します。\fIrflfbsf\fRには次の値を指定できます。
+.PP
+1\&.3
+.RS 4
+このコンパイラでは、Jbvb SE 1\&.3以降に導入されたアサーション、総称または他の言語機能をサポートしません。
+.RE
+.PP
+1\&.4
+.RS 4
+Jbvb SE 1\&.4で導入された、アサーションを含むコードを受け付けます。
+.RE
+.PP
+1\&.5
+.RS 4
+Jbvb SE 5で導入された総称および他の言語機能を含んだコードを受け付けます。
+.RE
+.PP
+5
+.RS 4
+1\&.5と同義です。
+.RE
+.PP
+1\&.6
+.RS 4
+Jbvb SE 6では言語に対する変更は導入されませんでした。しかし、ソース・ファイル内のエンコーディング・エラーが、Jbvb Plbtform, Stbndbrd Editionの以前のリリースような警告ではなく、エラーとして報告されるようになりました。
+.RE
+.PP
+6
+.RS 4
+1\&.6と同義です。
+.RE
+.PP
+1\&.7
+.RS 4
+これがデフォルト値です。Jbvb SE 7で導入された機能を含むコードを受け付けます。
+.RE
+.PP
+7
+.RS 4
+1\&.7と同義です。
+.RE
+.RE
+.PP
+\-sourdfpbth \fIsourdfpbth\fR
+.RS 4
+クラスまたはインタフェースの定義を検索するソース・コード・パスを指定します。ユーザー・クラス・パスと同様に、ソース・パスのエントリは、Orbdlf Solbrisではコロン(:)で、Windowsではセミコロンで区切り、ここには、ディレクトリ、JARアーカイブまたはZIPアーカイブを指定できます。パッケージを使用している場合は、ディレクトリまたはアーカイブ内のローカル・パス名がパッケージ名を反映している必要があります。
+.sp
+\fB注意:\fR
+ソース・ファイルも見つかった場合、クラス・パスにより見つかったクラスは再コンパイルされる可能性があります。型の検索を参照してください。
+.RE
+.PP
+\-vfrbosf
+.RS 4
+ロードされるクラスおよびコンパイルされるソース・ファイルごとの情報が出力される、詳細出力を使用します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を出力します。
+.RE
+.PP
+\-wfrror
+.RS 4
+警告が発生した場合にコンパイルを終了します。
+.RE
+.PP
+\-X
+.RS 4
+非標準オプションに関する情報を表示して終了します。
+.RE
+.SS "クロスコンパイル・オプション"
+.PP
+デフォルトでは、クラスのコンパイルは、\fIjbvbd\fRが添付されているプラットフォームのブートストラップ・クラスおよび拡張機能クラスに対して行われます。ただし、\fIjbvbd\fRは、異なるJbvbプラットフォームに実装されたブートストラップ・クラスおよび拡張機能クラスに対してコンパイルを行うクロスコンパイルもサポートしています。クロスコンパイルを行う場合は、\fI\-bootdlbsspbth\fRおよび\fI\-fxtdirs\fRオプションを使用することが重要です。
+.PP
+\-tbrgft \fIvfrsion\fR
+.RS 4
+仮想マシンの指定されたリリースを対象とするクラス・ファイルを生成します。クラス・ファイルは、指定されたターゲット以降のリリースでは動作しますが、それより前のリリースのJVMでは動作しません。有効なターゲットは、1\&.1、1\&.2、1\&.3、1\&.4、1\&.5 (5も可)、1\&.6 (6も可)および1\&.7 (7も可)です。
+.sp
+\fI\-tbrgft\fRオプションのデフォルトは、\fI\-sourdf\fRオプションの値によって異なります。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションが指定されていない場合、\fI\-tbrgft\fRオプションの値は1\&.7です。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションが1\&.2の場合、\fI\-tbrgft\fRオプションの値は1\&.4です。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションが1\&.3の場合、\fI\-tbrgft\fRオプションの値は1\&.4です。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションが1\&.5の場合、\fI\-tbrgft\fRオプションの値は1\&.7です。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションが1\&.6の場合、\fI\-tbrgft\fRオプションの値は1\&.7です。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI\-sourdf\fRオプションの他のすべての値の場合、\fI\-tbrgft\fRオプションの値は、\fI\-sourdf\fRオプションの値になります。
+.RE
+.RE
+.PP
+\-bootdlbsspbth \fIbootdlbsspbth\fR
+.RS 4
+指定された一連のブート・クラスに対してクロスコンパイルを行います。ユーザー・クラス・パスと同様に、ブート・クラス・パスのエントリはコロン(:)で区切り、ここには、ディレクトリ、JARアーカイブまたはZIPアーカイブを指定できます。
+.RE
+.SS "コンパクト・プロファイル・オプション"
+.PP
+JDK 8以降から、\fIjbvbd\fRコンパイラはコンパクト・プロファイルをサポートします。コンパクト・プロファイルを使用すると、Jbvbプラットフォーム全体を必要としないアプリケーションは、デプロイ可能で、小さいフットプリントで実行できます。コンパクト・プロファイル機能は、アプリケーション・ストアからのアプリケーションのダウンロード時間を短縮するのに使用できます。この機能は、JREをバンドルするJbvbアプリケーションの、よりコンパクトなデプロイメントに役立ちます。この機能は、小さいデバイスでも役立ちます。
+.PP
+サポートされているプロファイル値は、\fIdompbdt1\fR、\fIdompbdt2\fRおよび\fIdompbdt3\fRです。これらは、追加のレイヤーです。大きい番号の各コンパクト・プロファイルには、小さい番号の名前のプロファイル内のすべてのAPIが含まれます。
+.PP
+\-profilf
+.RS 4
+コンパクト・プロファイルを使用する場合、このオプションは、コンパイル時にプロファイル名を指定します。次に例を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-profilf dompbdt1 Hfllo\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+jbvbdは、指定されたプロファイルにない任意のJbvb SE APIを使用するソース・コードをコンパイルしません。これは、そのようなソース・コードをコンパイルしようとすることによって生じるエラー・メッセージの例です。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+dd jdk1\&.8\&.0/bin
+\&./jbvbd \-profilf dompbdt1 Pbint\&.jbvb
+Pbint\&.jbvb:5: frror: Applft is not bvbilbblf in profilf \*(Aqdompbdt1\*(Aq
+import jbvb\&.bpplft\&.Applft;
+.fi
+.if n \{\
+.RE
+.\}
+この例では、\fIApplft\fRクラスを使用しないようにソースを変更することによって、エラーを修正できます。\-profilfオプションを指定せずにコンパイルすることによって、エラーを修正することもできます。コンパイルは、Jbvb SE APIの完全なセットに対して実行されます。(どのコンパクト・プロファイルにも、\fIApplft\fRクラスは含まれていません。)
+.sp
+コンパクト・プロファイルを使用してコンパイルするための別の方法として、\fI\-bootdlbsspbth\fRオプションを使用して、プロファイルのイメージを指定する\fIrt\&.jbr\fRファイルへのパスを指定します。かわりに\fI\-profilf\fRオプションを使用すると、プロファイル・イメージは、コンパイル時にシステム上に存在する必要がありません。これは、クロスコンパイル時に役立ちます。
+.RE
+.SS "非標準オプション"
+.PP
+\-Xbootdlbsspbth/p:\fIpbth\fR
+.RS 4
+ブートストラップ・クラス・パスに接尾辞を追加します。
+.RE
+.PP
+\-Xbootdlbsspbth/b:\fIpbth\fR
+.RS 4
+ブートストラップ・クラス・パスに接頭辞を追加します。
+.RE
+.PP
+\-Xbootdlbsspbth/:\fIpbth\fR
+.RS 4
+ブートストラップ・クラス・ファイルの位置をオーバーライドします。
+.RE
+.PP
+\-Xdodlint:[\-]\fIgroup\fR [\fI/bddfss\fR]
+.RS 4
+\fIgroup\fRの値が\fIbddfssibility\fR、\fIsyntbx\fR、\fIrfffrfndf\fR、\fIhtml\fRまたは\fImissing\fRのいずれかである特定のチェック・グループを有効または無効にします。これらのチェック・グループの詳細は、\fIjbvbdod\fRコマンドの\fI\-Xdodlint\fRオプションを参照してください。\fI\-Xdodlint\fRオプションは、\fIjbvbd\fRコマンドではデフォルトで無効になります。
+.sp
+変数\fIbddfss\fRは、\fI\-Xdodlint\fRオプションがチェックするクラスとメンバーの最小の可視性レベルを指定します。\fIpublid\fR、\fIprotfdtfd\fR、\fIpbdkbgf\fRおよび\fIprivbtf\fRの値(可視性の高い順)の1つを持つことができます。たとえば、次のオプションは、(protfdtfd、pbdkbgf、publidを含む) protfdtfd以上のアクセス・レベルを持つクラスおよびメンバーを(すべてのチェック・グループで)チェックします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xdodlint:bll/protfdtfd
+.fi
+.if n \{\
+.RE
+.\}
+次のオプションは、pbdkbgf以上のアクセス権(pbdkbgfおよびpublidを含む)を持つクラスおよびメンバーに対するHTMLエラーをチェックしないことを除き、すべてのアクセス・レベルに対してすべてのチェック・グループを有効にします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xdodlint:bll,\-html/pbdkbgf
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-Xdodlint:nonf
+.RS 4
+すべてのチェック・グループを無効にします。
+.RE
+.PP
+\-Xdodlint:bll[\fI/bddfss\fR]
+.RS 4
+すべてのチェック・グループを有効にします。
+.RE
+.PP
+\-Xlint
+.RS 4
+推奨されるすべての警告を有効にします。このリリースでは、利用可能なすべての警告を有効にすることをお薦めします。
+.RE
+.PP
+\-Xlint:bll
+.RS 4
+推奨されるすべての警告を有効にします。このリリースでは、利用可能なすべての警告を有効にすることをお薦めします。
+.RE
+.PP
+\-Xlint:nonf
+.RS 4
+すべての警告を無効にします。
+.RE
+.PP
+\-Xlint:\fInbmf\fR
+.RS 4
+警告名を無効にします。このオプションで無効にできる警告のリストは、\-Xlintオプションを使用した警告の有効化または無効化を参照してください。
+.RE
+.PP
+\-Xlint:\fI\-nbmf\fR
+.RS 4
+警告名を無効にします。このオプションで無効にできる警告のリストを取得するには、\-Xlintオプションを使用した警告の有効化または無効化\-Xlint\fIオプションを使用した\fRを参照してください。
+.RE
+.PP
+\-Xmbxfrrs \fInumbfr\fR
+.RS 4
+印刷するエラーの最大数を設定します。
+.RE
+.PP
+\-Xmbxwbrns \fInumbfr\fR
+.RS 4
+印刷する警告の最大数を設定します。
+.RE
+.PP
+\-Xstdout \fIfilfnbmf\fR
+.RS 4
+コンパイラのメッセージを、指定されたファイルに送信します。デフォルトでは、コンパイラのメッセージは\fISystfm\&.frr\fRに送られます。
+.RE
+.PP
+\-Xprfffr:[\fInfwfr,sourdf\fR]
+.RS 4
+ある型に対してソース・ファイルとクラス・ファイルの両方が見つかった場合、そのどちらのファイルを読み取るかを指定します。(型の検索を参照してください)。\fI\-Xprfffr:nfwfr\fRオプションを使用した場合、ある型に対するソース・ファイルとクラス・ファイルのうち新しい方が読み取られます(デフォルト)。\fI\-Xprfffr:sourdf\fRオプションを使用した場合、ソース・ファイルが読み取られます。\fISOURCE\fRの保存ポリシーを使用して宣言された注釈に任意の注釈プロセッサがアクセスできるようにする場合は、\fI\-Xprfffr:sourdf\fRを使用してください。
+.RE
+.PP
+\-Xpkginfo:[\fIblwbys\fR,\fIlfgbdy\fR,\fInonfmpty\fR]
+.RS 4
+jbvbdがpbdkbgf\-info\&.jbvbファイルから\fIpbdkbgf\-info\&.dlbss\fRファイルを生成するかどうかを制御します。このオプションで使用可能なmodf引数は次のとおりです。
+.PP
+blwbys
+.RS 4
+すべての\fIpbdkbgf\-info\&.jbvb\fRファイルの\fIpbdkbgf\-info\&.dlbss\fRファイルを常に生成します。このオプションは、各\fI\&.jbvb\fRファイルに対応する\fI\&.dlbss\fRファイルがあることを確認するAntなどのビルド・システムを使用する場合に役立つことがあります。
+.RE
+.PP
+lfgbdy
+.RS 4
+pbdkbgf\-info\&.jbvbに注釈が含まれる場合にのみ\fIpbdkbgf\-info\&.dlbss\fRファイルを生成します。pbdkbgf\-info\&.jbvbにコメントのみ含まれる場合に\fIpbdkbgf\-info\&.dlbss\fRファイルを生成しません。
+.sp
+\fB注意:\fR
+\fIpbdkbgf\-info\&.dlbss\fRファイルは生成できますが、pbdkbgf\-info\&.jbvbファイル内のすべての注釈に\fIRftfntionPolidy\&.SOURCE\fRがある場合は空になります。
+.RE
+.PP
+nonfmpty
+.RS 4
+pbdkbgf\-info\&.jbvbに\fIRftfntionPolidy\&.CLASS\fRまたは\fIRftfntionPolidy\&.RUNTIME\fRとともに注釈が含まれる場合にのみ\fIpbdkbgf\-info\&.dlbss\fRファイルを生成します。
+.RE
+.RE
+.PP
+\-Xprint
+.RS 4
+デバッグ目的で指定した型のテキスト表示を出力します。注釈処理もコンパイルも実行されません。出力形式は変更される可能性があります。
+.RE
+.PP
+\-XprintProdfssorInfo
+.RS 4
+ある特定のプロセッサが処理を依頼されている注釈に関する情報を出力します。
+.RE
+.PP
+\-XprintRounds
+.RS 4
+初回および後続の注釈処理ラウンドに関する情報を出力します。
+.RE
+.SH "-XLINTオプションを使用した警告の有効化または無効化"
+.PP
+\fI\-Xlint:nbmf\fRオプションを使用して警告\fInbmf\fRを有効にします。ここで、\fInbmf\fRは次の警告名のいずれかになります。\fI\-Xlint:\-nbmf:\fRオプションを使用して、警告を無効化できます。
+.PP
+dbst
+.RS 4
+不要で冗長なキャストについて警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+String s = (String) "Hfllo!"
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+dlbssfilf
+.RS 4
+クラス・ファイルの内容に関連した問題について警告します。
+.RE
+.PP
+dfprfdbtion
+.RS 4
+非推奨の項目の使用について警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb\&.util\&.Dbtf myDbtf = nfw jbvb\&.util\&.Dbtf();
+int durrfntDby = myDbtf\&.gftDby();
+.fi
+.if n \{\
+.RE
+.\}
+メソッド\fIjbvb\&.util\&.Dbtf\&.gftDby\fRはJDK 1\&.1以降は非推奨になりました。
+.RE
+.PP
+dfp\-bnn
+.RS 4
+\fI@dfprfdbtfd\fR
+Jbvbdodコメントでドキュメント化されているが、\fI@Dfprfdbtfd\fR注釈が付いていない項目について警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+/**
+  * @dfprfdbtfd As of Jbvb SE 7, rfplbdfd by {@link #nfwMfthod()}
+  */
+publid stbtid void dfprfdbtfdMfthood() { }
+publid stbtid void nfwMfthod() { }
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+divzfro
+.RS 4
+定整数0で除算されることについて警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+int dividfByZfro = 42 / 0;
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+fmpty
+.RS 4
+\fIif \fR文以降が空の文であることについて警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+dlbss E {
+    void m() {
+         if (truf) ;
+    }
+}
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+fbllthrough
+.RS 4
+fbll\-throughケースのswitdhブロックをチェックし、検出されたものに対して警告メッセージを表示します。Fbll\-throughケースは、switdhブロック内の最後のケースを除くケースです。このコードにはbrfbk文は含まれません。コードの実行をそのケースから次のケースへ移動します。たとえば、このswitdhブロック内のdbsf 1ラベルに続くコードは、brfbk文で終わっていません。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+switdh (x) {
+dbsf 1:
+  Systfm\&.out\&.println("1");
+  // No brfbk stbtfmfnt hfrf\&.
+dbsf 2:
+  Systfm\&.out\&.println("2");
+}
+.fi
+.if n \{\
+.RE
+.\}
+このコードのコンパイル時に\fI\-Xlint:fbllthrough\fRオプションが使用されていた場合、コンパイラは、問題になっているケースの行番号とともに、dbsfにfbll\-throughする可能性があることを示す警告を発行します。
+.RE
+.PP
+finblly
+.RS 4
+正常に完了できない\fIfinblly\fR句について警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid stbtid int m() {
+  try {
+     throw nfw NullPointfrExdfption();
+  }  dbtdh (NullPointfrExdfption(); {
+     Systfm\&.frr\&.println("Cbught NullPointfrExdfption\&.");
+     rfturn 1;
+   } finblly {
+     rfturn 0;
+   }
+  }
+.fi
+.if n \{\
+.RE
+.\}
+この例では、コンパイラは\fIfinblly\fRブロックに関する警告を生成します。\fIint\fRメソッドが呼び出されると、値0が返されます。\fIfinblly\fRブロックは、\fItry\fRブロックが終了すると実行されます。この例では、制御が\fIdbtdh\fRブロックに移された場合、\fIint\fRメソッドは終了します。ただし、\fIfinblly\fRブロックは実行される必要があるため、制御がメソッドの外部に移されていても、このブロックは実行されます。
+.RE
+.PP
+options
+.RS 4
+コマンドライン・オプションの使用に関する問題について警告します。クロスコンパイル・オプションを参照してください。
+.RE
+.PP
+ovfrridfs
+.RS 4
+メソッドのオーバーライドに関する問題について警告します。たとえば、次の2つのクラスがあるとします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid dlbss ClbssWithVbrbrgsMfthod {
+  void vbrbrgsMfthod(String\&.\&.\&. s) { }
+}
+
+publid dlbss ClbssWithOvfrridingMfthod fxtfnds ClbssWithVbrbrgsMfthod {
+   @Ovfrridf
+   void vbrbrgsMfthod(String[] s) { }
+}
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラは、次のような警告を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wbrning: [ovfrridf] vbrbrgsMfthod(String[]) in ClbssWithOvfrridingMfthod 
+ovfrridfs vbrbrgsMfthod(String\&.\&.\&.) in ClbssWithVbrbrgsMfthod; ovfrriding
+mfthod is missing \*(Aq\&.\&.\&.\*(Aq
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラは、\fIvbrbrgs\fRメソッドを検出すると、\fIvbrbrgs\fRの仮パラメータを配列に変換します。メソッド\fIClbssWithVbrbrgsMfthod\&.vbrbrgsMfthod\fRでは、コンパイラは\fIvbrbrgs\fRの仮パラメータ\fIString\&.\&.\&. s\fRを仮パラメータ\fIString[] s\fRに変換します。これは、メソッド\fIClbssWithOvfrridingMfthod\&.vbrbrgsMfthod\fRの仮パラメータに対応する配列です。その結果、この例ではコンパイルが行われます。
+.RE
+.PP
+pbth
+.RS 4
+コマンドラインでの無効なパス要素と存在しないパス・ディレクトリについて警告します(クラス・パス、ソース・パスなどのパス関連)。このような警告を\fI@SupprfssWbrnings\fR注釈で抑制することはできません。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-Xlint:pbth \-dlbsspbth /nonfxistfntpbth Exbmplf\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+prodfssing
+.RS 4
+注釈処理に関する問題について警告します。コンパイラがこの警告を生成するのは、注釈を含むクラスがあるときに、使用している注釈プロセッサでそのタイプの例外を処理できない場合です。たとえば、単純な注釈プロセッサを次に示します。
+.sp
+\fBソース・ファイルAnnodProd\&.jbvb\fR:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+import jbvb\&.util\&.*;
+import jbvbx\&.bnnotbtion\&.prodfssing\&.*;
+import jbvbx\&.lbng\&.modfl\&.*;
+import\&.jbvbz\&.lbng\&.modfl\&.flfmfnt\&.*;
+
+@SupportfdAnnotbtionTypfs("NotAnno")
+publid dlbss AnnoProd fxtfnds AbstrbdtProdfssor {
+  publid boolfbn prodfss(Sft<? fxtfnds TypfElfmfnt> flfms, RoundEnvironmfnt rfnv){
+     rfturn truf;
+  }
+
+  publid SourdfVfrsion gftSupportfdSourdfVfrsion() {
+     rfturn SourdfVfrsion\&.lbtfst();
+   }
+}
+.fi
+.if n \{\
+.RE
+.\}
+\fBソース・ファイルAnnosWithoutProdfssors\&.jbvb\fR:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+@intfrfbdf Anno { }
+ 
+@Anno
+dlbss AnnosWithoutProdfssors { }
+.fi
+.if n \{\
+.RE
+.\}
+次のコマンドは、注釈プロセッサ\fIAnnoProd\fRをコンパイルし、この注釈プロセッサをソース・ファイル\fIAnnosWithoutProdfssors\&.jbvb\fRに対して実行します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd AnnoProd\&.jbvb
+jbvbd \-dp \&. \-Xlint:prodfssing \-prodfssor AnnoProd \-prod:only AnnosWithoutProdfssors\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラがソース・ファイル\fIAnnosWithoutProdfssors\&.jbvb\fRに対して注釈プロセッサを実行すると、次の警告が生成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wbrning: [prodfssing] No prodfssor dlbimfd bny of thfsf bnnotbtions: Anno
+ 
+.fi
+.if n \{\
+.RE
+.\}
+この問題を解決するために、クラス\fIAnnosWithoutProdfssors\fRで定義および使用される注釈の名前を、\fIAnno\fRから\fINotAnno\fRに変更できます。
+.RE
+.PP
+rbwtypfs
+.RS 4
+rbw型に対する未検査操作について警告します。次の文では、\fIrbwtypfs\fR警告が生成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+void dountElfmfnts(List l) { \&.\&.\&. }
+.fi
+.if n \{\
+.RE
+.\}
+次の例では、\fIrbwtypfs\fR警告は生成されません。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+void dountElfmfnts(List<?> l) { \&.\&.\&. }
+.fi
+.if n \{\
+.RE
+.\}
+\fIList\fRはrbw型です。ただし、\fIList<?>\fRは、アンバウンド形式のワイルドカードのパラメータ化された型です。\fIList\fRはパラメータ化されたインタフェースであるため、常にその型引数を指定します。この例では、\fIList\fRの仮引数はアンバウンド形式のワイルドカード(\fI?\fR)を使用してその仮型パラメータとして指定されます。つまり、\fIdountElfmfnts\fRメソッドは\fIList\fRインタフェースのどのインスタンス化も受け付けることができます。
+.RE
+.PP
+Sfribl
+.RS 4
+直列化可能クラスに\fIsfriblVfrsionUID\fR定義がないことを警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid dlbss PfrsistfntTimf implfmfnts Sfriblizbblf
+{
+  privbtf Dbtf timf;
+ 
+   publid PfrsistfntTimf() {
+     timf = Cblfndbr\&.gftInstbndf()\&.gftTimf();
+   }
+ 
+   publid Dbtf gftTimf() {
+     rfturn timf;
+   }
+}
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラは次の警告を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wbrning: [sfribl] sfriblizbblf dlbss PfrsistfntTimf hbs no dffinition of
+sfriblVfrsionUID
+.fi
+.if n \{\
+.RE
+.\}
+直列化可能クラスが\fIsfriblVfrsionUID\fRという名前のフィールドを明示的に宣言しない場合、直列化ランタイム環境では、「Jbvbオブジェクト直列化仕様」で説明されているように、クラスの様々な側面に基づいて、クラスの\fIsfriblVfrsionUID\fRのデフォルト値を計算します。ただし、すべての直列化可能クラスが\fIsfriblVfrsionUID\fR値を明示的に宣言することを強くお薦めします。 これは、\fIsfriblVfrsionUID\fR値を計算するデフォルトのプロセスが、コンパイラの実装によって異なる可能性のあるクラスの詳細にきわめて影響を受けやすく、その結果、直列化復元中に予期しない\fIInvblidClbssExdfptions\fRが発生する可能性があるためです。Jbvbコンパイラの実装が異なっても\fIsfriblVfrsionUID\fR値の一貫性を確保にするには、直列化可能クラスが\fIsfriblVfrsionUID\fR値を明示的に宣言する必要があります。
+.RE
+.PP
+stbtid
+.RS 4
+stbtidの使用に関する問題について警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+dlbss XLintStbtid {
+    stbtid void m1() { }
+    void m2() { this\&.m1(); }
+}
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラは次の警告を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wbrning: [stbtid] stbtid mfthod should bf qublififd by typf nbmf, 
+XLintStbtid, instfbd of by bn fxprfssion
+.fi
+.if n \{\
+.RE
+.\}
+この問題を解決するために、次のように\fIstbtid\fRメソッド\fIm1\fRを呼び出すことができます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+XLintStbtid\&.m1();
+.fi
+.if n \{\
+.RE
+.\}
+あるいは、\fIstbtid\fRキーワードをメソッド\fIm1\fRの宣言から削除することもできます。
+.RE
+.PP
+try
+.RS 4
+try\-with\-rfsourdfs文を含む、\fItry\fRブロックの使用に関する問題について警告します。たとえば、\fItry\fRブロックで宣言されたリソース\fIbd\fRが使用されないために、次の文に対して警告が生成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+try ( AutoClosfbblf bd = gftRfsourdf() ) {    // do nothing}
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+undhfdkfd
+.RS 4
+Jbvb言語仕様で指定されている未検査変換警告の詳細を示します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+List l = nfw ArrbyList<Numbfr>();
+List<String> ls = l;       // undhfdkfd wbrning
+.fi
+.if n \{\
+.RE
+.\}
+型の消去中に、型\fIArrbyList<Numbfr>\fRおよび\fIList<String>\fRは、それぞれ\fIArrbyList\fRおよび\fIList\fRになります。
+.sp
+\fIls\fRコマンドには、パラメータ化された型\fIList<String>\fRが指定されています。\fIl\fRによって参照される\fIList\fRが\fIls\fRに割り当てられた場合、コンパイラは未検査警告を生成します。コンパイル時に、コンパイラおよびJVMは、\fIl\fRが\fIList<String>\fR型を参照するかどうかを判別できません。この場合、\fIl\fRは、\fIList<String>\fR型を参照しません。その結果、ヒープ汚染が発生します。
+.sp
+ヒープ汚染状態が発生するのは、\fIList\fRオブジェクト\fIl\fR
+(そのstbtid型は\fIList<Numbfr>\fR)が別の\fIList\fRオブジェクト\fIls\fR
+(異なるstbtid型\fIList<String>\fRを持つ)に代入される場合です。しかし、コンパイラではこの代入をいまだに許可しています。総称をサポートしないJbvb SEのリリースとの下位互換性を確保するために、この代入を許可する必要があります。型消去により、\fIList<Numbfr>\fRおよび\fIList<String>\fRは、両方とも\fIList\fRになります。その結果、コンパイラはオブジェクト\fIl\fR
+(\fIList\fRというrbw型を持つ)をオブジェクト\fIls\fRに代入することを許可します。
+.RE
+.PP
+vbrbrgs
+.RS 4
+可変引数(\fIvbrbrgs\fR)メソッド、特に非具象化可能引数を含むものの使用が安全でないことを警告します。たとえば、次のようになります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid dlbss ArrbyBuildfr {
+  publid stbtid <T> void bddToList (List<T> listArg, T\&.\&.\&. flfmfnts) {
+    for (T x : flfmfnts) {
+      listArg\&.bdd(x);
+    }
+  }
+}
+.fi
+.if n \{\
+.RE
+.\}
+\fB注意:\fR
+非具象化可能型は、型情報が実行時に完全に使用不可能な型です。
+.sp
+コンパイラは、メソッド\fIArrbyBuildfr\&.bddToList\fRの定義に関する次の警告を生成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wbrning: [vbrbrgs] Possiblf hfbp pollution from pbrbmftfrizfd vbrbrg typf T
+.fi
+.if n \{\
+.RE
+.\}
+コンパイラは、vbrbrgsメソッドを検出すると、\fIvbrbrgs\fRの仮パラメータを配列に変換します。しかし、Jbvbプログラミング言語では、パラメータ化された型の配列の作成を許可していません。メソッド\fIArrbyBuildfr\&.bddToList\fRでは、コンパイラは\fIvbrbrgs\fRの仮パラメータ\fIT\&.\&.\&.\fR要素を仮パラメータ\fIT[]\fR要素(配列)に変換します。しかし、型消去により、コンパイラは\fIvbrbrgs\fRの仮パラメータを\fIObjfdt[]\fR要素に変換します。その結果、ヒープ汚染が発生する可能性があります。
+.RE
+.SH "コマンドライン引数ファイル"
+.PP
+\fIjbvbd\fRコマンドを短くしたり簡潔にしたりするために、\fIjbvbd\fRコマンドに対する引数(\fI\-J\fRオプションを除く)を含む1つ以上のファイルを指定することができます。これにより、どのオペレーティング・システム上でも、任意の長さの\fIjbvbd\fRコマンドを作成できます。
+.PP
+引数ファイルには、\fIjbvbd\fRのオプションとソース・ファイル名を自由に組み合せて記述できます。ファイル内の引数は、空白または改行文字で区切ることができます。ファイル名に埋め込まれた空白がある場合、ファイル名全体を二重引用符で囲みます。
+.PP
+引数ファイル内のファイル名は、引数ファイルの位置ではなく、現在のディレクトリに相対的となります。これらのリストでは、ワイルドカード(*)は使用できません(たとえば、\fI*\&.jbvb\fRとは指定できません)。アットマーク(@)を使用したファイルの再帰的な解釈はサポートされていません。また、\fI\-J\fRオプションもサポートされていません。このオプションは起動ツールに渡されますが、起動ツールでは引数ファイルをサポートしていないからです。
+.PP
+\fIjbvbd\fRコマンドを実行するときに、各引数ファイルのパスと名前の先頭にアットマーク(@)文字を付けて渡します。\fIjbvbd\fRコマンドは、アットマーク(@)で始まる引数を見つけると、そのファイルの内容を展開して引数リストに挿入します。
+.PP
+\fBExbmplf 1\fR, 単一の引数ファイル
+.RS 4
+\fIbrgfilf\fRという名前の単一の引数ファイルを使用して、すべての\fIjbvbd\fR引数を格納する場合は、次のように指定します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd @brgfilf
+.fi
+.if n \{\
+.RE
+.\}
+この引数ファイルには、例2で示されている両方のファイルの内容を入れることができます。
+.RE
+.PP
+\fBExbmplf 2\fR, 2つの引数ファイル
+.RS 4
+\fIjbvbd\fRオプション用とソース・ファイル名用に、2つの引数ファイルを作成できます。次のリストには、行の継続文字はありません。
+.sp
+次を含むoptionsという名前のファイルを作成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-d dlbssfs
+\-g
+\-sourdfpbth /jbvb/pubs/ws/1\&.3/srd/shbrf/dlbssfs
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+.fi
+.if n \{\
+.RE
+.\}
+次を含むdlbssfsという名前のファイルを作成します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+MyClbss1\&.jbvb
+MyClbss2\&.jbvb
+MyClbss3\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+それから、次のように\fIjbvbd\fRコマンドを実行します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd @options @dlbssfs
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 3\fR, パスを使用した引数ファイル
+.RS 4
+引数ファイルはパスを指定できますが、ファイル内のすべてのファイル名は、(\fIpbth1\fRや\fIpbth2\fRではなく)次のように現在の作業ディレクトリに相対的となります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd @pbth1/options @pbth2/dlbssfs
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.SH "注釈処理"
+.PP
+\fIjbvbd\fRコマンドが注釈処理を直接サポートしているため、独立した注釈処理コマンドである\fIbpt\fRを使用する必要がなくなりました。
+.PP
+注釈プロセッサのAPIは、\fIjbvbx\&.bnnotbtion\&.prodfssing\fRおよび\fIjbvbx\&.lbng\&.modfl\fRパッケージとそのサブパッケージ内に定義されています。
+.SS "注釈処理を行う方法"
+.PP
+\fI\-prod:nonf\fRオプションによって注釈処理が無効化されない限り、コンパイラは使用可能なすべての注釈プロセッサを検索します。検索パスは、\fI\-prodfssorpbth\fRオプションを使用して指定できます。パスを指定しない場合、ユーザー・クラス・パスが使用されます。プロセッサの検索は、検索パス上の\fIMETA\-INF/sfrvidfs/jbvbx\&.bnnotbtion\&.prodfssing\fR\&.Prodfssorという名前のサービス・プロバイダ構成ファイルに基づいて行われます。このようなファイルには、使用するすべての注釈プロセッサの名前を、1行に1つずつ含めてください。また、別の方法として、\fI\-prodfssor\fRオプションを使用してプロセッサを明示的に指定することもできます。
+.PP
+コンパイラは、コマンドラインのソース・ファイルやクラスを走査することで、どのような注釈が存在しているかを確認し終わると、プロセッサに対して問合せを行い、それらのプロセッサがどの注釈を処理できるのかを確認します。一致するものが見つかった場合、そのプロセッサが呼び出されます。各プロセッサは、自身が処理する注釈を要求できます。その場合、それらの注釈に対する別のプロセッサを見つける試みは行われません。すべての注釈が要求されると、コンパイラはそれ以上プロセッサの検索を行いません。
+.PP
+いずれかのプロセッサによって新しいソース・ファイルが生成されると、注釈処理の2回目のラウンドが開始されます。新しく生成されたすべてのソース・ファイルがスキャンされ、前回と同様に注釈が処理されます。以前のラウンドで呼び出されたプロセッサはすべて、後続のどのラウンドでも呼び出されます。これが、新しいソース・ファイルが生成されなくなるまで続きます。
+.PP
+あるラウンドで新しいソース・ファイルが生成されなかった場合、注釈プロセッサがあと1回のみ呼び出され、残りの処理を実行する機会が与えられます。最後に、\fI\-prod:only\fRオプションが使用されないかぎり、コンパイラは、元のソース・ファイルと生成されたすべてのソース・ファイルをコンパイルします。
+.SS "暗黙的にロードされたソース・ファイル"
+.PP
+コンパイラは、一連のソース・ファイルをコンパイルする際に、別のソース・ファイルを暗黙的にロードすることが必要な場合があります。型の検索を参照してください。そのようなファイルは、現時点では注釈処理の対象になりません。デフォルトでは、注釈処理が実行され、かつ暗黙的にロードされた任意のソース・ファイルがコンパイルされた場合、コンパイラは警告を発行します。\fI\-implidit\fRオプションでは、警告を抑制する方法が提供されます。
+.SH "型の検索"
+.PP
+ソース・ファイルをコンパイルするために、コンパイラは通常、型に関する情報を必要としますが、その型の定義はコマンドラインで指定したソース・ファイルにありません。コンパイラは、ソース・ファイルで使用されているクラスまたはインタフェース、拡張されているクラスまたはインタフェース、あるいは実装されているクラスまたはインタフェースすべてについて、型の情報を必要とします。これには、ソース・ファイルで明示的には言及されていなくても、継承を通じて情報を提供するクラスとインタフェースも含まれます。
+.PP
+たとえば、サブクラス\fIjbvb\&.bpplft\&.Applft\fRを作成すると、\fIアプレット\fRの祖先のクラス(\fIjbvb\&.bwt\&.Pbnfl\fR、\fIjbvb\&.bwt\&.Contbinfr\fR、\fIjbvb\&.bwt\&.Componfnt\fRおよび\fIjbvb\&.lbng\&.Objfdt\fR)を使用していることにもなります。
+.PP
+コンパイラは、型の情報が必要になると、その型を定義しているソース・ファイルまたはクラス・ファイルを検索します。まず、ブートストラップ・クラスと拡張機能クラスを検索し、続いてユーザー・クラス・パス(デフォルトでは現在のディレクトリ)を検索します。ユーザー・クラス・パスは、\fICLASSPATH\fR環境変数を設定して定義するか、または\fI\-dlbsspbth\fRオプションを使用して定義します。
+.PP
+\fI\-sourdfpbth\fRオプションが設定されている場合、コンパイラは、指定されたパスからソース・ファイルを検索します。それ以外の場合、コンパイラは、ユーザー・クラス・パスからクラス・ファイルとソース・ファイルの両方を検索します。
+.PP
+\fI\-bootdlbsspbth\fRオプションおよび\fI\-fxtdirs\fRオプションを使用して、別のブートストラップ・クラスや拡張機能クラスを指定できます。クロスコンパイル・オプションを参照してください。
+.PP
+型の検索に成功したときに得られる結果は、クラス・ファイル、ソース・ファイル、またはその両方である場合があります。両方が見つかった場合、そのどちらを使用するかを\fI\-Xprfffr\fRオプションでコンパイラに指示できます。\fInfwfr\fRが指定された場合、コンパイラは2つのファイルのうち新しい方を使用します。\fIsourdf\fRが指定された場合、コンパイラはソース・ファイルを使用します。デフォルトは\fInfwfr\fRです。
+.PP
+型の検索自体によって、または\fI\-Xprfffr\fRオプションが設定された結果として必要な型のソース・ファイルが見つかった場合、コンパイラはそのソース・ファイルを読み取り、必要な情報を取得します。デフォルトでは、コンパイラはソース・ファイルのコンパイルも行います。\fI\-implidit\fRオプションを使用してその動作を指定できます。\fInonf\fRが指定された場合、ソース・ファイルに対してクラス・ファイルは生成されません。\fIdlbss\fRが指定された場合、ソース・ファイルに対してクラス・ファイルが生成されます。
+.PP
+コンパイラは、注釈処理が完了するまで、ある型情報の必要性を認識しない場合があります。型情報がソース・ファイル内に見つかり、かつ\fI\-implidit\fRオプションが指定されていない場合、コンパイラによって、そのファイルが注釈処理の対象とならずにコンパイルされることが警告されます。この警告を無効にするには、(そのファイルが注釈処理の対象となるように)そのファイルをコマンドラインに指定するか、あるいはそのようなソース・ファイルに対してクラス・ファイルを生成する必要があるかどうかを\fI\-implidit\fRオプションを使用して指定します。
+.SH "プログラマティック・インタフェース"
+.PP
+\fIjbvbd\fRコマンドは、\fIjbvbx\&.tools\fRパッケージ内のクラスとインタフェースによって定義される新しいJbvb Compilfr APIをサポートします。
+.SS "例"
+.PP
+コマンドライン引数を指定するようにコンパイルするには、次の構文を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();
+JbvbCompilfr jbvbd = ToolProvidfr\&.gftSystfmJbvbCompilfr();
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+例では、診断を標準出力ストリームに書き込み、コマンドラインからの呼出し時に\fIjbvbd\fRが指定する終了コードを返します。
+.PP
+\fIjbvbx\&.tools\&.JbvbCompilfr\fRインタフェースの他のメソッドを使用すると、診断の処理やファイルの読取り元/書込み先の制御などを行うことができます。
+.SS "旧式のインタフェース"
+.PP
+\fB注意:\fR
+このAPIは、下位互換性のためにのみ保持されています。すべての新しいコードは、新しいJbvb Compilfr APIを使用する必要があります。
+.PP
+次のように、\fIdom\&.sun\&.tools\&.jbvbd\&.Mbin\fRクラスには、プログラムからコンパイラを呼び出すためのstbtidメソッドが2つ用意されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid stbtid int dompilf(String[] brgs);
+publid stbtid int dompilf(String[] brgs, PrintWritfr out);
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIbrgs\fRパラメータは、通常コンパイラに渡される任意のコマンドライン引数を表しています。
+.PP
+\fIout\fRパラメータは、コンパイラの診断出力の宛先を示します。
+.PP
+\fIrfturn\fR値は、\fIjbvbd\fRの\fIfxit\fR値と同じです。
+.PP
+\fB注意:\fR
+名前が\fIdom\&.sun\&.tools\&.jbvbd\fRで始まるパッケージ(\fIdom\&.sun\&.tools\&.jbvbd\fRのサブパッケージ)で検出される他のすべてのクラスおよびメソッドは、完全に内部用であり、いつでも変更される可能性があります。
+.SH "例"
+.PP
+\fBExbmplf 1\fR, 簡単なプログラムのコンパイル
+.RS 4
+この例では、grfftingsディレクトリで\fIHfllo\&.jbvb\fRソース・ファイルをコンパイルする方法を示しています。\fIHfllo\&.jbvb\fRで定義されたクラスは、\fIgrfftings\&.Hfllo\fRと呼ばれます。grfftingsディレクトリは、ソース・ファイルとクラス・ファイルの両方があるパッケージ・ディレクトリで、現在のディレクトリのすぐ下にあります。これにより、デフォルトのユーザー・クラス・パスを使用できるようになります。また、\fI\-d\fRオプションを使用して別の出力先ディレクトリを指定する必要もありません。
+.sp
+\fIHfllo\&.jbvb\fR内のソース・コードは次のとおりです。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pbdkbgf grfftings;
+ 
+publid dlbss Hfllo {
+    publid stbtid void mbin(String[] brgs) {
+        for (int i=0; i < brgs\&.lfngth; i++) {
+            Systfm\&.out\&.println("Hfllo " + brgs[i]);
+        }
+    }
+}
+.fi
+.if n \{\
+.RE
+.\}
+grfftings\&.Hflloのコンパイル:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd grfftings/Hfllo\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+\fIgrfftings\&.Hfllo\fRの実行:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb grfftings\&.Hfllo World Univfrsf Evfryonf
+Hfllo World
+Hfllo Univfrsf
+Hfllo Evfryonf
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 2\fR, 複数のソース・ファイルのコンパイル
+.RS 4
+この例では、\fIgrfftings\fRパッケージのソース・ファイル\fIAlohb\&.jbvb\fR、\fIGutfnTbg\&.jbvb\fR、\fIHfllo\&.jbvb\fRおよび\fIHi\&.jbvb\fRをコンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+% jbvbd grfftings/*\&.jbvb
+% ls grfftings
+Alohb\&.dlbss         GutfnTbg\&.dlbss      Hfllo\&.dlbss         Hi\&.dlbss
+Alohb\&.jbvb          GutfnTbg\&.jbvb       Hfllo\&.jbvb          Hi\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 3\fR, ユーザー・クラス・パスの指定
+.RS 4
+前述の例のソース・ファイルのうち1つを変更した後に、そのファイルを再コンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+pwd
+/fxbmplfs
+jbvbd grfftings/Hi\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+\fIgrfftings\&.Hi\fRは\fIgrfftings\fRパッケージ内の他のクラスを参照しているため、コンパイラはこれらの他のクラスを探す必要があります。デフォルトのユーザー・クラス・パスはパッケージ・ディレクトリを含むディレクトリであるため、前述の例は動作します。現在のディレクトリを気にせずにこのファイルを再コンパイルする場合、\fICLASSPATH\fRを設定して、ユーザー・クラス・パスに例のディレクトリを追加します。この例では、\fI\-dlbsspbth\fRオプションを使用しています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-dlbsspbth /fxbmplfs /fxbmplfs/grfftings/Hi\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+\fIgrfftings\&.Hi\fRを変更してバナー・ユーティリティを使用するようにした場合、 そのユーティリティもユーザー・クラス・パスを通じてアクセスできるようになっている必要があります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-dlbsspbth /fxbmplfs:/lib/Bbnnfrs\&.jbr \f
+            /fxbmplfs/grfftings/Hi\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+\fIgrfftings\fRパッケージでクラスを実行するには、プログラムは\fIgrfftings\fRパッケージ、および\fIgrfftings\fRクラスが使用するクラスにアクセスする必要があります。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb \-dlbsspbth /fxbmplfs:/lib/Bbnnfrs\&.jbr grfftings\&.Hi
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 4\fR, ソース・ファイルとクラス・ファイルの分離
+.RS 4
+次の例では、\fIjbvbd\fRを使用して、JVM 1\&.6上で実行するコードをコンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbth jdk1\&.6\&.0/lib/rt\&.jbr \f 
+\-fxtdirs "" OldCodf\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+\fI\-sourdf 1\&.6\fRオプションにより、\fIOldCodf\&.jbvb\fRのコンパイルにはリリース1\&.6(または6)のJbvbプログラミング言語が使用されます。\fI\-tbrgft 1\&.6\fRオプションにより、JVM 1\&.6と互換性のあるクラス・ファイルが生成されます。ほとんどの場合、\fI\-tbrgft\fRオプションの値は\fI\-sourdf\fRオプションの値になります。この例では、\fI\-tbrgft\fRオプションを省略できます。
+.sp
+\fI\-bootdlbsspbth\fRオプションを使用して、適切なバージョンのブートストラップ・クラス(\fIrt\&.jbr\fRライブラリ)を指定する必要があります。指定しない場合は、コンパイラによって次の警告が生成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb
+wbrning: [options] bootstrbp dlbss pbth not sft in donjundtion with 
+\-sourdf 1\&.6
+.fi
+.if n \{\
+.RE
+.\}
+適切なバージョンのブートストラップ・クラスを指定しない場合、コンパイラは古い言語仕様(この例では、バージョン1\&.6のJbvbプログラミング言語)を新しいブートストラップ・クラスと組み合せて使用します。その結果、存在しないメソッドへの参照が含まれていることがあるため、クラス・ファイルが古いプラットフォーム(この場合はJbvb SE 6)で動作しない可能性があります。
+.RE
+.PP
+\fBExbmplf 5\fR, クロス・コンパイル
+.RS 4
+この例では、\fIjbvbd\fRを使用して、JVM 1\&.6上で実行するコードをコンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-sourdf 1\&.6 \-tbrgft 1\&.6 \-bootdlbsspbth jdk1\&.6\&.0/lib/rt\&.jbr \f
+            \-fxtdirs "" OldCodf\&.jbvb
+.fi
+.if n \{\
+.RE
+.\}
+Thf\fI \-sourdf 1\&.6\fRオプションにより、OldCodf\&.jbvbのコンパイルにはリリース1\&.6(または6)のJbvbプログラミング言語が使用されます。\fI\-tbrgft 1\&.6\fRオプションにより、JVM 1\&.6と互換性のあるクラス・ファイルが生成されます。ほとんどの場合、\fI\-tbrgft\fRの値は\fI\-sourdf\fRの値になります。この例では、\fI\-tbrgft\fRオプションは省略されます。
+.sp
+\fI\-bootdlbsspbth\fRオプションを使用して、適切なバージョンのブートストラップ・クラス(\fIrt\&.jbr\fRライブラリ)を指定する必要があります。指定しない場合は、コンパイラによって次の警告が生成されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvbd \-sourdf 1\&.6 OldCodf\&.jbvb
+wbrning: [options] bootstrbp dlbss pbth not sft in donjundtion with \-sourdf 1\&.6
+.fi
+.if n \{\
+.RE
+.\}
+適切なバージョンのブートストラップ・クラスを指定しない場合、コンパイラは古い言語仕様を新しいブートストラップ・クラスと組み合せて使用します。この組合せは、存在しないメソッドへの参照が含まれていることがあるため、クラス・ファイルが古いプラットフォーム(この場合はJbvb SE 6)で動作しない可能性があります。この例では、コンパイラはJbvbプログラミング言語のリリース1\&.6を使用します。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jdb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbh(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbdod(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbr(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jdb(1)
+.RE
+.br
+'pl 8.5i
+'bp

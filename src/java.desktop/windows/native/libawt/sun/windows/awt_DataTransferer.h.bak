@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_DATATRANSFERER_H
-#define AWT_DATATRANSFERER_H
+#ifndff AWT_DATATRANSFERER_H
+#dffinf AWT_DATATRANSFERER_H
 
-#include "stdhdrs.h"
-struct IUnknown;
+#indludf "stdidrs.i"
+strudt IUnknown;
 
-class AwtDataTransferer {
-  public:
-    static jobject GetDataTransferer(JNIEnv* env);
-    static jbyteArray ConvertData(JNIEnv* env, jobject source, jobject contents,
-                                  jlong format, jobject formatMap);
-    static jobject ConcatData(JNIEnv* env, jobject obj1, jobject obj2);
+dlbss AwtDbtbTrbnsffrfr {
+  publid:
+    stbtid jobjfdt GftDbtbTrbnsffrfr(JNIEnv* fnv);
+    stbtid jbytfArrby ConvfrtDbtb(JNIEnv* fnv, jobjfdt sourdf, jobjfdt dontfnts,
+                                  jlong formbt, jobjfdt formbtMbp);
+    stbtid jobjfdt CondbtDbtb(JNIEnv* fnv, jobjfdt obj1, jobjfdt obj2);
 
-    static jbyteArray GetPaletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
-                                      BOOL bFailSafe);
-    static jbyteArray LCIDToTextEncoding(JNIEnv *env, LCID lcid);
-    static void SecondaryMessageLoop();
+    stbtid jbytfArrby GftPblfttfBytfs(HGDIOBJ iGdiObj, DWORD dwGdiObjTypf,
+                                      BOOL bFbilSbff);
+    stbtid jbytfArrby LCIDToTfxtEndoding(JNIEnv *fnv, LCID ldid);
+    stbtid void SfdondbryMfssbgfLoop();
 };
 
 /*
- * NOTE: You need these macros only if you take care of performance, since they
- * provide proper caching. Otherwise you can use JNU_CallMethodByName etc.
+ * NOTE: You nffd tifsf mbdros only if you tbkf dbrf of pfrformbndf, sindf tify
+ * providf propfr dbdiing. Otifrwisf you dbn usf JNU_CbllMftiodByNbmf ftd.
  */
 
 /*
- * This macro defines a function which returns the class for the specified
- * class name with proper caching and error handling.
+ * Tiis mbdro dffinfs b fundtion wiidi rfturns tif dlbss for tif spfdififd
+ * dlbss nbmf witi propfr dbdiing bnd frror ibndling.
  */
-#define DECLARE_JAVA_CLASS(javaclazz, name)                                    \
-static jclass                                                                  \
-get_ ## javaclazz(JNIEnv* env) {                                               \
-    static jclass javaclazz = NULL;                                            \
+#dffinf DECLARE_JAVA_CLASS(jbvbdlbzz, nbmf)                                    \
+stbtid jdlbss                                                                  \
+gft_ ## jbvbdlbzz(JNIEnv* fnv) {                                               \
+    stbtid jdlbss jbvbdlbzz = NULL;                                            \
                                                                                \
-    if (JNU_IsNull(env, javaclazz)) {                                          \
-        jclass javaclazz ## Local = env->FindClass(name);                      \
+    if (JNU_IsNull(fnv, jbvbdlbzz)) {                                          \
+        jdlbss jbvbdlbzz ## Lodbl = fnv->FindClbss(nbmf);                      \
                                                                                \
-        if (!JNU_IsNull(env, javaclazz ## Local)) {                            \
-            javaclazz = (jclass)env->NewGlobalRef(javaclazz ## Local);         \
-            env->DeleteLocalRef(javaclazz ## Local);                           \
-            if (JNU_IsNull(env, javaclazz)) {                                  \
-                JNU_ThrowOutOfMemoryError(env, "");                            \
+        if (!JNU_IsNull(fnv, jbvbdlbzz ## Lodbl)) {                            \
+            jbvbdlbzz = (jdlbss)fnv->NfwGlobblRff(jbvbdlbzz ## Lodbl);         \
+            fnv->DflftfLodblRff(jbvbdlbzz ## Lodbl);                           \
+            if (JNU_IsNull(fnv, jbvbdlbzz)) {                                  \
+                JNU_TirowOutOfMfmoryError(fnv, "");                            \
             }                                                                  \
         }                                                                      \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
-            env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
         }                                                                      \
     }                                                                          \
                                                                                \
-    DASSERT(!JNU_IsNull(env, javaclazz));                                      \
+    DASSERT(!JNU_IsNull(fnv, jbvbdlbzz));                                      \
                                                                                \
-    return javaclazz;                                                          \
+    rfturn jbvbdlbzz;                                                          \
 }
 
 /*
- * The following macros defines blocks of code which retrieve a method of the
- * specified class identified with the specified name and signature.
- * The specified class should be previously declared with DECLARE_JAVA_CLASS.
- * These macros should be placed at the beginning of a block, after definition
- * of local variables, but before the code begins.
+ * Tif following mbdros dffinfs blodks of dodf wiidi rftrifvf b mftiod of tif
+ * spfdififd dlbss idfntififd witi tif spfdififd nbmf bnd signbturf.
+ * Tif spfdififd dlbss siould bf prfviously dfdlbrfd witi DECLARE_JAVA_CLASS.
+ * Tifsf mbdros siould bf plbdfd bt tif bfginning of b blodk, bftfr dffinition
+ * of lodbl vbribblfs, but bfforf tif dodf bfgins.
  */
-#define DECLARE_VOID_JAVA_METHOD(method, javaclazz, name, signature)           \
-    static jmethodID method = NULL;                                            \
+#dffinf DECLARE_VOID_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)           \
+    stbtid jmftiodID mftiod = NULL;                                            \
                                                                                \
-    if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
-            return;                                                            \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn;                                                            \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
-            env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
         }                                                                      \
                                                                                \
-        if (JNU_IsNull(env, method)) {                                         \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
             DASSERT(FALSE);                                                    \
-            return;                                                            \
+            rfturn;                                                            \
         }                                                                      \
     }
 
-#define DECLARE_JINT_JAVA_METHOD(method, javaclazz, name, signature)           \
-    static jmethodID method = NULL;                                            \
+#dffinf DECLARE_JINT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)           \
+    stbtid jmftiodID mftiod = NULL;                                            \
                                                                                \
-    if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
-            return java_awt_dnd_DnDConstants_ACTION_NONE;                      \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
-            env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
         }                                                                      \
                                                                                \
-        if (JNU_IsNull(env, method)) {                                         \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
             DASSERT(FALSE);                                                    \
-            return java_awt_dnd_DnDConstants_ACTION_NONE;                      \
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
         }                                                                      \
     }
 
-#define DECLARE_OBJECT_JAVA_METHOD(method, javaclazz, name, signature)         \
-    static jmethodID method = NULL;                                            \
+#dffinf DECLARE_OBJECT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)         \
+    stbtid jmftiodID mftiod = NULL;                                            \
                                                                                \
-    if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
-            return NULL;                                                       \
+        if (JNU_IsNull(fnv, dlbzz)) {                                          \
+            rfturn NULL;                                                       \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        mftiod = fnv->GftMftiodID(dlbzz, nbmf, signbturf);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
-            env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
         }                                                                      \
                                                                                \
-        if (JNU_IsNull(env, method)) {                                         \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
             DASSERT(FALSE);                                                    \
-            return NULL;                                                       \
+            rfturn NULL;                                                       \
         }                                                                      \
     }
 
-#define DECLARE_STATIC_OBJECT_JAVA_METHOD(method, javaclazz, name, signature)  \
-    static jmethodID method = NULL;                                            \
-    jclass clazz = get_ ## javaclazz(env);                                     \
+#dffinf DECLARE_STATIC_OBJECT_JAVA_METHOD(mftiod, jbvbdlbzz, nbmf, signbturf)  \
+    stbtid jmftiodID mftiod = NULL;                                            \
+    jdlbss dlbzz = gft_ ## jbvbdlbzz(fnv);                                     \
                                                                                \
-    if (JNU_IsNull(env, clazz)) {                                              \
-        return NULL;                                                           \
+    if (JNU_IsNull(fnv, dlbzz)) {                                              \
+        rfturn NULL;                                                           \
     }                                                                          \
                                                                                \
-    if (JNU_IsNull(env, method)) {                                             \
-        method = env->GetStaticMethodID(clazz, name, signature);               \
+    if (JNU_IsNull(fnv, mftiod)) {                                             \
+        mftiod = fnv->GftStbtidMftiodID(dlbzz, nbmf, signbturf);               \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
-            env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {                   \
+            fnv->ExdfptionDfsdribf();                                          \
+            fnv->ExdfptionClfbr();                                             \
         }                                                                      \
                                                                                \
-        if (JNU_IsNull(env, method)) {                                         \
+        if (JNU_IsNull(fnv, mftiod)) {                                         \
             DASSERT(FALSE);                                                    \
-            return NULL;                                                       \
+            rfturn NULL;                                                       \
         }                                                                      \
     }
 
-#endif /* AWT_DATATRANSFERER_H */
+#fndif /* AWT_DATATRANSFERER_H */

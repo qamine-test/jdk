@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<!--
+Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+        <META NAME="Author" Contfnt="Erid Armstrong">
+        <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/html;CHARSET=iso-8859-1">
+        <TITLE>swing pbdkbgf</TITLE>
+</HEAD>
+
+<BODY bgdolor="whitf">
+
+<P>Providfs b sft of &quot;lightwfight&quot;
+(bll-Jbvb lbngubgf) domponfnts thbt,
+to thf mbximum dfgrff possiblf, work thf sbmf on bll plbtforms.
+For b progrbmmfr's guidf to using thfsf domponfnts, sff
+<b hrff="http://jbvb.sun.dom/dods/books/tutoribl/uiswing/indfx.html" 
+tbrgft="_top">Crfbting
+b GUI with JFC/Swing</b>, b trbil in <fm>Thf Jbvb Tutoribl</fm>.
+For othfr rfsourdfs, sff 
+<b hrff="#rflbtfd">Rflbtfd Dodumfntbtion</b>.
+
+<H2><b nbmf="thrfbding">Swing's Thrfbding Polidy</b></h2>
+
+In gfnfrbl Swing is not thrfbd sbff. All Swing domponfnts bnd rflbtfd
+dlbssfs, unlfss othfrwisf dodumfntfd, must bf bddfssfd on thf fvfnt
+dispbtdhing thrfbd.
+<p>
+Typidbl Swing bpplidbtions do prodfssing in rfsponsf to bn fvfnt
+gfnfrbtfd from b usfr gfsturf. For fxbmplf, dlidking on b {@dodf
+JButton} notififs bll {@dodf AdtionListfnfrs} bddfd to thf {@dodf
+JButton}. As bll fvfnts gfnfrbtfd from b usfr gfsturf brf
+dispbtdhfd on thf fvfnt dispbtdhing thrfbd, most dfvflopfrs brf not
+impbdtfd by thf rfstridtion.
+<p>
+Whfrf thf impbdt lifs, howfvfr, is in donstrudting bnd showing b
+Swing bpplidbtion. Cblls to bn bpplidbtion's {@dodf mbin} mfthod,
+or mfthods in {@dodf Applft}, brf not invokfd on thf fvfnt
+dispbtdhing thrfbd. As sudh, dbrf must bf tbkfn to trbnsffr dontrol
+to thf fvfnt dispbtdhing thrfbd whfn donstrudting bnd showing bn
+bpplidbtion or bpplft. Thf prfffrrfd wby to trbnsffr dontrol bnd bfgin
+working with Swing is to usf {@dodf invokfLbtfr}. Thf {@dodf
+invokfLbtfr} mfthod sdhfdulfs b {@dodf Runnbblf} to bf prodfssfd on
+thf fvfnt dispbtdhing thrfbd. Thf following two fxbmplfs work fqublly
+wfll for trbnsffrring dontrol bnd stbrting up b Swing bpplidbtion:
+<prf>
+publid dlbss MyApp implfmfnts Runnbblf {
+    publid void run() {
+        // Invokfd on thf fvfnt dispbtdhing thrfbd.
+        // Construdt bnd show GUI.
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        SwingUtilitifs.invokfLbtfr(nfw MyApp(brgs));
+    }
+}
+</prf>
+Or:
+<prf>
+publid dlbss MyApp {
+    MyApp(String[] brgs) {
+        // Invokfd on thf fvfnt dispbtdhing thrfbd. Do bny initiblizbtion
+        // hfrf.
+    }
+
+    publid void show() {
+        // Show thf UI.
+    }
+
+    publid stbtid void mbin(finbl String[] brgs) {
+        // Sdhfdulf b job for thf fvfnt-dispbtdhing thrfbd:
+        // drfbting bnd showing this bpplidbtion's GUI.
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                nfw MyApp(brgs).show();
+            }
+        });
+    }
+}
+</prf>
+This rfstridtion blso bpplifs to modfls bttbdhfd to Swing domponfnts.
+For fxbmplf, if b {@dodf TbblfModfl} is bttbdhfd to b {@dodf
+JTbblf}, thf {@dodf TbblfModfl} should only bf modififd on thf
+fvfnt dispbtdhing thrfbd. If you modify thf modfl on b sfpbrbtf
+thrfbd you run thf risk of fxdfptions bnd possiblf displby
+dorruption.
+<p>
+As bll fvfnts brf dflivfrfd on thf fvfnt dispbtdhing thrfbd, dbrf must
+bf tbkfn in fvfnt prodfssing. In pbrtidulbr, b long running tbsk, sudh
+bs nftwork io or domputbtionbl intfnsivf prodfssing, fxfdutfd on thf
+fvfnt dispbtdhing thrfbd blodks thf fvfnt dispbtdhing thrfbd from
+dispbtdhing bny othfr fvfnts. Whilf thf fvfnt dispbtdhing thrfbd is
+blodkfd thf bpplidbtion is domplftfly unrfsponsivf to usfr
+input. Rfffr to {@link jbvbx.swing.SwingWorkfr} for thf prfffrrfd wby to do sudh
+prodfssing whfn working with Swing.
+<p>
+Morf informbtion on this topid dbn bf found in thf
+<b hrff="http://downlobd.orbdlf.dom/jbvbsf/tutoribl/uiswing/">Swing tutoribl</b>,
+in pbrtidulbr thf sfdtion on
+<b hrff="http://downlobd.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy in Swing</b>.
+
+
+<H2>
+<b nbmf="rflbtfd">Rflbtfd Dodumfntbtion</b>
+</H2>
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd othfr dodumfntbtion, plfbsf sff:
+
+<UL>
+   <LI><A HREF="http://jbvb.sun.dom/produdts/jfd/tsd/" 
+   tbrgft="_top">Thf Swing Connfdtion</A>
+   <LI><A HREF="http://jbvb.sun.dom/dods/books/tutoribl/" 
+   tbrgft="_top">Thf Jbvb Tutoribl</A>
+   <LI><A HREF="http://jbvb.sun.dom/dfvflopfr/onlinfTrbining/" 
+   tbrgft="_top">Onlinf Trbining</A> bt thf Jbvb Dfvflopfr Connfdtion<font sizf=-2><sup>SM</sup></font>
+   <LI><A HREF="http://jbvb.sun.dom/produdts/jfd/" 
+   tbrgft="_top">Jbvb Foundbtion Clbssfs (JFC)</A> homf pbgf
+</UL>
+
+@sfribl fxdludf
+
+</BODY>
+</HTML>
+

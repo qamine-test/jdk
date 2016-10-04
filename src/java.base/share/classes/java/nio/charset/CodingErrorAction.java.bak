@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.charset;
+pbdkbgf jbvb.nio.dibrsft;
 
 
 /**
- * A typesafe enumeration for coding-error actions.
+ * A typfsbff fnumfrbtion for doding-frror bdtions.
  *
- * <p> Instances of this class are used to specify how malformed-input and
- * unmappable-character errors are to be handled by charset <a
- * href="CharsetDecoder.html#cae">decoders</a> and <a
- * href="CharsetEncoder.html#cae">encoders</a>.  </p>
+ * <p> Instbndfs of tiis dlbss brf usfd to spfdify iow mblformfd-input bnd
+ * unmbppbblf-dibrbdtfr frrors brf to bf ibndlfd by dibrsft <b
+ * irff="CibrsftDfdodfr.itml#dbf">dfdodfrs</b> bnd <b
+ * irff="CibrsftEndodfr.itml#dbf">fndodfrs</b>.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public class CodingErrorAction {
+publid dlbss CodingErrorAdtion {
 
-    private String name;
+    privbtf String nbmf;
 
-    private CodingErrorAction(String name) {
-        this.name = name;
+    privbtf CodingErrorAdtion(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Action indicating that a coding error is to be handled by dropping the
-     * erroneous input and resuming the coding operation.
+     * Adtion indidbting tibt b doding frror is to bf ibndlfd by dropping tif
+     * frronfous input bnd rfsuming tif doding opfrbtion.
      */
-    public static final CodingErrorAction IGNORE
-        = new CodingErrorAction("IGNORE");
+    publid stbtid finbl CodingErrorAdtion IGNORE
+        = nfw CodingErrorAdtion("IGNORE");
 
     /**
-     * Action indicating that a coding error is to be handled by dropping the
-     * erroneous input, appending the coder's replacement value to the output
-     * buffer, and resuming the coding operation.
+     * Adtion indidbting tibt b doding frror is to bf ibndlfd by dropping tif
+     * frronfous input, bppfnding tif dodfr's rfplbdfmfnt vbluf to tif output
+     * bufffr, bnd rfsuming tif doding opfrbtion.
      */
-    public static final CodingErrorAction REPLACE
-        = new CodingErrorAction("REPLACE");
+    publid stbtid finbl CodingErrorAdtion REPLACE
+        = nfw CodingErrorAdtion("REPLACE");
 
     /**
-     * Action indicating that a coding error is to be reported, either by
-     * returning a {@link CoderResult} object or by throwing a {@link
-     * CharacterCodingException}, whichever is appropriate for the method
-     * implementing the coding process.
+     * Adtion indidbting tibt b doding frror is to bf rfportfd, fitifr by
+     * rfturning b {@link CodfrRfsult} objfdt or by tirowing b {@link
+     * CibrbdtfrCodingExdfption}, wiidifvfr is bppropribtf for tif mftiod
+     * implfmfnting tif doding prodfss.
      */
-    public static final CodingErrorAction REPORT
-        = new CodingErrorAction("REPORT");
+    publid stbtid finbl CodingErrorAdtion REPORT
+        = nfw CodingErrorAdtion("REPORT");
 
     /**
-     * Returns a string describing this action.
+     * Rfturns b string dfsdribing tiis bdtion.
      *
-     * @return  A descriptive string
+     * @rfturn  A dfsdriptivf string
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
 }

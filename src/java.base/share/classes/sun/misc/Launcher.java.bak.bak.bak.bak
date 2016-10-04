@@ -1,0 +1,592 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfPfrmission;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.nft.URLStrfbmHbndlfrFbdtory;
+import jbvb.util.HbshSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.CodfSourdf;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.nft.www.PbrsfUtil;
+
+/**
+ * This dlbss is usfd by thf systfm to lbundh thf mbin bpplidbtion.
+Lbundhfr */
+publid dlbss Lbundhfr {
+    privbtf stbtid URLStrfbmHbndlfrFbdtory fbdtory = nfw Fbdtory();
+    privbtf stbtid Lbundhfr lbundhfr = nfw Lbundhfr();
+    privbtf stbtid String bootClbssPbth =
+        Systfm.gftPropfrty("sun.boot.dlbss.pbth");
+
+    publid stbtid Lbundhfr gftLbundhfr() {
+        rfturn lbundhfr;
+    }
+
+    privbtf ClbssLobdfr lobdfr;
+
+    publid Lbundhfr() {
+        // Crfbtf thf fxtfnsion dlbss lobdfr
+        ClbssLobdfr fxtdl;
+        try {
+            fxtdl = ExtClbssLobdfr.gftExtClbssLobdfr();
+        } dbtdh (IOExdfption f) {
+            throw nfw IntfrnblError(
+                "Could not drfbtf fxtfnsion dlbss lobdfr", f);
+        }
+
+        // Now drfbtf thf dlbss lobdfr to usf to lbundh thf bpplidbtion
+        try {
+            lobdfr = AppClbssLobdfr.gftAppClbssLobdfr(fxtdl);
+        } dbtdh (IOExdfption f) {
+            throw nfw IntfrnblError(
+                "Could not drfbtf bpplidbtion dlbss lobdfr", f);
+        }
+
+        // Also sft thf dontfxt dlbss lobdfr for thf primordibl thrfbd.
+        Thrfbd.durrfntThrfbd().sftContfxtClbssLobdfr(lobdfr);
+
+        // Finblly, instbll b sfdurity mbnbgfr if rfqufstfd
+        String s = Systfm.gftPropfrty("jbvb.sfdurity.mbnbgfr");
+        if (s != null) {
+            SfdurityMbnbgfr sm = null;
+            if ("".fqubls(s) || "dffbult".fqubls(s)) {
+                sm = nfw jbvb.lbng.SfdurityMbnbgfr();
+            } flsf {
+                try {
+                    sm = (SfdurityMbnbgfr)lobdfr.lobdClbss(s).nfwInstbndf();
+                } dbtdh (IllfgblAddfssExdfption f) {
+                } dbtdh (InstbntibtionExdfption f) {
+                } dbtdh (ClbssNotFoundExdfption f) {
+                } dbtdh (ClbssCbstExdfption f) {
+                }
+            }
+            if (sm != null) {
+                Systfm.sftSfdurityMbnbgfr(sm);
+            } flsf {
+                throw nfw IntfrnblError(
+                    "Could not drfbtf SfdurityMbnbgfr: " + s);
+            }
+        }
+    }
+
+    /*
+     * Rfturns thf dlbss lobdfr usfd to lbundh thf mbin bpplidbtion.
+     */
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
+    }
+
+    /*
+     * Thf dlbss lobdfr usfd for lobding instbllfd fxtfnsions.
+     */
+    stbtid dlbss ExtClbssLobdfr fxtfnds URLClbssLobdfr {
+
+        stbtid {
+            ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
+        }
+
+        /**
+         * drfbtf bn ExtClbssLobdfr. Thf ExtClbssLobdfr is drfbtfd
+         * within b dontfxt thbt limits whidh filfs it dbn rfbd
+         */
+        publid stbtid ExtClbssLobdfr gftExtClbssLobdfr() throws IOExdfption
+        {
+            finbl Filf[] dirs = gftExtDirs();
+
+            try {
+                // Prior implfmfntbtions of this doPrivilfgfd() blodk supplifd
+                // bb synthfsizfd ACC vib b dbll to thf privbtf mfthod
+                // ExtClbssLobdfr.gftContfxt().
+
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<ExtClbssLobdfr>() {
+                        publid ExtClbssLobdfr run() throws IOExdfption {
+                            int lfn = dirs.lfngth;
+                            for (int i = 0; i < lfn; i++) {
+                                MftbIndfx.rfgistfrDirfdtory(dirs[i]);
+                            }
+                            rfturn nfw ExtClbssLobdfr(dirs);
+                        }
+                    });
+            } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+                throw (IOExdfption) f.gftExdfption();
+            }
+        }
+
+        void bddExtURL(URL url) {
+            supfr.bddURL(url);
+        }
+
+        /*
+         * Crfbtfs b nfw ExtClbssLobdfr for thf spfdififd dirfdtorifs.
+         */
+        publid ExtClbssLobdfr(Filf[] dirs) throws IOExdfption {
+            supfr(gftExtURLs(dirs), null, fbdtory);
+        }
+
+        privbtf stbtid Filf[] gftExtDirs() {
+            String s = Systfm.gftPropfrty("jbvb.fxt.dirs");
+            Filf[] dirs;
+            if (s != null) {
+                StringTokfnizfr st =
+                    nfw StringTokfnizfr(s, Filf.pbthSfpbrbtor);
+                int dount = st.dountTokfns();
+                dirs = nfw Filf[dount];
+                for (int i = 0; i < dount; i++) {
+                    dirs[i] = nfw Filf(st.nfxtTokfn());
+                }
+            } flsf {
+                dirs = nfw Filf[0];
+            }
+            rfturn dirs;
+        }
+
+        privbtf stbtid URL[] gftExtURLs(Filf[] dirs) throws IOExdfption {
+            Vfdtor<URL> urls = nfw Vfdtor<URL>();
+            for (int i = 0; i < dirs.lfngth; i++) {
+                String[] filfs = dirs[i].list();
+                if (filfs != null) {
+                    for (int j = 0; j < filfs.lfngth; j++) {
+                        if (!filfs[j].fqubls("mftb-indfx")) {
+                            Filf f = nfw Filf(dirs[i], filfs[j]);
+                            urls.bdd(gftFilfURL(f));
+                        }
+                    }
+                }
+            }
+            URL[] ub = nfw URL[urls.sizf()];
+            urls.dopyInto(ub);
+            rfturn ub;
+        }
+
+        /*
+         * Sfbrdhfs thf instbllfd fxtfnsion dirfdtorifs for thf spfdififd
+         * librbry nbmf. For fbdh fxtfnsion dirfdtory, wf first look for
+         * thf nbtivf librbry in thf subdirfdtory whosf nbmf is thf vbluf
+         * of thf systfm propfrty <dodf>os.brdh</dodf>. Fbiling thbt, wf
+         * look in thf fxtfnsion dirfdtory itsflf.
+         */
+        publid String findLibrbry(String nbmf) {
+            finbl String libnbmf = Systfm.mbpLibrbryNbmf(nbmf);
+            URL[] urls = supfr.gftURLs();
+            Filf prfvDir = null;
+            for (int i = 0; i < urls.lfngth; i++) {
+                // Gft thf fxt dirfdtory from thf URL
+                Filf dir = nfw Filf(urls[i].gftPbth()).gftPbrfntFilf();
+                if (dir != null && !dir.fqubls(prfvDir)) {
+                    // Look in brdhitfdturf-spfdifid subdirfdtory first
+                    // Rfbd from thf sbvfd systfm propfrtifs to bvoid dfbdlodk
+                    finbl String brdh = VM.gftSbvfdPropfrty("os.brdh");
+                    String pbthnbmf = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                if (brdh != null) {
+                                    Filf filf = nfw Filf(nfw Filf(dir, brdh), libnbmf);
+                                    if (filf.fxists()) {
+                                        rfturn filf.gftAbsolutfPbth();
+                                    }
+                                }
+                                // Thfn dhfdk thf fxtfnsion dirfdtory
+                                Filf filf = nfw Filf(dir, libnbmf);
+                                if (filf.fxists()) {
+                                    rfturn filf.gftAbsolutfPbth();
+                                }
+                                rfturn null;
+                            }
+                        });
+                    if (pbthnbmf != null) {
+                        rfturn pbthnbmf;
+                    }
+                }
+                prfvDir = dir;
+            }
+            rfturn null;
+        }
+
+        privbtf stbtid AddfssControlContfxt gftContfxt(Filf[] dirs)
+            throws IOExdfption
+        {
+            PbthPfrmissions pfrms =
+                nfw PbthPfrmissions(dirs);
+
+            ProtfdtionDombin dombin = nfw ProtfdtionDombin(
+                nfw CodfSourdf(pfrms.gftCodfBbsf(),
+                    (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null),
+                pfrms);
+
+            AddfssControlContfxt bdd =
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
+
+            rfturn bdd;
+        }
+    }
+
+    /**
+     * Thf dlbss lobdfr usfd for lobding from jbvb.dlbss.pbth.
+     * runs in b rfstridtfd sfdurity dontfxt.
+     */
+    stbtid dlbss AppClbssLobdfr fxtfnds URLClbssLobdfr {
+
+        stbtid {
+            ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
+        }
+
+        publid stbtid ClbssLobdfr gftAppClbssLobdfr(finbl ClbssLobdfr fxtdl)
+            throws IOExdfption
+        {
+            finbl String s = Systfm.gftPropfrty("jbvb.dlbss.pbth");
+            finbl Filf[] pbth = (s == null) ? nfw Filf[0] : gftClbssPbth(s, truf);
+
+            // Notf: on bugid 4256530
+            // Prior implfmfntbtions of this doPrivilfgfd() blodk supplifd
+            // b rbthfr rfstridtivf ACC vib b dbll to thf privbtf mfthod
+            // AppClbssLobdfr.gftContfxt(). This provfd ovfrly rfstridtivf
+            // whfn lobding  dlbssfs. Spfdifidblly it prfvfnt
+            // bddfssClbssInPbdkbgf.sun.* grbnts from bfing honorfd.
+            //
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<AppClbssLobdfr>() {
+                    publid AppClbssLobdfr run() {
+                    URL[] urls =
+                        (s == null) ? nfw URL[0] : pbthToURLs(pbth);
+                    rfturn nfw AppClbssLobdfr(urls, fxtdl);
+                }
+            });
+        }
+
+        /*
+         * Crfbtfs b nfw AppClbssLobdfr
+         */
+        AppClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt) {
+            supfr(urls, pbrfnt, fbdtory);
+        }
+
+        /**
+         * Ovfrridf lobdClbss so wf dbn dhfdkPbdkbgfAddfss.
+         */
+        publid Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+            throws ClbssNotFoundExdfption
+        {
+            int i = nbmf.lbstIndfxOf('.');
+            if (i != -1) {
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    sm.dhfdkPbdkbgfAddfss(nbmf.substring(0, i));
+                }
+            }
+            rfturn (supfr.lobdClbss(nbmf, rfsolvf));
+        }
+
+        /**
+         * bllow bny dlbssfs lobdfd from dlbsspbth to fxit thf VM.
+         */
+        protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
+        {
+            PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+            pfrms.bdd(nfw RuntimfPfrmission("fxitVM"));
+            rfturn pfrms;
+        }
+
+        /**
+         * This dlbss lobdfr supports dynbmid bdditions to thf dlbss pbth
+         * bt runtimf.
+         *
+         * @sff jbvb.lbng.instrumfnt.Instrumfntbtion#bppfndToSystfmClbssLobdfrSfbrdh
+         */
+        privbtf void bppfndToClbssPbthForInstrumfntbtion(String pbth) {
+            bssfrt(Thrfbd.holdsLodk(this));
+
+            // bddURL is b no-op if pbth blrfbdy dontbins thf URL
+            supfr.bddURL( gftFilfURL(nfw Filf(pbth)) );
+        }
+
+        /**
+         * drfbtf b dontfxt thbt dbn rfbd bny dirfdtorifs (rfdursivfly)
+         * mfntionfd in thf dlbss pbth. In thf dbsf of b jbr, it hbs to
+         * bf thf dirfdtory dontbining thf jbr, not just thf jbr, bs jbr
+         * filfs might rfffr to othfr jbr filfs.
+         */
+
+        privbtf stbtid AddfssControlContfxt gftContfxt(Filf[] dp)
+            throws jbvb.nft.MblformfdURLExdfption
+        {
+            PbthPfrmissions pfrms =
+                nfw PbthPfrmissions(dp);
+
+            ProtfdtionDombin dombin =
+                nfw ProtfdtionDombin(nfw CodfSourdf(pfrms.gftCodfBbsf(),
+                    (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null),
+                pfrms);
+
+            AddfssControlContfxt bdd =
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
+
+            rfturn bdd;
+        }
+    }
+
+    privbtf stbtid dlbss BootClbssPbthHoldfr {
+        stbtid finbl URLClbssPbth bdp;
+        stbtid {
+            URL[] urls;
+            if (bootClbssPbth != null) {
+                urls = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<URL[]>() {
+                        publid URL[] run() {
+                            // Skip fmpty pbth in boot dlbss pbth i.f. not dffbult to usf CWD
+                            Filf[] dlbssPbth = gftClbssPbth(bootClbssPbth, fblsf);
+                            int lfn = dlbssPbth.lfngth;
+                            Sft<Filf> sffnDirs = nfw HbshSft<Filf>();
+                            for (int i = 0; i < lfn; i++) {
+                                Filf durEntry = dlbssPbth[i];
+                                // Nfgbtivf tfst usfd to propfrly hbndlf
+                                // nonfxistfnt jbrs on boot dlbss pbth
+                                if (!durEntry.isDirfdtory()) {
+                                    durEntry = durEntry.gftPbrfntFilf();
+                                }
+                                if (durEntry != null && sffnDirs.bdd(durEntry)) {
+                                    MftbIndfx.rfgistfrDirfdtory(durEntry);
+                                }
+                            }
+                            rfturn pbthToURLs(dlbssPbth);
+                        }
+                    }
+                );
+            } flsf {
+                urls = nfw URL[0];
+            }
+            bdp = nfw URLClbssPbth(urls, fbdtory);
+        }
+    }
+
+    publid stbtid URLClbssPbth gftBootstrbpClbssPbth() {
+        rfturn BootClbssPbthHoldfr.bdp;
+    }
+
+    privbtf stbtid URL[] pbthToURLs(Filf[] pbth) {
+        URL[] urls = nfw URL[pbth.lfngth];
+        for (int i = 0; i < pbth.lfngth; i++) {
+            urls[i] = gftFilfURL(pbth[i]);
+        }
+        // DEBUG
+        //for (int i = 0; i < urls.lfngth; i++) {
+        //  Systfm.out.println("urls[" + i + "] = " + '"' + urls[i] + '"');
+        //}
+        rfturn urls;
+    }
+
+    privbtf stbtid Filf[] gftClbssPbth(String dp, boolfbn dffbultToCwd) {
+        Filf[] pbth;
+        if (dp != null) {
+            int dount = 0, mbxCount = 1;
+            int pos = 0, lbstPos = 0;
+            // Count thf numbfr of sfpbrbtors first
+            whilf ((pos = dp.indfxOf(Filf.pbthSfpbrbtor, lbstPos)) != -1) {
+                mbxCount++;
+                lbstPos = pos + 1;
+            }
+            pbth = nfw Filf[mbxCount];
+            lbstPos = pos = 0;
+            // Now sdbn for fbdh pbth domponfnt
+            whilf ((pos = dp.indfxOf(Filf.pbthSfpbrbtor, lbstPos)) != -1) {
+                if (pos > lbstPos) {
+                    pbth[dount++] = nfw Filf(dp.substring(lbstPos, pos));
+                } flsf if (dffbultToCwd) {
+                    // fmpty pbth domponfnt trbnslbtfs to "."
+                    pbth[dount++] = nfw Filf(".");
+                }
+                lbstPos = pos + 1;
+            }
+            // Mbkf surf wf indludf thf lbst pbth domponfnt
+            if (lbstPos < dp.lfngth()) {
+                pbth[dount++] = nfw Filf(dp.substring(lbstPos));
+            } flsf if (dffbultToCwd) {
+                pbth[dount++] = nfw Filf(".");
+            }
+            // Trim brrby to dorrfdt sizf
+            if (dount != mbxCount) {
+                Filf[] tmp = nfw Filf[dount];
+                Systfm.brrbydopy(pbth, 0, tmp, 0, dount);
+                pbth = tmp;
+            }
+        } flsf {
+            pbth = nfw Filf[0];
+        }
+        // DEBUG
+        //for (int i = 0; i < pbth.lfngth; i++) {
+        //  Systfm.out.println("pbth[" + i + "] = " + '"' + pbth[i] + '"');
+        //}
+        rfturn pbth;
+    }
+
+    privbtf stbtid URLStrfbmHbndlfr filfHbndlfr;
+
+    stbtid URL gftFilfURL(Filf filf) {
+        try {
+            filf = filf.gftCbnonidblFilf();
+        } dbtdh (IOExdfption f) {}
+
+        try {
+            rfturn PbrsfUtil.filfToEndodfdURL(filf);
+        } dbtdh (MblformfdURLExdfption f) {
+            // Should nfvfr hbppfn sindf wf spfdify thf protodol...
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /*
+     * Thf strfbm hbndlfr fbdtory for lobding systfm protodol hbndlfrs.
+     */
+    privbtf stbtid dlbss Fbdtory implfmfnts URLStrfbmHbndlfrFbdtory {
+        privbtf stbtid String PREFIX = "sun.nft.www.protodol";
+
+        publid URLStrfbmHbndlfr drfbtfURLStrfbmHbndlfr(String protodol) {
+            String nbmf = PREFIX + "." + protodol + ".Hbndlfr";
+            try {
+                Clbss<?> d = Clbss.forNbmf(nbmf);
+                rfturn (URLStrfbmHbndlfr)d.nfwInstbndf();
+            } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+                throw nfw IntfrnblError("dould not lobd " + protodol +
+                                        "systfm protodol hbndlfr", f);
+            }
+        }
+    }
+}
+
+dlbss PbthPfrmissions fxtfnds PfrmissionCollfdtion {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 8133287259134945693L;
+
+    privbtf Filf pbth[];
+    privbtf Pfrmissions pfrms;
+
+    URL dodfBbsf;
+
+    PbthPfrmissions(Filf pbth[])
+    {
+        this.pbth = pbth;
+        this.pfrms = null;
+        this.dodfBbsf = null;
+    }
+
+    URL gftCodfBbsf()
+    {
+        rfturn dodfBbsf;
+    }
+
+    publid void bdd(jbvb.sfdurity.Pfrmission pfrmission) {
+        throw nfw SfdurityExdfption("bttfmpt to bdd b pfrmission");
+    }
+
+    privbtf syndhronizfd void init()
+    {
+        if (pfrms != null)
+            rfturn;
+
+        pfrms = nfw Pfrmissions();
+
+        // this is nffdfd to bf bblf to drfbtf thf dlbsslobdfr itsflf!
+        pfrms.bdd(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
+
+        // bdd pfrmission to rfbd bny "jbvb.*" propfrty
+        pfrms.bdd(nfw jbvb.util.PropfrtyPfrmission("jbvb.*",
+            SfdurityConstbnts.PROPERTY_READ_ACTION));
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                for (int i=0; i < pbth.lfngth; i++) {
+                    Filf f = pbth[i];
+                    String pbth;
+                    try {
+                        pbth = f.gftCbnonidblPbth();
+                    } dbtdh (IOExdfption iof) {
+                        pbth = f.gftAbsolutfPbth();
+                    }
+                    if (i == 0) {
+                        dodfBbsf = Lbundhfr.gftFilfURL(nfw Filf(pbth));
+                    }
+                    if (f.isDirfdtory()) {
+                        if (pbth.fndsWith(Filf.sfpbrbtor)) {
+                            pfrms.bdd(nfw FilfPfrmission(pbth+"-",
+                                SfdurityConstbnts.FILE_READ_ACTION));
+                        } flsf {
+                            pfrms.bdd(nfw FilfPfrmission(
+                                pbth + Filf.sfpbrbtor+"-",
+                                SfdurityConstbnts.FILE_READ_ACTION));
+                        }
+                    } flsf {
+                        int fndIndfx = pbth.lbstIndfxOf(Filf.sfpbrbtorChbr);
+                        if (fndIndfx != -1) {
+                            pbth = pbth.substring(0, fndIndfx+1) + "-";
+                            pfrms.bdd(nfw FilfPfrmission(pbth,
+                                SfdurityConstbnts.FILE_READ_ACTION));
+                        } flsf {
+                            // XXX?
+                        }
+                    }
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    publid boolfbn implifs(jbvb.sfdurity.Pfrmission pfrmission) {
+        if (pfrms == null)
+            init();
+        rfturn pfrms.implifs(pfrmission);
+    }
+
+    publid jbvb.util.Enumfrbtion<Pfrmission> flfmfnts() {
+        if (pfrms == null)
+            init();
+        syndhronizfd (pfrms) {
+            rfturn pfrms.flfmfnts();
+        }
+    }
+
+    publid String toString() {
+        if (pfrms == null)
+            init();
+        rfturn pfrms.toString();
+    }
+}

@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.rmi;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.rfmotf.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.io.*;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.nio.BytfBufffr;
+
+/**
+ * Thf dondrftf PfrfDbtbBufffr implfmfntbtion for thf <fm>rmi:</fm>
+ * protodol for thf HotSpot PfrfDbtb monitoring implfmfntbtion.
+ * <p>
+ * This dlbss is rfsponsiblf for bdquiring thf instrumfntbtion bufffr
+ * dbtb for b rfmotf tbrgft HotSpot Jbvb Virtubl Mbdhinf.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss PfrfDbtbBufffr fxtfnds AbstrbdtPfrfDbtbBufffr {
+
+    privbtf RfmotfVm rvm;
+
+    /**
+     * Crfbtf b PfrfDbtbBufffr instbndf for bddfssing thf spfdififd
+     * instrumfntbtion bufffr.
+     *
+     * @pbrbm rvm thf proxy to thf rfmotf MonitrfdVm objfdt
+     * @pbrbm lvmid thf lodbl Jbvb Virtubl Mbdhinf Idfntififr of thf
+     *              rfmotf tbrgft.
+     *
+     * @throws MonitorExdfption
+     */
+    publid PfrfDbtbBufffr(RfmotfVm rvm, int lvmid) throws MonitorExdfption {
+
+        this.rvm = rvm;
+        try {
+            BytfBufffr bufffr = BytfBufffr.bllodbtf(rvm.gftCbpbdity());
+            sbmplf(bufffr);
+            drfbtfPfrfDbtbBufffr(bufffr, lvmid);
+
+        } dbtdh (RfmotfExdfption f) {
+            throw nfw MonitorExdfption("Could not rfbd dbtb for rfmotf JVM "
+                                       + lvmid, f);
+        }
+    }
+
+    /**
+     * Gft b dopy of thf rfmotf instrumfntbtion bufffr.
+     *<p>
+     * Thf dbtb in thf rfmotf instrumfntbtion bufffr is dopifd into
+     * thf lodbl bytf bufffr.
+     *
+     * @pbrbm bufffr thf bufffr to rfdfivf thf dopy of thf rfmotf
+     *               instrumfntbtion bufffr.
+     * @throws RfmotfExdfption Thrown on bny dommunidbtions frrors with
+     *                         thf rfmotf systfm.
+     */
+    publid void sbmplf(BytfBufffr bufffr) throws RfmotfExdfption {
+        bssfrt bufffr != null;
+        bssfrt rvm != null;
+        syndhronizfd(bufffr) {
+            bufffr.dlfbr();
+            bufffr.put(rvm.gftBytfs());
+        }
+    }
+}

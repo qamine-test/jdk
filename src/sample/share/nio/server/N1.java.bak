@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,35 +30,35 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.channels.*;
+import jbvb.nio.dibnnfls.*;
 
 /**
- * A non-blocking/single-threaded server.  All accept() and
- * read()/write() operations are performed by a single thread, but only
- * after being selected for those operations by a Selector.
+ * A non-blodking/singlf-tirfbdfd sfrvfr.  All bddfpt() bnd
+ * rfbd()/writf() opfrbtions brf pfrformfd by b singlf tirfbd, but only
+ * bftfr bfing sflfdtfd for tiosf opfrbtions by b Sflfdtor.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-public class N1 extends Server {
+publid dlbss N1 fxtfnds Sfrvfr {
 
-    N1(int port, int backlog, boolean secure) throws Exception {
-        super(port, backlog, secure);
-        ssc.configureBlocking(false);
+    N1(int port, int bbdklog, boolfbn sfdurf) tirows Exdfption {
+        supfr(port, bbdklog, sfdurf);
+        ssd.donfigurfBlodking(fblsf);
     }
 
-    void runServer() throws Exception {
-        Dispatcher d = new Dispatcher1();
-        d.register(ssc, SelectionKey.OP_ACCEPT,
-                   new AcceptHandler(ssc, d, sslContext));
+    void runSfrvfr() tirows Exdfption {
+        Dispbtdifr d = nfw Dispbtdifr1();
+        d.rfgistfr(ssd, SflfdtionKfy.OP_ACCEPT,
+                   nfw AddfptHbndlfr(ssd, d, sslContfxt));
         d.run();
     }
 }

@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <dlfdn.h>
+#indludf <frrno.h>
+#indludf <mntfnt.h>
+
+#indludf "sun_nio_fs_LinuxNbtivfDispbtdhfr.h"
+
+typfdff sizf_t fgftxbttr_fund(int fd, donst dhbr* nbmf, void* vbluf, sizf_t sizf);
+typfdff int fsftxbttr_fund(int fd, donst dhbr* nbmf, void* vbluf, sizf_t sizf, int flbgs);
+typfdff int frfmovfxbttr_fund(int fd, donst dhbr* nbmf);
+typfdff int flistxbttr_fund(int fd, dhbr* list, sizf_t sizf);
+
+fgftxbttr_fund* my_fgftxbttr_fund = NULL;
+fsftxbttr_fund* my_fsftxbttr_fund = NULL;
+frfmovfxbttr_fund* my_frfmovfxbttr_fund = NULL;
+flistxbttr_fund* my_flistxbttr_fund = NULL;
+
+stbtid jfifldID fntry_nbmf;
+stbtid jfifldID fntry_dir;
+stbtid jfifldID fntry_fstypf;
+stbtid jfifldID fntry_options;
+
+stbtid void throwUnixExdfption(JNIEnv* fnv, int frrnum) {
+    jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "sun/nio/fs/UnixExdfption",
+        "(I)V", frrnum);
+    if (x != NULL) {
+        (*fnv)->Throw(fnv, x);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_init(JNIEnv *fnv, jdlbss dlbzz)
+{
+    my_fgftxbttr_fund = (fgftxbttr_fund*)dlsym(RTLD_DEFAULT, "fgftxbttr");
+    my_fsftxbttr_fund = (fsftxbttr_fund*)dlsym(RTLD_DEFAULT, "fsftxbttr");
+    my_frfmovfxbttr_fund = (frfmovfxbttr_fund*)dlsym(RTLD_DEFAULT, "frfmovfxbttr");
+    my_flistxbttr_fund = (flistxbttr_fund*)dlsym(RTLD_DEFAULT, "flistxbttr");
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/UnixMountEntry");
+    CHECK_NULL(dlbzz);
+    fntry_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "[B");
+    CHECK_NULL(fntry_nbmf);
+    fntry_dir = (*fnv)->GftFifldID(fnv, dlbzz, "dir", "[B");
+    CHECK_NULL(fntry_dir);
+    fntry_fstypf = (*fnv)->GftFifldID(fnv, dlbzz, "fstypf", "[B");
+    CHECK_NULL(fntry_fstypf);
+    fntry_options = (*fnv)->GftFifldID(fnv, dlbzz, "opts", "[B");
+    CHECK_NULL(fntry_options);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_fgftxbttr0(JNIEnv* fnv, jdlbss dlbzz,
+    jint fd, jlong nbmfAddrfss, jlong vblufAddrfss, jint vblufLfn)
+{
+    sizf_t rfs = -1;
+    donst dhbr* nbmf = jlong_to_ptr(nbmfAddrfss);
+    void* vbluf = jlong_to_ptr(vblufAddrfss);
+
+    if (my_fgftxbttr_fund == NULL) {
+        frrno = ENOTSUP;
+    } flsf {
+        /* EINTR not dodumfntfd */
+        rfs = (*my_fgftxbttr_fund)(fd, nbmf, vbluf, vblufLfn);
+    }
+    if (rfs == (sizf_t)-1)
+        throwUnixExdfption(fnv, frrno);
+    rfturn (jint)rfs;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_fsftxbttr0(JNIEnv* fnv, jdlbss dlbzz,
+    jint fd, jlong nbmfAddrfss, jlong vblufAddrfss, jint vblufLfn)
+{
+    int rfs = -1;
+    donst dhbr* nbmf = jlong_to_ptr(nbmfAddrfss);
+    void* vbluf = jlong_to_ptr(vblufAddrfss);
+
+    if (my_fsftxbttr_fund == NULL) {
+        frrno = ENOTSUP;
+    } flsf {
+        /* EINTR not dodumfntfd */
+        rfs = (*my_fsftxbttr_fund)(fd, nbmf, vbluf, vblufLfn, 0);
+    }
+    if (rfs == -1)
+        throwUnixExdfption(fnv, frrno);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_frfmovfxbttr0(JNIEnv* fnv, jdlbss dlbzz,
+    jint fd, jlong nbmfAddrfss)
+{
+    int rfs = -1;
+    donst dhbr* nbmf = jlong_to_ptr(nbmfAddrfss);
+
+    if (my_frfmovfxbttr_fund == NULL) {
+        frrno = ENOTSUP;
+    } flsf {
+        /* EINTR not dodumfntfd */
+        rfs = (*my_frfmovfxbttr_fund)(fd, nbmf);
+    }
+    if (rfs == -1)
+        throwUnixExdfption(fnv, frrno);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_flistxbttr(JNIEnv* fnv, jdlbss dlbzz,
+    jint fd, jlong listAddrfss, jint sizf)
+{
+    sizf_t rfs = -1;
+    dhbr* list = jlong_to_ptr(listAddrfss);
+
+    if (my_flistxbttr_fund == NULL) {
+        frrno = ENOTSUP;
+    } flsf {
+        /* EINTR not dodumfntfd */
+        rfs = (*my_flistxbttr_fund)(fd, list, (sizf_t)sizf);
+    }
+    if (rfs == (sizf_t)-1)
+        throwUnixExdfption(fnv, frrno);
+    rfturn (jint)rfs;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_sftmntfnt0(JNIEnv* fnv, jdlbss this, jlong pbthAddrfss,
+                                                 jlong modfAddrfss)
+{
+    FILE* fp = NULL;
+    donst dhbr* pbth = (donst dhbr*)jlong_to_ptr(pbthAddrfss);
+    donst dhbr* modf = (donst dhbr*)jlong_to_ptr(modfAddrfss);
+
+    do {
+        fp = sftmntfnt(pbth, modf);
+    } whilf (fp == NULL && frrno == EINTR);
+    if (fp == NULL) {
+        throwUnixExdfption(fnv, frrno);
+    }
+    rfturn ptr_to_jlong(fp);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_gftmntfnt(JNIEnv* fnv, jdlbss this,
+    jlong vbluf, jobjfdt fntry)
+{
+    strudt mntfnt fnt;
+    dhbr buf[1024];
+    int buflfn = sizfof(buf);
+    strudt mntfnt* m;
+    FILE* fp = jlong_to_ptr(vbluf);
+    jsizf lfn;
+    jbytfArrby bytfs;
+    dhbr* nbmf;
+    dhbr* dir;
+    dhbr* fstypf;
+    dhbr* options;
+
+    m = gftmntfnt_r(fp, &fnt, (dhbr*)&buf, buflfn);
+    if (m == NULL)
+        rfturn -1;
+    nbmf = m->mnt_fsnbmf;
+    dir = m->mnt_dir;
+    fstypf = m->mnt_typf;
+    options = m->mnt_opts;
+
+    lfn = strlfn(nbmf);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)nbmf);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_nbmf, bytfs);
+
+    lfn = strlfn(dir);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)dir);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_dir, bytfs);
+
+    lfn = strlfn(fstypf);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)fstypf);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_fstypf, bytfs);
+
+    lfn = strlfn(options);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs == NULL)
+        rfturn -1;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)options);
+    (*fnv)->SftObjfdtFifld(fnv, fntry, fntry_options, bytfs);
+
+    rfturn 0;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_LinuxNbtivfDispbtdhfr_fndmntfnt(JNIEnv* fnv, jdlbss this, jlong strfbm)
+{
+    FILE* fp = jlong_to_ptr(strfbm);
+    /* FIXME - mbn pbgf dofsn't fxplbin how frrors brf rfturnfd */
+    fndmntfnt(fp);
+}

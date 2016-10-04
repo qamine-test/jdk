@@ -1,0 +1,454 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+
+/**
+ * Thf <dodf>GrbphidsConfigurbtion</dodf> dlbss dfsdribfs thf
+ * dhbrbdtfristids of b grbphids dfstinbtion sudh bs b printfr or monitor.
+ * Thfrf dbn bf mbny <dodf>GrbphidsConfigurbtion</dodf> objfdts bssodibtfd
+ * with b singlf grbphids dfvidf, rfprfsfnting difffrfnt drbwing modfs or
+ * dbpbbilitifs.  Thf dorrfsponding nbtivf strudturf will vbry from plbtform
+ * to plbtform.  For fxbmplf, on X11 windowing systfms,
+ * fbdh visubl is b difffrfnt <dodf>GrbphidsConfigurbtion</dodf>.
+ * On Midrosoft Windows, <dodf>GrbphidsConfigurbtion</dodf>s rfprfsfnt
+ * PixflFormbts bvbilbblf in thf durrfnt rfsolution bnd dolor dfpth.
+ * <p>
+ * In b virtubl dfvidf multi-sdrffn fnvironmfnt in whidh thf dfsktop
+ * brfb dould spbn multiplf physidbl sdrffn dfvidfs, thf bounds of thf
+ * <dodf>GrbphidsConfigurbtion</dodf> objfdts brf rflbtivf to thf
+ * virtubl doordinbtf systfm.  Whfn sftting thf lodbtion of b
+ * domponfnt, usf {@link #gftBounds() gftBounds} to gft thf bounds of
+ * thf dfsirfd <dodf>GrbphidsConfigurbtion</dodf> bnd offsft thf lodbtion
+ * with thf doordinbtfs of thf <dodf>GrbphidsConfigurbtion</dodf>,
+ * bs thf following dodf sbmplf illustrbtfs:
+ * </p>
+ *
+ * <prf>
+ *      Frbmf f = nfw Frbmf(gd);  // whfrf gd is b GrbphidsConfigurbtion
+ *      Rfdtbnglf bounds = gd.gftBounds();
+ *      f.sftLodbtion(10 + bounds.x, 10 + bounds.y); </prf>
+ *
+ * <p>
+ * To dftfrminf if your fnvironmfnt is b virtubl dfvidf
+ * fnvironmfnt, dbll <dodf>gftBounds</dodf> on bll of thf
+ * <dodf>GrbphidsConfigurbtion</dodf> objfdts in your systfm.  If
+ * bny of thf origins of thf rfturnfd bounds is not (0,&nbsp;0),
+ * your fnvironmfnt is b virtubl dfvidf fnvironmfnt.
+ *
+ * <p>
+ * You dbn blso usf <dodf>gftBounds</dodf> to dftfrminf thf bounds
+ * of thf virtubl dfvidf.  To do this, first dbll <dodf>gftBounds</dodf> on bll
+ * of thf <dodf>GrbphidsConfigurbtion</dodf> objfdts in your
+ * systfm.  Thfn dbldulbtf thf union of bll of thf bounds rfturnfd
+ * from thf dblls to <dodf>gftBounds</dodf>.  Thf union is thf
+ * bounds of thf virtubl dfvidf.  Thf following dodf sbmplf
+ * dbldulbtfs thf bounds of thf virtubl dfvidf.
+ *
+ * <prf>{@dodf
+ *      Rfdtbnglf virtublBounds = nfw Rfdtbnglf();
+ *      GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.
+ *              gftLodblGrbphidsEnvironmfnt();
+ *      GrbphidsDfvidf[] gs =
+ *              gf.gftSdrffnDfvidfs();
+ *      for (int j = 0; j < gs.lfngth; j++) {
+ *          GrbphidsDfvidf gd = gs[j];
+ *          GrbphidsConfigurbtion[] gd =
+ *              gd.gftConfigurbtions();
+ *          for (int i=0; i < gd.lfngth; i++) {
+ *              virtublBounds =
+ *                  virtublBounds.union(gd[i].gftBounds());
+ *          }
+ *      } }</prf>
+ *
+ * @sff Window
+ * @sff Frbmf
+ * @sff GrbphidsEnvironmfnt
+ * @sff GrbphidsDfvidf
+ */
+/*
+ * REMIND:  Whbt to do bbout dbpbbilitifs?
+ * Thf
+ * dbpbbilitifs of thf dfvidf dbn bf dftfrminfd by fnumfrbting thf possiblf
+ * dbpbbilitifs bnd dhfdking if thf GrbphidsConfigurbtion
+ * implfmfnts thf intfrfbdf for thbt dbpbbility.
+ *
+ */
+
+
+publid bbstrbdt dlbss GrbphidsConfigurbtion {
+
+    privbtf stbtid BufffrCbpbbilitifs dffbultBufffrCbps;
+    privbtf stbtid ImbgfCbpbbilitifs dffbultImbgfCbps;
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mfthod.
+     *
+     * @sff GrbphidsDfvidf#gftConfigurbtions
+     * @sff GrbphidsDfvidf#gftDffbultConfigurbtion
+     * @sff GrbphidsDfvidf#gftBfstConfigurbtion
+     * @sff Grbphids2D#gftDfvidfConfigurbtion
+     */
+    protfdtfd GrbphidsConfigurbtion() {
+    }
+
+    /**
+     * Rfturns thf {@link GrbphidsDfvidf} bssodibtfd with this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     * @rfturn b <dodf>GrbphidsDfvidf</dodf> objfdt thbt is
+     * bssodibtfd with this <dodf>GrbphidsConfigurbtion</dodf>.
+     */
+    publid bbstrbdt GrbphidsDfvidf gftDfvidf();
+
+    /**
+     * Rfturns b {@link BufffrfdImbgf} with b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.  This
+     * mfthod hbs nothing to do with mfmory-mbpping
+     * b dfvidf.  Thf rfturnfd <dodf>BufffrfdImbgf</dodf> hbs
+     * b lbyout bnd dolor modfl thbt is dlosfst to this nbtivf dfvidf
+     * donfigurbtion bnd dbn thfrfforf bf optimblly blittfd to this
+     * dfvidf.
+     * @pbrbm width thf width of thf rfturnfd <dodf>BufffrfdImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>BufffrfdImbgf</dodf>
+     * @rfturn b <dodf>BufffrfdImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfImbgf(int width, int hfight) {
+        ColorModfl modfl = gftColorModfl();
+        WritbblfRbstfr rbstfr =
+            modfl.drfbtfCompbtiblfWritbblfRbstfr(width, hfight);
+        rfturn nfw BufffrfdImbgf(modfl, rbstfr,
+                                 modfl.isAlphbPrfmultiplifd(), null);
+    }
+
+    /**
+     * Rfturns b <dodf>BufffrfdImbgf</dodf> thbt supports thf spfdififd
+     * trbnspbrfndy bnd hbs b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.  This
+     * mfthod hbs nothing to do with mfmory-mbpping
+     * b dfvidf. Thf rfturnfd <dodf>BufffrfdImbgf</dodf> hbs b lbyout bnd
+     * dolor modfl thbt dbn bf optimblly blittfd to b dfvidf
+     * with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * @pbrbm width thf width of thf rfturnfd <dodf>BufffrfdImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>BufffrfdImbgf</dodf>
+     * @pbrbm trbnspbrfndy thf spfdififd trbnspbrfndy modf
+     * @rfturn b <dodf>BufffrfdImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>
+     * bnd blso supports thf spfdififd trbnspbrfndy.
+     * @throws IllfgblArgumfntExdfption if thf trbnspbrfndy is not b vblid vbluf
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfImbgf(int width, int hfight,
+                                               int trbnspbrfndy)
+    {
+        if (gftColorModfl().gftTrbnspbrfndy() == trbnspbrfndy) {
+            rfturn drfbtfCompbtiblfImbgf(width, hfight);
+        }
+
+        ColorModfl dm = gftColorModfl(trbnspbrfndy);
+        if (dm == null) {
+            throw nfw IllfgblArgumfntExdfption("Unknown trbnspbrfndy: " +
+                                               trbnspbrfndy);
+        }
+        WritbblfRbstfr wr = dm.drfbtfCompbtiblfWritbblfRbstfr(width, hfight);
+        rfturn nfw BufffrfdImbgf(dm, wr, dm.isAlphbPrfmultiplifd(), null);
+    }
+
+
+    /**
+     * Rfturns b {@link VolbtilfImbgf} with b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * Thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * mby hbvf dbtb thbt is storfd optimblly for thf undfrlying grbphids
+     * dfvidf bnd mby thfrfforf bfnffit from plbtform-spfdifid rfndfring
+     * bddflfrbtion.
+     * @pbrbm width thf width of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @rfturn b <dodf>VolbtilfImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * @sff Componfnt#drfbtfVolbtilfImbgf(int, int)
+     * @sindf 1.4
+     */
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int width, int hfight) {
+        VolbtilfImbgf vi = null;
+        try {
+            vi = drfbtfCompbtiblfVolbtilfImbgf(width, hfight,
+                                               null, Trbnspbrfndy.OPAQUE);
+        } dbtdh (AWTExdfption f) {
+            // shouldn't hbppfn: wf'rf pbssing in null dbps
+            bssfrt fblsf;
+        }
+        rfturn vi;
+    }
+
+    /**
+     * Rfturns b {@link VolbtilfImbgf} with b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * Thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * mby hbvf dbtb thbt is storfd optimblly for thf undfrlying grbphids
+     * dfvidf bnd mby thfrfforf bfnffit from plbtform-spfdifid rfndfring
+     * bddflfrbtion.
+     * @pbrbm width thf width of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm trbnspbrfndy thf spfdififd trbnspbrfndy modf
+     * @rfturn b <dodf>VolbtilfImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * @throws IllfgblArgumfntExdfption if thf trbnspbrfndy is not b vblid vbluf
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     * @sff Componfnt#drfbtfVolbtilfImbgf(int, int)
+     * @sindf 1.5
+     */
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int width, int hfight,
+                                                       int trbnspbrfndy)
+    {
+        VolbtilfImbgf vi = null;
+        try {
+            vi = drfbtfCompbtiblfVolbtilfImbgf(width, hfight, null, trbnspbrfndy);
+        } dbtdh (AWTExdfption f) {
+            // shouldn't hbppfn: wf'rf pbssing in null dbps
+            bssfrt fblsf;
+        }
+        rfturn vi;
+    }
+
+    /**
+     * Rfturns b {@link VolbtilfImbgf} with b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>, using
+     * thf spfdififd imbgf dbpbbilitifs.
+     * If thf <dodf>dbps</dodf> pbrbmftfr is null, it is ffffdtivfly ignorfd
+     * bnd this mfthod will drfbtf b VolbtilfImbgf without rfgbrd to
+     * <dodf>ImbgfCbpbbilitifs</dodf> donstrbints.
+     *
+     * Thf rfturnfd <dodf>VolbtilfImbgf</dodf> hbs
+     * b lbyout bnd dolor modfl thbt is dlosfst to this nbtivf dfvidf
+     * donfigurbtion bnd dbn thfrfforf bf optimblly blittfd to this
+     * dfvidf.
+     * @rfturn b <dodf>VolbtilfImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * @pbrbm width thf width of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm dbps thf imbgf dbpbbilitifs
+     * @fxdfption AWTExdfption if thf supplifd imbgf dbpbbilitifs dould not
+     * bf mft by this grbphids donfigurbtion
+     * @sindf 1.4
+     */
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int width, int hfight,
+        ImbgfCbpbbilitifs dbps) throws AWTExdfption
+    {
+        rfturn drfbtfCompbtiblfVolbtilfImbgf(width, hfight, dbps,
+                                             Trbnspbrfndy.OPAQUE);
+    }
+
+    /**
+     * Rfturns b {@link VolbtilfImbgf} with b dbtb lbyout bnd dolor modfl
+     * dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>, using
+     * thf spfdififd imbgf dbpbbilitifs bnd trbnspbrfndy vbluf.
+     * If thf <dodf>dbps</dodf> pbrbmftfr is null, it is ffffdtivfly ignorfd
+     * bnd this mfthod will drfbtf b VolbtilfImbgf without rfgbrd to
+     * <dodf>ImbgfCbpbbilitifs</dodf> donstrbints.
+     *
+     * Thf rfturnfd <dodf>VolbtilfImbgf</dodf> hbs
+     * b lbyout bnd dolor modfl thbt is dlosfst to this nbtivf dfvidf
+     * donfigurbtion bnd dbn thfrfforf bf optimblly blittfd to this
+     * dfvidf.
+     * @pbrbm width thf width of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm hfight thf hfight of thf rfturnfd <dodf>VolbtilfImbgf</dodf>
+     * @pbrbm dbps thf imbgf dbpbbilitifs
+     * @pbrbm trbnspbrfndy thf spfdififd trbnspbrfndy modf
+     * @rfturn b <dodf>VolbtilfImbgf</dodf> whosf dbtb lbyout bnd dolor
+     * modfl is dompbtiblf with this <dodf>GrbphidsConfigurbtion</dodf>.
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     * @throws IllfgblArgumfntExdfption if thf trbnspbrfndy is not b vblid vbluf
+     * @fxdfption AWTExdfption if thf supplifd imbgf dbpbbilitifs dould not
+     * bf mft by this grbphids donfigurbtion
+     * @sff Componfnt#drfbtfVolbtilfImbgf(int, int)
+     * @sindf 1.5
+     */
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int width, int hfight,
+        ImbgfCbpbbilitifs dbps, int trbnspbrfndy) throws AWTExdfption
+    {
+        VolbtilfImbgf vi =
+            nfw SunVolbtilfImbgf(this, width, hfight, trbnspbrfndy, dbps);
+        if (dbps != null && dbps.isAddflfrbtfd() &&
+            !vi.gftCbpbbilitifs().isAddflfrbtfd())
+        {
+            throw nfw AWTExdfption("Supplifd imbgf dbpbbilitifs dould not " +
+                                   "bf mft by this grbphids donfigurbtion.");
+        }
+        rfturn vi;
+    }
+
+    /**
+     * Rfturns thf {@link ColorModfl} bssodibtfd with this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     * @rfturn b <dodf>ColorModfl</dodf> objfdt thbt is bssodibtfd with
+     * this <dodf>GrbphidsConfigurbtion</dodf>.
+     */
+    publid bbstrbdt ColorModfl gftColorModfl();
+
+    /**
+     * Rfturns thf <dodf>ColorModfl</dodf> bssodibtfd with this
+     * <dodf>GrbphidsConfigurbtion</dodf> thbt supports thf spfdififd
+     * trbnspbrfndy.
+     * @pbrbm trbnspbrfndy thf spfdififd trbnspbrfndy modf
+     * @rfturn b <dodf>ColorModfl</dodf> objfdt thbt is bssodibtfd with
+     * this <dodf>GrbphidsConfigurbtion</dodf> bnd supports thf
+     * spfdififd trbnspbrfndy or null if thf trbnspbrfndy is not b vblid
+     * vbluf.
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     */
+    publid bbstrbdt ColorModfl gftColorModfl(int trbnspbrfndy);
+
+    /**
+     * Rfturns thf dffbult {@link AffinfTrbnsform} for this
+     * <dodf>GrbphidsConfigurbtion</dodf>. This
+     * <dodf>AffinfTrbnsform</dodf> is typidblly thf Idfntity trbnsform
+     * for most normbl sdrffns.  Thf dffbult <dodf>AffinfTrbnsform</dodf>
+     * mbps doordinbtfs onto thf dfvidf sudh thbt 72 usfr spbdf
+     * doordinbtf units mfbsurf bpproximbtfly 1 indh in dfvidf
+     * spbdf.  Thf normblizing trbnsform dbn bf usfd to mbkf
+     * this mbpping morf fxbdt.  Coordinbtfs in thf doordinbtf spbdf
+     * dffinfd by thf dffbult <dodf>AffinfTrbnsform</dodf> for sdrffn bnd
+     * printfr dfvidfs hbvf thf origin in thf uppfr lfft-hbnd dornfr of
+     * thf tbrgft rfgion of thf dfvidf, with X doordinbtfs
+     * indrfbsing to thf right bnd Y doordinbtfs indrfbsing downwbrds.
+     * For imbgf bufffrs not bssodibtfd with b dfvidf, sudh bs thosf not
+     * drfbtfd by <dodf>drfbtfCompbtiblfImbgf</dodf>,
+     * this <dodf>AffinfTrbnsform</dodf> is thf Idfntity trbnsform.
+     * @rfturn thf dffbult <dodf>AffinfTrbnsform</dodf> for this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     */
+    publid bbstrbdt AffinfTrbnsform gftDffbultTrbnsform();
+
+    /**
+     *
+     * Rfturns b <dodf>AffinfTrbnsform</dodf> thbt dbn bf dondbtfnbtfd
+     * with thf dffbult <dodf>AffinfTrbnsform</dodf>
+     * of b <dodf>GrbphidsConfigurbtion</dodf> so thbt 72 units in usfr
+     * spbdf fqubls 1 indh in dfvidf spbdf.
+     * <p>
+     * For b pbrtidulbr {@link Grbphids2D}, g, onf
+     * dbn rfsft thf trbnsformbtion to drfbtf
+     * sudh b mbpping by using thf following psfudododf:
+     * <prf>
+     *      GrbphidsConfigurbtion gd = g.gftDfvidfConfigurbtion();
+     *
+     *      g.sftTrbnsform(gd.gftDffbultTrbnsform());
+     *      g.trbnsform(gd.gftNormblizingTrbnsform());
+     * </prf>
+     * Notf thbt somftimfs this <dodf>AffinfTrbnsform</dodf> is idfntity,
+     * sudh bs for printfrs or mftbfilf output, bnd thbt this
+     * <dodf>AffinfTrbnsform</dodf> is only bs bddurbtf bs thf informbtion
+     * supplifd by thf undfrlying systfm.  For imbgf bufffrs not
+     * bssodibtfd with b dfvidf, sudh bs thosf not drfbtfd by
+     * <dodf>drfbtfCompbtiblfImbgf</dodf>, this
+     * <dodf>AffinfTrbnsform</dodf> is thf Idfntity trbnsform
+     * sindf thfrf is no vblid distbndf mfbsurfmfnt.
+     * @rfturn bn <dodf>AffinfTrbnsform</dodf> to dondbtfnbtf to thf
+     * dffbult <dodf>AffinfTrbnsform</dodf> so thbt 72 units in usfr
+     * spbdf is mbppfd to 1 indh in dfvidf spbdf.
+     */
+    publid bbstrbdt AffinfTrbnsform gftNormblizingTrbnsform();
+
+    /**
+     * Rfturns thf bounds of thf <dodf>GrbphidsConfigurbtion</dodf>
+     * in thf dfvidf doordinbtfs. In b multi-sdrffn fnvironmfnt
+     * with b virtubl dfvidf, thf bounds dbn hbvf nfgbtivf X
+     * or Y origins.
+     * @rfturn thf bounds of thf brfb dovfrfd by this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     * @sindf 1.3
+     */
+    publid bbstrbdt Rfdtbnglf gftBounds();
+
+    privbtf stbtid dlbss DffbultBufffrCbpbbilitifs fxtfnds BufffrCbpbbilitifs {
+        publid DffbultBufffrCbpbbilitifs(ImbgfCbpbbilitifs imbgfCbps) {
+            supfr(imbgfCbps, imbgfCbps, null);
+        }
+    }
+
+    /**
+     * Rfturns thf bufffring dbpbbilitifs of this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     * @rfturn thf bufffring dbpbbilitifs of this grbphids
+     * donfigurbtion objfdt
+     * @sindf 1.4
+     */
+    publid BufffrCbpbbilitifs gftBufffrCbpbbilitifs() {
+        if (dffbultBufffrCbps == null) {
+            dffbultBufffrCbps = nfw DffbultBufffrCbpbbilitifs(
+                gftImbgfCbpbbilitifs());
+        }
+        rfturn dffbultBufffrCbps;
+    }
+
+    /**
+     * Rfturns thf imbgf dbpbbilitifs of this
+     * <dodf>GrbphidsConfigurbtion</dodf>.
+     * @rfturn thf imbgf dbpbbilitifs of this grbphids
+     * donfigurbtion objfdt
+     * @sindf 1.4
+     */
+    publid ImbgfCbpbbilitifs gftImbgfCbpbbilitifs() {
+        if (dffbultImbgfCbps == null) {
+            dffbultImbgfCbps = nfw ImbgfCbpbbilitifs(fblsf);
+        }
+        rfturn dffbultImbgfCbps;
+    }
+
+    /**
+     * Rfturns whfthfr this {@dodf GrbphidsConfigurbtion} supports
+     * thf {@link GrbphidsDfvidf.WindowTrbnsludfndy#PERPIXEL_TRANSLUCENT
+     * PERPIXEL_TRANSLUCENT} kind of trbnsludfndy.
+     *
+     * @rfturn whfthfr thf givfn GrbphidsConfigurbtion supports
+     *         thf trbnsludfndy ffffdts.
+     *
+     * @sff Window#sftBbdkground(Color)
+     *
+     * @sindf 1.7
+     */
+    publid boolfbn isTrbnsludfndyCbpbblf() {
+        // Ovfrriddfn in subdlbssfs
+        rfturn fblsf;
+    }
+}

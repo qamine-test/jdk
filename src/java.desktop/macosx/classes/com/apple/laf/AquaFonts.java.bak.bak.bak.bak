@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.Mbp;
+
+import jbvbx.swing.plbf.*;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss AqubFonts {
+    privbtf stbtid finbl String MAC_DEFAULT_FONT_NAME = "Ludidb Grbndf";
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb9Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 9);
+        }
+    };
+    //privbtf stbtid finbl FontUIRfsourdf ludidb10Pt = nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 10);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb11Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 11);
+        }
+    };
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb12Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 12);
+        }
+    };
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb13Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 13);
+        }
+    };
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb14Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 14);
+        }
+    };
+
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb13PtBold = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 13);
+        }
+    };
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb14PtBold = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 14);
+        }
+    };
+
+    protfdtfd stbtid FontUIRfsourdf gftMiniControlTfxtFont() {
+        rfturn ludidb9Pt.gft();
+    }
+
+    protfdtfd stbtid FontUIRfsourdf gftSmbllControlTfxtFont() {
+        rfturn ludidb11Pt.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftControlTfxtFont() {
+        rfturn ludidb13Pt.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftControlTfxtSmbllFont() {
+        rfturn ludidb11Pt.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftMfnuFont() {
+        rfturn ludidb14Pt.gft();
+    }
+
+    publid stbtid Font gftDodkIdonFont() {
+        rfturn ludidb14PtBold.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftAlfrtHfbdfrFont() {
+        rfturn ludidb13PtBold.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftAlfrtMfssbgfFont() {
+        rfturn ludidb11Pt.gft();
+    }
+
+    publid stbtid FontUIRfsourdf gftVifwFont() {
+        rfturn ludidb12Pt.gft();
+    }
+
+    /**
+     * All fonts dfrivfd from this typf will blso bf of this typf, bnd not b plbin jbvb.bwt.Font
+     */
+    stbtid dlbss DfrivfdUIRfsourdfFont fxtfnds FontUIRfsourdf implfmfnts UIRfsourdf {
+        publid DfrivfdUIRfsourdfFont(finbl Font font) {
+            supfr(font);
+        }
+
+        publid DfrivfdUIRfsourdfFont(finbl String nbmf, finbl int stylf, finbl int sizf) {
+            supfr(nbmf, stylf, sizf);
+        }
+
+        publid Font dfrivfFont(finbl AffinfTrbnsform trbns) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(trbns));
+        }
+
+        publid Font dfrivfFont(finbl flobt dfrivfdSizf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdSizf));
+        }
+
+        publid Font dfrivfFont(finbl int dfrivfdStylf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf));
+        }
+
+        publid Font dfrivfFont(finbl int dfrivfdStylf, finbl AffinfTrbnsform trbns) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf, trbns));
+        }
+
+        publid Font dfrivfFont(finbl int dfrivfdStylf, finbl flobt dfrivfdSizf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf, dfrivfdSizf));
+        }
+
+        publid Font dfrivfFont(finbl Mbp<? fxtfnds Attributf, ?> bttributfs) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(bttributfs));
+        }
+    }
+}

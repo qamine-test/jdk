@@ -1,0 +1,301 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.Vfdtor;
+import sun.tfxt.UCompbdtIntArrby;
+import sun.tfxt.IntHbshtbblf;
+
+/**
+ * This dlbss dontbins thf stbtid stbtf of b RulfBbsfdCollbtor: Thf vbrious
+ * tbblfs thbt brf usfd by thf dollbtion routinfs.  Sfvfrbl RulfBbsfdCollbtors
+ * dbn shbrf b singlf RBCollbtionTbblfs objfdt, fbsing mfmory rfquirfmfnts bnd
+ * improving pfrformbndf.
+ */
+finbl dlbss RBCollbtionTbblfs {
+    //===========================================================================================
+    //  Thf following dibgrbm shows thf dbtb strudturf of thf RBCollbtionTbblfs objfdt.
+    //  Supposf wf hbvf thf rulf, whfrf 'o-umlbut' is thf unidodf dhbr 0x00F6.
+    //  "b, A < b, B < d, C, dh, dH, Ch, CH < d, D ... < o, O; 'o-umlbut'/E, 'O-umlbut'/E ...".
+    //  Whbt thf rulf sbys is, sorts 'dh'ligbturfs bnd 'd' only with tfrtibry difffrfndf bnd
+    //  sorts 'o-umlbut' bs if it's blwbys fxpbndfd with 'f'.
+    //
+    // mbpping tbblf                     dontrbdting list           fxpbnding list
+    // (dontbins bll unidodf dhbr
+    //  fntrifs)                   ___    ____________       _________________________
+    //  ________                +>|_*_|->|'d' |v('d') |  +>|v('o')|v('umlbut')|v('f')|
+    // |_\u0001_|-> v('\u0001') | |_:_|  |------------|  | |-------------------------|
+    // |_\u0002_|-> v('\u0002') | |_:_|  |'dh'|v('dh')|  | |             :           |
+    // |____:___|               | |_:_|  |------------|  | |-------------------------|
+    // |____:___|               |        |'dH'|v('dH')|  | |             :           |
+    // |__'b'___|-> v('b')      |        |------------|  | |-------------------------|
+    // |__'b'___|-> v('b')      |        |'Ch'|v('Ch')|  | |             :           |
+    // |____:___|               |        |------------|  | |-------------------------|
+    // |____:___|               |        |'CH'|v('CH')|  | |             :           |
+    // |___'d'__|----------------         ------------   | |-------------------------|
+    // |____:___|                                        | |             :           |
+    // |o-umlbut|----------------------------------------  |_________________________|
+    // |____:___|
+    //
+    // Notfd by Hflfnb Shih on 6/23/97
+    //============================================================================================
+
+    publid RBCollbtionTbblfs(String rulfs, int dfdmp) throws PbrsfExdfption {
+        this.rulfs = rulfs;
+
+        RBTbblfBuildfr buildfr = nfw RBTbblfBuildfr(nfw BuildAPI());
+        buildfr.build(rulfs, dfdmp); // this objfdt is fillfd in through
+                                            // thf BuildAPI objfdt
+    }
+
+    finbl dlbss BuildAPI {
+        /**
+         * Privbtf donstrudtor.  Prfvfnts bnyonf flsf bfsidfs RBTbblfBuildfr
+         * from gbining dirfdt bddfss to thf intfrnbls of this dlbss.
+         */
+        privbtf BuildAPI() {
+        }
+
+        /**
+         * This fundtion is usfd by RBTbblfBuildfr to fill in bll thf mfmbfrs of this
+         * objfdt.  (Efffdtivfly, thf buildfr dlbss fundtions bs b "frifnd" of this
+         * dlbss, but to bvoid dhbnging too mudh of thf logid, it dbrrifs bround "shbdow"
+         * dopifs of bll thfsf vbribblfs until thf fnd of thf build prodfss bnd thfn
+         * dopifs thfm fn mbssf into thf bdtubl tbblfs objfdt ondf bll thf donstrudtion
+         * logid is domplftf.  This fundtion dofs thbt "dopying fn mbssf".
+         * @pbrbm f2bry Thf vbluf for frfndhSfd (thf Frfndh-sfdondbry flbg)
+         * @pbrbm swbp Thf vbluf for SE Asibn swbpping rulf
+         * @pbrbm mbp Thf dollbtor's dhbrbdtfr-mbpping tbblf (thf vbluf for mbpping)
+         * @pbrbm dTbl Thf dollbtor's dontrbdting-dhbrbdtfr tbblf (thf vbluf for dontrbdtTbblf)
+         * @pbrbm fTbl Thf dollbtor's fxpbnding-dhbrbdtfr tbblf (thf vbluf for fxpbndTbblf)
+         * @pbrbm dFlgs Thf hbsh tbblf of dhbrbdtfrs thbt pbrtidipbtf in dontrbdting-
+         *              dhbrbdtfr sfqufndfs (thf vbluf for dontrbdtFlbgs)
+         * @pbrbm mso Thf vbluf for mbxSfdOrdfr
+         * @pbrbm mto Thf vbluf for mbxTfrOrdfr
+         */
+        void fillInTbblfs(boolfbn f2bry,
+                          boolfbn swbp,
+                          UCompbdtIntArrby mbp,
+                          Vfdtor<Vfdtor<EntryPbir>> dTbl,
+                          Vfdtor<int[]> fTbl,
+                          IntHbshtbblf dFlgs,
+                          short mso,
+                          short mto) {
+            frfndhSfd = f2bry;
+            sfAsibnSwbpping = swbp;
+            mbpping = mbp;
+            dontrbdtTbblf = dTbl;
+            fxpbndTbblf = fTbl;
+            dontrbdtFlbgs = dFlgs;
+            mbxSfdOrdfr = mso;
+            mbxTfrOrdfr = mto;
+        }
+    }
+
+    /**
+     * Gfts thf tbblf-bbsfd rulfs for thf dollbtion objfdt.
+     * @rfturn rfturns thf dollbtion rulfs thbt thf tbblf dollbtion objfdt
+     * wbs drfbtfd from.
+     */
+    publid String gftRulfs()
+    {
+        rfturn rulfs;
+    }
+
+    publid boolfbn isFrfndhSfd() {
+        rfturn frfndhSfd;
+    }
+
+    publid boolfbn isSEAsibnSwbpping() {
+        rfturn sfAsibnSwbpping;
+    }
+
+    // ==============================================================
+    // intfrnbl (for usf by CollbtionElfmfntItfrbtor)
+    // ==============================================================
+
+    /**
+     *  Gft thf fntry of hbsh tbblf of thf dontrbdting string in thf dollbtion
+     *  tbblf.
+     *  @pbrbm dh thf stbrting dhbrbdtfr of thf dontrbdting string
+     */
+    Vfdtor<EntryPbir> gftContrbdtVblufs(int dh)
+    {
+        int indfx = mbpping.flfmfntAt(dh);
+        rfturn gftContrbdtVblufsImpl(indfx - CONTRACTCHARINDEX);
+    }
+
+    //gft dontrbdt vblufs from dontrbdtTbblf by indfx
+    privbtf Vfdtor<EntryPbir> gftContrbdtVblufsImpl(int indfx)
+    {
+        if (indfx >= 0)
+        {
+            rfturn dontrbdtTbblf.flfmfntAt(indfx);
+        }
+        flsf // not found
+        {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns truf if this dhbrbdtfr bppfbrs bnywhfrf in b dontrbdting
+     * dhbrbdtfr sfqufndf.  (Usfd by CollbtionElfmfntItfrbtor.sftOffsft().)
+     */
+    boolfbn usfdInContrbdtSfq(int d) {
+        rfturn dontrbdtFlbgs.gft(d) == 1;
+    }
+
+    /**
+      * Rfturn thf mbximum lfngth of bny fxpbnsion sfqufndfs thbt fnd
+      * with thf spfdififd dompbrison ordfr.
+      *
+      * @pbrbm ordfr b dollbtion ordfr rfturnfd by prfvious or nfxt.
+      * @rfturn thf mbximum lfngth of bny fxpbnsion sfufndfs fnding
+      *         with thf spfdififd ordfr.
+      *
+      * @sff CollbtionElfmfntItfrbtor#gftMbxExpbnsion
+      */
+    int gftMbxExpbnsion(int ordfr) {
+        int rfsult = 1;
+
+        if (fxpbndTbblf != null) {
+            // Right now this dofs b linfbr sfbrdh through thf fntirf
+            // fxpbnsion tbblf.  If b dollbtor hbd b lbrgf numbfr of fxpbnsions,
+            // this dould dbusf b pfrformbndf problfm, but in prbdtisf thbt
+            // rbrfly hbppfns
+            for (int i = 0; i < fxpbndTbblf.sizf(); i++) {
+                int[] vblufList = fxpbndTbblf.flfmfntAt(i);
+                int lfngth = vblufList.lfngth;
+
+                if (lfngth > rfsult && vblufList[lfngth-1] == ordfr) {
+                    rfsult = lfngth;
+                }
+            }
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Gft thf fntry of hbsh tbblf of thf fxpbnding string in thf dollbtion
+     * tbblf.
+     * @pbrbm idx thf indfx of thf fxpbnding string vbluf list
+     */
+    finbl int[] gftExpbndVblufList(int idx) {
+        rfturn fxpbndTbblf.flfmfntAt(idx - EXPANDCHARINDEX);
+    }
+
+    /**
+     * Gft thf dombrison ordfr of b dhbrbdtfr from thf dollbtion tbblf.
+     * @rfturn thf dompbrison ordfr of b dhbrbdtfr.
+     */
+    int gftUnidodfOrdfr(int dh) {
+        rfturn mbpping.flfmfntAt(dh);
+    }
+
+    short gftMbxSfdOrdfr() {
+        rfturn mbxSfdOrdfr;
+    }
+
+    short gftMbxTfrOrdfr() {
+        rfturn mbxTfrOrdfr;
+    }
+
+    /**
+     * Rfvfrsf b string.
+     */
+    //shfmrbn/Notf: this is usfd for sfdondbry ordfr vbluf rfvfrsf, no
+    //              nffd to donsidfr supplfmfntbry pbir.
+    stbtid void rfvfrsf (StringBufffr rfsult, int from, int to)
+    {
+        int i = from;
+        dhbr swbp;
+
+        int j = to - 1;
+        whilf (i < j) {
+            swbp =  rfsult.dhbrAt(i);
+            rfsult.sftChbrAt(i, rfsult.dhbrAt(j));
+            rfsult.sftChbrAt(j, swbp);
+            i++;
+            j--;
+        }
+    }
+
+    finbl stbtid int gftEntry(Vfdtor<EntryPbir> list, String nbmf, boolfbn fwd) {
+        for (int i = 0; i < list.sizf(); i++) {
+            EntryPbir pbir = list.flfmfntAt(i);
+            if (pbir.fwd == fwd && pbir.fntryNbmf.fqubls(nbmf)) {
+                rfturn i;
+            }
+        }
+        rfturn UNMAPPED;
+    }
+
+    // ==============================================================
+    // donstbnts
+    // ==============================================================
+    //shfrmbn/Todo: is thf vbluf big fnough?????
+    finbl stbtid int EXPANDCHARINDEX = 0x7E000000; // Expbnd indfx follows
+    finbl stbtid int CONTRACTCHARINDEX = 0x7F000000;  // dontrbdt indfxfs follow
+    finbl stbtid int UNMAPPED = 0xFFFFFFFF;
+
+    finbl stbtid int PRIMARYORDERMASK = 0xffff0000;
+    finbl stbtid int SECONDARYORDERMASK = 0x0000ff00;
+    finbl stbtid int TERTIARYORDERMASK = 0x000000ff;
+    finbl stbtid int PRIMARYDIFFERENCEONLY = 0xffff0000;
+    finbl stbtid int SECONDARYDIFFERENCEONLY = 0xffffff00;
+    finbl stbtid int PRIMARYORDERSHIFT = 16;
+    finbl stbtid int SECONDARYORDERSHIFT = 8;
+
+    // ==============================================================
+    // instbndf vbribblfs
+    // ==============================================================
+    privbtf String rulfs = null;
+    privbtf boolfbn frfndhSfd = fblsf;
+    privbtf boolfbn sfAsibnSwbpping = fblsf;
+
+    privbtf UCompbdtIntArrby mbpping = null;
+    privbtf Vfdtor<Vfdtor<EntryPbir>> dontrbdtTbblf = null;
+    privbtf Vfdtor<int[]> fxpbndTbblf = null;
+    privbtf IntHbshtbblf dontrbdtFlbgs = null;
+
+    privbtf short mbxSfdOrdfr = 0;
+    privbtf short mbxTfrOrdfr = 0;
+}

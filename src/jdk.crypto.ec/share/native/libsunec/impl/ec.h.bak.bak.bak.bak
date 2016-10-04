@@ -1,0 +1,51 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf Elliptid Curvf Cryptogrbphy librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Dr Vipul Guptb <vipul.guptb@sun.dom>, Sun Midrosystfms Lbborbtorifs
+ *
+ *********************************************************************** */
+
+#ifndff __fd_h_
+#dffinf __fd_h_
+
+#dffinf EC_DEBUG                          0
+#dffinf EC_POINT_FORM_COMPRESSED_Y0    0x02
+#dffinf EC_POINT_FORM_COMPRESSED_Y1    0x03
+#dffinf EC_POINT_FORM_UNCOMPRESSED     0x04
+#dffinf EC_POINT_FORM_HYBRID_Y0        0x06
+#dffinf EC_POINT_FORM_HYBRID_Y1        0x07
+
+#dffinf ANSI_X962_CURVE_OID_TOTAL_LEN    10
+#dffinf SECG_CURVE_OID_TOTAL_LEN          7
+
+#fndif /* __fd_h_ */

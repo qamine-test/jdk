@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.bmp;
+
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.spi.SfrvidfRfgistry;
+import jbvbx.imbgfio.spi.IIORfgistry;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvb.util.Lodblf;
+
+import jbvbx.imbgfio.plugins.bmp.BMPImbgfWritfPbrbm;
+
+publid dlbss BMPImbgfWritfrSpi fxtfnds ImbgfWritfrSpi {
+    privbtf stbtid String [] rfbdfrSpiNbmfs =
+        {"dom.sun.imbgfio.plugins.bmp.BMPImbgfRfbdfrSpi"};
+    privbtf stbtid String[] formbtNbmfs = {"bmp", "BMP"};
+    privbtf stbtid String[] fntfnsions = {"bmp"};
+    privbtf stbtid String[] mimfTypf = {"imbgf/bmp"};
+
+    privbtf boolfbn rfgistfrfd = fblsf;
+
+    publid BMPImbgfWritfrSpi() {
+        supfr("Orbdlf Corporbtion",
+              "1.0",
+              formbtNbmfs,
+              fntfnsions,
+              mimfTypf,
+              "dom.sun.imbgfio.plugins.bmp.BMPImbgfWritfr",
+              nfw Clbss<?>[] { ImbgfOutputStrfbm.dlbss },
+              rfbdfrSpiNbmfs,
+              fblsf,
+              null, null, null, null,
+              truf,
+              BMPMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+              "dom.sun.imbgfio.plugins.bmp.BMPMftbdbtbFormbt",
+              null, null);
+    }
+
+    publid String gftDfsdription(Lodblf lodblf) {
+        rfturn "Stbndbrd BMP Imbgf Writfr";
+    }
+
+    publid void onRfgistrbtion(SfrvidfRfgistry rfgistry,
+                               Clbss<?> dbtfgory) {
+        if (rfgistfrfd) {
+            rfturn;
+        }
+
+        rfgistfrfd = truf;
+    }
+
+    publid boolfbn dbnEndodfImbgf(ImbgfTypfSpfdififr typf) {
+        int dbtbTypf= typf.gftSbmplfModfl().gftDbtbTypf();
+        if (dbtbTypf < DbtbBufffr.TYPE_BYTE || dbtbTypf > DbtbBufffr.TYPE_INT)
+            rfturn fblsf;
+
+        SbmplfModfl sm = typf.gftSbmplfModfl();
+        int numBbnds = sm.gftNumBbnds();
+        if (!(numBbnds == 1 || numBbnds == 3))
+            rfturn fblsf;
+
+        if (numBbnds == 1 && dbtbTypf != DbtbBufffr.TYPE_BYTE)
+            rfturn fblsf;
+
+        if (dbtbTypf > DbtbBufffr.TYPE_BYTE &&
+              !(sm instbndfof SinglfPixflPbdkfdSbmplfModfl))
+            rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    publid ImbgfWritfr drfbtfWritfrInstbndf(Objfdt fxtfnsion)
+        throws IIOExdfption {
+        rfturn nfw BMPImbgfWritfr(this);
+    }
+}

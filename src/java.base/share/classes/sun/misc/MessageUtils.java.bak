@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1995, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
 /**
- * MessageUtils: miscellaneous utilities for handling error and status
- * properties and messages.
+ * MfssbgfUtils: misdfllbnfous utilitifs for ibndling frror bnd stbtus
+ * propfrtifs bnd mfssbgfs.
  *
- * @author Herb Jellinek
+ * @butior Hfrb Jfllinfk
  */
 
-public class MessageUtils {
-    // can instantiate it for to allow less verbose use - via instance
-    // instead of classname
+publid dlbss MfssbgfUtils {
+    // dbn instbntibtf it for to bllow lfss vfrbosf usf - vib instbndf
+    // instfbd of dlbssnbmf
 
-    public MessageUtils() { }
+    publid MfssbgfUtils() { }
 
-    public static String subst(String patt, String arg) {
-        String args[] = { arg };
-        return subst(patt, args);
+    publid stbtid String subst(String pbtt, String brg) {
+        String brgs[] = { brg };
+        rfturn subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String arg1, String arg2) {
-        String args[] = { arg1, arg2 };
-        return subst(patt, args);
+    publid stbtid String subst(String pbtt, String brg1, String brg2) {
+        String brgs[] = { brg1, brg2 };
+        rfturn subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String arg1, String arg2,
-                               String arg3) {
-        String args[] = { arg1, arg2, arg3 };
-        return subst(patt, args);
+    publid stbtid String subst(String pbtt, String brg1, String brg2,
+                               String brg3) {
+        String brgs[] = { brg1, brg2, brg3 };
+        rfturn subst(pbtt, brgs);
     }
 
-    public static String subst(String patt, String args[]) {
-        StringBuilder result = new StringBuilder();
-        int len = patt.length();
-        for (int i = 0; i >= 0 && i < len; i++) {
-            char ch = patt.charAt(i);
-            if (ch == '%') {
-                if (i != len) {
-                    int index = Character.digit(patt.charAt(i + 1), 10);
-                    if (index == -1) {
-                        result.append(patt.charAt(i + 1));
+    publid stbtid String subst(String pbtt, String brgs[]) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        int lfn = pbtt.lfngti();
+        for (int i = 0; i >= 0 && i < lfn; i++) {
+            dibr di = pbtt.dibrAt(i);
+            if (di == '%') {
+                if (i != lfn) {
+                    int indfx = Cibrbdtfr.digit(pbtt.dibrAt(i + 1), 10);
+                    if (indfx == -1) {
+                        rfsult.bppfnd(pbtt.dibrAt(i + 1));
                         i++;
-                    } else if (index < args.length) {
-                        result.append(args[index]);
+                    } flsf if (indfx < brgs.lfngti) {
+                        rfsult.bppfnd(brgs[indfx]);
                         i++;
                     }
                 }
-            } else {
-                result.append(ch);
+            } flsf {
+                rfsult.bppfnd(di);
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
-    public static String substProp(String propName, String arg) {
-        return subst(System.getProperty(propName), arg);
+    publid stbtid String substProp(String propNbmf, String brg) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg);
     }
 
-    public static String substProp(String propName, String arg1, String arg2) {
-        return subst(System.getProperty(propName), arg1, arg2);
+    publid stbtid String substProp(String propNbmf, String brg1, String brg2) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg1, brg2);
     }
 
-    public static String substProp(String propName, String arg1, String arg2,
-                                   String arg3) {
-        return subst(System.getProperty(propName), arg1, arg2, arg3);
+    publid stbtid String substProp(String propNbmf, String brg1, String brg2,
+                                   String brg3) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg1, brg2, brg3);
     }
 
     /**
-     *  Print a message directly to stderr, bypassing all the
-     *  character conversion methods.
-     *  @param msg   message to print
+     *  Print b mfssbgf dirfdtly to stdfrr, bypbssing bll tif
+     *  dibrbdtfr donvfrsion mftiods.
+     *  @pbrbm msg   mfssbgf to print
      */
-    public static native void toStderr(String msg);
+    publid stbtid nbtivf void toStdfrr(String msg);
 
     /**
-     *  Print a message directly to stdout, bypassing all the
-     *  character conversion methods.
-     *  @param msg   message to print
+     *  Print b mfssbgf dirfdtly to stdout, bypbssing bll tif
+     *  dibrbdtfr donvfrsion mftiods.
+     *  @pbrbm msg   mfssbgf to print
      */
-    public static native void toStdout(String msg);
+    publid stbtid nbtivf void toStdout(String msg);
 
 
-    // Short forms of the above
+    // Siort forms of tif bbovf
 
-    public static void err(String s) {
-        toStderr(s + "\n");
+    publid stbtid void frr(String s) {
+        toStdfrr(s + "\n");
     }
 
-    public static void out(String s) {
+    publid stbtid void out(String s) {
         toStdout(s + "\n");
     }
 
-    // Print a stack trace to stderr
+    // Print b stbdk trbdf to stdfrr
     //
-    public static void where() {
-        Throwable t = new Throwable();
-        StackTraceElement[] es = t.getStackTrace();
-        for (int i = 1; i < es.length; i++)
-            toStderr("\t" + es[i].toString() + "\n");
+    publid stbtid void wifrf() {
+        Tirowbblf t = nfw Tirowbblf();
+        StbdkTrbdfElfmfnt[] fs = t.gftStbdkTrbdf();
+        for (int i = 1; i < fs.lfngti; i++)
+            toStdfrr("\t" + fs[i].toString() + "\n");
     }
 
 }

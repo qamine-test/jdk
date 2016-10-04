@@ -1,0 +1,595 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.util.*;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss is usfd to protfdt Kfrbfros sfrvidfs bnd thf
+ * drfdfntibls nfdfssbry to bddfss thosf sfrvidfs. Thfrf is b onf to
+ * onf mbpping of b sfrvidf prindipbl bnd thf drfdfntibls nfdfssbry
+ * to bddfss thf sfrvidf. Thfrfforf grbnting bddfss to b sfrvidf
+ * prindipbl impliditly grbnts bddfss to thf drfdfntibl nfdfssbry to
+ * fstbblish b sfdurity dontfxt with thf sfrvidf prindipbl. This
+ * bpplifs rfgbrdlfss of whfthfr thf drfdfntibls brf in b dbdhf
+ * or bdquirfd vib bn fxdhbngf with thf KDC. Thf drfdfntibl dbn
+ * bf fithfr b tidkft grbnting tidkft, b sfrvidf tidkft or b sfdrft
+ * kfy from b kfy tbblf.
+ * <p>
+ * A SfrvidfPfrmission dontbins b sfrvidf prindipbl nbmf bnd
+ * b list of bdtions whidh spfdify thf dontfxt thf drfdfntibl dbn bf
+ * usfd within.
+ * <p>
+ * Thf sfrvidf prindipbl nbmf is thf dbnonidbl nbmf of thf
+ * {@dodf KfrfbfrosPrindipbl} supplying thf sfrvidf, thbt is
+ * thf KfrbfrosPrindipbl rfprfsfnts b Kfrbfros sfrvidf
+ * prindipbl. This nbmf is trfbtfd in b dbsf sfnsitivf mbnnfr.
+ * An bstfrisk mby bppfbr by itsflf, to signify bny sfrvidf prindipbl.
+ * <p>
+ * Grbnting this pfrmission implifs thbt thf dbllfr dbn usf b dbdhfd
+ * drfdfntibl (TGT, sfrvidf tidkft or sfdrft kfy) within thf dontfxt
+ * dfsignbtfd by thf bdtion. In thf dbsf of thf TGT, grbnting this
+ * pfrmission blso implifs thbt thf TGT dbn bf obtbinfd by bn
+ * Authfntidbtion Sfrvidf fxdhbngf.
+ * <p>
+ * Thf possiblf bdtions brf:
+ *
+ * <prf>
+ *    initibtf -              bllow thf dbllfr to usf thf drfdfntibl to
+ *                            initibtf b sfdurity dontfxt with b sfrvidf
+ *                            prindipbl.
+ *
+ *    bddfpt -                bllow thf dbllfr to usf thf drfdfntibl to
+ *                            bddfpt sfdurity dontfxt bs b pbrtidulbr
+ *                            prindipbl.
+ * </prf>
+ *
+ * For fxbmplf, to spfdify thf pfrmission to bddfss to thf TGT to
+ * initibtf b sfdurity dontfxt thf pfrmission is donstrudtfd bs follows:
+ *
+ * <prf>
+ *     SfrvidfPfrmission("krbtgt/EXAMPLE.COM@EXAMPLE.COM", "initibtf");
+ * </prf>
+ * <p>
+ * To obtbin b sfrvidf tidkft to initibtf b dontfxt with thf "host"
+ * sfrvidf thf pfrmission is donstrudtfd bs follows:
+ * <prf>
+ *     SfrvidfPfrmission("host/foo.fxbmplf.dom@EXAMPLE.COM", "initibtf");
+ * </prf>
+ * <p>
+ * For b Kfrbfrizfd sfrvfr thf bdtion is "bddfpt". For fxbmplf, thf pfrmission
+ * nfdfssbry to bddfss bnd usf thf sfdrft kfy of thf  Kfrbfrizfd "host"
+ * sfrvidf (tflnft bnd thf likfs)  would bf donstrudtfd bs follows:
+ *
+ * <prf>
+ *     SfrvidfPfrmission("host/foo.fxbmplf.dom@EXAMPLE.COM", "bddfpt");
+ * </prf>
+ *
+ * @sindf 1.4
+ */
+
+publid finbl dlbss SfrvidfPfrmission fxtfnds Pfrmission
+    implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1227585031618624935L;
+
+    /**
+     * Initibtf b sfdurity dontfxt to thf spfdififd sfrvidf
+     */
+    privbtf finbl stbtid int INITIATE   = 0x1;
+
+    /**
+     * Addfpt b sfdurity dontfxt
+     */
+    privbtf finbl stbtid int ACCEPT     = 0x2;
+
+    /**
+     * All bdtions
+     */
+    privbtf finbl stbtid int ALL        = INITIATE|ACCEPT;
+
+    /**
+     * No bdtions.
+     */
+    privbtf finbl stbtid int NONE    = 0x0;
+
+    // thf bdtions mbsk
+    privbtf trbnsifnt int mbsk;
+
+    /**
+     * thf bdtions string.
+     *
+     * @sfribl
+     */
+
+    privbtf String bdtions; // Lfft null bs long bs possiblf, thfn
+                            // drfbtfd bnd rf-usfd in thf gftAdtion fundtion.
+
+    /**
+     * Crfbtf b nfw {@dodf SfrvidfPfrmission}
+     * with thf spfdififd {@dodf sfrvidfPrindipbl}
+     * bnd {@dodf bdtion}.
+     *
+     * @pbrbm sfrvidfPrindipbl thf nbmf of thf sfrvidf prindipbl.
+     * An bstfrisk mby bppfbr by itsflf, to signify bny sfrvidf prindipbl.
+     * <p>
+     * @pbrbm bdtion thf bdtion string
+     */
+    publid SfrvidfPfrmission(String sfrvidfPrindipbl, String bdtion) {
+        supfr(sfrvidfPrindipbl);
+        init(sfrvidfPrindipbl, gftMbsk(bdtion));
+    }
+
+
+    /**
+     * Initiblizf thf SfrvidfPfrmission objfdt.
+     */
+    privbtf void init(String sfrvidfPrindipbl, int mbsk) {
+
+        if (sfrvidfPrindipbl == null)
+                throw nfw NullPointfrExdfption("sfrvidf prindipbl dbn't bf null");
+
+        if ((mbsk & ALL) != mbsk)
+            throw nfw IllfgblArgumfntExdfption("invblid bdtions mbsk");
+
+        this.mbsk = mbsk;
+    }
+
+
+    /**
+     * Chfdks if this Kfrbfros sfrvidf pfrmission objfdt "implifs" thf
+     * spfdififd pfrmission.
+     * <P>
+     * If nonf of thf bbovf brf truf, {@dodf implifs} rfturns fblsf.
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     *
+     * @rfturn truf if thf spfdififd pfrmission is implifd by this objfdt,
+     * fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof SfrvidfPfrmission))
+            rfturn fblsf;
+
+        SfrvidfPfrmission thbt = (SfrvidfPfrmission) p;
+
+        rfturn ((this.mbsk & thbt.mbsk) == thbt.mbsk) &&
+            implifsIgnorfMbsk(thbt);
+    }
+
+
+    boolfbn implifsIgnorfMbsk(SfrvidfPfrmission p) {
+        rfturn ((this.gftNbmf().fqubls("*")) ||
+                this.gftNbmf().fqubls(p.gftNbmf()));
+    }
+
+    /**
+     * Chfdks two SfrvidfPfrmission objfdts for fqublity.
+     * <P>
+     * @pbrbm obj thf objfdt to tfst for fqublity with this objfdt.
+     *
+     * @rfturn truf if <i>obj</i> is b SfrvidfPfrmission, bnd hbs thf
+     *  sbmf sfrvidf prindipbl, bnd bdtions bs this
+     * SfrvidfPfrmission objfdt.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (! (obj instbndfof SfrvidfPfrmission))
+            rfturn fblsf;
+
+        SfrvidfPfrmission thbt = (SfrvidfPfrmission) obj;
+        rfturn ((this.mbsk & thbt.mbsk) == thbt.mbsk) &&
+            this.gftNbmf().fqubls(thbt.gftNbmf());
+
+
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+
+    publid int hbshCodf() {
+        rfturn (gftNbmf().hbshCodf() ^ mbsk);
+    }
+
+
+    /**
+     * Rfturns thf "dbnonidbl string rfprfsfntbtion" of thf bdtions in thf
+     * spfdififd mbsk.
+     * Alwbys rfturns prfsfnt bdtions in thf following ordfr:
+     * initibtf, bddfpt.
+     *
+     * @pbrbm mbsk b spfdifid intfgfr bdtion mbsk to trbnslbtf into b string
+     * @rfturn thf dbnonidbl string rfprfsfntbtion of thf bdtions
+     */
+    privbtf stbtid String gftAdtions(int mbsk)
+    {
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn dommb = fblsf;
+
+        if ((mbsk & INITIATE) == INITIATE) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("initibtf");
+        }
+
+        if ((mbsk & ACCEPT) == ACCEPT) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("bddfpt");
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     * Alwbys rfturns prfsfnt bdtions in thf following ordfr:
+     * initibtf, bddfpt.
+     */
+    publid String gftAdtions() {
+        if (bdtions == null)
+            bdtions = gftAdtions(this.mbsk);
+
+        rfturn bdtions;
+    }
+
+
+    /**
+     * Rfturns b PfrmissionCollfdtion objfdt for storing
+     * SfrvidfPfrmission objfdts.
+     * <br>
+     * SfrvidfPfrmission objfdts must bf storfd in b mbnnfr thbt
+     * bllows thfm to bf insfrtfd into thf dollfdtion in bny ordfr, but
+     * thbt blso fnbblfs thf PfrmissionCollfdtion implifs mfthod to
+     * bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing
+     * SfrvidfPfrmissions.
+     */
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw KrbSfrvidfPfrmissionCollfdtion();
+    }
+
+    /**
+     * Rfturn thf durrfnt bdtion mbsk.
+     *
+     * @rfturn thf bdtions mbsk.
+     */
+    int gftMbsk() {
+        rfturn mbsk;
+    }
+
+    /**
+     * Convfrt bn bdtion string to bn intfgfr bdtions mbsk.
+     *
+     * @pbrbm bdtion thf bdtion string
+     * @rfturn thf bdtion mbsk
+     */
+    privbtf stbtid int gftMbsk(String bdtion) {
+
+        if (bdtion == null) {
+            throw nfw NullPointfrExdfption("bdtion dbn't bf null");
+        }
+
+        if (bdtion.fqubls("")) {
+            throw nfw IllfgblArgumfntExdfption("bdtion dbn't bf fmpty");
+        }
+
+        int mbsk = NONE;
+
+        dhbr[] b = bdtion.toChbrArrby();
+
+        int i = b.lfngth - 1;
+        if (i < 0)
+            rfturn mbsk;
+
+        whilf (i != -1) {
+            dhbr d;
+
+            // skip whitfspbdf
+            whilf ((i!=-1) && ((d = b[i]) == ' ' ||
+                               d == '\r' ||
+                               d == '\n' ||
+                               d == '\f' ||
+                               d == '\t'))
+                i--;
+
+            // dhfdk for thf known strings
+            int mbtdhlfn;
+
+            if (i >= 7 && (b[i-7] == 'i' || b[i-7] == 'I') &&
+                          (b[i-6] == 'n' || b[i-6] == 'N') &&
+                          (b[i-5] == 'i' || b[i-5] == 'I') &&
+                          (b[i-4] == 't' || b[i-4] == 'T') &&
+                          (b[i-3] == 'i' || b[i-3] == 'I') &&
+                          (b[i-2] == 'b' || b[i-2] == 'A') &&
+                          (b[i-1] == 't' || b[i-1] == 'T') &&
+                          (b[i] == 'f' || b[i] == 'E'))
+            {
+                mbtdhlfn = 8;
+                mbsk |= INITIATE;
+
+            } flsf if (i >= 5 && (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'd' || b[i-4] == 'C') &&
+                                 (b[i-3] == 'd' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'f' || b[i-2] == 'E') &&
+                                 (b[i-1] == 'p' || b[i-1] == 'P') &&
+                                 (b[i] == 't' || b[i] == 'T'))
+            {
+                mbtdhlfn = 6;
+                mbsk |= ACCEPT;
+
+            } flsf {
+                // pbrsf frror
+                throw nfw IllfgblArgumfntExdfption(
+                        "invblid pfrmission: " + bdtion);
+            }
+
+            // mbkf surf wf didn't just mbtdh thf tbil of b word
+            // likf "bdkbbrfbddfpt".  Also, skip to thf dommb.
+            boolfbn sffndommb = fblsf;
+            whilf (i >= mbtdhlfn && !sffndommb) {
+                switdh(b[i-mbtdhlfn]) {
+                dbsf ',':
+                    sffndommb = truf;
+                    brfbk;
+                dbsf ' ': dbsf '\r': dbsf '\n':
+                dbsf '\f': dbsf '\t':
+                    brfbk;
+                dffbult:
+                    throw nfw IllfgblArgumfntExdfption(
+                            "invblid pfrmission: " + bdtion);
+                }
+                i--;
+            }
+
+            // point i bt thf lodbtion of thf dommb minus onf (or -1).
+            i -= mbtdhlfn;
+        }
+
+        rfturn mbsk;
+    }
+
+
+    /**
+     * WritfObjfdt is dbllfd to sbvf thf stbtf of thf SfrvidfPfrmission
+     * to b strfbm. Thf bdtions brf sfriblizfd, bnd thf supfrdlbss
+     * tbkfs dbrf of thf nbmf.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws IOExdfption
+    {
+        // Writf out thf bdtions. Thf supfrdlbss tbkfs dbrf of thf nbmf
+        // dbll gftAdtions to mbkf surf bdtions fifld is initiblizfd
+        if (bdtions == null)
+            gftAdtions();
+        s.dffbultWritfObjfdt();
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf
+     * SfrvidfPfrmission from b strfbm.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Rfbd in thf bdtion, thfn initiblizf thf rfst
+        s.dffbultRfbdObjfdt();
+        init(gftNbmf(),gftMbsk(bdtions));
+    }
+
+
+    /*
+      publid stbtid void mbin(String brgs[]) throws Exdfption {
+      SfrvidfPfrmission this_ =
+      nfw SfrvidfPfrmission(brgs[0], "bddfpt");
+      SfrvidfPfrmission thbt_ =
+      nfw SfrvidfPfrmission(brgs[1], "bddfpt,initibtf");
+      Systfm.out.println("-----\n");
+      Systfm.out.println("this.implifs(thbt) = " + this_.implifs(thbt_));
+      Systfm.out.println("-----\n");
+      Systfm.out.println("this = "+this_);
+      Systfm.out.println("-----\n");
+      Systfm.out.println("thbt = "+thbt_);
+      Systfm.out.println("-----\n");
+
+      KrbSfrvidfPfrmissionCollfdtion nps =
+      nfw KrbSfrvidfPfrmissionCollfdtion();
+      nps.bdd(this_);
+      nps.bdd(nfw SfrvidfPfrmission("nfs/fxbmplf.dom@EXAMPLE.COM",
+      "bddfpt"));
+      nps.bdd(nfw SfrvidfPfrmission("host/fxbmplf.dom@EXAMPLE.COM",
+      "initibtf"));
+      Systfm.out.println("nps.implifs(thbt) = " + nps.implifs(thbt_));
+      Systfm.out.println("-----\n");
+
+      Enumfrbtion f = nps.flfmfnts();
+
+      whilf (f.hbsMorfElfmfnts()) {
+      SfrvidfPfrmission x =
+      (SfrvidfPfrmission) f.nfxtElfmfnt();
+      Systfm.out.println("nps.f = " + x);
+      }
+
+      }
+    */
+
+}
+
+
+finbl dlbss KrbSfrvidfPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf {
+
+    // Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss
+    privbtf trbnsifnt List<Pfrmission> pfrms;
+
+    publid KrbSfrvidfPfrmissionCollfdtion() {
+        pfrms = nfw ArrbyList<Pfrmission>();
+    }
+
+    /**
+     * Chfdk bnd sff if this dollfdtion of pfrmissions implifs thf pfrmissions
+     * fxprfssfd in "pfrmission".
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf
+     *
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * thf dollfdtion, fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof SfrvidfPfrmission))
+                rfturn fblsf;
+
+        SfrvidfPfrmission np = (SfrvidfPfrmission) pfrmission;
+        int dfsirfd = np.gftMbsk();
+        int ffffdtivf = 0;
+        int nffdfd = dfsirfd;
+
+        syndhronizfd (this) {
+            int lfn = pfrms.sizf();
+
+            // nffd to dfbl with thf dbsf whfrf thf nffdfd pfrmission hbs
+            // morf thbn onf bdtion bnd thf dollfdtion hbs individubl pfrmissions
+            // thbt sum up to thf nffdfd.
+
+            for (int i = 0; i < lfn; i++) {
+                SfrvidfPfrmission x = (SfrvidfPfrmission) pfrms.gft(i);
+
+                //Systfm.out.println("  trying "+x);
+                if (((nffdfd & x.gftMbsk()) != 0) && x.implifsIgnorfMbsk(np)) {
+                    ffffdtivf |=  x.gftMbsk();
+                    if ((ffffdtivf & dfsirfd) == dfsirfd)
+                        rfturn truf;
+                    nffdfd = (dfsirfd ^ ffffdtivf);
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Adds b pfrmission to thf SfrvidfPfrmissions. Thf kfy for
+     * thf hbsh is thf nbmf.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption - if thf pfrmission is not b
+     *                                       SfrvidfPfrmission
+     *
+     * @fxdfption SfdurityExdfption - if this PfrmissionCollfdtion objfdt
+     *                                hbs bffn mbrkfd rfbdonly
+     */
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof SfrvidfPfrmission))
+            throw nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            throw nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
+
+        syndhronizfd (this) {
+            pfrms.bdd(0, pfrmission);
+        }
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf SfrvidfPfrmission objfdts
+     * in thf dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf SfrvidfPfrmission objfdts.
+     */
+
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor into Enumfrbtion
+        syndhronizfd (this) {
+            rfturn Collfdtions.fnumfrbtion(pfrms);
+        }
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4118834211490102011L;
+
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility with fbrlifr rflfbsfs,
+    // whidh hbd thf sfriblizbblf fifld:
+    // privbtf Vfdtor pfrmissions;
+
+    /**
+     * @sfriblFifld pfrmissions jbvb.util.Vfdtor
+     *     A list of SfrvidfPfrmission objfdts.
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Vfdtor.dlbss),
+    };
+
+    /**
+     * @sfriblDbtb "pfrmissions" fifld (b Vfdtor dontbining thf SfrvidfPfrmissions).
+     */
+    /*
+     * Writfs thf dontfnts of thf pfrms fifld out bs b Vfdtor for
+     * sfriblizbtion dompbtibility with fbrlifr rflfbsfs.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) throws IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
+
+        // Writf out Vfdtor
+        Vfdtor<Pfrmission> pfrmissions = nfw Vfdtor<>(pfrms.sizf());
+
+        syndhronizfd (this) {
+            pfrmissions.bddAll(pfrms);
+        }
+
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("pfrmissions", pfrmissions);
+        out.writfFiflds();
+    }
+
+    /*
+     * Rfbds in b Vfdtor of SfrvidfPfrmissions bnd sbvfs thfm in thf pfrms fifld.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // Don't dbll dffbultRfbdObjfdt()
+
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
+
+        // Gft thf onf wf wbnt
+        Vfdtor<Pfrmission> pfrmissions =
+                (Vfdtor<Pfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw ArrbyList<Pfrmission>(pfrmissions.sizf());
+        pfrms.bddAll(pfrmissions);
+    }
+}

@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,61 +31,61 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project xmlns="http://www.netbeans.org/ns/project/1">
-    <type>org.netbeans.modules.ant.freeform</type>
-    <configuration>
-        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <!--Do not use Project Properties customizer when editing this file manually.-->
-            <name>J2DBench</name>
-            <folders>
-                <source-folder>
-                    <label>src</label>
-                    <type>java</type>
-                    <location>src</location>
-                </source-folder>
-                <source-folder>
-                    <label>src</label>
-                    <location>src</location>
-                </source-folder>
-            </folders>
-            <ide-actions>
-                <action name="build">
-                    <target>compile</target>
-                </action>
-                <action name="clean">
-                    <target>clean</target>
-                </action>
-                <action name="run">
-                    <target>run</target>
-                </action>
-                <action name="rebuild">
-                    <target>clean</target>
-                    <target>compile</target>
-                </action>
-            </ide-actions>
-            <view>
-                <items>
-                    <source-folder style="packages">
-                        <label>src</label>
-                        <location>src</location>
-                    </source-folder>
-                    <source-file>
-                        <location>build.xml</location>
-                    </source-file>
-                </items>
-                <context-menu>
-                    <ide-action name="build"/>
-                    <ide-action name="clean"/>
-                    <ide-action name="run"/>
-                    <ide-action name="rebuild"/>
-                </context-menu>
-            </view>
-        </general-data>
-        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
-            <compilation-unit>
-                <package-root>src</package-root>
-                <source-level>1.5</source-level>
-            </compilation-unit>
-        </java-data>
-    </configuration>
-</project>
+<projfdt xmlns="ittp://www.nftbfbns.org/ns/projfdt/1">
+    <typf>org.nftbfbns.modulfs.bnt.frffform</typf>
+    <donfigurbtion>
+        <gfnfrbl-dbtb xmlns="ittp://www.nftbfbns.org/ns/frffform-projfdt/1">
+            <!--Do not usf Projfdt Propfrtifs dustomizfr wifn fditing tiis filf mbnublly.-->
+            <nbmf>J2DBfndi</nbmf>
+            <foldfrs>
+                <sourdf-foldfr>
+                    <lbbfl>srd</lbbfl>
+                    <typf>jbvb</typf>
+                    <lodbtion>srd</lodbtion>
+                </sourdf-foldfr>
+                <sourdf-foldfr>
+                    <lbbfl>srd</lbbfl>
+                    <lodbtion>srd</lodbtion>
+                </sourdf-foldfr>
+            </foldfrs>
+            <idf-bdtions>
+                <bdtion nbmf="build">
+                    <tbrgft>dompilf</tbrgft>
+                </bdtion>
+                <bdtion nbmf="dlfbn">
+                    <tbrgft>dlfbn</tbrgft>
+                </bdtion>
+                <bdtion nbmf="run">
+                    <tbrgft>run</tbrgft>
+                </bdtion>
+                <bdtion nbmf="rfbuild">
+                    <tbrgft>dlfbn</tbrgft>
+                    <tbrgft>dompilf</tbrgft>
+                </bdtion>
+            </idf-bdtions>
+            <vifw>
+                <itfms>
+                    <sourdf-foldfr stylf="pbdkbgfs">
+                        <lbbfl>srd</lbbfl>
+                        <lodbtion>srd</lodbtion>
+                    </sourdf-foldfr>
+                    <sourdf-filf>
+                        <lodbtion>build.xml</lodbtion>
+                    </sourdf-filf>
+                </itfms>
+                <dontfxt-mfnu>
+                    <idf-bdtion nbmf="build"/>
+                    <idf-bdtion nbmf="dlfbn"/>
+                    <idf-bdtion nbmf="run"/>
+                    <idf-bdtion nbmf="rfbuild"/>
+                </dontfxt-mfnu>
+            </vifw>
+        </gfnfrbl-dbtb>
+        <jbvb-dbtb xmlns="ittp://www.nftbfbns.org/ns/frffform-projfdt-jbvb/1">
+            <dompilbtion-unit>
+                <pbdkbgf-root>srd</pbdkbgf-root>
+                <sourdf-lfvfl>1.5</sourdf-lfvfl>
+            </dompilbtion-unit>
+        </jbvb-dbtb>
+    </donfigurbtion>
+</projfdt>

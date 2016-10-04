@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.nio.*;
+
+publid finbl dlbss DbtbBufffrNIOInt fxtfnds DbtbBufffr {
+
+    /** Thf dffbult dbtb bbnk. */
+    IntBufffr dbtb;
+
+    /** All dbtb bbnks */
+    IntBufffr bbnkdbtb[];
+
+    /**
+     * Construdts bn intfgfr-bbsfd <CODE>DbtbBufffr</CODE> with b singlf bbnk
+     * bnd thf spfdififd sizf.
+     *
+     * @pbrbm sizf Thf sizf of thf <CODE>DbtbBufffr</CODE>.
+     */
+    publid DbtbBufffrNIOInt(int sizf) {
+        supfr(TYPE_INT,sizf);
+        //+++gdb how to gft sizfof(int) in jbvb? Using 4 for now.
+        dbtb = gftBufffrOfSizf(sizf * 4).bsIntBufffr();
+        bbnkdbtb = nfw IntBufffr[1];
+        bbnkdbtb[0] = dbtb;
+    }
+
+    /**
+     * Rfturns thf dffbult (first) IntBufffr in <CODE>DbtbBufffr</CODE>.
+     *
+     * @rfturn Thf first IntBufffr.
+     */
+    publid IntBufffr gftBufffr() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf Bufffr for thf spfdififd bbnk.
+     *
+     * @pbrbm bbnk Thf bbnk whosf Bufffr you wbnt to gft.
+     * @rfturn Thf Bufffr for thf spfdififd bbnk.
+     */
+    publid IntBufffr gftBufffr(int bbnk) {
+        rfturn bbnkdbtb[bbnk];
+    }
+
+    /**
+     * Rfturns thf dffbult (first) int dbtb brrby in <CODE>DbtbBufffr</CODE>.
+     *
+     * @rfturn Thf first intfgfr dbtb brrby.
+     */
+    publid int[] gftDbtb() {
+        rfturn dbtb.brrby();
+    }
+
+    /**
+     * Rfturns thf dbtb brrby for thf spfdififd bbnk.
+     *
+     * @pbrbm bbnk Thf bbnk whosf dbtb brrby you wbnt to gft.
+     * @rfturn Thf dbtb brrby for thf spfdififd bbnk.
+     */
+    publid int[] gftDbtb(int bbnk) {
+        rfturn bbnkdbtb[bbnk].brrby();
+    }
+
+    /**
+     * Rfturns thf dbtb brrbys for bll bbnks.
+     * @rfturn All of thf dbtb brrbys.
+     */
+    publid int[][] gftBbnkDbtb() {
+        // Unsupportfd.
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first (dffbult) bbnk.
+     *
+     * @pbrbm i Thf dbtb brrby flfmfnt you wbnt to gft.
+     * @rfturn Thf rfqufstfd dbtb brrby flfmfnt bs bn intfgfr.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid int gftElfm(int i) {
+        rfturn dbtb.gft(i+offsft);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd bbnk.
+     *
+     * @pbrbm bbnk Thf bbnk from whidh you wbnt to gft b dbtb brrby flfmfnt.
+     * @pbrbm i Thf dbtb brrby flfmfnt you wbnt to gft.
+     * @rfturn Thf rfqufstfd dbtb brrby flfmfnt bs bn intfgfr.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid int gftElfm(int bbnk, int i) {
+        rfturn bbnkdbtb[bbnk].gft(i+offsfts[bbnk]);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult) bbnk
+     * to thf spfdififd vbluf.
+     *
+     * @pbrbm i Thf dbtb brrby flfmfnt you wbnt to sft.
+     * @pbrbm vbl Thf intfgfr vbluf to whidh you wbnt to sft thf dbtb brrby flfmfnt.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid void sftElfm(int i, int vbl) {
+        dbtb.put(i+offsft, vbl);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk
+     * to thf intfgfr vbluf <CODE>i</CODE>.
+     * @pbrbm bbnk Thf bbnk in whidh you wbnt to sft thf dbtb brrby flfmfnt.
+     * @pbrbm i Thf dbtb brrby flfmfnt you wbnt to sft.
+     * @pbrbm vbl Thf intfgfr vbluf to whidh you wbnt to sft thf spfdififd dbtb brrby flfmfnt.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk].put(i+offsfts[bbnk], vbl);
+    }
+
+    BytfBufffr gftBufffrOfSizf(int sizf)
+    {
+        BytfBufffr bufffr = BytfBufffr.bllodbtfDirfdt(sizf);
+        bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+        rfturn bufffr;
+    }
+}

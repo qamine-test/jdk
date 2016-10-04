@@ -1,0 +1,409 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Sft;
+
+import sun.bwt.X11GrbphidsConfig;
+import sun.bwt.X11GrbphidsDfvidf;
+import sun.bwt.X11GrbphidsEnvironmfnt;
+
+/*
+ * This dlbss is b dollfdtion of utility mfthods thbt opfrbtf
+ * with nbtivf windows.
+ */
+publid dlbss XlibUtil
+{
+    /**
+     * Thf donstrudtor is mbdf privbtf to fliminbtf bny
+     * instbndfs of this dlbss
+    */
+    privbtf XlibUtil()
+    {
+    }
+
+    /**
+     * Xinfrbmb-bwbrf vfrsion of XlibWrbppfr.RootWindow mfthod.
+     */
+    publid stbtid long gftRootWindow(int sdrffnNumbfr)
+    {
+        XToolkit.bwtLodk();
+        try
+        {
+            X11GrbphidsEnvironmfnt x11gf = (X11GrbphidsEnvironmfnt)
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+            if (x11gf.runningXinfrbmb())
+            {
+                // bll thf Xinfrbmb windows shbrf thf sbmf root window
+                rfturn XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), 0);
+            }
+            flsf
+            {
+                rfturn XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffnNumbfr);
+            }
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Chfdks if thf givfn window is b root window for thf givfn sdrffn
+     */
+    stbtid boolfbn isRoot(long rootCbndidbtf, long sdrffnNumbfr)
+    {
+        long root;
+
+        XToolkit.bwtLodk();
+        try
+        {
+            root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(),
+                                          sdrffnNumbfr);
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+
+        rfturn root == rootCbndidbtf;
+    }
+
+    /**
+     * Rfturns thf bounds of thf givfn window, in bbsolutf doordinbtfs
+     */
+    stbtid Rfdtbnglf gftWindowGfomftry(long window)
+    {
+        XToolkit.bwtLodk();
+        try
+        {
+            int rfs = XlibWrbppfr.XGftGfomftry(XToolkit.gftDisplby(),
+                                               window,
+                                               XlibWrbppfr.lbrg1, // root_rfturn
+                                               XlibWrbppfr.lbrg2, // x_rfturn
+                                               XlibWrbppfr.lbrg3, // y_rfturn
+                                               XlibWrbppfr.lbrg4, // width_rfturn
+                                               XlibWrbppfr.lbrg5, // hfight_rfturn
+                                               XlibWrbppfr.lbrg6, // bordfr_width_rfturn
+                                               XlibWrbppfr.lbrg7); // dfpth_rfturn
+            if (rfs == 0)
+            {
+                rfturn null;
+            }
+
+            int x = Nbtivf.gftInt(XlibWrbppfr.lbrg2);
+            int y = Nbtivf.gftInt(XlibWrbppfr.lbrg3);
+            long width = Nbtivf.gftUInt(XlibWrbppfr.lbrg4);
+            long hfight = Nbtivf.gftUInt(XlibWrbppfr.lbrg5);
+
+            rfturn nfw Rfdtbnglf(x, y, (int)width, (int)hfight);
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Trbnslbtfs thf givfn point from onf window to bnothfr. Rfturns
+     * null if thf trbnslbtion is fbilfd
+     */
+    stbtid Point trbnslbtfCoordinbtfs(long srd, long dst, Point p)
+    {
+        Point trbnslbtfd = null;
+
+        XToolkit.bwtLodk();
+        try
+        {
+            XTrbnslbtfCoordinbtfs xtd =
+                nfw XTrbnslbtfCoordinbtfs(srd, dst, p.x, p.y);
+            try
+            {
+                int stbtus = xtd.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                if ((stbtus != 0) &&
+                    ((XErrorHbndlfrUtil.sbvfd_frror == null) ||
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() == XConstbnts.Suddfss)))
+                {
+                    trbnslbtfd = nfw Point(xtd.gft_dfst_x(), xtd.gft_dfst_y());
+                }
+            }
+            finblly
+            {
+                xtd.disposf();
+            }
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+
+        rfturn trbnslbtfd;
+    }
+
+    /**
+     * Trbnslbtfs thf givfn rfdtbnglf from onf window to bnothfr.
+     * Rfturns null if thf trbnslbtion is fbilfd
+     */
+    stbtid Rfdtbnglf trbnslbtfCoordinbtfs(long srd, long dst, Rfdtbnglf r)
+    {
+        Point trbnslbtfdLod = trbnslbtfCoordinbtfs(srd, dst, r.gftLodbtion());
+        if (trbnslbtfdLod == null)
+        {
+            rfturn null;
+        }
+        flsf
+        {
+            rfturn nfw Rfdtbnglf(trbnslbtfdLod, r.gftSizf());
+        }
+    }
+
+    /**
+     * Rfturns thf pbrfnt for thf givfn window
+     */
+    stbtid long gftPbrfntWindow(long window)
+    {
+        XToolkit.bwtLodk();
+        try
+        {
+            XBbsfWindow bw = XToolkit.windowToXWindow(window);
+            if (bw != null)
+            {
+                XBbsfWindow pbw = bw.gftPbrfntWindow();
+                if (pbw != null)
+                {
+                    rfturn pbw.gftWindow();
+                }
+            }
+
+            XQufryTrff qt = nfw XQufryTrff(window);
+            try
+            {
+                if (qt.fxfdutf() == 0)
+                {
+                    rfturn 0;
+                }
+                flsf
+                {
+                    rfturn qt.gft_pbrfnt();
+                }
+            }
+            finblly
+            {
+                qt.disposf();
+            }
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Rfturns bll thf dhildrfn for thf givfn window
+     */
+    stbtid Sft<Long> gftChildWindows(long window)
+    {
+        XToolkit.bwtLodk();
+        try
+        {
+            XBbsfWindow bw = XToolkit.windowToXWindow(window);
+            if (bw != null)
+            {
+                rfturn bw.gftChildrfn();
+            }
+
+            XQufryTrff xqt = nfw XQufryTrff(window);
+            try
+            {
+                int stbtus = xqt.fxfdutf();
+                if (stbtus == 0)
+                {
+                    rfturn Collfdtions.fmptySft();
+                }
+
+                long dhildrfn = xqt.gft_dhildrfn();
+
+                if (dhildrfn == 0)
+                {
+                    rfturn Collfdtions.fmptySft();
+                }
+
+                int dhildrfnCount = xqt.gft_ndhildrfn();
+
+                Sft<Long> dhildrfnSft = nfw HbshSft<Long>(dhildrfnCount);
+                for (int i = 0; i < dhildrfnCount; i++)
+                {
+                    dhildrfnSft.bdd(Nbtivf.gftWindow(dhildrfn, i));
+                }
+
+                rfturn dhildrfnSft;
+            }
+            finblly
+            {
+                xqt.disposf();
+            }
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Chfdks if thf givfn window is b Jbvb window bnd is bn
+     * instbndf of XWindowPffr
+     */
+    stbtid boolfbn isXAWTToplfvflWindow(long window)
+    {
+        rfturn XToolkit.windowToXWindow(window) instbndfof XWindowPffr;
+    }
+
+    /**
+     * NOTICE: Right now rfturns only dfdorbtfd top-lfvfls (not Window)
+     */
+    stbtid boolfbn isToplfvflWindow(long window)
+    {
+        if (XToolkit.windowToXWindow(window) instbndfof XDfdorbtfdPffr)
+        {
+            rfturn truf;
+        }
+
+        XToolkit.bwtLodk();
+        try
+        {
+            WindowPropfrtyGfttfr wpg =
+                nfw WindowPropfrtyGfttfr(window, XWM.XA_WM_STATE, 0, 1, fblsf,
+                                         XWM.XA_WM_STATE);
+            try
+            {
+                wpg.fxfdutf(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                if (wpg.gftAdtublTypf() == XWM.XA_WM_STATE.gftAtom())
+                {
+                    rfturn truf;
+                }
+            }
+            finblly
+            {
+                wpg.disposf();
+            }
+
+            rfturn fblsf;
+        }
+        finblly
+        {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Thf sbmf bs isToplfvflWindow(window), but dofsn't trfbt
+     * XEmbfddfdFrbmfPffr bs toplfvfl.
+     */
+    stbtid boolfbn isTrufToplfvflWindow(long window)
+    {
+        if (XToolkit.windowToXWindow(window) instbndfof XEmbfddfdFrbmfPffr)
+        {
+            rfturn fblsf;
+        }
+
+        rfturn isToplfvflWindow(window);
+    }
+
+    stbtid int gftWindowMbpStbtf(long window)
+    {
+        XToolkit.bwtLodk();
+        XWindowAttributfs wbttr = nfw XWindowAttributfs();
+        try
+        {
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                          window, wbttr.pDbtb);
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+            if ((stbtus != 0) &&
+                ((XErrorHbndlfrUtil.sbvfd_frror == null) ||
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() == XConstbnts.Suddfss)))
+            {
+                rfturn wbttr.gft_mbp_stbtf();
+            }
+        }
+        finblly
+        {
+            wbttr.disposf();
+            XToolkit.bwtUnlodk();
+        }
+
+        rfturn XConstbnts.IsUnmbppfd;
+    }
+
+    /**
+     * XSHAPE fxtfnsion support.
+     */
+
+    // Thf vbribblf is dfdlbrfd stbtid bs thf XSHAPE fxtfnsion dbnnot
+    // bf disbblfd bt run-timf, bnd thus is bvbilbblf bll thf timf
+    // ondf thf dhfdk is pbssfd.
+    stbtid Boolfbn isShbpingSupportfd = null;
+
+    /**
+     *  Rfturns whfthfr thf XSHAPE fxtfnsion bvbilbblf
+     *  @sindf 1.7
+     */
+    stbtid syndhronizfd boolfbn isShbpingSupportfd() {
+
+        if (isShbpingSupportfd == null) {
+            XToolkit.bwtLodk();
+            try {
+                isShbpingSupportfd =
+                    XlibWrbppfr.XShbpfQufryExtfnsion(
+                            XToolkit.gftDisplby(),
+                            XlibWrbppfr.lbrg1,
+                            XlibWrbppfr.lbrg2);
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+
+        rfturn isShbpingSupportfd.boolfbnVbluf();
+    }
+
+    stbtid int gftButtonMbsk(int button) {
+        // Button indidfs stbrt with 1. Thf first bit in thf button mbsk is thf 8th.
+        // Thf stbtf mbsk dofs not support button indidifs > 5, so wf nffd to
+        // dut thfrf.
+        if (button <= 0 || button > XConstbnts.MAX_BUTTONS) {
+            rfturn 0;
+        } flsf {
+            rfturn 1 << (7 + button);
+        }
+    }
+}

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
-import java.io.IOException;
+pbdkbgf jbvb.nft;
+import jbvb.io.IOExdfption;
 
 /*
- * Package private implementation of InetAddressImpl for dual
- * IPv4/IPv6 stack.
+ * Pbdkbgf privbtf implfmfntbtion of InftAddrfssImpl for dubl
+ * IPv4/IPv6 stbdk.
  * <p>
- * If InetAddress.preferIPv6Address is true then anyLocalAddress(),
- * loopbackAddress(), and localHost() will return IPv6 addresses,
- * otherwise IPv4 addresses.
+ * If InftAddrfss.prfffrIPv6Addrfss is truf tifn bnyLodblAddrfss(),
+ * loopbbdkAddrfss(), bnd lodblHost() will rfturn IPv6 bddrfssfs,
+ * otifrwisf IPv4 bddrfssfs.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-class Inet6AddressImpl implements InetAddressImpl {
-    public native String getLocalHostName() throws UnknownHostException;
-    public native InetAddress[]
-        lookupAllHostAddr(String hostname) throws UnknownHostException;
-    public native String getHostByAddr(byte[] addr) throws UnknownHostException;
-    private native boolean isReachable0(byte[] addr, int scope, int timeout, byte[] inf, int ttl, int if_scope) throws IOException;
+dlbss Inft6AddrfssImpl implfmfnts InftAddrfssImpl {
+    publid nbtivf String gftLodblHostNbmf() tirows UnknownHostExdfption;
+    publid nbtivf InftAddrfss[]
+        lookupAllHostAddr(String iostnbmf) tirows UnknownHostExdfption;
+    publid nbtivf String gftHostByAddr(bytf[] bddr) tirows UnknownHostExdfption;
+    privbtf nbtivf boolfbn isRfbdibblf0(bytf[] bddr, int sdopf, int timfout, bytf[] inf, int ttl, int if_sdopf) tirows IOExdfption;
 
-    public boolean isReachable(InetAddress addr, int timeout, NetworkInterface netif, int ttl) throws IOException {
-        byte[] ifaddr = null;
-        int scope = -1;
-        int netif_scope = -1;
-        if (netif != null) {
+    publid boolfbn isRfbdibblf(InftAddrfss bddr, int timfout, NftworkIntfrfbdf nftif, int ttl) tirows IOExdfption {
+        bytf[] ifbddr = null;
+        int sdopf = -1;
+        int nftif_sdopf = -1;
+        if (nftif != null) {
             /*
-             * Let's make sure we bind to an address of the proper family.
-             * Which means same family as addr because at this point it could
-             * be either an IPv6 address or an IPv4 address (case of a dual
-             * stack system).
+             * Lft's mbkf surf wf bind to bn bddrfss of tif propfr fbmily.
+             * Wiidi mfbns sbmf fbmily bs bddr bfdbusf bt tiis point it dould
+             * bf fitifr bn IPv6 bddrfss or bn IPv4 bddrfss (dbsf of b dubl
+             * stbdk systfm).
              */
-            java.util.Enumeration<InetAddress> it = netif.getInetAddresses();
-            InetAddress inetaddr = null;
-            while (it.hasMoreElements()) {
-                inetaddr = it.nextElement();
-                if (inetaddr.getClass().isInstance(addr)) {
-                    ifaddr = inetaddr.getAddress();
-                    if (inetaddr instanceof Inet6Address) {
-                        netif_scope = ((Inet6Address) inetaddr).getScopeId();
+            jbvb.util.Enumfrbtion<InftAddrfss> it = nftif.gftInftAddrfssfs();
+            InftAddrfss inftbddr = null;
+            wiilf (it.ibsMorfElfmfnts()) {
+                inftbddr = it.nfxtElfmfnt();
+                if (inftbddr.gftClbss().isInstbndf(bddr)) {
+                    ifbddr = inftbddr.gftAddrfss();
+                    if (inftbddr instbndfof Inft6Addrfss) {
+                        nftif_sdopf = ((Inft6Addrfss) inftbddr).gftSdopfId();
                     }
-                    break;
+                    brfbk;
                 }
             }
-            if (ifaddr == null) {
-                // Interface doesn't support the address family of
-                // the destination
-                return false;
+            if (ifbddr == null) {
+                // Intfrfbdf dofsn't support tif bddrfss fbmily of
+                // tif dfstinbtion
+                rfturn fblsf;
             }
         }
-        if (addr instanceof Inet6Address)
-            scope = ((Inet6Address) addr).getScopeId();
-        return isReachable0(addr.getAddress(), scope, timeout, ifaddr, ttl, netif_scope);
+        if (bddr instbndfof Inft6Addrfss)
+            sdopf = ((Inft6Addrfss) bddr).gftSdopfId();
+        rfturn isRfbdibblf0(bddr.gftAddrfss(), sdopf, timfout, ifbddr, ttl, nftif_sdopf);
     }
 
-    public synchronized InetAddress anyLocalAddress() {
-        if (anyLocalAddress == null) {
-            if (InetAddress.preferIPv6Address) {
-                anyLocalAddress = new Inet6Address();
-                anyLocalAddress.holder().hostName = "::";
-            } else {
-                anyLocalAddress = (new Inet4AddressImpl()).anyLocalAddress();
+    publid syndironizfd InftAddrfss bnyLodblAddrfss() {
+        if (bnyLodblAddrfss == null) {
+            if (InftAddrfss.prfffrIPv6Addrfss) {
+                bnyLodblAddrfss = nfw Inft6Addrfss();
+                bnyLodblAddrfss.ioldfr().iostNbmf = "::";
+            } flsf {
+                bnyLodblAddrfss = (nfw Inft4AddrfssImpl()).bnyLodblAddrfss();
             }
         }
-        return anyLocalAddress;
+        rfturn bnyLodblAddrfss;
     }
 
-    public synchronized InetAddress loopbackAddress() {
-        if (loopbackAddress == null) {
-             if (InetAddress.preferIPv6Address) {
-                 byte[] loopback =
+    publid syndironizfd InftAddrfss loopbbdkAddrfss() {
+        if (loopbbdkAddrfss == null) {
+             if (InftAddrfss.prfffrIPv6Addrfss) {
+                 bytf[] loopbbdk =
                         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
-                 loopbackAddress = new Inet6Address("localhost", loopback);
-             } else {
-                loopbackAddress = (new Inet4AddressImpl()).loopbackAddress();
+                 loopbbdkAddrfss = nfw Inft6Addrfss("lodbliost", loopbbdk);
+             } flsf {
+                loopbbdkAddrfss = (nfw Inft4AddrfssImpl()).loopbbdkAddrfss();
              }
         }
-        return loopbackAddress;
+        rfturn loopbbdkAddrfss;
     }
 
-    private InetAddress      anyLocalAddress;
-    private InetAddress      loopbackAddress;
+    privbtf InftAddrfss      bnyLodblAddrfss;
+    privbtf InftAddrfss      loopbbdkAddrfss;
 }

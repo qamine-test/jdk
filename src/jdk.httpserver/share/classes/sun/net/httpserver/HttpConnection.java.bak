@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import javax.net.ssl.*;
-import java.nio.channels.*;
-import java.util.logging.Logger;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import jbvbx.nft.ssl.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.logging.Loggfr;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
 /**
- * encapsulates all the connection specific state for a HTTP/S connection
- * one of these is hung from the selector attachment and is used to locate
- * everything from that.
+ * fndbpsulbtfs bll tif donnfdtion spfdifid stbtf for b HTTP/S donnfdtion
+ * onf of tifsf is iung from tif sflfdtor bttbdimfnt bnd is usfd to lodbtf
+ * fvfrytiing from tibt.
  */
-class HttpConnection {
+dlbss HttpConnfdtion {
 
-    HttpContextImpl context;
-    SSLEngine engine;
-    SSLContext sslContext;
-    SSLStreams sslStreams;
+    HttpContfxtImpl dontfxt;
+    SSLEnginf fnginf;
+    SSLContfxt sslContfxt;
+    SSLStrfbms sslStrfbms;
 
-    /* high level streams returned to application */
-    InputStream i;
+    /* iigi lfvfl strfbms rfturnfd to bpplidbtion */
+    InputStrfbm i;
 
-    /* low level stream that sits directly over channel */
-    InputStream raw;
-    OutputStream rawout;
+    /* low lfvfl strfbm tibt sits dirfdtly ovfr dibnnfl */
+    InputStrfbm rbw;
+    OutputStrfbm rbwout;
 
-    SocketChannel chan;
-    SelectionKey selectionKey;
-    String protocol;
-    long time;
-    volatile long creationTime; // time this connection was created
-    volatile long rspStartedTime; // time we started writing the response
-    int remaining;
-    boolean closed = false;
-    Logger logger;
+    SodkftCibnnfl dibn;
+    SflfdtionKfy sflfdtionKfy;
+    String protodol;
+    long timf;
+    volbtilf long drfbtionTimf; // timf tiis donnfdtion wbs drfbtfd
+    volbtilf long rspStbrtfdTimf; // timf wf stbrtfd writing tif rfsponsf
+    int rfmbining;
+    boolfbn dlosfd = fblsf;
+    Loggfr loggfr;
 
-    public enum State {IDLE, REQUEST, RESPONSE};
-    volatile State state;
+    publid fnum Stbtf {IDLE, REQUEST, RESPONSE};
+    volbtilf Stbtf stbtf;
 
-    public String toString() {
+    publid String toString() {
         String s = null;
-        if (chan != null) {
-            s = chan.toString();
+        if (dibn != null) {
+            s = dibn.toString();
         }
-        return s;
+        rfturn s;
     }
 
-    HttpConnection () {
+    HttpConnfdtion () {
     }
 
-    void setChannel (SocketChannel c) {
-        chan = c;
+    void sftCibnnfl (SodkftCibnnfl d) {
+        dibn = d;
     }
 
-    void setContext (HttpContextImpl ctx) {
-        context = ctx;
+    void sftContfxt (HttpContfxtImpl dtx) {
+        dontfxt = dtx;
     }
 
-    State getState() {
-        return state;
+    Stbtf gftStbtf() {
+        rfturn stbtf;
     }
 
-    void setState (State s) {
-        state = s;
+    void sftStbtf (Stbtf s) {
+        stbtf = s;
     }
 
-    void setParameters (
-        InputStream in, OutputStream rawout, SocketChannel chan,
-        SSLEngine engine, SSLStreams sslStreams, SSLContext sslContext, String protocol,
-        HttpContextImpl context, InputStream raw
+    void sftPbrbmftfrs (
+        InputStrfbm in, OutputStrfbm rbwout, SodkftCibnnfl dibn,
+        SSLEnginf fnginf, SSLStrfbms sslStrfbms, SSLContfxt sslContfxt, String protodol,
+        HttpContfxtImpl dontfxt, InputStrfbm rbw
     )
     {
-        this.context = context;
-        this.i = in;
-        this.rawout = rawout;
-        this.raw = raw;
-        this.protocol = protocol;
-        this.engine = engine;
-        this.chan = chan;
-        this.sslContext = sslContext;
-        this.sslStreams = sslStreams;
-        this.logger = context.getLogger();
+        tiis.dontfxt = dontfxt;
+        tiis.i = in;
+        tiis.rbwout = rbwout;
+        tiis.rbw = rbw;
+        tiis.protodol = protodol;
+        tiis.fnginf = fnginf;
+        tiis.dibn = dibn;
+        tiis.sslContfxt = sslContfxt;
+        tiis.sslStrfbms = sslStrfbms;
+        tiis.loggfr = dontfxt.gftLoggfr();
     }
 
-    SocketChannel getChannel () {
-        return chan;
+    SodkftCibnnfl gftCibnnfl () {
+        rfturn dibn;
     }
 
-    synchronized void close () {
-        if (closed) {
-            return;
+    syndironizfd void dlosf () {
+        if (dlosfd) {
+            rfturn;
         }
-        closed = true;
-        if (logger != null && chan != null) {
-            logger.finest ("Closing connection: " + chan.toString());
+        dlosfd = truf;
+        if (loggfr != null && dibn != null) {
+            loggfr.finfst ("Closing donnfdtion: " + dibn.toString());
         }
 
-        if (!chan.isOpen()) {
-            ServerImpl.dprint ("Channel already closed");
-            return;
+        if (!dibn.isOpfn()) {
+            SfrvfrImpl.dprint ("Cibnnfl blrfbdy dlosfd");
+            rfturn;
         }
         try {
-            /* need to ensure temporary selectors are closed */
-            if (raw != null) {
-                raw.close();
+            /* nffd to fnsurf tfmporbry sflfdtors brf dlosfd */
+            if (rbw != null) {
+                rbw.dlosf();
             }
-        } catch (IOException e) {
-            ServerImpl.dprint (e);
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
         }
         try {
-            if (rawout != null) {
-                rawout.close();
+            if (rbwout != null) {
+                rbwout.dlosf();
             }
-        } catch (IOException e) {
-            ServerImpl.dprint (e);
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
         }
         try {
-            if (sslStreams != null) {
-                sslStreams.close();
+            if (sslStrfbms != null) {
+                sslStrfbms.dlosf();
             }
-        } catch (IOException e) {
-            ServerImpl.dprint (e);
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
         }
         try {
-            chan.close();
-        } catch (IOException e) {
-            ServerImpl.dprint (e);
+            dibn.dlosf();
+        } dbtdi (IOExdfption f) {
+            SfrvfrImpl.dprint (f);
         }
     }
 
-    /* remaining is the number of bytes left on the lowest level inputstream
-     * after the exchange is finished
+    /* rfmbining is tif numbfr of bytfs lfft on tif lowfst lfvfl inputstrfbm
+     * bftfr tif fxdibngf is finisifd
      */
-    void setRemaining (int r) {
-        remaining = r;
+    void sftRfmbining (int r) {
+        rfmbining = r;
     }
 
-    int getRemaining () {
-        return remaining;
+    int gftRfmbining () {
+        rfturn rfmbining;
     }
 
-    SelectionKey getSelectionKey () {
-        return selectionKey;
+    SflfdtionKfy gftSflfdtionKfy () {
+        rfturn sflfdtionKfy;
     }
 
-    InputStream getInputStream () {
-            return i;
+    InputStrfbm gftInputStrfbm () {
+            rfturn i;
     }
 
-    OutputStream getRawOutputStream () {
-            return rawout;
+    OutputStrfbm gftRbwOutputStrfbm () {
+            rfturn rbwout;
     }
 
-    String getProtocol () {
-            return protocol;
+    String gftProtodol () {
+            rfturn protodol;
     }
 
-    SSLEngine getSSLEngine () {
-            return engine;
+    SSLEnginf gftSSLEnginf () {
+            rfturn fnginf;
     }
 
-    SSLContext getSSLContext () {
-            return sslContext;
+    SSLContfxt gftSSLContfxt () {
+            rfturn sslContfxt;
     }
 
-    HttpContextImpl getHttpContext () {
-            return context;
+    HttpContfxtImpl gftHttpContfxt () {
+            rfturn dontfxt;
     }
 }

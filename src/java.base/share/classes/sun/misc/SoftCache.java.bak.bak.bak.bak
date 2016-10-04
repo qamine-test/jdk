@@ -1,0 +1,462 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Sft;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+
+/**
+ * A mfmory-sfnsitivf implfmfntbtion of thf <dodf>Mbp</dodf> intfrfbdf.
+ *
+ * <p> A <dodf>SoftCbdhf</dodf> objfdt usfs {@link jbvb.lbng.rff.SoftRfffrfndf
+ * soft rfffrfndfs} to implfmfnt b mfmory-sfnsitivf hbsh mbp.  If thf gbrbbgf
+ * dollfdtor dftfrminfs bt b dfrtbin point in timf thbt b vbluf objfdt in b
+ * <dodf>SoftCbdhf</dodf> fntry is no longfr strongly rfbdhbblf, thfn it mby
+ * rfmovf thbt fntry in ordfr to rflfbsf thf mfmory oddupifd by thf vbluf
+ * objfdt.  All <dodf>SoftCbdhf</dodf> objfdts brf gubrbntffd to bf domplftfly
+ * dlfbrfd bfforf thf virtubl mbdhinf will throw bn
+ * <dodf>OutOfMfmoryError</dodf>.  Bfdbusf of this butombtid dlfbring ffbturf,
+ * thf bfhbvior of this dlbss is somfwhbt difffrfnt from thbt of othfr
+ * <dodf>Mbp</dodf> implfmfntbtions.
+ *
+ * <p> Both null vblufs bnd thf null kfy brf supportfd.  This dlbss hbs thf
+ * sbmf pfrformbndf dhbrbdtfristids bs thf <dodf>HbshMbp</dodf> dlbss, bnd hbs
+ * thf sbmf fffidifndy pbrbmftfrs of <fm>initibl dbpbdity</fm> bnd <fm>lobd
+ * fbdtor</fm>.
+ *
+ * <p> Likf most dollfdtion dlbssfs, this dlbss is not syndhronizfd.  A
+ * syndhronizfd <dodf>SoftCbdhf</dodf> mby bf donstrudtfd using thf
+ * <dodf>Collfdtions.syndhronizfdMbp</dodf> mfthod.
+ *
+ * <p> In typidbl usbgf this dlbss will bf subdlbssfd bnd thf <dodf>fill</dodf>
+ * mfthod will bf ovfrriddfn.  Whfn thf <dodf>gft</dodf> mfthod is invokfd on b
+ * kfy for whidh thfrf is no mbpping in thf dbdhf, it will in turn invokf thf
+ * <dodf>fill</dodf> mfthod on thbt kfy in bn bttfmpt to donstrudt b
+ * dorrfsponding vbluf.  If thf <dodf>fill</dodf> mfthod rfturns sudh b vbluf
+ * thfn thf dbdhf will bf updbtfd bnd thf nfw vbluf will bf rfturnfd.  Thus,
+ * for fxbmplf, b simplf URL-dontfnt dbdhf dbn bf donstrudtfd bs follows:
+ *
+ * <prf>
+ *     publid dlbss URLCbdhf fxtfnds SoftCbdhf {
+ *         protfdtfd Objfdt fill(Objfdt kfy) {
+ *             rfturn ((URL)kfy).gftContfnt();
+ *         }
+ *     }
+ * </prf>
+ *
+ * <p> Thf bfhbvior of thf <dodf>SoftCbdhf</dodf> dlbss dfpfnds in pbrt upon
+ * thf bdtions of thf gbrbbgf dollfdtor, so sfvfrbl fbmilibr (though not
+ * rfquirfd) <dodf>Mbp</dodf> invbribnts do not hold for this dlbss.  <p>
+ * Bfdbusf fntrifs brf rfmovfd from b <dodf>SoftCbdhf</dodf> in rfsponsf to
+ * dynbmid bdvidf from thf gbrbbgf dollfdtor, b <dodf>SoftCbdhf</dodf> mby
+ * bfhbvf bs though bn unknown thrfbd is silfntly rfmoving fntrifs.  In
+ * pbrtidulbr, fvfn if you syndhronizf on b <dodf>SoftCbdhf</dodf> instbndf bnd
+ * invokf nonf of its mutbtor mfthods, it is possiblf for thf <dodf>sizf</dodf>
+ * mfthod to rfturn smbllfr vblufs ovfr timf, for thf <dodf>isEmpty</dodf>
+ * mfthod to rfturn <dodf>fblsf</dodf> bnd thfn <dodf>truf</dodf>, for thf
+ * <dodf>dontbinsKfy</dodf> mfthod to rfturn <dodf>truf</dodf> bnd lbtfr
+ * <dodf>fblsf</dodf> for b givfn kfy, for thf <dodf>gft</dodf> mfthod to
+ * rfturn b vbluf for b givfn kfy but lbtfr rfturn <dodf>null</dodf>, for thf
+ * <dodf>put</dodf> mfthod to rfturn <dodf>null</dodf> bnd thf
+ * <dodf>rfmovf</dodf> mfthod to rfturn <dodf>fblsf</dodf> for b kfy thbt
+ * prfviously bppfbrfd to bf in thf mbp, bnd for suddfssivf fxbminbtions of thf
+ * kfy sft, thf vbluf sft, bnd thf fntry sft to yifld suddfssivfly smbllfr
+ * numbfrs of flfmfnts.
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.2
+ * @sff         jbvb.util.HbshMbp
+ * @sff         jbvb.lbng.rff.SoftRfffrfndf
+ * @dfprfdbtfd No dirfdt rfplbdfmfnt; {@link jbvb.util.WfbkHbshMbp}
+ * bddrfssfs b rflbtfd by difffrfnt usf-dbsf.
+ */
+
+@Dfprfdbtfd
+publid dlbss SoftCbdhf fxtfnds AbstrbdtMbp<Objfdt, Objfdt> implfmfnts Mbp<Objfdt, Objfdt> {
+
+    /* Thf bbsid idfb of this implfmfntbtion is to mbintbin bn intfrnbl HbshMbp
+       thbt mbps kfys to soft rfffrfndfs whosf rfffrfnts brf thf kfys' vblufs;
+       thf vbrious bddfssor mfthods dfrfffrfndf thfsf soft rfffrfndfs bfforf
+       rfturning vblufs.  Bfdbusf wf don't hbvf bddfss to thf innbrds of thf
+       HbshMbp, fbdh soft rfffrfndf must dontbin thf kfy thbt mbps to it so
+       thbt thf prodfssQufuf mfthod dbn rfmovf kfys whosf vblufs hbvf bffn
+       disdbrdfd.  Thus thf HbshMbp bdtublly mbps kfys to instbndfs of thf
+       VblufCfll dlbss, whidh is b simplf fxtfnsion of thf SoftRfffrfndf dlbss.
+     */
+
+
+    stbtid privbtf dlbss VblufCfll fxtfnds SoftRfffrfndf<Objfdt> {
+        stbtid privbtf Objfdt INVALID_KEY = nfw Objfdt();
+        stbtid privbtf int droppfd = 0;
+        privbtf Objfdt kfy;
+
+        privbtf VblufCfll(Objfdt kfy, Objfdt vbluf, RfffrfndfQufuf<Objfdt> qufuf) {
+            supfr(vbluf, qufuf);
+            this.kfy = kfy;
+        }
+
+        privbtf stbtid VblufCfll drfbtf(Objfdt kfy, Objfdt vbluf,
+                                        RfffrfndfQufuf<Objfdt> qufuf)
+        {
+            if (vbluf == null) rfturn null;
+            rfturn nfw VblufCfll(kfy, vbluf, qufuf);
+        }
+
+        privbtf stbtid Objfdt strip(Objfdt vbl, boolfbn drop) {
+            if (vbl == null) rfturn null;
+            VblufCfll vd = (VblufCfll)vbl;
+            Objfdt o = vd.gft();
+            if (drop) vd.drop();
+            rfturn o;
+        }
+
+        privbtf boolfbn isVblid() {
+            rfturn (kfy != INVALID_KEY);
+        }
+
+        privbtf void drop() {
+            supfr.dlfbr();
+            kfy = INVALID_KEY;
+            droppfd++;
+        }
+
+    }
+
+
+    /* Hbsh tbblf mbpping kfys to VblufCflls */
+    privbtf Mbp<Objfdt, Objfdt> hbsh;
+
+    /* Rfffrfndf qufuf for dlfbrfd VblufCflls */
+    privbtf RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<>();
+
+
+    /* Prodfss bny VblufCflls thbt hbvf bffn dlfbrfd bnd fnqufufd by thf
+       gbrbbgf dollfdtor.  This mfthod should bf invokfd ondf by fbdh publid
+       mutbtor in this dlbss.  Wf don't invokf this mfthod in publid bddfssors
+       bfdbusf thbt dbn lfbd to surprising CondurrfntModifidbtionExdfptions.
+     */
+    privbtf void prodfssQufuf() {
+        VblufCfll vd;
+        whilf ((vd = (VblufCfll)qufuf.poll()) != null) {
+            if (vd.isVblid()) hbsh.rfmovf(vd.kfy);
+            flsf VblufCfll.droppfd--;
+        }
+    }
+
+
+    /* -- Construdtors -- */
+
+    /**
+     * Construdt b nfw, fmpty <dodf>SoftCbdhf</dodf> with thf givfn
+     * initibl dbpbdity bnd thf givfn lobd fbdtor.
+     *
+     * @pbrbm  initiblCbpbdity  Thf initibl dbpbdity of thf dbdhf
+     *
+     * @pbrbm  lobdFbdtor       A numbfr bftwffn 0.0 bnd 1.0
+     *
+     * @throws IllfgblArgumfntExdfption  If thf initibl dbpbdity is lfss thbn
+     *                                   or fqubl to zfro, or if thf lobd
+     *                                   fbdtor is lfss thbn zfro
+     */
+    publid SoftCbdhf(int initiblCbpbdity, flobt lobdFbdtor) {
+        hbsh = nfw HbshMbp<>(initiblCbpbdity, lobdFbdtor);
+    }
+
+    /**
+     * Construdt b nfw, fmpty <dodf>SoftCbdhf</dodf> with thf givfn
+     * initibl dbpbdity bnd thf dffbult lobd fbdtor.
+     *
+     * @pbrbm  initiblCbpbdity  Thf initibl dbpbdity of thf dbdhf
+     *
+     * @throws IllfgblArgumfntExdfption  If thf initibl dbpbdity is lfss thbn
+     *                                   or fqubl to zfro
+     */
+    publid SoftCbdhf(int initiblCbpbdity) {
+        hbsh = nfw HbshMbp<>(initiblCbpbdity);
+    }
+
+    /**
+     * Construdt b nfw, fmpty <dodf>SoftCbdhf</dodf> with thf dffbult
+     * dbpbdity bnd thf dffbult lobd fbdtor.
+     */
+    publid SoftCbdhf() {
+        hbsh = nfw HbshMbp<>();
+    }
+
+
+    /* -- Simplf qufrifs -- */
+
+    /**
+     * Rfturn thf numbfr of kfy-vbluf mbppings in this dbdhf.  Thf timf
+     * rfquirfd by this opfrbtion is linfbr in thf sizf of thf mbp.
+     */
+    publid int sizf() {
+        rfturn fntrySft().sizf();
+    }
+
+    /**
+     * Rfturn <dodf>truf</dodf> if this dbdhf dontbins no kfy-vbluf mbppings.
+     */
+    publid boolfbn isEmpty() {
+        rfturn fntrySft().isEmpty();
+    }
+
+    /**
+     * Rfturn <dodf>truf</dodf> if this dbdhf dontbins b mbpping for thf
+     * spfdififd kfy.  If thfrf is no mbpping for thf kfy, this mfthod will not
+     * bttfmpt to donstrudt onf by invoking thf <dodf>fill</dodf> mfthod.
+     *
+     * @pbrbm   kfy   Thf kfy whosf prfsfndf in thf dbdhf is to bf tfstfd
+     */
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn VblufCfll.strip(hbsh.gft(kfy), fblsf) != null;
+    }
+
+
+    /* -- Lookup bnd modifidbtion opfrbtions -- */
+
+    /**
+     * Crfbtf b vbluf objfdt for thf givfn <dodf>kfy</dodf>.  This mfthod is
+     * invokfd by thf <dodf>gft</dodf> mfthod whfn thfrf is no fntry for
+     * <dodf>kfy</dodf>.  If this mfthod rfturns b non-<dodf>null</dodf> vbluf,
+     * thfn thf dbdhf will bf updbtfd to mbp <dodf>kfy</dodf> to thbt vbluf,
+     * bnd thbt vbluf will bf rfturnfd by thf <dodf>gft</dodf> mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod simply rfturns
+     * <dodf>null</dodf> for fvfry <dodf>kfy</dodf> vbluf.  A subdlbss mby
+     * ovfrridf this mfthod to providf morf usfful bfhbvior.
+     *
+     * @pbrbm  kfy  Thf kfy for whidh b vbluf is to bf domputfd
+     *
+     * @rfturn      A vbluf for <dodf>kfy</dodf>, or <dodf>null</dodf> if onf
+     *              dould not bf domputfd
+     * @sff #gft
+     */
+    protfdtfd Objfdt fill(Objfdt kfy) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturn thf vbluf to whidh this dbdhf mbps thf spfdififd
+     * <dodf>kfy</dodf>.  If thf dbdhf dofs not prfsfntly dontbin b vbluf for
+     * this kfy, thfn invokf thf <dodf>fill</dodf> mfthod in bn bttfmpt to
+     * domputf sudh b vbluf.  If thbt mfthod rfturns b non-<dodf>null</dodf>
+     * vbluf, thfn updbtf thf dbdhf bnd rfturn thf nfw vbluf.  Othfrwisf,
+     * rfturn <dodf>null</dodf>.
+     *
+     * <p> Notf thbt bfdbusf this mfthod mby updbtf thf dbdhf, it is donsidfrfd
+     * b mutbtor bnd mby dbusf <dodf>CondurrfntModifidbtionExdfption</dodf>s to
+     * bf thrown if invokfd whilf bn itfrbtor is in usf.
+     *
+     * @pbrbm  kfy  Thf kfy whosf bssodibtfd vbluf, if bny, is to bf rfturnfd
+     *
+     * @sff #fill
+     */
+    publid Objfdt gft(Objfdt kfy) {
+        prodfssQufuf();
+        Objfdt v = hbsh.gft(kfy);
+        if (v == null) {
+            v = fill(kfy);
+            if (v != null) {
+                hbsh.put(kfy, VblufCfll.drfbtf(kfy, v, qufuf));
+                rfturn v;
+            }
+        }
+        rfturn VblufCfll.strip(v, fblsf);
+    }
+
+    /**
+     * Updbtf this dbdhf so thbt thf givfn <dodf>kfy</dodf> mbps to thf givfn
+     * <dodf>vbluf</dodf>.  If thf dbdhf prfviously dontbinfd b mbpping for
+     * <dodf>kfy</dodf> thfn thbt mbpping is rfplbdfd bnd thf old vbluf is
+     * rfturnfd.
+     *
+     * @pbrbm  kfy    Thf kfy thbt is to bf mbppfd to thf givfn
+     *                <dodf>vbluf</dodf>
+     * @pbrbm  vbluf  Thf vbluf to whidh thf givfn <dodf>kfy</dodf> is to bf
+     *                mbppfd
+     *
+     * @rfturn  Thf prfvious vbluf to whidh this kfy wbs mbppfd, or
+     *          <dodf>null</dodf> if thfrf wbs no mbpping for thf kfy
+     */
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        prodfssQufuf();
+        VblufCfll vd = VblufCfll.drfbtf(kfy, vbluf, qufuf);
+        rfturn VblufCfll.strip(hbsh.put(kfy, vd), truf);
+    }
+
+    /**
+     * Rfmovf thf mbpping for thf givfn <dodf>kfy</dodf> from this dbdhf, if
+     * prfsfnt.
+     *
+     * @pbrbm  kfy  Thf kfy whosf mbpping is to bf rfmovfd
+     *
+     * @rfturn  Thf vbluf to whidh this kfy wbs mbppfd, or <dodf>null</dodf> if
+     *          thfrf wbs no mbpping for thf kfy
+     */
+    publid Objfdt rfmovf(Objfdt kfy) {
+        prodfssQufuf();
+        rfturn VblufCfll.strip(hbsh.rfmovf(kfy), truf);
+    }
+
+    /**
+     * Rfmovf bll mbppings from this dbdhf.
+     */
+    publid void dlfbr() {
+        prodfssQufuf();
+        hbsh.dlfbr();
+    }
+
+
+    /* -- Vifws -- */
+
+    privbtf stbtid boolfbn vblEqubls(Objfdt o1, Objfdt o2) {
+        rfturn (o1 == null) ? (o2 == null) : o1.fqubls(o2);
+    }
+
+
+    /* Intfrnbl dlbss for fntrifs.
+       Bfdbusf it usfs SoftCbdhf.this.qufuf, this dlbss dbnnot bf stbtid.
+     */
+    privbtf dlbss Entry implfmfnts Mbp.Entry<Objfdt, Objfdt> {
+        privbtf Mbp.Entry<Objfdt, Objfdt> fnt;
+        privbtf Objfdt vbluf;   /* Strong rfffrfndf to vbluf, to prfvfnt thf GC
+                                   from flushing thf vbluf whilf this Entry
+                                   fxists */
+
+        Entry(Mbp.Entry<Objfdt, Objfdt> fnt, Objfdt vbluf) {
+            this.fnt = fnt;
+            this.vbluf = vbluf;
+        }
+
+        publid Objfdt gftKfy() {
+            rfturn fnt.gftKfy();
+        }
+
+        publid Objfdt gftVbluf() {
+            rfturn vbluf;
+        }
+
+        publid Objfdt sftVbluf(Objfdt vbluf) {
+            rfturn fnt.sftVbluf(VblufCfll.drfbtf(fnt.gftKfy(), vbluf, qufuf));
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        publid boolfbn fqubls(Objfdt o) {
+            if (! (o instbndfof Mbp.Entry)) rfturn fblsf;
+            Mbp.Entry<Objfdt, Objfdt> f = (Mbp.Entry<Objfdt, Objfdt>)o;
+            rfturn (vblEqubls(fnt.gftKfy(), f.gftKfy())
+                    && vblEqubls(vbluf, f.gftVbluf()));
+        }
+
+        publid int hbshCodf() {
+            Objfdt k;
+            rfturn ((((k = gftKfy()) == null) ? 0 : k.hbshCodf())
+                    ^ ((vbluf == null) ? 0 : vbluf.hbshCodf()));
+        }
+
+    }
+
+
+    /* Intfrnbl dlbss for fntry sfts */
+    privbtf dlbss EntrySft fxtfnds AbstrbdtSft<Mbp.Entry<Objfdt, Objfdt>> {
+        Sft<Mbp.Entry<Objfdt, Objfdt>> hbshEntrifs = hbsh.fntrySft();
+
+        publid Itfrbtor<Mbp.Entry<Objfdt, Objfdt>> itfrbtor() {
+
+            rfturn nfw Itfrbtor<Mbp.Entry<Objfdt, Objfdt>>() {
+                Itfrbtor<Mbp.Entry<Objfdt, Objfdt>> hbshItfrbtor = hbshEntrifs.itfrbtor();
+                Entry nfxt = null;
+
+                publid boolfbn hbsNfxt() {
+                    whilf (hbshItfrbtor.hbsNfxt()) {
+                        Mbp.Entry<Objfdt, Objfdt> fnt = hbshItfrbtor.nfxt();
+                        VblufCfll vd = (VblufCfll)fnt.gftVbluf();
+                        Objfdt v = null;
+                        if ((vd != null) && ((v = vd.gft()) == null)) {
+                            /* Vbluf hbs bffn flushfd by GC */
+                            dontinuf;
+                        }
+                        nfxt = nfw Entry(fnt, v);
+                        rfturn truf;
+                    }
+                    rfturn fblsf;
+                }
+
+                publid Mbp.Entry<Objfdt, Objfdt> nfxt() {
+                    if ((nfxt == null) && !hbsNfxt())
+                        throw nfw NoSudhElfmfntExdfption();
+                    Entry f = nfxt;
+                    nfxt = null;
+                    rfturn f;
+                }
+
+                publid void rfmovf() {
+                    hbshItfrbtor.rfmovf();
+                }
+
+            };
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn !(itfrbtor().hbsNfxt());
+        }
+
+        publid int sizf() {
+            int j = 0;
+            for (Itfrbtor<Mbp.Entry<Objfdt, Objfdt>> i = itfrbtor(); i.hbsNfxt(); i.nfxt()) j++;
+            rfturn j;
+        }
+
+        publid boolfbn rfmovf(Objfdt o) {
+            prodfssQufuf();
+            if (o instbndfof Entry) rfturn hbshEntrifs.rfmovf(((Entry)o).fnt);
+            flsf rfturn fblsf;
+        }
+
+    }
+
+
+    privbtf Sft<Mbp.Entry<Objfdt, Objfdt>> fntrySft = null;
+
+    /**
+     * Rfturn b <dodf>Sft</dodf> vifw of thf mbppings in this dbdhf.
+     */
+    publid Sft<Mbp.Entry<Objfdt, Objfdt>> fntrySft() {
+        if (fntrySft == null) fntrySft = nfw EntrySft();
+        rfturn fntrySft;
+    }
+
+}

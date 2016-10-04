@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.AWTError;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Point;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Thf dffbult lbyout mbnbgfr for <dodf>JVifwport</dodf>.
+ * <dodf>VifwportLbyout</dodf> dffinfs
+ * b polidy for lbyout thbt should bf usfful for most bpplidbtions.
+ * Thf vifwport mbkfs its vifw thf sbmf sizf bs thf vifwport,
+ * howfvfr it will not mbkf thf vifw smbllfr thbn its minimum sizf.
+ * As thf vifwport grows thf vifw is kfpt bottom justififd until
+ * thf fntirf vifw is visiblf, subsfqufntly thf vifw is kfpt top
+ * justififd.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss VifwportLbyout implfmfnts LbyoutMbnbgfr, Sfriblizbblf
+{
+    // Singlf instbndf usfd by JVifwport.
+    stbtid VifwportLbyout SHARED_INSTANCE = nfw VifwportLbyout();
+
+    /**
+     * Adds thf spfdififd domponfnt to thf lbyout. Not usfd by this dlbss.
+     * @pbrbm nbmf thf nbmf of thf domponfnt
+     * @pbrbm d thf thf domponfnt to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt d) { }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from thf lbyout. Not usfd by
+     * this dlbss.
+     * @pbrbm d thf domponfnt to rfmovf
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt d) { }
+
+
+    /**
+     * Rfturns thf prfffrrfd dimfnsions for this lbyout givfn thf domponfnts
+     * in thf spfdififd tbrgft dontbinfr.
+     * @pbrbm pbrfnt thf domponfnt whidh nffds to bf lbid out
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining thf
+     *          prfffrrfd dimfnsions
+     * @sff #minimumLbyoutSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        Componfnt vifw = ((JVifwport)pbrfnt).gftVifw();
+        if (vifw == null) {
+            rfturn nfw Dimfnsion(0, 0);
+        }
+        flsf if (vifw instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf)vifw).gftPrfffrrfdSdrollbblfVifwportSizf();
+        }
+        flsf {
+            rfturn vifw.gftPrfffrrfdSizf();
+        }
+    }
+
+
+    /**
+     * Rfturns thf minimum dimfnsions nffdfd to lbyout thf domponfnts
+     * dontbinfd in thf spfdififd tbrgft dontbinfr.
+     *
+     * @pbrbm pbrfnt thf domponfnt whidh nffds to bf lbid out
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining thf minimum
+     *          dimfnsions
+     * @sff #prfffrrfdLbyoutSizf
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        rfturn nfw Dimfnsion(4, 4);
+    }
+
+
+    /**
+     * Cbllfd by thf AWT whfn thf spfdififd dontbinfr nffds to bf lbid out.
+     *
+     * @pbrbm pbrfnt  thf dontbinfr to lby out
+     *
+     * @throws AWTError if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      <dodf>BoxLbyout</dodf> donstrudtor
+     */
+    publid void lbyoutContbinfr(Contbinfr pbrfnt)
+    {
+        JVifwport vp = (JVifwport)pbrfnt;
+        Componfnt vifw = vp.gftVifw();
+        Sdrollbblf sdrollbblfVifw = null;
+
+        if (vifw == null) {
+            rfturn;
+        }
+        flsf if (vifw instbndfof Sdrollbblf) {
+            sdrollbblfVifw = (Sdrollbblf) vifw;
+        }
+
+        /* All of thf dimfnsions bflow brf in vifw doordinbtfs, fxdfpt
+         * vpSizf whidh wf'rf donvfrting.
+         */
+
+        Insfts insfts = vp.gftInsfts();
+        Dimfnsion vifwPrffSizf = vifw.gftPrfffrrfdSizf();
+        Dimfnsion vpSizf = vp.gftSizf();
+        Dimfnsion fxtfntSizf = vp.toVifwCoordinbtfs(vpSizf);
+        Dimfnsion vifwSizf = nfw Dimfnsion(vifwPrffSizf);
+
+        if (sdrollbblfVifw != null) {
+            if (sdrollbblfVifw.gftSdrollbblfTrbdksVifwportWidth()) {
+                vifwSizf.width = vpSizf.width;
+            }
+            if (sdrollbblfVifw.gftSdrollbblfTrbdksVifwportHfight()) {
+                vifwSizf.hfight = vpSizf.hfight;
+            }
+        }
+
+        Point vifwPosition = vp.gftVifwPosition();
+
+        /* If thf nfw vifwport sizf would lfbvf fmpty spbdf to thf
+         * right of thf vifw, right justify thf vifw or lfft justify
+         * thf vifw whfn thf width of thf vifw is smbllfr thbn thf
+         * dontbinfr.
+         */
+        if (sdrollbblfVifw == null ||
+            vp.gftPbrfnt() == null ||
+            vp.gftPbrfnt().gftComponfntOrifntbtion().isLfftToRight()) {
+            if ((vifwPosition.x + fxtfntSizf.width) > vifwSizf.width) {
+                vifwPosition.x = Mbth.mbx(0, vifwSizf.width - fxtfntSizf.width);
+            }
+        } flsf {
+            if (fxtfntSizf.width > vifwSizf.width) {
+                vifwPosition.x = vifwSizf.width - fxtfntSizf.width;
+            } flsf {
+                vifwPosition.x = Mbth.mbx(0, Mbth.min(vifwSizf.width - fxtfntSizf.width, vifwPosition.x));
+            }
+        }
+
+        /* If thf nfw vifwport sizf would lfbvf fmpty spbdf bflow thf
+         * vifw, bottom justify thf vifw or top justify thf vifw whfn
+         * thf hfight of thf vifw is smbllfr thbn thf dontbinfr.
+         */
+        if ((vifwPosition.y + fxtfntSizf.hfight) > vifwSizf.hfight) {
+            vifwPosition.y = Mbth.mbx(0, vifwSizf.hfight - fxtfntSizf.hfight);
+        }
+
+        /* If wf hbvfn't bffn bdvisfd bbout how thf vifwports sizf
+         * should dhbngf wrt to thf vifwport, i.f. if thf vifw isn't
+         * bn instbndf of Sdrollbblf, thfn bdjust thf vifws sizf bs follows.
+         *
+         * If thf origin of thf vifw is showing bnd thf vifwport is
+         * biggfr thbn thf vifws prfffrrfd sizf, thfn mbkf thf vifw
+         * thf sbmf sizf bs thf vifwport.
+         */
+        if (sdrollbblfVifw == null) {
+            if ((vifwPosition.x == 0) && (vpSizf.width > vifwPrffSizf.width)) {
+                vifwSizf.width = vpSizf.width;
+            }
+            if ((vifwPosition.y == 0) && (vpSizf.hfight > vifwPrffSizf.hfight)) {
+                vifwSizf.hfight = vpSizf.hfight;
+            }
+        }
+        vp.sftVifwPosition(vifwPosition);
+        vp.sftVifwSizf(vifwSizf);
+    }
+}

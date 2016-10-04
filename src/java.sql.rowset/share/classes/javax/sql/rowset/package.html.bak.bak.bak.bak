@@ -1,0 +1,304 @@
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd html 4.0 trbnsitionbl//fn">
+<html>
+<hfbd>
+                                    
+  <mftb http-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/html; dhbrsft=iso-8859-1">
+<!--
+Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+
+-->
+  <titlf>jbvbx.sql.rowsft Pbdkbgf</titlf>
+</hfbd>
+  <body bgdolor="#ffffff">
+
+<!-- Dfsdription dlbusf -->
+Stbndbrd intfrfbdfs bnd bbsf dlbssfs for JDBC <dodf>RowSft</dodf>
+implfmfntbtions. This pbdkbgf dontbins intfrfbdfs bnd dlbssfs 
+thbt b stbndbrd <dodf>RowSft</dodf> implfmfntbtion fithfr implfmfnts or fxtfnds.
+
+
+<h2>Tbblf of Contfnts</h2>
+<ul>
+<li><b hrff="#pkgspfd">1.0 Pbdkbgf Spfdifidbtion</b>
+<li><b hrff="#stdrowsft">2.0 Stbndbrd RowSft Dffinitions</b>
+<li><b hrff="#impl">3.0 Implfmfntfr's Guidf</b>
+<li><b hrff="#rflspfd">4.0 Rflbtfd Spfdifidbtions</b>
+<li><b hrff="#rfldods">5.0 Rflbtfd Dodumfntbtion</b>
+</ul>
+
+<h3><b nbmf="pkgspfd">1.0 Pbdkbgf Spfdifidbtion</b></h3>
+This pbdkbgf spfdififs fivf stbndbrd JDBC <dodf>RowSft</dodf> intfrfbdfs.
+ All fivf fxtfnd thf 
+<b hrff="../RowSft.html">RowSft</b> intfrfbdf dfsdribfd in thf JDBC 3.0
+spfdifidbtion.  It is bntidipbtfd thbt bdditionbl dffinitions
+of morf spfdiblizfd JDBC <dodf>RowSft</dodf> typfs will fmfrgf bs this tfdhnology 
+mbturfs. Futurf dffinitions <i>should</i> bf spfdififd bs subintfrfbdfs using 
+inhfritbndf similbr to thf wby it is usfd in this spfdifidbtion.
+<p>
+<i>Notf:</i> Thf intfrfbdf dffinitions providfd in this pbdkbgf form thf bbsis for
+bll domplibnt JDBC <dodf>RowSft</dodf> implfmfntbtions. Vfndors bnd morf bdvbndfd
+dfvflopfrs who intfnd to providf thfir own domplibnt <dodf>RowSft</dodf> implfmfntbtions 
+should pby pbrtidulbr bttfntion to thf bssfrtions dftbilfd in spfdifidbtion
+intfrfbdfs. 
+
+<h3><b nbmf="stdrowsft">2.0 Stbndbrd RowSft Dffinitions</b></h3>
+<ul>
+<li><b hrff="JdbdRowSft.html"><b><dodf>JdbdRowSft</dodf></b></b> - A wrbppfr bround 
+b <tt>RfsultSft</tt> objfdt thbt mbkfs it possiblf to usf thf rfsult sft bs b 
+JbvbBfbns&trbdf; domponfnt. Thus,
+b <tt>JdbdRowSft</tt> objfdt dbn bf b Bfbn thbt bny tool
+mbkfs bvbilbblf for bssfmbling bn bpplidbtion bs pbrt of b domponfnt bbsfd
+brdhitfdturf . A <tt>JdbdRowSft</tt> objfdt is b donnfdtfd <dodf>RowSft</dodf>
+objfdt, thbt is, it 
+<b>must</b> dontinublly mbintbin its donnfdtion to its dbtb sourdf using b JDBC
+tfdhnology-fnbblfd drivfr ("JDBC drivfr"). In bddition, b <dodf>JdbdRowSft</dodf>
+objfdt providfs b fully updbtbblf bnd sdrollbblf tbbulbr 
+dbtb strudturf bs dffinfd in thf JDBC 3.0 spfdifidbtion.
+
+<li><b hrff="CbdhfdRowSft.html">
+<b><dodf>CbdhfdRowSft</dodf>&trbdf;</b></b>
+ - A <tt>CbdhfdRowSft</tt> objfdt is b JbvbBfbns&trbdf;
+ domponfnt thbt is sdrollbblf, updbtbblf, sfriblizbblf, bnd gfnfrblly disdonnfdtfd from
+ thf sourdf of its dbtb. A <tt>CbdhfdRowSft</tt> objfdt
+typidblly dontbins rows from b rfsult sft, but it dbn blso dontbin rows from bny
+filf with b tbbulbr formbt, sudh bs b sprfbdshfft. <tt>CbdhfdRowSft</tt> implfmfntbtions 
+<b>must</b> usf thf <tt>SyndFbdtory</tt> to mbnbgf bnd obtbin pluggbblf
+<dodf>SyndProvidfr</dodf> objfdts to providf syndhronizbtion bftwffn thf
+disdonnfdtfd <dodf>RowSft</dodf> objfdt bnd thf originbting dbtb sourdf. 
+Typidblly b <dodf>SyndProvidfr</dodf> implfmfntbtion rflifs upon b JDBC
+drivfr to obtbin donnfdtivity to b pbrtidulbr dbtb sourdf.
+Furthfr dftbils on this mfdhbnism brf disdussfd in thf <b
+hrff="spi/pbdkbgf-summbry.html"><dodf>jbvbx.sql.rowsft.spi</dodf></b> pbdkbgf
+spfdifidbtion.
+
+<li><b hrff="WfbRowSft.html"><b><dodf>WfbRowSft</dodf></b></b> - A 
+<dodf>WfbRowSft</dodf> objfdt is bn fxtfnsion of <tt>CbdhfdRowSft</tt>
+thbt dbn rfbd bnd writf b <dodf>RowSft</dodf> objfdt in b wfll formfd XML formbt.
+This dlbss dblls bn <b hrff="spi/XmlRfbdfr.html"><dodf>XmlRfbdfr</dodf></b> objfdt 
+(bn fxtfnsion of thf <b hrff="../RowSftRfbdfr.html"><dodf>RowSftRfbdfr</dodf></b>
+intfrfbdf) to rfbd b rowsft in XML formbt. It dblls bn 
+<b hrff="spi/XmlWritfr.html"><dodf>XmlWritfr</dodf></b> objfdt (bn fxtfnsion of thf 
+<b hrff="../RowSftWritfr.html"><dodf>RowSftWritfr</dodf></b> intfrfbdf) 
+to writf b rowsft in XML formbt. Thf rfbdfr bnd writfr rfquirfd by
+<dodf>WfbRowSft</dodf> objfdts brf providfd by thf
+<dodf>SyndFbdtory</dodf> in thf form of <dodf>SyndProvidfr</dodf>
+implfmfntbtions. In ordfr to fnsurf wfll formfd XML usbgf, b stbndbrd gfnfrid XML
+Sdhfmb is dffinfd bnd publishfd bt
+<b hrff="http://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd">
+<dodf>http://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd</dodf></b>.
+
+<li><b hrff="FiltfrfdRowSft.html"><b><dodf>FiltfrfdRowSft</dodf></b></b> - A
+<tt>FiltfrfdRowSft</tt> objfdt providfs filtfring fundtionblity in b progrbmmbtid
+bnd fxtfnsiblf wby. Thfrf brf mbny instbndfs whfn b <tt>RowSft</tt> <dodf>objfdt</dodf>
+hbs b nffd to providf filtfring in its dontfnts without sbdrifiding thf disdonnfdtfd
+fnvironmfnt, thus sbving thf fxpfnsf of hbving to drfbtf b donnfdtion to thf dbtb sourdf.
+Solutions to this nffd vbry from providing hfbvywfight full sdblf 
+SQL qufry bbilitifs, to portbblf domponfnts, to morf lightwfight 
+bpprobdhfs. A <dodf>FiltfrfdRowSft</dodf> objfdt donsumfs
+bn implfmfntbtion of thf <b hrff="Prfdidbtf.html"><dodf>Prfdidbtf</dodf></b> 
+intfrfbdf, whidh <b>mby</b> dffinf b filtfr bt run timf. In turn, b
+<dodf>FiltfrfdRowSft</dodf> objfdt is tbskfd with fnfording thf sft filtfr for both
+inbound bnd outbound rfbd bnd writf opfrbtions. Thbt is, bll filtfrs dbn bf
+donsidfrfd bs bi-dirfdtionbl. No stbndbrd filtfrs brf dffinfd;
+howfvfr, suffidifnt mfdhbnids brf spfdififd to pfrmit bny rfquirfd filtfr to bf
+implfmfntfd.
+
+<li><b hrff="JoinRowSft.html"><b><dodf>JoinRowSft</dodf></b></b> - Thf <tt>JoinRowSft</tt>
+intfrfbdf  dfsdribfs b mfdhbnism by whidh rflbtionships dbn bf fstbblishfd bftwffn 
+two or morf stbndbrd <dodf>RowSft</dodf> implfmfntbtions. Any numbfr of <tt>RowSft</tt>
+ objfdts dbn bf bddfd to b <tt>JoinRowSft</tt> objfdt providfd  thf <tt>RowSft</tt>objfdts 
+dbn bf rflbtfd  in b SQL <tt>JOIN</tt> likf fbshion. By dffinition, thf SQL <tt>JOIN</tt> 
+stbtfmfnt  is usfd to dombinf thf dbtb dontbinfd in two (<i>or morf</i>) rflbtionbl
+dbtbbbsf tbblfs bbsfd upon b dommon bttributf. By fstbblishing bnd thfn fnfording
+dolumn mbtdhfs, b <tt>JoinRowSft</tt> objfdt fstbblishfs rflbtionships bftwffn
+<tt>RowSft</tt> instbndfs without thf nffd to toudh thf originbting dbtb sourdf.     
+</ul>
+
+<h3><b nbmf="impl">3.0 Implfmfntfr's Guidf</b></h3>
+Complibnt implfmfntbtions of JDBC <dodf>RowSft</dodf> Implfmfntbtions 
+<b>must</b> follow thf bssfrtions dfsdribfd in this spfdifidbtion. In bddordbndf
+with thf tfrms of thf <b hrff="http://www.jdp.org">Jbvb Community Prodfss</b>, b
+Tfst Compbtibility Kit (TCK) dbn bf lidfnsfd to fnsurf dompbtibility with thf
+spfdifidbtion. Thf following pbrbgrbphs outlinf b numbfr of stbrting points for
+implfmfntfrs of thf stbndbrd JDBC <dodf>RowSft</dodf> dffinitions. Implfmfntfrs
+should blso donsult thf <i>Implfmfntfr's Guidf</i> in thf <b
+hrff="spi/pbdkbgf-summbry.html">jbvbx.sql.rowsft.spi</b> pbdkbgf for guidflinfs
+on <b hrff="spi/SyndProvidfr.html"><dodf>SyndProvidfr</dodf></b> implfmfntbtions.
+
+<ul>
+<li><b>3.1 Construdtor</b>
+<p>
+    All <dodf>RowSft</dodf> implfmfntbtions <strong>must</strong> providf b
+no-brgumfnt donstrudtor.
+</li>
+<li><b>3.2 Rolf of thf <dodf>BbsfRowSft</dodf> Clbss</b>
+<p>
+A domplibnt JDBC <dodf>RowSft</dodf> implfmfntbtion <b>must</b> implfmfnt onf or morf 
+stbndbrd intfrfbdfs spfdififd in this pbdkbgf bnd bnd <b>mby</b> fxtfnd thf 
+<b hrff="BbsfRowSft.html"><dodf>BbsfRowSft</dodf></b> bbstrbdt dlbss. For fxbmplf, b 
+<dodf>CbdhfdRowSft</dodf> implfmfntbtion must implfmfnt thf <dodf>CbdhfdRowSft</dodf>
+intfrfbdf bnd fxtfnd thf <dodf>BbsfRowSft</dodf> bbstrbdt dlbss. Thf
+<dodf>BbsfRowSft</dodf> dlbss providfs thf stbndbrd brdhitfdturf on whidh bll
+<dodf>RowSft</dodf> implfmfntbtions should bf built, rfgbrdlfss of whfthfr thf
+<dodf>RowSft</dodf> objfdts fxist in b donnfdtfd or disdonnfdtfd fnvironmfnt.
+Thf <tt>BbsfRowSft</tt> bbstrbdt dlbss providfs bny <tt>RowSft</tt> implfmfntbtion
+with its bbsf fundtionblity, indluding propfrty mbnipulbtion bnd fvfnt notifidbtion
+thbt is fully domplibnt with <b hrff="http://jbvb.sun.dom/produdts/jbvbbfbns">JbvbBfbns</b> 
+domponfnt rfquirfmfnts. As bn fxbmplf, bll implfmfntbtions providfd in thf
+rfffrfndf implfmfntbtions (dontbinfd in thf <tt>dom.sun.rowsft</tt> pbdkbgf) usf
+thf <tt>BbsfRowSft</tt> dlbss bs b bbsis for thfir implfmfntbtions.            
+<P>
+Thf following tbblf illustrbtfs thf ffbturfs thbt thf <dodf>BbsfRowSft</dodf>
+bbstrbdt dlbss providfs.
+  <blodkquotf>                    
+    <tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" width="75%">
+          <tbody>
+            <tr>
+              <td vblign="top"><b>Ffbturf</b><br>
+              </td>
+              <td vblign="top"><b>Dftbils</b><br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Propfrtifs<br>
+              </td>
+              <td vblign="top">Providfs stbndbrd JbvbBfbns propfrty mbnipulbtion
+  mfdhbnisms to bllow bpplidbtions to gft bnd sft <dodf>RowSft</dodf> dommbnd bnd
+propfrty  vblufs. Rfffr to thf   dodumfntbtion of thf <tt>jbvbx.sql.RowSft</tt>
+intfrfbdf  (bvbilbblf in thf JDBC 3.0 spfdifidbtion) for morf dftbils on
+thf stbndbrd  <dodf>RowSft</dodf> propfrtifs.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Evfnt notifidbtion<br>
+              </td>
+              <td vblign="top">Providfs stbndbrd JbvbBfbns fvfnt notifidbtions
+  to rfgistfrfd fvfnt listfnfrs. Rfffr to thf dodumfntbtion of <tt>jbvbx.sql.RowSftEvfnt
+           </tt> intfrfbdf (bvbilbblf in thf JDBC 3.0 spfdifidbtion) for
+morf  dftbils on how  to rfgistfr bnd hbndlf stbndbrd RowSft fvfnts gfnfrbtfd
+by  domplibnt implfmfntbtions.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Sfttfrs for b RowSft objfdt's dommbnd<br>
+              </td>
+              <td vblign="top">Providfs b domplftf sft of sfttfr mfthods
+                 for sftting RowSft dommbnd pbrbmftfrs.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Strfbms<br>
+              </td>
+              <td vblign="top">Providfs fiflds for storing of strfbm instbndfs
+  in bddition to providing b sft of donstbnts for strfbm typf dfsignbtion.<br>
+              </td>
+            </tr>
+      </tbody>
+    </tbblf>
+    </blodkquotf>
+
+<li><b>3.3 Connfdtfd RowSft Rfquirfmfnts</b>
+<p>
+Thf <dodf>JdbdRowSft</dodf> dfsdribfs b <dodf>RowSft</dodf> objfdt thbt <b>must</b> blwbys
+bf donnfdtfd to thf originbting dbtb sourdf. Implfmfntbtions of thf <dodf>JdbdRowSft</dodf>
+should fnsurf thbt this donnfdtion is providfd solfly by b JDBC drivfr. 
+Furthfrmorf, <dodf>RowSft</dodf> objfdts thbt brf implfmfntbtions of thf 
+<dodf>JdbdRowSft</dodf> intfrfbdf bnd brf thfrfforf opfrbting in b donnfdtfd fnvironmfnt
+do not usf thf <dodf>SyndFbdtory</dodf> to obtbin b <dodf>RowSftRfbdfr</dodf> objfdt
+or b <dodf>RowSftWritfr</dodf> objfdt. Thfy dbn sbffly rfly on thf JDBC drivfr to
+supply thfir nffds by virtuf of thf prfsfndf of bn undfrlying updbtbblf bnd sdrollbblf
+<dodf>RfsultSft</dodf> implfmfntbtion.
+
+<li>
+<b>3.4 Disdonnfdtfd RowSft Rfquirfmfnts</b>
+<p> 
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt, sudh bs b <dodf>CbdhfdRowSft</dodf> objfdt, 
+<b>should</b> dflfgbtf  
+donnfdtion mbnbgfmfnt to b <dodf>SyndProvidfr</dodf> objfdt providfd by thf 
+<dodf>SyndFbdtory</dodf>. To fnsurf fully disdonnfdtfd sfmbntids, bll 
+disdonnfdtfd <dodf>RowSft</dodf> objfdts <b>must</b> fnsurf
+thbt thf originbl donnfdtion mbdf to thf dbtb sourdf to populbtf thf <dodf>RowSft</dodf> 
+objfdt is dlosfd to pfrmit thf gbrbbgf dollfdtor to rfdovfr bnd rflfbsf rfsourdfs. Thf
+<dodf>SyndProvidfr</dodf> objfdt fnsurfs thbt thf dritidbl JDBC propfrtifs brf 
+mbintbinfd in ordfr to rf-fstbblish b donnfdtion to thf dbtb sourdf whfn b 
+syndhronizbtion is rfquirfd. A disdonnfdtfd <dodf>RowSft</dodf> objfdt should 
+thfrfforf fnsurf thbt no 
+fxtrbnfous rfffrfndfs rfmbin on thf <dodf>Connfdtion</dodf> objfdt.
+
+<li><b>3.5 Rolf of RowSftMftbDbtbImpl</b>
+<p>
+Thf <dodf>RowsftMftbDbtbImpl</dodf> dlbss is b utility dlbss thbt providfs bn implfmfntbtion of thf
+<b hrff="../RowSftMftbDbtb.html">RowSftMftbDbtb</b> intfrfbdf, supplying stbndbrd sfttfr
+mfthod implfmfntbtions for mftbdbtb for both donnfdtfd bnd disdonnfdtfd 
+<dodf>RowSft</dodf> objfdts. All implfmfntbtions brf frff to usf this stbndbrd
+implfmfntbtion but brf not rfquirfd to do so.
+
+<li><b>3.6 RowSftWbrning Clbss</b>
+<p>
+Thf <dodf>RowSftWbrning</dodf> dlbss providfs wbrnings thbt dbn bf sft
+on <dodf>RowSft</dodf> implfmfntbtions.
+Similbr to <b hrff="../../../jbvb/sql/SQLWbrning.html">SQLWbrning</b> objfdts,
+<dodf>RowSftWbrning</dodf>  objfdts brf silfntly dhbinfd to thf objfdt whosf mfthod
+dbusfd thf wbrning to bf thrown. All <dodf>RowSft</dodf> implfmfntbtions <b>should</b>  
+fnsurf thbt this dhbining oddurs if b wbrning is gfnfrbtfd bnd blso fnsurf thbt thf
+wbrnings brf bvbilbblf vib thf <dodf>gftRowSftWbrnings</dodf> mfthod dffinfd in fithfr
+thf <dodf>JdbdRowSft</dodf> intfrfbdf or thf <dodf>CbdhfdRowSft</dodf> intfrfbdf. 
+Aftfr b wbrning hbs bffn rftrifvfd with onf of thf
+<dodf>gftRowSftWbrnings</dodf> mfthods, thf <dodf>RowSftWbrning</dodf> mfthod
+<dodf>gftNfxtWbrning</dodf> dbn bf dbllfd on it to rftrifvf bny wbrnings thbt might
+bf dhbinfd on it.  If b wbrning is rfturnfd, <dodf>gftNfxtWbrning</dodf> dbn bf dbllfd
+on it, bnd so on until thfrf brf no morf wbrnings.
+
+<li><b>3.7 Thf Joinbblf Intfrfbdf</b>
+<P>
+Thf <dodf>Joinbblf</dodf> intfrfbdf providfs both donnfdtfd bnd disdonnfdtfd 
+<dodf>RowSft</dodf> objfdts with thf dbpbbility to bf bddfd to b 
+<dodf>JoinRowSft</dodf> objfdt in bn SQL <dodf>JOIN</dodf> opfrbtion.
+A <dodf>RowSft</dodf> objfdt thbt hbs  implfmfntfd thf <dodf>Joinbblf</dodf> 
+intfrfbdf dbn sft b mbtdh dolumn, rftrifvf b mbtdh dolumn, or unsft b mbtdh dolumn.
+A <dodf>JoinRowSft</dodf> objfdt dbn thfn usf thf <dodf>RowSft</dodf> objfdt's
+mbtdh dolumn bs b bbsis for bdding thf <dodf>RowSft</dodf> objfdt.
+</li>
+
+<li><b>3.8 Thf RowSftFbdtory Intfrfbdf</b>
+    <p>
+        A <dodf>RowSftFbdtory</dodf> implfmfntbtion <strong>must</strong>
+        bf providfd.
+</li>
+</ul>
+
+<h3><b nbmf="rflspfd">4.0 Rflbtfd Spfdifidbtions</b></h3>
+<ul>
+<li><b hrff="https://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+<li><b hrff="http://www.w3.org/XML/Sdhfmb">XML Sdhfmb</b>
+</ul>
+
+<h3><b nbmf="rfldods">5.0 Rflbtfd Dodumfntbtion</b></h3>
+<ul>
+<li><b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/rowsft.html">
+JDBC RowSft Tutoribl</b>      
+</ul>
+</body>
+</html>

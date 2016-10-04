@@ -1,381 +1,381 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.security.cert.CertificateException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.*;
 
-import sun.misc.HexDumpEncoder;
+import sun.misd.HfxDumpEndodfr;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the Extensions attribute for the Certificate.
+ * Tiis dlbss dffinfs tif Extfnsions bttributf for tif Cfrtifidbtf.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
  */
-public class CertificateExtensions implements CertAttrSet<Extension> {
+publid dlbss CfrtifidbtfExtfnsions implfmfnts CfrtAttrSft<Extfnsion> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions";
     /**
-     * name
+     * nbmf
      */
-    public static final String NAME = "extensions";
+    publid stbtid finbl String NAME = "fxtfnsions";
 
-    private static final Debug debug = Debug.getInstance("x509");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("x509");
 
-    private Map<String,Extension> map = Collections.synchronizedMap(
-            new TreeMap<String,Extension>());
-    private boolean unsupportedCritExt = false;
+    privbtf Mbp<String,Extfnsion> mbp = Collfdtions.syndironizfdMbp(
+            nfw TrffMbp<String,Extfnsion>());
+    privbtf boolfbn unsupportfdCritExt = fblsf;
 
-    private Map<String,Extension> unparseableExtensions;
+    privbtf Mbp<String,Extfnsion> unpbrsfbblfExtfnsions;
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public CertificateExtensions() { }
+    publid CfrtifidbtfExtfnsions() { }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the Extension from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif Extfnsion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateExtensions(DerInputStream in) throws IOException {
+    publid CfrtifidbtfExtfnsions(DfrInputStrfbm in) tirows IOExdfption {
         init(in);
     }
 
-    // helper routine
-    private void init(DerInputStream in) throws IOException {
+    // iflpfr routinf
+    privbtf void init(DfrInputStrfbm in) tirows IOExdfption {
 
-        DerValue[] exts = in.getSequence(5);
+        DfrVbluf[] fxts = in.gftSfqufndf(5);
 
-        for (int i = 0; i < exts.length; i++) {
-            Extension ext = new Extension(exts[i]);
-            parseExtension(ext);
+        for (int i = 0; i < fxts.lfngti; i++) {
+            Extfnsion fxt = nfw Extfnsion(fxts[i]);
+            pbrsfExtfnsion(fxt);
         }
     }
 
-    private static Class<?>[] PARAMS = {Boolean.class, Object.class};
+    privbtf stbtid Clbss<?>[] PARAMS = {Boolfbn.dlbss, Objfdt.dlbss};
 
-    // Parse the encoded extension
-    private void parseExtension(Extension ext) throws IOException {
+    // Pbrsf tif fndodfd fxtfnsion
+    privbtf void pbrsfExtfnsion(Extfnsion fxt) tirows IOExdfption {
         try {
-            Class<?> extClass = OIDMap.getClass(ext.getExtensionId());
-            if (extClass == null) {   // Unsupported extension
-                if (ext.isCritical()) {
-                    unsupportedCritExt = true;
+            Clbss<?> fxtClbss = OIDMbp.gftClbss(fxt.gftExtfnsionId());
+            if (fxtClbss == null) {   // Unsupportfd fxtfnsion
+                if (fxt.isCritidbl()) {
+                    unsupportfdCritExt = truf;
                 }
-                if (map.put(ext.getExtensionId().toString(), ext) == null) {
-                    return;
-                } else {
-                    throw new IOException("Duplicate extensions not allowed");
+                if (mbp.put(fxt.gftExtfnsionId().toString(), fxt) == null) {
+                    rfturn;
+                } flsf {
+                    tirow nfw IOExdfption("Duplidbtf fxtfnsions not bllowfd");
                 }
             }
-            Constructor<?> cons = extClass.getConstructor(PARAMS);
+            Construdtor<?> dons = fxtClbss.gftConstrudtor(PARAMS);
 
-            Object[] passed = new Object[] {Boolean.valueOf(ext.isCritical()),
-                    ext.getExtensionValue()};
-                    CertAttrSet<?> certExt = (CertAttrSet<?>)
-                            cons.newInstance(passed);
-                    if (map.put(certExt.getName(), (Extension)certExt) != null) {
-                        throw new IOException("Duplicate extensions not allowed");
+            Objfdt[] pbssfd = nfw Objfdt[] {Boolfbn.vblufOf(fxt.isCritidbl()),
+                    fxt.gftExtfnsionVbluf()};
+                    CfrtAttrSft<?> dfrtExt = (CfrtAttrSft<?>)
+                            dons.nfwInstbndf(pbssfd);
+                    if (mbp.put(dfrtExt.gftNbmf(), (Extfnsion)dfrtExt) != null) {
+                        tirow nfw IOExdfption("Duplidbtf fxtfnsions not bllowfd");
                     }
-        } catch (InvocationTargetException invk) {
-            Throwable e = invk.getTargetException();
-            if (ext.isCritical() == false) {
-                // ignore errors parsing non-critical extensions
-                if (unparseableExtensions == null) {
-                    unparseableExtensions = new TreeMap<String,Extension>();
+        } dbtdi (InvodbtionTbrgftExdfption invk) {
+            Tirowbblf f = invk.gftTbrgftExdfption();
+            if (fxt.isCritidbl() == fblsf) {
+                // ignorf frrors pbrsing non-dritidbl fxtfnsions
+                if (unpbrsfbblfExtfnsions == null) {
+                    unpbrsfbblfExtfnsions = nfw TrffMbp<String,Extfnsion>();
                 }
-                unparseableExtensions.put(ext.getExtensionId().toString(),
-                        new UnparseableExtension(ext, e));
-                if (debug != null) {
-                    debug.println("Error parsing extension: " + ext);
-                    e.printStackTrace();
-                    HexDumpEncoder h = new HexDumpEncoder();
-                    System.err.println(h.encodeBuffer(ext.getExtensionValue()));
+                unpbrsfbblfExtfnsions.put(fxt.gftExtfnsionId().toString(),
+                        nfw UnpbrsfbblfExtfnsion(fxt, f));
+                if (dfbug != null) {
+                    dfbug.println("Error pbrsing fxtfnsion: " + fxt);
+                    f.printStbdkTrbdf();
+                    HfxDumpEndodfr i = nfw HfxDumpEndodfr();
+                    Systfm.frr.println(i.fndodfBufffr(fxt.gftExtfnsionVbluf()));
                 }
-                return;
+                rfturn;
             }
-            if (e instanceof IOException) {
-                throw (IOException)e;
-            } else {
-                throw new IOException(e);
+            if (f instbndfof IOExdfption) {
+                tirow (IOExdfption)f;
+            } flsf {
+                tirow nfw IOExdfption(f);
             }
-        } catch (IOException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IOException(e);
+        } dbtdi (IOExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            tirow nfw IOExdfption(f);
         }
     }
 
     /**
-     * Encode the extensions in DER form to the stream, setting
-     * the context specific tag as needed in the X.509 v3 certificate.
+     * Endodf tif fxtfnsions in DER form to tif strfbm, sftting
+     * tif dontfxt spfdifid tbg bs nffdfd in tif X.509 v3 dfrtifidbtf.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @exception CertificateException on encoding errors.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(OutputStream out)
-    throws CertificateException, IOException {
-        encode(out, false);
+    publid void fndodf(OutputStrfbm out)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        fndodf(out, fblsf);
     }
 
     /**
-     * Encode the extensions in DER form to the stream.
+     * Endodf tif fxtfnsions in DER form to tif strfbm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @param isCertReq if true then no context specific tag is added.
-     * @exception CertificateException on encoding errors.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @pbrbm isCfrtRfq if truf tifn no dontfxt spfdifid tbg is bddfd.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(OutputStream out, boolean isCertReq)
-    throws CertificateException, IOException {
-        DerOutputStream extOut = new DerOutputStream();
-        Collection<Extension> allExts = map.values();
-        Object[] objs = allExts.toArray();
+    publid void fndodf(OutputStrfbm out, boolfbn isCfrtRfq)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        DfrOutputStrfbm fxtOut = nfw DfrOutputStrfbm();
+        Collfdtion<Extfnsion> bllExts = mbp.vblufs();
+        Objfdt[] objs = bllExts.toArrby();
 
-        for (int i = 0; i < objs.length; i++) {
-            if (objs[i] instanceof CertAttrSet)
-                ((CertAttrSet)objs[i]).encode(extOut);
-            else if (objs[i] instanceof Extension)
-                ((Extension)objs[i]).encode(extOut);
-            else
-                throw new CertificateException("Illegal extension object");
+        for (int i = 0; i < objs.lfngti; i++) {
+            if (objs[i] instbndfof CfrtAttrSft)
+                ((CfrtAttrSft)objs[i]).fndodf(fxtOut);
+            flsf if (objs[i] instbndfof Extfnsion)
+                ((Extfnsion)objs[i]).fndodf(fxtOut);
+            flsf
+                tirow nfw CfrtifidbtfExdfption("Illfgbl fxtfnsion objfdt");
         }
 
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.tag_Sequence, extOut);
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, fxtOut);
 
-        DerOutputStream tmp;
-        if (!isCertReq) { // certificate
-            tmp = new DerOutputStream();
-            tmp.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)3),
-                    seq);
-        } else
-            tmp = seq; // pkcs#10 certificateRequest
+        DfrOutputStrfbm tmp;
+        if (!isCfrtRfq) { // dfrtifidbtf
+            tmp = nfw DfrOutputStrfbm();
+            tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)3),
+                    sfq);
+        } flsf
+            tmp = sfq; // pkds#10 dfrtifidbtfRfqufst
 
-        out.write(tmp.toByteArray());
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
-     * @param name the extension name used in the cache.
-     * @param obj the object to set.
-     * @exception IOException if the object could not be cached.
+     * Sft tif bttributf vbluf.
+     * @pbrbm nbmf tif fxtfnsion nbmf usfd in tif dbdif.
+     * @pbrbm obj tif objfdt to sft.
+     * @fxdfption IOExdfption if tif objfdt dould not bf dbdifd.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (obj instanceof Extension) {
-            map.put(name, (Extension)obj);
-        } else {
-            throw new IOException("Unknown extension type.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (obj instbndfof Extfnsion) {
+            mbp.put(nbmf, (Extfnsion)obj);
+        } flsf {
+            tirow nfw IOExdfption("Unknown fxtfnsion typf.");
         }
     }
 
     /**
-     * Get the attribute value.
-     * @param name the extension name used in the lookup.
-     * @exception IOException if named extension is not found.
+     * Gft tif bttributf vbluf.
+     * @pbrbm nbmf tif fxtfnsion nbmf usfd in tif lookup.
+     * @fxdfption IOExdfption if nbmfd fxtfnsion is not found.
      */
-    public Extension get(String name) throws IOException {
-        Extension obj = map.get(name);
+    publid Extfnsion gft(String nbmf) tirows IOExdfption {
+        Extfnsion obj = mbp.gft(nbmf);
         if (obj == null) {
-            throw new IOException("No extension found with name " + name);
+            tirow nfw IOExdfption("No fxtfnsion found witi nbmf " + nbmf);
         }
-        return (obj);
+        rfturn (obj);
     }
 
-    // Similar to get(String), but throw no exception, might return null.
-    // Used in X509CertImpl::getExtension(OID).
-    Extension getExtension(String name) {
-        return map.get(name);
+    // Similbr to gft(String), but tirow no fxdfption, migit rfturn null.
+    // Usfd in X509CfrtImpl::gftExtfnsion(OID).
+    Extfnsion gftExtfnsion(String nbmf) {
+        rfturn mbp.gft(nbmf);
     }
 
     /**
-     * Delete the attribute value.
-     * @param name the extension name used in the lookup.
-     * @exception IOException if named extension is not found.
+     * Dflftf tif bttributf vbluf.
+     * @pbrbm nbmf tif fxtfnsion nbmf usfd in tif lookup.
+     * @fxdfption IOExdfption if nbmfd fxtfnsion is not found.
      */
-    public void delete(String name) throws IOException {
-        Object obj = map.get(name);
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        Objfdt obj = mbp.gft(nbmf);
         if (obj == null) {
-            throw new IOException("No extension found with name " + name);
+            tirow nfw IOExdfption("No fxtfnsion found witi nbmf " + nbmf);
         }
-        map.remove(name);
+        mbp.rfmovf(nbmf);
     }
 
-    public String getNameByOid(ObjectIdentifier oid) throws IOException {
-        for (String name: map.keySet()) {
-            if (map.get(name).getExtensionId().equals((Object)oid)) {
-                return name;
+    publid String gftNbmfByOid(ObjfdtIdfntififr oid) tirows IOExdfption {
+        for (String nbmf: mbp.kfySft()) {
+            if (mbp.gft(nbmf).gftExtfnsionId().fqubls((Objfdt)oid)) {
+                rfturn nbmf;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<Extension> getElements() {
-        return Collections.enumeration(map.values());
+    publid Enumfrbtion<Extfnsion> gftElfmfnts() {
+        rfturn Collfdtions.fnumfrbtion(mbp.vblufs());
     }
 
     /**
-     * Return a collection view of the extensions.
-     * @return a collection view of the extensions in this Certificate.
+     * Rfturn b dollfdtion vifw of tif fxtfnsions.
+     * @rfturn b dollfdtion vifw of tif fxtfnsions in tiis Cfrtifidbtf.
      */
-    public Collection<Extension> getAllExtensions() {
-        return map.values();
+    publid Collfdtion<Extfnsion> gftAllExtfnsions() {
+        rfturn mbp.vblufs();
     }
 
-    public Map<String,Extension> getUnparseableExtensions() {
-        if (unparseableExtensions == null) {
-            return Collections.emptyMap();
-        } else {
-            return unparseableExtensions;
+    publid Mbp<String,Extfnsion> gftUnpbrsfbblfExtfnsions() {
+        if (unpbrsfbblfExtfnsions == null) {
+            rfturn Collfdtions.fmptyMbp();
+        } flsf {
+            rfturn unpbrsfbblfExtfnsions;
         }
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return NAME;
+    publid String gftNbmf() {
+        rfturn NAME;
     }
 
     /**
-     * Return true if a critical extension is found that is
-     * not supported, otherwise return false.
+     * Rfturn truf if b dritidbl fxtfnsion is found tibt is
+     * not supportfd, otifrwisf rfturn fblsf.
      */
-    public boolean hasUnsupportedCriticalExtension() {
-        return unsupportedCritExt;
+    publid boolfbn ibsUnsupportfdCritidblExtfnsion() {
+        rfturn unsupportfdCritExt;
     }
 
     /**
-     * Compares this CertificateExtensions for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>CertificateExtensions</code>, then
-     * all the entries are compared with the entries from this.
+     * Compbrfs tiis CfrtifidbtfExtfnsions for fqublity witi tif spfdififd
+     * objfdt. If tif <dodf>otifr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>CfrtifidbtfExtfnsions</dodf>, tifn
+     * bll tif fntrifs brf dompbrfd witi tif fntrifs from tiis.
      *
-     * @param other the object to test for equality with this
-     * CertificateExtensions.
-     * @return true iff all the entries match that of the Other,
-     * false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis
+     * CfrtifidbtfExtfnsions.
+     * @rfturn truf iff bll tif fntrifs mbtdi tibt of tif Otifr,
+     * fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof CertificateExtensions))
-            return false;
-        Collection<Extension> otherC =
-                ((CertificateExtensions)other).getAllExtensions();
-        Object[] objs = otherC.toArray();
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof CfrtifidbtfExtfnsions))
+            rfturn fblsf;
+        Collfdtion<Extfnsion> otifrC =
+                ((CfrtifidbtfExtfnsions)otifr).gftAllExtfnsions();
+        Objfdt[] objs = otifrC.toArrby();
 
-        int len = objs.length;
-        if (len != map.size())
-            return false;
+        int lfn = objs.lfngti;
+        if (lfn != mbp.sizf())
+            rfturn fblsf;
 
-        Extension otherExt, thisExt;
-        String key = null;
-        for (int i = 0; i < len; i++) {
-            if (objs[i] instanceof CertAttrSet)
-                key = ((CertAttrSet)objs[i]).getName();
-            otherExt = (Extension)objs[i];
-            if (key == null)
-                key = otherExt.getExtensionId().toString();
-            thisExt = map.get(key);
-            if (thisExt == null)
-                return false;
-            if (! thisExt.equals(otherExt))
-                return false;
+        Extfnsion otifrExt, tiisExt;
+        String kfy = null;
+        for (int i = 0; i < lfn; i++) {
+            if (objs[i] instbndfof CfrtAttrSft)
+                kfy = ((CfrtAttrSft)objs[i]).gftNbmf();
+            otifrExt = (Extfnsion)objs[i];
+            if (kfy == null)
+                kfy = otifrExt.gftExtfnsionId().toString();
+            tiisExt = mbp.gft(kfy);
+            if (tiisExt == null)
+                rfturn fblsf;
+            if (! tiisExt.fqubls(otifrExt))
+                rfturn fblsf;
         }
-        return this.getUnparseableExtensions().equals(
-                ((CertificateExtensions)other).getUnparseableExtensions());
+        rfturn tiis.gftUnpbrsfbblfExtfnsions().fqubls(
+                ((CfrtifidbtfExtfnsions)otifr).gftUnpbrsfbblfExtfnsions());
     }
 
     /**
-     * Returns a hashcode value for this CertificateExtensions.
+     * Rfturns b ibsidodf vbluf for tiis CfrtifidbtfExtfnsions.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        return map.hashCode() + getUnparseableExtensions().hashCode();
+    publid int ibsiCodf() {
+        rfturn mbp.ibsiCodf() + gftUnpbrsfbblfExtfnsions().ibsiCodf();
     }
 
     /**
-     * Returns a string representation of this <tt>CertificateExtensions</tt>
-     * object in the form of a set of entries, enclosed in braces and separated
-     * by the ASCII characters "<tt>,&nbsp;</tt>" (comma and space).
-     * <p>Overrides to <tt>toString</tt> method of <tt>Object</tt>.
+     * Rfturns b string rfprfsfntbtion of tiis <tt>CfrtifidbtfExtfnsions</tt>
+     * objfdt in tif form of b sft of fntrifs, fndlosfd in brbdfs bnd sfpbrbtfd
+     * by tif ASCII dibrbdtfrs "<tt>,&nbsp;</tt>" (dommb bnd spbdf).
+     * <p>Ovfrridfs to <tt>toString</tt> mftiod of <tt>Objfdt</tt>.
      *
-     * @return  a string representation of this CertificateExtensions.
+     * @rfturn  b string rfprfsfntbtion of tiis CfrtifidbtfExtfnsions.
      */
-    public String toString() {
-        return map.toString();
+    publid String toString() {
+        rfturn mbp.toString();
     }
 
 }
 
-class UnparseableExtension extends Extension {
-    private String name;
-    private Throwable why;
+dlbss UnpbrsfbblfExtfnsion fxtfnds Extfnsion {
+    privbtf String nbmf;
+    privbtf Tirowbblf wiy;
 
-    public UnparseableExtension(Extension ext, Throwable why) {
-        super(ext);
+    publid UnpbrsfbblfExtfnsion(Extfnsion fxt, Tirowbblf wiy) {
+        supfr(fxt);
 
-        name = "";
+        nbmf = "";
         try {
-            Class<?> extClass = OIDMap.getClass(ext.getExtensionId());
-            if (extClass != null) {
-                Field field = extClass.getDeclaredField("NAME");
-                name = (String)(field.get(null)) + " ";
+            Clbss<?> fxtClbss = OIDMbp.gftClbss(fxt.gftExtfnsionId());
+            if (fxtClbss != null) {
+                Fifld fifld = fxtClbss.gftDfdlbrfdFifld("NAME");
+                nbmf = (String)(fifld.gft(null)) + " ";
             }
-        } catch (Exception e) {
-            // If we cannot find the name, just ignore it
+        } dbtdi (Exdfption f) {
+            // If wf dbnnot find tif nbmf, just ignorf it
         }
 
-        this.why = why;
+        tiis.wiy = wiy;
     }
 
-    @Override public String toString() {
-        return super.toString() +
-                "Unparseable " + name + "extension due to\n" + why + "\n\n" +
-                new sun.misc.HexDumpEncoder().encodeBuffer(getExtensionValue());
+    @Ovfrridf publid String toString() {
+        rfturn supfr.toString() +
+                "Unpbrsfbblf " + nbmf + "fxtfnsion duf to\n" + wiy + "\n\n" +
+                nfw sun.misd.HfxDumpEndodfr().fndodfBufffr(gftExtfnsionVbluf());
     }
 }

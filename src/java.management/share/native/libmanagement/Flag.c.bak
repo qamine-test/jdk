@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <jni.h>
-#include "management.h"
-#include "sun_management_Flag.h"
+#indludf <stdlib.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <jni.i>
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_Flbg.i"
 
-static jobject default_origin = NULL;
-static jobject vm_creation_origin = NULL;
-static jobject mgmt_origin = NULL;
-static jobject envvar_origin = NULL;
-static jobject config_file_origin = NULL;
-static jobject ergo_origin = NULL;
-static jobject attach_origin = NULL;
-static jobject other_origin = NULL;
+stbtid jobjfdt dffbult_origin = NULL;
+stbtid jobjfdt vm_drfbtion_origin = NULL;
+stbtid jobjfdt mgmt_origin = NULL;
+stbtid jobjfdt fnvvbr_origin = NULL;
+stbtid jobjfdt donfig_filf_origin = NULL;
+stbtid jobjfdt frgo_origin = NULL;
+stbtid jobjfdt bttbdi_origin = NULL;
+stbtid jobjfdt otifr_origin = NULL;
 
 JNIEXPORT jint JNICALL
-Java_sun_management_Flag_getInternalFlagCount
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgfmfnt_Flbg_gftIntfrnblFlbgCount
+  (JNIEnv *fnv, jdlbss dls)
 {
-    jlong count = jmm_interface->GetLongAttribute(env, NULL,
+    jlong dount = jmm_intfrfbdf->GftLongAttributf(fnv, NULL,
                                                   JMM_VM_GLOBAL_COUNT);
-    return (jint) count;
+    rfturn (jint) dount;
 }
 
-JNIEXPORT jobjectArray JNICALL
-  Java_sun_management_Flag_getAllFlagNames
-(JNIEnv *env, jclass cls)
+JNIEXPORT jobjfdtArrby JNICALL
+  Jbvb_sun_mbnbgfmfnt_Flbg_gftAllFlbgNbmfs
+(JNIEnv *fnv, jdlbss dls)
 {
-  return jmm_interface->GetVMGlobalNames(env);
+  rfturn jmm_intfrfbdf->GftVMGlobblNbmfs(fnv);
 }
 
-static jobject find_origin_constant(JNIEnv* env, const char* enum_name) {
-    jvalue field;
-    field = JNU_GetStaticFieldByName(env,
+stbtid jobjfdt find_origin_donstbnt(JNIEnv* fnv, donst dibr* fnum_nbmf) {
+    jvbluf fifld;
+    fifld = JNU_GftStbtidFifldByNbmf(fnv,
                                      NULL,
-                                     "com/sun/management/VMOption$Origin",
-                                     enum_name,
-                                     "Lcom/sun/management/VMOption$Origin;");
-    return (*env)->NewGlobalRef(env, field.l);
+                                     "dom/sun/mbnbgfmfnt/VMOption$Origin",
+                                     fnum_nbmf,
+                                     "Ldom/sun/mbnbgfmfnt/VMOption$Origin;");
+    rfturn (*fnv)->NfwGlobblRff(fnv, fifld.l);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_Flag_initialize
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgfmfnt_Flbg_initiblizf
+  (JNIEnv *fnv, jdlbss dls)
 {
-    default_origin = find_origin_constant(env, "DEFAULT");
-    vm_creation_origin = find_origin_constant(env, "VM_CREATION");
-    mgmt_origin = find_origin_constant(env, "MANAGEMENT");
-    envvar_origin = find_origin_constant(env, "ENVIRON_VAR");
-    config_file_origin = find_origin_constant(env, "CONFIG_FILE");
-    ergo_origin = find_origin_constant(env, "ERGONOMIC");
-    attach_origin = find_origin_constant(env, "ATTACH_ON_DEMAND");
-    other_origin = find_origin_constant(env, "OTHER");
+    dffbult_origin = find_origin_donstbnt(fnv, "DEFAULT");
+    vm_drfbtion_origin = find_origin_donstbnt(fnv, "VM_CREATION");
+    mgmt_origin = find_origin_donstbnt(fnv, "MANAGEMENT");
+    fnvvbr_origin = find_origin_donstbnt(fnv, "ENVIRON_VAR");
+    donfig_filf_origin = find_origin_donstbnt(fnv, "CONFIG_FILE");
+    frgo_origin = find_origin_donstbnt(fnv, "ERGONOMIC");
+    bttbdi_origin = find_origin_donstbnt(fnv, "ATTACH_ON_DEMAND");
+    otifr_origin = find_origin_donstbnt(fnv, "OTHER");
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_management_Flag_getFlags
-  (JNIEnv *env, jclass cls, jobjectArray names, jobjectArray flags, jint count)
+Jbvb_sun_mbnbgfmfnt_Flbg_gftFlbgs
+  (JNIEnv *fnv, jdlbss dls, jobjfdtArrby nbmfs, jobjfdtArrby flbgs, jint dount)
 {
-    jint num_flags, i, index;
-    jmmVMGlobal* globals;
-    size_t gsize;
-    const char* class_name = "sun/management/Flag";
-    const char* signature = "(Ljava/lang/String;Ljava/lang/Object;ZZLcom/sun/management/VMOption$Origin;)V";
-    jobject origin;
-    jobject valueObj;
-    jobject flag;
+    jint num_flbgs, i, indfx;
+    jmmVMGlobbl* globbls;
+    sizf_t gsizf;
+    donst dibr* dlbss_nbmf = "sun/mbnbgfmfnt/Flbg";
+    donst dibr* signbturf = "(Ljbvb/lbng/String;Ljbvb/lbng/Objfdt;ZZLdom/sun/mbnbgfmfnt/VMOption$Origin;)V";
+    jobjfdt origin;
+    jobjfdt vblufObj;
+    jobjfdt flbg;
 
-    if (flags == NULL) {
-        JNU_ThrowNullPointerException(env, 0);
-        return 0;
+    if (flbgs == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    if (count <= 0) {
-        JNU_ThrowIllegalArgumentException(env, 0);
-        return 0;
+    if (dount <= 0) {
+        JNU_TirowIllfgblArgumfntExdfption(fnv, 0);
+        rfturn 0;
     }
 
-    gsize = (size_t)count * sizeof(jmmVMGlobal);
-    globals = (jmmVMGlobal*) malloc(gsize);
-    if (globals == NULL) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return 0;
+    gsizf = (sizf_t)dount * sizfof(jmmVMGlobbl);
+    globbls = (jmmVMGlobbl*) mbllod(gsizf);
+    if (globbls == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
     }
 
-    memset(globals, 0, gsize);
-    num_flags = jmm_interface->GetVMGlobals(env, names, globals, count);
-    if (num_flags == 0) {
-        free(globals);
-        return 0;
+    mfmsft(globbls, 0, gsizf);
+    num_flbgs = jmm_intfrfbdf->GftVMGlobbls(fnv, nbmfs, globbls, dount);
+    if (num_flbgs == 0) {
+        frff(globbls);
+        rfturn 0;
     }
 
-    index = 0;
-    for (i = 0; i < count; i++) {
-        if (globals[i].name == NULL) {
-            continue;
+    indfx = 0;
+    for (i = 0; i < dount; i++) {
+        if (globbls[i].nbmf == NULL) {
+            dontinuf;
         }
-        switch (globals[i].type) {
-        case JMM_VMGLOBAL_TYPE_JBOOLEAN:
-            valueObj = JNU_NewObjectByName(env, "java/lang/Boolean", "(Z)V",
-                                           globals[i].value.z);
-            break;
-        case JMM_VMGLOBAL_TYPE_JSTRING:
-            valueObj = globals[i].value.l;
-            break;
-        case JMM_VMGLOBAL_TYPE_JLONG:
-            valueObj = JNU_NewObjectByName(env, "java/lang/Long", "(J)V",
-                                           globals[i].value.j);
-            break;
-        default:
-            // ignore unsupported type
-            continue;
+        switdi (globbls[i].typf) {
+        dbsf JMM_VMGLOBAL_TYPE_JBOOLEAN:
+            vblufObj = JNU_NfwObjfdtByNbmf(fnv, "jbvb/lbng/Boolfbn", "(Z)V",
+                                           globbls[i].vbluf.z);
+            brfbk;
+        dbsf JMM_VMGLOBAL_TYPE_JSTRING:
+            vblufObj = globbls[i].vbluf.l;
+            brfbk;
+        dbsf JMM_VMGLOBAL_TYPE_JLONG:
+            vblufObj = JNU_NfwObjfdtByNbmf(fnv, "jbvb/lbng/Long", "(J)V",
+                                           globbls[i].vbluf.j);
+            brfbk;
+        dffbult:
+            // ignorf unsupportfd typf
+            dontinuf;
         }
-        switch (globals[i].origin) {
-        case JMM_VMGLOBAL_ORIGIN_DEFAULT:
-            origin = default_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_COMMAND_LINE:
-            origin = vm_creation_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_MANAGEMENT:
+        switdi (globbls[i].origin) {
+        dbsf JMM_VMGLOBAL_ORIGIN_DEFAULT:
+            origin = dffbult_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_COMMAND_LINE:
+            origin = vm_drfbtion_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_MANAGEMENT:
             origin = mgmt_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_ENVIRON_VAR:
-            origin = envvar_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_CONFIG_FILE:
-            origin = config_file_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_ERGONOMIC:
-            origin = ergo_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_ATTACH_ON_DEMAND:
-            origin = attach_origin;
-            break;
-        case JMM_VMGLOBAL_ORIGIN_OTHER:
-            origin = other_origin;
-            break;
-        default:
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_ENVIRON_VAR:
+            origin = fnvvbr_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_CONFIG_FILE:
+            origin = donfig_filf_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_ERGONOMIC:
+            origin = frgo_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_ATTACH_ON_DEMAND:
+            origin = bttbdi_origin;
+            brfbk;
+        dbsf JMM_VMGLOBAL_ORIGIN_OTHER:
+            origin = otifr_origin;
+            brfbk;
+        dffbult:
             // unknown origin
-            origin = other_origin;
-            break;
+            origin = otifr_origin;
+            brfbk;
         }
-        flag = JNU_NewObjectByName(env, class_name, signature, globals[i].name,
-                                   valueObj, globals[i].writeable,
-                                   globals[i].external, origin);
-        if (flag == NULL) {
-            free(globals);
-            JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+        flbg = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, globbls[i].nbmf,
+                                   vblufObj, globbls[i].writfbblf,
+                                   globbls[i].fxtfrnbl, origin);
+        if (flbg == NULL) {
+            frff(globbls);
+            JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
-        (*env)->SetObjectArrayElement(env, flags, index, flag);
-        index++;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, flbgs, indfx, flbg);
+        indfx++;
     }
 
-    if (index != num_flags) {
-        JNU_ThrowInternalError(env, "Number of Flag objects created unmatched");
-        free(globals);
-        return 0;
+    if (indfx != num_flbgs) {
+        JNU_TirowIntfrnblError(fnv, "Numbfr of Flbg objfdts drfbtfd unmbtdifd");
+        frff(globbls);
+        rfturn 0;
     }
 
-    free(globals);
+    frff(globbls);
 
-    /* return the number of Flag objects created */
-    return num_flags;
+    /* rfturn tif numbfr of Flbg objfdts drfbtfd */
+    rfturn num_flbgs;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_Flag_setLongValue
-  (JNIEnv *env, jclass cls, jstring name, jlong value)
+Jbvb_sun_mbnbgfmfnt_Flbg_sftLongVbluf
+  (JNIEnv *fnv, jdlbss dls, jstring nbmf, jlong vbluf)
 {
-   jvalue v;
-   v.j = value;
+   jvbluf v;
+   v.j = vbluf;
 
-   jmm_interface->SetVMGlobal(env, name, v);
+   jmm_intfrfbdf->SftVMGlobbl(fnv, nbmf, v);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_Flag_setBooleanValue
-  (JNIEnv *env, jclass cls, jstring name, jboolean value)
+Jbvb_sun_mbnbgfmfnt_Flbg_sftBoolfbnVbluf
+  (JNIEnv *fnv, jdlbss dls, jstring nbmf, jboolfbn vbluf)
 {
-   jvalue v;
-   v.z = value;
+   jvbluf v;
+   v.z = vbluf;
 
-   jmm_interface->SetVMGlobal(env, name, v);
+   jmm_intfrfbdf->SftVMGlobbl(fnv, nbmf, v);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_Flag_setStringValue
-  (JNIEnv *env, jclass cls, jstring name, jstring value)
+Jbvb_sun_mbnbgfmfnt_Flbg_sftStringVbluf
+  (JNIEnv *fnv, jdlbss dls, jstring nbmf, jstring vbluf)
 {
-   jvalue v;
-   v.l = value;
+   jvbluf v;
+   v.l = vbluf;
 
-   jmm_interface->SetVMGlobal(env, name, v);
+   jmm_intfrfbdf->SftVMGlobbl(fnv, nbmf, v);
 }

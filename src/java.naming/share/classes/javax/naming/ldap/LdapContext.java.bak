@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import java.util.Hashtable;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.dirfdtory.DirContfxt;
+import jbvb.util.Hbsitbblf;
 
 /**
- * This interface represents a context in which you can perform
- * operations with LDAPv3-style controls and perform LDAPv3-style
- * extended operations.
+ * Tiis intfrfbdf rfprfsfnts b dontfxt in wiidi you dbn pfrform
+ * opfrbtions witi LDAPv3-stylf dontrols bnd pfrform LDAPv3-stylf
+ * fxtfndfd opfrbtions.
  *
- * For applications that do not require such controls or extended
- * operations, the more generic <tt>javax.naming.directory.DirContext</tt>
- * should be used instead.
+ * For bpplidbtions tibt do not rfquirf sudi dontrols or fxtfndfd
+ * opfrbtions, tif morf gfnfrid <tt>jbvbx.nbming.dirfdtory.DirContfxt</tt>
+ * siould bf usfd instfbd.
  *
- * <h3>Usage Details About Controls</h3>
+ * <i3>Usbgf Dftbils About Controls</i3>
  *
- * This interface provides support for LDAP v3 controls.
- * At a high level, this support allows a user
- * program to set request controls for LDAP operations that are executed
- * in the course of the user program's invocation of
- * <tt>Context</tt>/<tt>DirContext</tt>
- * methods, and read response controls resulting from LDAP operations.
- * At the implementation level, there are some details that developers of
- * both the user program and service providers need to understand in order
- * to correctly use request and response controls.
+ * Tiis intfrfbdf providfs support for LDAP v3 dontrols.
+ * At b iigi lfvfl, tiis support bllows b usfr
+ * progrbm to sft rfqufst dontrols for LDAP opfrbtions tibt brf fxfdutfd
+ * in tif doursf of tif usfr progrbm's invodbtion of
+ * <tt>Contfxt</tt>/<tt>DirContfxt</tt>
+ * mftiods, bnd rfbd rfsponsf dontrols rfsulting from LDAP opfrbtions.
+ * At tif implfmfntbtion lfvfl, tifrf brf somf dftbils tibt dfvflopfrs of
+ * boti tif usfr progrbm bnd sfrvidf providfrs nffd to undfrstbnd in ordfr
+ * to dorrfdtly usf rfqufst bnd rfsponsf dontrols.
  *
- * <h3>Request Controls</h3>
+ * <i3>Rfqufst Controls</i3>
  * <p>
- * There are two types of request controls:
+ * Tifrf brf two typfs of rfqufst dontrols:
  * <ul>
- * <li>Request controls that affect how a connection is created
- * <li>Request controls that affect context methods
+ * <li>Rfqufst dontrols tibt bfffdt iow b donnfdtion is drfbtfd
+ * <li>Rfqufst dontrols tibt bfffdt dontfxt mftiods
  * </ul>
  *
- * The former is used whenever a connection needs to be established or
- * re-established with an LDAP server. The latter is used when all other
- * LDAP operations are sent to the LDAP server.  The reason why a
- * distinction between these two types of request controls is necessary
- * is because JNDI is a high-level API that does not deal directly with
- * connections.  It is the job of service providers to do any necessary
- * connection management. Consequently, a single
- * connection may be shared by multiple context instances, and a service provider
- * is free to use its own algorithms to conserve connection and network
- * usage. Thus, when a method is invoked on the context instance, the service
- * provider might need to do some connection management in addition to
- * performing the corresponding LDAP operations. For connection management,
- * it uses the <em>connection request controls</em>, while for the normal
- * LDAP operations, it uses the <em>context request controls</em>.
- *<p>Unless explicitly qualified, the term "request controls" refers to
- * context request controls.
+ * Tif formfr is usfd wifnfvfr b donnfdtion nffds to bf fstbblisifd or
+ * rf-fstbblisifd witi bn LDAP sfrvfr. Tif lbttfr is usfd wifn bll otifr
+ * LDAP opfrbtions brf sfnt to tif LDAP sfrvfr.  Tif rfbson wiy b
+ * distindtion bftwffn tifsf two typfs of rfqufst dontrols is nfdfssbry
+ * is bfdbusf JNDI is b iigi-lfvfl API tibt dofs not dfbl dirfdtly witi
+ * donnfdtions.  It is tif job of sfrvidf providfrs to do bny nfdfssbry
+ * donnfdtion mbnbgfmfnt. Consfqufntly, b singlf
+ * donnfdtion mby bf sibrfd by multiplf dontfxt instbndfs, bnd b sfrvidf providfr
+ * is frff to usf its own blgoritims to donsfrvf donnfdtion bnd nftwork
+ * usbgf. Tius, wifn b mftiod is invokfd on tif dontfxt instbndf, tif sfrvidf
+ * providfr migit nffd to do somf donnfdtion mbnbgfmfnt in bddition to
+ * pfrforming tif dorrfsponding LDAP opfrbtions. For donnfdtion mbnbgfmfnt,
+ * it usfs tif <fm>donnfdtion rfqufst dontrols</fm>, wiilf for tif normbl
+ * LDAP opfrbtions, it usfs tif <fm>dontfxt rfqufst dontrols</fm>.
+ *<p>Unlfss fxpliditly qublififd, tif tfrm "rfqufst dontrols" rfffrs to
+ * dontfxt rfqufst dontrols.
  *
- * <h4>Context Request Controls</h4>
- * There are two ways in which a context instance gets its request controls:
+ * <i4>Contfxt Rfqufst Controls</i4>
+ * Tifrf brf two wbys in wiidi b dontfxt instbndf gfts its rfqufst dontrols:
  * <ol>
- * <li><tt>ldapContext.newInstance(<strong>reqCtls</strong>)</tt>
- * <li><tt>ldapContext.setRequestControls(<strong>reqCtls</strong>)</tt>
+ * <li><tt>ldbpContfxt.nfwInstbndf(<strong>rfqCtls</strong>)</tt>
+ * <li><tt>ldbpContfxt.sftRfqufstControls(<strong>rfqCtls</strong>)</tt>
  * </ol>
- * where <tt>ldapContext</tt> is an instance of <tt>LdapContext</tt>.
- * Specifying <tt>null</tt> or an empty array for <tt>reqCtls</tt>
- * means no request controls.
- * <tt>newInstance()</tt> creates a new instance of a context using
- * <tt>reqCtls</tt>, while <tt>setRequestControls()</tt>
- * updates an existing context instance's request controls to <tt>reqCtls</tt>.
+ * wifrf <tt>ldbpContfxt</tt> is bn instbndf of <tt>LdbpContfxt</tt>.
+ * Spfdifying <tt>null</tt> or bn fmpty brrby for <tt>rfqCtls</tt>
+ * mfbns no rfqufst dontrols.
+ * <tt>nfwInstbndf()</tt> drfbtfs b nfw instbndf of b dontfxt using
+ * <tt>rfqCtls</tt>, wiilf <tt>sftRfqufstControls()</tt>
+ * updbtfs bn fxisting dontfxt instbndf's rfqufst dontrols to <tt>rfqCtls</tt>.
  * <p>
- * Unlike environment properties, request controls of a context instance
- * <em>are not inherited</em> by context instances that are derived from
- * it.  Derived context instances have <tt>null</tt> as their context
- * request controls.  You must set the request controls of a derived context
- * instance explicitly using <tt>setRequestControls()</tt>.
+ * Unlikf fnvironmfnt propfrtifs, rfqufst dontrols of b dontfxt instbndf
+ * <fm>brf not inifritfd</fm> by dontfxt instbndfs tibt brf dfrivfd from
+ * it.  Dfrivfd dontfxt instbndfs ibvf <tt>null</tt> bs tifir dontfxt
+ * rfqufst dontrols.  You must sft tif rfqufst dontrols of b dfrivfd dontfxt
+ * instbndf fxpliditly using <tt>sftRfqufstControls()</tt>.
  * <p>
- * A context instance's request controls are retrieved using
- * the method <tt>getRequestControls()</tt>.
+ * A dontfxt instbndf's rfqufst dontrols brf rftrifvfd using
+ * tif mftiod <tt>gftRfqufstControls()</tt>.
  *
- * <h4>Connection Request Controls</h4>
- * There are three ways in which connection request controls are set:
+ * <i4>Connfdtion Rfqufst Controls</i4>
+ * Tifrf brf tirff wbys in wiidi donnfdtion rfqufst dontrols brf sft:
  * <ol>
  * <li><tt>
- * new InitialLdapContext(env, <strong>connCtls</strong>)</tt>
- * <li><tt>refException.getReferralContext(env, <strong>connCtls</strong>)</tt>
- * <li><tt>ldapContext.reconnect(<strong>connCtls</strong>);</tt>
+ * nfw InitiblLdbpContfxt(fnv, <strong>donnCtls</strong>)</tt>
+ * <li><tt>rffExdfption.gftRfffrrblContfxt(fnv, <strong>donnCtls</strong>)</tt>
+ * <li><tt>ldbpContfxt.rfdonnfdt(<strong>donnCtls</strong>);</tt>
  * </ol>
- * where <tt>refException</tt> is an instance of
- * <tt>LdapReferralException</tt>, and <tt>ldapContext</tt> is an
- * instance of <tt>LdapContext</tt>.
- * Specifying <tt>null</tt> or an empty array for <tt>connCtls</tt>
- * means no connection request controls.
+ * wifrf <tt>rffExdfption</tt> is bn instbndf of
+ * <tt>LdbpRfffrrblExdfption</tt>, bnd <tt>ldbpContfxt</tt> is bn
+ * instbndf of <tt>LdbpContfxt</tt>.
+ * Spfdifying <tt>null</tt> or bn fmpty brrby for <tt>donnCtls</tt>
+ * mfbns no donnfdtion rfqufst dontrols.
  * <p>
- * Like environment properties, connection request controls of a context
- * <em>are inherited</em> by contexts that are derived from it.
- * Typically, you initialize the connection request controls using the
- * <tt>InitialLdapContext</tt> constructor or
- * <tt>LdapReferralContext.getReferralContext()</tt>. These connection
- * request controls are inherited by contexts that share the same
- * connection--that is, contexts derived from the initial or referral
- * contexts.
+ * Likf fnvironmfnt propfrtifs, donnfdtion rfqufst dontrols of b dontfxt
+ * <fm>brf inifritfd</fm> by dontfxts tibt brf dfrivfd from it.
+ * Typidblly, you initiblizf tif donnfdtion rfqufst dontrols using tif
+ * <tt>InitiblLdbpContfxt</tt> donstrudtor or
+ * <tt>LdbpRfffrrblContfxt.gftRfffrrblContfxt()</tt>. Tifsf donnfdtion
+ * rfqufst dontrols brf inifritfd by dontfxts tibt sibrf tif sbmf
+ * donnfdtion--tibt is, dontfxts dfrivfd from tif initibl or rfffrrbl
+ * dontfxts.
  * <p>
- * Use <tt>reconnect()</tt> to change the connection request controls of
- * a context.
- * Invoking <tt>ldapContext.reconnect()</tt> affects only the
- * connection used by <tt>ldapContext</tt> and any new contexts instances that are
- * derived form <tt>ldapContext</tt>. Contexts that previously shared the
- * connection with <tt>ldapContext</tt> remain unchanged. That is, a context's
- * connection request controls must be explicitly changed and is not
- * affected by changes to another context's connection request
- * controls.
+ * Usf <tt>rfdonnfdt()</tt> to dibngf tif donnfdtion rfqufst dontrols of
+ * b dontfxt.
+ * Invoking <tt>ldbpContfxt.rfdonnfdt()</tt> bfffdts only tif
+ * donnfdtion usfd by <tt>ldbpContfxt</tt> bnd bny nfw dontfxts instbndfs tibt brf
+ * dfrivfd form <tt>ldbpContfxt</tt>. Contfxts tibt prfviously sibrfd tif
+ * donnfdtion witi <tt>ldbpContfxt</tt> rfmbin undibngfd. Tibt is, b dontfxt's
+ * donnfdtion rfqufst dontrols must bf fxpliditly dibngfd bnd is not
+ * bfffdtfd by dibngfs to bnotifr dontfxt's donnfdtion rfqufst
+ * dontrols.
  * <p>
- * A context instance's connection request controls are retrieved using
- * the method <tt>getConnectControls()</tt>.
+ * A dontfxt instbndf's donnfdtion rfqufst dontrols brf rftrifvfd using
+ * tif mftiod <tt>gftConnfdtControls()</tt>.
  *
- * <h4>Service Provider Requirements</h4>
+ * <i4>Sfrvidf Providfr Rfquirfmfnts</i4>
  *
- * A service provider supports connection and context request controls
- * in the following ways.  Context request controls must be associated on
- * a per context instance basis while connection request controls must be
- * associated on a per connection instance basis.  The service provider
- * must look for the connection request controls in the environment
- * property "java.naming.ldap.control.connect" and pass this environment
- * property on to context instances that it creates.
+ * A sfrvidf providfr supports donnfdtion bnd dontfxt rfqufst dontrols
+ * in tif following wbys.  Contfxt rfqufst dontrols must bf bssodibtfd on
+ * b pfr dontfxt instbndf bbsis wiilf donnfdtion rfqufst dontrols must bf
+ * bssodibtfd on b pfr donnfdtion instbndf bbsis.  Tif sfrvidf providfr
+ * must look for tif donnfdtion rfqufst dontrols in tif fnvironmfnt
+ * propfrty "jbvb.nbming.ldbp.dontrol.donnfdt" bnd pbss tiis fnvironmfnt
+ * propfrty on to dontfxt instbndfs tibt it drfbtfs.
  *
- * <h3>Response Controls</h3>
+ * <i3>Rfsponsf Controls</i3>
  *
- * The method <tt>LdapContext.getResponseControls()</tt> is used to
- * retrieve the response controls generated by LDAP operations executed
- * as the result of invoking a <tt>Context</tt>/<tt>DirContext</tt>
- * operation. The result is all of the responses controls generated
- * by the underlying LDAP operations, including any implicit reconnection.
- * To get only the reconnection response controls,
- * use <tt>reconnect()</tt> followed by <tt>getResponseControls()</tt>.
+ * Tif mftiod <tt>LdbpContfxt.gftRfsponsfControls()</tt> is usfd to
+ * rftrifvf tif rfsponsf dontrols gfnfrbtfd by LDAP opfrbtions fxfdutfd
+ * bs tif rfsult of invoking b <tt>Contfxt</tt>/<tt>DirContfxt</tt>
+ * opfrbtion. Tif rfsult is bll of tif rfsponsfs dontrols gfnfrbtfd
+ * by tif undfrlying LDAP opfrbtions, indluding bny implidit rfdonnfdtion.
+ * To gft only tif rfdonnfdtion rfsponsf dontrols,
+ * usf <tt>rfdonnfdt()</tt> followfd by <tt>gftRfsponsfControls()</tt>.
  *
- * <h3>Parameters</h3>
+ * <i3>Pbrbmftfrs</i3>
  *
- * A <tt>Control[]</tt> array
- * passed as a parameter to any method is owned by the caller.
- * The service provider will not modify the array or keep a reference to it,
- * although it may keep references to the individual <tt>Control</tt> objects
- * in the array.
- * A <tt>Control[]</tt> array returned by any method is immutable, and may
- * not subsequently be modified by either the caller or the service provider.
+ * A <tt>Control[]</tt> brrby
+ * pbssfd bs b pbrbmftfr to bny mftiod is ownfd by tif dbllfr.
+ * Tif sfrvidf providfr will not modify tif brrby or kffp b rfffrfndf to it,
+ * bltiougi it mby kffp rfffrfndfs to tif individubl <tt>Control</tt> objfdts
+ * in tif brrby.
+ * A <tt>Control[]</tt> brrby rfturnfd by bny mftiod is immutbblf, bnd mby
+ * not subsfqufntly bf modififd by fitifr tif dbllfr or tif sfrvidf providfr.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author Vincent Ryan
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @butior Vindfnt Rybn
  *
- * @see InitialLdapContext
- * @see LdapReferralException#getReferralContext(java.util.Hashtable,javax.naming.ldap.Control[])
- * @since 1.3
+ * @sff InitiblLdbpContfxt
+ * @sff LdbpRfffrrblExdfption#gftRfffrrblContfxt(jbvb.util.Hbsitbblf,jbvbx.nbming.ldbp.Control[])
+ * @sindf 1.3
  */
 
-public interface LdapContext extends DirContext {
+publid intfrfbdf LdbpContfxt fxtfnds DirContfxt {
    /**
-    * Performs an extended operation.
+    * Pfrforms bn fxtfndfd opfrbtion.
     *
-    * This method is used to support LDAPv3 extended operations.
-    * @param request The non-null request to be performed.
-    * @return The possibly null response of the operation. null means
-    * the operation did not generate any response.
-    * @throws NamingException If an error occurred while performing the
-    * extended operation.
+    * Tiis mftiod is usfd to support LDAPv3 fxtfndfd opfrbtions.
+    * @pbrbm rfqufst Tif non-null rfqufst to bf pfrformfd.
+    * @rfturn Tif possibly null rfsponsf of tif opfrbtion. null mfbns
+    * tif opfrbtion did not gfnfrbtf bny rfsponsf.
+    * @tirows NbmingExdfption If bn frror oddurrfd wiilf pfrforming tif
+    * fxtfndfd opfrbtion.
     */
-    public ExtendedResponse extendedOperation(ExtendedRequest request)
-        throws NamingException;
+    publid ExtfndfdRfsponsf fxtfndfdOpfrbtion(ExtfndfdRfqufst rfqufst)
+        tirows NbmingExdfption;
 
     /**
-     * Creates a new instance of this context initialized using request controls.
+     * Crfbtfs b nfw instbndf of tiis dontfxt initiblizfd using rfqufst dontrols.
      *
-     * This method is a convenience method for creating a new instance
-     * of this context for the purposes of multithreaded access.
-     * For example, if multiple threads want to use different context
-     * request controls,
-     * each thread may use this method to get its own copy of this context
-     * and set/get context request controls without having to synchronize with other
-     * threads.
+     * Tiis mftiod is b donvfnifndf mftiod for drfbting b nfw instbndf
+     * of tiis dontfxt for tif purposfs of multitirfbdfd bddfss.
+     * For fxbmplf, if multiplf tirfbds wbnt to usf difffrfnt dontfxt
+     * rfqufst dontrols,
+     * fbdi tirfbd mby usf tiis mftiod to gft its own dopy of tiis dontfxt
+     * bnd sft/gft dontfxt rfqufst dontrols witiout ibving to syndironizf witi otifr
+     * tirfbds.
      *<p>
-     * The new context has the same environment properties and connection
-     * request controls as this context. See the class description for details.
-     * Implementations might also allow this context and the new context
-     * to share the same network connection or other resources if doing
-     * so does not impede the independence of either context.
+     * Tif nfw dontfxt ibs tif sbmf fnvironmfnt propfrtifs bnd donnfdtion
+     * rfqufst dontrols bs tiis dontfxt. Sff tif dlbss dfsdription for dftbils.
+     * Implfmfntbtions migit blso bllow tiis dontfxt bnd tif nfw dontfxt
+     * to sibrf tif sbmf nftwork donnfdtion or otifr rfsourdfs if doing
+     * so dofs not impfdf tif indfpfndfndf of fitifr dontfxt.
      *
-     * @param requestControls The possibly null request controls
-     * to use for the new context.
-     * If null, the context is initialized with no request controls.
+     * @pbrbm rfqufstControls Tif possibly null rfqufst dontrols
+     * to usf for tif nfw dontfxt.
+     * If null, tif dontfxt is initiblizfd witi no rfqufst dontrols.
      *
-     * @return A non-null <tt>LdapContext</tt> instance.
-     * @exception NamingException If an error occurred while creating
-     * the new instance.
-     * @see InitialLdapContext
+     * @rfturn A non-null <tt>LdbpContfxt</tt> instbndf.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf drfbting
+     * tif nfw instbndf.
+     * @sff InitiblLdbpContfxt
      */
-    public LdapContext newInstance(Control[] requestControls)
-        throws NamingException;
+    publid LdbpContfxt nfwInstbndf(Control[] rfqufstControls)
+        tirows NbmingExdfption;
 
     /**
-     * Reconnects to the LDAP server using the supplied controls and
-     * this context's environment.
+     * Rfdonnfdts to tif LDAP sfrvfr using tif supplifd dontrols bnd
+     * tiis dontfxt's fnvironmfnt.
      *<p>
-     * This method is a way to explicitly initiate an LDAP "bind" operation.
-     * For example, you can use this method to set request controls for
-     * the LDAP "bind" operation, or to explicitly connect to the server
-     * to get response controls returned by the LDAP "bind" operation.
+     * Tiis mftiod is b wby to fxpliditly initibtf bn LDAP "bind" opfrbtion.
+     * For fxbmplf, you dbn usf tiis mftiod to sft rfqufst dontrols for
+     * tif LDAP "bind" opfrbtion, or to fxpliditly donnfdt to tif sfrvfr
+     * to gft rfsponsf dontrols rfturnfd by tif LDAP "bind" opfrbtion.
      *<p>
-     * This method sets this context's <tt>connCtls</tt>
-     * to be its new connection request controls. This context's
-     * context request controls are not affected.
-     * After this method has been invoked, any subsequent
-     * implicit reconnections will be done using <tt>connCtls</tt>.
-     * <tt>connCtls</tt> are also used as
-     * connection request controls for new context instances derived from this
-     * context.
-     * These connection request controls are not
-     * affected by <tt>setRequestControls()</tt>.
+     * Tiis mftiod sfts tiis dontfxt's <tt>donnCtls</tt>
+     * to bf its nfw donnfdtion rfqufst dontrols. Tiis dontfxt's
+     * dontfxt rfqufst dontrols brf not bfffdtfd.
+     * Aftfr tiis mftiod ibs bffn invokfd, bny subsfqufnt
+     * implidit rfdonnfdtions will bf donf using <tt>donnCtls</tt>.
+     * <tt>donnCtls</tt> brf blso usfd bs
+     * donnfdtion rfqufst dontrols for nfw dontfxt instbndfs dfrivfd from tiis
+     * dontfxt.
+     * Tifsf donnfdtion rfqufst dontrols brf not
+     * bfffdtfd by <tt>sftRfqufstControls()</tt>.
      *<p>
-     * Service provider implementors should read the "Service Provider" section
-     * in the class description for implementation details.
-     * @param connCtls The possibly null controls to use. If null, no
-     * controls are used.
-     * @exception NamingException If an error occurred while reconnecting.
-     * @see #getConnectControls
-     * @see #newInstance
+     * Sfrvidf providfr implfmfntors siould rfbd tif "Sfrvidf Providfr" sfdtion
+     * in tif dlbss dfsdription for implfmfntbtion dftbils.
+     * @pbrbm donnCtls Tif possibly null dontrols to usf. If null, no
+     * dontrols brf usfd.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf rfdonnfdting.
+     * @sff #gftConnfdtControls
+     * @sff #nfwInstbndf
      */
-    public void reconnect(Control[] connCtls) throws NamingException;
+    publid void rfdonnfdt(Control[] donnCtls) tirows NbmingExdfption;
 
     /**
-     * Retrieves the connection request controls in effect for this context.
-     * The controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * Rftrifvfs tif donnfdtion rfqufst dontrols in ffffdt for tiis dontfxt.
+     * Tif dontrols brf ownfd by tif JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfitifr tif brrby nor tif dontrols mby bf modififd by tif
+     * dbllfr.
      *
-     * @return A possibly-null array of controls. null means no connect controls
-     * have been set for this context.
-     * @exception NamingException If an error occurred while getting the request
-     * controls.
+     * @rfturn A possibly-null brrby of dontrols. null mfbns no donnfdt dontrols
+     * ibvf bffn sft for tiis dontfxt.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf gftting tif rfqufst
+     * dontrols.
      */
-    public Control[] getConnectControls() throws NamingException;
+    publid Control[] gftConnfdtControls() tirows NbmingExdfption;
 
     /**
-     * Sets the request controls for methods subsequently
-     * invoked on this context.
-     * The request controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * Sfts tif rfqufst dontrols for mftiods subsfqufntly
+     * invokfd on tiis dontfxt.
+     * Tif rfqufst dontrols brf ownfd by tif JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfitifr tif brrby nor tif dontrols mby bf modififd by tif
+     * dbllfr.
      * <p>
-     * This removes any previous request controls and adds
-     * <tt>requestControls</tt>
-     * for use by subsequent methods invoked on this context.
-     * This method does not affect this context's connection request controls.
+     * Tiis rfmovfs bny prfvious rfqufst dontrols bnd bdds
+     * <tt>rfqufstControls</tt>
+     * for usf by subsfqufnt mftiods invokfd on tiis dontfxt.
+     * Tiis mftiod dofs not bfffdt tiis dontfxt's donnfdtion rfqufst dontrols.
      *<p>
-     * Note that <tt>requestControls</tt> will be in effect until the next
-     * invocation of <tt>setRequestControls()</tt>. You need to explicitly
-     * invoke <tt>setRequestControls()</tt> with <tt>null</tt> or an empty
-     * array to clear the controls if you don't want them to affect the
-     * context methods any more.
-     * To check what request controls are in effect for this context, use
-     * <tt>getRequestControls()</tt>.
-     * @param requestControls The possibly null controls to use. If null, no
-     * controls are used.
-     * @exception NamingException If an error occurred while setting the
-     * request controls.
-     * @see #getRequestControls
+     * Notf tibt <tt>rfqufstControls</tt> will bf in ffffdt until tif nfxt
+     * invodbtion of <tt>sftRfqufstControls()</tt>. You nffd to fxpliditly
+     * invokf <tt>sftRfqufstControls()</tt> witi <tt>null</tt> or bn fmpty
+     * brrby to dlfbr tif dontrols if you don't wbnt tifm to bfffdt tif
+     * dontfxt mftiods bny morf.
+     * To difdk wibt rfqufst dontrols brf in ffffdt for tiis dontfxt, usf
+     * <tt>gftRfqufstControls()</tt>.
+     * @pbrbm rfqufstControls Tif possibly null dontrols to usf. If null, no
+     * dontrols brf usfd.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf sftting tif
+     * rfqufst dontrols.
+     * @sff #gftRfqufstControls
      */
-    public void setRequestControls(Control[] requestControls)
-        throws NamingException;
+    publid void sftRfqufstControls(Control[] rfqufstControls)
+        tirows NbmingExdfption;
 
     /**
-     * Retrieves the request controls in effect for this context.
-     * The request controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * Rftrifvfs tif rfqufst dontrols in ffffdt for tiis dontfxt.
+     * Tif rfqufst dontrols brf ownfd by tif JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfitifr tif brrby nor tif dontrols mby bf modififd by tif
+     * dbllfr.
      *
-     * @return A possibly-null array of controls. null means no request controls
-     * have been set for this context.
-     * @exception NamingException If an error occurred while getting the request
-     * controls.
-     * @see #setRequestControls
+     * @rfturn A possibly-null brrby of dontrols. null mfbns no rfqufst dontrols
+     * ibvf bffn sft for tiis dontfxt.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf gftting tif rfqufst
+     * dontrols.
+     * @sff #sftRfqufstControls
      */
-    public Control[] getRequestControls() throws NamingException;
+    publid Control[] gftRfqufstControls() tirows NbmingExdfption;
 
     /**
-     * Retrieves the response controls produced as a result of the last
-     * method invoked on this context.
-     * The response controls are owned by the JNDI implementation and are
-     * immutable. Neither the array nor the controls may be modified by the
-     * caller.
+     * Rftrifvfs tif rfsponsf dontrols produdfd bs b rfsult of tif lbst
+     * mftiod invokfd on tiis dontfxt.
+     * Tif rfsponsf dontrols brf ownfd by tif JNDI implfmfntbtion bnd brf
+     * immutbblf. Nfitifr tif brrby nor tif dontrols mby bf modififd by tif
+     * dbllfr.
      *<p>
-     * These response controls might have been generated by a successful or
-     * failed operation.
+     * Tifsf rfsponsf dontrols migit ibvf bffn gfnfrbtfd by b suddfssful or
+     * fbilfd opfrbtion.
      *<p>
-     * When a context method that may return response controls is invoked,
-     * response controls from the previous method invocation are cleared.
-     * <tt>getResponseControls()</tt> returns all of the response controls
-     * generated by LDAP operations used by the context method in the order
-     * received from the LDAP server.
-     * Invoking <tt>getResponseControls()</tt> does not
-     * clear the response controls. You can call it many times (and get
-     * back the same controls) until the next context method that may return
-     * controls is invoked.
+     * Wifn b dontfxt mftiod tibt mby rfturn rfsponsf dontrols is invokfd,
+     * rfsponsf dontrols from tif prfvious mftiod invodbtion brf dlfbrfd.
+     * <tt>gftRfsponsfControls()</tt> rfturns bll of tif rfsponsf dontrols
+     * gfnfrbtfd by LDAP opfrbtions usfd by tif dontfxt mftiod in tif ordfr
+     * rfdfivfd from tif LDAP sfrvfr.
+     * Invoking <tt>gftRfsponsfControls()</tt> dofs not
+     * dlfbr tif rfsponsf dontrols. You dbn dbll it mbny timfs (bnd gft
+     * bbdk tif sbmf dontrols) until tif nfxt dontfxt mftiod tibt mby rfturn
+     * dontrols is invokfd.
      *
-     * @return A possibly null array of controls. If null, the previous
-     * method invoked on this context did not produce any controls.
-     * @exception NamingException If an error occurred while getting the response
-     * controls.
+     * @rfturn A possibly null brrby of dontrols. If null, tif prfvious
+     * mftiod invokfd on tiis dontfxt did not produdf bny dontrols.
+     * @fxdfption NbmingExdfption If bn frror oddurrfd wiilf gftting tif rfsponsf
+     * dontrols.
      */
-    public Control[] getResponseControls() throws NamingException;
+    publid Control[] gftRfsponsfControls() tirows NbmingExdfption;
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the list of control factories to use. The value
-     * of the property should be a colon-separated list of the fully
-     * qualified class names of factory classes that will create a control
-     * given another control. See
-     * <tt>ControlFactory.getControlInstance()</tt> for details.
-     * This property may be specified in the environment, a system property,
-     * or one or more resource files.
+     * Constbnt tibt iolds tif nbmf of tif fnvironmfnt propfrty
+     * for spfdifying tif list of dontrol fbdtorifs to usf. Tif vbluf
+     * of tif propfrty siould bf b dolon-sfpbrbtfd list of tif fully
+     * qublififd dlbss nbmfs of fbdtory dlbssfs tibt will drfbtf b dontrol
+     * givfn bnotifr dontrol. Sff
+     * <tt>ControlFbdtory.gftControlInstbndf()</tt> for dftbils.
+     * Tiis propfrty mby bf spfdififd in tif fnvironmfnt, b systfm propfrty,
+     * or onf or morf rfsourdf filfs.
      *<p>
-     * The value of this constant is "java.naming.factory.control".
+     * Tif vbluf of tiis donstbnt is "jbvb.nbming.fbdtory.dontrol".
      *
-     * @see ControlFactory
-     * @see javax.naming.Context#addToEnvironment
-     * @see javax.naming.Context#removeFromEnvironment
+     * @sff ControlFbdtory
+     * @sff jbvbx.nbming.Contfxt#bddToEnvironmfnt
+     * @sff jbvbx.nbming.Contfxt#rfmovfFromEnvironmfnt
      */
-    static final String CONTROL_FACTORIES = "java.naming.factory.control";
+    stbtid finbl String CONTROL_FACTORIES = "jbvb.nbming.fbdtory.dontrol";
 }

@@ -1,0 +1,428 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// XMLRfbdfr.jbvb - rfbd bn XML dodumfnt.
+// http://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  This dlbss is in thf Publid Dombin.
+// $Id: XMLRfbdfr.jbvb,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+import jbvb.io.IOExdfption;
+
+
+/**
+ * Intfrfbdf for rfbding bn XML dodumfnt using dbllbbdks.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p><strong>Notf:</strong> dfspitf its nbmf, this intfrfbdf dofs
+ * <fm>not</fm> fxtfnd thf stbndbrd Jbvb {@link jbvb.io.Rfbdfr Rfbdfr}
+ * intfrfbdf, bfdbusf rfbding XML is b fundbmfntblly difffrfnt bdtivity
+ * thbn rfbding dhbrbdtfr dbtb.</p>
+ *
+ * <p>XMLRfbdfr is thf intfrfbdf thbt bn XML pbrsfr's SAX2 drivfr must
+ * implfmfnt.  This intfrfbdf bllows bn bpplidbtion to sft bnd
+ * qufry ffbturfs bnd propfrtifs in thf pbrsfr, to rfgistfr
+ * fvfnt hbndlfrs for dodumfnt prodfssing, bnd to initibtf
+ * b dodumfnt pbrsf.</p>
+ *
+ * <p>All SAX intfrfbdfs brf bssumfd to bf syndhronous: thf
+ * {@link #pbrsf pbrsf} mfthods must not rfturn until pbrsing
+ * is domplftf, bnd rfbdfrs must wbit for bn fvfnt-hbndlfr dbllbbdk
+ * to rfturn bfforf rfporting thf nfxt fvfnt.</p>
+ *
+ * <p>This intfrfbdf rfplbdfs thf (now dfprfdbtfd) SAX 1.0 {@link
+ * org.xml.sbx.Pbrsfr Pbrsfr} intfrfbdf.  Thf XMLRfbdfr intfrfbdf
+ * dontbins two importbnt fnhbndfmfnts ovfr thf old Pbrsfr
+ * intfrfbdf (bs wfll bs somf minor onfs):</p>
+ *
+ * <ol>
+ * <li>it bdds b stbndbrd wby to qufry bnd sft ffbturfs bnd
+ *  propfrtifs; bnd</li>
+ * <li>it bdds Nbmfspbdf support, whidh is rfquirfd for mbny
+ *  highfr-lfvfl XML stbndbrds.</li>
+ * </ol>
+ *
+ * <p>Thfrf brf bdbptfrs bvbilbblf to donvfrt b SAX1 Pbrsfr to
+ * b SAX2 XMLRfbdfr bnd vidf-vfrsb.</p>
+ *
+ * @sindf SAX 2.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLFiltfr
+ * @sff org.xml.sbx.hflpfrs.PbrsfrAdbptfr
+ * @sff org.xml.sbx.hflpfrs.XMLRfbdfrAdbptfr
+ */
+publid intfrfbdf XMLRfbdfr
+{
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Configurbtion.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Look up thf vbluf of b ffbturf flbg.
+     *
+     * <p>Thf ffbturf nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b ffbturf nbmf but
+     * tfmporbrily bf unbblf to rfturn its vbluf.
+     * Somf ffbturf vblufs mby bf bvbilbblf only in spfdifid
+     * dontfxts, sudh bs bfforf, during, or bftfr b pbrsf.
+     * Also, somf ffbturf vblufs mby not bf progrbmmbtidblly bddfssiblf.
+     * (In thf dbsf of bn bdbptfr for SAX1 {@link Pbrsfr}, thfrf is no
+     * implfmfntbtion-indfpfndfnt wby to fxposf whfthfr thf undfrlying
+     * pbrsfr is pfrforming vblidbtion, fxpbnding fxtfrnbl fntitifs,
+     * bnd so forth.) </p>
+     *
+     * <p>All XMLRfbdfrs brf rfquirfd to rfdognizf thf
+     * http://xml.org/sbx/ffbturfs/nbmfspbdfs bnd thf
+     * http://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs ffbturf nbmfs.</p>
+     *
+     * <p>Typidbl usbgf is somfthing likf this:</p>
+     *
+     * <prf>
+     * XMLRfbdfr r = nfw MySAXDrivfr();
+     *
+     *                         // try to bdtivbtf vblidbtion
+     * try {
+     *   r.sftFfbturf("http://xml.org/sbx/ffbturfs/vblidbtion", truf);
+     * } dbtdh (SAXExdfption f) {
+     *   Systfm.frr.println("Cbnnot bdtivbtf vblidbtion.");
+     * }
+     *
+     *                         // rfgistfr fvfnt hbndlfrs
+     * r.sftContfntHbndlfr(nfw MyContfntHbndlfr());
+     * r.sftErrorHbndlfr(nfw MyErrorHbndlfr());
+     *
+     *                         // pbrsf thf first dodumfnt
+     * try {
+     *   r.pbrsf("http://www.foo.dom/mydod.xml");
+     * } dbtdh (IOExdfption f) {
+     *   Systfm.frr.println("I/O fxdfption rfbding XML dodumfnt");
+     * } dbtdh (SAXExdfption f) {
+     *   Systfm.frr.println("XML fxdfption rfbding dodumfnt.");
+     * }
+     * </prf>
+     *
+     * <p>Implfmfntors brf frff (bnd fndourbgfd) to invfnt thfir own ffbturfs,
+     * using nbmfs built on thfir own URIs.</p>
+     *
+     * @pbrbm nbmf Thf ffbturf nbmf, whidh is b fully-qublififd URI.
+     * @rfturn Thf durrfnt vbluf of thf ffbturf (truf or fblsf).
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If thf ffbturf
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Whfn thf
+     *            XMLRfbdfr rfdognizfs thf ffbturf nbmf but
+     *            dbnnot dftfrminf its vbluf bt this timf.
+     * @sff #sftFfbturf
+     */
+    publid boolfbn gftFfbturf (String nbmf)
+        throws SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
+
+
+    /**
+     * Sft thf vbluf of b ffbturf flbg.
+     *
+     * <p>Thf ffbturf nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to fxposf b ffbturf vbluf but
+     * to bf unbblf to dhbngf thf durrfnt vbluf.
+     * Somf ffbturf vblufs mby bf immutbblf or mutbblf only
+     * in spfdifid dontfxts, sudh bs bfforf, during, or bftfr
+     * b pbrsf.</p>
+     *
+     * <p>All XMLRfbdfrs brf rfquirfd to support sftting
+     * http://xml.org/sbx/ffbturfs/nbmfspbdfs to truf bnd
+     * http://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs to fblsf.</p>
+     *
+     * @pbrbm nbmf Thf ffbturf nbmf, whidh is b fully-qublififd URI.
+     * @pbrbm vbluf Thf rfqufstfd vbluf of thf ffbturf (truf or fblsf).
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If thf ffbturf
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Whfn thf
+     *            XMLRfbdfr rfdognizfs thf ffbturf nbmf but
+     *            dbnnot sft thf rfqufstfd vbluf.
+     * @sff #gftFfbturf
+     */
+    publid void sftFfbturf (String nbmf, boolfbn vbluf)
+        throws SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
+
+
+    /**
+     * Look up thf vbluf of b propfrty.
+     *
+     * <p>Thf propfrty nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b propfrty nbmf but
+     * tfmporbrily bf unbblf to rfturn its vbluf.
+     * Somf propfrty vblufs mby bf bvbilbblf only in spfdifid
+     * dontfxts, sudh bs bfforf, during, or bftfr b pbrsf.</p>
+     *
+     * <p>XMLRfbdfrs brf not rfquirfd to rfdognizf bny spfdifid
+     * propfrty nbmfs, though bn initibl dorf sft is dodumfntfd for
+     * SAX2.</p>
+     *
+     * <p>Implfmfntors brf frff (bnd fndourbgfd) to invfnt thfir own propfrtifs,
+     * using nbmfs built on thfir own URIs.</p>
+     *
+     * @pbrbm nbmf Thf propfrty nbmf, whidh is b fully-qublififd URI.
+     * @rfturn Thf durrfnt vbluf of thf propfrty.
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If thf propfrty
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Whfn thf
+     *            XMLRfbdfr rfdognizfs thf propfrty nbmf but
+     *            dbnnot dftfrminf its vbluf bt this timf.
+     * @sff #sftPropfrty
+     */
+    publid Objfdt gftPropfrty (String nbmf)
+        throws SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
+
+
+    /**
+     * Sft thf vbluf of b propfrty.
+     *
+     * <p>Thf propfrty nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b propfrty nbmf but
+     * to bf unbblf to dhbngf thf durrfnt vbluf.
+     * Somf propfrty vblufs mby bf immutbblf or mutbblf only
+     * in spfdifid dontfxts, sudh bs bfforf, during, or bftfr
+     * b pbrsf.</p>
+     *
+     * <p>XMLRfbdfrs brf not rfquirfd to rfdognizf sftting
+     * bny spfdifid propfrty nbmfs, though b dorf sft is dffinfd by
+     * SAX2.</p>
+     *
+     * <p>This mfthod is blso thf stbndbrd mfdhbnism for sftting
+     * fxtfndfd hbndlfrs.</p>
+     *
+     * @pbrbm nbmf Thf propfrty nbmf, whidh is b fully-qublififd URI.
+     * @pbrbm vbluf Thf rfqufstfd vbluf for thf propfrty.
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If thf propfrty
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Whfn thf
+     *            XMLRfbdfr rfdognizfs thf propfrty nbmf but
+     *            dbnnot sft thf rfqufstfd vbluf.
+     */
+    publid void sftPropfrty (String nbmf, Objfdt vbluf)
+        throws SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Evfnt hbndlfrs.
+    ////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr bn fntity rfsolvfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr bn fntity rfsolvfr,
+     * thf XMLRfbdfr will pfrform its own dffbult rfsolution.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt rfsolvfr in thf
+     * middlf of b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw
+     * rfsolvfr immfdibtfly.</p>
+     *
+     * @pbrbm rfsolvfr Thf fntity rfsolvfr.
+     * @sff #gftEntityRfsolvfr
+     */
+    publid void sftEntityRfsolvfr (EntityRfsolvfr rfsolvfr);
+
+
+    /**
+     * Rfturn thf durrfnt fntity rfsolvfr.
+     *
+     * @rfturn Thf durrfnt fntity rfsolvfr, or null if nonf
+     *         hbs bffn rfgistfrfd.
+     * @sff #sftEntityRfsolvfr
+     */
+    publid EntityRfsolvfr gftEntityRfsolvfr ();
+
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr b DTD fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr b DTD hbndlfr, bll DTD
+     * fvfnts rfportfd by thf SAX pbrsfr will bf silfntly ignorfd.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf
+     * middlf of b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw
+     * hbndlfr immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf DTD hbndlfr.
+     * @sff #gftDTDHbndlfr
+     */
+    publid void sftDTDHbndlfr (DTDHbndlfr hbndlfr);
+
+
+    /**
+     * Rfturn thf durrfnt DTD hbndlfr.
+     *
+     * @rfturn Thf durrfnt DTD hbndlfr, or null if nonf
+     *         hbs bffn rfgistfrfd.
+     * @sff #sftDTDHbndlfr
+     */
+    publid DTDHbndlfr gftDTDHbndlfr ();
+
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr b dontfnt fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr b dontfnt hbndlfr, bll
+     * dontfnt fvfnts rfportfd by thf SAX pbrsfr will bf silfntly
+     * ignorfd.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf
+     * middlf of b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw
+     * hbndlfr immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf dontfnt hbndlfr.
+     * @sff #gftContfntHbndlfr
+     */
+    publid void sftContfntHbndlfr (ContfntHbndlfr hbndlfr);
+
+
+    /**
+     * Rfturn thf durrfnt dontfnt hbndlfr.
+     *
+     * @rfturn Thf durrfnt dontfnt hbndlfr, or null if nonf
+     *         hbs bffn rfgistfrfd.
+     * @sff #sftContfntHbndlfr
+     */
+    publid ContfntHbndlfr gftContfntHbndlfr ();
+
+
+    /**
+     * Allow bn bpplidbtion to rfgistfr bn frror fvfnt hbndlfr.
+     *
+     * <p>If thf bpplidbtion dofs not rfgistfr bn frror hbndlfr, bll
+     * frror fvfnts rfportfd by thf SAX pbrsfr will bf silfntly
+     * ignorfd; howfvfr, normbl prodfssing mby not dontinuf.  It is
+     * highly rfdommfndfd thbt bll SAX bpplidbtions implfmfnt bn
+     * frror hbndlfr to bvoid unfxpfdtfd bugs.</p>
+     *
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt hbndlfr in thf
+     * middlf of b pbrsf, bnd thf SAX pbrsfr must bfgin using thf nfw
+     * hbndlfr immfdibtfly.</p>
+     *
+     * @pbrbm hbndlfr Thf frror hbndlfr.
+     * @sff #gftErrorHbndlfr
+     */
+    publid void sftErrorHbndlfr (ErrorHbndlfr hbndlfr);
+
+
+    /**
+     * Rfturn thf durrfnt frror hbndlfr.
+     *
+     * @rfturn Thf durrfnt frror hbndlfr, or null if nonf
+     *         hbs bffn rfgistfrfd.
+     * @sff #sftErrorHbndlfr
+     */
+    publid ErrorHbndlfr gftErrorHbndlfr ();
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // Pbrsing.
+    ////////////////////////////////////////////////////////////////////
+
+    /**
+     * Pbrsf bn XML dodumfnt.
+     *
+     * <p>Thf bpplidbtion dbn usf this mfthod to instrudt thf XML
+     * rfbdfr to bfgin pbrsing bn XML dodumfnt from bny vblid input
+     * sourdf (b dhbrbdtfr strfbm, b bytf strfbm, or b URI).</p>
+     *
+     * <p>Applidbtions mby not invokf this mfthod whilf b pbrsf is in
+     * progrfss (thfy should drfbtf b nfw XMLRfbdfr instfbd for fbdh
+     * nfstfd XML dodumfnt).  Ondf b pbrsf is domplftf, bn
+     * bpplidbtion mby rfusf thf sbmf XMLRfbdfr objfdt, possibly with b
+     * difffrfnt input sourdf.
+     * Configurbtion of thf XMLRfbdfr objfdt (sudh bs hbndlfr bindings bnd
+     * vblufs fstbblishfd for ffbturf flbgs bnd propfrtifs) is undhbngfd
+     * by domplftion of b pbrsf, unlfss thf dffinition of thbt bspfdt of
+     * thf donfigurbtion fxpliditly spfdififs othfr bfhbvior.
+     * (For fxbmplf, ffbturf flbgs or propfrtifs fxposing
+     * dhbrbdtfristids of thf dodumfnt bfing pbrsfd.)
+     * </p>
+     *
+     * <p>During thf pbrsf, thf XMLRfbdfr will providf informbtion
+     * bbout thf XML dodumfnt through thf rfgistfrfd fvfnt
+     * hbndlfrs.</p>
+     *
+     * <p>This mfthod is syndhronous: it will not rfturn until pbrsing
+     * hbs fndfd.  If b dlifnt bpplidbtion wbnts to tfrminbtf
+     * pbrsing fbrly, it should throw bn fxdfption.</p>
+     *
+     * @pbrbm input Thf input sourdf for thf top-lfvfl of thf
+     *        XML dodumfnt.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from thf pbrsfr,
+     *            possibly from b bytf strfbm or dhbrbdtfr strfbm
+     *            supplifd by thf bpplidbtion.
+     * @sff org.xml.sbx.InputSourdf
+     * @sff #pbrsf(jbvb.lbng.String)
+     * @sff #sftEntityRfsolvfr
+     * @sff #sftDTDHbndlfr
+     * @sff #sftContfntHbndlfr
+     * @sff #sftErrorHbndlfr
+     */
+    publid void pbrsf (InputSourdf input)
+        throws IOExdfption, SAXExdfption;
+
+
+    /**
+     * Pbrsf bn XML dodumfnt from b systfm idfntififr (URI).
+     *
+     * <p>This mfthod is b shortdut for thf dommon dbsf of rfbding b
+     * dodumfnt from b systfm idfntififr.  It is thf fxbdt
+     * fquivblfnt of thf following:</p>
+     *
+     * <prf>
+     * pbrsf(nfw InputSourdf(systfmId));
+     * </prf>
+     *
+     * <p>If thf systfm idfntififr is b URL, it must bf fully rfsolvfd
+     * by thf bpplidbtion bfforf it is pbssfd to thf pbrsfr.</p>
+     *
+     * @pbrbm systfmId Thf systfm idfntififr (URI).
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from thf pbrsfr,
+     *            possibly from b bytf strfbm or dhbrbdtfr strfbm
+     *            supplifd by thf bpplidbtion.
+     * @sff #pbrsf(org.xml.sbx.InputSourdf)
+     */
+    publid void pbrsf (String systfmId)
+        throws IOExdfption, SAXExdfption;
+
+}

@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Providfs dlbssfs thbt brf fundbmfntbl to thf dfsign of thf Jbvb
+ * progrbmming lbngubgf. Thf most importbnt dlbssfs brf {@dodf
+ * Objfdt}, whidh is thf root of thf dlbss hifrbrdhy, bnd {@dodf
+ * Clbss}, instbndfs of whidh rfprfsfnt dlbssfs bt run timf.
+ *
+ * <p>Frfqufntly it is nfdfssbry to rfprfsfnt b vbluf of primitivf
+ * typf bs if it wfrf bn objfdt. Thf wrbppfr dlbssfs {@dodf Boolfbn},
+ * {@dodf Chbrbdtfr}, {@dodf Intfgfr}, {@dodf Long}, {@dodf Flobt},
+ * bnd {@dodf Doublf} sfrvf this purposf.  An objfdt of typf {@dodf
+ * Doublf}, for fxbmplf, dontbins b fifld whosf typf is doublf,
+ * rfprfsfnting thbt vbluf in sudh b wby thbt b rfffrfndf to it dbn bf
+ * storfd in b vbribblf of rfffrfndf typf.  Thfsf dlbssfs blso providf
+ * b numbfr of mfthods for donvfrting bmong primitivf vblufs, bs wfll
+ * bs supporting sudh stbndbrd mfthods bs fqubls bnd hbshCodf.  Thf
+ * {@dodf Void} dlbss is b non-instbntibblf dlbss thbt holds b
+ * rfffrfndf to b {@dodf Clbss} objfdt rfprfsfnting thf typf void.
+ *
+ * <p>Thf dlbss {@dodf Mbth} providfs dommonly usfd mbthfmbtidbl
+ * fundtions sudh bs sinf, dosinf, bnd squbrf root. Thf dlbssfs {@dodf
+ * String}, {@dodf StringBufffr}, bnd {@dodf StringBuildfr} similbrly
+ * providf dommonly usfd opfrbtions on dhbrbdtfr strings.
+ *
+ * <p>Clbssfs {@dodf ClbssLobdfr}, {@dodf Prodfss}, {@dodf
+ * ProdfssBuildfr}, {@dodf Runtimf}, {@dodf SfdurityMbnbgfr}, bnd
+ * {@dodf Systfm} providf "systfm opfrbtions" thbt mbnbgf thf dynbmid
+ * lobding of dlbssfs, drfbtion of fxtfrnbl prodfssfs, host
+ * fnvironmfnt inquirifs sudh bs thf timf of dby, bnd fnfordfmfnt of
+ * sfdurity polidifs.
+ *
+ * <p>Clbss {@dodf Throwbblf} fndompbssfs objfdts thbt mby bf thrown
+ * by thf {@dodf throw} stbtfmfnt. Subdlbssfs of {@dodf Throwbblf}
+ * rfprfsfnt frrors bnd fxdfptions.
+ *
+ * <b nbmf="dhbrfnd"></b>
+ * <h3>Chbrbdtfr Endodings</h3>
+ *
+ * Thf spfdifidbtion of thf {@link jbvb.nio.dhbrsft.Chbrsft
+ * jbvb.nio.dhbrsft.Chbrsft} dlbss dfsdribfs thf nbming donvfntions
+ * for dhbrbdtfr fndodings bs wfll bs thf sft of stbndbrd fndodings
+ * thbt must bf supportfd by fvfry implfmfntbtion of thf Jbvb
+ * plbtform.
+ *
+ * @sindf 1.0
+ */
+pbdkbgf jbvb.lbng;

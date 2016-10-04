@@ -1,1149 +1,1149 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.border.Border;
-import java.beans.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvb.bfbns.*;
+import sun.swing.DffbultLookup;
 
 
 
 /**
- * Divider used by BasicSplitPaneUI. Subclassers may wish to override
- * paint to do something more interesting.
- * The border effect is drawn in BasicSplitPaneUI, so if you don't like
- * that border, reset it there.
- * To conditionally drag from certain areas subclass mousePressed and
- * call super when you wish the dragging to begin.
+ * Dividfr usfd by BbsidSplitPbnfUI. Subdlbssfrs mby wisi to ovfrridf
+ * pbint to do somftiing morf intfrfsting.
+ * Tif bordfr ffffdt is drbwn in BbsidSplitPbnfUI, so if you don't likf
+ * tibt bordfr, rfsft it tifrf.
+ * To donditionblly drbg from dfrtbin brfbs subdlbss mousfPrfssfd bnd
+ * dbll supfr wifn you wisi tif drbgging to bfgin.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicSplitPaneDivider extends Container
-    implements PropertyChangeListener
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidSplitPbnfDividfr fxtfnds Contbinfr
+    implfmfnts PropfrtyCibngfListfnfr
 {
     /**
-     * Width or height of the divider based on orientation
-     * {@code BasicSplitPaneUI} adds two to this.
+     * Widti or ifigit of tif dividfr bbsfd on orifntbtion
+     * {@dodf BbsidSplitPbnfUI} bdds two to tiis.
      */
-    protected static final int ONE_TOUCH_SIZE = 6;
+    protfdtfd stbtid finbl int ONE_TOUCH_SIZE = 6;
 
     /**
-     * The offset of the divider.
+     * Tif offsft of tif dividfr.
      */
-    protected static final int ONE_TOUCH_OFFSET = 2;
+    protfdtfd stbtid finbl int ONE_TOUCH_OFFSET = 2;
 
     /**
-     * Handles mouse dragging message to do the actual dragging.
+     * Hbndlfs mousf drbgging mfssbgf to do tif bdtubl drbgging.
      */
-    protected DragController dragger;
+    protfdtfd DrbgControllfr drbggfr;
 
     /**
-     * UI this instance was created from.
+     * UI tiis instbndf wbs drfbtfd from.
      */
-    protected BasicSplitPaneUI splitPaneUI;
+    protfdtfd BbsidSplitPbnfUI splitPbnfUI;
 
     /**
-     * Size of the divider.
+     * Sizf of tif dividfr.
      */
-    protected int dividerSize = 0; // default - SET TO 0???
+    protfdtfd int dividfrSizf = 0; // dffbult - SET TO 0???
 
     /**
-     * Divider that is used for noncontinuous layout mode.
+     * Dividfr tibt is usfd for nondontinuous lbyout modf.
      */
-    protected Component hiddenDivider;
+    protfdtfd Componfnt iiddfnDividfr;
 
     /**
-     * JSplitPane the receiver is contained in.
+     * JSplitPbnf tif rfdfivfr is dontbinfd in.
      */
-    protected JSplitPane splitPane;
+    protfdtfd JSplitPbnf splitPbnf;
 
     /**
-     * Handles mouse events from both this class, and the split pane.
-     * Mouse events are handled for the splitpane since you want to be able
-     * to drag when clicking on the border of the divider, which is not
-     * drawn by the divider.
+     * Hbndlfs mousf fvfnts from boti tiis dlbss, bnd tif split pbnf.
+     * Mousf fvfnts brf ibndlfd for tif splitpbnf sindf you wbnt to bf bblf
+     * to drbg wifn dlidking on tif bordfr of tif dividfr, wiidi is not
+     * drbwn by tif dividfr.
      */
-    protected MouseHandler mouseHandler;
+    protfdtfd MousfHbndlfr mousfHbndlfr;
 
     /**
-     * Orientation of the JSplitPane.
+     * Orifntbtion of tif JSplitPbnf.
      */
-    protected int orientation;
+    protfdtfd int orifntbtion;
 
     /**
-     * Button for quickly toggling the left component.
+     * Button for quidkly toggling tif lfft domponfnt.
      */
-    protected JButton leftButton;
+    protfdtfd JButton lfftButton;
 
     /**
-     * Button for quickly toggling the right component.
+     * Button for quidkly toggling tif rigit domponfnt.
      */
-    protected JButton rightButton;
+    protfdtfd JButton rigitButton;
 
-    /** Border. */
-    private Border border;
+    /** Bordfr. */
+    privbtf Bordfr bordfr;
 
     /**
-     * Is the mouse over the divider?
+     * Is tif mousf ovfr tif dividfr?
      */
-    private boolean mouseOver;
+    privbtf boolfbn mousfOvfr;
 
-    private int oneTouchSize;
-    private int oneTouchOffset;
+    privbtf int onfToudiSizf;
+    privbtf int onfToudiOffsft;
 
     /**
-     * If true the one touch buttons are centered on the divider.
+     * If truf tif onf toudi buttons brf dfntfrfd on tif dividfr.
      */
-    private boolean centerOneTouchButtons;
+    privbtf boolfbn dfntfrOnfToudiButtons;
 
 
     /**
-     * Creates an instance of {@code BasicSplitPaneDivider}. Registers this
-     * instance for mouse events and mouse dragged events.
+     * Crfbtfs bn instbndf of {@dodf BbsidSplitPbnfDividfr}. Rfgistfrs tiis
+     * instbndf for mousf fvfnts bnd mousf drbggfd fvfnts.
      *
-     * @param ui an instance of {@code BasicSplitPaneUI}
+     * @pbrbm ui bn instbndf of {@dodf BbsidSplitPbnfUI}
      */
-    public BasicSplitPaneDivider(BasicSplitPaneUI ui) {
-        oneTouchSize = DefaultLookup.getInt(ui.getSplitPane(), ui,
-                "SplitPane.oneTouchButtonSize", ONE_TOUCH_SIZE);
-        oneTouchOffset = DefaultLookup.getInt(ui.getSplitPane(), ui,
-                "SplitPane.oneTouchButtonOffset", ONE_TOUCH_OFFSET);
-        centerOneTouchButtons = DefaultLookup.getBoolean(ui.getSplitPane(),
-                 ui, "SplitPane.centerOneTouchButtons", true);
-        setLayout(new DividerLayout());
-        setBasicSplitPaneUI(ui);
-        orientation = splitPane.getOrientation();
-        setCursor((orientation == JSplitPane.HORIZONTAL_SPLIT) ?
-                  Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR) :
-                  Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
-        setBackground(UIManager.getColor("SplitPane.background"));
+    publid BbsidSplitPbnfDividfr(BbsidSplitPbnfUI ui) {
+        onfToudiSizf = DffbultLookup.gftInt(ui.gftSplitPbnf(), ui,
+                "SplitPbnf.onfToudiButtonSizf", ONE_TOUCH_SIZE);
+        onfToudiOffsft = DffbultLookup.gftInt(ui.gftSplitPbnf(), ui,
+                "SplitPbnf.onfToudiButtonOffsft", ONE_TOUCH_OFFSET);
+        dfntfrOnfToudiButtons = DffbultLookup.gftBoolfbn(ui.gftSplitPbnf(),
+                 ui, "SplitPbnf.dfntfrOnfToudiButtons", truf);
+        sftLbyout(nfw DividfrLbyout());
+        sftBbsidSplitPbnfUI(ui);
+        orifntbtion = splitPbnf.gftOrifntbtion();
+        sftCursor((orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) ?
+                  Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR) :
+                  Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR));
+        sftBbdkground(UIMbnbgfr.gftColor("SplitPbnf.bbdkground"));
     }
 
-    private void revalidateSplitPane() {
-        invalidate();
-        if (splitPane != null) {
-            splitPane.revalidate();
+    privbtf void rfvblidbtfSplitPbnf() {
+        invblidbtf();
+        if (splitPbnf != null) {
+            splitPbnf.rfvblidbtf();
         }
     }
 
     /**
-     * Sets the {@code SplitPaneUI} that is using the receiver.
+     * Sfts tif {@dodf SplitPbnfUI} tibt is using tif rfdfivfr.
      *
-     * @param newUI the new {@code SplitPaneUI}
+     * @pbrbm nfwUI tif nfw {@dodf SplitPbnfUI}
      */
-    public void setBasicSplitPaneUI(BasicSplitPaneUI newUI) {
-        if (splitPane != null) {
-            splitPane.removePropertyChangeListener(this);
-           if (mouseHandler != null) {
-               splitPane.removeMouseListener(mouseHandler);
-               splitPane.removeMouseMotionListener(mouseHandler);
-               removeMouseListener(mouseHandler);
-               removeMouseMotionListener(mouseHandler);
-               mouseHandler = null;
+    publid void sftBbsidSplitPbnfUI(BbsidSplitPbnfUI nfwUI) {
+        if (splitPbnf != null) {
+            splitPbnf.rfmovfPropfrtyCibngfListfnfr(tiis);
+           if (mousfHbndlfr != null) {
+               splitPbnf.rfmovfMousfListfnfr(mousfHbndlfr);
+               splitPbnf.rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               rfmovfMousfListfnfr(mousfHbndlfr);
+               rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               mousfHbndlfr = null;
            }
         }
-        splitPaneUI = newUI;
-        if (newUI != null) {
-            splitPane = newUI.getSplitPane();
-            if (splitPane != null) {
-                if (mouseHandler == null) mouseHandler = new MouseHandler();
-                splitPane.addMouseListener(mouseHandler);
-                splitPane.addMouseMotionListener(mouseHandler);
-                addMouseListener(mouseHandler);
-                addMouseMotionListener(mouseHandler);
-                splitPane.addPropertyChangeListener(this);
-                if (splitPane.isOneTouchExpandable()) {
-                    oneTouchExpandableChanged();
+        splitPbnfUI = nfwUI;
+        if (nfwUI != null) {
+            splitPbnf = nfwUI.gftSplitPbnf();
+            if (splitPbnf != null) {
+                if (mousfHbndlfr == null) mousfHbndlfr = nfw MousfHbndlfr();
+                splitPbnf.bddMousfListfnfr(mousfHbndlfr);
+                splitPbnf.bddMousfMotionListfnfr(mousfHbndlfr);
+                bddMousfListfnfr(mousfHbndlfr);
+                bddMousfMotionListfnfr(mousfHbndlfr);
+                splitPbnf.bddPropfrtyCibngfListfnfr(tiis);
+                if (splitPbnf.isOnfToudiExpbndbblf()) {
+                    onfToudiExpbndbblfCibngfd();
                 }
             }
         }
-        else {
-            splitPane = null;
+        flsf {
+            splitPbnf = null;
         }
     }
 
 
     /**
-     * Returns the {@code SplitPaneUI} the receiver is currently in.
+     * Rfturns tif {@dodf SplitPbnfUI} tif rfdfivfr is durrfntly in.
      *
-     * @return the {@code SplitPaneUI} the receiver is currently in
+     * @rfturn tif {@dodf SplitPbnfUI} tif rfdfivfr is durrfntly in
      */
-    public BasicSplitPaneUI getBasicSplitPaneUI() {
-        return splitPaneUI;
+    publid BbsidSplitPbnfUI gftBbsidSplitPbnfUI() {
+        rfturn splitPbnfUI;
     }
 
 
     /**
-     * Sets the size of the divider to {@code newSize}. That is
-     * the width if the splitpane is {@code HORIZONTAL_SPLIT}, or
-     * the height of {@code VERTICAL_SPLIT}.
+     * Sfts tif sizf of tif dividfr to {@dodf nfwSizf}. Tibt is
+     * tif widti if tif splitpbnf is {@dodf HORIZONTAL_SPLIT}, or
+     * tif ifigit of {@dodf VERTICAL_SPLIT}.
      *
-     * @param newSize a new size
+     * @pbrbm nfwSizf b nfw sizf
      */
-    public void setDividerSize(int newSize) {
-        dividerSize = newSize;
+    publid void sftDividfrSizf(int nfwSizf) {
+        dividfrSizf = nfwSizf;
     }
 
 
     /**
-     * Returns the size of the divider, that is the width if the splitpane
-     * is HORIZONTAL_SPLIT, or the height of VERTICAL_SPLIT.
+     * Rfturns tif sizf of tif dividfr, tibt is tif widti if tif splitpbnf
+     * is HORIZONTAL_SPLIT, or tif ifigit of VERTICAL_SPLIT.
      *
-     * @return the size of the divider
+     * @rfturn tif sizf of tif dividfr
      */
-    public int getDividerSize() {
-        return dividerSize;
+    publid int gftDividfrSizf() {
+        rfturn dividfrSizf;
     }
 
 
     /**
-     * Sets the border of this component.
+     * Sfts tif bordfr of tiis domponfnt.
      *
-     * @param border a new border
-     * @since 1.3
+     * @pbrbm bordfr b nfw bordfr
+     * @sindf 1.3
      */
-    public void setBorder(Border border) {
-        Border         oldBorder = this.border;
+    publid void sftBordfr(Bordfr bordfr) {
+        Bordfr         oldBordfr = tiis.bordfr;
 
-        this.border = border;
+        tiis.bordfr = bordfr;
     }
 
     /**
-     * Returns the border of this component or null if no border is
-     * currently set.
+     * Rfturns tif bordfr of tiis domponfnt or null if no bordfr is
+     * durrfntly sft.
      *
-     * @return the border object for this component
-     * @see #setBorder
-     * @since 1.3
+     * @rfturn tif bordfr objfdt for tiis domponfnt
+     * @sff #sftBordfr
+     * @sindf 1.3
      */
-    public Border getBorder() {
-        return border;
+    publid Bordfr gftBordfr() {
+        rfturn bordfr;
     }
 
     /**
-     * If a border has been set on this component, returns the
-     * border's insets, else calls super.getInsets.
+     * If b bordfr ibs bffn sft on tiis domponfnt, rfturns tif
+     * bordfr's insfts, flsf dblls supfr.gftInsfts.
      *
-     * @return the value of the insets property.
-     * @see #setBorder
+     * @rfturn tif vbluf of tif insfts propfrty.
+     * @sff #sftBordfr
      */
-    public Insets getInsets() {
-        Border    border = getBorder();
+    publid Insfts gftInsfts() {
+        Bordfr    bordfr = gftBordfr();
 
-        if (border != null) {
-            return border.getBorderInsets(this);
+        if (bordfr != null) {
+            rfturn bordfr.gftBordfrInsfts(tiis);
         }
-        return super.getInsets();
+        rfturn supfr.gftInsfts();
     }
 
     /**
-     * Sets whether or not the mouse is currently over the divider.
+     * Sfts wiftifr or not tif mousf is durrfntly ovfr tif dividfr.
      *
-     * @param mouseOver whether or not the mouse is currently over the divider
-     * @since 1.5
+     * @pbrbm mousfOvfr wiftifr or not tif mousf is durrfntly ovfr tif dividfr
+     * @sindf 1.5
      */
-    protected void setMouseOver(boolean mouseOver) {
-        this.mouseOver = mouseOver;
+    protfdtfd void sftMousfOvfr(boolfbn mousfOvfr) {
+        tiis.mousfOvfr = mousfOvfr;
     }
 
     /**
-     * Returns whether or not the mouse is currently over the divider
+     * Rfturns wiftifr or not tif mousf is durrfntly ovfr tif dividfr
      *
-     * @return whether or not the mouse is currently over the divider
-     * @since 1.5
+     * @rfturn wiftifr or not tif mousf is durrfntly ovfr tif dividfr
+     * @sindf 1.5
      */
-    public boolean isMouseOver() {
-        return mouseOver;
+    publid boolfbn isMousfOvfr() {
+        rfturn mousfOvfr;
     }
 
     /**
-     * Returns dividerSize x dividerSize
+     * Rfturns dividfrSizf x dividfrSizf
      */
-    public Dimension getPreferredSize() {
-        // Ideally this would return the size from the layout manager,
-        // but that could result in the layed out size being different from
-        // the dividerSize, which may break developers as well as
-        // BasicSplitPaneUI.
-        if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
-            return new Dimension(getDividerSize(), 1);
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        // Idfblly tiis would rfturn tif sizf from tif lbyout mbnbgfr,
+        // but tibt dould rfsult in tif lbyfd out sizf bfing difffrfnt from
+        // tif dividfrSizf, wiidi mby brfbk dfvflopfrs bs wfll bs
+        // BbsidSplitPbnfUI.
+        if (orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+            rfturn nfw Dimfnsion(gftDividfrSizf(), 1);
         }
-        return new Dimension(1, getDividerSize());
+        rfturn nfw Dimfnsion(1, gftDividfrSizf());
     }
 
     /**
-     * Returns dividerSize x dividerSize
+     * Rfturns dividfrSizf x dividfrSizf
      */
-    public Dimension getMinimumSize() {
-        return getPreferredSize();
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftPrfffrrfdSizf();
     }
 
 
     /**
-     * Property change event, presumably from the JSplitPane, will message
-     * updateOrientation if necessary.
+     * Propfrty dibngf fvfnt, prfsumbbly from tif JSplitPbnf, will mfssbgf
+     * updbtfOrifntbtion if nfdfssbry.
      */
-    public void propertyChange(PropertyChangeEvent e) {
-        if (e.getSource() == splitPane) {
-            if (e.getPropertyName() == JSplitPane.ORIENTATION_PROPERTY) {
-                orientation = splitPane.getOrientation();
-                setCursor((orientation == JSplitPane.HORIZONTAL_SPLIT) ?
-                          Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR) :
-                          Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
-                revalidateSplitPane();
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (f.gftSourdf() == splitPbnf) {
+            if (f.gftPropfrtyNbmf() == JSplitPbnf.ORIENTATION_PROPERTY) {
+                orifntbtion = splitPbnf.gftOrifntbtion();
+                sftCursor((orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) ?
+                          Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR) :
+                          Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR));
+                rfvblidbtfSplitPbnf();
             }
-            else if (e.getPropertyName() == JSplitPane.
+            flsf if (f.gftPropfrtyNbmf() == JSplitPbnf.
                       ONE_TOUCH_EXPANDABLE_PROPERTY) {
-                oneTouchExpandableChanged();
+                onfToudiExpbndbblfCibngfd();
             }
         }
     }
 
 
     /**
-     * Paints the divider.
+     * Pbints tif dividfr.
      */
-    public void paint(Graphics g) {
-      super.paint(g);
+    publid void pbint(Grbpiids g) {
+      supfr.pbint(g);
 
-      // Paint the border.
-      Border   border = getBorder();
+      // Pbint tif bordfr.
+      Bordfr   bordfr = gftBordfr();
 
-      if (border != null) {
-          Dimension     size = getSize();
+      if (bordfr != null) {
+          Dimfnsion     sizf = gftSizf();
 
-          border.paintBorder(this, g, 0, 0, size.width, size.height);
+          bordfr.pbintBordfr(tiis, g, 0, 0, sizf.widti, sizf.ifigit);
       }
     }
 
 
     /**
-     * Messaged when the oneTouchExpandable value of the JSplitPane the
-     * receiver is contained in changes. Will create the
-     * <code>leftButton</code> and <code>rightButton</code> if they
-     * are null. invalidates the receiver as well.
+     * Mfssbgfd wifn tif onfToudiExpbndbblf vbluf of tif JSplitPbnf tif
+     * rfdfivfr is dontbinfd in dibngfs. Will drfbtf tif
+     * <dodf>lfftButton</dodf> bnd <dodf>rigitButton</dodf> if tify
+     * brf null. invblidbtfs tif rfdfivfr bs wfll.
      */
-    protected void oneTouchExpandableChanged() {
-        if (!DefaultLookup.getBoolean(splitPane, splitPaneUI,
-                           "SplitPane.supportsOneTouchButtons", true)) {
-            // Look and feel doesn't want to support one touch buttons, bail.
-            return;
+    protfdtfd void onfToudiExpbndbblfCibngfd() {
+        if (!DffbultLookup.gftBoolfbn(splitPbnf, splitPbnfUI,
+                           "SplitPbnf.supportsOnfToudiButtons", truf)) {
+            // Look bnd fffl dofsn't wbnt to support onf toudi buttons, bbil.
+            rfturn;
         }
-        if (splitPane.isOneTouchExpandable() &&
-            leftButton == null &&
-            rightButton == null) {
-            /* Create the left button and add an action listener to
-               expand/collapse it. */
-            leftButton = createLeftOneTouchButton();
-            if (leftButton != null)
-                leftButton.addActionListener(new OneTouchActionHandler(true));
+        if (splitPbnf.isOnfToudiExpbndbblf() &&
+            lfftButton == null &&
+            rigitButton == null) {
+            /* Crfbtf tif lfft button bnd bdd bn bdtion listfnfr to
+               fxpbnd/dollbpsf it. */
+            lfftButton = drfbtfLfftOnfToudiButton();
+            if (lfftButton != null)
+                lfftButton.bddAdtionListfnfr(nfw OnfToudiAdtionHbndlfr(truf));
 
 
-            /* Create the right button and add an action listener to
-               expand/collapse it. */
-            rightButton = createRightOneTouchButton();
-            if (rightButton != null)
-                rightButton.addActionListener(new OneTouchActionHandler
-                    (false));
+            /* Crfbtf tif rigit button bnd bdd bn bdtion listfnfr to
+               fxpbnd/dollbpsf it. */
+            rigitButton = drfbtfRigitOnfToudiButton();
+            if (rigitButton != null)
+                rigitButton.bddAdtionListfnfr(nfw OnfToudiAdtionHbndlfr
+                    (fblsf));
 
-            if (leftButton != null && rightButton != null) {
-                add(leftButton);
-                add(rightButton);
+            if (lfftButton != null && rigitButton != null) {
+                bdd(lfftButton);
+                bdd(rigitButton);
             }
         }
-        revalidateSplitPane();
+        rfvblidbtfSplitPbnf();
     }
 
 
     /**
-     * Creates and return an instance of {@code JButton} that can be used to
-     * collapse the left component in the split pane.
+     * Crfbtfs bnd rfturn bn instbndf of {@dodf JButton} tibt dbn bf usfd to
+     * dollbpsf tif lfft domponfnt in tif split pbnf.
      *
-     * @return an instance of {@code JButton}
+     * @rfturn bn instbndf of {@dodf JButton}
      */
-    protected JButton createLeftOneTouchButton() {
-        JButton b = new JButton() {
-            public void setBorder(Border b) {
+    protfdtfd JButton drfbtfLfftOnfToudiButton() {
+        JButton b = nfw JButton() {
+            publid void sftBordfr(Bordfr b) {
             }
-            public void paint(Graphics g) {
-                if (splitPane != null) {
-                    int[]   xs = new int[3];
-                    int[]   ys = new int[3];
-                    int     blockSize;
+            publid void pbint(Grbpiids g) {
+                if (splitPbnf != null) {
+                    int[]   xs = nfw int[3];
+                    int[]   ys = nfw int[3];
+                    int     blodkSizf;
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
-                    g.fillRect(0, 0, this.getWidth(),
-                               this.getHeight());
+                    // Fill tif bbdkground first ...
+                    g.sftColor(tiis.gftBbdkground());
+                    g.fillRfdt(0, 0, tiis.gftWidti(),
+                               tiis.gftHfigit());
 
-                    // ... then draw the arrow.
-                    g.setColor(Color.black);
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        blockSize = Math.min(getHeight(), oneTouchSize);
-                        xs[0] = blockSize;
+                    // ... tifn drbw tif brrow.
+                    g.sftColor(Color.blbdk);
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        blodkSizf = Mbti.min(gftHfigit(), onfToudiSizf);
+                        xs[0] = blodkSizf;
                         xs[1] = 0;
-                        xs[2] = blockSize << 1;
+                        xs[2] = blodkSizf << 1;
                         ys[0] = 0;
-                        ys[1] = ys[2] = blockSize;
-                        g.drawPolygon(xs, ys, 3); // Little trick to make the
-                                                  // arrows of equal size
+                        ys[1] = ys[2] = blodkSizf;
+                        g.drbwPolygon(xs, ys, 3); // Littlf tridk to mbkf tif
+                                                  // brrows of fqubl sizf
                     }
-                    else {
-                        blockSize = Math.min(getWidth(), oneTouchSize);
-                        xs[0] = xs[2] = blockSize;
+                    flsf {
+                        blodkSizf = Mbti.min(gftWidti(), onfToudiSizf);
+                        xs[0] = xs[2] = blodkSizf;
                         xs[1] = 0;
                         ys[0] = 0;
-                        ys[1] = blockSize;
-                        ys[2] = blockSize << 1;
+                        ys[1] = blodkSizf;
+                        ys[2] = blodkSizf << 1;
                     }
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt tif button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
             }
         };
-        b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        return b;
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudiSizf, onfToudiSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        rfturn b;
     }
 
 
     /**
-     * Creates and return an instance of {@code JButton} that can be used to
-     * collapse the right component in the split pane.
+     * Crfbtfs bnd rfturn bn instbndf of {@dodf JButton} tibt dbn bf usfd to
+     * dollbpsf tif rigit domponfnt in tif split pbnf.
      *
-     * @return an instance of {@code JButton}
+     * @rfturn bn instbndf of {@dodf JButton}
      */
-    protected JButton createRightOneTouchButton() {
-        JButton b = new JButton() {
-            public void setBorder(Border border) {
+    protfdtfd JButton drfbtfRigitOnfToudiButton() {
+        JButton b = nfw JButton() {
+            publid void sftBordfr(Bordfr bordfr) {
             }
-            public void paint(Graphics g) {
-                if (splitPane != null) {
-                    int[]          xs = new int[3];
-                    int[]          ys = new int[3];
-                    int            blockSize;
+            publid void pbint(Grbpiids g) {
+                if (splitPbnf != null) {
+                    int[]          xs = nfw int[3];
+                    int[]          ys = nfw int[3];
+                    int            blodkSizf;
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
-                    g.fillRect(0, 0, this.getWidth(),
-                               this.getHeight());
+                    // Fill tif bbdkground first ...
+                    g.sftColor(tiis.gftBbdkground());
+                    g.fillRfdt(0, 0, tiis.gftWidti(),
+                               tiis.gftHfigit());
 
-                    // ... then draw the arrow.
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        blockSize = Math.min(getHeight(), oneTouchSize);
-                        xs[0] = blockSize;
-                        xs[1] = blockSize << 1;
+                    // ... tifn drbw tif brrow.
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        blodkSizf = Mbti.min(gftHfigit(), onfToudiSizf);
+                        xs[0] = blodkSizf;
+                        xs[1] = blodkSizf << 1;
                         xs[2] = 0;
-                        ys[0] = blockSize;
+                        ys[0] = blodkSizf;
                         ys[1] = ys[2] = 0;
                     }
-                    else {
-                        blockSize = Math.min(getWidth(), oneTouchSize);
+                    flsf {
+                        blodkSizf = Mbti.min(gftWidti(), onfToudiSizf);
                         xs[0] = xs[2] = 0;
-                        xs[1] = blockSize;
+                        xs[1] = blodkSizf;
                         ys[0] = 0;
-                        ys[1] = blockSize;
-                        ys[2] = blockSize << 1;
+                        ys[1] = blodkSizf;
+                        ys[2] = blodkSizf << 1;
                     }
-                    g.setColor(Color.black);
+                    g.sftColor(Color.blbdk);
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt tif button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
             }
         };
-        b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        return b;
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudiSizf, onfToudiSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        rfturn b;
     }
 
 
     /**
-     * Message to prepare for dragging. This messages the BasicSplitPaneUI
-     * with startDragging.
+     * Mfssbgf to prfpbrf for drbgging. Tiis mfssbgfs tif BbsidSplitPbnfUI
+     * witi stbrtDrbgging.
      */
-    protected void prepareForDragging() {
-        splitPaneUI.startDragging();
+    protfdtfd void prfpbrfForDrbgging() {
+        splitPbnfUI.stbrtDrbgging();
     }
 
 
     /**
-     * Messages the BasicSplitPaneUI with dragDividerTo that this instance
-     * is contained in.
+     * Mfssbgfs tif BbsidSplitPbnfUI witi drbgDividfrTo tibt tiis instbndf
+     * is dontbinfd in.
      *
-     * @param location a location
+     * @pbrbm lodbtion b lodbtion
      */
-    protected void dragDividerTo(int location) {
-        splitPaneUI.dragDividerTo(location);
+    protfdtfd void drbgDividfrTo(int lodbtion) {
+        splitPbnfUI.drbgDividfrTo(lodbtion);
     }
 
 
     /**
-     * Messages the BasicSplitPaneUI with finishDraggingTo that this instance
-     * is contained in.
+     * Mfssbgfs tif BbsidSplitPbnfUI witi finisiDrbggingTo tibt tiis instbndf
+     * is dontbinfd in.
      *
-     * @param location a location
+     * @pbrbm lodbtion b lodbtion
      */
-    protected void finishDraggingTo(int location) {
-        splitPaneUI.finishDraggingTo(location);
+    protfdtfd void finisiDrbggingTo(int lodbtion) {
+        splitPbnfUI.finisiDrbggingTo(lodbtion);
     }
 
 
     /**
-     * MouseHandler is responsible for converting mouse events
-     * (released, dragged...) into the appropriate DragController
-     * methods.
+     * MousfHbndlfr is rfsponsiblf for donvfrting mousf fvfnts
+     * (rflfbsfd, drbggfd...) into tif bppropribtf DrbgControllfr
+     * mftiods.
      *
      */
-    protected class MouseHandler extends MouseAdapter
-            implements MouseMotionListener
+    protfdtfd dlbss MousfHbndlfr fxtfnds MousfAdbptfr
+            implfmfnts MousfMotionListfnfr
     {
         /**
-         * Starts the dragging session by creating the appropriate instance
-         * of DragController.
+         * Stbrts tif drbgging sfssion by drfbting tif bppropribtf instbndf
+         * of DrbgControllfr.
          */
-        public void mousePressed(MouseEvent e) {
-            if ((e.getSource() == BasicSplitPaneDivider.this ||
-                 e.getSource() == splitPane) &&
-                dragger == null &&splitPane.isEnabled()) {
-                Component            newHiddenDivider = splitPaneUI.
-                                     getNonContinuousLayoutDivider();
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if ((f.gftSourdf() == BbsidSplitPbnfDividfr.tiis ||
+                 f.gftSourdf() == splitPbnf) &&
+                drbggfr == null &&splitPbnf.isEnbblfd()) {
+                Componfnt            nfwHiddfnDividfr = splitPbnfUI.
+                                     gftNonContinuousLbyoutDividfr();
 
-                if (hiddenDivider != newHiddenDivider) {
-                    if (hiddenDivider != null) {
-                        hiddenDivider.removeMouseListener(this);
-                        hiddenDivider.removeMouseMotionListener(this);
+                if (iiddfnDividfr != nfwHiddfnDividfr) {
+                    if (iiddfnDividfr != null) {
+                        iiddfnDividfr.rfmovfMousfListfnfr(tiis);
+                        iiddfnDividfr.rfmovfMousfMotionListfnfr(tiis);
                     }
-                    hiddenDivider = newHiddenDivider;
-                    if (hiddenDivider != null) {
-                        hiddenDivider.addMouseMotionListener(this);
-                        hiddenDivider.addMouseListener(this);
-                    }
-                }
-                if (splitPane.getLeftComponent() != null &&
-                    splitPane.getRightComponent() != null) {
-                    if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
-                        dragger = new DragController(e);
-                    }
-                    else {
-                        dragger = new VerticalDragController(e);
-                    }
-                    if (!dragger.isValid()) {
-                        dragger = null;
-                    }
-                    else {
-                        prepareForDragging();
-                        dragger.continueDrag(e);
+                    iiddfnDividfr = nfwHiddfnDividfr;
+                    if (iiddfnDividfr != null) {
+                        iiddfnDividfr.bddMousfMotionListfnfr(tiis);
+                        iiddfnDividfr.bddMousfListfnfr(tiis);
                     }
                 }
-                e.consume();
+                if (splitPbnf.gftLfftComponfnt() != null &&
+                    splitPbnf.gftRigitComponfnt() != null) {
+                    if (orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                        drbggfr = nfw DrbgControllfr(f);
+                    }
+                    flsf {
+                        drbggfr = nfw VfrtidblDrbgControllfr(f);
+                    }
+                    if (!drbggfr.isVblid()) {
+                        drbggfr = null;
+                    }
+                    flsf {
+                        prfpbrfForDrbgging();
+                        drbggfr.dontinufDrbg(f);
+                    }
+                }
+                f.donsumf();
             }
         }
 
 
         /**
-         * If dragger is not null it is messaged with completeDrag.
+         * If drbggfr is not null it is mfssbgfd witi domplftfDrbg.
          */
-        public void mouseReleased(MouseEvent e) {
-            if (dragger != null) {
-                if (e.getSource() == splitPane) {
-                    dragger.completeDrag(e.getX(), e.getY());
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (drbggfr != null) {
+                if (f.gftSourdf() == splitPbnf) {
+                    drbggfr.domplftfDrbg(f.gftX(), f.gftY());
                 }
-                else if (e.getSource() == BasicSplitPaneDivider.this) {
-                    Point   ourLoc = getLocation();
+                flsf if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                    Point   ourLod = gftLodbtion();
 
-                    dragger.completeDrag(e.getX() + ourLoc.x,
-                                         e.getY() + ourLoc.y);
+                    drbggfr.domplftfDrbg(f.gftX() + ourLod.x,
+                                         f.gftY() + ourLod.y);
                 }
-                else if (e.getSource() == hiddenDivider) {
-                    Point   hDividerLoc = hiddenDivider.getLocation();
-                    int     ourX = e.getX() + hDividerLoc.x;
-                    int     ourY = e.getY() + hDividerLoc.y;
+                flsf if (f.gftSourdf() == iiddfnDividfr) {
+                    Point   iDividfrLod = iiddfnDividfr.gftLodbtion();
+                    int     ourX = f.gftX() + iDividfrLod.x;
+                    int     ourY = f.gftY() + iDividfrLod.y;
 
-                    dragger.completeDrag(ourX, ourY);
+                    drbggfr.domplftfDrbg(ourX, ourY);
                 }
-                dragger = null;
-                e.consume();
+                drbggfr = null;
+                f.donsumf();
             }
         }
 
 
         //
-        // MouseMotionListener
+        // MousfMotionListfnfr
         //
 
         /**
-         * If dragger is not null it is messaged with continueDrag.
+         * If drbggfr is not null it is mfssbgfd witi dontinufDrbg.
          */
-        public void mouseDragged(MouseEvent e) {
-            if (dragger != null) {
-                if (e.getSource() == splitPane) {
-                    dragger.continueDrag(e.getX(), e.getY());
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (drbggfr != null) {
+                if (f.gftSourdf() == splitPbnf) {
+                    drbggfr.dontinufDrbg(f.gftX(), f.gftY());
                 }
-                else if (e.getSource() == BasicSplitPaneDivider.this) {
-                    Point   ourLoc = getLocation();
+                flsf if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                    Point   ourLod = gftLodbtion();
 
-                    dragger.continueDrag(e.getX() + ourLoc.x,
-                                         e.getY() + ourLoc.y);
+                    drbggfr.dontinufDrbg(f.gftX() + ourLod.x,
+                                         f.gftY() + ourLod.y);
                 }
-                else if (e.getSource() == hiddenDivider) {
-                    Point   hDividerLoc = hiddenDivider.getLocation();
-                    int     ourX = e.getX() + hDividerLoc.x;
-                    int     ourY = e.getY() + hDividerLoc.y;
+                flsf if (f.gftSourdf() == iiddfnDividfr) {
+                    Point   iDividfrLod = iiddfnDividfr.gftLodbtion();
+                    int     ourX = f.gftX() + iDividfrLod.x;
+                    int     ourY = f.gftY() + iDividfrLod.y;
 
-                    dragger.continueDrag(ourX, ourY);
+                    drbggfr.dontinufDrbg(ourX, ourY);
                 }
-                e.consume();
+                f.donsumf();
             }
         }
 
 
         /**
-         *  Resets the cursor based on the orientation.
+         *  Rfsfts tif dursor bbsfd on tif orifntbtion.
          */
-        public void mouseMoved(MouseEvent e) {
+        publid void mousfMovfd(MousfEvfnt f) {
         }
 
         /**
-         * Invoked when the mouse enters a component.
+         * Invokfd wifn tif mousf fntfrs b domponfnt.
          *
-         * @param e MouseEvent describing the details of the enter event.
-         * @since 1.5
+         * @pbrbm f MousfEvfnt dfsdribing tif dftbils of tif fntfr fvfnt.
+         * @sindf 1.5
          */
-        public void mouseEntered(MouseEvent e) {
-            if (e.getSource() == BasicSplitPaneDivider.this) {
-                setMouseOver(true);
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                sftMousfOvfr(truf);
             }
         }
 
         /**
-         * Invoked when the mouse exits a component.
+         * Invokfd wifn tif mousf fxits b domponfnt.
          *
-         * @param e MouseEvent describing the details of the exit event.
-         * @since 1.5
+         * @pbrbm f MousfEvfnt dfsdribing tif dftbils of tif fxit fvfnt.
+         * @sindf 1.5
          */
-        public void mouseExited(MouseEvent e) {
-            if (e.getSource() == BasicSplitPaneDivider.this) {
-                setMouseOver(false);
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                sftMousfOvfr(fblsf);
             }
         }
     }
 
 
     /**
-     * Handles the events during a dragging session for a
-     * HORIZONTAL_SPLIT oriented split pane. This continually
-     * messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be
-     * messaged with <code>isValid</code> to insure that dragging can happen
-     * (dragging won't be allowed if the two views can not be resized).
+     * Hbndlfs tif fvfnts during b drbgging sfssion for b
+     * HORIZONTAL_SPLIT orifntfd split pbnf. Tiis dontinublly
+     * mfssbgfs <dodf>drbgDividfrTo</dodf> bnd tifn wifn donf mfssbgfs
+     * <dodf>finisiDrbggingTo</dodf>. Wifn bn instbndf is drfbtfd it siould bf
+     * mfssbgfd witi <dodf>isVblid</dodf> to insurf tibt drbgging dbn ibppfn
+     * (drbgging won't bf bllowfd if tif two vifws dbn not bf rfsizfd).
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class DragController
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss DrbgControllfr
     {
         /**
-         * Initial location of the divider.
+         * Initibl lodbtion of tif dividfr.
          */
-        int initialX;
+        int initiblX;
 
         /**
-         * Maximum and minimum positions to drag to.
+         * Mbximum bnd minimum positions to drbg to.
          */
-        int maxX, minX;
+        int mbxX, minX;
 
         /**
-         * Initial location the mouse down happened at.
+         * Initibl lodbtion tif mousf down ibppfnfd bt.
          */
-        int offset;
+        int offsft;
 
         /**
-         * Constructs a new instance of {@code DragController}.
+         * Construdts b nfw instbndf of {@dodf DrbgControllfr}.
          *
-         * @param e a mouse event
+         * @pbrbm f b mousf fvfnt
          */
-        protected DragController(MouseEvent e) {
-            JSplitPane  splitPane = splitPaneUI.getSplitPane();
-            Component   leftC = splitPane.getLeftComponent();
-            Component   rightC = splitPane.getRightComponent();
+        protfdtfd DrbgControllfr(MousfEvfnt f) {
+            JSplitPbnf  splitPbnf = splitPbnfUI.gftSplitPbnf();
+            Componfnt   lfftC = splitPbnf.gftLfftComponfnt();
+            Componfnt   rigitC = splitPbnf.gftRigitComponfnt();
 
-            initialX = getLocation().x;
-            if (e.getSource() == BasicSplitPaneDivider.this) {
-                offset = e.getX();
+            initiblX = gftLodbtion().x;
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                offsft = f.gftX();
             }
-            else { // splitPane
-                offset = e.getX() - initialX;
+            flsf { // splitPbnf
+                offsft = f.gftX() - initiblX;
             }
-            if (leftC == null || rightC == null || offset < -1 ||
-                offset >= getSize().width) {
-                // Don't allow dragging.
-                maxX = -1;
+            if (lfftC == null || rigitC == null || offsft < -1 ||
+                offsft >= gftSizf().widti) {
+                // Don't bllow drbgging.
+                mbxX = -1;
             }
-            else {
-                Insets      insets = splitPane.getInsets();
+            flsf {
+                Insfts      insfts = splitPbnf.gftInsfts();
 
-                if (leftC.isVisible()) {
-                    minX = leftC.getMinimumSize().width;
-                    if (insets != null) {
-                        minX += insets.left;
+                if (lfftC.isVisiblf()) {
+                    minX = lfftC.gftMinimumSizf().widti;
+                    if (insfts != null) {
+                        minX += insfts.lfft;
                     }
                 }
-                else {
+                flsf {
                     minX = 0;
                 }
-                if (rightC.isVisible()) {
-                    int right = (insets != null) ? insets.right : 0;
-                    maxX = Math.max(0, splitPane.getSize().width -
-                                    (getSize().width + right) -
-                                    rightC.getMinimumSize().width);
+                if (rigitC.isVisiblf()) {
+                    int rigit = (insfts != null) ? insfts.rigit : 0;
+                    mbxX = Mbti.mbx(0, splitPbnf.gftSizf().widti -
+                                    (gftSizf().widti + rigit) -
+                                    rigitC.gftMinimumSizf().widti);
                 }
-                else {
-                    int right = (insets != null) ? insets.right : 0;
-                    maxX = Math.max(0, splitPane.getSize().width -
-                                    (getSize().width + right));
+                flsf {
+                    int rigit = (insfts != null) ? insfts.rigit : 0;
+                    mbxX = Mbti.mbx(0, splitPbnf.gftSizf().widti -
+                                    (gftSizf().widti + rigit));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (mbxX < minX) minX = mbxX = 0;
             }
         }
 
 
         /**
-         * Returns {@code true} if the dragging session is valid.
+         * Rfturns {@dodf truf} if tif drbgging sfssion is vblid.
          *
-         * @return {@code true} if the dragging session is valid
+         * @rfturn {@dodf truf} if tif drbgging sfssion is vblid
          */
-        protected boolean isValid() {
-            return (maxX > 0);
+        protfdtfd boolfbn isVblid() {
+            rfturn (mbxX > 0);
         }
 
 
         /**
-         * Returns the new position to put the divider at based on
-         * the passed in MouseEvent.
+         * Rfturns tif nfw position to put tif dividfr bt bbsfd on
+         * tif pbssfd in MousfEvfnt.
          *
-         * @param e a mouse event
-         * @return the new position
+         * @pbrbm f b mousf fvfnt
+         * @rfturn tif nfw position
          */
-        protected int positionForMouseEvent(MouseEvent e) {
-            int newX = (e.getSource() == BasicSplitPaneDivider.this) ?
-                        (e.getX() + getLocation().x) : e.getX();
+        protfdtfd int positionForMousfEvfnt(MousfEvfnt f) {
+            int nfwX = (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) ?
+                        (f.gftX() + gftLodbtion().x) : f.gftX();
 
-            newX = Math.min(maxX, Math.max(minX, newX - offset));
-            return newX;
+            nfwX = Mbti.min(mbxX, Mbti.mbx(minX, nfwX - offsft));
+            rfturn nfwX;
         }
 
 
         /**
-         * Returns the x argument, since this is used for horizontal
+         * Rfturns tif x brgumfnt, sindf tiis is usfd for iorizontbl
          * splits.
          *
-         * @param x an X coordinate
-         * @param y an Y coordinate
-         * @return the X argument
+         * @pbrbm x bn X doordinbtf
+         * @pbrbm y bn Y doordinbtf
+         * @rfturn tif X brgumfnt
          */
-        protected int getNeededLocation(int x, int y) {
-            int newX;
+        protfdtfd int gftNffdfdLodbtion(int x, int y) {
+            int nfwX;
 
-            newX = Math.min(maxX, Math.max(minX, x - offset));
-            return newX;
+            nfwX = Mbti.min(mbxX, Mbti.mbx(minX, x - offsft));
+            rfturn nfwX;
         }
 
         /**
-         * Messages dragDividerTo with the new location for the mouse
-         * event.
+         * Mfssbgfs drbgDividfrTo witi tif nfw lodbtion for tif mousf
+         * fvfnt.
          *
-         * @param newX an X coordinate
-         * @param newY an Y coordinate
+         * @pbrbm nfwX bn X doordinbtf
+         * @pbrbm nfwY bn Y doordinbtf
          */
-        protected void continueDrag(int newX, int newY) {
-            dragDividerTo(getNeededLocation(newX, newY));
-        }
-
-
-        /**
-         * Messages dragDividerTo with the new location for the mouse
-         * event.
-         *
-         * @param e a mouse event
-         */
-        protected void continueDrag(MouseEvent e) {
-            dragDividerTo(positionForMouseEvent(e));
-        }
-
-        /**
-         * Messages finishDraggingTo with the new location for the mouse
-         * event.
-         *
-         * @param x an X coordinate
-         * @param y an Y coordinate
-         */
-        protected void completeDrag(int x, int y) {
-            finishDraggingTo(getNeededLocation(x, y));
+        protfdtfd void dontinufDrbg(int nfwX, int nfwY) {
+            drbgDividfrTo(gftNffdfdLodbtion(nfwX, nfwY));
         }
 
 
         /**
-         * Messages finishDraggingTo with the new location for the mouse
-         * event.
+         * Mfssbgfs drbgDividfrTo witi tif nfw lodbtion for tif mousf
+         * fvfnt.
          *
-         * @param e a mouse event
+         * @pbrbm f b mousf fvfnt
          */
-        protected void completeDrag(MouseEvent e) {
-            finishDraggingTo(positionForMouseEvent(e));
+        protfdtfd void dontinufDrbg(MousfEvfnt f) {
+            drbgDividfrTo(positionForMousfEvfnt(f));
         }
-    } // End of BasicSplitPaneDivider.DragController
+
+        /**
+         * Mfssbgfs finisiDrbggingTo witi tif nfw lodbtion for tif mousf
+         * fvfnt.
+         *
+         * @pbrbm x bn X doordinbtf
+         * @pbrbm y bn Y doordinbtf
+         */
+        protfdtfd void domplftfDrbg(int x, int y) {
+            finisiDrbggingTo(gftNffdfdLodbtion(x, y));
+        }
+
+
+        /**
+         * Mfssbgfs finisiDrbggingTo witi tif nfw lodbtion for tif mousf
+         * fvfnt.
+         *
+         * @pbrbm f b mousf fvfnt
+         */
+        protfdtfd void domplftfDrbg(MousfEvfnt f) {
+            finisiDrbggingTo(positionForMousfEvfnt(f));
+        }
+    } // End of BbsidSplitPbnfDividfr.DrbgControllfr
 
 
     /**
-     * Handles the events during a dragging session for a
-     * VERTICAL_SPLIT oriented split pane. This continually
-     * messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be
-     * messaged with <code>isValid</code> to insure that dragging can happen
-     * (dragging won't be allowed if the two views can not be resized).
+     * Hbndlfs tif fvfnts during b drbgging sfssion for b
+     * VERTICAL_SPLIT orifntfd split pbnf. Tiis dontinublly
+     * mfssbgfs <dodf>drbgDividfrTo</dodf> bnd tifn wifn donf mfssbgfs
+     * <dodf>finisiDrbggingTo</dodf>. Wifn bn instbndf is drfbtfd it siould bf
+     * mfssbgfd witi <dodf>isVblid</dodf> to insurf tibt drbgging dbn ibppfn
+     * (drbgging won't bf bllowfd if tif two vifws dbn not bf rfsizfd).
      */
-    protected class VerticalDragController extends DragController
+    protfdtfd dlbss VfrtidblDrbgControllfr fxtfnds DrbgControllfr
     {
-        /* DragControllers ivars are now in terms of y, not x. */
+        /* DrbgControllfrs ivbrs brf now in tfrms of y, not x. */
         /**
-         * Constructs a new instance of {@code VerticalDragController}.
+         * Construdts b nfw instbndf of {@dodf VfrtidblDrbgControllfr}.
          *
-         * @param e a mouse event
+         * @pbrbm f b mousf fvfnt
          */
-        protected VerticalDragController(MouseEvent e) {
-            super(e);
-            JSplitPane splitPane = splitPaneUI.getSplitPane();
-            Component  leftC = splitPane.getLeftComponent();
-            Component  rightC = splitPane.getRightComponent();
+        protfdtfd VfrtidblDrbgControllfr(MousfEvfnt f) {
+            supfr(f);
+            JSplitPbnf splitPbnf = splitPbnfUI.gftSplitPbnf();
+            Componfnt  lfftC = splitPbnf.gftLfftComponfnt();
+            Componfnt  rigitC = splitPbnf.gftRigitComponfnt();
 
-            initialX = getLocation().y;
-            if (e.getSource() == BasicSplitPaneDivider.this) {
-                offset = e.getY();
+            initiblX = gftLodbtion().y;
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) {
+                offsft = f.gftY();
             }
-            else {
-                offset = e.getY() - initialX;
+            flsf {
+                offsft = f.gftY() - initiblX;
             }
-            if (leftC == null || rightC == null || offset < -1 ||
-                offset > getSize().height) {
-                // Don't allow dragging.
-                maxX = -1;
+            if (lfftC == null || rigitC == null || offsft < -1 ||
+                offsft > gftSizf().ifigit) {
+                // Don't bllow drbgging.
+                mbxX = -1;
             }
-            else {
-                Insets     insets = splitPane.getInsets();
+            flsf {
+                Insfts     insfts = splitPbnf.gftInsfts();
 
-                if (leftC.isVisible()) {
-                    minX = leftC.getMinimumSize().height;
-                    if (insets != null) {
-                        minX += insets.top;
+                if (lfftC.isVisiblf()) {
+                    minX = lfftC.gftMinimumSizf().ifigit;
+                    if (insfts != null) {
+                        minX += insfts.top;
                     }
                 }
-                else {
+                flsf {
                     minX = 0;
                 }
-                if (rightC.isVisible()) {
-                    int    bottom = (insets != null) ? insets.bottom : 0;
+                if (rigitC.isVisiblf()) {
+                    int    bottom = (insfts != null) ? insfts.bottom : 0;
 
-                    maxX = Math.max(0, splitPane.getSize().height -
-                                    (getSize().height + bottom) -
-                                    rightC.getMinimumSize().height);
+                    mbxX = Mbti.mbx(0, splitPbnf.gftSizf().ifigit -
+                                    (gftSizf().ifigit + bottom) -
+                                    rigitC.gftMinimumSizf().ifigit);
                 }
-                else {
-                    int    bottom = (insets != null) ? insets.bottom : 0;
+                flsf {
+                    int    bottom = (insfts != null) ? insfts.bottom : 0;
 
-                    maxX = Math.max(0, splitPane.getSize().height -
-                                    (getSize().height + bottom));
+                    mbxX = Mbti.mbx(0, splitPbnf.gftSizf().ifigit -
+                                    (gftSizf().ifigit + bottom));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (mbxX < minX) minX = mbxX = 0;
             }
         }
 
 
         /**
-         * Returns the y argument, since this is used for vertical
+         * Rfturns tif y brgumfnt, sindf tiis is usfd for vfrtidbl
          * splits.
          */
-        protected int getNeededLocation(int x, int y) {
-            int newY;
+        protfdtfd int gftNffdfdLodbtion(int x, int y) {
+            int nfwY;
 
-            newY = Math.min(maxX, Math.max(minX, y - offset));
-            return newY;
+            nfwY = Mbti.min(mbxX, Mbti.mbx(minX, y - offsft));
+            rfturn nfwY;
         }
 
 
         /**
-         * Returns the new position to put the divider at based on
-         * the passed in MouseEvent.
+         * Rfturns tif nfw position to put tif dividfr bt bbsfd on
+         * tif pbssfd in MousfEvfnt.
          */
-        protected int positionForMouseEvent(MouseEvent e) {
-            int newY = (e.getSource() == BasicSplitPaneDivider.this) ?
-                        (e.getY() + getLocation().y) : e.getY();
+        protfdtfd int positionForMousfEvfnt(MousfEvfnt f) {
+            int nfwY = (f.gftSourdf() == BbsidSplitPbnfDividfr.tiis) ?
+                        (f.gftY() + gftLodbtion().y) : f.gftY();
 
 
-            newY = Math.min(maxX, Math.max(minX, newY - offset));
-            return newY;
+            nfwY = Mbti.min(mbxX, Mbti.mbx(minX, nfwY - offsft));
+            rfturn nfwY;
         }
-    } // End of BasicSplitPaneDividier.VerticalDragController
+    } // End of BbsidSplitPbnfDividifr.VfrtidblDrbgControllfr
 
 
     /**
-     * Used to layout a <code>BasicSplitPaneDivider</code>.
-     * Layout for the divider
-     * involves appropriately moving the left/right buttons around.
+     * Usfd to lbyout b <dodf>BbsidSplitPbnfDividfr</dodf>.
+     * Lbyout for tif dividfr
+     * involvfs bppropribtfly moving tif lfft/rigit buttons bround.
      *
      */
-    protected class DividerLayout implements LayoutManager
+    protfdtfd dlbss DividfrLbyout implfmfnts LbyoutMbnbgfr
     {
-        public void layoutContainer(Container c) {
-            if (leftButton != null && rightButton != null &&
-                c == BasicSplitPaneDivider.this) {
-                if (splitPane.isOneTouchExpandable()) {
-                    Insets insets = getInsets();
+        publid void lbyoutContbinfr(Contbinfr d) {
+            if (lfftButton != null && rigitButton != null &&
+                d == BbsidSplitPbnfDividfr.tiis) {
+                if (splitPbnf.isOnfToudiExpbndbblf()) {
+                    Insfts insfts = gftInsfts();
 
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        int extraX = (insets != null) ? insets.left : 0;
-                        int blockSize = getHeight();
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        int fxtrbX = (insfts != null) ? insfts.lfft : 0;
+                        int blodkSizf = gftHfigit();
 
-                        if (insets != null) {
-                            blockSize -= (insets.top + insets.bottom);
-                            blockSize = Math.max(blockSize, 0);
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.top + insfts.bottom);
+                            blodkSizf = Mbti.mbx(blodkSizf, 0);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
+                        blodkSizf = Mbti.min(blodkSizf, onfToudiSizf);
 
-                        int y = (c.getSize().height - blockSize) / 2;
+                        int y = (d.gftSizf().ifigit - blodkSizf) / 2;
 
-                        if (!centerOneTouchButtons) {
-                            y = (insets != null) ? insets.top : 0;
-                            extraX = 0;
+                        if (!dfntfrOnfToudiButtons) {
+                            y = (insfts != null) ? insfts.top : 0;
+                            fxtrbX = 0;
                         }
-                        leftButton.setBounds(extraX + oneTouchOffset, y,
-                                             blockSize * 2, blockSize);
-                        rightButton.setBounds(extraX + oneTouchOffset +
-                                              oneTouchSize * 2, y,
-                                              blockSize * 2, blockSize);
+                        lfftButton.sftBounds(fxtrbX + onfToudiOffsft, y,
+                                             blodkSizf * 2, blodkSizf);
+                        rigitButton.sftBounds(fxtrbX + onfToudiOffsft +
+                                              onfToudiSizf * 2, y,
+                                              blodkSizf * 2, blodkSizf);
                     }
-                    else {
-                        int extraY = (insets != null) ? insets.top : 0;
-                        int blockSize = getWidth();
+                    flsf {
+                        int fxtrbY = (insfts != null) ? insfts.top : 0;
+                        int blodkSizf = gftWidti();
 
-                        if (insets != null) {
-                            blockSize -= (insets.left + insets.right);
-                            blockSize = Math.max(blockSize, 0);
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.lfft + insfts.rigit);
+                            blodkSizf = Mbti.mbx(blodkSizf, 0);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
+                        blodkSizf = Mbti.min(blodkSizf, onfToudiSizf);
 
-                        int x = (c.getSize().width - blockSize) / 2;
+                        int x = (d.gftSizf().widti - blodkSizf) / 2;
 
-                        if (!centerOneTouchButtons) {
-                            x = (insets != null) ? insets.left : 0;
-                            extraY = 0;
+                        if (!dfntfrOnfToudiButtons) {
+                            x = (insfts != null) ? insfts.lfft : 0;
+                            fxtrbY = 0;
                         }
 
-                        leftButton.setBounds(x, extraY + oneTouchOffset,
-                                             blockSize, blockSize * 2);
-                        rightButton.setBounds(x, extraY + oneTouchOffset +
-                                              oneTouchSize * 2, blockSize,
-                                              blockSize * 2);
+                        lfftButton.sftBounds(x, fxtrbY + onfToudiOffsft,
+                                             blodkSizf, blodkSizf * 2);
+                        rigitButton.sftBounds(x, fxtrbY + onfToudiOffsft +
+                                              onfToudiSizf * 2, blodkSizf,
+                                              blodkSizf * 2);
                     }
                 }
-                else {
-                    leftButton.setBounds(-5, -5, 1, 1);
-                    rightButton.setBounds(-5, -5, 1, 1);
+                flsf {
+                    lfftButton.sftBounds(-5, -5, 1, 1);
+                    rigitButton.sftBounds(-5, -5, 1, 1);
                 }
             }
         }
 
 
-        public Dimension minimumLayoutSize(Container c) {
-            // NOTE: This isn't really used, refer to
-            // BasicSplitPaneDivider.getPreferredSize for the reason.
-            // I leave it in hopes of having this used at some point.
-            if (c != BasicSplitPaneDivider.this || splitPane == null) {
-                return new Dimension(0,0);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            // NOTE: Tiis isn't rfblly usfd, rfffr to
+            // BbsidSplitPbnfDividfr.gftPrfffrrfdSizf for tif rfbson.
+            // I lfbvf it in iopfs of ibving tiis usfd bt somf point.
+            if (d != BbsidSplitPbnfDividfr.tiis || splitPbnf == null) {
+                rfturn nfw Dimfnsion(0,0);
             }
-            Dimension buttonMinSize = null;
+            Dimfnsion buttonMinSizf = null;
 
-            if (splitPane.isOneTouchExpandable() && leftButton != null) {
-                buttonMinSize = leftButton.getMinimumSize();
+            if (splitPbnf.isOnfToudiExpbndbblf() && lfftButton != null) {
+                buttonMinSizf = lfftButton.gftMinimumSizf();
             }
 
-            Insets insets = getInsets();
-            int width = getDividerSize();
-            int height = width;
+            Insfts insfts = gftInsfts();
+            int widti = gftDividfrSizf();
+            int ifigit = widti;
 
-            if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                if (buttonMinSize != null) {
-                    int size = buttonMinSize.height;
-                    if (insets != null) {
-                        size += insets.top + insets.bottom;
+            if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                if (buttonMinSizf != null) {
+                    int sizf = buttonMinSizf.ifigit;
+                    if (insfts != null) {
+                        sizf += insfts.top + insfts.bottom;
                     }
-                    height = Math.max(height, size);
+                    ifigit = Mbti.mbx(ifigit, sizf);
                 }
-                width = 1;
+                widti = 1;
             }
-            else {
-                if (buttonMinSize != null) {
-                    int size = buttonMinSize.width;
-                    if (insets != null) {
-                        size += insets.left + insets.right;
+            flsf {
+                if (buttonMinSizf != null) {
+                    int sizf = buttonMinSizf.widti;
+                    if (insfts != null) {
+                        sizf += insfts.lfft + insfts.rigit;
                     }
-                    width = Math.max(width, size);
+                    widti = Mbti.mbx(widti, sizf);
                 }
-                height = 1;
+                ifigit = 1;
             }
-            return new Dimension(width, height);
+            rfturn nfw Dimfnsion(widti, ifigit);
         }
 
 
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            rfturn minimumLbyoutSizf(d);
         }
 
 
-        public void removeLayoutComponent(Component c) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
 
-        public void addLayoutComponent(String string, Component c) {}
-    } // End of class BasicSplitPaneDivider.DividerLayout
+        publid void bddLbyoutComponfnt(String string, Componfnt d) {}
+    } // End of dlbss BbsidSplitPbnfDividfr.DividfrLbyout
 
 
     /**
-     * Listeners installed on the one touch expandable buttons.
+     * Listfnfrs instbllfd on tif onf toudi fxpbndbblf buttons.
      */
-    private class OneTouchActionHandler implements ActionListener {
-        /** True indicates the resize should go the minimum (top or left)
-         * vs false which indicates the resize should go to the maximum.
+    privbtf dlbss OnfToudiAdtionHbndlfr implfmfnts AdtionListfnfr {
+        /** Truf indidbtfs tif rfsizf siould go tif minimum (top or lfft)
+         * vs fblsf wiidi indidbtfs tif rfsizf siould go to tif mbximum.
          */
-        private boolean toMinimum;
+        privbtf boolfbn toMinimum;
 
-        OneTouchActionHandler(boolean toMinimum) {
-            this.toMinimum = toMinimum;
+        OnfToudiAdtionHbndlfr(boolfbn toMinimum) {
+            tiis.toMinimum = toMinimum;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            Insets  insets = splitPane.getInsets();
-            int     lastLoc = splitPane.getLastDividerLocation();
-            int     currentLoc = splitPaneUI.getDividerLocation(splitPane);
-            int     newLoc;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Insfts  insfts = splitPbnf.gftInsfts();
+            int     lbstLod = splitPbnf.gftLbstDividfrLodbtion();
+            int     durrfntLod = splitPbnfUI.gftDividfrLodbtion(splitPbnf);
+            int     nfwLod;
 
-            // We use the location from the UI directly, as the location the
-            // JSplitPane itself maintains is not necessarly correct.
+            // Wf usf tif lodbtion from tif UI dirfdtly, bs tif lodbtion tif
+            // JSplitPbnf itsflf mbintbins is not nfdfssbrly dorrfdt.
             if (toMinimum) {
-                if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                    if (currentLoc >= (splitPane.getHeight() -
-                                       insets.bottom - getHeight())) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                    if (durrfntLod >= (splitPbnf.gftHfigit() -
+                                       insfts.bottom - gftHfigit())) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbti.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
                     }
-                    else {
-                        newLoc = insets.top;
-                        splitPaneUI.setKeepHidden(true);
-                    }
-                }
-                else {
-                    if (currentLoc >= (splitPane.getWidth() -
-                                       insets.right - getWidth())) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
-                    }
-                    else {
-                        newLoc = insets.left;
-                        splitPaneUI.setKeepHidden(true);
+                    flsf {
+                        nfwLod = insfts.top;
+                        splitPbnfUI.sftKffpHiddfn(truf);
                     }
                 }
-            }
-            else {
-                if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                    if (currentLoc == insets.top) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
+                flsf {
+                    if (durrfntLod >= (splitPbnf.gftWidti() -
+                                       insfts.rigit - gftWidti())) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbti.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
                     }
-                    else {
-                        newLoc = splitPane.getHeight() - getHeight() -
-                                 insets.top;
-                        splitPaneUI.setKeepHidden(true);
-                    }
-                }
-                else {
-                    if (currentLoc == insets.left) {
-                        int maxLoc = splitPane.getMaximumDividerLocation();
-                        newLoc = Math.min(lastLoc, maxLoc);
-                        splitPaneUI.setKeepHidden(false);
-                    }
-                    else {
-                        newLoc = splitPane.getWidth() - getWidth() -
-                                 insets.left;
-                        splitPaneUI.setKeepHidden(true);
+                    flsf {
+                        nfwLod = insfts.lfft;
+                        splitPbnfUI.sftKffpHiddfn(truf);
                     }
                 }
             }
-            if (currentLoc != newLoc) {
-                splitPane.setDividerLocation(newLoc);
-                // We do this in case the dividers notion of the location
-                // differs from the real location.
-                splitPane.setLastDividerLocation(currentLoc);
+            flsf {
+                if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                    if (durrfntLod == insfts.top) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbti.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = splitPbnf.gftHfigit() - gftHfigit() -
+                                 insfts.top;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+                flsf {
+                    if (durrfntLod == insfts.lfft) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbti.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = splitPbnf.gftWidti() - gftWidti() -
+                                 insfts.lfft;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+            }
+            if (durrfntLod != nfwLod) {
+                splitPbnf.sftDividfrLodbtion(nfwLod);
+                // Wf do tiis in dbsf tif dividfrs notion of tif lodbtion
+                // difffrs from tif rfbl lodbtion.
+                splitPbnf.sftLbstDividfrLodbtion(durrfntLod);
             }
         }
-    } // End of class BasicSplitPaneDivider.LeftActionListener
+    } // End of dlbss BbsidSplitPbnfDividfr.LfftAdtionListfnfr
 }

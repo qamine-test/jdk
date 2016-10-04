@@ -1,1101 +1,1101 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.security.PrivilegedAction;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import static javax.swing.UIDefaults.LazyValue;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidBordfrs;
+import jbvbx.swing.plbf.bbsid.BbsidLookAndFffl;
+import stbtid jbvbx.swing.UIDffbults.LbzyVbluf;
 import sun.swing.*;
-import apple.laf.*;
+import bpplf.lbf.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class AquaLookAndFeel extends BasicLookAndFeel {
-    static final String sOldPropertyPrefix = "com.apple.macos."; // old prefix for things like 'useScreenMenuBar'
-    static final String sPropertyPrefix = "apple.laf."; // new prefix for things like 'useScreenMenuBar'
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss AqubLookAndFffl fxtfnds BbsidLookAndFffl {
+    stbtid finbl String sOldPropfrtyPrffix = "dom.bpplf.mbdos."; // old prffix for tiings likf 'usfSdrffnMfnuBbr'
+    stbtid finbl String sPropfrtyPrffix = "bpplf.lbf."; // nfw prffix for tiings likf 'usfSdrffnMfnuBbr'
 
-    // for lazy initalizers. Following the pattern from metal.
-    private static final String PKG_PREFIX = "com.apple.laf.";
+    // for lbzy initblizfrs. Following tif pbttfrn from mftbl.
+    privbtf stbtid finbl String PKG_PREFIX = "dom.bpplf.lbf.";
 
     /**
-     * Return a short string that identifies this look and feel, e.g.
-     * "CDE/Motif".  This string should be appropriate for a menu item.
-     * Distinct look and feels should have different names, e.g.
-     * a subclass of MotifLookAndFeel that changes the way a few components
-     * are rendered should be called "CDE/Motif My Way"; something
-     * that would be useful to a user trying to select a L&F from a list
-     * of names.
+     * Rfturn b siort string tibt idfntififs tiis look bnd fffl, f.g.
+     * "CDE/Motif".  Tiis string siould bf bppropribtf for b mfnu itfm.
+     * Distindt look bnd fffls siould ibvf difffrfnt nbmfs, f.g.
+     * b subdlbss of MotifLookAndFffl tibt dibngfs tif wby b ffw domponfnts
+     * brf rfndfrfd siould bf dbllfd "CDE/Motif My Wby"; somftiing
+     * tibt would bf usfful to b usfr trying to sflfdt b L&F from b list
+     * of nbmfs.
      */
-    public String getName() {
-        return "Mac OS X";
+    publid String gftNbmf() {
+        rfturn "Mbd OS X";
     }
 
     /**
-     * Return a string that identifies this look and feel.  This string
-     * will be used by applications/services that want to recognize
-     * well known look and feel implementations.  Presently
-     * the well known names are "Motif", "Windows", "Mac", "Metal".  Note
-     * that a LookAndFeel derived from a well known superclass
-     * that doesn't make any fundamental changes to the look or feel
-     * shouldn't override this method.
+     * Rfturn b string tibt idfntififs tiis look bnd fffl.  Tiis string
+     * will bf usfd by bpplidbtions/sfrvidfs tibt wbnt to rfdognizf
+     * wfll known look bnd fffl implfmfntbtions.  Prfsfntly
+     * tif wfll known nbmfs brf "Motif", "Windows", "Mbd", "Mftbl".  Notf
+     * tibt b LookAndFffl dfrivfd from b wfll known supfrdlbss
+     * tibt dofsn't mbkf bny fundbmfntbl dibngfs to tif look or fffl
+     * siouldn't ovfrridf tiis mftiod.
      */
-    public String getID() {
-        return "Aqua";
+    publid String gftID() {
+        rfturn "Aqub";
     }
 
     /**
-     * Return a one line description of this look and feel implementation,
-     * e.g. "The CDE/Motif Look and Feel".   This string is intended for
-     * the user, e.g. in the title of a window or in a ToolTip message.
+     * Rfturn b onf linf dfsdription of tiis look bnd fffl implfmfntbtion,
+     * f.g. "Tif CDE/Motif Look bnd Fffl".   Tiis string is intfndfd for
+     * tif usfr, f.g. in tif titlf of b window or in b ToolTip mfssbgf.
      */
-    public String getDescription() {
-        return "Aqua Look and Feel for Mac OS X";
+    publid String gftDfsdription() {
+        rfturn "Aqub Look bnd Fffl for Mbd OS X";
     }
 
     /**
-     * Returns true if the <code>LookAndFeel</code> returned
-     * <code>RootPaneUI</code> instances support providing Window decorations
-     * in a <code>JRootPane</code>.
+     * Rfturns truf if tif <dodf>LookAndFffl</dodf> rfturnfd
+     * <dodf>RootPbnfUI</dodf> instbndfs support providing Window dfdorbtions
+     * in b <dodf>JRootPbnf</dodf>.
      * <p>
-     * The default implementation returns false, subclasses that support
-     * Window decorations should override this and return true.
+     * Tif dffbult implfmfntbtion rfturns fblsf, subdlbssfs tibt support
+     * Window dfdorbtions siould ovfrridf tiis bnd rfturn truf.
      *
-     * @return True if the RootPaneUI instances created support client side
-     *             decorations
-     * @see JDialog#setDefaultLookAndFeelDecorated
-     * @see JFrame#setDefaultLookAndFeelDecorated
-     * @see JRootPane#setWindowDecorationStyle
-     * @since 1.4
+     * @rfturn Truf if tif RootPbnfUI instbndfs drfbtfd support dlifnt sidf
+     *             dfdorbtions
+     * @sff JDiblog#sftDffbultLookAndFfflDfdorbtfd
+     * @sff JFrbmf#sftDffbultLookAndFfflDfdorbtfd
+     * @sff JRootPbnf#sftWindowDfdorbtionStylf
+     * @sindf 1.4
      */
-    public boolean getSupportsWindowDecorations() {
-        return false;
+    publid boolfbn gftSupportsWindowDfdorbtions() {
+        rfturn fblsf;
     }
 
     /**
-     * If the underlying platform has a "native" look and feel, and this
-     * is an implementation of it, return true.
+     * If tif undfrlying plbtform ibs b "nbtivf" look bnd fffl, bnd tiis
+     * is bn implfmfntbtion of it, rfturn truf.
      */
-    public boolean isNativeLookAndFeel() {
-        return true;
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn truf;
     }
 
     /**
-     * Return true if the underlying platform supports and or permits
-     * this look and feel.  This method returns false if the look
-     * and feel depends on special resources or legal agreements that
-     * aren't defined for the current platform.
+     * Rfturn truf if tif undfrlying plbtform supports bnd or pfrmits
+     * tiis look bnd fffl.  Tiis mftiod rfturns fblsf if tif look
+     * bnd fffl dfpfnds on spfdibl rfsourdfs or lfgbl bgrffmfnts tibt
+     * brfn't dffinfd for tif durrfnt plbtform.
      *
-     * @see UIManager#setLookAndFeel
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public boolean isSupportedLookAndFeel() {
-        return true;
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
     }
 
     /**
-     * UIManager.setLookAndFeel calls this method before the first
-     * call (and typically the only call) to getDefaults().  Subclasses
-     * should do any one-time setup they need here, rather than
-     * in a static initializer, because look and feel class objects
-     * may be loaded just to discover that isSupportedLookAndFeel()
-     * returns false.
+     * UIMbnbgfr.sftLookAndFffl dblls tiis mftiod bfforf tif first
+     * dbll (bnd typidblly tif only dbll) to gftDffbults().  Subdlbssfs
+     * siould do bny onf-timf sftup tify nffd ifrf, rbtifr tibn
+     * in b stbtid initiblizfr, bfdbusf look bnd fffl dlbss objfdts
+     * mby bf lobdfd just to disdovfr tibt isSupportfdLookAndFffl()
+     * rfturns fblsf.
      *
-     * @see #uninitialize
-     * @see UIManager#setLookAndFeel
+     * @sff #uninitiblizf
+     * @sff UIMbnbgfr#sftLookAndFffl
      */
-    public void initialize() {
-        java.security.AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("osxui");
-                    return null;
+    publid void initiblizf() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("osxui");
+                    rfturn null;
                 }
             });
 
-        java.security.AccessController.doPrivileged(new PrivilegedAction<Void>(){
-            @Override
-            public Void run() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>(){
+            @Ovfrridf
+            publid Void run() {
                 JRSUIControl.initJRSUI();
-                return null;
+                rfturn null;
             }
         });
 
-        super.initialize();
-        final ScreenPopupFactory spf = new ScreenPopupFactory();
-        spf.setActive(true);
-        PopupFactory.setSharedInstance(spf);
+        supfr.initiblizf();
+        finbl SdrffnPopupFbdtory spf = nfw SdrffnPopupFbdtory();
+        spf.sftAdtivf(truf);
+        PopupFbdtory.sftSibrfdInstbndf(spf);
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(AquaMnemonicHandler.getInstance());
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().bddKfyEvfntPostProdfssor(AqubMnfmonidHbndlfr.gftInstbndf());
     }
 
     /**
-     * UIManager.setLookAndFeel calls this method just before we're
-     * replaced by a new default look and feel.   Subclasses may
-     * choose to free up some resources here.
+     * UIMbnbgfr.sftLookAndFffl dblls tiis mftiod just bfforf wf'rf
+     * rfplbdfd by b nfw dffbult look bnd fffl.   Subdlbssfs mby
+     * dioosf to frff up somf rfsourdfs ifrf.
      *
-     * @see #initialize
+     * @sff #initiblizf
      */
-    public void uninitialize() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventPostProcessor(AquaMnemonicHandler.getInstance());
+    publid void uninitiblizf() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().rfmovfKfyEvfntPostProdfssor(AqubMnfmonidHbndlfr.gftInstbndf());
 
-        final PopupFactory popupFactory = PopupFactory.getSharedInstance();
-        if (popupFactory != null && popupFactory instanceof ScreenPopupFactory) {
-            ((ScreenPopupFactory)popupFactory).setActive(false);
+        finbl PopupFbdtory popupFbdtory = PopupFbdtory.gftSibrfdInstbndf();
+        if (popupFbdtory != null && popupFbdtory instbndfof SdrffnPopupFbdtory) {
+            ((SdrffnPopupFbdtory)popupFbdtory).sftAdtivf(fblsf);
         }
 
-        super.uninitialize();
+        supfr.uninitiblizf();
     }
 
     /**
-     * Returns an <code>ActionMap</code>.
+     * Rfturns bn <dodf>AdtionMbp</dodf>.
      * <P>
-     * This <code>ActionMap</code> contains <code>Actions</code> that
-     * embody the ability to render an auditory cue. These auditory
-     * cues map onto user and system activities that may be useful
-     * for an end user to know about (such as a dialog box appearing).
+     * Tiis <dodf>AdtionMbp</dodf> dontbins <dodf>Adtions</dodf> tibt
+     * fmbody tif bbility to rfndfr bn buditory duf. Tifsf buditory
+     * dufs mbp onto usfr bnd systfm bdtivitifs tibt mby bf usfful
+     * for bn fnd usfr to know bbout (sudi bs b diblog box bppfbring).
      * <P>
-     * At the appropriate time in a <code>JComponent</code> UI's lifecycle,
-     * the ComponentUI is responsible for getting the appropriate
-     * <code>Action</code> out of the <code>ActionMap</code> and passing
-     * it on to <code>playSound</code>.
+     * At tif bppropribtf timf in b <dodf>JComponfnt</dodf> UI's liffdydlf,
+     * tif ComponfntUI is rfsponsiblf for gftting tif bppropribtf
+     * <dodf>Adtion</dodf> out of tif <dodf>AdtionMbp</dodf> bnd pbssing
+     * it on to <dodf>plbySound</dodf>.
      * <P>
-     * The <code>Actions</code> in this <code>ActionMap</code> are
-     * created by the <code>createAudioAction</code> method.
+     * Tif <dodf>Adtions</dodf> in tiis <dodf>AdtionMbp</dodf> brf
+     * drfbtfd by tif <dodf>drfbtfAudioAdtion</dodf> mftiod.
      *
-     * @return      an ActionMap containing Actions
-     *              responsible for rendering auditory cues
-     * @see #createAudioAction
-     * @see #playSound(Action)
-     * @since 1.4
+     * @rfturn      bn AdtionMbp dontbining Adtions
+     *              rfsponsiblf for rfndfring buditory dufs
+     * @sff #drfbtfAudioAdtion
+     * @sff #plbySound(Adtion)
+     * @sindf 1.4
      */
-    protected ActionMap getAudioActionMap() {
-        ActionMap audioActionMap = (ActionMap)UIManager.get("AuditoryCues.actionMap");
-        if (audioActionMap != null) return audioActionMap;
+    protfdtfd AdtionMbp gftAudioAdtionMbp() {
+        AdtionMbp budioAdtionMbp = (AdtionMbp)UIMbnbgfr.gft("AuditoryCufs.bdtionMbp");
+        if (budioAdtionMbp != null) rfturn budioAdtionMbp;
 
-        final Object[] acList = (Object[])UIManager.get("AuditoryCues.cueList");
-        if (acList != null) {
-            audioActionMap = new ActionMapUIResource();
-            for (int counter = acList.length - 1; counter >= 0; counter--) {
-                audioActionMap.put(acList[counter], createAudioAction(acList[counter]));
+        finbl Objfdt[] bdList = (Objfdt[])UIMbnbgfr.gft("AuditoryCufs.dufList");
+        if (bdList != null) {
+            budioAdtionMbp = nfw AdtionMbpUIRfsourdf();
+            for (int dountfr = bdList.lfngti - 1; dountfr >= 0; dountfr--) {
+                budioAdtionMbp.put(bdList[dountfr], drfbtfAudioAdtion(bdList[dountfr]));
             }
         }
-        UIManager.getLookAndFeelDefaults().put("AuditoryCues.actionMap", audioActionMap);
+        UIMbnbgfr.gftLookAndFfflDffbults().put("AuditoryCufs.bdtionMbp", budioAdtionMbp);
 
-        return audioActionMap;
+        rfturn budioAdtionMbp;
     }
 
     /**
-     * We override getDefaults() so we can install our own debug defaults
-     * if needed for testing
+     * Wf ovfrridf gftDffbults() so wf dbn instbll our own dfbug dffbults
+     * if nffdfd for tfsting
      */
-    public UIDefaults getDefaults() {
-        final UIDefaults table = new UIDefaults();
-        // use debug defaults if you want to see every query into the defaults object.
-        //UIDefaults table = new DebugDefaults();
+    publid UIDffbults gftDffbults() {
+        finbl UIDffbults tbblf = nfw UIDffbults();
+        // usf dfbug dffbults if you wbnt to sff fvfry qufry into tif dffbults objfdt.
+        //UIDffbults tbblf = nfw DfbugDffbults();
         try {
-            // PopupFactory.getSharedInstance().setPopupType(2);
-            initClassDefaults(table);
+            // PopupFbdtory.gftSibrfdInstbndf().sftPopupTypf(2);
+            initClbssDffbults(tbblf);
 
-            // Here we install all the Basic defaults in case we missed some in our System color
-            // or component defaults that follow. Eventually we will take this out.
-            // This is a big negative to performance so we want to get it out as soon
-            // as we are comfortable with the Aqua defaults.
-            super.initSystemColorDefaults(table);
-            super.initComponentDefaults(table);
+            // Hfrf wf instbll bll tif Bbsid dffbults in dbsf wf missfd somf in our Systfm dolor
+            // or domponfnt dffbults tibt follow. Evfntublly wf will tbkf tiis out.
+            // Tiis is b big nfgbtivf to pfrformbndf so wf wbnt to gft it out bs soon
+            // bs wf brf domfortbblf witi tif Aqub dffbults.
+            supfr.initSystfmColorDffbults(tbblf);
+            supfr.initComponfntDffbults(tbblf);
 
-            // Because the last elements added win in precedence we add all of our aqua elements here.
-            initSystemColorDefaults(table);
-            initComponentDefaults(table);
-        } catch(final Exception e) {
-            e.printStackTrace();
+            // Bfdbusf tif lbst flfmfnts bddfd win in prfdfdfndf wf bdd bll of our bqub flfmfnts ifrf.
+            initSystfmColorDffbults(tbblf);
+            initComponfntDffbults(tbblf);
+        } dbtdi(finbl Exdfption f) {
+            f.printStbdkTrbdf();
         }
-        return table;
+        rfturn tbblf;
     }
 
     /**
-     * Initialize the defaults table with the name of the ResourceBundle
-     * used for getting localized defaults.  Also initialize the default
-     * locale used when no locale is passed into UIDefaults.get().  The
-     * default locale should generally not be relied upon. It is here for
-     * compatibility with releases prior to 1.4.
+     * Initiblizf tif dffbults tbblf witi tif nbmf of tif RfsourdfBundlf
+     * usfd for gftting lodblizfd dffbults.  Also initiblizf tif dffbult
+     * lodblf usfd wifn no lodblf is pbssfd into UIDffbults.gft().  Tif
+     * dffbult lodblf siould gfnfrblly not bf rflifd upon. It is ifrf for
+     * dompbtibility witi rflfbsfs prior to 1.4.
      */
-    private void initResourceBundle(final UIDefaults table) {
-        table.setDefaultLocale(Locale.getDefault());
-        table.addResourceBundle(PKG_PREFIX + "resources.aqua");
+    privbtf void initRfsourdfBundlf(finbl UIDffbults tbblf) {
+        tbblf.sftDffbultLodblf(Lodblf.gftDffbult());
+        tbblf.bddRfsourdfBundlf(PKG_PREFIX + "rfsourdfs.bqub");
         try {
-            final ResourceBundle aquaProperties = ResourceBundle.getBundle(PKG_PREFIX + "resources.aqua");
-            final Enumeration<String> propertyKeys = aquaProperties.getKeys();
+            finbl RfsourdfBundlf bqubPropfrtifs = RfsourdfBundlf.gftBundlf(PKG_PREFIX + "rfsourdfs.bqub");
+            finbl Enumfrbtion<String> propfrtyKfys = bqubPropfrtifs.gftKfys();
 
-            while (propertyKeys.hasMoreElements()) {
-                final String key = propertyKeys.nextElement();
-                table.put(key, aquaProperties.getString(key));
+            wiilf (propfrtyKfys.ibsMorfElfmfnts()) {
+                finbl String kfy = propfrtyKfys.nfxtElfmfnt();
+                tbblf.put(kfy, bqubPropfrtifs.gftString(kfy));
             }
-        } catch (final Exception e) {
+        } dbtdi (finbl Exdfption f) {
         }
     }
 
     /**
-     * This is the last step in the getDefaults routine usually called from our superclass
+     * Tiis is tif lbst stfp in tif gftDffbults routinf usublly dbllfd from our supfrdlbss
      */
-    protected void initComponentDefaults(final UIDefaults table) {
-        initResourceBundle(table);
+    protfdtfd void initComponfntDffbults(finbl UIDffbults tbblf) {
+        initRfsourdfBundlf(tbblf);
 
-        final InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
-        final InsetsUIResource menuItemMargin = zeroInsets;
+        finbl InsftsUIRfsourdf zfroInsfts = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        finbl InsftsUIRfsourdf mfnuItfmMbrgin = zfroInsfts;
 
-        // <rdar://problem/5189013> Entire Java application window refreshes when moving off Shortcut menu item
-        final Boolean useOpaqueComponents = Boolean.TRUE;
+        // <rdbr://problfm/5189013> Entirf Jbvb bpplidbtion window rffrfsifs wifn moving off Siortdut mfnu itfm
+        finbl Boolfbn usfOpbqufComponfnts = Boolfbn.TRUE;
 
-        final Boolean buttonShouldBeOpaque = AquaUtils.shouldUseOpaqueButtons() ? Boolean.TRUE : Boolean.FALSE;
+        finbl Boolfbn buttonSiouldBfOpbquf = AqubUtils.siouldUsfOpbqufButtons() ? Boolfbn.TRUE : Boolfbn.FALSE;
 
-        // *** List value objects
-        final Object listCellRendererActiveValue = new UIDefaults.ActiveValue(){
-            public Object createValue(UIDefaults defaultsTable) {
-                return new DefaultListCellRenderer.UIResource();
+        // *** List vbluf objfdts
+        finbl Objfdt listCfllRfndfrfrAdtivfVbluf = nfw UIDffbults.AdtivfVbluf(){
+            publid Objfdt drfbtfVbluf(UIDffbults dffbultsTbblf) {
+                rfturn nfw DffbultListCfllRfndfrfr.UIRfsourdf();
             }
         };
 
-        // SJA - I'm basing this on what is in the MetalLookAndFeel class, but
-        // without being based on BasicLookAndFeel. We want more flexibility.
-        // The key to doing this well is to use Lazy initializing classes as
-        // much as possible.
+        // SJA - I'm bbsing tiis on wibt is in tif MftblLookAndFffl dlbss, but
+        // witiout bfing bbsfd on BbsidLookAndFffl. Wf wbnt morf flfxibility.
+        // Tif kfy to doing tiis wfll is to usf Lbzy initiblizing dlbssfs bs
+        // mudi bs possiblf.
 
-        // Here I want to go to native and get all the values we'd need for colors etc.
-        final Border toolTipBorder = new BorderUIResource.EmptyBorderUIResource(2, 0, 2, 0);
-        final ColorUIResource toolTipBackground = new ColorUIResource(255, 255, (int)(255.0 * 0.80));
-        final ColorUIResource black = new ColorUIResource(Color.black);
-        final ColorUIResource white = new ColorUIResource(Color.white);
-        final ColorUIResource smokyGlass = new ColorUIResource(new Color(0, 0, 0, 152));
-        final ColorUIResource dockIconRim = new ColorUIResource(new Color(192, 192, 192, 192));
-        final ColorUIResource mediumTranslucentBlack = new ColorUIResource(new Color(0, 0, 0, 100));
-        final ColorUIResource translucentWhite = new ColorUIResource(new Color(255, 255, 255, 254));
-    //    final ColorUIResource lightGray = new ColorUIResource(232, 232, 232);
-        final ColorUIResource disabled = new ColorUIResource(0.5f, 0.5f, 0.5f);
-        final ColorUIResource disabledShadow = new ColorUIResource(0.25f, 0.25f, 0.25f);
-        final ColorUIResource selected = new ColorUIResource(1.0f, 0.4f, 0.4f);
+        // Hfrf I wbnt to go to nbtivf bnd gft bll tif vblufs wf'd nffd for dolors ftd.
+        finbl Bordfr toolTipBordfr = nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(2, 0, 2, 0);
+        finbl ColorUIRfsourdf toolTipBbdkground = nfw ColorUIRfsourdf(255, 255, (int)(255.0 * 0.80));
+        finbl ColorUIRfsourdf blbdk = nfw ColorUIRfsourdf(Color.blbdk);
+        finbl ColorUIRfsourdf wiitf = nfw ColorUIRfsourdf(Color.wiitf);
+        finbl ColorUIRfsourdf smokyGlbss = nfw ColorUIRfsourdf(nfw Color(0, 0, 0, 152));
+        finbl ColorUIRfsourdf dodkIdonRim = nfw ColorUIRfsourdf(nfw Color(192, 192, 192, 192));
+        finbl ColorUIRfsourdf mfdiumTrbnsludfntBlbdk = nfw ColorUIRfsourdf(nfw Color(0, 0, 0, 100));
+        finbl ColorUIRfsourdf trbnsludfntWiitf = nfw ColorUIRfsourdf(nfw Color(255, 255, 255, 254));
+    //    finbl ColorUIRfsourdf ligitGrby = nfw ColorUIRfsourdf(232, 232, 232);
+        finbl ColorUIRfsourdf disbblfd = nfw ColorUIRfsourdf(0.5f, 0.5f, 0.5f);
+        finbl ColorUIRfsourdf disbblfdSibdow = nfw ColorUIRfsourdf(0.25f, 0.25f, 0.25f);
+        finbl ColorUIRfsourdf sflfdtfd = nfw ColorUIRfsourdf(1.0f, 0.4f, 0.4f);
 
-        // Contrast tab UI colors
+        // Contrbst tbb UI dolors
 
-        final ColorUIResource selectedTabTitlePressedColor = new ColorUIResource(240, 240, 240);
-        final ColorUIResource selectedTabTitleDisabledColor = new ColorUIResource(new Color(1, 1, 1, 0.55f));
-        final ColorUIResource selectedTabTitleNormalColor = white;
-        final ColorUIResource selectedTabTitleShadowDisabledColor = new ColorUIResource(new Color(0, 0, 0, 0.25f));
-        final ColorUIResource selectedTabTitleShadowNormalColor = mediumTranslucentBlack;
-        final ColorUIResource nonSelectedTabTitleNormalColor = black;
+        finbl ColorUIRfsourdf sflfdtfdTbbTitlfPrfssfdColor = nfw ColorUIRfsourdf(240, 240, 240);
+        finbl ColorUIRfsourdf sflfdtfdTbbTitlfDisbblfdColor = nfw ColorUIRfsourdf(nfw Color(1, 1, 1, 0.55f));
+        finbl ColorUIRfsourdf sflfdtfdTbbTitlfNormblColor = wiitf;
+        finbl ColorUIRfsourdf sflfdtfdTbbTitlfSibdowDisbblfdColor = nfw ColorUIRfsourdf(nfw Color(0, 0, 0, 0.25f));
+        finbl ColorUIRfsourdf sflfdtfdTbbTitlfSibdowNormblColor = mfdiumTrbnsludfntBlbdk;
+        finbl ColorUIRfsourdf nonSflfdtfdTbbTitlfNormblColor = blbdk;
 
-        final ColorUIResource toolbarDragHandleColor = new ColorUIResource(140, 140, 140);
+        finbl ColorUIRfsourdf toolbbrDrbgHbndlfColor = nfw ColorUIRfsourdf(140, 140, 140);
 
-        // sja todo Make these lazy values so we only get them when required - if we deem it necessary
-        // it may be the case that we think the overhead of a proxy lazy value is not worth delaying
-        // creating the object if we think that most swing apps will use this.
-        // the lazy value is useful for delaying initialization until this default value is actually
-        // accessed by the LAF instead of at init time, so making it lazy should speed up
-        // our launch times of Swing apps.
+        // sjb todo Mbkf tifsf lbzy vblufs so wf only gft tifm wifn rfquirfd - if wf dffm it nfdfssbry
+        // it mby bf tif dbsf tibt wf tiink tif ovfrifbd of b proxy lbzy vbluf is not worti dflbying
+        // drfbting tif objfdt if wf tiink tibt most swing bpps will usf tiis.
+        // tif lbzy vbluf is usfful for dflbying initiblizbtion until tiis dffbult vbluf is bdtublly
+        // bddfssfd by tif LAF instfbd of bt init timf, so mbking it lbzy siould spffd up
+        // our lbundi timfs of Swing bpps.
 
-        // *** Text value objects
-        final LazyValue marginBorder = t -> new BasicBorders.MarginBorder();
+        // *** Tfxt vbluf objfdts
+        finbl LbzyVbluf mbrginBordfr = t -> nfw BbsidBordfrs.MbrginBordfr();
 
-        final int zero = 0;
-        final Object editorMargin = zeroInsets; // this is not correct - look at TextEdit to determine the right margin
-        final int textCaretBlinkRate = 500;
-        final LazyValue textFieldBorder = t ->
-            AquaTextFieldBorder.getTextFieldBorder();
-        final Object textAreaBorder = marginBorder; // text areas have no real border - radar 311073
+        finbl int zfro = 0;
+        finbl Objfdt fditorMbrgin = zfroInsfts; // tiis is not dorrfdt - look bt TfxtEdit to dftfrminf tif rigit mbrgin
+        finbl int tfxtCbrftBlinkRbtf = 500;
+        finbl LbzyVbluf tfxtFifldBordfr = t ->
+            AqubTfxtFifldBordfr.gftTfxtFifldBordfr();
+        finbl Objfdt tfxtArfbBordfr = mbrginBordfr; // tfxt brfbs ibvf no rfbl bordfr - rbdbr 311073
 
-        final LazyValue scollListBorder = t ->
-            AquaScrollRegionBorder.getScrollRegionBorder();
-        final LazyValue aquaTitledBorder = t ->
-            AquaGroupBorder.getBorderForTitledBorder();
-        final LazyValue aquaInsetBorder = t ->
-            AquaGroupBorder.getTitlelessBorder();
+        finbl LbzyVbluf sdollListBordfr = t ->
+            AqubSdrollRfgionBordfr.gftSdrollRfgionBordfr();
+        finbl LbzyVbluf bqubTitlfdBordfr = t ->
+            AqubGroupBordfr.gftBordfrForTitlfdBordfr();
+        finbl LbzyVbluf bqubInsftBordfr = t ->
+            AqubGroupBordfr.gftTitlflfssBordfr();
 
-        final Border listHeaderBorder = AquaTableHeaderBorder.getListHeaderBorder();
-        final Border zeroBorder = new BorderUIResource.EmptyBorderUIResource(0, 0, 0, 0);
+        finbl Bordfr listHfbdfrBordfr = AqubTbblfHfbdfrBordfr.gftListHfbdfrBordfr();
+        finbl Bordfr zfroBordfr = nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(0, 0, 0, 0);
 
-        // we can't seem to proxy Colors
-        final Color selectionBackground = AquaImageFactory.getSelectionBackgroundColorUIResource();
-        final Color selectionForeground = AquaImageFactory.getSelectionForegroundColorUIResource();
-        final Color selectionInactiveBackground = AquaImageFactory.getSelectionInactiveBackgroundColorUIResource();
-        final Color selectionInactiveForeground = AquaImageFactory.getSelectionInactiveForegroundColorUIResource();
+        // wf dbn't sffm to proxy Colors
+        finbl Color sflfdtionBbdkground = AqubImbgfFbdtory.gftSflfdtionBbdkgroundColorUIRfsourdf();
+        finbl Color sflfdtionForfground = AqubImbgfFbdtory.gftSflfdtionForfgroundColorUIRfsourdf();
+        finbl Color sflfdtionInbdtivfBbdkground = AqubImbgfFbdtory.gftSflfdtionInbdtivfBbdkgroundColorUIRfsourdf();
+        finbl Color sflfdtionInbdtivfForfground = AqubImbgfFbdtory.gftSflfdtionInbdtivfForfgroundColorUIRfsourdf();
 
-        final Color textHighlightText = AquaImageFactory.getTextSelectionForegroundColorUIResource();
-        final Color textHighlight = AquaImageFactory.getTextSelectionBackgroundColorUIResource();
-        final Color textHighlightInactive = new ColorUIResource(212, 212, 212);
+        finbl Color tfxtHigiligitTfxt = AqubImbgfFbdtory.gftTfxtSflfdtionForfgroundColorUIRfsourdf();
+        finbl Color tfxtHigiligit = AqubImbgfFbdtory.gftTfxtSflfdtionBbdkgroundColorUIRfsourdf();
+        finbl Color tfxtHigiligitInbdtivf = nfw ColorUIRfsourdf(212, 212, 212);
 
-        final Color textInactiveText = disabled;
-        final Color textForeground = black;
-        final Color textBackground = white;
-        final Color textInactiveBackground = white;
+        finbl Color tfxtInbdtivfTfxt = disbblfd;
+        finbl Color tfxtForfground = blbdk;
+        finbl Color tfxtBbdkground = wiitf;
+        finbl Color tfxtInbdtivfBbdkground = wiitf;
 
-        final Color textPasswordFieldCapsLockIconColor = mediumTranslucentBlack;
+        finbl Color tfxtPbsswordFifldCbpsLodkIdonColor = mfdiumTrbnsludfntBlbdk;
 
-        final LazyValue internalFrameBorder = t ->
-            BasicBorders.getInternalFrameBorder();
-        final Color desktopBackgroundColor = new ColorUIResource(new Color(65, 105, 170));//SystemColor.desktop
+        finbl LbzyVbluf intfrnblFrbmfBordfr = t ->
+            BbsidBordfrs.gftIntfrnblFrbmfBordfr();
+        finbl Color dfsktopBbdkgroundColor = nfw ColorUIRfsourdf(nfw Color(65, 105, 170));//SystfmColor.dfsktop
 
-        final Color focusRingColor = AquaImageFactory.getFocusRingColorUIResource();
-        final Border focusCellHighlightBorder = new BorderUIResource.LineBorderUIResource(focusRingColor);
+        finbl Color fodusRingColor = AqubImbgfFbdtory.gftFodusRingColorUIRfsourdf();
+        finbl Bordfr fodusCfllHigiligitBordfr = nfw BordfrUIRfsourdf.LinfBordfrUIRfsourdf(fodusRingColor);
 
-        final Color windowBackgroundColor = AquaImageFactory.getWindowBackgroundColorUIResource();
-        final Color panelBackgroundColor = windowBackgroundColor;
-        final Color tabBackgroundColor = windowBackgroundColor;
-        final Color controlBackgroundColor = windowBackgroundColor;
+        finbl Color windowBbdkgroundColor = AqubImbgfFbdtory.gftWindowBbdkgroundColorUIRfsourdf();
+        finbl Color pbnflBbdkgroundColor = windowBbdkgroundColor;
+        finbl Color tbbBbdkgroundColor = windowBbdkgroundColor;
+        finbl Color dontrolBbdkgroundColor = windowBbdkgroundColor;
 
-        final LazyValue controlFont = t -> AquaFonts.getControlTextFont();
-        final LazyValue controlSmallFont = t ->
-            AquaFonts.getControlTextSmallFont();
-        final LazyValue alertHeaderFont = t -> AquaFonts.getAlertHeaderFont();
-        final LazyValue menuFont = t -> AquaFonts.getMenuFont();
-        final LazyValue viewFont = t -> AquaFonts.getViewFont();
+        finbl LbzyVbluf dontrolFont = t -> AqubFonts.gftControlTfxtFont();
+        finbl LbzyVbluf dontrolSmbllFont = t ->
+            AqubFonts.gftControlTfxtSmbllFont();
+        finbl LbzyVbluf blfrtHfbdfrFont = t -> AqubFonts.gftAlfrtHfbdfrFont();
+        finbl LbzyVbluf mfnuFont = t -> AqubFonts.gftMfnuFont();
+        finbl LbzyVbluf vifwFont = t -> AqubFonts.gftVifwFont();
 
-        final Color menuBackgroundColor = new ColorUIResource(Color.white);
-        final Color menuForegroundColor = black;
+        finbl Color mfnuBbdkgroundColor = nfw ColorUIRfsourdf(Color.wiitf);
+        finbl Color mfnuForfgroundColor = blbdk;
 
-        final Color menuSelectedForegroundColor = white;
-        final Color menuSelectedBackgroundColor = focusRingColor;
+        finbl Color mfnuSflfdtfdForfgroundColor = wiitf;
+        finbl Color mfnuSflfdtfdBbdkgroundColor = fodusRingColor;
 
-        final Color menuDisabledBackgroundColor = menuBackgroundColor;
-        final Color menuDisabledForegroundColor = disabled;
+        finbl Color mfnuDisbblfdBbdkgroundColor = mfnuBbdkgroundColor;
+        finbl Color mfnuDisbblfdForfgroundColor = disbblfd;
 
-        final Color menuAccelForegroundColor = black;
-        final Color menuAccelSelectionForegroundColor = black;
+        finbl Color mfnuAddflForfgroundColor = blbdk;
+        finbl Color mfnuAddflSflfdtionForfgroundColor = blbdk;
 
-        final Border menuBorder = new AquaMenuBorder();
+        finbl Bordfr mfnuBordfr = nfw AqubMfnuBordfr();
 
-        final UIDefaults.LazyInputMap controlFocusInputMap = new UIDefaults.LazyInputMap(new Object[]{
-            "SPACE", "pressed",
-            "released SPACE", "released"
+        finbl UIDffbults.LbzyInputMbp dontrolFodusInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[]{
+            "SPACE", "prfssfd",
+            "rflfbsfd SPACE", "rflfbsfd"
         });
 
-        // sja testing
-        final LazyValue confirmIcon = t ->
-            AquaImageFactory.getConfirmImageIcon();
-        final LazyValue cautionIcon = t ->
-            AquaImageFactory.getCautionImageIcon();
-        final LazyValue stopIcon = t ->
-            AquaImageFactory.getStopImageIcon();
-        final LazyValue securityIcon = t ->
-            AquaImageFactory.getLockImageIcon();
+        // sjb tfsting
+        finbl LbzyVbluf donfirmIdon = t ->
+            AqubImbgfFbdtory.gftConfirmImbgfIdon();
+        finbl LbzyVbluf dbutionIdon = t ->
+            AqubImbgfFbdtory.gftCbutionImbgfIdon();
+        finbl LbzyVbluf stopIdon = t ->
+            AqubImbgfFbdtory.gftStopImbgfIdon();
+        finbl LbzyVbluf sfdurityIdon = t ->
+            AqubImbgfFbdtory.gftLodkImbgfIdon();
 
-        final AquaKeyBindings aquaKeyBindings = AquaKeyBindings.instance();
+        finbl AqubKfyBindings bqubKfyBindings = AqubKfyBindings.instbndf();
 
-        final Object[] defaults = {
-            "control", windowBackgroundColor, /* Default color for controls (buttons, sliders, etc) */
+        finbl Objfdt[] dffbults = {
+            "dontrol", windowBbdkgroundColor, /* Dffbult dolor for dontrols (buttons, slidfrs, ftd) */
 
             // Buttons
-            "Button.background", controlBackgroundColor,
-            "Button.foreground", black,
-            "Button.disabledText", disabled,
-            "Button.select", selected,
-            "Button.border",(LazyValue) t -> AquaButtonBorder.getDynamicButtonBorder(),
-            "Button.font", controlFont,
-            "Button.textIconGap", new Integer(4),
-            "Button.textShiftOffset", zero, // radar 3308129 - aqua doesn't move images when pressed.
-            "Button.focusInputMap", controlFocusInputMap,
-            "Button.margin", new InsetsUIResource(0, 2, 0, 2),
-            "Button.opaque", buttonShouldBeOpaque,
+            "Button.bbdkground", dontrolBbdkgroundColor,
+            "Button.forfground", blbdk,
+            "Button.disbblfdTfxt", disbblfd,
+            "Button.sflfdt", sflfdtfd,
+            "Button.bordfr",(LbzyVbluf) t -> AqubButtonBordfr.gftDynbmidButtonBordfr(),
+            "Button.font", dontrolFont,
+            "Button.tfxtIdonGbp", nfw Intfgfr(4),
+            "Button.tfxtSiiftOffsft", zfro, // rbdbr 3308129 - bqub dofsn't movf imbgfs wifn prfssfd.
+            "Button.fodusInputMbp", dontrolFodusInputMbp,
+            "Button.mbrgin", nfw InsftsUIRfsourdf(0, 2, 0, 2),
+            "Button.opbquf", buttonSiouldBfOpbquf,
 
-            "CheckBox.background", controlBackgroundColor,
-            "CheckBox.foreground", black,
-            "CheckBox.disabledText", disabled,
-            "CheckBox.select", selected,
-            "CheckBox.icon",(LazyValue) t -> AquaButtonCheckBoxUI.getSizingCheckBoxIcon(),
-            "CheckBox.font", controlFont,
-            "CheckBox.border", AquaButtonBorder.getBevelButtonBorder(),
-            "CheckBox.margin", new InsetsUIResource(1, 1, 0, 1),
-            // radar 3583849. This property never gets
-            // used. The border for the Checkbox gets overridden
-            // by AquaRadiButtonUI.setThemeBorder(). Needs refactoring. (vm)
-            // why is button focus commented out?
-            //"CheckBox.focus", getFocusColor(),
-            "CheckBox.focusInputMap", controlFocusInputMap,
+            "CifdkBox.bbdkground", dontrolBbdkgroundColor,
+            "CifdkBox.forfground", blbdk,
+            "CifdkBox.disbblfdTfxt", disbblfd,
+            "CifdkBox.sflfdt", sflfdtfd,
+            "CifdkBox.idon",(LbzyVbluf) t -> AqubButtonCifdkBoxUI.gftSizingCifdkBoxIdon(),
+            "CifdkBox.font", dontrolFont,
+            "CifdkBox.bordfr", AqubButtonBordfr.gftBfvflButtonBordfr(),
+            "CifdkBox.mbrgin", nfw InsftsUIRfsourdf(1, 1, 0, 1),
+            // rbdbr 3583849. Tiis propfrty nfvfr gfts
+            // usfd. Tif bordfr for tif Cifdkbox gfts ovfrriddfn
+            // by AqubRbdiButtonUI.sftTifmfBordfr(). Nffds rffbdtoring. (vm)
+            // wiy is button fodus dommfntfd out?
+            //"CifdkBox.fodus", gftFodusColor(),
+            "CifdkBox.fodusInputMbp", dontrolFodusInputMbp,
 
-            "CheckBoxMenuItem.font", menuFont,
-            "CheckBoxMenuItem.acceleratorFont", menuFont,
-            "CheckBoxMenuItem.background", menuBackgroundColor,
-            "CheckBoxMenuItem.foreground", menuForegroundColor,
-            "CheckBoxMenuItem.selectionBackground", menuSelectedBackgroundColor,
-            "CheckBoxMenuItem.selectionForeground", menuSelectedForegroundColor,
-            "CheckBoxMenuItem.disabledBackground", menuDisabledBackgroundColor,
-            "CheckBoxMenuItem.disabledForeground", menuDisabledForegroundColor,
-            "CheckBoxMenuItem.acceleratorForeground", menuAccelForegroundColor,
-            "CheckBoxMenuItem.acceleratorSelectionForeground", menuAccelSelectionForegroundColor,
-            "CheckBoxMenuItem.acceleratorDelimiter", "",
-            "CheckBoxMenuItem.border", menuBorder, // for inset calculation
-            "CheckBoxMenuItem.margin", menuItemMargin,
-            "CheckBoxMenuItem.borderPainted", Boolean.TRUE,
-            "CheckBoxMenuItem.checkIcon",(LazyValue) t -> AquaImageFactory.getMenuItemCheckIcon(),
-            "CheckBoxMenuItem.dashIcon",(LazyValue) t -> AquaImageFactory.getMenuItemDashIcon(),
-            //"CheckBoxMenuItem.arrowIcon", null,
+            "CifdkBoxMfnuItfm.font", mfnuFont,
+            "CifdkBoxMfnuItfm.bddflfrbtorFont", mfnuFont,
+            "CifdkBoxMfnuItfm.bbdkground", mfnuBbdkgroundColor,
+            "CifdkBoxMfnuItfm.forfground", mfnuForfgroundColor,
+            "CifdkBoxMfnuItfm.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "CifdkBoxMfnuItfm.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "CifdkBoxMfnuItfm.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor,
+            "CifdkBoxMfnuItfm.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "CifdkBoxMfnuItfm.bddflfrbtorForfground", mfnuAddflForfgroundColor,
+            "CifdkBoxMfnuItfm.bddflfrbtorSflfdtionForfground", mfnuAddflSflfdtionForfgroundColor,
+            "CifdkBoxMfnuItfm.bddflfrbtorDflimitfr", "",
+            "CifdkBoxMfnuItfm.bordfr", mfnuBordfr, // for insft dbldulbtion
+            "CifdkBoxMfnuItfm.mbrgin", mfnuItfmMbrgin,
+            "CifdkBoxMfnuItfm.bordfrPbintfd", Boolfbn.TRUE,
+            "CifdkBoxMfnuItfm.difdkIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftMfnuItfmCifdkIdon(),
+            "CifdkBoxMfnuItfm.dbsiIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftMfnuItfmDbsiIdon(),
+            //"CifdkBoxMfnuItfm.brrowIdon", null,
 
-            "ColorChooser.background", panelBackgroundColor,
+            "ColorCioosfr.bbdkground", pbnflBbdkgroundColor,
 
             // *** ComboBox
-            "ComboBox.font", controlFont,
-            "ComboBox.background", controlBackgroundColor, //menuBackgroundColor, // "menu" when it has no scrollbar, "listView" when it does
-            "ComboBox.foreground", menuForegroundColor,
-            "ComboBox.selectionBackground", menuSelectedBackgroundColor,
-            "ComboBox.selectionForeground", menuSelectedForegroundColor,
-            "ComboBox.disabledBackground", menuDisabledBackgroundColor,
-            "ComboBox.disabledForeground", menuDisabledForegroundColor,
-            "ComboBox.ancestorInputMap", aquaKeyBindings.getComboBoxInputMap(),
+            "ComboBox.font", dontrolFont,
+            "ComboBox.bbdkground", dontrolBbdkgroundColor, //mfnuBbdkgroundColor, // "mfnu" wifn it ibs no sdrollbbr, "listVifw" wifn it dofs
+            "ComboBox.forfground", mfnuForfgroundColor,
+            "ComboBox.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "ComboBox.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "ComboBox.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor,
+            "ComboBox.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "ComboBox.bndfstorInputMbp", bqubKfyBindings.gftComboBoxInputMbp(),
 
-            "DesktopIcon.border", internalFrameBorder,
-            "DesktopIcon.borderColor", smokyGlass,
-            "DesktopIcon.borderRimColor", dockIconRim,
-            "DesktopIcon.labelBackground", mediumTranslucentBlack,
-            "Desktop.background", desktopBackgroundColor,
+            "DfsktopIdon.bordfr", intfrnblFrbmfBordfr,
+            "DfsktopIdon.bordfrColor", smokyGlbss,
+            "DfsktopIdon.bordfrRimColor", dodkIdonRim,
+            "DfsktopIdon.lbbflBbdkground", mfdiumTrbnsludfntBlbdk,
+            "Dfsktop.bbdkground", dfsktopBbdkgroundColor,
 
-            "EditorPane.focusInputMap", aquaKeyBindings.getMultiLineTextInputMap(),
-            "EditorPane.font", controlFont,
-            "EditorPane.background", textBackground,
-            "EditorPane.foreground", textForeground,
-            "EditorPane.selectionBackground", textHighlight,
-            "EditorPane.selectionForeground", textHighlightText,
-            "EditorPane.caretForeground", textForeground,
-            "EditorPane.caretBlinkRate", textCaretBlinkRate,
-            "EditorPane.inactiveForeground", textInactiveText,
-            "EditorPane.inactiveBackground", textInactiveBackground,
-            "EditorPane.border", textAreaBorder,
-            "EditorPane.margin", editorMargin,
+            "EditorPbnf.fodusInputMbp", bqubKfyBindings.gftMultiLinfTfxtInputMbp(),
+            "EditorPbnf.font", dontrolFont,
+            "EditorPbnf.bbdkground", tfxtBbdkground,
+            "EditorPbnf.forfground", tfxtForfground,
+            "EditorPbnf.sflfdtionBbdkground", tfxtHigiligit,
+            "EditorPbnf.sflfdtionForfground", tfxtHigiligitTfxt,
+            "EditorPbnf.dbrftForfground", tfxtForfground,
+            "EditorPbnf.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "EditorPbnf.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "EditorPbnf.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "EditorPbnf.bordfr", tfxtArfbBordfr,
+            "EditorPbnf.mbrgin", fditorMbrgin,
 
-            "FileChooser.newFolderIcon", AquaIcon.SystemIcon.getFolderIconUIResource(),
-            "FileChooser.upFolderIcon", AquaIcon.SystemIcon.getFolderIconUIResource(),
-            "FileChooser.homeFolderIcon", AquaIcon.SystemIcon.getDesktopIconUIResource(),
-            "FileChooser.detailsViewIcon", AquaIcon.SystemIcon.getComputerIconUIResource(),
-            "FileChooser.listViewIcon", AquaIcon.SystemIcon.getComputerIconUIResource(),
+            "FilfCioosfr.nfwFoldfrIdon", AqubIdon.SystfmIdon.gftFoldfrIdonUIRfsourdf(),
+            "FilfCioosfr.upFoldfrIdon", AqubIdon.SystfmIdon.gftFoldfrIdonUIRfsourdf(),
+            "FilfCioosfr.iomfFoldfrIdon", AqubIdon.SystfmIdon.gftDfsktopIdonUIRfsourdf(),
+            "FilfCioosfr.dftbilsVifwIdon", AqubIdon.SystfmIdon.gftComputfrIdonUIRfsourdf(),
+            "FilfCioosfr.listVifwIdon", AqubIdon.SystfmIdon.gftComputfrIdonUIRfsourdf(),
 
-            "FileView.directoryIcon", AquaIcon.SystemIcon.getFolderIconUIResource(),
-            "FileView.fileIcon", AquaIcon.SystemIcon.getDocumentIconUIResource(),
-            "FileView.computerIcon", AquaIcon.SystemIcon.getDesktopIconUIResource(),
-            "FileView.hardDriveIcon", AquaIcon.SystemIcon.getHardDriveIconUIResource(),
-            "FileView.floppyDriveIcon", AquaIcon.SystemIcon.getFloppyIconUIResource(),
+            "FilfVifw.dirfdtoryIdon", AqubIdon.SystfmIdon.gftFoldfrIdonUIRfsourdf(),
+            "FilfVifw.filfIdon", AqubIdon.SystfmIdon.gftDodumfntIdonUIRfsourdf(),
+            "FilfVifw.domputfrIdon", AqubIdon.SystfmIdon.gftDfsktopIdonUIRfsourdf(),
+            "FilfVifw.ibrdDrivfIdon", AqubIdon.SystfmIdon.gftHbrdDrivfIdonUIRfsourdf(),
+            "FilfVifw.floppyDrivfIdon", AqubIdon.SystfmIdon.gftFloppyIdonUIRfsourdf(),
 
-            // File View
-            "FileChooser.cancelButtonMnemonic", zero,
-            "FileChooser.saveButtonMnemonic", zero,
-            "FileChooser.openButtonMnemonic", zero,
-            "FileChooser.updateButtonMnemonic", zero,
-            "FileChooser.helpButtonMnemonic", zero,
-            "FileChooser.directoryOpenButtonMnemonic", zero,
+            // Filf Vifw
+            "FilfCioosfr.dbndflButtonMnfmonid", zfro,
+            "FilfCioosfr.sbvfButtonMnfmonid", zfro,
+            "FilfCioosfr.opfnButtonMnfmonid", zfro,
+            "FilfCioosfr.updbtfButtonMnfmonid", zfro,
+            "FilfCioosfr.iflpButtonMnfmonid", zfro,
+            "FilfCioosfr.dirfdtoryOpfnButtonMnfmonid", zfro,
 
-            "FileChooser.lookInLabelMnemonic", zero,
-            "FileChooser.fileNameLabelMnemonic", zero,
-            "FileChooser.filesOfTypeLabelMnemonic", zero,
+            "FilfCioosfr.lookInLbbflMnfmonid", zfro,
+            "FilfCioosfr.filfNbmfLbbflMnfmonid", zfro,
+            "FilfCioosfr.filfsOfTypfLbbflMnfmonid", zfro,
 
-            "Focus.color", focusRingColor,
+            "Fodus.dolor", fodusRingColor,
 
-            "FormattedTextField.focusInputMap", aquaKeyBindings.getFormattedTextFieldInputMap(),
-            "FormattedTextField.font", controlFont,
-            "FormattedTextField.background", textBackground,
-            "FormattedTextField.foreground", textForeground,
-            "FormattedTextField.inactiveForeground", textInactiveText,
-            "FormattedTextField.inactiveBackground", textInactiveBackground,
-            "FormattedTextField.selectionBackground", textHighlight,
-            "FormattedTextField.selectionForeground", textHighlightText,
-            "FormattedTextField.caretForeground", textForeground,
-            "FormattedTextField.caretBlinkRate", textCaretBlinkRate,
-            "FormattedTextField.border", textFieldBorder,
-            "FormattedTextField.margin", zeroInsets,
+            "FormbttfdTfxtFifld.fodusInputMbp", bqubKfyBindings.gftFormbttfdTfxtFifldInputMbp(),
+            "FormbttfdTfxtFifld.font", dontrolFont,
+            "FormbttfdTfxtFifld.bbdkground", tfxtBbdkground,
+            "FormbttfdTfxtFifld.forfground", tfxtForfground,
+            "FormbttfdTfxtFifld.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "FormbttfdTfxtFifld.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "FormbttfdTfxtFifld.sflfdtionBbdkground", tfxtHigiligit,
+            "FormbttfdTfxtFifld.sflfdtionForfground", tfxtHigiligitTfxt,
+            "FormbttfdTfxtFifld.dbrftForfground", tfxtForfground,
+            "FormbttfdTfxtFifld.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "FormbttfdTfxtFifld.bordfr", tfxtFifldBordfr,
+            "FormbttfdTfxtFifld.mbrgin", zfroInsfts,
 
-            "IconButton.font", controlSmallFont,
+            "IdonButton.font", dontrolSmbllFont,
 
-            "InternalFrame.titleFont", menuFont,
-            "InternalFrame.background", windowBackgroundColor,
-            "InternalFrame.borderColor", windowBackgroundColor,
-            "InternalFrame.borderShadow", Color.red,
-            "InternalFrame.borderDarkShadow", Color.green,
-            "InternalFrame.borderHighlight", Color.blue,
-            "InternalFrame.borderLight", Color.yellow,
-            "InternalFrame.opaque", Boolean.FALSE,
-            "InternalFrame.border", null, //internalFrameBorder,
-            "InternalFrame.icon", null,
+            "IntfrnblFrbmf.titlfFont", mfnuFont,
+            "IntfrnblFrbmf.bbdkground", windowBbdkgroundColor,
+            "IntfrnblFrbmf.bordfrColor", windowBbdkgroundColor,
+            "IntfrnblFrbmf.bordfrSibdow", Color.rfd,
+            "IntfrnblFrbmf.bordfrDbrkSibdow", Color.grffn,
+            "IntfrnblFrbmf.bordfrHigiligit", Color.bluf,
+            "IntfrnblFrbmf.bordfrLigit", Color.yfllow,
+            "IntfrnblFrbmf.opbquf", Boolfbn.FALSE,
+            "IntfrnblFrbmf.bordfr", null, //intfrnblFrbmfBordfr,
+            "IntfrnblFrbmf.idon", null,
 
-            "InternalFrame.paletteBorder", null,//internalFrameBorder,
-            "InternalFrame.paletteTitleFont", menuFont,
-            "InternalFrame.paletteBackground", windowBackgroundColor,
+            "IntfrnblFrbmf.pblfttfBordfr", null,//intfrnblFrbmfBordfr,
+            "IntfrnblFrbmf.pblfttfTitlfFont", mfnuFont,
+            "IntfrnblFrbmf.pblfttfBbdkground", windowBbdkgroundColor,
 
-            "InternalFrame.optionDialogBorder", null,//internalFrameBorder,
-            "InternalFrame.optionDialogTitleFont", menuFont,
-            "InternalFrame.optionDialogBackground", windowBackgroundColor,
+            "IntfrnblFrbmf.optionDiblogBordfr", null,//intfrnblFrbmfBordfr,
+            "IntfrnblFrbmf.optionDiblogTitlfFont", mfnuFont,
+            "IntfrnblFrbmf.optionDiblogBbdkground", windowBbdkgroundColor,
 
-            /* Default frame icons are undefined for Basic. */
+            /* Dffbult frbmf idons brf undffinfd for Bbsid. */
 
-            "InternalFrame.closeIcon",(LazyValue) t -> AquaInternalFrameUI.exportCloseIcon(),
-            "InternalFrame.maximizeIcon",(LazyValue) t -> AquaInternalFrameUI.exportZoomIcon(),
-            "InternalFrame.iconifyIcon",(LazyValue) t -> AquaInternalFrameUI.exportMinimizeIcon(),
-            "InternalFrame.minimizeIcon",(LazyValue) t -> AquaInternalFrameUI.exportMinimizeIcon(),
-            // this could be either grow or icon
-            // we decided to make it icon so that anyone who uses
-            // these for ui will have different icons for max and min
-            // these icons are pretty crappy to use in Mac OS X since
-            // they really are interactive but we have to return a static
-            // icon for now.
+            "IntfrnblFrbmf.dlosfIdon",(LbzyVbluf) t -> AqubIntfrnblFrbmfUI.fxportClosfIdon(),
+            "IntfrnblFrbmf.mbximizfIdon",(LbzyVbluf) t -> AqubIntfrnblFrbmfUI.fxportZoomIdon(),
+            "IntfrnblFrbmf.idonifyIdon",(LbzyVbluf) t -> AqubIntfrnblFrbmfUI.fxportMinimizfIdon(),
+            "IntfrnblFrbmf.minimizfIdon",(LbzyVbluf) t -> AqubIntfrnblFrbmfUI.fxportMinimizfIdon(),
+            // tiis dould bf fitifr grow or idon
+            // wf dfdidfd to mbkf it idon so tibt bnyonf wio usfs
+            // tifsf for ui will ibvf difffrfnt idons for mbx bnd min
+            // tifsf idons brf prftty drbppy to usf in Mbd OS X sindf
+            // tify rfblly brf intfrbdtivf but wf ibvf to rfturn b stbtid
+            // idon for now.
 
-            // InternalFrame Auditory Cue Mappings
-            "InternalFrame.closeSound", null,
-            "InternalFrame.maximizeSound", null,
-            "InternalFrame.minimizeSound", null,
-            "InternalFrame.restoreDownSound", null,
-            "InternalFrame.restoreUpSound", null,
+            // IntfrnblFrbmf Auditory Cuf Mbppings
+            "IntfrnblFrbmf.dlosfSound", null,
+            "IntfrnblFrbmf.mbximizfSound", null,
+            "IntfrnblFrbmf.minimizfSound", null,
+            "IntfrnblFrbmf.rfstorfDownSound", null,
+            "IntfrnblFrbmf.rfstorfUpSound", null,
 
-            "InternalFrame.activeTitleBackground", windowBackgroundColor,
-            "InternalFrame.activeTitleForeground", textForeground,
-            "InternalFrame.inactiveTitleBackground", windowBackgroundColor,
-            "InternalFrame.inactiveTitleForeground", textInactiveText,
-            "InternalFrame.windowBindings", new Object[]{
-                "shift ESCAPE", "showSystemMenu",
-                "ctrl SPACE", "showSystemMenu",
-                "ESCAPE", "hideSystemMenu"
+            "IntfrnblFrbmf.bdtivfTitlfBbdkground", windowBbdkgroundColor,
+            "IntfrnblFrbmf.bdtivfTitlfForfground", tfxtForfground,
+            "IntfrnblFrbmf.inbdtivfTitlfBbdkground", windowBbdkgroundColor,
+            "IntfrnblFrbmf.inbdtivfTitlfForfground", tfxtInbdtivfTfxt,
+            "IntfrnblFrbmf.windowBindings", nfw Objfdt[]{
+                "siift ESCAPE", "siowSystfmMfnu",
+                "dtrl SPACE", "siowSystfmMfnu",
+                "ESCAPE", "iidfSystfmMfnu"
             },
 
-            // Radar [3543438]. We now define the TitledBorder properties for font and color.
-            // Aqua HIG doesn't define TitledBorders as Swing does. Eventually, we might want to
-            // re-think TitledBorder to behave more like a Box (NSBox). (vm)
-            "TitledBorder.font", controlFont,
-            "TitledBorder.titleColor", black,
-        //    "TitledBorder.border", -- we inherit this property from BasicLookAndFeel (etched border)
-            "TitledBorder.aquaVariant", aquaTitledBorder, // this is the border that matches what aqua really looks like
-            "InsetBorder.aquaVariant", aquaInsetBorder, // this is the title-less variant
+            // Rbdbr [3543438]. Wf now dffinf tif TitlfdBordfr propfrtifs for font bnd dolor.
+            // Aqub HIG dofsn't dffinf TitlfdBordfrs bs Swing dofs. Evfntublly, wf migit wbnt to
+            // rf-tiink TitlfdBordfr to bfibvf morf likf b Box (NSBox). (vm)
+            "TitlfdBordfr.font", dontrolFont,
+            "TitlfdBordfr.titlfColor", blbdk,
+        //    "TitlfdBordfr.bordfr", -- wf inifrit tiis propfrty from BbsidLookAndFffl (ftdifd bordfr)
+            "TitlfdBordfr.bqubVbribnt", bqubTitlfdBordfr, // tiis is tif bordfr tibt mbtdifs wibt bqub rfblly looks likf
+            "InsftBordfr.bqubVbribnt", bqubInsftBordfr, // tiis is tif titlf-lfss vbribnt
 
-            // *** Label
-            "Label.font", controlFont, // themeLabelFont is for small things like ToolbarButtons
-            "Label.background", controlBackgroundColor,
-            "Label.foreground", black,
-            "Label.disabledForeground", disabled,
-            "Label.disabledShadow", disabledShadow,
-            "Label.opaque", useOpaqueComponents,
-            "Label.border", null,
+            // *** Lbbfl
+            "Lbbfl.font", dontrolFont, // tifmfLbbflFont is for smbll tiings likf ToolbbrButtons
+            "Lbbfl.bbdkground", dontrolBbdkgroundColor,
+            "Lbbfl.forfground", blbdk,
+            "Lbbfl.disbblfdForfground", disbblfd,
+            "Lbbfl.disbblfdSibdow", disbblfdSibdow,
+            "Lbbfl.opbquf", usfOpbqufComponfnts,
+            "Lbbfl.bordfr", null,
 
-            "List.font", viewFont, // [3577901] Aqua HIG says "default font of text in lists and tables" should be 12 point (vm).
-            "List.background", white,
-            "List.foreground", black,
-            "List.selectionBackground", selectionBackground,
-            "List.selectionForeground", selectionForeground,
-            "List.selectionInactiveBackground", selectionInactiveBackground,
-            "List.selectionInactiveForeground", selectionInactiveForeground,
-            "List.focusCellHighlightBorder", focusCellHighlightBorder,
-            "List.border", null,
-            "List.cellRenderer", listCellRendererActiveValue,
+            "List.font", vifwFont, // [3577901] Aqub HIG sbys "dffbult font of tfxt in lists bnd tbblfs" siould bf 12 point (vm).
+            "List.bbdkground", wiitf,
+            "List.forfground", blbdk,
+            "List.sflfdtionBbdkground", sflfdtionBbdkground,
+            "List.sflfdtionForfground", sflfdtionForfground,
+            "List.sflfdtionInbdtivfBbdkground", sflfdtionInbdtivfBbdkground,
+            "List.sflfdtionInbdtivfForfground", sflfdtionInbdtivfForfground,
+            "List.fodusCfllHigiligitBordfr", fodusCfllHigiligitBordfr,
+            "List.bordfr", null,
+            "List.dfllRfndfrfr", listCfllRfndfrfrAdtivfVbluf,
 
-            "List.sourceListBackgroundPainter",(LazyValue) t -> AquaListUI.getSourceListBackgroundPainter(),
-            "List.sourceListSelectionBackgroundPainter",(LazyValue) t -> AquaListUI.getSourceListSelectionBackgroundPainter(),
-            "List.sourceListFocusedSelectionBackgroundPainter",(LazyValue) t -> AquaListUI.getSourceListFocusedSelectionBackgroundPainter(),
-            "List.evenRowBackgroundPainter",(LazyValue) t -> AquaListUI.getListEvenBackgroundPainter(),
-            "List.oddRowBackgroundPainter",(LazyValue) t -> AquaListUI.getListOddBackgroundPainter(),
+            "List.sourdfListBbdkgroundPbintfr",(LbzyVbluf) t -> AqubListUI.gftSourdfListBbdkgroundPbintfr(),
+            "List.sourdfListSflfdtionBbdkgroundPbintfr",(LbzyVbluf) t -> AqubListUI.gftSourdfListSflfdtionBbdkgroundPbintfr(),
+            "List.sourdfListFodusfdSflfdtionBbdkgroundPbintfr",(LbzyVbluf) t -> AqubListUI.gftSourdfListFodusfdSflfdtionBbdkgroundPbintfr(),
+            "List.fvfnRowBbdkgroundPbintfr",(LbzyVbluf) t -> AqubListUI.gftListEvfnBbdkgroundPbintfr(),
+            "List.oddRowBbdkgroundPbintfr",(LbzyVbluf) t -> AqubListUI.gftListOddBbdkgroundPbintfr(),
 
-            // <rdar://Problem/3743210> The modifier for the Mac is meta, not control.
-            "List.focusInputMap", aquaKeyBindings.getListInputMap(),
+            // <rdbr://Problfm/3743210> Tif modififr for tif Mbd is mftb, not dontrol.
+            "List.fodusInputMbp", bqubKfyBindings.gftListInputMbp(),
 
-            //"List.scrollPaneBorder", listBoxBorder, // Not used in Swing1.1
-            //"ListItem.border", ThemeMenu.listItemBorder(), // for inset calculation
+            //"List.sdrollPbnfBordfr", listBoxBordfr, // Not usfd in Swing1.1
+            //"ListItfm.bordfr", TifmfMfnu.listItfmBordfr(), // for insft dbldulbtion
 
-            // *** Menus
-            "Menu.font", menuFont,
-            "Menu.acceleratorFont", menuFont,
-            "Menu.background", menuBackgroundColor,
-            "Menu.foreground", menuForegroundColor,
-            "Menu.selectionBackground", menuSelectedBackgroundColor,
-            "Menu.selectionForeground", menuSelectedForegroundColor,
-            "Menu.disabledBackground", menuDisabledBackgroundColor,
-            "Menu.disabledForeground", menuDisabledForegroundColor,
-            "Menu.acceleratorForeground", menuAccelForegroundColor,
-            "Menu.acceleratorSelectionForeground", menuAccelSelectionForegroundColor,
-            //"Menu.border", ThemeMenu.menuItemBorder(), // for inset calculation
-            "Menu.border", menuBorder,
-            "Menu.borderPainted", Boolean.FALSE,
-            "Menu.margin", menuItemMargin,
-            //"Menu.checkIcon", emptyCheckIcon, // A non-drawing GlyphIcon to make the spacing consistent
-            "Menu.arrowIcon",(LazyValue) t -> AquaImageFactory.getMenuArrowIcon(),
-            "Menu.consumesTabs", Boolean.TRUE,
-            "Menu.menuPopupOffsetY", new Integer(1),
-            "Menu.submenuPopupOffsetY", new Integer(-4),
+            // *** Mfnus
+            "Mfnu.font", mfnuFont,
+            "Mfnu.bddflfrbtorFont", mfnuFont,
+            "Mfnu.bbdkground", mfnuBbdkgroundColor,
+            "Mfnu.forfground", mfnuForfgroundColor,
+            "Mfnu.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "Mfnu.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "Mfnu.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor,
+            "Mfnu.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "Mfnu.bddflfrbtorForfground", mfnuAddflForfgroundColor,
+            "Mfnu.bddflfrbtorSflfdtionForfground", mfnuAddflSflfdtionForfgroundColor,
+            //"Mfnu.bordfr", TifmfMfnu.mfnuItfmBordfr(), // for insft dbldulbtion
+            "Mfnu.bordfr", mfnuBordfr,
+            "Mfnu.bordfrPbintfd", Boolfbn.FALSE,
+            "Mfnu.mbrgin", mfnuItfmMbrgin,
+            //"Mfnu.difdkIdon", fmptyCifdkIdon, // A non-drbwing GlypiIdon to mbkf tif spbding donsistfnt
+            "Mfnu.brrowIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftMfnuArrowIdon(),
+            "Mfnu.donsumfsTbbs", Boolfbn.TRUE,
+            "Mfnu.mfnuPopupOffsftY", nfw Intfgfr(1),
+            "Mfnu.submfnuPopupOffsftY", nfw Intfgfr(-4),
 
-            "MenuBar.font", menuFont,
-            "MenuBar.background", menuBackgroundColor, // not a menu item, not selected
-            "MenuBar.foreground", menuForegroundColor,
-            "MenuBar.border", new AquaMenuBarBorder(), // sja make lazy!
-            "MenuBar.margin", new InsetsUIResource(0, 8, 0, 8), // sja make lazy!
-            "MenuBar.selectionBackground", menuSelectedBackgroundColor, // not a menu item, is selected
-            "MenuBar.selectionForeground", menuSelectedForegroundColor,
-            "MenuBar.disabledBackground", menuDisabledBackgroundColor, //ThemeBrush.GetThemeBrushForMenu(false, false), // not a menu item, not selected
-            "MenuBar.disabledForeground", menuDisabledForegroundColor,
-            "MenuBar.backgroundPainter",(LazyValue) t -> AquaMenuPainter.getMenuBarPainter(),
-            "MenuBar.selectedBackgroundPainter",(LazyValue) t -> AquaMenuPainter.getSelectedMenuBarItemPainter(),
+            "MfnuBbr.font", mfnuFont,
+            "MfnuBbr.bbdkground", mfnuBbdkgroundColor, // not b mfnu itfm, not sflfdtfd
+            "MfnuBbr.forfground", mfnuForfgroundColor,
+            "MfnuBbr.bordfr", nfw AqubMfnuBbrBordfr(), // sjb mbkf lbzy!
+            "MfnuBbr.mbrgin", nfw InsftsUIRfsourdf(0, 8, 0, 8), // sjb mbkf lbzy!
+            "MfnuBbr.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor, // not b mfnu itfm, is sflfdtfd
+            "MfnuBbr.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "MfnuBbr.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor, //TifmfBrusi.GftTifmfBrusiForMfnu(fblsf, fblsf), // not b mfnu itfm, not sflfdtfd
+            "MfnuBbr.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "MfnuBbr.bbdkgroundPbintfr",(LbzyVbluf) t -> AqubMfnuPbintfr.gftMfnuBbrPbintfr(),
+            "MfnuBbr.sflfdtfdBbdkgroundPbintfr",(LbzyVbluf) t -> AqubMfnuPbintfr.gftSflfdtfdMfnuBbrItfmPbintfr(),
 
-            "MenuItem.font", menuFont,
-            "MenuItem.acceleratorFont", menuFont,
-            "MenuItem.background", menuBackgroundColor,
-            "MenuItem.foreground", menuForegroundColor,
-            "MenuItem.selectionBackground", menuSelectedBackgroundColor,
-            "MenuItem.selectionForeground", menuSelectedForegroundColor,
-            "MenuItem.disabledBackground", menuDisabledBackgroundColor,
-            "MenuItem.disabledForeground", menuDisabledForegroundColor,
-            "MenuItem.acceleratorForeground", menuAccelForegroundColor,
-            "MenuItem.acceleratorSelectionForeground", menuAccelSelectionForegroundColor,
-            "MenuItem.acceleratorDelimiter", "",
-            "MenuItem.border", menuBorder,
-            "MenuItem.margin", menuItemMargin,
-            "MenuItem.borderPainted", Boolean.TRUE,
-            //"MenuItem.checkIcon", emptyCheckIcon, // A non-drawing GlyphIcon to make the spacing consistent
-            //"MenuItem.arrowIcon", null,
-            "MenuItem.selectedBackgroundPainter",(LazyValue) t -> AquaMenuPainter.getSelectedMenuItemPainter(),
+            "MfnuItfm.font", mfnuFont,
+            "MfnuItfm.bddflfrbtorFont", mfnuFont,
+            "MfnuItfm.bbdkground", mfnuBbdkgroundColor,
+            "MfnuItfm.forfground", mfnuForfgroundColor,
+            "MfnuItfm.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "MfnuItfm.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "MfnuItfm.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor,
+            "MfnuItfm.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "MfnuItfm.bddflfrbtorForfground", mfnuAddflForfgroundColor,
+            "MfnuItfm.bddflfrbtorSflfdtionForfground", mfnuAddflSflfdtionForfgroundColor,
+            "MfnuItfm.bddflfrbtorDflimitfr", "",
+            "MfnuItfm.bordfr", mfnuBordfr,
+            "MfnuItfm.mbrgin", mfnuItfmMbrgin,
+            "MfnuItfm.bordfrPbintfd", Boolfbn.TRUE,
+            //"MfnuItfm.difdkIdon", fmptyCifdkIdon, // A non-drbwing GlypiIdon to mbkf tif spbding donsistfnt
+            //"MfnuItfm.brrowIdon", null,
+            "MfnuItfm.sflfdtfdBbdkgroundPbintfr",(LbzyVbluf) t -> AqubMfnuPbintfr.gftSflfdtfdMfnuItfmPbintfr(),
 
-            // *** OptionPane
-            // You can additionaly define OptionPane.messageFont which will
-            // dictate the fonts used for the message, and
-            // OptionPane.buttonFont, which defines the font for the buttons.
-            "OptionPane.font", alertHeaderFont,
-            "OptionPane.messageFont", controlFont,
-            "OptionPane.buttonFont", controlFont,
-            "OptionPane.background", windowBackgroundColor,
-            "OptionPane.foreground", black,
-            "OptionPane.messageForeground", black,
-            "OptionPane.border", new BorderUIResource.EmptyBorderUIResource(12, 21, 17, 21),
-            "OptionPane.messageAreaBorder", zeroBorder,
-            "OptionPane.buttonAreaBorder", new BorderUIResource.EmptyBorderUIResource(13, 0, 0, 0),
-            "OptionPane.minimumSize", new DimensionUIResource(262, 90),
+            // *** OptionPbnf
+            // You dbn bdditionbly dffinf OptionPbnf.mfssbgfFont wiidi will
+            // didtbtf tif fonts usfd for tif mfssbgf, bnd
+            // OptionPbnf.buttonFont, wiidi dffinfs tif font for tif buttons.
+            "OptionPbnf.font", blfrtHfbdfrFont,
+            "OptionPbnf.mfssbgfFont", dontrolFont,
+            "OptionPbnf.buttonFont", dontrolFont,
+            "OptionPbnf.bbdkground", windowBbdkgroundColor,
+            "OptionPbnf.forfground", blbdk,
+            "OptionPbnf.mfssbgfForfground", blbdk,
+            "OptionPbnf.bordfr", nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(12, 21, 17, 21),
+            "OptionPbnf.mfssbgfArfbBordfr", zfroBordfr,
+            "OptionPbnf.buttonArfbBordfr", nfw BordfrUIRfsourdf.EmptyBordfrUIRfsourdf(13, 0, 0, 0),
+            "OptionPbnf.minimumSizf", nfw DimfnsionUIRfsourdf(262, 90),
 
-            "OptionPane.errorIcon", stopIcon,
-            "OptionPane.informationIcon", confirmIcon,
-            "OptionPane.warningIcon", cautionIcon,
-            "OptionPane.questionIcon", confirmIcon,
-            "_SecurityDecisionIcon", securityIcon,
-            "OptionPane.windowBindings", new Object[]{"ESCAPE", "close"},
-            // OptionPane Auditory Cue Mappings
-            "OptionPane.errorSound", null,
-            "OptionPane.informationSound", null, // Info and Plain
-            "OptionPane.questionSound", null,
-            "OptionPane.warningSound", null,
-            "OptionPane.buttonClickThreshhold", new Integer(500),
-            "OptionPane.yesButtonMnemonic", "",
-            "OptionPane.noButtonMnemonic", "",
-            "OptionPane.okButtonMnemonic", "",
-            "OptionPane.cancelButtonMnemonic", "",
+            "OptionPbnf.frrorIdon", stopIdon,
+            "OptionPbnf.informbtionIdon", donfirmIdon,
+            "OptionPbnf.wbrningIdon", dbutionIdon,
+            "OptionPbnf.qufstionIdon", donfirmIdon,
+            "_SfdurityDfdisionIdon", sfdurityIdon,
+            "OptionPbnf.windowBindings", nfw Objfdt[]{"ESCAPE", "dlosf"},
+            // OptionPbnf Auditory Cuf Mbppings
+            "OptionPbnf.frrorSound", null,
+            "OptionPbnf.informbtionSound", null, // Info bnd Plbin
+            "OptionPbnf.qufstionSound", null,
+            "OptionPbnf.wbrningSound", null,
+            "OptionPbnf.buttonClidkTirfsiiold", nfw Intfgfr(500),
+            "OptionPbnf.yfsButtonMnfmonid", "",
+            "OptionPbnf.noButtonMnfmonid", "",
+            "OptionPbnf.okButtonMnfmonid", "",
+            "OptionPbnf.dbndflButtonMnfmonid", "",
 
-            "Panel.font", controlFont,
-            "Panel.background", panelBackgroundColor, //new ColorUIResource(0.5647f, 0.9957f, 0.5059f),
-            "Panel.foreground", black,
-            "Panel.opaque", useOpaqueComponents,
+            "Pbnfl.font", dontrolFont,
+            "Pbnfl.bbdkground", pbnflBbdkgroundColor, //nfw ColorUIRfsourdf(0.5647f, 0.9957f, 0.5059f),
+            "Pbnfl.forfground", blbdk,
+            "Pbnfl.opbquf", usfOpbqufComponfnts,
 
-            "PasswordField.focusInputMap", aquaKeyBindings.getPasswordFieldInputMap(),
-            "PasswordField.font", controlFont,
-            "PasswordField.background", textBackground,
-            "PasswordField.foreground", textForeground,
-            "PasswordField.inactiveForeground", textInactiveText,
-            "PasswordField.inactiveBackground", textInactiveBackground,
-            "PasswordField.selectionBackground", textHighlight,
-            "PasswordField.selectionForeground", textHighlightText,
-            "PasswordField.caretForeground", textForeground,
-            "PasswordField.caretBlinkRate", textCaretBlinkRate,
-            "PasswordField.border", textFieldBorder,
-            "PasswordField.margin", zeroInsets,
-            "PasswordField.echoChar", new Character((char)0x25CF),
-            "PasswordField.capsLockIconColor", textPasswordFieldCapsLockIconColor,
+            "PbsswordFifld.fodusInputMbp", bqubKfyBindings.gftPbsswordFifldInputMbp(),
+            "PbsswordFifld.font", dontrolFont,
+            "PbsswordFifld.bbdkground", tfxtBbdkground,
+            "PbsswordFifld.forfground", tfxtForfground,
+            "PbsswordFifld.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "PbsswordFifld.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "PbsswordFifld.sflfdtionBbdkground", tfxtHigiligit,
+            "PbsswordFifld.sflfdtionForfground", tfxtHigiligitTfxt,
+            "PbsswordFifld.dbrftForfground", tfxtForfground,
+            "PbsswordFifld.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "PbsswordFifld.bordfr", tfxtFifldBordfr,
+            "PbsswordFifld.mbrgin", zfroInsfts,
+            "PbsswordFifld.fdioCibr", nfw Cibrbdtfr((dibr)0x25CF),
+            "PbsswordFifld.dbpsLodkIdonColor", tfxtPbsswordFifldCbpsLodkIdonColor,
 
-            "PopupMenu.font", menuFont,
-            "PopupMenu.background", menuBackgroundColor,
-            // Fix for 7154516: make popups opaque
-            "PopupMenu.translucentBackground", white,
-            "PopupMenu.foreground", menuForegroundColor,
-            "PopupMenu.selectionBackground", menuSelectedBackgroundColor,
-            "PopupMenu.selectionForeground", menuSelectedForegroundColor,
-            "PopupMenu.border", menuBorder,
-//            "PopupMenu.margin",
+            "PopupMfnu.font", mfnuFont,
+            "PopupMfnu.bbdkground", mfnuBbdkgroundColor,
+            // Fix for 7154516: mbkf popups opbquf
+            "PopupMfnu.trbnsludfntBbdkground", wiitf,
+            "PopupMfnu.forfground", mfnuForfgroundColor,
+            "PopupMfnu.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "PopupMfnu.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "PopupMfnu.bordfr", mfnuBordfr,
+//            "PopupMfnu.mbrgin",
 
-            "ProgressBar.font", controlFont,
-            "ProgressBar.foreground", black,
-            "ProgressBar.background", controlBackgroundColor,
-            "ProgressBar.selectionForeground", black,
-            "ProgressBar.selectionBackground", white,
-            "ProgressBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
-            "ProgressBar.repaintInterval", new Integer(20),
+            "ProgrfssBbr.font", dontrolFont,
+            "ProgrfssBbr.forfground", blbdk,
+            "ProgrfssBbr.bbdkground", dontrolBbdkgroundColor,
+            "ProgrfssBbr.sflfdtionForfground", blbdk,
+            "ProgrfssBbr.sflfdtionBbdkground", wiitf,
+            "ProgrfssBbr.bordfr", nfw BordfrUIRfsourdf(BordfrFbdtory.drfbtfEmptyBordfr()),
+            "ProgrfssBbr.rfpbintIntfrvbl", nfw Intfgfr(20),
 
-            "RadioButton.background", controlBackgroundColor,
-            "RadioButton.foreground", black,
-            "RadioButton.disabledText", disabled,
-            "RadioButton.select", selected,
-            "RadioButton.icon",(LazyValue) t -> AquaButtonRadioUI.getSizingRadioButtonIcon(),
-            "RadioButton.font", controlFont,
-            "RadioButton.border", AquaButtonBorder.getBevelButtonBorder(),
-            "RadioButton.margin", new InsetsUIResource(1, 1, 0, 1),
-            "RadioButton.focusInputMap", controlFocusInputMap,
+            "RbdioButton.bbdkground", dontrolBbdkgroundColor,
+            "RbdioButton.forfground", blbdk,
+            "RbdioButton.disbblfdTfxt", disbblfd,
+            "RbdioButton.sflfdt", sflfdtfd,
+            "RbdioButton.idon",(LbzyVbluf) t -> AqubButtonRbdioUI.gftSizingRbdioButtonIdon(),
+            "RbdioButton.font", dontrolFont,
+            "RbdioButton.bordfr", AqubButtonBordfr.gftBfvflButtonBordfr(),
+            "RbdioButton.mbrgin", nfw InsftsUIRfsourdf(1, 1, 0, 1),
+            "RbdioButton.fodusInputMbp", dontrolFodusInputMbp,
 
-            "RadioButtonMenuItem.font", menuFont,
-            "RadioButtonMenuItem.acceleratorFont", menuFont,
-            "RadioButtonMenuItem.background", menuBackgroundColor,
-            "RadioButtonMenuItem.foreground", menuForegroundColor,
-            "RadioButtonMenuItem.selectionBackground", menuSelectedBackgroundColor,
-            "RadioButtonMenuItem.selectionForeground", menuSelectedForegroundColor,
-            "RadioButtonMenuItem.disabledBackground", menuDisabledBackgroundColor,
-            "RadioButtonMenuItem.disabledForeground", menuDisabledForegroundColor,
-            "RadioButtonMenuItem.acceleratorForeground", menuAccelForegroundColor,
-            "RadioButtonMenuItem.acceleratorSelectionForeground", menuAccelSelectionForegroundColor,
-            "RadioButtonMenuItem.acceleratorDelimiter", "",
-            "RadioButtonMenuItem.border", menuBorder, // for inset calculation
-            "RadioButtonMenuItem.margin", menuItemMargin,
-            "RadioButtonMenuItem.borderPainted", Boolean.TRUE,
-            "RadioButtonMenuItem.checkIcon",(LazyValue) t -> AquaImageFactory.getMenuItemCheckIcon(),
-            "RadioButtonMenuItem.dashIcon",(LazyValue) t -> AquaImageFactory.getMenuItemDashIcon(),
-            //"RadioButtonMenuItem.arrowIcon", null,
+            "RbdioButtonMfnuItfm.font", mfnuFont,
+            "RbdioButtonMfnuItfm.bddflfrbtorFont", mfnuFont,
+            "RbdioButtonMfnuItfm.bbdkground", mfnuBbdkgroundColor,
+            "RbdioButtonMfnuItfm.forfground", mfnuForfgroundColor,
+            "RbdioButtonMfnuItfm.sflfdtionBbdkground", mfnuSflfdtfdBbdkgroundColor,
+            "RbdioButtonMfnuItfm.sflfdtionForfground", mfnuSflfdtfdForfgroundColor,
+            "RbdioButtonMfnuItfm.disbblfdBbdkground", mfnuDisbblfdBbdkgroundColor,
+            "RbdioButtonMfnuItfm.disbblfdForfground", mfnuDisbblfdForfgroundColor,
+            "RbdioButtonMfnuItfm.bddflfrbtorForfground", mfnuAddflForfgroundColor,
+            "RbdioButtonMfnuItfm.bddflfrbtorSflfdtionForfground", mfnuAddflSflfdtionForfgroundColor,
+            "RbdioButtonMfnuItfm.bddflfrbtorDflimitfr", "",
+            "RbdioButtonMfnuItfm.bordfr", mfnuBordfr, // for insft dbldulbtion
+            "RbdioButtonMfnuItfm.mbrgin", mfnuItfmMbrgin,
+            "RbdioButtonMfnuItfm.bordfrPbintfd", Boolfbn.TRUE,
+            "RbdioButtonMfnuItfm.difdkIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftMfnuItfmCifdkIdon(),
+            "RbdioButtonMfnuItfm.dbsiIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftMfnuItfmDbsiIdon(),
+            //"RbdioButtonMfnuItfm.brrowIdon", null,
 
-            "Separator.background", null,
-            "Separator.foreground", new ColorUIResource(0xD4, 0xD4, 0xD4),
+            "Sfpbrbtor.bbdkground", null,
+            "Sfpbrbtor.forfground", nfw ColorUIRfsourdf(0xD4, 0xD4, 0xD4),
 
-            "ScrollBar.border", null,
-            "ScrollBar.focusInputMap", aquaKeyBindings.getScrollBarInputMap(),
-            "ScrollBar.focusInputMap.RightToLeft", aquaKeyBindings.getScrollBarRightToLeftInputMap(),
-            "ScrollBar.width", new Integer(16),
-            "ScrollBar.background", white,
-            "ScrollBar.foreground", black,
+            "SdrollBbr.bordfr", null,
+            "SdrollBbr.fodusInputMbp", bqubKfyBindings.gftSdrollBbrInputMbp(),
+            "SdrollBbr.fodusInputMbp.RigitToLfft", bqubKfyBindings.gftSdrollBbrRigitToLfftInputMbp(),
+            "SdrollBbr.widti", nfw Intfgfr(16),
+            "SdrollBbr.bbdkground", wiitf,
+            "SdrollBbr.forfground", blbdk,
 
-            "ScrollPane.font", controlFont,
-            "ScrollPane.background", white,
-            "ScrollPane.foreground", black, //$
-            "ScrollPane.border", scollListBorder,
-            "ScrollPane.viewportBorder", null,
+            "SdrollPbnf.font", dontrolFont,
+            "SdrollPbnf.bbdkground", wiitf,
+            "SdrollPbnf.forfground", blbdk, //$
+            "SdrollPbnf.bordfr", sdollListBordfr,
+            "SdrollPbnf.vifwportBordfr", null,
 
-            "ScrollPane.ancestorInputMap", aquaKeyBindings.getScrollPaneInputMap(),
-            "ScrollPane.ancestorInputMap.RightToLeft", new UIDefaults.LazyInputMap(new Object[]{}),
+            "SdrollPbnf.bndfstorInputMbp", bqubKfyBindings.gftSdrollPbnfInputMbp(),
+            "SdrollPbnf.bndfstorInputMbp.RigitToLfft", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[]{}),
 
-            "Viewport.font", controlFont,
-            "Viewport.background", white, // The background for tables, lists, etc
-            "Viewport.foreground", black,
+            "Vifwport.font", dontrolFont,
+            "Vifwport.bbdkground", wiitf, // Tif bbdkground for tbblfs, lists, ftd
+            "Vifwport.forfground", blbdk,
 
-            // *** Slider
-            "Slider.foreground", black, "Slider.background", controlBackgroundColor,
-            "Slider.font", controlSmallFont,
-            //"Slider.highlight", table.get("controlLtHighlight"),
-            //"Slider.shadow", table.get("controlShadow"),
-            //"Slider.focus", table.get("controlDkShadow"),
-            "Slider.tickColor", new ColorUIResource(Color.GRAY),
-            "Slider.border", null,
-            "Slider.focusInsets", new InsetsUIResource(2, 2, 2, 2),
-            "Slider.focusInputMap", aquaKeyBindings.getSliderInputMap(),
-            "Slider.focusInputMap.RightToLeft", aquaKeyBindings.getSliderRightToLeftInputMap(),
+            // *** Slidfr
+            "Slidfr.forfground", blbdk, "Slidfr.bbdkground", dontrolBbdkgroundColor,
+            "Slidfr.font", dontrolSmbllFont,
+            //"Slidfr.iigiligit", tbblf.gft("dontrolLtHigiligit"),
+            //"Slidfr.sibdow", tbblf.gft("dontrolSibdow"),
+            //"Slidfr.fodus", tbblf.gft("dontrolDkSibdow"),
+            "Slidfr.tidkColor", nfw ColorUIRfsourdf(Color.GRAY),
+            "Slidfr.bordfr", null,
+            "Slidfr.fodusInsfts", nfw InsftsUIRfsourdf(2, 2, 2, 2),
+            "Slidfr.fodusInputMbp", bqubKfyBindings.gftSlidfrInputMbp(),
+            "Slidfr.fodusInputMbp.RigitToLfft", bqubKfyBindings.gftSlidfrRigitToLfftInputMbp(),
 
-            // *** Spinner
-            "Spinner.font", controlFont,
-            "Spinner.background", controlBackgroundColor,
-            "Spinner.foreground", black,
-            "Spinner.border", null,
-            "Spinner.arrowButtonSize", new Dimension(16, 5),
-            "Spinner.ancestorInputMap", aquaKeyBindings.getSpinnerInputMap(),
-            "Spinner.editorBorderPainted", Boolean.TRUE,
-            "Spinner.editorAlignment", SwingConstants.TRAILING,
+            // *** Spinnfr
+            "Spinnfr.font", dontrolFont,
+            "Spinnfr.bbdkground", dontrolBbdkgroundColor,
+            "Spinnfr.forfground", blbdk,
+            "Spinnfr.bordfr", null,
+            "Spinnfr.brrowButtonSizf", nfw Dimfnsion(16, 5),
+            "Spinnfr.bndfstorInputMbp", bqubKfyBindings.gftSpinnfrInputMbp(),
+            "Spinnfr.fditorBordfrPbintfd", Boolfbn.TRUE,
+            "Spinnfr.fditorAlignmfnt", SwingConstbnts.TRAILING,
 
-            // *** SplitPane
-            //"SplitPane.highlight", table.get("controlLtHighlight"),
-            //"SplitPane.shadow", table.get("controlShadow"),
-            "SplitPane.background", panelBackgroundColor,
-            "SplitPane.border", scollListBorder,
-            "SplitPane.dividerSize", new Integer(9), //$
-            "SplitPaneDivider.border", null, // AquaSplitPaneDividerUI draws it
-            "SplitPaneDivider.horizontalGradientVariant",(LazyValue) t -> AquaSplitPaneDividerUI.getHorizontalSplitDividerGradientVariant(),
+            // *** SplitPbnf
+            //"SplitPbnf.iigiligit", tbblf.gft("dontrolLtHigiligit"),
+            //"SplitPbnf.sibdow", tbblf.gft("dontrolSibdow"),
+            "SplitPbnf.bbdkground", pbnflBbdkgroundColor,
+            "SplitPbnf.bordfr", sdollListBordfr,
+            "SplitPbnf.dividfrSizf", nfw Intfgfr(9), //$
+            "SplitPbnfDividfr.bordfr", null, // AqubSplitPbnfDividfrUI drbws it
+            "SplitPbnfDividfr.iorizontblGrbdifntVbribnt",(LbzyVbluf) t -> AqubSplitPbnfDividfrUI.gftHorizontblSplitDividfrGrbdifntVbribnt(),
 
-            // *** TabbedPane
-            "TabbedPane.font", controlFont,
-            "TabbedPane.smallFont", controlSmallFont,
-            "TabbedPane.useSmallLayout", Boolean.FALSE,//sSmallTabs ? Boolean.TRUE : Boolean.FALSE,
-            "TabbedPane.background", tabBackgroundColor, // for bug [3398277] use a background color so that
-            // tabs on a custom pane get erased when they are removed.
-            "TabbedPane.foreground", black, //ThemeTextColor.GetThemeTextColor(AppearanceConstants.kThemeTextColorTabFrontActive),
-            //"TabbedPane.lightHighlight", table.get("controlLtHighlight"),
-            //"TabbedPane.highlight", table.get("controlHighlight"),
-            //"TabbedPane.shadow", table.get("controlShadow"),
-            //"TabbedPane.darkShadow", table.get("controlDkShadow"),
-            //"TabbedPane.focus", table.get("controlText"),
-            "TabbedPane.opaque", useOpaqueComponents,
-            "TabbedPane.textIconGap", new Integer(4),
-            "TabbedPane.tabInsets", new InsetsUIResource(0, 10, 3, 10), // Label within tab (top, left, bottom, right)
-            //"TabbedPane.rightTabInsets", new InsetsUIResource(0, 10, 3, 10), // Label within tab (top, left, bottom, right)
-            "TabbedPane.leftTabInsets", new InsetsUIResource(0, 10, 3, 10), // Label within tab
-            "TabbedPane.rightTabInsets", new InsetsUIResource(0, 10, 3, 10), // Label within tab
-            //"TabbedPane.tabAreaInsets", new InsetsUIResource(3, 9, -1, 9), // Tabs relative to edge of pane (negative value for overlapping)
-            "TabbedPane.tabAreaInsets", new InsetsUIResource(3, 9, -1, 9), // Tabs relative to edge of pane (negative value for overlapping)
-            // (top = side opposite pane, left = edge || to pane, bottom = side adjacent to pane, right = left) - see rotateInsets
-            "TabbedPane.contentBorderInsets", new InsetsUIResource(8, 0, 0, 0), // width of border
-            //"TabbedPane.selectedTabPadInsets", new InsetsUIResource(0, 0, 1, 0), // Really outsets, this is where we allow for overlap
-            "TabbedPane.selectedTabPadInsets", new InsetsUIResource(0, 0, 0, 0), // Really outsets, this is where we allow for overlap
-            "TabbedPane.tabsOverlapBorder", Boolean.TRUE,
-            "TabbedPane.selectedTabTitlePressedColor", selectedTabTitlePressedColor,
-            "TabbedPane.selectedTabTitleDisabledColor", selectedTabTitleDisabledColor,
-            "TabbedPane.selectedTabTitleNormalColor", selectedTabTitleNormalColor,
-            "TabbedPane.selectedTabTitleShadowDisabledColor", selectedTabTitleShadowDisabledColor,
-            "TabbedPane.selectedTabTitleShadowNormalColor", selectedTabTitleShadowNormalColor,
-            "TabbedPane.nonSelectedTabTitleNormalColor", nonSelectedTabTitleNormalColor,
+            // *** TbbbfdPbnf
+            "TbbbfdPbnf.font", dontrolFont,
+            "TbbbfdPbnf.smbllFont", dontrolSmbllFont,
+            "TbbbfdPbnf.usfSmbllLbyout", Boolfbn.FALSE,//sSmbllTbbs ? Boolfbn.TRUE : Boolfbn.FALSE,
+            "TbbbfdPbnf.bbdkground", tbbBbdkgroundColor, // for bug [3398277] usf b bbdkground dolor so tibt
+            // tbbs on b dustom pbnf gft frbsfd wifn tify brf rfmovfd.
+            "TbbbfdPbnf.forfground", blbdk, //TifmfTfxtColor.GftTifmfTfxtColor(AppfbrbndfConstbnts.kTifmfTfxtColorTbbFrontAdtivf),
+            //"TbbbfdPbnf.ligitHigiligit", tbblf.gft("dontrolLtHigiligit"),
+            //"TbbbfdPbnf.iigiligit", tbblf.gft("dontrolHigiligit"),
+            //"TbbbfdPbnf.sibdow", tbblf.gft("dontrolSibdow"),
+            //"TbbbfdPbnf.dbrkSibdow", tbblf.gft("dontrolDkSibdow"),
+            //"TbbbfdPbnf.fodus", tbblf.gft("dontrolTfxt"),
+            "TbbbfdPbnf.opbquf", usfOpbqufComponfnts,
+            "TbbbfdPbnf.tfxtIdonGbp", nfw Intfgfr(4),
+            "TbbbfdPbnf.tbbInsfts", nfw InsftsUIRfsourdf(0, 10, 3, 10), // Lbbfl witiin tbb (top, lfft, bottom, rigit)
+            //"TbbbfdPbnf.rigitTbbInsfts", nfw InsftsUIRfsourdf(0, 10, 3, 10), // Lbbfl witiin tbb (top, lfft, bottom, rigit)
+            "TbbbfdPbnf.lfftTbbInsfts", nfw InsftsUIRfsourdf(0, 10, 3, 10), // Lbbfl witiin tbb
+            "TbbbfdPbnf.rigitTbbInsfts", nfw InsftsUIRfsourdf(0, 10, 3, 10), // Lbbfl witiin tbb
+            //"TbbbfdPbnf.tbbArfbInsfts", nfw InsftsUIRfsourdf(3, 9, -1, 9), // Tbbs rflbtivf to fdgf of pbnf (nfgbtivf vbluf for ovfrlbpping)
+            "TbbbfdPbnf.tbbArfbInsfts", nfw InsftsUIRfsourdf(3, 9, -1, 9), // Tbbs rflbtivf to fdgf of pbnf (nfgbtivf vbluf for ovfrlbpping)
+            // (top = sidf oppositf pbnf, lfft = fdgf || to pbnf, bottom = sidf bdjbdfnt to pbnf, rigit = lfft) - sff rotbtfInsfts
+            "TbbbfdPbnf.dontfntBordfrInsfts", nfw InsftsUIRfsourdf(8, 0, 0, 0), // widti of bordfr
+            //"TbbbfdPbnf.sflfdtfdTbbPbdInsfts", nfw InsftsUIRfsourdf(0, 0, 1, 0), // Rfblly outsfts, tiis is wifrf wf bllow for ovfrlbp
+            "TbbbfdPbnf.sflfdtfdTbbPbdInsfts", nfw InsftsUIRfsourdf(0, 0, 0, 0), // Rfblly outsfts, tiis is wifrf wf bllow for ovfrlbp
+            "TbbbfdPbnf.tbbsOvfrlbpBordfr", Boolfbn.TRUE,
+            "TbbbfdPbnf.sflfdtfdTbbTitlfPrfssfdColor", sflfdtfdTbbTitlfPrfssfdColor,
+            "TbbbfdPbnf.sflfdtfdTbbTitlfDisbblfdColor", sflfdtfdTbbTitlfDisbblfdColor,
+            "TbbbfdPbnf.sflfdtfdTbbTitlfNormblColor", sflfdtfdTbbTitlfNormblColor,
+            "TbbbfdPbnf.sflfdtfdTbbTitlfSibdowDisbblfdColor", sflfdtfdTbbTitlfSibdowDisbblfdColor,
+            "TbbbfdPbnf.sflfdtfdTbbTitlfSibdowNormblColor", sflfdtfdTbbTitlfSibdowNormblColor,
+            "TbbbfdPbnf.nonSflfdtfdTbbTitlfNormblColor", nonSflfdtfdTbbTitlfNormblColor,
 
-            // *** Table
-            "Table.font", viewFont, // [3577901] Aqua HIG says "default font of text in lists and tables" should be 12 point (vm).
-            "Table.foreground", black, // cell text color
-            "Table.background", white, // cell background color
-            "Table.selectionForeground", selectionForeground,
-            "Table.selectionBackground", selectionBackground,
-            "Table.selectionInactiveBackground", selectionInactiveBackground,
-            "Table.selectionInactiveForeground", selectionInactiveForeground,
-            "Table.gridColor", white, // grid line color
-            "Table.focusCellBackground", textHighlightText,
-            "Table.focusCellForeground", textHighlight,
-            "Table.focusCellHighlightBorder", focusCellHighlightBorder,
-            "Table.scrollPaneBorder", scollListBorder,
+            // *** Tbblf
+            "Tbblf.font", vifwFont, // [3577901] Aqub HIG sbys "dffbult font of tfxt in lists bnd tbblfs" siould bf 12 point (vm).
+            "Tbblf.forfground", blbdk, // dfll tfxt dolor
+            "Tbblf.bbdkground", wiitf, // dfll bbdkground dolor
+            "Tbblf.sflfdtionForfground", sflfdtionForfground,
+            "Tbblf.sflfdtionBbdkground", sflfdtionBbdkground,
+            "Tbblf.sflfdtionInbdtivfBbdkground", sflfdtionInbdtivfBbdkground,
+            "Tbblf.sflfdtionInbdtivfForfground", sflfdtionInbdtivfForfground,
+            "Tbblf.gridColor", wiitf, // grid linf dolor
+            "Tbblf.fodusCfllBbdkground", tfxtHigiligitTfxt,
+            "Tbblf.fodusCfllForfground", tfxtHigiligit,
+            "Tbblf.fodusCfllHigiligitBordfr", fodusCfllHigiligitBordfr,
+            "Tbblf.sdrollPbnfBordfr", sdollListBordfr,
 
-            "Table.ancestorInputMap", aquaKeyBindings.getTableInputMap(),
-            "Table.ancestorInputMap.RightToLeft", aquaKeyBindings.getTableRightToLeftInputMap(),
+            "Tbblf.bndfstorInputMbp", bqubKfyBindings.gftTbblfInputMbp(),
+            "Tbblf.bndfstorInputMbp.RigitToLfft", bqubKfyBindings.gftTbblfRigitToLfftInputMbp(),
 
-            "TableHeader.font", controlSmallFont,
-            "TableHeader.foreground", black,
-            "TableHeader.background", white, // header background
-            "TableHeader.cellBorder", listHeaderBorder,
+            "TbblfHfbdfr.font", dontrolSmbllFont,
+            "TbblfHfbdfr.forfground", blbdk,
+            "TbblfHfbdfr.bbdkground", wiitf, // ifbdfr bbdkground
+            "TbblfHfbdfr.dfllBordfr", listHfbdfrBordfr,
 
-            // *** Text
-            "TextArea.focusInputMap", aquaKeyBindings.getMultiLineTextInputMap(),
-            "TextArea.font", controlFont,
-            "TextArea.background", textBackground,
-            "TextArea.foreground", textForeground,
-            "TextArea.inactiveForeground", textInactiveText,
-            "TextArea.inactiveBackground", textInactiveBackground,
-            "TextArea.selectionBackground", textHighlight,
-            "TextArea.selectionForeground", textHighlightText,
-            "TextArea.caretForeground", textForeground,
-            "TextArea.caretBlinkRate", textCaretBlinkRate,
-            "TextArea.border", textAreaBorder,
-            "TextArea.margin", zeroInsets,
+            // *** Tfxt
+            "TfxtArfb.fodusInputMbp", bqubKfyBindings.gftMultiLinfTfxtInputMbp(),
+            "TfxtArfb.font", dontrolFont,
+            "TfxtArfb.bbdkground", tfxtBbdkground,
+            "TfxtArfb.forfground", tfxtForfground,
+            "TfxtArfb.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "TfxtArfb.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "TfxtArfb.sflfdtionBbdkground", tfxtHigiligit,
+            "TfxtArfb.sflfdtionForfground", tfxtHigiligitTfxt,
+            "TfxtArfb.dbrftForfground", tfxtForfground,
+            "TfxtArfb.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "TfxtArfb.bordfr", tfxtArfbBordfr,
+            "TfxtArfb.mbrgin", zfroInsfts,
 
-            "TextComponent.selectionBackgroundInactive", textHighlightInactive,
+            "TfxtComponfnt.sflfdtionBbdkgroundInbdtivf", tfxtHigiligitInbdtivf,
 
-            "TextField.focusInputMap", aquaKeyBindings.getTextFieldInputMap(),
-            "TextField.font", controlFont,
-            "TextField.background", textBackground,
-            "TextField.foreground", textForeground,
-            "TextField.inactiveForeground", textInactiveText,
-            "TextField.inactiveBackground", textInactiveBackground,
-            "TextField.selectionBackground", textHighlight,
-            "TextField.selectionForeground", textHighlightText,
-            "TextField.caretForeground", textForeground,
-            "TextField.caretBlinkRate", textCaretBlinkRate,
-            "TextField.border", textFieldBorder,
-            "TextField.margin", zeroInsets,
+            "TfxtFifld.fodusInputMbp", bqubKfyBindings.gftTfxtFifldInputMbp(),
+            "TfxtFifld.font", dontrolFont,
+            "TfxtFifld.bbdkground", tfxtBbdkground,
+            "TfxtFifld.forfground", tfxtForfground,
+            "TfxtFifld.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "TfxtFifld.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "TfxtFifld.sflfdtionBbdkground", tfxtHigiligit,
+            "TfxtFifld.sflfdtionForfground", tfxtHigiligitTfxt,
+            "TfxtFifld.dbrftForfground", tfxtForfground,
+            "TfxtFifld.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "TfxtFifld.bordfr", tfxtFifldBordfr,
+            "TfxtFifld.mbrgin", zfroInsfts,
 
-            "TextPane.focusInputMap", aquaKeyBindings.getMultiLineTextInputMap(),
-            "TextPane.font", controlFont,
-            "TextPane.background", textBackground,
-            "TextPane.foreground", textForeground,
-            "TextPane.selectionBackground", textHighlight,
-            "TextPane.selectionForeground", textHighlightText,
-            "TextPane.caretForeground", textForeground,
-            "TextPane.caretBlinkRate", textCaretBlinkRate,
-            "TextPane.inactiveForeground", textInactiveText,
-            "TextPane.inactiveBackground", textInactiveBackground,
-            "TextPane.border", textAreaBorder,
-            "TextPane.margin", editorMargin,
+            "TfxtPbnf.fodusInputMbp", bqubKfyBindings.gftMultiLinfTfxtInputMbp(),
+            "TfxtPbnf.font", dontrolFont,
+            "TfxtPbnf.bbdkground", tfxtBbdkground,
+            "TfxtPbnf.forfground", tfxtForfground,
+            "TfxtPbnf.sflfdtionBbdkground", tfxtHigiligit,
+            "TfxtPbnf.sflfdtionForfground", tfxtHigiligitTfxt,
+            "TfxtPbnf.dbrftForfground", tfxtForfground,
+            "TfxtPbnf.dbrftBlinkRbtf", tfxtCbrftBlinkRbtf,
+            "TfxtPbnf.inbdtivfForfground", tfxtInbdtivfTfxt,
+            "TfxtPbnf.inbdtivfBbdkground", tfxtInbdtivfBbdkground,
+            "TfxtPbnf.bordfr", tfxtArfbBordfr,
+            "TfxtPbnf.mbrgin", fditorMbrgin,
 
-            // *** ToggleButton
-            "ToggleButton.background", controlBackgroundColor,
-            "ToggleButton.foreground", black,
-            "ToggleButton.disabledText", disabled,
-            // we need to go through and find out if these are used, and if not what to set
-            // so that subclasses will get good aqua like colors.
-            //    "ToggleButton.select", getControlShadow(),
-            //    "ToggleButton.text", getControl(),
-            //    "ToggleButton.disabledSelectedText", getControlDarkShadow(),
-            //    "ToggleButton.disabledBackground", getControl(),
-            //    "ToggleButton.disabledSelectedBackground", getControlShadow(),
-            //"ToggleButton.focus", getFocusColor(),
-            "ToggleButton.border",(LazyValue) t -> AquaButtonBorder.getDynamicButtonBorder(), // sja make this lazy!
-            "ToggleButton.font", controlFont,
-            "ToggleButton.focusInputMap", controlFocusInputMap,
-            "ToggleButton.margin", new InsetsUIResource(2, 2, 2, 2),
+            // *** TogglfButton
+            "TogglfButton.bbdkground", dontrolBbdkgroundColor,
+            "TogglfButton.forfground", blbdk,
+            "TogglfButton.disbblfdTfxt", disbblfd,
+            // wf nffd to go tirougi bnd find out if tifsf brf usfd, bnd if not wibt to sft
+            // so tibt subdlbssfs will gft good bqub likf dolors.
+            //    "TogglfButton.sflfdt", gftControlSibdow(),
+            //    "TogglfButton.tfxt", gftControl(),
+            //    "TogglfButton.disbblfdSflfdtfdTfxt", gftControlDbrkSibdow(),
+            //    "TogglfButton.disbblfdBbdkground", gftControl(),
+            //    "TogglfButton.disbblfdSflfdtfdBbdkground", gftControlSibdow(),
+            //"TogglfButton.fodus", gftFodusColor(),
+            "TogglfButton.bordfr",(LbzyVbluf) t -> AqubButtonBordfr.gftDynbmidButtonBordfr(), // sjb mbkf tiis lbzy!
+            "TogglfButton.font", dontrolFont,
+            "TogglfButton.fodusInputMbp", dontrolFodusInputMbp,
+            "TogglfButton.mbrgin", nfw InsftsUIRfsourdf(2, 2, 2, 2),
 
-            // *** ToolBar
-            "ToolBar.font", controlFont,
-            "ToolBar.background", panelBackgroundColor,
-            "ToolBar.foreground", new ColorUIResource(Color.gray),
-            "ToolBar.dockingBackground", panelBackgroundColor,
-            "ToolBar.dockingForeground", selectionBackground,
-            "ToolBar.floatingBackground", panelBackgroundColor,
-            "ToolBar.floatingForeground", new ColorUIResource(Color.darkGray),
-            "ToolBar.border",(LazyValue) t -> AquaToolBarUI.getToolBarBorder(),
-            "ToolBar.borderHandleColor", toolbarDragHandleColor,
-            //"ToolBar.separatorSize", new DimensionUIResource( 10, 10 ),
-            "ToolBar.separatorSize", null,
+            // *** ToolBbr
+            "ToolBbr.font", dontrolFont,
+            "ToolBbr.bbdkground", pbnflBbdkgroundColor,
+            "ToolBbr.forfground", nfw ColorUIRfsourdf(Color.grby),
+            "ToolBbr.dodkingBbdkground", pbnflBbdkgroundColor,
+            "ToolBbr.dodkingForfground", sflfdtionBbdkground,
+            "ToolBbr.flobtingBbdkground", pbnflBbdkgroundColor,
+            "ToolBbr.flobtingForfground", nfw ColorUIRfsourdf(Color.dbrkGrby),
+            "ToolBbr.bordfr",(LbzyVbluf) t -> AqubToolBbrUI.gftToolBbrBordfr(),
+            "ToolBbr.bordfrHbndlfColor", toolbbrDrbgHbndlfColor,
+            //"ToolBbr.sfpbrbtorSizf", nfw DimfnsionUIRfsourdf( 10, 10 ),
+            "ToolBbr.sfpbrbtorSizf", null,
 
-            // *** ToolBarButton
-            "ToolBarButton.margin", new InsetsUIResource(3, 3, 3, 3),
-            "ToolBarButton.insets", new InsetsUIResource(1, 1, 1, 1),
+            // *** ToolBbrButton
+            "ToolBbrButton.mbrgin", nfw InsftsUIRfsourdf(3, 3, 3, 3),
+            "ToolBbrButton.insfts", nfw InsftsUIRfsourdf(1, 1, 1, 1),
 
             // *** ToolTips
-            "ToolTip.font", controlSmallFont,
-            //$ Tooltips - Same color as help balloons?
-            "ToolTip.background", toolTipBackground,
-            "ToolTip.foreground", black,
-            "ToolTip.border", toolTipBorder,
+            "ToolTip.font", dontrolSmbllFont,
+            //$ Tooltips - Sbmf dolor bs iflp bblloons?
+            "ToolTip.bbdkground", toolTipBbdkground,
+            "ToolTip.forfground", blbdk,
+            "ToolTip.bordfr", toolTipBordfr,
 
-            // *** Tree
-            "Tree.font", viewFont, // [3577901] Aqua HIG says "default font of text in lists and tables" should be 12 point (vm).
-            "Tree.background", white,
-            "Tree.foreground", black,
-            // for now no lines
-            "Tree.hash", white, //disabled, // Line color
-            "Tree.line", white, //disabled, // Line color
-            "Tree.textForeground", black,
-            "Tree.textBackground", white,
-            "Tree.selectionForeground", selectionForeground,
-            "Tree.selectionBackground", selectionBackground,
-            "Tree.selectionInactiveBackground", selectionInactiveBackground,
-            "Tree.selectionInactiveForeground", selectionInactiveForeground,
-            "Tree.selectionBorderColor", selectionBackground, // match the background so it looks like we don't draw anything
-            "Tree.editorBorderSelectionColor", null, // The EditTextFrame provides its own border
-            // "Tree.editorBorder", textFieldBorder, // If you still have Sun bug 4376328 in DefaultTreeCellEditor, it has to have the same insets as TextField.border
-            "Tree.leftChildIndent", new Integer(7),//$
-            "Tree.rightChildIndent", new Integer(13),//$
-            "Tree.rowHeight", new Integer(19),// iconHeight + 3, to match finder - a zero would have the renderer decide, except that leaves the icons touching
-            "Tree.scrollsOnExpand", Boolean.FALSE,
-            "Tree.openIcon",(LazyValue) t -> AquaImageFactory.getTreeOpenFolderIcon(), // Open folder icon
-            "Tree.closedIcon",(LazyValue) t -> AquaImageFactory.getTreeFolderIcon(), // Closed folder icon
-            "Tree.leafIcon",(LazyValue) t -> AquaImageFactory.getTreeDocumentIcon(), // Document icon
-            "Tree.expandedIcon",(LazyValue) t -> AquaImageFactory.getTreeExpandedIcon(),
-            "Tree.collapsedIcon",(LazyValue) t -> AquaImageFactory.getTreeCollapsedIcon(),
-            "Tree.rightToLeftCollapsedIcon",(LazyValue) t -> AquaImageFactory.getTreeRightToLeftCollapsedIcon(),
-            "Tree.changeSelectionWithFocus", Boolean.TRUE,
-            "Tree.drawsFocusBorderAroundIcon", Boolean.FALSE,
+            // *** Trff
+            "Trff.font", vifwFont, // [3577901] Aqub HIG sbys "dffbult font of tfxt in lists bnd tbblfs" siould bf 12 point (vm).
+            "Trff.bbdkground", wiitf,
+            "Trff.forfground", blbdk,
+            // for now no linfs
+            "Trff.ibsi", wiitf, //disbblfd, // Linf dolor
+            "Trff.linf", wiitf, //disbblfd, // Linf dolor
+            "Trff.tfxtForfground", blbdk,
+            "Trff.tfxtBbdkground", wiitf,
+            "Trff.sflfdtionForfground", sflfdtionForfground,
+            "Trff.sflfdtionBbdkground", sflfdtionBbdkground,
+            "Trff.sflfdtionInbdtivfBbdkground", sflfdtionInbdtivfBbdkground,
+            "Trff.sflfdtionInbdtivfForfground", sflfdtionInbdtivfForfground,
+            "Trff.sflfdtionBordfrColor", sflfdtionBbdkground, // mbtdi tif bbdkground so it looks likf wf don't drbw bnytiing
+            "Trff.fditorBordfrSflfdtionColor", null, // Tif EditTfxtFrbmf providfs its own bordfr
+            // "Trff.fditorBordfr", tfxtFifldBordfr, // If you still ibvf Sun bug 4376328 in DffbultTrffCfllEditor, it ibs to ibvf tif sbmf insfts bs TfxtFifld.bordfr
+            "Trff.lfftCiildIndfnt", nfw Intfgfr(7),//$
+            "Trff.rigitCiildIndfnt", nfw Intfgfr(13),//$
+            "Trff.rowHfigit", nfw Intfgfr(19),// idonHfigit + 3, to mbtdi findfr - b zfro would ibvf tif rfndfrfr dfdidf, fxdfpt tibt lfbvfs tif idons toudiing
+            "Trff.sdrollsOnExpbnd", Boolfbn.FALSE,
+            "Trff.opfnIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffOpfnFoldfrIdon(), // Opfn foldfr idon
+            "Trff.dlosfdIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffFoldfrIdon(), // Closfd foldfr idon
+            "Trff.lfbfIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffDodumfntIdon(), // Dodumfnt idon
+            "Trff.fxpbndfdIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffExpbndfdIdon(),
+            "Trff.dollbpsfdIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffCollbpsfdIdon(),
+            "Trff.rigitToLfftCollbpsfdIdon",(LbzyVbluf) t -> AqubImbgfFbdtory.gftTrffRigitToLfftCollbpsfdIdon(),
+            "Trff.dibngfSflfdtionWitiFodus", Boolfbn.TRUE,
+            "Trff.drbwsFodusBordfrAroundIdon", Boolfbn.FALSE,
 
-            "Tree.focusInputMap", aquaKeyBindings.getTreeInputMap(),
-            "Tree.focusInputMap.RightToLeft", aquaKeyBindings.getTreeRightToLeftInputMap(),
-            "Tree.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{"ESCAPE", "cancel"}),};
+            "Trff.fodusInputMbp", bqubKfyBindings.gftTrffInputMbp(),
+            "Trff.fodusInputMbp.RigitToLfft", bqubKfyBindings.gftTrffRigitToLfftInputMbp(),
+            "Trff.bndfstorInputMbp", nfw UIDffbults.LbzyInputMbp(nfw Objfdt[]{"ESCAPE", "dbndfl"}),};
 
-        table.putDefaults(defaults);
+        tbblf.putDffbults(dffbults);
 
-        Object aaTextInfo = SwingUtilities2.AATextInfo.getAATextInfo(true);
-        table.put(SwingUtilities2.AA_TEXT_PROPERTY_KEY, aaTextInfo);
+        Objfdt bbTfxtInfo = SwingUtilitifs2.AATfxtInfo.gftAATfxtInfo(truf);
+        tbblf.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
     }
 
-    protected void initSystemColorDefaults(final UIDefaults table) {
-//        String[] defaultSystemColors = {
-//                  "desktop", "#005C5C", /* Color of the desktop background */
-//          "activeCaption", "#000080", /* Color for captions (title bars) when they are active. */
-//          "activeCaptionText", "#FFFFFF", /* Text color for text in captions (title bars). */
-//        "activeCaptionBorder", "#C0C0C0", /* Border color for caption (title bar) window borders. */
-//            "inactiveCaption", "#808080", /* Color for captions (title bars) when not active. */
-//        "inactiveCaptionText", "#C0C0C0", /* Text color for text in inactive captions (title bars). */
-//      "inactiveCaptionBorder", "#C0C0C0", /* Border color for inactive caption (title bar) window borders. */
-//                 "window", "#FFFFFF", /* Default color for the interior of windows */
-//           "windowBorder", "#000000", /* ??? */
-//             "windowText", "#000000", /* ??? */
-//               "menu", "#C0C0C0", /* Background color for menus */
-//               "menuText", "#000000", /* Text color for menus  */
-//               "text", "#C0C0C0", /* Text background color */
-//               "textText", "#000000", /* Text foreground color */
-//          "textHighlight", "#000080", /* Text background color when selected */
-//          "textHighlightText", "#FFFFFF", /* Text color when selected */
-//           "textInactiveText", "#808080", /* Text color when disabled */
-//                "control", "#C0C0C0", /* Default color for controls (buttons, sliders, etc) */
-//            "controlText", "#000000", /* Default color for text in controls */
-//           "controlHighlight", "#C0C0C0", /* Specular highlight (opposite of the shadow) */
-//         "controlLtHighlight", "#FFFFFF", /* Highlight color for controls */
-//          "controlShadow", "#808080", /* Shadow color for controls */
-//            "controlDkShadow", "#000000", /* Dark shadow color for controls */
-//              "scrollbar", "#E0E0E0", /* Scrollbar background (usually the "track") */
+    protfdtfd void initSystfmColorDffbults(finbl UIDffbults tbblf) {
+//        String[] dffbultSystfmColors = {
+//                  "dfsktop", "#005C5C", /* Color of tif dfsktop bbdkground */
+//          "bdtivfCbption", "#000080", /* Color for dbptions (titlf bbrs) wifn tify brf bdtivf. */
+//          "bdtivfCbptionTfxt", "#FFFFFF", /* Tfxt dolor for tfxt in dbptions (titlf bbrs). */
+//        "bdtivfCbptionBordfr", "#C0C0C0", /* Bordfr dolor for dbption (titlf bbr) window bordfrs. */
+//            "inbdtivfCbption", "#808080", /* Color for dbptions (titlf bbrs) wifn not bdtivf. */
+//        "inbdtivfCbptionTfxt", "#C0C0C0", /* Tfxt dolor for tfxt in inbdtivf dbptions (titlf bbrs). */
+//      "inbdtivfCbptionBordfr", "#C0C0C0", /* Bordfr dolor for inbdtivf dbption (titlf bbr) window bordfrs. */
+//                 "window", "#FFFFFF", /* Dffbult dolor for tif intfrior of windows */
+//           "windowBordfr", "#000000", /* ??? */
+//             "windowTfxt", "#000000", /* ??? */
+//               "mfnu", "#C0C0C0", /* Bbdkground dolor for mfnus */
+//               "mfnuTfxt", "#000000", /* Tfxt dolor for mfnus  */
+//               "tfxt", "#C0C0C0", /* Tfxt bbdkground dolor */
+//               "tfxtTfxt", "#000000", /* Tfxt forfground dolor */
+//          "tfxtHigiligit", "#000080", /* Tfxt bbdkground dolor wifn sflfdtfd */
+//          "tfxtHigiligitTfxt", "#FFFFFF", /* Tfxt dolor wifn sflfdtfd */
+//           "tfxtInbdtivfTfxt", "#808080", /* Tfxt dolor wifn disbblfd */
+//                "dontrol", "#C0C0C0", /* Dffbult dolor for dontrols (buttons, slidfrs, ftd) */
+//            "dontrolTfxt", "#000000", /* Dffbult dolor for tfxt in dontrols */
+//           "dontrolHigiligit", "#C0C0C0", /* Spfdulbr iigiligit (oppositf of tif sibdow) */
+//         "dontrolLtHigiligit", "#FFFFFF", /* Higiligit dolor for dontrols */
+//          "dontrolSibdow", "#808080", /* Sibdow dolor for dontrols */
+//            "dontrolDkSibdow", "#000000", /* Dbrk sibdow dolor for dontrols */
+//              "sdrollbbr", "#E0E0E0", /* Sdrollbbr bbdkground (usublly tif "trbdk") */
 //               "info", "#FFFFE1", /* ??? */
-//               "infoText", "#000000"  /* ??? */
+//               "infoTfxt", "#000000"  /* ??? */
 //        };
 //
-//        loadSystemColors(table, defaultSystemColors, isNativeLookAndFeel());
+//        lobdSystfmColors(tbblf, dffbultSystfmColors, isNbtivfLookAndFffl());
     }
 
     /**
-     * Initialize the uiClassID to AquaComponentUI mapping.
-     * The JComponent classes define their own uiClassID constants
-     * (see AbstractComponent.getUIClassID).  This table must
-     * map those constants to a BasicComponentUI class of the
-     * appropriate type.
+     * Initiblizf tif uiClbssID to AqubComponfntUI mbpping.
+     * Tif JComponfnt dlbssfs dffinf tifir own uiClbssID donstbnts
+     * (sff AbstrbdtComponfnt.gftUIClbssID).  Tiis tbblf must
+     * mbp tiosf donstbnts to b BbsidComponfntUI dlbss of tif
+     * bppropribtf typf.
      *
-     * @see #getDefaults
+     * @sff #gftDffbults
      */
-    protected void initClassDefaults(final UIDefaults table) {
-        final String basicPackageName = "javax.swing.plaf.basic.";
+    protfdtfd void initClbssDffbults(finbl UIDffbults tbblf) {
+        finbl String bbsidPbdkbgfNbmf = "jbvbx.swing.plbf.bbsid.";
 
-        final Object[] uiDefaults = {
-            "ButtonUI", PKG_PREFIX + "AquaButtonUI",
-            "CheckBoxUI", PKG_PREFIX + "AquaButtonCheckBoxUI",
-            "CheckBoxMenuItemUI", PKG_PREFIX + "AquaMenuItemUI",
-            "LabelUI", PKG_PREFIX + "AquaLabelUI",
-            "ListUI", PKG_PREFIX + "AquaListUI",
-            "MenuUI", PKG_PREFIX + "AquaMenuUI",
-            "MenuItemUI", PKG_PREFIX + "AquaMenuItemUI",
-            "OptionPaneUI", PKG_PREFIX + "AquaOptionPaneUI",
-            "PanelUI", PKG_PREFIX + "AquaPanelUI",
-            "RadioButtonMenuItemUI", PKG_PREFIX + "AquaMenuItemUI",
-            "RadioButtonUI", PKG_PREFIX + "AquaButtonRadioUI",
-            "ProgressBarUI", PKG_PREFIX + "AquaProgressBarUI",
-            "RootPaneUI", PKG_PREFIX + "AquaRootPaneUI",
-            "SliderUI", PKG_PREFIX + "AquaSliderUI",
-            "ScrollBarUI", PKG_PREFIX + "AquaScrollBarUI",
-            "TabbedPaneUI", PKG_PREFIX + (JRSUIUtils.TabbedPane.shouldUseTabbedPaneContrastUI() ? "AquaTabbedPaneContrastUI" : "AquaTabbedPaneUI"),
-            "TableUI", PKG_PREFIX + "AquaTableUI",
-            "ToggleButtonUI", PKG_PREFIX + "AquaButtonToggleUI",
-            "ToolBarUI", PKG_PREFIX + "AquaToolBarUI",
-            "ToolTipUI", PKG_PREFIX + "AquaToolTipUI",
-            "TreeUI", PKG_PREFIX + "AquaTreeUI",
+        finbl Objfdt[] uiDffbults = {
+            "ButtonUI", PKG_PREFIX + "AqubButtonUI",
+            "CifdkBoxUI", PKG_PREFIX + "AqubButtonCifdkBoxUI",
+            "CifdkBoxMfnuItfmUI", PKG_PREFIX + "AqubMfnuItfmUI",
+            "LbbflUI", PKG_PREFIX + "AqubLbbflUI",
+            "ListUI", PKG_PREFIX + "AqubListUI",
+            "MfnuUI", PKG_PREFIX + "AqubMfnuUI",
+            "MfnuItfmUI", PKG_PREFIX + "AqubMfnuItfmUI",
+            "OptionPbnfUI", PKG_PREFIX + "AqubOptionPbnfUI",
+            "PbnflUI", PKG_PREFIX + "AqubPbnflUI",
+            "RbdioButtonMfnuItfmUI", PKG_PREFIX + "AqubMfnuItfmUI",
+            "RbdioButtonUI", PKG_PREFIX + "AqubButtonRbdioUI",
+            "ProgrfssBbrUI", PKG_PREFIX + "AqubProgrfssBbrUI",
+            "RootPbnfUI", PKG_PREFIX + "AqubRootPbnfUI",
+            "SlidfrUI", PKG_PREFIX + "AqubSlidfrUI",
+            "SdrollBbrUI", PKG_PREFIX + "AqubSdrollBbrUI",
+            "TbbbfdPbnfUI", PKG_PREFIX + (JRSUIUtils.TbbbfdPbnf.siouldUsfTbbbfdPbnfContrbstUI() ? "AqubTbbbfdPbnfContrbstUI" : "AqubTbbbfdPbnfUI"),
+            "TbblfUI", PKG_PREFIX + "AqubTbblfUI",
+            "TogglfButtonUI", PKG_PREFIX + "AqubButtonTogglfUI",
+            "ToolBbrUI", PKG_PREFIX + "AqubToolBbrUI",
+            "ToolTipUI", PKG_PREFIX + "AqubToolTipUI",
+            "TrffUI", PKG_PREFIX + "AqubTrffUI",
 
-            "InternalFrameUI", PKG_PREFIX + "AquaInternalFrameUI",
-            "DesktopIconUI", PKG_PREFIX + "AquaInternalFrameDockIconUI",
-            "DesktopPaneUI", PKG_PREFIX + "AquaInternalFramePaneUI",
-            "EditorPaneUI", PKG_PREFIX + "AquaEditorPaneUI",
-            "TextFieldUI", PKG_PREFIX + "AquaTextFieldUI",
-            "TextPaneUI", PKG_PREFIX + "AquaTextPaneUI",
-            "ComboBoxUI", PKG_PREFIX + "AquaComboBoxUI",
-            "PopupMenuUI", PKG_PREFIX + "AquaPopupMenuUI",
-            "TextAreaUI", PKG_PREFIX + "AquaTextAreaUI",
-            "MenuBarUI", PKG_PREFIX + "AquaMenuBarUI",
-            "FileChooserUI", PKG_PREFIX + "AquaFileChooserUI",
-            "PasswordFieldUI", PKG_PREFIX + "AquaTextPasswordFieldUI",
-            "TableHeaderUI", PKG_PREFIX + "AquaTableHeaderUI",
+            "IntfrnblFrbmfUI", PKG_PREFIX + "AqubIntfrnblFrbmfUI",
+            "DfsktopIdonUI", PKG_PREFIX + "AqubIntfrnblFrbmfDodkIdonUI",
+            "DfsktopPbnfUI", PKG_PREFIX + "AqubIntfrnblFrbmfPbnfUI",
+            "EditorPbnfUI", PKG_PREFIX + "AqubEditorPbnfUI",
+            "TfxtFifldUI", PKG_PREFIX + "AqubTfxtFifldUI",
+            "TfxtPbnfUI", PKG_PREFIX + "AqubTfxtPbnfUI",
+            "ComboBoxUI", PKG_PREFIX + "AqubComboBoxUI",
+            "PopupMfnuUI", PKG_PREFIX + "AqubPopupMfnuUI",
+            "TfxtArfbUI", PKG_PREFIX + "AqubTfxtArfbUI",
+            "MfnuBbrUI", PKG_PREFIX + "AqubMfnuBbrUI",
+            "FilfCioosfrUI", PKG_PREFIX + "AqubFilfCioosfrUI",
+            "PbsswordFifldUI", PKG_PREFIX + "AqubTfxtPbsswordFifldUI",
+            "TbblfHfbdfrUI", PKG_PREFIX + "AqubTbblfHfbdfrUI",
 
-            "FormattedTextFieldUI", PKG_PREFIX + "AquaTextFieldFormattedUI",
+            "FormbttfdTfxtFifldUI", PKG_PREFIX + "AqubTfxtFifldFormbttfdUI",
 
-            "SpinnerUI", PKG_PREFIX + "AquaSpinnerUI",
-            "SplitPaneUI", PKG_PREFIX + "AquaSplitPaneUI",
-            "ScrollPaneUI", PKG_PREFIX + "AquaScrollPaneUI",
+            "SpinnfrUI", PKG_PREFIX + "AqubSpinnfrUI",
+            "SplitPbnfUI", PKG_PREFIX + "AqubSplitPbnfUI",
+            "SdrollPbnfUI", PKG_PREFIX + "AqubSdrollPbnfUI",
 
-            "PopupMenuSeparatorUI", PKG_PREFIX + "AquaPopupMenuSeparatorUI",
-            "SeparatorUI", PKG_PREFIX + "AquaPopupMenuSeparatorUI",
-            "ToolBarSeparatorUI", PKG_PREFIX + "AquaToolBarSeparatorUI",
+            "PopupMfnuSfpbrbtorUI", PKG_PREFIX + "AqubPopupMfnuSfpbrbtorUI",
+            "SfpbrbtorUI", PKG_PREFIX + "AqubPopupMfnuSfpbrbtorUI",
+            "ToolBbrSfpbrbtorUI", PKG_PREFIX + "AqubToolBbrSfpbrbtorUI",
 
-            // as we implement aqua versions of the swing elements
-            // we will aad the com.apple.laf.FooUI classes to this table.
+            // bs wf implfmfnt bqub vfrsions of tif swing flfmfnts
+            // wf will bbd tif dom.bpplf.lbf.FooUI dlbssfs to tiis tbblf.
 
-            "ColorChooserUI", basicPackageName + "BasicColorChooserUI",
+            "ColorCioosfrUI", bbsidPbdkbgfNbmf + "BbsidColorCioosfrUI",
 
-            // text UIs
-            "ViewportUI", basicPackageName + "BasicViewportUI",
+            // tfxt UIs
+            "VifwportUI", bbsidPbdkbgfNbmf + "BbsidVifwportUI",
         };
-        table.putDefaults(uiDefaults);
+        tbblf.putDffbults(uiDffbults);
     }
 }

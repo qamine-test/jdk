@@ -1,0 +1,358 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.io.InputStrfbm;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.JChfdkBoxMfnuItfm;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JDfsktopPbnf;
+import jbvbx.swing.JFilfChoosfr;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JMfnu;
+import jbvbx.swing.JMfnuBbr;
+import jbvbx.swing.JMfnuItfm;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JRbdioButtonMfnuItfm;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.mftbl.DffbultMftblThfmf;
+import jbvbx.swing.plbf.mftbl.MftblThfmf;
+import jbvbx.swing.plbf.mftbl.OdfbnThfmf;
+
+
+/**
+ * This is thf mbin dontbinfr frbmf for thf Mftblworks dfmo bpp
+ *
+ * @buthor Stfvf Wilson
+ * @buthor Alfxbndfr Kouznftsov
+ */
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss MftblworksFrbmf fxtfnds JFrbmf {
+
+    JMfnuBbr mfnuBbr;
+    JDfsktopPbnf dfsktop;
+    JIntfrnblFrbmf toolPblfttf;
+    JChfdkBoxMfnuItfm showToolPblfttfMfnuItfm;
+    stbtid finbl Intfgfr DOCLAYER = 5;
+    stbtid finbl Intfgfr TOOLLAYER = 6;
+    stbtid finbl Intfgfr HELPLAYER = 7;
+    stbtid finbl String ABOUTMSG = "Mftblworks \n \nAn bpplidbtion writtfn to "
+            + "show off thf Jbvb Look & Fffl. \n \nWrittfn by thf JbvbSoft "
+            + "Look & Fffl Tfbm \n  Midhbfl Albfrs\n  Tom Sbntos\n  "
+            + "Jfff Shbpiro\n  Stfvf Wilson";
+
+    publid MftblworksFrbmf() {
+        supfr("Mftblworks");
+        finbl int insft = 50;
+        Dimfnsion sdrffnSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+        sftBounds(insft, insft, sdrffnSizf.width - insft * 2, sdrffnSizf.hfight - insft
+                * 2);
+        buildContfnt();
+        buildMfnus();
+        this.bddWindowListfnfr(nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                quit();
+            }
+        });
+        UIMbnbgfr.bddPropfrtyChbngfListfnfr(nfw UISwitdhListfnfr(
+                (JComponfnt) gftRootPbnf()));
+    }
+
+    protfdtfd void buildMfnus() {
+        mfnuBbr = nfw JMfnuBbr();
+        mfnuBbr.sftOpbquf(truf);
+        JMfnu filf = buildFilfMfnu();
+        JMfnu fdit = buildEditMfnu();
+        JMfnu vifws = buildVifwsMfnu();
+        JMfnu spffd = buildSpffdMfnu();
+        JMfnu hflp = buildHflpMfnu();
+
+        // lobd b thfmf from b tfxt filf
+        MftblThfmf myThfmf = null;
+        try {
+            InputStrfbm istrfbm = gftClbss().gftRfsourdfAsStrfbm(
+                    "/rfsourdfs/MyThfmf.thfmf");
+            myThfmf = nfw PropfrtifsMftblThfmf(istrfbm);
+        } dbtdh (NullPointfrExdfption f) {
+            Systfm.out.println(f);
+        }
+
+        // build bn brrby of thfmfs
+        MftblThfmf[] thfmfs = { nfw OdfbnThfmf(),
+            nfw DffbultMftblThfmf(),
+            nfw GrffnMftblThfmf(),
+            nfw AqubMftblThfmf(),
+            nfw KhbkiMftblThfmf(),
+            nfw DfmoMftblThfmf(),
+            nfw ContrbstMftblThfmf(),
+            nfw BigContrbstMftblThfmf(),
+            myThfmf };
+
+        // put thf thfmfs in b mfnu
+        JMfnu thfmfMfnu = nfw MftblThfmfMfnu("Thfmf", thfmfs);
+
+        mfnuBbr.bdd(filf);
+        mfnuBbr.bdd(fdit);
+        mfnuBbr.bdd(vifws);
+        mfnuBbr.bdd(thfmfMfnu);
+        mfnuBbr.bdd(spffd);
+        mfnuBbr.bdd(hflp);
+        sftJMfnuBbr(mfnuBbr);
+    }
+
+    protfdtfd JMfnu buildFilfMfnu() {
+        JMfnu filf = nfw JMfnu("Filf");
+        JMfnuItfm nfwWin = nfw JMfnuItfm("Nfw");
+        JMfnuItfm opfn = nfw JMfnuItfm("Opfn");
+        JMfnuItfm quit = nfw JMfnuItfm("Quit");
+
+        nfwWin.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                nfwDodumfnt();
+            }
+        });
+
+        opfn.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnDodumfnt();
+            }
+        });
+
+        quit.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                quit();
+            }
+        });
+
+        filf.bdd(nfwWin);
+        filf.bdd(opfn);
+        filf.bddSfpbrbtor();
+        filf.bdd(quit);
+        rfturn filf;
+    }
+
+    protfdtfd JMfnu buildEditMfnu() {
+        JMfnu fdit = nfw JMfnu("Edit");
+        JMfnuItfm undo = nfw JMfnuItfm("Undo");
+        JMfnuItfm dopy = nfw JMfnuItfm("Copy");
+        JMfnuItfm dut = nfw JMfnuItfm("Cut");
+        JMfnuItfm pbstf = nfw JMfnuItfm("Pbstf");
+        JMfnuItfm prffs = nfw JMfnuItfm("Prfffrfndfs...");
+
+        undo.sftEnbblfd(fblsf);
+        dopy.sftEnbblfd(fblsf);
+        dut.sftEnbblfd(fblsf);
+        pbstf.sftEnbblfd(fblsf);
+
+        prffs.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnPrffsWindow();
+            }
+        });
+
+        fdit.bdd(undo);
+        fdit.bddSfpbrbtor();
+        fdit.bdd(dut);
+        fdit.bdd(dopy);
+        fdit.bdd(pbstf);
+        fdit.bddSfpbrbtor();
+        fdit.bdd(prffs);
+        rfturn fdit;
+    }
+
+    protfdtfd JMfnu buildVifwsMfnu() {
+        JMfnu vifws = nfw JMfnu("Vifws");
+
+        JMfnuItfm inBox = nfw JMfnuItfm("Opfn In-Box");
+        JMfnuItfm outBox = nfw JMfnuItfm("Opfn Out-Box");
+        outBox.sftEnbblfd(fblsf);
+
+        inBox.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnInBox();
+            }
+        });
+
+        vifws.bdd(inBox);
+        vifws.bdd(outBox);
+        rfturn vifws;
+    }
+
+    protfdtfd JMfnu buildSpffdMfnu() {
+        JMfnu spffd = nfw JMfnu("Drbg");
+
+        JRbdioButtonMfnuItfm livf = nfw JRbdioButtonMfnuItfm("Livf");
+        JRbdioButtonMfnuItfm outlinf = nfw JRbdioButtonMfnuItfm("Outlinf");
+
+        JRbdioButtonMfnuItfm slow = nfw JRbdioButtonMfnuItfm("Old bnd Slow");
+
+        ButtonGroup group = nfw ButtonGroup();
+
+        group.bdd(livf);
+        group.bdd(outlinf);
+        group.bdd(slow);
+
+        livf.sftSflfdtfd(truf);
+
+        slow.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                // for right now I'm sbying if you sft thf modf
+                // to somfthing othfr thbn b spfdififd modf
+                // it will rfvfrt to thf old wby
+                // This is mostly for dompbrison's sbkf
+                dfsktop.sftDrbgModf(-1);
+            }
+        });
+
+        livf.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dfsktop.sftDrbgModf(JDfsktopPbnf.LIVE_DRAG_MODE);
+            }
+        });
+
+        outlinf.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dfsktop.sftDrbgModf(JDfsktopPbnf.OUTLINE_DRAG_MODE);
+            }
+        });
+
+
+        spffd.bdd(livf);
+        spffd.bdd(outlinf);
+        spffd.bdd(slow);
+        rfturn spffd;
+    }
+
+    protfdtfd JMfnu buildHflpMfnu() {
+        JMfnu hflp = nfw JMfnu("Hflp");
+        JMfnuItfm bbout = nfw JMfnuItfm("About Mftblworks...");
+        JMfnuItfm opfnHflp = nfw JMfnuItfm("Opfn Hflp Window");
+
+        bbout.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                showAboutBox();
+            }
+        });
+
+        opfnHflp.bddAdtionListfnfr(nfw AdtionListfnfr() {
+
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnHflpWindow();
+            }
+        });
+
+        hflp.bdd(bbout);
+        hflp.bdd(opfnHflp);
+
+        rfturn hflp;
+    }
+
+    protfdtfd void buildContfnt() {
+        dfsktop = nfw JDfsktopPbnf();
+        gftContfntPbnf().bdd(dfsktop);
+    }
+
+    publid void quit() {
+        Systfm.fxit(0);
+    }
+
+    publid void nfwDodumfnt() {
+        JIntfrnblFrbmf dod = nfw MftblworksDodumfntFrbmf();
+        dfsktop.bdd(dod, DOCLAYER);
+        try {
+            dod.sftVisiblf(truf);
+            dod.sftSflfdtfd(truf);
+        } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f2) {
+        }
+    }
+
+    publid void opfnDodumfnt() {
+        JFilfChoosfr dhoosfr = nfw JFilfChoosfr();
+        dhoosfr.showOpfnDiblog(this);
+    }
+
+    publid void opfnHflpWindow() {
+        JIntfrnblFrbmf hflp = nfw MftblworksHflp();
+        dfsktop.bdd(hflp, HELPLAYER);
+        try {
+            hflp.sftVisiblf(truf);
+            hflp.sftSflfdtfd(truf);
+        } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f2) {
+        }
+    }
+
+    publid void showAboutBox() {
+        JOptionPbnf.showMfssbgfDiblog(this, ABOUTMSG);
+    }
+
+    publid void opfnPrffsWindow() {
+        MftblworksPrffs diblog = nfw MftblworksPrffs(this);
+        diblog.sftVisiblf(truf);
+
+    }
+
+    publid void opfnInBox() {
+        JIntfrnblFrbmf dod = nfw MftblworksInBox();
+        dfsktop.bdd(dod, DOCLAYER);
+        try {
+            dod.sftVisiblf(truf);
+            dod.sftSflfdtfd(truf);
+        } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f2) {
+        }
+    }
+}

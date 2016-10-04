@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.dfmo.sdripting.jdonsolf;
+
+import dom.sun.tools.jdonsolf.*;
+import jbvb.io.*;
+import jbvb.util.dondurrfnt.CountDownLbtdh;
+import jbvbx.sdript.*;
+import jbvbx.swing.*;
+import jbvb.util.*;
+
+/**
+ * This is sdript donsolf plugin. This dlbss usfs jbvbx.sdript API to drfbtf
+ * intfrbdtivf rfbd-fvbl-print sdript shfll within thf jdonsolf GUI.
+ */
+publid dlbss SdriptJConsolfPlugin fxtfnds JConsolfPlugin
+                     implfmfnts SdriptShfllPbnfl.CommbndProdfssor {
+    // Pbnfl for our tbb
+    privbtf volbtilf SdriptShfllPbnfl window;
+    // Tbbs thbt wf bdd to jdonsolf GUI
+    privbtf Mbp<String, JPbnfl> tbbs;
+
+    // Sdript fnginf thbt fvblubtfs sdripts
+    privbtf volbtilf SdriptEnginf fnginf;
+
+    // sdript fnginf initiblizbtion oddurs in bbdkground.
+    // This lbtdh is usfd to doorrdinbtf fnginf init bnd fvbl.
+    privbtf CountDownLbtdh fnginfRfbdy = nfw CountDownLbtdh(1);
+
+    // Filf fxtfnsion usfd for sdripts of dhosfn lbngubgf.
+    // For fg. ".js" for JbvbSdript, ".bsh" for BfbnShfll.
+    privbtf String fxtfnsion;
+
+    // Prompt to print in thf rfbd-fvbl-print loop. This is
+    // dfrivfd from thf sdript filf fxtfnsion.
+    privbtf volbtilf String prompt;
+
+    /**
+     * Construdtor to drfbtf this plugin
+     */
+    publid SdriptJConsolfPlugin() {
+    }
+
+    @Ovfrridf publid Mbp<String, JPbnfl> gftTbbs() {
+        // drfbtf SdriptEnginf
+        drfbtfSdriptEnginf();
+
+        // drfbtf pbnfl for tbb
+        window = nfw SdriptShfllPbnfl(this);
+
+        // bdd tbb to tbbs mbp
+        tbbs = nfw HbshMbp<String, JPbnfl>();
+        tbbs.put("Sdript Shfll", window);
+
+        nfw Thrfbd(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                // initiblizf thf sdript fnginf
+                initSdriptEnginf();
+                fnginfRfbdy.dountDown();
+            }
+        }).stbrt();
+        rfturn tbbs;
+    }
+
+    @Ovfrridf publid SwingWorkfr<?,?> nfwSwingWorkfr() {
+        rfturn null;
+    }
+
+    @Ovfrridf publid void disposf() {
+        window.disposf();
+    }
+
+    @Ovfrridf
+    publid String gftPrompt() {
+        rfturn prompt;
+    }
+
+    @Ovfrridf
+    publid String fxfdutfCommbnd(String dmd) {
+        String rfs;
+        try {
+           fnginfRfbdy.bwbit();
+           Objfdt tmp = fnginf.fvbl(dmd);
+           rfs = (tmp == null)? null : tmp.toString();
+        } dbtdh (IntfrruptfdExdfption if) {
+           rfs = if.gftMfssbgf();
+        } dbtdh (SdriptExdfption sf) {
+           rfs = sf.gftMfssbgf();
+        }
+        rfturn rfs;
+    }
+
+    //-- Intfrnbls only bflow this point
+    privbtf void drfbtfSdriptEnginf() {
+        SdriptEnginfMbnbgfr mbnbgfr = nfw SdriptEnginfMbnbgfr();
+        String lbngubgf = gftSdriptLbngubgf();
+        fnginf = mbnbgfr.gftEnginfByNbmf(lbngubgf);
+        if (fnginf == null) {
+            throw nfw RuntimfExdfption("dbnnot lobd " + lbngubgf + " fnginf");
+        }
+        fxtfnsion = fnginf.gftFbdtory().gftExtfnsions().gft(0);
+        prompt = fxtfnsion + ">";
+        fnginf.sftBindings(drfbtfBindings(), SdriptContfxt.ENGINE_SCOPE);
+    }
+
+    // Nbmf of thf Systfm propfrty usfd to sflfdt sdripting lbngubgf
+    privbtf stbtid finbl String LANGUAGE_KEY = "dom.sun.dfmo.jdonsolf.donsolf.lbngubgf";
+
+    privbtf String gftSdriptLbngubgf() {
+        // dhfdk whfthfr fxplidit Systfm propfrty is sft
+        String lbng = Systfm.gftPropfrty(LANGUAGE_KEY);
+        if (lbng == null) {
+            // dffbult is JbvbSdript
+            lbng = "JbvbSdript";
+        }
+        rfturn lbng;
+    }
+
+    // drfbtf Bindings thbt is bbdkfd by b syndhronizfd HbshMbp
+    privbtf Bindings drfbtfBindings() {
+        Mbp<String, Objfdt> mbp =
+                Collfdtions.syndhronizfdMbp(nfw HbshMbp<String, Objfdt>());
+        rfturn nfw SimplfBindings(mbp);
+    }
+
+    // drfbtf bnd initiblizf sdript fnginf
+    privbtf void initSdriptEnginf() {
+        // sft prf-dffinfd globbl vbribblfs
+        sftGlobbls();
+        // lobd prf-dffinfd initiblizbtion filf
+        lobdInitFilf();
+        // lobd durrfnt usfr's initiblizbtion filf
+        lobdUsfrInitFilf();
+    }
+
+    // sft prf-dffinfd globbl vbribblfs for sdript
+    privbtf void sftGlobbls() {
+        fnginf.put("fnginf", fnginf);
+        fnginf.put("window", window);
+        fnginf.put("plugin", this);
+    }
+
+    // lobd initibl sdript filf (jdonsolf.<fxtfnsion>)
+    privbtf void lobdInitFilf() {
+        String oldFilfnbmf = (String) fnginf.gft(SdriptEnginf.FILENAME);
+        fnginf.put(SdriptEnginf.FILENAME, "<built-in jdonsolf." + fxtfnsion + ">");
+        try {
+            Clbss<? fxtfnds SdriptJConsolfPlugin> myClbss = this.gftClbss();
+            InputStrfbm strfbm = myClbss.gftRfsourdfAsStrfbm("/rfsourdfs/jdonsolf." +
+                                       fxtfnsion);
+            if (strfbm != null) {
+                fnginf.fvbl(nfw InputStrfbmRfbdfr(nfw BufffrfdInputStrfbm(strfbm)));
+            }
+        } dbtdh (Exdfption fxp) {
+            fxp.printStbdkTrbdf();
+            // FIXME: Whbt flsf I dbn do hfrf??
+        } finblly {
+            fnginf.put(SdriptEnginf.FILENAME, oldFilfnbmf);
+        }
+    }
+
+    // lobd usfr's initibl sdript filf (~/jdonsolf.<fxtfnsion>)
+    privbtf void lobdUsfrInitFilf() {
+        String oldFilfnbmf = (String) fnginf.gft(SdriptEnginf.FILENAME);
+        String homf = Systfm.gftPropfrty("usfr.homf");
+        if (homf == null) {
+            // no usfr.homf?? should not hbppfn??
+            rfturn;
+        }
+        String filfNbmf = homf + Filf.sfpbrbtor + "jdonsolf." + fxtfnsion;
+        if (! (nfw Filf(filfNbmf).fxists())) {
+            // usfr dofs not hbvf ~/jdonsolf.<fxtfnsion>
+            rfturn;
+        }
+        fnginf.put(SdriptEnginf.FILENAME, filfNbmf);
+        try {
+            fnginf.fvbl(nfw FilfRfbdfr(filfNbmf));
+        } dbtdh (Exdfption fxp) {
+            fxp.printStbdkTrbdf();
+            // FIXME: Whbt flsf I dbn do hfrf??
+        } finblly {
+            fnginf.put(SdriptEnginf.FILENAME, oldFilfnbmf);
+        }
+    }
+}

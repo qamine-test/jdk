@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * A tbrgft dbtb linf is b typf of {@link DbtbLinf} from whidh budio dbtb dbn bf
+ * rfbd. Thf most dommon fxbmplf is b dbtb linf thbt gfts its dbtb from bn budio
+ * dbpturf dfvidf. (Thf dfvidf is implfmfntfd bs b mixfr thbt writfs to thf
+ * tbrgft dbtb linf.)
+ * <p>
+ * Notf thbt thf nbming donvfntion for this intfrfbdf rfflfdts thf rflbtionship
+ * bftwffn thf linf bnd its mixfr. From thf pfrspfdtivf of bn bpplidbtion, b
+ * tbrgft dbtb linf mby bdt bs b sourdf for budio dbtb.
+ * <p>
+ * Thf tbrgft dbtb linf dbn bf obtbinfd from b mixfr by invoking thf
+ * {@link Mixfr#gftLinf gftLinf} mfthod of {@dodf Mixfr} with bn bppropribtf
+ * {@link DbtbLinf.Info} objfdt.
+ * <p>
+ * Thf {@dodf TbrgftDbtbLinf} intfrfbdf providfs b mfthod for rfbding thf
+ * dbpturfd dbtb from thf tbrgft dbtb linf's bufffr. Applidbtions thbt rfdord
+ * budio should rfbd dbtb from thf tbrgft dbtb linf quidkly fnough to kffp thf
+ * bufffr from ovfrflowing, whidh dould dbusf disdontinuitifs in thf dbpturfd
+ * dbtb thbt brf pfrdfivfd bs dlidks. Applidbtions dbn usf thf
+ * {@link DbtbLinf#bvbilbblf bvbilbblf} mfthod dffinfd in thf {@dodf DbtbLinf}
+ * intfrfbdf to dftfrminf thf bmount of dbtb durrfntly qufufd in thf dbtb linf's
+ * bufffr. If thf bufffr dofs ovfrflow, thf oldfst qufufd dbtb is disdbrdfd bnd
+ * rfplbdfd by nfw dbtb.
+ *
+ * @buthor Kbrb Kytlf
+ * @sff Mixfr
+ * @sff DbtbLinf
+ * @sff SourdfDbtbLinf
+ * @sindf 1.3
+ */
+publid intfrfbdf TbrgftDbtbLinf fxtfnds DbtbLinf {
+
+    /**
+     * Opfns thf linf with thf spfdififd formbt bnd rfqufstfd bufffr sizf,
+     * dbusing thf linf to bdquirf bny rfquirfd systfm rfsourdfs bnd bfdomf
+     * opfrbtionbl.
+     * <p>
+     * Thf bufffr sizf is spfdififd in bytfs, but must rfprfsfnt bn intfgrbl
+     * numbfr of sbmplf frbmfs. Invoking this mfthod with b rfqufstfd bufffr
+     * sizf thbt dofs not mfft this rfquirfmfnt mby rfsult in bn
+     * {@dodf IllfgblArgumfntExdfption}. Thf bdtubl bufffr sizf for thf opfn
+     * linf mby difffr from thf rfqufstfd bufffr sizf. Thf vbluf bdtublly sft
+     * mby bf qufrifd by subsfqufntly dblling {@link DbtbLinf#gftBufffrSizf}
+     * <p>
+     * If this opfrbtion suddffds, thf linf is mbrkfd bs opfn, bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdhfd to thf linf's
+     * listfnfrs.
+     * <p>
+     * Invoking this mfthod on b linf thbt is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * <p>
+     * Somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn sudh b
+     * linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
+     *
+     * @pbrbm  formbt thf dfsirfd budio formbt
+     * @pbrbm  bufffrSizf thf dfsirfd bufffr sizf, in bytfs
+     * @throws LinfUnbvbilbblfExdfption if thf linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf bufffr sizf dofs not rfprfsfnt bn
+     *         intfgrbl numbfr of sbmplf frbmfs, or if {@dodf formbt} is not
+     *         fully spfdififd or invblid
+     * @throws IllfgblStbtfExdfption if thf linf is blrfbdy opfn
+     * @throws SfdurityExdfption if thf linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #opfn(AudioFormbt)
+     * @sff Linf#opfn
+     * @sff Linf#dlosf
+     * @sff Linf#isOpfn
+     * @sff LinfEvfnt
+     */
+    void opfn(AudioFormbt formbt, int bufffrSizf) throws LinfUnbvbilbblfExdfption;
+
+    /**
+     * Opfns thf linf with thf spfdififd formbt, dbusing thf linf to bdquirf bny
+     * rfquirfd systfm rfsourdfs bnd bfdomf opfrbtionbl.
+     * <p>
+     * Thf implfmfntbtion dhoosfs b bufffr sizf, whidh is mfbsurfd in bytfs but
+     * whidh fndompbssfs bn intfgrbl numbfr of sbmplf frbmfs. Thf bufffr sizf
+     * thbt thf systfm hbs dhosfn mby bf qufrifd by subsfqufntly dblling
+     * {@link DbtbLinf#gftBufffrSizf}
+     * <p>
+     * If this opfrbtion suddffds, thf linf is mbrkfd bs opfn, bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdhfd to thf linf's
+     * listfnfrs.
+     * <p>
+     * Invoking this mfthod on b linf thbt is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
+     * <p>
+     * Somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn sudh b
+     * linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
+     *
+     * @pbrbm  formbt thf dfsirfd budio formbt
+     * @throws LinfUnbvbilbblfExdfption if thf linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @throws IllfgblArgumfntExdfption if {@dodf formbt} is not fully spfdififd
+     *         or invblid
+     * @throws IllfgblStbtfExdfption if thf linf is blrfbdy opfn
+     * @throws SfdurityExdfption if thf linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #opfn(AudioFormbt, int)
+     * @sff Linf#opfn
+     * @sff Linf#dlosf
+     * @sff Linf#isOpfn
+     * @sff LinfEvfnt
+     */
+    void opfn(AudioFormbt formbt) throws LinfUnbvbilbblfExdfption;
+
+    /**
+     * Rfbds budio dbtb from thf dbtb linf's input bufffr. Thf rfqufstfd numbfr
+     * of bytfs is rfbd into thf spfdififd brrby, stbrting bt thf spfdififd
+     * offsft into thf brrby in bytfs. This mfthod blodks until thf rfqufstfd
+     * bmount of dbtb hbs bffn rfbd. Howfvfr, if thf dbtb linf is dlosfd,
+     * stoppfd, drbinfd, or flushfd bfforf thf rfqufstfd bmount hbs bffn rfbd,
+     * thf mfthod no longfr blodks, but rfturns thf numbfr of bytfs rfbd thus
+     * fbr.
+     * <p>
+     * Thf numbfr of bytfs thbt dbn bf rfbd without blodking dbn bf bsdfrtbinfd
+     * using thf {@link DbtbLinf#bvbilbblf bvbilbblf} mfthod of thf
+     * {@dodf DbtbLinf} intfrfbdf. (Whilf it is gubrbntffd thbt this numbfr of
+     * bytfs dbn bf rfbd without blodking, thfrf is no gubrbntff thbt bttfmpts
+     * to rfbd bdditionbl dbtb will blodk.)
+     * <p>
+     * Thf numbfr of bytfs to bf rfbd must rfprfsfnt bn intfgrbl numbfr of
+     * sbmplf frbmfs, sudh thbt:
+     * <br>
+     * <dfntfr>{@dodf [ bytfs rfbd ] % [frbmf sizf in bytfs ] == 0}</dfntfr>
+     * <br>
+     * Thf rfturn vbluf will blwbys mfft this rfquirfmfnt. A rfqufst to rfbd b
+     * numbfr of bytfs rfprfsfnting b non-intfgrbl numbfr of sbmplf frbmfs
+     * dbnnot bf fulfillfd bnd mby rfsult in bn IllfgblArgumfntExdfption.
+     *
+     * @pbrbm  b b bytf brrby thbt will dontbin thf rfqufstfd input dbtb whfn
+     *         this mfthod rfturns
+     * @pbrbm  off thf offsft from thf bfginning of thf brrby, in bytfs
+     * @pbrbm  lfn thf rfqufstfd numbfr of bytfs to rfbd
+     * @rfturn thf numbfr of bytfs bdtublly rfbd
+     * @throws IllfgblArgumfntExdfption if thf rfqufstfd numbfr of bytfs dofs
+     *         not rfprfsfnt bn intfgrbl numbfr of sbmplf frbmfs, or if
+     *         {@dodf lfn} is nfgbtivf
+     * @throws ArrbyIndfxOutOfBoundsExdfption if {@dodf off} is nfgbtivf, or
+     *         {@dodf off+lfn} is grfbtfr thbn thf lfngth of thf brrby {@dodf b}
+     *
+     * @sff SourdfDbtbLinf#writf
+     * @sff DbtbLinf#bvbilbblf
+     */
+    int rfbd(bytf[] b, int off, int lfn);
+
+    /**
+     * Obtbins thf numbfr of sbmplf frbmfs of budio dbtb thbt dbn bf rfbd from
+     * thf tbrgft dbtb linf without blodking. Notf thbt thf rfturn vbluf
+     * mfbsurfs sbmplf frbmfs, not bytfs.
+     *
+     * @rfturn thf numbfr of sbmplf frbmfs durrfntly bvbilbblf for rfbding
+     * @sff SourdfDbtbLinf#bvbilbblfWritf
+     */
+    //publid int bvbilbblfRfbd();
+}

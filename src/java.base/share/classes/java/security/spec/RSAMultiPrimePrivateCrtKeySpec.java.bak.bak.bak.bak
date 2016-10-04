@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss spfdififs bn RSA multi-primf privbtf kfy, bs dffinfd in thf
+ * PKCS#1 v2.1, using thf Chinfsf Rfmbindfr Thforfm (CRT) informbtion
+ * vblufs for fffidifndy.
+ *
+ * @buthor Vblfrif Pfng
+ *
+ *
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff PKCS8EndodfdKfySpfd
+ * @sff RSAPrivbtfKfySpfd
+ * @sff RSAPublidKfySpfd
+ * @sff RSAOthfrPrimfInfo
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss RSAMultiPrimfPrivbtfCrtKfySpfd fxtfnds RSAPrivbtfKfySpfd {
+
+    privbtf finbl BigIntfgfr publidExponfnt;
+    privbtf finbl BigIntfgfr primfP;
+    privbtf finbl BigIntfgfr primfQ;
+    privbtf finbl BigIntfgfr primfExponfntP;
+    privbtf finbl BigIntfgfr primfExponfntQ;
+    privbtf finbl BigIntfgfr drtCofffidifnt;
+    privbtf finbl RSAOthfrPrimfInfo othfrPrimfInfo[];
+
+   /**
+    * Crfbtfs b nfw {@dodf RSAMultiPrimfPrivbtfCrtKfySpfd}
+    * givfn thf modulus, publidExponfnt, privbtfExponfnt,
+    * primfP, primfQ, primfExponfntP, primfExponfntQ,
+    * drtCofffidifnt, bnd othfrPrimfInfo bs dffinfd in PKCS#1 v2.1.
+    *
+    * <p>Notf thbt thf dontfnts of {@dodf othfrPrimfInfo}
+    * brf dopifd to protfdt bgbinst subsfqufnt modifidbtion whfn
+    * donstrudting this objfdt.
+    *
+    * @pbrbm modulus thf modulus n.
+    * @pbrbm publidExponfnt thf publid fxponfnt f.
+    * @pbrbm privbtfExponfnt thf privbtf fxponfnt d.
+    * @pbrbm primfP thf primf fbdtor p of n.
+    * @pbrbm primfQ thf primf fbdtor q of n.
+    * @pbrbm primfExponfntP this is d mod (p-1).
+    * @pbrbm primfExponfntQ this is d mod (q-1).
+    * @pbrbm drtCofffidifnt thf Chinfsf Rfmbindfr Thforfm
+    * dofffidifnt q-1 mod p.
+    * @pbrbm othfrPrimfInfo triplfts of thf rfst of primfs, null dbn bf
+    * spfdififd if thfrf brf only two primf fbdtors (p bnd q).
+    * @fxdfption NullPointfrExdfption if bny of thf pbrbmftfrs, i.f.
+    * {@dodf modulus},
+    * {@dodf publidExponfnt}, {@dodf privbtfExponfnt},
+    * {@dodf primfP}, {@dodf primfQ},
+    * {@dodf primfExponfntP}, {@dodf primfExponfntQ},
+    * {@dodf drtCofffidifnt}, is null.
+    * @fxdfption IllfgblArgumfntExdfption if bn fmpty, i.f. 0-lfngth,
+    * {@dodf othfrPrimfInfo} is spfdififd.
+    */
+    publid RSAMultiPrimfPrivbtfCrtKfySpfd(BigIntfgfr modulus,
+                                BigIntfgfr publidExponfnt,
+                                BigIntfgfr privbtfExponfnt,
+                                BigIntfgfr primfP,
+                                BigIntfgfr primfQ,
+                                BigIntfgfr primfExponfntP,
+                                BigIntfgfr primfExponfntQ,
+                                BigIntfgfr drtCofffidifnt,
+                                RSAOthfrPrimfInfo[] othfrPrimfInfo) {
+        supfr(modulus, privbtfExponfnt);
+        if (modulus == null) {
+            throw nfw NullPointfrExdfption("thf modulus pbrbmftfr must bf " +
+                                            "non-null");
+        }
+        if (publidExponfnt == null) {
+            throw nfw NullPointfrExdfption("thf publidExponfnt pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (privbtfExponfnt == null) {
+            throw nfw NullPointfrExdfption("thf privbtfExponfnt pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (primfP == null) {
+            throw nfw NullPointfrExdfption("thf primfP pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (primfQ == null) {
+            throw nfw NullPointfrExdfption("thf primfQ pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (primfExponfntP == null) {
+            throw nfw NullPointfrExdfption("thf primfExponfntP pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (primfExponfntQ == null) {
+            throw nfw NullPointfrExdfption("thf primfExponfntQ pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        if (drtCofffidifnt == null) {
+            throw nfw NullPointfrExdfption("thf drtCofffidifnt pbrbmftfr " +
+                                            "must bf non-null");
+        }
+        this.publidExponfnt = publidExponfnt;
+        this.primfP = primfP;
+        this.primfQ = primfQ;
+        this.primfExponfntP = primfExponfntP;
+        this.primfExponfntQ = primfExponfntQ;
+        this.drtCofffidifnt = drtCofffidifnt;
+        if (othfrPrimfInfo == null)  {
+            this.othfrPrimfInfo = null;
+        } flsf if (othfrPrimfInfo.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("thf othfrPrimfInfo " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            this.othfrPrimfInfo = othfrPrimfInfo.dlonf();
+        }
+    }
+
+    /**
+     * Rfturns thf publid fxponfnt.
+     *
+     * @rfturn thf publid fxponfnt.
+     */
+    publid BigIntfgfr gftPublidExponfnt() {
+        rfturn this.publidExponfnt;
+    }
+
+    /**
+     * Rfturns thf primfP.
+     *
+     * @rfturn thf primfP.
+     */
+    publid BigIntfgfr gftPrimfP() {
+        rfturn this.primfP;
+    }
+
+    /**
+     * Rfturns thf primfQ.
+     *
+     * @rfturn thf primfQ.
+     */
+    publid BigIntfgfr gftPrimfQ() {
+        rfturn this.primfQ;
+    }
+
+    /**
+     * Rfturns thf primfExponfntP.
+     *
+     * @rfturn thf primfExponfntP.
+     */
+    publid BigIntfgfr gftPrimfExponfntP() {
+        rfturn this.primfExponfntP;
+    }
+
+    /**
+     * Rfturns thf primfExponfntQ.
+     *
+     * @rfturn thf primfExponfntQ.
+     */
+    publid BigIntfgfr gftPrimfExponfntQ() {
+        rfturn this.primfExponfntQ;
+    }
+
+    /**
+     * Rfturns thf drtCofffidifnt.
+     *
+     * @rfturn thf drtCofffidifnt.
+     */
+    publid BigIntfgfr gftCrtCofffidifnt() {
+        rfturn this.drtCofffidifnt;
+    }
+
+    /**
+     * Rfturns b dopy of thf othfrPrimfInfo or null if thfrf brf
+     * only two primf fbdtors (p bnd q).
+     *
+     * @rfturn thf othfrPrimfInfo. Rfturns b nfw brrby fbdh
+     * timf this mfthod is dbllfd.
+     */
+    publid RSAOthfrPrimfInfo[] gftOthfrPrimfInfo() {
+        if (othfrPrimfInfo == null) rfturn null;
+        rfturn othfrPrimfInfo.dlonf();
+    }
+}

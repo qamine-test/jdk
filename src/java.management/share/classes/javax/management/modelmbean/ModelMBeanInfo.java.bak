@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import javax.management.Descriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.RuntimeOperationsException;
-import javax.management.MBeanException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
 
 /**
- * This interface is implemented by the ModelMBeanInfo for every ModelMBean. An implementation of this interface
- * must be shipped with every JMX Agent.
+ * Tiis intfrfbdf is implfmfntfd by tif ModflMBfbnInfo for fvfry ModflMBfbn. An implfmfntbtion of tiis intfrfbdf
+ * must bf siippfd witi fvfry JMX Agfnt.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the MBeanServer's
- * createMBean method.  The resource then sets the ModelMBeanInfo and Descriptors for the ModelMBean
- * instance. The attributes, operations, and notifications exposed via the ModelMBeanInfo for the
- * ModelMBean comprise the management interface and are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the Descriptors, values and methods in
- * the managed application can be defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined during development in a file or dynamically and
- * programmatically at runtime.
+ * Jbvb rfsourdfs wisiing to bf mbnbgfbblf instbntibtf tif ModflMBfbn using tif MBfbnSfrvfr's
+ * drfbtfMBfbn mftiod.  Tif rfsourdf tifn sfts tif ModflMBfbnInfo bnd Dfsdriptors for tif ModflMBfbn
+ * instbndf. Tif bttributfs, opfrbtions, bnd notifidbtions fxposfd vib tif ModflMBfbnInfo for tif
+ * ModflMBfbn domprisf tif mbnbgfmfnt intfrfbdf bnd brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf otifr MBfbns. Tirougi tif Dfsdriptors, vblufs bnd mftiods in
+ * tif mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to bttributfs bnd opfrbtions of tif ModflMBfbn.
+ * Tiis mbpping dbn bf dffinfd during dfvflopmfnt in b filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes, operations, and notifications
- * become remotely accessible through the connectors/adaptors connected to that MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is valid.
+ * Evfry ModflMBfbn wiidi is instbntibtfd in tif MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs, opfrbtions, bnd notifidbtions
+ * bfdomf rfmotfly bddfssiblf tirougi tif donnfdtors/bdbptors donnfdtfd to tibt MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in tif MBfbnSfrvfr unlfss it is b JMX domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd tibt tif MBfbn is vblid.
  *
- * MBeanException and RuntimeOperationsException must be thrown on every public method.  This allows
- *  for wrapping exceptions from distributed communications (RMI, EJB, etc.)
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf tirown on fvfry publid mftiod.  Tiis bllows
+ *  for wrbpping fxdfptions from distributfd dommunidbtions (RMI, EJB, ftd.)
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public interface ModelMBeanInfo
+publid intfrfbdf ModflMBfbnInfo
 {
 
 
     /**
-     * Returns a Descriptor array consisting of all
-     * Descriptors for the ModelMBeanInfo of type inDescriptorType.
+     * Rfturns b Dfsdriptor brrby donsisting of bll
+     * Dfsdriptors for tif ModflMBfbnInfo of typf inDfsdriptorTypf.
      *
-     * @param inDescriptorType value of descriptorType field that must be set for the descriptor
-     * to be returned.  Must be "mbean", "attribute", "operation", "constructor" or "notification".
-     * If it is null or empty then all types will be returned.
+     * @pbrbm inDfsdriptorTypf vbluf of dfsdriptorTypf fifld tibt must bf sft for tif dfsdriptor
+     * to bf rfturnfd.  Must bf "mbfbn", "bttributf", "opfrbtion", "donstrudtor" or "notifidbtion".
+     * If it is null or fmpty tifn bll typfs will bf rfturnfd.
      *
-     * @return Descriptor array containing all descriptors for the ModelMBean if type inDescriptorType.
+     * @rfturn Dfsdriptor brrby dontbining bll dfsdriptors for tif ModflMBfbn if typf inDfsdriptorTypf.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException when the descriptorType in parameter is
-     * not one of: "mbean", "attribute", "operation", "constructor", "notification", empty or null.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption wifn tif dfsdriptorTypf in pbrbmftfr is
+     * not onf of: "mbfbn", "bttributf", "opfrbtion", "donstrudtor", "notifidbtion", fmpty or null.
      *
-     * @see #setDescriptors
+     * @sff #sftDfsdriptors
      */
-    public Descriptor[] getDescriptors(String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+    publid Dfsdriptor[] gftDfsdriptors(String inDfsdriptorTypf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
     /**
-     * Adds or replaces descriptors in the ModelMBeanInfo.
+     * Adds or rfplbdfs dfsdriptors in tif ModflMBfbnInfo.
      *
-     * @param inDescriptors The descriptors to be set in the ModelMBeanInfo. Null
-     * elements of the list will be ignored.  All descriptors must have name and descriptorType fields.
+     * @pbrbm inDfsdriptors Tif dfsdriptors to bf sft in tif ModflMBfbnInfo. Null
+     * flfmfnts of tif list will bf ignorfd.  All dfsdriptors must ibvf nbmf bnd dfsdriptorTypf fiflds.
      *
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null or invalid descriptor.
-     * @exception MBeanException Wraps a distributed communication Exception.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null or invblid dfsdriptor.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
      *
-     * @see #getDescriptors
+     * @sff #gftDfsdriptors
      */
-    public void setDescriptors(Descriptor[] inDescriptors)
-            throws MBeanException, RuntimeOperationsException;
+    publid void sftDfsdriptors(Dfsdriptor[] inDfsdriptors)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
     /**
-     * Returns a Descriptor requested by name and descriptorType.
+     * Rfturns b Dfsdriptor rfqufstfd by nbmf bnd dfsdriptorTypf.
      *
-     * @param inDescriptorName The name of the descriptor.
-     * @param inDescriptorType The type of the descriptor being
-     * requested.  If this is null or empty then all types are
-     * searched. Valid types are 'mbean', 'attribute', 'constructor'
-     * 'operation', and 'notification'. This value will be equal to
-     * the 'descriptorType' field in the descriptor that is returned.
+     * @pbrbm inDfsdriptorNbmf Tif nbmf of tif dfsdriptor.
+     * @pbrbm inDfsdriptorTypf Tif typf of tif dfsdriptor bfing
+     * rfqufstfd.  If tiis is null or fmpty tifn bll typfs brf
+     * sfbrdifd. Vblid typfs brf 'mbfbn', 'bttributf', 'donstrudtor'
+     * 'opfrbtion', bnd 'notifidbtion'. Tiis vbluf will bf fqubl to
+     * tif 'dfsdriptorTypf' fifld in tif dfsdriptor tibt is rfturnfd.
      *
-     * @return Descriptor containing the descriptor for the ModelMBean
-     * with the same name and descriptorType.  If no descriptor is
-     * found, null is returned.
+     * @rfturn Dfsdriptor dontbining tif dfsdriptor for tif ModflMBfbn
+     * witi tif sbmf nbmf bnd dfsdriptorTypf.  If no dfsdriptor is
+     * found, null is rfturnfd.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null descriptor name or null or invalid type.
-     * The type must be "mbean","attribute", "constructor", "operation", or "notification".
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null dfsdriptor nbmf or null or invblid typf.
+     * Tif typf must bf "mbfbn","bttributf", "donstrudtor", "opfrbtion", or "notifidbtion".
      *
-     * @see #setDescriptor
+     * @sff #sftDfsdriptor
      */
 
-    public Descriptor getDescriptor(String inDescriptorName, String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf, String inDfsdriptorTypf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
     /**
-     * Sets descriptors in the info array of type inDescriptorType
-     * for the ModelMBean.  The setDescriptor method of the
-     * corresponding ModelMBean*Info will be called to set the
-     * specified descriptor.
+     * Sfts dfsdriptors in tif info brrby of typf inDfsdriptorTypf
+     * for tif ModflMBfbn.  Tif sftDfsdriptor mftiod of tif
+     * dorrfsponding ModflMBfbn*Info will bf dbllfd to sft tif
+     * spfdififd dfsdriptor.
      *
-     * @param inDescriptor The descriptor to be set in the
-     * ModelMBean. It must NOT be null.  All descriptors must have
-     * name and descriptorType fields.
-     * @param inDescriptorType The type of the descriptor being
-     * set. If this is null then the descriptorType field in the
-     * descriptor is used. If specified this value must be set in
-     * the descriptorType field in the descriptor. Must be
-     * "mbean","attribute", "constructor", "operation", or
-     * "notification".
+     * @pbrbm inDfsdriptor Tif dfsdriptor to bf sft in tif
+     * ModflMBfbn. It must NOT bf null.  All dfsdriptors must ibvf
+     * nbmf bnd dfsdriptorTypf fiflds.
+     * @pbrbm inDfsdriptorTypf Tif typf of tif dfsdriptor bfing
+     * sft. If tiis is null tifn tif dfsdriptorTypf fifld in tif
+     * dfsdriptor is usfd. If spfdififd tiis vbluf must bf sft in
+     * tif dfsdriptorTypf fifld in tif dfsdriptor. Must bf
+     * "mbfbn","bttributf", "donstrudtor", "opfrbtion", or
+     * "notifidbtion".
      *
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for illegal or null arguments or
-     * if the name field of the descriptor is not found in the
-     * corresponding MBeanAttributeInfo or MBeanConstructorInfo or
-     * MBeanNotificationInfo or MBeanOperationInfo.
-     * @exception MBeanException Wraps a distributed communication
-     * Exception.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for illfgbl or null brgumfnts or
+     * if tif nbmf fifld of tif dfsdriptor is not found in tif
+     * dorrfsponding MBfbnAttributfInfo or MBfbnConstrudtorInfo or
+     * MBfbnNotifidbtionInfo or MBfbnOpfrbtionInfo.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
      *
-     * @see #getDescriptor
+     * @sff #gftDfsdriptor
      */
 
-    public void setDescriptor(Descriptor inDescriptor, String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException;
+    publid void sftDfsdriptor(Dfsdriptor inDfsdriptor, String inDfsdriptorTypf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
 
     /**
-     * <p>Returns the ModelMBean's descriptor which contains MBean wide
-     * policies.  This descriptor contains metadata about the MBean and default
-     * policies for persistence and caching.</p>
+     * <p>Rfturns tif ModflMBfbn's dfsdriptor wiidi dontbins MBfbn widf
+     * polidifs.  Tiis dfsdriptor dontbins mftbdbtb bbout tif MBfbn bnd dffbult
+     * polidifs for pfrsistfndf bnd dbdiing.</p>
      *
-     * <P id="descriptor">
-     * The fields in the descriptor are defined, but not limited to, the
-     * following.  Note that when the Type in this table is Number, a String
-     * that is the decimal representation of a Long can also be used.</P>
+     * <P id="dfsdriptor">
+     * Tif fiflds in tif dfsdriptor brf dffinfd, but not limitfd to, tif
+     * following.  Notf tibt wifn tif Typf in tiis tbblf is Numbfr, b String
+     * tibt is tif dfdimbl rfprfsfntbtion of b Long dbn blso bf usfd.</P>
      *
-     * <table border="1" cellpadding="5" summary="ModelMBean Fields">
-     * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
-     * <tr><td>name</td><td>String</td>
-     *     <td>MBean name.</td></tr>
-     * <tr><td>descriptorType</td><td>String</td>
-     *     <td>Must be "mbean".</td></tr>
-     * <tr><td>displayName</td><td>String</td>
-     *     <td>Name of MBean to be used in displays.</td></tr>
-     * <tr><td>persistPolicy</td><td>String</td>
-     *     <td>One of: OnUpdate|OnTimer|NoMoreOftenThan|OnUnregister|Always|Never.
-     *         See the section "MBean Descriptor Fields" in the JMX specification
-     *         document.</td></tr>
-     * <tr><td>persistLocation</td><td>String</td>
-     *     <td>The fully qualified directory name where the MBean should be
-     *         persisted (if appropriate).</td></tr>
-     * <tr><td>persistFile</td><td>String</td>
-     *     <td>File name into which the MBean should be persisted.</td></tr>
-     * <tr><td>persistPeriod</td><td>Number</td>
-     *     <td>Frequency of persist cycle in seconds, for OnTime and
-     *         NoMoreOftenThan PersistPolicy</td></tr>
-     * <tr><td>currencyTimeLimit</td><td>Number</td>
-     *     <td>How long cached value is valid: &lt;0 never, =0 always,
-     *         &gt;0 seconds.</td></tr>
+     * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbn Fiflds">
+     * <tr><ti>Nbmf</ti><ti>Typf</ti><ti>Mfbning</ti></tr>
+     * <tr><td>nbmf</td><td>String</td>
+     *     <td>MBfbn nbmf.</td></tr>
+     * <tr><td>dfsdriptorTypf</td><td>String</td>
+     *     <td>Must bf "mbfbn".</td></tr>
+     * <tr><td>displbyNbmf</td><td>String</td>
+     *     <td>Nbmf of MBfbn to bf usfd in displbys.</td></tr>
+     * <tr><td>pfrsistPolidy</td><td>String</td>
+     *     <td>Onf of: OnUpdbtf|OnTimfr|NoMorfOftfnTibn|OnUnrfgistfr|Alwbys|Nfvfr.
+     *         Sff tif sfdtion "MBfbn Dfsdriptor Fiflds" in tif JMX spfdifidbtion
+     *         dodumfnt.</td></tr>
+     * <tr><td>pfrsistLodbtion</td><td>String</td>
+     *     <td>Tif fully qublififd dirfdtory nbmf wifrf tif MBfbn siould bf
+     *         pfrsistfd (if bppropribtf).</td></tr>
+     * <tr><td>pfrsistFilf</td><td>String</td>
+     *     <td>Filf nbmf into wiidi tif MBfbn siould bf pfrsistfd.</td></tr>
+     * <tr><td>pfrsistPfriod</td><td>Numbfr</td>
+     *     <td>Frfqufndy of pfrsist dydlf in sfdonds, for OnTimf bnd
+     *         NoMorfOftfnTibn PfrsistPolidy</td></tr>
+     * <tr><td>durrfndyTimfLimit</td><td>Numbfr</td>
+     *     <td>How long dbdifd vbluf is vblid: &lt;0 nfvfr, =0 blwbys,
+     *         &gt;0 sfdonds.</td></tr>
      * <tr><td>log</td><td>String</td>
-     *     <td>t: log all notifications, f: log no notifications.</td></tr>
-     * <tr><td>logfile</td><td>String</td>
-     *     <td>Fully qualified filename to log events to.</td></tr>
-     * <tr><td>visibility</td><td>Number</td>
-     *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
-     * <tr><td>export</td><td>String</td>
-     *     <td>Name to be used to export/expose this MBean so that it is
-     *         findable by other JMX Agents.</td></tr>
-     * <tr><td>presentationString</td><td>String</td>
-     *     <td>XML formatted string to allow presentation of data to be
-     *         associated with the MBean.</td></tr>
-     * </table>
+     *     <td>t: log bll notifidbtions, f: log no notifidbtions.</td></tr>
+     * <tr><td>logfilf</td><td>String</td>
+     *     <td>Fully qublififd filfnbmf to log fvfnts to.</td></tr>
+     * <tr><td>visibility</td><td>Numbfr</td>
+     *     <td>1-4 wifrf 1: blwbys visiblf 4: rbrfly visiblf.</td></tr>
+     * <tr><td>fxport</td><td>String</td>
+     *     <td>Nbmf to bf usfd to fxport/fxposf tiis MBfbn so tibt it is
+     *         findbblf by otifr JMX Agfnts.</td></tr>
+     * <tr><td>prfsfntbtionString</td><td>String</td>
+     *     <td>XML formbttfd string to bllow prfsfntbtion of dbtb to bf
+     *         bssodibtfd witi tif MBfbn.</td></tr>
+     * </tbblf>
      *
      * <P>
-     * The default descriptor is: name=className,descriptorType="mbean", displayName=className,
-     *  persistPolicy="never",log="F",visibility="1"
-     * If the descriptor does not contain all these fields, they will be added with these default values.
+     * Tif dffbult dfsdriptor is: nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     *  pfrsistPolidy="nfvfr",log="F",visibility="1"
+     * If tif dfsdriptor dofs not dontbin bll tifsf fiflds, tify will bf bddfd witi tifsf dffbult vblufs.
      *
-     * <p><b>Note:</b> because of inconsistencies in previous versions of
-     * this specification, it is recommended not to use negative or zero
-     * values for <code>currencyTimeLimit</code>.  To indicate that a
-     * cached value is never valid, omit the
-     * <code>currencyTimeLimit</code> field.  To indicate that it is
-     * always valid, use a very large number for this field.</p>
+     * <p><b>Notf:</b> bfdbusf of indonsistfndifs in prfvious vfrsions of
+     * tiis spfdifidbtion, it is rfdommfndfd not to usf nfgbtivf or zfro
+     * vblufs for <dodf>durrfndyTimfLimit</dodf>.  To indidbtf tibt b
+     * dbdifd vbluf is nfvfr vblid, omit tif
+     * <dodf>durrfndyTimfLimit</dodf> fifld.  To indidbtf tibt it is
+     * blwbys vblid, usf b vfry lbrgf numbfr for tiis fifld.</p>
      *
-     * @return the MBean descriptor.
+     * @rfturn tif MBfbn dfsdriptor.
      *
-     * @exception MBeanException Wraps a distributed communication
-     * Exception.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
      *
-     * @exception RuntimeOperationsException a {@link
-     * RuntimeException} occurred while getting the descriptor.
+     * @fxdfption RuntimfOpfrbtionsExdfption b {@link
+     * RuntimfExdfption} oddurrfd wiilf gftting tif dfsdriptor.
      *
-     * @see #setMBeanDescriptor
+     * @sff #sftMBfbnDfsdriptor
      */
-    public Descriptor getMBeanDescriptor()
-            throws MBeanException, RuntimeOperationsException;
+    publid Dfsdriptor gftMBfbnDfsdriptor()
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
     /**
-     * Sets the ModelMBean's descriptor.  This descriptor contains default, MBean wide
-     * metadata about the MBean and default policies for persistence and caching. This operation
-     * does a complete replacement of the descriptor, no merging is done. If the descriptor to
-     * set to is null then the default descriptor will be created.
-     * The default descriptor is: name=className,descriptorType="mbean", displayName=className,
-     *  persistPolicy="never",log="F",visibility="1"
-     * If the descriptor does not contain all these fields, they will be added with these default values.
+     * Sfts tif ModflMBfbn's dfsdriptor.  Tiis dfsdriptor dontbins dffbult, MBfbn widf
+     * mftbdbtb bbout tif MBfbn bnd dffbult polidifs for pfrsistfndf bnd dbdiing. Tiis opfrbtion
+     * dofs b domplftf rfplbdfmfnt of tif dfsdriptor, no mfrging is donf. If tif dfsdriptor to
+     * sft to is null tifn tif dffbult dfsdriptor will bf drfbtfd.
+     * Tif dffbult dfsdriptor is: nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     *  pfrsistPolidy="nfvfr",log="F",visibility="1"
+     * If tif dfsdriptor dofs not dontbin bll tifsf fiflds, tify will bf bddfd witi tifsf dffbult vblufs.
      *
-     * See {@link #getMBeanDescriptor getMBeanDescriptor} method javadoc for description of valid field names.
+     * Sff {@link #gftMBfbnDfsdriptor gftMBfbnDfsdriptor} mftiod jbvbdod for dfsdription of vblid fifld nbmfs.
      *
-     * @param inDescriptor the descriptor to set.
+     * @pbrbm inDfsdriptor tif dfsdriptor to sft.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException  for invalid descriptor.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption  for invblid dfsdriptor.
      *
      *
-     * @see #getMBeanDescriptor
+     * @sff #gftMBfbnDfsdriptor
      */
 
-    public void setMBeanDescriptor(Descriptor inDescriptor)
-            throws MBeanException, RuntimeOperationsException;
-
-
-    /**
-     * Returns a ModelMBeanAttributeInfo requested by name.
-     *
-     * @param inName The name of the ModelMBeanAttributeInfo to get.
-     * If no ModelMBeanAttributeInfo exists for this name null is returned.
-     *
-     * @return the attribute info for the named attribute, or null
-     * if there is none.
-     *
-     * @exception MBeanException Wraps a distributed communication
-     * Exception.
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for a null attribute name.
-     *
-     */
-
-    public ModelMBeanAttributeInfo getAttribute(String inName)
-            throws MBeanException, RuntimeOperationsException;
+    publid void sftMBfbnDfsdriptor(Dfsdriptor inDfsdriptor)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
 
     /**
-     * Returns a ModelMBeanOperationInfo requested by name.
+     * Rfturns b ModflMBfbnAttributfInfo rfqufstfd by nbmf.
      *
-     * @param inName The name of the ModelMBeanOperationInfo to get.
-     * If no ModelMBeanOperationInfo exists for this name null is returned.
+     * @pbrbm inNbmf Tif nbmf of tif ModflMBfbnAttributfInfo to gft.
+     * If no ModflMBfbnAttributfInfo fxists for tiis nbmf null is rfturnfd.
      *
-     * @return the operation info for the named operation, or null
-     * if there is none.
+     * @rfturn tif bttributf info for tif nbmfd bttributf, or null
+     * if tifrf is nonf.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null operation name.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion
+     * Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for b null bttributf nbmf.
      *
      */
 
-    public ModelMBeanOperationInfo getOperation(String inName)
-            throws MBeanException, RuntimeOperationsException;
+    publid ModflMBfbnAttributfInfo gftAttributf(String inNbmf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
 
     /**
-     * Returns a ModelMBeanNotificationInfo requested by name.
+     * Rfturns b ModflMBfbnOpfrbtionInfo rfqufstfd by nbmf.
      *
-     * @param inName The name of the ModelMBeanNotificationInfo to get.
-     * If no ModelMBeanNotificationInfo exists for this name null is returned.
+     * @pbrbm inNbmf Tif nbmf of tif ModflMBfbnOpfrbtionInfo to gft.
+     * If no ModflMBfbnOpfrbtionInfo fxists for tiis nbmf null is rfturnfd.
      *
-     * @return the info for the named notification, or null if there
-     * is none.
+     * @rfturn tif opfrbtion info for tif nbmfd opfrbtion, or null
+     * if tifrf is nonf.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException for a null notification name.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null opfrbtion nbmf.
      *
      */
-    public ModelMBeanNotificationInfo getNotification(String inName)
-            throws MBeanException, RuntimeOperationsException;
+
+    publid ModflMBfbnOpfrbtionInfo gftOpfrbtion(String inNbmf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
 
     /**
-     * Creates and returns a copy of this object.
-     */
-    public java.lang.Object clone();
-
-    /**
-     * Returns the list of attributes exposed for management.
-     * Each attribute is described by an <CODE>MBeanAttributeInfo</CODE> object.
+     * Rfturns b ModflMBfbnNotifidbtionInfo rfqufstfd by nbmf.
      *
-     * @return  An array of <CODE>MBeanAttributeInfo</CODE> objects.
-     */
-    public MBeanAttributeInfo[] getAttributes();
-
-    /**
-     * Returns the name of the Java class of the MBean described by
-     * this <CODE>MBeanInfo</CODE>.
+     * @pbrbm inNbmf Tif nbmf of tif ModflMBfbnNotifidbtionInfo to gft.
+     * If no ModflMBfbnNotifidbtionInfo fxists for tiis nbmf null is rfturnfd.
      *
-     * @return the Java class name.
-     */
-    public java.lang.String getClassName();
-
-    /**
-     * Returns the list of the public constructors  of the MBean.
-     * Each constructor is described by an <CODE>MBeanConstructorInfo</CODE> object.
+     * @rfturn tif info for tif nbmfd notifidbtion, or null if tifrf
+     * is nonf.
      *
-     * @return  An array of <CODE>MBeanConstructorInfo</CODE> objects.
-     */
-    public MBeanConstructorInfo[] getConstructors();
-
-    /**
-     * Returns a human readable description of the MBean.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption for b null notifidbtion nbmf.
      *
-     * @return the description.
      */
-    public java.lang.String getDescription();
+    publid ModflMBfbnNotifidbtionInfo gftNotifidbtion(String inNbmf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption;
 
     /**
-     * Returns the list of the notifications emitted by the MBean.
-     * Each notification is described by an <CODE>MBeanNotificationInfo</CODE> object.
+     * Crfbtfs bnd rfturns b dopy of tiis objfdt.
+     */
+    publid jbvb.lbng.Objfdt dlonf();
+
+    /**
+     * Rfturns tif list of bttributfs fxposfd for mbnbgfmfnt.
+     * Ebdi bttributf is dfsdribfd by bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnAttributfInfo</CODE> objfdts.
+     */
+    publid MBfbnAttributfInfo[] gftAttributfs();
+
+    /**
+     * Rfturns tif nbmf of tif Jbvb dlbss of tif MBfbn dfsdribfd by
+     * tiis <CODE>MBfbnInfo</CODE>.
+     *
+     * @rfturn tif Jbvb dlbss nbmf.
+     */
+    publid jbvb.lbng.String gftClbssNbmf();
+
+    /**
+     * Rfturns tif list of tif publid donstrudtors  of tif MBfbn.
+     * Ebdi donstrudtor is dfsdribfd by bn <CODE>MBfbnConstrudtorInfo</CODE> objfdt.
+     *
+     * @rfturn  An brrby of <CODE>MBfbnConstrudtorInfo</CODE> objfdts.
+     */
+    publid MBfbnConstrudtorInfo[] gftConstrudtors();
+
+    /**
+     * Rfturns b iumbn rfbdbblf dfsdription of tif MBfbn.
+     *
+     * @rfturn tif dfsdription.
+     */
+    publid jbvb.lbng.String gftDfsdription();
+
+    /**
+     * Rfturns tif list of tif notifidbtions fmittfd by tif MBfbn.
+     * Ebdi notifidbtion is dfsdribfd by bn <CODE>MBfbnNotifidbtionInfo</CODE> objfdt.
      * <P>
-     * In addition to any notification specified by the application,
-     * a ModelMBean may always send also two additional notifications:
+     * In bddition to bny notifidbtion spfdififd by tif bpplidbtion,
+     * b ModflMBfbn mby blwbys sfnd blso two bdditionbl notifidbtions:
      * <UL>
-     * <LI> One with descriptor name "GENERIC" and displayName "jmx.modelmbean.generic"
-     * <LI> Second is a standard attribute change notification
-     *      with descriptor name "ATTRIBUTE_CHANGE" and displayName "jmx.attribute.change"
+     * <LI> Onf witi dfsdriptor nbmf "GENERIC" bnd displbyNbmf "jmx.modflmbfbn.gfnfrid"
+     * <LI> Sfdond is b stbndbrd bttributf dibngf notifidbtion
+     *      witi dfsdriptor nbmf "ATTRIBUTE_CHANGE" bnd displbyNbmf "jmx.bttributf.dibngf"
      * </UL>
-     * Thus any implementation of ModelMBeanInfo should always add those two notifications
-     * in addition to those specified by the application.
+     * Tius bny implfmfntbtion of ModflMBfbnInfo siould blwbys bdd tiosf two notifidbtions
+     * in bddition to tiosf spfdififd by tif bpplidbtion.
      *
-     * @return  An array of <CODE>MBeanNotificationInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnNotifidbtionInfo</CODE> objfdts.
      */
-    public MBeanNotificationInfo[] getNotifications();
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtions();
 
     /**
-     * Returns the list of operations  of the MBean.
-     * Each operation is described by an <CODE>MBeanOperationInfo</CODE> object.
+     * Rfturns tif list of opfrbtions  of tif MBfbn.
+     * Ebdi opfrbtion is dfsdribfd by bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.
      *
-     * @return  An array of <CODE>MBeanOperationInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnOpfrbtionInfo</CODE> objfdts.
      */
-    public MBeanOperationInfo[] getOperations();
+    publid MBfbnOpfrbtionInfo[] gftOpfrbtions();
 
 }

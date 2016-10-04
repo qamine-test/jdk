@@ -1,877 +1,877 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.*;
-import java.net.URI;
-import java.util.*;
-import java.lang.ref.WeakReference;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.util.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-import com.sun.nio.file.ExtendedWatchEventModifier;
+import dom.sun.nio.filf.ExtfndfdWbtdiEvfntModififr;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of Path
+ * Windows implfmfntbtion of Pbti
  */
 
-class WindowsPath extends AbstractPath {
+dlbss WindowsPbti fxtfnds AbstrbdtPbti {
 
-    // The maximum path that does not require long path prefix. On Windows
-    // the maximum path is 260 minus 1 (NUL) but for directories it is 260
-    // minus 12 minus 1 (to allow for the creation of a 8.3 file in the
-    // directory).
-    private static final int MAX_PATH = 247;
+    // Tif mbximum pbti tibt dofs not rfquirf long pbti prffix. On Windows
+    // tif mbximum pbti is 260 minus 1 (NUL) but for dirfdtorifs it is 260
+    // minus 12 minus 1 (to bllow for tif drfbtion of b 8.3 filf in tif
+    // dirfdtory).
+    privbtf stbtid finbl int MAX_PATH = 247;
 
-    // Maximum extended-length path
-    private static final int MAX_LONG_PATH = 32000;
+    // Mbximum fxtfndfd-lfngti pbti
+    privbtf stbtid finbl int MAX_LONG_PATH = 32000;
 
-    // FIXME - eliminate this reference to reduce space
-    private final WindowsFileSystem fs;
+    // FIXME - fliminbtf tiis rfffrfndf to rfdudf spbdf
+    privbtf finbl WindowsFilfSystfm fs;
 
-    // path type
-    private final WindowsPathType type;
-    // root component (may be empty)
-    private final String root;
-    // normalized path
-    private final String path;
+    // pbti typf
+    privbtf finbl WindowsPbtiTypf typf;
+    // root domponfnt (mby bf fmpty)
+    privbtf finbl String root;
+    // normblizfd pbti
+    privbtf finbl String pbti;
 
-    // the path to use in Win32 calls. This differs from path for relative
-    // paths and has a long path prefix for all paths longer than MAX_PATH.
-    private volatile WeakReference<String> pathForWin32Calls;
+    // tif pbti to usf in Win32 dblls. Tiis difffrs from pbti for rflbtivf
+    // pbtis bnd ibs b long pbti prffix for bll pbtis longfr tibn MAX_PATH.
+    privbtf volbtilf WfbkRfffrfndf<String> pbtiForWin32Cblls;
 
-    // offsets into name components (computed lazily)
-    private volatile Integer[] offsets;
+    // offsfts into nbmf domponfnts (domputfd lbzily)
+    privbtf volbtilf Intfgfr[] offsfts;
 
-    // computed hash code (computed lazily, no need to be volatile)
-    private int hash;
+    // domputfd ibsi dodf (domputfd lbzily, no nffd to bf volbtilf)
+    privbtf int ibsi;
 
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    private WindowsPath(WindowsFileSystem fs,
-                        WindowsPathType type,
+    privbtf WindowsPbti(WindowsFilfSystfm fs,
+                        WindowsPbtiTypf typf,
                         String root,
-                        String path)
+                        String pbti)
     {
-        this.fs = fs;
-        this.type = type;
-        this.root = root;
-        this.path = path;
+        tiis.fs = fs;
+        tiis.typf = typf;
+        tiis.root = root;
+        tiis.pbti = pbti;
     }
 
     /**
-     * Creates a Path by parsing the given path.
+     * Crfbtfs b Pbti by pbrsing tif givfn pbti.
      */
-    static WindowsPath parse(WindowsFileSystem fs, String path) {
-        WindowsPathParser.Result result = WindowsPathParser.parse(path);
-        return new WindowsPath(fs, result.type(), result.root(), result.path());
+    stbtid WindowsPbti pbrsf(WindowsFilfSystfm fs, String pbti) {
+        WindowsPbtiPbrsfr.Rfsult rfsult = WindowsPbtiPbrsfr.pbrsf(pbti);
+        rfturn nfw WindowsPbti(fs, rfsult.typf(), rfsult.root(), rfsult.pbti());
     }
 
     /**
-     * Creates a Path from a given path that is known to be normalized.
+     * Crfbtfs b Pbti from b givfn pbti tibt is known to bf normblizfd.
      */
-    static WindowsPath createFromNormalizedPath(WindowsFileSystem fs,
-                                                String path,
-                                                BasicFileAttributes attrs)
+    stbtid WindowsPbti drfbtfFromNormblizfdPbti(WindowsFilfSystfm fs,
+                                                String pbti,
+                                                BbsidFilfAttributfs bttrs)
     {
         try {
-            WindowsPathParser.Result result =
-                WindowsPathParser.parseNormalizedPath(path);
-            if (attrs == null) {
-                return new WindowsPath(fs,
-                                       result.type(),
-                                       result.root(),
-                                       result.path());
-            } else {
-                return new WindowsPathWithAttributes(fs,
-                                                     result.type(),
-                                                     result.root(),
-                                                     result.path(),
-                                                     attrs);
+            WindowsPbtiPbrsfr.Rfsult rfsult =
+                WindowsPbtiPbrsfr.pbrsfNormblizfdPbti(pbti);
+            if (bttrs == null) {
+                rfturn nfw WindowsPbti(fs,
+                                       rfsult.typf(),
+                                       rfsult.root(),
+                                       rfsult.pbti());
+            } flsf {
+                rfturn nfw WindowsPbtiWitiAttributfs(fs,
+                                                     rfsult.typf(),
+                                                     rfsult.root(),
+                                                     rfsult.pbti(),
+                                                     bttrs);
             }
-        } catch (InvalidPathException x) {
-            throw new AssertionError(x.getMessage());
+        } dbtdi (InvblidPbtiExdfption x) {
+            tirow nfw AssfrtionError(x.gftMfssbgf());
         }
     }
 
     /**
-     * Creates a WindowsPath from a given path that is known to be normalized.
+     * Crfbtfs b WindowsPbti from b givfn pbti tibt is known to bf normblizfd.
      */
-    static WindowsPath createFromNormalizedPath(WindowsFileSystem fs,
-                                                String path)
+    stbtid WindowsPbti drfbtfFromNormblizfdPbti(WindowsFilfSystfm fs,
+                                                String pbti)
     {
-        return createFromNormalizedPath(fs, path, null);
+        rfturn drfbtfFromNormblizfdPbti(fs, pbti, null);
     }
 
     /**
-     * Special implementation with attached/cached attributes (used to quicken
-     * file tree traversal)
+     * Spfdibl implfmfntbtion witi bttbdifd/dbdifd bttributfs (usfd to quidkfn
+     * filf trff trbvfrsbl)
      */
-    private static class WindowsPathWithAttributes
-        extends WindowsPath implements BasicFileAttributesHolder
+    privbtf stbtid dlbss WindowsPbtiWitiAttributfs
+        fxtfnds WindowsPbti implfmfnts BbsidFilfAttributfsHoldfr
     {
-        final WeakReference<BasicFileAttributes> ref;
+        finbl WfbkRfffrfndf<BbsidFilfAttributfs> rff;
 
-        WindowsPathWithAttributes(WindowsFileSystem fs,
-                                  WindowsPathType type,
+        WindowsPbtiWitiAttributfs(WindowsFilfSystfm fs,
+                                  WindowsPbtiTypf typf,
                                   String root,
-                                  String path,
-                                  BasicFileAttributes attrs)
+                                  String pbti,
+                                  BbsidFilfAttributfs bttrs)
         {
-            super(fs, type, root, path);
-            ref = new WeakReference<BasicFileAttributes>(attrs);
+            supfr(fs, typf, root, pbti);
+            rff = nfw WfbkRfffrfndf<BbsidFilfAttributfs>(bttrs);
         }
 
-        @Override
-        public BasicFileAttributes get() {
-            return ref.get();
+        @Ovfrridf
+        publid BbsidFilfAttributfs gft() {
+            rfturn rff.gft();
         }
 
-        @Override
-        public void invalidate() {
-            ref.clear();
+        @Ovfrridf
+        publid void invblidbtf() {
+            rff.dlfbr();
         }
 
-        // no need to override equals/hashCode.
+        // no nffd to ovfrridf fqubls/ibsiCodf.
     }
 
-    // use this message when throwing exceptions
-    String getPathForExceptionMessage() {
-        return path;
+    // usf tiis mfssbgf wifn tirowing fxdfptions
+    String gftPbtiForExdfptionMfssbgf() {
+        rfturn pbti;
     }
 
-    // use this path for permission checks
-    String getPathForPermissionCheck() {
-        return path;
+    // usf tiis pbti for pfrmission difdks
+    String gftPbtiForPfrmissionCifdk() {
+        rfturn pbti;
     }
 
-    // use this path for Win32 calls
-    // This method will prefix long paths with \\?\ or \\?\UNC as required.
-    String getPathForWin32Calls() throws WindowsException {
-        // short absolute paths can be used directly
-        if (isAbsolute() && path.length() <= MAX_PATH)
-            return path;
+    // usf tiis pbti for Win32 dblls
+    // Tiis mftiod will prffix long pbtis witi \\?\ or \\?\UNC bs rfquirfd.
+    String gftPbtiForWin32Cblls() tirows WindowsExdfption {
+        // siort bbsolutf pbtis dbn bf usfd dirfdtly
+        if (isAbsolutf() && pbti.lfngti() <= MAX_PATH)
+            rfturn pbti;
 
-        // return cached values if available
-        WeakReference<String> ref = pathForWin32Calls;
-        String resolved = (ref != null) ? ref.get() : null;
-        if (resolved != null) {
-            // Win32 path already available
-            return resolved;
+        // rfturn dbdifd vblufs if bvbilbblf
+        WfbkRfffrfndf<String> rff = pbtiForWin32Cblls;
+        String rfsolvfd = (rff != null) ? rff.gft() : null;
+        if (rfsolvfd != null) {
+            // Win32 pbti blrfbdy bvbilbblf
+            rfturn rfsolvfd;
         }
 
-        // resolve against default directory
-        resolved = getAbsolutePath();
+        // rfsolvf bgbinst dffbult dirfdtory
+        rfsolvfd = gftAbsolutfPbti();
 
-        // Long paths need to have "." and ".." removed and be prefixed with
-        // "\\?\". Note that it is okay to remove ".." even when it follows
-        // a link - for example, it is okay for foo/link/../bar to be changed
-        // to foo/bar. The reason is that Win32 APIs to access foo/link/../bar
-        // will access foo/bar anyway (which differs to Unix systems)
-        if (resolved.length() > MAX_PATH) {
-            if (resolved.length() > MAX_LONG_PATH) {
-                throw new WindowsException("Cannot access file with path exceeding "
-                    + MAX_LONG_PATH + " characters");
+        // Long pbtis nffd to ibvf "." bnd ".." rfmovfd bnd bf prffixfd witi
+        // "\\?\". Notf tibt it is okby to rfmovf ".." fvfn wifn it follows
+        // b link - for fxbmplf, it is okby for foo/link/../bbr to bf dibngfd
+        // to foo/bbr. Tif rfbson is tibt Win32 APIs to bddfss foo/link/../bbr
+        // will bddfss foo/bbr bnywby (wiidi difffrs to Unix systfms)
+        if (rfsolvfd.lfngti() > MAX_PATH) {
+            if (rfsolvfd.lfngti() > MAX_LONG_PATH) {
+                tirow nfw WindowsExdfption("Cbnnot bddfss filf witi pbti fxdffding "
+                    + MAX_LONG_PATH + " dibrbdtfrs");
             }
-            resolved = addPrefixIfNeeded(GetFullPathName(resolved));
+            rfsolvfd = bddPrffixIfNffdfd(GftFullPbtiNbmf(rfsolvfd));
         }
 
-        // cache the resolved path (except drive relative paths as the working
-        // directory on removal media devices can change during the lifetime
-        // of the VM)
-        if (type != WindowsPathType.DRIVE_RELATIVE) {
-            synchronized (path) {
-                pathForWin32Calls = new WeakReference<String>(resolved);
+        // dbdif tif rfsolvfd pbti (fxdfpt drivf rflbtivf pbtis bs tif working
+        // dirfdtory on rfmovbl mfdib dfvidfs dbn dibngf during tif lifftimf
+        // of tif VM)
+        if (typf != WindowsPbtiTypf.DRIVE_RELATIVE) {
+            syndironizfd (pbti) {
+                pbtiForWin32Cblls = nfw WfbkRfffrfndf<String>(rfsolvfd);
             }
         }
-        return resolved;
+        rfturn rfsolvfd;
     }
 
-    // return this path resolved against the file system's default directory
-    private String getAbsolutePath() throws WindowsException {
-        if (isAbsolute())
-            return path;
+    // rfturn tiis pbti rfsolvfd bgbinst tif filf systfm's dffbult dirfdtory
+    privbtf String gftAbsolutfPbti() tirows WindowsExdfption {
+        if (isAbsolutf())
+            rfturn pbti;
 
-        // Relative path ("foo" for example)
-        if (type == WindowsPathType.RELATIVE) {
-            String defaultDirectory = getFileSystem().defaultDirectory();
+        // Rflbtivf pbti ("foo" for fxbmplf)
+        if (typf == WindowsPbtiTypf.RELATIVE) {
+            String dffbultDirfdtory = gftFilfSystfm().dffbultDirfdtory();
             if (isEmpty())
-                return defaultDirectory;
-            if (defaultDirectory.endsWith("\\")) {
-                return defaultDirectory + path;
-            } else {
-                StringBuilder sb =
-                    new StringBuilder(defaultDirectory.length() + path.length() + 1);
-                return sb.append(defaultDirectory).append('\\').append(path).toString();
+                rfturn dffbultDirfdtory;
+            if (dffbultDirfdtory.fndsWiti("\\")) {
+                rfturn dffbultDirfdtory + pbti;
+            } flsf {
+                StringBuildfr sb =
+                    nfw StringBuildfr(dffbultDirfdtory.lfngti() + pbti.lfngti() + 1);
+                rfturn sb.bppfnd(dffbultDirfdtory).bppfnd('\\').bppfnd(pbti).toString();
             }
         }
 
-        // Directory relative path ("\foo" for example)
-        if (type == WindowsPathType.DIRECTORY_RELATIVE) {
-            String defaultRoot = getFileSystem().defaultRoot();
-            return defaultRoot + path.substring(1);
+        // Dirfdtory rflbtivf pbti ("\foo" for fxbmplf)
+        if (typf == WindowsPbtiTypf.DIRECTORY_RELATIVE) {
+            String dffbultRoot = gftFilfSystfm().dffbultRoot();
+            rfturn dffbultRoot + pbti.substring(1);
         }
 
-        // Drive relative path ("C:foo" for example).
-        if (isSameDrive(root, getFileSystem().defaultRoot())) {
-            // relative to default directory
-            String remaining = path.substring(root.length());
-            String defaultDirectory = getFileSystem().defaultDirectory();
-            String result;
-            if (defaultDirectory.endsWith("\\")) {
-                result = defaultDirectory + remaining;
-            } else {
-                result = defaultDirectory + "\\" + remaining;
+        // Drivf rflbtivf pbti ("C:foo" for fxbmplf).
+        if (isSbmfDrivf(root, gftFilfSystfm().dffbultRoot())) {
+            // rflbtivf to dffbult dirfdtory
+            String rfmbining = pbti.substring(root.lfngti());
+            String dffbultDirfdtory = gftFilfSystfm().dffbultDirfdtory();
+            String rfsult;
+            if (dffbultDirfdtory.fndsWiti("\\")) {
+                rfsult = dffbultDirfdtory + rfmbining;
+            } flsf {
+                rfsult = dffbultDirfdtory + "\\" + rfmbining;
             }
-            return result;
-        } else {
-            // relative to some other drive
+            rfturn rfsult;
+        } flsf {
+            // rflbtivf to somf otifr drivf
             String wd;
             try {
-                int dt = GetDriveType(root + "\\");
+                int dt = GftDrivfTypf(root + "\\");
                 if (dt == DRIVE_UNKNOWN || dt == DRIVE_NO_ROOT_DIR)
-                    throw new WindowsException("");
-                wd = GetFullPathName(root + ".");
-            } catch (WindowsException x) {
-                throw new WindowsException("Unable to get working directory of drive '" +
-                    Character.toUpperCase(root.charAt(0)) + "'");
+                    tirow nfw WindowsExdfption("");
+                wd = GftFullPbtiNbmf(root + ".");
+            } dbtdi (WindowsExdfption x) {
+                tirow nfw WindowsExdfption("Unbblf to gft working dirfdtory of drivf '" +
+                    Cibrbdtfr.toUppfrCbsf(root.dibrAt(0)) + "'");
             }
-            String result = wd;
-            if (wd.endsWith("\\")) {
-                result += path.substring(root.length());
-            } else {
-                if (path.length() > root.length())
-                    result += "\\" + path.substring(root.length());
+            String rfsult = wd;
+            if (wd.fndsWiti("\\")) {
+                rfsult += pbti.substring(root.lfngti());
+            } flsf {
+                if (pbti.lfngti() > root.lfngti())
+                    rfsult += "\\" + pbti.substring(root.lfngti());
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
-    // returns true if same drive letter
-    private static boolean isSameDrive(String root1, String root2) {
-        return Character.toUpperCase(root1.charAt(0)) ==
-               Character.toUpperCase(root2.charAt(0));
+    // rfturns truf if sbmf drivf lfttfr
+    privbtf stbtid boolfbn isSbmfDrivf(String root1, String root2) {
+        rfturn Cibrbdtfr.toUppfrCbsf(root1.dibrAt(0)) ==
+               Cibrbdtfr.toUppfrCbsf(root2.dibrAt(0));
     }
 
-    // Add long path prefix to path if required
-    static String addPrefixIfNeeded(String path) {
-        if (path.length() > MAX_PATH) {
-            if (path.startsWith("\\\\")) {
-                path = "\\\\?\\UNC" + path.substring(1, path.length());
-            } else {
-                path = "\\\\?\\" + path;
+    // Add long pbti prffix to pbti if rfquirfd
+    stbtid String bddPrffixIfNffdfd(String pbti) {
+        if (pbti.lfngti() > MAX_PATH) {
+            if (pbti.stbrtsWiti("\\\\")) {
+                pbti = "\\\\?\\UNC" + pbti.substring(1, pbti.lfngti());
+            } flsf {
+                pbti = "\\\\?\\" + pbti;
             }
         }
-        return path;
+        rfturn pbti;
     }
 
-    @Override
-    public WindowsFileSystem getFileSystem() {
-        return fs;
+    @Ovfrridf
+    publid WindowsFilfSystfm gftFilfSystfm() {
+        rfturn fs;
     }
 
-    // -- Path operations --
+    // -- Pbti opfrbtions --
 
-    private boolean isEmpty() {
-        return path.length() == 0;
+    privbtf boolfbn isEmpty() {
+        rfturn pbti.lfngti() == 0;
     }
 
-    private WindowsPath emptyPath() {
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", "");
+    privbtf WindowsPbti fmptyPbti() {
+        rfturn nfw WindowsPbti(gftFilfSystfm(), WindowsPbtiTypf.RELATIVE, "", "");
     }
 
-    @Override
-    public Path getFileName() {
-        int len = path.length();
-        // represents empty path
-        if (len == 0)
-            return this;
-        // represents root component only
-        if (root.length() == len)
-            return null;
-        int off = path.lastIndexOf('\\');
-        if (off < root.length())
-            off = root.length();
-        else
+    @Ovfrridf
+    publid Pbti gftFilfNbmf() {
+        int lfn = pbti.lfngti();
+        // rfprfsfnts fmpty pbti
+        if (lfn == 0)
+            rfturn tiis;
+        // rfprfsfnts root domponfnt only
+        if (root.lfngti() == lfn)
+            rfturn null;
+        int off = pbti.lbstIndfxOf('\\');
+        if (off < root.lfngti())
+            off = root.lfngti();
+        flsf
             off++;
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", path.substring(off));
+        rfturn nfw WindowsPbti(gftFilfSystfm(), WindowsPbtiTypf.RELATIVE, "", pbti.substring(off));
     }
 
-    @Override
-    public WindowsPath getParent() {
-        // represents root component only
-        if (root.length() == path.length())
-            return null;
-        int off = path.lastIndexOf('\\');
-        if (off < root.length())
-            return getRoot();
-        else
-            return new WindowsPath(getFileSystem(),
-                                   type,
+    @Ovfrridf
+    publid WindowsPbti gftPbrfnt() {
+        // rfprfsfnts root domponfnt only
+        if (root.lfngti() == pbti.lfngti())
+            rfturn null;
+        int off = pbti.lbstIndfxOf('\\');
+        if (off < root.lfngti())
+            rfturn gftRoot();
+        flsf
+            rfturn nfw WindowsPbti(gftFilfSystfm(),
+                                   typf,
                                    root,
-                                   path.substring(0, off));
+                                   pbti.substring(0, off));
     }
 
-    @Override
-    public WindowsPath getRoot() {
-        if (root.length() == 0)
-            return null;
-        return new WindowsPath(getFileSystem(), type, root, root);
+    @Ovfrridf
+    publid WindowsPbti gftRoot() {
+        if (root.lfngti() == 0)
+            rfturn null;
+        rfturn nfw WindowsPbti(gftFilfSystfm(), typf, root, root);
     }
 
-    // package-private
-    WindowsPathType type() {
-        return type;
+    // pbdkbgf-privbtf
+    WindowsPbtiTypf typf() {
+        rfturn typf;
     }
 
-    // package-private
-    boolean isUnc() {
-        return type == WindowsPathType.UNC;
+    // pbdkbgf-privbtf
+    boolfbn isUnd() {
+        rfturn typf == WindowsPbtiTypf.UNC;
     }
 
-    boolean needsSlashWhenResolving() {
-        if (path.endsWith("\\"))
-            return false;
-        return path.length() > root.length();
+    boolfbn nffdsSlbsiWifnRfsolving() {
+        if (pbti.fndsWiti("\\"))
+            rfturn fblsf;
+        rfturn pbti.lfngti() > root.lfngti();
     }
 
-    @Override
-    public boolean isAbsolute() {
-        return type == WindowsPathType.ABSOLUTE || type == WindowsPathType.UNC;
+    @Ovfrridf
+    publid boolfbn isAbsolutf() {
+        rfturn typf == WindowsPbtiTypf.ABSOLUTE || typf == WindowsPbtiTypf.UNC;
     }
 
-    static WindowsPath toWindowsPath(Path path) {
-        if (path == null)
-            throw new NullPointerException();
-        if (!(path instanceof WindowsPath)) {
-            throw new ProviderMismatchException();
+    stbtid WindowsPbti toWindowsPbti(Pbti pbti) {
+        if (pbti == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(pbti instbndfof WindowsPbti)) {
+            tirow nfw ProvidfrMismbtdiExdfption();
         }
-        return (WindowsPath)path;
+        rfturn (WindowsPbti)pbti;
     }
 
-    @Override
-    public WindowsPath relativize(Path obj) {
-        WindowsPath other = toWindowsPath(obj);
-        if (this.equals(other))
-            return emptyPath();
+    @Ovfrridf
+    publid WindowsPbti rflbtivizf(Pbti obj) {
+        WindowsPbti otifr = toWindowsPbti(obj);
+        if (tiis.fqubls(otifr))
+            rfturn fmptyPbti();
 
-        // can only relativize paths of the same type
-        if (this.type != other.type)
-            throw new IllegalArgumentException("'other' is different type of Path");
+        // dbn only rflbtivizf pbtis of tif sbmf typf
+        if (tiis.typf != otifr.typf)
+            tirow nfw IllfgblArgumfntExdfption("'otifr' is difffrfnt typf of Pbti");
 
-        // can only relativize paths if root component matches
-        if (!this.root.equalsIgnoreCase(other.root))
-            throw new IllegalArgumentException("'other' has different root");
+        // dbn only rflbtivizf pbtis if root domponfnt mbtdifs
+        if (!tiis.root.fqublsIgnorfCbsf(otifr.root))
+            tirow nfw IllfgblArgumfntExdfption("'otifr' ibs difffrfnt root");
 
-        int bn = this.getNameCount();
-        int cn = other.getNameCount();
+        int bn = tiis.gftNbmfCount();
+        int dn = otifr.gftNbmfCount();
 
-        // skip matching names
-        int n = (bn > cn) ? cn : bn;
+        // skip mbtdiing nbmfs
+        int n = (bn > dn) ? dn : bn;
         int i = 0;
-        while (i < n) {
-            if (!this.getName(i).equals(other.getName(i)))
-                break;
+        wiilf (i < n) {
+            if (!tiis.gftNbmf(i).fqubls(otifr.gftNbmf(i)))
+                brfbk;
             i++;
         }
 
-        // append ..\ for remaining names in the base
-        StringBuilder result = new StringBuilder();
+        // bppfnd ..\ for rfmbining nbmfs in tif bbsf
+        StringBuildfr rfsult = nfw StringBuildfr();
         for (int j=i; j<bn; j++) {
-            result.append("..\\");
+            rfsult.bppfnd("..\\");
         }
 
-        // append remaining names in child
-        for (int j=i; j<cn; j++) {
-            result.append(other.getName(j).toString());
-            result.append("\\");
+        // bppfnd rfmbining nbmfs in diild
+        for (int j=i; j<dn; j++) {
+            rfsult.bppfnd(otifr.gftNbmf(j).toString());
+            rfsult.bppfnd("\\");
         }
 
-        // drop trailing slash in result
-        result.setLength(result.length()-1);
-        return createFromNormalizedPath(getFileSystem(), result.toString());
+        // drop trbiling slbsi in rfsult
+        rfsult.sftLfngti(rfsult.lfngti()-1);
+        rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), rfsult.toString());
     }
 
-    @Override
-    public Path normalize() {
-        final int count = getNameCount();
-        if (count == 0 || isEmpty())
-            return this;
+    @Ovfrridf
+    publid Pbti normblizf() {
+        finbl int dount = gftNbmfCount();
+        if (dount == 0 || isEmpty())
+            rfturn tiis;
 
-        boolean[] ignore = new boolean[count];      // true => ignore name
-        int remaining = count;                      // number of names remaining
+        boolfbn[] ignorf = nfw boolfbn[dount];      // truf => ignorf nbmf
+        int rfmbining = dount;                      // numbfr of nbmfs rfmbining
 
-        // multiple passes to eliminate all occurrences of "." and "name/.."
-        int prevRemaining;
+        // multiplf pbssfs to fliminbtf bll oddurrfndfs of "." bnd "nbmf/.."
+        int prfvRfmbining;
         do {
-            prevRemaining = remaining;
-            int prevName = -1;
-            for (int i=0; i<count; i++) {
-                if (ignore[i])
-                    continue;
+            prfvRfmbining = rfmbining;
+            int prfvNbmf = -1;
+            for (int i=0; i<dount; i++) {
+                if (ignorf[i])
+                    dontinuf;
 
-                String name = elementAsString(i);
+                String nbmf = flfmfntAsString(i);
 
                 // not "." or ".."
-                if (name.length() > 2) {
-                    prevName = i;
-                    continue;
+                if (nbmf.lfngti() > 2) {
+                    prfvNbmf = i;
+                    dontinuf;
                 }
 
-                // "." or something else
-                if (name.length() == 1) {
-                    // ignore "."
-                    if (name.charAt(0) == '.') {
-                        ignore[i] = true;
-                        remaining--;
-                    } else {
-                        prevName = i;
+                // "." or somftiing flsf
+                if (nbmf.lfngti() == 1) {
+                    // ignorf "."
+                    if (nbmf.dibrAt(0) == '.') {
+                        ignorf[i] = truf;
+                        rfmbining--;
+                    } flsf {
+                        prfvNbmf = i;
                     }
-                    continue;
+                    dontinuf;
                 }
 
                 // not ".."
-                if (name.charAt(0) != '.' || name.charAt(1) != '.') {
-                    prevName = i;
-                    continue;
+                if (nbmf.dibrAt(0) != '.' || nbmf.dibrAt(1) != '.') {
+                    prfvNbmf = i;
+                    dontinuf;
                 }
 
                 // ".." found
-                if (prevName >= 0) {
-                    // name/<ignored>/.. found so mark name and ".." to be
-                    // ignored
-                    ignore[prevName] = true;
-                    ignore[i] = true;
-                    remaining = remaining - 2;
-                    prevName = -1;
-                } else {
-                    // Cases:
-                    //    C:\<ignored>\..
-                    //    \\server\\share\<ignored>\..
-                    //    \<ignored>..
-                    if (isAbsolute() || type == WindowsPathType.DIRECTORY_RELATIVE) {
-                        boolean hasPrevious = false;
+                if (prfvNbmf >= 0) {
+                    // nbmf/<ignorfd>/.. found so mbrk nbmf bnd ".." to bf
+                    // ignorfd
+                    ignorf[prfvNbmf] = truf;
+                    ignorf[i] = truf;
+                    rfmbining = rfmbining - 2;
+                    prfvNbmf = -1;
+                } flsf {
+                    // Cbsfs:
+                    //    C:\<ignorfd>\..
+                    //    \\sfrvfr\\sibrf\<ignorfd>\..
+                    //    \<ignorfd>..
+                    if (isAbsolutf() || typf == WindowsPbtiTypf.DIRECTORY_RELATIVE) {
+                        boolfbn ibsPrfvious = fblsf;
                         for (int j=0; j<i; j++) {
-                            if (!ignore[j]) {
-                                hasPrevious = true;
-                                break;
+                            if (!ignorf[j]) {
+                                ibsPrfvious = truf;
+                                brfbk;
                             }
                         }
-                        if (!hasPrevious) {
-                            // all proceeding names are ignored
-                            ignore[i] = true;
-                            remaining--;
+                        if (!ibsPrfvious) {
+                            // bll prodffding nbmfs brf ignorfd
+                            ignorf[i] = truf;
+                            rfmbining--;
                         }
                     }
                 }
             }
-        } while (prevRemaining > remaining);
+        } wiilf (prfvRfmbining > rfmbining);
 
-        // no redundant names
-        if (remaining == count)
-            return this;
+        // no rfdundbnt nbmfs
+        if (rfmbining == dount)
+            rfturn tiis;
 
-        // corner case - all names removed
-        if (remaining == 0) {
-            return (root.length() == 0) ? emptyPath() : getRoot();
+        // dornfr dbsf - bll nbmfs rfmovfd
+        if (rfmbining == 0) {
+            rfturn (root.lfngti() == 0) ? fmptyPbti() : gftRoot();
         }
 
-        // re-constitute the path from the remaining names.
-        StringBuilder result = new StringBuilder();
+        // rf-donstitutf tif pbti from tif rfmbining nbmfs.
+        StringBuildfr rfsult = nfw StringBuildfr();
         if (root != null)
-            result.append(root);
-        for (int i=0; i<count; i++) {
-            if (!ignore[i]) {
-                result.append(getName(i));
-                result.append("\\");
+            rfsult.bppfnd(root);
+        for (int i=0; i<dount; i++) {
+            if (!ignorf[i]) {
+                rfsult.bppfnd(gftNbmf(i));
+                rfsult.bppfnd("\\");
             }
         }
 
-        // drop trailing slash in result
-        result.setLength(result.length()-1);
-        return createFromNormalizedPath(getFileSystem(), result.toString());
+        // drop trbiling slbsi in rfsult
+        rfsult.sftLfngti(rfsult.lfngti()-1);
+        rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), rfsult.toString());
     }
 
-    @Override
-    public WindowsPath resolve(Path obj) {
-        WindowsPath other = toWindowsPath(obj);
-        if (other.isEmpty())
-            return this;
-        if (other.isAbsolute())
-            return other;
+    @Ovfrridf
+    publid WindowsPbti rfsolvf(Pbti obj) {
+        WindowsPbti otifr = toWindowsPbti(obj);
+        if (otifr.isEmpty())
+            rfturn tiis;
+        if (otifr.isAbsolutf())
+            rfturn otifr;
 
-        switch (other.type) {
-            case RELATIVE: {
-                String result;
-                if (path.endsWith("\\") || (root.length() == path.length())) {
-                    result = path + other.path;
-                } else {
-                    result = path + "\\" + other.path;
+        switdi (otifr.typf) {
+            dbsf RELATIVE: {
+                String rfsult;
+                if (pbti.fndsWiti("\\") || (root.lfngti() == pbti.lfngti())) {
+                    rfsult = pbti + otifr.pbti;
+                } flsf {
+                    rfsult = pbti + "\\" + otifr.pbti;
                 }
-                return new WindowsPath(getFileSystem(), type, root, result);
+                rfturn nfw WindowsPbti(gftFilfSystfm(), typf, root, rfsult);
             }
 
-            case DIRECTORY_RELATIVE: {
-                String result;
-                if (root.endsWith("\\")) {
-                    result = root + other.path.substring(1);
-                } else {
-                    result = root + other.path;
+            dbsf DIRECTORY_RELATIVE: {
+                String rfsult;
+                if (root.fndsWiti("\\")) {
+                    rfsult = root + otifr.pbti.substring(1);
+                } flsf {
+                    rfsult = root + otifr.pbti;
                 }
-                return createFromNormalizedPath(getFileSystem(), result);
+                rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), rfsult);
             }
 
-            case DRIVE_RELATIVE: {
-                if (!root.endsWith("\\"))
-                    return other;
-                // if different roots then return other
-                String thisRoot = root.substring(0, root.length()-1);
-                if (!thisRoot.equalsIgnoreCase(other.root))
-                    return other;
-                // same roots
-                String remaining = other.path.substring(other.root.length());
-                String result;
-                if (path.endsWith("\\")) {
-                    result = path + remaining;
-                } else {
-                    result = path + "\\" + remaining;
+            dbsf DRIVE_RELATIVE: {
+                if (!root.fndsWiti("\\"))
+                    rfturn otifr;
+                // if difffrfnt roots tifn rfturn otifr
+                String tiisRoot = root.substring(0, root.lfngti()-1);
+                if (!tiisRoot.fqublsIgnorfCbsf(otifr.root))
+                    rfturn otifr;
+                // sbmf roots
+                String rfmbining = otifr.pbti.substring(otifr.root.lfngti());
+                String rfsult;
+                if (pbti.fndsWiti("\\")) {
+                    rfsult = pbti + rfmbining;
+                } flsf {
+                    rfsult = pbti + "\\" + rfmbining;
                 }
-                return createFromNormalizedPath(getFileSystem(), result);
+                rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), rfsult);
             }
 
-            default:
-                throw new AssertionError();
+            dffbult:
+                tirow nfw AssfrtionError();
         }
     }
 
-    // generate offset array
-    private void initOffsets() {
-        if (offsets == null) {
-            ArrayList<Integer> list = new ArrayList<>();
+    // gfnfrbtf offsft brrby
+    privbtf void initOffsfts() {
+        if (offsfts == null) {
+            ArrbyList<Intfgfr> list = nfw ArrbyList<>();
             if (isEmpty()) {
-                // empty path considered to have one name element
-                list.add(0);
-            } else {
-                int start = root.length();
-                int off = root.length();
-                while (off < path.length()) {
-                    if (path.charAt(off) != '\\') {
+                // fmpty pbti donsidfrfd to ibvf onf nbmf flfmfnt
+                list.bdd(0);
+            } flsf {
+                int stbrt = root.lfngti();
+                int off = root.lfngti();
+                wiilf (off < pbti.lfngti()) {
+                    if (pbti.dibrAt(off) != '\\') {
                         off++;
-                    } else {
-                        list.add(start);
-                        start = ++off;
+                    } flsf {
+                        list.bdd(stbrt);
+                        stbrt = ++off;
                     }
                 }
-                if (start != off)
-                    list.add(start);
+                if (stbrt != off)
+                    list.bdd(stbrt);
             }
-            synchronized (this) {
-                if (offsets == null)
-                    offsets = list.toArray(new Integer[list.size()]);
+            syndironizfd (tiis) {
+                if (offsfts == null)
+                    offsfts = list.toArrby(nfw Intfgfr[list.sizf()]);
             }
         }
     }
 
-    @Override
-    public int getNameCount() {
-        initOffsets();
-        return offsets.length;
+    @Ovfrridf
+    publid int gftNbmfCount() {
+        initOffsfts();
+        rfturn offsfts.lfngti;
     }
 
-    private String elementAsString(int i) {
-        initOffsets();
-        if (i == (offsets.length-1))
-            return path.substring(offsets[i]);
-        return path.substring(offsets[i], offsets[i+1]-1);
+    privbtf String flfmfntAsString(int i) {
+        initOffsfts();
+        if (i == (offsfts.lfngti-1))
+            rfturn pbti.substring(offsfts[i]);
+        rfturn pbti.substring(offsfts[i], offsfts[i+1]-1);
     }
 
-    @Override
-    public WindowsPath getName(int index) {
-        initOffsets();
-        if (index < 0 || index >= offsets.length)
-            throw new IllegalArgumentException();
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", elementAsString(index));
+    @Ovfrridf
+    publid WindowsPbti gftNbmf(int indfx) {
+        initOffsfts();
+        if (indfx < 0 || indfx >= offsfts.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
+        rfturn nfw WindowsPbti(gftFilfSystfm(), WindowsPbtiTypf.RELATIVE, "", flfmfntAsString(indfx));
     }
 
-    @Override
-    public WindowsPath subpath(int beginIndex, int endIndex) {
-        initOffsets();
-        if (beginIndex < 0)
-            throw new IllegalArgumentException();
-        if (beginIndex >= offsets.length)
-            throw new IllegalArgumentException();
-        if (endIndex > offsets.length)
-            throw new IllegalArgumentException();
-        if (beginIndex >= endIndex)
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid WindowsPbti subpbti(int bfginIndfx, int fndIndfx) {
+        initOffsfts();
+        if (bfginIndfx < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (bfginIndfx >= offsfts.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (fndIndfx > offsfts.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (bfginIndfx >= fndIndfx)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        StringBuilder sb = new StringBuilder();
-        Integer[] nelems = new Integer[endIndex - beginIndex];
-        for (int i = beginIndex; i < endIndex; i++) {
-            nelems[i-beginIndex] = sb.length();
-            sb.append(elementAsString(i));
-            if (i != (endIndex-1))
-                sb.append("\\");
+        StringBuildfr sb = nfw StringBuildfr();
+        Intfgfr[] nflfms = nfw Intfgfr[fndIndfx - bfginIndfx];
+        for (int i = bfginIndfx; i < fndIndfx; i++) {
+            nflfms[i-bfginIndfx] = sb.lfngti();
+            sb.bppfnd(flfmfntAsString(i));
+            if (i != (fndIndfx-1))
+                sb.bppfnd("\\");
         }
-        return new WindowsPath(getFileSystem(), WindowsPathType.RELATIVE, "", sb.toString());
+        rfturn nfw WindowsPbti(gftFilfSystfm(), WindowsPbtiTypf.RELATIVE, "", sb.toString());
     }
 
-    @Override
-    public boolean startsWith(Path obj) {
-        if (!(Objects.requireNonNull(obj) instanceof WindowsPath))
-            return false;
-        WindowsPath other = (WindowsPath)obj;
+    @Ovfrridf
+    publid boolfbn stbrtsWiti(Pbti obj) {
+        if (!(Objfdts.rfquirfNonNull(obj) instbndfof WindowsPbti))
+            rfturn fblsf;
+        WindowsPbti otifr = (WindowsPbti)obj;
 
-        // if this path has a root component the given path's root must match
-        if (!this.root.equalsIgnoreCase(other.root)) {
-            return false;
+        // if tiis pbti ibs b root domponfnt tif givfn pbti's root must mbtdi
+        if (!tiis.root.fqublsIgnorfCbsf(otifr.root)) {
+            rfturn fblsf;
         }
 
-        // empty path starts with itself
-        if (other.isEmpty())
-            return this.isEmpty();
+        // fmpty pbti stbrts witi itsflf
+        if (otifr.isEmpty())
+            rfturn tiis.isEmpty();
 
-        // roots match so compare elements
-        int thisCount = getNameCount();
-        int otherCount = other.getNameCount();
-        if (otherCount <= thisCount) {
-            while (--otherCount >= 0) {
-                String thisElement = this.elementAsString(otherCount);
-                String otherElement = other.elementAsString(otherCount);
-                // FIXME: should compare in uppercase
-                if (!thisElement.equalsIgnoreCase(otherElement))
-                    return false;
+        // roots mbtdi so dompbrf flfmfnts
+        int tiisCount = gftNbmfCount();
+        int otifrCount = otifr.gftNbmfCount();
+        if (otifrCount <= tiisCount) {
+            wiilf (--otifrCount >= 0) {
+                String tiisElfmfnt = tiis.flfmfntAsString(otifrCount);
+                String otifrElfmfnt = otifr.flfmfntAsString(otifrCount);
+                // FIXME: siould dompbrf in uppfrdbsf
+                if (!tiisElfmfnt.fqublsIgnorfCbsf(otifrElfmfnt))
+                    rfturn fblsf;
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean endsWith(Path obj) {
-        if (!(Objects.requireNonNull(obj) instanceof WindowsPath))
-            return false;
-        WindowsPath other = (WindowsPath)obj;
+    @Ovfrridf
+    publid boolfbn fndsWiti(Pbti obj) {
+        if (!(Objfdts.rfquirfNonNull(obj) instbndfof WindowsPbti))
+            rfturn fblsf;
+        WindowsPbti otifr = (WindowsPbti)obj;
 
-        // other path is longer
-        if (other.path.length() > this.path.length()) {
-            return false;
+        // otifr pbti is longfr
+        if (otifr.pbti.lfngti() > tiis.pbti.lfngti()) {
+            rfturn fblsf;
         }
 
-        // empty path ends in itself
-        if (other.isEmpty()) {
-            return this.isEmpty();
+        // fmpty pbti fnds in itsflf
+        if (otifr.isEmpty()) {
+            rfturn tiis.isEmpty();
         }
 
-        int thisCount = this.getNameCount();
-        int otherCount = other.getNameCount();
+        int tiisCount = tiis.gftNbmfCount();
+        int otifrCount = otifr.gftNbmfCount();
 
-        // given path has more elements that this path
-        if (otherCount > thisCount) {
-            return false;
+        // givfn pbti ibs morf flfmfnts tibt tiis pbti
+        if (otifrCount > tiisCount) {
+            rfturn fblsf;
         }
 
-        // compare roots
-        if (other.root.length() > 0) {
-            if (otherCount < thisCount)
-                return false;
-            // FIXME: should compare in uppercase
-            if (!this.root.equalsIgnoreCase(other.root))
-                return false;
+        // dompbrf roots
+        if (otifr.root.lfngti() > 0) {
+            if (otifrCount < tiisCount)
+                rfturn fblsf;
+            // FIXME: siould dompbrf in uppfrdbsf
+            if (!tiis.root.fqublsIgnorfCbsf(otifr.root))
+                rfturn fblsf;
         }
 
-        // match last 'otherCount' elements
-        int off = thisCount - otherCount;
-        while (--otherCount >= 0) {
-            String thisElement = this.elementAsString(off + otherCount);
-            String otherElement = other.elementAsString(otherCount);
-            // FIXME: should compare in uppercase
-            if (!thisElement.equalsIgnoreCase(otherElement))
-                return false;
+        // mbtdi lbst 'otifrCount' flfmfnts
+        int off = tiisCount - otifrCount;
+        wiilf (--otifrCount >= 0) {
+            String tiisElfmfnt = tiis.flfmfntAsString(off + otifrCount);
+            String otifrElfmfnt = otifr.flfmfntAsString(otifrCount);
+            // FIXME: siould dompbrf in uppfrdbsf
+            if (!tiisElfmfnt.fqublsIgnorfCbsf(otifrElfmfnt))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public int compareTo(Path obj) {
+    @Ovfrridf
+    publid int dompbrfTo(Pbti obj) {
         if (obj == null)
-            throw new NullPointerException();
-        String s1 = path;
-        String s2 = ((WindowsPath)obj).path;
-        int n1 = s1.length();
-        int n2 = s2.length();
-        int min = Math.min(n1, n2);
+            tirow nfw NullPointfrExdfption();
+        String s1 = pbti;
+        String s2 = ((WindowsPbti)obj).pbti;
+        int n1 = s1.lfngti();
+        int n2 = s2.lfngti();
+        int min = Mbti.min(n1, n2);
         for (int i = 0; i < min; i++) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
-             if (c1 != c2) {
-                 c1 = Character.toUpperCase(c1);
-                 c2 = Character.toUpperCase(c2);
-                 if (c1 != c2) {
-                     return c1 - c2;
+            dibr d1 = s1.dibrAt(i);
+            dibr d2 = s2.dibrAt(i);
+             if (d1 != d2) {
+                 d1 = Cibrbdtfr.toUppfrCbsf(d1);
+                 d2 = Cibrbdtfr.toUppfrCbsf(d2);
+                 if (d1 != d2) {
+                     rfturn d1 - d2;
                  }
              }
         }
-        return n1 - n2;
+        rfturn n1 - n2;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof WindowsPath)) {
-            return compareTo((Path)obj) == 0;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof WindowsPbti)) {
+            rfturn dompbrfTo((Pbti)obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        // OK if two or more threads compute hash
-        int h = hash;
-        if (h == 0) {
-            for (int i = 0; i< path.length(); i++) {
-                h = 31*h + Character.toUpperCase(path.charAt(i));
+    @Ovfrridf
+    publid int ibsiCodf() {
+        // OK if two or morf tirfbds domputf ibsi
+        int i = ibsi;
+        if (i == 0) {
+            for (int i = 0; i< pbti.lfngti(); i++) {
+                i = 31*i + Cibrbdtfr.toUppfrCbsf(pbti.dibrAt(i));
             }
-            hash = h;
+            ibsi = i;
         }
-        return h;
+        rfturn i;
     }
 
-    @Override
-    public String toString() {
-        return path;
+    @Ovfrridf
+    publid String toString() {
+        rfturn pbti;
     }
 
-    // -- file operations --
+    // -- filf opfrbtions --
 
-    // package-private
-    long openForReadAttributeAccess(boolean followLinks)
-        throws WindowsException
+    // pbdkbgf-privbtf
+    long opfnForRfbdAttributfAddfss(boolfbn followLinks)
+        tirows WindowsExdfption
     {
-        int flags = FILE_FLAG_BACKUP_SEMANTICS;
-        if (!followLinks && getFileSystem().supportsLinks())
-            flags |= FILE_FLAG_OPEN_REPARSE_POINT;
-        return CreateFile(getPathForWin32Calls(),
+        int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+        if (!followLinks && gftFilfSystfm().supportsLinks())
+            flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+        rfturn CrfbtfFilf(gftPbtiForWin32Cblls(),
                           FILE_READ_ATTRIBUTES,
                           (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
                           0L,
                           OPEN_EXISTING,
-                          flags);
+                          flbgs);
     }
 
-    void checkRead() {
-        SecurityManager sm = System.getSecurityManager();
+    void difdkRfbd() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkRead(getPathForPermissionCheck());
+            sm.difdkRfbd(gftPbtiForPfrmissionCifdk());
         }
     }
 
-    void checkWrite() {
-        SecurityManager sm = System.getSecurityManager();
+    void difdkWritf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkWrite(getPathForPermissionCheck());
+            sm.difdkWritf(gftPbtiForPfrmissionCifdk());
         }
     }
 
-    void checkDelete() {
-        SecurityManager sm = System.getSecurityManager();
+    void difdkDflftf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkDelete(getPathForPermissionCheck());
+            sm.difdkDflftf(gftPbtiForPfrmissionCifdk());
         }
     }
 
-    @Override
-    public URI toUri() {
-        return WindowsUriSupport.toUri(this);
+    @Ovfrridf
+    publid URI toUri() {
+        rfturn WindowsUriSupport.toUri(tiis);
     }
 
-    @Override
-    public WindowsPath toAbsolutePath() {
-        if (isAbsolute())
-            return this;
+    @Ovfrridf
+    publid WindowsPbti toAbsolutfPbti() {
+        if (isAbsolutf())
+            rfturn tiis;
 
-        // permission check as per spec
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk bs pfr spfd
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertyAccess("user.dir");
+            sm.difdkPropfrtyAddfss("usfr.dir");
         }
 
         try {
-            return createFromNormalizedPath(getFileSystem(), getAbsolutePath());
-        } catch (WindowsException x) {
-            throw new IOError(new IOException(x.getMessage()));
+            rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), gftAbsolutfPbti());
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOError(nfw IOExdfption(x.gftMfssbgf()));
         }
     }
 
-    @Override
-    public WindowsPath toRealPath(LinkOption... options) throws IOException {
-        checkRead();
-        String rp = WindowsLinkSupport.getRealPath(this, Util.followLinks(options));
-        return createFromNormalizedPath(getFileSystem(), rp);
+    @Ovfrridf
+    publid WindowsPbti toRfblPbti(LinkOption... options) tirows IOExdfption {
+        difdkRfbd();
+        String rp = WindowsLinkSupport.gftRfblPbti(tiis, Util.followLinks(options));
+        rfturn drfbtfFromNormblizfdPbti(gftFilfSystfm(), rp);
     }
 
-    @Override
-    public WatchKey register(WatchService watcher,
-                             WatchEvent.Kind<?>[] events,
-                             WatchEvent.Modifier... modifiers)
-        throws IOException
+    @Ovfrridf
+    publid WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr,
+                             WbtdiEvfnt.Kind<?>[] fvfnts,
+                             WbtdiEvfnt.Modififr... modififrs)
+        tirows IOExdfption
     {
-        if (watcher == null)
-            throw new NullPointerException();
-        if (!(watcher instanceof WindowsWatchService))
-            throw new ProviderMismatchException();
+        if (wbtdifr == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(wbtdifr instbndfof WindowsWbtdiSfrvidf))
+            tirow nfw ProvidfrMismbtdiExdfption();
 
-        // When a security manager is set then we need to make a defensive
-        // copy of the modifiers and check for the Windows specific FILE_TREE
-        // modifier. When the modifier is present then check that permission
-        // has been granted recursively.
-        SecurityManager sm = System.getSecurityManager();
+        // Wifn b sfdurity mbnbgfr is sft tifn wf nffd to mbkf b dfffnsivf
+        // dopy of tif modififrs bnd difdk for tif Windows spfdifid FILE_TREE
+        // modififr. Wifn tif modififr is prfsfnt tifn difdk tibt pfrmission
+        // ibs bffn grbntfd rfdursivfly.
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            boolean watchSubtree = false;
-            final int ml = modifiers.length;
+            boolfbn wbtdiSubtrff = fblsf;
+            finbl int ml = modififrs.lfngti;
             if (ml > 0) {
-                modifiers = Arrays.copyOf(modifiers, ml);
+                modififrs = Arrbys.dopyOf(modififrs, ml);
                 int i=0;
-                while (i < ml) {
-                    if (modifiers[i++] == ExtendedWatchEventModifier.FILE_TREE) {
-                        watchSubtree = true;
-                        break;
+                wiilf (i < ml) {
+                    if (modififrs[i++] == ExtfndfdWbtdiEvfntModififr.FILE_TREE) {
+                        wbtdiSubtrff = truf;
+                        brfbk;
                     }
                 }
             }
-            String s = getPathForPermissionCheck();
-            sm.checkRead(s);
-            if (watchSubtree)
-                sm.checkRead(s + "\\-");
+            String s = gftPbtiForPfrmissionCifdk();
+            sm.difdkRfbd(s);
+            if (wbtdiSubtrff)
+                sm.difdkRfbd(s + "\\-");
         }
 
-        return ((WindowsWatchService)watcher).register(this, events, modifiers);
+        rfturn ((WindowsWbtdiSfrvidf)wbtdifr).rfgistfr(tiis, fvfnts, modififrs);
     }
 }

@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.util.ArrayList;
+import jbvb.bwt.*;
+import jbvb.util.ArrbyList;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
 
-@SuppressWarnings("serial")
-class OverviewTab extends Tab {
-    JPanel gridPanel;
-    TimeComboBox timeComboBox;
+@SupprfssWbrnings("sfribl")
+dlbss OvfrvifwTbb fxtfnds Tbb {
+    JPbnfl gridPbnfl;
+    TimfComboBox timfComboBox;
 
-    public static String getTabName() {
-        return Messages.OVERVIEW;
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.OVERVIEW;
     }
 
-    public OverviewTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    publid OvfrvifwTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
 
-        setBorder(new EmptyBorder(4, 4, 3, 4));
-        setLayout(new BorderLayout());
+        sftBordfr(nfw EmptyBordfr(4, 4, 3, 4));
+        sftLbyout(nfw BordfrLbyout());
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-        add(topPanel, BorderLayout.NORTH);
+        JPbnfl topPbnfl     = nfw JPbnfl(nfw BordfrLbyout());
+        bdd(topPbnfl, BordfrLbyout.NORTH);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnfl dontrolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.CENTER, 20, 5));
+        topPbnfl.bdd(dontrolPbnfl, BordfrLbyout.CENTER);
 
-        timeComboBox = new TimeComboBox();
-        LabeledComponent lc = new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                                   Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
-                                                   timeComboBox);
-        controlPanel.add(lc);
+        timfComboBox = nfw TimfComboBox();
+        LbbflfdComponfnt ld = nfw LbbflfdComponfnt(Mfssbgfs.TIME_RANGE_COLON,
+                                                   Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TIME_RANGE_COLON),
+                                                   timfComboBox);
+        dontrolPbnfl.bdd(ld);
 
-        gridPanel = new JPanel(new AutoGridLayout(10, 6));
-        gridPanel.setBorder(null);
-        JScrollPane sp = new JScrollPane(gridPanel);
-        sp.setBorder(null);
-        sp.setViewportBorder(null);
-        add(sp, BorderLayout.CENTER);
+        gridPbnfl = nfw JPbnfl(nfw AutoGridLbyout(10, 6));
+        gridPbnfl.sftBordfr(null);
+        JSdrollPbnf sp = nfw JSdrollPbnf(gridPbnfl);
+        sp.sftBordfr(null);
+        sp.sftVifwportBordfr(null);
+        bdd(sp, BordfrLbyout.CENTER);
 
-        // Note that panels are added on first update
+        // Notf tibt pbnfls brf bddfd on first updbtf
     }
 
 
-    public SwingWorker<?, ?> newSwingWorker() {
-        return new SwingWorker<Object, Object>() {
-            public Object doInBackground() {
-                return null;
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        rfturn nfw SwingWorkfr<Objfdt, Objfdt>() {
+            publid Objfdt doInBbdkground() {
+                rfturn null;
             }
 
-            protected void done() {
-                if (gridPanel.getComponentCount() == 0) {
-                    final ArrayList<Plotter> plotters = new ArrayList<Plotter>();
-                    for (Tab tab : vmPanel.getTabs()) {
-                        OverviewPanel[] ops = tab.getOverviewPanels();
+            protfdtfd void donf() {
+                if (gridPbnfl.gftComponfntCount() == 0) {
+                    finbl ArrbyList<Plottfr> plottfrs = nfw ArrbyList<Plottfr>();
+                    for (Tbb tbb : vmPbnfl.gftTbbs()) {
+                        OvfrvifwPbnfl[] ops = tbb.gftOvfrvifwPbnfls();
                         if (ops != null) {
-                            for (OverviewPanel op : ops) {
-                                gridPanel.add(op);
-                                Plotter plotter = op.getPlotter();
-                                if (plotter != null) {
-                                    plotters.add(plotter);
-                                    timeComboBox.addPlotter(plotter);
+                            for (OvfrvifwPbnfl op : ops) {
+                                gridPbnfl.bdd(op);
+                                Plottfr plottfr = op.gftPlottfr();
+                                if (plottfr != null) {
+                                    plottfrs.bdd(plottfr);
+                                    timfComboBox.bddPlottfr(plottfr);
                                 }
                             }
                         }
                     }
-                    if (plotters.size() > 0) {
-                        workerAdd(new Runnable() {
-                            public void run() {
-                                ProxyClient proxyClient = vmPanel.getProxyClient();
-                                for (Plotter plotter : plotters) {
-                                    proxyClient.addWeakPropertyChangeListener(plotter);
+                    if (plottfrs.sizf() > 0) {
+                        workfrAdd(nfw Runnbblf() {
+                            publid void run() {
+                                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+                                for (Plottfr plottfr : plottfrs) {
+                                    proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(plottfr);
                                 }
                             }
                         });
                     }
-                    if (getParent() instanceof JTabbedPane) {
-                        Utilities.updateTransparency((JTabbedPane)getParent());
+                    if (gftPbrfnt() instbndfof JTbbbfdPbnf) {
+                        Utilitifs.updbtfTrbnspbrfndy((JTbbbfdPbnf)gftPbrfnt());
                     }
                 }
             }
@@ -112,39 +112,39 @@ class OverviewTab extends Tab {
 
 
 
-    private class AutoGridLayout extends GridLayout {
-        public AutoGridLayout(int hGap, int vGap) {
-            super(0, 1, hGap, vGap);
+    privbtf dlbss AutoGridLbyout fxtfnds GridLbyout {
+        publid AutoGridLbyout(int iGbp, int vGbp) {
+            supfr(0, 1, iGbp, vGbp);
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            return minimumLayoutSize(parent);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            rfturn minimumLbyoutSizf(pbrfnt);
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            updateColumns(parent);
-            return super.minimumLayoutSize(parent);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            updbtfColumns(pbrfnt);
+            rfturn supfr.minimumLbyoutSizf(pbrfnt);
         }
 
-        private void updateColumns(Container parent) {
-            // Use the outer panel width, not the scrolling gridPanel
-            int parentWidth = OverviewTab.this.getWidth();
+        privbtf void updbtfColumns(Contbinfr pbrfnt) {
+            // Usf tif outfr pbnfl widti, not tif sdrolling gridPbnfl
+            int pbrfntWidti = OvfrvifwTbb.tiis.gftWidti();
 
-            int columnWidth = 1;
+            int dolumnWidti = 1;
 
-            for (Component c : parent.getComponents()) {
-                columnWidth = Math.max(columnWidth, c.getPreferredSize().width);
+            for (Componfnt d : pbrfnt.gftComponfnts()) {
+                dolumnWidti = Mbti.mbx(dolumnWidti, d.gftPrfffrrfdSizf().widti);
             }
 
-            int n = parent.getComponentCount();
-            int maxCols = Math.min(n, parentWidth / columnWidth);
+            int n = pbrfnt.gftComponfntCount();
+            int mbxCols = Mbti.min(n, pbrfntWidti / dolumnWidti);
 
-            for (int columns = maxCols; columns >= 1; columns--) {
-                if (columns == 1) {
-                    setColumns(maxCols);
-                } else if ((n % columns) == 0) {
-                    setColumns(columns);
-                    break;
+            for (int dolumns = mbxCols; dolumns >= 1; dolumns--) {
+                if (dolumns == 1) {
+                    sftColumns(mbxCols);
+                } flsf if ((n % dolumns) == 0) {
+                    sftColumns(dolumns);
+                    brfbk;
                 }
             }
         }

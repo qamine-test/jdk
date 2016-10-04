@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.text;
+pbdkbgf sun.tfxt;
 
-public final class UCompactIntArray implements Cloneable {
+publid finbl dlbss UCompbdtIntArrby implfmfnts Clonfbblf {
     /**
-     * Default constructor for UCompactIntArray, the default value of the
-     * compact array is 0.
+     * Dffbult donstrudtor for UCompbdtIntArrby, tif dffbult vbluf of tif
+     * dompbdt brrby is 0.
      */
-    public UCompactIntArray() {
-        values = new int[16][];
-        indices = new short[16][];
-        blockTouched = new boolean[16][];
-        planeTouched = new boolean[16];
+    publid UCompbdtIntArrby() {
+        vblufs = nfw int[16][];
+        indidfs = nfw siort[16][];
+        blodkToudifd = nfw boolfbn[16][];
+        plbnfToudifd = nfw boolfbn[16];
     }
 
-    public UCompactIntArray(int defaultValue) {
-        this();
-        this.defaultValue = defaultValue;
+    publid UCompbdtIntArrby(int dffbultVbluf) {
+        tiis();
+        tiis.dffbultVbluf = dffbultVbluf;
     }
 
     /**
-     * Get the mapped value of a Unicode character.
-     * @param index the character to get the mapped value with
-     * @return the mapped value of the given character
+     * Gft tif mbppfd vbluf of b Unidodf dibrbdtfr.
+     * @pbrbm indfx tif dibrbdtfr to gft tif mbppfd vbluf witi
+     * @rfturn tif mbppfd vbluf of tif givfn dibrbdtfr
      */
-    public int elementAt(int index) {
-        int plane = (index & PLANEMASK) >> PLANESHIFT;
-        if (!planeTouched[plane]) {
-            return defaultValue;
+    publid int flfmfntAt(int indfx) {
+        int plbnf = (indfx & PLANEMASK) >> PLANESHIFT;
+        if (!plbnfToudifd[plbnf]) {
+            rfturn dffbultVbluf;
         }
-        index &= CODEPOINTMASK;
-        return values[plane][(indices[plane][index >> BLOCKSHIFT] & 0xFFFF)
-                       + (index & BLOCKMASK)];
-    }
-
-
-    /**
-     * Set a new value for a Unicode character.
-     * Set automatically expands the array if it is compacted.
-     * @param index the character to set the mapped value with
-     * @param value the new mapped value
-     */
-    public void setElementAt(int index, int value) {
-        if (isCompact) {
-            expand();
-        }
-        int plane = (index & PLANEMASK) >> PLANESHIFT;
-        if (!planeTouched[plane]) {
-            initPlane(plane);
-        }
-        index &= CODEPOINTMASK;
-        values[plane][index] = value;
-        blockTouched[plane][index >> BLOCKSHIFT] = true;
+        indfx &= CODEPOINTMASK;
+        rfturn vblufs[plbnf][(indidfs[plbnf][indfx >> BLOCKSHIFT] & 0xFFFF)
+                       + (indfx & BLOCKMASK)];
     }
 
 
     /**
-     * Compact the array.
+     * Sft b nfw vbluf for b Unidodf dibrbdtfr.
+     * Sft butombtidblly fxpbnds tif brrby if it is dompbdtfd.
+     * @pbrbm indfx tif dibrbdtfr to sft tif mbppfd vbluf witi
+     * @pbrbm vbluf tif nfw mbppfd vbluf
      */
-    public void compact() {
-        if (isCompact) {
-            return;
+    publid void sftElfmfntAt(int indfx, int vbluf) {
+        if (isCompbdt) {
+            fxpbnd();
         }
-        for (int plane = 0; plane < PLANECOUNT; plane++) {
-            if (!planeTouched[plane]) {
-                continue;
+        int plbnf = (indfx & PLANEMASK) >> PLANESHIFT;
+        if (!plbnfToudifd[plbnf]) {
+            initPlbnf(plbnf);
+        }
+        indfx &= CODEPOINTMASK;
+        vblufs[plbnf][indfx] = vbluf;
+        blodkToudifd[plbnf][indfx >> BLOCKSHIFT] = truf;
+    }
+
+
+    /**
+     * Compbdt tif brrby.
+     */
+    publid void dompbdt() {
+        if (isCompbdt) {
+            rfturn;
+        }
+        for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+            if (!plbnfToudifd[plbnf]) {
+                dontinuf;
             }
-            int limitCompacted = 0;
-            int iBlockStart = 0;
-            short iUntouched = -1;
+            int limitCompbdtfd = 0;
+            int iBlodkStbrt = 0;
+            siort iUntoudifd = -1;
 
-            for (int i = 0; i < indices[plane].length; ++i, iBlockStart += BLOCKCOUNT) {
-                indices[plane][i] = -1;
-                if (!blockTouched[plane][i] && iUntouched != -1) {
-                    // If no values in this block were set, we can just set its
-                    // index to be the same as some other block with no values
-                    // set, assuming we've seen one yet.
-                    indices[plane][i] = iUntouched;
-                } else {
-                    int jBlockStart = limitCompacted * BLOCKCOUNT;
-                    if (i > limitCompacted) {
-                        System.arraycopy(values[plane], iBlockStart,
-                                         values[plane], jBlockStart, BLOCKCOUNT);
+            for (int i = 0; i < indidfs[plbnf].lfngti; ++i, iBlodkStbrt += BLOCKCOUNT) {
+                indidfs[plbnf][i] = -1;
+                if (!blodkToudifd[plbnf][i] && iUntoudifd != -1) {
+                    // If no vblufs in tiis blodk wfrf sft, wf dbn just sft its
+                    // indfx to bf tif sbmf bs somf otifr blodk witi no vblufs
+                    // sft, bssuming wf'vf sffn onf yft.
+                    indidfs[plbnf][i] = iUntoudifd;
+                } flsf {
+                    int jBlodkStbrt = limitCompbdtfd * BLOCKCOUNT;
+                    if (i > limitCompbdtfd) {
+                        Systfm.brrbydopy(vblufs[plbnf], iBlodkStbrt,
+                                         vblufs[plbnf], jBlodkStbrt, BLOCKCOUNT);
                     }
-                    if (!blockTouched[plane][i]) {
-                        // If this is the first untouched block we've seen, remember it.
-                        iUntouched = (short)jBlockStart;
+                    if (!blodkToudifd[plbnf][i]) {
+                        // If tiis is tif first untoudifd blodk wf'vf sffn, rfmfmbfr it.
+                        iUntoudifd = (siort)jBlodkStbrt;
                     }
-                    indices[plane][i] = (short)jBlockStart;
-                    limitCompacted++;
+                    indidfs[plbnf][i] = (siort)jBlodkStbrt;
+                    limitCompbdtfd++;
                 }
             }
 
-            // we are done compacting, so now make the array shorter
-            int newSize = limitCompacted * BLOCKCOUNT;
-            int[] result = new int[newSize];
-            System.arraycopy(values[plane], 0, result, 0, newSize);
-            values[plane] = result;
-            blockTouched[plane] = null;
+            // wf brf donf dompbdting, so now mbkf tif brrby siortfr
+            int nfwSizf = limitCompbdtfd * BLOCKCOUNT;
+            int[] rfsult = nfw int[nfwSizf];
+            Systfm.brrbydopy(vblufs[plbnf], 0, rfsult, 0, nfwSizf);
+            vblufs[plbnf] = rfsult;
+            blodkToudifd[plbnf] = null;
         }
-        isCompact = true;
+        isCompbdt = truf;
     }
 
 
     // --------------------------------------------------------------
-    // private
+    // privbtf
     // --------------------------------------------------------------
     /**
-     * Expanded takes the array back to a 0x10ffff element array
+     * Expbndfd tbkfs tif brrby bbdk to b 0x10ffff flfmfnt brrby
      */
-    private void expand() {
+    privbtf void fxpbnd() {
         int i;
-        if (isCompact) {
-            int[]   tempArray;
-            for (int plane = 0; plane < PLANECOUNT; plane++) {
-                if (!planeTouched[plane]) {
-                    continue;
+        if (isCompbdt) {
+            int[]   tfmpArrby;
+            for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+                if (!plbnfToudifd[plbnf]) {
+                    dontinuf;
                 }
-                blockTouched[plane] = new boolean[INDEXCOUNT];
-                tempArray = new int[UNICODECOUNT];
+                blodkToudifd[plbnf] = nfw boolfbn[INDEXCOUNT];
+                tfmpArrby = nfw int[UNICODECOUNT];
                 for (i = 0; i < UNICODECOUNT; ++i) {
-                    tempArray[i] = values[plane][indices[plane][i >> BLOCKSHIFT]
+                    tfmpArrby[i] = vblufs[plbnf][indidfs[plbnf][i >> BLOCKSHIFT]
                                                 & 0xffff + (i & BLOCKMASK)];
-                    blockTouched[plane][i >> BLOCKSHIFT] = true;
+                    blodkToudifd[plbnf][i >> BLOCKSHIFT] = truf;
                 }
                 for (i = 0; i < INDEXCOUNT; ++i) {
-                    indices[plane][i] = (short)(i<<BLOCKSHIFT);
+                    indidfs[plbnf][i] = (siort)(i<<BLOCKSHIFT);
                 }
-                values[plane] = tempArray;
+                vblufs[plbnf] = tfmpArrby;
             }
-            isCompact = false;
+            isCompbdt = fblsf;
         }
     }
 
-    private void initPlane(int plane) {
-        values[plane] = new int[UNICODECOUNT];
-        indices[plane] = new short[INDEXCOUNT];
-        blockTouched[plane] = new boolean[INDEXCOUNT];
-        planeTouched[plane] = true;
+    privbtf void initPlbnf(int plbnf) {
+        vblufs[plbnf] = nfw int[UNICODECOUNT];
+        indidfs[plbnf] = nfw siort[INDEXCOUNT];
+        blodkToudifd[plbnf] = nfw boolfbn[INDEXCOUNT];
+        plbnfToudifd[plbnf] = truf;
 
-        if (planeTouched[0] && plane != 0) {
-            System.arraycopy(indices[0], 0, indices[plane], 0, INDEXCOUNT);
-        } else {
+        if (plbnfToudifd[0] && plbnf != 0) {
+            Systfm.brrbydopy(indidfs[0], 0, indidfs[plbnf], 0, INDEXCOUNT);
+        } flsf {
             for (int i = 0; i < INDEXCOUNT; ++i) {
-                indices[plane][i] = (short)(i<<BLOCKSHIFT);
+                indidfs[plbnf][i] = (siort)(i<<BLOCKSHIFT);
             }
         }
         for (int i = 0; i < UNICODECOUNT; ++i) {
-            values[plane][i] = defaultValue;
+            vblufs[plbnf][i] = dffbultVbluf;
         }
     }
 
-    public int getKSize() {
-        int size = 0;
-        for (int plane = 0; plane < PLANECOUNT; plane++) {
-            if (planeTouched[plane]) {
-                size += (values[plane].length * 4 + indices[plane].length * 2);
+    publid int gftKSizf() {
+        int sizf = 0;
+        for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+            if (plbnfToudifd[plbnf]) {
+                sizf += (vblufs[plbnf].lfngti * 4 + indidfs[plbnf].lfngti * 2);
             }
         }
-        return size / 1024;
+        rfturn sizf / 1024;
     }
 
-    private static final int PLANEMASK = 0x30000;
-    private static final int PLANESHIFT = 16;
-    private static final int PLANECOUNT = 0x10;
-    private static final int CODEPOINTMASK  = 0xffff;
+    privbtf stbtid finbl int PLANEMASK = 0x30000;
+    privbtf stbtid finbl int PLANESHIFT = 16;
+    privbtf stbtid finbl int PLANECOUNT = 0x10;
+    privbtf stbtid finbl int CODEPOINTMASK  = 0xffff;
 
-    private static final int UNICODECOUNT = 0x10000;
-    private static final int BLOCKSHIFT = 7;
-    private static final int BLOCKCOUNT = (1<<BLOCKSHIFT);
-    private static final int INDEXSHIFT = (16-BLOCKSHIFT);
-    private static final int INDEXCOUNT = (1<<INDEXSHIFT);
-    private static final int BLOCKMASK = BLOCKCOUNT - 1;
+    privbtf stbtid finbl int UNICODECOUNT = 0x10000;
+    privbtf stbtid finbl int BLOCKSHIFT = 7;
+    privbtf stbtid finbl int BLOCKCOUNT = (1<<BLOCKSHIFT);
+    privbtf stbtid finbl int INDEXSHIFT = (16-BLOCKSHIFT);
+    privbtf stbtid finbl int INDEXCOUNT = (1<<INDEXSHIFT);
+    privbtf stbtid finbl int BLOCKMASK = BLOCKCOUNT - 1;
 
-    private int defaultValue;
-    private int values[][];
-    private short indices[][];
-    private boolean isCompact;
-    private boolean[][] blockTouched;
-    private boolean[] planeTouched;
+    privbtf int dffbultVbluf;
+    privbtf int vblufs[][];
+    privbtf siort indidfs[][];
+    privbtf boolfbn isCompbdt;
+    privbtf boolfbn[][] blodkToudifd;
+    privbtf boolfbn[] plbnfToudifd;
 };

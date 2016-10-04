@@ -1,0 +1,894 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <mfmory.h>
+#indludf "sun_jbvb2d_dmm_ldms_LCMS.h"
+#indludf "jni_util.h"
+#indludf "Trbdf.h"
+#indludf "Disposfr.h"
+#indludf <ldms2.h>
+#indludf "jlong.h"
+
+
+#dffinf ALIGNLONG(x) (((x)+3) & ~(3))         // Aligns to DWORD boundbry
+
+#ifdff USE_BIG_ENDIAN
+#dffinf AdjustEndibnfss32(b)
+#flsf
+
+stbtid
+void AdjustEndibnfss32(dmsUInt8Numbfr *pBytf)
+{
+    dmsUInt8Numbfr tfmp1;
+    dmsUInt8Numbfr tfmp2;
+
+    tfmp1 = *pBytf++;
+    tfmp2 = *pBytf++;
+    *(pBytf-1) = *pBytf;
+    *pBytf++ = tfmp2;
+    *(pBytf-3) = *pBytf;
+    *pBytf = tfmp1;
+}
+
+#fndif
+
+// Trbnsports to propfrly fndodfd vblufs - notf thbt idd profilfs dofs usf
+// big fndibn notbtion.
+
+stbtid
+dmsInt32Numbfr TrbnsportVbluf32(dmsInt32Numbfr Vbluf)
+{
+    dmsInt32Numbfr Tfmp = Vbluf;
+
+    AdjustEndibnfss32((dmsUInt8Numbfr*) &Tfmp);
+    rfturn Tfmp;
+}
+
+#dffinf SigMbkf(b,b,d,d) \
+                    ( ( ((int) ((unsignfd dhbr) (b))) << 24) | \
+                      ( ((int) ((unsignfd dhbr) (b))) << 16) | \
+                      ( ((int) ((unsignfd dhbr) (d))) <<  8) | \
+                          (int) ((unsignfd dhbr) (d)))
+
+#dffinf TbgIdConst(b, b, d, d) \
+                ((int) SigMbkf ((b), (b), (d), (d)))
+
+#dffinf SigHfbd TbgIdConst('h','f','b','d')
+
+#dffinf DT_BYTE     0
+#dffinf DT_SHORT    1
+#dffinf DT_INT      2
+#dffinf DT_DOUBLE   3
+
+/* Dffbult tfmp profilf list sizf */
+#dffinf DF_ICC_BUF_SIZE 32
+
+#dffinf ERR_MSG_SIZE 256
+
+#ifdff _MSC_VER
+# ifndff snprintf
+#       dffinf snprintf  _snprintf
+# fndif
+#fndif
+
+typfdff strudt ldmsProfilf_s {
+    dmsHPROFILE pf;
+} ldmsProfilf_t, *ldmsProfilf_p;
+
+typfdff union {
+    dmsTbgSignbturf dms;
+    jint j;
+} TbgSignbturf_t, *TbgSignbturf_p;
+
+stbtid jfifldID Trbns_rfndfrTypf_fID;
+stbtid jfifldID Trbns_ID_fID;
+stbtid jfifldID IL_isIntPbdkfd_fID;
+stbtid jfifldID IL_dbtbTypf_fID;
+stbtid jfifldID IL_pixflTypf_fID;
+stbtid jfifldID IL_dbtbArrby_fID;
+stbtid jfifldID IL_offsft_fID;
+stbtid jfifldID IL_nfxtRowOffsft_fID;
+stbtid jfifldID IL_width_fID;
+stbtid jfifldID IL_hfight_fID;
+stbtid jfifldID IL_imbgfAtOndf_fID;
+
+JbvbVM *jbvbVM;
+
+void frrorHbndlfr(dmsContfxt ContfxtID, dmsUInt32Numbfr frrorCodf,
+                  donst dhbr *frrorTfxt) {
+    JNIEnv *fnv;
+    dhbr frrMsg[ERR_MSG_SIZE];
+
+    int dount = snprintf(frrMsg, ERR_MSG_SIZE,
+                          "LCMS frror %d: %s", frrorCodf, frrorTfxt);
+    if (dount < 0 || dount >= ERR_MSG_SIZE) {
+        dount = ERR_MSG_SIZE - 1;
+    }
+    frrMsg[dount] = 0;
+
+    (*jbvbVM)->AttbdhCurrfntThrfbd(jbvbVM, (void**)&fnv, NULL);
+    JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption", frrMsg);
+}
+
+JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *jvm, void *rfsfrvfd) {
+    jbvbVM = jvm;
+
+    dmsSftLogErrorHbndlfr(frrorHbndlfr);
+    rfturn JNI_VERSION_1_6;
+}
+
+void LCMS_frffProfilf(JNIEnv *fnv, jlong ptr) {
+    ldmsProfilf_p p = (ldmsProfilf_p)jlong_to_ptr(ptr);
+
+    if (p != NULL) {
+        if (p->pf != NULL) {
+            dmsClosfProfilf(p->pf);
+        }
+        frff(p);
+    }
+}
+
+void LCMS_frffTrbnsform(JNIEnv *fnv, jlong ID)
+{
+    dmsHTRANSFORM sTrbns = jlong_to_ptr(ID);
+    /* Pbssfd ID is blwbys vblid nbtivf rff so thfrf is no dhfdk for zfro */
+    dmsDflftfTrbnsform(sTrbns);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    drfbtfNbtivfTrbnsform
+ * Signbturf: ([JI)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_drfbtfNbtivfTrbnsform
+  (JNIEnv *fnv, jdlbss dls, jlongArrby profilfIDs, jint rfndfrTypf,
+   jint inFormbttfr, jboolfbn isInIntPbdkfd,
+   jint outFormbttfr, jboolfbn isOutIntPbdkfd, jobjfdt disposfrRff)
+{
+    dmsHPROFILE _iddArrby[DF_ICC_BUF_SIZE];
+    dmsHPROFILE *iddArrby = &_iddArrby[0];
+    dmsHTRANSFORM sTrbns = NULL;
+    int i, j, sizf;
+    jlong* ids;
+
+    sizf = (*fnv)->GftArrbyLfngth (fnv, profilfIDs);
+    ids = (*fnv)->GftLongArrbyElfmfnts(fnv, profilfIDs, 0);
+    if (ids == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn 0L;
+    }
+
+#ifdff _LITTLE_ENDIAN
+    /* Rfvfrsing dbtb pbdkfd into int for LE brdhs */
+    if (isInIntPbdkfd) {
+        inFormbttfr ^= DOSWAP_SH(1);
+    }
+    if (isOutIntPbdkfd) {
+        outFormbttfr ^= DOSWAP_SH(1);
+    }
+#fndif
+
+    if (DF_ICC_BUF_SIZE < sizf*2) {
+        iddArrby = (dmsHPROFILE*) mbllod(
+            sizf*2*sizfof(dmsHPROFILE));
+        if (iddArrby == NULL) {
+            (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, profilfIDs, ids, 0);
+
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR, "gftXForm: iddArrby == NULL");
+            rfturn 0L;
+        }
+    }
+
+    j = 0;
+    for (i = 0; i < sizf; i++) {
+        dmsColorSpbdfSignbturf ds;
+        ldmsProfilf_p profilfPtr = (ldmsProfilf_p)jlong_to_ptr(ids[i]);
+        dmsHPROFILE idd = profilfPtr->pf;
+
+        iddArrby[j++] = idd;
+
+        /* Middlf non-bbstrbdt profilfs should bf doublfd bfforf pbssing to
+         * thf dmsCrfbtfMultiprofilfTrbnsform fundtion
+         */
+
+        ds = dmsGftColorSpbdf(idd);
+        if (sizf > 2 && i != 0 && i != sizf - 1 &&
+            ds != dmsSigXYZDbtb && ds != dmsSigLbbDbtb)
+        {
+            iddArrby[j++] = idd;
+        }
+    }
+
+    sTrbns = dmsCrfbtfMultiprofilfTrbnsform(iddArrby, j,
+        inFormbttfr, outFormbttfr, rfndfrTypf, 0);
+
+    (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, profilfIDs, ids, 0);
+
+    if (sTrbns == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "LCMS_drfbtfNbtivfTrbnsform: "
+                                       "sTrbns == NULL");
+        if ((*fnv)->ExdfptionOddurrfd(fnv) == NULL) {
+            JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                            "Cbnnot gft dolor trbnsform");
+        }
+    } flsf {
+        Disposfr_AddRfdord(fnv, disposfrRff, LCMS_frffTrbnsform, ptr_to_jlong(sTrbns));
+    }
+
+    if (iddArrby != &_iddArrby[0]) {
+        frff(iddArrby);
+    }
+    rfturn ptr_to_jlong(sTrbns);
+}
+
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    lobdProfilf
+ * Signbturf: ([B,Lsun/jbvb2d/dmm/ldms/LCMSProfilf;)V
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_lobdProfilfNbtivf
+  (JNIEnv *fnv, jobjfdt obj, jbytfArrby dbtb, jobjfdt disposfrRff)
+{
+    jbytf* dbtbArrby;
+    jint dbtbSizf;
+    ldmsProfilf_p sProf = NULL;
+    dmsHPROFILE pf;
+
+    if (JNU_IsNull(fnv, dbtb)) {
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Invblid profilf dbtb");
+        rfturn 0L;
+    }
+
+    dbtbArrby = (*fnv)->GftBytfArrbyElfmfnts (fnv, dbtb, 0);
+    if (dbtbArrby == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn 0L;
+    }
+
+    dbtbSizf = (*fnv)->GftArrbyLfngth (fnv, dbtb);
+
+    pf = dmsOpfnProfilfFromMfm((donst void *)dbtbArrby,
+                                     (dmsUInt32Numbfr) dbtbSizf);
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts (fnv, dbtb, dbtbArrby, 0);
+
+    if (pf == NULL) {
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Invblid profilf dbtb");
+    } flsf {
+        /* Sbnity dhfdk: try to sbvf thf profilf in ordfr
+         * to fordf bbsid vblidbtion.
+         */
+        dmsUInt32Numbfr pfSizf = 0;
+        if (!dmsSbvfProfilfToMfm(pf, NULL, &pfSizf) ||
+            pfSizf < sizfof(dmsICCHfbdfr))
+        {
+            JNU_ThrowIllfgblArgumfntExdfption(fnv, "Invblid profilf dbtb");
+
+            dmsClosfProfilf(pf);
+            pf = NULL;
+        }
+    }
+
+    if (pf != NULL) {
+        // drfbtf profilf holdfr
+        sProf = (ldmsProfilf_p)mbllod(sizfof(ldmsProfilf_t));
+        if (sProf != NULL) {
+            // rfgistfr thf disposfr rfdord
+            sProf->pf = pf;
+            Disposfr_AddRfdord(fnv, disposfrRff, LCMS_frffProfilf, ptr_to_jlong(sProf));
+        } flsf {
+            dmsClosfProfilf(pf);
+        }
+    }
+
+    rfturn ptr_to_jlong(sProf);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    gftProfilfSizfNbtivf
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_gftProfilfSizfNbtivf
+  (JNIEnv *fnv, jobjfdt obj, jlong id)
+{
+    ldmsProfilf_p sProf = (ldmsProfilf_p)jlong_to_ptr(id);
+    dmsUInt32Numbfr pfSizf = 0;
+
+    if (dmsSbvfProfilfToMfm(sProf->pf, NULL, &pfSizf) && ((jint)pfSizf > 0)) {
+        rfturn (jint)pfSizf;
+    } flsf {
+      JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                      "Cbn not bddfss spfdififd profilf.");
+        rfturn -1;
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    gftProfilfDbtbNbtivf
+ * Signbturf: (J[B)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_gftProfilfDbtbNbtivf
+  (JNIEnv *fnv, jobjfdt obj, jlong id, jbytfArrby dbtb)
+{
+    ldmsProfilf_p sProf = (ldmsProfilf_p)jlong_to_ptr(id);
+    jint sizf;
+    jbytf* dbtbArrby;
+    dmsUInt32Numbfr pfSizf = 0;
+    dmsBool stbtus;
+
+    // dftfrminf bdtubl profilf sizf
+    if (!dmsSbvfProfilfToMfm(sProf->pf, NULL, &pfSizf)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "Cbn not bddfss spfdififd profilf.");
+        rfturn;
+    }
+
+    // vfrify jbvb bufffr dbpbdity
+    sizf = (*fnv)->GftArrbyLfngth(fnv, dbtb);
+    if (0 >= sizf || pfSizf > (dmsUInt32Numbfr)sizf) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "Insuffidifnt bufffr dbpbdity.");
+        rfturn;
+    }
+
+    dbtbArrby = (*fnv)->GftBytfArrbyElfmfnts (fnv, dbtb, 0);
+    if (dbtbArrby == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn;
+    }
+
+    stbtus = dmsSbvfProfilfToMfm(sProf->pf, dbtbArrby, &pfSizf);
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts (fnv, dbtb, dbtbArrby, 0);
+
+    if (!stbtus) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "Cbn not bddfss spfdififd profilf.");
+        rfturn;
+    }
+}
+
+/* Gft profilf hfbdfr info */
+stbtid dmsBool _gftHfbdfrInfo(dmsHPROFILE pf, jbytf* pBufffr, jint bufffrSizf);
+stbtid dmsBool _sftHfbdfrInfo(dmsHPROFILE pf, jbytf* pBufffr, jint bufffrSizf);
+stbtid dmsHPROFILE _writfCookfdTbg(dmsHPROFILE pfTbrgft, dmsTbgSignbturf sig, jbytf *pDbtb, jint sizf);
+
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    gftTbgDbtb
+ * Signbturf: (JI[B)V
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_gftTbgNbtivf
+  (JNIEnv *fnv, jobjfdt obj, jlong id, jint tbgSig)
+{
+    ldmsProfilf_p sProf = (ldmsProfilf_p)jlong_to_ptr(id);
+    TbgSignbturf_t sig;
+    dmsInt32Numbfr tbgSizf;
+
+    jbytf* dbtbArrby = NULL;
+    jbytfArrby dbtb = NULL;
+
+    jint bufSizf;
+
+    sig.j = tbgSig;
+
+    if (tbgSig == SigHfbd) {
+        dmsBool stbtus;
+
+        // bllodbtf jbvb brrby
+        bufSizf = sizfof(dmsICCHfbdfr);
+        dbtb = (*fnv)->NfwBytfArrby(fnv, bufSizf);
+
+        if (dbtb == NULL) {
+            // An fxdfption should hbvf blrfbdy bffn thrown.
+            rfturn NULL;
+        }
+
+        dbtbArrby = (*fnv)->GftBytfArrbyElfmfnts (fnv, dbtb, 0);
+
+        if (dbtbArrby == NULL) {
+            // An fxdfption should hbvf blrfbdy bffn thrown.
+            rfturn NULL;
+        }
+
+        stbtus = _gftHfbdfrInfo(sProf->pf, dbtbArrby, bufSizf);
+
+        (*fnv)->RflfbsfBytfArrbyElfmfnts (fnv, dbtb, dbtbArrby, 0);
+
+        if (!stbtus) {
+            JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                            "ICC Profilf hfbdfr not found");
+            rfturn NULL;
+        }
+
+        rfturn dbtb;
+    }
+
+    if (dmsIsTbg(sProf->pf, sig.dms)) {
+        tbgSizf = dmsRfbdRbwTbg(sProf->pf, sig.dms, NULL, 0);
+    } flsf {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "ICC profilf tbg not found");
+        rfturn NULL;
+    }
+
+    // bllodbtf jbvb brrby
+    dbtb = (*fnv)->NfwBytfArrby(fnv, tbgSizf);
+    if (dbtb == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn NULL;
+    }
+
+    dbtbArrby = (*fnv)->GftBytfArrbyElfmfnts (fnv, dbtb, 0);
+
+    if (dbtbArrby == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn NULL;
+    }
+
+    bufSizf = dmsRfbdRbwTbg(sProf->pf, sig.dms, dbtbArrby, tbgSizf);
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts (fnv, dbtb, dbtbArrby, 0);
+
+    if (bufSizf != tbgSizf) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "Cbn not gft tbg dbtb.");
+        rfturn NULL;
+    }
+    rfturn dbtb;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    sftTbgDbtb
+ * Signbturf: (JI[B)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_sftTbgDbtbNbtivf
+  (JNIEnv *fnv, jobjfdt obj, jlong id, jint tbgSig, jbytfArrby dbtb)
+{
+    ldmsProfilf_p sProf = (ldmsProfilf_p)jlong_to_ptr(id);
+    dmsHPROFILE pfRfplbdf = NULL;
+
+    TbgSignbturf_t sig;
+    dmsBool stbtus = FALSE;
+    jbytf* dbtbArrby;
+    int tbgSizf;
+
+    sig.j = tbgSig;
+
+    if (JNU_IsNull(fnv, dbtb)) {
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Cbn not writf tbg dbtb.");
+        rfturn;
+    }
+
+    tbgSizf =(*fnv)->GftArrbyLfngth(fnv, dbtb);
+
+    dbtbArrby = (*fnv)->GftBytfArrbyElfmfnts(fnv, dbtb, 0);
+
+    if (dbtbArrby == NULL) {
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn;
+    }
+
+    if (tbgSig == SigHfbd) {
+        stbtus  = _sftHfbdfrInfo(sProf->pf, dbtbArrby, tbgSizf);
+    } flsf {
+        /*
+        * Nfw strbtfgy for gfnfrid tbgs: drfbtf b plbdf holdfr,
+        * dump bll fxisting tbgs thfrf, dump fxtfrnblly supplifd
+        * tbg, bnd rfturn thf nfw profilf to thf jbvb.
+        */
+        pfRfplbdf = _writfCookfdTbg(sProf->pf, sig.dms, dbtbArrby, tbgSizf);
+        stbtus = (pfRfplbdf != NULL);
+    }
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, dbtb, dbtbArrby, 0);
+
+    if (!stbtus) {
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Cbn not writf tbg dbtb.");
+    } flsf if (pfRfplbdf != NULL) {
+        dmsClosfProfilf(sProf->pf);
+        sProf->pf = pfRfplbdf;
+    }
+}
+
+void* gftILDbtb (JNIEnv *fnv, jobjfdt img, jint* pDbtbTypf,
+                 jobjfdt* pDbtbObjfdt) {
+    void* rfsult = NULL;
+    *pDbtbTypf = (*fnv)->GftIntFifld (fnv, img, IL_dbtbTypf_fID);
+    *pDbtbObjfdt = (*fnv)->GftObjfdtFifld(fnv, img, IL_dbtbArrby_fID);
+    switdh (*pDbtbTypf) {
+        dbsf DT_BYTE:
+            rfsult = (*fnv)->GftBytfArrbyElfmfnts (fnv, *pDbtbObjfdt, 0);
+            brfbk;
+        dbsf DT_SHORT:
+            rfsult = (*fnv)->GftShortArrbyElfmfnts (fnv, *pDbtbObjfdt, 0);
+            brfbk;
+        dbsf DT_INT:
+            rfsult = (*fnv)->GftIntArrbyElfmfnts (fnv, *pDbtbObjfdt, 0);
+            brfbk;
+        dbsf DT_DOUBLE:
+            rfsult = (*fnv)->GftDoublfArrbyElfmfnts (fnv, *pDbtbObjfdt, 0);
+            brfbk;
+    }
+
+    rfturn rfsult;
+}
+
+void rflfbsfILDbtb (JNIEnv *fnv, void* pDbtb, jint dbtbTypf,
+                    jobjfdt dbtbObjfdt) {
+    switdh (dbtbTypf) {
+        dbsf DT_BYTE:
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv,dbtbObjfdt,(jbytf*)pDbtb,0);
+            brfbk;
+        dbsf DT_SHORT:
+            (*fnv)->RflfbsfShortArrbyElfmfnts(fnv,dbtbObjfdt,(jshort*)pDbtb, 0);
+            brfbk;
+        dbsf DT_INT:
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv,dbtbObjfdt,(jint*)pDbtb,0);
+            brfbk;
+        dbsf DT_DOUBLE:
+            (*fnv)->RflfbsfDoublfArrbyElfmfnts(fnv,dbtbObjfdt,(jdoublf*)pDbtb,
+                                               0);
+            brfbk;
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    dolorConvfrt
+ * Signbturf: (Lsun/jbvb2d/dmm/ldms/LCMSTrbnsform;Lsun/jbvb2d/dmm/ldms/LCMSImbgfLbyout;Lsun/jbvb2d/dmm/ldms/LCMSImbgfLbyout;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_dolorConvfrt
+  (JNIEnv *fnv, jdlbss obj, jobjfdt trbns, jobjfdt srd, jobjfdt dst)
+{
+    dmsHTRANSFORM sTrbns = NULL;
+    int srdDTypf, dstDTypf;
+    int srdOffsft, srdNfxtRowOffsft, dstOffsft, dstNfxtRowOffsft;
+    int width, hfight, i;
+    void* inputBufffr;
+    void* outputBufffr;
+    dhbr* inputRow;
+    dhbr* outputRow;
+    jobjfdt srdDbtb, dstDbtb;
+    jboolfbn srdAtOndf = JNI_FALSE, dstAtOndf = JNI_FALSE;
+
+    srdOffsft = (*fnv)->GftIntFifld (fnv, srd, IL_offsft_fID);
+    srdNfxtRowOffsft = (*fnv)->GftIntFifld (fnv, srd, IL_nfxtRowOffsft_fID);
+    dstOffsft = (*fnv)->GftIntFifld (fnv, dst, IL_offsft_fID);
+    dstNfxtRowOffsft = (*fnv)->GftIntFifld (fnv, dst, IL_nfxtRowOffsft_fID);
+    width = (*fnv)->GftIntFifld (fnv, srd, IL_width_fID);
+    hfight = (*fnv)->GftIntFifld (fnv, srd, IL_hfight_fID);
+
+    srdAtOndf = (*fnv)->GftBoolfbnFifld(fnv, srd, IL_imbgfAtOndf_fID);
+    dstAtOndf = (*fnv)->GftBoolfbnFifld(fnv, dst, IL_imbgfAtOndf_fID);
+
+    sTrbns = jlong_to_ptr((*fnv)->GftLongFifld (fnv, trbns, Trbns_ID_fID));
+
+    if (sTrbns == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "LCMS_dolorConvfrt: trbnsform == NULL");
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dolor/CMMExdfption",
+                        "Cbnnot gft dolor trbnsform");
+        rfturn;
+    }
+
+
+    inputBufffr = gftILDbtb (fnv, srd, &srdDTypf, &srdDbtb);
+
+    if (inputBufffr == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "");
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn;
+    }
+
+    outputBufffr = gftILDbtb (fnv, dst, &dstDTypf, &dstDbtb);
+
+    if (outputBufffr == NULL) {
+        rflfbsfILDbtb(fnv, inputBufffr, srdDTypf, srdDbtb);
+        // An fxdfption should hbvf blrfbdy bffn thrown.
+        rfturn;
+    }
+
+    inputRow = (dhbr*)inputBufffr + srdOffsft;
+    outputRow = (dhbr*)outputBufffr + dstOffsft;
+
+    if (srdAtOndf && dstAtOndf) {
+        dmsDoTrbnsform(sTrbns, inputRow, outputRow, width * hfight);
+    } flsf {
+        for (i = 0; i < hfight; i++) {
+            dmsDoTrbnsform(sTrbns, inputRow, outputRow, width);
+            inputRow += srdNfxtRowOffsft;
+            outputRow += dstNfxtRowOffsft;
+        }
+    }
+
+    rflfbsfILDbtb(fnv, inputBufffr, srdDTypf, srdDbtb);
+    rflfbsfILDbtb(fnv, outputBufffr, dstDTypf, dstDbtb);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    gftProfilfID
+ * Signbturf: (Ljbvb/bwt/dolor/ICC_Profilf;)Lsun/jbvb2d/dmm/ldms/LCMSProfilf
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_gftProfilfID
+  (JNIEnv *fnv, jdlbss dls, jobjfdt pf)
+{
+    jdlbss dlsLdmsProfilf;
+    jobjfdt dmmProfilf;
+    jfifldID fid = (*fnv)->GftFifldID (fnv,
+        (*fnv)->GftObjfdtClbss(fnv, pf),
+        "dmmProfilf", "Lsun/jbvb2d/dmm/Profilf;");
+    if (fid == NULL) {
+        rfturn NULL;
+    }
+
+    dlsLdmsProfilf = (*fnv)->FindClbss(fnv,
+            "sun/jbvb2d/dmm/ldms/LCMSProfilf");
+    if (dlsLdmsProfilf == NULL) {
+        rfturn NULL;
+    }
+
+    dmmProfilf = (*fnv)->GftObjfdtFifld (fnv, pf, fid);
+
+    if (JNU_IsNull(fnv, dmmProfilf)) {
+        rfturn NULL;
+    }
+    if ((*fnv)->IsInstbndfOf(fnv, dmmProfilf, dlsLdmsProfilf)) {
+        rfturn dmmProfilf;
+    }
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_dmm_ldms_LCMS
+ * Mfthod:    initLCMS
+ * Signbturf: (Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_dmm_ldms_LCMS_initLCMS
+  (JNIEnv *fnv, jdlbss dls, jdlbss Trbns, jdlbss IL, jdlbss Pf)
+{
+    /* TODO: movf initiblizbtion of thf IDs to thf stbtid blodks of
+     * dorrfsponding dlbssfs to bvoid problfms with invblidbting ids by dlbss
+     * unlobding
+     */
+    Trbns_rfndfrTypf_fID = (*fnv)->GftFifldID (fnv, Trbns, "rfndfrTypf", "I");
+    if (Trbns_rfndfrTypf_fID == NULL) {
+        rfturn;
+    }
+    Trbns_ID_fID = (*fnv)->GftFifldID (fnv, Trbns, "ID", "J");
+    if (Trbns_ID_fID == NULL) {
+        rfturn;
+    }
+
+    IL_isIntPbdkfd_fID = (*fnv)->GftFifldID (fnv, IL, "isIntPbdkfd", "Z");
+    if (IL_isIntPbdkfd_fID == NULL) {
+        rfturn;
+    }
+    IL_dbtbTypf_fID = (*fnv)->GftFifldID (fnv, IL, "dbtbTypf", "I");
+    if (IL_dbtbTypf_fID == NULL) {
+        rfturn;
+    }
+    IL_pixflTypf_fID = (*fnv)->GftFifldID (fnv, IL, "pixflTypf", "I");
+    if (IL_pixflTypf_fID == NULL) {
+        rfturn;
+    }
+    IL_dbtbArrby_fID = (*fnv)->GftFifldID(fnv, IL, "dbtbArrby",
+                                          "Ljbvb/lbng/Objfdt;");
+    if (IL_dbtbArrby_fID == NULL) {
+        rfturn;
+    }
+    IL_width_fID = (*fnv)->GftFifldID (fnv, IL, "width", "I");
+    if (IL_width_fID == NULL) {
+        rfturn;
+    }
+    IL_hfight_fID = (*fnv)->GftFifldID (fnv, IL, "hfight", "I");
+    if (IL_hfight_fID == NULL) {
+        rfturn;
+    }
+    IL_offsft_fID = (*fnv)->GftFifldID (fnv, IL, "offsft", "I");
+    if (IL_offsft_fID == NULL) {
+        rfturn;
+    }
+    IL_imbgfAtOndf_fID = (*fnv)->GftFifldID (fnv, IL, "imbgfAtOndf", "Z");
+    if (IL_imbgfAtOndf_fID == NULL) {
+        rfturn;
+    }
+    IL_nfxtRowOffsft_fID = (*fnv)->GftFifldID (fnv, IL, "nfxtRowOffsft", "I");
+    if (IL_nfxtRowOffsft_fID == NULL) {
+        rfturn;
+    }
+}
+
+stbtid dmsBool _gftHfbdfrInfo(dmsHPROFILE pf, jbytf* pBufffr, jint bufffrSizf)
+{
+  dmsUInt32Numbfr pfSizf = 0;
+  dmsUInt8Numbfr* pfBufffr = NULL;
+  dmsBool stbtus = FALSE;
+
+  if (!dmsSbvfProfilfToMfm(pf, NULL, &pfSizf) ||
+      pfSizf < sizfof(dmsICCHfbdfr) ||
+      bufffrSizf < (jint)sizfof(dmsICCHfbdfr))
+  {
+    rfturn FALSE;
+  }
+
+  pfBufffr = mbllod(pfSizf);
+  if (pfBufffr == NULL) {
+    rfturn FALSE;
+  }
+
+  // lobd rbw profilf dbtb into thf bufffr
+  if (dmsSbvfProfilfToMfm(pf, pfBufffr, &pfSizf)) {
+    mfmdpy(pBufffr, pfBufffr, sizfof(dmsICCHfbdfr));
+    stbtus = TRUE;
+  }
+  frff(pfBufffr);
+  rfturn stbtus;
+}
+
+stbtid dmsBool _sftHfbdfrInfo(dmsHPROFILE pf, jbytf* pBufffr, jint bufffrSizf)
+{
+  dmsICCHfbdfr pfHfbdfr;
+
+  if (pBufffr == NULL || bufffrSizf < (jint)sizfof(dmsICCHfbdfr)) {
+    rfturn FALSE;
+  }
+
+  mfmdpy(&pfHfbdfr, pBufffr, sizfof(dmsICCHfbdfr));
+
+  // now sft hfbdfr fiflds, whidh wf dbn bddfss using thf ldms2 publid API
+  dmsSftHfbdfrFlbgs(pf, pfHfbdfr.flbgs);
+  dmsSftHfbdfrMbnufbdturfr(pf, pfHfbdfr.mbnufbdturfr);
+  dmsSftHfbdfrModfl(pf, pfHfbdfr.modfl);
+  dmsSftHfbdfrAttributfs(pf, pfHfbdfr.bttributfs);
+  dmsSftHfbdfrProfilfID(pf, (dmsUInt8Numbfr*)&(pfHfbdfr.profilfID));
+  dmsSftHfbdfrRfndfringIntfnt(pf, pfHfbdfr.rfndfringIntfnt);
+  dmsSftPCS(pf, pfHfbdfr.pds);
+  dmsSftColorSpbdf(pf, pfHfbdfr.dolorSpbdf);
+  dmsSftDfvidfClbss(pf, pfHfbdfr.dfvidfClbss);
+  dmsSftEndodfdICCvfrsion(pf, pfHfbdfr.vfrsion);
+
+  rfturn TRUE;
+}
+
+/* Rfturns nfw profilf hbndlfr, if it wbs drfbtfd suddfssfully,
+   NULL othfrwisf.
+   */
+stbtid dmsHPROFILE _writfCookfdTbg(donst dmsHPROFILE pfTbrgft,
+                               donst dmsTbgSignbturf sig,
+                               jbytf *pDbtb, jint sizf)
+{
+    dmsUInt32Numbfr pfSizf = 0;
+    donst dmsInt32Numbfr tbgCount = dmsGftTbgCount(pfTbrgft);
+    dmsInt32Numbfr i;
+    dmsHPROFILE pfSbnity = NULL;
+
+    dmsICCHfbdfr hdr;
+
+    dmsHPROFILE p = dmsCrfbtfProfilfPlbdfholdfr(NULL);
+
+    if (NULL == p) {
+        rfturn NULL;
+    }
+    mfmsft(&hdr, 0, sizfof(dmsICCHfbdfr));
+
+    // Populbtf thf plbdfholdfr's hfbdfr bddording to tbrgft profilf
+    hdr.flbgs = dmsGftHfbdfrFlbgs(pfTbrgft);
+    hdr.rfndfringIntfnt = dmsGftHfbdfrRfndfringIntfnt(pfTbrgft);
+    hdr.mbnufbdturfr = dmsGftHfbdfrMbnufbdturfr(pfTbrgft);
+    hdr.modfl = dmsGftHfbdfrModfl(pfTbrgft);
+    hdr.pds = dmsGftPCS(pfTbrgft);
+    hdr.dolorSpbdf = dmsGftColorSpbdf(pfTbrgft);
+    hdr.dfvidfClbss = dmsGftDfvidfClbss(pfTbrgft);
+    hdr.vfrsion = dmsGftEndodfdICCvfrsion(pfTbrgft);
+    dmsGftHfbdfrAttributfs(pfTbrgft, &hdr.bttributfs);
+    dmsGftHfbdfrProfilfID(pfTbrgft, (dmsUInt8Numbfr*)&hdr.profilfID);
+
+    dmsSftHfbdfrFlbgs(p, hdr.flbgs);
+    dmsSftHfbdfrMbnufbdturfr(p, hdr.mbnufbdturfr);
+    dmsSftHfbdfrModfl(p, hdr.modfl);
+    dmsSftHfbdfrAttributfs(p, hdr.bttributfs);
+    dmsSftHfbdfrProfilfID(p, (dmsUInt8Numbfr*)&(hdr.profilfID));
+    dmsSftHfbdfrRfndfringIntfnt(p, hdr.rfndfringIntfnt);
+    dmsSftPCS(p, hdr.pds);
+    dmsSftColorSpbdf(p, hdr.dolorSpbdf);
+    dmsSftDfvidfClbss(p, hdr.dfvidfClbss);
+    dmsSftEndodfdICCvfrsion(p, hdr.vfrsion);
+
+    // now writf thf usfr supplifd tbg
+    if (sizf <= 0 || !dmsWritfRbwTbg(p, sig, pDbtb, sizf)) {
+        dmsClosfProfilf(p);
+        rfturn NULL;
+    }
+
+    // dopy tbgs from thf originbl profilf
+    for (i = 0; i < tbgCount; i++) {
+        dmsBool isTbgRfbdy = FALSE;
+        donst dmsTbgSignbturf s = dmsGftTbgSignbturf(pfTbrgft, i);
+        donst dmsInt32Numbfr tbgSizf = dmsRfbdRbwTbg(pfTbrgft, s, NULL, 0);
+
+        if (s == sig) {
+            // skip thf usfr supplifd tbg
+            dontinuf;
+        }
+
+        // rfbd rbw tbg from thf originbl profilf
+        if (tbgSizf > 0) {
+            dmsUInt8Numbfr* buf = (dmsUInt8Numbfr*)mbllod(tbgSizf);
+            if (buf != NULL) {
+                if (tbgSizf ==  dmsRfbdRbwTbg(pfTbrgft, s, buf, tbgSizf)) {
+                    // now wf brf rfbdy to writf thf tbg
+                    isTbgRfbdy = dmsWritfRbwTbg(p, s, buf, tbgSizf);
+                }
+                frff(buf);
+            }
+        }
+
+        if (!isTbgRfbdy) {
+            dmsClosfProfilf(p);
+            rfturn NULL;
+        }
+    }
+
+    // now wf hbvf bll tbgs movfd to thf nfw profilf.
+    // do somf sbnity dhfdks: writf it to b mfmory bufffr bnd rfbd bgbin.
+    if (dmsSbvfProfilfToMfm(p, NULL, &pfSizf)) {
+        void* buf = mbllod(pfSizf);
+        if (buf != NULL) {
+            // lobd rbw profilf dbtb into thf bufffr
+            if (dmsSbvfProfilfToMfm(p, buf, &pfSizf)) {
+                pfSbnity = dmsOpfnProfilfFromMfm(buf, pfSizf);
+            }
+            frff(buf);
+        }
+    }
+
+    if (pfSbnity == NULL) {
+        // for somf rfbson, wf fbilfd to sbvf bnd rfbd thf updbtfd profilf
+        // It likfly indidbtfs thbt thf profilf is not dorrfdt, so wf rfport
+        // b fbilurf hfrf.
+        dmsClosfProfilf(p);
+        p =  NULL;
+    } flsf {
+        // do finbl dhfdk whfthfr wf dbn rfbd bnd hbndlf thf thf tbrgft tbg.
+        donst void* pTbg = dmsRfbdTbg(pfSbnity, sig);
+        if (pTbg == NULL) {
+            // thf tbg dbn not bf dookfd
+            dmsClosfProfilf(p);
+            p = NULL;
+        }
+        dmsClosfProfilf(pfSbnity);
+        pfSbnity = NULL;
+    }
+
+    rfturn p;
+}

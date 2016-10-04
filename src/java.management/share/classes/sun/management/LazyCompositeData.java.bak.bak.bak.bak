@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrTypf;
+
+/**
+ * This bbstrbdt dlbss providfs thf implfmfntbtion of thf CompositfDbtb
+ * intfrfbdf.  A CompositfDbtb objfdt will bf lbzily drfbtfd only whfn
+ * thf CompositfDbtb intfrfbdf is usfd.
+ *
+ * Clbssfs thbt fxtfnds this bbstrbdt dlbss will implfmfnt thf
+ * gftCompositfDbtb() mfthod. Thf objfdt rfturnfd by thf
+ * gftCompositfDbtb() is bn instbndf of CompositfDbtb sudh thbt
+ * thf instbndf sfriblizfs itsflf bs thf typf CompositfDbtbSupport.
+ */
+publid bbstrbdt dlbss LbzyCompositfDbtb
+        implfmfnts CompositfDbtb, Sfriblizbblf {
+
+    privbtf CompositfDbtb dompositfDbtb;
+
+    // Implfmfntbtion of thf CompositfDbtb intfrfbdf
+    publid boolfbn dontbinsKfy(String kfy) {
+        rfturn dompositfDbtb().dontbinsKfy(kfy);
+    }
+
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn dompositfDbtb().dontbinsVbluf(vbluf);
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn dompositfDbtb().fqubls(obj);
+    }
+
+    publid Objfdt gft(String kfy) {
+        rfturn dompositfDbtb().gft(kfy);
+    }
+
+    publid Objfdt[] gftAll(String[] kfys) {
+        rfturn dompositfDbtb().gftAll(kfys);
+    }
+
+    publid CompositfTypf gftCompositfTypf() {
+        rfturn dompositfDbtb().gftCompositfTypf();
+    }
+
+    publid int hbshCodf() {
+        rfturn dompositfDbtb().hbshCodf();
+    }
+
+    publid String toString() {
+        /** FIXME: Whbt should this bf?? */
+        rfturn dompositfDbtb().toString();
+    }
+
+    publid Collfdtion<?> vblufs() {
+        rfturn dompositfDbtb().vblufs();
+    }
+
+    /* Lbzy drfbtion of b CompositfDbtb objfdt
+     * only whfn thf CompositfDbtb intfrfbdf is usfd.
+     */
+    privbtf syndhronizfd CompositfDbtb dompositfDbtb() {
+        if (dompositfDbtb != null)
+            rfturn dompositfDbtb;
+        dompositfDbtb = gftCompositfDbtb();
+        rfturn dompositfDbtb;
+    }
+
+    /**
+     * Dfsignbtf to b CompositfDbtb objfdt whfn writing to bn
+     * output strfbm during sfriblizbtion so thbt thf rfdfivfr
+     * only rfquirfs JMX 1.2 dlbssfs but not bny implfmfntbtion
+     * spfdifid dlbss.
+     */
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn dompositfDbtb();
+    }
+
+    /**
+     * Rfturns thf CompositfDbtb rfprfsfnting this objfdt.
+     * Thf rfturnfd CompositfDbtb objfdt must bf bn instbndf
+     * of jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport dlbss
+     * so thbt no implfmfntbtion spfdifid dlbss is rfquirfd
+     * for unmbrshblling bfsidfs JMX 1.2 dlbssfs.
+     */
+    protfdtfd bbstrbdt CompositfDbtb gftCompositfDbtb();
+
+    // Hflpfr mfthods
+    stbtid String gftString(CompositfDbtb dd, String itfmNbmf) {
+        if (dd == null)
+            throw nfw IllfgblArgumfntExdfption("Null CompositfDbtb");
+
+        rfturn (String) dd.gft(itfmNbmf);
+    }
+
+    stbtid boolfbn gftBoolfbn(CompositfDbtb dd, String itfmNbmf) {
+        if (dd == null)
+            throw nfw IllfgblArgumfntExdfption("Null CompositfDbtb");
+
+        rfturn ((Boolfbn) dd.gft(itfmNbmf)).boolfbnVbluf();
+    }
+
+    stbtid long gftLong(CompositfDbtb dd, String itfmNbmf) {
+        if (dd == null)
+            throw nfw IllfgblArgumfntExdfption("Null CompositfDbtb");
+
+        rfturn ((Long) dd.gft(itfmNbmf)).longVbluf();
+    }
+
+    stbtid int gftInt(CompositfDbtb dd, String itfmNbmf) {
+        if (dd == null)
+            throw nfw IllfgblArgumfntExdfption("Null CompositfDbtb");
+
+        rfturn ((Intfgfr) dd.gft(itfmNbmf)).intVbluf();
+    }
+
+    /**
+     * Compbrfs two CompositfTypfs bnd rfturns truf if
+     * bll itfms in typf1 fxist in typf2 bnd thfir itfm typfs
+     * brf thf sbmf.
+     */
+    protfdtfd stbtid boolfbn isTypfMbtdhfd(CompositfTypf typf1, CompositfTypf typf2) {
+        if (typf1 == typf2) rfturn truf;
+
+        // Wf dbn't usf CompositfTypf.isVbluf() sindf it rfturns fblsf
+        // if thf typf nbmf dofsn't mbtdh.
+        Sft<String> bllItfms = typf1.kfySft();
+
+        // Chfdk bll itfms in thf typf1 fxist in typf2
+        if (!typf2.kfySft().dontbinsAll(bllItfms))
+            rfturn fblsf;
+
+        for (String itfm: bllItfms) {
+            OpfnTypf<?> ot1 = typf1.gftTypf(itfm);
+            OpfnTypf<?> ot2 = typf2.gftTypf(itfm);
+            if (ot1 instbndfof CompositfTypf) {
+                if (! (ot2 instbndfof CompositfTypf))
+                    rfturn fblsf;
+                if (!isTypfMbtdhfd((CompositfTypf) ot1, (CompositfTypf) ot2))
+                    rfturn fblsf;
+            } flsf if (ot1 instbndfof TbbulbrTypf) {
+                if (! (ot2 instbndfof TbbulbrTypf))
+                    rfturn fblsf;
+                if (!isTypfMbtdhfd((TbbulbrTypf) ot1, (TbbulbrTypf) ot2))
+                    rfturn fblsf;
+            } flsf if (!ot1.fqubls(ot2)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    protfdtfd stbtid boolfbn isTypfMbtdhfd(TbbulbrTypf typf1, TbbulbrTypf typf2) {
+        if (typf1 == typf2) rfturn truf;
+
+        List<String> list1 = typf1.gftIndfxNbmfs();
+        List<String> list2 = typf2.gftIndfxNbmfs();
+
+        // dhfdk if thf list of indfx nbmfs brf thf sbmf
+        if (!list1.fqubls(list2))
+            rfturn fblsf;
+
+        rfturn isTypfMbtdhfd(typf1.gftRowTypf(), typf2.gftRowTypf());
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2190411934472666714L;
+}

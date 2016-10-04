@@ -1,0 +1,247 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+import jbvb.lbng.String;
+
+/**
+ * Thf <dodf>TfxtHitInfo</dodf> dlbss rfprfsfnts b dhbrbdtfr position in b
+ * tfxt modfl, bnd b <b>bibs</b>, or "sidf," of thf dhbrbdtfr.  Bibsfs brf
+ * fithfr <EM>lfbding</EM> (thf lfft fdgf, for b lfft-to-right dhbrbdtfr)
+ * or <EM>trbiling</EM> (thf right fdgf, for b lfft-to-right dhbrbdtfr).
+ * Instbndfs of <dodf>TfxtHitInfo</dodf> brf usfd to spfdify dbrft bnd
+ * insfrtion positions within tfxt.
+ * <p>
+ * For fxbmplf, donsidfr thf tfxt "bbd".  TfxtHitInfo.trbiling(1)
+ * dorrfsponds to thf right sidf of thf 'b' in thf tfxt.
+ * <p>
+ * <dodf>TfxtHitInfo</dodf> is usfd primbrily by {@link TfxtLbyout} bnd
+ * dlifnts of <dodf>TfxtLbyout</dodf>.  Clifnts of <dodf>TfxtLbyout</dodf>
+ * qufry <dodf>TfxtHitInfo</dodf> instbndfs for bn insfrtion offsft, whfrf
+ * nfw tfxt is insfrtfd into thf tfxt modfl.  Thf insfrtion offsft is fqubl
+ * to thf dhbrbdtfr position in thf <dodf>TfxtHitInfo</dodf> if thf bibs
+ * is lfbding, bnd onf dhbrbdtfr bftfr if thf bibs is trbiling.  Thf
+ * insfrtion offsft for TfxtHitInfo.trbiling(1) is 2.
+ * <p>
+ * Somftimfs it is donvfnifnt to donstrudt b <dodf>TfxtHitInfo</dodf> with
+ * thf sbmf insfrtion offsft bs bn fxisting onf, but on thf oppositf
+ * dhbrbdtfr.  Thf <dodf>gftOthfrHit</dodf> mfthod donstrudts b nfw
+ * <dodf>TfxtHitInfo</dodf> with thf sbmf insfrtion offsft bs bn fxisting
+ * onf, with b hit on thf dhbrbdtfr on thf othfr sidf of thf insfrtion offsft.
+ * Cblling <dodf>gftOthfrHit</dodf> on trbiling(1) would rfturn lfbding(2).
+ * In gfnfrbl, <dodf>gftOthfrHit</dodf> for trbiling(n) rfturns
+ * lfbding(n+1) bnd <dodf>gftOthfrHit</dodf> for lfbding(n)
+ * rfturns trbiling(n-1).
+ * <p>
+ * <strong>Exbmplf</strong>:<p>
+ * Convfrting b grbphidbl point to bn insfrtion point within b tfxt
+ * modfl
+ * <blodkquotf><prf>
+ * TfxtLbyout lbyout = ...;
+ * Point2D.Flobt hitPoint = ...;
+ * TfxtHitInfo hitInfo = lbyout.hitTfstChbr(hitPoint.x, hitPoint.y);
+ * int insPoint = hitInfo.gftInsfrtionIndfx();
+ * // insPoint is rflbtivf to lbyout;  mby nffd to bdjust for usf
+ * // in b tfxt modfl
+ * </prf></blodkquotf>
+ *
+ * @sff TfxtLbyout
+ */
+
+publid finbl dlbss TfxtHitInfo {
+    privbtf int dhbrIndfx;
+    privbtf boolfbn isLfbdingEdgf;
+
+    /**
+     * Construdts b nfw <dodf>TfxtHitInfo</dodf>.
+     * @pbrbm dhbrIndfx thf indfx of thf dhbrbdtfr hit
+     * @pbrbm isLfbdingEdgf <dodf>truf</dodf> if thf lfbding fdgf of thf
+     * dhbrbdtfr wbs hit
+     */
+    privbtf TfxtHitInfo(int dhbrIndfx, boolfbn isLfbdingEdgf) {
+        this.dhbrIndfx = dhbrIndfx;
+        this.isLfbdingEdgf = isLfbdingEdgf;
+    }
+
+    /**
+     * Rfturns thf indfx of thf dhbrbdtfr hit.
+     * @rfturn thf indfx of thf dhbrbdtfr hit.
+     */
+    publid int gftChbrIndfx() {
+        rfturn dhbrIndfx;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf lfbding fdgf of thf dhbrbdtfr wbs
+     * hit.
+     * @rfturn <dodf>truf</dodf> if thf lfbding fdgf of thf dhbrbdtfr wbs
+     * hit; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isLfbdingEdgf() {
+        rfturn isLfbdingEdgf;
+    }
+
+    /**
+     * Rfturns thf insfrtion indfx.  This is thf dhbrbdtfr indfx if
+     * thf lfbding fdgf of thf dhbrbdtfr wbs hit, bnd onf grfbtfr
+     * thbn thf dhbrbdtfr indfx if thf trbiling fdgf wbs hit.
+     * @rfturn thf insfrtion indfx.
+     */
+    publid int gftInsfrtionIndfx() {
+        rfturn isLfbdingEdgf ? dhbrIndfx : dhbrIndfx + 1;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf.
+     * @rfturn thf hbsh dodf of this <dodf>TfxtHitInfo</dodf>, whidh is
+     * blso thf <dodf>dhbrIndfx</dodf> of this <dodf>TfxtHitInfo</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn dhbrIndfx;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf spfdififd <dodf>Objfdt</dodf> is b
+     * <dodf>TfxtHitInfo</dodf> bnd fqubls this <dodf>TfxtHitInfo</dodf>.
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>Objfdt</dodf>
+     * fqubls this <dodf>TfxtHitInfo</dodf>; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof TfxtHitInfo) && fqubls((TfxtHitInfo)obj);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf spfdififd <dodf>TfxtHitInfo</dodf>
+     * hbs thf sbmf <dodf>dhbrIndfx</dodf> bnd <dodf>isLfbdingEdgf</dodf>
+     * bs this <dodf>TfxtHitInfo</dodf>.  This is not thf sbmf bs hbving
+     * thf sbmf insfrtion offsft.
+     * @pbrbm hitInfo b spfdififd <dodf>TfxtHitInfo</dodf>
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>TfxtHitInfo</dodf>
+     * hbs thf sbmf <dodf>dhbrIndfx</dodf> bnd <dodf>isLfbdingEdgf</dodf>
+     * bs this <dodf>TfxtHitInfo</dodf>.
+     */
+    publid boolfbn fqubls(TfxtHitInfo hitInfo) {
+        rfturn hitInfo != null && dhbrIndfx == hitInfo.dhbrIndfx &&
+            isLfbdingEdgf == hitInfo.isLfbdingEdgf;
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> rfprfsfnting thf hit for dfbugging
+     * usf only.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting this
+     * <dodf>TfxtHitInfo</dodf>.
+     */
+    publid String toString() {
+        rfturn "TfxtHitInfo[" + dhbrIndfx + (isLfbdingEdgf ? "L" : "T")+"]";
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtHitInfo</dodf> on thf lfbding fdgf of thf
+     * dhbrbdtfr bt thf spfdififd <dodf>dhbrIndfx</dodf>.
+     * @pbrbm dhbrIndfx thf indfx of thf dhbrbdtfr hit
+     * @rfturn b <dodf>TfxtHitInfo</dodf> on thf lfbding fdgf of thf
+     * dhbrbdtfr bt thf spfdififd <dodf>dhbrIndfx</dodf>.
+     */
+    publid stbtid TfxtHitInfo lfbding(int dhbrIndfx) {
+        rfturn nfw TfxtHitInfo(dhbrIndfx, truf);
+    }
+
+    /**
+     * Crfbtfs b hit on thf trbiling fdgf of thf dhbrbdtfr bt
+     * thf spfdififd <dodf>dhbrIndfx</dodf>.
+     * @pbrbm dhbrIndfx thf indfx of thf dhbrbdtfr hit
+     * @rfturn b <dodf>TfxtHitInfo</dodf> on thf trbiling fdgf of thf
+     * dhbrbdtfr bt thf spfdififd <dodf>dhbrIndfx</dodf>.
+     */
+    publid stbtid TfxtHitInfo trbiling(int dhbrIndfx) {
+        rfturn nfw TfxtHitInfo(dhbrIndfx, fblsf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtHitInfo</dodf> bt thf spfdififd offsft,
+     * bssodibtfd with thf dhbrbdtfr bfforf thf offsft.
+     * @pbrbm offsft bn offsft bssodibtfd with thf dhbrbdtfr bfforf
+     * thf offsft
+     * @rfturn b <dodf>TfxtHitInfo</dodf> bt thf spfdififd offsft.
+     */
+    publid stbtid TfxtHitInfo bfforfOffsft(int offsft) {
+        rfturn nfw TfxtHitInfo(offsft-1, fblsf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtHitInfo</dodf> bt thf spfdififd offsft,
+     * bssodibtfd with thf dhbrbdtfr bftfr thf offsft.
+     * @pbrbm offsft bn offsft bssodibtfd with thf dhbrbdtfr bftfr
+     * thf offsft
+     * @rfturn b <dodf>TfxtHitInfo</dodf> bt thf spfdififd offsft.
+     */
+    publid stbtid TfxtHitInfo bftfrOffsft(int offsft) {
+        rfturn nfw TfxtHitInfo(offsft, truf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtHitInfo</dodf> on thf othfr sidf of thf
+     * insfrtion point.  This <dodf>TfxtHitInfo</dodf> rfmbins undhbngfd.
+     * @rfturn b <dodf>TfxtHitInfo</dodf> on thf othfr sidf of thf
+     * insfrtion point.
+     */
+    publid TfxtHitInfo gftOthfrHit() {
+        if (isLfbdingEdgf) {
+            rfturn trbiling(dhbrIndfx - 1);
+        } flsf {
+            rfturn lfbding(dhbrIndfx + 1);
+        }
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtHitInfo</dodf> whosf dhbrbdtfr indfx is offsft
+     * by <dodf>dfltb</dodf> from thf <dodf>dhbrIndfx</dodf> of this
+     * <dodf>TfxtHitInfo</dodf>. This <dodf>TfxtHitInfo</dodf> rfmbins
+     * undhbngfd.
+     * @pbrbm dfltb thf vbluf to offsft this <dodf>dhbrIndfx</dodf>
+     * @rfturn b <dodf>TfxtHitInfo</dodf> whosf <dodf>dhbrIndfx</dodf> is
+     * offsft by <dodf>dfltb</dodf> from thf <dodf>dhbrIndfx</dodf> of
+     * this <dodf>TfxtHitInfo</dodf>.
+     */
+    publid TfxtHitInfo gftOffsftHit(int dfltb) {
+        rfturn nfw TfxtHitInfo(dhbrIndfx + dfltb, isLfbdingEdgf);
+    }
+}

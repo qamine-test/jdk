@@ -1,0 +1,124 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A sfrvidf thbt dfdouplfs thf produdtion of nfw bsyndhronous tbsks
+ * from thf donsumption of thf rfsults of domplftfd tbsks.  Produdfrs
+ * {@dodf submit} tbsks for fxfdution. Consumfrs {@dodf tbkf}
+ * domplftfd tbsks bnd prodfss thfir rfsults in thf ordfr thfy
+ * domplftf.  A {@dodf ComplftionSfrvidf} dbn for fxbmplf bf usfd to
+ * mbnbgf bsyndhronous I/O, in whidh tbsks thbt pfrform rfbds brf
+ * submittfd in onf pbrt of b progrbm or systfm, bnd thfn bdtfd upon
+ * in b difffrfnt pbrt of thf progrbm whfn thf rfbds domplftf,
+ * possibly in b difffrfnt ordfr thbn thfy wfrf rfqufstfd.
+ *
+ * <p>Typidblly, b {@dodf ComplftionSfrvidf} rflifs on b sfpbrbtf
+ * {@link Exfdutor} to bdtublly fxfdutf thf tbsks, in whidh dbsf thf
+ * {@dodf ComplftionSfrvidf} only mbnbgfs bn intfrnbl domplftion
+ * qufuf. Thf {@link ExfdutorComplftionSfrvidf} dlbss providfs bn
+ * implfmfntbtion of this bpprobdh.
+ *
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b thrfbd prior to
+ * submitting b tbsk to b {@dodf ComplftionSfrvidf}
+ * <b hrff="pbdkbgf-summbry.html#MfmoryVisibility"><i>hbppfn-bfforf</i></b>
+ * bdtions tbkfn by thbt tbsk, whidh in turn <i>hbppfn-bfforf</i>
+ * bdtions following b suddfssful rfturn from thf dorrfsponding {@dodf tbkf()}.
+ */
+publid intfrfbdf ComplftionSfrvidf<V> {
+    /**
+     * Submits b vbluf-rfturning tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting thf pfnding rfsults of thf tbsk.  Upon domplftion,
+     * this tbsk mby bf tbkfn or pollfd.
+     *
+     * @pbrbm tbsk thf tbsk to submit
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of thf tbsk
+     * @throws RfjfdtfdExfdutionExdfption if thf tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     * @throws NullPointfrExdfption if thf tbsk is null
+     */
+    Futurf<V> submit(Cbllbblf<V> tbsk);
+
+    /**
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting thbt tbsk.  Upon domplftion, this tbsk mby bf
+     * tbkfn or pollfd.
+     *
+     * @pbrbm tbsk thf tbsk to submit
+     * @pbrbm rfsult thf rfsult to rfturn upon suddfssful domplftion
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of thf tbsk,
+     *         bnd whosf {@dodf gft()} mfthod will rfturn thf givfn
+     *         rfsult vbluf upon domplftion
+     * @throws RfjfdtfdExfdutionExdfption if thf tbsk dbnnot bf
+     *         sdhfdulfd for fxfdution
+     * @throws NullPointfrExdfption if thf tbsk is null
+     */
+    Futurf<V> submit(Runnbblf tbsk, V rfsult);
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf Futurf rfprfsfnting thf nfxt
+     * domplftfd tbsk, wbiting if nonf brf yft prfsfnt.
+     *
+     * @rfturn thf Futurf rfprfsfnting thf nfxt domplftfd tbsk
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     */
+    Futurf<V> tbkf() throws IntfrruptfdExdfption;
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf Futurf rfprfsfnting thf nfxt
+     * domplftfd tbsk, or {@dodf null} if nonf brf prfsfnt.
+     *
+     * @rfturn thf Futurf rfprfsfnting thf nfxt domplftfd tbsk, or
+     *         {@dodf null} if nonf brf prfsfnt
+     */
+    Futurf<V> poll();
+
+    /**
+     * Rftrifvfs bnd rfmovfs thf Futurf rfprfsfnting thf nfxt
+     * domplftfd tbsk, wbiting if nfdfssbry up to thf spfdififd wbit
+     * timf if nonf brf yft prfsfnt.
+     *
+     * @pbrbm timfout how long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining how to intfrprft thf
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn thf Futurf rfprfsfnting thf nfxt domplftfd tbsk or
+     *         {@dodf null} if thf spfdififd wbiting timf flbpsfs
+     *         bfforf onf is prfsfnt
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting
+     */
+    Futurf<V> poll(long timfout, TimfUnit unit) throws IntfrruptfdExdfption;
+}

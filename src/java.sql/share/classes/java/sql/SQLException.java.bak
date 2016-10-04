@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfFifldUpdbtfr;
 
 /**
- * <P>An exception that provides information on a database access
- * error or other errors.
+ * <P>An fxdfption tibt providfs informbtion on b dbtbbbsf bddfss
+ * frror or otifr frrors.
  *
- * <P>Each <code>SQLException</code> provides several kinds of information:
+ * <P>Ebdi <dodf>SQLExdfption</dodf> providfs sfvfrbl kinds of informbtion:
  * <UL>
- *   <LI> a string describing the error.  This is used as the Java Exception
- *       message, available via the method <code>getMesasge</code>.
- *   <LI> a "SQLstate" string, which follows either the XOPEN SQLstate conventions
- *        or the SQL:2003 conventions.
- *       The values of the SQLState string are described in the appropriate spec.
- *       The <code>DatabaseMetaData</code> method <code>getSQLStateType</code>
- *       can be used to discover whether the driver returns the XOPEN type or
- *       the SQL:2003 type.
- *   <LI> an integer error code that is specific to each vendor.  Normally this will
- *       be the actual error code returned by the underlying database.
- *   <LI> a chain to a next Exception.  This can be used to provide additional
- *       error information.
- *   <LI> the causal relationship, if any for this <code>SQLException</code>.
+ *   <LI> b string dfsdribing tif frror.  Tiis is usfd bs tif Jbvb Exdfption
+ *       mfssbgf, bvbilbblf vib tif mftiod <dodf>gftMfsbsgf</dodf>.
+ *   <LI> b "SQLstbtf" string, wiidi follows fitifr tif XOPEN SQLstbtf donvfntions
+ *        or tif SQL:2003 donvfntions.
+ *       Tif vblufs of tif SQLStbtf string brf dfsdribfd in tif bppropribtf spfd.
+ *       Tif <dodf>DbtbbbsfMftbDbtb</dodf> mftiod <dodf>gftSQLStbtfTypf</dodf>
+ *       dbn bf usfd to disdovfr wiftifr tif drivfr rfturns tif XOPEN typf or
+ *       tif SQL:2003 typf.
+ *   <LI> bn intfgfr frror dodf tibt is spfdifid to fbdi vfndor.  Normblly tiis will
+ *       bf tif bdtubl frror dodf rfturnfd by tif undfrlying dbtbbbsf.
+ *   <LI> b dibin to b nfxt Exdfption.  Tiis dbn bf usfd to providf bdditionbl
+ *       frror informbtion.
+ *   <LI> tif dbusbl rflbtionsiip, if bny for tiis <dodf>SQLExdfption</dodf>.
  * </UL>
  */
-public class SQLException extends java.lang.Exception
-                          implements Iterable<Throwable> {
+publid dlbss SQLExdfption fxtfnds jbvb.lbng.Exdfption
+                          implfmfnts Itfrbblf<Tirowbblf> {
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code>  and
-     * <code>vendorCode</code>.
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+     * <dodf>vfndorCodf</dodf>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
-     * @param reason a description of the exception
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-     * @param vendorCode a database vendor-specific exception code
+     * @pbrbm rfbson b dfsdription of tif fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
      */
-    public SQLException(String reason, String SQLState, int vendorCode) {
-        super(reason);
-        this.SQLState = SQLState;
-        this.vendorCode = vendorCode;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                DriverManager.println("SQLState(" + SQLState +
-                                                ") vendor code(" + vendorCode + ")");
-                printStackTrace(DriverManager.getLogWriter());
+    publid SQLExdfption(String rfbson, String SQLStbtf, int vfndorCodf) {
+        supfr(rfbson);
+        tiis.SQLStbtf = SQLStbtf;
+        tiis.vfndorCodf = vfndorCodf;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf +
+                                                ") vfndor dodf(" + vfndorCodf + ")");
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code> and <code>SQLState</code>.
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-     * is initialized to 0.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod. Tif vfndor dodf
+     * is initiblizfd to 0.
      *
-     * @param reason a description of the exception
-     * @param SQLState an XOPEN or SQL:2003 code identifying the exception
+     * @pbrbm rfbson b dfsdription of tif fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
      */
-    public SQLException(String reason, String SQLState) {
-        super(reason);
-        this.SQLState = SQLState;
-        this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
-                DriverManager.println("SQLException: SQLState(" + SQLState + ")");
+    publid SQLExdfption(String rfbson, String SQLStbtf) {
+        supfr(rfbson);
+        tiis.SQLStbtf = SQLStbtf;
+        tiis.vfndorCodf = 0;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+                DrivfrMbnbgfr.println("SQLExdfption: SQLStbtf(" + SQLStbtf + ")");
             }
         }
     }
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>. The  <code>SQLState</code>  is initialized to
-     * <code>null</code> and the vendor code is initialized to 0.
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf>. Tif  <dodf>SQLStbtf</dodf>  is initiblizfd to
+     * <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
-     * @param reason a description of the exception
+     * @pbrbm rfbson b dfsdription of tif fxdfption
      */
-    public SQLException(String reason) {
-        super(reason);
-        this.SQLState = null;
-        this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+    publid SQLExdfption(String rfbson) {
+        supfr(rfbson);
+        tiis.SQLStbtf = null;
+        tiis.vfndorCodf = 0;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object.
-     * The <code>reason</code>, <code>SQLState</code> are initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt.
+     * Tif <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+     * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
      */
-    public SQLException() {
-        super();
-        this.SQLState = null;
-        this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+    publid SQLExdfption() {
+        supfr();
+        tiis.SQLStbtf = null;
+        tiis.vfndorCodf = 0;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
     /**
-     *  Constructs a <code>SQLException</code> object with a given
-     * <code>cause</code>.
-     * The <code>SQLState</code> is initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
-     * The <code>reason</code>  is initialized to <code>null</code> if
-     * <code>cause==null</code> or to <code>cause.toString()</code> if
-     * <code>cause!=null</code>.
+     *  Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+     * Tif <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
      *
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+     * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+     * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLException(Throwable cause) {
-        super(cause);
+    publid SQLExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
 
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code> and  <code>cause</code>.
-     * The <code>SQLState</code> is  initialized to <code>null</code>
-     * and the vendor code is initialized to 0.
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the exception.
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption.
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+     * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+     * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLException(String reason, Throwable cause) {
-        super(reason,cause);
+    publid SQLExdfption(String rfbson, Tirowbblf dbusf) {
+        supfr(rfbson,dbusf);
 
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                    printStackTrace(DriverManager.getLogWriter());
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                    printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code> and  <code>cause</code>.
-     * The vendor code is initialized to 0.
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the exception.
-     * @param sqlState an XOPEN or SQL:2003 code identifying the exception
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the
-     * <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption.
+     * @pbrbm sqlStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+     * (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     * <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLException(String reason, String sqlState, Throwable cause) {
-        super(reason,cause);
+    publid SQLExdfption(String rfbson, String sqlStbtf, Tirowbblf dbusf) {
+        supfr(rfbson,dbusf);
 
-        this.SQLState = sqlState;
-        this.vendorCode = 0;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                printStackTrace(DriverManager.getLogWriter());
-                DriverManager.println("SQLState(" + SQLState + ")");
+        tiis.SQLStbtf = sqlStbtf;
+        tiis.vfndorCodf = 0;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf + ")");
             }
         }
     }
 
     /**
-     * Constructs a <code>SQLException</code> object with a given
-     * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-     * and  <code>cause</code>.
+     * Construdts b <dodf>SQLExdfption</dodf> objfdt witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
      *
-     * @param reason a description of the exception
-     * @param sqlState an XOPEN or SQL:2003 code identifying the exception
-     * @param vendorCode a database vendor-specific exception code
-     * @param cause the underlying reason for this <code>SQLException</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
-     * @since 1.6
+     * @pbrbm rfbson b dfsdription of tif fxdfption
+     * @pbrbm sqlStbtf bn XOPEN or SQL:2003 dodf idfntifying tif fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLExdfption</dodf>
+     * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+     * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
      */
-    public SQLException(String reason, String sqlState, int vendorCode, Throwable cause) {
-        super(reason,cause);
+    publid SQLExdfption(String rfbson, String sqlStbtf, int vfndorCodf, Tirowbblf dbusf) {
+        supfr(rfbson,dbusf);
 
-        this.SQLState = sqlState;
-        this.vendorCode = vendorCode;
-        if (!(this instanceof SQLWarning)) {
-            if (DriverManager.getLogWriter() != null) {
-                DriverManager.println("SQLState(" + SQLState +
-                                                ") vendor code(" + vendorCode + ")");
-                printStackTrace(DriverManager.getLogWriter());
+        tiis.SQLStbtf = sqlStbtf;
+        tiis.vfndorCodf = vfndorCodf;
+        if (!(tiis instbndfof SQLWbrning)) {
+            if (DrivfrMbnbgfr.gftLogWritfr() != null) {
+                DrivfrMbnbgfr.println("SQLStbtf(" + SQLStbtf +
+                                                ") vfndor dodf(" + vfndorCodf + ")");
+                printStbdkTrbdf(DrivfrMbnbgfr.gftLogWritfr());
             }
         }
     }
 
     /**
-     * Retrieves the SQLState for this <code>SQLException</code> object.
+     * Rftrifvfs tif SQLStbtf for tiis <dodf>SQLExdfption</dodf> objfdt.
      *
-     * @return the SQLState value
+     * @rfturn tif SQLStbtf vbluf
      */
-    public String getSQLState() {
-        return (SQLState);
+    publid String gftSQLStbtf() {
+        rfturn (SQLStbtf);
     }
 
     /**
-     * Retrieves the vendor-specific exception code
-     * for this <code>SQLException</code> object.
+     * Rftrifvfs tif vfndor-spfdifid fxdfption dodf
+     * for tiis <dodf>SQLExdfption</dodf> objfdt.
      *
-     * @return the vendor's error code
+     * @rfturn tif vfndor's frror dodf
      */
-    public int getErrorCode() {
-        return (vendorCode);
+    publid int gftErrorCodf() {
+        rfturn (vfndorCodf);
     }
 
     /**
-     * Retrieves the exception chained to this
-     * <code>SQLException</code> object by setNextException(SQLException ex).
+     * Rftrifvfs tif fxdfption dibinfd to tiis
+     * <dodf>SQLExdfption</dodf> objfdt by sftNfxtExdfption(SQLExdfption fx).
      *
-     * @return the next <code>SQLException</code> object in the chain;
-     *         <code>null</code> if there are none
-     * @see #setNextException
+     * @rfturn tif nfxt <dodf>SQLExdfption</dodf> objfdt in tif dibin;
+     *         <dodf>null</dodf> if tifrf brf nonf
+     * @sff #sftNfxtExdfption
      */
-    public SQLException getNextException() {
-        return (next);
+    publid SQLExdfption gftNfxtExdfption() {
+        rfturn (nfxt);
     }
 
     /**
-     * Adds an <code>SQLException</code> object to the end of the chain.
+     * Adds bn <dodf>SQLExdfption</dodf> objfdt to tif fnd of tif dibin.
      *
-     * @param ex the new exception that will be added to the end of
-     *            the <code>SQLException</code> chain
-     * @see #getNextException
+     * @pbrbm fx tif nfw fxdfption tibt will bf bddfd to tif fnd of
+     *            tif <dodf>SQLExdfption</dodf> dibin
+     * @sff #gftNfxtExdfption
      */
-    public void setNextException(SQLException ex) {
+    publid void sftNfxtExdfption(SQLExdfption fx) {
 
-        SQLException current = this;
+        SQLExdfption durrfnt = tiis;
         for(;;) {
-            SQLException next=current.next;
-            if (next != null) {
-                current = next;
-                continue;
+            SQLExdfption nfxt=durrfnt.nfxt;
+            if (nfxt != null) {
+                durrfnt = nfxt;
+                dontinuf;
             }
 
-            if (nextUpdater.compareAndSet(current,null,ex)) {
-                return;
+            if (nfxtUpdbtfr.dompbrfAndSft(durrfnt,null,fx)) {
+                rfturn;
             }
-            current=current.next;
+            durrfnt=durrfnt.nfxt;
         }
     }
 
     /**
-     * Returns an iterator over the chained SQLExceptions.  The iterator will
-     * be used to iterate over each SQLException and its underlying cause
-     * (if any).
+     * Rfturns bn itfrbtor ovfr tif dibinfd SQLExdfptions.  Tif itfrbtor will
+     * bf usfd to itfrbtf ovfr fbdi SQLExdfption bnd its undfrlying dbusf
+     * (if bny).
      *
-     * @return an iterator over the chained SQLExceptions and causes in the proper
-     * order
+     * @rfturn bn itfrbtor ovfr tif dibinfd SQLExdfptions bnd dbusfs in tif propfr
+     * ordfr
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Iterator<Throwable> iterator() {
+    publid Itfrbtor<Tirowbblf> itfrbtor() {
 
-       return new Iterator<Throwable>() {
+       rfturn nfw Itfrbtor<Tirowbblf>() {
 
-           SQLException firstException = SQLException.this;
-           SQLException nextException = firstException.getNextException();
-           Throwable cause = firstException.getCause();
+           SQLExdfption firstExdfption = SQLExdfption.tiis;
+           SQLExdfption nfxtExdfption = firstExdfption.gftNfxtExdfption();
+           Tirowbblf dbusf = firstExdfption.gftCbusf();
 
-           public boolean hasNext() {
-               if(firstException != null || nextException != null || cause != null)
-                   return true;
-               return false;
+           publid boolfbn ibsNfxt() {
+               if(firstExdfption != null || nfxtExdfption != null || dbusf != null)
+                   rfturn truf;
+               rfturn fblsf;
            }
 
-           public Throwable next() {
-               Throwable throwable = null;
-               if(firstException != null){
-                   throwable = firstException;
-                   firstException = null;
+           publid Tirowbblf nfxt() {
+               Tirowbblf tirowbblf = null;
+               if(firstExdfption != null){
+                   tirowbblf = firstExdfption;
+                   firstExdfption = null;
                }
-               else if(cause != null){
-                   throwable = cause;
-                   cause = cause.getCause();
+               flsf if(dbusf != null){
+                   tirowbblf = dbusf;
+                   dbusf = dbusf.gftCbusf();
                }
-               else if(nextException != null){
-                   throwable = nextException;
-                   cause = nextException.getCause();
-                   nextException = nextException.getNextException();
+               flsf if(nfxtExdfption != null){
+                   tirowbblf = nfxtExdfption;
+                   dbusf = nfxtExdfption.gftCbusf();
+                   nfxtExdfption = nfxtExdfption.gftNfxtExdfption();
                }
-               else
-                   throw new NoSuchElementException();
-               return throwable;
+               flsf
+                   tirow nfw NoSudiElfmfntExdfption();
+               rfturn tirowbblf;
            }
 
-           public void remove() {
-               throw new UnsupportedOperationException();
+           publid void rfmovf() {
+               tirow nfw UnsupportfdOpfrbtionExdfption();
            }
 
        };
@@ -354,22 +354,22 @@ public class SQLException extends java.lang.Exception
     }
 
     /**
-         * @serial
+         * @sfribl
          */
-    private String SQLState;
+    privbtf String SQLStbtf;
 
         /**
-         * @serial
+         * @sfribl
          */
-    private int vendorCode;
+    privbtf int vfndorCodf;
 
         /**
-         * @serial
+         * @sfribl
          */
-    private volatile SQLException next;
+    privbtf volbtilf SQLExdfption nfxt;
 
-    private static final AtomicReferenceFieldUpdater<SQLException,SQLException> nextUpdater =
-            AtomicReferenceFieldUpdater.newUpdater(SQLException.class,SQLException.class,"next");
+    privbtf stbtid finbl AtomidRfffrfndfFifldUpdbtfr<SQLExdfption,SQLExdfption> nfxtUpdbtfr =
+            AtomidRfffrfndfFifldUpdbtfr.nfwUpdbtfr(SQLExdfption.dlbss,SQLExdfption.dlbss,"nfxt");
 
-    private static final long serialVersionUID = 2135244094396331484L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2135244094396331484L;
 }

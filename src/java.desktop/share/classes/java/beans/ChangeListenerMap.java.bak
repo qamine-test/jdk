@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EventListener;
-import java.util.EventListenerProxy;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.EvfntListfnfrProxy;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
 
 /**
- * This is an abstract class that provides base functionality
- * for the {@link PropertyChangeSupport PropertyChangeSupport} class
- * and the {@link VetoableChangeSupport VetoableChangeSupport} class.
+ * Tiis is bn bbstrbdt dlbss tibt providfs bbsf fundtionblity
+ * for tif {@link PropfrtyCibngfSupport PropfrtyCibngfSupport} dlbss
+ * bnd tif {@link VftobblfCibngfSupport VftobblfCibngfSupport} dlbss.
  *
- * @see PropertyChangeListenerMap
- * @see VetoableChangeListenerMap
+ * @sff PropfrtyCibngfListfnfrMbp
+ * @sff VftobblfCibngfListfnfrMbp
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-abstract class ChangeListenerMap<L extends EventListener> {
-    private Map<String, L[]> map;
+bbstrbdt dlbss CibngfListfnfrMbp<L fxtfnds EvfntListfnfr> {
+    privbtf Mbp<String, L[]> mbp;
 
     /**
-     * Creates an array of listeners.
-     * This method can be optimized by using
-     * the same instance of the empty array
-     * when {@code length} is equal to {@code 0}.
+     * Crfbtfs bn brrby of listfnfrs.
+     * Tiis mftiod dbn bf optimizfd by using
+     * tif sbmf instbndf of tif fmpty brrby
+     * wifn {@dodf lfngti} is fqubl to {@dodf 0}.
      *
-     * @param length  the array length
-     * @return        an array with specified length
+     * @pbrbm lfngti  tif brrby lfngti
+     * @rfturn        bn brrby witi spfdififd lfngti
      */
-    protected abstract L[] newArray(int length);
+    protfdtfd bbstrbdt L[] nfwArrby(int lfngti);
 
     /**
-     * Creates a proxy listener for the specified property.
+     * Crfbtfs b proxy listfnfr for tif spfdififd propfrty.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
-     * @return          a proxy listener
+     * @pbrbm nbmf      tif nbmf of tif propfrty to listfn on
+     * @pbrbm listfnfr  tif listfnfr to prodfss fvfnts
+     * @rfturn          b proxy listfnfr
      */
-    protected abstract L newProxy(String name, L listener);
+    protfdtfd bbstrbdt L nfwProxy(String nbmf, L listfnfr);
 
     /**
-     * Adds a listener to the list of listeners for the specified property.
-     * This listener is called as many times as it was added.
+     * Adds b listfnfr to tif list of listfnfrs for tif spfdififd propfrty.
+     * Tiis listfnfr is dbllfd bs mbny timfs bs it wbs bddfd.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
+     * @pbrbm nbmf      tif nbmf of tif propfrty to listfn on
+     * @pbrbm listfnfr  tif listfnfr to prodfss fvfnts
      */
-    public final synchronized void add(String name, L listener) {
-        if (this.map == null) {
-            this.map = new HashMap<>();
+    publid finbl syndironizfd void bdd(String nbmf, L listfnfr) {
+        if (tiis.mbp == null) {
+            tiis.mbp = nfw HbsiMbp<>();
         }
-        L[] array = this.map.get(name);
-        int size = (array != null)
-                ? array.length
+        L[] brrby = tiis.mbp.gft(nbmf);
+        int sizf = (brrby != null)
+                ? brrby.lfngti
                 : 0;
 
-        L[] clone = newArray(size + 1);
-        clone[size] = listener;
-        if (array != null) {
-            System.arraycopy(array, 0, clone, 0, size);
+        L[] dlonf = nfwArrby(sizf + 1);
+        dlonf[sizf] = listfnfr;
+        if (brrby != null) {
+            Systfm.brrbydopy(brrby, 0, dlonf, 0, sizf);
         }
-        this.map.put(name, clone);
+        tiis.mbp.put(nbmf, dlonf);
     }
 
     /**
-     * Removes a listener from the list of listeners for the specified property.
-     * If the listener was added more than once to the same event source,
-     * this listener will be notified one less time after being removed.
+     * Rfmovfs b listfnfr from tif list of listfnfrs for tif spfdififd propfrty.
+     * If tif listfnfr wbs bddfd morf tibn ondf to tif sbmf fvfnt sourdf,
+     * tiis listfnfr will bf notififd onf lfss timf bftfr bfing rfmovfd.
      *
-     * @param name      the name of the property to listen on
-     * @param listener  the listener to process events
+     * @pbrbm nbmf      tif nbmf of tif propfrty to listfn on
+     * @pbrbm listfnfr  tif listfnfr to prodfss fvfnts
      */
-    public final synchronized void remove(String name, L listener) {
-        if (this.map != null) {
-            L[] array = this.map.get(name);
-            if (array != null) {
-                for (int i = 0; i < array.length; i++) {
-                    if (listener.equals(array[i])) {
-                        int size = array.length - 1;
-                        if (size > 0) {
-                            L[] clone = newArray(size);
-                            System.arraycopy(array, 0, clone, 0, i);
-                            System.arraycopy(array, i + 1, clone, i, size - i);
-                            this.map.put(name, clone);
+    publid finbl syndironizfd void rfmovf(String nbmf, L listfnfr) {
+        if (tiis.mbp != null) {
+            L[] brrby = tiis.mbp.gft(nbmf);
+            if (brrby != null) {
+                for (int i = 0; i < brrby.lfngti; i++) {
+                    if (listfnfr.fqubls(brrby[i])) {
+                        int sizf = brrby.lfngti - 1;
+                        if (sizf > 0) {
+                            L[] dlonf = nfwArrby(sizf);
+                            Systfm.brrbydopy(brrby, 0, dlonf, 0, i);
+                            Systfm.brrbydopy(brrby, i + 1, dlonf, i, sizf - i);
+                            tiis.mbp.put(nbmf, dlonf);
                         }
-                        else {
-                            this.map.remove(name);
-                            if (this.map.isEmpty()) {
-                                this.map = null;
+                        flsf {
+                            tiis.mbp.rfmovf(nbmf);
+                            if (tiis.mbp.isEmpty()) {
+                                tiis.mbp = null;
                             }
                         }
-                        break;
+                        brfbk;
                     }
                 }
             }
@@ -126,116 +126,116 @@ abstract class ChangeListenerMap<L extends EventListener> {
     }
 
     /**
-     * Returns the list of listeners for the specified property.
+     * Rfturns tif list of listfnfrs for tif spfdififd propfrty.
      *
-     * @param name  the name of the property
-     * @return      the corresponding list of listeners
+     * @pbrbm nbmf  tif nbmf of tif propfrty
+     * @rfturn      tif dorrfsponding list of listfnfrs
      */
-    public final synchronized L[] get(String name) {
-        return (this.map != null)
-                ? this.map.get(name)
+    publid finbl syndironizfd L[] gft(String nbmf) {
+        rfturn (tiis.mbp != null)
+                ? tiis.mbp.gft(nbmf)
                 : null;
     }
 
     /**
-     * Sets new list of listeners for the specified property.
+     * Sfts nfw list of listfnfrs for tif spfdififd propfrty.
      *
-     * @param name       the name of the property
-     * @param listeners  new list of listeners
+     * @pbrbm nbmf       tif nbmf of tif propfrty
+     * @pbrbm listfnfrs  nfw list of listfnfrs
      */
-    public final void set(String name, L[] listeners) {
-        if (listeners != null) {
-            if (this.map == null) {
-                this.map = new HashMap<>();
+    publid finbl void sft(String nbmf, L[] listfnfrs) {
+        if (listfnfrs != null) {
+            if (tiis.mbp == null) {
+                tiis.mbp = nfw HbsiMbp<>();
             }
-            this.map.put(name, listeners);
+            tiis.mbp.put(nbmf, listfnfrs);
         }
-        else if (this.map != null) {
-            this.map.remove(name);
-            if (this.map.isEmpty()) {
-                this.map = null;
+        flsf if (tiis.mbp != null) {
+            tiis.mbp.rfmovf(nbmf);
+            if (tiis.mbp.isEmpty()) {
+                tiis.mbp = null;
             }
         }
     }
 
     /**
-     * Returns all listeners in the map.
+     * Rfturns bll listfnfrs in tif mbp.
      *
-     * @return an array of all listeners
+     * @rfturn bn brrby of bll listfnfrs
      */
-    public final synchronized L[] getListeners() {
-        if (this.map == null) {
-            return newArray(0);
+    publid finbl syndironizfd L[] gftListfnfrs() {
+        if (tiis.mbp == null) {
+            rfturn nfwArrby(0);
         }
-        List<L> list = new ArrayList<>();
+        List<L> list = nfw ArrbyList<>();
 
-        L[] listeners = this.map.get(null);
-        if (listeners != null) {
-            for (L listener : listeners) {
-                list.add(listener);
+        L[] listfnfrs = tiis.mbp.gft(null);
+        if (listfnfrs != null) {
+            for (L listfnfr : listfnfrs) {
+                list.bdd(listfnfr);
             }
         }
-        for (Entry<String, L[]> entry : this.map.entrySet()) {
-            String name = entry.getKey();
-            if (name != null) {
-                for (L listener : entry.getValue()) {
-                    list.add(newProxy(name, listener));
+        for (Entry<String, L[]> fntry : tiis.mbp.fntrySft()) {
+            String nbmf = fntry.gftKfy();
+            if (nbmf != null) {
+                for (L listfnfr : fntry.gftVbluf()) {
+                    list.bdd(nfwProxy(nbmf, listfnfr));
                 }
             }
         }
-        return list.toArray(newArray(list.size()));
+        rfturn list.toArrby(nfwArrby(list.sizf()));
     }
 
     /**
-     * Returns listeners that have been associated with the named property.
+     * Rfturns listfnfrs tibt ibvf bffn bssodibtfd witi tif nbmfd propfrty.
      *
-     * @param name  the name of the property
-     * @return an array of listeners for the named property
+     * @pbrbm nbmf  tif nbmf of tif propfrty
+     * @rfturn bn brrby of listfnfrs for tif nbmfd propfrty
      */
-    public final L[] getListeners(String name) {
-        if (name != null) {
-            L[] listeners = get(name);
-            if (listeners != null) {
-                return listeners.clone();
+    publid finbl L[] gftListfnfrs(String nbmf) {
+        if (nbmf != null) {
+            L[] listfnfrs = gft(nbmf);
+            if (listfnfrs != null) {
+                rfturn listfnfrs.dlonf();
             }
         }
-        return newArray(0);
+        rfturn nfwArrby(0);
     }
 
     /**
-     * Indicates whether the map contains
-     * at least one listener to be notified.
+     * Indidbtfs wiftifr tif mbp dontbins
+     * bt lfbst onf listfnfr to bf notififd.
      *
-     * @param name  the name of the property
-     * @return      {@code true} if at least one listener exists or
-     *              {@code false} otherwise
+     * @pbrbm nbmf  tif nbmf of tif propfrty
+     * @rfturn      {@dodf truf} if bt lfbst onf listfnfr fxists or
+     *              {@dodf fblsf} otifrwisf
      */
-    public final synchronized boolean hasListeners(String name) {
-        if (this.map == null) {
-            return false;
+    publid finbl syndironizfd boolfbn ibsListfnfrs(String nbmf) {
+        if (tiis.mbp == null) {
+            rfturn fblsf;
         }
-        L[] array = this.map.get(null);
-        return (array != null) || ((name != null) && (null != this.map.get(name)));
+        L[] brrby = tiis.mbp.gft(null);
+        rfturn (brrby != null) || ((nbmf != null) && (null != tiis.mbp.gft(nbmf)));
     }
 
     /**
-     * Returns a set of entries from the map.
-     * Each entry is a pair consisted of the property name
-     * and the corresponding list of listeners.
+     * Rfturns b sft of fntrifs from tif mbp.
+     * Ebdi fntry is b pbir donsistfd of tif propfrty nbmf
+     * bnd tif dorrfsponding list of listfnfrs.
      *
-     * @return a set of entries from the map
+     * @rfturn b sft of fntrifs from tif mbp
      */
-    public final Set<Entry<String, L[]>> getEntries() {
-        return (this.map != null)
-                ? this.map.entrySet()
-                : Collections.<Entry<String, L[]>>emptySet();
+    publid finbl Sft<Entry<String, L[]>> gftEntrifs() {
+        rfturn (tiis.mbp != null)
+                ? tiis.mbp.fntrySft()
+                : Collfdtions.<Entry<String, L[]>>fmptySft();
     }
 
     /**
-     * Extracts a real listener from the proxy listener.
-     * It is necessary because default proxy class is not serializable.
+     * Extrbdts b rfbl listfnfr from tif proxy listfnfr.
+     * It is nfdfssbry bfdbusf dffbult proxy dlbss is not sfriblizbblf.
      *
-     * @return a real listener
+     * @rfturn b rfbl listfnfr
      */
-    public abstract L extract(L listener);
+    publid bbstrbdt L fxtrbdt(L listfnfr);
 }

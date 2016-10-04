@@ -1,504 +1,504 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.StringRfbdfr;
+import jbvb.util.*;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * RDNs are a set of {attribute = value} assertions.  Some of those
- * attributes are "distinguished" (unique w/in context).  Order is
- * never relevant.
+ * RDNs brf b sft of {bttributf = vbluf} bssfrtions.  Somf of tiosf
+ * bttributfs brf "distinguisifd" (uniquf w/in dontfxt).  Ordfr is
+ * nfvfr rflfvbnt.
  *
- * Some X.500 names include only a single distinguished attribute
- * per RDN.  This style is currently common.
+ * Somf X.500 nbmfs indludf only b singlf distinguisifd bttributf
+ * pfr RDN.  Tiis stylf is durrfntly dommon.
  *
- * Note that DER-encoded RDNs sort AVAs by assertion OID ... so that
- * when we parse this data we don't have to worry about canonicalizing
- * it, but we'll need to sort them when we expose the RDN class more.
+ * Notf tibt DER-fndodfd RDNs sort AVAs by bssfrtion OID ... so tibt
+ * wifn wf pbrsf tiis dbtb wf don't ibvf to worry bbout dbnonidblizing
+ * it, but wf'll nffd to sort tifm wifn wf fxposf tif RDN dlbss morf.
  * <p>
- * The ASN.1 for RDNs is:
- * <pre>
- * RelativeDistinguishedName ::=
- *   SET OF AttributeTypeAndValue
+ * Tif ASN.1 for RDNs is:
+ * <prf>
+ * RflbtivfDistinguisifdNbmf ::=
+ *   SET OF AttributfTypfAndVbluf
  *
- * AttributeTypeAndValue ::= SEQUENCE {
- *   type     AttributeType,
- *   value    AttributeValue }
+ * AttributfTypfAndVbluf ::= SEQUENCE {
+ *   typf     AttributfTypf,
+ *   vbluf    AttributfVbluf }
  *
- * AttributeType ::= OBJECT IDENTIFIER
+ * AttributfTypf ::= OBJECT IDENTIFIER
  *
- * AttributeValue ::= ANY DEFINED BY AttributeType
- * </pre>
+ * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
+ * </prf>
  *
- * Note that instances of this class are immutable.
+ * Notf tibt instbndfs of tiis dlbss brf immutbblf.
  *
  */
-public class RDN {
+publid dlbss RDN {
 
-    // currently not private, accessed directly from X500Name
-    final AVA[] assertion;
+    // durrfntly not privbtf, bddfssfd dirfdtly from X500Nbmf
+    finbl AVA[] bssfrtion;
 
-    // cached immutable List of the AVAs
-    private volatile List<AVA> avaList;
+    // dbdifd immutbblf List of tif AVAs
+    privbtf volbtilf List<AVA> bvbList;
 
-    // cache canonical String form
-    private volatile String canonicalString;
+    // dbdif dbnonidbl String form
+    privbtf volbtilf String dbnonidblString;
 
     /**
-     * Constructs an RDN from its printable representation.
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
      *
-     * An RDN may consist of one or multiple Attribute Value Assertions (AVAs),
-     * using '+' as a separator.
-     * If the '+' should be considered part of an AVA value, it must be
-     * preceded by '\'.
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If tif '+' siould bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
      *
-     * @param name String form of RDN
-     * @throws IOException on parsing error
+     * @pbrbm nbmf String form of RDN
+     * @tirows IOExdfption on pbrsing frror
      */
-    public RDN(String name) throws IOException {
-        this(name, Collections.<String, String>emptyMap());
+    publid RDN(String nbmf) tirows IOExdfption {
+        tiis(nbmf, Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Constructs an RDN from its printable representation.
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
      *
-     * An RDN may consist of one or multiple Attribute Value Assertions (AVAs),
-     * using '+' as a separator.
-     * If the '+' should be considered part of an AVA value, it must be
-     * preceded by '\'.
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If tif '+' siould bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
      *
-     * @param name String form of RDN
-     * @param keyword an additional mapping of keywords to OIDs
-     * @throws IOException on parsing error
+     * @pbrbm nbmf String form of RDN
+     * @pbrbm kfyword bn bdditionbl mbpping of kfywords to OIDs
+     * @tirows IOExdfption on pbrsing frror
      */
-    public RDN(String name, Map<String, String> keywordMap) throws IOException {
-        int quoteCount = 0;
-        int searchOffset = 0;
-        int avaOffset = 0;
-        List<AVA> avaVec = new ArrayList<AVA>(3);
-        int nextPlus = name.indexOf('+');
-        while (nextPlus >= 0) {
-            quoteCount += X500Name.countQuotes(name, searchOffset, nextPlus);
+    publid RDN(String nbmf, Mbp<String, String> kfywordMbp) tirows IOExdfption {
+        int quotfCount = 0;
+        int sfbrdiOffsft = 0;
+        int bvbOffsft = 0;
+        List<AVA> bvbVfd = nfw ArrbyList<AVA>(3);
+        int nfxtPlus = nbmf.indfxOf('+');
+        wiilf (nfxtPlus >= 0) {
+            quotfCount += X500Nbmf.dountQuotfs(nbmf, sfbrdiOffsft, nfxtPlus);
             /*
-             * We have encountered an AVA delimiter (plus sign).
-             * If the plus sign in the RDN under consideration is
-             * preceded by a backslash (escape), or by a double quote, it
-             * is part of the AVA. Otherwise, it is used as a separator, to
-             * delimit the AVA under consideration from any subsequent AVAs.
+             * Wf ibvf fndountfrfd bn AVA dflimitfr (plus sign).
+             * If tif plus sign in tif RDN undfr donsidfrbtion is
+             * prfdfdfd by b bbdkslbsi (fsdbpf), or by b doublf quotf, it
+             * is pbrt of tif AVA. Otifrwisf, it is usfd bs b sfpbrbtor, to
+             * dflimit tif AVA undfr donsidfrbtion from bny subsfqufnt AVAs.
              */
-            if (nextPlus > 0 && name.charAt(nextPlus - 1) != '\\'
-                && quoteCount != 1) {
+            if (nfxtPlus > 0 && nbmf.dibrAt(nfxtPlus - 1) != '\\'
+                && quotfCount != 1) {
                 /*
-                 * Plus sign is a separator
+                 * Plus sign is b sfpbrbtor
                  */
-                String avaString = name.substring(avaOffset, nextPlus);
-                if (avaString.length() == 0) {
-                    throw new IOException("empty AVA in RDN \"" + name + "\"");
+                String bvbString = nbmf.substring(bvbOffsft, nfxtPlus);
+                if (bvbString.lfngti() == 0) {
+                    tirow nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
                 }
 
-                // Parse AVA, and store it in vector
-                AVA ava = new AVA(new StringReader(avaString), keywordMap);
-                avaVec.add(ava);
+                // Pbrsf AVA, bnd storf it in vfdtor
+                AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), kfywordMbp);
+                bvbVfd.bdd(bvb);
 
-                // Increase the offset
-                avaOffset = nextPlus + 1;
+                // Indrfbsf tif offsft
+                bvbOffsft = nfxtPlus + 1;
 
-                // Set quote counter back to zero
-                quoteCount = 0;
+                // Sft quotf dountfr bbdk to zfro
+                quotfCount = 0;
             }
-            searchOffset = nextPlus + 1;
-            nextPlus = name.indexOf('+', searchOffset);
+            sfbrdiOffsft = nfxtPlus + 1;
+            nfxtPlus = nbmf.indfxOf('+', sfbrdiOffsft);
         }
 
-        // parse last or only AVA
-        String avaString = name.substring(avaOffset);
-        if (avaString.length() == 0) {
-            throw new IOException("empty AVA in RDN \"" + name + "\"");
+        // pbrsf lbst or only AVA
+        String bvbString = nbmf.substring(bvbOffsft);
+        if (bvbString.lfngti() == 0) {
+            tirow nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
         }
-        AVA ava = new AVA(new StringReader(avaString), keywordMap);
-        avaVec.add(ava);
+        AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), kfywordMbp);
+        bvbVfd.bdd(bvb);
 
-        assertion = avaVec.toArray(new AVA[avaVec.size()]);
+        bssfrtion = bvbVfd.toArrby(nfw AVA[bvbVfd.sizf()]);
     }
 
     /*
-     * Constructs an RDN from its printable representation.
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
      *
-     * An RDN may consist of one or multiple Attribute Value Assertions (AVAs),
-     * using '+' as a separator.
-     * If the '+' should be considered part of an AVA value, it must be
-     * preceded by '\'.
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If tif '+' siould bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
      *
-     * @param name String form of RDN
-     * @throws IOException on parsing error
+     * @pbrbm nbmf String form of RDN
+     * @tirows IOExdfption on pbrsing frror
      */
-    RDN(String name, String format) throws IOException {
-        this(name, format, Collections.<String, String>emptyMap());
+    RDN(String nbmf, String formbt) tirows IOExdfption {
+        tiis(nbmf, formbt, Collfdtions.<String, String>fmptyMbp());
     }
 
     /*
-     * Constructs an RDN from its printable representation.
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
      *
-     * An RDN may consist of one or multiple Attribute Value Assertions (AVAs),
-     * using '+' as a separator.
-     * If the '+' should be considered part of an AVA value, it must be
-     * preceded by '\'.
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If tif '+' siould bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
      *
-     * @param name String form of RDN
-     * @param keyword an additional mapping of keywords to OIDs
-     * @throws IOException on parsing error
+     * @pbrbm nbmf String form of RDN
+     * @pbrbm kfyword bn bdditionbl mbpping of kfywords to OIDs
+     * @tirows IOExdfption on pbrsing frror
      */
-    RDN(String name, String format, Map<String, String> keywordMap)
-        throws IOException {
-        if (format.equalsIgnoreCase("RFC2253") == false) {
-            throw new IOException("Unsupported format " + format);
+    RDN(String nbmf, String formbt, Mbp<String, String> kfywordMbp)
+        tirows IOExdfption {
+        if (formbt.fqublsIgnorfCbsf("RFC2253") == fblsf) {
+            tirow nfw IOExdfption("Unsupportfd formbt " + formbt);
         }
-        int searchOffset = 0;
-        int avaOffset = 0;
-        List<AVA> avaVec = new ArrayList<AVA>(3);
-        int nextPlus = name.indexOf('+');
-        while (nextPlus >= 0) {
+        int sfbrdiOffsft = 0;
+        int bvbOffsft = 0;
+        List<AVA> bvbVfd = nfw ArrbyList<AVA>(3);
+        int nfxtPlus = nbmf.indfxOf('+');
+        wiilf (nfxtPlus >= 0) {
             /*
-             * We have encountered an AVA delimiter (plus sign).
-             * If the plus sign in the RDN under consideration is
-             * preceded by a backslash (escape), or by a double quote, it
-             * is part of the AVA. Otherwise, it is used as a separator, to
-             * delimit the AVA under consideration from any subsequent AVAs.
+             * Wf ibvf fndountfrfd bn AVA dflimitfr (plus sign).
+             * If tif plus sign in tif RDN undfr donsidfrbtion is
+             * prfdfdfd by b bbdkslbsi (fsdbpf), or by b doublf quotf, it
+             * is pbrt of tif AVA. Otifrwisf, it is usfd bs b sfpbrbtor, to
+             * dflimit tif AVA undfr donsidfrbtion from bny subsfqufnt AVAs.
              */
-            if (nextPlus > 0 && name.charAt(nextPlus - 1) != '\\' ) {
+            if (nfxtPlus > 0 && nbmf.dibrAt(nfxtPlus - 1) != '\\' ) {
                 /*
-                 * Plus sign is a separator
+                 * Plus sign is b sfpbrbtor
                  */
-                String avaString = name.substring(avaOffset, nextPlus);
-                if (avaString.length() == 0) {
-                    throw new IOException("empty AVA in RDN \"" + name + "\"");
+                String bvbString = nbmf.substring(bvbOffsft, nfxtPlus);
+                if (bvbString.lfngti() == 0) {
+                    tirow nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
                 }
 
-                // Parse AVA, and store it in vector
-                AVA ava = new AVA
-                    (new StringReader(avaString), AVA.RFC2253, keywordMap);
-                avaVec.add(ava);
+                // Pbrsf AVA, bnd storf it in vfdtor
+                AVA bvb = nfw AVA
+                    (nfw StringRfbdfr(bvbString), AVA.RFC2253, kfywordMbp);
+                bvbVfd.bdd(bvb);
 
-                // Increase the offset
-                avaOffset = nextPlus + 1;
+                // Indrfbsf tif offsft
+                bvbOffsft = nfxtPlus + 1;
             }
-            searchOffset = nextPlus + 1;
-            nextPlus = name.indexOf('+', searchOffset);
+            sfbrdiOffsft = nfxtPlus + 1;
+            nfxtPlus = nbmf.indfxOf('+', sfbrdiOffsft);
         }
 
-        // parse last or only AVA
-        String avaString = name.substring(avaOffset);
-        if (avaString.length() == 0) {
-            throw new IOException("empty AVA in RDN \"" + name + "\"");
+        // pbrsf lbst or only AVA
+        String bvbString = nbmf.substring(bvbOffsft);
+        if (bvbString.lfngti() == 0) {
+            tirow nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
         }
-        AVA ava = new AVA(new StringReader(avaString), AVA.RFC2253, keywordMap);
-        avaVec.add(ava);
+        AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), AVA.RFC2253, kfywordMbp);
+        bvbVfd.bdd(bvb);
 
-        assertion = avaVec.toArray(new AVA[avaVec.size()]);
+        bssfrtion = bvbVfd.toArrby(nfw AVA[bvbVfd.sizf()]);
     }
 
     /*
-     * Constructs an RDN from an ASN.1 encoded value.  The encoding
-     * of the name in the stream uses DER (a BER/1 subset).
+     * Construdts bn RDN from bn ASN.1 fndodfd vbluf.  Tif fndoding
+     * of tif nbmf in tif strfbm usfs DER (b BER/1 subsft).
      *
-     * @param value a DER-encoded value holding an RDN.
-     * @throws IOException on parsing error.
+     * @pbrbm vbluf b DER-fndodfd vbluf iolding bn RDN.
+     * @tirows IOExdfption on pbrsing frror.
      */
-    RDN(DerValue rdn) throws IOException {
-        if (rdn.tag != DerValue.tag_Set) {
-            throw new IOException("X500 RDN");
+    RDN(DfrVbluf rdn) tirows IOExdfption {
+        if (rdn.tbg != DfrVbluf.tbg_Sft) {
+            tirow nfw IOExdfption("X500 RDN");
         }
-        DerInputStream dis = new DerInputStream(rdn.toByteArray());
-        DerValue[] avaset = dis.getSet(5);
+        DfrInputStrfbm dis = nfw DfrInputStrfbm(rdn.toBytfArrby());
+        DfrVbluf[] bvbsft = dis.gftSft(5);
 
-        assertion = new AVA[avaset.length];
-        for (int i = 0; i < avaset.length; i++) {
-            assertion[i] = new AVA(avaset[i]);
+        bssfrtion = nfw AVA[bvbsft.lfngti];
+        for (int i = 0; i < bvbsft.lfngti; i++) {
+            bssfrtion[i] = nfw AVA(bvbsft[i]);
         }
     }
 
     /*
-     * Creates an empty RDN with slots for specified
-     * number of AVAs.
+     * Crfbtfs bn fmpty RDN witi slots for spfdififd
+     * numbfr of AVAs.
      *
-     * @param i number of AVAs to be in RDN
+     * @pbrbm i numbfr of AVAs to bf in RDN
      */
-    RDN(int i) { assertion = new AVA[i]; }
+    RDN(int i) { bssfrtion = nfw AVA[i]; }
 
-    public RDN(AVA ava) {
-        if (ava == null) {
-            throw new NullPointerException();
+    publid RDN(AVA bvb) {
+        if (bvb == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        assertion = new AVA[] { ava };
+        bssfrtion = nfw AVA[] { bvb };
     }
 
-    public RDN(AVA[] avas) {
-        assertion = avas.clone();
-        for (int i = 0; i < assertion.length; i++) {
-            if (assertion[i] == null) {
-                throw new NullPointerException();
+    publid RDN(AVA[] bvbs) {
+        bssfrtion = bvbs.dlonf();
+        for (int i = 0; i < bssfrtion.lfngti; i++) {
+            if (bssfrtion[i] == null) {
+                tirow nfw NullPointfrExdfption();
             }
         }
     }
 
     /**
-     * Return an immutable List of the AVAs in this RDN.
+     * Rfturn bn immutbblf List of tif AVAs in tiis RDN.
      */
-    public List<AVA> avas() {
-        List<AVA> list = avaList;
+    publid List<AVA> bvbs() {
+        List<AVA> list = bvbList;
         if (list == null) {
-            list = Collections.unmodifiableList(Arrays.asList(assertion));
-            avaList = list;
+            list = Collfdtions.unmodifibblfList(Arrbys.bsList(bssfrtion));
+            bvbList = list;
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Return the number of AVAs in this RDN.
+     * Rfturn tif numbfr of AVAs in tiis RDN.
      */
-    public int size() {
-        return assertion.length;
+    publid int sizf() {
+        rfturn bssfrtion.lfngti;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof RDN == false) {
-            return false;
+        if (obj instbndfof RDN == fblsf) {
+            rfturn fblsf;
         }
-        RDN other = (RDN)obj;
-        if (this.assertion.length != other.assertion.length) {
-            return false;
+        RDN otifr = (RDN)obj;
+        if (tiis.bssfrtion.lfngti != otifr.bssfrtion.lfngti) {
+            rfturn fblsf;
         }
-        String thisCanon = this.toRFC2253String(true);
-        String otherCanon = other.toRFC2253String(true);
-        return thisCanon.equals(otherCanon);
-    }
-
-    /*
-     * Calculates a hash code value for the object.  Objects
-     * which are equal will also have the same hashcode.
-     *
-     * @returns int hashCode value
-     */
-    public int hashCode() {
-        return toRFC2253String(true).hashCode();
+        String tiisCbnon = tiis.toRFC2253String(truf);
+        String otifrCbnon = otifr.toRFC2253String(truf);
+        rfturn tiisCbnon.fqubls(otifrCbnon);
     }
 
     /*
-     * return specified attribute value from RDN
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.  Objfdts
+     * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
      *
-     * @params oid ObjectIdentifier of attribute to be found
-     * @returns DerValue of attribute value; null if attribute does not exist
+     * @rfturns int ibsiCodf vbluf
      */
-    DerValue findAttribute(ObjectIdentifier oid) {
-        for (int i = 0; i < assertion.length; i++) {
-            if (assertion[i].oid.equals((Object)oid)) {
-                return assertion[i].value;
+    publid int ibsiCodf() {
+        rfturn toRFC2253String(truf).ibsiCodf();
+    }
+
+    /*
+     * rfturn spfdififd bttributf vbluf from RDN
+     *
+     * @pbrbms oid ObjfdtIdfntififr of bttributf to bf found
+     * @rfturns DfrVbluf of bttributf vbluf; null if bttributf dofs not fxist
+     */
+    DfrVbluf findAttributf(ObjfdtIdfntififr oid) {
+        for (int i = 0; i < bssfrtion.lfngti; i++) {
+            if (bssfrtion[i].oid.fqubls((Objfdt)oid)) {
+                rfturn bssfrtion[i].vbluf;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Encode the RDN in DER-encoded form.
+     * Endodf tif RDN in DER-fndodfd form.
      *
-     * @param out DerOutputStream to which RDN is to be written
-     * @throws IOException on error
+     * @pbrbm out DfrOutputStrfbm to wiidi RDN is to bf writtfn
+     * @tirows IOExdfption on frror
      */
-    void encode(DerOutputStream out) throws IOException {
-        out.putOrderedSetOf(DerValue.tag_Set, assertion);
+    void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        out.putOrdfrfdSftOf(DfrVbluf.tbg_Sft, bssfrtion);
     }
 
     /*
-     * Returns a printable form of this RDN, using RFC 1779 style catenation
-     * of attribute/value assertions, and emitting attribute type keywords
-     * from RFCs 1779, 2253, and 3280.
+     * Rfturns b printbblf form of tiis RDN, using RFC 1779 stylf dbtfnbtion
+     * of bttributf/vbluf bssfrtions, bnd fmitting bttributf typf kfywords
+     * from RFCs 1779, 2253, bnd 3280.
      */
-    public String toString() {
-        if (assertion.length == 1) {
-            return assertion[0].toString();
+    publid String toString() {
+        if (bssfrtion.lfngti == 1) {
+            rfturn bssfrtion[0].toString();
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < assertion.length; i++) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < bssfrtion.lfngti; i++) {
             if (i != 0) {
-                sb.append(" + ");
+                sb.bppfnd(" + ");
             }
-            sb.append(assertion[i].toString());
+            sb.bppfnd(bssfrtion[i].toString());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /*
-     * Returns a printable form of this RDN using the algorithm defined in
-     * RFC 1779. Only RFC 1779 attribute type keywords are emitted.
+     * Rfturns b printbblf form of tiis RDN using tif blgoritim dffinfd in
+     * RFC 1779. Only RFC 1779 bttributf typf kfywords brf fmittfd.
      */
-    public String toRFC1779String() {
-        return toRFC1779String(Collections.<String, String>emptyMap());
+    publid String toRFC1779String() {
+        rfturn toRFC1779String(Collfdtions.<String, String>fmptyMbp());
     }
 
     /*
-     * Returns a printable form of this RDN using the algorithm defined in
-     * RFC 1779. RFC 1779 attribute type keywords are emitted, as well
-     * as keywords contained in the OID/keyword map.
+     * Rfturns b printbblf form of tiis RDN using tif blgoritim dffinfd in
+     * RFC 1779. RFC 1779 bttributf typf kfywords brf fmittfd, bs wfll
+     * bs kfywords dontbinfd in tif OID/kfyword mbp.
      */
-    public String toRFC1779String(Map<String, String> oidMap) {
-        if (assertion.length == 1) {
-            return assertion[0].toRFC1779String(oidMap);
+    publid String toRFC1779String(Mbp<String, String> oidMbp) {
+        if (bssfrtion.lfngti == 1) {
+            rfturn bssfrtion[0].toRFC1779String(oidMbp);
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < assertion.length; i++) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < bssfrtion.lfngti; i++) {
             if (i != 0) {
-                sb.append(" + ");
+                sb.bppfnd(" + ");
             }
-            sb.append(assertion[i].toRFC1779String(oidMap));
+            sb.bppfnd(bssfrtion[i].toRFC1779String(oidMbp));
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /*
-     * Returns a printable form of this RDN using the algorithm defined in
-     * RFC 2253. Only RFC 2253 attribute type keywords are emitted.
+     * Rfturns b printbblf form of tiis RDN using tif blgoritim dffinfd in
+     * RFC 2253. Only RFC 2253 bttributf typf kfywords brf fmittfd.
      */
-    public String toRFC2253String() {
-        return toRFC2253StringInternal
-            (false, Collections.<String, String>emptyMap());
+    publid String toRFC2253String() {
+        rfturn toRFC2253StringIntfrnbl
+            (fblsf, Collfdtions.<String, String>fmptyMbp());
     }
 
     /*
-     * Returns a printable form of this RDN using the algorithm defined in
-     * RFC 2253. RFC 2253 attribute type keywords are emitted, as well as
-     * keywords contained in the OID/keyword map.
+     * Rfturns b printbblf form of tiis RDN using tif blgoritim dffinfd in
+     * RFC 2253. RFC 2253 bttributf typf kfywords brf fmittfd, bs wfll bs
+     * kfywords dontbinfd in tif OID/kfyword mbp.
      */
-    public String toRFC2253String(Map<String, String> oidMap) {
-        return toRFC2253StringInternal(false, oidMap);
+    publid String toRFC2253String(Mbp<String, String> oidMbp) {
+        rfturn toRFC2253StringIntfrnbl(fblsf, oidMbp);
     }
 
     /*
-     * Returns a printable form of this RDN using the algorithm defined in
-     * RFC 2253. Only RFC 2253 attribute type keywords are emitted.
-     * If canonical is true, then additional canonicalizations
-     * documented in X500Principal.getName are performed.
+     * Rfturns b printbblf form of tiis RDN using tif blgoritim dffinfd in
+     * RFC 2253. Only RFC 2253 bttributf typf kfywords brf fmittfd.
+     * If dbnonidbl is truf, tifn bdditionbl dbnonidblizbtions
+     * dodumfntfd in X500Prindipbl.gftNbmf brf pfrformfd.
      */
-    public String toRFC2253String(boolean canonical) {
-        if (canonical == false) {
-            return toRFC2253StringInternal
-                (false, Collections.<String, String>emptyMap());
+    publid String toRFC2253String(boolfbn dbnonidbl) {
+        if (dbnonidbl == fblsf) {
+            rfturn toRFC2253StringIntfrnbl
+                (fblsf, Collfdtions.<String, String>fmptyMbp());
         }
-        String c = canonicalString;
-        if (c == null) {
-            c = toRFC2253StringInternal
-                (true, Collections.<String, String>emptyMap());
-            canonicalString = c;
+        String d = dbnonidblString;
+        if (d == null) {
+            d = toRFC2253StringIntfrnbl
+                (truf, Collfdtions.<String, String>fmptyMbp());
+            dbnonidblString = d;
         }
-        return c;
+        rfturn d;
     }
 
-    private String toRFC2253StringInternal
-        (boolean canonical, Map<String, String> oidMap) {
+    privbtf String toRFC2253StringIntfrnbl
+        (boolfbn dbnonidbl, Mbp<String, String> oidMbp) {
         /*
-         * Section 2.2: When converting from an ASN.1 RelativeDistinguishedName
-         * to a string, the output consists of the string encodings of each
-         * AttributeTypeAndValue (according to 2.3), in any order.
+         * Sfdtion 2.2: Wifn donvfrting from bn ASN.1 RflbtivfDistinguisifdNbmf
+         * to b string, tif output donsists of tif string fndodings of fbdi
+         * AttributfTypfAndVbluf (bddording to 2.3), in bny ordfr.
          *
-         * Where there is a multi-valued RDN, the outputs from adjoining
-         * AttributeTypeAndValues are separated by a plus ('+' ASCII 43)
-         * character.
+         * Wifrf tifrf is b multi-vblufd RDN, tif outputs from bdjoining
+         * AttributfTypfAndVblufs brf sfpbrbtfd by b plus ('+' ASCII 43)
+         * dibrbdtfr.
          */
 
-        // normally, an RDN only contains one AVA
-        if (assertion.length == 1) {
-            return canonical ? assertion[0].toRFC2253CanonicalString() :
-                               assertion[0].toRFC2253String(oidMap);
+        // normblly, bn RDN only dontbins onf AVA
+        if (bssfrtion.lfngti == 1) {
+            rfturn dbnonidbl ? bssfrtion[0].toRFC2253CbnonidblString() :
+                               bssfrtion[0].toRFC2253String(oidMbp);
         }
 
-        StringBuilder relname = new StringBuilder();
-        if (!canonical) {
-            for (int i = 0; i < assertion.length; i++) {
+        StringBuildfr rflnbmf = nfw StringBuildfr();
+        if (!dbnonidbl) {
+            for (int i = 0; i < bssfrtion.lfngti; i++) {
                 if (i > 0) {
-                    relname.append('+');
+                    rflnbmf.bppfnd('+');
                 }
-                relname.append(assertion[i].toRFC2253String(oidMap));
+                rflnbmf.bppfnd(bssfrtion[i].toRFC2253String(oidMbp));
             }
-        } else {
-            // order the string type AVA's alphabetically,
-            // followed by the oid type AVA's numerically
-            List<AVA> avaList = new ArrayList<AVA>(assertion.length);
-            for (int i = 0; i < assertion.length; i++) {
-                avaList.add(assertion[i]);
+        } flsf {
+            // ordfr tif string typf AVA's blpibbftidblly,
+            // followfd by tif oid typf AVA's numfridblly
+            List<AVA> bvbList = nfw ArrbyList<AVA>(bssfrtion.lfngti);
+            for (int i = 0; i < bssfrtion.lfngti; i++) {
+                bvbList.bdd(bssfrtion[i]);
             }
-            java.util.Collections.sort(avaList, AVAComparator.getInstance());
+            jbvb.util.Collfdtions.sort(bvbList, AVACompbrbtor.gftInstbndf());
 
-            for (int i = 0; i < avaList.size(); i++) {
+            for (int i = 0; i < bvbList.sizf(); i++) {
                 if (i > 0) {
-                    relname.append('+');
+                    rflnbmf.bppfnd('+');
                 }
-                relname.append(avaList.get(i).toRFC2253CanonicalString());
+                rflnbmf.bppfnd(bvbList.gft(i).toRFC2253CbnonidblString());
             }
         }
-        return relname.toString();
+        rfturn rflnbmf.toString();
     }
 
 }
 
-class AVAComparator implements Comparator<AVA> {
+dlbss AVACompbrbtor implfmfnts Compbrbtor<AVA> {
 
-    private static final Comparator<AVA> INSTANCE = new AVAComparator();
+    privbtf stbtid finbl Compbrbtor<AVA> INSTANCE = nfw AVACompbrbtor();
 
-    private AVAComparator() {
-        // empty
+    privbtf AVACompbrbtor() {
+        // fmpty
     }
 
-    static Comparator<AVA> getInstance() {
-        return INSTANCE;
+    stbtid Compbrbtor<AVA> gftInstbndf() {
+        rfturn INSTANCE;
     }
 
     /**
-     * AVA's containing a standard keyword are ordered alphabetically,
-     * followed by AVA's containing an OID keyword, ordered numerically
+     * AVA's dontbining b stbndbrd kfyword brf ordfrfd blpibbftidblly,
+     * followfd by AVA's dontbining bn OID kfyword, ordfrfd numfridblly
      */
-    public int compare(AVA a1, AVA a2) {
-        boolean a1Has2253 = a1.hasRFC2253Keyword();
-        boolean a2Has2253 = a2.hasRFC2253Keyword();
+    publid int dompbrf(AVA b1, AVA b2) {
+        boolfbn b1Hbs2253 = b1.ibsRFC2253Kfyword();
+        boolfbn b2Hbs2253 = b2.ibsRFC2253Kfyword();
 
-        if (a1Has2253 == a2Has2253) {
-            return a1.toRFC2253CanonicalString().compareTo
-                        (a2.toRFC2253CanonicalString());
-        } else {
-            if (a1Has2253) {
-                return -1;
-            } else {
-                return 1;
+        if (b1Hbs2253 == b2Hbs2253) {
+            rfturn b1.toRFC2253CbnonidblString().dompbrfTo
+                        (b2.toRFC2253CbnonidblString());
+        } flsf {
+            if (b1Hbs2253) {
+                rfturn -1;
+            } flsf {
+                rfturn 1;
             }
         }
     }

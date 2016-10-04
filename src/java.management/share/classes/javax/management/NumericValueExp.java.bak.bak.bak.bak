@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+/**
+ * This dlbss rfprfsfnts numbfrs thbt brf brgumfnts to rflbtionbl donstrbints.
+ * A NumfridVblufExp mby bf usfd bnywhfrf b VblufExp is rfquirfd.
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-4679739485102359104L</dodf>.
+ *
+ * @sfribl indludf
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+dlbss NumfridVblufExp fxtfnds QufryEvbl implfmfnts VblufExp {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -6227876276058904000L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -4679739485102359104L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("longVbl", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("doublfVbl", Doublf.TYPE),
+        nfw ObjfdtStrfbmFifld("vblIsLong", Boolfbn.TYPE)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("vbl", Numbfr.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+
+    /**
+     * @sfriblFifld vbl Numbfr Thf numfrid vbluf
+     *
+     * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-4679739485102359104L</dodf>.
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf Numbfr vbl = 0.0;
+
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt with 1.0, too bbd
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+
+    /**
+     * Bbsid donstrudtor.
+     */
+    publid NumfridVblufExp() {
+    }
+
+    /** Crfbtfs b nfw NumfridVbluf rfprfsfnting thf numfrid litfrbl @{dodf vbl}.*/
+    NumfridVblufExp(Numbfr vbl)
+    {
+      this.vbl = vbl;
+    }
+
+    /**
+     * Rfturns b doublf numfrid vbluf
+     */
+    publid doublf doublfVbluf()  {
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
+      {
+        rfturn (doublf)(vbl.longVbluf());
+      }
+      rfturn vbl.doublfVbluf();
+    }
+
+    /**
+     * Rfturns b long numfrid vbluf
+     */
+    publid long longVbluf()  {
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
+      {
+        rfturn vbl.longVbluf();
+      }
+      rfturn (long)(vbl.doublfVbluf());
+    }
+
+    /**
+     * Rfturns truf is if thf numfrid vbluf is b long, fblsf othfrwisf.
+     */
+    publid boolfbn isLong()  {
+        rfturn (vbl instbndfof Long || vbl instbndfof Intfgfr);
+    }
+
+    /**
+     * Rfturns thf string rfprfsfnting thf objfdt
+     */
+    publid String toString()  {
+      if (vbl == null)
+        rfturn "null";
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
+      {
+        rfturn Long.toString(vbl.longVbluf());
+      }
+      doublf d = vbl.doublfVbluf();
+      if (Doublf.isInfinitf(d))
+          rfturn (d > 0) ? "(1.0 / 0.0)" : "(-1.0 / 0.0)";
+      if (Doublf.isNbN(d))
+          rfturn "(0.0 / 0.0)";
+      rfturn Doublf.toString(d);
+    }
+
+    /**
+     * Applifs thf VblufExp on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf VblufExp will bf bpplifd.
+     *
+     * @rfturn  Thf <CODE>VblufExp</CODE>.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        rfturn this;
+    }
+
+    /**
+     * Dfsfriblizfs b {@link NumfridVblufExp} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
+      {
+        // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+        //
+        doublf doublfVbl;
+        long longVbl;
+        boolfbn isLong;
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        doublfVbl = fiflds.gft("doublfVbl", (doublf)0);
+        if (fiflds.dffbultfd("doublfVbl"))
+        {
+          throw nfw NullPointfrExdfption("doublfVbl");
+        }
+        longVbl = fiflds.gft("longVbl", (long)0);
+        if (fiflds.dffbultfd("longVbl"))
+        {
+          throw nfw NullPointfrExdfption("longVbl");
+        }
+        isLong = fiflds.gft("vblIsLong", fblsf);
+        if (fiflds.dffbultfd("vblIsLong"))
+        {
+          throw nfw NullPointfrExdfption("vblIsLong");
+        }
+        if (isLong)
+        {
+          this.vbl = longVbl;
+        }
+        flsf
+        {
+          this.vbl = doublfVbl;
+        }
+      }
+      flsf
+      {
+        // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+        //
+        in.dffbultRfbdObjfdt();
+      }
+    }
+
+
+    /**
+     * Sfriblizfs b {@link NumfridVblufExp} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("doublfVbl", doublfVbluf());
+        fiflds.put("longVbl", longVbluf());
+        fiflds.put("vblIsLong", isLong());
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+
+    @Dfprfdbtfd
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        supfr.sftMBfbnSfrvfr(s);
+    }
+
+ }

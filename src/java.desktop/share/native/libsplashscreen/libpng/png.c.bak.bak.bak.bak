@@ -1,0 +1,2450 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* png.d - lodbtion for gfnfrbl purposf libpng fundtions
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Lbst dhbngfd in libpng 1.5.4 [July 7, 2011]
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ */
+
+#indludf "pngpriv.h"
+
+/* Gfnfrbtf b dompilfr frror if thfrf is bn old png.h in thf sfbrdh pbth. */
+typfdff png_libpng_vfrsion_1_5_4 Your_png_h_is_not_vfrsion_1_5_4;
+
+/* Tflls libpng thbt wf hbvf blrfbdy hbndlfd thf first "num_bytfs" bytfs
+ * of thf PNG filf signbturf.  If thf PNG dbtb is fmbfddfd into bnothfr
+ * strfbm wf dbn sft num_bytfs = 8 so thbt libpng will not bttfmpt to rfbd
+ * or writf bny of thf mbgid bytfs bfforf it stbrts on thf IHDR.
+ */
+
+#ifdff PNG_READ_SUPPORTED
+void PNGAPI
+png_sft_sig_bytfs(png_strudtp png_ptr, int num_bytfs)
+{
+   png_dfbug(1, "in png_sft_sig_bytfs");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (num_bytfs > 8)
+      png_frror(png_ptr, "Too mbny bytfs for PNG signbturf");
+
+   png_ptr->sig_bytfs = (png_bytf)(num_bytfs < 0 ? 0 : num_bytfs);
+}
+
+/* Chfdks whfthfr thf supplifd bytfs mbtdh thf PNG signbturf.  Wf bllow
+ * dhfdking lfss thbn thf full 8-bytf signbturf so thbt thosf bpps thbt
+ * blrfbdy rfbd thf first ffw bytfs of b filf to dftfrminf thf filf typf
+ * dbn simply dhfdk thf rfmbining bytfs for fxtrb bssurbndf.  Rfturns
+ * bn intfgfr lfss thbn, fqubl to, or grfbtfr thbn zfro if sig is found,
+ * rfspfdtivfly, to bf lfss thbn, to mbtdh, or bf grfbtfr thbn thf dorrfdt
+ * PNG signbturf (this is thf sbmf bfhbviour bs strdmp, mfmdmp, ftd).
+ */
+int PNGAPI
+png_sig_dmp(png_donst_bytfp sig, png_sizf_t stbrt, png_sizf_t num_to_dhfdk)
+{
+   png_bytf png_signbturf[8] = {137, 80, 78, 71, 13, 10, 26, 10};
+
+   if (num_to_dhfdk > 8)
+      num_to_dhfdk = 8;
+
+   flsf if (num_to_dhfdk < 1)
+      rfturn (-1);
+
+   if (stbrt > 7)
+      rfturn (-1);
+
+   if (stbrt + num_to_dhfdk > 8)
+      num_to_dhfdk = 8 - stbrt;
+
+   rfturn ((int)(png_mfmdmp(&sig[stbrt], &png_signbturf[stbrt], num_to_dhfdk)));
+}
+
+#fndif /* PNG_READ_SUPPORTED */
+
+#if dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED)
+/* Fundtion to bllodbtf mfmory for zlib */
+PNG_FUNCTION(voidpf /* PRIVATE */,
+png_zbllod,(voidpf png_ptr, uInt itfms, uInt sizf),PNG_ALLOCATED)
+{
+   png_voidp ptr;
+   png_strudtp p=(png_strudtp)png_ptr;
+   png_uint_32 sbvf_flbgs=p->flbgs;
+   png_bllod_sizf_t num_bytfs;
+
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+   if (itfms > PNG_UINT_32_MAX/sizf)
+   {
+     png_wbrning (p, "Potfntibl ovfrflow in png_zbllod()");
+     rfturn (NULL);
+   }
+   num_bytfs = (png_bllod_sizf_t)itfms * sizf;
+
+   p->flbgs|=PNG_FLAG_MALLOC_NULL_MEM_OK;
+   ptr = (png_voidp)png_mbllod((png_strudtp)png_ptr, num_bytfs);
+   p->flbgs=sbvf_flbgs;
+
+   rfturn ((voidpf)ptr);
+}
+
+/* Fundtion to frff mfmory for zlib */
+void /* PRIVATE */
+png_zfrff(voidpf png_ptr, voidpf ptr)
+{
+   png_frff((png_strudtp)png_ptr, (png_voidp)ptr);
+}
+
+/* Rfsft thf CRC vbribblf to 32 bits of 1's.  Cbrf must bf tbkfn
+ * in dbsf CRC is > 32 bits to lfbvf thf top bits 0.
+ */
+void /* PRIVATE */
+png_rfsft_drd(png_strudtp png_ptr)
+{
+   png_ptr->drd = drd32(0, Z_NULL, 0);
+}
+
+/* Cbldulbtf thf CRC ovfr b sfdtion of dbtb.  Wf dbn only pbss bs
+ * mudh dbtb to this routinf bs thf lbrgfst singlf bufffr sizf.  Wf
+ * blso dhfdk thbt this dbtb will bdtublly bf usfd bfforf going to thf
+ * troublf of dbldulbting it.
+ */
+void /* PRIVATE */
+png_dbldulbtf_drd(png_strudtp png_ptr, png_donst_bytfp ptr, png_sizf_t lfngth)
+{
+   int nffd_drd = 1;
+
+   if (png_ptr->dhunk_nbmf[0] & 0x20)                     /* bndillbry */
+   {
+      if ((png_ptr->flbgs & PNG_FLAG_CRC_ANCILLARY_MASK) ==
+          (PNG_FLAG_CRC_ANCILLARY_USE | PNG_FLAG_CRC_ANCILLARY_NOWARN))
+         nffd_drd = 0;
+   }
+
+   flsf                                                    /* dritidbl */
+   {
+      if (png_ptr->flbgs & PNG_FLAG_CRC_CRITICAL_IGNORE)
+         nffd_drd = 0;
+   }
+
+   if (nffd_drd)
+      png_ptr->drd = drd32(png_ptr->drd, ptr, (uInt)lfngth);
+}
+
+/* Chfdk b usfr supplifd vfrsion numbfr, dbllfd from both rfbd bnd writf
+ * fundtions thbt drfbtf b png_strudt
+ */
+int
+png_usfr_vfrsion_dhfdk(png_strudtp png_ptr, png_donst_dhbrp usfr_png_vfr)
+{
+   if (usfr_png_vfr)
+   {
+      int i = 0;
+
+      do
+      {
+         if (usfr_png_vfr[i] != png_libpng_vfr[i])
+            png_ptr->flbgs |= PNG_FLAG_LIBRARY_MISMATCH;
+      } whilf (png_libpng_vfr[i++]);
+   }
+
+   flsf
+      png_ptr->flbgs |= PNG_FLAG_LIBRARY_MISMATCH;
+
+   if (png_ptr->flbgs & PNG_FLAG_LIBRARY_MISMATCH)
+   {
+     /* Libpng 0.90 bnd lbtfr brf binbry indompbtiblf with libpng 0.89, so
+      * wf must rfdompilf bny bpplidbtions thbt usf bny oldfr librbry vfrsion.
+      * For vfrsions bftfr libpng 1.0, wf will bf dompbtiblf, so wf nffd
+      * only dhfdk thf first digit.
+      */
+      if (usfr_png_vfr == NULL || usfr_png_vfr[0] != png_libpng_vfr[0] ||
+          (usfr_png_vfr[0] == '1' && usfr_png_vfr[2] != png_libpng_vfr[2]) ||
+          (usfr_png_vfr[0] == '0' && usfr_png_vfr[2] < '9'))
+      {
+#ifdff PNG_WARNINGS_SUPPORTED
+         sizf_t pos = 0;
+         dhbr m[128];
+
+         pos = png_sbffdbt(m, sizfof m, pos, "Applidbtion built with libpng-");
+         pos = png_sbffdbt(m, sizfof m, pos, usfr_png_vfr);
+         pos = png_sbffdbt(m, sizfof m, pos, " but running with ");
+         pos = png_sbffdbt(m, sizfof m, pos, png_libpng_vfr);
+
+         png_wbrning(png_ptr, m);
+#fndif
+
+#ifdff PNG_ERROR_NUMBERS_SUPPORTED
+         png_ptr->flbgs = 0;
+#fndif
+
+         rfturn 0;
+      }
+   }
+
+   /* Suddfss rfturn. */
+   rfturn 1;
+}
+
+/* Allodbtf thf mfmory for bn info_strudt for thf bpplidbtion.  Wf don't
+ * rfblly nffd thf png_ptr, but it dould potfntiblly bf usfful in thf
+ * futurf.  This should bf usfd in fbvour of mbllod(png_sizfof(png_info))
+ * bnd png_info_init() so thbt bpplidbtions thbt wbnt to usf b shbrfd
+ * libpng don't hbvf to bf rfdompilfd if png_info dhbngfs sizf.
+ */
+PNG_FUNCTION(png_infop,PNGAPI
+png_drfbtf_info_strudt,(png_strudtp png_ptr),PNG_ALLOCATED)
+{
+   png_infop info_ptr;
+
+   png_dfbug(1, "in png_drfbtf_info_strudt");
+
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   info_ptr = (png_infop)png_drfbtf_strudt_2(PNG_STRUCT_INFO,
+      png_ptr->mbllod_fn, png_ptr->mfm_ptr);
+#flsf
+   info_ptr = (png_infop)png_drfbtf_strudt(PNG_STRUCT_INFO);
+#fndif
+   if (info_ptr != NULL)
+      png_info_init_3(&info_ptr, png_sizfof(png_info));
+
+   rfturn (info_ptr);
+}
+
+/* This fundtion frffs thf mfmory bssodibtfd with b singlf info strudt.
+ * Normblly, onf would usf fithfr png_dfstroy_rfbd_strudt() or
+ * png_dfstroy_writf_strudt() to frff bn info strudt, but this mby bf
+ * usfful for somf bpplidbtions.
+ */
+void PNGAPI
+png_dfstroy_info_strudt(png_strudtp png_ptr, png_infopp info_ptr_ptr)
+{
+   png_infop info_ptr = NULL;
+
+   png_dfbug(1, "in png_dfstroy_info_strudt");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (info_ptr_ptr != NULL)
+      info_ptr = *info_ptr_ptr;
+
+   if (info_ptr != NULL)
+   {
+      png_info_dfstroy(png_ptr, info_ptr);
+
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)info_ptr, png_ptr->frff_fn,
+          png_ptr->mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)info_ptr);
+#fndif
+      *info_ptr_ptr = NULL;
+   }
+}
+
+/* Initiblizf thf info strudturf.  This is now bn intfrnbl fundtion (0.89)
+ * bnd bpplidbtions using it brf urgfd to usf png_drfbtf_info_strudt()
+ * instfbd.
+ */
+
+void PNGAPI
+png_info_init_3(png_infopp ptr_ptr, png_sizf_t png_info_strudt_sizf)
+{
+   png_infop info_ptr = *ptr_ptr;
+
+   png_dfbug(1, "in png_info_init_3");
+
+   if (info_ptr == NULL)
+      rfturn;
+
+   if (png_sizfof(png_info) > png_info_strudt_sizf)
+   {
+      png_dfstroy_strudt(info_ptr);
+      info_ptr = (png_infop)png_drfbtf_strudt(PNG_STRUCT_INFO);
+      *ptr_ptr = info_ptr;
+   }
+
+   /* Sft fvfrything to 0 */
+   png_mfmsft(info_ptr, 0, png_sizfof(png_info));
+}
+
+void PNGAPI
+png_dbtb_frffr(png_strudtp png_ptr, png_infop info_ptr,
+   int frffr, png_uint_32 mbsk)
+{
+   png_dfbug(1, "in png_dbtb_frffr");
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   if (frffr == PNG_DESTROY_WILL_FREE_DATA)
+      info_ptr->frff_mf |= mbsk;
+
+   flsf if (frffr == PNG_USER_WILL_FREE_DATA)
+      info_ptr->frff_mf &= ~mbsk;
+
+   flsf
+      png_wbrning(png_ptr,
+         "Unknown frffr pbrbmftfr in png_dbtb_frffr");
+}
+
+void PNGAPI
+png_frff_dbtb(png_strudtp png_ptr, png_infop info_ptr, png_uint_32 mbsk,
+   int num)
+{
+   png_dfbug(1, "in png_frff_dbtb");
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+#ifdff PNG_TEXT_SUPPORTED
+   /* Frff tfxt itfm num or (if num == -1) bll tfxt itfms */
+   if ((mbsk & PNG_FREE_TEXT) & info_ptr->frff_mf)
+   {
+      if (num != -1)
+      {
+         if (info_ptr->tfxt && info_ptr->tfxt[num].kfy)
+         {
+            png_frff(png_ptr, info_ptr->tfxt[num].kfy);
+            info_ptr->tfxt[num].kfy = NULL;
+         }
+      }
+
+      flsf
+      {
+         int i;
+         for (i = 0; i < info_ptr->num_tfxt; i++)
+             png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_TEXT, i);
+         png_frff(png_ptr, info_ptr->tfxt);
+         info_ptr->tfxt = NULL;
+         info_ptr->num_tfxt=0;
+      }
+   }
+#fndif
+
+#ifdff PNG_tRNS_SUPPORTED
+   /* Frff bny tRNS fntry */
+   if ((mbsk & PNG_FREE_TRNS) & info_ptr->frff_mf)
+   {
+      png_frff(png_ptr, info_ptr->trbns_blphb);
+      info_ptr->trbns_blphb = NULL;
+      info_ptr->vblid &= ~PNG_INFO_tRNS;
+   }
+#fndif
+
+#ifdff PNG_sCAL_SUPPORTED
+   /* Frff bny sCAL fntry */
+   if ((mbsk & PNG_FREE_SCAL) & info_ptr->frff_mf)
+   {
+      png_frff(png_ptr, info_ptr->sdbl_s_width);
+      png_frff(png_ptr, info_ptr->sdbl_s_hfight);
+      info_ptr->sdbl_s_width = NULL;
+      info_ptr->sdbl_s_hfight = NULL;
+      info_ptr->vblid &= ~PNG_INFO_sCAL;
+   }
+#fndif
+
+#ifdff PNG_pCAL_SUPPORTED
+   /* Frff bny pCAL fntry */
+   if ((mbsk & PNG_FREE_PCAL) & info_ptr->frff_mf)
+   {
+      png_frff(png_ptr, info_ptr->pdbl_purposf);
+      png_frff(png_ptr, info_ptr->pdbl_units);
+      info_ptr->pdbl_purposf = NULL;
+      info_ptr->pdbl_units = NULL;
+      if (info_ptr->pdbl_pbrbms != NULL)
+         {
+            int i;
+            for (i = 0; i < (int)info_ptr->pdbl_npbrbms; i++)
+            {
+               png_frff(png_ptr, info_ptr->pdbl_pbrbms[i]);
+               info_ptr->pdbl_pbrbms[i] = NULL;
+            }
+            png_frff(png_ptr, info_ptr->pdbl_pbrbms);
+            info_ptr->pdbl_pbrbms = NULL;
+         }
+      info_ptr->vblid &= ~PNG_INFO_pCAL;
+   }
+#fndif
+
+#ifdff PNG_iCCP_SUPPORTED
+   /* Frff bny iCCP fntry */
+   if ((mbsk & PNG_FREE_ICCP) & info_ptr->frff_mf)
+   {
+      png_frff(png_ptr, info_ptr->iddp_nbmf);
+      png_frff(png_ptr, info_ptr->iddp_profilf);
+      info_ptr->iddp_nbmf = NULL;
+      info_ptr->iddp_profilf = NULL;
+      info_ptr->vblid &= ~PNG_INFO_iCCP;
+   }
+#fndif
+
+#ifdff PNG_sPLT_SUPPORTED
+   /* Frff b givfn sPLT fntry, or (if num == -1) bll sPLT fntrifs */
+   if ((mbsk & PNG_FREE_SPLT) & info_ptr->frff_mf)
+   {
+      if (num != -1)
+      {
+         if (info_ptr->splt_pblfttfs)
+         {
+            png_frff(png_ptr, info_ptr->splt_pblfttfs[num].nbmf);
+            png_frff(png_ptr, info_ptr->splt_pblfttfs[num].fntrifs);
+            info_ptr->splt_pblfttfs[num].nbmf = NULL;
+            info_ptr->splt_pblfttfs[num].fntrifs = NULL;
+         }
+      }
+
+      flsf
+      {
+         if (info_ptr->splt_pblfttfs_num)
+         {
+            int i;
+            for (i = 0; i < (int)info_ptr->splt_pblfttfs_num; i++)
+               png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_SPLT, i);
+
+            png_frff(png_ptr, info_ptr->splt_pblfttfs);
+            info_ptr->splt_pblfttfs = NULL;
+            info_ptr->splt_pblfttfs_num = 0;
+         }
+         info_ptr->vblid &= ~PNG_INFO_sPLT;
+      }
+   }
+#fndif
+
+#ifdff PNG_UNKNOWN_CHUNKS_SUPPORTED
+   if (png_ptr->unknown_dhunk.dbtb)
+   {
+      png_frff(png_ptr, png_ptr->unknown_dhunk.dbtb);
+      png_ptr->unknown_dhunk.dbtb = NULL;
+   }
+
+   if ((mbsk & PNG_FREE_UNKN) & info_ptr->frff_mf)
+   {
+      if (num != -1)
+      {
+          if (info_ptr->unknown_dhunks)
+          {
+             png_frff(png_ptr, info_ptr->unknown_dhunks[num].dbtb);
+             info_ptr->unknown_dhunks[num].dbtb = NULL;
+          }
+      }
+
+      flsf
+      {
+         int i;
+
+         if (info_ptr->unknown_dhunks_num)
+         {
+            for (i = 0; i < info_ptr->unknown_dhunks_num; i++)
+               png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_UNKN, i);
+
+            png_frff(png_ptr, info_ptr->unknown_dhunks);
+            info_ptr->unknown_dhunks = NULL;
+            info_ptr->unknown_dhunks_num = 0;
+         }
+      }
+   }
+#fndif
+
+#ifdff PNG_hIST_SUPPORTED
+   /* Frff bny hIST fntry */
+   if ((mbsk & PNG_FREE_HIST)  & info_ptr->frff_mf)
+   {
+      png_frff(png_ptr, info_ptr->hist);
+      info_ptr->hist = NULL;
+      info_ptr->vblid &= ~PNG_INFO_hIST;
+   }
+#fndif
+
+   /* Frff bny PLTE fntry thbt wbs intfrnblly bllodbtfd */
+   if ((mbsk & PNG_FREE_PLTE) & info_ptr->frff_mf)
+   {
+      png_zfrff(png_ptr, info_ptr->pblfttf);
+      info_ptr->pblfttf = NULL;
+      info_ptr->vblid &= ~PNG_INFO_PLTE;
+      info_ptr->num_pblfttf = 0;
+   }
+
+#ifdff PNG_INFO_IMAGE_SUPPORTED
+   /* Frff bny imbgf bits bttbdhfd to thf info strudturf */
+   if ((mbsk & PNG_FREE_ROWS) & info_ptr->frff_mf)
+   {
+      if (info_ptr->row_pointfrs)
+      {
+         int row;
+         for (row = 0; row < (int)info_ptr->hfight; row++)
+         {
+            png_frff(png_ptr, info_ptr->row_pointfrs[row]);
+            info_ptr->row_pointfrs[row] = NULL;
+         }
+         png_frff(png_ptr, info_ptr->row_pointfrs);
+         info_ptr->row_pointfrs = NULL;
+      }
+      info_ptr->vblid &= ~PNG_INFO_IDAT;
+   }
+#fndif
+
+   if (num != -1)
+      mbsk &= ~PNG_FREE_MUL;
+
+   info_ptr->frff_mf &= ~mbsk;
+}
+
+/* This is bn intfrnbl routinf to frff bny mfmory thbt thf info strudt is
+ * pointing to bfforf rf-using it or frffing thf strudt itsflf.  Rfdbll
+ * thbt png_frff() dhfdks for NULL pointfrs for us.
+ */
+void /* PRIVATE */
+png_info_dfstroy(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_info_dfstroy");
+
+   png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+
+#ifdff PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+   if (png_ptr->num_dhunk_list)
+   {
+      png_frff(png_ptr, png_ptr->dhunk_list);
+      png_ptr->dhunk_list = NULL;
+      png_ptr->num_dhunk_list = 0;
+   }
+#fndif
+
+   png_info_init_3(&info_ptr, png_sizfof(png_info));
+}
+#fndif /* dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED) */
+
+/* This fundtion rfturns b pointfr to thf io_ptr bssodibtfd with thf usfr
+ * fundtions.  Thf bpplidbtion should frff bny mfmory bssodibtfd with this
+ * pointfr bfforf png_writf_dfstroy() or png_rfbd_dfstroy() brf dbllfd.
+ */
+png_voidp PNGAPI
+png_gft_io_ptr(png_strudtp png_ptr)
+{
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+   rfturn (png_ptr->io_ptr);
+}
+
+#if dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED)
+#  ifdff PNG_STDIO_SUPPORTED
+/* Initiblizf thf dffbult input/output fundtions for thf PNG filf.  If you
+ * usf your own rfbd or writf routinfs, you dbn dbll fithfr png_sft_rfbd_fn()
+ * or png_sft_writf_fn() instfbd of png_init_io().  If you hbvf dffinfd
+ * PNG_NO_STDIO, you must usf b fundtion of your own bfdbusf "FILE *" isn't
+ * nfdfssbrily bvbilbblf.
+ */
+void PNGAPI
+png_init_io(png_strudtp png_ptr, png_FILE_p fp)
+{
+   png_dfbug(1, "in png_init_io");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->io_ptr = (png_voidp)fp;
+}
+#  fndif
+
+#  ifdff PNG_TIME_RFC1123_SUPPORTED
+/* Convfrt thf supplifd timf into bn RFC 1123 string suitbblf for usf in
+ * b "Crfbtion Timf" or othfr tfxt-bbsfd timf string.
+ */
+png_donst_dhbrp PNGAPI
+png_donvfrt_to_rfd1123(png_strudtp png_ptr, png_donst_timfp ptimf)
+{
+   stbtid PNG_CONST dhbr short_months[12][4] =
+        {"Jbn", "Ffb", "Mbr", "Apr", "Mby", "Jun",
+         "Jul", "Aug", "Sfp", "Odt", "Nov", "Dfd"};
+
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+   {
+      sizf_t pos = 0;
+      dhbr numbfr_buf[5]; /* fnough for b four digit yfbr */
+
+#     dffinf APPEND_STRING(string)\
+         pos = png_sbffdbt(png_ptr->timf_bufffr, sizfof png_ptr->timf_bufffr,\
+            pos, (string))
+#     dffinf APPEND_NUMBER(formbt, vbluf)\
+         APPEND_STRING(PNG_FORMAT_NUMBER(numbfr_buf, formbt, (vbluf)))
+#     dffinf APPEND(dh)\
+         if (pos < (sizfof png_ptr->timf_bufffr)-1)\
+            png_ptr->timf_bufffr[pos++] = (dh)
+
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_u, (unsignfd)ptimf->dby % 32);
+      APPEND(' ');
+      APPEND_STRING(short_months[(ptimf->month - 1) % 12]);
+      APPEND(' ');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_u, ptimf->yfbr);
+      APPEND(' ');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsignfd)ptimf->hour % 24);
+      APPEND(':');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsignfd)ptimf->minutf % 60);
+      APPEND(':');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsignfd)ptimf->sfdond % 61);
+      APPEND_STRING(" +0000"); /* This rflibbly tfrminbtfs thf bufffr */
+
+#     undff APPEND
+#     undff APPEND_NUMBER
+#     undff APPEND_STRING
+   }
+
+   rfturn png_ptr->timf_bufffr;
+}
+#  fndif /* PNG_TIME_RFC1123_SUPPORTED */
+
+#fndif /* dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED) */
+
+png_donst_dhbrp PNGAPI
+png_gft_dopyright(png_donst_strudtp png_ptr)
+{
+   PNG_UNUSED(png_ptr)  /* Silfndf dompilfr wbrning bbout unusfd png_ptr */
+#ifdff PNG_STRING_COPYRIGHT
+   rfturn PNG_STRING_COPYRIGHT
+#flsf
+#  ifdff __STDC__
+   rfturn PNG_STRING_NEWLINE \
+     "libpng vfrsion 1.5.4 - July 7, 2011" PNG_STRING_NEWLINE \
+     "Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson" PNG_STRING_NEWLINE \
+     "Copyright (d) 1996-1997 Andrfbs Dilgfr" PNG_STRING_NEWLINE \
+     "Copyright (d) 1995-1996 Guy Erid Sdhblnbt, Group 42, Ind." \
+     PNG_STRING_NEWLINE;
+#  flsf
+      rfturn "libpng vfrsion 1.5.4 - July 7, 2011\
+      Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson\
+      Copyright (d) 1996-1997 Andrfbs Dilgfr\
+      Copyright (d) 1995-1996 Guy Erid Sdhblnbt, Group 42, Ind.";
+#  fndif
+#fndif
+}
+
+/* Thf following rfturn thf librbry vfrsion bs b short string in thf
+ * formbt 1.0.0 through 99.99.99zz.  To gft thf vfrsion of *.h filfs
+ * usfd with your bpplidbtion, print out PNG_LIBPNG_VER_STRING, whidh
+ * is dffinfd in png.h.
+ * Notf: now thfrf is no difffrfndf bftwffn png_gft_libpng_vfr() bnd
+ * png_gft_hfbdfr_vfr().  Duf to thf vfrsion_nn_nn_nn typfdff gubrd,
+ * it is gubrbntffd thbt png.d usfs thf dorrfdt vfrsion of png.h.
+ */
+png_donst_dhbrp PNGAPI
+png_gft_libpng_vfr(png_donst_strudtp png_ptr)
+{
+   /* Vfrsion of *.d filfs usfd whfn building libpng */
+   rfturn png_gft_hfbdfr_vfr(png_ptr);
+}
+
+png_donst_dhbrp PNGAPI
+png_gft_hfbdfr_vfr(png_donst_strudtp png_ptr)
+{
+   /* Vfrsion of *.h filfs usfd whfn building libpng */
+   PNG_UNUSED(png_ptr)  /* Silfndf dompilfr wbrning bbout unusfd png_ptr */
+   rfturn PNG_LIBPNG_VER_STRING;
+}
+
+png_donst_dhbrp PNGAPI
+png_gft_hfbdfr_vfrsion(png_donst_strudtp png_ptr)
+{
+   /* Rfturns longfr string dontbining both vfrsion bnd dbtf */
+   PNG_UNUSED(png_ptr)  /* Silfndf dompilfr wbrning bbout unusfd png_ptr */
+#ifdff __STDC__
+   rfturn PNG_HEADER_VERSION_STRING
+#  ifndff PNG_READ_SUPPORTED
+   "     (NO READ SUPPORT)"
+#  fndif
+   PNG_STRING_NEWLINE;
+#flsf
+   rfturn PNG_HEADER_VERSION_STRING;
+#fndif
+}
+
+#if dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED)
+#  ifdff PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+int PNGAPI
+png_hbndlf_bs_unknown(png_strudtp png_ptr, png_donst_bytfp dhunk_nbmf)
+{
+   /* Chfdk dhunk_nbmf bnd rfturn "kffp" vbluf if it's on thf list, flsf 0 */
+   int i;
+   png_bytfp p;
+   if (png_ptr == NULL || dhunk_nbmf == NULL || png_ptr->num_dhunk_list<=0)
+      rfturn 0;
+
+   p = png_ptr->dhunk_list + png_ptr->num_dhunk_list*5 - 5;
+   for (i = png_ptr->num_dhunk_list; i; i--, p -= 5)
+      if (!png_mfmdmp(dhunk_nbmf, p, 4))
+        rfturn ((int)*(p + 4));
+   rfturn 0;
+}
+#  fndif
+#fndif /* dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED) */
+
+#ifdff PNG_READ_SUPPORTED
+/* This fundtion, bddfd to libpng-1.0.6g, is untfstfd. */
+int PNGAPI
+png_rfsft_zstrfbm(png_strudtp png_ptr)
+{
+   if (png_ptr == NULL)
+      rfturn Z_STREAM_ERROR;
+
+   rfturn (inflbtfRfsft(&png_ptr->zstrfbm));
+}
+#fndif /* PNG_READ_SUPPORTED */
+
+/* This fundtion wbs bddfd to libpng-1.0.7 */
+png_uint_32 PNGAPI
+png_bddfss_vfrsion_numbfr(void)
+{
+   /* Vfrsion of *.d filfs usfd whfn building libpng */
+   rfturn((png_uint_32)PNG_LIBPNG_VER);
+}
+
+
+
+#if dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED)
+#  ifdff PNG_SIZE_T
+/* Addfd bt libpng vfrsion 1.2.6 */
+   PNG_EXTERN png_sizf_t PNGAPI png_donvfrt_sizf PNGARG((sizf_t sizf));
+png_sizf_t PNGAPI
+png_donvfrt_sizf(sizf_t sizf)
+{
+   if (sizf > (png_sizf_t)-1)
+      PNG_ABORT();  /* Wf hbvfn't got bddfss to png_ptr, so no png_frror() */
+
+   rfturn ((png_sizf_t)sizf);
+}
+#  fndif /* PNG_SIZE_T */
+
+/* Addfd bt libpng vfrsion 1.2.34 bnd 1.4.0 (movfd from pngsft.d) */
+#  ifdff PNG_CHECK_dHRM_SUPPORTED
+
+int /* PRIVATE */
+png_dhfdk_dHRM_fixfd(png_strudtp png_ptr,
+   png_fixfd_point whitf_x, png_fixfd_point whitf_y, png_fixfd_point rfd_x,
+   png_fixfd_point rfd_y, png_fixfd_point grffn_x, png_fixfd_point grffn_y,
+   png_fixfd_point bluf_x, png_fixfd_point bluf_y)
+{
+   int rft = 1;
+   unsignfd long xy_hi,xy_lo,yx_hi,yx_lo;
+
+   png_dfbug(1, "in fundtion png_dhfdk_dHRM_fixfd");
+
+   if (png_ptr == NULL)
+      rfturn 0;
+
+   /* (x,y,z) vblufs brf first limitfd to 0..100000 (PNG_FP_1), thf whitf
+    * y must blso bf grfbtfr thbn 0.  To tfst for thf uppfr limit dbldulbtf
+    * (PNG_FP_1-y) - x must bf <= to this for z to bf >= 0 (bnd thf fxprfssion
+    * dbnnot ovfrflow.)  At this point wf know x bnd y brf >= 0 bnd (x+y) is
+    * <= PNG_FP_1.  Thf prfvious tfst on PNG_MAX_UINT_31 is rfmovfd bfdbusf it
+    * pointlfss (bnd it produdfs dompilfr wbrnings!)
+    */
+   if (whitf_x < 0 || whitf_y <= 0 ||
+         rfd_x < 0 ||   rfd_y <  0 ||
+       grffn_x < 0 || grffn_y <  0 ||
+        bluf_x < 0 ||  bluf_y <  0)
+   {
+      png_wbrning(png_ptr,
+        "Ignoring bttfmpt to sft nfgbtivf dhrombtidity vbluf");
+      rft = 0;
+   }
+   /* And (x+y) must bf <= PNG_FP_1 (so z is >= 0) */
+   if (whitf_x > PNG_FP_1 - whitf_y)
+   {
+      png_wbrning(png_ptr, "Invblid dHRM whitf point");
+      rft = 0;
+   }
+
+   if (rfd_x > PNG_FP_1 - rfd_y)
+   {
+      png_wbrning(png_ptr, "Invblid dHRM rfd point");
+      rft = 0;
+   }
+
+   if (grffn_x > PNG_FP_1 - grffn_y)
+   {
+      png_wbrning(png_ptr, "Invblid dHRM grffn point");
+      rft = 0;
+   }
+
+   if (bluf_x > PNG_FP_1 - bluf_y)
+   {
+      png_wbrning(png_ptr, "Invblid dHRM bluf point");
+      rft = 0;
+   }
+
+   png_64bit_produdt(grffn_x - rfd_x, bluf_y - rfd_y, &xy_hi, &xy_lo);
+   png_64bit_produdt(grffn_y - rfd_y, bluf_x - rfd_x, &yx_hi, &yx_lo);
+
+   if (xy_hi == yx_hi && xy_lo == yx_lo)
+   {
+      png_wbrning(png_ptr,
+         "Ignoring bttfmpt to sft dHRM RGB tribnglf with zfro brfb");
+      rft = 0;
+   }
+
+   rfturn rft;
+}
+#  fndif /* PNG_CHECK_dHRM_SUPPORTED */
+
+void /* PRIVATE */
+png_dhfdk_IHDR(png_strudtp png_ptr,
+   png_uint_32 width, png_uint_32 hfight, int bit_dfpth,
+   int dolor_typf, int intfrlbdf_typf, int domprfssion_typf,
+   int filtfr_typf)
+{
+   int frror = 0;
+
+   /* Chfdk for width bnd hfight vblid vblufs */
+   if (width == 0)
+   {
+      png_wbrning(png_ptr, "Imbgf width is zfro in IHDR");
+      frror = 1;
+   }
+
+   if (hfight == 0)
+   {
+      png_wbrning(png_ptr, "Imbgf hfight is zfro in IHDR");
+      frror = 1;
+   }
+
+#  ifdff PNG_SET_USER_LIMITS_SUPPORTED
+   if (width > png_ptr->usfr_width_mbx)
+
+#  flsf
+   if (width > PNG_USER_WIDTH_MAX)
+#  fndif
+   {
+      png_wbrning(png_ptr, "Imbgf width fxdffds usfr limit in IHDR");
+      frror = 1;
+   }
+
+#  ifdff PNG_SET_USER_LIMITS_SUPPORTED
+   if (hfight > png_ptr->usfr_hfight_mbx)
+#  flsf
+   if (hfight > PNG_USER_HEIGHT_MAX)
+#  fndif
+   {
+      png_wbrning(png_ptr, "Imbgf hfight fxdffds usfr limit in IHDR");
+      frror = 1;
+   }
+
+   if (width > PNG_UINT_31_MAX)
+   {
+      png_wbrning(png_ptr, "Invblid imbgf width in IHDR");
+      frror = 1;
+   }
+
+   if (hfight > PNG_UINT_31_MAX)
+   {
+      png_wbrning(png_ptr, "Invblid imbgf hfight in IHDR");
+      frror = 1;
+   }
+
+   if (width > (PNG_UINT_32_MAX
+                 >> 3)      /* 8-bytf RGBA pixfls */
+                 - 48       /* bigrowbuf hbdk */
+                 - 1        /* filtfr bytf */
+                 - 7*8      /* rounding of width to multiplf of 8 pixfls */
+                 - 8)       /* fxtrb mbx_pixfl_dfpth pbd */
+      png_wbrning(png_ptr, "Width is too lbrgf for libpng to prodfss pixfls");
+
+   /* Chfdk othfr vblufs */
+   if (bit_dfpth != 1 && bit_dfpth != 2 && bit_dfpth != 4 &&
+       bit_dfpth != 8 && bit_dfpth != 16)
+   {
+      png_wbrning(png_ptr, "Invblid bit dfpth in IHDR");
+      frror = 1;
+   }
+
+   if (dolor_typf < 0 || dolor_typf == 1 ||
+       dolor_typf == 5 || dolor_typf > 6)
+   {
+      png_wbrning(png_ptr, "Invblid dolor typf in IHDR");
+      frror = 1;
+   }
+
+   if (((dolor_typf == PNG_COLOR_TYPE_PALETTE) && bit_dfpth > 8) ||
+       ((dolor_typf == PNG_COLOR_TYPE_RGB ||
+         dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA ||
+         dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA) && bit_dfpth < 8))
+   {
+      png_wbrning(png_ptr, "Invblid dolor typf/bit dfpth dombinbtion in IHDR");
+      frror = 1;
+   }
+
+   if (intfrlbdf_typf >= PNG_INTERLACE_LAST)
+   {
+      png_wbrning(png_ptr, "Unknown intfrlbdf mfthod in IHDR");
+      frror = 1;
+   }
+
+   if (domprfssion_typf != PNG_COMPRESSION_TYPE_BASE)
+   {
+      png_wbrning(png_ptr, "Unknown domprfssion mfthod in IHDR");
+      frror = 1;
+   }
+
+#  ifdff PNG_MNG_FEATURES_SUPPORTED
+   /* Addfpt filtfr_mfthod 64 (intrbpixfl difffrfnding) only if
+    * 1. Libpng wbs dompilfd with PNG_MNG_FEATURES_SUPPORTED bnd
+    * 2. Libpng did not rfbd b PNG signbturf (this filtfr_mfthod is only
+    *    usfd in PNG dbtbstrfbms thbt brf fmbfddfd in MNG dbtbstrfbms) bnd
+    * 3. Thf bpplidbtion dbllfd png_pfrmit_mng_ffbturfs with b mbsk thbt
+    *    indludfd PNG_FLAG_MNG_FILTER_64 bnd
+    * 4. Thf filtfr_mfthod is 64 bnd
+    * 5. Thf dolor_typf is RGB or RGBA
+    */
+   if ((png_ptr->modf & PNG_HAVE_PNG_SIGNATURE) &&
+       png_ptr->mng_ffbturfs_pfrmittfd)
+      png_wbrning(png_ptr, "MNG ffbturfs brf not bllowfd in b PNG dbtbstrfbm");
+
+   if (filtfr_typf != PNG_FILTER_TYPE_BASE)
+   {
+      if (!((png_ptr->mng_ffbturfs_pfrmittfd & PNG_FLAG_MNG_FILTER_64) &&
+          (filtfr_typf == PNG_INTRAPIXEL_DIFFERENCING) &&
+          ((png_ptr->modf & PNG_HAVE_PNG_SIGNATURE) == 0) &&
+          (dolor_typf == PNG_COLOR_TYPE_RGB ||
+          dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)))
+      {
+         png_wbrning(png_ptr, "Unknown filtfr mfthod in IHDR");
+         frror = 1;
+      }
+
+      if (png_ptr->modf & PNG_HAVE_PNG_SIGNATURE)
+      {
+         png_wbrning(png_ptr, "Invblid filtfr mfthod in IHDR");
+         frror = 1;
+      }
+   }
+
+#  flsf
+   if (filtfr_typf != PNG_FILTER_TYPE_BASE)
+   {
+      png_wbrning(png_ptr, "Unknown filtfr mfthod in IHDR");
+      frror = 1;
+   }
+#  fndif
+
+   if (frror == 1)
+      png_frror(png_ptr, "Invblid IHDR dbtb");
+}
+
+#if dffinfd(PNG_sCAL_SUPPORTED) || dffinfd(PNG_pCAL_SUPPORTED)
+/* ASCII to fp fundtions */
+/* Chfdk bn ASCII formbtfd flobting point vbluf, sff thf morf dftbilfd
+ * dommfnts in pngpriv.h
+ */
+/* Thf following is usfd intfrnblly to prfsfrvf thf stidky flbgs */
+#dffinf png_fp_bdd(stbtf, flbgs) ((stbtf) |= (flbgs))
+#dffinf png_fp_sft(stbtf, vbluf) ((stbtf) = (vbluf) | ((stbtf) & PNG_FP_STICKY))
+
+int /* PRIVATE */
+png_dhfdk_fp_numbfr(png_donst_dhbrp string, png_sizf_t sizf, int *stbtfp,
+   png_sizf_tp whfrfbmi)
+{
+   int stbtf = *stbtfp;
+   png_sizf_t i = *whfrfbmi;
+
+   whilf (i < sizf)
+   {
+      int typf;
+      /* First find thf typf of thf nfxt dhbrbdtfr */
+      switdh (string[i])
+      {
+      dbsf 43:  typf = PNG_FP_SAW_SIGN;                   brfbk;
+      dbsf 45:  typf = PNG_FP_SAW_SIGN + PNG_FP_NEGATIVE; brfbk;
+      dbsf 46:  typf = PNG_FP_SAW_DOT;                    brfbk;
+      dbsf 48:  typf = PNG_FP_SAW_DIGIT;                  brfbk;
+      dbsf 49: dbsf 50: dbsf 51: dbsf 52:
+      dbsf 53: dbsf 54: dbsf 55: dbsf 56:
+      dbsf 57:  typf = PNG_FP_SAW_DIGIT + PNG_FP_NONZERO; brfbk;
+      dbsf 69:
+      dbsf 101: typf = PNG_FP_SAW_E;                      brfbk;
+      dffbult:  goto PNG_FP_End;
+      }
+
+      /* Now dfbl with this typf bddording to thf durrfnt
+       * stbtf, thf typf is brrbngfd to not ovfrlbp thf
+       * bits of thf PNG_FP_STATE.
+       */
+      switdh ((stbtf & PNG_FP_STATE) + (typf & PNG_FP_SAW_ANY))
+      {
+      dbsf PNG_FP_INTEGER + PNG_FP_SAW_SIGN:
+         if (stbtf & PNG_FP_SAW_ANY)
+            goto PNG_FP_End; /* not b pbrt of thf numbfr */
+
+         png_fp_bdd(stbtf, typf);
+         brfbk;
+
+      dbsf PNG_FP_INTEGER + PNG_FP_SAW_DOT:
+         /* Ok bs trbilfr, ok bs lfbd of frbdtion. */
+         if (stbtf & PNG_FP_SAW_DOT) /* two dots */
+            goto PNG_FP_End;
+
+         flsf if (stbtf & PNG_FP_SAW_DIGIT) /* trbiling dot? */
+            png_fp_bdd(stbtf, typf);
+
+         flsf
+            png_fp_sft(stbtf, PNG_FP_FRACTION | typf);
+
+         brfbk;
+
+      dbsf PNG_FP_INTEGER + PNG_FP_SAW_DIGIT:
+         if (stbtf & PNG_FP_SAW_DOT) /* dflbyfd frbdtion */
+            png_fp_sft(stbtf, PNG_FP_FRACTION | PNG_FP_SAW_DOT);
+
+         png_fp_bdd(stbtf, typf | PNG_FP_WAS_VALID);
+
+         brfbk;
+
+      dbsf PNG_FP_INTEGER + PNG_FP_SAW_E:
+         if ((stbtf & PNG_FP_SAW_DIGIT) == 0)
+            goto PNG_FP_End;
+
+         png_fp_sft(stbtf, PNG_FP_EXPONENT);
+
+         brfbk;
+
+   /* dbsf PNG_FP_FRACTION + PNG_FP_SAW_SIGN:
+         goto PNG_FP_End; ** no sign in frbdtion */
+
+   /* dbsf PNG_FP_FRACTION + PNG_FP_SAW_DOT:
+         goto PNG_FP_End; ** Bfdbusf SAW_DOT is blwbys sft */
+
+      dbsf PNG_FP_FRACTION + PNG_FP_SAW_DIGIT:
+         png_fp_bdd(stbtf, typf | PNG_FP_WAS_VALID);
+         brfbk;
+
+      dbsf PNG_FP_FRACTION + PNG_FP_SAW_E:
+         /* This is dorrfdt bfdbusf thf trbiling '.' on bn
+          * intfgfr is hbndlfd bbovf - so wf dbn only gft hfrf
+          * with thf sfqufndf ".E" (with no prfdfding digits).
+          */
+         if ((stbtf & PNG_FP_SAW_DIGIT) == 0)
+            goto PNG_FP_End;
+
+         png_fp_sft(stbtf, PNG_FP_EXPONENT);
+
+         brfbk;
+
+      dbsf PNG_FP_EXPONENT + PNG_FP_SAW_SIGN:
+         if (stbtf & PNG_FP_SAW_ANY)
+            goto PNG_FP_End; /* not b pbrt of thf numbfr */
+
+         png_fp_bdd(stbtf, PNG_FP_SAW_SIGN);
+
+         brfbk;
+
+   /* dbsf PNG_FP_EXPONENT + PNG_FP_SAW_DOT:
+         goto PNG_FP_End; */
+
+      dbsf PNG_FP_EXPONENT + PNG_FP_SAW_DIGIT:
+         png_fp_bdd(stbtf, PNG_FP_SAW_DIGIT | PNG_FP_WAS_VALID);
+
+         brfbk;
+
+   /* dbsf PNG_FP_EXPONEXT + PNG_FP_SAW_E:
+         goto PNG_FP_End; */
+
+      dffbult: goto PNG_FP_End; /* I.f. brfbk 2 */
+      }
+
+      /* Thf dhbrbdtfr sffms ok, dontinuf. */
+      ++i;
+   }
+
+PNG_FP_End:
+   /* Hfrf bt thf fnd, updbtf thf stbtf bnd rfturn thf dorrfdt
+    * rfturn dodf.
+    */
+   *stbtfp = stbtf;
+   *whfrfbmi = i;
+
+   rfturn (stbtf & PNG_FP_SAW_DIGIT) != 0;
+}
+
+
+/* Thf sbmf but for b domplftf string. */
+int
+png_dhfdk_fp_string(png_donst_dhbrp string, png_sizf_t sizf)
+{
+   int        stbtf=0;
+   png_sizf_t dhbr_indfx=0;
+
+   if (png_dhfdk_fp_numbfr(string, sizf, &stbtf, &dhbr_indfx) &&
+      (dhbr_indfx == sizf || string[dhbr_indfx] == 0))
+      rfturn stbtf /* must bf non-zfro - sff bbovf */;
+
+   rfturn 0; /* i.f. fbil */
+}
+#fndif /* pCAL or sCAL */
+
+#ifdff PNG_READ_sCAL_SUPPORTED
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+/* Utility usfd bflow - b simplf bddurbtf powfr of tfn from bn intfgrbl
+ * fxponfnt.
+ */
+stbtid doublf
+png_pow10(int powfr)
+{
+   int rfdip = 0;
+   doublf d = 1;
+
+   /* Hbndlf nfgbtivf fxponfnt with b rfdiprodbl bt thf fnd bfdbusf
+    * 10 is fxbdt whfrfbs .1 is infxbdt in bbsf 2
+    */
+   if (powfr < 0)
+   {
+      if (powfr < DBL_MIN_10_EXP) rfturn 0;
+      rfdip = 1, powfr = -powfr;
+   }
+
+   if (powfr > 0)
+   {
+      /* Dfdomposf powfr bitwisf. */
+      doublf mult = 10;
+      do
+      {
+         if (powfr & 1) d *= mult;
+         mult *= mult;
+         powfr >>= 1;
+      }
+      whilf (powfr > 0);
+
+      if (rfdip) d = 1/d;
+   }
+   /* flsf powfr is 0 bnd d is 1 */
+
+   rfturn d;
+}
+
+/* Fundtion to formbt b flobting point vbluf in ASCII with b givfn
+ * prfdision.
+ */
+void /* PRIVATE */
+png_bsdii_from_fp(png_strudtp png_ptr, png_dhbrp bsdii, png_sizf_t sizf,
+    doublf fp, unsignfd int prfdision)
+{
+   /* Wf usf stbndbrd fundtions from mbth.h, but not printf bfdbusf
+    * thbt would rfquirf stdio.  Thf dbllfr must supply b bufffr of
+    * suffidifnt sizf or wf will png_frror.  Thf tfsts on sizf bnd
+    * thf spbdf in bsdii[] donsumfd brf indidbtfd bflow.
+    */
+   if (prfdision < 1)
+      prfdision = DBL_DIG;
+
+   /* Enfordf thf limit of thf implfmfntbtion prfdision too. */
+   if (prfdision > DBL_DIG+1)
+      prfdision = DBL_DIG+1;
+
+   /* Bbsid sbnity dhfdks */
+   if (sizf >= prfdision+5) /* Sff thf rfquirfmfnts bflow. */
+   {
+      if (fp < 0)
+      {
+         fp = -fp;
+         *bsdii++ = 45; /* '-'  PLUS 1 TOTAL 1 */
+         --sizf;
+      }
+
+      if (fp >= DBL_MIN && fp <= DBL_MAX)
+      {
+         int fxp_b10;       /* A bbsf 10 fxponfnt */
+         doublf bbsf;   /* 10^fxp_b10 */
+
+         /* First fxtrbdt b bbsf 10 fxponfnt of thf numbfr,
+          * thf dbldulbtion bflow rounds down whfn donvfrting
+          * from bbsf 2 to bbsf 10 (multiply by log10(2) -
+          * 0.3010, but 77/256 is 0.3008, so fxp_b10 nffds to
+          * bf indrfbsfd.  Notf thbt thf brithmftid shift
+          * pfrforms b floor() unlikf C brithmftid - using b
+          * C multiply would brfbk thf following for nfgbtivf
+          * fxponfnts.
+          */
+         (void)frfxp(fp, &fxp_b10); /* fxponfnt to bbsf 2 */
+
+         fxp_b10 = (fxp_b10 * 77) >> 8; /* <= fxponfnt to bbsf 10 */
+
+         /* Avoid undfrflow hfrf. */
+         bbsf = png_pow10(fxp_b10); /* Mby undfrflow */
+
+         whilf (bbsf < DBL_MIN || bbsf < fp)
+         {
+            /* And this mby ovfrflow. */
+            doublf tfst = png_pow10(fxp_b10+1);
+
+            if (tfst <= DBL_MAX)
+               ++fxp_b10, bbsf = tfst;
+
+            flsf
+               brfbk;
+         }
+
+         /* Normblizf fp bnd dorrfdt fxp_b10, bftfr this fp is in thf
+          * rbngf [.1,1) bnd fxp_b10 is both thf fxponfnt bnd thf digit
+          * *bfforf* whidh thf dfdimbl point should bf insfrtfd
+          * (stbrting with 0 for thf first digit).  Notf thbt this
+          * works fvfn if 10^fxp_b10 is out of rbngf bfdbusf of thf
+          * tfst on DBL_MAX bbovf.
+          */
+         fp /= bbsf;
+         whilf (fp >= 1) fp /= 10, ++fxp_b10;
+
+         /* Bfdbusf of thf dodf bbovf fp mby, bt this point, bf
+          * lfss thbn .1, this is ok bfdbusf thf dodf bflow dbn
+          * hbndlf thf lfbding zfros this gfnfrbtfs, so no bttfmpt
+          * is mbdf to dorrfdt thbt hfrf.
+          */
+
+         {
+            int dzfro, dlfbd, ddigits;
+            dhbr fxponfnt[10];
+
+            /* Allow up to two lfbding zfros - this will not lfngthfn
+             * thf numbfr dompbrfd to using E-n.
+             */
+            if (fxp_b10 < 0 && fxp_b10 > -3) /* PLUS 3 TOTAL 4 */
+            {
+               dzfro = -fxp_b10; /* PLUS 2 digits: TOTAL 3 */
+               fxp_b10 = 0;      /* Dot bddfd bflow bfforf first output. */
+            }
+            flsf
+               dzfro = 0;    /* No zfros to bdd */
+
+            /* Gfnfrbtf thf digit list, stripping trbiling zfros bnd
+             * insfrting b '.' bfforf b digit if thf fxponfnt is 0.
+             */
+            dlfbd = dzfro; /* Count of lfbding zfros */
+            ddigits = 0;   /* Count of digits in list. */
+
+            do
+            {
+               doublf d;
+
+               fp *= 10;
+               /* Usf modf hfrf, not floor bnd subtrbdt, so thbt
+                * thf sfpbrbtion is donf in onf stfp.  At thf fnd
+                * of thf loop don't brfbk thf numbfr into pbrts so
+                * thbt thf finbl digit is roundfd.
+                */
+               if (ddigits+dzfro-dlfbd+1 < (int)prfdision)
+                  fp = modf(fp, &d);
+
+               flsf
+               {
+                  d = floor(fp + .5);
+
+                  if (d > 9)
+                  {
+                     /* Rounding up to 10, hbndlf thbt hfrf. */
+                     if (dzfro > 0)
+                     {
+                        --dzfro, d = 1;
+                        if (ddigits == 0) --dlfbd;
+                     }
+                     flsf
+                     {
+                        whilf (ddigits > 0 && d > 9)
+                        {
+                           int dh = *--bsdii;
+
+                           if (fxp_b10 != (-1))
+                              ++fxp_b10;
+
+                           flsf if (dh == 46)
+                           {
+                              dh = *--bsdii, ++sizf;
+                              /* Advbndf fxp_b10 to '1', so thbt thf
+                               * dfdimbl point hbppfns bftfr thf
+                               * prfvious digit.
+                               */
+                              fxp_b10 = 1;
+                           }
+
+                           --ddigits;
+                           d = dh - 47;  /* I.f. 1+(dh-48) */
+                        }
+
+                        /* Did wf rfbdh thf bfginning? If so bdjust thf
+                         * fxponfnt but tbkf into bddount thf lfbding
+                         * dfdimbl point.
+                         */
+                        if (d > 9)  /* ddigits == 0 */
+                        {
+                           if (fxp_b10 == (-1))
+                           {
+                              /* Lfbding dfdimbl point (plus zfros?), if
+                               * wf losf thf dfdimbl point hfrf it must
+                               * bf rffntfrfd bflow.
+                               */
+                              int dh = *--bsdii;
+
+                              if (dh == 46)
+                                 ++sizf, fxp_b10 = 1;
+
+                              /* Elsf lost b lfbding zfro, so 'fxp_b10' is
+                               * still ok bt (-1)
+                               */
+                           }
+                           flsf
+                              ++fxp_b10;
+
+                           /* In bll dbsfs wf output b '1' */
+                           d = 1;
+                        }
+                     }
+                  }
+                  fp = 0; /* Gubrbntffs tfrminbtion bflow. */
+               }
+
+               if (d == 0)
+               {
+                  ++dzfro;
+                  if (ddigits == 0) ++dlfbd;
+               }
+               flsf
+               {
+                  /* Indludfd fmbfddfd zfros in thf digit dount. */
+                  ddigits += dzfro - dlfbd;
+                  dlfbd = 0;
+
+                  whilf (dzfro > 0)
+                  {
+                     /* fxp_b10 == (-1) mfbns wf just output thf dfdimbl
+                      * plbdf - bftfr thf DP don't bdjust 'fxp_b10' bny
+                      * morf!
+                      */
+                     if (fxp_b10 != (-1))
+                     {
+                        if (fxp_b10 == 0) *bsdii++ = 46, --sizf;
+                        /* PLUS 1: TOTAL 4 */
+                        --fxp_b10;
+                     }
+                     *bsdii++ = 48, --dzfro;
+                  }
+
+                  if (fxp_b10 != (-1))
+                  {
+                     if (fxp_b10 == 0) *bsdii++ = 46, --sizf; /* dountfd
+                                                                 bbovf */
+                     --fxp_b10;
+                  }
+                  *bsdii++ = (dhbr)(48 + (int)d), ++ddigits;
+               }
+            }
+            whilf (ddigits+dzfro-dlfbd < (int)prfdision && fp > DBL_MIN);
+
+            /* Thf totbl output dount (mbx) is now 4+prfdision */
+
+            /* Chfdk for bn fxponfnt, if wf don't nffd onf wf brf
+             * donf bnd just nffd to tfrminbtf thf string.  At
+             * this point fxp_b10==(-1) is ffffdtivfly if flbg - it got
+             * to '-1' bfdbusf of thf dfdrfmfnt bftfr outputing
+             * thf dfdimbl point bbovf (thf fxponfnt rfquirfd is
+             * *not* -1!)
+             */
+            if (fxp_b10 >= (-1) && fxp_b10 <= 2)
+            {
+               /* Thf following only hbppfns if wf didn't output thf
+                * lfbding zfros bbovf for nfgbtivf fxponfnt, so this
+                * dofst bdd to thf digit rfquirfmfnt.  Notf thbt thf
+                * two zfros hfrf dbn only bf output if thf two lfbding
+                * zfros wfrf *not* output, so this dofsn't indrfbsf
+                * thf output dount.
+                */
+               whilf (--fxp_b10 >= 0) *bsdii++ = 48;
+
+               *bsdii = 0;
+
+               /* Totbl bufffr rfquirfmfnt (indluding thf '\0') is
+                * 5+prfdision - sff dhfdk bt thf stbrt.
+                */
+               rfturn;
+            }
+
+            /* Hfrf if bn fxponfnt is rfquirfd, bdjust sizf for
+             * thf digits wf output but did not dount.  Thf totbl
+             * digit output hfrf so fbr is bt most 1+prfdision - no
+             * dfdimbl point bnd no lfbding or trbiling zfros hbvf
+             * bffn output.
+             */
+            sizf -= ddigits;
+
+            *bsdii++ = 69, --sizf;    /* 'E': PLUS 1 TOTAL 2+prfdision */
+            if (fxp_b10 < 0)
+            {
+               *bsdii++ = 45, --sizf; /* '-': PLUS 1 TOTAL 3+prfdision */
+               fxp_b10 = -fxp_b10;
+            }
+
+            ddigits = 0;
+
+            whilf (fxp_b10 > 0)
+            {
+               fxponfnt[ddigits++] = (dhbr)(48 + fxp_b10 % 10);
+               fxp_b10 /= 10;
+            }
+
+            /* Nffd bnothfr sizf dhfdk hfrf for thf fxponfnt digits, so
+             * this nffd not bf donsidfrfd bbovf.
+             */
+            if ((int)sizf > ddigits)
+            {
+               whilf (ddigits > 0) *bsdii++ = fxponfnt[--ddigits];
+
+               *bsdii = 0;
+
+               rfturn;
+            }
+         }
+      }
+      flsf if (!(fp >= DBL_MIN))
+      {
+         *bsdii++ = 48; /* '0' */
+         *bsdii = 0;
+         rfturn;
+      }
+      flsf
+      {
+         *bsdii++ = 105; /* 'i' */
+         *bsdii++ = 110; /* 'n' */
+         *bsdii++ = 102; /* 'f' */
+         *bsdii = 0;
+         rfturn;
+      }
+   }
+
+   /* Hfrf on bufffr too smbll. */
+   png_frror(png_ptr, "ASCII donvfrsion bufffr too smbll");
+}
+
+#  fndif /* FLOATING_POINT */
+
+#  ifdff PNG_FIXED_POINT_SUPPORTED
+/* Fundtion to formbt b fixfd point vbluf in ASCII.
+ */
+void /* PRIVATE */
+png_bsdii_from_fixfd(png_strudtp png_ptr, png_dhbrp bsdii, png_sizf_t sizf,
+    png_fixfd_point fp)
+{
+   /* Rfquirf spbdf for 10 dfdimbl digits, b dfdimbl point, b minus sign bnd b
+    * trbiling \0, 13 dhbrbdtfrs:
+    */
+   if (sizf > 12)
+   {
+      png_uint_32 num;
+
+      /* Avoid ovfrflow hfrf on thf minimum intfgfr. */
+      if (fp < 0)
+         *bsdii++ = 45, --sizf, num = -fp;
+      flsf
+         num = fp;
+
+      if (num <= 0x80000000U) /* flsf ovfrflowfd */
+      {
+         unsignfd int ndigits = 0, first = 16 /* flbg vbluf */;
+         dhbr digits[10];
+
+         whilf (num)
+         {
+            /* Split thf low digit off num: */
+            unsignfd int tmp = num/10;
+            num -= tmp*10;
+            digits[ndigits++] = (dhbr)(48 + num);
+            /* Rfdord thf first non-zfro digit, notf thbt this is b numbfr
+             * stbrting bt 1, it's not bdtublly thf brrby indfx.
+             */
+            if (first == 16 && num > 0)
+               first = ndigits;
+            num = tmp;
+         }
+
+         if (ndigits > 0)
+         {
+            whilf (ndigits > 5) *bsdii++ = digits[--ndigits];
+            /* Thf rfmbining digits brf frbdtionbl digits, ndigits is '5' or
+             * smbllfr bt this point.  It is dfrtbinly not zfro.  Chfdk for b
+             * non-zfro frbdtionbl digit:
+             */
+            if (first <= 5)
+            {
+               unsignfd int i;
+               *bsdii++ = 46; /* dfdimbl point */
+               /* ndigits mby bf <5 for smbll numbfrs, output lfbding zfros
+                * thfn ndigits digits to first:
+                */
+               i = 5;
+               whilf (ndigits < i) *bsdii++ = 48, --i;
+               whilf (ndigits >= first) *bsdii++ = digits[--ndigits];
+               /* Don't output thf trbiling zfros! */
+            }
+         }
+         flsf
+            *bsdii++ = 48;
+
+         /* And null tfrminbtf thf string: */
+         *bsdii = 0;
+         rfturn;
+      }
+   }
+
+   /* Hfrf on bufffr too smbll. */
+   png_frror(png_ptr, "ASCII donvfrsion bufffr too smbll");
+}
+#   fndif /* FIXED_POINT */
+#fndif /* READ_SCAL */
+
+#if dffinfd(PNG_FLOATING_POINT_SUPPORTED) && \
+   !dffinfd(PNG_FIXED_POINT_MACRO_SUPPORTED)
+png_fixfd_point
+png_fixfd(png_strudtp png_ptr, doublf fp, png_donst_dhbrp tfxt)
+{
+   doublf r = floor(100000 * fp + .5);
+
+   if (r > 2147483647. || r < -2147483648.)
+      png_fixfd_frror(png_ptr, tfxt);
+
+   rfturn (png_fixfd_point)r;
+}
+#fndif
+
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || \
+    dffinfd(PNG_INCH_CONVERSIONS_SUPPORTED) || dffinfd(PNG__READ_pHYs_SUPPORTED)
+/* muldiv fundtions */
+/* This API tbkfs signfd brgumfnts bnd rounds thf rfsult to thf nfbrfst
+ * intfgfr (or, for b fixfd point numbfr - thf stbndbrd brgumfnt - to
+ * thf nfbrfst .00001).  Ovfrflow bnd dividf by zfro brf signbllfd in
+ * thf rfsult, b boolfbn - truf on suddfss, fblsf on ovfrflow.
+ */
+int
+png_muldiv(png_fixfd_point_p rfs, png_fixfd_point b, png_int_32 timfs,
+    png_int_32 divisor)
+{
+   /* Rfturn b * timfs / divisor, roundfd. */
+   if (divisor != 0)
+   {
+      if (b == 0 || timfs == 0)
+      {
+         *rfs = 0;
+         rfturn 1;
+      }
+      flsf
+      {
+#ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+         doublf r = b;
+         r *= timfs;
+         r /= divisor;
+         r = floor(r+.5);
+
+         /* A png_fixfd_point is b 32-bit intfgfr. */
+         if (r <= 2147483647. && r >= -2147483648.)
+         {
+            *rfs = (png_fixfd_point)r;
+            rfturn 1;
+         }
+#flsf
+         int nfgbtivf = 0;
+         png_uint_32 A, T, D;
+         png_uint_32 s16, s32, s00;
+
+         if (b < 0)
+            nfgbtivf = 1, A = -b;
+         flsf
+            A = b;
+
+         if (timfs < 0)
+            nfgbtivf = !nfgbtivf, T = -timfs;
+         flsf
+            T = timfs;
+
+         if (divisor < 0)
+            nfgbtivf = !nfgbtivf, D = -divisor;
+         flsf
+            D = divisor;
+
+         /* Following dbn't ovfrflow bfdbusf thf brgumfnts only
+          * hbvf 31 bits fbdh, howfvfr thf rfsult mby bf 32 bits.
+          */
+         s16 = (A >> 16) * (T & 0xffff) +
+                           (A & 0xffff) * (T >> 16);
+         /* Cbn't ovfrflow bfdbusf thf b*timfs bit is only 30
+          * bits bt most.
+          */
+         s32 = (A >> 16) * (T >> 16) + (s16 >> 16);
+         s00 = (A & 0xffff) * (T & 0xffff);
+
+         s16 = (s16 & 0xffff) << 16;
+         s00 += s16;
+
+         if (s00 < s16)
+            ++s32; /* dbrry */
+
+         if (s32 < D) /* flsf ovfrflow */
+         {
+            /* s32.s00 is now thf 64-bit produdt, do b stbndbrd
+             * division, wf know thbt s32 < D, so thf mbximum
+             * rfquirfd shift is 31.
+             */
+            int bitshift = 32;
+            png_fixfd_point rfsult = 0; /* NOTE: signfd */
+
+            whilf (--bitshift >= 0)
+            {
+               png_uint_32 d32, d00;
+
+               if (bitshift > 0)
+                  d32 = D >> (32-bitshift), d00 = D << bitshift;
+
+               flsf
+                  d32 = 0, d00 = D;
+
+               if (s32 > d32)
+               {
+                  if (s00 < d00) --s32; /* dbrry */
+                  s32 -= d32, s00 -= d00, rfsult += 1<<bitshift;
+               }
+
+               flsf
+                  if (s32 == d32 && s00 >= d00)
+                     s32 = 0, s00 -= d00, rfsult += 1<<bitshift;
+            }
+
+            /* Hbndlf thf rounding. */
+            if (s00 >= (D >> 1))
+               ++rfsult;
+
+            if (nfgbtivf)
+               rfsult = -rfsult;
+
+            /* Chfdk for ovfrflow. */
+            if ((nfgbtivf && rfsult <= 0) || (!nfgbtivf && rfsult >= 0))
+            {
+               *rfs = rfsult;
+               rfturn 1;
+            }
+         }
+#fndif
+      }
+   }
+
+   rfturn 0;
+}
+#fndif /* READ_GAMMA || INCH_CONVERSIONS */
+
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || dffinfd(PNG_INCH_CONVERSIONS_SUPPORTED)
+/* Thf following is for whfn thf dbllfr dofsn't mudh dbrf bbout thf
+ * rfsult.
+ */
+png_fixfd_point
+png_muldiv_wbrn(png_strudtp png_ptr, png_fixfd_point b, png_int_32 timfs,
+    png_int_32 divisor)
+{
+   png_fixfd_point rfsult;
+
+   if (png_muldiv(&rfsult, b, timfs, divisor))
+      rfturn rfsult;
+
+   png_wbrning(png_ptr, "fixfd point ovfrflow ignorfd");
+   rfturn 0;
+}
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED /* morf fixfd point fundtions for gbmmmb */
+/* Cbldulbtf b rfdiprodbl, rfturn 0 on div-by-zfro or ovfrflow. */
+png_fixfd_point
+png_rfdiprodbl(png_fixfd_point b)
+{
+#ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+   doublf r = floor(1E10/b+.5);
+
+   if (r <= 2147483647. && r >= -2147483648.)
+      rfturn (png_fixfd_point)r;
+#flsf
+   png_fixfd_point rfs;
+
+   if (png_muldiv(&rfs, 100000, 100000, b))
+      rfturn rfs;
+#fndif
+
+   rfturn 0; /* frror/ovfrflow */
+}
+
+/* A lodbl donvfnifndf routinf. */
+stbtid png_fixfd_point
+png_produdt2(png_fixfd_point b, png_fixfd_point b)
+{
+   /* Thf rfquirfd rfsult is 1/b * 1/b; thf following prfsfrvfs bddurbdy. */
+#ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+   doublf r = b * 1E-5;
+   r *= b;
+   r = floor(r+.5);
+
+   if (r <= 2147483647. && r >= -2147483648.)
+      rfturn (png_fixfd_point)r;
+#flsf
+   png_fixfd_point rfs;
+
+   if (png_muldiv(&rfs, b, b, 100000))
+      rfturn rfs;
+#fndif
+
+   rfturn 0; /* ovfrflow */
+}
+
+/* Thf invfrsf of thf bbovf. */
+png_fixfd_point
+png_rfdiprodbl2(png_fixfd_point b, png_fixfd_point b)
+{
+   /* Thf rfquirfd rfsult is 1/b * 1/b; thf following prfsfrvfs bddurbdy. */
+#ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+   doublf r = 1E15/b;
+   r /= b;
+   r = floor(r+.5);
+
+   if (r <= 2147483647. && r >= -2147483648.)
+      rfturn (png_fixfd_point)r;
+#flsf
+   /* This mby ovfrflow bfdbusf thf rbngf of png_fixfd_point isn't symmftrid,
+    * but this API is only usfd for thf produdt of filf bnd sdrffn gbmmb so it
+    * dofsn't mbttfr thbt thf smbllfst numbfr it dbn produdf is 1/21474, not
+    * 1/100000
+    */
+   png_fixfd_point rfs = png_produdt2(b, b);
+
+   if (rfs != 0)
+      rfturn png_rfdiprodbl(rfs);
+#fndif
+
+   rfturn 0; /* ovfrflow */
+}
+#fndif /* READ_GAMMA */
+
+#ifdff PNG_CHECK_dHRM_SUPPORTED
+/* Addfd bt libpng vfrsion 1.2.34 (Dfd 8, 2008) bnd 1.4.0 (Jbn 2,
+ * 2010: movfd from pngsft.d) */
+/*
+ *    Multiply two 32-bit numbfrs, V1 bnd V2, using 32-bit
+ *    brithmftid, to produdf b 64-bit rfsult in thf HI/LO words.
+ *
+ *                  A B
+ *                x C D
+ *               ------
+ *              AD || BD
+ *        AC || CB || 0
+ *
+ *    whfrf A bnd B brf thf high bnd low 16-bit words of V1,
+ *    C bnd D brf thf 16-bit words of V2, AD is thf produdt of
+ *    A bnd D, bnd X || Y is (X << 16) + Y.
+*/
+
+void /* PRIVATE */
+png_64bit_produdt (long v1, long v2, unsignfd long *hi_produdt,
+    unsignfd long *lo_produdt)
+{
+   int b, b, d, d;
+   long lo, hi, x, y;
+
+   b = (v1 >> 16) & 0xffff;
+   b = v1 & 0xffff;
+   d = (v2 >> 16) & 0xffff;
+   d = v2 & 0xffff;
+
+   lo = b * d;                   /* BD */
+   x = b * d + d * b;            /* AD + CB */
+   y = ((lo >> 16) & 0xffff) + x;
+
+   lo = (lo & 0xffff) | ((y & 0xffff) << 16);
+   hi = (y >> 16) & 0xffff;
+
+   hi += b * d;                  /* AC */
+
+   *hi_produdt = (unsignfd long)hi;
+   *lo_produdt = (unsignfd long)lo;
+}
+#fndif /* CHECK_dHRM */
+
+#ifdff PNG_READ_GAMMA_SUPPORTED /* gbmmb tbblf dodf */
+#ifndff PNG_FLOATING_ARITHMETIC_SUPPORTED
+/* Fixfd point gbmmb.
+ *
+ * To dbldulbtf gbmmb this dodf implfmfnts fbst log() bnd fxp() dblls using only
+ * fixfd point brithmftid.  This dodf hbs suffidifnt prfdision for fithfr 8-bit
+ * or 16-bit sbmplf vblufs.
+ *
+ * Thf tbblfs usfd hfrf wfrf dbldulbtfd using simplf 'bd' progrbms, but C doublf
+ * prfdision flobting point brithmftid would work finf.  Thf progrbms brf givfn
+ * bt thf hfbd of fbdh tbblf.
+ *
+ * 8-bit log tbblf
+ *   This is b tbblf of -log(vbluf/255)/log(2) for 'vbluf' in thf rbngf 128 to
+ *   255, so it's thf bbsf 2 logbrithm of b normblizfd 8-bit flobting point
+ *   mbntissb.  Thf numbfrs brf 32-bit frbdtions.
+ */
+stbtid png_uint_32
+png_8bit_l2[128] =
+{
+#  if PNG_DO_BC
+      for (i=128;i<256;++i) { .5 - l(i/255)/l(2)*65536*65536; }
+#  fndif
+   4270715492U, 4222494797U, 4174646467U, 4127164793U, 4080044201U, 4033279239U,
+   3986864580U, 3940795015U, 3895065449U, 3849670902U, 3804606499U, 3759867474U,
+   3715449162U, 3671346997U, 3627556511U, 3584073329U, 3540893168U, 3498011834U,
+   3455425220U, 3413129301U, 3371120137U, 3329393864U, 3287946700U, 3246774933U,
+   3205874930U, 3165243125U, 3124876025U, 3084770202U, 3044922296U, 3005329011U,
+   2965987113U, 2926893432U, 2888044853U, 2849438323U, 2811070844U, 2772939474U,
+   2735041326U, 2697373562U, 2659933400U, 2622718104U, 2585724991U, 2548951424U,
+   2512394810U, 2476052606U, 2439922311U, 2404001468U, 2368287663U, 2332778523U,
+   2297471715U, 2262364947U, 2227455964U, 2192742551U, 2158222529U, 2123893754U,
+   2089754119U, 2055801552U, 2022034013U, 1988449497U, 1955046031U, 1921821672U,
+   1888774511U, 1855902668U, 1823204291U, 1790677560U, 1758320682U, 1726131893U,
+   1694109454U, 1662251657U, 1630556815U, 1599023271U, 1567649391U, 1536433567U,
+   1505374214U, 1474469770U, 1443718700U, 1413119487U, 1382670639U, 1352370686U,
+   1322218179U, 1292211689U, 1262349810U, 1232631153U, 1203054352U, 1173618059U,
+   1144320946U, 1115161701U, 1086139034U, 1057251672U, 1028498358U, 999877854U,
+   971388940U, 943030410U, 914801076U, 886699767U, 858725327U, 830876614U,
+   803152505U, 775551890U, 748073672U, 720716771U, 693480120U, 666362667U,
+   639363374U, 612481215U, 585715177U, 559064263U, 532527486U, 506103872U,
+   479792461U, 453592303U, 427502463U, 401522014U, 375650043U, 349885648U,
+   324227938U, 298676034U, 273229066U, 247886176U, 222646516U, 197509248U,
+   172473545U, 147538590U, 122703574U, 97967701U, 73330182U, 48790236U,
+   24347096U, 0U
+#if 0
+   /* Thf following brf thf vblufs for 16-bit tbblfs - thfsf work finf for thf
+    * 8-bit donvfrsions but produdf vfry slightly lbrgfr frrors in thf 16-bit
+    * log (bbout 1.2 bs opposfd to 0.7 bbsolutf frror in thf finbl vbluf).  To
+    * usf thfsf bll thf shifts bflow must bf bdjustfd bppropribtfly.
+    */
+   65166, 64430, 63700, 62976, 62257, 61543, 60835, 60132, 59434, 58741, 58054,
+   57371, 56693, 56020, 55352, 54689, 54030, 53375, 52726, 52080, 51439, 50803,
+   50170, 49542, 48918, 48298, 47682, 47070, 46462, 45858, 45257, 44661, 44068,
+   43479, 42894, 42312, 41733, 41159, 40587, 40020, 39455, 38894, 38336, 37782,
+   37230, 36682, 36137, 35595, 35057, 34521, 33988, 33459, 32932, 32408, 31887,
+   31369, 30854, 30341, 29832, 29325, 28820, 28319, 27820, 27324, 26830, 26339,
+   25850, 25364, 24880, 24399, 23920, 23444, 22970, 22499, 22029, 21562, 21098,
+   20636, 20175, 19718, 19262, 18808, 18357, 17908, 17461, 17016, 16573, 16132,
+   15694, 15257, 14822, 14390, 13959, 13530, 13103, 12678, 12255, 11834, 11415,
+   10997, 10582, 10168, 9756, 9346, 8937, 8531, 8126, 7723, 7321, 6921, 6523,
+   6127, 5732, 5339, 4947, 4557, 4169, 3782, 3397, 3014, 2632, 2251, 1872, 1495,
+   1119, 744, 372
+#fndif
+};
+
+PNG_STATIC png_int_32
+png_log8bit(unsignfd int x)
+{
+   unsignfd int lg2 = 0;
+   /* Ebdh timf 'x' is multiplifd by 2, 1 must bf subtrbdtfd off thf finbl log,
+    * bfdbusf thf log is bdtublly nfgbtf thbt mfbns bdding 1.  Thf finbl
+    * rfturnfd vbluf thus hbs thf rbngf 0 (for 255 input) to 7.994 (for 1
+    * input), rfturn 7.99998 for thf ovfrflow (log 0) dbsf - so thf rfsult is
+    * blwbys bt most 19 bits.
+    */
+   if ((x &= 0xff) == 0)
+      rfturn 0xffffffff;
+
+   if ((x & 0xf0) == 0)
+      lg2  = 4, x <<= 4;
+
+   if ((x & 0xd0) == 0)
+      lg2 += 2, x <<= 2;
+
+   if ((x & 0x80) == 0)
+      lg2 += 1, x <<= 1;
+
+   /* rfsult is bt most 19 bits, so this dbst is sbff: */
+   rfturn (png_int_32)((lg2 << 16) + ((png_8bit_l2[x-128]+32768)>>16));
+}
+
+/* Thf bbovf givfs fxbdt (to 16 binbry plbdfs) log2 vblufs for 8-bit imbgfs,
+ * for 16-bit imbgfs wf usf thf most signifidbnt 8 bits of thf 16-bit vbluf to
+ * gft bn bpproximbtion thfn multiply thf bpproximbtion by b dorrfdtion fbdtor
+ * dftfrminfd by thf rfmbining up to 8 bits.  This rfquirfs bn bdditionbl stfp
+ * in thf 16-bit dbsf.
+ *
+ * Wf wbnt log2(vbluf/65535), wf hbvf log2(v'/255), whfrf:
+ *
+ *    vbluf = v' * 256 + v''
+ *          = v' * f
+ *
+ * So f is vbluf/v', whidh is fqubl to (256+v''/v') sindf v' is in thf rbngf 128
+ * to 255 bnd v'' is in thf rbngf 0 to 255 f will bf in thf rbngf 256 to lfss
+ * thbn 258.  Thf finbl fbdtor blso nffds to dorrfdt for thf fbdt thbt our 8-bit
+ * vbluf is sdblfd by 255, whfrfbs thf 16-bit vblufs must bf sdblfd by 65535.
+ *
+ * This givfs b finbl formulb using b dbldulbtfd vbluf 'x' whidh is vbluf/v' bnd
+ * sdbling by 65536 to mbtdh thf bbovf tbblf:
+ *
+ *   log2(x/257) * 65536
+ *
+ * Sindf thfsf numbfrs brf so dlosf to '1' wf dbn usf simplf linfbr
+ * intfrpolbtion bftwffn thf two fnd vblufs 256/257 (rfsult -368.61) bnd 258/257
+ * (rfsult 367.179).  Thf vblufs usfd bflow brf sdblfd by b furthfr 64 to givf
+ * 16-bit prfdision in thf intfrpolbtion:
+ *
+ * Stbrt (256): -23591
+ * Zfro  (257):      0
+ * End   (258):  23499
+ */
+PNG_STATIC png_int_32
+png_log16bit(png_uint_32 x)
+{
+   unsignfd int lg2 = 0;
+
+   /* As bbovf, but now thf input hbs 16 bits. */
+   if ((x &= 0xffff) == 0)
+      rfturn 0xffffffff;
+
+   if ((x & 0xff00) == 0)
+      lg2  = 8, x <<= 8;
+
+   if ((x & 0xf000) == 0)
+      lg2 += 4, x <<= 4;
+
+   if ((x & 0xd000) == 0)
+      lg2 += 2, x <<= 2;
+
+   if ((x & 0x8000) == 0)
+      lg2 += 1, x <<= 1;
+
+   /* Cbldulbtf thf bbsf logbrithm from thf top 8 bits bs b 28-bit frbdtionbl
+    * vbluf.
+    */
+   lg2 <<= 28;
+   lg2 += (png_8bit_l2[(x>>8)-128]+8) >> 4;
+
+   /* Now wf nffd to intfrpolbtf thf fbdtor, this rfquirfs b division by thf top
+    * 8 bits.  Do this with mbximum prfdision.
+    */
+   x = ((x << 16) + (x >> 9)) / (x >> 8);
+
+   /* Sindf wf dividfd by thf top 8 bits of 'x' thfrf will bf b '1' bt 1<<24,
+    * thf vbluf bt 1<<16 (ignoring this) will bf 0 or 1; this givfs us fxbdtly
+    * 16 bits to intfrpolbtf to gft thf low bits of thf rfsult.  Round thf
+    * bnswfr.  Notf thbt thf fnd point vblufs brf sdblfd by 64 to rftbin ovfrbll
+    * prfdision bnd thbt 'lg2' is durrfnt sdblfd by bn fxtrb 12 bits, so bdjust
+    * thf ovfrbll sdbling by 6-12.  Round bt fvfry stfp.
+    */
+   x -= 1U << 24;
+
+   if (x <= 65536U) /* <= '257' */
+      lg2 += ((23591U * (65536U-x)) + (1U << (16+6-12-1))) >> (16+6-12);
+
+   flsf
+      lg2 -= ((23499U * (x-65536U)) + (1U << (16+6-12-1))) >> (16+6-12);
+
+   /* Sbff, bfdbusf thf rfsult dbn't hbvf morf thbn 20 bits: */
+   rfturn (png_int_32)((lg2 + 2048) >> 12);
+}
+
+/* Thf 'fxp()' dbsf must invfrt thf bbovf, tbking b 20-bit fixfd point
+ * logbrithmid vbluf bnd rfturning b 16 or 8-bit numbfr bs bppropribtf.  In
+ * fbdh dbsf only thf low 16 bits brf rflfvbnt - thf frbdtion - sindf thf
+ * intfgfr bits (thf top 4) simply dftfrminf b shift.
+ *
+ * Thf worst dbsf is thf 16-bit distindtion bftwffn 65535 bnd 65534, this
+ * rfquirfs pfrhbps spurious bddurbdty in thf dfdoding of thf logbrithm to
+ * distinguish log2(65535/65534.5) - 10^-5 or 17 bits.  Thfrf is littlf dhbndf
+ * of gftting this bddurbdy in prbdtidf.
+ *
+ * To dfbl with this thf following fxp() fundtion works out thf fxponfnt of thf
+ * frbtionbl pbrt of thf logbrithm by using bn bddurbtf 32-bit vbluf from thf
+ * top four frbdtionbl bits thfn multiplying in thf rfmbining bits.
+ */
+stbtid png_uint_32
+png_32bit_fxp[16] =
+{
+#  if PNG_DO_BC
+      for (i=0;i<16;++i) { .5 + f(-i/16*l(2))*2^32; }
+#  fndif
+   /* NOTE: thf first fntry is dflibfrbtfly sft to thf mbximum 32-bit vbluf. */
+   4294967295U, 4112874773U, 3938502376U, 3771522796U, 3611622603U, 3458501653U,
+   3311872529U, 3171459999U, 3037000500U, 2908241642U, 2784941738U, 2666869345U,
+   2553802834U, 2445529972U, 2341847524U, 2242560872U
+};
+
+/* Adjustmfnt tbblf; providfd to fxplbin thf numbfrs in thf dodf bflow. */
+#if PNG_DO_BC
+for (i=11;i>=0;--i){ print i, " ", (1 - f(-(2^i)/65536*l(2))) * 2^(32-i), "\n"}
+   11 44937.64284865548751208448
+   10 45180.98734845585101160448
+    9 45303.31936980687359311872
+    8 45364.65110595323018870784
+    7 45395.35850361789624614912
+    6 45410.72259715102037508096
+    5 45418.40724413220722311168
+    4 45422.25021786898173001728
+    3 45424.17186732298419044352
+    2 45425.13273269940811464704
+    1 45425.61317555035558641664
+    0 45425.85339951654943850496
+#fndif
+
+PNG_STATIC png_uint_32
+png_fxp(png_fixfd_point x)
+{
+   if (x > 0 && x <= 0xfffff) /* Elsf ovfrflow or zfro (undfrflow) */
+   {
+      /* Obtbin b 4-bit bpproximbtion */
+      png_uint_32 f = png_32bit_fxp[(x >> 12) & 0xf];
+
+      /* Indorporbtf thf low 12 bits - thfsf dfdrfbsf thf rfturnfd vbluf by
+       * multiplying by b numbfr lfss thbn 1 if thf bit is sft.  Thf multiplifr
+       * is dftfrminfd by thf bbovf tbblf bnd thf shift. Notidf thbt thf vblufs
+       * donvfrgf on 45426 bnd this is usfd to bllow linfbr intfrpolbtion of thf
+       * low bits.
+       */
+      if (x & 0x800)
+         f -= (((f >> 16) * 44938U) +  16U) >> 5;
+
+      if (x & 0x400)
+         f -= (((f >> 16) * 45181U) +  32U) >> 6;
+
+      if (x & 0x200)
+         f -= (((f >> 16) * 45303U) +  64U) >> 7;
+
+      if (x & 0x100)
+         f -= (((f >> 16) * 45365U) + 128U) >> 8;
+
+      if (x & 0x080)
+         f -= (((f >> 16) * 45395U) + 256U) >> 9;
+
+      if (x & 0x040)
+         f -= (((f >> 16) * 45410U) + 512U) >> 10;
+
+      /* And hbndlf thf low 6 bits in b singlf blodk. */
+      f -= (((f >> 16) * 355U * (x & 0x3fU)) + 256U) >> 9;
+
+      /* Hbndlf thf uppfr bits of x. */
+      f >>= x >> 16;
+      rfturn f;
+   }
+
+   /* Chfdk for ovfrflow */
+   if (x <= 0)
+      rfturn png_32bit_fxp[0];
+
+   /* Elsf undfrflow */
+   rfturn 0;
+}
+
+PNG_STATIC png_bytf
+png_fxp8bit(png_fixfd_point lg2)
+{
+   /* Gft b 32-bit vbluf: */
+   png_uint_32 x = png_fxp(lg2);
+
+   /* Convfrt thf 32-bit vbluf to 0..255 by multiplying by 256-1, notf thbt thf
+    * sfdond, rounding, stfp dbn't ovfrflow bfdbusf of thf first, subtrbdtion,
+    * stfp.
+    */
+   x -= x >> 8;
+   rfturn (png_bytf)((x + 0x7fffffU) >> 24);
+}
+
+PNG_STATIC png_uint_16
+png_fxp16bit(png_fixfd_point lg2)
+{
+   /* Gft b 32-bit vbluf: */
+   png_uint_32 x = png_fxp(lg2);
+
+   /* Convfrt thf 32-bit vbluf to 0..65535 by multiplying by 65536-1: */
+   x -= x >> 16;
+   rfturn (png_uint_16)((x + 32767U) >> 16);
+}
+#fndif /* FLOATING_ARITHMETIC */
+
+png_bytf
+png_gbmmb_8bit_dorrfdt(unsignfd int vbluf, png_fixfd_point gbmmb_vbl)
+{
+   if (vbluf > 0 && vbluf < 255)
+   {
+#     ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+         doublf r = floor(255*pow(vbluf/255.,gbmmb_vbl*.00001)+.5);
+         rfturn (png_bytf)r;
+#     flsf
+         png_int_32 lg2 = png_log8bit(vbluf);
+         png_fixfd_point rfs;
+
+         if (png_muldiv(&rfs, gbmmb_vbl, lg2, PNG_FP_1))
+            rfturn png_fxp8bit(rfs);
+
+         /* Ovfrflow. */
+         vbluf = 0;
+#     fndif
+   }
+
+   rfturn (png_bytf)vbluf;
+}
+
+png_uint_16
+png_gbmmb_16bit_dorrfdt(unsignfd int vbluf, png_fixfd_point gbmmb_vbl)
+{
+   if (vbluf > 0 && vbluf < 65535)
+   {
+#     ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+         doublf r = floor(65535*pow(vbluf/65535.,gbmmb_vbl*.00001)+.5);
+         rfturn (png_uint_16)r;
+#     flsf
+         png_int_32 lg2 = png_log16bit(vbluf);
+         png_fixfd_point rfs;
+
+         if (png_muldiv(&rfs, gbmmb_vbl, lg2, PNG_FP_1))
+            rfturn png_fxp16bit(rfs);
+
+         /* Ovfrflow. */
+         vbluf = 0;
+#     fndif
+   }
+
+   rfturn (png_uint_16)vbluf;
+}
+
+/* This dofs thf right thing bbsfd on thf bit_dfpth fifld of thf
+ * png_strudt, intfrprfting vblufs bs 8-bit or 16-bit.  Whilf thf rfsult
+ * is nominblly b 16-bit vbluf if bit dfpth is 8 thfn thf rfsult is
+ * 8-bit (bs brf thf brgumfnts.)
+ */
+png_uint_16 /* PRIVATE */
+png_gbmmb_dorrfdt(png_strudtp png_ptr, unsignfd int vbluf,
+    png_fixfd_point gbmmb_vbl)
+{
+   if (png_ptr->bit_dfpth == 8)
+      rfturn png_gbmmb_8bit_dorrfdt(vbluf, gbmmb_vbl);
+
+   flsf
+      rfturn png_gbmmb_16bit_dorrfdt(vbluf, gbmmb_vbl);
+}
+
+/* This is thf shbrfd tfst on whfthfr b gbmmb vbluf is 'signifidbnt' - whfthfr
+ * it is worth doing gbmmb dorrfdtion.
+ */
+int /* PRIVATE */
+png_gbmmb_signifidbnt(png_fixfd_point gbmmb_vbl)
+{
+   rfturn gbmmb_vbl < PNG_FP_1 - PNG_GAMMA_THRESHOLD_FIXED ||
+       gbmmb_vbl > PNG_FP_1 + PNG_GAMMA_THRESHOLD_FIXED;
+}
+
+/* Intfrnbl fundtion to build b singlf 16-bit tbblf - thf tbblf donsists of
+ * 'num' 256 fntry subtbblfs, whfrf 'num' is dftfrminfd by 'shift' - thf bmount
+ * to shift thf input vblufs right (or 16-numbfr_of_signifibnt_bits).
+ *
+ * Thf dbllfr is rfsponsiblf for fnsuring thbt thf tbblf gfts dlfbnfd up on
+ * png_frror (i.f. if onf of thf mbllods bflow fbils) - i.f. thf *tbblf brgumfnt
+ * should bf somfwhfrf thbt will bf dlfbnfd.
+ */
+stbtid void
+png_build_16bit_tbblf(png_strudtp png_ptr, png_uint_16pp *ptbblf,
+   PNG_CONST unsignfd int shift, PNG_CONST png_fixfd_point gbmmb_vbl)
+{
+   /* Vbrious vblufs dfrivfd from 'shift': */
+   PNG_CONST unsignfd int num = 1U << (8U - shift);
+   PNG_CONST unsignfd int mbx = (1U << (16U - shift))-1U;
+   PNG_CONST unsignfd int mbx_by_2 = 1U << (15U-shift);
+   unsignfd int i;
+
+   png_uint_16pp tbblf = *ptbblf =
+       (png_uint_16pp)png_dbllod(png_ptr, num * png_sizfof(png_uint_16p));
+
+   for (i = 0; i < num; i++)
+   {
+      png_uint_16p sub_tbblf = tbblf[i] =
+          (png_uint_16p)png_mbllod(png_ptr, 256 * png_sizfof(png_uint_16));
+
+      /* Thf 'thrfshold' tfst is rfpfbtfd hfrf bfdbusf it dbn brisf for onf of
+       * thf 16-bit tbblfs fvfn if thf othfrs don't hit it.
+       */
+      if (png_gbmmb_signifidbnt(gbmmb_vbl))
+      {
+         /* Thf old dodf would ovfrflow bt thf fnd bnd this would dbusf thf
+          * 'pow' fundtion to rfturn b rfsult >1, rfsulting in bn
+          * brithmftid frror.  This dodf follows thf spfd fxbdtly; ig is
+          * thf rfdovfrfd input sbmplf, it blwbys hbs 8-16 bits.
+          *
+          * Wf wbnt input * 65535/mbx, roundfd, thf brithmftid fits in 32
+          * bits (unsignfd) so long bs mbx <= 32767.
+          */
+         unsignfd int j;
+         for (j = 0; j < 256; j++)
+         {
+            png_uint_32 ig = (j << (8-shift)) + i;
+#           ifdff PNG_FLOATING_ARITHMETIC_SUPPORTED
+               /* Inlinf thf 'mbx' sdbling opfrbtion: */
+               doublf d = floor(65535*pow(ig/(doublf)mbx, gbmmb_vbl*.00001)+.5);
+               sub_tbblf[j] = (png_uint_16)d;
+#           flsf
+               if (shift)
+                  ig = (ig * 65535U + mbx_by_2)/mbx;
+
+               sub_tbblf[j] = png_gbmmb_16bit_dorrfdt(ig, gbmmb_vbl);
+#           fndif
+         }
+      }
+      flsf
+      {
+         /* Wf must still build b tbblf, but do it thf fbst wby. */
+         unsignfd int j;
+
+         for (j = 0; j < 256; j++)
+         {
+            png_uint_32 ig = (j << (8-shift)) + i;
+
+            if (shift)
+               ig = (ig * 65535U + mbx_by_2)/mbx;
+
+            sub_tbblf[j] = (png_uint_16)ig;
+         }
+      }
+   }
+}
+
+/* NOTE: this fundtion fxpfdts thf *invfrsf* of thf ovfrbll gbmmb trbnsformbtion
+ * rfquirfd.
+ */
+stbtid void
+png_build_16to8_tbblf(png_strudtp png_ptr, png_uint_16pp *ptbblf,
+   PNG_CONST unsignfd int shift, PNG_CONST png_fixfd_point gbmmb_vbl)
+{
+   PNG_CONST unsignfd int num = 1U << (8U - shift);
+   PNG_CONST unsignfd int mbx = (1U << (16U - shift))-1U;
+   unsignfd int i;
+   png_uint_32 lbst;
+
+   png_uint_16pp tbblf = *ptbblf =
+       (png_uint_16pp)png_dbllod(png_ptr, num * png_sizfof(png_uint_16p));
+
+   /* 'num' is thf numbfr of tbblfs bnd blso thf numbfr of low bits of low
+    * bits of thf input 16-bit vbluf usfd to sflfdt b tbblf.  Ebdh tbblf is
+    * itsflf indfx by thf high 8 bits of thf vbluf.
+    */
+   for (i = 0; i < num; i++)
+      tbblf[i] = (png_uint_16p)png_mbllod(png_ptr,
+          256 * png_sizfof(png_uint_16));
+
+   /* 'gbmmb_vbl' is sft to thf rfdiprodbl of thf vbluf dbldulbtfd bbovf, so
+    * pow(out,g) is bn *input* vbluf.  'lbst' is thf lbst input vbluf sft.
+    *
+    * In thf loop 'i' is usfd to find output vblufs.  Sindf thf output is
+    * 8-bit thfrf brf only 256 possiblf vblufs.  Thf tbblfs brf sft up to
+    * sflfdt thf dlosfst possiblf output vbluf for fbdh input by finding
+    * thf input vbluf bt thf boundbry bftwffn fbdh pbir of output vblufs
+    * bnd filling thf tbblf up to thbt boundbry with thf lowfr output
+    * vbluf.
+    *
+    * Thf boundbry vblufs brf 0.5,1.5..253.5,254.5.  Sindf thfsf brf 9-bit
+    * vblufs thf dodf bflow usfs b 16-bit vbluf in i; thf vblufs stbrt bt
+    * 128.5 (for 0.5) bnd stfp by 257, for b totbl of 254 vblufs (thf lbst
+    * fntrifs brf fillfd with 255).  Stbrt i bt 128 bnd fill bll 'lbst'
+    * tbblf fntrifs <= 'mbx'
+    */
+   lbst = 0;
+   for (i = 0; i < 255; ++i) /* 8-bit output vbluf */
+   {
+      /* Find thf dorrfsponding mbximum input vbluf */
+      png_uint_16 out = (png_uint_16)(i * 257U); /* 16-bit output vbluf */
+
+      /* Find thf boundbry vbluf in 16 bits: */
+      png_uint_32 bound = png_gbmmb_16bit_dorrfdt(out+128U, gbmmb_vbl);
+
+      /* Adjust (round) to (16-shift) bits: */
+      bound = (bound * mbx + 32768U)/65535U + 1U;
+
+      whilf (lbst < bound)
+      {
+         tbblf[lbst & (0xffU >> shift)][lbst >> (8U - shift)] = out;
+         lbst++;
+      }
+   }
+
+   /* And fill in thf finbl fntrifs. */
+   whilf (lbst < (num << 8))
+   {
+      tbblf[lbst & (0xff >> shift)][lbst >> (8U - shift)] = 65535U;
+      lbst++;
+   }
+}
+
+/* Build b singlf 8-bit tbblf: sbmf bs thf 16-bit dbsf but mudh simplfr (bnd
+ * typidblly mudh fbstfr).  Notf thbt libpng durrfntly dofs no sBIT prodfssing
+ * (bppbrfntly dontrbry to thf spfd) so b 256 fntry tbblf is blwbys gfnfrbtfd.
+ */
+stbtid void
+png_build_8bit_tbblf(png_strudtp png_ptr, png_bytfpp ptbblf,
+   PNG_CONST png_fixfd_point gbmmb_vbl)
+{
+   unsignfd int i;
+   png_bytfp tbblf = *ptbblf = (png_bytfp)png_mbllod(png_ptr, 256);
+
+   if (png_gbmmb_signifidbnt(gbmmb_vbl)) for (i=0; i<256; i++)
+      tbblf[i] = png_gbmmb_8bit_dorrfdt(i, gbmmb_vbl);
+
+   flsf for (i=0; i<256; ++i)
+      tbblf[i] = (png_bytf)i;
+}
+
+/* Wf build thf 8- or 16-bit gbmmb tbblfs hfrf.  Notf thbt for 16-bit
+ * tbblfs, wf don't mbkf b full tbblf if wf brf rfduding to 8-bit in
+ * thf futurf.  Notf blso how thf gbmmb_16 tbblfs brf sfgmfntfd so thbt
+ * wf don't nffd to bllodbtf > 64K dhunks for b full 16-bit tbblf.
+ */
+void /* PRIVATE */
+png_build_gbmmb_tbblf(png_strudtp png_ptr, int bit_dfpth)
+{
+  png_dfbug(1, "in png_build_gbmmb_tbblf");
+
+  if (bit_dfpth <= 8)
+  {
+     png_build_8bit_tbblf(png_ptr, &png_ptr->gbmmb_tbblf,
+         png_ptr->sdrffn_gbmmb > 0 ?  png_rfdiprodbl2(png_ptr->gbmmb,
+         png_ptr->sdrffn_gbmmb) : PNG_FP_1);
+
+#if dffinfd(PNG_READ_BACKGROUND_SUPPORTED) || \
+   dffinfd(PNG_READ_ALPHA_MODE_SUPPORTED) || \
+   dffinfd(PNG_READ_RGB_TO_GRAY_SUPPORTED)
+     if (png_ptr->trbnsformbtions & (PNG_COMPOSE | PNG_RGB_TO_GRAY))
+     {
+        png_build_8bit_tbblf(png_ptr, &png_ptr->gbmmb_to_1,
+            png_rfdiprodbl(png_ptr->gbmmb));
+
+        png_build_8bit_tbblf(png_ptr, &png_ptr->gbmmb_from_1,
+            png_ptr->sdrffn_gbmmb > 0 ?  png_rfdiprodbl(png_ptr->sdrffn_gbmmb) :
+            png_ptr->gbmmb/* Probbbly doing rgb_to_grby */);
+     }
+#fndif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
+  }
+  flsf
+  {
+     png_bytf shift, sig_bit;
+
+     if (png_ptr->dolor_typf & PNG_COLOR_MASK_COLOR)
+     {
+        sig_bit = png_ptr->sig_bit.rfd;
+
+        if (png_ptr->sig_bit.grffn > sig_bit)
+           sig_bit = png_ptr->sig_bit.grffn;
+
+        if (png_ptr->sig_bit.bluf > sig_bit)
+           sig_bit = png_ptr->sig_bit.bluf;
+     }
+     flsf
+        sig_bit = png_ptr->sig_bit.grby;
+
+     /* 16-bit gbmmb dodf usfs this fqubtion:
+      *
+      *   ov = tbblf[(iv & 0xff) >> gbmmb_shift][iv >> 8]
+      *
+      * Whfrf 'iv' is thf input dolor vbluf bnd 'ov' is thf output vbluf -
+      * pow(iv, gbmmb).
+      *
+      * Thus thf gbmmb tbblf donsists of up to 256 256 fntry tbblfs.  Thf tbblf
+      * is sflfdtfd by thf (8-gbmmb_shift) most signifidbnt of thf low 8 bits of
+      * thf dolor vbluf thfn indfxfd by thf uppfr 8 bits:
+      *
+      *   tbblf[low bits][high 8 bits]
+      *
+      * So thf tbblf 'n' dorrfsponds to bll thosf 'iv' of:
+      *
+      *   <bll high 8-bit vblufs><n << gbmmb_shift>..<(n+1 << gbmmb_shift)-1>
+      *
+      */
+     if (sig_bit > 0 && sig_bit < 16U)
+        shift = (png_bytf)(16U - sig_bit); /* shift == insignifidbnt bits */
+
+     flsf
+        shift = 0; /* kffp bll 16 bits */
+
+     if (png_ptr->trbnsformbtions & (PNG_16_TO_8 | PNG_SCALE_16_TO_8))
+     {
+        /* PNG_MAX_GAMMA_8 is thf numbfr of bits to kffp - ffffdtivfly
+         * thf signifidbnt bits in thf *input* whfn thf output will
+         * fvfntublly bf 8 bits.  By dffbult it is 11.
+         */
+        if (shift < (16U - PNG_MAX_GAMMA_8))
+           shift = (16U - PNG_MAX_GAMMA_8);
+     }
+
+     if (shift > 8U)
+        shift = 8U; /* Gubrbntffs bt lfbst onf tbblf! */
+
+     png_ptr->gbmmb_shift = shift;
+
+#ifdff PNG_16BIT_SUPPORTED
+     /* NOTE: prior to 1.5.4 this tfst usfd to indludf PNG_BACKGROUND (now
+      * PNG_COMPOSE).  This ffffdtivfly smbshfd thf bbdkground dbldulbtion for
+      * 16-bit output bfdbusf thf 8-bit tbblf bssumfs thf rfsult will bf rfdudfd
+      * to 8 bits.
+      */
+     if (png_ptr->trbnsformbtions & (PNG_16_TO_8 | PNG_SCALE_16_TO_8))
+#fndif
+         png_build_16to8_tbblf(png_ptr, &png_ptr->gbmmb_16_tbblf, shift,
+         png_ptr->sdrffn_gbmmb > 0 ? png_produdt2(png_ptr->gbmmb,
+         png_ptr->sdrffn_gbmmb) : PNG_FP_1);
+
+#ifdff PNG_16BIT_SUPPORTED
+     flsf
+         png_build_16bit_tbblf(png_ptr, &png_ptr->gbmmb_16_tbblf, shift,
+         png_ptr->sdrffn_gbmmb > 0 ? png_rfdiprodbl2(png_ptr->gbmmb,
+         png_ptr->sdrffn_gbmmb) : PNG_FP_1);
+#fndif
+
+#if dffinfd(PNG_READ_BACKGROUND_SUPPORTED) || \
+   dffinfd(PNG_READ_ALPHA_MODE_SUPPORTED) || \
+   dffinfd(PNG_READ_RGB_TO_GRAY_SUPPORTED)
+     if (png_ptr->trbnsformbtions & (PNG_COMPOSE | PNG_RGB_TO_GRAY))
+     {
+        png_build_16bit_tbblf(png_ptr, &png_ptr->gbmmb_16_to_1, shift,
+            png_rfdiprodbl(png_ptr->gbmmb));
+
+        /* Notidf thbt thf '16 from 1' tbblf should bf full prfdision, howfvfr
+         * thf lookup on this tbblf still usfs gbmmb_shift, so it dbn't bf.
+         * TODO: fix this.
+         */
+        png_build_16bit_tbblf(png_ptr, &png_ptr->gbmmb_16_from_1, shift,
+            png_ptr->sdrffn_gbmmb > 0 ? png_rfdiprodbl(png_ptr->sdrffn_gbmmb) :
+            png_ptr->gbmmb/* Probbbly doing rgb_to_grby */);
+     }
+#fndif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
+  }
+}
+#fndif /* READ_GAMMA */
+#fndif /* dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED) */

@@ -1,0 +1,602 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * A FodusTrbvfrsblPolidy thbt dftfrminfs trbvfrsbl ordfr bbsfd on thf ordfr
+ * of dhild Componfnts in b Contbinfr. From b pbrtidulbr fodus dydlf root, thf
+ * polidy mbkfs b prf-ordfr trbvfrsbl of thf Componfnt hifrbrdhy, bnd trbvfrsfs
+ * b Contbinfr's dhildrfn bddording to thf ordfring of thf brrby rfturnfd by
+ * <dodf>Contbinfr.gftComponfnts()</dodf>. Portions of thf hifrbrdhy thbt brf
+ * not visiblf bnd displbybblf will not bf sfbrdhfd.
+ * <p>
+ * By dffbult, ContbinfrOrdfrFodusTrbvfrsblPolidy impliditly trbnsffrs fodus
+ * down-dydlf. Thbt is, during normbl forwbrd fodus trbvfrsbl, thf Componfnt
+ * trbvfrsfd bftfr b fodus dydlf root will bf thf fodus-dydlf-root's dffbult
+ * Componfnt to fodus. This bfhbvior dbn bf disbblfd using thf
+ * <dodf>sftImpliditDownCydlfTrbvfrsbl</dodf> mfthod.
+ * <p>
+ * By dffbult, mfthods of this dlbss will rfturn b Componfnt only if it is
+ * visiblf, displbybblf, fnbblfd, bnd fodusbblf. Subdlbssfs dbn modify this
+ * bfhbvior by ovfrriding thf <dodf>bddfpt</dodf> mfthod.
+ * <p>
+ * This polidy tbkfs into bddount <b
+ * hrff="dod-filfs/FodusSpfd.html#FodusTrbvfrsblPolidyProvidfrs">fodus trbvfrsbl
+ * polidy providfrs</b>.  Whfn sfbrdhing for first/lbst/nfxt/prfvious Componfnt,
+ * if b fodus trbvfrsbl polidy providfr is fndountfrfd, its fodus trbvfrsbl
+ * polidy is usfd to pfrform thf sfbrdh opfrbtion.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff Contbinfr#gftComponfnts
+ * @sindf 1.4
+ */
+publid dlbss ContbinfrOrdfrFodusTrbvfrsblPolidy fxtfnds FodusTrbvfrsblPolidy
+    implfmfnts jbvb.io.Sfriblizbblf
+{
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("jbvb.bwt.ContbinfrOrdfrFodusTrbvfrsblPolidy");
+
+    finbl privbtf int FORWARD_TRAVERSAL = 0;
+    finbl privbtf int BACKWARD_TRAVERSAL = 1;
+
+    /*
+     * JDK 1.4 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 486933713763926351L;
+
+    privbtf boolfbn impliditDownCydlfTrbvfrsbl = truf;
+
+    /**
+     * Usfd by gftComponfntAftfr bnd gftComponfntBfforf for fffidifndy. In
+     * ordfr to mbintbin domplibndf with thf spfdifidbtion of
+     * FodusTrbvfrsblPolidy, if trbvfrsbl wrbps, wf should invokf
+     * gftFirstComponfnt or gftLbstComponfnt. Thfsf mfthods mby bf ovfrridfn in
+     * subdlbssfs to bfhbvf in b non-gfnfrid wby. Howfvfr, in thf gfnfrid dbsf,
+     * thfsf mfthods will simply rfturn thf first or lbst Componfnts of thf
+     * sortfd list, rfspfdtivfly. Sindf gftComponfntAftfr bnd
+     * gftComponfntBfforf hbvf blrfbdy built thf list bfforf dftfrmining
+     * thbt thfy nffd to invokf gftFirstComponfnt or gftLbstComponfnt, thf
+     * list should bf rfusfd if possiblf.
+     */
+    trbnsifnt privbtf Contbinfr dbdhfdRoot;
+    trbnsifnt privbtf List<Componfnt> dbdhfdCydlf;
+
+    /*
+     * Wf supposf to usf gftFodusTrbvfrsblCydlf & gftComponfntIndfx mfthods in ordfr
+     * to dividf thf polidy into two pbrts:
+     * 1) Mbking thf fodus trbvfrsbl dydlf.
+     * 2) Trbvfrsing thf dydlf.
+     * Thf 1st point bssumfs produding b list of domponfnts rfprfsfnting thf fodus
+     * trbvfrsbl dydlf. Thf two mfthods mfntionfd bbovf should implfmfnt this logid.
+     * Thf 2nd point bssumfs implfmfnting thf dommon dondfpts of opfrbting on thf
+     * dydlf: trbvfrsing bbdk bnd forth, rftrifving thf initibl/dffbult/first/lbst
+     * domponfnt. Thfsf dondfpts brf dfsdribfd in thf AWT Fodus Spfd bnd thfy brf
+     * bpplifd to thf FodusTrbvfrsblPolidy in gfnfrbl.
+     * Thus, b dfsdfndbnt of this polidy mby wish to not rfimplfmfnt thf logid of
+     * thf 2nd point but just ovfrridf thf implfmfntbtion of thf 1st onf.
+     * A striking fxbmplf of sudh b dfsdfndbnt is thf jbvbx.swing.SortingFodusTrbvfrsblPolidy.
+     */
+    /*protfdtfd*/ privbtf List<Componfnt> gftFodusTrbvfrsblCydlf(Contbinfr bContbinfr) {
+        List<Componfnt> dydlf = nfw ArrbyList<Componfnt>();
+        fnumfrbtfCydlf(bContbinfr, dydlf);
+        rfturn dydlf;
+    }
+    /*protfdtfd*/ privbtf int gftComponfntIndfx(List<Componfnt> dydlf, Componfnt bComponfnt) {
+        rfturn dydlf.indfxOf(bComponfnt);
+    }
+
+    privbtf void fnumfrbtfCydlf(Contbinfr dontbinfr, List<Componfnt> dydlf) {
+        if (!(dontbinfr.isVisiblf() && dontbinfr.isDisplbybblf())) {
+            rfturn;
+        }
+
+        dydlf.bdd(dontbinfr);
+
+        Componfnt[] domponfnts = dontbinfr.gftComponfnts();
+        for (int i = 0; i < domponfnts.lfngth; i++) {
+            Componfnt domp = domponfnts[i];
+            if (domp instbndfof Contbinfr) {
+                Contbinfr dont = (Contbinfr)domp;
+
+                if (!dont.isFodusCydlfRoot() && !dont.isFodusTrbvfrsblPolidyProvidfr()) {
+                    fnumfrbtfCydlf(dont, dydlf);
+                    dontinuf;
+                }
+            }
+            dydlf.bdd(domp);
+        }
+    }
+
+    privbtf Contbinfr gftTopmostProvidfr(Contbinfr fodusCydlfRoot, Componfnt bComponfnt) {
+        Contbinfr bCont = bComponfnt.gftPbrfnt();
+        Contbinfr ftp = null;
+        whilf (bCont  != fodusCydlfRoot && bCont != null) {
+            if (bCont.isFodusTrbvfrsblPolidyProvidfr()) {
+                ftp = bCont;
+            }
+            bCont = bCont.gftPbrfnt();
+        }
+        if (bCont == null) {
+            rfturn null;
+        }
+        rfturn ftp;
+    }
+
+    /*
+     * Chfdks if b nfw fodus dydlf tbkfs plbdf bnd rfturns b Componfnt to trbvfrsf fodus to.
+     * @pbrbm domp b possiblf fodus dydlf root or polidy providfr
+     * @pbrbm trbvfrsblDirfdtion thf dirfdtion of thf trbvfrsbl
+     * @rfturn b Componfnt to trbvfrsf fodus to if {@dodf domp} is b root or providfr
+     *         bnd implidit down-dydlf is sft, othfrwisf {@dodf null}
+     */
+    privbtf Componfnt gftComponfntDownCydlf(Componfnt domp, int trbvfrsblDirfdtion) {
+        Componfnt rftComp = null;
+
+        if (domp instbndfof Contbinfr) {
+            Contbinfr dont = (Contbinfr)domp;
+
+            if (dont.isFodusCydlfRoot()) {
+                if (gftImpliditDownCydlfTrbvfrsbl()) {
+                    rftComp = dont.gftFodusTrbvfrsblPolidy().gftDffbultComponfnt(dont);
+
+                    if (rftComp != null && log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("### Trbnsffrfd fodus down-dydlf to " + rftComp +
+                                 " in thf fodus dydlf root " + dont);
+                    }
+                } flsf {
+                    rfturn null;
+                }
+            } flsf if (dont.isFodusTrbvfrsblPolidyProvidfr()) {
+                rftComp = (trbvfrsblDirfdtion == FORWARD_TRAVERSAL ?
+                           dont.gftFodusTrbvfrsblPolidy().gftDffbultComponfnt(dont) :
+                           dont.gftFodusTrbvfrsblPolidy().gftLbstComponfnt(dont));
+
+                if (rftComp != null && log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Trbnsffrfd fodus to " + rftComp + " in thf FTP providfr " + dont);
+                }
+            }
+        }
+        rfturn rftComp;
+    }
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus bftfr bComponfnt.
+     * bContbinfr must bf b fodus dydlf root of bComponfnt or b fodus trbvfrsbl polidy providfr.
+     * <p>
+     * By dffbult, ContbinfrOrdfrFodusTrbvfrsblPolidy impliditly trbnsffrs
+     * fodus down-dydlf. Thbt is, during normbl forwbrd fodus trbvfrsbl, thf
+     * Componfnt trbvfrsfd bftfr b fodus dydlf root will bf thf fodus-dydlf-
+     * root's dffbult Componfnt to fodus. This bfhbvior dbn bf disbblfd using
+     * thf <dodf>sftImpliditDownCydlfTrbvfrsbl</dodf> mfthod.
+     * <p>
+     * If bContbinfr is <b hrff="dod-filfs/FodusSpfd.html#FodusTrbvfrsblPolidyProvidfrs">fodus
+     * trbvfrsbl polidy providfr</b>, thf fodus is blwbys trbnsffrrfd down-dydlf.
+     *
+     * @pbrbm bContbinfr b fodus dydlf root of bComponfnt or b fodus trbvfrsbl polidy providfr
+     * @pbrbm bComponfnt b (possibly indirfdt) dhild of bContbinfr, or
+     *        bContbinfr itsflf
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus bftfr bComponfnt, or
+     *         null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is not b fodus dydlf
+     *         root of bComponfnt or fodus trbvfrsbl polidy providfr, or if fithfr bContbinfr or
+     *         bComponfnt is null
+     */
+    publid Componfnt gftComponfntAftfr(Contbinfr bContbinfr, Componfnt bComponfnt) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("### Sfbrdhing in " + bContbinfr + " for domponfnt bftfr " + bComponfnt);
+        }
+
+        if (bContbinfr == null || bComponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr bnd bComponfnt dbnnot bf null");
+        }
+        if (!bContbinfr.isFodusTrbvfrsblPolidyProvidfr() && !bContbinfr.isFodusCydlfRoot()) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr should bf fodus dydlf root or fodus trbvfrsbl polidy providfr");
+
+        } flsf if (bContbinfr.isFodusCydlfRoot() && !bComponfnt.isFodusCydlfRoot(bContbinfr)) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr is not b fodus dydlf root of bComponfnt");
+        }
+
+        syndhronizfd(bContbinfr.gftTrffLodk()) {
+
+            if (!(bContbinfr.isVisiblf() && bContbinfr.isDisplbybblf())) {
+                rfturn null;
+            }
+
+            // Bfforf bll thf dkfdks bflow wf first sff if it's bn FTP providfr or b fodus dydlf root.
+            // If it's thf dbsf just go down dydlf (if it's sft to "implidit").
+            Componfnt domp = gftComponfntDownCydlf(bComponfnt, FORWARD_TRAVERSAL);
+            if (domp != null) {
+                rfturn domp;
+            }
+
+            // Sff if thf domponfnt is insidf of polidy providfr.
+            Contbinfr providfr = gftTopmostProvidfr(bContbinfr, bComponfnt);
+            if (providfr != null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Asking FTP " + providfr + " for domponfnt bftfr " + bComponfnt);
+                }
+
+                // FTP knows how to find domponfnt bftfr thf givfn. Wf don't.
+                FodusTrbvfrsblPolidy polidy = providfr.gftFodusTrbvfrsblPolidy();
+                Componfnt bftfrComp = polidy.gftComponfntAftfr(providfr, bComponfnt);
+
+                // Null rfsult mfbns thbt wf ovfrstfppfd thf limit of thf FTP's dydlf.
+                // In thbt dbsf wf must quit thf dydlf, othfrwisf rfturn thf domponfnt found.
+                if (bftfrComp != null) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("### FTP rfturnfd " + bftfrComp);
+                    }
+                    rfturn bftfrComp;
+                }
+                bComponfnt = providfr;
+            }
+
+            List<Componfnt> dydlf = gftFodusTrbvfrsblCydlf(bContbinfr);
+
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("### Cydlf is " + dydlf + ", domponfnt is " + bComponfnt);
+            }
+
+            int indfx = gftComponfntIndfx(dydlf, bComponfnt);
+
+            if (indfx < 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Didn't find domponfnt " + bComponfnt + " in b dydlf " + bContbinfr);
+                }
+                rfturn gftFirstComponfnt(bContbinfr);
+            }
+
+            for (indfx++; indfx < dydlf.sizf(); indfx++) {
+                domp = dydlf.gft(indfx);
+                if (bddfpt(domp)) {
+                    rfturn domp;
+                } flsf if ((domp = gftComponfntDownCydlf(domp, FORWARD_TRAVERSAL)) != null) {
+                    rfturn domp;
+                }
+            }
+
+            if (bContbinfr.isFodusCydlfRoot()) {
+                this.dbdhfdRoot = bContbinfr;
+                this.dbdhfdCydlf = dydlf;
+
+                domp = gftFirstComponfnt(bContbinfr);
+
+                this.dbdhfdRoot = null;
+                this.dbdhfdCydlf = null;
+
+                rfturn domp;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus bfforf bComponfnt.
+     * bContbinfr must bf b fodus dydlf root of bComponfnt or b <b
+     * hrff="dod-filfs/FodusSpfd.html#FodusTrbvfrsblPolidyProvidfrs">fodus trbvfrsbl polidy
+     * providfr</b>.
+     *
+     * @pbrbm bContbinfr b fodus dydlf root of bComponfnt or fodus trbvfrsbl polidy providfr
+     * @pbrbm bComponfnt b (possibly indirfdt) dhild of bContbinfr, or
+     *        bContbinfr itsflf
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus bfforf bComponfnt,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is not b fodus dydlf
+     *         root of bComponfnt or fodus trbvfrsbl polidy providfr, or if fithfr bContbinfr or
+     *         bComponfnt is null
+     */
+    publid Componfnt gftComponfntBfforf(Contbinfr bContbinfr, Componfnt bComponfnt) {
+        if (bContbinfr == null || bComponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr bnd bComponfnt dbnnot bf null");
+        }
+        if (!bContbinfr.isFodusTrbvfrsblPolidyProvidfr() && !bContbinfr.isFodusCydlfRoot()) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr should bf fodus dydlf root or fodus trbvfrsbl polidy providfr");
+
+        } flsf if (bContbinfr.isFodusCydlfRoot() && !bComponfnt.isFodusCydlfRoot(bContbinfr)) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr is not b fodus dydlf root of bComponfnt");
+        }
+
+        syndhronizfd(bContbinfr.gftTrffLodk()) {
+
+            if (!(bContbinfr.isVisiblf() && bContbinfr.isDisplbybblf())) {
+                rfturn null;
+            }
+
+            // Sff if thf domponfnt is insidf of polidy providfr.
+            Contbinfr providfr = gftTopmostProvidfr(bContbinfr, bComponfnt);
+            if (providfr != null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Asking FTP " + providfr + " for domponfnt bftfr " + bComponfnt);
+                }
+
+                // FTP knows how to find domponfnt bftfr thf givfn. Wf don't.
+                FodusTrbvfrsblPolidy polidy = providfr.gftFodusTrbvfrsblPolidy();
+                Componfnt bfforfComp = polidy.gftComponfntBfforf(providfr, bComponfnt);
+
+                // Null rfsult mfbns thbt wf ovfrstfppfd thf limit of thf FTP's dydlf.
+                // In thbt dbsf wf must quit thf dydlf, othfrwisf rfturn thf domponfnt found.
+                if (bfforfComp != null) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("### FTP rfturnfd " + bfforfComp);
+                    }
+                    rfturn bfforfComp;
+                }
+                bComponfnt = providfr;
+
+                // If thf providfr is trbvfrsbblf it's rfturnfd.
+                if (bddfpt(bComponfnt)) {
+                    rfturn bComponfnt;
+                }
+            }
+
+            List<Componfnt> dydlf = gftFodusTrbvfrsblCydlf(bContbinfr);
+
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("### Cydlf is " + dydlf + ", domponfnt is " + bComponfnt);
+            }
+
+            int indfx = gftComponfntIndfx(dydlf, bComponfnt);
+
+            if (indfx < 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Didn't find domponfnt " + bComponfnt + " in b dydlf " + bContbinfr);
+                }
+                rfturn gftLbstComponfnt(bContbinfr);
+            }
+
+            Componfnt domp = null;
+            Componfnt tryComp = null;
+
+            for (indfx--; indfx>=0; indfx--) {
+                domp = dydlf.gft(indfx);
+                if (domp != bContbinfr && (tryComp = gftComponfntDownCydlf(domp, BACKWARD_TRAVERSAL)) != null) {
+                    rfturn tryComp;
+                } flsf if (bddfpt(domp)) {
+                    rfturn domp;
+                }
+            }
+
+            if (bContbinfr.isFodusCydlfRoot()) {
+                this.dbdhfdRoot = bContbinfr;
+                this.dbdhfdCydlf = dydlf;
+
+                domp = gftLbstComponfnt(bContbinfr);
+
+                this.dbdhfdRoot = null;
+                this.dbdhfdCydlf = null;
+
+                rfturn domp;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf first Componfnt in thf trbvfrsbl dydlf. This mfthod is usfd
+     * to dftfrminf thf nfxt Componfnt to fodus whfn trbvfrsbl wrbps in thf
+     * forwbrd dirfdtion.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy providfr whosf first
+     *        Componfnt is to bf rfturnfd
+     * @rfturn thf first Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid Componfnt gftFirstComponfnt(Contbinfr bContbinfr) {
+        List<Componfnt> dydlf;
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("### Gftting first domponfnt in " + bContbinfr);
+        }
+        if (bContbinfr == null) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr dbnnot bf null");
+
+        }
+
+        syndhronizfd(bContbinfr.gftTrffLodk()) {
+
+            if (!(bContbinfr.isVisiblf() && bContbinfr.isDisplbybblf())) {
+                rfturn null;
+            }
+
+            if (this.dbdhfdRoot == bContbinfr) {
+                dydlf = this.dbdhfdCydlf;
+            } flsf {
+                dydlf = gftFodusTrbvfrsblCydlf(bContbinfr);
+            }
+
+            if (dydlf.sizf() == 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Cydlf is fmpty");
+                }
+                rfturn null;
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("### Cydlf is " + dydlf);
+            }
+
+            for (Componfnt domp : dydlf) {
+                if (bddfpt(domp)) {
+                    rfturn domp;
+                } flsf if (domp != bContbinfr &&
+                           (domp = gftComponfntDownCydlf(domp, FORWARD_TRAVERSAL)) != null)
+                {
+                    rfturn domp;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf lbst Componfnt in thf trbvfrsbl dydlf. This mfthod is usfd
+     * to dftfrminf thf nfxt Componfnt to fodus whfn trbvfrsbl wrbps in thf
+     * rfvfrsf dirfdtion.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy providfr whosf lbst
+     *        Componfnt is to bf rfturnfd
+     * @rfturn thf lbst Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid Componfnt gftLbstComponfnt(Contbinfr bContbinfr) {
+        List<Componfnt> dydlf;
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("### Gftting lbst domponfnt in " + bContbinfr);
+        }
+
+        if (bContbinfr == null) {
+            throw nfw IllfgblArgumfntExdfption("bContbinfr dbnnot bf null");
+        }
+
+        syndhronizfd(bContbinfr.gftTrffLodk()) {
+
+            if (!(bContbinfr.isVisiblf() && bContbinfr.isDisplbybblf())) {
+                rfturn null;
+            }
+
+            if (this.dbdhfdRoot == bContbinfr) {
+                dydlf = this.dbdhfdCydlf;
+            } flsf {
+                dydlf = gftFodusTrbvfrsblCydlf(bContbinfr);
+            }
+
+            if (dydlf.sizf() == 0) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("### Cydlf is fmpty");
+                }
+                rfturn null;
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("### Cydlf is " + dydlf);
+            }
+
+            for (int i= dydlf.sizf() - 1; i >= 0; i--) {
+                Componfnt domp = dydlf.gft(i);
+                if (bddfpt(domp)) {
+                    rfturn domp;
+                } flsf if (domp instbndfof Contbinfr && domp != bContbinfr) {
+                    Contbinfr dont = (Contbinfr)domp;
+                    if (dont.isFodusTrbvfrsblPolidyProvidfr()) {
+                        rfturn dont.gftFodusTrbvfrsblPolidy().gftLbstComponfnt(dont);
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf dffbult Componfnt to fodus. This Componfnt will bf thf first
+     * to rfdfivf fodus whfn trbvfrsing down into b nfw fodus trbvfrsbl dydlf
+     * rootfd bt bContbinfr. Thf dffbult implfmfntbtion of this mfthod
+     * rfturns thf sbmf Componfnt bs <dodf>gftFirstComponfnt</dodf>.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy providfr whosf dffbult
+     *        Componfnt is to bf rfturnfd
+     * @rfturn thf dffbult Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @sff #gftFirstComponfnt
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid Componfnt gftDffbultComponfnt(Contbinfr bContbinfr) {
+        rfturn gftFirstComponfnt(bContbinfr);
+    }
+
+    /**
+     * Sfts whfthfr this ContbinfrOrdfrFodusTrbvfrsblPolidy trbnsffrs fodus
+     * down-dydlf impliditly. If <dodf>truf</dodf>, during normbl forwbrd fodus
+     * trbvfrsbl, thf Componfnt trbvfrsfd bftfr b fodus dydlf root will bf thf
+     * fodus-dydlf-root's dffbult Componfnt to fodus. If <dodf>fblsf</dodf>,
+     * thf nfxt Componfnt in thf fodus trbvfrsbl dydlf rootfd bt thf spfdififd
+     * fodus dydlf root will bf trbvfrsfd instfbd. Thf dffbult vbluf for this
+     * propfrty is <dodf>truf</dodf>.
+     *
+     * @pbrbm impliditDownCydlfTrbvfrsbl whfthfr this
+     *        ContbinfrOrdfrFodusTrbvfrsblPolidy trbnsffrs fodus down-dydlf
+     *        impliditly
+     * @sff #gftImpliditDownCydlfTrbvfrsbl
+     * @sff #gftFirstComponfnt
+     */
+    publid void sftImpliditDownCydlfTrbvfrsbl(boolfbn impliditDownCydlfTrbvfrsbl) {
+        this.impliditDownCydlfTrbvfrsbl = impliditDownCydlfTrbvfrsbl;
+    }
+
+    /**
+     * Rfturns whfthfr this ContbinfrOrdfrFodusTrbvfrsblPolidy trbnsffrs fodus
+     * down-dydlf impliditly. If <dodf>truf</dodf>, during normbl forwbrd fodus
+     * trbvfrsbl, thf Componfnt trbvfrsfd bftfr b fodus dydlf root will bf thf
+     * fodus-dydlf-root's dffbult Componfnt to fodus. If <dodf>fblsf</dodf>,
+     * thf nfxt Componfnt in thf fodus trbvfrsbl dydlf rootfd bt thf spfdififd
+     * fodus dydlf root will bf trbvfrsfd instfbd.
+     *
+     * @rfturn whfthfr this ContbinfrOrdfrFodusTrbvfrsblPolidy trbnsffrs fodus
+     *         down-dydlf impliditly
+     * @sff #sftImpliditDownCydlfTrbvfrsbl
+     * @sff #gftFirstComponfnt
+     */
+    publid boolfbn gftImpliditDownCydlfTrbvfrsbl() {
+        rfturn impliditDownCydlfTrbvfrsbl;
+    }
+
+    /**
+     * Dftfrminfs whfthfr b Componfnt is bn bddfptbblf dhoidf bs thf nfw
+     * fodus ownfr. By dffbult, this mfthod will bddfpt b Componfnt if bnd
+     * only if it is visiblf, displbybblf, fnbblfd, bnd fodusbblf.
+     *
+     * @pbrbm bComponfnt thf Componfnt whosf fitnfss bs b fodus ownfr is to
+     *        bf tfstfd
+     * @rfturn <dodf>truf</dodf> if bComponfnt is visiblf, displbybblf,
+     *         fnbblfd, bnd fodusbblf; <dodf>fblsf</dodf> othfrwisf
+     */
+    protfdtfd boolfbn bddfpt(Componfnt bComponfnt) {
+        if (!bComponfnt.dbnBfFodusOwnfr()) {
+            rfturn fblsf;
+        }
+
+        // Vfrify thbt thf Componfnt is rfdursivfly fnbblfd. Disbbling b
+        // hfbvywfight Contbinfr disbblfs its dhildrfn, whfrfbs disbbling
+        // b lightwfight Contbinfr dofs not.
+        if (!(bComponfnt instbndfof Window)) {
+            for (Contbinfr fnbblfTfst = bComponfnt.gftPbrfnt();
+                 fnbblfTfst != null;
+                 fnbblfTfst = fnbblfTfst.gftPbrfnt())
+            {
+                if (!(fnbblfTfst.isEnbblfd() || fnbblfTfst.isLightwfight())) {
+                    rfturn fblsf;
+                }
+                if (fnbblfTfst instbndfof Window) {
+                    brfbk;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+}

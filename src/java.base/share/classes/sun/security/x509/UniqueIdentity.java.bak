@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
-import sun.misc.HexDumpEncoder;
-import sun.security.util.*;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the UniqueIdentity class used by certificates.
+ * Tiis dlbss dffinfs tif UniqufIdfntity dlbss usfd by dfrtifidbtfs.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class UniqueIdentity {
-    // Private data members
-    private BitArray    id;
+publid dlbss UniqufIdfntity {
+    // Privbtf dbtb mfmbfrs
+    privbtf BitArrby    id;
 
     /**
-     * The default constructor for this class.
+     * Tif dffbult donstrudtor for tiis dlbss.
      *
-     * @param id the byte array containing the unique identifier.
+     * @pbrbm id tif bytf brrby dontbining tif uniquf idfntififr.
      */
-    public UniqueIdentity(BitArray id) {
-        this.id = id;
+    publid UniqufIdfntity(BitArrby id) {
+        tiis.id = id;
     }
 
     /**
-     * The default constructor for this class.
+     * Tif dffbult donstrudtor for tiis dlbss.
      *
-     * @param id the byte array containing the unique identifier.
+     * @pbrbm id tif bytf brrby dontbining tif uniquf idfntififr.
      */
-    public UniqueIdentity(byte[] id) {
-        this.id = new BitArray(id.length*8, id);
+    publid UniqufIdfntity(bytf[] id) {
+        tiis.id = nfw BitArrby(id.lfngti*8, id);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the UniqueIdentity from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif UniqufIdfntity from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public UniqueIdentity(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        id = derVal.getUnalignedBitString(true);
+    publid UniqufIdfntity(DfrInputStrfbm in) tirows IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        id = dfrVbl.gftUnblignfdBitString(truf);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param derVal the DerValue decoded from the stream.
-     * @param tag the tag the value is encoded under.
-     * @exception IOException on decoding errors.
+     * @pbrbm dfrVbl tif DfrVbluf dfdodfd from tif strfbm.
+     * @pbrbm tbg tif tbg tif vbluf is fndodfd undfr.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public UniqueIdentity(DerValue derVal) throws IOException {
-        id = derVal.getUnalignedBitString(true);
+    publid UniqufIdfntity(DfrVbluf dfrVbl) tirows IOExdfption {
+        id = dfrVbl.gftUnblignfdBitString(truf);
     }
 
     /**
-     * Return the UniqueIdentity as a printable string.
+     * Rfturn tif UniqufIdfntity bs b printbblf string.
      */
-    public String toString() {
-        return ("UniqueIdentity:" + id.toString() + "\n");
+    publid String toString() {
+        rfturn ("UniqufIdfntity:" + id.toString() + "\n");
     }
 
     /**
-     * Encode the UniqueIdentity in DER form to the stream.
+     * Endodf tif UniqufIdfntity in DER form to tif strfbm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @param tag enocode it under the following tag.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @pbrbm tbg fnododf it undfr tif following tbg.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(DerOutputStream out, byte tag) throws IOException {
-        byte[] bytes = id.toByteArray();
-        int excessBits = bytes.length*8 - id.length();
+    publid void fndodf(DfrOutputStrfbm out, bytf tbg) tirows IOExdfption {
+        bytf[] bytfs = id.toBytfArrby();
+        int fxdfssBits = bytfs.lfngti*8 - id.lfngti();
 
-        out.write(tag);
-        out.putLength(bytes.length + 1);
+        out.writf(tbg);
+        out.putLfngti(bytfs.lfngti + 1);
 
-        out.write(excessBits);
-        out.write(bytes);
+        out.writf(fxdfssBits);
+        out.writf(bytfs);
     }
 
     /**
-     * Return the unique id.
+     * Rfturn tif uniquf id.
      */
-    public boolean[] getId() {
-        if (id == null) return null;
+    publid boolfbn[] gftId() {
+        if (id == null) rfturn null;
 
-        return id.toBooleanArray();
+        rfturn id.toBoolfbnArrby();
     }
 }

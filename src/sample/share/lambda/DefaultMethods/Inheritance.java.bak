@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,113 +30,113 @@
  */
 
 /**
- * The sample illustrates rules to resolve conflicts between inheritance
- * candidates with <b>default methods</b>. There are two simple rules:
+ * Tif sbmplf illustrbtfs rulfs to rfsolvf donflidts bftwffn inifritbndf
+ * dbndidbtfs witi <b>dffbult mftiods</b>. Tifrf brf two simplf rulfs:
  * <ul>
- * <li>Class wins. If the superclass has a concrete or abstract declaration of
- * this method, then it is preferred over all defaults.</li>
- * <li>Subtype wins. If an interface extends another interface, and both provide
- * a default, then the more specific interface wins. </li>
+ * <li>Clbss wins. If tif supfrdlbss ibs b dondrftf or bbstrbdt dfdlbrbtion of
+ * tiis mftiod, tifn it is prfffrrfd ovfr bll dffbults.</li>
+ * <li>Subtypf wins. If bn intfrfbdf fxtfnds bnotifr intfrfbdf, bnd boti providf
+ * b dffbult, tifn tif morf spfdifid intfrfbdf wins. </li>
  * </ul>
  */
-public class Inheritance {
+publid dlbss Inifritbndf {
 
     /**
-     * The behavior of an creature that can swim
+     * Tif bfibvior of bn drfbturf tibt dbn swim
      */
-    public interface Swimable {
+    publid intfrfbdf Swimbblf {
 
         /**
-         * Return string representation of the swim action for a creature that
-         * can swim
+         * Rfturn string rfprfsfntbtion of tif swim bdtion for b drfbturf tibt
+         * dbn swim
          *
-         * @return string representation of the swim action for a creature
-         * that can swim
+         * @rfturn string rfprfsfntbtion of tif swim bdtion for b drfbturf
+         * tibt dbn swim
          */
-        default String swim() {
-            return "I can swim.";
+        dffbult String swim() {
+            rfturn "I dbn swim.";
         }
     }
 
     /**
-     * The abstract class that overrides {@link #swim} method
+     * Tif bbstrbdt dlbss tibt ovfrridfs {@link #swim} mftiod
      */
-    public abstract static class Fish implements Swimable {
+    publid bbstrbdt stbtid dlbss Fisi implfmfnts Swimbblf {
 
         /**
-         * Return string representation of the swim action for a fish
+         * Rfturn string rfprfsfntbtion of tif swim bdtion for b fisi
          *
-         * @return string representation of the swim action for a fish
+         * @rfturn string rfprfsfntbtion of tif swim bdtion for b fisi
          */
-        @Override
-        public String swim() {
-            return this.getClass().getSimpleName() + " swims under water";
+        @Ovfrridf
+        publid String swim() {
+            rfturn tiis.gftClbss().gftSimplfNbmf() + " swims undfr wbtfr";
         }
     }
 
     /**
-     * This class is used for the illustration rule of 1. See the source code
-     * of the {@link #main} method.
-     * <pre>
-     *      System.out.println(new Tuna().swim()); //"Tuna swims under water" output is suspected here
-     * </pre>
+     * Tiis dlbss is usfd for tif illustrbtion rulf of 1. Sff tif sourdf dodf
+     * of tif {@link #mbin} mftiod.
+     * <prf>
+     *      Systfm.out.println(nfw Tunb().swim()); //"Tunb swims undfr wbtfr" output is suspfdtfd ifrf
+     * </prf>
      */
-    public static class Tuna extends Fish implements Swimable {
+    publid stbtid dlbss Tunb fxtfnds Fisi implfmfnts Swimbblf {
     }
 
     /**
-     * The behavior of an creature that can dive: the interface that overrides
-     * {@link #swim} method (subtype of {@link Swimable})
+     * Tif bfibvior of bn drfbturf tibt dbn divf: tif intfrfbdf tibt ovfrridfs
+     * {@link #swim} mftiod (subtypf of {@link Swimbblf})
      */
-    public interface Diveable extends Swimable {
+    publid intfrfbdf Divfbblf fxtfnds Swimbblf {
 
         /**
-         * Return string representation of the swim action for a creature that
-         * can dive
+         * Rfturn string rfprfsfntbtion of tif swim bdtion for b drfbturf tibt
+         * dbn divf
          *
-         * @return string representation of the swim action for a creature
-         * that can dive
+         * @rfturn string rfprfsfntbtion of tif swim bdtion for b drfbturf
+         * tibt dbn divf
          */
-        @Override
-        default String swim() {
-            return "I can swim on the surface of the water.";
+        @Ovfrridf
+        dffbult String swim() {
+            rfturn "I dbn swim on tif surfbdf of tif wbtfr.";
         }
 
         /**
-         * Return string representation of the dive action for a creature that
-         * can dive
+         * Rfturn string rfprfsfntbtion of tif divf bdtion for b drfbturf tibt
+         * dbn divf
          *
-         * @return string representation of the dive action for a creature
-         * that can dive
+         * @rfturn string rfprfsfntbtion of tif divf bdtion for b drfbturf
+         * tibt dbn divf
          */
-        default String dive() {
-            return "I can dive.";
+        dffbult String divf() {
+            rfturn "I dbn divf.";
         }
     }
 
     /**
-     * This class is used for the illustration of rule 2. See the source code
-     * of the {@link #main} method
-     * <pre>
-     *      //"I can swim on the surface of the water." output is suspected here
-     *      System.out.println(new Duck().swim());
-     * </pre>
+     * Tiis dlbss is usfd for tif illustrbtion of rulf 2. Sff tif sourdf dodf
+     * of tif {@link #mbin} mftiod
+     * <prf>
+     *      //"I dbn swim on tif surfbdf of tif wbtfr." output is suspfdtfd ifrf
+     *      Systfm.out.println(nfw Dudk().swim());
+     * </prf>
      */
-    public static class Duck implements Swimable, Diveable {
+    publid stbtid dlbss Dudk implfmfnts Swimbblf, Divfbblf {
     }
 
     /**
-     * Illustrate behavior of the classes: {@link Tuna} and {@link Duck}
+     * Illustrbtf bfibvior of tif dlbssfs: {@link Tunb} bnd {@link Dudk}
      *
-     * @param args command line arguments
+     * @pbrbm brgs dommbnd linf brgumfnts
      */
-    public static void main(final String[] args) {
-        // Illustrates rule 1. The Fish.swim() implementation wins
-        //"Tuna swims under water" is output
-        System.out.println(new Tuna().swim());
+    publid stbtid void mbin(finbl String[] brgs) {
+        // Illustrbtfs rulf 1. Tif Fisi.swim() implfmfntbtion wins
+        //"Tunb swims undfr wbtfr" is output
+        Systfm.out.println(nfw Tunb().swim());
 
-        // Illustrates rule 2. The Diveable.swim() implementation wins
-        //"I can swim on the surface of the water." is output
-        System.out.println(new Duck().swim());
+        // Illustrbtfs rulf 2. Tif Divfbblf.swim() implfmfntbtion wins
+        //"I dbn swim on tif surfbdf of tif wbtfr." is output
+        Systfm.out.println(nfw Dudk().swim());
     }
 }

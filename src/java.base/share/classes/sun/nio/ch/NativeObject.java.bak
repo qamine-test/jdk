@@ -1,405 +1,405 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.ch;                                     // Formerly in sun.misc
+pbdkbgf sun.nio.di;                                     // Formfrly in sun.misd
 
-import java.nio.ByteOrder;
-import sun.misc.Unsafe;
+import jbvb.nio.BytfOrdfr;
+import sun.misd.Unsbff;
 
 
-// ## In the fullness of time, this class will be eliminated
+// ## In tif fullnfss of timf, tiis dlbss will bf fliminbtfd
 
 /**
- * Proxies for objects that reside in native memory.
+ * Proxifs for objfdts tibt rfsidf in nbtivf mfmory.
  */
 
-class NativeObject {                                    // package-private
+dlbss NbtivfObjfdt {                                    // pbdkbgf-privbtf
 
-    protected static final Unsafe unsafe = Unsafe.getUnsafe();
+    protfdtfd stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    // Native allocation address;
-    // may be smaller than the base address due to page-size rounding
+    // Nbtivf bllodbtion bddrfss;
+    // mby bf smbllfr tibn tif bbsf bddrfss duf to pbgf-sizf rounding
     //
-    protected long allocationAddress;
+    protfdtfd long bllodbtionAddrfss;
 
-    // Native base address
+    // Nbtivf bbsf bddrfss
     //
-    private final long address;
+    privbtf finbl long bddrfss;
 
     /**
-     * Creates a new native object that is based at the given native address.
+     * Crfbtfs b nfw nbtivf objfdt tibt is bbsfd bt tif givfn nbtivf bddrfss.
      */
-    NativeObject(long address) {
-        this.allocationAddress = address;
-        this.address = address;
+    NbtivfObjfdt(long bddrfss) {
+        tiis.bllodbtionAddrfss = bddrfss;
+        tiis.bddrfss = bddrfss;
     }
 
     /**
-     * Creates a new native object allocated at the given native address but
-     * whose base is at the additional offset.
+     * Crfbtfs b nfw nbtivf objfdt bllodbtfd bt tif givfn nbtivf bddrfss but
+     * wiosf bbsf is bt tif bdditionbl offsft.
      */
-    NativeObject(long address, long offset) {
-        this.allocationAddress = address;
-        this.address = address + offset;
+    NbtivfObjfdt(long bddrfss, long offsft) {
+        tiis.bllodbtionAddrfss = bddrfss;
+        tiis.bddrfss = bddrfss + offsft;
     }
 
-    // Invoked only by AllocatedNativeObject
+    // Invokfd only by AllodbtfdNbtivfObjfdt
     //
-    protected NativeObject(int size, boolean pageAligned) {
-        if (!pageAligned) {
-            this.allocationAddress = unsafe.allocateMemory(size);
-            this.address = this.allocationAddress;
-        } else {
-            int ps = pageSize();
-            long a = unsafe.allocateMemory(size + ps);
-            this.allocationAddress = a;
-            this.address = a + ps - (a & (ps - 1));
+    protfdtfd NbtivfObjfdt(int sizf, boolfbn pbgfAlignfd) {
+        if (!pbgfAlignfd) {
+            tiis.bllodbtionAddrfss = unsbff.bllodbtfMfmory(sizf);
+            tiis.bddrfss = tiis.bllodbtionAddrfss;
+        } flsf {
+            int ps = pbgfSizf();
+            long b = unsbff.bllodbtfMfmory(sizf + ps);
+            tiis.bllodbtionAddrfss = b;
+            tiis.bddrfss = b + ps - (b & (ps - 1));
         }
     }
 
     /**
-     * Returns the native base address of this native object.
+     * Rfturns tif nbtivf bbsf bddrfss of tiis nbtivf objfdt.
      *
-     * @return The native base address
+     * @rfturn Tif nbtivf bbsf bddrfss
      */
-    long address() {
-        return address;
+    long bddrfss() {
+        rfturn bddrfss;
     }
 
-    long allocationAddress() {
-        return allocationAddress;
-    }
-
-    /**
-     * Creates a new native object starting at the given offset from the base
-     * of this native object.
-     *
-     * @param  offset
-     *         The offset from the base of this native object that is to be
-     *         the base of the new native object
-     *
-     * @return The newly created native object
-     */
-    NativeObject subObject(int offset) {
-        return new NativeObject(offset + address);
+    long bllodbtionAddrfss() {
+        rfturn bllodbtionAddrfss;
     }
 
     /**
-     * Reads an address from this native object at the given offset and
-     * constructs a native object using that address.
+     * Crfbtfs b nfw nbtivf objfdt stbrting bt tif givfn offsft from tif bbsf
+     * of tiis nbtivf objfdt.
      *
-     * @param  offset
-     *         The offset of the address to be read.  Note that the size of an
-     *         address is implementation-dependent.
+     * @pbrbm  offsft
+     *         Tif offsft from tif bbsf of tiis nbtivf objfdt tibt is to bf
+     *         tif bbsf of tif nfw nbtivf objfdt
      *
-     * @return The native object created using the address read from the
-     *         given offset
+     * @rfturn Tif nfwly drfbtfd nbtivf objfdt
      */
-    NativeObject getObject(int offset) {
-        long newAddress = 0L;
-        switch (addressSize()) {
-            case 8:
-                newAddress = unsafe.getLong(offset + address);
-                break;
-            case 4:
-                newAddress = unsafe.getInt(offset + address) & 0x00000000FFFFFFFF;
-                break;
-            default:
-                throw new InternalError("Address size not supported");
+    NbtivfObjfdt subObjfdt(int offsft) {
+        rfturn nfw NbtivfObjfdt(offsft + bddrfss);
+    }
+
+    /**
+     * Rfbds bn bddrfss from tiis nbtivf objfdt bt tif givfn offsft bnd
+     * donstrudts b nbtivf objfdt using tibt bddrfss.
+     *
+     * @pbrbm  offsft
+     *         Tif offsft of tif bddrfss to bf rfbd.  Notf tibt tif sizf of bn
+     *         bddrfss is implfmfntbtion-dfpfndfnt.
+     *
+     * @rfturn Tif nbtivf objfdt drfbtfd using tif bddrfss rfbd from tif
+     *         givfn offsft
+     */
+    NbtivfObjfdt gftObjfdt(int offsft) {
+        long nfwAddrfss = 0L;
+        switdi (bddrfssSizf()) {
+            dbsf 8:
+                nfwAddrfss = unsbff.gftLong(offsft + bddrfss);
+                brfbk;
+            dbsf 4:
+                nfwAddrfss = unsbff.gftInt(offsft + bddrfss) & 0x00000000FFFFFFFF;
+                brfbk;
+            dffbult:
+                tirow nfw IntfrnblError("Addrfss sizf not supportfd");
         }
 
-        return new NativeObject(newAddress);
+        rfturn nfw NbtivfObjfdt(nfwAddrfss);
     }
 
     /**
-     * Writes the base address of the given native object at the given offset
-     * of this native object.
+     * Writfs tif bbsf bddrfss of tif givfn nbtivf objfdt bt tif givfn offsft
+     * of tiis nbtivf objfdt.
      *
-     * @param  offset
-     *         The offset at which the address is to be written.  Note that the
-     *         size of an address is implementation-dependent.
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi tif bddrfss is to bf writtfn.  Notf tibt tif
+     *         sizf of bn bddrfss is implfmfntbtion-dfpfndfnt.
      *
-     * @param  ob
-     *         The native object whose address is to be written
+     * @pbrbm  ob
+     *         Tif nbtivf objfdt wiosf bddrfss is to bf writtfn
      */
-    void putObject(int offset, NativeObject ob) {
-        switch (addressSize()) {
-            case 8:
-                putLong(offset, ob.address);
-                break;
-            case 4:
-                putInt(offset, (int)(ob.address & 0x00000000FFFFFFFF));
-                break;
-            default:
-                throw new InternalError("Address size not supported");
+    void putObjfdt(int offsft, NbtivfObjfdt ob) {
+        switdi (bddrfssSizf()) {
+            dbsf 8:
+                putLong(offsft, ob.bddrfss);
+                brfbk;
+            dbsf 4:
+                putInt(offsft, (int)(ob.bddrfss & 0x00000000FFFFFFFF));
+                brfbk;
+            dffbult:
+                tirow nfw IntfrnblError("Addrfss sizf not supportfd");
         }
     }
 
 
-    /* -- Value accessors: No range checking! -- */
+    /* -- Vbluf bddfssors: No rbngf difdking! -- */
 
     /**
-     * Reads a byte starting at the given offset from base of this native
-     * object.
+     * Rfbds b bytf stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the byte
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif bytf
      *
-     * @return The byte value read
+     * @rfturn Tif bytf vbluf rfbd
      */
-    final byte getByte(int offset) {
-        return unsafe.getByte(offset + address);
+    finbl bytf gftBytf(int offsft) {
+        rfturn unsbff.gftBytf(offsft + bddrfss);
     }
 
     /**
-     * Writes a byte at the specified offset from this native object's
-     * base address.
+     * Writfs b bytf bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the byte
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif bytf
      *
-     * @param  value
-     *         The byte value to be written
+     * @pbrbm  vbluf
+     *         Tif bytf vbluf to bf writtfn
      */
-    final void putByte(int offset, byte value) {
-        unsafe.putByte(offset + address,  value);
+    finbl void putBytf(int offsft, bytf vbluf) {
+        unsbff.putBytf(offsft + bddrfss,  vbluf);
     }
 
     /**
-     * Reads a short starting at the given offset from base of this native
-     * object.
+     * Rfbds b siort stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the short
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif siort
      *
-     * @return The short value read
+     * @rfturn Tif siort vbluf rfbd
      */
-    final short getShort(int offset) {
-        return unsafe.getShort(offset + address);
+    finbl siort gftSiort(int offsft) {
+        rfturn unsbff.gftSiort(offsft + bddrfss);
     }
 
     /**
-     * Writes a short at the specified offset from this native object's
-     * base address.
+     * Writfs b siort bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the short
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif siort
      *
-     * @param  value
-     *         The short value to be written
+     * @pbrbm  vbluf
+     *         Tif siort vbluf to bf writtfn
      */
-    final void putShort(int offset, short value) {
-        unsafe.putShort(offset + address,  value);
+    finbl void putSiort(int offsft, siort vbluf) {
+        unsbff.putSiort(offsft + bddrfss,  vbluf);
     }
 
     /**
-     * Reads a char starting at the given offset from base of this native
-     * object.
+     * Rfbds b dibr stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the char
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif dibr
      *
-     * @return The char value read
+     * @rfturn Tif dibr vbluf rfbd
      */
-    final char getChar(int offset) {
-        return unsafe.getChar(offset + address);
+    finbl dibr gftCibr(int offsft) {
+        rfturn unsbff.gftCibr(offsft + bddrfss);
     }
 
     /**
-     * Writes a char at the specified offset from this native object's
-     * base address.
+     * Writfs b dibr bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the char
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif dibr
      *
-     * @param  value
-     *         The char value to be written
+     * @pbrbm  vbluf
+     *         Tif dibr vbluf to bf writtfn
      */
-    final void putChar(int offset, char value) {
-        unsafe.putChar(offset + address,  value);
+    finbl void putCibr(int offsft, dibr vbluf) {
+        unsbff.putCibr(offsft + bddrfss,  vbluf);
     }
 
     /**
-     * Reads an int starting at the given offset from base of this native
-     * object.
+     * Rfbds bn int stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the int
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif int
      *
-     * @return The int value read
+     * @rfturn Tif int vbluf rfbd
      */
-    final int getInt(int offset) {
-        return unsafe.getInt(offset + address);
+    finbl int gftInt(int offsft) {
+        rfturn unsbff.gftInt(offsft + bddrfss);
     }
 
     /**
-     * Writes an int at the specified offset from this native object's
-     * base address.
+     * Writfs bn int bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the int
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif int
      *
-     * @param  value
-     *         The int value to be written
+     * @pbrbm  vbluf
+     *         Tif int vbluf to bf writtfn
      */
-    final void putInt(int offset, int value) {
-        unsafe.putInt(offset + address, value);
+    finbl void putInt(int offsft, int vbluf) {
+        unsbff.putInt(offsft + bddrfss, vbluf);
     }
 
     /**
-     * Reads a long starting at the given offset from base of this native
-     * object.
+     * Rfbds b long stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the long
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif long
      *
-     * @return The long value read
+     * @rfturn Tif long vbluf rfbd
      */
-    final long getLong(int offset) {
-        return unsafe.getLong(offset + address);
+    finbl long gftLong(int offsft) {
+        rfturn unsbff.gftLong(offsft + bddrfss);
     }
 
     /**
-     * Writes a long at the specified offset from this native object's
-     * base address.
+     * Writfs b long bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the long
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif long
      *
-     * @param  value
-     *         The long value to be written
+     * @pbrbm  vbluf
+     *         Tif long vbluf to bf writtfn
      */
-    final void putLong(int offset, long value) {
-        unsafe.putLong(offset + address, value);
+    finbl void putLong(int offsft, long vbluf) {
+        unsbff.putLong(offsft + bddrfss, vbluf);
     }
 
     /**
-     * Reads a float starting at the given offset from base of this native
-     * object.
+     * Rfbds b flobt stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the float
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif flobt
      *
-     * @return The float value read
+     * @rfturn Tif flobt vbluf rfbd
      */
-    final float getFloat(int offset) {
-        return unsafe.getFloat(offset + address);
+    finbl flobt gftFlobt(int offsft) {
+        rfturn unsbff.gftFlobt(offsft + bddrfss);
     }
 
     /**
-     * Writes a float at the specified offset from this native object's
-     * base address.
+     * Writfs b flobt bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the float
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif flobt
      *
-     * @param  value
-     *         The float value to be written
+     * @pbrbm  vbluf
+     *         Tif flobt vbluf to bf writtfn
      */
-    final void putFloat(int offset, float value) {
-        unsafe.putFloat(offset + address, value);
+    finbl void putFlobt(int offsft, flobt vbluf) {
+        unsbff.putFlobt(offsft + bddrfss, vbluf);
     }
 
     /**
-     * Reads a double starting at the given offset from base of this native
-     * object.
+     * Rfbds b doublf stbrting bt tif givfn offsft from bbsf of tiis nbtivf
+     * objfdt.
      *
-     * @param  offset
-     *         The offset at which to read the double
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to rfbd tif doublf
      *
-     * @return The double value read
+     * @rfturn Tif doublf vbluf rfbd
      */
-    final double getDouble(int offset) {
-        return unsafe.getDouble(offset + address);
+    finbl doublf gftDoublf(int offsft) {
+        rfturn unsbff.gftDoublf(offsft + bddrfss);
     }
 
     /**
-     * Writes a double at the specified offset from this native object's
-     * base address.
+     * Writfs b doublf bt tif spfdififd offsft from tiis nbtivf objfdt's
+     * bbsf bddrfss.
      *
-     * @param  offset
-     *         The offset at which to write the double
+     * @pbrbm  offsft
+     *         Tif offsft bt wiidi to writf tif doublf
      *
-     * @param  value
-     *         The double value to be written
+     * @pbrbm  vbluf
+     *         Tif doublf vbluf to bf writtfn
      */
-    final void putDouble(int offset, double value) {
-        unsafe.putDouble(offset + address, value);
+    finbl void putDoublf(int offsft, doublf vbluf) {
+        unsbff.putDoublf(offsft + bddrfss, vbluf);
     }
 
     /**
-     * Returns the native architecture's address size in bytes.
+     * Rfturns tif nbtivf brdiitfdturf's bddrfss sizf in bytfs.
      *
-     * @return The address size of the native architecture
+     * @rfturn Tif bddrfss sizf of tif nbtivf brdiitfdturf
      */
-    static int addressSize() {
-        return unsafe.addressSize();
+    stbtid int bddrfssSizf() {
+        rfturn unsbff.bddrfssSizf();
     }
 
-    // Cache for byte order
-    private static ByteOrder byteOrder = null;
+    // Cbdif for bytf ordfr
+    privbtf stbtid BytfOrdfr bytfOrdfr = null;
 
     /**
-     * Returns the byte order of the underlying hardware.
+     * Rfturns tif bytf ordfr of tif undfrlying ibrdwbrf.
      *
-     * @return  An instance of {@link java.nio.ByteOrder}
+     * @rfturn  An instbndf of {@link jbvb.nio.BytfOrdfr}
      */
-    static ByteOrder byteOrder() {
-        if (byteOrder != null)
-            return byteOrder;
-        long a = unsafe.allocateMemory(8);
+    stbtid BytfOrdfr bytfOrdfr() {
+        if (bytfOrdfr != null)
+            rfturn bytfOrdfr;
+        long b = unsbff.bllodbtfMfmory(8);
         try {
-            unsafe.putLong(a, 0x0102030405060708L);
-            byte b = unsafe.getByte(a);
-            switch (b) {
-            case 0x01: byteOrder = ByteOrder.BIG_ENDIAN;     break;
-            case 0x08: byteOrder = ByteOrder.LITTLE_ENDIAN;  break;
-            default:
-                assert false;
+            unsbff.putLong(b, 0x0102030405060708L);
+            bytf b = unsbff.gftBytf(b);
+            switdi (b) {
+            dbsf 0x01: bytfOrdfr = BytfOrdfr.BIG_ENDIAN;     brfbk;
+            dbsf 0x08: bytfOrdfr = BytfOrdfr.LITTLE_ENDIAN;  brfbk;
+            dffbult:
+                bssfrt fblsf;
             }
-        } finally {
-            unsafe.freeMemory(a);
+        } finblly {
+            unsbff.frffMfmory(b);
         }
-        return byteOrder;
+        rfturn bytfOrdfr;
     }
 
-    // Cache for page size
-    private static int pageSize = -1;
+    // Cbdif for pbgf sizf
+    privbtf stbtid int pbgfSizf = -1;
 
     /**
-     * Returns the page size of the underlying hardware.
+     * Rfturns tif pbgf sizf of tif undfrlying ibrdwbrf.
      *
-     * @return  The page size, in bytes
+     * @rfturn  Tif pbgf sizf, in bytfs
      */
-    static int pageSize() {
-        if (pageSize == -1)
-            pageSize = unsafe.pageSize();
-        return pageSize;
+    stbtid int pbgfSizf() {
+        if (pbgfSizf == -1)
+            pbgfSizf = unsbff.pbgfSizf();
+        rfturn pbgfSizf;
     }
 
 }

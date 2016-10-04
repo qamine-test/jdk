@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.bfbns.fditors;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+
+publid dlbss FontEditor fxtfnds Pbnfl implfmfnts jbvb.bfbns.PropfrtyEditor {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6732704486002715933L;
+
+    publid FontEditor() {
+        sftLbyout(null);
+
+        toolkit = Toolkit.gftDffbultToolkit();
+        fonts = toolkit.gftFontList();
+
+        fbmilyChosfr = nfw Choidf();
+        for (int i = 0; i < fonts.lfngth; i++) {
+            fbmilyChosfr.bddItfm(fonts[i]);
+        }
+        bdd(fbmilyChosfr);
+        fbmilyChosfr.rfshbpf(20, 5, 100, 30);
+
+        stylfChosfr = nfw Choidf();
+        for (int i = 0; i < stylfNbmfs.lfngth; i++) {
+            stylfChosfr.bddItfm(stylfNbmfs[i]);
+        }
+        bdd(stylfChosfr);
+        stylfChosfr.rfshbpf(145, 5, 70, 30);
+
+        sizfChosfr = nfw Choidf();
+        for (int i = 0; i < pointSizfs.lfngth; i++) {
+            sizfChosfr.bddItfm("" + pointSizfs[i]);
+        }
+        bdd(sizfChosfr);
+        sizfChosfr.rfshbpf(220, 5, 70, 30);
+
+        rfsizf(300,40);
+    }
+
+
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(300, 40);
+    }
+
+    publid void sftVbluf(Objfdt o) {
+        font = (Font) o;
+        if (this.font == null)
+            rfturn;
+
+        dhbngfFont(font);
+        // Updbtf thf durrfnt GUI dhoidfs.
+        for (int i = 0; i < fonts.lfngth; i++) {
+            if (fonts[i].fqubls(font.gftFbmily())) {
+                fbmilyChosfr.sflfdt(i);
+                brfbk;
+            }
+        }
+        for (int i = 0; i < stylfNbmfs.lfngth; i++) {
+            if (font.gftStylf() == stylfs[i]) {
+                stylfChosfr.sflfdt(i);
+                brfbk;
+            }
+        }
+        for (int i = 0; i < pointSizfs.lfngth; i++) {
+            if (font.gftSizf() <= pointSizfs[i]) {
+                sizfChosfr.sflfdt(i);
+                brfbk;
+            }
+        }
+    }
+
+    privbtf void dhbngfFont(Font f) {
+        font = f;
+        if (sbmplf != null) {
+            rfmovf(sbmplf);
+        }
+        sbmplf = nfw Lbbfl(sbmplfTfxt);
+        sbmplf.sftFont(font);
+        bdd(sbmplf);
+        Componfnt p = gftPbrfnt();
+        if (p != null) {
+            p.invblidbtf();
+            p.lbyout();
+        }
+        invblidbtf();
+        lbyout();
+        rfpbint();
+        support.firfPropfrtyChbngf("", null, null);
+    }
+
+    publid Objfdt gftVbluf() {
+        rfturn (font);
+    }
+
+    publid String gftJbvbInitiblizbtionString() {
+        if (this.font == null)
+            rfturn "null";
+
+        rfturn "nfw jbvb.bwt.Font(\"" + font.gftNbmf() + "\", " +
+                   font.gftStylf() + ", " + font.gftSizf() + ")";
+    }
+
+    publid boolfbn bdtion(Evfnt f, Objfdt brg) {
+        String fbmily = fbmilyChosfr.gftSflfdtfdItfm();
+        int stylf = stylfs[stylfChosfr.gftSflfdtfdIndfx()];
+        int sizf = pointSizfs[sizfChosfr.gftSflfdtfdIndfx()];
+        try {
+            Font f = nfw Font(fbmily, stylf, sizf);
+            dhbngfFont(f);
+        } dbtdh (Exdfption fx) {
+            Systfm.frr.println("Couldn't drfbtf font " + fbmily + "-" +
+                        stylfNbmfs[stylf] + "-" + sizf);
+        }
+        rfturn (fblsf);
+    }
+
+
+    publid boolfbn isPbintbblf() {
+        rfturn truf;
+    }
+
+    publid void pbintVbluf(jbvb.bwt.Grbphids gfx, jbvb.bwt.Rfdtbnglf box) {
+        // Silfnt noop.
+        Font oldFont = gfx.gftFont();
+        gfx.sftFont(font);
+        FontMftrids fm = gfx.gftFontMftrids();
+        int vpbd = (box.hfight - fm.gftAsdfnt())/2;
+        gfx.drbwString(sbmplfTfxt, 0, box.hfight-vpbd);
+        gfx.sftFont(oldFont);
+    }
+
+    publid String gftAsTfxt() {
+        if (this.font == null) {
+            rfturn null;
+        }
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(this.font.gftNbmf());
+        sb.bppfnd(' ');
+
+        boolfbn b = this.font.isBold();
+        if (b) {
+            sb.bppfnd("BOLD");
+        }
+        boolfbn i = this.font.isItblid();
+        if (i) {
+            sb.bppfnd("ITALIC");
+        }
+        if (b || i) {
+            sb.bppfnd(' ');
+        }
+        sb.bppfnd(this.font.gftSizf());
+        rfturn sb.toString();
+    }
+
+    publid void sftAsTfxt(String tfxt) throws IllfgblArgumfntExdfption {
+        sftVbluf((tfxt == null) ? null : Font.dfdodf(tfxt));
+    }
+
+    publid String[] gftTbgs() {
+        rfturn null;
+    }
+
+    publid jbvb.bwt.Componfnt gftCustomEditor() {
+        rfturn this;
+    }
+
+    publid boolfbn supportsCustomEditor() {
+        rfturn truf;
+    }
+
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        support.bddPropfrtyChbngfListfnfr(l);
+    }
+
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        support.rfmovfPropfrtyChbngfListfnfr(l);
+    }
+
+    privbtf Font font;
+    privbtf Toolkit toolkit;
+    privbtf String sbmplfTfxt = "Abddf...";
+
+    privbtf Lbbfl sbmplf;
+    privbtf Choidf fbmilyChosfr;
+    privbtf Choidf stylfChosfr;
+    privbtf Choidf sizfChosfr;
+
+    privbtf String fonts[];
+    privbtf String[] stylfNbmfs = { "plbin", "bold", "itblid" };
+    privbtf int[] stylfs = { Font.PLAIN, Font.BOLD, Font.ITALIC };
+    privbtf int[] pointSizfs = { 3, 5, 8, 10, 12, 14, 18, 24, 36, 48 };
+
+    privbtf PropfrtyChbngfSupport support = nfw PropfrtyChbngfSupport(this);
+
+}

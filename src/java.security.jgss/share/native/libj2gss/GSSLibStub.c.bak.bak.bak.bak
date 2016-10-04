@@ -1,0 +1,1653 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_sfdurity_jgss_wrbppfr_GSSLibStub.h"
+#indludf "NbtivfUtil.h"
+#indludf "NbtivfFund.h"
+#indludf "jlong.h"
+#indludf <jni.h>
+
+/* Constbnts for indidbting whbt typf of info is nffdfd for inquirifs */
+donst int TYPE_CRED_NAME = 10;
+donst int TYPE_CRED_TIME = 11;
+donst int TYPE_CRED_USAGE = 12;
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    init
+ * Signbturf: (Ljbvb/lbng/String;Z)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_init(JNIEnv *fnv,
+                                               jdlbss jdls,
+                                               jstring jlibNbmf,
+                                               jboolfbn jDfbug) {
+    donst dhbr *libNbmf;
+    dhbr *frror = NULL;
+
+    if (!jDfbug) {
+      JGSS_DEBUG = 0;
+    } flsf {
+      JGSS_DEBUG = 1;
+    }
+
+    if (jlibNbmf == NULL) {
+        TRACE0("[GSSLibStub_init] GSS lib nbmf is NULL");
+        rfturn JNI_FALSE;
+    }
+
+    libNbmf = (*fnv)->GftStringUTFChbrs(fnv, jlibNbmf, NULL);
+    if (libNbmf == NULL) {
+        rfturn JNI_FALSE;
+    }
+    TRACE1("[GSSLibStub_init] libNbmf=%s", libNbmf);
+
+    /* initiblizf globbl fundtion tbblf */
+    frror = lobdNbtivf(libNbmf);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, jlibNbmf, libNbmf);
+
+    if (frror == NULL) {
+        rfturn JNI_TRUE;
+    } flsf {
+        TRACE0(frror);
+        rfturn JNI_FALSE;
+    }
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftMfdhPtr
+ * Signbturf: ([B)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftMfdhPtr(JNIEnv *fnv,
+                                                     jdlbss jdls,
+                                                     jbytfArrby jbytfs) {
+  gss_OID dOid;
+  unsignfd int i, lfn;
+  jbytf* bytfs;
+  jthrowbblf gssEx;
+  int found;
+
+  if (jbytfs != NULL) {
+    found = 0;
+    lfn = (unsignfd int)((*fnv)->GftArrbyLfngth(fnv, jbytfs) - 2);
+    bytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, jbytfs, NULL);
+    if (bytfs == NULL) {
+      rfturn ptr_to_jlong(NULL);
+    }
+    for (i = 0; i < ftbb->mfdhs->dount; i++) {
+      dOid = &(ftbb->mfdhs->flfmfnts[i]);
+      if (lfn == dOid->lfngth &&
+          (mfmdmp(dOid->flfmfnts, (bytfs + 2), lfn) == 0)) {
+        // Found b mbtdh
+        found = 1;
+        brfbk;
+      }
+    }
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jbytfs, bytfs, 0);
+
+    if (found != 1) {
+      dhfdkStbtus(fnv, NULL, GSS_S_BAD_MECH, 0, "[GSSLibStub_gftMfdhPtr]");
+      rfturn ptr_to_jlong(NULL);
+    } flsf {
+      rfturn ptr_to_jlong(dOid);
+    }
+  } flsf {
+    rfturn ptr_to_jlong(GSS_C_NO_OID);
+  }
+}
+
+/*
+ * Utility routinf whidh rflfbsfs thf spfdififd gss_dhbnnfl_bindings_t
+ * strudturf.
+ */
+void dflftfGSSCB(gss_dhbnnfl_bindings_t db) {
+  jobjfdt jinftAddr;
+  jbytfArrby vbluf;
+
+  if (db == GSS_C_NO_CHANNEL_BINDINGS) rfturn;
+
+  /* rflfbsf initibtor bddrfss */
+  if (db->initibtor_bddrtypf != GSS_C_AF_NULLADDR) {
+    rfsftGSSBufffr(&(db->initibtor_bddrfss));
+  }
+  /* rflfbsf bddfptor bddrfss */
+  if (db->bddfptor_bddrtypf != GSS_C_AF_NULLADDR) {
+    rfsftGSSBufffr(&(db->bddfptor_bddrfss));
+  }
+  /* rflfbsf bpplidbtion dbtb */
+  if (db->bpplidbtion_dbtb.lfngth != 0) {
+    rfsftGSSBufffr(&(db->bpplidbtion_dbtb));
+  }
+  frff(db);
+}
+
+/*
+ * Utility routinf whidh drfbtfs b gss_dhbnnfl_bindings_t strudturf
+ * using thf spfdififd org.iftf.jgss.ChbnnflBinding objfdt.
+ * NOTE: must dbll dflftfGSSCB() to frff up thf rfsourdfs.
+ */
+gss_dhbnnfl_bindings_t nfwGSSCB(JNIEnv *fnv, jobjfdt jdb) {
+  gss_dhbnnfl_bindings_t db;
+  jobjfdt jinftAddr;
+  jbytfArrby vbluf;
+  int i;
+
+  if (jdb == NULL) {
+    rfturn GSS_C_NO_CHANNEL_BINDINGS;
+  }
+
+  db = mbllod(sizfof(strudt gss_dhbnnfl_bindings_strudt));
+  if (db == NULL) {
+    throwOutOfMfmoryError(fnv,NULL);
+    rfturn NULL;
+  }
+
+  // initiblizf bddrtypf in CB first
+  db->initibtor_bddrtypf = GSS_C_AF_NULLADDR;
+  db->bddfptor_bddrtypf = GSS_C_AF_NULLADDR;
+
+  /* sft up initibtor bddrfss */
+  jinftAddr = (*fnv)->CbllObjfdtMfthod(fnv, jdb,
+      MID_ChbnnflBinding_gftInitibtorAddr);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    goto dlfbnup;
+  }
+  if (jinftAddr != NULL) {
+    vbluf = (*fnv)->CbllObjfdtMfthod(fnv, jinftAddr,
+                                     MID_InftAddrfss_gftAddr);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto dlfbnup;
+    }
+    db->initibtor_bddrtypf = GSS_C_AF_INET;
+    initGSSBufffr(fnv, vbluf, &(db->initibtor_bddrfss));
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto dlfbnup;
+    }
+  }
+  /* sft up bddfptor bddrfss */
+  jinftAddr = (*fnv)->CbllObjfdtMfthod(fnv, jdb,
+      MID_ChbnnflBinding_gftAddfptorAddr);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    goto dlfbnup;
+  }
+  if (jinftAddr != NULL) {
+    vbluf = (*fnv)->CbllObjfdtMfthod(fnv, jinftAddr,
+                                     MID_InftAddrfss_gftAddr);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto dlfbnup;
+    }
+    db->bddfptor_bddrtypf = GSS_C_AF_INET;
+    initGSSBufffr(fnv, vbluf, &(db->bddfptor_bddrfss));
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto dlfbnup;
+    }
+  }
+  /* sft up bpplidbtion dbtb */
+  vbluf = (*fnv)->CbllObjfdtMfthod(fnv, jdb,
+                                   MID_ChbnnflBinding_gftAppDbtb);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    goto dlfbnup;
+  }
+  initGSSBufffr(fnv, vbluf, &(db->bpplidbtion_dbtb));
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    goto dlfbnup;
+  }
+  rfturn db;
+dlfbnup:
+  dflftfGSSCB(db);
+  rfturn NULL;
+}
+
+/*
+ * Utility routinf for storing thf supplfmfntbry informbtion
+ * into thf spfdififd org.iftf.jgss.MfssbgfProp objfdt.
+ */
+void sftSupplfmfntbryInfo(JNIEnv *fnv, jobjfdt jstub, jobjfdt jprop,
+                          int suppInfo, int minor) {
+  jboolfbn isDuplidbtf, isOld, isUnsfq, hbsGbp;
+  jstring minorMsg;
+
+  if (suppInfo != GSS_S_COMPLETE) {
+    isDuplidbtf = ((suppInfo & GSS_S_DUPLICATE_TOKEN) != 0);
+    isOld = ((suppInfo & GSS_S_OLD_TOKEN) != 0);
+    isUnsfq = ((suppInfo & GSS_S_UNSEQ_TOKEN) != 0);
+    hbsGbp = ((suppInfo & GSS_S_GAP_TOKEN) != 0);
+    minorMsg = gftMinorMfssbgf(fnv, jstub, minor);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn;
+    }
+    (*fnv)->CbllVoidMfthod(fnv, jprop, MID_MfssbgfProp_sftSupplfmfntbryStbtfs,
+                           isDuplidbtf, isOld, isUnsfq, hbsGbp, minor,
+                           minorMsg);
+  }
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    indidbtfMfdhs
+ * Signbturf: ()[Lorg/iftf/jgss/Oid;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_indidbtfMfdhs(JNIEnv *fnv,
+                                                        jdlbss jdls)
+{
+  if (ftbb->mfdhs != NULL && ftbb->mfdhs != GSS_C_NO_OID_SET) {
+    rfturn gftJbvbOIDArrby(fnv, ftbb->mfdhs);
+  } flsf rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    inquirfNbmfsForMfdh
+ * Signbturf: ()[Lorg/iftf/jgss/Oid;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_inquirfNbmfsForMfdh(JNIEnv *fnv,
+                                                              jobjfdt jobj)
+{
+  OM_uint32 minor, mbjor;
+  gss_OID mfdh;
+  gss_OID_sft nbmfTypfs;
+  jobjfdtArrby rfsult;
+
+  if (ftbb->inquirfNbmfsForMfdh != NULL) {
+    mfdh = (gss_OID)jlong_to_ptr((*fnv)->GftLongFifld(fnv, jobj, FID_GSSLibStub_pMfdh));
+    nbmfTypfs = GSS_C_NO_OID_SET;
+
+    /* gss_inquirf_nbmfs_for_mfdh(...) => N/A */
+    mbjor = (*ftbb->inquirfNbmfsForMfdh)(&minor, mfdh, &nbmfTypfs);
+
+    /* rflfbsf intfrmfdibtf bufffrs bfforf dhfdking stbtus */
+    rfsult = gftJbvbOIDArrby(fnv, nbmfTypfs);
+    dflftfGSSOIDSft(nbmfTypfs);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn NULL;
+    }
+
+    dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_inquirfNbmfsForMfdh]");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn NULL;
+    }
+    rfturn rfsult;
+  }
+  rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    rflfbsfNbmf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_rflfbsfNbmf(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pNbmf)
+{
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl;
+
+  nbmfHdl = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+
+  TRACE1("[GSSLibStub_rflfbsfNbmf] %ld", (long) pNbmf);
+
+  if (nbmfHdl != GSS_C_NO_NAME) {
+    /* gss_rflfbsf_nbmf(...) => GSS_S_BAD_NAME */
+    mbjor = (*ftbb->rflfbsfNbmf)(&minor, &nbmfHdl);
+    dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_rflfbsfNbmf]");
+  }
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    importNbmf
+ * Signbturf: ([BLorg/iftf/jgss/Oid;)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_importNbmf(JNIEnv *fnv,
+                                                     jobjfdt jobj,
+                                                     jbytfArrby jnbmfVbl,
+                                                     jobjfdt jnbmfTypf)
+{
+  OM_uint32 minor, mbjor;
+  gss_bufffr_dfsd nbmfVbl;
+  gss_OID nbmfTypf;
+  gss_nbmf_t nbmfHdl;
+  nbmfHdl = GSS_C_NO_NAME;
+
+  TRACE0("[GSSLibStub_importNbmf]");
+
+  initGSSBufffr(fnv, jnbmfVbl, &nbmfVbl);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn jlong_zfro;
+  }
+
+  nbmfTypf = nfwGSSOID(fnv, jnbmfTypf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfsftGSSBufffr(&nbmfVbl);
+    rfturn jlong_zfro;
+  }
+
+  /* gss_import_nbmf(...) => GSS_S_BAD_NAMETYPE, GSS_S_BAD_NAME,
+     GSS_S_BAD_MECH */
+  mbjor = (*ftbb->importNbmf)(&minor, &nbmfVbl, nbmfTypf, &nbmfHdl);
+
+  TRACE1("[GSSLibStub_importNbmf] %ld", (long) nbmfHdl);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  dflftfGSSOID(nbmfTypf);
+  rfsftGSSBufffr(&nbmfVbl);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_importNbmf]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn jlong_zfro;
+  }
+  rfturn ptr_to_jlong(nbmfHdl);
+}
+
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    dompbrfNbmf
+ * Signbturf: (JJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_dompbrfNbmf(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pNbmf1,
+                                                      jlong pNbmf2)
+{
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl1, nbmfHdl2;
+  int isEqubl;
+
+  isEqubl = 0;
+  nbmfHdl1 = (gss_nbmf_t) jlong_to_ptr(pNbmf1);
+  nbmfHdl2 = (gss_nbmf_t) jlong_to_ptr(pNbmf2);
+
+  TRACE2("[GSSLibStub_dompbrfNbmf] %ld %ld", (long)pNbmf1, (long)pNbmf2);
+
+  if ((nbmfHdl1 != GSS_C_NO_NAME) && (nbmfHdl2 != GSS_C_NO_NAME)) {
+
+    /* gss_dompbrf_nbmf(...) => GSS_S_BAD_NAMETYPE, GSS_S_BAD_NAME(!) */
+    mbjor = (*ftbb->dompbrfNbmf)(&minor, nbmfHdl1, nbmfHdl2, &isEqubl);
+
+    dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_dompbrfNbmf]");
+  }
+  rfturn (isEqubl != 0);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    dbnonidblizfNbmf
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_dbnonidblizfNbmf(JNIEnv *fnv,
+                                                           jobjfdt jobj,
+                                                           jlong pNbmf)
+{
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl, mnNbmfHdl;
+  gss_OID mfdh;
+
+  nbmfHdl = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+
+  TRACE1("[GSSLibStub_dbnonidblizfNbmf] %ld", (long) pNbmf);
+
+  if (nbmfHdl != GSS_C_NO_NAME) {
+    mfdh = (gss_OID) jlong_to_ptr((*fnv)->GftLongFifld(fnv, jobj, FID_GSSLibStub_pMfdh));
+    mnNbmfHdl = GSS_C_NO_NAME;
+
+    /* gss_dbnonidblizf_nbmf(...) mby rfturn GSS_S_BAD_NAMETYPE,
+       GSS_S_BAD_NAME, GSS_S_BAD_MECH */
+    mbjor = (*ftbb->dbnonidblizfNbmf)(&minor, nbmfHdl, mfdh, &mnNbmfHdl);
+
+    TRACE1("[GSSLibStub_dbnonidblizfNbmf] MN=%ld", (long)mnNbmfHdl);
+
+    dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_dbnonidblizfNbmf]");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn (jlong) GSS_C_NO_NAME;
+    }
+    rfturn ptr_to_jlong(mnNbmfHdl);
+  }
+  rfturn (jlong) GSS_C_NO_NAME;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    fxportNbmf
+ * Signbturf: (J)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_fxportNbmf(JNIEnv *fnv,
+                                                     jobjfdt jobj,
+                                                     jlong pNbmf) {
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl, mNbmfHdl;
+  gss_bufffr_dfsd outBuf;
+  jbytfArrby jrfsult;
+
+  nbmfHdl = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+
+  TRACE1("[GSSLibStub_fxportNbmf] %ld", (long) pNbmf);
+
+  /* gss_fxport_nbmf(...) => GSS_S_NAME_NOT_MN, GSS_S_BAD_NAMETYPE,
+     GSS_S_BAD_NAME */
+  mbjor = (*ftbb->fxportNbmf)(&minor, nbmfHdl, &outBuf);
+
+  /* dbnonidblizf thf intfrnbl nbmf to MN bnd rftry */
+  if (mbjor == GSS_S_NAME_NOT_MN) {
+    /* rflfbsf intfrmfdibtf bufffrs bfforf rftrying */
+    (*ftbb->rflfbsfBufffr)(&minor, &outBuf);
+
+    TRACE0("[GSSLibStub_fxportNbmf] dbnonidblizf bnd rf-try");
+
+    mNbmfHdl = (gss_nbmf_t)jlong_to_ptr(
+        Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_dbnonidblizfNbmf
+                                        (fnv, jobj, pNbmf));
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+        rfturn NULL;
+    }
+
+    mbjor = (*ftbb->fxportNbmf)(&minor, mNbmfHdl, &outBuf);
+    Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_rflfbsfNbmf
+                                        (fnv, jobj, ptr_to_jlong(mNbmfHdl));
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      /* rflfbsf intfrmfdibtf bufffrs */
+      (*ftbb->rflfbsfBufffr)(&minor, &outBuf);
+      rfturn NULL;
+    }
+  }
+
+  /* rflfbsf intfrmfdibtf bufffrs bfforf dhfdking stbtus */
+  jrfsult = gftJbvbBufffr(fnv, &outBuf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_fxportNbmf]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    displbyNbmf
+ * Signbturf: (J)[Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_displbyNbmf(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pNbmf) {
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl;
+  gss_bufffr_dfsd outNbmfBuf;
+  gss_OID outNbmfTypf;
+  jstring jnbmf;
+  jobjfdt jtypf;
+  jobjfdtArrby jrfsult;
+
+  nbmfHdl = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+
+  TRACE1("[GSSLibStub_displbyNbmf] %ld", (long) pNbmf);
+
+  if (nbmfHdl == GSS_C_NO_NAME) {
+    dhfdkStbtus(fnv, jobj, GSS_S_BAD_NAME, 0, "[GSSLibStub_displbyNbmf]");
+    rfturn NULL;
+  }
+
+  /* gss_displby_nbmf(...) => GSS_S_BAD_NAME */
+  mbjor = (*ftbb->displbyNbmf)(&minor, nbmfHdl, &outNbmfBuf, &outNbmfTypf);
+
+  /* rflfbsf intfrmfdibtf bufffrs bfforf dhfdking stbtus */
+  jnbmf = gftJbvbString(fnv, &outNbmfBuf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_displbyNbmf]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  jtypf = gftJbvbOID(fnv, outNbmfTypf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  jrfsult = (*fnv)->NfwObjfdtArrby(fnv, 2, CLS_Objfdt, NULL);
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jrfsult, 0, jnbmf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jrfsult, 1, jtypf);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    bdquirfCrfd
+ * Signbturf: (JII)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_bdquirfCrfd(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pNbmf,
+                                                      jint rfqTimf,
+                                                      jint usbgf)
+{
+  OM_uint32 minor, mbjor;
+  gss_OID mfdh;
+  gss_OID_sft mfdhs;
+  gss_drfd_usbgf_t drfdUsbgf;
+  gss_nbmf_t nbmfHdl;
+  gss_drfd_id_t drfdHdl;
+  drfdHdl = GSS_C_NO_CREDENTIAL;
+
+  TRACE0("[GSSLibStub_bdquirfCrfd]");
+
+  mfdh = (gss_OID) jlong_to_ptr((*fnv)->GftLongFifld(fnv, jobj, FID_GSSLibStub_pMfdh));
+  mfdhs = nfwGSSOIDSft(mfdh);
+  drfdUsbgf = (gss_drfd_usbgf_t) usbgf;
+  nbmfHdl = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+
+  TRACE2("[GSSLibStub_bdquirfCrfd] pNbmf=%ld, usbgf=%d", (long)pNbmf, usbgf);
+
+  /* gss_bdquirf_drfd(...) => GSS_S_BAD_MECH, GSS_S_BAD_NAMETYPE,
+     GSS_S_BAD_NAME, GSS_S_CREDENTIALS_EXPIRED, GSS_S_NO_CRED */
+  mbjor =
+    (*ftbb->bdquirfCrfd)(&minor, nbmfHdl, rfqTimf, mfdhs,
+                     drfdUsbgf, &drfdHdl, NULL, NULL);
+  /* rflfbsf intfrmfdibtf bufffrs */
+  dflftfGSSOIDSft(mfdhs);
+
+  TRACE1("[GSSLibStub_bdquirfCrfd] pCrfd=%ld", (long) drfdHdl);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_bdquirfCrfd]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn jlong_zfro;
+  }
+  rfturn ptr_to_jlong(drfdHdl);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    rflfbsfCrfd
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_rflfbsfCrfd(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pCrfd)
+{
+  OM_uint32 minor, mbjor;
+  gss_drfd_id_t drfdHdl;
+
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+
+  TRACE1("[GSSLibStub_rflfbsfCrfd] %ld", (long int)pCrfd);
+
+  if (drfdHdl != GSS_C_NO_CREDENTIAL) {
+    /* gss_rflfbsf_drfd(...) => GSS_S_NO_CRED(!) */
+    mbjor = (*ftbb->rflfbsfCrfd)(&minor, &drfdHdl);
+
+    dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_rflfbsfCrfd]");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn jlong_zfro;
+    }
+  }
+  rfturn ptr_to_jlong(drfdHdl);
+}
+
+/*
+ * Utility routinf for obtbining info bbout b drfdfntibl.
+ */
+void inquirfCrfd(JNIEnv *fnv, jobjfdt jobj, gss_drfd_id_t pCrfd,
+                 jint typf, void *rfsult) {
+  OM_uint32 minor=0, mbjor=0;
+  OM_uint32 routinfErr;
+  gss_drfd_id_t drfdHdl;
+
+  drfdHdl = pCrfd;
+
+  TRACE1("[gss_inquirf_drfd] %ld", (long) pCrfd);
+
+  /* gss_inquirf_drfd(...) => GSS_S_DEFECTIVE_CREDENTIAL(!),
+     GSS_S_CREDENTIALS_EXPIRED(!), GSS_S_NO_CRED(!) */
+  if (typf == TYPE_CRED_NAME) {
+    mbjor = (*ftbb->inquirfCrfd)(&minor, drfdHdl, rfsult, NULL, NULL, NULL);
+  } flsf if (typf == TYPE_CRED_TIME) {
+    mbjor = (*ftbb->inquirfCrfd)(&minor, drfdHdl, NULL, rfsult, NULL, NULL);
+  } flsf if (typf == TYPE_CRED_USAGE) {
+    mbjor = (*ftbb->inquirfCrfd)(&minor, drfdHdl, NULL, NULL, rfsult, NULL);
+  }
+
+  routinfErr = GSS_ROUTINE_ERROR(mbjor);
+  if (routinfErr == GSS_S_CREDENTIALS_EXPIRED) {
+    /* ignorf GSS_S_CREDENTIALS_EXPIRED for qufry  */
+    mbjor = GSS_CALLING_ERROR(mbjor) |
+      GSS_SUPPLEMENTARY_INFO(mbjor);
+  } flsf if (routinfErr == GSS_S_NO_CRED) {
+    /* twik sindf Jbvb API throws BAD_MECH instfbd of NO_CRED */
+    mbjor = GSS_CALLING_ERROR(mbjor) |
+      GSS_S_BAD_MECH  | GSS_SUPPLEMENTARY_INFO(mbjor);
+  }
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[gss_inquirf_drfd]");
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftCrfdNbmf
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftCrfdNbmf(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pCrfd)
+{
+  gss_nbmf_t nbmfHdl;
+  gss_drfd_id_t drfdHdl;
+
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+
+  TRACE1("[GSSLibStub_gftCrfdNbmf] %ld", (long int)pCrfd);
+
+  nbmfHdl = GSS_C_NO_NAME;
+  inquirfCrfd(fnv, jobj, drfdHdl, TYPE_CRED_NAME, &nbmfHdl);
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn jlong_zfro;
+  }
+
+  TRACE1("[GSSLibStub_gftCrfdNbmf] pNbmf=%ld", (long) nbmfHdl);
+  rfturn ptr_to_jlong(nbmfHdl);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftCrfdTimf
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftCrfdTimf(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pCrfd)
+{
+  gss_drfd_id_t drfdHdl;
+  OM_uint32 lifftimf;
+
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+
+  TRACE1("[GSSLibStub_gftCrfdTimf] %ld", (long int)pCrfd);
+
+  lifftimf = 0;
+  inquirfCrfd(fnv, jobj, drfdHdl, TYPE_CRED_TIME, &lifftimf);
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn 0;
+  }
+  rfturn gftJbvbTimf(lifftimf);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftCrfdUsbgf
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftCrfdUsbgf(JNIEnv *fnv,
+                                                       jobjfdt jobj,
+                                                       jlong pCrfd)
+{
+  gss_drfd_usbgf_t usbgf;
+  gss_drfd_id_t drfdHdl;
+
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+
+  TRACE1("[GSSLibStub_gftCrfdUsbgf] %ld", (long int)pCrfd);
+
+  inquirfCrfd(fnv, jobj, drfdHdl, TYPE_CRED_USAGE, &usbgf);
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn -1;
+  }
+  rfturn (jint) usbgf;
+}
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    importContfxt
+ * Signbturf: ([B)Lsun/sfdurity/jgss/wrbppfr/NbtivfGSSContfxt;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_importContfxt(JNIEnv *fnv,
+                                                        jobjfdt jobj,
+                                                        jbytfArrby jdtxtTokfn)
+{
+  OM_uint32 minor, mbjor;
+  gss_bufffr_dfsd dtxtTokfn;
+  gss_dtx_id_t dontfxtHdl;
+  gss_OID mfdh, mfdh2;
+
+  TRACE0("[GSSLibStub_importContfxt]");
+
+  dontfxtHdl = GSS_C_NO_CONTEXT;
+  initGSSBufffr(fnv, jdtxtTokfn, &dtxtTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  /* gss_import_sfd_dontfxt(...) => GSS_S_NO_CONTEXT, GSS_S_DEFECTIVE_TOKEN,
+     GSS_S_UNAVAILABLE, GSS_S_UNAUTHORIZED */
+  mbjor = (*ftbb->importSfdContfxt)(&minor, &dtxtTokfn, &dontfxtHdl);
+
+  TRACE1("[GSSLibStub_importContfxt] pContfxt=%ld", (long) dontfxtHdl);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  rfsftGSSBufffr(&dtxtTokfn);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_importContfxt]");
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  /* now thbt thf dontfxt hbs bffn importfd, prodffd to find out
+     its mfdh */
+  mbjor = (*ftbb->inquirfContfxt)(&minor, dontfxtHdl, NULL, NULL,
+                              NULL, &mfdh, NULL, NULL, NULL);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_importContfxt] gftMfdh");
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  mfdh2 = (gss_OID) jlong_to_ptr((*fnv)->GftLongFifld(fnv, jobj,
+      FID_GSSLibStub_pMfdh));
+
+  if (sbmfMfdh(mfdh, mfdh2) == JNI_TRUE) {
+    /* mfdh mbtdh - rfturn thf dontfxt objfdt */
+    rfturn (*fnv)->NfwObjfdt(fnv, CLS_NbtivfGSSContfxt,
+                                 MID_NbtivfGSSContfxt_dtor,
+                                 ptr_to_jlong(dontfxtHdl), jobj);
+  } flsf {
+    /* mfdh mismbtdh - dlfbn up thfn rfturn null */
+    mbjor = (*ftbb->dflftfSfdContfxt)(&minor, &dontfxtHdl, GSS_C_NO_BUFFER);
+    dhfdkStbtus(fnv, jobj, mbjor, minor,
+        "[GSSLibStub_importContfxt] dlfbnup");
+    rfturn NULL;
+  }
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    initContfxt
+ * Signbturf: (JJLorg/iftf/jgss/ChbnnflBinding;[BLsun/sfdurity/jgss/wrbppfr/NbtivfGSSContfxt;)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_initContfxt(JNIEnv *fnv,
+                                                      jobjfdt jobj,
+                                                      jlong pCrfd,
+                                                      jlong pNbmf,
+                                                      jobjfdt jdb,
+                                                      jbytfArrby jinTokfn,
+                                                      jobjfdt jdontfxtSpi)
+{
+  OM_uint32 minor, mbjor;
+  gss_drfd_id_t drfdHdl ;
+  gss_dtx_id_t dontfxtHdl;
+  gss_nbmf_t tbrgftNbmf;
+  gss_OID mfdh;
+  OM_uint32 flbgs, bFlbgs;
+  OM_uint32 timf, bTimf;
+  gss_dhbnnfl_bindings_t db;
+  gss_bufffr_dfsd inTokfn;
+  gss_bufffr_dfsd outTokfn;
+  jbytfArrby jrfsult;
+/* UNCOMMENT bftfr SEAM bug#6287358 is bbdkportfd to S10
+  gss_OID bMfdh;
+  jobjfdt jMfdh;
+*/
+
+  TRACE0("[GSSLibStub_initContfxt]");
+
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(
+    (*fnv)->GftLongFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_pContfxt));
+  tbrgftNbmf = (gss_nbmf_t) jlong_to_ptr(pNbmf);
+  mfdh = (gss_OID) jlong_to_ptr((*fnv)->GftLongFifld(fnv, jobj, FID_GSSLibStub_pMfdh));
+  flbgs = (OM_uint32) (*fnv)->GftIntFifld(fnv, jdontfxtSpi,
+                                          FID_NbtivfGSSContfxt_flbgs);
+  timf = gftGSSTimf((*fnv)->GftIntFifld(fnv, jdontfxtSpi,
+                                        FID_NbtivfGSSContfxt_lifftimf));
+  db = nfwGSSCB(fnv, jdb);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  initGSSBufffr(fnv, jinTokfn, &inTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    dflftfGSSCB(db);
+    rfturn NULL;
+  }
+
+  TRACE2( "[GSSLibStub_initContfxt] bfforf: pCrfd=%ld, pContfxt=%ld",
+          (long)drfdHdl, (long)dontfxtHdl);
+
+  /* gss_init_sfd_dontfxt(...) => GSS_S_CONTINUE_NEEDED(!),
+     GSS_S_DEFECTIVE_TOKEN, GSS_S_NO_CRED, GSS_S_DEFECTIVE_CREDENTIAL(!),
+     GSS_S_CREDENTIALS_EXPIRED, GSS_S_BAD_BINDINGS, GSS_S_BAD_MIC,
+     GSS_S_OLD_TOKEN, GSS_S_DUPLICATE_TOKEN, GSS_S_NO_CONTEXT(!),
+     GSS_S_BAD_NAMETYPE, GSS_S_BAD_NAME(!), GSS_S_BAD_MECH */
+  mbjor = (*ftbb->initSfdContfxt)(&minor, drfdHdl,
+                                 &dontfxtHdl, tbrgftNbmf, mfdh,
+                                 flbgs, timf, db, &inTokfn, NULL /*bMfdh*/,
+                                 &outTokfn, &bFlbgs, &bTimf);
+
+  TRACE2("[GSSLibStub_initContfxt] bftfr: pContfxt=%ld, outTokfn lfn=%ld",
+            (long)dontfxtHdl, (long)outTokfn.lfngth);
+
+  if (GSS_ERROR(mbjor) == GSS_S_COMPLETE) {
+    /* updbtf mfmbfr vblufs if nffdfd */
+    (*fnv)->SftLongFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_pContfxt,
+                        ptr_to_jlong(dontfxtHdl));
+    (*fnv)->SftIntFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_flbgs, bFlbgs);
+    TRACE1("[GSSLibStub_initContfxt] sft flbgs=0x%x", bFlbgs);
+
+    if (mbjor == GSS_S_COMPLETE) {
+      (*fnv)->SftIntFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_lifftimf,
+                          gftJbvbTimf(bTimf));
+      TRACE0("[GSSLibStub_initContfxt] dontfxt fstbblishfd");
+
+      (*fnv)->SftBoolfbnFifld(fnv, jdontfxtSpi,
+                              FID_NbtivfGSSContfxt_isEstbblishfd,
+                              JNI_TRUE);
+
+/* UNCOMMENT bftfr SEAM bug#6287358 is bbdkportfd to S10
+      jMfdh = gftJbvbOID(fnv, bMfdh);
+      (*fnv)->SftObjfdtFifld(fnv, jdontfxtSpi,
+                             FID_NbtivfGSSContfxt_bdtublMfdh, jMfdh);
+*/
+    } flsf if (mbjor & GSS_S_CONTINUE_NEEDED) {
+      TRACE0("[GSSLibStub_initContfxt] dontfxt not fstbblishfd");
+      mbjor -= GSS_S_CONTINUE_NEEDED;
+    }
+  }
+
+  /* rflfbsf intfrmfdibtf bufffrs bfforf dhfdking stbtus */
+  dflftfGSSCB(db);
+  rfsftGSSBufffr(&inTokfn);
+  jrfsult = gftJbvbBufffr(fnv, &outTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_initContfxt]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    bddfptContfxt
+ * Signbturf: (JLorg/iftf/jgss/ChbnnflBinding;[BLsun/sfdurity/jgss/wrbppfr/NbtivfGSSContfxt;)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_bddfptContfxt(JNIEnv *fnv,
+                                                        jobjfdt jobj,
+                                                        jlong pCrfd,
+                                                        jobjfdt jdb,
+                                                        jbytfArrby jinTokfn,
+                                                        jobjfdt jdontfxtSpi)
+{
+  OM_uint32 minor, mbjor;
+  OM_uint32 minor2, mbjor2;
+  gss_dtx_id_t dontfxtHdl;
+  gss_drfd_id_t drfdHdl;
+  gss_bufffr_dfsd inTokfn;
+  gss_dhbnnfl_bindings_t db;
+  gss_nbmf_t srdNbmf;
+  gss_bufffr_dfsd outTokfn;
+  gss_OID bMfdh;
+  OM_uint32 bFlbgs;
+  OM_uint32 bTimf;
+  gss_drfd_id_t dflCrfd;
+  jobjfdt jsrdNbmf=GSS_C_NO_NAME;
+  jobjfdt jdflCrfd;
+  jobjfdt jMfdh;
+  jbytfArrby jrfsult;
+  jboolfbn sftTbrgft;
+  gss_nbmf_t tbrgftNbmf;
+  jobjfdt jtbrgftNbmf;
+
+  TRACE0("[GSSLibStub_bddfptContfxt]");
+
+  dontfxtHdl = (gss_dtx_id_t)jlong_to_ptr(
+    (*fnv)->GftLongFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_pContfxt));
+  drfdHdl = (gss_drfd_id_t) jlong_to_ptr(pCrfd);
+  initGSSBufffr(fnv, jinTokfn, &inTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  db = nfwGSSCB(fnv, jdb);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfsftGSSBufffr(&inTokfn);
+    rfturn NULL;
+  }
+  srdNbmf = tbrgftNbmf = GSS_C_NO_NAME;
+  dflCrfd = GSS_C_NO_CREDENTIAL;
+  sftTbrgft = (drfdHdl == GSS_C_NO_CREDENTIAL);
+  bFlbgs = 0;
+
+  TRACE2( "[GSSLibStub_bddfptContfxt] bfforf: pCrfd=%ld, pContfxt=%ld",
+          (long) drfdHdl, (long) dontfxtHdl);
+
+  /* gss_bddfpt_sfd_dontfxt(...) => GSS_S_CONTINUE_NEEDED(!),
+     GSS_S_DEFECTIVE_TOKEN, GSS_S_DEFECTIVE_CREDENTIAL(!),
+     GSS_S_NO_CRED, GSS_S_CREDENTIALS_EXPIRED, GSS_S_BAD_BINDINGS,
+     GSS_S_NO_CONTEXT(!), GSS_S_BAD_MIC, GSS_S_OLD_TOKEN,
+     GSS_S_DUPLICATE_TOKEN, GSS_S_BAD_MECH */
+  mbjor =
+    (*ftbb->bddfptSfdContfxt)(&minor, &dontfxtHdl, drfdHdl,
+                           &inTokfn, db, &srdNbmf, &bMfdh, &outTokfn,
+                           &bFlbgs, &bTimf, &dflCrfd);
+  /* rflfbsf intfrmfdibtf bufffrs bfforf dhfdking stbtus */
+
+  dflftfGSSCB(db);
+  rfsftGSSBufffr(&inTokfn);
+
+  TRACE3("[GSSLibStub_bddfptContfxt] bftfr: pCrfd=%ld, pContfxt=%ld, pDflfgCrfd=%ld",
+        (long)drfdHdl, (long)dontfxtHdl, (long) dflCrfd);
+
+  if (GSS_ERROR(mbjor) == GSS_S_COMPLETE) {
+    /* updbtf mfmbfr vblufs if nffdfd */
+    (*fnv)->SftLongFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_pContfxt,
+                        ptr_to_jlong(dontfxtHdl));
+    TRACE1("[GSSLibStub_bddfptContfxt] sft pContfxt=%ld",
+            (long)dontfxtHdl);
+
+    // WORKAROUND for b Hfimdbl bug
+    if (dflCrfd == GSS_C_NO_CREDENTIAL) {
+        bFlbgs &= 0xffffffff;
+    }
+    (*fnv)->SftIntFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_flbgs, bFlbgs);
+
+    TRACE1("[GSSLibStub_bddfptContfxt] sft flbgs=0x%x", bFlbgs);
+
+    if (sftTbrgft) {
+      mbjor2 = (*ftbb->inquirfContfxt)(&minor2, dontfxtHdl, NULL,
+                              &tbrgftNbmf, NULL, NULL, NULL,
+                              NULL, NULL);
+      dhfdkStbtus(fnv, jobj, mbjor2, minor2,
+                    "[GSSLibStub_bddfptContfxt] inquirf");
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+         goto frror;
+      }
+
+      jtbrgftNbmf = (*fnv)->NfwObjfdt(fnv, CLS_GSSNbmfElfmfnt,
+                                MID_GSSNbmfElfmfnt_dtor,
+                                ptr_to_jlong(tbrgftNbmf), jobj);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+
+      TRACE1("[GSSLibStub_bddfptContfxt] sft tbrgftNbmf=%ld",
+              (long)tbrgftNbmf);
+
+      (*fnv)->SftObjfdtFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_tbrgftNbmf,
+                             jtbrgftNbmf);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+    }
+    if (srdNbmf != GSS_C_NO_NAME) {
+      jsrdNbmf = (*fnv)->NfwObjfdt(fnv, CLS_GSSNbmfElfmfnt,
+                                   MID_GSSNbmfElfmfnt_dtor,
+                                   ptr_to_jlong(srdNbmf), jobj);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+
+      TRACE1("[GSSLibStub_bddfptContfxt] sft srdNbmf=%ld", (long)srdNbmf);
+
+      (*fnv)->SftObjfdtFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_srdNbmf,
+                             jsrdNbmf);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+    }
+    if (mbjor == GSS_S_COMPLETE) {
+      TRACE0("[GSSLibStub_bddfptContfxt] dontfxt fstbblishfd");
+
+      (*fnv)->SftIntFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_lifftimf,
+                          gftJbvbTimf(bTimf));
+      (*fnv)->SftBoolfbnFifld(fnv, jdontfxtSpi,
+                              FID_NbtivfGSSContfxt_isEstbblishfd,
+                              JNI_TRUE);
+      jMfdh = gftJbvbOID(fnv, bMfdh);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+      (*fnv)->SftObjfdtFifld(fnv, jdontfxtSpi,
+                             FID_NbtivfGSSContfxt_bdtublMfdh, jMfdh);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        goto frror;
+      }
+      if (dflCrfd != GSS_C_NO_CREDENTIAL) {
+        jdflCrfd = (*fnv)->NfwObjfdt(fnv, CLS_GSSCrfdElfmfnt,
+                                     MID_GSSCrfdElfmfnt_dtor,
+                                     ptr_to_jlong(dflCrfd), jsrdNbmf, jMfdh);
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+          goto frror;
+        }
+        (*fnv)->SftObjfdtFifld(fnv, jdontfxtSpi,
+                               FID_NbtivfGSSContfxt_dflfgbtfdCrfd,
+                               jdflCrfd);
+        TRACE1("[GSSLibStub_bddfptContfxt] sft dflfgbtfdCrfd=%ld",
+                (long) dflCrfd);
+
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+          goto frror;
+        }
+      }
+    } flsf if (mbjor & GSS_S_CONTINUE_NEEDED) {
+      TRACE0("[GSSLibStub_bddfptContfxt] dontfxt not fstbblishfd");
+
+      if (bFlbgs & GSS_C_PROT_READY_FLAG) {
+        (*fnv)->SftIntFifld(fnv, jdontfxtSpi, FID_NbtivfGSSContfxt_lifftimf,
+                            gftJbvbTimf(bTimf));
+      }
+      mbjor -= GSS_S_CONTINUE_NEEDED;
+    }
+  }
+  rfturn gftJbvbBufffr(fnv, &outTokfn);
+
+frror:
+  (*ftbb->rflfbsfBufffr)(&minor, &outTokfn);
+  if (srdNbmf != GSS_C_NO_NAME) {
+    (*ftbb->rflfbsfNbmf)(&minor, &srdNbmf);
+  }
+  if (tbrgftNbmf != GSS_C_NO_NAME) {
+    (*ftbb->rflfbsfNbmf)(&minor, &tbrgftNbmf);
+  }
+  if (dflCrfd != GSS_C_NO_CREDENTIAL) {
+    (*ftbb->rflfbsfCrfd) (&minor, &dflCrfd);
+  }
+  rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    inquirfContfxt
+ * Signbturf: (J)[J
+ */
+JNIEXPORT jlongArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_inquirfContfxt(JNIEnv *fnv,
+                                                         jobjfdt jobj,
+                                                         jlong pContfxt)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  gss_nbmf_t srdNbmf, tbrgftNbmf;
+  OM_uint32 timf;
+  OM_uint32 flbgs;
+  int isInitibtor, isEstbblishfd;
+  jlong rfsult[6];
+  jlongArrby jrfsult;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_inquirfContfxt] %ld", (long)dontfxtHdl);
+
+  srdNbmf = tbrgftNbmf = GSS_C_NO_NAME;
+  timf = 0;
+  flbgs = isInitibtor = isEstbblishfd = 0;
+
+  /* gss_inquirf_dontfxt(...) => GSS_S_NO_CONTEXT(!) */
+  mbjor = (*ftbb->inquirfContfxt)(&minor, dontfxtHdl, &srdNbmf,
+                              &tbrgftNbmf, &timf, NULL, &flbgs,
+                              &isInitibtor, &isEstbblishfd);
+  /* updbtf mfmbfr vblufs if nffdfd */
+  TRACE2("[GSSLibStub_inquirfContfxt] srdNbmf %ld, tbrgftNbmf %ld",
+      (long)srdNbmf, (long)tbrgftNbmf);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_inquirfContfxt]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfsult[0] = ptr_to_jlong(srdNbmf);
+  rfsult[1] = ptr_to_jlong(tbrgftNbmf);
+  rfsult[2] = (jlong) isInitibtor;
+  rfsult[3] = (jlong) isEstbblishfd;
+  rfsult[4] = (jlong) flbgs;
+  rfsult[5] = (jlong) gftJbvbTimf(timf);
+
+  jrfsult = (*fnv)->NfwLongArrby(fnv, 6);
+  if (jrfsult == NULL) {
+    rfturn NULL;
+  }
+  (*fnv)->SftLongArrbyRfgion(fnv, jrfsult, 0, 6, rfsult);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftContfxtMfdh
+ * Signbturf: (J)Lorg/iftf/jgss/Oid;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftContfxtMfdh(JNIEnv *fnv,
+                                                         jobjfdt jobj,
+                                                         jlong pContfxt)
+{
+  OM_uint32 minor, mbjor;
+  gss_OID mfdh;
+  gss_dtx_id_t dontfxtHdl;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_gftContfxtMfdh] %ld", (long int)pContfxt);
+
+  mbjor = (*ftbb->inquirfContfxt)(&minor, dontfxtHdl, NULL, NULL,
+                                NULL, &mfdh, NULL,  NULL, NULL);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_gftContfxtMfdh]");
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  rfturn gftJbvbOID(fnv, mfdh);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftContfxtNbmf
+ * Signbturf: (JZ)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftContfxtNbmf(JNIEnv *fnv,
+  jobjfdt jobj, jlong pContfxt, jboolfbn isSrd)
+{
+  OM_uint32 minor, mbjor;
+  gss_nbmf_t nbmfHdl;
+  gss_dtx_id_t dontfxtHdl;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE2("[GSSLibStub_gftContfxtNbmf] %ld, isSrd=%d",
+          (long)dontfxtHdl, isSrd);
+
+  nbmfHdl = GSS_C_NO_NAME;
+  if (isSrd == JNI_TRUE) {
+    mbjor = (*ftbb->inquirfContfxt)(&minor, dontfxtHdl, &nbmfHdl, NULL,
+                                NULL, NULL, NULL,  NULL, NULL);
+  } flsf {
+    mbjor = (*ftbb->inquirfContfxt)(&minor, dontfxtHdl, NULL, &nbmfHdl,
+                                NULL, NULL, NULL,  NULL, NULL);
+  }
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_inquirfContfxtAll]");
+  /* rfturn immfdibtfly if bn fxdfption hbs oddurrfd */
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn jlong_zfro;
+  }
+
+  TRACE1("[GSSLibStub_gftContfxtNbmf] pNbmf=%ld", (long) nbmfHdl);
+
+  rfturn ptr_to_jlong(nbmfHdl);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftContfxtTimf
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftContfxtTimf(JNIEnv *fnv,
+                                                         jobjfdt jobj,
+                                                         jlong pContfxt) {
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  OM_uint32 timf;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_gftContfxtTimf] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) rfturn 0;
+
+  /* gss_dontfxt_timf(...) => GSS_S_CONTEXT_EXPIRED(!),
+     GSS_S_NO_CONTEXT(!) */
+  mbjor = (*ftbb->dontfxtTimf)(&minor, dontfxtHdl, &timf);
+  if (GSS_ROUTINE_ERROR(mbjor) == GSS_S_CONTEXT_EXPIRED) {
+    mbjor = GSS_CALLING_ERROR(mbjor) | GSS_SUPPLEMENTARY_INFO(mbjor);
+  }
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_gftContfxtTimf]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn 0;
+  }
+  rfturn gftJbvbTimf(timf);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    dflftfContfxt
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_dflftfContfxt(JNIEnv *fnv,
+                                                        jobjfdt jobj,
+                                                        jlong pContfxt)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_dflftfContfxt] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) rfturn ptr_to_jlong(GSS_C_NO_CONTEXT);
+
+  /* gss_dflftf_sfd_dontfxt(...) => GSS_S_NO_CONTEXT(!) */
+  mbjor = (*ftbb->dflftfSfdContfxt)(&minor, &dontfxtHdl, GSS_C_NO_BUFFER);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_dflftfContfxt]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn jlong_zfro;
+  }
+  rfturn (jlong) ptr_to_jlong(dontfxtHdl);
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    wrbpSizfLimit
+ * Signbturf: (JIII)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_wrbpSizfLimit(JNIEnv *fnv,
+                                                        jobjfdt jobj,
+                                                        jlong pContfxt,
+                                                        jint rfqFlbg,
+                                                        jint jqop,
+                                                        jint joutSizf)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  OM_uint32 outSizf, mbxInSizf;
+  gss_qop_t qop;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_wrbpSizfLimit] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_NO_CONTEXT, 0,
+        "[GSSLibStub_wrbpSizfLimit]");
+    rfturn 0;
+  }
+
+  qop = (gss_qop_t) jqop;
+  outSizf = (OM_uint32) joutSizf;
+  /* gss_wrbp_sizf_limit(...) => GSS_S_NO_CONTEXT(!), GSS_S_CONTEXT_EXPIRED,
+     GSS_S_BAD_QOP */
+  mbjor = (*ftbb->wrbpSizfLimit)(&minor, dontfxtHdl, rfqFlbg,
+                              qop, outSizf, &mbxInSizf);
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_wrbpSizfLimit]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn 0;
+  }
+  rfturn (jint) mbxInSizf;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    fxportContfxt
+ * Signbturf: (J)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_fxportContfxt(JNIEnv *fnv,
+                                                        jobjfdt jobj,
+                                                        jlong pContfxt)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  gss_bufffr_dfsd intfrProdTokfn;
+  jbytfArrby jrfsult;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_fxportContfxt] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_NO_CONTEXT, 0, "[GSSLibStub_fxportContfxt]");
+    rfturn NULL;
+  }
+  /* gss_fxport_sfd_dontfxt(...) => GSS_S_CONTEXT_EXPIRED,
+     GSS_S_NO_CONTEXT, GSS_S_UNAVAILABLE */
+  mbjor =
+    (*ftbb->fxportSfdContfxt)(&minor, &dontfxtHdl, &intfrProdTokfn);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  jrfsult = gftJbvbBufffr(fnv, &intfrProdTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_fxportContfxt]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    gftMid
+ * Signbturf: (JI[B)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_gftMid(JNIEnv *fnv, jobjfdt jobj,
+                                                 jlong pContfxt, jint jqop,
+                                                 jbytfArrby jmsg)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  gss_qop_t qop;
+  gss_bufffr_dfsd msg;
+  gss_bufffr_dfsd msgTokfn;
+  jbytfArrby jrfsult;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_gftMid] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_CONTEXT_EXPIRED, 0, "[GSSLibStub_gftMid]");
+    rfturn NULL;
+  }
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+  qop = (gss_qop_t) jqop;
+  initGSSBufffr(fnv, jmsg, &msg);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  /* gss_gft_mid(...) => GSS_S_CONTEXT_EXPIRED, GSS_S_NO_CONTEXT(!),
+     GSS_S_BAD_QOP */
+  mbjor =
+    (*ftbb->gftMid)(&minor, dontfxtHdl, qop, &msg, &msgTokfn);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  rfsftGSSBufffr(&msg);
+  jrfsult = gftJbvbBufffr(fnv, &msgTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_gftMid]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    vfrifyMid
+ * Signbturf: (J[B[BLorg/iftf/jgss/MfssbgfProp;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_vfrifyMid(JNIEnv *fnv,
+                                                    jobjfdt jobj,
+                                                    jlong pContfxt,
+                                                    jbytfArrby jmsgTokfn,
+                                                    jbytfArrby jmsg,
+                                                    jobjfdt jprop)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  gss_bufffr_dfsd msg;
+  gss_bufffr_dfsd msgTokfn;
+  gss_qop_t qop;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_vfrifyMid] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_CONTEXT_EXPIRED, 0,
+        "[GSSLibStub_vfrifyMid]");
+    rfturn;
+  }
+
+  qop = (gss_qop_t) (*fnv)->CbllIntMfthod(fnv, jprop, MID_MfssbgfProp_gftQOP);
+  if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn; }
+
+  initGSSBufffr(fnv, jmsg, &msg);
+  if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn; }
+
+  initGSSBufffr(fnv, jmsgTokfn, &msgTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfsftGSSBufffr(&msg);
+    rfturn;
+  }
+
+  /* gss_vfrify_mid(...) => GSS_S_DEFECTIVE_TOKEN, GSS_S_BAD_MIC,
+     GSS_S_CONTEXT_EXPIRED, GSS_S_DUPLICATE_TOKEN(!), GSS_S_OLD_TOKEN(!),
+     GSS_S_UNSEQ_TOKEN(!), GSS_S_GAP_TOKEN(!), GSS_S_NO_CONTEXT(!) */
+  mbjor =
+    (*ftbb->vfrifyMid)(&minor, dontfxtHdl, &msg, &msgTokfn, &qop);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  rfsftGSSBufffr(&msg);
+  rfsftGSSBufffr(&msgTokfn);
+
+  dhfdkStbtus(fnv, jobj, GSS_ERROR(mbjor), minor, "[GSSLibStub_vfrifyMid]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn;
+  }
+
+  (*fnv)->CbllVoidMfthod(fnv, jprop, MID_MfssbgfProp_sftQOP, qop);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn;
+  }
+
+  sftSupplfmfntbryInfo(fnv, jobj, jprop, GSS_SUPPLEMENTARY_INFO(mbjor),
+                       minor);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn;
+  }
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    wrbp
+ * Signbturf: (J[BLorg/iftf/jgss/MfssbgfProp;)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_wrbp(JNIEnv *fnv,
+                                               jobjfdt jobj,
+                                               jlong pContfxt,
+                                               jbytfArrby jmsg,
+                                               jobjfdt jprop)
+{
+  OM_uint32 minor, mbjor;
+  jboolfbn donfFlbg;
+  gss_qop_t qop;
+  gss_bufffr_dfsd msg;
+  gss_bufffr_dfsd msgTokfn;
+  int donfStbtf;
+  gss_dtx_id_t dontfxtHdl;
+  jbytfArrby jrfsult;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_wrbp] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_CONTEXT_EXPIRED, 0, "[GSSLibStub_wrbp]");
+    rfturn NULL;
+  }
+
+  donfFlbg =
+    (*fnv)->CbllBoolfbnMfthod(fnv, jprop, MID_MfssbgfProp_gftPrivbdy);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  qop = (gss_qop_t)
+    (*fnv)->CbllIntMfthod(fnv, jprop, MID_MfssbgfProp_gftQOP);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  initGSSBufffr(fnv, jmsg, &msg);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  /* gss_wrbp(...) => GSS_S_CONTEXT_EXPIRED, GSS_S_NO_CONTEXT(!),
+     GSS_S_BAD_QOP */
+  mbjor = (*ftbb->wrbp)(&minor, dontfxtHdl, donfFlbg, qop, &msg, &donfStbtf,
+                   &msgTokfn);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  rfsftGSSBufffr(&msg);
+  jrfsult = gftJbvbBufffr(fnv, &msgTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  dhfdkStbtus(fnv, jobj, mbjor, minor, "[GSSLibStub_wrbp]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  (*fnv)->CbllVoidMfthod(fnv, jprop, MID_MfssbgfProp_sftPrivbdy,
+                         (donfStbtf? JNI_TRUE:JNI_FALSE));
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfturn jrfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_jgss_wrbppfr_GSSLibStub
+ * Mfthod:    unwrbp
+ * Signbturf: (J[BLorg/iftf/jgss/MfssbgfProp;)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_sfdurity_jgss_wrbppfr_GSSLibStub_unwrbp(JNIEnv *fnv,
+                                                 jobjfdt jobj,
+                                                 jlong pContfxt,
+                                                 jbytfArrby jmsgTokfn,
+                                                 jobjfdt jprop)
+{
+  OM_uint32 minor, mbjor;
+  gss_dtx_id_t dontfxtHdl;
+  gss_bufffr_dfsd msgTokfn;
+  gss_bufffr_dfsd msg;
+  int donfStbtf;
+  gss_qop_t qop;
+  jbytfArrby jrfsult;
+
+  dontfxtHdl = (gss_dtx_id_t) jlong_to_ptr(pContfxt);
+
+  TRACE1("[GSSLibStub_unwrbp] %ld", (long)dontfxtHdl);
+
+  if (dontfxtHdl == GSS_C_NO_CONTEXT) {
+    // Twik pfr jbvbdod
+    dhfdkStbtus(fnv, jobj, GSS_S_CONTEXT_EXPIRED, 0, "[GSSLibStub_unwrbp]");
+    rfturn NULL;
+  }
+
+  initGSSBufffr(fnv, jmsgTokfn, &msgTokfn);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  donfStbtf = 0;
+  qop = GSS_C_QOP_DEFAULT;
+  /* gss_unwrbp(...) => GSS_S_DEFECTIVE_TOKEN, GSS_S_BAD_MIC,
+     GSS_S_CONTEXT_EXPIRED, GSS_S_DUPLICATE_TOKEN(!), GSS_S_OLD_TOKEN(!),
+     GSS_S_UNSEQ_TOKEN(!), GSS_S_GAP_TOKEN(!), GSS_S_NO_CONTEXT(!) */
+  mbjor =
+    (*ftbb->unwrbp)(&minor, dontfxtHdl, &msgTokfn, &msg, &donfStbtf, &qop);
+
+  /* rflfbsf intfrmfdibtf bufffrs */
+  rfsftGSSBufffr(&msgTokfn);
+  jrfsult = gftJbvbBufffr(fnv, &msg);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  dhfdkStbtus(fnv, jobj, GSS_ERROR(mbjor), minor, "[GSSLibStub_unwrbp]");
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  /* updbtf thf mfssbgf prop with rflfvbnt info */
+  (*fnv)->CbllVoidMfthod(fnv, jprop, MID_MfssbgfProp_sftPrivbdy,
+                         (donfStbtf != 0));
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  (*fnv)->CbllVoidMfthod(fnv, jprop, MID_MfssbgfProp_sftQOP, qop);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  sftSupplfmfntbryInfo(fnv, jobj, jprop, GSS_SUPPLEMENTARY_INFO(mbjor),
+                         minor);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+
+  rfturn jrfsult;
+}

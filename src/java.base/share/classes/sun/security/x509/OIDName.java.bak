@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class implements the OIDName as required by the GeneralNames
- * ASN.1 object.
+ * Tiis dlbss implfmfnts tif OIDNbmf bs rfquirfd by tif GfnfrblNbmfs
+ * ASN.1 objfdt.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
  */
-public class OIDName implements GeneralNameInterface {
-     private ObjectIdentifier oid;
+publid dlbss OIDNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
+     privbtf ObjfdtIdfntififr oid;
 
     /**
-     * Create the OIDName object from the passed encoded Der value.
+     * Crfbtf tif OIDNbmf objfdt from tif pbssfd fndodfd Dfr vbluf.
      *
-     * @param derValue the encoded DER OIDName.
-     * @exception IOException on error.
+     * @pbrbm dfrVbluf tif fndodfd DER OIDNbmf.
+     * @fxdfption IOExdfption on frror.
      */
-    public OIDName(DerValue derValue) throws IOException {
-        oid = derValue.getOID();
+    publid OIDNbmf(DfrVbluf dfrVbluf) tirows IOExdfption {
+        oid = dfrVbluf.gftOID();
     }
 
     /**
-     * Create the OIDName object with the specified name.
+     * Crfbtf tif OIDNbmf objfdt witi tif spfdififd nbmf.
      *
-     * @param name the OIDName.
+     * @pbrbm nbmf tif OIDNbmf.
      */
-    public OIDName(ObjectIdentifier oid) {
-        this.oid = oid;
+    publid OIDNbmf(ObjfdtIdfntififr oid) {
+        tiis.oid = oid;
     }
 
     /**
-     * Create the OIDName from the String form of the OID
+     * Crfbtf tif OIDNbmf from tif String form of tif OID
      *
-     * @param name the OIDName in form "x.y.z..."
-     * @throws IOException on error
+     * @pbrbm nbmf tif OIDNbmf in form "x.y.z..."
+     * @tirows IOExdfption on frror
      */
-    public OIDName(String name) throws IOException {
+    publid OIDNbmf(String nbmf) tirows IOExdfption {
         try {
-            oid = new ObjectIdentifier(name);
-        } catch (Exception e) {
-            throw new IOException("Unable to create OIDName: " + e);
+            oid = nfw ObjfdtIdfntififr(nbmf);
+        } dbtdi (Exdfption f) {
+            tirow nfw IOExdfption("Unbblf to drfbtf OIDNbmf: " + f);
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Rfturn tif typf of tif GfnfrblNbmf.
      */
-    public int getType() {
-        return (GeneralNameInterface.NAME_OID);
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_OID);
     }
 
     /**
-     * Encode the OID name into the DerOutputStream.
+     * Endodf tif OID nbmf into tif DfrOutputStrfbm.
      *
-     * @param out the DER stream to encode the OIDName to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DER strfbm to fndodf tif OIDNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
         out.putOID(oid);
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convfrt tif nbmf into usfr rfbdbblf string.
      */
-    public String toString() {
-        return ("OIDName: " + oid.toString());
+    publid String toString() {
+        rfturn ("OIDNbmf: " + oid.toString());
     }
 
     /**
-     * Returns this OID name.
+     * Rfturns tiis OID nbmf.
      */
-    public ObjectIdentifier getOID() {
-        return oid;
+    publid ObjfdtIdfntififr gftOID() {
+        rfturn oid;
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbrfs tiis nbmf witi bnotifr, for fqublity.
      *
-     * @return true iff the names are identical
+     * @rfturn truf iff tif nbmfs brf idfntidbl
      */
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj)
+            rfturn truf;
 
-        if (!(obj instanceof OIDName))
-            return false;
+        if (!(obj instbndfof OIDNbmf))
+            rfturn fblsf;
 
-        OIDName other = (OIDName)obj;
+        OIDNbmf otifr = (OIDNbmf)obj;
 
-        return oid.equals((Object)other.oid);
+        rfturn oid.fqubls((Objfdt)otifr.oid);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return oid.hashCode();
+    publid int ibsiCodf() {
+        rfturn oid.ibsiCodf();
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Rfturn typf of donstrbint inputNbmf plbdfs on tiis nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdifs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in tif nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is iigifr in tif nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdi or nbrrow nbmf, but is sbmf typf.
+     * </ul>.  Tifsf rfsults brf usfd in difdking NbmfConstrbints during
+     * dfrtifidbtion pbti vfrifidbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but narrowing and widening are
-     *          not supported for this name type.
+     * @pbrbm inputNbmf to bf difdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @tirows UnsupportfdOpfrbtionExdfption if nbmf is not fxbdt mbtdi, but nbrrowing bnd widfning brf
+     *          not supportfd for tiis nbmf typf.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_OID)
-            constraintType = NAME_DIFF_TYPE;
-        else if (this.equals((OIDName)inputName))
-            constraintType = NAME_MATCH;
-        else
-            //widens and narrows not defined in RFC2459 for OIDName (aka registeredID)
-            throw new UnsupportedOperationException("Narrowing and widening are not supported for OIDNames");
-        return constraintType;
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) tirows UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_OID)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (tiis.fqubls((OIDNbmf)inputNbmf))
+            donstrbintTypf = NAME_MATCH;
+        flsf
+            //widfns bnd nbrrows not dffinfd in RFC2459 for OIDNbmf (bkb rfgistfrfdID)
+            tirow nfw UnsupportfdOpfrbtionExdfption("Nbrrowing bnd widfning brf not supportfd for OIDNbmfs");
+        rfturn donstrbintTypf;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Rfturn subtrff dfpti of tiis nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbti lfngtis in nbmf subtrffs.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @rfturns distbndf of nbmf from root
+     * @tirows UnsupportfdOpfrbtionExdfption if not supportfd for tiis nbmf typf
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth() not supported for OIDName.");
+    publid int subtrffDfpti() tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("subtrffDfpti() not supportfd for OIDNbmf.");
    }
 }

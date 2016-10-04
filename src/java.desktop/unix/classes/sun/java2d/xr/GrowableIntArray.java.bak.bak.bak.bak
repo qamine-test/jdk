@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import jbvb.util.*;
+
+/**
+ * Growbblf int brrby, dfsignfd to bllow subdlbssfs to fmulbtf
+ * thf bfhbviour of vbluf typfs.
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss GrowbblfIntArrby {
+
+    int[] brrby;
+    int sizf;
+    int dfllSizf;
+
+    publid GrowbblfIntArrby(int dfllSizf, int initiblSizf) {
+        brrby = nfw int[initiblSizf];
+        sizf = 0;
+        this.dfllSizf = dfllSizf;
+    }
+
+    privbtf int gftNfxtCfllIndfx() {
+        int oldSizf = sizf;
+        sizf += dfllSizf;
+
+        if (sizf >= brrby.lfngth) {
+            growArrby();
+        }
+
+        rfturn oldSizf;
+    }
+
+    /**
+     * @rfturn b dirfdt rfffrfndf to thf bbdking brrby.
+     */
+    publid int[] gftArrby() {
+        rfturn brrby;
+    }
+
+    /**
+     * @rfturn b dopy of thf bbdking brrby.
+     */
+    publid int[] gftSizfdArrby() {
+        rfturn Arrbys.dopyOf(brrby, gftSizf());
+    }
+
+    /**
+     * Rfturns thf indfx of thf nfxt frff dfll,
+     * bnd grows thf bbdking brrbys if rfquirfd.
+     */
+    publid finbl int gftNfxtIndfx() {
+        rfturn gftNfxtCfllIndfx() / dfllSizf;
+    }
+
+    protfdtfd finbl int gftCfllIndfx(int dfllIndfx) {
+        rfturn dfllSizf * dfllIndfx;
+    }
+
+    publid finbl int gftInt(int dfllIndfx) {
+        rfturn brrby[dfllIndfx];
+    }
+
+    publid finbl void bddInt(int i) {
+        int nfxtIndfx = gftNfxtIndfx();
+        brrby[nfxtIndfx] = i;
+    }
+
+    /**
+     * @rfturn Thf numbfr of storfd dflls.
+     */
+    publid finbl int gftSizf() {
+        rfturn sizf / dfllSizf;
+    }
+
+    publid void dlfbr() {
+        sizf = 0;
+    }
+
+    protfdtfd void growArrby() {
+        int nfwSizf = Mbth.mbx(brrby.lfngth * 2, 10);
+        int[] oldArrby = brrby;
+        brrby = nfw int[nfwSizf];
+
+        Systfm.brrbydopy(oldArrby, 0, brrby, 0, oldArrby.lfngth);
+    }
+
+}

@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.awt.event.InputEvent;
-import java.util.EventObject;
-import java.net.URL;
-import javax.swing.text.Element;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.util.EvfntObjfdt;
+import jbvb.nft.URL;
+import jbvbx.swing.tfxt.Elfmfnt;
 
 
 /**
- * HyperlinkEvent is used to notify interested parties that
- * something has happened with respect to a hypertext link.
+ * HypfrlinkEvfnt is usfd to notify intfrfstfd pbrtifs tibt
+ * somftiing ibs ibppfnfd witi rfspfdt to b iypfrtfxt link.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class HyperlinkEvent extends EventObject {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss HypfrlinkEvfnt fxtfnds EvfntObjfdt {
 
     /**
-     * Creates a new object representing a hypertext link event.
-     * The other constructor is preferred, as it provides more
-     * information if a URL could not be formed.  This constructor
-     * is primarily for backward compatibility.
+     * Crfbtfs b nfw objfdt rfprfsfnting b iypfrtfxt link fvfnt.
+     * Tif otifr donstrudtor is prfffrrfd, bs it providfs morf
+     * informbtion if b URL dould not bf formfd.  Tiis donstrudtor
+     * is primbrily for bbdkwbrd dompbtibility.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param u the affected URL
+     * @pbrbm sourdf tif objfdt rfsponsiblf for tif fvfnt
+     * @pbrbm typf tif fvfnt typf
+     * @pbrbm u tif bfffdtfd URL
      */
-    public HyperlinkEvent(Object source, EventType type, URL u) {
-        this(source, type, u, null);
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u) {
+        tiis(sourdf, typf, u, null);
     }
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crfbtfs b nfw objfdt rfprfsfnting b iypfrtfxt link fvfnt.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param u the affected URL.  This may be null if a valid URL
-     *   could not be created.
-     * @param desc the description of the link.  This may be useful
-     *   when attempting to form a URL resulted in a MalformedURLException.
-     *   The description provides the text used when attempting to form the
+     * @pbrbm sourdf tif objfdt rfsponsiblf for tif fvfnt
+     * @pbrbm typf tif fvfnt typf
+     * @pbrbm u tif bfffdtfd URL.  Tiis mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd tif dfsdription of tif link.  Tiis mby bf usfful
+     *   wifn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Tif dfsdription providfs tif tfxt usfd wifn bttfmpting to form tif
      *   URL.
      */
-    public HyperlinkEvent(Object source, EventType type, URL u, String desc) {
-        this(source, type, u, desc, null);
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd) {
+        tiis(sourdf, typf, u, dfsd, null);
     }
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crfbtfs b nfw objfdt rfprfsfnting b iypfrtfxt link fvfnt.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param u the affected URL.  This may be null if a valid URL
-     *   could not be created.
-     * @param desc the description of the link.  This may be useful
-     *   when attempting to form a URL resulted in a MalformedURLException.
-     *   The description provides the text used when attempting to form the
+     * @pbrbm sourdf tif objfdt rfsponsiblf for tif fvfnt
+     * @pbrbm typf tif fvfnt typf
+     * @pbrbm u tif bfffdtfd URL.  Tiis mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd tif dfsdription of tif link.  Tiis mby bf usfful
+     *   wifn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Tif dfsdription providfs tif tfxt usfd wifn bttfmpting to form tif
      *   URL.
-     * @param sourceElement Element in the Document representing the
-     *   anchor
-     * @since 1.4
+     * @pbrbm sourdfElfmfnt Elfmfnt in tif Dodumfnt rfprfsfnting tif
+     *   bndior
+     * @sindf 1.4
      */
-    public HyperlinkEvent(Object source, EventType type, URL u, String desc,
-                          Element sourceElement) {
-        super(source);
-        this.type = type;
-        this.u = u;
-        this.desc = desc;
-        this.sourceElement = sourceElement;
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd,
+                          Elfmfnt sourdfElfmfnt) {
+        supfr(sourdf);
+        tiis.typf = typf;
+        tiis.u = u;
+        tiis.dfsd = dfsd;
+        tiis.sourdfElfmfnt = sourdfElfmfnt;
     }
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crfbtfs b nfw objfdt rfprfsfnting b iypfrtfxt link fvfnt.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param u the affected URL.  This may be null if a valid URL
-     *   could not be created.
-     * @param desc the description of the link.  This may be useful
-     *   when attempting to form a URL resulted in a MalformedURLException.
-     *   The description provides the text used when attempting to form the
+     * @pbrbm sourdf tif objfdt rfsponsiblf for tif fvfnt
+     * @pbrbm typf tif fvfnt typf
+     * @pbrbm u tif bfffdtfd URL.  Tiis mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd tif dfsdription of tif link.  Tiis mby bf usfful
+     *   wifn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Tif dfsdription providfs tif tfxt usfd wifn bttfmpting to form tif
      *   URL.
-     * @param sourceElement Element in the Document representing the
-     *   anchor
-     * @param inputEvent  InputEvent that triggered the hyperlink event
-     * @since 1.7
+     * @pbrbm sourdfElfmfnt Elfmfnt in tif Dodumfnt rfprfsfnting tif
+     *   bndior
+     * @pbrbm inputEvfnt  InputEvfnt tibt triggfrfd tif iypfrlink fvfnt
+     * @sindf 1.7
      */
-    public HyperlinkEvent(Object source, EventType type, URL u, String desc,
-                          Element sourceElement, InputEvent inputEvent) {
-        super(source);
-        this.type = type;
-        this.u = u;
-        this.desc = desc;
-        this.sourceElement = sourceElement;
-        this.inputEvent = inputEvent;
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd,
+                          Elfmfnt sourdfElfmfnt, InputEvfnt inputEvfnt) {
+        supfr(sourdf);
+        tiis.typf = typf;
+        tiis.u = u;
+        tiis.dfsd = dfsd;
+        tiis.sourdfElfmfnt = sourdfElfmfnt;
+        tiis.inputEvfnt = inputEvfnt;
     }
 
     /**
-     * Gets the type of event.
+     * Gfts tif typf of fvfnt.
      *
-     * @return the type
+     * @rfturn tif typf
      */
-    public EventType getEventType() {
-        return type;
+    publid EvfntTypf gftEvfntTypf() {
+        rfturn typf;
     }
 
     /**
-     * Get the description of the link as a string.
-     * This may be useful if a URL can't be formed
-     * from the description, in which case the associated
-     * URL would be null.
+     * Gft tif dfsdription of tif link bs b string.
+     * Tiis mby bf usfful if b URL dbn't bf formfd
+     * from tif dfsdription, in wiidi dbsf tif bssodibtfd
+     * URL would bf null.
      *
-     * @return the description of this link as a {@code String}
+     * @rfturn tif dfsdription of tiis link bs b {@dodf String}
      */
-    public String getDescription() {
-        return desc;
+    publid String gftDfsdription() {
+        rfturn dfsd;
     }
 
     /**
-     * Gets the URL that the link refers to.
+     * Gfts tif URL tibt tif link rfffrs to.
      *
-     * @return the URL
+     * @rfturn tif URL
      */
-    public URL getURL() {
-        return u;
+    publid URL gftURL() {
+        rfturn u;
     }
 
     /**
-     * Returns the <code>Element</code> that corresponds to the source of the
-     * event. This will typically be an <code>Element</code> representing
-     * an anchor. If a constructor that is used that does not specify a source
-     * <code>Element</code>, or null was specified as the source
-     * <code>Element</code>, this will return null.
+     * Rfturns tif <dodf>Elfmfnt</dodf> tibt dorrfsponds to tif sourdf of tif
+     * fvfnt. Tiis will typidblly bf bn <dodf>Elfmfnt</dodf> rfprfsfnting
+     * bn bndior. If b donstrudtor tibt is usfd tibt dofs not spfdify b sourdf
+     * <dodf>Elfmfnt</dodf>, or null wbs spfdififd bs tif sourdf
+     * <dodf>Elfmfnt</dodf>, tiis will rfturn null.
      *
-     * @return Element indicating source of event, or null
-     * @since 1.4
+     * @rfturn Elfmfnt indidbting sourdf of fvfnt, or null
+     * @sindf 1.4
      */
-    public Element getSourceElement() {
-        return sourceElement;
+    publid Elfmfnt gftSourdfElfmfnt() {
+        rfturn sourdfElfmfnt;
     }
 
     /**
-     * Returns the {@code InputEvent} that triggered the hyperlink event.
-     * This will typically be a {@code MouseEvent}.  If a constructor is used
-     * that does not specify an {@code InputEvent}, or @{code null}
-     * was specified as the {@code InputEvent}, this returns {@code null}.
+     * Rfturns tif {@dodf InputEvfnt} tibt triggfrfd tif iypfrlink fvfnt.
+     * Tiis will typidblly bf b {@dodf MousfEvfnt}.  If b donstrudtor is usfd
+     * tibt dofs not spfdify bn {@dodf InputEvfnt}, or @{dodf null}
+     * wbs spfdififd bs tif {@dodf InputEvfnt}, tiis rfturns {@dodf null}.
      *
-     * @return  InputEvent that triggered the hyperlink event, or null
-     * @since 1.7
+     * @rfturn  InputEvfnt tibt triggfrfd tif iypfrlink fvfnt, or null
+     * @sindf 1.7
      */
-    public InputEvent getInputEvent() {
-        return inputEvent;
+    publid InputEvfnt gftInputEvfnt() {
+        rfturn inputEvfnt;
     }
 
-    private EventType type;
-    private URL u;
-    private String desc;
-    private Element sourceElement;
-    private InputEvent inputEvent;
+    privbtf EvfntTypf typf;
+    privbtf URL u;
+    privbtf String dfsd;
+    privbtf Elfmfnt sourdfElfmfnt;
+    privbtf InputEvfnt inputEvfnt;
 
 
     /**
-     * Defines the ENTERED, EXITED, and ACTIVATED event types, along
-     * with their string representations, returned by toString().
+     * Dffinfs tif ENTERED, EXITED, bnd ACTIVATED fvfnt typfs, blong
+     * witi tifir string rfprfsfntbtions, rfturnfd by toString().
      */
-    public static final class EventType {
+    publid stbtid finbl dlbss EvfntTypf {
 
-        private EventType(String s) {
-            typeString = s;
+        privbtf EvfntTypf(String s) {
+            typfString = s;
         }
 
         /**
-         * Entered type.
+         * Entfrfd typf.
          */
-        public static final EventType ENTERED = new EventType("ENTERED");
+        publid stbtid finbl EvfntTypf ENTERED = nfw EvfntTypf("ENTERED");
 
         /**
-         * Exited type.
+         * Exitfd typf.
          */
-        public static final EventType EXITED = new EventType("EXITED");
+        publid stbtid finbl EvfntTypf EXITED = nfw EvfntTypf("EXITED");
 
         /**
-         * Activated type.
+         * Adtivbtfd typf.
          */
-        public static final EventType ACTIVATED = new EventType("ACTIVATED");
+        publid stbtid finbl EvfntTypf ACTIVATED = nfw EvfntTypf("ACTIVATED");
 
         /**
-         * Converts the type to a string.
+         * Convfrts tif typf to b string.
          *
-         * @return the string
+         * @rfturn tif string
          */
-        public String toString() {
-            return typeString;
+        publid String toString() {
+            rfturn typfString;
         }
 
-        private String typeString;
+        privbtf String typfString;
     }
 }

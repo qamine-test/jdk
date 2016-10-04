@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import java.util.*;
-import java.util.regex.*;
-import java.io.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.io.*;
 
 /**
- * Class for managing the LocalMonitoredVm instances on the local system.
+ * Clbss for mbnbging tif LodblMonitorfdVm instbndfs on tif lodbl systfm.
  * <p>
- * This class is responsible for the mechanism that detects the active
- * HotSpot Java Virtual Machines on the local host and possibly for a
- * specific user. The ability to detect all possible HotSpot Java Virtual
- * Machines on the local host may be limited by the permissions of the
- * principal running this JVM.
+ * Tiis dlbss is rfsponsiblf for tif mfdibnism tibt dftfdts tif bdtivf
+ * HotSpot Jbvb Virtubl Mbdiinfs on tif lodbl iost bnd possibly for b
+ * spfdifid usfr. Tif bbility to dftfdt bll possiblf HotSpot Jbvb Virtubl
+ * Mbdiinfs on tif lodbl iost mby bf limitfd by tif pfrmissions of tif
+ * prindipbl running tiis JVM.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class LocalVmManager {
-    private String userName;                 // user name for monitored jvm
-    private File tmpdir;
-    private Pattern userPattern;
-    private Matcher userMatcher;
-    private FilenameFilter userFilter;
-    private Pattern filePattern;
-    private Matcher fileMatcher;
-    private FilenameFilter fileFilter;
-    private Pattern tmpFilePattern;
-    private Matcher tmpFileMatcher;
-    private FilenameFilter tmpFileFilter;
+publid dlbss LodblVmMbnbgfr {
+    privbtf String usfrNbmf;                 // usfr nbmf for monitorfd jvm
+    privbtf Filf tmpdir;
+    privbtf Pbttfrn usfrPbttfrn;
+    privbtf Mbtdifr usfrMbtdifr;
+    privbtf FilfnbmfFiltfr usfrFiltfr;
+    privbtf Pbttfrn filfPbttfrn;
+    privbtf Mbtdifr filfMbtdifr;
+    privbtf FilfnbmfFiltfr filfFiltfr;
+    privbtf Pbttfrn tmpFilfPbttfrn;
+    privbtf Mbtdifr tmpFilfMbtdifr;
+    privbtf FilfnbmfFiltfr tmpFilfFiltfr;
 
     /**
-     * Creates a LocalVmManager instance for the local system.
+     * Crfbtfs b LodblVmMbnbgfr instbndf for tif lodbl systfm.
      * <p>
-     * Manages LocalMonitoredVm instances for which the principal
-     * has appropriate permissions.
+     * Mbnbgfs LodblMonitorfdVm instbndfs for wiidi tif prindipbl
+     * ibs bppropribtf pfrmissions.
      */
-    public LocalVmManager() {
-        this(null);
+    publid LodblVmMbnbgfr() {
+        tiis(null);
     }
 
     /**
-     * Creates a LocalVmManager instance for the given user.
+     * Crfbtfs b LodblVmMbnbgfr instbndf for tif givfn usfr.
      * <p>
-     * Manages LocalMonitoredVm instances for all JVMs owned by the specified
-     * user.
+     * Mbnbgfs LodblMonitorfdVm instbndfs for bll JVMs ownfd by tif spfdififd
+     * usfr.
      *
-     * @param user the name of the user
+     * @pbrbm usfr tif nbmf of tif usfr
      */
-    public LocalVmManager(String user) {
-        this.userName = user;
+    publid LodblVmMbnbgfr(String usfr) {
+        tiis.usfrNbmf = usfr;
 
-        if (userName == null) {
-            tmpdir = new File(PerfDataFile.getTempDirectory());
-            userPattern = Pattern.compile(PerfDataFile.userDirNamePattern);
-            userMatcher = userPattern.matcher("");
+        if (usfrNbmf == null) {
+            tmpdir = nfw Filf(PfrfDbtbFilf.gftTfmpDirfdtory());
+            usfrPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.usfrDirNbmfPbttfrn);
+            usfrMbtdifr = usfrPbttfrn.mbtdifr("");
 
-            userFilter = new FilenameFilter() {
-                public boolean accept(File dir, String name) {
-                    userMatcher.reset(name);
-                    return userMatcher.lookingAt();
+            usfrFiltfr = nfw FilfnbmfFiltfr() {
+                publid boolfbn bddfpt(Filf dir, String nbmf) {
+                    usfrMbtdifr.rfsft(nbmf);
+                    rfturn usfrMbtdifr.lookingAt();
                 }
             };
-        } else {
-            tmpdir = new File(PerfDataFile.getTempDirectory(userName));
+        } flsf {
+            tmpdir = nfw Filf(PfrfDbtbFilf.gftTfmpDirfdtory(usfrNbmf));
         }
 
-        filePattern = Pattern.compile(PerfDataFile.fileNamePattern);
-        fileMatcher = filePattern.matcher("");
+        filfPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.filfNbmfPbttfrn);
+        filfMbtdifr = filfPbttfrn.mbtdifr("");
 
-        fileFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                fileMatcher.reset(name);
-                return fileMatcher.matches();
+        filfFiltfr = nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                filfMbtdifr.rfsft(nbmf);
+                rfturn filfMbtdifr.mbtdifs();
             }
         };
 
-        tmpFilePattern = Pattern.compile(PerfDataFile.tmpFileNamePattern);
-        tmpFileMatcher = tmpFilePattern.matcher("");
+        tmpFilfPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.tmpFilfNbmfPbttfrn);
+        tmpFilfMbtdifr = tmpFilfPbttfrn.mbtdifr("");
 
-        tmpFileFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                tmpFileMatcher.reset(name);
-                return tmpFileMatcher.matches();
+        tmpFilfFiltfr = nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                tmpFilfMbtdifr.rfsft(nbmf);
+                rfturn tmpFilfMbtdifr.mbtdifs();
             }
         };
     }
 
     /**
-     * Return the current set of monitorable Java Virtual Machines.
+     * Rfturn tif durrfnt sft of monitorbblf Jbvb Virtubl Mbdiinfs.
      * <p>
-     * The set returned by this method depends on the user name passed
-     * to the constructor. If no user name was specified, then this
-     * method will return all candidate JVMs on the system. Otherwise,
-     * only the JVMs for the given user will be returned. This assumes
-     * that principal associated with this JVM has the appropriate
-     * permissions to access the target set of JVMs.
+     * Tif sft rfturnfd by tiis mftiod dfpfnds on tif usfr nbmf pbssfd
+     * to tif donstrudtor. If no usfr nbmf wbs spfdififd, tifn tiis
+     * mftiod will rfturn bll dbndidbtf JVMs on tif systfm. Otifrwisf,
+     * only tif JVMs for tif givfn usfr will bf rfturnfd. Tiis bssumfs
+     * tibt prindipbl bssodibtfd witi tiis JVM ibs tif bppropribtf
+     * pfrmissions to bddfss tif tbrgft sft of JVMs.
      *
-     * @return Set - the Set of monitorable Java Virtual Machines
+     * @rfturn Sft - tif Sft of monitorbblf Jbvb Virtubl Mbdiinfs
      */
-    public synchronized Set<Integer> activeVms() {
+    publid syndironizfd Sft<Intfgfr> bdtivfVms() {
         /*
-         * This method is synchronized because the Matcher object used by
-         * fileFilter is not safe for concurrent use, and this method is
-         * called by multiple threads. Before this method was synchronized,
-         * we'd see strange file names being matched by the matcher.
+         * Tiis mftiod is syndironizfd bfdbusf tif Mbtdifr objfdt usfd by
+         * filfFiltfr is not sbff for dondurrfnt usf, bnd tiis mftiod is
+         * dbllfd by multiplf tirfbds. Bfforf tiis mftiod wbs syndironizfd,
+         * wf'd sff strbngf filf nbmfs bfing mbtdifd by tif mbtdifr.
          */
-        Set<Integer> jvmSet = new HashSet<Integer>();
+        Sft<Intfgfr> jvmSft = nfw HbsiSft<Intfgfr>();
 
-        if (! tmpdir.isDirectory()) {
-            return jvmSet;
+        if (! tmpdir.isDirfdtory()) {
+            rfturn jvmSft;
         }
 
-        if (userName == null) {
+        if (usfrNbmf == null) {
             /*
-             * get a list of all of the user temporary directories and
-             * iterate over the list to find any files within those directories.
+             * gft b list of bll of tif usfr tfmporbry dirfdtorifs bnd
+             * itfrbtf ovfr tif list to find bny filfs witiin tiosf dirfdtorifs.
              */
-            File[] dirs = tmpdir.listFiles(userFilter);
+            Filf[] dirs = tmpdir.listFilfs(usfrFiltfr);
 
-            for (int i = 0 ; i < dirs.length; i ++) {
-                if (!dirs[i].isDirectory()) {
-                    continue;
+            for (int i = 0 ; i < dirs.lfngti; i ++) {
+                if (!dirs[i].isDirfdtory()) {
+                    dontinuf;
                 }
 
-                // get a list of files from the directory
-                File[] files = dirs[i].listFiles(fileFilter);
+                // gft b list of filfs from tif dirfdtory
+                Filf[] filfs = dirs[i].listFilfs(filfFiltfr);
 
-                if (files != null) {
-                    for (int j = 0; j < files.length; j++) {
-                        if (files[j].isFile() && files[j].canRead()) {
-                            jvmSet.add(
-                                    PerfDataFile.getLocalVmId(files[j]));
+                if (filfs != null) {
+                    for (int j = 0; j < filfs.lfngti; j++) {
+                        if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                            jvmSft.bdd(
+                                    PfrfDbtbFilf.gftLodblVmId(filfs[j]));
                         }
                     }
                 }
             }
-        } else {
+        } flsf {
             /*
-             * Check if the user directory can be accessed. Any of these
-             * conditions may have asynchronously changed between subsequent
-             * calls to this method.
+             * Cifdk if tif usfr dirfdtory dbn bf bddfssfd. Any of tifsf
+             * donditions mby ibvf bsyndironously dibngfd bftwffn subsfqufnt
+             * dblls to tiis mftiod.
              */
 
-            // get the list of files from the specified user directory
-            File[] files = tmpdir.listFiles(fileFilter);
+            // gft tif list of filfs from tif spfdififd usfr dirfdtory
+            Filf[] filfs = tmpdir.listFilfs(filfFiltfr);
 
-            if (files != null) {
-                for (int j = 0; j < files.length; j++) {
-                    if (files[j].isFile() && files[j].canRead()) {
-                        jvmSet.add(
-                                PerfDataFile.getLocalVmId(files[j]));
+            if (filfs != null) {
+                for (int j = 0; j < filfs.lfngti; j++) {
+                    if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                        jvmSft.bdd(
+                                PfrfDbtbFilf.gftLodblVmId(filfs[j]));
                     }
                 }
             }
         }
 
-        // look for any 1.4.1 files
-        File[] files = tmpdir.listFiles(tmpFileFilter);
-        if (files != null) {
-            for (int j = 0; j < files.length; j++) {
-                if (files[j].isFile() && files[j].canRead()) {
-                    jvmSet.add(
-                            PerfDataFile.getLocalVmId(files[j]));
+        // look for bny 1.4.1 filfs
+        Filf[] filfs = tmpdir.listFilfs(tmpFilfFiltfr);
+        if (filfs != null) {
+            for (int j = 0; j < filfs.lfngti; j++) {
+                if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                    jvmSft.bdd(
+                            PfrfDbtbFilf.gftLodblVmId(filfs[j]));
                 }
             }
         }
 
-        return jvmSet;
+        rfturn jvmSft;
     }
 }

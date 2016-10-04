@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef GLXSurfaceData_h_Included
-#define GLXSurfaceData_h_Included
+#ifndff GLXSurfbdfDbtb_i_Indludfd
+#dffinf GLXSurfbdfDbtb_i_Indludfd
 
-#include "J2D_GL/glx.h"
-#include "awt_p.h"
-#include "OGLSurfaceData.h"
+#indludf "J2D_GL/glx.i"
+#indludf "bwt_p.i"
+#indludf "OGLSurfbdfDbtb.i"
 
-#ifdef HEADLESS
-#define GLXSDOps void
-#else /* HEADLESS */
+#ifdff HEADLESS
+#dffinf GLXSDOps void
+#flsf /* HEADLESS */
 
 /**
- * The GLXSDOps structure contains the GLX-specific information for a given
- * OGLSurfaceData.  It is referenced by the native OGLSDOps structure.
+ * Tif GLXSDOps strudturf dontbins tif GLX-spfdifid informbtion for b givfn
+ * OGLSurfbdfDbtb.  It is rfffrfndfd by tif nbtivf OGLSDOps strudturf.
  *
  *     Window window;
- * For onscreen windows, we maintain a reference to that window's associated
- * XWindow handle here.  Offscreen surfaces have no associated Window, so for
- * those surfaces, this value will simply be zero.
+ * For onsdrffn windows, wf mbintbin b rfffrfndf to tibt window's bssodibtfd
+ * XWindow ibndlf ifrf.  Offsdrffn surfbdfs ibvf no bssodibtfd Window, so for
+ * tiosf surfbdfs, tiis vbluf will simply bf zfro.
  *
- *     Drawable xdrawable;
- * If a GLXDrawable has a corresponding X11 Drawable, it is stored here.  For
- * example, each GLXWindow has an associated Window and each GLXPixmap has an
- * associated Pixmap.  GLXPbuffers have no associated X11 Drawable (they are
- * pure OpenGL surfaces), so for pbuffers, this field is set to zero;
+ *     Drbwbblf xdrbwbblf;
+ * If b GLXDrbwbblf ibs b dorrfsponding X11 Drbwbblf, it is storfd ifrf.  For
+ * fxbmplf, fbdi GLXWindow ibs bn bssodibtfd Window bnd fbdi GLXPixmbp ibs bn
+ * bssodibtfd Pixmbp.  GLXPbufffrs ibvf no bssodibtfd X11 Drbwbblf (tify brf
+ * purf OpfnGL surfbdfs), so for pbufffrs, tiis fifld is sft to zfro;
  *
- *     GLXDrawable drawable;
- * The native handle to the GLXDrawable at the core of this surface.  A
- * GLXDrawable can be a Window, GLXWindow, GLXPixmap, or GLXPbuffer.
+ *     GLXDrbwbblf drbwbblf;
+ * Tif nbtivf ibndlf to tif GLXDrbwbblf bt tif dorf of tiis surfbdf.  A
+ * GLXDrbwbblf dbn bf b Window, GLXWindow, GLXPixmbp, or GLXPbufffr.
  *
- *     AwtGraphicsConfigData *configData;
- * A pointer to the AwtGraphicsConfigData under which this surface was
- * created.
+ *     AwtGrbpiidsConfigDbtb *donfigDbtb;
+ * A pointfr to tif AwtGrbpiidsConfigDbtb undfr wiidi tiis surfbdf wbs
+ * drfbtfd.
  */
-typedef struct _GLXSDOps {
+typfdff strudt _GLXSDOps {
     Window      window;
-    Drawable    xdrawable;
-    GLXDrawable drawable;
-    struct _AwtGraphicsConfigData *configData;
+    Drbwbblf    xdrbwbblf;
+    GLXDrbwbblf drbwbblf;
+    strudt _AwtGrbpiidsConfigDbtb *donfigDbtb;
 } GLXSDOps;
 
-#endif /* HEADLESS */
+#fndif /* HEADLESS */
 
-#endif /* GLXSurfaceData_h_Included */
+#fndif /* GLXSurfbdfDbtb_i_Indludfd */

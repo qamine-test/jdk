@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing;
+pbdkbgf sun.trbding;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
 
 /**
- * Factory class to create tracing Providers.
+ * Fbdtory dlbss to drfbtf trbding Providfrs.
  *
- * This factory will create tracing instances that do nothing.
- * It is used when no tracing is desired, but Provider instances still
- * must be generated so that tracing calls in the application continue to
+ * Tiis fbdtory will drfbtf trbding instbndfs tibt do notiing.
+ * It is usfd wifn no trbding is dfsirfd, but Providfr instbndfs still
+ * must bf gfnfrbtfd so tibt trbding dblls in tif bpplidbtion dontinuf to
  * run.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class NullProviderFactory extends ProviderFactory {
+publid dlbss NullProvidfrFbdtory fxtfnds ProvidfrFbdtory {
 
     /**
-     * Creates and returns a Null provider.
+     * Crfbtfs bnd rfturns b Null providfr.
      *
-     * See comments at {@code ProviderSkeleton.createProvider()} for more
-     * details.
+     * Sff dommfnts bt {@dodf ProvidfrSkflfton.drfbtfProvidfr()} for morf
+     * dftbils.
      *
-     * @return a provider whose probe trigger are no-ops.
+     * @rfturn b providfr wiosf probf triggfr brf no-ops.
      */
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        NullProvider provider = new NullProvider(cls);
-        provider.init();
-        return provider.newProxyInstance();
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        NullProvidfr providfr = nfw NullProvidfr(dls);
+        providfr.init();
+        rfturn providfr.nfwProxyInstbndf();
     }
 }
 
-class NullProvider extends ProviderSkeleton {
+dlbss NullProvidfr fxtfnds ProvidfrSkflfton {
 
-    NullProvider(Class<? extends Provider> type) {
-        super(type);
+    NullProvidfr(Clbss<? fxtfnds Providfr> typf) {
+        supfr(typf);
     }
 
-    protected ProbeSkeleton createProbe(Method m) {
-        return new NullProbe(m.getParameterTypes());
+    protfdtfd ProbfSkflfton drfbtfProbf(Mftiod m) {
+        rfturn nfw NullProbf(m.gftPbrbmftfrTypfs());
     }
 }
 
-class NullProbe extends ProbeSkeleton {
+dlbss NullProbf fxtfnds ProbfSkflfton {
 
-    public NullProbe(Class<?>[] parameters) {
-        super(parameters);
+    publid NullProbf(Clbss<?>[] pbrbmftfrs) {
+        supfr(pbrbmftfrs);
     }
 
-    public boolean isEnabled() {
-        return false;
+    publid boolfbn isEnbblfd() {
+        rfturn fblsf;
     }
 
-    public void uncheckedTrigger(Object[] args) {
+    publid void undifdkfdTriggfr(Objfdt[] brgs) {
     }
 }
 

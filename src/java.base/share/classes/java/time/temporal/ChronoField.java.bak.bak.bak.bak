@@ -1,0 +1,753 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.ERAS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.FOREVER;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.HALF_DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.HOURS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MICROS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MILLIS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MINUTES;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.NANOS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.WEEKS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.YEARS;
+
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.Instbnt;
+import jbvb.timf.Yfbr;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.ChronoLodblDbtf;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.RfsourdfBundlf;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfRfsourdfs;
+
+/**
+ * A stbndbrd sft of fiflds.
+ * <p>
+ * This sft of fiflds providf fifld-bbsfd bddfss to mbnipulbtf b dbtf, timf or dbtf-timf.
+ * Thf stbndbrd sft of fiflds dbn bf fxtfndfd by implfmfnting {@link TfmporblFifld}.
+ * <p>
+ * Thfsf fiflds brf intfndfd to bf bpplidbblf in multiplf dblfndbr systfms.
+ * For fxbmplf, most non-ISO dblfndbr systfms dffinf dbtfs bs b yfbr, month bnd dby,
+ * just with slightly difffrfnt rulfs.
+ * Thf dodumfntbtion of fbdh fifld fxplbins how it opfrbtfs.
+ *
+ * @implSpfd
+ * This is b finbl, immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum ChronoFifld implfmfnts TfmporblFifld {
+
+    /**
+     * Thf nbno-of-sfdond.
+     * <p>
+     * This dounts thf nbnosfdond within thf sfdond, from 0 to 999,999,999.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf nbno-of-sfdond hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_MINUTE}, {@link #SECOND_OF_DAY} or
+     * {@link #INSTANT_SECONDS} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn this fifld is usfd for sftting b vbluf, it should sft bs mudh prfdision bs thf
+     * objfdt storfs, using intfgfr division to rfmovf fxdfss prfdision.
+     * For fxbmplf, if thf {@dodf TfmporblAddfssor} storfs timf to millisfdond prfdision,
+     * thfn thf nbno-of-sfdond must bf dividfd by 1,000,000 bfforf rfplbding thf milli-of-sfdond.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf fifld is rfsolvfd in dombinbtion with {@dodf MILLI_OF_SECOND} bnd {@dodf MICRO_OF_SECOND}.
+     */
+    NANO_OF_SECOND("NbnoOfSfdond", NANOS, SECONDS, VblufRbngf.of(0, 999_999_999)),
+    /**
+     * Thf nbno-of-dby.
+     * <p>
+     * This dounts thf nbnosfdond within thf dby, from 0 to (24 * 60 * 60 * 1,000,000,000) - 1.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf nbno-of-dby hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_DAY} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf vbluf is split to form {@dodf NANO_OF_SECOND}, {@dodf SECOND_OF_MINUTE},
+     * {@dodf MINUTE_OF_HOUR} bnd {@dodf HOUR_OF_DAY} fiflds.
+     */
+    NANO_OF_DAY("NbnoOfDby", NANOS, DAYS, VblufRbngf.of(0, 86400L * 1000_000_000L - 1)),
+    /**
+     * Thf midro-of-sfdond.
+     * <p>
+     * This dounts thf midrosfdond within thf sfdond, from 0 to 999,999.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf midro-of-sfdond hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_MINUTE}, {@link #SECOND_OF_DAY} or
+     * {@link #INSTANT_SECONDS} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn this fifld is usfd for sftting b vbluf, it should bfhbvf in thf sbmf wby bs
+     * sftting {@link #NANO_OF_SECOND} with thf vbluf multiplifd by 1,000.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf fifld is rfsolvfd in dombinbtion with {@dodf MILLI_OF_SECOND} to produdf
+     * {@dodf NANO_OF_SECOND}.
+     */
+    MICRO_OF_SECOND("MidroOfSfdond", MICROS, SECONDS, VblufRbngf.of(0, 999_999)),
+    /**
+     * Thf midro-of-dby.
+     * <p>
+     * This dounts thf midrosfdond within thf dby, from 0 to (24 * 60 * 60 * 1,000,000) - 1.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf midro-of-dby hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_DAY} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn this fifld is usfd for sftting b vbluf, it should bfhbvf in thf sbmf wby bs
+     * sftting {@link #NANO_OF_DAY} with thf vbluf multiplifd by 1,000.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf vbluf is split to form {@dodf MICRO_OF_SECOND}, {@dodf SECOND_OF_MINUTE},
+     * {@dodf MINUTE_OF_HOUR} bnd {@dodf HOUR_OF_DAY} fiflds.
+     */
+    MICRO_OF_DAY("MidroOfDby", MICROS, DAYS, VblufRbngf.of(0, 86400L * 1000_000L - 1)),
+    /**
+     * Thf milli-of-sfdond.
+     * <p>
+     * This dounts thf millisfdond within thf sfdond, from 0 to 999.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf milli-of-sfdond hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_MINUTE}, {@link #SECOND_OF_DAY} or
+     * {@link #INSTANT_SECONDS} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn this fifld is usfd for sftting b vbluf, it should bfhbvf in thf sbmf wby bs
+     * sftting {@link #NANO_OF_SECOND} with thf vbluf multiplifd by 1,000,000.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf fifld is rfsolvfd in dombinbtion with {@dodf MICRO_OF_SECOND} to produdf
+     * {@dodf NANO_OF_SECOND}.
+     */
+    MILLI_OF_SECOND("MilliOfSfdond", MILLIS, SECONDS, VblufRbngf.of(0, 999)),
+    /**
+     * Thf milli-of-dby.
+     * <p>
+     * This dounts thf millisfdond within thf dby, from 0 to (24 * 60 * 60 * 1,000) - 1.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * This fifld is usfd to rfprfsfnt thf milli-of-dby hbndling bny frbdtion of thf sfdond.
+     * Implfmfntbtions of {@dodf TfmporblAddfssor} should providf b vbluf for this fifld if
+     * thfy dbn rfturn b vbluf for {@link #SECOND_OF_DAY} filling unknown prfdision with zfro.
+     * <p>
+     * Whfn this fifld is usfd for sftting b vbluf, it should bfhbvf in thf sbmf wby bs
+     * sftting {@link #NANO_OF_DAY} with thf vbluf multiplifd by 1,000,000.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf vbluf is split to form {@dodf MILLI_OF_SECOND}, {@dodf SECOND_OF_MINUTE},
+     * {@dodf MINUTE_OF_HOUR} bnd {@dodf HOUR_OF_DAY} fiflds.
+     */
+    MILLI_OF_DAY("MilliOfDby", MILLIS, DAYS, VblufRbngf.of(0, 86400L * 1000L - 1)),
+    /**
+     * Thf sfdond-of-minutf.
+     * <p>
+     * This dounts thf sfdond within thf minutf, from 0 to 59.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     */
+    SECOND_OF_MINUTE("SfdondOfMinutf", SECONDS, MINUTES, VblufRbngf.of(0, 59), "sfdond"),
+    /**
+     * Thf sfdond-of-dby.
+     * <p>
+     * This dounts thf sfdond within thf dby, from 0 to (24 * 60 * 60) - 1.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf vbluf is split to form {@dodf SECOND_OF_MINUTE}, {@dodf MINUTE_OF_HOUR}
+     * bnd {@dodf HOUR_OF_DAY} fiflds.
+     */
+    SECOND_OF_DAY("SfdondOfDby", SECONDS, DAYS, VblufRbngf.of(0, 86400L - 1)),
+    /**
+     * Thf minutf-of-hour.
+     * <p>
+     * This dounts thf minutf within thf hour, from 0 to 59.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     */
+    MINUTE_OF_HOUR("MinutfOfHour", MINUTES, HOURS, VblufRbngf.of(0, 59), "minutf"),
+    /**
+     * Thf minutf-of-dby.
+     * <p>
+     * This dounts thf minutf within thf dby, from 0 to (24 * 60) - 1.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf vbluf is split to form {@dodf MINUTE_OF_HOUR} bnd {@dodf HOUR_OF_DAY} fiflds.
+     */
+    MINUTE_OF_DAY("MinutfOfDby", MINUTES, DAYS, VblufRbngf.of(0, (24 * 60) - 1)),
+    /**
+     * Thf hour-of-bm-pm.
+     * <p>
+     * This dounts thf hour within thf AM/PM, from 0 to 11.
+     * This is thf hour thbt would bf obsfrvfd on b stbndbrd 12-hour digitbl dlodk.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd from 0 to 11 in stridt bnd smbrt modf.
+     * In lfnifnt modf thf vbluf is not vblidbtfd. It is dombinfd with
+     * {@dodf AMPM_OF_DAY} to form {@dodf HOUR_OF_DAY} by multiplying
+     * thf {AMPM_OF_DAY} vbluf by 12.
+     */
+    HOUR_OF_AMPM("HourOfAmPm", HOURS, HALF_DAYS, VblufRbngf.of(0, 11)),
+    /**
+     * Thf dlodk-hour-of-bm-pm.
+     * <p>
+     * This dounts thf hour within thf AM/PM, from 1 to 12.
+     * This is thf hour thbt would bf obsfrvfd on b stbndbrd 12-hour bnblog wbll dlodk.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd from 1 to 12 in stridt modf bnd from
+     * 0 to 12 in smbrt modf. In lfnifnt modf thf vbluf is not vblidbtfd.
+     * Thf fifld is donvfrtfd to bn {@dodf HOUR_OF_AMPM} with thf sbmf vbluf,
+     * unlfss thf vbluf is 12, in whidh dbsf it is donvfrtfd to 0.
+     */
+    CLOCK_HOUR_OF_AMPM("ClodkHourOfAmPm", HOURS, HALF_DAYS, VblufRbngf.of(1, 12)),
+    /**
+     * Thf hour-of-dby.
+     * <p>
+     * This dounts thf hour within thf dby, from 0 to 23.
+     * This is thf hour thbt would bf obsfrvfd on b stbndbrd 24-hour digitbl dlodk.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd in stridt bnd smbrt modf but not in lfnifnt modf.
+     * Thf fifld is dombinfd with {@dodf MINUTE_OF_HOUR}, {@dodf SECOND_OF_MINUTE} bnd
+     * {@dodf NANO_OF_SECOND} to produdf b {@dodf LodblTimf}.
+     * In lfnifnt modf, bny fxdfss dbys brf bddfd to thf pbrsfd dbtf, or
+     * mbdf bvbilbblf vib {@link jbvb.timf.formbt.DbtfTimfFormbttfr#pbrsfdExdfssDbys()}.
+     */
+    HOUR_OF_DAY("HourOfDby", HOURS, DAYS, VblufRbngf.of(0, 23), "hour"),
+    /**
+     * Thf dlodk-hour-of-dby.
+     * <p>
+     * This dounts thf hour within thf AM/PM, from 1 to 24.
+     * This is thf hour thbt would bf obsfrvfd on b 24-hour bnblog wbll dlodk.
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd from 1 to 24 in stridt modf bnd from
+     * 0 to 24 in smbrt modf. In lfnifnt modf thf vbluf is not vblidbtfd.
+     * Thf fifld is donvfrtfd to bn {@dodf HOUR_OF_DAY} with thf sbmf vbluf,
+     * unlfss thf vbluf is 24, in whidh dbsf it is donvfrtfd to 0.
+     */
+    CLOCK_HOUR_OF_DAY("ClodkHourOfDby", HOURS, DAYS, VblufRbngf.of(1, 24)),
+    /**
+     * Thf bm-pm-of-dby.
+     * <p>
+     * This dounts thf AM/PM within thf dby, from 0 (AM) to 1 (PM).
+     * This fifld hbs thf sbmf mfbning for bll dblfndbr systfms.
+     * <p>
+     * Whfn pbrsing this fifld it bfhbvfs fquivblfnt to thf following:
+     * Thf vbluf is vblidbtfd from 0 to 1 in stridt bnd smbrt modf.
+     * In lfnifnt modf thf vbluf is not vblidbtfd. It is dombinfd with
+     * {@dodf HOUR_OF_AMPM} to form {@dodf HOUR_OF_DAY} by multiplying
+     * thf {AMPM_OF_DAY} vbluf by 12.
+     */
+    AMPM_OF_DAY("AmPmOfDby", HALF_DAYS, DAYS, VblufRbngf.of(0, 1), "dbypfriod"),
+    /**
+     * Thf dby-of-wffk, sudh bs Tufsdby.
+     * <p>
+     * This rfprfsfnts thf stbndbrd dondfpt of thf dby of thf wffk.
+     * In thf dffbult ISO dblfndbr systfm, this hbs vblufs from Mondby (1) to Sundby (7).
+     * Thf {@link DbyOfWffk} dlbss dbn bf usfd to intfrprft thf rfsult.
+     * <p>
+     * Most non-ISO dblfndbr systfms blso dffinf b sfvfn dby wffk thbt bligns with ISO.
+     * Thosf dblfndbr systfms must blso usf thf sbmf numbfring systfm, from Mondby (1) to
+     * Sundby (7), whidh bllows {@dodf DbyOfWffk} to bf usfd.
+     * <p>
+     * Cblfndbr systfms thbt do not hbvf b stbndbrd sfvfn dby wffk should implfmfnt this fifld
+     * if thfy hbvf b similbr dondfpt of nbmfd or numbfrfd dbys within b pfriod similbr
+     * to b wffk. It is rfdommfndfd thbt thf numbfring stbrts from 1.
+     */
+    DAY_OF_WEEK("DbyOfWffk", DAYS, WEEKS, VblufRbngf.of(1, 7), "wffkdby"),
+    /**
+     * Thf blignfd dby-of-wffk within b month.
+     * <p>
+     * This rfprfsfnts dondfpt of thf dount of dbys within thf pfriod of b wffk
+     * whfrf thf wffks brf blignfd to thf stbrt of thf month.
+     * This fifld is typidblly usfd with {@link #ALIGNED_WEEK_OF_MONTH}.
+     * <p>
+     * For fxbmplf, in b dblfndbr systfms with b sfvfn dby wffk, thf first blignfd-wffk-of-month
+     * stbrts on dby-of-month 1, thf sfdond blignfd-wffk stbrts on dby-of-month 8, bnd so on.
+     * Within fbdh of thfsf blignfd-wffks, thf dbys brf numbfrfd from 1 to 7 bnd rfturnfd
+     * bs thf vbluf of this fifld.
+     * As sudh, dby-of-month 1 to 7 will hbvf blignfd-dby-of-wffk vblufs from 1 to 7.
+     * And dby-of-month 8 to 14 will rfpfbt this with blignfd-dby-of-wffk vblufs from 1 to 7.
+     * <p>
+     * Cblfndbr systfms thbt do not hbvf b sfvfn dby wffk should typidblly implfmfnt this
+     * fifld in thf sbmf wby, but using thf bltfrnbtf wffk lfngth.
+     */
+    ALIGNED_DAY_OF_WEEK_IN_MONTH("AlignfdDbyOfWffkInMonth", DAYS, WEEKS, VblufRbngf.of(1, 7)),
+    /**
+     * Thf blignfd dby-of-wffk within b yfbr.
+     * <p>
+     * This rfprfsfnts dondfpt of thf dount of dbys within thf pfriod of b wffk
+     * whfrf thf wffks brf blignfd to thf stbrt of thf yfbr.
+     * This fifld is typidblly usfd with {@link #ALIGNED_WEEK_OF_YEAR}.
+     * <p>
+     * For fxbmplf, in b dblfndbr systfms with b sfvfn dby wffk, thf first blignfd-wffk-of-yfbr
+     * stbrts on dby-of-yfbr 1, thf sfdond blignfd-wffk stbrts on dby-of-yfbr 8, bnd so on.
+     * Within fbdh of thfsf blignfd-wffks, thf dbys brf numbfrfd from 1 to 7 bnd rfturnfd
+     * bs thf vbluf of this fifld.
+     * As sudh, dby-of-yfbr 1 to 7 will hbvf blignfd-dby-of-wffk vblufs from 1 to 7.
+     * And dby-of-yfbr 8 to 14 will rfpfbt this with blignfd-dby-of-wffk vblufs from 1 to 7.
+     * <p>
+     * Cblfndbr systfms thbt do not hbvf b sfvfn dby wffk should typidblly implfmfnt this
+     * fifld in thf sbmf wby, but using thf bltfrnbtf wffk lfngth.
+     */
+    ALIGNED_DAY_OF_WEEK_IN_YEAR("AlignfdDbyOfWffkInYfbr", DAYS, WEEKS, VblufRbngf.of(1, 7)),
+    /**
+     * Thf dby-of-month.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf dby within thf month.
+     * In thf dffbult ISO dblfndbr systfm, this hbs vblufs from 1 to 31 in most months.
+     * April, Junf, Sfptfmbfr, Novfmbfr hbvf dbys from 1 to 30, whilf Ffbrubry hbs dbys
+     * from 1 to 28, or 29 in b lfbp yfbr.
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld using thf most rfdognizfd
+     * dby-of-month vblufs for usfrs of thf dblfndbr systfm.
+     * Normblly, this is b dount of dbys from 1 to thf lfngth of thf month.
+     */
+    DAY_OF_MONTH("DbyOfMonth", DAYS, MONTHS, VblufRbngf.of(1, 28, 31), "dby"),
+    /**
+     * Thf dby-of-yfbr.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf dby within thf yfbr.
+     * In thf dffbult ISO dblfndbr systfm, this hbs vblufs from 1 to 365 in stbndbrd
+     * yfbrs bnd 1 to 366 in lfbp yfbrs.
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld using thf most rfdognizfd
+     * dby-of-yfbr vblufs for usfrs of thf dblfndbr systfm.
+     * Normblly, this is b dount of dbys from 1 to thf lfngth of thf yfbr.
+     * <p>
+     * Notf thbt b non-ISO dblfndbr systfm mby hbvf yfbr numbfring systfm thbt dhbngfs
+     * bt b difffrfnt point to thf nbturbl rfsft in thf month numbfring. An fxbmplf
+     * of this is thf Jbpbnfsf dblfndbr systfm whfrf b dhbngf of frb, whidh rfsfts
+     * thf yfbr numbfr to 1, dbn hbppfn on bny dbtf. Thf frb bnd yfbr rfsft blso dbusf
+     * thf dby-of-yfbr to bf rfsft to 1, but not thf month-of-yfbr or dby-of-month.
+     */
+    DAY_OF_YEAR("DbyOfYfbr", DAYS, YEARS, VblufRbngf.of(1, 365, 366)),
+    /**
+     * Thf fpodh-dby, bbsfd on thf Jbvb fpodh of 1970-01-01 (ISO).
+     * <p>
+     * This fifld is thf sfqufntibl dount of dbys whfrf 1970-01-01 (ISO) is zfro.
+     * Notf thbt this usfs thf <i>lodbl</i> timf-linf, ignoring offsft bnd timf-zonf.
+     * <p>
+     * This fifld is stridtly dffinfd to hbvf thf sbmf mfbning in bll dblfndbr systfms.
+     * This is nfdfssbry to fnsurf intfropfrbtion bftwffn dblfndbrs.
+     */
+    EPOCH_DAY("EpodhDby", DAYS, FOREVER, VblufRbngf.of((long) (Yfbr.MIN_VALUE * 365.25), (long) (Yfbr.MAX_VALUE * 365.25))),
+    /**
+     * Thf blignfd wffk within b month.
+     * <p>
+     * This rfprfsfnts dondfpt of thf dount of wffks within thf pfriod of b month
+     * whfrf thf wffks brf blignfd to thf stbrt of thf month.
+     * This fifld is typidblly usfd with {@link #ALIGNED_DAY_OF_WEEK_IN_MONTH}.
+     * <p>
+     * For fxbmplf, in b dblfndbr systfms with b sfvfn dby wffk, thf first blignfd-wffk-of-month
+     * stbrts on dby-of-month 1, thf sfdond blignfd-wffk stbrts on dby-of-month 8, bnd so on.
+     * Thus, dby-of-month vblufs 1 to 7 brf in blignfd-wffk 1, whilf dby-of-month vblufs
+     * 8 to 14 brf in blignfd-wffk 2, bnd so on.
+     * <p>
+     * Cblfndbr systfms thbt do not hbvf b sfvfn dby wffk should typidblly implfmfnt this
+     * fifld in thf sbmf wby, but using thf bltfrnbtf wffk lfngth.
+     */
+    ALIGNED_WEEK_OF_MONTH("AlignfdWffkOfMonth", WEEKS, MONTHS, VblufRbngf.of(1, 4, 5)),
+    /**
+     * Thf blignfd wffk within b yfbr.
+     * <p>
+     * This rfprfsfnts dondfpt of thf dount of wffks within thf pfriod of b yfbr
+     * whfrf thf wffks brf blignfd to thf stbrt of thf yfbr.
+     * This fifld is typidblly usfd with {@link #ALIGNED_DAY_OF_WEEK_IN_YEAR}.
+     * <p>
+     * For fxbmplf, in b dblfndbr systfms with b sfvfn dby wffk, thf first blignfd-wffk-of-yfbr
+     * stbrts on dby-of-yfbr 1, thf sfdond blignfd-wffk stbrts on dby-of-yfbr 8, bnd so on.
+     * Thus, dby-of-yfbr vblufs 1 to 7 brf in blignfd-wffk 1, whilf dby-of-yfbr vblufs
+     * 8 to 14 brf in blignfd-wffk 2, bnd so on.
+     * <p>
+     * Cblfndbr systfms thbt do not hbvf b sfvfn dby wffk should typidblly implfmfnt this
+     * fifld in thf sbmf wby, but using thf bltfrnbtf wffk lfngth.
+     */
+    ALIGNED_WEEK_OF_YEAR("AlignfdWffkOfYfbr", WEEKS, YEARS, VblufRbngf.of(1, 53)),
+    /**
+     * Thf month-of-yfbr, sudh bs Mbrdh.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf month within thf yfbr.
+     * In thf dffbult ISO dblfndbr systfm, this hbs vblufs from Jbnubry (1) to Dfdfmbfr (12).
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld using thf most rfdognizfd
+     * month-of-yfbr vblufs for usfrs of thf dblfndbr systfm.
+     * Normblly, this is b dount of months stbrting from 1.
+     */
+    MONTH_OF_YEAR("MonthOfYfbr", MONTHS, YEARS, VblufRbngf.of(1, 12), "month"),
+    /**
+     * Thf prolfptid-month bbsfd, dounting months sfqufntiblly from yfbr 0.
+     * <p>
+     * This fifld is thf sfqufntibl dount of months whfrf thf first month
+     * in prolfptid-yfbr zfro hbs thf vbluf zfro.
+     * Lbtfr months hbvf indrfbsingly lbrgfr vblufs.
+     * Ebrlifr months hbvf indrfbsingly smbll vblufs.
+     * Thfrf brf no gbps or brfbks in thf sfqufndf of months.
+     * Notf thbt this usfs thf <i>lodbl</i> timf-linf, ignoring offsft bnd timf-zonf.
+     * <p>
+     * In thf dffbult ISO dblfndbr systfm, Junf 2012 would hbvf thf vbluf
+     * {@dodf (2012 * 12 + 6 - 1)}. This fifld is primbrily for intfrnbl usf.
+     * <p>
+     * Non-ISO dblfndbr systfms must implfmfnt this fifld bs pfr thf dffinition bbovf.
+     * It is just b simplf zfro-bbsfd dount of flbpsfd months from thf stbrt of prolfptid-yfbr 0.
+     * All dblfndbr systfms with b full prolfptid-yfbr dffinition will hbvf b yfbr zfro.
+     * If thf dblfndbr systfm hbs b minimum yfbr thbt fxdludfs yfbr zfro, thfn onf must
+     * bf fxtrbpolbtfd in ordfr for this mfthod to bf dffinfd.
+     */
+    PROLEPTIC_MONTH("ProlfptidMonth", MONTHS, FOREVER, VblufRbngf.of(Yfbr.MIN_VALUE * 12L, Yfbr.MAX_VALUE * 12L + 11)),
+    /**
+     * Thf yfbr within thf frb.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf yfbr within thf frb.
+     * This fifld is typidblly usfd with {@link #ERA}.
+     * <p>
+     * Thf stbndbrd mfntbl modfl for b dbtf is bbsfd on thrff dondfpts - yfbr, month bnd dby.
+     * Thfsf mbp onto thf {@dodf YEAR}, {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH} fiflds.
+     * Notf thbt thfrf is no rfffrfndf to frbs.
+     * Thf full modfl for b dbtf rfquirfs four dondfpts - frb, yfbr, month bnd dby. Thfsf mbp onto
+     * thf {@dodf ERA}, {@dodf YEAR_OF_ERA}, {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH} fiflds.
+     * Whfthfr this fifld or {@dodf YEAR} is usfd dfpfnds on whidh mfntbl modfl is bfing usfd.
+     * Sff {@link ChronoLodblDbtf} for morf disdussion on this topid.
+     * <p>
+     * In thf dffbult ISO dblfndbr systfm, thfrf brf two frbs dffinfd, 'BCE' bnd 'CE'.
+     * Thf frb 'CE' is thf onf durrfntly in usf bnd yfbr-of-frb runs from 1 to thf mbximum vbluf.
+     * Thf frb 'BCE' is thf prfvious frb, bnd thf yfbr-of-frb runs bbdkwbrds.
+     * <p>
+     * For fxbmplf, subtrbdting b yfbr fbdh timf yifld thf following:<br>
+     * - yfbr-prolfptid 2  = 'CE' yfbr-of-frb 2<br>
+     * - yfbr-prolfptid 1  = 'CE' yfbr-of-frb 1<br>
+     * - yfbr-prolfptid 0  = 'BCE' yfbr-of-frb 1<br>
+     * - yfbr-prolfptid -1 = 'BCE' yfbr-of-frb 2<br>
+     * <p>
+     * Notf thbt thf ISO-8601 stbndbrd dofs not bdtublly dffinf frbs.
+     * Notf blso thbt thf ISO frbs do not blign with thf wfll-known AD/BC frbs duf to thf
+     * dhbngf bftwffn thf Julibn bnd Grfgoribn dblfndbr systfms.
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld using thf most rfdognizfd
+     * yfbr-of-frb vbluf for usfrs of thf dblfndbr systfm.
+     * Sindf most dblfndbr systfms hbvf only two frbs, thf yfbr-of-frb numbfring bpprobdh
+     * will typidblly bf thf sbmf bs thbt usfd by thf ISO dblfndbr systfm.
+     * Thf yfbr-of-frb vbluf should typidblly blwbys bf positivf, howfvfr this is not rfquirfd.
+     */
+    YEAR_OF_ERA("YfbrOfErb", YEARS, FOREVER, VblufRbngf.of(1, Yfbr.MAX_VALUE, Yfbr.MAX_VALUE + 1)),
+    /**
+     * Thf prolfptid yfbr, sudh bs 2012.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf yfbr, dounting sfqufntiblly bnd using nfgbtivf numbfrs.
+     * Thf prolfptid yfbr is not intfrprftfd in tfrms of thf frb.
+     * Sff {@link #YEAR_OF_ERA} for bn fxbmplf showing thf mbpping from prolfptid yfbr to yfbr-of-frb.
+     * <p>
+     * Thf stbndbrd mfntbl modfl for b dbtf is bbsfd on thrff dondfpts - yfbr, month bnd dby.
+     * Thfsf mbp onto thf {@dodf YEAR}, {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH} fiflds.
+     * Notf thbt thfrf is no rfffrfndf to frbs.
+     * Thf full modfl for b dbtf rfquirfs four dondfpts - frb, yfbr, month bnd dby. Thfsf mbp onto
+     * thf {@dodf ERA}, {@dodf YEAR_OF_ERA}, {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH} fiflds.
+     * Whfthfr this fifld or {@dodf YEAR_OF_ERA} is usfd dfpfnds on whidh mfntbl modfl is bfing usfd.
+     * Sff {@link ChronoLodblDbtf} for morf disdussion on this topid.
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld bs follows.
+     * If thf dblfndbr systfm hbs only two frbs, bfforf bnd bftfr b fixfd dbtf, thfn thf
+     * prolfptid-yfbr vbluf must bf thf sbmf bs thf yfbr-of-frb vbluf for thf lbtfr frb,
+     * bnd indrfbsingly nfgbtivf for thf fbrlifr frb.
+     * If thf dblfndbr systfm hbs morf thbn two frbs, thfn thf prolfptid-yfbr vbluf mby bf
+     * dffinfd with bny bppropribtf vbluf, blthough dffining it to bf thf sbmf bs ISO mby bf
+     * thf bfst option.
+     */
+    YEAR("Yfbr", YEARS, FOREVER, VblufRbngf.of(Yfbr.MIN_VALUE, Yfbr.MAX_VALUE), "yfbr"),
+    /**
+     * Thf frb.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf frb, whidh is thf lbrgfst division of thf timf-linf.
+     * This fifld is typidblly usfd with {@link #YEAR_OF_ERA}.
+     * <p>
+     * In thf dffbult ISO dblfndbr systfm, thfrf brf two frbs dffinfd, 'BCE' bnd 'CE'.
+     * Thf frb 'CE' is thf onf durrfntly in usf bnd yfbr-of-frb runs from 1 to thf mbximum vbluf.
+     * Thf frb 'BCE' is thf prfvious frb, bnd thf yfbr-of-frb runs bbdkwbrds.
+     * Sff {@link #YEAR_OF_ERA} for b full fxbmplf.
+     * <p>
+     * Non-ISO dblfndbr systfms should implfmfnt this fifld to dffinf frbs.
+     * Thf vbluf of thf frb thbt wbs bdtivf on 1970-01-01 (ISO) must bf bssignfd thf vbluf 1.
+     * Ebrlifr frbs must hbvf sfqufntiblly smbllfr vblufs.
+     * Lbtfr frbs must hbvf sfqufntiblly lbrgfr vblufs,
+     */
+    ERA("Erb", ERAS, FOREVER, VblufRbngf.of(0, 1), "frb"),
+    /**
+     * Thf instbnt fpodh-sfdonds.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf sfqufntibl dount of sfdonds whfrf
+     * 1970-01-01T00:00Z (ISO) is zfro.
+     * This fifld mby bf usfd with {@link #NANO_OF_SECOND} to rfprfsfnt thf frbdtion of thf sfdond.
+     * <p>
+     * An {@link Instbnt} rfprfsfnts bn instbntbnfous point on thf timf-linf.
+     * On thfir own, bn instbnt hbs insuffidifnt informbtion to bllow b lodbl dbtf-timf to bf obtbinfd.
+     * Only whfn pbirfd with bn offsft or timf-zonf dbn thf lodbl dbtf or timf bf dbldulbtfd.
+     * <p>
+     * This fifld is stridtly dffinfd to hbvf thf sbmf mfbning in bll dblfndbr systfms.
+     * This is nfdfssbry to fnsurf intfropfrbtion bftwffn dblfndbrs.
+     */
+    INSTANT_SECONDS("InstbntSfdonds", SECONDS, FOREVER, VblufRbngf.of(Long.MIN_VALUE, Long.MAX_VALUE)),
+    /**
+     * Thf offsft from UTC/Grffnwidh.
+     * <p>
+     * This rfprfsfnts thf dondfpt of thf offsft in sfdonds of lodbl timf from UTC/Grffnwidh.
+     * <p>
+     * A {@link ZonfOffsft} rfprfsfnts thf pfriod of timf thbt lodbl timf difffrs from UTC/Grffnwidh.
+     * This is usublly b fixfd numbfr of hours bnd minutfs.
+     * It is fquivblfnt to thf {@link ZonfOffsft#gftTotblSfdonds() totbl bmount} of thf offsft in sfdonds.
+     * For fxbmplf, during thf wintfr Pbris hbs bn offsft of {@dodf +01:00}, whidh is 3600 sfdonds.
+     * <p>
+     * This fifld is stridtly dffinfd to hbvf thf sbmf mfbning in bll dblfndbr systfms.
+     * This is nfdfssbry to fnsurf intfropfrbtion bftwffn dblfndbrs.
+     */
+    OFFSET_SECONDS("OffsftSfdonds", SECONDS, FOREVER, VblufRbngf.of(-18 * 3600, 18 * 3600));
+
+    privbtf finbl String nbmf;
+    privbtf finbl TfmporblUnit bbsfUnit;
+    privbtf finbl TfmporblUnit rbngfUnit;
+    privbtf finbl VblufRbngf rbngf;
+    privbtf finbl String displbyNbmfKfy;
+
+    privbtf ChronoFifld(String nbmf, TfmporblUnit bbsfUnit, TfmporblUnit rbngfUnit, VblufRbngf rbngf) {
+        this.nbmf = nbmf;
+        this.bbsfUnit = bbsfUnit;
+        this.rbngfUnit = rbngfUnit;
+        this.rbngf = rbngf;
+        this.displbyNbmfKfy = null;
+    }
+
+    privbtf ChronoFifld(String nbmf, TfmporblUnit bbsfUnit, TfmporblUnit rbngfUnit,
+            VblufRbngf rbngf, String displbyNbmfKfy) {
+        this.nbmf = nbmf;
+        this.bbsfUnit = bbsfUnit;
+        this.rbngfUnit = rbngfUnit;
+        this.rbngf = rbngf;
+        this.displbyNbmfKfy = displbyNbmfKfy;
+    }
+
+    @Ovfrridf
+    publid String gftDisplbyNbmf(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        if (displbyNbmfKfy == null) {
+            rfturn nbmf;
+        }
+
+        LodblfRfsourdfs lr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd()
+                                    .gftLodblfRfsourdfs(lodblf);
+        RfsourdfBundlf rb = lr.gftJbvbTimfFormbtDbtb();
+        String kfy = "fifld." + displbyNbmfKfy;
+        rfturn rb.dontbinsKfy(kfy) ? rb.gftString(kfy) : nbmf;
+    }
+
+    @Ovfrridf
+    publid TfmporblUnit gftBbsfUnit() {
+        rfturn bbsfUnit;
+    }
+
+    @Ovfrridf
+    publid TfmporblUnit gftRbngfUnit() {
+        rfturn rbngfUnit;
+    }
+
+    /**
+     * Gfts thf rbngf of vblid vblufs for thf fifld.
+     * <p>
+     * All fiflds dbn bf fxprfssfd bs b {@dodf long} intfgfr.
+     * This mfthod rfturns bn objfdt thbt dfsdribfs thf vblid rbngf for thbt vbluf.
+     * <p>
+     * This mfthod rfturns thf rbngf of thf fifld in thf ISO-8601 dblfndbr systfm.
+     * This rbngf mby bf indorrfdt for othfr dblfndbr systfms.
+     * Usf {@link Chronology#rbngf(ChronoFifld)} to bddfss thf dorrfdt rbngf
+     * for b difffrfnt dblfndbr systfm.
+     * <p>
+     * Notf thbt thf rfsult only dfsdribfs thf minimum bnd mbximum vblid vblufs
+     * bnd it is importbnt not to rfbd too mudh into thfm. For fxbmplf, thfrf
+     * dould bf vblufs within thf rbngf thbt brf invblid for thf fifld.
+     *
+     * @rfturn thf rbngf of vblid vblufs for thf fifld, not null
+     */
+    @Ovfrridf
+    publid VblufRbngf rbngf() {
+        rfturn rbngf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this fifld rfprfsfnts b domponfnt of b dbtf.
+     * <p>
+     * Fiflds from dby-of-wffk to frb brf dbtf-bbsfd.
+     *
+     * @rfturn truf if it is b domponfnt of b dbtf
+     */
+    @Ovfrridf
+    publid boolfbn isDbtfBbsfd() {
+        rfturn ordinbl() >= DAY_OF_WEEK.ordinbl() && ordinbl() <= ERA.ordinbl();
+    }
+
+    /**
+     * Chfdks if this fifld rfprfsfnts b domponfnt of b timf.
+     * <p>
+     * Fiflds from nbno-of-sfdond to bm-pm-of-dby brf timf-bbsfd.
+     *
+     * @rfturn truf if it is b domponfnt of b timf
+     */
+    @Ovfrridf
+    publid boolfbn isTimfBbsfd() {
+        rfturn ordinbl() < DAY_OF_WEEK.ordinbl();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks thbt thf spfdififd vbluf is vblid for this fifld.
+     * <p>
+     * This vblidbtfs thbt thf vbluf is within thf outfr rbngf of vblid vblufs
+     * rfturnfd by {@link #rbngf()}.
+     * <p>
+     * This mfthod dhfdks bgbinst thf rbngf of thf fifld in thf ISO-8601 dblfndbr systfm.
+     * This rbngf mby bf indorrfdt for othfr dblfndbr systfms.
+     * Usf {@link Chronology#rbngf(ChronoFifld)} to bddfss thf dorrfdt rbngf
+     * for b difffrfnt dblfndbr systfm.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @rfturn thf vbluf thbt wbs pbssfd in
+     */
+    publid long dhfdkVblidVbluf(long vbluf) {
+        rfturn rbngf().dhfdkVblidVbluf(vbluf, this);
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd vbluf is vblid bnd fits in bn {@dodf int}.
+     * <p>
+     * This vblidbtfs thbt thf vbluf is within thf outfr rbngf of vblid vblufs
+     * rfturnfd by {@link #rbngf()}.
+     * It blso dhfdks thbt bll vblid vblufs brf within thf bounds of bn {@dodf int}.
+     * <p>
+     * This mfthod dhfdks bgbinst thf rbngf of thf fifld in thf ISO-8601 dblfndbr systfm.
+     * This rbngf mby bf indorrfdt for othfr dblfndbr systfms.
+     * Usf {@link Chronology#rbngf(ChronoFifld)} to bddfss thf dorrfdt rbngf
+     * for b difffrfnt dblfndbr systfm.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @rfturn thf vbluf thbt wbs pbssfd in
+     */
+    publid int dhfdkVblidIntVbluf(long vbluf) {
+        rfturn rbngf().dhfdkVblidIntVbluf(vbluf, this);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+        rfturn tfmporbl.isSupportfd(this);
+    }
+
+    @Ovfrridf
+    publid VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl) {
+        rfturn tfmporbl.rbngf(this);
+    }
+
+    @Ovfrridf
+    publid long gftFrom(TfmporblAddfssor tfmporbl) {
+        rfturn tfmporbl.gftLong(this);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+        rfturn (R) tfmporbl.with(this, nfwVbluf);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+}

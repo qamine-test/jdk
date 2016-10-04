@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * A simple look-ahead volume limiter with very fast attack and fast release.
- * This filter is used for preventing clipping.
+ * A simplf look-bifbd volumf limitfr witi vfry fbst bttbdk bnd fbst rflfbsf.
+ * Tiis filtfr is usfd for prfvfnting dlipping.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftLimiter implements SoftAudioProcessor {
+publid finbl dlbss SoftLimitfr implfmfnts SoftAudioProdfssor {
 
-    float lastmax = 0;
-    float gain = 1;
-    float[] temp_bufferL;
-    float[] temp_bufferR;
-    boolean mix = false;
-    SoftAudioBuffer bufferL;
-    SoftAudioBuffer bufferR;
-    SoftAudioBuffer bufferLout;
-    SoftAudioBuffer bufferRout;
-    float controlrate;
+    flobt lbstmbx = 0;
+    flobt gbin = 1;
+    flobt[] tfmp_bufffrL;
+    flobt[] tfmp_bufffrR;
+    boolfbn mix = fblsf;
+    SoftAudioBufffr bufffrL;
+    SoftAudioBufffr bufffrR;
+    SoftAudioBufffr bufffrLout;
+    SoftAudioBufffr bufffrRout;
+    flobt dontrolrbtf;
 
-    public void init(float samplerate, float controlrate) {
-        this.controlrate = controlrate;
+    publid void init(flobt sbmplfrbtf, flobt dontrolrbtf) {
+        tiis.dontrolrbtf = dontrolrbtf;
     }
 
-    public void setInput(int pin, SoftAudioBuffer input) {
+    publid void sftInput(int pin, SoftAudioBufffr input) {
         if (pin == 0)
-            bufferL = input;
+            bufffrL = input;
         if (pin == 1)
-            bufferR = input;
+            bufffrR = input;
     }
 
-    public void setOutput(int pin, SoftAudioBuffer output) {
+    publid void sftOutput(int pin, SoftAudioBufffr output) {
         if (pin == 0)
-            bufferLout = output;
+            bufffrLout = output;
         if (pin == 1)
-            bufferRout = output;
+            bufffrRout = output;
     }
 
-    public void setMixMode(boolean mix) {
-        this.mix = mix;
+    publid void sftMixModf(boolfbn mix) {
+        tiis.mix = mix;
     }
 
-    public void globalParameterControlChange(int[] slothpath, long param,
-            long value) {
+    publid void globblPbrbmftfrControlCibngf(int[] slotipbti, long pbrbm,
+            long vbluf) {
     }
 
-    double silentcounter = 0;
+    doublf silfntdountfr = 0;
 
-    public void processAudio() {
-        if (this.bufferL.isSilent()
-                && (this.bufferR == null || this.bufferR.isSilent())) {
-            silentcounter += 1 / controlrate;
+    publid void prodfssAudio() {
+        if (tiis.bufffrL.isSilfnt()
+                && (tiis.bufffrR == null || tiis.bufffrR.isSilfnt())) {
+            silfntdountfr += 1 / dontrolrbtf;
 
-            if (silentcounter > 60) {
+            if (silfntdountfr > 60) {
                 if (!mix) {
-                    bufferLout.clear();
-                    if (bufferRout != null) bufferRout.clear();
+                    bufffrLout.dlfbr();
+                    if (bufffrRout != null) bufffrRout.dlfbr();
                 }
-                return;
+                rfturn;
             }
-        } else
-            silentcounter = 0;
+        } flsf
+            silfntdountfr = 0;
 
-        float[] bufferL = this.bufferL.array();
-        float[] bufferR = this.bufferR == null ? null : this.bufferR.array();
-        float[] bufferLout = this.bufferLout.array();
-        float[] bufferRout = this.bufferRout == null
-                                ? null : this.bufferRout.array();
+        flobt[] bufffrL = tiis.bufffrL.brrby();
+        flobt[] bufffrR = tiis.bufffrR == null ? null : tiis.bufffrR.brrby();
+        flobt[] bufffrLout = tiis.bufffrLout.brrby();
+        flobt[] bufffrRout = tiis.bufffrRout == null
+                                ? null : tiis.bufffrRout.brrby();
 
-        if (temp_bufferL == null || temp_bufferL.length < bufferL.length)
-            temp_bufferL = new float[bufferL.length];
-        if (bufferR != null)
-            if (temp_bufferR == null || temp_bufferR.length < bufferR.length)
-                temp_bufferR = new float[bufferR.length];
+        if (tfmp_bufffrL == null || tfmp_bufffrL.lfngti < bufffrL.lfngti)
+            tfmp_bufffrL = nfw flobt[bufffrL.lfngti];
+        if (bufffrR != null)
+            if (tfmp_bufffrR == null || tfmp_bufffrR.lfngti < bufffrR.lfngti)
+                tfmp_bufffrR = nfw flobt[bufffrR.lfngti];
 
-        float max = 0;
-        int len = bufferL.length;
+        flobt mbx = 0;
+        int lfn = bufffrL.lfngti;
 
-        if (bufferR == null) {
-            for (int i = 0; i < len; i++) {
-                if (bufferL[i] > max)
-                    max = bufferL[i];
-                if (-bufferL[i] > max)
-                    max = -bufferL[i];
+        if (bufffrR == null) {
+            for (int i = 0; i < lfn; i++) {
+                if (bufffrL[i] > mbx)
+                    mbx = bufffrL[i];
+                if (-bufffrL[i] > mbx)
+                    mbx = -bufffrL[i];
             }
-        } else {
-            for (int i = 0; i < len; i++) {
-                if (bufferL[i] > max)
-                    max = bufferL[i];
-                if (bufferR[i] > max)
-                    max = bufferR[i];
-                if (-bufferL[i] > max)
-                    max = -bufferL[i];
-                if (-bufferR[i] > max)
-                    max = -bufferR[i];
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                if (bufffrL[i] > mbx)
+                    mbx = bufffrL[i];
+                if (bufffrR[i] > mbx)
+                    mbx = bufffrR[i];
+                if (-bufffrL[i] > mbx)
+                    mbx = -bufffrL[i];
+                if (-bufffrR[i] > mbx)
+                    mbx = -bufffrR[i];
             }
         }
 
-        float lmax = lastmax;
-        lastmax = max;
-        if (lmax > max)
-            max = lmax;
+        flobt lmbx = lbstmbx;
+        lbstmbx = mbx;
+        if (lmbx > mbx)
+            mbx = lmbx;
 
-        float newgain = 1;
-        if (max > 0.99f)
-            newgain = 0.99f / max;
-        else
-            newgain = 1;
+        flobt nfwgbin = 1;
+        if (mbx > 0.99f)
+            nfwgbin = 0.99f / mbx;
+        flsf
+            nfwgbin = 1;
 
-        if (newgain > gain)
-            newgain = (newgain + gain * 9) / 10f;
+        if (nfwgbin > gbin)
+            nfwgbin = (nfwgbin + gbin * 9) / 10f;
 
-        float gaindelta = (newgain - gain) / len;
+        flobt gbindfltb = (nfwgbin - gbin) / lfn;
         if (mix) {
-            if (bufferR == null) {
-                for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float tL = temp_bufferL[i];
-                    temp_bufferL[i] = bL;
-                    bufferLout[i] += tL * gain;
+            if (bufffrR == null) {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    tfmp_bufffrL[i] = bL;
+                    bufffrLout[i] += tL * gbin;
                 }
-            } else {
-                for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float bR = bufferR[i];
-                    float tL = temp_bufferL[i];
-                    float tR = temp_bufferR[i];
-                    temp_bufferL[i] = bL;
-                    temp_bufferR[i] = bR;
-                    bufferLout[i] += tL * gain;
-                    bufferRout[i] += tR * gain;
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt bR = bufffrR[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    flobt tR = tfmp_bufffrR[i];
+                    tfmp_bufffrL[i] = bL;
+                    tfmp_bufffrR[i] = bR;
+                    bufffrLout[i] += tL * gbin;
+                    bufffrRout[i] += tR * gbin;
                 }
             }
 
-        } else {
-            if (bufferR == null) {
-                for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float tL = temp_bufferL[i];
-                    temp_bufferL[i] = bL;
-                    bufferLout[i] = tL * gain;
+        } flsf {
+            if (bufffrR == null) {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    tfmp_bufffrL[i] = bL;
+                    bufffrLout[i] = tL * gbin;
                 }
-            } else {
-                for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float bR = bufferR[i];
-                    float tL = temp_bufferL[i];
-                    float tR = temp_bufferR[i];
-                    temp_bufferL[i] = bL;
-                    temp_bufferR[i] = bR;
-                    bufferLout[i] = tL * gain;
-                    bufferRout[i] = tR * gain;
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    gbin += gbindfltb;
+                    flobt bL = bufffrL[i];
+                    flobt bR = bufffrR[i];
+                    flobt tL = tfmp_bufffrL[i];
+                    flobt tR = tfmp_bufffrR[i];
+                    tfmp_bufffrL[i] = bL;
+                    tfmp_bufffrR[i] = bR;
+                    bufffrLout[i] = tL * gbin;
+                    bufffrRout[i] = tR * gbin;
                 }
             }
 
         }
-        gain = newgain;
+        gbin = nfwgbin;
     }
 
-    public void processControlLogic() {
+    publid void prodfssControlLogid() {
     }
 }

@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * Cbpbbilitifs bnd propfrtifs of imbgfs.
+ * @buthor Midhbfl Mbrtbk
+ * @sindf 1.4
+ */
+publid dlbss ImbgfCbpbbilitifs implfmfnts Clonfbblf {
+
+    privbtf boolfbn bddflfrbtfd = fblsf;
+
+    /**
+     * Crfbtfs b nfw objfdt for spfdifying imbgf dbpbbilitifs.
+     * @pbrbm bddflfrbtfd whfthfr or not bn bddflfrbtfd imbgf is dfsirfd
+     */
+    publid ImbgfCbpbbilitifs(boolfbn bddflfrbtfd) {
+        this.bddflfrbtfd = bddflfrbtfd;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf objfdt whosf dbpbbilitifs brf
+     * fndbpsulbtfd in this <dodf>ImbgfCbpbbilitifs</dodf> dbn bf or is
+     * bddflfrbtfd.
+     * @rfturn whfthfr or not bn imbgf dbn bf, or is, bddflfrbtfd.  Thfrf brf
+     * vbrious plbtform-spfdifid wbys to bddflfrbtf bn imbgf, indluding
+     * pixmbps, VRAM, AGP.  This is thf gfnfrbl bddflfrbtion mfthod (bs
+     * opposfd to rfsiding in systfm mfmory).
+     */
+    publid boolfbn isAddflfrbtfd() {
+        rfturn bddflfrbtfd;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf <dodf>VolbtilfImbgf</dodf>
+     * dfsdribfd by this <dodf>ImbgfCbpbbilitifs</dodf> dbn losf
+     * its surfbdfs.
+     * @rfturn whfthfr or not b volbtilf imbgf is subjfdt to losing its surfbdfs
+     * bt thf whim of thf opfrbting systfm.
+     */
+    publid boolfbn isTrufVolbtilf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * @rfturn b dopy of this ImbgfCbpbbilitifs objfdt.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // Sindf wf implfmfnt Clonfbblf, this should nfvfr hbppfn
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+}

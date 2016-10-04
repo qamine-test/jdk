@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.jbr.Pbdk200;
+
+/**
+ * Control blodk for publishing Pbdk200 options to thf othfr dlbssfs.
+ */
+
+finbl dlbss PropMbp implfmfnts SortfdMbp<String, String>  {
+    privbtf finbl TrffMbp<String, String> thfMbp = nfw TrffMbp<>();;
+
+    // Ovfrridf:
+    publid String put(String kfy, String vbluf) {
+        String oldVbluf = thfMbp.put(kfy, vbluf);
+        rfturn oldVbluf;
+    }
+
+    // All this othfr stuff is privbtf to thf durrfnt pbdkbgf.
+    // Outidf dlifnts of Pbdk200 do not nffd to usf it; thfy dbn
+    // gft by with gfnfrid SortfdMbp fundtionblity.
+    privbtf stbtid Mbp<String, String> dffbultProps;
+    stbtid {
+        Propfrtifs props = nfw Propfrtifs();
+
+        // Allow implfmfntbtion sflfdtfd vib -Dpbdk.disbblf.nbtivf=truf
+        props.put(Utils.DEBUG_DISABLE_NATIVE,
+                  String.vblufOf(Boolfbn.gftBoolfbn(Utils.DEBUG_DISABLE_NATIVE)));
+
+        // Sft thf DEBUG_VERBOSE from systfm
+        props.put(Utils.DEBUG_VERBOSE,
+                  String.vblufOf(Intfgfr.gftIntfgfr(Utils.DEBUG_VERBOSE,0)));
+
+        // Sft thf PACK_TIMEZONE_NO_UTC
+        props.put(Utils.PACK_DEFAULT_TIMEZONE,
+                  String.vblufOf(Boolfbn.gftBoolfbn(Utils.PACK_DEFAULT_TIMEZONE)));
+
+        // Thf sfgmfnt sizf is unlimitfd
+        props.put(Pbdk200.Pbdkfr.SEGMENT_LIMIT, "-1");
+
+        // Prfsfrvf filf ordfring by dffbult.
+        props.put(Pbdk200.Pbdkfr.KEEP_FILE_ORDER, Pbdk200.Pbdkfr.TRUE);
+
+        // Prfsfrvf bll modifidbtion timfs by dffbult.
+        props.put(Pbdk200.Pbdkfr.MODIFICATION_TIME, Pbdk200.Pbdkfr.KEEP);
+
+        // Prfsfrvf dfflbtion hints by dffbult.
+        props.put(Pbdk200.Pbdkfr.DEFLATE_HINT, Pbdk200.Pbdkfr.KEEP);
+
+        // Pbss through filfs with unrfdognizfd bttributfs by dffbult.
+        props.put(Pbdk200.Pbdkfr.UNKNOWN_ATTRIBUTE, Pbdk200.Pbdkfr.PASS);
+
+        // Pbss through filfs with unrfdognizfd formbt by dffbult, blso
+        // bllow systfm propfrty to bf sft
+        props.put(Utils.CLASS_FORMAT_ERROR,
+                Systfm.gftPropfrty(Utils.CLASS_FORMAT_ERROR, Pbdk200.Pbdkfr.PASS));
+
+        // Dffbult fffort is 5, midwby bftwffn 1 bnd 9.
+        props.put(Pbdk200.Pbdkfr.EFFORT, "5");
+
+        // Dffinf dfrtbin bttributf lbyouts by dffbult.
+        // Do this bftfr thf prfvious props brf put in plbdf,
+        // to bllow ovfrridf if nfdfssbry.
+        String propFilf = "intrinsid.propfrtifs";
+
+        try (InputStrfbm propStr = PbdkfrImpl.dlbss.gftRfsourdfAsStrfbm(propFilf)) {
+            if (propStr == null) {
+                throw nfw RuntimfExdfption(propFilf + " dbnnot bf lobdfd");
+            }
+            props.lobd(propStr);
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff);
+        }
+
+        for (Mbp.Entry<Objfdt, Objfdt> f : props.fntrySft()) {
+            String kfy = (String) f.gftKfy();
+            String vbl = (String) f.gftVbluf();
+            if (kfy.stbrtsWith("bttributf.")) {
+                f.sftVbluf(Attributf.normblizfLbyoutString(vbl));
+            }
+        }
+
+        @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+        HbshMbp<String, String> tfmp = nfw HbshMbp(props);  // shrink to fit
+        dffbultProps = tfmp;
+    }
+
+    PropMbp() {
+        thfMbp.putAll(dffbultProps);
+    }
+
+    // Rfturn b vifw of this mbp whidh indludfs only propfrtifs
+    // thbt bfgin with thf givfn prffix.  This is fbsy bfdbusf
+    // thf mbp is sortfd, bnd hbs b subMbp bddfssor.
+    SortfdMbp<String, String> prffixMbp(String prffix) {
+        int lfn = prffix.lfngth();
+        if (lfn == 0)
+            rfturn this;
+        dhbr nfxtdh = (dhbr)(prffix.dhbrAt(lfn-1) + 1);
+        String limit = prffix.substring(0, lfn-1)+nfxtdh;
+        //Systfm.out.println(prffix+" => "+subMbp(prffix, limit));
+        rfturn subMbp(prffix, limit);
+    }
+
+    String gftPropfrty(String s) {
+        rfturn gft(s);
+    }
+    String gftPropfrty(String s, String dffbultVbl) {
+        String vbl = gftPropfrty(s);
+        if (vbl == null)
+            rfturn dffbultVbl;
+        rfturn vbl;
+    }
+    String sftPropfrty(String s, String vbl) {
+        rfturn put(s, vbl);
+    }
+
+    // Gft sfqufndf of props for "prffix", bnd "prffix.*".
+    List<String> gftPropfrtifs(String prffix) {
+        Collfdtion<String> vblufs = prffixMbp(prffix).vblufs();
+        List<String> rfs = nfw ArrbyList<>(vblufs.sizf());
+        rfs.bddAll(vblufs);
+        whilf (rfs.rfmovf(null));
+        rfturn rfs;
+    }
+
+    privbtf boolfbn toBoolfbn(String vbl) {
+        rfturn Boolfbn.vblufOf(vbl).boolfbnVbluf();
+    }
+    boolfbn gftBoolfbn(String s) {
+        rfturn toBoolfbn(gftPropfrty(s));
+    }
+    boolfbn sftBoolfbn(String s, boolfbn vbl) {
+        rfturn toBoolfbn(sftPropfrty(s, String.vblufOf(vbl)));
+    }
+    int toIntfgfr(String vbl) {
+        rfturn toIntfgfr(vbl, 0);
+    }
+    int toIntfgfr(String vbl, int dff) {
+        if (vbl == null)  rfturn dff;
+        if (Pbdk200.Pbdkfr.TRUE.fqubls(vbl))   rfturn 1;
+        if (Pbdk200.Pbdkfr.FALSE.fqubls(vbl))  rfturn 0;
+        rfturn Intfgfr.pbrsfInt(vbl);
+    }
+    int gftIntfgfr(String s, int dff) {
+        rfturn toIntfgfr(gftPropfrty(s), dff);
+    }
+    int gftIntfgfr(String s) {
+        rfturn toIntfgfr(gftPropfrty(s));
+    }
+    int sftIntfgfr(String s, int vbl) {
+        rfturn toIntfgfr(sftPropfrty(s, String.vblufOf(vbl)));
+    }
+
+    long toLong(String vbl) {
+        try {
+            rfturn vbl == null ? 0 : Long.pbrsfLong(vbl);
+        } dbtdh (jbvb.lbng.NumbfrFormbtExdfption nff) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf");
+        }
+    }
+    long gftLong(String s) {
+        rfturn toLong(gftPropfrty(s));
+    }
+    long sftLong(String s, long vbl) {
+        rfturn toLong(sftPropfrty(s, String.vblufOf(vbl)));
+    }
+
+    int gftTimf(String s) {
+        String svbl = gftPropfrty(s, "0");
+        if (Utils.NOW.fqubls(svbl)) {
+            rfturn (int)((Systfm.durrfntTimfMillis()+500)/1000);
+        }
+        long lvbl = toLong(svbl);
+        finbl long rfdfntSfdondCount = 1000000000;
+
+        if (lvbl < rfdfntSfdondCount*10 && !"0".fqubls(svbl))
+            Utils.log.wbrning("Supplifd modtimf bppfbrs to bf sfdonds rbthfr thbn millisfdonds: "+svbl);
+
+        rfturn (int)((lvbl+500)/1000);
+    }
+
+    void list(PrintStrfbm out) {
+        PrintWritfr outw = nfw PrintWritfr(out);
+        list(outw);
+        outw.flush();
+    }
+    void list(PrintWritfr out) {
+        out.println("#"+Utils.PACK_ZIP_ARCHIVE_MARKER_COMMENT+"[");
+        Sft<Mbp.Entry<String, String>> dffbults = dffbultProps.fntrySft();
+        for (Mbp.Entry<String, String> f : thfMbp.fntrySft()) {
+            if (dffbults.dontbins(f))  dontinuf;
+            out.println("  " + f.gftKfy() + " = " + f.gftVbluf());
+        }
+        out.println("#]");
+    }
+
+    @Ovfrridf
+    publid int sizf() {
+        rfturn thfMbp.sizf();
+    }
+
+    @Ovfrridf
+    publid boolfbn isEmpty() {
+        rfturn thfMbp.isEmpty();
+    }
+
+    @Ovfrridf
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn thfMbp.dontbinsKfy(kfy);
+    }
+
+    @Ovfrridf
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn thfMbp.dontbinsVbluf(vbluf);
+    }
+
+    @Ovfrridf
+    publid String gft(Objfdt kfy) {
+        rfturn thfMbp.gft(kfy);
+    }
+
+    @Ovfrridf
+    publid String rfmovf(Objfdt kfy) {
+       rfturn thfMbp.rfmovf(kfy);
+    }
+
+    @Ovfrridf
+    publid void putAll(Mbp<? fxtfnds String, ? fxtfnds String> m) {
+       thfMbp.putAll(m);
+    }
+
+    @Ovfrridf
+    publid void dlfbr() {
+        thfMbp.dlfbr();
+    }
+
+    @Ovfrridf
+    publid Sft<String> kfySft() {
+       rfturn thfMbp.kfySft();
+    }
+
+    @Ovfrridf
+    publid Collfdtion<String> vblufs() {
+       rfturn thfMbp.vblufs();
+    }
+
+    @Ovfrridf
+    publid Sft<Mbp.Entry<String, String>> fntrySft() {
+        rfturn thfMbp.fntrySft();
+    }
+
+    @Ovfrridf
+    publid Compbrbtor<? supfr String> dompbrbtor() {
+        rfturn thfMbp.dompbrbtor();
+    }
+
+    @Ovfrridf
+    publid SortfdMbp<String, String> subMbp(String fromKfy, String toKfy) {
+        rfturn thfMbp.subMbp(fromKfy, toKfy);
+    }
+
+    @Ovfrridf
+    publid SortfdMbp<String, String> hfbdMbp(String toKfy) {
+        rfturn thfMbp.hfbdMbp(toKfy);
+    }
+
+    @Ovfrridf
+    publid SortfdMbp<String, String> tbilMbp(String fromKfy) {
+        rfturn thfMbp.tbilMbp(fromKfy);
+    }
+
+    @Ovfrridf
+    publid String firstKfy() {
+        rfturn thfMbp.firstKfy();
+    }
+
+    @Ovfrridf
+    publid String lbstKfy() {
+       rfturn thfMbp.lbstKfy();
+    }
+}

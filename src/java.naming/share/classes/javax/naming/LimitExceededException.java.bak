@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import javax.naming.Name;
+import jbvbx.nbming.Nbmf;
 
 /**
-  * This exception is thrown when a method
-  * terminates abnormally due to a user or system specified limit.
-  * This is different from a InsufficientResourceException in that
-  * LimitExceededException is due to a user/system specified limit.
-  * For example, running out of memory to complete the request would
-  * be an insufficient resource. The client asking for 10 answers and
-  * getting back 11 is a size limit exception.
+  * Tiis fxdfption is tirown wifn b mftiod
+  * tfrminbtfs bbnormblly duf to b usfr or systfm spfdififd limit.
+  * Tiis is difffrfnt from b InsuffidifntRfsourdfExdfption in tibt
+  * LimitExdffdfdExdfption is duf to b usfr/systfm spfdififd limit.
+  * For fxbmplf, running out of mfmory to domplftf tif rfqufst would
+  * bf bn insuffidifnt rfsourdf. Tif dlifnt bsking for 10 bnswfrs bnd
+  * gftting bbdk 11 is b sizf limit fxdfption.
   *<p>
-  * Examples of these limits include client and server configuration
-  * limits such as size, time, number of hops, etc.
+  * Exbmplfs of tifsf limits indludf dlifnt bnd sfrvfr donfigurbtion
+  * limits sudi bs sizf, timf, numbfr of iops, ftd.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * bpply dirfdtly ifrf.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
 
-public class LimitExceededException extends NamingException {
+publid dlbss LimitExdffdfdExdfption fxtfnds NbmingExdfption {
     /**
-     * Constructs a new instance of LimitExceededException with
-      * all name resolution fields and explanation initialized to null.
+     * Construdts b nfw instbndf of LimitExdffdfdExdfption witi
+      * bll nbmf rfsolution fiflds bnd fxplbnbtion initiblizfd to null.
      */
-    public LimitExceededException() {
-        super();
+    publid LimitExdffdfdExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs a new instance of LimitExceededException using an
-     * explanation. All other fields default to null.
-     * @param explanation Possibly null detail about this exception.
-     * @see java.lang.Throwable#getMessage
+     * Construdts b nfw instbndf of LimitExdffdfdExdfption using bn
+     * fxplbnbtion. All otifr fiflds dffbult to null.
+     * @pbrbm fxplbnbtion Possibly null dftbil bbout tiis fxdfption.
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
      */
-    public LimitExceededException(String explanation) {
-        super(explanation);
+    publid LimitExdffdfdExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -776898738660207856L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -776898738660207856L;
 }

@@ -1,0 +1,468 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.PublidKfy;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import jbvb.util.Sft;
+import jbvb.util.Arrbys;
+
+import sun.sfdurity.x509.X509CRLImpl;
+
+/**
+ * <p>
+ * Abstrbdt dlbss for bn X.509 Cfrtifidbtf Rfvodbtion List (CRL).
+ * A CRL is b timf-stbmpfd list idfntifying rfvokfd dfrtifidbtfs.
+ * It is signfd by b Cfrtifidbtf Authority (CA) bnd mbdf frffly
+ * bvbilbblf in b publid rfpository.
+ *
+ * <p>Ebdh rfvokfd dfrtifidbtf is
+ * idfntififd in b CRL by its dfrtifidbtf sfribl numbfr. Whfn b
+ * dfrtifidbtf-using systfm usfs b dfrtifidbtf (f.g., for vfrifying b
+ * rfmotf usfr's digitbl signbturf), thbt systfm not only dhfdks thf
+ * dfrtifidbtf signbturf bnd vblidity but blso bdquirfs b suitbbly-
+ * rfdfnt CRL bnd dhfdks thbt thf dfrtifidbtf sfribl numbfr is not on
+ * thbt CRL.  Thf mfbning of "suitbbly-rfdfnt" mby vbry with lodbl
+ * polidy, but it usublly mfbns thf most rfdfntly-issufd CRL.  A CA
+ * issufs b nfw CRL on b rfgulbr pfriodid bbsis (f.g., hourly, dbily, or
+ * wffkly).  Entrifs brf bddfd to CRLs bs rfvodbtions oddur, bnd bn
+ * fntry mby bf rfmovfd whfn thf dfrtifidbtf fxpirbtion dbtf is rfbdhfd.
+ * <p>
+ * Thf X.509 v2 CRL formbt is dfsdribfd bflow in ASN.1:
+ * <prf>
+ * CfrtifidbtfList  ::=  SEQUENCE  {
+ *     tbsCfrtList          TBSCfrtList,
+ *     signbturfAlgorithm   AlgorithmIdfntififr,
+ *     signbturf            BIT STRING  }
+ * </prf>
+ * <p>
+ * Morf informbtion dbn bf found in
+ * <b hrff="http://www.iftf.org/rfd/rfd3280.txt">RFC 3280: Intfrnft X.509
+ * Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>.
+ * <p>
+ * Thf ASN.1 dffinition of {@dodf tbsCfrtList} is:
+ * <prf>
+ * TBSCfrtList  ::=  SEQUENCE  {
+ *     vfrsion                 Vfrsion OPTIONAL,
+ *                             -- if prfsfnt, must bf v2
+ *     signbturf               AlgorithmIdfntififr,
+ *     issufr                  Nbmf,
+ *     thisUpdbtf              ChoidfOfTimf,
+ *     nfxtUpdbtf              ChoidfOfTimf OPTIONAL,
+ *     rfvokfdCfrtifidbtfs     SEQUENCE OF SEQUENCE  {
+ *         usfrCfrtifidbtf         CfrtifidbtfSfriblNumbfr,
+ *         rfvodbtionDbtf          ChoidfOfTimf,
+ *         drlEntryExtfnsions      Extfnsions OPTIONAL
+ *                                 -- if prfsfnt, must bf v2
+ *         }  OPTIONAL,
+ *     drlExtfnsions           [0]  EXPLICIT Extfnsions OPTIONAL
+ *                                  -- if prfsfnt, must bf v2
+ *     }
+ * </prf>
+ * <p>
+ * CRLs brf instbntibtfd using b dfrtifidbtf fbdtory. Thf following is bn
+ * fxbmplf of how to instbntibtf bn X.509 CRL:
+ * <prf>{@dodf
+ * try (InputStrfbm inStrfbm = nfw FilfInputStrfbm("filfNbmf-of-drl")) {
+ *     CfrtifidbtfFbdtory df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+ *     X509CRL drl = (X509CRL)df.gfnfrbtfCRL(inStrfbm);
+ * }
+ * }</prf>
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ *
+ *
+ * @sff CRL
+ * @sff CfrtifidbtfFbdtory
+ * @sff X509Extfnsion
+ */
+
+publid bbstrbdt dlbss X509CRL fxtfnds CRL implfmfnts X509Extfnsion {
+
+    privbtf trbnsifnt X500Prindipbl issufrPrindipbl;
+
+    /**
+     * Construdtor for X.509 CRLs.
+     */
+    protfdtfd X509CRL() {
+        supfr("X.509");
+    }
+
+    /**
+     * Compbrfs this CRL for fqublity with thf givfn
+     * objfdt. If thf {@dodf othfr} objfdt is bn
+     * {@dodf instbndfof} {@dodf X509CRL}, thfn
+     * its fndodfd form is rftrifvfd bnd dompbrfd with thf
+     * fndodfd form of this CRL.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this CRL.
+     *
+     * @rfturn truf iff thf fndodfd forms of thf two CRLs
+     * mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (!(othfr instbndfof X509CRL)) {
+            rfturn fblsf;
+        }
+        try {
+            bytf[] thisCRL = X509CRLImpl.gftEndodfdIntfrnbl(this);
+            bytf[] othfrCRL = X509CRLImpl.gftEndodfdIntfrnbl((X509CRL)othfr);
+
+            rfturn Arrbys.fqubls(thisCRL, othfrCRL);
+        } dbtdh (CRLExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this CRL from its
+     * fndodfd form.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+        try {
+            bytf[] drlDbtb = X509CRLImpl.gftEndodfdIntfrnbl(this);
+            for (int i = 1; i < drlDbtb.lfngth; i++) {
+                 rftvbl += drlDbtb[i] * i;
+            }
+            rfturn rftvbl;
+        } dbtdh (CRLExdfption f) {
+            rfturn rftvbl;
+        }
+    }
+
+    /**
+     * Rfturns thf ASN.1 DER-fndodfd form of this CRL.
+     *
+     * @rfturn thf fndodfd form of this dfrtifidbtf
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
+     */
+    publid bbstrbdt bytf[] gftEndodfd()
+        throws CRLExdfption;
+
+    /**
+     * Vfrififs thbt this CRL wbs signfd using thf
+     * privbtf kfy thbt dorrfsponds to thf givfn publid kfy.
+     *
+     * @pbrbm kfy thf PublidKfy usfd to dbrry out thf vfrifidbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption on unsupportfd signbturf
+     * blgorithms.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudhProvidfrExdfption if thfrf's no dffbult providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
+     */
+    publid bbstrbdt void vfrify(PublidKfy kfy)
+        throws CRLExdfption,  NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption;
+
+    /**
+     * Vfrififs thbt this CRL wbs signfd using thf
+     * privbtf kfy thbt dorrfsponds to thf givfn publid kfy.
+     * This mfthod usfs thf signbturf vfrifidbtion fnginf
+     * supplifd by thf givfn providfr.
+     *
+     * @pbrbm kfy thf PublidKfy usfd to dbrry out thf vfrifidbtion.
+     * @pbrbm sigProvidfr thf nbmf of thf signbturf providfr.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption on unsupportfd signbturf
+     * blgorithms.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudhProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
+     */
+    publid bbstrbdt void vfrify(PublidKfy kfy, String sigProvidfr)
+        throws CRLExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption;
+
+    /**
+     * Vfrififs thbt this CRL wbs signfd using thf
+     * privbtf kfy thbt dorrfsponds to thf givfn publid kfy.
+     * This mfthod usfs thf signbturf vfrifidbtion fnginf
+     * supplifd by thf givfn providfr. Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * This mfthod wbs bddfd to vfrsion 1.8 of thf Jbvb Plbtform Stbndbrd
+     * Edition. In ordfr to mbintbin bbdkwbrds dompbtibility with fxisting
+     * sfrvidf providfrs, this mfthod is not {@dodf bbstrbdt}
+     * bnd it providfs b dffbult implfmfntbtion.
+     *
+     * @pbrbm kfy thf PublidKfy usfd to dbrry out thf vfrifidbtion.
+     * @pbrbm sigProvidfr thf signbturf providfr.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption on unsupportfd signbturf
+     * blgorithms.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CRLExdfption on fndoding frrors.
+     * @sindf 1.8
+     */
+    publid void vfrify(PublidKfy kfy, Providfr sigProvidfr)
+        throws CRLExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, SignbturfExdfption {
+        X509CRLImpl.vfrify(this, kfy, sigProvidfr);
+    }
+
+    /**
+     * Gfts thf {@dodf vfrsion} (vfrsion numbfr) vbluf from thf CRL.
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * vfrsion    Vfrsion OPTIONAL,
+     *             -- if prfsfnt, must bf v2
+     *
+     * Vfrsion  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+     *             -- v3 dofs not bpply to CRLs but bppfbrs for donsistfndy
+     *             -- with dffinition of Vfrsion for dfrts
+     * </prf>
+     *
+     * @rfturn thf vfrsion numbfr, i.f. 1 or 2.
+     */
+    publid bbstrbdt int gftVfrsion();
+
+    /**
+     * <strong>Dfnigrbtfd</strong>, rfplbdfd by {@linkplbin
+     * #gftIssufrX500Prindipbl()}. This mfthod rfturns thf {@dodf issufr}
+     * bs bn implfmfntbtion spfdifid Prindipbl objfdt, whidh should not bf
+     * rflifd upon by portbblf dodf.
+     *
+     * <p>
+     * Gfts thf {@dodf issufr} (issufr distinguishfd nbmf) vbluf from
+     * thf CRL. Thf issufr nbmf idfntififs thf fntity thbt signfd (bnd
+     * issufd) thf CRL.
+     *
+     * <p>Thf issufr nbmf fifld dontbins bn
+     * X.500 distinguishfd nbmf (DN).
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * issufr    Nbmf
+     *
+     * Nbmf ::= CHOICE { RDNSfqufndf }
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguishfdNbmf
+     * RflbtivfDistinguishfdNbmf ::=
+     *     SET OF AttributfVblufAssfrtion
+     *
+     * AttributfVblufAssfrtion ::= SEQUENCE {
+     *                               AttributfTypf,
+     *                               AttributfVbluf }
+     * AttributfTypf ::= OBJECT IDENTIFIER
+     * AttributfVbluf ::= ANY
+     * </prf>
+     * Thf {@dodf Nbmf} dfsdribfs b hifrbrdhidbl nbmf domposfd of
+     * bttributfs,
+     * sudh bs dountry nbmf, bnd dorrfsponding vblufs, sudh bs US.
+     * Thf typf of thf {@dodf AttributfVbluf} domponfnt is dftfrminfd by
+     * thf {@dodf AttributfTypf}; in gfnfrbl it will bf b
+     * {@dodf dirfdtoryString}. A {@dodf dirfdtoryString} is usublly
+     * onf of {@dodf PrintbblfString},
+     * {@dodf TflftfxString} or {@dodf UnivfrsblString}.
+     *
+     * @rfturn b Prindipbl whosf nbmf is thf issufr distinguishfd nbmf.
+     */
+    publid bbstrbdt Prindipbl gftIssufrDN();
+
+    /**
+     * Rfturns thf issufr (issufr distinguishfd nbmf) vbluf from thf
+     * CRL bs bn {@dodf X500Prindipbl}.
+     * <p>
+     * It is rfdommfndfd thbt subdlbssfs ovfrridf this mfthod.
+     *
+     * @rfturn bn {@dodf X500Prindipbl} rfprfsfnting thf issufr
+     *          distinguishfd nbmf
+     * @sindf 1.4
+     */
+    publid X500Prindipbl gftIssufrX500Prindipbl() {
+        if (issufrPrindipbl == null) {
+            issufrPrindipbl = X509CRLImpl.gftIssufrX500Prindipbl(this);
+        }
+        rfturn issufrPrindipbl;
+    }
+
+    /**
+     * Gfts thf {@dodf thisUpdbtf} dbtf from thf CRL.
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * thisUpdbtf   ChoidfOfTimf
+     * ChoidfOfTimf ::= CHOICE {
+     *     utdTimf        UTCTimf,
+     *     gfnfrblTimf    GfnfrblizfdTimf }
+     * </prf>
+     *
+     * @rfturn thf {@dodf thisUpdbtf} dbtf from thf CRL.
+     */
+    publid bbstrbdt Dbtf gftThisUpdbtf();
+
+    /**
+     * Gfts thf {@dodf nfxtUpdbtf} dbtf from thf CRL.
+     *
+     * @rfturn thf {@dodf nfxtUpdbtf} dbtf from thf CRL, or null if
+     * not prfsfnt.
+     */
+    publid bbstrbdt Dbtf gftNfxtUpdbtf();
+
+    /**
+     * Gfts thf CRL fntry, if bny, with thf givfn dfrtifidbtf sfriblNumbfr.
+     *
+     * @pbrbm sfriblNumbfr thf sfribl numbfr of thf dfrtifidbtf for whidh b CRL fntry
+     * is to bf lookfd up
+     * @rfturn thf fntry with thf givfn sfribl numbfr, or null if no sudh fntry
+     * fxists in this CRL.
+     * @sff X509CRLEntry
+     */
+    publid bbstrbdt X509CRLEntry
+        gftRfvokfdCfrtifidbtf(BigIntfgfr sfriblNumbfr);
+
+    /**
+     * Gft thf CRL fntry, if bny, for thf givfn dfrtifidbtf.
+     *
+     * <p>This mfthod dbn bf usfd to lookup CRL fntrifs in indirfdt CRLs,
+     * thbt mfbns CRLs thbt dontbin fntrifs from issufrs othfr thbn thf CRL
+     * issufr. Thf dffbult implfmfntbtion will only rfturn fntrifs for
+     * dfrtifidbtfs issufd by thf CRL issufr. Subdlbssfs thbt wish to
+     * support indirfdt CRLs should ovfrridf this mfthod.
+     *
+     * @pbrbm dfrtifidbtf thf dfrtifidbtf for whidh b CRL fntry is to bf lookfd
+     *   up
+     * @rfturn thf fntry for thf givfn dfrtifidbtf, or null if no sudh fntry
+     *   fxists in this CRL.
+     * @fxdfption NullPointfrExdfption if dfrtifidbtf is null
+     *
+     * @sindf 1.5
+     */
+    publid X509CRLEntry gftRfvokfdCfrtifidbtf(X509Cfrtifidbtf dfrtifidbtf) {
+        X500Prindipbl dfrtIssufr = dfrtifidbtf.gftIssufrX500Prindipbl();
+        X500Prindipbl drlIssufr = gftIssufrX500Prindipbl();
+        if (dfrtIssufr.fqubls(drlIssufr) == fblsf) {
+            rfturn null;
+        }
+        rfturn gftRfvokfdCfrtifidbtf(dfrtifidbtf.gftSfriblNumbfr());
+    }
+
+    /**
+     * Gfts bll thf fntrifs from this CRL.
+     * This rfturns b Sft of X509CRLEntry objfdts.
+     *
+     * @rfturn bll thf fntrifs or null if thfrf brf nonf prfsfnt.
+     * @sff X509CRLEntry
+     */
+    publid bbstrbdt Sft<? fxtfnds X509CRLEntry> gftRfvokfdCfrtifidbtfs();
+
+    /**
+     * Gfts thf DER-fndodfd CRL informbtion, thf
+     * {@dodf tbsCfrtList} from this CRL.
+     * This dbn bf usfd to vfrify thf signbturf indfpfndfntly.
+     *
+     * @rfturn thf DER-fndodfd CRL informbtion.
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
+     */
+    publid bbstrbdt bytf[] gftTBSCfrtList() throws CRLExdfption;
+
+    /**
+     * Gfts thf {@dodf signbturf} vbluf (thf rbw signbturf bits) from
+     * thf CRL.
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * signbturf     BIT STRING
+     * </prf>
+     *
+     * @rfturn thf signbturf.
+     */
+    publid bbstrbdt bytf[] gftSignbturf();
+
+    /**
+     * Gfts thf signbturf blgorithm nbmf for thf CRL
+     * signbturf blgorithm. An fxbmplf is thf string "SHA256withRSA".
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * signbturfAlgorithm   AlgorithmIdfntififr
+     *
+     * AlgorithmIdfntififr  ::=  SEQUENCE  {
+     *     blgorithm               OBJECT IDENTIFIER,
+     *     pbrbmftfrs              ANY DEFINED BY blgorithm OPTIONAL  }
+     *                             -- dontbins b vbluf of thf typf
+     *                             -- rfgistfrfd for usf with thf
+     *                             -- blgorithm objfdt idfntififr vbluf
+     * </prf>
+     *
+     * <p>Thf blgorithm nbmf is dftfrminfd from thf {@dodf blgorithm}
+     * OID string.
+     *
+     * @rfturn thf signbturf blgorithm nbmf.
+     */
+    publid bbstrbdt String gftSigAlgNbmf();
+
+    /**
+     * Gfts thf signbturf blgorithm OID string from thf CRL.
+     * An OID is rfprfsfntfd by b sft of nonnfgbtivf wholf numbfrs sfpbrbtfd
+     * by pfriods.
+     * For fxbmplf, thf string "1.2.840.10040.4.3" idfntififs thf SHA-1
+     * with DSA signbturf blgorithm dffinfd in
+     * <b hrff="http://www.iftf.org/rfd/rfd3279.txt">RFC 3279: Algorithms bnd
+     * Idfntififrs for thf Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf
+     * bnd CRL Profilf</b>.
+     *
+     * <p>Sff {@link #gftSigAlgNbmf() gftSigAlgNbmf} for
+     * rflfvbnt ASN.1 dffinitions.
+     *
+     * @rfturn thf signbturf blgorithm OID string.
+     */
+    publid bbstrbdt String gftSigAlgOID();
+
+    /**
+     * Gfts thf DER-fndodfd signbturf blgorithm pbrbmftfrs from this
+     * CRL's signbturf blgorithm. In most dbsfs, thf signbturf
+     * blgorithm pbrbmftfrs brf null; thf pbrbmftfrs brf usublly
+     * supplifd with thf publid kfy.
+     * If bddfss to individubl pbrbmftfr vblufs is nffdfd thfn usf
+     * {@link jbvb.sfdurity.AlgorithmPbrbmftfrs AlgorithmPbrbmftfrs}
+     * bnd instbntibtf with thf nbmf rfturnfd by
+     * {@link #gftSigAlgNbmf() gftSigAlgNbmf}.
+     *
+     * <p>Sff {@link #gftSigAlgNbmf() gftSigAlgNbmf} for
+     * rflfvbnt ASN.1 dffinitions.
+     *
+     * @rfturn thf DER-fndodfd signbturf blgorithm pbrbmftfrs, or
+     *         null if no pbrbmftfrs brf prfsfnt.
+     */
+    publid bbstrbdt bytf[] gftSigAlgPbrbms();
+}

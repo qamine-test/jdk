@@ -1,0 +1,525 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf GfnfrblSubtrffs ASN.1 objfdt.
+ * <p>
+ * Thf ASN.1 for this is
+ * <prf>
+ * GfnfrblSubtrffs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblSubtrff
+ * </prf>
+ * </p>
+ *
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @buthor Andrfbs Stfrbfnz
+ */
+publid dlbss GfnfrblSubtrffs implfmfnts Clonfbblf {
+
+    privbtf finbl List<GfnfrblSubtrff> trffs;
+
+    // Privbtf vbribblfs
+    privbtf stbtid finbl int NAME_DIFF_TYPE = GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE;
+    privbtf stbtid finbl int NAME_MATCH = GfnfrblNbmfIntfrfbdf.NAME_MATCH;
+    privbtf stbtid finbl int NAME_NARROWS = GfnfrblNbmfIntfrfbdf.NAME_NARROWS;
+    privbtf stbtid finbl int NAME_WIDENS = GfnfrblNbmfIntfrfbdf.NAME_WIDENS;
+    privbtf stbtid finbl int NAME_SAME_TYPE = GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE;
+
+    /**
+     * Thf dffbult donstrudtor for thf dlbss.
+     */
+    publid GfnfrblSubtrffs() {
+        trffs = nfw ArrbyList<GfnfrblSubtrff>();
+    }
+
+    privbtf GfnfrblSubtrffs(GfnfrblSubtrffs sourdf) {
+        trffs = nfw ArrbyList<GfnfrblSubtrff>(sourdf.trffs);
+    }
+
+    /**
+     * Crfbtf thf objfdt from thf pbssfd DER fndodfd form.
+     *
+     * @pbrbm vbl thf DER fndodfd form of thf sbmf.
+     */
+    publid GfnfrblSubtrffs(DfrVbluf vbl) throws IOExdfption {
+        this();
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding of GfnfrblSubtrffs.");
+        }
+        whilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+            GfnfrblSubtrff trff = nfw GfnfrblSubtrff(opt);
+            bdd(trff);
+        }
+    }
+
+    publid GfnfrblSubtrff gft(int indfx) {
+        rfturn trffs.gft(indfx);
+    }
+
+    publid void rfmovf(int indfx) {
+        trffs.rfmovf(indfx);
+    }
+
+    publid void bdd(GfnfrblSubtrff trff) {
+        if (trff == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        trffs.bdd(trff);
+    }
+
+    publid boolfbn dontbins(GfnfrblSubtrff trff) {
+        if (trff == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn trffs.dontbins(trff);
+    }
+
+    publid int sizf() {
+        rfturn trffs.sizf();
+    }
+
+    publid Itfrbtor<GfnfrblSubtrff> itfrbtor() {
+        rfturn trffs.itfrbtor();
+    }
+
+    publid List<GfnfrblSubtrff> trffs() {
+        rfturn trffs;
+    }
+
+    publid Objfdt dlonf() {
+        rfturn nfw GfnfrblSubtrffs(this);
+    }
+
+    /**
+     * Rfturn b printbblf string of thf GfnfrblSubtrff.
+     */
+    publid String toString() {
+        String s = "   GfnfrblSubtrffs:\n" + trffs.toString() + "\n";
+        rfturn s;
+    }
+
+    /**
+     * Endodf thf GfnfrblSubtrffs.
+     *
+     * @pbrbms out thf DfrOutputStrfbn to fndodf this objfdt to.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+
+        for (int i = 0, n = sizf(); i < n; i++) {
+            gft(i).fndodf(sfq);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf, sfq);
+    }
+
+    /**
+     * Compbrf two gfnfrbl subtrffs by dompbring thf subtrffs
+     * of fbdh.
+     *
+     * @pbrbm othfr GfnfrblSubtrffs to dompbrf to this
+     * @rfturns truf if mbtdh
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof GfnfrblSubtrffs == fblsf) {
+            rfturn fblsf;
+        }
+        GfnfrblSubtrffs othfr = (GfnfrblSubtrffs)obj;
+        rfturn this.trffs.fqubls(othfr.trffs);
+    }
+
+    publid int hbshCodf() {
+        rfturn trffs.hbshCodf();
+    }
+
+    /**
+     * Rfturn thf GfnfrblNbmfIntfrfbdf form of thf GfnfrblNbmf in onf of
+     * thf GfnfrblSubtrffs.
+     *
+     * @pbrbm ndx indfx of thf GfnfrblSubtrff from whidh to obtbin thf nbmf
+     */
+    privbtf GfnfrblNbmfIntfrfbdf gftGfnfrblNbmfIntfrfbdf(int ndx) {
+        rfturn gftGfnfrblNbmfIntfrfbdf(gft(ndx));
+    }
+
+    privbtf stbtid GfnfrblNbmfIntfrfbdf gftGfnfrblNbmfIntfrfbdf(GfnfrblSubtrff gs) {
+        GfnfrblNbmf gn = gs.gftNbmf();
+        GfnfrblNbmfIntfrfbdf gni = gn.gftNbmf();
+        rfturn gni;
+    }
+
+    /**
+     * minimizf this GfnfrblSubtrffs by rfmoving bll rfdundbnt fntrifs.
+     * Intfrnbl mfthod usfd by intfrsfdt bnd rfdudf.
+     */
+    privbtf void minimizf() {
+
+        // Algorithm: dompbrf fbdh fntry n to bll subsfqufnt fntrifs in
+        // thf list: if bny subsfqufnt fntry mbtdhfs or widfns fntry n,
+        // rfmovf fntry n. If bny subsfqufnt fntrifs nbrrow fntry n, rfmovf
+        // thf subsfqufnt fntrifs.
+        for (int i = 0; i < sizf(); i++) {
+            GfnfrblNbmfIntfrfbdf durrfnt = gftGfnfrblNbmfIntfrfbdf(i);
+            boolfbn rfmovf1 = fblsf;
+
+            /* dompbrf durrfnt to subsfqufnt flfmfnts */
+            for (int j = i + 1; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf subsfqufnt = gftGfnfrblNbmfIntfrfbdf(j);
+                switdh (durrfnt.donstrbins(subsfqufnt)) {
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                        /* not dompbrbblf; difffrfnt nbmf typfs; kffp dhfdking */
+                        dontinuf;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                        /* dflftf onf of thf duplidbtfs */
+                        rfmovf1 = truf;
+                        brfbk;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS:
+                        /* subsfqufnt nbrrows durrfnt */
+                        /* rfmovf nbrrowfr nbmf (subsfqufnt) */
+                        rfmovf(j);
+                        j--; /* dontinuf dhfdk with nfw subsfqufnt */
+                        dontinuf;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS:
+                        /* subsfqufnt widfns durrfnt */
+                        /* rfmovf nbrrowfr nbmf durrfnt */
+                        rfmovf1 = truf;
+                        brfbk;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                        /* kffp both for now; kffp dhfdking */
+                        dontinuf;
+                }
+                brfbk;
+            } /* fnd of this pbss of subsfqufnt flfmfnts */
+
+            if (rfmovf1) {
+                rfmovf(i);
+                i--; /* dhfdk thf nfw i vbluf */
+            }
+
+        }
+    }
+
+    /**
+     * drfbtf b subtrff dontbining bn instbndf of thf input
+     * nbmf typf thbt widfns bll othfr nbmfs of thbt typf.
+     *
+     * @pbrbms nbmf GfnfrblNbmfIntfrfbdf nbmf
+     * @rfturns GfnfrblSubtrff dontbining widfst nbmf of thbt typf
+     * @throws RuntimfExdfption on frror (should not oddur)
+     */
+    privbtf GfnfrblSubtrff drfbtfWidfstSubtrff(GfnfrblNbmfIntfrfbdf nbmf) {
+        try {
+            GfnfrblNbmf nfwNbmf;
+            switdh (nbmf.gftTypf()) {
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_ANY:
+                // Crfbtf nfw OthfrNbmf with sbmf OID bs bbsfNbmf, but
+                // fmpty vbluf
+                ObjfdtIdfntififr othfrOID = ((OthfrNbmf)nbmf).gftOID();
+                nfwNbmf = nfw GfnfrblNbmf(nfw OthfrNbmf(othfrOID, null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_RFC822:
+                nfwNbmf = nfw GfnfrblNbmf(nfw RFC822Nbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_DNS:
+                nfwNbmf = nfw GfnfrblNbmf(nfw DNSNbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_X400:
+                nfwNbmf = nfw GfnfrblNbmf(nfw X400Addrfss((bytf[])null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY:
+                nfwNbmf = nfw GfnfrblNbmf(nfw X500Nbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_EDI:
+                nfwNbmf = nfw GfnfrblNbmf(nfw EDIPbrtyNbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_URI:
+                nfwNbmf = nfw GfnfrblNbmf(nfw URINbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_IP:
+                nfwNbmf = nfw GfnfrblNbmf(nfw IPAddrfssNbmf((bytf[])null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_OID:
+                nfwNbmf = nfw GfnfrblNbmf
+                    (nfw OIDNbmf(nfw ObjfdtIdfntififr((int[])null)));
+                brfbk;
+            dffbult:
+                throw nfw IOExdfption
+                    ("Unsupportfd GfnfrblNbmfIntfrfbdf typf: " + nbmf.gftTypf());
+            }
+            rfturn nfw GfnfrblSubtrff(nfwNbmf, 0, -1);
+        } dbtdh (IOExdfption f) {
+            throw nfw RuntimfExdfption("Unfxpfdtfd frror: " + f, f);
+        }
+    }
+
+    /**
+     * intfrsfdt this GfnfrblSubtrffs with othfr.  This fundtion
+     * is usfd in mfrging pfrmittfd NbmfConstrbints.  Thf opfrbtion
+     * is pfrformfd bs follows:
+     * <ul>
+     * <li>If b nbmf in othfr nbrrows bll nbmfs of thf sbmf typf in this,
+     *     thf rfsult will dontbin thf nbrrowfr nbmf bnd nonf of thf
+     *     nbmfs it nbrrows.
+     * <li>If b nbmf in othfr widfns bll nbmfs of thf sbmf typf in this,
+     *     thf rfsult will not dontbin thf widfr nbmf.
+     * <li>If b nbmf in othfr dofs not shbrf thf sbmf subtrff with bny nbmf
+     *     of thf sbmf typf in this, thfn thf nbmf is bddfd to thf list
+     *     of GfnfrblSubtrffs rfturnfd.  Thfsf nbmfs should bf bddfd to
+     *     thf list of nbmfs thbt brf spfdifidblly fxdludfd.  Thf rfbson
+     *     is thbt, if thf intfrsfdtion is fmpty, thfn no nbmfs of thbt
+     *     typf brf pfrmittfd, bnd thf only wby to fxprfss this in
+     *     NbmfConstrbints is to indludf thf nbmf in fxdludfdNbmfs.
+     * <li>If b nbmf in this hbs no nbmf of thf sbmf typf in othfr, thfn
+     *     thf rfsult dontbins thf nbmf in this.  No nbmf of b givfn typf
+     *     mfbns thf nbmf typf is domplftfly pfrmittfd.
+     * <li>If b nbmf in othfr hbs no nbmf of thf sbmf typf in this, thfn
+     *     thf rfsult dontbins thf nbmf in othfr.  This mfbns thbt
+     *     thf nbmf is now donstrbinfd in somf wby, whfrfbs bfforf it wbs
+     *     domplftfly pfrmittfd.
+     * <ul>
+     *
+     * @pbrbm othfr GfnfrblSubtrffs to bf intfrsfdtfd with this
+     * @rfturns GfnfrblSubtrffs to bf mfrgfd with fxdludfd; thfsf brf
+     *          fmpty-vblufd nbmf typfs dorrfsponding to fntrifs thbt wfrf
+     *          of thf sbmf typf but did not shbrf thf sbmf subtrff bftwffn
+     *          this bnd othfr. Rfturns null if no sudh.
+     */
+    publid GfnfrblSubtrffs intfrsfdt(GfnfrblSubtrffs othfr) {
+
+        if (othfr == null) {
+            throw nfw NullPointfrExdfption("othfr GfnfrblSubtrffs must not bf null");
+        }
+
+        GfnfrblSubtrffs nfwThis = nfw GfnfrblSubtrffs();
+        GfnfrblSubtrffs nfwExdludfd = null;
+
+        // Stfp 1: If this is fmpty, just bdd fvfrything in othfr to this bnd
+        // rfturn no nfw fxdludfd fntrifs
+        if (sizf() == 0) {
+            union(othfr);
+            rfturn null;
+        }
+
+        // Stfp 2: For fbsf of dhfdking thf subtrffs, minimizf thfm by
+        // donstrudting vfrsions thbt dontbin only thf widfst instbndf of
+        // fbdh typf
+        this.minimizf();
+        othfr.minimizf();
+
+        // Stfp 3: Chfdk fbdh fntry in this to sff whfthfr wf kffp it or
+        // rfmovf it, bnd whfthfr wf bdd bnything to nfwExdludfd or nfwThis.
+        // Wf kffp bn fntry in this unlfss it is nbrrowfd by bll fntrifs in
+        // othfr.  Wf bdd bn fntry to nfwExdludfd if thfrf is bt lfbst onf
+        // fntry of thf sbmf nbmfTypf in othfr, but this fntry dofs
+        // not shbrf thf sbmf subtrff with bny of thf fntrifs in othfr.
+        // Wf bdd bn fntry from othfr to nfwThis if thfrf is no nbmf of thf
+        // sbmf typf in this.
+        for (int i = 0; i < sizf(); i++) {
+            GfnfrblNbmfIntfrfbdf thisEntry = gftGfnfrblNbmfIntfrfbdf(i);
+            boolfbn rfmovfThisEntry = fblsf;
+
+            // Stfp 3b: If thf widfst nbmf of this typf in othfr nbrrows
+            // thisEntry, rfmovf thisEntry bnd bdd widfst othfr to nfwThis.
+            // Simultbnfously, dhfdk for situbtion whfrf thfrf is b nbmf of
+            // this typf in othfr, but no nbmf in othfr mbtdhfs, nbrrows,
+            // or widfns thisEntry.
+            boolfbn sbmfTypf = fblsf;
+            for (int j = 0; j < othfr.sizf(); j++) {
+                GfnfrblSubtrff othfrEntryGS = othfr.gft(j);
+                GfnfrblNbmfIntfrfbdf othfrEntry =
+                    gftGfnfrblNbmfIntfrfbdf(othfrEntryGS);
+                switdh (thisEntry.donstrbins(othfrEntry)) {
+                    dbsf NAME_NARROWS:
+                        rfmovf(i);
+                        i--;
+                        nfwThis.bdd(othfrEntryGS);
+                        sbmfTypf = fblsf;
+                        brfbk;
+                    dbsf NAME_SAME_TYPE:
+                        sbmfTypf = truf;
+                        dontinuf;
+                    dbsf NAME_MATCH:
+                    dbsf NAME_WIDENS:
+                        sbmfTypf = fblsf;
+                        brfbk;
+                    dbsf NAME_DIFF_TYPE:
+                    dffbult:
+                        dontinuf;
+                }
+                brfbk;
+            }
+
+            // Stfp 3b: If sbmfTypf is still truf, wf hbvf thf situbtion
+            // whfrf thfrf wbs b nbmf of thf sbmf typf bs thisEntry in
+            // othfr, but no nbmf in othfr widfnfd, mbtdhfd, or nbrrowfd
+            // thisEntry.
+            if (sbmfTypf) {
+
+                // Stfp 3b.1: Sff if thfrf brf bny fntrifs in this bnd othfr
+                // with this typf thbt mbtdh, widfn, or nbrrow fbdh othfr.
+                // If not, thfn wf nffd to bdd b "widfst subtrff" of this
+                // typf to fxdludfd.
+                boolfbn intfrsfdtion = fblsf;
+                for (int j = 0; j < sizf(); j++) {
+                    GfnfrblNbmfIntfrfbdf thisAltEntry = gftGfnfrblNbmfIntfrfbdf(j);
+
+                    if (thisAltEntry.gftTypf() == thisEntry.gftTypf()) {
+                        for (int k = 0; k < othfr.sizf(); k++) {
+                            GfnfrblNbmfIntfrfbdf othAltEntry =
+                                othfr.gftGfnfrblNbmfIntfrfbdf(k);
+
+                            int donstrbintTypf =
+                                thisAltEntry.donstrbins(othAltEntry);
+                            if (donstrbintTypf == NAME_MATCH ||
+                                donstrbintTypf == NAME_WIDENS ||
+                                donstrbintTypf == NAME_NARROWS) {
+                                intfrsfdtion = truf;
+                                brfbk;
+                            }
+                        }
+                    }
+                }
+                if (intfrsfdtion == fblsf) {
+                    if (nfwExdludfd == null) {
+                        nfwExdludfd = nfw GfnfrblSubtrffs();
+                    }
+                    GfnfrblSubtrff widfstSubtrff =
+                         drfbtfWidfstSubtrff(thisEntry);
+                    if (!nfwExdludfd.dontbins(widfstSubtrff)) {
+                        nfwExdludfd.bdd(widfstSubtrff);
+                    }
+                }
+
+                // Stfp 3b.2: Rfmovf thisEntry from this
+                rfmovf(i);
+                i--;
+            }
+        }
+
+        // Stfp 4: Add bll fntrifs in nfwThis to this
+        if (nfwThis.sizf() > 0) {
+            union(nfwThis);
+        }
+
+        // Stfp 5: Add bll fntrifs in othfr thbt do not hbvf bny fntry of thf
+        // sbmf typf in this to this
+        for (int i = 0; i < othfr.sizf(); i++) {
+            GfnfrblSubtrff othfrEntryGS = othfr.gft(i);
+            GfnfrblNbmfIntfrfbdf othfrEntry = gftGfnfrblNbmfIntfrfbdf(othfrEntryGS);
+            boolfbn diffTypf = fblsf;
+            for (int j = 0; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf thisEntry = gftGfnfrblNbmfIntfrfbdf(j);
+                switdh (thisEntry.donstrbins(othfrEntry)) {
+                    dbsf NAME_DIFF_TYPE:
+                        diffTypf = truf;
+                        // dontinuf to sff if wf find somfthing lbtfr of thf
+                        // sbmf typf
+                        dontinuf;
+                    dbsf NAME_NARROWS:
+                    dbsf NAME_SAME_TYPE:
+                    dbsf NAME_MATCH:
+                    dbsf NAME_WIDENS:
+                        diffTypf = fblsf; // wf found bn fntry of thf sbmf typf
+                        // brfbk bfdbusf wf know wf won't bf bdding it to
+                        // this now
+                        brfbk;
+                    dffbult:
+                        dontinuf;
+                }
+                brfbk;
+            }
+            if (diffTypf) {
+                bdd(othfrEntryGS);
+            }
+        }
+
+        // Stfp 6: Rfturn thf nfwExdludfd GfnfrblSubtrffs
+        rfturn nfwExdludfd;
+    }
+
+    /**
+     * donstrudt union of this GfnfrblSubtrffs with othfr.
+     *
+     * @pbrbm othfr GfnfrblSubtrffs to bf unitfd with this
+     */
+    publid void union(GfnfrblSubtrffs othfr) {
+        if (othfr != null) {
+            for (int i = 0, n = othfr.sizf(); i < n; i++) {
+                bdd(othfr.gft(i));
+            }
+            // Minimizf this
+            minimizf();
+        }
+    }
+
+    /**
+     * rfdudf this GfnfrblSubtrffs by dontfnts of bnothfr.  This fundtion
+     * is usfd in mfrging fxdludfd NbmfConstrbints with pfrmittfd NbmfConstrbints
+     * to obtbin b minimbl form of pfrmittfd NbmfConstrbints.  It is bn
+     * optimizbtion, bnd dofs not bfffdt dorrfdtnfss of thf rfsults.
+     *
+     * @pbrbm fxdludfd GfnfrblSubtrffs
+     */
+    publid void rfdudf(GfnfrblSubtrffs fxdludfd) {
+        if (fxdludfd == null) {
+            rfturn;
+        }
+        for (int i = 0, n = fxdludfd.sizf(); i < n; i++) {
+            GfnfrblNbmfIntfrfbdf fxdludfdNbmf = fxdludfd.gftGfnfrblNbmfIntfrfbdf(i);
+            for (int j = 0; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf pfrmittfd = gftGfnfrblNbmfIntfrfbdf(j);
+                switdh (fxdludfdNbmf.donstrbins(pfrmittfd)) {
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                    rfmovf(j);
+                    j--;
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS:
+                    /* pfrmittfd nbrrows fxdludfd */
+                    rfmovf(j);
+                    j--;
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS:
+                    /* pfrmittfd widfns fxdludfd */
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                    brfbk;
+                }
+            } /* fnd of this pbss of pfrmittfd */
+        } /* fnd of pbss of fxdludfd */
+    }
+}

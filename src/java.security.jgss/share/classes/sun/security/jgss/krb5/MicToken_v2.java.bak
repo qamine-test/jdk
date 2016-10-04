@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
 
 /**
- * This class represents the new format of GSS MIC tokens, as specified
+ * Tiis dlbss rfprfsfnts tif nfw formbt of GSS MIC tokfns, bs spfdififd
  * in RFC 4121
  *
- * MIC tokens = { 16-byte token-header |  HMAC }
- * where HMAC is on { plaintext | 16-byte token-header }
+ * MIC tokfns = { 16-bytf tokfn-ifbdfr |  HMAC }
+ * wifrf HMAC is on { plbintfxt | 16-bytf tokfn-ifbdfr }
  *
- * @author Seema Malkani
+ * @butior Sffmb Mblkbni
  */
 
-class MicToken_v2 extends MessageToken_v2 {
+dlbss MidTokfn_v2 fxtfnds MfssbgfTokfn_v2 {
 
-    public MicToken_v2(Krb5Context context,
-                  byte[] tokenBytes, int tokenOffset, int tokenLen,
-                  MessageProp prop)  throws GSSException {
-        super(Krb5Token.MIC_ID_v2, context,
-                tokenBytes, tokenOffset, tokenLen, prop);
+    publid MidTokfn_v2(Krb5Contfxt dontfxt,
+                  bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                  MfssbgfProp prop)  tirows GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt,
+                tokfnBytfs, tokfnOffsft, tokfnLfn, prop);
     }
 
-    public MicToken_v2(Krb5Context context, InputStream is, MessageProp prop)
-            throws GSSException {
-        super(Krb5Token.MIC_ID_v2, context, is, prop);
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, InputStrfbm is, MfssbgfProp prop)
+            tirows GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt, is, prop);
     }
 
-    public void verify(byte[] data, int offset, int len) throws GSSException {
-        if (!verifySign(data, offset, len))
-            throw new GSSException(GSSException.BAD_MIC, -1,
-                         "Corrupt checksum or sequence number in MIC token");
+    publid void vfrify(bytf[] dbtb, int offsft, int lfn) tirows GSSExdfption {
+        if (!vfrifySign(dbtb, offsft, lfn))
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt difdksum or sfqufndf numbfr in MIC tokfn");
     }
 
-    public void verify(InputStream data) throws GSSException {
-        byte[] dataBytes = null;
+    publid void vfrify(InputStrfbm dbtb) tirows GSSExdfption {
+        bytf[] dbtbBytfs = null;
         try {
-            dataBytes = new byte[data.available()];
-            data.read(dataBytes);
-        } catch (IOException e) {
-            // Error reading application data
-            throw new GSSException(GSSException.BAD_MIC, -1,
-                "Corrupt checksum or sequence number in MIC token");
+            dbtbBytfs = nfw bytf[dbtb.bvbilbblf()];
+            dbtb.rfbd(dbtbBytfs);
+        } dbtdi (IOExdfption f) {
+            // Error rfbding bpplidbtion dbtb
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                "Corrupt difdksum or sfqufndf numbfr in MIC tokfn");
         }
-        verify(dataBytes, 0, dataBytes.length);
+        vfrify(dbtbBytfs, 0, dbtbBytfs.lfngti);
     }
 
-    public MicToken_v2(Krb5Context context, MessageProp prop,
-                  byte[] data, int pos, int len)
-            throws GSSException {
-        super(Krb5Token.MIC_ID_v2, context);
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, MfssbgfProp prop,
+                  bytf[] dbtb, int pos, int lfn)
+            tirows GSSExdfption {
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt);
 
-        //      debug("Application data to MicToken verify is [" +
-        //            getHexBytes(data, pos, len) + "]\n");
-        if (prop == null) prop = new MessageProp(0, false);
-        genSignAndSeqNumber(prop, data, pos, len);
+        //      dfbug("Applidbtion dbtb to MidTokfn vfrify is [" +
+        //            gftHfxBytfs(dbtb, pos, lfn) + "]\n");
+        if (prop == null) prop = nfw MfssbgfProp(0, fblsf);
+        gfnSignAndSfqNumbfr(prop, dbtb, pos, lfn);
     }
 
-    public MicToken_v2(Krb5Context context, MessageProp prop, InputStream data)
-            throws GSSException, IOException {
+    publid MidTokfn_v2(Krb5Contfxt dontfxt, MfssbgfProp prop, InputStrfbm dbtb)
+            tirows GSSExdfption, IOExdfption {
 
-        super(Krb5Token.MIC_ID_v2, context);
-        byte[] dataBytes = new byte[data.available()];
-        data.read(dataBytes);
+        supfr(Krb5Tokfn.MIC_ID_v2, dontfxt);
+        bytf[] dbtbBytfs = nfw bytf[dbtb.bvbilbblf()];
+        dbtb.rfbd(dbtbBytfs);
 
-        // debug("Application data to MicToken cons is [" +
-        //     getHexBytes(dataBytes) + "]\n");
-        if (prop == null) prop = new MessageProp(0, false);
-        genSignAndSeqNumber(prop, dataBytes, 0, dataBytes.length);
+        // dfbug("Applidbtion dbtb to MidTokfn dons is [" +
+        //     gftHfxBytfs(dbtbBytfs) + "]\n");
+        if (prop == null) prop = nfw MfssbgfProp(0, fblsf);
+        gfnSignAndSfqNumbfr(prop, dbtbBytfs, 0, dbtbBytfs.lfngti);
     }
 
-    public byte[] encode() throws IOException {
-        // XXX Fine tune this initial size
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(50);
-        encode(bos);
-        return bos.toByteArray();
+    publid bytf[] fndodf() tirows IOExdfption {
+        // XXX Finf tunf tiis initibl sizf
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm(50);
+        fndodf(bos);
+        rfturn bos.toBytfArrby();
     }
 
-    public int encode(byte[] outToken, int offset) throws IOException {
-        byte[] token = encode();
-        System.arraycopy(token, 0, outToken, offset, token.length);
-        return token.length;
+    publid int fndodf(bytf[] outTokfn, int offsft) tirows IOExdfption {
+        bytf[] tokfn = fndodf();
+        Systfm.brrbydopy(tokfn, 0, outTokfn, offsft, tokfn.lfngti);
+        rfturn tokfn.lfngti;
     }
 
-    public void encode(OutputStream os) throws IOException {
-        encodeHeader(os);
-        os.write(checksum);
+    publid void fndodf(OutputStrfbm os) tirows IOExdfption {
+        fndodfHfbdfr(os);
+        os.writf(difdksum);
     }
 }

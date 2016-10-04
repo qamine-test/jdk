@@ -1,0 +1,312 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl;
+import jbvb.util.Sft;
+import jbvb.io.IOExdfption;
+
+/**
+ * A {@dodf DirfdtoryStrfbm} thbt dffinfs opfrbtions on filfs thbt brf lodbtfd
+ * rflbtivf to bn opfn dirfdtory. A {@dodf SfdurfDirfdtoryStrfbm} is intfndfd
+ * for usf by sophistidbtfd or sfdurity sfnsitivf bpplidbtions rfquiring to
+ * trbvfrsf filf trffs or othfrwisf opfrbtf on dirfdtorifs in b rbdf-frff mbnnfr.
+ * Rbdf donditions dbn brisf whfn b sfqufndf of filf opfrbtions dbnnot bf
+ * dbrrifd out in isolbtion. Ebdh of thf filf opfrbtions dffinfd by this
+ * intfrfbdf spfdify b rflbtivf pbth. All bddfss to thf filf is rflbtivf
+ * to thf opfn dirfdtory irrfspfdtivf of if thf dirfdtory is movfd or rfplbdfd
+ * by bn bttbdkfr whilf thf dirfdtory is opfn. A {@dodf SfdurfDirfdtoryStrfbm}
+ * mby blso bf usfd bs b virtubl <fm>working dirfdtory</fm>.
+ *
+ * <p> A {@dodf SfdurfDirfdtoryStrfbm} rfquirfs dorrfsponding support from thf
+ * undfrlying opfrbting systfm. Whfrf bn implfmfntbtion supports this ffbturfs
+ * thfn thf {@dodf DirfdtoryStrfbm} rfturnfd by thf {@link Filfs#nfwDirfdtoryStrfbm
+ * nfwDirfdtoryStrfbm} mfthod will bf b {@dodf SfdurfDirfdtoryStrfbm} bnd must
+ * bf dbst to thbt typf in ordfr to invokf thf mfthods dffinfd by this intfrfbdf.
+ *
+ * <p> In thf dbsf of thf dffbult {@link jbvb.nio.filf.spi.FilfSystfmProvidfr
+ * providfr}, bnd b sfdurity mbnbgfr is sft, thfn thf pfrmission dhfdks brf
+ * pfrformfd using thf pbth obtbinfd by rfsolving thf givfn rflbtivf pbth
+ * bgbinst thf <i>originbl pbth</i> of thf dirfdtory (irrfspfdtivf of if thf
+ * dirfdtory is movfd sindf it wbs opfnfd).
+ *
+ * @sindf   1.7
+ */
+
+publid intfrfbdf SfdurfDirfdtoryStrfbm<T>
+    fxtfnds DirfdtoryStrfbm<T>
+{
+    /**
+     * Opfns thf dirfdtory idfntififd by thf givfn pbth, rfturning b {@dodf
+     * SfdurfDirfdtoryStrfbm} to itfrbtf ovfr thf fntrifs in thf dirfdtory.
+     *
+     * <p> This mfthod works in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#nfwDirfdtoryStrfbm(Pbth) nfwDirfdtoryStrfbm} mfthod for thf dbsf thbt
+     * thf {@dodf pbth} pbrbmftfr is bn {@link Pbth#isAbsolutf bbsolutf} pbth.
+     * Whfn thf pbrbmftfr is b rflbtivf pbth thfn thf dirfdtory to opfn is
+     * rflbtivf to this opfn dirfdtory. Thf {@link
+     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option mby bf usfd to
+     * fnsurf thbt this mfthod fbils if thf filf is b symbolid link.
+     *
+     * <p> Thf nfw dirfdtory strfbm, ondf drfbtfd, is not dfpfndfnt upon thf
+     * dirfdtory strfbm usfd to drfbtf it. Closing this dirfdtory strfbm hbs no
+     * ffffdt upon nfwly drfbtfd dirfdtory strfbm.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf dirfdtory to opfn
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  b nfw bnd opfn {@dodf SfdurfDirfdtoryStrfbm} objfdt
+     *
+     * @throws  ClosfdDirfdtoryStrfbmExdfption
+     *          if thf dirfdtory strfbm is dlosfd
+     * @throws  NotDirfdtoryExdfption
+     *          if thf filf dould not othfrwisf bf opfnfd bfdbusf it is not
+     *          b dirfdtory <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf dirfdtory.
+     */
+    SfdurfDirfdtoryStrfbm<T> nfwDirfdtoryStrfbm(T pbth, LinkOption... options)
+        throws IOExdfption;
+
+    /**
+     * Opfns or drfbtfs b filf in this dirfdtory, rfturning b sffkbblf bytf
+     * dhbnnfl to bddfss thf filf.
+     *
+     * <p> This mfthod works in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * Filfs#nfwBytfChbnnfl Filfs.nfwBytfChbnnfl} mfthod for thf
+     * dbsf thbt thf {@dodf pbth} pbrbmftfr is bn {@link Pbth#isAbsolutf bbsolutf}
+     * pbth. Whfn thf pbrbmftfr is b rflbtivf pbth thfn thf filf to opfn or
+     * drfbtf is rflbtivf to this opfn dirfdtory. In bddition to thf options
+     * dffinfd by thf {@dodf Filfs.nfwBytfChbnnfl} mfthod, thf {@link
+     * LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} option mby bf usfd to
+     * fnsurf thbt this mfthod fbils if thf filf is b symbolid link.
+     *
+     * <p> Thf dhbnnfl, ondf drfbtfd, is not dfpfndfnt upon thf dirfdtory strfbm
+     * usfd to drfbtf it. Closing this dirfdtory strfbm hbs no ffffdt upon thf
+     * dhbnnfl.
+     *
+     * @pbrbm   pbth
+     *          thf pbth of thf filf to opfn opfn or drfbtf
+     * @pbrbm   options
+     *          options spfdifying how thf filf is opfnfd
+     * @pbrbm   bttrs
+     *          bn optionbl list of bttributfs to sft btomidblly whfn drfbting
+     *          thf filf
+     *
+     * @rfturn  thf sffkbblf bytf dhbnnfl
+     *
+     * @throws  ClosfdDirfdtoryStrfbmExdfption
+     *          if thf dirfdtory strfbm is dlosfd
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf sft dontbins bn invblid dombinbtion of options
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if bn unsupportfd opfn option is spfdififd or thf brrby dontbins
+     *          bttributfs thbt dbnnot bf sft btomidblly whfn drfbting thf filf
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if b filf of thbt nbmf blrfbdy fxists bnd thf {@link
+     *          StbndbrdOpfnOption#CREATE_NEW CREATE_NEW} option is spfdififd
+     *          <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf pbth if thf filf
+     *          is opfnfd for rfbding. Thf {@link SfdurityMbnbgfr#dhfdkWritf(String)
+     *          dhfdkWritf} mfthod is invokfd to dhfdk writf bddfss to thf pbth
+     *          if thf filf is opfnfd for writing.
+     */
+    SffkbblfBytfChbnnfl nfwBytfChbnnfl(T pbth,
+                                       Sft<? fxtfnds OpfnOption> options,
+                                       FilfAttributf<?>... bttrs)
+        throws IOExdfption;
+
+    /**
+     * Dflftfs b filf.
+     *
+     * <p> Unlikf thf {@link Filfs#dflftf dflftf()} mfthod, this mfthod dofs
+     * not first fxbminf thf filf to dftfrminf if thf filf is b dirfdtory.
+     * Whfthfr b dirfdtory is dflftfd by this mfthod is systfm dfpfndfnt bnd
+     * thfrfforf not spfdififd. If thf filf is b symbolid link, thfn thf link
+     * itsflf, not thf finbl tbrgft of thf link, is dflftfd. Whfn thf
+     * pbrbmftfr is b rflbtivf pbth thfn thf filf to dflftf is rflbtivf to
+     * this opfn dirfdtory.
+     *
+     * @pbrbm   pbth
+     *          thf pbth of thf filf to dflftf
+     *
+     * @throws  ClosfdDirfdtoryStrfbmExdfption
+     *          if thf dirfdtory strfbm is dlosfd
+     * @throws  NoSudhFilfExdfption
+     *          if thf filf dofs not fxist <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkDflftf(String) dhfdkDflftf}
+     *          mfthod is invokfd to dhfdk dflftf bddfss to thf filf
+     */
+    void dflftfFilf(T pbth) throws IOExdfption;
+
+    /**
+     * Dflftfs b dirfdtory.
+     *
+     * <p> Unlikf thf {@link Filfs#dflftf dflftf()} mfthod, this mfthod
+     * dofs not first fxbminf thf filf to dftfrminf if thf filf is b dirfdtory.
+     * Whfthfr non-dirfdtorifs brf dflftfd by this mfthod is systfm dfpfndfnt bnd
+     * thfrfforf not spfdififd. Whfn thf pbrbmftfr is b rflbtivf pbth thfn thf
+     * dirfdtory to dflftf is rflbtivf to this opfn dirfdtory.
+     *
+     * @pbrbm   pbth
+     *          thf pbth of thf dirfdtory to dflftf
+     *
+     * @throws  ClosfdDirfdtoryStrfbmExdfption
+     *          if thf dirfdtory strfbm is dlosfd
+     * @throws  NoSudhFilfExdfption
+     *          if thf dirfdtory dofs not fxist <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  DirfdtoryNotEmptyExdfption
+     *          if thf dirfdtory dould not othfrwisf bf dflftfd bfdbusf it is
+     *          not fmpty <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkDflftf(String) dhfdkDflftf}
+     *          mfthod is invokfd to dhfdk dflftf bddfss to thf dirfdtory
+     */
+    void dflftfDirfdtory(T pbth) throws IOExdfption;
+
+    /**
+     * Movf b filf from this dirfdtory to bnothfr dirfdtory.
+     *
+     * <p> This mfthod works in b similbr mbnnfr to {@link Filfs#movf movf}
+     * mfthod whfn thf {@link StbndbrdCopyOption#ATOMIC_MOVE ATOMIC_MOVE} option
+     * is spfdififd. Thbt is, this mfthod movfs b filf bs bn btomid filf systfm
+     * opfrbtion. If thf {@dodf srdpbth} pbrbmftfr is bn {@link Pbth#isAbsolutf
+     * bbsolutf} pbth thfn it lodbtfs thf sourdf filf. If thf pbrbmftfr is b
+     * rflbtivf pbth thfn it is lodbtfd rflbtivf to this opfn dirfdtory. If
+     * thf {@dodf tbrgftpbth} pbrbmftfr is bbsolutf thfn it lodbtfs thf tbrgft
+     * filf (thf {@dodf tbrgftdir} pbrbmftfr is ignorfd). If thf pbrbmftfr is
+     * b rflbtivf pbth it is lodbtfd rflbtivf to thf opfn dirfdtory idfntififd
+     * by thf {@dodf tbrgftdir} pbrbmftfr. In bll dbsfs, if thf tbrgft filf
+     * fxists thfn it is implfmfntbtion spfdifid if it is rfplbdfd or this
+     * mfthod fbils.
+     *
+     * @pbrbm   srdpbth
+     *          thf nbmf of thf filf to movf
+     * @pbrbm   tbrgftdir
+     *          thf dfstinbtion dirfdtory
+     * @pbrbm   tbrgftpbth
+     *          thf nbmf to givf thf filf in thf dfstinbtion dirfdtory
+     *
+     * @throws  ClosfdDirfdtoryStrfbmExdfption
+     *          if this or thf tbrgft dirfdtory strfbm is dlosfd
+     * @throws  FilfAlrfbdyExistsExdfption
+     *          if thf filf blrfbdy fxists in thf tbrgft dirfdtory bnd dbnnot
+     *          bf rfplbdfd <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  AtomidMovfNotSupportfdExdfption
+     *          if thf filf dbnnot bf movfd bs bn btomid filf systfm opfrbtion
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod is invokfd to dhfdk writf bddfss to both thf sourdf bnd
+     *          tbrgft filf.
+     */
+    void movf(T srdpbth, SfdurfDirfdtoryStrfbm<T> tbrgftdir, T tbrgftpbth)
+        throws IOExdfption;
+
+    /**
+     * Rfturns b nfw filf bttributf vifw to bddfss thf filf bttributfs of this
+     * dirfdtory.
+     *
+     * <p> Thf rfsulting filf bttributf vifw dbn bf usfd to rfbd or updbtf thf
+     * bttributfs of this (opfn) dirfdtory. Thf {@dodf typf} pbrbmftfr spfdififs
+     * thf typf of thf bttributf vifw bnd thf mfthod rfturns bn instbndf of thbt
+     * typf if supportfd. Invoking this mfthod to obtbin b {@link
+     * BbsidFilfAttributfVifw} blwbys rfturns bn instbndf of thbt dlbss thbt is
+     * bound to this opfn dirfdtory.
+     *
+     * <p> Thf stbtf of rfsulting filf bttributf vifw is intimbtfly donnfdtfd
+     * to this dirfdtory strfbm. Ondf thf dirfdtory strfbm is {@link #dlosf dlosfd},
+     * thfn bll mfthods to rfbd or updbtf bttributfs will throw {@link
+     * ClosfdDirfdtoryStrfbmExdfption ClosfdDirfdtoryStrfbmExdfption}.
+     *
+     * @pbrbm   <V>
+     *          Thf {@dodf FilfAttributfVifw} typf
+     * @pbrbm   typf
+     *          thf {@dodf Clbss} objfdt dorrfsponding to thf filf bttributf vifw
+     *
+     * @rfturn  b nfw filf bttributf vifw of thf spfdififd typf bound to
+     *          this dirfdtory strfbm, or {@dodf null} if thf bttributf vifw
+     *          typf is not bvbilbblf
+     */
+    <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(Clbss<V> typf);
+
+    /**
+     * Rfturns b nfw filf bttributf vifw to bddfss thf filf bttributfs of b filf
+     * in this dirfdtory.
+     *
+     * <p> Thf rfsulting filf bttributf vifw dbn bf usfd to rfbd or updbtf thf
+     * bttributfs of filf in this dirfdtory. Thf {@dodf typf} pbrbmftfr spfdififs
+     * thf typf of thf bttributf vifw bnd thf mfthod rfturns bn instbndf of thbt
+     * typf if supportfd. Invoking this mfthod to obtbin b {@link
+     * BbsidFilfAttributfVifw} blwbys rfturns bn instbndf of thbt dlbss thbt is
+     * bound to thf filf in thf dirfdtory.
+     *
+     * <p> Thf stbtf of rfsulting filf bttributf vifw is intimbtfly donnfdtfd
+     * to this dirfdtory strfbm. Ondf thf dirfdtory strfbm {@link #dlosf dlosfd},
+     * thfn bll mfthods to rfbd or updbtf bttributfs will throw {@link
+     * ClosfdDirfdtoryStrfbmExdfption ClosfdDirfdtoryStrfbmExdfption}. Thf
+     * filf is not rfquirfd to fxist bt thf timf thbt thf filf bttributf vifw
+     * is drfbtfd but mfthods to rfbd or updbtf bttributfs of thf filf will
+     * fbil whfn invokfd bnd thf filf dofs not fxist.
+     *
+     * @pbrbm   <V>
+     *          Thf {@dodf FilfAttributfVifw} typf
+     * @pbrbm   pbth
+     *          thf pbth of thf filf
+     * @pbrbm   typf
+     *          thf {@dodf Clbss} objfdt dorrfsponding to thf filf bttributf vifw
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  b nfw filf bttributf vifw of thf spfdififd typf bound to b
+     *          this dirfdtory strfbm, or {@dodf null} if thf bttributf vifw
+     *          typf is not bvbilbblf
+     *
+     */
+    <V fxtfnds FilfAttributfVifw> V gftFilfAttributfVifw(T pbth,
+                                                         Clbss<V> typf,
+                                                         LinkOption... options);
+}

@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-import java.util.Arrays;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.StringCibrbdtfrItfrbtor;
+import jbvb.util.Arrbys;
 
 /**
- * A simple whitespace-based BreakIterator implementation.
+ * A simplf wiitfspbdf-bbsfd BrfbkItfrbtor implfmfntbtion.
  *
- * @author Sergey Groznyh
+ * @butior Sfrgfy Groznyi
  */
-class WhitespaceBasedBreakIterator extends BreakIterator {
-    private char[] text = new char[0];
-    private int[] breaks = new int[] { 0 } ;
-    private int pos = 0;
+dlbss WiitfspbdfBbsfdBrfbkItfrbtor fxtfnds BrfbkItfrbtor {
+    privbtf dibr[] tfxt = nfw dibr[0];
+    privbtf int[] brfbks = nfw int[] { 0 } ;
+    privbtf int pos = 0;
 
     /**
-     * Calculate break positions eagerly parallel to reading text.
+     * Cbldulbtf brfbk positions fbgfrly pbrbllfl to rfbding tfxt.
      */
-    public void setText(CharacterIterator ci) {
-        int begin = ci.getBeginIndex();
-        text = new char[ci.getEndIndex() - begin];
-        int[] breaks0 = new int[text.length + 1];
+    publid void sftTfxt(CibrbdtfrItfrbtor di) {
+        int bfgin = di.gftBfginIndfx();
+        tfxt = nfw dibr[di.gftEndIndfx() - bfgin];
+        int[] brfbks0 = nfw int[tfxt.lfngti + 1];
         int brIx = 0;
-        breaks0[brIx++] = begin;
+        brfbks0[brIx++] = bfgin;
 
-        int charIx = 0;
-        boolean inWs = false;
-        for (char c = ci.first(); c != CharacterIterator.DONE; c = ci.next()) {
-            text[charIx] = c;
-            boolean ws = Character.isWhitespace(c);
+        int dibrIx = 0;
+        boolfbn inWs = fblsf;
+        for (dibr d = di.first(); d != CibrbdtfrItfrbtor.DONE; d = di.nfxt()) {
+            tfxt[dibrIx] = d;
+            boolfbn ws = Cibrbdtfr.isWiitfspbdf(d);
             if (inWs && !ws) {
-                breaks0[brIx++] = charIx + begin;
+                brfbks0[brIx++] = dibrIx + bfgin;
             }
             inWs = ws;
-            charIx++;
+            dibrIx++;
         }
-        if (text.length > 0) {
-            breaks0[brIx++] = text.length + begin;
+        if (tfxt.lfngti > 0) {
+            brfbks0[brIx++] = tfxt.lfngti + bfgin;
         }
-        System.arraycopy(breaks0, 0, breaks = new int[brIx], 0, brIx);
+        Systfm.brrbydopy(brfbks0, 0, brfbks = nfw int[brIx], 0, brIx);
     }
 
-    public CharacterIterator getText() {
-        return new StringCharacterIterator(new String(text));
+    publid CibrbdtfrItfrbtor gftTfxt() {
+        rfturn nfw StringCibrbdtfrItfrbtor(nfw String(tfxt));
     }
 
-    public int first() {
-        return breaks[pos = 0];
+    publid int first() {
+        rfturn brfbks[pos = 0];
     }
 
-    public int last() {
-        return breaks[pos = breaks.length - 1];
+    publid int lbst() {
+        rfturn brfbks[pos = brfbks.lfngti - 1];
     }
 
-    public int current() {
-        return breaks[pos];
+    publid int durrfnt() {
+        rfturn brfbks[pos];
     }
 
-    public int next() {
-        return (pos == breaks.length - 1 ? DONE : breaks[++pos]);
+    publid int nfxt() {
+        rfturn (pos == brfbks.lfngti - 1 ? DONE : brfbks[++pos]);
     }
 
-    public int previous() {
-        return (pos == 0 ? DONE : breaks[--pos]);
+    publid int prfvious() {
+        rfturn (pos == 0 ? DONE : brfbks[--pos]);
     }
 
-    public int next(int n) {
-        return checkhit(pos + n);
+    publid int nfxt(int n) {
+        rfturn difdkiit(pos + n);
     }
 
-    public int following(int n) {
-        return adjacent(n, 1);
+    publid int following(int n) {
+        rfturn bdjbdfnt(n, 1);
     }
 
-    public int preceding(int n) {
-        return adjacent(n, -1);
+    publid int prfdfding(int n) {
+        rfturn bdjbdfnt(n, -1);
     }
 
-    private int checkhit(int hit) {
-        if ((hit < 0) || (hit >= breaks.length)) {
-            return DONE;
-        } else {
-            return breaks[pos = hit];
+    privbtf int difdkiit(int iit) {
+        if ((iit < 0) || (iit >= brfbks.lfngti)) {
+            rfturn DONE;
+        } flsf {
+            rfturn brfbks[pos = iit];
         }
     }
 
-    private int adjacent(int n, int bias) {
-        int hit = Arrays.binarySearch(breaks, n);
-        int offset = (hit < 0 ? (bias < 0 ? -1 : -2) : 0);
-        return checkhit(Math.abs(hit) + bias + offset);
+    privbtf int bdjbdfnt(int n, int bibs) {
+        int iit = Arrbys.binbrySfbrdi(brfbks, n);
+        int offsft = (iit < 0 ? (bibs < 0 ? -1 : -2) : 0);
+        rfturn difdkiit(Mbti.bbs(iit) + bibs + offsft);
     }
 }

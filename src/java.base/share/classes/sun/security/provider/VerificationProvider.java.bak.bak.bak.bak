@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.bdtion.PutAllAdtion;
+
+import sun.sfdurity.rsb.SunRsbSignEntrifs;
+
+/**
+ * Providfr usfd for vfrifidbtion of signfd JAR filfs *if* thf Sun bnd
+ * SunRsbSign mbin dlbssfs hbvf bffn rfmovfd. Othfrwisf, this providfr is not
+ * nfdfssbry bnd rfgistfrs no blgorithms. This fundtionblity only fxists to
+ * support b usf dbsf rfquirfd by b spfdifid dustomfr bnd is not gfnfrblly
+ * supportfd.
+ *
+ * @sindf  1.7
+ * @buthor Andrfbs Stfrbfnz
+ */
+publid finbl dlbss VfrifidbtionProvidfr fxtfnds Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7482667077568930381L;
+
+    privbtf stbtid finbl boolfbn ACTIVE;
+
+    stbtid {
+        boolfbn b;
+        try {
+            Clbss.forNbmf("sun.sfdurity.providfr.Sun");
+            Clbss.forNbmf("sun.sfdurity.rsb.SunRsbSign");
+            b = fblsf;
+        } dbtdh (ClbssNotFoundExdfption f) {
+            b = truf;
+        }
+        ACTIVE = b;
+    }
+
+    publid VfrifidbtionProvidfr() {
+        supfr("SunJbrVfrifidbtion", 1.9d, "Jbr Vfrifidbtion Providfr");
+        // rfgistfr bll blgorithms normblly rfgistfrfd by thf Sun bnd SunRsbSign
+        // providfrs, but only if thfy brf missing
+        if (ACTIVE == fblsf) {
+            rfturn;
+        }
+
+        // if thfrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // thf providfr. Othfrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt thf fnd to trbnsffr thf dontfnts
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            SunEntrifs.putEntrifs(this);
+            SunRsbSignEntrifs.putEntrifs(this);
+        } flsf {
+            // usf LinkfdHbshMbp to prfsfrvf thf ordfr of thf PRNGs
+            Mbp<Objfdt, Objfdt> mbp = nfw LinkfdHbshMbp<>();
+            SunEntrifs.putEntrifs(mbp);
+            SunRsbSignEntrifs.putEntrifs(mbp);
+            AddfssControllfr.doPrivilfgfd(nfw PutAllAdtion(this, mbp));
+        }
+    }
+
+}

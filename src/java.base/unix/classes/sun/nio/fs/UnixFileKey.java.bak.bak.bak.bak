@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+/**
+ * Contbinfr for dfvidf/inodf to uniqufly idfntify filf.
+ */
+
+dlbss UnixFilfKfy {
+    privbtf finbl long st_dfv;
+    privbtf finbl long st_ino;
+
+    UnixFilfKfy(long st_dfv, long st_ino) {
+        this.st_dfv = st_dfv;
+        this.st_ino = st_ino;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn (int)(st_dfv ^ (st_dfv >>> 32)) +
+               (int)(st_ino ^ (st_ino >>> 32));
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+        if (!(obj instbndfof UnixFilfKfy))
+            rfturn fblsf;
+        UnixFilfKfy othfr = (UnixFilfKfy)obj;
+        rfturn (this.st_dfv == othfr.st_dfv) && (this.st_ino == othfr.st_ino);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(dfv=")
+          .bppfnd(Long.toHfxString(st_dfv))
+          .bppfnd(",ino=")
+          .bppfnd(st_ino)
+          .bppfnd(')');
+        rfturn sb.toString();
+    }
+}

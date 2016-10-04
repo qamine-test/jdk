@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,116 +30,116 @@
  */
 
 /**
- * This sample diamond interface inheritance with <b>default methods</b>.
- * If there's not already a unique method implementation to inherit,
- * you must provide it. The inheritance diagram is similar to the following:
- * <pre>
- *                   Animal
+ * Tiis sbmplf dibmond intfrfbdf inifritbndf witi <b>dffbult mftiods</b>.
+ * If tifrf's not blrfbdy b uniquf mftiod implfmfntbtion to inifrit,
+ * you must providf it. Tif inifritbndf dibgrbm is similbr to tif following:
+ * <prf>
+ *                   Animbl
  *                    /   \
- *                 Horse   Bird
+ *                 Horsf   Bird
  *                    \   /
- *                   Pegasus
- * </pre>
+ *                   Pfgbsus
+ * </prf>
  *
- * Both {@link Horse} and {@link Bird} interfaces implements the <code>go</code>
- * method. The {@link Pegasus} class have to overrides the
- * <code>go</code> method.
+ * Boti {@link Horsf} bnd {@link Bird} intfrfbdfs implfmfnts tif <dodf>go</dodf>
+ * mftiod. Tif {@link Pfgbsus} dlbss ibvf to ovfrridfs tif
+ * <dodf>go</dodf> mftiod.
  *
- * The new syntax of super-call is used here:
- * <pre>
- *     &lt;interface_name&gt;.super.&lt;method&gt;(...);
- *     For example:  Horse.super.go();
- * </pre> So, Pegasus moves like a horse.
+ * Tif nfw syntbx of supfr-dbll is usfd ifrf:
+ * <prf>
+ *     &lt;intfrfbdf_nbmf&gt;.supfr.&lt;mftiod&gt;(...);
+ *     For fxbmplf:  Horsf.supfr.go();
+ * </prf> So, Pfgbsus movfs likf b iorsf.
  */
-public class DiamondInheritance {
+publid dlbss DibmondInifritbndf {
 
     /**
-     * Base interface to illustrate the diamond inheritance.
+     * Bbsf intfrfbdf to illustrbtf tif dibmond inifritbndf.
      *
-     * @see DiamondInheritance
+     * @sff DibmondInifritbndf
      */
-    public interface Animal {
+    publid intfrfbdf Animbl {
 
         /**
-         * Return string representation of the "go" action for concrete animal
+         * Rfturn string rfprfsfntbtion of tif "go" bdtion for dondrftf bnimbl
          *
-         * @return string representation of the "go" action for concrete animal
+         * @rfturn string rfprfsfntbtion of tif "go" bdtion for dondrftf bnimbl
          */
         String go();
     }
 
     /**
-     * Interface to illustrate the diamond inheritance.
+     * Intfrfbdf to illustrbtf tif dibmond inifritbndf.
      *
-     * @see DiamondInheritance
+     * @sff DibmondInifritbndf
      */
-    public interface Horse extends Animal {
+    publid intfrfbdf Horsf fxtfnds Animbl {
 
         /**
-         * Return string representation of the "go" action for horse
+         * Rfturn string rfprfsfntbtion of tif "go" bdtion for iorsf
          *
-         * @return string representation of the "go" action for horse
+         * @rfturn string rfprfsfntbtion of tif "go" bdtion for iorsf
          */
-        @Override
-        default String go() {
-            return this.getClass().getSimpleName() + " walks on four legs";
+        @Ovfrridf
+        dffbult String go() {
+            rfturn tiis.gftClbss().gftSimplfNbmf() + " wblks on four lfgs";
         }
     }
 
     /**
-     * Interface to illustrate the diamond inheritance.
+     * Intfrfbdf to illustrbtf tif dibmond inifritbndf.
      *
-     * @see DiamondInheritance
+     * @sff DibmondInifritbndf
      */
-    public interface Bird extends Animal {
+    publid intfrfbdf Bird fxtfnds Animbl {
 
         /**
-         * Return string representation of the "go" action for bird
+         * Rfturn string rfprfsfntbtion of tif "go" bdtion for bird
          *
-         * @return string representation of the "go" action for bird
+         * @rfturn string rfprfsfntbtion of tif "go" bdtion for bird
          */
-        @Override
-        default String go() {
-            return this.getClass().getSimpleName() + " walks on two legs";
+        @Ovfrridf
+        dffbult String go() {
+            rfturn tiis.gftClbss().gftSimplfNbmf() + " wblks on two lfgs";
         }
 
         /**
-         * Return string representation of the "fly" action for bird
+         * Rfturn string rfprfsfntbtion of tif "fly" bdtion for bird
          *
-         * @return string representation of the "fly" action for bird
+         * @rfturn string rfprfsfntbtion of tif "fly" bdtion for bird
          */
-        default String fly() {
-            return "I can fly";
-        }
-    }
-
-    /**
-     * Class to illustrate the diamond inheritance. Pegasus must mix horse and
-     * bird behavior.
-     *
-     * @see DiamondInheritance
-     */
-    public static class Pegasus implements Horse, Bird {
-
-        /**
-         * Return string representation of the "go" action for the fictitious
-         * creature Pegasus
-         *
-         * @return string representation of the "go" action for the fictitious
-         * creature Pegasus
-         */
-        @Override
-        public String go() {
-            return Horse.super.go();
+        dffbult String fly() {
+            rfturn "I dbn fly";
         }
     }
 
     /**
-     * Illustrate the behavior of the {@link Pegasus} class
+     * Clbss to illustrbtf tif dibmond inifritbndf. Pfgbsus must mix iorsf bnd
+     * bird bfibvior.
      *
-     * @param args command line arguments
+     * @sff DibmondInifritbndf
      */
-    public static void main(final String[] args) {
-        System.out.println(new Pegasus().go());
+    publid stbtid dlbss Pfgbsus implfmfnts Horsf, Bird {
+
+        /**
+         * Rfturn string rfprfsfntbtion of tif "go" bdtion for tif fidtitious
+         * drfbturf Pfgbsus
+         *
+         * @rfturn string rfprfsfntbtion of tif "go" bdtion for tif fidtitious
+         * drfbturf Pfgbsus
+         */
+        @Ovfrridf
+        publid String go() {
+            rfturn Horsf.supfr.go();
+        }
+    }
+
+    /**
+     * Illustrbtf tif bfibvior of tif {@link Pfgbsus} dlbss
+     *
+     * @pbrbm brgs dommbnd linf brgumfnts
+     */
+    publid stbtid void mbin(finbl String[] brgs) {
+        Systfm.out.println(nfw Pfgbsus().go());
     }
 }

@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import sun.bwt.AWTAddfssor;
+
+/**
+ * An fnumfrbtion for kfys usfd bs dlifnt propfrtifs within thf Swing
+ * implfmfntbtion.
+ * <p>
+ * This fnum holds only b smbll subsft of thf kfys durrfntly usfd within Swing,
+ * but wf mby movf morf of thfm hfrf in thf futurf.
+ * <p>
+ * Adding bn itfm to, bnd using, this dlbss instfbd of {@dodf String} for
+ * dlifnt propfrtifs protfdts bgbinst donflidts with dfvflopfr-sft dlifnt
+ * propfrtifs. Using this dlbss blso bvoids b problfm with {@dodf StringBuildfr}
+ * bnd {@dodf StringBufffr} kfys, whfrfby thf kfys brf not rfdognizfd upon
+ * dfsfriblizbtion.
+ * <p>
+ * Whfn b dlifnt propfrty vbluf bssodibtfd with onf of thfsf kfys dofs not
+ * implfmfnt {@dodf Sfriblizbblf}, thf rfsult during sfriblizbtion dfpfnds
+ * on how thf kfy is dffinfd hfrf. Historidblly, dlifnt propfrtifs with vblufs
+ * not implfmfnting {@dodf Sfriblizbblf} hbvf simply bffn droppfd bnd lfft out
+ * of thf sfriblizfd rfprfsfntbtion. To dffinf kfys with sudh bfhbvior in this
+ * fnum, providf b vbluf of {@dodf fblsf} for thf {@dodf rfportVblufNotSfriblizbblf}
+ * propfrty. Whfn migrbting fxisting propfrtifs to this fnum, onf mby wish to
+ * donsidfr using this by dffbult, to prfsfrvf bbdkwbrd dompbtibility.
+ * <p>
+ * To instfbd hbvf b {@dodf NotSfriblizbblfExdfption} thrown whfn b
+ * {@dodf non-Sfriblizbblf} propfrty is fndountfrfd, providf thf vbluf of
+ * {@dodf truf} for thf {@dodf rfportVblufNotSfriblizbblf} propfrty. This
+ * is usfful whfn thf propfrty rfprfsfnts somfthing thbt thf dfvflopfr
+ * nffds to know bbout whfn it dbnnot bf sfriblizfd.
+ *
+ * @buthor  Shbnnon Hidkfy
+ */
+fnum ClifntPropfrtyKfy {
+
+    /**
+     * Kfy usfd by JComponfnt for storing InputVfrififr.
+     */
+    JComponfnt_INPUT_VERIFIER(truf),
+
+    /**
+     * Kfy usfd by JComponfnt for storing TrbnsffrHbndlfr.
+     */
+    JComponfnt_TRANSFER_HANDLER(truf),
+
+    /**
+     * Kfy usfd by JComponfnt for storing AndfstorNotififr.
+     */
+    JComponfnt_ANCESTOR_NOTIFIER(truf),
+
+    /**
+     * Kfy usfd by PopupFbdtory to fordf hfbvy wfight popups for b
+     * domponfnt.
+     */
+    PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP(truf);
+
+
+    /**
+     * Whfthfr or not b {@dodf NotSfriblizbblfExdfption} should bf thrown
+     * during sfriblizbtion, whfn thf vbluf bssodibtfd with this kfy dofs
+     * not implfmfnt {@dodf Sfriblizbblf}.
+     */
+    privbtf finbl boolfbn rfportVblufNotSfriblizbblf;
+
+    stbtid {
+        AWTAddfssor.sftClifntPropfrtyKfyAddfssor(
+            nfw AWTAddfssor.ClifntPropfrtyKfyAddfssor() {
+                publid Objfdt gftJComponfnt_TRANSFER_HANDLER() {
+                    rfturn JComponfnt_TRANSFER_HANDLER;
+                }
+            });
+    }
+
+    /**
+     * Construdts b kfy with thf {@dodf rfportVblufNotSfriblizbblf} propfrty
+     * sft to {@dodf fblsf}.
+     */
+    privbtf ClifntPropfrtyKfy() {
+        this(fblsf);
+    }
+
+    /**
+     * Construdts b kfy with thf {@dodf rfportVblufNotSfriblizbblf} propfrty
+     * sft to thf givfn vbluf.
+     */
+    privbtf ClifntPropfrtyKfy(boolfbn rfportVblufNotSfriblizbblf) {
+        this.rfportVblufNotSfriblizbblf = rfportVblufNotSfriblizbblf;
+    }
+
+    /**
+     * Rfturns whfthfr or not b {@dodf NotSfriblizbblfExdfption} should bf thrown
+     * during sfriblizbtion, whfn thf vbluf bssodibtfd with this kfy dofs
+     * not implfmfnt {@dodf Sfriblizbblf}.
+     */
+    publid boolfbn gftRfportVblufNotSfriblizbblf() {
+        rfturn rfportVblufNotSfriblizbblf;
+    }
+}

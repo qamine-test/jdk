@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http.ntlm;
+
+import dom.sun.sfdurity.ntlm.Clifnt;
+import dom.sun.sfdurity.ntlm.NTLMExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.PbsswordAuthfntidbtion;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.URL;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.util.Bbsf64;
+
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.nft.www.protodol.http.AuthfntidbtionInfo;
+import sun.nft.www.protodol.http.AuthSdhfmf;
+import sun.nft.www.protodol.http.HttpURLConnfdtion;
+
+/**
+ * NTLMAuthfntidbtion:
+ *
+ * @buthor Midhbfl MdMbhon
+ */
+
+/*
+ * NTLM buthfntidbtion is nominblly bbsfd on thf frbmfwork dffinfd in RFC2617,
+ * but difffrs from thf stbndbrd (Bbsid & Digfst) sdhfmfs bs follows:
+ *
+ * 1. A domplftf buthfntidbtion rfquirfs thrff rfqufst/rfsponsf trbnsbdtions
+ *    bs shown bflow:
+ *            REQ ------------------------------->
+ *            <---- 401 (signblling NTLM) --------
+ *
+ *            REQ (with typf1 NTLM msg) --------->
+ *            <---- 401 (with typf 2 NTLM msg) ---
+ *
+ *            REQ (with typf3 NTLM msg) --------->
+ *            <---- OK ---------------------------
+ *
+ * 2. Thf sdopf of thf buthfntidbtion is thf TCP donnfdtion (whidh must bf kfpt-blivf)
+ *    bftfr thf typf2 rfsponsf is rfdfivfd. This mfbns thbt NTLM dofs not work fnd-to-fnd
+ *    through b proxy, rbthfr bftwffn dlifnt bnd proxy, or bftwffn dlifnt bnd sfrvfr (with no proxy)
+ */
+
+publid dlbss NTLMAuthfntidbtion fxtfnds AuthfntidbtionInfo {
+    privbtf stbtid finbl long sfriblVfrsionUID = 170L;
+
+    privbtf stbtid finbl NTLMAuthfntidbtionCbllbbdk NTLMAuthCbllbbdk =
+        NTLMAuthfntidbtionCbllbbdk.gftNTLMAuthfntidbtionCbllbbdk();
+
+    privbtf String hostnbmf;
+    privbtf stbtid String dffbultDombin; /* Dombin to usf if not spfdififd by usfr */
+
+    stbtid {
+        dffbultDombin = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("http.buth.ntlm.dombin", ""));
+    };
+
+    publid stbtid boolfbn supportsTrbnspbrfntAuth () {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if thf givfn sitf is trustfd, i.f. wf dbn try
+     * trbnspbrfnt Authfntidbtion.
+     */
+    publid stbtid boolfbn isTrustfdSitf(URL url) {
+        rfturn NTLMAuthCbllbbdk.isTrustfdSitf(url);
+    }
+
+    privbtf void init0() {
+
+        hostnbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+            publid String run() {
+                String lodblhost;
+                try {
+                    lodblhost = InftAddrfss.gftLodblHost().gftHostNbmf();
+                } dbtdh (UnknownHostExdfption f) {
+                     lodblhost = "lodblhost";
+                }
+                rfturn lodblhost;
+            }
+        });
+    };
+
+    PbsswordAuthfntidbtion pw;
+
+    Clifnt dlifnt;
+    /**
+     * Crfbtf b NTLMAuthfntidbtion:
+     * Usfrnbmf mby bf spfdififd bs dombin<BACKSLASH>usfrnbmf in thf bpplidbtion Authfntidbtor.
+     * If this notbtion is not usfd, thfn thf dombin will bf tbkfn
+     * from b systfm propfrty: "http.buth.ntlm.dombin".
+     */
+    publid NTLMAuthfntidbtion(boolfbn isProxy, URL url, PbsswordAuthfntidbtion pw) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+                AuthSdhfmf.NTLM,
+                url,
+                "");
+        init (pw);
+    }
+
+    privbtf void init (PbsswordAuthfntidbtion pw) {
+        String usfrnbmf;
+        String ntdombin;
+        dhbr[] pbssword;
+        this.pw = pw;
+        String s = pw.gftUsfrNbmf();
+        int i = s.indfxOf ('\\');
+        if (i == -1) {
+            usfrnbmf = s;
+            ntdombin = dffbultDombin;
+        } flsf {
+            ntdombin = s.substring (0, i).toUppfrCbsf();
+            usfrnbmf = s.substring (i+1);
+        }
+        pbssword = pw.gftPbssword();
+        init0();
+        try {
+            dlifnt = nfw Clifnt(Systfm.gftPropfrty("ntlm.vfrsion"), hostnbmf,
+                    usfrnbmf, ntdombin, pbssword);
+        } dbtdh (NTLMExdfption nf) {
+            try {
+                dlifnt = nfw Clifnt(null, hostnbmf, usfrnbmf, ntdombin, pbssword);
+            } dbtdh (NTLMExdfption nf2) {
+                // Will nfvfr hbppfn
+                throw nfw AssfrtionError("Rfblly?");
+            }
+        }
+    }
+
+   /**
+    * Construdtor usfd for proxy fntrifs
+    */
+    publid NTLMAuthfntidbtion(boolfbn isProxy, String host, int port,
+                                PbsswordAuthfntidbtion pw) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+                AuthSdhfmf.NTLM,
+                host,
+                port,
+                "");
+        init (pw);
+    }
+
+    /**
+     * @rfturn truf if this buthfntidbtion supports prffmptivf buthorizbtion
+     */
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAuthorizbtion() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Not supportfd. Must usf thf sftHfbdfrs() mfthod
+     */
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mfthod) {
+        throw nfw RuntimfExdfption ("gftHfbdfrVbluf not supportfd");
+    }
+
+    /**
+     * Chfdk if thf hfbdfr indidbtfs thbt thf durrfnt buth. pbrbmftfrs brf stblf.
+     * If so, thfn rfplbdf thf rflfvbnt fifld with thf nfw vbluf
+     * bnd rfturn truf. Othfrwisf rfturn fblsf.
+     * rfturning truf mfbns thf rfqufst dbn bf rftrifd with thf sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf hbvf to go bbdk to thf usfr to bsk for b nfw
+     * usfrnbmf pbssword.
+     */
+    @Ovfrridf
+    publid boolfbn isAuthorizbtionStblf (String hfbdfr) {
+        rfturn fblsf; /* should not bf dbllfd for ntlm */
+    }
+
+    /**
+     * Sft hfbdfr(s) on thf givfn donnfdtion.
+     * @pbrbm donn Thf donnfdtion to bpply thf hfbdfr(s) to
+     * @pbrbm p A sourdf of hfbdfr vblufs for this donnfdtion, not usfd bfdbusf
+     *          HfbdfrPbrsfr donvfrts thf fiflds to lowfr dbsf, usf rbw instfbd
+     * @pbrbm rbw Thf rbw hfbdfr fifld.
+     * @rfturn truf if bll gofs wfll, fblsf if no hfbdfrs wfrf sft.
+     */
+    @Ovfrridf
+    publid syndhronizfd boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
+
+        try {
+            String rfsponsf;
+            if (rbw.lfngth() < 6) { /* NTLM<sp> */
+                rfsponsf = buildTypf1Msg ();
+            } flsf {
+                String msg = rbw.substring (5); /* skip NTLM<sp> */
+                rfsponsf = buildTypf3Msg (msg);
+            }
+            donn.sftAuthfntidbtionPropfrty(gftHfbdfrNbmf(), rfsponsf);
+            rfturn truf;
+        } dbtdh (IOExdfption f) {
+            rfturn fblsf;
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    privbtf String buildTypf1Msg () {
+        bytf[] msg = dlifnt.typf1();
+        String rfsult = "NTLM " + Bbsf64.gftEndodfr().fndodfToString(msg);
+        rfturn rfsult;
+    }
+
+    privbtf String buildTypf3Msg (String dhbllfngf) throws GfnfrblSfdurityExdfption,
+                                                           IOExdfption  {
+        /* First dfdodf thf typf2 mfssbgf to gft thf sfrvfr nondf */
+        /* nondf is lodbtfd bt typf2[24] for 8 bytfs */
+
+        bytf[] typf2 = Bbsf64.gftDfdodfr().dfdodf(dhbllfngf);
+        bytf[] nondf = nfw bytf[8];
+        nfw jbvb.util.Rbndom().nfxtBytfs(nondf);
+        bytf[] msg = dlifnt.typf3(typf2, nondf);
+        String rfsult = "NTLM " + Bbsf64.gftEndodfr().fndodfToString(msg);
+        rfturn rfsult;
+    }
+}
+

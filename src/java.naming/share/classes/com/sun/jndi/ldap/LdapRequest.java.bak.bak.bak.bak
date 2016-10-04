@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvbx.nbming.CommunidbtionExdfption;
+
+finbl dlbss LdbpRfqufst {
+
+    LdbpRfqufst nfxt;   // Sft/rfbd in syndhronizfd Connfdtion mfthods
+    int msgId;          // rfbd-only
+
+    privbtf int gottfn = 0;
+    privbtf BlodkingQufuf<BfrDfdodfr> rfplifs;
+    privbtf int highWbtfrmbrk = -1;
+    privbtf boolfbn dbndfllfd = fblsf;
+    privbtf boolfbn pbusfAftfrRfdfipt = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
+
+    LdbpRfqufst(int msgId, boolfbn pbusf) {
+        this(msgId, pbusf, -1);
+    }
+
+    LdbpRfqufst(int msgId, boolfbn pbusf, int rfplyQufufCbpbdity) {
+        this.msgId = msgId;
+        this.pbusfAftfrRfdfipt = pbusf;
+        if (rfplyQufufCbpbdity == -1) {
+            this.rfplifs = nfw LinkfdBlodkingQufuf<BfrDfdodfr>();
+        } flsf {
+            this.rfplifs =
+                nfw LinkfdBlodkingQufuf<BfrDfdodfr>(rfplyQufufCbpbdity);
+            highWbtfrmbrk = (rfplyQufufCbpbdity * 80) / 100; // 80% dbpbdity
+        }
+    }
+
+    syndhronizfd void dbndfl() {
+        dbndfllfd = truf;
+
+        // Unblodk rfbdfr of pfnding rfqufst
+        // Should only fvfr hbvf bt most onf wbitfr
+        notify();
+    }
+
+    syndhronizfd boolfbn bddRfplyBfr(BfrDfdodfr bfr) {
+        if (dbndfllfd) {
+            rfturn fblsf;
+        }
+
+        // Add b nfw rfply to thf qufuf of unprodfssfd rfplifs.
+        try {
+            rfplifs.put(bfr);
+        } dbtdh (IntfrruptfdExdfption f) {
+            // ignorf
+        }
+
+        // pffk bt thf BER bufffr to dhfdk if it is b SfbrdhRfsultDonf PDU
+        try {
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfInt();
+            domplftfd = (bfr.pffkBytf() == LdbpClifnt.LDAP_REP_RESULT);
+        } dbtdh (IOExdfption f) {
+            // ignorf
+        }
+        bfr.rfsft();
+
+        notify(); // notify bnyonf wbiting for rfply
+        /*
+         * If b qufuf dbpbdity hbs bffn sft thfn triggfr b pbusf whfn thf
+         * qufuf hbs fillfd to 80% dbpbdity. Lbtfr, whfn thf qufuf hbs drbinfd
+         * thfn thf rfbdfr gfts unpbusfd.
+         */
+        if (highWbtfrmbrk != -1 && rfplifs.sizf() >= highWbtfrmbrk) {
+            rfturn truf; // triggfr thf pbusf
+        }
+        rfturn pbusfAftfrRfdfipt;
+    }
+
+    syndhronizfd BfrDfdodfr gftRfplyBfr() throws CommunidbtionExdfption {
+        if (dbndfllfd) {
+            throw nfw CommunidbtionExdfption("Rfqufst: " + msgId +
+                " dbndfllfd");
+        }
+
+        /*
+         * Rfmovf b rfply if thf qufuf is not fmpty.
+         * poll rfturns null if qufuf is fmpty.
+         */
+        BfrDfdodfr rfply = rfplifs.poll();
+        rfturn rfply;
+    }
+
+    syndhronizfd boolfbn hbsSfbrdhComplftfd() {
+        rfturn domplftfd;
+    }
+}

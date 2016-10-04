@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * The <code>Runnable</code> interface should be implemented by any
- * class whose instances are intended to be executed by a thread. The
- * class must define a method of no arguments called <code>run</code>.
+ * Tif <dodf>Runnbblf</dodf> intfrfbdf siould bf implfmfntfd by bny
+ * dlbss wiosf instbndfs brf intfndfd to bf fxfdutfd by b tirfbd. Tif
+ * dlbss must dffinf b mftiod of no brgumfnts dbllfd <dodf>run</dodf>.
  * <p>
- * This interface is designed to provide a common protocol for objects that
- * wish to execute code while they are active. For example,
- * <code>Runnable</code> is implemented by class <code>Thread</code>.
- * Being active simply means that a thread has been started and has not
- * yet been stopped.
+ * Tiis intfrfbdf is dfsignfd to providf b dommon protodol for objfdts tibt
+ * wisi to fxfdutf dodf wiilf tify brf bdtivf. For fxbmplf,
+ * <dodf>Runnbblf</dodf> is implfmfntfd by dlbss <dodf>Tirfbd</dodf>.
+ * Bfing bdtivf simply mfbns tibt b tirfbd ibs bffn stbrtfd bnd ibs not
+ * yft bffn stoppfd.
  * <p>
- * In addition, <code>Runnable</code> provides the means for a class to be
- * active while not subclassing <code>Thread</code>. A class that implements
- * <code>Runnable</code> can run without subclassing <code>Thread</code>
- * by instantiating a <code>Thread</code> instance and passing itself in
- * as the target.  In most cases, the <code>Runnable</code> interface should
- * be used if you are only planning to override the <code>run()</code>
- * method and no other <code>Thread</code> methods.
- * This is important because classes should not be subclassed
- * unless the programmer intends on modifying or enhancing the fundamental
- * behavior of the class.
+ * In bddition, <dodf>Runnbblf</dodf> providfs tif mfbns for b dlbss to bf
+ * bdtivf wiilf not subdlbssing <dodf>Tirfbd</dodf>. A dlbss tibt implfmfnts
+ * <dodf>Runnbblf</dodf> dbn run witiout subdlbssing <dodf>Tirfbd</dodf>
+ * by instbntibting b <dodf>Tirfbd</dodf> instbndf bnd pbssing itsflf in
+ * bs tif tbrgft.  In most dbsfs, tif <dodf>Runnbblf</dodf> intfrfbdf siould
+ * bf usfd if you brf only plbnning to ovfrridf tif <dodf>run()</dodf>
+ * mftiod bnd no otifr <dodf>Tirfbd</dodf> mftiods.
+ * Tiis is importbnt bfdbusf dlbssfs siould not bf subdlbssfd
+ * unlfss tif progrbmmfr intfnds on modifying or fnibnding tif fundbmfntbl
+ * bfibvior of tif dlbss.
  *
- * @author  Arthur van Hoff
- * @see     java.lang.Thread
- * @see     java.util.concurrent.Callable
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sff     jbvb.lbng.Tirfbd
+ * @sff     jbvb.util.dondurrfnt.Cbllbblf
+ * @sindf   1.0
  */
-@FunctionalInterface
-public interface Runnable {
+@FundtionblIntfrfbdf
+publid intfrfbdf Runnbblf {
     /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
+     * Wifn bn objfdt implfmfnting intfrfbdf <dodf>Runnbblf</dodf> is usfd
+     * to drfbtf b tirfbd, stbrting tif tirfbd dbusfs tif objfdt's
+     * <dodf>run</dodf> mftiod to bf dbllfd in tibt sfpbrbtfly fxfduting
+     * tirfbd.
      * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
+     * Tif gfnfrbl dontrbdt of tif mftiod <dodf>run</dodf> is tibt it mby
+     * tbkf bny bdtion wibtsofvfr.
      *
-     * @see     java.lang.Thread#run()
+     * @sff     jbvb.lbng.Tirfbd#run()
      */
-    public abstract void run();
+    publid bbstrbdt void run();
 }

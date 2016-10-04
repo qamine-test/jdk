@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels.spi;
+pbdkbgf jbvb.nio.dibnnfls.spi;
 
-import java.io.IOException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.util.HashSet;
-import java.util.Set;
-import sun.nio.ch.Interruptible;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.SflfdtionKfy;
+import jbvb.nio.dibnnfls.Sflfdtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
+import sun.nio.di.Intfrruptiblf;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 
 
 /**
- * Base implementation class for selectors.
+ * Bbsf implfmfntbtion dlbss for sflfdtors.
  *
- * <p> This class encapsulates the low-level machinery required to implement
- * the interruption of selection operations.  A concrete selector class must
- * invoke the {@link #begin begin} and {@link #end end} methods before and
- * after, respectively, invoking an I/O operation that might block
- * indefinitely.  In order to ensure that the {@link #end end} method is always
- * invoked, these methods should be used within a
- * <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block:
+ * <p> Tiis dlbss fndbpsulbtfs tif low-lfvfl mbdiinfry rfquirfd to implfmfnt
+ * tif intfrruption of sflfdtion opfrbtions.  A dondrftf sflfdtor dlbss must
+ * invokf tif {@link #bfgin bfgin} bnd {@link #fnd fnd} mftiods bfforf bnd
+ * bftfr, rfspfdtivfly, invoking bn I/O opfrbtion tibt migit blodk
+ * indffinitfly.  In ordfr to fnsurf tibt tif {@link #fnd fnd} mftiod is blwbys
+ * invokfd, tifsf mftiods siould bf usfd witiin b
+ * <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk:
  *
- * <blockquote><pre>
+ * <blodkquotf><prf>
  * try {
- *     begin();
- *     // Perform blocking I/O operation here
+ *     bfgin();
+ *     // Pfrform blodking I/O opfrbtion ifrf
  *     ...
- * } finally {
- *     end();
- * }</pre></blockquote>
+ * } finblly {
+ *     fnd();
+ * }</prf></blodkquotf>
  *
- * <p> This class also defines methods for maintaining a selector's
- * cancelled-key set and for removing a key from its channel's key set, and
- * declares the abstract {@link #register register} method that is invoked by a
- * selectable channel's {@link AbstractSelectableChannel#register register}
- * method in order to perform the actual work of registering a channel.  </p>
+ * <p> Tiis dlbss blso dffinfs mftiods for mbintbining b sflfdtor's
+ * dbndfllfd-kfy sft bnd for rfmoving b kfy from its dibnnfl's kfy sft, bnd
+ * dfdlbrfs tif bbstrbdt {@link #rfgistfr rfgistfr} mftiod tibt is invokfd by b
+ * sflfdtbblf dibnnfl's {@link AbstrbdtSflfdtbblfCibnnfl#rfgistfr rfgistfr}
+ * mftiod in ordfr to pfrform tif bdtubl work of rfgistfring b dibnnfl.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class AbstractSelector
-    extends Selector
+publid bbstrbdt dlbss AbstrbdtSflfdtor
+    fxtfnds Sflfdtor
 {
 
-    private AtomicBoolean selectorOpen = new AtomicBoolean(true);
+    privbtf AtomidBoolfbn sflfdtorOpfn = nfw AtomidBoolfbn(truf);
 
-    // The provider that created this selector
-    private final SelectorProvider provider;
+    // Tif providfr tibt drfbtfd tiis sflfdtor
+    privbtf finbl SflfdtorProvidfr providfr;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  provider
-     *         The provider that created this selector
+     * @pbrbm  providfr
+     *         Tif providfr tibt drfbtfd tiis sflfdtor
      */
-    protected AbstractSelector(SelectorProvider provider) {
-        this.provider = provider;
+    protfdtfd AbstrbdtSflfdtor(SflfdtorProvidfr providfr) {
+        tiis.providfr = providfr;
     }
 
-    private final Set<SelectionKey> cancelledKeys = new HashSet<SelectionKey>();
+    privbtf finbl Sft<SflfdtionKfy> dbndfllfdKfys = nfw HbsiSft<SflfdtionKfy>();
 
-    void cancel(SelectionKey k) {                       // package-private
-        synchronized (cancelledKeys) {
-            cancelledKeys.add(k);
+    void dbndfl(SflfdtionKfy k) {                       // pbdkbgf-privbtf
+        syndironizfd (dbndfllfdKfys) {
+            dbndfllfdKfys.bdd(k);
         }
     }
 
     /**
-     * Closes this selector.
+     * Closfs tiis sflfdtor.
      *
-     * <p> If the selector has already been closed then this method returns
-     * immediately.  Otherwise it marks the selector as closed and then invokes
-     * the {@link #implCloseSelector implCloseSelector} method in order to
-     * complete the close operation.  </p>
+     * <p> If tif sflfdtor ibs blrfbdy bffn dlosfd tifn tiis mftiod rfturns
+     * immfdibtfly.  Otifrwisf it mbrks tif sflfdtor bs dlosfd bnd tifn invokfs
+     * tif {@link #implClosfSflfdtor implClosfSflfdtor} mftiod in ordfr to
+     * domplftf tif dlosf opfrbtion.  </p>
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public final void close() throws IOException {
-        boolean open = selectorOpen.getAndSet(false);
-        if (!open)
-            return;
-        implCloseSelector();
+    publid finbl void dlosf() tirows IOExdfption {
+        boolfbn opfn = sflfdtorOpfn.gftAndSft(fblsf);
+        if (!opfn)
+            rfturn;
+        implClosfSflfdtor();
     }
 
     /**
-     * Closes this selector.
+     * Closfs tiis sflfdtor.
      *
-     * <p> This method is invoked by the {@link #close close} method in order
-     * to perform the actual work of closing the selector.  This method is only
-     * invoked if the selector has not yet been closed, and it is never invoked
-     * more than once.
+     * <p> Tiis mftiod is invokfd by tif {@link #dlosf dlosf} mftiod in ordfr
+     * to pfrform tif bdtubl work of dlosing tif sflfdtor.  Tiis mftiod is only
+     * invokfd if tif sflfdtor ibs not yft bffn dlosfd, bnd it is nfvfr invokfd
+     * morf tibn ondf.
      *
-     * <p> An implementation of this method must arrange for any other thread
-     * that is blocked in a selection operation upon this selector to return
-     * immediately as if by invoking the {@link
-     * java.nio.channels.Selector#wakeup wakeup} method. </p>
+     * <p> An implfmfntbtion of tiis mftiod must brrbngf for bny otifr tirfbd
+     * tibt is blodkfd in b sflfdtion opfrbtion upon tiis sflfdtor to rfturn
+     * immfdibtfly bs if by invoking tif {@link
+     * jbvb.nio.dibnnfls.Sflfdtor#wbkfup wbkfup} mftiod. </p>
      *
-     * @throws  IOException
-     *          If an I/O error occurs while closing the selector
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs wiilf dlosing tif sflfdtor
      */
-    protected abstract void implCloseSelector() throws IOException;
+    protfdtfd bbstrbdt void implClosfSflfdtor() tirows IOExdfption;
 
-    public final boolean isOpen() {
-        return selectorOpen.get();
+    publid finbl boolfbn isOpfn() {
+        rfturn sflfdtorOpfn.gft();
     }
 
     /**
-     * Returns the provider that created this channel.
+     * Rfturns tif providfr tibt drfbtfd tiis dibnnfl.
      *
-     * @return  The provider that created this channel
+     * @rfturn  Tif providfr tibt drfbtfd tiis dibnnfl
      */
-    public final SelectorProvider provider() {
-        return provider;
+    publid finbl SflfdtorProvidfr providfr() {
+        rfturn providfr;
     }
 
     /**
-     * Retrieves this selector's cancelled-key set.
+     * Rftrifvfs tiis sflfdtor's dbndfllfd-kfy sft.
      *
-     * <p> This set should only be used while synchronized upon it.  </p>
+     * <p> Tiis sft siould only bf usfd wiilf syndironizfd upon it.  </p>
      *
-     * @return  The cancelled-key set
+     * @rfturn  Tif dbndfllfd-kfy sft
      */
-    protected final Set<SelectionKey> cancelledKeys() {
-        return cancelledKeys;
+    protfdtfd finbl Sft<SflfdtionKfy> dbndfllfdKfys() {
+        rfturn dbndfllfdKfys;
     }
 
     /**
-     * Registers the given channel with this selector.
+     * Rfgistfrs tif givfn dibnnfl witi tiis sflfdtor.
      *
-     * <p> This method is invoked by a channel's {@link
-     * AbstractSelectableChannel#register register} method in order to perform
-     * the actual work of registering the channel with this selector.  </p>
+     * <p> Tiis mftiod is invokfd by b dibnnfl's {@link
+     * AbstrbdtSflfdtbblfCibnnfl#rfgistfr rfgistfr} mftiod in ordfr to pfrform
+     * tif bdtubl work of rfgistfring tif dibnnfl witi tiis sflfdtor.  </p>
      *
-     * @param  ch
-     *         The channel to be registered
+     * @pbrbm  di
+     *         Tif dibnnfl to bf rfgistfrfd
      *
-     * @param  ops
-     *         The initial interest set, which must be valid
+     * @pbrbm  ops
+     *         Tif initibl intfrfst sft, wiidi must bf vblid
      *
-     * @param  att
-     *         The initial attachment for the resulting key
+     * @pbrbm  btt
+     *         Tif initibl bttbdimfnt for tif rfsulting kfy
      *
-     * @return  A new key representing the registration of the given channel
-     *          with this selector
+     * @rfturn  A nfw kfy rfprfsfnting tif rfgistrbtion of tif givfn dibnnfl
+     *          witi tiis sflfdtor
      */
-    protected abstract SelectionKey register(AbstractSelectableChannel ch,
-                                             int ops, Object att);
+    protfdtfd bbstrbdt SflfdtionKfy rfgistfr(AbstrbdtSflfdtbblfCibnnfl di,
+                                             int ops, Objfdt btt);
 
     /**
-     * Removes the given key from its channel's key set.
+     * Rfmovfs tif givfn kfy from its dibnnfl's kfy sft.
      *
-     * <p> This method must be invoked by the selector for each channel that it
-     * deregisters.  </p>
+     * <p> Tiis mftiod must bf invokfd by tif sflfdtor for fbdi dibnnfl tibt it
+     * dfrfgistfrs.  </p>
      *
-     * @param  key
-     *         The selection key to be removed
+     * @pbrbm  kfy
+     *         Tif sflfdtion kfy to bf rfmovfd
      */
-    protected final void deregister(AbstractSelectionKey key) {
-        ((AbstractSelectableChannel)key.channel()).removeKey(key);
+    protfdtfd finbl void dfrfgistfr(AbstrbdtSflfdtionKfy kfy) {
+        ((AbstrbdtSflfdtbblfCibnnfl)kfy.dibnnfl()).rfmovfKfy(kfy);
     }
 
 
-    // -- Interruption machinery --
+    // -- Intfrruption mbdiinfry --
 
-    private Interruptible interruptor = null;
+    privbtf Intfrruptiblf intfrruptor = null;
 
     /**
-     * Marks the beginning of an I/O operation that might block indefinitely.
+     * Mbrks tif bfginning of bn I/O opfrbtion tibt migit blodk indffinitfly.
      *
-     * <p> This method should be invoked in tandem with the {@link #end end}
-     * method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block as
-     * shown <a href="#be">above</a>, in order to implement interruption for
-     * this selector.
+     * <p> Tiis mftiod siould bf invokfd in tbndfm witi tif {@link #fnd fnd}
+     * mftiod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk bs
+     * siown <b irff="#bf">bbovf</b>, in ordfr to implfmfnt intfrruption for
+     * tiis sflfdtor.
      *
-     * <p> Invoking this method arranges for the selector's {@link
-     * Selector#wakeup wakeup} method to be invoked if a thread's {@link
-     * Thread#interrupt interrupt} method is invoked while the thread is
-     * blocked in an I/O operation upon the selector.  </p>
+     * <p> Invoking tiis mftiod brrbngfs for tif sflfdtor's {@link
+     * Sflfdtor#wbkfup wbkfup} mftiod to bf invokfd if b tirfbd's {@link
+     * Tirfbd#intfrrupt intfrrupt} mftiod is invokfd wiilf tif tirfbd is
+     * blodkfd in bn I/O opfrbtion upon tif sflfdtor.  </p>
      */
-    protected final void begin() {
-        if (interruptor == null) {
-            interruptor = new Interruptible() {
-                    public void interrupt(Thread ignore) {
-                        AbstractSelector.this.wakeup();
+    protfdtfd finbl void bfgin() {
+        if (intfrruptor == null) {
+            intfrruptor = nfw Intfrruptiblf() {
+                    publid void intfrrupt(Tirfbd ignorf) {
+                        AbstrbdtSflfdtor.tiis.wbkfup();
                     }};
         }
-        AbstractInterruptibleChannel.blockedOn(interruptor);
-        Thread me = Thread.currentThread();
-        if (me.isInterrupted())
-            interruptor.interrupt(me);
+        AbstrbdtIntfrruptiblfCibnnfl.blodkfdOn(intfrruptor);
+        Tirfbd mf = Tirfbd.durrfntTirfbd();
+        if (mf.isIntfrruptfd())
+            intfrruptor.intfrrupt(mf);
     }
 
     /**
-     * Marks the end of an I/O operation that might block indefinitely.
+     * Mbrks tif fnd of bn I/O opfrbtion tibt migit blodk indffinitfly.
      *
-     * <p> This method should be invoked in tandem with the {@link #begin begin}
-     * method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block as
-     * shown <a href="#be">above</a>, in order to implement interruption for
-     * this selector.  </p>
+     * <p> Tiis mftiod siould bf invokfd in tbndfm witi tif {@link #bfgin bfgin}
+     * mftiod, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> blodk bs
+     * siown <b irff="#bf">bbovf</b>, in ordfr to implfmfnt intfrruption for
+     * tiis sflfdtor.  </p>
      */
-    protected final void end() {
-        AbstractInterruptibleChannel.blockedOn(null);
+    protfdtfd finbl void fnd() {
+        AbstrbdtIntfrruptiblfCibnnfl.blodkfdOn(null);
     }
 
 }

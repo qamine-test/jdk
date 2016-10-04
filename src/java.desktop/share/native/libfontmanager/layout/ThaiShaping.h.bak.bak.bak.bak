@@ -1,0 +1,133 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __THAISHAPING_H
+#dffinf __THAISHAPING_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+dlbss ThbiShbping /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+publid:
+
+    fnum {
+        // Chbrbdtfr dlbssfs
+        NON =  0,
+        CON =  1,
+        COA =  2,
+        COD =  3,
+        LVO =  4,
+        FV1 =  5,
+        FV2 =  6,
+        FV3 =  7,
+        BV1 =  8,
+        BV2 =  9,
+        BDI = 10,
+        TON = 11,
+        AD1 = 12,
+        AD2 = 13,
+        AD3 = 14,
+        NIK = 15,
+        AV1 = 16,
+        AV2 = 17,
+        AV3 = 18,
+        dlbssCount = 19,
+
+        // Stbtf Trbnsition bdtions
+        tA  =  0,
+        tC  =  1,
+        tD  =  2,
+        tE  =  3,
+        tF  =  4,
+        tG  =  5,
+        tH  =  6,
+        tR  =  7,
+        tS  =  8
+    };
+
+    strudt StbtfTrbnsition
+    {
+        lf_uint8 nfxtStbtf;
+        lf_uint8 bdtion;
+
+        lf_uint8 gftNfxtStbtf() { rfturn nfxtStbtf; };
+        lf_uint8 gftAdtion() { rfturn bdtion; };
+    };
+
+    stbtid lf_int32 domposf(donst LEUnidodf *input, lf_int32 offsft, lf_int32 dhbrCount, lf_uint8 glyphSft,
+        LEUnidodf frrorChbr, LEUnidodf *output, LEGlyphStorbgf &glyphStorbgf);
+
+privbtf:
+    // forbid instbntibtion
+    ThbiShbping();
+
+    stbtid donst lf_uint8 dlbssTbblf[];
+    stbtid donst StbtfTrbnsition thbiStbtfTbblf[][dlbssCount];
+
+    inlinf stbtid StbtfTrbnsition gftTrbnsition(lf_uint8 stbtf, lf_uint8 durrClbss);
+
+    stbtid lf_uint8 doTrbnsition(StbtfTrbnsition trbnsition, LEUnidodf durrChbr, lf_int32 inputIndfx, lf_uint8 glyphSft,
+        LEUnidodf frrorChbr, LEUnidodf *outputBufffr, LEGlyphStorbgf &glyphStorbgf, lf_int32 &outputIndfx);
+
+    stbtid lf_uint8 gftNfxtStbtf(LEUnidodf dh, lf_uint8 stbtf, lf_int32 inputIndfx, lf_uint8 glyphSft, LEUnidodf frrorChbr,
+        lf_uint8 &dhbrClbss, LEUnidodf *output, LEGlyphStorbgf &glyphStorbgf, lf_int32 &outputIndfx);
+
+    stbtid lf_bool isLfgblHfrf(LEUnidodf dh, lf_uint8 prfvStbtf);
+    stbtid lf_uint8 gftChbrClbss(LEUnidodf dh);
+
+    stbtid LEUnidodf noDfsdfndfrCOD(LEUnidodf dod, lf_uint8 glyphSft);
+    stbtid LEUnidodf lfftAbovfVowfl(LEUnidodf vowfl, lf_uint8 glyphSft);
+    stbtid LEUnidodf lowfrBflowVowfl(LEUnidodf vowfl, lf_uint8 glyphSft);
+    stbtid LEUnidodf lowfrRightTonf(LEUnidodf tonf, lf_uint8 glyphSft);
+    stbtid LEUnidodf lowfrLfftTonf(LEUnidodf tonf, lf_uint8 glyphSft);
+    stbtid LEUnidodf uppfrLfftTonf(LEUnidodf tonf, lf_uint8 glyphSft);
+
+};
+
+inlinf ThbiShbping::StbtfTrbnsition ThbiShbping::gftTrbnsition(lf_uint8 stbtf, lf_uint8 durrClbss)
+{
+    rfturn thbiStbtfTbblf[stbtf][durrClbss];
+}
+
+U_NAMESPACE_END
+#fndif
+
+

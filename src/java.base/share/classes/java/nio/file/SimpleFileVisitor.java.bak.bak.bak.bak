@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.io.IOExdfption;
+import jbvb.util.Objfdts;
+
+/**
+ * A simplf visitor of filfs with dffbult bfhbvior to visit bll filfs bnd to
+ * rf-throw I/O frrors.
+ *
+ * <p> Mfthods in this dlbss mby bf ovfrriddfn subjfdt to thfir gfnfrbl dontrbdt.
+ *
+ * @pbrbm   <T>     Thf typf of rfffrfndf to thf filfs
+ *
+ * @sindf 1.7
+ */
+
+publid dlbss SimplfFilfVisitor<T> implfmfnts FilfVisitor<T> {
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd SimplfFilfVisitor() {
+    }
+
+    /**
+     * Invokfd for b dirfdtory bfforf fntrifs in thf dirfdtory brf visitfd.
+     *
+     * <p> Unlfss ovfrriddfn, this mfthod rfturns {@link FilfVisitRfsult#CONTINUE
+     * CONTINUE}.
+     */
+    @Ovfrridf
+    publid FilfVisitRfsult prfVisitDirfdtory(T dir, BbsidFilfAttributfs bttrs)
+        throws IOExdfption
+    {
+        Objfdts.rfquirfNonNull(dir);
+        Objfdts.rfquirfNonNull(bttrs);
+        rfturn FilfVisitRfsult.CONTINUE;
+    }
+
+    /**
+     * Invokfd for b filf in b dirfdtory.
+     *
+     * <p> Unlfss ovfrriddfn, this mfthod rfturns {@link FilfVisitRfsult#CONTINUE
+     * CONTINUE}.
+     */
+    @Ovfrridf
+    publid FilfVisitRfsult visitFilf(T filf, BbsidFilfAttributfs bttrs)
+        throws IOExdfption
+    {
+        Objfdts.rfquirfNonNull(filf);
+        Objfdts.rfquirfNonNull(bttrs);
+        rfturn FilfVisitRfsult.CONTINUE;
+    }
+
+    /**
+     * Invokfd for b filf thbt dould not bf visitfd.
+     *
+     * <p> Unlfss ovfrriddfn, this mfthod rf-throws thf I/O fxdfption thbt prfvfntfd
+     * thf filf from bfing visitfd.
+     */
+    @Ovfrridf
+    publid FilfVisitRfsult visitFilfFbilfd(T filf, IOExdfption fxd)
+        throws IOExdfption
+    {
+        Objfdts.rfquirfNonNull(filf);
+        throw fxd;
+    }
+
+    /**
+     * Invokfd for b dirfdtory bftfr fntrifs in thf dirfdtory, bnd bll of thfir
+     * dfsdfndbnts, hbvf bffn visitfd.
+     *
+     * <p> Unlfss ovfrriddfn, this mfthod rfturns {@link FilfVisitRfsult#CONTINUE
+     * CONTINUE} if thf dirfdtory itfrbtion domplftfs without bn I/O fxdfption;
+     * othfrwisf this mfthod rf-throws thf I/O fxdfption thbt dbusfd thf itfrbtion
+     * of thf dirfdtory to tfrminbtf prfmbturfly.
+     */
+    @Ovfrridf
+    publid FilfVisitRfsult postVisitDirfdtory(T dir, IOExdfption fxd)
+        throws IOExdfption
+    {
+        Objfdts.rfquirfNonNull(dir);
+        if (fxd != null)
+            throw fxd;
+        rfturn FilfVisitRfsult.CONTINUE;
+    }
+}

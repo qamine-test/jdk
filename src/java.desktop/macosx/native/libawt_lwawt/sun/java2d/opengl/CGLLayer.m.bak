@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "CGLGraphicsConfig.h"
-#import "CGLLayer.h"
-#import "ThreadUtilities.h"
-#import "LWCToolkit.h"
-#import "CGLSurfaceData.h"
+#import "CGLGrbpiidsConfig.i"
+#import "CGLLbyfr.i"
+#import "TirfbdUtilitifs.i"
+#import "LWCToolkit.i"
+#import "CGLSurfbdfDbtb.i"
 
 
-extern NSOpenGLPixelFormat *sharedPixelFormat;
-extern NSOpenGLContext *sharedContext;
+fxtfrn NSOpfnGLPixflFormbt *sibrfdPixflFormbt;
+fxtfrn NSOpfnGLContfxt *sibrfdContfxt;
 
-@implementation CGLLayer
+@implfmfntbtion CGLLbyfr
 
-@synthesize javaLayer;
-@synthesize textureID;
-@synthesize target;
-@synthesize textureWidth;
-@synthesize textureHeight;
-#ifdef REMOTELAYER
-@synthesize parentLayer;
-@synthesize remoteLayer;
-@synthesize jrsRemoteLayer;
-#endif
+@syntifsizf jbvbLbyfr;
+@syntifsizf tfxturfID;
+@syntifsizf tbrgft;
+@syntifsizf tfxturfWidti;
+@syntifsizf tfxturfHfigit;
+#ifdff REMOTELAYER
+@syntifsizf pbrfntLbyfr;
+@syntifsizf rfmotfLbyfr;
+@syntifsizf jrsRfmotfLbyfr;
+#fndif
 
-- (id) initWithJavaLayer:(JNFJObjectWrapper *)layer;
+- (id) initWitiJbvbLbyfr:(JNFJObjfdtWrbppfr *)lbyfr;
 {
 AWT_ASSERT_APPKIT_THREAD;
-    // Initialize ourselves
-    self = [super init];
-    if (self == nil) return self;
+    // Initiblizf oursflvfs
+    sflf = [supfr init];
+    if (sflf == nil) rfturn sflf;
 
-    self.javaLayer = layer;
+    sflf.jbvbLbyfr = lbyfr;
 
-    // NOTE: async=YES means that the layer is re-cached periodically
-    self.asynchronous = FALSE;
-    self.contentsGravity = kCAGravityTopLeft;
-    //Layer backed view
-    //self.needsDisplayOnBoundsChange = YES;
-    //self.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    // NOTE: bsynd=YES mfbns tibt tif lbyfr is rf-dbdifd pfriodidblly
+    sflf.bsyndironous = FALSE;
+    sflf.dontfntsGrbvity = kCAGrbvityTopLfft;
+    //Lbyfr bbdkfd vifw
+    //sflf.nffdsDisplbyOnBoundsCibngf = YES;
+    //sflf.butorfsizingMbsk = kCALbyfrWidtiSizbblf | kCALbyfrHfigitSizbblf;
 
-    //Disable CALayer's default animation
-    NSMutableDictionary * actions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                    [NSNull null], @"anchorPoint",
+    //Disbblf CALbyfr's dffbult bnimbtion
+    NSMutbblfDidtionbry * bdtions = [[NSMutbblfDidtionbry bllod] initWitiObjfdtsAndKfys:
+                                    [NSNull null], @"bndiorPoint",
                                     [NSNull null], @"bounds",
-                                    [NSNull null], @"contents",
-                                    [NSNull null], @"contentsScale",
-                                    [NSNull null], @"onOrderIn",
-                                    [NSNull null], @"onOrderOut",
+                                    [NSNull null], @"dontfnts",
+                                    [NSNull null], @"dontfntsSdblf",
+                                    [NSNull null], @"onOrdfrIn",
+                                    [NSNull null], @"onOrdfrOut",
                                     [NSNull null], @"position",
-                                    [NSNull null], @"sublayers",
+                                    [NSNull null], @"sublbyfrs",
                                     nil];
-    self.actions = actions;
-    [actions release];
+    sflf.bdtions = bdtions;
+    [bdtions rflfbsf];
 
-    textureID = 0; // texture will be created by rendering pipe
-    target = 0;
+    tfxturfID = 0; // tfxturf will bf drfbtfd by rfndfring pipf
+    tbrgft = 0;
 
-    return self;
+    rfturn sflf;
 }
 
-- (void) dealloc {
-    self.javaLayer = nil;
-    [super dealloc];
+- (void) dfbllod {
+    sflf.jbvbLbyfr = nil;
+    [supfr dfbllod];
 }
 
-- (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask {
-    return CGLRetainPixelFormat(sharedPixelFormat.CGLPixelFormatObj);
+- (CGLPixflFormbtObj)dopyCGLPixflFormbtForDisplbyMbsk:(uint32_t)mbsk {
+    rfturn CGLRftbinPixflFormbt(sibrfdPixflFormbt.CGLPixflFormbtObj);
 }
 
-- (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat {
-    CGLContextObj contextObj = NULL;
-    CGLCreateContext(pixelFormat, sharedContext.CGLContextObj, &contextObj);
-    return contextObj;
+- (CGLContfxtObj)dopyCGLContfxtForPixflFormbt:(CGLPixflFormbtObj)pixflFormbt {
+    CGLContfxtObj dontfxtObj = NULL;
+    CGLCrfbtfContfxt(pixflFormbt, sibrfdContfxt.CGLContfxtObj, &dontfxtObj);
+    rfturn dontfxtObj;
 }
 
-// use texture (intermediate buffer) as src and blit it to the layer
-- (void) blitTexture
+// usf tfxturf (intfrmfdibtf bufffr) bs srd bnd blit it to tif lbyfr
+- (void) blitTfxturf
 {
-    if (textureID == 0) {
-        return;
+    if (tfxturfID == 0) {
+        rfturn;
     }
 
-    glEnable(target);
-    glBindTexture(target, textureID);
+    glEnbblf(tbrgft);
+    glBindTfxturf(tbrgft, tfxturfID);
 
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // srccopy
+    glTfxEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); // srddopy
 
-    float swid = 1.0f, shgt = 1.0f;
-    if (target == GL_TEXTURE_RECTANGLE_ARB) {
-        swid = textureWidth;
-        shgt = textureHeight;
+    flobt swid = 1.0f, sigt = 1.0f;
+    if (tbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        swid = tfxturfWidti;
+        sigt = tfxturfHfigit;
     }
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f); glVertex2f(-1.0f, -1.0f);
-    glTexCoord2f(swid, 0.0f); glVertex2f( 1.0f, -1.0f);
-    glTexCoord2f(swid, shgt); glVertex2f( 1.0f,  1.0f);
-    glTexCoord2f(0.0f, shgt); glVertex2f(-1.0f,  1.0f);
+    glBfgin(GL_QUADS);
+    glTfxCoord2f(0.0f, 0.0f); glVfrtfx2f(-1.0f, -1.0f);
+    glTfxCoord2f(swid, 0.0f); glVfrtfx2f( 1.0f, -1.0f);
+    glTfxCoord2f(swid, sigt); glVfrtfx2f( 1.0f,  1.0f);
+    glTfxCoord2f(0.0f, sigt); glVfrtfx2f(-1.0f,  1.0f);
     glEnd();
 
-    glBindTexture(target, 0);
-    glDisable(target);
+    glBindTfxturf(tbrgft, 0);
+    glDisbblf(tbrgft);
 }
 
--(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp{
-    return textureID == 0 ? NO : YES;
+-(BOOL)dbnDrbwInCGLContfxt:(CGLContfxtObj)glContfxt pixflFormbt:(CGLPixflFormbtObj)pixflFormbt forLbyfrTimf:(CFTimfIntfrvbl)timfIntfrvbl displbyTimf:(donst CVTimfStbmp *)timfStbmp{
+    rfturn tfxturfID == 0 ? NO : YES;
 }
 
--(void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
+-(void)drbwInCGLContfxt:(CGLContfxtObj)glContfxt pixflFormbt:(CGLPixflFormbtObj)pixflFormbt forLbyfrTimf:(CFTimfIntfrvbl)timfIntfrvbl displbyTimf:(donst CVTimfStbmp *)timfStbmp
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    // Set the current context to the one given to us.
-    CGLSetCurrentContext(glContext);
+    // Sft tif durrfnt dontfxt to tif onf givfn to us.
+    CGLSftCurrfntContfxt(glContfxt);
 
-    // Should clear the whole CALayer, because it can be larger than our texture.
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // Siould dlfbr tif wiolf CALbyfr, bfdbusf it dbn bf lbrgfr tibn our tfxturf.
+    glClfbrColor(0.0, 0.0, 0.0, 0.0);
+    glClfbr(GL_COLOR_BUFFER_BIT);
 
-    glViewport(0, 0, textureWidth, textureHeight);
+    glVifwport(0, 0, tfxturfWidti, tfxturfHfigit);
     
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(jc_JavaLayer, "sun/java2d/opengl/CGLLayer");
-    static JNF_MEMBER_CACHE(jm_drawInCGLContext, jc_JavaLayer, "drawInCGLContext", "()V");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(jd_JbvbLbyfr, "sun/jbvb2d/opfngl/CGLLbyfr");
+    stbtid JNF_MEMBER_CACHE(jm_drbwInCGLContfxt, jd_JbvbLbyfr, "drbwInCGLContfxt", "()V");
 
-    jobject javaLayerLocalRef = [self.javaLayer jObjectWithEnv:env];
-    JNFCallVoidMethod(env, javaLayerLocalRef, jm_drawInCGLContext);
-    (*env)->DeleteLocalRef(env, javaLayerLocalRef);
+    jobjfdt jbvbLbyfrLodblRff = [sflf.jbvbLbyfr jObjfdtWitiEnv:fnv];
+    JNFCbllVoidMftiod(fnv, jbvbLbyfrLodblRff, jm_drbwInCGLContfxt);
+    (*fnv)->DflftfLodblRff(fnv, jbvbLbyfrLodblRff);
 
-    // Call super to finalize the drawing. By default all it does is call glFlush().
-    [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
+    // Cbll supfr to finblizf tif drbwing. By dffbult bll it dofs is dbll glFlusi().
+    [supfr drbwInCGLContfxt:glContfxt pixflFormbt:pixflFormbt forLbyfrTimf:timfIntfrvbl displbyTimf:timfStbmp];
 
-    CGLSetCurrentContext(NULL);
+    CGLSftCurrfntContfxt(NULL);
 }
 
-@end
+@fnd
 
 /*
- * Class:     sun_java2d_opengl_CGLLayer
- * Method:    nativeCreateLayer
- * Signature: ()J
+ * Clbss:     sun_jbvb2d_opfngl_CGLLbyfr
+ * Mftiod:    nbtivfCrfbtfLbyfr
+ * Signbturf: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_opengl_CGLLayer_nativeCreateLayer
-(JNIEnv *env, jobject obj)
+Jbvb_sun_jbvb2d_opfngl_CGLLbyfr_nbtivfCrfbtfLbyfr
+(JNIEnv *fnv, jobjfdt obj)
 {
-    __block CGLLayer *layer = nil;
+    __blodk CGLLbyfr *lbyfr = nil;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    JNFJObjectWrapper *javaLayer = [JNFJObjectWrapper wrapperWithJObject:obj withEnv:env];
+    JNFJObjfdtWrbppfr *jbvbLbyfr = [JNFJObjfdtWrbppfr wrbppfrWitiJObjfdt:obj witiEnv:fnv];
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
             AWT_ASSERT_APPKIT_THREAD;
         
-            layer = [[CGLLayer alloc] initWithJavaLayer: javaLayer];
+            lbyfr = [[CGLLbyfr bllod] initWitiJbvbLbyfr: jbvbLbyfr];
     }];
     
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(layer);
+    rfturn ptr_to_jlong(lbyfr);
 }
 
-// Must be called under the RQ lock.
+// Must bf dbllfd undfr tif RQ lodk.
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_validate
-(JNIEnv *env, jclass cls, jlong layerPtr, jobject surfaceData)
+Jbvb_sun_jbvb2d_opfngl_CGLLbyfr_vblidbtf
+(JNIEnv *fnv, jdlbss dls, jlong lbyfrPtr, jobjfdt surfbdfDbtb)
 {
-    CGLLayer *layer = OBJC(layerPtr);
+    CGLLbyfr *lbyfr = OBJC(lbyfrPtr);
 
-    if (surfaceData != NULL) {
-        OGLSDOps *oglsdo = (OGLSDOps*) SurfaceData_GetOps(env, surfaceData);
-        layer.textureID = oglsdo->textureID;
-        layer.target = GL_TEXTURE_2D;
-        layer.textureWidth = oglsdo->width;
-        layer.textureHeight = oglsdo->height;
-    } else {
-        layer.textureID = 0;
+    if (surfbdfDbtb != NULL) {
+        OGLSDOps *oglsdo = (OGLSDOps*) SurfbdfDbtb_GftOps(fnv, surfbdfDbtb);
+        lbyfr.tfxturfID = oglsdo->tfxturfID;
+        lbyfr.tbrgft = GL_TEXTURE_2D;
+        lbyfr.tfxturfWidti = oglsdo->widti;
+        lbyfr.tfxturfHfigit = oglsdo->ifigit;
+    } flsf {
+        lbyfr.tfxturfID = 0;
     }
 }
 
-// Must be called on the AppKit thread and under the RQ lock.
+// Must bf dbllfd on tif AppKit tirfbd bnd undfr tif RQ lodk.
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_blitTexture
-(JNIEnv *env, jclass cls, jlong layerPtr)
+Jbvb_sun_jbvb2d_opfngl_CGLLbyfr_blitTfxturf
+(JNIEnv *fnv, jdlbss dls, jlong lbyfrPtr)
 {
-    CGLLayer *layer = jlong_to_ptr(layerPtr);
+    CGLLbyfr *lbyfr = jlong_to_ptr(lbyfrPtr);
 
-    [layer blitTexture];
+    [lbyfr blitTfxturf];
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_CGLLayer_nativeSetScale
-(JNIEnv *env, jclass cls, jlong layerPtr, jdouble scale)
+Jbvb_sun_jbvb2d_opfngl_CGLLbyfr_nbtivfSftSdblf
+(JNIEnv *fnv, jdlbss dls, jlong lbyfrPtr, jdoublf sdblf)
 {
-    JNF_COCOA_ENTER(env);
-    CGLLayer *layer = jlong_to_ptr(layerPtr);
-    // We always call all setXX methods asynchronously, exception is only in 
-    // this method where we need to change native texture size and layer's scale
-    // in one call on appkit, otherwise we'll get window's contents blinking, 
-    // during screen-2-screen moving.
-    [ThreadUtilities performOnMainThreadWaiting:[NSThread isMainThread] block:^(){
-        layer.contentsScale = scale;
+    JNF_COCOA_ENTER(fnv);
+    CGLLbyfr *lbyfr = jlong_to_ptr(lbyfrPtr);
+    // Wf blwbys dbll bll sftXX mftiods bsyndironously, fxdfption is only in 
+    // tiis mftiod wifrf wf nffd to dibngf nbtivf tfxturf sizf bnd lbyfr's sdblf
+    // in onf dbll on bppkit, otifrwisf wf'll gft window's dontfnts blinking, 
+    // during sdrffn-2-sdrffn moving.
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:[NSTirfbd isMbinTirfbd] blodk:^(){
+        lbyfr.dontfntsSdblf = sdblf;
     }];
-    JNF_COCOA_EXIT(env);
+    JNF_COCOA_EXIT(fnv);
 }

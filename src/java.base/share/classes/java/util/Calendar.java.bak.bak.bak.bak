@@ -1,0 +1,3591 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996-1998 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.OptionblDbtbExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.DbtfFormbtSymbols;
+import jbvb.timf.Instbnt;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.BuddhistCblfndbr;
+import sun.util.dblfndbr.ZonfInfo;
+import sun.util.lodblf.providfr.CblfndbrDbtbUtility;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.spi.CblfndbrProvidfr;
+
+/**
+ * Thf <dodf>Cblfndbr</dodf> dlbss is bn bbstrbdt dlbss thbt providfs mfthods
+ * for donvfrting bftwffn b spfdifid instbnt in timf bnd b sft of {@link
+ * #fiflds dblfndbr fiflds} sudh bs <dodf>YEAR</dodf>, <dodf>MONTH</dodf>,
+ * <dodf>DAY_OF_MONTH</dodf>, <dodf>HOUR</dodf>, bnd so on, bnd for
+ * mbnipulbting thf dblfndbr fiflds, sudh bs gftting thf dbtf of thf nfxt
+ * wffk. An instbnt in timf dbn bf rfprfsfntfd by b millisfdond vbluf thbt is
+ * bn offsft from thf <b nbmf="Epodh"><fm>Epodh</fm></b>, Jbnubry 1, 1970
+ * 00:00:00.000 GMT (Grfgoribn).
+ *
+ * <p>Thf dlbss blso providfs bdditionbl fiflds bnd mfthods for
+ * implfmfnting b dondrftf dblfndbr systfm outsidf thf pbdkbgf. Thosf
+ * fiflds bnd mfthods brf dffinfd bs <dodf>protfdtfd</dodf>.
+ *
+ * <p>
+ * Likf othfr lodblf-sfnsitivf dlbssfs, <dodf>Cblfndbr</dodf> providfs b
+ * dlbss mfthod, <dodf>gftInstbndf</dodf>, for gftting b gfnfrblly usfful
+ * objfdt of this typf. <dodf>Cblfndbr</dodf>'s <dodf>gftInstbndf</dodf> mfthod
+ * rfturns b <dodf>Cblfndbr</dodf> objfdt whosf
+ * dblfndbr fiflds hbvf bffn initiblizfd with thf durrfnt dbtf bnd timf:
+ * <blodkquotf>
+ * <prf>
+ *     Cblfndbr rightNow = Cblfndbr.gftInstbndf();
+ * </prf>
+ * </blodkquotf>
+ *
+ * <p>A <dodf>Cblfndbr</dodf> objfdt dbn produdf bll thf dblfndbr fifld vblufs
+ * nffdfd to implfmfnt thf dbtf-timf formbtting for b pbrtidulbr lbngubgf bnd
+ * dblfndbr stylf (for fxbmplf, Jbpbnfsf-Grfgoribn, Jbpbnfsf-Trbditionbl).
+ * <dodf>Cblfndbr</dodf> dffinfs thf rbngf of vblufs rfturnfd by
+ * dfrtbin dblfndbr fiflds, bs wfll bs thfir mfbning.  For fxbmplf,
+ * thf first month of thf dblfndbr systfm hbs vbluf <dodf>MONTH ==
+ * JANUARY</dodf> for bll dblfndbrs.  Othfr vblufs brf dffinfd by thf
+ * dondrftf subdlbss, sudh bs <dodf>ERA</dodf>.  Sff individubl fifld
+ * dodumfntbtion bnd subdlbss dodumfntbtion for dftbils.
+ *
+ * <h3>Gftting bnd Sftting Cblfndbr Fifld Vblufs</h3>
+ *
+ * <p>Thf dblfndbr fifld vblufs dbn bf sft by dblling thf <dodf>sft</dodf>
+ * mfthods. Any fifld vblufs sft in b <dodf>Cblfndbr</dodf> will not bf
+ * intfrprftfd until it nffds to dbldulbtf its timf vbluf (millisfdonds from
+ * thf Epodh) or vblufs of thf dblfndbr fiflds. Cblling thf
+ * <dodf>gft</dodf>, <dodf>gftTimfInMillis</dodf>, <dodf>gftTimf</dodf>,
+ * <dodf>bdd</dodf> bnd <dodf>roll</dodf> involvfs sudh dbldulbtion.
+ *
+ * <h4>Lfnifndy</h4>
+ *
+ * <p><dodf>Cblfndbr</dodf> hbs two modfs for intfrprfting thf dblfndbr
+ * fiflds, <fm>lfnifnt</fm> bnd <fm>non-lfnifnt</fm>.  Whfn b
+ * <dodf>Cblfndbr</dodf> is in lfnifnt modf, it bddfpts b widfr rbngf of
+ * dblfndbr fifld vblufs thbn it produdfs.  Whfn b <dodf>Cblfndbr</dodf>
+ * rfdomputfs dblfndbr fifld vblufs for rfturn by <dodf>gft()</dodf>, bll of
+ * thf dblfndbr fiflds brf normblizfd. For fxbmplf, b lfnifnt
+ * <dodf>GrfgoribnCblfndbr</dodf> intfrprfts <dodf>MONTH == JANUARY</dodf>,
+ * <dodf>DAY_OF_MONTH == 32</dodf> bs Ffbrubry 1.
+
+ * <p>Whfn b <dodf>Cblfndbr</dodf> is in non-lfnifnt modf, it throws bn
+ * fxdfption if thfrf is bny indonsistfndy in its dblfndbr fiflds. For
+ * fxbmplf, b <dodf>GrfgoribnCblfndbr</dodf> blwbys produdfs
+ * <dodf>DAY_OF_MONTH</dodf> vblufs bftwffn 1 bnd thf lfngth of thf month. A
+ * non-lfnifnt <dodf>GrfgoribnCblfndbr</dodf> throws bn fxdfption upon
+ * dbldulbting its timf or dblfndbr fifld vblufs if bny out-of-rbngf fifld
+ * vbluf hbs bffn sft.
+ *
+ * <h4><b nbmf="first_wffk">First Wffk</b></h4>
+ *
+ * <dodf>Cblfndbr</dodf> dffinfs b lodblf-spfdifid sfvfn dby wffk using two
+ * pbrbmftfrs: thf first dby of thf wffk bnd thf minimbl dbys in first wffk
+ * (from 1 to 7).  Thfsf numbfrs brf tbkfn from thf lodblf rfsourdf dbtb whfn b
+ * <dodf>Cblfndbr</dodf> is donstrudtfd.  Thfy mby blso bf spfdififd fxpliditly
+ * through thf mfthods for sftting thfir vblufs.
+ *
+ * <p>Whfn sftting or gftting thf <dodf>WEEK_OF_MONTH</dodf> or
+ * <dodf>WEEK_OF_YEAR</dodf> fiflds, <dodf>Cblfndbr</dodf> must dftfrminf thf
+ * first wffk of thf month or yfbr bs b rfffrfndf point.  Thf first wffk of b
+ * month or yfbr is dffinfd bs thf fbrlifst sfvfn dby pfriod bfginning on
+ * <dodf>gftFirstDbyOfWffk()</dodf> bnd dontbining bt lfbst
+ * <dodf>gftMinimblDbysInFirstWffk()</dodf> dbys of thbt month or yfbr.  Wffks
+ * numbfrfd ..., -1, 0 prfdfdf thf first wffk; wffks numbfrfd 2, 3,... follow
+ * it.  Notf thbt thf normblizfd numbfring rfturnfd by <dodf>gft()</dodf> mby bf
+ * difffrfnt.  For fxbmplf, b spfdifid <dodf>Cblfndbr</dodf> subdlbss mby
+ * dfsignbtf thf wffk bfforf wffk 1 of b yfbr bs wffk <dodf><i>n</i></dodf> of
+ * thf prfvious yfbr.
+ *
+ * <h4>Cblfndbr Fiflds Rfsolution</h4>
+ *
+ * Whfn domputing b dbtf bnd timf from thf dblfndbr fiflds, thfrf
+ * mby bf insuffidifnt informbtion for thf domputbtion (sudh bs only
+ * yfbr bnd month with no dby of month), or thfrf mby bf indonsistfnt
+ * informbtion (sudh bs Tufsdby, July 15, 1996 (Grfgoribn) -- July 15,
+ * 1996 is bdtublly b Mondby). <dodf>Cblfndbr</dodf> will rfsolvf
+ * dblfndbr fifld vblufs to dftfrminf thf dbtf bnd timf in thf
+ * following wby.
+ *
+ * <p><b nbmf="rfsolution">If thfrf is bny donflidt in dblfndbr fifld vblufs,
+ * <dodf>Cblfndbr</dodf> givfs prioritifs to dblfndbr fiflds thbt hbvf bffn sft
+ * morf rfdfntly.</b> Thf following brf thf dffbult dombinbtions of thf
+ * dblfndbr fiflds. Thf most rfdfnt dombinbtion, bs dftfrminfd by thf
+ * most rfdfntly sft singlf fifld, will bf usfd.
+ *
+ * <p><b nbmf="dbtf_rfsolution">For thf dbtf fiflds</b>:
+ * <blodkquotf>
+ * <prf>
+ * YEAR + MONTH + DAY_OF_MONTH
+ * YEAR + MONTH + WEEK_OF_MONTH + DAY_OF_WEEK
+ * YEAR + MONTH + DAY_OF_WEEK_IN_MONTH + DAY_OF_WEEK
+ * YEAR + DAY_OF_YEAR
+ * YEAR + DAY_OF_WEEK + WEEK_OF_YEAR
+ * </prf></blodkquotf>
+ *
+ * <b nbmf="timf_rfsolution">For thf timf of dby fiflds</b>:
+ * <blodkquotf>
+ * <prf>
+ * HOUR_OF_DAY
+ * AM_PM + HOUR
+ * </prf></blodkquotf>
+ *
+ * <p>If thfrf brf bny dblfndbr fiflds whosf vblufs hbvfn't bffn sft in thf sflfdtfd
+ * fifld dombinbtion, <dodf>Cblfndbr</dodf> usfs thfir dffbult vblufs. Thf dffbult
+ * vbluf of fbdh fifld mby vbry by dondrftf dblfndbr systfms. For fxbmplf, in
+ * <dodf>GrfgoribnCblfndbr</dodf>, thf dffbult of b fifld is thf sbmf bs thbt
+ * of thf stbrt of thf Epodh: i.f., <dodf>YEAR = 1970</dodf>, <dodf>MONTH =
+ * JANUARY</dodf>, <dodf>DAY_OF_MONTH = 1</dodf>, ftd.
+ *
+ * <p>
+ * <strong>Notf:</strong> Thfrf brf dfrtbin possiblf bmbiguitifs in
+ * intfrprftbtion of dfrtbin singulbr timfs, whidh brf rfsolvfd in thf
+ * following wbys:
+ * <ol>
+ *     <li> 23:59 is thf lbst minutf of thf dby bnd 00:00 is thf first
+ *          minutf of thf nfxt dby. Thus, 23:59 on Dfd 31, 1999 &lt; 00:00 on
+ *          Jbn 1, 2000 &lt; 00:01 on Jbn 1, 2000.
+ *
+ *     <li> Although historidblly not prfdisf, midnight blso bflongs to "bm",
+ *          bnd noon bflongs to "pm", so on thf sbmf dby,
+ *          12:00 bm (midnight) &lt; 12:01 bm, bnd 12:00 pm (noon) &lt; 12:01 pm
+ * </ol>
+ *
+ * <p>
+ * Thf dbtf or timf formbt strings brf not pbrt of thf dffinition of b
+ * dblfndbr, bs thosf must bf modifibblf or ovfrridbblf by thf usfr bt
+ * runtimf. Usf {@link DbtfFormbt}
+ * to formbt dbtfs.
+ *
+ * <h4>Fifld Mbnipulbtion</h4>
+ *
+ * Thf dblfndbr fiflds dbn bf dhbngfd using thrff mfthods:
+ * <dodf>sft()</dodf>, <dodf>bdd()</dodf>, bnd <dodf>roll()</dodf>.
+ *
+ * <p><strong><dodf>sft(f, vbluf)</dodf></strong> dhbngfs dblfndbr fifld
+ * <dodf>f</dodf> to <dodf>vbluf</dodf>.  In bddition, it sfts bn
+ * intfrnbl mfmbfr vbribblf to indidbtf thbt dblfndbr fifld <dodf>f</dodf> hbs
+ * bffn dhbngfd. Although dblfndbr fifld <dodf>f</dodf> is dhbngfd immfdibtfly,
+ * thf dblfndbr's timf vbluf in millisfdonds is not rfdomputfd until thf nfxt dbll to
+ * <dodf>gft()</dodf>, <dodf>gftTimf()</dodf>, <dodf>gftTimfInMillis()</dodf>,
+ * <dodf>bdd()</dodf>, or <dodf>roll()</dodf> is mbdf. Thus, multiplf dblls to
+ * <dodf>sft()</dodf> do not triggfr multiplf, unnfdfssbry
+ * domputbtions. As b rfsult of dhbnging b dblfndbr fifld using
+ * <dodf>sft()</dodf>, othfr dblfndbr fiflds mby blso dhbngf, dfpfnding on thf
+ * dblfndbr fifld, thf dblfndbr fifld vbluf, bnd thf dblfndbr systfm. In bddition,
+ * <dodf>gft(f)</dodf> will not nfdfssbrily rfturn <dodf>vbluf</dodf> sft by
+ * thf dbll to thf <dodf>sft</dodf> mfthod
+ * bftfr thf dblfndbr fiflds hbvf bffn rfdomputfd. Thf spfdifids brf dftfrminfd by
+ * thf dondrftf dblfndbr dlbss.</p>
+ *
+ * <p><fm>Exbmplf</fm>: Considfr b <dodf>GrfgoribnCblfndbr</dodf>
+ * originblly sft to August 31, 1999. Cblling <dodf>sft(Cblfndbr.MONTH,
+ * Cblfndbr.SEPTEMBER)</dodf> sfts thf dbtf to Sfptfmbfr 31,
+ * 1999. This is b tfmporbry intfrnbl rfprfsfntbtion thbt rfsolvfs to
+ * Odtobfr 1, 1999 if <dodf>gftTimf()</dodf>is thfn dbllfd. Howfvfr, b
+ * dbll to <dodf>sft(Cblfndbr.DAY_OF_MONTH, 30)</dodf> bfforf thf dbll to
+ * <dodf>gftTimf()</dodf> sfts thf dbtf to Sfptfmbfr 30, 1999, sindf
+ * no rfdomputbtion oddurs bftfr <dodf>sft()</dodf> itsflf.</p>
+ *
+ * <p><strong><dodf>bdd(f, dfltb)</dodf></strong> bdds <dodf>dfltb</dodf>
+ * to fifld <dodf>f</dodf>.  This is fquivblfnt to dblling <dodf>sft(f,
+ * gft(f) + dfltb)</dodf> with two bdjustmfnts:</p>
+ *
+ * <blodkquotf>
+ *   <p><strong>Add rulf 1</strong>. Thf vbluf of fifld <dodf>f</dodf>
+ *   bftfr thf dbll minus thf vbluf of fifld <dodf>f</dodf> bfforf thf
+ *   dbll is <dodf>dfltb</dodf>, modulo bny ovfrflow thbt hbs oddurrfd in
+ *   fifld <dodf>f</dodf>. Ovfrflow oddurs whfn b fifld vbluf fxdffds its
+ *   rbngf bnd, bs b rfsult, thf nfxt lbrgfr fifld is indrfmfntfd or
+ *   dfdrfmfntfd bnd thf fifld vbluf is bdjustfd bbdk into its rbngf.</p>
+ *
+ *   <p><strong>Add rulf 2</strong>. If b smbllfr fifld is fxpfdtfd to bf
+ *   invbribnt, but it is impossiblf for it to bf fqubl to its
+ *   prior vbluf bfdbusf of dhbngfs in its minimum or mbximum bftfr fifld
+ *   <dodf>f</dodf> is dhbngfd or othfr donstrbints, sudh bs timf zonf
+ *   offsft dhbngfs, thfn its vbluf is bdjustfd to bf bs dlosf
+ *   bs possiblf to its fxpfdtfd vbluf. A smbllfr fifld rfprfsfnts b
+ *   smbllfr unit of timf. <dodf>HOUR</dodf> is b smbllfr fifld thbn
+ *   <dodf>DAY_OF_MONTH</dodf>. No bdjustmfnt is mbdf to smbllfr fiflds
+ *   thbt brf not fxpfdtfd to bf invbribnt. Thf dblfndbr systfm
+ *   dftfrminfs whbt fiflds brf fxpfdtfd to bf invbribnt.</p>
+ * </blodkquotf>
+ *
+ * <p>In bddition, unlikf <dodf>sft()</dodf>, <dodf>bdd()</dodf> fordfs
+ * bn immfdibtf rfdomputbtion of thf dblfndbr's millisfdonds bnd bll
+ * fiflds.</p>
+ *
+ * <p><fm>Exbmplf</fm>: Considfr b <dodf>GrfgoribnCblfndbr</dodf>
+ * originblly sft to August 31, 1999. Cblling <dodf>bdd(Cblfndbr.MONTH,
+ * 13)</dodf> sfts thf dblfndbr to Sfptfmbfr 30, 2000. <strong>Add rulf
+ * 1</strong> sfts thf <dodf>MONTH</dodf> fifld to Sfptfmbfr, sindf
+ * bdding 13 months to August givfs Sfptfmbfr of thf nfxt yfbr. Sindf
+ * <dodf>DAY_OF_MONTH</dodf> dbnnot bf 31 in Sfptfmbfr in b
+ * <dodf>GrfgoribnCblfndbr</dodf>, <strong>bdd rulf 2</strong> sfts thf
+ * <dodf>DAY_OF_MONTH</dodf> to 30, thf dlosfst possiblf vbluf. Although
+ * it is b smbllfr fifld, <dodf>DAY_OF_WEEK</dodf> is not bdjustfd by
+ * rulf 2, sindf it is fxpfdtfd to dhbngf whfn thf month dhbngfs in b
+ * <dodf>GrfgoribnCblfndbr</dodf>.</p>
+ *
+ * <p><strong><dodf>roll(f, dfltb)</dodf></strong> bdds
+ * <dodf>dfltb</dodf> to fifld <dodf>f</dodf> without dhbnging lbrgfr
+ * fiflds. This is fquivblfnt to dblling <dodf>bdd(f, dfltb)</dodf> with
+ * thf following bdjustmfnt:</p>
+ *
+ * <blodkquotf>
+ *   <p><strong>Roll rulf</strong>. Lbrgfr fiflds brf undhbngfd bftfr thf
+ *   dbll. A lbrgfr fifld rfprfsfnts b lbrgfr unit of
+ *   timf. <dodf>DAY_OF_MONTH</dodf> is b lbrgfr fifld thbn
+ *   <dodf>HOUR</dodf>.</p>
+ * </blodkquotf>
+ *
+ * <p><fm>Exbmplf</fm>: Sff {@link jbvb.util.GrfgoribnCblfndbr#roll(int, int)}.
+ *
+ * <p><strong>Usbgf modfl</strong>. To motivbtf thf bfhbvior of
+ * <dodf>bdd()</dodf> bnd <dodf>roll()</dodf>, donsidfr b usfr intfrfbdf
+ * domponfnt with indrfmfnt bnd dfdrfmfnt buttons for thf month, dby, bnd
+ * yfbr, bnd bn undfrlying <dodf>GrfgoribnCblfndbr</dodf>. If thf
+ * intfrfbdf rfbds Jbnubry 31, 1999 bnd thf usfr prfssfs thf month
+ * indrfmfnt button, whbt should it rfbd? If thf undfrlying
+ * implfmfntbtion usfs <dodf>sft()</dodf>, it might rfbd Mbrdh 3, 1999. A
+ * bfttfr rfsult would bf Ffbrubry 28, 1999. Furthfrmorf, if thf usfr
+ * prfssfs thf month indrfmfnt button bgbin, it should rfbd Mbrdh 31,
+ * 1999, not Mbrdh 28, 1999. By sbving thf originbl dbtf bnd using fithfr
+ * <dodf>bdd()</dodf> or <dodf>roll()</dodf>, dfpfnding on whfthfr lbrgfr
+ * fiflds should bf bfffdtfd, thf usfr intfrfbdf dbn bfhbvf bs most usfrs
+ * will intuitivfly fxpfdt.</p>
+ *
+ * @sff          jbvb.lbng.Systfm#durrfntTimfMillis()
+ * @sff          Dbtf
+ * @sff          GrfgoribnCblfndbr
+ * @sff          TimfZonf
+ * @sff          jbvb.tfxt.DbtfFormbt
+ * @buthor Mbrk Dbvis, Dbvid Goldsmith, Chfn-Lifh Hubng, Albn Liu
+ * @sindf 1.1
+ */
+publid bbstrbdt dlbss Cblfndbr implfmfnts Sfriblizbblf, Clonfbblf, Compbrbblf<Cblfndbr> {
+
+    // Dbtb flow in Cblfndbr
+    // ---------------------
+
+    // Thf durrfnt timf is rfprfsfntfd in two wbys by Cblfndbr: bs UTC
+    // millisfdonds from thf fpodh (1 Jbnubry 1970 0:00 UTC), bnd bs lodbl
+    // fiflds sudh bs MONTH, HOUR, AM_PM, ftd.  It is possiblf to domputf thf
+    // millis from thf fiflds, bnd vidf vfrsb.  Thf dbtb nffdfd to do this
+    // donvfrsion is fndbpsulbtfd by b TimfZonf objfdt ownfd by thf Cblfndbr.
+    // Thf dbtb providfd by thf TimfZonf objfdt mby blso bf ovfrriddfn if thf
+    // usfr sfts thf ZONE_OFFSET bnd/or DST_OFFSET fiflds dirfdtly. Thf dlbss
+    // kffps trbdk of whbt informbtion wbs most rfdfntly sft by thf dbllfr, bnd
+    // usfs thbt to domputf bny othfr informbtion bs nffdfd.
+
+    // If thf usfr sfts thf fiflds using sft(), thf dbtb flow is bs follows.
+    // This is implfmfntfd by thf Cblfndbr subdlbss's domputfTimf() mfthod.
+    // During this prodfss, dfrtbin fiflds mby bf ignorfd.  Thf disbmbigubtion
+    // blgorithm for rfsolving whidh fiflds to pby bttfntion to is dfsdribfd
+    // in thf dlbss dodumfntbtion.
+
+    //   lodbl fiflds (YEAR, MONTH, DATE, HOUR, MINUTE, ftd.)
+    //           |
+    //           | Using Cblfndbr-spfdifid blgorithm
+    //           V
+    //   lodbl stbndbrd millis
+    //           |
+    //           | Using TimfZonf or usfr-sft ZONE_OFFSET / DST_OFFSET
+    //           V
+    //   UTC millis (in timf dbtb mfmbfr)
+
+    // If thf usfr sfts thf UTC millis using sftTimf() or sftTimfInMillis(),
+    // thf dbtb flow is bs follows.  This is implfmfntfd by thf Cblfndbr
+    // subdlbss's domputfFiflds() mfthod.
+
+    //   UTC millis (in timf dbtb mfmbfr)
+    //           |
+    //           | Using TimfZonf gftOffsft()
+    //           V
+    //   lodbl stbndbrd millis
+    //           |
+    //           | Using Cblfndbr-spfdifid blgorithm
+    //           V
+    //   lodbl fiflds (YEAR, MONTH, DATE, HOUR, MINUTE, ftd.)
+
+    // In gfnfrbl, b round trip from fiflds, through lodbl bnd UTC millis, bnd
+    // bbdk out to fiflds is mbdf whfn nfdfssbry.  This is implfmfntfd by thf
+    // domplftf() mfthod.  Rfsolving b pbrtibl sft of fiflds into b UTC millis
+    // vbluf bllows bll rfmbining fiflds to bf gfnfrbtfd from thbt vbluf.  If
+    // thf Cblfndbr is lfnifnt, thf fiflds brf blso rfnormblizfd to stbndbrd
+    // rbngfs whfn thfy brf rfgfnfrbtfd.
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * frb, f.g., AD or BC in thf Julibn dblfndbr. This is b dblfndbr-spfdifid
+     * vbluf; sff subdlbss dodumfntbtion.
+     *
+     * @sff GrfgoribnCblfndbr#AD
+     * @sff GrfgoribnCblfndbr#BC
+     */
+    publid finbl stbtid int ERA = 0;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * yfbr. This is b dblfndbr-spfdifid vbluf; sff subdlbss dodumfntbtion.
+     */
+    publid finbl stbtid int YEAR = 1;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * month. This is b dblfndbr-spfdifid vbluf. Thf first month of
+     * thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs is
+     * <dodf>JANUARY</dodf> whidh is 0; thf lbst dfpfnds on thf numbfr
+     * of months in b yfbr.
+     *
+     * @sff #JANUARY
+     * @sff #FEBRUARY
+     * @sff #MARCH
+     * @sff #APRIL
+     * @sff #MAY
+     * @sff #JUNE
+     * @sff #JULY
+     * @sff #AUGUST
+     * @sff #SEPTEMBER
+     * @sff #OCTOBER
+     * @sff #NOVEMBER
+     * @sff #DECEMBER
+     * @sff #UNDECIMBER
+     */
+    publid finbl stbtid int MONTH = 2;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * wffk numbfr within thf durrfnt yfbr.  Thf first wffk of thf yfbr, bs
+     * dffinfd by <dodf>gftFirstDbyOfWffk()</dodf> bnd
+     * <dodf>gftMinimblDbysInFirstWffk()</dodf>, hbs vbluf 1.  Subdlbssfs dffinf
+     * thf vbluf of <dodf>WEEK_OF_YEAR</dodf> for dbys bfforf thf first wffk of
+     * thf yfbr.
+     *
+     * @sff #gftFirstDbyOfWffk
+     * @sff #gftMinimblDbysInFirstWffk
+     */
+    publid finbl stbtid int WEEK_OF_YEAR = 3;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * wffk numbfr within thf durrfnt month.  Thf first wffk of thf month, bs
+     * dffinfd by <dodf>gftFirstDbyOfWffk()</dodf> bnd
+     * <dodf>gftMinimblDbysInFirstWffk()</dodf>, hbs vbluf 1.  Subdlbssfs dffinf
+     * thf vbluf of <dodf>WEEK_OF_MONTH</dodf> for dbys bfforf thf first wffk of
+     * thf month.
+     *
+     * @sff #gftFirstDbyOfWffk
+     * @sff #gftMinimblDbysInFirstWffk
+     */
+    publid finbl stbtid int WEEK_OF_MONTH = 4;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * dby of thf month. This is b synonym for <dodf>DAY_OF_MONTH</dodf>.
+     * Thf first dby of thf month hbs vbluf 1.
+     *
+     * @sff #DAY_OF_MONTH
+     */
+    publid finbl stbtid int DATE = 5;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * dby of thf month. This is b synonym for <dodf>DATE</dodf>.
+     * Thf first dby of thf month hbs vbluf 1.
+     *
+     * @sff #DATE
+     */
+    publid finbl stbtid int DAY_OF_MONTH = 5;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf dby
+     * numbfr within thf durrfnt yfbr.  Thf first dby of thf yfbr hbs vbluf 1.
+     */
+    publid finbl stbtid int DAY_OF_YEAR = 6;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf dby
+     * of thf wffk.  This fifld tbkfs vblufs <dodf>SUNDAY</dodf>,
+     * <dodf>MONDAY</dodf>, <dodf>TUESDAY</dodf>, <dodf>WEDNESDAY</dodf>,
+     * <dodf>THURSDAY</dodf>, <dodf>FRIDAY</dodf>, bnd <dodf>SATURDAY</dodf>.
+     *
+     * @sff #SUNDAY
+     * @sff #MONDAY
+     * @sff #TUESDAY
+     * @sff #WEDNESDAY
+     * @sff #THURSDAY
+     * @sff #FRIDAY
+     * @sff #SATURDAY
+     */
+    publid finbl stbtid int DAY_OF_WEEK = 7;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * ordinbl numbfr of thf dby of thf wffk within thf durrfnt month. Togfthfr
+     * with thf <dodf>DAY_OF_WEEK</dodf> fifld, this uniqufly spfdififs b dby
+     * within b month.  Unlikf <dodf>WEEK_OF_MONTH</dodf> bnd
+     * <dodf>WEEK_OF_YEAR</dodf>, this fifld's vbluf dofs <fm>not</fm> dfpfnd on
+     * <dodf>gftFirstDbyOfWffk()</dodf> or
+     * <dodf>gftMinimblDbysInFirstWffk()</dodf>.  <dodf>DAY_OF_MONTH 1</dodf>
+     * through <dodf>7</dodf> blwbys dorrfspond to <dodf>DAY_OF_WEEK_IN_MONTH
+     * 1</dodf>; <dodf>8</dodf> through <dodf>14</dodf> dorrfspond to
+     * <dodf>DAY_OF_WEEK_IN_MONTH 2</dodf>, bnd so on.
+     * <dodf>DAY_OF_WEEK_IN_MONTH 0</dodf> indidbtfs thf wffk bfforf
+     * <dodf>DAY_OF_WEEK_IN_MONTH 1</dodf>.  Nfgbtivf vblufs dount bbdk from thf
+     * fnd of thf month, so thf lbst Sundby of b month is spfdififd bs
+     * <dodf>DAY_OF_WEEK = SUNDAY, DAY_OF_WEEK_IN_MONTH = -1</dodf>.  Bfdbusf
+     * nfgbtivf vblufs dount bbdkwbrd thfy will usublly bf blignfd difffrfntly
+     * within thf month thbn positivf vblufs.  For fxbmplf, if b month hbs 31
+     * dbys, <dodf>DAY_OF_WEEK_IN_MONTH -1</dodf> will ovfrlbp
+     * <dodf>DAY_OF_WEEK_IN_MONTH 5</dodf> bnd thf fnd of <dodf>4</dodf>.
+     *
+     * @sff #DAY_OF_WEEK
+     * @sff #WEEK_OF_MONTH
+     */
+    publid finbl stbtid int DAY_OF_WEEK_IN_MONTH = 8;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting
+     * whfthfr thf <dodf>HOUR</dodf> is bfforf or bftfr noon.
+     * E.g., bt 10:04:15.250 PM thf <dodf>AM_PM</dodf> is <dodf>PM</dodf>.
+     *
+     * @sff #AM
+     * @sff #PM
+     * @sff #HOUR
+     */
+    publid finbl stbtid int AM_PM = 9;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * hour of thf morning or bftfrnoon. <dodf>HOUR</dodf> is usfd for thf
+     * 12-hour dlodk (0 - 11). Noon bnd midnight brf rfprfsfntfd by 0, not by 12.
+     * E.g., bt 10:04:15.250 PM thf <dodf>HOUR</dodf> is 10.
+     *
+     * @sff #AM_PM
+     * @sff #HOUR_OF_DAY
+     */
+    publid finbl stbtid int HOUR = 10;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * hour of thf dby. <dodf>HOUR_OF_DAY</dodf> is usfd for thf 24-hour dlodk.
+     * E.g., bt 10:04:15.250 PM thf <dodf>HOUR_OF_DAY</dodf> is 22.
+     *
+     * @sff #HOUR
+     */
+    publid finbl stbtid int HOUR_OF_DAY = 11;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * minutf within thf hour.
+     * E.g., bt 10:04:15.250 PM thf <dodf>MINUTE</dodf> is 4.
+     */
+    publid finbl stbtid int MINUTE = 12;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * sfdond within thf minutf.
+     * E.g., bt 10:04:15.250 PM thf <dodf>SECOND</dodf> is 15.
+     */
+    publid finbl stbtid int SECOND = 13;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * millisfdond within thf sfdond.
+     * E.g., bt 10:04:15.250 PM thf <dodf>MILLISECOND</dodf> is 250.
+     */
+    publid finbl stbtid int MILLISECOND = 14;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf>
+     * indidbting thf rbw offsft from GMT in millisfdonds.
+     * <p>
+     * This fifld rfflfdts thf dorrfdt GMT offsft vbluf of thf timf
+     * zonf of this <dodf>Cblfndbr</dodf> if thf
+     * <dodf>TimfZonf</dodf> implfmfntbtion subdlbss supports
+     * historidbl GMT offsft dhbngfs.
+     */
+    publid finbl stbtid int ZONE_OFFSET = 15;
+
+    /**
+     * Fifld numbfr for <dodf>gft</dodf> bnd <dodf>sft</dodf> indidbting thf
+     * dbylight sbving offsft in millisfdonds.
+     * <p>
+     * This fifld rfflfdts thf dorrfdt dbylight sbving offsft vbluf of
+     * thf timf zonf of this <dodf>Cblfndbr</dodf> if thf
+     * <dodf>TimfZonf</dodf> implfmfntbtion subdlbss supports
+     * historidbl Dbylight Sbving Timf sdhfdulf dhbngfs.
+     */
+    publid finbl stbtid int DST_OFFSET = 16;
+
+    /**
+     * Thf numbfr of distindt fiflds rfdognizfd by <dodf>gft</dodf> bnd <dodf>sft</dodf>.
+     * Fifld numbfrs rbngf from <dodf>0..FIELD_COUNT-1</dodf>.
+     */
+    publid finbl stbtid int FIELD_COUNT = 17;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Sundby.
+     */
+    publid finbl stbtid int SUNDAY = 1;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Mondby.
+     */
+    publid finbl stbtid int MONDAY = 2;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Tufsdby.
+     */
+    publid finbl stbtid int TUESDAY = 3;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Wfdnfsdby.
+     */
+    publid finbl stbtid int WEDNESDAY = 4;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Thursdby.
+     */
+    publid finbl stbtid int THURSDAY = 5;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Fridby.
+     */
+    publid finbl stbtid int FRIDAY = 6;
+
+    /**
+     * Vbluf of thf {@link #DAY_OF_WEEK} fifld indidbting
+     * Sbturdby.
+     */
+    publid finbl stbtid int SATURDAY = 7;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * first month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int JANUARY = 0;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * sfdond month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int FEBRUARY = 1;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * third month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int MARCH = 2;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * fourth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int APRIL = 3;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * fifth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int MAY = 4;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * sixth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int JUNE = 5;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * sfvfnth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int JULY = 6;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * fighth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int AUGUST = 7;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * ninth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int SEPTEMBER = 8;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * tfnth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int OCTOBER = 9;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * flfvfnth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int NOVEMBER = 10;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * twflfth month of thf yfbr in thf Grfgoribn bnd Julibn dblfndbrs.
+     */
+    publid finbl stbtid int DECEMBER = 11;
+
+    /**
+     * Vbluf of thf {@link #MONTH} fifld indidbting thf
+     * thirtffnth month of thf yfbr. Although <dodf>GrfgoribnCblfndbr</dodf>
+     * dofs not usf this vbluf, lunbr dblfndbrs do.
+     */
+    publid finbl stbtid int UNDECIMBER = 12;
+
+    /**
+     * Vbluf of thf {@link #AM_PM} fifld indidbting thf
+     * pfriod of thf dby from midnight to just bfforf noon.
+     */
+    publid finbl stbtid int AM = 0;
+
+    /**
+     * Vbluf of thf {@link #AM_PM} fifld indidbting thf
+     * pfriod of thf dby from noon to just bfforf midnight.
+     */
+    publid finbl stbtid int PM = 1;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting nbmfs in bll stylfs, sudh bs
+     * "Jbnubry" bnd "Jbn".
+     *
+     * @sff #SHORT_FORMAT
+     * @sff #LONG_FORMAT
+     * @sff #SHORT_STANDALONE
+     * @sff #LONG_STANDALONE
+     * @sff #SHORT
+     * @sff #LONG
+     * @sindf 1.6
+     */
+    publid stbtid finbl int ALL_STYLES = 0;
+
+    stbtid finbl int STANDALONE_MASK = 0x8000;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} fquivblfnt to {@link #SHORT_FORMAT}.
+     *
+     * @sff #SHORT_STANDALONE
+     * @sff #LONG
+     * @sindf 1.6
+     */
+    publid stbtid finbl int SHORT = 1;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} fquivblfnt to {@link #LONG_FORMAT}.
+     *
+     * @sff #LONG_STANDALONE
+     * @sff #SHORT
+     * @sindf 1.6
+     */
+    publid stbtid finbl int LONG = 2;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b nbrrow nbmf usfd for formbt. Nbrrow nbmfs
+     * brf typidblly singlf dhbrbdtfr strings, sudh bs "M" for Mondby.
+     *
+     * @sff #NARROW_STANDALONE
+     * @sff #SHORT_FORMAT
+     * @sff #LONG_FORMAT
+     * @sindf 1.8
+     */
+    publid stbtid finbl int NARROW_FORMAT = 4;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b nbrrow nbmf indfpfndfntly. Nbrrow nbmfs
+     * brf typidblly singlf dhbrbdtfr strings, sudh bs "M" for Mondby.
+     *
+     * @sff #NARROW_FORMAT
+     * @sff #SHORT_STANDALONE
+     * @sff #LONG_STANDALONE
+     * @sindf 1.8
+     */
+    publid stbtid finbl int NARROW_STANDALONE = NARROW_FORMAT | STANDALONE_MASK;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b short nbmf usfd for formbt.
+     *
+     * @sff #SHORT_STANDALONE
+     * @sff #LONG_FORMAT
+     * @sff #LONG_STANDALONE
+     * @sindf 1.8
+     */
+    publid stbtid finbl int SHORT_FORMAT = 1;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b long nbmf usfd for formbt.
+     *
+     * @sff #LONG_STANDALONE
+     * @sff #SHORT_FORMAT
+     * @sff #SHORT_STANDALONE
+     * @sindf 1.8
+     */
+    publid stbtid finbl int LONG_FORMAT = 2;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b short nbmf usfd indfpfndfntly,
+     * sudh bs b month bbbrfvibtion bs dblfndbr hfbdfrs.
+     *
+     * @sff #SHORT_FORMAT
+     * @sff #LONG_FORMAT
+     * @sff #LONG_STANDALONE
+     * @sindf 1.8
+     */
+    publid stbtid finbl int SHORT_STANDALONE = SHORT | STANDALONE_MASK;
+
+    /**
+     * A stylf spfdififr for {@link #gftDisplbyNbmf(int, int, Lodblf)
+     * gftDisplbyNbmf} bnd {@link #gftDisplbyNbmfs(int, int, Lodblf)
+     * gftDisplbyNbmfs} indidbting b long nbmf usfd indfpfndfntly,
+     * sudh bs b month nbmf bs dblfndbr hfbdfrs.
+     *
+     * @sff #LONG_FORMAT
+     * @sff #SHORT_FORMAT
+     * @sff #SHORT_STANDALONE
+     * @sindf 1.8
+     */
+    publid stbtid finbl int LONG_STANDALONE = LONG | STANDALONE_MASK;
+
+    // Intfrnbl notfs:
+    // Cblfndbr dontbins two kinds of timf rfprfsfntbtions: durrfnt "timf" in
+    // millisfdonds, bnd b sft of dblfndbr "fiflds" rfprfsfnting thf durrfnt timf.
+    // Thf two rfprfsfntbtions brf usublly in synd, but dbn gft out of synd
+    // bs follows.
+    // 1. Initiblly, no fiflds brf sft, bnd thf timf is invblid.
+    // 2. If thf timf is sft, bll fiflds brf domputfd bnd in synd.
+    // 3. If b singlf fifld is sft, thf timf is invblid.
+    // Rfdomputbtion of thf timf bnd fiflds hbppfns whfn thf objfdt nffds
+    // to rfturn b rfsult to thf usfr, or usf b rfsult for b domputbtion.
+
+    /**
+     * Thf dblfndbr fifld vblufs for thf durrfntly sft timf for this dblfndbr.
+     * This is bn brrby of <dodf>FIELD_COUNT</dodf> intfgfrs, with indfx vblufs
+     * <dodf>ERA</dodf> through <dodf>DST_OFFSET</dodf>.
+     * @sfribl
+     */
+    @SupprfssWbrnings("ProtfdtfdFifld")
+    protfdtfd int           fiflds[];
+
+    /**
+     * Thf flbgs whidh tfll if b spfdififd dblfndbr fifld for thf dblfndbr is sft.
+     * A nfw objfdt hbs no fiflds sft.  Aftfr thf first dbll to b mfthod
+     * whidh gfnfrbtfs thf fiflds, thfy bll rfmbin sft bftfr thbt.
+     * This is bn brrby of <dodf>FIELD_COUNT</dodf> boolfbns, with indfx vblufs
+     * <dodf>ERA</dodf> through <dodf>DST_OFFSET</dodf>.
+     * @sfribl
+     */
+    @SupprfssWbrnings("ProtfdtfdFifld")
+    protfdtfd boolfbn       isSft[];
+
+    /**
+     * Psfudo-timf-stbmps whidh spfdify whfn fbdh fifld wbs sft. Thfrf
+     * brf two spfdibl vblufs, UNSET bnd COMPUTED. Vblufs from
+     * MINIMUM_USER_SET to Intfgfr.MAX_VALUE brf lfgbl usfr sft vblufs.
+     */
+    trbnsifnt privbtf int   stbmp[];
+
+    /**
+     * Thf durrfntly sft timf for this dblfndbr, fxprfssfd in millisfdonds bftfr
+     * Jbnubry 1, 1970, 0:00:00 GMT.
+     * @sff #isTimfSft
+     * @sfribl
+     */
+    @SupprfssWbrnings("ProtfdtfdFifld")
+    protfdtfd long          timf;
+
+    /**
+     * Truf if thfn thf vbluf of <dodf>timf</dodf> is vblid.
+     * Thf timf is mbdf invblid by b dhbngf to bn itfm of <dodf>fifld[]</dodf>.
+     * @sff #timf
+     * @sfribl
+     */
+    @SupprfssWbrnings("ProtfdtfdFifld")
+    protfdtfd boolfbn       isTimfSft;
+
+    /**
+     * Truf if <dodf>fiflds[]</dodf> brf in synd with thf durrfntly sft timf.
+     * If fblsf, thfn thf nfxt bttfmpt to gft thf vbluf of b fifld will
+     * fordf b rfdomputbtion of bll fiflds from thf durrfnt vbluf of
+     * <dodf>timf</dodf>.
+     * @sfribl
+     */
+    @SupprfssWbrnings("ProtfdtfdFifld")
+    protfdtfd boolfbn       brfFifldsSft;
+
+    /**
+     * Truf if bll fiflds hbvf bffn sft.
+     * @sfribl
+     */
+    trbnsifnt boolfbn       brfAllFifldsSft;
+
+    /**
+     * <dodf>Truf</dodf> if this dblfndbr bllows out-of-rbngf fifld vblufs during domputbtion
+     * of <dodf>timf</dodf> from <dodf>fiflds[]</dodf>.
+     * @sff #sftLfnifnt
+     * @sff #isLfnifnt
+     * @sfribl
+     */
+    privbtf boolfbn         lfnifnt = truf;
+
+    /**
+     * Thf <dodf>TimfZonf</dodf> usfd by this dblfndbr. <dodf>Cblfndbr</dodf>
+     * usfs thf timf zonf dbtb to trbnslbtf bftwffn lodblf bnd GMT timf.
+     * @sfribl
+     */
+    privbtf TimfZonf        zonf;
+
+    /**
+     * <dodf>Truf</dodf> if zonf rfffrfndfs to b shbrfd TimfZonf objfdt.
+     */
+    trbnsifnt privbtf boolfbn shbrfdZonf = fblsf;
+
+    /**
+     * Thf first dby of thf wffk, with possiblf vblufs <dodf>SUNDAY</dodf>,
+     * <dodf>MONDAY</dodf>, ftd.  This is b lodblf-dfpfndfnt vbluf.
+     * @sfribl
+     */
+    privbtf int             firstDbyOfWffk;
+
+    /**
+     * Thf numbfr of dbys rfquirfd for thf first wffk in b month or yfbr,
+     * with possiblf vblufs from 1 to 7.  This is b lodblf-dfpfndfnt vbluf.
+     * @sfribl
+     */
+    privbtf int             minimblDbysInFirstWffk;
+
+    /**
+     * Cbdhf to hold thf firstDbyOfWffk bnd minimblDbysInFirstWffk
+     * of b Lodblf.
+     */
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, int[]> dbdhfdLodblfDbtb
+        = nfw CondurrfntHbshMbp<>(3);
+
+    // Spfdibl vblufs of stbmp[]
+    /**
+     * Thf dorrfsponding fiflds[] hbs no vbluf.
+     */
+    privbtf stbtid finbl int        UNSET = 0;
+
+    /**
+     * Thf vbluf of thf dorrfsponding fiflds[] hbs bffn dbldulbtfd intfrnblly.
+     */
+    privbtf stbtid finbl int        COMPUTED = 1;
+
+    /**
+     * Thf vbluf of thf dorrfsponding fiflds[] hbs bffn sft fxtfrnblly. Stbmp
+     * vblufs whidh brf grfbtfr thbn 1 rfprfsfnts thf (psfudo) timf whfn thf
+     * dorrfsponding fiflds[] vbluf wbs sft.
+     */
+    privbtf stbtid finbl int        MINIMUM_USER_STAMP = 2;
+
+    /**
+     * Thf mbsk vbluf thbt rfprfsfnts bll of thf fiflds.
+     */
+    stbtid finbl int ALL_FIELDS = (1 << FIELD_COUNT) - 1;
+
+    /**
+     * Thf nfxt bvbilbblf vbluf for <dodf>stbmp[]</dodf>, bn intfrnbl brrby.
+     * This bdtublly should not bf writtfn out to thf strfbm, bnd will probbbly
+     * bf rfmovfd from thf strfbm in thf nfbr futurf.  In thf mfbntimf,
+     * b vbluf of <dodf>MINIMUM_USER_STAMP</dodf> should bf usfd.
+     * @sfribl
+     */
+    privbtf int             nfxtStbmp = MINIMUM_USER_STAMP;
+
+    // thf intfrnbl sfribl vfrsion whidh sbys whidh vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsion up to JDK 1.1.5
+    // - 1 for vfrsion from JDK 1.1.6, whidh writfs b dorrfdt 'timf' vbluf
+    //     bs wfll bs dompbtiblf vblufs for othfr fiflds.  This is b
+    //     trbnsitionbl formbt.
+    // - 2 (not implfmfntfd yft) b futurf vfrsion, in whidh fiflds[],
+    //     brfFifldsSft, bnd isTimfSft bfdomf trbnsifnt, bnd isSft[] is
+    //     rfmovfd. In JDK 1.1.6 wf writf b formbt dompbtiblf with vfrsion 2.
+    stbtid finbl int        durrfntSfriblVfrsion = 1;
+
+    /**
+     * Thf vfrsion of thf sfriblizfd dbtb on thf strfbm.  Possiblf vblufs:
+     * <dl>
+     * <dt><b>0</b> or not prfsfnt on strfbm</dt>
+     * <dd>
+     * JDK 1.1.5 or fbrlifr.
+     * </dd>
+     * <dt><b>1</b></dt>
+     * <dd>
+     * JDK 1.1.6 or lbtfr.  Writfs b dorrfdt 'timf' vbluf
+     * bs wfll bs dompbtiblf vblufs for othfr fiflds.  This is b
+     * trbnsitionbl formbt.
+     * </dd>
+     * </dl>
+     * Whfn strfbming out this dlbss, thf most rfdfnt formbt
+     * bnd thf highfst bllowbblf <dodf>sfriblVfrsionOnStrfbm</dodf>
+     * is writtfn.
+     * @sfribl
+     * @sindf 1.1.6
+     */
+    privbtf int             sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    // Prodlbim sfriblizbtion dompbtibility with JDK 1.1
+    stbtid finbl long       sfriblVfrsionUID = -1807547505821590642L;
+
+    // Mbsk vblufs for dblfndbr fiflds
+    @SupprfssWbrnings("PointlfssBitwisfExprfssion")
+    finbl stbtid int ERA_MASK           = (1 << ERA);
+    finbl stbtid int YEAR_MASK          = (1 << YEAR);
+    finbl stbtid int MONTH_MASK         = (1 << MONTH);
+    finbl stbtid int WEEK_OF_YEAR_MASK  = (1 << WEEK_OF_YEAR);
+    finbl stbtid int WEEK_OF_MONTH_MASK = (1 << WEEK_OF_MONTH);
+    finbl stbtid int DAY_OF_MONTH_MASK  = (1 << DAY_OF_MONTH);
+    finbl stbtid int DATE_MASK          = DAY_OF_MONTH_MASK;
+    finbl stbtid int DAY_OF_YEAR_MASK   = (1 << DAY_OF_YEAR);
+    finbl stbtid int DAY_OF_WEEK_MASK   = (1 << DAY_OF_WEEK);
+    finbl stbtid int DAY_OF_WEEK_IN_MONTH_MASK  = (1 << DAY_OF_WEEK_IN_MONTH);
+    finbl stbtid int AM_PM_MASK         = (1 << AM_PM);
+    finbl stbtid int HOUR_MASK          = (1 << HOUR);
+    finbl stbtid int HOUR_OF_DAY_MASK   = (1 << HOUR_OF_DAY);
+    finbl stbtid int MINUTE_MASK        = (1 << MINUTE);
+    finbl stbtid int SECOND_MASK        = (1 << SECOND);
+    finbl stbtid int MILLISECOND_MASK   = (1 << MILLISECOND);
+    finbl stbtid int ZONE_OFFSET_MASK   = (1 << ZONE_OFFSET);
+    finbl stbtid int DST_OFFSET_MASK    = (1 << DST_OFFSET);
+
+    /**
+     * {@dodf Cblfndbr.Buildfr} is usfd for drfbting b {@dodf Cblfndbr} from
+     * vbrious dbtf-timf pbrbmftfrs.
+     *
+     * <p>Thfrf brf two wbys to sft b {@dodf Cblfndbr} to b dbtf-timf vbluf. Onf
+     * is to sft thf instbnt pbrbmftfr to b millisfdond offsft from thf <b
+     * hrff="Cblfndbr.html#Epodh">Epodh</b>. Thf othfr is to sft individubl
+     * fifld pbrbmftfrs, sudh bs {@link Cblfndbr#YEAR YEAR}, to thfir dfsirfd
+     * vblufs. Thfsf two wbys dbn't bf mixfd. Trying to sft both thf instbnt bnd
+     * individubl fiflds will dbusf bn {@link IllfgblStbtfExdfption} to bf
+     * thrown. Howfvfr, it is pfrmittfd to ovfrridf prfvious vblufs of thf
+     * instbnt or fifld pbrbmftfrs.
+     *
+     * <p>If no fnough fifld pbrbmftfrs brf givfn for dftfrmining dbtf bnd/or
+     * timf, dblfndbr spfdifid dffbult vblufs brf usfd whfn building b
+     * {@dodf Cblfndbr}. For fxbmplf, if thf {@link Cblfndbr#YEAR YEAR} vbluf
+     * isn't givfn for thf Grfgoribn dblfndbr, 1970 will bf usfd. If thfrf brf
+     * bny donflidts bmong fifld pbrbmftfrs, thf <b
+     * hrff="Cblfndbr.html#rfsolution"> rfsolution rulfs</b> brf bpplifd.
+     * Thfrfforf, thf ordfr of fifld sftting mbttfrs.
+     *
+     * <p>In bddition to thf dbtf-timf pbrbmftfrs,
+     * thf {@linkplbin #sftLodblf(Lodblf) lodblf},
+     * {@linkplbin #sftTimfZonf(TimfZonf) timf zonf},
+     * {@linkplbin #sftWffkDffinition(int, int) wffk dffinition}, bnd
+     * {@linkplbin #sftLfnifnt(boolfbn) lfnifndy modf} pbrbmftfrs dbn bf sft.
+     *
+     * <p><b>Exbmplfs</b>
+     * <p>Thf following brf sbmplf usbgfs. Sbmplf dodf bssumfs thbt thf
+     * {@dodf Cblfndbr} donstbnts brf stbtidblly importfd.
+     *
+     * <p>Thf following dodf produdfs b {@dodf Cblfndbr} with dbtf 2012-12-31
+     * (Grfgoribn) bfdbusf Mondby is thf first dby of b wffk with thf <b
+     * hrff="GrfgoribnCblfndbr.html#iso8601_dompbtiblf_sftting"> ISO 8601
+     * dompbtiblf wffk pbrbmftfrs</b>.
+     * <prf>
+     *   Cblfndbr dbl = nfw Cblfndbr.Buildfr().sftCblfndbrTypf("iso8601")
+     *                        .sftWffkDbtf(2013, 1, MONDAY).build();</prf>
+     * <p>Thf following dodf produdfs b Jbpbnfsf {@dodf Cblfndbr} with dbtf
+     * 1989-01-08 (Grfgoribn), bssuming thbt thf dffbult {@link Cblfndbr#ERA ERA}
+     * is <fm>Hfisfi</fm> thbt stbrtfd on thbt dby.
+     * <prf>
+     *   Cblfndbr dbl = nfw Cblfndbr.Buildfr().sftCblfndbrTypf("jbpbnfsf")
+     *                        .sftFiflds(YEAR, 1, DAY_OF_YEAR, 1).build();</prf>
+     *
+     * @sindf 1.8
+     * @sff Cblfndbr#gftInstbndf(TimfZonf, Lodblf)
+     * @sff Cblfndbr#fiflds
+     */
+    publid stbtid dlbss Buildfr {
+        privbtf stbtid finbl int NFIELDS = FIELD_COUNT + 1; // +1 for WEEK_YEAR
+        privbtf stbtid finbl int WEEK_YEAR = FIELD_COUNT;
+
+        privbtf long instbnt;
+        // Cblfndbr.stbmp[] (lowfr hblf) bnd Cblfndbr.fiflds[] (uppfr hblf) dombinfd
+        privbtf int[] fiflds;
+        // Psfudo timfstbmp stbrting from MINIMUM_USER_STAMP.
+        // (COMPUTED is usfd to indidbtf thbt thf instbnt hbs bffn sft.)
+        privbtf int nfxtStbmp;
+        // mbxFifldIndfx kffps thf mbx indfx of fiflds whidh hbvf bffn sft.
+        // (WEEK_YEAR is nfvfr indludfd.)
+        privbtf int mbxFifldIndfx;
+        privbtf String typf;
+        privbtf TimfZonf zonf;
+        privbtf boolfbn lfnifnt = truf;
+        privbtf Lodblf lodblf;
+        privbtf int firstDbyOfWffk, minimblDbysInFirstWffk;
+
+        /**
+         * Construdts b {@dodf Cblfndbr.Buildfr}.
+         */
+        publid Buildfr() {
+        }
+
+        /**
+         * Sfts thf instbnt pbrbmftfr to thf givfn {@dodf instbnt} vbluf thbt is
+         * b millisfdond offsft from <b hrff="Cblfndbr.html#Epodh">thf
+         * Epodh</b>.
+         *
+         * @pbrbm instbnt b millisfdond offsft from thf Epodh
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws IllfgblStbtfExdfption if bny of thf fifld pbrbmftfrs hbvf
+         *                               blrfbdy bffn sft
+         * @sff Cblfndbr#sftTimf(Dbtf)
+         * @sff Cblfndbr#sftTimfInMillis(long)
+         * @sff Cblfndbr#timf
+         */
+        publid Buildfr sftInstbnt(long instbnt) {
+            if (fiflds != null) {
+                throw nfw IllfgblStbtfExdfption();
+            }
+            this.instbnt = instbnt;
+            nfxtStbmp = COMPUTED;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf instbnt pbrbmftfr to thf {@dodf instbnt} vbluf givfn by b
+         * {@link Dbtf}. This mfthod is fquivblfnt to b dbll to
+         * {@link #sftInstbnt(long) sftInstbnt(instbnt.gftTimf())}.
+         *
+         * @pbrbm instbnt b {@dodf Dbtf} rfprfsfnting b millisfdond offsft from
+         *                thf Epodh
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws NullPointfrExdfption  if {@dodf instbnt} is {@dodf null}
+         * @throws IllfgblStbtfExdfption if bny of thf fifld pbrbmftfrs hbvf
+         *                               blrfbdy bffn sft
+         * @sff Cblfndbr#sftTimf(Dbtf)
+         * @sff Cblfndbr#sftTimfInMillis(long)
+         * @sff Cblfndbr#timf
+         */
+        publid Buildfr sftInstbnt(Dbtf instbnt) {
+            rfturn sftInstbnt(instbnt.gftTimf()); // NPE if instbnt == null
+        }
+
+        /**
+         * Sfts thf {@dodf fifld} pbrbmftfr to thf givfn {@dodf vbluf}.
+         * {@dodf fifld} is bn indfx to thf {@link Cblfndbr#fiflds}, sudh bs
+         * {@link Cblfndbr#DAY_OF_MONTH DAY_OF_MONTH}. Fifld vbluf vblidbtion is
+         * not pfrformfd in this mfthod. Any out of rbngf vblufs brf fithfr
+         * normblizfd in lfnifnt modf or dftfdtfd bs bn invblid vbluf in
+         * non-lfnifnt modf whfn building b {@dodf Cblfndbr}.
+         *
+         * @pbrbm fifld bn indfx to thf {@dodf Cblfndbr} fiflds
+         * @pbrbm vbluf thf fifld vbluf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws IllfgblArgumfntExdfption if {@dodf fifld} is invblid
+         * @throws IllfgblStbtfExdfption if thf instbnt vbluf hbs blrfbdy bffn sft,
+         *                      or if fiflds hbvf bffn sft too mbny
+         *                      (bpproximbtfly {@link Intfgfr#MAX_VALUE}) timfs.
+         * @sff Cblfndbr#sft(int, int)
+         */
+        publid Buildfr sft(int fifld, int vbluf) {
+            // Notf: WEEK_YEAR dbn't bf sft with this mfthod.
+            if (fifld < 0 || fifld >= FIELD_COUNT) {
+                throw nfw IllfgblArgumfntExdfption("fifld is invblid");
+            }
+            if (isInstbntSft()) {
+                throw nfw IllfgblStbtfExdfption("instbnt hbs bffn sft");
+            }
+            bllodbtfFiflds();
+            intfrnblSft(fifld, vbluf);
+            rfturn this;
+        }
+
+        /**
+         * Sfts fifld pbrbmftfrs to thfir vblufs givfn by
+         * {@dodf fifldVblufPbirs} thbt brf pbirs of b fifld bnd its vbluf.
+         * For fxbmplf,
+         * <prf>
+         *   sftFfilds(Cblfndbr.YEAR, 2013,
+         *             Cblfndbr.MONTH, Cblfndbr.DECEMBER,
+         *             Cblfndbr.DAY_OF_MONTH, 23);</prf>
+         * is fquivblfnt to thf sfqufndf of thf following
+         * {@link #sft(int, int) sft} dblls:
+         * <prf>
+         *   sft(Cblfndbr.YEAR, 2013)
+         *   .sft(Cblfndbr.MONTH, Cblfndbr.DECEMBER)
+         *   .sft(Cblfndbr.DAY_OF_MONTH, 23);</prf>
+         *
+         * @pbrbm fifldVblufPbirs fifld-vbluf pbirs
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws NullPointfrExdfption if {@dodf fifldVblufPbirs} is {@dodf null}
+         * @throws IllfgblArgumfntExdfption if bny of fiflds brf invblid,
+         *             or if {@dodf fifldVblufPbirs.lfngth} is bn odd numbfr.
+         * @throws IllfgblStbtfExdfption    if thf instbnt vbluf hbs bffn sft,
+         *             or if fiflds hbvf bffn sft too mbny (bpproximbtfly
+         *             {@link Intfgfr#MAX_VALUE}) timfs.
+         */
+        publid Buildfr sftFiflds(int... fifldVblufPbirs) {
+            int lfn = fifldVblufPbirs.lfngth;
+            if ((lfn % 2) != 0) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+            if (isInstbntSft()) {
+                throw nfw IllfgblStbtfExdfption("instbnt hbs bffn sft");
+            }
+            if ((nfxtStbmp + lfn / 2) < 0) {
+                throw nfw IllfgblStbtfExdfption("stbmp dountfr ovfrflow");
+            }
+            bllodbtfFiflds();
+            for (int i = 0; i < lfn; ) {
+                int fifld = fifldVblufPbirs[i++];
+                // Notf: WEEK_YEAR dbn't bf sft with this mfthod.
+                if (fifld < 0 || fifld >= FIELD_COUNT) {
+                    throw nfw IllfgblArgumfntExdfption("fifld is invblid");
+                }
+                intfrnblSft(fifld, fifldVblufPbirs[i++]);
+            }
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf dbtf fifld pbrbmftfrs to thf vblufs givfn by {@dodf yfbr},
+         * {@dodf month}, bnd {@dodf dbyOfMonth}. This mfthod is fquivblfnt to
+         * b dbll to:
+         * <prf>
+         *   sftFiflds(Cblfndbr.YEAR, yfbr,
+         *             Cblfndbr.MONTH, month,
+         *             Cblfndbr.DAY_OF_MONTH, dbyOfMonth);</prf>
+         *
+         * @pbrbm yfbr       thf {@link Cblfndbr#YEAR YEAR} vbluf
+         * @pbrbm month      thf {@link Cblfndbr#MONTH MONTH} vbluf
+         *                   (thf month numbfring is <fm>0-bbsfd</fm>).
+         * @pbrbm dbyOfMonth thf {@link Cblfndbr#DAY_OF_MONTH DAY_OF_MONTH} vbluf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         */
+        publid Buildfr sftDbtf(int yfbr, int month, int dbyOfMonth) {
+            rfturn sftFiflds(YEAR, yfbr, MONTH, month, DAY_OF_MONTH, dbyOfMonth);
+        }
+
+        /**
+         * Sfts thf timf of dby fifld pbrbmftfrs to thf vblufs givfn by
+         * {@dodf hourOfDby}, {@dodf minutf}, bnd {@dodf sfdond}. This mfthod is
+         * fquivblfnt to b dbll to:
+         * <prf>
+         *   sftTimfOfDby(hourOfDby, minutf, sfdond, 0);</prf>
+         *
+         * @pbrbm hourOfDby thf {@link Cblfndbr#HOUR_OF_DAY HOUR_OF_DAY} vbluf
+         *                  (24-hour dlodk)
+         * @pbrbm minutf    thf {@link Cblfndbr#MINUTE MINUTE} vbluf
+         * @pbrbm sfdond    thf {@link Cblfndbr#SECOND SECOND} vbluf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         */
+        publid Buildfr sftTimfOfDby(int hourOfDby, int minutf, int sfdond) {
+            rfturn sftTimfOfDby(hourOfDby, minutf, sfdond, 0);
+        }
+
+        /**
+         * Sfts thf timf of dby fifld pbrbmftfrs to thf vblufs givfn by
+         * {@dodf hourOfDby}, {@dodf minutf}, {@dodf sfdond}, bnd
+         * {@dodf millis}. This mfthod is fquivblfnt to b dbll to:
+         * <prf>
+         *   sftFiflds(Cblfndbr.HOUR_OF_DAY, hourOfDby,
+         *             Cblfndbr.MINUTE, minutf,
+         *             Cblfndbr.SECOND, sfdond,
+         *             Cblfndbr.MILLISECOND, millis);</prf>
+         *
+         * @pbrbm hourOfDby thf {@link Cblfndbr#HOUR_OF_DAY HOUR_OF_DAY} vbluf
+         *                  (24-hour dlodk)
+         * @pbrbm minutf    thf {@link Cblfndbr#MINUTE MINUTE} vbluf
+         * @pbrbm sfdond    thf {@link Cblfndbr#SECOND SECOND} vbluf
+         * @pbrbm millis    thf {@link Cblfndbr#MILLISECOND MILLISECOND} vbluf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         */
+        publid Buildfr sftTimfOfDby(int hourOfDby, int minutf, int sfdond, int millis) {
+            rfturn sftFiflds(HOUR_OF_DAY, hourOfDby, MINUTE, minutf,
+                             SECOND, sfdond, MILLISECOND, millis);
+        }
+
+        /**
+         * Sfts thf wffk-bbsfd dbtf pbrbmftfrs to thf vblufs with thf givfn
+         * dbtf spfdififrs - wffk yfbr, wffk of yfbr, bnd dby of wffk.
+         *
+         * <p>If thf spfdififd dblfndbr dofsn't support wffk dbtfs, thf
+         * {@link #build() build} mfthod will throw bn {@link IllfgblArgumfntExdfption}.
+         *
+         * @pbrbm wffkYfbr   thf wffk yfbr
+         * @pbrbm wffkOfYfbr thf wffk numbfr bbsfd on {@dodf wffkYfbr}
+         * @pbrbm dbyOfWffk  thf dby of wffk vbluf: onf of thf donstbnts
+         *     for thf {@link Cblfndbr#DAY_OF_WEEK DAY_OF_WEEK} fifld:
+         *     {@link Cblfndbr#SUNDAY SUNDAY}, ..., {@link Cblfndbr#SATURDAY SATURDAY}.
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @sff Cblfndbr#sftWffkDbtf(int, int, int)
+         * @sff Cblfndbr#isWffkDbtfSupportfd()
+         */
+        publid Buildfr sftWffkDbtf(int wffkYfbr, int wffkOfYfbr, int dbyOfWffk) {
+            bllodbtfFiflds();
+            intfrnblSft(WEEK_YEAR, wffkYfbr);
+            intfrnblSft(WEEK_OF_YEAR, wffkOfYfbr);
+            intfrnblSft(DAY_OF_WEEK, dbyOfWffk);
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf timf zonf pbrbmftfr to thf givfn {@dodf zonf}. If no timf
+         * zonf pbrbmftfr is givfn to this {@dodf Cblfdbr.Buildfr}, thf
+         * {@linkplbin TimfZonf#gftDffbult() dffbult
+         * <dodf>TimfZonf</dodf>} will bf usfd in thf {@link #build() build}
+         * mfthod.
+         *
+         * @pbrbm zonf thf {@link TimfZonf}
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws NullPointfrExdfption if {@dodf zonf} is {@dodf null}
+         * @sff Cblfndbr#sftTimfZonf(TimfZonf)
+         */
+        publid Buildfr sftTimfZonf(TimfZonf zonf) {
+            if (zonf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            this.zonf = zonf;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf lfnifnt modf pbrbmftfr to thf vbluf givfn by {@dodf lfnifnt}.
+         * If no lfnifnt pbrbmftfr is givfn to this {@dodf Cblfndbr.Buildfr},
+         * lfnifnt modf will bf usfd in thf {@link #build() build} mfthod.
+         *
+         * @pbrbm lfnifnt {@dodf truf} for lfnifnt modf;
+         *                {@dodf fblsf} for non-lfnifnt modf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @sff Cblfndbr#sftLfnifnt(boolfbn)
+         */
+        publid Buildfr sftLfnifnt(boolfbn lfnifnt) {
+            this.lfnifnt = lfnifnt;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf dblfndbr typf pbrbmftfr to thf givfn {@dodf typf}. Thf
+         * dblfndbr typf givfn by this mfthod hbs prfdfdfndf ovfr bny fxplidit
+         * or implidit dblfndbr typf givfn by thf
+         * {@linkplbin #sftLodblf(Lodblf) lodblf}.
+         *
+         * <p>In bddition to thf bvbilbblf dblfndbr typfs rfturnfd by thf
+         * {@link Cblfndbr#gftAvbilbblfCblfndbrTypfs() Cblfndbr.gftAvbilbblfCblfndbrTypfs}
+         * mfthod, {@dodf "grfgoribn"} bnd {@dodf "iso8601"} bs blibsfs of
+         * {@dodf "grfgory"} dbn bf usfd with this mfthod.
+         *
+         * @pbrbm typf thf dblfndbr typf
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws NullPointfrExdfption if {@dodf typf} is {@dodf null}
+         * @throws IllfgblArgumfntExdfption if {@dodf typf} is unknown
+         * @throws IllfgblStbtfExdfption if bnothfr dblfndbr typf hbs blrfbdy bffn sft
+         * @sff Cblfndbr#gftCblfndbrTypf()
+         * @sff Cblfndbr#gftAvbilbblfCblfndbrTypfs()
+         */
+        publid Buildfr sftCblfndbrTypf(String typf) {
+            if (typf.fqubls("grfgoribn")) { // NPE if typf == null
+                typf = "grfgory";
+            }
+            if (!Cblfndbr.gftAvbilbblfCblfndbrTypfs().dontbins(typf)
+                    && !typf.fqubls("iso8601")) {
+                throw nfw IllfgblArgumfntExdfption("unknown dblfndbr typf: " + typf);
+            }
+            if (this.typf == null) {
+                this.typf = typf;
+            } flsf {
+                if (!this.typf.fqubls(typf)) {
+                    throw nfw IllfgblStbtfExdfption("dblfndbr typf ovfrridf");
+                }
+            }
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf lodblf pbrbmftfr to thf givfn {@dodf lodblf}. If no lodblf
+         * is givfn to this {@dodf Cblfndbr.Buildfr}, thf {@linkplbin
+         * Lodblf#gftDffbult(Lodblf.Cbtfgory) dffbult <dodf>Lodblf</dodf>}
+         * for {@link Lodblf.Cbtfgory#FORMAT} will bf usfd.
+         *
+         * <p>If no dblfndbr typf is fxpliditly givfn by b dbll to thf
+         * {@link #sftCblfndbrTypf(String) sftCblfndbrTypf} mfthod,
+         * thf {@dodf Lodblf} vbluf is usfd to dftfrminf whbt typf of
+         * {@dodf Cblfndbr} to bf built.
+         *
+         * <p>If no wffk dffinition pbrbmftfrs brf fxpliditly givfn by b dbll to
+         * thf {@link #sftWffkDffinition(int,int) sftWffkDffinition} mfthod, thf
+         * {@dodf Lodblf}'s dffbult vblufs brf usfd.
+         *
+         * @pbrbm lodblf thf {@link Lodblf}
+         * @throws NullPointfrExdfption if {@dodf lodblf} is {@dodf null}
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @sff Cblfndbr#gftInstbndf(Lodblf)
+         */
+        publid Buildfr sftLodblf(Lodblf lodblf) {
+            if (lodblf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            this.lodblf = lodblf;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf wffk dffinition pbrbmftfrs to thf vblufs givfn by
+         * {@dodf firstDbyOfWffk} bnd {@dodf minimblDbysInFirstWffk} thbt brf
+         * usfd to dftfrminf thf <b hrff="Cblfndbr.html#First_Wffk">first
+         * wffk</b> of b yfbr. Thf pbrbmftfrs givfn by this mfthod hbvf
+         * prfdfdfndf ovfr thf dffbult vblufs givfn by thf
+         * {@linkplbin #sftLodblf(Lodblf) lodblf}.
+         *
+         * @pbrbm firstDbyOfWffk thf first dby of b wffk; onf of
+         *                       {@link Cblfndbr#SUNDAY} to {@link Cblfndbr#SATURDAY}
+         * @pbrbm minimblDbysInFirstWffk thf minimbl numbfr of dbys in thf first
+         *                               wffk (1..7)
+         * @rfturn this {@dodf Cblfndbr.Buildfr}
+         * @throws IllfgblArgumfntExdfption if {@dodf firstDbyOfWffk} or
+         *                                  {@dodf minimblDbysInFirstWffk} is invblid
+         * @sff Cblfndbr#gftFirstDbyOfWffk()
+         * @sff Cblfndbr#gftMinimblDbysInFirstWffk()
+         */
+        publid Buildfr sftWffkDffinition(int firstDbyOfWffk, int minimblDbysInFirstWffk) {
+            if (!isVblidWffkPbrbmftfr(firstDbyOfWffk)
+                    || !isVblidWffkPbrbmftfr(minimblDbysInFirstWffk)) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+            this.firstDbyOfWffk = firstDbyOfWffk;
+            this.minimblDbysInFirstWffk = minimblDbysInFirstWffk;
+            rfturn this;
+        }
+
+        /**
+         * Rfturns b {@dodf Cblfndbr} built from thf pbrbmftfrs sft by thf
+         * sfttfr mfthods. Thf dblfndbr typf givfn by thf {@link #sftCblfndbrTypf(String)
+         * sftCblfndbrTypf} mfthod or thf {@linkplbin #sftLodblf(Lodblf) lodblf} is
+         * usfd to dftfrminf whbt {@dodf Cblfndbr} to bf drfbtfd. If no fxplidit
+         * dblfndbr typf is givfn, thf lodblf's dffbult dblfndbr is drfbtfd.
+         *
+         * <p>If thf dblfndbr typf is {@dodf "iso8601"}, thf
+         * {@linkplbin GrfgoribnCblfndbr#sftGrfgoribnChbngf(Dbtf) Grfgoribn dhbngf dbtf}
+         * of b {@link GrfgoribnCblfndbr} is sft to {@dodf Dbtf(Long.MIN_VALUE)}
+         * to bf thf <fm>prolfptid</fm> Grfgoribn dblfndbr. Its wffk dffinition
+         * pbrbmftfrs brf blso sft to bf <b
+         * hrff="GrfgoribnCblfndbr.html#iso8601_dompbtiblf_sftting">dompbtiblf
+         * with thf ISO 8601 stbndbrd</b>. Notf thbt thf
+         * {@link GrfgoribnCblfndbr#gftCblfndbrTypf() gftCblfndbrTypf} mfthod of
+         * b {@dodf GrfgoribnCblfndbr} drfbtfd with {@dodf "iso8601"} rfturns
+         * {@dodf "grfgory"}.
+         *
+         * <p>Thf dffbult vblufs brf usfd for lodblf bnd timf zonf if thfsf
+         * pbrbmftfrs hbvfn't bffn givfn fxpliditly.
+         *
+         * <p>Any out of rbngf fifld vblufs brf fithfr normblizfd in lfnifnt
+         * modf or dftfdtfd bs bn invblid vbluf in non-lfnifnt modf.
+         *
+         * @rfturn b {@dodf Cblfndbr} built with pbrbmftfrs of this {@dodf
+         *         Cblfndbr.Buildfr}
+         * @throws IllfgblArgumfntExdfption if thf dblfndbr typf is unknown, or
+         *             if bny invblid fifld vblufs brf givfn in non-lfnifnt modf, or
+         *             if b wffk dbtf is givfn for thf dblfndbr typf thbt dofsn't
+         *             support wffk dbtfs.
+         * @sff Cblfndbr#gftInstbndf(TimfZonf, Lodblf)
+         * @sff Lodblf#gftDffbult(Lodblf.Cbtfgory)
+         * @sff TimfZonf#gftDffbult()
+         */
+        publid Cblfndbr build() {
+            if (lodblf == null) {
+                lodblf = Lodblf.gftDffbult();
+            }
+            if (zonf == null) {
+                zonf = TimfZonf.gftDffbult();
+            }
+            Cblfndbr dbl;
+            if (typf == null) {
+                typf = lodblf.gftUnidodfLodblfTypf("db");
+            }
+            if (typf == null) {
+                if (lodblf.gftCountry() == "TH"
+                    && lodblf.gftLbngubgf() == "th") {
+                    typf = "buddhist";
+                } flsf {
+                    typf = "grfgory";
+                }
+            }
+            switdh (typf) {
+            dbsf "grfgory":
+                dbl = nfw GrfgoribnCblfndbr(zonf, lodblf, truf);
+                brfbk;
+            dbsf "iso8601":
+                GrfgoribnCblfndbr gdbl = nfw GrfgoribnCblfndbr(zonf, lodblf, truf);
+                // mbkf gdbl b prolfptid Grfgoribn
+                gdbl.sftGrfgoribnChbngf(nfw Dbtf(Long.MIN_VALUE));
+                // bnd wffk dffinition to bf dompbtiblf with ISO 8601
+                sftWffkDffinition(MONDAY, 4);
+                dbl = gdbl;
+                brfbk;
+            dbsf "buddhist":
+                dbl = nfw BuddhistCblfndbr(zonf, lodblf);
+                dbl.dlfbr();
+                brfbk;
+            dbsf "jbpbnfsf":
+                dbl = nfw JbpbnfsfImpfriblCblfndbr(zonf, lodblf, truf);
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("unknown dblfndbr typf: " + typf);
+            }
+            dbl.sftLfnifnt(lfnifnt);
+            if (firstDbyOfWffk != 0) {
+                dbl.sftFirstDbyOfWffk(firstDbyOfWffk);
+                dbl.sftMinimblDbysInFirstWffk(minimblDbysInFirstWffk);
+            }
+            if (isInstbntSft()) {
+                dbl.sftTimfInMillis(instbnt);
+                dbl.domplftf();
+                rfturn dbl;
+            }
+
+            if (fiflds != null) {
+                boolfbn wffkDbtf = isSft(WEEK_YEAR)
+                                       && fiflds[WEEK_YEAR] > fiflds[YEAR];
+                if (wffkDbtf && !dbl.isWffkDbtfSupportfd()) {
+                    throw nfw IllfgblArgumfntExdfption("wffk dbtf is unsupportfd by " + typf);
+                }
+
+                // Sft thf fiflds from thf min stbmp to thf mbx stbmp so thbt
+                // thf fiflds rfsolution works in thf Cblfndbr.
+                for (int stbmp = MINIMUM_USER_STAMP; stbmp < nfxtStbmp; stbmp++) {
+                    for (int indfx = 0; indfx <= mbxFifldIndfx; indfx++) {
+                        if (fiflds[indfx] == stbmp) {
+                            dbl.sft(indfx, fiflds[NFIELDS + indfx]);
+                            brfbk;
+                        }
+                    }
+                }
+
+                if (wffkDbtf) {
+                    int wffkOfYfbr = isSft(WEEK_OF_YEAR) ? fiflds[NFIELDS + WEEK_OF_YEAR] : 1;
+                    int dbyOfWffk = isSft(DAY_OF_WEEK)
+                                    ? fiflds[NFIELDS + DAY_OF_WEEK] : dbl.gftFirstDbyOfWffk();
+                    dbl.sftWffkDbtf(fiflds[NFIELDS + WEEK_YEAR], wffkOfYfbr, dbyOfWffk);
+                }
+                dbl.domplftf();
+            }
+
+            rfturn dbl;
+        }
+
+        privbtf void bllodbtfFiflds() {
+            if (fiflds == null) {
+                fiflds = nfw int[NFIELDS * 2];
+                nfxtStbmp = MINIMUM_USER_STAMP;
+                mbxFifldIndfx = -1;
+            }
+        }
+
+        privbtf void intfrnblSft(int fifld, int vbluf) {
+            fiflds[fifld] = nfxtStbmp++;
+            if (nfxtStbmp < 0) {
+                throw nfw IllfgblStbtfExdfption("stbmp dountfr ovfrflow");
+            }
+            fiflds[NFIELDS + fifld] = vbluf;
+            if (fifld > mbxFifldIndfx && fifld < WEEK_YEAR) {
+                mbxFifldIndfx = fifld;
+            }
+        }
+
+        privbtf boolfbn isInstbntSft() {
+            rfturn nfxtStbmp == COMPUTED;
+        }
+
+        privbtf boolfbn isSft(int indfx) {
+            rfturn fiflds != null && fiflds[indfx] > UNSET;
+        }
+
+        privbtf boolfbn isVblidWffkPbrbmftfr(int vbluf) {
+            rfturn vbluf > 0 && vbluf <= 7;
+        }
+    }
+
+    /**
+     * Construdts b Cblfndbr with thf dffbult timf zonf
+     * bnd thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT}
+     * lodblf.
+     * @sff     TimfZonf#gftDffbult
+     */
+    protfdtfd Cblfndbr()
+    {
+        this(TimfZonf.gftDffbultRff(), Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+        shbrfdZonf = truf;
+    }
+
+    /**
+     * Construdts b dblfndbr with thf spfdififd timf zonf bnd lodblf.
+     *
+     * @pbrbm zonf thf timf zonf to usf
+     * @pbrbm bLodblf thf lodblf for thf wffk dbtb
+     */
+    protfdtfd Cblfndbr(TimfZonf zonf, Lodblf bLodblf)
+    {
+        fiflds = nfw int[FIELD_COUNT];
+        isSft = nfw boolfbn[FIELD_COUNT];
+        stbmp = nfw int[FIELD_COUNT];
+
+        this.zonf = zonf;
+        sftWffkCountDbtb(bLodblf);
+    }
+
+    /**
+     * Gfts b dblfndbr using thf dffbult timf zonf bnd lodblf. Thf
+     * <dodf>Cblfndbr</dodf> rfturnfd is bbsfd on thf durrfnt timf
+     * in thf dffbult timf zonf with thf dffbult
+     * {@link Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     *
+     * @rfturn b Cblfndbr.
+     */
+    publid stbtid Cblfndbr gftInstbndf()
+    {
+        rfturn drfbtfCblfndbr(TimfZonf.gftDffbult(), Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts b dblfndbr using thf spfdififd timf zonf bnd dffbult lodblf.
+     * Thf <dodf>Cblfndbr</dodf> rfturnfd is bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf dffbult
+     * {@link Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     *
+     * @pbrbm zonf thf timf zonf to usf
+     * @rfturn b Cblfndbr.
+     */
+    publid stbtid Cblfndbr gftInstbndf(TimfZonf zonf)
+    {
+        rfturn drfbtfCblfndbr(zonf, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts b dblfndbr using thf dffbult timf zonf bnd spfdififd lodblf.
+     * Thf <dodf>Cblfndbr</dodf> rfturnfd is bbsfd on thf durrfnt timf
+     * in thf dffbult timf zonf with thf givfn lodblf.
+     *
+     * @pbrbm bLodblf thf lodblf for thf wffk dbtb
+     * @rfturn b Cblfndbr.
+     */
+    publid stbtid Cblfndbr gftInstbndf(Lodblf bLodblf)
+    {
+        rfturn drfbtfCblfndbr(TimfZonf.gftDffbult(), bLodblf);
+    }
+
+    /**
+     * Gfts b dblfndbr with thf spfdififd timf zonf bnd lodblf.
+     * Thf <dodf>Cblfndbr</dodf> rfturnfd is bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf givfn lodblf.
+     *
+     * @pbrbm zonf thf timf zonf to usf
+     * @pbrbm bLodblf thf lodblf for thf wffk dbtb
+     * @rfturn b Cblfndbr.
+     */
+    publid stbtid Cblfndbr gftInstbndf(TimfZonf zonf,
+                                       Lodblf bLodblf)
+    {
+        rfturn drfbtfCblfndbr(zonf, bLodblf);
+    }
+
+    privbtf stbtid Cblfndbr drfbtfCblfndbr(TimfZonf zonf,
+                                           Lodblf bLodblf)
+    {
+        CblfndbrProvidfr providfr =
+            LodblfProvidfrAdbptfr.gftAdbptfr(CblfndbrProvidfr.dlbss, bLodblf)
+                                 .gftCblfndbrProvidfr();
+        if (providfr != null) {
+            try {
+                rfturn providfr.gftInstbndf(zonf, bLodblf);
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                // fbll bbdk to thf dffbult instbntibtion
+            }
+        }
+
+        Cblfndbr dbl = null;
+
+        if (bLodblf.hbsExtfnsions()) {
+            String dbltypf = bLodblf.gftUnidodfLodblfTypf("db");
+            if (dbltypf != null) {
+                switdh (dbltypf) {
+                dbsf "buddhist":
+                dbl = nfw BuddhistCblfndbr(zonf, bLodblf);
+                    brfbk;
+                dbsf "jbpbnfsf":
+                    dbl = nfw JbpbnfsfImpfriblCblfndbr(zonf, bLodblf);
+                    brfbk;
+                dbsf "grfgory":
+                    dbl = nfw GrfgoribnCblfndbr(zonf, bLodblf);
+                    brfbk;
+                }
+            }
+        }
+        if (dbl == null) {
+            // If no known dblfndbr typf is fxpliditly spfdififd,
+            // pfrform thf trbditionbl wby to drfbtf b Cblfndbr:
+            // drfbtf b BuddhistCblfndbr for th_TH lodblf,
+            // b JbpbnfsfImpfriblCblfndbr for jb_JP_JP lodblf, or
+            // b GrfgoribnCblfndbr for bny othfr lodblfs.
+            // NOTE: Thf lbngubgf, dountry bnd vbribnt strings brf intfrnfd.
+            if (bLodblf.gftLbngubgf() == "th" && bLodblf.gftCountry() == "TH") {
+                dbl = nfw BuddhistCblfndbr(zonf, bLodblf);
+            } flsf if (bLodblf.gftVbribnt() == "JP" && bLodblf.gftLbngubgf() == "jb"
+                       && bLodblf.gftCountry() == "JP") {
+                dbl = nfw JbpbnfsfImpfriblCblfndbr(zonf, bLodblf);
+            } flsf {
+                dbl = nfw GrfgoribnCblfndbr(zonf, bLodblf);
+            }
+        }
+        rfturn dbl;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf <dodf>gftInstbndf</dodf>
+     * mfthods of this dlbss dbn rfturn lodblizfd instbndfs.
+     * Thf brrby rfturnfd must dontbin bt lfbst b <dodf>Lodblf</dodf>
+     * instbndf fqubl to {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>Cblfndbr</dodf> instbndfs brf bvbilbblf.
+     */
+    publid stbtid syndhronizfd Lodblf[] gftAvbilbblfLodblfs()
+    {
+        rfturn DbtfFormbt.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Convfrts thf durrfnt dblfndbr fifld vblufs in {@link #fiflds fiflds[]}
+     * to thf millisfdond timf vbluf
+     * {@link #timf}.
+     *
+     * @sff #domplftf()
+     * @sff #domputfFiflds()
+     */
+    protfdtfd bbstrbdt void domputfTimf();
+
+    /**
+     * Convfrts thf durrfnt millisfdond timf vbluf {@link #timf}
+     * to dblfndbr fifld vblufs in {@link #fiflds fiflds[]}.
+     * This bllows you to synd up thf dblfndbr fifld vblufs with
+     * b nfw timf thbt is sft for thf dblfndbr.  Thf timf is <fm>not</fm>
+     * rfdomputfd first; to rfdomputf thf timf, thfn thf fiflds, dbll thf
+     * {@link #domplftf()} mfthod.
+     *
+     * @sff #domputfTimf()
+     */
+    protfdtfd bbstrbdt void domputfFiflds();
+
+    /**
+     * Rfturns b <dodf>Dbtf</dodf> objfdt rfprfsfnting this
+     * <dodf>Cblfndbr</dodf>'s timf vbluf (millisfdond offsft from thf <b
+     * hrff="#Epodh">Epodh</b>").
+     *
+     * @rfturn b <dodf>Dbtf</dodf> rfprfsfnting thf timf vbluf.
+     * @sff #sftTimf(Dbtf)
+     * @sff #gftTimfInMillis()
+     */
+    publid finbl Dbtf gftTimf() {
+        rfturn nfw Dbtf(gftTimfInMillis());
+    }
+
+    /**
+     * Sfts this Cblfndbr's timf with thf givfn <dodf>Dbtf</dodf>.
+     * <p>
+     * Notf: Cblling <dodf>sftTimf()</dodf> with
+     * <dodf>Dbtf(Long.MAX_VALUE)</dodf> or <dodf>Dbtf(Long.MIN_VALUE)</dodf>
+     * mby yifld indorrfdt fifld vblufs from <dodf>gft()</dodf>.
+     *
+     * @pbrbm dbtf thf givfn Dbtf.
+     * @sff #gftTimf()
+     * @sff #sftTimfInMillis(long)
+     */
+    publid finbl void sftTimf(Dbtf dbtf) {
+        sftTimfInMillis(dbtf.gftTimf());
+    }
+
+    /**
+     * Rfturns this Cblfndbr's timf vbluf in millisfdonds.
+     *
+     * @rfturn thf durrfnt timf bs UTC millisfdonds from thf fpodh.
+     * @sff #gftTimf()
+     * @sff #sftTimfInMillis(long)
+     */
+    publid long gftTimfInMillis() {
+        if (!isTimfSft) {
+            updbtfTimf();
+        }
+        rfturn timf;
+    }
+
+    /**
+     * Sfts this Cblfndbr's durrfnt timf from thf givfn long vbluf.
+     *
+     * @pbrbm millis thf nfw timf in UTC millisfdonds from thf fpodh.
+     * @sff #sftTimf(Dbtf)
+     * @sff #gftTimfInMillis()
+     */
+    publid void sftTimfInMillis(long millis) {
+        // If wf don't nffd to rfdbldulbtf thf dblfndbr fifld vblufs,
+        // do nothing.
+        if (timf == millis && isTimfSft && brfFifldsSft && brfAllFifldsSft
+            && (zonf instbndfof ZonfInfo) && !((ZonfInfo)zonf).isDirty()) {
+            rfturn;
+        }
+        timf = millis;
+        isTimfSft = truf;
+        brfFifldsSft = fblsf;
+        domputfFiflds();
+        brfAllFifldsSft = brfFifldsSft = truf;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf givfn dblfndbr fifld. In lfnifnt modf,
+     * bll dblfndbr fiflds brf normblizfd. In non-lfnifnt modf, bll
+     * dblfndbr fiflds brf vblidbtfd bnd this mfthod throws bn
+     * fxdfption if bny dblfndbr fiflds hbvf out-of-rbngf vblufs. Thf
+     * normblizbtion bnd vblidbtion brf hbndlfd by thf
+     * {@link #domplftf()} mfthod, whidh prodfss is dblfndbr
+     * systfm dfpfndfnt.
+     *
+     * @pbrbm fifld thf givfn dblfndbr fifld.
+     * @rfturn thf vbluf for thf givfn dblfndbr fifld.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if thf spfdififd fifld is out of rbngf
+     *             (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * @sff #sft(int,int)
+     * @sff #domplftf()
+     */
+    publid int gft(int fifld)
+    {
+        domplftf();
+        rfturn intfrnblGft(fifld);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf givfn dblfndbr fifld. This mfthod dofs
+     * not involvf normblizbtion or vblidbtion of thf fifld vbluf.
+     *
+     * @pbrbm fifld thf givfn dblfndbr fifld.
+     * @rfturn thf vbluf for thf givfn dblfndbr fifld.
+     * @sff #gft(int)
+     */
+    protfdtfd finbl int intfrnblGft(int fifld)
+    {
+        rfturn fiflds[fifld];
+    }
+
+    /**
+     * Sfts thf vbluf of thf givfn dblfndbr fifld. This mfthod dofs
+     * not bfffdt bny sftting stbtf of thf fifld in this
+     * <dodf>Cblfndbr</dodf> instbndf.
+     *
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd fifld is out of rbngf
+     *             (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * @sff #brfFifldsSft
+     * @sff #isTimfSft
+     * @sff #brfAllFifldsSft
+     * @sff #sft(int,int)
+     */
+    finbl void intfrnblSft(int fifld, int vbluf)
+    {
+        fiflds[fifld] = vbluf;
+    }
+
+    /**
+     * Sfts thf givfn dblfndbr fifld to thf givfn vbluf. Thf vbluf is not
+     * intfrprftfd by this mfthod rfgbrdlfss of thf lfnifndy modf.
+     *
+     * @pbrbm fifld thf givfn dblfndbr fifld.
+     * @pbrbm vbluf thf vbluf to bf sft for thf givfn dblfndbr fifld.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if thf spfdififd fifld is out of rbngf
+     *             (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * in non-lfnifnt modf.
+     * @sff #sft(int,int,int)
+     * @sff #sft(int,int,int,int,int)
+     * @sff #sft(int,int,int,int,int,int)
+     * @sff #gft(int)
+     */
+    publid void sft(int fifld, int vbluf)
+    {
+        // If thf fiflds brf pbrtiblly normblizfd, dbldulbtf bll thf
+        // fiflds bfforf dhbnging bny fiflds.
+        if (brfFifldsSft && !brfAllFifldsSft) {
+            domputfFiflds();
+        }
+        intfrnblSft(fifld, vbluf);
+        isTimfSft = fblsf;
+        brfFifldsSft = fblsf;
+        isSft[fifld] = truf;
+        stbmp[fifld] = nfxtStbmp++;
+        if (nfxtStbmp == Intfgfr.MAX_VALUE) {
+            bdjustStbmp();
+        }
+    }
+
+    /**
+     * Sfts thf vblufs for thf dblfndbr fiflds <dodf>YEAR</dodf>,
+     * <dodf>MONTH</dodf>, bnd <dodf>DAY_OF_MONTH</dodf>.
+     * Prfvious vblufs of othfr dblfndbr fiflds brf rftbinfd.  If this is not dfsirfd,
+     * dbll {@link #dlfbr()} first.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbtf thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld.
+     * @sff #sft(int,int)
+     * @sff #sft(int,int,int,int,int)
+     * @sff #sft(int,int,int,int,int,int)
+     */
+    publid finbl void sft(int yfbr, int month, int dbtf)
+    {
+        sft(YEAR, yfbr);
+        sft(MONTH, month);
+        sft(DATE, dbtf);
+    }
+
+    /**
+     * Sfts thf vblufs for thf dblfndbr fiflds <dodf>YEAR</dodf>,
+     * <dodf>MONTH</dodf>, <dodf>DAY_OF_MONTH</dodf>,
+     * <dodf>HOUR_OF_DAY</dodf>, bnd <dodf>MINUTE</dodf>.
+     * Prfvious vblufs of othfr fiflds brf rftbinfd.  If this is not dfsirfd,
+     * dbll {@link #dlfbr()} first.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbtf thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld.
+     * @pbrbm hourOfDby thf vbluf usfd to sft thf <dodf>HOUR_OF_DAY</dodf> dblfndbr fifld.
+     * @pbrbm minutf thf vbluf usfd to sft thf <dodf>MINUTE</dodf> dblfndbr fifld.
+     * @sff #sft(int,int)
+     * @sff #sft(int,int,int)
+     * @sff #sft(int,int,int,int,int,int)
+     */
+    publid finbl void sft(int yfbr, int month, int dbtf, int hourOfDby, int minutf)
+    {
+        sft(YEAR, yfbr);
+        sft(MONTH, month);
+        sft(DATE, dbtf);
+        sft(HOUR_OF_DAY, hourOfDby);
+        sft(MINUTE, minutf);
+    }
+
+    /**
+     * Sfts thf vblufs for thf fiflds <dodf>YEAR</dodf>, <dodf>MONTH</dodf>,
+     * <dodf>DAY_OF_MONTH</dodf>, <dodf>HOUR_OF_DAY</dodf>, <dodf>MINUTE</dodf>, bnd
+     * <dodf>SECOND</dodf>.
+     * Prfvious vblufs of othfr fiflds brf rftbinfd.  If this is not dfsirfd,
+     * dbll {@link #dlfbr()} first.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbtf thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld.
+     * @pbrbm hourOfDby thf vbluf usfd to sft thf <dodf>HOUR_OF_DAY</dodf> dblfndbr fifld.
+     * @pbrbm minutf thf vbluf usfd to sft thf <dodf>MINUTE</dodf> dblfndbr fifld.
+     * @pbrbm sfdond thf vbluf usfd to sft thf <dodf>SECOND</dodf> dblfndbr fifld.
+     * @sff #sft(int,int)
+     * @sff #sft(int,int,int)
+     * @sff #sft(int,int,int,int,int)
+     */
+    publid finbl void sft(int yfbr, int month, int dbtf, int hourOfDby, int minutf,
+                          int sfdond)
+    {
+        sft(YEAR, yfbr);
+        sft(MONTH, month);
+        sft(DATE, dbtf);
+        sft(HOUR_OF_DAY, hourOfDby);
+        sft(MINUTE, minutf);
+        sft(SECOND, sfdond);
+    }
+
+    /**
+     * Sfts bll thf dblfndbr fifld vblufs bnd thf timf vbluf
+     * (millisfdond offsft from thf <b hrff="#Epodh">Epodh</b>) of
+     * this <dodf>Cblfndbr</dodf> undffinfd. This mfbns thbt {@link
+     * #isSft(int) isSft()} will rfturn <dodf>fblsf</dodf> for bll thf
+     * dblfndbr fiflds, bnd thf dbtf bnd timf dbldulbtions will trfbt
+     * thf fiflds bs if thfy hbd nfvfr bffn sft. A
+     * <dodf>Cblfndbr</dodf> implfmfntbtion dlbss mby usf its spfdifid
+     * dffbult fifld vblufs for dbtf/timf dbldulbtions. For fxbmplf,
+     * <dodf>GrfgoribnCblfndbr</dodf> usfs 1970 if thf
+     * <dodf>YEAR</dodf> fifld vbluf is undffinfd.
+     *
+     * @sff #dlfbr(int)
+     */
+    publid finbl void dlfbr()
+    {
+        for (int i = 0; i < fiflds.lfngth; ) {
+            stbmp[i] = fiflds[i] = 0; // UNSET == 0
+            isSft[i++] = fblsf;
+        }
+        brfAllFifldsSft = brfFifldsSft = fblsf;
+        isTimfSft = fblsf;
+    }
+
+    /**
+     * Sfts thf givfn dblfndbr fifld vbluf bnd thf timf vbluf
+     * (millisfdond offsft from thf <b hrff="#Epodh">Epodh</b>) of
+     * this <dodf>Cblfndbr</dodf> undffinfd. This mfbns thbt {@link
+     * #isSft(int) isSft(fifld)} will rfturn <dodf>fblsf</dodf>, bnd
+     * thf dbtf bnd timf dbldulbtions will trfbt thf fifld bs if it
+     * hbd nfvfr bffn sft. A <dodf>Cblfndbr</dodf> implfmfntbtion
+     * dlbss mby usf thf fifld's spfdifid dffbult vbluf for dbtf bnd
+     * timf dbldulbtions.
+     *
+     * <p>Thf {@link #HOUR_OF_DAY}, {@link #HOUR} bnd {@link #AM_PM}
+     * fiflds brf hbndlfd indfpfndfntly bnd thf <b
+     * hrff="#timf_rfsolution">thf rfsolution rulf for thf timf of
+     * dby</b> is bpplifd. Clfbring onf of thf fiflds dofsn't rfsft
+     * thf hour of dby vbluf of this <dodf>Cblfndbr</dodf>. Usf {@link
+     * #sft(int,int) sft(Cblfndbr.HOUR_OF_DAY, 0)} to rfsft thf hour
+     * vbluf.
+     *
+     * @pbrbm fifld thf dblfndbr fifld to bf dlfbrfd.
+     * @sff #dlfbr()
+     */
+    publid finbl void dlfbr(int fifld)
+    {
+        fiflds[fifld] = 0;
+        stbmp[fifld] = UNSET;
+        isSft[fifld] = fblsf;
+
+        brfAllFifldsSft = brfFifldsSft = fblsf;
+        isTimfSft = fblsf;
+    }
+
+    /**
+     * Dftfrminfs if thf givfn dblfndbr fifld hbs b vbluf sft,
+     * indluding dbsfs thbt thf vbluf hbs bffn sft by intfrnbl fiflds
+     * dbldulbtions triggfrfd by b <dodf>gft</dodf> mfthod dbll.
+     *
+     * @pbrbm fifld thf dblfndbr fifld to tfst
+     * @rfturn <dodf>truf</dodf> if thf givfn dblfndbr fifld hbs b vbluf sft;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid finbl boolfbn isSft(int fifld)
+    {
+        rfturn stbmp[fifld] != UNSET;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of thf dblfndbr
+     * <dodf>fifld</dodf> vbluf in thf givfn <dodf>stylf</dodf> bnd
+     * <dodf>lodblf</dodf>.  If no string rfprfsfntbtion is
+     * bpplidbblf, <dodf>null</dodf> is rfturnfd. This mfthod dblls
+     * {@link Cblfndbr#gft(int) gft(fifld)} to gft thf dblfndbr
+     * <dodf>fifld</dodf> vbluf if thf string rfprfsfntbtion is
+     * bpplidbblf to thf givfn dblfndbr <dodf>fifld</dodf>.
+     *
+     * <p>For fxbmplf, if this <dodf>Cblfndbr</dodf> is b
+     * <dodf>GrfgoribnCblfndbr</dodf> bnd its dbtf is 2005-01-01, thfn
+     * thf string rfprfsfntbtion of thf {@link #MONTH} fifld would bf
+     * "Jbnubry" in thf long stylf in bn English lodblf or "Jbn" in
+     * thf short stylf. Howfvfr, no string rfprfsfntbtion would bf
+     * bvbilbblf for thf {@link #DAY_OF_MONTH} fifld, bnd this mfthod
+     * would rfturn <dodf>null</dodf>.
+     *
+     * <p>Thf dffbult implfmfntbtion supports thf dblfndbr fiflds for
+     * whidh b {@link DbtfFormbtSymbols} hbs nbmfs in thf givfn
+     * <dodf>lodblf</dodf>.
+     *
+     * @pbrbm fifld
+     *        thf dblfndbr fifld for whidh thf string rfprfsfntbtion
+     *        is rfturnfd
+     * @pbrbm stylf
+     *        thf stylf bpplifd to thf string rfprfsfntbtion; onf of {@link
+     *        #SHORT_FORMAT} ({@link #SHORT}), {@link #SHORT_STANDALONE},
+     *        {@link #LONG_FORMAT} ({@link #LONG}), {@link #LONG_STANDALONE},
+     *        {@link #NARROW_FORMAT}, or {@link #NARROW_STANDALONE}.
+     * @pbrbm lodblf
+     *        thf lodblf for thf string rfprfsfntbtion
+     *        (bny dblfndbr typfs spfdififd by {@dodf lodblf} brf ignorfd)
+     * @rfturn thf string rfprfsfntbtion of thf givfn
+     *        {@dodf fifld} in thf givfn {@dodf stylf}, or
+     *        {@dodf null} if no string rfprfsfntbtion is
+     *        bpplidbblf.
+     * @fxdfption IllfgblArgumfntExdfption
+     *        if {@dodf fifld} or {@dodf stylf} is invblid,
+     *        or if this {@dodf Cblfndbr} is non-lfnifnt bnd bny
+     *        of thf dblfndbr fiflds hbvf invblid vblufs
+     * @fxdfption NullPointfrExdfption
+     *        if {@dodf lodblf} is null
+     * @sindf 1.6
+     */
+    publid String gftDisplbyNbmf(int fifld, int stylf, Lodblf lodblf) {
+        if (!dhfdkDisplbyNbmfPbrbms(fifld, stylf, SHORT, NARROW_FORMAT, lodblf,
+                            ERA_MASK|MONTH_MASK|DAY_OF_WEEK_MASK|AM_PM_MASK)) {
+            rfturn null;
+        }
+
+        // thf stbndblonf bnd nbrrow stylfs brf supportfd only through CblfndbrDbtbProvidfrs.
+        if (isStbndblonfStylf(stylf) || isNbrrowStylf(stylf)) {
+            rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmf(gftCblfndbrTypf(),
+                                                              fifld, gft(fifld),
+                                                              stylf, lodblf);
+        }
+
+        DbtfFormbtSymbols symbols = DbtfFormbtSymbols.gftInstbndf(lodblf);
+        String[] strings = gftFifldStrings(fifld, stylf, symbols);
+        if (strings != null) {
+            int fifldVbluf = gft(fifld);
+            if (fifldVbluf < strings.lfngth) {
+                rfturn strings[fifldVbluf];
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b {@dodf Mbp} dontbining bll nbmfs of thf dblfndbr
+     * {@dodf fifld} in thf givfn {@dodf stylf} bnd
+     * {@dodf lodblf} bnd thfir dorrfsponding fifld vblufs. For
+     * fxbmplf, if this {@dodf Cblfndbr} is b {@link
+     * GrfgoribnCblfndbr}, thf rfturnfd mbp would dontbin "Jbn" to
+     * {@link #JANUARY}, "Ffb" to {@link #FEBRUARY}, bnd so on, in thf
+     * {@linkplbin #SHORT short} stylf in bn English lodblf.
+     *
+     * <p>Nbrrow nbmfs mby not bf uniquf duf to usf of singlf dhbrbdtfrs,
+     * sudh bs "S" for Sundby bnd Sbturdby. In thbt dbsf nbrrow nbmfs brf not
+     * indludfd in thf rfturnfd {@dodf Mbp}.
+     *
+     * <p>Thf vblufs of othfr dblfndbr fiflds mby bf tbkfn into
+     * bddount to dftfrminf b sft of displby nbmfs. For fxbmplf, if
+     * this {@dodf Cblfndbr} is b lunisolbr dblfndbr systfm bnd
+     * thf yfbr vbluf givfn by thf {@link #YEAR} fifld hbs b lfbp
+     * month, this mfthod would rfturn month nbmfs dontbining thf lfbp
+     * month nbmf, bnd month nbmfs brf mbppfd to thfir vblufs spfdifid
+     * for thf yfbr.
+     *
+     * <p>Thf dffbult implfmfntbtion supports displby nbmfs dontbinfd in
+     * b {@link DbtfFormbtSymbols}. For fxbmplf, if {@dodf fifld}
+     * is {@link #MONTH} bnd {@dodf stylf} is {@link
+     * #ALL_STYLES}, this mfthod rfturns b {@dodf Mbp} dontbining
+     * bll strings rfturnfd by {@link DbtfFormbtSymbols#gftShortMonths()}
+     * bnd {@link DbtfFormbtSymbols#gftMonths()}.
+     *
+     * @pbrbm fifld
+     *        thf dblfndbr fifld for whidh thf displby nbmfs brf rfturnfd
+     * @pbrbm stylf
+     *        thf stylf bpplifd to thf string rfprfsfntbtion; onf of {@link
+     *        #SHORT_FORMAT} ({@link #SHORT}), {@link #SHORT_STANDALONE},
+     *        {@link #LONG_FORMAT} ({@link #LONG}), {@link #LONG_STANDALONE},
+     *        {@link #NARROW_FORMAT}, or {@link #NARROW_STANDALONE}
+     * @pbrbm lodblf
+     *        thf lodblf for thf displby nbmfs
+     * @rfturn b {@dodf Mbp} dontbining bll displby nbmfs in
+     *        {@dodf stylf} bnd {@dodf lodblf} bnd thfir
+     *        fifld vblufs, or {@dodf null} if no displby nbmfs
+     *        brf dffinfd for {@dodf fifld}
+     * @fxdfption IllfgblArgumfntExdfption
+     *        if {@dodf fifld} or {@dodf stylf} is invblid,
+     *        or if this {@dodf Cblfndbr} is non-lfnifnt bnd bny
+     *        of thf dblfndbr fiflds hbvf invblid vblufs
+     * @fxdfption NullPointfrExdfption
+     *        if {@dodf lodblf} is null
+     * @sindf 1.6
+     */
+    publid Mbp<String, Intfgfr> gftDisplbyNbmfs(int fifld, int stylf, Lodblf lodblf) {
+        if (!dhfdkDisplbyNbmfPbrbms(fifld, stylf, ALL_STYLES, NARROW_FORMAT, lodblf,
+                                    ERA_MASK|MONTH_MASK|DAY_OF_WEEK_MASK|AM_PM_MASK)) {
+            rfturn null;
+        }
+        if (stylf == ALL_STYLES || isStbndblonfStylf(stylf)) {
+            rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmfs(gftCblfndbrTypf(), fifld, stylf, lodblf);
+        }
+        // SHORT, LONG, or NARROW
+        rfturn gftDisplbyNbmfsImpl(fifld, stylf, lodblf);
+    }
+
+    privbtf Mbp<String,Intfgfr> gftDisplbyNbmfsImpl(int fifld, int stylf, Lodblf lodblf) {
+        DbtfFormbtSymbols symbols = DbtfFormbtSymbols.gftInstbndf(lodblf);
+        String[] strings = gftFifldStrings(fifld, stylf, symbols);
+        if (strings != null) {
+            Mbp<String,Intfgfr> nbmfs = nfw HbshMbp<>();
+            for (int i = 0; i < strings.lfngth; i++) {
+                if (strings[i].lfngth() == 0) {
+                    dontinuf;
+                }
+                nbmfs.put(strings[i], i);
+            }
+            rfturn nbmfs;
+        }
+        rfturn null;
+    }
+
+    boolfbn dhfdkDisplbyNbmfPbrbms(int fifld, int stylf, int minStylf, int mbxStylf,
+                                   Lodblf lodblf, int fifldMbsk) {
+        int bbsfStylf = gftBbsfStylf(stylf); // Ignorf thf stbndblonf mbsk
+        if (fifld < 0 || fifld >= fiflds.lfngth ||
+            bbsfStylf < minStylf || bbsfStylf > mbxStylf) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if (lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn isFifldSft(fifldMbsk, fifld);
+    }
+
+    privbtf String[] gftFifldStrings(int fifld, int stylf, DbtfFormbtSymbols symbols) {
+        int bbsfStylf = gftBbsfStylf(stylf); // ignorf thf stbndblonf mbsk
+
+        // DbtfFormbtSymbols dofsn't support bny nbrrow nbmfs.
+        if (bbsfStylf == NARROW_FORMAT) {
+            rfturn null;
+        }
+
+        String[] strings = null;
+        switdh (fifld) {
+        dbsf ERA:
+            strings = symbols.gftErbs();
+            brfbk;
+
+        dbsf MONTH:
+            strings = (bbsfStylf == LONG) ? symbols.gftMonths() : symbols.gftShortMonths();
+            brfbk;
+
+        dbsf DAY_OF_WEEK:
+            strings = (bbsfStylf == LONG) ? symbols.gftWffkdbys() : symbols.gftShortWffkdbys();
+            brfbk;
+
+        dbsf AM_PM:
+            strings = symbols.gftAmPmStrings();
+            brfbk;
+        }
+        rfturn strings;
+    }
+
+    /**
+     * Fills in bny unsft fiflds in thf dblfndbr fiflds. First, thf {@link
+     * #domputfTimf()} mfthod is dbllfd if thf timf vbluf (millisfdond offsft
+     * from thf <b hrff="#Epodh">Epodh</b>) hbs not bffn dbldulbtfd from
+     * dblfndbr fifld vblufs. Thfn, thf {@link #domputfFiflds()} mfthod is
+     * dbllfd to dbldulbtf bll dblfndbr fifld vblufs.
+     */
+    protfdtfd void domplftf()
+    {
+        if (!isTimfSft) {
+            updbtfTimf();
+        }
+        if (!brfFifldsSft || !brfAllFifldsSft) {
+            domputfFiflds(); // fills in unsft fiflds
+            brfAllFifldsSft = brfFifldsSft = truf;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf vbluf of thf spfdififd dblfndbr fifld hbs bffn sft
+     * fxtfrnblly by dblling onf of thf sfttfr mfthods rbthfr thbn by thf
+     * intfrnbl timf dbldulbtion.
+     *
+     * @rfturn <dodf>truf</dodf> if thf fifld hbs bffn sft fxtfrnblly,
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf spfdififd
+     *                <dodf>fifld</dodf> is out of rbngf
+     *               (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * @sff #sflfdtFiflds()
+     * @sff #sftFifldsComputfd(int)
+     */
+    finbl boolfbn isExtfrnbllySft(int fifld) {
+        rfturn stbmp[fifld] >= MINIMUM_USER_STAMP;
+    }
+
+    /**
+     * Rfturns b fifld mbsk (bit mbsk) indidbting bll dblfndbr fiflds thbt
+     * hbvf thf stbtf of fxtfrnblly or intfrnblly sft.
+     *
+     * @rfturn b bit mbsk indidbting sft stbtf fiflds
+     */
+    finbl int gftSftStbtfFiflds() {
+        int mbsk = 0;
+        for (int i = 0; i < fiflds.lfngth; i++) {
+            if (stbmp[i] != UNSET) {
+                mbsk |= 1 << i;
+            }
+        }
+        rfturn mbsk;
+    }
+
+    /**
+     * Sfts thf stbtf of thf spfdififd dblfndbr fiflds to
+     * <fm>domputfd</fm>. This stbtf mfbns thbt thf spfdififd dblfndbr fiflds
+     * hbvf vblid vblufs thbt hbvf bffn sft by intfrnbl timf dbldulbtion
+     * rbthfr thbn by dblling onf of thf sfttfr mfthods.
+     *
+     * @pbrbm fifldMbsk thf fifld to bf mbrkfd bs domputfd.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf spfdififd
+     *                <dodf>fifld</dodf> is out of rbngf
+     *               (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * @sff #isExtfrnbllySft(int)
+     * @sff #sflfdtFiflds()
+     */
+    finbl void sftFifldsComputfd(int fifldMbsk) {
+        if (fifldMbsk == ALL_FIELDS) {
+            for (int i = 0; i < fiflds.lfngth; i++) {
+                stbmp[i] = COMPUTED;
+                isSft[i] = truf;
+            }
+            brfFifldsSft = brfAllFifldsSft = truf;
+        } flsf {
+            for (int i = 0; i < fiflds.lfngth; i++) {
+                if ((fifldMbsk & 1) == 1) {
+                    stbmp[i] = COMPUTED;
+                    isSft[i] = truf;
+                } flsf {
+                    if (brfAllFifldsSft && !isSft[i]) {
+                        brfAllFifldsSft = fblsf;
+                    }
+                }
+                fifldMbsk >>>= 1;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf stbtf of thf dblfndbr fiflds thbt brf <fm>not</fm> spfdififd
+     * by <dodf>fifldMbsk</dodf> to <fm>unsft</fm>. If <dodf>fifldMbsk</dodf>
+     * spfdififs bll thf dblfndbr fiflds, thfn thf stbtf of this
+     * <dodf>Cblfndbr</dodf> bfdomfs thbt bll thf dblfndbr fiflds brf in synd
+     * with thf timf vbluf (millisfdond offsft from thf Epodh).
+     *
+     * @pbrbm fifldMbsk thf fifld mbsk indidbting whidh dblfndbr fiflds brf in
+     * synd with thf timf vbluf.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf spfdififd
+     *                <dodf>fifld</dodf> is out of rbngf
+     *               (<dodf>fifld &lt; 0 || fifld &gt;= FIELD_COUNT</dodf>).
+     * @sff #isExtfrnbllySft(int)
+     * @sff #sflfdtFiflds()
+     */
+    finbl void sftFifldsNormblizfd(int fifldMbsk) {
+        if (fifldMbsk != ALL_FIELDS) {
+            for (int i = 0; i < fiflds.lfngth; i++) {
+                if ((fifldMbsk & 1) == 0) {
+                    stbmp[i] = fiflds[i] = 0; // UNSET == 0
+                    isSft[i] = fblsf;
+                }
+                fifldMbsk >>= 1;
+            }
+        }
+
+        // Somf or bll of thf fiflds brf in synd with thf
+        // millisfdonds, but thf stbmp vblufs brf not normblizfd yft.
+        brfFifldsSft = truf;
+        brfAllFifldsSft = fblsf;
+    }
+
+    /**
+     * Rfturns whfthfr thf dblfndbr fiflds brf pbrtiblly in synd with thf timf
+     * vbluf or fully in synd but not stbmp vblufs brf not normblizfd yft.
+     */
+    finbl boolfbn isPbrtibllyNormblizfd() {
+        rfturn brfFifldsSft && !brfAllFifldsSft;
+    }
+
+    /**
+     * Rfturns whfthfr thf dblfndbr fiflds brf fully in synd with thf timf
+     * vbluf.
+     */
+    finbl boolfbn isFullyNormblizfd() {
+        rfturn brfFifldsSft && brfAllFifldsSft;
+    }
+
+    /**
+     * Mbrks this Cblfndbr bs not synd'd.
+     */
+    finbl void sftUnnormblizfd() {
+        brfFifldsSft = brfAllFifldsSft = fblsf;
+    }
+
+    /**
+     * Rfturns whfthfr thf spfdififd <dodf>fifld</dodf> is on in thf
+     * <dodf>fifldMbsk</dodf>.
+     */
+    stbtid boolfbn isFifldSft(int fifldMbsk, int fifld) {
+        rfturn (fifldMbsk & (1 << fifld)) != 0;
+    }
+
+    /**
+     * Rfturns b fifld mbsk indidbting whidh dblfndbr fifld vblufs
+     * to bf usfd to dbldulbtf thf timf vbluf. Thf dblfndbr fiflds brf
+     * rfturnfd bs b bit mbsk, fbdh bit of whidh dorrfsponds to b fifld, i.f.,
+     * thf mbsk vbluf of <dodf>fifld</dodf> is <dodf>(1 &lt;&lt;
+     * fifld)</dodf>. For fxbmplf, 0x26 rfprfsfnts thf <dodf>YEAR</dodf>,
+     * <dodf>MONTH</dodf>, bnd <dodf>DAY_OF_MONTH</dodf> fiflds (i.f., 0x26 is
+     * fqubl to
+     * <dodf>(1&lt;&lt;YEAR)|(1&lt;&lt;MONTH)|(1&lt;&lt;DAY_OF_MONTH))</dodf>.
+     *
+     * <p>This mfthod supports thf dblfndbr fiflds rfsolution bs dfsdribfd in
+     * thf dlbss dfsdription. If thf bit mbsk for b givfn fifld is on bnd its
+     * fifld hbs not bffn sft (i.f., <dodf>isSft(fifld)</dodf> is
+     * <dodf>fblsf</dodf>), thfn thf dffbult vbluf of thf fifld hbs to bf
+     * usfd, whidh dbsf mfbns thbt thf fifld hbs bffn sflfdtfd bfdbusf thf
+     * sflfdtfd dombinbtion involvfs thf fifld.
+     *
+     * @rfturn b bit mbsk of sflfdtfd fiflds
+     * @sff #isExtfrnbllySft(int)
+     */
+    finbl int sflfdtFiflds() {
+        // This implfmfntbtion hbs bffn tbkfn from thf GrfgoribnCblfndbr dlbss.
+
+        // Thf YEAR fifld must blwbys bf usfd rfgbrdlfss of its SET
+        // stbtf bfdbusf YEAR is b mbndbtory fifld to dftfrminf thf dbtf
+        // bnd thf dffbult vbluf (EPOCH_YEAR) mby dhbngf through thf
+        // normblizbtion prodfss.
+        int fifldMbsk = YEAR_MASK;
+
+        if (stbmp[ERA] != UNSET) {
+            fifldMbsk |= ERA_MASK;
+        }
+        // Find thf most rfdfnt group of fiflds spfdifying thf dby within
+        // thf yfbr.  Thfsf mby bf bny of thf following dombinbtions:
+        //   MONTH + DAY_OF_MONTH
+        //   MONTH + WEEK_OF_MONTH + DAY_OF_WEEK
+        //   MONTH + DAY_OF_WEEK_IN_MONTH + DAY_OF_WEEK
+        //   DAY_OF_YEAR
+        //   WEEK_OF_YEAR + DAY_OF_WEEK
+        // Wf look for thf most rfdfnt of thf fiflds in fbdh group to dftfrminf
+        // thf bgf of thf group.  For groups involving b wffk-rflbtfd fifld sudh
+        // bs WEEK_OF_MONTH, DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR, both thf
+        // wffk-rflbtfd fifld bnd thf DAY_OF_WEEK must bf sft for thf group bs b
+        // wholf to bf donsidfrfd.  (Sff bug 4153860 - liu 7/24/98.)
+        int dowStbmp = stbmp[DAY_OF_WEEK];
+        int monthStbmp = stbmp[MONTH];
+        int domStbmp = stbmp[DAY_OF_MONTH];
+        int womStbmp = bggrfgbtfStbmp(stbmp[WEEK_OF_MONTH], dowStbmp);
+        int dowimStbmp = bggrfgbtfStbmp(stbmp[DAY_OF_WEEK_IN_MONTH], dowStbmp);
+        int doyStbmp = stbmp[DAY_OF_YEAR];
+        int woyStbmp = bggrfgbtfStbmp(stbmp[WEEK_OF_YEAR], dowStbmp);
+
+        int bfstStbmp = domStbmp;
+        if (womStbmp > bfstStbmp) {
+            bfstStbmp = womStbmp;
+        }
+        if (dowimStbmp > bfstStbmp) {
+            bfstStbmp = dowimStbmp;
+        }
+        if (doyStbmp > bfstStbmp) {
+            bfstStbmp = doyStbmp;
+        }
+        if (woyStbmp > bfstStbmp) {
+            bfstStbmp = woyStbmp;
+        }
+
+        /* No domplftf dombinbtion fxists.  Look for WEEK_OF_MONTH,
+         * DAY_OF_WEEK_IN_MONTH, or WEEK_OF_YEAR blonf.  Trfbt DAY_OF_WEEK blonf
+         * bs DAY_OF_WEEK_IN_MONTH.
+         */
+        if (bfstStbmp == UNSET) {
+            womStbmp = stbmp[WEEK_OF_MONTH];
+            dowimStbmp = Mbth.mbx(stbmp[DAY_OF_WEEK_IN_MONTH], dowStbmp);
+            woyStbmp = stbmp[WEEK_OF_YEAR];
+            bfstStbmp = Mbth.mbx(Mbth.mbx(womStbmp, dowimStbmp), woyStbmp);
+
+            /* Trfbt MONTH blonf or no fiflds bt bll bs DAY_OF_MONTH.  This mby
+             * rfsult in bfstStbmp = domStbmp = UNSET if no fiflds brf sft,
+             * whidh indidbtfs DAY_OF_MONTH.
+             */
+            if (bfstStbmp == UNSET) {
+                bfstStbmp = domStbmp = monthStbmp;
+            }
+        }
+
+        if (bfstStbmp == domStbmp ||
+           (bfstStbmp == womStbmp && stbmp[WEEK_OF_MONTH] >= stbmp[WEEK_OF_YEAR]) ||
+           (bfstStbmp == dowimStbmp && stbmp[DAY_OF_WEEK_IN_MONTH] >= stbmp[WEEK_OF_YEAR])) {
+            fifldMbsk |= MONTH_MASK;
+            if (bfstStbmp == domStbmp) {
+                fifldMbsk |= DAY_OF_MONTH_MASK;
+            } flsf {
+                bssfrt (bfstStbmp == womStbmp || bfstStbmp == dowimStbmp);
+                if (dowStbmp != UNSET) {
+                    fifldMbsk |= DAY_OF_WEEK_MASK;
+                }
+                if (womStbmp == dowimStbmp) {
+                    // Whfn thfy brf fqubl, givf thf priority to
+                    // WEEK_OF_MONTH for dompbtibility.
+                    if (stbmp[WEEK_OF_MONTH] >= stbmp[DAY_OF_WEEK_IN_MONTH]) {
+                        fifldMbsk |= WEEK_OF_MONTH_MASK;
+                    } flsf {
+                        fifldMbsk |= DAY_OF_WEEK_IN_MONTH_MASK;
+                    }
+                } flsf {
+                    if (bfstStbmp == womStbmp) {
+                        fifldMbsk |= WEEK_OF_MONTH_MASK;
+                    } flsf {
+                        bssfrt (bfstStbmp == dowimStbmp);
+                        if (stbmp[DAY_OF_WEEK_IN_MONTH] != UNSET) {
+                            fifldMbsk |= DAY_OF_WEEK_IN_MONTH_MASK;
+                        }
+                    }
+                }
+            }
+        } flsf {
+            bssfrt (bfstStbmp == doyStbmp || bfstStbmp == woyStbmp ||
+                    bfstStbmp == UNSET);
+            if (bfstStbmp == doyStbmp) {
+                fifldMbsk |= DAY_OF_YEAR_MASK;
+            } flsf {
+                bssfrt (bfstStbmp == woyStbmp);
+                if (dowStbmp != UNSET) {
+                    fifldMbsk |= DAY_OF_WEEK_MASK;
+                }
+                fifldMbsk |= WEEK_OF_YEAR_MASK;
+            }
+        }
+
+        // Find thf bfst sft of fiflds spfdifying thf timf of dby.  Thfrf
+        // brf only two possibilitifs hfrf; thf HOUR_OF_DAY or thf
+        // AM_PM bnd thf HOUR.
+        int hourOfDbyStbmp = stbmp[HOUR_OF_DAY];
+        int hourStbmp = bggrfgbtfStbmp(stbmp[HOUR], stbmp[AM_PM]);
+        bfstStbmp = (hourStbmp > hourOfDbyStbmp) ? hourStbmp : hourOfDbyStbmp;
+
+        // if bfstStbmp is still UNSET, thfn tbkf HOUR or AM_PM. (Sff 4846659)
+        if (bfstStbmp == UNSET) {
+            bfstStbmp = Mbth.mbx(stbmp[HOUR], stbmp[AM_PM]);
+        }
+
+        // Hours
+        if (bfstStbmp != UNSET) {
+            if (bfstStbmp == hourOfDbyStbmp) {
+                fifldMbsk |= HOUR_OF_DAY_MASK;
+            } flsf {
+                fifldMbsk |= HOUR_MASK;
+                if (stbmp[AM_PM] != UNSET) {
+                    fifldMbsk |= AM_PM_MASK;
+                }
+            }
+        }
+        if (stbmp[MINUTE] != UNSET) {
+            fifldMbsk |= MINUTE_MASK;
+        }
+        if (stbmp[SECOND] != UNSET) {
+            fifldMbsk |= SECOND_MASK;
+        }
+        if (stbmp[MILLISECOND] != UNSET) {
+            fifldMbsk |= MILLISECOND_MASK;
+        }
+        if (stbmp[ZONE_OFFSET] >= MINIMUM_USER_STAMP) {
+                fifldMbsk |= ZONE_OFFSET_MASK;
+        }
+        if (stbmp[DST_OFFSET] >= MINIMUM_USER_STAMP) {
+            fifldMbsk |= DST_OFFSET_MASK;
+        }
+
+        rfturn fifldMbsk;
+    }
+
+    int gftBbsfStylf(int stylf) {
+        rfturn stylf & ~STANDALONE_MASK;
+    }
+
+    boolfbn isStbndblonfStylf(int stylf) {
+        rfturn (stylf & STANDALONE_MASK) != 0;
+    }
+
+    boolfbn isNbrrowStylf(int stylf) {
+        rfturn stylf == NARROW_FORMAT || stylf == NARROW_STANDALONE;
+    }
+
+    /**
+     * Rfturns thf psfudo-timf-stbmp for two fiflds, givfn thfir
+     * individubl psfudo-timf-stbmps.  If fithfr of thf fiflds
+     * is unsft, thfn thf bggrfgbtf is unsft.  Othfrwisf, thf
+     * bggrfgbtf is thf lbtfr of thf two stbmps.
+     */
+    privbtf stbtid int bggrfgbtfStbmp(int stbmp_b, int stbmp_b) {
+        if (stbmp_b == UNSET || stbmp_b == UNSET) {
+            rfturn UNSET;
+        }
+        rfturn (stbmp_b > stbmp_b) ? stbmp_b : stbmp_b;
+    }
+
+    /**
+     * Rfturns bn unmodifibblf {@dodf Sft} dontbining bll dblfndbr typfs
+     * supportfd by {@dodf Cblfndbr} in thf runtimf fnvironmfnt. Thf bvbilbblf
+     * dblfndbr typfs dbn bf usfd for thf <b
+     * hrff="Lodblf.html#dff_lodblf_fxtfnsion">Unidodf lodblf fxtfnsions</b>.
+     * Thf {@dodf Sft} rfturnfd dontbins bt lfbst {@dodf "grfgory"}. Thf
+     * dblfndbr typfs don't indludf blibsfs, sudh bs {@dodf "grfgoribn"} for
+     * {@dodf "grfgory"}.
+     *
+     * @rfturn bn unmodifibblf {@dodf Sft} dontbining bll bvbilbblf dblfndbr typfs
+     * @sindf 1.8
+     * @sff #gftCblfndbrTypf()
+     * @sff Cblfndbr.Buildfr#sftCblfndbrTypf(String)
+     * @sff Lodblf#gftUnidodfLodblfTypf(String)
+     */
+    publid stbtid Sft<String> gftAvbilbblfCblfndbrTypfs() {
+        rfturn AvbilbblfCblfndbrTypfs.SET;
+    }
+
+    privbtf stbtid dlbss AvbilbblfCblfndbrTypfs {
+        privbtf stbtid finbl Sft<String> SET;
+        stbtid {
+            Sft<String> sft = nfw HbshSft<>(3);
+            sft.bdd("grfgory");
+            sft.bdd("buddhist");
+            sft.bdd("jbpbnfsf");
+            SET = Collfdtions.unmodifibblfSft(sft);
+        }
+        privbtf AvbilbblfCblfndbrTypfs() {
+        }
+    }
+
+    /**
+     * Rfturns thf dblfndbr typf of this {@dodf Cblfndbr}. Cblfndbr typfs brf
+     * dffinfd by thf <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm>
+     * spfdifidbtion.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod rfturns thf dlbss nbmf of
+     * this {@dodf Cblfndbr} instbndf. Any subdlbssfs thbt implfmfnt
+     * LDML-dffinfd dblfndbr systfms should ovfrridf this mfthod to rfturn
+     * bppropribtf dblfndbr typfs.
+     *
+     * @rfturn thf LDML-dffinfd dblfndbr typf or thf dlbss nbmf of this
+     *         {@dodf Cblfndbr} instbndf
+     * @sindf 1.8
+     * @sff <b hrff="Lodblf.html#dff_fxtfnsions">Lodblf fxtfnsions</b>
+     * @sff Lodblf.Buildfr#sftLodblf(Lodblf)
+     * @sff Lodblf.Buildfr#sftUnidodfLodblfKfyword(String, String)
+     */
+    publid String gftCblfndbrTypf() {
+        rfturn this.gftClbss().gftNbmf();
+    }
+
+    /**
+     * Compbrfs this <dodf>Cblfndbr</dodf> to thf spfdififd
+     * <dodf>Objfdt</dodf>.  Thf rfsult is <dodf>truf</dodf> if bnd only if
+     * thf brgumfnt is b <dodf>Cblfndbr</dodf> objfdt of thf sbmf dblfndbr
+     * systfm thbt rfprfsfnts thf sbmf timf vbluf (millisfdond offsft from thf
+     * <b hrff="#Epodh">Epodh</b>) undfr thf sbmf
+     * <dodf>Cblfndbr</dodf> pbrbmftfrs bs this objfdt.
+     *
+     * <p>Thf <dodf>Cblfndbr</dodf> pbrbmftfrs brf thf vblufs rfprfsfntfd
+     * by thf <dodf>isLfnifnt</dodf>, <dodf>gftFirstDbyOfWffk</dodf>,
+     * <dodf>gftMinimblDbysInFirstWffk</dodf> bnd <dodf>gftTimfZonf</dodf>
+     * mfthods. If thfrf is bny difffrfndf in thosf pbrbmftfrs
+     * bftwffn thf two <dodf>Cblfndbr</dodf>s, this mfthod rfturns
+     * <dodf>fblsf</dodf>.
+     *
+     * <p>Usf thf {@link #dompbrfTo(Cblfndbr) dompbrfTo} mfthod to
+     * dompbrf only thf timf vblufs.
+     *
+     * @pbrbm obj thf objfdt to dompbrf with.
+     * @rfturn <dodf>truf</dodf> if this objfdt is fqubl to <dodf>obj</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    @SupprfssWbrnings("EqublsWhidhDofsntChfdkPbrbmftfrClbss")
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        try {
+            Cblfndbr thbt = (Cblfndbr)obj;
+            rfturn dompbrfTo(gftMillisOf(thbt)) == 0 &&
+                lfnifnt == thbt.lfnifnt &&
+                firstDbyOfWffk == thbt.firstDbyOfWffk &&
+                minimblDbysInFirstWffk == thbt.minimblDbysInFirstWffk &&
+                zonf.fqubls(thbt.zonf);
+        } dbtdh (Exdfption f) {
+            // Notf: GrfgoribnCblfndbr.domputfTimf throws
+            // IllfgblArgumfntExdfption if thf ERA vbluf is invblid
+            // fvfn it's in lfnifnt modf.
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this dblfndbr.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     * @sindf 1.2
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        // 'othfritfms' rfprfsfnts thf hbsh dodf for thf prfvious vfrsions.
+        int othfritfms = (lfnifnt ? 1 : 0)
+            | (firstDbyOfWffk << 1)
+            | (minimblDbysInFirstWffk << 4)
+            | (zonf.hbshCodf() << 7);
+        long t = gftMillisOf(this);
+        rfturn (int) t ^ (int)(t >> 32) ^ othfritfms;
+    }
+
+    /**
+     * Rfturns whfthfr this <dodf>Cblfndbr</dodf> rfprfsfnts b timf
+     * bfforf thf timf rfprfsfntfd by thf spfdififd
+     * <dodf>Objfdt</dodf>. This mfthod is fquivblfnt to:
+     * <prf>{@dodf
+     *         dompbrfTo(whfn) < 0
+     * }</prf>
+     * if bnd only if <dodf>whfn</dodf> is b <dodf>Cblfndbr</dodf>
+     * instbndf. Othfrwisf, thf mfthod rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm whfn thf <dodf>Objfdt</dodf> to bf dompbrfd
+     * @rfturn <dodf>truf</dodf> if thf timf of this
+     * <dodf>Cblfndbr</dodf> is bfforf thf timf rfprfsfntfd by
+     * <dodf>whfn</dodf>; <dodf>fblsf</dodf> othfrwisf.
+     * @sff     #dompbrfTo(Cblfndbr)
+     */
+    publid boolfbn bfforf(Objfdt whfn) {
+        rfturn whfn instbndfof Cblfndbr
+            && dompbrfTo((Cblfndbr)whfn) < 0;
+    }
+
+    /**
+     * Rfturns whfthfr this <dodf>Cblfndbr</dodf> rfprfsfnts b timf
+     * bftfr thf timf rfprfsfntfd by thf spfdififd
+     * <dodf>Objfdt</dodf>. This mfthod is fquivblfnt to:
+     * <prf>{@dodf
+     *         dompbrfTo(whfn) > 0
+     * }</prf>
+     * if bnd only if <dodf>whfn</dodf> is b <dodf>Cblfndbr</dodf>
+     * instbndf. Othfrwisf, thf mfthod rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm whfn thf <dodf>Objfdt</dodf> to bf dompbrfd
+     * @rfturn <dodf>truf</dodf> if thf timf of this <dodf>Cblfndbr</dodf> is
+     * bftfr thf timf rfprfsfntfd by <dodf>whfn</dodf>; <dodf>fblsf</dodf>
+     * othfrwisf.
+     * @sff     #dompbrfTo(Cblfndbr)
+     */
+    publid boolfbn bftfr(Objfdt whfn) {
+        rfturn whfn instbndfof Cblfndbr
+            && dompbrfTo((Cblfndbr)whfn) > 0;
+    }
+
+    /**
+     * Compbrfs thf timf vblufs (millisfdond offsfts from thf <b
+     * hrff="#Epodh">Epodh</b>) rfprfsfntfd by two
+     * <dodf>Cblfndbr</dodf> objfdts.
+     *
+     * @pbrbm bnothfrCblfndbr thf <dodf>Cblfndbr</dodf> to bf dompbrfd.
+     * @rfturn thf vbluf <dodf>0</dodf> if thf timf rfprfsfntfd by thf brgumfnt
+     * is fqubl to thf timf rfprfsfntfd by this <dodf>Cblfndbr</dodf>; b vbluf
+     * lfss thbn <dodf>0</dodf> if thf timf of this <dodf>Cblfndbr</dodf> is
+     * bfforf thf timf rfprfsfntfd by thf brgumfnt; bnd b vbluf grfbtfr thbn
+     * <dodf>0</dodf> if thf timf of this <dodf>Cblfndbr</dodf> is bftfr thf
+     * timf rfprfsfntfd by thf brgumfnt.
+     * @fxdfption NullPointfrExdfption if thf spfdififd <dodf>Cblfndbr</dodf> is
+     *            <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf timf vbluf of thf
+     * spfdififd <dodf>Cblfndbr</dodf> objfdt dbn't bf obtbinfd duf to
+     * bny invblid dblfndbr vblufs.
+     * @sindf   1.5
+     */
+    @Ovfrridf
+    publid int dompbrfTo(Cblfndbr bnothfrCblfndbr) {
+        rfturn dompbrfTo(gftMillisOf(bnothfrCblfndbr));
+    }
+
+    /**
+     * Adds or subtrbdts thf spfdififd bmount of timf to thf givfn dblfndbr fifld,
+     * bbsfd on thf dblfndbr's rulfs. For fxbmplf, to subtrbdt 5 dbys from
+     * thf durrfnt timf of thf dblfndbr, you dbn bdhifvf it by dblling:
+     * <p><dodf>bdd(Cblfndbr.DAY_OF_MONTH, -5)</dodf>.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @pbrbm bmount thf bmount of dbtf or timf to bf bddfd to thf fifld.
+     * @sff #roll(int,int)
+     * @sff #sft(int,int)
+     */
+    bbstrbdt publid void bdd(int fifld, int bmount);
+
+    /**
+     * Adds or subtrbdts (up/down) b singlf unit of timf on thf givfn timf
+     * fifld without dhbnging lbrgfr fiflds. For fxbmplf, to roll thf durrfnt
+     * dbtf up by onf dby, you dbn bdhifvf it by dblling:
+     * <p>roll(Cblfndbr.DATE, truf).
+     * Whfn rolling on thf yfbr or Cblfndbr.YEAR fifld, it will roll thf yfbr
+     * vbluf in thf rbngf bftwffn 1 bnd thf vbluf rfturnfd by dblling
+     * <dodf>gftMbximum(Cblfndbr.YEAR)</dodf>.
+     * Whfn rolling on thf month or Cblfndbr.MONTH fifld, othfr fiflds likf
+     * dbtf might donflidt bnd, nffd to bf dhbngfd. For instbndf,
+     * rolling thf month on thf dbtf 01/31/96 will rfsult in 02/29/96.
+     * Whfn rolling on thf hour-in-dby or Cblfndbr.HOUR_OF_DAY fifld, it will
+     * roll thf hour vbluf in thf rbngf bftwffn 0 bnd 23, whidh is zfro-bbsfd.
+     *
+     * @pbrbm fifld thf timf fifld.
+     * @pbrbm up indidbtfs if thf vbluf of thf spfdififd timf fifld is to bf
+     * rollfd up or rollfd down. Usf truf if rolling up, fblsf othfrwisf.
+     * @sff Cblfndbr#bdd(int,int)
+     * @sff Cblfndbr#sft(int,int)
+     */
+    bbstrbdt publid void roll(int fifld, boolfbn up);
+
+    /**
+     * Adds thf spfdififd (signfd) bmount to thf spfdififd dblfndbr fifld
+     * without dhbnging lbrgfr fiflds.  A nfgbtivf bmount mfbns to roll
+     * down.
+     *
+     * <p>NOTE:  This dffbult implfmfntbtion on <dodf>Cblfndbr</dodf> just rfpfbtfdly dblls thf
+     * vfrsion of {@link #roll(int,boolfbn) roll()} thbt rolls by onf unit.  This mby not
+     * blwbys do thf right thing.  For fxbmplf, if thf <dodf>DAY_OF_MONTH</dodf> fifld is 31,
+     * rolling through Ffbrubry will lfbvf it sft to 28.  Thf <dodf>GrfgoribnCblfndbr</dodf>
+     * vfrsion of this fundtion tbkfs dbrf of this problfm.  Othfr subdlbssfs
+     * should blso providf ovfrridfs of this fundtion thbt do thf right thing.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @pbrbm bmount thf signfd bmount to bdd to thf dblfndbr <dodf>fifld</dodf>.
+     * @sindf 1.2
+     * @sff #roll(int,boolfbn)
+     * @sff #bdd(int,int)
+     * @sff #sft(int,int)
+     */
+    publid void roll(int fifld, int bmount)
+    {
+        whilf (bmount > 0) {
+            roll(fifld, truf);
+            bmount--;
+        }
+        whilf (bmount < 0) {
+            roll(fifld, fblsf);
+            bmount++;
+        }
+    }
+
+    /**
+     * Sfts thf timf zonf with thf givfn timf zonf vbluf.
+     *
+     * @pbrbm vbluf thf givfn timf zonf.
+     */
+    publid void sftTimfZonf(TimfZonf vbluf)
+    {
+        zonf = vbluf;
+        shbrfdZonf = fblsf;
+        /* Rfdomputf thf fiflds from thf timf using thf nfw zonf.  This blso
+         * works if isTimfSft is fblsf (bftfr b dbll to sft()).  In thbt dbsf
+         * thf timf will bf domputfd from thf fiflds using thf nfw zonf, thfn
+         * thf fiflds will gft rfdomputfd from thbt.  Considfr thf sfqufndf of
+         * dblls: dbl.sftTimfZonf(EST); dbl.sft(HOUR, 1); dbl.sftTimfZonf(PST).
+         * Is dbl sft to 1 o'dlodk EST or 1 o'dlodk PST?  Answfr: PST.  Morf
+         * gfnfrblly, b dbll to sftTimfZonf() bfffdts dblls to sft() BEFORE AND
+         * AFTER it up to thf nfxt dbll to domplftf().
+         */
+        brfAllFifldsSft = brfFifldsSft = fblsf;
+    }
+
+    /**
+     * Gfts thf timf zonf.
+     *
+     * @rfturn thf timf zonf objfdt bssodibtfd with this dblfndbr.
+     */
+    publid TimfZonf gftTimfZonf()
+    {
+        // If thf TimfZonf objfdt is shbrfd by othfr Cblfndbr instbndfs, thfn
+        // drfbtf b dlonf.
+        if (shbrfdZonf) {
+            zonf = (TimfZonf) zonf.dlonf();
+            shbrfdZonf = fblsf;
+        }
+        rfturn zonf;
+    }
+
+    /**
+     * Rfturns thf timf zonf (without dloning).
+     */
+    TimfZonf gftZonf() {
+        rfturn zonf;
+    }
+
+    /**
+     * Sfts thf shbrfdZonf flbg to <dodf>shbrfd</dodf>.
+     */
+    void sftZonfShbrfd(boolfbn shbrfd) {
+        shbrfdZonf = shbrfd;
+    }
+
+    /**
+     * Spfdififs whfthfr or not dbtf/timf intfrprftbtion is to bf lfnifnt.  With
+     * lfnifnt intfrprftbtion, b dbtf sudh bs "Ffbrubry 942, 1996" will bf
+     * trfbtfd bs bfing fquivblfnt to thf 941st dby bftfr Ffbrubry 1, 1996.
+     * With stridt (non-lfnifnt) intfrprftbtion, sudh dbtfs will dbusf bn fxdfption to bf
+     * thrown. Thf dffbult is lfnifnt.
+     *
+     * @pbrbm lfnifnt <dodf>truf</dodf> if thf lfnifnt modf is to bf turnfd
+     * on; <dodf>fblsf</dodf> if it is to bf turnfd off.
+     * @sff #isLfnifnt()
+     * @sff jbvb.tfxt.DbtfFormbt#sftLfnifnt
+     */
+    publid void sftLfnifnt(boolfbn lfnifnt)
+    {
+        this.lfnifnt = lfnifnt;
+    }
+
+    /**
+     * Tflls whfthfr dbtf/timf intfrprftbtion is to bf lfnifnt.
+     *
+     * @rfturn <dodf>truf</dodf> if thf intfrprftbtion modf of this dblfndbr is lfnifnt;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @sff #sftLfnifnt(boolfbn)
+     */
+    publid boolfbn isLfnifnt()
+    {
+        rfturn lfnifnt;
+    }
+
+    /**
+     * Sfts whbt thf first dby of thf wffk is; f.g., <dodf>SUNDAY</dodf> in thf U.S.,
+     * <dodf>MONDAY</dodf> in Frbndf.
+     *
+     * @pbrbm vbluf thf givfn first dby of thf wffk.
+     * @sff #gftFirstDbyOfWffk()
+     * @sff #gftMinimblDbysInFirstWffk()
+     */
+    publid void sftFirstDbyOfWffk(int vbluf)
+    {
+        if (firstDbyOfWffk == vbluf) {
+            rfturn;
+        }
+        firstDbyOfWffk = vbluf;
+        invblidbtfWffkFiflds();
+    }
+
+    /**
+     * Gfts whbt thf first dby of thf wffk is; f.g., <dodf>SUNDAY</dodf> in thf U.S.,
+     * <dodf>MONDAY</dodf> in Frbndf.
+     *
+     * @rfturn thf first dby of thf wffk.
+     * @sff #sftFirstDbyOfWffk(int)
+     * @sff #gftMinimblDbysInFirstWffk()
+     */
+    publid int gftFirstDbyOfWffk()
+    {
+        rfturn firstDbyOfWffk;
+    }
+
+    /**
+     * Sfts whbt thf minimbl dbys rfquirfd in thf first wffk of thf yfbr brf;
+     * For fxbmplf, if thf first wffk is dffinfd bs onf thbt dontbins thf first
+     * dby of thf first month of b yfbr, dbll this mfthod with vbluf 1. If it
+     * must bf b full wffk, usf vbluf 7.
+     *
+     * @pbrbm vbluf thf givfn minimbl dbys rfquirfd in thf first wffk
+     * of thf yfbr.
+     * @sff #gftMinimblDbysInFirstWffk()
+     */
+    publid void sftMinimblDbysInFirstWffk(int vbluf)
+    {
+        if (minimblDbysInFirstWffk == vbluf) {
+            rfturn;
+        }
+        minimblDbysInFirstWffk = vbluf;
+        invblidbtfWffkFiflds();
+    }
+
+    /**
+     * Gfts whbt thf minimbl dbys rfquirfd in thf first wffk of thf yfbr brf;
+     * f.g., if thf first wffk is dffinfd bs onf thbt dontbins thf first dby
+     * of thf first month of b yfbr, this mfthod rfturns 1. If
+     * thf minimbl dbys rfquirfd must bf b full wffk, this mfthod
+     * rfturns 7.
+     *
+     * @rfturn thf minimbl dbys rfquirfd in thf first wffk of thf yfbr.
+     * @sff #sftMinimblDbysInFirstWffk(int)
+     */
+    publid int gftMinimblDbysInFirstWffk()
+    {
+        rfturn minimblDbysInFirstWffk;
+    }
+
+    /**
+     * Rfturns whfthfr this {@dodf Cblfndbr} supports wffk dbtfs.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod rfturns {@dodf fblsf}.
+     *
+     * @rfturn {@dodf truf} if this {@dodf Cblfndbr} supports wffk dbtfs;
+     *         {@dodf fblsf} othfrwisf.
+     * @sff #gftWffkYfbr()
+     * @sff #sftWffkDbtf(int,int,int)
+     * @sff #gftWffksInWffkYfbr()
+     * @sindf 1.7
+     */
+    publid boolfbn isWffkDbtfSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf wffk yfbr rfprfsfntfd by this {@dodf Cblfndbr}. Thf
+     * wffk yfbr is in synd with thf wffk dydlf. Thf {@linkplbin
+     * #gftFirstDbyOfWffk() first dby of thf first wffk} is thf first
+     * dby of thf wffk yfbr.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod throws bn
+     * {@link UnsupportfdOpfrbtionExdfption}.
+     *
+     * @rfturn thf wffk yfbr of this {@dodf Cblfndbr}
+     * @fxdfption UnsupportfdOpfrbtionExdfption
+     *            if bny wffk yfbr numbfring isn't supportfd
+     *            in this {@dodf Cblfndbr}.
+     * @sff #isWffkDbtfSupportfd()
+     * @sff #gftFirstDbyOfWffk()
+     * @sff #gftMinimblDbysInFirstWffk()
+     * @sindf 1.7
+     */
+    publid int gftWffkYfbr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Sfts thf dbtf of this {@dodf Cblfndbr} with thf thf givfn dbtf
+     * spfdififrs - wffk yfbr, wffk of yfbr, bnd dby of wffk.
+     *
+     * <p>Unlikf thf {@dodf sft} mfthod, bll of thf dblfndbr fiflds
+     * bnd {@dodf timf} vblufs brf dbldulbtfd upon rfturn.
+     *
+     * <p>If {@dodf wffkOfYfbr} is out of thf vblid wffk-of-yfbr rbngf
+     * in {@dodf wffkYfbr}, thf {@dodf wffkYfbr} bnd {@dodf
+     * wffkOfYfbr} vblufs brf bdjustfd in lfnifnt modf, or bn {@dodf
+     * IllfgblArgumfntExdfption} is thrown in non-lfnifnt modf.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @pbrbm wffkYfbr   thf wffk yfbr
+     * @pbrbm wffkOfYfbr thf wffk numbfr bbsfd on {@dodf wffkYfbr}
+     * @pbrbm dbyOfWffk  thf dby of wffk vbluf: onf of thf donstbnts
+     *                   for thf {@link #DAY_OF_WEEK} fifld: {@link
+     *                   #SUNDAY}, ..., {@link #SATURDAY}.
+     * @fxdfption IllfgblArgumfntExdfption
+     *            if bny of thf givfn dbtf spfdififrs is invblid
+     *            or bny of thf dblfndbr fiflds brf indonsistfnt
+     *            with thf givfn dbtf spfdififrs in non-lfnifnt modf
+     * @fxdfption UnsupportfdOpfrbtionExdfption
+     *            if bny wffk yfbr numbfring isn't supportfd in this
+     *            {@dodf Cblfndbr}.
+     * @sff #isWffkDbtfSupportfd()
+     * @sff #gftFirstDbyOfWffk()
+     * @sff #gftMinimblDbysInFirstWffk()
+     * @sindf 1.7
+     */
+    publid void sftWffkDbtf(int wffkYfbr, int wffkOfYfbr, int dbyOfWffk) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns thf numbfr of wffks in thf wffk yfbr rfprfsfntfd by this
+     * {@dodf Cblfndbr}.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @rfturn thf numbfr of wffks in thf wffk yfbr.
+     * @fxdfption UnsupportfdOpfrbtionExdfption
+     *            if bny wffk yfbr numbfring isn't supportfd in this
+     *            {@dodf Cblfndbr}.
+     * @sff #WEEK_OF_YEAR
+     * @sff #isWffkDbtfSupportfd()
+     * @sff #gftWffkYfbr()
+     * @sff #gftAdtublMbximum(int)
+     * @sindf 1.7
+     */
+    publid int gftWffksInWffkYfbr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Rfturns thf minimum vbluf for thf givfn dblfndbr fifld of this
+     * <dodf>Cblfndbr</dodf> instbndf. Thf minimum vbluf is dffinfd bs
+     * thf smbllfst vbluf rfturnfd by thf {@link #gft(int) gft} mfthod
+     * for bny possiblf timf vbluf.  Thf minimum vbluf dfpfnds on
+     * dblfndbr systfm spfdifid pbrbmftfrs of thf instbndf.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf minimum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    bbstrbdt publid int gftMinimum(int fifld);
+
+    /**
+     * Rfturns thf mbximum vbluf for thf givfn dblfndbr fifld of this
+     * <dodf>Cblfndbr</dodf> instbndf. Thf mbximum vbluf is dffinfd bs
+     * thf lbrgfst vbluf rfturnfd by thf {@link #gft(int) gft} mfthod
+     * for bny possiblf timf vbluf. Thf mbximum vbluf dfpfnds on
+     * dblfndbr systfm spfdifid pbrbmftfrs of thf instbndf.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf mbximum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    bbstrbdt publid int gftMbximum(int fifld);
+
+    /**
+     * Rfturns thf highfst minimum vbluf for thf givfn dblfndbr fifld
+     * of this <dodf>Cblfndbr</dodf> instbndf. Thf highfst minimum
+     * vbluf is dffinfd bs thf lbrgfst vbluf rfturnfd by {@link
+     * #gftAdtublMinimum(int)} for bny possiblf timf vbluf. Thf
+     * grfbtfst minimum vbluf dfpfnds on dblfndbr systfm spfdifid
+     * pbrbmftfrs of thf instbndf.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf highfst minimum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    bbstrbdt publid int gftGrfbtfstMinimum(int fifld);
+
+    /**
+     * Rfturns thf lowfst mbximum vbluf for thf givfn dblfndbr fifld
+     * of this <dodf>Cblfndbr</dodf> instbndf. Thf lowfst mbximum
+     * vbluf is dffinfd bs thf smbllfst vbluf rfturnfd by {@link
+     * #gftAdtublMbximum(int)} for bny possiblf timf vbluf. Thf lfbst
+     * mbximum vbluf dfpfnds on dblfndbr systfm spfdifid pbrbmftfrs of
+     * thf instbndf. For fxbmplf, b <dodf>Cblfndbr</dodf> for thf
+     * Grfgoribn dblfndbr systfm rfturns 28 for thf
+     * <dodf>DAY_OF_MONTH</dodf> fifld, bfdbusf thf 28th is thf lbst
+     * dby of thf shortfst month of this dblfndbr, Ffbrubry in b
+     * dommon yfbr.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf lowfst mbximum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    bbstrbdt publid int gftLfbstMbximum(int fifld);
+
+    /**
+     * Rfturns thf minimum vbluf thbt thf spfdififd dblfndbr fifld
+     * dould hbvf, givfn thf timf vbluf of this <dodf>Cblfndbr</dodf>.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod usfs bn itfrbtivf
+     * blgorithm to dftfrminf thf bdtubl minimum vbluf for thf
+     * dblfndbr fifld. Subdlbssfs should, if possiblf, ovfrridf this
+     * with b morf fffidifnt implfmfntbtion - in mbny dbsfs, thfy dbn
+     * simply rfturn <dodf>gftMinimum()</dodf>.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf minimum of thf givfn dblfndbr fifld for thf timf
+     * vbluf of this <dodf>Cblfndbr</dodf>
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMbximum(int)
+     * @sindf 1.2
+     */
+    publid int gftAdtublMinimum(int fifld) {
+        int fifldVbluf = gftGrfbtfstMinimum(fifld);
+        int fndVbluf = gftMinimum(fifld);
+
+        // if wf know thbt thf minimum vbluf is blwbys thf sbmf, just rfturn it
+        if (fifldVbluf == fndVbluf) {
+            rfturn fifldVbluf;
+        }
+
+        // dlonf thf dblfndbr so wf don't mfss with thf rfbl onf, bnd sft it to
+        // bddfpt bnything for thf fifld vblufs
+        Cblfndbr work = (Cblfndbr)this.dlonf();
+        work.sftLfnifnt(truf);
+
+        // now try fbdh vbluf from gftLfbstMbximum() to gftMbximum() onf by onf until
+        // wf gft b vbluf thbt normblizfs to bnothfr vbluf.  Thf lbst vbluf thbt
+        // normblizfs to itsflf is thf bdtubl minimum for thf durrfnt dbtf
+        int rfsult = fifldVbluf;
+
+        do {
+            work.sft(fifld, fifldVbluf);
+            if (work.gft(fifld) != fifldVbluf) {
+                brfbk;
+            } flsf {
+                rfsult = fifldVbluf;
+                fifldVbluf--;
+            }
+        } whilf (fifldVbluf >= fndVbluf);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf mbximum vbluf thbt thf spfdififd dblfndbr fifld
+     * dould hbvf, givfn thf timf vbluf of this
+     * <dodf>Cblfndbr</dodf>. For fxbmplf, thf bdtubl mbximum vbluf of
+     * thf <dodf>MONTH</dodf> fifld is 12 in somf yfbrs, bnd 13 in
+     * othfr yfbrs in thf Hfbrfw dblfndbr systfm.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod usfs bn itfrbtivf
+     * blgorithm to dftfrminf thf bdtubl mbximum vbluf for thf
+     * dblfndbr fifld. Subdlbssfs should, if possiblf, ovfrridf this
+     * with b morf fffidifnt implfmfntbtion.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf mbximum of thf givfn dblfndbr fifld for thf timf
+     * vbluf of this <dodf>Cblfndbr</dodf>
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sindf 1.2
+     */
+    publid int gftAdtublMbximum(int fifld) {
+        int fifldVbluf = gftLfbstMbximum(fifld);
+        int fndVbluf = gftMbximum(fifld);
+
+        // if wf know thbt thf mbximum vbluf is blwbys thf sbmf, just rfturn it.
+        if (fifldVbluf == fndVbluf) {
+            rfturn fifldVbluf;
+        }
+
+        // dlonf thf dblfndbr so wf don't mfss with thf rfbl onf, bnd sft it to
+        // bddfpt bnything for thf fifld vblufs.
+        Cblfndbr work = (Cblfndbr)this.dlonf();
+        work.sftLfnifnt(truf);
+
+        // if wf'rf dounting wffks, sft thf dby of thf wffk to Sundby.  Wf know thf
+        // lbst wffk of b month or yfbr will dontbin thf first dby of thf wffk.
+        if (fifld == WEEK_OF_YEAR || fifld == WEEK_OF_MONTH) {
+            work.sft(DAY_OF_WEEK, firstDbyOfWffk);
+        }
+
+        // now try fbdh vbluf from gftLfbstMbximum() to gftMbximum() onf by onf until
+        // wf gft b vbluf thbt normblizfs to bnothfr vbluf.  Thf lbst vbluf thbt
+        // normblizfs to itsflf is thf bdtubl mbximum for thf durrfnt dbtf
+        int rfsult = fifldVbluf;
+
+        do {
+            work.sft(fifld, fifldVbluf);
+            if (work.gft(fifld) != fifldVbluf) {
+                brfbk;
+            } flsf {
+                rfsult = fifldVbluf;
+                fifldVbluf++;
+            }
+        } whilf (fifldVbluf <= fndVbluf);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.
+     *
+     * @rfturn b dopy of this objfdt.
+     */
+    @Ovfrridf
+    publid Objfdt dlonf()
+    {
+        try {
+            Cblfndbr othfr = (Cblfndbr) supfr.dlonf();
+
+            othfr.fiflds = nfw int[FIELD_COUNT];
+            othfr.isSft = nfw boolfbn[FIELD_COUNT];
+            othfr.stbmp = nfw int[FIELD_COUNT];
+            for (int i = 0; i < FIELD_COUNT; i++) {
+                othfr.fiflds[i] = fiflds[i];
+                othfr.stbmp[i] = stbmp[i];
+                othfr.isSft[i] = isSft[i];
+            }
+            othfr.zonf = (TimfZonf) zonf.dlonf();
+            rfturn othfr;
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    privbtf stbtid finbl String[] FIELD_NAME = {
+        "ERA", "YEAR", "MONTH", "WEEK_OF_YEAR", "WEEK_OF_MONTH", "DAY_OF_MONTH",
+        "DAY_OF_YEAR", "DAY_OF_WEEK", "DAY_OF_WEEK_IN_MONTH", "AM_PM", "HOUR",
+        "HOUR_OF_DAY", "MINUTE", "SECOND", "MILLISECOND", "ZONE_OFFSET",
+        "DST_OFFSET"
+    };
+
+    /**
+     * Rfturns thf nbmf of thf spfdififd dblfndbr fifld.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf dblfndbr fifld nbmf
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>fifld</dodf> is nfgbtivf,
+     * fqubl to or grfbtfr thfn <dodf>FIELD_COUNT</dodf>.
+     */
+    stbtid String gftFifldNbmf(int fifld) {
+        rfturn FIELD_NAME[fifld];
+    }
+
+    /**
+     * Rfturn b string rfprfsfntbtion of this dblfndbr. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * formbt of thf rfturnfd string mby vbry bftwffn implfmfntbtions.
+     * Thf rfturnfd string mby bf fmpty but mby not bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this dblfndbr.
+     */
+    @Ovfrridf
+    publid String toString() {
+        // NOTE: BuddhistCblfndbr.toString() intfrprfts thf string
+        // produdfd by this mfthod so thbt thf Grfgoribn yfbr numbfr
+        // is substitutfd by its B.E. yfbr vbluf. It rflifs on
+        // "...,YEAR=<yfbr>,..." or "...,YEAR=?,...".
+        StringBuildfr bufffr = nfw StringBuildfr(800);
+        bufffr.bppfnd(gftClbss().gftNbmf()).bppfnd('[');
+        bppfndVbluf(bufffr, "timf", isTimfSft, timf);
+        bufffr.bppfnd(",brfFifldsSft=").bppfnd(brfFifldsSft);
+        bufffr.bppfnd(",brfAllFifldsSft=").bppfnd(brfAllFifldsSft);
+        bufffr.bppfnd(",lfnifnt=").bppfnd(lfnifnt);
+        bufffr.bppfnd(",zonf=").bppfnd(zonf);
+        bppfndVbluf(bufffr, ",firstDbyOfWffk", truf, (long) firstDbyOfWffk);
+        bppfndVbluf(bufffr, ",minimblDbysInFirstWffk", truf, (long) minimblDbysInFirstWffk);
+        for (int i = 0; i < FIELD_COUNT; ++i) {
+            bufffr.bppfnd(',');
+            bppfndVbluf(bufffr, FIELD_NAME[i], isSft(i), (long) fiflds[i]);
+        }
+        bufffr.bppfnd(']');
+        rfturn bufffr.toString();
+    }
+
+    // =======================privbtfs===============================
+
+    privbtf stbtid void bppfndVbluf(StringBuildfr sb, String itfm, boolfbn vblid, long vbluf) {
+        sb.bppfnd(itfm).bppfnd('=');
+        if (vblid) {
+            sb.bppfnd(vbluf);
+        } flsf {
+            sb.bppfnd('?');
+        }
+    }
+
+    /**
+     * Both firstDbyOfWffk bnd minimblDbysInFirstWffk brf lodblf-dfpfndfnt.
+     * Thfy brf usfd to figurf out thf wffk dount for b spfdifid dbtf for
+     * b givfn lodblf. Thfsf must bf sft whfn b Cblfndbr is donstrudtfd.
+     * @pbrbm dfsirfdLodblf thf givfn lodblf.
+     */
+    privbtf void sftWffkCountDbtb(Lodblf dfsirfdLodblf)
+    {
+        /* try to gft thf Lodblf dbtb from thf dbdhf */
+        int[] dbtb = dbdhfdLodblfDbtb.gft(dfsirfdLodblf);
+        if (dbtb == null) {  /* dbdhf miss */
+            dbtb = nfw int[2];
+            dbtb[0] = CblfndbrDbtbUtility.rftrifvfFirstDbyOfWffk(dfsirfdLodblf);
+            dbtb[1] = CblfndbrDbtbUtility.rftrifvfMinimblDbysInFirstWffk(dfsirfdLodblf);
+            dbdhfdLodblfDbtb.putIfAbsfnt(dfsirfdLodblf, dbtb);
+        }
+        firstDbyOfWffk = dbtb[0];
+        minimblDbysInFirstWffk = dbtb[1];
+    }
+
+    /**
+     * Rfdomputfs thf timf bnd updbtfs thf stbtus fiflds isTimfSft
+     * bnd brfFifldsSft.  Cbllfrs should dhfdk isTimfSft bnd only
+     * dbll this mfthod if isTimfSft is fblsf.
+     */
+    privbtf void updbtfTimf() {
+        domputfTimf();
+        // Thf brfFifldsSft bnd brfAllFifldsSft vblufs brf no longfr
+        // dontrollfd hfrf (bs of 1.5).
+        isTimfSft = truf;
+    }
+
+    privbtf int dompbrfTo(long t) {
+        long thisTimf = gftMillisOf(this);
+        rfturn (thisTimf > t) ? 1 : (thisTimf == t) ? 0 : -1;
+    }
+
+    privbtf stbtid long gftMillisOf(Cblfndbr dblfndbr) {
+        if (dblfndbr.isTimfSft) {
+            rfturn dblfndbr.timf;
+        }
+        Cblfndbr dbl = (Cblfndbr) dblfndbr.dlonf();
+        dbl.sftLfnifnt(truf);
+        rfturn dbl.gftTimfInMillis();
+    }
+
+    /**
+     * Adjusts thf stbmp[] vblufs bfforf nfxtStbmp ovfrflow. nfxtStbmp
+     * is sft to thf nfxt stbmp vbluf upon thf rfturn.
+     */
+    privbtf void bdjustStbmp() {
+        int mbx = MINIMUM_USER_STAMP;
+        int nfwStbmp = MINIMUM_USER_STAMP;
+
+        for (;;) {
+            int min = Intfgfr.MAX_VALUE;
+            for (int v : stbmp) {
+                if (v >= nfwStbmp && min > v) {
+                    min = v;
+                }
+                if (mbx < v) {
+                    mbx = v;
+                }
+            }
+            if (mbx != min && min == Intfgfr.MAX_VALUE) {
+                brfbk;
+            }
+            for (int i = 0; i < stbmp.lfngth; i++) {
+                if (stbmp[i] == min) {
+                    stbmp[i] = nfwStbmp;
+                }
+            }
+            nfwStbmp++;
+            if (min == mbx) {
+                brfbk;
+            }
+        }
+        nfxtStbmp = nfwStbmp;
+    }
+
+    /**
+     * Sfts thf WEEK_OF_MONTH bnd WEEK_OF_YEAR fiflds to nfw vblufs with thf
+     * nfw pbrbmftfr vbluf if thfy hbvf bffn dbldulbtfd intfrnblly.
+     */
+    privbtf void invblidbtfWffkFiflds()
+    {
+        if (stbmp[WEEK_OF_MONTH] != COMPUTED &&
+            stbmp[WEEK_OF_YEAR] != COMPUTED) {
+            rfturn;
+        }
+
+        // Wf hbvf to dhfdk thf nfw vblufs of thfsf fiflds bftfr dhbnging
+        // firstDbyOfWffk bnd/or minimblDbysInFirstWffk. If thf fifld vblufs
+        // hbvf bffn dhbngfd, thfn sft thf nfw vblufs. (4822110)
+        Cblfndbr dbl = (Cblfndbr) dlonf();
+        dbl.sftLfnifnt(truf);
+        dbl.dlfbr(WEEK_OF_MONTH);
+        dbl.dlfbr(WEEK_OF_YEAR);
+
+        if (stbmp[WEEK_OF_MONTH] == COMPUTED) {
+            int wffkOfMonth = dbl.gft(WEEK_OF_MONTH);
+            if (fiflds[WEEK_OF_MONTH] != wffkOfMonth) {
+                fiflds[WEEK_OF_MONTH] = wffkOfMonth;
+            }
+        }
+
+        if (stbmp[WEEK_OF_YEAR] == COMPUTED) {
+            int wffkOfYfbr = dbl.gft(WEEK_OF_YEAR);
+            if (fiflds[WEEK_OF_YEAR] != wffkOfYfbr) {
+                fiflds[WEEK_OF_YEAR] = wffkOfYfbr;
+            }
+        }
+    }
+
+    /**
+     * Sbvf thf stbtf of this objfdt to b strfbm (i.f., sfriblizf it).
+     *
+     * Idfblly, <dodf>Cblfndbr</dodf> would only writf out its stbtf dbtb bnd
+     * thf durrfnt timf, bnd not writf bny fifld dbtb out, sudh bs
+     * <dodf>fiflds[]</dodf>, <dodf>isTimfSft</dodf>, <dodf>brfFifldsSft</dodf>,
+     * bnd <dodf>isSft[]</dodf>.  <dodf>nfxtStbmp</dodf> blso should not bf pbrt
+     * of thf pfrsistfnt stbtf. Unfortunbtfly, this didn't hbppfn bfforf JDK 1.1
+     * shippfd. To bf dompbtiblf with JDK 1.1, wf will blwbys hbvf to writf out
+     * thf fifld vblufs bnd stbtf flbgs.  Howfvfr, <dodf>nfxtStbmp</dodf> dbn bf
+     * rfmovfd from thf sfriblizbtion strfbm; this will probbbly hbppfn in thf
+     * nfbr futurf.
+     */
+    privbtf syndhronizfd void writfObjfdt(ObjfdtOutputStrfbm strfbm)
+         throws IOExdfption
+    {
+        // Try to domputf thf timf dorrfdtly, for thf futurf (strfbm
+        // vfrsion 2) in whidh wf don't writf out fiflds[] or isSft[].
+        if (!isTimfSft) {
+            try {
+                updbtfTimf();
+            }
+            dbtdh (IllfgblArgumfntExdfption f) {}
+        }
+
+        // If this Cblfndbr hbs b ZonfInfo, sbvf it bnd sft b
+        // SimplfTimfZonf fquivblfnt (bs b singlf DST sdhfdulf) for
+        // bbdkwbrd dompbtibility.
+        TimfZonf sbvfdZonf = null;
+        if (zonf instbndfof ZonfInfo) {
+            SimplfTimfZonf stz = ((ZonfInfo)zonf).gftLbstRulfInstbndf();
+            if (stz == null) {
+                stz = nfw SimplfTimfZonf(zonf.gftRbwOffsft(), zonf.gftID());
+            }
+            sbvfdZonf = zonf;
+            zonf = stz;
+        }
+
+        // Writf out thf 1.1 FCS objfdt.
+        strfbm.dffbultWritfObjfdt();
+
+        // Writf out thf ZonfInfo objfdt
+        // 4802409: wf writf out fvfn if it is null, b tfmporbry workbround
+        // thf rfbl fix for bug 4844924 in dorbb-iiop
+        strfbm.writfObjfdt(sbvfdZonf);
+        if (sbvfdZonf != null) {
+            zonf = sbvfdZonf;
+        }
+    }
+
+    privbtf stbtid dlbss CblfndbrAddfssControlContfxt {
+        privbtf stbtid finbl AddfssControlContfxt INSTANCE;
+        stbtid {
+            RuntimfPfrmission pfrm = nfw RuntimfPfrmission("bddfssClbssInPbdkbgf.sun.util.dblfndbr");
+            PfrmissionCollfdtion pfrms = pfrm.nfwPfrmissionCollfdtion();
+            pfrms.bdd(pfrm);
+            INSTANCE = nfw AddfssControlContfxt(nfw ProtfdtionDombin[] {
+                                                    nfw ProtfdtionDombin(null, pfrms)
+                                                });
+        }
+        privbtf CblfndbrAddfssControlContfxt() {
+        }
+    }
+
+    /**
+     * Rfdonstitutfs this objfdt from b strfbm (i.f., dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        finbl ObjfdtInputStrfbm input = strfbm;
+        input.dffbultRfbdObjfdt();
+
+        stbmp = nfw int[FIELD_COUNT];
+
+        // Stbrting with vfrsion 2 (not implfmfntfd yft), wf fxpfdt thbt
+        // fiflds[], isSft[], isTimfSft, bnd brfFifldsSft mby not bf
+        // strfbmfd out bnymorf.  Wf fxpfdt 'timf' to bf dorrfdt.
+        if (sfriblVfrsionOnStrfbm >= 2)
+        {
+            isTimfSft = truf;
+            if (fiflds == null) {
+                fiflds = nfw int[FIELD_COUNT];
+            }
+            if (isSft == null) {
+                isSft = nfw boolfbn[FIELD_COUNT];
+            }
+        }
+        flsf if (sfriblVfrsionOnStrfbm >= 0)
+        {
+            for (int i=0; i<FIELD_COUNT; ++i) {
+                stbmp[i] = isSft[i] ? COMPUTED : UNSET;
+            }
+        }
+
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+        // If thfrf's b ZonfInfo objfdt, usf it for zonf.
+        ZonfInfo zi = null;
+        try {
+            zi = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<ZonfInfo>() {
+                        @Ovfrridf
+                        publid ZonfInfo run() throws Exdfption {
+                            rfturn (ZonfInfo) input.rfbdObjfdt();
+                        }
+                    },
+                    CblfndbrAddfssControlContfxt.INSTANCE);
+        } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+            Exdfption f = pbf.gftExdfption();
+            if (!(f instbndfof OptionblDbtbExdfption)) {
+                if (f instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) f;
+                } flsf if (f instbndfof IOExdfption) {
+                    throw (IOExdfption) f;
+                } flsf if (f instbndfof ClbssNotFoundExdfption) {
+                    throw (ClbssNotFoundExdfption) f;
+                }
+                throw nfw RuntimfExdfption(f);
+            }
+        }
+        if (zi != null) {
+            zonf = zi;
+        }
+
+        // If thf dfsfriblizfd objfdt hbs b SimplfTimfZonf, try to
+        // rfplbdf it with b ZonfInfo fquivblfnt (bs of 1.4) in ordfr
+        // to bf dompbtiblf with thf SimplfTimfZonf-bbsfd
+        // implfmfntbtion bs mudh bs possiblf.
+        if (zonf instbndfof SimplfTimfZonf) {
+            String id = zonf.gftID();
+            TimfZonf tz = TimfZonf.gftTimfZonf(id);
+            if (tz != null && tz.hbsSbmfRulfs(zonf) && tz.gftID().fqubls(id)) {
+                zonf = tz;
+            }
+        }
+    }
+
+    /**
+     * Convfrts this objfdt to bn {@link Instbnt}.
+     * <p>
+     * Thf donvfrsion drfbtfs bn {@dodf Instbnt} thbt rfprfsfnts thf
+     * sbmf point on thf timf-linf bs this {@dodf Cblfndbr}.
+     *
+     * @rfturn thf instbnt rfprfsfnting thf sbmf point on thf timf-linf
+     * @sindf 1.8
+     */
+    publid finbl Instbnt toInstbnt() {
+        rfturn Instbnt.ofEpodhMilli(gftTimfInMillis());
+    }
+}

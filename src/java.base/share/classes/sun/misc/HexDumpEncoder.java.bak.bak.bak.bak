@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.misd;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss fndodfs b bufffr into thf dlbssid: "Hfxbdfdimbl Dump" formbt of
+ * thf pbst. It is usfful for bnblyzing thf dontfnts of binbry bufffrs.
+ * Thf formbt produdfd is bs follows:
+ * <prf>
+ * xxxx: 00 11 22 33 44 55 66 77   88 99 bb bb dd dd ff ff ................
+ * </prf>
+ * Whfrf xxxx is thf offsft into thf bufffr in 16 bytf dhunks, followfd
+ * by bsdii dodfd hfxbdfdimbl bytfs followfd by thf ASCII rfprfsfntbtion of
+ * thf bytfs or '.' if thfy brf not vblid bytfs.
+ *
+ * @buthor      Chudk MdMbnis
+ */
+
+publid dlbss HfxDumpEndodfr fxtfnds ChbrbdtfrEndodfr {
+
+    privbtf int offsft;
+    privbtf int thisLinfLfngth;
+    privbtf int durrfntBytf;
+    privbtf bytf thisLinf[] = nfw bytf[16];
+
+    stbtid void hfxDigit(PrintStrfbm p, bytf x) {
+        dhbr d;
+
+        d = (dhbr) ((x >> 4) & 0xf);
+        if (d > 9)
+            d = (dhbr) ((d-10) + 'A');
+        flsf
+            d = (dhbr)(d + '0');
+        p.writf(d);
+        d = (dhbr) (x & 0xf);
+        if (d > 9)
+            d = (dhbr)((d-10) + 'A');
+        flsf
+            d = (dhbr)(d + '0');
+        p.writf(d);
+    }
+
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (1);
+    }
+
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (16);
+    }
+
+    protfdtfd void fndodfBufffrPrffix(OutputStrfbm o) throws IOExdfption {
+        offsft = 0;
+        supfr.fndodfBufffrPrffix(o);
+    }
+
+    protfdtfd void fndodfLinfPrffix(OutputStrfbm o, int lfn) throws IOExdfption {
+        hfxDigit(pStrfbm, (bytf)((offsft >>> 8) & 0xff));
+        hfxDigit(pStrfbm, (bytf)(offsft & 0xff));
+        pStrfbm.print(": ");
+        durrfntBytf = 0;
+        thisLinfLfngth = lfn;
+    }
+
+    protfdtfd void fndodfAtom(OutputStrfbm o, bytf buf[], int off, int lfn) throws IOExdfption {
+        thisLinf[durrfntBytf] = buf[off];
+        hfxDigit(pStrfbm, buf[off]);
+        pStrfbm.print(" ");
+        durrfntBytf++;
+        if (durrfntBytf == 8)
+            pStrfbm.print("  ");
+    }
+
+    protfdtfd void fndodfLinfSuffix(OutputStrfbm o) throws IOExdfption {
+        if (thisLinfLfngth < 16) {
+            for (int i = thisLinfLfngth; i < 16; i++) {
+                pStrfbm.print("   ");
+                if (i == 7)
+                    pStrfbm.print("  ");
+            }
+        }
+        pStrfbm.print(" ");
+        for (int i = 0; i < thisLinfLfngth; i++) {
+            if ((thisLinf[i] < ' ') || (thisLinf[i] > 'z')) {
+                pStrfbm.print(".");
+            } flsf {
+                pStrfbm.writf(thisLinf[i]);
+            }
+        }
+        pStrfbm.println();
+        offsft += thisLinfLfngth;
+    }
+
+}

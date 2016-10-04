@@ -1,946 +1,946 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.concurrent.ConcurrentHashMap;
-import static sun.awt.SunHints.*;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import stbtid sun.bwt.SunHints.*;
 
 
-public class FileFontStrike extends PhysicalStrike {
+publid dlbss FilfFontStrikf fxtfnds PiysidblStrikf {
 
-    /* fffe and ffff are values we specially interpret as meaning
-     * invisible glyphs.
+    /* ffff bnd ffff brf vblufs wf spfdiblly intfrprft bs mfbning
+     * invisiblf glypis.
      */
-    static final int INVISIBLE_GLYPHS = 0x0fffe;
+    stbtid finbl int INVISIBLE_GLYPHS = 0x0ffff;
 
-    private FileFont fileFont;
+    privbtf FilfFont filfFont;
 
-    /* REMIND: replace this scheme with one that installs a cache
-     * instance of the appropriate type. It will require changes in
-     * FontStrikeDisposer and NativeStrike etc.
+    /* REMIND: rfplbdf tiis sdifmf witi onf tibt instblls b dbdif
+     * instbndf of tif bppropribtf typf. It will rfquirf dibngfs in
+     * FontStrikfDisposfr bnd NbtivfStrikf ftd.
      */
-    private static final int UNINITIALISED = 0;
-    private static final int INTARRAY      = 1;
-    private static final int LONGARRAY     = 2;
-    private static final int SEGINTARRAY   = 3;
-    private static final int SEGLONGARRAY  = 4;
+    privbtf stbtid finbl int UNINITIALISED = 0;
+    privbtf stbtid finbl int INTARRAY      = 1;
+    privbtf stbtid finbl int LONGARRAY     = 2;
+    privbtf stbtid finbl int SEGINTARRAY   = 3;
+    privbtf stbtid finbl int SEGLONGARRAY  = 4;
 
-    private volatile int glyphCacheFormat = UNINITIALISED;
+    privbtf volbtilf int glypiCbdifFormbt = UNINITIALISED;
 
-    /* segmented arrays are blocks of 32 */
-    private static final int SEGSHIFT = 5;
-    private static final int SEGSIZE  = 1 << SEGSHIFT;
+    /* sfgmfntfd brrbys brf blodks of 32 */
+    privbtf stbtid finbl int SEGSHIFT = 5;
+    privbtf stbtid finbl int SEGSIZE  = 1 << SEGSHIFT;
 
-    private boolean segmentedCache;
-    private int[][] segIntGlyphImages;
-    private long[][] segLongGlyphImages;
+    privbtf boolfbn sfgmfntfdCbdif;
+    privbtf int[][] sfgIntGlypiImbgfs;
+    privbtf long[][] sfgLongGlypiImbgfs;
 
-    /* The "metrics" information requested by clients is usually nothing
-     * more than the horizontal advance of the character.
-     * In most cases this advance and other metrics information is stored
-     * in the glyph image cache.
-     * But in some cases we do not automatically retrieve the glyph
-     * image when the advance is requested. In those cases we want to
-     * cache the advances since this has been shown to be important for
-     * performance.
-     * The segmented cache is used in cases when the single array
-     * would be too large.
+    /* Tif "mftrids" informbtion rfqufstfd by dlifnts is usublly notiing
+     * morf tibn tif iorizontbl bdvbndf of tif dibrbdtfr.
+     * In most dbsfs tiis bdvbndf bnd otifr mftrids informbtion is storfd
+     * in tif glypi imbgf dbdif.
+     * But in somf dbsfs wf do not butombtidblly rftrifvf tif glypi
+     * imbgf wifn tif bdvbndf is rfqufstfd. In tiosf dbsfs wf wbnt to
+     * dbdif tif bdvbndfs sindf tiis ibs bffn siown to bf importbnt for
+     * pfrformbndf.
+     * Tif sfgmfntfd dbdif is usfd in dbsfs wifn tif singlf brrby
+     * would bf too lbrgf.
      */
-    private float[] horizontalAdvances;
-    private float[][] segHorizontalAdvances;
+    privbtf flobt[] iorizontblAdvbndfs;
+    privbtf flobt[][] sfgHorizontblAdvbndfs;
 
-    /* Outline bounds are used when printing and when drawing outlines
-     * to the screen. On balance the relative rarity of these cases
-     * and the fact that getting this requires generating a path at
-     * the scaler level means that its probably OK to store these
-     * in a Java-level hashmap as the trade-off between time and space.
-     * Later can revisit whether to cache these at all, or elsewhere.
-     * Should also profile whether subsequent to getting the bounds, the
-     * outline itself is also requested. The 1.4 implementation doesn't
-     * cache outlines so you could generate the path twice - once to get
-     * the bounds and again to return the outline to the client.
-     * If the two uses are coincident then also look into caching outlines.
-     * One simple optimisation is that we could store the last single
-     * outline retrieved. This assumes that bounds then outline will always
-     * be retrieved for a glyph rather than retrieving bounds for all glyphs
-     * then outlines for all glyphs.
+    /* Outlinf bounds brf usfd wifn printing bnd wifn drbwing outlinfs
+     * to tif sdrffn. On bblbndf tif rflbtivf rbrity of tifsf dbsfs
+     * bnd tif fbdt tibt gftting tiis rfquirfs gfnfrbting b pbti bt
+     * tif sdblfr lfvfl mfbns tibt its probbbly OK to storf tifsf
+     * in b Jbvb-lfvfl ibsimbp bs tif trbdf-off bftwffn timf bnd spbdf.
+     * Lbtfr dbn rfvisit wiftifr to dbdif tifsf bt bll, or flsfwifrf.
+     * Siould blso profilf wiftifr subsfqufnt to gftting tif bounds, tif
+     * outlinf itsflf is blso rfqufstfd. Tif 1.4 implfmfntbtion dofsn't
+     * dbdif outlinfs so you dould gfnfrbtf tif pbti twidf - ondf to gft
+     * tif bounds bnd bgbin to rfturn tif outlinf to tif dlifnt.
+     * If tif two usfs brf doindidfnt tifn blso look into dbdiing outlinfs.
+     * Onf simplf optimisbtion is tibt wf dould storf tif lbst singlf
+     * outlinf rftrifvfd. Tiis bssumfs tibt bounds tifn outlinf will blwbys
+     * bf rftrifvfd for b glypi rbtifr tibn rftrifving bounds for bll glypis
+     * tifn outlinfs for bll glypis.
      */
-    ConcurrentHashMap<Integer, Rectangle2D.Float> boundsMap;
-    SoftReference<ConcurrentHashMap<Integer, Point2D.Float>>
-        glyphMetricsMapRef;
+    CondurrfntHbsiMbp<Intfgfr, Rfdtbnglf2D.Flobt> boundsMbp;
+    SoftRfffrfndf<CondurrfntHbsiMbp<Intfgfr, Point2D.Flobt>>
+        glypiMftridsMbpRff;
 
-    AffineTransform invertDevTx;
+    AffinfTrbnsform invfrtDfvTx;
 
-    boolean useNatives;
-    NativeStrike[] nativeStrikes;
+    boolfbn usfNbtivfs;
+    NbtivfStrikf[] nbtivfStrikfs;
 
-    /* Used only for communication to native layer */
-    private int intPtSize;
+    /* Usfd only for dommunidbtion to nbtivf lbyfr */
+    privbtf int intPtSizf;
 
-    /* Perform global initialisation needed for Windows native rasterizer */
-    private static native boolean initNative();
-    private static boolean isXPorLater = false;
-    static {
-        if (FontUtilities.isWindows && !FontUtilities.useT2K &&
-            !GraphicsEnvironment.isHeadless()) {
-            isXPorLater = initNative();
+    /* Pfrform globbl initiblisbtion nffdfd for Windows nbtivf rbstfrizfr */
+    privbtf stbtid nbtivf boolfbn initNbtivf();
+    privbtf stbtid boolfbn isXPorLbtfr = fblsf;
+    stbtid {
+        if (FontUtilitifs.isWindows && !FontUtilitifs.usfT2K &&
+            !GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            isXPorLbtfr = initNbtivf();
         }
     }
 
-    FileFontStrike(FileFont fileFont, FontStrikeDesc desc) {
-        super(fileFont, desc);
-        this.fileFont = fileFont;
+    FilfFontStrikf(FilfFont filfFont, FontStrikfDfsd dfsd) {
+        supfr(filfFont, dfsd);
+        tiis.filfFont = filfFont;
 
-        if (desc.style != fileFont.style) {
-          /* If using algorithmic styling, the base values are
-           * boldness = 1.0, italic = 0.0. The superclass constructor
-           * initialises these.
+        if (dfsd.stylf != filfFont.stylf) {
+          /* If using blgoritimid styling, tif bbsf vblufs brf
+           * boldnfss = 1.0, itblid = 0.0. Tif supfrdlbss donstrudtor
+           * initiblisfs tifsf.
            */
-            if ((desc.style & Font.ITALIC) == Font.ITALIC &&
-                (fileFont.style & Font.ITALIC) == 0) {
-                algoStyle = true;
-                italic = 0.7f;
+            if ((dfsd.stylf & Font.ITALIC) == Font.ITALIC &&
+                (filfFont.stylf & Font.ITALIC) == 0) {
+                blgoStylf = truf;
+                itblid = 0.7f;
             }
-            if ((desc.style & Font.BOLD) == Font.BOLD &&
-                ((fileFont.style & Font.BOLD) == 0)) {
-                algoStyle = true;
-                boldness = 1.33f;
+            if ((dfsd.stylf & Font.BOLD) == Font.BOLD &&
+                ((filfFont.stylf & Font.BOLD) == 0)) {
+                blgoStylf = truf;
+                boldnfss = 1.33f;
             }
         }
-        double[] matrix = new double[4];
-        AffineTransform at = desc.glyphTx;
-        at.getMatrix(matrix);
-        if (!desc.devTx.isIdentity() &&
-            desc.devTx.getType() != AffineTransform.TYPE_TRANSLATION) {
+        doublf[] mbtrix = nfw doublf[4];
+        AffinfTrbnsform bt = dfsd.glypiTx;
+        bt.gftMbtrix(mbtrix);
+        if (!dfsd.dfvTx.isIdfntity() &&
+            dfsd.dfvTx.gftTypf() != AffinfTrbnsform.TYPE_TRANSLATION) {
             try {
-                invertDevTx = desc.devTx.createInverse();
-            } catch (NoninvertibleTransformException e) {
+                invfrtDfvTx = dfsd.dfvTx.drfbtfInvfrsf();
+            } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
             }
         }
 
-        /* Amble fonts are better rendered unhinted although there's the
-         * inevitable fuzziness that accompanies this due to no longer
-         * snapping stems to the pixel grid. The exception is that in B&W
-         * mode they are worse without hinting. The down side to that is that
-         * B&W metrics will differ which normally isn't the case, although
-         * since AA mode is part of the measuring context that should be OK.
-         * We don't expect Amble to be installed in the Windows fonts folder.
-         * If we were to, then we'd also might want to disable using the
-         * native rasteriser path which is used for LCD mode for platform
-         * fonts. since we have no way to disable hinting by GDI.
-         * In the case of Amble, since its 'gasp' table says to disable
-         * hinting, I'd expect GDI to follow that, so likely it should
-         * all be consistent even if GDI used.
+        /* Amblf fonts brf bfttfr rfndfrfd uniintfd bltiougi tifrf's tif
+         * infvitbblf fuzzinfss tibt bddompbnifs tiis duf to no longfr
+         * snbpping stfms to tif pixfl grid. Tif fxdfption is tibt in B&W
+         * modf tify brf worsf witiout iinting. Tif down sidf to tibt is tibt
+         * B&W mftrids will difffr wiidi normblly isn't tif dbsf, bltiougi
+         * sindf AA modf is pbrt of tif mfbsuring dontfxt tibt siould bf OK.
+         * Wf don't fxpfdt Amblf to bf instbllfd in tif Windows fonts foldfr.
+         * If wf wfrf to, tifn wf'd blso migit wbnt to disbblf using tif
+         * nbtivf rbstfrisfr pbti wiidi is usfd for LCD modf for plbtform
+         * fonts. sindf wf ibvf no wby to disbblf iinting by GDI.
+         * In tif dbsf of Amblf, sindf its 'gbsp' tbblf sbys to disbblf
+         * iinting, I'd fxpfdt GDI to follow tibt, so likfly it siould
+         * bll bf donsistfnt fvfn if GDI usfd.
          */
-        boolean disableHinting = desc.aaHint != INTVAL_TEXT_ANTIALIAS_OFF &&
-                                 fileFont.familyName.startsWith("Amble");
+        boolfbn disbblfHinting = dfsd.bbHint != INTVAL_TEXT_ANTIALIAS_OFF &&
+                                 filfFont.fbmilyNbmf.stbrtsWiti("Amblf");
 
-        /* If any of the values is NaN then substitute the null scaler context.
-         * This will return null images, zero advance, and empty outlines
-         * as no rendering need take place in this case.
-         * We pass in the null scaler as the singleton null context
-         * requires it. However
+        /* If bny of tif vblufs is NbN tifn substitutf tif null sdblfr dontfxt.
+         * Tiis will rfturn null imbgfs, zfro bdvbndf, bnd fmpty outlinfs
+         * bs no rfndfring nffd tbkf plbdf in tiis dbsf.
+         * Wf pbss in tif null sdblfr bs tif singlfton null dontfxt
+         * rfquirfs it. Howfvfr
          */
-        if (Double.isNaN(matrix[0]) || Double.isNaN(matrix[1]) ||
-            Double.isNaN(matrix[2]) || Double.isNaN(matrix[3]) ||
-            fileFont.getScaler() == null) {
-            pScalerContext = NullFontScaler.getNullScalerContext();
-        } else {
-            pScalerContext = fileFont.getScaler().createScalerContext(matrix,
-                                    desc.aaHint, desc.fmHint,
-                                    boldness, italic, disableHinting);
+        if (Doublf.isNbN(mbtrix[0]) || Doublf.isNbN(mbtrix[1]) ||
+            Doublf.isNbN(mbtrix[2]) || Doublf.isNbN(mbtrix[3]) ||
+            filfFont.gftSdblfr() == null) {
+            pSdblfrContfxt = NullFontSdblfr.gftNullSdblfrContfxt();
+        } flsf {
+            pSdblfrContfxt = filfFont.gftSdblfr().drfbtfSdblfrContfxt(mbtrix,
+                                    dfsd.bbHint, dfsd.fmHint,
+                                    boldnfss, itblid, disbblfHinting);
         }
 
-        mapper = fileFont.getMapper();
-        int numGlyphs = mapper.getNumGlyphs();
+        mbppfr = filfFont.gftMbppfr();
+        int numGlypis = mbppfr.gftNumGlypis();
 
-        /* Always segment for fonts with > 256 glyphs, but also for smaller
-         * fonts with non-typical sizes and transforms.
-         * Segmenting for all non-typical pt sizes helps to minimize memory
-         * usage when very many distinct strikes are created.
-         * The size range of 0->5 and 37->INF for segmenting is arbitrary
-         * but the intention is that typical GUI integer point sizes (6->36)
-         * should not segment unless there's another reason to do so.
+        /* Alwbys sfgmfnt for fonts witi > 256 glypis, but blso for smbllfr
+         * fonts witi non-typidbl sizfs bnd trbnsforms.
+         * Sfgmfnting for bll non-typidbl pt sizfs iflps to minimizf mfmory
+         * usbgf wifn vfry mbny distindt strikfs brf drfbtfd.
+         * Tif sizf rbngf of 0->5 bnd 37->INF for sfgmfnting is brbitrbry
+         * but tif intfntion is tibt typidbl GUI intfgfr point sizfs (6->36)
+         * siould not sfgmfnt unlfss tifrf's bnotifr rfbson to do so.
          */
-        float ptSize = (float)matrix[3]; // interpreted only when meaningful.
-        int iSize = intPtSize = (int)ptSize;
-        boolean isSimpleTx = (at.getType() & complexTX) == 0;
-        segmentedCache =
-            (numGlyphs > SEGSIZE << 3) ||
-            ((numGlyphs > SEGSIZE << 1) &&
-             (!isSimpleTx || ptSize != iSize || iSize < 6 || iSize > 36));
+        flobt ptSizf = (flobt)mbtrix[3]; // intfrprftfd only wifn mfbningful.
+        int iSizf = intPtSizf = (int)ptSizf;
+        boolfbn isSimplfTx = (bt.gftTypf() & domplfxTX) == 0;
+        sfgmfntfdCbdif =
+            (numGlypis > SEGSIZE << 3) ||
+            ((numGlypis > SEGSIZE << 1) &&
+             (!isSimplfTx || ptSizf != iSizf || iSizf < 6 || iSizf > 36));
 
-        /* This can only happen if we failed to allocate memory for context.
-         * NB: in such case we may still have some memory in java heap
-         *     but subsequent attempt to allocate null scaler context
-         *     may fail too (cause it is allocate in the native heap).
-         *     It is not clear how to make this more robust but on the
-         *     other hand getting NULL here seems to be extremely unlikely.
+        /* Tiis dbn only ibppfn if wf fbilfd to bllodbtf mfmory for dontfxt.
+         * NB: in sudi dbsf wf mby still ibvf somf mfmory in jbvb ifbp
+         *     but subsfqufnt bttfmpt to bllodbtf null sdblfr dontfxt
+         *     mby fbil too (dbusf it is bllodbtf in tif nbtivf ifbp).
+         *     It is not dlfbr iow to mbkf tiis morf robust but on tif
+         *     otifr ibnd gftting NULL ifrf sffms to bf fxtrfmfly unlikfly.
          */
-        if (pScalerContext == 0L) {
-            /* REMIND: when the code is updated to install cache objects
-             * rather than using a switch this will be more efficient.
+        if (pSdblfrContfxt == 0L) {
+            /* REMIND: wifn tif dodf is updbtfd to instbll dbdif objfdts
+             * rbtifr tibn using b switdi tiis will bf morf fffidifnt.
              */
-            this.disposer = new FontStrikeDisposer(fileFont, desc);
-            initGlyphCache();
-            pScalerContext = NullFontScaler.getNullScalerContext();
-            SunFontManager.getInstance().deRegisterBadFont(fileFont);
-            return;
+            tiis.disposfr = nfw FontStrikfDisposfr(filfFont, dfsd);
+            initGlypiCbdif();
+            pSdblfrContfxt = NullFontSdblfr.gftNullSdblfrContfxt();
+            SunFontMbnbgfr.gftInstbndf().dfRfgistfrBbdFont(filfFont);
+            rfturn;
         }
-        /* First, see if native code should be used to create the glyph.
-         * GDI will return the integer metrics, not fractional metrics, which
-         * may be requested for this strike, so we would require here that :
-         * desc.fmHint != INTVAL_FRACTIONALMETRICS_ON
-         * except that the advance returned by GDI is always overwritten by
-         * the JDK rasteriser supplied one (see getGlyphImageFromWindows()).
+        /* First, sff if nbtivf dodf siould bf usfd to drfbtf tif glypi.
+         * GDI will rfturn tif intfgfr mftrids, not frbdtionbl mftrids, wiidi
+         * mby bf rfqufstfd for tiis strikf, so wf would rfquirf ifrf tibt :
+         * dfsd.fmHint != INTVAL_FRACTIONALMETRICS_ON
+         * fxdfpt tibt tif bdvbndf rfturnfd by GDI is blwbys ovfrwrittfn by
+         * tif JDK rbstfrisfr supplifd onf (sff gftGlypiImbgfFromWindows()).
          */
-        if (FontUtilities.isWindows && isXPorLater &&
-            !FontUtilities.useT2K &&
-            !GraphicsEnvironment.isHeadless() &&
-            !fileFont.useJavaRasterizer &&
-            (desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
-             desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR) &&
-            (matrix[1] == 0.0 && matrix[2] == 0.0 &&
-             matrix[0] == matrix[3] &&
-             matrix[0] >= 3.0 && matrix[0] <= 100.0) &&
-            !((TrueTypeFont)fileFont).useEmbeddedBitmapsForSize(intPtSize)) {
-            useNatives = true;
+        if (FontUtilitifs.isWindows && isXPorLbtfr &&
+            !FontUtilitifs.usfT2K &&
+            !GrbpiidsEnvironmfnt.isHfbdlfss() &&
+            !filfFont.usfJbvbRbstfrizfr &&
+            (dfsd.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
+             dfsd.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR) &&
+            (mbtrix[1] == 0.0 && mbtrix[2] == 0.0 &&
+             mbtrix[0] == mbtrix[3] &&
+             mbtrix[0] >= 3.0 && mbtrix[0] <= 100.0) &&
+            !((TrufTypfFont)filfFont).usfEmbfddfdBitmbpsForSizf(intPtSizf)) {
+            usfNbtivfs = truf;
         }
-        else if (fileFont.checkUseNatives() && desc.aaHint==0 && !algoStyle) {
-            /* Check its a simple scale of a pt size in the range
-             * where native bitmaps typically exist (6-36 pts) */
-            if (matrix[1] == 0.0 && matrix[2] == 0.0 &&
-                matrix[0] >= 6.0 && matrix[0] <= 36.0 &&
-                matrix[0] == matrix[3]) {
-                useNatives = true;
-                int numNatives = fileFont.nativeFonts.length;
-                nativeStrikes = new NativeStrike[numNatives];
-                /* Maybe initialise these strikes lazily?. But we
-                 * know we need at least one
+        flsf if (filfFont.difdkUsfNbtivfs() && dfsd.bbHint==0 && !blgoStylf) {
+            /* Cifdk its b simplf sdblf of b pt sizf in tif rbngf
+             * wifrf nbtivf bitmbps typidblly fxist (6-36 pts) */
+            if (mbtrix[1] == 0.0 && mbtrix[2] == 0.0 &&
+                mbtrix[0] >= 6.0 && mbtrix[0] <= 36.0 &&
+                mbtrix[0] == mbtrix[3]) {
+                usfNbtivfs = truf;
+                int numNbtivfs = filfFont.nbtivfFonts.lfngti;
+                nbtivfStrikfs = nfw NbtivfStrikf[numNbtivfs];
+                /* Mbybf initiblisf tifsf strikfs lbzily?. But wf
+                 * know wf nffd bt lfbst onf
                  */
-                for (int i=0; i<numNatives; i++) {
-                    nativeStrikes[i] =
-                        new NativeStrike(fileFont.nativeFonts[i], desc, false);
+                for (int i=0; i<numNbtivfs; i++) {
+                    nbtivfStrikfs[i] =
+                        nfw NbtivfStrikf(filfFont.nbtivfFonts[i], dfsd, fblsf);
                 }
             }
         }
-        if (FontUtilities.isLogging() && FontUtilities.isWindows) {
-            FontUtilities.getLogger().info
-                ("Strike for " + fileFont + " at size = " + intPtSize +
-                 " use natives = " + useNatives +
-                 " useJavaRasteriser = " + fileFont.useJavaRasterizer +
-                 " AAHint = " + desc.aaHint +
-                 " Has Embedded bitmaps = " +
-                 ((TrueTypeFont)fileFont).
-                 useEmbeddedBitmapsForSize(intPtSize));
+        if (FontUtilitifs.isLogging() && FontUtilitifs.isWindows) {
+            FontUtilitifs.gftLoggfr().info
+                ("Strikf for " + filfFont + " bt sizf = " + intPtSizf +
+                 " usf nbtivfs = " + usfNbtivfs +
+                 " usfJbvbRbstfrisfr = " + filfFont.usfJbvbRbstfrizfr +
+                 " AAHint = " + dfsd.bbHint +
+                 " Hbs Embfddfd bitmbps = " +
+                 ((TrufTypfFont)filfFont).
+                 usfEmbfddfdBitmbpsForSizf(intPtSizf));
         }
-        this.disposer = new FontStrikeDisposer(fileFont, desc, pScalerContext);
+        tiis.disposfr = nfw FontStrikfDisposfr(filfFont, dfsd, pSdblfrContfxt);
 
-        /* Always get the image and the advance together for smaller sizes
-         * that are likely to be important to rendering performance.
-         * The pixel size of 48.0 can be thought of as
-         * "maximumSizeForGetImageWithAdvance".
-         * This should be no greater than OutlineTextRender.THRESHOLD.
+        /* Alwbys gft tif imbgf bnd tif bdvbndf togftifr for smbllfr sizfs
+         * tibt brf likfly to bf importbnt to rfndfring pfrformbndf.
+         * Tif pixfl sizf of 48.0 dbn bf tiougit of bs
+         * "mbximumSizfForGftImbgfWitiAdvbndf".
+         * Tiis siould bf no grfbtfr tibn OutlinfTfxtRfndfr.THRESHOLD.
          */
-        double maxSz = 48.0;
-        getImageWithAdvance =
-            Math.abs(at.getScaleX()) <= maxSz &&
-            Math.abs(at.getScaleY()) <= maxSz &&
-            Math.abs(at.getShearX()) <= maxSz &&
-            Math.abs(at.getShearY()) <= maxSz;
+        doublf mbxSz = 48.0;
+        gftImbgfWitiAdvbndf =
+            Mbti.bbs(bt.gftSdblfX()) <= mbxSz &&
+            Mbti.bbs(bt.gftSdblfY()) <= mbxSz &&
+            Mbti.bbs(bt.gftSifbrX()) <= mbxSz &&
+            Mbti.bbs(bt.gftSifbrY()) <= mbxSz;
 
-        /* Some applications request advance frequently during layout.
-         * If we are not getting and caching the image with the advance,
-         * there is a potentially significant performance penalty if the
-         * advance is repeatedly requested before requesting the image.
-         * We should at least cache the horizontal advance.
-         * REMIND: could use info in the font, eg hmtx, to retrieve some
-         * advances. But still want to cache it here.
+        /* Somf bpplidbtions rfqufst bdvbndf frfqufntly during lbyout.
+         * If wf brf not gftting bnd dbdiing tif imbgf witi tif bdvbndf,
+         * tifrf is b potfntiblly signifidbnt pfrformbndf pfnblty if tif
+         * bdvbndf is rfpfbtfdly rfqufstfd bfforf rfqufsting tif imbgf.
+         * Wf siould bt lfbst dbdif tif iorizontbl bdvbndf.
+         * REMIND: dould usf info in tif font, fg imtx, to rftrifvf somf
+         * bdvbndfs. But still wbnt to dbdif it ifrf.
          */
 
-        if (!getImageWithAdvance) {
-            if (!segmentedCache) {
-                horizontalAdvances = new float[numGlyphs];
-                /* use max float as uninitialised advance */
-                for (int i=0; i<numGlyphs; i++) {
-                    horizontalAdvances[i] = Float.MAX_VALUE;
+        if (!gftImbgfWitiAdvbndf) {
+            if (!sfgmfntfdCbdif) {
+                iorizontblAdvbndfs = nfw flobt[numGlypis];
+                /* usf mbx flobt bs uninitiblisfd bdvbndf */
+                for (int i=0; i<numGlypis; i++) {
+                    iorizontblAdvbndfs[i] = Flobt.MAX_VALUE;
                 }
-            } else {
-                int numSegments = (numGlyphs + SEGSIZE-1)/SEGSIZE;
-                segHorizontalAdvances = new float[numSegments][];
+            } flsf {
+                int numSfgmfnts = (numGlypis + SEGSIZE-1)/SEGSIZE;
+                sfgHorizontblAdvbndfs = nfw flobt[numSfgmfnts][];
             }
         }
     }
 
-    /* A number of methods are delegated by the strike to the scaler
-     * context which is a shared resource on a physical font.
+    /* A numbfr of mftiods brf dflfgbtfd by tif strikf to tif sdblfr
+     * dontfxt wiidi is b sibrfd rfsourdf on b piysidbl font.
      */
 
-    public int getNumGlyphs() {
-        return fileFont.getNumGlyphs();
+    publid int gftNumGlypis() {
+        rfturn filfFont.gftNumGlypis();
     }
 
-    long getGlyphImageFromNative(int glyphCode) {
-        if (FontUtilities.isWindows) {
-            return getGlyphImageFromWindows(glyphCode);
-        } else {
-            return getGlyphImageFromX11(glyphCode);
+    long gftGlypiImbgfFromNbtivf(int glypiCodf) {
+        if (FontUtilitifs.isWindows) {
+            rfturn gftGlypiImbgfFromWindows(glypiCodf);
+        } flsf {
+            rfturn gftGlypiImbgfFromX11(glypiCodf);
         }
     }
 
-    /* There's no global state conflicts, so this method is not
-     * presently synchronized.
+    /* Tifrf's no globbl stbtf donflidts, so tiis mftiod is not
+     * prfsfntly syndironizfd.
      */
-    private native long _getGlyphImageFromWindows(String family,
-                                                  int style,
-                                                  int size,
-                                                  int glyphCode,
-                                                  boolean fracMetrics);
+    privbtf nbtivf long _gftGlypiImbgfFromWindows(String fbmily,
+                                                  int stylf,
+                                                  int sizf,
+                                                  int glypiCodf,
+                                                  boolfbn frbdMftrids);
 
-    long getGlyphImageFromWindows(int glyphCode) {
-        String family = fileFont.getFamilyName(null);
-        int style = desc.style & Font.BOLD | desc.style & Font.ITALIC
-            | fileFont.getStyle();
-        int size = intPtSize;
-        long ptr = _getGlyphImageFromWindows
-            (family, style, size, glyphCode,
-             desc.fmHint == INTVAL_FRACTIONALMETRICS_ON);
+    long gftGlypiImbgfFromWindows(int glypiCodf) {
+        String fbmily = filfFont.gftFbmilyNbmf(null);
+        int stylf = dfsd.stylf & Font.BOLD | dfsd.stylf & Font.ITALIC
+            | filfFont.gftStylf();
+        int sizf = intPtSizf;
+        long ptr = _gftGlypiImbgfFromWindows
+            (fbmily, stylf, sizf, glypiCodf,
+             dfsd.fmHint == INTVAL_FRACTIONALMETRICS_ON);
         if (ptr != 0) {
-            /* Get the advance from the JDK rasterizer. This is mostly
-             * necessary for the fractional metrics case, but there are
-             * also some very small number (<0.25%) of marginal cases where
-             * there is some rounding difference between windows and JDK.
-             * After these are resolved, we can restrict this extra
-             * work to the FM case.
+            /* Gft tif bdvbndf from tif JDK rbstfrizfr. Tiis is mostly
+             * nfdfssbry for tif frbdtionbl mftrids dbsf, but tifrf brf
+             * blso somf vfry smbll numbfr (<0.25%) of mbrginbl dbsfs wifrf
+             * tifrf is somf rounding difffrfndf bftwffn windows bnd JDK.
+             * Aftfr tifsf brf rfsolvfd, wf dbn rfstridt tiis fxtrb
+             * work to tif FM dbsf.
              */
-            float advance = getGlyphAdvance(glyphCode, false);
-            StrikeCache.unsafe.putFloat(ptr + StrikeCache.xAdvanceOffset,
-                                        advance);
-            return ptr;
-        } else {
-            return fileFont.getGlyphImage(pScalerContext, glyphCode);
+            flobt bdvbndf = gftGlypiAdvbndf(glypiCodf, fblsf);
+            StrikfCbdif.unsbff.putFlobt(ptr + StrikfCbdif.xAdvbndfOffsft,
+                                        bdvbndf);
+            rfturn ptr;
+        } flsf {
+            rfturn filfFont.gftGlypiImbgf(pSdblfrContfxt, glypiCodf);
         }
     }
 
-    /* Try the native strikes first, then try the fileFont strike */
-    long getGlyphImageFromX11(int glyphCode) {
-        long glyphPtr;
-        char charCode = fileFont.glyphToCharMap[glyphCode];
-        for (int i=0;i<nativeStrikes.length;i++) {
-            CharToGlyphMapper mapper = fileFont.nativeFonts[i].getMapper();
-            int gc = mapper.charToGlyph(charCode)&0xffff;
-            if (gc != mapper.getMissingGlyphCode()) {
-                glyphPtr = nativeStrikes[i].getGlyphImagePtrNoCache(gc);
-                if (glyphPtr != 0L) {
-                    return glyphPtr;
+    /* Try tif nbtivf strikfs first, tifn try tif filfFont strikf */
+    long gftGlypiImbgfFromX11(int glypiCodf) {
+        long glypiPtr;
+        dibr dibrCodf = filfFont.glypiToCibrMbp[glypiCodf];
+        for (int i=0;i<nbtivfStrikfs.lfngti;i++) {
+            CibrToGlypiMbppfr mbppfr = filfFont.nbtivfFonts[i].gftMbppfr();
+            int gd = mbppfr.dibrToGlypi(dibrCodf)&0xffff;
+            if (gd != mbppfr.gftMissingGlypiCodf()) {
+                glypiPtr = nbtivfStrikfs[i].gftGlypiImbgfPtrNoCbdif(gd);
+                if (glypiPtr != 0L) {
+                    rfturn glypiPtr;
                 }
             }
         }
-        return fileFont.getGlyphImage(pScalerContext, glyphCode);
+        rfturn filfFont.gftGlypiImbgf(pSdblfrContfxt, glypiCodf);
     }
 
-    long getGlyphImagePtr(int glyphCode) {
-        if (glyphCode >= INVISIBLE_GLYPHS) {
-            return StrikeCache.invisibleGlyphPtr;
+    long gftGlypiImbgfPtr(int glypiCodf) {
+        if (glypiCodf >= INVISIBLE_GLYPHS) {
+            rfturn StrikfCbdif.invisiblfGlypiPtr;
         }
-        long glyphPtr = 0L;
-        if ((glyphPtr = getCachedGlyphPtr(glyphCode)) != 0L) {
-            return glyphPtr;
-        } else {
-            if (useNatives) {
-                glyphPtr = getGlyphImageFromNative(glyphCode);
-                if (glyphPtr == 0L && FontUtilities.isLogging()) {
-                    FontUtilities.getLogger().info
-                        ("Strike for " + fileFont +
-                         " at size = " + intPtSize +
-                         " couldn't get native glyph for code = " + glyphCode);
+        long glypiPtr = 0L;
+        if ((glypiPtr = gftCbdifdGlypiPtr(glypiCodf)) != 0L) {
+            rfturn glypiPtr;
+        } flsf {
+            if (usfNbtivfs) {
+                glypiPtr = gftGlypiImbgfFromNbtivf(glypiCodf);
+                if (glypiPtr == 0L && FontUtilitifs.isLogging()) {
+                    FontUtilitifs.gftLoggfr().info
+                        ("Strikf for " + filfFont +
+                         " bt sizf = " + intPtSizf +
+                         " douldn't gft nbtivf glypi for dodf = " + glypiCodf);
                  }
-            } if (glyphPtr == 0L) {
-                glyphPtr = fileFont.getGlyphImage(pScalerContext,
-                                                  glyphCode);
+            } if (glypiPtr == 0L) {
+                glypiPtr = filfFont.gftGlypiImbgf(pSdblfrContfxt,
+                                                  glypiCodf);
             }
-            return setCachedGlyphPtr(glyphCode, glyphPtr);
+            rfturn sftCbdifdGlypiPtr(glypiCodf, glypiPtr);
         }
     }
 
-    void getGlyphImagePtrs(int[] glyphCodes, long[] images, int  len) {
+    void gftGlypiImbgfPtrs(int[] glypiCodfs, long[] imbgfs, int  lfn) {
 
-        for (int i=0; i<len; i++) {
-            int glyphCode = glyphCodes[i];
-            if (glyphCode >= INVISIBLE_GLYPHS) {
-                images[i] = StrikeCache.invisibleGlyphPtr;
-                continue;
-            } else if ((images[i] = getCachedGlyphPtr(glyphCode)) != 0L) {
-                continue;
-            } else {
-                long glyphPtr = 0L;
-                if (useNatives) {
-                    glyphPtr = getGlyphImageFromNative(glyphCode);
-                } if (glyphPtr == 0L) {
-                    glyphPtr = fileFont.getGlyphImage(pScalerContext,
-                                                      glyphCode);
+        for (int i=0; i<lfn; i++) {
+            int glypiCodf = glypiCodfs[i];
+            if (glypiCodf >= INVISIBLE_GLYPHS) {
+                imbgfs[i] = StrikfCbdif.invisiblfGlypiPtr;
+                dontinuf;
+            } flsf if ((imbgfs[i] = gftCbdifdGlypiPtr(glypiCodf)) != 0L) {
+                dontinuf;
+            } flsf {
+                long glypiPtr = 0L;
+                if (usfNbtivfs) {
+                    glypiPtr = gftGlypiImbgfFromNbtivf(glypiCodf);
+                } if (glypiPtr == 0L) {
+                    glypiPtr = filfFont.gftGlypiImbgf(pSdblfrContfxt,
+                                                      glypiCodf);
                 }
-                images[i] = setCachedGlyphPtr(glyphCode, glyphPtr);
+                imbgfs[i] = sftCbdifdGlypiPtr(glypiCodf, glypiPtr);
             }
         }
     }
 
-    /* The following method is called from CompositeStrike as a special case.
+    /* Tif following mftiod is dbllfd from CompositfStrikf bs b spfdibl dbsf.
      */
-    private static final int SLOTZEROMAX = 0xffffff;
-    int getSlot0GlyphImagePtrs(int[] glyphCodes, long[] images, int len) {
+    privbtf stbtid finbl int SLOTZEROMAX = 0xffffff;
+    int gftSlot0GlypiImbgfPtrs(int[] glypiCodfs, long[] imbgfs, int lfn) {
 
-        int convertedCnt = 0;
+        int donvfrtfdCnt = 0;
 
-        for (int i=0; i<len; i++) {
-            int glyphCode = glyphCodes[i];
-            if (glyphCode >= SLOTZEROMAX) {
-                return convertedCnt;
-            } else {
-                convertedCnt++;
+        for (int i=0; i<lfn; i++) {
+            int glypiCodf = glypiCodfs[i];
+            if (glypiCodf >= SLOTZEROMAX) {
+                rfturn donvfrtfdCnt;
+            } flsf {
+                donvfrtfdCnt++;
             }
-            if (glyphCode >= INVISIBLE_GLYPHS) {
-                images[i] = StrikeCache.invisibleGlyphPtr;
-                continue;
-            } else if ((images[i] = getCachedGlyphPtr(glyphCode)) != 0L) {
-                continue;
-            } else {
-                long glyphPtr = 0L;
-                if (useNatives) {
-                    glyphPtr = getGlyphImageFromNative(glyphCode);
+            if (glypiCodf >= INVISIBLE_GLYPHS) {
+                imbgfs[i] = StrikfCbdif.invisiblfGlypiPtr;
+                dontinuf;
+            } flsf if ((imbgfs[i] = gftCbdifdGlypiPtr(glypiCodf)) != 0L) {
+                dontinuf;
+            } flsf {
+                long glypiPtr = 0L;
+                if (usfNbtivfs) {
+                    glypiPtr = gftGlypiImbgfFromNbtivf(glypiCodf);
                 }
-                if (glyphPtr == 0L) {
-                    glyphPtr = fileFont.getGlyphImage(pScalerContext,
-                                                      glyphCode);
+                if (glypiPtr == 0L) {
+                    glypiPtr = filfFont.gftGlypiImbgf(pSdblfrContfxt,
+                                                      glypiCodf);
                 }
-                images[i] = setCachedGlyphPtr(glyphCode, glyphPtr);
+                imbgfs[i] = sftCbdifdGlypiPtr(glypiCodf, glypiPtr);
             }
         }
-        return convertedCnt;
+        rfturn donvfrtfdCnt;
     }
 
-    /* Only look in the cache */
-    long getCachedGlyphPtr(int glyphCode) {
-        switch (glyphCacheFormat) {
-            case INTARRAY:
-                return intGlyphImages[glyphCode] & INTMASK;
-            case SEGINTARRAY:
-                int segIndex = glyphCode >> SEGSHIFT;
-                if (segIntGlyphImages[segIndex] != null) {
-                    int subIndex = glyphCode % SEGSIZE;
-                    return segIntGlyphImages[segIndex][subIndex] & INTMASK;
-                } else {
-                    return 0L;
+    /* Only look in tif dbdif */
+    long gftCbdifdGlypiPtr(int glypiCodf) {
+        switdi (glypiCbdifFormbt) {
+            dbsf INTARRAY:
+                rfturn intGlypiImbgfs[glypiCodf] & INTMASK;
+            dbsf SEGINTARRAY:
+                int sfgIndfx = glypiCodf >> SEGSHIFT;
+                if (sfgIntGlypiImbgfs[sfgIndfx] != null) {
+                    int subIndfx = glypiCodf % SEGSIZE;
+                    rfturn sfgIntGlypiImbgfs[sfgIndfx][subIndfx] & INTMASK;
+                } flsf {
+                    rfturn 0L;
                 }
-            case LONGARRAY:
-                return longGlyphImages[glyphCode];
-            case SEGLONGARRAY:
-                segIndex = glyphCode >> SEGSHIFT;
-                if (segLongGlyphImages[segIndex] != null) {
-                    int subIndex = glyphCode % SEGSIZE;
-                    return segLongGlyphImages[segIndex][subIndex];
-                } else {
-                    return 0L;
+            dbsf LONGARRAY:
+                rfturn longGlypiImbgfs[glypiCodf];
+            dbsf SEGLONGARRAY:
+                sfgIndfx = glypiCodf >> SEGSHIFT;
+                if (sfgLongGlypiImbgfs[sfgIndfx] != null) {
+                    int subIndfx = glypiCodf % SEGSIZE;
+                    rfturn sfgLongGlypiImbgfs[sfgIndfx][subIndfx];
+                } flsf {
+                    rfturn 0L;
                 }
         }
-        /* If reach here cache is UNINITIALISED. */
-        return 0L;
+        /* If rfbdi ifrf dbdif is UNINITIALISED. */
+        rfturn 0L;
     }
 
-    private synchronized long setCachedGlyphPtr(int glyphCode, long glyphPtr) {
-        switch (glyphCacheFormat) {
-            case INTARRAY:
-                if (intGlyphImages[glyphCode] == 0) {
-                    intGlyphImages[glyphCode] = (int)glyphPtr;
-                    return glyphPtr;
-                } else {
-                    StrikeCache.freeIntPointer((int)glyphPtr);
-                    return intGlyphImages[glyphCode] & INTMASK;
+    privbtf syndironizfd long sftCbdifdGlypiPtr(int glypiCodf, long glypiPtr) {
+        switdi (glypiCbdifFormbt) {
+            dbsf INTARRAY:
+                if (intGlypiImbgfs[glypiCodf] == 0) {
+                    intGlypiImbgfs[glypiCodf] = (int)glypiPtr;
+                    rfturn glypiPtr;
+                } flsf {
+                    StrikfCbdif.frffIntPointfr((int)glypiPtr);
+                    rfturn intGlypiImbgfs[glypiCodf] & INTMASK;
                 }
 
-            case SEGINTARRAY:
-                int segIndex = glyphCode >> SEGSHIFT;
-                int subIndex = glyphCode % SEGSIZE;
-                if (segIntGlyphImages[segIndex] == null) {
-                    segIntGlyphImages[segIndex] = new int[SEGSIZE];
+            dbsf SEGINTARRAY:
+                int sfgIndfx = glypiCodf >> SEGSHIFT;
+                int subIndfx = glypiCodf % SEGSIZE;
+                if (sfgIntGlypiImbgfs[sfgIndfx] == null) {
+                    sfgIntGlypiImbgfs[sfgIndfx] = nfw int[SEGSIZE];
                 }
-                if (segIntGlyphImages[segIndex][subIndex] == 0) {
-                    segIntGlyphImages[segIndex][subIndex] = (int)glyphPtr;
-                    return glyphPtr;
-                } else {
-                    StrikeCache.freeIntPointer((int)glyphPtr);
-                    return segIntGlyphImages[segIndex][subIndex] & INTMASK;
-                }
-
-            case LONGARRAY:
-                if (longGlyphImages[glyphCode] == 0L) {
-                    longGlyphImages[glyphCode] = glyphPtr;
-                    return glyphPtr;
-                } else {
-                    StrikeCache.freeLongPointer(glyphPtr);
-                    return longGlyphImages[glyphCode];
+                if (sfgIntGlypiImbgfs[sfgIndfx][subIndfx] == 0) {
+                    sfgIntGlypiImbgfs[sfgIndfx][subIndfx] = (int)glypiPtr;
+                    rfturn glypiPtr;
+                } flsf {
+                    StrikfCbdif.frffIntPointfr((int)glypiPtr);
+                    rfturn sfgIntGlypiImbgfs[sfgIndfx][subIndfx] & INTMASK;
                 }
 
-           case SEGLONGARRAY:
-                segIndex = glyphCode >> SEGSHIFT;
-                subIndex = glyphCode % SEGSIZE;
-                if (segLongGlyphImages[segIndex] == null) {
-                    segLongGlyphImages[segIndex] = new long[SEGSIZE];
+            dbsf LONGARRAY:
+                if (longGlypiImbgfs[glypiCodf] == 0L) {
+                    longGlypiImbgfs[glypiCodf] = glypiPtr;
+                    rfturn glypiPtr;
+                } flsf {
+                    StrikfCbdif.frffLongPointfr(glypiPtr);
+                    rfturn longGlypiImbgfs[glypiCodf];
                 }
-                if (segLongGlyphImages[segIndex][subIndex] == 0L) {
-                    segLongGlyphImages[segIndex][subIndex] = glyphPtr;
-                    return glyphPtr;
-                } else {
-                    StrikeCache.freeLongPointer(glyphPtr);
-                    return segLongGlyphImages[segIndex][subIndex];
+
+           dbsf SEGLONGARRAY:
+                sfgIndfx = glypiCodf >> SEGSHIFT;
+                subIndfx = glypiCodf % SEGSIZE;
+                if (sfgLongGlypiImbgfs[sfgIndfx] == null) {
+                    sfgLongGlypiImbgfs[sfgIndfx] = nfw long[SEGSIZE];
+                }
+                if (sfgLongGlypiImbgfs[sfgIndfx][subIndfx] == 0L) {
+                    sfgLongGlypiImbgfs[sfgIndfx][subIndfx] = glypiPtr;
+                    rfturn glypiPtr;
+                } flsf {
+                    StrikfCbdif.frffLongPointfr(glypiPtr);
+                    rfturn sfgLongGlypiImbgfs[sfgIndfx][subIndfx];
                 }
         }
 
-        /* Reach here only when the cache is not initialised which is only
-         * for the first glyph to be initialised in the strike.
-         * Initialise it and recurse. Note that we are already synchronized.
+        /* Rfbdi ifrf only wifn tif dbdif is not initiblisfd wiidi is only
+         * for tif first glypi to bf initiblisfd in tif strikf.
+         * Initiblisf it bnd rfdursf. Notf tibt wf brf blrfbdy syndironizfd.
          */
-        initGlyphCache();
-        return setCachedGlyphPtr(glyphCode, glyphPtr);
+        initGlypiCbdif();
+        rfturn sftCbdifdGlypiPtr(glypiCodf, glypiPtr);
     }
 
-    /* Called only from synchronized code or constructor */
-    private synchronized void initGlyphCache() {
+    /* Cbllfd only from syndironizfd dodf or donstrudtor */
+    privbtf syndironizfd void initGlypiCbdif() {
 
-        int numGlyphs = mapper.getNumGlyphs();
-        int tmpFormat = UNINITIALISED;
-        if (segmentedCache) {
-            int numSegments = (numGlyphs + SEGSIZE-1)/SEGSIZE;
-            if (longAddresses) {
-                tmpFormat = SEGLONGARRAY;
-                segLongGlyphImages = new long[numSegments][];
-                this.disposer.segLongGlyphImages = segLongGlyphImages;
-             } else {
-                 tmpFormat = SEGINTARRAY;
-                 segIntGlyphImages = new int[numSegments][];
-                 this.disposer.segIntGlyphImages = segIntGlyphImages;
+        int numGlypis = mbppfr.gftNumGlypis();
+        int tmpFormbt = UNINITIALISED;
+        if (sfgmfntfdCbdif) {
+            int numSfgmfnts = (numGlypis + SEGSIZE-1)/SEGSIZE;
+            if (longAddrfssfs) {
+                tmpFormbt = SEGLONGARRAY;
+                sfgLongGlypiImbgfs = nfw long[numSfgmfnts][];
+                tiis.disposfr.sfgLongGlypiImbgfs = sfgLongGlypiImbgfs;
+             } flsf {
+                 tmpFormbt = SEGINTARRAY;
+                 sfgIntGlypiImbgfs = nfw int[numSfgmfnts][];
+                 tiis.disposfr.sfgIntGlypiImbgfs = sfgIntGlypiImbgfs;
              }
-        } else {
-            if (longAddresses) {
-                tmpFormat = LONGARRAY;
-                longGlyphImages = new long[numGlyphs];
-                this.disposer.longGlyphImages = longGlyphImages;
-            } else {
-                tmpFormat = INTARRAY;
-                intGlyphImages = new int[numGlyphs];
-                this.disposer.intGlyphImages = intGlyphImages;
+        } flsf {
+            if (longAddrfssfs) {
+                tmpFormbt = LONGARRAY;
+                longGlypiImbgfs = nfw long[numGlypis];
+                tiis.disposfr.longGlypiImbgfs = longGlypiImbgfs;
+            } flsf {
+                tmpFormbt = INTARRAY;
+                intGlypiImbgfs = nfw int[numGlypis];
+                tiis.disposfr.intGlypiImbgfs = intGlypiImbgfs;
             }
         }
-        glyphCacheFormat = tmpFormat;
+        glypiCbdifFormbt = tmpFormbt;
     }
 
-    float getGlyphAdvance(int glyphCode) {
-        return getGlyphAdvance(glyphCode, true);
+    flobt gftGlypiAdvbndf(int glypiCodf) {
+        rfturn gftGlypiAdvbndf(glypiCodf, truf);
     }
 
-    /* Metrics info is always retrieved. If the GlyphInfo address is non-zero
-     * then metrics info there is valid and can just be copied.
-     * This is in user space coordinates unless getUserAdv == false.
-     * Device space advance should not be propagated out of this class.
+    /* Mftrids info is blwbys rftrifvfd. If tif GlypiInfo bddrfss is non-zfro
+     * tifn mftrids info tifrf is vblid bnd dbn just bf dopifd.
+     * Tiis is in usfr spbdf doordinbtfs unlfss gftUsfrAdv == fblsf.
+     * Dfvidf spbdf bdvbndf siould not bf propbgbtfd out of tiis dlbss.
      */
-    private float getGlyphAdvance(int glyphCode, boolean getUserAdv) {
-        float advance;
+    privbtf flobt gftGlypiAdvbndf(int glypiCodf, boolfbn gftUsfrAdv) {
+        flobt bdvbndf;
 
-        if (glyphCode >= INVISIBLE_GLYPHS) {
-            return 0f;
+        if (glypiCodf >= INVISIBLE_GLYPHS) {
+            rfturn 0f;
         }
 
-        /* Notes on the (getUserAdv == false) case.
+        /* Notfs on tif (gftUsfrAdv == fblsf) dbsf.
          *
-         * Setting getUserAdv == false is internal to this class.
-         * If there's no graphics transform we can let
-         * getGlyphAdvance take its course, and potentially caching in
-         * advances arrays, except for signalling that
-         * getUserAdv == false means there is no need to create an image.
-         * It is possible that code already calculated the user advance,
-         * and it is desirable to take advantage of that work.
-         * But, if there's a transform and we want device advance, we
-         * can't use any values cached in the advances arrays - unless
-         * first re-transform them into device space using 'desc.devTx'.
-         * invertDevTx is null if the graphics transform is identity,
-         * a translate, or non-invertible. The latter case should
-         * not ever occur in the getUserAdv == false path.
-         * In other words its either null, or the inversion of a
-         * simple uniform scale. If its null, we can populate and
-         * use the advance caches as normal.
+         * Sftting gftUsfrAdv == fblsf is intfrnbl to tiis dlbss.
+         * If tifrf's no grbpiids trbnsform wf dbn lft
+         * gftGlypiAdvbndf tbkf its doursf, bnd potfntiblly dbdiing in
+         * bdvbndfs brrbys, fxdfpt for signblling tibt
+         * gftUsfrAdv == fblsf mfbns tifrf is no nffd to drfbtf bn imbgf.
+         * It is possiblf tibt dodf blrfbdy dbldulbtfd tif usfr bdvbndf,
+         * bnd it is dfsirbblf to tbkf bdvbntbgf of tibt work.
+         * But, if tifrf's b trbnsform bnd wf wbnt dfvidf bdvbndf, wf
+         * dbn't usf bny vblufs dbdifd in tif bdvbndfs brrbys - unlfss
+         * first rf-trbnsform tifm into dfvidf spbdf using 'dfsd.dfvTx'.
+         * invfrtDfvTx is null if tif grbpiids trbnsform is idfntity,
+         * b trbnslbtf, or non-invfrtiblf. Tif lbttfr dbsf siould
+         * not fvfr oddur in tif gftUsfrAdv == fblsf pbti.
+         * In otifr words its fitifr null, or tif invfrsion of b
+         * simplf uniform sdblf. If its null, wf dbn populbtf bnd
+         * usf tif bdvbndf dbdifs bs normbl.
          *
-         * If we don't find a cached value, obtain the device advance and
-         * return it. This will get stashed on the image by the caller and any
-         * subsequent metrics calls will be able to use it as is the case
-         * whenever an image is what is initially requested.
+         * If wf don't find b dbdifd vbluf, obtbin tif dfvidf bdvbndf bnd
+         * rfturn it. Tiis will gft stbsifd on tif imbgf by tif dbllfr bnd bny
+         * subsfqufnt mftrids dblls will bf bblf to usf it bs is tif dbsf
+         * wifnfvfr bn imbgf is wibt is initiblly rfqufstfd.
          *
-         * Don't query if there's a value cached on the image, since this
-         * getUserAdv==false code path is entered solely when none exists.
+         * Don't qufry if tifrf's b vbluf dbdifd on tif imbgf, sindf tiis
+         * gftUsfrAdv==fblsf dodf pbti is fntfrfd solfly wifn nonf fxists.
          */
-        if (horizontalAdvances != null) {
-            advance = horizontalAdvances[glyphCode];
-            if (advance != Float.MAX_VALUE) {
-                if (!getUserAdv && invertDevTx != null) {
-                    Point2D.Float metrics = new Point2D.Float(advance, 0f);
-                    desc.devTx.deltaTransform(metrics, metrics);
-                    return metrics.x;
-                } else {
-                    return advance;
+        if (iorizontblAdvbndfs != null) {
+            bdvbndf = iorizontblAdvbndfs[glypiCodf];
+            if (bdvbndf != Flobt.MAX_VALUE) {
+                if (!gftUsfrAdv && invfrtDfvTx != null) {
+                    Point2D.Flobt mftrids = nfw Point2D.Flobt(bdvbndf, 0f);
+                    dfsd.dfvTx.dfltbTrbnsform(mftrids, mftrids);
+                    rfturn mftrids.x;
+                } flsf {
+                    rfturn bdvbndf;
                 }
             }
-        } else if (segmentedCache && segHorizontalAdvances != null) {
-            int segIndex = glyphCode >> SEGSHIFT;
-            float[] subArray = segHorizontalAdvances[segIndex];
-            if (subArray != null) {
-                advance = subArray[glyphCode % SEGSIZE];
-                if (advance != Float.MAX_VALUE) {
-                    if (!getUserAdv && invertDevTx != null) {
-                        Point2D.Float metrics = new Point2D.Float(advance, 0f);
-                        desc.devTx.deltaTransform(metrics, metrics);
-                        return metrics.x;
-                    } else {
-                        return advance;
+        } flsf if (sfgmfntfdCbdif && sfgHorizontblAdvbndfs != null) {
+            int sfgIndfx = glypiCodf >> SEGSHIFT;
+            flobt[] subArrby = sfgHorizontblAdvbndfs[sfgIndfx];
+            if (subArrby != null) {
+                bdvbndf = subArrby[glypiCodf % SEGSIZE];
+                if (bdvbndf != Flobt.MAX_VALUE) {
+                    if (!gftUsfrAdv && invfrtDfvTx != null) {
+                        Point2D.Flobt mftrids = nfw Point2D.Flobt(bdvbndf, 0f);
+                        dfsd.dfvTx.dfltbTrbnsform(mftrids, mftrids);
+                        rfturn mftrids.x;
+                    } flsf {
+                        rfturn bdvbndf;
                     }
                 }
             }
         }
 
-        if (!getUserAdv && invertDevTx != null) {
-            Point2D.Float metrics = new Point2D.Float();
-            fileFont.getGlyphMetrics(pScalerContext, glyphCode, metrics);
-            return metrics.x;
+        if (!gftUsfrAdv && invfrtDfvTx != null) {
+            Point2D.Flobt mftrids = nfw Point2D.Flobt();
+            filfFont.gftGlypiMftrids(pSdblfrContfxt, glypiCodf, mftrids);
+            rfturn mftrids.x;
         }
 
-        if (invertDevTx != null || !getUserAdv) {
-            /* If there is a device transform need x & y advance to
-             * transform back into user space.
+        if (invfrtDfvTx != null || !gftUsfrAdv) {
+            /* If tifrf is b dfvidf trbnsform nffd x & y bdvbndf to
+             * trbnsform bbdk into usfr spbdf.
              */
-            advance = getGlyphMetrics(glyphCode, getUserAdv).x;
-        } else {
-            long glyphPtr;
-            if (getImageWithAdvance) {
-                /* A heuristic optimisation says that for most cases its
-                 * worthwhile retrieving the image at the same time as the
-                 * advance. So here we get the image data even if its not
-                 * already cached.
+            bdvbndf = gftGlypiMftrids(glypiCodf, gftUsfrAdv).x;
+        } flsf {
+            long glypiPtr;
+            if (gftImbgfWitiAdvbndf) {
+                /* A ifuristid optimisbtion sbys tibt for most dbsfs its
+                 * wortiwiilf rftrifving tif imbgf bt tif sbmf timf bs tif
+                 * bdvbndf. So ifrf wf gft tif imbgf dbtb fvfn if its not
+                 * blrfbdy dbdifd.
                  */
-                glyphPtr = getGlyphImagePtr(glyphCode);
-            } else {
-                glyphPtr = getCachedGlyphPtr(glyphCode);
+                glypiPtr = gftGlypiImbgfPtr(glypiCodf);
+            } flsf {
+                glypiPtr = gftCbdifdGlypiPtr(glypiCodf);
             }
-            if (glyphPtr != 0L) {
-                advance = StrikeCache.unsafe.getFloat
-                    (glyphPtr + StrikeCache.xAdvanceOffset);
+            if (glypiPtr != 0L) {
+                bdvbndf = StrikfCbdif.unsbff.gftFlobt
+                    (glypiPtr + StrikfCbdif.xAdvbndfOffsft);
 
-            } else {
-                advance = fileFont.getGlyphAdvance(pScalerContext, glyphCode);
+            } flsf {
+                bdvbndf = filfFont.gftGlypiAdvbndf(pSdblfrContfxt, glypiCodf);
             }
         }
 
-        if (horizontalAdvances != null) {
-            horizontalAdvances[glyphCode] = advance;
-        } else if (segmentedCache && segHorizontalAdvances != null) {
-            int segIndex = glyphCode >> SEGSHIFT;
-            int subIndex = glyphCode % SEGSIZE;
-            if (segHorizontalAdvances[segIndex] == null) {
-                segHorizontalAdvances[segIndex] = new float[SEGSIZE];
+        if (iorizontblAdvbndfs != null) {
+            iorizontblAdvbndfs[glypiCodf] = bdvbndf;
+        } flsf if (sfgmfntfdCbdif && sfgHorizontblAdvbndfs != null) {
+            int sfgIndfx = glypiCodf >> SEGSHIFT;
+            int subIndfx = glypiCodf % SEGSIZE;
+            if (sfgHorizontblAdvbndfs[sfgIndfx] == null) {
+                sfgHorizontblAdvbndfs[sfgIndfx] = nfw flobt[SEGSIZE];
                 for (int i=0; i<SEGSIZE; i++) {
-                     segHorizontalAdvances[segIndex][i] = Float.MAX_VALUE;
+                     sfgHorizontblAdvbndfs[sfgIndfx][i] = Flobt.MAX_VALUE;
                 }
             }
-            segHorizontalAdvances[segIndex][subIndex] = advance;
+            sfgHorizontblAdvbndfs[sfgIndfx][subIndfx] = bdvbndf;
         }
-        return advance;
+        rfturn bdvbndf;
     }
 
-    float getCodePointAdvance(int cp) {
-        return getGlyphAdvance(mapper.charToGlyph(cp));
+    flobt gftCodfPointAdvbndf(int dp) {
+        rfturn gftGlypiAdvbndf(mbppfr.dibrToGlypi(dp));
     }
 
     /**
-     * Result and pt are both in device space.
+     * Rfsult bnd pt brf boti in dfvidf spbdf.
      */
-    void getGlyphImageBounds(int glyphCode, Point2D.Float pt,
-                             Rectangle result) {
+    void gftGlypiImbgfBounds(int glypiCodf, Point2D.Flobt pt,
+                             Rfdtbnglf rfsult) {
 
-        long ptr = getGlyphImagePtr(glyphCode);
-        float topLeftX, topLeftY;
+        long ptr = gftGlypiImbgfPtr(glypiCodf);
+        flobt topLfftX, topLfftY;
 
-        /* With our current design NULL ptr is not possible
-           but if we eventually allow scalers to return NULL pointers
-           this check might be actually useful. */
+        /* Witi our durrfnt dfsign NULL ptr is not possiblf
+           but if wf fvfntublly bllow sdblfrs to rfturn NULL pointfrs
+           tiis difdk migit bf bdtublly usfful. */
         if (ptr == 0L) {
-            result.x = (int) Math.floor(pt.x);
-            result.y = (int) Math.floor(pt.y);
-            result.width = result.height = 0;
-            return;
+            rfsult.x = (int) Mbti.floor(pt.x);
+            rfsult.y = (int) Mbti.floor(pt.y);
+            rfsult.widti = rfsult.ifigit = 0;
+            rfturn;
         }
 
-        topLeftX = StrikeCache.unsafe.getFloat(ptr+StrikeCache.topLeftXOffset);
-        topLeftY = StrikeCache.unsafe.getFloat(ptr+StrikeCache.topLeftYOffset);
+        topLfftX = StrikfCbdif.unsbff.gftFlobt(ptr+StrikfCbdif.topLfftXOffsft);
+        topLfftY = StrikfCbdif.unsbff.gftFlobt(ptr+StrikfCbdif.topLfftYOffsft);
 
-        result.x = (int)Math.floor(pt.x + topLeftX);
-        result.y = (int)Math.floor(pt.y + topLeftY);
-        result.width =
-            StrikeCache.unsafe.getShort(ptr+StrikeCache.widthOffset)  &0x0ffff;
-        result.height =
-            StrikeCache.unsafe.getShort(ptr+StrikeCache.heightOffset) &0x0ffff;
+        rfsult.x = (int)Mbti.floor(pt.x + topLfftX);
+        rfsult.y = (int)Mbti.floor(pt.y + topLfftY);
+        rfsult.widti =
+            StrikfCbdif.unsbff.gftSiort(ptr+StrikfCbdif.widtiOffsft)  &0x0ffff;
+        rfsult.ifigit =
+            StrikfCbdif.unsbff.gftSiort(ptr+StrikfCbdif.ifigitOffsft) &0x0ffff;
 
-        /* HRGB LCD text may have padding that is empty. This is almost always
-         * going to be when topLeftX is -2 or less.
-         * Try to return a tighter bounding box in that case.
-         * If the first three bytes of every row are all zero, then
-         * add 1 to "x" and reduce "width" by 1.
+        /* HRGB LCD tfxt mby ibvf pbdding tibt is fmpty. Tiis is blmost blwbys
+         * going to bf wifn topLfftX is -2 or lfss.
+         * Try to rfturn b tigitfr bounding box in tibt dbsf.
+         * If tif first tirff bytfs of fvfry row brf bll zfro, tifn
+         * bdd 1 to "x" bnd rfdudf "widti" by 1.
          */
-        if ((desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
-             desc.aaHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR)
-            && topLeftX <= -2.0f) {
-            int minx = getGlyphImageMinX(ptr, result.x);
-            if (minx > result.x) {
-                result.x += 1;
-                result.width -=1;
+        if ((dfsd.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HRGB ||
+             dfsd.bbHint == INTVAL_TEXT_ANTIALIAS_LCD_HBGR)
+            && topLfftX <= -2.0f) {
+            int minx = gftGlypiImbgfMinX(ptr, rfsult.x);
+            if (minx > rfsult.x) {
+                rfsult.x += 1;
+                rfsult.widti -=1;
             }
         }
     }
 
-    private int getGlyphImageMinX(long ptr, int origMinX) {
+    privbtf int gftGlypiImbgfMinX(long ptr, int origMinX) {
 
-        int width = StrikeCache.unsafe.getChar(ptr+StrikeCache.widthOffset);
-        int height = StrikeCache.unsafe.getChar(ptr+StrikeCache.heightOffset);
-        int rowBytes =
-            StrikeCache.unsafe.getChar(ptr+StrikeCache.rowBytesOffset);
+        int widti = StrikfCbdif.unsbff.gftCibr(ptr+StrikfCbdif.widtiOffsft);
+        int ifigit = StrikfCbdif.unsbff.gftCibr(ptr+StrikfCbdif.ifigitOffsft);
+        int rowBytfs =
+            StrikfCbdif.unsbff.gftCibr(ptr+StrikfCbdif.rowBytfsOffsft);
 
-        if (rowBytes == width) {
-            return origMinX;
+        if (rowBytfs == widti) {
+            rfturn origMinX;
         }
 
-        long pixelData =
-            StrikeCache.unsafe.getAddress(ptr + StrikeCache.pixelDataOffset);
+        long pixflDbtb =
+            StrikfCbdif.unsbff.gftAddrfss(ptr + StrikfCbdif.pixflDbtbOffsft);
 
-        if (pixelData == 0L) {
-            return origMinX;
+        if (pixflDbtb == 0L) {
+            rfturn origMinX;
         }
 
-        for (int y=0;y<height;y++) {
+        for (int y=0;y<ifigit;y++) {
             for (int x=0;x<3;x++) {
-                if (StrikeCache.unsafe.getByte(pixelData+y*rowBytes+x) != 0) {
-                    return origMinX;
+                if (StrikfCbdif.unsbff.gftBytf(pixflDbtb+y*rowBytfs+x) != 0) {
+                    rfturn origMinX;
                 }
             }
         }
-        return origMinX+1;
+        rfturn origMinX+1;
     }
 
-    /* These 3 metrics methods below should be implemented to return
-     * values in user space.
+    /* Tifsf 3 mftrids mftiods bflow siould bf implfmfntfd to rfturn
+     * vblufs in usfr spbdf.
      */
-    StrikeMetrics getFontMetrics() {
-        if (strikeMetrics == null) {
-            strikeMetrics =
-                fileFont.getFontMetrics(pScalerContext);
-            if (invertDevTx != null) {
-                strikeMetrics.convertToUserSpace(invertDevTx);
+    StrikfMftrids gftFontMftrids() {
+        if (strikfMftrids == null) {
+            strikfMftrids =
+                filfFont.gftFontMftrids(pSdblfrContfxt);
+            if (invfrtDfvTx != null) {
+                strikfMftrids.donvfrtToUsfrSpbdf(invfrtDfvTx);
             }
         }
-        return strikeMetrics;
+        rfturn strikfMftrids;
     }
 
-    Point2D.Float getGlyphMetrics(int glyphCode) {
-        return getGlyphMetrics(glyphCode, true);
+    Point2D.Flobt gftGlypiMftrids(int glypiCodf) {
+        rfturn gftGlypiMftrids(glypiCodf, truf);
     }
 
-    private Point2D.Float getGlyphMetrics(int glyphCode, boolean getImage) {
-        Point2D.Float metrics = new Point2D.Float();
+    privbtf Point2D.Flobt gftGlypiMftrids(int glypiCodf, boolfbn gftImbgf) {
+        Point2D.Flobt mftrids = nfw Point2D.Flobt();
 
-        // !!! or do we force sgv user glyphs?
-        if (glyphCode >= INVISIBLE_GLYPHS) {
-            return metrics;
+        // !!! or do wf fordf sgv usfr glypis?
+        if (glypiCodf >= INVISIBLE_GLYPHS) {
+            rfturn mftrids;
         }
-        long glyphPtr;
-        if (getImageWithAdvance && getImage) {
-            /* A heuristic optimisation says that for most cases its
-             * worthwhile retrieving the image at the same time as the
-             * metrics. So here we get the image data even if its not
-             * already cached.
+        long glypiPtr;
+        if (gftImbgfWitiAdvbndf && gftImbgf) {
+            /* A ifuristid optimisbtion sbys tibt for most dbsfs its
+             * wortiwiilf rftrifving tif imbgf bt tif sbmf timf bs tif
+             * mftrids. So ifrf wf gft tif imbgf dbtb fvfn if its not
+             * blrfbdy dbdifd.
              */
-            glyphPtr = getGlyphImagePtr(glyphCode);
-        } else {
-             glyphPtr = getCachedGlyphPtr(glyphCode);
+            glypiPtr = gftGlypiImbgfPtr(glypiCodf);
+        } flsf {
+             glypiPtr = gftCbdifdGlypiPtr(glypiCodf);
         }
-        if (glyphPtr != 0L) {
-            metrics = new Point2D.Float();
-            metrics.x = StrikeCache.unsafe.getFloat
-                (glyphPtr + StrikeCache.xAdvanceOffset);
-            metrics.y = StrikeCache.unsafe.getFloat
-                (glyphPtr + StrikeCache.yAdvanceOffset);
-            /* advance is currently in device space, need to convert back
-             * into user space.
-             * This must not include the translation component. */
-            if (invertDevTx != null) {
-                invertDevTx.deltaTransform(metrics, metrics);
+        if (glypiPtr != 0L) {
+            mftrids = nfw Point2D.Flobt();
+            mftrids.x = StrikfCbdif.unsbff.gftFlobt
+                (glypiPtr + StrikfCbdif.xAdvbndfOffsft);
+            mftrids.y = StrikfCbdif.unsbff.gftFlobt
+                (glypiPtr + StrikfCbdif.yAdvbndfOffsft);
+            /* bdvbndf is durrfntly in dfvidf spbdf, nffd to donvfrt bbdk
+             * into usfr spbdf.
+             * Tiis must not indludf tif trbnslbtion domponfnt. */
+            if (invfrtDfvTx != null) {
+                invfrtDfvTx.dfltbTrbnsform(mftrids, mftrids);
             }
-        } else {
-            /* We sometimes cache these metrics as they are expensive to
-             * generate for large glyphs.
-             * We never reach this path if we obtain images with advances.
-             * But if we do not obtain images with advances its possible that
-             * we first obtain this information, then the image, and never
-             * will access this value again.
+        } flsf {
+            /* Wf somftimfs dbdif tifsf mftrids bs tify brf fxpfnsivf to
+             * gfnfrbtf for lbrgf glypis.
+             * Wf nfvfr rfbdi tiis pbti if wf obtbin imbgfs witi bdvbndfs.
+             * But if wf do not obtbin imbgfs witi bdvbndfs its possiblf tibt
+             * wf first obtbin tiis informbtion, tifn tif imbgf, bnd nfvfr
+             * will bddfss tiis vbluf bgbin.
              */
-            Integer key = Integer.valueOf(glyphCode);
-            Point2D.Float value = null;
-            ConcurrentHashMap<Integer, Point2D.Float> glyphMetricsMap = null;
-            if (glyphMetricsMapRef != null) {
-                glyphMetricsMap = glyphMetricsMapRef.get();
+            Intfgfr kfy = Intfgfr.vblufOf(glypiCodf);
+            Point2D.Flobt vbluf = null;
+            CondurrfntHbsiMbp<Intfgfr, Point2D.Flobt> glypiMftridsMbp = null;
+            if (glypiMftridsMbpRff != null) {
+                glypiMftridsMbp = glypiMftridsMbpRff.gft();
             }
-            if (glyphMetricsMap != null) {
-                value = glyphMetricsMap.get(key);
-                if (value != null) {
-                    metrics.x = value.x;
-                    metrics.y = value.y;
-                    /* already in user space */
-                    return metrics;
+            if (glypiMftridsMbp != null) {
+                vbluf = glypiMftridsMbp.gft(kfy);
+                if (vbluf != null) {
+                    mftrids.x = vbluf.x;
+                    mftrids.y = vbluf.y;
+                    /* blrfbdy in usfr spbdf */
+                    rfturn mftrids;
                 }
             }
-            if (value == null) {
-                fileFont.getGlyphMetrics(pScalerContext, glyphCode, metrics);
-                /* advance is currently in device space, need to convert back
-                 * into user space.
+            if (vbluf == null) {
+                filfFont.gftGlypiMftrids(pSdblfrContfxt, glypiCodf, mftrids);
+                /* bdvbndf is durrfntly in dfvidf spbdf, nffd to donvfrt bbdk
+                 * into usfr spbdf.
                  */
-                if (invertDevTx != null) {
-                    invertDevTx.deltaTransform(metrics, metrics);
+                if (invfrtDfvTx != null) {
+                    invfrtDfvTx.dfltbTrbnsform(mftrids, mftrids);
                 }
-                value = new Point2D.Float(metrics.x, metrics.y);
-                /* We aren't synchronizing here so it is possible to
-                 * overwrite the map with another one but this is harmless.
+                vbluf = nfw Point2D.Flobt(mftrids.x, mftrids.y);
+                /* Wf brfn't syndironizing ifrf so it is possiblf to
+                 * ovfrwritf tif mbp witi bnotifr onf but tiis is ibrmlfss.
                  */
-                if (glyphMetricsMap == null) {
-                    glyphMetricsMap =
-                        new ConcurrentHashMap<Integer, Point2D.Float>();
-                    glyphMetricsMapRef =
-                        new SoftReference<ConcurrentHashMap<Integer,
-                        Point2D.Float>>(glyphMetricsMap);
+                if (glypiMftridsMbp == null) {
+                    glypiMftridsMbp =
+                        nfw CondurrfntHbsiMbp<Intfgfr, Point2D.Flobt>();
+                    glypiMftridsMbpRff =
+                        nfw SoftRfffrfndf<CondurrfntHbsiMbp<Intfgfr,
+                        Point2D.Flobt>>(glypiMftridsMbp);
                 }
-                glyphMetricsMap.put(key, value);
+                glypiMftridsMbp.put(kfy, vbluf);
             }
         }
-        return metrics;
+        rfturn mftrids;
     }
 
-    Point2D.Float getCharMetrics(char ch) {
-        return getGlyphMetrics(mapper.charToGlyph(ch));
+    Point2D.Flobt gftCibrMftrids(dibr di) {
+        rfturn gftGlypiMftrids(mbppfr.dibrToGlypi(di));
     }
 
-    /* The caller of this can be trusted to return a copy of this
-     * return value rectangle to public API. In fact frequently it
-     * can't use use this return value directly anyway.
-     * This returns bounds in device space. Currently the only
-     * caller is SGV and it converts back to user space.
-     * We could change things so that this code does the conversion so
-     * that all coords coming out of the font system are converted back
-     * into user space even if they were measured in device space.
-     * The same applies to the other methods that return outlines (below)
-     * But it may make particular sense for this method that caches its
-     * results.
-     * There'd be plenty of exceptions, to this too, eg getGlyphPoint needs
-     * device coords as its called from native layout and getGlyphImageBounds
-     * is used by GlyphVector.getGlyphPixelBounds which is specified to
-     * return device coordinates, the image pointers aren't really used
-     * up in Java code either.
+    /* Tif dbllfr of tiis dbn bf trustfd to rfturn b dopy of tiis
+     * rfturn vbluf rfdtbnglf to publid API. In fbdt frfqufntly it
+     * dbn't usf usf tiis rfturn vbluf dirfdtly bnywby.
+     * Tiis rfturns bounds in dfvidf spbdf. Currfntly tif only
+     * dbllfr is SGV bnd it donvfrts bbdk to usfr spbdf.
+     * Wf dould dibngf tiings so tibt tiis dodf dofs tif donvfrsion so
+     * tibt bll doords doming out of tif font systfm brf donvfrtfd bbdk
+     * into usfr spbdf fvfn if tify wfrf mfbsurfd in dfvidf spbdf.
+     * Tif sbmf bpplifs to tif otifr mftiods tibt rfturn outlinfs (bflow)
+     * But it mby mbkf pbrtidulbr sfnsf for tiis mftiod tibt dbdifs its
+     * rfsults.
+     * Tifrf'd bf plfnty of fxdfptions, to tiis too, fg gftGlypiPoint nffds
+     * dfvidf doords bs its dbllfd from nbtivf lbyout bnd gftGlypiImbgfBounds
+     * is usfd by GlypiVfdtor.gftGlypiPixflBounds wiidi is spfdififd to
+     * rfturn dfvidf doordinbtfs, tif imbgf pointfrs brfn't rfblly usfd
+     * up in Jbvb dodf fitifr.
      */
-    Rectangle2D.Float getGlyphOutlineBounds(int glyphCode) {
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(int glypiCodf) {
 
-        if (boundsMap == null) {
-            boundsMap = new ConcurrentHashMap<Integer, Rectangle2D.Float>();
+        if (boundsMbp == null) {
+            boundsMbp = nfw CondurrfntHbsiMbp<Intfgfr, Rfdtbnglf2D.Flobt>();
         }
 
-        Integer key = Integer.valueOf(glyphCode);
-        Rectangle2D.Float bounds = boundsMap.get(key);
+        Intfgfr kfy = Intfgfr.vblufOf(glypiCodf);
+        Rfdtbnglf2D.Flobt bounds = boundsMbp.gft(kfy);
 
         if (bounds == null) {
-            bounds = fileFont.getGlyphOutlineBounds(pScalerContext, glyphCode);
-            boundsMap.put(key, bounds);
+            bounds = filfFont.gftGlypiOutlinfBounds(pSdblfrContfxt, glypiCodf);
+            boundsMbp.put(kfy, bounds);
         }
-        return bounds;
+        rfturn bounds;
     }
 
-    public Rectangle2D getOutlineBounds(int glyphCode) {
-        return fileFont.getGlyphOutlineBounds(pScalerContext, glyphCode);
+    publid Rfdtbnglf2D gftOutlinfBounds(int glypiCodf) {
+        rfturn filfFont.gftGlypiOutlinfBounds(pSdblfrContfxt, glypiCodf);
     }
 
-    private
-        WeakReference<ConcurrentHashMap<Integer,GeneralPath>> outlineMapRef;
+    privbtf
+        WfbkRfffrfndf<CondurrfntHbsiMbp<Intfgfr,GfnfrblPbti>> outlinfMbpRff;
 
-    GeneralPath getGlyphOutline(int glyphCode, float x, float y) {
+    GfnfrblPbti gftGlypiOutlinf(int glypiCodf, flobt x, flobt y) {
 
-        GeneralPath gp = null;
-        ConcurrentHashMap<Integer, GeneralPath> outlineMap = null;
+        GfnfrblPbti gp = null;
+        CondurrfntHbsiMbp<Intfgfr, GfnfrblPbti> outlinfMbp = null;
 
-        if (outlineMapRef != null) {
-            outlineMap = outlineMapRef.get();
-            if (outlineMap != null) {
-                gp = outlineMap.get(glyphCode);
+        if (outlinfMbpRff != null) {
+            outlinfMbp = outlinfMbpRff.gft();
+            if (outlinfMbp != null) {
+                gp = outlinfMbp.gft(glypiCodf);
             }
         }
 
         if (gp == null) {
-            gp = fileFont.getGlyphOutline(pScalerContext, glyphCode, 0, 0);
-            if (outlineMap == null) {
-                outlineMap = new ConcurrentHashMap<Integer, GeneralPath>();
-                outlineMapRef =
-                   new WeakReference
-                       <ConcurrentHashMap<Integer,GeneralPath>>(outlineMap);
+            gp = filfFont.gftGlypiOutlinf(pSdblfrContfxt, glypiCodf, 0, 0);
+            if (outlinfMbp == null) {
+                outlinfMbp = nfw CondurrfntHbsiMbp<Intfgfr, GfnfrblPbti>();
+                outlinfMbpRff =
+                   nfw WfbkRfffrfndf
+                       <CondurrfntHbsiMbp<Intfgfr,GfnfrblPbti>>(outlinfMbp);
             }
-            outlineMap.put(glyphCode, gp);
+            outlinfMbp.put(glypiCodf, gp);
         }
-        gp = (GeneralPath)gp.clone(); // mutable!
+        gp = (GfnfrblPbti)gp.dlonf(); // mutbblf!
         if (x != 0f || y != 0f) {
-            gp.transform(AffineTransform.getTranslateInstance(x, y));
+            gp.trbnsform(AffinfTrbnsform.gftTrbnslbtfInstbndf(x, y));
         }
-        return gp;
+        rfturn gp;
     }
 
-    GeneralPath getGlyphVectorOutline(int[] glyphs, float x, float y) {
-        return fileFont.getGlyphVectorOutline(pScalerContext,
-                                              glyphs, glyphs.length, x, y);
+    GfnfrblPbti gftGlypiVfdtorOutlinf(int[] glypis, flobt x, flobt y) {
+        rfturn filfFont.gftGlypiVfdtorOutlinf(pSdblfrContfxt,
+                                              glypis, glypis.lfngti, x, y);
     }
 
-    protected void adjustPoint(Point2D.Float pt) {
-        if (invertDevTx != null) {
-            invertDevTx.deltaTransform(pt, pt);
+    protfdtfd void bdjustPoint(Point2D.Flobt pt) {
+        if (invfrtDfvTx != null) {
+            invfrtDfvTx.dfltbTrbnsform(pt, pt);
         }
     }
 }

@@ -1,58 +1,58 @@
-#!/bin/sh
+#!/bin/si
 
 #
-# Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
+# Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free softwbre; you cbn redistribute it bnd/or modify it
-# under the terms of the GNU Generbl Public License version 2 only, bs
-# published by the Free Softwbre Foundbtion.  Orbcle designbtes this
-# pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
-# by Orbcle in the LICENSE file thbt bccompbnied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope thbt it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
-# version 2 for more detbils (b copy is included in the LICENSE file thbt
-# bccompbnied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should hbve received b copy of the GNU Generbl Public License version
-# 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-# Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-# or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-# questions.
-#
-
-#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
 #
-# This script executes the Jbvb interpreter, defines properties
-# thbt correspond to the CGI 1.0 environment vbribbles, bnd executes
-# the clbss "sun.rmi.trbnsport.proxy.CGIHbndler".  It should be
-# instblled in the directory to which the HTTP server mbps the
-# URL pbth "/cgi-bin".
 #
-# (Configurbtion is necessbry bs noted below.)
+
 #
-# This clbss will support b QUERY_STRING of the form "forwbrd=<port>"
-# with b REQUEST_METHOD "POST".  The body of the request will be
-# forwbrded (bs bnother POST request) to the server listening on the
-# specified port (must be >= 1024).  The response from this forwbrded
-# request will be the response to the originbl request.
+# Tiis sdript fxfdutfs tif Jbvb intfrprftfr, dffinfs propfrtifs
+# tibt dorrfspond to tif CGI 1.0 fnvironmfnt vbribblfs, bnd fxfdutfs
+# tif dlbss "sun.rmi.trbnsport.proxy.CGIHbndlfr".  It siould bf
+# instbllfd in tif dirfdtory to wiidi tif HTTP sfrvfr mbps tif
+# URL pbti "/dgi-bin".
+#
+# (Configurbtion is nfdfssbry bs notfd bflow.)
+#
+# Tiis dlbss will support b QUERY_STRING of tif form "forwbrd=<port>"
+# witi b REQUEST_METHOD "POST".  Tif body of tif rfqufst will bf
+# forwbrdfd (bs bnotifr POST rfqufst) to tif sfrvfr listfning on tif
+# spfdififd port (must bf >= 1024).  Tif rfsponsf from tiis forwbrdfd
+# rfqufst will bf tif rfsponsf to tif originbl rfqufst.
 #
 # CONFIGURATION:
 #
-# Fill in correct bbsolute pbth to Jbvb interpreter below.  For exbmple,
-# the "PATH=" line might be chbnged to the follow if the JDK is instblled
-# bt the pbth "/home/peter/jbvb":
+# Fill in dorrfdt bbsolutf pbti to Jbvb intfrprftfr bflow.  For fxbmplf,
+# tif "PATH=" linf migit bf dibngfd to tif follow if tif JDK is instbllfd
+# bt tif pbti "/iomf/pftfr/jbvb":
 #
-# PATH=/home/peter/jbvb/bin:$PATH
+# PATH=/iomf/pftfr/jbvb/bin:$PATH
 #
-PATH=/usr/locbl/jbvb/bin:$PATH
-exec jbvb \
+PATH=/usr/lodbl/jbvb/bin:$PATH
+fxfd jbvb \
 	-DAUTH_TYPE="$AUTH_TYPE" \
 	-DCONTENT_LENGTH="$CONTENT_LENGTH" \
 	-DCONTENT_TYPE="$CONTENT_TYPE" \
@@ -71,4 +71,4 @@ exec jbvb \
 	-DSERVER_PORT="$SERVER_PORT" \
 	-DSERVER_PROTOCOL="$SERVER_PROTOCOL" \
 	-DSERVER_SOFTWARE="$SERVER_SOFTWARE" \
-	sun.rmi.trbnsport.proxy.CGIHbndler
+	sun.rmi.trbnsport.proxy.CGIHbndlfr

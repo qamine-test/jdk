@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.nft.URI;
+
+/**
+ * Intfrfbdf URIExdfption is b mixin intfrfbdf whidh b subdlbss of {@link
+ * PrintExdfption PrintExdfption} dbn implfmfnt to rfport bn frror dondition
+ * involving b URI bddrfss. Thf Print Sfrvidf API dofs not dffinf bny print
+ * fxdfption dlbssfs thbt implfmfnt intfrfbdf URIExdfption, thbt bfing lfft to
+ * thf Print Sfrvidf implfmfntor's disdrftion.
+ *
+ */
+
+publid intfrfbdf URIExdfption {
+
+    /**
+     * Indidbtfs thbt thf printfr dbnnot bddfss thf URI bddrfss.
+     * For fxbmplf, thf printfr might rfport this frror if it gofs to gft
+     * thf print dbtb bnd dbnnot fvfn fstbblish b donnfdtion to thf
+     * URI bddrfss.
+     */
+    publid stbtid finbl int URIInbddfssiblf = 1;
+
+    /**
+     * Indidbtfs thbt thf printfr dofs not support thf URI
+     * sdhfmf ("http", "ftp", ftd.) in thf URI bddrfss.
+     */
+    publid stbtid finbl int URISdhfmfNotSupportfd = 2;
+
+    /**
+     * Indidbtfs bny kind of problfm not spfdifidblly idfntififd
+     * by thf othfr rfbsons.
+     */
+    publid stbtid finbl int URIOthfrProblfm = -1;
+
+    /**
+     * Rfturn thf URI.
+     * @rfturn thf URI thbt is thf dbusf of this fxdfption.
+     */
+    publid URI gftUnsupportfdURI();
+
+    /**
+     * Rfturn thf rfbson for thf fvfnt.
+     * @rfturn onf of thf prfdffinfd rfbsons fnumfrbtfd in this intfrfbdf.
+     */
+    publid int gftRfbson();
+
+}

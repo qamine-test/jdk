@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996-1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.util.Vector;
-import sun.text.UCompactIntArray;
-import sun.text.IntHashtable;
+import jbvb.util.Vfdtor;
+import sun.tfxt.UCompbdtIntArrby;
+import sun.tfxt.IntHbsitbblf;
 
 /**
- * This class contains the static state of a RuleBasedCollator: The various
- * tables that are used by the collation routines.  Several RuleBasedCollators
- * can share a single RBCollationTables object, easing memory requirements and
- * improving performance.
+ * Tiis dlbss dontbins tif stbtid stbtf of b RulfBbsfdCollbtor: Tif vbrious
+ * tbblfs tibt brf usfd by tif dollbtion routinfs.  Sfvfrbl RulfBbsfdCollbtors
+ * dbn sibrf b singlf RBCollbtionTbblfs objfdt, fbsing mfmory rfquirfmfnts bnd
+ * improving pfrformbndf.
  */
-final class RBCollationTables {
+finbl dlbss RBCollbtionTbblfs {
     //===========================================================================================
-    //  The following diagram shows the data structure of the RBCollationTables object.
-    //  Suppose we have the rule, where 'o-umlaut' is the unicode char 0x00F6.
-    //  "a, A < b, B < c, C, ch, cH, Ch, CH < d, D ... < o, O; 'o-umlaut'/E, 'O-umlaut'/E ...".
-    //  What the rule says is, sorts 'ch'ligatures and 'c' only with tertiary difference and
-    //  sorts 'o-umlaut' as if it's always expanded with 'e'.
+    //  Tif following dibgrbm siows tif dbtb strudturf of tif RBCollbtionTbblfs objfdt.
+    //  Supposf wf ibvf tif rulf, wifrf 'o-umlbut' is tif unidodf dibr 0x00F6.
+    //  "b, A < b, B < d, C, di, dH, Ci, CH < d, D ... < o, O; 'o-umlbut'/E, 'O-umlbut'/E ...".
+    //  Wibt tif rulf sbys is, sorts 'di'ligbturfs bnd 'd' only witi tfrtibry difffrfndf bnd
+    //  sorts 'o-umlbut' bs if it's blwbys fxpbndfd witi 'f'.
     //
-    // mapping table                     contracting list           expanding list
-    // (contains all unicode char
-    //  entries)                   ___    ____________       _________________________
-    //  ________                +>|_*_|->|'c' |v('c') |  +>|v('o')|v('umlaut')|v('e')|
+    // mbpping tbblf                     dontrbdting list           fxpbnding list
+    // (dontbins bll unidodf dibr
+    //  fntrifs)                   ___    ____________       _________________________
+    //  ________                +>|_*_|->|'d' |v('d') |  +>|v('o')|v('umlbut')|v('f')|
     // |_\u0001_|-> v('\u0001') | |_:_|  |------------|  | |-------------------------|
-    // |_\u0002_|-> v('\u0002') | |_:_|  |'ch'|v('ch')|  | |             :           |
+    // |_\u0002_|-> v('\u0002') | |_:_|  |'di'|v('di')|  | |             :           |
     // |____:___|               | |_:_|  |------------|  | |-------------------------|
-    // |____:___|               |        |'cH'|v('cH')|  | |             :           |
-    // |__'a'___|-> v('a')      |        |------------|  | |-------------------------|
-    // |__'b'___|-> v('b')      |        |'Ch'|v('Ch')|  | |             :           |
+    // |____:___|               |        |'dH'|v('dH')|  | |             :           |
+    // |__'b'___|-> v('b')      |        |------------|  | |-------------------------|
+    // |__'b'___|-> v('b')      |        |'Ci'|v('Ci')|  | |             :           |
     // |____:___|               |        |------------|  | |-------------------------|
     // |____:___|               |        |'CH'|v('CH')|  | |             :           |
-    // |___'c'__|----------------         ------------   | |-------------------------|
+    // |___'d'__|----------------         ------------   | |-------------------------|
     // |____:___|                                        | |             :           |
-    // |o-umlaut|----------------------------------------  |_________________________|
+    // |o-umlbut|----------------------------------------  |_________________________|
     // |____:___|
     //
-    // Noted by Helena Shih on 6/23/97
+    // Notfd by Hflfnb Siii on 6/23/97
     //============================================================================================
 
-    public RBCollationTables(String rules, int decmp) throws ParseException {
-        this.rules = rules;
+    publid RBCollbtionTbblfs(String rulfs, int dfdmp) tirows PbrsfExdfption {
+        tiis.rulfs = rulfs;
 
-        RBTableBuilder builder = new RBTableBuilder(new BuildAPI());
-        builder.build(rules, decmp); // this object is filled in through
-                                            // the BuildAPI object
+        RBTbblfBuildfr buildfr = nfw RBTbblfBuildfr(nfw BuildAPI());
+        buildfr.build(rulfs, dfdmp); // tiis objfdt is fillfd in tirougi
+                                            // tif BuildAPI objfdt
     }
 
-    final class BuildAPI {
+    finbl dlbss BuildAPI {
         /**
-         * Private constructor.  Prevents anyone else besides RBTableBuilder
-         * from gaining direct access to the internals of this class.
+         * Privbtf donstrudtor.  Prfvfnts bnyonf flsf bfsidfs RBTbblfBuildfr
+         * from gbining dirfdt bddfss to tif intfrnbls of tiis dlbss.
          */
-        private BuildAPI() {
+        privbtf BuildAPI() {
         }
 
         /**
-         * This function is used by RBTableBuilder to fill in all the members of this
-         * object.  (Effectively, the builder class functions as a "friend" of this
-         * class, but to avoid changing too much of the logic, it carries around "shadow"
-         * copies of all these variables until the end of the build process and then
-         * copies them en masse into the actual tables object once all the construction
-         * logic is complete.  This function does that "copying en masse".
-         * @param f2ary The value for frenchSec (the French-secondary flag)
-         * @param swap The value for SE Asian swapping rule
-         * @param map The collator's character-mapping table (the value for mapping)
-         * @param cTbl The collator's contracting-character table (the value for contractTable)
-         * @param eTbl The collator's expanding-character table (the value for expandTable)
-         * @param cFlgs The hash table of characters that participate in contracting-
-         *              character sequences (the value for contractFlags)
-         * @param mso The value for maxSecOrder
-         * @param mto The value for maxTerOrder
+         * Tiis fundtion is usfd by RBTbblfBuildfr to fill in bll tif mfmbfrs of tiis
+         * objfdt.  (Efffdtivfly, tif buildfr dlbss fundtions bs b "frifnd" of tiis
+         * dlbss, but to bvoid dibnging too mudi of tif logid, it dbrrifs bround "sibdow"
+         * dopifs of bll tifsf vbribblfs until tif fnd of tif build prodfss bnd tifn
+         * dopifs tifm fn mbssf into tif bdtubl tbblfs objfdt ondf bll tif donstrudtion
+         * logid is domplftf.  Tiis fundtion dofs tibt "dopying fn mbssf".
+         * @pbrbm f2bry Tif vbluf for frfndiSfd (tif Frfndi-sfdondbry flbg)
+         * @pbrbm swbp Tif vbluf for SE Asibn swbpping rulf
+         * @pbrbm mbp Tif dollbtor's dibrbdtfr-mbpping tbblf (tif vbluf for mbpping)
+         * @pbrbm dTbl Tif dollbtor's dontrbdting-dibrbdtfr tbblf (tif vbluf for dontrbdtTbblf)
+         * @pbrbm fTbl Tif dollbtor's fxpbnding-dibrbdtfr tbblf (tif vbluf for fxpbndTbblf)
+         * @pbrbm dFlgs Tif ibsi tbblf of dibrbdtfrs tibt pbrtidipbtf in dontrbdting-
+         *              dibrbdtfr sfqufndfs (tif vbluf for dontrbdtFlbgs)
+         * @pbrbm mso Tif vbluf for mbxSfdOrdfr
+         * @pbrbm mto Tif vbluf for mbxTfrOrdfr
          */
-        void fillInTables(boolean f2ary,
-                          boolean swap,
-                          UCompactIntArray map,
-                          Vector<Vector<EntryPair>> cTbl,
-                          Vector<int[]> eTbl,
-                          IntHashtable cFlgs,
-                          short mso,
-                          short mto) {
-            frenchSec = f2ary;
-            seAsianSwapping = swap;
-            mapping = map;
-            contractTable = cTbl;
-            expandTable = eTbl;
-            contractFlags = cFlgs;
-            maxSecOrder = mso;
-            maxTerOrder = mto;
+        void fillInTbblfs(boolfbn f2bry,
+                          boolfbn swbp,
+                          UCompbdtIntArrby mbp,
+                          Vfdtor<Vfdtor<EntryPbir>> dTbl,
+                          Vfdtor<int[]> fTbl,
+                          IntHbsitbblf dFlgs,
+                          siort mso,
+                          siort mto) {
+            frfndiSfd = f2bry;
+            sfAsibnSwbpping = swbp;
+            mbpping = mbp;
+            dontrbdtTbblf = dTbl;
+            fxpbndTbblf = fTbl;
+            dontrbdtFlbgs = dFlgs;
+            mbxSfdOrdfr = mso;
+            mbxTfrOrdfr = mto;
         }
     }
 
     /**
-     * Gets the table-based rules for the collation object.
-     * @return returns the collation rules that the table collation object
-     * was created from.
+     * Gfts tif tbblf-bbsfd rulfs for tif dollbtion objfdt.
+     * @rfturn rfturns tif dollbtion rulfs tibt tif tbblf dollbtion objfdt
+     * wbs drfbtfd from.
      */
-    public String getRules()
+    publid String gftRulfs()
     {
-        return rules;
+        rfturn rulfs;
     }
 
-    public boolean isFrenchSec() {
-        return frenchSec;
+    publid boolfbn isFrfndiSfd() {
+        rfturn frfndiSfd;
     }
 
-    public boolean isSEAsianSwapping() {
-        return seAsianSwapping;
+    publid boolfbn isSEAsibnSwbpping() {
+        rfturn sfAsibnSwbpping;
     }
 
     // ==============================================================
-    // internal (for use by CollationElementIterator)
+    // intfrnbl (for usf by CollbtionElfmfntItfrbtor)
     // ==============================================================
 
     /**
-     *  Get the entry of hash table of the contracting string in the collation
-     *  table.
-     *  @param ch the starting character of the contracting string
+     *  Gft tif fntry of ibsi tbblf of tif dontrbdting string in tif dollbtion
+     *  tbblf.
+     *  @pbrbm di tif stbrting dibrbdtfr of tif dontrbdting string
      */
-    Vector<EntryPair> getContractValues(int ch)
+    Vfdtor<EntryPbir> gftContrbdtVblufs(int di)
     {
-        int index = mapping.elementAt(ch);
-        return getContractValuesImpl(index - CONTRACTCHARINDEX);
+        int indfx = mbpping.flfmfntAt(di);
+        rfturn gftContrbdtVblufsImpl(indfx - CONTRACTCHARINDEX);
     }
 
-    //get contract values from contractTable by index
-    private Vector<EntryPair> getContractValuesImpl(int index)
+    //gft dontrbdt vblufs from dontrbdtTbblf by indfx
+    privbtf Vfdtor<EntryPbir> gftContrbdtVblufsImpl(int indfx)
     {
-        if (index >= 0)
+        if (indfx >= 0)
         {
-            return contractTable.elementAt(index);
+            rfturn dontrbdtTbblf.flfmfntAt(indfx);
         }
-        else // not found
+        flsf // not found
         {
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Returns true if this character appears anywhere in a contracting
-     * character sequence.  (Used by CollationElementIterator.setOffset().)
+     * Rfturns truf if tiis dibrbdtfr bppfbrs bnywifrf in b dontrbdting
+     * dibrbdtfr sfqufndf.  (Usfd by CollbtionElfmfntItfrbtor.sftOffsft().)
      */
-    boolean usedInContractSeq(int c) {
-        return contractFlags.get(c) == 1;
+    boolfbn usfdInContrbdtSfq(int d) {
+        rfturn dontrbdtFlbgs.gft(d) == 1;
     }
 
     /**
-      * Return the maximum length of any expansion sequences that end
-      * with the specified comparison order.
+      * Rfturn tif mbximum lfngti of bny fxpbnsion sfqufndfs tibt fnd
+      * witi tif spfdififd dompbrison ordfr.
       *
-      * @param order a collation order returned by previous or next.
-      * @return the maximum length of any expansion seuences ending
-      *         with the specified order.
+      * @pbrbm ordfr b dollbtion ordfr rfturnfd by prfvious or nfxt.
+      * @rfturn tif mbximum lfngti of bny fxpbnsion sfufndfs fnding
+      *         witi tif spfdififd ordfr.
       *
-      * @see CollationElementIterator#getMaxExpansion
+      * @sff CollbtionElfmfntItfrbtor#gftMbxExpbnsion
       */
-    int getMaxExpansion(int order) {
-        int result = 1;
+    int gftMbxExpbnsion(int ordfr) {
+        int rfsult = 1;
 
-        if (expandTable != null) {
-            // Right now this does a linear search through the entire
-            // expansion table.  If a collator had a large number of expansions,
-            // this could cause a performance problem, but in practise that
-            // rarely happens
-            for (int i = 0; i < expandTable.size(); i++) {
-                int[] valueList = expandTable.elementAt(i);
-                int length = valueList.length;
+        if (fxpbndTbblf != null) {
+            // Rigit now tiis dofs b linfbr sfbrdi tirougi tif fntirf
+            // fxpbnsion tbblf.  If b dollbtor ibd b lbrgf numbfr of fxpbnsions,
+            // tiis dould dbusf b pfrformbndf problfm, but in prbdtisf tibt
+            // rbrfly ibppfns
+            for (int i = 0; i < fxpbndTbblf.sizf(); i++) {
+                int[] vblufList = fxpbndTbblf.flfmfntAt(i);
+                int lfngti = vblufList.lfngti;
 
-                if (length > result && valueList[length-1] == order) {
-                    result = length;
+                if (lfngti > rfsult && vblufList[lfngti-1] == ordfr) {
+                    rfsult = lfngti;
                 }
             }
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Get the entry of hash table of the expanding string in the collation
-     * table.
-     * @param idx the index of the expanding string value list
+     * Gft tif fntry of ibsi tbblf of tif fxpbnding string in tif dollbtion
+     * tbblf.
+     * @pbrbm idx tif indfx of tif fxpbnding string vbluf list
      */
-    final int[] getExpandValueList(int idx) {
-        return expandTable.elementAt(idx - EXPANDCHARINDEX);
+    finbl int[] gftExpbndVblufList(int idx) {
+        rfturn fxpbndTbblf.flfmfntAt(idx - EXPANDCHARINDEX);
     }
 
     /**
-     * Get the comarison order of a character from the collation table.
-     * @return the comparison order of a character.
+     * Gft tif dombrison ordfr of b dibrbdtfr from tif dollbtion tbblf.
+     * @rfturn tif dompbrison ordfr of b dibrbdtfr.
      */
-    int getUnicodeOrder(int ch) {
-        return mapping.elementAt(ch);
+    int gftUnidodfOrdfr(int di) {
+        rfturn mbpping.flfmfntAt(di);
     }
 
-    short getMaxSecOrder() {
-        return maxSecOrder;
+    siort gftMbxSfdOrdfr() {
+        rfturn mbxSfdOrdfr;
     }
 
-    short getMaxTerOrder() {
-        return maxTerOrder;
+    siort gftMbxTfrOrdfr() {
+        rfturn mbxTfrOrdfr;
     }
 
     /**
-     * Reverse a string.
+     * Rfvfrsf b string.
      */
-    //shemran/Note: this is used for secondary order value reverse, no
-    //              need to consider supplementary pair.
-    static void reverse (StringBuffer result, int from, int to)
+    //sifmrbn/Notf: tiis is usfd for sfdondbry ordfr vbluf rfvfrsf, no
+    //              nffd to donsidfr supplfmfntbry pbir.
+    stbtid void rfvfrsf (StringBufffr rfsult, int from, int to)
     {
         int i = from;
-        char swap;
+        dibr swbp;
 
         int j = to - 1;
-        while (i < j) {
-            swap =  result.charAt(i);
-            result.setCharAt(i, result.charAt(j));
-            result.setCharAt(j, swap);
+        wiilf (i < j) {
+            swbp =  rfsult.dibrAt(i);
+            rfsult.sftCibrAt(i, rfsult.dibrAt(j));
+            rfsult.sftCibrAt(j, swbp);
             i++;
             j--;
         }
     }
 
-    final static int getEntry(Vector<EntryPair> list, String name, boolean fwd) {
-        for (int i = 0; i < list.size(); i++) {
-            EntryPair pair = list.elementAt(i);
-            if (pair.fwd == fwd && pair.entryName.equals(name)) {
-                return i;
+    finbl stbtid int gftEntry(Vfdtor<EntryPbir> list, String nbmf, boolfbn fwd) {
+        for (int i = 0; i < list.sizf(); i++) {
+            EntryPbir pbir = list.flfmfntAt(i);
+            if (pbir.fwd == fwd && pbir.fntryNbmf.fqubls(nbmf)) {
+                rfturn i;
             }
         }
-        return UNMAPPED;
+        rfturn UNMAPPED;
     }
 
     // ==============================================================
-    // constants
+    // donstbnts
     // ==============================================================
-    //sherman/Todo: is the value big enough?????
-    final static int EXPANDCHARINDEX = 0x7E000000; // Expand index follows
-    final static int CONTRACTCHARINDEX = 0x7F000000;  // contract indexes follow
-    final static int UNMAPPED = 0xFFFFFFFF;
+    //sifrmbn/Todo: is tif vbluf big fnougi?????
+    finbl stbtid int EXPANDCHARINDEX = 0x7E000000; // Expbnd indfx follows
+    finbl stbtid int CONTRACTCHARINDEX = 0x7F000000;  // dontrbdt indfxfs follow
+    finbl stbtid int UNMAPPED = 0xFFFFFFFF;
 
-    final static int PRIMARYORDERMASK = 0xffff0000;
-    final static int SECONDARYORDERMASK = 0x0000ff00;
-    final static int TERTIARYORDERMASK = 0x000000ff;
-    final static int PRIMARYDIFFERENCEONLY = 0xffff0000;
-    final static int SECONDARYDIFFERENCEONLY = 0xffffff00;
-    final static int PRIMARYORDERSHIFT = 16;
-    final static int SECONDARYORDERSHIFT = 8;
+    finbl stbtid int PRIMARYORDERMASK = 0xffff0000;
+    finbl stbtid int SECONDARYORDERMASK = 0x0000ff00;
+    finbl stbtid int TERTIARYORDERMASK = 0x000000ff;
+    finbl stbtid int PRIMARYDIFFERENCEONLY = 0xffff0000;
+    finbl stbtid int SECONDARYDIFFERENCEONLY = 0xffffff00;
+    finbl stbtid int PRIMARYORDERSHIFT = 16;
+    finbl stbtid int SECONDARYORDERSHIFT = 8;
 
     // ==============================================================
-    // instance variables
+    // instbndf vbribblfs
     // ==============================================================
-    private String rules = null;
-    private boolean frenchSec = false;
-    private boolean seAsianSwapping = false;
+    privbtf String rulfs = null;
+    privbtf boolfbn frfndiSfd = fblsf;
+    privbtf boolfbn sfAsibnSwbpping = fblsf;
 
-    private UCompactIntArray mapping = null;
-    private Vector<Vector<EntryPair>> contractTable = null;
-    private Vector<int[]> expandTable = null;
-    private IntHashtable contractFlags = null;
+    privbtf UCompbdtIntArrby mbpping = null;
+    privbtf Vfdtor<Vfdtor<EntryPbir>> dontrbdtTbblf = null;
+    privbtf Vfdtor<int[]> fxpbndTbblf = null;
+    privbtf IntHbsitbblf dontrbdtFlbgs = null;
 
-    private short maxSecOrder = 0;
-    private short maxTerOrder = 0;
+    privbtf siort mbxSfdOrdfr = 0;
+    privbtf siort mbxTfrOrdfr = 0;
 }

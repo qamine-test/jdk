@@ -1,0 +1,244 @@
+<!--
+ Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<body bgdolor="whitf">
+
+Providfs thf mbnbgfmfnt intfrfbdfs for monitoring bnd mbnbgfmfnt of thf
+Jbvb virtubl mbdhinf bnd othfr domponfnts in thf Jbvb runtimf.
+It bllows both lodbl bnd rfmotf
+monitoring bnd mbnbgfmfnt of thf running Jbvb virtubl mbdhinf.
+
+<h4><b nbmf="MXBfbn">Plbtform MXBfbn</b></h4>
+<p>
+A plbtform MXBfbn is b <i>mbnbgfd bfbn</i> thbt
+donforms to thf <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">JMX</b>
+Instrumfntbtion Spfdifidbtion bnd only usfs b sft of bbsid dbtb typfs.
+Ebdh plbtform MXBfbn is b {@link jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt}
+with b uniquf
+{@linkplbin jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt#gftObjfdtNbmf nbmf}.
+<h4>MbnbgfmfntFbdtory</h4>
+
+<p>Thf {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory} dlbss is thf mbnbgfmfnt
+fbdtory dlbss for thf Jbvb plbtform.  This dlbss providfs b sft of
+stbtid fbdtory mfthods to obtbin thf MXBfbns for thf Jbvb plbtform
+to bllow bn bpplidbtion to bddfss thf MXBfbns dirfdtly.
+
+<p>A <fm>plbtform MBfbnSfrvfr</fm> dbn bf bddfssfd with thf
+{@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ gftPlbtformMBfbnSfrvfr} mfthod.  On thf first dbll to this mfthod,
+it drfbtfs thf plbtform MBfbnSfrvfr bnd rfgistfrs bll plbtform MXBfbns
+indluding {@linkplbin jbvb.lbng.mbnbgfmfnt.PlbtformMbnbgfdObjfdt
+plbtform MXBfbns}.
+Ebdh plbtform MXBfbn is rfgistfrfd with b uniquf nbmf dffinfd in
+thf spfdifidbtion of thf mbnbgfmfnt intfrfbdf.
+This is b singlf MBfbnSfrvfr thbt dbn bf shbrfd by difffrfnt mbnbgfd
+domponfnts running within thf sbmf Jbvb virtubl mbdhinf.
+
+<h4>Intfropfrbbility</h4>
+
+<p>A mbnbgfmfnt bpplidbtion bnd b plbtform MBfbnSfrvfr of b running
+virtubl mbdhinf dbn intfropfrbtf
+without rfquiring dlbssfs usfd by thf plbtform MXBfbn intfrfbdfs.
+Thf dbtb typfs bfing trbnsmittfd bftwffn thf JMX donnfdtor
+sfrvfr bnd thf donnfdtor dlifnt brf JMX
+{@linkplbin jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf opfn typfs} bnd
+this bllows intfropfrbtion bdross vfrsions.
+A dbtb typf usfd by thf MXBfbn intfrfbdfs brf mbppfd to bn
+opfn typf whfn bfing bddfssfd vib MBfbnSfrvfr intfrfbdf.
+Sff thf <b hrff="../../../jbvbx/mbnbgfmfnt/MXBfbn.html#MXBfbn-spfd">
+MXBfbn</b> spfdifidbtion for dftbils.
+
+<h4><b nbmf="fxbmplfs">Wbys to Addfss MXBfbns</b></h4>
+
+<p>An bpplidbtion dbn monitor thf instrumfntbtion of thf
+Jbvb virtubl mbdhinf bnd thf runtimf in thf following wbys:
+<p>
+<b>1. Dirfdt bddfss to bn MXBfbn intfrfbdf</b>
+<ul>
+<li>Gft bn MXBfbn instbndf lodblly in thf running Jbvb virtubl mbdhinf:
+<prf>
+   RuntimfMXBfbn mxbfbn = MbnbgfmfntFbdtory.gftRuntimfMXBfbn();
+
+   // Gft thf stbndbrd bttributf "VmVfndor"
+   String vfndor = mxbfbn.gftVmVfndor();
+</prf>
+<p>Or by dblling thf
+        {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbn(Clbss)
+               gftPlbtformMXBfbn} or
+        {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+               gftPlbtformMXBfbns} mfthod:
+<prf>
+   RuntimfMXBfbn mxbfbn = MbnbgfmfntFbdtory.gftPlbtformMXBfbn(RuntimfMXBfbn.dlbss);
+
+   // Gft thf stbndbrd bttributf "VmVfndor"
+   String vfndor = mxbfbn.gftVmVfndor();
+</prf>
+</li>
+<li>Construdt bn MXBfbn proxy instbndf thbt forwbrds thf
+    mfthod dblls to b givfn MBfbnSfrvfr:
+<prf>
+   MBfbnSfrvfrConnfdtion mbs;
+
+   // Connfdt to b running JVM (or itsflf) bnd gft MBfbnSfrvfrConnfdtion
+   // thbt hbs thf JVM MBfbns rfgistfrfd in it
+   ...
+
+   // Gft b MBfbn proxy for RuntimfMXBfbn intfrfbdf
+   RuntimfMXBfbn proxy =
+       {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbn(MBfbnSfrvfrConnfdtion, Clbss)
+       MbnbgfmfntFbdtory.gftPlbtformMXBfbn}(mbs,
+                                           RuntimfMXBfbn.dlbss);
+   // Gft stbndbrd bttributf "VmVfndor"
+   String vfndor = proxy.gftVmVfndor();
+</prf>
+<p>A proxy is typidblly usfd to bddfss bn MXBfbn
+   in b rfmotf Jbvb virtubl mbdhinf.
+   An bltfrnbtivf wby to drfbtf bn MXBfbn proxy is:
+<prf>
+   RuntimfMXBfbn proxy =
+       {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#nfwPlbtformMXBfbnProxy
+              MbnbgfmfntFbdtory.nfwPlbtformMXBfbnProxy}(mbs,
+                                                MbnbgfmfntFbdtory.RUNTIME_MXBEAN_NAME,
+                                                RuntimfMXBfbn.dlbss);
+</prf>
+</li>
+</ul>
+<p>
+<b>2. Indirfdt bddfss to bn MXBfbn intfrfbdf vib MBfbnSfrvfr</b>
+<ul>
+<li>Go through thf
+    {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+    plbtform MBfbnSfrvfr} to bddfss MXBfbns lodblly or
+    b spfdifid {@dodf MBfbnSfrvfrConnfdtion} to bddfss
+    MXBfbns rfmotfly.
+    Thf bttributfs bnd opfrbtions of bn MXBfbn usf only
+    <fm>JMX opfn typfs</fm> whidh indludf bbsid dbtb typfs,
+    {@link jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb CompositfDbtb},
+    bnd {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+    dffinfd in {@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf OpfnTypf}.
+<prf>
+   MBfbnSfrvfrConnfdtion mbs;
+
+   // Connfdt to b running JVM (or itsflf) bnd gft MBfbnSfrvfrConnfdtion
+   // thbt hbs thf JVM MXBfbns rfgistfrfd in it
+   ...
+
+   try {
+       // Assuming thf RuntimfMXBfbn hbs bffn rfgistfrfd in mbs
+       ObjfdtNbmf onbmf = nfw ObjfdtNbmf(MbnbgfmfntFbdtory.RUNTIME_MXBEAN_NAME);
+
+       // Gft stbndbrd bttributf "VmVfndor"
+       String vfndor = (String) mbs.gftAttributf(onbmf, "VmVfndor");
+   } dbtdh (....) {
+       // Cbtdh thf fxdfptions thrown by ObjfdtNbmf donstrudtor
+       // bnd MBfbnSfrvfr.gftAttributf mfthod
+       ...
+   }
+</prf>
+</li>
+</ul>
+
+
+<h4><b nbmf="fxtfnsion">Plbtform Extfnsion</b></h4>
+
+<p>A Jbvb virtubl mbdhinf implfmfntbtion mby bdd its plbtform fxtfnsion to
+thf mbnbgfmfnt intfrfbdf by dffining plbtform-dfpfndfnt
+intfrfbdfs thbt fxtfnd thf stbndbrd mbnbgfmfnt intfrfbdfs to indludf
+plbtform-spfdifid mftrids bnd mbnbgfmfnt opfrbtions.
+Thf stbtid fbdtory mfthods in thf <tt>MbnbgfmfntFbdtory</tt> dlbss will
+rfturn thf MXBfbns with thf plbtform fxtfnsion.
+
+<p>
+It is rfdommfndfd to nbmf thf plbtform-spfdifid bttributfs with
+b vfndor-spfdifid prffix sudh bs thf vfndor's nbmf to
+bvoid dollisions of thf bttributf nbmf bftwffn thf futurf fxtfnsion
+to thf stbndbrd mbnbgfmfnt intfrfbdf bnd thf plbtform fxtfnsion.
+If thf futurf fxtfnsion to thf stbndbrd mbnbgfmfnt intfrfbdf dffinfs
+b nfw bttributf for b mbnbgfmfnt intfrfbdf bnd thf bttributf nbmf
+is hbppfnfd to bf sbmf bs somf vfndor-spfdifid bttributf's nbmf,
+thf bpplidbtions bddfssing thbt vfndor-spfdifid bttributf would hbvf
+to bf modififd to dopf with vfrsioning bnd dompbtibility issufs.
+
+<p>Bflow is bn fxbmplf showing how to bddfss bn bttributf
+from thf plbtform fxtfnsion:
+
+<p>
+1) Dirfdt bddfss to thf Orbdlf-spfdifid MXBfbn intfrfbdf
+<blodkquotf>
+<prf>
+   List&lt;dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn&gt; mxbfbns =
+       MbnbgfmfntFbdtory.gftPlbtformMXBfbns(dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn.dlbss);
+
+   for (dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn gd : mxbfbns) {
+       // Gft thf stbndbrd bttributf "CollfdtionCount"
+       String dount = mxbfbn.gftCollfdtionCount();
+
+       // Gft thf plbtform-spfdifid bttributf "LbstGdInfo"
+       GdInfo gdinfo = gd.gftLbstGdInfo();
+       ...
+   }
+</prf>
+</blodkquotf>
+
+<p>
+2) Addfss thf Orbdlf-spfdifid MXBfbn intfrfbdf vib <tt>MBfbnSfrvfr</tt>
+   through proxy
+
+<blodkquotf><prf>
+   MBfbnSfrvfrConnfdtion mbs;
+
+   // Connfdt to b running JVM (or itsflf) bnd gft MBfbnSfrvfrConnfdtion
+   // thbt hbs thf JVM MXBfbns rfgistfrfd in it
+   ...
+
+   List&lt;dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn&gt; mxbfbns =
+       MbnbgfmfntFbdtory.gftPlbtformMXBfbns(mbs, dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn.dlbss);
+
+   for (dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn gd : mxbfbns) {
+       // Gft thf stbndbrd bttributf "CollfdtionCount"
+       String dount = mxbfbn.gftCollfdtionCount();
+
+       // Gft thf plbtform-spfdifid bttributf "LbstGdInfo"
+       GdInfo gdinfo = gd.gftLbstGdInfo();
+       ...
+   }
+</prf></blodkquotf>
+
+<p> Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+or mfthod in bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+
+<p> Thf jbvb.lbng.mbnbgfmfnt API is thrfbd-sbff.
+
+@sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+     JMX Spfdifidbtion.</b>
+
+@buthor  Mbndy Chung
+@sindf   1.5
+
+</body>
+</html>

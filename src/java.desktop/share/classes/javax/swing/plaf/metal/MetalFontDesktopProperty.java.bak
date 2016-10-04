@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * DesktopProperty that only uses font height in configuring font. This
- * is only used on Windows.
+ * DfsktopPropfrty tibt only usfs font ifigit in donfiguring font. Tiis
+ * is only usfd on Windows.
  *
  */
-class MetalFontDesktopProperty extends com.sun.java.swing.plaf.windows.DesktopProperty {
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
     /**
-     * Maps from metal font theme type as defined in MetalTheme
-     * to the corresponding desktop property name.
+     * Mbps from mftbl font tifmf typf bs dffinfd in MftblTifmf
+     * to tif dorrfsponding dfsktop propfrty nbmf.
      */
-    private static final String[] propertyMapping = {
-        "win.ansiVar.font.height",
-        "win.tooltip.font.height",
-        "win.ansiVar.font.height",
-        "win.menu.font.height",
-        "win.frame.captionFont.height",
-        "win.menu.font.height"
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+        "win.bnsiVbr.font.ifigit",
+        "win.tooltip.font.ifigit",
+        "win.bnsiVbr.font.ifigit",
+        "win.mfnu.font.ifigit",
+        "win.frbmf.dbptionFont.ifigit",
+        "win.mfnu.font.ifigit"
     };
 
     /**
-     * Corresponds to a MetalTheme font type.
+     * Corrfsponds to b MftblTifmf font typf.
      */
-    private int type;
+    privbtf int typf;
 
 
     /**
-     * Creates a MetalFontDesktopProperty. The key used to lookup the
-     * desktop property is determined from the type of font.
+     * Crfbtfs b MftblFontDfsktopPropfrty. Tif kfy usfd to lookup tif
+     * dfsktop propfrty is dftfrminfd from tif typf of font.
      *
-     * @param type MetalTheme font type.
+     * @pbrbm typf MftblTifmf font typf.
      */
-    MetalFontDesktopProperty(int type) {
-        this(propertyMapping[type], type);
+    MftblFontDfsktopPropfrty(int typf) {
+        tiis(propfrtyMbpping[typf], typf);
     }
 
     /**
-     * Creates a MetalFontDesktopProperty.
+     * Crfbtfs b MftblFontDfsktopPropfrty.
      *
-     * @param key Key used in looking up desktop value.
-     * @param toolkit Toolkit used to fetch property from, can be null
-     *        in which default will be used.
-     * @param type Type of font being used, corresponds to MetalTheme font
-     *        type.
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm toolkit Toolkit usfd to fftdi propfrty from, dbn bf null
+     *        in wiidi dffbult will bf usfd.
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblTifmf font
+     *        typf.
      */
-    MetalFontDesktopProperty(String key, int type) {
-        super(key, null);
-        this.type = type;
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
+        supfr(kfy, null);
+        tiis.typf = typf;
     }
 
     /**
-     * Overriden to create a Font with the size coming from the desktop
-     * and the style and name coming from DefaultMetalTheme.
+     * Ovfrridfn to drfbtf b Font witi tif sizf doming from tif dfsktop
+     * bnd tif stylf bnd nbmf doming from DffbultMftblTifmf.
      */
-    protected Object configureValue(Object value) {
-        if (value instanceof Integer) {
-            value = new Font(DefaultMetalTheme.getDefaultFontName(type),
-                             DefaultMetalTheme.getDefaultFontStyle(type),
-                             ((Integer)value).intValue());
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+        if (vbluf instbndfof Intfgfr) {
+            vbluf = nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+                             DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                             ((Intfgfr)vbluf).intVbluf());
         }
-        return super.configureValue(value);
+        rfturn supfr.donfigurfVbluf(vbluf);
     }
 
     /**
-     * Returns the default font.
+     * Rfturns tif dffbult font.
      */
-    protected Object getDefaultValue() {
-        return new Font(DefaultMetalTheme.getDefaultFontName(type),
-                        DefaultMetalTheme.getDefaultFontStyle(type),
-                        DefaultMetalTheme.getDefaultFontSize(type));
+    protfdtfd Objfdt gftDffbultVbluf() {
+        rfturn nfw Font(DffbultMftblTifmf.gftDffbultFontNbmf(typf),
+                        DffbultMftblTifmf.gftDffbultFontStylf(typf),
+                        DffbultMftblTifmf.gftDffbultFontSizf(typf));
     }
 }

@@ -1,0 +1,435 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
+
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.StbtfTrbdkbblf;
+import sun.jbvb2d.StbtfTrbdkbblf.*;
+import sun.jbvb2d.StbtfTrbdkfr;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.RfndfrLoops;
+
+
+publid dlbss BufImgSurfbdfDbtb fxtfnds SurfbdfDbtb {
+    BufffrfdImbgf bufImg;
+    privbtf BufffrfdImbgfGrbphidsConfig grbphidsConfig;
+    RfndfrLoops solidloops;
+
+    privbtf stbtid nbtivf void initIDs(Clbss<?> ICM, Clbss<?> ICMColorDbtb);
+
+    privbtf stbtid finbl int DCM_RGBX_RED_MASK   = 0xff000000;
+    privbtf stbtid finbl int DCM_RGBX_GREEN_MASK = 0x00ff0000;
+    privbtf stbtid finbl int DCM_RGBX_BLUE_MASK  = 0x0000ff00;
+    privbtf stbtid finbl int DCM_555X_RED_MASK = 0xF800;
+    privbtf stbtid finbl int DCM_555X_GREEN_MASK = 0x07C0;
+    privbtf stbtid finbl int DCM_555X_BLUE_MASK = 0x003E;
+    privbtf stbtid finbl int DCM_4444_RED_MASK   = 0x0f00;
+    privbtf stbtid finbl int DCM_4444_GREEN_MASK = 0x00f0;
+    privbtf stbtid finbl int DCM_4444_BLUE_MASK  = 0x000f;
+    privbtf stbtid finbl int DCM_4444_ALPHA_MASK = 0xf000;
+    privbtf stbtid finbl int DCM_ARGBBM_ALPHA_MASK = 0x01000000;
+    privbtf stbtid finbl int DCM_ARGBBM_RED_MASK   = 0x00ff0000;
+    privbtf stbtid finbl int DCM_ARGBBM_GREEN_MASK = 0x0000ff00;
+    privbtf stbtid finbl int DCM_ARGBBM_BLUE_MASK  = 0x000000ff;
+
+    stbtid {
+        initIDs(IndfxColorModfl.dlbss, ICMColorDbtb.dlbss);
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtb(BufffrfdImbgf bufImg) {
+        if (bufImg == null) {
+            throw nfw NullPointfrExdfption("BufffrfdImbgf dbnnot bf null");
+        }
+        SurfbdfDbtb sDbtb;
+        ColorModfl dm = bufImg.gftColorModfl();
+        int typf = bufImg.gftTypf();
+        // REMIND: Chfdk thf imbgf typf bnd pidk bn bppropribtf subdlbss
+        switdh (typf) {
+        dbsf BufffrfdImbgf.TYPE_INT_BGR:
+            sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntBgr);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_INT_RGB:
+            sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntRgb);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_INT_ARGB:
+            sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntArgb);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_INT_ARGB_PRE:
+            sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntArgbPrf);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_3BYTE_BGR:
+            sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.ThrffBytfBgr, 2);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR:
+            sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.FourBytfAbgr, 3);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR_PRE:
+            sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.FourBytfAbgrPrf, 3);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_USHORT_565_RGB:
+            sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.Ushort565Rgb, null);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_USHORT_555_RGB:
+            sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.Ushort555Rgb, null);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_BYTE_INDEXED:
+            {
+                SurfbdfTypf sTypf;
+                switdh (dm.gftTrbnspbrfndy()) {
+                dbsf OPAQUE:
+                    if (isOpbqufGrby((IndfxColorModfl)dm)) {
+                        sTypf = SurfbdfTypf.Indfx8Grby;
+                    } flsf {
+                        sTypf = SurfbdfTypf.BytfIndfxfdOpbquf;
+                    }
+                    brfbk;
+                dbsf BITMASK:
+                    sTypf = SurfbdfTypf.BytfIndfxfdBm;
+                    brfbk;
+                dbsf TRANSLUCENT:
+                    sTypf = SurfbdfTypf.BytfIndfxfd;
+                    brfbk;
+                dffbult:
+                    throw nfw IntfrnblError("Unrfdognizfd trbnspbrfndy");
+                }
+                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 0);
+            }
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_BYTE_GRAY:
+            sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.BytfGrby, 0);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_USHORT_GRAY:
+            sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.UshortGrby, null);
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_BYTE_BINARY:
+            {
+                SurfbdfTypf sTypf;
+                SbmplfModfl sm = bufImg.gftRbstfr().gftSbmplfModfl();
+                switdh (sm.gftSbmplfSizf(0)) {
+                dbsf 1:
+                    sTypf = SurfbdfTypf.BytfBinbry1Bit;
+                    brfbk;
+                dbsf 2:
+                    sTypf = SurfbdfTypf.BytfBinbry2Bit;
+                    brfbk;
+                dbsf 4:
+                    sTypf = SurfbdfTypf.BytfBinbry4Bit;
+                    brfbk;
+                dffbult:
+                    throw nfw IntfrnblError("Unrfdognizfd pixfl sizf");
+                }
+                sDbtb = drfbtfDbtbBP(bufImg, sTypf);
+            }
+            brfbk;
+        dbsf BufffrfdImbgf.TYPE_CUSTOM:
+        dffbult:
+            {
+                Rbstfr rbstfr = bufImg.gftRbstfr();
+                int numBbnds = rbstfr.gftNumBbnds();
+                if (rbstfr instbndfof IntfgfrComponfntRbstfr &&
+                    rbstfr.gftNumDbtbElfmfnts() == 1 &&
+                    ((IntfgfrComponfntRbstfr)rbstfr).gftPixflStridf() == 1)
+                {
+                    SurfbdfTypf sTypf = SurfbdfTypf.AnyInt;
+                    if (dm instbndfof DirfdtColorModfl) {
+                        DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                        int bMbsk = ddm.gftAlphbMbsk();
+                        int rMbsk = ddm.gftRfdMbsk();
+                        int gMbsk = ddm.gftGrffnMbsk();
+                        int bMbsk = ddm.gftBlufMbsk();
+                        if (numBbnds == 3 &&
+                            bMbsk == 0 &&
+                            rMbsk == DCM_RGBX_RED_MASK &&
+                            gMbsk == DCM_RGBX_GREEN_MASK &&
+                            bMbsk == DCM_RGBX_BLUE_MASK)
+                        {
+                            sTypf = SurfbdfTypf.IntRgbx;
+                        } flsf if (numBbnds == 4 &&
+                                   bMbsk == DCM_ARGBBM_ALPHA_MASK &&
+                                   rMbsk == DCM_ARGBBM_RED_MASK &&
+                                   gMbsk == DCM_ARGBBM_GREEN_MASK &&
+                                   bMbsk == DCM_ARGBBM_BLUE_MASK)
+                        {
+                            sTypf = SurfbdfTypf.IntArgbBm;
+                        } flsf {
+                            sTypf = SurfbdfTypf.AnyDdm;
+                        }
+                    }
+                    sDbtb = drfbtfDbtbIC(bufImg, sTypf);
+                    brfbk;
+                } flsf if (rbstfr instbndfof ShortComponfntRbstfr &&
+                           rbstfr.gftNumDbtbElfmfnts() == 1 &&
+                           ((ShortComponfntRbstfr)rbstfr).gftPixflStridf() == 1)
+                {
+                    SurfbdfTypf sTypf = SurfbdfTypf.AnyShort;
+                    IndfxColorModfl idm = null;
+                    if (dm instbndfof DirfdtColorModfl) {
+                        DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                        int bMbsk = ddm.gftAlphbMbsk();
+                        int rMbsk = ddm.gftRfdMbsk();
+                        int gMbsk = ddm.gftGrffnMbsk();
+                        int bMbsk = ddm.gftBlufMbsk();
+                        if (numBbnds == 3 &&
+                            bMbsk == 0 &&
+                            rMbsk == DCM_555X_RED_MASK &&
+                            gMbsk == DCM_555X_GREEN_MASK &&
+                            bMbsk == DCM_555X_BLUE_MASK)
+                        {
+                            sTypf = SurfbdfTypf.Ushort555Rgbx;
+                        } flsf
+                        if (numBbnds == 4 &&
+                            bMbsk == DCM_4444_ALPHA_MASK &&
+                            rMbsk == DCM_4444_RED_MASK &&
+                            gMbsk == DCM_4444_GREEN_MASK &&
+                            bMbsk == DCM_4444_BLUE_MASK)
+                        {
+                            sTypf = SurfbdfTypf.Ushort4444Argb;
+                        }
+                    } flsf if (dm instbndfof IndfxColorModfl) {
+                        idm = (IndfxColorModfl)dm;
+                        if (idm.gftPixflSizf() == 12) {
+                            if (isOpbqufGrby(idm)) {
+                                sTypf = SurfbdfTypf.Indfx12Grby;
+                            } flsf {
+                                sTypf = SurfbdfTypf.UshortIndfxfd;
+                            }
+                        } flsf {
+                            idm = null;
+                        }
+                    }
+                    sDbtb = drfbtfDbtbSC(bufImg, sTypf, idm);
+                    brfbk;
+                }
+                sDbtb = nfw BufImgSurfbdfDbtb(rbstfr.gftDbtbBufffr(),
+                                              bufImg, SurfbdfTypf.Custom);
+            }
+            brfbk;
+        }
+        ((BufImgSurfbdfDbtb) sDbtb).initSolidLoops();
+        rfturn sDbtb;
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtb(Rbstfr rbs, ColorModfl dm) {
+        throw nfw IntfrnblError("SurfbdfDbtb not implfmfntfd for Rbstfr/CM");
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtbIC(BufffrfdImbgf bImg,
+                                           SurfbdfTypf sTypf) {
+        IntfgfrComponfntRbstfr idRbstfr =
+            (IntfgfrComponfntRbstfr)bImg.gftRbstfr();
+        BufImgSurfbdfDbtb bisd =
+            nfw BufImgSurfbdfDbtb(idRbstfr.gftDbtbBufffr(), bImg, sTypf);
+        bisd.initRbstfr(idRbstfr.gftDbtbStorbgf(),
+                        idRbstfr.gftDbtbOffsft(0) * 4, 0,
+                        idRbstfr.gftWidth(),
+                        idRbstfr.gftHfight(),
+                        idRbstfr.gftPixflStridf() * 4,
+                        idRbstfr.gftSdbnlinfStridf() * 4,
+                        null);
+        rfturn bisd;
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtbSC(BufffrfdImbgf bImg,
+                                           SurfbdfTypf sTypf,
+                                           IndfxColorModfl idm) {
+        ShortComponfntRbstfr sdRbstfr =
+            (ShortComponfntRbstfr)bImg.gftRbstfr();
+        BufImgSurfbdfDbtb bisd =
+            nfw BufImgSurfbdfDbtb(sdRbstfr.gftDbtbBufffr(), bImg, sTypf);
+        bisd.initRbstfr(sdRbstfr.gftDbtbStorbgf(),
+                        sdRbstfr.gftDbtbOffsft(0) * 2, 0,
+                        sdRbstfr.gftWidth(),
+                        sdRbstfr.gftHfight(),
+                        sdRbstfr.gftPixflStridf() * 2,
+                        sdRbstfr.gftSdbnlinfStridf() * 2,
+                        idm);
+        rfturn bisd;
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtbBC(BufffrfdImbgf bImg,
+                                           SurfbdfTypf sTypf,
+                                           int primbryBbnk) {
+        BytfComponfntRbstfr bdRbstfr =
+            (BytfComponfntRbstfr)bImg.gftRbstfr();
+        BufImgSurfbdfDbtb bisd =
+            nfw BufImgSurfbdfDbtb(bdRbstfr.gftDbtbBufffr(), bImg, sTypf);
+        ColorModfl dm = bImg.gftColorModfl();
+        IndfxColorModfl idm = ((dm instbndfof IndfxColorModfl)
+                               ? (IndfxColorModfl) dm
+                               : null);
+        bisd.initRbstfr(bdRbstfr.gftDbtbStorbgf(),
+                        bdRbstfr.gftDbtbOffsft(primbryBbnk), 0,
+                        bdRbstfr.gftWidth(),
+                        bdRbstfr.gftHfight(),
+                        bdRbstfr.gftPixflStridf(),
+                        bdRbstfr.gftSdbnlinfStridf(),
+                        idm);
+        rfturn bisd;
+    }
+
+    publid stbtid SurfbdfDbtb drfbtfDbtbBP(BufffrfdImbgf bImg,
+                                           SurfbdfTypf sTypf) {
+        BytfPbdkfdRbstfr bpRbstfr =
+            (BytfPbdkfdRbstfr)bImg.gftRbstfr();
+        BufImgSurfbdfDbtb bisd =
+            nfw BufImgSurfbdfDbtb(bpRbstfr.gftDbtbBufffr(), bImg, sTypf);
+        ColorModfl dm = bImg.gftColorModfl();
+        IndfxColorModfl idm = ((dm instbndfof IndfxColorModfl)
+                               ? (IndfxColorModfl) dm
+                               : null);
+        bisd.initRbstfr(bpRbstfr.gftDbtbStorbgf(),
+                        bpRbstfr.gftDbtbBitOffsft() / 8,
+                        bpRbstfr.gftDbtbBitOffsft() & 7,
+                        bpRbstfr.gftWidth(),
+                        bpRbstfr.gftHfight(),
+                        0,
+                        bpRbstfr.gftSdbnlinfStridf(),
+                        idm);
+        rfturn bisd;
+    }
+
+    publid RfndfrLoops gftRfndfrLoops(SunGrbphids2D sg2d) {
+        if (sg2d.pbintStbtf <= SunGrbphids2D.PAINT_ALPHACOLOR &&
+            sg2d.dompositfStbtf <= SunGrbphids2D.COMP_ISCOPY)
+        {
+            rfturn solidloops;
+        }
+        rfturn supfr.gftRfndfrLoops(sg2d);
+    }
+
+    publid jbvb.bwt.imbgf.Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        rfturn bufImg.gftRbstfr();
+    }
+
+    /**
+     * Initiblizfs thf nbtivf Ops pointfr.
+     */
+    protfdtfd nbtivf void initRbstfr(Objfdt thfArrby,
+                                     int offsft,
+                                     int bitoffsft,
+                                     int width,
+                                     int hfight,
+                                     int pixStr,
+                                     int sdbnStr,
+                                     IndfxColorModfl idm);
+
+    publid BufImgSurfbdfDbtb(DbtbBufffr db,
+                             BufffrfdImbgf bufImg, SurfbdfTypf sTypf)
+    {
+        supfr(SunWritbblfRbstfr.stfblTrbdkbblf(db),
+              sTypf, bufImg.gftColorModfl());
+        this.bufImg = bufImg;
+    }
+
+    protfdtfd BufImgSurfbdfDbtb(SurfbdfTypf surfbdfTypf, ColorModfl dm) {
+        supfr(surfbdfTypf, dm);
+    }
+
+    publid void initSolidLoops() {
+        this.solidloops = gftSolidLoops(gftSurfbdfTypf());
+    }
+
+    privbtf stbtid finbl int CACHE_SIZE = 5;
+    privbtf stbtid RfndfrLoops loopdbdhf[] = nfw RfndfrLoops[CACHE_SIZE];
+    privbtf stbtid SurfbdfTypf typfdbdhf[] = nfw SurfbdfTypf[CACHE_SIZE];
+    publid stbtid syndhronizfd RfndfrLoops gftSolidLoops(SurfbdfTypf typf) {
+        for (int i = CACHE_SIZE - 1; i >= 0; i--) {
+            SurfbdfTypf t = typfdbdhf[i];
+            if (t == typf) {
+                rfturn loopdbdhf[i];
+            } flsf if (t == null) {
+                brfbk;
+            }
+        }
+        RfndfrLoops l = mbkfRfndfrLoops(SurfbdfTypf.OpbqufColor,
+                                        CompositfTypf.SrdNoEb,
+                                        typf);
+        Systfm.brrbydopy(loopdbdhf, 1, loopdbdhf, 0, CACHE_SIZE-1);
+        Systfm.brrbydopy(typfdbdhf, 1, typfdbdhf, 0, CACHE_SIZE-1);
+        loopdbdhf[CACHE_SIZE - 1] = l;
+        typfdbdhf[CACHE_SIZE - 1] = typf;
+        rfturn l;
+    }
+
+    publid SurfbdfDbtb gftRfplbdfmfnt() {
+        // BufImgSurfbdfDbtb objfdts should nfvfr losf thfir dontfnts,
+        // so this mfthod should nfvfr bf dbllfd.
+        rfturn rfstorfContfnts(bufImg);
+    }
+
+    publid syndhronizfd GrbphidsConfigurbtion gftDfvidfConfigurbtion() {
+        if (grbphidsConfig == null) {
+            grbphidsConfig = BufffrfdImbgfGrbphidsConfig.gftConfig(bufImg);
+        }
+        rfturn grbphidsConfig;
+    }
+
+    publid jbvb.bwt.Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(bufImg.gftWidth(), bufImg.gftHfight());
+    }
+
+    protfdtfd void dhfdkCustomCompositf() {
+        // BufffrfdImbgfs blwbys bllow Custom Compositf objfdts sindf
+        // thfir pixfls brf immfdibtfly rftrifvbblf bnywby.
+    }
+
+    privbtf stbtid nbtivf void frffNbtivfICMDbtb(long pDbtb);
+
+    /**
+     * Rfturns dfstinbtion Imbgf bssodibtfd with this SurfbdfDbtb.
+     */
+    publid Objfdt gftDfstinbtion() {
+        rfturn bufImg;
+    }
+
+    publid stbtid finbl dlbss ICMColorDbtb {
+        privbtf long pDbtb = 0L;
+
+        privbtf ICMColorDbtb(long pDbtb) {
+            this.pDbtb = pDbtb;
+        }
+
+        publid void finblizf() {
+            if (pDbtb != 0L) {
+                BufImgSurfbdfDbtb.frffNbtivfICMDbtb(pDbtb);
+                pDbtb = 0L;
+            }
+        }
+    }
+}

@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.im;
+pbdkbgf jbvb.bwt.im;
 
-import java.awt.Rectangle;
-import java.awt.font.TextHitInfo;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
 
 /**
- * InputMethodRequests defines the requests that a text editing component
- * has to handle in order to work with input methods. The component
- * can implement this interface itself or use a separate object that
- * implements it. The object implementing this interface must be returned
- * from the component's getInputMethodRequests method.
+ * InputMftiodRfqufsts dffinfs tif rfqufsts tibt b tfxt fditing domponfnt
+ * ibs to ibndlf in ordfr to work witi input mftiods. Tif domponfnt
+ * dbn implfmfnt tiis intfrfbdf itsflf or usf b sfpbrbtf objfdt tibt
+ * implfmfnts it. Tif objfdt implfmfnting tiis intfrfbdf must bf rfturnfd
+ * from tif domponfnt's gftInputMftiodRfqufsts mftiod.
  *
  * <p>
- * The text editing component also has to provide an input method event
- * listener.
+ * Tif tfxt fditing domponfnt blso ibs to providf bn input mftiod fvfnt
+ * listfnfr.
  *
  * <p>
- * The interface is designed to support one of two input user interfaces:
+ * Tif intfrfbdf is dfsignfd to support onf of two input usfr intfrfbdfs:
  * <ul>
- * <li><em>on-the-spot</em> input, where the composed text is displayed as part
- *     of the text component's text body.
- * <li><em>below-the-spot</em> input, where the composed text is displayed in
- *     a separate composition window just below the insertion point where
- *     the text will be inserted when it is committed. Note that, if text is
- *     selected within the component's text body, this text will be replaced by
- *     the committed text upon commitment; therefore it is not considered part
- *     of the context that the text is input into.
+ * <li><fm>on-tif-spot</fm> input, wifrf tif domposfd tfxt is displbyfd bs pbrt
+ *     of tif tfxt domponfnt's tfxt body.
+ * <li><fm>bflow-tif-spot</fm> input, wifrf tif domposfd tfxt is displbyfd in
+ *     b sfpbrbtf domposition window just bflow tif insfrtion point wifrf
+ *     tif tfxt will bf insfrtfd wifn it is dommittfd. Notf tibt, if tfxt is
+ *     sflfdtfd witiin tif domponfnt's tfxt body, tiis tfxt will bf rfplbdfd by
+ *     tif dommittfd tfxt upon dommitmfnt; tifrfforf it is not donsidfrfd pbrt
+ *     of tif dontfxt tibt tif tfxt is input into.
  * </ul>
  *
- * @see java.awt.Component#getInputMethodRequests
- * @see java.awt.event.InputMethodListener
+ * @sff jbvb.bwt.Componfnt#gftInputMftiodRfqufsts
+ * @sff jbvb.bwt.fvfnt.InputMftiodListfnfr
  *
- * @author JavaSoft Asia/Pacific
- * @since 1.2
+ * @butior JbvbSoft Asib/Pbdifid
+ * @sindf 1.2
  */
 
-public interface InputMethodRequests {
+publid intfrfbdf InputMftiodRfqufsts {
 
     /**
-     * Gets the location of a specified offset in the current composed text,
-     * or of the selection in committed text.
-     * This information is, for example, used to position the candidate window
-     * near the composed text, or a composition window near the location
-     * where committed text will be inserted.
+     * Gfts tif lodbtion of b spfdififd offsft in tif durrfnt domposfd tfxt,
+     * or of tif sflfdtion in dommittfd tfxt.
+     * Tiis informbtion is, for fxbmplf, usfd to position tif dbndidbtf window
+     * nfbr tif domposfd tfxt, or b domposition window nfbr tif lodbtion
+     * wifrf dommittfd tfxt will bf insfrtfd.
      *
      * <p>
-     * If the component has composed text (because the most recent
-     * InputMethodEvent sent to it contained composed text), then the offset is
-     * relative to the composed text - offset 0 indicates the first character
-     * in the composed text. The location returned should be for this character.
+     * If tif domponfnt ibs domposfd tfxt (bfdbusf tif most rfdfnt
+     * InputMftiodEvfnt sfnt to it dontbinfd domposfd tfxt), tifn tif offsft is
+     * rflbtivf to tif domposfd tfxt - offsft 0 indidbtfs tif first dibrbdtfr
+     * in tif domposfd tfxt. Tif lodbtion rfturnfd siould bf for tiis dibrbdtfr.
      *
      * <p>
-     * If the component doesn't have composed text, the offset should be ignored,
-     * and the location returned should reflect the beginning (in line
-     * direction) of the highlight in the last line containing selected text.
-     * For example, for horizontal left-to-right text (such as English), the
-     * location to the left of the left-most character on the last line
-     * containing selected text is returned. For vertical top-to-bottom text,
-     * with lines proceeding from right to left, the location to the top of the
-     * left-most line containing selected text is returned.
+     * If tif domponfnt dofsn't ibvf domposfd tfxt, tif offsft siould bf ignorfd,
+     * bnd tif lodbtion rfturnfd siould rfflfdt tif bfginning (in linf
+     * dirfdtion) of tif iigiligit in tif lbst linf dontbining sflfdtfd tfxt.
+     * For fxbmplf, for iorizontbl lfft-to-rigit tfxt (sudi bs Englisi), tif
+     * lodbtion to tif lfft of tif lfft-most dibrbdtfr on tif lbst linf
+     * dontbining sflfdtfd tfxt is rfturnfd. For vfrtidbl top-to-bottom tfxt,
+     * witi linfs prodffding from rigit to lfft, tif lodbtion to tif top of tif
+     * lfft-most linf dontbining sflfdtfd tfxt is rfturnfd.
      *
      * <p>
-     * The location is represented as a 0-thickness caret, that is, it has 0
-     * width if the text is drawn horizontally, and 0 height if the text is
-     * drawn vertically. Other text orientations need to be mapped to
-     * horizontal or vertical orientation. The rectangle uses absolute screen
-     * coordinates.
+     * Tif lodbtion is rfprfsfntfd bs b 0-tiidknfss dbrft, tibt is, it ibs 0
+     * widti if tif tfxt is drbwn iorizontblly, bnd 0 ifigit if tif tfxt is
+     * drbwn vfrtidblly. Otifr tfxt orifntbtions nffd to bf mbppfd to
+     * iorizontbl or vfrtidbl orifntbtion. Tif rfdtbnglf usfs bbsolutf sdrffn
+     * doordinbtfs.
      *
-     * @param offset the offset within the composed text, if there is composed
-     * text; null otherwise
-     * @return a rectangle representing the screen location of the offset
+     * @pbrbm offsft tif offsft witiin tif domposfd tfxt, if tifrf is domposfd
+     * tfxt; null otifrwisf
+     * @rfturn b rfdtbnglf rfprfsfnting tif sdrffn lodbtion of tif offsft
      */
-    Rectangle getTextLocation(TextHitInfo offset);
+    Rfdtbnglf gftTfxtLodbtion(TfxtHitInfo offsft);
 
     /**
-     * Gets the offset within the composed text for the specified absolute x
-     * and y coordinates on the screen. This information is used, for example
-     * to handle mouse clicks and the mouse cursor. The offset is relative to
-     * the composed text, so offset 0 indicates the beginning of the composed
-     * text.
+     * Gfts tif offsft witiin tif domposfd tfxt for tif spfdififd bbsolutf x
+     * bnd y doordinbtfs on tif sdrffn. Tiis informbtion is usfd, for fxbmplf
+     * to ibndlf mousf dlidks bnd tif mousf dursor. Tif offsft is rflbtivf to
+     * tif domposfd tfxt, so offsft 0 indidbtfs tif bfginning of tif domposfd
+     * tfxt.
      *
      * <p>
-     * Return null if the location is outside the area occupied by the composed
-     * text.
+     * Rfturn null if tif lodbtion is outsidf tif brfb oddupifd by tif domposfd
+     * tfxt.
      *
-     * @param x the absolute x coordinate on screen
-     * @param y the absolute y coordinate on screen
-     * @return a text hit info describing the offset in the composed text.
+     * @pbrbm x tif bbsolutf x doordinbtf on sdrffn
+     * @pbrbm y tif bbsolutf y doordinbtf on sdrffn
+     * @rfturn b tfxt iit info dfsdribing tif offsft in tif domposfd tfxt.
      */
-    TextHitInfo getLocationOffset(int x, int y);
+    TfxtHitInfo gftLodbtionOffsft(int x, int y);
 
     /**
-     * Gets the offset of the insert position in the committed text contained
-     * in the text editing component. This is the offset at which characters
-     * entered through an input method are inserted. This information is used
-     * by an input method, for example, to examine the text surrounding the
-     * insert position.
+     * Gfts tif offsft of tif insfrt position in tif dommittfd tfxt dontbinfd
+     * in tif tfxt fditing domponfnt. Tiis is tif offsft bt wiidi dibrbdtfrs
+     * fntfrfd tirougi bn input mftiod brf insfrtfd. Tiis informbtion is usfd
+     * by bn input mftiod, for fxbmplf, to fxbminf tif tfxt surrounding tif
+     * insfrt position.
      *
-     * @return the offset of the insert position
+     * @rfturn tif offsft of tif insfrt position
      */
-    int getInsertPositionOffset();
+    int gftInsfrtPositionOffsft();
 
     /**
-     * Gets an iterator providing access to the entire text and attributes
-     * contained in the text editing component except for uncommitted
-     * text. Uncommitted (composed) text should be ignored for index
-     * calculations and should not be made accessible through the iterator.
+     * Gfts bn itfrbtor providing bddfss to tif fntirf tfxt bnd bttributfs
+     * dontbinfd in tif tfxt fditing domponfnt fxdfpt for undommittfd
+     * tfxt. Undommittfd (domposfd) tfxt siould bf ignorfd for indfx
+     * dbldulbtions bnd siould not bf mbdf bddfssiblf tirougi tif itfrbtor.
      *
      * <p>
-     * The input method may provide a list of attributes that it is
-     * interested in. In that case, information about other attributes that
-     * the implementor may have need not be made accessible through the
-     * iterator. If the list is null, all available attribute information
-     * should be made accessible.
+     * Tif input mftiod mby providf b list of bttributfs tibt it is
+     * intfrfstfd in. In tibt dbsf, informbtion bbout otifr bttributfs tibt
+     * tif implfmfntor mby ibvf nffd not bf mbdf bddfssiblf tirougi tif
+     * itfrbtor. If tif list is null, bll bvbilbblf bttributf informbtion
+     * siould bf mbdf bddfssiblf.
      *
-     * @param beginIndex the index of the first character
-     * @param endIndex the index of the character following the last character
-     * @param attributes a list of attributes that the input method is
-     * interested in
-     * @return an iterator providing access to the text and its attributes
+     * @pbrbm bfginIndfx tif indfx of tif first dibrbdtfr
+     * @pbrbm fndIndfx tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr
+     * @pbrbm bttributfs b list of bttributfs tibt tif input mftiod is
+     * intfrfstfd in
+     * @rfturn bn itfrbtor providing bddfss to tif tfxt bnd its bttributfs
      */
-    AttributedCharacterIterator getCommittedText(int beginIndex, int endIndex,
-                                                 Attribute[] attributes);
+    AttributfdCibrbdtfrItfrbtor gftCommittfdTfxt(int bfginIndfx, int fndIndfx,
+                                                 Attributf[] bttributfs);
 
     /**
-     * Gets the length of the entire text contained in the text
-     * editing component except for uncommitted (composed) text.
+     * Gfts tif lfngti of tif fntirf tfxt dontbinfd in tif tfxt
+     * fditing domponfnt fxdfpt for undommittfd (domposfd) tfxt.
      *
-     * @return the length of the text except for uncommitted text
+     * @rfturn tif lfngti of tif tfxt fxdfpt for undommittfd tfxt
      */
-    int getCommittedTextLength();
+    int gftCommittfdTfxtLfngti();
 
     /**
-     * Gets the latest committed text from the text editing component and
-     * removes it from the component's text body.
-     * This is used for the "Undo Commit" feature in some input methods, where
-     * the committed text reverts to its previous composed state. The composed
-     * text will be sent to the component using an InputMethodEvent.
+     * Gfts tif lbtfst dommittfd tfxt from tif tfxt fditing domponfnt bnd
+     * rfmovfs it from tif domponfnt's tfxt body.
+     * Tiis is usfd for tif "Undo Commit" ffbturf in somf input mftiods, wifrf
+     * tif dommittfd tfxt rfvfrts to its prfvious domposfd stbtf. Tif domposfd
+     * tfxt will bf sfnt to tif domponfnt using bn InputMftiodEvfnt.
      *
      * <p>
-     * Generally, this feature should only be supported immediately after the
-     * text was committed, not after the user performed other operations on the
-     * text. When the feature is not supported, return null.
+     * Gfnfrblly, tiis ffbturf siould only bf supportfd immfdibtfly bftfr tif
+     * tfxt wbs dommittfd, not bftfr tif usfr pfrformfd otifr opfrbtions on tif
+     * tfxt. Wifn tif ffbturf is not supportfd, rfturn null.
      *
      * <p>
-     * The input method may provide a list of attributes that it is
-     * interested in. In that case, information about other attributes that
-     * the implementor may have need not be made accessible through the
-     * iterator. If the list is null, all available attribute information
-     * should be made accessible.
+     * Tif input mftiod mby providf b list of bttributfs tibt it is
+     * intfrfstfd in. In tibt dbsf, informbtion bbout otifr bttributfs tibt
+     * tif implfmfntor mby ibvf nffd not bf mbdf bddfssiblf tirougi tif
+     * itfrbtor. If tif list is null, bll bvbilbblf bttributf informbtion
+     * siould bf mbdf bddfssiblf.
      *
-     * @param attributes a list of attributes that the input method is
-     * interested in
-     * @return the latest committed text, or null when the "Undo Commit"
-     * feature is not supported
+     * @pbrbm bttributfs b list of bttributfs tibt tif input mftiod is
+     * intfrfstfd in
+     * @rfturn tif lbtfst dommittfd tfxt, or null wifn tif "Undo Commit"
+     * ffbturf is not supportfd
      */
-    AttributedCharacterIterator cancelLatestCommittedText(Attribute[] attributes);
+    AttributfdCibrbdtfrItfrbtor dbndflLbtfstCommittfdTfxt(Attributf[] bttributfs);
 
     /**
-     * Gets the currently selected text from the text editing component.
-     * This may be used for a variety of purposes.
-     * One of them is the "Reconvert" feature in some input methods.
-     * In this case, the input method will typically send an input method event
-     * to replace the selected text with composed text. Depending on the input
-     * method's capabilities, this may be the original composed text for the
-     * selected text, the latest composed text entered anywhere in the text, or
-     * a version of the text that's converted back from the selected text.
+     * Gfts tif durrfntly sflfdtfd tfxt from tif tfxt fditing domponfnt.
+     * Tiis mby bf usfd for b vbrifty of purposfs.
+     * Onf of tifm is tif "Rfdonvfrt" ffbturf in somf input mftiods.
+     * In tiis dbsf, tif input mftiod will typidblly sfnd bn input mftiod fvfnt
+     * to rfplbdf tif sflfdtfd tfxt witi domposfd tfxt. Dfpfnding on tif input
+     * mftiod's dbpbbilitifs, tiis mby bf tif originbl domposfd tfxt for tif
+     * sflfdtfd tfxt, tif lbtfst domposfd tfxt fntfrfd bnywifrf in tif tfxt, or
+     * b vfrsion of tif tfxt tibt's donvfrtfd bbdk from tif sflfdtfd tfxt.
      *
      * <p>
-     * The input method may provide a list of attributes that it is
-     * interested in. In that case, information about other attributes that
-     * the implementor may have need not be made accessible through the
-     * iterator. If the list is null, all available attribute information
-     * should be made accessible.
+     * Tif input mftiod mby providf b list of bttributfs tibt it is
+     * intfrfstfd in. In tibt dbsf, informbtion bbout otifr bttributfs tibt
+     * tif implfmfntor mby ibvf nffd not bf mbdf bddfssiblf tirougi tif
+     * itfrbtor. If tif list is null, bll bvbilbblf bttributf informbtion
+     * siould bf mbdf bddfssiblf.
      *
-     * @param attributes a list of attributes that the input method is
-     * interested in
-     * @return the currently selected text
+     * @pbrbm bttributfs b list of bttributfs tibt tif input mftiod is
+     * intfrfstfd in
+     * @rfturn tif durrfntly sflfdtfd tfxt
      */
-    AttributedCharacterIterator getSelectedText(Attribute[] attributes);
+    AttributfdCibrbdtfrItfrbtor gftSflfdtfdTfxt(Attributf[] bttributfs);
 }

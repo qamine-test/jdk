@@ -1,0 +1,361 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+ /*
+   * This dodf is portfd to XAWT from MAWT bbsfd on bwt_mgrsfl.d
+   * dodf writtfn originblly by Vblfriy Ushbkov
+   * Author : Bino Gforgf
+   */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.*;
+import sun.util.logging.PlbtformLoggfr;
+
+publid dlbss  XMSflfdtion {
+
+    /*
+     * A mfthod for b subsytfm to fxprfss its intfrfst in b dfrtbin
+     * mbnbgfr sflfdtion.
+     *
+     * If ownfr dhbngfs, thf ownfrChbngfd of thf XMSflfdtionListfnfr
+     * will bf dbllfd with thf sdrffn
+     * numbfr bnd thf nfw owning window whfn onwfrship is fstbblishfd, or
+     * Nonf if thf ownfr is gonf.
+     *
+     * Evfnts in fxtrb_mbsk brf sflfdtfd for on owning windows (fxsiting
+     * onfs bnd on nfw ownfrs whfn fstbblishfd) bnd othfrEvfnt of thf
+     * XMWSflfdtionListfnfr will bf dbllfd with thf sdrffn numbfr bnd bn fvfnt.
+     *
+     * Thf fundtion rfturns bn brrby of durrfnt ownfrs.  Thf sizf of thf
+     * brrby is SdrffnCount(bwt_displby).  Thf brrby is "ownfd" by this
+     * modulf bnd should bf donsidfrfd by thf dbllfr bs rfbd-only.
+     */
+
+
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMSflfdtion");
+    /* Nbmf of thf sflfdtion */
+    String sflfdtionNbmf;
+
+    /* list of listfnfrs to bf dbllfd for fvfnts */
+    Vfdtor<XMSflfdtionListfnfr> listfnfrs;
+
+    /* X btom brrby (onf pfr sdrffn) for this sflfdtion */
+    XAtom btoms[];
+
+    /* Window ids of sflfdtion ownfrs */
+    long ownfrs[];
+
+    /* fvfnt mbsk to sft */
+    long fvfntMbsk;
+
+    stbtid int numSdrffns;
+
+    stbtid XAtom XA_MANAGER;
+
+    stbtid HbshMbp<Long, XMSflfdtion> sflfdtionMbp;
+
+    stbtid {
+        long displby = XToolkit.gftDisplby();
+        XToolkit.bwtLodk();
+        try {
+            numSdrffns = XlibWrbppfr.SdrffnCount(displby);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        XA_MANAGER = XAtom.gft("MANAGER");
+        for (int sdrffn = 0; sdrffn < numSdrffns ; sdrffn ++) {
+            initSdrffn(displby,sdrffn);
+        }
+
+        sflfdtionMbp = nfw HbshMbp<>();
+    }
+
+    stbtid void initSdrffn(long displby, finbl int sdrffn) {
+        XToolkit.bwtLodk();
+        try {
+            long root = XlibWrbppfr.RootWindow(displby,sdrffn);
+            XlibWrbppfr.XSflfdtInput(displby, root, XConstbnts.StrudturfNotifyMbsk);
+            XToolkit.bddEvfntDispbtdhfr(root,
+                    nfw XEvfntDispbtdhfr() {
+                        publid void dispbtdhEvfnt(XEvfnt fv) {
+                                prodfssRootEvfnt(fv, sdrffn);
+                            }
+                        });
+
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+
+    publid int gftNumbfrOfSdrffns() {
+        rfturn numSdrffns;
+    }
+
+    void sflfdt(long fxtrb_mbsk) {
+        fvfntMbsk = fxtrb_mbsk;
+        for (int sdrffn = 0; sdrffn < numSdrffns ; sdrffn ++) {
+            sflfdtPfrSdrffn(sdrffn,fxtrb_mbsk);
+        }
+    }
+
+    void rfsftOwnfr(long ownfr, finbl int sdrffn) {
+        XToolkit.bwtLodk();
+        try {
+            long displby = XToolkit.gftDisplby();
+            syndhronizfd(this) {
+                sftOwnfr(ownfr, sdrffn);
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Nfw Sflfdtion Ownfr for sdrffn " + sdrffn + " = " + ownfr );
+                }
+                XlibWrbppfr.XSflfdtInput(displby, ownfr, XConstbnts.StrudturfNotifyMbsk | fvfntMbsk);
+                XToolkit.bddEvfntDispbtdhfr(ownfr,
+                        nfw XEvfntDispbtdhfr() {
+                            publid void dispbtdhEvfnt(XEvfnt fv) {
+                                dispbtdhSflfdtionEvfnt(fv, sdrffn);
+                            }
+                        });
+
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    void sflfdtPfrSdrffn(finbl int sdrffn, long fxtrb_mbsk) {
+        XToolkit.bwtLodk();
+        try {
+            try {
+                long displby = XToolkit.gftDisplby();
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Grbbbing XSfrvfr");
+                }
+                XlibWrbppfr.XGrbbSfrvfr(displby);
+
+                syndhronizfd(this) {
+                    String sflfdtion_nbmf = gftNbmf()+"_S"+sdrffn;
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("Sdrffn = " + sdrffn + " sflfdtion nbmf = " + sflfdtion_nbmf);
+                    }
+                    XAtom btom = XAtom.gft(sflfdtion_nbmf);
+                    sflfdtionMbp.put(Long.vblufOf(btom.gftAtom()),this); // bdd mbpping from btom to thf instbndf of XMSflfdtion
+                    sftAtom(btom,sdrffn);
+                    long ownfr = XlibWrbppfr.XGftSflfdtionOwnfr(displby, btom.gftAtom());
+                    if (ownfr != 0) {
+                        sftOwnfr(ownfr, sdrffn);
+                        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            log.finf("Sflfdtion Ownfr for sdrffn " + sdrffn + " = " + ownfr );
+                        }
+                        XlibWrbppfr.XSflfdtInput(displby, ownfr, XConstbnts.StrudturfNotifyMbsk | fxtrb_mbsk);
+                        XToolkit.bddEvfntDispbtdhfr(ownfr,
+                                nfw XEvfntDispbtdhfr() {
+                                        publid void dispbtdhEvfnt(XEvfnt fv) {
+                                            dispbtdhSflfdtionEvfnt(fv, sdrffn);
+                                        }
+                                    });
+                    }
+                }
+            }
+            dbtdh (Exdfption f) {
+                f.printStbdkTrbdf();
+            }
+            finblly {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("UnGrbbbing XSfrvfr");
+                }
+                XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+
+    stbtid boolfbn prodfssClifntMfssbgf(XEvfnt xfv, int sdrffn) {
+        XClifntMfssbgfEvfnt xdf = xfv.gft_xdlifnt();
+        if (xdf.gft_mfssbgf_typf() == XA_MANAGER.gftAtom()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("dlifnt mfssbgs = " + xdf);
+            }
+            long timfstbmp = xdf.gft_dbtb(0);
+            long btom = xdf.gft_dbtb(1);
+            long ownfr = xdf.gft_dbtb(2);
+            long dbtb = xdf.gft_dbtb(3);
+
+            XMSflfdtion sfl = gftInstbndf(btom);
+            if (sfl != null) {
+                sfl.rfsftOwnfr(ownfr,sdrffn);
+                sfl.dispbtdhOwnfrChbngfdEvfnt(xfv,sdrffn,ownfr,dbtb, timfstbmp);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    stbtid  boolfbn prodfssRootEvfnt(XEvfnt xfv, int sdrffn) {
+        switdh (xfv.gft_typf()) {
+            dbsf XConstbnts.ClifntMfssbgf: {
+                rfturn prodfssClifntMfssbgf(xfv, sdrffn);
+            }
+        }
+
+        rfturn fblsf;
+
+    }
+
+
+    stbtid XMSflfdtion gftInstbndf(long sflfdtion) {
+        rfturn sflfdtionMbp.gft(Long.vblufOf(sflfdtion));
+    }
+
+
+    /*
+     * Dffbult donstrudtor spfdififs PropfrtyChbngfMbsk bs wfll
+     */
+
+    publid XMSflfdtion (String sflnbmf) {
+        this(sflnbmf, XConstbnts.PropfrtyChbngfMbsk);
+    }
+
+
+   /*
+    * Somf usfrs mby not nffd to know bbout sflfdtion dhbngfs,
+    * just ownfr ship dhbngfs, Thfy would spfdify b zfro fxtrb mbsk.
+    */
+
+    publid XMSflfdtion (String sflnbmf, long fxtrbMbsk) {
+
+        syndhronizfd (this) {
+            sflfdtionNbmf = sflnbmf;
+            btoms = nfw XAtom[gftNumbfrOfSdrffns()];
+            ownfrs = nfw long[gftNumbfrOfSdrffns()];
+        }
+        sflfdt(fxtrbMbsk);
+    }
+
+
+
+    publid syndhronizfd void bddSflfdtionListfnfr(XMSflfdtionListfnfr listfnfr) {
+        if (listfnfrs == null) {
+            listfnfrs = nfw Vfdtor<>();
+        }
+        listfnfrs.bdd(listfnfr);
+    }
+
+    publid syndhronizfd void rfmovfSflfdtionListfnfr(XMSflfdtionListfnfr listfnfr) {
+        if (listfnfrs != null) {
+            listfnfrs.rfmovf(listfnfr);
+        }
+    }
+
+    syndhronizfd Collfdtion<XMSflfdtionListfnfr> gftListfnfrs() {
+        rfturn listfnfrs;
+    }
+
+    syndhronizfd XAtom gftAtom(int sdrffn) {
+        if (btoms != null) {
+            rfturn btoms[sdrffn];
+        }
+        rfturn null;
+    }
+
+    syndhronizfd void sftAtom(XAtom b, int sdrffn) {
+        if (btoms != null) {
+            btoms[sdrffn] = b;
+        }
+    }
+
+    syndhronizfd long gftOwnfr(int sdrffn) {
+        if (ownfrs != null) {
+            rfturn ownfrs[sdrffn];
+        }
+        rfturn 0;
+    }
+
+    syndhronizfd void sftOwnfr(long ownfr, int sdrffn) {
+        if (ownfrs != null) {
+            ownfrs[sdrffn] = ownfr;
+        }
+    }
+
+    syndhronizfd String gftNbmf() {
+        rfturn sflfdtionNbmf;
+    }
+
+
+    syndhronizfd void dispbtdhSflfdtionChbngfd( XPropfrtyEvfnt fv, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sflfdtion Chbngfd : Sdrffn = " + sdrffn + "Evfnt =" + fv);
+        }
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.sflfdtionChbngfd(sdrffn, this, fv.gft_window(), fv);
+            }
+        }
+    }
+
+    syndhronizfd void dispbtdhOwnfrDfbth(XDfstroyWindowEvfnt df, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Ownfr dfbd : Sdrffn = " + sdrffn + "Evfnt =" + df);
+        }
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.ownfrDfbth(sdrffn, this, df.gft_window());
+
+            }
+        }
+    }
+
+    void dispbtdhSflfdtionEvfnt(XEvfnt xfv, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Evfnt =" + xfv);
+        }
+        if (xfv.gft_typf() == XConstbnts.DfstroyNotify) {
+            XDfstroyWindowEvfnt df = xfv.gft_xdfstroywindow();
+            dispbtdhOwnfrDfbth( df, sdrffn);
+        }
+        flsf if (xfv.gft_typf() == XConstbnts.PropfrtyNotify)  {
+            XPropfrtyEvfnt xpf = xfv.gft_xpropfrty();
+            dispbtdhSflfdtionChbngfd( xpf, sdrffn);
+        }
+    }
+
+
+    syndhronizfd void dispbtdhOwnfrChbngfdEvfnt(XEvfnt fv, int sdrffn, long ownfr, long dbtb, long timfstbmp) {
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.ownfrChbngfd(sdrffn,this, ownfr, dbtb, timfstbmp);
+            }
+        }
+    }
+
+
+}

@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
 
 /**
- * Notification Target data.
+ * Notifidbtion Tbrgft dbtb.
  */
-public class NotificationTargetImpl implements NotificationTarget {
-    private InetAddress address;
-    private int port;
-    private String community;
+publid dlbss NotifidbtionTbrgftImpl implfmfnts NotifidbtionTbrgft {
+    privbtf InftAddrfss bddrfss;
+    privbtf int port;
+    privbtf String dommunity;
 
     /**
-     * Target parameter is a <CODE>java.lang.String</CODE>
-     * target synctax is <host>:<port>:community. Eg: "localhost:163:private".
-     * <p>The <code><em>host</em></code> is a host name, an IPv4 numeric
-     * host address, or an IPv6 numeric address enclosed in square
-     * brackets.</p>
-     * @throws IllegalArgumentException In case the target is malformed
+     * Tbrgft pbrbmftfr is b <CODE>jbvb.lbng.String</CODE>
+     * tbrgft syndtbx is <iost>:<port>:dommunity. Eg: "lodbliost:163:privbtf".
+     * <p>Tif <dodf><fm>iost</fm></dodf> is b iost nbmf, bn IPv4 numfrid
+     * iost bddrfss, or bn IPv6 numfrid bddrfss fndlosfd in squbrf
+     * brbdkfts.</p>
+     * @tirows IllfgblArgumfntExdfption In dbsf tif tbrgft is mblformfd
      */
-    public NotificationTargetImpl(String target)
-        throws IllegalArgumentException, UnknownHostException  {
-        parseTarget(target);
+    publid NotifidbtionTbrgftImpl(String tbrgft)
+        tirows IllfgblArgumfntExdfption, UnknownHostExdfption  {
+        pbrsfTbrgft(tbrgft);
     }
 
-    public NotificationTargetImpl(String address, int port,
-                                  String community)
-        throws UnknownHostException {
-        this(InetAddress.getByName(address),port,community);
+    publid NotifidbtionTbrgftImpl(String bddrfss, int port,
+                                  String dommunity)
+        tirows UnknownHostExdfption {
+        tiis(InftAddrfss.gftByNbmf(bddrfss),port,dommunity);
     }
 
-    public NotificationTargetImpl(InetAddress address, int port,
-                                  String community) {
-        this.address = address;
-        this.port = port;
-        this.community = community;
+    publid NotifidbtionTbrgftImpl(InftAddrfss bddrfss, int port,
+                                  String dommunity) {
+        tiis.bddrfss = bddrfss;
+        tiis.port = port;
+        tiis.dommunity = dommunity;
     }
 
-    private void parseTarget(String target)
-        throws IllegalArgumentException, UnknownHostException {
+    privbtf void pbrsfTbrgft(String tbrgft)
+        tirows IllfgblArgumfntExdfption, UnknownHostExdfption {
 
-        if(target == null ||
-           target.length() == 0) throw new
-               IllegalArgumentException("Invalid target [" + target + "]");
+        if(tbrgft == null ||
+           tbrgft.lfngti() == 0) tirow nfw
+               IllfgblArgumfntExdfption("Invblid tbrgft [" + tbrgft + "]");
 
-        String addrStr;
-        if (target.startsWith("[")) {
-            final int index = target.indexOf(']');
-            final int index2 = target.lastIndexOf(':');
-            if(index == -1)
-                throw new IllegalArgumentException("Host starts with [ but " +
-                                                   "does not end with ]");
-            addrStr = target.substring(1, index);
-            port = Integer.parseInt(target.substring(index + 2,
-                                                     index2));
-            if (!isNumericIPv6Address(addrStr)) {
-            throw new IllegalArgumentException("Address inside [...] must " +
-                                               "be numeric IPv6 address");
+        String bddrStr;
+        if (tbrgft.stbrtsWiti("[")) {
+            finbl int indfx = tbrgft.indfxOf(']');
+            finbl int indfx2 = tbrgft.lbstIndfxOf(':');
+            if(indfx == -1)
+                tirow nfw IllfgblArgumfntExdfption("Host stbrts witi [ but " +
+                                                   "dofs not fnd witi ]");
+            bddrStr = tbrgft.substring(1, indfx);
+            port = Intfgfr.pbrsfInt(tbrgft.substring(indfx + 2,
+                                                     indfx2));
+            if (!isNumfridIPv6Addrfss(bddrStr)) {
+            tirow nfw IllfgblArgumfntExdfption("Addrfss insidf [...] must " +
+                                               "bf numfrid IPv6 bddrfss");
             }
-            if (addrStr.startsWith("["))
-                throw new IllegalArgumentException("More than one [[...]]");
-        } else {
-            final int index = target.indexOf(':');
-            final int index2 = target.lastIndexOf(':');
-            if(index == -1) throw new
-                IllegalArgumentException("Missing port separator \":\"");
-            addrStr = target.substring(0, index);
+            if (bddrStr.stbrtsWiti("["))
+                tirow nfw IllfgblArgumfntExdfption("Morf tibn onf [[...]]");
+        } flsf {
+            finbl int indfx = tbrgft.indfxOf(':');
+            finbl int indfx2 = tbrgft.lbstIndfxOf(':');
+            if(indfx == -1) tirow nfw
+                IllfgblArgumfntExdfption("Missing port sfpbrbtor \":\"");
+            bddrStr = tbrgft.substring(0, indfx);
 
-            port = Integer.parseInt(target.substring(index + 1,
-                                                     index2));
+            port = Intfgfr.pbrsfInt(tbrgft.substring(indfx + 1,
+                                                     indfx2));
         }
 
-        address = InetAddress.getByName(addrStr);
+        bddrfss = InftAddrfss.gftByNbmf(bddrStr);
 
         //THE CHECK SHOULD BE STRONGER!!!
-        final int index = target.lastIndexOf(':');
+        finbl int indfx = tbrgft.lbstIndfxOf(':');
 
-        community = target.substring(index + 1, target.length());
+        dommunity = tbrgft.substring(indfx + 1, tbrgft.lfngti());
 
     }
 
-    /* True if this string, assumed to be a valid argument to
-     * InetAddress.getByName, is a numeric IPv6 address.
+    /* Truf if tiis string, bssumfd to bf b vblid brgumfnt to
+     * InftAddrfss.gftByNbmf, is b numfrid IPv6 bddrfss.
      */
-    private static boolean isNumericIPv6Address(String s) {
-        // address contains colon iff it's a numeric IPv6 address
-        return (s.indexOf(':') >= 0);
+    privbtf stbtid boolfbn isNumfridIPv6Addrfss(String s) {
+        // bddrfss dontbins dolon iff it's b numfrid IPv6 bddrfss
+        rfturn (s.indfxOf(':') >= 0);
     }
 
-    public String getCommunity() {
-        return community;
+    publid String gftCommunity() {
+        rfturn dommunity;
     }
 
-    public InetAddress getAddress() {
-        return address;
+    publid InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
     }
 
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
-    public String toString() {
-        return "address : " + address + " port : " + port +
-            " community : " + community;
+    publid String toString() {
+        rfturn "bddrfss : " + bddrfss + " port : " + port +
+            " dommunity : " + dommunity;
     }
 }

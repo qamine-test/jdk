@@ -1,0 +1,169 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2009 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LbyoutEnginf.h"
+#indludf "OpfnTypfLbyoutEnginf.h"
+#indludf "IndidLbyoutEnginf.h"
+#indludf "SdriptAndLbngubgfTbgs.h"
+
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+
+#indludf "GDEFMbrkFiltfr.h"
+#indludf "LEGlyphStorbgf.h"
+
+#indludf "IndidRfordfring.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(IndidOpfnTypfLbyoutEnginf)
+
+IndidOpfnTypfLbyoutEnginf::IndidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                                                     lf_int32 typoFlbgs, lf_bool vfrsion2, donst LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> &gsubTbblf, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss), fMPrfFixups(NULL)
+{
+  if ( vfrsion2 ) {
+    fFfbturfMbp = IndidRfordfring::gftv2FfbturfMbp(fFfbturfMbpCount);
+  } flsf {
+    fFfbturfMbp = IndidRfordfring::gftFfbturfMbp(fFfbturfMbpCount);
+  }
+  fFfbturfOrdfr = TRUE;
+  fVfrsion2 = vfrsion2;
+  fFiltfrZfroWidth = IndidRfordfring::gftFiltfrZfroWidth(fSdriptCodf);
+}
+
+IndidOpfnTypfLbyoutEnginf::IndidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss), fMPrfFixups(NULL)
+{
+    fFfbturfMbp = IndidRfordfring::gftFfbturfMbp(fFfbturfMbpCount);
+    fFfbturfOrdfr = TRUE;
+    fVfrsion2 =  FALSE;
+}
+
+IndidOpfnTypfLbyoutEnginf::~IndidOpfnTypfLbyoutEnginf()
+{
+    // nothing to do
+}
+
+// Input: dhbrbdtfrs, tbgs
+// Output: glyphs, dhbr indidfs
+lf_int32 IndidOpfnTypfLbyoutEnginf::glyphProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+                    LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dhbrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
+    }
+
+    _LETRACE("IOTLE::gp, dblling pbrfnt");
+    lf_int32 rftCount = OpfnTypfLbyoutEnginf::glyphProdfssing(dhbrs, offsft, dount, mbx, rightToLfft, glyphStorbgf, suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (fVfrsion2) {
+      _LETRACE("IOTLE::gp, v2 finbl,");
+      IndidRfordfring::finblRfordfring(glyphStorbgf,rftCount);
+      _LETRACE("IOTLE::gp, v2 prfs");
+      IndidRfordfring::bpplyPrfsfntbtionForms(glyphStorbgf,rftCount);
+      _LETRACE("IOTLE::gp, pbrfnt gsub");
+      OpfnTypfLbyoutEnginf::glyphSubstitution(dount,mbx, rightToLfft, glyphStorbgf, suddfss);
+    } flsf {
+      _LETRACE("IOTLE::gp, bdjust mprfs");
+      IndidRfordfring::bdjustMPrfs(fMPrfFixups, glyphStorbgf, suddfss);
+    }
+    rfturn rftCount;
+}
+
+// Input: dhbrbdtfrs
+// Output: dhbrbdtfrs, dhbr indidfs, tbgs
+// Rfturns: output dhbrbdtfr dount
+lf_int32 IndidOpfnTypfLbyoutEnginf::dhbrbdtfrProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+        LEUnidodf *&outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    _LETRACE("IOTLE: dhbrProd");
+
+    if (dhbrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
+    }
+
+    lf_int32 worstCbsf = dount * IndidRfordfring::gftWorstCbsfExpbnsion(fSdriptCodf);
+
+    outChbrs = LE_NEW_ARRAY(LEUnidodf, worstCbsf);
+
+    if (outChbrs == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
+    }
+
+    glyphStorbgf.bllodbtfGlyphArrby(worstCbsf, rightToLfft, suddfss);
+    glyphStorbgf.bllodbtfAuxDbtb(suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+        LE_DELETE_ARRAY(outChbrs);
+        rfturn 0;
+    }
+
+    // NOTE: bssumfs this bllodbtfs ffbturfTbgs...
+    // (probbbly bfttfr thbn doing thf worst dbsf stuff hfrf...)
+
+    lf_int32 outChbrCount;
+    if (fVfrsion2) {
+        _LETRACE("v2prodfss");
+        outChbrCount = IndidRfordfring::v2prodfss(&dhbrs[offsft], dount, fSdriptCodf, outChbrs, glyphStorbgf, suddfss);
+    } flsf {
+        _LETRACE("rfordfr");
+        outChbrCount = IndidRfordfring::rfordfr(&dhbrs[offsft], dount, fSdriptCodf, outChbrs, glyphStorbgf, &fMPrfFixups, suddfss);
+    }
+
+    if (LE_FAILURE(suddfss)) {
+        LE_DELETE_ARRAY(outChbrs);
+        rfturn 0;
+    }
+
+    glyphStorbgf.bdoptGlyphCount(outChbrCount);
+    rfturn outChbrCount;
+}
+
+U_NAMESPACE_END

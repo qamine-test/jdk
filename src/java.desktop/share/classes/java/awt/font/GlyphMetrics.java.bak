@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * The <code>GlyphMetrics</code> class represents information for a
- * single glyph.   A glyph is the visual representation of one or more
- * characters.  Many different glyphs can be used to represent a single
- * character or combination of characters.  <code>GlyphMetrics</code>
- * instances are produced by {@link java.awt.Font Font} and are applicable
- * to a specific glyph in a particular <code>Font</code>.
+ * Tif <dodf>GlypiMftrids</dodf> dlbss rfprfsfnts informbtion for b
+ * singlf glypi.   A glypi is tif visubl rfprfsfntbtion of onf or morf
+ * dibrbdtfrs.  Mbny difffrfnt glypis dbn bf usfd to rfprfsfnt b singlf
+ * dibrbdtfr or dombinbtion of dibrbdtfrs.  <dodf>GlypiMftrids</dodf>
+ * instbndfs brf produdfd by {@link jbvb.bwt.Font Font} bnd brf bpplidbblf
+ * to b spfdifid glypi in b pbrtidulbr <dodf>Font</dodf>.
  * <p>
- * Glyphs are either STANDARD, LIGATURE, COMBINING, or COMPONENT.
+ * Glypis brf fitifr STANDARD, LIGATURE, COMBINING, or COMPONENT.
  * <ul>
- * <li>STANDARD glyphs are commonly used to represent single characters.
- * <li>LIGATURE glyphs are used to represent sequences of characters.
- * <li>COMPONENT glyphs in a {@link GlyphVector} do not correspond to a
- * particular character in a text model. Instead, COMPONENT glyphs are
- * added for typographical reasons, such as Arabic justification.
- * <li>COMBINING glyphs embellish STANDARD or LIGATURE glyphs, such
- * as accent marks.  Carets do not appear before COMBINING glyphs.
+ * <li>STANDARD glypis brf dommonly usfd to rfprfsfnt singlf dibrbdtfrs.
+ * <li>LIGATURE glypis brf usfd to rfprfsfnt sfqufndfs of dibrbdtfrs.
+ * <li>COMPONENT glypis in b {@link GlypiVfdtor} do not dorrfspond to b
+ * pbrtidulbr dibrbdtfr in b tfxt modfl. Instfbd, COMPONENT glypis brf
+ * bddfd for typogrbpiidbl rfbsons, sudi bs Arbbid justifidbtion.
+ * <li>COMBINING glypis fmbfllisi STANDARD or LIGATURE glypis, sudi
+ * bs bddfnt mbrks.  Cbrfts do not bppfbr bfforf COMBINING glypis.
  * </ul>
  * <p>
- * Other metrics available through <code>GlyphMetrics</code> are the
- * components of the advance, the visual bounds, and the left and right
- * side bearings.
+ * Otifr mftrids bvbilbblf tirougi <dodf>GlypiMftrids</dodf> brf tif
+ * domponfnts of tif bdvbndf, tif visubl bounds, bnd tif lfft bnd rigit
+ * sidf bfbrings.
  * <p>
- * Glyphs for a rotated font, or obtained from a <code>GlyphVector</code>
- * which has applied a rotation to the glyph, can have advances that
- * contain both X and Y components.  Usually the advance only has one
- * component.
+ * Glypis for b rotbtfd font, or obtbinfd from b <dodf>GlypiVfdtor</dodf>
+ * wiidi ibs bpplifd b rotbtion to tif glypi, dbn ibvf bdvbndfs tibt
+ * dontbin boti X bnd Y domponfnts.  Usublly tif bdvbndf only ibs onf
+ * domponfnt.
  * <p>
- * The advance of a glyph is the distance from the glyph's origin to the
- * origin of the next glyph along the baseline, which is either vertical
- * or horizontal.  Note that, in a <code>GlyphVector</code>,
- * the distance from a glyph to its following glyph might not be the
- * glyph's advance, because of kerning or other positioning adjustments.
+ * Tif bdvbndf of b glypi is tif distbndf from tif glypi's origin to tif
+ * origin of tif nfxt glypi blong tif bbsflinf, wiidi is fitifr vfrtidbl
+ * or iorizontbl.  Notf tibt, in b <dodf>GlypiVfdtor</dodf>,
+ * tif distbndf from b glypi to its following glypi migit not bf tif
+ * glypi's bdvbndf, bfdbusf of kfrning or otifr positioning bdjustmfnts.
  * <p>
- * The bounds is the smallest rectangle that completely contains the
- * outline of the glyph.  The bounds rectangle is relative to the
- * glyph's origin.  The left-side bearing is the distance from the glyph
- * origin to the left of its bounds rectangle. If the left-side bearing is
- * negative, part of the glyph is drawn to the left of its origin.  The
- * right-side bearing is the distance from the right side of the bounds
- * rectangle to the next glyph origin (the origin plus the advance).  If
- * negative, part of the glyph is drawn to the right of the next glyph's
- * origin.  Note that the bounds does not necessarily enclose all the pixels
- * affected when rendering the glyph, because of rasterization and pixel
- * adjustment effects.
+ * Tif bounds is tif smbllfst rfdtbnglf tibt domplftfly dontbins tif
+ * outlinf of tif glypi.  Tif bounds rfdtbnglf is rflbtivf to tif
+ * glypi's origin.  Tif lfft-sidf bfbring is tif distbndf from tif glypi
+ * origin to tif lfft of its bounds rfdtbnglf. If tif lfft-sidf bfbring is
+ * nfgbtivf, pbrt of tif glypi is drbwn to tif lfft of its origin.  Tif
+ * rigit-sidf bfbring is tif distbndf from tif rigit sidf of tif bounds
+ * rfdtbnglf to tif nfxt glypi origin (tif origin plus tif bdvbndf).  If
+ * nfgbtivf, pbrt of tif glypi is drbwn to tif rigit of tif nfxt glypi's
+ * origin.  Notf tibt tif bounds dofs not nfdfssbrily fndlosf bll tif pixfls
+ * bfffdtfd wifn rfndfring tif glypi, bfdbusf of rbstfrizbtion bnd pixfl
+ * bdjustmfnt ffffdts.
  * <p>
- * Although instances of <code>GlyphMetrics</code> can be directly
- * constructed, they are almost always obtained from a
- * <code>GlyphVector</code>.  Once constructed, <code>GlyphMetrics</code>
- * objects are immutable.
+ * Altiougi instbndfs of <dodf>GlypiMftrids</dodf> dbn bf dirfdtly
+ * donstrudtfd, tify brf blmost blwbys obtbinfd from b
+ * <dodf>GlypiVfdtor</dodf>.  Ondf donstrudtfd, <dodf>GlypiMftrids</dodf>
+ * objfdts brf immutbblf.
  * <p>
- * <strong>Example</strong>:<p>
- * Querying a <code>Font</code> for glyph information
- * <blockquote><pre>
+ * <strong>Exbmplf</strong>:<p>
+ * Qufrying b <dodf>Font</dodf> for glypi informbtion
+ * <blodkquotf><prf>
  * Font font = ...;
- * int glyphIndex = ...;
- * GlyphMetrics metrics = GlyphVector.getGlyphMetrics(glyphIndex);
- * int isStandard = metrics.isStandard();
- * float glyphAdvance = metrics.getAdvance();
- * </pre></blockquote>
- * @see java.awt.Font
- * @see GlyphVector
+ * int glypiIndfx = ...;
+ * GlypiMftrids mftrids = GlypiVfdtor.gftGlypiMftrids(glypiIndfx);
+ * int isStbndbrd = mftrids.isStbndbrd();
+ * flobt glypiAdvbndf = mftrids.gftAdvbndf();
+ * </prf></blodkquotf>
+ * @sff jbvb.bwt.Font
+ * @sff GlypiVfdtor
  */
 
-public final class GlyphMetrics {
+publid finbl dlbss GlypiMftrids {
     /**
-     * Indicates whether the metrics are for a horizontal or vertical baseline.
+     * Indidbtfs wiftifr tif mftrids brf for b iorizontbl or vfrtidbl bbsflinf.
      */
-    private boolean horizontal;
+    privbtf boolfbn iorizontbl;
 
     /**
-     * The x-component of the advance.
+     * Tif x-domponfnt of tif bdvbndf.
      */
-    private float advanceX;
+    privbtf flobt bdvbndfX;
 
     /**
-     * The y-component of the advance.
+     * Tif y-domponfnt of tif bdvbndf.
      */
-    private float advanceY;
+    privbtf flobt bdvbndfY;
 
     /**
-     * The bounds of the associated glyph.
+     * Tif bounds of tif bssodibtfd glypi.
      */
-    private Rectangle2D.Float bounds;
+    privbtf Rfdtbnglf2D.Flobt bounds;
 
     /**
-     * Additional information about the glyph encoded as a byte.
+     * Additionbl informbtion bbout tif glypi fndodfd bs b bytf.
      */
-    private byte glyphType;
+    privbtf bytf glypiTypf;
 
     /**
-     * Indicates a glyph that represents a single standard
-     * character.
+     * Indidbtfs b glypi tibt rfprfsfnts b singlf stbndbrd
+     * dibrbdtfr.
      */
-    public static final byte STANDARD = 0;
+    publid stbtid finbl bytf STANDARD = 0;
 
     /**
-     * Indicates a glyph that represents multiple characters
-     * as a ligature, for example 'fi' or 'ffi'.  It is followed by
-     * filler glyphs for the remaining characters. Filler and combining
-     * glyphs can be intermixed to control positioning of accent marks
-     * on the logically preceding ligature.
+     * Indidbtfs b glypi tibt rfprfsfnts multiplf dibrbdtfrs
+     * bs b ligbturf, for fxbmplf 'fi' or 'ffi'.  It is followfd by
+     * fillfr glypis for tif rfmbining dibrbdtfrs. Fillfr bnd dombining
+     * glypis dbn bf intfrmixfd to dontrol positioning of bddfnt mbrks
+     * on tif logidblly prfdfding ligbturf.
      */
-    public static final byte LIGATURE = 1;
+    publid stbtid finbl bytf LIGATURE = 1;
 
     /**
-     * Indicates a glyph that represents a combining character,
-     * such as an umlaut.  There is no caret position between this glyph
-     * and the preceding glyph.
+     * Indidbtfs b glypi tibt rfprfsfnts b dombining dibrbdtfr,
+     * sudi bs bn umlbut.  Tifrf is no dbrft position bftwffn tiis glypi
+     * bnd tif prfdfding glypi.
      */
-    public static final byte COMBINING = 2;
+    publid stbtid finbl bytf COMBINING = 2;
 
     /**
-     * Indicates a glyph with no corresponding character in the
-     * backing store.  The glyph is associated with the character
-     * represented by the logically preceding non-component glyph.  This
-     * is used for kashida justification or other visual modifications to
-     * existing glyphs.  There is no caret position between this glyph
-     * and the preceding glyph.
+     * Indidbtfs b glypi witi no dorrfsponding dibrbdtfr in tif
+     * bbdking storf.  Tif glypi is bssodibtfd witi tif dibrbdtfr
+     * rfprfsfntfd by tif logidblly prfdfding non-domponfnt glypi.  Tiis
+     * is usfd for kbsiidb justifidbtion or otifr visubl modifidbtions to
+     * fxisting glypis.  Tifrf is no dbrft position bftwffn tiis glypi
+     * bnd tif prfdfding glypi.
      */
-    public static final byte COMPONENT = 3;
+    publid stbtid finbl bytf COMPONENT = 3;
 
     /**
-     * Indicates a glyph with no visual representation. It can
-     * be added to the other code values to indicate an invisible glyph.
+     * Indidbtfs b glypi witi no visubl rfprfsfntbtion. It dbn
+     * bf bddfd to tif otifr dodf vblufs to indidbtf bn invisiblf glypi.
      */
-    public static final byte WHITESPACE = 4;
+    publid stbtid finbl bytf WHITESPACE = 4;
 
     /**
-     * Constructs a <code>GlyphMetrics</code> object.
-     * @param advance the advance width of the glyph
-     * @param bounds the black box bounds of the glyph
-     * @param glyphType the type of the glyph
+     * Construdts b <dodf>GlypiMftrids</dodf> objfdt.
+     * @pbrbm bdvbndf tif bdvbndf widti of tif glypi
+     * @pbrbm bounds tif blbdk box bounds of tif glypi
+     * @pbrbm glypiTypf tif typf of tif glypi
      */
-    public GlyphMetrics(float advance, Rectangle2D bounds, byte glyphType) {
-        this.horizontal = true;
-        this.advanceX = advance;
-        this.advanceY = 0;
-        this.bounds = new Rectangle2D.Float();
-        this.bounds.setRect(bounds);
-        this.glyphType = glyphType;
+    publid GlypiMftrids(flobt bdvbndf, Rfdtbnglf2D bounds, bytf glypiTypf) {
+        tiis.iorizontbl = truf;
+        tiis.bdvbndfX = bdvbndf;
+        tiis.bdvbndfY = 0;
+        tiis.bounds = nfw Rfdtbnglf2D.Flobt();
+        tiis.bounds.sftRfdt(bounds);
+        tiis.glypiTypf = glypiTypf;
     }
 
     /**
-     * Constructs a <code>GlyphMetrics</code> object.
-     * @param horizontal if true, metrics are for a horizontal baseline,
-     *   otherwise they are for a vertical baseline
-     * @param advanceX the X-component of the glyph's advance
-     * @param advanceY the Y-component of the glyph's advance
-     * @param bounds the visual bounds of the glyph
-     * @param glyphType the type of the glyph
-     * @since 1.4
+     * Construdts b <dodf>GlypiMftrids</dodf> objfdt.
+     * @pbrbm iorizontbl if truf, mftrids brf for b iorizontbl bbsflinf,
+     *   otifrwisf tify brf for b vfrtidbl bbsflinf
+     * @pbrbm bdvbndfX tif X-domponfnt of tif glypi's bdvbndf
+     * @pbrbm bdvbndfY tif Y-domponfnt of tif glypi's bdvbndf
+     * @pbrbm bounds tif visubl bounds of tif glypi
+     * @pbrbm glypiTypf tif typf of tif glypi
+     * @sindf 1.4
      */
-    public GlyphMetrics(boolean horizontal, float advanceX, float advanceY,
-                        Rectangle2D bounds, byte glyphType) {
+    publid GlypiMftrids(boolfbn iorizontbl, flobt bdvbndfX, flobt bdvbndfY,
+                        Rfdtbnglf2D bounds, bytf glypiTypf) {
 
-        this.horizontal = horizontal;
-        this.advanceX = advanceX;
-        this.advanceY = advanceY;
-        this.bounds = new Rectangle2D.Float();
-        this.bounds.setRect(bounds);
-        this.glyphType = glyphType;
+        tiis.iorizontbl = iorizontbl;
+        tiis.bdvbndfX = bdvbndfX;
+        tiis.bdvbndfY = bdvbndfY;
+        tiis.bounds = nfw Rfdtbnglf2D.Flobt();
+        tiis.bounds.sftRfdt(bounds);
+        tiis.glypiTypf = glypiTypf;
     }
 
     /**
-     * Returns the advance of the glyph along the baseline (either
-     * horizontal or vertical).
-     * @return the advance of the glyph
+     * Rfturns tif bdvbndf of tif glypi blong tif bbsflinf (fitifr
+     * iorizontbl or vfrtidbl).
+     * @rfturn tif bdvbndf of tif glypi
      */
-    public float getAdvance() {
-        return horizontal ? advanceX : advanceY;
+    publid flobt gftAdvbndf() {
+        rfturn iorizontbl ? bdvbndfX : bdvbndfY;
     }
 
     /**
-     * Returns the x-component of the advance of the glyph.
-     * @return the x-component of the advance of the glyph
-     * @since 1.4
+     * Rfturns tif x-domponfnt of tif bdvbndf of tif glypi.
+     * @rfturn tif x-domponfnt of tif bdvbndf of tif glypi
+     * @sindf 1.4
      */
-    public float getAdvanceX() {
-        return advanceX;
+    publid flobt gftAdvbndfX() {
+        rfturn bdvbndfX;
     }
 
     /**
-     * Returns the y-component of the advance of the glyph.
-     * @return the y-component of the advance of the glyph
-     * @since 1.4
+     * Rfturns tif y-domponfnt of tif bdvbndf of tif glypi.
+     * @rfturn tif y-domponfnt of tif bdvbndf of tif glypi
+     * @sindf 1.4
      */
-    public float getAdvanceY() {
-        return advanceY;
+    publid flobt gftAdvbndfY() {
+        rfturn bdvbndfY;
     }
 
     /**
-     * Returns the bounds of the glyph. This is the bounding box of the glyph outline.
-     * Because of rasterization and pixel alignment effects, it does not necessarily
-     * enclose the pixels that are affected when rendering the glyph.
-     * @return a {@link Rectangle2D} that is the bounds of the glyph.
+     * Rfturns tif bounds of tif glypi. Tiis is tif bounding box of tif glypi outlinf.
+     * Bfdbusf of rbstfrizbtion bnd pixfl blignmfnt ffffdts, it dofs not nfdfssbrily
+     * fndlosf tif pixfls tibt brf bfffdtfd wifn rfndfring tif glypi.
+     * @rfturn b {@link Rfdtbnglf2D} tibt is tif bounds of tif glypi.
      */
-    public Rectangle2D getBounds2D() {
-        return new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height);
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn nfw Rfdtbnglf2D.Flobt(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
     }
 
     /**
-     * Returns the left (top) side bearing of the glyph.
+     * Rfturns tif lfft (top) sidf bfbring of tif glypi.
      * <p>
-     * This is the distance from 0,&nbsp;0 to the left (top) of the glyph
-     * bounds.  If the bounds of the glyph is to the left of (above) the
-     * origin, the LSB is negative.
-     * @return the left side bearing of the glyph.
+     * Tiis is tif distbndf from 0,&nbsp;0 to tif lfft (top) of tif glypi
+     * bounds.  If tif bounds of tif glypi is to tif lfft of (bbovf) tif
+     * origin, tif LSB is nfgbtivf.
+     * @rfturn tif lfft sidf bfbring of tif glypi.
      */
-    public float getLSB() {
-        return horizontal ? bounds.x : bounds.y;
+    publid flobt gftLSB() {
+        rfturn iorizontbl ? bounds.x : bounds.y;
     }
 
     /**
-     * Returns the right (bottom) side bearing of the glyph.
+     * Rfturns tif rigit (bottom) sidf bfbring of tif glypi.
      * <p>
-     * This is the distance from the right (bottom) of the glyph bounds to
-     * the advance. If the bounds of the glyph is to the right of (below)
-     * the advance, the RSB is negative.
-     * @return the right side bearing of the glyph.
+     * Tiis is tif distbndf from tif rigit (bottom) of tif glypi bounds to
+     * tif bdvbndf. If tif bounds of tif glypi is to tif rigit of (bflow)
+     * tif bdvbndf, tif RSB is nfgbtivf.
+     * @rfturn tif rigit sidf bfbring of tif glypi.
      */
-    public float getRSB() {
-        return horizontal ?
-            advanceX - bounds.x - bounds.width :
-            advanceY - bounds.y - bounds.height;
+    publid flobt gftRSB() {
+        rfturn iorizontbl ?
+            bdvbndfX - bounds.x - bounds.widti :
+            bdvbndfY - bounds.y - bounds.ifigit;
     }
 
     /**
-     * Returns the raw glyph type code.
-     * @return the raw glyph type code.
+     * Rfturns tif rbw glypi typf dodf.
+     * @rfturn tif rbw glypi typf dodf.
      */
-    public int getType() {
-        return glyphType;
+    publid int gftTypf() {
+        rfturn glypiTypf;
     }
 
     /**
-     * Returns <code>true</code> if this is a standard glyph.
-     * @return <code>true</code> if this is a standard glyph;
-     *          <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tiis is b stbndbrd glypi.
+     * @rfturn <dodf>truf</dodf> if tiis is b stbndbrd glypi;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isStandard() {
-        return (glyphType & 0x3) == STANDARD;
+    publid boolfbn isStbndbrd() {
+        rfturn (glypiTypf & 0x3) == STANDARD;
     }
 
     /**
-     * Returns <code>true</code> if this is a ligature glyph.
-     * @return <code>true</code> if this is a ligature glyph;
-     *          <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tiis is b ligbturf glypi.
+     * @rfturn <dodf>truf</dodf> if tiis is b ligbturf glypi;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isLigature() {
-        return (glyphType & 0x3) == LIGATURE;
+    publid boolfbn isLigbturf() {
+        rfturn (glypiTypf & 0x3) == LIGATURE;
     }
 
     /**
-     * Returns <code>true</code> if this is a combining glyph.
-     * @return <code>true</code> if this is a combining glyph;
-     *          <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tiis is b dombining glypi.
+     * @rfturn <dodf>truf</dodf> if tiis is b dombining glypi;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isCombining() {
-        return (glyphType & 0x3) == COMBINING;
+    publid boolfbn isCombining() {
+        rfturn (glypiTypf & 0x3) == COMBINING;
     }
 
     /**
-     * Returns <code>true</code> if this is a component glyph.
-     * @return <code>true</code> if this is a component glyph;
-     *          <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tiis is b domponfnt glypi.
+     * @rfturn <dodf>truf</dodf> if tiis is b domponfnt glypi;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isComponent() {
-        return (glyphType & 0x3) == COMPONENT;
+    publid boolfbn isComponfnt() {
+        rfturn (glypiTypf & 0x3) == COMPONENT;
     }
 
     /**
-     * Returns <code>true</code> if this is a whitespace glyph.
-     * @return <code>true</code> if this is a whitespace glyph;
-     *          <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tiis is b wiitfspbdf glypi.
+     * @rfturn <dodf>truf</dodf> if tiis is b wiitfspbdf glypi;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isWhitespace() {
-        return (glyphType & 0x4) == WHITESPACE;
+    publid boolfbn isWiitfspbdf() {
+        rfturn (glypiTypf & 0x4) == WHITESPACE;
     }
 }

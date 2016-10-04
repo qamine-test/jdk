@@ -1,0 +1,283 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+
+import jbvbx.nft.ssl.SNIHostNbmf;
+import jbvbx.nft.ssl.SNIMbtdhfr;
+import jbvbx.nft.ssl.SNISfrvfrNbmf;
+import jbvbx.nft.ssl.SSLProtodolExdfption;
+import jbvbx.nft.ssl.StbndbrdConstbnts;
+
+/*
+ * [RFC 4366/6066] To fbdilitbtf sfdurf donnfdtions to sfrvfrs thbt host
+ * multiplf 'virtubl' sfrvfrs bt b singlf undfrlying nftwork bddrfss, dlifnts
+ * MAY indludf bn fxtfnsion of typf "sfrvfr_nbmf" in thf (fxtfndfd) dlifnt
+ * hfllo.  Thf "fxtfnsion_dbtb" fifld of this fxtfnsion SHALL dontbin
+ * "SfrvfrNbmfList" whfrf:
+ *
+ *     strudt {
+ *         NbmfTypf nbmf_typf;
+ *         sflfdt (nbmf_typf) {
+ *             dbsf host_nbmf: HostNbmf;
+ *         } nbmf;
+ *     } SfrvfrNbmf;
+ *
+ *     fnum {
+ *         host_nbmf(0), (255)
+ *     } NbmfTypf;
+ *
+ *     opbquf HostNbmf<1..2^16-1>;
+ *
+ *     strudt {
+ *         SfrvfrNbmf sfrvfr_nbmf_list<1..2^16-1>
+ *     } SfrvfrNbmfList;
+ */
+finbl dlbss SfrvfrNbmfExtfnsion fxtfnds HflloExtfnsion {
+
+    // For bbdkwbrd dompbtibility, bll futurf dbtb strudturfs bssodibtfd with
+    // nfw NbmfTypfs MUST bfgin with b 16-bit lfngth fifld.
+    finbl stbtid int NAME_HEADER_LENGTH = 3;    // NbmfTypf: 1 bytf
+                                                // Nbmf lfngth: 2 bytfs
+    privbtf Mbp<Intfgfr, SNISfrvfrNbmf> sniMbp;
+    privbtf int listLfngth;     // SfrvfrNbmfList lfngth
+
+    // donstrudtor for SfrvfrHfllo
+    SfrvfrNbmfExtfnsion() throws IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
+
+        listLfngth = 0;
+        sniMbp = Collfdtions.<Intfgfr, SNISfrvfrNbmf>fmptyMbp();
+    }
+
+    // donstrudtor for ClifntHfllo
+    SfrvfrNbmfExtfnsion(List<SNISfrvfrNbmf> sfrvfrNbmfs)
+            throws IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
+
+        listLfngth = 0;
+        sniMbp = nfw LinkfdHbshMbp<>();
+        for (SNISfrvfrNbmf sfrvfrNbmf : sfrvfrNbmfs) {
+            // dhfdk for duplidbtfd sfrvfr nbmf typf
+            if (sniMbp.put(sfrvfrNbmf.gftTypf(), sfrvfrNbmf) != null) {
+                // unlikfly to hbppfn, but in dbsf ...
+                throw nfw RuntimfExdfption(
+                    "Duplidbtfd sfrvfr nbmf of typf " + sfrvfrNbmf.gftTypf());
+            }
+
+            listLfngth += sfrvfrNbmf.gftEndodfd().lfngth + NAME_HEADER_LENGTH;
+        }
+
+        // This donstrudtor is usfd for ClifntHfllo only.  Empty list is
+        // not bllowfd in dlifnt modf.
+        if (listLfngth == 0) {
+            throw nfw RuntimfExdfption("Thf SfrvfrNbmfList dbnnot bf fmpty");
+        }
+    }
+
+    // donstrudtor for SfrvfrHfllo for pbrsing SNI fxtfnsion
+    SfrvfrNbmfExtfnsion(HbndshbkfInStrfbm s, int lfn)
+            throws IOExdfption {
+        supfr(ExtfnsionTypf.EXT_SERVER_NAME);
+
+        int rfmbins = lfn;
+        if (lfn >= 2) {    // "sfrvfr_nbmf" fxtfnsion in ClifntHfllo
+            listLfngth = s.gftInt16();     // SfrvfrNbmfList lfngth
+            if (listLfngth == 0 || listLfngth + 2 != lfn) {
+                throw nfw SSLProtodolExdfption(
+                        "Invblid " + typf + " fxtfnsion");
+            }
+
+            rfmbins -= 2;
+            sniMbp = nfw LinkfdHbshMbp<>();
+            whilf (rfmbins > 0) {
+                int dodf = s.gftInt8();       // NbmfTypf
+
+                // HostNbmf (lfngth rfbd in gftBytfs16);
+                bytf[] fndodfd = s.gftBytfs16();
+                SNISfrvfrNbmf sfrvfrNbmf;
+                switdh (dodf) {
+                    dbsf StbndbrdConstbnts.SNI_HOST_NAME:
+                        if (fndodfd.lfngth == 0) {
+                            throw nfw SSLProtodolExdfption(
+                                "Empty HostNbmf in sfrvfr nbmf indidbtion");
+                        }
+                        try {
+                            sfrvfrNbmf = nfw SNIHostNbmf(fndodfd);
+                        } dbtdh (IllfgblArgumfntExdfption ibf) {
+                            SSLProtodolExdfption spf = nfw SSLProtodolExdfption(
+                                "Illfgbl sfrvfr nbmf, typf=host_nbmf(" +
+                                dodf + "), nbmf=" +
+                                (nfw String(fndodfd, StbndbrdChbrsfts.UTF_8)) +
+                                ", vbluf=" + Dfbug.toString(fndodfd));
+                            spf.initCbusf(ibf);
+                            throw spf;
+                        }
+                        brfbk;
+                    dffbult:
+                        try {
+                            sfrvfrNbmf = nfw UnknownSfrvfrNbmf(dodf, fndodfd);
+                        } dbtdh (IllfgblArgumfntExdfption ibf) {
+                            SSLProtodolExdfption spf = nfw SSLProtodolExdfption(
+                                "Illfgbl sfrvfr nbmf, typf=(" + dodf +
+                                "), vbluf=" + Dfbug.toString(fndodfd));
+                            spf.initCbusf(ibf);
+                            throw spf;
+                        }
+                }
+                // dhfdk for duplidbtfd sfrvfr nbmf typf
+                if (sniMbp.put(sfrvfrNbmf.gftTypf(), sfrvfrNbmf) != null) {
+                    throw nfw SSLProtodolExdfption(
+                            "Duplidbtfd sfrvfr nbmf of typf " +
+                            sfrvfrNbmf.gftTypf());
+                }
+
+                rfmbins -= fndodfd.lfngth + NAME_HEADER_LENGTH;
+            }
+        } flsf if (lfn == 0) {     // "sfrvfr_nbmf" fxtfnsion in SfrvfrHfllo
+            listLfngth = 0;
+            sniMbp = Collfdtions.<Intfgfr, SNISfrvfrNbmf>fmptyMbp();
+        }
+
+        if (rfmbins != 0) {
+            throw nfw SSLProtodolExdfption("Invblid sfrvfr_nbmf fxtfnsion");
+        }
+    }
+
+    List<SNISfrvfrNbmf> gftSfrvfrNbmfs() {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(
+                                        nfw ArrbyList<>(sniMbp.vblufs()));
+        }
+
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    }
+
+    /*
+     * Is thf fxtfnsion rfdognizfd by thf dorrfsponding mbtdhfr?
+     *
+     * This mfthod is usfd to dhfdk whfthfr thf sfrvfr nbmf indidbtion dbn
+     * bf rfdognizfd by thf sfrvfr nbmf mbtdhfrs.
+     *
+     * Pfr RFC 6066, if thf sfrvfr undfrstood thf ClifntHfllo fxtfnsion but
+     * dofs not rfdognizf thf sfrvfr nbmf, thf sfrvfr SHOULD tbkf onf of two
+     * bdtions: fithfr bbort thf hbndshbkf by sfnding b fbtbl-lfvfl
+     * unrfdognizfd_nbmf(112) blfrt or dontinuf thf hbndshbkf.
+     *
+     * If thfrf is bn instbndf of SNIMbtdhfr dffinfd for b pbrtidulbr nbmf
+     * typf, it must bf usfd to pfrform mbtdh opfrbtions on thf sfrvfr nbmf.
+     */
+    boolfbn isMbtdhfd(Collfdtion<SNIMbtdhfr> mbtdhfrs) {
+        if (sniMbp != null && !sniMbp.isEmpty()) {
+            for (SNIMbtdhfr mbtdhfr : mbtdhfrs) {
+                SNISfrvfrNbmf sniNbmf = sniMbp.gft(mbtdhfr.gftTypf());
+                if (sniNbmf != null && (!mbtdhfr.mbtdhfs(sniNbmf))) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+
+    /*
+     * Is thf fxtfnsion is idfntidbl to b sfrvfr nbmf list?
+     *
+     * This mfthod is usfd to dhfdk thf sfrvfr nbmf indidbtion during sfssion
+     * rfsumption.
+     *
+     * Pfr RFC 6066, whfn thf sfrvfr is dfdiding whfthfr or not to bddfpt b
+     * rfqufst to rfsumf b sfssion, thf dontfnts of b sfrvfr_nbmf fxtfnsion
+     * MAY bf usfd in thf lookup of thf sfssion in thf sfssion dbdhf.  Thf
+     * dlifnt SHOULD indludf thf sbmf sfrvfr_nbmf fxtfnsion in thf sfssion
+     * rfsumption rfqufst bs it did in thf full hbndshbkf thbt fstbblishfd
+     * thf sfssion.  A sfrvfr thbt implfmfnts this fxtfnsion MUST NOT bddfpt
+     * thf rfqufst to rfsumf thf sfssion if thf sfrvfr_nbmf fxtfnsion dontbins
+     * b difffrfnt nbmf.  Instfbd, it prodffds with b full hbndshbkf to
+     * fstbblish b nfw sfssion.  Whfn rfsuming b sfssion, thf sfrvfr MUST NOT
+     * indludf b sfrvfr_nbmf fxtfnsion in thf sfrvfr hfllo.
+     */
+    boolfbn isIdfntidbl(List<SNISfrvfrNbmf> othfr) {
+        if (othfr.sizf() == sniMbp.sizf()) {
+            for(SNISfrvfrNbmf sniInOthfr : othfr) {
+                SNISfrvfrNbmf sniNbmf = sniMbp.gft(sniInOthfr.gftTypf());
+                if (sniNbmf == null || !sniInOthfr.fqubls(sniNbmf)) {
+                    rfturn fblsf;
+                }
+            }
+
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    int lfngth() {
+        rfturn listLfngth == 0 ? 4 : 6 + listLfngth;
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        s.putInt16(typf.id);
+        if (listLfngth == 0) {
+            s.putInt16(listLfngth);     // in SfrvfrHfllo, fmpty fxtfnsion_dbtb
+        } flsf {
+            s.putInt16(listLfngth + 2); // lfngth of fxtfnsion_dbtb
+            s.putInt16(listLfngth);     // lfngth of SfrvfrNbmfList
+
+            for (SNISfrvfrNbmf sniNbmf : sniMbp.vblufs()) {
+                s.putInt8(sniNbmf.gftTypf());         // sfrvfr nbmf typf
+                s.putBytfs16(sniNbmf.gftEndodfd());   // sfrvfr nbmf vbluf
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (SNISfrvfrNbmf sniNbmf : sniMbp.vblufs()) {
+            sb.bppfnd("[" + sniNbmf + "]");
+        }
+
+        rfturn "Extfnsion " + typf + ", sfrvfr_nbmf: " + sb;
+    }
+
+    privbtf stbtid dlbss UnknownSfrvfrNbmf fxtfnds SNISfrvfrNbmf {
+        UnknownSfrvfrNbmf(int dodf, bytf[] fndodfd) {
+            supfr(dodf, fndodfd);
+        }
+    }
+
+}

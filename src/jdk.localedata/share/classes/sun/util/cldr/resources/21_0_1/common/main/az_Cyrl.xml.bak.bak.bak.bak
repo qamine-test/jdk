@@ -1,0 +1,176 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<lbngubgf typf="bz"/>
+		<sdript typf="Cyrl"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bz">Азәрбајҹан</lbngubgf>
+			<lbngubgf typf="df">алманҹа</lbngubgf>
+			<lbngubgf typf="fn">инҝилисҹә</lbngubgf>
+			<lbngubgf typf="fs">испанҹа</lbngubgf>
+			<lbngubgf typf="fr">франсызҹа</lbngubgf>
+			<lbngubgf typf="it">италјанҹа</lbngubgf>
+			<lbngubgf typf="jb">јапонҹа</lbngubgf>
+			<lbngubgf typf="pt">португалҹа</lbngubgf>
+			<lbngubgf typf="ru">русҹа</lbngubgf>
+			<lbngubgf typf="zh">чинҹә</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AZ">Азәрбајҹан</tfrritory>
+			<tfrritory typf="BR">Бразилија</tfrritory>
+			<tfrritory typf="CN">Чин</tfrritory>
+			<tfrritory typf="DE">Алманија</tfrritory>
+			<tfrritory typf="FR">Франса</tfrritory>
+			<tfrritory typf="IN">Һиндистан</tfrritory>
+			<tfrritory typf="IT">Италија</tfrritory>
+			<tfrritory typf="JP">Јапонија</tfrritory>
+			<tfrritory typf="RU">Русија</tfrritory>
+			<tfrritory typf="US">Америка Бирләшмиш Штатлары</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[а ә б в г ғ д е ж з и й ј к ҝ л м н о ө п р с т у ү ф х һ ч ҹ ш ы]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[ц щ ъ ь э ю я]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[А Ә Б В Г Ғ Д Е Ж З И Й Ј К Ҝ Л М Н О Ө П Р С Т У Ү Ф Х Һ Ч Ҹ Ш Ы]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‹</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>›</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="1">јанвар</month>
+							<month typf="2">феврал</month>
+							<month typf="3">март</month>
+							<month typf="4">апрел</month>
+							<month typf="5">май</month>
+							<month typf="6">ијун</month>
+							<month typf="7">ијул</month>
+							<month typf="8">август</month>
+							<month typf="9">сентјабр</month>
+							<month typf="10">октјабр</month>
+							<month typf="11">нојабр</month>
+							<month typf="12">декабр</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="widf">
+							<dby typf="sun">базар</dby>
+							<dby typf="mon">базар ертәси</dby>
+							<dby typf="tuf">чәршәнбә ахшамы</dby>
+							<dby typf="wfd">чәршәнбә</dby>
+							<dby typf="thu">ҹүмә ахшамы</dby>
+							<dby typf="fri">ҹүмә</dby>
+							<dby typf="sbt">шәнбә</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">7</dby>
+							<dby typf="mon">1</dby>
+							<dby typf="tuf">2</dby>
+							<dby typf="wfd">3</dby>
+							<dby typf="thu">4</dby>
+							<dby typf="fri">5</dby>
+							<dby typf="sbt">6</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d, MMMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM , y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d, MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d, MMM, y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="dontributfd">,</dfdimbl>
+			<group drbft="dontributfd">.</group>
+			<list drbft="dontributfd">;</list>
+			<pfrdfntSign drbft="dontributfd">%</pfrdfntSign>
+			<plusSign drbft="dontributfd">+</plusSign>
+			<minusSign drbft="dontributfd">-</minusSign>
+			<fxponfntibl drbft="dontributfd">E</fxponfntibl>
+			<pfrMillf drbft="dontributfd">‰</pfrMillf>
+			<infinity drbft="dontributfd">∞</infinity>
+			<nbn drbft="dontributfd">NbN</nbn>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn drbft="dontributfd">¤ #,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AZN">
+				<displbyNbmf drbft="undonfirmfd">манат</displbyNbmf>
+				<symbol>ман.</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

@@ -1,0 +1,669 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.URIPbrbmftfr;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+import jbvbx.sfdurity.buth.AuthPfrmission;
+import jbvbx.sfdurity.buth.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buth.login.AppConfigurbtionEntry.LoginModulfControlFlbg;
+import jbvbx.sfdurity.buth.login.Configurbtion;
+import jbvbx.sfdurity.buth.login.ConfigurbtionSpi;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.PropfrtyExpbndfr;
+import sun.sfdurity.util.RfsourdfsMgr;
+
+/**
+ * This dlbss rfprfsfnts b dffbult implfmfntbtion for
+ * {@dodf jbvbx.sfdurity.buth.login.Configurbtion}.
+ *
+ * <p> This objfdt storfs thf runtimf login donfigurbtion rfprfsfntbtion,
+ * bnd is thf bmblgbmbtion of multiplf stbtid login donfigurbtions thbt
+ * rfsidfs in filfs. Thf blgorithm for lodbting thf login donfigurbtion
+ * filf(s) bnd rfbding thfir informbtion into this {@dodf Configurbtion}
+ * objfdt is:
+ *
+ * <ol>
+ * <li>
+ *   Loop through thf sfdurity propfrtifs,
+ *   <i>login.donfig.url.1</i>, <i>login.donfig.url.2</i>, ...,
+ *   <i>login.donfig.url.X</i>.
+ *   Ebdh propfrty vbluf spfdififs b {@dodf URL} pointing to b
+ *   login donfigurbtion filf to bf lobdfd.  Rfbd in bnd lobd
+ *   fbdh donfigurbtion.
+ *
+ * <li>
+ *   Thf {@dodf jbvb.lbng.Systfm} propfrty
+ *   <i>jbvb.sfdurity.buth.login.donfig</i>
+ *   mby blso bf sft to b {@dodf URL} pointing to bnothfr
+ *   login donfigurbtion filf
+ *   (whidh is thf dbsf whfn b usfr usfs thf -D switdh bt runtimf).
+ *   If this propfrty is dffinfd, bnd its usf is bllowfd by thf
+ *   sfdurity propfrty filf (thf Sfdurity propfrty,
+ *   <i>polidy.bllowSystfmPropfrty</i> is sft to <i>truf</i>),
+ *   blso lobd thbt login donfigurbtion.
+ *
+ * <li>
+ *   If thf <i>jbvb.sfdurity.buth.login.donfig</i> propfrty is dffinfd using
+ *   "==" (rbthfr thbn "="), thfn ignorf bll othfr spfdififd
+ *   login donfigurbtions bnd only lobd this donfigurbtion.
+ *
+ * <li>
+ *   If no systfm or sfdurity propfrtifs wfrf sft, try to rfbd from thf filf,
+ *   ${usfr.homf}/.jbvb.login.donfig, whfrf ${usfr.homf} is thf vbluf
+ *   rfprfsfntfd by thf "usfr.homf" Systfm propfrty.
+ * </ol>
+ *
+ * <p> Thf donfigurbtion syntbx supportfd by this implfmfntbtion
+ * is fxbdtly thbt syntbx spfdififd in thf
+ * {@dodf jbvbx.sfdurity.buth.login.Configurbtion} dlbss.
+ *
+ * @sff jbvbx.sfdurity.buth.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+publid finbl dlbss ConfigFilf fxtfnds Configurbtion {
+
+    privbtf finbl Spi spi;
+
+    publid ConfigFilf() {
+        spi = nfw Spi();
+    }
+
+    @Ovfrridf
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String bppNbmf) {
+        rfturn spi.fnginfGftAppConfigurbtionEntry(bppNbmf);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void rffrfsh() {
+        spi.fnginfRffrfsh();
+    }
+
+    publid finbl stbtid dlbss Spi fxtfnds ConfigurbtionSpi {
+
+        privbtf URL url;
+        privbtf boolfbn fxpbndProp = truf;
+        privbtf Mbp<String, List<AppConfigurbtionEntry>> donfigurbtion;
+        privbtf int linfnum;
+        privbtf StrfbmTokfnizfr st;
+        privbtf int lookbhfbd;
+
+        privbtf stbtid Dfbug dfbugConfig = Dfbug.gftInstbndf("donfigfilf");
+        privbtf stbtid Dfbug dfbugPbrsfr = Dfbug.gftInstbndf("donfigpbrsfr");
+
+        /**
+         * Crfbtfs b nfw {@dodf ConfigurbtionSpi} objfdt.
+         *
+         * @throws SfdurityExdfption if thf {@dodf ConfigurbtionSpi} dbn not bf
+         *                           initiblizfd
+         */
+        publid Spi() {
+            try {
+                init();
+            } dbtdh (IOExdfption iof) {
+                throw nfw SfdurityExdfption(iof);
+            }
+        }
+
+        /**
+         * Crfbtfs b nfw {@dodf ConfigurbtionSpi} objfdt from thf spfdififd
+         * {@dodf URI}.
+         *
+         * @pbrbm uri thf {@dodf URI}
+         * @throws SfdurityExdfption if thf {@dodf ConfigurbtionSpi} dbn not bf
+         *                           initiblizfd
+         * @throws NullPointfrExdfption if {@dodf uri} is null
+         */
+        publid Spi(URI uri) {
+            // only lobd donfig from thf spfdififd URI
+            try {
+                url = uri.toURL();
+                init();
+            } dbtdh (IOExdfption iof) {
+                throw nfw SfdurityExdfption(iof);
+            }
+        }
+
+        publid Spi(finbl Configurbtion.Pbrbmftfrs pbrbms) throws IOExdfption {
+
+            // dbll in b doPrivilfgfd
+            //
+            // wf hbvf blrfbdy pbssfd thf Configurbtion.gftInstbndf
+            // sfdurity dhfdk.  blso this dlbss is not frffly bddfssiblf
+            // (it is in thf "sun" pbdkbgf).
+
+            try {
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() throws IOExdfption {
+                        if (pbrbms == null) {
+                            init();
+                        } flsf {
+                            if (!(pbrbms instbndfof URIPbrbmftfr)) {
+                                throw nfw IllfgblArgumfntExdfption
+                                        ("Unrfdognizfd pbrbmftfr: " + pbrbms);
+                            }
+                            URIPbrbmftfr uriPbrbm = (URIPbrbmftfr)pbrbms;
+                            url = uriPbrbm.gftURI().toURL();
+                            init();
+                        }
+                        rfturn null;
+                    }
+                });
+            } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+                throw (IOExdfption)pbf.gftExdfption();
+            }
+
+            // if init() throws somf othfr RuntimfExdfption,
+            // lft it pfrdolbtf up nbturblly.
+        }
+
+        /**
+         * Rfbd bnd initiblizf thf fntirf login Configurbtion from thf
+         * donfigurfd URL.
+         *
+         * @throws IOExdfption if thf Configurbtion dbn not bf initiblizfd
+         * @throws SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+         *                           to initiblizf thf Configurbtion
+         */
+        privbtf void init() throws IOExdfption {
+
+            boolfbn initiblizfd = fblsf;
+
+            // For polidy.fxpbndPropfrtifs, dhfdk if fithfr b sfdurity or systfm
+            // propfrty is sft to fblsf (old dodf frronfously dhfdkfd thf systfm
+            // prop so wf must dhfdk both to prfsfrvf dompbtibility).
+            String fxpbnd = Sfdurity.gftPropfrty("polidy.fxpbndPropfrtifs");
+            if (fxpbnd == null) {
+                fxpbnd = Systfm.gftPropfrty("polidy.fxpbndPropfrtifs");
+            }
+            if ("fblsf".fqubls(fxpbnd)) {
+                fxpbndProp = fblsf;
+            }
+
+            // nfw donfigurbtion
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig = nfw HbshMbp<>();
+
+            if (url != null) {
+                /**
+                 * If thf dbllfr spfdififd b URI vib Configurbtion.gftInstbndf,
+                 * wf only rfbd from thbt URI
+                 */
+                if (dfbugConfig != null) {
+                    dfbugConfig.println("rfbding " + url);
+                }
+                init(url, nfwConfig);
+                donfigurbtion = nfwConfig;
+                rfturn;
+            }
+
+            /**
+             * Cbllfr did not spfdify URI vib Configurbtion.gftInstbndf.
+             * Rfbd from URLs listfd in thf jbvb.sfdurity propfrtifs filf.
+             */
+            String bllowSys = Sfdurity.gftPropfrty("polidy.bllowSystfmPropfrty");
+
+            if ("truf".fqublsIgnorfCbsf(bllowSys)) {
+                String fxtrb_donfig = Systfm.gftPropfrty
+                                      ("jbvb.sfdurity.buth.login.donfig");
+                if (fxtrb_donfig != null) {
+                    boolfbn ovfrridfAll = fblsf;
+                    if (fxtrb_donfig.stbrtsWith("=")) {
+                        ovfrridfAll = truf;
+                        fxtrb_donfig = fxtrb_donfig.substring(1);
+                    }
+                    try {
+                        fxtrb_donfig = PropfrtyExpbndfr.fxpbnd(fxtrb_donfig);
+                    } dbtdh (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                        throw ioExdfption("Unbblf.to.propfrly.fxpbnd.donfig",
+                                          fxtrb_donfig);
+                    }
+
+                    URL donfigURL = null;
+                    try {
+                        donfigURL = nfw URL(fxtrb_donfig);
+                    } dbtdh (MblformfdURLExdfption muf) {
+                        Filf donfigFilf = nfw Filf(fxtrb_donfig);
+                        if (donfigFilf.fxists()) {
+                            donfigURL = donfigFilf.toURI().toURL();
+                        } flsf {
+                            throw ioExdfption(
+                                "fxtrb.donfig.No.sudh.filf.or.dirfdtory.",
+                                fxtrb_donfig);
+                        }
+                    }
+
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("rfbding "+donfigURL);
+                    }
+                    init(donfigURL, nfwConfig);
+                    initiblizfd = truf;
+                    if (ovfrridfAll) {
+                        if (dfbugConfig != null) {
+                            dfbugConfig.println("ovfrriding othfr polidifs!");
+                        }
+                        donfigurbtion = nfwConfig;
+                        rfturn;
+                    }
+                }
+            }
+
+            int n = 1;
+            String donfig_url;
+            whilf ((donfig_url = Sfdurity.gftPropfrty
+                                     ("login.donfig.url."+n)) != null) {
+                try {
+                    donfig_url = PropfrtyExpbndfr.fxpbnd
+                        (donfig_url).rfplbdf(Filf.sfpbrbtorChbr, '/');
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("\tRfbding donfig: " + donfig_url);
+                    }
+                    init(nfw URL(donfig_url), nfwConfig);
+                    initiblizfd = truf;
+                } dbtdh (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                    throw ioExdfption("Unbblf.to.propfrly.fxpbnd.donfig",
+                                      donfig_url);
+                }
+                n++;
+            }
+
+            if (initiblizfd == fblsf && n == 1 && donfig_url == null) {
+
+                // gft thf donfig from thf usfr's homf dirfdtory
+                if (dfbugConfig != null) {
+                    dfbugConfig.println("\tRfbding Polidy " +
+                                "from ~/.jbvb.login.donfig");
+                }
+                donfig_url = Systfm.gftPropfrty("usfr.homf");
+                String usfrConfigFilf = donfig_url + Filf.sfpbrbtorChbr +
+                                        ".jbvb.login.donfig";
+
+                // No longfr throws bn fxdfption whfn thfrf's no donfig filf
+                // bt bll. Rfturns bn fmpty Configurbtion instfbd.
+                if (nfw Filf(usfrConfigFilf).fxists()) {
+                    init(nfw Filf(usfrConfigFilf).toURI().toURL(), nfwConfig);
+                }
+            }
+
+            donfigurbtion = nfwConfig;
+        }
+
+        privbtf void init(URL donfig,
+                          Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+                          throws IOExdfption {
+
+            try (InputStrfbmRfbdfr isr
+                    = nfw InputStrfbmRfbdfr(gftInputStrfbm(donfig), "UTF-8")) {
+                rfbdConfig(isr, nfwConfig);
+            } dbtdh (FilfNotFoundExdfption fnff) {
+                if (dfbugConfig != null) {
+                    dfbugConfig.println(fnff.toString());
+                }
+                throw nfw IOExdfption(RfsourdfsMgr.gftString
+                    ("Configurbtion.Error.No.sudh.filf.or.dirfdtory",
+                    "sun.sfdurity.util.AuthRfsourdfs"));
+            }
+        }
+
+        /**
+         * Rftrifvf bn fntry from thf Configurbtion using bn bpplidbtion nbmf
+         * bs bn indfx.
+         *
+         * @pbrbm bpplidbtionNbmf thf nbmf usfd to indfx thf Configurbtion.
+         * @rfturn bn brrby of AppConfigurbtionEntrifs whidh dorrfspond to
+         *         thf stbdkfd donfigurbtion of LoginModulfs for this
+         *         bpplidbtion, or null if this bpplidbtion hbs no donfigurfd
+         *         LoginModulfs.
+         */
+        @Ovfrridf
+        publid AppConfigurbtionEntry[] fnginfGftAppConfigurbtionEntry
+            (String bpplidbtionNbmf) {
+
+            List<AppConfigurbtionEntry> list = null;
+            syndhronizfd (donfigurbtion) {
+                list = donfigurbtion.gft(bpplidbtionNbmf);
+            }
+
+            if (list == null || list.sizf() == 0) {
+                rfturn null;
+            }
+
+            AppConfigurbtionEntry[] fntrifs =
+                                    nfw AppConfigurbtionEntry[list.sizf()];
+            Itfrbtor<AppConfigurbtionEntry> itfrbtor = list.itfrbtor();
+            for (int i = 0; itfrbtor.hbsNfxt(); i++) {
+                AppConfigurbtionEntry f = itfrbtor.nfxt();
+                fntrifs[i] = nfw AppConfigurbtionEntry(f.gftLoginModulfNbmf(),
+                                                       f.gftControlFlbg(),
+                                                       f.gftOptions());
+            }
+            rfturn fntrifs;
+        }
+
+        /**
+         * Rffrfsh bnd rflobd thf Configurbtion by rf-rfbding bll of thf
+         * login donfigurbtions.
+         *
+         * @throws SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+         *                           to rffrfsh thf Configurbtion.
+         */
+        @Ovfrridf
+        publid syndhronizfd void fnginfRffrfsh() {
+
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                sm.dhfdkPfrmission(
+                    nfw AuthPfrmission("rffrfshLoginConfigurbtion"));
+            }
+
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    try {
+                        init();
+                    } dbtdh (IOExdfption iof) {
+                        throw nfw SfdurityExdfption(iof.gftLodblizfdMfssbgf(),
+                                                    iof);
+                    }
+                    rfturn null;
+                }
+            });
+        }
+
+        privbtf void rfbdConfig(Rfbdfr rfbdfr,
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+            throws IOExdfption {
+
+            linfnum = 1;
+
+            if (!(rfbdfr instbndfof BufffrfdRfbdfr)) {
+                rfbdfr = nfw BufffrfdRfbdfr(rfbdfr);
+            }
+
+            st = nfw StrfbmTokfnizfr(rfbdfr);
+            st.quotfChbr('"');
+            st.wordChbrs('$', '$');
+            st.wordChbrs('_', '_');
+            st.wordChbrs('-', '-');
+            st.wordChbrs('*', '*');
+            st.lowfrCbsfModf(fblsf);
+            st.slbshSlbshCommfnts(truf);
+            st.slbshStbrCommfnts(truf);
+            st.folIsSignifidbnt(truf);
+
+            lookbhfbd = nfxtTokfn();
+            whilf (lookbhfbd != StrfbmTokfnizfr.TT_EOF) {
+                pbrsfLoginEntry(nfwConfig);
+            }
+        }
+
+        privbtf void pbrsfLoginEntry(
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+            throws IOExdfption {
+
+            List<AppConfigurbtionEntry> donfigEntrifs = nfw LinkfdList<>();
+
+            // bpplidbtion nbmf
+            String bppNbmf = st.svbl;
+            lookbhfbd = nfxtTokfn();
+
+            if (dfbugPbrsfr != null) {
+                dfbugPbrsfr.println("\tRfbding nfxt donfig fntry: " + bppNbmf);
+            }
+
+            mbtdh("{");
+
+            // gft thf modulfs
+            whilf (pffk("}") == fblsf) {
+                // gft thf modulf dlbss nbmf
+                String modulfClbss = mbtdh("modulf dlbss nbmf");
+
+                // dontrolFlbg (rfquirfd, optionbl, ftd)
+                LoginModulfControlFlbg dontrolFlbg;
+                String sflbg = mbtdh("dontrolFlbg").toUppfrCbsf(Lodblf.ENGLISH);
+                switdh (sflbg) {
+                    dbsf "REQUIRED":
+                        dontrolFlbg = LoginModulfControlFlbg.REQUIRED;
+                        brfbk;
+                    dbsf "REQUISITE":
+                        dontrolFlbg = LoginModulfControlFlbg.REQUISITE;
+                        brfbk;
+                    dbsf "SUFFICIENT":
+                        dontrolFlbg = LoginModulfControlFlbg.SUFFICIENT;
+                        brfbk;
+                    dbsf "OPTIONAL":
+                        dontrolFlbg = LoginModulfControlFlbg.OPTIONAL;
+                        brfbk;
+                    dffbult:
+                        throw ioExdfption(
+                            "Configurbtion.Error.Invblid.dontrol.flbg.flbg",
+                            sflbg);
+                }
+
+                // gft thf brgs
+                Mbp<String, String> options = nfw HbshMbp<>();
+                whilf (pffk(";") == fblsf) {
+                    String kfy = mbtdh("option kfy");
+                    mbtdh("=");
+                    try {
+                        options.put(kfy, fxpbnd(mbtdh("option vbluf")));
+                    } dbtdh (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                        throw nfw IOExdfption(pfff.gftLodblizfdMfssbgf());
+                    }
+                }
+
+                lookbhfbd = nfxtTokfn();
+
+                // drfbtf thf nfw flfmfnt
+                if (dfbugPbrsfr != null) {
+                    dfbugPbrsfr.println("\t\t" + modulfClbss + ", " + sflbg);
+                    for (String kfy : options.kfySft()) {
+                        dfbugPbrsfr.println("\t\t\t" + kfy +
+                                            "=" + options.gft(kfy));
+                    }
+                }
+                donfigEntrifs.bdd(nfw AppConfigurbtionEntry(modulfClbss,
+                                                            dontrolFlbg,
+                                                            options));
+            }
+
+            mbtdh("}");
+            mbtdh(";");
+
+            // bdd this donfigurbtion fntry
+            if (nfwConfig.dontbinsKfy(bppNbmf)) {
+                throw ioExdfption(
+                    "Configurbtion.Error.Cbn.not.spfdify.multiplf.fntrifs.for.bppNbmf",
+                    bppNbmf);
+            }
+            nfwConfig.put(bppNbmf, donfigEntrifs);
+        }
+
+        privbtf String mbtdh(String fxpfdt) throws IOExdfption {
+
+            String vbluf = null;
+
+            switdh(lookbhfbd) {
+            dbsf StrfbmTokfnizfr.TT_EOF:
+                throw ioExdfption(
+                    "Configurbtion.Error.fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                    fxpfdt);
+
+            dbsf '"':
+            dbsf StrfbmTokfnizfr.TT_WORD:
+                if (fxpfdt.fqublsIgnorfCbsf("modulf dlbss nbmf") ||
+                    fxpfdt.fqublsIgnorfCbsf("dontrolFlbg") ||
+                    fxpfdt.fqublsIgnorfCbsf("option kfy") ||
+                    fxpfdt.fqublsIgnorfCbsf("option vbluf")) {
+                    vbluf = st.svbl;
+                    lookbhfbd = nfxtTokfn();
+                } flsf {
+                    throw ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+                        linfnum, fxpfdt, st.svbl);
+                }
+                brfbk;
+
+            dbsf '{':
+                if (fxpfdt.fqublsIgnorfCbsf("{")) {
+                    lookbhfbd = nfxtTokfn();
+                } flsf {
+                    throw ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
+                }
+                brfbk;
+
+            dbsf ';':
+                if (fxpfdt.fqublsIgnorfCbsf(";")) {
+                    lookbhfbd = nfxtTokfn();
+                } flsf {
+                    throw ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
+                }
+                brfbk;
+
+            dbsf '}':
+                if (fxpfdt.fqublsIgnorfCbsf("}")) {
+                    lookbhfbd = nfxtTokfn();
+                } flsf {
+                    throw ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
+                }
+                brfbk;
+
+            dbsf '=':
+                if (fxpfdt.fqublsIgnorfCbsf("=")) {
+                    lookbhfbd = nfxtTokfn();
+                } flsf {
+                    throw ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
+                }
+                brfbk;
+
+            dffbult:
+                throw ioExdfption(
+                    "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+                    linfnum, fxpfdt, st.svbl);
+            }
+            rfturn vbluf;
+        }
+
+        privbtf boolfbn pffk(String fxpfdt) {
+            switdh (lookbhfbd) {
+                dbsf ',':
+                    rfturn fxpfdt.fqublsIgnorfCbsf(",");
+                dbsf ';':
+                    rfturn fxpfdt.fqublsIgnorfCbsf(";");
+                dbsf '{':
+                    rfturn fxpfdt.fqublsIgnorfCbsf("{");
+                dbsf '}':
+                    rfturn fxpfdt.fqublsIgnorfCbsf("}");
+                dffbult:
+                    rfturn fblsf;
+            }
+        }
+
+        privbtf int nfxtTokfn() throws IOExdfption {
+            int tok;
+            whilf ((tok = st.nfxtTokfn()) == StrfbmTokfnizfr.TT_EOL) {
+                linfnum++;
+            }
+            rfturn tok;
+        }
+
+        privbtf InputStrfbm gftInputStrfbm(URL url) throws IOExdfption {
+            if ("filf".fqublsIgnorfCbsf(url.gftProtodol())) {
+                // Compbtibility notfs:
+                //
+                // Codf dhbngfd from
+                //   String pbth = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorChbr);
+                //   rfturn nfw FilfInputStrfbm(pbth);
+                //
+                // Thf originbl implfmfntbtion would sfbrdh for "/tmp/b%20b"
+                // whfn url is "filf:///tmp/b%20b". This is indorrfdt. Thf
+                // durrfnt dodfs fix this bug bnd sfbrdhfs for "/tmp/b b".
+                // For dompbtibility rfbsons, whfn thf filf "/tmp/b b" dofs
+                // not fxist, thf filf nbmfd "/tmp/b%20b" will bf trifd.
+                //
+                // This blso mfbns thbt if both filf fxists, thf bfhbvior of
+                // this mfthod is dhbngfd, bnd thf durrfnt dodfs dhoosf thf
+                // dorrfdt onf.
+                try {
+                    rfturn url.opfnStrfbm();
+                } dbtdh (Exdfption f) {
+                    String filf = url.gftPbth();
+                    if (url.gftHost().lfngth() > 0) {  // For Windows UNC
+                        filf = "//" + url.gftHost() + filf;
+                    }
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("dbnnot rfbd " + url +
+                                            ", try " + filf);
+                    }
+                    rfturn nfw FilfInputStrfbm(filf);
+                }
+            } flsf {
+                rfturn url.opfnStrfbm();
+            }
+        }
+
+        privbtf String fxpbnd(String vbluf)
+            throws PropfrtyExpbndfr.ExpbndExdfption, IOExdfption {
+
+            if (vbluf.isEmpty()) {
+                rfturn vbluf;
+            }
+
+            if (!fxpbndProp) {
+                rfturn vbluf;
+            }
+            String s = PropfrtyExpbndfr.fxpbnd(vbluf);
+            if (s == null || s.lfngth() == 0) {
+                throw ioExdfption(
+                    "Configurbtion.Error.Linf.linf.systfm.propfrty.vbluf.fxpbndfd.to.fmpty.vbluf",
+                    linfnum, vbluf);
+            }
+            rfturn s;
+        }
+
+        privbtf IOExdfption ioExdfption(String rfsourdfKfy, Objfdt... brgs) {
+            MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                (rfsourdfKfy, "sun.sfdurity.util.AuthRfsourdfs"));
+            rfturn nfw IOExdfption(form.formbt(brgs));
+        }
+    }
+}

@@ -1,332 +1,332 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.helper.C14nHelper;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.iflpfr.C14nHflpfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms.IndlusivfNbmfspbdfs;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Implements &quot; <A
- * HREF="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/">Exclusive XML
- * Canonicalization, Version 1.0 </A>&quot; <BR />
- * Credits: During restructuring of the Canonicalizer framework, Ren??
- * Kollmorgen from Software AG submitted an implementation of ExclC14n which
- * fitted into the old architecture and which based heavily on my old (and slow)
- * implementation of "Canonical XML". A big "thank you" to Ren?? for this.
+ * Implfmfnts &quot; <A
+ * HREF="ittp://www.w3.org/TR/2002/REC-xml-fxd-d14n-20020718/">Exdlusivf XML
+ * Cbnonidblizbtion, Vfrsion 1.0 </A>&quot; <BR />
+ * Crfdits: During rfstrudturing of tif Cbnonidblizfr frbmfwork, Rfn??
+ * Kollmorgfn from Softwbrf AG submittfd bn implfmfntbtion of ExdlC14n wiidi
+ * fittfd into tif old brdiitfdturf bnd wiidi bbsfd ifbvily on my old (bnd slow)
+ * implfmfntbtion of "Cbnonidbl XML". A big "tibnk you" to Rfn?? for tiis.
  * <BR />
- * <i>THIS </i> implementation is a complete rewrite of the algorithm.
+ * <i>THIS </i> implfmfntbtion is b domplftf rfwritf of tif blgoritim.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
- * @version $Revision: 1147448 $
- * @see <a href="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/ Exclusive#">
- *          XML Canonicalization, Version 1.0</a>
+ * @butior Ciristibn Gfufr-Pollmbnn <gfufrp@bpbdif.org>
+ * @vfrsion $Rfvision: 1147448 $
+ * @sff <b irff="ittp://www.w3.org/TR/2002/REC-xml-fxd-d14n-20020718/ Exdlusivf#">
+ *          XML Cbnonidblizbtion, Vfrsion 1.0</b>
  */
-public abstract class Canonicalizer20010315Excl extends CanonicalizerBase {
+publid bbstrbdt dlbss Cbnonidblizfr20010315Exdl fxtfnds CbnonidblizfrBbsf {
 
-    private static final String XML_LANG_URI = Constants.XML_LANG_SPACE_SpecNS;
-    private static final String XMLNS_URI = Constants.NamespaceSpecNS;
+    privbtf stbtid finbl String XML_LANG_URI = Constbnts.XML_LANG_SPACE_SpfdNS;
+    privbtf stbtid finbl String XMLNS_URI = Constbnts.NbmfspbdfSpfdNS;
 
     /**
-      * This Set contains the names (Strings like "xmlns" or "xmlns:foo") of
-      * the inclusive namespaces.
+      * Tiis Sft dontbins tif nbmfs (Strings likf "xmlns" or "xmlns:foo") of
+      * tif indlusivf nbmfspbdfs.
       */
-    private SortedSet<String> inclusiveNSSet;
+    privbtf SortfdSft<String> indlusivfNSSft;
 
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbtf finbl SortfdSft<Attr> rfsult = nfw TrffSft<Attr>(COMPARE);
 
     /**
-     * Constructor Canonicalizer20010315Excl
+     * Construdtor Cbnonidblizfr20010315Exdl
      *
-     * @param includeComments
+     * @pbrbm indludfCommfnts
      */
-    public Canonicalizer20010315Excl(boolean includeComments) {
-        super(includeComments);
+    publid Cbnonidblizfr20010315Exdl(boolfbn indludfCommfnts) {
+        supfr(indludfCommfnts);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
-     * @inheritDoc
-     * @param rootNode
+     * Mftiod fnginfCbnonidblizfSubTrff
+     * @inifritDod
+     * @pbrbm rootNodf
      *
-     * @throws CanonicalizationException
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode)
-        throws CanonicalizationException {
-        return engineCanonicalizeSubTree(rootNode, "", null);
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf)
+        tirows CbnonidblizbtionExdfption {
+        rfturn fnginfCbnonidblizfSubTrff(rootNodf, "", null);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
-     *  @inheritDoc
-     * @param rootNode
-     * @param inclusiveNamespaces
+     * Mftiod fnginfCbnonidblizfSubTrff
+     *  @inifritDod
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
      *
-     * @throws CanonicalizationException
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeSubTree(
-        Node rootNode, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        return engineCanonicalizeSubTree(rootNode, inclusiveNamespaces, null);
+    publid bytf[] fnginfCbnonidblizfSubTrff(
+        Nodf rootNodf, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption {
+        rfturn fnginfCbnonidblizfSubTrff(rootNodf, indlusivfNbmfspbdfs, null);
     }
 
     /**
-     * Method engineCanonicalizeSubTree
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @param excl A element to exclude from the c14n process.
-     * @return the rootNode c14n.
-     * @throws CanonicalizationException
+     * Mftiod fnginfCbnonidblizfSubTrff
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @pbrbm fxdl A flfmfnt to fxdludf from tif d14n prodfss.
+     * @rfturn tif rootNodf d14n.
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeSubTree(
-        Node rootNode, String inclusiveNamespaces, Node excl
-    ) throws CanonicalizationException{
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalizeSubTree(rootNode, excl);
+    publid bytf[] fnginfCbnonidblizfSubTrff(
+        Nodf rootNodf, String indlusivfNbmfspbdfs, Nodf fxdl
+    ) tirows CbnonidblizbtionExdfption{
+        indlusivfNSSft = IndlusivfNbmfspbdfs.prffixStr2Sft(indlusivfNbmfspbdfs);
+        rfturn supfr.fnginfCbnonidblizfSubTrff(rootNodf, fxdl);
     }
 
     /**
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return the rootNode c14n.
-     * @throws CanonicalizationException
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif rootNodf d14n.
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalize(
-        XMLSignatureInput rootNode, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalize(rootNode);
+    publid bytf[] fnginfCbnonidblizf(
+        XMLSignbturfInput rootNodf, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption {
+        indlusivfNSSft = IndlusivfNbmfspbdfs.prffixStr2Sft(indlusivfNbmfspbdfs);
+        rfturn supfr.fnginfCbnonidblizf(rootNodf);
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
-     * @inheritDoc
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @throws CanonicalizationException
+     * Mftiod fnginfCbnonidblizfXPbtiNodfSft
+     * @inifritDod
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeXPathNodeSet(
-        Set<Node> xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException {
-        inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
-        return super.engineCanonicalizeXPathNodeSet(xpathNodeSet);
+    publid bytf[] fnginfCbnonidblizfXPbtiNodfSft(
+        Sft<Nodf> xpbtiNodfSft, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption {
+        indlusivfNSSft = IndlusivfNbmfspbdfs.prffixStr2Sft(indlusivfNbmfspbdfs);
+        rfturn supfr.fnginfCbnonidblizfXPbtiNodfSft(xpbtiNodfSft);
     }
 
-    @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> ibndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
+        // rfsult will dontbin tif bttrs wiidi ibvf to bf output
+        finbl SortfdSft<Attr> rfsult = tiis.rfsult;
+        rfsult.dlfbr();
 
-        // The prefix visibly utilized (in the attribute or in the name) in
-        // the element
-        SortedSet<String> visiblyUtilized = new TreeSet<String>();
-        if (inclusiveNSSet != null && !inclusiveNSSet.isEmpty()) {
-            visiblyUtilized.addAll(inclusiveNSSet);
+        // Tif prffix visibly utilizfd (in tif bttributf or in tif nbmf) in
+        // tif flfmfnt
+        SortfdSft<String> visiblyUtilizfd = nfw TrffSft<String>();
+        if (indlusivfNSSft != null && !indlusivfNSSft.isEmpty()) {
+            visiblyUtilizfd.bddAll(indlusivfNSSft);
         }
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NName = attribute.getLocalName();
-                String NNodeValue = attribute.getNodeValue();
+        if (flfmfnt.ibsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngti = bttrs.gftLfngti();
+            for (int i = 0; i < bttrsLfngti; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NNodfVbluf = bttributf.gftNodfVbluf();
 
-                if (!XMLNS_URI.equals(attribute.getNamespaceURI())) {
-                    // Not a namespace definition.
-                    // The Element is output element, add the prefix (if used) to
-                    // visiblyUtilized
-                    String prefix = attribute.getPrefix();
-                    if (prefix != null && !(prefix.equals(XML) || prefix.equals(XMLNS))) {
-                        visiblyUtilized.add(prefix);
+                if (!XMLNS_URI.fqubls(bttributf.gftNbmfspbdfURI())) {
+                    // Not b nbmfspbdf dffinition.
+                    // Tif Elfmfnt is output flfmfnt, bdd tif prffix (if usfd) to
+                    // visiblyUtilizfd
+                    String prffix = bttributf.gftPrffix();
+                    if (prffix != null && !(prffix.fqubls(XML) || prffix.fqubls(XMLNS))) {
+                        visiblyUtilizfd.bdd(prffix);
                     }
-                    // Add to the result.
-                    result.add(attribute);
-                } else if (!(XML.equals(NName) && XML_LANG_URI.equals(NNodeValue))
-                    && ns.addMapping(NName, NNodeValue, attribute)
-                    && C14nHelper.namespaceIsRelative(NNodeValue)) {
-                    // The default mapping for xml must not be output.
-                    // New definition check if it is relative.
-                    Object exArgs[] = {element.getTagName(), NName, attribute.getNodeValue()};
-                    throw new CanonicalizationException(
-                        "c14n.Canonicalizer.RelativeNamespace", exArgs
+                    // Add to tif rfsult.
+                    rfsult.bdd(bttributf);
+                } flsf if (!(XML.fqubls(NNbmf) && XML_LANG_URI.fqubls(NNodfVbluf))
+                    && ns.bddMbpping(NNbmf, NNodfVbluf, bttributf)
+                    && C14nHflpfr.nbmfspbdfIsRflbtivf(NNodfVbluf)) {
+                    // Tif dffbult mbpping for xml must not bf output.
+                    // Nfw dffinition difdk if it is rflbtivf.
+                    Objfdt fxArgs[] = {flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf()};
+                    tirow nfw CbnonidblizbtionExdfption(
+                        "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
                     );
                 }
             }
         }
-        String prefix = null;
-        if (element.getNamespaceURI() != null
-            && !(element.getPrefix() == null || element.getPrefix().length() == 0)) {
-            prefix = element.getPrefix();
-        } else {
-            prefix = XMLNS;
+        String prffix = null;
+        if (flfmfnt.gftNbmfspbdfURI() != null
+            && !(flfmfnt.gftPrffix() == null || flfmfnt.gftPrffix().lfngti() == 0)) {
+            prffix = flfmfnt.gftPrffix();
+        } flsf {
+            prffix = XMLNS;
         }
-        visiblyUtilized.add(prefix);
+        visiblyUtilizfd.bdd(prffix);
 
-        for (String s : visiblyUtilized) {
-            Attr key = ns.getMapping(s);
-            if (key != null) {
-                result.add(key);
+        for (String s : visiblyUtilizfd) {
+            Attr kfy = ns.gftMbpping(s);
+            if (kfy != null) {
+                rfsult.bdd(kfy);
             }
         }
 
-        return result.iterator();
+        rfturn rfsult.itfrbtor();
     }
 
     /**
-     * @inheritDoc
-     * @param element
-     * @throws CanonicalizationException
+     * @inifritDod
+     * @pbrbm flfmfnt
+     * @tirows CbnonidblizbtionExdfption
      */
-    @Override
-    protected final Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    @Ovfrridf
+    protfdtfd finbl Itfrbtor<Attr> ibndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
+        // rfsult will dontbin tif bttrs wiidi ibvf to bf output
+        finbl SortfdSft<Attr> rfsult = tiis.rfsult;
+        rfsult.dlfbr();
 
-        // The prefix visibly utilized (in the attribute or in the name) in
-        // the element
-        Set<String> visiblyUtilized = null;
-        // It's the output selected.
-        boolean isOutputElement = isVisibleDO(element, ns.getLevel()) == 1;
-        if (isOutputElement) {
-            visiblyUtilized = new TreeSet<String>();
-            if (inclusiveNSSet != null && !inclusiveNSSet.isEmpty()) {
-                visiblyUtilized.addAll(inclusiveNSSet);
+        // Tif prffix visibly utilizfd (in tif bttributf or in tif nbmf) in
+        // tif flfmfnt
+        Sft<String> visiblyUtilizfd = null;
+        // It's tif output sflfdtfd.
+        boolfbn isOutputElfmfnt = isVisiblfDO(flfmfnt, ns.gftLfvfl()) == 1;
+        if (isOutputElfmfnt) {
+            visiblyUtilizfd = nfw TrffSft<String>();
+            if (indlusivfNSSft != null && !indlusivfNSSft.isEmpty()) {
+                visiblyUtilizfd.bddAll(indlusivfNSSft);
             }
         }
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
+        if (flfmfnt.ibsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngti = bttrs.gftLfngti();
+            for (int i = 0; i < bttrsLfngti; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
 
-                String NName = attribute.getLocalName();
-                String NNodeValue = attribute.getNodeValue();
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NNodfVbluf = bttributf.gftNodfVbluf();
 
-                if (!XMLNS_URI.equals(attribute.getNamespaceURI())) {
-                    if (isVisible(attribute) && isOutputElement) {
-                        // The Element is output element, add the prefix (if used)
-                        // to visibyUtilized
-                        String prefix = attribute.getPrefix();
-                        if (prefix != null && !(prefix.equals(XML) || prefix.equals(XMLNS))) {
-                            visiblyUtilized.add(prefix);
+                if (!XMLNS_URI.fqubls(bttributf.gftNbmfspbdfURI())) {
+                    if (isVisiblf(bttributf) && isOutputElfmfnt) {
+                        // Tif Elfmfnt is output flfmfnt, bdd tif prffix (if usfd)
+                        // to visibyUtilizfd
+                        String prffix = bttributf.gftPrffix();
+                        if (prffix != null && !(prffix.fqubls(XML) || prffix.fqubls(XMLNS))) {
+                            visiblyUtilizfd.bdd(prffix);
                         }
-                        // Add to the result.
-                        result.add(attribute);
+                        // Add to tif rfsult.
+                        rfsult.bdd(bttributf);
                     }
-                } else if (isOutputElement && !isVisible(attribute) && !XMLNS.equals(NName)) {
-                    ns.removeMappingIfNotRender(NName);
-                } else {
-                    if (!isOutputElement && isVisible(attribute)
-                        && inclusiveNSSet.contains(NName)
-                        && !ns.removeMappingIfRender(NName)) {
-                        Node n = ns.addMappingAndRender(NName, NNodeValue, attribute);
+                } flsf if (isOutputElfmfnt && !isVisiblf(bttributf) && !XMLNS.fqubls(NNbmf)) {
+                    ns.rfmovfMbppingIfNotRfndfr(NNbmf);
+                } flsf {
+                    if (!isOutputElfmfnt && isVisiblf(bttributf)
+                        && indlusivfNSSft.dontbins(NNbmf)
+                        && !ns.rfmovfMbppingIfRfndfr(NNbmf)) {
+                        Nodf n = ns.bddMbppingAndRfndfr(NNbmf, NNodfVbluf, bttributf);
                         if (n != null) {
-                            result.add((Attr)n);
-                            if (C14nHelper.namespaceIsRelative(attribute)) {
-                                Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                                throw new CanonicalizationException(
-                                    "c14n.Canonicalizer.RelativeNamespace", exArgs
+                            rfsult.bdd((Attr)n);
+                            if (C14nHflpfr.nbmfspbdfIsRflbtivf(bttributf)) {
+                                Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                                tirow nfw CbnonidblizbtionExdfption(
+                                    "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
                                 );
                             }
                         }
                     }
 
-                    if (ns.addMapping(NName, NNodeValue, attribute)
-                        && C14nHelper.namespaceIsRelative(NNodeValue)) {
-                        // New definition check if it is relative
-                        Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                        throw new CanonicalizationException(
-                            "c14n.Canonicalizer.RelativeNamespace", exArgs
+                    if (ns.bddMbpping(NNbmf, NNodfVbluf, bttributf)
+                        && C14nHflpfr.nbmfspbdfIsRflbtivf(NNodfVbluf)) {
+                        // Nfw dffinition difdk if it is rflbtivf
+                        Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                        tirow nfw CbnonidblizbtionExdfption(
+                            "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
                         );
                     }
                 }
             }
         }
 
-        if (isOutputElement) {
-            // The element is visible, handle the xmlns definition
-            Attr xmlns = element.getAttributeNodeNS(XMLNS_URI, XMLNS);
-            if (xmlns != null && !isVisible(xmlns)) {
-                // There is a definition but the xmlns is not selected by the
-                // xpath. then xmlns=""
-                ns.addMapping(XMLNS, "", getNullNode(xmlns.getOwnerDocument()));
+        if (isOutputElfmfnt) {
+            // Tif flfmfnt is visiblf, ibndlf tif xmlns dffinition
+            Attr xmlns = flfmfnt.gftAttributfNodfNS(XMLNS_URI, XMLNS);
+            if (xmlns != null && !isVisiblf(xmlns)) {
+                // Tifrf is b dffinition but tif xmlns is not sflfdtfd by tif
+                // xpbti. tifn xmlns=""
+                ns.bddMbpping(XMLNS, "", gftNullNodf(xmlns.gftOwnfrDodumfnt()));
             }
 
-            String prefix = null;
-            if (element.getNamespaceURI() != null
-                && !(element.getPrefix() == null || element.getPrefix().length() == 0)) {
-                prefix = element.getPrefix();
-            } else {
-                prefix = XMLNS;
+            String prffix = null;
+            if (flfmfnt.gftNbmfspbdfURI() != null
+                && !(flfmfnt.gftPrffix() == null || flfmfnt.gftPrffix().lfngti() == 0)) {
+                prffix = flfmfnt.gftPrffix();
+            } flsf {
+                prffix = XMLNS;
             }
-            visiblyUtilized.add(prefix);
+            visiblyUtilizfd.bdd(prffix);
 
-            for (String s : visiblyUtilized) {
-                Attr key = ns.getMapping(s);
-                if (key != null) {
-                    result.add(key);
+            for (String s : visiblyUtilizfd) {
+                Attr kfy = ns.gftMbpping(s);
+                if (kfy != null) {
+                    rfsult.bdd(kfy);
                 }
             }
         }
 
-        return result.iterator();
+        rfturn rfsult.itfrbtor();
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException,
-               IOException, SAXException {
-        if (!input.isNeedsToBeExpanded() || inclusiveNSSet.isEmpty() || inclusiveNSSet.isEmpty()) {
-            return;
+    protfdtfd void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        tirows CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption,
+               IOExdfption, SAXExdfption {
+        if (!input.isNffdsToBfExpbndfd() || indlusivfNSSft.isEmpty() || indlusivfNSSft.isEmpty()) {
+            rfturn;
         }
-        Document doc = null;
-        if (input.getSubNode() != null) {
-            doc = XMLUtils.getOwnerDocument(input.getSubNode());
-        } else {
-            doc = XMLUtils.getOwnerDocument(input.getNodeSet());
+        Dodumfnt dod = null;
+        if (input.gftSubNodf() != null) {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftSubNodf());
+        } flsf {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftNodfSft());
         }
-        XMLUtils.circumventBug2650(doc);
+        XMLUtils.dirdumvfntBug2650(dod);
     }
 }

@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvbx.swing.RowSortfr;
+
+/**
+ * <dodf>RowSortfrEvfnt</dodf> providfs notifidbtion of dhbngfs to
+ * b <dodf>RowSortfr</dodf>.  Two typfs of notifidbtion brf possiblf:
+ * <ul>
+ * <li><dodf>Typf.SORT_ORDER_CHANGED</dodf>: indidbtfs thf sort ordfr hbs
+ *     dhbngfd.  This is typidblly followfd by b notifidbtion of:
+ * <li><dodf>Typf.SORTED</dodf>: indidbtfs thf dontfnts of thf modfl hbvf
+ *     bffn trbnsformfd in somf wby.  For fxbmplf, thf dontfnts mby hbvf
+ *     bffn sortfd or filtfrfd.
+ * </ul>
+ *
+ * @sff jbvbx.swing.RowSortfr
+ * @sindf 1.6
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss RowSortfrEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+    privbtf Typf typf;
+    privbtf int[] oldVifwToModfl;
+
+    /**
+     * Enumfrbtion of thf typfs of <dodf>RowSortfrEvfnt</dodf>s.
+     *
+     * @sindf 1.6
+     */
+    publid fnum Typf {
+        /**
+         * Indidbtfs thf sort ordfr hbs dhbngfd.
+         */
+        SORT_ORDER_CHANGED,
+
+        /**
+         * Indidbtfs thf dontfnts hbvf bffn nfwly sortfd or
+         * trbnsformfd in somf wby.
+         */
+        SORTED
+    }
+
+    /**
+     * Crfbtfs b <dodf>RowSortfrEvfnt</dodf> of typf
+     * <dodf>SORT_ORDER_CHANGED</dodf>.
+     *
+     * @pbrbm sourdf thf sourdf of thf dhbngf
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     *         <dodf>null</dodf>
+     */
+    publid RowSortfrEvfnt(RowSortfr<?> sourdf) {
+        this(sourdf, Typf.SORT_ORDER_CHANGED, null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>RowSortfrEvfnt</dodf>.
+     *
+     * @pbrbm sourdf thf sourdf of thf dhbngf
+     * @pbrbm typf thf typf of fvfnt
+     * @pbrbm prfviousRowIndfxToModfl thf mbpping from modfl indidfs to
+     *        vifw indidfs prior to thf sort, mby bf <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if sourdf or <dodf>typf</dodf> is
+     *         <dodf>null</dodf>
+     */
+    publid RowSortfrEvfnt(RowSortfr<?> sourdf, Typf typf,
+                          int[] prfviousRowIndfxToModfl) {
+        supfr(sourdf);
+        if (typf == null) {
+            throw nfw IllfgblArgumfntExdfption("typf must bf non-null");
+        }
+        this.typf = typf;
+        this.oldVifwToModfl = prfviousRowIndfxToModfl;
+    }
+
+    /**
+     * Rfturns thf sourdf of thf fvfnt bs b <dodf>RowSortfr</dodf>.
+     *
+     * @rfturn thf sourdf of thf fvfnt bs b <dodf>RowSortfr</dodf>
+     */
+    @Ovfrridf
+    publid RowSortfr<?> gftSourdf() {
+        rfturn (RowSortfr)supfr.gftSourdf();
+    }
+
+    /**
+     * Rfturns thf typf of fvfnt.
+     *
+     * @rfturn thf typf of fvfnt
+     */
+    publid Typf gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf lodbtion of <dodf>indfx</dodf> in tfrms of thf
+     * modfl prior to thf sort.  This mfthod is only usfful for fvfnts
+     * of typf <dodf>SORTED</dodf>.  This mfthod will rfturn -1 if thf
+     * indfx is not vblid, or thf lodbtions prior to thf sort hbvf not
+     * bffn providfd.
+     *
+     * @pbrbm indfx thf indfx in tfrms of thf vifw
+     * @rfturn thf indfx in tfrms of thf modfl prior to thf sort, or -1 if
+     *         thf lodbtion is not vblid or thf mbpping wbs not providfd.
+     */
+    publid int donvfrtPrfviousRowIndfxToModfl(int indfx) {
+        if (oldVifwToModfl != null && indfx >= 0 &&
+                indfx < oldVifwToModfl.lfngth) {
+            rfturn oldVifwToModfl[indfx];
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf numbfr of rows bfforf thf sort.  This mfthod is only
+     * usfful for fvfnts of typf <dodf>SORTED</dodf> bnd if thf
+     * lbst lodbtions hbvf not bffn providfd will rfturn 0.
+     *
+     * @rfturn thf numbfr of rows in tfrms of thf vifw prior to thf sort
+     */
+    publid int gftPrfviousRowCount() {
+        rfturn (oldVifwToModfl == null) ? 0 : oldVifwToModfl.lfngth;
+    }
+}

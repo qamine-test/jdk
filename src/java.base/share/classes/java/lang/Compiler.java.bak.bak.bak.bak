@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thf {@dodf Compilfr} dlbss is providfd to support Jbvb-to-nbtivf-dodf
+ * dompilfrs bnd rflbtfd sfrvidfs. By dfsign, thf {@dodf Compilfr} dlbss dofs
+ * nothing; it sfrvfs bs b plbdfholdfr for b JIT dompilfr implfmfntbtion.
+ *
+ * <p> Whfn thf Jbvb Virtubl Mbdhinf first stbrts, it dftfrminfs if thf systfm
+ * propfrty {@dodf jbvb.dompilfr} fxists. (Systfm propfrtifs brf bddfssiblf
+ * through {@link Systfm#gftPropfrty(String)} bnd {@link
+ * Systfm#gftPropfrty(String, String)}.  If so, it is bssumfd to bf thf nbmf of
+ * b librbry (with b plbtform-dfpfndfnt fxbdt lodbtion bnd typf); {@link
+ * Systfm#lobdLibrbry} is dbllfd to lobd thbt librbry. If this lobding
+ * suddffds, thf fundtion nbmfd {@dodf jbvb_lbng_Compilfr_stbrt()} in thbt
+ * librbry is dbllfd.
+ *
+ * <p> If no dompilfr is bvbilbblf, thfsf mfthods do nothing.
+ *
+ * @buthor  Frbnk Yfllin
+ * @sindf   1.0
+ */
+publid finbl dlbss Compilfr  {
+    privbtf Compilfr() {}               // don't mbkf instbndfs
+
+    privbtf stbtid nbtivf void initiblizf();
+
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+
+    stbtid {
+        rfgistfrNbtivfs();
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    boolfbn lobdfd = fblsf;
+                    String jit = Systfm.gftPropfrty("jbvb.dompilfr");
+                    if ((jit != null) && (!jit.fqubls("NONE")) &&
+                        (!jit.fqubls("")))
+                    {
+                        try {
+                            Systfm.lobdLibrbry(jit);
+                            initiblizf();
+                            lobdfd = truf;
+                        } dbtdh (UnsbtisfifdLinkError f) {
+                            Systfm.frr.println("Wbrning: JIT dompilfr \"" +
+                              jit + "\" not found. Will usf intfrprftfr.");
+                        }
+                    }
+                    String info = Systfm.gftPropfrty("jbvb.vm.info");
+                    if (lobdfd) {
+                        Systfm.sftPropfrty("jbvb.vm.info", info + ", " + jit);
+                    } flsf {
+                        Systfm.sftPropfrty("jbvb.vm.info", info + ", nojit");
+                    }
+                    rfturn null;
+                }
+            });
+    }
+
+    /**
+     * Compilfs thf spfdififd dlbss.
+     *
+     * @pbrbm  dlbzz
+     *         A dlbss
+     *
+     * @rfturn  {@dodf truf} if thf dompilbtion suddffdfd; {@dodf fblsf} if thf
+     *          dompilbtion fbilfd or no dompilfr is bvbilbblf
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf dlbzz} is {@dodf null}
+     */
+    publid stbtid nbtivf boolfbn dompilfClbss(Clbss<?> dlbzz);
+
+    /**
+     * Compilfs bll dlbssfs whosf nbmf mbtdhfs thf spfdififd string.
+     *
+     * @pbrbm  string
+     *         Thf nbmf of thf dlbssfs to dompilf
+     *
+     * @rfturn  {@dodf truf} if thf dompilbtion suddffdfd; {@dodf fblsf} if thf
+     *          dompilbtion fbilfd or no dompilfr is bvbilbblf
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf string} is {@dodf null}
+     */
+    publid stbtid nbtivf boolfbn dompilfClbssfs(String string);
+
+    /**
+     * Exbminfs thf brgumfnt typf bnd its fiflds bnd pfrform somf dodumfntfd
+     * opfrbtion.  No spfdifid opfrbtions brf rfquirfd.
+     *
+     * @pbrbm  bny
+     *         An brgumfnt
+     *
+     * @rfturn  A dompilfr-spfdifid vbluf, or {@dodf null} if no dompilfr is
+     *          bvbilbblf
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf bny} is {@dodf null}
+     */
+    publid stbtid nbtivf Objfdt dommbnd(Objfdt bny);
+
+    /**
+     * Cbusf thf Compilfr to rfsumf opfrbtion.
+     */
+    publid stbtid nbtivf void fnbblf();
+
+    /**
+     * Cbusf thf Compilfr to dfbsf opfrbtion.
+     */
+    publid stbtid nbtivf void disbblf();
+}

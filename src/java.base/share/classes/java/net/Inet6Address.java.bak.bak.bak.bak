@@ -1,0 +1,951 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss rfprfsfnts bn Intfrnft Protodol vfrsion 6 (IPv6) bddrfss.
+ * Dffinfd by <b hrff="http://www.iftf.org/rfd/rfd2373.txt">
+ * <i>RFC&nbsp;2373: IP Vfrsion 6 Addrfssing Ardhitfdturf</i></b>.
+ *
+ * <h3> <A NAME="formbt">Tfxtubl rfprfsfntbtion of IP bddrfssfs</b> </h3>
+ *
+ * Tfxtubl rfprfsfntbtion of IPv6 bddrfss usfd bs input to mfthods
+ * tbkfs onf of thf following forms:
+ *
+ * <ol>
+ *   <li><p> <A NAME="lform">Thf prfffrrfd form</b> is x:x:x:x:x:x:x:x,
+ *   whfrf thf 'x's brf
+ *   thf hfxbdfdimbl vblufs of thf fight 16-bit pifdfs of thf
+ *   bddrfss. This is thf full form.  For fxbmplf,
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf 1080:0:0:0:8:800:200C:417A}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <p> Notf thbt it is not nfdfssbry to writf thf lfbding zfros in
+ *   bn individubl fifld. Howfvfr, thfrf must bf bt lfbst onf numfrbl
+ *   in fvfry fifld, fxdfpt bs dfsdribfd bflow.</li>
+ *
+ *   <li><p> Duf to somf mfthods of bllodbting dfrtbin stylfs of IPv6
+ *   bddrfssfs, it will bf dommon for bddrfssfs to dontbin long
+ *   strings of zfro bits. In ordfr to mbkf writing bddrfssfs
+ *   dontbining zfro bits fbsifr, b spfdibl syntbx is bvbilbblf to
+ *   domprfss thf zfros. Thf usf of "::" indidbtfs multiplf groups
+ *   of 16-bits of zfros. Thf "::" dbn only bppfbr ondf in bn bddrfss.
+ *   Thf "::" dbn blso bf usfd to domprfss thf lfbding bnd/or trbiling
+ *   zfros in bn bddrfss. For fxbmplf,
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf 1080::8:800:200C:417A}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <li><p> An bltfrnbtivf form thbt is somftimfs morf donvfnifnt
+ *   whfn dfbling with b mixfd fnvironmfnt of IPv4 bnd IPv6 nodfs is
+ *   x:x:x:x:x:x:d.d.d.d, whfrf thf 'x's brf thf hfxbdfdimbl vblufs
+ *   of thf six high-ordfr 16-bit pifdfs of thf bddrfss, bnd thf 'd's
+ *   brf thf dfdimbl vblufs of thf four low-ordfr 8-bit pifdfs of thf
+ *   stbndbrd IPv4 rfprfsfntbtion bddrfss, for fxbmplf,
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf ::FFFF:129.144.52.38}<td></tr>
+ *   <tr><td>{@dodf ::129.144.52.38}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <p> whfrf "::FFFF:d.d.d.d" bnd "::d.d.d.d" brf, rfspfdtivfly, thf
+ *   gfnfrbl forms of bn IPv4-mbppfd IPv6 bddrfss bnd bn
+ *   IPv4-dompbtiblf IPv6 bddrfss. Notf thbt thf IPv4 portion must bf
+ *   in thf "d.d.d.d" form. Thf following forms brf invblid:
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf ::FFFF:d.d.d}<td></tr>
+ *   <tr><td>{@dodf ::FFFF:d.d}<td></tr>
+ *   <tr><td>{@dodf ::d.d.d}<td></tr>
+ *   <tr><td>{@dodf ::d.d}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <p> Thf following form:
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf ::FFFF:d}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <p> is vblid, howfvfr it is bn undonvfntionbl rfprfsfntbtion of
+ *   thf IPv4-dompbtiblf IPv6 bddrfss,
+ *
+ *   <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ *   <tr><td>{@dodf ::255.255.0.d}<td></tr>
+ *   </tbblf></blodkquotf>
+ *
+ *   <p> whilf "::d" dorrfsponds to thf gfnfrbl IPv6 bddrfss
+ *   "0:0:0:0:0:0:0:d".</li>
+ * </ol>
+ *
+ * <p> For mfthods thbt rfturn b tfxtubl rfprfsfntbtion bs output
+ * vbluf, thf full form is usfd. Inft6Addrfss will rfturn thf full
+ * form bfdbusf it is unbmbiguous whfn usfd in dombinbtion with othfr
+ * tfxtubl dbtb.
+ *
+ * <h4> Spfdibl IPv6 bddrfss </h4>
+ *
+ * <blodkquotf>
+ * <tbblf dfllspbding=2 summbry="Dfsdription of IPv4-mbppfd bddrfss">
+ * <tr><th vblign=top><i>IPv4-mbppfd bddrfss</i></th>
+ *         <td>Of thf form::ffff:w.x.y.z, this IPv6 bddrfss is usfd to
+ *         rfprfsfnt bn IPv4 bddrfss. It bllows thf nbtivf progrbm to
+ *         usf thf sbmf bddrfss dbtb strudturf bnd blso thf sbmf
+ *         sodkft whfn dommunidbting with both IPv4 bnd IPv6 nodfs.
+ *
+ *         <p>In InftAddrfss bnd Inft6Addrfss, it is usfd for intfrnbl
+ *         rfprfsfntbtion; it hbs no fundtionbl rolf. Jbvb will nfvfr
+ *         rfturn bn IPv4-mbppfd bddrfss.  Thfsf dlbssfs dbn tbkf bn
+ *         IPv4-mbppfd bddrfss bs input, both in bytf brrby bnd tfxt
+ *         rfprfsfntbtion. Howfvfr, it will bf donvfrtfd into bn IPv4
+ *         bddrfss.</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <h4><A NAME="sdopfd">Tfxtubl rfprfsfntbtion of IPv6 sdopfd bddrfssfs</b></h4>
+ *
+ * <p> Thf tfxtubl rfprfsfntbtion of IPv6 bddrfssfs bs dfsdribfd bbovf dbn bf
+ * fxtfndfd to spfdify IPv6 sdopfd bddrfssfs. This fxtfnsion to thf bbsid
+ * bddrfssing brdhitfdturf is dfsdribfd in [drbft-iftf-ipngwg-sdoping-brdh-04.txt].
+ *
+ * <p> Bfdbusf link-lodbl bnd sitf-lodbl bddrfssfs brf non-globbl, it is possiblf
+ * thbt difffrfnt hosts mby hbvf thf sbmf dfstinbtion bddrfss bnd mby bf
+ * rfbdhbblf through difffrfnt intfrfbdfs on thf sbmf originbting systfm. In
+ * this dbsf, thf originbting systfm is sbid to bf donnfdtfd to multiplf zonfs
+ * of thf sbmf sdopf. In ordfr to disbmbigubtf whidh is thf intfndfd dfstinbtion
+ * zonf, it is possiblf to bppfnd b zonf idfntififr (or <i>sdopf_id</i>) to bn
+ * IPv6 bddrfss.
+ *
+ * <p> Thf gfnfrbl formbt for spfdifying thf <i>sdopf_id</i> is thf following:
+ *
+ * <blodkquotf><i>IPv6-bddrfss</i>%<i>sdopf_id</i></blodkquotf>
+ * <p> Thf IPv6-bddrfss is b litfrbl IPv6 bddrfss bs dfsdribfd bbovf.
+ * Thf <i>sdopf_id</i> rfffrs to bn intfrfbdf on thf lodbl systfm, bnd it dbn bf
+ * spfdififd in two wbys.
+ * <ol><li><i>As b numfrid idfntififr.</i> This must bf b positivf intfgfr
+ * thbt idfntififs thf pbrtidulbr intfrfbdf bnd sdopf bs undfrstood by thf
+ * systfm. Usublly, thf numfrid vblufs dbn bf dftfrminfd through bdministrbtion
+ * tools on thf systfm. Ebdh intfrfbdf mby hbvf multiplf vblufs, onf for fbdh
+ * sdopf. If thf sdopf is unspfdififd, thfn thf dffbult vbluf usfd is zfro.</li>
+ * <li><i>As b string.</i> This must bf thf fxbdt string thbt is rfturnfd by
+ * {@link jbvb.nft.NftworkIntfrfbdf#gftNbmf()} for thf pbrtidulbr intfrfbdf in
+ * qufstion. Whfn bn Inft6Addrfss is drfbtfd in this wby, thf numfrid sdopf-id
+ * is dftfrminfd bt thf timf thf objfdt is drfbtfd by qufrying thf rflfvbnt
+ * NftworkIntfrfbdf.</li></ol>
+ *
+ * <p> Notf blso, thbt thf numfrid <i>sdopf_id</i> dbn bf rftrifvfd from
+ * Inft6Addrfss instbndfs rfturnfd from thf NftworkIntfrfbdf dlbss. This dbn bf
+ * usfd to find out thf durrfnt sdopf ids donfigurfd on thf systfm.
+ * @sindf 1.4
+ */
+
+publid finbl
+dlbss Inft6Addrfss fxtfnds InftAddrfss {
+    finbl stbtid int INADDRSZ = 16;
+
+    /*
+     * dbdhfd sdopf_id - for link-lodbl bddrfss usf only.
+     */
+    privbtf trbnsifnt int dbdhfd_sdopf_id;  // 0
+
+    privbtf dlbss Inft6AddrfssHoldfr {
+
+        privbtf Inft6AddrfssHoldfr() {
+            ipbddrfss = nfw bytf[INADDRSZ];
+        }
+
+        privbtf Inft6AddrfssHoldfr(
+            bytf[] ipbddrfss, int sdopf_id, boolfbn sdopf_id_sft,
+            NftworkIntfrfbdf ifnbmf, boolfbn sdopf_ifnbmf_sft)
+        {
+            this.ipbddrfss = ipbddrfss;
+            this.sdopf_id = sdopf_id;
+            this.sdopf_id_sft = sdopf_id_sft;
+            this.sdopf_ifnbmf_sft = sdopf_ifnbmf_sft;
+            this.sdopf_ifnbmf = ifnbmf;
+        }
+
+        /**
+         * Holds b 128-bit (16 bytfs) IPv6 bddrfss.
+         */
+        bytf[] ipbddrfss;
+
+        /**
+         * sdopf_id. Thf sdopf spfdififd whfn thf objfdt is drfbtfd. If thf objfdt
+         * is drfbtfd with bn intfrfbdf nbmf, thfn thf sdopf_id is not dftfrminfd
+         * until thf timf it is nffdfd.
+         */
+        int sdopf_id;  // 0
+
+        /**
+         * This will bf sft to truf whfn thf sdopf_id fifld dontbins b vblid
+         * intfgfr sdopf_id.
+         */
+        boolfbn sdopf_id_sft;  // fblsf
+
+        /**
+         * sdopfd intfrfbdf. sdopf_id is dfrivfd from this bs thf sdopf_id of thf first
+         * bddrfss whosf sdopf is thf sbmf bs this bddrfss for thf nbmfd intfrfbdf.
+         */
+        NftworkIntfrfbdf sdopf_ifnbmf;  // null
+
+        /**
+         * sft if thf objfdt is donstrudtfd with b sdopfd
+         * intfrfbdf instfbd of b numfrid sdopf id.
+         */
+        boolfbn sdopf_ifnbmf_sft; // fblsf;
+
+        void sftAddr(bytf bddr[]) {
+            if (bddr.lfngth == INADDRSZ) { // normbl IPv6 bddrfss
+                Systfm.brrbydopy(bddr, 0, ipbddrfss, 0, INADDRSZ);
+            }
+        }
+
+        void init(bytf bddr[], int sdopf_id) {
+            sftAddr(bddr);
+
+            if (sdopf_id >= 0) {
+                this.sdopf_id = sdopf_id;
+                this.sdopf_id_sft = truf;
+            }
+        }
+
+        void init(bytf bddr[], NftworkIntfrfbdf nif)
+            throws UnknownHostExdfption
+        {
+            sftAddr(bddr);
+
+            if (nif != null) {
+                this.sdopf_id = dfrivfNumfridSdopf(ipbddrfss, nif);
+                this.sdopf_id_sft = truf;
+                this.sdopf_ifnbmf = nif;
+                this.sdopf_ifnbmf_sft = truf;
+            }
+        }
+
+        String gftHostAddrfss() {
+            String s = numfridToTfxtFormbt(ipbddrfss);
+            if (sdopf_ifnbmf != null) { /* must dhfdk this first */
+                s = s + "%" + sdopf_ifnbmf.gftNbmf();
+            } flsf if (sdopf_id_sft) {
+                s = s + "%" + sdopf_id;
+            }
+            rfturn s;
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if (! (o instbndfof Inft6AddrfssHoldfr)) {
+                rfturn fblsf;
+            }
+            Inft6AddrfssHoldfr thbt = (Inft6AddrfssHoldfr)o;
+
+            rfturn Arrbys.fqubls(this.ipbddrfss, thbt.ipbddrfss);
+        }
+
+        publid int hbshCodf() {
+            if (ipbddrfss != null) {
+
+                int hbsh = 0;
+                int i=0;
+                whilf (i<INADDRSZ) {
+                    int j=0;
+                    int domponfnt=0;
+                    whilf (j<4 && i<INADDRSZ) {
+                        domponfnt = (domponfnt << 8) + ipbddrfss[i];
+                        j++;
+                        i++;
+                    }
+                    hbsh += domponfnt;
+                }
+                rfturn hbsh;
+
+            } flsf {
+                rfturn 0;
+            }
+        }
+
+        boolfbn isIPv4CompbtiblfAddrfss() {
+            if ((ipbddrfss[0] == 0x00) && (ipbddrfss[1] == 0x00) &&
+                (ipbddrfss[2] == 0x00) && (ipbddrfss[3] == 0x00) &&
+                (ipbddrfss[4] == 0x00) && (ipbddrfss[5] == 0x00) &&
+                (ipbddrfss[6] == 0x00) && (ipbddrfss[7] == 0x00) &&
+                (ipbddrfss[8] == 0x00) && (ipbddrfss[9] == 0x00) &&
+                (ipbddrfss[10] == 0x00) && (ipbddrfss[11] == 0x00))  {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        boolfbn isMultidbstAddrfss() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff);
+        }
+
+        boolfbn isAnyLodblAddrfss() {
+            bytf tfst = 0x00;
+            for (int i = 0; i < INADDRSZ; i++) {
+                tfst |= ipbddrfss[i];
+            }
+            rfturn (tfst == 0x00);
+        }
+
+        boolfbn isLoopbbdkAddrfss() {
+            bytf tfst = 0x00;
+            for (int i = 0; i < 15; i++) {
+                tfst |= ipbddrfss[i];
+            }
+            rfturn (tfst == 0x00) && (ipbddrfss[15] == 0x01);
+        }
+
+        boolfbn isLinkLodblAddrfss() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0xd0) == 0x80);
+        }
+
+
+        boolfbn isSitfLodblAddrfss() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0xd0) == 0xd0);
+        }
+
+        boolfbn isMCGlobbl() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0x0f) == 0x0f);
+        }
+
+        boolfbn isMCNodfLodbl() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0x0f) == 0x01);
+        }
+
+        boolfbn isMCLinkLodbl() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0x0f) == 0x02);
+        }
+
+        boolfbn isMCSitfLodbl() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0x0f) == 0x05);
+        }
+
+        boolfbn isMCOrgLodbl() {
+            rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                    && (ipbddrfss[1] & 0x0f) == 0x08);
+        }
+    }
+
+    privbtf finbl trbnsifnt Inft6AddrfssHoldfr holdfr6;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6880410070516793377L;
+
+    // Pfrform nbtivf initiblizbtion
+    stbtid { init(); }
+
+    Inft6Addrfss() {
+        supfr();
+        holdfr.init(null, IPv6);
+        holdfr6 = nfw Inft6AddrfssHoldfr();
+    }
+
+    /* dhfdking of vbluf for sdopf_id should bf donf by dbllfr
+     * sdopf_id must bf >= 0, or -1 to indidbtf not bfing sft
+     */
+    Inft6Addrfss(String hostNbmf, bytf bddr[], int sdopf_id) {
+        holdfr.init(hostNbmf, IPv6);
+        holdfr6 = nfw Inft6AddrfssHoldfr();
+        holdfr6.init(bddr, sdopf_id);
+    }
+
+    Inft6Addrfss(String hostNbmf, bytf bddr[]) {
+        holdfr6 = nfw Inft6AddrfssHoldfr();
+        try {
+            initif (hostNbmf, bddr, null);
+        } dbtdh (UnknownHostExdfption f) {} /* dbnt hbppfn if ifnbmf is null */
+    }
+
+    Inft6Addrfss (String hostNbmf, bytf bddr[], NftworkIntfrfbdf nif)
+        throws UnknownHostExdfption
+    {
+        holdfr6 = nfw Inft6AddrfssHoldfr();
+        initif (hostNbmf, bddr, nif);
+    }
+
+    Inft6Addrfss (String hostNbmf, bytf bddr[], String ifnbmf)
+        throws UnknownHostExdfption
+    {
+        holdfr6 = nfw Inft6AddrfssHoldfr();
+        initstr (hostNbmf, bddr, ifnbmf);
+    }
+
+    /**
+     * Crfbtf bn Inft6Addrfss in thf fxbdt mbnnfr of {@link
+     * InftAddrfss#gftByAddrfss(String,bytf[])} fxdfpt thbt thf IPv6 sdopf_id is
+     * sft to thf vbluf dorrfsponding to thf givfn intfrfbdf for thf bddrfss
+     * typf spfdififd in {@dodf bddr}. Thf dbll will fbil with bn
+     * UnknownHostExdfption if thf givfn intfrfbdf dofs not hbvf b numfrid
+     * sdopf_id bssignfd for thf givfn bddrfss typf (fg. link-lodbl or sitf-lodbl).
+     * Sff <b hrff="Inft6Addrfss.html#sdopfd">hfrf</b> for b dfsdription of IPv6
+     * sdopfd bddrfssfs.
+     *
+     * @pbrbm host thf spfdififd host
+     * @pbrbm bddr thf rbw IP bddrfss in nftwork bytf ordfr
+     * @pbrbm nif bn intfrfbdf this bddrfss must bf bssodibtfd with.
+     * @rfturn  bn Inft6Addrfss objfdt drfbtfd from thf rbw IP bddrfss.
+     * @throws  UnknownHostExdfption
+     *          if IP bddrfss is of illfgbl lfngth, or if thf intfrfbdf dofs not
+     *          hbvf b numfrid sdopf_id bssignfd for thf givfn bddrfss typf.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid Inft6Addrfss gftByAddrfss(String host, bytf[] bddr,
+                                            NftworkIntfrfbdf nif)
+        throws UnknownHostExdfption
+    {
+        if (host != null && host.lfngth() > 0 && host.dhbrAt(0) == '[') {
+            if (host.dhbrAt(host.lfngth()-1) == ']') {
+                host = host.substring(1, host.lfngth() -1);
+            }
+        }
+        if (bddr != null) {
+            if (bddr.lfngth == Inft6Addrfss.INADDRSZ) {
+                rfturn nfw Inft6Addrfss(host, bddr, nif);
+            }
+        }
+        throw nfw UnknownHostExdfption("bddr is of illfgbl lfngth");
+    }
+
+    /**
+     * Crfbtf bn Inft6Addrfss in thf fxbdt mbnnfr of {@link
+     * InftAddrfss#gftByAddrfss(String,bytf[])} fxdfpt thbt thf IPv6 sdopf_id is
+     * sft to thf givfn numfrid vbluf. Thf sdopf_id is not dhfdkfd to dftfrminf
+     * if it dorrfsponds to bny intfrfbdf on thf systfm.
+     * Sff <b hrff="Inft6Addrfss.html#sdopfd">hfrf</b> for b dfsdription of IPv6
+     * sdopfd bddrfssfs.
+     *
+     * @pbrbm host thf spfdififd host
+     * @pbrbm bddr thf rbw IP bddrfss in nftwork bytf ordfr
+     * @pbrbm sdopf_id thf numfrid sdopf_id for thf bddrfss.
+     * @rfturn  bn Inft6Addrfss objfdt drfbtfd from thf rbw IP bddrfss.
+     * @throws  UnknownHostExdfption  if IP bddrfss is of illfgbl lfngth.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid Inft6Addrfss gftByAddrfss(String host, bytf[] bddr,
+                                            int sdopf_id)
+        throws UnknownHostExdfption
+    {
+        if (host != null && host.lfngth() > 0 && host.dhbrAt(0) == '[') {
+            if (host.dhbrAt(host.lfngth()-1) == ']') {
+                host = host.substring(1, host.lfngth() -1);
+            }
+        }
+        if (bddr != null) {
+            if (bddr.lfngth == Inft6Addrfss.INADDRSZ) {
+                rfturn nfw Inft6Addrfss(host, bddr, sdopf_id);
+            }
+        }
+        throw nfw UnknownHostExdfption("bddr is of illfgbl lfngth");
+    }
+
+    privbtf void initstr(String hostNbmf, bytf bddr[], String ifnbmf)
+        throws UnknownHostExdfption
+    {
+        try {
+            NftworkIntfrfbdf nif = NftworkIntfrfbdf.gftByNbmf (ifnbmf);
+            if (nif == null) {
+                throw nfw UnknownHostExdfption ("no sudh intfrfbdf " + ifnbmf);
+            }
+            initif (hostNbmf, bddr, nif);
+        } dbtdh (SodkftExdfption f) {
+            throw nfw UnknownHostExdfption ("SodkftExdfption thrown" + ifnbmf);
+        }
+    }
+
+    privbtf void initif(String hostNbmf, bytf bddr[], NftworkIntfrfbdf nif)
+        throws UnknownHostExdfption
+    {
+        int fbmily = -1;
+        holdfr6.init(bddr, nif);
+
+        if (bddr.lfngth == INADDRSZ) { // normbl IPv6 bddrfss
+            fbmily = IPv6;
+        }
+        holdfr.init(hostNbmf, fbmily);
+    }
+
+    /* dhfdk thf two Ipv6 bddrfssfs bnd rfturn fblsf if thfy brf both
+     * non globbl bddrfss typfs, but not thf sbmf.
+     * (if. onf is sitflodbl bnd thf othfr linklodbl)
+     * rfturn truf othfrwisf.
+     */
+
+    privbtf stbtid boolfbn isDifffrfntLodblAddrfssTypf(
+        bytf[] thisAddr, bytf[] othfrAddr) {
+
+        if (Inft6Addrfss.isLinkLodblAddrfss(thisAddr) &&
+                !Inft6Addrfss.isLinkLodblAddrfss(othfrAddr)) {
+            rfturn fblsf;
+        }
+        if (Inft6Addrfss.isSitfLodblAddrfss(thisAddr) &&
+                !Inft6Addrfss.isSitfLodblAddrfss(othfrAddr)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    privbtf stbtid int dfrivfNumfridSdopf (bytf[] thisAddr, NftworkIntfrfbdf ifd) throws UnknownHostExdfption {
+        Enumfrbtion<InftAddrfss> bddrfssfs = ifd.gftInftAddrfssfs();
+        whilf (bddrfssfs.hbsMorfElfmfnts()) {
+            InftAddrfss bddr = bddrfssfs.nfxtElfmfnt();
+            if (!(bddr instbndfof Inft6Addrfss)) {
+                dontinuf;
+            }
+            Inft6Addrfss ib6_bddr = (Inft6Addrfss)bddr;
+            /* dhfdk if sitf or link lodbl prffixfs mbtdh */
+            if (!isDifffrfntLodblAddrfssTypf(thisAddr, ib6_bddr.gftAddrfss())){
+                /* typf not thf sbmf, so dbrry on sfbrdhing */
+                dontinuf;
+            }
+            /* found b mbtdhing bddrfss - rfturn its sdopf_id */
+            rfturn ib6_bddr.gftSdopfId();
+        }
+        throw nfw UnknownHostExdfption ("no sdopf_id found");
+    }
+
+    privbtf int dfrivfNumfridSdopf (String ifnbmf) throws UnknownHostExdfption {
+        Enumfrbtion<NftworkIntfrfbdf> fn;
+        try {
+            fn = NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+        } dbtdh (SodkftExdfption f) {
+            throw nfw UnknownHostExdfption ("dould not fnumfrbtf lodbl nftwork intfrfbdfs");
+        }
+        whilf (fn.hbsMorfElfmfnts()) {
+            NftworkIntfrfbdf ifd = fn.nfxtElfmfnt();
+            if (ifd.gftNbmf().fqubls (ifnbmf)) {
+                rfturn dfrivfNumfridSdopf(holdfr6.ipbddrfss, ifd);
+            }
+        }
+        throw nfw UnknownHostExdfption ("No mbtdhing bddrfss found for intfrfbdf : " +ifnbmf);
+    }
+
+    /**
+     * @sfriblFifld ipbddrfss bytf[]
+     * @sfriblFifld sdopf_id int
+     * @sfriblFifld sdopf_id_sft boolfbn
+     * @sfriblFifld sdopf_ifnbmf_sft boolfbn
+     * @sfriblFifld ifnbmf String
+     */
+
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+         nfw ObjfdtStrfbmFifld("ipbddrfss", bytf[].dlbss),
+         nfw ObjfdtStrfbmFifld("sdopf_id", int.dlbss),
+         nfw ObjfdtStrfbmFifld("sdopf_id_sft", boolfbn.dlbss),
+         nfw ObjfdtStrfbmFifld("sdopf_ifnbmf_sft", boolfbn.dlbss),
+         nfw ObjfdtStrfbmFifld("ifnbmf", String.dlbss)
+    };
+
+    privbtf stbtid finbl long FIELDS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+
+    stbtid {
+        try {
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            FIELDS_OFFSET = unsbff.objfdtFifldOffsft(
+                    Inft6Addrfss.dlbss.gftDfdlbrfdFifld("holdfr6"));
+            UNSAFE = unsbff;
+        } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    /**
+     * rfstorf thf stbtf of this objfdt from strfbm
+     * indluding thf sdopf informbtion, only if thf
+     * sdopfd intfrfbdf nbmf is vblid on this systfm
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        NftworkIntfrfbdf sdopf_ifnbmf = null;
+
+        if (gftClbss().gftClbssLobdfr() != null) {
+            throw nfw SfdurityExdfption ("invblid bddrfss typf");
+        }
+
+        ObjfdtInputStrfbm.GftFifld gf = s.rfbdFiflds();
+        bytf[] ipbddrfss = (bytf[])gf.gft("ipbddrfss", null);
+        int sdopf_id = gf.gft("sdopf_id", -1);
+        boolfbn sdopf_id_sft = gf.gft("sdopf_id_sft", fblsf);
+        boolfbn sdopf_ifnbmf_sft = gf.gft("sdopf_ifnbmf_sft", fblsf);
+        String ifnbmf = (String)gf.gft("ifnbmf", null);
+
+        if (ifnbmf != null && !"".fqubls (ifnbmf)) {
+            try {
+                sdopf_ifnbmf = NftworkIntfrfbdf.gftByNbmf(ifnbmf);
+                if (sdopf_ifnbmf == null) {
+                    /* thf intfrfbdf dofs not fxist on this systfm, so wf dlfbr
+                     * thf sdopf informbtion domplftfly */
+                    sdopf_id_sft = fblsf;
+                    sdopf_ifnbmf_sft = fblsf;
+                    sdopf_id = 0;
+                } flsf {
+                    sdopf_ifnbmf_sft = truf;
+                    try {
+                        sdopf_id = dfrivfNumfridSdopf (ipbddrfss, sdopf_ifnbmf);
+                    } dbtdh (UnknownHostExdfption f) {
+                        // typidblly should not hbppfn, but it mby bf thbt
+                        // thf mbdhinf bfing usfd for dfsfriblizbtion hbs
+                        // thf sbmf intfrfbdf nbmf but without IPv6 donfigurfd.
+                    }
+                }
+            } dbtdh (SodkftExdfption f) {}
+        }
+
+        /* if ifnbmf wbs not supplifd, thfn thf numfrid info is usfd */
+
+        ipbddrfss = ipbddrfss.dlonf();
+
+        // Chfdk thbt our invbribnts brf sbtisfifd
+        if (ipbddrfss.lfngth != INADDRSZ) {
+            throw nfw InvblidObjfdtExdfption("invblid bddrfss lfngth: "+
+                                             ipbddrfss.lfngth);
+        }
+
+        if (holdfr.gftFbmily() != IPv6) {
+            throw nfw InvblidObjfdtExdfption("invblid bddrfss fbmily typf");
+        }
+
+        Inft6AddrfssHoldfr h = nfw Inft6AddrfssHoldfr(
+            ipbddrfss, sdopf_id, sdopf_id_sft, sdopf_ifnbmf, sdopf_ifnbmf_sft
+        );
+
+        UNSAFE.putObjfdt(this, FIELDS_OFFSET, h);
+    }
+
+    /**
+     * dffbult bfhbvior is ovfrriddfn in ordfr to writf thf
+     * sdopf_ifnbmf fifld bs b String, rbthfr thbn b NftworkIntfrfbdf
+     * whidh is not sfriblizbblf
+     */
+    privbtf syndhronizfd void writfObjfdt(ObjfdtOutputStrfbm s)
+        throws IOExdfption
+    {
+            String ifnbmf = null;
+
+        if (holdfr6.sdopf_ifnbmf != null) {
+            ifnbmf = holdfr6.sdopf_ifnbmf.gftNbmf();
+            holdfr6.sdopf_ifnbmf_sft = truf;
+        }
+        ObjfdtOutputStrfbm.PutFifld pfiflds = s.putFiflds();
+        pfiflds.put("ipbddrfss", holdfr6.ipbddrfss);
+        pfiflds.put("sdopf_id", holdfr6.sdopf_id);
+        pfiflds.put("sdopf_id_sft", holdfr6.sdopf_id_sft);
+        pfiflds.put("sdopf_ifnbmf_sft", holdfr6.sdopf_ifnbmf_sft);
+        pfiflds.put("ifnbmf", ifnbmf);
+        s.writfFiflds();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn IP multidbst
+     * bddrfss. 11111111 bt thf stbrt of thf bddrfss idfntififs thf
+     * bddrfss bs bfing b multidbst bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is bn IP
+     *         multidbst bddrfss
+     *
+     * @sindf 1.1
+     */
+    @Ovfrridf
+    publid boolfbn isMultidbstAddrfss() {
+        rfturn holdfr6.isMultidbstAddrfss();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss in b wilddbrd bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf Inftbddrfss is
+     *         b wilddbrd bddrfss.
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isAnyLodblAddrfss() {
+        rfturn holdfr6.isAnyLodblAddrfss();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b loopbbdk bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is b loopbbdk
+     *         bddrfss; or fblsf othfrwisf.
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isLoopbbdkAddrfss() {
+        rfturn holdfr6.isLoopbbdkAddrfss();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn link lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is b link lodbl
+     *         bddrfss; or fblsf if bddrfss is not b link lodbl unidbst bddrfss.
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isLinkLodblAddrfss() {
+        rfturn holdfr6.isLinkLodblAddrfss();
+    }
+
+    /* stbtid vfrsion of bbovf */
+    stbtid boolfbn isLinkLodblAddrfss(bytf[] ipbddrfss) {
+        rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                && (ipbddrfss[1] & 0xd0) == 0x80);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b sitf lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is b sitf lodbl
+     *         bddrfss; or fblsf if bddrfss is not b sitf lodbl unidbst bddrfss.
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isSitfLodblAddrfss() {
+        rfturn holdfr6.isSitfLodblAddrfss();
+    }
+
+    /* stbtid vfrsion of bbovf */
+    stbtid boolfbn isSitfLodblAddrfss(bytf[] ipbddrfss) {
+        rfturn ((ipbddrfss[0] & 0xff) == 0xff
+                && (ipbddrfss[1] & 0xd0) == 0xd0);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs globbl sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs is b multidbst
+     *         bddrfss of globbl sdopf, fblsf if it is not of globbl sdopf or
+     *         it is not b multidbst bddrfss
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isMCGlobbl() {
+        rfturn holdfr6.isMCGlobbl();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs nodf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs is b multidbst
+     *         bddrfss of nodf-lodbl sdopf, fblsf if it is not of nodf-lodbl
+     *         sdopf or it is not b multidbst bddrfss
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isMCNodfLodbl() {
+        rfturn holdfr6.isMCNodfLodbl();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs link sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs is b multidbst
+     *         bddrfss of link-lodbl sdopf, fblsf if it is not of link-lodbl
+     *         sdopf or it is not b multidbst bddrfss
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isMCLinkLodbl() {
+        rfturn holdfr6.isMCLinkLodbl();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs sitf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs is b multidbst
+     *         bddrfss of sitf-lodbl sdopf, fblsf if it is not  of sitf-lodbl
+     *         sdopf or it is not b multidbst bddrfss
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isMCSitfLodbl() {
+        rfturn holdfr6.isMCSitfLodbl();
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs orgbnizbtion sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs is b multidbst
+     *         bddrfss of orgbnizbtion-lodbl sdopf, fblsf if it is not of
+     *         orgbnizbtion-lodbl sdopf or it is not b multidbst bddrfss
+     *
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid boolfbn isMCOrgLodbl() {
+        rfturn holdfr6.isMCOrgLodbl();
+    }
+    /**
+     * Rfturns thf rbw IP bddrfss of this {@dodf InftAddrfss} objfdt. Thf rfsult
+     * is in nftwork bytf ordfr: thf highfst ordfr bytf of thf bddrfss is in
+     * {@dodf gftAddrfss()[0]}.
+     *
+     * @rfturn  thf rbw IP bddrfss of this objfdt.
+     */
+    @Ovfrridf
+    publid bytf[] gftAddrfss() {
+        rfturn holdfr6.ipbddrfss.dlonf();
+    }
+
+    /**
+     * Rfturns thf numfrid sdopfId, if this instbndf is bssodibtfd with
+     * bn intfrfbdf. If no sdopfd_id is sft, thf rfturnfd vbluf is zfro.
+     *
+     * @rfturn thf sdopfId, or zfro if not sft.
+     *
+     * @sindf 1.5
+     */
+     publid int gftSdopfId() {
+        rfturn holdfr6.sdopf_id;
+     }
+
+    /**
+     * Rfturns thf sdopfd intfrfbdf, if this instbndf wbs drfbtfd with
+     * with b sdopfd intfrfbdf.
+     *
+     * @rfturn thf sdopfd intfrfbdf, or null if not sft.
+     * @sindf 1.5
+     */
+     publid NftworkIntfrfbdf gftSdopfdIntfrfbdf() {
+        rfturn holdfr6.sdopf_ifnbmf;
+     }
+
+    /**
+     * Rfturns thf IP bddrfss string in tfxtubl prfsfntbtion. If thf instbndf
+     * wbs drfbtfd spfdifying b sdopf idfntififr thfn thf sdopf id is bppfndfd
+     * to thf IP bddrfss prfdfdfd by b "%" (pfr-dfnt) dhbrbdtfr. This dbn bf
+     * fithfr b numfrid vbluf or b string, dfpfnding on whidh wbs usfd to drfbtf
+     * thf instbndf.
+     *
+     * @rfturn  thf rbw IP bddrfss in b string formbt.
+     */
+    @Ovfrridf
+    publid String gftHostAddrfss() {
+        rfturn holdfr6.gftHostAddrfss();
+    }
+
+    /**
+     * Rfturns b hbshdodf for this IP bddrfss.
+     *
+     * @rfturn  b hbsh dodf vbluf for this IP bddrfss.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn holdfr6.hbshCodf();
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt. Thf rfsult is {@dodf
+     * truf} if bnd only if thf brgumfnt is not {@dodf null} bnd it rfprfsfnts
+     * thf sbmf IP bddrfss bs this objfdt.
+     *
+     * <p> Two instbndfs of {@dodf InftAddrfss} rfprfsfnt thf sbmf IP bddrfss
+     * if thf lfngth of thf bytf brrbys rfturnfd by {@dodf gftAddrfss} is thf
+     * sbmf for both, bnd fbdh of thf brrby domponfnts is thf sbmf for thf bytf
+     * brrbys.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     *
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf; {@dodf fblsf} othfrwisf.
+     *
+     * @sff     jbvb.nft.InftAddrfss#gftAddrfss()
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof Inft6Addrfss))
+            rfturn fblsf;
+
+        Inft6Addrfss inftAddr = (Inft6Addrfss)obj;
+
+        rfturn holdfr6.fqubls(inftAddr.holdfr6);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn
+     * IPv4 dompbtiblf IPv6 bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is bn IPv4
+     *         dompbtiblf IPv6 bddrfss; or fblsf if bddrfss is IPv4 bddrfss.
+     *
+     * @sindf 1.4
+     */
+    publid boolfbn isIPv4CompbtiblfAddrfss() {
+        rfturn holdfr6.isIPv4CompbtiblfAddrfss();
+    }
+
+    // Utilitifs
+    privbtf finbl stbtid int INT16SZ = 2;
+
+    /*
+     * Convfrt IPv6 binbry bddrfss into prfsfntbtion (printbblf) formbt.
+     *
+     * @pbrbm srd b bytf brrby rfprfsfnting thf IPv6 numfrid bddrfss
+     * @rfturn b String rfprfsfnting bn IPv6 bddrfss in
+     *         tfxtubl rfprfsfntbtion formbt
+     * @sindf 1.4
+     */
+    stbtid String numfridToTfxtFormbt(bytf[] srd) {
+        StringBuildfr sb = nfw StringBuildfr(39);
+        for (int i = 0; i < (INADDRSZ / INT16SZ); i++) {
+            sb.bppfnd(Intfgfr.toHfxString(((srd[i<<1]<<8) & 0xff00)
+                                          | (srd[(i<<1)+1] & 0xff)));
+            if (i < (INADDRSZ / INT16SZ) -1 ) {
+               sb.bppfnd(":");
+            }
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf stbtid nbtivf void init();
+}

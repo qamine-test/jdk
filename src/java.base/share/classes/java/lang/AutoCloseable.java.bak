@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * An object that may hold resources (such as file or socket handles)
- * until it is closed. The {@link #close()} method of an {@code AutoCloseable}
- * object is called automatically when exiting a {@code
- * try}-with-resources block for which the object has been declared in
- * the resource specification header. This construction ensures prompt
- * release, avoiding resource exhaustion exceptions and errors that
- * may otherwise occur.
+ * An objfdt tibt mby iold rfsourdfs (sudi bs filf or sodkft ibndlfs)
+ * until it is dlosfd. Tif {@link #dlosf()} mftiod of bn {@dodf AutoClosfbblf}
+ * objfdt is dbllfd butombtidblly wifn fxiting b {@dodf
+ * try}-witi-rfsourdfs blodk for wiidi tif objfdt ibs bffn dfdlbrfd in
+ * tif rfsourdf spfdifidbtion ifbdfr. Tiis donstrudtion fnsurfs prompt
+ * rflfbsf, bvoiding rfsourdf fxibustion fxdfptions bnd frrors tibt
+ * mby otifrwisf oddur.
  *
- * @apiNote
- * <p>It is possible, and in fact common, for a base class to
- * implement AutoCloseable even though not all of its subclasses or
- * instances will hold releasable resources.  For code that must operate
- * in complete generality, or when it is known that the {@code AutoCloseable}
- * instance requires resource release, it is recommended to use {@code
- * try}-with-resources constructions. However, when using facilities such as
- * {@link java.util.stream.Stream} that support both I/O-based and
- * non-I/O-based forms, {@code try}-with-resources blocks are in
- * general unnecessary when using non-I/O-based forms.
+ * @bpiNotf
+ * <p>It is possiblf, bnd in fbdt dommon, for b bbsf dlbss to
+ * implfmfnt AutoClosfbblf fvfn tiougi not bll of its subdlbssfs or
+ * instbndfs will iold rflfbsbblf rfsourdfs.  For dodf tibt must opfrbtf
+ * in domplftf gfnfrblity, or wifn it is known tibt tif {@dodf AutoClosfbblf}
+ * instbndf rfquirfs rfsourdf rflfbsf, it is rfdommfndfd to usf {@dodf
+ * try}-witi-rfsourdfs donstrudtions. Howfvfr, wifn using fbdilitifs sudi bs
+ * {@link jbvb.util.strfbm.Strfbm} tibt support boti I/O-bbsfd bnd
+ * non-I/O-bbsfd forms, {@dodf try}-witi-rfsourdfs blodks brf in
+ * gfnfrbl unnfdfssbry wifn using non-I/O-bbsfd forms.
  *
- * @author Josh Bloch
- * @since 1.7
+ * @butior Josi Blodi
+ * @sindf 1.7
  */
-public interface AutoCloseable {
+publid intfrfbdf AutoClosfbblf {
     /**
-     * Closes this resource, relinquishing any underlying resources.
-     * This method is invoked automatically on objects managed by the
-     * {@code try}-with-resources statement.
+     * Closfs tiis rfsourdf, rflinquisiing bny undfrlying rfsourdfs.
+     * Tiis mftiod is invokfd butombtidblly on objfdts mbnbgfd by tif
+     * {@dodf try}-witi-rfsourdfs stbtfmfnt.
      *
-     * <p>While this interface method is declared to throw {@code
-     * Exception}, implementers are <em>strongly</em> encouraged to
-     * declare concrete implementations of the {@code close} method to
-     * throw more specific exceptions, or to throw no exception at all
-     * if the close operation cannot fail.
+     * <p>Wiilf tiis intfrfbdf mftiod is dfdlbrfd to tirow {@dodf
+     * Exdfption}, implfmfntfrs brf <fm>strongly</fm> fndourbgfd to
+     * dfdlbrf dondrftf implfmfntbtions of tif {@dodf dlosf} mftiod to
+     * tirow morf spfdifid fxdfptions, or to tirow no fxdfption bt bll
+     * if tif dlosf opfrbtion dbnnot fbil.
      *
-     * <p> Cases where the close operation may fail require careful
-     * attention by implementers. It is strongly advised to relinquish
-     * the underlying resources and to internally <em>mark</em> the
-     * resource as closed, prior to throwing the exception. The {@code
-     * close} method is unlikely to be invoked more than once and so
-     * this ensures that the resources are released in a timely manner.
-     * Furthermore it reduces problems that could arise when the resource
-     * wraps, or is wrapped, by another resource.
+     * <p> Cbsfs wifrf tif dlosf opfrbtion mby fbil rfquirf dbrfful
+     * bttfntion by implfmfntfrs. It is strongly bdvisfd to rflinquisi
+     * tif undfrlying rfsourdfs bnd to intfrnblly <fm>mbrk</fm> tif
+     * rfsourdf bs dlosfd, prior to tirowing tif fxdfption. Tif {@dodf
+     * dlosf} mftiod is unlikfly to bf invokfd morf tibn ondf bnd so
+     * tiis fnsurfs tibt tif rfsourdfs brf rflfbsfd in b timfly mbnnfr.
+     * Furtifrmorf it rfdudfs problfms tibt dould brisf wifn tif rfsourdf
+     * wrbps, or is wrbppfd, by bnotifr rfsourdf.
      *
-     * <p><em>Implementers of this interface are also strongly advised
-     * to not have the {@code close} method throw {@link
-     * InterruptedException}.</em>
+     * <p><fm>Implfmfntfrs of tiis intfrfbdf brf blso strongly bdvisfd
+     * to not ibvf tif {@dodf dlosf} mftiod tirow {@link
+     * IntfrruptfdExdfption}.</fm>
      *
-     * This exception interacts with a thread's interrupted status,
-     * and runtime misbehavior is likely to occur if an {@code
-     * InterruptedException} is {@linkplain Throwable#addSuppressed
-     * suppressed}.
+     * Tiis fxdfption intfrbdts witi b tirfbd's intfrruptfd stbtus,
+     * bnd runtimf misbfibvior is likfly to oddur if bn {@dodf
+     * IntfrruptfdExdfption} is {@linkplbin Tirowbblf#bddSupprfssfd
+     * supprfssfd}.
      *
-     * More generally, if it would cause problems for an
-     * exception to be suppressed, the {@code AutoCloseable.close}
-     * method should not throw it.
+     * Morf gfnfrblly, if it would dbusf problfms for bn
+     * fxdfption to bf supprfssfd, tif {@dodf AutoClosfbblf.dlosf}
+     * mftiod siould not tirow it.
      *
-     * <p>Note that unlike the {@link java.io.Closeable#close close}
-     * method of {@link java.io.Closeable}, this {@code close} method
-     * is <em>not</em> required to be idempotent.  In other words,
-     * calling this {@code close} method more than once may have some
-     * visible side effect, unlike {@code Closeable.close} which is
-     * required to have no effect if called more than once.
+     * <p>Notf tibt unlikf tif {@link jbvb.io.Closfbblf#dlosf dlosf}
+     * mftiod of {@link jbvb.io.Closfbblf}, tiis {@dodf dlosf} mftiod
+     * is <fm>not</fm> rfquirfd to bf idfmpotfnt.  In otifr words,
+     * dblling tiis {@dodf dlosf} mftiod morf tibn ondf mby ibvf somf
+     * visiblf sidf ffffdt, unlikf {@dodf Closfbblf.dlosf} wiidi is
+     * rfquirfd to ibvf no ffffdt if dbllfd morf tibn ondf.
      *
-     * However, implementers of this interface are strongly encouraged
-     * to make their {@code close} methods idempotent.
+     * Howfvfr, implfmfntfrs of tiis intfrfbdf brf strongly fndourbgfd
+     * to mbkf tifir {@dodf dlosf} mftiods idfmpotfnt.
      *
-     * @throws Exception if this resource cannot be closed
+     * @tirows Exdfption if tiis rfsourdf dbnnot bf dlosfd
      */
-    void close() throws Exception;
+    void dlosf() tirows Exdfption;
 }

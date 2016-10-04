@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,555 +30,555 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.net.URL;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MemoryImageSource;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StreamTokenizer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.nft.URL;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.MfmoryImbgfSourdf;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.StrfbmTokfnizfr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
 
 
 /*
- * A set of classes to parse, represent and display Chemical compounds in
- * .xyz format (see http://chem.leeds.ac.uk/Project/MIME.html)
+ * A sft of dlbssfs to pbrsf, rfprfsfnt bnd displby Cifmidbl dompounds in
+ * .xyz formbt (sff ittp://difm.lffds.bd.uk/Projfdt/MIME.itml)
  */
-/** The representation of a Chemical .xyz model */
-final class XYZChemModel {
+/** Tif rfprfsfntbtion of b Cifmidbl .xyz modfl */
+finbl dlbss XYZCifmModfl {
 
-    float vert[];
-    Atom atoms[];
-    int tvert[];
-    int ZsortMap[];
-    int nvert, maxvert;
-    static final Map<String, Atom> atomTable = new HashMap<String, Atom>();
-    static Atom defaultAtom;
+    flobt vfrt[];
+    Atom btoms[];
+    int tvfrt[];
+    int ZsortMbp[];
+    int nvfrt, mbxvfrt;
+    stbtid finbl Mbp<String, Atom> btomTbblf = nfw HbsiMbp<String, Atom>();
+    stbtid Atom dffbultAtom;
 
-    static {
-        atomTable.put("c", new Atom(0, 0, 0));
-        atomTable.put("h", new Atom(210, 210, 210));
-        atomTable.put("n", new Atom(0, 0, 255));
-        atomTable.put("o", new Atom(255, 0, 0));
-        atomTable.put("p", new Atom(255, 0, 255));
-        atomTable.put("s", new Atom(255, 255, 0));
-        atomTable.put("hn", new Atom(150, 255, 150)); /* !!*/
-        defaultAtom = new Atom(255, 100, 200);
+    stbtid {
+        btomTbblf.put("d", nfw Atom(0, 0, 0));
+        btomTbblf.put("i", nfw Atom(210, 210, 210));
+        btomTbblf.put("n", nfw Atom(0, 0, 255));
+        btomTbblf.put("o", nfw Atom(255, 0, 0));
+        btomTbblf.put("p", nfw Atom(255, 0, 255));
+        btomTbblf.put("s", nfw Atom(255, 255, 0));
+        btomTbblf.put("in", nfw Atom(150, 255, 150)); /* !!*/
+        dffbultAtom = nfw Atom(255, 100, 200);
     }
-    boolean transformed;
-    Matrix3D mat;
-    float xmin, xmax, ymin, ymax, zmin, zmax;
+    boolfbn trbnsformfd;
+    Mbtrix3D mbt;
+    flobt xmin, xmbx, ymin, ymbx, zmin, zmbx;
 
-    XYZChemModel() {
-        mat = new Matrix3D();
-        mat.xrot(20);
-        mat.yrot(30);
+    XYZCifmModfl() {
+        mbt = nfw Mbtrix3D();
+        mbt.xrot(20);
+        mbt.yrot(30);
     }
 
-    /** Create a Chemical model by parsing an input stream */
-    XYZChemModel(InputStream is) throws Exception {
-        this();
-        StreamTokenizer st = new StreamTokenizer(
-                new BufferedReader(new InputStreamReader(is, "UTF-8")));
-        st.eolIsSignificant(true);
-        st.commentChar('#');
+    /** Crfbtf b Cifmidbl modfl by pbrsing bn input strfbm */
+    XYZCifmModfl(InputStrfbm is) tirows Exdfption {
+        tiis();
+        StrfbmTokfnizfr st = nfw StrfbmTokfnizfr(
+                nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, "UTF-8")));
+        st.folIsSignifidbnt(truf);
+        st.dommfntCibr('#');
 
         try {
-            scan:
-            while (true) {
-                switch (st.nextToken()) {
-                    case StreamTokenizer.TT_EOF:
-                        break scan;
-                    default:
-                        break;
-                    case StreamTokenizer.TT_WORD:
-                        String name = st.sval;
-                        double x = 0,
+            sdbn:
+            wiilf (truf) {
+                switdi (st.nfxtTokfn()) {
+                    dbsf StrfbmTokfnizfr.TT_EOF:
+                        brfbk sdbn;
+                    dffbult:
+                        brfbk;
+                    dbsf StrfbmTokfnizfr.TT_WORD:
+                        String nbmf = st.svbl;
+                        doublf x = 0,
                          y = 0,
                          z = 0;
-                        if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                            x = st.nval;
-                            if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                y = st.nval;
-                                if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-                                    z = st.nval;
+                        if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                            x = st.nvbl;
+                            if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                y = st.nvbl;
+                                if (st.nfxtTokfn() == StrfbmTokfnizfr.TT_NUMBER) {
+                                    z = st.nvbl;
                                 }
                             }
                         }
-                        addVert(name, (float) x, (float) y, (float) z);
-                        while (st.ttype != StreamTokenizer.TT_EOL
-                                && st.ttype != StreamTokenizer.TT_EOF) {
-                            st.nextToken();
+                        bddVfrt(nbmf, (flobt) x, (flobt) y, (flobt) z);
+                        wiilf (st.ttypf != StrfbmTokfnizfr.TT_EOL
+                                && st.ttypf != StrfbmTokfnizfr.TT_EOF) {
+                            st.nfxtTokfn();
                         }
 
-                }   // end Switch
+                }   // fnd Switdi
 
-            }  // end while
+            }  // fnd wiilf
 
-            is.close();
+            is.dlosf();
 
-        } // end Try
-        catch (IOException e) {
+        } // fnd Try
+        dbtdi (IOExdfption f) {
         }
 
-        if (st.ttype != StreamTokenizer.TT_EOF) {
-            throw new Exception(st.toString());
+        if (st.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            tirow nfw Exdfption(st.toString());
         }
 
-    }  // end XYZChemModel()
+    }  // fnd XYZCifmModfl()
 
-    /** Add a vertex to this model */
-    int addVert(String name, float x, float y, float z) {
-        int i = nvert;
-        if (i >= maxvert) {
-            if (vert == null) {
-                maxvert = 100;
-                vert = new float[maxvert * 3];
-                atoms = new Atom[maxvert];
-            } else {
-                maxvert *= 2;
-                float nv[] = new float[maxvert * 3];
-                System.arraycopy(vert, 0, nv, 0, vert.length);
-                vert = nv;
-                Atom na[] = new Atom[maxvert];
-                System.arraycopy(atoms, 0, na, 0, atoms.length);
-                atoms = na;
+    /** Add b vfrtfx to tiis modfl */
+    int bddVfrt(String nbmf, flobt x, flobt y, flobt z) {
+        int i = nvfrt;
+        if (i >= mbxvfrt) {
+            if (vfrt == null) {
+                mbxvfrt = 100;
+                vfrt = nfw flobt[mbxvfrt * 3];
+                btoms = nfw Atom[mbxvfrt];
+            } flsf {
+                mbxvfrt *= 2;
+                flobt nv[] = nfw flobt[mbxvfrt * 3];
+                Systfm.brrbydopy(vfrt, 0, nv, 0, vfrt.lfngti);
+                vfrt = nv;
+                Atom nb[] = nfw Atom[mbxvfrt];
+                Systfm.brrbydopy(btoms, 0, nb, 0, btoms.lfngti);
+                btoms = nb;
             }
         }
-        Atom a = atomTable.get(name.toLowerCase());
-        if (a == null) {
-            a = defaultAtom;
+        Atom b = btomTbblf.gft(nbmf.toLowfrCbsf());
+        if (b == null) {
+            b = dffbultAtom;
         }
-        atoms[i] = a;
+        btoms[i] = b;
         i *= 3;
-        vert[i] = x;
-        vert[i + 1] = y;
-        vert[i + 2] = z;
-        return nvert++;
+        vfrt[i] = x;
+        vfrt[i + 1] = y;
+        vfrt[i + 2] = z;
+        rfturn nvfrt++;
     }
 
-    /** Transform all the points in this model */
-    void transform() {
-        if (transformed || nvert <= 0) {
-            return;
+    /** Trbnsform bll tif points in tiis modfl */
+    void trbnsform() {
+        if (trbnsformfd || nvfrt <= 0) {
+            rfturn;
         }
-        if (tvert == null || tvert.length < nvert * 3) {
-            tvert = new int[nvert * 3];
+        if (tvfrt == null || tvfrt.lfngti < nvfrt * 3) {
+            tvfrt = nfw int[nvfrt * 3];
         }
-        mat.transform(vert, tvert, nvert);
-        transformed = true;
+        mbt.trbnsform(vfrt, tvfrt, nvfrt);
+        trbnsformfd = truf;
     }
 
-    /** Paint this model to a graphics context.  It uses the matrix associated
-    with this model to map from model space to screen space.
-    The next version of the browser should have double buffering,
-    which will make this *much* nicer */
-    void paint(Graphics g) {
-        if (vert == null || nvert <= 0) {
-            return;
+    /** Pbint tiis modfl to b grbpiids dontfxt.  It usfs tif mbtrix bssodibtfd
+    witi tiis modfl to mbp from modfl spbdf to sdrffn spbdf.
+    Tif nfxt vfrsion of tif browsfr siould ibvf doublf bufffring,
+    wiidi will mbkf tiis *mudi* nidfr */
+    void pbint(Grbpiids g) {
+        if (vfrt == null || nvfrt <= 0) {
+            rfturn;
         }
-        transform();
-        int v[] = tvert;
-        int zs[] = ZsortMap;
+        trbnsform();
+        int v[] = tvfrt;
+        int zs[] = ZsortMbp;
         if (zs == null) {
-            ZsortMap = zs = new int[nvert];
-            for (int i = nvert; --i >= 0;) {
+            ZsortMbp = zs = nfw int[nvfrt];
+            for (int i = nvfrt; --i >= 0;) {
                 zs[i] = i * 3;
             }
         }
 
         /*
-         * I use a bubble sort since from one iteration to the next, the sort
-         * order is pretty stable, so I just use what I had last time as a
-         * "guess" of the sorted order.  With luck, this reduces O(N log N)
+         * I usf b bubblf sort sindf from onf itfrbtion to tif nfxt, tif sort
+         * ordfr is prftty stbblf, so I just usf wibt I ibd lbst timf bs b
+         * "gufss" of tif sortfd ordfr.  Witi ludk, tiis rfdudfs O(N log N)
          * to O(N)
          */
 
-        for (int i = nvert - 1; --i >= 0;) {
-            boolean flipped = false;
+        for (int i = nvfrt - 1; --i >= 0;) {
+            boolfbn flippfd = fblsf;
             for (int j = 0; j <= i; j++) {
-                int a = zs[j];
+                int b = zs[j];
                 int b = zs[j + 1];
-                if (v[a + 2] > v[b + 2]) {
-                    zs[j + 1] = a;
+                if (v[b + 2] > v[b + 2]) {
+                    zs[j + 1] = b;
                     zs[j] = b;
-                    flipped = true;
+                    flippfd = truf;
                 }
             }
-            if (!flipped) {
-                break;
+            if (!flippfd) {
+                brfbk;
             }
         }
 
-        int lim = nvert;
-        if (lim <= 0 || nvert <= 0) {
-            return;
+        int lim = nvfrt;
+        if (lim <= 0 || nvfrt <= 0) {
+            rfturn;
         }
         for (int i = 0; i < lim; i++) {
             int j = zs[i];
-            int grey = v[j + 2];
-            if (grey < 0) {
-                grey = 0;
+            int grfy = v[j + 2];
+            if (grfy < 0) {
+                grfy = 0;
             }
-            if (grey > 15) {
-                grey = 15;
+            if (grfy > 15) {
+                grfy = 15;
             }
-            // g.drawString(names[i], v[j], v[j+1]);
-            atoms[j / 3].paint(g, v[j], v[j + 1], grey);
-            // g.drawImage(iBall, v[j] - (iBall.width >> 1), v[j + 1] -
-            // (iBall.height >> 1));
+            // g.drbwString(nbmfs[i], v[j], v[j+1]);
+            btoms[j / 3].pbint(g, v[j], v[j + 1], grfy);
+            // g.drbwImbgf(iBbll, v[j] - (iBbll.widti >> 1), v[j + 1] -
+            // (iBbll.ifigit >> 1));
         }
     }
 
-    /** Find the bounding box of this model */
+    /** Find tif bounding box of tiis modfl */
     void findBB() {
-        if (nvert <= 0) {
-            return;
+        if (nvfrt <= 0) {
+            rfturn;
         }
-        float v[] = vert;
-        float _xmin = v[0], _xmax = _xmin;
-        float _ymin = v[1], _ymax = _ymin;
-        float _zmin = v[2], _zmax = _zmin;
-        for (int i = nvert * 3; (i -= 3) > 0;) {
-            float x = v[i];
+        flobt v[] = vfrt;
+        flobt _xmin = v[0], _xmbx = _xmin;
+        flobt _ymin = v[1], _ymbx = _ymin;
+        flobt _zmin = v[2], _zmbx = _zmin;
+        for (int i = nvfrt * 3; (i -= 3) > 0;) {
+            flobt x = v[i];
             if (x < _xmin) {
                 _xmin = x;
             }
-            if (x > _xmax) {
-                _xmax = x;
+            if (x > _xmbx) {
+                _xmbx = x;
             }
-            float y = v[i + 1];
+            flobt y = v[i + 1];
             if (y < _ymin) {
                 _ymin = y;
             }
-            if (y > _ymax) {
-                _ymax = y;
+            if (y > _ymbx) {
+                _ymbx = y;
             }
-            float z = v[i + 2];
+            flobt z = v[i + 2];
             if (z < _zmin) {
                 _zmin = z;
             }
-            if (z > _zmax) {
-                _zmax = z;
+            if (z > _zmbx) {
+                _zmbx = z;
             }
         }
-        this.xmax = _xmax;
-        this.xmin = _xmin;
-        this.ymax = _ymax;
-        this.ymin = _ymin;
-        this.zmax = _zmax;
-        this.zmin = _zmin;
+        tiis.xmbx = _xmbx;
+        tiis.xmin = _xmin;
+        tiis.ymbx = _ymbx;
+        tiis.ymin = _ymin;
+        tiis.zmbx = _zmbx;
+        tiis.zmin = _zmin;
     }
 }
 
 
-/** An applet to put a Chemical model into a page */
-@SuppressWarnings("serial")
-public class XYZApp extends Applet implements Runnable, MouseListener,
-        MouseMotionListener {
+/** An bpplft to put b Cifmidbl modfl into b pbgf */
+@SupprfssWbrnings("sfribl")
+publid dlbss XYZApp fxtfnds Applft implfmfnts Runnbblf, MousfListfnfr,
+        MousfMotionListfnfr {
 
-    XYZChemModel md;
-    boolean painted = true;
-    float xfac;
-    int prevx, prevy;
-    float scalefudge = 1;
-    Matrix3D amat = new Matrix3D(), tmat = new Matrix3D();
-    String mdname = null;
-    String message = null;
-    Image backBuffer;
-    Graphics backGC;
-    Dimension backSize;
+    XYZCifmModfl md;
+    boolfbn pbintfd = truf;
+    flobt xfbd;
+    int prfvx, prfvy;
+    flobt sdblffudgf = 1;
+    Mbtrix3D bmbt = nfw Mbtrix3D(), tmbt = nfw Mbtrix3D();
+    String mdnbmf = null;
+    String mfssbgf = null;
+    Imbgf bbdkBufffr;
+    Grbpiids bbdkGC;
+    Dimfnsion bbdkSizf;
 
-    private synchronized void newBackBuffer() {
-        backBuffer = createImage(getSize().width, getSize().height);
-        if (backGC != null) {
-            backGC.dispose();
+    privbtf syndironizfd void nfwBbdkBufffr() {
+        bbdkBufffr = drfbtfImbgf(gftSizf().widti, gftSizf().ifigit);
+        if (bbdkGC != null) {
+            bbdkGC.disposf();
         }
-        backGC = backBuffer.getGraphics();
-        backSize = getSize();
+        bbdkGC = bbdkBufffr.gftGrbpiids();
+        bbdkSizf = gftSizf();
     }
 
-    @Override
-    public void init() {
-        mdname = getParameter("model");
+    @Ovfrridf
+    publid void init() {
+        mdnbmf = gftPbrbmftfr("modfl");
         try {
-            scalefudge = Float.valueOf(getParameter("scale")).floatValue();
-        } catch (Exception ignored) {
+            sdblffudgf = Flobt.vblufOf(gftPbrbmftfr("sdblf")).flobtVbluf();
+        } dbtdi (Exdfption ignorfd) {
         }
-        amat.yrot(20);
-        amat.xrot(20);
-        if (mdname == null) {
-            mdname = "model.obj";
+        bmbt.yrot(20);
+        bmbt.xrot(20);
+        if (mdnbmf == null) {
+            mdnbmf = "modfl.obj";
         }
-        resize(getSize().width <= 20 ? 400 : getSize().width,
-                getSize().height <= 20 ? 400 : getSize().height);
-        newBackBuffer();
-        addMouseListener(this);
-        addMouseMotionListener(this);
+        rfsizf(gftSizf().widti <= 20 ? 400 : gftSizf().widti,
+                gftSizf().ifigit <= 20 ? 400 : gftSizf().ifigit);
+        nfwBbdkBufffr();
+        bddMousfListfnfr(tiis);
+        bddMousfMotionListfnfr(tiis);
     }
 
-    @Override
-    public void destroy() {
-        removeMouseListener(this);
-        removeMouseMotionListener(this);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovfMousfListfnfr(tiis);
+        rfmovfMousfMotionListfnfr(tiis);
     }
 
-    @Override
-    public void run() {
-        InputStream is = null;
+    @Ovfrridf
+    publid void run() {
+        InputStrfbm is = null;
         try {
-            Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-            is = getClass().getResourceAsStream(mdname);
-            XYZChemModel m = new XYZChemModel(is);
-            Atom.setApplet(this);
+            Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.MIN_PRIORITY);
+            is = gftClbss().gftRfsourdfAsStrfbm(mdnbmf);
+            XYZCifmModfl m = nfw XYZCifmModfl(is);
+            Atom.sftApplft(tiis);
             md = m;
             m.findBB();
-            float xw = m.xmax - m.xmin;
-            float yw = m.ymax - m.ymin;
-            float zw = m.zmax - m.zmin;
+            flobt xw = m.xmbx - m.xmin;
+            flobt yw = m.ymbx - m.ymin;
+            flobt zw = m.zmbx - m.zmin;
             if (yw > xw) {
                 xw = yw;
             }
             if (zw > xw) {
                 xw = zw;
             }
-            float f1 = getSize().width / xw;
-            float f2 = getSize().height / xw;
-            xfac = 0.7f * (f1 < f2 ? f1 : f2) * scalefudge;
-        } catch (Exception e) {
-            Logger.getLogger(XYZApp.class.getName()).log(Level.SEVERE, null, e);
+            flobt f1 = gftSizf().widti / xw;
+            flobt f2 = gftSizf().ifigit / xw;
+            xfbd = 0.7f * (f1 < f2 ? f1 : f2) * sdblffudgf;
+        } dbtdi (Exdfption f) {
+            Loggfr.gftLoggfr(XYZApp.dlbss.gftNbmf()).log(Lfvfl.SEVERE, null, f);
             md = null;
-            message = e.toString();
+            mfssbgf = f.toString();
         }
         try {
             if (is != null) {
-                is.close();
+                is.dlosf();
             }
-        } catch (Exception ignored) {
+        } dbtdi (Exdfption ignorfd) {
         }
-        repaint();
+        rfpbint();
     }
 
-    @Override
-    public void start() {
-        if (md == null && message == null) {
-            new Thread(this).start();
+    @Ovfrridf
+    publid void stbrt() {
+        if (md == null && mfssbgf == null) {
+            nfw Tirfbd(tiis).stbrt();
         }
     }
 
-    @Override
-    public void stop() {
+    @Ovfrridf
+    publid void stop() {
     }
-    /* event handling */
+    /* fvfnt ibndling */
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        prevx = e.getX();
-        prevy = e.getY();
-        e.consume();
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        prfvx = f.gftX();
+        prfvy = f.gftY();
+        f.donsumf();
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        tmat.unit();
-        float xtheta = (prevy - y) * (360.0f / getSize().width);
-        float ytheta = (x - prevx) * (360.0f / getSize().height);
-        tmat.xrot(xtheta);
-        tmat.yrot(ytheta);
-        amat.mult(tmat);
-        if (painted) {
-            painted = false;
-            repaint();
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
+        tmbt.unit();
+        flobt xtiftb = (prfvy - y) * (360.0f / gftSizf().widti);
+        flobt ytiftb = (x - prfvx) * (360.0f / gftSizf().ifigit);
+        tmbt.xrot(xtiftb);
+        tmbt.yrot(ytiftb);
+        bmbt.mult(tmbt);
+        if (pbintfd) {
+            pbintfd = fblsf;
+            rfpbint();
         }
-        prevx = x;
-        prevy = y;
-        e.consume();
+        prfvx = x;
+        prfvy = y;
+        f.donsumf();
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void update(Graphics g) {
-        if (backBuffer == null) {
-            g.clearRect(0, 0, getSize().width, getSize().height);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g) {
+        if (bbdkBufffr == null) {
+            g.dlfbrRfdt(0, 0, gftSizf().widti, gftSizf().ifigit);
         }
-        paint(g);
+        pbint(g);
     }
 
-    @Override
-    public void paint(Graphics g) {
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
         if (md != null) {
-            md.mat.unit();
-            md.mat.translate(-(md.xmin + md.xmax) / 2,
-                    -(md.ymin + md.ymax) / 2,
-                    -(md.zmin + md.zmax) / 2);
-            md.mat.mult(amat);
-            // md.mat.scale(xfac, -xfac, 8 * xfac / getSize().width);
-            md.mat.scale(xfac, -xfac, 16 * xfac / getSize().width);
-            md.mat.translate(getSize().width / 2, getSize().height / 2, 8);
-            md.transformed = false;
-            if (backBuffer != null) {
-                if (!backSize.equals(getSize())) {
-                    newBackBuffer();
+            md.mbt.unit();
+            md.mbt.trbnslbtf(-(md.xmin + md.xmbx) / 2,
+                    -(md.ymin + md.ymbx) / 2,
+                    -(md.zmin + md.zmbx) / 2);
+            md.mbt.mult(bmbt);
+            // md.mbt.sdblf(xfbd, -xfbd, 8 * xfbd / gftSizf().widti);
+            md.mbt.sdblf(xfbd, -xfbd, 16 * xfbd / gftSizf().widti);
+            md.mbt.trbnslbtf(gftSizf().widti / 2, gftSizf().ifigit / 2, 8);
+            md.trbnsformfd = fblsf;
+            if (bbdkBufffr != null) {
+                if (!bbdkSizf.fqubls(gftSizf())) {
+                    nfwBbdkBufffr();
                 }
-                backGC.setColor(getBackground());
-                backGC.fillRect(0, 0, getSize().width, getSize().height);
-                md.paint(backGC);
-                g.drawImage(backBuffer, 0, 0, this);
-            } else {
-                md.paint(g);
+                bbdkGC.sftColor(gftBbdkground());
+                bbdkGC.fillRfdt(0, 0, gftSizf().widti, gftSizf().ifigit);
+                md.pbint(bbdkGC);
+                g.drbwImbgf(bbdkBufffr, 0, 0, tiis);
+            } flsf {
+                md.pbint(g);
             }
-            setPainted();
-        } else if (message != null) {
-            g.drawString("Error in model:", 3, 20);
-            g.drawString(message, 10, 40);
+            sftPbintfd();
+        } flsf if (mfssbgf != null) {
+            g.drbwString("Error in modfl:", 3, 20);
+            g.drbwString(mfssbgf, 10, 40);
         }
     }
 
-    private synchronized void setPainted() {
-        painted = true;
+    privbtf syndironizfd void sftPbintfd() {
+        pbintfd = truf;
         notifyAll();
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "Title: XYZApp \nAuthor: James Gosling \nAn applet to put"
-                + " a Chemical model into a page.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: XYZApp \nAutior: Jbmfs Gosling \nAn bpplft to put"
+                + " b Cifmidbl modfl into b pbgf.";
     }
 
-    @Override
-    public String[][] getParameterInfo() {
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
         String[][] info = {
-            { "model", "path string", "The path to the model to be displayed"
-                + " in .xyz format "
-                + "(see http://chem.leeds.ac.uk/Project/MIME.html)."
-                + "  Default is model.obj." },
-            { "scale", "float", "Scale factor.  Default is 1 (i.e. no scale)." }
+            { "modfl", "pbti string", "Tif pbti to tif modfl to bf displbyfd"
+                + " in .xyz formbt "
+                + "(sff ittp://difm.lffds.bd.uk/Projfdt/MIME.itml)."
+                + "  Dffbult is modfl.obj." },
+            { "sdblf", "flobt", "Sdblf fbdtor.  Dffbult is 1 (i.f. no sdblf)." }
         };
-        return info;
+        rfturn info;
     }
-}   // end class XYZApp
+}   // fnd dlbss XYZApp
 
 
-class Atom {
+dlbss Atom {
 
-    private static Applet applet;
-    private static byte[] data;
-    private final static int R = 40;
-    private final static int hx = 15;
-    private final static int hy = 15;
-    private final static int bgGrey = 192;
-    private final static int nBalls = 16;
-    private static int maxr;
-    private int Rl;
-    private int Gl;
-    private int Bl;
-    private Image balls[];
+    privbtf stbtid Applft bpplft;
+    privbtf stbtid bytf[] dbtb;
+    privbtf finbl stbtid int R = 40;
+    privbtf finbl stbtid int ix = 15;
+    privbtf finbl stbtid int iy = 15;
+    privbtf finbl stbtid int bgGrfy = 192;
+    privbtf finbl stbtid int nBblls = 16;
+    privbtf stbtid int mbxr;
+    privbtf int Rl;
+    privbtf int Gl;
+    privbtf int Bl;
+    privbtf Imbgf bblls[];
 
-    static {
-        data = new byte[R * 2 * R * 2];
+    stbtid {
+        dbtb = nfw bytf[R * 2 * R * 2];
         int mr = 0;
         for (int Y = 2 * R; --Y >= 0;) {
-            int x0 = (int) (Math.sqrt(R * R - (Y - R) * (Y - R)) + 0.5);
+            int x0 = (int) (Mbti.sqrt(R * R - (Y - R) * (Y - R)) + 0.5);
             int p = Y * (R * 2) + R - x0;
             for (int X = -x0; X < x0; X++) {
-                int x = X + hx;
-                int y = Y - R + hy;
-                int r = (int) (Math.sqrt(x * x + y * y) + 0.5);
+                int x = X + ix;
+                int y = Y - R + iy;
+                int r = (int) (Mbti.sqrt(x * x + y * y) + 0.5);
                 if (r > mr) {
                     mr = r;
                 }
-                data[p++] = r <= 0 ? 1 : (byte) r;
+                dbtb[p++] = r <= 0 ? 1 : (bytf) r;
             }
         }
-        maxr = mr;
+        mbxr = mr;
     }
 
-    static void setApplet(Applet app) {
-        applet = app;
+    stbtid void sftApplft(Applft bpp) {
+        bpplft = bpp;
     }
 
     Atom(int Rl, int Gl, int Bl) {
-        this.Rl = Rl;
-        this.Gl = Gl;
-        this.Bl = Bl;
+        tiis.Rl = Rl;
+        tiis.Gl = Gl;
+        tiis.Bl = Bl;
     }
 
-    private int blend(int fg, int bg, float fgfactor) {
-        return (int) (bg + (fg - bg) * fgfactor);
+    privbtf int blfnd(int fg, int bg, flobt fgfbdtor) {
+        rfturn (int) (bg + (fg - bg) * fgfbdtor);
     }
 
-    private void Setup() {
-        balls = new Image[nBalls];
-        byte red[] = new byte[256];
-        red[0] = (byte) bgGrey;
-        byte green[] = new byte[256];
-        green[0] = (byte) bgGrey;
-        byte blue[] = new byte[256];
-        blue[0] = (byte) bgGrey;
-        for (int r = 0; r < nBalls; r++) {
-            float b = (float) (r + 1) / nBalls;
-            for (int i = maxr; i >= 1; --i) {
-                float d = (float) i / maxr;
-                red[i] = (byte) blend(blend(Rl, 255, d), bgGrey, b);
-                green[i] = (byte) blend(blend(Gl, 255, d), bgGrey, b);
-                blue[i] = (byte) blend(blend(Bl, 255, d), bgGrey, b);
+    privbtf void Sftup() {
+        bblls = nfw Imbgf[nBblls];
+        bytf rfd[] = nfw bytf[256];
+        rfd[0] = (bytf) bgGrfy;
+        bytf grffn[] = nfw bytf[256];
+        grffn[0] = (bytf) bgGrfy;
+        bytf bluf[] = nfw bytf[256];
+        bluf[0] = (bytf) bgGrfy;
+        for (int r = 0; r < nBblls; r++) {
+            flobt b = (flobt) (r + 1) / nBblls;
+            for (int i = mbxr; i >= 1; --i) {
+                flobt d = (flobt) i / mbxr;
+                rfd[i] = (bytf) blfnd(blfnd(Rl, 255, d), bgGrfy, b);
+                grffn[i] = (bytf) blfnd(blfnd(Gl, 255, d), bgGrfy, b);
+                bluf[i] = (bytf) blfnd(blfnd(Bl, 255, d), bgGrfy, b);
             }
-            IndexColorModel model = new IndexColorModel(8, maxr + 1,
-                    red, green, blue, 0);
-            balls[r] = applet.createImage(
-                    new MemoryImageSource(R * 2, R * 2, model, data, 0, R * 2));
+            IndfxColorModfl modfl = nfw IndfxColorModfl(8, mbxr + 1,
+                    rfd, grffn, bluf, 0);
+            bblls[r] = bpplft.drfbtfImbgf(
+                    nfw MfmoryImbgfSourdf(R * 2, R * 2, modfl, dbtb, 0, R * 2));
         }
     }
 
-    void paint(Graphics gc, int x, int y, int r) {
-        Image ba[] = balls;
-        if (ba == null) {
-            Setup();
-            ba = balls;
+    void pbint(Grbpiids gd, int x, int y, int r) {
+        Imbgf bb[] = bblls;
+        if (bb == null) {
+            Sftup();
+            bb = bblls;
         }
-        Image i = ba[r];
-        int size = 10 + r;
-        gc.drawImage(i, x - (size >> 1), y - (size >> 1), size, size, applet);
+        Imbgf i = bb[r];
+        int sizf = 10 + r;
+        gd.drbwImbgf(i, x - (sizf >> 1), y - (sizf >> 1), sizf, sizf, bpplft);
     }
 }

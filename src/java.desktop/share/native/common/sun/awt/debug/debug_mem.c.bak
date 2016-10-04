@@ -1,343 +1,343 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if defined(DEBUG)
+#if dffinfd(DEBUG)
 
-#include "debug_util.h"
+#indludf "dfbug_util.i"
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-#define DMEM_MIN(a,b)   (a) < (b) ? (a) : (b)
-#define DMEM_MAX(a,b)   (a) > (b) ? (a) : (b)
+#dffinf DMEM_MIN(b,b)   (b) < (b) ? (b) : (b)
+#dffinf DMEM_MAX(b,b)   (b) > (b) ? (b) : (b)
 
-typedef char byte_t;
+typfdff dibr bytf_t;
 
-static const byte_t ByteInited = '\xCD';
-static const byte_t ByteFreed = '\xDD';
-static const byte_t ByteGuard = '\xFD';
+stbtid donst bytf_t BytfInitfd = '\xCD';
+stbtid donst bytf_t BytfFrffd = '\xDD';
+stbtid donst bytf_t BytfGubrd = '\xFD';
 
-enum {
-    MAX_LINENUM = 50000,        /* I certainly hope we don't have source files bigger than this */
-    MAX_CHECK_BYTES = 27,       /* max bytes to check at start of block */
-    MAX_GUARD_BYTES = 8,        /* size of guard areas on either side of a block */
+fnum {
+    MAX_LINENUM = 50000,        /* I dfrtbinly iopf wf don't ibvf sourdf filfs biggfr tibn tiis */
+    MAX_CHECK_BYTES = 27,       /* mbx bytfs to difdk bt stbrt of blodk */
+    MAX_GUARD_BYTES = 8,        /* sizf of gubrd brfbs on fitifr sidf of b blodk */
     MAX_DECIMAL_DIGITS = 15
 };
 
-/* Debug Info Header to precede allocated block */
-typedef struct MemoryBlockHeader {
-    char                        filename[FILENAME_MAX+1]; /* filename where alloc occurred */
-    int                         linenumber;             /* line where alloc occurred */
-    size_t                      size;                   /* size of the allocation */
-    int                         order;                  /* the order the block was allocated in */
-    struct MemoryListLink *     listEnter;              /* pointer to the free list node */
-    byte_t                      guard[MAX_GUARD_BYTES]; /* guard area for underrun check */
-} MemoryBlockHeader;
+/* Dfbug Info Hfbdfr to prfdfdf bllodbtfd blodk */
+typfdff strudt MfmoryBlodkHfbdfr {
+    dibr                        filfnbmf[FILENAME_MAX+1]; /* filfnbmf wifrf bllod oddurrfd */
+    int                         linfnumbfr;             /* linf wifrf bllod oddurrfd */
+    sizf_t                      sizf;                   /* sizf of tif bllodbtion */
+    int                         ordfr;                  /* tif ordfr tif blodk wbs bllodbtfd in */
+    strudt MfmoryListLink *     listEntfr;              /* pointfr to tif frff list nodf */
+    bytf_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd brfb for undfrrun difdk */
+} MfmoryBlodkHfbdfr;
 
-/* Tail to follow allocated block */
-typedef struct MemoryBlockTail {
-    byte_t                      guard[MAX_GUARD_BYTES]; /* guard area overrun check */
-} MemoryBlockTail;
+/* Tbil to follow bllodbtfd blodk */
+typfdff strudt MfmoryBlodkTbil {
+    bytf_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd brfb ovfrrun difdk */
+} MfmoryBlodkTbil;
 
-/* Linked list of allocated memory blocks */
-typedef struct MemoryListLink {
-    struct MemoryListLink *     next;
-    MemoryBlockHeader *         header;
-    int                         freed;
-} MemoryListLink;
+/* Linkfd list of bllodbtfd mfmory blodks */
+typfdff strudt MfmoryListLink {
+    strudt MfmoryListLink *     nfxt;
+    MfmoryBlodkHfbdfr *         ifbdfr;
+    int                         frffd;
+} MfmoryListLink;
 
 /**************************************************
- * Global Data structures
+ * Globbl Dbtb strudturfs
  */
-static DMemState                DMemGlobalState;
-extern const DMemState *        DMemStatePtr = &DMemGlobalState;
-static MemoryListLink           MemoryList = {NULL,NULL,FALSE};
-static dmutex_t                 DMemMutex = NULL;
+stbtid DMfmStbtf                DMfmGlobblStbtf;
+fxtfrn donst DMfmStbtf *        DMfmStbtfPtr = &DMfmGlobblStbtf;
+stbtid MfmoryListLink           MfmoryList = {NULL,NULL,FALSE};
+stbtid dmutfx_t                 DMfmMutfx = NULL;
 
 /**************************************************/
 
 /*************************************************
- * Client callback invocation functions
+ * Clifnt dbllbbdk invodbtion fundtions
  */
-static void * DMem_ClientAllocate(size_t size) {
-    if (DMemGlobalState.pfnAlloc != NULL) {
-        return (*DMemGlobalState.pfnAlloc)(size);
+stbtid void * DMfm_ClifntAllodbtf(sizf_t sizf) {
+    if (DMfmGlobblStbtf.pfnAllod != NULL) {
+        rfturn (*DMfmGlobblStbtf.pfnAllod)(sizf);
     }
-    return malloc(size);
+    rfturn mbllod(sizf);
 }
 
-static void DMem_ClientFree(void * ptr) {
-    if (DMemGlobalState.pfnFree != NULL) {
-        (*DMemGlobalState.pfnFree)(ptr);
+stbtid void DMfm_ClifntFrff(void * ptr) {
+    if (DMfmGlobblStbtf.pfnFrff != NULL) {
+        (*DMfmGlobblStbtf.pfnFrff)(ptr);
     }
-    free(ptr);
+    frff(ptr);
 }
 
-static dbool_t DMem_ClientCheckPtr(void * ptr, size_t size) {
-    if (DMemGlobalState.pfnCheckPtr != NULL) {
-        return (*DMemGlobalState.pfnCheckPtr)(ptr, size);
+stbtid dbool_t DMfm_ClifntCifdkPtr(void * ptr, sizf_t sizf) {
+    if (DMfmGlobblStbtf.pfnCifdkPtr != NULL) {
+        rfturn (*DMfmGlobblStbtf.pfnCifdkPtr)(ptr, sizf);
     }
-    return ptr != NULL;
+    rfturn ptr != NULL;
 }
 
 /**************************************************/
 
 /*************************************************
- * Debug Memory Manager implementation
+ * Dfbug Mfmory Mbnbgfr implfmfntbtion
  */
 
-static MemoryListLink * DMem_TrackBlock(MemoryBlockHeader * header) {
-    MemoryListLink *    link;
+stbtid MfmoryListLink * DMfm_TrbdkBlodk(MfmoryBlodkHfbdfr * ifbdfr) {
+    MfmoryListLink *    link;
 
-    link = (MemoryListLink *)DMem_ClientAllocate(sizeof(MemoryListLink));
+    link = (MfmoryListLink *)DMfm_ClifntAllodbtf(sizfof(MfmoryListLink));
     if (link != NULL) {
-        link->header = header;
-        link->header->listEnter = link;
-        link->next = MemoryList.next;
-        link->freed = FALSE;
-        MemoryList.next = link;
+        link->ifbdfr = ifbdfr;
+        link->ifbdfr->listEntfr = link;
+        link->nfxt = MfmoryList.nfxt;
+        link->frffd = FALSE;
+        MfmoryList.nfxt = link;
     }
 
-    return link;
+    rfturn link;
 }
 
-static int DMem_VerifyGuardArea(const byte_t * area) {
-    int         nbyte;
+stbtid int DMfm_VfrifyGubrdArfb(donst bytf_t * brfb) {
+    int         nbytf;
 
-    for ( nbyte = 0; nbyte < MAX_GUARD_BYTES; nbyte++ ) {
-        if (area[nbyte] != ByteGuard) {
-            return FALSE;
+    for ( nbytf = 0; nbytf < MAX_GUARD_BYTES; nbytf++ ) {
+        if (brfb[nbytf] != BytfGubrd) {
+            rfturn FALSE;
         }
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-static void DMem_VerifyHeader(MemoryBlockHeader * header) {
-    DASSERTMSG( DMem_ClientCheckPtr(header, sizeof(MemoryBlockHeader)), "Invalid header" );
-    DASSERTMSG( DMem_VerifyGuardArea(header->guard), "Header corruption, possible underwrite" );
-    DASSERTMSG( header->linenumber > 0 && header->linenumber < MAX_LINENUM, "Header corruption, bad line number" );
-    DASSERTMSG( header->size <= DMemGlobalState.biggestBlock, "Header corruption, block size is too large");
-    DASSERTMSG( header->order <= DMemGlobalState.totalAllocs, "Header corruption, block order out of range");
+stbtid void DMfm_VfrifyHfbdfr(MfmoryBlodkHfbdfr * ifbdfr) {
+    DASSERTMSG( DMfm_ClifntCifdkPtr(ifbdfr, sizfof(MfmoryBlodkHfbdfr)), "Invblid ifbdfr" );
+    DASSERTMSG( DMfm_VfrifyGubrdArfb(ifbdfr->gubrd), "Hfbdfr dorruption, possiblf undfrwritf" );
+    DASSERTMSG( ifbdfr->linfnumbfr > 0 && ifbdfr->linfnumbfr < MAX_LINENUM, "Hfbdfr dorruption, bbd linf numbfr" );
+    DASSERTMSG( ifbdfr->sizf <= DMfmGlobblStbtf.biggfstBlodk, "Hfbdfr dorruption, blodk sizf is too lbrgf");
+    DASSERTMSG( ifbdfr->ordfr <= DMfmGlobblStbtf.totblAllods, "Hfbdfr dorruption, blodk ordfr out of rbngf");
 }
 
-static void DMem_VerifyTail(MemoryBlockTail * tail) {
-    DASSERTMSG( DMem_ClientCheckPtr(tail, sizeof(MemoryBlockTail)), "Tail corruption, invalid pointer");
-    DASSERTMSG( DMem_VerifyGuardArea(tail->guard), "Tail corruption, possible overwrite" );
+stbtid void DMfm_VfrifyTbil(MfmoryBlodkTbil * tbil) {
+    DASSERTMSG( DMfm_ClifntCifdkPtr(tbil, sizfof(MfmoryBlodkTbil)), "Tbil dorruption, invblid pointfr");
+    DASSERTMSG( DMfm_VfrifyGubrdArfb(tbil->gubrd), "Tbil dorruption, possiblf ovfrwritf" );
 }
 
-static MemoryBlockHeader * DMem_VerifyBlock(void * memptr) {
-    MemoryBlockHeader * header;
-    MemoryBlockTail *   tail;
+stbtid MfmoryBlodkHfbdfr * DMfm_VfrifyBlodk(void * mfmptr) {
+    MfmoryBlodkHfbdfr * ifbdfr;
+    MfmoryBlodkTbil *   tbil;
 
-    /* check if the pointer is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(memptr, 1), "Invalid pointer");
+    /* difdk if tif pointfr is vblid */
+    DASSERTMSG( DMfm_ClifntCifdkPtr(mfmptr, 1), "Invblid pointfr");
 
-    /* check if the block header is valid */
-    header = (MemoryBlockHeader *)((byte_t *)memptr - sizeof(MemoryBlockHeader));
-    DMem_VerifyHeader(header);
-    /* check that the memory itself is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(memptr, DMEM_MIN(MAX_CHECK_BYTES,header->size)), "Block memory invalid" );
-    /* check that the pointer to the alloc list is valid */
-    DASSERTMSG( DMem_ClientCheckPtr(header->listEnter, sizeof(MemoryListLink)), "Header corruption, alloc list pointer invalid" );
-    /* check the tail of the block for overruns */
-    tail = (MemoryBlockTail *) ( (byte_t *)memptr + header->size );
-    DMem_VerifyTail(tail);
+    /* difdk if tif blodk ifbdfr is vblid */
+    ifbdfr = (MfmoryBlodkHfbdfr *)((bytf_t *)mfmptr - sizfof(MfmoryBlodkHfbdfr));
+    DMfm_VfrifyHfbdfr(ifbdfr);
+    /* difdk tibt tif mfmory itsflf is vblid */
+    DASSERTMSG( DMfm_ClifntCifdkPtr(mfmptr, DMEM_MIN(MAX_CHECK_BYTES,ifbdfr->sizf)), "Blodk mfmory invblid" );
+    /* difdk tibt tif pointfr to tif bllod list is vblid */
+    DASSERTMSG( DMfm_ClifntCifdkPtr(ifbdfr->listEntfr, sizfof(MfmoryListLink)), "Hfbdfr dorruption, bllod list pointfr invblid" );
+    /* difdk tif tbil of tif blodk for ovfrruns */
+    tbil = (MfmoryBlodkTbil *) ( (bytf_t *)mfmptr + ifbdfr->sizf );
+    DMfm_VfrifyTbil(tbil);
 
-    return header;
+    rfturn ifbdfr;
 }
 
-static MemoryBlockHeader * DMem_GetHeader(void * memptr) {
-    MemoryBlockHeader * header = DMem_VerifyBlock(memptr);
-    return header;
+stbtid MfmoryBlodkHfbdfr * DMfm_GftHfbdfr(void * mfmptr) {
+    MfmoryBlodkHfbdfr * ifbdfr = DMfm_VfrifyBlodk(mfmptr);
+    rfturn ifbdfr;
 }
 
 /*
- * Should be called before any other DMem_XXX function
+ * Siould bf dbllfd bfforf bny otifr DMfm_XXX fundtion
  */
-void DMem_Initialize() {
-    DMemMutex = DMutex_Create();
-    DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnAlloc = NULL;
-    DMemGlobalState.pfnFree = NULL;
-    DMemGlobalState.pfnCheckPtr = NULL;
-    DMemGlobalState.biggestBlock = 0;
-    DMemGlobalState.maxHeap = INT_MAX;
-    DMemGlobalState.totalHeapUsed = 0;
-    DMemGlobalState.failNextAlloc = FALSE;
-    DMemGlobalState.totalAllocs = 0;
-    DMutex_Exit(DMemMutex);
+void DMfm_Initiblizf() {
+    DMfmMutfx = DMutfx_Crfbtf();
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnAllod = NULL;
+    DMfmGlobblStbtf.pfnFrff = NULL;
+    DMfmGlobblStbtf.pfnCifdkPtr = NULL;
+    DMfmGlobblStbtf.biggfstBlodk = 0;
+    DMfmGlobblStbtf.mbxHfbp = INT_MAX;
+    DMfmGlobblStbtf.totblHfbpUsfd = 0;
+    DMfmGlobblStbtf.fbilNfxtAllod = FALSE;
+    DMfmGlobblStbtf.totblAllods = 0;
+    DMutfx_Exit(DMfmMutfx);
 }
 
-void DMem_Shutdown() {
-    DMutex_Destroy(DMemMutex);
+void DMfm_Siutdown() {
+    DMutfx_Dfstroy(DMfmMutfx);
 }
 /*
- * Allocates a block of memory, reserving extra space at the start and end of the
- * block to store debug info on where the block was allocated, it's size, and
- * 'guard' areas to catch overwrite/underwrite bugs
+ * Allodbtfs b blodk of mfmory, rfsfrving fxtrb spbdf bt tif stbrt bnd fnd of tif
+ * blodk to storf dfbug info on wifrf tif blodk wbs bllodbtfd, it's sizf, bnd
+ * 'gubrd' brfbs to dbtdi ovfrwritf/undfrwritf bugs
  */
-void * DMem_AllocateBlock(size_t size, const char * filename, int linenumber) {
-    MemoryBlockHeader * header;
-    MemoryBlockTail *   tail;
-    size_t              debugBlockSize;
-    byte_t *            memptr = NULL;
+void * DMfm_AllodbtfBlodk(sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr) {
+    MfmoryBlodkHfbdfr * ifbdfr;
+    MfmoryBlodkTbil *   tbil;
+    sizf_t              dfbugBlodkSizf;
+    bytf_t *            mfmptr = NULL;
 
-    DMutex_Enter(DMemMutex);
-    if (DMemGlobalState.failNextAlloc) {
-    /* force an allocation failure if so ordered */
-        DMemGlobalState.failNextAlloc = FALSE; /* reset flag */
+    DMutfx_Entfr(DMfmMutfx);
+    if (DMfmGlobblStbtf.fbilNfxtAllod) {
+    /* fordf bn bllodbtion fbilurf if so ordfrfd */
+        DMfmGlobblStbtf.fbilNfxtAllod = FALSE; /* rfsft flbg */
         goto Exit;
     }
 
-    /* allocate a block large enough to hold extra debug info */
-    debugBlockSize = sizeof(MemoryBlockHeader) + size + sizeof(MemoryBlockTail);
-    header = (MemoryBlockHeader *)DMem_ClientAllocate(debugBlockSize);
-    if (header == NULL) {
+    /* bllodbtf b blodk lbrgf fnougi to iold fxtrb dfbug info */
+    dfbugBlodkSizf = sizfof(MfmoryBlodkHfbdfr) + sizf + sizfof(MfmoryBlodkTbil);
+    ifbdfr = (MfmoryBlodkHfbdfr *)DMfm_ClifntAllodbtf(dfbugBlodkSizf);
+    if (ifbdfr == NULL) {
         goto Exit;
     }
 
-    /* add block to list of allocated memory */
-    header->listEnter = DMem_TrackBlock(header);
-    if ( header->listEnter == NULL ) {
+    /* bdd blodk to list of bllodbtfd mfmory */
+    ifbdfr->listEntfr = DMfm_TrbdkBlodk(ifbdfr);
+    if ( ifbdfr->listEntfr == NULL ) {
         goto Exit;
     }
 
-    /* store size of requested block */
-    header->size = size;
-    /* update maximum block size */
-    DMemGlobalState.biggestBlock = DMEM_MAX(header->size, DMemGlobalState.biggestBlock);
-    /* update used memory total */
-    DMemGlobalState.totalHeapUsed += header->size;
-    /* store filename and linenumber where allocation routine was called */
-    strncpy(header->filename, filename, FILENAME_MAX);
-    header->linenumber = linenumber;
-    /* store the order the block was allocated in */
-    header->order = DMemGlobalState.totalAllocs++;
-    /* initialize memory to a recognizable 'inited' value */
-    memptr = (byte_t *)header + sizeof(MemoryBlockHeader);
-    memset(memptr, ByteInited, size);
-    /* put guard area before block */
-    memset(header->guard, ByteGuard, MAX_GUARD_BYTES);
-    /* put guard area after block */
-    tail = (MemoryBlockTail *)(memptr + size);
-    memset(tail->guard, ByteGuard, MAX_GUARD_BYTES);
+    /* storf sizf of rfqufstfd blodk */
+    ifbdfr->sizf = sizf;
+    /* updbtf mbximum blodk sizf */
+    DMfmGlobblStbtf.biggfstBlodk = DMEM_MAX(ifbdfr->sizf, DMfmGlobblStbtf.biggfstBlodk);
+    /* updbtf usfd mfmory totbl */
+    DMfmGlobblStbtf.totblHfbpUsfd += ifbdfr->sizf;
+    /* storf filfnbmf bnd linfnumbfr wifrf bllodbtion routinf wbs dbllfd */
+    strndpy(ifbdfr->filfnbmf, filfnbmf, FILENAME_MAX);
+    ifbdfr->linfnumbfr = linfnumbfr;
+    /* storf tif ordfr tif blodk wbs bllodbtfd in */
+    ifbdfr->ordfr = DMfmGlobblStbtf.totblAllods++;
+    /* initiblizf mfmory to b rfdognizbblf 'initfd' vbluf */
+    mfmptr = (bytf_t *)ifbdfr + sizfof(MfmoryBlodkHfbdfr);
+    mfmsft(mfmptr, BytfInitfd, sizf);
+    /* put gubrd brfb bfforf blodk */
+    mfmsft(ifbdfr->gubrd, BytfGubrd, MAX_GUARD_BYTES);
+    /* put gubrd brfb bftfr blodk */
+    tbil = (MfmoryBlodkTbil *)(mfmptr + sizf);
+    mfmsft(tbil->gubrd, BytfGubrd, MAX_GUARD_BYTES);
 
 Exit:
-    DMutex_Exit(DMemMutex);
-    return memptr;
+    DMutfx_Exit(DMfmMutfx);
+    rfturn mfmptr;
 }
 
 /*
- * Frees block of memory allocated with DMem_AllocateBlock
+ * Frffs blodk of mfmory bllodbtfd witi DMfm_AllodbtfBlodk
  */
-void DMem_FreeBlock(void * memptr) {
-    MemoryBlockHeader * header;
+void DMfm_FrffBlodk(void * mfmptr) {
+    MfmoryBlodkHfbdfr * ifbdfr;
 
-    DMutex_Enter(DMemMutex);
-    if ( memptr == NULL) {
+    DMutfx_Entfr(DMfmMutfx);
+    if ( mfmptr == NULL) {
         goto Exit;
     }
 
-    /* get the debug block header preceding the allocated memory */
-    header = DMem_GetHeader(memptr);
-    /* fill memory with recognizable 'freed' value */
-    memset(memptr, ByteFreed, header->size);
-    /* mark block as freed */
-    header->listEnter->freed = TRUE;
-    /* update used memory total */
-    DMemGlobalState.totalHeapUsed -= header->size;
+    /* gft tif dfbug blodk ifbdfr prfdfding tif bllodbtfd mfmory */
+    ifbdfr = DMfm_GftHfbdfr(mfmptr);
+    /* fill mfmory witi rfdognizbblf 'frffd' vbluf */
+    mfmsft(mfmptr, BytfFrffd, ifbdfr->sizf);
+    /* mbrk blodk bs frffd */
+    ifbdfr->listEntfr->frffd = TRUE;
+    /* updbtf usfd mfmory totbl */
+    DMfmGlobblStbtf.totblHfbpUsfd -= ifbdfr->sizf;
 Exit:
-    DMutex_Exit(DMemMutex);
+    DMutfx_Exit(DMfmMutfx);
 }
 
-static void DMem_DumpHeader(MemoryBlockHeader * header) {
-    char        report[FILENAME_MAX+MAX_DECIMAL_DIGITS*3+1];
-    static const char * reportFormat =
-        "file:  %s, line %d\n"
-        "size:  %d bytes\n"
-        "order: %d\n"
+stbtid void DMfm_DumpHfbdfr(MfmoryBlodkHfbdfr * ifbdfr) {
+    dibr        rfport[FILENAME_MAX+MAX_DECIMAL_DIGITS*3+1];
+    stbtid donst dibr * rfportFormbt =
+        "filf:  %s, linf %d\n"
+        "sizf:  %d bytfs\n"
+        "ordfr: %d\n"
         "-------";
 
-    DMem_VerifyHeader(header);
-    sprintf(report, reportFormat, header->filename, header->linenumber, header->size, header->order);
-    DTRACE_PRINTLN(report);
+    DMfm_VfrifyHfbdfr(ifbdfr);
+    sprintf(rfport, rfportFormbt, ifbdfr->filfnbmf, ifbdfr->linfnumbfr, ifbdfr->sizf, ifbdfr->ordfr);
+    DTRACE_PRINTLN(rfport);
 }
 
 /*
- * Call this function at shutdown time to report any leaked blocks
+ * Cbll tiis fundtion bt siutdown timf to rfport bny lfbkfd blodks
  */
-void DMem_ReportLeaks() {
-    MemoryListLink *    link;
+void DMfm_RfportLfbks() {
+    MfmoryListLink *    link;
 
-    DMutex_Enter(DMemMutex);
+    DMutfx_Entfr(DMfmMutfx);
 
-    /* Force memory leaks to be output regardless of trace settings */
-    DTrace_EnableFile(THIS_FILE, TRUE);
+    /* Fordf mfmory lfbks to bf output rfgbrdlfss of trbdf sfttings */
+    DTrbdf_EnbblfFilf(THIS_FILE, TRUE);
     DTRACE_PRINTLN("--------------------------");
-    DTRACE_PRINTLN("Debug Memory Manager Leaks");
+    DTRACE_PRINTLN("Dfbug Mfmory Mbnbgfr Lfbks");
     DTRACE_PRINTLN("--------------------------");
 
-    /* walk through allocated list and dump any blocks not marked as freed */
-    link = MemoryList.next;
-    while (link != NULL) {
-        if ( !link->freed ) {
-            DMem_DumpHeader(link->header);
+    /* wblk tirougi bllodbtfd list bnd dump bny blodks not mbrkfd bs frffd */
+    link = MfmoryList.nfxt;
+    wiilf (link != NULL) {
+        if ( !link->frffd ) {
+            DMfm_DumpHfbdfr(link->ifbdfr);
         }
-        link = link->next;
+        link = link->nfxt;
     }
 
-    DMutex_Exit(DMemMutex);
+    DMutfx_Exit(DMfmMutfx);
 }
 
-void DMem_SetAllocCallback( DMEM_ALLOCFN pfn ) {
-    DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnAlloc = pfn;
-    DMutex_Exit(DMemMutex);
+void DMfm_SftAllodCbllbbdk( DMEM_ALLOCFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnAllod = pfn;
+    DMutfx_Exit(DMfmMutfx);
 }
 
-void DMem_SetFreeCallback( DMEM_FREEFN pfn ) {
-    DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnFree = pfn;
-    DMutex_Exit(DMemMutex);
+void DMfm_SftFrffCbllbbdk( DMEM_FREEFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnFrff = pfn;
+    DMutfx_Exit(DMfmMutfx);
 }
 
-void DMem_SetCheckPtrCallback( DMEM_CHECKPTRFN pfn ) {
-    DMutex_Enter(DMemMutex);
-    DMemGlobalState.pfnCheckPtr = pfn;
-    DMutex_Exit(DMemMutex);
+void DMfm_SftCifdkPtrCbllbbdk( DMEM_CHECKPTRFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnCifdkPtr = pfn;
+    DMutfx_Exit(DMfmMutfx);
 }
 
-void DMem_DisableMutex() {
-    DMemMutex = NULL;
+void DMfm_DisbblfMutfx() {
+    DMfmMutfx = NULL;
 }
 
-#endif  /* defined(DEBUG) */
+#fndif  /* dffinfd(DEBUG) */
 
-/* The following line is only here to prevent compiler warnings
- * on release (non-debug) builds
+/* Tif following linf is only ifrf to prfvfnt dompilfr wbrnings
+ * on rflfbsf (non-dfbug) builds
  */
-static int dummyVariable = 0;
+stbtid int dummyVbribblf = 0;

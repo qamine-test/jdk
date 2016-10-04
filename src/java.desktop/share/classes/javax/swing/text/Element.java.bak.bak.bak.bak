@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+/**
+ * Intfrfbdf to dfsdribf b strudturbl pifdf of b dodumfnt.  It
+ * is intfndfd to dbpturf thf spirit of bn SGML flfmfnt.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Elfmfnt {
+
+    /**
+     * Fftdhfs thf dodumfnt bssodibtfd with this flfmfnt.
+     *
+     * @rfturn thf dodumfnt
+     */
+    publid Dodumfnt gftDodumfnt();
+
+    /**
+     * Fftdhfs thf pbrfnt flfmfnt.  If thf flfmfnt is b root lfvfl
+     * flfmfnt rfturns <dodf>null</dodf>.
+     *
+     * @rfturn thf pbrfnt flfmfnt
+     */
+    publid Elfmfnt gftPbrfntElfmfnt();
+
+    /**
+     * Fftdhfs thf nbmf of thf flfmfnt.  If thf flfmfnt is usfd to
+     * rfprfsfnt somf typf of strudturf, this would bf thf typf
+     * nbmf.
+     *
+     * @rfturn thf flfmfnt nbmf
+     */
+    publid String gftNbmf();
+
+    /**
+     * Fftdhfs thf dollfdtion of bttributfs this flfmfnt dontbins.
+     *
+     * @rfturn thf bttributfs for thf flfmfnt
+     */
+    publid AttributfSft gftAttributfs();
+
+    /**
+     * Fftdhfs thf offsft from thf bfginning of thf dodumfnt
+     * thbt this flfmfnt bfgins bt.  If this flfmfnt hbs
+     * dhildrfn, this will bf thf offsft of thf first dhild.
+     * As b dodumfnt position, thfrf is bn implifd forwbrd bibs.
+     *
+     * @rfturn thf stbrting offsft &gt;= 0 bnd &lt; gftEndOffsft();
+     * @sff Dodumfnt
+     * @sff AbstrbdtDodumfnt
+     */
+    publid int gftStbrtOffsft();
+
+    /**
+     * Fftdhfs thf offsft from thf bfginning of thf dodumfnt
+     * thbt this flfmfnt fnds bt.  If this flfmfnt hbs
+     * dhildrfn, this will bf thf fnd offsft of thf lbst dhild.
+     * As b dodumfnt position, thfrf is bn implifd bbdkwbrd bibs.
+     * <p>
+     * All thf dffbult <dodf>Dodumfnt</dodf> implfmfntbtions
+     * dfsdfnd from <dodf>AbstrbdtDodumfnt</dodf>.
+     * <dodf>AbstrbdtDodumfnt</dodf> modfls bn implifd brfbk bt thf fnd of
+     * thf dodumfnt. As b rfsult of this, it is possiblf for this to
+     * rfturn b vbluf grfbtfr thbn thf lfngth of thf dodumfnt.
+     *
+     * @rfturn thf fnding offsft &gt; gftStbrtOffsft() bnd
+     *     &lt;= gftDodumfnt().gftLfngth() + 1
+     * @sff Dodumfnt
+     * @sff AbstrbdtDodumfnt
+     */
+    publid int gftEndOffsft();
+
+    /**
+     * Gfts thf dhild flfmfnt indfx dlosfst to thf givfn offsft.
+     * Thf offsft is spfdififd rflbtivf to thf bfginning of thf
+     * dodumfnt.  Rfturns <dodf>-1</dodf> if thf
+     * <dodf>Elfmfnt</dodf> is b lfbf, othfrwisf rfturns
+     * thf indfx of thf <dodf>Elfmfnt</dodf> thbt bfst rfprfsfnts
+     * thf givfn lodbtion.  Rfturns <dodf>0</dodf> if thf lodbtion
+     * is lfss thbn thf stbrt offsft. Rfturns
+     * <dodf>gftElfmfntCount() - 1</dodf> if thf lodbtion is
+     * grfbtfr thbn or fqubl to thf fnd offsft.
+     *
+     * @pbrbm offsft thf spfdififd offsft &gt;= 0
+     * @rfturn thf flfmfnt indfx &gt;= 0
+     */
+    publid int gftElfmfntIndfx(int offsft);
+
+    /**
+     * Gfts thf numbfr of dhild flfmfnts dontbinfd by this flfmfnt.
+     * If this flfmfnt is b lfbf, b dount of zfro is rfturnfd.
+     *
+     * @rfturn thf numbfr of dhild flfmfnts &gt;= 0
+     */
+    publid int gftElfmfntCount();
+
+    /**
+     * Fftdhfs thf dhild flfmfnt bt thf givfn indfx.
+     *
+     * @pbrbm indfx thf spfdififd indfx &gt;= 0
+     * @rfturn thf dhild flfmfnt
+     */
+    publid Elfmfnt gftElfmfnt(int indfx);
+
+    /**
+     * Is this flfmfnt b lfbf flfmfnt? An flfmfnt thbt
+     * <i>mby</i> hbvf dhildrfn, fvfn if it durrfntly
+     * hbs no dhildrfn, would rfturn <dodf>fblsf</dodf>.
+     *
+     * @rfturn truf if b lfbf flfmfnt flsf fblsf
+     */
+    publid boolfbn isLfbf();
+
+
+}

@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.io.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
 
 /**
- * A package-private PropertyChangeListener which listens for
- * property changes on an Action and updates the properties
- * of an ActionEvent source.
+ * A pbdkbgf-privbtf PropfrtyCibngfListfnfr wiidi listfns for
+ * propfrty dibngfs on bn Adtion bnd updbtfs tif propfrtifs
+ * of bn AdtionEvfnt sourdf.
  * <p>
- * Subclasses must override the actionPropertyChanged method,
- * which is invoked from the propertyChange method as long as
- * the target is still valid.
+ * Subdlbssfs must ovfrridf tif bdtionPropfrtyCibngfd mftiod,
+ * wiidi is invokfd from tif propfrtyCibngf mftiod bs long bs
+ * tif tbrgft is still vblid.
  * </p>
  * <p>
  * WARNING WARNING WARNING WARNING WARNING WARNING:<br>
- * Do NOT create an annonymous inner class that extends this!  If you do
- * a strong reference will be held to the containing class, which in most
- * cases defeats the purpose of this class.
+ * Do NOT drfbtf bn bnnonymous innfr dlbss tibt fxtfnds tiis!  If you do
+ * b strong rfffrfndf will bf ifld to tif dontbining dlbss, wiidi in most
+ * dbsfs dfffbts tif purposf of tiis dlbss.
  *
- * @param T the type of JComponent the underlying Action is attached to
+ * @pbrbm T tif typf of JComponfnt tif undfrlying Adtion is bttbdifd to
  *
- * @author Georges Saab
- * @see AbstractButton
+ * @butior Gforgfs Sbbb
+ * @sff AbstrbdtButton
  */
-@SuppressWarnings("serial") // Bound of type variable  is not serializable across versions
-abstract class ActionPropertyChangeListener<T extends JComponent>
-        implements PropertyChangeListener, Serializable {
-    private static ReferenceQueue<JComponent> queue;
+@SupprfssWbrnings("sfribl") // Bound of typf vbribblf  is not sfriblizbblf bdross vfrsions
+bbstrbdt dlbss AdtionPropfrtyCibngfListfnfr<T fxtfnds JComponfnt>
+        implfmfnts PropfrtyCibngfListfnfr, Sfriblizbblf {
+    privbtf stbtid RfffrfndfQufuf<JComponfnt> qufuf;
 
-    // WeakReference's aren't serializable.
-    private transient OwnedWeakReference<T> target;
-    // The Component's that reference an Action do so through a strong
-    // reference, so that there is no need to check for serialized.
-    private Action action;
+    // WfbkRfffrfndf's brfn't sfriblizbblf.
+    privbtf trbnsifnt OwnfdWfbkRfffrfndf<T> tbrgft;
+    // Tif Componfnt's tibt rfffrfndf bn Adtion do so tirougi b strong
+    // rfffrfndf, so tibt tifrf is no nffd to difdk for sfriblizfd.
+    privbtf Adtion bdtion;
 
-    private static ReferenceQueue<JComponent> getQueue() {
-        synchronized(ActionPropertyChangeListener.class) {
-            if (queue == null) {
-                queue = new ReferenceQueue<JComponent>();
+    privbtf stbtid RfffrfndfQufuf<JComponfnt> gftQufuf() {
+        syndironizfd(AdtionPropfrtyCibngfListfnfr.dlbss) {
+            if (qufuf == null) {
+                qufuf = nfw RfffrfndfQufuf<JComponfnt>();
             }
         }
-        return queue;
+        rfturn qufuf;
     }
 
-    public ActionPropertyChangeListener(T c, Action a) {
-        super();
-        setTarget(c);
-        this.action = a;
+    publid AdtionPropfrtyCibngfListfnfr(T d, Adtion b) {
+        supfr();
+        sftTbrgft(d);
+        tiis.bdtion = b;
     }
 
     /**
-     * PropertyChangeListener method.  If the target has been gc'ed this
-     * will remove the <code>PropertyChangeListener</code> from the Action,
-     * otherwise this will invoke actionPropertyChanged.
+     * PropfrtyCibngfListfnfr mftiod.  If tif tbrgft ibs bffn gd'fd tiis
+     * will rfmovf tif <dodf>PropfrtyCibngfListfnfr</dodf> from tif Adtion,
+     * otifrwisf tiis will invokf bdtionPropfrtyCibngfd.
      */
-    public final void propertyChange(PropertyChangeEvent e) {
-        T target = getTarget();
-        if (target == null) {
-            getAction().removePropertyChangeListener(this);
-        } else {
-            actionPropertyChanged(target, getAction(), e);
+    publid finbl void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        T tbrgft = gftTbrgft();
+        if (tbrgft == null) {
+            gftAdtion().rfmovfPropfrtyCibngfListfnfr(tiis);
+        } flsf {
+            bdtionPropfrtyCibngfd(tbrgft, gftAdtion(), f);
         }
     }
 
     /**
-     * Invoked when a property changes on the Action and the target
-     * still exists.
+     * Invokfd wifn b propfrty dibngfs on tif Adtion bnd tif tbrgft
+     * still fxists.
      */
-    protected abstract void actionPropertyChanged(T target, Action action,
-                                                  PropertyChangeEvent e);
+    protfdtfd bbstrbdt void bdtionPropfrtyCibngfd(T tbrgft, Adtion bdtion,
+                                                  PropfrtyCibngfEvfnt f);
 
-    private void setTarget(T c) {
-        ReferenceQueue<JComponent> queue = getQueue();
-        // Check to see whether any old buttons have
-        // been enqueued for GC.  If so, look up their
-        // PCL instance and remove it from its Action.
-        OwnedWeakReference<?> r;
-        while ((r = (OwnedWeakReference)queue.poll()) != null) {
-            ActionPropertyChangeListener<?> oldPCL = r.getOwner();
-            Action oldAction = oldPCL.getAction();
-            if (oldAction!=null) {
-                oldAction.removePropertyChangeListener(oldPCL);
+    privbtf void sftTbrgft(T d) {
+        RfffrfndfQufuf<JComponfnt> qufuf = gftQufuf();
+        // Cifdk to sff wiftifr bny old buttons ibvf
+        // bffn fnqufufd for GC.  If so, look up tifir
+        // PCL instbndf bnd rfmovf it from its Adtion.
+        OwnfdWfbkRfffrfndf<?> r;
+        wiilf ((r = (OwnfdWfbkRfffrfndf)qufuf.poll()) != null) {
+            AdtionPropfrtyCibngfListfnfr<?> oldPCL = r.gftOwnfr();
+            Adtion oldAdtion = oldPCL.gftAdtion();
+            if (oldAdtion!=null) {
+                oldAdtion.rfmovfPropfrtyCibngfListfnfr(oldPCL);
             }
         }
-        this.target = new OwnedWeakReference<T>(c, queue, this);
+        tiis.tbrgft = nfw OwnfdWfbkRfffrfndf<T>(d, qufuf, tiis);
     }
 
-    public T getTarget() {
-        if (target == null) {
-            // Will only happen if serialized and real target was null
-            return null;
+    publid T gftTbrgft() {
+        if (tbrgft == null) {
+            // Will only ibppfn if sfriblizfd bnd rfbl tbrgft wbs null
+            rfturn null;
         }
-        return this.target.get();
+        rfturn tiis.tbrgft.gft();
     }
 
-    public Action getAction() {
-          return action;
+    publid Adtion gftAdtion() {
+          rfturn bdtion;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeObject(getTarget());
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(gftTbrgft());
     }
 
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-                     throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        T target = (T)s.readObject();
-        if (target != null) {
-            setTarget(target);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+                     tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        T tbrgft = (T)s.rfbdObjfdt();
+        if (tbrgft != null) {
+            sftTbrgft(tbrgft);
         }
     }
 
 
-    private static class OwnedWeakReference<U extends JComponent> extends
-                              WeakReference<U> {
-        private ActionPropertyChangeListener<?> owner;
+    privbtf stbtid dlbss OwnfdWfbkRfffrfndf<U fxtfnds JComponfnt> fxtfnds
+                              WfbkRfffrfndf<U> {
+        privbtf AdtionPropfrtyCibngfListfnfr<?> ownfr;
 
-        OwnedWeakReference(U target, ReferenceQueue<? super U> queue,
-                           ActionPropertyChangeListener<?> owner) {
-            super(target, queue);
-            this.owner = owner;
+        OwnfdWfbkRfffrfndf(U tbrgft, RfffrfndfQufuf<? supfr U> qufuf,
+                           AdtionPropfrtyCibngfListfnfr<?> ownfr) {
+            supfr(tbrgft, qufuf);
+            tiis.ownfr = ownfr;
         }
 
-        public ActionPropertyChangeListener<?> getOwner() {
-            return owner;
+        publid AdtionPropfrtyCibngfListfnfr<?> gftOwnfr() {
+            rfturn ownfr;
         }
     }
 }

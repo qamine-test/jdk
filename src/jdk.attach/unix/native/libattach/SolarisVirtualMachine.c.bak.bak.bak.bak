@@ -1,0 +1,356 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#indludf <door.h>
+#indludf <stdlib.h>
+#indludf <unistd.h>
+#indludf <signbl.h>
+#indludf <string.h>
+#indludf <fdntl.h>
+#indludf <frrno.h>
+#indludf <limits.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "sun_tools_bttbdh_SolbrisVirtublMbdhinf.h"
+
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+  do { \
+    _rfsult = _dmd; \
+  } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    opfn
+ * Signbturf: (Ljbvb/lbng/String;)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_opfn
+  (JNIEnv *fnv, jdlbss dls, jstring pbth)
+{
+    jboolfbn isCopy;
+    donst dhbr* p = GftStringPlbtformChbrs(fnv, pbth, &isCopy);
+    if (p == NULL) {
+        rfturn 0;
+    } flsf {
+        int fd;
+        int frr = 0;
+
+        fd = opfn(p, O_RDWR);
+        if (fd == -1) {
+            frr = frrno;
+        }
+
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, p);
+        }
+
+        if (fd == -1) {
+            if (frr == ENOENT) {
+                JNU_ThrowByNbmf(fnv, "jbvb/io/FilfNotFoundExdfption", NULL);
+            } flsf {
+                dhbr* msg = strdup(strfrror(frr));
+                JNU_ThrowIOExdfption(fnv, msg);
+                if (msg != NULL) {
+                    frff(msg);
+                }
+            }
+        }
+        rfturn fd;
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    dhfdkPfrmissions
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_dhfdkPfrmissions
+  (JNIEnv *fnv, jdlbss dls, jstring pbth)
+{
+    jboolfbn isCopy;
+    donst dhbr* p = GftStringPlbtformChbrs(fnv, pbth, &isCopy);
+    if (p != NULL) {
+        strudt stbt64 sb;
+        uid_t uid, gid;
+        int rfs;
+
+        /*
+         * Chfdk thbt thf pbth is ownfd by thf ffffdtivf uid/gid of this
+         * prodfss. Also dhfdk thbt group/othfr bddfss is not bllowfd.
+         */
+        uid = gftfuid();
+        gid = gftfgid();
+
+        rfs = stbt64(p, &sb);
+        if (rfs != 0) {
+            /* sbvf frrno */
+            rfs = frrno;
+        }
+
+        /* rflfbsf p hfrf bfforf wf throw bn I/O fxdfption */
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, p);
+        }
+
+        if (rfs == 0) {
+            if ( (sb.st_uid != uid) || (sb.st_gid != gid) ||
+                 ((sb.st_modf & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
+                JNU_ThrowIOExdfption(fnv, "wfll-known filf is not sfdurf");
+            }
+        } flsf {
+            dhbr* msg = strdup(strfrror(rfs));
+            JNU_ThrowIOExdfption(fnv, msg);
+            if (msg != NULL) {
+                frff(msg);
+            }
+        }
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    dlosf
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_dlosf
+  (JNIEnv *fnv, jdlbss dls, jint fd)
+{
+    int rft;
+    RESTARTABLE(dlosf(fd), rft);
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    rfbd
+ * Signbturf: (I[BI)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_rfbd
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bbLfn)
+{
+    unsignfd dhbr buf[128];
+    sizf_t lfn = sizfof(buf);
+    ssizf_t n;
+
+    sizf_t rfmbining = (sizf_t)(bbLfn - off);
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
+    }
+
+    RESTARTABLE(rfbd(fd, buf, lfn), n);
+    if (n == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "rfbd");
+    } flsf {
+        if (n == 0) {
+            n = -1;     // EOF
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)n, (jbytf *)(buf));
+        }
+    }
+    rfturn n;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    sigquit
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_sigquit
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+{
+    if (kill((pid_t)pid, SIGQUIT) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "kill");
+    }
+}
+
+/*
+ * A simplf tbblf to trbnslbtf somf known frrors into rfbsonbblf
+ * frror mfssbgfs
+ */
+stbtid strudt {
+    jint frr;
+    donst dhbr* msg;
+} donst frror_mfssbgfs[] = {
+    { 100,      "Bbd rfqufst" },
+    { 101,      "Protodol mismbtdh" },
+    { 102,      "Rfsourdf fbilurf" },
+    { 103,      "Intfrnbl frror" },
+    { 104,      "Pfrmission dfnifd" },
+};
+
+/*
+ * Lookup thf givfn frror dodf bnd rfturn thf bppropribtf
+ * mfssbgf. If not found rfturn NULL.
+ */
+stbtid donst dhbr* trbnslbtf_frror(jint frr) {
+    int tbblf_sizf = sizfof(frror_mfssbgfs) / sizfof(frror_mfssbgfs[0]);
+    int i;
+
+    for (i=0; i<tbblf_sizf; i++) {
+        if (frr == frror_mfssbgfs[i].frr) {
+            rfturn frror_mfssbgfs[i].msg;
+        }
+    }
+    rfturn NULL;
+}
+
+/*
+ * Currfnt protodol vfrsion
+ */
+stbtid donst dhbr* PROTOCOL_VERSION = "1";
+
+/*
+ * Clbss:     sun_tools_bttbdh_SolbrisVirtublMbdhinf
+ * Mfthod:    fnqufuf
+ * Signbturf: (JILjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_SolbrisVirtublMbdhinf_fnqufuf
+  (JNIEnv *fnv, jdlbss dls, jint fd, jstring dmd, jobjfdtArrby brgs)
+{
+    jint brg_dount, i;
+    sizf_t sizf;
+    jboolfbn isCopy;
+    door_brg_t door_brgs;
+    dhbr rfs_bufffr[128];
+    jint rfsult = -1;
+    int rd;
+    donst dhbr* dstr;
+    dhbr* buf;
+
+    /*
+     * First wf gft thf dommbnd string bnd drfbtf thf stbrt of thf
+     * brgumfnt string to sfnd to thf tbrgft VM:
+     * <vfr>\0<dmd>\0
+     */
+    dstr = JNU_GftStringPlbtformChbrs(fnv, dmd, &isCopy);
+    if (dstr == NULL) {
+        rfturn -1;              /* pfnding fxdfption */
+    }
+    sizf = strlfn(PROTOCOL_VERSION) + strlfn(dstr) + 2;
+    buf = (dhbr*)mbllod(sizf);
+    if (buf != NULL) {
+        dhbr* pos = buf;
+        strdpy(buf, PROTOCOL_VERSION);
+        pos += strlfn(PROTOCOL_VERSION)+1;
+        strdpy(pos, dstr);
+    }
+    if (isCopy) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, dmd, dstr);
+    }
+    if (buf == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "mbllod fbilfd");
+        rfturn -1;
+    }
+
+    /*
+     * Nfxt wf itfrbtf ovfr thf brgumfnts bnd fxtfnd thf bufffr
+     * to indludf thfm.
+     */
+    brg_dount = (*fnv)->GftArrbyLfngth(fnv, brgs);
+
+    for (i=0; i<brg_dount; i++) {
+        jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+        if (obj != NULL) {
+            dstr = JNU_GftStringPlbtformChbrs(fnv, obj, &isCopy);
+            if (dstr != NULL) {
+                sizf_t lfn = strlfn(dstr);
+                dhbr* nfwbuf = (dhbr*)rfbllod(buf, sizf+lfn+1);
+                if (nfwbuf != NULL) {
+                    buf = nfwbuf;
+                    strdpy(buf+sizf, dstr);
+                    sizf += lfn+1;
+                }
+                if (isCopy) {
+                    JNU_RflfbsfStringPlbtformChbrs(fnv, obj, dstr);
+                }
+                if (nfwbuf == NULL) {
+                    frff(buf);
+                    JNU_ThrowOutOfMfmoryError(fnv, "rfbllod fbilfd");
+                    rfturn -1;
+                }
+            }
+        }
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frff(buf);
+            rfturn -1;
+        }
+    }
+
+    /*
+     * Thf brgumfnts to thf door fundtion brf in 'buf' so wf now
+     * do thf door dbll
+     */
+    door_brgs.dbtb_ptr = buf;
+    door_brgs.dbtb_sizf = sizf;
+    door_brgs.dfsd_ptr = NULL;
+    door_brgs.dfsd_num = 0;
+    door_brgs.rbuf = (dhbr*)&rfs_bufffr;
+    door_brgs.rsizf = sizfof(rfs_bufffr);
+
+    RESTARTABLE(door_dbll(fd, &door_brgs), rd);
+
+    /*
+     * door_dbll fbilfd
+     */
+    if (rd == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "door_dbll");
+    } flsf {
+        /*
+         * door_dbll suddffdfd but thf dbll didn't rfturn thf thf fxpfdtfd jint.
+         */
+        if (door_brgs.dbtb_sizf < sizfof(jint)) {
+            JNU_ThrowIOExdfption(fnv, "Enqufuf frror - rfbson unknown bs rfsult is trundbtfd!");
+        } flsf {
+            jint* rfs = (jint*)(door_brgs.dbtb_ptr);
+            if (*rfs != JNI_OK) {
+                donst dhbr* msg = trbnslbtf_frror(*rfs);
+                dhbr buf[255];
+                if (msg == NULL) {
+                    sprintf(buf, "Unbblf to fnqufuf dommbnd to tbrgft VM: %d", *rfs);
+                } flsf {
+                    sprintf(buf, "Unbblf to fnqufuf dommbnd to tbrgft VM: %s", msg);
+                }
+                JNU_ThrowIOExdfption(fnv, buf);
+            } flsf {
+                /*
+                 * Thf door dbll should rfturn b filf dfsdriptor to onf fnd of
+                 * b sodkft pbir
+                 */
+                if ((door_brgs.dfsd_ptr != NULL) &&
+                    (door_brgs.dfsd_num == 1) &&
+                    (door_brgs.dfsd_ptr->d_bttributfs & DOOR_DESCRIPTOR)) {
+                    rfsult = door_brgs.dfsd_ptr->d_dbtb.d_dfsd.d_dfsdriptor;
+                } flsf {
+                    JNU_ThrowIOExdfption(fnv, "Rfply from fnqufuf missing dfsdriptor!");
+                }
+            }
+        }
+    }
+
+    frff(buf);
+    rfturn rfsult;
+}

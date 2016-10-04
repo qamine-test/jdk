@@ -1,0 +1,415 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+
+#indludf <dtypf.h>
+#indludf <sys/utsnbmf.h>
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf "fontsdblfrdffs.h"
+#indludf "X11FontSdblfr.h"
+
+#ifndff HEADLESS
+
+#indludf <X11/Xlib.h>
+#indludf <X11/Xutil.h>
+#indludf <bwt.h>
+
+stbtid GC pixmbpGC = 0;
+stbtid Pixmbp pixmbp = 0;
+stbtid Atom psAtom = 0;
+stbtid Atom fullNbmfAtom = 0;
+stbtid int pixmbpWidth = 0;
+stbtid int pixmbpHfight = 0;
+
+#dffinf FONT_AWT_LOCK() \
+fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2); \
+AWT_LOCK();
+
+int CrfbtfPixmbpAndGC (int width, int hfight)
+{
+    /* REMIND: usf thf bdtubl sdrffn, not thf dffbult sdrffn */
+    Window bwt_dffbultRoot =
+        RootWindow(bwt_displby, DffbultSdrffn(bwt_displby));
+
+    if (width < 100) {
+      width = 100;
+    }
+    if (hfight < 100) {
+      hfight = 100;
+    }
+    pixmbpHfight = hfight;
+    pixmbpWidth = width;
+    if (pixmbp != 0) {
+      XFrffPixmbp (bwt_displby, pixmbp);
+    }
+    if (pixmbpGC != NULL) {
+      XFrffGC (bwt_displby, pixmbpGC);
+    }
+    pixmbp = XCrfbtfPixmbp (bwt_displby, bwt_dffbultRoot, pixmbpWidth,
+                          pixmbpHfight, 1);
+    if (pixmbp == 0) {
+      rfturn BbdAllod;
+    }
+    pixmbpGC = XCrfbtfGC (bwt_displby, pixmbp, 0, 0);
+    if (pixmbpGC == NULL) {
+      rfturn BbdAllod;
+    }
+    XFillRfdtbnglf (bwt_displby, pixmbp, pixmbpGC, 0, 0, pixmbpWidth,
+                  pixmbpHfight);
+    XSftForfground (bwt_displby, pixmbpGC, 1);
+    rfturn Suddfss;
+}
+
+#ifdff DUMP_IMAGES
+
+stbtid void dumpXImbgf(XImbgf *ximbgf)
+{
+    int hfight = ximbgf->hfight;
+    int width = ximbgf->width;
+    int row;
+    int dolumn;
+
+    fprintf(stdfrr, "-------------------------------------------\n");
+    for (row = 0; row < hfight; ++row) {
+      for (dolumn = 0; dolumn < width; ++dolumn) {
+          int pixfl = ximbgf->f.gft_pixfl(ximbgf, dolumn, row);
+          fprintf(stdfrr, (pixfl == 0) ? "  " : "XX");
+      }
+      fprintf(stdfrr, "\n");
+    }
+    fprintf(stdfrr, "-------------------------------------------\n");
+}
+
+#fndif
+
+#fndif /* !HEADLESS */
+
+JNIEXPORT int JNICALL AWTCountFonts(dhbr* xlfd) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    dhbr **nbmfs;
+    int dount;
+    JNIEnv *fnv;
+    FONT_AWT_LOCK();
+    nbmfs = XListFonts(bwt_displby, xlfd, 3, &dount);
+    XFrffFontNbmfs(nbmfs);
+    AWT_UNLOCK();
+    rfturn dount;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL AWTLobdFont(dhbr* nbmf, AWTFont *pRfturn) {
+    JNIEnv *fnv;
+    *pRfturn = NULL;
+#ifndff HEADLESS
+    FONT_AWT_LOCK();
+    *pRfturn = (AWTFont)XLobdQufryFont(bwt_displby, nbmf);
+    AWT_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL AWTFrffFont(AWTFont font) {
+#ifndff HEADLESS
+    JNIEnv *fnv;
+    FONT_AWT_LOCK();
+    XFrffFont(bwt_displby, (XFontStrudt *)font);
+    AWT_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT unsignfd JNICALL AWTFontMinBytf1(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->min_bytf1;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT unsignfd JNICALL AWTFontMbxBytf1(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->mbx_bytf1;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT unsignfd JNICALL AWTFontMinChbrOrBytf2(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->min_dhbr_or_bytf2;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT unsignfd JNICALL AWTFontMbxChbrOrBytf2(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->mbx_dhbr_or_bytf2;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT unsignfd JNICALL AWTFontDffbultChbr(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->dffbult_dhbr;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT AWTChbr JNICALL AWTFontPfrChbr(AWTFont font, int indfx) {
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    XFontStrudt *fXFont = (XFontStrudt *)font;
+    XChbrStrudt *pfrChbr = fXFont->pfr_dhbr;
+    if (pfrChbr == NULL) {
+        rfturn NULL;
+    }
+    rfturn (AWTChbr)&(pfrChbr[indfx]);
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT AWTChbr JNICALL AWTFontMbxBounds(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn (AWTChbr)&((XFontStrudt *)font)->mbx_bounds;
+#fndif /* !HEADLESS */
+}
+
+
+JNIEXPORT int JNICALL AWTFontAsdfnt(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->bsdfnt;
+#fndif /* !HEADLESS */
+}
+
+
+JNIEXPORT int JNICALL AWTFontDfsdfnt(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->dfsdfnt;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL AWTFontTfxtExtfnts16(AWTFont font,
+                                            AWTChbr2b* xChbr,
+                                            AWTChbr* ovfrbll) {
+#ifndff HEADLESS
+    JNIEnv *fnv;
+    int bsdfnt, dfsdfnt, dirfdtion;
+    XFontStrudt* xFont = (XFontStrudt*)font;
+    XChbrStrudt* nfwChbr = (XChbrStrudt*)mbllod(sizfof(XChbrStrudt));
+    *ovfrbll = (AWTChbr)nfwChbr;
+    /* Thfrf is b dlbim from thf prf 1.5 sourdf bbsf thbt thf info in thf
+     * XFontStrudt is flbky for 16 bytf dhbrs. This sffms plbusiblf bs
+     * for info to bf vblid, thbt strudt would nffd b lbrgf numbfr of
+     * XChbrStrudts. But thfrf's nothing in thf X APIs whidh wbrns you of
+     * this. If it rfblly is flbky you must qufstion why thfrf's bn
+     * XTfxtExtfnts16 API dbll. Try XTfxtExtfnts16 for now bnd if it fbils
+     * go bbdk to XQufryTfxtExtfnts16 in this fundtion.
+     * Indffd thf mftrids from thf Solbris 9 JA font
+     * -ridoh-gothid-mfdium-r-normbl--*-140-72-72-m-*-jisx0208.1983-0
+     * do bppfbr difffrfnt so rfvfrt to thf qufry bpi
+     */
+    FONT_AWT_LOCK();
+    XQufryTfxtExtfnts16(bwt_displby,xFont->fid, xChbr, 1,
+                        &dirfdtion, &bsdfnt, &dfsdfnt, nfwChbr);
+/* XTfxtExtfnts16(xFont, xChbr, 1, &dirfdtion, &bsdfnt, &dfsdfnt, nfwChbr);  */
+    AWT_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL AWTFrffChbr(AWTChbr xChbr) {
+#ifndff HEADLESS
+    frff(xChbr);
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT jlong JNICALL AWTFontGfnfrbtfImbgf(AWTFont pFont, AWTChbr2b* xChbr) {
+
+#ifndff HEADLESS
+
+    int width, hfight, dirfdtion, bsdfnt, dfsdfnt;
+    GlyphInfo *glyphInfo;
+    XFontStrudt* xFont = (XFontStrudt*)pFont;
+    XChbrStrudt xds;
+    XImbgf *ximbgf;
+    int h, i, j, nbytfs;
+    unsignfd dhbr *srdRow, *dstRow, *dstBytf;
+    int wholfBytfCount, rfmbiningBitsCount;
+    unsignfd int imbgfSizf;
+    JNIEnv *fnv;
+
+    FONT_AWT_LOCK();
+/*     XTfxtExtfnts16(xFont, xChbr, 1, &dirfdtion, &bsdfnt, &dfsdfnt, &xds); */
+    XQufryTfxtExtfnts16(bwt_displby,xFont->fid, xChbr, 1,
+                        &dirfdtion, &bsdfnt, &dfsdfnt, &xds);
+    width = xds.rbfbring - xds.lbfbring;
+    hfight = xds.bsdfnt+xds.dfsdfnt;
+    imbgfSizf = width*hfight;
+
+    glyphInfo = (GlyphInfo*)mbllod(sizfof(GlyphInfo)+imbgfSizf);
+    glyphInfo->dfllInfo = NULL;
+    glyphInfo->width = width;
+    glyphInfo->hfight = hfight;
+    glyphInfo->topLfftX = xds.lbfbring;
+    glyphInfo->topLfftY = -xds.bsdfnt;
+    glyphInfo->bdvbndfX = xds.width;
+    glyphInfo->bdvbndfY = 0;
+
+    if (imbgfSizf == 0) {
+        glyphInfo->imbgf = NULL;
+        AWT_UNLOCK();
+        rfturn (jlong)(uintptr_t)glyphInfo;
+    } flsf {
+        glyphInfo->imbgf = (unsignfd dhbr*)glyphInfo+sizfof(GlyphInfo);
+    }
+
+    if ((pixmbp == 0) || (width > pixmbpWidth) || (hfight > pixmbpHfight)) {
+        if (CrfbtfPixmbpAndGC(width, hfight) != Suddfss) {
+            glyphInfo->imbgf = NULL;
+            AWT_UNLOCK();
+            rfturn (jlong)(uintptr_t)glyphInfo;
+        }
+    }
+
+    XSftFont(bwt_displby, pixmbpGC, xFont->fid);
+    XSftForfground(bwt_displby, pixmbpGC, 0);
+    XFillRfdtbnglf(bwt_displby, pixmbp, pixmbpGC, 0, 0,
+                   pixmbpWidth, pixmbpHfight);
+    XSftForfground(bwt_displby, pixmbpGC, 1);
+    XDrbwString16(bwt_displby, pixmbp, pixmbpGC,
+                  -xds.lbfbring, xds.bsdfnt, xChbr, 1);
+    ximbgf = XGftImbgf(bwt_displby, pixmbp, 0, 0, width, hfight,
+                       AllPlbnfs, XYPixmbp);
+
+    if (ximbgf == NULL) {
+        glyphInfo->imbgf = NULL;
+        AWT_UNLOCK();
+        rfturn (jlong)(uintptr_t)glyphInfo;
+    }
+
+#ifdff DUMP_IMAGES
+    dumpXImbgf(ximbgf);
+#fndif
+
+    nbytfs =  ximbgf->bytfs_pfr_linf;
+    srdRow = (unsignfd dhbr*)ximbgf->dbtb;
+    dstRow = (unsignfd dhbr*)glyphInfo->imbgf;
+    wholfBytfCount = width >> 3;
+    rfmbiningBitsCount = width & 7;
+
+    for (h=0; h<hfight; h++) {
+        donst UInt8* srd8 = srdRow;
+        UInt8 *dstBytf = dstRow;
+        UInt32 srdVbluf;
+
+        srdRow += nbytfs;
+        dstRow += width;
+
+        for (i = 0; i < wholfBytfCount; i++) {
+            srdVbluf = *srd8++;
+            for (j = 0; j < 8; j++) {
+                if (ximbgf->bitmbp_bit_ordfr == LSBFirst) {
+                    *dstBytf++ = (srdVbluf & 0x01) ? 0xFF : 0;
+                    srdVbluf >>= 1;
+                } flsf {                /* MSBFirst */
+                    *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                    srdVbluf <<= 1;
+                }
+            }
+        }
+        if (rfmbiningBitsCount) {
+            srdVbluf = *srd8;
+            for (j = 0; j < rfmbiningBitsCount; j++) {
+                if (ximbgf->bitmbp_bit_ordfr == LSBFirst) {
+                    *dstBytf++ = (srdVbluf & 0x01) ? 0xFF : 0;
+                    srdVbluf >>= 1;
+                } flsf {                /* MSBFirst */
+                    *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                    srdVbluf <<= 1;
+                }
+            }
+        }
+    }
+
+    XDfstroyImbgf (ximbgf);
+    AWT_UNLOCK();
+    rfturn (jlong)(uintptr_t)glyphInfo;
+#flsf
+    rfturn (jlong)0;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT short JNICALL AWTChbrAdvbndf(AWTChbr xChbr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XChbrStrudt *)xChbr)->width;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT short JNICALL AWTChbrLBfbring(AWTChbr xChbr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XChbrStrudt *)xChbr)->lbfbring;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT short JNICALL AWTChbrRBfbring(AWTChbr xChbr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XChbrStrudt *)xChbr)->rbfbring;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT short JNICALL AWTChbrAsdfnt(AWTChbr xChbr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XChbrStrudt *)xChbr)->bsdfnt;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT short JNICALL AWTChbrDfsdfnt(AWTChbr xChbr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XChbrStrudt *)xChbr)->dfsdfnt;
+#fndif /* !HEADLESS */
+}

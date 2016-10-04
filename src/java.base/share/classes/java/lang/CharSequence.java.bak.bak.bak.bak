@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.strfbm.IntStrfbm;
+import jbvb.util.strfbm.StrfbmSupport;
+
+/**
+ * A <tt>ChbrSfqufndf</tt> is b rfbdbblf sfqufndf of <dodf>dhbr</dodf> vblufs. This
+ * intfrfbdf providfs uniform, rfbd-only bddfss to mbny difffrfnt kinds of
+ * <dodf>dhbr</dodf> sfqufndfs.
+ * A <dodf>dhbr</dodf> vbluf rfprfsfnts b dhbrbdtfr in thf <i>Bbsid
+ * Multilingubl Plbnf (BMP)</i> or b surrogbtf. Rfffr to <b
+ * hrff="Chbrbdtfr.html#unidodf">Unidodf Chbrbdtfr Rfprfsfntbtion</b> for dftbils.
+ *
+ * <p> This intfrfbdf dofs not rffinf thf gfnfrbl dontrbdts of thf {@link
+ * jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt) fqubls} bnd {@link
+ * jbvb.lbng.Objfdt#hbshCodf() hbshCodf} mfthods.  Thf rfsult of dompbring two
+ * objfdts thbt implfmfnt <tt>ChbrSfqufndf</tt> is thfrfforf, in gfnfrbl,
+ * undffinfd.  Ebdh objfdt mby bf implfmfntfd by b difffrfnt dlbss, bnd thfrf
+ * is no gubrbntff thbt fbdh dlbss will bf dbpbblf of tfsting its instbndfs
+ * for fqublity with thosf of thf othfr.  It is thfrfforf inbppropribtf to usf
+ * brbitrbry <tt>ChbrSfqufndf</tt> instbndfs bs flfmfnts in b sft or bs kfys in
+ * b mbp. </p>
+ *
+ * @buthor Mikf MdCloskfy
+ * @sindf 1.4
+ * @spfd JSR-51
+ */
+
+publid intfrfbdf ChbrSfqufndf {
+
+    /**
+     * Rfturns thf lfngth of this dhbrbdtfr sfqufndf.  Thf lfngth is thf numbfr
+     * of 16-bit <dodf>dhbr</dodf>s in thf sfqufndf.
+     *
+     * @rfturn  thf numbfr of <dodf>dhbr</dodf>s in this sfqufndf
+     */
+    int lfngth();
+
+    /**
+     * Rfturns thf <dodf>dhbr</dodf> vbluf bt thf spfdififd indfx.  An indfx rbngfs from zfro
+     * to <tt>lfngth() - 1</tt>.  Thf first <dodf>dhbr</dodf> vbluf of thf sfqufndf is bt
+     * indfx zfro, thf nfxt bt indfx onf, bnd so on, bs for brrby
+     * indfxing.
+     *
+     * <p>If thf <dodf>dhbr</dodf> vbluf spfdififd by thf indfx is b
+     * <b hrff="{@dodRoot}/jbvb/lbng/Chbrbdtfr.html#unidodf">surrogbtf</b>, thf surrogbtf
+     * vbluf is rfturnfd.
+     *
+     * @pbrbm   indfx   thf indfx of thf <dodf>dhbr</dodf> vbluf to bf rfturnfd
+     *
+     * @rfturn  thf spfdififd <dodf>dhbr</dodf> vbluf
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          if thf <tt>indfx</tt> brgumfnt is nfgbtivf or not lfss thbn
+     *          <tt>lfngth()</tt>
+     */
+    dhbr dhbrAt(int indfx);
+
+    /**
+     * Rfturns b <dodf>ChbrSfqufndf</dodf> thbt is b subsfqufndf of this sfqufndf.
+     * Thf subsfqufndf stbrts with thf <dodf>dhbr</dodf> vbluf bt thf spfdififd indfx bnd
+     * fnds with thf <dodf>dhbr</dodf> vbluf bt indfx <tt>fnd - 1</tt>.  Thf lfngth
+     * (in <dodf>dhbr</dodf>s) of thf
+     * rfturnfd sfqufndf is <tt>fnd - stbrt</tt>, so if <tt>stbrt == fnd</tt>
+     * thfn bn fmpty sfqufndf is rfturnfd.
+     *
+     * @pbrbm   stbrt   thf stbrt indfx, indlusivf
+     * @pbrbm   fnd     thf fnd indfx, fxdlusivf
+     *
+     * @rfturn  thf spfdififd subsfqufndf
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          if <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf,
+     *          if <tt>fnd</tt> is grfbtfr thbn <tt>lfngth()</tt>,
+     *          or if <tt>stbrt</tt> is grfbtfr thbn <tt>fnd</tt>
+     */
+    ChbrSfqufndf subSfqufndf(int stbrt, int fnd);
+
+    /**
+     * Rfturns b string dontbining thf dhbrbdtfrs in this sfqufndf in thf sbmf
+     * ordfr bs this sfqufndf.  Thf lfngth of thf string will bf thf lfngth of
+     * this sfqufndf.
+     *
+     * @rfturn  b string donsisting of fxbdtly this sfqufndf of dhbrbdtfrs
+     */
+    publid String toString();
+
+    /**
+     * Rfturns b strfbm of {@dodf int} zfro-fxtfnding thf {@dodf dhbr} vblufs
+     * from this sfqufndf.  Any dhbr whidh mbps to b <b
+     * hrff="{@dodRoot}/jbvb/lbng/Chbrbdtfr.html#unidodf">surrogbtf dodf
+     * point</b> is pbssfd through unintfrprftfd.
+     *
+     * <p>If thf sfqufndf is mutbtfd whilf thf strfbm is bfing rfbd, thf
+     * rfsult is undffinfd.
+     *
+     * @rfturn bn IntStrfbm of dhbr vblufs from this sfqufndf
+     * @sindf 1.8
+     */
+    publid dffbult IntStrfbm dhbrs() {
+        dlbss ChbrItfrbtor implfmfnts PrimitivfItfrbtor.OfInt {
+            int dur = 0;
+
+            publid boolfbn hbsNfxt() {
+                rfturn dur < lfngth();
+            }
+
+            publid int nfxtInt() {
+                if (hbsNfxt()) {
+                    rfturn dhbrAt(dur++);
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(IntConsumfr blodk) {
+                for (; dur < lfngth(); dur++) {
+                    blodk.bddfpt(dhbrAt(dur));
+                }
+            }
+        }
+
+        rfturn StrfbmSupport.intStrfbm(() ->
+                Splitfrbtors.splitfrbtor(
+                        nfw ChbrItfrbtor(),
+                        lfngth(),
+                        Splitfrbtor.ORDERED),
+                Splitfrbtor.SUBSIZED | Splitfrbtor.SIZED | Splitfrbtor.ORDERED,
+                fblsf);
+    }
+
+    /**
+     * Rfturns b strfbm of dodf point vblufs from this sfqufndf.  Any surrogbtf
+     * pbirs fndountfrfd in thf sfqufndf brf dombinfd bs if by {@linkplbin
+     * Chbrbdtfr#toCodfPoint Chbrbdtfr.toCodfPoint} bnd thf rfsult is pbssfd
+     * to thf strfbm. Any othfr dodf units, indluding ordinbry BMP dhbrbdtfrs,
+     * unpbirfd surrogbtfs, bnd undffinfd dodf units, brf zfro-fxtfndfd to
+     * {@dodf int} vblufs whidh brf thfn pbssfd to thf strfbm.
+     *
+     * <p>If thf sfqufndf is mutbtfd whilf thf strfbm is bfing rfbd, thf rfsult
+     * is undffinfd.
+     *
+     * @rfturn bn IntStrfbm of Unidodf dodf points from this sfqufndf
+     * @sindf 1.8
+     */
+    publid dffbult IntStrfbm dodfPoints() {
+        dlbss CodfPointItfrbtor implfmfnts PrimitivfItfrbtor.OfInt {
+            int dur = 0;
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(IntConsumfr blodk) {
+                finbl int lfngth = lfngth();
+                int i = dur;
+                try {
+                    whilf (i < lfngth) {
+                        dhbr d1 = dhbrAt(i++);
+                        if (!Chbrbdtfr.isHighSurrogbtf(d1) || i >= lfngth) {
+                            blodk.bddfpt(d1);
+                        } flsf {
+                            dhbr d2 = dhbrAt(i);
+                            if (Chbrbdtfr.isLowSurrogbtf(d2)) {
+                                i++;
+                                blodk.bddfpt(Chbrbdtfr.toCodfPoint(d1, d2));
+                            } flsf {
+                                blodk.bddfpt(d1);
+                            }
+                        }
+                    }
+                } finblly {
+                    dur = i;
+                }
+            }
+
+            publid boolfbn hbsNfxt() {
+                rfturn dur < lfngth();
+            }
+
+            publid int nfxtInt() {
+                finbl int lfngth = lfngth();
+
+                if (dur >= lfngth) {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+                dhbr d1 = dhbrAt(dur++);
+                if (Chbrbdtfr.isHighSurrogbtf(d1) && dur < lfngth) {
+                    dhbr d2 = dhbrAt(dur);
+                    if (Chbrbdtfr.isLowSurrogbtf(d2)) {
+                        dur++;
+                        rfturn Chbrbdtfr.toCodfPoint(d1, d2);
+                    }
+                }
+                rfturn d1;
+            }
+        }
+
+        rfturn StrfbmSupport.intStrfbm(() ->
+                Splitfrbtors.splitfrbtorUnknownSizf(
+                        nfw CodfPointItfrbtor(),
+                        Splitfrbtor.ORDERED),
+                Splitfrbtor.ORDERED,
+                fblsf);
+    }
+}

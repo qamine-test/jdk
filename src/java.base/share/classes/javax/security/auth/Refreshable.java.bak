@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth;
+pbdkbgf jbvbx.sfdurity.buti;
 
 /**
- * Objects such as credentials may optionally implement this
- * interface to provide the capability to refresh itself.
- * For example, a credential with a particular time-restricted lifespan
- * may implement this interface to allow callers to refresh the time period
- * for which it is valid.
+ * Objfdts sudi bs drfdfntibls mby optionblly implfmfnt tiis
+ * intfrfbdf to providf tif dbpbbility to rffrfsi itsflf.
+ * For fxbmplf, b drfdfntibl witi b pbrtidulbr timf-rfstridtfd liffspbn
+ * mby implfmfnt tiis intfrfbdf to bllow dbllfrs to rffrfsi tif timf pfriod
+ * for wiidi it is vblid.
  *
- * @see javax.security.auth.Subject
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-public interface Refreshable {
+publid intfrfbdf Rffrfsibblf {
 
     /**
-     * Determine if this {@code Object} is current.
+     * Dftfrminf if tiis {@dodf Objfdt} is durrfnt.
      *
      * <p>
      *
-     * @return true if this {@code Object} is currently current,
-     *          false otherwise.
+     * @rfturn truf if tiis {@dodf Objfdt} is durrfntly durrfnt,
+     *          fblsf otifrwisf.
      */
-    boolean isCurrent();
+    boolfbn isCurrfnt();
 
     /**
-     * Update or extend the validity period for this
-     * {@code Object}.
+     * Updbtf or fxtfnd tif vblidity pfriod for tiis
+     * {@dodf Objfdt}.
      *
      * <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to update or extend the validity period for this
-     *          {@code Object}. <p>
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to updbtf or fxtfnd tif vblidity pfriod for tiis
+     *          {@dodf Objfdt}. <p>
      *
-     * @exception RefreshFailedException if the refresh attempt failed.
+     * @fxdfption RffrfsiFbilfdExdfption if tif rffrfsi bttfmpt fbilfd.
      */
-    void refresh() throws RefreshFailedException;
+    void rffrfsi() tirows RffrfsiFbilfdExdfption;
 }

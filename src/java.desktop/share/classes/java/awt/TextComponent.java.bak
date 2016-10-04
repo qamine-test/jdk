@@ -1,1197 +1,1197 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.TextComponentPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.text.BreakIterator;
-import javax.swing.text.AttributeSet;
-import javax.accessibility.*;
-import java.awt.im.InputMethodRequests;
-import sun.awt.AWTPermissions;
-import sun.awt.InputMethodSupport;
+import jbvb.bwt.pffr.TfxtComponfntPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.bddfssibility.*;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.InputMftiodSupport;
 
 /**
- * The <code>TextComponent</code> class is the superclass of
- * any component that allows the editing of some text.
+ * Tif <dodf>TfxtComponfnt</dodf> dlbss is tif supfrdlbss of
+ * bny domponfnt tibt bllows tif fditing of somf tfxt.
  * <p>
- * A text component embodies a string of text.  The
- * <code>TextComponent</code> class defines a set of methods
- * that determine whether or not this text is editable. If the
- * component is editable, it defines another set of methods
- * that supports a text insertion caret.
+ * A tfxt domponfnt fmbodifs b string of tfxt.  Tif
+ * <dodf>TfxtComponfnt</dodf> dlbss dffinfs b sft of mftiods
+ * tibt dftfrminf wiftifr or not tiis tfxt is fditbblf. If tif
+ * domponfnt is fditbblf, it dffinfs bnotifr sft of mftiods
+ * tibt supports b tfxt insfrtion dbrft.
  * <p>
- * In addition, the class defines methods that are used
- * to maintain a current <em>selection</em> from the text.
- * The text selection, a substring of the component's text,
- * is the target of editing operations. It is also referred
- * to as the <em>selected text</em>.
+ * In bddition, tif dlbss dffinfs mftiods tibt brf usfd
+ * to mbintbin b durrfnt <fm>sflfdtion</fm> from tif tfxt.
+ * Tif tfxt sflfdtion, b substring of tif domponfnt's tfxt,
+ * is tif tbrgft of fditing opfrbtions. It is blso rfffrrfd
+ * to bs tif <fm>sflfdtfd tfxt</fm>.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public class TextComponent extends Component implements Accessible {
+publid dlbss TfxtComponfnt fxtfnds Componfnt implfmfnts Addfssiblf {
 
     /**
-     * The value of the text.
-     * A <code>null</code> value is the same as "".
+     * Tif vbluf of tif tfxt.
+     * A <dodf>null</dodf> vbluf is tif sbmf bs "".
      *
-     * @serial
-     * @see #setText(String)
-     * @see #getText()
+     * @sfribl
+     * @sff #sftTfxt(String)
+     * @sff #gftTfxt()
      */
-    String text;
+    String tfxt;
 
     /**
-     * A boolean indicating whether or not this
-     * <code>TextComponent</code> is editable.
-     * It will be <code>true</code> if the text component
-     * is editable and <code>false</code> if not.
+     * A boolfbn indidbting wiftifr or not tiis
+     * <dodf>TfxtComponfnt</dodf> is fditbblf.
+     * It will bf <dodf>truf</dodf> if tif tfxt domponfnt
+     * is fditbblf bnd <dodf>fblsf</dodf> if not.
      *
-     * @serial
-     * @see #isEditable()
+     * @sfribl
+     * @sff #isEditbblf()
      */
-    boolean editable = true;
+    boolfbn fditbblf = truf;
 
     /**
-     * The selection refers to the selected text, and the
-     * <code>selectionStart</code> is the start position
-     * of the selected text.
+     * Tif sflfdtion rfffrs to tif sflfdtfd tfxt, bnd tif
+     * <dodf>sflfdtionStbrt</dodf> is tif stbrt position
+     * of tif sflfdtfd tfxt.
      *
-     * @serial
-     * @see #getSelectionStart()
-     * @see #setSelectionStart(int)
+     * @sfribl
+     * @sff #gftSflfdtionStbrt()
+     * @sff #sftSflfdtionStbrt(int)
      */
-    int selectionStart;
+    int sflfdtionStbrt;
 
     /**
-     * The selection refers to the selected text, and the
-     * <code>selectionEnd</code>
-     * is the end position of the selected text.
+     * Tif sflfdtion rfffrs to tif sflfdtfd tfxt, bnd tif
+     * <dodf>sflfdtionEnd</dodf>
+     * is tif fnd position of tif sflfdtfd tfxt.
      *
-     * @serial
-     * @see #getSelectionEnd()
-     * @see #setSelectionEnd(int)
+     * @sfribl
+     * @sff #gftSflfdtionEnd()
+     * @sff #sftSflfdtionEnd(int)
      */
-    int selectionEnd;
+    int sflfdtionEnd;
 
-    // A flag used to tell whether the background has been set by
-    // developer code (as opposed to AWT code).  Used to determine
-    // the background color of non-editable TextComponents.
-    boolean backgroundSetByClientCode = false;
+    // A flbg usfd to tfll wiftifr tif bbdkground ibs bffn sft by
+    // dfvflopfr dodf (bs opposfd to AWT dodf).  Usfd to dftfrminf
+    // tif bbdkground dolor of non-fditbblf TfxtComponfnts.
+    boolfbn bbdkgroundSftByClifntCodf = fblsf;
 
     /**
-     * A list of listeners that will receive events from this object.
+     * A list of listfnfrs tibt will rfdfivf fvfnts from tiis objfdt.
      */
-    transient protected TextListener textListener;
+    trbnsifnt protfdtfd TfxtListfnfr tfxtListfnfr;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -2214773872412987419L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2214773872412987419L;
 
     /**
-     * Constructs a new text component initialized with the
-     * specified text. Sets the value of the cursor to
-     * <code>Cursor.TEXT_CURSOR</code>.
-     * @param      text       the text to be displayed; if
-     *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @exception  HeadlessException if
-     *             <code>GraphicsEnvironment.isHeadless</code>
-     *             returns true
-     * @see        java.awt.GraphicsEnvironment#isHeadless
-     * @see        java.awt.Cursor
+     * Construdts b nfw tfxt domponfnt initiblizfd witi tif
+     * spfdififd tfxt. Sfts tif vbluf of tif dursor to
+     * <dodf>Cursor.TEXT_CURSOR</dodf>.
+     * @pbrbm      tfxt       tif tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, tif fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @fxdfption  HfbdlfssExdfption if
+     *             <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *             rfturns truf
+     * @sff        jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff        jbvb.bwt.Cursor
      */
-    TextComponent(String text) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        this.text = (text != null) ? text : "";
-        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+    TfxtComponfnt(String tfxt) tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        tiis.tfxt = (tfxt != null) ? tfxt : "";
+        sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.TEXT_CURSOR));
     }
 
-    private void enableInputMethodsIfNecessary() {
-        if (checkForEnableIM) {
-            checkForEnableIM = false;
+    privbtf void fnbblfInputMftiodsIfNfdfssbry() {
+        if (difdkForEnbblfIM) {
+            difdkForEnbblfIM = fblsf;
             try {
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                boolean shouldEnable = false;
-                if (toolkit instanceof InputMethodSupport) {
-                    shouldEnable = ((InputMethodSupport)toolkit)
-                      .enableInputMethodsForTextComponent();
+                Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                boolfbn siouldEnbblf = fblsf;
+                if (toolkit instbndfof InputMftiodSupport) {
+                    siouldEnbblf = ((InputMftiodSupport)toolkit)
+                      .fnbblfInputMftiodsForTfxtComponfnt();
                 }
-                enableInputMethods(shouldEnable);
-            } catch (Exception e) {
-                // if something bad happens, just don't enable input methods
+                fnbblfInputMftiods(siouldEnbblf);
+            } dbtdi (Exdfption f) {
+                // if somftiing bbd ibppfns, just don't fnbblf input mftiods
             }
         }
     }
 
     /**
-     * Enables or disables input method support for this text component. If input
-     * method support is enabled and the text component also processes key events,
-     * incoming events are offered to the current input method and will only be
-     * processed by the component or dispatched to its listeners if the input method
-     * does not consume them. Whether and how input method support for this text
-     * component is enabled or disabled by default is implementation dependent.
+     * Enbblfs or disbblfs input mftiod support for tiis tfxt domponfnt. If input
+     * mftiod support is fnbblfd bnd tif tfxt domponfnt blso prodfssfs kfy fvfnts,
+     * indoming fvfnts brf offfrfd to tif durrfnt input mftiod bnd will only bf
+     * prodfssfd by tif domponfnt or dispbtdifd to its listfnfrs if tif input mftiod
+     * dofs not donsumf tifm. Wiftifr bnd iow input mftiod support for tiis tfxt
+     * domponfnt is fnbblfd or disbblfd by dffbult is implfmfntbtion dfpfndfnt.
      *
-     * @param enable true to enable, false to disable
-     * @see #processKeyEvent
-     * @since 1.2
+     * @pbrbm fnbblf truf to fnbblf, fblsf to disbblf
+     * @sff #prodfssKfyEvfnt
+     * @sindf 1.2
      */
-    public void enableInputMethods(boolean enable) {
-        checkForEnableIM = false;
-        super.enableInputMethods(enable);
+    publid void fnbblfInputMftiods(boolfbn fnbblf) {
+        difdkForEnbblfIM = fblsf;
+        supfr.fnbblfInputMftiods(fnbblf);
     }
 
-    boolean areInputMethodsEnabled() {
-        // moved from the constructor above to here and addNotify below,
-        // this call will initialize the toolkit if not already initialized.
-        if (checkForEnableIM) {
-            enableInputMethodsIfNecessary();
+    boolfbn brfInputMftiodsEnbblfd() {
+        // movfd from tif donstrudtor bbovf to ifrf bnd bddNotify bflow,
+        // tiis dbll will initiblizf tif toolkit if not blrfbdy initiblizfd.
+        if (difdkForEnbblfIM) {
+            fnbblfInputMftiodsIfNfdfssbry();
         }
 
-        // TextComponent handles key events without touching the eventMask or
-        // having a key listener, so just check whether the flag is set
-        return (eventMask & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0;
+        // TfxtComponfnt ibndlfs kfy fvfnts witiout toudiing tif fvfntMbsk or
+        // ibving b kfy listfnfr, so just difdk wiftifr tif flbg is sft
+        rfturn (fvfntMbsk & AWTEvfnt.INPUT_METHODS_ENABLED_MASK) != 0;
     }
 
-    public InputMethodRequests getInputMethodRequests() {
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) return peer.getInputMethodRequests();
-        else return null;
+    publid InputMftiodRfqufsts gftInputMftiodRfqufsts() {
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) rfturn pffr.gftInputMftiodRfqufsts();
+        flsf rfturn null;
     }
 
 
 
     /**
-     * Makes this Component displayable by connecting it to a
-     * native screen resource.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see       java.awt.TextComponent#removeNotify
+     * Mbkfs tiis Componfnt displbybblf by donnfdting it to b
+     * nbtivf sdrffn rfsourdf.
+     * Tiis mftiod is dbllfd intfrnblly by tif toolkit bnd siould
+     * not bf dbllfd dirfdtly by progrbms.
+     * @sff       jbvb.bwt.TfxtComponfnt#rfmovfNotify
      */
-    public void addNotify() {
-        super.addNotify();
-        enableInputMethodsIfNecessary();
+    publid void bddNotify() {
+        supfr.bddNotify();
+        fnbblfInputMftiodsIfNfdfssbry();
     }
 
     /**
-     * Removes the <code>TextComponent</code>'s peer.
-     * The peer allows us to modify the appearance of the
-     * <code>TextComponent</code> without changing its
-     * functionality.
+     * Rfmovfs tif <dodf>TfxtComponfnt</dodf>'s pffr.
+     * Tif pffr bllows us to modify tif bppfbrbndf of tif
+     * <dodf>TfxtComponfnt</dodf> witiout dibnging its
+     * fundtionblity.
      */
-    public void removeNotify() {
-        synchronized (getTreeLock()) {
-            TextComponentPeer peer = (TextComponentPeer)this.peer;
-            if (peer != null) {
-                text = peer.getText();
-                selectionStart = peer.getSelectionStart();
-                selectionEnd = peer.getSelectionEnd();
+    publid void rfmovfNotify() {
+        syndironizfd (gftTrffLodk()) {
+            TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+            if (pffr != null) {
+                tfxt = pffr.gftTfxt();
+                sflfdtionStbrt = pffr.gftSflfdtionStbrt();
+                sflfdtionEnd = pffr.gftSflfdtionEnd();
             }
-            super.removeNotify();
+            supfr.rfmovfNotify();
         }
     }
 
     /**
-     * Sets the text that is presented by this
-     * text component to be the specified text.
-     * @param       t   the new text;
-     *                  if this parameter is <code>null</code> then
-     *                  the text is set to the empty string ""
-     * @see         java.awt.TextComponent#getText
+     * Sfts tif tfxt tibt is prfsfntfd by tiis
+     * tfxt domponfnt to bf tif spfdififd tfxt.
+     * @pbrbm       t   tif nfw tfxt;
+     *                  if tiis pbrbmftfr is <dodf>null</dodf> tifn
+     *                  tif tfxt is sft to tif fmpty string ""
+     * @sff         jbvb.bwt.TfxtComponfnt#gftTfxt
      */
-    public synchronized void setText(String t) {
-        boolean skipTextEvent = (text == null || text.isEmpty())
+    publid syndironizfd void sftTfxt(String t) {
+        boolfbn skipTfxtEvfnt = (tfxt == null || tfxt.isEmpty())
                 && (t == null || t.isEmpty());
-        text = (t != null) ? t : "";
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        // Please note that we do not want to post an event
-        // if TextArea.setText() or TextField.setText() replaces an empty text
-        // by an empty text, that is, if component's text remains unchanged.
-        if (peer != null && !skipTextEvent) {
-            peer.setText(text);
+        tfxt = (t != null) ? t : "";
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        // Plfbsf notf tibt wf do not wbnt to post bn fvfnt
+        // if TfxtArfb.sftTfxt() or TfxtFifld.sftTfxt() rfplbdfs bn fmpty tfxt
+        // by bn fmpty tfxt, tibt is, if domponfnt's tfxt rfmbins undibngfd.
+        if (pffr != null && !skipTfxtEvfnt) {
+            pffr.sftTfxt(tfxt);
         }
     }
 
     /**
-     * Returns the text that is presented by this text component.
-     * By default, this is an empty string.
+     * Rfturns tif tfxt tibt is prfsfntfd by tiis tfxt domponfnt.
+     * By dffbult, tiis is bn fmpty string.
      *
-     * @return the value of this <code>TextComponent</code>
-     * @see     java.awt.TextComponent#setText
+     * @rfturn tif vbluf of tiis <dodf>TfxtComponfnt</dodf>
+     * @sff     jbvb.bwt.TfxtComponfnt#sftTfxt
      */
-    public synchronized String getText() {
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            text = peer.getText();
+    publid syndironizfd String gftTfxt() {
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            tfxt = pffr.gftTfxt();
         }
-        return text;
+        rfturn tfxt;
     }
 
     /**
-     * Returns the selected text from the text that is
-     * presented by this text component.
-     * @return      the selected text of this text component
-     * @see         java.awt.TextComponent#select
+     * Rfturns tif sflfdtfd tfxt from tif tfxt tibt is
+     * prfsfntfd by tiis tfxt domponfnt.
+     * @rfturn      tif sflfdtfd tfxt of tiis tfxt domponfnt
+     * @sff         jbvb.bwt.TfxtComponfnt#sflfdt
      */
-    public synchronized String getSelectedText() {
-        return getText().substring(getSelectionStart(), getSelectionEnd());
+    publid syndironizfd String gftSflfdtfdTfxt() {
+        rfturn gftTfxt().substring(gftSflfdtionStbrt(), gftSflfdtionEnd());
     }
 
     /**
-     * Indicates whether or not this text component is editable.
-     * @return     <code>true</code> if this text component is
-     *                  editable; <code>false</code> otherwise.
-     * @see        java.awt.TextComponent#setEditable
-     * @since      1.0
+     * Indidbtfs wiftifr or not tiis tfxt domponfnt is fditbblf.
+     * @rfturn     <dodf>truf</dodf> if tiis tfxt domponfnt is
+     *                  fditbblf; <dodf>fblsf</dodf> otifrwisf.
+     * @sff        jbvb.bwt.TfxtComponfnt#sftEditbblf
+     * @sindf      1.0
      */
-    public boolean isEditable() {
-        return editable;
+    publid boolfbn isEditbblf() {
+        rfturn fditbblf;
     }
 
     /**
-     * Sets the flag that determines whether or not this
-     * text component is editable.
+     * Sfts tif flbg tibt dftfrminfs wiftifr or not tiis
+     * tfxt domponfnt is fditbblf.
      * <p>
-     * If the flag is set to <code>true</code>, this text component
-     * becomes user editable. If the flag is set to <code>false</code>,
-     * the user cannot change the text of this text component.
-     * By default, non-editable text components have a background color
-     * of SystemColor.control.  This default can be overridden by
-     * calling setBackground.
+     * If tif flbg is sft to <dodf>truf</dodf>, tiis tfxt domponfnt
+     * bfdomfs usfr fditbblf. If tif flbg is sft to <dodf>fblsf</dodf>,
+     * tif usfr dbnnot dibngf tif tfxt of tiis tfxt domponfnt.
+     * By dffbult, non-fditbblf tfxt domponfnts ibvf b bbdkground dolor
+     * of SystfmColor.dontrol.  Tiis dffbult dbn bf ovfrriddfn by
+     * dblling sftBbdkground.
      *
-     * @param     b   a flag indicating whether this text component
-     *                      is user editable.
-     * @see       java.awt.TextComponent#isEditable
-     * @since     1.0
+     * @pbrbm     b   b flbg indidbting wiftifr tiis tfxt domponfnt
+     *                      is usfr fditbblf.
+     * @sff       jbvb.bwt.TfxtComponfnt#isEditbblf
+     * @sindf     1.0
      */
-    public synchronized void setEditable(boolean b) {
-        if (editable == b) {
-            return;
+    publid syndironizfd void sftEditbblf(boolfbn b) {
+        if (fditbblf == b) {
+            rfturn;
         }
 
-        editable = b;
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            peer.setEditable(b);
+        fditbblf = b;
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftEditbblf(b);
         }
     }
 
     /**
-     * Gets the background color of this text component.
+     * Gfts tif bbdkground dolor of tiis tfxt domponfnt.
      *
-     * By default, non-editable text components have a background color
-     * of SystemColor.control.  This default can be overridden by
-     * calling setBackground.
+     * By dffbult, non-fditbblf tfxt domponfnts ibvf b bbdkground dolor
+     * of SystfmColor.dontrol.  Tiis dffbult dbn bf ovfrriddfn by
+     * dblling sftBbdkground.
      *
-     * @return This text component's background color.
-     *         If this text component does not have a background color,
-     *         the background color of its parent is returned.
-     * @see #setBackground(Color)
-     * @since 1.0
+     * @rfturn Tiis tfxt domponfnt's bbdkground dolor.
+     *         If tiis tfxt domponfnt dofs not ibvf b bbdkground dolor,
+     *         tif bbdkground dolor of its pbrfnt is rfturnfd.
+     * @sff #sftBbdkground(Color)
+     * @sindf 1.0
      */
-    public Color getBackground() {
-        if (!editable && !backgroundSetByClientCode) {
-            return SystemColor.control;
+    publid Color gftBbdkground() {
+        if (!fditbblf && !bbdkgroundSftByClifntCodf) {
+            rfturn SystfmColor.dontrol;
         }
 
-        return super.getBackground();
+        rfturn supfr.gftBbdkground();
     }
 
     /**
-     * Sets the background color of this text component.
+     * Sfts tif bbdkground dolor of tiis tfxt domponfnt.
      *
-     * @param c The color to become this text component's color.
-     *        If this parameter is null then this text component
-     *        will inherit the background color of its parent.
-     * @see #getBackground()
-     * @since 1.0
+     * @pbrbm d Tif dolor to bfdomf tiis tfxt domponfnt's dolor.
+     *        If tiis pbrbmftfr is null tifn tiis tfxt domponfnt
+     *        will inifrit tif bbdkground dolor of its pbrfnt.
+     * @sff #gftBbdkground()
+     * @sindf 1.0
      */
-    public void setBackground(Color c) {
-        backgroundSetByClientCode = true;
-        super.setBackground(c);
+    publid void sftBbdkground(Color d) {
+        bbdkgroundSftByClifntCodf = truf;
+        supfr.sftBbdkground(d);
     }
 
     /**
-     * Gets the start position of the selected text in
-     * this text component.
-     * @return      the start position of the selected text
-     * @see         java.awt.TextComponent#setSelectionStart
-     * @see         java.awt.TextComponent#getSelectionEnd
+     * Gfts tif stbrt position of tif sflfdtfd tfxt in
+     * tiis tfxt domponfnt.
+     * @rfturn      tif stbrt position of tif sflfdtfd tfxt
+     * @sff         jbvb.bwt.TfxtComponfnt#sftSflfdtionStbrt
+     * @sff         jbvb.bwt.TfxtComponfnt#gftSflfdtionEnd
      */
-    public synchronized int getSelectionStart() {
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            selectionStart = peer.getSelectionStart();
+    publid syndironizfd int gftSflfdtionStbrt() {
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            sflfdtionStbrt = pffr.gftSflfdtionStbrt();
         }
-        return selectionStart;
+        rfturn sflfdtionStbrt;
     }
 
     /**
-     * Sets the selection start for this text component to
-     * the specified position. The new start point is constrained
-     * to be at or before the current selection end. It also
-     * cannot be set to less than zero, the beginning of the
-     * component's text.
-     * If the caller supplies a value for <code>selectionStart</code>
-     * that is out of bounds, the method enforces these constraints
-     * silently, and without failure.
-     * @param       selectionStart   the start position of the
-     *                        selected text
-     * @see         java.awt.TextComponent#getSelectionStart
-     * @see         java.awt.TextComponent#setSelectionEnd
-     * @since       1.1
+     * Sfts tif sflfdtion stbrt for tiis tfxt domponfnt to
+     * tif spfdififd position. Tif nfw stbrt point is donstrbinfd
+     * to bf bt or bfforf tif durrfnt sflfdtion fnd. It blso
+     * dbnnot bf sft to lfss tibn zfro, tif bfginning of tif
+     * domponfnt's tfxt.
+     * If tif dbllfr supplifs b vbluf for <dodf>sflfdtionStbrt</dodf>
+     * tibt is out of bounds, tif mftiod fnfordfs tifsf donstrbints
+     * silfntly, bnd witiout fbilurf.
+     * @pbrbm       sflfdtionStbrt   tif stbrt position of tif
+     *                        sflfdtfd tfxt
+     * @sff         jbvb.bwt.TfxtComponfnt#gftSflfdtionStbrt
+     * @sff         jbvb.bwt.TfxtComponfnt#sftSflfdtionEnd
+     * @sindf       1.1
      */
-    public synchronized void setSelectionStart(int selectionStart) {
-        /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+    publid syndironizfd void sftSflfdtionStbrt(int sflfdtionStbrt) {
+        /* Routf tirougi sflfdt mftiod to fnfordf donsistfnt polidy
+         * bftwffn sflfdtionStbrt bnd sflfdtionEnd.
          */
-        select(selectionStart, getSelectionEnd());
+        sflfdt(sflfdtionStbrt, gftSflfdtionEnd());
     }
 
     /**
-     * Gets the end position of the selected text in
-     * this text component.
-     * @return      the end position of the selected text
-     * @see         java.awt.TextComponent#setSelectionEnd
-     * @see         java.awt.TextComponent#getSelectionStart
+     * Gfts tif fnd position of tif sflfdtfd tfxt in
+     * tiis tfxt domponfnt.
+     * @rfturn      tif fnd position of tif sflfdtfd tfxt
+     * @sff         jbvb.bwt.TfxtComponfnt#sftSflfdtionEnd
+     * @sff         jbvb.bwt.TfxtComponfnt#gftSflfdtionStbrt
      */
-    public synchronized int getSelectionEnd() {
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            selectionEnd = peer.getSelectionEnd();
+    publid syndironizfd int gftSflfdtionEnd() {
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            sflfdtionEnd = pffr.gftSflfdtionEnd();
         }
-        return selectionEnd;
+        rfturn sflfdtionEnd;
     }
 
     /**
-     * Sets the selection end for this text component to
-     * the specified position. The new end point is constrained
-     * to be at or after the current selection start. It also
-     * cannot be set beyond the end of the component's text.
-     * If the caller supplies a value for <code>selectionEnd</code>
-     * that is out of bounds, the method enforces these constraints
-     * silently, and without failure.
-     * @param       selectionEnd   the end position of the
-     *                        selected text
-     * @see         java.awt.TextComponent#getSelectionEnd
-     * @see         java.awt.TextComponent#setSelectionStart
-     * @since       1.1
+     * Sfts tif sflfdtion fnd for tiis tfxt domponfnt to
+     * tif spfdififd position. Tif nfw fnd point is donstrbinfd
+     * to bf bt or bftfr tif durrfnt sflfdtion stbrt. It blso
+     * dbnnot bf sft bfyond tif fnd of tif domponfnt's tfxt.
+     * If tif dbllfr supplifs b vbluf for <dodf>sflfdtionEnd</dodf>
+     * tibt is out of bounds, tif mftiod fnfordfs tifsf donstrbints
+     * silfntly, bnd witiout fbilurf.
+     * @pbrbm       sflfdtionEnd   tif fnd position of tif
+     *                        sflfdtfd tfxt
+     * @sff         jbvb.bwt.TfxtComponfnt#gftSflfdtionEnd
+     * @sff         jbvb.bwt.TfxtComponfnt#sftSflfdtionStbrt
+     * @sindf       1.1
      */
-    public synchronized void setSelectionEnd(int selectionEnd) {
-        /* Route through select method to enforce consistent policy
-         * between selectionStart and selectionEnd.
+    publid syndironizfd void sftSflfdtionEnd(int sflfdtionEnd) {
+        /* Routf tirougi sflfdt mftiod to fnfordf donsistfnt polidy
+         * bftwffn sflfdtionStbrt bnd sflfdtionEnd.
          */
-        select(getSelectionStart(), selectionEnd);
+        sflfdt(gftSflfdtionStbrt(), sflfdtionEnd);
     }
 
     /**
-     * Selects the text between the specified start and end positions.
+     * Sflfdts tif tfxt bftwffn tif spfdififd stbrt bnd fnd positions.
      * <p>
-     * This method sets the start and end positions of the
-     * selected text, enforcing the restriction that the start position
-     * must be greater than or equal to zero.  The end position must be
-     * greater than or equal to the start position, and less than or
-     * equal to the length of the text component's text.  The
-     * character positions are indexed starting with zero.
-     * The length of the selection is
-     * <code>endPosition</code> - <code>startPosition</code>, so the
-     * character at <code>endPosition</code> is not selected.
-     * If the start and end positions of the selected text are equal,
-     * all text is deselected.
+     * Tiis mftiod sfts tif stbrt bnd fnd positions of tif
+     * sflfdtfd tfxt, fnfording tif rfstridtion tibt tif stbrt position
+     * must bf grfbtfr tibn or fqubl to zfro.  Tif fnd position must bf
+     * grfbtfr tibn or fqubl to tif stbrt position, bnd lfss tibn or
+     * fqubl to tif lfngti of tif tfxt domponfnt's tfxt.  Tif
+     * dibrbdtfr positions brf indfxfd stbrting witi zfro.
+     * Tif lfngti of tif sflfdtion is
+     * <dodf>fndPosition</dodf> - <dodf>stbrtPosition</dodf>, so tif
+     * dibrbdtfr bt <dodf>fndPosition</dodf> is not sflfdtfd.
+     * If tif stbrt bnd fnd positions of tif sflfdtfd tfxt brf fqubl,
+     * bll tfxt is dfsflfdtfd.
      * <p>
-     * If the caller supplies values that are inconsistent or out of
-     * bounds, the method enforces these constraints silently, and
-     * without failure. Specifically, if the start position or end
-     * position is greater than the length of the text, it is reset to
-     * equal the text length. If the start position is less than zero,
-     * it is reset to zero, and if the end position is less than the
-     * start position, it is reset to the start position.
+     * If tif dbllfr supplifs vblufs tibt brf indonsistfnt or out of
+     * bounds, tif mftiod fnfordfs tifsf donstrbints silfntly, bnd
+     * witiout fbilurf. Spfdifidblly, if tif stbrt position or fnd
+     * position is grfbtfr tibn tif lfngti of tif tfxt, it is rfsft to
+     * fqubl tif tfxt lfngti. If tif stbrt position is lfss tibn zfro,
+     * it is rfsft to zfro, bnd if tif fnd position is lfss tibn tif
+     * stbrt position, it is rfsft to tif stbrt position.
      *
-     * @param        selectionStart the zero-based index of the first
-                       character (<code>char</code> value) to be selected
-     * @param        selectionEnd the zero-based end position of the
-                       text to be selected; the character (<code>char</code> value) at
-                       <code>selectionEnd</code> is not selected
-     * @see          java.awt.TextComponent#setSelectionStart
-     * @see          java.awt.TextComponent#setSelectionEnd
-     * @see          java.awt.TextComponent#selectAll
+     * @pbrbm        sflfdtionStbrt tif zfro-bbsfd indfx of tif first
+                       dibrbdtfr (<dodf>dibr</dodf> vbluf) to bf sflfdtfd
+     * @pbrbm        sflfdtionEnd tif zfro-bbsfd fnd position of tif
+                       tfxt to bf sflfdtfd; tif dibrbdtfr (<dodf>dibr</dodf> vbluf) bt
+                       <dodf>sflfdtionEnd</dodf> is not sflfdtfd
+     * @sff          jbvb.bwt.TfxtComponfnt#sftSflfdtionStbrt
+     * @sff          jbvb.bwt.TfxtComponfnt#sftSflfdtionEnd
+     * @sff          jbvb.bwt.TfxtComponfnt#sflfdtAll
      */
-    public synchronized void select(int selectionStart, int selectionEnd) {
-        String text = getText();
-        if (selectionStart < 0) {
-            selectionStart = 0;
+    publid syndironizfd void sflfdt(int sflfdtionStbrt, int sflfdtionEnd) {
+        String tfxt = gftTfxt();
+        if (sflfdtionStbrt < 0) {
+            sflfdtionStbrt = 0;
         }
-        if (selectionStart > text.length()) {
-            selectionStart = text.length();
+        if (sflfdtionStbrt > tfxt.lfngti()) {
+            sflfdtionStbrt = tfxt.lfngti();
         }
-        if (selectionEnd > text.length()) {
-            selectionEnd = text.length();
+        if (sflfdtionEnd > tfxt.lfngti()) {
+            sflfdtionEnd = tfxt.lfngti();
         }
-        if (selectionEnd < selectionStart) {
-            selectionEnd = selectionStart;
+        if (sflfdtionEnd < sflfdtionStbrt) {
+            sflfdtionEnd = sflfdtionStbrt;
         }
 
-        this.selectionStart = selectionStart;
-        this.selectionEnd = selectionEnd;
+        tiis.sflfdtionStbrt = sflfdtionStbrt;
+        tiis.sflfdtionEnd = sflfdtionEnd;
 
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            peer.select(selectionStart, selectionEnd);
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sflfdt(sflfdtionStbrt, sflfdtionEnd);
         }
     }
 
     /**
-     * Selects all the text in this text component.
-     * @see        java.awt.TextComponent#select
+     * Sflfdts bll tif tfxt in tiis tfxt domponfnt.
+     * @sff        jbvb.bwt.TfxtComponfnt#sflfdt
      */
-    public synchronized void selectAll() {
-        this.selectionStart = 0;
-        this.selectionEnd = getText().length();
+    publid syndironizfd void sflfdtAll() {
+        tiis.sflfdtionStbrt = 0;
+        tiis.sflfdtionEnd = gftTfxt().lfngti();
 
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            peer.select(selectionStart, selectionEnd);
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sflfdt(sflfdtionStbrt, sflfdtionEnd);
         }
     }
 
     /**
-     * Sets the position of the text insertion caret.
-     * The caret position is constrained to be between 0
-     * and the last character of the text, inclusive.
-     * If the passed-in value is greater than this range,
-     * the value is set to the last character (or 0 if
-     * the <code>TextComponent</code> contains no text)
-     * and no error is returned.  If the passed-in value is
-     * less than 0, an <code>IllegalArgumentException</code>
-     * is thrown.
+     * Sfts tif position of tif tfxt insfrtion dbrft.
+     * Tif dbrft position is donstrbinfd to bf bftwffn 0
+     * bnd tif lbst dibrbdtfr of tif tfxt, indlusivf.
+     * If tif pbssfd-in vbluf is grfbtfr tibn tiis rbngf,
+     * tif vbluf is sft to tif lbst dibrbdtfr (or 0 if
+     * tif <dodf>TfxtComponfnt</dodf> dontbins no tfxt)
+     * bnd no frror is rfturnfd.  If tif pbssfd-in vbluf is
+     * lfss tibn 0, bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * is tirown.
      *
-     * @param        position the position of the text insertion caret
-     * @exception    IllegalArgumentException if <code>position</code>
-     *               is less than zero
-     * @since        1.1
+     * @pbrbm        position tif position of tif tfxt insfrtion dbrft
+     * @fxdfption    IllfgblArgumfntExdfption if <dodf>position</dodf>
+     *               is lfss tibn zfro
+     * @sindf        1.1
      */
-    public synchronized void setCaretPosition(int position) {
+    publid syndironizfd void sftCbrftPosition(int position) {
         if (position < 0) {
-            throw new IllegalArgumentException("position less than zero.");
+            tirow nfw IllfgblArgumfntExdfption("position lfss tibn zfro.");
         }
 
-        int maxposition = getText().length();
-        if (position > maxposition) {
-            position = maxposition;
+        int mbxposition = gftTfxt().lfngti();
+        if (position > mbxposition) {
+            position = mbxposition;
         }
 
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            peer.setCaretPosition(position);
-        } else {
-            select(position, position);
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftCbrftPosition(position);
+        } flsf {
+            sflfdt(position, position);
         }
     }
 
     /**
-     * Returns the position of the text insertion caret.
-     * The caret position is constrained to be between 0
-     * and the last character of the text, inclusive.
-     * If the text or caret have not been set, the default
-     * caret position is 0.
+     * Rfturns tif position of tif tfxt insfrtion dbrft.
+     * Tif dbrft position is donstrbinfd to bf bftwffn 0
+     * bnd tif lbst dibrbdtfr of tif tfxt, indlusivf.
+     * If tif tfxt or dbrft ibvf not bffn sft, tif dffbult
+     * dbrft position is 0.
      *
-     * @return       the position of the text insertion caret
-     * @see #setCaretPosition(int)
-     * @since        1.1
+     * @rfturn       tif position of tif tfxt insfrtion dbrft
+     * @sff #sftCbrftPosition(int)
+     * @sindf        1.1
      */
-    public synchronized int getCaretPosition() {
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
+    publid syndironizfd int gftCbrftPosition() {
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
         int position = 0;
 
-        if (peer != null) {
-            position = peer.getCaretPosition();
-        } else {
-            position = selectionStart;
+        if (pffr != null) {
+            position = pffr.gftCbrftPosition();
+        } flsf {
+            position = sflfdtionStbrt;
         }
-        int maxposition = getText().length();
-        if (position > maxposition) {
-            position = maxposition;
+        int mbxposition = gftTfxt().lfngti();
+        if (position > mbxposition) {
+            position = mbxposition;
         }
-        return position;
+        rfturn position;
     }
 
     /**
-     * Adds the specified text event listener to receive text events
-     * from this text component.
-     * If <code>l</code> is <code>null</code>, no exception is
-     * thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds tif spfdififd tfxt fvfnt listfnfr to rfdfivf tfxt fvfnts
+     * from tiis tfxt domponfnt.
+     * If <dodf>l</dodf> is <dodf>null</dodf>, no fxdfption is
+     * tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param l the text event listener
-     * @see             #removeTextListener
-     * @see             #getTextListeners
-     * @see             java.awt.event.TextListener
+     * @pbrbm l tif tfxt fvfnt listfnfr
+     * @sff             #rfmovfTfxtListfnfr
+     * @sff             #gftTfxtListfnfrs
+     * @sff             jbvb.bwt.fvfnt.TfxtListfnfr
      */
-    public synchronized void addTextListener(TextListener l) {
+    publid syndironizfd void bddTfxtListfnfr(TfxtListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        textListener = AWTEventMulticaster.add(textListener, l);
-        newEventsOnly = true;
+        tfxtListfnfr = AWTEvfntMultidbstfr.bdd(tfxtListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified text event listener so that it no longer
-     * receives text events from this text component
-     * If <code>l</code> is <code>null</code>, no exception is
-     * thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd tfxt fvfnt listfnfr so tibt it no longfr
+     * rfdfivfs tfxt fvfnts from tiis tfxt domponfnt
+     * If <dodf>l</dodf> is <dodf>null</dodf>, no fxdfption is
+     * tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param           l     the text listener
-     * @see             #addTextListener
-     * @see             #getTextListeners
-     * @see             java.awt.event.TextListener
-     * @since           1.1
+     * @pbrbm           l     tif tfxt listfnfr
+     * @sff             #bddTfxtListfnfr
+     * @sff             #gftTfxtListfnfrs
+     * @sff             jbvb.bwt.fvfnt.TfxtListfnfr
+     * @sindf           1.1
      */
-    public synchronized void removeTextListener(TextListener l) {
+    publid syndironizfd void rfmovfTfxtListfnfr(TfxtListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        textListener = AWTEventMulticaster.remove(textListener, l);
+        tfxtListfnfr = AWTEvfntMultidbstfr.rfmovf(tfxtListfnfr, l);
     }
 
     /**
-     * Returns an array of all the text listeners
-     * registered on this text component.
+     * Rfturns bn brrby of bll tif tfxt listfnfrs
+     * rfgistfrfd on tiis tfxt domponfnt.
      *
-     * @return all of this text component's <code>TextListener</code>s
-     *         or an empty array if no text
-     *         listeners are currently registered
+     * @rfturn bll of tiis tfxt domponfnt's <dodf>TfxtListfnfr</dodf>s
+     *         or bn fmpty brrby if no tfxt
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
      *
-     * @see #addTextListener
-     * @see #removeTextListener
-     * @since 1.4
+     * @sff #bddTfxtListfnfr
+     * @sff #rfmovfTfxtListfnfr
+     * @sindf 1.4
      */
-    public synchronized TextListener[] getTextListeners() {
-        return getListeners(TextListener.class);
+    publid syndironizfd TfxtListfnfr[] gftTfxtListfnfrs() {
+        rfturn gftListfnfrs(TfxtListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>TextComponent</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>TfxtComponfnt</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>TextComponent</code> <code>t</code>
-     * for its text listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>TfxtComponfnt</dodf> <dodf>t</dodf>
+     * for its tfxt listfnfrs witi tif following dodf:
      *
-     * <pre>TextListener[] tls = (TextListener[])(t.getListeners(TextListener.class));</pre>
+     * <prf>TfxtListfnfr[] tls = (TfxtListfnfr[])(t.gftListfnfrs(TfxtListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this text component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis tfxt domponfnt,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getTextListeners
-     * @since 1.3
+     * @sff #gftTfxtListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == TextListener.class) {
-            l = textListener;
-        } else {
-            return super.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == TfxtListfnfr.dlbss) {
+            l = tfxtListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == TextEvent.TEXT_VALUE_CHANGED) {
-            if ((eventMask & AWTEvent.TEXT_EVENT_MASK) != 0 ||
-                textListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == TfxtEvfnt.TEXT_VALUE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.TEXT_EVENT_MASK) != 0 ||
+                tfxtListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes events on this text component. If the event is a
-     * <code>TextEvent</code>, it invokes the <code>processTextEvent</code>
-     * method else it invokes its superclass's <code>processEvent</code>.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts on tiis tfxt domponfnt. If tif fvfnt is b
+     * <dodf>TfxtEvfnt</dodf>, it invokfs tif <dodf>prodfssTfxtEvfnt</dodf>
+     * mftiod flsf it invokfs its supfrdlbss's <dodf>prodfssEvfnt</dodf>.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param e the event
+     * @pbrbm f tif fvfnt
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof TextEvent) {
-            processTextEvent((TextEvent)e);
-            return;
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof TfxtEvfnt) {
+            prodfssTfxtEvfnt((TfxtEvfnt)f);
+            rfturn;
         }
-        super.processEvent(e);
+        supfr.prodfssEvfnt(f);
     }
 
     /**
-     * Processes text events occurring on this text component by
-     * dispatching them to any registered <code>TextListener</code> objects.
+     * Prodfssfs tfxt fvfnts oddurring on tiis tfxt domponfnt by
+     * dispbtdiing tifm to bny rfgistfrfd <dodf>TfxtListfnfr</dodf> objfdts.
      * <p>
-     * NOTE: This method will not be called unless text events
-     * are enabled for this component. This happens when one of the
-     * following occurs:
+     * NOTE: Tiis mftiod will not bf dbllfd unlfss tfxt fvfnts
+     * brf fnbblfd for tiis domponfnt. Tiis ibppfns wifn onf of tif
+     * following oddurs:
      * <ul>
-     * <li>A <code>TextListener</code> object is registered
-     * via <code>addTextListener</code>
-     * <li>Text events are enabled via <code>enableEvents</code>
+     * <li>A <dodf>TfxtListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddTfxtListfnfr</dodf>
+     * <li>Tfxt fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param e the text event
-     * @see Component#enableEvents
+     * @pbrbm f tif tfxt fvfnt
+     * @sff Componfnt#fnbblfEvfnts
      */
-    protected void processTextEvent(TextEvent e) {
-        TextListener listener = textListener;
-        if (listener != null) {
-            int id = e.getID();
-            switch (id) {
-            case TextEvent.TEXT_VALUE_CHANGED:
-                listener.textValueChanged(e);
-                break;
+    protfdtfd void prodfssTfxtEvfnt(TfxtEvfnt f) {
+        TfxtListfnfr listfnfr = tfxtListfnfr;
+        if (listfnfr != null) {
+            int id = f.gftID();
+            switdi (id) {
+            dbsf TfxtEvfnt.TEXT_VALUE_CHANGED:
+                listfnfr.tfxtVblufCibngfd(f);
+                brfbk;
             }
         }
     }
 
     /**
-     * Returns a string representing the state of this
-     * <code>TextComponent</code>. This
-     * method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis
+     * <dodf>TfxtComponfnt</dodf>. Tiis
+     * mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return      the parameter string of this text component
+     * @rfturn      tif pbrbmftfr string of tiis tfxt domponfnt
      */
-    protected String paramString() {
-        String str = super.paramString() + ",text=" + getText();
-        if (editable) {
-            str += ",editable";
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString() + ",tfxt=" + gftTfxt();
+        if (fditbblf) {
+            str += ",fditbblf";
         }
-        return str + ",selection=" + getSelectionStart() + "-" + getSelectionEnd();
+        rfturn str + ",sflfdtion=" + gftSflfdtionStbrt() + "-" + gftSflfdtionEnd();
     }
 
     /**
-     * Assigns a valid value to the canAccessClipboard instance variable.
+     * Assigns b vblid vbluf to tif dbnAddfssClipbobrd instbndf vbribblf.
      */
-    private boolean canAccessClipboard() {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm == null) return true;
+    privbtf boolfbn dbnAddfssClipbobrd() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) rfturn truf;
         try {
-            sm.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
-            return true;
-        } catch (SecurityException e) {}
-        return false;
+            sm.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
+            rfturn truf;
+        } dbtdi (SfdurityExdfption f) {}
+        rfturn fblsf;
     }
 
     /*
-     * Serialization support.
+     * Sfriblizbtion support.
      */
     /**
-     * The textComponent SerializedDataVersion.
+     * Tif tfxtComponfnt SfriblizfdDbtbVfrsion.
      *
-     * @serial
+     * @sfribl
      */
-    private int textComponentSerializedDataVersion = 1;
+    privbtf int tfxtComponfntSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable TextListener(s) as optional data.
-     * The non-serializable TextListener(s) are detected and
-     * no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf TfxtListfnfr(s) bs optionbl dbtb.
+     * Tif non-sfriblizbblf TfxtListfnfr(s) brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @serialData Null terminated sequence of zero or more pairs.
-     *             A pair consists of a String and Object.
-     *             The String indicates the type of object and
-     *             is one of the following :
-     *             textListenerK indicating and TextListener object.
+     * @sfriblDbtb Null tfrminbtfd sfqufndf of zfro or morf pbirs.
+     *             A pbir donsists of b String bnd Objfdt.
+     *             Tif String indidbtfs tif typf of objfdt bnd
+     *             is onf of tif following :
+     *             tfxtListfnfrK indidbting bnd TfxtListfnfr objfdt.
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#textListenerK
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#tfxtListfnfrK
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-      throws IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+      tirows IOExdfption
     {
-        // Serialization support.  Since the value of the fields
-        // selectionStart, selectionEnd, and text aren't necessarily
-        // up to date, we sync them up with the peer before serializing.
-        TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) {
-            text = peer.getText();
-            selectionStart = peer.getSelectionStart();
-            selectionEnd = peer.getSelectionEnd();
+        // Sfriblizbtion support.  Sindf tif vbluf of tif fiflds
+        // sflfdtionStbrt, sflfdtionEnd, bnd tfxt brfn't nfdfssbrily
+        // up to dbtf, wf synd tifm up witi tif pffr bfforf sfriblizing.
+        TfxtComponfntPffr pffr = (TfxtComponfntPffr)tiis.pffr;
+        if (pffr != null) {
+            tfxt = pffr.gftTfxt();
+            sflfdtionStbrt = pffr.gftSflfdtionStbrt();
+            sflfdtionEnd = pffr.gftSflfdtionEnd();
         }
 
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
 
-        AWTEventMulticaster.save(s, textListenerK, textListener);
-        s.writeObject(null);
+        AWTEvfntMultidbstfr.sbvf(s, tfxtListfnfrK, tfxtListfnfr);
+        s.writfObjfdt(null);
     }
 
     /**
-     * Read the ObjectInputStream, and if it isn't null,
-     * add a listener to receive text events fired by the
-     * TextComponent.  Unrecognized keys or values will be
-     * ignored.
+     * Rfbd tif ObjfdtInputStrfbm, bnd if it isn't null,
+     * bdd b listfnfr to rfdfivf tfxt fvfnts firfd by tif
+     * TfxtComponfnt.  Unrfdognizfd kfys or vblufs will bf
+     * ignorfd.
      *
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
-     * <code>true</code>
-     * @see #removeTextListener
-     * @see #addTextListener
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sff #rfmovfTfxtListfnfr
+     * @sff #bddTfxtListfnfr
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-        GraphicsEnvironment.checkHeadless();
-        s.defaultReadObject();
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        s.dffbultRfbdObjfdt();
 
-        // Make sure the state we just read in for text,
-        // selectionStart and selectionEnd has legal values
-        this.text = (text != null) ? text : "";
-        select(selectionStart, selectionEnd);
+        // Mbkf surf tif stbtf wf just rfbd in for tfxt,
+        // sflfdtionStbrt bnd sflfdtionEnd ibs lfgbl vblufs
+        tiis.tfxt = (tfxt != null) ? tfxt : "";
+        sflfdt(sflfdtionStbrt, sflfdtionEnd);
 
-        Object keyOrNull;
-        while(null != (keyOrNull = s.readObject())) {
-            String key = ((String)keyOrNull).intern();
+        Objfdt kfyOrNull;
+        wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+            String kfy = ((String)kfyOrNull).intfrn();
 
-            if (textListenerK == key) {
-                addTextListener((TextListener)(s.readObject()));
-            } else {
-                // skip value for unrecognized key
-                s.readObject();
+            if (tfxtListfnfrK == kfy) {
+                bddTfxtListfnfr((TfxtListfnfr)(s.rfbdObjfdt()));
+            } flsf {
+                // skip vbluf for unrfdognizfd kfy
+                s.rfbdObjfdt();
             }
         }
-        enableInputMethodsIfNecessary();
+        fnbblfInputMftiodsIfNfdfssbry();
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this TextComponent.
-     * For text components, the AccessibleContext takes the form of an
-     * AccessibleAWTTextComponent.
-     * A new AccessibleAWTTextComponent instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis TfxtComponfnt.
+     * For tfxt domponfnts, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfAWTTfxtComponfnt.
+     * A nfw AddfssiblfAWTTfxtComponfnt instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleAWTTextComponent that serves as the
-     *         AccessibleContext of this TextComponent
-     * @since 1.3
+     * @rfturn bn AddfssiblfAWTTfxtComponfnt tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis TfxtComponfnt
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTTextComponent();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTTfxtComponfnt();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>TextComponent</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text component user-interface
-     * elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>TfxtComponfnt</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tfxt domponfnt usfr-intfrfbdf
+     * flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTTextComponent extends AccessibleAWTComponent
-        implements AccessibleText, TextListener
+    protfdtfd dlbss AddfssiblfAWTTfxtComponfnt fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfTfxt, TfxtListfnfr
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 3631432373506317811L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 3631432373506317811L;
 
         /**
-         * Constructs an AccessibleAWTTextComponent.  Adds a listener to track
-         * caret change.
+         * Construdts bn AddfssiblfAWTTfxtComponfnt.  Adds b listfnfr to trbdk
+         * dbrft dibngf.
          */
-        public AccessibleAWTTextComponent() {
-            TextComponent.this.addTextListener(this);
+        publid AddfssiblfAWTTfxtComponfnt() {
+            TfxtComponfnt.tiis.bddTfxtListfnfr(tiis);
         }
 
         /**
-         * TextListener notification of a text value change.
+         * TfxtListfnfr notifidbtion of b tfxt vbluf dibngf.
          */
-        public void textValueChanged(TextEvent textEvent)  {
-            Integer cpos = Integer.valueOf(TextComponent.this.getCaretPosition());
-            firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, cpos);
+        publid void tfxtVblufCibngfd(TfxtEvfnt tfxtEvfnt)  {
+            Intfgfr dpos = Intfgfr.vblufOf(TfxtComponfnt.tiis.gftCbrftPosition());
+            firfPropfrtyCibngf(ACCESSIBLE_TEXT_PROPERTY, null, dpos);
         }
 
         /**
-         * Gets the state set of the TextComponent.
-         * The AccessibleStateSet of an object is composed of a set of
-         * unique AccessibleStates.  A change in the AccessibleStateSet
-         * of an object will cause a PropertyChangeEvent to be fired
-         * for the AccessibleContext.ACCESSIBLE_STATE_PROPERTY property.
+         * Gfts tif stbtf sft of tif TfxtComponfnt.
+         * Tif AddfssiblfStbtfSft of bn objfdt is domposfd of b sft of
+         * uniquf AddfssiblfStbtfs.  A dibngf in tif AddfssiblfStbtfSft
+         * of bn objfdt will dbusf b PropfrtyCibngfEvfnt to bf firfd
+         * for tif AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY propfrty.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif
+         * durrfnt stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtfSft
+         * @sff AddfssiblfStbtf
+         * @sff #bddPropfrtyCibngfListfnfr
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (TextComponent.this.isEditable()) {
-                states.add(AccessibleState.EDITABLE);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (TfxtComponfnt.tiis.isEditbblf()) {
+                stbtfs.bdd(AddfssiblfStbtf.EDITABLE);
             }
-            return states;
+            rfturn stbtfs;
         }
 
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object (AccessibleRole.TEXT)
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt (AddfssiblfRolf.TEXT)
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.TEXT;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TEXT;
         }
 
         /**
-         * Get the AccessibleText associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleText interface on behalf of itself.
+         * Gft tif AddfssiblfTfxt bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfTfxt intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleText getAccessibleText() {
-            return this;
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            rfturn tiis;
         }
 
 
-        // --- interface AccessibleText methods ------------------------
+        // --- intfrfbdf AddfssiblfTfxt mftiods ------------------------
 
         /**
-         * Many of these methods are just convenience methods; they
-         * just call the equivalent on the parent
+         * Mbny of tifsf mftiods brf just donvfnifndf mftiods; tify
+         * just dbll tif fquivblfnt on tif pbrfnt
          */
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
-         * this method returns -1.
+         * Givfn b point in lodbl doordinbtfs, rfturn tif zfro-bbsfd indfx
+         * of tif dibrbdtfr undfr tibt Point.  If tif point is invblid,
+         * tiis mftiod rfturns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p.
+         * @pbrbm p tif Point in lodbl doordinbtfs
+         * @rfturn tif zfro-bbsfd indfx of tif dibrbdtfr undfr Point p.
          */
-        public int getIndexAtPoint(Point p) {
-            return -1;
+        publid int gftIndfxAtPoint(Point p) {
+            rfturn -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid a null rectangle
-         * is returned.
+         * Dftfrminfs tif bounding box of tif dibrbdtfr bt tif givfn
+         * indfx into tif string.  Tif bounds brf rfturnfd in lodbl
+         * doordinbtfs.  If tif indfx is invblid b null rfdtbnglf
+         * is rfturnfd.
          *
-         * @param i the index into the String &gt;= 0
-         * @return the screen coordinates of the character's bounding box
+         * @pbrbm i tif indfx into tif String &gt;= 0
+         * @rfturn tif sdrffn doordinbtfs of tif dibrbdtfr's bounding box
          */
-        public Rectangle getCharacterBounds(int i) {
-            return null;
+        publid Rfdtbnglf gftCibrbdtfrBounds(int i) {
+            rfturn null;
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Rfturns tif numbfr of dibrbdtfrs (vblid indidifs)
          *
-         * @return the number of characters &gt;= 0
+         * @rfturn tif numbfr of dibrbdtfrs &gt;= 0
          */
-        public int getCharCount() {
-            return TextComponent.this.getText().length();
+        publid int gftCibrCount() {
+            rfturn TfxtComponfnt.tiis.gftTfxt().lfngti();
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Rfturns tif zfro-bbsfd offsft of tif dbrft.
          *
-         * Note: The character to the right of the caret will have the
-         * same index value as the offset (the caret is between
-         * two characters).
+         * Notf: Tif dibrbdtfr to tif rigit of tif dbrft will ibvf tif
+         * sbmf indfx vbluf bs tif offsft (tif dbrft is bftwffn
+         * two dibrbdtfrs).
          *
-         * @return the zero-based offset of the caret.
+         * @rfturn tif zfro-bbsfd offsft of tif dbrft.
          */
-        public int getCaretPosition() {
-            return TextComponent.this.getCaretPosition();
+        publid int gftCbrftPosition() {
+            rfturn TfxtComponfnt.tiis.gftCbrftPosition();
         }
 
         /**
-         * Returns the AttributeSet for a given character (at a given index).
+         * Rfturns tif AttributfSft for b givfn dibrbdtfr (bt b givfn indfx).
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i tif zfro-bbsfd indfx into tif tfxt
+         * @rfturn tif AttributfSft of tif dibrbdtfr
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            return null; // No attributes in TextComponent
+        publid AttributfSft gftCibrbdtfrAttributf(int i) {
+            rfturn null; // No bttributfs in TfxtComponfnt
         }
 
         /**
-         * Returns the start offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
-         * if no selection.
+         * Rfturns tif stbrt offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
+         * Rfturn 0 if tif tfxt is fmpty, or tif dbrft position
+         * if no sflfdtion.
          *
-         * @return the index into the text of the start of the selection &gt;= 0
+         * @rfturn tif indfx into tif tfxt of tif stbrt of tif sflfdtion &gt;= 0
          */
-        public int getSelectionStart() {
-            return TextComponent.this.getSelectionStart();
+        publid int gftSflfdtionStbrt() {
+            rfturn TfxtComponfnt.tiis.gftSflfdtionStbrt();
         }
 
         /**
-         * Returns the end offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
-         * Return 0 if the text is empty, or the caret position
-         * if no selection.
+         * Rfturns tif fnd offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
+         * Rfturn 0 if tif tfxt is fmpty, or tif dbrft position
+         * if no sflfdtion.
          *
-         * @return the index into the text of the end of the selection &gt;= 0
+         * @rfturn tif indfx into tif tfxt of tif fnd of tif sflfdtion &gt;= 0
          */
-        public int getSelectionEnd() {
-            return TextComponent.this.getSelectionEnd();
+        publid int gftSflfdtionEnd() {
+            rfturn TfxtComponfnt.tiis.gftSflfdtionEnd();
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Rfturns tif portion of tif tfxt tibt is sflfdtfd.
          *
-         * @return the text, null if no selection
+         * @rfturn tif tfxt, null if no sflfdtion
          */
-        public String getSelectedText() {
-            String selText = TextComponent.this.getSelectedText();
+        publid String gftSflfdtfdTfxt() {
+            String sflTfxt = TfxtComponfnt.tiis.gftSflfdtfdTfxt();
             // Fix for 4256662
-            if (selText == null || selText.equals("")) {
-                return null;
+            if (sflTfxt == null || sflTfxt.fqubls("")) {
+                rfturn null;
             }
-            return selText;
+            rfturn sflTfxt;
         }
 
         /**
-         * Returns the String at a given index.
+         * Rfturns tif String bt b givfn indfx.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
-         * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence,
-         *   null for an invalid index or part
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         * or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf,
+         *   null for bn invblid indfx or pbrt
          */
-        public String getAtIndex(int part, int index) {
-            if (index < 0 || index >= TextComponent.this.getText().length()) {
-                return null;
+        publid String gftAtIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx >= TfxtComponfnt.tiis.gftTfxt().lfngti()) {
+                rfturn null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
-                return TextComponent.this.getText().substring(index, index+1);
-            case AccessibleText.WORD:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
-                    words.setText(s);
-                    int end = words.following(index);
-                    return s.substring(words.previous(), end);
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                rfturn TfxtComponfnt.tiis.gftTfxt().substring(indfx, indfx+1);
+            dbsf AddfssiblfTfxt.WORD:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf();
+                    words.sftTfxt(s);
+                    int fnd = words.following(indfx);
+                    rfturn s.substring(words.prfvious(), fnd);
                 }
-            case AccessibleText.SENTENCE:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
-                    sentence.setText(s);
-                    int end = sentence.following(index);
-                    return s.substring(sentence.previous(), end);
+            dbsf AddfssiblfTfxt.SENTENCE:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor sfntfndf = BrfbkItfrbtor.gftSfntfndfInstbndf();
+                    sfntfndf.sftTfxt(s);
+                    int fnd = sfntfndf.following(indfx);
+                    rfturn s.substring(sfntfndf.prfvious(), fnd);
                 }
-            default:
-                return null;
+            dffbult:
+                rfturn null;
             }
         }
 
-        private static final boolean NEXT = true;
-        private static final boolean PREVIOUS = false;
+        privbtf stbtid finbl boolfbn NEXT = truf;
+        privbtf stbtid finbl boolfbn PREVIOUS = fblsf;
 
         /**
-         * Needed to unify forward and backward searching.
-         * The method assumes that s is the text assigned to words.
+         * Nffdfd to unify forwbrd bnd bbdkwbrd sfbrdiing.
+         * Tif mftiod bssumfs tibt s is tif tfxt bssignfd to words.
          */
-        private int findWordLimit(int index, BreakIterator words, boolean direction,
+        privbtf int findWordLimit(int indfx, BrfbkItfrbtor words, boolfbn dirfdtion,
                                          String s) {
-            // Fix for 4256660 and 4256661.
-            // Words iterator is different from character and sentence iterators
-            // in that end of one word is not necessarily start of another word.
-            // Please see java.text.BreakIterator JavaDoc. The code below is
-            // based on nextWordStartAfter example from BreakIterator.java.
-            int last = (direction == NEXT) ? words.following(index)
-                                           : words.preceding(index);
-            int current = (direction == NEXT) ? words.next()
-                                              : words.previous();
-            while (current != BreakIterator.DONE) {
-                for (int p = Math.min(last, current); p < Math.max(last, current); p++) {
-                    if (Character.isLetter(s.charAt(p))) {
-                        return last;
+            // Fix for 4256660 bnd 4256661.
+            // Words itfrbtor is difffrfnt from dibrbdtfr bnd sfntfndf itfrbtors
+            // in tibt fnd of onf word is not nfdfssbrily stbrt of bnotifr word.
+            // Plfbsf sff jbvb.tfxt.BrfbkItfrbtor JbvbDod. Tif dodf bflow is
+            // bbsfd on nfxtWordStbrtAftfr fxbmplf from BrfbkItfrbtor.jbvb.
+            int lbst = (dirfdtion == NEXT) ? words.following(indfx)
+                                           : words.prfdfding(indfx);
+            int durrfnt = (dirfdtion == NEXT) ? words.nfxt()
+                                              : words.prfvious();
+            wiilf (durrfnt != BrfbkItfrbtor.DONE) {
+                for (int p = Mbti.min(lbst, durrfnt); p < Mbti.mbx(lbst, durrfnt); p++) {
+                    if (Cibrbdtfr.isLfttfr(s.dibrAt(p))) {
+                        rfturn lbst;
                     }
                 }
-                last = current;
-                current = (direction == NEXT) ? words.next()
-                                              : words.previous();
+                lbst = durrfnt;
+                durrfnt = (dirfdtion == NEXT) ? words.nfxt()
+                                              : words.prfvious();
             }
-            return BreakIterator.DONE;
+            rfturn BrfbkItfrbtor.DONE;
         }
 
         /**
-         * Returns the String after a given index.
+         * Rfturns tif String bftfr b givfn indfx.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
-         * or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid
-         *  index or part
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         * or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf, null for bn invblid
+         *  indfx or pbrt
          */
-        public String getAfterIndex(int part, int index) {
-            if (index < 0 || index >= TextComponent.this.getText().length()) {
-                return null;
+        publid String gftAftfrIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx >= TfxtComponfnt.tiis.gftTfxt().lfngti()) {
+                rfturn null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
-                if (index+1 >= TextComponent.this.getText().length()) {
-                   return null;
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                if (indfx+1 >= TfxtComponfnt.tiis.gftTfxt().lfngti()) {
+                   rfturn null;
                 }
-                return TextComponent.this.getText().substring(index+1, index+2);
-            case AccessibleText.WORD:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
-                    words.setText(s);
-                    int start = findWordLimit(index, words, NEXT, s);
-                    if (start == BreakIterator.DONE || start >= s.length()) {
-                        return null;
+                rfturn TfxtComponfnt.tiis.gftTfxt().substring(indfx+1, indfx+2);
+            dbsf AddfssiblfTfxt.WORD:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf();
+                    words.sftTfxt(s);
+                    int stbrt = findWordLimit(indfx, words, NEXT, s);
+                    if (stbrt == BrfbkItfrbtor.DONE || stbrt >= s.lfngti()) {
+                        rfturn null;
                     }
-                    int end = words.following(start);
-                    if (end == BreakIterator.DONE || end >= s.length()) {
-                        return null;
+                    int fnd = words.following(stbrt);
+                    if (fnd == BrfbkItfrbtor.DONE || fnd >= s.lfngti()) {
+                        rfturn null;
                     }
-                    return s.substring(start, end);
+                    rfturn s.substring(stbrt, fnd);
                 }
-            case AccessibleText.SENTENCE:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
-                    sentence.setText(s);
-                    int start = sentence.following(index);
-                    if (start == BreakIterator.DONE || start >= s.length()) {
-                        return null;
+            dbsf AddfssiblfTfxt.SENTENCE:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor sfntfndf = BrfbkItfrbtor.gftSfntfndfInstbndf();
+                    sfntfndf.sftTfxt(s);
+                    int stbrt = sfntfndf.following(indfx);
+                    if (stbrt == BrfbkItfrbtor.DONE || stbrt >= s.lfngti()) {
+                        rfturn null;
                     }
-                    int end = sentence.following(start);
-                    if (end == BreakIterator.DONE || end >= s.length()) {
-                        return null;
+                    int fnd = sfntfndf.following(stbrt);
+                    if (fnd == BrfbkItfrbtor.DONE || fnd >= s.lfngti()) {
+                        rfturn null;
                     }
-                    return s.substring(start, end);
+                    rfturn s.substring(stbrt, fnd);
                 }
-            default:
-                return null;
+            dffbult:
+                rfturn null;
             }
         }
 
 
         /**
-         * Returns the String before a given index.
+         * Rfturns tif String bfforf b givfn indfx.
          *
-         * @param part the AccessibleText.CHARACTER, AccessibleText.WORD,
-         *   or AccessibleText.SENTENCE to retrieve
-         * @param index an index within the text &gt;= 0
-         * @return the letter, word, or sentence, null for an invalid index
-         *  or part
+         * @pbrbm pbrt tif AddfssiblfTfxt.CHARACTER, AddfssiblfTfxt.WORD,
+         *   or AddfssiblfTfxt.SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt &gt;= 0
+         * @rfturn tif lfttfr, word, or sfntfndf, null for bn invblid indfx
+         *  or pbrt
          */
-        public String getBeforeIndex(int part, int index) {
-            if (index < 0 || index > TextComponent.this.getText().length()-1) {
-                return null;
+        publid String gftBfforfIndfx(int pbrt, int indfx) {
+            if (indfx < 0 || indfx > TfxtComponfnt.tiis.gftTfxt().lfngti()-1) {
+                rfturn null;
             }
-            switch (part) {
-            case AccessibleText.CHARACTER:
-                if (index == 0) {
-                    return null;
+            switdi (pbrt) {
+            dbsf AddfssiblfTfxt.CHARACTER:
+                if (indfx == 0) {
+                    rfturn null;
                 }
-                return TextComponent.this.getText().substring(index-1, index);
-            case AccessibleText.WORD:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator words = BreakIterator.getWordInstance();
-                    words.setText(s);
-                    int end = findWordLimit(index, words, PREVIOUS, s);
-                    if (end == BreakIterator.DONE) {
-                        return null;
+                rfturn TfxtComponfnt.tiis.gftTfxt().substring(indfx-1, indfx);
+            dbsf AddfssiblfTfxt.WORD:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor words = BrfbkItfrbtor.gftWordInstbndf();
+                    words.sftTfxt(s);
+                    int fnd = findWordLimit(indfx, words, PREVIOUS, s);
+                    if (fnd == BrfbkItfrbtor.DONE) {
+                        rfturn null;
                     }
-                    int start = words.preceding(end);
-                    if (start == BreakIterator.DONE) {
-                        return null;
+                    int stbrt = words.prfdfding(fnd);
+                    if (stbrt == BrfbkItfrbtor.DONE) {
+                        rfturn null;
                     }
-                    return s.substring(start, end);
+                    rfturn s.substring(stbrt, fnd);
                 }
-            case AccessibleText.SENTENCE:  {
-                    String s = TextComponent.this.getText();
-                    BreakIterator sentence = BreakIterator.getSentenceInstance();
-                    sentence.setText(s);
-                    int end = sentence.following(index);
-                    end = sentence.previous();
-                    int start = sentence.previous();
-                    if (start == BreakIterator.DONE) {
-                        return null;
+            dbsf AddfssiblfTfxt.SENTENCE:  {
+                    String s = TfxtComponfnt.tiis.gftTfxt();
+                    BrfbkItfrbtor sfntfndf = BrfbkItfrbtor.gftSfntfndfInstbndf();
+                    sfntfndf.sftTfxt(s);
+                    int fnd = sfntfndf.following(indfx);
+                    fnd = sfntfndf.prfvious();
+                    int stbrt = sfntfndf.prfvious();
+                    if (stbrt == BrfbkItfrbtor.DONE) {
+                        rfturn null;
                     }
-                    return s.substring(start, end);
+                    rfturn s.substring(stbrt, fnd);
                 }
-            default:
-                return null;
+            dffbult:
+                rfturn null;
             }
         }
-    }  // end of AccessibleAWTTextComponent
+    }  // fnd of AddfssiblfAWTTfxtComponfnt
 
-    private boolean checkForEnableIM = true;
+    privbtf boolfbn difdkForEnbblfIM = truf;
 }

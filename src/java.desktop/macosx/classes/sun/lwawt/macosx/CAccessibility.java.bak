@@ -1,670 +1,670 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.concurrent.Callable;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
 
-import javax.accessibility.*;
-import javax.swing.*;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
 
-class CAccessibility implements PropertyChangeListener {
-    private static Set<String> ignoredRoles;
+dlbss CAddfssibility implfmfnts PropfrtyCibngfListfnfr {
+    privbtf stbtid Sft<String> ignorfdRolfs;
 
-    static {
-        // Need to load the native library for this code.
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("awt");
-                    return null;
+    stbtid {
+        // Nffd to lobd tif nbtivf librbry for tiis dodf.
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
                 }
             });
     }
 
-    static CAccessibility sAccessibility;
-    static synchronized CAccessibility getAccessibility(final String[] roles) {
-        if (sAccessibility != null) return sAccessibility;
-        sAccessibility = new CAccessibility();
+    stbtid CAddfssibility sAddfssibility;
+    stbtid syndironizfd CAddfssibility gftAddfssibility(finbl String[] rolfs) {
+        if (sAddfssibility != null) rfturn sAddfssibility;
+        sAddfssibility = nfw CAddfssibility();
 
-        if (roles != null) {
-            ignoredRoles = new HashSet<String>(roles.length);
-            for (final String role : roles) ignoredRoles.add(role);
-        } else {
-            ignoredRoles = new HashSet<String>();
+        if (rolfs != null) {
+            ignorfdRolfs = nfw HbsiSft<String>(rolfs.lfngti);
+            for (finbl String rolf : rolfs) ignorfdRolfs.bdd(rolf);
+        } flsf {
+            ignorfdRolfs = nfw HbsiSft<String>();
         }
 
-        return sAccessibility;
+        rfturn sAddfssibility;
     }
 
-    private CAccessibility() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", this);
+    privbtf CAddfssibility() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().bddPropfrtyCibngfListfnfr("fodusOwnfr", tiis);
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
-        if (evt.getNewValue() == null) return;
-        focusChanged();
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+        if (fvt.gftNfwVbluf() == null) rfturn;
+        fodusCibngfd();
     }
 
-    private native void focusChanged();
+    privbtf nbtivf void fodusCibngfd();
 
-    static <T> T invokeAndWait(final Callable<T> callable, final Component c) {
+    stbtid <T> T invokfAndWbit(finbl Cbllbblf<T> dbllbblf, finbl Componfnt d) {
         try {
-            return LWCToolkit.invokeAndWait(callable, c);
-        } catch (final Exception e) { e.printStackTrace(); }
-        return null;
+            rfturn LWCToolkit.invokfAndWbit(dbllbblf, d);
+        } dbtdi (finbl Exdfption f) { f.printStbdkTrbdf(); }
+        rfturn null;
     }
 
-    static void invokeLater(final Runnable runnable, final Component c) {
+    stbtid void invokfLbtfr(finbl Runnbblf runnbblf, finbl Componfnt d) {
         try {
-            LWCToolkit.invokeLater(runnable, c);
-        } catch (InvocationTargetException e) { e.printStackTrace(); }
+            LWCToolkit.invokfLbtfr(runnbblf, d);
+        } dbtdi (InvodbtionTbrgftExdfption f) { f.printStbdkTrbdf(); }
     }
 
-    public static String getAccessibleActionDescription(final AccessibleAction aa, final int index, final Component c) {
-        if (aa == null) return null;
+    publid stbtid String gftAddfssiblfAdtionDfsdription(finbl AddfssiblfAdtion bb, finbl int indfx, finbl Componfnt d) {
+        if (bb == null) rfturn null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                return aa.getAccessibleActionDescription(index);
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                rfturn bb.gftAddfssiblfAdtionDfsdription(indfx);
             }
-        }, c);
+        }, d);
     }
 
-    public static void doAccessibleAction(final AccessibleAction aa, final int index, final Component c) {
-        // We make this an invokeLater because we don't need a reply.
-        if (aa == null) return;
+    publid stbtid void doAddfssiblfAdtion(finbl AddfssiblfAdtion bb, finbl int indfx, finbl Componfnt d) {
+        // Wf mbkf tiis bn invokfLbtfr bfdbusf wf don't nffd b rfply.
+        if (bb == null) rfturn;
 
-        invokeLater(new Runnable() {
-            public void run() {
-                aa.doAccessibleAction(index);
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                bb.doAddfssiblfAdtion(indfx);
             }
-        }, c);
+        }, d);
     }
 
-    public static Dimension getSize(final AccessibleComponent ac, final Component c) {
-        if (ac == null) return null;
+    publid stbtid Dimfnsion gftSizf(finbl AddfssiblfComponfnt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
 
-        return invokeAndWait(new Callable<Dimension>() {
-            public Dimension call() throws Exception {
-                return ac.getSize();
+        rfturn invokfAndWbit(nfw Cbllbblf<Dimfnsion>() {
+            publid Dimfnsion dbll() tirows Exdfption {
+                rfturn bd.gftSizf();
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleSelection getAccessibleSelection(final AccessibleContext ac, final Component c) {
-        if (ac == null) return null;
+    publid stbtid AddfssiblfSflfdtion gftAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleSelection>() {
-            public AccessibleSelection call() throws Exception {
-                return ac.getAccessibleSelection();
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfSflfdtion>() {
+            publid AddfssiblfSflfdtion dbll() tirows Exdfption {
+                rfturn bd.gftAddfssiblfSflfdtion();
             }
-        }, c);
+        }, d);
     }
 
-    public static Accessible ax_getAccessibleSelection(final AccessibleContext ac, final int index, final Component c) {
-        if (ac == null) return null;
+    publid stbtid Addfssiblf bx_gftAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl int indfx, finbl Componfnt d) {
+        if (bd == null) rfturn null;
 
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return null;
-                return as.getAccessibleSelection(index);
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn null;
+                rfturn bs.gftAddfssiblfSflfdtion(indfx);
             }
-        }, c);
+        }, d);
     }
 
-    // KCH - can we make this a postEvent?
-    public static void addAccessibleSelection(final AccessibleContext ac, final int index, final Component c) {
-        if (ac == null) return;
+    // KCH - dbn wf mbkf tiis b postEvfnt?
+    publid stbtid void bddAddfssiblfSflfdtion(finbl AddfssiblfContfxt bd, finbl int indfx, finbl Componfnt d) {
+        if (bd == null) rfturn;
 
-        invokeLater(new Runnable() {
-            public void run() {
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return;
-                as.addAccessibleSelection(index);
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn;
+                bs.bddAddfssiblfSflfdtion(indfx);
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleContext getAccessibleContext(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid AddfssiblfContfxt gftAddfssiblfContfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleContext>() {
-            public AccessibleContext call() throws Exception {
-                return a.getAccessibleContext();
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfContfxt>() {
+            publid AddfssiblfContfxt dbll() tirows Exdfption {
+                rfturn b.gftAddfssiblfContfxt();
             }
-        }, c);
+        }, d);
     }
 
-    public static boolean isAccessibleChildSelected(final Accessible a, final int index, final Component c) {
-        if (a == null) return false;
+    publid stbtid boolfbn isAddfssiblfCiildSflfdtfd(finbl Addfssiblf b, finbl int indfx, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return Boolean.FALSE;
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn Boolfbn.FALSE;
 
-                final AccessibleSelection as = ac.getAccessibleSelection();
-                if (as == null) return Boolean.FALSE;
+                finbl AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                if (bs == null) rfturn Boolfbn.FALSE;
 
-                return new Boolean(as.isAccessibleChildSelected(index));
+                rfturn nfw Boolfbn(bs.isAddfssiblfCiildSflfdtfd(indfx));
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleStateSet getAccessibleStateSet(final AccessibleContext ac, final Component c) {
-        if (ac == null) return null;
+    publid stbtid AddfssiblfStbtfSft gftAddfssiblfStbtfSft(finbl AddfssiblfContfxt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleStateSet>() {
-            public AccessibleStateSet call() throws Exception {
-                return ac.getAccessibleStateSet();
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfStbtfSft>() {
+            publid AddfssiblfStbtfSft dbll() tirows Exdfption {
+                rfturn bd.gftAddfssiblfStbtfSft();
             }
-        }, c);
+        }, d);
     }
 
-    public static boolean contains(final AccessibleContext ac, final AccessibleState as, final Component c) {
-        if (ac == null || as == null) return false;
+    publid stbtid boolfbn dontbins(finbl AddfssiblfContfxt bd, finbl AddfssiblfStbtf bs, finbl Componfnt d) {
+        if (bd == null || bs == null) rfturn fblsf;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleStateSet ass = ac.getAccessibleStateSet();
-                if (ass == null) return null;
-                return ass.contains(as);
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfStbtfSft bss = bd.gftAddfssiblfStbtfSft();
+                if (bss == null) rfturn null;
+                rfturn bss.dontbins(bs);
             }
-        }, c);
+        }, d);
     }
 
-    static Field getAccessibleBundleKeyFieldWithReflection() {
+    stbtid Fifld gftAddfssiblfBundlfKfyFifldWitiRfflfdtion() {
         try {
-            final Field fieldKey = AccessibleBundle.class.getDeclaredField("key");
-            fieldKey.setAccessible(true);
-            return fieldKey;
-        } catch (final SecurityException e) {
-            e.printStackTrace();
-        } catch (final NoSuchFieldException e) {
-            e.printStackTrace();
+            finbl Fifld fifldKfy = AddfssiblfBundlf.dlbss.gftDfdlbrfdFifld("kfy");
+            fifldKfy.sftAddfssiblf(truf);
+            rfturn fifldKfy;
+        } dbtdi (finbl SfdurityExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdi (finbl NoSudiFifldExdfption f) {
+            f.printStbdkTrbdf();
         }
-        return null;
+        rfturn null;
     }
-    private static final Field FIELD_KEY = getAccessibleBundleKeyFieldWithReflection();
+    privbtf stbtid finbl Fifld FIELD_KEY = gftAddfssiblfBundlfKfyFifldWitiRfflfdtion();
 
-    static String getAccessibleRoleFor(final Accessible a) {
-        final AccessibleContext ac = a.getAccessibleContext();
-        if (ac == null) return null;
+    stbtid String gftAddfssiblfRolfFor(finbl Addfssiblf b) {
+        finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        if (bd == null) rfturn null;
 
-        final AccessibleRole role = ac.getAccessibleRole();
+        finbl AddfssiblfRolf rolf = bd.gftAddfssiblfRolf();
         try {
-            return (String)FIELD_KEY.get(role);
-        } catch (final IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
+            rfturn (String)FIELD_KEY.gft(rolf);
+        } dbtdi (finbl IllfgblArgumfntExdfption f) {
+            f.printStbdkTrbdf();
+        } dbtdi (finbl IllfgblAddfssExdfption f) {
+            f.printStbdkTrbdf();
         }
-        return null;
+        rfturn null;
     }
 
-    public static String getAccessibleRole(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid String gftAddfssiblfRolf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final Accessible sa = CAccessible.getSwingAccessible(a);
-                final String role = getAccessibleRoleFor(a);
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl Addfssiblf sb = CAddfssiblf.gftSwingAddfssiblf(b);
+                finbl String rolf = gftAddfssiblfRolfFor(b);
 
-                if (!"text".equals(role)) return role;
-                if (sa instanceof JTextArea || sa instanceof JEditorPane) {
-                    return "textarea";
+                if (!"tfxt".fqubls(rolf)) rfturn rolf;
+                if (sb instbndfof JTfxtArfb || sb instbndfof JEditorPbnf) {
+                    rfturn "tfxtbrfb";
                 }
-                return role;
+                rfturn rolf;
             }
-        }, c);
+        }, d);
     }
 
-    public static Point getLocationOnScreen(final AccessibleComponent ac, final Component c) {
-        if (ac == null) return null;
+    publid stbtid Point gftLodbtionOnSdrffn(finbl AddfssiblfComponfnt bd, finbl Componfnt d) {
+        if (bd == null) rfturn null;
 
-        return invokeAndWait(new Callable<Point>() {
-            public Point call() throws Exception {
-                return ac.getLocationOnScreen();
+        rfturn invokfAndWbit(nfw Cbllbblf<Point>() {
+            publid Point dbll() tirows Exdfption {
+                rfturn bd.gftLodbtionOnSdrffn();
             }
-        }, c);
+        }, d);
     }
 
-    public static int getCharCount(final AccessibleText at, final Component c) {
-        if (at == null) return 0;
+    publid stbtid int gftCibrCount(finbl AddfssiblfTfxt bt, finbl Componfnt d) {
+        if (bt == null) rfturn 0;
 
-        return invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                return at.getCharCount();
+        rfturn invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() tirows Exdfption {
+                rfturn bt.gftCibrCount();
             }
-        }, c);
+        }, d);
     }
 
-    // Accessibility Threadsafety for JavaComponentAccessibility.m
-    public static Accessible getAccessibleParent(final Accessible a, final Component c) {
-        if (a == null) return null;
+    // Addfssibility Tirfbdsbffty for JbvbComponfntAddfssibility.m
+    publid stbtid Addfssiblf gftAddfssiblfPbrfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleParent();
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfPbrfnt();
             }
-        }, c);
+        }, d);
     }
 
-    public static int getAccessibleIndexInParent(final Accessible a, final Component c) {
-        if (a == null) return 0;
+    publid stbtid int gftAddfssiblfIndfxInPbrfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn 0;
 
-        return invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleIndexInParent();
+        rfturn invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfIndfxInPbrfnt();
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleComponent getAccessibleComponent(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid AddfssiblfComponfnt gftAddfssiblfComponfnt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleComponent>() {
-            public AccessibleComponent call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleComponent();
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfComponfnt>() {
+            publid AddfssiblfComponfnt dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfComponfnt();
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleValue getAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid AddfssiblfVbluf gftAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleValue>() {
-            public AccessibleValue call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfVbluf>() {
+            publid AddfssiblfVbluf dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                AccessibleValue accessibleValue = ac.getAccessibleValue();
-                return accessibleValue;
+                AddfssiblfVbluf bddfssiblfVbluf = bd.gftAddfssiblfVbluf();
+                rfturn bddfssiblfVbluf;
             }
-        }, c);
+        }, d);
     }
 
-    public static String getAccessibleName(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid String gftAddfssiblfNbmf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final String accessibleName = ac.getAccessibleName();
-                if (accessibleName == null) {
-                    return ac.getAccessibleDescription();
+                finbl String bddfssiblfNbmf = bd.gftAddfssiblfNbmf();
+                if (bddfssiblfNbmf == null) {
+                    rfturn bd.gftAddfssiblfDfsdription();
                 }
-                return accessibleName;
+                rfturn bddfssiblfNbmf;
             }
-        }, c);
+        }, d);
     }
 
-    public static AccessibleText getAccessibleText(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid AddfssiblfTfxt gftAddfssiblfTfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<AccessibleText>() {
-            public AccessibleText call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfTfxt>() {
+            publid AddfssiblfTfxt dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                AccessibleText accessibleText = ac.getAccessibleText();
-                return accessibleText;
+                AddfssiblfTfxt bddfssiblfTfxt = bd.gftAddfssiblfTfxt();
+                rfturn bddfssiblfTfxt;
             }
-        }, c);
+        }, d);
     }
 
-    public static String getAccessibleDescription(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid String gftAddfssiblfDfsdription(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final String accessibleDescription = ac.getAccessibleDescription();
-                if (accessibleDescription == null) {
-                    if (c instanceof JComponent) {
-                        String toolTipText = ((JComponent)c).getToolTipText();
-                        if (toolTipText != null) {
-                            return toolTipText;
+                finbl String bddfssiblfDfsdription = bd.gftAddfssiblfDfsdription();
+                if (bddfssiblfDfsdription == null) {
+                    if (d instbndfof JComponfnt) {
+                        String toolTipTfxt = ((JComponfnt)d).gftToolTipTfxt();
+                        if (toolTipTfxt != null) {
+                            rfturn toolTipTfxt;
                         }
                     }
                 }
 
-                return accessibleDescription;
+                rfturn bddfssiblfDfsdription;
             }
-        }, c);
+        }, d);
     }
 
-    public static boolean isFocusTraversable(final Accessible a, final Component c) {
-        if (a == null) return false;
+    publid stbtid boolfbn isFodusTrbvfrsbblf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return null;
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn null;
 
-                return aComp.isFocusTraversable();
+                rfturn bComp.isFodusTrbvfrsbblf();
             }
-        }, c);
+        }, d);
     }
 
-    public static Accessible accessibilityHitTest(final Container parent, final float hitPointX, final float hitPointY) {
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                final Point p = parent.getLocationOnScreen();
+    publid stbtid Addfssiblf bddfssibilityHitTfst(finbl Contbinfr pbrfnt, finbl flobt iitPointX, finbl flobt iitPointY) {
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                finbl Point p = pbrfnt.gftLodbtionOnSdrffn();
 
-                // Make it into local coords
-                final Point localPoint = new Point((int)(hitPointX - p.getX()), (int)(hitPointY - p.getY()));
+                // Mbkf it into lodbl doords
+                finbl Point lodblPoint = nfw Point((int)(iitPointX - p.gftX()), (int)(iitPointY - p.gftY()));
 
-                final Component component = parent.findComponentAt(localPoint);
-                if (component == null) return null;
+                finbl Componfnt domponfnt = pbrfnt.findComponfntAt(lodblPoint);
+                if (domponfnt == null) rfturn null;
 
-                final AccessibleContext axContext = component.getAccessibleContext();
-                if (axContext == null) return null;
+                finbl AddfssiblfContfxt bxContfxt = domponfnt.gftAddfssiblfContfxt();
+                if (bxContfxt == null) rfturn null;
 
-                final AccessibleComponent axComponent = axContext.getAccessibleComponent();
-                if (axComponent == null) return null;
+                finbl AddfssiblfComponfnt bxComponfnt = bxContfxt.gftAddfssiblfComponfnt();
+                if (bxComponfnt == null) rfturn null;
 
-                final int numChildren = axContext.getAccessibleChildrenCount();
-                if (numChildren > 0) {
-                    // It has children, check to see which one is hit.
-                    final Point p2 = axComponent.getLocationOnScreen();
-                    final Point localP2 = new Point((int)(hitPointX - p2.getX()), (int)(hitPointY - p2.getY()));
-                    return CAccessible.getCAccessible(axComponent.getAccessibleAt(localP2));
+                finbl int numCiildrfn = bxContfxt.gftAddfssiblfCiildrfnCount();
+                if (numCiildrfn > 0) {
+                    // It ibs diildrfn, difdk to sff wiidi onf is iit.
+                    finbl Point p2 = bxComponfnt.gftLodbtionOnSdrffn();
+                    finbl Point lodblP2 = nfw Point((int)(iitPointX - p2.gftX()), (int)(iitPointY - p2.gftY()));
+                    rfturn CAddfssiblf.gftCAddfssiblf(bxComponfnt.gftAddfssiblfAt(lodblP2));
                 }
 
-                if (!(component instanceof Accessible)) return null;
-                return CAccessible.getCAccessible((Accessible)component);
+                if (!(domponfnt instbndfof Addfssiblf)) rfturn null;
+                rfturn CAddfssiblf.gftCAddfssiblf((Addfssiblf)domponfnt);
             }
-        }, parent);
+        }, pbrfnt);
     }
 
-    public static AccessibleAction getAccessibleAction(final Accessible a, final Component c) {
-        return invokeAndWait(new Callable<AccessibleAction>() {
-            public AccessibleAction call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleAction();
+    publid stbtid AddfssiblfAdtion gftAddfssiblfAdtion(finbl Addfssiblf b, finbl Componfnt d) {
+        rfturn invokfAndWbit(nfw Cbllbblf<AddfssiblfAdtion>() {
+            publid AddfssiblfAdtion dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfAdtion();
             }
-        }, c);
+        }, d);
     }
 
-    public static boolean isEnabled(final Accessible a, final Component c) {
-        if (a == null) return false;
+    publid stbtid boolfbn isEnbblfd(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn fblsf;
 
-        return invokeAndWait(new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Boolfbn>() {
+            publid Boolfbn dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return null;
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn null;
 
-                return aComp.isEnabled();
+                rfturn bComp.isEnbblfd();
             }
-        }, c);
+        }, d);
     }
 
-    // KCH - can we make this a postEvent instead?
-    public static void requestFocus(final Accessible a, final Component c) {
-        if (a == null) return;
+    // KCH - dbn wf mbkf tiis b postEvfnt instfbd?
+    publid stbtid void rfqufstFodus(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn;
 
-        invokeLater(new Runnable() {
-            public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+        invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn;
 
-                final AccessibleComponent aComp = ac.getAccessibleComponent();
-                if (aComp == null) return;
+                finbl AddfssiblfComponfnt bComp = bd.gftAddfssiblfComponfnt();
+                if (bComp == null) rfturn;
 
-                aComp.requestFocus();
+                bComp.rfqufstFodus();
             }
-        }, c);
+        }, d);
     }
 
-    public static Number getMaximumAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid Numbfr gftMbximumAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleValue av = ac.getAccessibleValue();
-                if (av == null) return null;
+                finbl AddfssiblfVbluf bv = bd.gftAddfssiblfVbluf();
+                if (bv == null) rfturn null;
 
-                return av.getMaximumAccessibleValue();
+                rfturn bv.gftMbximumAddfssiblfVbluf();
             }
-        }, c);
+        }, d);
     }
 
-    public static Number getMinimumAccessibleValue(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid Numbfr gftMinimumAddfssiblfVbluf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleValue av = ac.getAccessibleValue();
-                if (av == null) return null;
+                finbl AddfssiblfVbluf bv = bd.gftAddfssiblfVbluf();
+                if (bv == null) rfturn null;
 
-                return av.getMinimumAccessibleValue();
+                rfturn bv.gftMinimumAddfssiblfVbluf();
             }
-        }, c);
+        }, d);
     }
 
-    public static String getAccessibleRoleDisplayString(final Accessible a, final Component c) {
-        if (a == null) return null;
+    publid stbtid String gftAddfssiblfRolfDisplbyString(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleRole ar = ac.getAccessibleRole();
-                if (ar == null) return null;
+                finbl AddfssiblfRolf br = bd.gftAddfssiblfRolf();
+                if (br == null) rfturn null;
 
-                return ar.toDisplayString();
+                rfturn br.toDisplbyString();
             }
-        }, c);
+        }, d);
     }
 
-    public static Number getCurrentAccessibleValue(final AccessibleValue av, final Component c) {
-        if (av == null) return null;
+    publid stbtid Numbfr gftCurrfntAddfssiblfVbluf(finbl AddfssiblfVbluf bv, finbl Componfnt d) {
+        if (bv == null) rfturn null;
 
-        return invokeAndWait(new Callable<Number>() {
-            public Number call() throws Exception {
-                Number currentAccessibleValue = av.getCurrentAccessibleValue();
-                return currentAccessibleValue;
+        rfturn invokfAndWbit(nfw Cbllbblf<Numbfr>() {
+            publid Numbfr dbll() tirows Exdfption {
+                Numbfr durrfntAddfssiblfVbluf = bv.gftCurrfntAddfssiblfVbluf();
+                rfturn durrfntAddfssiblfVbluf;
             }
-        }, c);
+        }, d);
     }
 
-    public static Accessible getFocusOwner(final Component c) {
-        return invokeAndWait(new Callable<Accessible>() {
-            public Accessible call() throws Exception {
-                Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-                if (c == null || !(c instanceof Accessible)) return null;
-                return CAccessible.getCAccessible((Accessible)c);
+    publid stbtid Addfssiblf gftFodusOwnfr(finbl Componfnt d) {
+        rfturn invokfAndWbit(nfw Cbllbblf<Addfssiblf>() {
+            publid Addfssiblf dbll() tirows Exdfption {
+                Componfnt d = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().gftFodusOwnfr();
+                if (d == null || !(d instbndfof Addfssiblf)) rfturn null;
+                rfturn CAddfssiblf.gftCAddfssiblf((Addfssiblf)d);
             }
-        }, c);
+        }, d);
     }
 
-    public static boolean[] getInitialAttributeStates(final Accessible a, final Component c) {
-        final boolean[] ret = new boolean[7];
-        if (a == null) return ret;
+    publid stbtid boolfbn[] gftInitiblAttributfStbtfs(finbl Addfssiblf b, finbl Componfnt d) {
+        finbl boolfbn[] rft = nfw boolfbn[7];
+        if (b == null) rfturn rft;
 
-        return invokeAndWait(new Callable<boolean[]>() {
-            public boolean[] call() throws Exception {
-                final AccessibleContext aContext = a.getAccessibleContext();
-                if (aContext == null) return ret;
+        rfturn invokfAndWbit(nfw Cbllbblf<boolfbn[]>() {
+            publid boolfbn[] dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bContfxt = b.gftAddfssiblfContfxt();
+                if (bContfxt == null) rfturn rft;
 
-                final AccessibleComponent aComponent = aContext.getAccessibleComponent();
-                ret[0] = (aComponent != null);
-                ret[1] = ((aComponent != null) && (aComponent.isFocusTraversable()));
-                ret[2] = (aContext.getAccessibleValue() != null);
-                ret[3] = (aContext.getAccessibleText() != null);
+                finbl AddfssiblfComponfnt bComponfnt = bContfxt.gftAddfssiblfComponfnt();
+                rft[0] = (bComponfnt != null);
+                rft[1] = ((bComponfnt != null) && (bComponfnt.isFodusTrbvfrsbblf()));
+                rft[2] = (bContfxt.gftAddfssiblfVbluf() != null);
+                rft[3] = (bContfxt.gftAddfssiblfTfxt() != null);
 
-                final AccessibleStateSet aStateSet = aContext.getAccessibleStateSet();
-                ret[4] = (aStateSet.contains(AccessibleState.HORIZONTAL) || aStateSet.contains(AccessibleState.VERTICAL));
-                ret[5] = (aContext.getAccessibleName() != null);
-                ret[6] = (aContext.getAccessibleChildrenCount() > 0);
-                return ret;
+                finbl AddfssiblfStbtfSft bStbtfSft = bContfxt.gftAddfssiblfStbtfSft();
+                rft[4] = (bStbtfSft.dontbins(AddfssiblfStbtf.HORIZONTAL) || bStbtfSft.dontbins(AddfssiblfStbtf.VERTICAL));
+                rft[5] = (bContfxt.gftAddfssiblfNbmf() != null);
+                rft[6] = (bContfxt.gftAddfssiblfCiildrfnCount() > 0);
+                rfturn rft;
             }
-        }, c);
+        }, d);
     }
 
-    // Duplicated from JavaComponentAccessibility
-    // Note that values >=0 are indexes into the child array
-    final static int JAVA_AX_ALL_CHILDREN = -1;
-    final static int JAVA_AX_SELECTED_CHILDREN = -2;
-    final static int JAVA_AX_VISIBLE_CHILDREN = -3;
+    // Duplidbtfd from JbvbComponfntAddfssibility
+    // Notf tibt vblufs >=0 brf indfxfs into tif diild brrby
+    finbl stbtid int JAVA_AX_ALL_CHILDREN = -1;
+    finbl stbtid int JAVA_AX_SELECTED_CHILDREN = -2;
+    finbl stbtid int JAVA_AX_VISIBLE_CHILDREN = -3;
 
-    // Each child takes up two entries in the array: one for itself and one for its role
-    public static Object[] getChildrenAndRoles(final Accessible a, final Component c, final int whichChildren, final boolean allowIgnored) {
-        if (a == null) return null;
-        return invokeAndWait(new Callable<Object[]>() {
-            public Object[] call() throws Exception {
-                final ArrayList<Object> childrenAndRoles = new ArrayList<Object>();
-                _addChildren(a, whichChildren, allowIgnored, childrenAndRoles);
+    // Ebdi diild tbkfs up two fntrifs in tif brrby: onf for itsflf bnd onf for its rolf
+    publid stbtid Objfdt[] gftCiildrfnAndRolfs(finbl Addfssiblf b, finbl Componfnt d, finbl int wiidiCiildrfn, finbl boolfbn bllowIgnorfd) {
+        if (b == null) rfturn null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Objfdt[]>() {
+            publid Objfdt[] dbll() tirows Exdfption {
+                finbl ArrbyList<Objfdt> diildrfnAndRolfs = nfw ArrbyList<Objfdt>();
+                _bddCiildrfn(b, wiidiCiildrfn, bllowIgnorfd, diildrfnAndRolfs);
 
-                if ((whichChildren < 0) || (whichChildren * 2 >= childrenAndRoles.size())) {
-                    return childrenAndRoles.toArray();
+                if ((wiidiCiildrfn < 0) || (wiidiCiildrfn * 2 >= diildrfnAndRolfs.sizf())) {
+                    rfturn diildrfnAndRolfs.toArrby();
                 }
 
-                return new Object[] { childrenAndRoles.get(whichChildren * 2), childrenAndRoles.get((whichChildren * 2) + 1) };
+                rfturn nfw Objfdt[] { diildrfnAndRolfs.gft(wiidiCiildrfn * 2), diildrfnAndRolfs.gft((wiidiCiildrfn * 2) + 1) };
             }
-        }, c);
+        }, d);
     }
 
-    private static AccessibleRole getAccessibleRoleForLabel(JLabel l, AccessibleRole fallback) {
-        String text = l.getText();
-        if (text != null && text.length() > 0) {
-            return fallback;
+    privbtf stbtid AddfssiblfRolf gftAddfssiblfRolfForLbbfl(JLbbfl l, AddfssiblfRolf fbllbbdk) {
+        String tfxt = l.gftTfxt();
+        if (tfxt != null && tfxt.lfngti() > 0) {
+            rfturn fbllbbdk;
         }
-        Icon icon = l.getIcon();
-        if (icon != null) {
-            return AccessibleRole.ICON;
+        Idon idon = l.gftIdon();
+        if (idon != null) {
+            rfturn AddfssiblfRolf.ICON;
         }
-        return fallback;
+        rfturn fbllbbdk;
     }
 
-    private static AccessibleRole getAccessibleRole(Accessible a) {
-        AccessibleContext ac = a.getAccessibleContext();
-        AccessibleRole role = ac.getAccessibleRole();
-        Object component = CAccessible.getSwingAccessible(a);
-        if (role == null) return null;
-        String roleString = role.toString();
-        if ("label".equals(roleString) && component instanceof JLabel) {
-            return getAccessibleRoleForLabel((JLabel) component, role);
+    privbtf stbtid AddfssiblfRolf gftAddfssiblfRolf(Addfssiblf b) {
+        AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        AddfssiblfRolf rolf = bd.gftAddfssiblfRolf();
+        Objfdt domponfnt = CAddfssiblf.gftSwingAddfssiblf(b);
+        if (rolf == null) rfturn null;
+        String rolfString = rolf.toString();
+        if ("lbbfl".fqubls(rolfString) && domponfnt instbndfof JLbbfl) {
+            rfturn gftAddfssiblfRolfForLbbfl((JLbbfl) domponfnt, rolf);
         }
-        return role;
+        rfturn rolf;
     }
 
 
-    // Either gets the immediate children of a, or recursively gets all unignored children of a
-    private static void _addChildren(final Accessible a, final int whichChildren, final boolean allowIgnored, final ArrayList<Object> childrenAndRoles) {
-        if (a == null) return;
+    // Eitifr gfts tif immfdibtf diildrfn of b, or rfdursivfly gfts bll unignorfd diildrfn of b
+    privbtf stbtid void _bddCiildrfn(finbl Addfssiblf b, finbl int wiidiCiildrfn, finbl boolfbn bllowIgnorfd, finbl ArrbyList<Objfdt> diildrfnAndRolfs) {
+        if (b == null) rfturn;
 
-        final AccessibleContext ac = a.getAccessibleContext();
-        if (ac == null) return;
+        finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+        if (bd == null) rfturn;
 
-        final int numChildren = ac.getAccessibleChildrenCount();
+        finbl int numCiildrfn = bd.gftAddfssiblfCiildrfnCount();
 
-        // each child takes up two entries in the array: itself, and its role
-        // so the array holds alternating Accessible and AccessibleRole objects
-        for (int i = 0; i < numChildren; i++) {
-            final Accessible child = ac.getAccessibleChild(i);
-            if (child == null) continue;
+        // fbdi diild tbkfs up two fntrifs in tif brrby: itsflf, bnd its rolf
+        // so tif brrby iolds bltfrnbting Addfssiblf bnd AddfssiblfRolf objfdts
+        for (int i = 0; i < numCiildrfn; i++) {
+            finbl Addfssiblf diild = bd.gftAddfssiblfCiild(i);
+            if (diild == null) dontinuf;
 
-            final AccessibleContext context = child.getAccessibleContext();
-            if (context == null) continue;
+            finbl AddfssiblfContfxt dontfxt = diild.gftAddfssiblfContfxt();
+            if (dontfxt == null) dontinuf;
 
-            if (whichChildren == JAVA_AX_VISIBLE_CHILDREN) {
-                if (!context.getAccessibleComponent().isVisible()) continue;
-            } else if (whichChildren == JAVA_AX_SELECTED_CHILDREN) {
-                if (!ac.getAccessibleSelection().isAccessibleChildSelected(i)) continue;
+            if (wiidiCiildrfn == JAVA_AX_VISIBLE_CHILDREN) {
+                if (!dontfxt.gftAddfssiblfComponfnt().isVisiblf()) dontinuf;
+            } flsf if (wiidiCiildrfn == JAVA_AX_SELECTED_CHILDREN) {
+                if (!bd.gftAddfssiblfSflfdtion().isAddfssiblfCiildSflfdtfd(i)) dontinuf;
             }
 
-            if (!allowIgnored) {
-                final AccessibleRole role = context.getAccessibleRole();
-                if (role != null && ignoredRoles.contains(roleKey(role))) {
-                    // Get the child's unignored children.
-                    _addChildren(child, whichChildren, false, childrenAndRoles);
-                } else {
-                    childrenAndRoles.add(child);
-                    childrenAndRoles.add(getAccessibleRole(child));
+            if (!bllowIgnorfd) {
+                finbl AddfssiblfRolf rolf = dontfxt.gftAddfssiblfRolf();
+                if (rolf != null && ignorfdRolfs.dontbins(rolfKfy(rolf))) {
+                    // Gft tif diild's unignorfd diildrfn.
+                    _bddCiildrfn(diild, wiidiCiildrfn, fblsf, diildrfnAndRolfs);
+                } flsf {
+                    diildrfnAndRolfs.bdd(diild);
+                    diildrfnAndRolfs.bdd(gftAddfssiblfRolf(diild));
                 }
-            } else {
-                childrenAndRoles.add(child);
-                childrenAndRoles.add(getAccessibleRole(child));
+            } flsf {
+                diildrfnAndRolfs.bdd(diild);
+                diildrfnAndRolfs.bdd(gftAddfssiblfRolf(diild));
             }
 
-            // If there is an index, and we are beyond it, time to finish up
-            if ((whichChildren >= 0) && (childrenAndRoles.size() / 2) >= (whichChildren + 1)) {
-                return;
+            // If tifrf is bn indfx, bnd wf brf bfyond it, timf to finisi up
+            if ((wiidiCiildrfn >= 0) && (diildrfnAndRolfs.sizf() / 2) >= (wiidiCiildrfn + 1)) {
+                rfturn;
             }
         }
     }
 
-    private static native String roleKey(AccessibleRole aRole);
+    privbtf stbtid nbtivf String rolfKfy(AddfssiblfRolf bRolf);
 
-    public static Object[] getChildren(final Accessible a, final Component c) {
-        if (a == null) return null;
-        return invokeAndWait(new Callable<Object[]>() {
-            public Object[] call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+    publid stbtid Objfdt[] gftCiildrfn(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+        rfturn invokfAndWbit(nfw Cbllbblf<Objfdt[]>() {
+            publid Objfdt[] dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final int numChildren = ac.getAccessibleChildrenCount();
-                final Object[] children = new Object[numChildren];
-                for (int i = 0; i < numChildren; i++) {
-                    children[i] = ac.getAccessibleChild(i);
+                finbl int numCiildrfn = bd.gftAddfssiblfCiildrfnCount();
+                finbl Objfdt[] diildrfn = nfw Objfdt[numCiildrfn];
+                for (int i = 0; i < numCiildrfn; i++) {
+                    diildrfn[i] = bd.gftAddfssiblfCiild(i);
                 }
-                return children;
+                rfturn diildrfn;
             }
-        }, c);
+        }, d);
     }
 }

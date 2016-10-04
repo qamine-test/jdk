@@ -1,161 +1,161 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
 
-import java.io.FileInputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverContext;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
 
 /**
- * A simple ResourceResolver for requests into the local filesystem.
+ * A simplf RfsourdfRfsolvfr for rfqufsts into tif lodbl filfsystfm.
  */
-public class ResolverLocalFilesystem extends ResourceResolverSpi {
+publid dlbss RfsolvfrLodblFilfsystfm fxtfnds RfsourdfRfsolvfrSpi {
 
-    private static final int FILE_URI_LENGTH = "file:/".length();
+    privbtf stbtid finbl int FILE_URI_LENGTH = "filf:/".lfngti();
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResolverLocalFilesystem.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsolvfrLodblFilfsystfm.dlbss.gftNbmf());
 
-    @Override
-    public boolean engineIsThreadSafe() {
-        return true;
+    @Ovfrridf
+    publid boolfbn fnginfIsTirfbdSbff() {
+        rfturn truf;
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
-        throws ResourceResolverException {
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        tirows RfsourdfRfsolvfrExdfption {
         try {
-            // calculate new URI
-            URI uriNew = getNewURI(context.uriToResolve, context.baseUri);
+            // dbldulbtf nfw URI
+            URI uriNfw = gftNfwURI(dontfxt.uriToRfsolvf, dontfxt.bbsfUri);
 
-            String fileName =
-                ResolverLocalFilesystem.translateUriToFilename(uriNew.toString());
-            FileInputStream inputStream = new FileInputStream(fileName);
-            XMLSignatureInput result = new XMLSignatureInput(inputStream);
+            String filfNbmf =
+                RfsolvfrLodblFilfsystfm.trbnslbtfUriToFilfnbmf(uriNfw.toString());
+            FilfInputStrfbm inputStrfbm = nfw FilfInputStrfbm(filfNbmf);
+            XMLSignbturfInput rfsult = nfw XMLSignbturfInput(inputStrfbm);
 
-            result.setSourceURI(uriNew.toString());
+            rfsult.sftSourdfURI(uriNfw.toString());
 
-            return result;
-        } catch (Exception e) {
-            throw new ResourceResolverException("generic.EmptyMessage", e, context.attr, context.baseUri);
+            rfturn rfsult;
+        } dbtdi (Exdfption f) {
+            tirow nfw RfsourdfRfsolvfrExdfption("gfnfrid.EmptyMfssbgf", f, dontfxt.bttr, dontfxt.bbsfUri);
         }
     }
 
     /**
-     * Method translateUriToFilename
+     * Mftiod trbnslbtfUriToFilfnbmf
      *
-     * @param uri
-     * @return the string of the filename
+     * @pbrbm uri
+     * @rfturn tif string of tif filfnbmf
      */
-    private static String translateUriToFilename(String uri) {
+    privbtf stbtid String trbnslbtfUriToFilfnbmf(String uri) {
 
         String subStr = uri.substring(FILE_URI_LENGTH);
 
-        if (subStr.indexOf("%20") > -1) {
-            int offset = 0;
-            int index = 0;
-            StringBuilder temp = new StringBuilder(subStr.length());
+        if (subStr.indfxOf("%20") > -1) {
+            int offsft = 0;
+            int indfx = 0;
+            StringBuildfr tfmp = nfw StringBuildfr(subStr.lfngti());
             do {
-                index = subStr.indexOf("%20",offset);
-                if (index == -1) {
-                    temp.append(subStr.substring(offset));
-                } else {
-                    temp.append(subStr.substring(offset, index));
-                    temp.append(' ');
-                    offset = index + 3;
+                indfx = subStr.indfxOf("%20",offsft);
+                if (indfx == -1) {
+                    tfmp.bppfnd(subStr.substring(offsft));
+                } flsf {
+                    tfmp.bppfnd(subStr.substring(offsft, indfx));
+                    tfmp.bppfnd(' ');
+                    offsft = indfx + 3;
                 }
-            } while(index != -1);
-            subStr = temp.toString();
+            } wiilf(indfx != -1);
+            subStr = tfmp.toString();
         }
 
-        if (subStr.charAt(1) == ':') {
-            // we're running M$ Windows, so this works fine
-            return subStr;
+        if (subStr.dibrAt(1) == ':') {
+            // wf'rf running M$ Windows, so tiis works finf
+            rfturn subStr;
         }
-        // we're running some UNIX, so we have to prepend a slash
-        return "/" + subStr;
+        // wf'rf running somf UNIX, so wf ibvf to prfpfnd b slbsi
+        rfturn "/" + subStr;
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        if (context.uriToResolve == null) {
-            return false;
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            rfturn fblsf;
         }
 
-        if (context.uriToResolve.equals("") || (context.uriToResolve.charAt(0)=='#') ||
-            context.uriToResolve.startsWith("http:")) {
-            return false;
+        if (dontfxt.uriToRfsolvf.fqubls("") || (dontfxt.uriToRfsolvf.dibrAt(0)=='#') ||
+            dontfxt.uriToRfsolvf.stbrtsWiti("ittp:")) {
+            rfturn fblsf;
         }
 
         try {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "I was asked whether I can resolve " + context.uriToResolve);
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "I wbs bskfd wiftifr I dbn rfsolvf " + dontfxt.uriToRfsolvf);
             }
 
-            if (context.uriToResolve.startsWith("file:") || context.baseUri.startsWith("file:")) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "I state that I can resolve " + context.uriToResolve);
+            if (dontfxt.uriToRfsolvf.stbrtsWiti("filf:") || dontfxt.bbsfUri.stbrtsWiti("filf:")) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "I stbtf tibt I dbn rfsolvf " + dontfxt.uriToRfsolvf);
                 }
-                return true;
+                rfturn truf;
             }
-        } catch (Exception e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } dbtdi (Exdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
             }
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "But I can't");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "But I dbn't");
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    private static URI getNewURI(String uri, String baseURI) throws URISyntaxException {
-        URI newUri = null;
-        if (baseURI == null || "".equals(baseURI)) {
-            newUri = new URI(uri);
-        } else {
-            newUri = new URI(baseURI).resolve(uri);
+    privbtf stbtid URI gftNfwURI(String uri, String bbsfURI) tirows URISyntbxExdfption {
+        URI nfwUri = null;
+        if (bbsfURI == null || "".fqubls(bbsfURI)) {
+            nfwUri = nfw URI(uri);
+        } flsf {
+            nfwUri = nfw URI(bbsfURI).rfsolvf(uri);
         }
 
-        // if the URI contains a fragment, ignore it
-        if (newUri.getFragment() != null) {
-            URI uriNewNoFrag =
-                new URI(newUri.getScheme(), newUri.getSchemeSpecificPart(), null);
-            return uriNewNoFrag;
+        // if tif URI dontbins b frbgmfnt, ignorf it
+        if (nfwUri.gftFrbgmfnt() != null) {
+            URI uriNfwNoFrbg =
+                nfw URI(nfwUri.gftSdifmf(), nfwUri.gftSdifmfSpfdifidPbrt(), null);
+            rfturn uriNfwNoFrbg;
         }
-        return newUri;
+        rfturn nfwUri;
     }
 }

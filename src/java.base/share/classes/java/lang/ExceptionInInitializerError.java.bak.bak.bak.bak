@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Signbls thbt bn unfxpfdtfd fxdfption hbs oddurrfd in b stbtid initiblizfr.
+ * An <dodf>ExdfptionInInitiblizfrError</dodf> is thrown to indidbtf thbt bn
+ * fxdfption oddurrfd during fvblubtion of b stbtid initiblizfr or thf
+ * initiblizfr for b stbtid vbribblf.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "sbvfd throwbblf
+ * objfdt" thbt mby bf providfd bt donstrudtion timf bnd bddfssfd vib
+ * thf {@link #gftExdfption()} mfthod is now known bs thf <i>dbusf</i>,
+ * bnd mby bf bddfssfd vib thf {@link Throwbblf#gftCbusf()} mfthod, bs wfll
+ * bs thf bforfmfntionfd "lfgbdy mfthod."
+ *
+ * @buthor  Frbnk Yfllin
+ * @sindf   1.1
+ */
+publid dlbss ExdfptionInInitiblizfrError fxtfnds LinkbgfError {
+    /**
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1521711792217232256L;
+
+    /**
+     * This fifld holds thf fxdfption if thf
+     * ExdfptionInInitiblizfrError(Throwbblf thrown) donstrudtor wbs
+     * usfd to instbntibtf thf objfdt
+     *
+     * @sfribl
+     *
+     */
+    privbtf Throwbblf fxdfption;
+
+    /**
+     * Construdts bn <dodf>ExdfptionInInitiblizfrError</dodf> with
+     * <dodf>null</dodf> bs its dftbil mfssbgf string bnd with no sbvfd
+     * throwbblf objfdt.
+     * A dftbil mfssbgf is b String thbt dfsdribfs this pbrtidulbr fxdfption.
+     */
+    publid ExdfptionInInitiblizfrError() {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+    }
+
+    /**
+     * Construdts b nfw <dodf>ExdfptionInInitiblizfrError</dodf> dlbss by
+     * sbving b rfffrfndf to thf <dodf>Throwbblf</dodf> objfdt thrown for
+     * lbtfr rftrifvbl by thf {@link #gftExdfption()} mfthod. Thf dftbil
+     * mfssbgf string is sft to <dodf>null</dodf>.
+     *
+     * @pbrbm thrown Thf fxdfption thrown
+     */
+    publid ExdfptionInInitiblizfrError(Throwbblf thrown) {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        this.fxdfption = thrown;
+    }
+
+    /**
+     * Construdts bn ExdfptionInInitiblizfrError with thf spfdififd dftbil
+     * mfssbgf string.  A dftbil mfssbgf is b String thbt dfsdribfs this
+     * pbrtidulbr fxdfption. Thf dftbil mfssbgf string is sbvfd for lbtfr
+     * rftrifvbl by thf {@link Throwbblf#gftMfssbgf()} mfthod. Thfrf is no
+     * sbvfd throwbblf objfdt.
+     *
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     */
+    publid ExdfptionInInitiblizfrError(String s) {
+        supfr(s);
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+    }
+
+    /**
+     * Rfturns thf fxdfption thbt oddurrfd during b stbtid initiblizbtion thbt
+     * dbusfd this frror to bf drfbtfd.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf sbvfd throwbblf objfdt of this
+     *         <dodf>ExdfptionInInitiblizfrError</dodf>, or <dodf>null</dodf>
+     *         if this <dodf>ExdfptionInInitiblizfrError</dodf> hbs no sbvfd
+     *         throwbblf objfdt.
+     */
+    publid Throwbblf gftExdfption() {
+        rfturn fxdfption;
+    }
+
+    /**
+     * Rfturns thf dbusf of this frror (thf fxdfption thbt oddurrfd
+     * during b stbtid initiblizbtion thbt dbusfd this frror to bf drfbtfd).
+     *
+     * @rfturn  thf dbusf of this frror or <dodf>null</dodf> if thf
+     *          dbusf is nonfxistfnt or unknown.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn fxdfption;
+    }
+}

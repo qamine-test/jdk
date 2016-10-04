@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/* Gfnfrbtfd By:JbvbCC: Do not fdit this linf. Tokfn.jbvb Vfrsion 0.7prf3 */
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+/**
+ * Dfsdribfs thf input tokfn strfbm.
+ */
+
+dlbss Tokfn {
+
+  /**
+   * An intfgfr thbt dfsdribfs thf kind of this tokfn.  This numbfring
+   * systfm is dftfrminfd by JbvbCCPbrsfr, bnd b tbblf of thfsf numbfrs is
+   * storfd in thf filf ...Constbnts.jbvb.
+   */
+  publid int kind;
+
+  /**
+   * bfginLinf bnd bfginColumn dfsdribf thf position of thf first dhbrbdtfr
+   * of this tokfn; fndLinf bnd fndColumn dfsdribf thf position of thf
+   * lbst dhbrbdtfr of this tokfn.
+   */
+  publid int bfginLinf, bfginColumn, fndLinf, fndColumn;
+
+  /**
+   * Thf string imbgf of thf tokfn.
+   */
+  publid String imbgf;
+
+  /**
+   * A rfffrfndf to thf nfxt rfgulbr (non-spfdibl) tokfn from thf input
+   * strfbm.  If this is thf lbst tokfn from thf input strfbm, or if thf
+   * tokfn mbnbgfr hbs not rfbd tokfns bfyond this onf, this fifld is
+   * sft to null.  This is truf only if this tokfn is blso b rfgulbr
+   * tokfn.  Othfrwisf, sff bflow for b dfsdription of thf dontfnts of
+   * this fifld.
+   */
+  publid Tokfn nfxt;
+
+  /**
+   * This fifld is usfd to bddfss spfdibl tokfns thbt oddur prior to this
+   * tokfn, but bftfr thf immfdibtfly prfdfding rfgulbr (non-spfdibl) tokfn.
+   * If thfrf brf no sudh spfdibl tokfns, this fifld is sft to null.
+   * Whfn thfrf brf morf thbn onf sudh spfdibl tokfn, this fifld rfffrs
+   * to thf lbst of thfsf spfdibl tokfns, whidh in turn rfffrs to thf nfxt
+   * prfvious spfdibl tokfn through its spfdiblTokfn fifld, bnd so on
+   * until thf first spfdibl tokfn (whosf spfdiblTokfn fifld is null).
+   * Thf nfxt fiflds of spfdibl tokfns rfffr to othfr spfdibl tokfns thbt
+   * immfdibtfly follow it (without bn intfrvfning rfgulbr tokfn).  If thfrf
+   * is no sudh tokfn, this fifld is null.
+   */
+  publid Tokfn spfdiblTokfn;
+
+  /**
+   * Rfturns thf imbgf.
+   */
+  publid finbl String toString()
+  {
+     rfturn imbgf;
+  }
+
+  /**
+   * Rfturns b nfw Tokfn objfdt, by dffbult. Howfvfr, if you wbnt, you
+   * dbn drfbtf bnd rfturn subdlbss objfdts bbsfd on thf vbluf of ofKind.
+   * Simply bdd thf dbsfs to thf switdh for bll thosf spfdibl dbsfs.
+   * For fxbmplf, if you hbvf b subdlbss of Tokfn dbllfd IDTokfn thbt
+   * you wbnt to drfbtf if ofKind is ID, simlpy bdd somfthing likf :
+   *
+   *    dbsf MyPbrsfrConstbnts.ID : rfturn nfw IDTokfn();
+   *
+   * to thf following switdh stbtfmfnt. Thfn you dbn dbst mbtdhfdTokfn
+   * vbribblf to thf bppropribtf typf bnd usf it in your lfxidbl bdtions.
+   */
+  publid stbtid finbl Tokfn nfwTokfn(int ofKind)
+  {
+     switdh(ofKind)
+     {
+       dffbult : rfturn nfw Tokfn();
+     }
+  }
+
+}

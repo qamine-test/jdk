@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#indludf    <stdlib.h>
+#indludf    <stdio.h>
+
+#indludf    "JPLISAssfrt.h"
+#indludf    "Utilitifs.h"
+#indludf    "JbvbExdfptions.h"
+
+/*
+ *  This modulf providfs vbrious simplf JNI bnd JVMTI utility fundtionblity.
+ */
+
+void *
+bllodbtf(jvmtiEnv * jvmtifnv, sizf_t bytfdount) {
+    void *          rfsultBufffr    = NULL;
+    jvmtiError      frror           = JVMTI_ERROR_NONE;
+
+    frror = (*jvmtifnv)->Allodbtf(jvmtifnv,
+                                  bytfdount,
+                                  (unsignfd dhbr**) &rfsultBufffr);
+    /* mby bf dbllfd from bny phbsf */
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    if ( frror != JVMTI_ERROR_NONE ) {
+        rfsultBufffr = NULL;
+    }
+    rfturn rfsultBufffr;
+}
+
+/**
+ * Convfnifndf mfthod thbt dfbllodbtfs mfmory.
+ * Throws bssfrt on frror.
+ * JVMTI Dfbllodbtf dbn only fbil duf to intfrnbl frror, thbt is, this
+ * bgfnt hbs donf somfthing wrong or JVMTI hbs donf somfthing wrong.  Thfsf
+ * frrors brfn't intfrfsting to b JPLIS bgfnt bnd so brf not rfturnfd.
+ */
+void
+dfbllodbtf(jvmtiEnv * jvmtifnv, void * bufffr) {
+    jvmtiError  frror = JVMTI_ERROR_NONE;
+
+    frror = (*jvmtifnv)->Dfbllodbtf(jvmtifnv,
+                                    (unsignfd dhbr*)bufffr);
+    /* mby bf dbllfd from bny phbsf */
+    jplis_bssfrt_msg(frror == JVMTI_ERROR_NONE, "Cbn't dfbllodbtf mfmory");
+    rfturn;
+}
+
+/**
+ *  Rfturns whfthfr thf pbssfd fxdfption is bn instbndf of thf givfn dlbssnbmf
+ *  Clfbrs bny JNI fxdfptions bfforf rfturning
+ */
+jboolfbn
+isInstbndfofClbssNbmf(  JNIEnv *        jnifnv,
+                        jobjfdt         instbndf,
+                        donst dhbr *    dlbssNbmf) {
+    jboolfbn    isInstbndfof        = JNI_FALSE;
+    jboolfbn    frrorOutstbnding    = JNI_FALSE;
+    jdlbss      dlbssHbndlf         = NULL;
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+
+    /* gft bn instbndf of undhfdkfd fxdfption for instbndfof dompbrison */
+    dlbssHbndlf = (*jnifnv)->FindClbss(jnifnv, dlbssNbmf);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+    jplis_bssfrt(!frrorOutstbnding);
+
+    if (!frrorOutstbnding) {
+        isInstbndfof = (*jnifnv)->IsInstbndfOf(jnifnv, instbndf, dlbssHbndlf);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
+    }
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn isInstbndfof;
+}
+
+/* Wf don't domf bbdk from this
+*/
+void
+bbortJVM(   JNIEnv *        jnifnv,
+            donst dhbr *    mfssbgf) {
+    (*jnifnv)->FbtblError(jnifnv, mfssbgf);
+}

@@ -1,917 +1,917 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.charset;
+pbdkbgf jbvb.nio.dibrsft;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.spi.CharsetProvider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import sun.misc.ASCIICaseInsensitiveComparator;
-import sun.nio.cs.StandardCharsets;
-import sun.nio.cs.ThreadLocalCoders;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.spi.CibrsftProvidfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import sun.misd.ASCIICbsfInsfnsitivfCompbrbtor;
+import sun.nio.ds.StbndbrdCibrsfts;
+import sun.nio.ds.TirfbdLodblCodfrs;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * A named mapping between sequences of sixteen-bit Unicode <a
- * href="../../lang/Character.html#unicode">code units</a> and sequences of
- * bytes.  This class defines methods for creating decoders and encoders and
- * for retrieving the various names associated with a charset.  Instances of
- * this class are immutable.
+ * A nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf <b
+ * irff="../../lbng/Cibrbdtfr.itml#unidodf">dodf units</b> bnd sfqufndfs of
+ * bytfs.  Tiis dlbss dffinfs mftiods for drfbting dfdodfrs bnd fndodfrs bnd
+ * for rftrifving tif vbrious nbmfs bssodibtfd witi b dibrsft.  Instbndfs of
+ * tiis dlbss brf immutbblf.
  *
- * <p> This class also defines static methods for testing whether a particular
- * charset is supported, for locating charset instances by name, and for
- * constructing a map that contains every charset for which support is
- * available in the current Java virtual machine.  Support for new charsets can
- * be added via the service-provider interface defined in the {@link
- * java.nio.charset.spi.CharsetProvider} class.
+ * <p> Tiis dlbss blso dffinfs stbtid mftiods for tfsting wiftifr b pbrtidulbr
+ * dibrsft is supportfd, for lodbting dibrsft instbndfs by nbmf, bnd for
+ * donstrudting b mbp tibt dontbins fvfry dibrsft for wiidi support is
+ * bvbilbblf in tif durrfnt Jbvb virtubl mbdiinf.  Support for nfw dibrsfts dbn
+ * bf bddfd vib tif sfrvidf-providfr intfrfbdf dffinfd in tif {@link
+ * jbvb.nio.dibrsft.spi.CibrsftProvidfr} dlbss.
  *
- * <p> All of the methods defined in this class are safe for use by multiple
- * concurrent threads.
+ * <p> All of tif mftiods dffinfd in tiis dlbss brf sbff for usf by multiplf
+ * dondurrfnt tirfbds.
  *
  *
- * <a name="names"></a><a name="charenc"></a>
- * <h2>Charset names</h2>
+ * <b nbmf="nbmfs"></b><b nbmf="dibrfnd"></b>
+ * <i2>Cibrsft nbmfs</i2>
  *
- * <p> Charsets are named by strings composed of the following characters:
+ * <p> Cibrsfts brf nbmfd by strings domposfd of tif following dibrbdtfrs:
  *
  * <ul>
  *
- *   <li> The uppercase letters <tt>'A'</tt> through <tt>'Z'</tt>
- *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005a'</tt>),
+ *   <li> Tif uppfrdbsf lfttfrs <tt>'A'</tt> tirougi <tt>'Z'</tt>
+ *        (<tt>'&#92;u0041'</tt>&nbsp;tirougi&nbsp;<tt>'&#92;u005b'</tt>),
  *
- *   <li> The lowercase letters <tt>'a'</tt> through <tt>'z'</tt>
- *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007a'</tt>),
+ *   <li> Tif lowfrdbsf lfttfrs <tt>'b'</tt> tirougi <tt>'z'</tt>
+ *        (<tt>'&#92;u0061'</tt>&nbsp;tirougi&nbsp;<tt>'&#92;u007b'</tt>),
  *
- *   <li> The digits <tt>'0'</tt> through <tt>'9'</tt>
- *        (<tt>'&#92;u0030'</tt>&nbsp;through&nbsp;<tt>'&#92;u0039'</tt>),
+ *   <li> Tif digits <tt>'0'</tt> tirougi <tt>'9'</tt>
+ *        (<tt>'&#92;u0030'</tt>&nbsp;tirougi&nbsp;<tt>'&#92;u0039'</tt>),
  *
- *   <li> The dash character <tt>'-'</tt>
- *        (<tt>'&#92;u002d'</tt>,&nbsp;<small>HYPHEN-MINUS</small>),
+ *   <li> Tif dbsi dibrbdtfr <tt>'-'</tt>
+ *        (<tt>'&#92;u002d'</tt>,&nbsp;<smbll>HYPHEN-MINUS</smbll>),
  *
- *   <li> The plus character <tt>'+'</tt>
- *        (<tt>'&#92;u002b'</tt>,&nbsp;<small>PLUS SIGN</small>),
+ *   <li> Tif plus dibrbdtfr <tt>'+'</tt>
+ *        (<tt>'&#92;u002b'</tt>,&nbsp;<smbll>PLUS SIGN</smbll>),
  *
- *   <li> The period character <tt>'.'</tt>
- *        (<tt>'&#92;u002e'</tt>,&nbsp;<small>FULL STOP</small>),
+ *   <li> Tif pfriod dibrbdtfr <tt>'.'</tt>
+ *        (<tt>'&#92;u002f'</tt>,&nbsp;<smbll>FULL STOP</smbll>),
  *
- *   <li> The colon character <tt>':'</tt>
- *        (<tt>'&#92;u003a'</tt>,&nbsp;<small>COLON</small>), and
+ *   <li> Tif dolon dibrbdtfr <tt>':'</tt>
+ *        (<tt>'&#92;u003b'</tt>,&nbsp;<smbll>COLON</smbll>), bnd
  *
- *   <li> The underscore character <tt>'_'</tt>
- *        (<tt>'&#92;u005f'</tt>,&nbsp;<small>LOW&nbsp;LINE</small>).
+ *   <li> Tif undfrsdorf dibrbdtfr <tt>'_'</tt>
+ *        (<tt>'&#92;u005f'</tt>,&nbsp;<smbll>LOW&nbsp;LINE</smbll>).
  *
  * </ul>
  *
- * A charset name must begin with either a letter or a digit.  The empty string
- * is not a legal charset name.  Charset names are not case-sensitive; that is,
- * case is always ignored when comparing charset names.  Charset names
- * generally follow the conventions documented in <a
- * href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278:&nbsp;IANA Charset
- * Registration Procedures</i></a>.
+ * A dibrsft nbmf must bfgin witi fitifr b lfttfr or b digit.  Tif fmpty string
+ * is not b lfgbl dibrsft nbmf.  Cibrsft nbmfs brf not dbsf-sfnsitivf; tibt is,
+ * dbsf is blwbys ignorfd wifn dompbring dibrsft nbmfs.  Cibrsft nbmfs
+ * gfnfrblly follow tif donvfntions dodumfntfd in <b
+ * irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278:&nbsp;IANA Cibrsft
+ * Rfgistrbtion Prodfdurfs</i></b>.
  *
- * <p> Every charset has a <i>canonical name</i> and may also have one or more
- * <i>aliases</i>.  The canonical name is returned by the {@link #name() name} method
- * of this class.  Canonical names are, by convention, usually in upper case.
- * The aliases of a charset are returned by the {@link #aliases() aliases}
- * method.
+ * <p> Evfry dibrsft ibs b <i>dbnonidbl nbmf</i> bnd mby blso ibvf onf or morf
+ * <i>blibsfs</i>.  Tif dbnonidbl nbmf is rfturnfd by tif {@link #nbmf() nbmf} mftiod
+ * of tiis dlbss.  Cbnonidbl nbmfs brf, by donvfntion, usublly in uppfr dbsf.
+ * Tif blibsfs of b dibrsft brf rfturnfd by tif {@link #blibsfs() blibsfs}
+ * mftiod.
  *
- * <p><a name="hn">Some charsets have an <i>historical name</i> that is defined for
- * compatibility with previous versions of the Java platform.</a>  A charset's
- * historical name is either its canonical name or one of its aliases.  The
- * historical name is returned by the <tt>getEncoding()</tt> methods of the
- * {@link java.io.InputStreamReader#getEncoding InputStreamReader} and {@link
- * java.io.OutputStreamWriter#getEncoding OutputStreamWriter} classes.
+ * <p><b nbmf="in">Somf dibrsfts ibvf bn <i>iistoridbl nbmf</i> tibt is dffinfd for
+ * dompbtibility witi prfvious vfrsions of tif Jbvb plbtform.</b>  A dibrsft's
+ * iistoridbl nbmf is fitifr its dbnonidbl nbmf or onf of its blibsfs.  Tif
+ * iistoridbl nbmf is rfturnfd by tif <tt>gftEndoding()</tt> mftiods of tif
+ * {@link jbvb.io.InputStrfbmRfbdfr#gftEndoding InputStrfbmRfbdfr} bnd {@link
+ * jbvb.io.OutputStrfbmWritfr#gftEndoding OutputStrfbmWritfr} dlbssfs.
  *
- * <p><a name="iana"> </a>If a charset listed in the <a
- * href="http://www.iana.org/assignments/character-sets"><i>IANA Charset
- * Registry</i></a> is supported by an implementation of the Java platform then
- * its canonical name must be the name listed in the registry. Many charsets
- * are given more than one name in the registry, in which case the registry
- * identifies one of the names as <i>MIME-preferred</i>.  If a charset has more
- * than one registry name then its canonical name must be the MIME-preferred
- * name and the other names in the registry must be valid aliases.  If a
- * supported charset is not listed in the IANA registry then its canonical name
- * must begin with one of the strings <tt>"X-"</tt> or <tt>"x-"</tt>.
+ * <p><b nbmf="ibnb"> </b>If b dibrsft listfd in tif <b
+ * irff="ittp://www.ibnb.org/bssignmfnts/dibrbdtfr-sfts"><i>IANA Cibrsft
+ * Rfgistry</i></b> is supportfd by bn implfmfntbtion of tif Jbvb plbtform tifn
+ * its dbnonidbl nbmf must bf tif nbmf listfd in tif rfgistry. Mbny dibrsfts
+ * brf givfn morf tibn onf nbmf in tif rfgistry, in wiidi dbsf tif rfgistry
+ * idfntififs onf of tif nbmfs bs <i>MIME-prfffrrfd</i>.  If b dibrsft ibs morf
+ * tibn onf rfgistry nbmf tifn its dbnonidbl nbmf must bf tif MIME-prfffrrfd
+ * nbmf bnd tif otifr nbmfs in tif rfgistry must bf vblid blibsfs.  If b
+ * supportfd dibrsft is not listfd in tif IANA rfgistry tifn its dbnonidbl nbmf
+ * must bfgin witi onf of tif strings <tt>"X-"</tt> or <tt>"x-"</tt>.
  *
- * <p> The IANA charset registry does change over time, and so the canonical
- * name and the aliases of a particular charset may also change over time.  To
- * ensure compatibility it is recommended that no alias ever be removed from a
- * charset, and that if the canonical name of a charset is changed then its
- * previous canonical name be made into an alias.
- *
- *
- * <h2>Standard charsets</h2>
+ * <p> Tif IANA dibrsft rfgistry dofs dibngf ovfr timf, bnd so tif dbnonidbl
+ * nbmf bnd tif blibsfs of b pbrtidulbr dibrsft mby blso dibngf ovfr timf.  To
+ * fnsurf dompbtibility it is rfdommfndfd tibt no blibs fvfr bf rfmovfd from b
+ * dibrsft, bnd tibt if tif dbnonidbl nbmf of b dibrsft is dibngfd tifn its
+ * prfvious dbnonidbl nbmf bf mbdf into bn blibs.
  *
  *
+ * <i2>Stbndbrd dibrsfts</i2>
  *
- * <p><a name="standard">Every implementation of the Java platform is required to support the
- * following standard charsets.</a>  Consult the release documentation for your
- * implementation to see if any other charsets are supported.  The behavior
- * of such optional charsets may differ between implementations.
  *
- * <blockquote><table width="80%" summary="Description of standard charsets">
- * <tr><th align="left">Charset</th><th align="left">Description</th></tr>
- * <tr><td valign=top><tt>US-ASCII</tt></td>
- *     <td>Seven-bit ASCII, a.k.a. <tt>ISO646-US</tt>,
- *         a.k.a. the Basic Latin block of the Unicode character set</td></tr>
- * <tr><td valign=top><tt>ISO-8859-1&nbsp;&nbsp;</tt></td>
- *     <td>ISO Latin Alphabet No. 1, a.k.a. <tt>ISO-LATIN-1</tt></td></tr>
- * <tr><td valign=top><tt>UTF-8</tt></td>
- *     <td>Eight-bit UCS Transformation Format</td></tr>
- * <tr><td valign=top><tt>UTF-16BE</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         big-endian byte&nbsp;order</td></tr>
- * <tr><td valign=top><tt>UTF-16LE</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         little-endian byte&nbsp;order</td></tr>
- * <tr><td valign=top><tt>UTF-16</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         byte&nbsp;order identified by an optional byte-order mark</td></tr>
- * </table></blockquote>
  *
- * <p> The <tt>UTF-8</tt> charset is specified by <a
- * href="http://www.ietf.org/rfc/rfc2279.txt"><i>RFC&nbsp;2279</i></a>; the
- * transformation format upon which it is based is specified in
- * Amendment&nbsp;2 of ISO&nbsp;10646-1 and is also described in the <a
- * href="http://www.unicode.org/unicode/standard/standard.html"><i>Unicode
- * Standard</i></a>.
+ * <p><b nbmf="stbndbrd">Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to support tif
+ * following stbndbrd dibrsfts.</b>  Consult tif rflfbsf dodumfntbtion for your
+ * implfmfntbtion to sff if bny otifr dibrsfts brf supportfd.  Tif bfibvior
+ * of sudi optionbl dibrsfts mby difffr bftwffn implfmfntbtions.
  *
- * <p> The <tt>UTF-16</tt> charsets are specified by <a
- * href="http://www.ietf.org/rfc/rfc2781.txt"><i>RFC&nbsp;2781</i></a>; the
- * transformation formats upon which they are based are specified in
- * Amendment&nbsp;1 of ISO&nbsp;10646-1 and are also described in the <a
- * href="http://www.unicode.org/unicode/standard/standard.html"><i>Unicode
- * Standard</i></a>.
+ * <blodkquotf><tbblf widti="80%" summbry="Dfsdription of stbndbrd dibrsfts">
+ * <tr><ti blign="lfft">Cibrsft</ti><ti blign="lfft">Dfsdription</ti></tr>
+ * <tr><td vblign=top><tt>US-ASCII</tt></td>
+ *     <td>Sfvfn-bit ASCII, b.k.b. <tt>ISO646-US</tt>,
+ *         b.k.b. tif Bbsid Lbtin blodk of tif Unidodf dibrbdtfr sft</td></tr>
+ * <tr><td vblign=top><tt>ISO-8859-1&nbsp;&nbsp;</tt></td>
+ *     <td>ISO Lbtin Alpibbft No. 1, b.k.b. <tt>ISO-LATIN-1</tt></td></tr>
+ * <tr><td vblign=top><tt>UTF-8</tt></td>
+ *     <td>Eigit-bit UCS Trbnsformbtion Formbt</td></tr>
+ * <tr><td vblign=top><tt>UTF-16BE</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         big-fndibn bytf&nbsp;ordfr</td></tr>
+ * <tr><td vblign=top><tt>UTF-16LE</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         littlf-fndibn bytf&nbsp;ordfr</td></tr>
+ * <tr><td vblign=top><tt>UTF-16</tt></td>
+ *     <td>Sixtffn-bit UCS Trbnsformbtion Formbt,
+ *         bytf&nbsp;ordfr idfntififd by bn optionbl bytf-ordfr mbrk</td></tr>
+ * </tbblf></blodkquotf>
  *
- * <p> The <tt>UTF-16</tt> charsets use sixteen-bit quantities and are
- * therefore sensitive to byte order.  In these encodings the byte order of a
- * stream may be indicated by an initial <i>byte-order mark</i> represented by
- * the Unicode character <tt>'&#92;uFEFF'</tt>.  Byte-order marks are handled
- * as follows:
+ * <p> Tif <tt>UTF-8</tt> dibrsft is spfdififd by <b
+ * irff="ittp://www.iftf.org/rfd/rfd2279.txt"><i>RFC&nbsp;2279</i></b>; tif
+ * trbnsformbtion formbt upon wiidi it is bbsfd is spfdififd in
+ * Amfndmfnt&nbsp;2 of ISO&nbsp;10646-1 bnd is blso dfsdribfd in tif <b
+ * irff="ittp://www.unidodf.org/unidodf/stbndbrd/stbndbrd.itml"><i>Unidodf
+ * Stbndbrd</i></b>.
+ *
+ * <p> Tif <tt>UTF-16</tt> dibrsfts brf spfdififd by <b
+ * irff="ittp://www.iftf.org/rfd/rfd2781.txt"><i>RFC&nbsp;2781</i></b>; tif
+ * trbnsformbtion formbts upon wiidi tify brf bbsfd brf spfdififd in
+ * Amfndmfnt&nbsp;1 of ISO&nbsp;10646-1 bnd brf blso dfsdribfd in tif <b
+ * irff="ittp://www.unidodf.org/unidodf/stbndbrd/stbndbrd.itml"><i>Unidodf
+ * Stbndbrd</i></b>.
+ *
+ * <p> Tif <tt>UTF-16</tt> dibrsfts usf sixtffn-bit qubntitifs bnd brf
+ * tifrfforf sfnsitivf to bytf ordfr.  In tifsf fndodings tif bytf ordfr of b
+ * strfbm mby bf indidbtfd by bn initibl <i>bytf-ordfr mbrk</i> rfprfsfntfd by
+ * tif Unidodf dibrbdtfr <tt>'&#92;uFEFF'</tt>.  Bytf-ordfr mbrks brf ibndlfd
+ * bs follows:
  *
  * <ul>
  *
- *   <li><p> When decoding, the <tt>UTF-16BE</tt> and <tt>UTF-16LE</tt>
- *   charsets interpret the initial byte-order marks as a <small>ZERO-WIDTH
- *   NON-BREAKING SPACE</small>; when encoding, they do not write
- *   byte-order marks. </p></li>
+ *   <li><p> Wifn dfdoding, tif <tt>UTF-16BE</tt> bnd <tt>UTF-16LE</tt>
+ *   dibrsfts intfrprft tif initibl bytf-ordfr mbrks bs b <smbll>ZERO-WIDTH
+ *   NON-BREAKING SPACE</smbll>; wifn fndoding, tify do not writf
+ *   bytf-ordfr mbrks. </p></li>
 
  *
- *   <li><p> When decoding, the <tt>UTF-16</tt> charset interprets the
- *   byte-order mark at the beginning of the input stream to indicate the
- *   byte-order of the stream but defaults to big-endian if there is no
- *   byte-order mark; when encoding, it uses big-endian byte order and writes
- *   a big-endian byte-order mark. </p></li>
+ *   <li><p> Wifn dfdoding, tif <tt>UTF-16</tt> dibrsft intfrprfts tif
+ *   bytf-ordfr mbrk bt tif bfginning of tif input strfbm to indidbtf tif
+ *   bytf-ordfr of tif strfbm but dffbults to big-fndibn if tifrf is no
+ *   bytf-ordfr mbrk; wifn fndoding, it usfs big-fndibn bytf ordfr bnd writfs
+ *   b big-fndibn bytf-ordfr mbrk. </p></li>
  *
  * </ul>
  *
- * In any case, byte order marks occurring after the first element of an
- * input sequence are not omitted since the same code is used to represent
- * <small>ZERO-WIDTH NON-BREAKING SPACE</small>.
+ * In bny dbsf, bytf ordfr mbrks oddurring bftfr tif first flfmfnt of bn
+ * input sfqufndf brf not omittfd sindf tif sbmf dodf is usfd to rfprfsfnt
+ * <smbll>ZERO-WIDTH NON-BREAKING SPACE</smbll>.
  *
- * <p> Every instance of the Java virtual machine has a default charset, which
- * may or may not be one of the standard charsets.  The default charset is
- * determined during virtual-machine startup and typically depends upon the
- * locale and charset being used by the underlying operating system. </p>
+ * <p> Evfry instbndf of tif Jbvb virtubl mbdiinf ibs b dffbult dibrsft, wiidi
+ * mby or mby not bf onf of tif stbndbrd dibrsfts.  Tif dffbult dibrsft is
+ * dftfrminfd during virtubl-mbdiinf stbrtup bnd typidblly dfpfnds upon tif
+ * lodblf bnd dibrsft bfing usfd by tif undfrlying opfrbting systfm. </p>
  *
- * <p>The {@link StandardCharsets} class defines constants for each of the
- * standard charsets.
+ * <p>Tif {@link StbndbrdCibrsfts} dlbss dffinfs donstbnts for fbdi of tif
+ * stbndbrd dibrsfts.
  *
- * <h2>Terminology</h2>
+ * <i2>Tfrminology</i2>
  *
- * <p> The name of this class is taken from the terms used in
- * <a href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278</i></a>.
- * In that document a <i>charset</i> is defined as the combination of
- * one or more coded character sets and a character-encoding scheme.
- * (This definition is confusing; some other software systems define
- * <i>charset</i> as a synonym for <i>coded character set</i>.)
+ * <p> Tif nbmf of tiis dlbss is tbkfn from tif tfrms usfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.
+ * In tibt dodumfnt b <i>dibrsft</i> is dffinfd bs tif dombinbtion of
+ * onf or morf dodfd dibrbdtfr sfts bnd b dibrbdtfr-fndoding sdifmf.
+ * (Tiis dffinition is donfusing; somf otifr softwbrf systfms dffinf
+ * <i>dibrsft</i> bs b synonym for <i>dodfd dibrbdtfr sft</i>.)
  *
- * <p> A <i>coded character set</i> is a mapping between a set of abstract
- * characters and a set of integers.  US-ASCII, ISO&nbsp;8859-1,
- * JIS&nbsp;X&nbsp;0201, and Unicode are examples of coded character sets.
+ * <p> A <i>dodfd dibrbdtfr sft</i> is b mbpping bftwffn b sft of bbstrbdt
+ * dibrbdtfrs bnd b sft of intfgfrs.  US-ASCII, ISO&nbsp;8859-1,
+ * JIS&nbsp;X&nbsp;0201, bnd Unidodf brf fxbmplfs of dodfd dibrbdtfr sfts.
  *
- * <p> Some standards have defined a <i>character set</i> to be simply a
- * set of abstract characters without an associated assigned numbering.
- * An alphabet is an example of such a character set.  However, the subtle
- * distinction between <i>character set</i> and <i>coded character set</i>
- * is rarely used in practice; the former has become a short form for the
- * latter, including in the Java API specification.
+ * <p> Somf stbndbrds ibvf dffinfd b <i>dibrbdtfr sft</i> to bf simply b
+ * sft of bbstrbdt dibrbdtfrs witiout bn bssodibtfd bssignfd numbfring.
+ * An blpibbft is bn fxbmplf of sudi b dibrbdtfr sft.  Howfvfr, tif subtlf
+ * distindtion bftwffn <i>dibrbdtfr sft</i> bnd <i>dodfd dibrbdtfr sft</i>
+ * is rbrfly usfd in prbdtidf; tif formfr ibs bfdomf b siort form for tif
+ * lbttfr, indluding in tif Jbvb API spfdifidbtion.
  *
- * <p> A <i>character-encoding scheme</i> is a mapping between one or more
- * coded character sets and a set of octet (eight-bit byte) sequences.
- * UTF-8, UTF-16, ISO&nbsp;2022, and EUC are examples of
- * character-encoding schemes.  Encoding schemes are often associated with
- * a particular coded character set; UTF-8, for example, is used only to
- * encode Unicode.  Some schemes, however, are associated with multiple
- * coded character sets; EUC, for example, can be used to encode
- * characters in a variety of Asian coded character sets.
+ * <p> A <i>dibrbdtfr-fndoding sdifmf</i> is b mbpping bftwffn onf or morf
+ * dodfd dibrbdtfr sfts bnd b sft of odtft (figit-bit bytf) sfqufndfs.
+ * UTF-8, UTF-16, ISO&nbsp;2022, bnd EUC brf fxbmplfs of
+ * dibrbdtfr-fndoding sdifmfs.  Endoding sdifmfs brf oftfn bssodibtfd witi
+ * b pbrtidulbr dodfd dibrbdtfr sft; UTF-8, for fxbmplf, is usfd only to
+ * fndodf Unidodf.  Somf sdifmfs, iowfvfr, brf bssodibtfd witi multiplf
+ * dodfd dibrbdtfr sfts; EUC, for fxbmplf, dbn bf usfd to fndodf
+ * dibrbdtfrs in b vbrifty of Asibn dodfd dibrbdtfr sfts.
  *
- * <p> When a coded character set is used exclusively with a single
- * character-encoding scheme then the corresponding charset is usually
- * named for the coded character set; otherwise a charset is usually named
- * for the encoding scheme and, possibly, the locale of the coded
- * character sets that it supports.  Hence <tt>US-ASCII</tt> is both the
- * name of a coded character set and of the charset that encodes it, while
- * <tt>EUC-JP</tt> is the name of the charset that encodes the
- * JIS&nbsp;X&nbsp;0201, JIS&nbsp;X&nbsp;0208, and JIS&nbsp;X&nbsp;0212
- * coded character sets for the Japanese language.
+ * <p> Wifn b dodfd dibrbdtfr sft is usfd fxdlusivfly witi b singlf
+ * dibrbdtfr-fndoding sdifmf tifn tif dorrfsponding dibrsft is usublly
+ * nbmfd for tif dodfd dibrbdtfr sft; otifrwisf b dibrsft is usublly nbmfd
+ * for tif fndoding sdifmf bnd, possibly, tif lodblf of tif dodfd
+ * dibrbdtfr sfts tibt it supports.  Hfndf <tt>US-ASCII</tt> is boti tif
+ * nbmf of b dodfd dibrbdtfr sft bnd of tif dibrsft tibt fndodfs it, wiilf
+ * <tt>EUC-JP</tt> is tif nbmf of tif dibrsft tibt fndodfs tif
+ * JIS&nbsp;X&nbsp;0201, JIS&nbsp;X&nbsp;0208, bnd JIS&nbsp;X&nbsp;0212
+ * dodfd dibrbdtfr sfts for tif Jbpbnfsf lbngubgf.
  *
- * <p> The native character encoding of the Java programming language is
- * UTF-16.  A charset in the Java platform therefore defines a mapping
- * between sequences of sixteen-bit UTF-16 code units (that is, sequences
- * of chars) and sequences of bytes. </p>
+ * <p> Tif nbtivf dibrbdtfr fndoding of tif Jbvb progrbmming lbngubgf is
+ * UTF-16.  A dibrsft in tif Jbvb plbtform tifrfforf dffinfs b mbpping
+ * bftwffn sfqufndfs of sixtffn-bit UTF-16 dodf units (tibt is, sfqufndfs
+ * of dibrs) bnd sfqufndfs of bytfs. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  *
- * @see CharsetDecoder
- * @see CharsetEncoder
- * @see java.nio.charset.spi.CharsetProvider
- * @see java.lang.Character
+ * @sff CibrsftDfdodfr
+ * @sff CibrsftEndodfr
+ * @sff jbvb.nio.dibrsft.spi.CibrsftProvidfr
+ * @sff jbvb.lbng.Cibrbdtfr
  */
 
-public abstract class Charset
-    implements Comparable<Charset>
+publid bbstrbdt dlbss Cibrsft
+    implfmfnts Compbrbblf<Cibrsft>
 {
 
-    /* -- Static methods -- */
+    /* -- Stbtid mftiods -- */
 
-    private static volatile String bugLevel = null;
+    privbtf stbtid volbtilf String bugLfvfl = null;
 
-    static boolean atBugLevel(String bl) {              // package-private
-        String level = bugLevel;
-        if (level == null) {
-            if (!sun.misc.VM.isBooted())
-                return false;
-            bugLevel = level = AccessController.doPrivileged(
-                new GetPropertyAction("sun.nio.cs.bugLevel", ""));
+    stbtid boolfbn btBugLfvfl(String bl) {              // pbdkbgf-privbtf
+        String lfvfl = bugLfvfl;
+        if (lfvfl == null) {
+            if (!sun.misd.VM.isBootfd())
+                rfturn fblsf;
+            bugLfvfl = lfvfl = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.nio.ds.bugLfvfl", ""));
         }
-        return level.equals(bl);
+        rfturn lfvfl.fqubls(bl);
     }
 
     /**
-     * Checks that the given string is a legal charset name. </p>
+     * Cifdks tibt tif givfn string is b lfgbl dibrsft nbmf. </p>
      *
-     * @param  s
-     *         A purported charset name
+     * @pbrbm  s
+     *         A purportfd dibrsft nbmf
      *
-     * @throws  IllegalCharsetNameException
-     *          If the given name is not a legal charset name
+     * @tirows  IllfgblCibrsftNbmfExdfption
+     *          If tif givfn nbmf is not b lfgbl dibrsft nbmf
      */
-    private static void checkName(String s) {
-        int n = s.length();
-        if (!atBugLevel("1.4")) {
+    privbtf stbtid void difdkNbmf(String s) {
+        int n = s.lfngti();
+        if (!btBugLfvfl("1.4")) {
             if (n == 0)
-                throw new IllegalCharsetNameException(s);
+                tirow nfw IllfgblCibrsftNbmfExdfption(s);
         }
         for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            if (c >= 'A' && c <= 'Z') continue;
-            if (c >= 'a' && c <= 'z') continue;
-            if (c >= '0' && c <= '9') continue;
-            if (c == '-' && i != 0) continue;
-            if (c == '+' && i != 0) continue;
-            if (c == ':' && i != 0) continue;
-            if (c == '_' && i != 0) continue;
-            if (c == '.' && i != 0) continue;
-            throw new IllegalCharsetNameException(s);
+            dibr d = s.dibrAt(i);
+            if (d >= 'A' && d <= 'Z') dontinuf;
+            if (d >= 'b' && d <= 'z') dontinuf;
+            if (d >= '0' && d <= '9') dontinuf;
+            if (d == '-' && i != 0) dontinuf;
+            if (d == '+' && i != 0) dontinuf;
+            if (d == ':' && i != 0) dontinuf;
+            if (d == '_' && i != 0) dontinuf;
+            if (d == '.' && i != 0) dontinuf;
+            tirow nfw IllfgblCibrsftNbmfExdfption(s);
         }
     }
 
-    /* The standard set of charsets */
-    private static CharsetProvider standardProvider = new StandardCharsets();
+    /* Tif stbndbrd sft of dibrsfts */
+    privbtf stbtid CibrsftProvidfr stbndbrdProvidfr = nfw StbndbrdCibrsfts();
 
-    // Cache of the most-recently-returned charsets,
-    // along with the names that were used to find them
+    // Cbdif of tif most-rfdfntly-rfturnfd dibrsfts,
+    // blong witi tif nbmfs tibt wfrf usfd to find tifm
     //
-    private static volatile Object[] cache1 = null; // "Level 1" cache
-    private static volatile Object[] cache2 = null; // "Level 2" cache
+    privbtf stbtid volbtilf Objfdt[] dbdif1 = null; // "Lfvfl 1" dbdif
+    privbtf stbtid volbtilf Objfdt[] dbdif2 = null; // "Lfvfl 2" dbdif
 
-    private static void cache(String charsetName, Charset cs) {
-        cache2 = cache1;
-        cache1 = new Object[] { charsetName, cs };
+    privbtf stbtid void dbdif(String dibrsftNbmf, Cibrsft ds) {
+        dbdif2 = dbdif1;
+        dbdif1 = nfw Objfdt[] { dibrsftNbmf, ds };
     }
 
-    // Creates an iterator that walks over the available providers, ignoring
-    // those whose lookup or instantiation causes a security exception to be
-    // thrown.  Should be invoked with full privileges.
+    // Crfbtfs bn itfrbtor tibt wblks ovfr tif bvbilbblf providfrs, ignoring
+    // tiosf wiosf lookup or instbntibtion dbusfs b sfdurity fxdfption to bf
+    // tirown.  Siould bf invokfd witi full privilfgfs.
     //
-    private static Iterator<CharsetProvider> providers() {
-        return new Iterator<CharsetProvider>() {
+    privbtf stbtid Itfrbtor<CibrsftProvidfr> providfrs() {
+        rfturn nfw Itfrbtor<CibrsftProvidfr>() {
 
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
-                ServiceLoader<CharsetProvider> sl =
-                    ServiceLoader.load(CharsetProvider.class, cl);
-                Iterator<CharsetProvider> i = sl.iterator();
+                ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                SfrvidfLobdfr<CibrsftProvidfr> sl =
+                    SfrvidfLobdfr.lobd(CibrsftProvidfr.dlbss, dl);
+                Itfrbtor<CibrsftProvidfr> i = sl.itfrbtor();
 
-                CharsetProvider next = null;
+                CibrsftProvidfr nfxt = null;
 
-                private boolean getNext() {
-                    while (next == null) {
+                privbtf boolfbn gftNfxt() {
+                    wiilf (nfxt == null) {
                         try {
-                            if (!i.hasNext())
-                                return false;
-                            next = i.next();
-                        } catch (ServiceConfigurationError sce) {
-                            if (sce.getCause() instanceof SecurityException) {
-                                // Ignore security exceptions
-                                continue;
+                            if (!i.ibsNfxt())
+                                rfturn fblsf;
+                            nfxt = i.nfxt();
+                        } dbtdi (SfrvidfConfigurbtionError sdf) {
+                            if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                                // Ignorf sfdurity fxdfptions
+                                dontinuf;
                             }
-                            throw sce;
+                            tirow sdf;
                         }
                     }
-                    return true;
+                    rfturn truf;
                 }
 
-                public boolean hasNext() {
-                    return getNext();
+                publid boolfbn ibsNfxt() {
+                    rfturn gftNfxt();
                 }
 
-                public CharsetProvider next() {
-                    if (!getNext())
-                        throw new NoSuchElementException();
-                    CharsetProvider n = next;
-                    next = null;
-                    return n;
+                publid CibrsftProvidfr nfxt() {
+                    if (!gftNfxt())
+                        tirow nfw NoSudiElfmfntExdfption();
+                    CibrsftProvidfr n = nfxt;
+                    nfxt = null;
+                    rfturn n;
                 }
 
-                public void remove() {
-                    throw new UnsupportedOperationException();
+                publid void rfmovf() {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
 
             };
     }
 
-    // Thread-local gate to prevent recursive provider lookups
-    private static ThreadLocal<ThreadLocal<?>> gate =
-            new ThreadLocal<ThreadLocal<?>>();
+    // Tirfbd-lodbl gbtf to prfvfnt rfdursivf providfr lookups
+    privbtf stbtid TirfbdLodbl<TirfbdLodbl<?>> gbtf =
+            nfw TirfbdLodbl<TirfbdLodbl<?>>();
 
-    private static Charset lookupViaProviders(final String charsetName) {
+    privbtf stbtid Cibrsft lookupVibProvidfrs(finbl String dibrsftNbmf) {
 
-        // The runtime startup sequence looks up standard charsets as a
-        // consequence of the VM's invocation of System.initializeSystemClass
-        // in order to, e.g., set system properties and encode filenames.  At
-        // that point the application class loader has not been initialized,
-        // however, so we can't look for providers because doing so will cause
-        // that loader to be prematurely initialized with incomplete
-        // information.
+        // Tif runtimf stbrtup sfqufndf looks up stbndbrd dibrsfts bs b
+        // donsfqufndf of tif VM's invodbtion of Systfm.initiblizfSystfmClbss
+        // in ordfr to, f.g., sft systfm propfrtifs bnd fndodf filfnbmfs.  At
+        // tibt point tif bpplidbtion dlbss lobdfr ibs not bffn initiblizfd,
+        // iowfvfr, so wf dbn't look for providfrs bfdbusf doing so will dbusf
+        // tibt lobdfr to bf prfmbturfly initiblizfd witi indomplftf
+        // informbtion.
         //
-        if (!sun.misc.VM.isBooted())
-            return null;
+        if (!sun.misd.VM.isBootfd())
+            rfturn null;
 
-        if (gate.get() != null)
-            // Avoid recursive provider lookups
-            return null;
+        if (gbtf.gft() != null)
+            // Avoid rfdursivf providfr lookups
+            rfturn null;
         try {
-            gate.set(gate);
+            gbtf.sft(gbtf);
 
-            return AccessController.doPrivileged(
-                new PrivilegedAction<Charset>() {
-                    public Charset run() {
-                        for (Iterator<CharsetProvider> i = providers();
-                             i.hasNext();) {
-                            CharsetProvider cp = i.next();
-                            Charset cs = cp.charsetForName(charsetName);
-                            if (cs != null)
-                                return cs;
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Cibrsft>() {
+                    publid Cibrsft run() {
+                        for (Itfrbtor<CibrsftProvidfr> i = providfrs();
+                             i.ibsNfxt();) {
+                            CibrsftProvidfr dp = i.nfxt();
+                            Cibrsft ds = dp.dibrsftForNbmf(dibrsftNbmf);
+                            if (ds != null)
+                                rfturn ds;
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
 
-        } finally {
-            gate.set(null);
+        } finblly {
+            gbtf.sft(null);
         }
     }
 
-    /* The extended set of charsets */
-    private static class ExtendedProviderHolder {
-        static final CharsetProvider extendedProvider = extendedProvider();
-        // returns ExtendedProvider, if installed
-        private static CharsetProvider extendedProvider() {
-            return AccessController.doPrivileged(
-                       new PrivilegedAction<CharsetProvider>() {
-                           public CharsetProvider run() {
+    /* Tif fxtfndfd sft of dibrsfts */
+    privbtf stbtid dlbss ExtfndfdProvidfrHoldfr {
+        stbtid finbl CibrsftProvidfr fxtfndfdProvidfr = fxtfndfdProvidfr();
+        // rfturns ExtfndfdProvidfr, if instbllfd
+        privbtf stbtid CibrsftProvidfr fxtfndfdProvidfr() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                       nfw PrivilfgfdAdtion<CibrsftProvidfr>() {
+                           publid CibrsftProvidfr run() {
                                 try {
-                                    Class<?> epc
-                                        = Class.forName("sun.nio.cs.ext.ExtendedCharsets");
-                                    return (CharsetProvider)epc.newInstance();
-                                } catch (ClassNotFoundException x) {
-                                    // Extended charsets not available
-                                    // (charsets.jar not present)
-                                } catch (InstantiationException |
-                                         IllegalAccessException x) {
-                                  throw new Error(x);
+                                    Clbss<?> fpd
+                                        = Clbss.forNbmf("sun.nio.ds.fxt.ExtfndfdCibrsfts");
+                                    rfturn (CibrsftProvidfr)fpd.nfwInstbndf();
+                                } dbtdi (ClbssNotFoundExdfption x) {
+                                    // Extfndfd dibrsfts not bvbilbblf
+                                    // (dibrsfts.jbr not prfsfnt)
+                                } dbtdi (InstbntibtionExdfption |
+                                         IllfgblAddfssExdfption x) {
+                                  tirow nfw Error(x);
                                 }
-                                return null;
+                                rfturn null;
                             }
                         });
         }
     }
 
-    private static Charset lookupExtendedCharset(String charsetName) {
-        CharsetProvider ecp = ExtendedProviderHolder.extendedProvider;
-        return (ecp != null) ? ecp.charsetForName(charsetName) : null;
+    privbtf stbtid Cibrsft lookupExtfndfdCibrsft(String dibrsftNbmf) {
+        CibrsftProvidfr fdp = ExtfndfdProvidfrHoldfr.fxtfndfdProvidfr;
+        rfturn (fdp != null) ? fdp.dibrsftForNbmf(dibrsftNbmf) : null;
     }
 
-    private static Charset lookup(String charsetName) {
-        if (charsetName == null)
-            throw new IllegalArgumentException("Null charset name");
-        Object[] a;
-        if ((a = cache1) != null && charsetName.equals(a[0]))
-            return (Charset)a[1];
-        // We expect most programs to use one Charset repeatedly.
-        // We convey a hint to this effect to the VM by putting the
-        // level 1 cache miss code in a separate method.
-        return lookup2(charsetName);
+    privbtf stbtid Cibrsft lookup(String dibrsftNbmf) {
+        if (dibrsftNbmf == null)
+            tirow nfw IllfgblArgumfntExdfption("Null dibrsft nbmf");
+        Objfdt[] b;
+        if ((b = dbdif1) != null && dibrsftNbmf.fqubls(b[0]))
+            rfturn (Cibrsft)b[1];
+        // Wf fxpfdt most progrbms to usf onf Cibrsft rfpfbtfdly.
+        // Wf donvfy b iint to tiis ffffdt to tif VM by putting tif
+        // lfvfl 1 dbdif miss dodf in b sfpbrbtf mftiod.
+        rfturn lookup2(dibrsftNbmf);
     }
 
-    private static Charset lookup2(String charsetName) {
-        Object[] a;
-        if ((a = cache2) != null && charsetName.equals(a[0])) {
-            cache2 = cache1;
-            cache1 = a;
-            return (Charset)a[1];
+    privbtf stbtid Cibrsft lookup2(String dibrsftNbmf) {
+        Objfdt[] b;
+        if ((b = dbdif2) != null && dibrsftNbmf.fqubls(b[0])) {
+            dbdif2 = dbdif1;
+            dbdif1 = b;
+            rfturn (Cibrsft)b[1];
         }
-        Charset cs;
-        if ((cs = standardProvider.charsetForName(charsetName)) != null ||
-            (cs = lookupExtendedCharset(charsetName))           != null ||
-            (cs = lookupViaProviders(charsetName))              != null)
+        Cibrsft ds;
+        if ((ds = stbndbrdProvidfr.dibrsftForNbmf(dibrsftNbmf)) != null ||
+            (ds = lookupExtfndfdCibrsft(dibrsftNbmf))           != null ||
+            (ds = lookupVibProvidfrs(dibrsftNbmf))              != null)
         {
-            cache(charsetName, cs);
-            return cs;
+            dbdif(dibrsftNbmf, ds);
+            rfturn ds;
         }
 
-        /* Only need to check the name if we didn't find a charset for it */
-        checkName(charsetName);
-        return null;
+        /* Only nffd to difdk tif nbmf if wf didn't find b dibrsft for it */
+        difdkNbmf(dibrsftNbmf);
+        rfturn null;
     }
 
     /**
-     * Tells whether the named charset is supported.
+     * Tflls wiftifr tif nbmfd dibrsft is supportfd.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  dibrsftNbmf
+     *         Tif nbmf of tif rfqufstfd dibrsft; mby bf fitifr
+     *         b dbnonidbl nbmf or bn blibs
      *
-     * @return  <tt>true</tt> if, and only if, support for the named charset
-     *          is available in the current Java virtual machine
+     * @rfturn  <tt>truf</tt> if, bnd only if, support for tif nbmfd dibrsft
+     *          is bvbilbblf in tif durrfnt Jbvb virtubl mbdiinf
      *
-     * @throws IllegalCharsetNameException
-     *         If the given charset name is illegal
+     * @tirows IllfgblCibrsftNbmfExdfption
+     *         If tif givfn dibrsft nbmf is illfgbl
      *
-     * @throws  IllegalArgumentException
-     *          If the given <tt>charsetName</tt> is null
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif givfn <tt>dibrsftNbmf</tt> is null
      */
-    public static boolean isSupported(String charsetName) {
-        return (lookup(charsetName) != null);
+    publid stbtid boolfbn isSupportfd(String dibrsftNbmf) {
+        rfturn (lookup(dibrsftNbmf) != null);
     }
 
     /**
-     * Returns a charset object for the named charset.
+     * Rfturns b dibrsft objfdt for tif nbmfd dibrsft.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  dibrsftNbmf
+     *         Tif nbmf of tif rfqufstfd dibrsft; mby bf fitifr
+     *         b dbnonidbl nbmf or bn blibs
      *
-     * @return  A charset object for the named charset
+     * @rfturn  A dibrsft objfdt for tif nbmfd dibrsft
      *
-     * @throws  IllegalCharsetNameException
-     *          If the given charset name is illegal
+     * @tirows  IllfgblCibrsftNbmfExdfption
+     *          If tif givfn dibrsft nbmf is illfgbl
      *
-     * @throws  IllegalArgumentException
-     *          If the given <tt>charsetName</tt> is null
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif givfn <tt>dibrsftNbmf</tt> is null
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @tirows  UnsupportfdCibrsftExdfption
+     *          If no support for tif nbmfd dibrsft is bvbilbblf
+     *          in tiis instbndf of tif Jbvb virtubl mbdiinf
      */
-    public static Charset forName(String charsetName) {
-        Charset cs = lookup(charsetName);
-        if (cs != null)
-            return cs;
-        throw new UnsupportedCharsetException(charsetName);
+    publid stbtid Cibrsft forNbmf(String dibrsftNbmf) {
+        Cibrsft ds = lookup(dibrsftNbmf);
+        if (ds != null)
+            rfturn ds;
+        tirow nfw UnsupportfdCibrsftExdfption(dibrsftNbmf);
     }
 
-    // Fold charsets from the given iterator into the given map, ignoring
-    // charsets whose names already have entries in the map.
+    // Fold dibrsfts from tif givfn itfrbtor into tif givfn mbp, ignoring
+    // dibrsfts wiosf nbmfs blrfbdy ibvf fntrifs in tif mbp.
     //
-    private static void put(Iterator<Charset> i, Map<String,Charset> m) {
-        while (i.hasNext()) {
-            Charset cs = i.next();
-            if (!m.containsKey(cs.name()))
-                m.put(cs.name(), cs);
+    privbtf stbtid void put(Itfrbtor<Cibrsft> i, Mbp<String,Cibrsft> m) {
+        wiilf (i.ibsNfxt()) {
+            Cibrsft ds = i.nfxt();
+            if (!m.dontbinsKfy(ds.nbmf()))
+                m.put(ds.nbmf(), ds);
         }
     }
 
     /**
-     * Constructs a sorted map from canonical charset names to charset objects.
+     * Construdts b sortfd mbp from dbnonidbl dibrsft nbmfs to dibrsft objfdts.
      *
-     * <p> The map returned by this method will have one entry for each charset
-     * for which support is available in the current Java virtual machine.  If
-     * two or more supported charsets have the same canonical name then the
-     * resulting map will contain just one of them; which one it will contain
-     * is not specified. </p>
+     * <p> Tif mbp rfturnfd by tiis mftiod will ibvf onf fntry for fbdi dibrsft
+     * for wiidi support is bvbilbblf in tif durrfnt Jbvb virtubl mbdiinf.  If
+     * two or morf supportfd dibrsfts ibvf tif sbmf dbnonidbl nbmf tifn tif
+     * rfsulting mbp will dontbin just onf of tifm; wiidi onf it will dontbin
+     * is not spfdififd. </p>
      *
-     * <p> The invocation of this method, and the subsequent use of the
-     * resulting map, may cause time-consuming disk or network I/O operations
-     * to occur.  This method is provided for applications that need to
-     * enumerate all of the available charsets, for example to allow user
-     * charset selection.  This method is not used by the {@link #forName
-     * forName} method, which instead employs an efficient incremental lookup
-     * algorithm.
+     * <p> Tif invodbtion of tiis mftiod, bnd tif subsfqufnt usf of tif
+     * rfsulting mbp, mby dbusf timf-donsuming disk or nftwork I/O opfrbtions
+     * to oddur.  Tiis mftiod is providfd for bpplidbtions tibt nffd to
+     * fnumfrbtf bll of tif bvbilbblf dibrsfts, for fxbmplf to bllow usfr
+     * dibrsft sflfdtion.  Tiis mftiod is not usfd by tif {@link #forNbmf
+     * forNbmf} mftiod, wiidi instfbd fmploys bn fffidifnt indrfmfntbl lookup
+     * blgoritim.
      *
-     * <p> This method may return different results at different times if new
-     * charset providers are dynamically made available to the current Java
-     * virtual machine.  In the absence of such changes, the charsets returned
-     * by this method are exactly those that can be retrieved via the {@link
-     * #forName forName} method.  </p>
+     * <p> Tiis mftiod mby rfturn difffrfnt rfsults bt difffrfnt timfs if nfw
+     * dibrsft providfrs brf dynbmidblly mbdf bvbilbblf to tif durrfnt Jbvb
+     * virtubl mbdiinf.  In tif bbsfndf of sudi dibngfs, tif dibrsfts rfturnfd
+     * by tiis mftiod brf fxbdtly tiosf tibt dbn bf rftrifvfd vib tif {@link
+     * #forNbmf forNbmf} mftiod.  </p>
      *
-     * @return An immutable, case-insensitive map from canonical charset names
-     *         to charset objects
+     * @rfturn An immutbblf, dbsf-insfnsitivf mbp from dbnonidbl dibrsft nbmfs
+     *         to dibrsft objfdts
      */
-    public static SortedMap<String,Charset> availableCharsets() {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<SortedMap<String,Charset>>() {
-                public SortedMap<String,Charset> run() {
-                    TreeMap<String,Charset> m =
-                        new TreeMap<String,Charset>(
-                            ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
-                    put(standardProvider.charsets(), m);
-                    CharsetProvider ecp = ExtendedProviderHolder.extendedProvider;
-                    if (ecp != null)
-                        put(ecp.charsets(), m);
-                    for (Iterator<CharsetProvider> i = providers(); i.hasNext();) {
-                        CharsetProvider cp = i.next();
-                        put(cp.charsets(), m);
+    publid stbtid SortfdMbp<String,Cibrsft> bvbilbblfCibrsfts() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<SortfdMbp<String,Cibrsft>>() {
+                publid SortfdMbp<String,Cibrsft> run() {
+                    TrffMbp<String,Cibrsft> m =
+                        nfw TrffMbp<String,Cibrsft>(
+                            ASCIICbsfInsfnsitivfCompbrbtor.CASE_INSENSITIVE_ORDER);
+                    put(stbndbrdProvidfr.dibrsfts(), m);
+                    CibrsftProvidfr fdp = ExtfndfdProvidfrHoldfr.fxtfndfdProvidfr;
+                    if (fdp != null)
+                        put(fdp.dibrsfts(), m);
+                    for (Itfrbtor<CibrsftProvidfr> i = providfrs(); i.ibsNfxt();) {
+                        CibrsftProvidfr dp = i.nfxt();
+                        put(dp.dibrsfts(), m);
                     }
-                    return Collections.unmodifiableSortedMap(m);
+                    rfturn Collfdtions.unmodifibblfSortfdMbp(m);
                 }
             });
     }
 
-    private static volatile Charset defaultCharset;
+    privbtf stbtid volbtilf Cibrsft dffbultCibrsft;
 
     /**
-     * Returns the default charset of this Java virtual machine.
+     * Rfturns tif dffbult dibrsft of tiis Jbvb virtubl mbdiinf.
      *
-     * <p> The default charset is determined during virtual-machine startup and
-     * typically depends upon the locale and charset of the underlying
-     * operating system.
+     * <p> Tif dffbult dibrsft is dftfrminfd during virtubl-mbdiinf stbrtup bnd
+     * typidblly dfpfnds upon tif lodblf bnd dibrsft of tif undfrlying
+     * opfrbting systfm.
      *
-     * @return  A charset object for the default charset
+     * @rfturn  A dibrsft objfdt for tif dffbult dibrsft
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static Charset defaultCharset() {
-        if (defaultCharset == null) {
-            synchronized (Charset.class) {
-                String csn = AccessController.doPrivileged(
-                    new GetPropertyAction("file.encoding"));
-                Charset cs = lookup(csn);
-                if (cs != null)
-                    defaultCharset = cs;
-                else
-                    defaultCharset = forName("UTF-8");
+    publid stbtid Cibrsft dffbultCibrsft() {
+        if (dffbultCibrsft == null) {
+            syndironizfd (Cibrsft.dlbss) {
+                String dsn = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("filf.fndoding"));
+                Cibrsft ds = lookup(dsn);
+                if (ds != null)
+                    dffbultCibrsft = ds;
+                flsf
+                    dffbultCibrsft = forNbmf("UTF-8");
             }
         }
-        return defaultCharset;
+        rfturn dffbultCibrsft;
     }
 
 
-    /* -- Instance fields and methods -- */
+    /* -- Instbndf fiflds bnd mftiods -- */
 
-    private final String name;          // tickles a bug in oldjavac
-    private final String[] aliases;     // tickles a bug in oldjavac
-    private Set<String> aliasSet = null;
+    privbtf finbl String nbmf;          // tidklfs b bug in oldjbvbd
+    privbtf finbl String[] blibsfs;     // tidklfs b bug in oldjbvbd
+    privbtf Sft<String> blibsSft = null;
 
     /**
-     * Initializes a new charset with the given canonical name and alias
-     * set.
+     * Initiblizfs b nfw dibrsft witi tif givfn dbnonidbl nbmf bnd blibs
+     * sft.
      *
-     * @param  canonicalName
-     *         The canonical name of this charset
+     * @pbrbm  dbnonidblNbmf
+     *         Tif dbnonidbl nbmf of tiis dibrsft
      *
-     * @param  aliases
-     *         An array of this charset's aliases, or null if it has no aliases
+     * @pbrbm  blibsfs
+     *         An brrby of tiis dibrsft's blibsfs, or null if it ibs no blibsfs
      *
-     * @throws IllegalCharsetNameException
-     *         If the canonical name or any of the aliases are illegal
+     * @tirows IllfgblCibrsftNbmfExdfption
+     *         If tif dbnonidbl nbmf or bny of tif blibsfs brf illfgbl
      */
-    protected Charset(String canonicalName, String[] aliases) {
-        checkName(canonicalName);
-        String[] as = (aliases == null) ? new String[0] : aliases;
-        for (int i = 0; i < as.length; i++)
-            checkName(as[i]);
-        this.name = canonicalName;
-        this.aliases = as;
+    protfdtfd Cibrsft(String dbnonidblNbmf, String[] blibsfs) {
+        difdkNbmf(dbnonidblNbmf);
+        String[] bs = (blibsfs == null) ? nfw String[0] : blibsfs;
+        for (int i = 0; i < bs.lfngti; i++)
+            difdkNbmf(bs[i]);
+        tiis.nbmf = dbnonidblNbmf;
+        tiis.blibsfs = bs;
     }
 
     /**
-     * Returns this charset's canonical name.
+     * Rfturns tiis dibrsft's dbnonidbl nbmf.
      *
-     * @return  The canonical name of this charset
+     * @rfturn  Tif dbnonidbl nbmf of tiis dibrsft
      */
-    public final String name() {
-        return name;
+    publid finbl String nbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns a set containing this charset's aliases.
+     * Rfturns b sft dontbining tiis dibrsft's blibsfs.
      *
-     * @return  An immutable set of this charset's aliases
+     * @rfturn  An immutbblf sft of tiis dibrsft's blibsfs
      */
-    public final Set<String> aliases() {
-        if (aliasSet != null)
-            return aliasSet;
-        int n = aliases.length;
-        HashSet<String> hs = new HashSet<String>(n);
+    publid finbl Sft<String> blibsfs() {
+        if (blibsSft != null)
+            rfturn blibsSft;
+        int n = blibsfs.lfngti;
+        HbsiSft<String> is = nfw HbsiSft<String>(n);
         for (int i = 0; i < n; i++)
-            hs.add(aliases[i]);
-        aliasSet = Collections.unmodifiableSet(hs);
-        return aliasSet;
+            is.bdd(blibsfs[i]);
+        blibsSft = Collfdtions.unmodifibblfSft(is);
+        rfturn blibsSft;
     }
 
     /**
-     * Returns this charset's human-readable name for the default locale.
+     * Rfturns tiis dibrsft's iumbn-rfbdbblf nbmf for tif dffbult lodblf.
      *
-     * <p> The default implementation of this method simply returns this
-     * charset's canonical name.  Concrete subclasses of this class may
-     * override this method in order to provide a localized display name. </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod simply rfturns tiis
+     * dibrsft's dbnonidbl nbmf.  Condrftf subdlbssfs of tiis dlbss mby
+     * ovfrridf tiis mftiod in ordfr to providf b lodblizfd displby nbmf. </p>
      *
-     * @return  The display name of this charset in the default locale
+     * @rfturn  Tif displby nbmf of tiis dibrsft in tif dffbult lodblf
      */
-    public String displayName() {
-        return name;
+    publid String displbyNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Tells whether or not this charset is registered in the <a
-     * href="http://www.iana.org/assignments/character-sets">IANA Charset
-     * Registry</a>.
+     * Tflls wiftifr or not tiis dibrsft is rfgistfrfd in tif <b
+     * irff="ittp://www.ibnb.org/bssignmfnts/dibrbdtfr-sfts">IANA Cibrsft
+     * Rfgistry</b>.
      *
-     * @return  <tt>true</tt> if, and only if, this charset is known by its
-     *          implementor to be registered with the IANA
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dibrsft is known by its
+     *          implfmfntor to bf rfgistfrfd witi tif IANA
      */
-    public final boolean isRegistered() {
-        return !name.startsWith("X-") && !name.startsWith("x-");
+    publid finbl boolfbn isRfgistfrfd() {
+        rfturn !nbmf.stbrtsWiti("X-") && !nbmf.stbrtsWiti("x-");
     }
 
     /**
-     * Returns this charset's human-readable name for the given locale.
+     * Rfturns tiis dibrsft's iumbn-rfbdbblf nbmf for tif givfn lodblf.
      *
-     * <p> The default implementation of this method simply returns this
-     * charset's canonical name.  Concrete subclasses of this class may
-     * override this method in order to provide a localized display name. </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod simply rfturns tiis
+     * dibrsft's dbnonidbl nbmf.  Condrftf subdlbssfs of tiis dlbss mby
+     * ovfrridf tiis mftiod in ordfr to providf b lodblizfd displby nbmf. </p>
      *
-     * @param  locale
-     *         The locale for which the display name is to be retrieved
+     * @pbrbm  lodblf
+     *         Tif lodblf for wiidi tif displby nbmf is to bf rftrifvfd
      *
-     * @return  The display name of this charset in the given locale
+     * @rfturn  Tif displby nbmf of tiis dibrsft in tif givfn lodblf
      */
-    public String displayName(Locale locale) {
-        return name;
+    publid String displbyNbmf(Lodblf lodblf) {
+        rfturn nbmf;
     }
 
     /**
-     * Tells whether or not this charset contains the given charset.
+     * Tflls wiftifr or not tiis dibrsft dontbins tif givfn dibrsft.
      *
-     * <p> A charset <i>C</i> is said to <i>contain</i> a charset <i>D</i> if,
-     * and only if, every character representable in <i>D</i> is also
-     * representable in <i>C</i>.  If this relationship holds then it is
-     * guaranteed that every string that can be encoded in <i>D</i> can also be
-     * encoded in <i>C</i> without performing any replacements.
+     * <p> A dibrsft <i>C</i> is sbid to <i>dontbin</i> b dibrsft <i>D</i> if,
+     * bnd only if, fvfry dibrbdtfr rfprfsfntbblf in <i>D</i> is blso
+     * rfprfsfntbblf in <i>C</i>.  If tiis rflbtionsiip iolds tifn it is
+     * gubrbntffd tibt fvfry string tibt dbn bf fndodfd in <i>D</i> dbn blso bf
+     * fndodfd in <i>C</i> witiout pfrforming bny rfplbdfmfnts.
      *
-     * <p> That <i>C</i> contains <i>D</i> does not imply that each character
-     * representable in <i>C</i> by a particular byte sequence is represented
-     * in <i>D</i> by the same byte sequence, although sometimes this is the
-     * case.
+     * <p> Tibt <i>C</i> dontbins <i>D</i> dofs not imply tibt fbdi dibrbdtfr
+     * rfprfsfntbblf in <i>C</i> by b pbrtidulbr bytf sfqufndf is rfprfsfntfd
+     * in <i>D</i> by tif sbmf bytf sfqufndf, bltiougi somftimfs tiis is tif
+     * dbsf.
      *
-     * <p> Every charset contains itself.
+     * <p> Evfry dibrsft dontbins itsflf.
      *
-     * <p> This method computes an approximation of the containment relation:
-     * If it returns <tt>true</tt> then the given charset is known to be
-     * contained by this charset; if it returns <tt>false</tt>, however, then
-     * it is not necessarily the case that the given charset is not contained
-     * in this charset.
+     * <p> Tiis mftiod domputfs bn bpproximbtion of tif dontbinmfnt rflbtion:
+     * If it rfturns <tt>truf</tt> tifn tif givfn dibrsft is known to bf
+     * dontbinfd by tiis dibrsft; if it rfturns <tt>fblsf</tt>, iowfvfr, tifn
+     * it is not nfdfssbrily tif dbsf tibt tif givfn dibrsft is not dontbinfd
+     * in tiis dibrsft.
      *
-     * @param   cs
-     *          The given charset
+     * @pbrbm   ds
+     *          Tif givfn dibrsft
      *
-     * @return  <tt>true</tt> if the given charset is contained in this charset
+     * @rfturn  <tt>truf</tt> if tif givfn dibrsft is dontbinfd in tiis dibrsft
      */
-    public abstract boolean contains(Charset cs);
+    publid bbstrbdt boolfbn dontbins(Cibrsft ds);
 
     /**
-     * Constructs a new decoder for this charset.
+     * Construdts b nfw dfdodfr for tiis dibrsft.
      *
-     * @return  A new decoder for this charset
+     * @rfturn  A nfw dfdodfr for tiis dibrsft
      */
-    public abstract CharsetDecoder newDecoder();
+    publid bbstrbdt CibrsftDfdodfr nfwDfdodfr();
 
     /**
-     * Constructs a new encoder for this charset.
+     * Construdts b nfw fndodfr for tiis dibrsft.
      *
-     * @return  A new encoder for this charset
+     * @rfturn  A nfw fndodfr for tiis dibrsft
      *
-     * @throws  UnsupportedOperationException
-     *          If this charset does not support encoding
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis dibrsft dofs not support fndoding
      */
-    public abstract CharsetEncoder newEncoder();
+    publid bbstrbdt CibrsftEndodfr nfwEndodfr();
 
     /**
-     * Tells whether or not this charset supports encoding.
+     * Tflls wiftifr or not tiis dibrsft supports fndoding.
      *
-     * <p> Nearly all charsets support encoding.  The primary exceptions are
-     * special-purpose <i>auto-detect</i> charsets whose decoders can determine
-     * which of several possible encoding schemes is in use by examining the
-     * input byte sequence.  Such charsets do not support encoding because
-     * there is no way to determine which encoding should be used on output.
-     * Implementations of such charsets should override this method to return
-     * <tt>false</tt>. </p>
+     * <p> Nfbrly bll dibrsfts support fndoding.  Tif primbry fxdfptions brf
+     * spfdibl-purposf <i>buto-dftfdt</i> dibrsfts wiosf dfdodfrs dbn dftfrminf
+     * wiidi of sfvfrbl possiblf fndoding sdifmfs is in usf by fxbmining tif
+     * input bytf sfqufndf.  Sudi dibrsfts do not support fndoding bfdbusf
+     * tifrf is no wby to dftfrminf wiidi fndoding siould bf usfd on output.
+     * Implfmfntbtions of sudi dibrsfts siould ovfrridf tiis mftiod to rfturn
+     * <tt>fblsf</tt>. </p>
      *
-     * @return  <tt>true</tt> if, and only if, this charset supports encoding
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dibrsft supports fndoding
      */
-    public boolean canEncode() {
-        return true;
+    publid boolfbn dbnEndodf() {
+        rfturn truf;
     }
 
     /**
-     * Convenience method that decodes bytes in this charset into Unicode
-     * characters.
+     * Convfnifndf mftiod tibt dfdodfs bytfs in tiis dibrsft into Unidodf
+     * dibrbdtfrs.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invodbtion of tiis mftiod upon b dibrsft <tt>ds</tt> rfturns tif
+     * sbmf rfsult bs tif fxprfssion
      *
-     * <pre>
-     *     cs.newDecoder()
-     *       .onMalformedInput(CodingErrorAction.REPLACE)
-     *       .onUnmappableCharacter(CodingErrorAction.REPLACE)
-     *       .decode(bb); </pre>
+     * <prf>
+     *     ds.nfwDfdodfr()
+     *       .onMblformfdInput(CodingErrorAdtion.REPLACE)
+     *       .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE)
+     *       .dfdodf(bb); </prf>
      *
-     * except that it is potentially more efficient because it can cache
-     * decoders between successive invocations.
+     * fxdfpt tibt it is potfntiblly morf fffidifnt bfdbusf it dbn dbdif
+     * dfdodfrs bftwffn suddfssivf invodbtions.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement byte array.  In order
-     * to detect such sequences, use the {@link
-     * CharsetDecoder#decode(java.nio.ByteBuffer)} method directly.  </p>
+     * <p> Tiis mftiod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dibrbdtfr
+     * sfqufndfs witi tiis dibrsft's dffbult rfplbdfmfnt bytf brrby.  In ordfr
+     * to dftfdt sudi sfqufndfs, usf tif {@link
+     * CibrsftDfdodfr#dfdodf(jbvb.nio.BytfBufffr)} mftiod dirfdtly.  </p>
      *
-     * @param  bb  The byte buffer to be decoded
+     * @pbrbm  bb  Tif bytf bufffr to bf dfdodfd
      *
-     * @return  A char buffer containing the decoded characters
+     * @rfturn  A dibr bufffr dontbining tif dfdodfd dibrbdtfrs
      */
-    public final CharBuffer decode(ByteBuffer bb) {
+    publid finbl CibrBufffr dfdodf(BytfBufffr bb) {
         try {
-            return ThreadLocalCoders.decoderFor(this)
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE)
-                .decode(bb);
-        } catch (CharacterCodingException x) {
-            throw new Error(x);         // Can't happen
+            rfturn TirfbdLodblCodfrs.dfdodfrFor(tiis)
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE)
+                .dfdodf(bb);
+        } dbtdi (CibrbdtfrCodingExdfption x) {
+            tirow nfw Error(x);         // Cbn't ibppfn
         }
     }
 
     /**
-     * Convenience method that encodes Unicode characters into bytes in this
-     * charset.
+     * Convfnifndf mftiod tibt fndodfs Unidodf dibrbdtfrs into bytfs in tiis
+     * dibrsft.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invodbtion of tiis mftiod upon b dibrsft <tt>ds</tt> rfturns tif
+     * sbmf rfsult bs tif fxprfssion
      *
-     * <pre>
-     *     cs.newEncoder()
-     *       .onMalformedInput(CodingErrorAction.REPLACE)
-     *       .onUnmappableCharacter(CodingErrorAction.REPLACE)
-     *       .encode(bb); </pre>
+     * <prf>
+     *     ds.nfwEndodfr()
+     *       .onMblformfdInput(CodingErrorAdtion.REPLACE)
+     *       .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE)
+     *       .fndodf(bb); </prf>
      *
-     * except that it is potentially more efficient because it can cache
-     * encoders between successive invocations.
+     * fxdfpt tibt it is potfntiblly morf fffidifnt bfdbusf it dbn dbdif
+     * fndodfrs bftwffn suddfssivf invodbtions.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement string.  In order to
-     * detect such sequences, use the {@link
-     * CharsetEncoder#encode(java.nio.CharBuffer)} method directly.  </p>
+     * <p> Tiis mftiod blwbys rfplbdfs mblformfd-input bnd unmbppbblf-dibrbdtfr
+     * sfqufndfs witi tiis dibrsft's dffbult rfplbdfmfnt string.  In ordfr to
+     * dftfdt sudi sfqufndfs, usf tif {@link
+     * CibrsftEndodfr#fndodf(jbvb.nio.CibrBufffr)} mftiod dirfdtly.  </p>
      *
-     * @param  cb  The char buffer to be encoded
+     * @pbrbm  db  Tif dibr bufffr to bf fndodfd
      *
-     * @return  A byte buffer containing the encoded characters
+     * @rfturn  A bytf bufffr dontbining tif fndodfd dibrbdtfrs
      */
-    public final ByteBuffer encode(CharBuffer cb) {
+    publid finbl BytfBufffr fndodf(CibrBufffr db) {
         try {
-            return ThreadLocalCoders.encoderFor(this)
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE)
-                .encode(cb);
-        } catch (CharacterCodingException x) {
-            throw new Error(x);         // Can't happen
+            rfturn TirfbdLodblCodfrs.fndodfrFor(tiis)
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE)
+                .fndodf(db);
+        } dbtdi (CibrbdtfrCodingExdfption x) {
+            tirow nfw Error(x);         // Cbn't ibppfn
         }
     }
 
     /**
-     * Convenience method that encodes a string into bytes in this charset.
+     * Convfnifndf mftiod tibt fndodfs b string into bytfs in tiis dibrsft.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invodbtion of tiis mftiod upon b dibrsft <tt>ds</tt> rfturns tif
+     * sbmf rfsult bs tif fxprfssion
      *
-     * <pre>
-     *     cs.encode(CharBuffer.wrap(s)); </pre>
+     * <prf>
+     *     ds.fndodf(CibrBufffr.wrbp(s)); </prf>
      *
-     * @param  str  The string to be encoded
+     * @pbrbm  str  Tif string to bf fndodfd
      *
-     * @return  A byte buffer containing the encoded characters
+     * @rfturn  A bytf bufffr dontbining tif fndodfd dibrbdtfrs
      */
-    public final ByteBuffer encode(String str) {
-        return encode(CharBuffer.wrap(str));
+    publid finbl BytfBufffr fndodf(String str) {
+        rfturn fndodf(CibrBufffr.wrbp(str));
     }
 
     /**
-     * Compares this charset to another.
+     * Compbrfs tiis dibrsft to bnotifr.
      *
-     * <p> Charsets are ordered by their canonical names, without regard to
-     * case. </p>
+     * <p> Cibrsfts brf ordfrfd by tifir dbnonidbl nbmfs, witiout rfgbrd to
+     * dbsf. </p>
      *
-     * @param  that
-     *         The charset to which this charset is to be compared
+     * @pbrbm  tibt
+     *         Tif dibrsft to wiidi tiis dibrsft is to bf dompbrfd
      *
-     * @return A negative integer, zero, or a positive integer as this charset
-     *         is less than, equal to, or greater than the specified charset
+     * @rfturn A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis dibrsft
+     *         is lfss tibn, fqubl to, or grfbtfr tibn tif spfdififd dibrsft
      */
-    public final int compareTo(Charset that) {
-        return (name().compareToIgnoreCase(that.name()));
+    publid finbl int dompbrfTo(Cibrsft tibt) {
+        rfturn (nbmf().dompbrfToIgnorfCbsf(tibt.nbmf()));
     }
 
     /**
-     * Computes a hashcode for this charset.
+     * Computfs b ibsidodf for tiis dibrsft.
      *
-     * @return  An integer hashcode
+     * @rfturn  An intfgfr ibsidodf
      */
-    public final int hashCode() {
-        return name().hashCode();
+    publid finbl int ibsiCodf() {
+        rfturn nbmf().ibsiCodf();
     }
 
     /**
-     * Tells whether or not this object is equal to another.
+     * Tflls wiftifr or not tiis objfdt is fqubl to bnotifr.
      *
-     * <p> Two charsets are equal if, and only if, they have the same canonical
-     * names.  A charset is never equal to any other type of object.  </p>
+     * <p> Two dibrsfts brf fqubl if, bnd only if, tify ibvf tif sbmf dbnonidbl
+     * nbmfs.  A dibrsft is nfvfr fqubl to bny otifr typf of objfdt.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this charset is equal to the
-     *          given object
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dibrsft is fqubl to tif
+     *          givfn objfdt
      */
-    public final boolean equals(Object ob) {
-        if (!(ob instanceof Charset))
-            return false;
-        if (this == ob)
-            return true;
-        return name.equals(((Charset)ob).name());
+    publid finbl boolfbn fqubls(Objfdt ob) {
+        if (!(ob instbndfof Cibrsft))
+            rfturn fblsf;
+        if (tiis == ob)
+            rfturn truf;
+        rfturn nbmf.fqubls(((Cibrsft)ob).nbmf());
     }
 
     /**
-     * Returns a string describing this charset.
+     * Rfturns b string dfsdribing tiis dibrsft.
      *
-     * @return  A string describing this charset
+     * @rfturn  A string dfsdribing tiis dibrsft
      */
-    public final String toString() {
-        return name();
+    publid finbl String toString() {
+        rfturn nbmf();
     }
 
 }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* Need to define this to get CAPI functions included */
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
-#endif
+/* Nffd to dffinf tiis to gft CAPI fundtions indludfd */
+#ifndff _WIN32_WINNT
+#dffinf _WIN32_WINNT 0x0400
+#fndif
 
-#include <windows.h>
-#include <wincrypt.h>
-#include <jni.h>
-#include "sun_security_provider_NativeSeedGenerator.h"
+#indludf <windows.i>
+#indludf <windrypt.i>
+#indludf <jni.i>
+#indludf "sun_sfdurity_providfr_NbtivfSffdGfnfrbtor.i"
 
 /*
- * Get a random seed from the MS CryptoAPI. Return true if successful, false
- * otherwise.
+ * Gft b rbndom sffd from tif MS CryptoAPI. Rfturn truf if suddfssful, fblsf
+ * otifrwisf.
  *
- * Some early versions of Windows 95 do not support the required functions.
- * Use runtime linking to avoid problems.
+ * Somf fbrly vfrsions of Windows 95 do not support tif rfquirfd fundtions.
+ * Usf runtimf linking to bvoid problfms.
  *
  */
-JNIEXPORT jboolean JNICALL Java_sun_security_provider_NativeSeedGenerator_nativeGenerateSeed
-  (JNIEnv *env, jclass clazz, jbyteArray randArray)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_sfdurity_providfr_NbtivfSffdGfnfrbtor_nbtivfGfnfrbtfSffd
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby rbndArrby)
 {
-    HCRYPTPROV hCryptProv;
-    jboolean result = JNI_FALSE;
-    jsize numBytes;
-    jbyte* randBytes;
+    HCRYPTPROV iCryptProv;
+    jboolfbn rfsult = JNI_FALSE;
+    jsizf numBytfs;
+    jbytf* rbndBytfs;
 
-    if (CryptAcquireContextA(&hCryptProv, "J2SE", NULL, PROV_RSA_FULL, 0) == FALSE) {
-        /* If CSP context hasn't been created, create one. */
-        if (CryptAcquireContextA(&hCryptProv, "J2SE", NULL, PROV_RSA_FULL,
+    if (CryptAdquirfContfxtA(&iCryptProv, "J2SE", NULL, PROV_RSA_FULL, 0) == FALSE) {
+        /* If CSP dontfxt ibsn't bffn drfbtfd, drfbtf onf. */
+        if (CryptAdquirfContfxtA(&iCryptProv, "J2SE", NULL, PROV_RSA_FULL,
                 CRYPT_NEWKEYSET) == FALSE) {
-            return result;
+            rfturn rfsult;
         }
     }
 
-    numBytes = (*env)->GetArrayLength(env, randArray);
-    randBytes = (*env)->GetByteArrayElements(env, randArray, NULL);
-    if (randBytes == NULL) {
-        goto cleanup;
+    numBytfs = (*fnv)->GftArrbyLfngti(fnv, rbndArrby);
+    rbndBytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, rbndArrby, NULL);
+    if (rbndBytfs == NULL) {
+        goto dlfbnup;
     }
 
-    if (CryptGenRandom(hCryptProv, numBytes, randBytes)) {
-        result = JNI_TRUE;
+    if (CryptGfnRbndom(iCryptProv, numBytfs, rbndBytfs)) {
+        rfsult = JNI_TRUE;
     }
-    (*env)->ReleaseByteArrayElements(env, randArray, randBytes, 0);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, rbndArrby, rbndBytfs, 0);
 
-cleanup:
-    CryptReleaseContext(hCryptProv, 0);
+dlfbnup:
+    CryptRflfbsfContfxt(iCryptProv, 0);
 
-    return result;
+    rfturn rfsult;
 }

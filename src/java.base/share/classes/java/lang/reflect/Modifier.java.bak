@@ -1,494 +1,494 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import java.security.AccessController;
-import java.util.StringJoiner;
-import sun.reflect.LangReflectAccess;
-import sun.reflect.ReflectionFactory;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.StringJoinfr;
+import sun.rfflfdt.LbngRfflfdtAddfss;
+import sun.rfflfdt.RfflfdtionFbdtory;
 
 /**
- * The Modifier class provides {@code static} methods and
- * constants to decode class and member access modifiers.  The sets of
- * modifiers are represented as integers with distinct bit positions
- * representing different modifiers.  The values for the constants
- * representing the modifiers are taken from the tables in sections 4.1, 4.4, 4.5, and 4.7 of
- * <cite>The Java&trade; Virtual Machine Specification</cite>.
+ * Tif Modififr dlbss providfs {@dodf stbtid} mftiods bnd
+ * donstbnts to dfdodf dlbss bnd mfmbfr bddfss modififrs.  Tif sfts of
+ * modififrs brf rfprfsfntfd bs intfgfrs witi distindt bit positions
+ * rfprfsfnting difffrfnt modififrs.  Tif vblufs for tif donstbnts
+ * rfprfsfnting tif modififrs brf tbkfn from tif tbblfs in sfdtions 4.1, 4.4, 4.5, bnd 4.7 of
+ * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
  *
- * @see Class#getModifiers()
- * @see Member#getModifiers()
+ * @sff Clbss#gftModififrs()
+ * @sff Mfmbfr#gftModififrs()
  *
- * @author Nakul Saraiya
- * @author Kenneth Russell
+ * @butior Nbkul Sbrbiyb
+ * @butior Kfnnfti Russfll
  */
-public class Modifier {
+publid dlbss Modififr {
 
     /*
-     * Bootstrapping protocol between java.lang and java.lang.reflect
-     *  packages
+     * Bootstrbpping protodol bftwffn jbvb.lbng bnd jbvb.lbng.rfflfdt
+     *  pbdkbgfs
      */
-    static {
-        sun.reflect.ReflectionFactory factory =
-            AccessController.doPrivileged(
-                new ReflectionFactory.GetReflectionFactoryAction());
-        factory.setLangReflectAccess(new java.lang.reflect.ReflectAccess());
+    stbtid {
+        sun.rfflfdt.RfflfdtionFbdtory fbdtory =
+            AddfssControllfr.doPrivilfgfd(
+                nfw RfflfdtionFbdtory.GftRfflfdtionFbdtoryAdtion());
+        fbdtory.sftLbngRfflfdtAddfss(nfw jbvb.lbng.rfflfdt.RfflfdtAddfss());
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code public} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf publid} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code public} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf publid} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isPublic(int mod) {
-        return (mod & PUBLIC) != 0;
+    publid stbtid boolfbn isPublid(int mod) {
+        rfturn (mod & PUBLIC) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code private} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf privbtf} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code private} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf privbtf} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isPrivate(int mod) {
-        return (mod & PRIVATE) != 0;
+    publid stbtid boolfbn isPrivbtf(int mod) {
+        rfturn (mod & PRIVATE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code protected} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf protfdtfd} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code protected} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf protfdtfd} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isProtected(int mod) {
-        return (mod & PROTECTED) != 0;
+    publid stbtid boolfbn isProtfdtfd(int mod) {
+        rfturn (mod & PROTECTED) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code static} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf stbtid} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code static} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf stbtid} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isStatic(int mod) {
-        return (mod & STATIC) != 0;
+    publid stbtid boolfbn isStbtid(int mod) {
+        rfturn (mod & STATIC) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code final} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf finbl} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code final} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf finbl} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isFinal(int mod) {
-        return (mod & FINAL) != 0;
+    publid stbtid boolfbn isFinbl(int mod) {
+        rfturn (mod & FINAL) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code synchronized} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf syndironizfd} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code synchronized} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf syndironizfd} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isSynchronized(int mod) {
-        return (mod & SYNCHRONIZED) != 0;
+    publid stbtid boolfbn isSyndironizfd(int mod) {
+        rfturn (mod & SYNCHRONIZED) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code volatile} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf volbtilf} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code volatile} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf volbtilf} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isVolatile(int mod) {
-        return (mod & VOLATILE) != 0;
+    publid stbtid boolfbn isVolbtilf(int mod) {
+        rfturn (mod & VOLATILE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code transient} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf trbnsifnt} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code transient} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf trbnsifnt} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isTransient(int mod) {
-        return (mod & TRANSIENT) != 0;
+    publid stbtid boolfbn isTrbnsifnt(int mod) {
+        rfturn (mod & TRANSIENT) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code native} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf nbtivf} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code native} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf nbtivf} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isNative(int mod) {
-        return (mod & NATIVE) != 0;
+    publid stbtid boolfbn isNbtivf(int mod) {
+        rfturn (mod & NATIVE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code interface} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf intfrfbdf} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code interface} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf intfrfbdf} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isInterface(int mod) {
-        return (mod & INTERFACE) != 0;
+    publid stbtid boolfbn isIntfrfbdf(int mod) {
+        rfturn (mod & INTERFACE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code abstract} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf bbstrbdt} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code abstract} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf bbstrbdt} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isAbstract(int mod) {
-        return (mod & ABSTRACT) != 0;
+    publid stbtid boolfbn isAbstrbdt(int mod) {
+        rfturn (mod & ABSTRACT) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code strictfp} modifier, {@code false} otherwise.
+     * Rfturn {@dodf truf} if tif intfgfr brgumfnt indludfs tif
+     * {@dodf stridtfp} modififr, {@dodf fblsf} otifrwisf.
      *
-     * @param   mod a set of modifiers
-     * @return {@code true} if {@code mod} includes the
-     * {@code strictfp} modifier; {@code false} otherwise.
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn {@dodf truf} if {@dodf mod} indludfs tif
+     * {@dodf stridtfp} modififr; {@dodf fblsf} otifrwisf.
      */
-    public static boolean isStrict(int mod) {
-        return (mod & STRICT) != 0;
+    publid stbtid boolfbn isStridt(int mod) {
+        rfturn (mod & STRICT) != 0;
     }
 
     /**
-     * Return a string describing the access modifier flags in
-     * the specified modifier. For example:
-     * <blockquote><pre>
-     *    public final synchronized strictfp
-     * </pre></blockquote>
-     * The modifier names are returned in an order consistent with the
-     * suggested modifier orderings given in sections 8.1.1, 8.3.1, 8.4.3, 8.8.3, and 9.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
-     * The full modifier ordering used by this method is:
-     * <blockquote> {@code
-     * public protected private abstract static final transient
-     * volatile synchronized native strictfp
-     * interface } </blockquote>
-     * The {@code interface} modifier discussed in this class is
-     * not a true modifier in the Java language and it appears after
-     * all other modifiers listed by this method.  This method may
-     * return a string of modifiers that are not valid modifiers of a
-     * Java entity; in other words, no checking is done on the
-     * possible validity of the combination of modifiers represented
-     * by the input.
+     * Rfturn b string dfsdribing tif bddfss modififr flbgs in
+     * tif spfdififd modififr. For fxbmplf:
+     * <blodkquotf><prf>
+     *    publid finbl syndironizfd stridtfp
+     * </prf></blodkquotf>
+     * Tif modififr nbmfs brf rfturnfd in bn ordfr donsistfnt witi tif
+     * suggfstfd modififr ordfrings givfn in sfdtions 8.1.1, 8.3.1, 8.4.3, 8.8.3, bnd 9.1.1 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+     * Tif full modififr ordfring usfd by tiis mftiod is:
+     * <blodkquotf> {@dodf
+     * publid protfdtfd privbtf bbstrbdt stbtid finbl trbnsifnt
+     * volbtilf syndironizfd nbtivf stridtfp
+     * intfrfbdf } </blodkquotf>
+     * Tif {@dodf intfrfbdf} modififr disdussfd in tiis dlbss is
+     * not b truf modififr in tif Jbvb lbngubgf bnd it bppfbrs bftfr
+     * bll otifr modififrs listfd by tiis mftiod.  Tiis mftiod mby
+     * rfturn b string of modififrs tibt brf not vblid modififrs of b
+     * Jbvb fntity; in otifr words, no difdking is donf on tif
+     * possiblf vblidity of tif dombinbtion of modififrs rfprfsfntfd
+     * by tif input.
      *
-     * Note that to perform such checking for a known kind of entity,
-     * such as a constructor or method, first AND the argument of
-     * {@code toString} with the appropriate mask from a method like
-     * {@link #constructorModifiers} or {@link #methodModifiers}.
+     * Notf tibt to pfrform sudi difdking for b known kind of fntity,
+     * sudi bs b donstrudtor or mftiod, first AND tif brgumfnt of
+     * {@dodf toString} witi tif bppropribtf mbsk from b mftiod likf
+     * {@link #donstrudtorModififrs} or {@link #mftiodModififrs}.
      *
-     * @param   mod a set of modifiers
-     * @return  a string representation of the set of modifiers
-     * represented by {@code mod}
+     * @pbrbm   mod b sft of modififrs
+     * @rfturn  b string rfprfsfntbtion of tif sft of modififrs
+     * rfprfsfntfd by {@dodf mod}
      */
-    public static String toString(int mod) {
-        StringJoiner sj = new StringJoiner(" ");
+    publid stbtid String toString(int mod) {
+        StringJoinfr sj = nfw StringJoinfr(" ");
 
-        if ((mod & PUBLIC) != 0)        sj.add("public");
-        if ((mod & PROTECTED) != 0)     sj.add("protected");
-        if ((mod & PRIVATE) != 0)       sj.add("private");
+        if ((mod & PUBLIC) != 0)        sj.bdd("publid");
+        if ((mod & PROTECTED) != 0)     sj.bdd("protfdtfd");
+        if ((mod & PRIVATE) != 0)       sj.bdd("privbtf");
 
-        /* Canonical order */
-        if ((mod & ABSTRACT) != 0)      sj.add("abstract");
-        if ((mod & STATIC) != 0)        sj.add("static");
-        if ((mod & FINAL) != 0)         sj.add("final");
-        if ((mod & TRANSIENT) != 0)     sj.add("transient");
-        if ((mod & VOLATILE) != 0)      sj.add("volatile");
-        if ((mod & SYNCHRONIZED) != 0)  sj.add("synchronized");
-        if ((mod & NATIVE) != 0)        sj.add("native");
-        if ((mod & STRICT) != 0)        sj.add("strictfp");
-        if ((mod & INTERFACE) != 0)     sj.add("interface");
+        /* Cbnonidbl ordfr */
+        if ((mod & ABSTRACT) != 0)      sj.bdd("bbstrbdt");
+        if ((mod & STATIC) != 0)        sj.bdd("stbtid");
+        if ((mod & FINAL) != 0)         sj.bdd("finbl");
+        if ((mod & TRANSIENT) != 0)     sj.bdd("trbnsifnt");
+        if ((mod & VOLATILE) != 0)      sj.bdd("volbtilf");
+        if ((mod & SYNCHRONIZED) != 0)  sj.bdd("syndironizfd");
+        if ((mod & NATIVE) != 0)        sj.bdd("nbtivf");
+        if ((mod & STRICT) != 0)        sj.bdd("stridtfp");
+        if ((mod & INTERFACE) != 0)     sj.bdd("intfrfbdf");
 
-        return sj.toString();
+        rfturn sj.toString();
     }
 
     /*
-     * Access modifier flag constants from tables 4.1, 4.4, 4.5, and 4.7 of
-     * <cite>The Java&trade; Virtual Machine Specification</cite>
+     * Addfss modififr flbg donstbnts from tbblfs 4.1, 4.4, 4.5, bnd 4.7 of
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
      */
 
     /**
-     * The {@code int} value representing the {@code public}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf publid}
+     * modififr.
      */
-    public static final int PUBLIC           = 0x00000001;
+    publid stbtid finbl int PUBLIC           = 0x00000001;
 
     /**
-     * The {@code int} value representing the {@code private}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf privbtf}
+     * modififr.
      */
-    public static final int PRIVATE          = 0x00000002;
+    publid stbtid finbl int PRIVATE          = 0x00000002;
 
     /**
-     * The {@code int} value representing the {@code protected}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf protfdtfd}
+     * modififr.
      */
-    public static final int PROTECTED        = 0x00000004;
+    publid stbtid finbl int PROTECTED        = 0x00000004;
 
     /**
-     * The {@code int} value representing the {@code static}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf stbtid}
+     * modififr.
      */
-    public static final int STATIC           = 0x00000008;
+    publid stbtid finbl int STATIC           = 0x00000008;
 
     /**
-     * The {@code int} value representing the {@code final}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf finbl}
+     * modififr.
      */
-    public static final int FINAL            = 0x00000010;
+    publid stbtid finbl int FINAL            = 0x00000010;
 
     /**
-     * The {@code int} value representing the {@code synchronized}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf syndironizfd}
+     * modififr.
      */
-    public static final int SYNCHRONIZED     = 0x00000020;
+    publid stbtid finbl int SYNCHRONIZED     = 0x00000020;
 
     /**
-     * The {@code int} value representing the {@code volatile}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf volbtilf}
+     * modififr.
      */
-    public static final int VOLATILE         = 0x00000040;
+    publid stbtid finbl int VOLATILE         = 0x00000040;
 
     /**
-     * The {@code int} value representing the {@code transient}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf trbnsifnt}
+     * modififr.
      */
-    public static final int TRANSIENT        = 0x00000080;
+    publid stbtid finbl int TRANSIENT        = 0x00000080;
 
     /**
-     * The {@code int} value representing the {@code native}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf nbtivf}
+     * modififr.
      */
-    public static final int NATIVE           = 0x00000100;
+    publid stbtid finbl int NATIVE           = 0x00000100;
 
     /**
-     * The {@code int} value representing the {@code interface}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf intfrfbdf}
+     * modififr.
      */
-    public static final int INTERFACE        = 0x00000200;
+    publid stbtid finbl int INTERFACE        = 0x00000200;
 
     /**
-     * The {@code int} value representing the {@code abstract}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf bbstrbdt}
+     * modififr.
      */
-    public static final int ABSTRACT         = 0x00000400;
+    publid stbtid finbl int ABSTRACT         = 0x00000400;
 
     /**
-     * The {@code int} value representing the {@code strictfp}
-     * modifier.
+     * Tif {@dodf int} vbluf rfprfsfnting tif {@dodf stridtfp}
+     * modififr.
      */
-    public static final int STRICT           = 0x00000800;
+    publid stbtid finbl int STRICT           = 0x00000800;
 
-    // Bits not (yet) exposed in the public API either because they
-    // have different meanings for fields and methods and there is no
-    // way to distinguish between the two in this class, or because
-    // they are not Java programming language keywords
-    static final int BRIDGE    = 0x00000040;
-    static final int VARARGS   = 0x00000080;
-    static final int SYNTHETIC = 0x00001000;
-    static final int ANNOTATION  = 0x00002000;
-    static final int ENUM      = 0x00004000;
-    static final int MANDATED  = 0x00008000;
-    static boolean isSynthetic(int mod) {
-      return (mod & SYNTHETIC) != 0;
+    // Bits not (yft) fxposfd in tif publid API fitifr bfdbusf tify
+    // ibvf difffrfnt mfbnings for fiflds bnd mftiods bnd tifrf is no
+    // wby to distinguisi bftwffn tif two in tiis dlbss, or bfdbusf
+    // tify brf not Jbvb progrbmming lbngubgf kfywords
+    stbtid finbl int BRIDGE    = 0x00000040;
+    stbtid finbl int VARARGS   = 0x00000080;
+    stbtid finbl int SYNTHETIC = 0x00001000;
+    stbtid finbl int ANNOTATION  = 0x00002000;
+    stbtid finbl int ENUM      = 0x00004000;
+    stbtid finbl int MANDATED  = 0x00008000;
+    stbtid boolfbn isSyntiftid(int mod) {
+      rfturn (mod & SYNTHETIC) != 0;
     }
 
-    static boolean isMandated(int mod) {
-      return (mod & MANDATED) != 0;
+    stbtid boolfbn isMbndbtfd(int mod) {
+      rfturn (mod & MANDATED) != 0;
     }
 
-    // Note on the FOO_MODIFIERS fields and fooModifiers() methods:
-    // the sets of modifiers are not guaranteed to be constants
-    // across time and Java SE releases. Therefore, it would not be
-    // appropriate to expose an external interface to this information
-    // that would allow the values to be treated as Java-level
-    // constants since the values could be constant folded and updates
-    // to the sets of modifiers missed. Thus, the fooModifiers()
-    // methods return an unchanging values for a given release, but a
-    // value that can potentially change over time.
+    // Notf on tif FOO_MODIFIERS fiflds bnd fooModififrs() mftiods:
+    // tif sfts of modififrs brf not gubrbntffd to bf donstbnts
+    // bdross timf bnd Jbvb SE rflfbsfs. Tifrfforf, it would not bf
+    // bppropribtf to fxposf bn fxtfrnbl intfrfbdf to tiis informbtion
+    // tibt would bllow tif vblufs to bf trfbtfd bs Jbvb-lfvfl
+    // donstbnts sindf tif vblufs dould bf donstbnt foldfd bnd updbtfs
+    // to tif sfts of modififrs missfd. Tius, tif fooModififrs()
+    // mftiods rfturn bn undibnging vblufs for b givfn rflfbsf, but b
+    // vbluf tibt dbn potfntiblly dibngf ovfr timf.
 
     /**
-     * The Java source modifiers that can be applied to a class.
-     * @jls 8.1.1 Class Modifiers
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to b dlbss.
+     * @jls 8.1.1 Clbss Modififrs
      */
-    private static final int CLASS_MODIFIERS =
-        Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
-        Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.FINAL   |
-        Modifier.STRICT;
+    privbtf stbtid finbl int CLASS_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.FINAL   |
+        Modififr.STRICT;
 
     /**
-     * The Java source modifiers that can be applied to an interface.
-     * @jls 9.1.1 Interface Modifiers
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to bn intfrfbdf.
+     * @jls 9.1.1 Intfrfbdf Modififrs
      */
-    private static final int INTERFACE_MODIFIERS =
-        Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
-        Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.STRICT;
+    privbtf stbtid finbl int INTERFACE_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.STRICT;
 
 
     /**
-     * The Java source modifiers that can be applied to a constructor.
-     * @jls 8.8.3 Constructor Modifiers
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to b donstrudtor.
+     * @jls 8.8.3 Construdtor Modififrs
      */
-    private static final int CONSTRUCTOR_MODIFIERS =
-        Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE;
+    privbtf stbtid finbl int CONSTRUCTOR_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE;
 
     /**
-     * The Java source modifiers that can be applied to a method.
-     * @jls8.4.3  Method Modifiers
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to b mftiod.
+     * @jls8.4.3  Mftiod Modififrs
      */
-    private static final int METHOD_MODIFIERS =
-        Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
-        Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.FINAL   |
-        Modifier.SYNCHRONIZED   | Modifier.NATIVE       | Modifier.STRICT;
+    privbtf stbtid finbl int METHOD_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.ABSTRACT       | Modififr.STATIC       | Modififr.FINAL   |
+        Modififr.SYNCHRONIZED   | Modififr.NATIVE       | Modififr.STRICT;
 
     /**
-     * The Java source modifiers that can be applied to a field.
-     * @jls 8.3.1  Field Modifiers
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to b fifld.
+     * @jls 8.3.1  Fifld Modififrs
      */
-    private static final int FIELD_MODIFIERS =
-        Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
-        Modifier.STATIC         | Modifier.FINAL        | Modifier.TRANSIENT |
-        Modifier.VOLATILE;
+    privbtf stbtid finbl int FIELD_MODIFIERS =
+        Modififr.PUBLIC         | Modififr.PROTECTED    | Modififr.PRIVATE |
+        Modififr.STATIC         | Modififr.FINAL        | Modififr.TRANSIENT |
+        Modififr.VOLATILE;
 
     /**
-     * The Java source modifiers that can be applied to a method or constructor parameter.
-     * @jls 8.4.1 Formal Parameters
+     * Tif Jbvb sourdf modififrs tibt dbn bf bpplifd to b mftiod or donstrudtor pbrbmftfr.
+     * @jls 8.4.1 Formbl Pbrbmftfrs
      */
-    private static final int PARAMETER_MODIFIERS =
-        Modifier.FINAL;
+    privbtf stbtid finbl int PARAMETER_MODIFIERS =
+        Modififr.FINAL;
 
     /**
      *
      */
-    static final int ACCESS_MODIFIERS =
-        Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
+    stbtid finbl int ACCESS_MODIFIERS =
+        Modififr.PUBLIC | Modififr.PROTECTED | Modififr.PRIVATE;
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a class.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a class.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b dlbss.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b dlbss.
      *
-     * @jls 8.1.1 Class Modifiers
-     * @since 1.7
+     * @jls 8.1.1 Clbss Modififrs
+     * @sindf 1.7
      */
-    public static int classModifiers() {
-        return CLASS_MODIFIERS;
+    publid stbtid int dlbssModififrs() {
+        rfturn CLASS_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to an interface.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to an interface.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to bn intfrfbdf.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to bn intfrfbdf.
      *
-     * @jls 9.1.1 Interface Modifiers
-     * @since 1.7
+     * @jls 9.1.1 Intfrfbdf Modififrs
+     * @sindf 1.7
      */
-    public static int interfaceModifiers() {
-        return INTERFACE_MODIFIERS;
+    publid stbtid int intfrfbdfModififrs() {
+        rfturn INTERFACE_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a constructor.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a constructor.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b donstrudtor.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b donstrudtor.
      *
-     * @jls 8.8.3 Constructor Modifiers
-     * @since 1.7
+     * @jls 8.8.3 Construdtor Modififrs
+     * @sindf 1.7
      */
-    public static int constructorModifiers() {
-        return CONSTRUCTOR_MODIFIERS;
+    publid stbtid int donstrudtorModififrs() {
+        rfturn CONSTRUCTOR_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a method.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a method.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b mftiod.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b mftiod.
      *
-     * @jls 8.4.3 Method Modifiers
-     * @since 1.7
+     * @jls 8.4.3 Mftiod Modififrs
+     * @sindf 1.7
      */
-    public static int methodModifiers() {
-        return METHOD_MODIFIERS;
+    publid stbtid int mftiodModififrs() {
+        rfturn METHOD_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a field.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a field.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b fifld.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b fifld.
      *
-     * @jls 8.3.1 Field Modifiers
-     * @since 1.7
+     * @jls 8.3.1 Fifld Modififrs
+     * @sindf 1.7
      */
-    public static int fieldModifiers() {
-        return FIELD_MODIFIERS;
+    publid stbtid int fifldModififrs() {
+        rfturn FIELD_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a parameter.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a parameter.
+     * Rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b pbrbmftfr.
+     * @rfturn bn {@dodf int} vbluf OR-ing togftifr tif sourdf lbngubgf
+     * modififrs tibt dbn bf bpplifd to b pbrbmftfr.
      *
-     * @jls 8.4.1 Formal Parameters
-     * @since 1.8
+     * @jls 8.4.1 Formbl Pbrbmftfrs
+     * @sindf 1.8
      */
-    public static int parameterModifiers() {
-        return PARAMETER_MODIFIERS;
+    publid stbtid int pbrbmftfrModififrs() {
+        rfturn PARAMETER_MODIFIERS;
     }
 }

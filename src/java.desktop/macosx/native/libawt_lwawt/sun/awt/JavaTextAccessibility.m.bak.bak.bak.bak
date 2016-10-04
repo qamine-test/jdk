@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "JbvbTfxtAddfssibility.h"
+#import "JbvbAddfssibilityAdtion.h"
+#import "JbvbAddfssibilityUtilitifs.h"
+#import "ThrfbdUtilitifs.h"
+
+
+stbtid JNF_CLASS_CACHE(sjd_CAddfssiblfTfxt, "sun/lwbwt/mbdosx/CAddfssiblfTfxt");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfTfxt, sjd_CAddfssibility, "gftAddfssiblfTfxt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfTfxt;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfEditbblfTfxt, sjd_CAddfssiblfTfxt, "gftAddfssiblfEditbblfTfxt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvbx/bddfssibility/AddfssiblfEditbblfTfxt;");
+stbtid JNF_STATIC_MEMBER_CACHE(sjm_gftAddfssiblfNbmf, sjd_CAddfssibility, "gftAddfssiblfNbmf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+
+/*
+ * Convfrts bn int brrby to bn NSRbngf wrbppfd insidf bn NSVbluf
+ * tbkfs [stbrt, fnd] vblufs bnd rfturns [stbrt, fnd - stbrt]
+ */
+NSVbluf *jbvbIntArrbyToNSRbngfVbluf(JNIEnv* fnv, jintArrby brrby) {
+    jint *vblufs = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, 0);
+    if (vblufs == NULL) {
+        // Notf: Jbvb will not bf on thf stbdk hfrf so b jbvb fxdfption dbn't hbppfn bnd no nffd to dbll ExdfptionChfdk.
+        NSLog(@"%s fbilfd dblling GftIntArrbyElfmfnts", __FUNCTION__);
+        rfturn nil;
+    };
+    NSVbluf *vbluf = [NSVbluf vblufWithRbngf:NSMbkfRbngf(vblufs[0], vblufs[1] - vblufs[0])];
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, vblufs, 0);
+    rfturn vbluf;
+}
+
+@implfmfntbtion JbvbTfxtAddfssibility
+
+// bbsfd strongly upon NSTfxtVifwAddfssibility:bddfssibilityAttributfNbmfs
+- (NSArrby *)initiblizfAttributfNbmfsWithEnv:(JNIEnv *)fnv
+{
+    stbtid NSArrby *bttributfs = nil;
+
+    if (bttributfs == nil) {
+        //APPKIT_LOCK;
+        if (bttributfs == nil) {
+            NSMutbblfArrby *tfmp = [[supfr initiblizfAttributfNbmfsWithEnv:fnv] mutbblfCopy];
+            //[tfmp rfmovfObjfdt:NSAddfssibilityTitlfAttributf]; // titlf mby hbvf bffn sft in thf supfrdlbss implfmfntbtion - somf stbtid tfxt rfports from jbvb thbt it hbs b nbmf
+            [tfmp bddObjfdtsFromArrby:[NSArrby brrbyWithObjfdts:
+                NSAddfssibilityVblufAttributf,
+                NSAddfssibilitySflfdtfdTfxtAttributf,
+                NSAddfssibilitySflfdtfdTfxtRbngfAttributf,
+                NSAddfssibilityNumbfrOfChbrbdtfrsAttributf,
+                NSAddfssibilityVisiblfChbrbdtfrRbngfAttributf,
+                NSAddfssibilityInsfrtionPointLinfNumbfrAttributf,
+                //    NSAddfssibilityShbrfdTfxtUIElfmfntsAttributf, // dmdnotf: invfstigbtf whbt thfsf two brf for. durrfntly unimplfmfntfd
+                //    NSAddfssibilityShbrfdChbrbdtfrRbngfAttributf,
+                nil]];
+            bttributfs = [[NSArrby bllod] initWithArrby:tfmp];
+            [tfmp rflfbsf];
+        }
+        //APPKIT_UNLOCK;
+    }
+    rfturn bttributfs;
+}
+
+// dopifd from NSTfxtVifwAddfssibility.
+- (NSArrby *)bddfssibilityPbrbmftfrizfdAttributfNbmfs
+{
+    stbtid NSArrby *bttributfs = nil;
+
+    if (bttributfs == nil) {
+        //APPKIT_LOCK;
+        if (bttributfs == nil) {
+            bttributfs = [[NSArrby bllod] initWithObjfdts:
+                NSAddfssibilityLinfForIndfxPbrbmftfrizfdAttributf,
+                NSAddfssibilityRbngfForLinfPbrbmftfrizfdAttributf,
+                NSAddfssibilityStringForRbngfPbrbmftfrizfdAttributf,
+                NSAddfssibilityRbngfForPositionPbrbmftfrizfdAttributf,
+                NSAddfssibilityRbngfForIndfxPbrbmftfrizfdAttributf,
+                NSAddfssibilityBoundsForRbngfPbrbmftfrizfdAttributf,
+                //NSAddfssibilityRTFForRbngfPbrbmftfrizfdAttributf, // dmdnotf: not surf whfn/how thfsf thrff brf usfd. Invfstigbtf. rbdr://3960026
+                //NSAddfssibilityStylfRbngfForIndfxPbrbmftfrizfdAttributf,
+                //NSAddfssibilityAttributfdStringForRbngfPbrbmftfrizfdAttributf,
+                nil];
+        }
+        //APPKIT_UNLOCK;
+    }
+    rfturn bttributfs;
+}
+
+- (NSString *)bddfssibilityVblufAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    if ([[sflf bddfssibilityRolfAttributf] isEqublToString:NSAddfssibilityStbtidTfxtRolf]) {
+        // if it's stbtid tfxt, thf AppKit AXVbluf is thf jbvb bddfssiblfNbmf
+        jobjfdt bxNbmf = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfNbmf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+        if (bxNbmf != NULL) {
+            rfturn JNFJbvbToNSString(fnv, bxNbmf);
+        }
+        // vbluf is still nil if no bddfssiblfNbmf for stbtid tfxt. Bflow, try to gft thf bddfssiblfTfxt.
+    }
+
+    // dmdnotf: infffidifnt to mbkf thrff distindt JNI dblls. Coblfsdf. rbdr://3951923
+    jobjfdt bxTfxt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfTfxt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxt == NULL) rfturn nil;
+
+    jobjfdt bxEditbblfTfxt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfEditbblfTfxt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxEditbblfTfxt == NULL) rfturn nil;
+
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftTfxtRbngf, sjd_CAddfssiblfTfxt, "gftTfxtRbngf", "(Ljbvbx/bddfssibility/AddfssiblfEditbblfTfxt;IILjbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+    NSString *string = JNFJbvbToNSString(fnv, JNFCbllStbtidObjfdtMfthod(fnv, jm_gftTfxtRbngf, bxEditbblfTfxt, 0, gftAxTfxtChbrCount(fnv, bxEditbblfTfxt, fComponfnt), fComponfnt)); // AWT_THREADING Sbff (AWTRunLoop)
+    if (string == nil) string = @"";
+    rfturn string;
+}
+
+- (BOOL)bddfssibilityIsVblufAttributfSfttbblf
+{
+    // if tfxt is fnbblfd bnd fditbblf, it's sfttbblf (bddording to NSCfllTfxtAttributfsAddfssibility)
+    BOOL isEnbblfd = [(NSNumbfr *)[sflf bddfssibilityEnbblfdAttributf] boolVbluf];
+    if (!isEnbblfd) rfturn NO;
+
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxEditbblfTfxt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfEditbblfTfxt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxEditbblfTfxt == NULL) rfturn NO;
+    rfturn YES;
+}
+
+- (void)bddfssibilitySftVblufAttributf:(id)vbluf
+{
+// dmdnotf: should sft thf bddfssiblfEditbblfTfxt to thf stringVbluf of vbluf - AddfssiblfEditbblfTfxt.sftTfxtContfnts(String s)
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Not yft implfmfntfd: %s\n", __FUNCTION__); // rbdr://3954018
+#fndif
+}
+
+// Currfntly sflfdtfd tfxt (NSString)
+- (NSString *)bddfssibilitySflfdtfdTfxtAttributf
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftSflfdtfdTfxt, sjd_CAddfssiblfTfxt, "gftSflfdtfdTfxt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
+    jobjfdt bxTfxt = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftSflfdtfdTfxt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxt == NULL) rfturn @"";
+    rfturn JNFJbvbToNSString(fnv, bxTfxt);
+}
+
+- (BOOL)bddfssibilityIsSflfdtfdTfxtAttributfSfttbblf
+{
+    rfturn YES; //dmdnotf: for AXTfxtFifld thbt's sflfdtbblf, it's sfttbblf. Invfstigbtf furthfr.
+}
+
+- (void)bddfssibilitySftSflfdtfdTfxtAttributf:(id)vbluf
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (![vbluf isKindOfClbss:[NSString dlbss]]) {
+        JbvbAddfssibilityRbisfSftAttributfToIllfgblTypfExdfption(__FUNCTION__, sflf, NSAddfssibilitySflfdtfdTfxtAttributf, vbluf);
+        rfturn;
+    }
+#fndif
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jstring jstringVbluf = JNFNSToJbvbString(fnv, (NSString *)vbluf);
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_sftSflfdtfdTfxt, sjd_CAddfssiblfTfxt, "sftSflfdtfdTfxt", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;Ljbvb/lbng/String;)V");
+    JNFCbllStbtidVoidMfthod(fnv, jm_sftSflfdtfdTfxt, fAddfssiblf, fComponfnt, jstringVbluf); // AWT_THREADING Sbff (AWTRunLoop)
+}
+
+// Rbngf of sflfdtfd tfxt (NSVbluf)
+- (NSVbluf *)bddfssibilitySflfdtfdTfxtRbngfAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftSflfdtfdTfxtRbngf, sjd_CAddfssiblfTfxt, "gftSflfdtfdTfxtRbngf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)[I");
+    jintArrby bxTfxtRbngf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftSflfdtfdTfxtRbngf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxtRbngf == NULL) rfturn nil;
+
+    rfturn jbvbIntArrbyToNSRbngfVbluf(fnv, bxTfxtRbngf);
+}
+
+- (BOOL)bddfssibilityIsSflfdtfdTfxtRbngfAttributfSfttbblf
+{
+    rfturn [(NSNumbfr *)[sflf bddfssibilityEnbblfdAttributf] boolVbluf]; // dmdnotf: blso mby wbnt to find out if isSflfdtbblf. Invfstigbtf.
+}
+
+- (void)bddfssibilitySftSflfdtfdTfxtRbngfAttributf:(id)vbluf
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (!([vbluf isKindOfClbss:[NSVbluf dlbss]] && strdmp([(NSVbluf *)vbluf objCTypf], @fndodf(NSRbngf)) == 0)) {
+        JbvbAddfssibilityRbisfSftAttributfToIllfgblTypfExdfption(__FUNCTION__, sflf, NSAddfssibilitySflfdtfdTfxtRbngfAttributf, vbluf);
+        rfturn;
+    }
+#fndif
+
+    NSRbngf rbngf = [(NSVbluf *)vbluf rbngfVbluf];
+    jint stbrtIndfx = rbngf.lodbtion;
+    jint fndIndfx = stbrtIndfx + rbngf.lfngth;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_sftSflfdtfdTfxtRbngf, sjd_CAddfssiblfTfxt, "sftSflfdtfdTfxtRbngf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;II)V");
+    JNFCbllStbtidVoidMfthod(fnv, jm_sftSflfdtfdTfxtRbngf, fAddfssiblf, fComponfnt, stbrtIndfx, fndIndfx); // AWT_THREADING Sbff (AWTRunLoop)
+}
+
+- (NSNumbfr *)bddfssibilityNumbfrOfChbrbdtfrsAttributf
+{
+    // dmdnotf: should doblfsdf thfsf two dblls - rbdr://3951923
+    // blso, stbtid tfxt dofsn't blwbys hbvf bddfssiblfTfxt. if bxTfxt is null, should gft thf dhbrdount of thf bddfssiblfNbmf instfbd
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt bxTfxt = JNFCbllStbtidObjfdtMfthod(fnv, sjm_gftAddfssiblfTfxt, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    rfturn [NSNumbfr numbfrWithInt:gftAxTfxtChbrCount(fnv, bxTfxt, fComponfnt)];
+}
+
+- (BOOL)bddfssibilityIsNumbfrOfChbrbdtfrsAttributfSfttbblf
+{
+    rfturn NO; // bddording to NSTfxtVifwAddfssibility.m bnd NSCfllTfxtAttributfsAddfssibility.m
+}
+
+- (NSVbluf *)bddfssibilityVisiblfChbrbdtfrRbngfAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftVisiblfChbrbdtfrRbngf, sjd_CAddfssiblfTfxt, "gftVisiblfChbrbdtfrRbngf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)[I");
+    jintArrby bxTfxtRbngf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftVisiblfChbrbdtfrRbngf, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxtRbngf == NULL) rfturn nil;
+
+    rfturn jbvbIntArrbyToNSRbngfVbluf(fnv, bxTfxtRbngf);
+}
+
+- (BOOL)bddfssibilityIsVisiblfChbrbdtfrRbngfAttributfSfttbblf
+{
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Not yft implfmfntfd: %s\n", __FUNCTION__);
+#fndif
+    rfturn NO;
+}
+
+- (NSVbluf *)bddfssibilityInsfrtionPointLinfNumbfrAttributf
+{
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftLinfNumbfrForInsfrtionPoint, sjd_CAddfssiblfTfxt, "gftLinfNumbfrForInsfrtionPoint", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;)I");
+    jint row = JNFCbllStbtidIntMfthod(fnv, jm_gftLinfNumbfrForInsfrtionPoint, fAddfssiblf, fComponfnt); // AWT_THREADING Sbff (AWTRunLoop)
+    if (row < 0) rfturn nil;
+    rfturn [NSNumbfr numbfrWithInt:row];
+}
+
+- (BOOL)bddfssibilityIsInsfrtionPointLinfNumbfrAttributfSfttbblf
+{
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Not yft implfmfntfd: %s\n", __FUNCTION__);
+#fndif
+    rfturn NO;
+}
+
+// pbrbmftfrizfd bttributfs
+
+//
+// Usbgf of bddfssibilityBoundsForRbngfAttributfForPbrbmftfr:
+// ---
+// dbllfd by VoidfOvfr whfn intfrbdting with tfxt vib dtrl-option-shift-downArrow.
+// Nffd to know bounding box for thf dhbrbdtfr / word / linf of intfrfst in
+// ordfr to drbw VoidfOvfr dursor
+//
+- (NSVbluf *)bddfssibilityBoundsForRbngfAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (!([pbrbmftfr isKindOfClbss:[NSVbluf dlbss]] && strdmp([(NSVbluf *)pbrbmftfr objCTypf], @fndodf(NSRbngf)) == 0)) {
+        JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(__FUNCTION__, sflf, NSAddfssibilityBoundsForRbngfPbrbmftfrizfdAttributf, pbrbmftfr);
+        rfturn nil;
+    }
+#fndif
+
+    NSRbngf rbngf = [(NSVbluf *)pbrbmftfr rbngfVbluf];
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftBoundsForRbngf, sjd_CAddfssiblfTfxt, "gftBoundsForRbngf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;II)[D");
+    jdoublfArrby bxBounds = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftBoundsForRbngf, fAddfssiblf, fComponfnt, rbngf.lodbtion, rbngf.lfngth); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxBounds == NULL) rfturn nil;
+
+    // Wf dhfbt bfdbusf wf know thbt thf brrby is 4 flfmfnts long (x, y, width, hfight)
+    jdoublf *vblufs = (*fnv)->GftDoublfArrbyElfmfnts(fnv, bxBounds, 0);
+    if (vblufs == NULL) {
+        // Notf: Jbvb will not bf on thf stbdk hfrf so b jbvb fxdfption dbn't hbppfn bnd no nffd to dbll ExdfptionChfdk.
+        NSLog(@"%s fbilfd dblling GftDoublfArrbyElfmfnts", __FUNCTION__); 
+        rfturn nil;
+    };
+    NSRfdt bounds;
+    bounds.origin.x = vblufs[0];
+    bounds.origin.y = [[[[sflf vifw] window] sdrffn] frbmf].sizf.hfight - vblufs[1] - vblufs[3]; //vblufs[1] is y-doord from top-lfft of sdrffn. Flip. Addount for thf hfight (vblufs[3]) whfn flipping
+    bounds.sizf.width = vblufs[2];
+    bounds.sizf.hfight = vblufs[3];
+    NSVbluf *rfsult = [NSVbluf vblufWithRfdt:bounds];
+    (*fnv)->RflfbsfDoublfArrbyElfmfnts(fnv, bxBounds, vblufs, 0);
+    rfturn rfsult;
+}
+
+- (NSNumbfr *)bddfssibilityLinfForIndfxAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+    NSNumbfr *linf = (NSNumbfr *) pbrbmftfr;
+    if (linf == nil) rfturn nil;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftLinfNumbfrForIndfx, sjd_CAddfssiblfTfxt, "gftLinfNumbfrForIndfx", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;I)I");
+    jint row = JNFCbllStbtidIntMfthod(fnv, jm_gftLinfNumbfrForIndfx, fAddfssiblf, fComponfnt, [linf intVbluf]); // AWT_THREADING Sbff (AWTRunLoop)
+    if (row < 0) rfturn nil;
+    rfturn [NSNumbfr numbfrWithInt:row];
+}
+
+- (NSVbluf *)bddfssibilityRbngfForLinfAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+    NSNumbfr *linf = (NSNumbfr *) pbrbmftfr;
+    if (linf == nil) rfturn nil;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftRbngfForLinf, sjd_CAddfssiblfTfxt, "gftRbngfForLinf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;I)[I");
+    jintArrby bxTfxtRbngf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftRbngfForLinf, fAddfssiblf, fComponfnt, [linf intVbluf]); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxtRbngf == NULL) rfturn nil;
+
+    rfturn jbvbIntArrbyToNSRbngfVbluf(fnv,bxTfxtRbngf);
+}
+
+//
+// Usbgf of bddfssibilityStringForRbngfAttributfForPbrbmftfr:
+// ---
+// dbllfd by VoidfOvfr whfn intfrbdting with tfxt vib dtrl-option-shift-downArrow.
+// VO nffds to know thf pbrtidulbr string its durrfntly dfbling with so it dbn
+// spfbk thf string
+//
+- (NSString *)bddfssibilityStringForRbngfAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (!([pbrbmftfr isKindOfClbss:[NSVbluf dlbss]] && strdmp([(NSVbluf *)pbrbmftfr objCTypf], @fndodf(NSRbngf)) == 0)) {
+        JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(__FUNCTION__, sflf, NSAddfssibilityBoundsForRbngfPbrbmftfrizfdAttributf, pbrbmftfr);
+        rfturn nil;
+    }
+#fndif
+
+    NSRbngf rbngf = [(NSVbluf *)pbrbmftfr rbngfVbluf];
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftStringForRbngf, sjd_CAddfssiblfTfxt, "gftStringForRbngf", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;II)Ljbvb/lbng/String;");
+    jstring jstringForRbngf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftStringForRbngf, fAddfssiblf, fComponfnt, rbngf.lodbtion, rbngf.lfngth); // AWT_THREADING Sbff (AWTRunLoop)
+
+    if (jstringForRbngf == NULL) rfturn @"";
+    rfturn JNFJbvbToNSString(fnv, jstringForRbngf);
+}
+
+//
+// Usbgf of bddfssibilityRbngfForPositionAttributfForPbrbmftfr:
+// ---
+// dmdnotf: I'm not surf whfn this is dbllfd / how it's usfd. Invfstigbtf.
+// probbbly dould bf usfd in b spfdibl tfxt-only bddfssibilityHitTfst to
+// find thf indfx of thf string undfr thf mousf?
+//
+- (NSVbluf *)bddfssibilityRbngfForPositionAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (!([pbrbmftfr isKindOfClbss:[NSVbluf dlbss]] && strdmp([(NSVbluf *)pbrbmftfr objCTypf], @fndodf(NSPoint)) == 0)) {
+        JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(__FUNCTION__, sflf, NSAddfssibilityRbngfForPositionPbrbmftfrizfdAttributf, pbrbmftfr);
+        rfturn nil;
+    }
+#fndif
+
+    NSPoint point = [(NSVbluf *)pbrbmftfr pointVbluf]; // point is in sdrffn doords
+    point.y = [[[[sflf vifw] window] sdrffn] frbmf].sizf.hfight - point.y; // flip into jbvb sdrffn doords (0 is bt uppfr-lfft dornfr of sdrffn)
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftChbrbdtfrIndfxAtPosition, sjd_CAddfssiblfTfxt, "gftChbrbdtfrIndfxAtPosition", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;II)I");
+    jint dhbrIndfx = JNFCbllStbtidIntMfthod(fnv, jm_gftChbrbdtfrIndfxAtPosition, fAddfssiblf, fComponfnt, point.x, point.y); // AWT_THREADING Sbff (AWTRunLoop)
+    if (dhbrIndfx == -1) rfturn nil;
+
+    // AddfssiblfTfxt.gftIndfxAtPoint rfturns -1 for bn invblid point
+    NSRbngf rbngf = NSMbkfRbngf(dhbrIndfx, 1); //rbngf's lfngth is 1 - onf-dhbrbdtfr rbngf
+    rfturn [NSVbluf vblufWithRbngf:rbngf];
+}
+
+//
+// Usbgf of bddfssibilityRbngfForIndfxAttributfForPbrbmftfr:
+// ---
+// dmdnotf: I'm not surf whfn this is dbllfd / how it's usfd. Invfstigbtf.
+// AppKit vfrsion dblls: [string rbngfOfComposfdChbrbdtfrSfqufndfAtIndfx:indfx]
+// Wf dbll: CAddfssibility.gftRbngfForIndfx, whidh dblls AddfssiblfTfxt.gftAtIndfx(AddfssiblfTfxt.WORD, indfx)
+// to dftfrminf thf word dlosfst to thf givfn indfx. Thfn wf find thf lfngth/lodbtion of this string.
+//
+- (NSVbluf *)bddfssibilityRbngfForIndfxAttributfForPbrbmftfr:(id)pbrbmftfr
+{
+#ifdff JAVA_AX_DEBUG_PARMS
+    if (![pbrbmftfr isKindOfClbss:[NSNumbfr dlbss]]) {
+        JbvbAddfssibilityRbisfIllfgblPbrbmftfrTypfExdfption(__FUNCTION__, sflf, NSAddfssibilityRbngfForIndfxPbrbmftfrizfdAttributf, pbrbmftfr);
+        rfturn nil;
+    }
+#fndif
+
+    NSUIntfgfr indfx = [(NSNumbfr *)pbrbmftfr unsignfdIntfgfrVbluf];
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftRbngfForIndfx, sjd_CAddfssiblfTfxt, "gftRbngfForIndfx", "(Ljbvbx/bddfssibility/Addfssiblf;Ljbvb/bwt/Componfnt;I)[I");
+    jintArrby bxTfxtRbngf = JNFCbllStbtidObjfdtMfthod(fnv, jm_gftRbngfForIndfx, fAddfssiblf, fComponfnt, indfx); // AWT_THREADING Sbff (AWTRunLoop)
+    if (bxTfxtRbngf == NULL) rfturn nil;
+
+    rfturn jbvbIntArrbyToNSRbngfVbluf(fnv, bxTfxtRbngf);
+}
+
+- (NSDidtionbry *)gftAdtions:(JNIEnv *)fnv {
+    // dmdnotf: this isn't dorrfdt; tfxt dbn hbvf bdtions. Not yft implfmfntfd. rbdr://3941691
+    // Editbblf tfxt hbs AXShowMfnu. Tfxtfiflds hbvf AXConfirm. Stbtid tfxt hbs no bdtions.
+#ifdff JAVA_AX_DEBUG
+    NSLog(@"Not yft implfmfntfd: %s\n", __FUNCTION__);
+#fndif
+    rfturn nil;
+}
+
+@fnd

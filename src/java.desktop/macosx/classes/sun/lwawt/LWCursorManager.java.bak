@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Point;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Point;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
 
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
 
-public abstract class LWCursorManager {
+publid bbstrbdt dlbss LWCursorMbnbgfr {
 
     /**
-     * A flag to indicate if the update is scheduled, so we don't process it
-     * twice.
+     * A flbg to indidbtf if tif updbtf is sdifdulfd, so wf don't prodfss it
+     * twidf.
      */
-    private final AtomicBoolean updatePending = new AtomicBoolean(false);
+    privbtf finbl AtomidBoolfbn updbtfPfnding = nfw AtomidBoolfbn(fblsf);
 
-    protected LWCursorManager() {
+    protfdtfd LWCursorMbnbgfr() {
     }
 
     /**
-     * Sets the cursor to correspond the component currently under mouse.
+     * Sfts tif dursor to dorrfspond tif domponfnt durrfntly undfr mousf.
      *
-     * This method should not be executed on the toolkit thread as it
-     * calls to user code (e.g. Container.findComponentAt).
+     * Tiis mftiod siould not bf fxfdutfd on tif toolkit tirfbd bs it
+     * dblls to usfr dodf (f.g. Contbinfr.findComponfntAt).
      */
-    public final void updateCursor() {
-        updatePending.set(false);
-        updateCursorImpl();
+    publid finbl void updbtfCursor() {
+        updbtfPfnding.sft(fblsf);
+        updbtfCursorImpl();
     }
 
     /**
-     * Schedules updating the cursor on the corresponding event dispatch
-     * thread for the given window.
+     * Sdifdulfs updbting tif dursor on tif dorrfsponding fvfnt dispbtdi
+     * tirfbd for tif givfn window.
      *
-     * This method is called on the toolkit thread as a result of a
-     * native update cursor request (e.g. WM_SETCURSOR on Windows).
+     * Tiis mftiod is dbllfd on tif toolkit tirfbd bs b rfsult of b
+     * nbtivf updbtf dursor rfqufst (f.g. WM_SETCURSOR on Windows).
      */
-    public final void updateCursorLater(final LWWindowPeer window) {
-        if (updatePending.compareAndSet(false, true)) {
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    updateCursor();
+    publid finbl void updbtfCursorLbtfr(finbl LWWindowPffr window) {
+        if (updbtfPfnding.dompbrfAndSft(fblsf, truf)) {
+            Runnbblf r = nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    updbtfCursor();
                 }
             };
-            SunToolkit.executeOnEventHandlerThread(window.getTarget(), r);
+            SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(window.gftTbrgft(), r);
         }
     }
 
-    private void updateCursorImpl() {
-        final Point cursorPos = getCursorPosition();
-        final Component c = findComponent(cursorPos);
-        final Cursor cursor;
-        final Object peer = LWToolkit.targetToPeer(c);
-        if (peer instanceof LWComponentPeer) {
-            final LWComponentPeer<?, ?> lwpeer = (LWComponentPeer<?, ?>) peer;
-            final Point p = lwpeer.getLocationOnScreen();
-            cursor = lwpeer.getCursor(new Point(cursorPos.x - p.x,
-                                                cursorPos.y - p.y));
-        } else {
-            cursor = (c != null) ? c.getCursor() : null;
+    privbtf void updbtfCursorImpl() {
+        finbl Point dursorPos = gftCursorPosition();
+        finbl Componfnt d = findComponfnt(dursorPos);
+        finbl Cursor dursor;
+        finbl Objfdt pffr = LWToolkit.tbrgftToPffr(d);
+        if (pffr instbndfof LWComponfntPffr) {
+            finbl LWComponfntPffr<?, ?> lwpffr = (LWComponfntPffr<?, ?>) pffr;
+            finbl Point p = lwpffr.gftLodbtionOnSdrffn();
+            dursor = lwpffr.gftCursor(nfw Point(dursorPos.x - p.x,
+                                                dursorPos.y - p.y));
+        } flsf {
+            dursor = (d != null) ? d.gftCursor() : null;
         }
-        setCursor(cursor);
+        sftCursor(dursor);
     }
 
     /**
-     * Returns the first visible, enabled and showing component under cursor.
-     * Returns null for modal blocked windows.
+     * Rfturns tif first visiblf, fnbblfd bnd siowing domponfnt undfr dursor.
+     * Rfturns null for modbl blodkfd windows.
      *
-     * @param cursorPos Current cursor position.
-     * @return Component or null.
+     * @pbrbm dursorPos Currfnt dursor position.
+     * @rfturn Componfnt or null.
      */
-    private static final Component findComponent(final Point cursorPos) {
-        final LWComponentPeer<?, ?> peer = LWWindowPeer.getPeerUnderCursor();
-        Component c = null;
-        if (peer != null && peer.getWindowPeerOrSelf().getBlocker() == null) {
-            c = peer.getTarget();
-            if (c instanceof Container) {
-                final Point p = peer.getLocationOnScreen();
-                c = AWTAccessor.getContainerAccessor().findComponentAt(
-                    (Container) c, cursorPos.x - p.x, cursorPos.y - p.y, false);
+    privbtf stbtid finbl Componfnt findComponfnt(finbl Point dursorPos) {
+        finbl LWComponfntPffr<?, ?> pffr = LWWindowPffr.gftPffrUndfrCursor();
+        Componfnt d = null;
+        if (pffr != null && pffr.gftWindowPffrOrSflf().gftBlodkfr() == null) {
+            d = pffr.gftTbrgft();
+            if (d instbndfof Contbinfr) {
+                finbl Point p = pffr.gftLodbtionOnSdrffn();
+                d = AWTAddfssor.gftContbinfrAddfssor().findComponfntAt(
+                    (Contbinfr) d, dursorPos.x - p.x, dursorPos.y - p.y, fblsf);
 
             }
-            while (c != null) {
-                final Object p = AWTAccessor.getComponentAccessor().getPeer(c);
-                if (c.isVisible() && c.isEnabled() && p != null) {
-                    break;
+            wiilf (d != null) {
+                finbl Objfdt p = AWTAddfssor.gftComponfntAddfssor().gftPffr(d);
+                if (d.isVisiblf() && d.isEnbblfd() && p != null) {
+                    brfbk;
                 }
-                c = c.getParent();
+                d = d.gftPbrfnt();
             }
         }
-        return c;
+        rfturn d;
     }
 
     /**
-     * Returns the current cursor position.
+     * Rfturns tif durrfnt dursor position.
      */
-    // TODO: make it public to reuse for MouseInfo
-    protected abstract Point getCursorPosition();
+    // TODO: mbkf it publid to rfusf for MousfInfo
+    protfdtfd bbstrbdt Point gftCursorPosition();
 
     /**
-     * Sets a cursor. The cursor can be null if the mouse is not over a Java
+     * Sfts b dursor. Tif dursor dbn bf null if tif mousf is not ovfr b Jbvb
      * window.
-     * @param cursor the new {@code Cursor}.
+     * @pbrbm dursor tif nfw {@dodf Cursor}.
      */
-    protected abstract void setCursor(Cursor cursor);
+    protfdtfd bbstrbdt void sftCursor(Cursor dursor);
 }

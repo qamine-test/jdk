@@ -1,0 +1,732 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.DbtbgrbmSodkft;
+import jbvb.nft.DbtbgrbmPbdkft;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvbx.nbming.*;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+// Somf of this dodf bfgbn liff bs pbrt of sun.jbvbos.nft.DnsClifnt
+// originblly by sritdhif@fng 1/96.  It wbs first hbdkfd up for JNDI
+// usf by dbvfh@fng 6/97.
+
+
+/**
+ * Thf DnsClifnt dlbss pfrforms DNS dlifnt opfrbtions in support of DnsContfxt.
+ *
+ */
+
+publid dlbss DnsClifnt {
+
+    // DNS pbdkft hfbdfr fifld offsfts
+    privbtf stbtid finbl int IDENT_OFFSET = 0;
+    privbtf stbtid finbl int FLAGS_OFFSET = 2;
+    privbtf stbtid finbl int NUMQ_OFFSET  = 4;
+    privbtf stbtid finbl int NUMANS_OFFSET = 6;
+    privbtf stbtid finbl int NUMAUTH_OFFSET = 8;
+    privbtf stbtid finbl int NUMADD_OFFSET = 10;
+    privbtf stbtid finbl int DNS_HDR_SIZE = 12;
+
+    // DNS rfsponsf dodfs
+    privbtf stbtid finbl int NO_ERROR       = 0;
+    privbtf stbtid finbl int FORMAT_ERROR   = 1;
+    privbtf stbtid finbl int SERVER_FAILURE = 2;
+    privbtf stbtid finbl int NAME_ERROR     = 3;
+    privbtf stbtid finbl int NOT_IMPL       = 4;
+    privbtf stbtid finbl int REFUSED        = 5;
+
+    privbtf stbtid finbl String[] rdodfDfsdription = {
+        "No frror",
+        "DNS formbt frror",
+        "DNS sfrvfr fbilurf",
+        "DNS nbmf not found",
+        "DNS opfrbtion not supportfd",
+        "DNS sfrvidf rffusfd"
+    };
+
+    privbtf stbtid finbl int DEFAULT_PORT = 53;
+    privbtf stbtid finbl int TRANSACTION_ID_BOUND = 0x10000;
+    privbtf stbtid finbl SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+    privbtf InftAddrfss[] sfrvfrs;
+    privbtf int[] sfrvfrPorts;
+    privbtf int timfout;                // initibl timfout on UDP qufrifs in ms
+    privbtf int rftrifs;                // numbfr of UDP rftrifs
+
+    privbtf DbtbgrbmSodkft udpSodkft;
+
+    // Rfqufsts sfnt
+    privbtf Mbp<Intfgfr, RfsourdfRfdord> rfqs;
+
+    // Rfsponsfs rfdfivfd
+    privbtf Mbp<Intfgfr, bytf[]> rfsps;
+
+    //-------------------------------------------------------------------------
+
+    /*
+     * Ebdh sfrvfr is of thf form "sfrvfr[:port]".  IPv6 litfrbl host nbmfs
+     * indludf dflimiting brbdkfts.
+     * "timfout" is thf initibl timfout intfrvbl (in ms) for UDP qufrifs,
+     * bnd "rftrifs" givfs thf numbfr of rftrifs pfr sfrvfr.
+     */
+    publid DnsClifnt(String[] sfrvfrs, int timfout, int rftrifs)
+            throws NbmingExdfption {
+        this.timfout = timfout;
+        this.rftrifs = rftrifs;
+        try {
+            udpSodkft = nfw DbtbgrbmSodkft();
+        } dbtdh (jbvb.nft.SodkftExdfption f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption();
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+
+        this.sfrvfrs = nfw InftAddrfss[sfrvfrs.lfngth];
+        sfrvfrPorts = nfw int[sfrvfrs.lfngth];
+
+        for (int i = 0; i < sfrvfrs.lfngth; i++) {
+
+            // Is optionbl port givfn?
+            int dolon = sfrvfrs[i].indfxOf(':',
+                                           sfrvfrs[i].indfxOf(']') + 1);
+
+            sfrvfrPorts[i] = (dolon < 0)
+                ? DEFAULT_PORT
+                : Intfgfr.pbrsfInt(sfrvfrs[i].substring(dolon + 1));
+            String sfrvfr = (dolon < 0)
+                ? sfrvfrs[i]
+                : sfrvfrs[i].substring(0, dolon);
+            try {
+                this.sfrvfrs[i] = InftAddrfss.gftByNbmf(sfrvfr);
+            } dbtdh (jbvb.nft.UnknownHostExdfption f) {
+                NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                        "Unknown DNS sfrvfr: " + sfrvfr);
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+        }
+        rfqs = Collfdtions.syndhronizfdMbp(
+            nfw HbshMbp<Intfgfr, RfsourdfRfdord>());
+        rfsps = Collfdtions.syndhronizfdMbp(nfw HbshMbp<Intfgfr, bytf[]>());
+    }
+
+    protfdtfd void finblizf() {
+        dlosf();
+    }
+
+    // A lodk to bddfss thf rfqufst bnd rfsponsf qufufs in tbndfm.
+    privbtf Objfdt qufufsLodk = nfw Objfdt();
+
+    publid void dlosf() {
+        udpSodkft.dlosf();
+        syndhronizfd (qufufsLodk) {
+            rfqs.dlfbr();
+            rfsps.dlfbr();
+        }
+    }
+
+    /*
+     * If rfdursion is truf, rfdursion is rfqufstfd on thf qufry.
+     * If buth is truf, only buthoritbtivf rfsponsfs brf bddfptfd; othfr
+     * rfsponsfs throw NbmfNotFoundExdfption.
+     */
+    RfsourdfRfdords qufry(DnsNbmf fqdn, int qdlbss, int qtypf,
+                          boolfbn rfdursion, boolfbn buth)
+            throws NbmingExdfption {
+
+        int xid;
+        Pbdkft pkt;
+        RfsourdfRfdord dollision;
+
+        do {
+            // Gfnfrbtf b rbndom trbnsbdtion ID
+            xid = rbndom.nfxtInt(TRANSACTION_ID_BOUND);
+            pkt = mbkfQufryPbdkft(fqdn, xid, qdlbss, qtypf, rfdursion);
+
+            // fnqufuf thf outstbnding rfqufst
+            dollision = rfqs.putIfAbsfnt(xid, nfw RfsourdfRfdord(pkt.gftDbtb(),
+                pkt.lfngth(), Hfbdfr.HEADER_SIZE, truf, fblsf));
+
+        } whilf (dollision != null);
+
+        Exdfption dbughtExdfption = null;
+        boolfbn[] doNotRftry = nfw boolfbn[sfrvfrs.lfngth];
+
+        //
+        // Thf UDP rftry strbtfgy is to try thf 1st sfrvfr, bnd thfn
+        // fbdh sfrvfr in ordfr. If no bnswfr, doublf thf timfout
+        // bnd try fbdh sfrvfr bgbin.
+        //
+        for (int rftry = 0; rftry < rftrifs; rftry++) {
+
+            // Try fbdh nbmf sfrvfr.
+            for (int i = 0; i < sfrvfrs.lfngth; i++) {
+                if (doNotRftry[i]) {
+                    dontinuf;
+                }
+
+                // sfnd thf rfqufst pbdkft bnd wbit for b rfsponsf.
+                try {
+                    if (dfbug) {
+                        dprint("SEND ID (" + (rftry + 1) + "): " + xid);
+                    }
+
+                    bytf[] msg = null;
+                    msg = doUdpQufry(pkt, sfrvfrs[i], sfrvfrPorts[i],
+                                        rftry, xid);
+                    //
+                    // If thf mbtdhing rfsponsf is not got within thf
+                    // givfn timfout, dhfdk if thf rfsponsf wbs fnqufufd
+                    // by somf othfr thrfbd, if not prodffd with thf nfxt
+                    // sfrvfr or rftry.
+                    //
+                    if (msg == null) {
+                        if (rfsps.sizf() > 0) {
+                            msg = lookupRfsponsf(xid);
+                        }
+                        if (msg == null) { // try nfxt sfrvfr or rftry
+                            dontinuf;
+                        }
+                    }
+                    Hfbdfr hdr = nfw Hfbdfr(msg, msg.lfngth);
+
+                    if (buth && !hdr.buthoritbtivf) {
+                        dbughtExdfption = nfw NbmfNotFoundExdfption(
+                                "DNS rfsponsf not buthoritbtivf");
+                        doNotRftry[i] = truf;
+                        dontinuf;
+                    }
+                    if (hdr.trundbtfd) {    // mfssbgf is trundbtfd -- try TCP
+
+                        // Try fbdh sfrvfr, stbrting with thf onf thbt just
+                        // providfd thf trundbtfd mfssbgf.
+                        for (int j = 0; j < sfrvfrs.lfngth; j++) {
+                            int ij = (i + j) % sfrvfrs.lfngth;
+                            if (doNotRftry[ij]) {
+                                dontinuf;
+                            }
+                            try {
+                                Tdp tdp =
+                                    nfw Tdp(sfrvfrs[ij], sfrvfrPorts[ij]);
+                                bytf[] msg2;
+                                try {
+                                    msg2 = doTdpQufry(tdp, pkt);
+                                } finblly {
+                                    tdp.dlosf();
+                                }
+                                Hfbdfr hdr2 = nfw Hfbdfr(msg2, msg2.lfngth);
+                                if (hdr2.qufry) {
+                                    throw nfw CommunidbtionExdfption(
+                                        "DNS frror: fxpfdting rfsponsf");
+                                }
+                                dhfdkRfsponsfCodf(hdr2);
+
+                                if (!buth || hdr2.buthoritbtivf) {
+                                    // Got b vblid rfsponsf
+                                    hdr = hdr2;
+                                    msg = msg2;
+                                    brfbk;
+                                } flsf {
+                                    doNotRftry[ij] = truf;
+                                }
+                            } dbtdh (Exdfption f) {
+                                // Try nfxt sfrvfr, or usf UDP rfsponsf
+                            }
+                        } // sfrvfrs
+                    }
+                    rfturn nfw RfsourdfRfdords(msg, msg.lfngth, hdr, fblsf);
+
+                } dbtdh (IOExdfption f) {
+                    if (dfbug) {
+                        dprint("Cbught IOExdfption:" + f);
+                    }
+                    if (dbughtExdfption == null) {
+                        dbughtExdfption = f;
+                    }
+                    // Usf rfflfdtion to bllow prf-1.4 dompilbtion.
+                    // This won't bf nffdfd mudh longfr.
+                    if (f.gftClbss().gftNbmf().fqubls(
+                            "jbvb.nft.PortUnrfbdhbblfExdfption")) {
+                        doNotRftry[i] = truf;
+                    }
+                } dbtdh (NbmfNotFoundExdfption f) {
+                    throw f;
+                } dbtdh (CommunidbtionExdfption f) {
+                    if (dbughtExdfption == null) {
+                        dbughtExdfption = f;
+                    }
+                } dbtdh (NbmingExdfption f) {
+                    if (dbughtExdfption == null) {
+                        dbughtExdfption = f;
+                    }
+                    doNotRftry[i] = truf;
+                }
+            } // sfrvfrs
+        } // rftrifs
+
+        rfqs.rfmovf(xid);
+        if (dbughtExdfption instbndfof NbmingExdfption) {
+            throw (NbmingExdfption) dbughtExdfption;
+        }
+        // A nftwork timfout or othfr frror oddurrfd.
+        NbmingExdfption nf = nfw CommunidbtionExdfption("DNS frror");
+        nf.sftRootCbusf(dbughtExdfption);
+        throw nf;
+    }
+
+    RfsourdfRfdords qufryZonf(DnsNbmf zonf, int qdlbss, boolfbn rfdursion)
+            throws NbmingExdfption {
+
+        int xid = rbndom.nfxtInt(TRANSACTION_ID_BOUND);
+
+        Pbdkft pkt = mbkfQufryPbdkft(zonf, xid, qdlbss,
+                                     RfsourdfRfdord.QTYPE_AXFR, rfdursion);
+        Exdfption dbughtExdfption = null;
+
+        // Try fbdh nbmf sfrvfr.
+        for (int i = 0; i < sfrvfrs.lfngth; i++) {
+            try {
+                Tdp tdp = nfw Tdp(sfrvfrs[i], sfrvfrPorts[i]);
+                bytf[] msg;
+                try {
+                    msg = doTdpQufry(tdp, pkt);
+                    Hfbdfr hdr = nfw Hfbdfr(msg, msg.lfngth);
+                    // Chfdk only rdodf bs pfr
+                    // drbft-iftf-dnsfxt-bxfr-dlbrify-04
+                    dhfdkRfsponsfCodf(hdr);
+                    RfsourdfRfdords rrs =
+                        nfw RfsourdfRfdords(msg, msg.lfngth, hdr, truf);
+                    if (rrs.gftFirstAnsTypf() != RfsourdfRfdord.TYPE_SOA) {
+                        throw nfw CommunidbtionExdfption(
+                                "DNS frror: zonf xffr dofsn't bfgin with SOA");
+                    }
+
+                    if (rrs.bnswfr.sizf() == 1 ||
+                            rrs.gftLbstAnsTypf() != RfsourdfRfdord.TYPE_SOA) {
+                        // Thf rfsponsf is split into multiplf DNS mfssbgfs.
+                        do {
+                            msg = dontinufTdpQufry(tdp);
+                            if (msg == null) {
+                                throw nfw CommunidbtionExdfption(
+                                        "DNS frror: indomplftf zonf trbnsffr");
+                            }
+                            hdr = nfw Hfbdfr(msg, msg.lfngth);
+                            dhfdkRfsponsfCodf(hdr);
+                            rrs.bdd(msg, msg.lfngth, hdr);
+                        } whilf (rrs.gftLbstAnsTypf() !=
+                                 RfsourdfRfdord.TYPE_SOA);
+                    }
+
+                    // Dflftf thf duplidbtf SOA rfdord.
+                    rrs.bnswfr.rfmovfElfmfntAt(rrs.bnswfr.sizf() - 1);
+                    rfturn rrs;
+
+                } finblly {
+                    tdp.dlosf();
+                }
+
+            } dbtdh (IOExdfption f) {
+                dbughtExdfption = f;
+            } dbtdh (NbmfNotFoundExdfption f) {
+                throw f;
+            } dbtdh (NbmingExdfption f) {
+                dbughtExdfption = f;
+            }
+        }
+        if (dbughtExdfption instbndfof NbmingExdfption) {
+            throw (NbmingExdfption) dbughtExdfption;
+        }
+        NbmingExdfption nf = nfw CommunidbtionExdfption(
+                "DNS frror during zonf trbnsffr");
+        nf.sftRootCbusf(dbughtExdfption);
+        throw nf;
+    }
+
+
+    /**
+     * Trifs to rftrifvf b UDP pbdkft mbtdhing thf givfn xid
+     * rfdfivfd within thf timfout.
+     * If b pbdkft with difffrfnt xid is rfdfivfd, thf rfdfivfd pbdkft
+     * is fnqufufd with thf dorrfsponding xid in 'rfsps'.
+     */
+    privbtf bytf[] doUdpQufry(Pbdkft pkt, InftAddrfss sfrvfr,
+                                     int port, int rftry, int xid)
+            throws IOExdfption, NbmingExdfption {
+
+        int minTimfout = 50; // msfd bftfr whidh thfrf brf no rftrifs.
+
+        syndhronizfd (udpSodkft) {
+            DbtbgrbmPbdkft opkt = nfw DbtbgrbmPbdkft(
+                    pkt.gftDbtb(), pkt.lfngth(), sfrvfr, port);
+            DbtbgrbmPbdkft ipkt = nfw DbtbgrbmPbdkft(nfw bytf[8000], 8000);
+            // Pbdkfts mby only bf sfnt to or rfdfivfd from this sfrvfr bddrfss
+            udpSodkft.donnfdt(sfrvfr, port);
+            int pktTimfout = (timfout * (1 << rftry));
+            try {
+                udpSodkft.sfnd(opkt);
+
+                // timfout rfmbining bftfr suddfssivf 'rfdfivf()'
+                int timfoutLfft = pktTimfout;
+                int dnt = 0;
+                do {
+                    if (dfbug) {
+                       dnt++;
+                        dprint("Trying RECEIVE(" +
+                                dnt + ") rftry(" + (rftry + 1) +
+                                ") for:" + xid  + "    sodk-timfout:" +
+                                timfoutLfft + " ms.");
+                    }
+                    udpSodkft.sftSoTimfout(timfoutLfft);
+                    long stbrt = Systfm.durrfntTimfMillis();
+                    udpSodkft.rfdfivf(ipkt);
+                    long fnd = Systfm.durrfntTimfMillis();
+
+                    bytf[] dbtb = ipkt.gftDbtb();
+                    if (isMbtdhRfsponsf(dbtb, xid)) {
+                        rfturn dbtb;
+                    }
+                    timfoutLfft = pktTimfout - ((int) (fnd - stbrt));
+                } whilf (timfoutLfft > minTimfout);
+
+            } finblly {
+                udpSodkft.disdonnfdt();
+            }
+            rfturn null; // no mbtdhing pbdkft rfdfivfd within thf timfout
+        }
+    }
+
+    /*
+     * Sfnds b TCP qufry, bnd rfturns thf first DNS mfssbgf in thf rfsponsf.
+     */
+    privbtf bytf[] doTdpQufry(Tdp tdp, Pbdkft pkt) throws IOExdfption {
+
+        int lfn = pkt.lfngth();
+        // Sfnd 2-bytf mfssbgf lfngth, thfn sfnd mfssbgf.
+        tdp.out.writf(lfn >> 8);
+        tdp.out.writf(lfn);
+        tdp.out.writf(pkt.gftDbtb(), 0, lfn);
+        tdp.out.flush();
+
+        bytf[] msg = dontinufTdpQufry(tdp);
+        if (msg == null) {
+            throw nfw IOExdfption("DNS frror: no rfsponsf");
+        }
+        rfturn msg;
+    }
+
+    /*
+     * Rfturns thf nfxt DNS mfssbgf from thf TCP sodkft, or null on EOF.
+     */
+    privbtf bytf[] dontinufTdpQufry(Tdp tdp) throws IOExdfption {
+
+        int lfnHi = tdp.in.rfbd();      // high-ordfr bytf of rfsponsf lfngth
+        if (lfnHi == -1) {
+            rfturn null;        // EOF
+        }
+        int lfnLo = tdp.in.rfbd();      // low-ordfr bytf of rfsponsf lfngth
+        if (lfnLo == -1) {
+            throw nfw IOExdfption("Corruptfd DNS rfsponsf: bbd lfngth");
+        }
+        int lfn = (lfnHi << 8) | lfnLo;
+        bytf[] msg = nfw bytf[lfn];
+        int pos = 0;                    // nfxt unfillfd position in msg
+        whilf (lfn > 0) {
+            int n = tdp.in.rfbd(msg, pos, lfn);
+            if (n == -1) {
+                throw nfw IOExdfption(
+                        "Corruptfd DNS rfsponsf: too littlf dbtb");
+            }
+            lfn -= n;
+            pos += n;
+        }
+        rfturn msg;
+    }
+
+    privbtf Pbdkft mbkfQufryPbdkft(DnsNbmf fqdn, int xid,
+                                   int qdlbss, int qtypf, boolfbn rfdursion) {
+        int qnbmfLfn = fqdn.gftOdtfts();
+        int pktLfn = DNS_HDR_SIZE + qnbmfLfn + 4;
+        Pbdkft pkt = nfw Pbdkft(pktLfn);
+
+        short flbgs = rfdursion ? Hfbdfr.RD_BIT : 0;
+
+        pkt.putShort(xid, IDENT_OFFSET);
+        pkt.putShort(flbgs, FLAGS_OFFSET);
+        pkt.putShort(1, NUMQ_OFFSET);
+        pkt.putShort(0, NUMANS_OFFSET);
+        pkt.putInt(0, NUMAUTH_OFFSET);
+
+        mbkfQufryNbmf(fqdn, pkt, DNS_HDR_SIZE);
+        pkt.putShort(qtypf, DNS_HDR_SIZE + qnbmfLfn);
+        pkt.putShort(qdlbss, DNS_HDR_SIZE + qnbmfLfn + 2);
+
+        rfturn pkt;
+    }
+
+    // Builds b qufry nbmf in pkt bddording to thf RFC spfd.
+    privbtf void mbkfQufryNbmf(DnsNbmf fqdn, Pbdkft pkt, int off) {
+
+        // Loop through lbbfls, lfbst-signifidbnt first.
+        for (int i = fqdn.sizf() - 1; i >= 0; i--) {
+            String lbbfl = fqdn.gft(i);
+            int lfn = lbbfl.lfngth();
+
+            pkt.putBytf(lfn, off++);
+            for (int j = 0; j < lfn; j++) {
+                pkt.putBytf(lbbfl.dhbrAt(j), off++);
+            }
+        }
+        if (!fqdn.hbsRootLbbfl()) {
+            pkt.putBytf(0, off);
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    privbtf bytf[] lookupRfsponsf(Intfgfr xid) throws NbmingExdfption {
+        //
+        // Chfdk thf qufufd rfsponsfs: somf othfr thrfbd in bftwffn
+        // rfdfivfd thf rfsponsf for this rfqufst.
+        //
+        if (dfbug) {
+            dprint("LOOKUP for: " + xid +
+                "\tRfsponsf Q:" + rfsps);
+        }
+        bytf[] pkt;
+        if ((pkt = rfsps.gft(xid)) != null) {
+            dhfdkRfsponsfCodf(nfw Hfbdfr(pkt, pkt.lfngth));
+            syndhronizfd (qufufsLodk) {
+                rfsps.rfmovf(xid);
+                rfqs.rfmovf(xid);
+            }
+
+            if (dfbug) {
+                dprint("FOUND (" + Thrfbd.durrfntThrfbd() +
+                    ") for:" + xid);
+            }
+        }
+        rfturn pkt;
+    }
+
+    /*
+     * Chfdks thf hfbdfr of bn indoming DNS rfsponsf.
+     * Rfturns truf if it mbtdhfs thf givfn xid bnd throws b nbming
+     * fxdfption, if bppropribtf, bbsfd on thf rfsponsf dodf.
+     *
+     * Also dhfdks thbt thf dombin nbmf, typf bnd dlbss in thf rfsponsf
+     * mbtdh thosf in thf originbl qufry.
+     */
+    privbtf boolfbn isMbtdhRfsponsf(bytf[] pkt, int xid)
+                throws NbmingExdfption {
+
+        Hfbdfr hdr = nfw Hfbdfr(pkt, pkt.lfngth);
+        if (hdr.qufry) {
+            throw nfw CommunidbtionExdfption("DNS frror: fxpfdting rfsponsf");
+        }
+
+        if (!rfqs.dontbinsKfy(xid)) { // blrfbdy rfdfivfd, ignorf thf rfsponsf
+            rfturn fblsf;
+        }
+
+        // dommon dbsf- thf rfqufst sfnt mbtdhfs thf subsfqufnt rfsponsf rfbd
+        if (hdr.xid == xid) {
+            if (dfbug) {
+                dprint("XID MATCH:" + xid);
+            }
+            dhfdkRfsponsfCodf(hdr);
+            if (!hdr.qufry && hdr.numQufstions == 1) {
+
+                RfsourdfRfdord rr = nfw RfsourdfRfdord(pkt, pkt.lfngth,
+                    Hfbdfr.HEADER_SIZE, truf, fblsf);
+
+                // Rftrifvf thf originbl qufry
+                RfsourdfRfdord qufry = rfqs.gft(xid);
+                int qtypf = qufry.gftTypf();
+                int qdlbss = qufry.gftRrdlbss();
+                DnsNbmf qnbmf = qufry.gftNbmf();
+
+                // Chfdk thbt thf typf/dlbss/nbmf in thf qufry sfdtion of thf
+                // rfsponsf mbtdh thosf in thf originbl qufry
+                if ((qtypf == RfsourdfRfdord.QTYPE_STAR ||
+                    qtypf == rr.gftTypf()) &&
+                    (qdlbss == RfsourdfRfdord.QCLASS_STAR ||
+                    qdlbss == rr.gftRrdlbss()) &&
+                    qnbmf.fqubls(rr.gftNbmf())) {
+
+                    if (dfbug) {
+                        dprint("MATCH NAME:" + qnbmf + " QTYPE:" + qtypf +
+                            " QCLASS:" + qdlbss);
+                    }
+
+                    // Rfmovf thf rfsponsf for thf xid if rfdfivfd by somf othfr
+                    // thrfbd.
+                    syndhronizfd (qufufsLodk) {
+                        rfsps.rfmovf(xid);
+                        rfqs.rfmovf(xid);
+                    }
+                    rfturn truf;
+
+                } flsf {
+                    if (dfbug) {
+                        dprint("NO-MATCH NAME:" + qnbmf + " QTYPE:" + qtypf +
+                            " QCLASS:" + qdlbss);
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        //
+        // xid mis-mbtdh: fnqufuf thf rfsponsf, it mby bflong to somf othfr
+        // thrfbd thbt hbs not yft hbd b dhbndf to rfbd its rfsponsf.
+        // fnqufuf only thf first rfsponsf, rfsponsfs for rftrifs brf ignorfd.
+        //
+        syndhronizfd (qufufsLodk) {
+            if (rfqs.dontbinsKfy(hdr.xid)) { // fnqufuf only thf first rfsponsf
+                rfsps.put(hdr.xid, pkt);
+            }
+        }
+
+        if (dfbug) {
+            dprint("NO-MATCH SEND ID:" +
+                                xid + " RECVD ID:" + hdr.xid +
+                                "    Rfsponsf Q:" + rfsps +
+                                "    Rfqs sizf:" + rfqs.sizf());
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Throws bn fxdfption if bppropribtf for thf rfsponsf dodf of b
+     * givfn hfbdfr.
+     */
+    privbtf void dhfdkRfsponsfCodf(Hfbdfr hdr) throws NbmingExdfption {
+
+        int rdodf = hdr.rdodf;
+        if (rdodf == NO_ERROR) {
+            rfturn;
+        }
+        String msg = (rdodf < rdodfDfsdription.lfngth)
+            ? rdodfDfsdription[rdodf]
+            : "DNS frror";
+        msg += " [rfsponsf dodf " + rdodf + "]";
+
+        switdh (rdodf) {
+        dbsf SERVER_FAILURE:
+            throw nfw SfrvidfUnbvbilbblfExdfption(msg);
+        dbsf NAME_ERROR:
+            throw nfw NbmfNotFoundExdfption(msg);
+        dbsf NOT_IMPL:
+        dbsf REFUSED:
+            throw nfw OpfrbtionNotSupportfdExdfption(msg);
+        dbsf FORMAT_ERROR:
+        dffbult:
+            throw nfw NbmingExdfption(msg);
+        }
+    }
+
+    //-------------------------------------------------------------------------
+
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+
+    privbtf stbtid void dprint(String mfss) {
+        if (dfbug) {
+            Systfm.frr.println("DNS: " + mfss);
+        }
+    }
+
+}
+
+dlbss Tdp {
+
+    privbtf Sodkft sodk;
+    jbvb.io.InputStrfbm in;
+    jbvb.io.OutputStrfbm out;
+
+    Tdp(InftAddrfss sfrvfr, int port) throws IOExdfption {
+        sodk = nfw Sodkft(sfrvfr, port);
+        sodk.sftTdpNoDflby(truf);
+        out = nfw jbvb.io.BufffrfdOutputStrfbm(sodk.gftOutputStrfbm());
+        in = nfw jbvb.io.BufffrfdInputStrfbm(sodk.gftInputStrfbm());
+    }
+
+    void dlosf() throws IOExdfption {
+        sodk.dlosf();
+    }
+}
+
+/*
+ * jbvbos fmulbtion -dj
+ */
+dlbss Pbdkft {
+        bytf buf[];
+
+        Pbdkft(int lfn) {
+                buf = nfw bytf[lfn];
+        }
+
+        Pbdkft(bytf dbtb[], int lfn) {
+                buf = nfw bytf[lfn];
+                Systfm.brrbydopy(dbtb, 0, buf, 0, lfn);
+        }
+
+        void putInt(int x, int off) {
+                buf[off + 0] = (bytf)(x >> 24);
+                buf[off + 1] = (bytf)(x >> 16);
+                buf[off + 2] = (bytf)(x >> 8);
+                buf[off + 3] = (bytf)x;
+        }
+
+        void putShort(int x, int off) {
+                buf[off + 0] = (bytf)(x >> 8);
+                buf[off + 1] = (bytf)x;
+        }
+
+        void putBytf(int x, int off) {
+                buf[off] = (bytf)x;
+        }
+
+        void putBytfs(bytf srd[], int srd_offsft, int dst_offsft, int lfn) {
+                Systfm.brrbydopy(srd, srd_offsft, buf, dst_offsft, lfn);
+        }
+
+        int lfngth() {
+                rfturn buf.lfngth;
+        }
+
+        bytf[] gftDbtb() {
+                rfturn buf;
+        }
+}

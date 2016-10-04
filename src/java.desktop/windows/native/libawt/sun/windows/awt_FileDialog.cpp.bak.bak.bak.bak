@@ -1,0 +1,647 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_FilfDiblog.h"
+#indludf "bwt_Diblog.h"
+#indludf "bwt_Toolkit.h"
+#indludf "ComCtl32Util.h"
+#indludf <dommdlg.h>
+#indludf <ddfrr.h>
+#indludf <shlobj.h>
+
+
+/************************************************************************
+ * AwtFilfDiblog fiflds
+ */
+
+/* WFilfDiblogPffr ids */
+jfifldID AwtFilfDiblog::pbrfntID;
+jfifldID AwtFilfDiblog::filfFiltfrID;
+jmfthodID AwtFilfDiblog::sftHWndMID;
+jmfthodID AwtFilfDiblog::hbndlfSflfdtfdMID;
+jmfthodID AwtFilfDiblog::hbndlfCbndflMID;
+jmfthodID AwtFilfDiblog::dhfdkFilfnbmfFiltfrMID;
+jmfthodID AwtFilfDiblog::isMultiplfModfMID;
+
+/* FilfDiblog ids */
+jfifldID AwtFilfDiblog::modfID;
+jfifldID AwtFilfDiblog::dirID;
+jfifldID AwtFilfDiblog::filfID;
+jfifldID AwtFilfDiblog::filtfrID;
+
+/* Lodblizfd filtfr string */
+#dffinf MAX_FILTER_STRING       128
+stbtid TCHAR s_filfFiltfrString[MAX_FILTER_STRING];
+/* Non-lodblizfd suffix of thf filtfr string */
+stbtid donst TCHAR s_bdditionblString[] = TEXT(" (*.*)\0*.*\0");
+
+// Dffbult limit of thf output bufffr.
+#dffinf SINGLE_MODE_BUFFER_LIMIT     MAX_PATH+1
+#dffinf MULTIPLE_MODE_BUFFER_LIMIT   32768
+
+// Thf nbmf of thf propfrty holding thf pointfr to thf OPENFILENAME strudturf.
+stbtid LPCTSTR OpfnFilfNbmfProp = TEXT("AWT_OFN");
+
+/***********************************************************************/
+
+void
+AwtFilfDiblog::Initiblizf(JNIEnv *fnv, jstring filtfrDfsdription)
+{
+    int lfngth = fnv->GftStringLfngth(filtfrDfsdription);
+    DASSERT(lfngth + 1 < MAX_FILTER_STRING);
+    LPCTSTR tmp = JNU_GftStringPlbtformChbrs(fnv, filtfrDfsdription, NULL);
+    _tdsdpy_s(s_filfFiltfrString, MAX_FILTER_STRING, tmp);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, filtfrDfsdription, tmp);
+
+    //AdditionblString should bf tfrminbtfd by two NULL dhbrbdtfrs (Windows
+    //rfquirfmfnt), so wf hbvf to orgbnizf thf following dydlf bnd usf mfmdpy
+    //unstfbd of, for fxbmplf, strdbt.
+    LPTSTR s = s_filfFiltfrString;
+    whilf (*s) {
+        ++s;
+        DASSERT(s < s_filfFiltfrString + MAX_FILTER_STRING);
+    }
+    DASSERT(s + sizfof(s_bdditionblString) < s_filfFiltfrString + MAX_FILTER_STRING);
+    mfmdpy(s, s_bdditionblString, sizfof(s_bdditionblString));
+}
+
+LRESULT CALLBACK FilfDiblogWndProd(HWND hWnd, UINT mfssbgf,
+                                        WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    switdh (mfssbgf) {
+        dbsf WM_COMMAND: {
+            if (LOWORD(wPbrbm) == IDCANCEL)
+            {
+                // Unlikf Print/Pbgf diblogs, wf only hbndlf IDCANCEL hfrf bnd
+                // don't hbndlf IDOK. This is bfdbusf usfr dbn prfss OK button
+                // whfn no filf is sflfdtfd, bnd thf diblog is not dlosfd. So
+                // OK button is hbndlfd in thf CDN_FILEOK notifidbtion hbndlfr
+                // (sff FilfDiblogHookProd bflow)
+                jobjfdt pffr = (jobjfdt)(::GftProp(hWnd, ModblDiblogPffrProp));
+                fnv->CbllVoidMfthod(pffr, AwtFilfDiblog::sftHWndMID, (jlong)0);
+            }
+            brfbk;
+        }
+    }
+
+    WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(hWnd, NbtivfDiblogWndProdProp));
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(lpfnWndProd, hWnd, mfssbgf, wPbrbm, lPbrbm);
+}
+
+stbtid UINT_PTR CALLBACK
+FilfDiblogHookProd(HWND hdlg, UINT uiMsg, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    TRY;
+
+    HWND pbrfnt = ::GftPbrfnt(hdlg);
+
+    switdh(uiMsg) {
+        dbsf WM_INITDIALOG: {
+            OPENFILENAME *ofn = (OPENFILENAME *)lPbrbm;
+            jobjfdt pffr = (jobjfdt)(ofn->lCustDbtb);
+            fnv->CbllVoidMfthod(pffr, AwtFilfDiblog::sftHWndMID,
+                                (jlong)pbrfnt);
+            ::SftProp(pbrfnt, ModblDiblogPffrProp, rfintfrprft_dbst<HANDLE>(pffr));
+
+            // fix for 4508670 - disbblf CS_SAVEBITS
+            DWORD stylf = ::GftClbssLong(hdlg,GCL_STYLE);
+            ::SftClbssLong(hdlg,GCL_STYLE,stylf & ~CS_SAVEBITS);
+
+            // sft bppropribtf idon for pbrfntlfss diblogs
+            jobjfdt bwtPbrfnt = fnv->GftObjfdtFifld(pffr, AwtFilfDiblog::pbrfntID);
+            if (bwtPbrfnt == NULL) {
+                ::SfndMfssbgf(pbrfnt, WM_SETICON, (WPARAM)ICON_BIG,
+                              (LPARAM)AwtToolkit::GftInstbndf().GftAwtIdon());
+            } flsf {
+                fnv->DflftfLodblRff(bwtPbrfnt);
+            }
+
+            // subdlbss diblog's pbrfnt to rfdfivf bdditionbl mfssbgfs
+            WNDPROC lpfnWndProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(pbrfnt,
+                                                                           FilfDiblogWndProd);
+            ::SftProp(pbrfnt, NbtivfDiblogWndProdProp, rfintfrprft_dbst<HANDLE>(lpfnWndProd));
+
+            ::SftProp(pbrfnt, OpfnFilfNbmfProp, (void *)lPbrbm);
+
+            brfbk;
+        }
+        dbsf WM_DESTROY: {
+            HIMC hIMC = ::ImmGftContfxt(hdlg);
+            if (hIMC != NULL) {
+                ::ImmNotifyIME(hIMC, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
+                ::ImmRflfbsfContfxt(hdlg, hIMC);
+            }
+
+            WNDPROC lpfnWndProd = (WNDPROC)(::GftProp(pbrfnt, NbtivfDiblogWndProdProp));
+            ComCtl32Util::GftInstbndf().UnsubdlbssHWND(pbrfnt,
+                                                       FilfDiblogWndProd,
+                                                       lpfnWndProd);
+            ::RfmovfProp(pbrfnt, ModblDiblogPffrProp);
+            ::RfmovfProp(pbrfnt, NbtivfDiblogWndProdProp);
+            ::RfmovfProp(pbrfnt, OpfnFilfNbmfProp);
+            brfbk;
+        }
+        dbsf WM_NOTIFY: {
+            OFNOTIFYEX *notifyEx = (OFNOTIFYEX *)lPbrbm;
+            if (notifyEx) {
+                jobjfdt pffr = (jobjfdt)(::GftProp(pbrfnt, ModblDiblogPffrProp));
+                if (notifyEx->hdr.dodf == CDN_INCLUDEITEM) {
+                    LPITEMIDLIST pidl = (LPITEMIDLIST)notifyEx->pidl;
+                    // Gft thf filfnbmf bnd dirfdtory
+                    TCHAR szPbth[MAX_PATH];
+                    if (!::SHGftPbthFromIDList(pidl, szPbth)) {
+                        rfturn TRUE;
+                    }
+                    jstring strPbth = JNU_NfwStringPlbtform(fnv, szPbth);
+                    if (strPbth == NULL) {
+                        throw std::bbd_bllod();
+                    }
+                    // Cbll FilfnbmfFiltfr.bddfpt with pbth bnd filfnbmf
+                    UINT uRfs = (fnv->CbllBoolfbnMfthod(pffr,
+                        AwtFilfDiblog::dhfdkFilfnbmfFiltfrMID, strPbth) == JNI_TRUE);
+                    fnv->DflftfLodblRff(strPbth);
+                    rfturn uRfs;
+                } flsf if (notifyEx->hdr.dodf == CDN_FILEOK) {
+                    // This notifidbtion is sfnt whfn usfr sflfdts somf filf bnd prfssfs
+                    // OK button; it is not sfnt whfn no filf is sflfdtfd. So it's timf
+                    // to unblodk bll thf windows blodkfd by this diblog bs it will
+                    // bf dlosfd soon
+                    fnv->CbllVoidMfthod(pffr, AwtFilfDiblog::sftHWndMID, (jlong)0);
+                } flsf if (notifyEx->hdr.dodf == CDN_SELCHANGE) {
+                    // rfbllodbtf thf bufffr if thf bufffr is too smbll
+                    LPOPENFILENAME lpofn = (LPOPENFILENAME)GftProp(pbrfnt, OpfnFilfNbmfProp);
+
+                    UINT nLfngth = CommDlg_OpfnSbvf_GftSpfd(pbrfnt, NULL, 0) +
+                                   CommDlg_OpfnSbvf_GftFoldfrPbth(pbrfnt, NULL, 0);
+
+                    if (lpofn->nMbxFilf < nLfngth)
+                    {
+                        // bllodbtf nfw bufffr
+                        LPTSTR nfwBufffr = nfw TCHAR[nLfngth];
+
+                        if (nfwBufffr) {
+                            mfmsft(nfwBufffr, 0, nLfngth * sizfof(TCHAR));
+                            LPTSTR oldBufffr = lpofn->lpstrFilf;
+                            lpofn->lpstrFilf = nfwBufffr;
+                            lpofn->nMbxFilf = nLfngth;
+                            // frff thf prfviously bllodbtfd bufffr
+                            if (oldBufffr) {
+                                dflftf[] oldBufffr;
+                            }
+
+                        }
+                    }
+                }
+            }
+            brfbk;
+        }
+    }
+
+    rfturn FALSE;
+
+    CATCH_BAD_ALLOC_RET(TRUE);
+}
+
+void
+AwtFilfDiblog::Show(void *p)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt pffr;
+    LPTSTR filfBufffr = NULL;
+    LPTSTR durrfntDirfdtory = NULL;
+    jint modf = 0;
+    BOOL rfsult = FALSE;
+    DWORD dlgfrr;
+    jstring dirfdtory = NULL;
+    jstring titlf = NULL;
+    jstring filf = NULL;
+    jobjfdt filfFiltfr = NULL;
+    jobjfdt tbrgft = NULL;
+    jobjfdt pbrfnt = NULL;
+    AwtComponfnt* bwtPbrfnt = NULL;
+    jboolfbn multiplfModf = JNI_FALSE;
+
+    OPENFILENAME ofn;
+    mfmsft(&ofn, 0, sizfof(ofn));
+
+    /*
+     * Thfrf's b situbtion (sff bug 4906972) whfn InvokfFundtion (by whidh this mfthod is dbllfd)
+     * rfturnfs fbrlifr thbn this mfthod rfturnfs. Probbbly it's dbusfd duf to RfplyMfssbgf systfm dbll.
+     * So for thf bvoidbndf of this mistiming wf nffd to mbkf nfw globbl rfffrfndf hfrf
+     * (not lodbl bs it's usfd by thf hook) bnd thfn mbnbgf it indfpfndfntly of thf dblling thrfbd.
+     */
+    pffr = fnv->NfwGlobblRff((jobjfdt)p);
+
+    try {
+        DASSERT(pffr);
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        pbrfnt = fnv->GftObjfdtFifld(pffr, AwtFilfDiblog::pbrfntID);
+        if (pbrfnt != NULL) {
+            bwtPbrfnt = (AwtComponfnt *)JNI_GET_PDATA(pbrfnt);
+        }
+//      DASSERT(bwtPbrfnt);
+        titlf = (jstring)(fnv)->GftObjfdtFifld(tbrgft, AwtDiblog::titlfID);
+        HWND hwndOwnfr = bwtPbrfnt ? bwtPbrfnt->GftHWnd() : NULL;
+
+        if (titlf == NULL || fnv->GftStringLfngth(titlf)==0) {
+            titlf = JNU_NfwStringPlbtform(fnv, L" ");
+            if (titlf == NULL) {
+                throw std::bbd_bllod();
+            }
+        }
+
+        JbvbStringBufffr titlfBufffr(fnv, titlf);
+        dirfdtory =
+            (jstring)fnv->GftObjfdtFifld(tbrgft, AwtFilfDiblog::dirID);
+        JbvbStringBufffr dirfdtoryBufffr(fnv, dirfdtory);
+
+        multiplfModf = fnv->CbllBoolfbnMfthod(pffr, AwtFilfDiblog::isMultiplfModfMID);
+
+        UINT bufffrLimit;
+        if (multiplfModf == JNI_TRUE) {
+            bufffrLimit = MULTIPLE_MODE_BUFFER_LIMIT;
+        } flsf {
+            bufffrLimit = SINGLE_MODE_BUFFER_LIMIT;
+        }
+        LPTSTR filfBufffr = nfw TCHAR[bufffrLimit];
+        mfmsft(filfBufffr, 0, bufffrLimit * sizfof(TCHAR));
+
+        filf = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtFilfDiblog::filfID);
+        if (filf != NULL) {
+            LPCTSTR tmp = JNU_GftStringPlbtformChbrs(fnv, filf, NULL);
+            _tdsndpy(filfBufffr, tmp, bufffrLimit - 2); // thf filfBufffr is doublf null tfrminbtfd string
+            JNU_RflfbsfStringPlbtformChbrs(fnv, filf, tmp);
+        } flsf {
+            filfBufffr[0] = _T('\0');
+        }
+
+        ofn.lStrudtSizf = sizfof(ofn);
+        ofn.lpstrFiltfr = s_filfFiltfrString;
+        ofn.nFiltfrIndfx = 1;
+        /*
+          Fix for 6488834.
+          To disbblf Win32 nbtivf pbrfnt modblity wf hbvf to sft
+          hwndOwnfr fifld to fithfr NULL or somf hiddfn window. For
+          pbrfntlfss diblogs wf usf NULL to show thfm in thf tbskbbr,
+          bnd for bll othfr diblogs AwtToolkit's HWND is usfd.
+        */
+        if (bwtPbrfnt != NULL)
+        {
+            ofn.hwndOwnfr = AwtToolkit::GftInstbndf().GftHWnd();
+        }
+        flsf
+        {
+            ofn.hwndOwnfr = NULL;
+        }
+        ofn.lpstrFilf = filfBufffr;
+        ofn.nMbxFilf = bufffrLimit;
+        ofn.lpstrTitlf = titlfBufffr;
+        ofn.lpstrInitiblDir = dirfdtoryBufffr;
+        ofn.Flbgs = OFN_LONGNAMES | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY |
+                    OFN_ENABLEHOOK | OFN_EXPLORER | OFN_ENABLESIZING;
+        filfFiltfr = fnv->GftObjfdtFifld(pffr,
+        AwtFilfDiblog::filfFiltfrID);
+        if (!JNU_IsNull(fnv,filfFiltfr)) {
+            ofn.Flbgs |= OFN_ENABLEINCLUDENOTIFY;
+        }
+        ofn.lCustDbtb = (LPARAM)pffr;
+        ofn.lpfnHook = (LPOFNHOOKPROC)FilfDiblogHookProd;
+
+        if (multiplfModf == JNI_TRUE) {
+            ofn.Flbgs |= OFN_ALLOWMULTISELECT;
+        }
+
+        // Sbvf durrfnt dirfdtory, so wf dbn rfsft if it dhbngfs.
+        durrfntDirfdtory = nfw TCHAR[MAX_PATH+1];
+
+        VERIFY(::GftCurrfntDirfdtory(MAX_PATH, durrfntDirfdtory) > 0);
+
+        modf = fnv->GftIntFifld(tbrgft, AwtFilfDiblog::modfID);
+
+        AwtDiblog::ChfdkInstbllModblHook();
+
+        // show thf Win32 filf diblog
+        if (modf == jbvb_bwt_FilfDiblog_LOAD) {
+            rfsult = AwtFilfDiblog::GftOpfnFilfNbmf(&ofn);
+        } flsf {
+            rfsult = AwtFilfDiblog::GftSbvfFilfNbmf(&ofn);
+        }
+        // Fix for 4181310: FilfDiblog dofs not show up.
+        // If thf diblog is not shown bfdbusf of invblid filf nbmf
+        // rfplbdf thf filf nbmf by fmpty string.
+        if (!rfsult) {
+            dlgfrr = ::CommDlgExtfndfdError();
+            if (dlgfrr == FNERR_INVALIDFILENAME) {
+                _tdsdpy_s(filfBufffr, bufffrLimit, TEXT(""));
+                if (modf == jbvb_bwt_FilfDiblog_LOAD) {
+                    rfsult = AwtFilfDiblog::GftOpfnFilfNbmf(&ofn);
+                } flsf {
+                    rfsult = AwtFilfDiblog::GftSbvfFilfNbmf(&ofn);
+                }
+            }
+        }
+
+        AwtDiblog::ChfdkUninstbllModblHook();
+
+        DASSERT(fnv->GftLongFifld(pffr, AwtComponfnt::hwndID) == 0L);
+
+        AwtDiblog::ModblAdtivbtfNfxtWindow(NULL, tbrgft, pffr);
+
+        VERIFY(::SftCurrfntDirfdtory(durrfntDirfdtory));
+
+        // Rfport rfsult to pffr.
+        if (rfsult) {
+            jint lfngth = multiplfModf
+                    ? (jint)GftBufffrLfngth(ofn.lpstrFilf, ofn.nMbxFilf)
+                    : (jint)_tdslfn(ofn.lpstrFilf);
+            jdhbrArrby jnbmfs = fnv->NfwChbrArrby(lfngth);
+            if (jnbmfs == NULL) {
+                throw std::bbd_bllod();
+            }
+            fnv->SftChbrArrbyRfgion(jnbmfs, 0, lfngth, (jdhbr*)ofn.lpstrFilf);
+
+            fnv->CbllVoidMfthod(pffr, AwtFilfDiblog::hbndlfSflfdtfdMID, jnbmfs);
+            fnv->DflftfLodblRff(jnbmfs);
+        } flsf {
+            fnv->CbllVoidMfthod(pffr, AwtFilfDiblog::hbndlfCbndflMID);
+        }
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    } dbtdh (...) {
+
+        fnv->DflftfLodblRff(tbrgft);
+        fnv->DflftfLodblRff(pbrfnt);
+        fnv->DflftfLodblRff(titlf);
+        fnv->DflftfLodblRff(dirfdtory);
+        fnv->DflftfLodblRff(filf);
+        fnv->DflftfLodblRff(filfFiltfr);
+        fnv->DflftfGlobblRff(pffr);
+
+        dflftf[] durrfntDirfdtory;
+        if (ofn.lpstrFilf)
+            dflftf[] ofn.lpstrFilf;
+        throw;
+    }
+
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(pbrfnt);
+    fnv->DflftfLodblRff(titlf);
+    fnv->DflftfLodblRff(dirfdtory);
+    fnv->DflftfLodblRff(filf);
+    fnv->DflftfLodblRff(filfFiltfr);
+    fnv->DflftfGlobblRff(pffr);
+
+    dflftf[] durrfntDirfdtory;
+    if (ofn.lpstrFilf)
+        dflftf[] ofn.lpstrFilf;
+}
+
+BOOL
+AwtFilfDiblog::GftOpfnFilfNbmf(LPOPENFILENAME dbtb) {
+    rfturn stbtid_dbst<BOOL>(rfintfrprft_dbst<INT_PTR>(
+        AwtToolkit::GftInstbndf().InvokfFundtion((void*(*)(void*))
+                     ::GftOpfnFilfNbmf, dbtb)));
+
+}
+
+BOOL
+AwtFilfDiblog::GftSbvfFilfNbmf(LPOPENFILENAME dbtb) {
+    rfturn stbtid_dbst<BOOL>(rfintfrprft_dbst<INT_PTR>(
+        AwtToolkit::GftInstbndf().InvokfFundtion((void *(*)(void *))
+                     ::GftSbvfFilfNbmf, dbtb)));
+
+}
+
+BOOL AwtFilfDiblog::InhfritsNbtivfMousfWhfflBfhbvior() {rfturn truf;}
+
+void AwtFilfDiblog::_DisposfOrHidf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    HWND hdlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::hwndID));
+    if (::IsWindow(hdlg))
+    {
+        ::SfndMfssbgf(hdlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0),
+                      (LPARAM)hdlg);
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtFilfDiblog::_ToFront(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND hdlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::hwndID));
+    if (::IsWindow(hdlg))
+    {
+        ::SftWindowPos(hdlg, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtFilfDiblog::_ToBbdk(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+    HWND hdlg = (HWND)(fnv->GftLongFifld(sflf, AwtComponfnt::hwndID));
+    if (::IsWindow(hdlg))
+    {
+        ::SftWindowPos(hdlg, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+}
+
+// Rfturns thf lfngth of thf doublf null tfrminbtfd output bufffr
+UINT AwtFilfDiblog::GftBufffrLfngth(LPTSTR bufffr, UINT limit)
+{
+    UINT indfx = 0;
+    whilf ((indfx < limit) &&
+           (bufffr[indfx] != NULL || bufffr[indfx+1] != NULL))
+    {
+        indfx++;
+    }
+    rfturn indfx;
+}
+
+/************************************************************************
+ * WFilfDiblogPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtFilfDiblog::pbrfntID =
+        fnv->GftFifldID(dls, "pbrfnt", "Lsun/bwt/windows/WComponfntPffr;");
+    DASSERT(AwtFilfDiblog::pbrfntID != NULL);
+    CHECK_NULL(AwtFilfDiblog::pbrfntID);
+
+    AwtFilfDiblog::filfFiltfrID =
+        fnv->GftFifldID(dls, "filfFiltfr", "Ljbvb/io/FilfnbmfFiltfr;");
+    DASSERT(AwtFilfDiblog::filfFiltfrID != NULL);
+    CHECK_NULL(AwtFilfDiblog::filfFiltfrID);
+
+    AwtFilfDiblog::sftHWndMID = fnv->GftMfthodID(dls, "sftHWnd", "(J)V");
+    DASSERT(AwtFilfDiblog::sftHWndMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::sftHWndMID);
+
+    AwtFilfDiblog::hbndlfSflfdtfdMID =
+        fnv->GftMfthodID(dls, "hbndlfSflfdtfd", "([C)V");
+    DASSERT(AwtFilfDiblog::hbndlfSflfdtfdMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::hbndlfSflfdtfdMID);
+
+    AwtFilfDiblog::hbndlfCbndflMID =
+        fnv->GftMfthodID(dls, "hbndlfCbndfl", "()V");
+    DASSERT(AwtFilfDiblog::hbndlfCbndflMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::hbndlfCbndflMID);
+
+    AwtFilfDiblog::dhfdkFilfnbmfFiltfrMID =
+        fnv->GftMfthodID(dls, "dhfdkFilfnbmfFiltfr", "(Ljbvb/lbng/String;)Z");
+    DASSERT(AwtFilfDiblog::dhfdkFilfnbmfFiltfrMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::dhfdkFilfnbmfFiltfrMID);
+
+    AwtFilfDiblog::isMultiplfModfMID = fnv->GftMfthodID(dls, "isMultiplfModf", "()Z");
+    DASSERT(AwtFilfDiblog::isMultiplfModfMID != NULL);
+    CHECK_NULL(AwtFilfDiblog::isMultiplfModfMID);
+
+    /* jbvb.bwt.FilfDiblog fiflds */
+    dls = fnv->FindClbss("jbvb/bwt/FilfDiblog");
+    CHECK_NULL(dls);
+
+    AwtFilfDiblog::modfID = fnv->GftFifldID(dls, "modf", "I");
+    DASSERT(AwtFilfDiblog::modfID != NULL);
+    CHECK_NULL(AwtFilfDiblog::modfID);
+
+    AwtFilfDiblog::dirID = fnv->GftFifldID(dls, "dir", "Ljbvb/lbng/String;");
+    DASSERT(AwtFilfDiblog::dirID != NULL);
+    CHECK_NULL(AwtFilfDiblog::dirID);
+
+    AwtFilfDiblog::filfID = fnv->GftFifldID(dls, "filf", "Ljbvb/lbng/String;");
+    DASSERT(AwtFilfDiblog::filfID != NULL);
+    CHECK_NULL(AwtFilfDiblog::filfID);
+
+    AwtFilfDiblog::filtfrID =
+        fnv->GftFifldID(dls, "filtfr", "Ljbvb/io/FilfnbmfFiltfr;");
+    DASSERT(AwtFilfDiblog::filtfrID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_sftFiltfrString(JNIEnv *fnv, jdlbss dls,
+                                                     jstring filtfrDfsdription)
+{
+    TRY;
+
+    AwtFilfDiblog::Initiblizf(fnv, filtfrDfsdription);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1show(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    /*
+     * Fix for 4906972.
+     * 'pffr' rfffrfndf hbs to bf globbl bs it's usfd furthfr in bnothfr thrfbd.
+     */
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
+
+    AwtToolkit::GftInstbndf().InvokfFundtion(AwtFilfDiblog::Show, pffrGlobbl);
+
+    fnv->DflftfGlobblRff(pffrGlobbl);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1disposf(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY_NO_VERIFY;
+
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_DisposfOrHidf,
+        (void *)pffrGlobbl);
+    // pffrGlobbl rff is dflftfd in _DisposfOrHidf
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr__1hidf(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    jobjfdt pffrGlobbl = fnv->NfwGlobblRff(pffr);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_DisposfOrHidf,
+        (void *)pffrGlobbl);
+    // pffrGlobbl rff is dflftfd in _DisposfOrHidf
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_toFront(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_ToFront,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToFront
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFilfDiblogPffr_toBbdk(JNIEnv *fnv, jobjfdt pffr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtFilfDiblog::_ToBbdk,
+                                       (void *)(fnv->NfwGlobblRff(pffr)));
+    // globbl rff is dflftfd in _ToBbdk
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

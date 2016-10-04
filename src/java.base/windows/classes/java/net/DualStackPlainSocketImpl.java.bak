@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import sun.misd.SibrfdSfdrfts;
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
 
 /**
- * This class defines the plain SocketImpl that is used on Windows platforms
- * greater or equal to Windows Vista. These platforms have a dual
- * layer TCP/IP stack and can handle both IPv4 and IPV6 through a
- * single file descriptor.
+ * Tiis dlbss dffinfs tif plbin SodkftImpl tibt is usfd on Windows plbtforms
+ * grfbtfr or fqubl to Windows Vistb. Tifsf plbtforms ibvf b dubl
+ * lbyfr TCP/IP stbdk bnd dbn ibndlf boti IPv4 bnd IPV6 tirougi b
+ * singlf filf dfsdriptor.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
+dlbss DublStbdkPlbinSodkftImpl fxtfnds AbstrbdtPlbinSodkftImpl
 {
-    static JavaIOFileDescriptorAccess fdAccess = SharedSecrets.getJavaIOFileDescriptorAccess();
+    stbtid JbvbIOFilfDfsdriptorAddfss fdAddfss = SibrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
 
 
-    // true if this socket is exclusively bound
-    private final boolean exclusiveBind;
+    // truf if tiis sodkft is fxdlusivfly bound
+    privbtf finbl boolfbn fxdlusivfBind;
 
-    // emulates SO_REUSEADDR when exclusiveBind is true
-    private boolean isReuseAddress;
+    // fmulbtfs SO_REUSEADDR wifn fxdlusivfBind is truf
+    privbtf boolfbn isRfusfAddrfss;
 
-    public DualStackPlainSocketImpl(boolean exclBind) {
-        exclusiveBind = exclBind;
+    publid DublStbdkPlbinSodkftImpl(boolfbn fxdlBind) {
+        fxdlusivfBind = fxdlBind;
     }
 
-    public DualStackPlainSocketImpl(FileDescriptor fd, boolean exclBind) {
-        this.fd = fd;
-        exclusiveBind = exclBind;
+    publid DublStbdkPlbinSodkftImpl(FilfDfsdriptor fd, boolfbn fxdlBind) {
+        tiis.fd = fd;
+        fxdlusivfBind = fxdlBind;
     }
 
-    void socketCreate(boolean stream) throws IOException {
+    void sodkftCrfbtf(boolfbn strfbm) tirows IOExdfption {
         if (fd == null)
-            throw new SocketException("Socket closed");
+            tirow nfw SodkftExdfption("Sodkft dlosfd");
 
-        int newfd = socket0(stream, false /*v6 Only*/);
+        int nfwfd = sodkft0(strfbm, fblsf /*v6 Only*/);
 
-        fdAccess.set(fd, newfd);
+        fdAddfss.sft(fd, nfwfd);
     }
 
-    void socketConnect(InetAddress address, int port, int timeout)
-        throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    void sodkftConnfdt(InftAddrfss bddrfss, int port, int timfout)
+        tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
-        if (address == null)
-            throw new NullPointerException("inet address argument is null.");
+        if (bddrfss == null)
+            tirow nfw NullPointfrExdfption("inft bddrfss brgumfnt is null.");
 
-        int connectResult;
-        if (timeout <= 0) {
-            connectResult = connect0(nativefd, address, port);
-        } else {
-            configureBlocking(nativefd, false);
+        int donnfdtRfsult;
+        if (timfout <= 0) {
+            donnfdtRfsult = donnfdt0(nbtivffd, bddrfss, port);
+        } flsf {
+            donfigurfBlodking(nbtivffd, fblsf);
             try {
-                connectResult = connect0(nativefd, address, port);
-                if (connectResult == WOULDBLOCK) {
-                    waitForConnect(nativefd, timeout);
+                donnfdtRfsult = donnfdt0(nbtivffd, bddrfss, port);
+                if (donnfdtRfsult == WOULDBLOCK) {
+                    wbitForConnfdt(nbtivffd, timfout);
                 }
-            } finally {
-                configureBlocking(nativefd, true);
+            } finblly {
+                donfigurfBlodking(nbtivffd, truf);
             }
         }
         /*
-         * We need to set the local port field. If bind was called
-         * previous to the connect (by the client) then localport field
-         * will already be set.
+         * Wf nffd to sft tif lodbl port fifld. If bind wbs dbllfd
+         * prfvious to tif donnfdt (by tif dlifnt) tifn lodblport fifld
+         * will blrfbdy bf sft.
          */
-        if (localport == 0)
-            localport = localPort0(nativefd);
+        if (lodblport == 0)
+            lodblport = lodblPort0(nbtivffd);
     }
 
-    void socketBind(InetAddress address, int port) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    void sodkftBind(InftAddrfss bddrfss, int port) tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
-        if (address == null)
-            throw new NullPointerException("inet address argument is null.");
+        if (bddrfss == null)
+            tirow nfw NullPointfrExdfption("inft bddrfss brgumfnt is null.");
 
-        bind0(nativefd, address, port, exclusiveBind);
+        bind0(nbtivffd, bddrfss, port, fxdlusivfBind);
         if (port == 0) {
-            localport = localPort0(nativefd);
-        } else {
-            localport = port;
+            lodblport = lodblPort0(nbtivffd);
+        } flsf {
+            lodblport = port;
         }
 
-        this.address = address;
+        tiis.bddrfss = bddrfss;
     }
 
-    void socketListen(int backlog) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    void sodkftListfn(int bbdklog) tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
-        listen0(nativefd, backlog);
+        listfn0(nbtivffd, bbdklog);
     }
 
-    void socketAccept(SocketImpl s) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
+    void sodkftAddfpt(SodkftImpl s) tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
         if (s == null)
-            throw new NullPointerException("socket is null");
+            tirow nfw NullPointfrExdfption("sodkft is null");
 
-        int newfd = -1;
-        InetSocketAddress[] isaa = new InetSocketAddress[1];
-        if (timeout <= 0) {
-            newfd = accept0(nativefd, isaa);
-        } else {
-            configureBlocking(nativefd, false);
+        int nfwfd = -1;
+        InftSodkftAddrfss[] isbb = nfw InftSodkftAddrfss[1];
+        if (timfout <= 0) {
+            nfwfd = bddfpt0(nbtivffd, isbb);
+        } flsf {
+            donfigurfBlodking(nbtivffd, fblsf);
             try {
-                waitForNewConnection(nativefd, timeout);
-                newfd = accept0(nativefd, isaa);
-                if (newfd != -1) {
-                    configureBlocking(newfd, true);
+                wbitForNfwConnfdtion(nbtivffd, timfout);
+                nfwfd = bddfpt0(nbtivffd, isbb);
+                if (nfwfd != -1) {
+                    donfigurfBlodking(nfwfd, truf);
                 }
-            } finally {
-                configureBlocking(nativefd, true);
+            } finblly {
+                donfigurfBlodking(nbtivffd, truf);
             }
         }
-        /* Update (SocketImpl)s' fd */
-        fdAccess.set(s.fd, newfd);
-        /* Update socketImpls remote port, address and localport */
-        InetSocketAddress isa = isaa[0];
-        s.port = isa.getPort();
-        s.address = isa.getAddress();
-        s.localport = localport;
+        /* Updbtf (SodkftImpl)s' fd */
+        fdAddfss.sft(s.fd, nfwfd);
+        /* Updbtf sodkftImpls rfmotf port, bddrfss bnd lodblport */
+        InftSodkftAddrfss isb = isbb[0];
+        s.port = isb.gftPort();
+        s.bddrfss = isb.gftAddrfss();
+        s.lodblport = lodblport;
     }
 
-    int socketAvailable() throws IOException {
-        int nativefd = checkAndReturnNativeFD();
-        return available0(nativefd);
+    int sodkftAvbilbblf() tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
+        rfturn bvbilbblf0(nbtivffd);
     }
 
-    void socketClose0(boolean useDeferredClose/*unused*/) throws IOException {
+    void sodkftClosf0(boolfbn usfDfffrrfdClosf/*unusfd*/) tirows IOExdfption {
         if (fd == null)
-            throw new SocketException("Socket closed");
+            tirow nfw SodkftExdfption("Sodkft dlosfd");
 
-        if (!fd.valid())
-            return;
+        if (!fd.vblid())
+            rfturn;
 
-        final int nativefd = fdAccess.get(fd);
-        fdAccess.set(fd, -1);
-        close0(nativefd);
+        finbl int nbtivffd = fdAddfss.gft(fd);
+        fdAddfss.sft(fd, -1);
+        dlosf0(nbtivffd);
     }
 
-    void socketShutdown(int howto) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
-        shutdown0(nativefd, howto);
+    void sodkftSiutdown(int iowto) tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
+        siutdown0(nbtivffd, iowto);
     }
 
-    // Intentional fallthrough after SO_REUSEADDR
-    @SuppressWarnings("fallthrough")
-    void socketSetOption(int opt, boolean on, Object value)
-        throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+    // Intfntionbl fblltirougi bftfr SO_REUSEADDR
+    @SupprfssWbrnings("fblltirougi")
+    void sodkftSftOption(int opt, boolfbn on, Objfdt vbluf)
+        tirows SodkftExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
-        if (opt == SO_TIMEOUT) {  // timeout implemented through select.
-            return;
+        if (opt == SO_TIMEOUT) {  // timfout implfmfntfd tirougi sflfdt.
+            rfturn;
         }
 
-        int optionValue = 0;
+        int optionVbluf = 0;
 
-        switch(opt) {
-            case SO_REUSEADDR :
-                if (exclusiveBind) {
-                    // SO_REUSEADDR emulated when using exclusive bind
-                    isReuseAddress = on;
-                    return;
+        switdi(opt) {
+            dbsf SO_REUSEADDR :
+                if (fxdlusivfBind) {
+                    // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+                    isRfusfAddrfss = on;
+                    rfturn;
                 }
-                // intentional fallthrough
-            case TCP_NODELAY :
-            case SO_OOBINLINE :
-            case SO_KEEPALIVE :
-                optionValue = on ? 1 : 0;
-                break;
-            case SO_SNDBUF :
-            case SO_RCVBUF :
-            case IP_TOS :
-                optionValue = ((Integer)value).intValue();
-                break;
-            case SO_LINGER :
+                // intfntionbl fblltirougi
+            dbsf TCP_NODELAY :
+            dbsf SO_OOBINLINE :
+            dbsf SO_KEEPALIVE :
+                optionVbluf = on ? 1 : 0;
+                brfbk;
+            dbsf SO_SNDBUF :
+            dbsf SO_RCVBUF :
+            dbsf IP_TOS :
+                optionVbluf = ((Intfgfr)vbluf).intVbluf();
+                brfbk;
+            dbsf SO_LINGER :
                 if (on) {
-                    optionValue =  ((Integer)value).intValue();
-                } else {
-                    optionValue = -1;
+                    optionVbluf =  ((Intfgfr)vbluf).intVbluf();
+                } flsf {
+                    optionVbluf = -1;
                 }
-                break;
-            default :/* shouldn't get here */
-                throw new SocketException("Option not supported");
+                brfbk;
+            dffbult :/* siouldn't gft ifrf */
+                tirow nfw SodkftExdfption("Option not supportfd");
         }
 
-        setIntOption(nativefd, opt, optionValue);
+        sftIntOption(nbtivffd, opt, optionVbluf);
     }
 
-    int socketGetOption(int opt, Object iaContainerObj) throws SocketException {
-        int nativefd = checkAndReturnNativeFD();
+    int sodkftGftOption(int opt, Objfdt ibContbinfrObj) tirows SodkftExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
 
-        // SO_BINDADDR is not a socket option.
+        // SO_BINDADDR is not b sodkft option.
         if (opt == SO_BINDADDR) {
-            localAddress(nativefd, (InetAddressContainer)iaContainerObj);
-            return 0;  // return value doesn't matter.
+            lodblAddrfss(nbtivffd, (InftAddrfssContbinfr)ibContbinfrObj);
+            rfturn 0;  // rfturn vbluf dofsn't mbttfr.
         }
 
-        // SO_REUSEADDR emulated when using exclusive bind
-        if (opt == SO_REUSEADDR && exclusiveBind)
-            return isReuseAddress? 1 : -1;
+        // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+        if (opt == SO_REUSEADDR && fxdlusivfBind)
+            rfturn isRfusfAddrfss? 1 : -1;
 
-        int value = getIntOption(nativefd, opt);
+        int vbluf = gftIntOption(nbtivffd, opt);
 
-        switch (opt) {
-            case TCP_NODELAY :
-            case SO_OOBINLINE :
-            case SO_KEEPALIVE :
-            case SO_REUSEADDR :
-                return (value == 0) ? -1 : 1;
+        switdi (opt) {
+            dbsf TCP_NODELAY :
+            dbsf SO_OOBINLINE :
+            dbsf SO_KEEPALIVE :
+            dbsf SO_REUSEADDR :
+                rfturn (vbluf == 0) ? -1 : 1;
         }
-        return value;
+        rfturn vbluf;
     }
 
-    void socketSendUrgentData(int data) throws IOException {
-        int nativefd = checkAndReturnNativeFD();
-        sendOOB(nativefd, data);
+    void sodkftSfndUrgfntDbtb(int dbtb) tirows IOExdfption {
+        int nbtivffd = difdkAndRfturnNbtivfFD();
+        sfndOOB(nbtivffd, dbtb);
     }
 
-    private int checkAndReturnNativeFD() throws SocketException {
-        if (fd == null || !fd.valid())
-            throw new SocketException("Socket closed");
+    privbtf int difdkAndRfturnNbtivfFD() tirows SodkftExdfption {
+        if (fd == null || !fd.vblid())
+            tirow nfw SodkftExdfption("Sodkft dlosfd");
 
-        return fdAccess.get(fd);
+        rfturn fdAddfss.gft(fd);
     }
 
-    static final int WOULDBLOCK = -2;       // Nothing available (non-blocking)
+    stbtid finbl int WOULDBLOCK = -2;       // Notiing bvbilbblf (non-blodking)
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    /* Native methods */
+    /* Nbtivf mftiods */
 
-    static native void initIDs();
+    stbtid nbtivf void initIDs();
 
-    static native int socket0(boolean stream, boolean v6Only) throws IOException;
+    stbtid nbtivf int sodkft0(boolfbn strfbm, boolfbn v6Only) tirows IOExdfption;
 
-    static native void bind0(int fd, InetAddress localAddress, int localport,
-                             boolean exclBind)
-        throws IOException;
+    stbtid nbtivf void bind0(int fd, InftAddrfss lodblAddrfss, int lodblport,
+                             boolfbn fxdlBind)
+        tirows IOExdfption;
 
-    static native int connect0(int fd, InetAddress remote, int remotePort)
-        throws IOException;
+    stbtid nbtivf int donnfdt0(int fd, InftAddrfss rfmotf, int rfmotfPort)
+        tirows IOExdfption;
 
-    static native void waitForConnect(int fd, int timeout) throws IOException;
+    stbtid nbtivf void wbitForConnfdt(int fd, int timfout) tirows IOExdfption;
 
-    static native int localPort0(int fd) throws IOException;
+    stbtid nbtivf int lodblPort0(int fd) tirows IOExdfption;
 
-    static native void localAddress(int fd, InetAddressContainer in) throws SocketException;
+    stbtid nbtivf void lodblAddrfss(int fd, InftAddrfssContbinfr in) tirows SodkftExdfption;
 
-    static native void listen0(int fd, int backlog) throws IOException;
+    stbtid nbtivf void listfn0(int fd, int bbdklog) tirows IOExdfption;
 
-    static native int accept0(int fd, InetSocketAddress[] isaa) throws IOException;
+    stbtid nbtivf int bddfpt0(int fd, InftSodkftAddrfss[] isbb) tirows IOExdfption;
 
-    static native void waitForNewConnection(int fd, int timeout) throws IOException;
+    stbtid nbtivf void wbitForNfwConnfdtion(int fd, int timfout) tirows IOExdfption;
 
-    static native int available0(int fd) throws IOException;
+    stbtid nbtivf int bvbilbblf0(int fd) tirows IOExdfption;
 
-    static native void close0(int fd) throws IOException;
+    stbtid nbtivf void dlosf0(int fd) tirows IOExdfption;
 
-    static native void shutdown0(int fd, int howto) throws IOException;
+    stbtid nbtivf void siutdown0(int fd, int iowto) tirows IOExdfption;
 
-    static native void setIntOption(int fd, int cmd, int optionValue) throws SocketException;
+    stbtid nbtivf void sftIntOption(int fd, int dmd, int optionVbluf) tirows SodkftExdfption;
 
-    static native int getIntOption(int fd, int cmd) throws SocketException;
+    stbtid nbtivf int gftIntOption(int fd, int dmd) tirows SodkftExdfption;
 
-    static native void sendOOB(int fd, int data) throws IOException;
+    stbtid nbtivf void sfndOOB(int fd, int dbtb) tirows IOExdfption;
 
-    static native void configureBlocking(int fd, boolean blocking) throws IOException;
+    stbtid nbtivf void donfigurfBlodking(int fd, boolfbn blodking) tirows IOExdfption;
 }

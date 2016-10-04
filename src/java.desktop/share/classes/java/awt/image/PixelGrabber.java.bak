@@ -1,672 +1,672 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.util.Hashtable;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
-import java.awt.Image;
+import jbvb.util.Hbsitbblf;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.Imbgf;
 
 /**
- * The PixelGrabber class implements an ImageConsumer which can be attached
- * to an Image or ImageProducer object to retrieve a subset of the pixels
- * in that image.  Here is an example:
- * <pre>{@code
+ * Tif PixflGrbbbfr dlbss implfmfnts bn ImbgfConsumfr wiidi dbn bf bttbdifd
+ * to bn Imbgf or ImbgfProdudfr objfdt to rftrifvf b subsft of tif pixfls
+ * in tibt imbgf.  Hfrf is bn fxbmplf:
+ * <prf>{@dodf
  *
- * public void handlesinglepixel(int x, int y, int pixel) {
- *      int alpha = (pixel >> 24) & 0xff;
- *      int red   = (pixel >> 16) & 0xff;
- *      int green = (pixel >>  8) & 0xff;
- *      int blue  = (pixel      ) & 0xff;
- *      // Deal with the pixel as necessary...
+ * publid void ibndlfsinglfpixfl(int x, int y, int pixfl) {
+ *      int blpib = (pixfl >> 24) & 0xff;
+ *      int rfd   = (pixfl >> 16) & 0xff;
+ *      int grffn = (pixfl >>  8) & 0xff;
+ *      int bluf  = (pixfl      ) & 0xff;
+ *      // Dfbl witi tif pixfl bs nfdfssbry...
  * }
  *
- * public void handlepixels(Image img, int x, int y, int w, int h) {
- *      int[] pixels = new int[w * h];
- *      PixelGrabber pg = new PixelGrabber(img, x, y, w, h, pixels, 0, w);
+ * publid void ibndlfpixfls(Imbgf img, int x, int y, int w, int i) {
+ *      int[] pixfls = nfw int[w * i];
+ *      PixflGrbbbfr pg = nfw PixflGrbbbfr(img, x, y, w, i, pixfls, 0, w);
  *      try {
- *          pg.grabPixels();
- *      } catch (InterruptedException e) {
- *          System.err.println("interrupted waiting for pixels!");
- *          return;
+ *          pg.grbbPixfls();
+ *      } dbtdi (IntfrruptfdExdfption f) {
+ *          Systfm.frr.println("intfrruptfd wbiting for pixfls!");
+ *          rfturn;
  *      }
- *      if ((pg.getStatus() & ImageObserver.ABORT) != 0) {
- *          System.err.println("image fetch aborted or errored");
- *          return;
+ *      if ((pg.gftStbtus() & ImbgfObsfrvfr.ABORT) != 0) {
+ *          Systfm.frr.println("imbgf fftdi bbortfd or frrorfd");
+ *          rfturn;
  *      }
- *      for (int j = 0; j < h; j++) {
+ *      for (int j = 0; j < i; j++) {
  *          for (int i = 0; i < w; i++) {
- *              handlesinglepixel(x+i, y+j, pixels[j * w + i]);
+ *              ibndlfsinglfpixfl(x+i, y+j, pixfls[j * w + i]);
  *          }
  *      }
  * }
  *
- * }</pre>
+ * }</prf>
  *
- * @see ColorModel#getRGBdefault
+ * @sff ColorModfl#gftRGBdffbult
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-public class PixelGrabber implements ImageConsumer {
-    ImageProducer producer;
+publid dlbss PixflGrbbbfr implfmfnts ImbgfConsumfr {
+    ImbgfProdudfr produdfr;
 
     int dstX;
     int dstY;
     int dstW;
     int dstH;
 
-    ColorModel imageModel;
-    byte[] bytePixels;
-    int[] intPixels;
+    ColorModfl imbgfModfl;
+    bytf[] bytfPixfls;
+    int[] intPixfls;
     int dstOff;
-    int dstScan;
+    int dstSdbn;
 
-    private boolean grabbing;
-    private int flags;
+    privbtf boolfbn grbbbing;
+    privbtf int flbgs;
 
-    private static final int GRABBEDBITS = (ImageObserver.FRAMEBITS
-                                            | ImageObserver.ALLBITS);
-    private static final int DONEBITS = (GRABBEDBITS
-                                         | ImageObserver.ERROR);
+    privbtf stbtid finbl int GRABBEDBITS = (ImbgfObsfrvfr.FRAMEBITS
+                                            | ImbgfObsfrvfr.ALLBITS);
+    privbtf stbtid finbl int DONEBITS = (GRABBEDBITS
+                                         | ImbgfObsfrvfr.ERROR);
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the specified image into the given array.
-     * The pixels are stored into the array in the default RGB ColorModel.
-     * The RGB data for pixel (i, j) where (i, j) is inside the rectangle
-     * (x, y, w, h) is stored in the array at
-     * <tt>pix[(j - y) * scansize + (i - x) + off]</tt>.
-     * @see ColorModel#getRGBdefault
-     * @param img the image to retrieve pixels from
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param pix the array of integers which are to be used to hold the
-     * RGB pixels retrieved from the image
-     * @param off the offset into the array of where to store the first pixel
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
+     * Crfbtf b PixflGrbbbfr objfdt to grbb tif (x, y, w, i) rfdtbngulbr
+     * sfdtion of pixfls from tif spfdififd imbgf into tif givfn brrby.
+     * Tif pixfls brf storfd into tif brrby in tif dffbult RGB ColorModfl.
+     * Tif RGB dbtb for pixfl (i, j) wifrf (i, j) is insidf tif rfdtbnglf
+     * (x, y, w, i) is storfd in tif brrby bt
+     * <tt>pix[(j - y) * sdbnsizf + (i - x) + off]</tt>.
+     * @sff ColorModfl#gftRGBdffbult
+     * @pbrbm img tif imbgf to rftrifvf pixfls from
+     * @pbrbm x tif x doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf, rflbtivf to tif dffbult
+     * (unsdblfd) sizf of tif imbgf
+     * @pbrbm y tif y doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm pix tif brrby of intfgfrs wiidi brf to bf usfd to iold tif
+     * RGB pixfls rftrifvfd from tif imbgf
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif first pixfl
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif brrby
      */
-    public PixelGrabber(Image img, int x, int y, int w, int h,
-                        int[] pix, int off, int scansize) {
-        this(img.getSource(), x, y, w, h, pix, off, scansize);
+    publid PixflGrbbbfr(Imbgf img, int x, int y, int w, int i,
+                        int[] pix, int off, int sdbnsizf) {
+        tiis(img.gftSourdf(), x, y, w, i, pix, off, sdbnsizf);
     }
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the image produced by the specified
-     * ImageProducer into the given array.
-     * The pixels are stored into the array in the default RGB ColorModel.
-     * The RGB data for pixel (i, j) where (i, j) is inside the rectangle
-     * (x, y, w, h) is stored in the array at
-     * <tt>pix[(j - y) * scansize + (i - x) + off]</tt>.
-     * @param ip the <code>ImageProducer</code> that produces the
-     * image from which to retrieve pixels
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param pix the array of integers which are to be used to hold the
-     * RGB pixels retrieved from the image
-     * @param off the offset into the array of where to store the first pixel
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see ColorModel#getRGBdefault
+     * Crfbtf b PixflGrbbbfr objfdt to grbb tif (x, y, w, i) rfdtbngulbr
+     * sfdtion of pixfls from tif imbgf produdfd by tif spfdififd
+     * ImbgfProdudfr into tif givfn brrby.
+     * Tif pixfls brf storfd into tif brrby in tif dffbult RGB ColorModfl.
+     * Tif RGB dbtb for pixfl (i, j) wifrf (i, j) is insidf tif rfdtbnglf
+     * (x, y, w, i) is storfd in tif brrby bt
+     * <tt>pix[(j - y) * sdbnsizf + (i - x) + off]</tt>.
+     * @pbrbm ip tif <dodf>ImbgfProdudfr</dodf> tibt produdfs tif
+     * imbgf from wiidi to rftrifvf pixfls
+     * @pbrbm x tif x doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf, rflbtivf to tif dffbult
+     * (unsdblfd) sizf of tif imbgf
+     * @pbrbm y tif y doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm pix tif brrby of intfgfrs wiidi brf to bf usfd to iold tif
+     * RGB pixfls rftrifvfd from tif imbgf
+     * @pbrbm off tif offsft into tif brrby of wifrf to storf tif first pixfl
+     * @pbrbm sdbnsizf tif distbndf from onf row of pixfls to tif nfxt in
+     * tif brrby
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public PixelGrabber(ImageProducer ip, int x, int y, int w, int h,
-                        int[] pix, int off, int scansize) {
-        producer = ip;
+    publid PixflGrbbbfr(ImbgfProdudfr ip, int x, int y, int w, int i,
+                        int[] pix, int off, int sdbnsizf) {
+        produdfr = ip;
         dstX = x;
         dstY = y;
         dstW = w;
-        dstH = h;
+        dstH = i;
         dstOff = off;
-        dstScan = scansize;
-        intPixels = pix;
-        imageModel = ColorModel.getRGBdefault();
+        dstSdbn = sdbnsizf;
+        intPixfls = pix;
+        imbgfModfl = ColorModfl.gftRGBdffbult();
     }
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the specified image.  The pixels are
-     * accumulated in the original ColorModel if the same ColorModel
-     * is used for every call to setPixels, otherwise the pixels are
-     * accumulated in the default RGB ColorModel.  If the forceRGB
-     * parameter is true, then the pixels will be accumulated in the
-     * default RGB ColorModel anyway.  A buffer is allocated by the
-     * PixelGrabber to hold the pixels in either case.  If {@code (w < 0)} or
-     * {@code (h < 0)}, then they will default to the remaining width and
-     * height of the source data when that information is delivered.
-     * @param img the image to retrieve the image data from
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param forceRGB true if the pixels should always be converted to
-     * the default RGB ColorModel
+     * Crfbtf b PixflGrbbbfr objfdt to grbb tif (x, y, w, i) rfdtbngulbr
+     * sfdtion of pixfls from tif spfdififd imbgf.  Tif pixfls brf
+     * bddumulbtfd in tif originbl ColorModfl if tif sbmf ColorModfl
+     * is usfd for fvfry dbll to sftPixfls, otifrwisf tif pixfls brf
+     * bddumulbtfd in tif dffbult RGB ColorModfl.  If tif fordfRGB
+     * pbrbmftfr is truf, tifn tif pixfls will bf bddumulbtfd in tif
+     * dffbult RGB ColorModfl bnywby.  A bufffr is bllodbtfd by tif
+     * PixflGrbbbfr to iold tif pixfls in fitifr dbsf.  If {@dodf (w < 0)} or
+     * {@dodf (i < 0)}, tifn tify will dffbult to tif rfmbining widti bnd
+     * ifigit of tif sourdf dbtb wifn tibt informbtion is dflivfrfd.
+     * @pbrbm img tif imbgf to rftrifvf tif imbgf dbtb from
+     * @pbrbm x tif x doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf, rflbtivf to tif dffbult
+     * (unsdblfd) sizf of tif imbgf
+     * @pbrbm y tif y doordinbtf of tif uppfr lfft dornfr of tif rfdtbnglf
+     * of pixfls to rftrifvf from tif imbgf
+     * @pbrbm w tif widti of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm i tif ifigit of tif rfdtbnglf of pixfls to rftrifvf
+     * @pbrbm fordfRGB truf if tif pixfls siould blwbys bf donvfrtfd to
+     * tif dffbult RGB ColorModfl
      */
-    public PixelGrabber(Image img, int x, int y, int w, int h,
-                        boolean forceRGB)
+    publid PixflGrbbbfr(Imbgf img, int x, int y, int w, int i,
+                        boolfbn fordfRGB)
     {
-        producer = img.getSource();
+        produdfr = img.gftSourdf();
         dstX = x;
         dstY = y;
         dstW = w;
-        dstH = h;
-        if (forceRGB) {
-            imageModel = ColorModel.getRGBdefault();
+        dstH = i;
+        if (fordfRGB) {
+            imbgfModfl = ColorModfl.gftRGBdffbult();
         }
     }
 
     /**
-     * Request the PixelGrabber to start fetching the pixels.
+     * Rfqufst tif PixflGrbbbfr to stbrt fftdiing tif pixfls.
      */
-    public synchronized void startGrabbing() {
-        if ((flags & DONEBITS) != 0) {
-            return;
+    publid syndironizfd void stbrtGrbbbing() {
+        if ((flbgs & DONEBITS) != 0) {
+            rfturn;
         }
-        if (!grabbing) {
-            grabbing = true;
-            flags &= ~(ImageObserver.ABORT);
-            producer.startProduction(this);
+        if (!grbbbing) {
+            grbbbing = truf;
+            flbgs &= ~(ImbgfObsfrvfr.ABORT);
+            produdfr.stbrtProdudtion(tiis);
         }
     }
 
     /**
-     * Request the PixelGrabber to abort the image fetch.
+     * Rfqufst tif PixflGrbbbfr to bbort tif imbgf fftdi.
      */
-    public synchronized void abortGrabbing() {
-        imageComplete(IMAGEABORTED);
+    publid syndironizfd void bbortGrbbbing() {
+        imbgfComplftf(IMAGEABORTED);
     }
 
     /**
-     * Request the Image or ImageProducer to start delivering pixels and
-     * wait for all of the pixels in the rectangle of interest to be
-     * delivered.
-     * @return true if the pixels were successfully grabbed, false on
-     * abort, error or timeout
-     * @exception InterruptedException
-     *            Another thread has interrupted this thread.
+     * Rfqufst tif Imbgf or ImbgfProdudfr to stbrt dflivfring pixfls bnd
+     * wbit for bll of tif pixfls in tif rfdtbnglf of intfrfst to bf
+     * dflivfrfd.
+     * @rfturn truf if tif pixfls wfrf suddfssfully grbbbfd, fblsf on
+     * bbort, frror or timfout
+     * @fxdfption IntfrruptfdExdfption
+     *            Anotifr tirfbd ibs intfrruptfd tiis tirfbd.
      */
-    public boolean grabPixels() throws InterruptedException {
-        return grabPixels(0);
+    publid boolfbn grbbPixfls() tirows IntfrruptfdExdfption {
+        rfturn grbbPixfls(0);
     }
 
     /**
-     * Request the Image or ImageProducer to start delivering pixels and
-     * wait for all of the pixels in the rectangle of interest to be
-     * delivered or until the specified timeout has elapsed.  This method
-     * behaves in the following ways, depending on the value of
-     * <code>ms</code>:
+     * Rfqufst tif Imbgf or ImbgfProdudfr to stbrt dflivfring pixfls bnd
+     * wbit for bll of tif pixfls in tif rfdtbnglf of intfrfst to bf
+     * dflivfrfd or until tif spfdififd timfout ibs flbpsfd.  Tiis mftiod
+     * bfibvfs in tif following wbys, dfpfnding on tif vbluf of
+     * <dodf>ms</dodf>:
      * <ul>
-     * <li> If {@code ms == 0}, waits until all pixels are delivered
-     * <li> If {@code ms > 0}, waits until all pixels are delivered
-     * as timeout expires.
-     * <li> If {@code ms < 0}, returns <code>true</code> if all pixels
-     * are grabbed, <code>false</code> otherwise and does not wait.
+     * <li> If {@dodf ms == 0}, wbits until bll pixfls brf dflivfrfd
+     * <li> If {@dodf ms > 0}, wbits until bll pixfls brf dflivfrfd
+     * bs timfout fxpirfs.
+     * <li> If {@dodf ms < 0}, rfturns <dodf>truf</dodf> if bll pixfls
+     * brf grbbbfd, <dodf>fblsf</dodf> otifrwisf bnd dofs not wbit.
      * </ul>
-     * @param ms the number of milliseconds to wait for the image pixels
-     * to arrive before timing out
-     * @return true if the pixels were successfully grabbed, false on
-     * abort, error or timeout
-     * @exception InterruptedException
-     *            Another thread has interrupted this thread.
+     * @pbrbm ms tif numbfr of millisfdonds to wbit for tif imbgf pixfls
+     * to brrivf bfforf timing out
+     * @rfturn truf if tif pixfls wfrf suddfssfully grbbbfd, fblsf on
+     * bbort, frror or timfout
+     * @fxdfption IntfrruptfdExdfption
+     *            Anotifr tirfbd ibs intfrruptfd tiis tirfbd.
      */
-    public synchronized boolean grabPixels(long ms)
-        throws InterruptedException
+    publid syndironizfd boolfbn grbbPixfls(long ms)
+        tirows IntfrruptfdExdfption
     {
-        if ((flags & DONEBITS) != 0) {
-            return (flags & GRABBEDBITS) != 0;
+        if ((flbgs & DONEBITS) != 0) {
+            rfturn (flbgs & GRABBEDBITS) != 0;
         }
-        long end = ms + System.currentTimeMillis();
-        if (!grabbing) {
-            grabbing = true;
-            flags &= ~(ImageObserver.ABORT);
-            producer.startProduction(this);
+        long fnd = ms + Systfm.durrfntTimfMillis();
+        if (!grbbbing) {
+            grbbbing = truf;
+            flbgs &= ~(ImbgfObsfrvfr.ABORT);
+            produdfr.stbrtProdudtion(tiis);
         }
-        while (grabbing) {
-            long timeout;
+        wiilf (grbbbing) {
+            long timfout;
             if (ms == 0) {
-                timeout = 0;
-            } else {
-                timeout = end - System.currentTimeMillis();
-                if (timeout <= 0) {
-                    break;
+                timfout = 0;
+            } flsf {
+                timfout = fnd - Systfm.durrfntTimfMillis();
+                if (timfout <= 0) {
+                    brfbk;
                 }
             }
-            wait(timeout);
+            wbit(timfout);
         }
-        return (flags & GRABBEDBITS) != 0;
+        rfturn (flbgs & GRABBEDBITS) != 0;
     }
 
     /**
-     * Return the status of the pixels.  The ImageObserver flags
-     * representing the available pixel information are returned.
-     * @return the bitwise OR of all relevant ImageObserver flags
-     * @see ImageObserver
+     * Rfturn tif stbtus of tif pixfls.  Tif ImbgfObsfrvfr flbgs
+     * rfprfsfnting tif bvbilbblf pixfl informbtion brf rfturnfd.
+     * @rfturn tif bitwisf OR of bll rflfvbnt ImbgfObsfrvfr flbgs
+     * @sff ImbgfObsfrvfr
      */
-    public synchronized int getStatus() {
-        return flags;
+    publid syndironizfd int gftStbtus() {
+        rfturn flbgs;
     }
 
     /**
-     * Get the width of the pixel buffer (after adjusting for image width).
-     * If no width was specified for the rectangle of pixels to grab then
-     * then this information will only be available after the image has
-     * delivered the dimensions.
-     * @return the final width used for the pixel buffer or -1 if the width
-     * is not yet known
-     * @see #getStatus
+     * Gft tif widti of tif pixfl bufffr (bftfr bdjusting for imbgf widti).
+     * If no widti wbs spfdififd for tif rfdtbnglf of pixfls to grbb tifn
+     * tifn tiis informbtion will only bf bvbilbblf bftfr tif imbgf ibs
+     * dflivfrfd tif dimfnsions.
+     * @rfturn tif finbl widti usfd for tif pixfl bufffr or -1 if tif widti
+     * is not yft known
+     * @sff #gftStbtus
      */
-    public synchronized int getWidth() {
-        return (dstW < 0) ? -1 : dstW;
+    publid syndironizfd int gftWidti() {
+        rfturn (dstW < 0) ? -1 : dstW;
     }
 
     /**
-     * Get the height of the pixel buffer (after adjusting for image height).
-     * If no width was specified for the rectangle of pixels to grab then
-     * then this information will only be available after the image has
-     * delivered the dimensions.
-     * @return the final height used for the pixel buffer or -1 if the height
-     * is not yet known
-     * @see #getStatus
+     * Gft tif ifigit of tif pixfl bufffr (bftfr bdjusting for imbgf ifigit).
+     * If no widti wbs spfdififd for tif rfdtbnglf of pixfls to grbb tifn
+     * tifn tiis informbtion will only bf bvbilbblf bftfr tif imbgf ibs
+     * dflivfrfd tif dimfnsions.
+     * @rfturn tif finbl ifigit usfd for tif pixfl bufffr or -1 if tif ifigit
+     * is not yft known
+     * @sff #gftStbtus
      */
-    public synchronized int getHeight() {
-        return (dstH < 0) ? -1 : dstH;
+    publid syndironizfd int gftHfigit() {
+        rfturn (dstH < 0) ? -1 : dstH;
     }
 
     /**
-     * Get the pixel buffer.  If the PixelGrabber was not constructed
-     * with an explicit pixel buffer to hold the pixels then this method
-     * will return null until the size and format of the image data is
+     * Gft tif pixfl bufffr.  If tif PixflGrbbbfr wbs not donstrudtfd
+     * witi bn fxplidit pixfl bufffr to iold tif pixfls tifn tiis mftiod
+     * will rfturn null until tif sizf bnd formbt of tif imbgf dbtb is
      * known.
-     * Since the PixelGrabber may fall back on accumulating the data
-     * in the default RGB ColorModel at any time if the source image
-     * uses more than one ColorModel to deliver the data, the array
-     * object returned by this method may change over time until the
-     * image grab is complete.
-     * @return either a byte array or an int array
-     * @see #getStatus
-     * @see #setPixels(int, int, int, int, ColorModel, byte[], int, int)
-     * @see #setPixels(int, int, int, int, ColorModel, int[], int, int)
+     * Sindf tif PixflGrbbbfr mby fbll bbdk on bddumulbting tif dbtb
+     * in tif dffbult RGB ColorModfl bt bny timf if tif sourdf imbgf
+     * usfs morf tibn onf ColorModfl to dflivfr tif dbtb, tif brrby
+     * objfdt rfturnfd by tiis mftiod mby dibngf ovfr timf until tif
+     * imbgf grbb is domplftf.
+     * @rfturn fitifr b bytf brrby or bn int brrby
+     * @sff #gftStbtus
+     * @sff #sftPixfls(int, int, int, int, ColorModfl, bytf[], int, int)
+     * @sff #sftPixfls(int, int, int, int, ColorModfl, int[], int, int)
      */
-    public synchronized Object getPixels() {
-        return (bytePixels == null)
-            ? ((Object) intPixels)
-            : ((Object) bytePixels);
+    publid syndironizfd Objfdt gftPixfls() {
+        rfturn (bytfPixfls == null)
+            ? ((Objfdt) intPixfls)
+            : ((Objfdt) bytfPixfls);
     }
 
     /**
-     * Get the ColorModel for the pixels stored in the array.  If the
-     * PixelGrabber was constructed with an explicit pixel buffer then
-     * this method will always return the default RGB ColorModel,
-     * otherwise it may return null until the ColorModel used by the
-     * ImageProducer is known.
-     * Since the PixelGrabber may fall back on accumulating the data
-     * in the default RGB ColorModel at any time if the source image
-     * uses more than one ColorModel to deliver the data, the ColorModel
-     * object returned by this method may change over time until the
-     * image grab is complete and may not reflect any of the ColorModel
-     * objects that was used by the ImageProducer to deliver the pixels.
-     * @return the ColorModel object used for storing the pixels
-     * @see #getStatus
-     * @see ColorModel#getRGBdefault
-     * @see #setColorModel(ColorModel)
+     * Gft tif ColorModfl for tif pixfls storfd in tif brrby.  If tif
+     * PixflGrbbbfr wbs donstrudtfd witi bn fxplidit pixfl bufffr tifn
+     * tiis mftiod will blwbys rfturn tif dffbult RGB ColorModfl,
+     * otifrwisf it mby rfturn null until tif ColorModfl usfd by tif
+     * ImbgfProdudfr is known.
+     * Sindf tif PixflGrbbbfr mby fbll bbdk on bddumulbting tif dbtb
+     * in tif dffbult RGB ColorModfl bt bny timf if tif sourdf imbgf
+     * usfs morf tibn onf ColorModfl to dflivfr tif dbtb, tif ColorModfl
+     * objfdt rfturnfd by tiis mftiod mby dibngf ovfr timf until tif
+     * imbgf grbb is domplftf bnd mby not rfflfdt bny of tif ColorModfl
+     * objfdts tibt wbs usfd by tif ImbgfProdudfr to dflivfr tif pixfls.
+     * @rfturn tif ColorModfl objfdt usfd for storing tif pixfls
+     * @sff #gftStbtus
+     * @sff ColorModfl#gftRGBdffbult
+     * @sff #sftColorModfl(ColorModfl)
      */
-    public synchronized ColorModel getColorModel() {
-        return imageModel;
+    publid syndironizfd ColorModfl gftColorModfl() {
+        rfturn imbgfModfl;
     }
 
     /**
-     * The setDimensions method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftDimfnsions mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param width the width of the dimension
-     * @param height the height of the dimension
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm widti tif widti of tif dimfnsion
+     * @pbrbm ifigit tif ifigit of tif dimfnsion
      */
-    public void setDimensions(int width, int height) {
+    publid void sftDimfnsions(int widti, int ifigit) {
         if (dstW < 0) {
-            dstW = width - dstX;
+            dstW = widti - dstX;
         }
         if (dstH < 0) {
-            dstH = height - dstY;
+            dstH = ifigit - dstY;
         }
         if (dstW <= 0 || dstH <= 0) {
-            imageComplete(STATICIMAGEDONE);
-        } else if (intPixels == null &&
-                   imageModel == ColorModel.getRGBdefault()) {
-            intPixels = new int[dstW * dstH];
-            dstScan = dstW;
+            imbgfComplftf(STATICIMAGEDONE);
+        } flsf if (intPixfls == null &&
+                   imbgfModfl == ColorModfl.gftRGBdffbult()) {
+            intPixfls = nfw int[dstW * dstH];
+            dstSdbn = dstW;
             dstOff = 0;
         }
-        flags |= (ImageObserver.WIDTH | ImageObserver.HEIGHT);
+        flbgs |= (ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT);
     }
 
     /**
-     * The setHints method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftHints mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param hints a set of hints used to process the pixels
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm iints b sft of iints usfd to prodfss tif pixfls
      */
-    public void setHints(int hints) {
-        return;
+    publid void sftHints(int iints) {
+        rfturn;
     }
 
     /**
-     * The setProperties method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftPropfrtifs mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param props the list of properties
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm props tif list of propfrtifs
      */
-    public void setProperties(Hashtable<?,?> props) {
-        return;
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+        rfturn;
     }
 
     /**
-     * The setColorModel method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftColorModfl mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param model the specified <code>ColorModel</code>
-     * @see #getColorModel
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @sff #gftColorModfl
      */
-    public void setColorModel(ColorModel model) {
-        return;
+    publid void sftColorModfl(ColorModfl modfl) {
+        rfturn;
     }
 
-    private void convertToRGB() {
-        int size = dstW * dstH;
-        int newpixels[] = new int[size];
-        if (bytePixels != null) {
-            for (int i = 0; i < size; i++) {
-                newpixels[i] = imageModel.getRGB(bytePixels[i] & 0xff);
+    privbtf void donvfrtToRGB() {
+        int sizf = dstW * dstH;
+        int nfwpixfls[] = nfw int[sizf];
+        if (bytfPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = imbgfModfl.gftRGB(bytfPixfls[i] & 0xff);
             }
-        } else if (intPixels != null) {
-            for (int i = 0; i < size; i++) {
-                newpixels[i] = imageModel.getRGB(intPixels[i]);
+        } flsf if (intPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = imbgfModfl.gftRGB(intPixfls[i]);
             }
         }
-        bytePixels = null;
-        intPixels = newpixels;
-        dstScan = dstW;
+        bytfPixfls = null;
+        intPixfls = nfwpixfls;
+        dstSdbn = dstW;
         dstOff = 0;
-        imageModel = ColorModel.getRGBdefault();
+        imbgfModfl = ColorModfl.gftRGBdffbult();
     }
 
     /**
-     * The setPixels method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftPixfls mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param srcX the X coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcY the Y coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcW the width of the area of pixels
-     * @param srcH the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param srcOff the offset into the pixels array
-     * @param srcScan the distance from one row of pixels to the next
-     *        in the pixels array
-     * @see #getPixels
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm srdX tif X doordinbtf of tif uppfr-lfft dornfr
+     *        of tif brfb of pixfls to bf sft
+     * @pbrbm srdY tif Y doordinbtf of tif uppfr-lfft dornfr
+     *        of tif brfb of pixfls to bf sft
+     * @pbrbm srdW tif widti of tif brfb of pixfls
+     * @pbrbm srdH tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm srdOff tif offsft into tif pixfls brrby
+     * @pbrbm srdSdbn tif distbndf from onf row of pixfls to tif nfxt
+     *        in tif pixfls brrby
+     * @sff #gftPixfls
      */
-    public void setPixels(int srcX, int srcY, int srcW, int srcH,
-                          ColorModel model,
-                          byte pixels[], int srcOff, int srcScan) {
-        if (srcY < dstY) {
-            int diff = dstY - srcY;
-            if (diff >= srcH) {
-                return;
+    publid void sftPixfls(int srdX, int srdY, int srdW, int srdH,
+                          ColorModfl modfl,
+                          bytf pixfls[], int srdOff, int srdSdbn) {
+        if (srdY < dstY) {
+            int diff = dstY - srdY;
+            if (diff >= srdH) {
+                rfturn;
             }
-            srcOff += srcScan * diff;
-            srcY += diff;
-            srcH -= diff;
+            srdOff += srdSdbn * diff;
+            srdY += diff;
+            srdH -= diff;
         }
-        if (srcY + srcH > dstY + dstH) {
-            srcH = (dstY + dstH) - srcY;
-            if (srcH <= 0) {
-                return;
-            }
-        }
-        if (srcX < dstX) {
-            int diff = dstX - srcX;
-            if (diff >= srcW) {
-                return;
-            }
-            srcOff += diff;
-            srcX += diff;
-            srcW -= diff;
-        }
-        if (srcX + srcW > dstX + dstW) {
-            srcW = (dstX + dstW) - srcX;
-            if (srcW <= 0) {
-                return;
+        if (srdY + srdH > dstY + dstH) {
+            srdH = (dstY + dstH) - srdY;
+            if (srdH <= 0) {
+                rfturn;
             }
         }
-        int dstPtr = dstOff + (srcY - dstY) * dstScan + (srcX - dstX);
-        if (intPixels == null) {
-            if (bytePixels == null) {
-                bytePixels = new byte[dstW * dstH];
-                dstScan = dstW;
+        if (srdX < dstX) {
+            int diff = dstX - srdX;
+            if (diff >= srdW) {
+                rfturn;
+            }
+            srdOff += diff;
+            srdX += diff;
+            srdW -= diff;
+        }
+        if (srdX + srdW > dstX + dstW) {
+            srdW = (dstX + dstW) - srdX;
+            if (srdW <= 0) {
+                rfturn;
+            }
+        }
+        int dstPtr = dstOff + (srdY - dstY) * dstSdbn + (srdX - dstX);
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                bytfPixfls = nfw bytf[dstW * dstH];
+                dstSdbn = dstW;
                 dstOff = 0;
-                imageModel = model;
-            } else if (imageModel != model) {
-                convertToRGB();
+                imbgfModfl = modfl;
+            } flsf if (imbgfModfl != modfl) {
+                donvfrtToRGB();
             }
-            if (bytePixels != null) {
-                for (int h = srcH; h > 0; h--) {
-                    System.arraycopy(pixels, srcOff, bytePixels, dstPtr, srcW);
-                    srcOff += srcScan;
-                    dstPtr += dstScan;
+            if (bytfPixfls != null) {
+                for (int i = srdH; i > 0; i--) {
+                    Systfm.brrbydopy(pixfls, srdOff, bytfPixfls, dstPtr, srdW);
+                    srdOff += srdSdbn;
+                    dstPtr += dstSdbn;
                 }
             }
         }
-        if (intPixels != null) {
-            int dstRem = dstScan - srcW;
-            int srcRem = srcScan - srcW;
-            for (int h = srcH; h > 0; h--) {
-                for (int w = srcW; w > 0; w--) {
-                    intPixels[dstPtr++] = model.getRGB(pixels[srcOff++]&0xff);
+        if (intPixfls != null) {
+            int dstRfm = dstSdbn - srdW;
+            int srdRfm = srdSdbn - srdW;
+            for (int i = srdH; i > 0; i--) {
+                for (int w = srdW; w > 0; w--) {
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[srdOff++]&0xff);
                 }
-                srcOff += srcRem;
-                dstPtr += dstRem;
+                srdOff += srdRfm;
+                dstPtr += dstRfm;
             }
         }
-        flags |= ImageObserver.SOMEBITS;
+        flbgs |= ImbgfObsfrvfr.SOMEBITS;
     }
 
     /**
-     * The setPixels method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif sftPixfls mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param srcX the X coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcY the Y coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcW the width of the area of pixels
-     * @param srcH the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param srcOff the offset into the pixels array
-     * @param srcScan the distance from one row of pixels to the next
-     *        in the pixels array
-     * @see #getPixels
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm srdX tif X doordinbtf of tif uppfr-lfft dornfr
+     *        of tif brfb of pixfls to bf sft
+     * @pbrbm srdY tif Y doordinbtf of tif uppfr-lfft dornfr
+     *        of tif brfb of pixfls to bf sft
+     * @pbrbm srdW tif widti of tif brfb of pixfls
+     * @pbrbm srdH tif ifigit of tif brfb of pixfls
+     * @pbrbm modfl tif spfdififd <dodf>ColorModfl</dodf>
+     * @pbrbm pixfls tif brrby of pixfls
+     * @pbrbm srdOff tif offsft into tif pixfls brrby
+     * @pbrbm srdSdbn tif distbndf from onf row of pixfls to tif nfxt
+     *        in tif pixfls brrby
+     * @sff #gftPixfls
      */
-    public void setPixels(int srcX, int srcY, int srcW, int srcH,
-                          ColorModel model,
-                          int pixels[], int srcOff, int srcScan) {
-        if (srcY < dstY) {
-            int diff = dstY - srcY;
-            if (diff >= srcH) {
-                return;
+    publid void sftPixfls(int srdX, int srdY, int srdW, int srdH,
+                          ColorModfl modfl,
+                          int pixfls[], int srdOff, int srdSdbn) {
+        if (srdY < dstY) {
+            int diff = dstY - srdY;
+            if (diff >= srdH) {
+                rfturn;
             }
-            srcOff += srcScan * diff;
-            srcY += diff;
-            srcH -= diff;
+            srdOff += srdSdbn * diff;
+            srdY += diff;
+            srdH -= diff;
         }
-        if (srcY + srcH > dstY + dstH) {
-            srcH = (dstY + dstH) - srcY;
-            if (srcH <= 0) {
-                return;
-            }
-        }
-        if (srcX < dstX) {
-            int diff = dstX - srcX;
-            if (diff >= srcW) {
-                return;
-            }
-            srcOff += diff;
-            srcX += diff;
-            srcW -= diff;
-        }
-        if (srcX + srcW > dstX + dstW) {
-            srcW = (dstX + dstW) - srcX;
-            if (srcW <= 0) {
-                return;
+        if (srdY + srdH > dstY + dstH) {
+            srdH = (dstY + dstH) - srdY;
+            if (srdH <= 0) {
+                rfturn;
             }
         }
-        if (intPixels == null) {
-            if (bytePixels == null) {
-                intPixels = new int[dstW * dstH];
-                dstScan = dstW;
+        if (srdX < dstX) {
+            int diff = dstX - srdX;
+            if (diff >= srdW) {
+                rfturn;
+            }
+            srdOff += diff;
+            srdX += diff;
+            srdW -= diff;
+        }
+        if (srdX + srdW > dstX + dstW) {
+            srdW = (dstX + dstW) - srdX;
+            if (srdW <= 0) {
+                rfturn;
+            }
+        }
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                intPixfls = nfw int[dstW * dstH];
+                dstSdbn = dstW;
                 dstOff = 0;
-                imageModel = model;
-            } else {
-                convertToRGB();
+                imbgfModfl = modfl;
+            } flsf {
+                donvfrtToRGB();
             }
         }
-        int dstPtr = dstOff + (srcY - dstY) * dstScan + (srcX - dstX);
-        if (imageModel == model) {
-            for (int h = srcH; h > 0; h--) {
-                System.arraycopy(pixels, srcOff, intPixels, dstPtr, srcW);
-                srcOff += srcScan;
-                dstPtr += dstScan;
+        int dstPtr = dstOff + (srdY - dstY) * dstSdbn + (srdX - dstX);
+        if (imbgfModfl == modfl) {
+            for (int i = srdH; i > 0; i--) {
+                Systfm.brrbydopy(pixfls, srdOff, intPixfls, dstPtr, srdW);
+                srdOff += srdSdbn;
+                dstPtr += dstSdbn;
             }
-        } else {
-            if (imageModel != ColorModel.getRGBdefault()) {
-                convertToRGB();
+        } flsf {
+            if (imbgfModfl != ColorModfl.gftRGBdffbult()) {
+                donvfrtToRGB();
             }
-            int dstRem = dstScan - srcW;
-            int srcRem = srcScan - srcW;
-            for (int h = srcH; h > 0; h--) {
-                for (int w = srcW; w > 0; w--) {
-                    intPixels[dstPtr++] = model.getRGB(pixels[srcOff++]);
+            int dstRfm = dstSdbn - srdW;
+            int srdRfm = srdSdbn - srdW;
+            for (int i = srdH; i > 0; i--) {
+                for (int w = srdW; w > 0; w--) {
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[srdOff++]);
                 }
-                srcOff += srcRem;
-                dstPtr += dstRem;
+                srdOff += srdRfm;
+                dstPtr += dstRfm;
             }
         }
-        flags |= ImageObserver.SOMEBITS;
+        flbgs |= ImbgfObsfrvfr.SOMEBITS;
     }
 
     /**
-     * The imageComplete method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * Tif imbgfComplftf mftiod is pbrt of tif ImbgfConsumfr API wiidi
+     * tiis dlbss must implfmfnt to rftrifvf tif pixfls.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
-     * with retrieving the requested pixels.
-     * @param status the status of image loading
+     * Notf: Tiis mftiod is intfndfd to bf dbllfd by tif ImbgfProdudfr
+     * of tif Imbgf wiosf pixfls brf bfing grbbbfd.  Dfvflopfrs using
+     * tiis dlbss to rftrifvf pixfls from bn imbgf siould bvoid dblling
+     * tiis mftiod dirfdtly sindf tibt opfrbtion dould rfsult in problfms
+     * witi rftrifving tif rfqufstfd pixfls.
+     * @pbrbm stbtus tif stbtus of imbgf lobding
      */
-    public synchronized void imageComplete(int status) {
-        grabbing = false;
-        switch (status) {
-        default:
-        case IMAGEERROR:
-            flags |= ImageObserver.ERROR | ImageObserver.ABORT;
-            break;
-        case IMAGEABORTED:
-            flags |= ImageObserver.ABORT;
-            break;
-        case STATICIMAGEDONE:
-            flags |= ImageObserver.ALLBITS;
-            break;
-        case SINGLEFRAMEDONE:
-            flags |= ImageObserver.FRAMEBITS;
-            break;
+    publid syndironizfd void imbgfComplftf(int stbtus) {
+        grbbbing = fblsf;
+        switdi (stbtus) {
+        dffbult:
+        dbsf IMAGEERROR:
+            flbgs |= ImbgfObsfrvfr.ERROR | ImbgfObsfrvfr.ABORT;
+            brfbk;
+        dbsf IMAGEABORTED:
+            flbgs |= ImbgfObsfrvfr.ABORT;
+            brfbk;
+        dbsf STATICIMAGEDONE:
+            flbgs |= ImbgfObsfrvfr.ALLBITS;
+            brfbk;
+        dbsf SINGLEFRAMEDONE:
+            flbgs |= ImbgfObsfrvfr.FRAMEBITS;
+            brfbk;
         }
-        producer.removeConsumer(this);
+        produdfr.rfmovfConsumfr(tiis);
         notifyAll();
     }
 
     /**
-     * Returns the status of the pixels.  The ImageObserver flags
-     * representing the available pixel information are returned.
-     * This method and {@link #getStatus() getStatus} have the
-     * same implementation, but <code>getStatus</code> is the
-     * preferred method because it conforms to the convention of
-     * naming information-retrieval methods with the form
-     * "getXXX".
-     * @return the bitwise OR of all relevant ImageObserver flags
-     * @see ImageObserver
-     * @see #getStatus()
+     * Rfturns tif stbtus of tif pixfls.  Tif ImbgfObsfrvfr flbgs
+     * rfprfsfnting tif bvbilbblf pixfl informbtion brf rfturnfd.
+     * Tiis mftiod bnd {@link #gftStbtus() gftStbtus} ibvf tif
+     * sbmf implfmfntbtion, but <dodf>gftStbtus</dodf> is tif
+     * prfffrrfd mftiod bfdbusf it donforms to tif donvfntion of
+     * nbming informbtion-rftrifvbl mftiods witi tif form
+     * "gftXXX".
+     * @rfturn tif bitwisf OR of bll rflfvbnt ImbgfObsfrvfr flbgs
+     * @sff ImbgfObsfrvfr
+     * @sff #gftStbtus()
      */
-    public synchronized int status() {
-        return flags;
+    publid syndironizfd int stbtus() {
+        rfturn flbgs;
     }
 }

@@ -1,0 +1,277 @@
+/* 
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * 
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ * 
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ * 
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+This dirfdtory dontbins sourdf dodf to pfrform b widf vbrifty of imbgf
+donvfrsions for thf Jbvb AWT.
+
+Thf imbgf donvfrsion prodfss is dontrollfd by b fundtion skflfton
+dffinfd in thf indludf filf <img_sdblfloop.h> whidh invokfs b numbfr
+of mbdros in difffrfnt dbtfgorifs to pfrform thf work of rfbding bnd
+dfdoding thf input pixfls bnd thfn sdbling, dithfring, bnd storing thf
+pixfls in thf dfstinbtion imbgf strudturf.  Ebdh pbrt of thbt prodfss
+dbn bf implfmfntfd in onf of sfvfrbl difffrfnt wbys dfpfnding on thf
+typf of input dbtb bnd output rfprfsfntbtion nffdfd bnd dfpfnding on
+thf spffd bnd qublity dfsirfd.
+
+Thf donvfrsion prodfss bs dffinfd by <img_sdblfloop.h> dbn bf brokfn
+down into thf following dbtfgorifs:
+
+	Fftdhing	rftrifving pixfls from thf sourdf pixfl dbtb
+	Dfdoding	dfdoding sourdf pixfls into dolor/blphb informbtion
+	Sdbling		rfsbmpling sourdf dbtb for b difffrfnt rfsolution
+	Endoding	donvfrting sourdf dolors into b dfstinbtion pixfl
+	Alphb		donvfrting blphb vblufs into mbsks or blphb dhbnnfls
+	Storing		storing thf finbl pixfls in thf dfstinbtion imbgf
+
+Ebdh dbtfgory dffinfs b numbfr of difffrfnt mbdros thbt brf usfd by thf
+dodf skflfton in <img_sdblfloop.h> to pfrform thf work of donvfrting
+thf imbgfs.  Thf mbdros for fbdh dbtfgory brf bll implfmfntfd by b
+numbfr of othfr hfbdfr filfs with multiplf implfmfntbtions providfd
+for fbdh dbtfgory dfpfnding on thf pbrtidulbr typf of input or output
+dbtb dfsirfd.  Thf filfs whidh implfmfnt thf vbrious dbtfgorifs brf bs
+follows:
+
+    Fftdhing
+	<img_input8.h>		Fftdh 8 bit pixfls from b bytf brrby
+	<img_input32.h>		Fftdh 32 bit pixfls from b int brrby
+	<img_input8_32.h>	Fftdh 8 or 32 bit pixfls
+
+    Dfdoding
+    	<img_idm.h>		Dfdodf IndfxColorModfl pixfls
+    	<img_ddm.h>		Dfdodf DirfdtColorModfl pixfls
+    	<img_ddm8.h>		Dfdodf DirfdtColorModfl pixfls with bt
+				    lfbst 8 bits pfr domponfnt
+    	<img_bnydm.h>		Dfdodf bny typf of ColorModfl's pixfls (with
+				    nbtivf hbndling of Indfx bnd Dirfdt)
+
+    Sdbling
+    	<img_nosdblf.h>		Don't sdblf input dbtb bt bll
+	<img_rfplsdblf.h>	Nfbrfst Nfighbor sdbling - rfplidbtf or
+				    omit pixfls bs nfdfssbry
+
+    Endoding
+	<img_nodithfr.h>	No fndoding bt bll (only for 24-bit imbgfs)
+	<img_dir8dithfr.h>	Composf DirfdtColor pixfls, 8-bits/domponfnt 
+	<img_dirdithfr.h>	Composf DirfdtColor pixfls up to 8-bits/domp
+	<img_fsgrby.h>		Floyd-Stfinbfrg frror diffusion, grby rbmp
+				    (rfquirfs TopDownLfftRight sourdf dbtb)
+	<img_fsdolor.h>		Floyd-Stfinbfrg frror diffusion, RGB dolor mbp
+				    (rfquirfs TopDownLfftRight sourdf dbtb)
+	<img_fsdithfr.h>	Floyd-Stfinbfrg frror diffusion, RGB or grby
+				    (rfquirfs TopDownLfftRight sourdf dbtb)
+	<img_ordgrby.h>		unsignfd ordfrfd dithfr frror, grby rbmp
+	<img_orddlruns.h>	unsignfd ordfrfd dithfr frror, RGB dolor mbp
+	<img_orddlrsgn.h>	signfd ordfrfd dithfr frror, RGB dolor mbp
+	<img_orddithfr.h>	unsignfd ordfrfd dithfr frror, RGB or grby
+				    (must blso indludf orddlrsgn or orddlruns)
+
+    Alphb
+    	<img_opbquf.h>		No blphb prodfssing (must bf opbquf input)
+    	<img_blphb.h>		Produdf 1-bit trbnspbrfndy mbsks from blphb
+				    dbtb using bn ordfrfd dithfring tfdhniquf
+
+    Storing
+    	<img_output8.h>		Storf 8-bit pixfls in b bytf brrby
+    	<img_output16.h>	Storf 16-bit pixfls in b short brrby
+    	<img_output24.h>	Storf 24-bit pixfls in b bytf triplft brrby
+    	<img_output32.h>	Storf 32-bit pixfls in bn int brrby
+    	<img_output8_16_24.h>	Storf 8, 16 or 24 bit pixfls
+    	<img_output8_16_32.h>	Storf 8, 16 or 32 bit pixfls
+    	<img_output8_32.h>	Storf 8 or 32 bit pixfls
+
+Somf of thfsf hfbdfr filfs blso rfquirf b numbfr of dffinitions to bf
+providfd by thf plbtform implfmfntor.  Thfsf dffinitions brf usublly
+plbdfd in b filf dbllfd "img_util_md.h" bnd indludfd whfn dffining bn
+bdtubl imbgf sdbling fundtion (sff bflow).  Most of thf dffinitions
+dbn bf implfmfntfd using fithfr mbdros or fundtions unlfss indidbtfd
+bflow.  Hfrf is b list of thf vbrious rfquirfd dffinitions bnd thf
+filfs or dbtfgorifs whidh rfly on thfm:
+
+usfd by <img_blphb.h>
+
+    typfdff [intfgfr bbsf typf] MbskBits;
+	Spfdififs thf bbsf typf for trbnspbrfndy mbsk mbnipulbtion.
+	Somf plbtforms mby mbnipulbtf mbsks 8-bits bt b timf bnd othfrs
+	mby mbnipulbtf thfm 32-bits bt b timf.
+
+    MbskBits *ImgInitMbsk(dvdbtb);
+	Crfbtf b trbnspbrfndy mbsk bufffr bnd rfturn b hbndlf to it.
+	Thf bufffr will bf drfbtfd on thf fly whfnfvfr thf first
+	trbnspbrfnt pixfl is fndountfrfd.  If no trbnspbrfnt pixfls
+	brf fvfr fndountfrfd, thfrf will bf no rfbson to drfbtf b
+	mbsk.  Thf bufffr should bf initiblizfd to opbdity vblufs
+	whfrf bny fxisting opbquf donvfrtfd dbtb rfsidfs bnd to
+	trbnspbrfndy vblufs whfrf thfrf is no dbtb yft.
+
+    int MbskSdbn(dvdbtb);
+    	Rfturn thf sizf of b singlf sdbn linf in thf output mbsk bufffr
+	in MbskBits sizfd units.  If thf mbsk dbtb is bfing bufffrfd b
+	sdbn linf bt b timf, thfn rfturn 0 to indidbtf thbt suddfssivf
+	sdbn linfs should ovfrwritf fbdh othfr in thf singlf row-sizfd
+	bufffr.
+
+    int MbskOffsft(x);
+    	Rfturn thf indfx into bn brrby of MbskBits flfmfnts whfrf thf
+	dbtb for thf indidbtfd x doordinbtf rfsidfs.  This is typidblly
+	(x >> (sizfof(MbskBits) * 8)).
+
+    int MbskInit(x);
+    	Rfturn b numbfr with thf bppropribtf singlf bit sft for modifying
+	thf mbsk lodbtion for thf indidbtfd x doordinbtf.  This is
+	typidblly (1 << (x & ((sizfof(MbskBits) * 8) - 1))).
+
+    void SftOpbqufBit(mbsk, bit);
+    	Pfrform thf nfdfssbry logidbl opfrbtion on thf bddumulbtor "mbsk"
+	with thf indidbtfd "bit" to indidbtf bn opbquf pixfl.  If bits sft
+	to 1 rfprfsfnt opbdity, thfn this opfrbtion is typidblly dffinfd
+	bs (mbsk |= bit).  Notf thbt SftOpbqufBit must bf implfmfntfd bs
+	b mbdro sindf thf first brgumfnt, thf mbsk bddumulbtor, must bf
+	modififd.
+
+    void SftTrbnspbrfntBit(mbsk, bit);
+    	Pfrform thf nfdfssbry logidbl opfrbtion on thf bddumulbtor "mbsk"
+	with thf indidbtfd "bit" to indidbtf b trbnspbrfnt pixfl.  If bits
+	sft to 0 rfprfsfnt trbnspbrfndy, thfn this opfrbtion is typidblly
+	dffinfd bs (mbsk &= (~bit)).  Notf thbt SftTrbnspbrfntBit must
+	bf implfmfntfd bs b mbdro sindf thf first brgumfnt, thf mbsk
+	bddumulbtor, must bf modififd.
+
+usfd dirfdtly by <img_sdblfloop.h>
+
+    void BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2);
+	Cbllfd bt thf fnd of thf imbgf donvfrsion fundtion to pfrform bny
+	finbl prodfssing on thf bufffr, thf x1,y1,x2,y2 doordinbtfs spfdify
+	thf rfdtbngulbr rfgion of thf output bufffr thbt wbs modififd.
+
+usfd by bll <img_output*.h> vbribnts
+
+    void SfndRow(ird, dstY, dstX1, dstX2);
+    	Cbllfd bt thf fnd of thf prodfssing for b givfn row to bllow
+	thf plbtform to bufffr donvfrtfd dbtb by row bnd thfn movf thf
+	dbtb into plbdf b row bt b timf (for instbndf undfr X11, you
+	might wbnt to donvfrt b row of pixfls in b row-sizfd lodbl
+	bufffr bnd thfn fxfdutf XPutImbgf to sfnd thbt onf row to thf
+	sfrvfr to sbvf on thf dlifnt sidf mfmory rfquirfmfnts)
+
+    int SdbnBytfs(dvdbtb);
+    	Rfturn thf sizf in bytfs of b singlf sdbn linf in thf output
+	bufffr.  If thf dbtb is bfing bufffrfd b sdbn linf bt b timf,
+	thfn rfturn 0 to indidbtf thbt suddfssivf sdbn linfs should
+	ovfrwritf fbdh othfr in thf singlf row-sizfd bufffr.
+
+usfd by <img_fsdolor.h> bnd <img_sgnorddolor.h>
+
+    int ColorCubfFSMbp(rfd, grffn, bluf);
+	Rfturn thf pixfl vbluf of thf dlosfst dolor to thf rfqufstfd
+	rfd, grffn, bnd bluf domponfnts.  Thf domponfnts brf blrfbdy
+	bound to thf rbngf 0 <= domponfnt <= 255.
+
+usfd by bll <img_fs*.h> vbribnts
+
+    void GftPixflRGB(pixfl, rfd, grffn, bluf);
+    	Storf thf bppropribtf dolor domponfnts for thf indidbtfd output
+	"pixfl" into thf rfd, grffn, bnd bluf brgumfnts.  Notf thbt
+	GftPixflRGB must bf implfmfntfd bs b mbdro sindf thf lbst thrff
+	brgumfnts must bf modififd, but thf mbdro dould bf implfmfntfd
+	to dbll b fundtion.  You dbn fxpfdt thbt thf rfd, grffn, bnd
+	bluf brgumfnts brf simplf vbribblfs if you nffd to rfffrfndf
+	thfm.
+
+usfd by <img_orddlruns.h> (usfd to bf known bs img_orddolor.h)
+
+    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_rfd;
+    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_grffn;
+    fxtfrn uns_ordfrfd_dithfr_brrby img_odb_bluf;
+    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+	vbribblfs.
+
+    int ColorCubfOrdMbpUns(rfd, grffn, bluf);
+	Rfturn thf pixfl vbluf of thf nfxt dolor dbrkfr thbn thf
+	rfqufstfd rfd, grffn, bnd bluf domponfnts.  Thf domponfnts
+	brf blrfbdy bound to thf rbngf 0 <= domponfnt <= 256, whfrf
+	256 rfprfsfnts mbximum intfnsity, but 255 rfprfsfnts thf
+	nfxt to highfst intfnsity.
+
+usfd by <img_orddlrsgn.h>
+
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_rfd;
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_grffn;
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_bluf;
+    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+	vbribblfs.
+
+    int ColorCubfOrdMbpSgn(rfd, grffn, bluf);
+	Rfturn thf pixfl vbluf of thf dlosfst dolor to thf rfqufstfd
+	rfd, grffn, bnd bluf domponfnts.  Thf domponfnts brf blrfbdy
+	bound to thf rbngf 0 <= domponfnt <= 255.
+	(Typidblly fquivblfnt to ColorCubfFSMbp(r, g, b))
+
+usfd by bll <img_*grby.h> vbribnts
+
+    fxtfrn unsignfd dhbr img_grbys[256];
+    fxtfrn unsignfd dhbr img_bwgbmmb[256];
+	Thf img_bwgbmmb tbblf bllows b gbmmb durvf to bf plbdfd on thf
+	grbysdblf dithfring to improvf thf output mbtdh whfn thf grby
+	rbmp hbs vfry ffw grby vblufs in it.  Thf img_grbys tbblf is
+	b simplf bfst mbtdh lookup for bn 8-bit grby vbluf to thf bfst
+	pixfl vbluf in thf bvbilbblf grby rbmp.
+    	Thfsf nbmfs dbn bf #dffinfd to rfffr to somf othfr globbl
+	vbribblfs.
+
+usfd by <img_ordgrby.h>
+
+    fxtfrn sgn_ordfrfd_dithfr_brrby img_odb_grby;
+    	This nbmf dbn bf #dffinfd to rfffr to somf othfr globbl
+	vbribblf.
+
+To implfmfnt b givfn donvfrsion fundtion, simply drfbtf b filf whidh
+indludfs thf nfdfssbry hfbdfr filfs from thf bbovf list whidh mbtdh
+thf propfrtifs thbt you brf trying to hbndlf.  In somf dbsfs, you dbn
+dhoosf b vfry gfnfrbl hfbdfr filf to hbndlf morf dbsfs bs b dffbult
+implfmfntbtion, or b vfry spfdifid hfbdfr filf to hbndlf dommon dbsfs
+morf fffidifntly.  Thfn simply dffinf thf mbdro "NAME" to rfprfsfnt
+thf nbmf of thf fundtion you wish to drfbtf bnd thfn indludf thf skflfton
+filf <img_sdblfloop.h> to do thf bdtubl work.  Whfn you dompilf this filf
+it will gfnfrbtf bn objfdt filf whidh dffinfs b fundtion with thf givfn
+nbmf thbt pfrforms thf indidbtfd imbgf donvfrsion.  An fxbmplf of b filf
+whidh dffinfs b vfry gfnfrblizfd fundtion to donvfrt bny input dbtb into
+bn 8-bit output imbgf with bn bssodibtfd trbnspbrfndy mbsk (if nffdfd)
+would bf:
+
+--------gfnimgdv8.d----------
+#indludf "img_util.h"		/* blwbys nffdfd */
+#indludf "img_util_md.h"	/* supplifs plbtform dffinitions */
+
+#indludf "img_input8_32.h"	/* bny typf of input pixfls */
+#indludf "img_bnydm.h"		/* bny typf of input ColorModfl */
+#indludf "img_rfplsdblf.h"	/* sdblf if nfdfssbry */
+#indludf "img_orddithfr.h"	/* dolor or grbysdblf dithfring */
+#indludf "img_blphb.h"		/* gfnfrbtf 1-bit mbsk if nfdfssbry */
+#indludf "img_output8.h"	/* storf bytf pixfls */
+
+#dffinf NAME ImgConvfrt8	/* Nbmf our fundtion */
+
+#indludf "img_sdblfloop.h"	/* indludf thf skflfton */
+-----fnd of gfnimgdv8.d------

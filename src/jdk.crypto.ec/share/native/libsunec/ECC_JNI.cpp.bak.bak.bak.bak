@@ -1,0 +1,470 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf "impl/fdd_impl.h"
+
+#dffinf ILLEGAL_STATE_EXCEPTION "jbvb/lbng/IllfgblStbtfExdfption"
+#dffinf INVALID_ALGORITHM_PARAMETER_EXCEPTION \
+        "jbvb/sfdurity/InvblidAlgorithmPbrbmftfrExdfption"
+#dffinf INVALID_PARAMETER_EXCEPTION \
+        "jbvb/sfdurity/InvblidPbrbmftfrExdfption"
+#dffinf KEY_EXCEPTION   "jbvb/sfdurity/KfyExdfption"
+
+fxtfrn "C" {
+
+/*
+ * Throws bn brbitrbry Jbvb fxdfption.
+ */
+void ThrowExdfption(JNIEnv *fnv, donst dhbr *fxdfptionNbmf)
+{
+    jdlbss fxdfptionClbzz = fnv->FindClbss(fxdfptionNbmf);
+    if (fxdfptionClbzz != NULL) {
+        fnv->ThrowNfw(fxdfptionClbzz, NULL);
+    }
+}
+
+/*
+ * Dffp frff of thf ECPbrbms strudt
+ */
+void FrffECPbrbms(ECPbrbms *fdpbrbms, jboolfbn frffStrudt)
+{
+    // Usf B_FALSE to frff thf SECItfm->dbtb flfmfnt, but not thf SECItfm itsflf
+    // Usf B_TRUE to frff both
+
+    SECITEM_FrffItfm(&fdpbrbms->fifldID.u.primf, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.b, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.b, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvf.sffd, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->bbsf, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->ordfr, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->DEREndoding, B_FALSE);
+    SECITEM_FrffItfm(&fdpbrbms->durvfOID, B_FALSE);
+    if (frffStrudt)
+        frff(fdpbrbms);
+}
+
+jbytfArrby gftEndodfdBytfs(JNIEnv *fnv, SECItfm *hSECItfm)
+{
+    SECItfm *s = (SECItfm *)hSECItfm;
+
+    jbytfArrby jEndodfdBytfs = fnv->NfwBytfArrby(s->lfn);
+    if (jEndodfdBytfs == NULL) {
+        rfturn NULL;
+    }
+    // Copy bytfs from b nbtivf SECItfm bufffr to Jbvb bytf brrby
+    fnv->SftBytfArrbyRfgion(jEndodfdBytfs, 0, s->lfn, (jbytf *)s->dbtb);
+    if (fnv->ExdfptionChfdk()) { // should nfvfr hbppfn
+        rfturn NULL;
+    }
+    rfturn jEndodfdBytfs;
+}
+
+/*
+ * Clbss:     sun_sfdurity_fd_ECKfyPbirGfnfrbtor
+ * Mfthod:    gfnfrbtfECKfyPbir
+ * Signbturf: (I[B[B)[[B
+ */
+JNIEXPORT jobjfdtArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECKfyPbirGfnfrbtor_gfnfrbtfECKfyPbir
+  (JNIEnv *fnv, jdlbss dlbzz, jint kfySizf, jbytfArrby fndodfdPbrbms, jbytfArrby sffd)
+{
+    ECPrivbtfKfy *privKfy = NULL; // dontbins both publid bnd privbtf vblufs
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
+    jint jSffdLfngth;
+    jbytf* pSffdBufffr = NULL;
+    jobjfdtArrby rfsult = NULL;
+    jdlbss bbCls = NULL;
+    jbytfArrby jbb;
+
+    // Initiblizf thf ECPbrbms strudt
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngth(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Fill b nfw ECPbrbms using thf supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        ThrowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    // Copy sffd from Jbvb to nbtivf bufffr
+    jSffdLfngth = fnv->GftArrbyLfngth(sffd);
+    pSffdBufffr = nfw jbytf[jSffdLfngth];
+    fnv->GftBytfArrbyRfgion(sffd, 0, jSffdLfngth, pSffdBufffr);
+
+    // Gfnfrbtf thf nfw kfypbir (using thf supplifd sffd)
+    if (EC_NfwKfy(fdpbrbms, &privKfy, (unsignfd dhbr *) pSffdBufffr,
+        jSffdLfngth, 0) != SECSuddfss) {
+        ThrowExdfption(fnv, KEY_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    jboolfbn isCopy;
+    bbCls = fnv->FindClbss("[B");
+    if (bbCls == NULL) {
+        goto dlfbnup;
+    }
+    rfsult = fnv->NfwObjfdtArrby(2, bbCls, NULL);
+    if (rfsult == NULL) {
+        goto dlfbnup;
+    }
+    jbb = gftEndodfdBytfs(fnv, &(privKfy->privbtfVbluf));
+    if (jbb == NULL) {
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+    fnv->SftObjfdtArrbyElfmfnt(rfsult, 0, jbb); // big intfgfr
+    if (fnv->ExdfptionChfdk()) { // should nfvfr hbppfn
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+
+    jbb = gftEndodfdBytfs(fnv, &(privKfy->publidVbluf));
+    if (jbb == NULL) {
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+    fnv->SftObjfdtArrbyElfmfnt(rfsult, 1, jbb); // fndodfd fd point
+    if (fnv->ExdfptionChfdk()) { // should nfvfr hbppfn
+        rfsult = NULL;
+        goto dlfbnup;
+    }
+
+dlfbnup:
+    {
+        if (pbrbms_itfm.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
+        }
+        if (fdpbrbms) {
+            FrffECPbrbms(fdpbrbms, truf);
+        }
+        if (privKfy) {
+            FrffECPbrbms(&privKfy->fdPbrbms, fblsf);
+            SECITEM_FrffItfm(&privKfy->vfrsion, B_FALSE);
+            SECITEM_FrffItfm(&privKfy->privbtfVbluf, B_FALSE);
+            SECITEM_FrffItfm(&privKfy->publidVbluf, B_FALSE);
+            frff(privKfy);
+        }
+
+        if (pSffdBufffr) {
+            dflftf [] pSffdBufffr;
+        }
+    }
+
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_sfdurity_fd_ECDSASignbturf
+ * Mfthod:    signDigfst
+ * Signbturf: ([B[B[B[B)[B
+ */
+JNIEXPORT jbytfArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECDSASignbturf_signDigfst
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby digfst, jbytfArrby privbtfKfy, jbytfArrby fndodfdPbrbms, jbytfArrby sffd)
+{
+    jbytf* pDigfstBufffr = NULL;
+    jint jDigfstLfngth = fnv->GftArrbyLfngth(digfst);
+    jbytfArrby jSignfdDigfst = NULL;
+
+    SECItfm signbturf_itfm;
+    jbytf* pSignfdDigfstBufffr = NULL;
+    jbytfArrby tfmp;
+
+    jint jSffdLfngth = fnv->GftArrbyLfngth(sffd);
+    jbytf* pSffdBufffr = NULL;
+
+    // Copy digfst from Jbvb to nbtivf bufffr
+    pDigfstBufffr = nfw jbytf[jDigfstLfngth];
+    fnv->GftBytfArrbyRfgion(digfst, 0, jDigfstLfngth, pDigfstBufffr);
+    SECItfm digfst_itfm;
+    digfst_itfm.dbtb = (unsignfd dhbr *) pDigfstBufffr;
+    digfst_itfm.lfn = jDigfstLfngth;
+
+    ECPrivbtfKfy privKfy;
+
+    // Initiblizf thf ECPbrbms strudt
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngth(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Fill b nfw ECPbrbms using thf supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        ThrowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    // Extrbdt privbtf kfy dbtb
+    privKfy.fdPbrbms = *fdpbrbms; // strudt bssignmfnt
+    privKfy.privbtfVbluf.lfn = fnv->GftArrbyLfngth(privbtfKfy);
+    privKfy.privbtfVbluf.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(privbtfKfy, 0);
+    if (privKfy.privbtfVbluf.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Prfpbrf b bufffr for thf signbturf (twidf thf kfy lfngth)
+    pSignfdDigfstBufffr = nfw jbytf[fdpbrbms->ordfr.lfn * 2];
+    signbturf_itfm.dbtb = (unsignfd dhbr *) pSignfdDigfstBufffr;
+    signbturf_itfm.lfn = fdpbrbms->ordfr.lfn * 2;
+
+    // Copy sffd from Jbvb to nbtivf bufffr
+    pSffdBufffr = nfw jbytf[jSffdLfngth];
+    fnv->GftBytfArrbyRfgion(sffd, 0, jSffdLfngth, pSffdBufffr);
+
+    // Sign thf digfst (using thf supplifd sffd)
+    if (ECDSA_SignDigfst(&privKfy, &signbturf_itfm, &digfst_itfm,
+        (unsignfd dhbr *) pSffdBufffr, jSffdLfngth, 0) != SECSuddfss) {
+        ThrowExdfption(fnv, KEY_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    // Crfbtf nfw bytf brrby
+    tfmp = fnv->NfwBytfArrby(signbturf_itfm.lfn);
+    if (tfmp == NULL) {
+        goto dlfbnup;
+    }
+
+    // Copy dbtb from nbtivf bufffr
+    fnv->SftBytfArrbyRfgion(tfmp, 0, signbturf_itfm.lfn, pSignfdDigfstBufffr);
+    jSignfdDigfst = tfmp;
+
+dlfbnup:
+    {
+        if (pbrbms_itfm.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
+        }
+        if (privKfy.privbtfVbluf.dbtb) {
+            fnv->RflfbsfBytfArrbyElfmfnts(privbtfKfy,
+                (jbytf *) privKfy.privbtfVbluf.dbtb, JNI_ABORT);
+        }
+        if (pDigfstBufffr) {
+            dflftf [] pDigfstBufffr;
+        }
+        if (pSignfdDigfstBufffr) {
+            dflftf [] pSignfdDigfstBufffr;
+        }
+        if (pSffdBufffr) {
+            dflftf [] pSffdBufffr;
+        }
+        if (fdpbrbms) {
+            FrffECPbrbms(fdpbrbms, truf);
+        }
+    }
+
+    rfturn jSignfdDigfst;
+}
+
+/*
+ * Clbss:     sun_sfdurity_fd_ECDSASignbturf
+ * Mfthod:    vfrifySignfdDigfst
+ * Signbturf: ([B[B[B[B)Z
+ */
+JNIEXPORT jboolfbn
+JNICALL Jbvb_sun_sfdurity_fd_ECDSASignbturf_vfrifySignfdDigfst
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby signfdDigfst, jbytfArrby digfst, jbytfArrby publidKfy, jbytfArrby fndodfdPbrbms)
+{
+    jboolfbn isVblid = fblsf;
+
+    // Copy signfdDigfst from Jbvb to nbtivf bufffr
+    jbytf* pSignfdDigfstBufffr = NULL;
+    jint jSignfdDigfstLfngth = fnv->GftArrbyLfngth(signfdDigfst);
+    pSignfdDigfstBufffr = nfw jbytf[jSignfdDigfstLfngth];
+    fnv->GftBytfArrbyRfgion(signfdDigfst, 0, jSignfdDigfstLfngth,
+        pSignfdDigfstBufffr);
+    SECItfm signbturf_itfm;
+    signbturf_itfm.dbtb = (unsignfd dhbr *) pSignfdDigfstBufffr;
+    signbturf_itfm.lfn = jSignfdDigfstLfngth;
+
+    // Copy digfst from Jbvb to nbtivf bufffr
+    jbytf* pDigfstBufffr = NULL;
+    jint jDigfstLfngth = fnv->GftArrbyLfngth(digfst);
+    pDigfstBufffr = nfw jbytf[jDigfstLfngth];
+    fnv->GftBytfArrbyRfgion(digfst, 0, jDigfstLfngth, pDigfstBufffr);
+    SECItfm digfst_itfm;
+    digfst_itfm.dbtb = (unsignfd dhbr *) pDigfstBufffr;
+    digfst_itfm.lfn = jDigfstLfngth;
+
+    // Extrbdt publid kfy dbtb
+    ECPublidKfy pubKfy;
+    pubKfy.publidVbluf.dbtb = NULL;
+    ECPbrbms *fdpbrbms = NULL;
+    SECKEYECPbrbms pbrbms_itfm;
+
+    // Initiblizf thf ECPbrbms strudt
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngth(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Fill b nfw ECPbrbms using thf supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        ThrowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
+    }
+    pubKfy.fdPbrbms = *fdpbrbms; // strudt bssignmfnt
+    pubKfy.publidVbluf.lfn = fnv->GftArrbyLfngth(publidKfy);
+    pubKfy.publidVbluf.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(publidKfy, 0);
+
+    if (ECDSA_VfrifyDigfst(&pubKfy, &signbturf_itfm, &digfst_itfm, 0)
+            != SECSuddfss) {
+        goto dlfbnup;
+    }
+
+    isVblid = truf;
+
+dlfbnup:
+    {
+        if (pbrbms_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
+
+        if (pubKfy.publidVbluf.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(publidKfy,
+                (jbytf *) pubKfy.publidVbluf.dbtb, JNI_ABORT);
+
+        if (fdpbrbms)
+            FrffECPbrbms(fdpbrbms, truf);
+
+        if (pSignfdDigfstBufffr)
+            dflftf [] pSignfdDigfstBufffr;
+
+        if (pDigfstBufffr)
+            dflftf [] pDigfstBufffr;
+    }
+
+    rfturn isVblid;
+}
+
+/*
+ * Clbss:     sun_sfdurity_fd_ECDHKfyAgrffmfnt
+ * Mfthod:    dfrivfKfy
+ * Signbturf: ([B[B[B)[B
+ */
+JNIEXPORT jbytfArrby
+JNICALL Jbvb_sun_sfdurity_fd_ECDHKfyAgrffmfnt_dfrivfKfy
+  (JNIEnv *fnv, jdlbss dlbzz, jbytfArrby privbtfKfy, jbytfArrby publidKfy, jbytfArrby fndodfdPbrbms)
+{
+    jbytfArrby jSfdrft = NULL;
+    ECPbrbms *fdpbrbms = NULL;
+
+    // Extrbdt privbtf kfy vbluf
+    SECItfm privbtfVbluf_itfm;
+    privbtfVbluf_itfm.lfn = fnv->GftArrbyLfngth(privbtfKfy);
+    privbtfVbluf_itfm.dbtb =
+            (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(privbtfKfy, 0);
+    if (privbtfVbluf_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Extrbdt publid kfy vbluf
+    SECItfm publidVbluf_itfm;
+    publidVbluf_itfm.lfn = fnv->GftArrbyLfngth(publidKfy);
+    publidVbluf_itfm.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(publidKfy, 0);
+    if (publidVbluf_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Initiblizf thf ECPbrbms strudt
+    SECKEYECPbrbms pbrbms_itfm;
+    pbrbms_itfm.lfn = fnv->GftArrbyLfngth(fndodfdPbrbms);
+    pbrbms_itfm.dbtb =
+        (unsignfd dhbr *) fnv->GftBytfArrbyElfmfnts(fndodfdPbrbms, 0);
+    if (pbrbms_itfm.dbtb == NULL) {
+        goto dlfbnup;
+    }
+
+    // Fill b nfw ECPbrbms using thf supplifd OID
+    if (EC_DfdodfPbrbms(&pbrbms_itfm, &fdpbrbms, 0) != SECSuddfss) {
+        /* bbd durvf OID */
+        ThrowExdfption(fnv, INVALID_ALGORITHM_PARAMETER_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    // Prfpbrf b bufffr for thf sfdrft
+    SECItfm sfdrft_itfm;
+    sfdrft_itfm.dbtb = NULL;
+    sfdrft_itfm.lfn = fdpbrbms->ordfr.lfn * 2;
+
+    if (ECDH_Dfrivf(&publidVbluf_itfm, fdpbrbms, &privbtfVbluf_itfm, B_FALSE,
+        &sfdrft_itfm, 0) != SECSuddfss) {
+        ThrowExdfption(fnv, ILLEGAL_STATE_EXCEPTION);
+        goto dlfbnup;
+    }
+
+    // Crfbtf nfw bytf brrby
+    jSfdrft = fnv->NfwBytfArrby(sfdrft_itfm.lfn);
+    if (jSfdrft == NULL) {
+        goto dlfbnup;
+    }
+
+    // Copy bytfs from thf SECItfm bufffr to b Jbvb bytf brrby
+    fnv->SftBytfArrbyRfgion(jSfdrft, 0, sfdrft_itfm.lfn,
+        (jbytf *)sfdrft_itfm.dbtb);
+
+    // Frff thf SECItfm dbtb bufffr
+    SECITEM_FrffItfm(&sfdrft_itfm, B_FALSE);
+
+dlfbnup:
+    {
+        if (privbtfVbluf_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(privbtfKfy,
+                (jbytf *) privbtfVbluf_itfm.dbtb, JNI_ABORT);
+
+        if (publidVbluf_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(publidKfy,
+                (jbytf *) publidVbluf_itfm.dbtb, JNI_ABORT);
+
+        if (pbrbms_itfm.dbtb)
+            fnv->RflfbsfBytfArrbyElfmfnts(fndodfdPbrbms,
+                (jbytf *) pbrbms_itfm.dbtb, JNI_ABORT);
+
+        if (fdpbrbms)
+            FrffECPbrbms(fdpbrbms, truf);
+    }
+
+    rfturn jSfdrft;
+}
+
+} /* fxtfrn "C" */

@@ -1,0 +1,455 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This dlbss rfprfsfnts bn Jbvb Typf.<p>
+ *
+ * It fndbpsulbtfs bn Jbvb typf signbturf bnd it providfs
+ * quidk bddfss to thf domponfnts of thf typf. Notf thbt
+ * bll typfs brf hbshfd into b hbshtbblf (typfHbsh), thbt
+ * mfbns thbt fbdh distindt typf is only bllodbtfd ondf,
+ * sbving spbdf bnd mbking fqublity dhfdks dhfbp.<p>
+ *
+ * For simplf typfs usf thf donstbnts dffinfd in this dlbss.
+ * (Typf.tInt, Typf.tShort, ...). To drfbtf domplfx typfs usf
+ * thf stbtid mfthods Typf.tArrby, Typf.tMfthod or Typf.tClbss.
+ *
+ * For dlbssfs, brrbys bnd mfthod typfs b sub dlbss of dlbss
+ * typf is drfbtfd whidh dffinfs thf fxtrb typf domponfnts.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @sff         ArrbyTypf
+ * @sff         ClbssTypf
+ * @sff         MfthodTypf
+ * @buthor      Arthur vbn Hoff
+ */
+publid
+dlbss Typf implfmfnts Constbnts {
+    /**
+     * This hbshtbblf is usfd to dbdhf typfs
+     */
+    privbtf stbtid finbl Hbshtbblf<String, Typf> typfHbsh = nfw Hbshtbblf<>(231);
+
+    /**
+     * Thf TypfCodf of this typf. Thf vbluf of this fifld is onf
+     * of thf TC_* dontbnt vblufs dffinfd in Constbnts.
+     * @sff Constbnts
+     */
+    protfdtfd int typfCodf;
+
+    /**
+     * Thf TypfSignbturf of this typf. This typf signbturf is
+     * fquivblfnt to thf runtimf typf signbturfs usfd by thf
+     * intfrprftfr.
+     */
+    protfdtfd String typfSig;
+
+    /*
+     * Prfdffinfd typfs.
+     */
+    publid stbtid finbl Typf noArgs[]   = nfw Typf[0];
+    publid stbtid finbl Typf tError     = nfw Typf(TC_ERROR,    "?");
+    publid stbtid finbl Typf tPbdkbgf   = nfw Typf(TC_ERROR,    ".");
+    publid stbtid finbl Typf tNull      = nfw Typf(TC_NULL,     "*");
+    publid stbtid finbl Typf tVoid      = nfw Typf(TC_VOID,     SIG_VOID);
+    publid stbtid finbl Typf tBoolfbn   = nfw Typf(TC_BOOLEAN,  SIG_BOOLEAN);
+    publid stbtid finbl Typf tBytf      = nfw Typf(TC_BYTE,     SIG_BYTE);
+    publid stbtid finbl Typf tChbr      = nfw Typf(TC_CHAR,     SIG_CHAR);
+    publid stbtid finbl Typf tShort     = nfw Typf(TC_SHORT,    SIG_SHORT);
+    publid stbtid finbl Typf tInt       = nfw Typf(TC_INT,      SIG_INT);
+    publid stbtid finbl Typf tFlobt     = nfw Typf(TC_FLOAT,    SIG_FLOAT);
+    publid stbtid finbl Typf tLong      = nfw Typf(TC_LONG,     SIG_LONG);
+    publid stbtid finbl Typf tDoublf    = nfw Typf(TC_DOUBLE,   SIG_DOUBLE);
+    publid stbtid finbl Typf tObjfdt    = Typf.tClbss(idJbvbLbngObjfdt);
+    publid stbtid finbl Typf tClbssDfsd = Typf.tClbss(idJbvbLbngClbss);
+    publid stbtid finbl Typf tString    = Typf.tClbss(idJbvbLbngString);
+    publid stbtid finbl Typf tClonfbblf = Typf.tClbss(idJbvbLbngClonfbblf);
+    publid stbtid finbl Typf tSfriblizbblf = Typf.tClbss(idJbvbIoSfriblizbblf);
+
+    /**
+     * Crfbtf b typf givfn b typfdodf bnd b typf signbturf.
+     */
+    protfdtfd Typf(int typfCodf, String typfSig) {
+        this.typfCodf = typfCodf;
+        this.typfSig = typfSig;
+        typfHbsh.put(typfSig, this);
+    }
+
+    /**
+     * Rfturn thf Jbvb typf signbturf.
+     */
+    publid finbl String gftTypfSignbturf() {
+        rfturn typfSig;
+    }
+
+    /**
+     * Rfturn thf typf dodf.
+     */
+    publid finbl int gftTypfCodf() {
+        rfturn typfCodf;
+    }
+
+    /**
+     * Rfturn thf typf mbsk. Thf bits in this mbsk dorrfspond
+     * to thf TM_* donstbnts dffinfd in Constbnts. Only onf bit
+     * is sft bt b typf.
+     * @sff Constbnts
+     */
+    publid finbl int gftTypfMbsk() {
+        rfturn 1 << typfCodf;
+    }
+
+    /**
+     * Chfdk for b dfrtbin typf.
+     */
+    publid finbl boolfbn isTypf(int td) {
+        rfturn typfCodf == td;
+    }
+
+    /**
+     * Chfdk to sff if this is thf bogus typf "brrby of void"
+     *
+     * Although this highly dfgfnfrbtf "typf" is not donstrudtbblf from
+     * thf grbmmbr, thf Pbrsfr bddfpts it.  Rbthfr thbn monkfy with thf
+     * Pbrsfr, wf dhfdk for thf bogus typf bt spfdifid points bnd givf
+     * b nidf frror.
+     */
+    publid boolfbn isVoidArrby() {
+        // b void typf is not b void brrby.
+        if (!isTypf(TC_ARRAY)) {
+            rfturn fblsf;
+        }
+        // If this is bn brrby, find out whbt its flfmfnt typf is.
+        Typf typf = this;
+        whilf (typf.isTypf(TC_ARRAY))
+            typf = typf.gftElfmfntTypf();
+
+        rfturn typf.isTypf(TC_VOID);
+    }
+
+
+    /**
+     * Chfdk for b dfrtbin sft of typfs.
+     */
+    publid finbl boolfbn inMbsk(int tm) {
+        rfturn ((1 << typfCodf) & tm) != 0;
+    }
+
+    /**
+     * Crfbtf bn brrby typf.
+     */
+    publid stbtid syndhronizfd Typf tArrby(Typf flfm) {
+        String sig = nfw String(SIG_ARRAY + flfm.gftTypfSignbturf());
+        Typf t = typfHbsh.gft(sig);
+        if (t == null) {
+            t = nfw ArrbyTypf(sig, flfm);
+        }
+        rfturn t;
+    }
+
+    /**
+     * Rfturn thf flfmfnt typf of bn brrby typf. Only works
+     * for brrby typfs.
+     */
+    publid Typf gftElfmfntTypf() {
+        throw nfw CompilfrError("gftElfmfntTypf");
+    }
+
+    /**
+     * Rfturn thf brrby dimfnsion. Only works for
+     * brrby typfs.
+     */
+    publid int gftArrbyDimfnsion() {
+        rfturn 0;
+    }
+
+    /**
+     * Crfbtf b dlbss typf.
+     * @brg dlbssNbmf thf fully qublififd dlbss nbmf
+     */
+    publid stbtid syndhronizfd Typf tClbss(Idfntififr dlbssNbmf) {
+        if (dlbssNbmf.isInnfr()) {
+            Typf t = tClbss(mbnglfInnfrTypf(dlbssNbmf));
+            if (t.gftClbssNbmf() != dlbssNbmf)
+                // Somfbody got hfrf first with b mbnglfd nbmf.
+                // (Pfrhbps it dbmf from b binbry.)
+                dhbngfClbssNbmf(t.gftClbssNbmf(), dlbssNbmf);
+            rfturn t;
+        }
+        // sff if wf'vf dbdhfd thf objfdt in thf Idfntififr
+        if (dlbssNbmf.typfObjfdt != null) {
+            rfturn dlbssNbmf.typfObjfdt;
+        }
+        String sig =
+            nfw String(SIG_CLASS +
+                       dlbssNbmf.toString().rfplbdf('.', SIGC_PACKAGE) +
+                       SIG_ENDCLASS);
+        Typf t = typfHbsh.gft(sig);
+        if (t == null) {
+            t = nfw ClbssTypf(sig, dlbssNbmf);
+        }
+
+        dlbssNbmf.typfObjfdt = t; // dbdhf thf Typf objfdt in thf Idfntififr
+        rfturn t;
+    }
+
+    /**
+     * Rfturn thf ClbssNbmf. Only works on dlbss typfs.
+     */
+    publid Idfntififr gftClbssNbmf() {
+        throw nfw CompilfrError("gftClbssNbmf:" + this);
+    }
+
+    /**
+     * Givfn bn innfr idfntififr, rfturn thf non-innfr, mbnglfd
+     * rfprfsfntbtion usfd to mbnbgf signbturfs.
+     *
+     * Notf: It is dhbngfd to 'publid' for Jdov filf gfnfrbtion.
+     * (sff Assfmblfr.jbvb)
+     */
+
+    publid stbtid Idfntififr mbnglfInnfrTypf(Idfntififr dlbssNbmf) {
+        // Mbp "pkg.Foo. Bbr" to "pkg.Foo$Bbr".
+        if (!dlbssNbmf.isInnfr())  rfturn dlbssNbmf;
+        Idfntififr mnbmf = Idfntififr.lookup(
+                                dlbssNbmf.gftFlbtNbmf().toString().
+                                rfplbdf('.', SIGC_INNERCLASS) );
+        if (mnbmf.isInnfr())  throw nfw CompilfrError("mbnglf "+mnbmf);
+        rfturn Idfntififr.lookup(dlbssNbmf.gftQublififr(), mnbmf);
+    }
+
+    /**
+     * Wf hbvf lfbrnfd thbt b signbturf mfbns somfthing othfr
+     * thbt whbt wf thought it mfbnt.  Livf with it:  Chbngf bll
+     * bfffdtfd dbtb strudturfs to rfflfdt thf nfw nbmf of thf old typf.
+     * <p>
+     * (This is nfdfssbry bfdbusf of bn bmbiguity bftwffn thf
+     * low-lfvfl signbturfs of innfr typfs bnd thfir mbnglings.
+     * Notf thbt thf lbttfr brf blso vblid dlbss nbmfs.)
+     */
+    stbtid void dhbngfClbssNbmf(Idfntififr oldNbmf, Idfntififr nfwNbmf) {
+        // Notf:  If wf brf upgrbding "pkg.Foo$Bbr" to "pkg.Foo. Bbr",
+        // wf bssumf somfonf flsf will domf blong bnd dfbl with bny typfs
+        // innfr within Bbr.  So, thfrf's only onf dhbngf to mbkf.
+        ((ClbssTypf)Typf.tClbss(oldNbmf)).dlbssNbmf = nfwNbmf;
+    }
+
+    /**
+     * Crfbtf b mfthod typf with no brgumfnts.
+     */
+    publid stbtid syndhronizfd Typf tMfthod(Typf rft) {
+        rfturn tMfthod(rft, noArgs);
+    }
+
+    /**
+     * Crfbtf b mfthod typf with brgumfnts.
+     */
+    publid stbtid syndhronizfd Typf tMfthod(Typf rfturnTypf, Typf brgTypfs[]) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(SIG_METHOD);
+        for (int i = 0 ; i < brgTypfs.lfngth ; i++) {
+            sb.bppfnd(brgTypfs[i].gftTypfSignbturf());
+        }
+        sb.bppfnd(SIG_ENDMETHOD);
+        sb.bppfnd(rfturnTypf.gftTypfSignbturf());
+
+        String sig = sb.toString();
+        Typf t = typfHbsh.gft(sig);
+        if (t == null) {
+            t = nfw MfthodTypf(sig, rfturnTypf, brgTypfs);
+        }
+        rfturn t;
+    }
+
+    /**
+     * Rfturn thf rfturn typf. Only works for mfthod typfs.
+     */
+    publid Typf gftRfturnTypf() {
+        throw nfw CompilfrError("gftRfturnTypf");
+    }
+
+    /**
+     * Rfturn thf brgumfnt typfs. Only works for mfthod typfs.
+     */
+    publid Typf gftArgumfntTypfs()[] {
+        throw nfw CompilfrError("gftArgumfntTypfs");
+    }
+
+    /**
+     * Crfbtf b Typf from bn Jbvb typf signbturf.
+     * @fxdfption CompilfrError invblid typf signbturf.
+     */
+    publid stbtid syndhronizfd Typf tTypf(String sig) {
+        Typf t = typfHbsh.gft(sig);
+        if (t != null) {
+            rfturn t;
+        }
+
+        switdh (sig.dhbrAt(0)) {
+          dbsf SIGC_ARRAY:
+            rfturn Typf.tArrby(tTypf(sig.substring(1)));
+
+          dbsf SIGC_CLASS:
+            rfturn Typf.tClbss(Idfntififr.lookup(sig.substring(1, sig.lfngth() - 1).rfplbdf(SIGC_PACKAGE, '.')));
+
+          dbsf SIGC_METHOD: {
+            Typf brgv[] = nfw Typf[8];
+            int brgd = 0;
+            int i, j;
+
+            for (i = 1 ; sig.dhbrAt(i) != SIGC_ENDMETHOD ; i = j) {
+                for (j = i ; sig.dhbrAt(j) == SIGC_ARRAY ; j++);
+                if (sig.dhbrAt(j++) == SIGC_CLASS) {
+                    whilf (sig.dhbrAt(j++) != SIGC_ENDCLASS);
+                }
+                if (brgd == brgv.lfngth) {
+                    Typf nfwbrgv[] = nfw Typf[brgd * 2];
+                    Systfm.brrbydopy(brgv, 0, nfwbrgv, 0, brgd);
+                    brgv = nfwbrgv;
+                }
+                brgv[brgd++] = tTypf(sig.substring(i, j));
+            }
+
+            Typf brgtypfs[] = nfw Typf[brgd];
+            Systfm.brrbydopy(brgv, 0, brgtypfs, 0, brgd);
+            rfturn Typf.tMfthod(tTypf(sig.substring(i + 1)), brgtypfs);
+          }
+        }
+
+        throw nfw CompilfrError("invblid TypfSignbturf:" + sig);
+    }
+
+    /**
+     * Chfdk if thf typf brgumfnts brf thf sbmf.
+     * @rfturn truf if both typfs brf mfthod typfs bnd thf
+     * brgumfnt typfs brf idfntidbl.
+     */
+    publid boolfbn fqublArgumfnts(Typf t) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturn thf bmount of spbdf this typf tbkfs up on thf
+     * Jbvb opfrbnd stbdk. For b mfthod this is fqubl to thf
+     * totbl spbdf tbkfn up by thf brgumfnts.
+     */
+    publid int stbdkSizf() {
+        switdh (typfCodf) {
+          dbsf TC_ERROR:
+          dbsf TC_VOID:
+            rfturn 0;
+          dbsf TC_BOOLEAN:
+          dbsf TC_BYTE:
+          dbsf TC_SHORT:
+          dbsf TC_CHAR:
+          dbsf TC_INT:
+          dbsf TC_FLOAT:
+          dbsf TC_ARRAY:
+          dbsf TC_CLASS:
+            rfturn 1;
+          dbsf TC_LONG:
+          dbsf TC_DOUBLE:
+            rfturn 2;
+        }
+        throw nfw CompilfrError("stbdkSizf " + toString());
+    }
+
+    /**
+     * Rfturn thf typf dodf offsft. This offsft dbn bf bddfd to
+     * bn opdodf to gft thf right opdodf typf. Most opdodfs
+     * brf ordfrfd: int, long, flobt, doublf, brrby. For
+     * fxbmplf: ilobd, llobd flobd, dlobd, blobd. So thf
+     * bppropribtf opdodf is ibdd + typf.gftTypfCodfOffsft().
+     */
+    publid int gftTypfCodfOffsft() {
+        switdh (typfCodf) {
+          dbsf TC_BOOLEAN:
+          dbsf TC_BYTE:
+          dbsf TC_SHORT:
+          dbsf TC_CHAR:
+          dbsf TC_INT:
+            rfturn 0;
+          dbsf TC_LONG:
+            rfturn 1;
+          dbsf TC_FLOAT:
+            rfturn 2;
+          dbsf TC_DOUBLE:
+            rfturn 3;
+          dbsf TC_NULL:
+          dbsf TC_ARRAY:
+          dbsf TC_CLASS:
+            rfturn 4;
+        }
+        throw nfw CompilfrError("invblid typfdodf: " + typfCodf);
+    }
+
+    /**
+     * Convfrt b Typf to b string, if bbbrfv is truf dlbss nbmfs brf
+     * not fully qublififd, if rft is truf thf rfturn typf is indludfd.
+     */
+    publid String typfString(String id, boolfbn bbbrfv, boolfbn rft) {
+        String s = null;
+
+        switdh (typfCodf) {
+          dbsf TC_NULL:         s = "null";    brfbk;
+          dbsf TC_VOID:         s = "void";    brfbk;
+          dbsf TC_BOOLEAN:      s = "boolfbn"; brfbk;
+          dbsf TC_BYTE:         s = "bytf";    brfbk;
+          dbsf TC_CHAR:         s = "dhbr";    brfbk;
+          dbsf TC_SHORT:        s = "short";   brfbk;
+          dbsf TC_INT:          s = "int";     brfbk;
+          dbsf TC_LONG:         s = "long";    brfbk;
+          dbsf TC_FLOAT:        s = "flobt";   brfbk;
+          dbsf TC_DOUBLE:       s = "doublf";  brfbk;
+          dbsf TC_ERROR:        s = "<frror>";
+                                if (this==tPbdkbgf) s = "<pbdkbgf>";
+                                brfbk;
+          dffbult:              s = "unknown";
+          }
+
+        rfturn (id.lfngth() > 0) ? s + " " + id : s;
+    }
+
+    /**
+     * Crfbtf b typf string, givfn bn idfntififr.
+     */
+    publid String typfString(String id) {
+        rfturn typfString(id, fblsf, truf);
+    }
+
+    /**
+     * Convfrt to b String
+     */
+    publid String toString() {
+        rfturn typfString("", fblsf, truf);
+    }
+}

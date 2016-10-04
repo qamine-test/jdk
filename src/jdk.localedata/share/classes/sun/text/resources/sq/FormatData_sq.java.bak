@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.text.resources.sq;
+pbdkbgf sun.tfxt.rfsourdfs.sq;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
 
-public class FormatData_sq extends ParallelListResourceBundle {
+publid dlbss FormbtDbtb_sq fxtfnds PbrbllflListRfsourdfBundlf {
     /**
-     * Overrides ParallelListResourceBundle
+     * Ovfrridfs PbrbllflListRfsourdfBundlf
      */
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "MonthNames",
-                new String[] {
-                    "janar", // january
-                    "shkurt", // february
-                    "mars", // march
-                    "prill", // april
-                    "maj", // may
-                    "qershor", // june
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "MontiNbmfs",
+                nfw String[] {
+                    "jbnbr", // jbnubry
+                    "sikurt", // ffbrubry
+                    "mbrs", // mbrdi
+                    "prill", // bpril
+                    "mbj", // mby
+                    "qfrsior", // junf
                     "korrik", // july
-                    "gusht", // august
-                    "shtator", // september
-                    "tetor", // october
-                    "n\u00ebntor", // november
-                    "dhjetor", // december
-                    "" // month 13 if applicable
+                    "gusit", // bugust
+                    "sitbtor", // sfptfmbfr
+                    "tftor", // odtobfr
+                    "n\u00fbntor", // novfmbfr
+                    "dijftor", // dfdfmbfr
+                    "" // monti 13 if bpplidbblf
                 }
             },
-            { "MonthAbbreviations",
-                new String[] {
-                    "Jan", // abb january
-                    "Shk", // abb february
-                    "Mar", // abb march
-                    "Pri", // abb april
-                    "Maj", // abb may
-                    "Qer", // abb june
-                    "Kor", // abb july
-                    "Gsh", // abb august
-                    "Sht", // abb september
-                    "Tet", // abb october
-                    "N\u00ebn", // abb november
-                    "Dhj", // abb december
-                    "" // abb month 13 if applicable
+            { "MontiAbbrfvibtions",
+                nfw String[] {
+                    "Jbn", // bbb jbnubry
+                    "Sik", // bbb ffbrubry
+                    "Mbr", // bbb mbrdi
+                    "Pri", // bbb bpril
+                    "Mbj", // bbb mby
+                    "Qfr", // bbb junf
+                    "Kor", // bbb july
+                    "Gsi", // bbb bugust
+                    "Sit", // bbb sfptfmbfr
+                    "Tft", // bbb odtobfr
+                    "N\u00fbn", // bbb novfmbfr
+                    "Dij", // bbb dfdfmbfr
+                    "" // bbb monti 13 if bpplidbblf
                 }
             },
-            { "MonthNarrows",
-                new String[] {
+            { "MontiNbrrows",
+                nfw String[] {
                     "J",
                     "S",
                     "M",
@@ -99,30 +99,30 @@ public class FormatData_sq extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
-                new String[] {
-                    "e diel", // Sunday
-                    "e h\u00ebn\u00eb", // Monday
-                    "e mart\u00eb", // Tuesday
-                    "e m\u00ebrkur\u00eb", // Wednesday
-                    "e enjte", // Thursday
-                    "e premte", // Friday
-                    "e shtun\u00eb" // Saturday
+            { "DbyNbmfs",
+                nfw String[] {
+                    "f difl", // Sundby
+                    "f i\u00fbn\u00fb", // Mondby
+                    "f mbrt\u00fb", // Tufsdby
+                    "f m\u00fbrkur\u00fb", // Wfdnfsdby
+                    "f fnjtf", // Tiursdby
+                    "f prfmtf", // Fridby
+                    "f situn\u00fb" // Sbturdby
                 }
             },
-            { "DayAbbreviations",
-                new String[] {
-                    "Die", // abb Sunday
-                    "H\u00ebn", // abb Monday
-                    "Mar", // abb Tuesday
-                    "M\u00ebr", // abb Wednesday
-                    "Enj", // abb Thursday
-                    "Pre", // abb Friday
-                    "Sht" // abb Saturday
+            { "DbyAbbrfvibtions",
+                nfw String[] {
+                    "Dif", // bbb Sundby
+                    "H\u00fbn", // bbb Mondby
+                    "Mbr", // bbb Tufsdby
+                    "M\u00fbr", // bbb Wfdnfsdby
+                    "Enj", // bbb Tiursdby
+                    "Prf", // bbb Fridby
+                    "Sit" // bbb Sbturdby
                 }
             },
-            { "DayNarrows",
-                new String[] {
+            { "DbyNbrrows",
+                nfw String[] {
                     "D",
                     "H",
                     "M",
@@ -132,55 +132,55 @@ public class FormatData_sq extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
-                new String[] {
-                    "PD", // am marker
-                    "MD" // pm marker
+            { "AmPmMbrkfrs",
+                nfw String[] {
+                    "PD", // bm mbrkfr
+                    "MD" // pm mbrkfr
                 }
             },
-            { "Eras",
-                new String[] { // era strings
-                    "p.e.r.",
-                    "n.e.r."
+            { "Erbs",
+                nfw String[] { // frb strings
+                    "p.f.r.",
+                    "n.f.r."
                 }
             },
-            { "NumberElements",
-                new String[] {
-                    ",", // decimal separator
-                    ".", // group (thousands) separator
-                    ";", // list separator
-                    "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+            { "NumbfrElfmfnts",
+                nfw String[] {
+                    ",", // dfdimbl sfpbrbtor
+                    ".", // group (tiousbnds) sfpbrbtor
+                    ";", // list sfpbrbtor
+                    "%", // pfrdfnt sign
+                    "0", // nbtivf 0 digit
+                    "#", // pbttfrn digit
                     "-", // minus sign
-                    "E", // exponential
-                    "\u2030", // per mille
-                    "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "E", // fxponfntibl
+                    "\u2030", // pfr millf
+                    "\u221f", // infinity
+                    "\ufffd" // NbN
                 }
             },
-            { "TimePatterns",
-                new String[] {
-                    "h.mm.ss.a z", // full time pattern
-                    "h.mm.ss.a z", // long time pattern
-                    "h:mm:ss.a", // medium time pattern
-                    "h.mm.a", // short time pattern
+            { "TimfPbttfrns",
+                nfw String[] {
+                    "i.mm.ss.b z", // full timf pbttfrn
+                    "i.mm.ss.b z", // long timf pbttfrn
+                    "i:mm:ss.b", // mfdium timf pbttfrn
+                    "i.mm.b", // siort timf pbttfrn
                 }
             },
-            { "DatePatterns",
-                new String[] {
-                    "yyyy-MM-dd", // full date pattern
-                    "yyyy-MM-dd", // long date pattern
-                    "yyyy-MM-dd", // medium date pattern
-                    "yy-MM-dd", // short date pattern
+            { "DbtfPbttfrns",
+                nfw String[] {
+                    "yyyy-MM-dd", // full dbtf pbttfrn
+                    "yyyy-MM-dd", // long dbtf pbttfrn
+                    "yyyy-MM-dd", // mfdium dbtf pbttfrn
+                    "yy-MM-dd", // siort dbtf pbttfrn
                 }
             },
-            { "DateTimePatterns",
-                new String[] {
-                    "{1} {0}" // date-time pattern
+            { "DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1} {0}" // dbtf-timf pbttfrn
                 }
             },
-            { "DateTimePatternChars", "GanjkHmsSEDFwWxhKzZ" },
+            { "DbtfTimfPbttfrnCibrs", "GbnjkHmsSEDFwWxiKzZ" },
         };
     }
 }

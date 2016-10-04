@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 /**
- * Represents an SNMP 64bits counter.
+ * Rfprfsfnts bn SNMP 64bits dountfr.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpCounter64 extends SnmpValue {
-    private static final long serialVersionUID = 8784850650494679937L;
+publid dlbss SnmpCountfr64 fxtfnds SnmpVbluf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8784850650494679937L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpCounter64</CODE> from the specified long value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than <CODE>Long.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpCountfr64</CODE> from tif spfdififd long vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is nfgbtivf
+     * or lbrgfr tibn <CODE>Long.MAX_VALUE</CODE>.
      */
-    public SnmpCounter64(long v) throws IllegalArgumentException {
+    publid SnmpCountfr64(long v) tirows IllfgblArgumfntExdfption {
 
         // NOTE:
-        // The max value for a counter64 variable is 2^64 - 1.
-        // The max value for a Long is 2^63 - 1.
-        // All the allowed values for a conuter64 variable cannot be covered !!!
+        // Tif mbx vbluf for b dountfr64 vbribblf is 2^64 - 1.
+        // Tif mbx vbluf for b Long is 2^63 - 1.
+        // All tif bllowfd vblufs for b donutfr64 vbribblf dbnnot bf dovfrfd !!!
         //
         if ((v < 0) || (v > Long.MAX_VALUE)) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        value = v ;
+        vbluf = v ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpCounter64</CODE> from the specified <CODE>Long</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is negative
-     * or larger than <CODE>Long.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpCountfr64</CODE> from tif spfdififd <CODE>Long</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is nfgbtivf
+     * or lbrgfr tibn <CODE>Long.MAX_VALUE</CODE>.
      */
-    public SnmpCounter64(Long v) throws IllegalArgumentException {
-        this(v.longValue()) ;
+    publid SnmpCountfr64(Long v) tirows IllfgblArgumfntExdfption {
+        tiis(v.longVbluf()) ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns the counter value of this <CODE>SnmpCounter64</CODE>.
-     * @return The value.
+     * Rfturns tif dountfr vbluf of tiis <CODE>SnmpCountfr64</CODE>.
+     * @rfturn Tif vbluf.
      */
-    public long longValue() {
-        return value ;
+    publid long longVbluf() {
+        rfturn vbluf ;
     }
 
     /**
-     * Converts the counter value to its <CODE>Long</CODE> form.
-     * @return The <CODE>Long</CODE> representation of the value.
+     * Convfrts tif dountfr vbluf to its <CODE>Long</CODE> form.
+     * @rfturn Tif <CODE>Long</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public Long toLong() {
-        return value;
+    publid Long toLong() {
+        rfturn vbluf;
     }
 
     /**
-     * Converts the counter value to its integer form.
-     * @return The integer representation of the value.
+     * Convfrts tif dountfr vbluf to its intfgfr form.
+     * @rfturn Tif intfgfr rfprfsfntbtion of tif vbluf.
      */
-    public int intValue() {
-        return (int)value ;
+    publid int intVbluf() {
+        rfturn (int)vbluf ;
     }
 
     /**
-     * Converts the counter value to its <CODE>Integer</CODE> form.
-     * @return The <CODE>Integer</CODE> representation of the value.
+     * Convfrts tif dountfr vbluf to its <CODE>Intfgfr</CODE> form.
+     * @rfturn Tif <CODE>Intfgfr</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public Integer toInteger() {
-        return (int)value;
+    publid Intfgfr toIntfgfr() {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Converts the counter value to its <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Convfrts tif dountfr vbluf to its <CODE>String</CODE> form.
+     * @rfturn Tif <CODE>String</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public String toString() {
-        return String.valueOf(value) ;
+    publid String toString() {
+        rfturn String.vblufOf(vbluf) ;
     }
 
     /**
-     * Converts the counter value to its <CODE>SnmpOid</CODE> form.
-     * @return The OID representation of the value.
+     * Convfrts tif dountfr vbluf to its <CODE>SnmpOid</CODE> form.
+     * @rfturn Tif OID rfprfsfntbtion of tif vbluf.
      */
-    public SnmpOid toOid() {
-        return new SnmpOid(value) ;
+    publid SnmpOid toOid() {
+        rfturn nfw SnmpOid(vbluf) ;
     }
 
     /**
-     * Extracts the counter from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the counter value.
-     * @exception SnmpStatusException There is no counter value
-     * available at the start position.
+     * Extrbdts tif dountfr from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif OID rfprfsfnting tif dountfr vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no dountfr vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
         try {
-            return new SnmpOid(index[start]) ;
+            rfturn nfw SnmpOid(indfx[stbrt]) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
-        }
-    }
-
-    /**
-     * Scans an index OID, skips the counter value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no counter value
-     * available at the start position.
-     */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
-        if (start >= index.length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
-        }
-        else {
-            return start + 1 ;
+        dbtdi(IndfxOutOfBoundsExdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpCounter64</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpCounter64</CODE> value.
-     * @param dest Where source should be appended.
+     * Sdbns bn indfx OID, skips tif dountfr vbluf bnd rfturns tif position
+     * of tif nfxt vbluf.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif position of tif nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no dountfr vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
-        if (source.getLength() != 1) {
-            throw new IllegalArgumentException() ;
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
+        if (stbrt >= indfx.lfngti) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
-        dest.append(source) ;
+        flsf {
+            rfturn stbrt + 1 ;
+        }
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The SnmpValue clone.
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpCountfr64</CODE> to bnotifr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpCountfr64</CODE> vbluf.
+     * @pbrbm dfst Wifrf sourdf siould bf bppfndfd.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue)clone() ;
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        if (sourdf.gftLfngti() != 1) {
+            tirow nfw IllfgblArgumfntExdfption() ;
+        }
+        dfst.bppfnd(sourdf) ;
     }
 
     /**
-     * Clones the <CODE>SnmpCounter64</CODE> object, making a copy of its data.
-     * @return The object clone.
+     * Pfrforms b dlonf bdtion. Tiis providfs b workbround for tif
+     * <CODE>SnmpVbluf</CODE> intfrfbdf.
+     * @rfturn Tif SnmpVbluf dlonf.
      */
-    final synchronized public Object clone() {
-        SnmpCounter64  newclone = null ;
+    finbl syndironizfd publid SnmpVbluf duplidbtf() {
+        rfturn (SnmpVbluf)dlonf() ;
+    }
+
+    /**
+     * Clonfs tif <CODE>SnmpCountfr64</CODE> objfdt, mbking b dopy of its dbtb.
+     * @rfturn Tif objfdt dlonf.
+     */
+    finbl syndironizfd publid Objfdt dlonf() {
+        SnmpCountfr64  nfwdlonf = null ;
         try {
-            newclone = (SnmpCounter64) super.clone() ;
-            newclone.value = value ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            nfwdlonf = (SnmpCountfr64) supfr.dlonf() ;
+            nfwdlonf.vbluf = vbluf ;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f) ; // vm bug.
         }
-        return newclone ;
+        rfturn nfwdlonf ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Rfturns b tfxtubl dfsdription of tif typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
      */
-    final public String getTypeName() {
-        return name ;
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbmf of tif typf.
      */
-    final static String name = "Counter64" ;
+    finbl stbtid String nbmf = "Countfr64" ;
 
     /**
-     * This is where the value is stored. This long is positive.
-     * @serial
+     * Tiis is wifrf tif vbluf is storfd. Tiis long is positivf.
+     * @sfribl
      */
-    private long value = 0 ;
+    privbtf long vbluf = 0 ;
 }

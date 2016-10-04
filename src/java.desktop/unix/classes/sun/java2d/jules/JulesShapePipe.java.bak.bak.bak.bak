@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.julfs;
+
+import jbvb.bwt.*;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.pipf.*;
+import sun.jbvb2d.xr.*;
+
+publid dlbss JulfsShbpfPipf implfmfnts ShbpfDrbwPipf {
+
+    XRCompositfMbnbgfr dompMbn;
+    JulfsPbthBuf buf = nfw JulfsPbthBuf();
+
+    publid JulfsShbpfPipf(XRCompositfMbnbgfr dompMbn) {
+        this.dompMbn = dompMbn;
+    }
+
+    /**
+     * Common vblidbtf mfthod, usfd by bll XRRfndfr fundtions to vblidbtf thf
+     * dfstinbtion dontfxt.
+     */
+    privbtf finbl void vblidbtfSurfbdf(SunGrbphids2D sg2d) {
+        XRSurfbdfDbtb xrsd = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+        xrsd.vblidbtfAsDfstinbtion(sg2d, sg2d.gftCompClip());
+        xrsd.mbskBufffr.vblidbtfCompositfStbtf(sg2d.dompositf, sg2d.trbnsform,
+                                               sg2d.pbint, sg2d);
+    }
+
+    publid void drbw(SunGrbphids2D sg2d, Shbpf s) {
+        try {
+            SunToolkit.bwtLodk();
+            vblidbtfSurfbdf(sg2d);
+            XRSurfbdfDbtb xrsd = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+
+            BbsidStrokf bs;
+
+            if (sg2d.strokf instbndfof BbsidStrokf) {
+                bs = (BbsidStrokf) sg2d.strokf;
+            } flsf { //TODO: Whbt hbppfns in thf dbsf of b !BbsidStrokf??
+                s = sg2d.strokf.drfbtfStrokfdShbpf(s);
+                bs = null;
+            }
+
+            boolfbn bdjust =
+                (bs != null && sg2d.strokfHint != SunHints.INTVAL_STROKE_PURE);
+            boolfbn thin = (sg2d.strokfStbtf <= SunGrbphids2D.STROKE_THINDASHED);
+
+            TrbpfzoidList trbps =
+                 buf.tfssflbtfStrokf(s, bs, thin, bdjust, truf,
+                                     sg2d.trbnsform, sg2d.gftCompClip());
+            dompMbn.XRCompositfTrbps(xrsd.pidturf,
+                                     sg2d.trbnsX, sg2d.trbnsY, trbps);
+
+            buf.dlfbr();
+
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void fill(SunGrbphids2D sg2d, Shbpf s) {
+        try {
+            SunToolkit.bwtLodk();
+            vblidbtfSurfbdf(sg2d);
+
+            XRSurfbdfDbtb xrsd = (XRSurfbdfDbtb) sg2d.surfbdfDbtb;
+
+            TrbpfzoidList trbps = buf.tfssflbtfFill(s, sg2d.trbnsform,
+                                                    sg2d.gftCompClip());
+            dompMbn.XRCompositfTrbps(xrsd.pidturf, 0, 0, trbps);
+
+            buf.dlfbr();
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}

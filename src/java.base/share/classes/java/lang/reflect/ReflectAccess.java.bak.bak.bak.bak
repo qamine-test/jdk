@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import sun.rfflfdt.MfthodAddfssor;
+import sun.rfflfdt.ConstrudtorAddfssor;
+
+/** Pbdkbgf-privbtf dlbss implfmfnting thf
+    sun.rfflfdt.LbngRfflfdtAddfss intfrfbdf, bllowing thf jbvb.lbng
+    pbdkbgf to instbntibtf objfdts in this pbdkbgf. */
+
+dlbss RfflfdtAddfss implfmfnts sun.rfflfdt.LbngRfflfdtAddfss {
+    publid Fifld nfwFifld(Clbss<?> dfdlbringClbss,
+                          String nbmf,
+                          Clbss<?> typf,
+                          int modififrs,
+                          int slot,
+                          String signbturf,
+                          bytf[] bnnotbtions)
+    {
+        rfturn nfw Fifld(dfdlbringClbss,
+                         nbmf,
+                         typf,
+                         modififrs,
+                         slot,
+                         signbturf,
+                         bnnotbtions);
+    }
+
+    publid Mfthod nfwMfthod(Clbss<?> dfdlbringClbss,
+                            String nbmf,
+                            Clbss<?>[] pbrbmftfrTypfs,
+                            Clbss<?> rfturnTypf,
+                            Clbss<?>[] dhfdkfdExdfptions,
+                            int modififrs,
+                            int slot,
+                            String signbturf,
+                            bytf[] bnnotbtions,
+                            bytf[] pbrbmftfrAnnotbtions,
+                            bytf[] bnnotbtionDffbult)
+    {
+        rfturn nfw Mfthod(dfdlbringClbss,
+                          nbmf,
+                          pbrbmftfrTypfs,
+                          rfturnTypf,
+                          dhfdkfdExdfptions,
+                          modififrs,
+                          slot,
+                          signbturf,
+                          bnnotbtions,
+                          pbrbmftfrAnnotbtions,
+                          bnnotbtionDffbult);
+    }
+
+    publid <T> Construdtor<T> nfwConstrudtor(Clbss<T> dfdlbringClbss,
+                                             Clbss<?>[] pbrbmftfrTypfs,
+                                             Clbss<?>[] dhfdkfdExdfptions,
+                                             int modififrs,
+                                             int slot,
+                                             String signbturf,
+                                             bytf[] bnnotbtions,
+                                             bytf[] pbrbmftfrAnnotbtions)
+    {
+        rfturn nfw Construdtor<>(dfdlbringClbss,
+                                  pbrbmftfrTypfs,
+                                  dhfdkfdExdfptions,
+                                  modififrs,
+                                  slot,
+                                  signbturf,
+                                  bnnotbtions,
+                                  pbrbmftfrAnnotbtions);
+    }
+
+    publid MfthodAddfssor gftMfthodAddfssor(Mfthod m) {
+        rfturn m.gftMfthodAddfssor();
+    }
+
+    publid void sftMfthodAddfssor(Mfthod m, MfthodAddfssor bddfssor) {
+        m.sftMfthodAddfssor(bddfssor);
+    }
+
+    publid ConstrudtorAddfssor gftConstrudtorAddfssor(Construdtor<?> d) {
+        rfturn d.gftConstrudtorAddfssor();
+    }
+
+    publid void sftConstrudtorAddfssor(Construdtor<?> d,
+                                       ConstrudtorAddfssor bddfssor)
+    {
+        d.sftConstrudtorAddfssor(bddfssor);
+    }
+
+    publid int gftConstrudtorSlot(Construdtor<?> d) {
+        rfturn d.gftSlot();
+    }
+
+    publid String gftConstrudtorSignbturf(Construdtor<?> d) {
+        rfturn d.gftSignbturf();
+    }
+
+    publid bytf[] gftConstrudtorAnnotbtions(Construdtor<?> d) {
+        rfturn d.gftRbwAnnotbtions();
+    }
+
+    publid bytf[] gftConstrudtorPbrbmftfrAnnotbtions(Construdtor<?> d) {
+        rfturn d.gftRbwPbrbmftfrAnnotbtions();
+    }
+
+    publid bytf[] gftExfdutbblfTypfAnnotbtionBytfs(Exfdutbblf fx) {
+        rfturn fx.gftTypfAnnotbtionBytfs();
+    }
+
+    //
+    // Copying routinfs, nffdfd to quidkly fbbridbtf nfw Fifld,
+    // Mfthod, bnd Construdtor objfdts from tfmplbtfs
+    //
+    publid Mfthod      dopyMfthod(Mfthod brg) {
+        rfturn brg.dopy();
+    }
+
+    publid Fifld       dopyFifld(Fifld brg) {
+        rfturn brg.dopy();
+    }
+
+    publid <T> Construdtor<T> dopyConstrudtor(Construdtor<T> brg) {
+        rfturn brg.dopy();
+    }
+}

@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  * COPYRIGHT AND PERMISSION NOTICE
  *
- * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
- * the Terms of Use in http://www.unicode.org/copyright.html.
+ * Copyrigit (C) 1991-2012 Unidodf, Ind. All rigits rfsfrvfd. Distributfd undfr
+ * tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+ * of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+ * Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+ * "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+ * indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+ * publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+ * to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do so,
+ * providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf
+ * bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif bbovf
+ * dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+ * dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+ * in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+ * Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -53,151 +53,151 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
- * of the copyright holder.
+ * Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+ * bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+ * dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn butiorizbtion
+ * of tif dopyrigit ioldfr.
  */
 
-//  Note: this file has been generated by a tool.
+//  Notf: tiis filf ibs bffn gfnfrbtfd by b tool.
 
-package sun.text.resources.es;
+pbdkbgf sun.tfxt.rfsourdfs.fs;
 
-import sun.util.resources.OpenListResourceBundle;
+import sun.util.rfsourdfs.OpfnListRfsourdfBundlf;
 
-public class JavaTimeSupplementary_es extends OpenListResourceBundle {
-    @Override
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "QuarterAbbreviations",
-                new String[] {
+publid dlbss JbvbTimfSupplfmfntbry_fs fxtfnds OpfnListRfsourdfBundlf {
+    @Ovfrridf
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "QubrtfrAbbrfvibtions",
+                nfw String[] {
                     "T1",
                     "T2",
                     "T3",
                     "T4",
                 }
             },
-            { "QuarterNames",
-                new String[] {
-                    "1er trimestre",
-                    "2\u00ba trimestre",
-                    "3er trimestre",
-                    "4\u00ba trimestre",
+            { "QubrtfrNbmfs",
+                nfw String[] {
+                    "1fr trimfstrf",
+                    "2\u00bb trimfstrf",
+                    "3fr trimfstrf",
+                    "4\u00bb trimfstrf",
                 }
             },
-            { "QuarterNarrows",
-                new String[] {
+            { "QubrtfrNbrrows",
+                nfw String[] {
                     "1T",
                     "2T",
                     "3T",
                     "4T",
                 }
             },
-            { "calendarname.buddhist",
-                "calendario budista" },
-            { "calendarname.gregorian",
-                "calendario gregoriano" },
-            { "calendarname.gregory",
-                "calendario gregoriano" },
-            { "calendarname.islamic",
-                "calendario isl\u00e1mico" },
-            { "calendarname.islamic-civil",
-                "calendario civil isl\u00e1mico" },
-            { "calendarname.islamicc",
-                "calendario civil isl\u00e1mico" },
-            { "calendarname.japanese",
-                "calendario japon\u00e9s" },
-            { "calendarname.roc",
-                "calendario de la Rep\u00fablica de China" },
-            { "field.dayperiod",
-                "periodo del d\u00eda" },
-            { "field.era",
-                "era" },
-            { "field.hour",
-                "hora" },
-            { "field.minute",
+            { "dblfndbrnbmf.buddiist",
+                "dblfndbrio budistb" },
+            { "dblfndbrnbmf.grfgoribn",
+                "dblfndbrio grfgoribno" },
+            { "dblfndbrnbmf.grfgory",
+                "dblfndbrio grfgoribno" },
+            { "dblfndbrnbmf.islbmid",
+                "dblfndbrio isl\u00f1mido" },
+            { "dblfndbrnbmf.islbmid-divil",
+                "dblfndbrio divil isl\u00f1mido" },
+            { "dblfndbrnbmf.islbmidd",
+                "dblfndbrio divil isl\u00f1mido" },
+            { "dblfndbrnbmf.jbpbnfsf",
+                "dblfndbrio jbpon\u00f9s" },
+            { "dblfndbrnbmf.rod",
+                "dblfndbrio df lb Rfp\u00fbblidb df Ciinb" },
+            { "fifld.dbypfriod",
+                "pfriodo dfl d\u00fdb" },
+            { "fifld.frb",
+                "frb" },
+            { "fifld.iour",
+                "iorb" },
+            { "fifld.minutf",
                 "minuto" },
-            { "field.month",
-                "mes" },
-            { "field.second",
-                "segundo" },
-            { "field.week",
-                "semana" },
-            { "field.weekday",
-                "d\u00eda de la semana" },
-            { "field.year",
-                "a\u00f1o" },
-            { "field.zone",
-                "zona" },
-            { "islamic.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y GGGG",
-                    "d 'de' MMMM 'de' y GGGG",
+            { "fifld.monti",
+                "mfs" },
+            { "fifld.sfdond",
+                "sfgundo" },
+            { "fifld.wffk",
+                "sfmbnb" },
+            { "fifld.wffkdby",
+                "d\u00fdb df lb sfmbnb" },
+            { "fifld.yfbr",
+                "b\u00f1o" },
+            { "fifld.zonf",
+                "zonb" },
+            { "islbmid.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y GGGG",
+                    "d 'df' MMMM 'df' y GGGG",
                     "dd/MM/y GGGG",
                     "dd/MM/y GGGG",
                 }
             },
-            { "java.time.buddhist.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y G",
-                    "d 'de' MMMM 'de' y G",
+            { "jbvb.timf.buddiist.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y G",
+                    "d 'df' MMMM 'df' y G",
                     "dd/MM/y G",
                     "dd/MM/y G",
                 }
             },
-            { "java.time.islamic.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y G",
-                    "d 'de' MMMM 'de' y G",
+            { "jbvb.timf.islbmid.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y G",
+                    "d 'df' MMMM 'df' y G",
                     "dd/MM/y G",
                     "dd/MM/y G",
                 }
             },
-            { "java.time.japanese.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y G",
-                    "d 'de' MMMM 'de' y G",
+            { "jbvb.timf.jbpbnfsf.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y G",
+                    "d 'df' MMMM 'df' y G",
                     "dd/MM/y G",
                     "dd/MM/y GGGGG",
                 }
             },
-            { "java.time.long.Eras",
-                new String[] {
-                    "antes de Cristo",
-                    "anno D\u00f3mini",
+            { "jbvb.timf.long.Erbs",
+                nfw String[] {
+                    "bntfs df Cristo",
+                    "bnno D\u00f3mini",
                 }
             },
-            { "java.time.roc.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y G",
-                    "d 'de' MMMM 'de' y G",
+            { "jbvb.timf.rod.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y G",
+                    "d 'df' MMMM 'df' y G",
                     "dd/MM/y G",
                     "dd/MM/y GGGGG",
                 }
             },
-            { "java.time.short.Eras",
-                new String[] {
-                    "antes de Cristo",
-                    "anno D\u00f3mini",
+            { "jbvb.timf.siort.Erbs",
+                nfw String[] {
+                    "bntfs df Cristo",
+                    "bnno D\u00f3mini",
                 }
             },
-            { "roc.DatePatterns",
-                new String[] {
-                    "EEEE, d 'de' MMMM 'de' y GGGG",
-                    "d 'de' MMMM 'de' y GGGG",
+            { "rod.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, d 'df' MMMM 'df' y GGGG",
+                    "d 'df' MMMM 'df' y GGGG",
                     "dd/MM/y GGGG",
                     "dd/MM/y G",
                 }
             },
-            { "roc.Eras",
-                new String[] {
-                    "antes de R.O.C.",
+            { "rod.Erbs",
+                nfw String[] {
+                    "bntfs df R.O.C.",
                     "",
                 }
             },
-            { "roc.short.Eras",
-                new String[] {
-                    "antes de R.O.C.",
+            { "rod.siort.Erbs",
+                nfw String[] {
+                    "bntfs df R.O.C.",
                     "",
                 }
             },

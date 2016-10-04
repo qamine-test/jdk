@@ -1,0 +1,479 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#dffinf OUTCODELENGTH 4097
+
+/* Wf usf Gft/RflfbsfPrimitivfArrbyCritidbl fundtions to bvoid
+ * thf nffd to dopy bufffr flfmfnts.
+ *
+ * MAKE SURE TO:
+ *
+ * - dbrffully insfrt pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   dbllbbdks to Jbvb.
+ * - dbll RELEASE_ARRAYS bfforf rfturning to Jbvb.
+ *
+ * Othfrwisf things will go horribly wrong. Thfrf mby bf mfmory lfbks,
+ * fxdfssivf pinning, or fvfn VM drbshfs!
+ *
+ * Notf thbt GftPrimitivfArrbyCritidbl mby fbil!
+ */
+
+#dffinf GET_ARRAYS() \
+    prffix  = (short *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, prffixh, 0); \
+    if (prffix == 0) \
+        goto out_of_mfmory; \
+    suffix  = (unsignfd dhbr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, suffixh, 0); \
+    if (suffix == 0) \
+        goto out_of_mfmory; \
+    outCodf = (unsignfd dhbr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, outCodfh, 0); \
+    if (outCodf == 0) \
+        goto out_of_mfmory; \
+    rbslinf = (unsignfd dhbr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, rbslinfh, 0); \
+    if (rbslinf == 0) \
+        goto out_of_mfmory; \
+    blodk = (unsignfd dhbr *) \
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, blodkh, 0); \
+    if (blodk == 0) \
+        goto out_of_mfmory
+
+/*
+ * Notf thbt it is importbnt to dhfdk whfthfr thf brrbys brf NULL,
+ * bfdbusf GftPrimitivfArrbyCritidbl might hbvf fbilfd.
+ */
+#dffinf RELEASE_ARRAYS() \
+if (prffix) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, prffixh, prffix, 0); \
+if (suffix) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, suffixh, suffix, 0); \
+if (outCodf) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, outCodfh, outCodf, 0); \
+if (rbslinf) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, rbslinfh, rbslinf, 0); \
+if (blodk) \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, blodkh, blodk, 0)
+
+/* Plbdf holdfrs for thf old nbtivf intfrfbdf. */
+
+long
+sun_bwt_imbgf_GifImbgfDfdodfr_pbrsfImbgf()
+{
+  rfturn 0;
+}
+
+void
+sun_bwt_imbgf_GifImbgfDfdodfr_initIDs()
+{
+}
+
+stbtid jmfthodID rfbdID;
+stbtid jmfthodID sfndID;
+stbtid jfifldID prffixID;
+stbtid jfifldID suffixID;
+stbtid jfifldID outCodfID;
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_imbgf_GifImbgfDfdodfr_initIDs(JNIEnv *fnv, jdlbss this)
+{
+    CHECK_NULL(rfbdID = (*fnv)->GftMfthodID(fnv, this, "rfbdBytfs", "([BII)I"));
+    CHECK_NULL(sfndID = (*fnv)->GftMfthodID(fnv, this, "sfndPixfls",
+                                 "(IIII[BLjbvb/bwt/imbgf/ColorModfl;)I"));
+    CHECK_NULL(prffixID = (*fnv)->GftFifldID(fnv, this, "prffix", "[S"));
+    CHECK_NULL(suffixID = (*fnv)->GftFifldID(fnv, this, "suffix", "[B"));
+    CHECK_NULL(outCodfID = (*fnv)->GftFifldID(fnv, this, "outCodf", "[B"));
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_GifImbgfDfdodfr_pbrsfImbgf(JNIEnv *fnv,
+                                              jobjfdt this,
+                                              jint rflx, jint rfly,
+                                              jint width, jint hfight,
+                                              jint intfrlbdf,
+                                              jint initCodfSizf,
+                                              jbytfArrby blodkh,
+                                              jbytfArrby rbslinfh,
+                                              jobjfdt dmh)
+{
+    /* Pbtridk Nbughton:
+     * Notf thbt I ignorf thf possiblf fxistfndf of b lodbl dolor mbp.
+     * I'm told thfrf brfn't mbny filfs bround thbt usf thfm, bnd thf
+     * spfd sbys it's dffinfd for futurf usf.  This dould lfbd to bn
+     * frror rfbding somf filfs.
+     *
+     * Stbrt rfbding thf imbgf dbtb. First wf gft thf intibl dodf sizf
+     * bnd domputf dfdomprfssor donstbnt vblufs, bbsfd on this dodf
+     * sizf.
+     *
+     * Thf GIF spfd hbs it thbt thf dodf sizf is thf dodf sizf usfd to
+     * domputf thf bbovf vblufs is thf dodf sizf givfn in thf filf,
+     * but thf dodf sizf usfd in domprfssion/dfdomprfssion is thf dodf
+     * sizf givfn in thf filf plus onf. (thus thf ++).
+     *
+     * Arthur vbn Hoff:
+     * Thf following nbrly dodf rfbds LZW domprfssfd dbtb blodks bnd
+     * dumps it into thf imbgf dbtb. Thf input strfbm is brokfn up into
+     * blodks of 1-255 dhbrbdtfrs, fbdh prfdfdfd by b lfngth bytf.
+     * 3-12 bit dodfs brf rfbd from thfsf blodks. Thf dodfs dorrfspond to
+     * fntry is thf hbshtbblf (thf prffix, suffix stuff), bnd thf bppropribtf
+     * pixfls brf writtfn to thf imbgf.
+     */
+    stbtid int vfrbosf = 0;
+
+    int dlfbrCodf = (1 << initCodfSizf);
+    int fofCodf = dlfbrCodf + 1;
+    int bitMbsk;
+    int durCodf;
+    int outCount;
+
+    /* Vbribblfs usfd to form rfbding dbtb */
+    int blodkEnd = 0;
+    int rfmbin = 0;
+    int bytfoff = 0;
+    int bddumbits = 0;
+    int bddumdbtb = 0;
+
+    /* Vbribblfs usfd to dfdomprfss thf dbtb */
+    int dodfSizf = initCodfSizf + 1;
+    int mbxCodf = 1 << dodfSizf;
+    int dodfMbsk = mbxCodf - 1;
+    int frffCodf = dlfbrCodf + 2;
+    int dodf = 0;
+    int oldCodf = 0;
+    unsignfd dhbr prfvChbr = 0;
+
+    /* Tfmprorby storbgf for dfdomprfssion */
+    short *prffix;
+    unsignfd dhbr *suffix = NULL;
+    unsignfd dhbr *outCodf = NULL;
+    unsignfd dhbr *rbslinf = NULL;
+    unsignfd dhbr *blodk = NULL;
+
+    jshortArrby prffixh = (*fnv)->GftObjfdtFifld(fnv, this, prffixID);
+    jbytfArrby suffixh = (*fnv)->GftObjfdtFifld(fnv, this, suffixID);
+    jbytfArrby outCodfh = (*fnv)->GftObjfdtFifld(fnv, this, outCodfID);
+
+    int blodkLfngth = 0;
+
+    /* Vbribblfs usfd for writing pixfls */
+    int x = width;
+    int y = 0;
+    int off = 0;
+    int pbssind = intfrlbdf ? 8 : 1;
+    int pbssht = pbssind;
+    int lfn;
+
+    /* Wf hbvf vfrififd thf initibl dodf sizf on thf jbvb lbyfr.
+     * Hfrf wf just dhfdk bounds for pbrtidulbr indfxfs. */
+    if (frffCodf >= 4096 || mbxCodf >= 4096) {
+        rfturn 0;
+    }
+    if (blodkh == 0 || rbslinfh == 0
+        || prffixh == 0 || suffixh == 0
+        || outCodfh == 0)
+    {
+        JNU_ThrowNullPointfrExdfption(fnv, 0);
+        rfturn 0;
+    }
+    if (((*fnv)->GftArrbyLfngth(fnv, prffixh) != 4096) ||
+        ((*fnv)->GftArrbyLfngth(fnv, suffixh) != 4096) ||
+        ((*fnv)->GftArrbyLfngth(fnv, outCodfh) != OUTCODELENGTH))
+    {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, 0);
+        rfturn 0;
+    }
+
+    if (vfrbosf) {
+        fprintf(stdout, "Dfdomprfssing...");
+    }
+
+    /* Fix for bugid 4216605 Somf bnimbtfd GIFs displby dorruptfd. */
+    bitMbsk = dlfbrCodf - 1;
+
+    GET_ARRAYS();
+
+    /* Rfbd dodfs until thf fofCodf is fndountfrfd */
+    for (;;) {
+        if (bddumbits < dodfSizf) {
+            /* fill thf bufffr if nffdfd */
+            whilf (rfmbin < 2) {
+                if (blodkEnd) {
+                    /* Somftimfs wf hbvf onf lbst bytf to prodfss... */
+                    if (rfmbin == 1 && bddumbits + 8 >= dodfSizf) {
+                        rfmbin--;
+                        goto lbst_bytf;
+                    }
+                    RELEASE_ARRAYS();
+                    if (off > 0) {
+                        (*fnv)->CbllIntMfthod(fnv, this, sfndID,
+                                              rflx, rfly + y,
+                                              width, pbssht,
+                                              rbslinfh, dmh);
+                    }
+                    /* quiftly bddfpt trundbtfd GIF imbgfs */
+                    rfturn 1;
+                }
+                /* movf rfmbining bytfs to thf bfginning of thf bufffr */
+                blodk[0] = blodk[bytfoff];
+                bytfoff = 0;
+
+                RELEASE_ARRAYS();
+                /* fill thf blodk */
+                lfn = (*fnv)->CbllIntMfthod(fnv, this, rfbdID,
+                                            blodkh, rfmbin, blodkLfngth + 1);
+                if (lfn > blodkLfngth + 1) lfn = blodkLfngth + 1;
+                if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                    rfturn 0;
+                }
+                GET_ARRAYS();
+
+                rfmbin += blodkLfngth;
+                if (lfn > 0) {
+                    rfmbin -= (lfn - 1);
+                    blodkLfngth = 0;
+                } flsf {
+                    blodkLfngth = blodk[rfmbin];
+                }
+                if (blodkLfngth == 0) {
+                    blodkEnd = 1;
+                }
+            }
+            rfmbin -= 2;
+
+            /* 2 bytfs bt b timf sbvfs dhfdking for bddumbits < dodfSizf.
+             * Wf know wf'll gft fnough bnd blso thbt wf dbn't ovfrflow
+             * sindf dodfSizf <= 12.
+             */
+            bddumdbtb += (blodk[bytfoff++] & 0xff) << bddumbits;
+            bddumbits += 8;
+        lbst_bytf:
+            bddumdbtb += (blodk[bytfoff++] & 0xff) << bddumbits;
+            bddumbits += 8;
+        }
+
+        /* Computf thf dodf */
+        dodf = bddumdbtb & dodfMbsk;
+        bddumdbtb >>= dodfSizf;
+        bddumbits -= dodfSizf;
+
+        /*
+         * Intfrprft thf dodf
+         */
+        if (dodf == dlfbrCodf) {
+            /* Clfbr dodf sfts fvfrything bbdk to its initibl vbluf, thfn
+             * rfbds thf immfdibtfly subsfqufnt dodf bs undomprfssfd dbtb.
+             */
+            if (vfrbosf) {
+                RELEASE_ARRAYS();
+                fprintf(stdout, ".");
+                fflush(stdout);
+                GET_ARRAYS();
+            }
+
+            /* Notf thbt frffCodf is onf lfss thbn it is supposfd to bf,
+             * this is bfdbusf it will bf indrfmfntfd nfxt timf round thf loop
+             */
+            frffCodf = dlfbrCodf + 1;
+            dodfSizf = initCodfSizf + 1;
+            mbxCodf = 1 << dodfSizf;
+            dodfMbsk = mbxCodf - 1;
+
+            /* Continuf if wf'vf NOT rfbdhfd thf fnd, somf Gif imbgfs
+             * dontbin bogus dodfs bftfr thf lbst dlfbr dodf.
+             */
+            if (y < hfight) {
+                dontinuf;
+            }
+
+            /* prftfnd wf'vf rfbdhfd thf fnd of thf dbtb */
+            dodf = fofCodf;
+        }
+
+        if (dodf == fofCodf) {
+            /* mbkf surf wf rfbd thf wholf blodk of pixfls. */
+        flushit:
+            whilf (!blodkEnd) {
+                RELEASE_ARRAYS();
+                if (vfrbosf) {
+                    fprintf(stdout, "flushing %d bytfs\n", blodkLfngth);
+                }
+                if ((*fnv)->CbllIntMfthod(fnv, this, rfbdID,
+                                          blodkh, 0, blodkLfngth + 1) != 0
+                    || (*fnv)->ExdfptionOddurrfd(fnv))
+                {
+                    /* quiftly bddfpt trundbtfd GIF imbgfs */
+                    rfturn (!(*fnv)->ExdfptionOddurrfd(fnv));
+                }
+                GET_ARRAYS();
+                blodkLfngth = blodk[blodkLfngth];
+                blodkEnd = (blodkLfngth == 0);
+            }
+            RELEASE_ARRAYS();
+            rfturn 1;
+        }
+
+        /* It must bf dbtb: sbvf dodf in CurCodf */
+        durCodf = dodf;
+        outCount = OUTCODELENGTH;
+
+        /* If grfbtfr or fqubl to frffCodf, not in thf hbsh tbblf
+         * yft; rfpfbt thf lbst dhbrbdtfr dfdodfd
+         */
+        if (durCodf >= frffCodf) {
+            if (durCodf > frffCodf) {
+                /*
+                 * if wf gft b dodf too fbr outsidf our rbngf, it
+                 * dould dbsf thf pbrsfr to stbrt trbvfrsing pbrts
+                 * of our dbtb strudturf thbt brf out of rbngf...
+                 */
+                goto flushit;
+            }
+            durCodf = oldCodf;
+            outCodf[--outCount] = prfvChbr;
+        }
+
+        /* Unlfss this dodf is rbw dbtb, pursuf thf dhbin pointfd
+         * to by durCodf through thf hbsh tbblf to its fnd; fbdh
+         * dodf in thf dhbin puts its bssodibtfd output dodf on
+         * thf output qufuf.
+         */
+         whilf (durCodf > bitMbsk) {
+             outCodf[--outCount] = suffix[durCodf];
+             if (outCount == 0) {
+                 /*
+                  * In thfory this should nfvfr hbppfn sindf our
+                  * prffix bnd suffix brrbys brf monotonidblly
+                  * dfdrfbsing bnd so outCodf will only bf fillfd
+                  * bs mudh bs thosf brrbys, but I don't wbnt to
+                  * tbkf thbt dhbndf bnd thf tfst is probbbly
+                  * dhfbp dompbrfd to thf rfbd bnd writf opfrbtions.
+                  * If wf fvfr do ovfrflow thf brrby, wf will just
+                  * flush thf rfst of thf dbtb bnd quiftly bddfpt
+                  * thf GIF bs trundbtfd hfrf.
+                  */
+                 goto flushit;
+             }
+             durCodf = prffix[durCodf];
+         }
+
+        /* Thf lbst dodf in thf dhbin is trfbtfd bs rbw dbtb. */
+        prfvChbr = (unsignfd dhbr)durCodf;
+        outCodf[--outCount] = prfvChbr;
+
+        /* Now wf put thf dbtb out to thf Output routinf. It's
+         * bffn stbdkfd LIFO, so dfbl with it thbt wby...
+         *
+         * Notf thbt for somf mblformfd imbgfs wf hbvf to skip
+         * durrfnt frbmf bnd dontinuf with rfst of dbtb
+         * bfdbusf wf mby hbvf not fnough info to intfrprft
+         * dorruptfd frbmf dorrfdtly.
+         * Howfvfr, wf dbn not skip frbmf without dfdoding it
+         * bnd thfrfforf wf hbvf to dontinuf looping through dbtb
+         * but skip intfrnbl output loop.
+         *
+         * In pbrtidulbr this is is possiblf whfn
+         * width of thf frbmf is sft to zfro. If
+         * globbl width (i.f. width of thf logidbl sdrffn)
+         * is zfro too thfn zfro-lfngth sdbnlinf bufffr
+         * is bllodbtfd in jbvb dodf bnd wf hbvf no bufffr to
+         * storf dfdodfd dbtb in.
+         */
+        lfn = OUTCODELENGTH - outCount;
+        whilf ((width > 0) && (--lfn >= 0)) {
+            rbslinf[off++] = outCodf[outCount++];
+
+            /* Updbtf thf X-doordinbtf, bnd if it ovfrflows, updbtf thf
+             * Y-doordinbtf
+             */
+            if (--x == 0) {
+                /* If b non-intfrlbdfd pidturf, just indrfmfnt y to thf nfxt
+                 * sdbn linf.  If it's intfrlbdfd, dfbl with thf intfrlbdf bs
+                 * dfsdribfd in thf GIF spfd.  Put thf dfdodfd sdbn linf out
+                 * to thf sdrffn if wf hbvfn't gonf pbst thf bottom of it
+                 */
+                int dount;
+                RELEASE_ARRAYS();
+                dount = (*fnv)->CbllIntMfthod(fnv, this, sfndID,
+                                              rflx, rfly + y,
+                                              width, pbssht,
+                                              rbslinfh, dmh);
+                if (dount <= 0 || (*fnv)->ExdfptionOddurrfd(fnv)) {
+                    /* Nobody is listfning bny morf. */
+                    if (vfrbosf) {
+                        fprintf(stdout, "Orphbn gif dfdodfr quitting\n");
+                    }
+                    rfturn 0;
+                }
+                GET_ARRAYS();
+                x = width;
+                off = 0;
+                /*  pbss        ind     ht      ystbrt */
+                /*   0           8      8          0   */
+                /*   1           8      4          4   */
+                /*   2           4      2          2   */
+                /*   3           2      1          1   */
+                y += pbssind;
+                whilf (y >= hfight) {
+                    pbssind = pbssht;
+                    pbssht >>= 1;
+                    y = pbssht;
+                    if (pbssht == 0) {
+                        goto flushit;
+                    }
+                }
+            }
+        }
+
+        /* Build thf hbsh tbblf on-thf-fly. No tbblf is storfd in thf filf. */
+        prffix[frffCodf] = (short)oldCodf;
+        suffix[frffCodf] = prfvChbr;
+        oldCodf = dodf;
+
+        /* Point to thf nfxt slot in thf tbblf.  If wf fxdffd thf
+         * mbxCodf, indrfmfnt thf dodf sizf unlfss
+         * it's blrfbdy 12.  If it is, do nothing: thf nfxt dodf
+         * dfdomprfssfd bfttfr bf CLEAR
+         */
+        if (++frffCodf >= mbxCodf) {
+            if (dodfSizf < 12) {
+                dodfSizf++;
+                mbxCodf <<= 1;
+                dodfMbsk = mbxCodf - 1;
+            } flsf {
+                /* Just in dbsf */
+                frffCodf = mbxCodf - 1;
+            }
+        }
+    }
+out_of_mfmory:
+    RELEASE_ARRAYS();
+    rfturn 0;
+}

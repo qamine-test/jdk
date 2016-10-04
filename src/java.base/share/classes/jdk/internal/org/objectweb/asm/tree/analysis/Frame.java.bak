@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,713 +56,713 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InvokeDynamicInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
-import jdk.internal.org.objectweb.asm.tree.VarInsnNode;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.IindInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InvokfDynbmidInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MultiANfwArrbyInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.VbrInsnNodf;
 
 /**
- * A symbolic execution stack frame. A stack frame contains a set of local
- * variable slots, and an operand stack. Warning: long and double values are
- * represented by <i>two</i> slots in local variables, and by <i>one</i> slot in
- * the operand stack.
+ * A symbolid fxfdution stbdk frbmf. A stbdk frbmf dontbins b sft of lodbl
+ * vbribblf slots, bnd bn opfrbnd stbdk. Wbrning: long bnd doublf vblufs brf
+ * rfprfsfntfd by <i>two</i> slots in lodbl vbribblfs, bnd by <i>onf</i> slot in
+ * tif opfrbnd stbdk.
  *
- * @param <V>
- *            type of the Value used for the analysis.
+ * @pbrbm <V>
+ *            typf of tif Vbluf usfd for tif bnblysis.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class Frame<V extends Value> {
+publid dlbss Frbmf<V fxtfnds Vbluf> {
 
     /**
-     * The expected return type of the analyzed method, or <tt>null</tt> if the
-     * method returns void.
+     * Tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod, or <tt>null</tt> if tif
+     * mftiod rfturns void.
      */
-    private V returnValue;
+    privbtf V rfturnVbluf;
 
     /**
-     * The local variables and operand stack of this frame.
+     * Tif lodbl vbribblfs bnd opfrbnd stbdk of tiis frbmf.
      */
-    private V[] values;
+    privbtf V[] vblufs;
 
     /**
-     * The number of local variables of this frame.
+     * Tif numbfr of lodbl vbribblfs of tiis frbmf.
      */
-    private int locals;
+    privbtf int lodbls;
 
     /**
-     * The number of elements in the operand stack.
+     * Tif numbfr of flfmfnts in tif opfrbnd stbdk.
      */
-    private int top;
+    privbtf int top;
 
     /**
-     * Constructs a new frame with the given size.
+     * Construdts b nfw frbmf witi tif givfn sizf.
      *
-     * @param nLocals
-     *            the maximum number of local variables of the frame.
-     * @param nStack
-     *            the maximum stack size of the frame.
+     * @pbrbm nLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif frbmf.
+     * @pbrbm nStbdk
+     *            tif mbximum stbdk sizf of tif frbmf.
      */
-    @SuppressWarnings("unchecked")
-    public Frame(final int nLocals, final int nStack) {
-        this.values = (V[]) new Value[nLocals + nStack];
-        this.locals = nLocals;
+    @SupprfssWbrnings("undifdkfd")
+    publid Frbmf(finbl int nLodbls, finbl int nStbdk) {
+        tiis.vblufs = (V[]) nfw Vbluf[nLodbls + nStbdk];
+        tiis.lodbls = nLodbls;
     }
 
     /**
-     * Constructs a new frame that is identical to the given frame.
+     * Construdts b nfw frbmf tibt is idfntidbl to tif givfn frbmf.
      *
-     * @param src
-     *            a frame.
+     * @pbrbm srd
+     *            b frbmf.
      */
-    public Frame(final Frame<? extends V> src) {
-        this(src.locals, src.values.length - src.locals);
-        init(src);
+    publid Frbmf(finbl Frbmf<? fxtfnds V> srd) {
+        tiis(srd.lodbls, srd.vblufs.lfngti - srd.lodbls);
+        init(srd);
     }
 
     /**
-     * Copies the state of the given frame into this frame.
+     * Copifs tif stbtf of tif givfn frbmf into tiis frbmf.
      *
-     * @param src
-     *            a frame.
-     * @return this frame.
+     * @pbrbm srd
+     *            b frbmf.
+     * @rfturn tiis frbmf.
      */
-    public Frame<V> init(final Frame<? extends V> src) {
-        returnValue = src.returnValue;
-        System.arraycopy(src.values, 0, values, 0, values.length);
-        top = src.top;
-        return this;
+    publid Frbmf<V> init(finbl Frbmf<? fxtfnds V> srd) {
+        rfturnVbluf = srd.rfturnVbluf;
+        Systfm.brrbydopy(srd.vblufs, 0, vblufs, 0, vblufs.lfngti);
+        top = srd.top;
+        rfturn tiis;
     }
 
     /**
-     * Sets the expected return type of the analyzed method.
+     * Sfts tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod.
      *
-     * @param v
-     *            the expected return type of the analyzed method, or
-     *            <tt>null</tt> if the method returns void.
+     * @pbrbm v
+     *            tif fxpfdtfd rfturn typf of tif bnblyzfd mftiod, or
+     *            <tt>null</tt> if tif mftiod rfturns void.
      */
-    public void setReturn(final V v) {
-        returnValue = v;
+    publid void sftRfturn(finbl V v) {
+        rfturnVbluf = v;
     }
 
     /**
-     * Returns the maximum number of local variables of this frame.
+     * Rfturns tif mbximum numbfr of lodbl vbribblfs of tiis frbmf.
      *
-     * @return the maximum number of local variables of this frame.
+     * @rfturn tif mbximum numbfr of lodbl vbribblfs of tiis frbmf.
      */
-    public int getLocals() {
-        return locals;
+    publid int gftLodbls() {
+        rfturn lodbls;
     }
 
     /**
-     * Returns the maximum stack size of this frame.
+     * Rfturns tif mbximum stbdk sizf of tiis frbmf.
      *
-     * @return the maximum stack size of this frame.
+     * @rfturn tif mbximum stbdk sizf of tiis frbmf.
      */
-    public int getMaxStackSize() {
-        return values.length - locals;
+    publid int gftMbxStbdkSizf() {
+        rfturn vblufs.lfngti - lodbls;
     }
 
     /**
-     * Returns the value of the given local variable.
+     * Rfturns tif vbluf of tif givfn lodbl vbribblf.
      *
-     * @param i
-     *            a local variable index.
-     * @return the value of the given local variable.
-     * @throws IndexOutOfBoundsException
-     *             if the variable does not exist.
+     * @pbrbm i
+     *            b lodbl vbribblf indfx.
+     * @rfturn tif vbluf of tif givfn lodbl vbribblf.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif vbribblf dofs not fxist.
      */
-    public V getLocal(final int i) throws IndexOutOfBoundsException {
-        if (i >= locals) {
-            throw new IndexOutOfBoundsException(
-                    "Trying to access an inexistant local variable");
+    publid V gftLodbl(finbl int i) tirows IndfxOutOfBoundsExdfption {
+        if (i >= lodbls) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Trying to bddfss bn infxistbnt lodbl vbribblf");
         }
-        return values[i];
+        rfturn vblufs[i];
     }
 
     /**
-     * Sets the value of the given local variable.
+     * Sfts tif vbluf of tif givfn lodbl vbribblf.
      *
-     * @param i
-     *            a local variable index.
-     * @param value
-     *            the new value of this local variable.
-     * @throws IndexOutOfBoundsException
-     *             if the variable does not exist.
+     * @pbrbm i
+     *            b lodbl vbribblf indfx.
+     * @pbrbm vbluf
+     *            tif nfw vbluf of tiis lodbl vbribblf.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif vbribblf dofs not fxist.
      */
-    public void setLocal(final int i, final V value)
-            throws IndexOutOfBoundsException {
-        if (i >= locals) {
-            throw new IndexOutOfBoundsException(
-                    "Trying to access an inexistant local variable " + i);
+    publid void sftLodbl(finbl int i, finbl V vbluf)
+            tirows IndfxOutOfBoundsExdfption {
+        if (i >= lodbls) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Trying to bddfss bn infxistbnt lodbl vbribblf " + i);
         }
-        values[i] = value;
+        vblufs[i] = vbluf;
     }
 
     /**
-     * Returns the number of values in the operand stack of this frame. Long and
-     * double values are treated as single values.
+     * Rfturns tif numbfr of vblufs in tif opfrbnd stbdk of tiis frbmf. Long bnd
+     * doublf vblufs brf trfbtfd bs singlf vblufs.
      *
-     * @return the number of values in the operand stack of this frame.
+     * @rfturn tif numbfr of vblufs in tif opfrbnd stbdk of tiis frbmf.
      */
-    public int getStackSize() {
-        return top;
+    publid int gftStbdkSizf() {
+        rfturn top;
     }
 
     /**
-     * Returns the value of the given operand stack slot.
+     * Rfturns tif vbluf of tif givfn opfrbnd stbdk slot.
      *
-     * @param i
-     *            the index of an operand stack slot.
-     * @return the value of the given operand stack slot.
-     * @throws IndexOutOfBoundsException
-     *             if the operand stack slot does not exist.
+     * @pbrbm i
+     *            tif indfx of bn opfrbnd stbdk slot.
+     * @rfturn tif vbluf of tif givfn opfrbnd stbdk slot.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk slot dofs not fxist.
      */
-    public V getStack(final int i) throws IndexOutOfBoundsException {
-        return values[i + locals];
+    publid V gftStbdk(finbl int i) tirows IndfxOutOfBoundsExdfption {
+        rfturn vblufs[i + lodbls];
     }
 
     /**
-     * Clears the operand stack of this frame.
+     * Clfbrs tif opfrbnd stbdk of tiis frbmf.
      */
-    public void clearStack() {
+    publid void dlfbrStbdk() {
         top = 0;
     }
 
     /**
-     * Pops a value from the operand stack of this frame.
+     * Pops b vbluf from tif opfrbnd stbdk of tiis frbmf.
      *
-     * @return the value that has been popped from the stack.
-     * @throws IndexOutOfBoundsException
-     *             if the operand stack is empty.
+     * @rfturn tif vbluf tibt ibs bffn poppfd from tif stbdk.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk is fmpty.
      */
-    public V pop() throws IndexOutOfBoundsException {
+    publid V pop() tirows IndfxOutOfBoundsExdfption {
         if (top == 0) {
-            throw new IndexOutOfBoundsException(
-                    "Cannot pop operand off an empty stack.");
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Cbnnot pop opfrbnd off bn fmpty stbdk.");
         }
-        return values[--top + locals];
+        rfturn vblufs[--top + lodbls];
     }
 
     /**
-     * Pushes a value into the operand stack of this frame.
+     * Pusifs b vbluf into tif opfrbnd stbdk of tiis frbmf.
      *
-     * @param value
-     *            the value that must be pushed into the stack.
-     * @throws IndexOutOfBoundsException
-     *             if the operand stack is full.
+     * @pbrbm vbluf
+     *            tif vbluf tibt must bf pusifd into tif stbdk.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if tif opfrbnd stbdk is full.
      */
-    public void push(final V value) throws IndexOutOfBoundsException {
-        if (top + locals >= values.length) {
-            throw new IndexOutOfBoundsException(
-                    "Insufficient maximum stack size.");
+    publid void pusi(finbl V vbluf) tirows IndfxOutOfBoundsExdfption {
+        if (top + lodbls >= vblufs.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    "Insuffidifnt mbximum stbdk sizf.");
         }
-        values[top++ + locals] = value;
+        vblufs[top++ + lodbls] = vbluf;
     }
 
-    public void execute(final AbstractInsnNode insn,
-            final Interpreter<V> interpreter) throws AnalyzerException {
-        V value1, value2, value3, value4;
-        List<V> values;
-        int var;
+    publid void fxfdutf(finbl AbstrbdtInsnNodf insn,
+            finbl Intfrprftfr<V> intfrprftfr) tirows AnblyzfrExdfption {
+        V vbluf1, vbluf2, vbluf3, vbluf4;
+        List<V> vblufs;
+        int vbr;
 
-        switch (insn.getOpcode()) {
-        case Opcodes.NOP:
-            break;
-        case Opcodes.ACONST_NULL:
-        case Opcodes.ICONST_M1:
-        case Opcodes.ICONST_0:
-        case Opcodes.ICONST_1:
-        case Opcodes.ICONST_2:
-        case Opcodes.ICONST_3:
-        case Opcodes.ICONST_4:
-        case Opcodes.ICONST_5:
-        case Opcodes.LCONST_0:
-        case Opcodes.LCONST_1:
-        case Opcodes.FCONST_0:
-        case Opcodes.FCONST_1:
-        case Opcodes.FCONST_2:
-        case Opcodes.DCONST_0:
-        case Opcodes.DCONST_1:
-        case Opcodes.BIPUSH:
-        case Opcodes.SIPUSH:
-        case Opcodes.LDC:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.ILOAD:
-        case Opcodes.LLOAD:
-        case Opcodes.FLOAD:
-        case Opcodes.DLOAD:
-        case Opcodes.ALOAD:
-            push(interpreter.copyOperation(insn,
-                    getLocal(((VarInsnNode) insn).var)));
-            break;
-        case Opcodes.IALOAD:
-        case Opcodes.LALOAD:
-        case Opcodes.FALOAD:
-        case Opcodes.DALOAD:
-        case Opcodes.AALOAD:
-        case Opcodes.BALOAD:
-        case Opcodes.CALOAD:
-        case Opcodes.SALOAD:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.ISTORE:
-        case Opcodes.LSTORE:
-        case Opcodes.FSTORE:
-        case Opcodes.DSTORE:
-        case Opcodes.ASTORE:
-            value1 = interpreter.copyOperation(insn, pop());
-            var = ((VarInsnNode) insn).var;
-            setLocal(var, value1);
-            if (value1.getSize() == 2) {
-                setLocal(var + 1, interpreter.newValue(null));
+        switdi (insn.gftOpdodf()) {
+        dbsf Opdodfs.NOP:
+            brfbk;
+        dbsf Opdodfs.ACONST_NULL:
+        dbsf Opdodfs.ICONST_M1:
+        dbsf Opdodfs.ICONST_0:
+        dbsf Opdodfs.ICONST_1:
+        dbsf Opdodfs.ICONST_2:
+        dbsf Opdodfs.ICONST_3:
+        dbsf Opdodfs.ICONST_4:
+        dbsf Opdodfs.ICONST_5:
+        dbsf Opdodfs.LCONST_0:
+        dbsf Opdodfs.LCONST_1:
+        dbsf Opdodfs.FCONST_0:
+        dbsf Opdodfs.FCONST_1:
+        dbsf Opdodfs.FCONST_2:
+        dbsf Opdodfs.DCONST_0:
+        dbsf Opdodfs.DCONST_1:
+        dbsf Opdodfs.BIPUSH:
+        dbsf Opdodfs.SIPUSH:
+        dbsf Opdodfs.LDC:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.ILOAD:
+        dbsf Opdodfs.LLOAD:
+        dbsf Opdodfs.FLOAD:
+        dbsf Opdodfs.DLOAD:
+        dbsf Opdodfs.ALOAD:
+            pusi(intfrprftfr.dopyOpfrbtion(insn,
+                    gftLodbl(((VbrInsnNodf) insn).vbr)));
+            brfbk;
+        dbsf Opdodfs.IALOAD:
+        dbsf Opdodfs.LALOAD:
+        dbsf Opdodfs.FALOAD:
+        dbsf Opdodfs.DALOAD:
+        dbsf Opdodfs.AALOAD:
+        dbsf Opdodfs.BALOAD:
+        dbsf Opdodfs.CALOAD:
+        dbsf Opdodfs.SALOAD:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.ISTORE:
+        dbsf Opdodfs.LSTORE:
+        dbsf Opdodfs.FSTORE:
+        dbsf Opdodfs.DSTORE:
+        dbsf Opdodfs.ASTORE:
+            vbluf1 = intfrprftfr.dopyOpfrbtion(insn, pop());
+            vbr = ((VbrInsnNodf) insn).vbr;
+            sftLodbl(vbr, vbluf1);
+            if (vbluf1.gftSizf() == 2) {
+                sftLodbl(vbr + 1, intfrprftfr.nfwVbluf(null));
             }
-            if (var > 0) {
-                Value local = getLocal(var - 1);
-                if (local != null && local.getSize() == 2) {
-                    setLocal(var - 1, interpreter.newValue(null));
+            if (vbr > 0) {
+                Vbluf lodbl = gftLodbl(vbr - 1);
+                if (lodbl != null && lodbl.gftSizf() == 2) {
+                    sftLodbl(vbr - 1, intfrprftfr.nfwVbluf(null));
                 }
             }
-            break;
-        case Opcodes.IASTORE:
-        case Opcodes.LASTORE:
-        case Opcodes.FASTORE:
-        case Opcodes.DASTORE:
-        case Opcodes.AASTORE:
-        case Opcodes.BASTORE:
-        case Opcodes.CASTORE:
-        case Opcodes.SASTORE:
-            value3 = pop();
-            value2 = pop();
-            value1 = pop();
-            interpreter.ternaryOperation(insn, value1, value2, value3);
-            break;
-        case Opcodes.POP:
-            if (pop().getSize() == 2) {
-                throw new AnalyzerException(insn, "Illegal use of POP");
+            brfbk;
+        dbsf Opdodfs.IASTORE:
+        dbsf Opdodfs.LASTORE:
+        dbsf Opdodfs.FASTORE:
+        dbsf Opdodfs.DASTORE:
+        dbsf Opdodfs.AASTORE:
+        dbsf Opdodfs.BASTORE:
+        dbsf Opdodfs.CASTORE:
+        dbsf Opdodfs.SASTORE:
+            vbluf3 = pop();
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.tfrnbryOpfrbtion(insn, vbluf1, vbluf2, vbluf3);
+            brfbk;
+        dbsf Opdodfs.POP:
+            if (pop().gftSizf() == 2) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of POP");
             }
-            break;
-        case Opcodes.POP2:
-            if (pop().getSize() == 1) {
-                if (pop().getSize() != 1) {
-                    throw new AnalyzerException(insn, "Illegal use of POP2");
+            brfbk;
+        dbsf Opdodfs.POP2:
+            if (pop().gftSizf() == 1) {
+                if (pop().gftSizf() != 1) {
+                    tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of POP2");
                 }
             }
-            break;
-        case Opcodes.DUP:
-            value1 = pop();
-            if (value1.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of DUP");
+            brfbk;
+        dbsf Opdodfs.DUP:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP");
             }
-            push(value1);
-            push(interpreter.copyOperation(insn, value1));
-            break;
-        case Opcodes.DUP_X1:
-            value1 = pop();
-            value2 = pop();
-            if (value1.getSize() != 1 || value2.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of DUP_X1");
+            pusi(vbluf1);
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            brfbk;
+        dbsf Opdodfs.DUP_X1:
+            vbluf1 = pop();
+            vbluf2 = pop();
+            if (vbluf1.gftSizf() != 1 || vbluf2.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP_X1");
             }
-            push(interpreter.copyOperation(insn, value1));
-            push(value2);
-            push(value1);
-            break;
-        case Opcodes.DUP_X2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            pusi(vbluf2);
+            pusi(vbluf1);
+            brfbk;
+        dbsf Opdodfs.DUP_X2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
                     }
-                } else {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+                } flsf {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP_X2");
-        case Opcodes.DUP2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    push(value2);
-                    push(value1);
-                    push(interpreter.copyOperation(insn, value2));
-                    push(interpreter.copyOperation(insn, value1));
-                    break;
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP_X2");
+        dbsf Opdodfs.DUP2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    brfbk;
                 }
-            } else {
-                push(value1);
-                push(interpreter.copyOperation(insn, value1));
-                break;
+            } flsf {
+                pusi(vbluf1);
+                pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                brfbk;
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2");
-        case Opcodes.DUP2_X1:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value2));
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2");
+        dbsf Opdodfs.DUP2_X1:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
                     }
                 }
-            } else {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+            } flsf {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2_X1");
-        case Opcodes.DUP2_X2:
-            value1 = pop();
-            if (value1.getSize() == 1) {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        value4 = pop();
-                        if (value4.getSize() == 1) {
-                            push(interpreter.copyOperation(insn, value2));
-                            push(interpreter.copyOperation(insn, value1));
-                            push(value4);
-                            push(value3);
-                            push(value2);
-                            push(value1);
-                            break;
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2_X1");
+        dbsf Opdodfs.DUP2_X2:
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() == 1) {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        vbluf4 = pop();
+                        if (vbluf4.gftSizf() == 1) {
+                            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                            pusi(vbluf4);
+                            pusi(vbluf3);
+                            pusi(vbluf2);
+                            pusi(vbluf1);
+                            brfbk;
                         }
-                    } else {
-                        push(interpreter.copyOperation(insn, value2));
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+                    } flsf {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
                     }
                 }
-            } else {
-                value2 = pop();
-                if (value2.getSize() == 1) {
-                    value3 = pop();
-                    if (value3.getSize() == 1) {
-                        push(interpreter.copyOperation(insn, value1));
-                        push(value3);
-                        push(value2);
-                        push(value1);
-                        break;
+            } flsf {
+                vbluf2 = pop();
+                if (vbluf2.gftSizf() == 1) {
+                    vbluf3 = pop();
+                    if (vbluf3.gftSizf() == 1) {
+                        pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                        pusi(vbluf3);
+                        pusi(vbluf2);
+                        pusi(vbluf1);
+                        brfbk;
                     }
-                } else {
-                    push(interpreter.copyOperation(insn, value1));
-                    push(value2);
-                    push(value1);
-                    break;
+                } flsf {
+                    pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+                    pusi(vbluf2);
+                    pusi(vbluf1);
+                    brfbk;
                 }
             }
-            throw new AnalyzerException(insn, "Illegal use of DUP2_X2");
-        case Opcodes.SWAP:
-            value2 = pop();
-            value1 = pop();
-            if (value1.getSize() != 1 || value2.getSize() != 1) {
-                throw new AnalyzerException(insn, "Illegal use of SWAP");
+            tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of DUP2_X2");
+        dbsf Opdodfs.SWAP:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            if (vbluf1.gftSizf() != 1 || vbluf2.gftSizf() != 1) {
+                tirow nfw AnblyzfrExdfption(insn, "Illfgbl usf of SWAP");
             }
-            push(interpreter.copyOperation(insn, value2));
-            push(interpreter.copyOperation(insn, value1));
-            break;
-        case Opcodes.IADD:
-        case Opcodes.LADD:
-        case Opcodes.FADD:
-        case Opcodes.DADD:
-        case Opcodes.ISUB:
-        case Opcodes.LSUB:
-        case Opcodes.FSUB:
-        case Opcodes.DSUB:
-        case Opcodes.IMUL:
-        case Opcodes.LMUL:
-        case Opcodes.FMUL:
-        case Opcodes.DMUL:
-        case Opcodes.IDIV:
-        case Opcodes.LDIV:
-        case Opcodes.FDIV:
-        case Opcodes.DDIV:
-        case Opcodes.IREM:
-        case Opcodes.LREM:
-        case Opcodes.FREM:
-        case Opcodes.DREM:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.INEG:
-        case Opcodes.LNEG:
-        case Opcodes.FNEG:
-        case Opcodes.DNEG:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.ISHL:
-        case Opcodes.LSHL:
-        case Opcodes.ISHR:
-        case Opcodes.LSHR:
-        case Opcodes.IUSHR:
-        case Opcodes.LUSHR:
-        case Opcodes.IAND:
-        case Opcodes.LAND:
-        case Opcodes.IOR:
-        case Opcodes.LOR:
-        case Opcodes.IXOR:
-        case Opcodes.LXOR:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.IINC:
-            var = ((IincInsnNode) insn).var;
-            setLocal(var, interpreter.unaryOperation(insn, getLocal(var)));
-            break;
-        case Opcodes.I2L:
-        case Opcodes.I2F:
-        case Opcodes.I2D:
-        case Opcodes.L2I:
-        case Opcodes.L2F:
-        case Opcodes.L2D:
-        case Opcodes.F2I:
-        case Opcodes.F2L:
-        case Opcodes.F2D:
-        case Opcodes.D2I:
-        case Opcodes.D2L:
-        case Opcodes.D2F:
-        case Opcodes.I2B:
-        case Opcodes.I2C:
-        case Opcodes.I2S:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.LCMP:
-        case Opcodes.FCMPL:
-        case Opcodes.FCMPG:
-        case Opcodes.DCMPL:
-        case Opcodes.DCMPG:
-            value2 = pop();
-            value1 = pop();
-            push(interpreter.binaryOperation(insn, value1, value2));
-            break;
-        case Opcodes.IFEQ:
-        case Opcodes.IFNE:
-        case Opcodes.IFLT:
-        case Opcodes.IFGE:
-        case Opcodes.IFGT:
-        case Opcodes.IFLE:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.IF_ICMPEQ:
-        case Opcodes.IF_ICMPNE:
-        case Opcodes.IF_ICMPLT:
-        case Opcodes.IF_ICMPGE:
-        case Opcodes.IF_ICMPGT:
-        case Opcodes.IF_ICMPLE:
-        case Opcodes.IF_ACMPEQ:
-        case Opcodes.IF_ACMPNE:
-            value2 = pop();
-            value1 = pop();
-            interpreter.binaryOperation(insn, value1, value2);
-            break;
-        case Opcodes.GOTO:
-            break;
-        case Opcodes.JSR:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.RET:
-            break;
-        case Opcodes.TABLESWITCH:
-        case Opcodes.LOOKUPSWITCH:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.IRETURN:
-        case Opcodes.LRETURN:
-        case Opcodes.FRETURN:
-        case Opcodes.DRETURN:
-        case Opcodes.ARETURN:
-            value1 = pop();
-            interpreter.unaryOperation(insn, value1);
-            interpreter.returnOperation(insn, value1, returnValue);
-            break;
-        case Opcodes.RETURN:
-            if (returnValue != null) {
-                throw new AnalyzerException(insn, "Incompatible return type");
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf2));
+            pusi(intfrprftfr.dopyOpfrbtion(insn, vbluf1));
+            brfbk;
+        dbsf Opdodfs.IADD:
+        dbsf Opdodfs.LADD:
+        dbsf Opdodfs.FADD:
+        dbsf Opdodfs.DADD:
+        dbsf Opdodfs.ISUB:
+        dbsf Opdodfs.LSUB:
+        dbsf Opdodfs.FSUB:
+        dbsf Opdodfs.DSUB:
+        dbsf Opdodfs.IMUL:
+        dbsf Opdodfs.LMUL:
+        dbsf Opdodfs.FMUL:
+        dbsf Opdodfs.DMUL:
+        dbsf Opdodfs.IDIV:
+        dbsf Opdodfs.LDIV:
+        dbsf Opdodfs.FDIV:
+        dbsf Opdodfs.DDIV:
+        dbsf Opdodfs.IREM:
+        dbsf Opdodfs.LREM:
+        dbsf Opdodfs.FREM:
+        dbsf Opdodfs.DREM:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.INEG:
+        dbsf Opdodfs.LNEG:
+        dbsf Opdodfs.FNEG:
+        dbsf Opdodfs.DNEG:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.ISHL:
+        dbsf Opdodfs.LSHL:
+        dbsf Opdodfs.ISHR:
+        dbsf Opdodfs.LSHR:
+        dbsf Opdodfs.IUSHR:
+        dbsf Opdodfs.LUSHR:
+        dbsf Opdodfs.IAND:
+        dbsf Opdodfs.LAND:
+        dbsf Opdodfs.IOR:
+        dbsf Opdodfs.LOR:
+        dbsf Opdodfs.IXOR:
+        dbsf Opdodfs.LXOR:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.IINC:
+            vbr = ((IindInsnNodf) insn).vbr;
+            sftLodbl(vbr, intfrprftfr.unbryOpfrbtion(insn, gftLodbl(vbr)));
+            brfbk;
+        dbsf Opdodfs.I2L:
+        dbsf Opdodfs.I2F:
+        dbsf Opdodfs.I2D:
+        dbsf Opdodfs.L2I:
+        dbsf Opdodfs.L2F:
+        dbsf Opdodfs.L2D:
+        dbsf Opdodfs.F2I:
+        dbsf Opdodfs.F2L:
+        dbsf Opdodfs.F2D:
+        dbsf Opdodfs.D2I:
+        dbsf Opdodfs.D2L:
+        dbsf Opdodfs.D2F:
+        dbsf Opdodfs.I2B:
+        dbsf Opdodfs.I2C:
+        dbsf Opdodfs.I2S:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.LCMP:
+        dbsf Opdodfs.FCMPL:
+        dbsf Opdodfs.FCMPG:
+        dbsf Opdodfs.DCMPL:
+        dbsf Opdodfs.DCMPG:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            pusi(intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2));
+            brfbk;
+        dbsf Opdodfs.IFEQ:
+        dbsf Opdodfs.IFNE:
+        dbsf Opdodfs.IFLT:
+        dbsf Opdodfs.IFGE:
+        dbsf Opdodfs.IFGT:
+        dbsf Opdodfs.IFLE:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.IF_ICMPEQ:
+        dbsf Opdodfs.IF_ICMPNE:
+        dbsf Opdodfs.IF_ICMPLT:
+        dbsf Opdodfs.IF_ICMPGE:
+        dbsf Opdodfs.IF_ICMPGT:
+        dbsf Opdodfs.IF_ICMPLE:
+        dbsf Opdodfs.IF_ACMPEQ:
+        dbsf Opdodfs.IF_ACMPNE:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2);
+            brfbk;
+        dbsf Opdodfs.GOTO:
+            brfbk;
+        dbsf Opdodfs.JSR:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.RET:
+            brfbk;
+        dbsf Opdodfs.TABLESWITCH:
+        dbsf Opdodfs.LOOKUPSWITCH:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.IRETURN:
+        dbsf Opdodfs.LRETURN:
+        dbsf Opdodfs.FRETURN:
+        dbsf Opdodfs.DRETURN:
+        dbsf Opdodfs.ARETURN:
+            vbluf1 = pop();
+            intfrprftfr.unbryOpfrbtion(insn, vbluf1);
+            intfrprftfr.rfturnOpfrbtion(insn, vbluf1, rfturnVbluf);
+            brfbk;
+        dbsf Opdodfs.RETURN:
+            if (rfturnVbluf != null) {
+                tirow nfw AnblyzfrExdfption(insn, "Indompbtiblf rfturn typf");
             }
-            break;
-        case Opcodes.GETSTATIC:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.PUTSTATIC:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.GETFIELD:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.PUTFIELD:
-            value2 = pop();
-            value1 = pop();
-            interpreter.binaryOperation(insn, value1, value2);
-            break;
-        case Opcodes.INVOKEVIRTUAL:
-        case Opcodes.INVOKESPECIAL:
-        case Opcodes.INVOKESTATIC:
-        case Opcodes.INVOKEINTERFACE: {
-            values = new ArrayList<V>();
-            String desc = ((MethodInsnNode) insn).desc;
-            for (int i = Type.getArgumentTypes(desc).length; i > 0; --i) {
-                values.add(0, pop());
+            brfbk;
+        dbsf Opdodfs.GETSTATIC:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.PUTSTATIC:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.GETFIELD:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.PUTFIELD:
+            vbluf2 = pop();
+            vbluf1 = pop();
+            intfrprftfr.binbryOpfrbtion(insn, vbluf1, vbluf2);
+            brfbk;
+        dbsf Opdodfs.INVOKEVIRTUAL:
+        dbsf Opdodfs.INVOKESPECIAL:
+        dbsf Opdodfs.INVOKESTATIC:
+        dbsf Opdodfs.INVOKEINTERFACE: {
+            vblufs = nfw ArrbyList<V>();
+            String dfsd = ((MftiodInsnNodf) insn).dfsd;
+            for (int i = Typf.gftArgumfntTypfs(dfsd).lfngti; i > 0; --i) {
+                vblufs.bdd(0, pop());
             }
-            if (insn.getOpcode() != Opcodes.INVOKESTATIC) {
-                values.add(0, pop());
+            if (insn.gftOpdodf() != Opdodfs.INVOKESTATIC) {
+                vblufs.bdd(0, pop());
             }
-            if (Type.getReturnType(desc) == Type.VOID_TYPE) {
-                interpreter.naryOperation(insn, values);
-            } else {
-                push(interpreter.naryOperation(insn, values));
+            if (Typf.gftRfturnTypf(dfsd) == Typf.VOID_TYPE) {
+                intfrprftfr.nbryOpfrbtion(insn, vblufs);
+            } flsf {
+                pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
             }
-            break;
+            brfbk;
         }
-        case Opcodes.INVOKEDYNAMIC: {
-            values = new ArrayList<V>();
-            String desc = ((InvokeDynamicInsnNode) insn).desc;
-            for (int i = Type.getArgumentTypes(desc).length; i > 0; --i) {
-                values.add(0, pop());
+        dbsf Opdodfs.INVOKEDYNAMIC: {
+            vblufs = nfw ArrbyList<V>();
+            String dfsd = ((InvokfDynbmidInsnNodf) insn).dfsd;
+            for (int i = Typf.gftArgumfntTypfs(dfsd).lfngti; i > 0; --i) {
+                vblufs.bdd(0, pop());
             }
-            if (Type.getReturnType(desc) == Type.VOID_TYPE) {
-                interpreter.naryOperation(insn, values);
-            } else {
-                push(interpreter.naryOperation(insn, values));
+            if (Typf.gftRfturnTypf(dfsd) == Typf.VOID_TYPE) {
+                intfrprftfr.nbryOpfrbtion(insn, vblufs);
+            } flsf {
+                pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
             }
-            break;
+            brfbk;
         }
-        case Opcodes.NEW:
-            push(interpreter.newOperation(insn));
-            break;
-        case Opcodes.NEWARRAY:
-        case Opcodes.ANEWARRAY:
-        case Opcodes.ARRAYLENGTH:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.ATHROW:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.CHECKCAST:
-        case Opcodes.INSTANCEOF:
-            push(interpreter.unaryOperation(insn, pop()));
-            break;
-        case Opcodes.MONITORENTER:
-        case Opcodes.MONITOREXIT:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        case Opcodes.MULTIANEWARRAY:
-            values = new ArrayList<V>();
-            for (int i = ((MultiANewArrayInsnNode) insn).dims; i > 0; --i) {
-                values.add(0, pop());
+        dbsf Opdodfs.NEW:
+            pusi(intfrprftfr.nfwOpfrbtion(insn));
+            brfbk;
+        dbsf Opdodfs.NEWARRAY:
+        dbsf Opdodfs.ANEWARRAY:
+        dbsf Opdodfs.ARRAYLENGTH:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.ATHROW:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.CHECKCAST:
+        dbsf Opdodfs.INSTANCEOF:
+            pusi(intfrprftfr.unbryOpfrbtion(insn, pop()));
+            brfbk;
+        dbsf Opdodfs.MONITORENTER:
+        dbsf Opdodfs.MONITOREXIT:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dbsf Opdodfs.MULTIANEWARRAY:
+            vblufs = nfw ArrbyList<V>();
+            for (int i = ((MultiANfwArrbyInsnNodf) insn).dims; i > 0; --i) {
+                vblufs.bdd(0, pop());
             }
-            push(interpreter.naryOperation(insn, values));
-            break;
-        case Opcodes.IFNULL:
-        case Opcodes.IFNONNULL:
-            interpreter.unaryOperation(insn, pop());
-            break;
-        default:
-            throw new RuntimeException("Illegal opcode " + insn.getOpcode());
+            pusi(intfrprftfr.nbryOpfrbtion(insn, vblufs));
+            brfbk;
+        dbsf Opdodfs.IFNULL:
+        dbsf Opdodfs.IFNONNULL:
+            intfrprftfr.unbryOpfrbtion(insn, pop());
+            brfbk;
+        dffbult:
+            tirow nfw RuntimfExdfption("Illfgbl opdodf " + insn.gftOpdodf());
         }
     }
 
     /**
-     * Merges this frame with the given frame.
+     * Mfrgfs tiis frbmf witi tif givfn frbmf.
      *
-     * @param frame
-     *            a frame.
-     * @param interpreter
-     *            the interpreter used to merge values.
-     * @return <tt>true</tt> if this frame has been changed as a result of the
-     *         merge operation, or <tt>false</tt> otherwise.
-     * @throws AnalyzerException
-     *             if the frames have incompatible sizes.
+     * @pbrbm frbmf
+     *            b frbmf.
+     * @pbrbm intfrprftfr
+     *            tif intfrprftfr usfd to mfrgf vblufs.
+     * @rfturn <tt>truf</tt> if tiis frbmf ibs bffn dibngfd bs b rfsult of tif
+     *         mfrgf opfrbtion, or <tt>fblsf</tt> otifrwisf.
+     * @tirows AnblyzfrExdfption
+     *             if tif frbmfs ibvf indompbtiblf sizfs.
      */
-    public boolean merge(final Frame<? extends V> frame,
-            final Interpreter<V> interpreter) throws AnalyzerException {
-        if (top != frame.top) {
-            throw new AnalyzerException(null, "Incompatible stack heights");
+    publid boolfbn mfrgf(finbl Frbmf<? fxtfnds V> frbmf,
+            finbl Intfrprftfr<V> intfrprftfr) tirows AnblyzfrExdfption {
+        if (top != frbmf.top) {
+            tirow nfw AnblyzfrExdfption(null, "Indompbtiblf stbdk ifigits");
         }
-        boolean changes = false;
-        for (int i = 0; i < locals + top; ++i) {
-            V v = interpreter.merge(values[i], frame.values[i]);
-            if (!v.equals(values[i])) {
-                values[i] = v;
-                changes = true;
+        boolfbn dibngfs = fblsf;
+        for (int i = 0; i < lodbls + top; ++i) {
+            V v = intfrprftfr.mfrgf(vblufs[i], frbmf.vblufs[i]);
+            if (!v.fqubls(vblufs[i])) {
+                vblufs[i] = v;
+                dibngfs = truf;
             }
         }
-        return changes;
+        rfturn dibngfs;
     }
 
     /**
-     * Merges this frame with the given frame (case of a RET instruction).
+     * Mfrgfs tiis frbmf witi tif givfn frbmf (dbsf of b RET instrudtion).
      *
-     * @param frame
-     *            a frame
-     * @param access
-     *            the local variables that have been accessed by the subroutine
-     *            to which the RET instruction corresponds.
-     * @return <tt>true</tt> if this frame has been changed as a result of the
-     *         merge operation, or <tt>false</tt> otherwise.
+     * @pbrbm frbmf
+     *            b frbmf
+     * @pbrbm bddfss
+     *            tif lodbl vbribblfs tibt ibvf bffn bddfssfd by tif subroutinf
+     *            to wiidi tif RET instrudtion dorrfsponds.
+     * @rfturn <tt>truf</tt> if tiis frbmf ibs bffn dibngfd bs b rfsult of tif
+     *         mfrgf opfrbtion, or <tt>fblsf</tt> otifrwisf.
      */
-    public boolean merge(final Frame<? extends V> frame, final boolean[] access) {
-        boolean changes = false;
-        for (int i = 0; i < locals; ++i) {
-            if (!access[i] && !values[i].equals(frame.values[i])) {
-                values[i] = frame.values[i];
-                changes = true;
+    publid boolfbn mfrgf(finbl Frbmf<? fxtfnds V> frbmf, finbl boolfbn[] bddfss) {
+        boolfbn dibngfs = fblsf;
+        for (int i = 0; i < lodbls; ++i) {
+            if (!bddfss[i] && !vblufs[i].fqubls(frbmf.vblufs[i])) {
+                vblufs[i] = frbmf.vblufs[i];
+                dibngfs = truf;
             }
         }
-        return changes;
+        rfturn dibngfs;
     }
 
     /**
-     * Returns a string representation of this frame.
+     * Rfturns b string rfprfsfntbtion of tiis frbmf.
      *
-     * @return a string representation of this frame.
+     * @rfturn b string rfprfsfntbtion of tiis frbmf.
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < getLocals(); ++i) {
-            sb.append(getLocal(i));
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < gftLodbls(); ++i) {
+            sb.bppfnd(gftLodbl(i));
         }
-        sb.append(' ');
-        for (int i = 0; i < getStackSize(); ++i) {
-            sb.append(getStack(i).toString());
+        sb.bppfnd(' ');
+        for (int i = 0; i < gftStbdkSizf(); ++i) {
+            sb.bppfnd(gftStbdk(i).toString());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

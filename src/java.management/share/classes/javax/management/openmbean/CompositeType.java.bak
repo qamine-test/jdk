@@ -1,478 +1,478 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.Collections;
-import java.util.Iterator;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
 
 // jmx import
 //
 
 
 /**
- * The <code>CompositeType</code> class is the <i>open type</i> class
- * whose instances describe the types of {@link CompositeData CompositeData} values.
+ * Tif <dodf>CompositfTypf</dodf> dlbss is tif <i>opfn typf</i> dlbss
+ * wiosf instbndfs dfsdribf tif typfs of {@link CompositfDbtb CompositfDbtb} vblufs.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class CompositeType extends OpenType<CompositeData> {
+publid dlbss CompositfTypf fxtfnds OpfnTypf<CompositfDbtb> {
 
-    /* Serial version */
-    static final long serialVersionUID = -5366242454346948798L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -5366242454346948798L;
 
     /**
-     * @serial Sorted mapping of the item names to their descriptions
+     * @sfribl Sortfd mbpping of tif itfm nbmfs to tifir dfsdriptions
      */
-    private TreeMap<String,String> nameToDescription;
+    privbtf TrffMbp<String,String> nbmfToDfsdription;
 
     /**
-     * @serial Sorted mapping of the item names to their open types
+     * @sfribl Sortfd mbpping of tif itfm nbmfs to tifir opfn typfs
      */
-    private TreeMap<String,OpenType<?>> nameToType;
+    privbtf TrffMbp<String,OpfnTypf<?>> nbmfToTypf;
 
-    /* As this instance is immutable, following three values need only
-     * be calculated once.  */
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
-    private transient Set<String> myNamesSet = null;
+    /* As tiis instbndf is immutbblf, following tirff vblufs nffd only
+     * bf dbldulbtfd ondf.  */
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt String  myToString = null;
+    privbtf trbnsifnt Sft<String> myNbmfsSft = null;
 
 
-    /* *** Constructor *** */
+    /* *** Construdtor *** */
 
     /**
-     * Constructs a <code>CompositeType</code> instance, checking for the validity of the given parameters.
-     * The validity constraints are described below for each parameter.
+     * Construdts b <dodf>CompositfTypf</dodf> instbndf, difdking for tif vblidity of tif givfn pbrbmftfrs.
+     * Tif vblidity donstrbints brf dfsdribfd bflow for fbdi pbrbmftfr.
      * <p>
-     * Note that the contents of the three array parameters
-     * <var>itemNames</var>, <var>itemDescriptions</var> and <var>itemTypes</var>
-     * are internally copied so that any subsequent modification of these arrays by the caller of this constructor
-     * has no impact on the constructed <code>CompositeType</code> instance.
+     * Notf tibt tif dontfnts of tif tirff brrby pbrbmftfrs
+     * <vbr>itfmNbmfs</vbr>, <vbr>itfmDfsdriptions</vbr> bnd <vbr>itfmTypfs</vbr>
+     * brf intfrnblly dopifd so tibt bny subsfqufnt modifidbtion of tifsf brrbys by tif dbllfr of tiis donstrudtor
+     * ibs no impbdt on tif donstrudtfd <dodf>CompositfTypf</dodf> instbndf.
      * <p>
-     * The Java class name of composite data values this composite type represents
-     * (ie the class name returned by the {@link OpenType#getClassName() getClassName} method)
-     * is set to the string value returned by <code>CompositeData.class.getName()</code>.
+     * Tif Jbvb dlbss nbmf of dompositf dbtb vblufs tiis dompositf typf rfprfsfnts
+     * (if tif dlbss nbmf rfturnfd by tif {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mftiod)
+     * is sft to tif string vbluf rfturnfd by <dodf>CompositfDbtb.dlbss.gftNbmf()</dodf>.
      *
-     * @param  typeName  The name given to the composite type this instance represents; cannot be a null or empty string.
+     * @pbrbm  typfNbmf  Tif nbmf givfn to tif dompositf typf tiis instbndf rfprfsfnts; dbnnot bf b null or fmpty string.
      *
-     * @param  description  The human readable description of the composite type this instance represents;
-     *                      cannot be a null or empty string.
+     * @pbrbm  dfsdription  Tif iumbn rfbdbblf dfsdription of tif dompositf typf tiis instbndf rfprfsfnts;
+     *                      dbnnot bf b null or fmpty string.
      *
-     * @param  itemNames  The names of the items contained in the
-     *                    composite data values described by this <code>CompositeType</code> instance;
-     *                    cannot be null and should contain at least one element; no element can be a null or empty string.
-     *                    Note that the order in which the item names are given is not important to differentiate a
-     *                    <code>CompositeType</code> instance from another;
-     *                    the item names are internally stored sorted in ascending alphanumeric order.
+     * @pbrbm  itfmNbmfs  Tif nbmfs of tif itfms dontbinfd in tif
+     *                    dompositf dbtb vblufs dfsdribfd by tiis <dodf>CompositfTypf</dodf> instbndf;
+     *                    dbnnot bf null bnd siould dontbin bt lfbst onf flfmfnt; no flfmfnt dbn bf b null or fmpty string.
+     *                    Notf tibt tif ordfr in wiidi tif itfm nbmfs brf givfn is not importbnt to difffrfntibtf b
+     *                    <dodf>CompositfTypf</dodf> instbndf from bnotifr;
+     *                    tif itfm nbmfs brf intfrnblly storfd sortfd in bsdfnding blpibnumfrid ordfr.
      *
-     * @param  itemDescriptions  The descriptions, in the same order as <var>itemNames</var>, of the items contained in the
-     *                           composite data values described by this <code>CompositeType</code> instance;
-     *                           should be of the same size as <var>itemNames</var>;
-     *                           no element can be null or an empty string.
+     * @pbrbm  itfmDfsdriptions  Tif dfsdriptions, in tif sbmf ordfr bs <vbr>itfmNbmfs</vbr>, of tif itfms dontbinfd in tif
+     *                           dompositf dbtb vblufs dfsdribfd by tiis <dodf>CompositfTypf</dodf> instbndf;
+     *                           siould bf of tif sbmf sizf bs <vbr>itfmNbmfs</vbr>;
+     *                           no flfmfnt dbn bf null or bn fmpty string.
      *
-     * @param  itemTypes  The open type instances, in the same order as <var>itemNames</var>, describing the items contained
-     *                    in the composite data values described by this <code>CompositeType</code> instance;
-     *                    should be of the same size as <var>itemNames</var>;
-     *                    no element can be null.
+     * @pbrbm  itfmTypfs  Tif opfn typf instbndfs, in tif sbmf ordfr bs <vbr>itfmNbmfs</vbr>, dfsdribing tif itfms dontbinfd
+     *                    in tif dompositf dbtb vblufs dfsdribfd by tiis <dodf>CompositfTypf</dodf> instbndf;
+     *                    siould bf of tif sbmf sizf bs <vbr>itfmNbmfs</vbr>;
+     *                    no flfmfnt dbn bf null.
      *
-     * @throws IllegalArgumentException  If <var>typeName</var> or <var>description</var> is a null or empty string,
-     *                                   or <var>itemNames</var> or <var>itemDescriptions</var> or <var>itemTypes</var> is null,
-     *                                   or any element of <var>itemNames</var> or <var>itemDescriptions</var>
-     *                                   is a null or empty string,
-     *                                   or any element of <var>itemTypes</var> is null,
-     *                                   or <var>itemNames</var> or <var>itemDescriptions</var> or <var>itemTypes</var>
-     *                                   are not of the same size.
+     * @tirows IllfgblArgumfntExdfption  If <vbr>typfNbmf</vbr> or <vbr>dfsdription</vbr> is b null or fmpty string,
+     *                                   or <vbr>itfmNbmfs</vbr> or <vbr>itfmDfsdriptions</vbr> or <vbr>itfmTypfs</vbr> is null,
+     *                                   or bny flfmfnt of <vbr>itfmNbmfs</vbr> or <vbr>itfmDfsdriptions</vbr>
+     *                                   is b null or fmpty string,
+     *                                   or bny flfmfnt of <vbr>itfmTypfs</vbr> is null,
+     *                                   or <vbr>itfmNbmfs</vbr> or <vbr>itfmDfsdriptions</vbr> or <vbr>itfmTypfs</vbr>
+     *                                   brf not of tif sbmf sizf.
      *
-     * @throws OpenDataException  If <var>itemNames</var> contains duplicate item names
-     *                            (case sensitive, but leading and trailing whitespaces removed).
+     * @tirows OpfnDbtbExdfption  If <vbr>itfmNbmfs</vbr> dontbins duplidbtf itfm nbmfs
+     *                            (dbsf sfnsitivf, but lfbding bnd trbiling wiitfspbdfs rfmovfd).
      */
-    public CompositeType(String        typeName,
-                         String        description,
-                         String[]      itemNames,
-                         String[]      itemDescriptions,
-                         OpenType<?>[] itemTypes) throws OpenDataException {
+    publid CompositfTypf(String        typfNbmf,
+                         String        dfsdription,
+                         String[]      itfmNbmfs,
+                         String[]      itfmDfsdriptions,
+                         OpfnTypf<?>[] itfmTypfs) tirows OpfnDbtbExdfption {
 
-        // Check and construct state defined by parent
+        // Cifdk bnd donstrudt stbtf dffinfd by pbrfnt
         //
-        super(CompositeData.class.getName(), typeName, description, false);
+        supfr(CompositfDbtb.dlbss.gftNbmf(), typfNbmf, dfsdription, fblsf);
 
-        // Check the 3 arrays are not null or empty (ie length==0) and that there is no null element or empty string in them
+        // Cifdk tif 3 brrbys brf not null or fmpty (if lfngti==0) bnd tibt tifrf is no null flfmfnt or fmpty string in tifm
         //
-        checkForNullElement(itemNames, "itemNames");
-        checkForNullElement(itemDescriptions, "itemDescriptions");
-        checkForNullElement(itemTypes, "itemTypes");
-        checkForEmptyString(itemNames, "itemNames");
-        checkForEmptyString(itemDescriptions, "itemDescriptions");
+        difdkForNullElfmfnt(itfmNbmfs, "itfmNbmfs");
+        difdkForNullElfmfnt(itfmDfsdriptions, "itfmDfsdriptions");
+        difdkForNullElfmfnt(itfmTypfs, "itfmTypfs");
+        difdkForEmptyString(itfmNbmfs, "itfmNbmfs");
+        difdkForEmptyString(itfmDfsdriptions, "itfmDfsdriptions");
 
-        // Check the sizes of the 3 arrays are the same
+        // Cifdk tif sizfs of tif 3 brrbys brf tif sbmf
         //
-        if ( (itemNames.length != itemDescriptions.length) || (itemNames.length != itemTypes.length) ) {
-            throw new IllegalArgumentException("Array arguments itemNames[], itemDescriptions[] and itemTypes[] "+
-                                               "should be of same length (got "+ itemNames.length +", "+
-                                               itemDescriptions.length +" and "+ itemTypes.length +").");
+        if ( (itfmNbmfs.lfngti != itfmDfsdriptions.lfngti) || (itfmNbmfs.lfngti != itfmTypfs.lfngti) ) {
+            tirow nfw IllfgblArgumfntExdfption("Arrby brgumfnts itfmNbmfs[], itfmDfsdriptions[] bnd itfmTypfs[] "+
+                                               "siould bf of sbmf lfngti (got "+ itfmNbmfs.lfngti +", "+
+                                               itfmDfsdriptions.lfngti +" bnd "+ itfmTypfs.lfngti +").");
         }
 
-        // Initialize internal "names to descriptions" and "names to types" sorted maps,
-        // and, by doing so, check there are no duplicate item names
+        // Initiblizf intfrnbl "nbmfs to dfsdriptions" bnd "nbmfs to typfs" sortfd mbps,
+        // bnd, by doing so, difdk tifrf brf no duplidbtf itfm nbmfs
         //
-        nameToDescription = new TreeMap<String,String>();
-        nameToType        = new TreeMap<String,OpenType<?>>();
-        String key;
-        for (int i=0; i<itemNames.length; i++) {
-            key = itemNames[i].trim();
-            if (nameToDescription.containsKey(key)) {
-                throw new OpenDataException("Argument's element itemNames["+ i +"]=\""+ itemNames[i] +
-                                            "\" duplicates a previous item names.");
+        nbmfToDfsdription = nfw TrffMbp<String,String>();
+        nbmfToTypf        = nfw TrffMbp<String,OpfnTypf<?>>();
+        String kfy;
+        for (int i=0; i<itfmNbmfs.lfngti; i++) {
+            kfy = itfmNbmfs[i].trim();
+            if (nbmfToDfsdription.dontbinsKfy(kfy)) {
+                tirow nfw OpfnDbtbExdfption("Argumfnt's flfmfnt itfmNbmfs["+ i +"]=\""+ itfmNbmfs[i] +
+                                            "\" duplidbtfs b prfvious itfm nbmfs.");
             }
-            nameToDescription.put(key, itemDescriptions[i].trim());
-            nameToType.put(key, itemTypes[i]);
+            nbmfToDfsdription.put(kfy, itfmDfsdriptions[i].trim());
+            nbmfToTypf.put(kfy, itfmTypfs[i]);
         }
     }
 
-    private static void checkForNullElement(Object[] arg, String argName) {
-        if ( (arg == null) || (arg.length == 0) ) {
-            throw new IllegalArgumentException("Argument "+ argName +"[] cannot be null or empty.");
+    privbtf stbtid void difdkForNullElfmfnt(Objfdt[] brg, String brgNbmf) {
+        if ( (brg == null) || (brg.lfngti == 0) ) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt "+ brgNbmf +"[] dbnnot bf null or fmpty.");
         }
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i] == null) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be null.");
-            }
-        }
-    }
-
-    private static void checkForEmptyString(String[] arg, String argName) {
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i].trim().equals("")) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be an empty string.");
+        for (int i=0; i<brg.lfngti; i++) {
+            if (brg[i] == null) {
+                tirow nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf null.");
             }
         }
     }
 
-    /* *** Composite type specific information methods *** */
+    privbtf stbtid void difdkForEmptyString(String[] brg, String brgNbmf) {
+        for (int i=0; i<brg.lfngti; i++) {
+            if (brg[i].trim().fqubls("")) {
+                tirow nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf bn fmpty string.");
+            }
+        }
+    }
+
+    /* *** Compositf typf spfdifid informbtion mftiods *** */
 
     /**
-     * Returns <code>true</code> if this <code>CompositeType</code> instance defines an item
-     * whose name is <var>itemName</var>.
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>CompositfTypf</dodf> instbndf dffinfs bn itfm
+     * wiosf nbmf is <vbr>itfmNbmf</vbr>.
      *
-     * @param itemName the name of the item.
+     * @pbrbm itfmNbmf tif nbmf of tif itfm.
      *
-     * @return true if an item of this name is present.
+     * @rfturn truf if bn itfm of tiis nbmf is prfsfnt.
      */
-    public boolean containsKey(String itemName) {
+    publid boolfbn dontbinsKfy(String itfmNbmf) {
 
-        if (itemName == null) {
-            return false;
+        if (itfmNbmf == null) {
+            rfturn fblsf;
         }
-        return nameToDescription.containsKey(itemName);
+        rfturn nbmfToDfsdription.dontbinsKfy(itfmNbmf);
     }
 
     /**
-     * Returns the description of the item whose name is <var>itemName</var>,
-     * or <code>null</code> if this <code>CompositeType</code> instance does not define any item
-     * whose name is <var>itemName</var>.
+     * Rfturns tif dfsdription of tif itfm wiosf nbmf is <vbr>itfmNbmf</vbr>,
+     * or <dodf>null</dodf> if tiis <dodf>CompositfTypf</dodf> instbndf dofs not dffinf bny itfm
+     * wiosf nbmf is <vbr>itfmNbmf</vbr>.
      *
-     * @param itemName the name of the item.
+     * @pbrbm itfmNbmf tif nbmf of tif itfm.
      *
-     * @return the description.
+     * @rfturn tif dfsdription.
      */
-    public String getDescription(String itemName) {
+    publid String gftDfsdription(String itfmNbmf) {
 
-        if (itemName == null) {
-            return null;
+        if (itfmNbmf == null) {
+            rfturn null;
         }
-        return nameToDescription.get(itemName);
+        rfturn nbmfToDfsdription.gft(itfmNbmf);
     }
 
     /**
-     * Returns the <i>open type</i> of the item whose name is <var>itemName</var>,
-     * or <code>null</code> if this <code>CompositeType</code> instance does not define any item
-     * whose name is <var>itemName</var>.
+     * Rfturns tif <i>opfn typf</i> of tif itfm wiosf nbmf is <vbr>itfmNbmf</vbr>,
+     * or <dodf>null</dodf> if tiis <dodf>CompositfTypf</dodf> instbndf dofs not dffinf bny itfm
+     * wiosf nbmf is <vbr>itfmNbmf</vbr>.
      *
-     * @param itemName the name of the time.
+     * @pbrbm itfmNbmf tif nbmf of tif timf.
      *
-     * @return the type.
+     * @rfturn tif typf.
      */
-    public OpenType<?> getType(String itemName) {
+    publid OpfnTypf<?> gftTypf(String itfmNbmf) {
 
-        if (itemName == null) {
-            return null;
+        if (itfmNbmf == null) {
+            rfturn null;
         }
-        return (OpenType<?>) nameToType.get(itemName);
+        rfturn (OpfnTypf<?>) nbmfToTypf.gft(itfmNbmf);
     }
 
     /**
-     * Returns an unmodifiable Set view of all the item names defined by this <code>CompositeType</code> instance.
-     * The set's iterator will return the item names in ascending order.
+     * Rfturns bn unmodifibblf Sft vifw of bll tif itfm nbmfs dffinfd by tiis <dodf>CompositfTypf</dodf> instbndf.
+     * Tif sft's itfrbtor will rfturn tif itfm nbmfs in bsdfnding ordfr.
      *
-     * @return a {@link Set} of {@link String}.
+     * @rfturn b {@link Sft} of {@link String}.
      */
-    public Set<String> keySet() {
+    publid Sft<String> kfySft() {
 
-        // Initializes myNamesSet on first call
-        if (myNamesSet == null) {
-            myNamesSet = Collections.unmodifiableSet(nameToDescription.keySet());
+        // Initiblizfs myNbmfsSft on first dbll
+        if (myNbmfsSft == null) {
+            myNbmfsSft = Collfdtions.unmodifibblfSft(nbmfToDfsdription.kfySft());
         }
 
-        return myNamesSet; // always return the same value
+        rfturn myNbmfsSft; // blwbys rfturn tif sbmf vbluf
     }
 
 
     /**
-     * Tests whether <var>obj</var> is a value which could be
-     * described by this <code>CompositeType</code> instance.
+     * Tfsts wiftifr <vbr>obj</vbr> is b vbluf wiidi dould bf
+     * dfsdribfd by tiis <dodf>CompositfTypf</dodf> instbndf.
      *
-     * <p>If <var>obj</var> is null or is not an instance of
-     * <code>javax.management.openmbean.CompositeData</code>,
-     * <code>isValue</code> returns <code>false</code>.</p>
+     * <p>If <vbr>obj</vbr> is null or is not bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</dodf>,
+     * <dodf>isVbluf</dodf> rfturns <dodf>fblsf</dodf>.</p>
      *
-     * <p>If <var>obj</var> is an instance of
-     * <code>javax.management.openmbean.CompositeData</code>, then let
-     * {@code ct} be its {@code CompositeType} as returned by {@link
-     * CompositeData#getCompositeType()}.  The result is true if
-     * {@code this} is <em>assignable from</em> {@code ct}.  This
-     * means that:</p>
+     * <p>If <vbr>obj</vbr> is bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</dodf>, tifn lft
+     * {@dodf dt} bf its {@dodf CompositfTypf} bs rfturnfd by {@link
+     * CompositfDbtb#gftCompositfTypf()}.  Tif rfsult is truf if
+     * {@dodf tiis} is <fm>bssignbblf from</fm> {@dodf dt}.  Tiis
+     * mfbns tibt:</p>
      *
      * <ul>
-     * <li>{@link #getTypeName() this.getTypeName()} equals
-     * {@code ct.getTypeName()}, and
-     * <li>there are no item names present in {@code this} that are
-     * not also present in {@code ct}, and
-     * <li>for every item in {@code this}, its type is assignable from
-     * the type of the corresponding item in {@code ct}.
+     * <li>{@link #gftTypfNbmf() tiis.gftTypfNbmf()} fqubls
+     * {@dodf dt.gftTypfNbmf()}, bnd
+     * <li>tifrf brf no itfm nbmfs prfsfnt in {@dodf tiis} tibt brf
+     * not blso prfsfnt in {@dodf dt}, bnd
+     * <li>for fvfry itfm in {@dodf tiis}, its typf is bssignbblf from
+     * tif typf of tif dorrfsponding itfm in {@dodf dt}.
      * </ul>
      *
-     * <p>A {@code TabularType} is assignable from another {@code
-     * TabularType} if they have the same {@linkplain
-     * TabularType#getTypeName() typeName} and {@linkplain
-     * TabularType#getIndexNames() index name list}, and the
-     * {@linkplain TabularType#getRowType() row type} of the first is
-     * assignable from the row type of the second.
+     * <p>A {@dodf TbbulbrTypf} is bssignbblf from bnotifr {@dodf
+     * TbbulbrTypf} if tify ibvf tif sbmf {@linkplbin
+     * TbbulbrTypf#gftTypfNbmf() typfNbmf} bnd {@linkplbin
+     * TbbulbrTypf#gftIndfxNbmfs() indfx nbmf list}, bnd tif
+     * {@linkplbin TbbulbrTypf#gftRowTypf() row typf} of tif first is
+     * bssignbblf from tif row typf of tif sfdond.
      *
-     * <p>An {@code ArrayType} is assignable from another {@code
-     * ArrayType} if they have the same {@linkplain
-     * ArrayType#getDimension() dimension}; and both are {@linkplain
-     * ArrayType#isPrimitiveArray() primitive arrays} or neither is;
-     * and the {@linkplain ArrayType#getElementOpenType() element
-     * type} of the first is assignable from the element type of the
-     * second.
+     * <p>An {@dodf ArrbyTypf} is bssignbblf from bnotifr {@dodf
+     * ArrbyTypf} if tify ibvf tif sbmf {@linkplbin
+     * ArrbyTypf#gftDimfnsion() dimfnsion}; bnd boti brf {@linkplbin
+     * ArrbyTypf#isPrimitivfArrby() primitivf brrbys} or nfitifr is;
+     * bnd tif {@linkplbin ArrbyTypf#gftElfmfntOpfnTypf() flfmfnt
+     * typf} of tif first is bssignbblf from tif flfmfnt typf of tif
+     * sfdond.
      *
-     * <p>In every other case, an {@code OpenType} is assignable from
-     * another {@code OpenType} only if they are equal.</p>
+     * <p>In fvfry otifr dbsf, bn {@dodf OpfnTypf} is bssignbblf from
+     * bnotifr {@dodf OpfnTypf} only if tify brf fqubl.</p>
      *
-     * <p>These rules mean that extra items can be added to a {@code
-     * CompositeData} without making it invalid for a {@code CompositeType}
-     * that does not have those items.</p>
+     * <p>Tifsf rulfs mfbn tibt fxtrb itfms dbn bf bddfd to b {@dodf
+     * CompositfDbtb} witiout mbking it invblid for b {@dodf CompositfTypf}
+     * tibt dofs not ibvf tiosf itfms.</p>
      *
-     * @param  obj  the value whose open type is to be tested for compatibility
-     * with this <code>CompositeType</code> instance.
+     * @pbrbm  obj  tif vbluf wiosf opfn typf is to bf tfstfd for dompbtibility
+     * witi tiis <dodf>CompositfTypf</dodf> instbndf.
      *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * composite type, <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for tiis
+     * dompositf typf, <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isValue(Object obj) {
+    publid boolfbn isVbluf(Objfdt obj) {
 
-        // if obj is null or not CompositeData, return false
+        // if obj is null or not CompositfDbtb, rfturn fblsf
         //
-        if (!(obj instanceof CompositeData)) {
-            return false;
+        if (!(obj instbndfof CompositfDbtb)) {
+            rfturn fblsf;
         }
 
-        // if obj is not a CompositeData, return false
+        // if obj is not b CompositfDbtb, rfturn fblsf
         //
-        CompositeData value = (CompositeData) obj;
+        CompositfDbtb vbluf = (CompositfDbtb) obj;
 
-        // test value's CompositeType is assignable to this CompositeType instance
+        // tfst vbluf's CompositfTypf is bssignbblf to tiis CompositfTypf instbndf
         //
-        CompositeType valueType = value.getCompositeType();
-        return this.isAssignableFrom(valueType);
+        CompositfTypf vblufTypf = vbluf.gftCompositfTypf();
+        rfturn tiis.isAssignbblfFrom(vblufTypf);
     }
 
     /**
-     * Tests whether values of the given type can be assigned to this
-     * open type.  The result is true if the given type is also a
-     * CompositeType with the same name ({@link #getTypeName()}), and
-     * every item in this type is also present in the given type with
-     * the same name and assignable type.  There can be additional
-     * items in the given type, which are ignored.
+     * Tfsts wiftifr vblufs of tif givfn typf dbn bf bssignfd to tiis
+     * opfn typf.  Tif rfsult is truf if tif givfn typf is blso b
+     * CompositfTypf witi tif sbmf nbmf ({@link #gftTypfNbmf()}), bnd
+     * fvfry itfm in tiis typf is blso prfsfnt in tif givfn typf witi
+     * tif sbmf nbmf bnd bssignbblf typf.  Tifrf dbn bf bdditionbl
+     * itfms in tif givfn typf, wiidi brf ignorfd.
      *
-     * @param ot the type to be tested.
+     * @pbrbm ot tif typf to bf tfstfd.
      *
-     * @return true if {@code ot} is assignable to this open type.
+     * @rfturn truf if {@dodf ot} is bssignbblf to tiis opfn typf.
      */
-    @Override
-    boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof CompositeType))
-            return false;
-        CompositeType ct = (CompositeType) ot;
-        if (!ct.getTypeName().equals(getTypeName()))
-            return false;
-        for (String key : keySet()) {
-            OpenType<?> otItemType = ct.getType(key);
-            OpenType<?> thisItemType = getType(key);
-            if (otItemType == null ||
-                    !thisItemType.isAssignableFrom(otItemType))
-                return false;
+    @Ovfrridf
+    boolfbn isAssignbblfFrom(OpfnTypf<?> ot) {
+        if (!(ot instbndfof CompositfTypf))
+            rfturn fblsf;
+        CompositfTypf dt = (CompositfTypf) ot;
+        if (!dt.gftTypfNbmf().fqubls(gftTypfNbmf()))
+            rfturn fblsf;
+        for (String kfy : kfySft()) {
+            OpfnTypf<?> otItfmTypf = dt.gftTypf(kfy);
+            OpfnTypf<?> tiisItfmTypf = gftTypf(kfy);
+            if (otItfmTypf == null ||
+                    !tiisItfmTypf.isAssignbblfFrom(otItfmTypf))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
 
-    /* *** Methods overriden from class Object *** */
+    /* *** Mftiods ovfrridfn from dlbss Objfdt *** */
 
     /**
-     * Compares the specified <code>obj</code> parameter with this <code>CompositeType</code> instance for equality.
+     * Compbrfs tif spfdififd <dodf>obj</dodf> pbrbmftfr witi tiis <dodf>CompositfTypf</dodf> instbndf for fqublity.
      * <p>
-     * Two <code>CompositeType</code> instances are equal if and only if all of the following statements are true:
+     * Two <dodf>CompositfTypf</dodf> instbndfs brf fqubl if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li>their type names are equal</li>
-     * <li>their items' names and types are equal</li>
+     * <li>tifir typf nbmfs brf fqubl</li>
+     * <li>tifir itfms' nbmfs bnd typfs brf fqubl</li>
      * </ul>
      *
-     * @param  obj  the object to be compared for equality with this <code>CompositeType</code> instance;
-     *              if <var>obj</var> is <code>null</code>, <code>equals</code> returns <code>false</code>.
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis <dodf>CompositfTypf</dodf> instbndf;
+     *              if <vbr>obj</vbr> is <dodf>null</dodf>, <dodf>fqubls</dodf> rfturns <dodf>fblsf</dodf>.
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>CompositeType</code> instance.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis <dodf>CompositfTypf</dodf> instbndf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        // if obj is null, return false
+        // if obj is null, rfturn fblsf
         //
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        // if obj is not a CompositeType, return false
+        // if obj is not b CompositfTypf, rfturn fblsf
         //
-        CompositeType other;
+        CompositfTypf otifr;
         try {
-            other = (CompositeType) obj;
-        } catch (ClassCastException e) {
-            return false;
+            otifr = (CompositfTypf) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        // Now, really test for equality between this CompositeType instance and the other
+        // Now, rfblly tfst for fqublity bftwffn tiis CompositfTypf instbndf bnd tif otifr
         //
 
-        // their names should be equal
-        if ( ! this.getTypeName().equals(other.getTypeName()) ) {
-            return false;
+        // tifir nbmfs siould bf fqubl
+        if ( ! tiis.gftTypfNbmf().fqubls(otifr.gftTypfNbmf()) ) {
+            rfturn fblsf;
         }
 
-        // their items names and types should be equal
-        if ( ! this.nameToType.equals(other.nameToType) ) {
-            return false;
+        // tifir itfms nbmfs bnd typfs siould bf fqubl
+        if ( ! tiis.nbmfToTypf.fqubls(otifr.nbmfToTypf) ) {
+            rfturn fblsf;
         }
 
-        // All tests for equality were successfull
+        // All tfsts for fqublity wfrf suddfssfull
         //
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this <code>CompositeType</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>CompositfTypf</dodf> instbndf.
      * <p>
-     * The hash code of a <code>CompositeType</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: name, items names, items types).
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>CompositeType</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tif ibsi dodf of b <dodf>CompositfTypf</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: nbmf, itfms nbmfs, itfms typfs).
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>CompositfTypf</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      * <p>
-     * As <code>CompositeType</code> instances are immutable, the hash code for this instance is calculated once,
-     * on the first call to <code>hashCode</code>, and then the same value is returned for subsequent calls.
+     * As <dodf>CompositfTypf</dodf> instbndfs brf immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to <dodf>ibsiCodf</dodf>, bnd tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.
      *
-     * @return  the hash code value for this <code>CompositeType</code> instance
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>CompositfTypf</dodf> instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getTypeName().hashCode();
-            for (String key : nameToDescription.keySet()) {
-                value += key.hashCode();
-                value += this.nameToType.get(key).hashCode();
+        if (myHbsiCodf == null) {
+            int vbluf = 0;
+            vbluf += tiis.gftTypfNbmf().ibsiCodf();
+            for (String kfy : nbmfToDfsdription.kfySft()) {
+                vbluf += kfy.ibsiCodf();
+                vbluf += tiis.nbmfToTypf.gft(kfy).ibsiCodf();
             }
-            myHashCode = Integer.valueOf(value);
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
     /**
-     * Returns a string representation of this <code>CompositeType</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>CompositfTypf</dodf> instbndf.
      * <p>
-     * The string representation consists of
-     * the name of this class (ie <code>javax.management.openmbean.CompositeType</code>), the type name for this instance,
-     * and the list of the items names and types string representation of this instance.
+     * Tif string rfprfsfntbtion donsists of
+     * tif nbmf of tiis dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf</dodf>), tif typf nbmf for tiis instbndf,
+     * bnd tif list of tif itfms nbmfs bnd typfs string rfprfsfntbtion of tiis instbndf.
      * <p>
-     * As <code>CompositeType</code> instances are immutable, the string representation for this instance is calculated once,
-     * on the first call to <code>toString</code>, and then the same value is returned for subsequent calls.
+     * As <dodf>CompositfTypf</dodf> instbndfs brf immutbblf, tif string rfprfsfntbtion for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to <dodf>toString</dodf>, bnd tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.
      *
-     * @return  a string representation of this <code>CompositeType</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>CompositfTypf</dodf> instbndf
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the string representation if it has not yet been done (ie 1st call to toString())
+        // Cbldulbtf tif string rfprfsfntbtion if it ibs not yft bffn donf (if 1st dbll to toString())
         //
         if (myToString == null) {
-            final StringBuilder result = new StringBuilder();
-            result.append(this.getClass().getName());
-            result.append("(name=");
-            result.append(getTypeName());
-            result.append(",items=(");
+            finbl StringBuildfr rfsult = nfw StringBuildfr();
+            rfsult.bppfnd(tiis.gftClbss().gftNbmf());
+            rfsult.bppfnd("(nbmf=");
+            rfsult.bppfnd(gftTypfNbmf());
+            rfsult.bppfnd(",itfms=(");
             int i=0;
-            Iterator<String> k=nameToType.keySet().iterator();
-            String key;
-            while (k.hasNext()) {
-                key = k.next();
-                if (i > 0) result.append(",");
-                result.append("(itemName=");
-                result.append(key);
-                result.append(",itemType=");
-                result.append(nameToType.get(key).toString() +")");
+            Itfrbtor<String> k=nbmfToTypf.kfySft().itfrbtor();
+            String kfy;
+            wiilf (k.ibsNfxt()) {
+                kfy = k.nfxt();
+                if (i > 0) rfsult.bppfnd(",");
+                rfsult.bppfnd("(itfmNbmf=");
+                rfsult.bppfnd(kfy);
+                rfsult.bppfnd(",itfmTypf=");
+                rfsult.bppfnd(nbmfToTypf.gft(kfy).toString() +")");
                 i++;
             }
-            result.append("))");
-            myToString = result.toString();
+            rfsult.bppfnd("))");
+            myToString = rfsult.toString();
         }
 
-        // return always the same string representation for this instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
 }

@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.EventObject;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.EvfntObjfdt;
 
-import javax.naming.*;
-import javax.naming.event.*;
-import javax.naming.directory.SearchControls;
-import javax.naming.ldap.UnsolicitedNotificationListener;
-import javax.naming.ldap.UnsolicitedNotificationEvent;
-import javax.naming.ldap.UnsolicitedNotification;
+import jbvbx.nbming.*;
+import jbvbx.nbming.fvfnt.*;
+import jbvbx.nbming.dirfdtory.SfbrdiControls;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionListfnfr;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionEvfnt;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtion;
 
 /**
- * This is a utility class that can be used by a context that supports
- * event notification.  You can use an instance of this class as a member field
- * of your context and delegate various work to it.
- * It is currently structured so that each context should have its own
- * EventSupport (instead of static version shared by all contexts
- * of a service provider).
+ * Tiis is b utility dlbss tibt dbn bf usfd by b dontfxt tibt supports
+ * fvfnt notifidbtion.  You dbn usf bn instbndf of tiis dlbss bs b mfmbfr fifld
+ * of your dontfxt bnd dflfgbtf vbrious work to it.
+ * It is durrfntly strudturfd so tibt fbdi dontfxt siould ibvf its own
+ * EvfntSupport (instfbd of stbtid vfrsion sibrfd by bll dontfxts
+ * of b sfrvidf providfr).
  *<p>
- * This class supports two types of listeners: those that register for
- * NamingEvents, and those for UnsolicitedNotificationEvents (they can be mixed
- * into the same listener).
- * For NamingEvent listeners, it maintains a hashtable that maps
- * registration requests--the key--to
- * <em>notifiers</em>--the value. Each registration request consists of:
+ * Tiis dlbss supports two typfs of listfnfrs: tiosf tibt rfgistfr for
+ * NbmingEvfnts, bnd tiosf for UnsoliditfdNotifidbtionEvfnts (tify dbn bf mixfd
+ * into tif sbmf listfnfr).
+ * For NbmingEvfnt listfnfrs, it mbintbins b ibsitbblf tibt mbps
+ * rfgistrbtion rfqufsts--tif kfy--to
+ * <fm>notififrs</fm>--tif vbluf. Ebdi rfgistrbtion rfqufst donsists of:
  *<ul>
- *<li>The name argument of the registration.
- *<li>The filter (default is "(objectclass=*)").
- *<li>The search controls (default is null SearchControls).
- *<li>The events that the listener is interested in. This is determined by
- * finding out which <tt>NamingListener</tt> interface the listener supports.
+ *<li>Tif nbmf brgumfnt of tif rfgistrbtion.
+ *<li>Tif filtfr (dffbult is "(objfdtdlbss=*)").
+ *<li>Tif sfbrdi dontrols (dffbult is null SfbrdiControls).
+ *<li>Tif fvfnts tibt tif listfnfr is intfrfstfd in. Tiis is dftfrminfd by
+ * finding out wiidi <tt>NbmingListfnfr</tt> intfrfbdf tif listfnfr supports.
  *</ul>
  *<p>
- *A notifier (<tt>NamingEventNotifier</tt>) is a worker thread that is responsible
- *for gathering information for generating events requested by its listeners.
- *Each notifier maintains its own list of listeners; these listeners have
- *all made the same registration request (at different times) and implements
- *the same <tt>NamingListener</tt> interfaces.
+ *A notififr (<tt>NbmingEvfntNotififr</tt>) is b workfr tirfbd tibt is rfsponsiblf
+ *for gbtifring informbtion for gfnfrbting fvfnts rfqufstfd by its listfnfrs.
+ *Ebdi notififr mbintbins its own list of listfnfrs; tifsf listfnfrs ibvf
+ *bll mbdf tif sbmf rfgistrbtion rfqufst (bt difffrfnt timfs) bnd implfmfnts
+ *tif sbmf <tt>NbmingListfnfr</tt> intfrfbdfs.
  *<p>
- *For unsolicited listeners, this class maintains a vector, unsolicited.
- *When an unsolicited listener is registered, this class adds itself
- *to the context's LdapClient. When LdapClient receives an unsolicited
- *notification, it notifies this EventSupport to fire an event to the
- *the listeners. Special handling in LdapClient is done for the DISCONNECT
- *notification. [It results in the EventSupport firing also a
- *NamingExceptionEvent to the unsolicited listeners.]
+ *For unsoliditfd listfnfrs, tiis dlbss mbintbins b vfdtor, unsoliditfd.
+ *Wifn bn unsoliditfd listfnfr is rfgistfrfd, tiis dlbss bdds itsflf
+ *to tif dontfxt's LdbpClifnt. Wifn LdbpClifnt rfdfivfs bn unsoliditfd
+ *notifidbtion, it notififs tiis EvfntSupport to firf bn fvfnt to tif
+ *tif listfnfrs. Spfdibl ibndling in LdbpClifnt is donf for tif DISCONNECT
+ *notifidbtion. [It rfsults in tif EvfntSupport firing blso b
+ *NbmingExdfptionEvfnt to tif unsoliditfd listfnfrs.]
  *<p>
  *
- *When a context no longer needs this EventSupport, it should invoke
- *cleanup() on it.
+ *Wifn b dontfxt no longfr nffds tiis EvfntSupport, it siould invokf
+ *dlfbnup() on it.
  *<p>
- *<h4>Registration</h4>
- *When a registration request is made, this class attempts to find an
- *existing notifier that's already working on the request. If one is
- *found, the listener is added to the notifier's list. If one is not found,
- *a new notifier is created for the listener.
+ *<i4>Rfgistrbtion</i4>
+ *Wifn b rfgistrbtion rfqufst is mbdf, tiis dlbss bttfmpts to find bn
+ *fxisting notififr tibt's blrfbdy working on tif rfqufst. If onf is
+ *found, tif listfnfr is bddfd to tif notififr's list. If onf is not found,
+ *b nfw notififr is drfbtfd for tif listfnfr.
  *
- *<h4>Deregistration</h4>
- *When a deregistration request is made, this class attempts to find its
- *corresponding notifier. If the notifier is found, the listener is removed
- *from the notifier's list. If the listener is the last listener on the list,
- *the notifier's thread is terminated and removed from this class's hashtable.
- *Nothing happens if the notifier is not found.
+ *<i4>Dfrfgistrbtion</i4>
+ *Wifn b dfrfgistrbtion rfqufst is mbdf, tiis dlbss bttfmpts to find its
+ *dorrfsponding notififr. If tif notififr is found, tif listfnfr is rfmovfd
+ *from tif notififr's list. If tif listfnfr is tif lbst listfnfr on tif list,
+ *tif notififr's tirfbd is tfrminbtfd bnd rfmovfd from tiis dlbss's ibsitbblf.
+ *Notiing ibppfns if tif notififr is not found.
  *
- *<h4>Event Dispatching</h4>
- *The notifiers are responsible for gather information for generating events
- *requested by their respective listeners. When a notifier gets sufficient
- *information to generate an event, it creates invokes the
- *appropriate <tt>fireXXXEvent</tt> on this class with the information and list of
- *listeners. This causes an event and the list of listeners to be added
- *to the <em>event queue</em>.
- *This class maintains an event queue and a dispatching thread that dequeues
- *events from the queue and dispatches them to the listeners.
+ *<i4>Evfnt Dispbtdiing</i4>
+ *Tif notififrs brf rfsponsiblf for gbtifr informbtion for gfnfrbting fvfnts
+ *rfqufstfd by tifir rfspfdtivf listfnfrs. Wifn b notififr gfts suffidifnt
+ *informbtion to gfnfrbtf bn fvfnt, it drfbtfs invokfs tif
+ *bppropribtf <tt>firfXXXEvfnt</tt> on tiis dlbss witi tif informbtion bnd list of
+ *listfnfrs. Tiis dbusfs bn fvfnt bnd tif list of listfnfrs to bf bddfd
+ *to tif <fm>fvfnt qufuf</fm>.
+ *Tiis dlbss mbintbins bn fvfnt qufuf bnd b dispbtdiing tirfbd tibt dfqufufs
+ *fvfnts from tif qufuf bnd dispbtdifs tifm to tif listfnfrs.
  *
- *<h4>Synchronization</h4>
- *This class is used by the main thread (LdapCtx) to add/remove listeners.
- *It is also used asynchronously by NamingEventNotifiers threads and
- *the context's Connection thread. It is used by the notifier threads to
- *queue events and to update the notifiers list when the notifiers exit.
- *It is used by the Connection thread to fire unsolicited notifications.
- *Methods that access/update the 'unsolicited' and 'notifiers' lists are
- *thread-safe.
+ *<i4>Syndironizbtion</i4>
+ *Tiis dlbss is usfd by tif mbin tirfbd (LdbpCtx) to bdd/rfmovf listfnfrs.
+ *It is blso usfd bsyndironously by NbmingEvfntNotififrs tirfbds bnd
+ *tif dontfxt's Connfdtion tirfbd. It is usfd by tif notififr tirfbds to
+ *qufuf fvfnts bnd to updbtf tif notififrs list wifn tif notififrs fxit.
+ *It is usfd by tif Connfdtion tirfbd to firf unsoliditfd notifidbtions.
+ *Mftiods tibt bddfss/updbtf tif 'unsoliditfd' bnd 'notififrs' lists brf
+ *tirfbd-sbff.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-final class EventSupport {
-    final static private boolean debug = false;
+finbl dlbss EvfntSupport {
+    finbl stbtid privbtf boolfbn dfbug = fblsf;
 
-    private LdapCtx ctx;
-
-    /**
-     * NamingEventNotifiers; hashed by search arguments;
-     */
-    private Hashtable<NotifierArgs, NamingEventNotifier> notifiers =
-            new Hashtable<>(11);
+    privbtf LdbpCtx dtx;
 
     /**
-     * List of unsolicited notification listeners.
+     * NbmingEvfntNotififrs; ibsifd by sfbrdi brgumfnts;
      */
-    private Vector<UnsolicitedNotificationListener> unsolicited = null;
+    privbtf Hbsitbblf<NotififrArgs, NbmingEvfntNotififr> notififrs =
+            nfw Hbsitbblf<>(11);
 
     /**
-     * Constructs EventSupport for ctx.
-     * <em>Do we need to record the name of the target context?
-     * Or can we assume that EventSupport is called on a resolved
-     * context? Do we need other add/remove-NamingListener methods?
-     * package private;
+     * List of unsoliditfd notifidbtion listfnfrs.
      */
-    EventSupport(LdapCtx ctx) {
-        this.ctx = ctx;
+    privbtf Vfdtor<UnsoliditfdNotifidbtionListfnfr> unsoliditfd = null;
+
+    /**
+     * Construdts EvfntSupport for dtx.
+     * <fm>Do wf nffd to rfdord tif nbmf of tif tbrgft dontfxt?
+     * Or dbn wf bssumf tibt EvfntSupport is dbllfd on b rfsolvfd
+     * dontfxt? Do wf nffd otifr bdd/rfmovf-NbmingListfnfr mftiods?
+     * pbdkbgf privbtf;
+     */
+    EvfntSupport(LdbpCtx dtx) {
+        tiis.dtx = dtx;
     }
 
     /**
-     * Adds <tt>l</tt> to list of listeners interested in <tt>nm</tt>.
+     * Adds <tt>l</tt> to list of listfnfrs intfrfstfd in <tt>nm</tt>.
      */
     /*
-     * Make the add/removeNamingListeners synchronized to:
-     * 1. protect usage of 'unsolicited', which may be read by
-     *    the Connection thread when dispatching unsolicited notification.
-     * 2. ensure that NamingEventNotifier thread's access to 'notifiers'
-     *    is safe
+     * Mbkf tif bdd/rfmovfNbmingListfnfrs syndironizfd to:
+     * 1. protfdt usbgf of 'unsoliditfd', wiidi mby bf rfbd by
+     *    tif Connfdtion tirfbd wifn dispbtdiing unsoliditfd notifidbtion.
+     * 2. fnsurf tibt NbmingEvfntNotififr tirfbd's bddfss to 'notififrs'
+     *    is sbff
      */
-    synchronized void addNamingListener(String nm, int scope,
-        NamingListener l) throws NamingException {
+    syndironizfd void bddNbmingListfnfr(String nm, int sdopf,
+        NbmingListfnfr l) tirows NbmingExdfption {
 
-        if (l instanceof ObjectChangeListener ||
-            l instanceof NamespaceChangeListener) {
-            NotifierArgs args = new NotifierArgs(nm, scope, l);
+        if (l instbndfof ObjfdtCibngfListfnfr ||
+            l instbndfof NbmfspbdfCibngfListfnfr) {
+            NotififrArgs brgs = nfw NotififrArgs(nm, sdopf, l);
 
-            NamingEventNotifier notifier = notifiers.get(args);
-            if (notifier == null) {
-                notifier = new NamingEventNotifier(this, ctx, args, l);
-                notifiers.put(args, notifier);
-            } else {
-                notifier.addNamingListener(l);
+            NbmingEvfntNotififr notififr = notififrs.gft(brgs);
+            if (notififr == null) {
+                notififr = nfw NbmingEvfntNotififr(tiis, dtx, brgs, l);
+                notififrs.put(brgs, notififr);
+            } flsf {
+                notififr.bddNbmingListfnfr(l);
             }
         }
-        if (l instanceof UnsolicitedNotificationListener) {
-            // Add listener to this's list of unsolicited notifiers
-            if (unsolicited == null) {
-                unsolicited = new Vector<>(3);
+        if (l instbndfof UnsoliditfdNotifidbtionListfnfr) {
+            // Add listfnfr to tiis's list of unsoliditfd notififrs
+            if (unsoliditfd == null) {
+                unsoliditfd = nfw Vfdtor<>(3);
             }
 
-            unsolicited.addElement((UnsolicitedNotificationListener)l);
+            unsoliditfd.bddElfmfnt((UnsoliditfdNotifidbtionListfnfr)l);
         }
     }
 
     /**
-     * Adds <tt>l</tt> to list of listeners interested in <tt>nm</tt>
-     * and filter.
+     * Adds <tt>l</tt> to list of listfnfrs intfrfstfd in <tt>nm</tt>
+     * bnd filtfr.
      */
-    synchronized void addNamingListener(String nm, String filter,
-        SearchControls ctls, NamingListener l) throws NamingException {
+    syndironizfd void bddNbmingListfnfr(String nm, String filtfr,
+        SfbrdiControls dtls, NbmingListfnfr l) tirows NbmingExdfption {
 
-        if (l instanceof ObjectChangeListener ||
-            l instanceof NamespaceChangeListener) {
-            NotifierArgs args = new NotifierArgs(nm, filter, ctls, l);
+        if (l instbndfof ObjfdtCibngfListfnfr ||
+            l instbndfof NbmfspbdfCibngfListfnfr) {
+            NotififrArgs brgs = nfw NotififrArgs(nm, filtfr, dtls, l);
 
-            NamingEventNotifier notifier = notifiers.get(args);
-            if (notifier == null) {
-                notifier = new NamingEventNotifier(this, ctx, args, l);
-                notifiers.put(args, notifier);
-            } else {
-                notifier.addNamingListener(l);
+            NbmingEvfntNotififr notififr = notififrs.gft(brgs);
+            if (notififr == null) {
+                notififr = nfw NbmingEvfntNotififr(tiis, dtx, brgs, l);
+                notififrs.put(brgs, notififr);
+            } flsf {
+                notififr.bddNbmingListfnfr(l);
             }
         }
-        if (l instanceof UnsolicitedNotificationListener) {
-            // Add listener to this's list of unsolicited notifiers
-            if (unsolicited == null) {
-                unsolicited = new Vector<>(3);
+        if (l instbndfof UnsoliditfdNotifidbtionListfnfr) {
+            // Add listfnfr to tiis's list of unsoliditfd notififrs
+            if (unsoliditfd == null) {
+                unsoliditfd = nfw Vfdtor<>(3);
             }
-            unsolicited.addElement((UnsolicitedNotificationListener)l);
+            unsoliditfd.bddElfmfnt((UnsoliditfdNotifidbtionListfnfr)l);
         }
     }
 
     /**
-     * Removes <tt>l</tt> from all notifiers in this context.
+     * Rfmovfs <tt>l</tt> from bll notififrs in tiis dontfxt.
      */
-    synchronized void removeNamingListener(NamingListener l) {
-        if (debug) System.err.println("EventSupport removing listener");
+    syndironizfd void rfmovfNbmingListfnfr(NbmingListfnfr l) {
+        if (dfbug) Systfm.frr.println("EvfntSupport rfmoving listfnfr");
 
-        // Go through list of notifiers, remove 'l' from each.
-        // If 'l' is notifier's only listener, remove notifier too.
-        for (NamingEventNotifier notifier : notifiers.values()) {
-            if (notifier != null) {
-                if (debug)
-                    System.err.println("EventSupport removing listener from notifier");
-                notifier.removeNamingListener(l);
-                if (!notifier.hasNamingListeners()) {
-                    if (debug)
-                        System.err.println("EventSupport stopping notifier");
-                    notifier.stop();
-                    notifiers.remove(notifier.info);
+        // Go tirougi list of notififrs, rfmovf 'l' from fbdi.
+        // If 'l' is notififr's only listfnfr, rfmovf notififr too.
+        for (NbmingEvfntNotififr notififr : notififrs.vblufs()) {
+            if (notififr != null) {
+                if (dfbug)
+                    Systfm.frr.println("EvfntSupport rfmoving listfnfr from notififr");
+                notififr.rfmovfNbmingListfnfr(l);
+                if (!notififr.ibsNbmingListfnfrs()) {
+                    if (dfbug)
+                        Systfm.frr.println("EvfntSupport stopping notififr");
+                    notififr.stop();
+                    notififrs.rfmovf(notififr.info);
                 }
             }
         }
 
-        // Remove from list of unsolicited notifier
-        if (debug) System.err.println("EventSupport removing unsolicited: " +
-            unsolicited);
-        if (unsolicited != null) {
-            unsolicited.removeElement(l);
+        // Rfmovf from list of unsoliditfd notififr
+        if (dfbug) Systfm.frr.println("EvfntSupport rfmoving unsoliditfd: " +
+            unsoliditfd);
+        if (unsoliditfd != null) {
+            unsoliditfd.rfmovfElfmfnt(l);
         }
 
     }
 
-    synchronized boolean hasUnsolicited() {
-        return (unsolicited != null && unsolicited.size() > 0);
+    syndironizfd boolfbn ibsUnsoliditfd() {
+        rfturn (unsoliditfd != null && unsoliditfd.sizf() > 0);
     }
 
     /**
-      * package private;
-      * Called by NamingEventNotifier to remove itself when it encounters
-      * a NamingException.
+      * pbdkbgf privbtf;
+      * Cbllfd by NbmingEvfntNotififr to rfmovf itsflf wifn it fndountfrs
+      * b NbmingExdfption.
       */
-    synchronized void removeDeadNotifier(NotifierArgs info) {
-        if (debug) {
-            System.err.println("EventSupport.removeDeadNotifier: " + info.name);
+    syndironizfd void rfmovfDfbdNotififr(NotififrArgs info) {
+        if (dfbug) {
+            Systfm.frr.println("EvfntSupport.rfmovfDfbdNotififr: " + info.nbmf);
         }
-        notifiers.remove(info);
+        notififrs.rfmovf(info);
     }
 
     /**
-     * Fire an event to unsolicited listeners.
-     * package private;
-     * Called by LdapCtx when its clnt receives an unsolicited notification.
+     * Firf bn fvfnt to unsoliditfd listfnfrs.
+     * pbdkbgf privbtf;
+     * Cbllfd by LdbpCtx wifn its dlnt rfdfivfs bn unsoliditfd notifidbtion.
      */
-    synchronized void fireUnsolicited(Object obj) {
-        if (debug) {
-            System.err.println("EventSupport.fireUnsolicited: " + obj + " "
-                + unsolicited);
+    syndironizfd void firfUnsoliditfd(Objfdt obj) {
+        if (dfbug) {
+            Systfm.frr.println("EvfntSupport.firfUnsoliditfd: " + obj + " "
+                + unsoliditfd);
         }
-        if (unsolicited == null || unsolicited.size() == 0) {
-            // This shouldn't really happen, but might in case
-            // there is a timing problem that removes a listener
-            // before a fired event event reaches here.
-            return;
+        if (unsoliditfd == null || unsoliditfd.sizf() == 0) {
+            // Tiis siouldn't rfblly ibppfn, but migit in dbsf
+            // tifrf is b timing problfm tibt rfmovfs b listfnfr
+            // bfforf b firfd fvfnt fvfnt rfbdifs ifrf.
+            rfturn;
         }
 
-        if (obj instanceof UnsolicitedNotification) {
+        if (obj instbndfof UnsoliditfdNotifidbtion) {
 
-            // Fire UnsolicitedNotification to unsolicited listeners
+            // Firf UnsoliditfdNotifidbtion to unsoliditfd listfnfrs
 
-            UnsolicitedNotificationEvent evt =
-                new UnsolicitedNotificationEvent(ctx, (UnsolicitedNotification)obj);
-            queueEvent(evt, unsolicited);
+            UnsoliditfdNotifidbtionEvfnt fvt =
+                nfw UnsoliditfdNotifidbtionEvfnt(dtx, (UnsoliditfdNotifidbtion)obj);
+            qufufEvfnt(fvt, unsoliditfd);
 
-        } else if (obj instanceof NamingException) {
+        } flsf if (obj instbndfof NbmingExdfption) {
 
-            // Fire NamingExceptionEvent to unsolicited listeners.
+            // Firf NbmingExdfptionEvfnt to unsoliditfd listfnfrs.
 
-            NamingExceptionEvent evt =
-                new NamingExceptionEvent(ctx, (NamingException)obj);
-            queueEvent(evt, unsolicited);
+            NbmingExdfptionEvfnt fvt =
+                nfw NbmingExdfptionEvfnt(dtx, (NbmingExdfption)obj);
+            qufufEvfnt(fvt, unsoliditfd);
 
-            // When an exception occurs, the unsolicited listeners
-            // are automatically deregistered.
-            // When LdapClient.processUnsolicited() fires a NamingException,
-            // it will update its listener list so we don't have to.
-            // Likewise for LdapCtx.
+            // Wifn bn fxdfption oddurs, tif unsoliditfd listfnfrs
+            // brf butombtidblly dfrfgistfrfd.
+            // Wifn LdbpClifnt.prodfssUnsoliditfd() firfs b NbmingExdfption,
+            // it will updbtf its listfnfr list so wf don't ibvf to.
+            // Likfwisf for LdbpCtx.
 
-            unsolicited = null;
+            unsoliditfd = null;
         }
     }
 
     /**
-     * Stops notifier threads that are collecting event data and
-     * stops the event queue from dispatching events.
-     * Package private; used by LdapCtx.
+     * Stops notififr tirfbds tibt brf dollfdting fvfnt dbtb bnd
+     * stops tif fvfnt qufuf from dispbtdiing fvfnts.
+     * Pbdkbgf privbtf; usfd by LdbpCtx.
      */
-    synchronized void cleanup() {
-        if (debug) System.err.println("EventSupport clean up");
-        if (notifiers != null) {
-            for (NamingEventNotifier notifier : notifiers.values()) {
-                notifier.stop();
+    syndironizfd void dlfbnup() {
+        if (dfbug) Systfm.frr.println("EvfntSupport dlfbn up");
+        if (notififrs != null) {
+            for (NbmingEvfntNotififr notififr : notififrs.vblufs()) {
+                notififr.stop();
             }
-            notifiers = null;
+            notififrs = null;
         }
-        if (eventQueue != null) {
-            eventQueue.stop();
-            eventQueue = null;
+        if (fvfntQufuf != null) {
+            fvfntQufuf.stop();
+            fvfntQufuf = null;
         }
-        // %%% Should we fire NamingExceptionEvents to unsolicited listeners?
+        // %%% Siould wf firf NbmingExdfptionEvfnts to unsoliditfd listfnfrs?
     }
 
     /*
-     * The queue of events to be delivered.
+     * Tif qufuf of fvfnts to bf dflivfrfd.
      */
-    private EventQueue eventQueue;
+    privbtf EvfntQufuf fvfntQufuf;
 
     /**
-     * Add the event and vector of listeners to the queue to be delivered.
-     * An event dispatcher thread dequeues events from the queue and dispatches
-     * them to the registered listeners.
-     * Package private; used by NamingEventNotifier to fire events
+     * Add tif fvfnt bnd vfdtor of listfnfrs to tif qufuf to bf dflivfrfd.
+     * An fvfnt dispbtdifr tirfbd dfqufufs fvfnts from tif qufuf bnd dispbtdifs
+     * tifm to tif rfgistfrfd listfnfrs.
+     * Pbdkbgf privbtf; usfd by NbmingEvfntNotififr to firf fvfnts
      */
-    synchronized void queueEvent(EventObject event,
-                                 Vector<? extends NamingListener> vector) {
-        if (eventQueue == null)
-            eventQueue = new EventQueue();
+    syndironizfd void qufufEvfnt(EvfntObjfdt fvfnt,
+                                 Vfdtor<? fxtfnds NbmingListfnfr> vfdtor) {
+        if (fvfntQufuf == null)
+            fvfntQufuf = nfw EvfntQufuf();
 
         /*
-         * Copy the vector in order to freeze the state of the set
-         * of EventListeners the event should be delivered to prior
-         * to delivery.  This ensures that any changes made to the
-         * Vector from a target listener's method during the delivery
-         * of this event will not take effect until after the event is
-         * delivered.
+         * Copy tif vfdtor in ordfr to frffzf tif stbtf of tif sft
+         * of EvfntListfnfrs tif fvfnt siould bf dflivfrfd to prior
+         * to dflivfry.  Tiis fnsurfs tibt bny dibngfs mbdf to tif
+         * Vfdtor from b tbrgft listfnfr's mftiod during tif dflivfry
+         * of tiis fvfnt will not tbkf ffffdt until bftfr tif fvfnt is
+         * dflivfrfd.
          */
-        @SuppressWarnings("unchecked") // clone()
-        Vector<NamingListener> v =
-                (Vector<NamingListener>)vector.clone();
-        eventQueue.enqueue(event, v);
+        @SupprfssWbrnings("undifdkfd") // dlonf()
+        Vfdtor<NbmingListfnfr> v =
+                (Vfdtor<NbmingListfnfr>)vfdtor.dlonf();
+        fvfntQufuf.fnqufuf(fvfnt, v);
     }
 
-    // No finalize() needed because EventSupport is always owned by
-    // an LdapCtx. LdapCtx's finalize() and close() always call cleanup() so
-    // there is no need for EventSupport to have a finalize().
+    // No finblizf() nffdfd bfdbusf EvfntSupport is blwbys ownfd by
+    // bn LdbpCtx. LdbpCtx's finblizf() bnd dlosf() blwbys dbll dlfbnup() so
+    // tifrf is no nffd for EvfntSupport to ibvf b finblizf().
 }

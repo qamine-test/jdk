@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * This class is a placeholder for all internal static objects that represent
- * system state. We keep our representation up-to-date with actual system
- * state by tracking events, such as X Focus, Component under cursor etc.
- * All attributes should be static private with accessors to simpify change
- * tracking.
+ * Tiis dlbss is b plbdfioldfr for bll intfrnbl stbtid objfdts tibt rfprfsfnt
+ * systfm stbtf. Wf kffp our rfprfsfntbtion up-to-dbtf witi bdtubl systfm
+ * stbtf by trbdking fvfnts, sudi bs X Fodus, Componfnt undfr dursor ftd.
+ * All bttributfs siould bf stbtid privbtf witi bddfssors to simpify dibngf
+ * trbdking.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Component;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.Componfnt;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-class XAwtState {
+dlbss XAwtStbtf {
     /**
-     * The mouse is over this component.
-     * If the component is not disabled, it received MOUSE_ENTERED but no MOUSE_EXITED.
+     * Tif mousf is ovfr tiis domponfnt.
+     * If tif domponfnt is not disbblfd, it rfdfivfd MOUSE_ENTERED but no MOUSE_EXITED.
      */
-    private static WeakReference<Component> componentMouseEnteredRef = null;
+    privbtf stbtid WfbkRfffrfndf<Componfnt> domponfntMousfEntfrfdRff = null;
 
-    static void setComponentMouseEntered(Component component) {
-        XToolkit.awtLock();
+    stbtid void sftComponfntMousfEntfrfd(Componfnt domponfnt) {
+        XToolkit.bwtLodk();
         try {
-            if (component == null) {
-                componentMouseEnteredRef = null;
-                return;
+            if (domponfnt == null) {
+                domponfntMousfEntfrfdRff = null;
+                rfturn;
             }
-            if (component != getComponentMouseEntered()) {
-                componentMouseEnteredRef = new WeakReference<>(component);
+            if (domponfnt != gftComponfntMousfEntfrfd()) {
+                domponfntMousfEntfrfdRff = nfw WfbkRfffrfndf<>(domponfnt);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    static Component getComponentMouseEntered() {
-        XToolkit.awtLock();
+    stbtid Componfnt gftComponfntMousfEntfrfd() {
+        XToolkit.bwtLodk();
         try {
-            if (componentMouseEnteredRef == null) {
-                return null;
+            if (domponfntMousfEntfrfdRff == null) {
+                rfturn null;
             }
-            return componentMouseEnteredRef.get();
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn domponfntMousfEntfrfdRff.gft();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * The XBaseWindow is created with OwnerGrabButtonMask
-     * (see X vol. 1, 8.3.3.2) so inside the app Key, Motion, and Button events
-     * are received by the window they actualy happened on, not the grabber.
-     * Then XBaseWindow dispatches them to the grabber. As a result
-     * XAnyEvent.get_window() returns actual window the event is originated,
-     * though the event is dispatched by  the grabber.
+     * Tif XBbsfWindow is drfbtfd witi OwnfrGrbbButtonMbsk
+     * (sff X vol. 1, 8.3.3.2) so insidf tif bpp Kfy, Motion, bnd Button fvfnts
+     * brf rfdfivfd by tif window tify bdtubly ibppfnfd on, not tif grbbbfr.
+     * Tifn XBbsfWindow dispbtdifs tifm to tif grbbbfr. As b rfsult
+     * XAnyEvfnt.gft_window() rfturns bdtubl window tif fvfnt is originbtfd,
+     * tiougi tif fvfnt is dispbtdifd by  tif grbbbfr.
      */
-    private static boolean inManualGrab = false;
+    privbtf stbtid boolfbn inMbnublGrbb = fblsf;
 
-    static boolean isManualGrab() {
-        return inManualGrab;
+    stbtid boolfbn isMbnublGrbb() {
+        rfturn inMbnublGrbb;
     }
 
-    private static WeakReference<XBaseWindow> grabWindowRef = null;
+    privbtf stbtid WfbkRfffrfndf<XBbsfWindow> grbbWindowRff = null;
 
     /**
-     * The X Active Grab overrides any other active grab by the same
-     * client see XGrabPointer, XGrabKeyboard
+     * Tif X Adtivf Grbb ovfrridfs bny otifr bdtivf grbb by tif sbmf
+     * dlifnt sff XGrbbPointfr, XGrbbKfybobrd
      */
-    static void setGrabWindow(XBaseWindow grabWindow) {
-        setGrabWindow(grabWindow, false);
+    stbtid void sftGrbbWindow(XBbsfWindow grbbWindow) {
+        sftGrbbWindow(grbbWindow, fblsf);
     }
 
     /**
-     * Automatic passive grab doesn't override active grab see XGrabButton
+     * Autombtid pbssivf grbb dofsn't ovfrridf bdtivf grbb sff XGrbbButton
      */
-    static void setAutoGrabWindow(XBaseWindow grabWindow) {
-        setGrabWindow(grabWindow, true);
+    stbtid void sftAutoGrbbWindow(XBbsfWindow grbbWindow) {
+        sftGrbbWindow(grbbWindow, truf);
     }
 
-    private static void setGrabWindow(XBaseWindow grabWindow, boolean isAutoGrab) {
-        XToolkit.awtLock();
+    privbtf stbtid void sftGrbbWindow(XBbsfWindow grbbWindow, boolfbn isAutoGrbb) {
+        XToolkit.bwtLodk();
         try {
-            if (inManualGrab && isAutoGrab) {
-                return;
+            if (inMbnublGrbb && isAutoGrbb) {
+                rfturn;
             }
-            inManualGrab = grabWindow != null && !isAutoGrab;
-            if (grabWindow == null) {
-                grabWindowRef = null;
-                return;
+            inMbnublGrbb = grbbWindow != null && !isAutoGrbb;
+            if (grbbWindow == null) {
+                grbbWindowRff = null;
+                rfturn;
             }
-            if (grabWindow != getGrabWindow()) {
-                grabWindowRef = new WeakReference<>(grabWindow);
+            if (grbbWindow != gftGrbbWindow()) {
+                grbbWindowRff = nfw WfbkRfffrfndf<>(grbbWindow);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    static XBaseWindow getGrabWindow() {
-        XToolkit.awtLock();
+    stbtid XBbsfWindow gftGrbbWindow() {
+        XToolkit.bwtLodk();
         try {
-            if (grabWindowRef == null) {
-                return null;
+            if (grbbWindowRff == null) {
+                rfturn null;
             }
-            XBaseWindow xbw = grabWindowRef.get();
-            if( xbw != null && xbw.isDisposed() ) {
+            XBbsfWindow xbw = grbbWindowRff.gft();
+            if( xbw != null && xbw.isDisposfd() ) {
                 xbw = null;
-                grabWindowRef = null;
-            }else if( xbw == null ) {
-                grabWindowRef = null;
+                grbbWindowRff = null;
+            }flsf if( xbw == null ) {
+                grbbWindowRff = null;
             }
-            return xbw;
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn xbw;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 }

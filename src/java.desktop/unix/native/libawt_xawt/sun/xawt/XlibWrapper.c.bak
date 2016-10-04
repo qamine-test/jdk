@@ -1,2342 +1,2342 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_awt_X11_XlibWrapper.h"
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <X11/Xutil.h>
-#include <X11/Xos.h>
-#include <X11/Xatom.h>
-#include <X11/extensions/Xdbe.h>
-#include <X11/extensions/shape.h>
-#include <string.h>
-#include <stdlib.h>
-#include <X11/Sunkeysym.h>
+#indludf "sun_bwt_X11_XlibWrbppfr.i"
+#indludf <X11/Xlib.i>
+#indludf <X11/kfysym.i>
+#indludf <X11/Xutil.i>
+#indludf <X11/Xos.i>
+#indludf <X11/Xbtom.i>
+#indludf <X11/fxtfnsions/Xdbf.i>
+#indludf <X11/fxtfnsions/sibpf.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <X11/Sunkfysym.i>
 
-#include <jni.h>
-#include <jni_util.h>
-#include <jlong.h>
-#include <sizecalc.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <jlong.i>
+#indludf <sizfdbld.i>
 
-#include <awt.h>
-#include <awt_util.h>
-#include <jvm.h>
+#indludf <bwt.i>
+#indludf <bwt_util.i>
+#indludf <jvm.i>
 
-#include <Region.h>
-#include "utility/rect.h"
+#indludf <Rfgion.i>
+#indludf "utility/rfdt.i"
 
-#include <X11/XKBlib.h>
+#indludf <X11/XKBlib.i>
 
-#if defined(DEBUG) || defined(INTERNAL_BUILD)
-static jmethodID lockIsHeldMID = NULL;
+#if dffinfd(DEBUG) || dffinfd(INTERNAL_BUILD)
+stbtid jmftiodID lodkIsHfldMID = NULL;
 
-static void
-CheckHaveAWTLock(JNIEnv *env)
+stbtid void
+CifdkHbvfAWTLodk(JNIEnv *fnv)
 {
-    if (lockIsHeldMID == NULL) {
-        if (tkClass == NULL) return;
-        lockIsHeldMID =
-            (*env)->GetStaticMethodID(env, tkClass,
-                                      "isAWTLockHeldByCurrentThread", "()Z");
-        if (lockIsHeldMID == NULL) return;
+    if (lodkIsHfldMID == NULL) {
+        if (tkClbss == NULL) rfturn;
+        lodkIsHfldMID =
+            (*fnv)->GftStbtidMftiodID(fnv, tkClbss,
+                                      "isAWTLodkHfldByCurrfntTirfbd", "()Z");
+        if (lodkIsHfldMID == NULL) rfturn;
     }
-    if (!(*env)->CallStaticBooleanMethod(env, tkClass, lockIsHeldMID)) {
-        JNU_ThrowInternalError(env, "Current thread does not hold AWT_LOCK!");
+    if (!(*fnv)->CbllStbtidBoolfbnMftiod(fnv, tkClbss, lodkIsHfldMID)) {
+        JNU_TirowIntfrnblError(fnv, "Currfnt tirfbd dofs not iold AWT_LOCK!");
     }
 }
 
-#define AWT_CHECK_HAVE_LOCK()                       \
+#dffinf AWT_CHECK_HAVE_LOCK()                       \
     do {                                            \
-        CheckHaveAWTLock(env);                      \
-        if ((*env)->ExceptionCheck(env)) {          \
-            return;                                 \
+        CifdkHbvfAWTLodk(fnv);                      \
+        if ((*fnv)->ExdfptionCifdk(fnv)) {          \
+            rfturn;                                 \
         }                                           \
-    } while (0);                                    \
+    } wiilf (0);                                    \
 
-#define AWT_CHECK_HAVE_LOCK_RETURN(ret)             \
+#dffinf AWT_CHECK_HAVE_LOCK_RETURN(rft)             \
     do {                                            \
-        CheckHaveAWTLock(env);                      \
-        if ((*env)->ExceptionCheck(env)) {          \
-            return (ret);                           \
+        CifdkHbvfAWTLodk(fnv);                      \
+        if ((*fnv)->ExdfptionCifdk(fnv)) {          \
+            rfturn (rft);                           \
         }                                           \
-    } while (0);                                    \
+    } wiilf (0);                                    \
 
-#else
-#define AWT_CHECK_HAVE_LOCK()
-#define AWT_CHECK_HAVE_LOCK_RETURN(ret)
-#endif
+#flsf
+#dffinf AWT_CHECK_HAVE_LOCK()
+#dffinf AWT_CHECK_HAVE_LOCK_RETURN(rft)
+#fndif
 
-void freeNativeStringArray(char **array, jsize length) {
+void frffNbtivfStringArrby(dibr **brrby, jsizf lfngti) {
     int i;
-    if (array == NULL) {
-        return;
+    if (brrby == NULL) {
+        rfturn;
     }
-    for (i = 0; i < length; i++) {
-        free(array[i]);
+    for (i = 0; i < lfngti; i++) {
+        frff(brrby[i]);
     }
-    free(array);
+    frff(brrby);
 }
 
-char** stringArrayToNative(JNIEnv *env, jobjectArray array, jsize * ret_length) {
-    Bool err = FALSE;
-    char ** strings;
-    int index, str_index = 0;
-    jsize length = (*env)->GetArrayLength(env, array);
+dibr** stringArrbyToNbtivf(JNIEnv *fnv, jobjfdtArrby brrby, jsizf * rft_lfngti) {
+    Bool frr = FALSE;
+    dibr ** strings;
+    int indfx, str_indfx = 0;
+    jsizf lfngti = (*fnv)->GftArrbyLfngti(fnv, brrby);
 
-    if (length == 0) {
-        return NULL;
+    if (lfngti == 0) {
+        rfturn NULL;
     }
 
-    strings = (char**) calloc(length, sizeof (char*));
+    strings = (dibr**) dbllod(lfngti, sizfof (dibr*));
 
     if (strings == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "");
-        return NULL;
+        JNU_TirowOutOfMfmoryError(fnv, "");
+        rfturn NULL;
     }
 
-    for (index = 0; index < length; index++) {
-        jstring str = (*env)->GetObjectArrayElement(env, array, index);
+    for (indfx = 0; indfx < lfngti; indfx++) {
+        jstring str = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brrby, indfx);
         if (str != NULL) {
-            const char * str_char = JNU_GetStringPlatformChars(env, str, NULL);
-            if (str_char != NULL) {
-                char * dup_str = strdup(str_char);
+            donst dibr * str_dibr = JNU_GftStringPlbtformCibrs(fnv, str, NULL);
+            if (str_dibr != NULL) {
+                dibr * dup_str = strdup(str_dibr);
                 if (dup_str != NULL) {
-                    strings[str_index++] = dup_str;
-                } else {
-                    JNU_ThrowOutOfMemoryError(env, "");
-                    err = TRUE;
+                    strings[str_indfx++] = dup_str;
+                } flsf {
+                    JNU_TirowOutOfMfmoryError(fnv, "");
+                    frr = TRUE;
                 }
-                JNU_ReleaseStringPlatformChars(env, str, str_char);
-            } else {
-                err = TRUE;
+                JNU_RflfbsfStringPlbtformCibrs(fnv, str, str_dibr);
+            } flsf {
+                frr = TRUE;
             }
-            (*env)->DeleteLocalRef(env, str);
-            if (err) {
-                break;
+            (*fnv)->DflftfLodblRff(fnv, str);
+            if (frr) {
+                brfbk;
             }
         }
     }
 
-    if (err) {
-        freeNativeStringArray(strings, str_index);
+    if (frr) {
+        frffNbtivfStringArrby(strings, str_indfx);
         strings = NULL;
-        str_index = -1;
+        str_indfx = -1;
     }
-    *ret_length = str_index;
+    *rft_lfngti = str_indfx;
 
-    return strings;
+    rfturn strings;
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XOpenDisplay
- * Signature: (J)J
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XOpfnDisplby
+ * Signbturf: (J)J
  */
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XOpenDisplay
-(JNIEnv *env, jclass clazz, jlong display_name)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XOpfnDisplby
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby_nbmf)
 {
-    Display *dp;
+    Displby *dp;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    dp  =  XOpenDisplay((char *) jlong_to_ptr(display_name));
+    dp  =  XOpfnDisplby((dibr *) jlong_to_ptr(displby_nbmf));
 
-    return ptr_to_jlong(dp);
+    rfturn ptr_to_jlong(dp);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XCloseDisplay(JNIEnv *env, jclass clazz,
-                       jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XClosfDisplby(JNIEnv *fnv, jdlbss dlbzz,
+                       jlong displby) {
     AWT_CHECK_HAVE_LOCK();
-    XCloseDisplay((Display*) jlong_to_ptr(display));
+    XClosfDisplby((Displby*) jlong_to_ptr(displby));
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XDisplayString(JNIEnv *env, jclass clazz,
-                        jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XDisplbyString(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XDisplayString((Display*) jlong_to_ptr(display)));
+    rfturn ptr_to_jlong(XDisplbyString((Displby*) jlong_to_ptr(displby)));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XSetCloseDownMode(JNIEnv *env, jclass clazz,
-                           jlong display, jint mode) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftClosfDownModf(JNIEnv *fnv, jdlbss dlbzz,
+                           jlong displby, jint modf) {
     AWT_CHECK_HAVE_LOCK();
-    XSetCloseDownMode((Display*) jlong_to_ptr(display), (int)mode);
+    XSftClosfDownModf((Displby*) jlong_to_ptr(displby), (int)modf);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DefaultScreen
- * Signature: (J)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DffbultSdrffn
+ * Signbturf: (J)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_DefaultScreen (JNIEnv *env, jclass clazz, jlong display) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DffbultSdrffn (JNIEnv *fnv, jdlbss dlbzz, jlong displby) {
 
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) DefaultScreen((Display *) jlong_to_ptr(display));
+    rfturn (jlong) DffbultSdrffn((Displby *) jlong_to_ptr(displby));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    ScreenOfDisplay
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    SdrffnOfDisplby
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_ScreenOfDisplay(JNIEnv *env, jclass clazz, jlong display, jlong screen_number) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SdrffnOfDisplby(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn_numbfr) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(ScreenOfDisplay((Display *) jlong_to_ptr(display),
-                                        screen_number));
+    rfturn ptr_to_jlong(SdrffnOfDisplby((Displby *) jlong_to_ptr(displby),
+                                        sdrffn_numbfr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DoesBackingStore
- * Signature: (J)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DofsBbdkingStorf
+ * Signbturf: (J)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_DoesBackingStore(JNIEnv *env, jclass clazz, jlong screen) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DofsBbdkingStorf(JNIEnv *fnv, jdlbss dlbzz, jlong sdrffn) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jint) DoesBackingStore((Screen*) jlong_to_ptr(screen));
+    rfturn (jint) DofsBbdkingStorf((Sdrffn*) jlong_to_ptr(sdrffn));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DisplayWidth
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DisplbyWidti
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_DisplayWidth
-(JNIEnv *env, jclass clazz, jlong display, jlong screen) {
-
-    AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) DisplayWidth((Display *) jlong_to_ptr(display),screen);
-
-}
-
-/*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DisplayWidthMM
- * Signature: (JJ)J
- */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_DisplayWidthMM
-(JNIEnv *env, jclass clazz, jlong display, jlong screen) {
-    AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) DisplayWidthMM((Display *) jlong_to_ptr(display),screen);
-}
-
-/*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DisplayHeight
- * Signature: (JJ)J
- */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_DisplayHeight
-(JNIEnv *env, jclass clazz, jlong display, jlong screen) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyWidti
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
 
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) DisplayHeight((Display *) jlong_to_ptr(display),screen);
+    rfturn (jlong) DisplbyWidti((Displby *) jlong_to_ptr(displby),sdrffn);
+
 }
+
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    DisplayHeightMM
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DisplbyWidtiMM
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_DisplayHeightMM
-(JNIEnv *env, jclass clazz, jlong display, jlong screen) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyWidtiMM
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) DisplayHeightMM((Display *) jlong_to_ptr(display),screen);
+    rfturn (jlong) DisplbyWidtiMM((Displby *) jlong_to_ptr(displby),sdrffn);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    RootWindow
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DisplbyHfigit
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_RootWindow
-(JNIEnv *env , jclass clazz, jlong display, jlong screen_number) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyHfigit
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
+
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) RootWindow((Display *) jlong_to_ptr(display), screen_number);
+    rfturn (jlong) DisplbyHfigit((Displby *) jlong_to_ptr(displby),sdrffn);
 }
-
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    ScreenCount
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    DisplbyHfigitMM
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_ScreenCount
-(JNIEnv *env , jclass clazz, jlong display) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyHfigitMM
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ScreenCount((Display *) jlong_to_ptr(display));
+    rfturn (jlong) DisplbyHfigitMM((Displby *) jlong_to_ptr(displby),sdrffn);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    RootWindow
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_RootWindow
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby, jlong sdrffn_numbfr) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) RootWindow((Displby *) jlong_to_ptr(displby), sdrffn_numbfr);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    SdrffnCount
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SdrffnCount
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn SdrffnCount((Displby *) jlong_to_ptr(displby));
 }
 
 
 /*
- * Class:     XlibWrapper
- * Method:    XCreateWindow
- * Signature: (JJIIIIIIJJJJ)J
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XCrfbtfWindow
+ * Signbturf: (JJIIIIIIJJJJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XCreateWindow
-  (JNIEnv *env, jclass clazz, jlong display, jlong window,
-   jint x, jint y, jint w, jint h , jint border_width, jint depth,
-   jlong wclass, jlong visual, jlong valuemask, jlong attributes)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfWindow
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+   jint x, jint y, jint w, jint i , jint bordfr_widti, jint dfpti,
+   jlong wdlbss, jlong visubl, jlong vblufmbsk, jlong bttributfs)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return  XCreateWindow((Display *) jlong_to_ptr(display),(Window) window, x, y, w, h,
-              border_width, depth, wclass, (Visual *) jlong_to_ptr(visual),
-              valuemask, (XSetWindowAttributes *) jlong_to_ptr(attributes));
+    rfturn  XCrfbtfWindow((Displby *) jlong_to_ptr(displby),(Window) window, x, y, w, i,
+              bordfr_widti, dfpti, wdlbss, (Visubl *) jlong_to_ptr(visubl),
+              vblufmbsk, (XSftWindowAttributfs *) jlong_to_ptr(bttributfs));
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XConvertCase
- * Signature: (JJJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XConvfrtCbsf
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XConvertCase
-  (JNIEnv *env, jclass clazz, jlong keysym,
-   jlong keysym_lowercase, jlong keysym_uppercase)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XConvfrtCbsf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong kfysym,
+   jlong kfysym_lowfrdbsf, jlong kfysym_uppfrdbsf)
 {
     AWT_CHECK_HAVE_LOCK();
-    XConvertCase(keysym, (jlong_to_ptr(keysym_lowercase)),
-                         (jlong_to_ptr(keysym_uppercase)));
+    XConvfrtCbsf(kfysym, (jlong_to_ptr(kfysym_lowfrdbsf)),
+                         (jlong_to_ptr(kfysym_uppfrdbsf)));
 }
 
 
 /*
- * Class:     XlibWrapper
- * Method:    XMapWindow
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XMbpWindow
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XMapWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbpWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
     AWT_CHECK_HAVE_LOCK();
-    XMapWindow( (Display *)jlong_to_ptr(display),(Window) window);
+    XMbpWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XMapRaised
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XMbpRbisfd
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XMapRaised
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbpRbisfd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
     AWT_CHECK_HAVE_LOCK();
-    XMapRaised( (Display *)jlong_to_ptr(display),(Window) window);
+    XMbpRbisfd( (Displby *)jlong_to_ptr(displby),(Window) window);
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XRaiseWindow
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XRbisfWindow
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XRaiseWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
-{
-
-    AWT_CHECK_HAVE_LOCK();
-    XRaiseWindow( (Display *)jlong_to_ptr(display),(Window) window);
-
-}
-
-/*
- * Class:     XlibWrapper
- * Method:    XLowerWindow
- * Signature: (JJ)V
- */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XLowerWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRbisfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XLowerWindow( (Display *)jlong_to_ptr(display),(Window) window);
+    XRbisfWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XRestackWindows
- * Signature: (JJI)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XLowfrWindow
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XRestackWindows
-(JNIEnv *env, jclass clazz, jlong display, jlong windows, jint length)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XLowfrWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XRestackWindows( (Display *) jlong_to_ptr(display), (Window *) jlong_to_ptr(windows), length);
+    XLowfrWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XConfigureWindow
- * Signature: (JJJJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XRfstbdkWindows
+ * Signbturf: (JJI)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XConfigureWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong value_mask,
- jlong values)
-{
-    AWT_CHECK_HAVE_LOCK();
-    XConfigureWindow((Display*)jlong_to_ptr(display), (Window)window,
-            (unsigned int)value_mask, (XWindowChanges*)jlong_to_ptr(values));
-}
-
-/*
- * Class:     XlibWrapper
- * Method:    XSetInputFocus
- * Signature: (JJ)V
- */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetInputFocus
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRfstbdkWindows
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong windows, jint lfngti)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XSetInputFocus( (Display *)jlong_to_ptr(display),(Window) window, RevertToPointerRoot, CurrentTime);
+    XRfstbdkWindows( (Displby *) jlong_to_ptr(displby), (Window *) jlong_to_ptr(windows), lfngti);
 
 }
+
 /*
- * Class:     XlibWrapper
- * Method:    XSetInputFocus2
- * Signature: (JJJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XConfigurfWindow
+ * Signbturf: (JJJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetInputFocus2
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong time)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XConfigurfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong vbluf_mbsk,
+ jlong vblufs)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XConfigurfWindow((Displby*)jlong_to_ptr(displby), (Window)window,
+            (unsignfd int)vbluf_mbsk, (XWindowCibngfs*)jlong_to_ptr(vblufs));
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XSftInputFodus
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftInputFodus
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XSetInputFocus( (Display *)jlong_to_ptr(display),(Window) window, RevertToPointerRoot, time);
+    XSftInputFodus( (Displby *)jlong_to_ptr(displby),(Window) window, RfvfrtToPointfrRoot, CurrfntTimf);
+
+}
+/*
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XSftInputFodus2
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftInputFodus2
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong timf)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XSftInputFodus( (Displby *)jlong_to_ptr(displby),(Window) window, RfvfrtToPointfrRoot, timf);
 
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XGetInputFocus
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XGftInputFodus
+ * Signbturf: (JJ)V
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XGetInputFocus
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftInputFodus
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
 
-    Window focusOwner;
-    int revert_to;
+    Window fodusOwnfr;
+    int rfvfrt_to;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    XGetInputFocus( (Display *)jlong_to_ptr(display), &focusOwner, &revert_to);
-    return focusOwner;
+    XGftInputFodus( (Displby *)jlong_to_ptr(displby), &fodusOwnfr, &rfvfrt_to);
+    rfturn fodusOwnfr;
 }
 
 
 /*
- * Class:     XlibWrapper
- * Method:    XDestroyWindow
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XDfstroyWindow
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XDestroyWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XDfstroyWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
     AWT_CHECK_HAVE_LOCK();
-    XDestroyWindow( (Display *)jlong_to_ptr(display),(Window) window);
+    XDfstroyWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGrabPointer
-(JNIEnv *env, jclass clazz, jlong display, jlong window,
- jint owner_events, jint event_mask, jint pointer_mode,
- jint keyboard_mode, jlong confine_to, jlong cursor, jlong time)
-{
-    AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XGrabPointer( (Display *)jlong_to_ptr(display), (Window) window,
-             (Bool) owner_events, (unsigned int) event_mask, (int) pointer_mode,
-             (int) keyboard_mode, (Window) confine_to, (Cursor) cursor, (Time) time);
-}
-
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XUngrabPointer
-(JNIEnv *env, jclass clazz, jlong display, jlong time)
-{
-    AWT_CHECK_HAVE_LOCK();
-    XUngrabPointer( (Display *)jlong_to_ptr(display), (Time) time);
-}
-
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGrabKeyboard
-(JNIEnv *env, jclass clazz, jlong display, jlong window,
- jint owner_events, jint pointer_mode,
- jint keyboard_mode, jlong time)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint ownfr_fvfnts, jint fvfnt_mbsk, jint pointfr_modf,
+ jint kfybobrd_modf, jlong donfinf_to, jlong dursor, jlong timf)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XGrabKeyboard( (Display *)jlong_to_ptr(display), (Window) window,
-              (Bool) owner_events, (int) pointer_mode,
-              (int) keyboard_mode, (Time) time);
+    rfturn XGrbbPointfr( (Displby *)jlong_to_ptr(displby), (Window) window,
+             (Bool) ownfr_fvfnts, (unsignfd int) fvfnt_mbsk, (int) pointfr_modf,
+             (int) kfybobrd_modf, (Window) donfinf_to, (Cursor) dursor, (Timf) timf);
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XUngrabKeyboard
-(JNIEnv *env, jclass clazz, jlong display, jlong time)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong timf)
 {
     AWT_CHECK_HAVE_LOCK();
-    XUngrabKeyboard( (Display *)jlong_to_ptr(display), (Time) time);
+    XUngrbbPointfr( (Displby *)jlong_to_ptr(displby), (Timf) timf);
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint ownfr_fvfnts, jint pointfr_modf,
+ jint kfybobrd_modf, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGrbbKfybobrd( (Displby *)jlong_to_ptr(displby), (Window) window,
+              (Bool) ownfr_fvfnts, (int) pointfr_modf,
+              (int) kfybobrd_modf, (Timf) timf);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XUngrbbKfybobrd( (Displby *)jlong_to_ptr(displby), (Timf) timf);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XGrabServer(JNIEnv *env, jclass clazz,
-                                         jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbSfrvfr(JNIEnv *fnv, jdlbss dlbzz,
+                                         jlong displby) {
      AWT_CHECK_HAVE_LOCK();
-     XGrabServer((Display*)jlong_to_ptr(display));
+     XGrbbSfrvfr((Displby*)jlong_to_ptr(displby));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XUngrabServer(JNIEnv *env, jclass clazz,
-                                           jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbSfrvfr(JNIEnv *fnv, jdlbss dlbzz,
+                                           jlong displby) {
      AWT_CHECK_HAVE_LOCK();
-     XUngrabServer((Display*)jlong_to_ptr(display));
-     /* Workaround for bug 5039226 */
-     XSync((Display*)jlong_to_ptr(display), False);
+     XUngrbbSfrvfr((Displby*)jlong_to_ptr(displby));
+     /* Workbround for bug 5039226 */
+     XSynd((Displby*)jlong_to_ptr(displby), Fblsf);
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    XUnmapWindow
- * Signature: (JJ)V
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    XUnmbpWindow
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XUnmapWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUnmbpWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XUnmapWindow( (Display *)jlong_to_ptr(display),(Window) window);
+    XUnmbpWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
 
 }
 
 
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSelectInput
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong mask)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSflfdtInput
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong mbsk)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSelectInput((Display *) jlong_to_ptr(display), (Window) window, mask);
+    XSflfdtInput((Displby *) jlong_to_ptr(displby), (Window) window, mbsk);
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XkbSelectEvents
-(JNIEnv *env, jclass clazz, jlong display, jlong device, jlong bits_to_change, jlong values_for_bits)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSflfdtEvfnts
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dfvidf, jlong bits_to_dibngf, jlong vblufs_for_bits)
 {
     AWT_CHECK_HAVE_LOCK();
-    XkbSelectEvents((Display *) jlong_to_ptr(display), (unsigned int)device,
-                   (unsigned long)bits_to_change,
-                   (unsigned long)values_for_bits);
+    XkbSflfdtEvfnts((Displby *) jlong_to_ptr(displby), (unsignfd int)dfvidf,
+                   (unsignfd long)bits_to_dibngf,
+                   (unsignfd long)vblufs_for_bits);
 }
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XkbSelectEventDetails
-(JNIEnv *env, jclass clazz, jlong display, jlong device, jlong event_type, jlong bits_to_change, jlong values_for_bits)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSflfdtEvfntDftbils
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dfvidf, jlong fvfnt_typf, jlong bits_to_dibngf, jlong vblufs_for_bits)
 {
     AWT_CHECK_HAVE_LOCK();
-    XkbSelectEventDetails((Display *) jlong_to_ptr(display), (unsigned int)device,
-                   (unsigned int) event_type,
-                   (unsigned long)bits_to_change,
-                   (unsigned long)values_for_bits);
+    XkbSflfdtEvfntDftbils((Displby *) jlong_to_ptr(displby), (unsignfd int)dfvidf,
+                   (unsignfd int) fvfnt_typf,
+                   (unsignfd long)bits_to_dibngf,
+                   (unsignfd long)vblufs_for_bits);
 }
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XkbQueryExtension
-(JNIEnv *env, jclass clazz, jlong display, jlong opcode_rtrn, jlong event_rtrn,
-              jlong error_rtrn, jlong major_in_out, jlong minor_in_out)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbQufryExtfnsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong opdodf_rtrn, jlong fvfnt_rtrn,
+              jlong frror_rtrn, jlong mbjor_in_out, jlong minor_in_out)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    return XkbQueryExtension( (Display *) jlong_to_ptr(display),
-                       (int *) jlong_to_ptr(opcode_rtrn),
-                       (int *) jlong_to_ptr(event_rtrn),
-                       (int *) jlong_to_ptr(error_rtrn),
-                       (int *) jlong_to_ptr(major_in_out),
+    rfturn XkbQufryExtfnsion( (Displby *) jlong_to_ptr(displby),
+                       (int *) jlong_to_ptr(opdodf_rtrn),
+                       (int *) jlong_to_ptr(fvfnt_rtrn),
+                       (int *) jlong_to_ptr(frror_rtrn),
+                       (int *) jlong_to_ptr(mbjor_in_out),
                        (int *) jlong_to_ptr(minor_in_out));
 }
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XkbLibraryVersion
-(JNIEnv *env, jclass clazz, jlong lib_major_in_out, jlong lib_minor_in_out)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbLibrbryVfrsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong lib_mbjor_in_out, jlong lib_minor_in_out)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    *((int *)jlong_to_ptr(lib_major_in_out)) =  XkbMajorVersion;
-    *((int *)jlong_to_ptr(lib_minor_in_out)) =  XkbMinorVersion;
-    return  XkbLibraryVersion((int *)jlong_to_ptr(lib_major_in_out), (int *)jlong_to_ptr(lib_minor_in_out));
+    *((int *)jlong_to_ptr(lib_mbjor_in_out)) =  XkbMbjorVfrsion;
+    *((int *)jlong_to_ptr(lib_minor_in_out)) =  XkbMinorVfrsion;
+    rfturn  XkbLibrbryVfrsion((int *)jlong_to_ptr(lib_mbjor_in_out), (int *)jlong_to_ptr(lib_minor_in_out));
 }
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XkbGetMap
-(JNIEnv *env, jclass clazz, jlong display, jlong which, jlong device_spec)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftMbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong wiidi, jlong dfvidf_spfd)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) XkbGetMap( (Display *) jlong_to_ptr(display),
-                              (unsigned int) which,
-                              (unsigned int) device_spec);
+    rfturn (jlong) XkbGftMbp( (Displby *) jlong_to_ptr(displby),
+                              (unsignfd int) wiidi,
+                              (unsignfd int) dfvidf_spfd);
 }
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XkbGetUpdatedMap
-(JNIEnv *env, jclass clazz, jlong display, jlong which, jlong xkb)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftUpdbtfdMbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong wiidi, jlong xkb)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) XkbGetUpdatedMap( (Display *) jlong_to_ptr(display),
-                              (unsigned int) which,
-                              (XkbDescPtr) jlong_to_ptr(xkb));
+    rfturn (jlong) XkbGftUpdbtfdMbp( (Displby *) jlong_to_ptr(displby),
+                              (unsignfd int) wiidi,
+                              (XkbDfsdPtr) jlong_to_ptr(xkb));
 }
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XkbFreeKeyboard
-(JNIEnv *env, jclass clazz, jlong xkb, jlong which, jboolean free_all)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbFrffKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong xkb, jlong wiidi, jboolfbn frff_bll)
 {
     AWT_CHECK_HAVE_LOCK();
-    XkbFreeKeyboard(jlong_to_ptr(xkb), (unsigned int)which, free_all);
+    XkbFrffKfybobrd(jlong_to_ptr(xkb), (unsignfd int)wiidi, frff_bll);
 }
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XkbTranslateKeyCode
-(JNIEnv *env, jclass clazz, jlong xkb, jint keycode, jlong mods, jlong mods_rtrn, jlong keysym_rtrn)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbTrbnslbtfKfyCodf
+(JNIEnv *fnv, jdlbss dlbzz, jlong xkb, jint kfydodf, jlong mods, jlong mods_rtrn, jlong kfysym_rtrn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
     Bool b;
-    b = XkbTranslateKeyCode((XkbDescPtr)xkb, (unsigned int)keycode, (unsigned int)mods,
-                              (unsigned int *)jlong_to_ptr(mods_rtrn),
-                               (KeySym *)jlong_to_ptr(keysym_rtrn));
-    //printf("native,  input: keycode:0x%0X; mods:0x%0X\n", keycode, mods);
-    //printf("native, output:  keysym:0x%0X; mods:0x%0X\n", *(unsigned int *)jlong_to_ptr(keysym_rtrn), *(unsigned int *)jlong_to_ptr(mods_rtrn));
-    return b;
+    b = XkbTrbnslbtfKfyCodf((XkbDfsdPtr)xkb, (unsignfd int)kfydodf, (unsignfd int)mods,
+                              (unsignfd int *)jlong_to_ptr(mods_rtrn),
+                               (KfySym *)jlong_to_ptr(kfysym_rtrn));
+    //printf("nbtivf,  input: kfydodf:0x%0X; mods:0x%0X\n", kfydodf, mods);
+    //printf("nbtivf, output:  kfysym:0x%0X; mods:0x%0X\n", *(unsignfd int *)jlong_to_ptr(kfysym_rtrn), *(unsignfd int *)jlong_to_ptr(mods_rtrn));
+    rfturn b;
 }
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XkbSetDetectableAutoRepeat
-(JNIEnv *env, jclass clazz, jlong display, jboolean detectable)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSftDftfdtbblfAutoRfpfbt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jboolfbn dftfdtbblf)
 {
     AWT_CHECK_HAVE_LOCK();
-    XkbSetDetectableAutoRepeat((Display *) jlong_to_ptr(display), detectable, NULL);
+    XkbSftDftfdtbblfAutoRfpfbt((Displby *) jlong_to_ptr(displby), dftfdtbblf, NULL);
 }
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XNextEvent
- * Signature: (JJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XNfxtEvfnt
+ * Signbturf: (JJ)V
  */
 
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XNextEvent
-(JNIEnv *env, jclass clazz, jlong display, jlong ptr)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XNfxtEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong ptr)
 {
     AWT_CHECK_HAVE_LOCK();
-    XNextEvent( (Display *) jlong_to_ptr(display), jlong_to_ptr(ptr));
+    XNfxtEvfnt( (Displby *) jlong_to_ptr(displby), jlong_to_ptr(ptr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XMaskEvent
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XMbskEvfnt
+ * Signbturf: (JJJ)V
  */
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XMaskEvent
-  (JNIEnv *env, jclass clazz, jlong display, jlong event_mask, jlong event_return)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbskEvfnt
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_mbsk, jlong fvfnt_rfturn)
 {
     AWT_CHECK_HAVE_LOCK();
-    XMaskEvent( (Display *) jlong_to_ptr(display), event_mask, (XEvent *) jlong_to_ptr(event_return));
+    XMbskEvfnt( (Displby *) jlong_to_ptr(displby), fvfnt_mbsk, (XEvfnt *) jlong_to_ptr(fvfnt_rfturn));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XWindowEvent
- * Signature: (JJJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XWindowEvfnt
+ * Signbturf: (JJJJ)V
  */
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XWindowEvent
-  (JNIEnv *env, jclass clazz, jlong display, jlong window, jlong event_mask, jlong event_return)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XWindowEvfnt
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong fvfnt_mbsk, jlong fvfnt_rfturn)
 {
     AWT_CHECK_HAVE_LOCK();
-    XWindowEvent( (Display *) jlong_to_ptr(display), (Window)window, event_mask, (XEvent *) jlong_to_ptr(event_return));
+    XWindowEvfnt( (Displby *) jlong_to_ptr(displby), (Window)window, fvfnt_mbsk, (XEvfnt *) jlong_to_ptr(fvfnt_rfturn));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFilterEvent
- * Signature: (JJ)Z
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFiltfrEvfnt
+ * Signbturf: (JJ)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XFilterEvent
-(JNIEnv *env, jclass clazz, jlong ptr, jlong window)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFiltfrEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong ptr, jlong window)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    return (jboolean) XFilterEvent((XEvent *) jlong_to_ptr(ptr), (Window) window);
+    rfturn (jboolfbn) XFiltfrEvfnt((XEvfnt *) jlong_to_ptr(ptr), (Window) window);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSupportsLocale
- * Signature: ()Z
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSupportsLodblf
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XSupportsLocale
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSupportsLodblf
+(JNIEnv *fnv, jdlbss dlbzz)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    return (jboolean)XSupportsLocale();
+    rfturn (jboolfbn)XSupportsLodblf();
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetLocaleModifiers
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftLodblfModififrs
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_awt_X11_XlibWrapper_XSetLocaleModifiers
-(JNIEnv *env, jclass clazz, jstring jstr)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftLodblfModififrs
+(JNIEnv *fnv, jdlbss dlbzz, jstring jstr)
 {
-    char * modifier_list = NULL;
-    char * ret = NULL;
+    dibr * modififr_list = NULL;
+    dibr * rft = NULL;
 
-    if (!JNU_IsNull(env, jstr)) {
-        modifier_list = (char *)JNU_GetStringPlatformChars(env, jstr, NULL);
-        CHECK_NULL_RETURN(modifier_list, NULL);
+    if (!JNU_IsNull(fnv, jstr)) {
+        modififr_list = (dibr *)JNU_GftStringPlbtformCibrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(modififr_list, NULL);
     }
 
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
-    if (modifier_list) {
-        ret = XSetLocaleModifiers(modifier_list);
-        JNU_ReleaseStringPlatformChars(env, jstr, (const char *) modifier_list);
-    } else {
-        ret = XSetLocaleModifiers("");
+    if (modififr_list) {
+        rft = XSftLodblfModififrs(modififr_list);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, (donst dibr *) modififr_list);
+    } flsf {
+        rft = XSftLodblfModififrs("");
     }
 
-    return (ret != NULL ? JNU_NewStringPlatform(env, ret): NULL);
+    rfturn (rft != NULL ? JNU_NfwStringPlbtform(fnv, rft): NULL);
 }
 
 
 /*
- * Class:     sun_awt_X11_wrappers_XlibWrapper
- * Method:    XPeekEvent
- * Signature: (JJ)V
+ * Clbss:     sun_bwt_X11_wrbppfrs_XlibWrbppfr
+ * Mftiod:    XPffkEvfnt
+ * Signbturf: (JJ)V
  */
 
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XPeekEvent
-(JNIEnv *env, jclass clazz, jlong display, jlong ptr)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XPffkEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong ptr)
 {
     AWT_CHECK_HAVE_LOCK();
-    XPeekEvent((Display *) jlong_to_ptr(display),jlong_to_ptr(ptr));
+    XPffkEvfnt((Displby *) jlong_to_ptr(displby),jlong_to_ptr(ptr));
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XMoveResizeWindow
- * Signature: (JJIIII)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XMovfRfsizfWindow
+ * Signbturf: (JJIIII)V
  */
 
-JNIEXPORT void JNICALL  Java_sun_awt_X11_XlibWrapper_XMoveResizeWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jint x , jint y , jint width, jint height) {
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XMovfRfsizfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint x , jint y , jint widti, jint ifigit) {
 
     AWT_CHECK_HAVE_LOCK();
-    XMoveResizeWindow( (Display *) jlong_to_ptr(display), (Window) window, x, y, width, height);
+    XMovfRfsizfWindow( (Displby *) jlong_to_ptr(displby), (Window) window, x, y, widti, ifigit);
 
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XResizeWindow
- * Signature: (JJII)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XRfsizfWindow
+ * Signbturf: (JJII)V
  */
 
-JNIEXPORT void JNICALL  Java_sun_awt_X11_XlibWrapper_XResizeWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jint width, jint height)
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XRfsizfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint widti, jint ifigit)
 {
     AWT_CHECK_HAVE_LOCK();
-    XResizeWindow( (Display *) jlong_to_ptr(display),(Window) window,width,height);
+    XRfsizfWindow( (Displby *) jlong_to_ptr(displby),(Window) window,widti,ifigit);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XMoveWindow
- * Signature: (JJII)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XMovfWindow
+ * Signbturf: (JJII)V
  */
 
-JNIEXPORT void JNICALL  Java_sun_awt_X11_XlibWrapper_XMoveWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jint width, jint height)
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XMovfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint widti, jint ifigit)
 {
     AWT_CHECK_HAVE_LOCK();
-    XMoveWindow( (Display *) jlong_to_ptr(display),(Window) window,width,height);
+    XMovfWindow( (Displby *) jlong_to_ptr(displby),(Window) window,widti,ifigit);
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetWindowBackground
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftWindowBbdkground
+ * Signbturf: (JJJ)V
  */
 
-JNIEXPORT void JNICALL  Java_sun_awt_X11_XlibWrapper_XSetWindowBackground
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong background_pixel) {
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWindowBbdkground
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bbdkground_pixfl) {
 
     AWT_CHECK_HAVE_LOCK();
-    XSetWindowBackground((Display *) jlong_to_ptr(display),window,background_pixel);
+    XSftWindowBbdkground((Displby *) jlong_to_ptr(displby),window,bbdkground_pixfl);
 
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFlush
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFlusi
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XFlush
-(JNIEnv *env, jclass clazz, jlong display) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFlusi
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby) {
 
     AWT_CHECK_HAVE_LOCK();
-    XFlush((Display *)jlong_to_ptr(display));
+    XFlusi((Displby *)jlong_to_ptr(displby));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSync
- * Signature: (JI)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSynd
+ * Signbturf: (JI)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSync
-(JNIEnv *env, jclass clazz, jlong display, jint discard) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint disdbrd) {
 
     AWT_CHECK_HAVE_LOCK();
-    XSync((Display *) jlong_to_ptr(display), discard);
+    XSynd((Displby *) jlong_to_ptr(displby), disdbrd);
 
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XTranslateCoordinates
-(JNIEnv *env, jclass clazz, jlong display, jlong src_w, jlong dest_w,
- jlong src_x, jlong src_y, jlong dest_x_return, jlong dest_y_return,
- jlong child_return)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XTrbnslbtfCoordinbtfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong srd_w, jlong dfst_w,
+ jlong srd_x, jlong srd_y, jlong dfst_x_rfturn, jlong dfst_y_rfturn,
+ jlong diild_rfturn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XTranslateCoordinates( (Display *) jlong_to_ptr(display), src_w, dest_w,
-                  src_x, src_y,
-                  (int *) jlong_to_ptr(dest_x_return),
-                  (int *) jlong_to_ptr(dest_y_return),
-                  (Window *) jlong_to_ptr(child_return));
+    rfturn XTrbnslbtfCoordinbtfs( (Displby *) jlong_to_ptr(displby), srd_w, dfst_w,
+                  srd_x, srd_y,
+                  (int *) jlong_to_ptr(dfst_x_rfturn),
+                  (int *) jlong_to_ptr(dfst_y_rfturn),
+                  (Window *) jlong_to_ptr(diild_rfturn));
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XEventsQueued
-(JNIEnv *env, jclass clazz, jlong display, jint mode) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XEvfntsQufufd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint modf) {
 
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XEventsQueued((Display *) jlong_to_ptr(display), mode);
+    rfturn XEvfntsQufufd((Displby *) jlong_to_ptr(displby), modf);
 
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    SetProperty
- * Signature: (JJJLjava/lang/String;)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    SftPropfrty
+ * Signbturf: (JJJLjbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_SetProperty
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong atom, jstring jstr) {
-    char *cname;
-    XTextProperty tp;
-    int32_t status;
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SftPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom, jstring jstr) {
+    dibr *dnbmf;
+    XTfxtPropfrty tp;
+    int32_t stbtus;
 
     /*
-       In case there are direct support of UTF-8 declared, use UTF-8 strings.
+       In dbsf tifrf brf dirfdt support of UTF-8 dfdlbrfd, usf UTF-8 strings.
     */
-    if (!JNU_IsNull(env, jstr)) {
-#ifdef X_HAVE_UTF8_STRING
-        cname = (char *) (*env)->GetStringUTFChars(env, jstr, JNI_FALSE);
-#else
-        cname = (char *) JNU_GetStringPlatformChars(env, jstr, NULL);
-#endif
-        CHECK_NULL(cname);
-    } else {
-        cname = "";
+    if (!JNU_IsNull(fnv, jstr)) {
+#ifdff X_HAVE_UTF8_STRING
+        dnbmf = (dibr *) (*fnv)->GftStringUTFCibrs(fnv, jstr, JNI_FALSE);
+#flsf
+        dnbmf = (dibr *) JNU_GftStringPlbtformCibrs(fnv, jstr, NULL);
+#fndif
+        CHECK_NULL(dnbmf);
+    } flsf {
+        dnbmf = "";
     }
 
 
     AWT_CHECK_HAVE_LOCK();
 
-#ifdef X_HAVE_UTF8_STRING
-    status = Xutf8TextListToTextProperty((Display *)jlong_to_ptr(display), &cname, 1,
-                                       XStdICCTextStyle, &tp);
-#else
-    status = XmbTextListToTextProperty((Display *)jlong_to_ptr(display), &cname, 1,
-                                       XStdICCTextStyle, &tp);
-#endif
+#ifdff X_HAVE_UTF8_STRING
+    stbtus = Xutf8TfxtListToTfxtPropfrty((Displby *)jlong_to_ptr(displby), &dnbmf, 1,
+                                       XStdICCTfxtStylf, &tp);
+#flsf
+    stbtus = XmbTfxtListToTfxtPropfrty((Displby *)jlong_to_ptr(displby), &dnbmf, 1,
+                                       XStdICCTfxtStylf, &tp);
+#fndif
 
 
-    if (status == Success || status > 0) {
-        XChangeProperty((Display *)jlong_to_ptr(display), window, atom, tp.encoding, tp.format, PropModeReplace, tp.value, tp.nitems);
-        if (tp.value != NULL) {
-            XFree(tp.value);
+    if (stbtus == Suddfss || stbtus > 0) {
+        XCibngfPropfrty((Displby *)jlong_to_ptr(displby), window, btom, tp.fndoding, tp.formbt, PropModfRfplbdf, tp.vbluf, tp.nitfms);
+        if (tp.vbluf != NULL) {
+            XFrff(tp.vbluf);
         }
     }
 
-    if (!JNU_IsNull(env, jstr)) {
-#ifdef X_HAVE_UTF8_STRING
-        (*env)->ReleaseStringUTFChars(env, jstr, (const char *) cname);
-#else
-        JNU_ReleaseStringPlatformChars(env, jstr, (const char *) cname);
-#endif
+    if (!JNU_IsNull(fnv, jstr)) {
+#ifdff X_HAVE_UTF8_STRING
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, jstr, (donst dibr *) dnbmf);
+#flsf
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, (donst dibr *) dnbmf);
+#fndif
     }
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XChangeProperty
- * Signature: (JJJJJJJJJJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XCibngfPropfrty
+ * Signbturf: (JJJJJJJJJJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XChangePropertyImpl(
-    JNIEnv *env, jclass clazz, jlong display, jlong window, jlong property,
-    jlong type, jint format, jint mode, jlong data, jint nelements)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCibngfPropfrtyImpl(
+    JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty,
+    jlong typf, jint formbt, jint modf, jlong dbtb, jint nflfmfnts)
 {
     AWT_CHECK_HAVE_LOCK();
-    XChangeProperty((Display*) jlong_to_ptr(display), (Window) window, (Atom) property,
-            (Atom) type, format, mode, (unsigned char*) jlong_to_ptr(data),
-            nelements);
+    XCibngfPropfrty((Displby*) jlong_to_ptr(displby), (Window) window, (Atom) propfrty,
+            (Atom) typf, formbt, modf, (unsignfd dibr*) jlong_to_ptr(dbtb),
+            nflfmfnts);
 }
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XChangePropertyS
- * Signature: (JJJJJJJJJLjava/lang/String;)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XCibngfPropfrtyS
+ * Signbturf: (JJJJJJJJJLjbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XChangePropertyS(
-    JNIEnv *env, jclass clazz, jlong display, jlong window, jlong property,
-    jlong type, jint format, jint mode, jstring value)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCibngfPropfrtyS(
+    JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty,
+    jlong typf, jint formbt, jint modf, jstring vbluf)
 {
-    jboolean iscopy;
+    jboolfbn isdopy;
     AWT_CHECK_HAVE_LOCK();
-    const char * chars = JNU_GetStringPlatformChars(env, value, &iscopy);
-    CHECK_NULL(chars);
-    XChangeProperty((Display*)jlong_to_ptr(display), window, (Atom)property,
-                    (Atom)type, format, mode, (unsigned char*)chars, strlen(chars));
-    if (iscopy) {
-        JNU_ReleaseStringPlatformChars(env, value, chars);
+    donst dibr * dibrs = JNU_GftStringPlbtformCibrs(fnv, vbluf, &isdopy);
+    CHECK_NULL(dibrs);
+    XCibngfPropfrty((Displby*)jlong_to_ptr(displby), window, (Atom)propfrty,
+                    (Atom)typf, formbt, modf, (unsignfd dibr*)dibrs, strlfn(dibrs));
+    if (isdopy) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, vbluf, dibrs);
     }
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetWindowProperty
- * Signature: (JJJJJJJJJJJ)J;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftWindowPropfrty
+ * Signbturf: (JJJJJJJJJJJ)J;
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGetWindowProperty
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong property, jlong long_offset,
- jlong long_length, jlong delete, jlong req_type, jlong actual_type,
- jlong actual_format, jlong nitems_ptr, jlong bytes_after, jlong data_ptr)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWindowPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty, jlong long_offsft,
+ jlong long_lfngti, jlong dflftf, jlong rfq_typf, jlong bdtubl_typf,
+ jlong bdtubl_formbt, jlong nitfms_ptr, jlong bytfs_bftfr, jlong dbtb_ptr)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XGetWindowProperty((Display*) jlong_to_ptr(display), window, property, long_offset, long_length,
-                  delete, (Atom) req_type, (Atom*) jlong_to_ptr(actual_type),
-                  (int *) jlong_to_ptr(actual_format), (unsigned long *) jlong_to_ptr(nitems_ptr),
-                  (unsigned long*) jlong_to_ptr(bytes_after), (unsigned char**) jlong_to_ptr(data_ptr));
+    rfturn XGftWindowPropfrty((Displby*) jlong_to_ptr(displby), window, propfrty, long_offsft, long_lfngti,
+                  dflftf, (Atom) rfq_typf, (Atom*) jlong_to_ptr(bdtubl_typf),
+                  (int *) jlong_to_ptr(bdtubl_formbt), (unsignfd long *) jlong_to_ptr(nitfms_ptr),
+                  (unsignfd long*) jlong_to_ptr(bytfs_bftfr), (unsignfd dibr**) jlong_to_ptr(dbtb_ptr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    GetProperty
- * Signature: (JJJ)Ljava/lang/String;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    GftPropfrty
+ * Signbturf: (JJJ)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_awt_X11_XlibWrapper_GetProperty
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong atom)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_GftPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom)
 {
-    /* Request status */
-    int status;
+    /* Rfqufst stbtus */
+    int stbtus;
 
-    /* Returns of XGetWindowProperty */
-    Atom actual_type;
-    int actual_format;
-    unsigned long nitems;
-    unsigned long bytes_after;
-    unsigned char * string;
-    jstring res = NULL;
+    /* Rfturns of XGftWindowPropfrty */
+    Atom bdtubl_typf;
+    int bdtubl_formbt;
+    unsignfd long nitfms;
+    unsignfd long bytfs_bftfr;
+    unsignfd dibr * string;
+    jstring rfs = NULL;
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
-    status = XGetWindowProperty((Display*)jlong_to_ptr(display), window,
-                                atom, 0, 0xFFFF, False, XA_STRING,
-                                &actual_type, &actual_format, &nitems, &bytes_after,
+    stbtus = XGftWindowPropfrty((Displby*)jlong_to_ptr(displby), window,
+                                btom, 0, 0xFFFF, Fblsf, XA_STRING,
+                                &bdtubl_typf, &bdtubl_formbt, &nitfms, &bytfs_bftfr,
                                 &string);
 
-    if (status != Success || string == NULL) {
-        return NULL;
+    if (stbtus != Suddfss || string == NULL) {
+        rfturn NULL;
     }
 
-    if (actual_type == XA_STRING && actual_format == 8) {
-        res = JNU_NewStringPlatform(env,(char*) string);
+    if (bdtubl_typf == XA_STRING && bdtubl_formbt == 8) {
+        rfs = JNU_NfwStringPlbtform(fnv,(dibr*) string);
     }
-    XFree(string);
-    return res;
+    XFrff(string);
+    rfturn rfs;
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    InternAtom
- * Signature: (JLjava/lang/String;I)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    IntfrnAtom
+ * Signbturf: (JLjbvb/lbng/String;I)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_InternAtom
-(JNIEnv *env, jclass clazz, jlong display, jstring jstr, jint ife) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IntfrnAtom
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring jstr, jint iff) {
 
-    char *cname;
-    unsigned long atom;
+    dibr *dnbmf;
+    unsignfd long btom;
 
     AWT_CHECK_HAVE_LOCK_RETURN(0);
 
-    if (!JNU_IsNull(env, jstr)) {
-        cname = (char *)JNU_GetStringPlatformChars(env, jstr, NULL);
-        CHECK_NULL_RETURN(cname, 0);
-    } else {
-        cname = "";
+    if (!JNU_IsNull(fnv, jstr)) {
+        dnbmf = (dibr *)JNU_GftStringPlbtformCibrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(dnbmf, 0);
+    } flsf {
+        dnbmf = "";
     }
 
-    atom = XInternAtom((Display *) jlong_to_ptr(display), cname, ife);
+    btom = XIntfrnAtom((Displby *) jlong_to_ptr(displby), dnbmf, iff);
 
-    if (!JNU_IsNull(env, jstr)) {
-        JNU_ReleaseStringPlatformChars(env, jstr, (const char *) cname);
+    if (!JNU_IsNull(fnv, jstr)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, (donst dibr *) dnbmf);
     }
 
-    return (jlong) atom;
+    rfturn (jlong) btom;
 
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XCreateFontCursor
-(JNIEnv *env, jclass clazz, jlong display, jint shape) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfFontCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint sibpf) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XCreateFontCursor((Display *) jlong_to_ptr(display), (int) shape);
-}
-
-
-/*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XCreatePixmapCursor
- * Signature: (JJJJJII)J
- */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XCreatePixmapCursor
-(JNIEnv *env , jclass clazz, jlong display, jlong source, jlong mask, jlong fore, jlong back, jint x , jint y) {
-
-    AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong) XCreatePixmapCursor((Display *) jlong_to_ptr(display), (Pixmap) source, (Pixmap) mask,
-                                       (XColor *) jlong_to_ptr(fore), (XColor *) jlong_to_ptr(back), x, y);
+    rfturn XCrfbtfFontCursor((Displby *) jlong_to_ptr(displby), (int) sibpf);
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XQueryBestCursor
- * Signature: (JJIIJJ)Z
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XCrfbtfPixmbpCursor
+ * Signbturf: (JJJJJII)J
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XQueryBestCursor
-(JNIEnv *env, jclass clazz, jlong display, jlong drawable, jint width, jint height, jlong width_return, jlong height_return) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfPixmbpCursor
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby, jlong sourdf, jlong mbsk, jlong forf, jlong bbdk, jint x , jint y) {
 
-    Status status;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) XCrfbtfPixmbpCursor((Displby *) jlong_to_ptr(displby), (Pixmbp) sourdf, (Pixmbp) mbsk,
+                                       (XColor *) jlong_to_ptr(forf), (XColor *) jlong_to_ptr(bbdk), x, y);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XQufryBfstCursor
+ * Signbturf: (JJIIJJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryBfstCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jint widti, jint ifigit, jlong widti_rfturn, jlong ifigit_rfturn) {
+
+    Stbtus stbtus;
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    status  =  XQueryBestCursor((Display *) jlong_to_ptr(display), (Drawable) drawable, width,height,
-                                (unsigned int *) jlong_to_ptr(width_return), (unsigned int *) jlong_to_ptr(height_return));
+    stbtus  =  XQufryBfstCursor((Displby *) jlong_to_ptr(displby), (Drbwbblf) drbwbblf, widti,ifigit,
+                                (unsignfd int *) jlong_to_ptr(widti_rfturn), (unsignfd int *) jlong_to_ptr(ifigit_rfturn));
 
-    if (status == 0) return JNI_FALSE;
-    else return JNI_TRUE;
+    if (stbtus == 0) rfturn JNI_FALSE;
+    flsf rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFreeCursor
- * Signature: (JJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFrffCursor
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XFreeCursor
-(JNIEnv *env, jclass clazz, jlong display, jlong cursor) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dursor) {
 
     AWT_CHECK_HAVE_LOCK();
-    XFreeCursor( (Display *) jlong_to_ptr(display), (Cursor) cursor);
+    XFrffCursor( (Displby *) jlong_to_ptr(displby), (Cursor) dursor);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XQueryPointer
- * Signature: (JJJJJJJJJ)Z
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XQufryPointfr
+ * Signbturf: (JJJJJJJJJ)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XQueryPointer
-(JNIEnv *env, jclass clazz, jlong display, jlong w, jlong root_return, jlong child_return, jlong root_x_return , jlong root_y_return, jlong win_x_return, jlong win_y_return, jlong mask_return) {
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong w, jlong root_rfturn, jlong diild_rfturn, jlong root_x_rfturn , jlong root_y_rfturn, jlong win_x_rfturn, jlong win_y_rfturn, jlong mbsk_rfturn) {
 
     Bool b;
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    b = XQueryPointer((Display *) jlong_to_ptr(display),
-                      (Window) w, (Window *) jlong_to_ptr(root_return), (Window *) jlong_to_ptr(child_return),
-                      (int *) jlong_to_ptr(root_x_return), (int *) jlong_to_ptr(root_y_return),
-                      (int *) jlong_to_ptr(win_x_return), (int *) jlong_to_ptr(win_y_return),
-                      (unsigned int *) jlong_to_ptr(mask_return));
+    b = XQufryPointfr((Displby *) jlong_to_ptr(displby),
+                      (Window) w, (Window *) jlong_to_ptr(root_rfturn), (Window *) jlong_to_ptr(diild_rfturn),
+                      (int *) jlong_to_ptr(root_x_rfturn), (int *) jlong_to_ptr(root_y_rfturn),
+                      (int *) jlong_to_ptr(win_x_rfturn), (int *) jlong_to_ptr(win_y_rfturn),
+                      (unsignfd int *) jlong_to_ptr(mbsk_rfturn));
 
-    return b ? JNI_TRUE : JNI_FALSE;
+    rfturn b ? JNI_TRUE : JNI_FALSE;
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XChangeWindowAttributes
- * Signature: (JJJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XCibngfWindowAttributfs
+ * Signbturf: (JJJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XChangeWindowAttributes
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong valuemask, jlong attributes) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCibngfWindowAttributfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong vblufmbsk, jlong bttributfs) {
 
     AWT_CHECK_HAVE_LOCK();
-    XChangeWindowAttributes((Display *) jlong_to_ptr(display), (Window) window, (unsigned long) valuemask,
-                            (XSetWindowAttributes *) jlong_to_ptr(attributes));
+    XCibngfWindowAttributfs((Displby *) jlong_to_ptr(displby), (Window) window, (unsignfd long) vblufmbsk,
+                            (XSftWindowAttributfs *) jlong_to_ptr(bttributfs));
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetTransientFor
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftTrbnsifntFor
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetTransientFor
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong transient_for_window)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftTrbnsifntFor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong trbnsifnt_for_window)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSetTransientForHint((Display *) jlong_to_ptr(display), window, transient_for_window);
+    XSftTrbnsifntForHint((Displby *) jlong_to_ptr(displby), window, trbnsifnt_for_window);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetWMHints
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftWMHints
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetWMHints
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong hints)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWMHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong iints)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSetWMHints((Display *) jlong_to_ptr(display), window, (XWMHints *) jlong_to_ptr(hints));
+    XSftWMHints((Displby *) jlong_to_ptr(displby), window, (XWMHints *) jlong_to_ptr(iints));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetWMHints
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftWMHints
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XGetWMHints
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong hints)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWMHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong iints)
 {
-    XWMHints * get_hints;
+    XWMHints * gft_iints;
     AWT_CHECK_HAVE_LOCK();
-    get_hints = XGetWMHints((Display*)jlong_to_ptr(display), window);
-    if (get_hints != NULL) {
-        memcpy(jlong_to_ptr(hints), get_hints, sizeof(XWMHints));
-        XFree(get_hints);
-    } else {
-        memset(jlong_to_ptr(hints), 0, sizeof(XWMHints));
+    gft_iints = XGftWMHints((Displby*)jlong_to_ptr(displby), window);
+    if (gft_iints != NULL) {
+        mfmdpy(jlong_to_ptr(iints), gft_iints, sizfof(XWMHints));
+        XFrff(gft_iints);
+    } flsf {
+        mfmsft(jlong_to_ptr(iints), 0, sizfof(XWMHints));
     }
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetPointerMapping
- * Signature: (JJI)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftPointfrMbpping
+ * Signbturf: (JJI)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGetPointerMapping
-(JNIEnv *env, jclass clazz, jlong display, jlong map, jint buttonNumber)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftPointfrMbpping
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong mbp, jint buttonNumbfr)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XGetPointerMapping((Display*)jlong_to_ptr(display), (unsigned char*) jlong_to_ptr(map), buttonNumber);
+    rfturn XGftPointfrMbpping((Displby*)jlong_to_ptr(displby), (unsignfd dibr*) jlong_to_ptr(mbp), buttonNumbfr);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetDefault
- * Signature: (JJI)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftDffbult
+ * Signbturf: (JJI)I
  */
-JNIEXPORT jstring JNICALL Java_sun_awt_X11_XlibWrapper_XGetDefault
-(JNIEnv *env, jclass clazz, jlong display, jstring program, jstring option)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftDffbult
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring progrbm, jstring option)
 {
-    char * c_program = NULL;
-    char * c_option = NULL;
-    char * c_res = NULL;
+    dibr * d_progrbm = NULL;
+    dibr * d_option = NULL;
+    dibr * d_rfs = NULL;
 
-    if (!JNU_IsNull(env, program)) {
-        c_program = (char *)JNU_GetStringPlatformChars(env, program, NULL);
+    if (!JNU_IsNull(fnv, progrbm)) {
+        d_progrbm = (dibr *)JNU_GftStringPlbtformCibrs(fnv, progrbm, NULL);
     }
-    CHECK_NULL_RETURN(c_program, NULL);
+    CHECK_NULL_RETURN(d_progrbm, NULL);
 
-    if (!JNU_IsNull(env, option)) {
-        c_option = (char *)JNU_GetStringPlatformChars(env, option, NULL);
+    if (!JNU_IsNull(fnv, option)) {
+        d_option = (dibr *)JNU_GftStringPlbtformCibrs(fnv, option, NULL);
     }
 
-    if (c_option == NULL) {
-        JNU_ReleaseStringPlatformChars(env, program, (const char *) c_program);
-        return NULL;
+    if (d_option == NULL) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, progrbm, (donst dibr *) d_progrbm);
+        rfturn NULL;
     }
 
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
-    c_res = XGetDefault((Display*)jlong_to_ptr(display), c_program, c_option);
-    // The strings returned by XGetDefault() are owned by Xlib and
-    // should not be modified or freed by the client.
+    d_rfs = XGftDffbult((Displby*)jlong_to_ptr(displby), d_progrbm, d_option);
+    // Tif strings rfturnfd by XGftDffbult() brf ownfd by Xlib bnd
+    // siould not bf modififd or frffd by tif dlifnt.
 
-    JNU_ReleaseStringPlatformChars(env, program, (const char *) c_program);
-    JNU_ReleaseStringPlatformChars(env, option, (const char *) c_option);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, progrbm, (donst dibr *) d_progrbm);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, option, (donst dibr *) d_option);
 
-    if (c_res != NULL) {
-        return JNU_NewStringPlatform(env, c_res);
-    } else {
-        return NULL;
+    if (d_rfs != NULL) {
+        rfturn JNU_NfwStringPlbtform(fnv, d_rfs);
+    } flsf {
+        rfturn NULL;
     }
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    getScreenOfWindow
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    gftSdrffnOfWindow
+ * Signbturf: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_getScreenOfWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_gftSdrffnOfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
-    XWindowAttributes attrs;
-    memset(&attrs, 0, sizeof(attrs));
+    XWindowAttributfs bttrs;
+    mfmsft(&bttrs, 0, sizfof(bttrs));
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    XGetWindowAttributes((Display *) jlong_to_ptr(display), window, &attrs);
-    return ptr_to_jlong(attrs.screen);
+    XGftWindowAttributfs((Displby *) jlong_to_ptr(displby), window, &bttrs);
+    rfturn ptr_to_jlong(bttrs.sdrffn);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XScreenNumberOfScreen
- * Signature: (J)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSdrffnNumbfrOfSdrffn
+ * Signbturf: (J)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XScreenNumberOfScreen
-(JNIEnv *env, jclass clazz, jlong screen)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSdrffnNumbfrOfSdrffn
+(JNIEnv *fnv, jdlbss dlbzz, jlong sdrffn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(-1);
-    if(jlong_to_ptr(screen) == NULL) {
-        return -1;
+    if(jlong_to_ptr(sdrffn) == NULL) {
+        rfturn -1;
     }
-    return XScreenNumberOfScreen((Screen*) jlong_to_ptr(screen));
+    rfturn XSdrffnNumbfrOfSdrffn((Sdrffn*) jlong_to_ptr(sdrffn));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XIconifyWindow
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XIdonifyWindow
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XIconifyWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong screenNumber)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XIdonifyWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong sdrffnNumbfr)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XIconifyWindow((Display*) jlong_to_ptr(display), window, screenNumber);
+    rfturn XIdonifyWindow((Displby*) jlong_to_ptr(displby), window, sdrffnNumbfr);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFree
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFrff
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XFree
-(JNIEnv *env, jclass clazz, jlong ptr)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrff
+(JNIEnv *fnv, jdlbss dlbzz, jlong ptr)
 {
     AWT_CHECK_HAVE_LOCK();
-    XFree(jlong_to_ptr(ptr));
+    XFrff(jlong_to_ptr(ptr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFree
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFrff
+ * Signbturf: (J)V
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_awt_X11_XlibWrapper_getStringBytes
-(JNIEnv *env, jclass clazz, jlong str_ptr)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_gftStringBytfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong str_ptr)
 {
-    unsigned char * str = (unsigned char*) jlong_to_ptr(str_ptr);
-    long length = strlen((char*)str);
-    jbyteArray res = (*env)->NewByteArray(env, length);
-    CHECK_NULL_RETURN(res, NULL);
-    (*env)->SetByteArrayRegion(env, res, 0, length,
-                   (const signed char*) str);
-    return res;
+    unsignfd dibr * str = (unsignfd dibr*) jlong_to_ptr(str_ptr);
+    long lfngti = strlfn((dibr*)str);
+    jbytfArrby rfs = (*fnv)->NfwBytfArrby(fnv, lfngti);
+    CHECK_NULL_RETURN(rfs, NULL);
+    (*fnv)->SftBytfArrbyRfgion(fnv, rfs, 0, lfngti,
+                   (donst signfd dibr*) str);
+    rfturn rfs;
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    ServerVendor
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    SfrvfrVfndor
+ * Signbturf: (J)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_awt_X11_XlibWrapper_ServerVendor
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SfrvfrVfndor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
-    return JNU_NewStringPlatform(env, ServerVendor((Display*)jlong_to_ptr(display)));
+    rfturn JNU_NfwStringPlbtform(fnv, SfrvfrVfndor((Displby*)jlong_to_ptr(displby)));
 }
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    VendorRelease
- * Signature: (J)I;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    VfndorRflfbsf
+ * Signbturf: (J)I;
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_VendorRelease
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_VfndorRflfbsf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return VendorRelease((Display*)jlong_to_ptr(display));
+    rfturn VfndorRflfbsf((Displby*)jlong_to_ptr(displby));
 }
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    IsXsunKPBehavior
- * Signature: (J)Z;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    IsXsunKPBfibvior
+ * Signbturf: (J)Z;
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_IsXsunKPBehavior
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsXsunKPBfibvior
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
-    // Xsun without XKB uses keysymarray[2] keysym to determine if it is KP event.
-    // Otherwise, it is [1] or sometimes [0].
-    // This sniffer first tries to determine what is a keycode for XK_KP_7
-    // using XKeysymToKeycode;
-    // second, in which place in the keysymarray is XK_KP_7
-    // using XKeycodeToKeysym.
-    int kc7;
+    // Xsun witiout XKB usfs kfysymbrrby[2] kfysym to dftfrminf if it is KP fvfnt.
+    // Otifrwisf, it is [1] or somftimfs [0].
+    // Tiis snifffr first trifs to dftfrminf wibt is b kfydodf for XK_KP_7
+    // using XKfysymToKfydodf;
+    // sfdond, in wiidi plbdf in tif kfysymbrrby is XK_KP_7
+    // using XKfydodfToKfysym.
+    int kd7;
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    kc7 = XKeysymToKeycode((Display*)jlong_to_ptr(display), XK_KP_7);
-    if( !kc7 ) {
-        // keycode is not defined. Why, it's a reduced keyboard perhaps:
-        // report arbitrarily false.
-        return JNI_FALSE;
-    } else {
-        long ks2 = XKeycodeToKeysym((Display*)jlong_to_ptr(display), kc7, 2);
+    kd7 = XKfysymToKfydodf((Displby*)jlong_to_ptr(displby), XK_KP_7);
+    if( !kd7 ) {
+        // kfydodf is not dffinfd. Wiy, it's b rfdudfd kfybobrd pfribps:
+        // rfport brbitrbrily fblsf.
+        rfturn JNI_FALSE;
+    } flsf {
+        long ks2 = XKfydodfToKfysym((Displby*)jlong_to_ptr(displby), kd7, 2);
         if( ks2 == XK_KP_7 ) {
-            //XXX If some Xorg server would put XK_KP_7 in keysymarray[2] as well,
-            //XXX for yet unknown to me reason, the sniffer would lie.
-            return JNI_TRUE;
-        }else{
-            return JNI_FALSE;
+            //XXX If somf Xorg sfrvfr would put XK_KP_7 in kfysymbrrby[2] bs wfll,
+            //XXX for yft unknown to mf rfbson, tif snifffr would lif.
+            rfturn JNI_TRUE;
+        }flsf{
+            rfturn JNI_FALSE;
         }
     }
 }
 
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_IsSunKeyboard
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsSunKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     int xx;
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    xx = XKeysymToKeycode((Display*)jlong_to_ptr(display), SunXK_F37);
-    return (!xx) ? JNI_FALSE : JNI_TRUE;
+    xx = XKfysymToKfydodf((Displby*)jlong_to_ptr(displby), SunXK_F37);
+    rfturn (!xx) ? JNI_FALSE : JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_IsKanaKeyboard
-(JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsKbnbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     int xx;
-    static jboolean result = JNI_FALSE;
+    stbtid jboolfbn rfsult = JNI_FALSE;
 
-    int32_t minKeyCode, maxKeyCode, keySymsPerKeyCode;
-    KeySym *keySyms, *keySymsStart, keySym;
+    int32_t minKfyCodf, mbxKfyCodf, kfySymsPfrKfyCodf;
+    KfySym *kfySyms, *kfySymsStbrt, kfySym;
     int32_t i;
-    int32_t kanaCount = 0;
+    int32_t kbnbCount = 0;
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
 
-    // There's no direct way to determine whether the keyboard has
-    // a kana lock key. From available keyboard mapping tables, it looks
-    // like only keyboards with the kana lock key can produce keysyms
-    // for kana characters. So, as an indirect test, we check for those.
-    XDisplayKeycodes((Display*)jlong_to_ptr(display), &minKeyCode, &maxKeyCode);
-    keySyms = XGetKeyboardMapping((Display*)jlong_to_ptr(display), minKeyCode, maxKeyCode - minKeyCode + 1, &keySymsPerKeyCode);
-    keySymsStart = keySyms;
-    for (i = 0; i < (maxKeyCode - minKeyCode + 1) * keySymsPerKeyCode; i++) {
-        keySym = *keySyms++;
-        if ((keySym & 0xff00) == 0x0400) {
-            kanaCount++;
+    // Tifrf's no dirfdt wby to dftfrminf wiftifr tif kfybobrd ibs
+    // b kbnb lodk kfy. From bvbilbblf kfybobrd mbpping tbblfs, it looks
+    // likf only kfybobrds witi tif kbnb lodk kfy dbn produdf kfysyms
+    // for kbnb dibrbdtfrs. So, bs bn indirfdt tfst, wf difdk for tiosf.
+    XDisplbyKfydodfs((Displby*)jlong_to_ptr(displby), &minKfyCodf, &mbxKfyCodf);
+    kfySyms = XGftKfybobrdMbpping((Displby*)jlong_to_ptr(displby), minKfyCodf, mbxKfyCodf - minKfyCodf + 1, &kfySymsPfrKfyCodf);
+    kfySymsStbrt = kfySyms;
+    for (i = 0; i < (mbxKfyCodf - minKfyCodf + 1) * kfySymsPfrKfyCodf; i++) {
+        kfySym = *kfySyms++;
+        if ((kfySym & 0xff00) == 0x0400) {
+            kbnbCount++;
         }
     }
-    XFree(keySymsStart);
+    XFrff(kfySymsStbrt);
 
-    // use a (somewhat arbitrary) minimum so we don't get confused by a stray function key
-    result = kanaCount > 10;
-    return result ? JNI_TRUE : JNI_FALSE;
+    // usf b (somfwibt brbitrbry) minimum so wf don't gft donfusfd by b strby fundtion kfy
+    rfsult = kbnbCount > 10;
+    rfturn rfsult ? JNI_TRUE : JNI_FALSE;
 }
 
-JavaVM* jvm = NULL;
-static int ToolkitErrorHandler(Display * dpy, XErrorEvent * event) {
-    JNIEnv * env;
-    // First call the native synthetic error handler declared in "awt_util.h" file.
-    if (current_native_xerror_handler != NULL) {
-        current_native_xerror_handler(dpy, event);
+JbvbVM* jvm = NULL;
+stbtid int ToolkitErrorHbndlfr(Displby * dpy, XErrorEvfnt * fvfnt) {
+    JNIEnv * fnv;
+    // First dbll tif nbtivf syntiftid frror ibndlfr dfdlbrfd in "bwt_util.i" filf.
+    if (durrfnt_nbtivf_xfrror_ibndlfr != NULL) {
+        durrfnt_nbtivf_xfrror_ibndlfr(dpy, fvfnt);
     }
     if (jvm != NULL) {
-        env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env) {
-            return JNU_CallStaticMethodByName(env, NULL, "sun/awt/X11/XErrorHandlerUtil",
-                "globalErrorHandler", "(JJ)I", ptr_to_jlong(dpy), ptr_to_jlong(event)).i;
+        fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv) {
+            rfturn JNU_CbllStbtidMftiodByNbmf(fnv, NULL, "sun/bwt/X11/XErrorHbndlfrUtil",
+                "globblErrorHbndlfr", "(JJ)I", ptr_to_jlong(dpy), ptr_to_jlong(fvfnt)).i;
         }
     }
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    SetToolkitErrorHandler
- * Signature: ()J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    SftToolkitErrorHbndlfr
+ * Signbturf: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_SetToolkitErrorHandler
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SftToolkitErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz)
 {
-    if ((*env)->GetJavaVM(env, &jvm) < 0) {
-        return 0;
+    if ((*fnv)->GftJbvbVM(fnv, &jvm) < 0) {
+        rfturn 0;
     }
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XSetErrorHandler(ToolkitErrorHandler));
+    rfturn ptr_to_jlong(XSftErrorHbndlfr(ToolkitErrorHbndlfr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetErrorHandler
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftErrorHbndlfr
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetErrorHandler
-(JNIEnv *env, jclass clazz, jlong handler)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong ibndlfr)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSetErrorHandler((XErrorHandler) jlong_to_ptr(handler));
+    XSftErrorHbndlfr((XErrorHbndlfr) jlong_to_ptr(ibndlfr));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    CallErrorHandler
- * Signature: (JJJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    CbllErrorHbndlfr
+ * Signbturf: (JJJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_CallErrorHandler
-(JNIEnv *env, jclass clazz, jlong handler, jlong display, jlong event_ptr)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_CbllErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong ibndlfr, jlong displby, jlong fvfnt_ptr)
 {
-    return (*(XErrorHandler)jlong_to_ptr(handler))((Display*) jlong_to_ptr(display), (XErrorEvent*) jlong_to_ptr(event_ptr));
+    rfturn (*(XErrorHbndlfr)jlong_to_ptr(ibndlfr))((Displby*) jlong_to_ptr(displby), (XErrorEvfnt*) jlong_to_ptr(fvfnt_ptr));
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    PrintXErrorEvent
- * Signature: (JJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    PrintXErrorEvfnt
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_PrintXErrorEvent
-(JNIEnv *env, jclass clazz, jlong display, jlong event_ptr)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_PrintXErrorEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_ptr)
 {
-    char msg[128];
-    char buf[128];
+    dibr msg[128];
+    dibr buf[128];
 
-    XErrorEvent* err = (XErrorEvent *)jlong_to_ptr(event_ptr);
+    XErrorEvfnt* frr = (XErrorEvfnt *)jlong_to_ptr(fvfnt_ptr);
 
-    XGetErrorText((Display *)jlong_to_ptr(display), err->error_code, msg, sizeof(msg));
-    jio_fprintf(stderr, "Xerror %s, XID %x, ser# %d\n", msg, err->resourceid, err->serial);
-    jio_snprintf(buf, sizeof(buf), "%d", err->request_code);
-    XGetErrorDatabaseText((Display *)jlong_to_ptr(display), "XRequest", buf, "Unknown", msg, sizeof(msg));
-    jio_fprintf(stderr, "Major opcode %d (%s)\n", err->request_code, msg);
-    if (err->request_code > 128) {
-        jio_fprintf(stderr, "Minor opcode %d\n", err->minor_code);
+    XGftErrorTfxt((Displby *)jlong_to_ptr(displby), frr->frror_dodf, msg, sizfof(msg));
+    jio_fprintf(stdfrr, "Xfrror %s, XID %x, sfr# %d\n", msg, frr->rfsourdfid, frr->sfribl);
+    jio_snprintf(buf, sizfof(buf), "%d", frr->rfqufst_dodf);
+    XGftErrorDbtbbbsfTfxt((Displby *)jlong_to_ptr(displby), "XRfqufst", buf, "Unknown", msg, sizfof(msg));
+    jio_fprintf(stdfrr, "Mbjor opdodf %d (%s)\n", frr->rfqufst_dodf, msg);
+    if (frr->rfqufst_dodf > 128) {
+        jio_fprintf(stdfrr, "Minor opdodf %d\n", frr->minor_dodf);
     }
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XInternAtoms
- * Signature: (J[Ljava/lang/String;ZJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XIntfrnAtoms
+ * Signbturf: (J[Ljbvb/lbng/String;ZJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XInternAtoms
-(JNIEnv *env, jclass clazz, jlong display, jobjectArray names_arr, jboolean only_if_exists, jlong atoms)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XIntfrnAtoms
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jobjfdtArrby nbmfs_brr, jboolfbn only_if_fxists, jlong btoms)
 {
-    int status = 0;
+    int stbtus = 0;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    jsize length;
-    char** names = stringArrayToNative(env, names_arr, &length);
-    if (names) {
-        status = XInternAtoms((Display*)jlong_to_ptr(display), names, length, only_if_exists, (Atom*) jlong_to_ptr(atoms));
-        freeNativeStringArray(names, length);
+    jsizf lfngti;
+    dibr** nbmfs = stringArrbyToNbtivf(fnv, nbmfs_brr, &lfngti);
+    if (nbmfs) {
+        stbtus = XIntfrnAtoms((Displby*)jlong_to_ptr(displby), nbmfs, lfngti, only_if_fxists, (Atom*) jlong_to_ptr(btoms));
+        frffNbtivfStringArrby(nbmfs, lfngti);
     }
-    return status;
+    rfturn stbtus;
 }
 
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetWindowAttributes
- * Signature: (JJJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftWindowAttributfs
+ * Signbturf: (JJJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGetWindowAttributes
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong attr_ptr)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWindowAttributfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bttr_ptr)
 {
-    jint status;
+    jint stbtus;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    memset((XWindowAttributes*) jlong_to_ptr(attr_ptr), 0, sizeof(XWindowAttributes));
-    status =  XGetWindowAttributes((Display*)jlong_to_ptr(display), window, (XWindowAttributes*) jlong_to_ptr(attr_ptr));
-    return status;
+    mfmsft((XWindowAttributfs*) jlong_to_ptr(bttr_ptr), 0, sizfof(XWindowAttributfs));
+    stbtus =  XGftWindowAttributfs((Displby*)jlong_to_ptr(displby), window, (XWindowAttributfs*) jlong_to_ptr(bttr_ptr));
+    rfturn stbtus;
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetGeometry
- * Signature: (JJJJJJJJJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftGfomftry
+ * Signbturf: (JJJJJJJJJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGetGeometry
-(JNIEnv *env, jclass clazz, jlong display, jlong drawable, jlong root_return,
-     jlong x_return, jlong y_return, jlong width_return, jlong height_return,
-     jlong border_width_return, jlong depth_return)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftGfomftry
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong root_rfturn,
+     jlong x_rfturn, jlong y_rfturn, jlong widti_rfturn, jlong ifigit_rfturn,
+     jlong bordfr_widti_rfturn, jlong dfpti_rfturn)
 {
-    jint status;
+    jint stbtus;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    status = XGetGeometry((Display *)jlong_to_ptr(display),
-                          (Drawable)drawable, (Window *)jlong_to_ptr(root_return),
-                          (int *)jlong_to_ptr(x_return), (int *)jlong_to_ptr(y_return),
-                          (unsigned int *)jlong_to_ptr(width_return), (unsigned int *)jlong_to_ptr(height_return),
-                          (unsigned int *)jlong_to_ptr(border_width_return),
-                          (unsigned int *)jlong_to_ptr(depth_return));
-    return status;
+    stbtus = XGftGfomftry((Displby *)jlong_to_ptr(displby),
+                          (Drbwbblf)drbwbblf, (Window *)jlong_to_ptr(root_rfturn),
+                          (int *)jlong_to_ptr(x_rfturn), (int *)jlong_to_ptr(y_rfturn),
+                          (unsignfd int *)jlong_to_ptr(widti_rfturn), (unsignfd int *)jlong_to_ptr(ifigit_rfturn),
+                          (unsignfd int *)jlong_to_ptr(bordfr_widti_rfturn),
+                          (unsignfd int *)jlong_to_ptr(dfpti_rfturn));
+    rfturn stbtus;
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetWMNormalHints
- * Signature: (JJJJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftWMNormblHints
+ * Signbturf: (JJJJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XGetWMNormalHints
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong hints, jlong supplied_return)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWMNormblHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong iints, jlong supplifd_rfturn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XGetWMNormalHints((Display*) jlong_to_ptr(display),
+    rfturn XGftWMNormblHints((Displby*) jlong_to_ptr(displby),
                              window,
-                             (XSizeHints*) jlong_to_ptr(hints),
-                             (long*) jlong_to_ptr(supplied_return));
+                             (XSizfHints*) jlong_to_ptr(iints),
+                             (long*) jlong_to_ptr(supplifd_rfturn));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetWMNormalHints
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftWMNormblHints
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetWMNormalHints
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong hints)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWMNormblHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong iints)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSetWMNormalHints((Display*) jlong_to_ptr(display), window, (XSizeHints*) jlong_to_ptr(hints));
+    XSftWMNormblHints((Displby*) jlong_to_ptr(displby), window, (XSizfHints*) jlong_to_ptr(iints));
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XDeleteProperty
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XDflftfPropfrty
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XDeleteProperty
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong atom)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XDflftfPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom)
 {
     AWT_CHECK_HAVE_LOCK();
-    XDeleteProperty((Display*) jlong_to_ptr(display), window, (Atom)atom);
+    XDflftfPropfrty((Displby*) jlong_to_ptr(displby), window, (Atom)btom);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSendEvent
- * Signature: (JJZJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSfndEvfnt
+ * Signbturf: (JJZJJ)V
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XSendEvent
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jboolean propagate, jlong event_mask, jlong event)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSfndEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jboolfbn propbgbtf, jlong fvfnt_mbsk, jlong fvfnt)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XSendEvent((Display*) jlong_to_ptr(display),
+    rfturn XSfndEvfnt((Displby*) jlong_to_ptr(displby),
                       window,
-                      propagate==JNI_TRUE?True:False,
-                      (long) event_mask,
-                      (XEvent*) jlong_to_ptr(event));
+                      propbgbtf==JNI_TRUE?Truf:Fblsf,
+                      (long) fvfnt_mbsk,
+                      (XEvfnt*) jlong_to_ptr(fvfnt));
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XQueryTree
- * Signature: (JJJJJJ)I
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XQufryTrff
+ * Signbturf: (JJJJJJ)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XQueryTree
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong root_return, jlong parent_return, jlong children_return, jlong nchildren_return)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryTrff
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong root_rfturn, jlong pbrfnt_rfturn, jlong diildrfn_rfturn, jlong ndiildrfn_rfturn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XQueryTree((Display*) jlong_to_ptr(display),
+    rfturn XQufryTrff((Displby*) jlong_to_ptr(displby),
                       window,
-                      (Window *) jlong_to_ptr(root_return),
-                      (Window*) jlong_to_ptr(parent_return),
-                      (Window**) jlong_to_ptr(children_return),
-                      (unsigned int*) jlong_to_ptr(nchildren_return));
+                      (Window *) jlong_to_ptr(root_rfturn),
+                      (Window*) jlong_to_ptr(pbrfnt_rfturn),
+                      (Window**) jlong_to_ptr(diildrfn_rfturn),
+                      (unsignfd int*) jlong_to_ptr(ndiildrfn_rfturn));
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    memcpy
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    mfmdpy
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_memcpy
-(JNIEnv *env, jclass clazz, jlong dest_ptr, jlong src_ptr, jlong length)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_mfmdpy
+(JNIEnv *fnv, jdlbss dlbzz, jlong dfst_ptr, jlong srd_ptr, jlong lfngti)
 {
-    memcpy(jlong_to_ptr(dest_ptr), jlong_to_ptr(src_ptr), length);
+    mfmdpy(jlong_to_ptr(dfst_ptr), jlong_to_ptr(srd_ptr), lfngti);
 }
 
 
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XSetMinMaxHints
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jint x, jint y, jint width, jint height, jlong flags) {
-    XSizeHints * hints;
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftMinMbxHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint x, jint y, jint widti, jint ifigit, jlong flbgs) {
+    XSizfHints * iints;
     AWT_CHECK_HAVE_LOCK();
-    hints = XAllocSizeHints();
-    hints->flags = flags;
-    hints->width = width;
-    hints->min_width = width;
-    hints->max_width = width;
-    hints->height = height;
-    hints->min_height = height;
-    hints->max_height = height;
-    hints->x = x;
-    hints->y = y;
-    XSetWMNormalHints((Display*) jlong_to_ptr(display), window, hints);
-    XFree(hints);
+    iints = XAllodSizfHints();
+    iints->flbgs = flbgs;
+    iints->widti = widti;
+    iints->min_widti = widti;
+    iints->mbx_widti = widti;
+    iints->ifigit = ifigit;
+    iints->min_ifigit = ifigit;
+    iints->mbx_ifigit = ifigit;
+    iints->x = x;
+    iints->y = y;
+    XSftWMNormblHints((Displby*) jlong_to_ptr(displby), window, iints);
+    XFrff(iints);
 }
 
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XGetVisualInfo
-(JNIEnv *env, jclass clazz, jlong display, jlong vinfo_mask, jlong vinfo_template,
- jlong nitems_return)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftVisublInfo
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong vinfo_mbsk, jlong vinfo_tfmplbtf,
+ jlong nitfms_rfturn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XGetVisualInfo((Display*) jlong_to_ptr(display),
-                                       (long) vinfo_mask,
-                                       (XVisualInfo*) jlong_to_ptr(vinfo_template),
-                                       (int*) jlong_to_ptr(nitems_return)));
+    rfturn ptr_to_jlong(XGftVisublInfo((Displby*) jlong_to_ptr(displby),
+                                       (long) vinfo_mbsk,
+                                       (XVisublInfo*) jlong_to_ptr(vinfo_tfmplbtf),
+                                       (int*) jlong_to_ptr(nitfms_rfturn)));
 }
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XAllocSizeHints
-  (JNIEnv *env, jclass clazz)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodSizfHints
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XAllocSizeHints());
+    rfturn ptr_to_jlong(XAllodSizfHints());
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XIconifyWindow
- * Signature: (JJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XIdonifyWindow
+ * Signbturf: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XBell
-(JNIEnv *env, jclass clazz, jlong display, jint percent)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XBfll
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint pfrdfnt)
 {
     AWT_CHECK_HAVE_LOCK();
-    XBell((Display*)jlong_to_ptr(display), percent);
+    XBfll((Displby*)jlong_to_ptr(displby), pfrdfnt);
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XAllocColor
- * Signature: (JJJ)Z
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XAllodColor
+ * Signbturf: (JJJ)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XAllocColor
-(JNIEnv *env, jclass clazz, jlong display , jlong colormap, jlong xcolor) {
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodColor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby , jlong dolormbp, jlong xdolor) {
 
-    Status status;
+    Stbtus stbtus;
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    status = XAllocColor((Display *) jlong_to_ptr(display), (Colormap) colormap, (XColor *) jlong_to_ptr(xcolor));
+    stbtus = XAllodColor((Displby *) jlong_to_ptr(displby), (Colormbp) dolormbp, (XColor *) jlong_to_ptr(xdolor));
 
-    if (status == 0) return JNI_FALSE;
-    else return JNI_TRUE;
+    if (stbtus == 0) rfturn JNI_FALSE;
+    flsf rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XCreateBitmapFromData
- * Signature: (JJJII)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XCrfbtfBitmbpFromDbtb
+ * Signbturf: (JJJII)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XCreateBitmapFromData
-(JNIEnv *env, jclass clazz, jlong display, jlong drawable, jlong data, jint width, jint height) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfBitmbpFromDbtb
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong dbtb, jint widti, jint ifigit) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
 
-    return (jlong) XCreateBitmapFromData((Display *) jlong_to_ptr(display), (Drawable) drawable,
-                                         (char *) jlong_to_ptr(data), width, height);
+    rfturn (jlong) XCrfbtfBitmbpFromDbtb((Displby *) jlong_to_ptr(displby), (Drbwbblf) drbwbblf,
+                                         (dibr *) jlong_to_ptr(dbtb), widti, ifigit);
 }
 
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XFreePixmap
- * Signature: (JJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XFrffPixmbp
+ * Signbturf: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XFreePixmap
-(JNIEnv *env, jclass clazz, jlong display, jlong pixmap) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffPixmbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong pixmbp) {
     AWT_CHECK_HAVE_LOCK();
-    XFreePixmap((Display *)jlong_to_ptr(display), (Pixmap) pixmap);
+    XFrffPixmbp((Displby *)jlong_to_ptr(displby), (Pixmbp) pixmbp);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XReparentWindow
- * Signature: (JJJII)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XRfpbrfntWindow
+ * Signbturf: (JJJII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XReparentWindow
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong parent, jint x, jint y) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRfpbrfntWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong pbrfnt, jint x, jint y) {
     AWT_CHECK_HAVE_LOCK();
-    XReparentWindow((Display*)jlong_to_ptr(display), window, parent, x, y);
+    XRfpbrfntWindow((Displby*)jlong_to_ptr(displby), window, pbrfnt, x, y);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XConvertSelection
- * Signature: (JJJJJJ)V
- */
-JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XConvertSelection(JNIEnv *env, jclass clazz,
-                           jlong display, jlong selection,
-                           jlong target, jlong property,
-                           jlong requestor, jlong time) {
-    AWT_CHECK_HAVE_LOCK();
-    XConvertSelection((Display*)jlong_to_ptr(display), selection, target, property, requestor,
-              time);
-}
-
-/*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XSetSelectionOwner
- * Signature: (JJJJ)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XConvfrtSflfdtion
+ * Signbturf: (JJJJJJ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XSetSelectionOwner(JNIEnv *env, jclass clazz,
-                        jlong display, jlong selection,
-                        jlong owner, jlong time) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XConvfrtSflfdtion(JNIEnv *fnv, jdlbss dlbzz,
+                           jlong displby, jlong sflfdtion,
+                           jlong tbrgft, jlong propfrty,
+                           jlong rfqufstor, jlong timf) {
     AWT_CHECK_HAVE_LOCK();
-    XSetSelectionOwner((Display*)jlong_to_ptr(display), selection, owner, time);
+    XConvfrtSflfdtion((Displby*)jlong_to_ptr(displby), sflfdtion, tbrgft, propfrty, rfqufstor,
+              timf);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetSelectionOwner
- * Signature: (JJ)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XSftSflfdtionOwnfr
+ * Signbturf: (JJJJ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftSflfdtionOwnfr(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby, jlong sflfdtion,
+                        jlong ownfr, jlong timf) {
+    AWT_CHECK_HAVE_LOCK();
+    XSftSflfdtionOwnfr((Displby*)jlong_to_ptr(displby), sflfdtion, ownfr, timf);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftSflfdtionOwnfr
+ * Signbturf: (JJ)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XGetSelectionOwner(JNIEnv *env, jclass clazz,
-                        jlong display, jlong selection) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftSflfdtionOwnfr(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby, jlong sflfdtion) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return (jlong)XGetSelectionOwner((Display*)jlong_to_ptr(display), selection);
+    rfturn (jlong)XGftSflfdtionOwnfr((Displby*)jlong_to_ptr(displby), sflfdtion);
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XGetAtomName
- * Signature: (JJ)Ljava/lang/String;
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XGftAtomNbmf
+ * Signbturf: (JJ)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_X11_XlibWrapper_XGetAtomName(JNIEnv *env, jclass clazz,
-                      jlong display, jlong atom)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftAtomNbmf(JNIEnv *fnv, jdlbss dlbzz,
+                      jlong displby, jlong btom)
 {
     jstring string = NULL;
-    char* name;
+    dibr* nbmf;
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
-    name = (char*) XGetAtomName((Display*)jlong_to_ptr(display), atom);
+    nbmf = (dibr*) XGftAtomNbmf((Displby*)jlong_to_ptr(displby), btom);
 
-    if (name == NULL) {
-        fprintf(stderr, "Atom was %d\n", (int)atom);
-        JNU_ThrowNullPointerException(env, "Failed to retrieve atom name.");
-        return NULL;
+    if (nbmf == NULL) {
+        fprintf(stdfrr, "Atom wbs %d\n", (int)btom);
+        JNU_TirowNullPointfrExdfption(fnv, "Fbilfd to rftrifvf btom nbmf.");
+        rfturn NULL;
     }
 
-    string = (*env)->NewStringUTF(env, (const char *)name);
+    string = (*fnv)->NfwStringUTF(fnv, (donst dibr *)nbmf);
 
-    XFree(name);
+    XFrff(nbmf);
 
-    return string;
+    rfturn string;
 }
 
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XMaxRequestSize
- * Signature: (J)J
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XMbxRfqufstSizf
+ * Signbturf: (J)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XMaxRequestSize(JNIEnv *env, jclass clazz,
-                         jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XMbxRfqufstSizf(JNIEnv *fnv, jdlbss dlbzz,
+                         jlong displby) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XMaxRequestSize((Display*) jlong_to_ptr(display));
+    rfturn XMbxRfqufstSizf((Displby*) jlong_to_ptr(displby));
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XAllocWMHints(JNIEnv *env, jclass clazz)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodWMHints(JNIEnv *fnv, jdlbss dlbzz)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XAllocWMHints());
+    rfturn ptr_to_jlong(XAllodWMHints());
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XCreatePixmap(JNIEnv *env, jclass clazz, jlong display, jlong drawable, jint width, jint height, jint depth)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfPixmbp(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jint widti, jint ifigit, jint dfpti)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XCreatePixmap((Display*)jlong_to_ptr(display), (Drawable)drawable, width, height, depth);
+    rfturn XCrfbtfPixmbp((Displby*)jlong_to_ptr(displby), (Drbwbblf)drbwbblf, widti, ifigit, dfpti);
 }
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XCreateImage
-  (JNIEnv *env, jclass clazz, jlong display, jlong visual_ptr,
-   jint depth, jint format, jint offset, jlong data, jint width,
-   jint height, jint bitmap_pad, jint bytes_per_line)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfImbgf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong visubl_ptr,
+   jint dfpti, jint formbt, jint offsft, jlong dbtb, jint widti,
+   jint ifigit, jint bitmbp_pbd, jint bytfs_pfr_linf)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XCreateImage((Display*) jlong_to_ptr(display), (Visual*) jlong_to_ptr(visual_ptr),
-                depth, format, offset, (char*) jlong_to_ptr(data),
-                width, height, bitmap_pad, bytes_per_line));
+    rfturn ptr_to_jlong(XCrfbtfImbgf((Displby*) jlong_to_ptr(displby), (Visubl*) jlong_to_ptr(visubl_ptr),
+                dfpti, formbt, offsft, (dibr*) jlong_to_ptr(dbtb),
+                widti, ifigit, bitmbp_pbd, bytfs_pfr_linf));
 }
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XCreateGC
-  (JNIEnv *env, jclass clazz, jlong display, jlong drawable,
-   jlong valuemask, jlong values)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfGC
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf,
+   jlong vblufmbsk, jlong vblufs)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XCreateGC((Display*) jlong_to_ptr(display), (Drawable)drawable, valuemask, (XGCValues*) jlong_to_ptr(values)));
+    rfturn ptr_to_jlong(XCrfbtfGC((Displby*) jlong_to_ptr(displby), (Drbwbblf)drbwbblf, vblufmbsk, (XGCVblufs*) jlong_to_ptr(vblufs)));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XDestroyImage(JNIEnv *env, jclass clazz, jlong image)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XDfstroyImbgf(JNIEnv *fnv, jdlbss dlbzz, jlong imbgf)
 {
-    XImage *img = (XImage*) jlong_to_ptr(image);
+    XImbgf *img = (XImbgf*) jlong_to_ptr(imbgf);
     AWT_CHECK_HAVE_LOCK();
 
     // Fix for bug 4903671 :
-    // We should be careful to not double free the memory pointed to data
-    // Since we use unsafe to allocate it, we should use unsafe to free it.
-    // So we should NULL the data pointer before calling XDestroyImage so
-    // that X does not free the pointer for us.
-    img->data = NULL;
-    XDestroyImage(img);
+    // Wf siould bf dbrfful to not doublf frff tif mfmory pointfd to dbtb
+    // Sindf wf usf unsbff to bllodbtf it, wf siould usf unsbff to frff it.
+    // So wf siould NULL tif dbtb pointfr bfforf dblling XDfstroyImbgf so
+    // tibt X dofs not frff tif pointfr for us.
+    img->dbtb = NULL;
+    XDfstroyImbgf(img);
 }
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XPutImage(JNIEnv *env, jclass clazz, jlong display, jlong drawable, jlong gc, jlong image, jint src_x, jint src_y, jint dest_x, jint dest_y, jint width, jint height)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XPutImbgf(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong gd, jlong imbgf, jint srd_x, jint srd_y, jint dfst_x, jint dfst_y, jint widti, jint ifigit)
 {
     AWT_CHECK_HAVE_LOCK();
-    XPutImage((Display*)jlong_to_ptr(display), (Drawable)drawable, (GC) jlong_to_ptr(gc), (XImage*) jlong_to_ptr(image), src_x, src_y,
-              dest_x, dest_y, width, height);
+    XPutImbgf((Displby*)jlong_to_ptr(displby), (Drbwbblf)drbwbblf, (GC) jlong_to_ptr(gd), (XImbgf*) jlong_to_ptr(imbgf), srd_x, srd_y,
+              dfst_x, dfst_y, widti, ifigit);
 }
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XFreeGC(JNIEnv *env, jclass clazz, jlong display, jlong gc)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffGC(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong gd)
 {
     AWT_CHECK_HAVE_LOCK();
-    XFreeGC((Display*) jlong_to_ptr(display), (GC) jlong_to_ptr(gc));
+    XFrffGC((Displby*) jlong_to_ptr(displby), (GC) jlong_to_ptr(gd));
 }
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XSetWindowBackgroundPixmap(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong pixmap)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWindowBbdkgroundPixmbp(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong pixmbp)
 {
     AWT_CHECK_HAVE_LOCK();
-    XSetWindowBackgroundPixmap((Display*) jlong_to_ptr(display), (Window)window, (Pixmap)pixmap);
+    XSftWindowBbdkgroundPixmbp((Displby*) jlong_to_ptr(displby), (Window)window, (Pixmbp)pixmbp);
 }
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XClearWindow(JNIEnv *env, jclass clazz, jlong display, jlong window)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XClfbrWindow(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
 {
     AWT_CHECK_HAVE_LOCK();
-    XClearWindow((Display*) jlong_to_ptr(display), (Window)window);
+    XClfbrWindow((Displby*) jlong_to_ptr(displby), (Window)window);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XlibWrapper_XGetIconSizes(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong ret_sizes, jlong ret_count)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftIdonSizfs(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong rft_sizfs, jlong rft_dount)
 {
-    XIconSize** psize = (XIconSize**) jlong_to_ptr(ret_sizes);
-    int * pcount = (int *) jlong_to_ptr(ret_count);
-    Status res;
+    XIdonSizf** psizf = (XIdonSizf**) jlong_to_ptr(rft_sizfs);
+    int * pdount = (int *) jlong_to_ptr(rft_dount);
+    Stbtus rfs;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    res = XGetIconSizes((Display*) jlong_to_ptr(display), (Window)window, psize, pcount);
-    return res;
+    rfs = XGftIdonSizfs((Displby*) jlong_to_ptr(displby), (Window)window, psizf, pdount);
+    rfturn rfs;
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XdbeQueryExtension
-  (JNIEnv *env, jclass clazz, jlong display, jlong major_version_return,
-   jlong minor_version_return)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfQufryExtfnsion
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong mbjor_vfrsion_rfturn,
+   jlong minor_vfrsion_rfturn)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeQueryExtension((Display*) jlong_to_ptr(display), (int *) jlong_to_ptr(major_version_return),
-                  (int *) jlong_to_ptr(minor_version_return));
+    rfturn XdbfQufryExtfnsion((Displby*) jlong_to_ptr(displby), (int *) jlong_to_ptr(mbjor_vfrsion_rfturn),
+                  (int *) jlong_to_ptr(minor_vfrsion_rfturn));
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_XQueryExtension
-  (JNIEnv *env, jclass clazz, jlong display, jstring jstr, jlong mop_return,
-   jlong feve_return, jlong err_return)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryExtfnsion
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring jstr, jlong mop_rfturn,
+   jlong ffvf_rfturn, jlong frr_rfturn)
 {
-    char *cname;
-    Boolean bu;
-    if (!JNU_IsNull(env, jstr)) {
-        cname = (char *)JNU_GetStringPlatformChars(env, jstr, NULL);
-        CHECK_NULL_RETURN(cname, JNI_FALSE);
-    } else {
-        cname = "";
+    dibr *dnbmf;
+    Boolfbn bu;
+    if (!JNU_IsNull(fnv, jstr)) {
+        dnbmf = (dibr *)JNU_GftStringPlbtformCibrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(dnbmf, JNI_FALSE);
+    } flsf {
+        dnbmf = "";
     }
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    bu = XQueryExtension((Display*) jlong_to_ptr(display), cname, (int *) jlong_to_ptr(mop_return),
-                (int *) jlong_to_ptr(feve_return),  (int *) jlong_to_ptr(err_return));
-    if (!JNU_IsNull(env, jstr)) {
-        JNU_ReleaseStringPlatformChars(env, jstr, (const char *) cname);
+    bu = XQufryExtfnsion((Displby*) jlong_to_ptr(displby), dnbmf, (int *) jlong_to_ptr(mop_rfturn),
+                (int *) jlong_to_ptr(ffvf_rfturn),  (int *) jlong_to_ptr(frr_rfturn));
+    if (!JNU_IsNull(fnv, jstr)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jstr, (donst dibr *) dnbmf);
     }
-    return bu ? JNI_TRUE : JNI_FALSE;
+    rfturn bu ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_X11_XlibWrapper_IsKeypadKey
-  (JNIEnv *env, jclass clazz, jlong keysym)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsKfypbdKfy
+  (JNIEnv *fnv, jdlbss dlbzz, jlong kfysym)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    if(IsKeypadKey(keysym)) {
-        return JNI_TRUE;
+    if(IsKfypbdKfy(kfysym)) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-JNIEXPORT jlong JNICALL Java_sun_awt_X11_XlibWrapper_XdbeAllocateBackBufferName
-  (JNIEnv *env, jclass clazz, jlong display, jlong window, jint swap_action)
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfAllodbtfBbdkBufffrNbmf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint swbp_bdtion)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeAllocateBackBufferName((Display*) jlong_to_ptr(display), (Window) window,
-                      (XdbeSwapAction) swap_action);
+    rfturn XdbfAllodbtfBbdkBufffrNbmf((Displby*) jlong_to_ptr(displby), (Window) window,
+                      (XdbfSwbpAdtion) swbp_bdtion);
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XdbeDeallocateBackBufferName
-  (JNIEnv *env, jclass clazz, jlong display, jlong buffer)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfDfbllodbtfBbdkBufffrNbmf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong bufffr)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeDeallocateBackBufferName((Display*) jlong_to_ptr(display), (XdbeBackBuffer) buffer);
+    rfturn XdbfDfbllodbtfBbdkBufffrNbmf((Displby*) jlong_to_ptr(displby), (XdbfBbdkBufffr) bufffr);
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XdbeBeginIdiom
-  (JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfBfginIdiom
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeBeginIdiom((Display*) jlong_to_ptr(display));
+    rfturn XdbfBfginIdiom((Displby*) jlong_to_ptr(displby));
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XdbeEndIdiom
-  (JNIEnv *env, jclass clazz, jlong display)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfEndIdiom
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeEndIdiom((Display*) jlong_to_ptr(display));
+    rfturn XdbfEndIdiom((Displby*) jlong_to_ptr(displby));
 }
 
-JNIEXPORT jint JNICALL Java_sun_awt_X11_XlibWrapper_XdbeSwapBuffers
-  (JNIEnv *env, jclass clazz, jlong display, jlong swap_info, jint num_windows)
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfSwbpBufffrs
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong swbp_info, jint num_windows)
 {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XdbeSwapBuffers((Display*) jlong_to_ptr(display), (XdbeSwapInfo *) jlong_to_ptr(swap_info), num_windows);
+    rfturn XdbfSwbpBufffrs((Displby*) jlong_to_ptr(displby), (XdbfSwbpInfo *) jlong_to_ptr(swbp_info), num_windows);
 }
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XQueryKeymap
-(JNIEnv *env, jclass clazz, jlong display, jlong vector)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryKfymbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong vfdtor)
 {
 
     AWT_CHECK_HAVE_LOCK();
-    XQueryKeymap( (Display *) jlong_to_ptr(display), (char *) jlong_to_ptr(vector));
+    XQufryKfymbp( (Displby *) jlong_to_ptr(displby), (dibr *) jlong_to_ptr(vfdtor));
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XKeycodeToKeysym(JNIEnv *env, jclass clazz,
-                                              jlong display, jint keycode,
-                                              jint index) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XKfydodfToKfysym(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jint kfydodf,
+                                              jint indfx) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XKeycodeToKeysym((Display*) jlong_to_ptr(display), (unsigned int)keycode, (int)index);
+    rfturn XKfydodfToKfysym((Displby*) jlong_to_ptr(displby), (unsignfd int)kfydodf, (int)indfx);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XlibWrapper_XkbGetEffectiveGroup(JNIEnv *env, jclass clazz,
-                                              jlong display) {
-    XkbStateRec sr;
+Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftEfffdtivfGroup(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby) {
+    XkbStbtfRfd sr;
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    memset(&sr, 0, sizeof(XkbStateRec));
-    XkbGetState((Display*) jlong_to_ptr(display), XkbUseCoreKbd, &sr);
+    mfmsft(&sr, 0, sizfof(XkbStbtfRfd));
+    XkbGftStbtf((Displby*) jlong_to_ptr(displby), XkbUsfCorfKbd, &sr);
 //    printf("-------------------------------------VVVV\n");
 //    printf("                 group:0x%0X\n",sr.group);
-//    printf("            base_group:0x%0X\n",sr.base_group);
-//    printf("         latched_group:0x%0X\n",sr.latched_group);
-//    printf("          locked_group:0x%0X\n",sr.locked_group);
+//    printf("            bbsf_group:0x%0X\n",sr.bbsf_group);
+//    printf("         lbtdifd_group:0x%0X\n",sr.lbtdifd_group);
+//    printf("          lodkfd_group:0x%0X\n",sr.lodkfd_group);
 //    printf("                  mods:0x%0X\n",sr.mods);
-//    printf("             base_mods:0x%0X\n",sr.base_mods);
-//    printf("          latched_mods:0x%0X\n",sr.latched_mods);
-//    printf("           locked_mods:0x%0X\n",sr.locked_mods);
-//    printf("          compat_state:0x%0X\n",sr.compat_state);
-//    printf("             grab_mods:0x%0X\n",sr.grab_mods);
-//    printf("      compat_grab_mods:0x%0X\n",sr.compat_grab_mods);
+//    printf("             bbsf_mods:0x%0X\n",sr.bbsf_mods);
+//    printf("          lbtdifd_mods:0x%0X\n",sr.lbtdifd_mods);
+//    printf("           lodkfd_mods:0x%0X\n",sr.lodkfd_mods);
+//    printf("          dompbt_stbtf:0x%0X\n",sr.dompbt_stbtf);
+//    printf("             grbb_mods:0x%0X\n",sr.grbb_mods);
+//    printf("      dompbt_grbb_mods:0x%0X\n",sr.dompbt_grbb_mods);
 //    printf("           lookup_mods:0x%0X\n",sr.lookup_mods);
-//    printf("    compat_lookup_mods:0x%0X\n",sr.compat_lookup_mods);
+//    printf("    dompbt_lookup_mods:0x%0X\n",sr.dompbt_lookup_mods);
 //    printf("           ptr_buttons:0x%0X\n",sr.ptr_buttons);
 //    printf("-------------------------------------^^^^\n");
-    return (jint)(sr.group);
+    rfturn (jint)(sr.group);
 }
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XkbKeycodeToKeysym(JNIEnv *env, jclass clazz,
-                                              jlong display, jint keycode,
-                                              jint group, jint level) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XkbKfydodfToKfysym(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jint kfydodf,
+                                              jint group, jint lfvfl) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XkbKeycodeToKeysym((Display*) jlong_to_ptr(display), (unsigned int)keycode, (unsigned int)group, (unsigned int)level);
+    rfturn XkbKfydodfToKfysym((Displby*) jlong_to_ptr(displby), (unsignfd int)kfydodf, (unsignfd int)group, (unsignfd int)lfvfl);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XlibWrapper_XKeysymToKeycode(JNIEnv *env, jclass clazz,
-                                              jlong display, jlong keysym) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XKfysymToKfydodf(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jlong kfysym) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return XKeysymToKeycode((Display*) jlong_to_ptr(display), (KeySym)keysym);
+    rfturn XKfysymToKfydodf((Displby*) jlong_to_ptr(displby), (KfySym)kfysym);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_XGetModifierMapping(JNIEnv *env, jclass clazz,
-                                              jlong display) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftModififrMbpping(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby) {
     AWT_CHECK_HAVE_LOCK_RETURN(0);
-    return ptr_to_jlong(XGetModifierMapping((Display*) jlong_to_ptr(display)));
+    rfturn ptr_to_jlong(XGftModififrMbpping((Displby*) jlong_to_ptr(displby)));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XFreeModifiermap(JNIEnv *env, jclass clazz,
-                                              jlong keymap) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffModififrmbp(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong kfymbp) {
     AWT_CHECK_HAVE_LOCK();
-    XFreeModifiermap((XModifierKeymap*) jlong_to_ptr(keymap));
+    XFrffModififrmbp((XModififrKfymbp*) jlong_to_ptr(kfymbp));
 }
 /*
- * Class:     sun_awt_X11_XlibWrapper
- * Method:    XRefreshKeyboardMapping
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mftiod:    XRffrfsiKfybobrdMbpping
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_X11_XlibWrapper_XRefreshKeyboardMapping
-(JNIEnv *env, jclass clazz, jlong event_ptr)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRffrfsiKfybobrdMbpping
+(JNIEnv *fnv, jdlbss dlbzz, jlong fvfnt_ptr)
 {
     AWT_CHECK_HAVE_LOCK();
-    XRefreshKeyboardMapping((XMappingEvent*) jlong_to_ptr(event_ptr));
+    XRffrfsiKfybobrdMbpping((XMbppingEvfnt*) jlong_to_ptr(fvfnt_ptr));
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XChangeActivePointerGrab(JNIEnv *env, jclass clazz,
-                                                      jlong display, jint mask,
-                                                      jlong cursor, jlong time) {
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCibngfAdtivfPointfrGrbb(JNIEnv *fnv, jdlbss dlbzz,
+                                                      jlong displby, jint mbsk,
+                                                      jlong dursor, jlong timf) {
     AWT_CHECK_HAVE_LOCK();
-    XChangeActivePointerGrab((Display*)jlong_to_ptr(display), (unsigned int)mask,
-                             (Cursor)cursor, (Time)time);
+    XCibngfAdtivfPointfrGrbb((Displby*)jlong_to_ptr(displby), (unsignfd int)mbsk,
+                             (Cursor)dursor, (Timf)timf);
 }
 
-/******************* Secondary loop support ************************************/
-#define AWT_SECONDARY_LOOP_TIMEOUT 250
+/******************* Sfdondbry loop support ************************************/
+#dffinf AWT_SECONDARY_LOOP_TIMEOUT 250
 
-static Bool exitSecondaryLoop = True;
+stbtid Bool fxitSfdondbryLoop = Truf;
 
 /*
- * This predicate procedure allows the Toolkit thread to process specific events
- * while it is blocked waiting for the event dispatch thread to process
- * a SunDropTargetEvent. We need this to prevent deadlock when the client code
- * processing SunDropTargetEvent sets or gets the contents of the system
- * clipboard/selection. In this case the event dispatch thread waits for the
- * Toolkit thread to process PropertyNotify or SelectionNotify events.
+ * Tiis prfdidbtf prodfdurf bllows tif Toolkit tirfbd to prodfss spfdifid fvfnts
+ * wiilf it is blodkfd wbiting for tif fvfnt dispbtdi tirfbd to prodfss
+ * b SunDropTbrgftEvfnt. Wf nffd tiis to prfvfnt dfbdlodk wifn tif dlifnt dodf
+ * prodfssing SunDropTbrgftEvfnt sfts or gfts tif dontfnts of tif systfm
+ * dlipbobrd/sflfdtion. In tiis dbsf tif fvfnt dispbtdi tirfbd wbits for tif
+ * Toolkit tirfbd to prodfss PropfrtyNotify or SflfdtionNotify fvfnts.
  */
-static Bool
-secondary_loop_event(Display* dpy, XEvent* event, char* arg) {
-    return (event->type == SelectionNotify ||
-            event->type == SelectionClear  ||
-            event->type == PropertyNotify) ? True : False;
+stbtid Bool
+sfdondbry_loop_fvfnt(Displby* dpy, XEvfnt* fvfnt, dibr* brg) {
+    rfturn (fvfnt->typf == SflfdtionNotify ||
+            fvfnt->typf == SflfdtionClfbr  ||
+            fvfnt->typf == PropfrtyNotify) ? Truf : Fblsf;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11_XlibWrapper_XNextSecondaryLoopEvent(JNIEnv *env, jclass clazz,
-                                                     jlong display, jlong ptr) {
-    uint32_t timeout = 1;
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XNfxtSfdondbryLoopEvfnt(JNIEnv *fnv, jdlbss dlbzz,
+                                                     jlong displby, jlong ptr) {
+    uint32_t timfout = 1;
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
-    exitSecondaryLoop = False;
-    while (!exitSecondaryLoop) {
-        if (XCheckIfEvent((Display*) jlong_to_ptr(display), (XEvent*) jlong_to_ptr(ptr), secondary_loop_event, NULL)) {
-            return JNI_TRUE;
+    fxitSfdondbryLoop = Fblsf;
+    wiilf (!fxitSfdondbryLoop) {
+        if (XCifdkIfEvfnt((Displby*) jlong_to_ptr(displby), (XEvfnt*) jlong_to_ptr(ptr), sfdondbry_loop_fvfnt, NULL)) {
+            rfturn JNI_TRUE;
         }
-        timeout = (timeout < AWT_SECONDARY_LOOP_TIMEOUT) ? (timeout << 1) : AWT_SECONDARY_LOOP_TIMEOUT;
-        AWT_WAIT(timeout);
+        timfout = (timfout < AWT_SECONDARY_LOOP_TIMEOUT) ? (timfout << 1) : AWT_SECONDARY_LOOP_TIMEOUT;
+        AWT_WAIT(timfout);
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_ExitSecondaryLoop(JNIEnv *env, jclass clazz) {
-    DASSERT(!exitSecondaryLoop);
+Jbvb_sun_bwt_X11_XlibWrbppfr_ExitSfdondbryLoop(JNIEnv *fnv, jdlbss dlbzz) {
+    DASSERT(!fxitSfdondbryLoop);
     AWT_CHECK_HAVE_LOCK();
-    exitSecondaryLoop = True;
+    fxitSfdondbryLoop = Truf;
     AWT_NOTIFY_ALL();
 }
 /*******************************************************************************/
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_awt_X11_XlibWrapper_XTextPropertyToStringList(JNIEnv *env,
-                                                       jclass clazz,
-                                                       jbyteArray bytes,
-                                                       jlong encodingAtom) {
-    XTextProperty tp;
-    jbyte         *value;
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XTfxtPropfrtyToStringList(JNIEnv *fnv,
+                                                       jdlbss dlbzz,
+                                                       jbytfArrby bytfs,
+                                                       jlong fndodingAtom) {
+    XTfxtPropfrty tp;
+    jbytf         *vbluf;
 
-    char**        strings  = (char **)NULL;
+    dibr**        strings  = (dibr **)NULL;
     int32_t       nstrings = 0;
-    jobjectArray  ret = NULL;
+    jobjfdtArrby  rft = NULL;
     int32_t       i;
-    jsize         len;
-    jboolean      isCopy = JNI_FALSE;
-    static jclass stringClass = NULL;
-    jclass        stringClassLocal = NULL;
+    jsizf         lfn;
+    jboolfbn      isCopy = JNI_FALSE;
+    stbtid jdlbss stringClbss = NULL;
+    jdlbss        stringClbssLodbl = NULL;
 
     AWT_CHECK_HAVE_LOCK_RETURN(NULL);
 
-    if (JNU_IsNull(env, stringClass)) {
-        stringClassLocal = (*env)->FindClass(env, "java/lang/String");
+    if (JNU_IsNull(fnv, stringClbss)) {
+        stringClbssLodbl = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
 
-        if ((*env)->ExceptionCheck(env)) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            DASSERT(False);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            DASSERT(Fblsf);
         }
 
-        if (JNU_IsNull(env, stringClassLocal)) {
-            return NULL;
+        if (JNU_IsNull(fnv, stringClbssLodbl)) {
+            rfturn NULL;
         }
 
-        stringClass = (*env)->NewGlobalRef(env, stringClassLocal); /* never freed! */
-        (*env)->DeleteLocalRef(env, stringClassLocal);
+        stringClbss = (*fnv)->NfwGlobblRff(fnv, stringClbssLodbl); /* nfvfr frffd! */
+        (*fnv)->DflftfLodblRff(fnv, stringClbssLodbl);
 
-        if (JNU_IsNull(env, stringClass)) {
-            JNU_ThrowOutOfMemoryError(env, "");
-            return NULL;
+        if (JNU_IsNull(fnv, stringClbss)) {
+            JNU_TirowOutOfMfmoryError(fnv, "");
+            rfturn NULL;
         }
     }
 
     /*
-     * If the length of the byte array is 0 just return a null
+     * If tif lfngti of tif bytf brrby is 0 just rfturn b null
      */
-    len = (*env)->GetArrayLength(env, bytes);
-    if (len == 0) {
-        return (*env)->NewObjectArray(env, 0, stringClass, NULL);
+    lfn = (*fnv)->GftArrbyLfngti(fnv, bytfs);
+    if (lfn == 0) {
+        rfturn (*fnv)->NfwObjfdtArrby(fnv, 0, stringClbss, NULL);
     }
 
-    value = (*env)->GetByteArrayElements(env, bytes, &isCopy);
-    if (JNU_IsNull(env, value)) {
-        return NULL;
+    vbluf = (*fnv)->GftBytfArrbyElfmfnts(fnv, bytfs, &isCopy);
+    if (JNU_IsNull(fnv, vbluf)) {
+        rfturn NULL;
     }
 
-    tp.encoding = encodingAtom;
-    tp.value    = (unsigned char *)value;
-    tp.nitems   = len;
-    tp.format   = 8;
+    tp.fndoding = fndodingAtom;
+    tp.vbluf    = (unsignfd dibr *)vbluf;
+    tp.nitfms   = lfn;
+    tp.formbt   = 8;
 
     /*
-     * Convert the byte stream into a list of X11 strings
+     * Convfrt tif bytf strfbm into b list of X11 strings
      */
-    if (XTextPropertyToStringList(&tp, &strings, &nstrings) == 0) {
-        (*env)->ReleaseByteArrayElements(env, bytes, value, JNI_ABORT);
-        return NULL;
+    if (XTfxtPropfrtyToStringList(&tp, &strings, &nstrings) == 0) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, bytfs, vbluf, JNI_ABORT);
+        rfturn NULL;
     }
 
-    (*env)->ReleaseByteArrayElements(env, bytes, value, JNI_ABORT);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, bytfs, vbluf, JNI_ABORT);
 
     if (nstrings == 0) {
-        return (*env)->NewObjectArray(env, 0, stringClass, NULL);
+        rfturn (*fnv)->NfwObjfdtArrby(fnv, 0, stringClbss, NULL);
     }
 
-    ret = (*env)->NewObjectArray(env, nstrings, stringClass, NULL);
+    rft = (*fnv)->NfwObjfdtArrby(fnv, nstrings, stringClbss, NULL);
 
-    if ((*env)->ExceptionCheck(env)) {
-        (*env)->ExceptionDescribe(env);
-        (*env)->ExceptionClear(env);
-        goto wayout;
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        (*fnv)->ExdfptionDfsdribf(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);
+        goto wbyout;
     }
 
-    if (JNU_IsNull(env, ret)) {
-        goto wayout;
+    if (JNU_IsNull(fnv, rft)) {
+        goto wbyout;
     }
 
     for (i = 0; i < nstrings; i++) {
-        jstring string = (*env)->NewStringUTF(env,
-                                              (const char *)strings[i]);
-        if ((*env)->ExceptionCheck(env)) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            goto wayout;
+        jstring string = (*fnv)->NfwStringUTF(fnv,
+                                              (donst dibr *)strings[i]);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            goto wbyout;
         }
 
-        if (JNU_IsNull(env, string)) {
-            goto wayout;
+        if (JNU_IsNull(fnv, string)) {
+            goto wbyout;
         }
 
-        (*env)->SetObjectArrayElement(env, ret, i, string);
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, i, string);
 
-        if ((*env)->ExceptionCheck(env)) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            goto wayout;
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            goto wbyout;
         }
 
-        (*env)->DeleteLocalRef(env, string);
+        (*fnv)->DflftfLodblRff(fnv, string);
     }
 
- wayout:
+ wbyout:
     /*
-     * Clean up and return
+     * Clfbn up bnd rfturn
      */
-    XFreeStringList(strings);
-    return ret;
+    XFrffStringList(strings);
+    rfturn rft;
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_XPutBackEvent(JNIEnv *env,
-                                           jclass clazz,
-                                           jlong display,
-                                           jlong event) {
-    XPutBackEvent((Display*)jlong_to_ptr(display), (XEvent*) jlong_to_ptr(event));
+Jbvb_sun_bwt_X11_XlibWrbppfr_XPutBbdkEvfnt(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong displby,
+                                           jlong fvfnt) {
+    XPutBbdkEvfnt((Displby*)jlong_to_ptr(displby), (XEvfnt*) jlong_to_ptr(fvfnt));
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11_XlibWrapper_getAddress(JNIEnv *env,
-                                           jclass clazz,
-                                           jobject o) {
-    return ptr_to_jlong(o);
+Jbvb_sun_bwt_X11_XlibWrbppfr_gftAddrfss(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jobjfdt o) {
+    rfturn ptr_to_jlong(o);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_copyIntArray(JNIEnv *env,
-                                           jclass clazz,
-                                           jlong dest, jobject array, jint size) {
-    jboolean isCopy = JNI_FALSE;
-    jint * ints = (*env)->GetIntArrayElements(env, array, &isCopy);
-    memcpy(jlong_to_ptr(dest), ints, size);
+Jbvb_sun_bwt_X11_XlibWrbppfr_dopyIntArrby(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong dfst, jobjfdt brrby, jint sizf) {
+    jboolfbn isCopy = JNI_FALSE;
+    jint * ints = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, &isCopy);
+    mfmdpy(jlong_to_ptr(dfst), ints, sizf);
     if (isCopy) {
-        (*env)->ReleaseIntArrayElements(env, array, ints, JNI_ABORT);
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, ints, JNI_ABORT);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_copyLongArray(JNIEnv *env,
-                                           jclass clazz,
-                                           jlong dest, jobject array, jint size) {
-    jboolean isCopy = JNI_FALSE;
-    jlong * longs = (*env)->GetLongArrayElements(env, array, &isCopy);
-    memcpy(jlong_to_ptr(dest), longs, size);
+Jbvb_sun_bwt_X11_XlibWrbppfr_dopyLongArrby(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong dfst, jobjfdt brrby, jint sizf) {
+    jboolfbn isCopy = JNI_FALSE;
+    jlong * longs = (*fnv)->GftLongArrbyElfmfnts(fnv, brrby, &isCopy);
+    mfmdpy(jlong_to_ptr(dfst), longs, sizf);
     if (isCopy) {
-        (*env)->ReleaseLongArrayElements(env, array, longs, JNI_ABORT);
+        (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, brrby, longs, JNI_ABORT);
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11_XlibWrapper_XSynchronize(JNIEnv *env, jclass clazz, jlong display, jboolean onoff)
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSyndironizf(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jboolfbn onoff)
 {
-    return (jint) XSynchronize((Display*)jlong_to_ptr(display), (onoff == JNI_TRUE ? True : False));
+    rfturn (jint) XSyndironizf((Displby*)jlong_to_ptr(displby), (onoff == JNI_TRUE ? Truf : Fblsf));
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11_XlibWrapper_XShapeQueryExtension
-(JNIEnv *env, jclass clazz, jlong display, jlong event_base_return, jlong error_base_return)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSibpfQufryExtfnsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_bbsf_rfturn, jlong frror_bbsf_rfturn)
 {
-    jboolean status;
+    jboolfbn stbtus;
 
     AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
 
-    status = XShapeQueryExtension((Display *)jlong_to_ptr(display),
-            (int *)jlong_to_ptr(event_base_return), (int *)jlong_to_ptr(error_base_return));
-    return status;
+    stbtus = XSibpfQufryExtfnsion((Displby *)jlong_to_ptr(displby),
+            (int *)jlong_to_ptr(fvfnt_bbsf_rfturn), (int *)jlong_to_ptr(frror_bbsf_rfturn));
+    rfturn stbtus;
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    SetRectangularShape
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    SftRfdtbngulbrSibpf
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_SetRectangularShape
-(JNIEnv *env, jclass clazz, jlong display, jlong window,
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftRfdtbngulbrSibpf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
  jint x1, jint y1, jint x2, jint y2,
- jobject region)
+ jobjfdt rfgion)
 {
     AWT_CHECK_HAVE_LOCK();
 
-    // If all the params are zeros, the shape must be simply reset.
-    // Otherwise, the shape may be not rectangular.
-    if (region || x1 || x2 || y1 || y2) {
-        XRectangle rects[256];
-        XRectangle *pRect = rects;
+    // If bll tif pbrbms brf zfros, tif sibpf must bf simply rfsft.
+    // Otifrwisf, tif sibpf mby bf not rfdtbngulbr.
+    if (rfgion || x1 || x2 || y1 || y2) {
+        XRfdtbnglf rfdts[256];
+        XRfdtbnglf *pRfdt = rfdts;
 
-        int numrects = RegionToYXBandedRectangles(env, x1, y1, x2, y2, region,
-                &pRect, 256);
+        int numrfdts = RfgionToYXBbndfdRfdtbnglfs(fnv, x1, y1, x2, y2, rfgion,
+                &pRfdt, 256);
 
-        XShapeCombineRectangles((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-                ShapeClip, 0, 0, pRect, numrects, ShapeSet, YXBanded);
-        XShapeCombineRectangles((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-                ShapeBounding, 0, 0, pRect, numrects, ShapeSet, YXBanded);
+        XSibpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                SibpfClip, 0, 0, pRfdt, numrfdts, SibpfSft, YXBbndfd);
+        XSibpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                SibpfBounding, 0, 0, pRfdt, numrfdts, SibpfSft, YXBbndfd);
 
-        if (pRect != rects) {
-            free(pRect);
+        if (pRfdt != rfdts) {
+            frff(pRfdt);
         }
-    } else {
-        // Reset the shape to a rectangular form.
-        XShapeCombineMask((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-                ShapeClip, 0, 0, None, ShapeSet);
-        XShapeCombineMask((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-                ShapeBounding, 0, 0, None, ShapeSet);
+    } flsf {
+        // Rfsft tif sibpf to b rfdtbngulbr form.
+        XSibpfCombinfMbsk((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                SibpfClip, 0, 0, Nonf, SibpfSft);
+        XSibpfCombinfMbsk((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                SibpfBounding, 0, 0, Nonf, SibpfSft);
     }
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    SetZOrder
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    SftZOrdfr
  */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_SetZOrder
-(JNIEnv *env, jclass clazz, jlong display, jlong window, jlong above)
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftZOrdfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bbovf)
 {
-    unsigned int value_mask = CWStackMode;
+    unsignfd int vbluf_mbsk = CWStbdkModf;
 
-    XWindowChanges wc;
-    wc.sibling = (Window)jlong_to_ptr(above);
+    XWindowCibngfs wd;
+    wd.sibling = (Window)jlong_to_ptr(bbovf);
 
     AWT_CHECK_HAVE_LOCK();
 
-    if (above == 0) {
-        wc.stack_mode = Above;
-    } else {
-        wc.stack_mode = Below;
-        value_mask |= CWSibling;
+    if (bbovf == 0) {
+        wd.stbdk_modf = Abovf;
+    } flsf {
+        wd.stbdk_modf = Bflow;
+        vbluf_mbsk |= CWSibling;
     }
 
-    XConfigureWindow((Display *)jlong_to_ptr(display),
+    XConfigurfWindow((Displby *)jlong_to_ptr(displby),
                      (Window)jlong_to_ptr(window),
-                     value_mask, &wc );
+                     vbluf_mbsk, &wd );
 }
 
 /*
- * Class:     XlibWrapper
- * Method:    SetBitmapShape
+ * Clbss:     XlibWrbppfr
+ * Mftiod:    SftBitmbpSibpf
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11_XlibWrapper_SetBitmapShape
-(JNIEnv *env, jclass clazz, jlong display, jlong window,
- jint width, jint height, jintArray bitmap)
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftBitmbpSibpf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint widti, jint ifigit, jintArrby bitmbp)
 {
-    jsize len;
-    jint *values;
-    jboolean isCopy = JNI_FALSE;
-    size_t worstBufferSize = (size_t)((width / 2 + 1) * height);
-    RECT_T * pRect;
-    int numrects;
+    jsizf lfn;
+    jint *vblufs;
+    jboolfbn isCopy = JNI_FALSE;
+    sizf_t worstBufffrSizf = (sizf_t)((widti / 2 + 1) * ifigit);
+    RECT_T * pRfdt;
+    int numrfdts;
 
-    if (!IS_SAFE_SIZE_MUL(width / 2 + 1, height)) {
-        return;
+    if (!IS_SAFE_SIZE_MUL(widti / 2 + 1, ifigit)) {
+        rfturn;
     }
 
     AWT_CHECK_HAVE_LOCK();
 
-    len = (*env)->GetArrayLength(env, bitmap);
-    if (len == 0 || len < width * height) {
-        return;
+    lfn = (*fnv)->GftArrbyLfngti(fnv, bitmbp);
+    if (lfn == 0 || lfn < widti * ifigit) {
+        rfturn;
     }
 
-    values = (*env)->GetIntArrayElements(env, bitmap, &isCopy);
-    if (JNU_IsNull(env, values)) {
-        return;
+    vblufs = (*fnv)->GftIntArrbyElfmfnts(fnv, bitmbp, &isCopy);
+    if (JNU_IsNull(fnv, vblufs)) {
+        rfturn;
     }
 
-    pRect = (RECT_T *)SAFE_SIZE_ARRAY_ALLOC(malloc, worstBufferSize, sizeof(RECT_T));
-    if (!pRect) {
-        return;
+    pRfdt = (RECT_T *)SAFE_SIZE_ARRAY_ALLOC(mbllod, worstBufffrSizf, sizfof(RECT_T));
+    if (!pRfdt) {
+        rfturn;
     }
 
-    /* Note: the values[0] and values[1] are supposed to contain the width
-     * and height (see XIconInfo.getIntData() for details). So, we do +2.
+    /* Notf: tif vblufs[0] bnd vblufs[1] brf supposfd to dontbin tif widti
+     * bnd ifigit (sff XIdonInfo.gftIntDbtb() for dftbils). So, wf do +2.
      */
-    numrects = BitmapToYXBandedRectangles(32, (int)width, (int)height,
-            (unsigned char *)(values + 2), pRect);
+    numrfdts = BitmbpToYXBbndfdRfdtbnglfs(32, (int)widti, (int)ifigit,
+            (unsignfd dibr *)(vblufs + 2), pRfdt);
 
-    XShapeCombineRectangles((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-            ShapeClip, 0, 0, pRect, numrects, ShapeSet, YXBanded);
-    XShapeCombineRectangles((Display *)jlong_to_ptr(display), (Window)jlong_to_ptr(window),
-            ShapeBounding, 0, 0, pRect, numrects, ShapeSet, YXBanded);
+    XSibpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+            SibpfClip, 0, 0, pRfdt, numrfdts, SibpfSft, YXBbndfd);
+    XSibpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+            SibpfBounding, 0, 0, pRfdt, numrfdts, SibpfSft, YXBbndfd);
 
-    free(pRect);
+    frff(pRfdt);
 
-    (*env)->ReleaseIntArrayElements(env, bitmap, values, JNI_ABORT);
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, bitmbp, vblufs, JNI_ABORT);
 }
 

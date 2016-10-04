@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import sun.awt.X11ComponentPeer;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.SurfaceType;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.X11ComponfntPffr;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.SurfbdfTypf;
 
-public abstract class GLXSurfaceData extends OGLSurfaceData {
+publid bbstrbdt dlbss GLXSurfbdfDbtb fxtfnds OGLSurfbdfDbtb {
 
-    protected X11ComponentPeer peer;
-    private GLXGraphicsConfig graphicsConfig;
+    protfdtfd X11ComponfntPffr pffr;
+    privbtf GLXGrbpiidsConfig grbpiidsConfig;
 
-    private native void initOps(X11ComponentPeer peer, long aData);
-    protected native boolean initPbuffer(long pData, long pConfigInfo,
-                                         boolean isOpaque,
-                                         int width, int height);
+    privbtf nbtivf void initOps(X11ComponfntPffr pffr, long bDbtb);
+    protfdtfd nbtivf boolfbn initPbufffr(long pDbtb, long pConfigInfo,
+                                         boolfbn isOpbquf,
+                                         int widti, int ifigit);
 
-    protected GLXSurfaceData(X11ComponentPeer peer, GLXGraphicsConfig gc,
-                             ColorModel cm, int type)
+    protfdtfd GLXSurfbdfDbtb(X11ComponfntPffr pffr, GLXGrbpiidsConfig gd,
+                             ColorModfl dm, int typf)
     {
-        super(gc, cm, type);
-        this.peer = peer;
-        this.graphicsConfig = gc;
-        initOps(peer, graphicsConfig.getAData());
+        supfr(gd, dm, typf);
+        tiis.pffr = pffr;
+        tiis.grbpiidsConfig = gd;
+        initOps(pffr, grbpiidsConfig.gftADbtb());
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    publid GrbpiidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn grbpiidsConfig;
     }
 
     /**
-     * Creates a SurfaceData object representing the primary (front) buffer
-     * of an on-screen Window.
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting tif primbry (front) bufffr
+     * of bn on-sdrffn Window.
      */
-    public static GLXWindowSurfaceData createData(X11ComponentPeer peer) {
-        GLXGraphicsConfig gc = getGC(peer);
-        return new GLXWindowSurfaceData(peer, gc);
+    publid stbtid GLXWindowSurfbdfDbtb drfbtfDbtb(X11ComponfntPffr pffr) {
+        GLXGrbpiidsConfig gd = gftGC(pffr);
+        rfturn nfw GLXWindowSurfbdfDbtb(pffr, gd);
     }
 
     /**
-     * Creates a SurfaceData object representing the back buffer of a
-     * double-buffered on-screen Window.
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting tif bbdk bufffr of b
+     * doublf-bufffrfd on-sdrffn Window.
      */
-    public static GLXOffScreenSurfaceData createData(X11ComponentPeer peer,
-                                                     Image image,
-                                                     int type)
+    publid stbtid GLXOffSdrffnSurfbdfDbtb drfbtfDbtb(X11ComponfntPffr pffr,
+                                                     Imbgf imbgf,
+                                                     int typf)
     {
-        GLXGraphicsConfig gc = getGC(peer);
-        Rectangle r = peer.getBounds();
-        if (type == FLIP_BACKBUFFER) {
-            return new GLXOffScreenSurfaceData(peer, gc, r.width, r.height,
-                                               image, peer.getColorModel(),
+        GLXGrbpiidsConfig gd = gftGC(pffr);
+        Rfdtbnglf r = pffr.gftBounds();
+        if (typf == FLIP_BACKBUFFER) {
+            rfturn nfw GLXOffSdrffnSurfbdfDbtb(pffr, gd, r.widti, r.ifigit,
+                                               imbgf, pffr.gftColorModfl(),
                                                FLIP_BACKBUFFER);
-        } else {
-            return new GLXVSyncOffScreenSurfaceData(peer, gc, r.width, r.height,
-                                                    image, peer.getColorModel(),
-                                                    type);
+        } flsf {
+            rfturn nfw GLXVSyndOffSdrffnSurfbdfDbtb(pffr, gd, r.widti, r.ifigit,
+                                                    imbgf, pffr.gftColorModfl(),
+                                                    typf);
         }
     }
 
     /**
-     * Creates a SurfaceData object representing an off-screen buffer (either
-     * a Pbuffer or Texture).
+     * Crfbtfs b SurfbdfDbtb objfdt rfprfsfnting bn off-sdrffn bufffr (fitifr
+     * b Pbufffr or Tfxturf).
      */
-    public static GLXOffScreenSurfaceData createData(GLXGraphicsConfig gc,
-                                                     int width, int height,
-                                                     ColorModel cm,
-                                                     Image image, int type)
+    publid stbtid GLXOffSdrffnSurfbdfDbtb drfbtfDbtb(GLXGrbpiidsConfig gd,
+                                                     int widti, int ifigit,
+                                                     ColorModfl dm,
+                                                     Imbgf imbgf, int typf)
     {
-        return new GLXOffScreenSurfaceData(null, gc, width, height,
-                                           image, cm, type);
+        rfturn nfw GLXOffSdrffnSurfbdfDbtb(null, gd, widti, ifigit,
+                                           imbgf, dm, typf);
     }
 
-    public static GLXGraphicsConfig getGC(X11ComponentPeer peer) {
-        if (peer != null) {
-            return (GLXGraphicsConfig)peer.getGraphicsConfiguration();
-        } else {
-            // REMIND: this should rarely (never?) happen, but what if
-            //         default config is not GLX?
-            GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            return (GLXGraphicsConfig)gd.getDefaultConfiguration();
+    publid stbtid GLXGrbpiidsConfig gftGC(X11ComponfntPffr pffr) {
+        if (pffr != null) {
+            rfturn (GLXGrbpiidsConfig)pffr.gftGrbpiidsConfigurbtion();
+        } flsf {
+            // REMIND: tiis siould rbrfly (nfvfr?) ibppfn, but wibt if
+            //         dffbult donfig is not GLX?
+            GrbpiidsEnvironmfnt fnv =
+                GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+            GrbpiidsDfvidf gd = fnv.gftDffbultSdrffnDfvidf();
+            rfturn (GLXGrbpiidsConfig)gd.gftDffbultConfigurbtion();
         }
     }
 
-    public static class GLXWindowSurfaceData extends GLXSurfaceData {
+    publid stbtid dlbss GLXWindowSurfbdfDbtb fxtfnds GLXSurfbdfDbtb {
 
-        public GLXWindowSurfaceData(X11ComponentPeer peer,
-                                    GLXGraphicsConfig gc)
+        publid GLXWindowSurfbdfDbtb(X11ComponfntPffr pffr,
+                                    GLXGrbpiidsConfig gd)
         {
-            super(peer, gc, peer.getColorModel(), WINDOW);
+            supfr(pffr, gd, pffr.gftColorModfl(), WINDOW);
         }
 
-        public SurfaceData getReplacement() {
-            return peer.getSurfaceData();
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn pffr.gftSurfbdfDbtb();
         }
 
-        public Rectangle getBounds() {
-            Rectangle r = peer.getBounds();
+        publid Rfdtbnglf gftBounds() {
+            Rfdtbnglf r = pffr.gftBounds();
             r.x = r.y = 0;
-            return r;
+            rfturn r;
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Rfturns dfstinbtion Componfnt bssodibtfd witi tiis SurfbdfDbtb.
          */
-        public Object getDestination() {
-            return peer.getTarget();
+        publid Objfdt gftDfstinbtion() {
+            rfturn pffr.gftTbrgft();
         }
     }
 
     /**
-     * A surface which implements a v-synced flip back-buffer with COPIED
-     * FlipContents.
+     * A surfbdf wiidi implfmfnts b v-syndfd flip bbdk-bufffr witi COPIED
+     * FlipContfnts.
      *
-     * This surface serves as a back-buffer to the outside world, while
-     * it is actually an offscreen surface. When the BufferStrategy this surface
-     * belongs to is showed, it is first copied to the real private
-     * FLIP_BACKBUFFER, which is then flipped.
+     * Tiis surfbdf sfrvfs bs b bbdk-bufffr to tif outsidf world, wiilf
+     * it is bdtublly bn offsdrffn surfbdf. Wifn tif BufffrStrbtfgy tiis surfbdf
+     * bflongs to is siowfd, it is first dopifd to tif rfbl privbtf
+     * FLIP_BACKBUFFER, wiidi is tifn flippfd.
      */
-    public static class GLXVSyncOffScreenSurfaceData extends
-        GLXOffScreenSurfaceData
+    publid stbtid dlbss GLXVSyndOffSdrffnSurfbdfDbtb fxtfnds
+        GLXOffSdrffnSurfbdfDbtb
     {
-        private GLXOffScreenSurfaceData flipSurface;
+        privbtf GLXOffSdrffnSurfbdfDbtb flipSurfbdf;
 
-        public GLXVSyncOffScreenSurfaceData(X11ComponentPeer peer,
-                                            GLXGraphicsConfig gc,
-                                            int width, int height,
-                                            Image image, ColorModel cm,
-                                            int type)
+        publid GLXVSyndOffSdrffnSurfbdfDbtb(X11ComponfntPffr pffr,
+                                            GLXGrbpiidsConfig gd,
+                                            int widti, int ifigit,
+                                            Imbgf imbgf, ColorModfl dm,
+                                            int typf)
         {
-            super(peer, gc, width, height, image, cm, type);
-            flipSurface = GLXSurfaceData.createData(peer, image, FLIP_BACKBUFFER);
+            supfr(pffr, gd, widti, ifigit, imbgf, dm, typf);
+            flipSurfbdf = GLXSurfbdfDbtb.drfbtfDbtb(pffr, imbgf, FLIP_BACKBUFFER);
         }
 
-        public SurfaceData getFlipSurface() {
-            return flipSurface;
+        publid SurfbdfDbtb gftFlipSurfbdf() {
+            rfturn flipSurfbdf;
         }
 
-        @Override
-        public void flush() {
-            flipSurface.flush();
-            super.flush();
+        @Ovfrridf
+        publid void flusi() {
+            flipSurfbdf.flusi();
+            supfr.flusi();
         }
 
     }
 
-    public static class GLXOffScreenSurfaceData extends GLXSurfaceData {
+    publid stbtid dlbss GLXOffSdrffnSurfbdfDbtb fxtfnds GLXSurfbdfDbtb {
 
-        private Image offscreenImage;
-        private int width, height;
+        privbtf Imbgf offsdrffnImbgf;
+        privbtf int widti, ifigit;
 
-        public GLXOffScreenSurfaceData(X11ComponentPeer peer,
-                                       GLXGraphicsConfig gc,
-                                       int width, int height,
-                                       Image image, ColorModel cm,
-                                       int type)
+        publid GLXOffSdrffnSurfbdfDbtb(X11ComponfntPffr pffr,
+                                       GLXGrbpiidsConfig gd,
+                                       int widti, int ifigit,
+                                       Imbgf imbgf, ColorModfl dm,
+                                       int typf)
         {
-            super(peer, gc, cm, type);
+            supfr(pffr, gd, dm, typf);
 
-            this.width = width;
-            this.height = height;
-            offscreenImage = image;
+            tiis.widti = widti;
+            tiis.ifigit = ifigit;
+            offsdrffnImbgf = imbgf;
 
-            initSurface(width, height);
+            initSurfbdf(widti, ifigit);
         }
 
-        public SurfaceData getReplacement() {
-            return restoreContents(offscreenImage);
+        publid SurfbdfDbtb gftRfplbdfmfnt() {
+            rfturn rfstorfContfnts(offsdrffnImbgf);
         }
 
-        public Rectangle getBounds() {
-            if (type == FLIP_BACKBUFFER) {
-                Rectangle r = peer.getBounds();
+        publid Rfdtbnglf gftBounds() {
+            if (typf == FLIP_BACKBUFFER) {
+                Rfdtbnglf r = pffr.gftBounds();
                 r.x = r.y = 0;
-                return r;
-            } else {
-                return new Rectangle(width, height);
+                rfturn r;
+            } flsf {
+                rfturn nfw Rfdtbnglf(widti, ifigit);
             }
         }
 
         /**
-         * Returns destination Image associated with this SurfaceData.
+         * Rfturns dfstinbtion Imbgf bssodibtfd witi tiis SurfbdfDbtb.
          */
-        public Object getDestination() {
-            return offscreenImage;
+        publid Objfdt gftDfstinbtion() {
+            rfturn offsdrffnImbgf;
         }
     }
 }

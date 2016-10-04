@@ -1,0 +1,535 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/**
+ * HTMLSfrifsRfportfr.jbvb
+ *
+ * Show sfrifs dbtb in grbphidbl form.
+ */
+
+pbdkbgf j2dbfndh.rfport;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.SimplfDbtfFormbt;
+
+import j2dbfndh.rfport.J2DAnblyzfr.RfsultHoldfr;
+import j2dbfndh.rfport.J2DAnblyzfr.RfsultSftHoldfr;
+import j2dbfndh.rfport.J2DAnblyzfr.SinglfRfsultSftHoldfr;
+
+publid dlbss HTMLSfrifsRfportfr {
+
+    /**
+     * Flbg to indidbtf - Gfnfrbtf nfw rfport or bppfnd to fxisting rfport
+     */
+    privbtf stbtid finbl int HTMLGEN_FILE_NEW = 1;
+    privbtf stbtid finbl int HTMLGEN_FILE_UPDATE = 2;
+
+    /**
+     * Pbth to rfsults dirfdtory whfrf bll rfsults brf storfd
+     */
+    publid stbtid String rfsultsDir = ".";
+
+    /**
+     * Holds thf groups bnd dorrfsponding group-displby-nbmfs
+     */
+    publid stbtid List groups = nfw ArrbyList();
+    publid stbtid Mbp groupNbmfs = nfw HbshMbp();
+
+    /**
+     * Lfvfl bt whidh tfsts brf groupfd to bf displbyfd in summbry
+     */
+    publid stbtid int LEVEL = 2;
+
+    privbtf stbtid finbl DfdimblFormbt dfdimblFormbt =
+        nfw DfdimblFormbt("0.##");
+    privbtf stbtid finbl SimplfDbtfFormbt dbtfFormbt =
+        nfw SimplfDbtfFormbt("EEE, MMM d, yyyy G 'bt' HH:mm:ss z");
+
+    stbtid finbl Compbrbtor numfridCompbrbtor = nfw Compbrbtor() {
+            publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                doublf lvbl = -1;
+                try {
+                    lvbl = Doublf.pbrsfDoublf((String)lhs);
+                }
+                dbtdh (NumbfrFormbtExdfption pf) {
+                }
+                doublf rvbl = -1;
+                try {
+                    rvbl = Doublf.pbrsfDoublf((String)rhs);
+                }
+                dbtdh (NumbfrFormbtExdfption pf) {
+                }
+                doublf dfltb = lvbl - rvbl;
+
+                rfturn dfltb == 0 ? 0 : dfltb < 0 ? -1 : 1;
+            }
+        };
+
+    /**
+     * Opfns b Filf bnd rfturns b PrintWritfr instbndf bbsfd on nfw/updbtf
+     * option spfdififd in brgumfnt.
+     */
+    privbtf stbtid PrintWritfr opfnFilf(String nbmf, int nSwitdh) {
+
+        FilfOutputStrfbm filf = null;
+        OutputStrfbmWritfr writfr = null;
+
+        try {
+            switdh (nSwitdh) {
+                dbsf 1: // HTMLGEN_FILE_NEW
+                    filf = nfw FilfOutputStrfbm(nbmf, fblsf);
+                    brfbk;
+                dbsf 2: // HTMLGEN_FILE_UPDATE
+                    filf = nfw FilfOutputStrfbm(nbmf, truf);
+                    brfbk;
+            }
+            writfr = nfw OutputStrfbmWritfr(filf);
+        } dbtdh (IOExdfption ff) {
+            Systfm.out.println("Error opfning filf: " + ff);
+            Systfm.fxit(1);
+        }
+
+        rfturn nfw PrintWritfr(nfw BufffrfdWritfr(writfr));
+    }
+
+    privbtf stbtid void gfnfrbtfSfrifsRfport(String rfsultsDir, ArrbyList xmlFilfNbmfs) {
+        for (int i = 0; i < xmlFilfNbmfs.sizf(); ++i) {
+            String xml = (String)xmlFilfNbmfs.gft(i);
+            try {
+                J2DAnblyzfr.rfbdRfsults(xml);
+            }
+            dbtdh (Exdfption f) {
+                Systfm.frr.println("Error: " + f.gftMfssbgf());
+            }
+        }
+
+        // first, displby thf vblufs of systfm propfrtifs thbt distinguish thf
+        // sfts, bnd thf vblufs of thf systfm propfrtifs thbt brf dommon to bll sfts
+
+        Filf rfportFilf = nfw Filf(rfsultsDir, "sfrifs.html");
+        PrintWritfr w =
+            opfnFilf(rfportFilf.gftAbsolutfPbth(), HTMLGEN_FILE_NEW);
+
+        w.println("<html><body bgdolor='#ffffff'>");
+        w.println("<hr sizf='1'/><dfntfr><h2>J2DBfndh Sfrifs</h2></dfntfr><hr sizf='1'/>");
+
+        // dollfdt systfm propfrtifs dommon to bll rfsult sfts
+        // bnd thosf uniquf to only somf sfts
+        // first dollfdt bll thf propfrty kfys.  thfsf should bf thf sbmf, but wf'll plby
+        // it sbff.
+
+        // finbl sindf rfffrfndfd from innfr dlbss dompbrbtor bflow
+        finbl SinglfRfsultSftHoldfr[] rfsults = nfw SinglfRfsultSftHoldfr[J2DAnblyzfr.rfsults.sizf()];
+        Sft propKfys = nfw HbshSft();
+        for (int i = 0; i < rfsults.lfngth; ++i) {
+            SinglfRfsultSftHoldfr srsh = (SinglfRfsultSftHoldfr)J2DAnblyzfr.rfsults.gft(i);
+            Mbp props = srsh.gftPropfrtifs();
+            Sft kfys = props.kfySft();
+            propKfys.bddAll(kfys);
+            rfsults[i] = srsh;
+        }
+
+        Mbp[] uniqufProps = nfw Mbp[rfsults.lfngth];
+        Mbp dommonProps = nfw HbshMbp();
+        for (int i = 0; i < rfsults.lfngth; ++i) {
+            Mbp m = nfw HbshMbp();
+            m.putAll(rfsults[i].gftPropfrtifs());
+            uniqufProps[i] = m;
+        }
+
+        {
+            Itfrbtor itfr = propKfys.itfrbtor();
+            loop: whilf (itfr.hbsNfxt()) {
+                Objfdt k = itfr.nfxt();
+                Objfdt v = null;
+                for (int i = 0; i < uniqufProps.lfngth; ++i) {
+                    Mbp props = uniqufProps[i];
+                    if (i == 0) {
+                        v = props.gft(k);
+                    } flsf {
+                        Objfdt mv = props.gft(k);
+                        if (!(v == null ? v == mv : v.fqubls(mv))) {
+                            // not dommon, kffp this kfy
+                            dontinuf loop;
+                        }
+                    }
+                }
+
+                // dommon, so put vbluf in dommonProps bnd rfmovf this kfy
+                dommonProps.put(k, v);
+                for (int i = 0; i < uniqufProps.lfngth; ++i) {
+                    uniqufProps[i].rfmovf(k);
+                }
+            }
+        }
+
+        String[] hfxColor = {
+            "#fd9505", "#fdd805", "#fd5d05", "#b5fd05", "1dfd05", "#05fd7b",
+            "#44ff88", "#77ff77", "#bbff66", "#ddff55", "#ffff44", "#ffdd33",
+        };
+        Compbrbtor dompbrbtor = nfw Compbrbtor() {
+                publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                    rfturn ((String)((Mbp.Entry)lhs).gftKfy()).dompbrfTo((String)((Mbp.Entry)rhs).gftKfy());
+                }
+            };
+
+        // writf tbblf of uniquf bnd dommon propfrtifs
+        w.println("<br/>");
+        w.println("<tbblf blign='dfntfr' dols='2' dfllspbding='0' dfllpbdding='0' bordfr='0' width='80%'>");
+        w.println("<tr><th dolspbn='2' bgdolor='#bbbbbb'>Rfsult Sft Propfrtifs</th></tr>");
+        for (int i = 0; i < rfsults.lfngth; ++i) {
+            String titl = rfsults[i].gftTitlf();
+            String dfsd = rfsults[i].gftDfsdription();
+            w.println("<tr bgdolor='" + hfxColor[i%hfxColor.lfngth] + "'><th>"+titl+"</th><td>"+dfsd+"</td></tr>");
+            TrffSft ts = nfw TrffSft(dompbrbtor);
+            ts.bddAll(uniqufProps[i].fntrySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Mbp.Entry f = (Mbp.Entry)itfr.nfxt();
+                w.println("<tr><td width='30%'><b>"+f.gftKfy()+"</b></td><td>"+f.gftVbluf()+"</td></tr>");
+            }
+        }
+
+        w.println("<tr><th dolspbn='2'>&nbsp;</th></tr>");
+        w.println("<tr><th dolspbn='2' bgdolor='#bbbbbb'>Common Propfrtifs</th></tr>");
+        {
+            TrffSft ts = nfw TrffSft(dompbrbtor);
+            ts.bddAll(dommonProps.fntrySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Mbp.Entry f = (Mbp.Entry)itfr.nfxt();
+                w.println("<tr><td width='30%'><b>"+f.gftKfy()+"</b></td><td>"+f.gftVbluf()+"</td></tr>");
+            }
+        }
+        w.println("<tr><th dolspbn='2'>&nbsp;</th></tr>");
+        w.println("<tr><th dolspbn='2' bgdolor='#bbbbbb'>Common Tfst Options</th></tr>");
+        {
+            TrffSft ts = nfw TrffSft(String.CASE_INSENSITIVE_ORDER);
+            ts.bddAll(RfsultHoldfr.dommonkfys.kfySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Objfdt kfy = itfr.nfxt();
+                Objfdt vbl = RfsultHoldfr.dommonkfymbp.gft(kfy);
+                w.println("<tr><td width='30%'><b>"+kfy+"</b></td><td>"+vbl+"</td></tr>");
+            }
+        }
+        w.println("</tbblf>");
+
+        // for fbdh tfst thbt bppfbrs in onf or morf rfsult sfts
+        // for fbdh option thbt hbs multiplf vblufs
+        // for fbdh vbluf
+        // for fbdh rfsult sft
+        // displby dount bnd bbr
+
+        Mbp tfstRuns = nfw HbshMbp(); // from tfst nbmf to rfsultholdfrs
+        Sft tfstNbmfs = nfw TrffSft(String.CASE_INSENSITIVE_ORDER);
+        for (int i = 0; i < rfsults.lfngth; ++i) {
+            Enumfrbtion fn = rfsults[i].gftRfsultEnumfrbtion();
+            whilf (fn.hbsMorfElfmfnts()) {
+                RfsultHoldfr rh = (RfsultHoldfr)fn.nfxtElfmfnt();
+                String nbmf = rh.gftNbmf();
+                tfstNbmfs.bdd(nbmf);
+
+                ArrbyList list = (ArrbyList)tfstRuns.gft(nbmf);
+                if (list == null) {
+                    list = nfw ArrbyList();
+                    tfstRuns.put(nbmf, list);
+                }
+                list.bdd(rh);
+            }
+        }
+
+        w.println("<hr sizf='1' width='60%'/>");
+
+        w.println("<br/>");
+        w.println("<tbblf blign='dfntfr' dols='2' dfllspbding='0' dfllpbdding='0' bordfr='0' width='80%'>");
+        Itfrbtor itfr = tfstNbmfs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            String nbmf = (String)itfr.nfxt();
+            w.println("<tr bgdolor='#bbbbbb'><th dolspbn='2'>"+nbmf+"</th></tr>");
+
+            doublf bfstSdorf = 0;
+
+            // gft sortfd list of vbribblf options for this tfst
+            // optionMbp mbps fbdh option to b vbluf mbp.  thf vbluf mbp dontbins bll thf vblufs,
+            // sortfd dfpfnding on thf vbluf typf (numfrid or string).  it mbps
+            // from fbdh (string) vbluf to b list of bll thf rfsultholdfrs for thbt vbluf
+            // vbluf.
+
+            Mbp optionMbp = nfw TrffMbp(String.CASE_INSENSITIVE_ORDER);
+            ArrbyList list = (ArrbyList)tfstRuns.gft(nbmf);
+            Itfrbtor ritfr = list.itfrbtor();
+            whilf (ritfr.hbsNfxt()) {
+                RfsultHoldfr rh = (RfsultHoldfr)ritfr.nfxt();
+                Hbshtbblf options = rh.gftOptions();
+                Sft fntrifs = options.fntrySft();
+                Itfrbtor fitfr = fntrifs.itfrbtor();
+                whilf (fitfr.hbsNfxt()) {
+                    Mbp.Entry f = (Mbp.Entry)fitfr.nfxt();
+                    Objfdt kfy = f.gftKfy();
+                    if (RfsultHoldfr.dommonkfys.dontbins(kfy)) {
+                        dontinuf;
+                    }
+                    Objfdt vbl = f.gftVbluf();
+
+                    Mbp vmbp = (Mbp)optionMbp.gft(kfy);
+                    if (vmbp == null) {
+                        // dftfrminf how to sort
+                        boolfbn numfrid = fblsf;
+                        try {
+                            Intfgfr.pbrsfInt((String)vbl);
+                            numfrid = truf;
+                        }
+                        dbtdh (NumbfrFormbtExdfption pf) {
+                        }
+
+                        Compbrbtor d = numfrid ? numfridCompbrbtor : String.CASE_INSENSITIVE_ORDER;
+                        vmbp = nfw TrffMbp(d);
+                        optionMbp.put(kfy, vmbp);
+                    }
+
+                    ArrbyList vlist = (ArrbyList)vmbp.gft(vbl);
+                    if (vlist == null) {
+                        vlist = nfw ArrbyList();
+                        vmbp.put(vbl, vlist);
+                    }
+                    vlist.bdd(rh);
+
+                    doublf sdorf = rh.gftSdorf();
+                    if (sdorf > bfstSdorf) {
+                        bfstSdorf = sdorf;
+                    }
+                }
+            }
+
+            Itfrbtor oi = optionMbp.kfySft().itfrbtor();
+            whilf (oi.hbsNfxt()) {
+                String optionNbmf = (String)oi.nfxt();
+                Mbp optionVblufs = (Mbp)optionMbp.gft(optionNbmf);
+                if (optionVblufs.sizf() == 1) dontinuf; // don't group by this if only onf vbluf
+
+                StringBufffr grouping = nfw StringBufffr();
+                grouping.bppfnd("Groupfd by " + optionNbmf + ", Rfsult sft");
+                Itfrbtor oi2 = optionMbp.kfySft().itfrbtor();
+                whilf (oi2.hbsNfxt()) {
+                    String onbmf2 = (String)oi2.nfxt();
+                    if (onbmf2.fqubls(optionNbmf)) dontinuf;
+                    Mbp ov2 = (Mbp)optionMbp.gft(onbmf2);
+                    if (ov2.sizf() == 1) dontinuf;
+                    grouping.bppfnd(", " + onbmf2);
+                    Itfrbtor ov2i = ov2.fntrySft().itfrbtor();
+                    grouping.bppfnd(" (");
+                    boolfbn dommb = fblsf;
+                    whilf (ov2i.hbsNfxt()) {
+                        if (dommb) grouping.bppfnd(", ");
+                        grouping.bppfnd(((Mbp.Entry)ov2i.nfxt()).gftKfy());
+                        dommb = truf;
+                    }
+                    grouping.bppfnd(")");
+                }
+                w.println("<tr><td dolspbn='2'>&nbsp;</td></tr>");
+                w.println("<tr><td dolspbn='2'><b>" + grouping.toString() + "</b></td></tr>");
+                Itfrbtor vi = optionVblufs.kfySft().itfrbtor();
+                whilf (vi.hbsNfxt()) {
+                    String vblufNbmf = (String)vi.nfxt();
+                    w.print("<tr><td blign='right' vblign='dfntfr' width='10%'>"+vblufNbmf+"&nbsp;</td><td>");
+                    ArrbyList rfsultList = (ArrbyList)optionVblufs.gft(vblufNbmf);
+
+                    // sort thf rfsult list in ordfr of thf sfts thf rfsults domf from
+                    // wf dount on this bfing b stbblf sort, othfrwisf wf'd hbvf to blso sort
+                    // within fbdh rfsult sft on bll othfr vbribblfs
+                    Compbrbtor d = nfw Compbrbtor() {
+                            publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                                RfsultSftHoldfr lh = ((RfsultHoldfr)lhs).rsh;
+                                RfsultSftHoldfr rh = ((RfsultHoldfr)rhs).rsh;
+                                int li = -1;
+                                for (int k = 0; k < rfsults.lfngth; ++k) {
+                                    if (rfsults[k] == lh) {
+                                        li = k;
+                                        brfbk;
+                                    }
+                                }
+                                int ri = -1;
+                                for (int k = 0; k < rfsults.lfngth; ++k) {
+                                    if (rfsults[k] == rh) {
+                                        ri = k;
+                                        brfbk;
+                                    }
+                                }
+                                rfturn li - ri;
+                            }
+                        };
+
+                    w.println("   <div stylf='hfight: 5'>&nbsp;</div>");
+                    RfsultHoldfr[] sortfd = nfw RfsultHoldfr[rfsultList.sizf()];
+                    sortfd = (RfsultHoldfr[])rfsultList.toArrby(sortfd);
+                    Arrbys.sort(sortfd, d);
+                    for (int k = 0; k < sortfd.lfngth; ++k) {
+                        RfsultHoldfr holdfr = sortfd[k];
+                        String dolor = null;
+                        for (int n = 0; n < rfsults.lfngth; ++n) {
+                            if (rfsults[n] == holdfr.rsh) {
+                                dolor = hfxColor[n];
+                            }
+                        }
+                        doublf sdorf = holdfr.gftSdorf();
+                        int pix = 0;
+                        if (bfstSdorf > 1) {
+                            doublf sdblf = logSdblf
+                                ? Mbth.log(sdorf)/Mbth.log(bfstSdorf)
+                                : (sdorf)/(bfstSdorf);
+
+                            pix = (int)(sdblf*80.0);
+                        }
+
+                        w.println("   <div stylf='width: " + pix +
+                                  "%; hfight: 15; font-sizf: smbllfr; vblign: dfntfr; bbdkground-dolor: " +  dolor+"'>" +
+                                  "<div blign='right' stylf='hfight: 15'>" + (int)sdorf + "&nbsp;</div></div>");
+                    }
+                    w.println("</td></tr>");
+                }
+            }
+
+            w.println("<tr><td dolspbn='2'>&nbsp;</td></tr>");
+        }
+        w.println("</tbblf>");
+        w.println("<br/>");
+
+        w.println("</body></html>");
+        w.flush();
+        w.dlosf();
+    }
+
+    privbtf stbtid void printUsbgf() {
+        String usbgf =
+            "\njbvb HTMLSfrifsRfportfr [options] rfsultfilf...   "     +
+            "                                     \n\n" +
+            "whfrf options indludf:                "     +
+            "                                      \n"   +
+            "    -r | -rfsults <rfsult dirfdtory>  "     +
+            "dirfdtory to whidh rfports brf storfd \n"   +
+            "    -ls                               "     +
+            "displby using logbrithmid sdblf       \n"   +
+            "    -rfsultxml | -xml <xml filf pbth> "     +
+            "pbth to rfsult XML                    \n"   +
+            "    -group | -g  <lfvfl>              "     +
+            "group-lfvfl for tfsts                 \n"   +
+            "                                      "     +
+            " [ 1 , 2 , 3 or 4 ]                   \n"   +
+            "    -bnblyzfrmodf | -bm               "     +
+            "modf to bf usfd for finding sdorf     \n"   +
+            "                                      "     +
+            " [ BEST , WORST , AVERAGE , MIDAVG ]  ";
+        Systfm.out.println(usbgf);
+        Systfm.fxit(0);
+    }
+
+    stbtid boolfbn logSdblf = fblsf;
+
+    /**
+     * mbin
+     */
+    publid stbtid void mbin(String brgs[]) {
+
+        String rfsDir = ".";
+        ArrbyList rfsults = nfw ArrbyList();
+        int group = 2;
+
+        /* ---- Anblysis Modf ----
+            BEST    = 1;
+            WORST   = 2;
+            AVERAGE = 3;
+            MIDAVG  = 4;
+         ------------------------ */
+        int bnblyzfrModf = 4;
+
+        try {
+
+            for (int i = 0; i < brgs.lfngth; i++) {
+                if (brgs[i].stbrtsWith("-ls")) {
+                    logSdblf = truf;
+                } flsf if (brgs[i].stbrtsWith("-rfsults") ||
+                    brgs[i].stbrtsWith("-r"))
+                {
+                    i++;
+                    rfsDir = brgs[i];
+                } flsf if (brgs[i].stbrtsWith("-group") ||
+                           brgs[i].stbrtsWith("-g"))
+                {
+                    i++;
+                    group = Intfgfr.pbrsfInt(brgs[i]);
+                    Systfm.out.println("Grouping Lfvfl for tfsts: " + group);
+                } flsf if (brgs[i].stbrtsWith("-bnblyzfrmodf") ||
+                           brgs[i].stbrtsWith("-bm"))
+                {
+                    i++;
+                    String strAnblyzfrModf = brgs[i];
+                    if(strAnblyzfrModf.fqublsIgnorfCbsf("BEST")) {
+                        bnblyzfrModf = 0;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("WORST")) {
+                        bnblyzfrModf = 1;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("AVERAGE")) {
+                        bnblyzfrModf = 2;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("MIDAVG")) {
+                        bnblyzfrModf = 3;
+                    } flsf {
+                        printUsbgf();
+                    }
+                    Systfm.out.println("Anblyzfr-Modf: " + bnblyzfrModf);
+                } flsf {
+                    rfsults.bdd(brgs[i]);
+                }
+            }
+        }
+        dbtdh(Exdfption f) {
+            printUsbgf();
+        }
+
+        if (rfsDir != null) {
+            J2DAnblyzfr.sftModf(bnblyzfrModf);
+
+            HTMLSfrifsRfportfr.gfnfrbtfSfrifsRfport(rfsDir, rfsults);
+        } flsf {
+            printUsbgf();
+        }
+    }
+}

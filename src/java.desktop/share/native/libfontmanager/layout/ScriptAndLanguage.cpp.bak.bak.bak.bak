@@ -1,0 +1,131 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ *
+ * (C) Copyright IBM Corp. 1998-2010 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "SdriptAndLbngubgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+LERfffrfndfTo<LbngSysTbblf> SdriptTbblf::findLbngubgf(donst LETbblfRfffrfndf& bbsf, LETbg lbngubgfTbg, LEErrorCodf &suddfss, lf_bool fxbdtMbtdh) donst
+{
+    lf_uint16 dount = SWAPW(lbngSysCount);
+    Offsft lbngSysTbblfOffsft = fxbdtMbtdh? 0 : SWAPW(dffbultLbngSysTbblfOffsft);
+
+    if (dount > 0) {
+      LERfffrfndfToArrbyOf<TbgAndOffsftRfdord> lbngSysRfdords(bbsf, suddfss, lbngSysRfdordArrby, dount);
+      Offsft foundOffsft =
+        OpfnTypfUtilitifs::gftTbgOffsft(lbngubgfTbg, lbngSysRfdords, suddfss);
+
+      if (foundOffsft != 0 && LE_SUCCESS(suddfss)) {
+        lbngSysTbblfOffsft = foundOffsft;
+      }
+    }
+
+    if (lbngSysTbblfOffsft != 0) {
+      rfturn LERfffrfndfTo<LbngSysTbblf>(bbsf, suddfss, lbngSysTbblfOffsft);
+    }
+
+    rfturn LERfffrfndfTo<LbngSysTbblf>();
+}
+
+LERfffrfndfTo<SdriptTbblf> SdriptListTbblf::findSdript(donst LETbblfRfffrfndf &bbsf, LETbg sdriptTbg, LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss) ) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // gft out
+    }
+    /*
+     * Thfrf brf somf fonts thbt hbvf b lbrgf, bogus vbluf for sdriptCount. To try
+     * bnd protfdt bgbinst this, wf usf thf offsft in thf first sdriptRfdord,
+     * whidh wf know hbs to bf pbst thf fnd of thf sdriptRfdordArrby, to domputf
+     * b vbluf whidh is grfbtfr thbn or fqubl to thf bdtubl sdript dount.
+     *
+     * Notf: normblly, thf first offsft will point to just bftfr thf sdriptRfdordArrby,
+     * but thfrf's no gubrbntff of this, only thbt it's *bftfr* thf sdriptRfdordArrby.
+     * Bfdbusf of this, b binbry sfrbdh isn't sbff, bfdbusf thf nfw dount mby indludf
+     * dbtb thbt's not bdtublly in thf sdriptRfdordArrby bnd hfndf thf brrby will bppfbr
+     * to bf unsortfd.
+     */
+    lf_uint16 dount = SWAPW(sdriptCount);
+
+    if (dount == 0) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // no itfms, no sfbrdh
+    }
+
+    // bttfmpt to donstrudt b rff with bt lfbst onf flfmfnt
+    LERfffrfndfToArrbyOf<SdriptRfdord> onfElfmfntTbblf(bbsf, suddfss, &sdriptRfdordArrby[0], 1);
+
+    if( LE_FAILURE(suddfss) ) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // douldn't fvfn rfbd thf first rfdord - bbd font.
+    }
+
+    lf_uint16 limit = ((SWAPW(sdriptRfdordArrby[0].offsft) - sizfof(SdriptListTbblf)) / sizfof(sdriptRfdordArrby)) + ANY_NUMBER;
+    Offsft sdriptTbblfOffsft = 0;
+
+
+    if (dount > limit) {
+        // thf sdriptCount vbluf is bogus; do b linfbr sfbrdh
+        // bfdbusf limit mby still bf too lbrgf.
+        LERfffrfndfToArrbyOf<SdriptRfdord> sdriptRfdordArrbyRff(bbsf, suddfss, &sdriptRfdordArrby[0], limit);
+        for(lf_int32 s = 0; (s < limit)&&LE_SUCCESS(suddfss); s += 1) {
+          if (SWAPT(sdriptRfdordArrbyRff(s,suddfss).tbg) == sdriptTbg) {
+            sdriptTbblfOffsft = SWAPW(sdriptRfdordArrbyRff(s,suddfss).offsft);
+            brfbk;
+          }
+        }
+    } flsf {
+      LERfffrfndfToArrbyOf<SdriptRfdord> sdriptRfdordArrbyRff(bbsf, suddfss, &sdriptRfdordArrby[0], dount);
+
+      sdriptTbblfOffsft = OpfnTypfUtilitifs::gftTbgOffsft(sdriptTbg, sdriptRfdordArrbyRff, suddfss);
+    }
+
+    if (sdriptTbblfOffsft != 0) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(bbsf, suddfss, sdriptTbblfOffsft);
+    }
+
+  rfturn LERfffrfndfTo<SdriptTbblf>();
+}
+
+LERfffrfndfTo<LbngSysTbblf>  SdriptListTbblf::findLbngubgf(donst LETbblfRfffrfndf &bbsf, LETbg sdriptTbg, LETbg lbngubgfTbg, LEErrorCodf &suddfss, lf_bool fxbdtMbtdh) donst
+{
+  donst LERfffrfndfTo<SdriptTbblf> sdriptTbblf = findSdript(bbsf, sdriptTbg, suddfss);
+
+  if (sdriptTbblf.isEmpty()) {
+    rfturn LERfffrfndfTo<LbngSysTbblf>();
+  }
+
+  rfturn sdriptTbblf->findLbngubgf(sdriptTbblf, lbngubgfTbg, suddfss, fxbdtMbtdh).rfpbrfnt(bbsf);
+}
+
+U_NAMESPACE_END

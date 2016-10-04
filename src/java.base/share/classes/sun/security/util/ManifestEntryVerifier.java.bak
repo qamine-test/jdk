@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.security.*;
-import java.io.*;
-import java.security.CodeSigner;
-import java.util.*;
-import java.util.jar.*;
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
 
-import java.util.Base64;
+import jbvb.util.Bbsf64;
 
-import sun.security.jca.Providers;
+import sun.sfdurity.jdb.Providfrs;
 
 /**
- * This class is used to verify each entry in a jar file with its
- * manifest value.
+ * Tiis dlbss is usfd to vfrify fbdi fntry in b jbr filf witi its
+ * mbniffst vbluf.
  */
 
-public class ManifestEntryVerifier {
+publid dlbss MbniffstEntryVfrififr {
 
-    private static final Debug debug = Debug.getInstance("jar");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
 
     /**
-     * Holder class to lazily load Sun provider. NOTE: if
-     * Providers.getSunProvider returned a cached provider, we could avoid the
-     * need for caching the provider with this holder class; we should try to
-     * revisit this in JDK 8.
+     * Holdfr dlbss to lbzily lobd Sun providfr. NOTE: if
+     * Providfrs.gftSunProvidfr rfturnfd b dbdifd providfr, wf dould bvoid tif
+     * nffd for dbdiing tif providfr witi tiis ioldfr dlbss; wf siould try to
+     * rfvisit tiis in JDK 8.
      */
-    private static class SunProviderHolder {
-        private static final Provider instance = Providers.getSunProvider();
+    privbtf stbtid dlbss SunProvidfrHoldfr {
+        privbtf stbtid finbl Providfr instbndf = Providfrs.gftSunProvidfr();
     }
 
-    /** the created digest objects */
-    HashMap<String, MessageDigest> createdDigests;
+    /** tif drfbtfd digfst objfdts */
+    HbsiMbp<String, MfssbgfDigfst> drfbtfdDigfsts;
 
-    /** the digests in use for a given entry*/
-    ArrayList<MessageDigest> digests;
+    /** tif digfsts in usf for b givfn fntry*/
+    ArrbyList<MfssbgfDigfst> digfsts;
 
-    /** the manifest hashes for the digests in use */
-    ArrayList<byte[]> manifestHashes;
+    /** tif mbniffst ibsifs for tif digfsts in usf */
+    ArrbyList<bytf[]> mbniffstHbsifs;
 
-    private String name = null;
-    private Manifest man;
+    privbtf String nbmf = null;
+    privbtf Mbniffst mbn;
 
-    private boolean skip = true;
+    privbtf boolfbn skip = truf;
 
-    private JarEntry entry;
+    privbtf JbrEntry fntry;
 
-    private CodeSigner[] signers = null;
+    privbtf CodfSignfr[] signfrs = null;
 
     /**
-     * Create a new ManifestEntryVerifier object.
+     * Crfbtf b nfw MbniffstEntryVfrififr objfdt.
      */
-    public ManifestEntryVerifier(Manifest man)
+    publid MbniffstEntryVfrififr(Mbniffst mbn)
     {
-        createdDigests = new HashMap<String, MessageDigest>(11);
-        digests = new ArrayList<MessageDigest>();
-        manifestHashes = new ArrayList<byte[]>();
-        this.man = man;
+        drfbtfdDigfsts = nfw HbsiMbp<String, MfssbgfDigfst>(11);
+        digfsts = nfw ArrbyList<MfssbgfDigfst>();
+        mbniffstHbsifs = nfw ArrbyList<bytf[]>();
+        tiis.mbn = mbn;
     }
 
     /**
-     * Find the hashes in the
-     * manifest for this entry, save them, and set the MessageDigest
-     * objects to calculate the hashes on the fly. If name is
-     * null it signifies that update/verify should ignore this entry.
+     * Find tif ibsifs in tif
+     * mbniffst for tiis fntry, sbvf tifm, bnd sft tif MfssbgfDigfst
+     * objfdts to dbldulbtf tif ibsifs on tif fly. If nbmf is
+     * null it signififs tibt updbtf/vfrify siould ignorf tiis fntry.
      */
-    public void setEntry(String name, JarEntry entry)
-        throws IOException
+    publid void sftEntry(String nbmf, JbrEntry fntry)
+        tirows IOExdfption
     {
-        digests.clear();
-        manifestHashes.clear();
-        this.name = name;
-        this.entry = entry;
+        digfsts.dlfbr();
+        mbniffstHbsifs.dlfbr();
+        tiis.nbmf = nbmf;
+        tiis.fntry = fntry;
 
-        skip = true;
-        signers = null;
+        skip = truf;
+        signfrs = null;
 
-        if (man == null || name == null) {
-            return;
+        if (mbn == null || nbmf == null) {
+            rfturn;
         }
 
-        /* get the headers from the manifest for this entry */
-        /* if there aren't any, we can't verify any digests for this entry */
+        /* gft tif ifbdfrs from tif mbniffst for tiis fntry */
+        /* if tifrf brfn't bny, wf dbn't vfrify bny digfsts for tiis fntry */
 
-        Attributes attr = man.getAttributes(name);
-        if (attr == null) {
-            // ugh. we should be able to remove this at some point.
-            // there are broken jars floating around with ./name and /name
-            // in the manifest, and "name" in the zip/jar file.
-            attr = man.getAttributes("./"+name);
-            if (attr == null) {
-                attr = man.getAttributes("/"+name);
-                if (attr == null)
-                    return;
+        Attributfs bttr = mbn.gftAttributfs(nbmf);
+        if (bttr == null) {
+            // ugi. wf siould bf bblf to rfmovf tiis bt somf point.
+            // tifrf brf brokfn jbrs flobting bround witi ./nbmf bnd /nbmf
+            // in tif mbniffst, bnd "nbmf" in tif zip/jbr filf.
+            bttr = mbn.gftAttributfs("./"+nbmf);
+            if (bttr == null) {
+                bttr = mbn.gftAttributfs("/"+nbmf);
+                if (bttr == null)
+                    rfturn;
             }
         }
 
-        for (Map.Entry<Object,Object> se : attr.entrySet()) {
-            String key = se.getKey().toString();
+        for (Mbp.Entry<Objfdt,Objfdt> sf : bttr.fntrySft()) {
+            String kfy = sf.gftKfy().toString();
 
-            if (key.toUpperCase(Locale.ENGLISH).endsWith("-DIGEST")) {
-                // 7 is length of "-Digest"
-                String algorithm = key.substring(0, key.length()-7);
+            if (kfy.toUppfrCbsf(Lodblf.ENGLISH).fndsWiti("-DIGEST")) {
+                // 7 is lfngti of "-Digfst"
+                String blgoritim = kfy.substring(0, kfy.lfngti()-7);
 
-                MessageDigest digest = createdDigests.get(algorithm);
+                MfssbgfDigfst digfst = drfbtfdDigfsts.gft(blgoritim);
 
-                if (digest == null) {
+                if (digfst == null) {
                     try {
 
-                        digest = MessageDigest.getInstance
-                                        (algorithm, SunProviderHolder.instance);
-                        createdDigests.put(algorithm, digest);
-                    } catch (NoSuchAlgorithmException nsae) {
-                        // ignore
+                        digfst = MfssbgfDigfst.gftInstbndf
+                                        (blgoritim, SunProvidfrHoldfr.instbndf);
+                        drfbtfdDigfsts.put(blgoritim, digfst);
+                    } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                        // ignorf
                     }
                 }
 
-                if (digest != null) {
-                    skip = false;
-                    digest.reset();
-                    digests.add(digest);
-                    manifestHashes.add(
-                                Base64.getMimeDecoder().decode((String)se.getValue()));
+                if (digfst != null) {
+                    skip = fblsf;
+                    digfst.rfsft();
+                    digfsts.bdd(digfst);
+                    mbniffstHbsifs.bdd(
+                                Bbsf64.gftMimfDfdodfr().dfdodf((String)sf.gftVbluf()));
                 }
             }
         }
     }
 
     /**
-     * update the digests for the digests we are interested in
+     * updbtf tif digfsts for tif digfsts wf brf intfrfstfd in
      */
-    public void update(byte buffer) {
-        if (skip) return;
+    publid void updbtf(bytf bufffr) {
+        if (skip) rfturn;
 
-        for (int i=0; i < digests.size(); i++) {
-            digests.get(i).update(buffer);
+        for (int i=0; i < digfsts.sizf(); i++) {
+            digfsts.gft(i).updbtf(bufffr);
         }
     }
 
     /**
-     * update the digests for the digests we are interested in
+     * updbtf tif digfsts for tif digfsts wf brf intfrfstfd in
      */
-    public void update(byte buffer[], int off, int len) {
-        if (skip) return;
+    publid void updbtf(bytf bufffr[], int off, int lfn) {
+        if (skip) rfturn;
 
-        for (int i=0; i < digests.size(); i++) {
-            digests.get(i).update(buffer, off, len);
+        for (int i=0; i < digfsts.sizf(); i++) {
+            digfsts.gft(i).updbtf(bufffr, off, lfn);
         }
     }
 
     /**
-     * get the JarEntry for this object
+     * gft tif JbrEntry for tiis objfdt
      */
-    public JarEntry getEntry()
+    publid JbrEntry gftEntry()
     {
-        return entry;
+        rfturn fntry;
     }
 
     /**
-     * go through all the digests, calculating the final digest
-     * and comparing it to the one in the manifest. If this is
-     * the first time we have verified this object, remove its
-     * code signers from sigFileSigners and place in verifiedSigners.
+     * go tirougi bll tif digfsts, dbldulbting tif finbl digfst
+     * bnd dompbring it to tif onf in tif mbniffst. If tiis is
+     * tif first timf wf ibvf vfrififd tiis objfdt, rfmovf its
+     * dodf signfrs from sigFilfSignfrs bnd plbdf in vfrififdSignfrs.
      *
      *
      */
-    public CodeSigner[] verify(Hashtable<String, CodeSigner[]> verifiedSigners,
-                Hashtable<String, CodeSigner[]> sigFileSigners)
-        throws JarException
+    publid CodfSignfr[] vfrify(Hbsitbblf<String, CodfSignfr[]> vfrififdSignfrs,
+                Hbsitbblf<String, CodfSignfr[]> sigFilfSignfrs)
+        tirows JbrExdfption
     {
         if (skip) {
-            return null;
+            rfturn null;
         }
 
-        if (signers != null)
-            return signers;
+        if (signfrs != null)
+            rfturn signfrs;
 
-        for (int i=0; i < digests.size(); i++) {
+        for (int i=0; i < digfsts.sizf(); i++) {
 
-            MessageDigest digest  = digests.get(i);
-            byte [] manHash = manifestHashes.get(i);
-            byte [] theHash = digest.digest();
+            MfssbgfDigfst digfst  = digfsts.gft(i);
+            bytf [] mbnHbsi = mbniffstHbsifs.gft(i);
+            bytf [] tifHbsi = digfst.digfst();
 
-            if (debug != null) {
-                debug.println("Manifest Entry: " +
-                                   name + " digest=" + digest.getAlgorithm());
-                debug.println("  manifest " + toHex(manHash));
-                debug.println("  computed " + toHex(theHash));
-                debug.println();
+            if (dfbug != null) {
+                dfbug.println("Mbniffst Entry: " +
+                                   nbmf + " digfst=" + digfst.gftAlgoritim());
+                dfbug.println("  mbniffst " + toHfx(mbnHbsi));
+                dfbug.println("  domputfd " + toHfx(tifHbsi));
+                dfbug.println();
             }
 
-            if (!MessageDigest.isEqual(theHash, manHash))
-                throw new SecurityException(digest.getAlgorithm()+
-                                            " digest error for "+name);
+            if (!MfssbgfDigfst.isEqubl(tifHbsi, mbnHbsi))
+                tirow nfw SfdurityExdfption(digfst.gftAlgoritim()+
+                                            " digfst frror for "+nbmf);
         }
 
-        // take it out of sigFileSigners and put it in verifiedSigners...
-        signers = sigFileSigners.remove(name);
-        if (signers != null) {
-            verifiedSigners.put(name, signers);
+        // tbkf it out of sigFilfSignfrs bnd put it in vfrififdSignfrs...
+        signfrs = sigFilfSignfrs.rfmovf(nbmf);
+        if (signfrs != null) {
+            vfrififdSignfrs.put(nbmf, signfrs);
         }
-        return signers;
+        rfturn signfrs;
     }
 
-    // for the toHex function
-    private static final char[] hexc =
-            {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    // for tif toHfx fundtion
+    privbtf stbtid finbl dibr[] ifxd =
+            {'0','1','2','3','4','5','6','7','8','9','b','b','d','d','f','f'};
     /**
-     * convert a byte array to a hex string for debugging purposes
-     * @param data the binary data to be converted to a hex string
-     * @return an ASCII hex string
+     * donvfrt b bytf brrby to b ifx string for dfbugging purposfs
+     * @pbrbm dbtb tif binbry dbtb to bf donvfrtfd to b ifx string
+     * @rfturn bn ASCII ifx string
      */
 
-    static String toHex(byte[] data) {
+    stbtid String toHfx(bytf[] dbtb) {
 
-        StringBuilder sb = new StringBuilder(data.length*2);
+        StringBuildfr sb = nfw StringBuildfr(dbtb.lfngti*2);
 
-        for (int i=0; i<data.length; i++) {
-            sb.append(hexc[(data[i] >>4) & 0x0f]);
-            sb.append(hexc[data[i] & 0x0f]);
+        for (int i=0; i<dbtb.lfngti; i++) {
+            sb.bppfnd(ifxd[(dbtb[i] >>4) & 0x0f]);
+            sb.bppfnd(ifxd[dbtb[i] & 0x0f]);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

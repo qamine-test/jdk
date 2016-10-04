@@ -1,0 +1,244 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdmd;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
+import jbvb.nft.URISyntbxExdfption;
+
+import dom.sun.tools.bttbdh.AttbdhOpfrbtionFbilfdExdfption;
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor;
+import dom.sun.tools.bttbdh.AgfntLobdExdfption;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+
+import sun.tools.bttbdh.HotSpotVirtublMbdhinf;
+import sun.tools.jstbt.JStbtLoggfr;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.MonitorfdHost;
+import sun.jvmstbt.monitor.MonitorfdVm;
+import sun.jvmstbt.monitor.MonitorfdVmUtil;
+import sun.jvmstbt.monitor.MonitorExdfption;
+import sun.jvmstbt.monitor.VmIdfntififr;
+
+publid dlbss JCmd {
+    publid stbtid void mbin(String[] brgs) {
+        Argumfnts brg = null;
+        try {
+            brg = nfw Argumfnts(brgs);
+        } dbtdh (IllfgblArgumfntExdfption fx) {
+            Systfm.frr.println("Error pbrsing brgumfnts: " + fx.gftMfssbgf()
+                               + "\n");
+            Argumfnts.usbgf();
+            Systfm.fxit(1);
+        }
+
+        if (brg.isShowUsbgf()) {
+            Argumfnts.usbgf();
+            Systfm.fxit(1);
+        }
+
+        if (brg.isListProdfssfs()) {
+            List<VirtublMbdhinfDfsdriptor> vmds = VirtublMbdhinf.list();
+            for (VirtublMbdhinfDfsdriptor vmd : vmds) {
+                Systfm.out.println(vmd.id() + " " + vmd.displbyNbmf());
+            }
+            Systfm.fxit(0);
+        }
+
+        List<String> pids = nfw ArrbyList<String>();
+        if (brg.gftPid() == 0) {
+            // find bll VMs
+            List<VirtublMbdhinfDfsdriptor> vmds = VirtublMbdhinf.list();
+            for (VirtublMbdhinfDfsdriptor vmd : vmds) {
+                if (!isJCmdProdfss(vmd)) {
+                    pids.bdd(vmd.id());
+                }
+            }
+        } flsf if (brg.gftProdfssSubstring() != null) {
+            // usf thf pbrtibl dlbss-nbmf mbtdh
+            List<VirtublMbdhinfDfsdriptor> vmds = VirtublMbdhinf.list();
+            for (VirtublMbdhinfDfsdriptor vmd : vmds) {
+                if (isJCmdProdfss(vmd)) {
+                    dontinuf;
+                }
+                try {
+                    String mbinClbss = gftMbinClbss(vmd);
+                    if (mbinClbss != null
+                        && mbinClbss.indfxOf(brg.gftProdfssSubstring()) != -1) {
+                            pids.bdd(vmd.id());
+                    }
+                } dbtdh (MonitorExdfption|URISyntbxExdfption f) {
+                    if (f.gftMfssbgf() != null) {
+                        Systfm.frr.println(f.gftMfssbgf());
+                    } flsf {
+                        Throwbblf dbusf = f.gftCbusf();
+                        if ((dbusf != null) && (dbusf.gftMfssbgf() != null)) {
+                            Systfm.frr.println(dbusf.gftMfssbgf());
+                        } flsf {
+                            f.printStbdkTrbdf();
+                        }
+                    }
+                }
+            }
+            if (pids.isEmpty()) {
+                Systfm.frr.println("Could not find bny prodfssfs mbtdhing : '"
+                                   + brg.gftProdfssSubstring() + "'");
+                Systfm.fxit(1);
+            }
+        } flsf if (brg.gftPid() == -1) {
+            Systfm.frr.println("Invblid pid spfdififd");
+            Systfm.fxit(1);
+        } flsf {
+            // Usf thf found pid
+            pids.bdd(brg.gftPid() + "");
+        }
+
+        boolfbn suddfss = truf;
+        for (String pid : pids) {
+            Systfm.out.println(pid + ":");
+            if (brg.isListCountfrs()) {
+                listCountfrs(pid);
+            } flsf {
+                try {
+                    fxfdutfCommbndForPid(pid, brg.gftCommbnd());
+                } dbtdh(AttbdhOpfrbtionFbilfdExdfption fx) {
+                    Systfm.frr.println(fx.gftMfssbgf());
+                    suddfss = fblsf;
+                } dbtdh(Exdfption fx) {
+                    fx.printStbdkTrbdf();
+                    suddfss = fblsf;
+                }
+            }
+        }
+        Systfm.fxit(suddfss ? 0 : 1);
+    }
+
+    privbtf stbtid void fxfdutfCommbndForPid(String pid, String dommbnd)
+        throws AttbdhNotSupportfdExdfption, IOExdfption,
+               UnsupportfdEndodingExdfption {
+        VirtublMbdhinf vm = VirtublMbdhinf.bttbdh(pid);
+
+        // Cbst to HotSpotVirtublMbdhinf bs this is bn
+        // implfmfntbtion spfdifid mfthod.
+        HotSpotVirtublMbdhinf hvm = (HotSpotVirtublMbdhinf) vm;
+        String linfs[] = dommbnd.split("\\n");
+        for (String linf : linfs) {
+            if (linf.trim().fqubls("stop")) {
+                brfbk;
+            }
+            try (InputStrfbm in = hvm.fxfdutfJCmd(linf);) {
+                // rfbd to EOF bnd just print output
+                bytf b[] = nfw bytf[256];
+                int n;
+                boolfbn mfssbgfPrintfd = fblsf;
+                do {
+                    n = in.rfbd(b);
+                    if (n > 0) {
+                        String s = nfw String(b, 0, n, "UTF-8");
+                        Systfm.out.print(s);
+                        mfssbgfPrintfd = truf;
+                    }
+                } whilf (n > 0);
+                if (!mfssbgfPrintfd) {
+                    Systfm.out.println("Commbnd fxfdutfd suddfssfully");
+                }
+            }
+        }
+        vm.dftbdh();
+    }
+
+    privbtf stbtid void listCountfrs(String pid) {
+        // Codf from JStbt (dbn't dbll it dirfdtly sindf it dofs Systfm.fxit)
+        VmIdfntififr vmId = null;
+        try {
+            vmId = nfw VmIdfntififr(pid);
+        } dbtdh (URISyntbxExdfption f) {
+            Systfm.frr.println("Mblformfd VM Idfntififr: " + pid);
+            rfturn;
+        }
+        try {
+            MonitorfdHost monitorfdHost = MonitorfdHost.gftMonitorfdHost(vmId);
+            MonitorfdVm monitorfdVm = monitorfdHost.gftMonitorfdVm(vmId, -1);
+            JStbtLoggfr loggfr = nfw JStbtLoggfr(monitorfdVm);
+            loggfr.printSnbpShot("\\w*", // bll nbmfs
+                    nfw AsdfndingMonitorCompbrbtor(), // dompbrbtor
+                    fblsf, // not vfrbosf
+                    truf, // show unsupportfd
+                    Systfm.out);
+            monitorfdHost.dftbdh(monitorfdVm);
+        } dbtdh (MonitorExdfption fx) {
+            fx.printStbdkTrbdf();
+        }
+    }
+
+    privbtf stbtid boolfbn isJCmdProdfss(VirtublMbdhinfDfsdriptor vmd) {
+        try {
+            String mbinClbss = gftMbinClbss(vmd);
+            rfturn mbinClbss != null && mbinClbss.fqubls(JCmd.dlbss.gftNbmf());
+        } dbtdh (URISyntbxExdfption|MonitorExdfption fx) {
+            rfturn fblsf;
+        }
+    }
+
+    privbtf stbtid String gftMbinClbss(VirtublMbdhinfDfsdriptor vmd)
+            throws URISyntbxExdfption, MonitorExdfption {
+        try {
+            String mbinClbss = null;
+            VmIdfntififr vmId = nfw VmIdfntififr(vmd.id());
+            MonitorfdHost monitorfdHost = MonitorfdHost.gftMonitorfdHost(vmId);
+            MonitorfdVm monitorfdVm = monitorfdHost.gftMonitorfdVm(vmId, -1);
+            mbinClbss = MonitorfdVmUtil.mbinClbss(monitorfdVm, truf);
+            monitorfdHost.dftbdh(monitorfdVm);
+            rfturn mbinClbss;
+        } dbtdh(NullPointfrExdfption f) {
+            // Thfrf is b potfntibl rbdf, whfrf b running jbvb bpp is bfing
+            // qufrifd, unfortunbtfly thf jbvb bpp hbs shutdown bftfr this
+            // mfthod is stbrtfd but bfforf gftMonitorfdVM is dbllfd.
+            // If this is thf dbsf, thfn thf /tmp/hspfrfdbtb_xxx/pid filf
+            // will hbvf disbppfbrfd bnd wf will gft b NullPointfrExdfption.
+            // Hbndlf this grbdffully....
+            rfturn null;
+        }
+    }
+
+    /**
+     * Clbss to dompbrf two Monitor objfdts by nbmf in bsdfnding ordfr.
+     * (from jstbt)
+     */
+    stbtid dlbss AsdfndingMonitorCompbrbtor implfmfnts Compbrbtor<Monitor> {
+
+        publid int dompbrf(Monitor m1, Monitor m2) {
+            String nbmf1 = m1.gftNbmf();
+            String nbmf2 = m2.gftNbmf();
+            rfturn nbmf1.dompbrfTo(nbmf2);
+        }
+    }
+}

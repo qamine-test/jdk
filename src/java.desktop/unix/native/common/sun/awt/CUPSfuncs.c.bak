@@ -1,505 +1,505 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include <jni_util.h>
-#include <jvm_md.h>
-#include <dlfcn.h>
-#include <cups/cups.h>
-#include <cups/ppd.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <jvm_md.i>
+#indludf <dlfdn.i>
+#indludf <dups/dups.i>
+#indludf <dups/ppd.i>
 
-//#define CUPS_DEBUG
+//#dffinf CUPS_DEBUG
 
-#ifdef CUPS_DEBUG
-#define DPRINTF(x, y) fprintf(stderr, x, y);
-#else
-#define DPRINTF(x, y)
-#endif
+#ifdff CUPS_DEBUG
+#dffinf DPRINTF(x, y) fprintf(stdfrr, x, y);
+#flsf
+#dffinf DPRINTF(x, y)
+#fndif
 
-typedef const char* (*fn_cupsServer)(void);
-typedef int (*fn_ippPort)(void);
-typedef http_t* (*fn_httpConnect)(const char *, int);
-typedef void (*fn_httpClose)(http_t *);
-typedef char* (*fn_cupsGetPPD)(const char *);
-typedef ppd_file_t* (*fn_ppdOpenFile)(const char *);
-typedef void (*fn_ppdClose)(ppd_file_t *);
-typedef ppd_option_t* (*fn_ppdFindOption)(ppd_file_t *, const char *);
-typedef ppd_size_t* (*fn_ppdPageSize)(ppd_file_t *, char *);
+typfdff donst dibr* (*fn_dupsSfrvfr)(void);
+typfdff int (*fn_ippPort)(void);
+typfdff ittp_t* (*fn_ittpConnfdt)(donst dibr *, int);
+typfdff void (*fn_ittpClosf)(ittp_t *);
+typfdff dibr* (*fn_dupsGftPPD)(donst dibr *);
+typfdff ppd_filf_t* (*fn_ppdOpfnFilf)(donst dibr *);
+typfdff void (*fn_ppdClosf)(ppd_filf_t *);
+typfdff ppd_option_t* (*fn_ppdFindOption)(ppd_filf_t *, donst dibr *);
+typfdff ppd_sizf_t* (*fn_ppdPbgfSizf)(ppd_filf_t *, dibr *);
 
-fn_cupsServer j2d_cupsServer;
+fn_dupsSfrvfr j2d_dupsSfrvfr;
 fn_ippPort j2d_ippPort;
-fn_httpConnect j2d_httpConnect;
-fn_httpClose j2d_httpClose;
-fn_cupsGetPPD j2d_cupsGetPPD;
-fn_ppdOpenFile j2d_ppdOpenFile;
-fn_ppdClose j2d_ppdClose;
+fn_ittpConnfdt j2d_ittpConnfdt;
+fn_ittpClosf j2d_ittpClosf;
+fn_dupsGftPPD j2d_dupsGftPPD;
+fn_ppdOpfnFilf j2d_ppdOpfnFilf;
+fn_ppdClosf j2d_ppdClosf;
 fn_ppdFindOption j2d_ppdFindOption;
-fn_ppdPageSize j2d_ppdPageSize;
+fn_ppdPbgfSizf j2d_ppdPbgfSizf;
 
 
 /*
- * Initialize library functions.
- * // REMIND : move tab , add dlClose before return
+ * Initiblizf librbry fundtions.
+ * // REMIND : movf tbb , bdd dlClosf bfforf rfturn
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_print_CUPSPrinter_initIDs(JNIEnv *env,
-                                         jobject printObj) {
-  void *handle = dlopen(VERSIONED_JNI_LIB_NAME("cups", "2"),
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_CUPSPrintfr_initIDs(JNIEnv *fnv,
+                                         jobjfdt printObj) {
+  void *ibndlf = dlopfn(VERSIONED_JNI_LIB_NAME("dups", "2"),
                         RTLD_LAZY | RTLD_GLOBAL);
 
-  if (handle == NULL) {
-    handle = dlopen(JNI_LIB_NAME("cups"), RTLD_LAZY | RTLD_GLOBAL);
-    if (handle == NULL) {
-      return JNI_FALSE;
+  if (ibndlf == NULL) {
+    ibndlf = dlopfn(JNI_LIB_NAME("dups"), RTLD_LAZY | RTLD_GLOBAL);
+    if (ibndlf == NULL) {
+      rfturn JNI_FALSE;
     }
   }
 
-  j2d_cupsServer = (fn_cupsServer)dlsym(handle, "cupsServer");
-  if (j2d_cupsServer == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_dupsSfrvfr = (fn_dupsSfrvfr)dlsym(ibndlf, "dupsSfrvfr");
+  if (j2d_dupsSfrvfr == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_ippPort = (fn_ippPort)dlsym(handle, "ippPort");
+  j2d_ippPort = (fn_ippPort)dlsym(ibndlf, "ippPort");
   if (j2d_ippPort == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_httpConnect = (fn_httpConnect)dlsym(handle, "httpConnect");
-  if (j2d_httpConnect == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_ittpConnfdt = (fn_ittpConnfdt)dlsym(ibndlf, "ittpConnfdt");
+  if (j2d_ittpConnfdt == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_httpClose = (fn_httpClose)dlsym(handle, "httpClose");
-  if (j2d_httpClose == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_ittpClosf = (fn_ittpClosf)dlsym(ibndlf, "ittpClosf");
+  if (j2d_ittpClosf == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_cupsGetPPD = (fn_cupsGetPPD)dlsym(handle, "cupsGetPPD");
-  if (j2d_cupsGetPPD == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_dupsGftPPD = (fn_dupsGftPPD)dlsym(ibndlf, "dupsGftPPD");
+  if (j2d_dupsGftPPD == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_ppdOpenFile = (fn_ppdOpenFile)dlsym(handle, "ppdOpenFile");
-  if (j2d_ppdOpenFile == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
-
-  }
-
-  j2d_ppdClose = (fn_ppdClose)dlsym(handle, "ppdClose");
-  if (j2d_ppdClose == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_ppdOpfnFilf = (fn_ppdOpfnFilf)dlsym(ibndlf, "ppdOpfnFilf");
+  if (j2d_ppdOpfnFilf == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
 
   }
 
-  j2d_ppdFindOption = (fn_ppdFindOption)dlsym(handle, "ppdFindOption");
+  j2d_ppdClosf = (fn_ppdClosf)dlsym(ibndlf, "ppdClosf");
+  if (j2d_ppdClosf == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
+
+  }
+
+  j2d_ppdFindOption = (fn_ppdFindOption)dlsym(ibndlf, "ppdFindOption");
   if (j2d_ppdFindOption == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  j2d_ppdPageSize = (fn_ppdPageSize)dlsym(handle, "ppdPageSize");
-  if (j2d_ppdPageSize == NULL) {
-    dlclose(handle);
-    return JNI_FALSE;
+  j2d_ppdPbgfSizf = (fn_ppdPbgfSizf)dlsym(ibndlf, "ppdPbgfSizf");
+  if (j2d_ppdPbgfSizf == NULL) {
+    dldlosf(ibndlf);
+    rfturn JNI_FALSE;
   }
 
-  return JNI_TRUE;
+  rfturn JNI_TRUE;
 }
 
 /*
- * Gets CUPS server name.
+ * Gfts CUPS sfrvfr nbmf.
  *
  */
 JNIEXPORT jstring JNICALL
-Java_sun_print_CUPSPrinter_getCupsServer(JNIEnv *env,
-                                         jobject printObj)
+Jbvb_sun_print_CUPSPrintfr_gftCupsSfrvfr(JNIEnv *fnv,
+                                         jobjfdt printObj)
 {
-    jstring cServer = NULL;
-    const char* server = j2d_cupsServer();
-    if (server != NULL) {
-        // Is this a local domain socket?
-        if (strncmp(server, "/", 1) == 0) {
-            cServer = JNU_NewStringPlatform(env, "localhost");
-        } else {
-            cServer = JNU_NewStringPlatform(env, server);
+    jstring dSfrvfr = NULL;
+    donst dibr* sfrvfr = j2d_dupsSfrvfr();
+    if (sfrvfr != NULL) {
+        // Is tiis b lodbl dombin sodkft?
+        if (strndmp(sfrvfr, "/", 1) == 0) {
+            dSfrvfr = JNU_NfwStringPlbtform(fnv, "lodbliost");
+        } flsf {
+            dSfrvfr = JNU_NfwStringPlbtform(fnv, sfrvfr);
         }
     }
-    return cServer;
+    rfturn dSfrvfr;
 }
 
 /*
- * Gets CUPS port name.
+ * Gfts CUPS port nbmf.
  *
  */
 JNIEXPORT jint JNICALL
-Java_sun_print_CUPSPrinter_getCupsPort(JNIEnv *env,
-                                         jobject printObj)
+Jbvb_sun_print_CUPSPrintfr_gftCupsPort(JNIEnv *fnv,
+                                         jobjfdt printObj)
 {
     int port = j2d_ippPort();
-    return (jint) port;
+    rfturn (jint) port;
 }
 
 
 /*
- * Checks if connection can be made to the server.
+ * Cifdks if donnfdtion dbn bf mbdf to tif sfrvfr.
  *
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_print_CUPSPrinter_canConnect(JNIEnv *env,
-                                      jobject printObj,
-                                      jstring server,
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_CUPSPrintfr_dbnConnfdt(JNIEnv *fnv,
+                                      jobjfdt printObj,
+                                      jstring sfrvfr,
                                       jint port)
 {
-    const char *serverName;
-    serverName = (*env)->GetStringUTFChars(env, server, NULL);
-    if (serverName != NULL) {
-        http_t *http = j2d_httpConnect(serverName, (int)port);
-        (*env)->ReleaseStringUTFChars(env, server, serverName);
-        if (http != NULL) {
-            j2d_httpClose(http);
-            return JNI_TRUE;
+    donst dibr *sfrvfrNbmf;
+    sfrvfrNbmf = (*fnv)->GftStringUTFCibrs(fnv, sfrvfr, NULL);
+    if (sfrvfrNbmf != NULL) {
+        ittp_t *ittp = j2d_ittpConnfdt(sfrvfrNbmf, (int)port);
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, sfrvfr, sfrvfrNbmf);
+        if (ittp != NULL) {
+            j2d_ittpClosf(ittp);
+            rfturn JNI_TRUE;
         }
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 
 /*
- * Returns list of media: pages + trays
+ * Rfturns list of mfdib: pbgfs + trbys
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_print_CUPSPrinter_getMedia(JNIEnv *env,
-                                         jobject printObj,
-                                         jstring printer)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftMfdib(JNIEnv *fnv,
+                                         jobjfdt printObj,
+                                         jstring printfr)
 {
-    ppd_file_t *ppd;
-    ppd_option_t *optionTray, *optionPage;
-    ppd_choice_t *choice;
-    const char *name;
-    const char *filename;
-    int i, nTrays=0, nPages=0, nTotal=0;
+    ppd_filf_t *ppd;
+    ppd_option_t *optionTrby, *optionPbgf;
+    ppd_dioidf_t *dioidf;
+    donst dibr *nbmf;
+    donst dibr *filfnbmf;
+    int i, nTrbys=0, nPbgfs=0, nTotbl=0;
     jstring utf_str;
-    jclass cls;
-    jobjectArray nameArray = NULL;
+    jdlbss dls;
+    jobjfdtArrby nbmfArrby = NULL;
 
-    name = (*env)->GetStringUTFChars(env, printer, NULL);
-    if (name == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
-        return NULL;
+    nbmf = (*fnv)->GftStringUTFCibrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+        rfturn NULL;
     }
 
-    // NOTE: cupsGetPPD returns a pointer to a filename of a temporary file.
-    // unlink() must be caled to remove the file when finished using it.
-    filename = j2d_cupsGetPPD(name);
-    (*env)->ReleaseStringUTFChars(env, printer, name);
-    CHECK_NULL_RETURN(filename, NULL);
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dblfd to rfmovf tif filf wifn finisifd using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, printfr, nbmf);
+    CHECK_NULL_RETURN(filfnbmf, NULL);
 
-    cls = (*env)->FindClass(env, "java/lang/String");
-    CHECK_NULL_RETURN(cls, NULL);
+    dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    CHECK_NULL_RETURN(dls, NULL);
 
-    if ((ppd = j2d_ppdOpenFile(filename)) == NULL) {
-        unlink(filename);
-        DPRINTF("CUPSfuncs::unable to open PPD  %s\n", filename);
-        return NULL;
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("CUPSfunds::unbblf to opfn PPD  %s\n", filfnbmf);
+        rfturn NULL;
     }
 
-    optionPage = j2d_ppdFindOption(ppd, "PageSize");
-    if (optionPage != NULL) {
-        nPages = optionPage->num_choices;
+    optionPbgf = j2d_ppdFindOption(ppd, "PbgfSizf");
+    if (optionPbgf != NULL) {
+        nPbgfs = optionPbgf->num_dioidfs;
     }
 
-    optionTray = j2d_ppdFindOption(ppd, "InputSlot");
-    if (optionTray != NULL) {
-        nTrays = optionTray->num_choices;
+    optionTrby = j2d_ppdFindOption(ppd, "InputSlot");
+    if (optionTrby != NULL) {
+        nTrbys = optionTrby->num_dioidfs;
     }
 
-    if ((nTotal = (nPages+nTrays) *2) > 0) {
-        nameArray = (*env)->NewObjectArray(env, nTotal, cls, NULL);
-        if (nameArray == NULL) {
-            unlink(filename);
-            j2d_ppdClose(ppd);
-            DPRINTF("CUPSfuncs::bad alloc new array\n", "")
-            (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-            return NULL;
+    if ((nTotbl = (nPbgfs+nTrbys) *2) > 0) {
+        nbmfArrby = (*fnv)->NfwObjfdtArrby(fnv, nTotbl, dls, NULL);
+        if (nbmfArrby == NULL) {
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            DPRINTF("CUPSfunds::bbd bllod nfw brrby\n", "")
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+            rfturn NULL;
         }
 
-        for (i = 0; optionPage!=NULL && i<nPages; i++) {
-            choice = (optionPage->choices)+i;
-            utf_str = JNU_NewStringPlatform(env, choice->text);
+        for (i = 0; optionPbgf!=NULL && i<nPbgfs; i++) {
+            dioidf = (optionPbgf->dioidfs)+i;
+            utf_str = JNU_NfwStringPlbtform(fnv, dioidf->tfxt);
             if (utf_str == NULL) {
-                unlink(filename);
-                j2d_ppdClose(ppd);
-                DPRINTF("CUPSfuncs::bad alloc new string ->text\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-                return NULL;
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string ->tfxt\n", "")
+                JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
             }
-            (*env)->SetObjectArrayElement(env, nameArray, i*2, utf_str);
-            (*env)->DeleteLocalRef(env, utf_str);
-            utf_str = JNU_NewStringPlatform(env, choice->choice);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby, i*2, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+            utf_str = JNU_NfwStringPlbtform(fnv, dioidf->dioidf);
             if (utf_str == NULL) {
-                unlink(filename);
-                j2d_ppdClose(ppd);
-                DPRINTF("CUPSfuncs::bad alloc new string ->choice\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-                return NULL;
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string ->dioidf\n", "")
+                JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
             }
-            (*env)->SetObjectArrayElement(env, nameArray, i*2+1, utf_str);
-            (*env)->DeleteLocalRef(env, utf_str);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby, i*2+1, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
         }
 
-        for (i = 0; optionTray!=NULL && i<nTrays; i++) {
-            choice = (optionTray->choices)+i;
-            utf_str = JNU_NewStringPlatform(env, choice->text);
+        for (i = 0; optionTrby!=NULL && i<nTrbys; i++) {
+            dioidf = (optionTrby->dioidfs)+i;
+            utf_str = JNU_NfwStringPlbtform(fnv, dioidf->tfxt);
             if (utf_str == NULL) {
-                unlink(filename);
-                j2d_ppdClose(ppd);
-                DPRINTF("CUPSfuncs::bad alloc new string text\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-                return NULL;
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string tfxt\n", "")
+                JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
             }
-            (*env)->SetObjectArrayElement(env, nameArray,
-                                          (nPages+i)*2, utf_str);
-            (*env)->DeleteLocalRef(env, utf_str);
-            utf_str = JNU_NewStringPlatform(env, choice->choice);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby,
+                                          (nPbgfs+i)*2, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+            utf_str = JNU_NfwStringPlbtform(fnv, dioidf->dioidf);
             if (utf_str == NULL) {
-                unlink(filename);
-                j2d_ppdClose(ppd);
-                DPRINTF("CUPSfuncs::bad alloc new string choice\n", "")
-                JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-                return NULL;
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string dioidf\n", "")
+                JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
             }
-            (*env)->SetObjectArrayElement(env, nameArray,
-                                          (nPages+i)*2+1, utf_str);
-            (*env)->DeleteLocalRef(env, utf_str);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby,
+                                          (nPbgfs+i)*2+1, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
         }
     }
-    j2d_ppdClose(ppd);
-    unlink(filename);
-    return nameArray;
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
+    rfturn nbmfArrby;
 }
 
 
 /*
- * Returns list of page sizes and imageable area.
+ * Rfturns list of pbgf sizfs bnd imbgfbblf brfb.
  */
-JNIEXPORT jfloatArray JNICALL
-Java_sun_print_CUPSPrinter_getPageSizes(JNIEnv *env,
-                                         jobject printObj,
-                                         jstring printer)
+JNIEXPORT jflobtArrby JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftPbgfSizfs(JNIEnv *fnv,
+                                         jobjfdt printObj,
+                                         jstring printfr)
 {
-    ppd_file_t *ppd;
+    ppd_filf_t *ppd;
     ppd_option_t *option;
-    ppd_choice_t *choice;
-    ppd_size_t *size;
+    ppd_dioidf_t *dioidf;
+    ppd_sizf_t *sizf;
 
-    const char *name = (*env)->GetStringUTFChars(env, printer, NULL);
-    if (name == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
-        return NULL;
+    donst dibr *nbmf = (*fnv)->GftStringUTFCibrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+        rfturn NULL;
     }
-    const char *filename;
+    donst dibr *filfnbmf;
     int i;
-    jobjectArray sizeArray = NULL;
-    jfloat *dims;
+    jobjfdtArrby sizfArrby = NULL;
+    jflobt *dims;
 
-    // NOTE: cupsGetPPD returns a pointer to a filename of a temporary file.
-    // unlink() must be called to remove the file after using it.
-    filename = j2d_cupsGetPPD(name);
-    (*env)->ReleaseStringUTFChars(env, printer, name);
-    CHECK_NULL_RETURN(filename, NULL);
-    if ((ppd = j2d_ppdOpenFile(filename)) == NULL) {
-        unlink(filename);
-        DPRINTF("unable to open PPD  %s\n", filename)
-        return NULL;
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dbllfd to rfmovf tif filf bftfr using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, printfr, nbmf);
+    CHECK_NULL_RETURN(filfnbmf, NULL);
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("unbblf to opfn PPD  %s\n", filfnbmf)
+        rfturn NULL;
     }
-    option = j2d_ppdFindOption(ppd, "PageSize");
-    if (option != NULL && option->num_choices > 0) {
-        // create array of dimensions - (num_choices * 6)
-        //to cover length & height
-        DPRINTF( "CUPSfuncs::option->num_choices %d\n", option->num_choices)
-        // +1 is for storing the default media index
-        sizeArray = (*env)->NewFloatArray(env, option->num_choices*6+1);
-        if (sizeArray == NULL) {
-            unlink(filename);
-            j2d_ppdClose(ppd);
-            DPRINTF("CUPSfuncs::bad alloc new float array\n", "")
-            (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
-            return NULL;
+    option = j2d_ppdFindOption(ppd, "PbgfSizf");
+    if (option != NULL && option->num_dioidfs > 0) {
+        // drfbtf brrby of dimfnsions - (num_dioidfs * 6)
+        //to dovfr lfngti & ifigit
+        DPRINTF( "CUPSfunds::option->num_dioidfs %d\n", option->num_dioidfs)
+        // +1 is for storing tif dffbult mfdib indfx
+        sizfArrby = (*fnv)->NfwFlobtArrby(fnv, option->num_dioidfs*6+1);
+        if (sizfArrby == NULL) {
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            DPRINTF("CUPSfunds::bbd bllod nfw flobt brrby\n", "")
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_TirowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+            rfturn NULL;
         }
 
-        dims = (*env)->GetFloatArrayElements(env, sizeArray, NULL);
+        dims = (*fnv)->GftFlobtArrbyElfmfnts(fnv, sizfArrby, NULL);
         if (dims == NULL) {
-            unlink(filename);
-            j2d_ppdClose(ppd);
-            (*env)->ExceptionClear(env);
-            JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
-            return NULL;
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_TirowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+            rfturn NULL;
         }
-        for (i = 0; i<option->num_choices; i++) {
-            choice = (option->choices)+i;
-            // get the index of the default page
-            if (!strcmp(choice->choice, option->defchoice)) {
-                dims[option->num_choices*6] = (float)i;
+        for (i = 0; i<option->num_dioidfs; i++) {
+            dioidf = (option->dioidfs)+i;
+            // gft tif indfx of tif dffbult pbgf
+            if (!strdmp(dioidf->dioidf, option->dffdioidf)) {
+                dims[option->num_dioidfs*6] = (flobt)i;
             }
-            size = j2d_ppdPageSize(ppd, choice->choice);
-            if (size != NULL) {
-                // paper width and height
-                dims[i*6] = size->width;
-                dims[(i*6)+1] = size->length;
-                // paper printable area
-                dims[(i*6)+2] = size->left;
-                dims[(i*6)+3] = size->top;
-                dims[(i*6)+4] = size->right;
-                dims[(i*6)+5] = size->bottom;
+            sizf = j2d_ppdPbgfSizf(ppd, dioidf->dioidf);
+            if (sizf != NULL) {
+                // pbpfr widti bnd ifigit
+                dims[i*6] = sizf->widti;
+                dims[(i*6)+1] = sizf->lfngti;
+                // pbpfr printbblf brfb
+                dims[(i*6)+2] = sizf->lfft;
+                dims[(i*6)+3] = sizf->top;
+                dims[(i*6)+4] = sizf->rigit;
+                dims[(i*6)+5] = sizf->bottom;
             }
         }
 
-        (*env)->ReleaseFloatArrayElements(env, sizeArray, dims, 0);
+        (*fnv)->RflfbsfFlobtArrbyElfmfnts(fnv, sizfArrby, dims, 0);
     }
 
-    j2d_ppdClose(ppd);
-    unlink(filename);
-    return sizeArray;
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
+    rfturn sizfArrby;
 }
 
 /*
- * Populates the supplied ArrayList<Integer> with resolutions.
- * The first pair of elements will be the default resolution.
- * If resolution isn't supported the list will be empty.
- * If needed we can add a 2nd ArrayList<String> which would
- * be populated with the corresponding UI name.
- * PPD specifies the syntax for resolution as either "Ndpi" or "MxNdpi",
- * eg 300dpi or 600x600dpi. The former is a shorthand where xres==yres.
- * We will always expand to the latter as we use a single array list.
- * Note: getMedia() and getPageSizes() both open the ppd file
- * This is not going to scale forever so if we add anymore we
- * should look to consolidate this.
+ * Populbtfs tif supplifd ArrbyList<Intfgfr> witi rfsolutions.
+ * Tif first pbir of flfmfnts will bf tif dffbult rfsolution.
+ * If rfsolution isn't supportfd tif list will bf fmpty.
+ * If nffdfd wf dbn bdd b 2nd ArrbyList<String> wiidi would
+ * bf populbtfd witi tif dorrfsponding UI nbmf.
+ * PPD spfdififs tif syntbx for rfsolution bs fitifr "Ndpi" or "MxNdpi",
+ * fg 300dpi or 600x600dpi. Tif formfr is b siortibnd wifrf xrfs==yrfs.
+ * Wf will blwbys fxpbnd to tif lbttfr bs wf usf b singlf brrby list.
+ * Notf: gftMfdib() bnd gftPbgfSizfs() boti opfn tif ppd filf
+ * Tiis is not going to sdblf forfvfr so if wf bdd bnymorf wf
+ * siould look to donsolidbtf tiis.
  */
 JNIEXPORT void JNICALL
-Java_sun_print_CUPSPrinter_getResolutions(JNIEnv *env,
-                                          jobject printObj,
-                                          jstring printer,
-                                          jobject arrayList)
+Jbvb_sun_print_CUPSPrintfr_gftRfsolutions(JNIEnv *fnv,
+                                          jobjfdt printObj,
+                                          jstring printfr,
+                                          jobjfdt brrbyList)
 {
-    ppd_file_t *ppd = NULL;
-    ppd_option_t *resolution;
-    int defx = 0, defy = 0;
-    int resx = 0, resy = 0;
-    jclass intCls, cls;
-    jmethodID intCtr, arrListAddMID;
+    ppd_filf_t *ppd = NULL;
+    ppd_option_t *rfsolution;
+    int dffx = 0, dffy = 0;
+    int rfsx = 0, rfsy = 0;
+    jdlbss intCls, dls;
+    jmftiodID intCtr, brrListAddMID;
     int i;
 
-    intCls = (*env)->FindClass(env, "java/lang/Integer");
+    intCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
     CHECK_NULL(intCls);
-    intCtr = (*env)->GetMethodID(env, intCls, "<init>", "(I)V");
+    intCtr = (*fnv)->GftMftiodID(fnv, intCls, "<init>", "(I)V");
     CHECK_NULL(intCtr);
-    cls = (*env)->FindClass(env, "java/util/ArrayList");
-    CHECK_NULL(cls);
-    arrListAddMID =
-        (*env)->GetMethodID(env, cls, "add", "(Ljava/lang/Object;)Z");
-    CHECK_NULL(arrListAddMID);
+    dls = (*fnv)->FindClbss(fnv, "jbvb/util/ArrbyList");
+    CHECK_NULL(dls);
+    brrListAddMID =
+        (*fnv)->GftMftiodID(fnv, dls, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+    CHECK_NULL(brrListAddMID);
 
-    const char *name = (*env)->GetStringUTFChars(env, printer, NULL);
-    if (name == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create printer name");
+    donst dibr *nbmf = (*fnv)->GftStringUTFCibrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
     }
-    const char *filename;
+    donst dibr *filfnbmf;
 
-    // NOTE: cupsGetPPD returns a pointer to a filename of a temporary file.
-    // unlink() must be called to remove the file after using it.
-    filename = j2d_cupsGetPPD(name);
-    (*env)->ReleaseStringUTFChars(env, printer, name);
-    CHECK_NULL(filename);
-    if ((ppd = j2d_ppdOpenFile(filename)) == NULL) {
-        unlink(filename);
-        DPRINTF("unable to open PPD  %s\n", filename)
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dbllfd to rfmovf tif filf bftfr using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, printfr, nbmf);
+    CHECK_NULL(filfnbmf);
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("unbblf to opfn PPD  %s\n", filfnbmf)
     }
-    resolution = j2d_ppdFindOption(ppd, "Resolution");
-    if (resolution != NULL) {
-        int matches = sscanf(resolution->defchoice, "%dx%ddpi", &defx, &defy);
-        if (matches == 2) {
-           if (defx <= 0 || defy <= 0) {
-              defx = 0;
-              defy = 0;
+    rfsolution = j2d_ppdFindOption(ppd, "Rfsolution");
+    if (rfsolution != NULL) {
+        int mbtdifs = ssdbnf(rfsolution->dffdioidf, "%dx%ddpi", &dffx, &dffy);
+        if (mbtdifs == 2) {
+           if (dffx <= 0 || dffy <= 0) {
+              dffx = 0;
+              dffy = 0;
            }
-        } else {
-            matches = sscanf(resolution->defchoice, "%ddpi", &defx);
-            if (matches == 1) {
-                if (defx <= 0) {
-                   defx = 0;
-                } else {
-                   defy = defx;
+        } flsf {
+            mbtdifs = ssdbnf(rfsolution->dffdioidf, "%ddpi", &dffx);
+            if (mbtdifs == 1) {
+                if (dffx <= 0) {
+                   dffx = 0;
+                } flsf {
+                   dffy = dffx;
                 }
             }
         }
-        if (defx > 0) {
-          jobject rxObj = (*env)->NewObject(env, intCls, intCtr, defx);
-          jobject ryObj = (*env)->NewObject(env, intCls, intCtr, defy);
-          (*env)->CallBooleanMethod(env, arrayList, arrListAddMID, rxObj);
-          (*env)->CallBooleanMethod(env, arrayList, arrListAddMID, ryObj);
+        if (dffx > 0) {
+          jobjfdt rxObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, dffx);
+          jobjfdt ryObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, dffy);
+          (*fnv)->CbllBoolfbnMftiod(fnv, brrbyList, brrListAddMID, rxObj);
+          (*fnv)->CbllBoolfbnMftiod(fnv, brrbyList, brrListAddMID, ryObj);
         }
 
-        for (i = 0; i < resolution->num_choices; i++) {
-            char *resStr = resolution->choices[i].choice;
-            int matches = sscanf(resStr, "%dx%ddpi", &resx, &resy);
-            if (matches == 2) {
-               if (resx <= 0 || resy <= 0) {
-                  resx = 0;
-                  resy = 0;
+        for (i = 0; i < rfsolution->num_dioidfs; i++) {
+            dibr *rfsStr = rfsolution->dioidfs[i].dioidf;
+            int mbtdifs = ssdbnf(rfsStr, "%dx%ddpi", &rfsx, &rfsy);
+            if (mbtdifs == 2) {
+               if (rfsx <= 0 || rfsy <= 0) {
+                  rfsx = 0;
+                  rfsy = 0;
                }
-            } else {
-                matches = sscanf(resStr, "%ddpi", &resx);
-                if (matches == 1) {
-                    if (resx <= 0) {
-                       resx = 0;
-                    } else {
-                       resy = resx;
+            } flsf {
+                mbtdifs = ssdbnf(rfsStr, "%ddpi", &rfsx);
+                if (mbtdifs == 1) {
+                    if (rfsx <= 0) {
+                       rfsx = 0;
+                    } flsf {
+                       rfsy = rfsx;
                     }
                 }
             }
-            if (resx > 0 && (resx != defx || resy != defy )) {
-              jobject rxObj = (*env)->NewObject(env, intCls, intCtr, resx);
-              jobject ryObj = (*env)->NewObject(env, intCls, intCtr, resy);
-              (*env)->CallBooleanMethod(env, arrayList, arrListAddMID, rxObj);
-              (*env)->CallBooleanMethod(env, arrayList, arrListAddMID, ryObj);
+            if (rfsx > 0 && (rfsx != dffx || rfsy != dffy )) {
+              jobjfdt rxObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, rfsx);
+              jobjfdt ryObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, rfsy);
+              (*fnv)->CbllBoolfbnMftiod(fnv, brrbyList, brrListAddMID, rxObj);
+              (*fnv)->CbllBoolfbnMftiod(fnv, brrbyList, brrListAddMID, ryObj);
             }
         }
     }
 
-    j2d_ppdClose(ppd);
-    unlink(filename);
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
 }

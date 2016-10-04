@@ -1,0 +1,659 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtion;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Itfrbtor;
+import sun.util.logging.PlbtformLoggfr;
+import jbvb.util.Compbrbtor;
+import sun.misd.ASCIICbsfInsfnsitivfCompbrbtor;
+
+/**
+ * Thf Attributfs dlbss mbps Mbniffst bttributf nbmfs to bssodibtfd string
+ * vblufs. Vblid bttributf nbmfs brf dbsf-insfnsitivf, brf rfstridtfd to
+ * thf ASCII dhbrbdtfrs in thf sft [0-9b-zA-Z_-], bnd dbnnot fxdffd 70
+ * dhbrbdtfrs in lfngth. Attributf vblufs dbn dontbin bny dhbrbdtfrs bnd
+ * will bf UTF8-fndodfd whfn writtfn to thf output strfbm.  Sff thf
+ * <b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html">JAR Filf Spfdifidbtion</b>
+ * for morf informbtion bbout vblid bttributf nbmfs bnd vblufs.
+ *
+ * @buthor  Dbvid Connflly
+ * @sff     Mbniffst
+ * @sindf   1.2
+ */
+publid dlbss Attributfs implfmfnts Mbp<Objfdt,Objfdt>, Clonfbblf {
+    /**
+     * Thf bttributf nbmf-vbluf mbppings.
+     */
+    protfdtfd Mbp<Objfdt,Objfdt> mbp;
+
+    /**
+     * Construdts b nfw, fmpty Attributfs objfdt with dffbult sizf.
+     */
+    publid Attributfs() {
+        this(11);
+    }
+
+    /**
+     * Construdts b nfw, fmpty Attributfs objfdt with thf spfdififd
+     * initibl sizf.
+     *
+     * @pbrbm sizf thf initibl numbfr of bttributfs
+     */
+    publid Attributfs(int sizf) {
+        mbp = nfw HbshMbp<>(sizf);
+    }
+
+    /**
+     * Construdts b nfw Attributfs objfdt with thf sbmf bttributf nbmf-vbluf
+     * mbppings bs in thf spfdififd Attributfs.
+     *
+     * @pbrbm bttr thf spfdififd Attributfs
+     */
+    publid Attributfs(Attributfs bttr) {
+        mbp = nfw HbshMbp<>(bttr);
+    }
+
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd bttributf nbmf, or null if thf
+     * bttributf nbmf wbs not found.
+     *
+     * @pbrbm nbmf thf bttributf nbmf
+     * @rfturn thf vbluf of thf spfdififd bttributf nbmf, or null if
+     *         not found.
+     */
+    publid Objfdt gft(Objfdt nbmf) {
+        rfturn mbp.gft(nbmf);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd bttributf nbmf, spfdififd bs
+     * b string, or null if thf bttributf wbs not found. Thf bttributf
+     * nbmf is dbsf-insfnsitivf.
+     * <p>
+     * This mfthod is dffinfd bs:
+     * <prf>
+     *      rfturn (String)gft(nfw Attributfs.Nbmf((String)nbmf));
+     * </prf>
+     *
+     * @pbrbm nbmf thf bttributf nbmf bs b string
+     * @rfturn thf String vbluf of thf spfdififd bttributf nbmf, or null if
+     *         not found.
+     * @throws IllfgblArgumfntExdfption if thf bttributf nbmf is invblid
+     */
+    publid String gftVbluf(String nbmf) {
+        rfturn (String)gft(nfw Attributfs.Nbmf(nbmf));
+    }
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd Attributfs.Nbmf, or null if thf
+     * bttributf wbs not found.
+     * <p>
+     * This mfthod is dffinfd bs:
+     * <prf>
+     *     rfturn (String)gft(nbmf);
+     * </prf>
+     *
+     * @pbrbm nbmf thf Attributfs.Nbmf objfdt
+     * @rfturn thf String vbluf of thf spfdififd Attributf.Nbmf, or null if
+     *         not found.
+     */
+    publid String gftVbluf(Nbmf nbmf) {
+        rfturn (String)gft(nbmf);
+    }
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd bttributf nbmf
+     * (kfy) in this Mbp. If thf Mbp prfviously dontbinfd b mbpping for
+     * thf bttributf nbmf, thf old vbluf is rfplbdfd.
+     *
+     * @pbrbm nbmf thf bttributf nbmf
+     * @pbrbm vbluf thf bttributf vbluf
+     * @rfturn thf prfvious vbluf of thf bttributf, or null if nonf
+     * @fxdfption ClbssCbstExdfption if thf nbmf is not b Attributfs.Nbmf
+     *            or thf vbluf is not b String
+     */
+    publid Objfdt put(Objfdt nbmf, Objfdt vbluf) {
+        rfturn mbp.put((Attributfs.Nbmf)nbmf, (String)vbluf);
+    }
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd bttributf nbmf,
+     * spfdififd bs b String. Thf bttributfs nbmf is dbsf-insfnsitivf.
+     * If thf Mbp prfviously dontbinfd b mbpping for thf bttributf nbmf,
+     * thf old vbluf is rfplbdfd.
+     * <p>
+     * This mfthod is dffinfd bs:
+     * <prf>
+     *      rfturn (String)put(nfw Attributfs.Nbmf(nbmf), vbluf);
+     * </prf>
+     *
+     * @pbrbm nbmf thf bttributf nbmf bs b string
+     * @pbrbm vbluf thf bttributf vbluf
+     * @rfturn thf prfvious vbluf of thf bttributf, or null if nonf
+     * @fxdfption IllfgblArgumfntExdfption if thf bttributf nbmf is invblid
+     */
+    publid String putVbluf(String nbmf, String vbluf) {
+        rfturn (String)put(nfw Nbmf(nbmf), vbluf);
+    }
+
+    /**
+     * Rfmovfs thf bttributf with thf spfdififd nbmf (kfy) from this Mbp.
+     * Rfturns thf prfvious bttributf vbluf, or null if nonf.
+     *
+     * @pbrbm nbmf bttributf nbmf
+     * @rfturn thf prfvious vbluf of thf bttributf, or null if nonf
+     */
+    publid Objfdt rfmovf(Objfdt nbmf) {
+        rfturn mbp.rfmovf(nbmf);
+    }
+
+    /**
+     * Rfturns truf if this Mbp mbps onf or morf bttributf nbmfs (kfys)
+     * to thf spfdififd vbluf.
+     *
+     * @pbrbm vbluf thf bttributf vbluf
+     * @rfturn truf if this Mbp mbps onf or morf bttributf nbmfs to
+     *         thf spfdififd vbluf
+     */
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn mbp.dontbinsVbluf(vbluf);
+    }
+
+    /**
+     * Rfturns truf if this Mbp dontbins thf spfdififd bttributf nbmf (kfy).
+     *
+     * @pbrbm nbmf thf bttributf nbmf
+     * @rfturn truf if this Mbp dontbins thf spfdififd bttributf nbmf
+     */
+    publid boolfbn dontbinsKfy(Objfdt nbmf) {
+        rfturn mbp.dontbinsKfy(nbmf);
+    }
+
+    /**
+     * Copifs bll of thf bttributf nbmf-vbluf mbppings from thf spfdififd
+     * Attributfs to this Mbp. Duplidbtf mbppings will bf rfplbdfd.
+     *
+     * @pbrbm bttr thf Attributfs to bf storfd in this mbp
+     * @fxdfption ClbssCbstExdfption if bttr is not bn Attributfs
+     */
+    publid void putAll(Mbp<?,?> bttr) {
+        // ## jbvbd bug?
+        if (!Attributfs.dlbss.isInstbndf(bttr))
+            throw nfw ClbssCbstExdfption();
+        for (Mbp.Entry<?,?> mf : (bttr).fntrySft())
+            put(mf.gftKfy(), mf.gftVbluf());
+    }
+
+    /**
+     * Rfmovfs bll bttributfs from this Mbp.
+     */
+    publid void dlfbr() {
+        mbp.dlfbr();
+    }
+
+    /**
+     * Rfturns thf numbfr of bttributfs in this Mbp.
+     */
+    publid int sizf() {
+        rfturn mbp.sizf();
+    }
+
+    /**
+     * Rfturns truf if this Mbp dontbins no bttributfs.
+     */
+    publid boolfbn isEmpty() {
+        rfturn mbp.isEmpty();
+    }
+
+    /**
+     * Rfturns b Sft vifw of thf bttributf nbmfs (kfys) dontbinfd in this Mbp.
+     */
+    publid Sft<Objfdt> kfySft() {
+        rfturn mbp.kfySft();
+    }
+
+    /**
+     * Rfturns b Collfdtion vifw of thf bttributf vblufs dontbinfd in this Mbp.
+     */
+    publid Collfdtion<Objfdt> vblufs() {
+        rfturn mbp.vblufs();
+    }
+
+    /**
+     * Rfturns b Collfdtion vifw of thf bttributf nbmf-vbluf mbppings
+     * dontbinfd in this Mbp.
+     */
+    publid Sft<Mbp.Entry<Objfdt,Objfdt>> fntrySft() {
+        rfturn mbp.fntrySft();
+    }
+
+    /**
+     * Compbrfs thf spfdififd Attributfs objfdt with this Mbp for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso bn instbndf of Attributfs
+     * bnd thf two Attributfs objfdts rfprfsfnt thf sbmf mbppings.
+     *
+     * @pbrbm o thf Objfdt to bf dompbrfd
+     * @rfturn truf if thf spfdififd Objfdt is fqubl to this Mbp
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        rfturn mbp.fqubls(o);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this Mbp.
+     */
+    publid int hbshCodf() {
+        rfturn mbp.hbshCodf();
+    }
+
+    /**
+     * Rfturns b dopy of thf Attributfs, implfmfntfd bs follows:
+     * <prf>
+     *     publid Objfdt dlonf() { rfturn nfw Attributfs(this); }
+     * </prf>
+     * Sindf thf bttributf nbmfs bnd vblufs brf thfmsflvfs immutbblf,
+     * thf Attributfs rfturnfd dbn bf sbffly modififd without bfffdting
+     * thf originbl.
+     */
+    publid Objfdt dlonf() {
+        rfturn nfw Attributfs(this);
+    }
+
+    /*
+     * Writfs thf durrfnt bttributfs to thf spfdififd dbtb output strfbm.
+     * XXX Nffd to hbndlf UTF8 vblufs bnd brfbk up linfs longfr thbn 72 bytfs
+     */
+     void writf(DbtbOutputStrfbm os) throws IOExdfption {
+         for (Entry<Objfdt, Objfdt> f : fntrySft()) {
+             StringBufffr bufffr = nfw StringBufffr(
+                                         ((Nbmf) f.gftKfy()).toString());
+             bufffr.bppfnd(": ");
+
+             String vbluf = (String) f.gftVbluf();
+             if (vbluf != null) {
+                 bytf[] vb = vbluf.gftBytfs("UTF8");
+                 vbluf = nfw String(vb, 0, 0, vb.lfngth);
+             }
+             bufffr.bppfnd(vbluf);
+
+             bufffr.bppfnd("\r\n");
+             Mbniffst.mbkf72Sbff(bufffr);
+             os.writfBytfs(bufffr.toString());
+         }
+        os.writfBytfs("\r\n");
+    }
+
+    /*
+     * Writfs thf durrfnt bttributfs to thf spfdififd dbtb output strfbm,
+     * mbkf surf to writf out thf MANIFEST_VERSION or SIGNATURE_VERSION
+     * bttributfs first.
+     *
+     * XXX Nffd to hbndlf UTF8 vblufs bnd brfbk up linfs longfr thbn 72 bytfs
+     */
+    void writfMbin(DbtbOutputStrfbm out) throws IOExdfption
+    {
+        // writf out thf *-Vfrsion hfbdfr first, if it fxists
+        String vfrnbmf = Nbmf.MANIFEST_VERSION.toString();
+        String vfrsion = gftVbluf(vfrnbmf);
+        if (vfrsion == null) {
+            vfrnbmf = Nbmf.SIGNATURE_VERSION.toString();
+            vfrsion = gftVbluf(vfrnbmf);
+        }
+
+        if (vfrsion != null) {
+            out.writfBytfs(vfrnbmf+": "+vfrsion+"\r\n");
+        }
+
+        // writf out bll bttributfs fxdfpt for thf vfrsion
+        // wf wrotf out fbrlifr
+        for (Entry<Objfdt, Objfdt> f : fntrySft()) {
+            String nbmf = ((Nbmf) f.gftKfy()).toString();
+            if ((vfrsion != null) && !(nbmf.fqublsIgnorfCbsf(vfrnbmf))) {
+
+                StringBufffr bufffr = nfw StringBufffr(nbmf);
+                bufffr.bppfnd(": ");
+
+                String vbluf = (String) f.gftVbluf();
+                if (vbluf != null) {
+                    bytf[] vb = vbluf.gftBytfs("UTF8");
+                    vbluf = nfw String(vb, 0, 0, vb.lfngth);
+                }
+                bufffr.bppfnd(vbluf);
+
+                bufffr.bppfnd("\r\n");
+                Mbniffst.mbkf72Sbff(bufffr);
+                out.writfBytfs(bufffr.toString());
+            }
+        }
+        out.writfBytfs("\r\n");
+    }
+
+    /*
+     * Rfbds bttributfs from thf spfdififd input strfbm.
+     * XXX Nffd to hbndlf UTF8 vblufs.
+     */
+    void rfbd(Mbniffst.FbstInputStrfbm is, bytf[] lbuf) throws IOExdfption {
+        String nbmf = null, vbluf = null;
+        bytf[] lbstlinf = null;
+
+        int lfn;
+        whilf ((lfn = is.rfbdLinf(lbuf)) != -1) {
+            boolfbn linfContinufd = fblsf;
+            if (lbuf[--lfn] != '\n') {
+                throw nfw IOExdfption("linf too long");
+            }
+            if (lfn > 0 && lbuf[lfn-1] == '\r') {
+                --lfn;
+            }
+            if (lfn == 0) {
+                brfbk;
+            }
+            int i = 0;
+            if (lbuf[0] == ' ') {
+                // dontinubtion of prfvious linf
+                if (nbmf == null) {
+                    throw nfw IOExdfption("misplbdfd dontinubtion linf");
+                }
+                linfContinufd = truf;
+                bytf[] buf = nfw bytf[lbstlinf.lfngth + lfn - 1];
+                Systfm.brrbydopy(lbstlinf, 0, buf, 0, lbstlinf.lfngth);
+                Systfm.brrbydopy(lbuf, 1, buf, lbstlinf.lfngth, lfn - 1);
+                if (is.pffk() == ' ') {
+                    lbstlinf = buf;
+                    dontinuf;
+                }
+                vbluf = nfw String(buf, 0, buf.lfngth, "UTF8");
+                lbstlinf = null;
+            } flsf {
+                whilf (lbuf[i++] != ':') {
+                    if (i >= lfn) {
+                        throw nfw IOExdfption("invblid hfbdfr fifld");
+                    }
+                }
+                if (lbuf[i++] != ' ') {
+                    throw nfw IOExdfption("invblid hfbdfr fifld");
+                }
+                nbmf = nfw String(lbuf, 0, 0, i - 2);
+                if (is.pffk() == ' ') {
+                    lbstlinf = nfw bytf[lfn - i];
+                    Systfm.brrbydopy(lbuf, i, lbstlinf, 0, lfn - i);
+                    dontinuf;
+                }
+                vbluf = nfw String(lbuf, i, lfn - i, "UTF8");
+            }
+            try {
+                if ((putVbluf(nbmf, vbluf) != null) && (!linfContinufd)) {
+                    PlbtformLoggfr.gftLoggfr("jbvb.util.jbr").wbrning(
+                                     "Duplidbtf nbmf in Mbniffst: " + nbmf
+                                     + ".\n"
+                                     + "Ensurf thbt thf mbniffst dofs not "
+                                     + "hbvf duplidbtf fntrifs, bnd\n"
+                                     + "thbt blbnk linfs sfpbrbtf "
+                                     + "individubl sfdtions in both your\n"
+                                     + "mbniffst bnd in thf META-INF/MANIFEST.MF "
+                                     + "fntry in thf jbr filf.");
+                }
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw nfw IOExdfption("invblid hfbdfr fifld nbmf: " + nbmf);
+            }
+        }
+    }
+
+    /**
+     * Thf Attributfs.Nbmf dlbss rfprfsfnts bn bttributf nbmf storfd in
+     * this Mbp. Vblid bttributf nbmfs brf dbsf-insfnsitivf, brf rfstridtfd
+     * to thf ASCII dhbrbdtfrs in thf sft [0-9b-zA-Z_-], bnd dbnnot fxdffd
+     * 70 dhbrbdtfrs in lfngth. Attributf vblufs dbn dontbin bny dhbrbdtfrs
+     * bnd will bf UTF8-fndodfd whfn writtfn to thf output strfbm.  Sff thf
+     * <b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html">JAR Filf Spfdifidbtion</b>
+     * for morf informbtion bbout vblid bttributf nbmfs bnd vblufs.
+     */
+    publid stbtid dlbss Nbmf {
+        privbtf String nbmf;
+        privbtf int hbshCodf = -1;
+
+        /**
+         * Construdts b nfw bttributf nbmf using thf givfn string nbmf.
+         *
+         * @pbrbm nbmf thf bttributf string nbmf
+         * @fxdfption IllfgblArgumfntExdfption if thf bttributf nbmf wbs
+         *            invblid
+         * @fxdfption NullPointfrExdfption if thf bttributf nbmf wbs null
+         */
+        publid Nbmf(String nbmf) {
+            if (nbmf == null) {
+                throw nfw NullPointfrExdfption("nbmf");
+            }
+            if (!isVblid(nbmf)) {
+                throw nfw IllfgblArgumfntExdfption(nbmf);
+            }
+            this.nbmf = nbmf.intfrn();
+        }
+
+        privbtf stbtid boolfbn isVblid(String nbmf) {
+            int lfn = nbmf.lfngth();
+            if (lfn > 70 || lfn == 0) {
+                rfturn fblsf;
+            }
+            for (int i = 0; i < lfn; i++) {
+                if (!isVblid(nbmf.dhbrAt(i))) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+
+        privbtf stbtid boolfbn isVblid(dhbr d) {
+            rfturn isAlphb(d) || isDigit(d) || d == '_' || d == '-';
+        }
+
+        privbtf stbtid boolfbn isAlphb(dhbr d) {
+            rfturn (d >= 'b' && d <= 'z') || (d >= 'A' && d <= 'Z');
+        }
+
+        privbtf stbtid boolfbn isDigit(dhbr d) {
+            rfturn d >= '0' && d <= '9';
+        }
+
+        /**
+         * Compbrfs this bttributf nbmf to bnothfr for fqublity.
+         * @pbrbm o thf objfdt to dompbrf
+         * @rfturn truf if this bttributf nbmf is fqubl to thf
+         *         spfdififd bttributf objfdt
+         */
+        publid boolfbn fqubls(Objfdt o) {
+            if (o instbndfof Nbmf) {
+                Compbrbtor<String> d = ASCIICbsfInsfnsitivfCompbrbtor.CASE_INSENSITIVE_ORDER;
+                rfturn d.dompbrf(nbmf, ((Nbmf)o).nbmf) == 0;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        /**
+         * Computfs thf hbsh vbluf for this bttributf nbmf.
+         */
+        publid int hbshCodf() {
+            if (hbshCodf == -1) {
+                hbshCodf = ASCIICbsfInsfnsitivfCompbrbtor.lowfrCbsfHbshCodf(nbmf);
+            }
+            rfturn hbshCodf;
+        }
+
+        /**
+         * Rfturns thf bttributf nbmf bs b String.
+         */
+        publid String toString() {
+            rfturn nbmf;
+        }
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Mbniffst-Vfrsion</dodf>
+         * mbniffst bttributf. This bttributf indidbtfs thf vfrsion numbfr
+         * of thf mbniffst stbndbrd to whidh b JAR filf's mbniffst donforms.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html#JAR_Mbniffst">
+         *      Mbniffst bnd Signbturf Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf MANIFEST_VERSION = nfw Nbmf("Mbniffst-Vfrsion");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Signbturf-Vfrsion</dodf>
+         * mbniffst bttributf usfd whfn signing JAR filfs.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html#JAR_Mbniffst">
+         *      Mbniffst bnd Signbturf Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf SIGNATURE_VERSION = nfw Nbmf("Signbturf-Vfrsion");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Contfnt-Typf</dodf>
+         * mbniffst bttributf.
+         */
+        publid stbtid finbl Nbmf CONTENT_TYPE = nfw Nbmf("Contfnt-Typf");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Clbss-Pbth</dodf>
+         * mbniffst bttributf. Bundlfd fxtfnsions dbn usf this bttributf
+         * to find othfr JAR filfs dontbining nffdfd dlbssfs.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/spfd.html#bundlfd">
+         *      Extfnsions Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf CLASS_PATH = nfw Nbmf("Clbss-Pbth");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Mbin-Clbss</dodf> mbniffst
+         * bttributf usfd for lbundhing bpplidbtions pbdkbgfd in JAR filfs.
+         * Thf <dodf>Mbin-Clbss</dodf> bttributf is usfd in donjundtion
+         * with thf <dodf>-jbr</dodf> dommbnd-linf option of thf
+         * <tt>jbvb</tt> bpplidbtion lbundhfr.
+         */
+        publid stbtid finbl Nbmf MAIN_CLASS = nfw Nbmf("Mbin-Clbss");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Sfblfd</dodf> mbniffst bttributf
+         * usfd for sfbling.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/spfd.html#sfbling">
+         *      Extfnsion Sfbling</b>
+         */
+        publid stbtid finbl Nbmf SEALED = nfw Nbmf("Sfblfd");
+
+       /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Extfnsion-List</dodf> mbniffst bttributf
+         * usfd for dfdlbring dfpfndfndifs on instbllfd fxtfnsions.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/spfd.html#dfpfndfndy">
+         *      Instbllfd fxtfnsion dfpfndfndy</b>
+         */
+        publid stbtid finbl Nbmf EXTENSION_LIST = nfw Nbmf("Extfnsion-List");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Extfnsion-Nbmf</dodf> mbniffst bttributf
+         * usfd for dfdlbring dfpfndfndifs on instbllfd fxtfnsions.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/spfd.html#dfpfndfndy">
+         *      Instbllfd fxtfnsion dfpfndfndy</b>
+         */
+        publid stbtid finbl Nbmf EXTENSION_NAME = nfw Nbmf("Extfnsion-Nbmf");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Extfnsion-Nbmf</dodf> mbniffst bttributf
+         * usfd for dfdlbring dfpfndfndifs on instbllfd fxtfnsions.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/spfd.html#dfpfndfndy">
+         *      Instbllfd fxtfnsion dfpfndfndy</b>
+         */
+        publid stbtid finbl Nbmf EXTENSION_INSTALLATION = nfw Nbmf("Extfnsion-Instbllbtion");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Implfmfntbtion-Titlf</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf IMPLEMENTATION_TITLE = nfw Nbmf("Implfmfntbtion-Titlf");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Implfmfntbtion-Vfrsion</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf IMPLEMENTATION_VERSION = nfw Nbmf("Implfmfntbtion-Vfrsion");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Implfmfntbtion-Vfndor</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf IMPLEMENTATION_VENDOR = nfw Nbmf("Implfmfntbtion-Vfndor");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Implfmfntbtion-Vfndor-Id</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf IMPLEMENTATION_VENDOR_ID = nfw Nbmf("Implfmfntbtion-Vfndor-Id");
+
+       /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Implfmfntbtion-URL</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf IMPLEMENTATION_URL = nfw Nbmf("Implfmfntbtion-URL");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Spfdifidbtion-Titlf</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf SPECIFICATION_TITLE = nfw Nbmf("Spfdifidbtion-Titlf");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Spfdifidbtion-Vfrsion</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf SPECIFICATION_VERSION = nfw Nbmf("Spfdifidbtion-Vfrsion");
+
+        /**
+         * <dodf>Nbmf</dodf> objfdt for <dodf>Spfdifidbtion-Vfndor</dodf>
+         * mbniffst bttributf usfd for pbdkbgf vfrsioning.
+         * @sff <b hrff="../../../../tfdhnotfs/guidfs/vfrsioning/spfd/vfrsioning2.html#wp90779">
+         *      Jbvb Produdt Vfrsioning Spfdifidbtion</b>
+         */
+        publid stbtid finbl Nbmf SPECIFICATION_VENDOR = nfw Nbmf("Spfdifidbtion-Vfndor");
+    }
+}

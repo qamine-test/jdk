@@ -1,0 +1,326 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.BitSft;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+
+
+/**
+ * Mbnipulbtfs b nbtivf brrby of pollfd strudts on Solbris:
+ *
+ * typfdff strudt pollfd {
+ *    int fd;
+ *    short fvfnts;
+ *    short rfvfnts;
+ * } pollfd_t;
+ *
+ * @buthor Mikf MdCloskfy
+ * @sindf 1.4
+ */
+
+dlbss DfvPollArrbyWrbppfr {
+
+    // Evfnt mbsks
+    stbtid finbl short POLLIN       = 0x0001;
+    stbtid finbl short POLLPRI      = 0x0002;
+    stbtid finbl short POLLOUT      = 0x0004;
+    stbtid finbl short POLLRDNORM   = 0x0040;
+    stbtid finbl short POLLWRNORM   = POLLOUT;
+    stbtid finbl short POLLRDBAND   = 0x0080;
+    stbtid finbl short POLLWRBAND   = 0x0100;
+    stbtid finbl short POLLNORM     = POLLRDNORM;
+    stbtid finbl short POLLERR      = 0x0008;
+    stbtid finbl short POLLHUP      = 0x0010;
+    stbtid finbl short POLLNVAL     = 0x0020;
+    stbtid finbl short POLLREMOVE   = 0x0800;
+    stbtid finbl short POLLCONN     = POLLOUT;
+
+    // Misdfllbnfous donstbnts
+    stbtid finbl short SIZE_POLLFD   = 8;
+    stbtid finbl short FD_OFFSET     = 0;
+    stbtid finbl short EVENT_OFFSET  = 4;
+    stbtid finbl short REVENT_OFFSET = 6;
+
+    // Spfdibl vbluf to indidbtf thbt bn updbtf should bf ignorfd
+    stbtid finbl bytf  IGNORE        = (bytf)-1;
+
+    // Mbximum numbfr of opfn filf dfsdriptors
+    stbtid finbl int   OPEN_MAX      = IOUtil.fdLimit();
+
+    // Numbfr of pollfd strudturfs to drfbtf.
+    // dpwritf/iodtl(DP_POLL) bllows up to OPEN_MAX-1
+    stbtid finbl int   NUM_POLLFDS   = Mbth.min(OPEN_MAX-1, 8192);
+
+    // Initibl sizf of brrbys for fd rfgistrbtion dhbngfs
+    privbtf stbtid finbl int INITIAL_PENDING_UPDATE_SIZE = 64;
+
+    // mbximum sizf of updbtfsLow
+    privbtf stbtid finbl int MAX_UPDATE_ARRAY_SIZE = AddfssControllfr.doPrivilfgfd(
+        nfw GftIntfgfrAdtion("sun.nio.dh.mbxUpdbtfArrbySizf", Mbth.min(OPEN_MAX, 64*1024)));
+
+    // Thf pollfd brrby for rfsults from dfvpoll drivfr
+    privbtf finbl AllodbtfdNbtivfObjfdt pollArrby;
+
+    // Bbsf bddrfss of thf nbtivf pollArrby
+    privbtf finbl long pollArrbyAddrfss;
+
+    // Thf fd of thf dfvpoll drivfr
+    privbtf int wfd;
+
+    // Thf fd of thf intfrrupt linf going out
+    privbtf int outgoingIntfrruptFD;
+
+    // Thf fd of thf intfrrupt linf doming in
+    privbtf int indomingIntfrruptFD;
+
+    // Thf indfx of thf intfrrupt FD
+    privbtf int intfrruptfdIndfx;
+
+    // Numbfr of updbtfd pollfd fntrifs
+    int updbtfd;
+
+    // objfdt to syndhronizf fd rfgistrbtion dhbngfs
+    privbtf finbl Objfdt updbtfLodk = nfw Objfdt();
+
+    // numbfr of filf dfsdriptors with rfgistrbtion dhbngfs pfnding
+    privbtf int updbtfCount;
+
+    // filf dfsdriptors with rfgistrbtion dhbngfs pfnding
+    privbtf int[] updbtfDfsdriptors = nfw int[INITIAL_PENDING_UPDATE_SIZE];
+
+    // fvfnts for filf dfsdriptors with rfgistrbtion dhbngfs pfnding, indfxfd
+    // by filf dfsdriptor bnd storfd bs bytfs for fffidifndy rfbsons. For
+    // filf dfsdriptors highfr thbn MAX_UPDATE_ARRAY_SIZE (unlimitfd dbsf bt
+    // lfbst thfn thf updbtf is storfd in b mbp.
+    privbtf finbl bytf[] fvfntsLow = nfw bytf[MAX_UPDATE_ARRAY_SIZE];
+    privbtf Mbp<Intfgfr,Bytf> fvfntsHigh;
+
+    // Usfd by rflfbsf bnd updbtfRfgistrbtions to trbdk whfthfr b filf
+    // dfsdriptor is rfgistfrfd with /dfv/poll.
+    privbtf finbl BitSft rfgistfrfd = nfw BitSft();
+
+    DfvPollArrbyWrbppfr() {
+        int bllodbtionSizf = NUM_POLLFDS * SIZE_POLLFD;
+        pollArrby = nfw AllodbtfdNbtivfObjfdt(bllodbtionSizf, truf);
+        pollArrbyAddrfss = pollArrby.bddrfss();
+        wfd = init();
+        if (OPEN_MAX > MAX_UPDATE_ARRAY_SIZE)
+            fvfntsHigh = nfw HbshMbp<>();
+    }
+
+    void initIntfrrupt(int fd0, int fd1) {
+        outgoingIntfrruptFD = fd1;
+        indomingIntfrruptFD = fd0;
+        rfgistfr(wfd, fd0, POLLIN);
+    }
+
+    void putRfvfntOps(int i, int rfvfnt) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        pollArrby.putShort(offsft, (short)rfvfnt);
+    }
+
+    int gftEvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + EVENT_OFFSET;
+        rfturn pollArrby.gftShort(offsft);
+    }
+
+    int gftRfvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        rfturn pollArrby.gftShort(offsft);
+    }
+
+    int gftDfsdriptor(int i) {
+        int offsft = SIZE_POLLFD * i + FD_OFFSET;
+        rfturn pollArrby.gftInt(offsft);
+    }
+
+    privbtf void sftUpdbtfEvfnts(int fd, bytf fvfnts) {
+        if (fd < MAX_UPDATE_ARRAY_SIZE) {
+            fvfntsLow[fd] = fvfnts;
+        } flsf {
+            fvfntsHigh.put(Intfgfr.vblufOf(fd), Bytf.vblufOf(fvfnts));
+        }
+    }
+
+    privbtf bytf gftUpdbtfEvfnts(int fd) {
+        if (fd < MAX_UPDATE_ARRAY_SIZE) {
+            rfturn fvfntsLow[fd];
+        } flsf {
+            Bytf rfsult = fvfntsHigh.gft(Intfgfr.vblufOf(fd));
+            // rfsult should nfvfr bf null
+            rfturn rfsult.bytfVbluf();
+        }
+    }
+
+    void sftIntfrfst(int fd, int mbsk) {
+        syndhronizfd (updbtfLodk) {
+            // rfdord thf filf dfsdriptor bnd fvfnts, fxpbnding thf
+            // rfspfdtivf brrbys first if nfdfssbry.
+            int oldCbpbdity = updbtfDfsdriptors.lfngth;
+            if (updbtfCount == oldCbpbdity) {
+                int nfwCbpbdity = oldCbpbdity + INITIAL_PENDING_UPDATE_SIZE;
+                int[] nfwDfsdriptors = nfw int[nfwCbpbdity];
+                Systfm.brrbydopy(updbtfDfsdriptors, 0, nfwDfsdriptors, 0, oldCbpbdity);
+                updbtfDfsdriptors = nfwDfsdriptors;
+            }
+            updbtfDfsdriptors[updbtfCount++] = fd;
+
+            // fvfnts brf storfd bs bytfs for fffidifndy rfbsons
+            bytf b = (bytf)mbsk;
+            bssfrt (b == mbsk) && (b != IGNORE);
+            sftUpdbtfEvfnts(fd, b);
+        }
+    }
+
+    void rflfbsf(int fd) {
+        syndhronizfd (updbtfLodk) {
+            // ignorf bny pfnding updbtf for this filf dfsdriptor
+            sftUpdbtfEvfnts(fd, IGNORE);
+
+            // rfmovf from /dfv/poll
+            if (rfgistfrfd.gft(fd)) {
+                rfgistfr(wfd, fd, POLLREMOVE);
+                rfgistfrfd.dlfbr(fd);
+            }
+        }
+    }
+
+    void dlosfDfvPollFD() throws IOExdfption {
+        FilfDispbtdhfrImpl.dlosfIntFD(wfd);
+        pollArrby.frff();
+    }
+
+    int poll(long timfout) throws IOExdfption {
+        updbtfRfgistrbtions();
+        updbtfd = poll0(pollArrbyAddrfss, NUM_POLLFDS, timfout, wfd);
+        for (int i=0; i<updbtfd; i++) {
+            if (gftDfsdriptor(i) == indomingIntfrruptFD) {
+                intfrruptfdIndfx = i;
+                intfrruptfd = truf;
+                brfbk;
+            }
+        }
+        rfturn updbtfd;
+    }
+
+    void updbtfRfgistrbtions() throws IOExdfption {
+        syndhronizfd (updbtfLodk) {
+            // Populbtf pollfd brrby with updbtfd mbsks
+            int j = 0;
+            int indfx = 0;
+            whilf (j < updbtfCount) {
+                int fd = updbtfDfsdriptors[j];
+                short fvfnts = gftUpdbtfEvfnts(fd);
+                boolfbn wbsRfgistfrfd = rfgistfrfd.gft(fd);
+
+                // fvfnts = 0 => POLLREMOVE or do-nothing
+                if (fvfnts != IGNORE) {
+                    if (fvfnts == 0) {
+                        if (wbsRfgistfrfd) {
+                            fvfnts = POLLREMOVE;
+                            rfgistfrfd.dlfbr(fd);
+                        } flsf {
+                            fvfnts = IGNORE;
+                        }
+                    } flsf {
+                        if (!wbsRfgistfrfd) {
+                            rfgistfrfd.sft(fd);
+                        }
+                    }
+                }
+
+                // populbtf pollfd brrby with updbtfd fvfnt
+                if (fvfnts != IGNORE) {
+                    // insfrt POLLREMOVE if dhbnging fvfnts
+                    if (wbsRfgistfrfd && fvfnts != POLLREMOVE) {
+                        putPollFD(pollArrby, indfx, fd, POLLREMOVE);
+                        indfx++;
+                    }
+                    putPollFD(pollArrby, indfx, fd, fvfnts);
+                    indfx++;
+                    if (indfx >= (NUM_POLLFDS-1)) {
+                        rfgistfrMultiplf(wfd, pollArrby.bddrfss(), indfx);
+                        indfx = 0;
+                    }
+
+                    // fvfnts for this fd now up to dbtf
+                    sftUpdbtfEvfnts(fd, IGNORE);
+                }
+                j++;
+            }
+
+            // writf bny rfmbining updbtfs
+            if (indfx > 0)
+                rfgistfrMultiplf(wfd, pollArrby.bddrfss(), indfx);
+
+            updbtfCount = 0;
+        }
+    }
+
+    privbtf void putPollFD(AllodbtfdNbtivfObjfdt brrby, int indfx, int fd,
+                           short fvfnt)
+    {
+        int strudtIndfx = SIZE_POLLFD * indfx;
+        brrby.putInt(strudtIndfx + FD_OFFSET, fd);
+        brrby.putShort(strudtIndfx + EVENT_OFFSET, fvfnt);
+        brrby.putShort(strudtIndfx + REVENT_OFFSET, (short)0);
+    }
+
+    boolfbn intfrruptfd = fblsf;
+
+    publid void intfrrupt() {
+        intfrrupt(outgoingIntfrruptFD);
+    }
+
+    publid int intfrruptfdIndfx() {
+        rfturn intfrruptfdIndfx;
+    }
+
+    boolfbn intfrruptfd() {
+        rfturn intfrruptfd;
+    }
+
+    void dlfbrIntfrruptfd() {
+        intfrruptfd = fblsf;
+    }
+
+    privbtf nbtivf int init();
+    privbtf nbtivf void rfgistfr(int wfd, int fd, int mbsk);
+    privbtf nbtivf void rfgistfrMultiplf(int wfd, long bddrfss, int lfn)
+        throws IOExdfption;
+    privbtf nbtivf int poll0(long pollAddrfss, int numfds, long timfout,
+                             int wfd);
+    privbtf stbtid nbtivf void intfrrupt(int fd);
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

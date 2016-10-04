@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.Vector;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
 
 /**
- * Class MimeType encapsulates a Multipurpose Internet Mail Extensions (MIME)
- * media type as defined in <A HREF="http://www.ietf.org/rfc/rfc2045.txt">RFC
- * 2045</A> and <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>. A
- * MIME type object is part of a {@link DocFlavor DocFlavor} object and
- * specifies the format of the print data.
+ * Clbss MimfTypf fndbpsulbtfs b Multipurposf Intfrnft Mbil Extfnsions (MIME)
+ * mfdib typf bs dffinfd in <A HREF="ittp://www.iftf.org/rfd/rfd2045.txt">RFC
+ * 2045</A> bnd <A HREF="ittp://www.iftf.org/rfd/rfd2046.txt">RFC 2046</A>. A
+ * MIME typf objfdt is pbrt of b {@link DodFlbvor DodFlbvor} objfdt bnd
+ * spfdififs tif formbt of tif print dbtb.
  * <P>
- * Class MimeType is similar to the like-named
- * class in package {@link java.awt.datatransfer java.awt.datatransfer}. Class
- * java.awt.datatransfer.MimeType is not used in the Jini Print Service API
- * for two reasons:
+ * Clbss MimfTypf is similbr to tif likf-nbmfd
+ * dlbss in pbdkbgf {@link jbvb.bwt.dbtbtrbnsffr jbvb.bwt.dbtbtrbnsffr}. Clbss
+ * jbvb.bwt.dbtbtrbnsffr.MimfTypf is not usfd in tif Jini Print Sfrvidf API
+ * for two rfbsons:
  * <OL TYPE=1>
  * <LI>
- * Since not all Java profiles include the AWT, the Jini Print Service should
- * not depend on an AWT class.
+ * Sindf not bll Jbvb profilfs indludf tif AWT, tif Jini Print Sfrvidf siould
+ * not dfpfnd on bn AWT dlbss.
  * <P>
  * <LI>
- * The implementation of class java.awt.datatransfer.MimeType does not
- * guarantee
- * that equivalent MIME types will have the same serialized representation.
- * Thus, since the Jini Lookup Service (JLUS) matches service attributes based
- * on equality of serialized representations, JLUS searches involving MIME
- * types encapsulated in class java.awt.datatransfer.MimeType may incorrectly
- * fail to match.
+ * Tif implfmfntbtion of dlbss jbvb.bwt.dbtbtrbnsffr.MimfTypf dofs not
+ * gubrbntff
+ * tibt fquivblfnt MIME typfs will ibvf tif sbmf sfriblizfd rfprfsfntbtion.
+ * Tius, sindf tif Jini Lookup Sfrvidf (JLUS) mbtdifs sfrvidf bttributfs bbsfd
+ * on fqublity of sfriblizfd rfprfsfntbtions, JLUS sfbrdifs involving MIME
+ * typfs fndbpsulbtfd in dlbss jbvb.bwt.dbtbtrbnsffr.MimfTypf mby indorrfdtly
+ * fbil to mbtdi.
  * </OL>
  * <P>
- * Class MimeType's serialized representation is based on the following
- * canonical form of a MIME type string. Thus, two MIME types that are not
- * identical but that are equivalent (that have the same canonical form) will
- * be considered equal by the JLUS's matching algorithm.
+ * Clbss MimfTypf's sfriblizfd rfprfsfntbtion is bbsfd on tif following
+ * dbnonidbl form of b MIME typf string. Tius, two MIME typfs tibt brf not
+ * idfntidbl but tibt brf fquivblfnt (tibt ibvf tif sbmf dbnonidbl form) will
+ * bf donsidfrfd fqubl by tif JLUS's mbtdiing blgoritim.
  * <UL>
- * <LI> The media type, media subtype, and parameters are retained, but all
- *      comments and whitespace characters are discarded.
- * <LI> The media type, media subtype, and parameter names are converted to
- *      lowercase.
- * <LI> The parameter values retain their original case, except a charset
- *      parameter value for a text media type is converted to lowercase.
- * <LI> Quote characters surrounding parameter values are removed.
- * <LI> Quoting backslash characters inside parameter values are removed.
- * <LI> The parameters are arranged in ascending order of parameter name.
+ * <LI> Tif mfdib typf, mfdib subtypf, bnd pbrbmftfrs brf rftbinfd, but bll
+ *      dommfnts bnd wiitfspbdf dibrbdtfrs brf disdbrdfd.
+ * <LI> Tif mfdib typf, mfdib subtypf, bnd pbrbmftfr nbmfs brf donvfrtfd to
+ *      lowfrdbsf.
+ * <LI> Tif pbrbmftfr vblufs rftbin tifir originbl dbsf, fxdfpt b dibrsft
+ *      pbrbmftfr vbluf for b tfxt mfdib typf is donvfrtfd to lowfrdbsf.
+ * <LI> Quotf dibrbdtfrs surrounding pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Quoting bbdkslbsi dibrbdtfrs insidf pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Tif pbrbmftfrs brf brrbngfd in bsdfnding ordfr of pbrbmftfr nbmf.
  * </UL>
  * <P>
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-class MimeType implements Serializable, Cloneable {
+dlbss MimfTypf implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = -2785720609362367683L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2785720609362367683L;
 
     /**
-     * Array of strings that hold pieces of this MIME type's canonical form.
-     * If the MIME type has <I>n</I> parameters, <I>n</I> &gt;= 0, then the
-     * strings in the array are:
-     * <BR>Index 0 -- Media type.
-     * <BR>Index 1 -- Media subtype.
-     * <BR>Index 2<I>i</I>+2 -- Name of parameter <I>i</I>,
+     * Arrby of strings tibt iold pifdfs of tiis MIME typf's dbnonidbl form.
+     * If tif MIME typf ibs <I>n</I> pbrbmftfrs, <I>n</I> &gt;= 0, tifn tif
+     * strings in tif brrby brf:
+     * <BR>Indfx 0 -- Mfdib typf.
+     * <BR>Indfx 1 -- Mfdib subtypf.
+     * <BR>Indfx 2<I>i</I>+2 -- Nbmf of pbrbmftfr <I>i</I>,
      * <I>i</I>=0,1,...,<I>n</I>-1.
-     * <BR>Index 2<I>i</I>+3 -- Value of parameter <I>i</I>,
+     * <BR>Indfx 2<I>i</I>+3 -- Vbluf of pbrbmftfr <I>i</I>,
      * <I>i</I>=0,1,...,<I>n</I>-1.
-     * <BR>Parameters are arranged in ascending order of parameter name.
-     * @serial
+     * <BR>Pbrbmftfrs brf brrbngfd in bsdfnding ordfr of pbrbmftfr nbmf.
+     * @sfribl
      */
-    private String[] myPieces;
+    privbtf String[] myPifdfs;
 
     /**
-     * String value for this MIME type. Computed when needed and cached.
+     * String vbluf for tiis MIME typf. Computfd wifn nffdfd bnd dbdifd.
      */
-    private transient String myStringValue = null;
+    privbtf trbnsifnt String myStringVbluf = null;
 
     /**
-     * Parameter map entry set. Computed when needed and cached.
+     * Pbrbmftfr mbp fntry sft. Computfd wifn nffdfd bnd dbdifd.
      */
-    private transient ParameterMapEntrySet myEntrySet = null;
+    privbtf trbnsifnt PbrbmftfrMbpEntrySft myEntrySft = null;
 
     /**
-     * Parameter map. Computed when needed and cached.
+     * Pbrbmftfr mbp. Computfd wifn nffdfd bnd dbdifd.
      */
-    private transient ParameterMap myParameterMap = null;
+    privbtf trbnsifnt PbrbmftfrMbp myPbrbmftfrMbp = null;
 
     /**
-     * Parameter map entry.
+     * Pbrbmftfr mbp fntry.
      */
-    private class ParameterMapEntry implements Map.Entry<String, String> {
-        private int myIndex;
-        public ParameterMapEntry(int theIndex) {
-            myIndex = theIndex;
+    privbtf dlbss PbrbmftfrMbpEntry implfmfnts Mbp.Entry<String, String> {
+        privbtf int myIndfx;
+        publid PbrbmftfrMbpEntry(int tifIndfx) {
+            myIndfx = tifIndfx;
         }
-        public String getKey(){
-            return myPieces[myIndex];
+        publid String gftKfy(){
+            rfturn myPifdfs[myIndfx];
         }
-        public String getValue(){
-            return myPieces[myIndex+1];
+        publid String gftVbluf(){
+            rfturn myPifdfs[myIndfx+1];
         }
-        public String setValue (String value) {
-            throw new UnsupportedOperationException();
+        publid String sftVbluf (String vbluf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        public boolean equals(Object o) {
-            return (o != null &&
-                    o instanceof Map.Entry &&
-                    getKey().equals (((Map.Entry) o).getKey()) &&
-                    getValue().equals(((Map.Entry) o).getValue()));
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null &&
+                    o instbndfof Mbp.Entry &&
+                    gftKfy().fqubls (((Mbp.Entry) o).gftKfy()) &&
+                    gftVbluf().fqubls(((Mbp.Entry) o).gftVbluf()));
         }
-        public int hashCode() {
-            return getKey().hashCode() ^ getValue().hashCode();
+        publid int ibsiCodf() {
+            rfturn gftKfy().ibsiCodf() ^ gftVbluf().ibsiCodf();
         }
     }
 
     /**
-     * Parameter map entry set iterator.
+     * Pbrbmftfr mbp fntry sft itfrbtor.
      */
-    private class ParameterMapEntrySetIterator implements Iterator<Map.Entry<String, String>> {
-        private int myIndex = 2;
-        public boolean hasNext() {
-            return myIndex < myPieces.length;
+    privbtf dlbss PbrbmftfrMbpEntrySftItfrbtor implfmfnts Itfrbtor<Mbp.Entry<String, String>> {
+        privbtf int myIndfx = 2;
+        publid boolfbn ibsNfxt() {
+            rfturn myIndfx < myPifdfs.lfngti;
         }
-        public Map.Entry<String, String> next() {
-            if (hasNext()) {
-                ParameterMapEntry result = new ParameterMapEntry (myIndex);
-                myIndex += 2;
-                return result;
-            } else {
-                throw new NoSuchElementException();
+        publid Mbp.Entry<String, String> nfxt() {
+            if (ibsNfxt()) {
+                PbrbmftfrMbpEntry rfsult = nfw PbrbmftfrMbpEntry (myIndfx);
+                myIndfx += 2;
+                rfturn rfsult;
+            } flsf {
+                tirow nfw NoSudiElfmfntExdfption();
             }
         }
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
     /**
-     * Parameter map entry set.
+     * Pbrbmftfr mbp fntry sft.
      */
-    private class ParameterMapEntrySet extends AbstractSet<Map.Entry<String, String>> {
-        public Iterator<Map.Entry<String, String>> iterator() {
-            return new ParameterMapEntrySetIterator();
+    privbtf dlbss PbrbmftfrMbpEntrySft fxtfnds AbstrbdtSft<Mbp.Entry<String, String>> {
+        publid Itfrbtor<Mbp.Entry<String, String>> itfrbtor() {
+            rfturn nfw PbrbmftfrMbpEntrySftItfrbtor();
         }
-        public int size() {
-            return (myPieces.length - 2) / 2;
+        publid int sizf() {
+            rfturn (myPifdfs.lfngti - 2) / 2;
         }
     }
 
     /**
-     * Parameter map.
+     * Pbrbmftfr mbp.
      */
-    private class ParameterMap extends AbstractMap<String, String> {
-        public Set<Map.Entry<String, String>> entrySet() {
-            if (myEntrySet == null) {
-                myEntrySet = new ParameterMapEntrySet();
+    privbtf dlbss PbrbmftfrMbp fxtfnds AbstrbdtMbp<String, String> {
+        publid Sft<Mbp.Entry<String, String>> fntrySft() {
+            if (myEntrySft == null) {
+                myEntrySft = nfw PbrbmftfrMbpEntrySft();
             }
-            return myEntrySet;
+            rfturn myEntrySft;
         }
     }
 
     /**
-     * Construct a new MIME type object from the given string. The given
-     * string is converted into canonical form and stored internally.
+     * Construdt b nfw MIME typf objfdt from tif givfn string. Tif givfn
+     * string is donvfrtfd into dbnonidbl form bnd storfd intfrnblly.
      *
-     * @param  s  MIME media type string.
+     * @pbrbm  s  MIME mfdib typf string.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>s</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>s</CODE> does not obey the
-     *     syntax for a MIME media type string.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>s</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>s</CODE> dofs not obfy tif
+     *     syntbx for b MIME mfdib typf string.
      */
-    public MimeType(String s) {
-        parse (s);
+    publid MimfTypf(String s) {
+        pbrsf (s);
     }
 
     /**
-     * Returns this MIME type object's MIME type string based on the canonical
-     * form. Each parameter value is enclosed in quotes.
+     * Rfturns tiis MIME typf objfdt's MIME typf string bbsfd on tif dbnonidbl
+     * form. Ebdi pbrbmftfr vbluf is fndlosfd in quotfs.
      */
-    public String getMimeType() {
-        return getStringValue();
+    publid String gftMimfTypf() {
+        rfturn gftStringVbluf();
     }
 
     /**
-     * Returns this MIME type object's media type.
+     * Rfturns tiis MIME typf objfdt's mfdib typf.
      */
-    public String getMediaType() {
-        return myPieces[0];
+    publid String gftMfdibTypf() {
+        rfturn myPifdfs[0];
     }
 
     /**
-     * Returns this MIME type object's media subtype.
+     * Rfturns tiis MIME typf objfdt's mfdib subtypf.
      */
-    public String getMediaSubtype() {
-        return myPieces[1];
+    publid String gftMfdibSubtypf() {
+        rfturn myPifdfs[1];
     }
 
     /**
-     * Returns an unmodifiable map view of the parameters in this MIME type
-     * object. Each entry in the parameter map view consists of a parameter
-     * name String (key) mapping to a parameter value String. If this MIME
-     * type object has no parameters, an empty map is returned.
+     * Rfturns bn unmodifibblf mbp vifw of tif pbrbmftfrs in tiis MIME typf
+     * objfdt. Ebdi fntry in tif pbrbmftfr mbp vifw donsists of b pbrbmftfr
+     * nbmf String (kfy) mbpping to b pbrbmftfr vbluf String. If tiis MIME
+     * typf objfdt ibs no pbrbmftfrs, bn fmpty mbp is rfturnfd.
      *
-     * @return  Parameter map for this MIME type object.
+     * @rfturn  Pbrbmftfr mbp for tiis MIME typf objfdt.
      */
-    public Map<String, String> getParameterMap() {
-        if (myParameterMap == null) {
-            myParameterMap = new ParameterMap();
+    publid Mbp<String, String> gftPbrbmftfrMbp() {
+        if (myPbrbmftfrMbp == null) {
+            myPbrbmftfrMbp = nfw PbrbmftfrMbp();
         }
-        return myParameterMap;
+        rfturn myPbrbmftfrMbp;
     }
 
     /**
-     * Converts this MIME type object to a string.
+     * Convfrts tiis MIME typf objfdt to b string.
      *
-     * @return  MIME type string based on the canonical form. Each parameter
-     *          value is enclosed in quotes.
+     * @rfturn  MIME typf string bbsfd on tif dbnonidbl form. Ebdi pbrbmftfr
+     *          vbluf is fndlosfd in quotfs.
      */
-    public String toString() {
-        return getStringValue();
+    publid String toString() {
+        rfturn gftStringVbluf();
     }
 
     /**
-     * Returns a hash code for this MIME type object.
+     * Rfturns b ibsi dodf for tiis MIME typf objfdt.
      */
-    public int hashCode() {
-        return getStringValue().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftStringVbluf().ibsiCodf();
     }
 
     /**
-     * Determine if this MIME type object is equal to the given object. The two
-     * are equal if the given object is not null, is an instance of class
-     * net.jini.print.data.MimeType, and has the same canonical form as this
-     * MIME type object (that is, has the same type, subtype, and parameters).
-     * Thus, if two MIME type objects are the same except for comments, they are
-     * considered equal. However, "text/plain" and "text/plain;
-     * charset=us-ascii" are not considered equal, even though they represent
-     * the same media type (because the default character set for plain text is
+     * Dftfrminf if tiis MIME typf objfdt is fqubl to tif givfn objfdt. Tif two
+     * brf fqubl if tif givfn objfdt is not null, is bn instbndf of dlbss
+     * nft.jini.print.dbtb.MimfTypf, bnd ibs tif sbmf dbnonidbl form bs tiis
+     * MIME typf objfdt (tibt is, ibs tif sbmf typf, subtypf, bnd pbrbmftfrs).
+     * Tius, if two MIME typf objfdts brf tif sbmf fxdfpt for dommfnts, tify brf
+     * donsidfrfd fqubl. Howfvfr, "tfxt/plbin" bnd "tfxt/plbin;
+     * dibrsft=us-bsdii" brf not donsidfrfd fqubl, fvfn tiougi tify rfprfsfnt
+     * tif sbmf mfdib typf (bfdbusf tif dffbult dibrbdtfr sft for plbin tfxt is
      * US-ASCII).
      *
-     * @param  obj  Object to test.
+     * @pbrbm  obj  Objfdt to tfst.
      *
-     * @return  True if this MIME type object equals <CODE>obj</CODE>, false
-     *          otherwise.
+     * @rfturn  Truf if tiis MIME typf objfdt fqubls <CODE>obj</CODE>, fblsf
+     *          otifrwisf.
      */
-    public boolean equals (Object obj) {
-        return(obj != null &&
-               obj instanceof MimeType &&
-               getStringValue().equals(((MimeType) obj).getStringValue()));
+    publid boolfbn fqubls (Objfdt obj) {
+        rfturn(obj != null &&
+               obj instbndfof MimfTypf &&
+               gftStringVbluf().fqubls(((MimfTypf) obj).gftStringVbluf()));
     }
 
     /**
-     * Returns this MIME type's string value in canonical form.
+     * Rfturns tiis MIME typf's string vbluf in dbnonidbl form.
      */
-    private String getStringValue() {
-        if (myStringValue == null) {
-            StringBuilder result = new StringBuilder();
-            result.append (myPieces[0]);
-            result.append ('/');
-            result.append (myPieces[1]);
-            int n = myPieces.length;
+    privbtf String gftStringVbluf() {
+        if (myStringVbluf == null) {
+            StringBuildfr rfsult = nfw StringBuildfr();
+            rfsult.bppfnd (myPifdfs[0]);
+            rfsult.bppfnd ('/');
+            rfsult.bppfnd (myPifdfs[1]);
+            int n = myPifdfs.lfngti;
             for (int i = 2; i < n; i += 2) {
-                result.append(';');
-                result.append(' ');
-                result.append(myPieces[i]);
-                result.append('=');
-                result.append(addQuotes (myPieces[i+1]));
+                rfsult.bppfnd(';');
+                rfsult.bppfnd(' ');
+                rfsult.bppfnd(myPifdfs[i]);
+                rfsult.bppfnd('=');
+                rfsult.bppfnd(bddQuotfs (myPifdfs[i+1]));
             }
-            myStringValue = result.toString();
+            myStringVbluf = rfsult.toString();
         }
-        return myStringValue;
+        rfturn myStringVbluf;
     }
 
-// Hidden classes, constants, and operations for parsing a MIME media type
+// Hiddfn dlbssfs, donstbnts, bnd opfrbtions for pbrsing b MIME mfdib typf
 // string.
 
-    // Lexeme types.
-    private static final int TOKEN_LEXEME         = 0;
-    private static final int QUOTED_STRING_LEXEME = 1;
-    private static final int TSPECIAL_LEXEME      = 2;
-    private static final int EOF_LEXEME           = 3;
-    private static final int ILLEGAL_LEXEME       = 4;
+    // Lfxfmf typfs.
+    privbtf stbtid finbl int TOKEN_LEXEME         = 0;
+    privbtf stbtid finbl int QUOTED_STRING_LEXEME = 1;
+    privbtf stbtid finbl int TSPECIAL_LEXEME      = 2;
+    privbtf stbtid finbl int EOF_LEXEME           = 3;
+    privbtf stbtid finbl int ILLEGAL_LEXEME       = 4;
 
-    // Class for a lexical analyzer.
-    private static class LexicalAnalyzer {
-        protected String mySource;
-        protected int mySourceLength;
-        protected int myCurrentIndex;
-        protected int myLexemeType;
-        protected int myLexemeBeginIndex;
-        protected int myLexemeEndIndex;
+    // Clbss for b lfxidbl bnblyzfr.
+    privbtf stbtid dlbss LfxidblAnblyzfr {
+        protfdtfd String mySourdf;
+        protfdtfd int mySourdfLfngti;
+        protfdtfd int myCurrfntIndfx;
+        protfdtfd int myLfxfmfTypf;
+        protfdtfd int myLfxfmfBfginIndfx;
+        protfdtfd int myLfxfmfEndIndfx;
 
-        public LexicalAnalyzer(String theSource) {
-            mySource = theSource;
-            mySourceLength = theSource.length();
-            myCurrentIndex = 0;
-            nextLexeme();
+        publid LfxidblAnblyzfr(String tifSourdf) {
+            mySourdf = tifSourdf;
+            mySourdfLfngti = tifSourdf.lfngti();
+            myCurrfntIndfx = 0;
+            nfxtLfxfmf();
         }
 
-        public int getLexemeType() {
-            return myLexemeType;
+        publid int gftLfxfmfTypf() {
+            rfturn myLfxfmfTypf;
         }
 
-        public String getLexeme() {
-            return(myLexemeBeginIndex >= mySourceLength ?
+        publid String gftLfxfmf() {
+            rfturn(myLfxfmfBfginIndfx >= mySourdfLfngti ?
                    null :
-                   mySource.substring(myLexemeBeginIndex, myLexemeEndIndex));
+                   mySourdf.substring(myLfxfmfBfginIndfx, myLfxfmfEndIndfx));
         }
 
-        public char getLexemeFirstCharacter() {
-            return(myLexemeBeginIndex >= mySourceLength ?
+        publid dibr gftLfxfmfFirstCibrbdtfr() {
+            rfturn(myLfxfmfBfginIndfx >= mySourdfLfngti ?
                    '\u0000' :
-                   mySource.charAt(myLexemeBeginIndex));
+                   mySourdf.dibrAt(myLfxfmfBfginIndfx));
         }
 
-        public void nextLexeme() {
-            int state = 0;
-            int commentLevel = 0;
-            char c;
-            while (state >= 0) {
-                switch (state) {
-                    // Looking for a token, quoted string, or tspecial
-                case 0:
-                    if (myCurrentIndex >= mySourceLength) {
-                        myLexemeType = EOF_LEXEME;
-                        myLexemeBeginIndex = mySourceLength;
-                        myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else if (Character.isWhitespace
-                               (c = mySource.charAt (myCurrentIndex ++))) {
-                        state = 0;
-                    } else if (c == '\"') {
-                        myLexemeType = QUOTED_STRING_LEXEME;
-                        myLexemeBeginIndex = myCurrentIndex;
-                        state = 1;
-                    } else if (c == '(') {
-                        ++ commentLevel;
-                        state = 3;
-                    } else if (c == '/'  || c == ';' || c == '=' ||
-                               c == ')'  || c == '<' || c == '>' ||
-                               c == '@'  || c == ',' || c == ':' ||
-                               c == '\\' || c == '[' || c == ']' ||
-                               c == '?') {
-                        myLexemeType = TSPECIAL_LEXEME;
-                        myLexemeBeginIndex = myCurrentIndex - 1;
-                        myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
-                    } else {
-                        myLexemeType = TOKEN_LEXEME;
-                        myLexemeBeginIndex = myCurrentIndex - 1;
-                        state = 5;
+        publid void nfxtLfxfmf() {
+            int stbtf = 0;
+            int dommfntLfvfl = 0;
+            dibr d;
+            wiilf (stbtf >= 0) {
+                switdi (stbtf) {
+                    // Looking for b tokfn, quotfd string, or tspfdibl
+                dbsf 0:
+                    if (myCurrfntIndfx >= mySourdfLfngti) {
+                        myLfxfmfTypf = EOF_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngti;
+                        myLfxfmfEndIndfx = mySourdfLfngti;
+                        stbtf = -1;
+                    } flsf if (Cibrbdtfr.isWiitfspbdf
+                               (d = mySourdf.dibrAt (myCurrfntIndfx ++))) {
+                        stbtf = 0;
+                    } flsf if (d == '\"') {
+                        myLfxfmfTypf = QUOTED_STRING_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx;
+                        stbtf = 1;
+                    } flsf if (d == '(') {
+                        ++ dommfntLfvfl;
+                        stbtf = 3;
+                    } flsf if (d == '/'  || d == ';' || d == '=' ||
+                               d == ')'  || d == '<' || d == '>' ||
+                               d == '@'  || d == ',' || d == ':' ||
+                               d == '\\' || d == '[' || d == ']' ||
+                               d == '?') {
+                        myLfxfmfTypf = TSPECIAL_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx - 1;
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf {
+                        myLfxfmfTypf = TOKEN_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx - 1;
+                        stbtf = 5;
                     }
-                    break;
-                    // In a quoted string
-                case 1:
-                    if (myCurrentIndex >= mySourceLength) {
-                        myLexemeType = ILLEGAL_LEXEME;
-                        myLexemeBeginIndex = mySourceLength;
-                        myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else if ((c = mySource.charAt (myCurrentIndex ++)) == '\"') {
-                        myLexemeEndIndex = myCurrentIndex - 1;
-                        state = -1;
-                    } else if (c == '\\') {
-                        state = 2;
-                    } else {
-                        state = 1;
+                    brfbk;
+                    // In b quotfd string
+                dbsf 1:
+                    if (myCurrfntIndfx >= mySourdfLfngti) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngti;
+                        myLfxfmfEndIndfx = mySourdfLfngti;
+                        stbtf = -1;
+                    } flsf if ((d = mySourdf.dibrAt (myCurrfntIndfx ++)) == '\"') {
+                        myLfxfmfEndIndfx = myCurrfntIndfx - 1;
+                        stbtf = -1;
+                    } flsf if (d == '\\') {
+                        stbtf = 2;
+                    } flsf {
+                        stbtf = 1;
                     }
-                    break;
-                    // In a quoted string, backslash seen
-                case 2:
-                    if (myCurrentIndex >= mySourceLength) {
-                        myLexemeType = ILLEGAL_LEXEME;
-                        myLexemeBeginIndex = mySourceLength;
-                        myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else {
-                        ++ myCurrentIndex;
-                        state = 1;
-                    } break;
-                    // In a comment
-                case 3: if (myCurrentIndex >= mySourceLength) {
-                    myLexemeType = ILLEGAL_LEXEME;
-                    myLexemeBeginIndex = mySourceLength;
-                    myLexemeEndIndex = mySourceLength;
-                    state = -1;
-                } else if ((c = mySource.charAt (myCurrentIndex ++)) == '(') {
-                    ++ commentLevel;
-                    state = 3;
-                } else if (c == ')') {
-                    -- commentLevel;
-                    state = commentLevel == 0 ? 0 : 3;
-                } else if (c == '\\') {
-                    state = 4;
-                } else { state = 3;
+                    brfbk;
+                    // In b quotfd string, bbdkslbsi sffn
+                dbsf 2:
+                    if (myCurrfntIndfx >= mySourdfLfngti) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngti;
+                        myLfxfmfEndIndfx = mySourdfLfngti;
+                        stbtf = -1;
+                    } flsf {
+                        ++ myCurrfntIndfx;
+                        stbtf = 1;
+                    } brfbk;
+                    // In b dommfnt
+                dbsf 3: if (myCurrfntIndfx >= mySourdfLfngti) {
+                    myLfxfmfTypf = ILLEGAL_LEXEME;
+                    myLfxfmfBfginIndfx = mySourdfLfngti;
+                    myLfxfmfEndIndfx = mySourdfLfngti;
+                    stbtf = -1;
+                } flsf if ((d = mySourdf.dibrAt (myCurrfntIndfx ++)) == '(') {
+                    ++ dommfntLfvfl;
+                    stbtf = 3;
+                } flsf if (d == ')') {
+                    -- dommfntLfvfl;
+                    stbtf = dommfntLfvfl == 0 ? 0 : 3;
+                } flsf if (d == '\\') {
+                    stbtf = 4;
+                } flsf { stbtf = 3;
                 }
-                break;
-                // In a comment, backslash seen
-                case 4:
-                    if (myCurrentIndex >= mySourceLength) {
-                        myLexemeType = ILLEGAL_LEXEME;
-                        myLexemeBeginIndex = mySourceLength;
-                        myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else {
-                        ++ myCurrentIndex;
-                        state = 3;
+                brfbk;
+                // In b dommfnt, bbdkslbsi sffn
+                dbsf 4:
+                    if (myCurrfntIndfx >= mySourdfLfngti) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngti;
+                        myLfxfmfEndIndfx = mySourdfLfngti;
+                        stbtf = -1;
+                    } flsf {
+                        ++ myCurrfntIndfx;
+                        stbtf = 3;
                     }
-                    break;
-                    // In a token
-                case 5:
-                    if (myCurrentIndex >= mySourceLength) {
-                        myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
-                    } else if (Character.isWhitespace
-                               (c = mySource.charAt (myCurrentIndex ++))) {
-                        myLexemeEndIndex = myCurrentIndex - 1;
-                        state = -1;
-                    } else if (c == '\"' || c == '(' || c == '/' ||
-                               c == ';'  || c == '=' || c == ')' ||
-                               c == '<' || c == '>'  || c == '@' ||
-                               c == ',' || c == ':' || c == '\\' ||
-                               c == '[' || c == ']' || c == '?') {
-                        -- myCurrentIndex;
-                        myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
-                    } else {
-                        state = 5;
+                    brfbk;
+                    // In b tokfn
+                dbsf 5:
+                    if (myCurrfntIndfx >= mySourdfLfngti) {
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf if (Cibrbdtfr.isWiitfspbdf
+                               (d = mySourdf.dibrAt (myCurrfntIndfx ++))) {
+                        myLfxfmfEndIndfx = myCurrfntIndfx - 1;
+                        stbtf = -1;
+                    } flsf if (d == '\"' || d == '(' || d == '/' ||
+                               d == ';'  || d == '=' || d == ')' ||
+                               d == '<' || d == '>'  || d == '@' ||
+                               d == ',' || d == ':' || d == '\\' ||
+                               d == '[' || d == ']' || d == '?') {
+                        -- myCurrfntIndfx;
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf {
+                        stbtf = 5;
                     }
-                    break;
+                    brfbk;
                 }
             }
 
@@ -467,179 +467,179 @@ class MimeType implements Serializable, Cloneable {
     }
 
     /**
-     * Returns a lowercase version of the given string. The lowercase version
-     * is constructed by applying Character.toLowerCase() to each character of
-     * the given string, which maps characters to lowercase using the rules of
-     * Unicode. This mapping is the same regardless of locale, whereas the
-     * mapping of String.toLowerCase() may be different depending on the
-     * default locale.
+     * Rfturns b lowfrdbsf vfrsion of tif givfn string. Tif lowfrdbsf vfrsion
+     * is donstrudtfd by bpplying Cibrbdtfr.toLowfrCbsf() to fbdi dibrbdtfr of
+     * tif givfn string, wiidi mbps dibrbdtfrs to lowfrdbsf using tif rulfs of
+     * Unidodf. Tiis mbpping is tif sbmf rfgbrdlfss of lodblf, wifrfbs tif
+     * mbpping of String.toLowfrCbsf() mby bf difffrfnt dfpfnding on tif
+     * dffbult lodblf.
      */
-    private static String toUnicodeLowerCase(String s) {
-        int n = s.length();
-        char[] result = new char [n];
+    privbtf stbtid String toUnidodfLowfrCbsf(String s) {
+        int n = s.lfngti();
+        dibr[] rfsult = nfw dibr [n];
         for (int i = 0; i < n; ++ i) {
-            result[i] = Character.toLowerCase (s.charAt (i));
+            rfsult[i] = Cibrbdtfr.toLowfrCbsf (s.dibrAt (i));
         }
-        return new String (result);
+        rfturn nfw String (rfsult);
     }
 
     /**
-     * Returns a version of the given string with backslashes removed.
+     * Rfturns b vfrsion of tif givfn string witi bbdkslbsifs rfmovfd.
      */
-    private static String removeBackslashes(String s) {
-        int n = s.length();
-        char[] result = new char [n];
+    privbtf stbtid String rfmovfBbdkslbsifs(String s) {
+        int n = s.lfngti();
+        dibr[] rfsult = nfw dibr [n];
         int i;
         int j = 0;
-        char c;
+        dibr d;
         for (i = 0; i < n; ++ i) {
-            c = s.charAt (i);
-            if (c == '\\') {
-                c = s.charAt (++ i);
+            d = s.dibrAt (i);
+            if (d == '\\') {
+                d = s.dibrAt (++ i);
             }
-            result[j++] = c;
+            rfsult[j++] = d;
         }
-        return new String (result, 0, j);
+        rfturn nfw String (rfsult, 0, j);
     }
 
     /**
-     * Returns a version of the string surrounded by quotes and with interior
-     * quotes preceded by a backslash.
+     * Rfturns b vfrsion of tif string surroundfd by quotfs bnd witi intfrior
+     * quotfs prfdfdfd by b bbdkslbsi.
      */
-    private static String addQuotes(String s) {
-        int n = s.length();
+    privbtf stbtid String bddQuotfs(String s) {
+        int n = s.lfngti();
         int i;
-        char c;
-        StringBuilder result = new StringBuilder (n+2);
-        result.append ('\"');
+        dibr d;
+        StringBuildfr rfsult = nfw StringBuildfr (n+2);
+        rfsult.bppfnd ('\"');
         for (i = 0; i < n; ++ i) {
-            c = s.charAt (i);
-            if (c == '\"') {
-                result.append ('\\');
+            d = s.dibrAt (i);
+            if (d == '\"') {
+                rfsult.bppfnd ('\\');
             }
-            result.append (c);
+            rfsult.bppfnd (d);
         }
-        result.append ('\"');
-        return result.toString();
+        rfsult.bppfnd ('\"');
+        rfturn rfsult.toString();
     }
 
     /**
-     * Parses the given string into canonical pieces and stores the pieces in
-     * {@link #myPieces <CODE>myPieces</CODE>}.
+     * Pbrsfs tif givfn string into dbnonidbl pifdfs bnd storfs tif pifdfs in
+     * {@link #myPifdfs <CODE>myPifdfs</CODE>}.
      * <P>
-     * Special rules applied:
+     * Spfdibl rulfs bpplifd:
      * <UL>
-     * <LI> If the media type is text, the value of a charset parameter is
-     *      converted to lowercase.
+     * <LI> If tif mfdib typf is tfxt, tif vbluf of b dibrsft pbrbmftfr is
+     *      donvfrtfd to lowfrdbsf.
      * </UL>
      *
-     * @param  s  MIME media type string.
+     * @pbrbm  s  MIME mfdib typf string.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>s</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>s</CODE> does not obey the
-     *     syntax for a MIME media type string.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>s</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>s</CODE> dofs not obfy tif
+     *     syntbx for b MIME mfdib typf string.
      */
-    private void parse(String s) {
-        // Initialize.
+    privbtf void pbrsf(String s) {
+        // Initiblizf.
         if (s == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        LexicalAnalyzer theLexer = new LexicalAnalyzer (s);
-        int theLexemeType;
-        Vector<String> thePieces = new Vector<>();
-        boolean mediaTypeIsText = false;
-        boolean parameterNameIsCharset = false;
+        LfxidblAnblyzfr tifLfxfr = nfw LfxidblAnblyzfr (s);
+        int tifLfxfmfTypf;
+        Vfdtor<String> tifPifdfs = nfw Vfdtor<>();
+        boolfbn mfdibTypfIsTfxt = fblsf;
+        boolfbn pbrbmftfrNbmfIsCibrsft = fblsf;
 
-        // Parse media type.
-        if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-            String mt = toUnicodeLowerCase (theLexer.getLexeme());
-            thePieces.add (mt);
-            theLexer.nextLexeme();
-            mediaTypeIsText = mt.equals ("text");
-        } else {
-            throw new IllegalArgumentException();
+        // Pbrsf mfdib typf.
+        if (tifLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+            String mt = toUnidodfLowfrCbsf (tifLfxfr.gftLfxfmf());
+            tifPifdfs.bdd (mt);
+            tifLfxfr.nfxtLfxfmf();
+            mfdibTypfIsTfxt = mt.fqubls ("tfxt");
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        // Parse slash.
-        if (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-              theLexer.getLexemeFirstCharacter() == '/') {
-            theLexer.nextLexeme();
-        } else {
-            throw new IllegalArgumentException();
+        // Pbrsf slbsi.
+        if (tifLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+              tifLfxfr.gftLfxfmfFirstCibrbdtfr() == '/') {
+            tifLfxfr.nfxtLfxfmf();
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-            thePieces.add (toUnicodeLowerCase (theLexer.getLexeme()));
-            theLexer.nextLexeme();
-        } else {
-            throw new IllegalArgumentException();
+        if (tifLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+            tifPifdfs.bdd (toUnidodfLowfrCbsf (tifLfxfr.gftLfxfmf()));
+            tifLfxfr.nfxtLfxfmf();
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        // Parse zero or more parameters.
-        while (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-               theLexer.getLexemeFirstCharacter() == ';') {
-            // Parse semicolon.
-            theLexer.nextLexeme();
+        // Pbrsf zfro or morf pbrbmftfrs.
+        wiilf (tifLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+               tifLfxfr.gftLfxfmfFirstCibrbdtfr() == ';') {
+            // Pbrsf sfmidolon.
+            tifLfxfr.nfxtLfxfmf();
 
-            // Parse parameter name.
-            if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-                String pn = toUnicodeLowerCase (theLexer.getLexeme());
-                thePieces.add (pn);
-                theLexer.nextLexeme();
-                parameterNameIsCharset = pn.equals ("charset");
-            } else {
-                throw new IllegalArgumentException();
+            // Pbrsf pbrbmftfr nbmf.
+            if (tifLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+                String pn = toUnidodfLowfrCbsf (tifLfxfr.gftLfxfmf());
+                tifPifdfs.bdd (pn);
+                tifLfxfr.nfxtLfxfmf();
+                pbrbmftfrNbmfIsCibrsft = pn.fqubls ("dibrsft");
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption();
             }
 
-            // Parse equals.
-            if (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-                theLexer.getLexemeFirstCharacter() == '=') {
-                theLexer.nextLexeme();
-            } else {
-                throw new IllegalArgumentException();
+            // Pbrsf fqubls.
+            if (tifLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+                tifLfxfr.gftLfxfmfFirstCibrbdtfr() == '=') {
+                tifLfxfr.nfxtLfxfmf();
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption();
             }
 
-            // Parse parameter value.
-            if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-                String pv = theLexer.getLexeme();
-                thePieces.add(mediaTypeIsText && parameterNameIsCharset ?
-                              toUnicodeLowerCase (pv) :
+            // Pbrsf pbrbmftfr vbluf.
+            if (tifLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+                String pv = tifLfxfr.gftLfxfmf();
+                tifPifdfs.bdd(mfdibTypfIsTfxt && pbrbmftfrNbmfIsCibrsft ?
+                              toUnidodfLowfrCbsf (pv) :
                               pv);
-                theLexer.nextLexeme();
-            } else if (theLexer.getLexemeType() == QUOTED_STRING_LEXEME) {
-                String pv = removeBackslashes (theLexer.getLexeme());
-                thePieces.add(mediaTypeIsText && parameterNameIsCharset ?
-                              toUnicodeLowerCase (pv) :
+                tifLfxfr.nfxtLfxfmf();
+            } flsf if (tifLfxfr.gftLfxfmfTypf() == QUOTED_STRING_LEXEME) {
+                String pv = rfmovfBbdkslbsifs (tifLfxfr.gftLfxfmf());
+                tifPifdfs.bdd(mfdibTypfIsTfxt && pbrbmftfrNbmfIsCibrsft ?
+                              toUnidodfLowfrCbsf (pv) :
                               pv);
-                theLexer.nextLexeme();
-            } else {
-                throw new IllegalArgumentException();
+                tifLfxfr.nfxtLfxfmf();
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption();
             }
         }
 
-        // Make sure we've consumed everything.
-        if (theLexer.getLexemeType() != EOF_LEXEME) {
-            throw new IllegalArgumentException();
+        // Mbkf surf wf'vf donsumfd fvfrytiing.
+        if (tifLfxfr.gftLfxfmfTypf() != EOF_LEXEME) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        // Save the pieces. Parameters are not in ascending order yet.
-        int n = thePieces.size();
-        myPieces = thePieces.toArray (new String [n]);
+        // Sbvf tif pifdfs. Pbrbmftfrs brf not in bsdfnding ordfr yft.
+        int n = tifPifdfs.sizf();
+        myPifdfs = tifPifdfs.toArrby (nfw String [n]);
 
-        // Sort the parameters into ascending order using an insertion sort.
+        // Sort tif pbrbmftfrs into bsdfnding ordfr using bn insfrtion sort.
         int i, j;
-        String temp;
+        String tfmp;
         for (i = 4; i < n; i += 2) {
             j = 2;
-            while (j < i && myPieces[j].compareTo (myPieces[i]) <= 0) {
+            wiilf (j < i && myPifdfs[j].dompbrfTo (myPifdfs[i]) <= 0) {
                 j += 2;
             }
-            while (j < i) {
-                temp = myPieces[j];
-                myPieces[j] = myPieces[i];
-                myPieces[i] = temp;
-                temp = myPieces[j+1];
-                myPieces[j+1] = myPieces[i+1];
-                myPieces[i+1] = temp;
+            wiilf (j < i) {
+                tfmp = myPifdfs[j];
+                myPifdfs[j] = myPifdfs[i];
+                myPifdfs[i] = tfmp;
+                tfmp = myPifdfs[j+1];
+                myPifdfs[j+1] = myPifdfs[i+1];
+                myPifdfs[i+1] = tfmp;
                 j += 2;
             }
         }

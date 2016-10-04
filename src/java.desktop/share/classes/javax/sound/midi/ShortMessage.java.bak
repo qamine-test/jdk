@@ -1,496 +1,496 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 /**
- * A <code>ShortMessage</code> contains a MIDI message that has at most
- * two data bytes following its status byte.  The types of MIDI message
- * that satisfy this criterion are channel voice, channel mode, system common,
- * and system real-time--in other words, everything except system exclusive
- * and meta-events.  The <code>ShortMessage</code> class provides methods
- * for getting and setting the contents of the MIDI message.
+ * A <dodf>SiortMfssbgf</dodf> dontbins b MIDI mfssbgf tibt ibs bt most
+ * two dbtb bytfs following its stbtus bytf.  Tif typfs of MIDI mfssbgf
+ * tibt sbtisfy tiis dritfrion brf dibnnfl voidf, dibnnfl modf, systfm dommon,
+ * bnd systfm rfbl-timf--in otifr words, fvfrytiing fxdfpt systfm fxdlusivf
+ * bnd mftb-fvfnts.  Tif <dodf>SiortMfssbgf</dodf> dlbss providfs mftiods
+ * for gftting bnd sftting tif dontfnts of tif MIDI mfssbgf.
  * <p>
- * A number of <code>ShortMessage</code> methods have integer parameters by which
- * you specify a MIDI status or data byte.  If you know the numeric value, you
- * can express it directly.  For system common and system real-time messages,
- * you can often use the corresponding fields of <code>ShortMessage</code>, such as
- * {@link #SYSTEM_RESET SYSTEM_RESET}.  For channel messages,
- * the upper four bits of the status byte are specified by a command value and
- * the lower four bits are specified by a MIDI channel number. To
- * convert incoming MIDI data bytes that are in the form of Java's signed bytes,
- * you can use the <A HREF="MidiMessage.html#integersVsBytes">conversion code</A>
- * given in the <code>{@link MidiMessage}</code> class description.
+ * A numbfr of <dodf>SiortMfssbgf</dodf> mftiods ibvf intfgfr pbrbmftfrs by wiidi
+ * you spfdify b MIDI stbtus or dbtb bytf.  If you know tif numfrid vbluf, you
+ * dbn fxprfss it dirfdtly.  For systfm dommon bnd systfm rfbl-timf mfssbgfs,
+ * you dbn oftfn usf tif dorrfsponding fiflds of <dodf>SiortMfssbgf</dodf>, sudi bs
+ * {@link #SYSTEM_RESET SYSTEM_RESET}.  For dibnnfl mfssbgfs,
+ * tif uppfr four bits of tif stbtus bytf brf spfdififd by b dommbnd vbluf bnd
+ * tif lowfr four bits brf spfdififd by b MIDI dibnnfl numbfr. To
+ * donvfrt indoming MIDI dbtb bytfs tibt brf in tif form of Jbvb's signfd bytfs,
+ * you dbn usf tif <A HREF="MidiMfssbgf.itml#intfgfrsVsBytfs">donvfrsion dodf</A>
+ * givfn in tif <dodf>{@link MidiMfssbgf}</dodf> dlbss dfsdription.
  *
- * @see SysexMessage
- * @see MetaMessage
+ * @sff SysfxMfssbgf
+ * @sff MftbMfssbgf
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
 
-public class ShortMessage extends MidiMessage {
+publid dlbss SiortMfssbgf fxtfnds MidiMfssbgf {
 
 
-    // Status byte defines
+    // Stbtus bytf dffinfs
 
 
-    // System common messages
-
-    /**
-     * Status byte for MIDI Time Code Quarter Frame message (0xF1, or 241).
-     * @see MidiMessage#getStatus
-     */
-    public static final int MIDI_TIME_CODE                              = 0xF1; // 241
+    // Systfm dommon mfssbgfs
 
     /**
-     * Status byte for Song Position Pointer message (0xF2, or 242).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for MIDI Timf Codf Qubrtfr Frbmf mfssbgf (0xF1, or 241).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int SONG_POSITION_POINTER               = 0xF2; // 242
+    publid stbtid finbl int MIDI_TIME_CODE                              = 0xF1; // 241
 
     /**
-     * Status byte for MIDI Song Select message (0xF3, or 243).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Song Position Pointfr mfssbgf (0xF2, or 242).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int SONG_SELECT                                 = 0xF3; // 243
+    publid stbtid finbl int SONG_POSITION_POINTER               = 0xF2; // 242
 
     /**
-     * Status byte for Tune Request message (0xF6, or 246).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for MIDI Song Sflfdt mfssbgf (0xF3, or 243).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int TUNE_REQUEST                                = 0xF6; // 246
+    publid stbtid finbl int SONG_SELECT                                 = 0xF3; // 243
 
     /**
-     * Status byte for End of System Exclusive message (0xF7, or 247).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Tunf Rfqufst mfssbgf (0xF6, or 246).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int END_OF_EXCLUSIVE                    = 0xF7; // 247
-
-
-    // System real-time messages
+    publid stbtid finbl int TUNE_REQUEST                                = 0xF6; // 246
 
     /**
-     * Status byte for Timing Clock message (0xF8, or 248).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for End of Systfm Exdlusivf mfssbgf (0xF7, or 247).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int TIMING_CLOCK                                = 0xF8; // 248
+    publid stbtid finbl int END_OF_EXCLUSIVE                    = 0xF7; // 247
+
+
+    // Systfm rfbl-timf mfssbgfs
 
     /**
-     * Status byte for Start message (0xFA, or 250).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Timing Clodk mfssbgf (0xF8, or 248).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int START                                               = 0xFA; // 250
+    publid stbtid finbl int TIMING_CLOCK                                = 0xF8; // 248
 
     /**
-     * Status byte for Continue message (0xFB, or 251).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Stbrt mfssbgf (0xFA, or 250).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int CONTINUE                                    = 0xFB; // 251
+    publid stbtid finbl int START                                               = 0xFA; // 250
 
     /**
-     * Status byte for Stop message (0xFC, or 252).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Continuf mfssbgf (0xFB, or 251).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int STOP                                                = 0xFC; //252
+    publid stbtid finbl int CONTINUE                                    = 0xFB; // 251
 
     /**
-     * Status byte for Active Sensing message (0xFE, or 254).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Stop mfssbgf (0xFC, or 252).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int ACTIVE_SENSING                              = 0xFE; // 254
+    publid stbtid finbl int STOP                                                = 0xFC; //252
 
     /**
-     * Status byte for System Reset message (0xFF, or 255).
-     * @see MidiMessage#getStatus
+     * Stbtus bytf for Adtivf Sfnsing mfssbgf (0xFE, or 254).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int SYSTEM_RESET                                = 0xFF; // 255
-
-
-    // Channel voice message upper nibble defines
+    publid stbtid finbl int ACTIVE_SENSING                              = 0xFE; // 254
 
     /**
-     * Command value for Note Off message (0x80, or 128)
+     * Stbtus bytf for Systfm Rfsft mfssbgf (0xFF, or 255).
+     * @sff MidiMfssbgf#gftStbtus
      */
-    public static final int NOTE_OFF                                    = 0x80;  // 128
+    publid stbtid finbl int SYSTEM_RESET                                = 0xFF; // 255
+
+
+    // Cibnnfl voidf mfssbgf uppfr nibblf dffinfs
 
     /**
-     * Command value for Note On message (0x90, or 144)
+     * Commbnd vbluf for Notf Off mfssbgf (0x80, or 128)
      */
-    public static final int NOTE_ON                                             = 0x90;  // 144
+    publid stbtid finbl int NOTE_OFF                                    = 0x80;  // 128
 
     /**
-     * Command value for Polyphonic Key Pressure (Aftertouch) message (0xA0, or 160)
+     * Commbnd vbluf for Notf On mfssbgf (0x90, or 144)
      */
-    public static final int POLY_PRESSURE                               = 0xA0;  // 160
+    publid stbtid finbl int NOTE_ON                                             = 0x90;  // 144
 
     /**
-     * Command value for Control Change message (0xB0, or 176)
+     * Commbnd vbluf for Polypionid Kfy Prfssurf (Aftfrtoudi) mfssbgf (0xA0, or 160)
      */
-    public static final int CONTROL_CHANGE                              = 0xB0;  // 176
+    publid stbtid finbl int POLY_PRESSURE                               = 0xA0;  // 160
 
     /**
-     * Command value for Program Change message (0xC0, or 192)
+     * Commbnd vbluf for Control Cibngf mfssbgf (0xB0, or 176)
      */
-    public static final int PROGRAM_CHANGE                              = 0xC0;  // 192
+    publid stbtid finbl int CONTROL_CHANGE                              = 0xB0;  // 176
 
     /**
-     * Command value for Channel Pressure (Aftertouch) message (0xD0, or 208)
+     * Commbnd vbluf for Progrbm Cibngf mfssbgf (0xC0, or 192)
      */
-    public static final int CHANNEL_PRESSURE                    = 0xD0;  // 208
+    publid stbtid finbl int PROGRAM_CHANGE                              = 0xC0;  // 192
 
     /**
-     * Command value for Pitch Bend message (0xE0, or 224)
+     * Commbnd vbluf for Cibnnfl Prfssurf (Aftfrtoudi) mfssbgf (0xD0, or 208)
      */
-    public static final int PITCH_BEND                                  = 0xE0;  // 224
-
-
-    // Instance variables
+    publid stbtid finbl int CHANNEL_PRESSURE                    = 0xD0;  // 208
 
     /**
-     * Constructs a new <code>ShortMessage</code>.  The
-     * contents of the new message are guaranteed to specify
-     * a valid MIDI message.  Subsequently, you may set the
-     * contents of the message using one of the <code>setMessage</code>
-     * methods.
-     * @see #setMessage
+     * Commbnd vbluf for Pitdi Bfnd mfssbgf (0xE0, or 224)
      */
-    public ShortMessage() {
-        this(new byte[3]);
-        // Default message data: NOTE_ON on Channel 0 with max volume
-        data[0] = (byte) (NOTE_ON & 0xFF);
-        data[1] = (byte) 64;
-        data[2] = (byte) 127;
-        length = 3;
+    publid stbtid finbl int PITCH_BEND                                  = 0xE0;  // 224
+
+
+    // Instbndf vbribblfs
+
+    /**
+     * Construdts b nfw <dodf>SiortMfssbgf</dodf>.  Tif
+     * dontfnts of tif nfw mfssbgf brf gubrbntffd to spfdify
+     * b vblid MIDI mfssbgf.  Subsfqufntly, you mby sft tif
+     * dontfnts of tif mfssbgf using onf of tif <dodf>sftMfssbgf</dodf>
+     * mftiods.
+     * @sff #sftMfssbgf
+     */
+    publid SiortMfssbgf() {
+        tiis(nfw bytf[3]);
+        // Dffbult mfssbgf dbtb: NOTE_ON on Cibnnfl 0 witi mbx volumf
+        dbtb[0] = (bytf) (NOTE_ON & 0xFF);
+        dbtb[1] = (bytf) 64;
+        dbtb[2] = (bytf) 127;
+        lfngti = 3;
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a MIDI
-     * message that takes no data bytes.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Construdts b nfw {@dodf SiortMfssbgf} wiidi rfprfsfnts b MIDI
+     * mfssbgf tibt tbkfs no dbtb bytfs.
+     * Tif dontfnts of tif mfssbgf dbn bf dibngfd by using onf of
+     * tif {@dodf sftMfssbgf} mftiods.
      *
-     * @param status the MIDI status byte
-     * @throws InvalidMidiDataException if {@code status} does not specify
-     *     a valid MIDI status byte for a message that requires no data bytes
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getStatus()
-     * @since 1.7
+     * @pbrbm stbtus tif MIDI stbtus bytf
+     * @tirows InvblidMidiDbtbExdfption if {@dodf stbtus} dofs not spfdify
+     *     b vblid MIDI stbtus bytf for b mfssbgf tibt rfquirfs no dbtb bytfs
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftStbtus()
+     * @sindf 1.7
      */
-    public ShortMessage(int status) throws InvalidMidiDataException {
-        super(null);
-        setMessage(status); // can throw InvalidMidiDataException
+    publid SiortMfssbgf(int stbtus) tirows InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(stbtus); // dbn tirow InvblidMidiDbtbExdfption
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a MIDI message
-     * that takes up to two data bytes. If the message only takes one data byte,
-     * the second data byte is ignored. If the message does not take
-     * any data bytes, both data bytes are ignored.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Construdts b nfw {@dodf SiortMfssbgf} wiidi rfprfsfnts b MIDI mfssbgf
+     * tibt tbkfs up to two dbtb bytfs. If tif mfssbgf only tbkfs onf dbtb bytf,
+     * tif sfdond dbtb bytf is ignorfd. If tif mfssbgf dofs not tbkf
+     * bny dbtb bytfs, boti dbtb bytfs brf ignorfd.
+     * Tif dontfnts of tif mfssbgf dbn bf dibngfd by using onf of
+     * tif {@dodf sftMfssbgf} mftiods.
      *
-     * @param status   the MIDI status byte
-     * @param data1    the first data byte
-     * @param data2    the second data byte
-     * @throws InvalidMidiDataException if the status byte or all data bytes
-     *     belonging to the message do not specify a valid MIDI message
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getStatus()
-     * @see #getData1()
-     * @see #getData2()
-     * @since 1.7
+     * @pbrbm stbtus   tif MIDI stbtus bytf
+     * @pbrbm dbtb1    tif first dbtb bytf
+     * @pbrbm dbtb2    tif sfdond dbtb bytf
+     * @tirows InvblidMidiDbtbExdfption if tif stbtus bytf or bll dbtb bytfs
+     *     bflonging to tif mfssbgf do not spfdify b vblid MIDI mfssbgf
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftStbtus()
+     * @sff #gftDbtb1()
+     * @sff #gftDbtb2()
+     * @sindf 1.7
      */
-    public ShortMessage(int status, int data1, int data2)
-            throws InvalidMidiDataException {
-        super(null);
-        setMessage(status, data1, data2); // can throw InvalidMidiDataException
+    publid SiortMfssbgf(int stbtus, int dbtb1, int dbtb2)
+            tirows InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(stbtus, dbtb1, dbtb2); // dbn tirow InvblidMidiDbtbExdfption
     }
 
     /**
-     * Constructs a new {@code ShortMessage} which represents a channel
-     * MIDI message that takes up to two data bytes. If the message only takes
-     * one data byte, the second data byte is ignored. If the message does not
-     * take any data bytes, both data bytes are ignored.
-     * The contents of the message can be changed by using one of
-     * the {@code setMessage} methods.
+     * Construdts b nfw {@dodf SiortMfssbgf} wiidi rfprfsfnts b dibnnfl
+     * MIDI mfssbgf tibt tbkfs up to two dbtb bytfs. If tif mfssbgf only tbkfs
+     * onf dbtb bytf, tif sfdond dbtb bytf is ignorfd. If tif mfssbgf dofs not
+     * tbkf bny dbtb bytfs, boti dbtb bytfs brf ignorfd.
+     * Tif dontfnts of tif mfssbgf dbn bf dibngfd by using onf of
+     * tif {@dodf sftMfssbgf} mftiods.
      *
-     * @param command  the MIDI command represented by this message
-     * @param channel  the channel associated with the message
-     * @param data1    the first data byte
-     * @param data2    the second data byte
-     * @throws InvalidMidiDataException if the command value, channel value
-     *     or all data bytes belonging to the message do not specify
-     *     a valid MIDI message
-     * @see #setMessage(int)
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
-     * @see #getCommand()
-     * @see #getChannel()
-     * @see #getData1()
-     * @see #getData2()
-     * @since 1.7
+     * @pbrbm dommbnd  tif MIDI dommbnd rfprfsfntfd by tiis mfssbgf
+     * @pbrbm dibnnfl  tif dibnnfl bssodibtfd witi tif mfssbgf
+     * @pbrbm dbtb1    tif first dbtb bytf
+     * @pbrbm dbtb2    tif sfdond dbtb bytf
+     * @tirows InvblidMidiDbtbExdfption if tif dommbnd vbluf, dibnnfl vbluf
+     *     or bll dbtb bytfs bflonging to tif mfssbgf do not spfdify
+     *     b vblid MIDI mfssbgf
+     * @sff #sftMfssbgf(int)
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #gftCommbnd()
+     * @sff #gftCibnnfl()
+     * @sff #gftDbtb1()
+     * @sff #gftDbtb2()
+     * @sindf 1.7
      */
-    public ShortMessage(int command, int channel, int data1, int data2)
-            throws InvalidMidiDataException {
-        super(null);
-        setMessage(command, channel, data1, data2);
+    publid SiortMfssbgf(int dommbnd, int dibnnfl, int dbtb1, int dbtb2)
+            tirows InvblidMidiDbtbExdfption {
+        supfr(null);
+        sftMfssbgf(dommbnd, dibnnfl, dbtb1, dbtb2);
     }
 
 
     /**
-     * Constructs a new <code>ShortMessage</code>.
-     * @param data an array of bytes containing the complete message.
-     * The message data may be changed using the <code>setMessage</code>
-     * method.
-     * @see #setMessage
+     * Construdts b nfw <dodf>SiortMfssbgf</dodf>.
+     * @pbrbm dbtb bn brrby of bytfs dontbining tif domplftf mfssbgf.
+     * Tif mfssbgf dbtb mby bf dibngfd using tif <dodf>sftMfssbgf</dodf>
+     * mftiod.
+     * @sff #sftMfssbgf
      */
-    // $$fb this should throw an Exception in case of an illegal message!
-    protected ShortMessage(byte[] data) {
-        // $$fb this may set an invalid message.
-        // Can't correct without compromising compatibility
-        super(data);
+    // $$fb tiis siould tirow bn Exdfption in dbsf of bn illfgbl mfssbgf!
+    protfdtfd SiortMfssbgf(bytf[] dbtb) {
+        // $$fb tiis mby sft bn invblid mfssbgf.
+        // Cbn't dorrfdt witiout dompromising dompbtibility
+        supfr(dbtb);
     }
 
 
     /**
-     * Sets the parameters for a MIDI message that takes no data bytes.
-     * @param status    the MIDI status byte
-     * @throws  InvalidMidiDataException if <code>status</code> does not
-     * specify a valid MIDI status byte for a message that requires no data bytes.
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int, int, int, int)
+     * Sfts tif pbrbmftfrs for b MIDI mfssbgf tibt tbkfs no dbtb bytfs.
+     * @pbrbm stbtus    tif MIDI stbtus bytf
+     * @tirows  InvblidMidiDbtbExdfption if <dodf>stbtus</dodf> dofs not
+     * spfdify b vblid MIDI stbtus bytf for b mfssbgf tibt rfquirfs no dbtb bytfs.
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int, int, int, int)
      */
-    public void setMessage(int status) throws InvalidMidiDataException {
-        // check for valid values
-        int dataLength = getDataLength(status); // can throw InvalidMidiDataException
-        if (dataLength != 0) {
-            throw new InvalidMidiDataException("Status byte; " + status + " requires " + dataLength + " data bytes");
+    publid void sftMfssbgf(int stbtus) tirows InvblidMidiDbtbExdfption {
+        // difdk for vblid vblufs
+        int dbtbLfngti = gftDbtbLfngti(stbtus); // dbn tirow InvblidMidiDbtbExdfption
+        if (dbtbLfngti != 0) {
+            tirow nfw InvblidMidiDbtbExdfption("Stbtus bytf; " + stbtus + " rfquirfs " + dbtbLfngti + " dbtb bytfs");
         }
-        setMessage(status, 0, 0);
+        sftMfssbgf(stbtus, 0, 0);
     }
 
 
     /**
-     * Sets the  parameters for a MIDI message that takes one or two data
-     * bytes.  If the message takes only one data byte, the second data
-     * byte is ignored; if the message does not take any data bytes, both
-     * data bytes are ignored.
+     * Sfts tif  pbrbmftfrs for b MIDI mfssbgf tibt tbkfs onf or two dbtb
+     * bytfs.  If tif mfssbgf tbkfs only onf dbtb bytf, tif sfdond dbtb
+     * bytf is ignorfd; if tif mfssbgf dofs not tbkf bny dbtb bytfs, boti
+     * dbtb bytfs brf ignorfd.
      *
-     * @param status    the MIDI status byte
-     * @param data1             the first data byte
-     * @param data2             the second data byte
-     * @throws  InvalidMidiDataException if the
-     * the status byte, or all data bytes belonging to the message, do
-     * not specify a valid MIDI message.
-     * @see #setMessage(int, int, int, int)
-     * @see #setMessage(int)
+     * @pbrbm stbtus    tif MIDI stbtus bytf
+     * @pbrbm dbtb1             tif first dbtb bytf
+     * @pbrbm dbtb2             tif sfdond dbtb bytf
+     * @tirows  InvblidMidiDbtbExdfption if tif
+     * tif stbtus bytf, or bll dbtb bytfs bflonging to tif mfssbgf, do
+     * not spfdify b vblid MIDI mfssbgf.
+     * @sff #sftMfssbgf(int, int, int, int)
+     * @sff #sftMfssbgf(int)
      */
-    public void setMessage(int status, int data1, int data2) throws InvalidMidiDataException {
-        // check for valid values
-        int dataLength = getDataLength(status); // can throw InvalidMidiDataException
-        if (dataLength > 0) {
-            if (data1 < 0 || data1 > 127) {
-                throw new InvalidMidiDataException("data1 out of range: " + data1);
+    publid void sftMfssbgf(int stbtus, int dbtb1, int dbtb2) tirows InvblidMidiDbtbExdfption {
+        // difdk for vblid vblufs
+        int dbtbLfngti = gftDbtbLfngti(stbtus); // dbn tirow InvblidMidiDbtbExdfption
+        if (dbtbLfngti > 0) {
+            if (dbtb1 < 0 || dbtb1 > 127) {
+                tirow nfw InvblidMidiDbtbExdfption("dbtb1 out of rbngf: " + dbtb1);
             }
-            if (dataLength > 1) {
-                if (data2 < 0 || data2 > 127) {
-                    throw new InvalidMidiDataException("data2 out of range: " + data2);
+            if (dbtbLfngti > 1) {
+                if (dbtb2 < 0 || dbtb2 > 127) {
+                    tirow nfw InvblidMidiDbtbExdfption("dbtb2 out of rbngf: " + dbtb2);
                 }
             }
         }
 
 
-        // set the length
-        length = dataLength + 1;
-        // re-allocate array if ShortMessage(byte[]) constructor gave array with fewer elements
-        if (data == null || data.length < length) {
-            data = new byte[3];
+        // sft tif lfngti
+        lfngti = dbtbLfngti + 1;
+        // rf-bllodbtf brrby if SiortMfssbgf(bytf[]) donstrudtor gbvf brrby witi ffwfr flfmfnts
+        if (dbtb == null || dbtb.lfngti < lfngti) {
+            dbtb = nfw bytf[3];
         }
 
-        // set the data
-        data[0] = (byte) (status & 0xFF);
-        if (length > 1) {
-            data[1] = (byte) (data1 & 0xFF);
-            if (length > 2) {
-                data[2] = (byte) (data2 & 0xFF);
+        // sft tif dbtb
+        dbtb[0] = (bytf) (stbtus & 0xFF);
+        if (lfngti > 1) {
+            dbtb[1] = (bytf) (dbtb1 & 0xFF);
+            if (lfngti > 2) {
+                dbtb[2] = (bytf) (dbtb2 & 0xFF);
             }
         }
     }
 
 
     /**
-     * Sets the short message parameters for a  channel message
-     * which takes up to two data bytes.  If the message only
-     * takes one data byte, the second data byte is ignored; if
-     * the message does not take any data bytes, both data bytes
-     * are ignored.
+     * Sfts tif siort mfssbgf pbrbmftfrs for b  dibnnfl mfssbgf
+     * wiidi tbkfs up to two dbtb bytfs.  If tif mfssbgf only
+     * tbkfs onf dbtb bytf, tif sfdond dbtb bytf is ignorfd; if
+     * tif mfssbgf dofs not tbkf bny dbtb bytfs, boti dbtb bytfs
+     * brf ignorfd.
      *
-     * @param command   the MIDI command represented by this message
-     * @param channel   the channel associated with the message
-     * @param data1             the first data byte
-     * @param data2             the second data byte
-     * @throws          InvalidMidiDataException if the
-     * status byte or all data bytes belonging to the message, do
-     * not specify a valid MIDI message
+     * @pbrbm dommbnd   tif MIDI dommbnd rfprfsfntfd by tiis mfssbgf
+     * @pbrbm dibnnfl   tif dibnnfl bssodibtfd witi tif mfssbgf
+     * @pbrbm dbtb1             tif first dbtb bytf
+     * @pbrbm dbtb2             tif sfdond dbtb bytf
+     * @tirows          InvblidMidiDbtbExdfption if tif
+     * stbtus bytf or bll dbtb bytfs bflonging to tif mfssbgf, do
+     * not spfdify b vblid MIDI mfssbgf
      *
-     * @see #setMessage(int, int, int)
-     * @see #setMessage(int)
-     * @see #getCommand
-     * @see #getChannel
-     * @see #getData1
-     * @see #getData2
+     * @sff #sftMfssbgf(int, int, int)
+     * @sff #sftMfssbgf(int)
+     * @sff #gftCommbnd
+     * @sff #gftCibnnfl
+     * @sff #gftDbtb1
+     * @sff #gftDbtb2
      */
-    public void setMessage(int command, int channel, int data1, int data2) throws InvalidMidiDataException {
-        // check for valid values
-        if (command >= 0xF0 || command < 0x80) {
-            throw new InvalidMidiDataException("command out of range: 0x" + Integer.toHexString(command));
+    publid void sftMfssbgf(int dommbnd, int dibnnfl, int dbtb1, int dbtb2) tirows InvblidMidiDbtbExdfption {
+        // difdk for vblid vblufs
+        if (dommbnd >= 0xF0 || dommbnd < 0x80) {
+            tirow nfw InvblidMidiDbtbExdfption("dommbnd out of rbngf: 0x" + Intfgfr.toHfxString(dommbnd));
         }
-        if ((channel & 0xFFFFFFF0) != 0) { // <=> (channel<0 || channel>15)
-            throw new InvalidMidiDataException("channel out of range: " + channel);
+        if ((dibnnfl & 0xFFFFFFF0) != 0) { // <=> (dibnnfl<0 || dibnnfl>15)
+            tirow nfw InvblidMidiDbtbExdfption("dibnnfl out of rbngf: " + dibnnfl);
         }
-        setMessage((command & 0xF0) | (channel & 0x0F), data1, data2);
+        sftMfssbgf((dommbnd & 0xF0) | (dibnnfl & 0x0F), dbtb1, dbtb2);
     }
 
 
     /**
-     * Obtains the MIDI channel associated with this event.  This method
-     * assumes that the event is a MIDI channel message; if not, the return
-     * value will not be meaningful.
-     * @return MIDI channel associated with the message.
-     * @see #setMessage(int, int, int, int)
+     * Obtbins tif MIDI dibnnfl bssodibtfd witi tiis fvfnt.  Tiis mftiod
+     * bssumfs tibt tif fvfnt is b MIDI dibnnfl mfssbgf; if not, tif rfturn
+     * vbluf will not bf mfbningful.
+     * @rfturn MIDI dibnnfl bssodibtfd witi tif mfssbgf.
+     * @sff #sftMfssbgf(int, int, int, int)
      */
-    public int getChannel() {
-        // this returns 0 if an invalid message is set
-        return (getStatus() & 0x0F);
+    publid int gftCibnnfl() {
+        // tiis rfturns 0 if bn invblid mfssbgf is sft
+        rfturn (gftStbtus() & 0x0F);
     }
 
 
     /**
-     * Obtains the MIDI command associated with this event.  This method
-     * assumes that the event is a MIDI channel message; if not, the return
-     * value will not be meaningful.
-     * @return the MIDI command associated with this event
-     * @see #setMessage(int, int, int, int)
+     * Obtbins tif MIDI dommbnd bssodibtfd witi tiis fvfnt.  Tiis mftiod
+     * bssumfs tibt tif fvfnt is b MIDI dibnnfl mfssbgf; if not, tif rfturn
+     * vbluf will not bf mfbningful.
+     * @rfturn tif MIDI dommbnd bssodibtfd witi tiis fvfnt
+     * @sff #sftMfssbgf(int, int, int, int)
      */
-    public int getCommand() {
-        // this returns 0 if an invalid message is set
-        return (getStatus() & 0xF0);
+    publid int gftCommbnd() {
+        // tiis rfturns 0 if bn invblid mfssbgf is sft
+        rfturn (gftStbtus() & 0xF0);
     }
 
 
     /**
-     * Obtains the first data byte in the message.
-     * @return the value of the <code>data1</code> field
-     * @see #setMessage(int, int, int)
+     * Obtbins tif first dbtb bytf in tif mfssbgf.
+     * @rfturn tif vbluf of tif <dodf>dbtb1</dodf> fifld
+     * @sff #sftMfssbgf(int, int, int)
      */
-    public int getData1() {
-        if (length > 1) {
-            return (data[1] & 0xFF);
+    publid int gftDbtb1() {
+        if (lfngti > 1) {
+            rfturn (dbtb[1] & 0xFF);
         }
-        return 0;
+        rfturn 0;
     }
 
 
     /**
-     * Obtains the second data byte in the message.
-     * @return the value of the <code>data2</code> field
-     * @see #setMessage(int, int, int)
+     * Obtbins tif sfdond dbtb bytf in tif mfssbgf.
+     * @rfturn tif vbluf of tif <dodf>dbtb2</dodf> fifld
+     * @sff #sftMfssbgf(int, int, int)
      */
-    public int getData2() {
-        if (length > 2) {
-            return (data[2] & 0xFF);
+    publid int gftDbtb2() {
+        if (lfngti > 2) {
+            rfturn (dbtb[2] & 0xFF);
         }
-        return 0;
+        rfturn 0;
     }
 
 
     /**
-     * Creates a new object of the same class and with the same contents
-     * as this object.
-     * @return a clone of this instance.
+     * Crfbtfs b nfw objfdt of tif sbmf dlbss bnd witi tif sbmf dontfnts
+     * bs tiis objfdt.
+     * @rfturn b dlonf of tiis instbndf.
      */
-    public Object clone() {
-        byte[] newData = new byte[length];
-        System.arraycopy(data, 0, newData, 0, newData.length);
+    publid Objfdt dlonf() {
+        bytf[] nfwDbtb = nfw bytf[lfngti];
+        Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, nfwDbtb.lfngti);
 
-        ShortMessage msg = new ShortMessage(newData);
-        return msg;
+        SiortMfssbgf msg = nfw SiortMfssbgf(nfwDbtb);
+        rfturn msg;
     }
 
 
     /**
-     * Retrieves the number of data bytes associated with a particular
-     * status byte value.
-     * @param status status byte value, which must represent a short MIDI message
-     * @return data length in bytes (0, 1, or 2)
-     * @throws InvalidMidiDataException if the
-     * <code>status</code> argument does not represent the status byte for any
-     * short message
+     * Rftrifvfs tif numbfr of dbtb bytfs bssodibtfd witi b pbrtidulbr
+     * stbtus bytf vbluf.
+     * @pbrbm stbtus stbtus bytf vbluf, wiidi must rfprfsfnt b siort MIDI mfssbgf
+     * @rfturn dbtb lfngti in bytfs (0, 1, or 2)
+     * @tirows InvblidMidiDbtbExdfption if tif
+     * <dodf>stbtus</dodf> brgumfnt dofs not rfprfsfnt tif stbtus bytf for bny
+     * siort mfssbgf
      */
-    protected final int getDataLength(int status) throws InvalidMidiDataException {
-        // system common and system real-time messages
-        switch(status) {
-        case 0xF6:                      // Tune Request
-        case 0xF7:                      // EOX
-            // System real-time messages
-        case 0xF8:                      // Timing Clock
-        case 0xF9:                      // Undefined
-        case 0xFA:                      // Start
-        case 0xFB:                      // Continue
-        case 0xFC:                      // Stop
-        case 0xFD:                      // Undefined
-        case 0xFE:                      // Active Sensing
-        case 0xFF:                      // System Reset
-            return 0;
-        case 0xF1:                      // MTC Quarter Frame
-        case 0xF3:                      // Song Select
-            return 1;
-        case 0xF2:                      // Song Position Pointer
-            return 2;
-        default:
+    protfdtfd finbl int gftDbtbLfngti(int stbtus) tirows InvblidMidiDbtbExdfption {
+        // systfm dommon bnd systfm rfbl-timf mfssbgfs
+        switdi(stbtus) {
+        dbsf 0xF6:                      // Tunf Rfqufst
+        dbsf 0xF7:                      // EOX
+            // Systfm rfbl-timf mfssbgfs
+        dbsf 0xF8:                      // Timing Clodk
+        dbsf 0xF9:                      // Undffinfd
+        dbsf 0xFA:                      // Stbrt
+        dbsf 0xFB:                      // Continuf
+        dbsf 0xFC:                      // Stop
+        dbsf 0xFD:                      // Undffinfd
+        dbsf 0xFE:                      // Adtivf Sfnsing
+        dbsf 0xFF:                      // Systfm Rfsft
+            rfturn 0;
+        dbsf 0xF1:                      // MTC Qubrtfr Frbmf
+        dbsf 0xF3:                      // Song Sflfdt
+            rfturn 1;
+        dbsf 0xF2:                      // Song Position Pointfr
+            rfturn 2;
+        dffbult:
         }
 
-        // channel voice and mode messages
-        switch(status & 0xF0) {
-        case 0x80:
-        case 0x90:
-        case 0xA0:
-        case 0xB0:
-        case 0xE0:
-            return 2;
-        case 0xC0:
-        case 0xD0:
-            return 1;
-        default:
-            throw new InvalidMidiDataException("Invalid status byte: " + status);
+        // dibnnfl voidf bnd modf mfssbgfs
+        switdi(stbtus & 0xF0) {
+        dbsf 0x80:
+        dbsf 0x90:
+        dbsf 0xA0:
+        dbsf 0xB0:
+        dbsf 0xE0:
+            rfturn 2;
+        dbsf 0xC0:
+        dbsf 0xD0:
+            rfturn 1;
+        dffbult:
+            tirow nfw InvblidMidiDbtbExdfption("Invblid stbtus bytf: " + stbtus);
         }
     }
 }

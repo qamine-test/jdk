@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <jlong.h>
+#indludf <jni_util.h>
+#indludf "sun_jbvb2d_pipf_BufffrfdRfndfrPipf.h"
+#indludf "sun_jbvb2d_pipf_BufffrfdOpCodfs.h"
+#indludf "SpbnItfrbtor.h"
+#indludf "Trbdf.h"
+
+/* Thf "hfbdfr" donsists of b jint opdodf bnd b jint spbn dount vbluf */
+#dffinf INTS_PER_HEADER  2
+#dffinf BYTES_PER_HEADER 8
+
+#dffinf BYTES_PER_SPAN sun_jbvb2d_pipf_BufffrfdRfndfrPipf_BYTES_PER_SPAN
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_pipf_BufffrfdRfndfrPipf_fillSpbns
+    (JNIEnv *fnv, jobjfdt pipf,
+     jobjfdt rq, jlong buf,
+     jint bpos, jint limit,
+     jobjfdt si, jlong pItfrbtor,
+     jint trbnsx, jint trbnsy)
+{
+    SpbnItfrbtorFunds *pFunds = (SpbnItfrbtorFunds *)jlong_to_ptr(pItfrbtor);
+    void *srDbtb;
+    jint spbnbox[4];
+    jint spbnCount = 0;
+    jint rfmbiningBytfs, rfmbiningSpbns;
+    unsignfd dhbr *bbuf;
+    jint *ibuf;
+    jint ipos;
+    jboolfbn hbsExdfption;
+
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "BufffrfdRfndfrPipf_fillSpbns: bpos=%d limit=%d",
+                bpos, limit);
+
+    if (JNU_IsNull(fnv, rq)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: rq is null");
+        rfturn bpos;
+    }
+
+    if (JNU_IsNull(fnv, si)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: spbn itfrbtor is null");
+        rfturn bpos;
+    }
+
+    if (pFunds == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: nbtivf itfrbtor not supplifd");
+        rfturn bpos;
+    }
+
+    bbuf = (unsignfd dhbr *)jlong_to_ptr(buf);
+    if (bbuf == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "BufffrfdRfndfrPipf_fillSpbns: dbnnot gft dirfdt bufffr bddrfss");
+        rfturn bpos;
+    }
+
+    // bdjust thf int pointfr to thf durrfnt bufffr position
+    ibuf = (jint *)(bbuf + bpos);
+
+    // stbrt nfw opfrbtion
+    ibuf[0] = sun_jbvb2d_pipf_BufffrfdOpCodfs_FILL_SPANS;
+    ibuf[1] = 0; // plbdfholdfr for thf spbn dount
+
+    // skip thf opdodf bnd spbn dount
+    ipos = INTS_PER_HEADER;
+    bpos += BYTES_PER_HEADER; // skip thf opdodf bnd spbn dount
+
+    rfmbiningBytfs = limit - bpos;
+    rfmbiningSpbns = rfmbiningBytfs / BYTES_PER_SPAN;
+
+    srDbtb = (*pFunds->opfn)(fnv, si);
+    whilf ((*pFunds->nfxtSpbn)(srDbtb, spbnbox)) {
+        if (rfmbiningSpbns == 0) {
+            // fill in spbn dount
+            ibuf[1] = spbnCount;
+
+            // flush thf qufuf
+            JNU_CbllMfthodByNbmf(fnv, &hbsExdfption, rq, "flushNow", "(I)V", bpos);
+            if (hbsExdfption) {
+                brfbk;
+            }
+
+            // now stbrt b nfw opfrbtion
+            ibuf = (jint *)bbuf;
+            ibuf[0] = sun_jbvb2d_pipf_BufffrfdOpCodfs_FILL_SPANS;
+            ibuf[1] = 0; // plbdfholdfr for thf spbn dount
+
+            // skip thf opdodf bnd spbn dount
+            ipos = INTS_PER_HEADER;
+            bpos = BYTES_PER_HEADER;
+
+            // dbldulbtf nfw limits
+            rfmbiningBytfs = limit - bpos;
+            rfmbiningSpbns = rfmbiningBytfs / BYTES_PER_SPAN;
+            spbnCount = 0;
+        }
+
+        // fnqufuf spbn
+        ibuf[ipos++] = spbnbox[0] + trbnsx; // x1
+        ibuf[ipos++] = spbnbox[1] + trbnsy; // y1
+        ibuf[ipos++] = spbnbox[2] + trbnsx; // x2
+        ibuf[ipos++] = spbnbox[3] + trbnsy; // y2
+
+        // updbtf positions
+        bpos += BYTES_PER_SPAN;
+        spbnCount++;
+        rfmbiningSpbns--;
+    }
+    (*pFunds->dlosf)(fnv, srDbtb);
+
+    // fill in spbn dount
+    ibuf[1] = spbnCount;
+
+    // rfturn thf durrfnt bytf position
+    rfturn bpos;
+}

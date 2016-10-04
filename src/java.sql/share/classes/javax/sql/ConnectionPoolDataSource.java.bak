@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.SQLException;
+import jbvb.sql.SQLExdfption;
 
 
 /**
- * A factory for <code>PooledConnection</code>
- * objects.  An object that implements this interface will typically be
- * registered with a naming service that is based on the
- * Java&trade; Naming and Directory Interface
+ * A fbdtory for <dodf>PoolfdConnfdtion</dodf>
+ * objfdts.  An objfdt tibt implfmfnts tiis intfrfbdf will typidblly bf
+ * rfgistfrfd witi b nbming sfrvidf tibt is bbsfd on tif
+ * Jbvb&trbdf; Nbming bnd Dirfdtory Intfrfbdf
  * (JNDI).
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface ConnectionPoolDataSource  extends CommonDataSource {
+publid intfrfbdf ConnfdtionPoolDbtbSourdf  fxtfnds CommonDbtbSourdf {
 
   /**
-   * Attempts to establish a physical database connection that can
-   * be used as a pooled connection.
+   * Attfmpts to fstbblisi b piysidbl dbtbbbsf donnfdtion tibt dbn
+   * bf usfd bs b poolfd donnfdtion.
    *
-   * @return  a <code>PooledConnection</code> object that is a physical
-   *         connection to the database that this
-   *         <code>ConnectionPoolDataSource</code> object represents
-   * @exception SQLException if a database access error occurs
-   * @exception java.sql.SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.4
+   * @rfturn  b <dodf>PoolfdConnfdtion</dodf> objfdt tibt is b piysidbl
+   *         donnfdtion to tif dbtbbbsf tibt tiis
+   *         <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt rfprfsfnts
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption jbvb.sql.SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.4
    */
-  PooledConnection getPooledConnection() throws SQLException;
+  PoolfdConnfdtion gftPoolfdConnfdtion() tirows SQLExdfption;
 
   /**
-   * Attempts to establish a physical database connection that can
-   * be used as a pooled connection.
+   * Attfmpts to fstbblisi b piysidbl dbtbbbsf donnfdtion tibt dbn
+   * bf usfd bs b poolfd donnfdtion.
    *
-   * @param user the database user on whose behalf the connection is being made
-   * @param password the user's password
-   * @return  a <code>PooledConnection</code> object that is a physical
-   *         connection to the database that this
-   *         <code>ConnectionPoolDataSource</code> object represents
-   * @exception SQLException if a database access error occurs
-   * @exception java.sql.SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.4
+   * @pbrbm usfr tif dbtbbbsf usfr on wiosf bfiblf tif donnfdtion is bfing mbdf
+   * @pbrbm pbssword tif usfr's pbssword
+   * @rfturn  b <dodf>PoolfdConnfdtion</dodf> objfdt tibt is b piysidbl
+   *         donnfdtion to tif dbtbbbsf tibt tiis
+   *         <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt rfprfsfnts
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption jbvb.sql.SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.4
    */
-  PooledConnection getPooledConnection(String user, String password)
-    throws SQLException;
+  PoolfdConnfdtion gftPoolfdConnfdtion(String usfr, String pbssword)
+    tirows SQLExdfption;
  }

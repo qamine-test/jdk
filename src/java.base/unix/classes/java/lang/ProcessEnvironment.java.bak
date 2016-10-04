@@ -1,440 +1,440 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* We use APIs that access the standard Unix environ array, which
- * is defined by UNIX98 to look like:
+/* Wf usf APIs tibt bddfss tif stbndbrd Unix fnviron brrby, wiidi
+ * is dffinfd by UNIX98 to look likf:
  *
- *    char **environ;
+ *    dibr **fnviron;
  *
- * These are unsorted, case-sensitive, null-terminated arrays of bytes
- * of the form FOO=BAR\000 which are usually encoded in the user's
- * default encoding (file.encoding is an excellent choice for
- * encoding/decoding these).  However, even though the user cannot
- * directly access the underlying byte representation, we take pains
- * to pass on the child the exact byte representation we inherit from
- * the parent process for any environment name or value not created by
- * Javaland.  So we keep track of all the byte representations.
+ * Tifsf brf unsortfd, dbsf-sfnsitivf, null-tfrminbtfd brrbys of bytfs
+ * of tif form FOO=BAR\000 wiidi brf usublly fndodfd in tif usfr's
+ * dffbult fndoding (filf.fndoding is bn fxdfllfnt dioidf for
+ * fndoding/dfdoding tifsf).  Howfvfr, fvfn tiougi tif usfr dbnnot
+ * dirfdtly bddfss tif undfrlying bytf rfprfsfntbtion, wf tbkf pbins
+ * to pbss on tif diild tif fxbdt bytf rfprfsfntbtion wf inifrit from
+ * tif pbrfnt prodfss for bny fnvironmfnt nbmf or vbluf not drfbtfd by
+ * Jbvblbnd.  So wf kffp trbdk of bll tif bytf rfprfsfntbtions.
  *
- * Internally, we define the types Variable and Value that exhibit
- * String/byteArray duality.  The internal representation of the
- * environment then looks like a Map<Variable,Value>.  But we don't
- * expose this to the user -- we only provide a Map<String,String>
- * view, although we could also provide a Map<byte[],byte[]> view.
+ * Intfrnblly, wf dffinf tif typfs Vbribblf bnd Vbluf tibt fxiibit
+ * String/bytfArrby dublity.  Tif intfrnbl rfprfsfntbtion of tif
+ * fnvironmfnt tifn looks likf b Mbp<Vbribblf,Vbluf>.  But wf don't
+ * fxposf tiis to tif usfr -- wf only providf b Mbp<String,String>
+ * vifw, bltiougi wf dould blso providf b Mbp<bytf[],bytf[]> vifw.
  *
- * The non-private methods in this class are not for general use even
- * within this package.  Instead, they are the system-dependent parts
- * of the system-independent method of the same name.  Don't even
- * think of using this class unless your method's name appears below.
+ * Tif non-privbtf mftiods in tiis dlbss brf not for gfnfrbl usf fvfn
+ * witiin tiis pbdkbgf.  Instfbd, tify brf tif systfm-dfpfndfnt pbrts
+ * of tif systfm-indfpfndfnt mftiod of tif sbmf nbmf.  Don't fvfn
+ * tiink of using tiis dlbss unlfss your mftiod's nbmf bppfbrs bflow.
  *
- * @author  Martin Buchholz
- * @since   1.5
+ * @butior  Mbrtin Budiiolz
+ * @sindf   1.5
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 
-final class ProcessEnvironment
+finbl dlbss ProdfssEnvironmfnt
 {
-    private static final HashMap<Variable,Value> theEnvironment;
-    private static final Map<String,String> theUnmodifiableEnvironment;
-    static final int MIN_NAME_LENGTH = 0;
+    privbtf stbtid finbl HbsiMbp<Vbribblf,Vbluf> tifEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> tifUnmodifibblfEnvironmfnt;
+    stbtid finbl int MIN_NAME_LENGTH = 0;
 
-    static {
-        // We cache the C environment.  This means that subsequent calls
-        // to putenv/setenv from C will not be visible from Java code.
-        byte[][] environ = environ();
-        theEnvironment = new HashMap<>(environ.length/2 + 3);
-        // Read environment variables back to front,
-        // so that earlier variables override later ones.
-        for (int i = environ.length-1; i > 0; i-=2)
-            theEnvironment.put(Variable.valueOf(environ[i-1]),
-                               Value.valueOf(environ[i]));
+    stbtid {
+        // Wf dbdif tif C fnvironmfnt.  Tiis mfbns tibt subsfqufnt dblls
+        // to putfnv/sftfnv from C will not bf visiblf from Jbvb dodf.
+        bytf[][] fnviron = fnviron();
+        tifEnvironmfnt = nfw HbsiMbp<>(fnviron.lfngti/2 + 3);
+        // Rfbd fnvironmfnt vbribblfs bbdk to front,
+        // so tibt fbrlifr vbribblfs ovfrridf lbtfr onfs.
+        for (int i = fnviron.lfngti-1; i > 0; i-=2)
+            tifEnvironmfnt.put(Vbribblf.vblufOf(fnviron[i-1]),
+                               Vbluf.vblufOf(fnviron[i]));
 
-        theUnmodifiableEnvironment
-            = Collections.unmodifiableMap
-            (new StringEnvironment(theEnvironment));
+        tifUnmodifibblfEnvironmfnt
+            = Collfdtions.unmodifibblfMbp
+            (nfw StringEnvironmfnt(tifEnvironmfnt));
     }
 
-    /* Only for use by System.getenv(String) */
-    static String getenv(String name) {
-        return theUnmodifiableEnvironment.get(name);
+    /* Only for usf by Systfm.gftfnv(String) */
+    stbtid String gftfnv(String nbmf) {
+        rfturn tifUnmodifibblfEnvironmfnt.gft(nbmf);
     }
 
-    /* Only for use by System.getenv() */
-    static Map<String,String> getenv() {
-        return theUnmodifiableEnvironment;
+    /* Only for usf by Systfm.gftfnv() */
+    stbtid Mbp<String,String> gftfnv() {
+        rfturn tifUnmodifibblfEnvironmfnt;
     }
 
-    /* Only for use by ProcessBuilder.environment() */
-    @SuppressWarnings("unchecked")
-    static Map<String,String> environment() {
-        return new StringEnvironment
-            ((Map<Variable,Value>)(theEnvironment.clone()));
+    /* Only for usf by ProdfssBuildfr.fnvironmfnt() */
+    @SupprfssWbrnings("undifdkfd")
+    stbtid Mbp<String,String> fnvironmfnt() {
+        rfturn nfw StringEnvironmfnt
+            ((Mbp<Vbribblf,Vbluf>)(tifEnvironmfnt.dlonf()));
     }
 
-    /* Only for use by Runtime.exec(...String[]envp...) */
-    static Map<String,String> emptyEnvironment(int capacity) {
-        return new StringEnvironment(new HashMap<Variable,Value>(capacity));
+    /* Only for usf by Runtimf.fxfd(...String[]fnvp...) */
+    stbtid Mbp<String,String> fmptyEnvironmfnt(int dbpbdity) {
+        rfturn nfw StringEnvironmfnt(nfw HbsiMbp<Vbribblf,Vbluf>(dbpbdity));
     }
 
-    private static native byte[][] environ();
+    privbtf stbtid nbtivf bytf[][] fnviron();
 
-    // This class is not instantiable.
-    private ProcessEnvironment() {}
+    // Tiis dlbss is not instbntibblf.
+    privbtf ProdfssEnvironmfnt() {}
 
-    // Check that name is suitable for insertion into Environment map
-    private static void validateVariable(String name) {
-        if (name.indexOf('=')      != -1 ||
-            name.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable name: \"" + name + "\"");
+    // Cifdk tibt nbmf is suitbblf for insfrtion into Environmfnt mbp
+    privbtf stbtid void vblidbtfVbribblf(String nbmf) {
+        if (nbmf.indfxOf('=')      != -1 ||
+            nbmf.indfxOf('\u0000') != -1)
+            tirow nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf nbmf: \"" + nbmf + "\"");
     }
 
-    // Check that value is suitable for insertion into Environment map
-    private static void validateValue(String value) {
-        if (value.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable value: \"" + value + "\"");
+    // Cifdk tibt vbluf is suitbblf for insfrtion into Environmfnt mbp
+    privbtf stbtid void vblidbtfVbluf(String vbluf) {
+        if (vbluf.indfxOf('\u0000') != -1)
+            tirow nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf vbluf: \"" + vbluf + "\"");
     }
 
-    // A class hiding the byteArray-String duality of
-    // text data on Unixoid operating systems.
-    private static abstract class ExternalData {
-        protected final String str;
-        protected final byte[] bytes;
+    // A dlbss iiding tif bytfArrby-String dublity of
+    // tfxt dbtb on Unixoid opfrbting systfms.
+    privbtf stbtid bbstrbdt dlbss ExtfrnblDbtb {
+        protfdtfd finbl String str;
+        protfdtfd finbl bytf[] bytfs;
 
-        protected ExternalData(String str, byte[] bytes) {
-            this.str = str;
-            this.bytes = bytes;
+        protfdtfd ExtfrnblDbtb(String str, bytf[] bytfs) {
+            tiis.str = str;
+            tiis.bytfs = bytfs;
         }
 
-        public byte[] getBytes() {
-            return bytes;
+        publid bytf[] gftBytfs() {
+            rfturn bytfs;
         }
 
-        public String toString() {
-            return str;
+        publid String toString() {
+            rfturn str;
         }
 
-        public boolean equals(Object o) {
-            return o instanceof ExternalData
-                && arrayEquals(getBytes(), ((ExternalData) o).getBytes());
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof ExtfrnblDbtb
+                && brrbyEqubls(gftBytfs(), ((ExtfrnblDbtb) o).gftBytfs());
         }
 
-        public int hashCode() {
-            return arrayHash(getBytes());
+        publid int ibsiCodf() {
+            rfturn brrbyHbsi(gftBytfs());
         }
     }
 
-    private static class Variable
-        extends ExternalData implements Comparable<Variable>
+    privbtf stbtid dlbss Vbribblf
+        fxtfnds ExtfrnblDbtb implfmfnts Compbrbblf<Vbribblf>
     {
-        protected Variable(String str, byte[] bytes) {
-            super(str, bytes);
+        protfdtfd Vbribblf(String str, bytf[] bytfs) {
+            supfr(str, bytfs);
         }
 
-        public static Variable valueOfQueryOnly(Object str) {
-            return valueOfQueryOnly((String) str);
+        publid stbtid Vbribblf vblufOfQufryOnly(Objfdt str) {
+            rfturn vblufOfQufryOnly((String) str);
         }
 
-        public static Variable valueOfQueryOnly(String str) {
-            return new Variable(str, str.getBytes());
+        publid stbtid Vbribblf vblufOfQufryOnly(String str) {
+            rfturn nfw Vbribblf(str, str.gftBytfs());
         }
 
-        public static Variable valueOf(String str) {
-            validateVariable(str);
-            return valueOfQueryOnly(str);
+        publid stbtid Vbribblf vblufOf(String str) {
+            vblidbtfVbribblf(str);
+            rfturn vblufOfQufryOnly(str);
         }
 
-        public static Variable valueOf(byte[] bytes) {
-            return new Variable(new String(bytes), bytes);
+        publid stbtid Vbribblf vblufOf(bytf[] bytfs) {
+            rfturn nfw Vbribblf(nfw String(bytfs), bytfs);
         }
 
-        public int compareTo(Variable variable) {
-            return arrayCompare(getBytes(), variable.getBytes());
+        publid int dompbrfTo(Vbribblf vbribblf) {
+            rfturn brrbyCompbrf(gftBytfs(), vbribblf.gftBytfs());
         }
 
-        public boolean equals(Object o) {
-            return o instanceof Variable && super.equals(o);
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof Vbribblf && supfr.fqubls(o);
         }
     }
 
-    private static class Value
-        extends ExternalData implements Comparable<Value>
+    privbtf stbtid dlbss Vbluf
+        fxtfnds ExtfrnblDbtb implfmfnts Compbrbblf<Vbluf>
     {
-        protected Value(String str, byte[] bytes) {
-            super(str, bytes);
+        protfdtfd Vbluf(String str, bytf[] bytfs) {
+            supfr(str, bytfs);
         }
 
-        public static Value valueOfQueryOnly(Object str) {
-            return valueOfQueryOnly((String) str);
+        publid stbtid Vbluf vblufOfQufryOnly(Objfdt str) {
+            rfturn vblufOfQufryOnly((String) str);
         }
 
-        public static Value valueOfQueryOnly(String str) {
-            return new Value(str, str.getBytes());
+        publid stbtid Vbluf vblufOfQufryOnly(String str) {
+            rfturn nfw Vbluf(str, str.gftBytfs());
         }
 
-        public static Value valueOf(String str) {
-            validateValue(str);
-            return valueOfQueryOnly(str);
+        publid stbtid Vbluf vblufOf(String str) {
+            vblidbtfVbluf(str);
+            rfturn vblufOfQufryOnly(str);
         }
 
-        public static Value valueOf(byte[] bytes) {
-            return new Value(new String(bytes), bytes);
+        publid stbtid Vbluf vblufOf(bytf[] bytfs) {
+            rfturn nfw Vbluf(nfw String(bytfs), bytfs);
         }
 
-        public int compareTo(Value value) {
-            return arrayCompare(getBytes(), value.getBytes());
+        publid int dompbrfTo(Vbluf vbluf) {
+            rfturn brrbyCompbrf(gftBytfs(), vbluf.gftBytfs());
         }
 
-        public boolean equals(Object o) {
-            return o instanceof Value && super.equals(o);
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof Vbluf && supfr.fqubls(o);
         }
     }
 
-    // This implements the String map view the user sees.
-    private static class StringEnvironment
-        extends AbstractMap<String,String>
+    // Tiis implfmfnts tif String mbp vifw tif usfr sffs.
+    privbtf stbtid dlbss StringEnvironmfnt
+        fxtfnds AbstrbdtMbp<String,String>
     {
-        private Map<Variable,Value> m;
-        private static String toString(Value v) {
-            return v == null ? null : v.toString();
+        privbtf Mbp<Vbribblf,Vbluf> m;
+        privbtf stbtid String toString(Vbluf v) {
+            rfturn v == null ? null : v.toString();
         }
-        public StringEnvironment(Map<Variable,Value> m) {this.m = m;}
-        public int size()        {return m.size();}
-        public boolean isEmpty() {return m.isEmpty();}
-        public void clear()      {       m.clear();}
-        public boolean containsKey(Object key) {
-            return m.containsKey(Variable.valueOfQueryOnly(key));
+        publid StringEnvironmfnt(Mbp<Vbribblf,Vbluf> m) {tiis.m = m;}
+        publid int sizf()        {rfturn m.sizf();}
+        publid boolfbn isEmpty() {rfturn m.isEmpty();}
+        publid void dlfbr()      {       m.dlfbr();}
+        publid boolfbn dontbinsKfy(Objfdt kfy) {
+            rfturn m.dontbinsKfy(Vbribblf.vblufOfQufryOnly(kfy));
         }
-        public boolean containsValue(Object value) {
-            return m.containsValue(Value.valueOfQueryOnly(value));
+        publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+            rfturn m.dontbinsVbluf(Vbluf.vblufOfQufryOnly(vbluf));
         }
-        public String get(Object key) {
-            return toString(m.get(Variable.valueOfQueryOnly(key)));
+        publid String gft(Objfdt kfy) {
+            rfturn toString(m.gft(Vbribblf.vblufOfQufryOnly(kfy)));
         }
-        public String put(String key, String value) {
-            return toString(m.put(Variable.valueOf(key),
-                                  Value.valueOf(value)));
+        publid String put(String kfy, String vbluf) {
+            rfturn toString(m.put(Vbribblf.vblufOf(kfy),
+                                  Vbluf.vblufOf(vbluf)));
         }
-        public String remove(Object key) {
-            return toString(m.remove(Variable.valueOfQueryOnly(key)));
+        publid String rfmovf(Objfdt kfy) {
+            rfturn toString(m.rfmovf(Vbribblf.vblufOfQufryOnly(kfy)));
         }
-        public Set<String> keySet() {
-            return new StringKeySet(m.keySet());
+        publid Sft<String> kfySft() {
+            rfturn nfw StringKfySft(m.kfySft());
         }
-        public Set<Map.Entry<String,String>> entrySet() {
-            return new StringEntrySet(m.entrySet());
+        publid Sft<Mbp.Entry<String,String>> fntrySft() {
+            rfturn nfw StringEntrySft(m.fntrySft());
         }
-        public Collection<String> values() {
-            return new StringValues(m.values());
+        publid Collfdtion<String> vblufs() {
+            rfturn nfw StringVblufs(m.vblufs());
         }
 
-        // It is technically feasible to provide a byte-oriented view
-        // as follows:
-        //      public Map<byte[],byte[]> asByteArrayMap() {
-        //          return new ByteArrayEnvironment(m);
+        // It is tfdinidblly ffbsiblf to providf b bytf-orifntfd vifw
+        // bs follows:
+        //      publid Mbp<bytf[],bytf[]> bsBytfArrbyMbp() {
+        //          rfturn nfw BytfArrbyEnvironmfnt(m);
         //      }
 
 
-        // Convert to Unix style environ as a monolithic byte array
-        // inspired by the Windows Environment Block, except we work
-        // exclusively with bytes instead of chars, and we need only
-        // one trailing NUL on Unix.
-        // This keeps the JNI as simple and efficient as possible.
-        public byte[] toEnvironmentBlock(int[]envc) {
-            int count = m.size() * 2; // For added '=' and NUL
-            for (Map.Entry<Variable,Value> entry : m.entrySet()) {
-                count += entry.getKey().getBytes().length;
-                count += entry.getValue().getBytes().length;
+        // Convfrt to Unix stylf fnviron bs b monolitiid bytf brrby
+        // inspirfd by tif Windows Environmfnt Blodk, fxdfpt wf work
+        // fxdlusivfly witi bytfs instfbd of dibrs, bnd wf nffd only
+        // onf trbiling NUL on Unix.
+        // Tiis kffps tif JNI bs simplf bnd fffidifnt bs possiblf.
+        publid bytf[] toEnvironmfntBlodk(int[]fnvd) {
+            int dount = m.sizf() * 2; // For bddfd '=' bnd NUL
+            for (Mbp.Entry<Vbribblf,Vbluf> fntry : m.fntrySft()) {
+                dount += fntry.gftKfy().gftBytfs().lfngti;
+                dount += fntry.gftVbluf().gftBytfs().lfngti;
             }
 
-            byte[] block = new byte[count];
+            bytf[] blodk = nfw bytf[dount];
 
             int i = 0;
-            for (Map.Entry<Variable,Value> entry : m.entrySet()) {
-                byte[] key   = entry.getKey  ().getBytes();
-                byte[] value = entry.getValue().getBytes();
-                System.arraycopy(key, 0, block, i, key.length);
-                i+=key.length;
-                block[i++] = (byte) '=';
-                System.arraycopy(value, 0, block, i, value.length);
-                i+=value.length + 1;
-                // No need to write NUL byte explicitly
-                //block[i++] = (byte) '\u0000';
+            for (Mbp.Entry<Vbribblf,Vbluf> fntry : m.fntrySft()) {
+                bytf[] kfy   = fntry.gftKfy  ().gftBytfs();
+                bytf[] vbluf = fntry.gftVbluf().gftBytfs();
+                Systfm.brrbydopy(kfy, 0, blodk, i, kfy.lfngti);
+                i+=kfy.lfngti;
+                blodk[i++] = (bytf) '=';
+                Systfm.brrbydopy(vbluf, 0, blodk, i, vbluf.lfngti);
+                i+=vbluf.lfngti + 1;
+                // No nffd to writf NUL bytf fxpliditly
+                //blodk[i++] = (bytf) '\u0000';
             }
-            envc[0] = m.size();
-            return block;
+            fnvd[0] = m.sizf();
+            rfturn blodk;
         }
     }
 
-    static byte[] toEnvironmentBlock(Map<String,String> map, int[]envc) {
-        return map == null ? null :
-            ((StringEnvironment)map).toEnvironmentBlock(envc);
+    stbtid bytf[] toEnvironmfntBlodk(Mbp<String,String> mbp, int[]fnvd) {
+        rfturn mbp == null ? null :
+            ((StringEnvironmfnt)mbp).toEnvironmfntBlodk(fnvd);
     }
 
 
-    private static class StringEntry
-        implements Map.Entry<String,String>
+    privbtf stbtid dlbss StringEntry
+        implfmfnts Mbp.Entry<String,String>
     {
-        private final Map.Entry<Variable,Value> e;
-        public StringEntry(Map.Entry<Variable,Value> e) {this.e = e;}
-        public String getKey()   {return e.getKey().toString();}
-        public String getValue() {return e.getValue().toString();}
-        public String setValue(String newValue) {
-            return e.setValue(Value.valueOf(newValue)).toString();
+        privbtf finbl Mbp.Entry<Vbribblf,Vbluf> f;
+        publid StringEntry(Mbp.Entry<Vbribblf,Vbluf> f) {tiis.f = f;}
+        publid String gftKfy()   {rfturn f.gftKfy().toString();}
+        publid String gftVbluf() {rfturn f.gftVbluf().toString();}
+        publid String sftVbluf(String nfwVbluf) {
+            rfturn f.sftVbluf(Vbluf.vblufOf(nfwVbluf)).toString();
         }
-        public String toString() {return getKey() + "=" + getValue();}
-        public boolean equals(Object o) {
-            return o instanceof StringEntry
-                && e.equals(((StringEntry)o).e);
+        publid String toString() {rfturn gftKfy() + "=" + gftVbluf();}
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringEntry
+                && f.fqubls(((StringEntry)o).f);
         }
-        public int hashCode()    {return e.hashCode();}
+        publid int ibsiCodf()    {rfturn f.ibsiCodf();}
     }
 
-    private static class StringEntrySet
-        extends AbstractSet<Map.Entry<String,String>>
+    privbtf stbtid dlbss StringEntrySft
+        fxtfnds AbstrbdtSft<Mbp.Entry<String,String>>
     {
-        private final Set<Map.Entry<Variable,Value>> s;
-        public StringEntrySet(Set<Map.Entry<Variable,Value>> s) {this.s = s;}
-        public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<Map.Entry<String,String>> iterator() {
-            return new Iterator<Map.Entry<String,String>>() {
-                Iterator<Map.Entry<Variable,Value>> i = s.iterator();
-                public boolean hasNext() {return i.hasNext();}
-                public Map.Entry<String,String> next() {
-                    return new StringEntry(i.next());
+        privbtf finbl Sft<Mbp.Entry<Vbribblf,Vbluf>> s;
+        publid StringEntrySft(Sft<Mbp.Entry<Vbribblf,Vbluf>> s) {tiis.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<Mbp.Entry<String,String>> itfrbtor() {
+            rfturn nfw Itfrbtor<Mbp.Entry<String,String>>() {
+                Itfrbtor<Mbp.Entry<Vbribblf,Vbluf>> i = s.itfrbtor();
+                publid boolfbn ibsNfxt() {rfturn i.ibsNfxt();}
+                publid Mbp.Entry<String,String> nfxt() {
+                    rfturn nfw StringEntry(i.nfxt());
                 }
-                public void remove() {i.remove();}
+                publid void rfmovf() {i.rfmovf();}
             };
         }
-        private static Map.Entry<Variable,Value> vvEntry(final Object o) {
-            if (o instanceof StringEntry)
-                return ((StringEntry)o).e;
-            return new Map.Entry<Variable,Value>() {
-                public Variable getKey() {
-                    return Variable.valueOfQueryOnly(((Map.Entry)o).getKey());
+        privbtf stbtid Mbp.Entry<Vbribblf,Vbluf> vvEntry(finbl Objfdt o) {
+            if (o instbndfof StringEntry)
+                rfturn ((StringEntry)o).f;
+            rfturn nfw Mbp.Entry<Vbribblf,Vbluf>() {
+                publid Vbribblf gftKfy() {
+                    rfturn Vbribblf.vblufOfQufryOnly(((Mbp.Entry)o).gftKfy());
                 }
-                public Value getValue() {
-                    return Value.valueOfQueryOnly(((Map.Entry)o).getValue());
+                publid Vbluf gftVbluf() {
+                    rfturn Vbluf.vblufOfQufryOnly(((Mbp.Entry)o).gftVbluf());
                 }
-                public Value setValue(Value value) {
-                    throw new UnsupportedOperationException();
+                publid Vbluf sftVbluf(Vbluf vbluf) {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
             };
         }
-        public boolean contains(Object o) { return s.contains(vvEntry(o)); }
-        public boolean remove(Object o)   { return s.remove(vvEntry(o)); }
-        public boolean equals(Object o) {
-            return o instanceof StringEntrySet
-                && s.equals(((StringEntrySet) o).s);
+        publid boolfbn dontbins(Objfdt o) { rfturn s.dontbins(vvEntry(o)); }
+        publid boolfbn rfmovf(Objfdt o)   { rfturn s.rfmovf(vvEntry(o)); }
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringEntrySft
+                && s.fqubls(((StringEntrySft) o).s);
         }
-        public int hashCode() {return s.hashCode();}
+        publid int ibsiCodf() {rfturn s.ibsiCodf();}
     }
 
-    private static class StringValues
-          extends AbstractCollection<String>
+    privbtf stbtid dlbss StringVblufs
+          fxtfnds AbstrbdtCollfdtion<String>
     {
-        private final Collection<Value> c;
-        public StringValues(Collection<Value> c) {this.c = c;}
-        public int size()        {return c.size();}
-        public boolean isEmpty() {return c.isEmpty();}
-        public void clear()      {       c.clear();}
-        public Iterator<String> iterator() {
-            return new Iterator<String>() {
-                Iterator<Value> i = c.iterator();
-                public boolean hasNext() {return i.hasNext();}
-                public String next()     {return i.next().toString();}
-                public void remove()     {i.remove();}
+        privbtf finbl Collfdtion<Vbluf> d;
+        publid StringVblufs(Collfdtion<Vbluf> d) {tiis.d = d;}
+        publid int sizf()        {rfturn d.sizf();}
+        publid boolfbn isEmpty() {rfturn d.isEmpty();}
+        publid void dlfbr()      {       d.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {
+            rfturn nfw Itfrbtor<String>() {
+                Itfrbtor<Vbluf> i = d.itfrbtor();
+                publid boolfbn ibsNfxt() {rfturn i.ibsNfxt();}
+                publid String nfxt()     {rfturn i.nfxt().toString();}
+                publid void rfmovf()     {i.rfmovf();}
             };
         }
-        public boolean contains(Object o) {
-            return c.contains(Value.valueOfQueryOnly(o));
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn d.dontbins(Vbluf.vblufOfQufryOnly(o));
         }
-        public boolean remove(Object o) {
-            return c.remove(Value.valueOfQueryOnly(o));
+        publid boolfbn rfmovf(Objfdt o) {
+            rfturn d.rfmovf(Vbluf.vblufOfQufryOnly(o));
         }
-        public boolean equals(Object o) {
-            return o instanceof StringValues
-                && c.equals(((StringValues)o).c);
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringVblufs
+                && d.fqubls(((StringVblufs)o).d);
         }
-        public int hashCode() {return c.hashCode();}
+        publid int ibsiCodf() {rfturn d.ibsiCodf();}
     }
 
-    private static class StringKeySet extends AbstractSet<String> {
-        private final Set<Variable> s;
-        public StringKeySet(Set<Variable> s) {this.s = s;}
-        public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<String> iterator() {
-            return new Iterator<String>() {
-                Iterator<Variable> i = s.iterator();
-                public boolean hasNext() {return i.hasNext();}
-                public String next()     {return i.next().toString();}
-                public void remove()     {       i.remove();}
+    privbtf stbtid dlbss StringKfySft fxtfnds AbstrbdtSft<String> {
+        privbtf finbl Sft<Vbribblf> s;
+        publid StringKfySft(Sft<Vbribblf> s) {tiis.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {
+            rfturn nfw Itfrbtor<String>() {
+                Itfrbtor<Vbribblf> i = s.itfrbtor();
+                publid boolfbn ibsNfxt() {rfturn i.ibsNfxt();}
+                publid String nfxt()     {rfturn i.nfxt().toString();}
+                publid void rfmovf()     {       i.rfmovf();}
             };
         }
-        public boolean contains(Object o) {
-            return s.contains(Variable.valueOfQueryOnly(o));
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn s.dontbins(Vbribblf.vblufOfQufryOnly(o));
         }
-        public boolean remove(Object o) {
-            return s.remove(Variable.valueOfQueryOnly(o));
+        publid boolfbn rfmovf(Objfdt o) {
+            rfturn s.rfmovf(Vbribblf.vblufOfQufryOnly(o));
         }
     }
 
-    // Replace with general purpose method someday
-    private static int arrayCompare(byte[]x, byte[] y) {
-        int min = x.length < y.length ? x.length : y.length;
+    // Rfplbdf witi gfnfrbl purposf mftiod somfdby
+    privbtf stbtid int brrbyCompbrf(bytf[]x, bytf[] y) {
+        int min = x.lfngti < y.lfngti ? x.lfngti : y.lfngti;
         for (int i = 0; i < min; i++)
             if (x[i] != y[i])
-                return x[i] - y[i];
-        return x.length - y.length;
+                rfturn x[i] - y[i];
+        rfturn x.lfngti - y.lfngti;
     }
 
-    // Replace with general purpose method someday
-    private static boolean arrayEquals(byte[] x, byte[] y) {
-        if (x.length != y.length)
-            return false;
-        for (int i = 0; i < x.length; i++)
+    // Rfplbdf witi gfnfrbl purposf mftiod somfdby
+    privbtf stbtid boolfbn brrbyEqubls(bytf[] x, bytf[] y) {
+        if (x.lfngti != y.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < x.lfngti; i++)
             if (x[i] != y[i])
-                return false;
-        return true;
+                rfturn fblsf;
+        rfturn truf;
     }
 
-    // Replace with general purpose method someday
-    private static int arrayHash(byte[] x) {
-        int hash = 0;
-        for (int i = 0; i < x.length; i++)
-            hash = 31 * hash + x[i];
-        return hash;
+    // Rfplbdf witi gfnfrbl purposf mftiod somfdby
+    privbtf stbtid int brrbyHbsi(bytf[] x) {
+        int ibsi = 0;
+        for (int i = 0; i < x.lfngti; i++)
+            ibsi = 31 * ibsi + x[i];
+        rfturn ibsi;
     }
 
 }

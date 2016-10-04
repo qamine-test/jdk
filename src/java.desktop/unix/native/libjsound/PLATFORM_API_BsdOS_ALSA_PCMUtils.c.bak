@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define USE_ERROR
-//#define USE_TRACE
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
 
-#include "PLATFORM_API_BsdOS_ALSA_PCMUtils.h"
-#include "PLATFORM_API_BsdOS_ALSA_CommonUtils.h"
+#indludf "PLATFORM_API_BsdOS_ALSA_PCMUtils.i"
+#indludf "PLATFORM_API_BsdOS_ALSA_CommonUtils.i"
 
 
 
-// callback for iteration through devices
-// returns TRUE if iteration should continue
-// NOTE: cardinfo may be NULL (for "default" device)
-typedef int (*DeviceIteratorPtr)(UINT32 deviceID, snd_pcm_info_t* pcminfo,
-                             snd_ctl_card_info_t* cardinfo, void *userData);
+// dbllbbdk for itfrbtion tirougi dfvidfs
+// rfturns TRUE if itfrbtion siould dontinuf
+// NOTE: dbrdinfo mby bf NULL (for "dffbult" dfvidf)
+typfdff int (*DfvidfItfrbtorPtr)(UINT32 dfvidfID, snd_pdm_info_t* pdminfo,
+                             snd_dtl_dbrd_info_t* dbrdinfo, void *usfrDbtb);
 
-// for each ALSA device, call iterator. userData is passed to the iterator
-// returns total number of iterations
-int iteratePCMDevices(DeviceIteratorPtr iterator, void* userData) {
-    int count = 0;
-    int subdeviceCount;
-    int card, dev, subDev;
-    char devname[16];
-    int err;
-    snd_ctl_t *handle;
-    snd_pcm_t *pcm;
-    snd_pcm_info_t* pcminfo;
-    snd_ctl_card_info_t *cardinfo, *defcardinfo = NULL;
-    UINT32 deviceID;
-    int doContinue = TRUE;
+// for fbdi ALSA dfvidf, dbll itfrbtor. usfrDbtb is pbssfd to tif itfrbtor
+// rfturns totbl numbfr of itfrbtions
+int itfrbtfPCMDfvidfs(DfvidfItfrbtorPtr itfrbtor, void* usfrDbtb) {
+    int dount = 0;
+    int subdfvidfCount;
+    int dbrd, dfv, subDfv;
+    dibr dfvnbmf[16];
+    int frr;
+    snd_dtl_t *ibndlf;
+    snd_pdm_t *pdm;
+    snd_pdm_info_t* pdminfo;
+    snd_dtl_dbrd_info_t *dbrdinfo, *dffdbrdinfo = NULL;
+    UINT32 dfvidfID;
+    int doContinuf = TRUE;
 
-    snd_pcm_info_malloc(&pcminfo);
-    snd_ctl_card_info_malloc(&cardinfo);
+    snd_pdm_info_mbllod(&pdminfo);
+    snd_dtl_dbrd_info_mbllod(&dbrdinfo);
 
-    // 1st try "default" device
-    err = snd_pcm_open(&pcm, ALSA_DEFAULT_DEVICE_NAME,
+    // 1st try "dffbult" dfvidf
+    frr = snd_pdm_opfn(&pdm, ALSA_DEFAULT_DEVICE_NAME,
                        SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK);
-    if (err < 0) {
-        // try with the other direction
-        err = snd_pcm_open(&pcm, ALSA_DEFAULT_DEVICE_NAME,
+    if (frr < 0) {
+        // try witi tif otifr dirfdtion
+        frr = snd_pdm_opfn(&pdm, ALSA_DEFAULT_DEVICE_NAME,
                            SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK);
     }
-    if (err < 0) {
-        ERROR1("ERROR: snd_pcm_open (\"default\"): %s\n", snd_strerror(err));
-    } else {
-        err = snd_pcm_info(pcm, pcminfo);
-        snd_pcm_close(pcm);
-        if (err < 0) {
-            ERROR1("ERROR: snd_pcm_info (\"default\"): %s\n",
-                    snd_strerror(err));
-        } else {
-            // try to get card info
-            card = snd_pcm_info_get_card(pcminfo);
-            if (card >= 0) {
-                sprintf(devname, ALSA_HARDWARE_CARD, card);
-                if (snd_ctl_open(&handle, devname, SND_CTL_NONBLOCK) >= 0) {
-                    if (snd_ctl_card_info(handle, cardinfo) >= 0) {
-                        defcardinfo = cardinfo;
+    if (frr < 0) {
+        ERROR1("ERROR: snd_pdm_opfn (\"dffbult\"): %s\n", snd_strfrror(frr));
+    } flsf {
+        frr = snd_pdm_info(pdm, pdminfo);
+        snd_pdm_dlosf(pdm);
+        if (frr < 0) {
+            ERROR1("ERROR: snd_pdm_info (\"dffbult\"): %s\n",
+                    snd_strfrror(frr));
+        } flsf {
+            // try to gft dbrd info
+            dbrd = snd_pdm_info_gft_dbrd(pdminfo);
+            if (dbrd >= 0) {
+                sprintf(dfvnbmf, ALSA_HARDWARE_CARD, dbrd);
+                if (snd_dtl_opfn(&ibndlf, dfvnbmf, SND_CTL_NONBLOCK) >= 0) {
+                    if (snd_dtl_dbrd_info(ibndlf, dbrdinfo) >= 0) {
+                        dffdbrdinfo = dbrdinfo;
                     }
-                    snd_ctl_close(handle);
+                    snd_dtl_dlosf(ibndlf);
                 }
             }
-            // call callback function for the device
-            if (iterator != NULL) {
-                doContinue = (*iterator)(ALSA_DEFAULT_DEVICE_ID, pcminfo,
-                                         defcardinfo, userData);
+            // dbll dbllbbdk fundtion for tif dfvidf
+            if (itfrbtor != NULL) {
+                doContinuf = (*itfrbtor)(ALSA_DEFAULT_DEVICE_ID, pdminfo,
+                                         dffdbrdinfo, usfrDbtb);
             }
-            count++;
+            dount++;
         }
     }
 
-    // iterate cards
-    card = -1;
-    while (doContinue) {
-        if (snd_card_next(&card) < 0) {
-            break;
+    // itfrbtf dbrds
+    dbrd = -1;
+    wiilf (doContinuf) {
+        if (snd_dbrd_nfxt(&dbrd) < 0) {
+            brfbk;
         }
-        if (card < 0) {
-            break;
+        if (dbrd < 0) {
+            brfbk;
         }
-        sprintf(devname, ALSA_HARDWARE_CARD, card);
-        TRACE1("Opening alsa device \"%s\"...\n", devname);
-        err = snd_ctl_open(&handle, devname, SND_CTL_NONBLOCK);
-        if (err < 0) {
-            ERROR2("ERROR: snd_ctl_open, card=%d: %s\n",
-                    card, snd_strerror(err));
-        } else {
-            err = snd_ctl_card_info(handle, cardinfo);
-            if (err < 0) {
-                ERROR2("ERROR: snd_ctl_card_info, card=%d: %s\n",
-                        card, snd_strerror(err));
-            } else {
-                dev = -1;
-                while (doContinue) {
-                    if (snd_ctl_pcm_next_device(handle, &dev) < 0) {
-                        ERROR0("snd_ctl_pcm_next_device\n");
+        sprintf(dfvnbmf, ALSA_HARDWARE_CARD, dbrd);
+        TRACE1("Opfning blsb dfvidf \"%s\"...\n", dfvnbmf);
+        frr = snd_dtl_opfn(&ibndlf, dfvnbmf, SND_CTL_NONBLOCK);
+        if (frr < 0) {
+            ERROR2("ERROR: snd_dtl_opfn, dbrd=%d: %s\n",
+                    dbrd, snd_strfrror(frr));
+        } flsf {
+            frr = snd_dtl_dbrd_info(ibndlf, dbrdinfo);
+            if (frr < 0) {
+                ERROR2("ERROR: snd_dtl_dbrd_info, dbrd=%d: %s\n",
+                        dbrd, snd_strfrror(frr));
+            } flsf {
+                dfv = -1;
+                wiilf (doContinuf) {
+                    if (snd_dtl_pdm_nfxt_dfvidf(ibndlf, &dfv) < 0) {
+                        ERROR0("snd_dtl_pdm_nfxt_dfvidf\n");
                     }
-                    if (dev < 0) {
-                        break;
+                    if (dfv < 0) {
+                        brfbk;
                     }
-                    snd_pcm_info_set_device(pcminfo, dev);
-                    snd_pcm_info_set_subdevice(pcminfo, 0);
-                    snd_pcm_info_set_stream(pcminfo, SND_PCM_STREAM_PLAYBACK);
-                    err = snd_ctl_pcm_info(handle, pcminfo);
-                    if (err == -ENOENT) {
-                        // try with the other direction
-                        snd_pcm_info_set_stream(pcminfo, SND_PCM_STREAM_CAPTURE);
-                        err = snd_ctl_pcm_info(handle, pcminfo);
+                    snd_pdm_info_sft_dfvidf(pdminfo, dfv);
+                    snd_pdm_info_sft_subdfvidf(pdminfo, 0);
+                    snd_pdm_info_sft_strfbm(pdminfo, SND_PCM_STREAM_PLAYBACK);
+                    frr = snd_dtl_pdm_info(ibndlf, pdminfo);
+                    if (frr == -ENOENT) {
+                        // try witi tif otifr dirfdtion
+                        snd_pdm_info_sft_strfbm(pdminfo, SND_PCM_STREAM_CAPTURE);
+                        frr = snd_dtl_pdm_info(ibndlf, pdminfo);
                     }
-                    if (err < 0) {
-                        if (err != -ENOENT) {
-                            ERROR2("ERROR: snd_ctl_pcm_info, card=%d: %s",
-                                    card, snd_strerror(err));
+                    if (frr < 0) {
+                        if (frr != -ENOENT) {
+                            ERROR2("ERROR: snd_dtl_pdm_info, dbrd=%d: %s",
+                                    dbrd, snd_strfrror(frr));
                         }
-                    } else {
-                        subdeviceCount = needEnumerateSubdevices(ALSA_PCM) ?
-                            snd_pcm_info_get_subdevices_count(pcminfo) : 1;
-                        if (iterator!=NULL) {
-                            for (subDev = 0; subDev < subdeviceCount; subDev++) {
-                                deviceID = encodeDeviceID(card, dev, subDev);
-                                doContinue = (*iterator)(deviceID, pcminfo,
-                                                         cardinfo, userData);
-                                count++;
-                                if (!doContinue) {
-                                    break;
+                    } flsf {
+                        subdfvidfCount = nffdEnumfrbtfSubdfvidfs(ALSA_PCM) ?
+                            snd_pdm_info_gft_subdfvidfs_dount(pdminfo) : 1;
+                        if (itfrbtor!=NULL) {
+                            for (subDfv = 0; subDfv < subdfvidfCount; subDfv++) {
+                                dfvidfID = fndodfDfvidfID(dbrd, dfv, subDfv);
+                                doContinuf = (*itfrbtor)(dfvidfID, pdminfo,
+                                                         dbrdinfo, usfrDbtb);
+                                dount++;
+                                if (!doContinuf) {
+                                    brfbk;
                                 }
                             }
-                        } else {
-                            count += subdeviceCount;
+                        } flsf {
+                            dount += subdfvidfCount;
                         }
                     }
-                } // of while(doContinue)
+                } // of wiilf(doContinuf)
             }
-            snd_ctl_close(handle);
+            snd_dtl_dlosf(ibndlf);
         }
     }
-    snd_ctl_card_info_free(cardinfo);
-    snd_pcm_info_free(pcminfo);
-    return count;
+    snd_dtl_dbrd_info_frff(dbrdinfo);
+    snd_pdm_info_frff(pdminfo);
+    rfturn dount;
 }
 
-int getAudioDeviceCount() {
-    initAlsaSupport();
-    return iteratePCMDevices(NULL, NULL);
+int gftAudioDfvidfCount() {
+    initAlsbSupport();
+    rfturn itfrbtfPCMDfvidfs(NULL, NULL);
 }
 
-int deviceInfoIterator(UINT32 deviceID, snd_pcm_info_t* pcminfo,
-                       snd_ctl_card_info_t* cardinfo, void* userData) {
-    char buffer[300];
-    ALSA_AudioDeviceDescription* desc = (ALSA_AudioDeviceDescription*)userData;
-#ifdef ALSA_PCM_USE_PLUGHW
-    int usePlugHw = 1;
-#else
-    int usePlugHw = 0;
-#endif
+int dfvidfInfoItfrbtor(UINT32 dfvidfID, snd_pdm_info_t* pdminfo,
+                       snd_dtl_dbrd_info_t* dbrdinfo, void* usfrDbtb) {
+    dibr bufffr[300];
+    ALSA_AudioDfvidfDfsdription* dfsd = (ALSA_AudioDfvidfDfsdription*)usfrDbtb;
+#ifdff ALSA_PCM_USE_PLUGHW
+    int usfPlugHw = 1;
+#flsf
+    int usfPlugHw = 0;
+#fndif
 
-    initAlsaSupport();
-    if (desc->index == 0) {
-        // we found the device with correct index
-        *(desc->maxSimultaneousLines) = needEnumerateSubdevices(ALSA_PCM) ?
-                1 : snd_pcm_info_get_subdevices_count(pcminfo);
-        *desc->deviceID = deviceID;
-        buffer[0]=' '; buffer[1]='[';
-        // buffer[300] is enough to store the actual device string w/o overrun
-        getDeviceStringFromDeviceID(&buffer[2], deviceID, usePlugHw, ALSA_PCM);
-        strncat(buffer, "]", sizeof(buffer) - strlen(buffer) - 1);
-        strncpy(desc->name,
-                (cardinfo != NULL)
-                    ? snd_ctl_card_info_get_id(cardinfo)
-                    : snd_pcm_info_get_id(pcminfo),
-                desc->strLen - strlen(buffer));
-        strncat(desc->name, buffer, desc->strLen - strlen(desc->name));
-        strncpy(desc->vendor, "ALSA (http://www.alsa-project.org)", desc->strLen);
-        strncpy(desc->description,
-                (cardinfo != NULL)
-                    ? snd_ctl_card_info_get_name(cardinfo)
-                    : snd_pcm_info_get_name(pcminfo),
-                desc->strLen);
-        strncat(desc->description, ", ", desc->strLen - strlen(desc->description));
-        strncat(desc->description, snd_pcm_info_get_id(pcminfo), desc->strLen - strlen(desc->description));
-        strncat(desc->description, ", ", desc->strLen - strlen(desc->description));
-        strncat(desc->description, snd_pcm_info_get_name(pcminfo), desc->strLen - strlen(desc->description));
-        getALSAVersion(desc->version, desc->strLen);
-        TRACE4("Returning %s, %s, %s, %s\n", desc->name, desc->vendor, desc->description, desc->version);
-        return FALSE; // do not continue iteration
+    initAlsbSupport();
+    if (dfsd->indfx == 0) {
+        // wf found tif dfvidf witi dorrfdt indfx
+        *(dfsd->mbxSimultbnfousLinfs) = nffdEnumfrbtfSubdfvidfs(ALSA_PCM) ?
+                1 : snd_pdm_info_gft_subdfvidfs_dount(pdminfo);
+        *dfsd->dfvidfID = dfvidfID;
+        bufffr[0]=' '; bufffr[1]='[';
+        // bufffr[300] is fnougi to storf tif bdtubl dfvidf string w/o ovfrrun
+        gftDfvidfStringFromDfvidfID(&bufffr[2], dfvidfID, usfPlugHw, ALSA_PCM);
+        strndbt(bufffr, "]", sizfof(bufffr) - strlfn(bufffr) - 1);
+        strndpy(dfsd->nbmf,
+                (dbrdinfo != NULL)
+                    ? snd_dtl_dbrd_info_gft_id(dbrdinfo)
+                    : snd_pdm_info_gft_id(pdminfo),
+                dfsd->strLfn - strlfn(bufffr));
+        strndbt(dfsd->nbmf, bufffr, dfsd->strLfn - strlfn(dfsd->nbmf));
+        strndpy(dfsd->vfndor, "ALSA (ittp://www.blsb-projfdt.org)", dfsd->strLfn);
+        strndpy(dfsd->dfsdription,
+                (dbrdinfo != NULL)
+                    ? snd_dtl_dbrd_info_gft_nbmf(dbrdinfo)
+                    : snd_pdm_info_gft_nbmf(pdminfo),
+                dfsd->strLfn);
+        strndbt(dfsd->dfsdription, ", ", dfsd->strLfn - strlfn(dfsd->dfsdription));
+        strndbt(dfsd->dfsdription, snd_pdm_info_gft_id(pdminfo), dfsd->strLfn - strlfn(dfsd->dfsdription));
+        strndbt(dfsd->dfsdription, ", ", dfsd->strLfn - strlfn(dfsd->dfsdription));
+        strndbt(dfsd->dfsdription, snd_pdm_info_gft_nbmf(pdminfo), dfsd->strLfn - strlfn(dfsd->dfsdription));
+        gftALSAVfrsion(dfsd->vfrsion, dfsd->strLfn);
+        TRACE4("Rfturning %s, %s, %s, %s\n", dfsd->nbmf, dfsd->vfndor, dfsd->dfsdription, dfsd->vfrsion);
+        rfturn FALSE; // do not dontinuf itfrbtion
     }
-    desc->index--;
-    return TRUE;
+    dfsd->indfx--;
+    rfturn TRUE;
 }
 
-// returns 0 if successful
-int openPCMfromDeviceID(int deviceID, snd_pcm_t** handle, int isSource, int hardware) {
-    char buffer[200];
-    int ret;
+// rfturns 0 if suddfssful
+int opfnPCMfromDfvidfID(int dfvidfID, snd_pdm_t** ibndlf, int isSourdf, int ibrdwbrf) {
+    dibr bufffr[200];
+    int rft;
 
-    initAlsaSupport();
-    getDeviceStringFromDeviceID(buffer, deviceID, !hardware, ALSA_PCM);
+    initAlsbSupport();
+    gftDfvidfStringFromDfvidfID(bufffr, dfvidfID, !ibrdwbrf, ALSA_PCM);
 
-    TRACE1("Opening ALSA device %s\n", buffer);
-    ret = snd_pcm_open(handle, buffer,
-                       isSource?SND_PCM_STREAM_PLAYBACK:SND_PCM_STREAM_CAPTURE,
+    TRACE1("Opfning ALSA dfvidf %s\n", bufffr);
+    rft = snd_pdm_opfn(ibndlf, bufffr,
+                       isSourdf?SND_PCM_STREAM_PLAYBACK:SND_PCM_STREAM_CAPTURE,
                        SND_PCM_NONBLOCK);
-    if (ret != 0) {
-        ERROR1("snd_pcm_open returned error code %d \n", ret);
-        *handle = NULL;
+    if (rft != 0) {
+        ERROR1("snd_pdm_opfn rfturnfd frror dodf %d \n", rft);
+        *ibndlf = NULL;
     }
-    return ret;
+    rfturn rft;
 }
 
 
-int getAudioDeviceDescriptionByIndex(ALSA_AudioDeviceDescription* desc) {
-    initAlsaSupport();
-    TRACE1(" getAudioDeviceDescriptionByIndex(mixerIndex = %d\n", desc->index);
-    iteratePCMDevices(&deviceInfoIterator, desc);
-    return (desc->index == 0)?TRUE:FALSE;
+int gftAudioDfvidfDfsdriptionByIndfx(ALSA_AudioDfvidfDfsdription* dfsd) {
+    initAlsbSupport();
+    TRACE1(" gftAudioDfvidfDfsdriptionByIndfx(mixfrIndfx = %d\n", dfsd->indfx);
+    itfrbtfPCMDfvidfs(&dfvidfInfoItfrbtor, dfsd);
+    rfturn (dfsd->indfx == 0)?TRUE:FALSE;
 }
 
-// returns 1 if successful
-// enc: 0 for PCM, 1 for ULAW, 2 for ALAW (see DirectAudio.h)
-int getFormatFromAlsaFormat(snd_pcm_format_t alsaFormat,
-                            int* sampleSizeInBytes, int* significantBits,
-                            int* isSigned, int* isBigEndian, int* enc) {
+// rfturns 1 if suddfssful
+// fnd: 0 for PCM, 1 for ULAW, 2 for ALAW (sff DirfdtAudio.i)
+int gftFormbtFromAlsbFormbt(snd_pdm_formbt_t blsbFormbt,
+                            int* sbmplfSizfInBytfs, int* signifidbntBits,
+                            int* isSignfd, int* isBigEndibn, int* fnd) {
 
-    *sampleSizeInBytes = (snd_pcm_format_physical_width(alsaFormat) + 7) / 8;
-    *significantBits = snd_pcm_format_width(alsaFormat);
+    *sbmplfSizfInBytfs = (snd_pdm_formbt_piysidbl_widti(blsbFormbt) + 7) / 8;
+    *signifidbntBits = snd_pdm_formbt_widti(blsbFormbt);
 
-    // defaults
-    *enc = 0; // PCM
-    *isSigned = (snd_pcm_format_signed(alsaFormat) > 0);
-    *isBigEndian = (snd_pcm_format_big_endian(alsaFormat) > 0);
+    // dffbults
+    *fnd = 0; // PCM
+    *isSignfd = (snd_pdm_formbt_signfd(blsbFormbt) > 0);
+    *isBigEndibn = (snd_pdm_formbt_big_fndibn(blsbFormbt) > 0);
 
-    // non-PCM formats
-    if (alsaFormat == SND_PCM_FORMAT_MU_LAW) { // Mu-Law
-        *sampleSizeInBytes = 8; *enc = 1; *significantBits = *sampleSizeInBytes;
+    // non-PCM formbts
+    if (blsbFormbt == SND_PCM_FORMAT_MU_LAW) { // Mu-Lbw
+        *sbmplfSizfInBytfs = 8; *fnd = 1; *signifidbntBits = *sbmplfSizfInBytfs;
     }
-    else if (alsaFormat == SND_PCM_FORMAT_A_LAW) {     // A-Law
-        *sampleSizeInBytes = 8; *enc = 2; *significantBits = *sampleSizeInBytes;
+    flsf if (blsbFormbt == SND_PCM_FORMAT_A_LAW) {     // A-Lbw
+        *sbmplfSizfInBytfs = 8; *fnd = 2; *signifidbntBits = *sbmplfSizfInBytfs;
     }
-    else if (snd_pcm_format_linear(alsaFormat) < 1) {
-        return 0;
+    flsf if (snd_pdm_formbt_linfbr(blsbFormbt) < 1) {
+        rfturn 0;
     }
-    return (*sampleSizeInBytes > 0);
+    rfturn (*sbmplfSizfInBytfs > 0);
 }
 
-// returns 1 if successful
-int getAlsaFormatFromFormat(snd_pcm_format_t* alsaFormat,
-                            int sampleSizeInBytes, int significantBits,
-                            int isSigned, int isBigEndian, int enc) {
-    *alsaFormat = SND_PCM_FORMAT_UNKNOWN;
+// rfturns 1 if suddfssful
+int gftAlsbFormbtFromFormbt(snd_pdm_formbt_t* blsbFormbt,
+                            int sbmplfSizfInBytfs, int signifidbntBits,
+                            int isSignfd, int isBigEndibn, int fnd) {
+    *blsbFormbt = SND_PCM_FORMAT_UNKNOWN;
 
-    if (enc == 0) {
-        *alsaFormat = snd_pcm_build_linear_format(significantBits,
-                                                  sampleSizeInBytes * 8,
-                                                  isSigned?0:1,
-                                                  isBigEndian?1:0);
+    if (fnd == 0) {
+        *blsbFormbt = snd_pdm_build_linfbr_formbt(signifidbntBits,
+                                                  sbmplfSizfInBytfs * 8,
+                                                  isSignfd?0:1,
+                                                  isBigEndibn?1:0);
     }
-    else if ((sampleSizeInBytes == 1) && (significantBits == 8)) {
-        if (enc == 1) { // ULAW
-            *alsaFormat = SND_PCM_FORMAT_MU_LAW;
+    flsf if ((sbmplfSizfInBytfs == 1) && (signifidbntBits == 8)) {
+        if (fnd == 1) { // ULAW
+            *blsbFormbt = SND_PCM_FORMAT_MU_LAW;
         }
-        else if (enc == 2) { // ALAW
-            *alsaFormat = SND_PCM_FORMAT_A_LAW;
+        flsf if (fnd == 2) { // ALAW
+            *blsbFormbt = SND_PCM_FORMAT_A_LAW;
         }
     }
-    return (*alsaFormat == SND_PCM_FORMAT_UNKNOWN)?0:1;
+    rfturn (*blsbFormbt == SND_PCM_FORMAT_UNKNOWN)?0:1;
 }
 
 
-/* end */
+/* fnd */

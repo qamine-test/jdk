@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.lang.invoke.MethodHandles.Lookup;
-import java.lang.reflect.Field;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
+import jbvb.lbng.invokf.MftiodHbndlfs.Lookup;
+import jbvb.lbng.rfflfdt.Fifld;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfNbtivfs.Constbnts.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.MftiodHbndlfs.Lookup.IMPL_LOOKUP;
 
 /**
- * The JVM interface for the method handles package is all here.
- * This is an interface internal and private to an implementation of JSR 292.
- * <em>This class is not part of the JSR 292 standard.</em>
- * @author jrose
+ * Tif JVM intfrfbdf for tif mftiod ibndlfs pbdkbgf is bll ifrf.
+ * Tiis is bn intfrfbdf intfrnbl bnd privbtf to bn implfmfntbtion of JSR 292.
+ * <fm>Tiis dlbss is not pbrt of tif JSR 292 stbndbrd.</fm>
+ * @butior jrosf
  */
-class MethodHandleNatives {
+dlbss MftiodHbndlfNbtivfs {
 
-    private MethodHandleNatives() { } // static only
+    privbtf MftiodHbndlfNbtivfs() { } // stbtid only
 
-    /// MemberName support
+    /// MfmbfrNbmf support
 
-    static native void init(MemberName self, Object ref);
-    static native void expand(MemberName self);
-    static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
-    static native int getMembers(Class<?> defc, String matchName, String matchSig,
-            int matchFlags, Class<?> caller, int skip, MemberName[] results);
+    stbtid nbtivf void init(MfmbfrNbmf sflf, Objfdt rff);
+    stbtid nbtivf void fxpbnd(MfmbfrNbmf sflf);
+    stbtid nbtivf MfmbfrNbmf rfsolvf(MfmbfrNbmf sflf, Clbss<?> dbllfr) tirows LinkbgfError;
+    stbtid nbtivf int gftMfmbfrs(Clbss<?> dffd, String mbtdiNbmf, String mbtdiSig,
+            int mbtdiFlbgs, Clbss<?> dbllfr, int skip, MfmbfrNbmf[] rfsults);
 
-    /// Field layout queries parallel to sun.misc.Unsafe:
-    static native long objectFieldOffset(MemberName self);  // e.g., returns vmindex
-    static native long staticFieldOffset(MemberName self);  // e.g., returns vmindex
-    static native Object staticFieldBase(MemberName self);  // e.g., returns clazz
-    static native Object getMemberVMInfo(MemberName self);  // returns {vmindex,vmtarget}
+    /// Fifld lbyout qufrifs pbrbllfl to sun.misd.Unsbff:
+    stbtid nbtivf long objfdtFifldOffsft(MfmbfrNbmf sflf);  // f.g., rfturns vmindfx
+    stbtid nbtivf long stbtidFifldOffsft(MfmbfrNbmf sflf);  // f.g., rfturns vmindfx
+    stbtid nbtivf Objfdt stbtidFifldBbsf(MfmbfrNbmf sflf);  // f.g., rfturns dlbzz
+    stbtid nbtivf Objfdt gftMfmbfrVMInfo(MfmbfrNbmf sflf);  // rfturns {vmindfx,vmtbrgft}
 
-    /// MethodHandle support
+    /// MftiodHbndlf support
 
-    /** Fetch MH-related JVM parameter.
-     *  which=0 retrieves MethodHandlePushLimit
-     *  which=1 retrieves stack slot push size (in address units)
+    /** Fftdi MH-rflbtfd JVM pbrbmftfr.
+     *  wiidi=0 rftrifvfs MftiodHbndlfPusiLimit
+     *  wiidi=1 rftrifvfs stbdk slot pusi sizf (in bddrfss units)
      */
-    static native int getConstant(int which);
+    stbtid nbtivf int gftConstbnt(int wiidi);
 
-    static final boolean COUNT_GWT;
+    stbtid finbl boolfbn COUNT_GWT;
 
-    /// CallSite support
+    /// CbllSitf support
 
-    /** Tell the JVM that we need to change the target of a CallSite. */
-    static native void setCallSiteTargetNormal(CallSite site, MethodHandle target);
-    static native void setCallSiteTargetVolatile(CallSite site, MethodHandle target);
+    /** Tfll tif JVM tibt wf nffd to dibngf tif tbrgft of b CbllSitf. */
+    stbtid nbtivf void sftCbllSitfTbrgftNormbl(CbllSitf sitf, MftiodHbndlf tbrgft);
+    stbtid nbtivf void sftCbllSitfTbrgftVolbtilf(CbllSitf sitf, MftiodHbndlf tbrgft);
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
-        COUNT_GWT                   = getConstant(Constants.GC_COUNT_GWT) != 0;
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
+        COUNT_GWT                   = gftConstbnt(Constbnts.GC_COUNT_GWT) != 0;
 
-        // The JVM calls MethodHandleNatives.<clinit>.  Cascade the <clinit> calls as needed:
-        MethodHandleImpl.initStatics();
+        // Tif JVM dblls MftiodHbndlfNbtivfs.<dlinit>.  Cbsdbdf tif <dlinit> dblls bs nffdfd:
+        MftiodHbndlfImpl.initStbtids();
     }
 
-    // All compile-time constants go here.
-    // There is an opportunity to check them against the JVM's idea of them.
-    static class Constants {
-        Constants() { } // static only
-        // MethodHandleImpl
-        static final int // for getConstant
+    // All dompilf-timf donstbnts go ifrf.
+    // Tifrf is bn opportunity to difdk tifm bgbinst tif JVM's idfb of tifm.
+    stbtid dlbss Constbnts {
+        Constbnts() { } // stbtid only
+        // MftiodHbndlfImpl
+        stbtid finbl int // for gftConstbnt
                 GC_COUNT_GWT = 4,
                 GC_LAMBDA_SUPPORT = 5;
 
-        // MemberName
-        // The JVM uses values of -2 and above for vtable indexes.
-        // Field values are simple positive offsets.
-        // Ref: src/share/vm/oops/methodOop.hpp
-        // This value is negative enough to avoid such numbers,
-        // but not too negative.
-        static final int
-                MN_IS_METHOD           = 0x00010000, // method (not constructor)
-                MN_IS_CONSTRUCTOR      = 0x00020000, // constructor
-                MN_IS_FIELD            = 0x00040000, // field
-                MN_IS_TYPE             = 0x00080000, // nested type
-                MN_CALLER_SENSITIVE    = 0x00100000, // @CallerSensitive annotation detected
-                MN_REFERENCE_KIND_SHIFT = 24, // refKind
+        // MfmbfrNbmf
+        // Tif JVM usfs vblufs of -2 bnd bbovf for vtbblf indfxfs.
+        // Fifld vblufs brf simplf positivf offsfts.
+        // Rff: srd/sibrf/vm/oops/mftiodOop.ipp
+        // Tiis vbluf is nfgbtivf fnougi to bvoid sudi numbfrs,
+        // but not too nfgbtivf.
+        stbtid finbl int
+                MN_IS_METHOD           = 0x00010000, // mftiod (not donstrudtor)
+                MN_IS_CONSTRUCTOR      = 0x00020000, // donstrudtor
+                MN_IS_FIELD            = 0x00040000, // fifld
+                MN_IS_TYPE             = 0x00080000, // nfstfd typf
+                MN_CALLER_SENSITIVE    = 0x00100000, // @CbllfrSfnsitivf bnnotbtion dftfdtfd
+                MN_REFERENCE_KIND_SHIFT = 24, // rffKind
                 MN_REFERENCE_KIND_MASK = 0x0F000000 >> MN_REFERENCE_KIND_SHIFT,
-                // The SEARCH_* bits are not for MN.flags but for the matchFlags argument of MHN.getMembers:
+                // Tif SEARCH_* bits brf not for MN.flbgs but for tif mbtdiFlbgs brgumfnt of MHN.gftMfmbfrs:
                 MN_SEARCH_SUPERCLASSES = 0x00100000,
                 MN_SEARCH_INTERFACES   = 0x00200000;
 
         /**
-         * Basic types as encoded in the JVM.  These code values are not
-         * intended for use outside this class.  They are used as part of
-         * a private interface between the JVM and this class.
+         * Bbsid typfs bs fndodfd in tif JVM.  Tifsf dodf vblufs brf not
+         * intfndfd for usf outsidf tiis dlbss.  Tify brf usfd bs pbrt of
+         * b privbtf intfrfbdf bftwffn tif JVM bnd tiis dlbss.
          */
-        static final int
+        stbtid finbl int
             T_BOOLEAN  =  4,
             T_CHAR     =  5,
             T_FLOAT    =  6,
@@ -128,29 +128,29 @@ class MethodHandleNatives {
             T_ILLEGAL  = 99;
 
         /**
-         * Constant pool entry types.
+         * Constbnt pool fntry typfs.
          */
-        static final byte
+        stbtid finbl bytf
             CONSTANT_Utf8                = 1,
-            CONSTANT_Integer             = 3,
-            CONSTANT_Float               = 4,
+            CONSTANT_Intfgfr             = 3,
+            CONSTANT_Flobt               = 4,
             CONSTANT_Long                = 5,
-            CONSTANT_Double              = 6,
-            CONSTANT_Class               = 7,
+            CONSTANT_Doublf              = 6,
+            CONSTANT_Clbss               = 7,
             CONSTANT_String              = 8,
-            CONSTANT_Fieldref            = 9,
-            CONSTANT_Methodref           = 10,
-            CONSTANT_InterfaceMethodref  = 11,
-            CONSTANT_NameAndType         = 12,
-            CONSTANT_MethodHandle        = 15,  // JSR 292
-            CONSTANT_MethodType          = 16,  // JSR 292
-            CONSTANT_InvokeDynamic       = 18,
-            CONSTANT_LIMIT               = 19;   // Limit to tags found in classfiles
+            CONSTANT_Fifldrff            = 9,
+            CONSTANT_Mftiodrff           = 10,
+            CONSTANT_IntfrfbdfMftiodrff  = 11,
+            CONSTANT_NbmfAndTypf         = 12,
+            CONSTANT_MftiodHbndlf        = 15,  // JSR 292
+            CONSTANT_MftiodTypf          = 16,  // JSR 292
+            CONSTANT_InvokfDynbmid       = 18,
+            CONSTANT_LIMIT               = 19;   // Limit to tbgs found in dlbssfilfs
 
         /**
-         * Access modifier flags.
+         * Addfss modififr flbgs.
          */
-        static final char
+        stbtid finbl dibr
             ACC_PUBLIC                 = 0x0001,
             ACC_PRIVATE                = 0x0002,
             ACC_PROTECTED              = 0x0004,
@@ -166,375 +166,375 @@ class MethodHandleNatives {
             ACC_SYNTHETIC              = 0x1000,
             ACC_ANNOTATION             = 0x2000,
             ACC_ENUM                   = 0x4000,
-            // aliases:
+            // blibsfs:
             ACC_SUPER                  = ACC_SYNCHRONIZED,
             ACC_BRIDGE                 = ACC_VOLATILE,
             ACC_VARARGS                = ACC_TRANSIENT;
 
         /**
-         * Constant pool reference-kind codes, as used by CONSTANT_MethodHandle CP entries.
+         * Constbnt pool rfffrfndf-kind dodfs, bs usfd by CONSTANT_MftiodHbndlf CP fntrifs.
          */
-        static final byte
-            REF_NONE                    = 0,  // null value
-            REF_getField                = 1,
-            REF_getStatic               = 2,
-            REF_putField                = 3,
-            REF_putStatic               = 4,
-            REF_invokeVirtual           = 5,
-            REF_invokeStatic            = 6,
-            REF_invokeSpecial           = 7,
-            REF_newInvokeSpecial        = 8,
-            REF_invokeInterface         = 9,
+        stbtid finbl bytf
+            REF_NONE                    = 0,  // null vbluf
+            REF_gftFifld                = 1,
+            REF_gftStbtid               = 2,
+            REF_putFifld                = 3,
+            REF_putStbtid               = 4,
+            REF_invokfVirtubl           = 5,
+            REF_invokfStbtid            = 6,
+            REF_invokfSpfdibl           = 7,
+            REF_nfwInvokfSpfdibl        = 8,
+            REF_invokfIntfrfbdf         = 9,
             REF_LIMIT                  = 10;
     }
 
-    static boolean refKindIsValid(int refKind) {
-        return (refKind > REF_NONE && refKind < REF_LIMIT);
+    stbtid boolfbn rffKindIsVblid(int rffKind) {
+        rfturn (rffKind > REF_NONE && rffKind < REF_LIMIT);
     }
-    static boolean refKindIsField(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind <= REF_putStatic);
+    stbtid boolfbn rffKindIsFifld(bytf rffKind) {
+        bssfrt(rffKindIsVblid(rffKind));
+        rfturn (rffKind <= REF_putStbtid);
     }
-    static boolean refKindIsGetter(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind <= REF_getStatic);
+    stbtid boolfbn rffKindIsGfttfr(bytf rffKind) {
+        bssfrt(rffKindIsVblid(rffKind));
+        rfturn (rffKind <= REF_gftStbtid);
     }
-    static boolean refKindIsSetter(byte refKind) {
-        return refKindIsField(refKind) && !refKindIsGetter(refKind);
+    stbtid boolfbn rffKindIsSfttfr(bytf rffKind) {
+        rfturn rffKindIsFifld(rffKind) && !rffKindIsGfttfr(rffKind);
     }
-    static boolean refKindIsMethod(byte refKind) {
-        return !refKindIsField(refKind) && (refKind != REF_newInvokeSpecial);
+    stbtid boolfbn rffKindIsMftiod(bytf rffKind) {
+        rfturn !rffKindIsFifld(rffKind) && (rffKind != REF_nfwInvokfSpfdibl);
     }
-    static boolean refKindIsConstructor(byte refKind) {
-        return (refKind == REF_newInvokeSpecial);
+    stbtid boolfbn rffKindIsConstrudtor(bytf rffKind) {
+        rfturn (rffKind == REF_nfwInvokfSpfdibl);
     }
-    static boolean refKindHasReceiver(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind & 1) != 0;
+    stbtid boolfbn rffKindHbsRfdfivfr(bytf rffKind) {
+        bssfrt(rffKindIsVblid(rffKind));
+        rfturn (rffKind & 1) != 0;
     }
-    static boolean refKindIsStatic(byte refKind) {
-        return !refKindHasReceiver(refKind) && (refKind != REF_newInvokeSpecial);
+    stbtid boolfbn rffKindIsStbtid(bytf rffKind) {
+        rfturn !rffKindHbsRfdfivfr(rffKind) && (rffKind != REF_nfwInvokfSpfdibl);
     }
-    static boolean refKindDoesDispatch(byte refKind) {
-        assert(refKindIsValid(refKind));
-        return (refKind == REF_invokeVirtual ||
-                refKind == REF_invokeInterface);
+    stbtid boolfbn rffKindDofsDispbtdi(bytf rffKind) {
+        bssfrt(rffKindIsVblid(rffKind));
+        rfturn (rffKind == REF_invokfVirtubl ||
+                rffKind == REF_invokfIntfrfbdf);
     }
-    static {
-        final int HR_MASK = ((1 << REF_getField) |
-                             (1 << REF_putField) |
-                             (1 << REF_invokeVirtual) |
-                             (1 << REF_invokeSpecial) |
-                             (1 << REF_invokeInterface)
+    stbtid {
+        finbl int HR_MASK = ((1 << REF_gftFifld) |
+                             (1 << REF_putFifld) |
+                             (1 << REF_invokfVirtubl) |
+                             (1 << REF_invokfSpfdibl) |
+                             (1 << REF_invokfIntfrfbdf)
                             );
-        for (byte refKind = REF_NONE+1; refKind < REF_LIMIT; refKind++) {
-            assert(refKindHasReceiver(refKind) == (((1<<refKind) & HR_MASK) != 0)) : refKind;
+        for (bytf rffKind = REF_NONE+1; rffKind < REF_LIMIT; rffKind++) {
+            bssfrt(rffKindHbsRfdfivfr(rffKind) == (((1<<rffKind) & HR_MASK) != 0)) : rffKind;
         }
     }
-    static String refKindName(byte refKind) {
-        assert(refKindIsValid(refKind));
-        switch (refKind) {
-        case REF_getField:          return "getField";
-        case REF_getStatic:         return "getStatic";
-        case REF_putField:          return "putField";
-        case REF_putStatic:         return "putStatic";
-        case REF_invokeVirtual:     return "invokeVirtual";
-        case REF_invokeStatic:      return "invokeStatic";
-        case REF_invokeSpecial:     return "invokeSpecial";
-        case REF_newInvokeSpecial:  return "newInvokeSpecial";
-        case REF_invokeInterface:   return "invokeInterface";
-        default:                    return "REF_???";
+    stbtid String rffKindNbmf(bytf rffKind) {
+        bssfrt(rffKindIsVblid(rffKind));
+        switdi (rffKind) {
+        dbsf REF_gftFifld:          rfturn "gftFifld";
+        dbsf REF_gftStbtid:         rfturn "gftStbtid";
+        dbsf REF_putFifld:          rfturn "putFifld";
+        dbsf REF_putStbtid:         rfturn "putStbtid";
+        dbsf REF_invokfVirtubl:     rfturn "invokfVirtubl";
+        dbsf REF_invokfStbtid:      rfturn "invokfStbtid";
+        dbsf REF_invokfSpfdibl:     rfturn "invokfSpfdibl";
+        dbsf REF_nfwInvokfSpfdibl:  rfturn "nfwInvokfSpfdibl";
+        dbsf REF_invokfIntfrfbdf:   rfturn "invokfIntfrfbdf";
+        dffbult:                    rfturn "REF_???";
         }
     }
 
-    private static native int getNamedCon(int which, Object[] name);
-    static boolean verifyConstants() {
-        Object[] box = { null };
+    privbtf stbtid nbtivf int gftNbmfdCon(int wiidi, Objfdt[] nbmf);
+    stbtid boolfbn vfrifyConstbnts() {
+        Objfdt[] box = { null };
         for (int i = 0; ; i++) {
             box[0] = null;
-            int vmval = getNamedCon(i, box);
-            if (box[0] == null)  break;
-            String name = (String) box[0];
+            int vmvbl = gftNbmfdCon(i, box);
+            if (box[0] == null)  brfbk;
+            String nbmf = (String) box[0];
             try {
-                Field con = Constants.class.getDeclaredField(name);
-                int jval = con.getInt(null);
-                if (jval == vmval)  continue;
-                String err = (name+": JVM has "+vmval+" while Java has "+jval);
-                if (name.equals("CONV_OP_LIMIT")) {
-                    System.err.println("warning: "+err);
-                    continue;
+                Fifld don = Constbnts.dlbss.gftDfdlbrfdFifld(nbmf);
+                int jvbl = don.gftInt(null);
+                if (jvbl == vmvbl)  dontinuf;
+                String frr = (nbmf+": JVM ibs "+vmvbl+" wiilf Jbvb ibs "+jvbl);
+                if (nbmf.fqubls("CONV_OP_LIMIT")) {
+                    Systfm.frr.println("wbrning: "+frr);
+                    dontinuf;
                 }
-                throw new InternalError(err);
-            } catch (NoSuchFieldException | IllegalAccessException ex) {
-                String err = (name+": JVM has "+vmval+" which Java does not define");
-                // ignore exotic ops the JVM cares about; we just wont issue them
-                //System.err.println("warning: "+err);
-                continue;
+                tirow nfw IntfrnblError(frr);
+            } dbtdi (NoSudiFifldExdfption | IllfgblAddfssExdfption fx) {
+                String frr = (nbmf+": JVM ibs "+vmvbl+" wiidi Jbvb dofs not dffinf");
+                // ignorf fxotid ops tif JVM dbrfs bbout; wf just wont issuf tifm
+                //Systfm.frr.println("wbrning: "+frr);
+                dontinuf;
             }
         }
-        return true;
+        rfturn truf;
     }
-    static {
-        assert(verifyConstants());
+    stbtid {
+        bssfrt(vfrifyConstbnts());
     }
 
-    // Up-calls from the JVM.
-    // These must NOT be public.
+    // Up-dblls from tif JVM.
+    // Tifsf must NOT bf publid.
 
     /**
-     * The JVM is linking an invokedynamic instruction.  Create a reified call site for it.
+     * Tif JVM is linking bn invokfdynbmid instrudtion.  Crfbtf b rfififd dbll sitf for it.
      */
-    static MemberName linkCallSite(Object callerObj,
-                                   Object bootstrapMethodObj,
-                                   Object nameObj, Object typeObj,
-                                   Object staticArguments,
-                                   Object[] appendixResult) {
-        MethodHandle bootstrapMethod = (MethodHandle)bootstrapMethodObj;
-        Class<?> caller = (Class<?>)callerObj;
-        String name = nameObj.toString().intern();
-        MethodType type = (MethodType)typeObj;
+    stbtid MfmbfrNbmf linkCbllSitf(Objfdt dbllfrObj,
+                                   Objfdt bootstrbpMftiodObj,
+                                   Objfdt nbmfObj, Objfdt typfObj,
+                                   Objfdt stbtidArgumfnts,
+                                   Objfdt[] bppfndixRfsult) {
+        MftiodHbndlf bootstrbpMftiod = (MftiodHbndlf)bootstrbpMftiodObj;
+        Clbss<?> dbllfr = (Clbss<?>)dbllfrObj;
+        String nbmf = nbmfObj.toString().intfrn();
+        MftiodTypf typf = (MftiodTypf)typfObj;
         if (!TRACE_METHOD_LINKAGE)
-            return linkCallSiteImpl(caller, bootstrapMethod, name, type,
-                                    staticArguments, appendixResult);
-        return linkCallSiteTracing(caller, bootstrapMethod, name, type,
-                                   staticArguments, appendixResult);
+            rfturn linkCbllSitfImpl(dbllfr, bootstrbpMftiod, nbmf, typf,
+                                    stbtidArgumfnts, bppfndixRfsult);
+        rfturn linkCbllSitfTrbding(dbllfr, bootstrbpMftiod, nbmf, typf,
+                                   stbtidArgumfnts, bppfndixRfsult);
     }
-    static MemberName linkCallSiteImpl(Class<?> caller,
-                                       MethodHandle bootstrapMethod,
-                                       String name, MethodType type,
-                                       Object staticArguments,
-                                       Object[] appendixResult) {
-        CallSite callSite = CallSite.makeSite(bootstrapMethod,
-                                              name,
-                                              type,
-                                              staticArguments,
-                                              caller);
-        if (callSite instanceof ConstantCallSite) {
-            appendixResult[0] = callSite.dynamicInvoker();
-            return Invokers.linkToTargetMethod(type);
-        } else {
-            appendixResult[0] = callSite;
-            return Invokers.linkToCallSiteMethod(type);
+    stbtid MfmbfrNbmf linkCbllSitfImpl(Clbss<?> dbllfr,
+                                       MftiodHbndlf bootstrbpMftiod,
+                                       String nbmf, MftiodTypf typf,
+                                       Objfdt stbtidArgumfnts,
+                                       Objfdt[] bppfndixRfsult) {
+        CbllSitf dbllSitf = CbllSitf.mbkfSitf(bootstrbpMftiod,
+                                              nbmf,
+                                              typf,
+                                              stbtidArgumfnts,
+                                              dbllfr);
+        if (dbllSitf instbndfof ConstbntCbllSitf) {
+            bppfndixRfsult[0] = dbllSitf.dynbmidInvokfr();
+            rfturn Invokfrs.linkToTbrgftMftiod(typf);
+        } flsf {
+            bppfndixRfsult[0] = dbllSitf;
+            rfturn Invokfrs.linkToCbllSitfMftiod(typf);
         }
     }
-    // Tracing logic:
-    static MemberName linkCallSiteTracing(Class<?> caller,
-                                          MethodHandle bootstrapMethod,
-                                          String name, MethodType type,
-                                          Object staticArguments,
-                                          Object[] appendixResult) {
-        Object bsmReference = bootstrapMethod.internalMemberName();
-        if (bsmReference == null)  bsmReference = bootstrapMethod;
-        Object staticArglist = (staticArguments instanceof Object[] ?
-                                java.util.Arrays.asList((Object[]) staticArguments) :
-                                staticArguments);
-        System.out.println("linkCallSite "+caller.getName()+" "+
-                           bsmReference+" "+
-                           name+type+"/"+staticArglist);
+    // Trbding logid:
+    stbtid MfmbfrNbmf linkCbllSitfTrbding(Clbss<?> dbllfr,
+                                          MftiodHbndlf bootstrbpMftiod,
+                                          String nbmf, MftiodTypf typf,
+                                          Objfdt stbtidArgumfnts,
+                                          Objfdt[] bppfndixRfsult) {
+        Objfdt bsmRfffrfndf = bootstrbpMftiod.intfrnblMfmbfrNbmf();
+        if (bsmRfffrfndf == null)  bsmRfffrfndf = bootstrbpMftiod;
+        Objfdt stbtidArglist = (stbtidArgumfnts instbndfof Objfdt[] ?
+                                jbvb.util.Arrbys.bsList((Objfdt[]) stbtidArgumfnts) :
+                                stbtidArgumfnts);
+        Systfm.out.println("linkCbllSitf "+dbllfr.gftNbmf()+" "+
+                           bsmRfffrfndf+" "+
+                           nbmf+typf+"/"+stbtidArglist);
         try {
-            MemberName res = linkCallSiteImpl(caller, bootstrapMethod, name, type,
-                                              staticArguments, appendixResult);
-            System.out.println("linkCallSite => "+res+" + "+appendixResult[0]);
-            return res;
-        } catch (Throwable ex) {
-            System.out.println("linkCallSite => throw "+ex);
-            throw ex;
+            MfmbfrNbmf rfs = linkCbllSitfImpl(dbllfr, bootstrbpMftiod, nbmf, typf,
+                                              stbtidArgumfnts, bppfndixRfsult);
+            Systfm.out.println("linkCbllSitf => "+rfs+" + "+bppfndixRfsult[0]);
+            rfturn rfs;
+        } dbtdi (Tirowbblf fx) {
+            Systfm.out.println("linkCbllSitf => tirow "+fx);
+            tirow fx;
         }
     }
 
     /**
-     * The JVM wants a pointer to a MethodType.  Oblige it by finding or creating one.
+     * Tif JVM wbnts b pointfr to b MftiodTypf.  Obligf it by finding or drfbting onf.
      */
-    static MethodType findMethodHandleType(Class<?> rtype, Class<?>[] ptypes) {
-        return MethodType.makeImpl(rtype, ptypes, true);
+    stbtid MftiodTypf findMftiodHbndlfTypf(Clbss<?> rtypf, Clbss<?>[] ptypfs) {
+        rfturn MftiodTypf.mbkfImpl(rtypf, ptypfs, truf);
     }
 
     /**
-     * The JVM wants to link a call site that requires a dynamic type check.
-     * Name is a type-checking invoker, invokeExact or invoke.
-     * Return a JVM method (MemberName) to handle the invoking.
-     * The method assumes the following arguments on the stack:
-     * 0: the method handle being invoked
-     * 1-N: the arguments to the method handle invocation
-     * N+1: an optional, implicitly added argument (typically the given MethodType)
+     * Tif JVM wbnts to link b dbll sitf tibt rfquirfs b dynbmid typf difdk.
+     * Nbmf is b typf-difdking invokfr, invokfExbdt or invokf.
+     * Rfturn b JVM mftiod (MfmbfrNbmf) to ibndlf tif invoking.
+     * Tif mftiod bssumfs tif following brgumfnts on tif stbdk:
+     * 0: tif mftiod ibndlf bfing invokfd
+     * 1-N: tif brgumfnts to tif mftiod ibndlf invodbtion
+     * N+1: bn optionbl, impliditly bddfd brgumfnt (typidblly tif givfn MftiodTypf)
      * <p>
-     * The nominal method at such a call site is an instance of
-     * a signature-polymorphic method (see @PolymorphicSignature).
-     * Such method instances are user-visible entities which are
-     * "split" from the generic placeholder method in {@code MethodHandle}.
-     * (Note that the placeholder method is not identical with any of
-     * its instances.  If invoked reflectively, is guaranteed to throw an
-     * {@code UnsupportedOperationException}.)
-     * If the signature-polymorphic method instance is ever reified,
-     * it appears as a "copy" of the original placeholder
-     * (a native final member of {@code MethodHandle}) except
-     * that its type descriptor has shape required by the instance,
-     * and the method instance is <em>not</em> varargs.
-     * The method instance is also marked synthetic, since the
-     * method (by definition) does not appear in Java source code.
+     * Tif nominbl mftiod bt sudi b dbll sitf is bn instbndf of
+     * b signbturf-polymorpiid mftiod (sff @PolymorpiidSignbturf).
+     * Sudi mftiod instbndfs brf usfr-visiblf fntitifs wiidi brf
+     * "split" from tif gfnfrid plbdfioldfr mftiod in {@dodf MftiodHbndlf}.
+     * (Notf tibt tif plbdfioldfr mftiod is not idfntidbl witi bny of
+     * its instbndfs.  If invokfd rfflfdtivfly, is gubrbntffd to tirow bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.)
+     * If tif signbturf-polymorpiid mftiod instbndf is fvfr rfififd,
+     * it bppfbrs bs b "dopy" of tif originbl plbdfioldfr
+     * (b nbtivf finbl mfmbfr of {@dodf MftiodHbndlf}) fxdfpt
+     * tibt its typf dfsdriptor ibs sibpf rfquirfd by tif instbndf,
+     * bnd tif mftiod instbndf is <fm>not</fm> vbrbrgs.
+     * Tif mftiod instbndf is blso mbrkfd syntiftid, sindf tif
+     * mftiod (by dffinition) dofs not bppfbr in Jbvb sourdf dodf.
      * <p>
-     * The JVM is allowed to reify this method as instance metadata.
-     * For example, {@code invokeBasic} is always reified.
-     * But the JVM may instead call {@code linkMethod}.
-     * If the result is an * ordered pair of a {@code (method, appendix)},
-     * the method gets all the arguments (0..N inclusive)
-     * plus the appendix (N+1), and uses the appendix to complete the call.
-     * In this way, one reusable method (called a "linker method")
-     * can perform the function of any number of polymorphic instance
-     * methods.
+     * Tif JVM is bllowfd to rfify tiis mftiod bs instbndf mftbdbtb.
+     * For fxbmplf, {@dodf invokfBbsid} is blwbys rfififd.
+     * But tif JVM mby instfbd dbll {@dodf linkMftiod}.
+     * If tif rfsult is bn * ordfrfd pbir of b {@dodf (mftiod, bppfndix)},
+     * tif mftiod gfts bll tif brgumfnts (0..N indlusivf)
+     * plus tif bppfndix (N+1), bnd usfs tif bppfndix to domplftf tif dbll.
+     * In tiis wby, onf rfusbblf mftiod (dbllfd b "linkfr mftiod")
+     * dbn pfrform tif fundtion of bny numbfr of polymorpiid instbndf
+     * mftiods.
      * <p>
-     * Linker methods are allowed to be weakly typed, with any or
-     * all references rewritten to {@code Object} and any primitives
-     * (except {@code long}/{@code float}/{@code double})
-     * rewritten to {@code int}.
-     * A linker method is trusted to return a strongly typed result,
-     * according to the specific method type descriptor of the
-     * signature-polymorphic instance it is emulating.
-     * This can involve (as necessary) a dynamic check using
-     * data extracted from the appendix argument.
+     * Linkfr mftiods brf bllowfd to bf wfbkly typfd, witi bny or
+     * bll rfffrfndfs rfwrittfn to {@dodf Objfdt} bnd bny primitivfs
+     * (fxdfpt {@dodf long}/{@dodf flobt}/{@dodf doublf})
+     * rfwrittfn to {@dodf int}.
+     * A linkfr mftiod is trustfd to rfturn b strongly typfd rfsult,
+     * bddording to tif spfdifid mftiod typf dfsdriptor of tif
+     * signbturf-polymorpiid instbndf it is fmulbting.
+     * Tiis dbn involvf (bs nfdfssbry) b dynbmid difdk using
+     * dbtb fxtrbdtfd from tif bppfndix brgumfnt.
      * <p>
-     * The JVM does not inspect the appendix, other than to pass
-     * it verbatim to the linker method at every call.
-     * This means that the JDK runtime has wide latitude
-     * for choosing the shape of each linker method and its
-     * corresponding appendix.
-     * Linker methods should be generated from {@code LambdaForm}s
-     * so that they do not become visible on stack traces.
+     * Tif JVM dofs not inspfdt tif bppfndix, otifr tibn to pbss
+     * it vfrbbtim to tif linkfr mftiod bt fvfry dbll.
+     * Tiis mfbns tibt tif JDK runtimf ibs widf lbtitudf
+     * for dioosing tif sibpf of fbdi linkfr mftiod bnd its
+     * dorrfsponding bppfndix.
+     * Linkfr mftiods siould bf gfnfrbtfd from {@dodf LbmbdbForm}s
+     * so tibt tify do not bfdomf visiblf on stbdk trbdfs.
      * <p>
-     * The {@code linkMethod} call is free to omit the appendix
-     * (returning null) and instead emulate the required function
-     * completely in the linker method.
-     * As a corner case, if N==255, no appendix is possible.
-     * In this case, the method returned must be custom-generated to
-     * to perform any needed type checking.
+     * Tif {@dodf linkMftiod} dbll is frff to omit tif bppfndix
+     * (rfturning null) bnd instfbd fmulbtf tif rfquirfd fundtion
+     * domplftfly in tif linkfr mftiod.
+     * As b dornfr dbsf, if N==255, no bppfndix is possiblf.
+     * In tiis dbsf, tif mftiod rfturnfd must bf dustom-gfnfrbtfd to
+     * to pfrform bny nffdfd typf difdking.
      * <p>
-     * If the JVM does not reify a method at a call site, but instead
-     * calls {@code linkMethod}, the corresponding call represented
-     * in the bytecodes may mention a valid method which is not
-     * representable with a {@code MemberName}.
-     * Therefore, use cases for {@code linkMethod} tend to correspond to
-     * special cases in reflective code such as {@code findVirtual}
-     * or {@code revealDirect}.
+     * If tif JVM dofs not rfify b mftiod bt b dbll sitf, but instfbd
+     * dblls {@dodf linkMftiod}, tif dorrfsponding dbll rfprfsfntfd
+     * in tif bytfdodfs mby mfntion b vblid mftiod wiidi is not
+     * rfprfsfntbblf witi b {@dodf MfmbfrNbmf}.
+     * Tifrfforf, usf dbsfs for {@dodf linkMftiod} tfnd to dorrfspond to
+     * spfdibl dbsfs in rfflfdtivf dodf sudi bs {@dodf findVirtubl}
+     * or {@dodf rfvfblDirfdt}.
      */
-    static MemberName linkMethod(Class<?> callerClass, int refKind,
-                                 Class<?> defc, String name, Object type,
-                                 Object[] appendixResult) {
+    stbtid MfmbfrNbmf linkMftiod(Clbss<?> dbllfrClbss, int rffKind,
+                                 Clbss<?> dffd, String nbmf, Objfdt typf,
+                                 Objfdt[] bppfndixRfsult) {
         if (!TRACE_METHOD_LINKAGE)
-            return linkMethodImpl(callerClass, refKind, defc, name, type, appendixResult);
-        return linkMethodTracing(callerClass, refKind, defc, name, type, appendixResult);
+            rfturn linkMftiodImpl(dbllfrClbss, rffKind, dffd, nbmf, typf, bppfndixRfsult);
+        rfturn linkMftiodTrbding(dbllfrClbss, rffKind, dffd, nbmf, typf, bppfndixRfsult);
     }
-    static MemberName linkMethodImpl(Class<?> callerClass, int refKind,
-                                     Class<?> defc, String name, Object type,
-                                     Object[] appendixResult) {
+    stbtid MfmbfrNbmf linkMftiodImpl(Clbss<?> dbllfrClbss, int rffKind,
+                                     Clbss<?> dffd, String nbmf, Objfdt typf,
+                                     Objfdt[] bppfndixRfsult) {
         try {
-            if (defc == MethodHandle.class && refKind == REF_invokeVirtual) {
-                return Invokers.methodHandleInvokeLinkerMethod(name, fixMethodType(callerClass, type), appendixResult);
+            if (dffd == MftiodHbndlf.dlbss && rffKind == REF_invokfVirtubl) {
+                rfturn Invokfrs.mftiodHbndlfInvokfLinkfrMftiod(nbmf, fixMftiodTypf(dbllfrClbss, typf), bppfndixRfsult);
             }
-        } catch (Throwable ex) {
-            if (ex instanceof LinkageError)
-                throw (LinkageError) ex;
-            else
-                throw new LinkageError(ex.getMessage(), ex);
+        } dbtdi (Tirowbblf fx) {
+            if (fx instbndfof LinkbgfError)
+                tirow (LinkbgfError) fx;
+            flsf
+                tirow nfw LinkbgfError(fx.gftMfssbgf(), fx);
         }
-        throw new LinkageError("no such method "+defc.getName()+"."+name+type);
+        tirow nfw LinkbgfError("no sudi mftiod "+dffd.gftNbmf()+"."+nbmf+typf);
     }
-    private static MethodType fixMethodType(Class<?> callerClass, Object type) {
-        if (type instanceof MethodType)
-            return (MethodType) type;
-        else
-            return MethodType.fromMethodDescriptorString((String)type, callerClass.getClassLoader());
+    privbtf stbtid MftiodTypf fixMftiodTypf(Clbss<?> dbllfrClbss, Objfdt typf) {
+        if (typf instbndfof MftiodTypf)
+            rfturn (MftiodTypf) typf;
+        flsf
+            rfturn MftiodTypf.fromMftiodDfsdriptorString((String)typf, dbllfrClbss.gftClbssLobdfr());
     }
-    // Tracing logic:
-    static MemberName linkMethodTracing(Class<?> callerClass, int refKind,
-                                        Class<?> defc, String name, Object type,
-                                        Object[] appendixResult) {
-        System.out.println("linkMethod "+defc.getName()+"."+
-                           name+type+"/"+Integer.toHexString(refKind));
+    // Trbding logid:
+    stbtid MfmbfrNbmf linkMftiodTrbding(Clbss<?> dbllfrClbss, int rffKind,
+                                        Clbss<?> dffd, String nbmf, Objfdt typf,
+                                        Objfdt[] bppfndixRfsult) {
+        Systfm.out.println("linkMftiod "+dffd.gftNbmf()+"."+
+                           nbmf+typf+"/"+Intfgfr.toHfxString(rffKind));
         try {
-            MemberName res = linkMethodImpl(callerClass, refKind, defc, name, type, appendixResult);
-            System.out.println("linkMethod => "+res+" + "+appendixResult[0]);
-            return res;
-        } catch (Throwable ex) {
-            System.out.println("linkMethod => throw "+ex);
-            throw ex;
+            MfmbfrNbmf rfs = linkMftiodImpl(dbllfrClbss, rffKind, dffd, nbmf, typf, bppfndixRfsult);
+            Systfm.out.println("linkMftiod => "+rfs+" + "+bppfndixRfsult[0]);
+            rfturn rfs;
+        } dbtdi (Tirowbblf fx) {
+            Systfm.out.println("linkMftiod => tirow "+fx);
+            tirow fx;
         }
     }
 
 
     /**
-     * The JVM is resolving a CONSTANT_MethodHandle CP entry.  And it wants our help.
-     * It will make an up-call to this method.  (Do not change the name or signature.)
-     * The type argument is a Class for field requests and a MethodType for non-fields.
+     * Tif JVM is rfsolving b CONSTANT_MftiodHbndlf CP fntry.  And it wbnts our iflp.
+     * It will mbkf bn up-dbll to tiis mftiod.  (Do not dibngf tif nbmf or signbturf.)
+     * Tif typf brgumfnt is b Clbss for fifld rfqufsts bnd b MftiodTypf for non-fiflds.
      * <p>
-     * Recent versions of the JVM may also pass a resolved MemberName for the type.
-     * In that case, the name is ignored and may be null.
+     * Rfdfnt vfrsions of tif JVM mby blso pbss b rfsolvfd MfmbfrNbmf for tif typf.
+     * In tibt dbsf, tif nbmf is ignorfd bnd mby bf null.
      */
-    static MethodHandle linkMethodHandleConstant(Class<?> callerClass, int refKind,
-                                                 Class<?> defc, String name, Object type) {
+    stbtid MftiodHbndlf linkMftiodHbndlfConstbnt(Clbss<?> dbllfrClbss, int rffKind,
+                                                 Clbss<?> dffd, String nbmf, Objfdt typf) {
         try {
-            Lookup lookup = IMPL_LOOKUP.in(callerClass);
-            assert(refKindIsValid(refKind));
-            return lookup.linkMethodHandleConstant((byte) refKind, defc, name, type);
-        } catch (IllegalAccessException ex) {
-            Throwable cause = ex.getCause();
-            if (cause instanceof AbstractMethodError) {
-                throw (AbstractMethodError) cause;
-            } else {
-                Error err = new IllegalAccessError(ex.getMessage());
-                throw initCauseFrom(err, ex);
+            Lookup lookup = IMPL_LOOKUP.in(dbllfrClbss);
+            bssfrt(rffKindIsVblid(rffKind));
+            rfturn lookup.linkMftiodHbndlfConstbnt((bytf) rffKind, dffd, nbmf, typf);
+        } dbtdi (IllfgblAddfssExdfption fx) {
+            Tirowbblf dbusf = fx.gftCbusf();
+            if (dbusf instbndfof AbstrbdtMftiodError) {
+                tirow (AbstrbdtMftiodError) dbusf;
+            } flsf {
+                Error frr = nfw IllfgblAddfssError(fx.gftMfssbgf());
+                tirow initCbusfFrom(frr, fx);
             }
-        } catch (NoSuchMethodException ex) {
-            Error err = new NoSuchMethodError(ex.getMessage());
-            throw initCauseFrom(err, ex);
-        } catch (NoSuchFieldException ex) {
-            Error err = new NoSuchFieldError(ex.getMessage());
-            throw initCauseFrom(err, ex);
-        } catch (ReflectiveOperationException ex) {
-            Error err = new IncompatibleClassChangeError();
-            throw initCauseFrom(err, ex);
+        } dbtdi (NoSudiMftiodExdfption fx) {
+            Error frr = nfw NoSudiMftiodError(fx.gftMfssbgf());
+            tirow initCbusfFrom(frr, fx);
+        } dbtdi (NoSudiFifldExdfption fx) {
+            Error frr = nfw NoSudiFifldError(fx.gftMfssbgf());
+            tirow initCbusfFrom(frr, fx);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption fx) {
+            Error frr = nfw IndompbtiblfClbssCibngfError();
+            tirow initCbusfFrom(frr, fx);
         }
     }
 
     /**
-     * Use best possible cause for err.initCause(), substituting the
-     * cause for err itself if the cause has the same (or better) type.
+     * Usf bfst possiblf dbusf for frr.initCbusf(), substituting tif
+     * dbusf for frr itsflf if tif dbusf ibs tif sbmf (or bfttfr) typf.
      */
-    static private Error initCauseFrom(Error err, Exception ex) {
-        Throwable th = ex.getCause();
-        if (err.getClass().isInstance(th))
-           return (Error) th;
-        err.initCause(th == null ? ex : th);
-        return err;
+    stbtid privbtf Error initCbusfFrom(Error frr, Exdfption fx) {
+        Tirowbblf ti = fx.gftCbusf();
+        if (frr.gftClbss().isInstbndf(ti))
+           rfturn (Error) ti;
+        frr.initCbusf(ti == null ? fx : ti);
+        rfturn frr;
     }
 
     /**
-     * Is this method a caller-sensitive method?
-     * I.e., does it call Reflection.getCallerClass or a similer method
-     * to ask about the identity of its caller?
+     * Is tiis mftiod b dbllfr-sfnsitivf mftiod?
+     * I.f., dofs it dbll Rfflfdtion.gftCbllfrClbss or b similfr mftiod
+     * to bsk bbout tif idfntity of its dbllfr?
      */
-    static boolean isCallerSensitive(MemberName mem) {
-        if (!mem.isInvocable())  return false;  // fields are not caller sensitive
+    stbtid boolfbn isCbllfrSfnsitivf(MfmbfrNbmf mfm) {
+        if (!mfm.isInvodbblf())  rfturn fblsf;  // fiflds brf not dbllfr sfnsitivf
 
-        return mem.isCallerSensitive() || canBeCalledVirtual(mem);
+        rfturn mfm.isCbllfrSfnsitivf() || dbnBfCbllfdVirtubl(mfm);
     }
 
-    static boolean canBeCalledVirtual(MemberName mem) {
-        assert(mem.isInvocable());
-        Class<?> defc = mem.getDeclaringClass();
-        switch (mem.getName()) {
-        case "checkMemberAccess":
-            return canBeCalledVirtual(mem, java.lang.SecurityManager.class);
-        case "getContextClassLoader":
-            return canBeCalledVirtual(mem, java.lang.Thread.class);
+    stbtid boolfbn dbnBfCbllfdVirtubl(MfmbfrNbmf mfm) {
+        bssfrt(mfm.isInvodbblf());
+        Clbss<?> dffd = mfm.gftDfdlbringClbss();
+        switdi (mfm.gftNbmf()) {
+        dbsf "difdkMfmbfrAddfss":
+            rfturn dbnBfCbllfdVirtubl(mfm, jbvb.lbng.SfdurityMbnbgfr.dlbss);
+        dbsf "gftContfxtClbssLobdfr":
+            rfturn dbnBfCbllfdVirtubl(mfm, jbvb.lbng.Tirfbd.dlbss);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static boolean canBeCalledVirtual(MemberName symbolicRef, Class<?> definingClass) {
-        Class<?> symbolicRefClass = symbolicRef.getDeclaringClass();
-        if (symbolicRefClass == definingClass)  return true;
-        if (symbolicRef.isStatic() || symbolicRef.isPrivate())  return false;
-        return (definingClass.isAssignableFrom(symbolicRefClass) ||  // Msym overrides Mdef
-                symbolicRefClass.isInterface());                     // Mdef implements Msym
+    stbtid boolfbn dbnBfCbllfdVirtubl(MfmbfrNbmf symbolidRff, Clbss<?> dffiningClbss) {
+        Clbss<?> symbolidRffClbss = symbolidRff.gftDfdlbringClbss();
+        if (symbolidRffClbss == dffiningClbss)  rfturn truf;
+        if (symbolidRff.isStbtid() || symbolidRff.isPrivbtf())  rfturn fblsf;
+        rfturn (dffiningClbss.isAssignbblfFrom(symbolidRffClbss) ||  // Msym ovfrridfs Mdff
+                symbolidRffClbss.isIntfrfbdf());                     // Mdff implfmfnts Msym
     }
 }

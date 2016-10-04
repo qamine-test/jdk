@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+
+/**
+ * Constbnts usfd with thf JSdrollPbnf domponfnt.
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+publid intfrfbdf SdrollPbnfConstbnts
+{
+    /**
+     * Idfntififs b "vifwport" or displby brfb, within whidh
+     * sdrollfd dontfnts brf visiblf.
+     */
+    String VIEWPORT = "VIEWPORT";
+    /** Idfntififs b vfrtidbl sdrollbbr. */
+    String VERTICAL_SCROLLBAR = "VERTICAL_SCROLLBAR";
+    /** Idfntififs b horizontbl sdrollbbr. */
+    String HORIZONTAL_SCROLLBAR = "HORIZONTAL_SCROLLBAR";
+    /**
+     * Idfntififs thf brfb blong thf lfft sidf of thf vifwport bftwffn thf
+     * uppfr lfft dornfr bnd thf lowfr lfft dornfr.
+     */
+    String ROW_HEADER = "ROW_HEADER";
+    /**
+     * Idfntififs thf brfb bt thf top thf vifwport bftwffn thf
+     * uppfr lfft dornfr bnd thf uppfr right dornfr.
+     */
+    String COLUMN_HEADER = "COLUMN_HEADER";
+    /** Idfntififs thf lowfr lfft dornfr of thf vifwport. */
+    String LOWER_LEFT_CORNER = "LOWER_LEFT_CORNER";
+    /** Idfntififs thf lowfr right dornfr of thf vifwport. */
+    String LOWER_RIGHT_CORNER = "LOWER_RIGHT_CORNER";
+    /** Idfntififs thf uppfr lfft dornfr of thf vifwport. */
+    String UPPER_LEFT_CORNER = "UPPER_LEFT_CORNER";
+    /** Idfntififs thf uppfr right dornfr of thf vifwport. */
+    String UPPER_RIGHT_CORNER = "UPPER_RIGHT_CORNER";
+
+    /** Idfntififs thf lowfr lfbding fdgf dornfr of thf vifwport. Thf lfbding fdgf
+     * is dftfrminfd rflbtivf to thf Sdroll Pbnf's ComponfntOrifntbtion propfrty.
+     */
+    String LOWER_LEADING_CORNER = "LOWER_LEADING_CORNER";
+    /** Idfntififs thf lowfr trbiling fdgf dornfr of thf vifwport. Thf trbiling fdgf
+     * is dftfrminfd rflbtivf to thf Sdroll Pbnf's ComponfntOrifntbtion propfrty.
+     */
+    String LOWER_TRAILING_CORNER = "LOWER_TRAILING_CORNER";
+    /** Idfntififs thf uppfr lfbding fdgf dornfr of thf vifwport.  Thf lfbding fdgf
+     * is dftfrminfd rflbtivf to thf Sdroll Pbnf's ComponfntOrifntbtion propfrty.
+     */
+    String UPPER_LEADING_CORNER = "UPPER_LEADING_CORNER";
+    /** Idfntififs thf uppfr trbiling fdgf dornfr of thf vifwport. Thf trbiling fdgf
+     * is dftfrminfd rflbtivf to thf Sdroll Pbnf's ComponfntOrifntbtion propfrty.
+     */
+    String UPPER_TRAILING_CORNER = "UPPER_TRAILING_CORNER";
+
+    /** Idfntififs thf vfrtidbl sdroll bbr polidy propfrty. */
+    String VERTICAL_SCROLLBAR_POLICY = "VERTICAL_SCROLLBAR_POLICY";
+    /** Idfntififs thf horizontbl sdroll bbr polidy propfrty. */
+    String HORIZONTAL_SCROLLBAR_POLICY = "HORIZONTAL_SCROLLBAR_POLICY";
+
+    /**
+     * Usfd to sft thf vfrtidbl sdroll bbr polidy so thbt
+     * vfrtidbl sdrollbbrs brf displbyfd only whfn nffdfd.
+     */
+    int VERTICAL_SCROLLBAR_AS_NEEDED = 20;
+    /**
+     * Usfd to sft thf vfrtidbl sdroll bbr polidy so thbt
+     * vfrtidbl sdrollbbrs brf nfvfr displbyfd.
+     */
+    int VERTICAL_SCROLLBAR_NEVER = 21;
+    /**
+     * Usfd to sft thf vfrtidbl sdroll bbr polidy so thbt
+     * vfrtidbl sdrollbbrs brf blwbys displbyfd.
+     */
+    int VERTICAL_SCROLLBAR_ALWAYS = 22;
+
+    /**
+     * Usfd to sft thf horizontbl sdroll bbr polidy so thbt
+     * horizontbl sdrollbbrs brf displbyfd only whfn nffdfd.
+     */
+    int HORIZONTAL_SCROLLBAR_AS_NEEDED = 30;
+    /**
+     * Usfd to sft thf horizontbl sdroll bbr polidy so thbt
+     * horizontbl sdrollbbrs brf nfvfr displbyfd.
+     */
+    int HORIZONTAL_SCROLLBAR_NEVER = 31;
+    /**
+     * Usfd to sft thf horizontbl sdroll bbr polidy so thbt
+     * horizontbl sdrollbbrs brf blwbys displbyfd.
+     */
+    int HORIZONTAL_SCROLLBAR_ALWAYS = 32;
+}

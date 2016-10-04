@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996, 1997 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996, 1997 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.lang.Character;
+import jbvb.lbng.Cibrbdtfr;
 
 /**
- * Utility class for normalizing and merging patterns for collation.
- * This is to be used with MergeCollation for adding patterns to an
- * existing rule table.
- * @see        MergeCollation
- * @author     Mark Davis, Helena Shih
+ * Utility dlbss for normblizing bnd mfrging pbttfrns for dollbtion.
+ * Tiis is to bf usfd witi MfrgfCollbtion for bdding pbttfrns to bn
+ * fxisting rulf tbblf.
+ * @sff        MfrgfCollbtion
+ * @butior     Mbrk Dbvis, Hflfnb Siii
  */
 
-class PatternEntry {
+dlbss PbttfrnEntry {
     /**
-     * Gets the current extension, quoted
+     * Gfts tif durrfnt fxtfnsion, quotfd
      */
-    public void appendQuotedExtension(StringBuffer toAddTo) {
-        appendQuoted(extension,toAddTo);
-    }
-
-    /**
-     * Gets the current chars, quoted
-     */
-    public void appendQuotedChars(StringBuffer toAddTo) {
-        appendQuoted(chars,toAddTo);
+    publid void bppfndQuotfdExtfnsion(StringBufffr toAddTo) {
+        bppfndQuotfd(fxtfnsion,toAddTo);
     }
 
     /**
-     * WARNING this is used for searching in a Vector.
-     * Because Vector.indexOf doesn't take a comparator,
-     * this method is ill-defined and ignores strength.
+     * Gfts tif durrfnt dibrs, quotfd
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        PatternEntry other = (PatternEntry) obj;
-        boolean result = chars.equals(other.chars);
-        return result;
-    }
-
-    public int hashCode() {
-        return chars.hashCode();
+    publid void bppfndQuotfdCibrs(StringBufffr toAddTo) {
+        bppfndQuotfd(dibrs,toAddTo);
     }
 
     /**
-     * For debugging.
+     * WARNING tiis is usfd for sfbrdiing in b Vfdtor.
+     * Bfdbusf Vfdtor.indfxOf dofsn't tbkf b dompbrbtor,
+     * tiis mftiod is ill-dffinfd bnd ignorfs strfngti.
      */
-    public String toString() {
-        StringBuffer result = new StringBuffer();
-        addToBuffer(result, true, false, null);
-        return result.toString();
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        PbttfrnEntry otifr = (PbttfrnEntry) obj;
+        boolfbn rfsult = dibrs.fqubls(otifr.dibrs);
+        rfturn rfsult;
+    }
+
+    publid int ibsiCodf() {
+        rfturn dibrs.ibsiCodf();
     }
 
     /**
-     * Gets the strength of the entry.
+     * For dfbugging.
      */
-    final int getStrength() {
-        return strength;
+    publid String toString() {
+        StringBufffr rfsult = nfw StringBufffr();
+        bddToBufffr(rfsult, truf, fblsf, null);
+        rfturn rfsult.toString();
     }
 
     /**
-     * Gets the expanding characters of the entry.
+     * Gfts tif strfngti of tif fntry.
      */
-    final String getExtension() {
-        return extension;
+    finbl int gftStrfngti() {
+        rfturn strfngti;
     }
 
     /**
-     * Gets the core characters of the entry.
+     * Gfts tif fxpbnding dibrbdtfrs of tif fntry.
      */
-    final String getChars() {
-        return chars;
+    finbl String gftExtfnsion() {
+        rfturn fxtfnsion;
     }
 
-    // ===== privates =====
+    /**
+     * Gfts tif dorf dibrbdtfrs of tif fntry.
+     */
+    finbl String gftCibrs() {
+        rfturn dibrs;
+    }
 
-    void addToBuffer(StringBuffer toAddTo,
-                     boolean showExtension,
-                     boolean showWhiteSpace,
-                     PatternEntry lastEntry)
+    // ===== privbtfs =====
+
+    void bddToBufffr(StringBufffr toAddTo,
+                     boolfbn siowExtfnsion,
+                     boolfbn siowWiitfSpbdf,
+                     PbttfrnEntry lbstEntry)
     {
-        if (showWhiteSpace && toAddTo.length() > 0)
-            if (strength == Collator.PRIMARY || lastEntry != null)
-                toAddTo.append('\n');
-            else
-                toAddTo.append(' ');
-        if (lastEntry != null) {
-            toAddTo.append('&');
-            if (showWhiteSpace)
-                toAddTo.append(' ');
-            lastEntry.appendQuotedChars(toAddTo);
-            appendQuotedExtension(toAddTo);
-            if (showWhiteSpace)
-                toAddTo.append(' ');
+        if (siowWiitfSpbdf && toAddTo.lfngti() > 0)
+            if (strfngti == Collbtor.PRIMARY || lbstEntry != null)
+                toAddTo.bppfnd('\n');
+            flsf
+                toAddTo.bppfnd(' ');
+        if (lbstEntry != null) {
+            toAddTo.bppfnd('&');
+            if (siowWiitfSpbdf)
+                toAddTo.bppfnd(' ');
+            lbstEntry.bppfndQuotfdCibrs(toAddTo);
+            bppfndQuotfdExtfnsion(toAddTo);
+            if (siowWiitfSpbdf)
+                toAddTo.bppfnd(' ');
         }
-        switch (strength) {
-        case Collator.IDENTICAL: toAddTo.append('='); break;
-        case Collator.TERTIARY:  toAddTo.append(','); break;
-        case Collator.SECONDARY: toAddTo.append(';'); break;
-        case Collator.PRIMARY:   toAddTo.append('<'); break;
-        case RESET: toAddTo.append('&'); break;
-        case UNSET: toAddTo.append('?'); break;
+        switdi (strfngti) {
+        dbsf Collbtor.IDENTICAL: toAddTo.bppfnd('='); brfbk;
+        dbsf Collbtor.TERTIARY:  toAddTo.bppfnd(','); brfbk;
+        dbsf Collbtor.SECONDARY: toAddTo.bppfnd(';'); brfbk;
+        dbsf Collbtor.PRIMARY:   toAddTo.bppfnd('<'); brfbk;
+        dbsf RESET: toAddTo.bppfnd('&'); brfbk;
+        dbsf UNSET: toAddTo.bppfnd('?'); brfbk;
         }
-        if (showWhiteSpace)
-            toAddTo.append(' ');
-        appendQuoted(chars,toAddTo);
-        if (showExtension && extension.length() != 0) {
-            toAddTo.append('/');
-            appendQuoted(extension,toAddTo);
+        if (siowWiitfSpbdf)
+            toAddTo.bppfnd(' ');
+        bppfndQuotfd(dibrs,toAddTo);
+        if (siowExtfnsion && fxtfnsion.lfngti() != 0) {
+            toAddTo.bppfnd('/');
+            bppfndQuotfd(fxtfnsion,toAddTo);
         }
     }
 
-    static void appendQuoted(String chars, StringBuffer toAddTo) {
-        boolean inQuote = false;
-        char ch = chars.charAt(0);
-        if (Character.isSpaceChar(ch)) {
-            inQuote = true;
-            toAddTo.append('\'');
-        } else {
-          if (PatternEntry.isSpecialChar(ch)) {
-                inQuote = true;
-                toAddTo.append('\'');
-            } else {
-                switch (ch) {
-                    case 0x0010: case '\f': case '\r':
-                    case '\t': case '\n':  case '@':
-                    inQuote = true;
-                    toAddTo.append('\'');
-                    break;
-                case '\'':
-                    inQuote = true;
-                    toAddTo.append('\'');
-                    break;
-                default:
-                    if (inQuote) {
-                        inQuote = false; toAddTo.append('\'');
+    stbtid void bppfndQuotfd(String dibrs, StringBufffr toAddTo) {
+        boolfbn inQuotf = fblsf;
+        dibr di = dibrs.dibrAt(0);
+        if (Cibrbdtfr.isSpbdfCibr(di)) {
+            inQuotf = truf;
+            toAddTo.bppfnd('\'');
+        } flsf {
+          if (PbttfrnEntry.isSpfdiblCibr(di)) {
+                inQuotf = truf;
+                toAddTo.bppfnd('\'');
+            } flsf {
+                switdi (di) {
+                    dbsf 0x0010: dbsf '\f': dbsf '\r':
+                    dbsf '\t': dbsf '\n':  dbsf '@':
+                    inQuotf = truf;
+                    toAddTo.bppfnd('\'');
+                    brfbk;
+                dbsf '\'':
+                    inQuotf = truf;
+                    toAddTo.bppfnd('\'');
+                    brfbk;
+                dffbult:
+                    if (inQuotf) {
+                        inQuotf = fblsf; toAddTo.bppfnd('\'');
                     }
-                    break;
+                    brfbk;
                 }
            }
         }
-        toAddTo.append(chars);
-        if (inQuote)
-            toAddTo.append('\'');
+        toAddTo.bppfnd(dibrs);
+        if (inQuotf)
+            toAddTo.bppfnd('\'');
     }
 
     //========================================================================
-    // Parsing a pattern into a list of PatternEntries....
+    // Pbrsing b pbttfrn into b list of PbttfrnEntrifs....
     //========================================================================
 
-    PatternEntry(int strength,
-                 StringBuffer chars,
-                 StringBuffer extension)
+    PbttfrnEntry(int strfngti,
+                 StringBufffr dibrs,
+                 StringBufffr fxtfnsion)
     {
-        this.strength = strength;
-        this.chars = chars.toString();
-        this.extension = (extension.length() > 0) ? extension.toString()
+        tiis.strfngti = strfngti;
+        tiis.dibrs = dibrs.toString();
+        tiis.fxtfnsion = (fxtfnsion.lfngti() > 0) ? fxtfnsion.toString()
                                                   : "";
     }
 
-    static class Parser {
-        private String pattern;
-        private int i;
+    stbtid dlbss Pbrsfr {
+        privbtf String pbttfrn;
+        privbtf int i;
 
-        public Parser(String pattern) {
-            this.pattern = pattern;
-            this.i = 0;
+        publid Pbrsfr(String pbttfrn) {
+            tiis.pbttfrn = pbttfrn;
+            tiis.i = 0;
         }
 
-        public PatternEntry next() throws ParseException {
-            int newStrength = UNSET;
+        publid PbttfrnEntry nfxt() tirows PbrsfExdfption {
+            int nfwStrfngti = UNSET;
 
-            newChars.setLength(0);
-            newExtension.setLength(0);
+            nfwCibrs.sftLfngti(0);
+            nfwExtfnsion.sftLfngti(0);
 
-            boolean inChars = true;
-            boolean inQuote = false;
-        mainLoop:
-            while (i < pattern.length()) {
-                char ch = pattern.charAt(i);
-                if (inQuote) {
-                    if (ch == '\'') {
-                        inQuote = false;
-                    } else {
-                        if (newChars.length() == 0) newChars.append(ch);
-                        else if (inChars) newChars.append(ch);
-                        else newExtension.append(ch);
+            boolfbn inCibrs = truf;
+            boolfbn inQuotf = fblsf;
+        mbinLoop:
+            wiilf (i < pbttfrn.lfngti()) {
+                dibr di = pbttfrn.dibrAt(i);
+                if (inQuotf) {
+                    if (di == '\'') {
+                        inQuotf = fblsf;
+                    } flsf {
+                        if (nfwCibrs.lfngti() == 0) nfwCibrs.bppfnd(di);
+                        flsf if (inCibrs) nfwCibrs.bppfnd(di);
+                        flsf nfwExtfnsion.bppfnd(di);
                     }
-                } else switch (ch) {
-                case '=': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.IDENTICAL; break;
-                case ',': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.TERTIARY; break;
-                case ';': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.SECONDARY; break;
-                case '<': if (newStrength != UNSET) break mainLoop;
-                    newStrength = Collator.PRIMARY; break;
-                case '&': if (newStrength != UNSET) break mainLoop;
-                    newStrength = RESET; break;
-                case '\t':
-                case '\n':
-                case '\f':
-                case '\r':
-                case ' ': break; // skip whitespace TODO use Character
-                case '/': inChars = false; break;
-                case '\'':
-                    inQuote = true;
-                    ch = pattern.charAt(++i);
-                    if (newChars.length() == 0) newChars.append(ch);
-                    else if (inChars) newChars.append(ch);
-                    else newExtension.append(ch);
-                    break;
-                default:
-                    if (newStrength == UNSET) {
-                        throw new ParseException
-                            ("missing char (=,;<&) : " +
-                             pattern.substring(i,
-                                (i+10 < pattern.length()) ?
-                                 i+10 : pattern.length()),
+                } flsf switdi (di) {
+                dbsf '=': if (nfwStrfngti != UNSET) brfbk mbinLoop;
+                    nfwStrfngti = Collbtor.IDENTICAL; brfbk;
+                dbsf ',': if (nfwStrfngti != UNSET) brfbk mbinLoop;
+                    nfwStrfngti = Collbtor.TERTIARY; brfbk;
+                dbsf ';': if (nfwStrfngti != UNSET) brfbk mbinLoop;
+                    nfwStrfngti = Collbtor.SECONDARY; brfbk;
+                dbsf '<': if (nfwStrfngti != UNSET) brfbk mbinLoop;
+                    nfwStrfngti = Collbtor.PRIMARY; brfbk;
+                dbsf '&': if (nfwStrfngti != UNSET) brfbk mbinLoop;
+                    nfwStrfngti = RESET; brfbk;
+                dbsf '\t':
+                dbsf '\n':
+                dbsf '\f':
+                dbsf '\r':
+                dbsf ' ': brfbk; // skip wiitfspbdf TODO usf Cibrbdtfr
+                dbsf '/': inCibrs = fblsf; brfbk;
+                dbsf '\'':
+                    inQuotf = truf;
+                    di = pbttfrn.dibrAt(++i);
+                    if (nfwCibrs.lfngti() == 0) nfwCibrs.bppfnd(di);
+                    flsf if (inCibrs) nfwCibrs.bppfnd(di);
+                    flsf nfwExtfnsion.bppfnd(di);
+                    brfbk;
+                dffbult:
+                    if (nfwStrfngti == UNSET) {
+                        tirow nfw PbrsfExdfption
+                            ("missing dibr (=,;<&) : " +
+                             pbttfrn.substring(i,
+                                (i+10 < pbttfrn.lfngti()) ?
+                                 i+10 : pbttfrn.lfngti()),
                              i);
                     }
-                    if (PatternEntry.isSpecialChar(ch) && (inQuote == false))
-                        throw new ParseException
-                            ("Unquoted punctuation character : " + Integer.toString(ch, 16), i);
-                    if (inChars) {
-                        newChars.append(ch);
-                    } else {
-                        newExtension.append(ch);
+                    if (PbttfrnEntry.isSpfdiblCibr(di) && (inQuotf == fblsf))
+                        tirow nfw PbrsfExdfption
+                            ("Unquotfd pundtubtion dibrbdtfr : " + Intfgfr.toString(di, 16), i);
+                    if (inCibrs) {
+                        nfwCibrs.bppfnd(di);
+                    } flsf {
+                        nfwExtfnsion.bppfnd(di);
                     }
-                    break;
+                    brfbk;
                 }
                 i++;
             }
-            if (newStrength == UNSET)
-                return null;
-            if (newChars.length() == 0) {
-                throw new ParseException
-                    ("missing chars (=,;<&): " +
-                      pattern.substring(i,
-                          (i+10 < pattern.length()) ?
-                           i+10 : pattern.length()),
+            if (nfwStrfngti == UNSET)
+                rfturn null;
+            if (nfwCibrs.lfngti() == 0) {
+                tirow nfw PbrsfExdfption
+                    ("missing dibrs (=,;<&): " +
+                      pbttfrn.substring(i,
+                          (i+10 < pbttfrn.lfngti()) ?
+                           i+10 : pbttfrn.lfngti()),
                      i);
             }
 
-            return new PatternEntry(newStrength, newChars, newExtension);
+            rfturn nfw PbttfrnEntry(nfwStrfngti, nfwCibrs, nfwExtfnsion);
         }
 
-        // We re-use these objects in order to improve performance
-        private StringBuffer newChars = new StringBuffer();
-        private StringBuffer newExtension = new StringBuffer();
+        // Wf rf-usf tifsf objfdts in ordfr to improvf pfrformbndf
+        privbtf StringBufffr nfwCibrs = nfw StringBufffr();
+        privbtf StringBufffr nfwExtfnsion = nfw StringBufffr();
 
     }
 
-    static boolean isSpecialChar(char ch) {
-        return ((ch == '\u0020') ||
-                ((ch <= '\u002F') && (ch >= '\u0022')) ||
-                ((ch <= '\u003F') && (ch >= '\u003A')) ||
-                ((ch <= '\u0060') && (ch >= '\u005B')) ||
-                ((ch <= '\u007E') && (ch >= '\u007B')));
+    stbtid boolfbn isSpfdiblCibr(dibr di) {
+        rfturn ((di == '\u0020') ||
+                ((di <= '\u002F') && (di >= '\u0022')) ||
+                ((di <= '\u003F') && (di >= '\u003A')) ||
+                ((di <= '\u0060') && (di >= '\u005B')) ||
+                ((di <= '\u007E') && (di >= '\u007B')));
     }
 
 
-    static final int RESET = -2;
-    static final int UNSET = -1;
+    stbtid finbl int RESET = -2;
+    stbtid finbl int UNSET = -1;
 
-    int strength = UNSET;
-    String chars = "";
-    String extension = "";
+    int strfngti = UNSET;
+    String dibrs = "";
+    String fxtfnsion = "";
 }

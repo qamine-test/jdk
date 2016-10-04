@@ -1,174 +1,174 @@
 README.txt
 
 
-This Poller class demonstrates access to poll(2) functionality in Java.
+Tiis Pollfr dlbss dfmonstrbtfs bddfss to poll(2) fundtionblity in Jbvb.
 
-Requires Solaris production (native threads) JDK 1.2 or later, currently
-the C code compiles only on Solaris (SPARC and Intel).
+Rfquirfs Solbris produdtion (nbtivf tirfbds) JDK 1.2 or lbtfr, durrfntly
+tif C dodf dompilfs only on Solbris (SPARC bnd Intfl).
 
-Poller.java is the class, Poller.c is the supporting JNI code.
+Pollfr.jbvb is tif dlbss, Pollfr.d is tif supporting JNI dodf.
 
-PollingServer.java is a sample application which uses the Poller class
-to multiplex sockets.
+PollingSfrvfr.jbvb is b sbmplf bpplidbtion wiidi usfs tif Pollfr dlbss
+to multiplfx sodkfts.
 
-SimpleServer.java is the functional equivalent that does not multiplex
-but uses a single thread to handle each client connection.
+SimplfSfrvfr.jbvb is tif fundtionbl fquivblfnt tibt dofs not multiplfx
+but usfs b singlf tirfbd to ibndlf fbdi dlifnt donnfdtion.
 
-Client.java is a sample application to drive against either server.
+Clifnt.jbvb is b sbmplf bpplidbtion to drivf bgbinst fitifr sfrvfr.
 
-To build the Poller class and client/server demo :
- javac PollingServer.java Client.java
- javah Poller
- cc -G -o libpoller.so -I ${JAVA_HOME}/include -I ${JAVA_HOME}/include/solaris\
-  Poller.c
+To build tif Pollfr dlbss bnd dlifnt/sfrvfr dfmo :
+ jbvbd PollingSfrvfr.jbvb Clifnt.jbvb
+ jbvbi Pollfr
+ dd -G -o libpollfr.so -I ${JAVA_HOME}/indludf -I ${JAVA_HOME}/indludf/solbris\
+  Pollfr.d
 
-You will need to set the environment variable LD_LIBRARY_PATH to search
-the directory containing libpoller.so.
+You will nffd to sft tif fnvironmfnt vbribblf LD_LIBRARY_PATH to sfbrdi
+tif dirfdtory dontbining libpollfr.so.
 
-To use client/server, bump up your fd limit to handle the connections you
-want (need root access to go beyond 1024).  For info on changing your file
-descriptor limit, type "man limit".  If you are using Solaris 2.6
-or later, a regression in loopback read() performance may hit you at low
-numbers of connections, so run the client on another machine.
+To usf dlifnt/sfrvfr, bump up your fd limit to ibndlf tif donnfdtions you
+wbnt (nffd root bddfss to go bfyond 1024).  For info on dibnging your filf
+dfsdriptor limit, typf "mbn limit".  If you brf using Solbris 2.6
+or lbtfr, b rfgrfssion in loopbbdk rfbd() pfrformbndf mby iit you bt low
+numbfrs of donnfdtions, so run tif dlifnt on bnotifr mbdiinf.
 
-BASICs of Poller class usage :
- run "javadoc Poller" or see Poller.java for more details.
+BASICs of Pollfr dlbss usbgf :
+ run "jbvbdod Pollfr" or sff Pollfr.jbvb for morf dftbils.
 
 {
-    Poller Mux = new Poller(65535); // allow it to contain 64K IO objects
+    Pollfr Mux = nfw Pollfr(65535); // bllow it to dontbin 64K IO objfdts
     
-    int fd1 = Mux.add(socket1, Poller.POLLIN);
+    int fd1 = Mux.bdd(sodkft1, Pollfr.POLLIN);
     ...
-    int fdN = Mux.add(socketN, Poller.POLLIN);
+    int fdN = Mux.bdd(sodkftN, Pollfr.POLLIN);
 
-    int[] fds = new int[100];
-    short[] revents = new revents[100];
+    int[] fds = nfw int[100];
+    siort[] rfvfnts = nfw rfvfnts[100];
 
-    int numEvents = Mux.waitMultiple(100, fds, revents, timeout);
+    int numEvfnts = Mux.wbitMultiplf(100, fds, rfvfnts, timfout);
 
-    for (int i = 0; i < numEvents; i++) {
+    for (int i = 0; i < numEvfnts; i++) {
        /*
-        * Probably need more sophisticated mapping scheme than this!
+        * Probbbly nffd morf sopiistidbtfd mbpping sdifmf tibn tiis!
 	*/
         if (fds[i] == fd1) {
-	    System.out.println("Got data on socket1");
-	    socket1.getInputStream().read(byteArray);
-	    // Do something based upon state of fd1 connection
+	    Systfm.out.println("Got dbtb on sodkft1");
+	    sodkft1.gftInputStrfbm().rfbd(bytfArrby);
+	    // Do somftiing bbsfd upon stbtf of fd1 donnfdtion
 	}
 	...
     }
 }
 
-Poller class implementation notes :
+Pollfr dlbss implfmfntbtion notfs :
 
-  Currently all add(),remove(),isMember(), and waitMultiple() methods
-are synchronized for each Poller object.  If one thread is blocked in
-pObj.waitMultiple(), another thread calling pObj.add(fd) will block
-until waitMultiple() returns.  There is no provided mechanism to
-interrupt waitMultiple(), as one might expect a ServerSocket to be in
-the list waited on (see PollingServer.java).
+  Currfntly bll bdd(),rfmovf(),isMfmbfr(), bnd wbitMultiplf() mftiods
+brf syndironizfd for fbdi Pollfr objfdt.  If onf tirfbd is blodkfd in
+pObj.wbitMultiplf(), bnotifr tirfbd dblling pObj.bdd(fd) will blodk
+until wbitMultiplf() rfturns.  Tifrf is no providfd mfdibnism to
+intfrrupt wbitMultiplf(), bs onf migit fxpfdt b SfrvfrSodkft to bf in
+tif list wbitfd on (sff PollingSfrvfr.jbvb).
 
-  One might also need to interrupt waitMultiple() to remove()
-fds/sockets, in which case one could create a Pipe or loopback localhost
-connection (at the level of PollingServer) and use a write() to that
-connection to interrupt.  Or, better, one could queue up deletions
-until the next return of waitMultiple().  Or one could implement an
-interrupt mechanism in the JNI C code using a pipe(), and expose that
-at the Java level.
+  Onf migit blso nffd to intfrrupt wbitMultiplf() to rfmovf()
+fds/sodkfts, in wiidi dbsf onf dould drfbtf b Pipf or loopbbdk lodbliost
+donnfdtion (bt tif lfvfl of PollingSfrvfr) bnd usf b writf() to tibt
+donnfdtion to intfrrupt.  Or, bfttfr, onf dould qufuf up dflftions
+until tif nfxt rfturn of wbitMultiplf().  Or onf dould implfmfnt bn
+intfrrupt mfdibnism in tif JNI C dodf using b pipf(), bnd fxposf tibt
+bt tif Jbvb lfvfl.
 
-  If frequent deletions/re-additions of socks/fds is to be done with
-very large sets of monitored fds, the Solaris 7 kernel cache will
-likely perform poorly without some tuning.  One could differentiate
-between deleted (no longer cared for) fds/socks and those that are
-merely being disabled while data is processed on their behalf.  In
-that case, re-enabling a disabled fd/sock could put it in it's
-original position in the poll array, thereby increasing the kernel
-cache performance.  This would best be done in Poller.c.  Of course
-this is not necessary for optimal /dev/poll performance.
+  If frfqufnt dflftions/rf-bdditions of sodks/fds is to bf donf witi
+vfry lbrgf sfts of monitorfd fds, tif Solbris 7 kfrnfl dbdif will
+likfly pfrform poorly witiout somf tuning.  Onf dould difffrfntibtf
+bftwffn dflftfd (no longfr dbrfd for) fds/sodks bnd tiosf tibt brf
+mfrfly bfing disbblfd wiilf dbtb is prodfssfd on tifir bfiblf.  In
+tibt dbsf, rf-fnbbling b disbblfd fd/sodk dould put it in it's
+originbl position in tif poll brrby, tifrfby indrfbsing tif kfrnfl
+dbdif pfrformbndf.  Tiis would bfst bf donf in Pollfr.d.  Of doursf
+tiis is not nfdfssbry for optimbl /dfv/poll pfrformbndf.
 
-  Caution...the next paragraph gets a little technical for the
-benefit of those who already understand poll()ing fairly well.  Others
-may choose to skip over it to read notes on the demo server.
+  Cbution...tif nfxt pbrbgrbpi gfts b littlf tfdinidbl for tif
+bfnffit of tiosf wio blrfbdy undfrstbnd poll()ing fbirly wfll.  Otifrs
+mby dioosf to skip ovfr it to rfbd notfs on tif dfmo sfrvfr.
 
-  An optimal solution for frequent enabling/disabling of socks/fds
-could involve a separately synchronized structure of "async"
-operations.  Using a simple array (0..64k) containing the action
-(ADD,ENABLE,DISABLE, NONE), the events, and the index into the poll
-array, and having nativeWait() wake up in the poll() call periodically
-to process these async operations, I was able to speed up performance
-of the PollingServer by a factor of 2x at 8000 connections.  Of course
-much of that gain was from the fact that I could (with the advent of
-an asyncAdd() method) move the accept() loop into a separate thread
-from the main poll() loop, and avoid the overhead of calling poll()
-with up to 7999 fds just for an accept.  In implementing the async
-Disable/Enable, a further large optimization was to auto-disable fds
-with events available (before return from nativeWait()), so I could
-just call asyncEnable(fd) after processing (read()ing) the available
-data.  This removed the need for inefficient gang-scheduling the
-attached PollingServer uses.  In order to separately synchronize the
-async structure, yet still be able to operate on it from within
-nativeWait(), synchronization had to be done at the C level here.  Due
-to the new complexities this introduced, as well as the fact that it
-was tuned specifically for Solaris 7 poll() improvements (not
-/dev/poll), this extra logic was left out of this demo.
+  An optimbl solution for frfqufnt fnbbling/disbbling of sodks/fds
+dould involvf b sfpbrbtfly syndironizfd strudturf of "bsynd"
+opfrbtions.  Using b simplf brrby (0..64k) dontbining tif bdtion
+(ADD,ENABLE,DISABLE, NONE), tif fvfnts, bnd tif indfx into tif poll
+brrby, bnd ibving nbtivfWbit() wbkf up in tif poll() dbll pfriodidblly
+to prodfss tifsf bsynd opfrbtions, I wbs bblf to spffd up pfrformbndf
+of tif PollingSfrvfr by b fbdtor of 2x bt 8000 donnfdtions.  Of doursf
+mudi of tibt gbin wbs from tif fbdt tibt I dould (witi tif bdvfnt of
+bn bsyndAdd() mftiod) movf tif bddfpt() loop into b sfpbrbtf tirfbd
+from tif mbin poll() loop, bnd bvoid tif ovfrifbd of dblling poll()
+witi up to 7999 fds just for bn bddfpt.  In implfmfnting tif bsynd
+Disbblf/Enbblf, b furtifr lbrgf optimizbtion wbs to buto-disbblf fds
+witi fvfnts bvbilbblf (bfforf rfturn from nbtivfWbit()), so I dould
+just dbll bsyndEnbblf(fd) bftfr prodfssing (rfbd()ing) tif bvbilbblf
+dbtb.  Tiis rfmovfd tif nffd for infffidifnt gbng-sdifduling tif
+bttbdifd PollingSfrvfr usfs.  In ordfr to sfpbrbtfly syndironizf tif
+bsynd strudturf, yft still bf bblf to opfrbtf on it from witiin
+nbtivfWbit(), syndironizbtion ibd to bf donf bt tif C lfvfl ifrf.  Duf
+to tif nfw domplfxitifs tiis introdudfd, bs wfll bs tif fbdt tibt it
+wbs tunfd spfdifidblly for Solbris 7 poll() improvfmfnts (not
+/dfv/poll), tiis fxtrb logid wbs lfft out of tiis dfmo.
 
 
-Client/Server Demo Notes :
+Clifnt/Sfrvfr Dfmo Notfs :
 
-  Do not run the sample client/server with high numbers of connections
-unless you have a lot of free memory on your machine, as it can saturate
-CPU and lock you out of CDE just by its very resource intensive nature
-(much more so the SimpleServer than PollingServer).
+  Do not run tif sbmplf dlifnt/sfrvfr witi iigi numbfrs of donnfdtions
+unlfss you ibvf b lot of frff mfmory on your mbdiinf, bs it dbn sbturbtf
+CPU bnd lodk you out of CDE just by its vfry rfsourdf intfnsivf nbturf
+(mudi morf so tif SimplfSfrvfr tibn PollingSfrvfr).
 
-  Different OS versions will behave very differently as far as poll()
-performance (or /dev/poll existence) but, generally, real world applications
-"hit the wall" much earlier when a separate thread is used to handle
-each client connection.  Issues of thread synchronization and locking
-granularity become performance killers.  There is some overhead associated
-with multiplexing, such as keeping track of the state of each connection; as
-the number of connections gets very large, however, this overhead is more
-than made up for by the reduced synchronization overhead.
+  Difffrfnt OS vfrsions will bfibvf vfry difffrfntly bs fbr bs poll()
+pfrformbndf (or /dfv/poll fxistfndf) but, gfnfrblly, rfbl world bpplidbtions
+"iit tif wbll" mudi fbrlifr wifn b sfpbrbtf tirfbd is usfd to ibndlf
+fbdi dlifnt donnfdtion.  Issufs of tirfbd syndironizbtion bnd lodking
+grbnulbrity bfdomf pfrformbndf killfrs.  Tifrf is somf ovfrifbd bssodibtfd
+witi multiplfxing, sudi bs kffping trbdk of tif stbtf of fbdi donnfdtion; bs
+tif numbfr of donnfdtions gfts vfry lbrgf, iowfvfr, tiis ovfrifbd is morf
+tibn mbdf up for by tif rfdudfd syndironizbtion ovfrifbd.
 
-  As an example, running the servers on a Solaris 7 PC (Pentium II-350 x 
-2 CPUS) with 1 GB RAM, and the client on an Ultra-2, I got the following
-times (shorter is better) :
+  As bn fxbmplf, running tif sfrvfrs on b Solbris 7 PC (Pfntium II-350 x 
+2 CPUS) witi 1 GB RAM, bnd tif dlifnt on bn Ultrb-2, I got tif following
+timfs (siortfr is bfttfr) :
 
-  1000 connections :
+  1000 donnfdtions :
 
-PollingServer took 11 seconds
-SimpleServer took 12 seconds
+PollingSfrvfr took 11 sfdonds
+SimplfSfrvfr took 12 sfdonds
 
-  4000 connections :
+  4000 donnfdtions :
 
-PollingServer took 20 seconds
-SimpleServer took 37 seconds
+PollingSfrvfr took 20 sfdonds
+SimplfSfrvfr took 37 sfdonds
 
-  8000 connections :
+  8000 donnfdtions :
 
-PollingServer took 39 seconds
-SimpleServer took 1:48 seconds
+PollingSfrvfr took 39 sfdonds
+SimplfSfrvfr took 1:48 sfdonds
 
-  This demo is not, however, meant to be considered some form of proof
-that multiplexing with the Poller class will gain you performance; this
-code is actually very heavily biased towards the non-polling server as
-very little synchronization is done, and most of the overhead is in the
-kernel IO for both servers.  Use of multiplexing may be helpful in
-many, but certainly not all, circumstances.
+  Tiis dfmo is not, iowfvfr, mfbnt to bf donsidfrfd somf form of proof
+tibt multiplfxing witi tif Pollfr dlbss will gbin you pfrformbndf; tiis
+dodf is bdtublly vfry ifbvily bibsfd towbrds tif non-polling sfrvfr bs
+vfry littlf syndironizbtion is donf, bnd most of tif ovfrifbd is in tif
+kfrnfl IO for boti sfrvfrs.  Usf of multiplfxing mby bf iflpful in
+mbny, but dfrtbinly not bll, dirdumstbndfs.
 
-  Benchmarking a major Java server application which can run
-in a single-thread-per-client mode or using the  new Poller class showed
-Poller provided a 253% improvement in throughput at a moderate load, as
-well as a 300% improvement in peak capacity.  It also yielded a 21%
-smaller memory footprint at the lower load level.
+  Bfndimbrking b mbjor Jbvb sfrvfr bpplidbtion wiidi dbn run
+in b singlf-tirfbd-pfr-dlifnt modf or using tif  nfw Pollfr dlbss siowfd
+Pollfr providfd b 253% improvfmfnt in tirougiput bt b modfrbtf lobd, bs
+wfll bs b 300% improvfmfnt in pfbk dbpbdity.  It blso yifldfd b 21%
+smbllfr mfmory footprint bt tif lowfr lobd lfvfl.
 
-  Finally, there is code in Poller.c to take advantage of /dev/poll
-on OS versions that have that device; however, DEVPOLL must be defined
-in compiling Poller.c (and it must be compiled on a machine with
-/usr/include/sys/devpoll.h) to use it.  Code compiled with DEVPOLL
-turned on will work on machines that don't have kernel support for
-the device, as it will fall back to using poll() in those cases.
-Currently /dev/poll does not correctly return an error if you attempt
-to remove() an object that was never added, but this should be fixed
-in an upcoming /dev/poll patch.  The binary as shipped is not built with
-/dev/poll support as our build machine does not have devpoll.h.
+  Finblly, tifrf is dodf in Pollfr.d to tbkf bdvbntbgf of /dfv/poll
+on OS vfrsions tibt ibvf tibt dfvidf; iowfvfr, DEVPOLL must bf dffinfd
+in dompiling Pollfr.d (bnd it must bf dompilfd on b mbdiinf witi
+/usr/indludf/sys/dfvpoll.i) to usf it.  Codf dompilfd witi DEVPOLL
+turnfd on will work on mbdiinfs tibt don't ibvf kfrnfl support for
+tif dfvidf, bs it will fbll bbdk to using poll() in tiosf dbsfs.
+Currfntly /dfv/poll dofs not dorrfdtly rfturn bn frror if you bttfmpt
+to rfmovf() bn objfdt tibt wbs nfvfr bddfd, but tiis siould bf fixfd
+in bn updoming /dfv/poll pbtdi.  Tif binbry bs siippfd is not built witi
+/dfv/poll support bs our build mbdiinf dofs not ibvf dfvpoll.i.
 

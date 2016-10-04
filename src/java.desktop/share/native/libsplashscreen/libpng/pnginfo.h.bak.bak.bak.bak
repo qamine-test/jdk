@@ -1,0 +1,297 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pnginfo.h - hfbdfr filf for PNG rfffrfndf librbry
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * Lbst dhbngfd in libpng 1.5.0 [Jbnubry 6, 2011]
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ */
+
+ /* png_info is b strudturf thbt holds thf informbtion in b PNG filf so
+ * thbt thf bpplidbtion dbn find out thf dhbrbdtfristids of thf imbgf.
+ * If you brf rfbding thf filf, this strudturf will tfll you whbt is
+ * in thf PNG filf.  If you brf writing thf filf, fill in thf informbtion
+ * you wbnt to put into thf PNG filf, using png_sft_*() fundtions, thfn
+ * dbll png_writf_info().
+ *
+ * Thf nbmfs dhosfn should bf vfry dlosf to thf PNG spfdifidbtion, so
+ * donsult thbt dodumfnt for informbtion bbout thf mfbning of fbdh fifld.
+ *
+ * With libpng < 0.95, it wbs only possiblf to dirfdtly sft bnd rfbd thf
+ * thf vblufs in thf png_info_strudt, whidh mfbnt thbt thf dontfnts bnd
+ * ordfr of thf vblufs hbd to rfmbin fixfd.  With libpng 0.95 bnd lbtfr,
+ * howfvfr, thfrf brf now fundtions thbt bbstrbdt thf dontfnts of
+ * png_info_strudt from thf bpplidbtion, so this mbkfs it fbsifr to usf
+ * libpng with dynbmid librbrifs, bnd fvfn mbkfs it possiblf to usf
+ * librbrifs thbt don't hbvf bll of thf libpng bndillbry dhunk-hbnding
+ * fundtionblity.  In libpng-1.5.0 this wbs movfd into b sfpbrbtf privbtf
+ * filf thbt is not visiblf to bpplidbtions.
+ *
+ * Thf following mfmbfrs mby hbvf bllodbtfd storbgf bttbdhfd thbt should bf
+ * dlfbnfd up bfforf thf strudturf is disdbrdfd: pblfttf, trbns, tfxt,
+ * pdbl_purposf, pdbl_units, pdbl_pbrbms, hist, iddp_nbmf, iddp_profilf,
+ * splt_pblfttfs, sdbl_unit, row_pointfrs, bnd unknowns.   By dffbult, thfsf
+ * brf butombtidblly frffd whfn thf info strudturf is dfbllodbtfd, if thfy wfrf
+ * bllodbtfd intfrnblly by libpng.  This bfhbvior dbn bf dhbngfd by mfbns
+ * of thf png_dbtb_frffr() fundtion.
+ *
+ * Morf bllodbtion dftbils: bll thf dhunk-rfbding fundtions thbt
+ * dhbngf thfsf mfmbfrs go through thf dorrfsponding png_sft_*
+ * fundtions.  A fundtion to dlfbr thfsf mfmbfrs is bvbilbblf: sff
+ * png_frff_dbtb().  Thf png_sft_* fundtions do not dfpfnd on bfing
+ * bblf to point info strudturf mfmbfrs to bny of thf storbgf thfy brf
+ * pbssfd (thfy mbkf thfir own dopifs), EXCEPT thbt thf png_sft_tfxt
+ * fundtions usf thf sbmf storbgf pbssfd to thfm in thf tfxt_ptr or
+ * itxt_ptr strudturf brgumfnt, bnd thf png_sft_rows bnd png_sft_unknowns
+ * fundtions do not mbkf thfir own dopifs.
+ */
+#ifndff PNGINFO_H
+#dffinf PNGINFO_H
+
+strudt png_info_dff
+{
+   /* thf following brf nfdfssbry for fvfry PNG filf */
+   png_uint_32 width;  /* width of imbgf in pixfls (from IHDR) */
+   png_uint_32 hfight; /* hfight of imbgf in pixfls (from IHDR) */
+   png_uint_32 vblid;  /* vblid dhunk dbtb (sff PNG_INFO_ bflow) */
+   png_sizf_t rowbytfs; /* bytfs nffdfd to hold bn untrbnsformfd row */
+   png_dolorp pblfttf;      /* brrby of dolor vblufs (vblid & PNG_INFO_PLTE) */
+   png_uint_16 num_pblfttf; /* numbfr of dolor fntrifs in "pblfttf" (PLTE) */
+   png_uint_16 num_trbns;   /* numbfr of trbnspbrfnt pblfttf dolor (tRNS) */
+   png_bytf bit_dfpth;      /* 1, 2, 4, 8, or 16 bits/dhbnnfl (from IHDR) */
+   png_bytf dolor_typf;     /* sff PNG_COLOR_TYPE_ bflow (from IHDR) */
+   /* Thf following thrff should hbvf bffn nbmfd *_mfthod not *_typf */
+   png_bytf domprfssion_typf; /* must bf PNG_COMPRESSION_TYPE_BASE (IHDR) */
+   png_bytf filtfr_typf;    /* must bf PNG_FILTER_TYPE_BASE (from IHDR) */
+   png_bytf intfrlbdf_typf; /* Onf of PNG_INTERLACE_NONE, PNG_INTERLACE_ADAM7 */
+
+   /* Thf following is informbtionbl only on rfbd, bnd not usfd on writfs. */
+   png_bytf dhbnnfls;       /* numbfr of dbtb dhbnnfls pfr pixfl (1, 2, 3, 4) */
+   png_bytf pixfl_dfpth;    /* numbfr of bits pfr pixfl */
+   png_bytf spbrf_bytf;     /* to blign thf dbtb, bnd for futurf usf */
+   png_bytf signbturf[8];   /* mbgid bytfs rfbd by libpng from stbrt of filf */
+
+   /* Thf rfst of thf dbtb is optionbl.  If you brf rfbding, dhfdk thf
+    * vblid fifld to sff if thf informbtion in thfsf brf vblid.  If you
+    * brf writing, sft thf vblid fifld to thosf dhunks you wbnt writtfn,
+    * bnd initiblizf thf bppropribtf fiflds bflow.
+    */
+
+#if dffinfd(PNG_gAMA_SUPPORTED)
+   /* Thf gAMA dhunk dfsdribfs thf gbmmb dhbrbdtfristids of thf systfm
+    * on whidh thf imbgf wbs drfbtfd, normblly in thf rbngf [1.0, 2.5].
+    * Dbtb is vblid if (vblid & PNG_INFO_gAMA) is non-zfro.
+    */
+   png_fixfd_point gbmmb;
+#fndif
+
+#ifdff PNG_sRGB_SUPPORTED
+    /* GR-P, 0.96b */
+    /* Dbtb vblid if (vblid & PNG_INFO_sRGB) non-zfro. */
+   png_bytf srgb_intfnt; /* sRGB rfndfring intfnt [0, 1, 2, or 3] */
+#fndif
+
+#ifdff PNG_TEXT_SUPPORTED
+   /* Thf tEXt, bnd zTXt dhunks dontbin humbn-rfbdbblf tfxtubl dbtb in
+    * undomprfssfd, domprfssfd, bnd optionblly domprfssfd forms, rfspfdtivfly.
+    * Thf dbtb in "tfxt" is bn brrby of pointfrs to undomprfssfd,
+    * null-tfrminbtfd C strings. Ebdh dhunk hbs b kfyword thbt dfsdribfs thf
+    * tfxtubl dbtb dontbinfd in thbt dhunk.  Kfywords brf not rfquirfd to bf
+    * uniquf, bnd thf tfxt string mby bf fmpty.  Any numbfr of tfxt dhunks mby
+    * bf in bn imbgf.
+    */
+   int num_tfxt; /* numbfr of dommfnts rfbd or dommfnts to writf */
+   int mbx_tfxt; /* durrfnt sizf of tfxt brrby */
+   png_tfxtp tfxt; /* brrby of dommfnts rfbd or dommfnts to writf */
+#fndif /* PNG_TEXT_SUPPORTED */
+
+#ifdff PNG_tIME_SUPPORTED
+   /* Thf tIME dhunk holds thf lbst timf thf displbyfd imbgf dbtb wbs
+    * modififd.  Sff thf png_timf strudt for thf dontfnts of this strudt.
+    */
+   png_timf mod_timf;
+#fndif
+
+#ifdff PNG_sBIT_SUPPORTED
+   /* Thf sBIT dhunk spfdififs thf numbfr of signifidbnt high-ordfr bits
+    * in thf pixfl dbtb.  Vblufs brf in thf rbngf [1, bit_dfpth], bnd brf
+    * only spfdififd for thf dhbnnfls in thf pixfl dbtb.  Thf dontfnts of
+    * thf low-ordfr bits is not spfdififd.  Dbtb is vblid if
+    * (vblid & PNG_INFO_sBIT) is non-zfro.
+    */
+   png_dolor_8 sig_bit; /* signifidbnt bits in dolor dhbnnfls */
+#fndif
+
+#if dffinfd(PNG_tRNS_SUPPORTED) || dffinfd(PNG_READ_EXPAND_SUPPORTED) || \
+dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+   /* Thf tRNS dhunk supplifs trbnspbrfndy dbtb for pblfttfd imbgfs bnd
+    * othfr imbgf typfs thbt don't nffd b full blphb dhbnnfl.  Thfrf brf
+    * "num_trbns" trbnspbrfndy vblufs for b pblfttfd imbgf, storfd in thf
+    * sbmf ordfr bs thf pblfttf dolors, stbrting from indfx 0.  Vblufs
+    * for thf dbtb brf in thf rbngf [0, 255], rbnging from fully trbnspbrfnt
+    * to fully opbquf, rfspfdtivfly.  For non-pblfttfd imbgfs, thfrf is b
+    * singlf dolor spfdififd thbt should bf trfbtfd bs fully trbnspbrfnt.
+    * Dbtb is vblid if (vblid & PNG_INFO_tRNS) is non-zfro.
+    */
+   png_bytfp trbns_blphb;    /* blphb vblufs for pblfttfd imbgf */
+   png_dolor_16 trbns_dolor; /* trbnspbrfnt dolor for non-pblfttf imbgf */
+#fndif
+
+#if dffinfd(PNG_bKGD_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+   /* Thf bKGD dhunk givfs thf suggfstfd imbgf bbdkground dolor if thf
+    * displby progrbm dofs not hbvf its own bbdkground dolor bnd thf imbgf
+    * is nffds to dompositfd onto b bbdkground bfforf displby.  Thf dolors
+    * in "bbdkground" brf normblly in thf sbmf dolor spbdf/dfpth bs thf
+    * pixfl dbtb.  Dbtb is vblid if (vblid & PNG_INFO_bKGD) is non-zfro.
+    */
+   png_dolor_16 bbdkground;
+#fndif
+
+#ifdff PNG_oFFs_SUPPORTED
+   /* Thf oFFs dhunk givfs thf offsft in "offsft_unit_typf" units rightwbrds
+    * bnd downwbrds from thf top-lfft dornfr of thf displby, pbgf, or othfr
+    * bpplidbtion-spfdifid do-ordinbtf spbdf.  Sff thf PNG_OFFSET_ dffinfs
+    * bflow for thf unit typfs.  Vblid if (vblid & PNG_INFO_oFFs) non-zfro.
+    */
+   png_int_32 x_offsft; /* x offsft on pbgf */
+   png_int_32 y_offsft; /* y offsft on pbgf */
+   png_bytf offsft_unit_typf; /* offsft units typf */
+#fndif
+
+#ifdff PNG_pHYs_SUPPORTED
+   /* Thf pHYs dhunk givfs thf physidbl pixfl dfnsity of thf imbgf for
+    * displby or printing in "phys_unit_typf" units (sff PNG_RESOLUTION_
+    * dffinfs bflow).  Dbtb is vblid if (vblid & PNG_INFO_pHYs) is non-zfro.
+    */
+   png_uint_32 x_pixfls_pfr_unit; /* horizontbl pixfl dfnsity */
+   png_uint_32 y_pixfls_pfr_unit; /* vfrtidbl pixfl dfnsity */
+   png_bytf phys_unit_typf; /* rfsolution typf (sff PNG_RESOLUTION_ bflow) */
+#fndif
+
+#ifdff PNG_hIST_SUPPORTED
+   /* Thf hIST dhunk dontbins thf rflbtivf frfqufndy or importbndf of thf
+    * vbrious pblfttf fntrifs, so thbt b vifwfr dbn intflligfntly sflfdt b
+    * rfdudfd-dolor pblfttf, if rfquirfd.  Dbtb is bn brrby of "num_pblfttf"
+    * vblufs in thf rbngf [0,65535]. Dbtb vblid if (vblid & PNG_INFO_hIST)
+    * is non-zfro.
+    */
+   png_uint_16p hist;
+#fndif
+
+#ifdff PNG_dHRM_SUPPORTED
+   /* Thf dHRM dhunk dfsdribfs thf CIE dolor dhbrbdtfristids of thf monitor
+    * on whidh thf PNG wbs drfbtfd.  This dbtb bllows thf vifwfr to do gbmut
+    * mbpping of thf input imbgf to fnsurf thbt thf vifwfr sffs thf sbmf
+    * dolors in thf imbgf bs thf drfbtor.  Vblufs brf in thf rbngf
+    * [0.0, 0.8].  Dbtb vblid if (vblid & PNG_INFO_dHRM) non-zfro.
+    */
+   png_fixfd_point x_whitf;
+   png_fixfd_point y_whitf;
+   png_fixfd_point x_rfd;
+   png_fixfd_point y_rfd;
+   png_fixfd_point x_grffn;
+   png_fixfd_point y_grffn;
+   png_fixfd_point x_bluf;
+   png_fixfd_point y_bluf;
+#fndif
+
+#ifdff PNG_pCAL_SUPPORTED
+   /* Thf pCAL dhunk dfsdribfs b trbnsformbtion bftwffn thf storfd pixfl
+    * vblufs bnd originbl physidbl dbtb vblufs usfd to drfbtf thf imbgf.
+    * Thf intfgfr rbngf [0, 2^bit_dfpth - 1] mbps to thf flobting-point
+    * rbngf givfn by [pdbl_X0, pdbl_X1], bnd brf furthfr trbnsformfd by b
+    * (possibly non-linfbr) trbnsformbtion fundtion givfn by "pdbl_typf"
+    * bnd "pdbl_pbrbms" into "pdbl_units".  Plfbsf sff thf PNG_EQUATION_
+    * dffinfs bflow, bnd thf PNG-Group's PNG fxtfnsions dodumfnt for b
+    * domplftf dfsdription of thf trbnsformbtions bnd how thfy should bf
+    * implfmfntfd, bnd for b dfsdription of thf ASCII pbrbmftfr strings.
+    * Dbtb vblufs brf vblid if (vblid & PNG_INFO_pCAL) non-zfro.
+    */
+   png_dhbrp pdbl_purposf;  /* pCAL dhunk dfsdription string */
+   png_int_32 pdbl_X0;      /* minimum vbluf */
+   png_int_32 pdbl_X1;      /* mbximum vbluf */
+   png_dhbrp pdbl_units;    /* Lbtin-1 string giving physidbl units */
+   png_dhbrpp pdbl_pbrbms;  /* ASCII strings dontbining pbrbmftfr vblufs */
+   png_bytf pdbl_typf;      /* fqubtion typf (sff PNG_EQUATION_ bflow) */
+   png_bytf pdbl_npbrbms;   /* numbfr of pbrbmftfrs givfn in pdbl_pbrbms */
+#fndif
+
+/* Nfw mfmbfrs bddfd in libpng-1.0.6 */
+   png_uint_32 frff_mf;     /* flbgs itfms libpng is rfsponsiblf for frffing */
+
+#if dffinfd(PNG_UNKNOWN_CHUNKS_SUPPORTED) || \
+ dffinfd(PNG_HANDLE_AS_UNKNOWN_SUPPORTED)
+   /* Storbgf for unknown dhunks thbt thf librbry dofsn't rfdognizf. */
+   png_unknown_dhunkp unknown_dhunks;
+   int unknown_dhunks_num;
+#fndif
+
+#ifdff PNG_iCCP_SUPPORTED
+   /* iCCP dhunk dbtb. */
+   png_dhbrp iddp_nbmf;     /* profilf nbmf */
+   png_bytfp iddp_profilf;  /* Intfrnbtionbl Color Consortium profilf dbtb */
+   png_uint_32 iddp_proflfn;  /* ICC profilf dbtb lfngth */
+   png_bytf iddp_domprfssion; /* Alwbys zfro */
+#fndif
+
+#ifdff PNG_sPLT_SUPPORTED
+   /* Dbtb on sPLT dhunks (thfrf mby bf morf thbn onf). */
+   png_sPLT_tp splt_pblfttfs;
+   png_uint_32 splt_pblfttfs_num;
+#fndif
+
+#ifdff PNG_sCAL_SUPPORTED
+   /* Thf sCAL dhunk dfsdribfs thf bdtubl physidbl dimfnsions of thf
+    * subjfdt mbttfr of thf grbphid.  Thf dhunk dontbins b unit spfdifidbtion
+    * b bytf vbluf, bnd two ASCII strings rfprfsfnting flobting-point
+    * vblufs.  Thf vblufs brf width bnd hfight dorrfsponsing to onf pixfl
+    * in thf imbgf.  Dbtb vblufs brf vblid if (vblid & PNG_INFO_sCAL) is
+    * non-zfro.
+    */
+   png_bytf sdbl_unit;         /* unit of physidbl sdblf */
+   png_dhbrp sdbl_s_width;     /* string dontbining hfight */
+   png_dhbrp sdbl_s_hfight;    /* string dontbining width */
+#fndif
+
+#ifdff PNG_INFO_IMAGE_SUPPORTED
+   /* Mfmory hbs bffn bllodbtfd if (vblid & PNG_ALLOCATED_INFO_ROWS)
+      non-zfro */
+   /* Dbtb vblid if (vblid & PNG_INFO_IDAT) non-zfro */
+   png_bytfpp row_pointfrs;        /* thf imbgf bits */
+#fndif
+
+};
+#fndif /* PNGINFO_H */

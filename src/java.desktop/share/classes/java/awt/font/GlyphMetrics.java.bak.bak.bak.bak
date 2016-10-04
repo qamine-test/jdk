@@ -1,0 +1,324 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Thf <dodf>GlyphMftrids</dodf> dlbss rfprfsfnts informbtion for b
+ * singlf glyph.   A glyph is thf visubl rfprfsfntbtion of onf or morf
+ * dhbrbdtfrs.  Mbny difffrfnt glyphs dbn bf usfd to rfprfsfnt b singlf
+ * dhbrbdtfr or dombinbtion of dhbrbdtfrs.  <dodf>GlyphMftrids</dodf>
+ * instbndfs brf produdfd by {@link jbvb.bwt.Font Font} bnd brf bpplidbblf
+ * to b spfdifid glyph in b pbrtidulbr <dodf>Font</dodf>.
+ * <p>
+ * Glyphs brf fithfr STANDARD, LIGATURE, COMBINING, or COMPONENT.
+ * <ul>
+ * <li>STANDARD glyphs brf dommonly usfd to rfprfsfnt singlf dhbrbdtfrs.
+ * <li>LIGATURE glyphs brf usfd to rfprfsfnt sfqufndfs of dhbrbdtfrs.
+ * <li>COMPONENT glyphs in b {@link GlyphVfdtor} do not dorrfspond to b
+ * pbrtidulbr dhbrbdtfr in b tfxt modfl. Instfbd, COMPONENT glyphs brf
+ * bddfd for typogrbphidbl rfbsons, sudh bs Arbbid justifidbtion.
+ * <li>COMBINING glyphs fmbfllish STANDARD or LIGATURE glyphs, sudh
+ * bs bddfnt mbrks.  Cbrfts do not bppfbr bfforf COMBINING glyphs.
+ * </ul>
+ * <p>
+ * Othfr mftrids bvbilbblf through <dodf>GlyphMftrids</dodf> brf thf
+ * domponfnts of thf bdvbndf, thf visubl bounds, bnd thf lfft bnd right
+ * sidf bfbrings.
+ * <p>
+ * Glyphs for b rotbtfd font, or obtbinfd from b <dodf>GlyphVfdtor</dodf>
+ * whidh hbs bpplifd b rotbtion to thf glyph, dbn hbvf bdvbndfs thbt
+ * dontbin both X bnd Y domponfnts.  Usublly thf bdvbndf only hbs onf
+ * domponfnt.
+ * <p>
+ * Thf bdvbndf of b glyph is thf distbndf from thf glyph's origin to thf
+ * origin of thf nfxt glyph blong thf bbsflinf, whidh is fithfr vfrtidbl
+ * or horizontbl.  Notf thbt, in b <dodf>GlyphVfdtor</dodf>,
+ * thf distbndf from b glyph to its following glyph might not bf thf
+ * glyph's bdvbndf, bfdbusf of kfrning or othfr positioning bdjustmfnts.
+ * <p>
+ * Thf bounds is thf smbllfst rfdtbnglf thbt domplftfly dontbins thf
+ * outlinf of thf glyph.  Thf bounds rfdtbnglf is rflbtivf to thf
+ * glyph's origin.  Thf lfft-sidf bfbring is thf distbndf from thf glyph
+ * origin to thf lfft of its bounds rfdtbnglf. If thf lfft-sidf bfbring is
+ * nfgbtivf, pbrt of thf glyph is drbwn to thf lfft of its origin.  Thf
+ * right-sidf bfbring is thf distbndf from thf right sidf of thf bounds
+ * rfdtbnglf to thf nfxt glyph origin (thf origin plus thf bdvbndf).  If
+ * nfgbtivf, pbrt of thf glyph is drbwn to thf right of thf nfxt glyph's
+ * origin.  Notf thbt thf bounds dofs not nfdfssbrily fndlosf bll thf pixfls
+ * bfffdtfd whfn rfndfring thf glyph, bfdbusf of rbstfrizbtion bnd pixfl
+ * bdjustmfnt ffffdts.
+ * <p>
+ * Although instbndfs of <dodf>GlyphMftrids</dodf> dbn bf dirfdtly
+ * donstrudtfd, thfy brf blmost blwbys obtbinfd from b
+ * <dodf>GlyphVfdtor</dodf>.  Ondf donstrudtfd, <dodf>GlyphMftrids</dodf>
+ * objfdts brf immutbblf.
+ * <p>
+ * <strong>Exbmplf</strong>:<p>
+ * Qufrying b <dodf>Font</dodf> for glyph informbtion
+ * <blodkquotf><prf>
+ * Font font = ...;
+ * int glyphIndfx = ...;
+ * GlyphMftrids mftrids = GlyphVfdtor.gftGlyphMftrids(glyphIndfx);
+ * int isStbndbrd = mftrids.isStbndbrd();
+ * flobt glyphAdvbndf = mftrids.gftAdvbndf();
+ * </prf></blodkquotf>
+ * @sff jbvb.bwt.Font
+ * @sff GlyphVfdtor
+ */
+
+publid finbl dlbss GlyphMftrids {
+    /**
+     * Indidbtfs whfthfr thf mftrids brf for b horizontbl or vfrtidbl bbsflinf.
+     */
+    privbtf boolfbn horizontbl;
+
+    /**
+     * Thf x-domponfnt of thf bdvbndf.
+     */
+    privbtf flobt bdvbndfX;
+
+    /**
+     * Thf y-domponfnt of thf bdvbndf.
+     */
+    privbtf flobt bdvbndfY;
+
+    /**
+     * Thf bounds of thf bssodibtfd glyph.
+     */
+    privbtf Rfdtbnglf2D.Flobt bounds;
+
+    /**
+     * Additionbl informbtion bbout thf glyph fndodfd bs b bytf.
+     */
+    privbtf bytf glyphTypf;
+
+    /**
+     * Indidbtfs b glyph thbt rfprfsfnts b singlf stbndbrd
+     * dhbrbdtfr.
+     */
+    publid stbtid finbl bytf STANDARD = 0;
+
+    /**
+     * Indidbtfs b glyph thbt rfprfsfnts multiplf dhbrbdtfrs
+     * bs b ligbturf, for fxbmplf 'fi' or 'ffi'.  It is followfd by
+     * fillfr glyphs for thf rfmbining dhbrbdtfrs. Fillfr bnd dombining
+     * glyphs dbn bf intfrmixfd to dontrol positioning of bddfnt mbrks
+     * on thf logidblly prfdfding ligbturf.
+     */
+    publid stbtid finbl bytf LIGATURE = 1;
+
+    /**
+     * Indidbtfs b glyph thbt rfprfsfnts b dombining dhbrbdtfr,
+     * sudh bs bn umlbut.  Thfrf is no dbrft position bftwffn this glyph
+     * bnd thf prfdfding glyph.
+     */
+    publid stbtid finbl bytf COMBINING = 2;
+
+    /**
+     * Indidbtfs b glyph with no dorrfsponding dhbrbdtfr in thf
+     * bbdking storf.  Thf glyph is bssodibtfd with thf dhbrbdtfr
+     * rfprfsfntfd by thf logidblly prfdfding non-domponfnt glyph.  This
+     * is usfd for kbshidb justifidbtion or othfr visubl modifidbtions to
+     * fxisting glyphs.  Thfrf is no dbrft position bftwffn this glyph
+     * bnd thf prfdfding glyph.
+     */
+    publid stbtid finbl bytf COMPONENT = 3;
+
+    /**
+     * Indidbtfs b glyph with no visubl rfprfsfntbtion. It dbn
+     * bf bddfd to thf othfr dodf vblufs to indidbtf bn invisiblf glyph.
+     */
+    publid stbtid finbl bytf WHITESPACE = 4;
+
+    /**
+     * Construdts b <dodf>GlyphMftrids</dodf> objfdt.
+     * @pbrbm bdvbndf thf bdvbndf width of thf glyph
+     * @pbrbm bounds thf blbdk box bounds of thf glyph
+     * @pbrbm glyphTypf thf typf of thf glyph
+     */
+    publid GlyphMftrids(flobt bdvbndf, Rfdtbnglf2D bounds, bytf glyphTypf) {
+        this.horizontbl = truf;
+        this.bdvbndfX = bdvbndf;
+        this.bdvbndfY = 0;
+        this.bounds = nfw Rfdtbnglf2D.Flobt();
+        this.bounds.sftRfdt(bounds);
+        this.glyphTypf = glyphTypf;
+    }
+
+    /**
+     * Construdts b <dodf>GlyphMftrids</dodf> objfdt.
+     * @pbrbm horizontbl if truf, mftrids brf for b horizontbl bbsflinf,
+     *   othfrwisf thfy brf for b vfrtidbl bbsflinf
+     * @pbrbm bdvbndfX thf X-domponfnt of thf glyph's bdvbndf
+     * @pbrbm bdvbndfY thf Y-domponfnt of thf glyph's bdvbndf
+     * @pbrbm bounds thf visubl bounds of thf glyph
+     * @pbrbm glyphTypf thf typf of thf glyph
+     * @sindf 1.4
+     */
+    publid GlyphMftrids(boolfbn horizontbl, flobt bdvbndfX, flobt bdvbndfY,
+                        Rfdtbnglf2D bounds, bytf glyphTypf) {
+
+        this.horizontbl = horizontbl;
+        this.bdvbndfX = bdvbndfX;
+        this.bdvbndfY = bdvbndfY;
+        this.bounds = nfw Rfdtbnglf2D.Flobt();
+        this.bounds.sftRfdt(bounds);
+        this.glyphTypf = glyphTypf;
+    }
+
+    /**
+     * Rfturns thf bdvbndf of thf glyph blong thf bbsflinf (fithfr
+     * horizontbl or vfrtidbl).
+     * @rfturn thf bdvbndf of thf glyph
+     */
+    publid flobt gftAdvbndf() {
+        rfturn horizontbl ? bdvbndfX : bdvbndfY;
+    }
+
+    /**
+     * Rfturns thf x-domponfnt of thf bdvbndf of thf glyph.
+     * @rfturn thf x-domponfnt of thf bdvbndf of thf glyph
+     * @sindf 1.4
+     */
+    publid flobt gftAdvbndfX() {
+        rfturn bdvbndfX;
+    }
+
+    /**
+     * Rfturns thf y-domponfnt of thf bdvbndf of thf glyph.
+     * @rfturn thf y-domponfnt of thf bdvbndf of thf glyph
+     * @sindf 1.4
+     */
+    publid flobt gftAdvbndfY() {
+        rfturn bdvbndfY;
+    }
+
+    /**
+     * Rfturns thf bounds of thf glyph. This is thf bounding box of thf glyph outlinf.
+     * Bfdbusf of rbstfrizbtion bnd pixfl blignmfnt ffffdts, it dofs not nfdfssbrily
+     * fndlosf thf pixfls thbt brf bfffdtfd whfn rfndfring thf glyph.
+     * @rfturn b {@link Rfdtbnglf2D} thbt is thf bounds of thf glyph.
+     */
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn nfw Rfdtbnglf2D.Flobt(bounds.x, bounds.y, bounds.width, bounds.hfight);
+    }
+
+    /**
+     * Rfturns thf lfft (top) sidf bfbring of thf glyph.
+     * <p>
+     * This is thf distbndf from 0,&nbsp;0 to thf lfft (top) of thf glyph
+     * bounds.  If thf bounds of thf glyph is to thf lfft of (bbovf) thf
+     * origin, thf LSB is nfgbtivf.
+     * @rfturn thf lfft sidf bfbring of thf glyph.
+     */
+    publid flobt gftLSB() {
+        rfturn horizontbl ? bounds.x : bounds.y;
+    }
+
+    /**
+     * Rfturns thf right (bottom) sidf bfbring of thf glyph.
+     * <p>
+     * This is thf distbndf from thf right (bottom) of thf glyph bounds to
+     * thf bdvbndf. If thf bounds of thf glyph is to thf right of (bflow)
+     * thf bdvbndf, thf RSB is nfgbtivf.
+     * @rfturn thf right sidf bfbring of thf glyph.
+     */
+    publid flobt gftRSB() {
+        rfturn horizontbl ?
+            bdvbndfX - bounds.x - bounds.width :
+            bdvbndfY - bounds.y - bounds.hfight;
+    }
+
+    /**
+     * Rfturns thf rbw glyph typf dodf.
+     * @rfturn thf rbw glyph typf dodf.
+     */
+    publid int gftTypf() {
+        rfturn glyphTypf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is b stbndbrd glyph.
+     * @rfturn <dodf>truf</dodf> if this is b stbndbrd glyph;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isStbndbrd() {
+        rfturn (glyphTypf & 0x3) == STANDARD;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is b ligbturf glyph.
+     * @rfturn <dodf>truf</dodf> if this is b ligbturf glyph;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isLigbturf() {
+        rfturn (glyphTypf & 0x3) == LIGATURE;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is b dombining glyph.
+     * @rfturn <dodf>truf</dodf> if this is b dombining glyph;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isCombining() {
+        rfturn (glyphTypf & 0x3) == COMBINING;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is b domponfnt glyph.
+     * @rfturn <dodf>truf</dodf> if this is b domponfnt glyph;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isComponfnt() {
+        rfturn (glyphTypf & 0x3) == COMPONENT;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this is b whitfspbdf glyph.
+     * @rfturn <dodf>truf</dodf> if this is b whitfspbdf glyph;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isWhitfspbdf() {
+        rfturn (glyphTypf & 0x4) == WHITESPACE;
+    }
+}

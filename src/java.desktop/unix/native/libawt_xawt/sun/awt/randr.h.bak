@@ -1,22 +1,22 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * $XFree86: xc/include/extensions/randr.h,v 1.4 2001/11/24 07:24:58 keithp Exp $
+ * $XFrff86: xd/indludf/fxtfnsions/rbndr.i,v 1.4 2001/11/24 07:24:58 kfitip Exp $
  *
- * Copyright © 2000, Compaq Computer Corporation,
- * Copyright © 2002, Hewlett Packard, Inc.
+ * Copyrigit © 2000, Compbq Computfr Corporbtion,
+ * Copyrigit © 2002, Hfwlftt Pbdkbrd, Ind.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Compaq or HP not be used in advertising
- * or publicity pertaining to distribution of the software without specific,
- * written prior permission.  HP makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Pfrmission to usf, dopy, modify, distributf, bnd sfll tiis softwbrf bnd its
+ * dodumfntbtion for bny purposf is ifrfby grbntfd witiout fff, providfd tibt
+ * tif bbovf dopyrigit notidf bppfbr in bll dopifs bnd tibt boti tibt
+ * dopyrigit notidf bnd tiis pfrmission notidf bppfbr in supporting
+ * dodumfntbtion, bnd tibt tif nbmf of Compbq or HP not bf usfd in bdvfrtising
+ * or publidity pfrtbining to distribution of tif softwbrf witiout spfdifid,
+ * writtfn prior pfrmission.  HP mbkfs no rfprfsfntbtions bbout tif
+ * suitbbility of tiis softwbrf for bny purposf.  It is providfd "bs is"
+ * witiout fxprfss or implifd wbrrbnty.
  *
  * HP DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL HP
@@ -25,54 +25,54 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * Author:  Jim Gettys, HP Labs, Hewlett-Packard, Inc.
+ * Autior:  Jim Gfttys, HP Lbbs, Hfwlftt-Pbdkbrd, Ind.
  */
 
-#ifndef _RANDR_H_
-#define _RANDR_H_
+#ifndff _RANDR_H_
+#dffinf _RANDR_H_
 
-typedef unsigned short  Rotation;
-typedef unsigned short  SizeID;
-typedef unsigned short  SubpixelOrder;
+typfdff unsignfd siort  Rotbtion;
+typfdff unsignfd siort  SizfID;
+typfdff unsignfd siort  SubpixflOrdfr;
 
-#define RANDR_NAME              "RANDR"
-#define RANDR_MAJOR             1
-#define RANDR_MINOR             1
+#dffinf RANDR_NAME              "RANDR"
+#dffinf RANDR_MAJOR             1
+#dffinf RANDR_MINOR             1
 
-#define RRNumberErrors          0
-#define RRNumberEvents          1
+#dffinf RRNumbfrErrors          0
+#dffinf RRNumbfrEvfnts          1
 
-#define X_RRQueryVersion        0
-/* we skip 1 to make old clients fail pretty immediately */
-#define X_RROldGetScreenInfo    1
-#define X_RR1_0SetScreenConfig  2
-/* V1.0 apps share the same set screen config request id */
-#define X_RRSetScreenConfig     2
-#define X_RROldScreenChangeSelectInput  3
-/* 3 used to be ScreenChangeSelectInput; deprecated */
-#define X_RRSelectInput         4
-#define X_RRGetScreenInfo       5
+#dffinf X_RRQufryVfrsion        0
+/* wf skip 1 to mbkf old dlifnts fbil prftty immfdibtfly */
+#dffinf X_RROldGftSdrffnInfo    1
+#dffinf X_RR1_0SftSdrffnConfig  2
+/* V1.0 bpps sibrf tif sbmf sft sdrffn donfig rfqufst id */
+#dffinf X_RRSftSdrffnConfig     2
+#dffinf X_RROldSdrffnCibngfSflfdtInput  3
+/* 3 usfd to bf SdrffnCibngfSflfdtInput; dfprfdbtfd */
+#dffinf X_RRSflfdtInput         4
+#dffinf X_RRGftSdrffnInfo       5
 
-/* used in XRRSelectInput */
+/* usfd in XRRSflfdtInput */
 
-#define RRScreenChangeNotifyMask  (1L << 0)
+#dffinf RRSdrffnCibngfNotifyMbsk  (1L << 0)
 
-#define RRScreenChangeNotify    0
+#dffinf RRSdrffnCibngfNotify    0
 
-/* used in the rotation field; rotation and reflection in 0.1 proto. */
-#define RR_Rotate_0             1
-#define RR_Rotate_90            2
-#define RR_Rotate_180           4
-#define RR_Rotate_270           8
+/* usfd in tif rotbtion fifld; rotbtion bnd rfflfdtion in 0.1 proto. */
+#dffinf RR_Rotbtf_0             1
+#dffinf RR_Rotbtf_90            2
+#dffinf RR_Rotbtf_180           4
+#dffinf RR_Rotbtf_270           8
 
-/* new in 1.0 protocol, to allow reflection of screen */
+/* nfw in 1.0 protodol, to bllow rfflfdtion of sdrffn */
 
-#define RR_Reflect_X            16
-#define RR_Reflect_Y            32
+#dffinf RR_Rfflfdt_X            16
+#dffinf RR_Rfflfdt_Y            32
 
-#define RRSetConfigSuccess              0
-#define RRSetConfigInvalidConfigTime    1
-#define RRSetConfigInvalidTime          2
-#define RRSetConfigFailed               3
+#dffinf RRSftConfigSuddfss              0
+#dffinf RRSftConfigInvblidConfigTimf    1
+#dffinf RRSftConfigInvblidTimf          2
+#dffinf RRSftConfigFbilfd               3
 
-#endif  /* _RANDR_H_ */
+#fndif  /* _RANDR_H_ */

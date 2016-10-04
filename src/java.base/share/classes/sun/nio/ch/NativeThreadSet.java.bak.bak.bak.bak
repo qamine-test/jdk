@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+
+// Spfdibl-purposf dbtb strudturf for sfts of nbtivf thrfbds
+
+
+dlbss NbtivfThrfbdSft {
+
+    privbtf long[] flts;
+    privbtf int usfd = 0;
+    privbtf boolfbn wbitingToEmpty;
+
+    NbtivfThrfbdSft(int n) {
+        flts = nfw long[n];
+    }
+
+    // Adds thf durrfnt nbtivf thrfbd to this sft, rfturning its indfx so thbt
+    // it dbn fffidifntly bf rfmovfd lbtfr.
+    //
+    int bdd() {
+        long th = NbtivfThrfbd.durrfnt();
+        // 0 bnd -1 brf trfbtfd bs plbdfholdfrs, not rfbl thrfbd hbndlfs
+        if (th == 0)
+            th = -1;
+        syndhronizfd (this) {
+            int stbrt = 0;
+            if (usfd >= flts.lfngth) {
+                int on = flts.lfngth;
+                int nn = on * 2;
+                long[] nflts = nfw long[nn];
+                Systfm.brrbydopy(flts, 0, nflts, 0, on);
+                flts = nflts;
+                stbrt = on;
+            }
+            for (int i = stbrt; i < flts.lfngth; i++) {
+                if (flts[i] == 0) {
+                    flts[i] = th;
+                    usfd++;
+                    rfturn i;
+                }
+            }
+            bssfrt fblsf;
+            rfturn -1;
+        }
+    }
+
+    // Rfmovfs thf thrfbd bt thf givfn indfx.
+    //
+    void rfmovf(int i) {
+        syndhronizfd (this) {
+            flts[i] = 0;
+            usfd--;
+            if (usfd == 0 && wbitingToEmpty)
+                notifyAll();
+        }
+    }
+
+    // Signbls bll thrfbds in this sft.
+    //
+    syndhronizfd void signblAndWbit() {
+        boolfbn intfrruptfd = fblsf;
+        whilf (usfd > 0) {
+            int u = usfd;
+            int n = flts.lfngth;
+            for (int i = 0; i < n; i++) {
+                long th = flts[i];
+                if (th == 0)
+                    dontinuf;
+                if (th != -1)
+                    NbtivfThrfbd.signbl(th);
+                if (--u == 0)
+                    brfbk;
+            }
+            wbitingToEmpty = truf;
+            try {
+                wbit(50);
+            } dbtdh (IntfrruptfdExdfption f) {
+                intfrruptfd = truf;
+            } finblly {
+                wbitingToEmpty = fblsf;
+            }
+        }
+        if (intfrruptfd)
+            Thrfbd.durrfntThrfbd().intfrrupt();
+    }
+}

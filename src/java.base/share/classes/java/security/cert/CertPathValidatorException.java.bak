@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.security.GeneralSecurityException;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
 
 /**
- * An exception indicating one of a variety of problems encountered when
- * validating a certification path.
+ * An fxdfption indidbting onf of b vbrifty of problfms fndountfrfd wifn
+ * vblidbting b dfrtifidbtion pbti.
  * <p>
- * A {@code CertPathValidatorException} provides support for wrapping
- * exceptions. The {@link #getCause getCause} method returns the throwable,
- * if any, that caused this exception to be thrown.
+ * A {@dodf CfrtPbtiVblidbtorExdfption} providfs support for wrbpping
+ * fxdfptions. Tif {@link #gftCbusf gftCbusf} mftiod rfturns tif tirowbblf,
+ * if bny, tibt dbusfd tiis fxdfption to bf tirown.
  * <p>
- * A {@code CertPathValidatorException} may also include the
- * certification path that was being validated when the exception was thrown,
- * the index of the certificate in the certification path that caused the
- * exception to be thrown, and the reason that caused the failure. Use the
- * {@link #getCertPath getCertPath}, {@link #getIndex getIndex}, and
- * {@link #getReason getReason} methods to retrieve this information.
+ * A {@dodf CfrtPbtiVblidbtorExdfption} mby blso indludf tif
+ * dfrtifidbtion pbti tibt wbs bfing vblidbtfd wifn tif fxdfption wbs tirown,
+ * tif indfx of tif dfrtifidbtf in tif dfrtifidbtion pbti tibt dbusfd tif
+ * fxdfption to bf tirown, bnd tif rfbson tibt dbusfd tif fbilurf. Usf tif
+ * {@link #gftCfrtPbti gftCfrtPbti}, {@link #gftIndfx gftIndfx}, bnd
+ * {@link #gftRfbson gftRfbson} mftiods to rftrifvf tiis informbtion.
  *
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @see CertPathValidator
+ * @sff CfrtPbtiVblidbtor
  *
- * @since       1.4
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-public class CertPathValidatorException extends GeneralSecurityException {
+publid dlbss CfrtPbtiVblidbtorExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-    private static final long serialVersionUID = -3083180014971893139L;
-
-    /**
-     * @serial the index of the certificate in the certification path
-     * that caused the exception to be thrown
-     */
-    private int index = -1;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3083180014971893139L;
 
     /**
-     * @serial the {@code CertPath} that was being validated when
-     * the exception was thrown
+     * @sfribl tif indfx of tif dfrtifidbtf in tif dfrtifidbtion pbti
+     * tibt dbusfd tif fxdfption to bf tirown
      */
-    private CertPath certPath;
+    privbtf int indfx = -1;
 
     /**
-     * @serial the reason the validation failed
+     * @sfribl tif {@dodf CfrtPbti} tibt wbs bfing vblidbtfd wifn
+     * tif fxdfption wbs tirown
      */
-    private Reason reason = BasicReason.UNSPECIFIED;
+    privbtf CfrtPbti dfrtPbti;
 
     /**
-     * Creates a {@code CertPathValidatorException} with
-     * no detail message.
+     * @sfribl tif rfbson tif vblidbtion fbilfd
      */
-    public CertPathValidatorException() {
-        this(null, null);
+    privbtf Rfbson rfbson = BbsidRfbson.UNSPECIFIED;
+
+    /**
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} witi
+     * no dftbil mfssbgf.
+     */
+    publid CfrtPbtiVblidbtorExdfption() {
+        tiis(null, null);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the given
-     * detail message. A detail message is a {@code String} that
-     * describes this particular exception.
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} witi tif givfn
+     * dftbil mfssbgf. A dftbil mfssbgf is b {@dodf String} tibt
+     * dfsdribfs tiis pbrtidulbr fxdfption.
      *
-     * @param msg the detail message
+     * @pbrbm msg tif dftbil mfssbgf
      */
-    public CertPathValidatorException(String msg) {
-        this(msg, null);
+    publid CfrtPbtiVblidbtorExdfption(String msg) {
+        tiis(msg, null);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} that wraps the
-     * specified throwable. This allows any exception to be converted into a
-     * {@code CertPathValidatorException}, while retaining information
-     * about the wrapped exception, which may be useful for debugging. The
-     * detail message is set to ({@code cause==null ? null : cause.toString()})
-     * (which typically contains the class and detail message of
-     * cause).
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} tibt wrbps tif
+     * spfdififd tirowbblf. Tiis bllows bny fxdfption to bf donvfrtfd into b
+     * {@dodf CfrtPbtiVblidbtorExdfption}, wiilf rftbining informbtion
+     * bbout tif wrbppfd fxdfption, wiidi mby bf usfful for dfbugging. Tif
+     * dftbil mfssbgf is sft to ({@dodf dbusf==null ? null : dbusf.toString()})
+     * (wiidi typidblly dontbins tif dlbss bnd dftbil mfssbgf of
+     * dbusf).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     * {@link #gftCbusf gftCbusf()} mftiod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public CertPathValidatorException(Throwable cause) {
-        this((cause == null ? null : cause.toString()), cause);
+    publid CfrtPbtiVblidbtorExdfption(Tirowbblf dbusf) {
+        tiis((dbusf == null ? null : dbusf.toString()), dbusf);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message and cause.
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} witi tif spfdififd
+     * dftbil mfssbgf bnd dbusf.
      *
-     * @param msg the detail message
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm msg tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     * {@link #gftCbusf gftCbusf()} mftiod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public CertPathValidatorException(String msg, Throwable cause) {
-        this(msg, cause, null, -1);
+    publid CfrtPbtiVblidbtorExdfption(String msg, Tirowbblf dbusf) {
+        tiis(msg, dbusf, null, -1);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message, cause, certification path, and index.
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} witi tif spfdififd
+     * dftbil mfssbgf, dbusf, dfrtifidbtion pbti, bnd indfx.
      *
-     * @param msg the detail message (or {@code null} if none)
-     * @param cause the cause (or {@code null} if none)
-     * @param certPath the certification path that was in the process of
-     * being validated when the error was encountered
-     * @param index the index of the certificate in the certification path
-     * that caused the error (or -1 if not applicable). Note that
-     * the list of certificates in a {@code CertPath} is zero based.
-     * @throws IndexOutOfBoundsException if the index is out of range
-     * {@code (index < -1 || (certPath != null && index >=
-     * certPath.getCertificates().size()) }
-     * @throws IllegalArgumentException if {@code certPath} is
-     * {@code null} and {@code index} is not -1
+     * @pbrbm msg tif dftbil mfssbgf (or {@dodf null} if nonf)
+     * @pbrbm dbusf tif dbusf (or {@dodf null} if nonf)
+     * @pbrbm dfrtPbti tif dfrtifidbtion pbti tibt wbs in tif prodfss of
+     * bfing vblidbtfd wifn tif frror wbs fndountfrfd
+     * @pbrbm indfx tif indfx of tif dfrtifidbtf in tif dfrtifidbtion pbti
+     * tibt dbusfd tif frror (or -1 if not bpplidbblf). Notf tibt
+     * tif list of dfrtifidbtfs in b {@dodf CfrtPbti} is zfro bbsfd.
+     * @tirows IndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     * {@dodf (indfx < -1 || (dfrtPbti != null && indfx >=
+     * dfrtPbti.gftCfrtifidbtfs().sizf()) }
+     * @tirows IllfgblArgumfntExdfption if {@dodf dfrtPbti} is
+     * {@dodf null} bnd {@dodf indfx} is not -1
      */
-    public CertPathValidatorException(String msg, Throwable cause,
-            CertPath certPath, int index) {
-        this(msg, cause, certPath, index, BasicReason.UNSPECIFIED);
+    publid CfrtPbtiVblidbtorExdfption(String msg, Tirowbblf dbusf,
+            CfrtPbti dfrtPbti, int indfx) {
+        tiis(msg, dbusf, dfrtPbti, indfx, BbsidRfbson.UNSPECIFIED);
     }
 
     /**
-     * Creates a {@code CertPathValidatorException} with the specified
-     * detail message, cause, certification path, index, and reason.
+     * Crfbtfs b {@dodf CfrtPbtiVblidbtorExdfption} witi tif spfdififd
+     * dftbil mfssbgf, dbusf, dfrtifidbtion pbti, indfx, bnd rfbson.
      *
-     * @param msg the detail message (or {@code null} if none)
-     * @param cause the cause (or {@code null} if none)
-     * @param certPath the certification path that was in the process of
-     * being validated when the error was encountered
-     * @param index the index of the certificate in the certification path
-     * that caused the error (or -1 if not applicable). Note that
-     * the list of certificates in a {@code CertPath} is zero based.
-     * @param reason the reason the validation failed
-     * @throws IndexOutOfBoundsException if the index is out of range
-     * {@code (index < -1 || (certPath != null && index >=
-     * certPath.getCertificates().size()) }
-     * @throws IllegalArgumentException if {@code certPath} is
-     * {@code null} and {@code index} is not -1
-     * @throws NullPointerException if {@code reason} is {@code null}
+     * @pbrbm msg tif dftbil mfssbgf (or {@dodf null} if nonf)
+     * @pbrbm dbusf tif dbusf (or {@dodf null} if nonf)
+     * @pbrbm dfrtPbti tif dfrtifidbtion pbti tibt wbs in tif prodfss of
+     * bfing vblidbtfd wifn tif frror wbs fndountfrfd
+     * @pbrbm indfx tif indfx of tif dfrtifidbtf in tif dfrtifidbtion pbti
+     * tibt dbusfd tif frror (or -1 if not bpplidbblf). Notf tibt
+     * tif list of dfrtifidbtfs in b {@dodf CfrtPbti} is zfro bbsfd.
+     * @pbrbm rfbson tif rfbson tif vblidbtion fbilfd
+     * @tirows IndfxOutOfBoundsExdfption if tif indfx is out of rbngf
+     * {@dodf (indfx < -1 || (dfrtPbti != null && indfx >=
+     * dfrtPbti.gftCfrtifidbtfs().sizf()) }
+     * @tirows IllfgblArgumfntExdfption if {@dodf dfrtPbti} is
+     * {@dodf null} bnd {@dodf indfx} is not -1
+     * @tirows NullPointfrExdfption if {@dodf rfbson} is {@dodf null}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public CertPathValidatorException(String msg, Throwable cause,
-            CertPath certPath, int index, Reason reason) {
-        super(msg, cause);
-        if (certPath == null && index != -1) {
-            throw new IllegalArgumentException();
+    publid CfrtPbtiVblidbtorExdfption(String msg, Tirowbblf dbusf,
+            CfrtPbti dfrtPbti, int indfx, Rfbson rfbson) {
+        supfr(msg, dbusf);
+        if (dfrtPbti == null && indfx != -1) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        if (index < -1 ||
-            (certPath != null && index >= certPath.getCertificates().size())) {
-            throw new IndexOutOfBoundsException();
+        if (indfx < -1 ||
+            (dfrtPbti != null && indfx >= dfrtPbti.gftCfrtifidbtfs().sizf())) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        if (reason == null) {
-            throw new NullPointerException("reason can't be null");
+        if (rfbson == null) {
+            tirow nfw NullPointfrExdfption("rfbson dbn't bf null");
         }
-        this.certPath = certPath;
-        this.index = index;
-        this.reason = reason;
+        tiis.dfrtPbti = dfrtPbti;
+        tiis.indfx = indfx;
+        tiis.rfbson = rfbson;
     }
 
     /**
-     * Returns the certification path that was being validated when
-     * the exception was thrown.
+     * Rfturns tif dfrtifidbtion pbti tibt wbs bfing vblidbtfd wifn
+     * tif fxdfption wbs tirown.
      *
-     * @return the {@code CertPath} that was being validated when
-     * the exception was thrown (or {@code null} if not specified)
+     * @rfturn tif {@dodf CfrtPbti} tibt wbs bfing vblidbtfd wifn
+     * tif fxdfption wbs tirown (or {@dodf null} if not spfdififd)
      */
-    public CertPath getCertPath() {
-        return this.certPath;
+    publid CfrtPbti gftCfrtPbti() {
+        rfturn tiis.dfrtPbti;
     }
 
     /**
-     * Returns the index of the certificate in the certification path
-     * that caused the exception to be thrown. Note that the list of
-     * certificates in a {@code CertPath} is zero based. If no
-     * index has been set, -1 is returned.
+     * Rfturns tif indfx of tif dfrtifidbtf in tif dfrtifidbtion pbti
+     * tibt dbusfd tif fxdfption to bf tirown. Notf tibt tif list of
+     * dfrtifidbtfs in b {@dodf CfrtPbti} is zfro bbsfd. If no
+     * indfx ibs bffn sft, -1 is rfturnfd.
      *
-     * @return the index that has been set, or -1 if none has been set
+     * @rfturn tif indfx tibt ibs bffn sft, or -1 if nonf ibs bffn sft
      */
-    public int getIndex() {
-        return this.index;
+    publid int gftIndfx() {
+        rfturn tiis.indfx;
     }
 
     /**
-     * Returns the reason that the validation failed. The reason is
-     * associated with the index of the certificate returned by
-     * {@link #getIndex}.
+     * Rfturns tif rfbson tibt tif vblidbtion fbilfd. Tif rfbson is
+     * bssodibtfd witi tif indfx of tif dfrtifidbtf rfturnfd by
+     * {@link #gftIndfx}.
      *
-     * @return the reason that the validation failed, or
-     *    {@code BasicReason.UNSPECIFIED} if a reason has not been
-     *    specified
+     * @rfturn tif rfbson tibt tif vblidbtion fbilfd, or
+     *    {@dodf BbsidRfbson.UNSPECIFIED} if b rfbson ibs not bffn
+     *    spfdififd
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public Reason getReason() {
-        return this.reason;
+    publid Rfbson gftRfbson() {
+        rfturn tiis.rfbson;
     }
 
-    private void readObject(ObjectInputStream stream)
-        throws ClassNotFoundException, IOException {
-        stream.defaultReadObject();
-        if (reason == null) {
-            reason = BasicReason.UNSPECIFIED;
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows ClbssNotFoundExdfption, IOExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        if (rfbson == null) {
+            rfbson = BbsidRfbson.UNSPECIFIED;
         }
-        if (certPath == null && index != -1) {
-            throw new InvalidObjectException("certpath is null and index != -1");
+        if (dfrtPbti == null && indfx != -1) {
+            tirow nfw InvblidObjfdtExdfption("dfrtpbti is null bnd indfx != -1");
         }
-        if (index < -1 ||
-            (certPath != null && index >= certPath.getCertificates().size())) {
-            throw new InvalidObjectException("index out of range");
+        if (indfx < -1 ||
+            (dfrtPbti != null && indfx >= dfrtPbti.gftCfrtifidbtfs().sizf())) {
+            tirow nfw InvblidObjfdtExdfption("indfx out of rbngf");
         }
     }
 
     /**
-     * The reason the validation algorithm failed.
+     * Tif rfbson tif vblidbtion blgoritim fbilfd.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static interface Reason extends java.io.Serializable { }
+    publid stbtid intfrfbdf Rfbson fxtfnds jbvb.io.Sfriblizbblf { }
 
 
     /**
-     * The BasicReason enumerates the potential reasons that a certification
-     * path of any type may be invalid.
+     * Tif BbsidRfbson fnumfrbtfs tif potfntibl rfbsons tibt b dfrtifidbtion
+     * pbti of bny typf mby bf invblid.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static enum BasicReason implements Reason {
+    publid stbtid fnum BbsidRfbson implfmfnts Rfbson {
         /**
-         * Unspecified reason.
+         * Unspfdififd rfbson.
          */
         UNSPECIFIED,
 
         /**
-         * The certificate is expired.
+         * Tif dfrtifidbtf is fxpirfd.
          */
         EXPIRED,
 
         /**
-         * The certificate is not yet valid.
+         * Tif dfrtifidbtf is not yft vblid.
          */
         NOT_YET_VALID,
 
         /**
-         * The certificate is revoked.
+         * Tif dfrtifidbtf is rfvokfd.
          */
         REVOKED,
 
         /**
-         * The revocation status of the certificate could not be determined.
+         * Tif rfvodbtion stbtus of tif dfrtifidbtf dould not bf dftfrminfd.
          */
         UNDETERMINED_REVOCATION_STATUS,
 
         /**
-         * The signature is invalid.
+         * Tif signbturf is invblid.
          */
         INVALID_SIGNATURE,
 
         /**
-         * The public key or the signature algorithm has been constrained.
+         * Tif publid kfy or tif signbturf blgoritim ibs bffn donstrbinfd.
          */
         ALGORITHM_CONSTRAINED
     }

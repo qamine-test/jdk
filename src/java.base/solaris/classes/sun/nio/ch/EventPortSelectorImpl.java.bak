@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
 
 /**
- * Selector implementation based on the Solaris event port mechanism.
+ * Sflfdtor implfmfntbtion bbsfd on tif Solbris fvfnt port mfdibnism.
  */
 
-class EventPortSelectorImpl
-    extends SelectorImpl
+dlbss EvfntPortSflfdtorImpl
+    fxtfnds SflfdtorImpl
 {
-    private final EventPortWrapper pollWrapper;
+    privbtf finbl EvfntPortWrbppfr pollWrbppfr;
 
-    // Maps from file descriptors to keys
-    private Map<Integer,SelectionKeyImpl> fdToKey;
+    // Mbps from filf dfsdriptors to kfys
+    privbtf Mbp<Intfgfr,SflfdtionKfyImpl> fdToKfy;
 
-    // True if this Selector has been closed
-    private boolean closed = false;
+    // Truf if tiis Sflfdtor ibs bffn dlosfd
+    privbtf boolfbn dlosfd = fblsf;
 
-    // Lock for interrupt triggering and clearing
-    private final Object interruptLock = new Object();
-    private boolean interruptTriggered = false;
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf finbl Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf boolfbn intfrruptTriggfrfd = fblsf;
 
     /**
-     * Package private constructor called by factory method in
-     * the abstract superclass Selector.
+     * Pbdkbgf privbtf donstrudtor dbllfd by fbdtory mftiod in
+     * tif bbstrbdt supfrdlbss Sflfdtor.
      */
-    EventPortSelectorImpl(SelectorProvider sp) throws IOException {
-        super(sp);
-        pollWrapper = new EventPortWrapper();
-        fdToKey = new HashMap<>();
+    EvfntPortSflfdtorImpl(SflfdtorProvidfr sp) tirows IOExdfption {
+        supfr(sp);
+        pollWrbppfr = nfw EvfntPortWrbppfr();
+        fdToKfy = nfw HbsiMbp<>();
     }
 
-    protected int doSelect(long timeout) throws IOException {
-        if (closed)
-            throw new ClosedSelectorException();
-        processDeregisterQueue();
-        int entries;
+    protfdtfd int doSflfdt(long timfout) tirows IOExdfption {
+        if (dlosfd)
+            tirow nfw ClosfdSflfdtorExdfption();
+        prodfssDfrfgistfrQufuf();
+        int fntrifs;
         try {
-            begin();
-            entries = pollWrapper.poll(timeout);
-        } finally {
-            end();
+            bfgin();
+            fntrifs = pollWrbppfr.poll(timfout);
+        } finblly {
+            fnd();
         }
-        processDeregisterQueue();
-        int numKeysUpdated = updateSelectedKeys(entries);
-        if (pollWrapper.interrupted()) {
-            synchronized (interruptLock) {
-                interruptTriggered = false;
+        prodfssDfrfgistfrQufuf();
+        int numKfysUpdbtfd = updbtfSflfdtfdKfys(fntrifs);
+        if (pollWrbppfr.intfrruptfd()) {
+            syndironizfd (intfrruptLodk) {
+                intfrruptTriggfrfd = fblsf;
             }
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
-    private int updateSelectedKeys(int entries) {
-        int numKeysUpdated = 0;
-        for (int i=0; i<entries; i++) {
-            int nextFD = pollWrapper.getDescriptor(i);
-            SelectionKeyImpl ski = fdToKey.get(Integer.valueOf(nextFD));
+    privbtf int updbtfSflfdtfdKfys(int fntrifs) {
+        int numKfysUpdbtfd = 0;
+        for (int i=0; i<fntrifs; i++) {
+            int nfxtFD = pollWrbppfr.gftDfsdriptor(i);
+            SflfdtionKfyImpl ski = fdToKfy.gft(Intfgfr.vblufOf(nfxtFD));
             if (ski != null) {
-                int rOps = pollWrapper.getEventOps(i);
-                if (selectedKeys.contains(ski)) {
-                    if (ski.channel.translateAndSetReadyOps(rOps, ski)) {
-                        numKeysUpdated++;
+                int rOps = pollWrbppfr.gftEvfntOps(i);
+                if (sflfdtfdKfys.dontbins(ski)) {
+                    if (ski.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski)) {
+                        numKfysUpdbtfd++;
                     }
-                } else {
-                    ski.channel.translateAndSetReadyOps(rOps, ski);
-                    if ((ski.nioReadyOps() & ski.nioInterestOps()) != 0) {
-                        selectedKeys.add(ski);
-                        numKeysUpdated++;
+                } flsf {
+                    ski.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, ski);
+                    if ((ski.nioRfbdyOps() & ski.nioIntfrfstOps()) != 0) {
+                        sflfdtfdKfys.bdd(ski);
+                        numKfysUpdbtfd++;
                     }
                 }
             }
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
-    protected void implClose() throws IOException {
-        if (closed)
-            return;
-        closed = true;
+    protfdtfd void implClosf() tirows IOExdfption {
+        if (dlosfd)
+            rfturn;
+        dlosfd = truf;
 
-        // prevent further wakeup
-        synchronized (interruptLock) {
-            interruptTriggered = true;
+        // prfvfnt furtifr wbkfup
+        syndironizfd (intfrruptLodk) {
+            intfrruptTriggfrfd = truf;
         }
 
-        pollWrapper.close();
-        selectedKeys = null;
+        pollWrbppfr.dlosf();
+        sflfdtfdKfys = null;
 
-        // Deregister channels
-        Iterator<SelectionKey> i = keys.iterator();
-        while (i.hasNext()) {
-            SelectionKeyImpl ski = (SelectionKeyImpl)i.next();
-            deregister(ski);
-            SelectableChannel selch = ski.channel();
-            if (!selch.isOpen() && !selch.isRegistered())
-                ((SelChImpl)selch).kill();
-            i.remove();
+        // Dfrfgistfr dibnnfls
+        Itfrbtor<SflfdtionKfy> i = kfys.itfrbtor();
+        wiilf (i.ibsNfxt()) {
+            SflfdtionKfyImpl ski = (SflfdtionKfyImpl)i.nfxt();
+            dfrfgistfr(ski);
+            SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+            if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+                ((SflCiImpl)sfldi).kill();
+            i.rfmovf();
         }
     }
 
-    protected void implRegister(SelectionKeyImpl ski) {
-        int fd = IOUtil.fdVal(ski.channel.getFD());
-        fdToKey.put(Integer.valueOf(fd), ski);
-        keys.add(ski);
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        int fd = IOUtil.fdVbl(ski.dibnnfl.gftFD());
+        fdToKfy.put(Intfgfr.vblufOf(fd), ski);
+        kfys.bdd(ski);
     }
 
-    protected void implDereg(SelectionKeyImpl ski) throws IOException {
-        int i = ski.getIndex();
-        assert (i >= 0);
-        int fd = ski.channel.getFDVal();
-        fdToKey.remove(Integer.valueOf(fd));
-        pollWrapper.release(fd);
-        ski.setIndex(-1);
-        keys.remove(ski);
-        selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
-        if (!selch.isOpen() && !selch.isRegistered())
-            ((SelChImpl)selch).kill();
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) tirows IOExdfption {
+        int i = ski.gftIndfx();
+        bssfrt (i >= 0);
+        int fd = ski.dibnnfl.gftFDVbl();
+        fdToKfy.rfmovf(Intfgfr.vblufOf(fd));
+        pollWrbppfr.rflfbsf(fd);
+        ski.sftIndfx(-1);
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr((AbstrbdtSflfdtionKfy)ski);
+        SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+        if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+            ((SflCiImpl)sfldi).kill();
     }
 
-    public void putEventOps(SelectionKeyImpl sk, int ops) {
-        if (closed)
-            throw new ClosedSelectorException();
-        int fd = sk.channel.getFDVal();
-        pollWrapper.setInterest(fd, ops);
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) {
+        if (dlosfd)
+            tirow nfw ClosfdSflfdtorExdfption();
+        int fd = sk.dibnnfl.gftFDVbl();
+        pollWrbppfr.sftIntfrfst(fd, ops);
     }
 
-    public Selector wakeup() {
-        synchronized (interruptLock) {
-            if (!interruptTriggered) {
-                pollWrapper.interrupt();
-                interruptTriggered = true;
+    publid Sflfdtor wbkfup() {
+        syndironizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                pollWrbppfr.intfrrupt();
+                intfrruptTriggfrfd = truf;
             }
         }
-        return this;
+        rfturn tiis;
     }
 }

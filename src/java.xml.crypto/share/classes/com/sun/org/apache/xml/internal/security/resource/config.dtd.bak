@@ -1,73 +1,73 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml vfrsion='1.0' fndoding='UTF-8' ?>
 
-<!ELEMENT Configuration (CanonicalizationMethods , TransformAlgorithms , JCEAlgorithmMappings , Log4J , ResourceBundles , UnitTests , ResourceResolvers , KeyResolvers)>
+<!ELEMENT Configurbtion (CbnonidblizbtionMftiods , TrbnsformAlgoritims , JCEAlgoritimMbppings , Log4J , RfsourdfBundlfs , UnitTfsts , RfsourdfRfsolvfrs , KfyRfsolvfrs)>
 
-<!ATTLIST Configuration  xmlns CDATA  #FIXED 'http://www.xmlsecurity.org/NS/#configuration' 
-target        CDATA  #IMPLIED>
-<!ELEMENT CanonicalizationMethods (CanonicalizationMethod+)>
+<!ATTLIST Configurbtion  xmlns CDATA  #FIXED 'ittp://www.xmlsfdurity.org/NS/#donfigurbtion' 
+tbrgft        CDATA  #IMPLIED>
+<!ELEMENT CbnonidblizbtionMftiods (CbnonidblizbtionMftiod+)>
 
-<!ATTLIST CanonicalizationMethods  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.c14n.Canonicalizer' >
-<!ELEMENT CanonicalizationMethod EMPTY>
+<!ATTLIST CbnonidblizbtionMftiods  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr' >
+<!ELEMENT CbnonidblizbtionMftiod EMPTY>
 
-<!ATTLIST CanonicalizationMethod  URI       CDATA  #REQUIRED
+<!ATTLIST CbnonidblizbtionMftiod  URI       CDATA  #REQUIRED
                                     JAVACLASS CDATA  #REQUIRED >
-<!ELEMENT TransformAlgorithms (TransformAlgorithm+)>
+<!ELEMENT TrbnsformAlgoritims (TrbnsformAlgoritim+)>
 
-<!ATTLIST TransformAlgorithms  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.transforms.Transform' >
-<!ELEMENT TransformAlgorithm EMPTY>
+<!ATTLIST TrbnsformAlgoritims  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform' >
+<!ELEMENT TrbnsformAlgoritim EMPTY>
 
-<!ATTLIST TransformAlgorithm  URI       CDATA  #REQUIRED
+<!ATTLIST TrbnsformAlgoritim  URI       CDATA  #REQUIRED
                                 JAVACLASS CDATA  #REQUIRED >
-<!ELEMENT JCEAlgorithmMappings (Providers , Algorithms)>
+<!ELEMENT JCEAlgoritimMbppings (Providfrs , Algoritims)>
 
-<!ELEMENT Providers (Provider+)>
+<!ELEMENT Providfrs (Providfr+)>
 
-<!ELEMENT Provider EMPTY>
+<!ELEMENT Providfr EMPTY>
 
-<!ATTLIST Provider  Id          ID     #REQUIRED
-                      Class       CDATA  #REQUIRED
+<!ATTLIST Providfr  Id          ID     #REQUIRED
+                      Clbss       CDATA  #REQUIRED
                       Info        CDATA  #IMPLIED
-                      ProviderURL CDATA  #IMPLIED >
-<!ELEMENT Algorithms (Algorithm+)>
+                      ProvidfrURL CDATA  #IMPLIED >
+<!ELEMENT Algoritims (Algoritim+)>
 
-<!ELEMENT Algorithm (ProviderAlgo+)>
+<!ELEMENT Algoritim (ProvidfrAlgo+)>
 
-<!ATTLIST Algorithm  URI            CDATA  #REQUIRED
-                       Description    CDATA  #IMPLIED
-                       AlgorithmClass CDATA  #IMPLIED >
-<!ELEMENT ProviderAlgo EMPTY>
+<!ATTLIST Algoritim  URI            CDATA  #REQUIRED
+                       Dfsdription    CDATA  #IMPLIED
+                       AlgoritimClbss CDATA  #IMPLIED >
+<!ELEMENT ProvidfrAlgo EMPTY>
 
-<!ATTLIST ProviderAlgo  ProviderId IDREF  #REQUIRED
-                          JCEName    CDATA  #REQUIRED
-                          JCEAlias   CDATA  #IMPLIED >
+<!ATTLIST ProvidfrAlgo  ProvidfrId IDREF  #REQUIRED
+                          JCENbmf    CDATA  #REQUIRED
+                          JCEAlibs   CDATA  #IMPLIED >
 <!ELEMENT Log4J EMPTY>
 
-<!ATTLIST Log4J  configFile CDATA  'data/log4j.xml' >
-<!ELEMENT ResourceBundles (ResourceBundle+)>
+<!ATTLIST Log4J  donfigFilf CDATA  'dbtb/log4j.xml' >
+<!ELEMENT RfsourdfBundlfs (RfsourdfBundlf+)>
 
-<!ATTLIST ResourceBundles  defaultLanguageCode CDATA  'de'
-                             defaultCountryCode  CDATA  'DE' >
-<!ELEMENT ResourceBundle EMPTY>
+<!ATTLIST RfsourdfBundlfs  dffbultLbngubgfCodf CDATA  'df'
+                             dffbultCountryCodf  CDATA  'DE' >
+<!ELEMENT RfsourdfBundlf EMPTY>
 
-<!ATTLIST ResourceBundle  LanguageCode CDATA  #REQUIRED
-                            CountryCode  CDATA  #REQUIRED
+<!ATTLIST RfsourdfBundlf  LbngubgfCodf CDATA  #REQUIRED
+                            CountryCodf  CDATA  #REQUIRED
                             LOCATION     CDATA  #REQUIRED >
-<!ELEMENT UnitTests (UnitTest+)>
+<!ELEMENT UnitTfsts (UnitTfst+)>
 
-<!ATTLIST UnitTests  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.test.AllTests' >
-<!ELEMENT ResourceResolvers (Resolver+)>
+<!ATTLIST UnitTfsts  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.tfst.AllTfsts' >
+<!ELEMENT RfsourdfRfsolvfrs (Rfsolvfr+)>
 
-<!ELEMENT Resolver EMPTY>
+<!ELEMENT Rfsolvfr EMPTY>
 
-<!ATTLIST Resolver  JAVACLASS   CDATA  #REQUIRED
+<!ATTLIST Rfsolvfr  JAVACLASS   CDATA  #REQUIRED
                       DESCRIPTION CDATA  #IMPLIED >
-<!ELEMENT KeyResolvers (KeyResolver+)>
-<!ATTLIST KeyResolvers  JAVACLASS CDATA  #FIXED 'com.sun.org.apache.xml.internal.security.keys.KeyResolver' >
+<!ELEMENT KfyRfsolvfrs (KfyRfsolvfr+)>
+<!ATTLIST KfyRfsolvfrs  JAVACLASS CDATA  #FIXED 'dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyRfsolvfr' >
 
-<!ELEMENT KeyResolver EMPTY>
+<!ELEMENT KfyRfsolvfr EMPTY>
 
-<!ATTLIST KeyResolver  URI       CDATA  #REQUIRED
+<!ATTLIST KfyRfsolvfr  URI       CDATA  #REQUIRED
                          JAVACLASS CDATA  #REQUIRED >
-<!ELEMENT UnitTest (#PCDATA)>
+<!ELEMENT UnitTfst (#PCDATA)>
 
-<!ATTLIST UnitTest  JAVACLASS CDATA  #REQUIRED >
+<!ATTLIST UnitTfst  JAVACLASS CDATA  #REQUIRED >

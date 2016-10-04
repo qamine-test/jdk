@@ -1,0 +1,2424 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import sun.swing.SwingUtilitifs2;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.html.*;
+import jbvbx.bddfssibility.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * A tfxt domponfnt to fdit vbrious kinds of dontfnt.
+ * You dbn find how-to informbtion bnd fxbmplfs of using fditor pbnfs in
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxt.html">Using Tfxt Componfnts</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * <p>
+ * This domponfnt usfs implfmfntbtions of thf
+ * <dodf>EditorKit</dodf> to bddomplish its bfhbvior. It ffffdtivfly
+ * morphs into thf propfr kind of tfxt fditor for thf kind
+ * of dontfnt it is givfn.  Thf dontfnt typf thbt fditor is bound
+ * to bt bny givfn timf is dftfrminfd by thf <dodf>EditorKit</dodf> durrfntly
+ * instbllfd.  If thf dontfnt is sft to b nfw URL, its typf is usfd
+ * to dftfrminf thf <dodf>EditorKit</dodf> thbt should bf usfd to
+ * lobd thf dontfnt.
+ * <p>
+ * By dffbult, thf following typfs of dontfnt brf known:
+ * <dl>
+ * <dt><b>tfxt/plbin</b>
+ * <dd>Plbin tfxt, whidh is thf dffbult thf typf givfn isn't
+ * rfdognizfd.  Thf kit usfd in this dbsf is bn fxtfnsion of
+ * <dodf>DffbultEditorKit</dodf> thbt produdfs b wrbppfd plbin tfxt vifw.
+ * <dt><b>tfxt/html</b>
+ * <dd>HTML tfxt.  Thf kit usfd in this dbsf is thf dlbss
+ * <dodf>jbvbx.swing.tfxt.html.HTMLEditorKit</dodf>
+ * whidh providfs HTML 3.2 support.
+ * <dt><b>tfxt/rtf</b>
+ * <dd>RTF tfxt.  Thf kit usfd in this dbsf is thf dlbss
+ * <dodf>jbvbx.swing.tfxt.rtf.RTFEditorKit</dodf>
+ * whidh providfs b limitfd support of thf Ridh Tfxt Formbt.
+ * </dl>
+ * <p>
+ * Thfrf brf sfvfrbl wbys to lobd dontfnt into this domponfnt.
+ * <ol>
+ * <li>
+ * Thf {@link #sftTfxt sftTfxt} mfthod dbn bf usfd to initiblizf
+ * thf domponfnt from b string.  In this dbsf thf durrfnt
+ * <dodf>EditorKit</dodf> will bf usfd, bnd thf dontfnt typf will bf
+ * fxpfdtfd to bf of this typf.
+ * <li>
+ * Thf {@link #rfbd rfbd} mfthod dbn bf usfd to initiblizf thf
+ * domponfnt from b <dodf>Rfbdfr</dodf>.  Notf thbt if thf dontfnt typf is HTML,
+ * rflbtivf rfffrfndfs (f.g. for things likf imbgfs) dbn't bf rfsolvfd
+ * unlfss thf &lt;bbsf&gt; tbg is usfd or thf <fm>Bbsf</fm> propfrty
+ * on <dodf>HTMLDodumfnt</dodf> is sft.
+ * In this dbsf thf durrfnt <dodf>EditorKit</dodf> will bf usfd,
+ * bnd thf dontfnt typf will bf fxpfdtfd to bf of this typf.
+ * <li>
+ * Thf {@link #sftPbgf sftPbgf} mfthod dbn bf usfd to initiblizf
+ * thf domponfnt from b URL.  In this dbsf, thf dontfnt typf will bf
+ * dftfrminfd from thf URL, bnd thf rfgistfrfd <dodf>EditorKit</dodf>
+ * for thbt dontfnt typf will bf sft.
+ * </ol>
+ * <p>
+ * Somf kinds of dontfnt mby providf hypfrlink support by gfnfrbting
+ * hypfrlink fvfnts.  Thf HTML <dodf>EditorKit</dodf> will gfnfrbtf
+ * hypfrlink fvfnts if thf <dodf>JEditorPbnf</dodf> is <fm>not fditbblf</fm>
+ * (<dodf>JEditorPbnf.sftEditbblf(fblsf);</dodf> hbs bffn dbllfd).
+ * If HTML frbmfs brf fmbfddfd in thf dodumfnt, thf typidbl rfsponsf would bf
+ * to dhbngf b portion of thf durrfnt dodumfnt.  Thf following dodf
+ * frbgmfnt is b possiblf hypfrlink listfnfr implfmfntbtion, thbt trfbts
+ * HTML frbmf fvfnts spfdiblly, bnd simply displbys bny othfr bdtivbtfd
+ * hypfrlinks.
+ * <prf>
+
+&nbsp;    dlbss Hypfrbdtivf implfmfnts HypfrlinkListfnfr {
+&nbsp;
+&nbsp;        publid void hypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+&nbsp;            if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+&nbsp;                JEditorPbnf pbnf = (JEditorPbnf) f.gftSourdf();
+&nbsp;                if (f instbndfof HTMLFrbmfHypfrlinkEvfnt) {
+&nbsp;                    HTMLFrbmfHypfrlinkEvfnt  fvt = (HTMLFrbmfHypfrlinkEvfnt)f;
+&nbsp;                    HTMLDodumfnt dod = (HTMLDodumfnt)pbnf.gftDodumfnt();
+&nbsp;                    dod.prodfssHTMLFrbmfHypfrlinkEvfnt(fvt);
+&nbsp;                } flsf {
+&nbsp;                    try {
+&nbsp;                        pbnf.sftPbgf(f.gftURL());
+&nbsp;                    } dbtdh (Throwbblf t) {
+&nbsp;                        t.printStbdkTrbdf();
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+
+ * </prf>
+ * <p>
+ * For informbtion on dustomizing how <b>tfxt/html</b> is rfndfrfd plfbsf sff
+ * {@link #W3C_LENGTH_UNITS} bnd {@link #HONOR_DISPLAY_PROPERTIES}
+ * <p>
+ * Culturblly dfpfndfnt informbtion in somf dodumfnts is hbndlfd through
+ * b mfdhbnism dbllfd dhbrbdtfr fndoding.  Chbrbdtfr fndoding is bn
+ * unbmbiguous mbpping of thf mfmbfrs of b dhbrbdtfr sft (lfttfrs, idfogrbphs,
+ * digits, symbols, or dontrol fundtions) to spfdifid numfrid dodf vblufs. It
+ * rfprfsfnts thf wby thf filf is storfd. Exbmplf dhbrbdtfr fndodings brf
+ * ISO-8859-1, ISO-8859-5, Shift-jis, Eud-jp, bnd UTF-8. Whfn thf filf is
+ * pbssfd to bn usfr bgfnt (<dodf>JEditorPbnf</dodf>) it is donvfrtfd to
+ * thf dodumfnt dhbrbdtfr sft (ISO-10646 bkb Unidodf).
+ * <p>
+ * Thfrf brf multiplf wbys to gft b dhbrbdtfr sft mbpping to hbppfn
+ * with <dodf>JEditorPbnf</dodf>.
+ * <ol>
+ * <li>
+ * Onf wby is to spfdify thf dhbrbdtfr sft bs b pbrbmftfr of thf MIME
+ * typf.  This will bf fstbblishfd by b dbll to thf
+ * {@link #sftContfntTypf sftContfntTypf} mfthod.  If thf dontfnt
+ * is lobdfd by thf {@link #sftPbgf sftPbgf} mfthod thf dontfnt
+ * typf will hbvf bffn sft bddording to thf spfdifidbtion of thf URL.
+ * It thf filf is lobdfd dirfdtly, thf dontfnt typf would bf fxpfdtfd to
+ * hbvf bffn sft prior to lobding.
+ * <li>
+ * Anothfr wby thf dhbrbdtfr sft dbn bf spfdififd is in thf dodumfnt itsflf.
+ * This rfquirfs rfbding thf dodumfnt prior to dftfrmining thf dhbrbdtfr sft
+ * thbt is dfsirfd.  To hbndlf this, it is fxpfdtfd thbt thf
+ * <dodf>EditorKit</dodf>.rfbd opfrbtion throw b
+ * <dodf>ChbngfdChbrSftExdfption</dodf> whidh will
+ * bf dbught.  Thf rfbd is thfn rfstbrtfd with b nfw Rfbdfr thbt usfs
+ * thf dhbrbdtfr sft spfdififd in thf <dodf>ChbngfdChbrSftExdfption</dodf>
+ * (whidh is bn <dodf>IOExdfption</dodf>).
+ * </ol>
+ *
+ * <dl>
+ * <dt><b>Nfwlinfs</b>
+ * <dd>
+ * For b disdussion on how nfwlinfs brf hbndlfd, sff
+ * <b hrff="tfxt/DffbultEditorKit.html">DffbultEditorKit</b>.
+ * </dl>
+ *
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A tfxt domponfnt to fdit vbrious typfs of dontfnt.
+ *
+ * @buthor  Timothy Prinzing
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JEditorPbnf fxtfnds JTfxtComponfnt {
+
+    /**
+     * Crfbtfs b nfw <dodf>JEditorPbnf</dodf>.
+     * Thf dodumfnt modfl is sft to <dodf>null</dodf>.
+     */
+    publid JEditorPbnf() {
+        supfr();
+        sftFodusCydlfRoot(truf);
+        sftFodusTrbvfrsblPolidy(nfw LbyoutFodusTrbvfrsblPolidy() {
+                publid Componfnt gftComponfntAftfr(Contbinfr fodusCydlfRoot,
+                                                   Componfnt bComponfnt) {
+                    if (fodusCydlfRoot != JEditorPbnf.this ||
+                        (!isEditbblf() && gftComponfntCount() > 0)) {
+                        rfturn supfr.gftComponfntAftfr(fodusCydlfRoot,
+                                                       bComponfnt);
+                    } flsf {
+                        Contbinfr rootAndfstor = gftFodusCydlfRootAndfstor();
+                        rfturn (rootAndfstor != null)
+                            ? rootAndfstor.gftFodusTrbvfrsblPolidy().
+                                  gftComponfntAftfr(rootAndfstor,
+                                                    JEditorPbnf.this)
+                            : null;
+                    }
+                }
+                publid Componfnt gftComponfntBfforf(Contbinfr fodusCydlfRoot,
+                                                    Componfnt bComponfnt) {
+                    if (fodusCydlfRoot != JEditorPbnf.this ||
+                        (!isEditbblf() && gftComponfntCount() > 0)) {
+                        rfturn supfr.gftComponfntBfforf(fodusCydlfRoot,
+                                                        bComponfnt);
+                    } flsf {
+                        Contbinfr rootAndfstor = gftFodusCydlfRootAndfstor();
+                        rfturn (rootAndfstor != null)
+                            ? rootAndfstor.gftFodusTrbvfrsblPolidy().
+                                  gftComponfntBfforf(rootAndfstor,
+                                                     JEditorPbnf.this)
+                            : null;
+                    }
+                }
+                publid Componfnt gftDffbultComponfnt(Contbinfr fodusCydlfRoot)
+                {
+                    rfturn (fodusCydlfRoot != JEditorPbnf.this ||
+                            (!isEditbblf() && gftComponfntCount() > 0))
+                        ? supfr.gftDffbultComponfnt(fodusCydlfRoot)
+                        : null;
+                }
+                protfdtfd boolfbn bddfpt(Componfnt bComponfnt) {
+                    rfturn (bComponfnt != JEditorPbnf.this)
+                        ? supfr.bddfpt(bComponfnt)
+                        : fblsf;
+                }
+            });
+        LookAndFffl.instbllPropfrty(this,
+                                    "fodusTrbvfrsblKfysForwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusForwbrdTrbvfrsblKfys());
+        LookAndFffl.instbllPropfrty(this,
+                                    "fodusTrbvfrsblKfysBbdkwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusBbdkwbrdTrbvfrsblKfys());
+    }
+
+    /**
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> bbsfd on b spfdififd URL for input.
+     *
+     * @pbrbm initiblPbgf thf URL
+     * @fxdfption IOExdfption if thf URL is <dodf>null</dodf>
+     *          or dbnnot bf bddfssfd
+     */
+    publid JEditorPbnf(URL initiblPbgf) throws IOExdfption {
+        this();
+        sftPbgf(initiblPbgf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> bbsfd on b string dontbining
+     * b URL spfdifidbtion.
+     *
+     * @pbrbm url thf URL
+     * @fxdfption IOExdfption if thf URL is <dodf>null</dodf> or
+     *          dbnnot bf bddfssfd
+     */
+    publid JEditorPbnf(String url) throws IOExdfption {
+        this();
+        sftPbgf(url);
+    }
+
+    /**
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> thbt hbs bffn initiblizfd
+     * to thf givfn tfxt.  This is b donvfnifndf donstrudtor thbt dblls thf
+     * <dodf>sftContfntTypf</dodf> bnd <dodf>sftTfxt</dodf> mfthods.
+     *
+     * @pbrbm typf mimf typf of thf givfn tfxt
+     * @pbrbm tfxt thf tfxt to initiblizf with; mby bf <dodf>null</dodf>
+     * @fxdfption NullPointfrExdfption if thf <dodf>typf</dodf> pbrbmftfr
+     *          is <dodf>null</dodf>
+     */
+    publid JEditorPbnf(String typf, String tfxt) {
+        this();
+        sftContfntTypf(typf);
+        sftTfxt(tfxt);
+    }
+
+    /**
+     * Adds b hypfrlink listfnfr for notifidbtion of bny dhbngfs, for fxbmplf
+     * whfn b link is sflfdtfd bnd fntfrfd.
+     *
+     * @pbrbm listfnfr thf listfnfr
+     */
+    publid syndhronizfd void bddHypfrlinkListfnfr(HypfrlinkListfnfr listfnfr) {
+        listfnfrList.bdd(HypfrlinkListfnfr.dlbss, listfnfr);
+    }
+
+    /**
+     * Rfmovfs b hypfrlink listfnfr.
+     *
+     * @pbrbm listfnfr thf listfnfr
+     */
+    publid syndhronizfd void rfmovfHypfrlinkListfnfr(HypfrlinkListfnfr listfnfr) {
+        listfnfrList.rfmovf(HypfrlinkListfnfr.dlbss, listfnfr);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>HypfrLinkListfnfr</dodf>s bddfd
+     * to this JEditorPbnf with bddHypfrlinkListfnfr().
+     *
+     * @rfturn bll of thf <dodf>HypfrLinkListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid syndhronizfd HypfrlinkListfnfr[] gftHypfrlinkListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(jbvbx.swing.fvfnt.HypfrlinkListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  This is normblly dbllfd
+     * by thf durrfntly instbllfd <dodf>EditorKit</dodf> if b dontfnt typf
+     * thbt supports hypfrlinks is durrfntly bdtivf bnd thfrf
+     * wbs bdtivity with b link.  Thf listfnfr list is prodfssfd
+     * lbst to first.
+     *
+     * @pbrbm f thf fvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfHypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==HypfrlinkListfnfr.dlbss) {
+                ((HypfrlinkListfnfr)listfnfrs[i+1]).hypfrlinkUpdbtf(f);
+            }
+        }
+    }
+
+
+    /**
+     * Sfts thf durrfnt URL bfing displbyfd.  Thf dontfnt typf of thf
+     * pbnf is sft, bnd if thf fditor kit for thf pbnf is
+     * non-<dodf>null</dodf>, thfn
+     * b nfw dffbult dodumfnt is drfbtfd bnd thf URL is rfbd into it.
+     * If thf URL dontbins bnd rfffrfndf lodbtion, thf lodbtion will
+     * bf sdrollfd to by dblling thf <dodf>sdrollToRfffrfndf</dodf>
+     * mfthod. If thf dfsirfd URL is thf onf durrfntly bfing displbyfd,
+     * thf dodumfnt will not bf rflobdfd. To fordf b dodumfnt
+     * rflobd it is nfdfssbry to dlfbr thf strfbm dfsdription propfrty
+     * of thf dodumfnt. Thf following dodf shows how this dbn bf donf:
+     *
+     * <prf>
+     *   Dodumfnt dod = jEditorPbnf.gftDodumfnt();
+     *   dod.putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, null);
+     * </prf>
+     *
+     * If thf dfsirfd URL is not thf onf durrfntly bfing
+     * displbyfd, thf <dodf>gftStrfbm</dodf> mfthod is dbllfd to
+     * givf subdlbssfs dontrol ovfr thf strfbm providfd.
+     * <p>
+     * This mby lobd fithfr syndhronously or bsyndhronously
+     * dfpfnding upon thf dodumfnt rfturnfd by thf <dodf>EditorKit</dodf>.
+     * If thf <dodf>Dodumfnt</dodf> is of typf
+     * <dodf>AbstrbdtDodumfnt</dodf> bnd hbs b vbluf rfturnfd by
+     * <dodf>AbstrbdtDodumfnt.gftAsyndhronousLobdPriority</dodf>
+     * thbt is grfbtfr thbn or fqubl to zfro, thf pbgf will bf
+     * lobdfd on b sfpbrbtf thrfbd using thbt priority.
+     * <p>
+     * If thf dodumfnt is lobdfd syndhronously, it will bf
+     * fillfd in with thf strfbm prior to bfing instbllfd into
+     * thf fditor with b dbll to <dodf>sftDodumfnt</dodf>, whidh
+     * is bound bnd will firf b propfrty dhbngf fvfnt.  If bn
+     * <dodf>IOExdfption</dodf> is thrown thf pbrtiblly lobdfd
+     * dodumfnt will
+     * bf disdbrdfd bnd nfithfr thf dodumfnt or pbgf propfrty
+     * dhbngf fvfnts will bf firfd.  If thf dodumfnt is
+     * suddfssfully lobdfd bnd instbllfd, b vifw will bf
+     * built for it by thf UI whidh will thfn bf sdrollfd if
+     * nfdfssbry, bnd thfn thf pbgf propfrty dhbngf fvfnt
+     * will bf firfd.
+     * <p>
+     * If thf dodumfnt is lobdfd bsyndhronously, thf dodumfnt
+     * will bf instbllfd into thf fditor immfdibtfly using b
+     * dbll to <dodf>sftDodumfnt</dodf> whidh will firf b
+     * dodumfnt propfrty dhbngf fvfnt, thfn b thrfbd will bf
+     * drfbtfd whidh will bfgin doing thf bdtubl lobding.
+     * In this dbsf, thf pbgf propfrty dhbngf fvfnt will not bf
+     * firfd by thf dbll to this mfthod dirfdtly, but rbthfr will bf
+     * firfd whfn thf thrfbd doing thf lobding hbs finishfd.
+     * It will blso bf firfd on thf fvfnt-dispbtdh thrfbd.
+     * Sindf thf dblling thrfbd dbn not throw bn <dodf>IOExdfption</dodf>
+     * in thf fvfnt of fbilurf on thf othfr thrfbd, thf pbgf
+     * propfrty dhbngf fvfnt will bf firfd whfn thf othfr
+     * thrfbd is donf whfthfr thf lobd wbs suddfssful or not.
+     *
+     * @pbrbm pbgf thf URL of thf pbgf
+     * @fxdfption IOExdfption for b <dodf>null</dodf> or invblid
+     *          pbgf spfdifidbtion, or fxdfption from thf strfbm bfing rfbd
+     * @sff #gftPbgf
+     * @bfbninfo
+     *  dfsdription: thf URL usfd to sft dontfnt
+     *        bound: truf
+     *       fxpfrt: truf
+     */
+    publid void sftPbgf(URL pbgf) throws IOExdfption {
+        if (pbgf == null) {
+            throw nfw IOExdfption("invblid url");
+        }
+        URL lobdfd = gftPbgf();
+
+
+        // rfsft sdrollbbr
+        if (!pbgf.fqubls(lobdfd) && pbgf.gftRff() == null) {
+            sdrollRfdtToVisiblf(nfw Rfdtbnglf(0,0,1,1));
+        }
+        boolfbn rflobdfd = fblsf;
+        Objfdt postDbtb = gftPostDbtb();
+        if ((lobdfd == null) || !lobdfd.sbmfFilf(pbgf) || (postDbtb != null)) {
+            // difffrfnt url or POST mfthod, lobd thf nfw dontfnt
+
+            int p = gftAsyndhronousLobdPriority(gftDodumfnt());
+            if (p < 0) {
+                // opfn strfbm syndhronously
+                InputStrfbm in = gftStrfbm(pbgf);
+                if (kit != null) {
+                    Dodumfnt dod = initiblizfModfl(kit, pbgf);
+
+                    // At this point, onf dould fithfr lobd up thf modfl with no
+                    // vifw notifidbtions slowing it down (i.f. bfst syndhronous
+                    // bfhbvior) or sft thf modfl bnd stbrt to fffd it on b sfpbrbtf
+                    // thrfbd (bfst bsyndhronous bfhbvior).
+                    p = gftAsyndhronousLobdPriority(dod);
+                    if (p >= 0) {
+                        // lobd bsyndhronously
+                        sftDodumfnt(dod);
+                        syndhronizfd(this) {
+                            pbgfLobdfr = nfw PbgfLobdfr(dod, in, lobdfd, pbgf);
+                            pbgfLobdfr.fxfdutf();
+                        }
+                        rfturn;
+                    }
+                    rfbd(in, dod);
+                    sftDodumfnt(dod);
+                    rflobdfd = truf;
+                }
+            } flsf {
+                // wf mby nffd to dbndfl bbdkground lobding
+                if (pbgfLobdfr != null) {
+                    pbgfLobdfr.dbndfl(truf);
+                }
+
+                // Do fvfrything in b bbdkground thrfbd.
+                // Modfl initiblizbtion is dfffrrfd to thbt thrfbd, too.
+                pbgfLobdfr = nfw PbgfLobdfr(null, null, lobdfd, pbgf);
+                pbgfLobdfr.fxfdutf();
+                rfturn;
+            }
+        }
+        finbl String rfffrfndf = pbgf.gftRff();
+        if (rfffrfndf != null) {
+            if (!rflobdfd) {
+                sdrollToRfffrfndf(rfffrfndf);
+            }
+            flsf {
+                // Hbvf to sdroll bftfr pbintfd.
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        sdrollToRfffrfndf(rfffrfndf);
+                    }
+                });
+            }
+            gftDodumfnt().putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, pbgf);
+        }
+        firfPropfrtyChbngf("pbgf", lobdfd, pbgf);
+    }
+
+    /**
+     * Crfbtf modfl bnd initiblizf dodumfnt propfrtifs from pbgf propfrtifs.
+     */
+    privbtf Dodumfnt initiblizfModfl(EditorKit kit, URL pbgf) {
+        Dodumfnt dod = kit.drfbtfDffbultDodumfnt();
+        if (pbgfPropfrtifs != null) {
+            // trbnsffr propfrtifs disdovfrfd in strfbm to thf
+            // dodumfnt propfrty dollfdtion.
+            for (Enumfrbtion<String> f = pbgfPropfrtifs.kfys(); f.hbsMorfElfmfnts() ;) {
+                String kfy = f.nfxtElfmfnt();
+                dod.putPropfrty(kfy, pbgfPropfrtifs.gft(kfy));
+            }
+            pbgfPropfrtifs.dlfbr();
+        }
+        if (dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty) == null) {
+            dod.putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, pbgf);
+        }
+        rfturn dod;
+    }
+
+    /**
+     * Rfturn lobd priority for thf dodumfnt or -1 if priority not supportfd.
+     */
+    privbtf int gftAsyndhronousLobdPriority(Dodumfnt dod) {
+        rfturn (dod instbndfof AbstrbdtDodumfnt ?
+            ((AbstrbdtDodumfnt) dod).gftAsyndhronousLobdPriority() : -1);
+    }
+
+    /**
+     * This mfthod initiblizfs from b strfbm.  If thf kit is
+     * sft to bf of typf <dodf>HTMLEditorKit</dodf>, bnd thf
+     * <dodf>dfsd</dodf> pbrbmftfr is bn <dodf>HTMLDodumfnt</dodf>,
+     * thfn it invokfs thf <dodf>HTMLEditorKit</dodf> to initibtf
+     * thf rfbd. Othfrwisf it dblls thf supfrdlbss
+     * mfthod whidh lobds thf modfl bs plbin tfxt.
+     *
+     * @pbrbm in thf strfbm from whidh to rfbd
+     * @pbrbm dfsd bn objfdt dfsdribing thf strfbm
+     * @fxdfption IOExdfption bs thrown by thf strfbm bfing
+     *          usfd to initiblizf
+     * @sff JTfxtComponfnt#rfbd
+     * @sff #sftDodumfnt
+     */
+    publid void rfbd(InputStrfbm in, Objfdt dfsd) throws IOExdfption {
+
+        if (dfsd instbndfof HTMLDodumfnt &&
+            kit instbndfof HTMLEditorKit) {
+            HTMLDodumfnt hdod = (HTMLDodumfnt) dfsd;
+            sftDodumfnt(hdod);
+            rfbd(in, hdod);
+        } flsf {
+            String dhbrsft = (String) gftClifntPropfrty("dhbrsft");
+            Rfbdfr r = (dhbrsft != null) ? nfw InputStrfbmRfbdfr(in, dhbrsft) :
+                nfw InputStrfbmRfbdfr(in);
+            supfr.rfbd(r, dfsd);
+        }
+    }
+
+
+    /**
+     * This mfthod invokfs thf <dodf>EditorKit</dodf> to initibtf b
+     * rfbd.  In thf dbsf whfrf b <dodf>ChbngfdChbrSftExdfption</dodf>
+     * is thrown this fxdfption will dontbin thf nfw ChbrSft.
+     * Thfrfforf thf <dodf>rfbd</dodf> opfrbtion
+     * is thfn rfstbrtfd bftfr building b nfw Rfbdfr with thf nfw dhbrsft.
+     *
+     * @pbrbm in thf inputstrfbm to usf
+     * @pbrbm dod thf dodumfnt to lobd
+     *
+     */
+    void rfbd(InputStrfbm in, Dodumfnt dod) throws IOExdfption {
+        if (! Boolfbn.TRUE.fqubls(dod.gftPropfrty("IgnorfChbrsftDirfdtivf"))) {
+            finbl int READ_LIMIT = 1024 * 10;
+            in = nfw BufffrfdInputStrfbm(in, READ_LIMIT);
+            in.mbrk(READ_LIMIT);
+        }
+        try {
+            String dhbrsft = (String) gftClifntPropfrty("dhbrsft");
+            Rfbdfr r = (dhbrsft != null) ? nfw InputStrfbmRfbdfr(in, dhbrsft) :
+                nfw InputStrfbmRfbdfr(in);
+            kit.rfbd(r, dod, 0);
+        } dbtdh (BbdLodbtionExdfption f) {
+            throw nfw IOExdfption(f.gftMfssbgf());
+        } dbtdh (ChbngfdChbrSftExdfption dhbngfdChbrSftExdfption) {
+            String dhbrSftSpfd = dhbngfdChbrSftExdfption.gftChbrSftSpfd();
+            if (dhbngfdChbrSftExdfption.kfyEqublsChbrSft()) {
+                putClifntPropfrty("dhbrsft", dhbrSftSpfd);
+            } flsf {
+                sftChbrsftFromContfntTypfPbrbmftfrs(dhbrSftSpfd);
+            }
+            try {
+                in.rfsft();
+            } dbtdh (IOExdfption fxdfption) {
+                //mbrk wbs invblidbtfd
+                in.dlosf();
+                URL url = (URL)dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+                if (url != null) {
+                    URLConnfdtion donn = url.opfnConnfdtion();
+                    in = donn.gftInputStrfbm();
+                } flsf {
+                    //thfrf is nothing wf dbn do to rfdovfr strfbm
+                    throw dhbngfdChbrSftExdfption;
+                }
+            }
+            try {
+                dod.rfmovf(0, dod.gftLfngth());
+            } dbtdh (BbdLodbtionExdfption f) {}
+            dod.putPropfrty("IgnorfChbrsftDirfdtivf", Boolfbn.vblufOf(truf));
+            rfbd(in, dod);
+        }
+    }
+
+
+    /**
+     * Lobds b strfbm into thf tfxt dodumfnt modfl.
+     */
+    dlbss PbgfLobdfr fxtfnds SwingWorkfr<URL, Objfdt> {
+
+        /**
+         * Construdt bn bsyndhronous pbgf lobdfr.
+         */
+        PbgfLobdfr(Dodumfnt dod, InputStrfbm in, URL old, URL pbgf) {
+            this.in = in;
+            this.old = old;
+            this.pbgf = pbgf;
+            this.dod = dod;
+        }
+
+        /**
+         * Try to lobd thf dodumfnt, thfn sdroll thf vifw
+         * to thf rfffrfndf (if spfdififd).  Whfn donf, firf
+         * b pbgf propfrty dhbngf fvfnt.
+         */
+        protfdtfd URL doInBbdkground() {
+            boolfbn pbgfLobdfd = fblsf;
+            try {
+                if (in == null) {
+                    in = gftStrfbm(pbgf);
+                    if (kit == null) {
+                        // Wf rfdfivfd dodumfnt of unknown dontfnt typf.
+                        UIMbnbgfr.gftLookAndFffl().
+                                providfErrorFffdbbdk(JEditorPbnf.this);
+                        rfturn old;
+                    }
+                }
+
+                if (dod == null) {
+                    try {
+                        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                            publid void run() {
+                                dod = initiblizfModfl(kit, pbgf);
+                                sftDodumfnt(dod);
+                            }
+                        });
+                    } dbtdh (InvodbtionTbrgftExdfption fx) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(
+                                                            JEditorPbnf.this);
+                        rfturn old;
+                    } dbtdh (IntfrruptfdExdfption fx) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(
+                                                            JEditorPbnf.this);
+                        rfturn old;
+                    }
+                }
+
+                rfbd(in, dod);
+                URL pbgf = (URL) dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+                String rfffrfndf = pbgf.gftRff();
+                if (rfffrfndf != null) {
+                    // sdroll thf pbgf if nfdfssbry, but do it on thf
+                    // fvfnt thrfbd... thbt is thf only gubrbntff thbt
+                    // modflToVifw dbn bf sbffly dbllfd.
+                    Runnbblf dbllSdrollToRfffrfndf = nfw Runnbblf() {
+                        publid void run() {
+                            URL u = (URL) gftDodumfnt().gftPropfrty
+                                (Dodumfnt.StrfbmDfsdriptionPropfrty);
+                            String rff = u.gftRff();
+                            sdrollToRfffrfndf(rff);
+                        }
+                    };
+                    SwingUtilitifs.invokfLbtfr(dbllSdrollToRfffrfndf);
+                }
+                pbgfLobdfd = truf;
+            } dbtdh (IOExdfption iof) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+            } finblly {
+                if (pbgfLobdfd) {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            JEditorPbnf.this.firfPropfrtyChbngf("pbgf", old, pbgf);
+                        }
+                    });
+                }
+            }
+            rfturn (pbgfLobdfd ? pbgf : old);
+        }
+
+        /**
+         * Thf strfbm to lobd thf dodumfnt with
+         */
+        InputStrfbm in;
+
+        /**
+         * URL of thf old pbgf thbt wbs rfplbdfd (for thf propfrty dhbngf fvfnt)
+         */
+        URL old;
+
+        /**
+         * URL of thf pbgf bfing lobdfd (for thf propfrty dhbngf fvfnt)
+         */
+        URL pbgf;
+
+        /**
+         * Thf Dodumfnt instbndf to lobd into. This is dbdhfd in dbsf b
+         * nfw Dodumfnt is drfbtfd bftwffn thf timf thf thrfbd this is drfbtfd
+         * bnd run.
+         */
+        Dodumfnt dod;
+    }
+
+    /**
+     * Fftdhfs b strfbm for thf givfn URL, whidh is bbout to
+     * bf lobdfd by thf <dodf>sftPbgf</dodf> mfthod.  By
+     * dffbult, this simply opfns thf URL bnd rfturns thf
+     * strfbm.  This dbn bf rfimplfmfntfd to do usfful things
+     * likf fftdh thf strfbm from b dbdhf, monitor thf progrfss
+     * of thf strfbm, ftd.
+     * <p>
+     * This mfthod is fxpfdtfd to hbvf thf thf sidf ffffdt of
+     * fstbblishing thf dontfnt typf, bnd thfrfforf sftting thf
+     * bppropribtf <dodf>EditorKit</dodf> to usf for lobding thf strfbm.
+     * <p>
+     * If this thf strfbm wbs bn http donnfdtion, rfdirfdts
+     * will bf followfd bnd thf rfsulting URL will bf sft bs
+     * thf <dodf>Dodumfnt.StrfbmDfsdriptionPropfrty</dodf> so thbt rflbtivf
+     * URL's dbn bf propfrly rfsolvfd.
+     *
+     * @pbrbm pbgf  thf URL of thf pbgf
+     */
+    protfdtfd InputStrfbm gftStrfbm(URL pbgf) throws IOExdfption {
+        finbl URLConnfdtion donn = pbgf.opfnConnfdtion();
+        if (donn instbndfof HttpURLConnfdtion) {
+            HttpURLConnfdtion hdonn = (HttpURLConnfdtion) donn;
+            hdonn.sftInstbndfFollowRfdirfdts(fblsf);
+            Objfdt postDbtb = gftPostDbtb();
+            if (postDbtb != null) {
+                hbndlfPostDbtb(hdonn, postDbtb);
+            }
+            int rfsponsf = hdonn.gftRfsponsfCodf();
+            boolfbn rfdirfdt = (rfsponsf >= 300 && rfsponsf <= 399);
+
+            /*
+             * In thf dbsf of b rfdirfdt, wf wbnt to bdtublly dhbngf thf URL
+             * thbt wbs input to thf nfw, rfdirfdtfd URL
+             */
+            if (rfdirfdt) {
+                String lod = donn.gftHfbdfrFifld("Lodbtion");
+                if (lod.stbrtsWith("http", 0)) {
+                    pbgf = nfw URL(lod);
+                } flsf {
+                    pbgf = nfw URL(pbgf, lod);
+                }
+                rfturn gftStrfbm(pbgf);
+            }
+        }
+
+        // Connfdtion propfrtifs hbndlfr should bf fordfd to run on EDT,
+        // bs it instbntibtfs thf EditorKit.
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            hbndlfConnfdtionPropfrtifs(donn);
+        } flsf {
+            try {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                    publid void run() {
+                        hbndlfConnfdtionPropfrtifs(donn);
+                    }
+                });
+            } dbtdh (IntfrruptfdExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh (InvodbtionTbrgftExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            }
+        }
+        rfturn donn.gftInputStrfbm();
+    }
+
+    /**
+     * Hbndlf URL donnfdtion propfrtifs (most notbbly, dontfnt typf).
+     */
+    privbtf void hbndlfConnfdtionPropfrtifs(URLConnfdtion donn) {
+        if (pbgfPropfrtifs == null) {
+            pbgfPropfrtifs = nfw Hbshtbblf<String, Objfdt>();
+        }
+        String typf = donn.gftContfntTypf();
+        if (typf != null) {
+            sftContfntTypf(typf);
+            pbgfPropfrtifs.put("dontfnt-typf", typf);
+        }
+        pbgfPropfrtifs.put(Dodumfnt.StrfbmDfsdriptionPropfrty, donn.gftURL());
+        String fnd = donn.gftContfntEndoding();
+        if (fnd != null) {
+            pbgfPropfrtifs.put("dontfnt-fndoding", fnd);
+        }
+    }
+
+    privbtf Objfdt gftPostDbtb() {
+        rfturn gftDodumfnt().gftPropfrty(PostDbtbPropfrty);
+    }
+
+    privbtf void hbndlfPostDbtb(HttpURLConnfdtion donn, Objfdt postDbtb)
+                                                            throws IOExdfption {
+        donn.sftDoOutput(truf);
+        DbtbOutputStrfbm os = null;
+        try {
+            donn.sftRfqufstPropfrty("Contfnt-Typf",
+                    "bpplidbtion/x-www-form-urlfndodfd");
+            os = nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+            os.writfBytfs((String) postDbtb);
+        } finblly {
+            if (os != null) {
+                os.dlosf();
+            }
+        }
+    }
+
+
+    /**
+     * Sdrolls thf vifw to thf givfn rfffrfndf lodbtion
+     * (thbt is, thf vbluf rfturnfd by thf <dodf>UL.gftRff</dodf>
+     * mfthod for thf URL bfing displbyfd).  By dffbult, this
+     * mfthod only knows how to lodbtf b rfffrfndf in bn
+     * HTMLDodumfnt.  Thf implfmfntbtion dblls thf
+     * <dodf>sdrollRfdtToVisiblf</dodf> mfthod to
+     * bddomplish thf bdtubl sdrolling.  If sdrolling to b
+     * rfffrfndf lodbtion is nffdfd for dodumfnt typfs othfr
+     * thbn HTML, this mfthod should bf rfimplfmfntfd.
+     * This mfthod will hbvf no ffffdt if thf domponfnt
+     * is not visiblf.
+     *
+     * @pbrbm rfffrfndf thf nbmfd lodbtion to sdroll to
+     */
+    publid void sdrollToRfffrfndf(String rfffrfndf) {
+        Dodumfnt d = gftDodumfnt();
+        if (d instbndfof HTMLDodumfnt) {
+            HTMLDodumfnt dod = (HTMLDodumfnt) d;
+            HTMLDodumfnt.Itfrbtor itfr = dod.gftItfrbtor(HTML.Tbg.A);
+            for (; itfr.isVblid(); itfr.nfxt()) {
+                AttributfSft b = itfr.gftAttributfs();
+                String nm = (String) b.gftAttributf(HTML.Attributf.NAME);
+                if ((nm != null) && nm.fqubls(rfffrfndf)) {
+                    // found b mbtdhing rfffrfndf in thf dodumfnt.
+                    try {
+                        int pos = itfr.gftStbrtOffsft();
+                        Rfdtbnglf r = modflToVifw(pos);
+                        if (r != null) {
+                            // thf vifw is visiblf, sdroll it to thf
+                            // dfntfr of thf durrfnt visiblf brfb.
+                            Rfdtbnglf vis = gftVisiblfRfdt();
+                            //r.y -= (vis.hfight / 2);
+                            r.hfight = vis.hfight;
+                            sdrollRfdtToVisiblf(r);
+                            sftCbrftPosition(pos);
+                        }
+                    } dbtdh (BbdLodbtionExdfption blf) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gfts thf durrfnt URL bfing displbyfd.  If b URL wbs
+     * not spfdififd in thf drfbtion of thf dodumfnt, this
+     * will rfturn <dodf>null</dodf>, bnd rflbtivf URL's will not bf
+     * rfsolvfd.
+     *
+     * @rfturn thf URL, or <dodf>null</dodf> if nonf
+     */
+    publid URL gftPbgf() {
+        rfturn (URL) gftDodumfnt().gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+    }
+
+    /**
+     * Sfts thf durrfnt URL bfing displbyfd.
+     *
+     * @pbrbm url thf URL for displby
+     * @fxdfption IOExdfption for b <dodf>null</dodf> or invblid URL
+     *          spfdifidbtion
+     */
+    publid void sftPbgf(String url) throws IOExdfption {
+        if (url == null) {
+            throw nfw IOExdfption("invblid url");
+        }
+        URL pbgf = nfw URL(url);
+        sftPbgf(pbgf);
+    }
+
+    /**
+     * Gfts thf dlbss ID for thf UI.
+     *
+     * @rfturn thf string "EditorPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+    /**
+     * Crfbtfs thf dffbult fditor kit (<dodf>PlbinEditorKit</dodf>) for whfn
+     * thf domponfnt is first drfbtfd.
+     *
+     * @rfturn thf fditor kit
+     */
+    protfdtfd EditorKit drfbtfDffbultEditorKit() {
+        rfturn nfw PlbinEditorKit();
+    }
+
+    /**
+     * Fftdhfs thf durrfntly instbllfd kit for hbndling dontfnt.
+     * <dodf>drfbtfDffbultEditorKit</dodf> is dbllfd to sft up b dffbult
+     * if nfdfssbry.
+     *
+     * @rfturn thf fditor kit
+     */
+    publid EditorKit gftEditorKit() {
+        if (kit == null) {
+            kit = drfbtfDffbultEditorKit();
+            isUsfrSftEditorKit = fblsf;
+        }
+        rfturn kit;
+    }
+
+    /**
+     * Gfts thf typf of dontfnt thbt this fditor
+     * is durrfntly sft to dfbl with.  This is
+     * dffinfd to bf thf typf bssodibtfd with thf
+     * durrfntly instbllfd <dodf>EditorKit</dodf>.
+     *
+     * @rfturn thf dontfnt typf, <dodf>null</dodf> if no fditor kit sft
+     */
+    publid finbl String gftContfntTypf() {
+        rfturn (kit != null) ? kit.gftContfntTypf() : null;
+    }
+
+    /**
+     * Sfts thf typf of dontfnt thbt this fditor
+     * hbndlfs.  This dblls <dodf>gftEditorKitForContfntTypf</dodf>,
+     * bnd thfn <dodf>sftEditorKit</dodf> if bn fditor kit dbn
+     * bf suddfssfully lodbtfd.  This is mostly donvfnifndf mfthod
+     * thbt dbn bf usfd bs bn bltfrnbtivf to dblling
+     * <dodf>sftEditorKit</dodf> dirfdtly.
+     * <p>
+     * If thfrf is b dhbrsft dffinition spfdififd bs b pbrbmftfr
+     * of thf dontfnt typf spfdifidbtion, it will bf usfd whfn
+     * lobding input strfbms using thf bssodibtfd <dodf>EditorKit</dodf>.
+     * For fxbmplf if thf typf is spfdififd bs
+     * <dodf>tfxt/html; dhbrsft=EUC-JP</dodf> thf dontfnt
+     * will bf lobdfd using thf <dodf>EditorKit</dodf> rfgistfrfd for
+     * <dodf>tfxt/html</dodf> bnd thf Rfbdfr providfd to
+     * thf <dodf>EditorKit</dodf> to lobd unidodf into thf dodumfnt will
+     * usf thf <dodf>EUC-JP</dodf> dhbrsft for trbnslbting
+     * to unidodf.  If thf typf is not rfdognizfd, thf dontfnt
+     * will bf lobdfd using thf <dodf>EditorKit</dodf> rfgistfrfd
+     * for plbin tfxt, <dodf>tfxt/plbin</dodf>.
+     *
+     * @pbrbm typf thf non-<dodf>null</dodf> mimf typf for thf dontfnt fditing
+     *   support
+     * @sff #gftContfntTypf
+     * @bfbninfo
+     *  dfsdription: thf typf of dontfnt
+     * @throws NullPointfrExdfption if thf <dodf>typf</dodf> pbrbmftfr
+     *          is <dodf>null</dodf>
+     */
+    publid finbl void sftContfntTypf(String typf) {
+        // Thf typf dould hbvf optionbl info is pbrt of it,
+        // for fxbmplf somf dhbrsft info.  Wf nffd to strip thbt
+        // of bnd sbvf it.
+        int pbrm = typf.indfxOf(';');
+        if (pbrm > -1) {
+            // Sbvf thf pbrbmList.
+            String pbrbmList = typf.substring(pbrm);
+            // updbtf thf dontfnt typf string.
+            typf = typf.substring(0, pbrm).trim();
+            if (typf.toLowfrCbsf().stbrtsWith("tfxt/")) {
+                sftChbrsftFromContfntTypfPbrbmftfrs(pbrbmList);
+            }
+        }
+        if ((kit == null) || (! typf.fqubls(kit.gftContfntTypf()))
+                || !isUsfrSftEditorKit) {
+            EditorKit k = gftEditorKitForContfntTypf(typf);
+            if (k != null && k != kit) {
+                sftEditorKit(k);
+                isUsfrSftEditorKit = fblsf;
+            }
+        }
+
+    }
+
+    /**
+     * This mfthod gfts thf dhbrsft informbtion spfdififd bs pbrt
+     * of thf dontfnt typf in thf http hfbdfr informbtion.
+     */
+    privbtf void sftChbrsftFromContfntTypfPbrbmftfrs(String pbrbmlist) {
+        String dhbrsft;
+        try {
+            // pbrbmlist is hbndfd to us with b lfbding ';', strip it.
+            int sfmi = pbrbmlist.indfxOf(';');
+            if (sfmi > -1 && sfmi < pbrbmlist.lfngth()-1) {
+                pbrbmlist = pbrbmlist.substring(sfmi + 1);
+            }
+
+            if (pbrbmlist.lfngth() > 0) {
+                // pbrsf thf pbrbmlist into bttr-vbluf pbirs & gft thf
+                // dhbrsft pbir's vbluf
+                HfbdfrPbrsfr hdrPbrsfr = nfw HfbdfrPbrsfr(pbrbmlist);
+                dhbrsft = hdrPbrsfr.findVbluf("dhbrsft");
+                if (dhbrsft != null) {
+                    putClifntPropfrty("dhbrsft", dhbrsft);
+                }
+            }
+        }
+        dbtdh (IndfxOutOfBoundsExdfption f) {
+            // mblformfd pbrbmftfr list, usf dhbrsft wf hbvf
+        }
+        dbtdh (NullPointfrExdfption f) {
+            // mblformfd pbrbmftfr list, usf dhbrsft wf hbvf
+        }
+        dbtdh (Exdfption f) {
+            // mblformfd pbrbmftfr list, usf dhbrsft wf hbvf; but domplbin
+            Systfm.frr.println("JEditorPbnf.gftChbrsftFromContfntTypfPbrbmftfrs fbilfd on: " + pbrbmlist);
+            f.printStbdkTrbdf();
+        }
+    }
+
+
+    /**
+     * Sfts thf durrfntly instbllfd kit for hbndling
+     * dontfnt.  This is thf bound propfrty thbt
+     * fstbblishfs thf dontfnt typf of thf fditor.
+     * Any old kit is first dfinstbllfd, thfn if kit is
+     * non-<dodf>null</dodf>,
+     * thf nfw kit is instbllfd, bnd b dffbult dodumfnt drfbtfd for it.
+     * A <dodf>PropfrtyChbngf</dodf> fvfnt ("fditorKit") is blwbys firfd whfn
+     * <dodf>sftEditorKit</dodf> is dbllfd.
+     * <p>
+     * <fm>NOTE: This hbs thf sidf ffffdt of dhbnging thf modfl,
+     * bfdbusf thf <dodf>EditorKit</dodf> is thf sourdf of how b
+     * pbrtidulbr typf
+     * of dontfnt is modflfd.  This mfthod will dbusf <dodf>sftDodumfnt</dodf>
+     * to bf dbllfd on bfhblf of thf dbllfr to fnsurf intfgrity
+     * of thf intfrnbl stbtf.</fm>
+     *
+     * @pbrbm kit thf dfsirfd fditor bfhbvior
+     * @sff #gftEditorKit
+     * @bfbninfo
+     *  dfsdription: thf durrfntly instbllfd kit for hbndling dontfnt
+     *        bound: truf
+     *       fxpfrt: truf
+     */
+    publid void sftEditorKit(EditorKit kit) {
+        EditorKit old = this.kit;
+        isUsfrSftEditorKit = truf;
+        if (old != null) {
+            old.dfinstbll(this);
+        }
+        this.kit = kit;
+        if (this.kit != null) {
+            this.kit.instbll(this);
+            sftDodumfnt(this.kit.drfbtfDffbultDodumfnt());
+        }
+        firfPropfrtyChbngf("fditorKit", old, kit);
+    }
+
+    /**
+     * Fftdhfs thf fditor kit to usf for thf givfn typf
+     * of dontfnt.  This is dbllfd whfn b typf is rfqufstfd
+     * thbt dofsn't mbtdh thf durrfntly instbllfd typf.
+     * If thf domponfnt dofsn't hbvf bn <dodf>EditorKit</dodf> rfgistfrfd
+     * for thf givfn typf, it will try to drfbtf bn
+     * <dodf>EditorKit</dodf> from thf dffbult <dodf>EditorKit</dodf> rfgistry.
+     * If thbt fbils, b <dodf>PlbinEditorKit</dodf> is usfd on thf
+     * bssumption thbt bll tfxt dodumfnts dbn bf rfprfsfntfd
+     * bs plbin tfxt.
+     * <p>
+     * This mfthod dbn bf rfimplfmfntfd to usf somf
+     * othfr kind of typf rfgistry.  This dbn
+     * bf rfimplfmfntfd to usf thf Jbvb Adtivbtion
+     * Frbmfwork, for fxbmplf.
+     *
+     * @pbrbm typf thf non-<dodf>null</dodf> dontfnt typf
+     * @rfturn thf fditor kit
+     */
+    publid EditorKit gftEditorKitForContfntTypf(String typf) {
+        if (typfHbndlfrs == null) {
+            typfHbndlfrs = nfw Hbshtbblf<String, EditorKit>(3);
+        }
+        EditorKit k = typfHbndlfrs.gft(typf);
+        if (k == null) {
+            k = drfbtfEditorKitForContfntTypf(typf);
+            if (k != null) {
+                sftEditorKitForContfntTypf(typf, k);
+            }
+        }
+        if (k == null) {
+            k = drfbtfDffbultEditorKit();
+        }
+        rfturn k;
+    }
+
+    /**
+     * Dirfdtly sfts thf fditor kit to usf for thf givfn typf.  A
+     * look-bnd-fffl implfmfntbtion might usf this in donjundtion
+     * with <dodf>drfbtfEditorKitForContfntTypf</dodf> to instbll hbndlfrs for
+     * dontfnt typfs with b look-bnd-fffl bibs.
+     *
+     * @pbrbm typf thf non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm k thf fditor kit to bf sft
+     */
+    publid void sftEditorKitForContfntTypf(String typf, EditorKit k) {
+        if (typfHbndlfrs == null) {
+            typfHbndlfrs = nfw Hbshtbblf<String, EditorKit>(3);
+        }
+        typfHbndlfrs.put(typf, k);
+    }
+
+    /**
+     * Rfplbdfs thf durrfntly sflfdtfd dontfnt with nfw dontfnt
+     * rfprfsfntfd by thf givfn string.  If thfrf is no sflfdtion
+     * this bmounts to bn insfrt of thf givfn tfxt.  If thfrf
+     * is no rfplbdfmfnt tfxt (i.f. thf dontfnt string is fmpty
+     * or <dodf>null</dodf>) this bmounts to b rfmovbl of thf
+     * durrfnt sflfdtion.  Thf rfplbdfmfnt tfxt will hbvf thf
+     * bttributfs durrfntly dffinfd for input.  If thf domponfnt is not
+     * fditbblf, bffp bnd rfturn.
+     *
+     * @pbrbm dontfnt  thf dontfnt to rfplbdf thf sflfdtion with.  This
+     *   vbluf dbn bf <dodf>null</dodf>
+     */
+    @Ovfrridf
+    publid void rfplbdfSflfdtion(String dontfnt) {
+        if (! isEditbblf()) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+            rfturn;
+        }
+        EditorKit kit = gftEditorKit();
+        if(kit instbndfof StylfdEditorKit) {
+            try {
+                Dodumfnt dod = gftDodumfnt();
+                Cbrft dbrft = gftCbrft();
+                boolfbn domposfdTfxtSbvfd = sbvfComposfdTfxt(dbrft.gftDot());
+                int p0 = Mbth.min(dbrft.gftDot(), dbrft.gftMbrk());
+                int p1 = Mbth.mbx(dbrft.gftDot(), dbrft.gftMbrk());
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfplbdf(p0, p1 - p0, dontfnt,
+                              ((StylfdEditorKit)kit).gftInputAttributfs());
+                }
+                flsf {
+                    if (p0 != p1) {
+                        dod.rfmovf(p0, p1 - p0);
+                    }
+                    if (dontfnt != null && dontfnt.lfngth() > 0) {
+                        dod.insfrtString(p0, dontfnt, ((StylfdEditorKit)kit).
+                                         gftInputAttributfs());
+                    }
+                }
+                if (domposfdTfxtSbvfd) {
+                    rfstorfComposfdTfxt();
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+            }
+        }
+        flsf {
+            supfr.rfplbdfSflfdtion(dontfnt);
+        }
+    }
+
+    /**
+     * Crfbtfs b hbndlfr for thf givfn typf from thf dffbult rfgistry
+     * of fditor kits.  Thf rfgistry is drfbtfd if nfdfssbry.  If thf
+     * rfgistfrfd dlbss hbs not yft bffn lobdfd, bn bttfmpt
+     * is mbdf to dynbmidblly lobd thf prototypf of thf kit for thf
+     * givfn typf.  If thf typf wbs rfgistfrfd with b <dodf>ClbssLobdfr</dodf>,
+     * thbt <dodf>ClbssLobdfr</dodf> will bf usfd to lobd thf prototypf.
+     * If thfrf wbs no rfgistfrfd <dodf>ClbssLobdfr</dodf>,
+     * <dodf>Clbss.forNbmf</dodf> will bf usfd to lobd thf prototypf.
+     * <p>
+     * Ondf b prototypf <dodf>EditorKit</dodf> instbndf is suddfssfully
+     * lodbtfd, it is dlonfd bnd thf dlonf is rfturnfd.
+     *
+     * @pbrbm typf thf dontfnt typf
+     * @rfturn thf fditor kit, or <dodf>null</dodf> if thfrf is nothing
+     *   rfgistfrfd for thf givfn typf
+     */
+    publid stbtid EditorKit drfbtfEditorKitForContfntTypf(String typf) {
+        Hbshtbblf<String, EditorKit> kitRfgistry = gftKitRfgisty();
+        EditorKit k = kitRfgistry.gft(typf);
+        if (k == null) {
+            // try to dynbmidblly lobd thf support
+            String dlbssnbmf = gftKitTypfRfgistry().gft(typf);
+            ClbssLobdfr lobdfr = gftKitLobdfrRfgistry().gft(typf);
+            try {
+                Clbss<?> d;
+                if (lobdfr != null) {
+                    RfflfdtUtil.dhfdkPbdkbgfAddfss(dlbssnbmf);
+                    d = lobdfr.lobdClbss(dlbssnbmf);
+                } flsf {
+                    // Will only hbppfn if dfvflopfr hbs invokfd
+                    // rfgistfrEditorKitForContfntTypf(typf, dlbss, null).
+                    d = SwingUtilitifs.lobdSystfmClbss(dlbssnbmf);
+                }
+                k = (EditorKit) d.nfwInstbndf();
+                kitRfgistry.put(typf, k);
+            } dbtdh (Throwbblf f) {
+                k = null;
+            }
+        }
+
+        // drfbtf b dopy of thf prototypf or null if thfrf
+        // is no prototypf.
+        if (k != null) {
+            rfturn (EditorKit) k.dlonf();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Estbblishfs thf dffbult bindings of <dodf>typf</dodf> to
+     * <dodf>dlbssnbmf</dodf>.
+     * Thf dlbss will bf dynbmidblly lobdfd lbtfr whfn bdtublly
+     * nffdfd, bnd dbn bf sbffly dhbngfd bfforf bttfmptfd usfs
+     * to bvoid lobding unwbntfd dlbssfs.  Thf prototypf
+     * <dodf>EditorKit</dodf> will bf lobdfd with <dodf>Clbss.forNbmf</dodf>
+     * whfn rfgistfrfd with this mfthod.
+     *
+     * @pbrbm typf thf non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm dlbssnbmf thf dlbss to lobd lbtfr
+     */
+    publid stbtid void rfgistfrEditorKitForContfntTypf(String typf, String dlbssnbmf) {
+        rfgistfrEditorKitForContfntTypf(typf, dlbssnbmf,Thrfbd.durrfntThrfbd().
+                                        gftContfxtClbssLobdfr());
+    }
+
+    /**
+     * Estbblishfs thf dffbult bindings of <dodf>typf</dodf> to
+     * <dodf>dlbssnbmf</dodf>.
+     * Thf dlbss will bf dynbmidblly lobdfd lbtfr whfn bdtublly
+     * nffdfd using thf givfn <dodf>ClbssLobdfr</dodf>,
+     * bnd dbn bf sbffly dhbngfd
+     * bfforf bttfmptfd usfs to bvoid lobding unwbntfd dlbssfs.
+     *
+     * @pbrbm typf thf non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm dlbssnbmf thf dlbss to lobd lbtfr
+     * @pbrbm lobdfr thf <dodf>ClbssLobdfr</dodf> to usf to lobd thf nbmf
+     */
+    publid stbtid void rfgistfrEditorKitForContfntTypf(String typf, String dlbssnbmf, ClbssLobdfr lobdfr) {
+        gftKitTypfRfgistry().put(typf, dlbssnbmf);
+        gftKitLobdfrRfgistry().put(typf, lobdfr);
+        gftKitRfgisty().rfmovf(typf);
+    }
+
+    /**
+     * Rfturns thf durrfntly rfgistfrfd {@dodf EditorKit} dlbss nbmf for thf
+     * typf {@dodf typf}.
+     *
+     * @pbrbm typf  thf non-{@dodf null} dontfnt typf
+     * @rfturn b {@dodf String} dontbining thf {@dodf EditorKit} dlbss nbmf
+     *         for {@dodf typf}
+     * @sindf 1.3
+     */
+    publid stbtid String gftEditorKitClbssNbmfForContfntTypf(String typf) {
+        rfturn gftKitTypfRfgistry().gft(typf);
+    }
+
+    privbtf stbtid Hbshtbblf<String, String> gftKitTypfRfgistry() {
+        lobdDffbultKitsIfNfdfssbry();
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<String, String> tmp =
+            (Hbshtbblf)SwingUtilitifs.bppContfxtGft(kitTypfRfgistryKfy);
+        rfturn tmp;
+    }
+
+    privbtf stbtid Hbshtbblf<String, ClbssLobdfr> gftKitLobdfrRfgistry() {
+        lobdDffbultKitsIfNfdfssbry();
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<String, ClbssLobdfr> tmp =
+            (Hbshtbblf)SwingUtilitifs.bppContfxtGft(kitLobdfrRfgistryKfy);
+        rfturn tmp;
+    }
+
+    privbtf stbtid Hbshtbblf<String, EditorKit> gftKitRfgisty() {
+        @SupprfssWbrnings("undhfdkfd")
+        Hbshtbblf<String, EditorKit> ht =
+            (Hbshtbblf)SwingUtilitifs.bppContfxtGft(kitRfgistryKfy);
+        if (ht == null) {
+            ht = nfw Hbshtbblf<>(3);
+            SwingUtilitifs.bppContfxtPut(kitRfgistryKfy, ht);
+        }
+        rfturn ht;
+    }
+
+    /**
+     * This is invokfd fvfry timf thf rfgistrifs brf bddfssfd. Lobding
+     * is donf this wby instfbd of vib b stbtid bs thf stbtid is only
+     * dbllfd ondf whfn running in plugin rfsulting in thf fntrifs only
+     * bppfbring in thf first bpplft.
+     */
+    privbtf stbtid void lobdDffbultKitsIfNfdfssbry() {
+        if (SwingUtilitifs.bppContfxtGft(kitTypfRfgistryKfy) == null) {
+            syndhronizfd(dffbultEditorKitMbp) {
+                if (dffbultEditorKitMbp.sizf() == 0) {
+                    dffbultEditorKitMbp.put("tfxt/plbin",
+                                            "jbvbx.swing.JEditorPbnf$PlbinEditorKit");
+                    dffbultEditorKitMbp.put("tfxt/html",
+                                            "jbvbx.swing.tfxt.html.HTMLEditorKit");
+                    dffbultEditorKitMbp.put("tfxt/rtf",
+                                            "jbvbx.swing.tfxt.rtf.RTFEditorKit");
+                    dffbultEditorKitMbp.put("bpplidbtion/rtf",
+                                            "jbvbx.swing.tfxt.rtf.RTFEditorKit");
+                }
+            }
+            Hbshtbblf<Objfdt, Objfdt> ht = nfw Hbshtbblf<>();
+            SwingUtilitifs.bppContfxtPut(kitTypfRfgistryKfy, ht);
+            ht = nfw Hbshtbblf<>();
+            SwingUtilitifs.bppContfxtPut(kitLobdfrRfgistryKfy, ht);
+            for (String kfy : dffbultEditorKitMbp.kfySft()) {
+                rfgistfrEditorKitForContfntTypf(kfy,dffbultEditorKitMbp.gft(kfy));
+            }
+
+        }
+    }
+
+    // --- jbvb.bwt.Componfnt mfthods --------------------------
+
+    /**
+     * Rfturns thf prfffrrfd sizf for thf <dodf>JEditorPbnf</dodf>.
+     * Thf prfffrrfd sizf for <dodf>JEditorPbnf</dodf> is slightly bltfrfd
+     * from thf prfffrrfd sizf of thf supfrdlbss.  If thf sizf
+     * of thf vifwport hbs bfdomf smbllfr thbn thf minimum sizf
+     * of thf domponfnt, thf sdrollbblf dffinition for trbdking
+     * width or hfight will turn to fblsf.  Thf dffbult vifwport
+     * lbyout will givf thf prfffrrfd sizf, bnd thbt is not dfsirfd
+     * in thf dbsf whfrf thf sdrollbblf is trbdking.  In thbt dbsf
+     * thf <fm>normbl</fm> prfffrrfd sizf is bdjustfd to thf
+     * minimum sizf.  This bllows things likf HTML tbblfs to
+     * shrink down to thfir minimum sizf bnd thfn bf lbid out bt
+     * thfir minimum sizf, rffusing to shrink bny furthfr.
+     *
+     * @rfturn b <dodf>Dimfnsion</dodf> dontbining thf prfffrrfd sizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf();
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(this);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int prffWidth = d.width;
+            int prffHfight = d.hfight;
+            if (! gftSdrollbblfTrbdksVifwportWidth()) {
+                int w = port.gftWidth();
+                Dimfnsion min = ui.gftMinimumSizf(this);
+                if (w != 0 && w < min.width) {
+                    // Only bdjust to min if wf hbvf b vblid sizf
+                    prffWidth = min.width;
+                }
+            }
+            if (! gftSdrollbblfTrbdksVifwportHfight()) {
+                int h = port.gftHfight();
+                Dimfnsion min = ui.gftMinimumSizf(this);
+                if (h != 0 && h < min.hfight) {
+                    // Only bdjust to min if wf hbvf b vblid sizf
+                    prffHfight = min.hfight;
+                }
+            }
+            if (prffWidth != d.width || prffHfight != d.hfight) {
+                d = nfw Dimfnsion(prffWidth, prffHfight);
+            }
+        }
+        rfturn d;
+    }
+
+    // --- JTfxtComponfnt mfthods -----------------------------
+
+    /**
+     * Sfts thf tfxt of this <dodf>TfxtComponfnt</dodf> to thf spfdififd
+     * dontfnt,
+     * whidh is fxpfdtfd to bf in thf formbt of thf dontfnt typf of
+     * this fditor.  For fxbmplf, if thf typf is sft to <dodf>tfxt/html</dodf>
+     * thf string should bf spfdififd in tfrms of HTML.
+     * <p>
+     * This is implfmfntfd to rfmovf thf dontfnts of thf durrfnt dodumfnt,
+     * bnd rfplbdf thfm by pbrsing thf givfn string using thf durrfnt
+     * <dodf>EditorKit</dodf>.  This givfs thf sfmbntids of thf
+     * supfrdlbss by not dhbnging
+     * out thf modfl, whilf supporting thf dontfnt typf durrfntly sft on
+     * this domponfnt.  Thf bssumption is thbt thf prfvious dontfnt is
+     * rflbtivfly
+     * smbll, bnd thbt thf prfvious dontfnt dofsn't hbvf sidf ffffdts.
+     * Both of thosf bssumptions dbn bf violbtfd bnd dbusf undfsirbblf rfsults.
+     * To bvoid this, drfbtf b nfw dodumfnt,
+     * <dodf>gftEditorKit().drfbtfDffbultDodumfnt()</dodf>, bnd rfplbdf thf
+     * fxisting <dodf>Dodumfnt</dodf> with thf nfw onf. You brf thfn bssurfd thf
+     * prfvious <dodf>Dodumfnt</dodf> won't hbvf bny lingfring stbtf.
+     * <ol>
+     * <li>
+     * Lfbving thf fxisting modfl in plbdf mfbns thbt thf old vifw will bf
+     * torn down, bnd b nfw vifw drfbtfd, whfrf rfplbding thf dodumfnt would
+     * bvoid thf tfbr down of thf old vifw.
+     * <li>
+     * Somf formbts (sudh bs HTML) dbn instbll things into thf dodumfnt thbt
+     * dbn influfndf futurf dontfnts.  HTML dbn hbvf stylf informbtion fmbfddfd
+     * thbt would influfndf thf nfxt dontfnt instbllfd unfxpfdtfdly.
+     * </ol>
+     * <p>
+     * An bltfrnbtivf wby to lobd this domponfnt with b string would bf to
+     * drfbtf b StringRfbdfr bnd dbll thf rfbd mfthod.  In this dbsf thf modfl
+     * would bf rfplbdfd bftfr it wbs initiblizfd with thf dontfnts of thf
+     * string.
+     *
+     * @pbrbm t thf nfw tfxt to bf sft; if <dodf>null</dodf> thf old
+     *    tfxt will bf dflftfd
+     * @sff #gftTfxt
+     * @bfbninfo
+     * dfsdription: thf tfxt of this domponfnt
+     */
+    publid void sftTfxt(String t) {
+        try {
+            Dodumfnt dod = gftDodumfnt();
+            dod.rfmovf(0, dod.gftLfngth());
+            if (t == null || t.fqubls("")) {
+                rfturn;
+            }
+            Rfbdfr r = nfw StringRfbdfr(t);
+            EditorKit kit = gftEditorKit();
+            kit.rfbd(r, dod, 0);
+        } dbtdh (IOExdfption iof) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+        } dbtdh (BbdLodbtionExdfption blf) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.this);
+        }
+    }
+
+    /**
+     * Rfturns thf tfxt dontbinfd in this <dodf>TfxtComponfnt</dodf>
+     * in tfrms of thf
+     * dontfnt typf of this fditor.  If bn fxdfption is thrown whilf
+     * bttfmpting to rftrifvf thf tfxt, <dodf>null</dodf> will bf rfturnfd.
+     * This is implfmfntfd to dbll <dodf>JTfxtComponfnt.writf</dodf> with
+     * b <dodf>StringWritfr</dodf>.
+     *
+     * @rfturn thf tfxt
+     * @sff #sftTfxt
+     */
+    publid String gftTfxt() {
+        String txt;
+        try {
+            StringWritfr buf = nfw StringWritfr();
+            writf(buf);
+            txt = buf.toString();
+        } dbtdh (IOExdfption iof) {
+            txt = null;
+        }
+        rfturn txt;
+    }
+
+    // --- Sdrollbblf  ----------------------------------------
+
+    /**
+     * Rfturns truf if b vifwport should blwbys fordf thf width of this
+     * <dodf>Sdrollbblf</dodf> to mbtdh thf width of thf vifwport.
+     *
+     * @rfturn truf if b vifwport should fordf thf Sdrollbblfs width to
+     * mbtdh its own, fblsf othfrwisf
+     */
+    publid boolfbn gftSdrollbblfTrbdksVifwportWidth() {
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(this);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int w = port.gftWidth();
+            Dimfnsion min = ui.gftMinimumSizf(this);
+            Dimfnsion mbx = ui.gftMbximumSizf(this);
+            if ((w >= min.width) && (w <= mbx.width)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns truf if b vifwport should blwbys fordf thf hfight of this
+     * <dodf>Sdrollbblf</dodf> to mbtdh thf hfight of thf vifwport.
+     *
+     * @rfturn truf if b vifwport should fordf thf
+     *          <dodf>Sdrollbblf</dodf>'s hfight to mbtdh its own,
+     *          fblsf othfrwisf
+     */
+    publid boolfbn gftSdrollbblfTrbdksVifwportHfight() {
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(this);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int h = port.gftHfight();
+            Dimfnsion min = ui.gftMinimumSizf(this);
+            if (h >= min.hfight) {
+                Dimfnsion mbx = ui.gftMbximumSizf(this);
+                if (h <= mbx.hfight) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    // --- Sfriblizbtion ------------------------------------
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+    // --- vbribblfs ---------------------------------------
+
+    privbtf SwingWorkfr<URL, Objfdt> pbgfLobdfr;
+
+    /**
+     * Currfnt dontfnt binding of thf fditor.
+     */
+    privbtf EditorKit kit;
+    privbtf boolfbn isUsfrSftEditorKit;
+
+    privbtf Hbshtbblf<String, Objfdt> pbgfPropfrtifs;
+
+    /** Should bf kfpt in synd with jbvbx.swing.tfxt.html.FormVifw dountfrpbrt. */
+    finbl stbtid String PostDbtbPropfrty = "jbvbx.swing.JEditorPbnf.postdbtb";
+
+    /**
+     * Tbblf of rfgistfrfd typf hbndlfrs for this fditor.
+     */
+    privbtf Hbshtbblf<String, EditorKit> typfHbndlfrs;
+
+    /*
+     * Privbtf AppContfxt kfys for this dlbss's stbtid vbribblfs.
+     */
+    privbtf stbtid finbl Objfdt kitRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitRfgistry");
+    privbtf stbtid finbl Objfdt kitTypfRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitTypfRfgistry");
+    privbtf stbtid finbl Objfdt kitLobdfrRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitLobdfrRfgistry");
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "EditorPbnfUI";
+
+
+    /**
+     * Kfy for b dlifnt propfrty usfd to indidbtf whfthfr
+     * <b hrff="http://www.w3.org/TR/CSS21/syndbtb.html#lfngth-units">
+     * w3d domplibnt</b> lfngth units brf usfd for html rfndfring.
+     * <p>
+     * By dffbult this is not fnbblfd; to fnbblf
+     * it sft thf dlifnt {@link #putClifntPropfrty propfrty} with this nbmf
+     * to <dodf>Boolfbn.TRUE</dodf>.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String W3C_LENGTH_UNITS = "JEditorPbnf.w3dLfngthUnits";
+
+    /**
+     * Kfy for b dlifnt propfrty usfd to indidbtf whfthfr
+     * thf dffbult font bnd forfground dolor from thf domponfnt brf
+     * usfd if b font or forfground dolor is not spfdififd in thf stylfd
+     * tfxt.
+     * <p>
+     * Thf dffbult vbrifs bbsfd on thf look bnd fffl;
+     * to fnbblf it sft thf dlifnt {@link #putClifntPropfrty propfrty} with
+     * this nbmf to <dodf>Boolfbn.TRUE</dodf>.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String HONOR_DISPLAY_PROPERTIES = "JEditorPbnf.honorDisplbyPropfrtifs";
+
+    stbtid finbl Mbp<String, String> dffbultEditorKitMbp = nfw HbshMbp<String, String>(0);
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JEditorPbnf</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JEditorPbnf</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String kitString = (kit != null ?
+                            kit.toString() : "");
+        String typfHbndlfrsString = (typfHbndlfrs != null ?
+                                     typfHbndlfrs.toString() : "");
+
+        rfturn supfr.pbrbmString() +
+        ",kit=" + kitString +
+        ",typfHbndlfrs=" + typfHbndlfrsString;
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JEditorPbnf.
+     * For fditor pbnfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJEditorPbnf.
+     * A nfw AddfssiblfJEditorPbnf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJEditorPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JEditorPbnf
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (gftEditorKit() instbndfof HTMLEditorKit) {
+            if (bddfssiblfContfxt == null || bddfssiblfContfxt.gftClbss() !=
+                    AddfssiblfJEditorPbnfHTML.dlbss) {
+                bddfssiblfContfxt = nfw AddfssiblfJEditorPbnfHTML();
+            }
+        } flsf if (bddfssiblfContfxt == null || bddfssiblfContfxt.gftClbss() !=
+                       AddfssiblfJEditorPbnf.dlbss) {
+            bddfssiblfContfxt = nfw AddfssiblfJEditorPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JEditorPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to fditor pbnf usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJEditorPbnf fxtfnds AddfssiblfJTfxtComponfnt {
+
+        /**
+         * Gfts thf bddfssiblfDfsdription propfrty of this objfdt.  If this
+         * propfrty isn't sft, rfturns thf dontfnt typf of this
+         * <dodf>JEditorPbnf</dodf> instfbd (f.g. "plbin/tfxt", "html/tfxt").
+         *
+         * @rfturn thf lodblizfd dfsdription of thf objfdt; <dodf>null</dodf>
+         *      if this objfdt dofs not hbvf b dfsdription
+         *
+         * @sff #sftAddfssiblfNbmf
+         */
+        publid String gftAddfssiblfDfsdription() {
+            String dfsdription = bddfssiblfDfsdription;
+
+            // fbllbbdk to dlifnt propfrty
+            if (dfsdription == null) {
+                dfsdription = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_DESCRIPTION_PROPERTY);
+            }
+            if (dfsdription == null) {
+                dfsdription = JEditorPbnf.this.gftContfntTypf();
+            }
+            rfturn dfsdription;
+        }
+
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing thf stbtfs
+         * of thf objfdt
+         * @sff AddfssiblfStbtfSft
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
+        }
+    }
+
+    /**
+     * This dlbss providfs support for <dodf>AddfssiblfHypfrtfxt</dodf>,
+     * bnd is usfd in instbndfs whfrf thf <dodf>EditorKit</dodf>
+     * instbllfd in this <dodf>JEditorPbnf</dodf> is bn instbndf of
+     * <dodf>HTMLEditorKit</dodf>.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJEditorPbnfHTML fxtfnds AddfssiblfJEditorPbnf {
+
+        privbtf AddfssiblfContfxt bddfssiblfContfxt;
+
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            rfturn nfw JEditorPbnfAddfssiblfHypfrtfxtSupport();
+        }
+
+        protfdtfd AddfssiblfJEditorPbnfHTML () {
+            HTMLEditorKit kit = (HTMLEditorKit)JEditorPbnf.this.gftEditorKit();
+            bddfssiblfContfxt = kit.gftAddfssiblfContfxt();
+        }
+
+        /**
+         * Rfturns thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+         *
+         * @rfturn thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+         */
+        publid int gftAddfssiblfChildrfnCount() {
+            if (bddfssiblfContfxt != null) {
+                rfturn bddfssiblfContfxt.gftAddfssiblfChildrfnCount();
+            } flsf {
+                rfturn 0;
+            }
+        }
+
+        /**
+         * Rfturns thf spfdififd Addfssiblf dhild of thf objfdt.  Thf Addfssiblf
+         * dhildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so thf first dhild
+         * of bn Addfssiblf dhild is bt indfx 0, thf sfdond dhild is bt indfx 1,
+         * bnd so on.
+         *
+         * @pbrbm i zfro-bbsfd indfx of dhild
+         * @rfturn thf Addfssiblf dhild of thf objfdt
+         * @sff #gftAddfssiblfChildrfnCount
+         */
+        publid Addfssiblf gftAddfssiblfChild(int i) {
+            if (bddfssiblfContfxt != null) {
+                rfturn bddfssiblfContfxt.gftAddfssiblfChild(i);
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns thf Addfssiblf dhild, if onf fxists, dontbinfd bt thf lodbl
+         * doordinbtf Point.
+         *
+         * @pbrbm p Thf point rflbtivf to thf doordinbtf systfm of this objfdt.
+         * @rfturn thf Addfssiblf, if it fxists, bt thf spfdififd lodbtion;
+         * othfrwisf null
+         */
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            if (bddfssiblfContfxt != null && p != null) {
+                try {
+                    AddfssiblfComponfnt bdomp =
+                        bddfssiblfContfxt.gftAddfssiblfComponfnt();
+                    if (bdomp != null) {
+                        rfturn bdomp.gftAddfssiblfAt(p);
+                    } flsf {
+                        rfturn null;
+                    }
+                } dbtdh (IllfgblComponfntStbtfExdfption f) {
+                    rfturn null;
+                }
+            } flsf {
+                rfturn null;
+            }
+        }
+    }
+
+    /**
+     * Whbt's rfturnfd by
+     * <dodf>AddfssiblfJEditorPbnfHTML.gftAddfssiblfTfxt</dodf>.
+     *
+     * Providfs support for <dodf>AddfssiblfHypfrtfxt</dodf> in dbsf
+     * thfrf is bn HTML dodumfnt bfing displbyfd in this
+     * <dodf>JEditorPbnf</dodf>.
+     *
+     */
+    protfdtfd dlbss JEditorPbnfAddfssiblfHypfrtfxtSupport
+    fxtfnds AddfssiblfJEditorPbnf implfmfnts AddfssiblfHypfrtfxt {
+
+        publid dlbss HTMLLink fxtfnds AddfssiblfHypfrlink {
+            Elfmfnt flfmfnt;
+
+            publid HTMLLink(Elfmfnt f) {
+                flfmfnt = f;
+            }
+
+            /**
+             * Sindf thf dodumfnt b link is bssodibtfd with mby hbvf
+             * dhbngfd, this mfthod rfturns whfthfr this Link is vblid
+             * bnymorf (with rfspfdt to thf dodumfnt it rfffrfndfs).
+             *
+             * @rfturn b flbg indidbting whfthfr this link is still vblid with
+             *         rfspfdt to thf AddfssiblfHypfrtfxt it bflongs to
+             */
+            publid boolfbn isVblid() {
+                rfturn JEditorPbnfAddfssiblfHypfrtfxtSupport.this.linksVblid;
+            }
+
+            /**
+             * Rfturns thf numbfr of bddfssiblf bdtions bvbilbblf in this Link
+             * If thfrf brf morf thbn onf, thf first onf is NOT donsidfrfd thf
+             * "dffbult" bdtion of this LINK objfdt (f.g. in bn HTML imbgfmbp).
+             * In gfnfrbl, links will hbvf only onf AddfssiblfAdtion in thfm.
+             *
+             * @rfturn thf zfro-bbsfd numbfr of Adtions in this objfdt
+             */
+            publid int gftAddfssiblfAdtionCount() {
+                rfturn 1;
+            }
+
+            /**
+             * Pfrform thf spfdififd Adtion on thf objfdt
+             *
+             * @pbrbm i zfro-bbsfd indfx of bdtions
+             * @rfturn truf if thf thf bdtion wbs pfrformfd; flsf fblsf.
+             * @sff #gftAddfssiblfAdtionCount
+             */
+            publid boolfbn doAddfssiblfAdtion(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    URL u = (URL) gftAddfssiblfAdtionObjfdt(i);
+                    if (u != null) {
+                        HypfrlinkEvfnt linkEvfnt =
+                            nfw HypfrlinkEvfnt(JEditorPbnf.this, HypfrlinkEvfnt.EvfntTypf.ACTIVATED, u);
+                        JEditorPbnf.this.firfHypfrlinkUpdbtf(linkEvfnt);
+                        rfturn truf;
+                    }
+                }
+                rfturn fblsf;  // link invblid or i != 0
+            }
+
+            /**
+             * Rfturn b String dfsdription of this pbrtidulbr
+             * link bdtion.  Thf string rfturnfd is thf tfxt
+             * within thf dodumfnt bssodibtfd with thf flfmfnt
+             * whidh dontbins this link.
+             *
+             * @pbrbm i zfro-bbsfd indfx of thf bdtions
+             * @rfturn b String dfsdription of thf bdtion
+             * @sff #gftAddfssiblfAdtionCount
+             */
+            publid String gftAddfssiblfAdtionDfsdription(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    Dodumfnt d = JEditorPbnf.this.gftDodumfnt();
+                    if (d != null) {
+                        try {
+                            rfturn d.gftTfxt(gftStbrtIndfx(),
+                                             gftEndIndfx() - gftStbrtIndfx());
+                        } dbtdh (BbdLodbtionExdfption fxdfption) {
+                            rfturn null;
+                        }
+                    }
+                }
+                rfturn null;
+            }
+
+            /**
+             * Rfturns b URL objfdt thbt rfprfsfnts thf link.
+             *
+             * @pbrbm i zfro-bbsfd indfx of thf bdtions
+             * @rfturn bn URL rfprfsfnting thf HTML link itsflf
+             * @sff #gftAddfssiblfAdtionCount
+             */
+            publid Objfdt gftAddfssiblfAdtionObjfdt(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    AttributfSft bs = flfmfnt.gftAttributfs();
+                    AttributfSft bndhor =
+                        (AttributfSft) bs.gftAttributf(HTML.Tbg.A);
+                    String hrff = (bndhor != null) ?
+                        (String) bndhor.gftAttributf(HTML.Attributf.HREF) : null;
+                    if (hrff != null) {
+                        URL u;
+                        try {
+                            u = nfw URL(JEditorPbnf.this.gftPbgf(), hrff);
+                        } dbtdh (MblformfdURLExdfption m) {
+                            u = null;
+                        }
+                        rfturn u;
+                    }
+                }
+                rfturn null;  // link invblid or i != 0
+            }
+
+            /**
+             * Rfturn bn objfdt thbt rfprfsfnts thf link bndhor,
+             * bs bppropribtf for thbt link.  E.g. from HTML:
+             *   <b hrff="http://www.sun.dom/bddfss">Addfssibility</b>
+             * this mfthod would rfturn b String dontbining thf tfxt:
+             * 'Addfssibility'.
+             *
+             * Similbrly, from this HTML:
+             *   &lt;b HREF="#top"&gt;&lt;img srd="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+             * this might rfturn thf objfdt ImbgfIdon("top-hbt.gif", "top hbt");
+             *
+             * @pbrbm i zfro-bbsfd indfx of thf bdtions
+             * @rfturn bn Objfdt rfprfsfnting thf hypfrtfxt bndhor
+             * @sff #gftAddfssiblfAdtionCount
+             */
+            publid Objfdt gftAddfssiblfAdtionAndhor(int i) {
+                rfturn gftAddfssiblfAdtionDfsdription(i);
+            }
+
+
+            /**
+             * Gft thf indfx with thf hypfrtfxt dodumfnt bt whidh this
+             * link bfgins
+             *
+             * @rfturn indfx of stbrt of link
+             */
+            publid int gftStbrtIndfx() {
+                rfturn flfmfnt.gftStbrtOffsft();
+            }
+
+            /**
+             * Gft thf indfx with thf hypfrtfxt dodumfnt bt whidh this
+             * link fnds
+             *
+             * @rfturn indfx of fnd of link
+             */
+            publid int gftEndIndfx() {
+                rfturn flfmfnt.gftEndOffsft();
+            }
+        }
+
+        privbtf dlbss LinkVfdtor fxtfnds Vfdtor<HTMLLink> {
+            publid int bbsfElfmfntIndfx(Elfmfnt f) {
+                HTMLLink l;
+                for (int i = 0; i < flfmfntCount; i++) {
+                    l = flfmfntAt(i);
+                    if (l.flfmfnt == f) {
+                        rfturn i;
+                    }
+                }
+                rfturn -1;
+            }
+        }
+
+        LinkVfdtor hypfrlinks;
+        boolfbn linksVblid = fblsf;
+
+        /**
+         * Build thf privbtf tbblf mbpping links to lodbtions in thf tfxt
+         */
+        privbtf void buildLinkTbblf() {
+            hypfrlinks.rfmovfAllElfmfnts();
+            Dodumfnt d = JEditorPbnf.this.gftDodumfnt();
+            if (d != null) {
+                ElfmfntItfrbtor fi = nfw ElfmfntItfrbtor(d);
+                Elfmfnt f;
+                AttributfSft bs;
+                AttributfSft bndhor;
+                String hrff;
+                whilf ((f = fi.nfxt()) != null) {
+                    if (f.isLfbf()) {
+                        bs = f.gftAttributfs();
+                    bndhor = (AttributfSft) bs.gftAttributf(HTML.Tbg.A);
+                    hrff = (bndhor != null) ?
+                        (String) bndhor.gftAttributf(HTML.Attributf.HREF) : null;
+                        if (hrff != null) {
+                            hypfrlinks.bddElfmfnt(nfw HTMLLink(f));
+                        }
+                    }
+                }
+            }
+            linksVblid = truf;
+        }
+
+        /**
+         * Mbkf onf of thfsf puppifs
+         */
+        publid JEditorPbnfAddfssiblfHypfrtfxtSupport() {
+            hypfrlinks = nfw LinkVfdtor();
+            Dodumfnt d = JEditorPbnf.this.gftDodumfnt();
+            if (d != null) {
+                d.bddDodumfntListfnfr(nfw DodumfntListfnfr() {
+                    publid void dhbngfdUpdbtf(DodumfntEvfnt thfEvfnt) {
+                        linksVblid = fblsf;
+                    }
+                    publid void insfrtUpdbtf(DodumfntEvfnt thfEvfnt) {
+                        linksVblid = fblsf;
+                    }
+                    publid void rfmovfUpdbtf(DodumfntEvfnt thfEvfnt) {
+                        linksVblid = fblsf;
+                    }
+                });
+            }
+        }
+
+        /**
+         * Rfturns thf numbfr of links within this hypfrtfxt dod.
+         *
+         * @rfturn numbfr of links in this hypfrtfxt dod.
+         */
+        publid int gftLinkCount() {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
+            }
+            rfturn hypfrlinks.sizf();
+        }
+
+        /**
+         * Rfturns thf indfx into bn brrby of hypfrlinks thbt
+         * is bssodibtfd with this dhbrbdtfr indfx, or -1 if thfrf
+         * is no hypfrlink bssodibtfd with this indfx.
+         *
+         * @pbrbm  dhbrIndfx indfx within thf tfxt
+         * @rfturn indfx into thf sft of hypfrlinks for this hypfrtfxt dod.
+         */
+        publid int gftLinkIndfx(int dhbrIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
+            }
+            Elfmfnt f = null;
+            Dodumfnt dod = JEditorPbnf.this.gftDodumfnt();
+            if (dod != null) {
+                for (f = dod.gftDffbultRootElfmfnt(); ! f.isLfbf(); ) {
+                    int indfx = f.gftElfmfntIndfx(dhbrIndfx);
+                    f = f.gftElfmfnt(indfx);
+                }
+            }
+
+            // don't nffd to vfrify thbt it's bn HREF flfmfnt; if
+            // not, thfn it won't bf in thf hypfrlinks Vfdtor, bnd
+            // so indfxOf will rfturn -1 in bny dbsf
+            rfturn hypfrlinks.bbsfElfmfntIndfx(f);
+        }
+
+        /**
+         * Rfturns thf indfx into bn brrby of hypfrlinks thbt
+         * indfx.  If thfrf is no hypfrlink bt this indfx, it rfturns
+         * null.
+         *
+         * @pbrbm linkIndfx into thf sft of hypfrlinks for this hypfrtfxt dod.
+         * @rfturn string rfprfsfntbtion of thf hypfrlink
+         */
+        publid AddfssiblfHypfrlink gftLink(int linkIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
+            }
+            if (linkIndfx >= 0 && linkIndfx < hypfrlinks.sizf()) {
+                rfturn hypfrlinks.flfmfntAt(linkIndfx);
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        /**
+         * Rfturns thf dontiguous tfxt within thf dodumfnt thbt
+         * is bssodibtfd with this hypfrlink.
+         *
+         * @pbrbm linkIndfx into thf sft of hypfrlinks for this hypfrtfxt dod.
+         * @rfturn thf dontiguous tfxt shbring thf link bt this indfx
+         */
+        publid String gftLinkTfxt(int linkIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
+            }
+            Elfmfnt f = (Elfmfnt) hypfrlinks.flfmfntAt(linkIndfx);
+            if (f != null) {
+                Dodumfnt d = JEditorPbnf.this.gftDodumfnt();
+                if (d != null) {
+                    try {
+                        rfturn d.gftTfxt(f.gftStbrtOffsft(),
+                                         f.gftEndOffsft() - f.gftStbrtOffsft());
+                    } dbtdh (BbdLodbtionExdfption fxdfption) {
+                        rfturn null;
+                    }
+                }
+            }
+            rfturn null;
+        }
+    }
+
+    stbtid dlbss PlbinEditorKit fxtfnds DffbultEditorKit implfmfnts VifwFbdtory {
+
+        /**
+         * Fftdhfs b fbdtory thbt is suitbblf for produding
+         * vifws of bny modfls thbt brf produdfd by this
+         * kit.  Thf dffbult is to hbvf thf UI produdf thf
+         * fbdtory, so this mfthod hbs no implfmfntbtion.
+         *
+         * @rfturn thf vifw fbdtory
+         */
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn this;
+        }
+
+        /**
+         * Crfbtfs b vifw from thf givfn strudturbl flfmfnt of b
+         * dodumfnt.
+         *
+         * @pbrbm flfm  thf pifdf of thf dodumfnt to build b vifw of
+         * @rfturn thf vifw
+         * @sff Vifw
+         */
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            Dodumfnt dod = flfm.gftDodumfnt();
+            Objfdt i18nFlbg
+                = dod.gftPropfrty("i18n"/*AbstrbdtDodumfnt.I18NPropfrty*/);
+            if ((i18nFlbg != null) && i18nFlbg.fqubls(Boolfbn.TRUE)) {
+                // build b vifw thbt support bidi
+                rfturn drfbtfI18N(flfm);
+            } flsf {
+                rfturn nfw WrbppfdPlbinVifw(flfm);
+            }
+        }
+
+        Vifw drfbtfI18N(Elfmfnt flfm) {
+            String kind = flfm.gftNbmf();
+            if (kind != null) {
+                if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                    rfturn nfw PlbinPbrbgrbph(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbphElfmfntNbmf)){
+                    rfturn nfw BoxVifw(flfm, Vifw.Y_AXIS);
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Pbrbgrbph for rfprfsfnting plbin-tfxt linfs thbt support
+         * bidirfdtionbl tfxt.
+         */
+        stbtid dlbss PlbinPbrbgrbph fxtfnds jbvbx.swing.tfxt.PbrbgrbphVifw {
+
+            PlbinPbrbgrbph(Elfmfnt flfm) {
+                supfr(flfm);
+                lbyoutPool = nfw LogidblVifw(flfm);
+                lbyoutPool.sftPbrfnt(this);
+            }
+
+            protfdtfd void sftPropfrtifsFromAttributfs() {
+                Componfnt d = gftContbinfr();
+                if ((d != null)
+                    && (! d.gftComponfntOrifntbtion().isLfftToRight()))
+                {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_RIGHT);
+                } flsf {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_LEFT);
+                }
+            }
+
+            /**
+             * Fftdh thf donstrbining spbn to flow bgbinst for
+             * thf givfn dhild indfx.
+             */
+            publid int gftFlowSpbn(int indfx) {
+                Componfnt d = gftContbinfr();
+                if (d instbndfof JTfxtArfb) {
+                    JTfxtArfb brfb = (JTfxtArfb) d;
+                    if (! brfb.gftLinfWrbp()) {
+                        // no limit if unwrbppfd
+                        rfturn Intfgfr.MAX_VALUE;
+                    }
+                }
+                rfturn supfr.gftFlowSpbn(indfx);
+            }
+
+            protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis,
+                                                            SizfRfquirfmfnts r)
+            {
+                SizfRfquirfmfnts rfq
+                    = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+                Componfnt d = gftContbinfr();
+                if (d instbndfof JTfxtArfb) {
+                    JTfxtArfb brfb = (JTfxtArfb) d;
+                    if (! brfb.gftLinfWrbp()) {
+                        // min is prff if unwrbppfd
+                        rfq.minimum = rfq.prfffrrfd;
+                    }
+                }
+                rfturn rfq;
+            }
+
+            /**
+             * This dlbss dbn bf usfd to rfprfsfnt b logidbl vifw for
+             * b flow.  It kffps thf dhildrfn updbtfd to rfflfdt thf stbtf
+             * of thf modfl, givfs thf logidbl dhild vifws bddfss to thf
+             * vifw hifrbrdhy, bnd dbldulbtfs b prfffrrfd spbn.  It dofsn't
+             * do bny rfndfring, lbyout, or modfl/vifw trbnslbtion.
+             */
+            stbtid dlbss LogidblVifw fxtfnds CompositfVifw {
+
+                LogidblVifw(Elfmfnt flfm) {
+                    supfr(flfm);
+                }
+
+                protfdtfd int gftVifwIndfxAtPosition(int pos) {
+                    Elfmfnt flfm = gftElfmfnt();
+                    if (flfm.gftElfmfntCount() > 0) {
+                        rfturn flfm.gftElfmfntIndfx(pos);
+                    }
+                    rfturn 0;
+                }
+
+                protfdtfd boolfbn
+                updbtfChildrfn(DodumfntEvfnt.ElfmfntChbngf fd,
+                               DodumfntEvfnt f, VifwFbdtory f)
+                {
+                    rfturn fblsf;
+                }
+
+                protfdtfd void lobdChildrfn(VifwFbdtory f) {
+                    Elfmfnt flfm = gftElfmfnt();
+                    if (flfm.gftElfmfntCount() > 0) {
+                        supfr.lobdChildrfn(f);
+                    } flsf {
+                        Vifw v = nfw GlyphVifw(flfm);
+                        bppfnd(v);
+                    }
+                }
+
+                publid flobt gftPrfffrrfdSpbn(int bxis) {
+                    if( gftVifwCount() != 1 )
+                        throw nfw Error("Onf dhild vifw is bssumfd.");
+
+                    Vifw v = gftVifw(0);
+                    //((GlyphVifw)v).sftGlyphPbintfr(null);
+                    rfturn v.gftPrfffrrfdSpbn(bxis);
+                }
+
+                /**
+                 * Forwbrd thf DodumfntEvfnt to thf givfn dhild vifw.  This
+                 * is implfmfntfd to rfpbrfnt thf dhild to thf logidbl vifw
+                 * (thf dhildrfn mby hbvf bffn pbrfntfd by b row in thf flow
+                 * if thfy fit without brfbking) bnd thfn fxfdutf thf
+                 * supfrdlbss bfhbvior.
+                 *
+                 * @pbrbm v thf dhild vifw to forwbrd thf fvfnt to.
+                 * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+                 * @pbrbm b thf durrfnt bllodbtion of thf vifw
+                 * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs
+                 *          dhildrfn
+                 * @sff #forwbrdUpdbtf
+                 * @sindf 1.3
+                 */
+                protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                                   Shbpf b, VifwFbdtory f) {
+                    v.sftPbrfnt(this);
+                    supfr.forwbrdUpdbtfToVifw(v, f, b, f);
+                }
+
+                // Thf following mfthods don't do bnything usfful, thfy
+                // simply kffp thf dlbss from bfing bbstrbdt.
+
+                publid void pbint(Grbphids g, Shbpf bllodbtion) {
+                }
+
+                protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf bllod) {
+                    rfturn fblsf;
+                }
+
+                protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf bllod) {
+                    rfturn fblsf;
+                }
+
+                protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+                    rfturn null;
+                }
+
+                protfdtfd void dhildAllodbtion(int indfx, Rfdtbnglf b) {
+                }
+            }
+        }
+    }
+
+/* This is usfful for thf nightmbrf of pbrsing multi-pbrt HTTP/RFC822 hfbdfrs
+ * sfnsibly:
+ * From b String likf: 'timfout=15, mbx=5'
+ * drfbtf bn brrby of Strings:
+ * { {"timfout", "15"},
+ *   {"mbx", "5"}
+ * }
+ * From onf likf: 'Bbsid Rfblm="FuzzFbdf" Foo="Biz Bbr Bbz"'
+ * drfbtf onf likf (no quotfs in litfrbl):
+ * { {"bbsid", null},
+ *   {"rfblm", "FuzzFbdf"}
+ *   {"foo", "Biz Bbr Bbz"}
+ * }
+ * kfys brf donvfrtfd to lowfr dbsf, vbls brf lfft bs is....
+ *
+ * buthor Dbvf Brown
+ */
+
+
+stbtid dlbss HfbdfrPbrsfr {
+
+    /* tbblf of kfy/vbl pbirs - mbxfs out bt 10!!!!*/
+    String rbw;
+    String[][] tbb;
+
+    publid HfbdfrPbrsfr(String rbw) {
+        this.rbw = rbw;
+        tbb = nfw String[10][2];
+        pbrsf();
+    }
+
+    privbtf void pbrsf() {
+
+        if (rbw != null) {
+            rbw = rbw.trim();
+            dhbr[] db = rbw.toChbrArrby();
+            int bfg = 0, fnd = 0, i = 0;
+            boolfbn inKfy = truf;
+            boolfbn inQuotf = fblsf;
+            int lfn = db.lfngth;
+            whilf (fnd < lfn) {
+                dhbr d = db[fnd];
+                if (d == '=') { // fnd of b kfy
+                    tbb[i][0] = nfw String(db, bfg, fnd-bfg).toLowfrCbsf();
+                    inKfy = fblsf;
+                    fnd++;
+                    bfg = fnd;
+                } flsf if (d == '\"') {
+                    if (inQuotf) {
+                        tbb[i++][1]= nfw String(db, bfg, fnd-bfg);
+                        inQuotf=fblsf;
+                        do {
+                            fnd++;
+                        } whilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ','));
+                        inKfy=truf;
+                        bfg=fnd;
+                    } flsf {
+                        inQuotf=truf;
+                        fnd++;
+                        bfg=fnd;
+                    }
+                } flsf if (d == ' ' || d == ',') { // fnd kfy/vbl, of whbtfvfr wf'rf in
+                    if (inQuotf) {
+                        fnd++;
+                        dontinuf;
+                    } flsf if (inKfy) {
+                        tbb[i++][0] = (nfw String(db, bfg, fnd-bfg)).toLowfrCbsf();
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
+                    }
+                    whilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ',')) {
+                        fnd++;
+                    }
+                    inKfy = truf;
+                    bfg = fnd;
+                } flsf {
+                    fnd++;
+                }
+            }
+            // gft lbst kfy/vbl, if bny
+            if (--fnd > bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg+1));
+                    }
+                } flsf {
+                    tbb[i][0] = (nfw String(db, bfg, fnd-bfg+1)).toLowfrCbsf();
+                }
+            } flsf if (fnd == bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = String.vblufOf(db[fnd-1]);
+                    } flsf {
+                        tbb[i++][1] = String.vblufOf(db[fnd]);
+                    }
+                } flsf {
+                    tbb[i][0] = String.vblufOf(db[fnd]).toLowfrCbsf();
+                }
+            }
+        }
+
+    }
+
+    publid String findKfy(int i) {
+        if (i < 0 || i > 10)
+            rfturn null;
+        rfturn tbb[i][0];
+    }
+
+    publid String findVbluf(int i) {
+        if (i < 0 || i > 10)
+            rfturn null;
+        rfturn tbb[i][1];
+    }
+
+    publid String findVbluf(String kfy) {
+        rfturn findVbluf(kfy, null);
+    }
+
+    publid String findVbluf(String k, String Dffbult) {
+        if (k == null)
+            rfturn Dffbult;
+        k = k.toLowfrCbsf();
+        for (int i = 0; i < 10; ++i) {
+            if (tbb[i][0] == null) {
+                rfturn Dffbult;
+            } flsf if (k.fqubls(tbb[i][0])) {
+                rfturn tbb[i][1];
+            }
+        }
+        rfturn Dffbult;
+    }
+
+    publid int findInt(String k, int Dffbult) {
+        try {
+            rfturn Intfgfr.pbrsfInt(findVbluf(k, String.vblufOf(Dffbult)));
+        } dbtdh (Throwbblf t) {
+            rfturn Dffbult;
+        }
+    }
+ }
+
+}

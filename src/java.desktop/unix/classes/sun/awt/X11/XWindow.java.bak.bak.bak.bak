@@ -1,0 +1,1542 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.imbgf.ColorModfl;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.*;
+
+import sun.bwt.imbgf.PixflConvfrtfr;
+
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+
+publid dlbss XWindow fxtfnds XBbsfWindow implfmfnts X11ComponfntPffr {
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XWindow");
+    privbtf stbtid PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XWindow");
+    privbtf stbtid PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fvfnt.XWindow");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fodus.XWindow");
+    privbtf stbtid PlbtformLoggfr kfyEvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.kyf.XWindow");
+  /* If b motion domfs in whilf b multi-dlidk is pfnding,
+   * bllow b smudgf fbdtor so thbt moving thf mousf by b smbll
+   * bmount dofs not wipf out thf multi-dlidk stbtf vbribblfs.
+   */
+    privbtf finbl stbtid int AWT_MULTICLICK_SMUDGE = 4;
+    // ButtonXXX fvfnts stuff
+    stbtid int rbutton = 0;
+    stbtid int lbstX = 0, lbstY = 0;
+    stbtid long lbstTimf = 0;
+    stbtid long lbstButton = 0;
+    stbtid WfbkRfffrfndf<XWindow> lbstWindowRff = null;
+    stbtid int dlidkCount = 0;
+
+    // usfd to dhfdk if wf nffd to rf-drfbtf surfbdfDbtb.
+    int oldWidth = -1;
+    int oldHfight = -1;
+
+    protfdtfd PropMwmHints mwm_hints;
+    protfdtfd stbtid XAtom wm_protodols;
+    protfdtfd stbtid XAtom wm_dflftf_window;
+    protfdtfd stbtid XAtom wm_tbkf_fodus;
+
+    privbtf boolfbn stbtfChbngfd; // Indidbtfs whfthfr thf vbluf on sbvfdStbtf is vblid
+    privbtf int sbvfdStbtf; // Holds lbst known stbtf of thf top-lfvfl window
+
+    XWindowAttributfsDbtb winAttr;
+
+    protfdtfd X11GrbphidsConfig grbphidsConfig;
+    protfdtfd AwtGrbphidsConfigDbtb grbphidsConfigDbtb;
+
+    privbtf boolfbn rfpbrfntfd;
+
+    XWindow pbrfnt;
+
+    Componfnt tbrgft;
+
+    privbtf stbtid int JAWT_LOCK_ERROR=0x00000001;
+    privbtf stbtid int JAWT_LOCK_CLIP_CHANGED=0x00000002;
+    privbtf stbtid int JAWT_LOCK_BOUNDS_CHANGED=0x00000004;
+    privbtf stbtid int JAWT_LOCK_SURFACE_CHANGED=0x00000008;
+    privbtf int drbwStbtf = JAWT_LOCK_CLIP_CHANGED |
+    JAWT_LOCK_BOUNDS_CHANGED |
+    JAWT_LOCK_SURFACE_CHANGED;
+
+    publid stbtid finbl String TARGET = "tbrgft",
+        REPARENTED = "rfpbrfntfd"; // whfthfr it is rfpbrfntfd by dffbult
+
+    SurfbdfDbtb surfbdfDbtb;
+
+    XRfpbintArfb pbintArfb;
+
+    // fbllbbdk dffbult font objfdt
+    privbtf stbtid Font dffbultFont;
+
+    stbtid syndhronizfd Font gftDffbultFont() {
+        if (null == dffbultFont) {
+            dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, 12);
+        }
+        rfturn dffbultFont;
+    }
+
+    /* A bitmbsk kffps thf button's numbfrs bs Button1Mbsk, Button2Mbsk, Button3Mbsk
+     * whidh brf bllowfd to
+     * gfnfrbtf thf CLICK fvfnt bftfr thf RELEASE hbs hbppfnfd.
+     * Thfrf brf donditions thbt must bf truf for thbt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg hbs hbppfnfd until RELEASE
+    */
+    privbtf int mousfButtonClidkAllowfd = 0;
+
+    nbtivf int gftNbtivfColor(Color dlr, GrbphidsConfigurbtion gd);
+    nbtivf void gftWMInsfts(long window, long lfft, long top, long right, long bottom, long bordfr);
+    nbtivf long gftTopWindow(long window, long rootWin);
+    nbtivf void gftWindowBounds(long window, long x, long y, long width, long hfight);
+    privbtf nbtivf stbtid void initIDs();
+
+    stbtid {
+        initIDs();
+    }
+
+    XWindow(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms);
+    }
+
+    XWindow() {
+    }
+
+    XWindow(long pbrfntWindow, Rfdtbnglf bounds) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            BOUNDS, bounds,
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow)}));
+    }
+
+    XWindow(Componfnt tbrgft, long pbrfntWindow, Rfdtbnglf bounds) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            BOUNDS, bounds,
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow),
+            TARGET, tbrgft}));
+    }
+
+    XWindow(Componfnt tbrgft, long pbrfntWindow) {
+        this(tbrgft, pbrfntWindow, nfw Rfdtbnglf(tbrgft.gftBounds()));
+    }
+
+    XWindow(Componfnt tbrgft) {
+        this(tbrgft, (tbrgft.gftPbrfnt() == null) ? 0 : gftPbrfntWindowID(tbrgft), nfw Rfdtbnglf(tbrgft.gftBounds()));
+    }
+
+    XWindow(Objfdt tbrgft) {
+        this(null, 0, null);
+    }
+
+    /* This drfbtf is usfd by thf XEmbfddfdFrbmfPffr sindf it hbs to drfbtf thf window
+       bs b dhild of thf nftsdbpf window. This nftsdbpf window is pbssfd in bs wid */
+    XWindow(long pbrfntWindow) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow),
+            REPARENTED, Boolfbn.TRUE,
+            EMBEDDED, Boolfbn.TRUE}));
+    }
+
+    protfdtfd void initGrbphidsConfigurbtion() {
+        grbphidsConfig = (X11GrbphidsConfig) tbrgft.gftGrbphidsConfigurbtion();
+        grbphidsConfigDbtb = nfw AwtGrbphidsConfigDbtb(grbphidsConfig.gftADbtb());
+    }
+
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        rfpbrfntfd = Boolfbn.TRUE.fqubls(pbrbms.gft(REPARENTED));
+
+        tbrgft = (Componfnt)pbrbms.gft(TARGET);
+
+        initGrbphidsConfigurbtion();
+
+        AwtGrbphidsConfigDbtb gDbtb = gftGrbphidsConfigurbtionDbtb();
+        X11GrbphidsConfig donfig = (X11GrbphidsConfig) gftGrbphidsConfigurbtion();
+        XVisublInfo visInfo = gDbtb.gft_bwt_visInfo();
+        pbrbms.putIfNull(EVENT_MASK, XConstbnts.KfyPrfssMbsk | XConstbnts.KfyRflfbsfMbsk
+            | XConstbnts.FodusChbngfMbsk | XConstbnts.ButtonPrfssMbsk | XConstbnts.ButtonRflfbsfMbsk
+            | XConstbnts.EntfrWindowMbsk | XConstbnts.LfbvfWindowMbsk | XConstbnts.PointfrMotionMbsk
+            | XConstbnts.ButtonMotionMbsk | XConstbnts.ExposurfMbsk | XConstbnts.StrudturfNotifyMbsk);
+
+        if (tbrgft != null) {
+            pbrbms.putIfNull(BOUNDS, nfw Rfdtbnglf(tbrgft.gftBounds()));
+        } flsf {
+            pbrbms.putIfNull(BOUNDS, nfw Rfdtbnglf(0, 0, MIN_SIZE, MIN_SIZE));
+        }
+        pbrbms.putIfNull(BORDER_PIXEL, Long.vblufOf(0));
+        gftColorModfl(); // fix 4948833: this dbll fordfs thf dolor mbp to bf initiblizfd
+        pbrbms.putIfNull(COLORMAP, gDbtb.gft_bwt_dmbp());
+        pbrbms.putIfNull(DEPTH, gDbtb.gft_bwt_dfpth());
+        pbrbms.putIfNull(VISUAL_CLASS, Intfgfr.vblufOf(XConstbnts.InputOutput));
+        pbrbms.putIfNull(VISUAL, visInfo.gft_visubl());
+        pbrbms.putIfNull(VALUE_MASK, XConstbnts.CWBordfrPixfl | XConstbnts.CWEvfntMbsk | XConstbnts.CWColormbp);
+        Long pbrfntWindow = (Long)pbrbms.gft(PARENT_WINDOW);
+        if (pbrfntWindow == null || pbrfntWindow.longVbluf() == 0) {
+            XToolkit.bwtLodk();
+            try {
+                int sdrffn = visInfo.gft_sdrffn();
+                if (sdrffn != -1) {
+                    pbrbms.bdd(PARENT_WINDOW, XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffn));
+                } flsf {
+                    pbrbms.bdd(PARENT_WINDOW, XToolkit.gftDffbultRootWindow());
+                }
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+
+        pbintArfb = nfw XRfpbintArfb();
+        if (tbrgft != null) {
+            this.pbrfnt = gftPbrfntXWindowObjfdt(tbrgft.gftPbrfnt());
+        }
+
+        pbrbms.putIfNull(BACKING_STORE, XToolkit.gftBbdkingStorfTypf());
+
+        XToolkit.bwtLodk();
+        try {
+            if (wm_protodols == null) {
+                wm_protodols = XAtom.gft("WM_PROTOCOLS");
+                wm_dflftf_window = XAtom.gft("WM_DELETE_WINDOW");
+                wm_tbkf_fodus = XAtom.gft("WM_TAKE_FOCUS");
+            }
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+        winAttr = nfw XWindowAttributfsDbtb();
+        sbvfdStbtf = XUtilConstbnts.WithdrbwnStbtf;
+    }
+
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+
+        sftWMClbss(gftWMClbss());
+
+        surfbdfDbtb = grbphidsConfig.drfbtfSurfbdfDbtb(this);
+        Color d;
+        if (tbrgft != null && (d = tbrgft.gftBbdkground()) != null) {
+            // Wf nffd b vfrsion of sftBbdkground thbt dofs not dbll rfpbint !!
+            // bnd onf thbt dofs not gft ovfrriddfn. Thf problfm is thbt in postInit
+            // wf dbll sftBbdkground bnd wf don't hbvf bll thf stuff initiblizfd to
+            // do b full pbint for most pffrs. So wf dbnnot dbll sftBbdkground in postInit.
+            // instfbd wf nffd to dbll xSftBbdkground.
+            xSftBbdkground(d);
+        }
+    }
+
+    publid GrbphidsConfigurbtion gftGrbphidsConfigurbtion() {
+        if (grbphidsConfig == null) {
+            initGrbphidsConfigurbtion();
+        }
+        rfturn grbphidsConfig;
+    }
+
+    publid AwtGrbphidsConfigDbtb gftGrbphidsConfigurbtionDbtb() {
+        if (grbphidsConfigDbtb == null) {
+            initGrbphidsConfigurbtion();
+        }
+        rfturn grbphidsConfigDbtb;
+    }
+
+    protfdtfd String[] gftWMClbss() {
+        rfturn nfw String[] {XToolkit.gftCorrfdtXIDString(gftClbss().gftNbmf()), XToolkit.gftAWTAppClbssNbmf()};
+    }
+
+    void sftRfpbrfntfd(boolfbn nfwVbluf) {
+        rfpbrfntfd = nfwVbluf;
+    }
+
+    boolfbn isRfpbrfntfd() {
+        rfturn rfpbrfntfd;
+    }
+
+    stbtid long gftPbrfntWindowID(Componfnt tbrgft) {
+
+        ComponfntPffr pffr = tbrgft.gftPbrfnt().gftPffr();
+        Componfnt tfmp = tbrgft.gftPbrfnt();
+        whilf (!(pffr instbndfof XWindow))
+        {
+            tfmp = tfmp.gftPbrfnt();
+            pffr = tfmp.gftPffr();
+        }
+
+        if (pffr != null && pffr instbndfof XWindow)
+            rfturn ((XWindow)pffr).gftContfntWindow();
+        flsf rfturn 0;
+    }
+
+
+    stbtid XWindow gftPbrfntXWindowObjfdt(Componfnt tbrgft) {
+        if (tbrgft == null) rfturn null;
+        Componfnt tfmp = tbrgft.gftPbrfnt();
+        if (tfmp == null) rfturn null;
+        ComponfntPffr pffr = tfmp.gftPffr();
+        if (pffr == null) rfturn null;
+        whilf ((pffr != null) && !(pffr instbndfof XWindow))
+        {
+            tfmp = tfmp.gftPbrfnt();
+            pffr = tfmp.gftPffr();
+        }
+        if (pffr != null && pffr instbndfof XWindow)
+            rfturn (XWindow) pffr;
+        flsf rfturn null;
+    }
+
+
+    boolfbn isPbrfntOf(XWindow win) {
+        if (!(tbrgft instbndfof Contbinfr) || win == null || win.gftTbrgft() == null) {
+            rfturn fblsf;
+        }
+        Contbinfr pbrfnt = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(win.tbrgft);
+        whilf (pbrfnt != null && pbrfnt != tbrgft) {
+            pbrfnt = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(pbrfnt);
+        }
+        rfturn (pbrfnt == tbrgft);
+    }
+
+    publid Objfdt gftTbrgft() {
+        rfturn tbrgft;
+    }
+    publid Componfnt gftEvfntSourdf() {
+        rfturn tbrgft;
+    }
+
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        rfturn grbphidsConfig.gftColorModfl (trbnspbrfndy);
+    }
+
+    publid ColorModfl gftColorModfl() {
+        if (grbphidsConfig != null) {
+            rfturn grbphidsConfig.gftColorModfl ();
+        }
+        flsf {
+            rfturn XToolkit.gftStbtidColorModfl();
+        }
+    }
+
+    Grbphids gftGrbphids(SurfbdfDbtb surfDbtb, Color bforf, Color bbbdk, Font bfont) {
+        if (surfDbtb == null) rfturn null;
+
+        Componfnt tbrgft = this.tbrgft;
+
+        /* Fix for bug 4746122. Color bnd Font shouldn't bf null */
+        Color bgColor = bbbdk;
+        if (bgColor == null) {
+            bgColor = SystfmColor.window;
+        }
+        Color fgColor = bforf;
+        if (fgColor == null) {
+            fgColor = SystfmColor.windowTfxt;
+        }
+        Font font = bfont;
+        if (font == null) {
+            font = XWindow.gftDffbultFont();
+        }
+        rfturn nfw SunGrbphids2D(surfDbtb, fgColor, bgColor, font);
+    }
+
+    publid Grbphids gftGrbphids() {
+        rfturn gftGrbphids(surfbdfDbtb,
+                           tbrgft.gftForfground(),
+                           tbrgft.gftBbdkground(),
+                           tbrgft.gftFont());
+    }
+
+    publid FontMftrids gftFontMftrids(Font font) {
+        rfturn Toolkit.gftDffbultToolkit().gftFontMftrids(font);
+    }
+
+    publid Rfdtbnglf gftTbrgftBounds() {
+        rfturn tbrgft.gftBounds();
+    }
+
+    /**
+     * Rfturns truf if thf fvfnt hbs bffn hbndlfd bnd should not bf
+     * postfd to Jbvb.
+     */
+    boolfbn prfPostEvfnt(AWTEvfnt f) {
+        rfturn fblsf;
+    }
+
+    stbtid Mfthod m_sfndMfssbgf;
+    stbtid void sfndEvfnt(finbl AWTEvfnt f) {
+        // Thf usfs of this mfthod imply thbt thf indoming fvfnt is systfm-gfnfrbtfd
+        SunToolkit.sftSystfmGfnfrbtfd(f);
+        PffrEvfnt pf = nfw PffrEvfnt(Toolkit.gftDffbultToolkit(), nfw Runnbblf() {
+                publid void run() {
+                    AWTAddfssor.gftAWTEvfntAddfssor().sftPostfd(f);
+                    ((Componfnt)f.gftSourdf()).dispbtdhEvfnt(f);
+                }
+            }, PffrEvfnt.ULTIMATE_PRIORITY_EVENT);
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER) && (f instbndfof FodusEvfnt)) {
+            fodusLog.finfr("Sfnding " + f);
+        }
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(f.gftSourdf()), pf);
+    }
+
+
+/*
+ * Post bn fvfnt to thf fvfnt qufuf.
+ */
+// NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+//       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    void postEvfnt(AWTEvfnt fvfnt) {
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(fvfnt.gftSourdf()), fvfnt);
+    }
+
+    stbtid void postEvfntStbtid(AWTEvfnt fvfnt) {
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(fvfnt.gftSourdf()), fvfnt);
+    }
+
+    publid void postEvfntToEvfntQufuf(finbl AWTEvfnt fvfnt) {
+        //fix for 6239938 : Choidf drop-down dofs not disbppfbr whfn it losfs fodus, on XToolkit
+        if (!prfPostEvfnt(fvfnt)) {
+            //fvfnt hbsn't bffn hbndlfd bnd must bf postfd to EvfntQufuf
+            postEvfnt(fvfnt);
+        }
+    }
+
+    // ovfrridfn in XCbnvbsPffr
+    protfdtfd boolfbn doErbsfBbdkground() {
+        rfturn truf;
+    }
+
+    // Wf nffd b vfrsion of sftBbdkground thbt dofs not dbll rfpbint !!
+    // bnd onf thbt dofs not gft ovfrriddfn. Thf problfm is thbt in postInit
+    // wf dbll sftBbdkground bnd wf don't hbvf bll thf stuff initiblizfd to
+    // do b full pbint for most pffrs. So wf dbnnot dbll sftBbdkground in postInit.
+    finbl publid void xSftBbdkground(Color d) {
+        XToolkit.bwtLodk();
+        try {
+            winBbdkground(d);
+            // fix for 6558510: hbndlf sun.bwt.nofrbsfbbdkground flbg,
+            // sff doErbsfBbdkground() bnd prfInit() mfthods in XCbnvbsPffr
+            if (!doErbsfBbdkground()) {
+                rfturn;
+            }
+            // 6304250: XAWT: Itfms in dhoidf show b bluf bordfr on OpfnGL + Solbris10 whfn bbdkground dolor is sft
+            // Notf: Whfn OGL is fnbblfd, surfbdfDbtb.pixflFor() will not
+            // rfturn b pixfl vbluf bppropribtf for pbssing to
+            // XSftWindowBbdkground().  Thfrfforf, wf will usf thf ColorModfl
+            // for this domponfnt in ordfr to dbldulbtf b pixfl vbluf from
+            // thf givfn RGB vbluf.
+            ColorModfl dm = gftColorModfl();
+            int pixfl = PixflConvfrtfr.instbndf.rgbToPixfl(d.gftRGB(), dm);
+            XlibWrbppfr.XSftWindowBbdkground(XToolkit.gftDisplby(), gftContfntWindow(), pixfl);
+            XlibWrbppfr.XClfbrWindow(XToolkit.gftDisplby(), gftContfntWindow());
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void sftBbdkground(Color d) {
+        xSftBbdkground(d);
+    }
+
+    Color bbdkgroundColor;
+    void winBbdkground(Color d) {
+        bbdkgroundColor = d;
+    }
+
+    publid Color gftWinBbdkground() {
+        Color d = null;
+
+        if (bbdkgroundColor != null) {
+            d = bbdkgroundColor;
+        } flsf if (pbrfnt != null) {
+            d = pbrfnt.gftWinBbdkground();
+        }
+
+        if (d instbndfof SystfmColor) {
+            d = nfw Color(d.gftRGB());
+        }
+
+        rfturn d;
+    }
+
+    publid boolfbn isEmbfddfd() {
+        rfturn fmbfddfd;
+    }
+
+    publid finbl void rfpbint(int x, int y, int width, int hfight) {
+        if (!isVisiblf() || gftWidth() == 0 || gftHfight() == 0) {
+            rfturn;
+        }
+        Grbphids g = gftGrbphids();
+        if (g != null) {
+            try {
+                g.sftClip(x, y, width, hfight);
+                if (SunToolkit.isDispbtdhThrfbdForAppContfxt(gftTbrgft())) {
+                    pbint(g); // Thf nbtivf bnd tbrgft will bf pbintfd in plbdf.
+                } flsf {
+                    pbintPffr(g);
+                    postPbintEvfnt(tbrgft, x, y, width, hfight);
+                }
+            } finblly {
+                g.disposf();
+            }
+        }
+    }
+
+    void rfpbint() {
+        rfpbint(0, 0, gftWidth(), gftHfight());
+    }
+
+    publid void pbint(finbl Grbphids g) {
+        // pbint pffr
+        pbintPffr(g);
+    }
+
+    void pbintPffr(finbl Grbphids g) {
+    }
+    //usfd by Pffrs to bvoid flidkfring withing pbint()
+    protfdtfd void flush(){
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XFlush(XToolkit.gftDisplby());
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void popup(int x, int y, int width, int hfight) {
+        // TBD: grbb thf pointfr
+        xSftBounds(x, y, width, hfight);
+    }
+
+    publid void hbndlfExposfEvfnt(XEvfnt xfv) {
+        supfr.hbndlfExposfEvfnt(xfv);
+        XExposfEvfnt xf = xfv.gft_xfxposf();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        int x = xf.gft_x();
+        int y = xf.gft_y();
+        int w = xf.gft_width();
+        int h = xf.gft_hfight();
+
+        Componfnt tbrgft = gftEvfntSourdf();
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+
+        if (!dompAddfssor.gftIgnorfRfpbint(tbrgft)
+            && dompAddfssor.gftWidth(tbrgft) != 0
+            && dompAddfssor.gftHfight(tbrgft) != 0)
+        {
+            postPbintEvfnt(tbrgft, x, y, w, h);
+        }
+    }
+
+    publid void postPbintEvfnt(Componfnt tbrgft, int x, int y, int w, int h) {
+        PbintEvfnt fvfnt = PbintEvfntDispbtdhfr.gftPbintEvfntDispbtdhfr().
+            drfbtfPbintEvfnt(tbrgft, x, y, w, h);
+        if (fvfnt != null) {
+            postEvfntToEvfntQufuf(fvfnt);
+        }
+    }
+
+    stbtid int gftModififrs(int stbtf, int button, int kfyCodf) {
+        rfturn gftModififrs(stbtf, button, kfyCodf, 0,  fblsf);
+    }
+
+    stbtid int gftModififrs(int stbtf, int button, int kfyCodf, int typf, boolfbn whffl_mousf) {
+        int modififrs = 0;
+
+        if (((stbtf & XConstbnts.ShiftMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_SHIFT)) {
+            modififrs |= InputEvfnt.SHIFT_DOWN_MASK;
+        }
+        if (((stbtf & XConstbnts.ControlMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_CONTROL)) {
+            modififrs |= InputEvfnt.CTRL_DOWN_MASK;
+        }
+        if (((stbtf & XToolkit.mftbMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_META)) {
+            modififrs |= InputEvfnt.META_DOWN_MASK;
+        }
+        if (((stbtf & XToolkit.bltMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_ALT)) {
+            modififrs |= InputEvfnt.ALT_DOWN_MASK;
+        }
+        if (((stbtf & XToolkit.modfSwitdhMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_ALT_GRAPH)) {
+            modififrs |= InputEvfnt.ALT_GRAPH_DOWN_MASK;
+        }
+        //InputEvfnt.BUTTON_DOWN_MASK brrby is stbrting from BUTTON1_DOWN_MASK on indfx == 0.
+        // button durrfntly rfflfdts b rfbl button numbfr bnd stbrts from 1. (fxdfpt NOBUTTON whidh is zfro )
+
+        /* this is bn bttfmpt to rffbdtor button IDs in : MousfEvfnt, InputEvfnt, XlibWrbppfr bnd XWindow.*/
+
+        //rfflfdts b button numbfr similbr to MousfEvfnt.BUTTON1, 2, 3 ftd.
+        for (int i = 0; i < XConstbnts.buttons.lfngth; i ++){
+            //modififr should bf bddfd if :
+            // 1) durrfnt button is now still in PRESSED stbtf (mfbns thbt usfr just prfssfd mousf but not rflfbsfd yft) or
+            // 2) if Xsystfm rfports thbt "stbtf" rfprfsfnts thbt button wbs just rflfbsfd. This only hbppfns on RELEASE with 1,2,3 buttons.
+            // ONLY onf of thfsf donditions should bf TRUE to bdd thbt modififr.
+            if (((stbtf & XlibUtil.gftButtonMbsk(i + 1)) != 0) != (button == XConstbnts.buttons[i])){
+                //fxdludf whffl buttons from bdding thfir numbfrs bs modififrs
+                if (!whffl_mousf) {
+                    modififrs |= InputEvfnt.gftMbskForButton(i+1);
+                }
+            }
+        }
+        rfturn modififrs;
+    }
+
+    stbtid int gftXModififrs(AWTKfyStrokf strokf) {
+        int mods = strokf.gftModififrs();
+        int rfs = 0;
+        if ((mods & (InputEvfnt.SHIFT_DOWN_MASK | InputEvfnt.SHIFT_MASK)) != 0) {
+            rfs |= XConstbnts.ShiftMbsk;
+        }
+        if ((mods & (InputEvfnt.CTRL_DOWN_MASK | InputEvfnt.CTRL_MASK)) != 0) {
+            rfs |= XConstbnts.ControlMbsk;
+        }
+        if ((mods & (InputEvfnt.ALT_DOWN_MASK | InputEvfnt.ALT_MASK)) != 0) {
+            rfs |= XToolkit.bltMbsk;
+        }
+        if ((mods & (InputEvfnt.META_DOWN_MASK | InputEvfnt.META_MASK)) != 0) {
+            rfs |= XToolkit.mftbMbsk;
+        }
+        if ((mods & (InputEvfnt.ALT_GRAPH_DOWN_MASK | InputEvfnt.ALT_GRAPH_MASK)) != 0) {
+            rfs |= XToolkit.modfSwitdhMbsk;
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Rfturns truf if this fvfnt is disbblfd bnd shouldn't bf pbssfd to Jbvb.
+     * Dffbult implfmfntbtion rfturns fblsf for bll fvfnts.
+     */
+    stbtid int gftRightButtonNumbfr() {
+        if (rbutton == 0) { // not initiblizfd yft
+            XToolkit.bwtLodk();
+            try {
+                rbutton = XlibWrbppfr.XGftPointfrMbpping(XToolkit.gftDisplby(), XlibWrbppfr.ibufffr, 3);
+            }
+            finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+        rfturn rbutton;
+    }
+
+    stbtid int gftMousfMovfmfntSmudgf() {
+        //TODO: It's possiblf to rfbd dorrfsponding sfttings
+        rfturn AWT_MULTICLICK_SMUDGE;
+    }
+
+    publid void hbndlfButtonPrfssRflfbsf(XEvfnt xfv) {
+        supfr.hbndlfButtonPrfssRflfbsf(xfv);
+        XButtonEvfnt xbf = xfv.gft_xbutton();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(xbf.toString());
+        }
+        long whfn;
+        int modififrs;
+        boolfbn popupTriggfr = fblsf;
+        int button=0;
+        boolfbn whffl_mousf = fblsf;
+        int lbutton = xbf.gft_button();
+        /*
+         * Ignorf thf buttons bbovf 20 duf to thf bit limit for
+         * InputEvfnt.BUTTON_DOWN_MASK.
+         * Onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
+         */
+        if (lbutton > SunToolkit.MAX_BUTTONS_SUPPORTED) {
+            rfturn;
+        }
+        int typf = xfv.gft_typf();
+        whfn = xbf.gft_timf();
+        long jWhfn = XToolkit.nowMillisUTC_offsft(whfn);
+
+        int x = xbf.gft_x();
+        int y = xbf.gft_y();
+        if (xfv.gft_xbny().gft_window() != window) {
+            Point lodblXY = toLodbl(xbf.gft_x_root(), xbf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
+        }
+
+        if (typf == XConstbnts.ButtonPrfss) {
+            //Allow this mousf button to gfnfrbtf CLICK fvfnt on nfxt ButtonRflfbsf
+            mousfButtonClidkAllowfd |= XlibUtil.gftButtonMbsk(lbutton);
+            XWindow lbstWindow = (lbstWindowRff != null) ? (lbstWindowRff.gft()):(null);
+            /*
+               multidlidk dhfdking
+            */
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                fvfntLog.finfst("lbstWindow = " + lbstWindow + ", lbstButton "
+                + lbstButton + ", lbstTimf " + lbstTimf + ", multiClidkTimf "
+                + XToolkit.gftMultiClidkTimf());
+            }
+            if (lbstWindow == this && lbstButton == lbutton && (whfn - lbstTimf) < XToolkit.gftMultiClidkTimf()) {
+                dlidkCount++;
+            } flsf {
+                dlidkCount = 1;
+                lbstWindowRff = nfw WfbkRfffrfndf<>(this);
+                lbstButton = lbutton;
+                lbstX = x;
+                lbstY = y;
+            }
+            lbstTimf = whfn;
+
+
+            /*
+               Chfdk for popup triggfr !!
+            */
+            if (lbutton == gftRightButtonNumbfr() || lbutton > 2) {
+                popupTriggfr = truf;
+            } flsf {
+                popupTriggfr = fblsf;
+            }
+        }
+
+        button = XConstbnts.buttons[lbutton - 1];
+        // 4 bnd 5 buttons brf usublly donsidfrfd bssignfd to b first whffl
+        if (lbutton == XConstbnts.buttons[3] ||
+            lbutton == XConstbnts.buttons[4]) {
+            whffl_mousf = truf;
+        }
+
+        // mbpping fxtrb buttons to numbfrs stbrting from 4.
+        if ((button > XConstbnts.buttons[4]) && (!Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd())){
+            rfturn;
+        }
+
+        if (button > XConstbnts.buttons[4]){
+            button -= 2;
+        }
+        modififrs = gftModififrs(xbf.gft_stbtf(),button,0, typf, whffl_mousf);
+
+        if (!whffl_mousf) {
+            MousfEvfnt mf = nfw MousfEvfnt(gftEvfntSourdf(),
+                                           typf == XConstbnts.ButtonPrfss ? MousfEvfnt.MOUSE_PRESSED : MousfEvfnt.MOUSE_RELEASED,
+                                           jWhfn,modififrs, x, y,
+                                           xbf.gft_x_root(),
+                                           xbf.gft_y_root(),
+                                           dlidkCount,popupTriggfr,button);
+
+            postEvfntToEvfntQufuf(mf);
+
+            if ((typf == XConstbnts.ButtonRflfbsf) &&
+                ((mousfButtonClidkAllowfd & XlibUtil.gftButtonMbsk(lbutton)) != 0) ) // No up-button in thf drbg-stbtf
+            {
+                postEvfntToEvfntQufuf(mf = nfw MousfEvfnt(gftEvfntSourdf(),
+                                                     MousfEvfnt.MOUSE_CLICKED,
+                                                     jWhfn,
+                                                     modififrs,
+                                                     x, y,
+                                                     xbf.gft_x_root(),
+                                                     xbf.gft_y_root(),
+                                                     dlidkCount,
+                                                     fblsf, button));
+            }
+
+        }
+        flsf {
+            if (xfv.gft_typf() == XConstbnts.ButtonPrfss) {
+                MousfWhfflEvfnt mwf = nfw MousfWhfflEvfnt(gftEvfntSourdf(),MousfEvfnt.MOUSE_WHEEL, jWhfn,
+                                                          modififrs,
+                                                          x, y,
+                                                          xbf.gft_x_root(),
+                                                          xbf.gft_y_root(),
+                                                          1,fblsf,MousfWhfflEvfnt.WHEEL_UNIT_SCROLL,
+                                                          3,button==4 ?  -1 : 1);
+                postEvfntToEvfntQufuf(mwf);
+            }
+        }
+
+        /* Updbtf thf stbtf vbribblf AFTER thf CLICKED fvfnt post. */
+        if (typf == XConstbnts.ButtonRflfbsf) {
+            /* Exdludf this mousf button from bllowfd list.*/
+            mousfButtonClidkAllowfd &= ~ XlibUtil.gftButtonMbsk(lbutton);
+        }
+    }
+
+    publid void hbndlfMotionNotify(XEvfnt xfv) {
+        supfr.hbndlfMotionNotify(xfv);
+        XMotionEvfnt xmf = xfv.gft_xmotion();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+
+        int mousfKfyStbtf = 0; //(xmf.gft_stbtf() & (XConstbnts.buttonsMbsk[0] | XConstbnts.buttonsMbsk[1] | XConstbnts.buttonsMbsk[2]));
+
+        //this dofsn't work for fxtrb buttons bfdbusf Xsystfm is sfnding stbtf==0 for fvfry fxtrb button fvfnt.
+        // wf dbn't dorrfdt it in MousfEvfnt dlbss bs wf donf it with modififrs, bfdbusf fxbdt typf (DRAG|MOVE)
+        // should bf pbssfd from XWindow.
+        finbl int buttonsNumbfr = XToolkit.gftNumbfrOfButtonsForMbsk();
+
+        for (int i = 0; i < buttonsNumbfr; i++){
+            // TODO : hfrf is thf bug in WM: fxtrb buttons dofsn't hbvf stbtf!=0 bs thfy should.
+            if ((i != 4) && (i != 5)) {
+                mousfKfyStbtf = mousfKfyStbtf | (xmf.gft_stbtf() & XlibUtil.gftButtonMbsk(i + 1));
+            }
+        }
+
+        boolfbn isDrbgging = (mousfKfyStbtf != 0);
+        int mousfEvfntTypf = 0;
+
+        if (isDrbgging) {
+            mousfEvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+        } flsf {
+            mousfEvfntTypf = MousfEvfnt.MOUSE_MOVED;
+        }
+
+        /*
+           Fix for 6176814 .  Add multidlidk dhfdking.
+        */
+        int x = xmf.gft_x();
+        int y = xmf.gft_y();
+        XWindow lbstWindow = (lbstWindowRff != null) ? (lbstWindowRff.gft()):(null);
+
+        if (!(lbstWindow == this &&
+              (xmf.gft_timf() - lbstTimf) < XToolkit.gftMultiClidkTimf()  &&
+              (Mbth.bbs(lbstX - x) < AWT_MULTICLICK_SMUDGE &&
+               Mbth.bbs(lbstY - y) < AWT_MULTICLICK_SMUDGE))) {
+          dlidkCount = 0;
+          lbstWindowRff = null;
+          mousfButtonClidkAllowfd = 0;
+          lbstTimf = 0;
+          lbstX = 0;
+          lbstY = 0;
+        }
+
+        long jWhfn = XToolkit.nowMillisUTC_offsft(xmf.gft_timf());
+        int modififrs = gftModififrs(xmf.gft_stbtf(), 0, 0);
+        boolfbn popupTriggfr = fblsf;
+
+        Componfnt sourdf = gftEvfntSourdf();
+
+        if (xmf.gft_window() != window) {
+            Point lodblXY = toLodbl(xmf.gft_x_root(), xmf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
+        }
+        /* Fix for 5039416.
+         * Addording to dbnvbs.d wf shouldn't post bny MousfEvfnt if mousf is drbgging bnd dlidkCount!=0.
+         */
+        if ((isDrbgging && dlidkCount == 0) || !isDrbgging) {
+            MousfEvfnt mmf = nfw MousfEvfnt(sourdf, mousfEvfntTypf, jWhfn,
+                                            modififrs, x, y, xmf.gft_x_root(), xmf.gft_y_root(),
+                                            dlidkCount, popupTriggfr, MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mmf);
+        }
+    }
+
+
+    // REMIND: nffd to implfmfnt looking for disbblfd fvfnts
+    publid nbtivf boolfbn x11inputMfthodLookupString(long fvfnt, long [] kfysymArrby);
+    nbtivf boolfbn hbvfCurrfntX11InputMfthodInstbndf();
+
+    privbtf boolfbn mousfAbovfMf;
+
+    publid boolfbn isMousfAbovf() {
+        syndhronizfd (gftStbtfLodk()) {
+            rfturn mousfAbovfMf;
+        }
+    }
+    protfdtfd void sftMousfAbovf(boolfbn bbovf) {
+        syndhronizfd (gftStbtfLodk()) {
+            mousfAbovfMf = bbovf;
+        }
+    }
+
+    protfdtfd void fntfrNotify(long window) {
+        if (window == gftWindow()) {
+            sftMousfAbovf(truf);
+        }
+    }
+    protfdtfd void lfbvfNotify(long window) {
+        if (window == gftWindow()) {
+            sftMousfAbovf(fblsf);
+        }
+    }
+
+    publid void hbndlfXCrossingEvfnt(XEvfnt xfv) {
+        supfr.hbndlfXCrossingEvfnt(xfv);
+        XCrossingEvfnt xdf = xfv.gft_xdrossing();
+
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst(xdf.toString());
+        }
+
+        if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+            fntfrNotify(xdf.gft_window());
+        } flsf { // LfbvfNotify:
+            lfbvfNotify(xdf.gft_window());
+        }
+
+        // Skip fvfnt If it wbs dbusfd by b grbb
+        // This is nffdfd bfdbusf on displbys with fodus-follows-mousf on MousfPrfss X systfm gfnfrbtfs
+        // two XCrossing fvfnts with modf != NormblNotify. First of thfm notififs thbt thf mousf hbs lfft
+        // durrfnt domponfnt. Sfdond onf notififs thbt it hbs fntfrfd into thf sbmf domponfnt.
+        // This looks likf thf window undfr thf mousf hbs bdtublly dhbngfd bnd Jbvb hbndlf thfsf  fvfnts
+        // bddordingly. This lfbds to impossibility to mbkf b doublf dlidk on Componfnt (6404708)
+        XWindowPffr toplfvfl = gftToplfvflXWindow();
+        if (toplfvfl != null && !toplfvfl.isModblBlodkfd()){
+            if (xdf.gft_modf() != XConstbnts.NotifyNormbl) {
+                // 6404708 : nffd updbtf dursor in bddordbndf with skipping Lfbvf/EntfrNotify fvfnt
+                // whfrfbs it dofsn't nffd to hbndlfd furthfr.
+                if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+                    XAwtStbtf.sftComponfntMousfEntfrfd(gftEvfntSourdf());
+                    XGlobblCursorMbnbgfr.nbtivfUpdbtfCursor(gftEvfntSourdf());
+                } flsf { // LfbvfNotify:
+                    XAwtStbtf.sftComponfntMousfEntfrfd(null);
+                }
+                rfturn;
+            }
+        }
+        // X sfnds XCrossing to bll hifrbrdhy so if thf fdgf of dhild fqubls to
+        // bndfstor bnd mousf fntfrs dhild, thf bndfstor will gft bn fvfnt too.
+        // From jbvb point thf fvfnt is bogus bs bndfstor is obsdurfd, so if
+        // thf dhild dbn gft jbvb fvfnt itsflf, wf skip it on bndfstor.
+        long dhildWnd = xdf.gft_subwindow();
+        if (dhildWnd != XConstbnts.Nonf) {
+            XBbsfWindow dhild = XToolkit.windowToXWindow(dhildWnd);
+            if (dhild != null && dhild instbndfof XWindow &&
+                !dhild.isEvfntDisbblfd(xfv))
+            {
+                rfturn;
+            }
+        }
+
+        // Rfmfmbfr old domponfnt with mousf to hbvf thf opportunity to sfnd it MOUSE_EXITED.
+        finbl Componfnt dompWithMousf = XAwtStbtf.gftComponfntMousfEntfrfd();
+        if (toplfvfl != null) {
+            if(!toplfvfl.isModblBlodkfd()){
+                if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+                    // Chbngf XAwtStbtf's domponfnt mousf fntfrfd to thf up-to-dbtf onf bfforf rfqufsting
+                    // to updbtf thf dursor sindf XAwtStbtf.gftComponfntMousfEntfrfd() is usfd whfn thf
+                    // dursor is updbtfd (in XGlobblCursorMbnbgfr.findHfbvywfightUndfrCursor()).
+                    XAwtStbtf.sftComponfntMousfEntfrfd(gftEvfntSourdf());
+                    XGlobblCursorMbnbgfr.nbtivfUpdbtfCursor(gftEvfntSourdf());
+                } flsf { // LfbvfNotify:
+                    XAwtStbtf.sftComponfntMousfEntfrfd(null);
+                }
+            } flsf {
+                ((XComponfntPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(tbrgft))
+                    .pSftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+            }
+        }
+
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+
+        long jWhfn = XToolkit.nowMillisUTC_offsft(xdf.gft_timf());
+        int modififrs = gftModififrs(xdf.gft_stbtf(),0,0);
+        int dlidkCount = 0;
+        boolfbn popupTriggfr = fblsf;
+        int x = xdf.gft_x();
+        int y = xdf.gft_y();
+        if (xdf.gft_window() != window) {
+            Point lodblXY = toLodbl(xdf.gft_x_root(), xdf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
+        }
+
+        // This dodf trbdks boundbry drossing bnd fnsurfs MOUSE_ENTER/EXIT
+        // brf postfd in bltfrnbtf pbirs
+        if (dompWithMousf != null) {
+            MousfEvfnt mf = nfw MousfEvfnt(dompWithMousf,
+                MousfEvfnt.MOUSE_EXITED, jWhfn, modififrs, xdf.gft_x(),
+                xdf.gft_y(), xdf.gft_x_root(), xdf.gft_y_root(), dlidkCount, popupTriggfr,
+                MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mf);
+            fvfntLog.finfst("Clfbring lbst window rff");
+            lbstWindowRff = null;
+        }
+        if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+            MousfEvfnt mf = nfw MousfEvfnt(gftEvfntSourdf(), MousfEvfnt.MOUSE_ENTERED,
+                jWhfn, modififrs, xdf.gft_x(), xdf.gft_y(), xdf.gft_x_root(), xdf.gft_y_root(), dlidkCount,
+                popupTriggfr, MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mf);
+        }
+    }
+
+    publid void doLbyout(int x, int y, int width, int hfight) {}
+
+    publid void hbndlfConfigurfNotifyEvfnt(XEvfnt xfv) {
+        Rfdtbnglf oldBounds = gftBounds();
+
+        supfr.hbndlfConfigurfNotifyEvfnt(xfv);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Configurf, {0}, fvfnt disbblfd: {1}",
+                     xfv.gft_xdonfigurf(), isEvfntDisbblfd(xfv));
+        }
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+
+//  if ( Chfdk if it's b rfsizf, b movf, or b stbdking ordfr dhbngf )
+//  {
+        Rfdtbnglf bounds = gftBounds();
+        if (!bounds.gftSizf().fqubls(oldBounds.gftSizf())) {
+            postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_RESIZED));
+        }
+        if (!bounds.gftLodbtion().fqubls(oldBounds.gftLodbtion())) {
+            postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_MOVED));
+        }
+//  }
+    }
+
+    publid void hbndlfMbpNotifyEvfnt(XEvfnt xfv) {
+        supfr.hbndlfMbpNotifyEvfnt(xfv);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Mbppfd {0}", this);
+        }
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        ComponfntEvfnt df;
+
+        df = nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_SHOWN);
+        postEvfntToEvfntQufuf(df);
+    }
+
+    publid void hbndlfUnmbpNotifyEvfnt(XEvfnt xfv) {
+        supfr.hbndlfUnmbpNotifyEvfnt(xfv);
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        ComponfntEvfnt df;
+
+        df = nfw ComponfntEvfnt(tbrgft, ComponfntEvfnt.COMPONENT_HIDDEN);
+        postEvfntToEvfntQufuf(df);
+    }
+
+    privbtf void dumpKfysymArrby(XKfyEvfnt fv) {
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("  "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 0))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 1))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 2))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 3)));
+        }
+    }
+    /**
+       Rfturn unidodf dhbrbdtfr or 0 if no dorrfspondfnt dhbrbdtfr found.
+       Pbrbmftfr is b kfysym bbsidblly from kfysymdff.h
+       XXX: how bbout vfndor kfys? Is thfrf somf with Unidodf vbluf bnd not in thf list?
+    */
+    int kfysymToUnidodf( long kfysym, int stbtf ) {
+        rfturn XKfysym.donvfrtKfysym( kfysym, stbtf );
+    }
+    int kfyEvfntTypf2Id( int xEvfntTypf ) {
+        rfturn xEvfntTypf == XConstbnts.KfyPrfss ? jbvb.bwt.fvfnt.KfyEvfnt.KEY_PRESSED :
+               xEvfntTypf == XConstbnts.KfyRflfbsf ? jbvb.bwt.fvfnt.KfyEvfnt.KEY_RELEASED : 0;
+    }
+    stbtid privbtf long xkfydodfToKfysym(XKfyEvfnt fv) {
+        rfturn XKfysym.gftKfysym( fv );
+    }
+    privbtf long xkfydodfToPrimbryKfysym(XKfyEvfnt fv) {
+        rfturn XKfysym.xkfydodf2primbry_kfysym( fv );
+    }
+    stbtid privbtf int primbryUnidodf2JbvbKfydodf(int uni) {
+        rfturn (uni > 0? sun.bwt.ExtfndfdKfyCodfs.gftExtfndfdKfyCodfForChbr(uni) : 0);
+        //rfturn (uni > 0? uni + 0x01000000 : 0);
+    }
+    void logIndomingKfyEvfnt(XKfyEvfnt fv) {
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("--XWindow.jbvb:hbndlfKfyEvfnt:"+fv);
+        }
+        dumpKfysymArrby(fv);
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("XXXXXXXXXXXXXX jbvbkfydodf will bf most probbbly:0x"+ Intfgfr.toHfxString(XKfysym.gftJbvbKfydodfOnly(fv)));
+        }
+    }
+    publid void hbndlfKfyPrfss(XEvfnt xfv) {
+        supfr.hbndlfKfyPrfss(xfv);
+        XKfyEvfnt fv = xfv.gft_xkfy();
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(fv.toString());
+        }
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        hbndlfKfyPrfss(fv);
+    }
+    // dbllfd dirfdtly from this pbdkbgf, unlikf hbndlfKfyRflfbsf.
+    // un-finbl it if you nffd to ovfrridf it in b subdlbss.
+    finbl void hbndlfKfyPrfss(XKfyEvfnt fv) {
+        long kfysym[] = nfw long[2];
+        int unidodfKfy = 0;
+        kfysym[0] = XConstbnts.NoSymbol;
+
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            logIndomingKfyEvfnt( fv );
+        }
+        if ( //TODO dhfdk if thfrf's bn bdtivf input mfthod instbndf
+             // without dblling b nbtivf mfthod. Is it nfdfssbry though?
+            hbvfCurrfntX11InputMfthodInstbndf()) {
+            if (x11inputMfthodLookupString(fv.pDbtb, kfysym)) {
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("--XWindow.jbvb XIM did prodfss fvfnt; rfturn; dfd kfysym prodfssfd:"+(kfysym[0])+
+                                   "; hfx kfysym prodfssfd:"+Long.toHfxString(kfysym[0])
+                                   );
+                }
+                rfturn;
+            }flsf {
+                unidodfKfy = kfysymToUnidodf( kfysym[0], fv.gft_stbtf() );
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("--XWindow.jbvb XIM did NOT prodfss fvfnt, hfx kfysym:"+Long.toHfxString(kfysym[0])+"\n"+
+                                     "                                         unidodf kfy:"+Intfgfr.toHfxString(unidodfKfy));
+                }
+            }
+        }flsf  {
+            // No input mfthod instbndf found. For fxbmplf, thfrf's b Jbvb Input Mfthod.
+            // Produdf do-it-yoursflf kfysym bnd pfrhbps unidodf dhbrbdtfr.
+            kfysym[0] = xkfydodfToKfysym(fv);
+            unidodfKfy = kfysymToUnidodf( kfysym[0], fv.gft_stbtf() );
+            if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                kfyEvfntLog.finf("--XWindow.jbvb XIM is bbsfnt;             hfx kfysym:"+Long.toHfxString(kfysym[0])+"\n"+
+                                 "                                         unidodf kfy:"+Intfgfr.toHfxString(unidodfKfy));
+            }
+        }
+        // Kfysym should bf donvfrtfd to Unidodf, if possiblf bnd nfdfssbry,
+        // bnd Jbvb KfyEvfnt kfydodf should bf dbldulbtfd.
+        // For prfss wf should post prfssfd & typfd Jbvb fvfnts.
+        //
+        // Prfss fvfnt might bf not prodfssfd to this timf bfdbusf
+        //  (1) fithfr XIM dould not hbndlf it or
+        //  (2) it wbs Lbtin 1:1 mbpping.
+        //
+        // Prfsfrvf modififrs to gft Jbvb kfy dodf for dfbd kfys
+        boolfbn isDfbdKfy = isDfbdKfy(kfysym[0]);
+        XKfysym.Kfysym2JbvbKfydodf jkd = isDfbdKfy ? XKfysym.gftJbvbKfydodf(kfysym[0])
+                : XKfysym.gftJbvbKfydodf(fv);
+        if( jkd == null ) {
+            jkd = nfw XKfysym.Kfysym2JbvbKfydodf(jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED, jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN);
+        }
+
+        // Tbkf thf first kfysym from b kfysym brrby bssodibtfd with thf XKfyfvfnt
+        // bnd donvfrt it to Unidodf. Thfn, fvfn if b Jbvb kfydodf for thf kfystrokf
+        // is undffinfd, wf still hbvf b gufss of whbt hbs bffn fngrbvfd on b kfytop.
+        int unidodfFromPrimbryKfysym = kfysymToUnidodf( xkfydodfToPrimbryKfysym(fv) ,0);
+
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf(">>>Firf Evfnt:"+
+               (fv.gft_typf() == XConstbnts.KfyPrfss ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
+               "jkfydodf:dfdimbl="+jkd.gftJbvbKfydodf()+
+               ", hfx=0x"+Intfgfr.toHfxString(jkd.gftJbvbKfydodf())+"; "+
+               " lfgbdy jkfydodf: dfdimbl="+XKfysym.gftLfgbdyJbvbKfydodfOnly(fv)+
+               ", hfx=0x"+Intfgfr.toHfxString(XKfysym.gftLfgbdyJbvbKfydodfOnly(fv))+"; "
+            );
+        }
+
+        int jkfyToRfturn = XKfysym.gftLfgbdyJbvbKfydodfOnly(fv); // somfwby bbdkwbrd dompbtiblf
+        int jkfyExtfndfd = jkd.gftJbvbKfydodf() == jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED ?
+                           primbryUnidodf2JbvbKfydodf( unidodfFromPrimbryKfysym ) :
+                             jkd.gftJbvbKfydodf();
+        postKfyEvfnt( jbvb.bwt.fvfnt.KfyEvfnt.KEY_PRESSED,
+                          fv.gft_timf(),
+                          isDfbdKfy ? jkfyExtfndfd : jkfyToRfturn,
+                          (unidodfKfy == 0 ? jbvb.bwt.fvfnt.KfyEvfnt.CHAR_UNDEFINED : unidodfKfy),
+                          jkd.gftKfyLodbtion(),
+                          fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)(fv.gft_kfydodf()),
+                          unidodfFromPrimbryKfysym,
+                          jkfyExtfndfd);
+
+
+        if (unidodfKfy > 0 && !isDfbdKfy) {
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("firf _TYPED on "+unidodfKfy);
+                }
+                postKfyEvfnt( jbvb.bwt.fvfnt.KfyEvfnt.KEY_TYPED,
+                              fv.gft_timf(),
+                              jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED,
+                              unidodfKfy,
+                              jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN,
+                              fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)0,
+                              unidodfFromPrimbryKfysym,
+                              jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED);
+
+        }
+
+
+    }
+
+    publid void hbndlfKfyRflfbsf(XEvfnt xfv) {
+        supfr.hbndlfKfyRflfbsf(xfv);
+        XKfyEvfnt fv = xfv.gft_xkfy();
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(fv.toString());
+        }
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
+        }
+        hbndlfKfyRflfbsf(fv);
+    }
+    // un-privbtf it if you nffd to dbll it from flsfwhfrf
+    privbtf void hbndlfKfyRflfbsf(XKfyEvfnt fv) {
+        int unidodfKfy = 0;
+
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            logIndomingKfyEvfnt( fv );
+        }
+        // Kfysym should bf donvfrtfd to Unidodf, if possiblf bnd nfdfssbry,
+        // bnd Jbvb KfyEvfnt kfydodf should bf dbldulbtfd.
+        // For rflfbsf wf should post rflfbsfd fvfnt.
+        //
+        // Prfsfrvf modififrs to gft Jbvb kfy dodf for dfbd kfys
+        long kfysym = xkfydodfToKfysym(fv);
+        boolfbn isDfbdKfy = isDfbdKfy(kfysym);
+        XKfysym.Kfysym2JbvbKfydodf jkd = isDfbdKfy ? XKfysym.gftJbvbKfydodf(kfysym)
+                : XKfysym.gftJbvbKfydodf(fv);
+        if( jkd == null ) {
+            jkd = nfw XKfysym.Kfysym2JbvbKfydodf(jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED, jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN);
+        }
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf(">>>Firf Evfnt:"+
+               (fv.gft_typf() == XConstbnts.KfyPrfss ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
+               "jkfydodf:dfdimbl="+jkd.gftJbvbKfydodf()+
+               ", hfx=0x"+Intfgfr.toHfxString(jkd.gftJbvbKfydodf())+"; "+
+               " lfgbdy jkfydodf: dfdimbl="+XKfysym.gftLfgbdyJbvbKfydodfOnly(fv)+
+               ", hfx=0x"+Intfgfr.toHfxString(XKfysym.gftLfgbdyJbvbKfydodfOnly(fv))+"; "
+            );
+        }
+        // Wf obtbin kfysym from IM bnd dfrivf unidodfKfy from it for KfyPrfss only.
+        // Wf usfd to dbdhf thbt vbluf bnd rftrifvf it on KfyRflfbsf,
+        // but in dbsf for fxbmplf of b dfbd kfy+vowfl pbir, b vowfl bftfr b dfbdkfy
+        // might nfvfr bf dbdhfd bfforf.
+        // Also, switdhing bftwffn kfybobrd lbyouts, wf might dbdhf b wrong lfttfr.
+        // Thbt's why wf usf thf sbmf prodfdurf bs if thfrf wbs no IM instbndf: do-it-yoursflf unidodf.
+        unidodfKfy = kfysymToUnidodf( xkfydodfToKfysym(fv), fv.gft_stbtf() );
+
+        // Tbkf b first kfysym from b kfysym brrby bssodibtfd with thf XKfyfvfnt
+        // bnd donvfrt it to Unidodf. Thfn, fvfn if Jbvb kfydodf for thf kfystrokf
+        // is undffinfd, wf still will hbvf b gufss of whbt wbs fngrbvfd on b kfytop.
+        int unidodfFromPrimbryKfysym = kfysymToUnidodf( xkfydodfToPrimbryKfysym(fv) ,0);
+
+        int jkfyToRfturn = XKfysym.gftLfgbdyJbvbKfydodfOnly(fv); // somfwby bbdkwbrd dompbtiblf
+        int jkfyExtfndfd = jkd.gftJbvbKfydodf() == jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED ?
+                           primbryUnidodf2JbvbKfydodf( unidodfFromPrimbryKfysym ) :
+                             jkd.gftJbvbKfydodf();
+        postKfyEvfnt(  jbvb.bwt.fvfnt.KfyEvfnt.KEY_RELEASED,
+                          fv.gft_timf(),
+                          isDfbdKfy ? jkfyExtfndfd : jkfyToRfturn,
+                          (unidodfKfy == 0 ? jbvb.bwt.fvfnt.KfyEvfnt.CHAR_UNDEFINED : unidodfKfy),
+                          jkd.gftKfyLodbtion(),
+                          fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)(fv.gft_kfydodf()),
+                          unidodfFromPrimbryKfysym,
+                          jkfyExtfndfd);
+
+
+    }
+
+
+    privbtf boolfbn isDfbdKfy(long kfysym){
+        rfturn XKfySymConstbnts.XK_dfbd_grbvf <= kfysym && kfysym <= XKfySymConstbnts.XK_dfbd_sfmivoidfd_sound;
+    }
+
+    /*
+     * XmNidonid bnd Mbp/UnmbpNotify (thbt XmNidonid rflifs on) brf
+     * unrflibblf, sindf mbpping dhbngfs dbn hbppfn for b virtubl dfsktop
+     * switdh or MbdOS stylf shbding thbt bfdbmf quitf populbr undfr X bs
+     * wfll.  Yfs, it probbbly should not bf this wby, bs it violbtfs
+     * ICCCM, but rfblity is thbt quitf b lot of window mbnbgfrs bbusf
+     * mbpping stbtf.
+     */
+    int gftWMStbtf() {
+        if (stbtfChbngfd) {
+            stbtfChbngfd = fblsf;
+            WindowPropfrtyGfttfr gfttfr =
+                nfw WindowPropfrtyGfttfr(window, XWM.XA_WM_STATE, 0, 1, fblsf,
+                                         XWM.XA_WM_STATE);
+            try {
+                int stbtus = gfttfr.fxfdutf();
+                if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                    rfturn sbvfdStbtf = XUtilConstbnts.WithdrbwnStbtf;
+                }
+
+                if (gfttfr.gftAdtublTypf() != XWM.XA_WM_STATE.gftAtom() && gfttfr.gftAdtublFormbt() != 32) {
+                    rfturn sbvfdStbtf = XUtilConstbnts.WithdrbwnStbtf;
+                }
+                sbvfdStbtf = (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb());
+            } finblly {
+                gfttfr.disposf();
+            }
+        }
+        rfturn sbvfdStbtf;
+    }
+
+    /**
+     * Ovfrridf this mfthods to gft notifidbtions whfn top-lfvfl window stbtf dhbngfs. Thf stbtf is
+     * mfbnt in tfrms of ICCCM: WithdrbwnStbtf, IdonidStbtf, NormblStbtf
+     */
+    protfdtfd void stbtfChbngfd(long timf, int oldStbtf, int nfwStbtf) {
+    }
+
+    @Ovfrridf
+    publid void hbndlfPropfrtyNotify(XEvfnt xfv) {
+        supfr.hbndlfPropfrtyNotify(xfv);
+        XPropfrtyEvfnt fv = xfv.gft_xpropfrty();
+        if (fv.gft_btom() == XWM.XA_WM_STATE.gftAtom()) {
+            // Stbtf hbs dhbngfd, invblidbtf sbvfd vbluf
+            stbtfChbngfd = truf;
+            stbtfChbngfd(fv.gft_timf(), sbvfdStbtf, gftWMStbtf());
+        }
+    }
+
+    publid void rfshbpf(Rfdtbnglf bounds) {
+        rfshbpf(bounds.x, bounds.y, bounds.width, bounds.hfight);
+    }
+
+    publid void rfshbpf(int x, int y, int width, int hfight) {
+        if (width <= 0) {
+            width = 1;
+        }
+        if (hfight <= 0) {
+            hfight = 1;
+        }
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.hfight = hfight;
+        xSftBounds(x, y, width, hfight);
+        // Fixfd 6322593, 6304251, 6315137:
+        // XWindow's SurfbdfDbtb should bf invblidbtfd bnd rfdrfbtfd bs pbrt
+        // of thf prodfss of rfsizing thf window
+        // sff thf fvblubtion of thf bug 6304251 for morf informbtion
+        vblidbtfSurfbdf();
+        lbyout();
+    }
+
+    publid void lbyout() {}
+
+    boolfbn isShowing() {
+        rfturn visiblf;
+    }
+
+    boolfbn isRfsizbblf() {
+        rfturn truf;
+    }
+
+    boolfbn isLodbtionByPlbtform() {
+        rfturn fblsf;
+    }
+
+    void updbtfSizfHints() {
+        updbtfSizfHints(x, y, width, hfight);
+    }
+
+    void updbtfSizfHints(int x, int y, int width, int hfight) {
+        long flbgs = XUtilConstbnts.PSizf | (isLodbtionByPlbtform() ? 0 : (XUtilConstbnts.PPosition | XUtilConstbnts.USPosition));
+        if (!isRfsizbblf()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is not rfsizbblf", this);
+            }
+            flbgs |= XUtilConstbnts.PMinSizf | XUtilConstbnts.PMbxSizf;
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is rfsizbblf", this);
+            }
+        }
+        sftSizfHints(flbgs, x, y, width, hfight);
+    }
+
+    void updbtfSizfHints(int x, int y) {
+        long flbgs = isLodbtionByPlbtform() ? 0 : (XUtilConstbnts.PPosition | XUtilConstbnts.USPosition);
+        if (!isRfsizbblf()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is not rfsizbblf", this);
+            }
+            flbgs |= XUtilConstbnts.PMinSizf | XUtilConstbnts.PMbxSizf | XUtilConstbnts.PSizf;
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is rfsizbblf", this);
+            }
+        }
+        sftSizfHints(flbgs, x, y, width, hfight);
+    }
+
+    void vblidbtfSurfbdf() {
+        if ((width != oldWidth) || (hfight != oldHfight)) {
+            doVblidbtfSurfbdf();
+
+            oldWidth = width;
+            oldHfight = hfight;
+        }
+    }
+
+    finbl void doVblidbtfSurfbdf() {
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        if (oldDbtb != null) {
+            surfbdfDbtb = grbphidsConfig.drfbtfSurfbdfDbtb(this);
+            oldDbtb.invblidbtf();
+        }
+    }
+
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
+    }
+
+    publid void disposf() {
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        surfbdfDbtb = null;
+        if (oldDbtb != null) {
+            oldDbtb.invblidbtf();
+        }
+        XToolkit.tbrgftDisposfdPffr(tbrgft, this);
+        dfstroy();
+    }
+
+    publid Point gftLodbtionOnSdrffn() {
+        syndhronizfd (tbrgft.gftTrffLodk()) {
+            Componfnt domp = tbrgft;
+
+            whilf (domp != null && !(domp instbndfof Window)) {
+                domp = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(domp);
+            }
+
+            // bpplfts, fmbfddfd, ftd - trbnslbtf dirfdtly
+            // XXX: ovfrridf in subdlbss?
+            if (domp == null || domp instbndfof sun.bwt.EmbfddfdFrbmf) {
+                rfturn toGlobbl(0, 0);
+            }
+
+            XToolkit.bwtLodk();
+            try {
+                Objfdt wpffr = XToolkit.tbrgftToPffr(domp);
+                if (wpffr == null
+                    || !(wpffr instbndfof XDfdorbtfdPffr)
+                    || ((XDfdorbtfdPffr)wpffr).donfigurf_sffn)
+                {
+                    rfturn toGlobbl(0, 0);
+                }
+
+                // wpffr is bn XDfdorbtfdPffr not yft fully bdoptfd by WM
+                Point pt = toOthfrWindow(gftContfntWindow(),
+                                         ((XDfdorbtfdPffr)wpffr).gftContfntWindow(),
+                                         0, 0);
+
+                if (pt == null) {
+                    pt = nfw Point(((XBbsfWindow)wpffr).gftAbsolutfX(), ((XBbsfWindow)wpffr).gftAbsolutfY());
+                }
+                pt.x += domp.gftX();
+                pt.y += domp.gftY();
+                rfturn pt;
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+    }
+
+
+    stbtid void sftBDbtb(KfyEvfnt f, bytf[] dbtb) {
+        AWTAddfssor.gftAWTEvfntAddfssor().sftBDbtb(f, dbtb);
+    }
+
+    publid void postKfyEvfnt(int id, long whfn, int kfyCodf, int kfyChbr,
+        int kfyLodbtion, int stbtf, long fvfnt, int fvfntSizf, long rbwCodf,
+        int unidodfFromPrimbryKfysym, int fxtfndfdKfyCodf)
+
+    {
+        long jWhfn = XToolkit.nowMillisUTC_offsft(whfn);
+        int modififrs = gftModififrs(stbtf, 0, kfyCodf);
+
+        KfyEvfnt kf = nfw KfyEvfnt(gftEvfntSourdf(), id, jWhfn,
+                                   modififrs, kfyCodf, (dhbr)kfyChbr, kfyLodbtion);
+        if (fvfnt != 0) {
+            bytf[] dbtb = Nbtivf.toBytfs(fvfnt, fvfntSizf);
+            sftBDbtb(kf, dbtb);
+        }
+
+        AWTAddfssor.KfyEvfntAddfssor kfb = AWTAddfssor.gftKfyEvfntAddfssor();
+        kfb.sftRbwCodf(kf, rbwCodf);
+        kfb.sftPrimbryLfvflUnidodf(kf, (long)unidodfFromPrimbryKfysym);
+        kfb.sftExtfndfdKfyCodf(kf, (long)fxtfndfdKfyCodf);
+        postEvfntToEvfntQufuf(kf);
+    }
+
+    stbtid nbtivf int gftAWTKfyCodfForKfySym(int kfysym);
+    stbtid nbtivf int gftKfySymForAWTKfyCodf(int kfydodf);
+
+    /* Thfsf two mfthods brf bdtublly bpplidbblf to toplfvfl windows only.
+     * Howfvfr, thf fundtionblity is rfquirfd by both thf XWindowPffr bnd
+     * XWbrningWindow, both of whidh hbvf thf XWindow bs b dommon bndfstor.
+     * Sff XWM.sftMotifDfdor() for dftbils.
+     */
+    publid PropMwmHints gftMWMHints() {
+        if (mwm_hints == null) {
+            mwm_hints = nfw PropMwmHints();
+            if (!XWM.XA_MWM_HINTS.gftAtomDbtb(gftWindow(), mwm_hints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS)) {
+                mwm_hints.zfro();
+            }
+        }
+        rfturn mwm_hints;
+    }
+
+    publid void sftMWMHints(PropMwmHints hints) {
+        mwm_hints = hints;
+        if (hints != null) {
+            XWM.XA_MWM_HINTS.sftAtomDbtb(gftWindow(), mwm_hints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS);
+        }
+    }
+
+    protfdtfd finbl void initWMProtodols() {
+        wm_protodols.sftAtomListPropfrty(this, gftWMProtodols());
+    }
+
+    /**
+     * Rfturns list of protodols whidh should bf instbllfd on this window.
+     * Dfsdfndbnts dbn ovfrridf this mfthod to bdd dlbss-spfdifid protodols
+     */
+    protfdtfd XAtomList gftWMProtodols() {
+        // No protodols on simplf window
+        rfturn nfw XAtomList();
+    }
+
+    /**
+     * Indidbtfs if thf window is durrfntly in thf FSEM.
+     * Syndhronizbtion: stbtf lodk.
+     */
+    privbtf boolfbn fullSdrffnExdlusivfModfStbtf = fblsf;
+
+    // Implfmfntbtion of thf X11ComponfntPffr
+    @Ovfrridf
+    publid void sftFullSdrffnExdlusivfModfStbtf(boolfbn stbtf) {
+        syndhronizfd (gftStbtfLodk()) {
+            fullSdrffnExdlusivfModfStbtf = stbtf;
+        }
+    }
+
+    publid finbl boolfbn isFullSdrffnExdlusivfModf() {
+        syndhronizfd (gftStbtfLodk()) {
+            rfturn fullSdrffnExdlusivfModfStbtf;
+        }
+    }
+
+}

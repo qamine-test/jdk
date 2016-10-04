@@ -1,617 +1,617 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdhuff.c
+ * jdiuff.d
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains Huffman entropy decoding routines.
+ * Tiis filf dontbins Huffmbn fntropy dfdoding routinfs.
  *
- * Much of the complexity here has to do with supporting input suspension.
- * If the data source module demands suspension, we want to be able to back
- * up to the start of the current MCU.  To do this, we copy state variables
- * into local working storage, and update them back to the permanent
- * storage only upon successful completion of an MCU.
+ * Mudi of tif domplfxity ifrf ibs to do witi supporting input suspfnsion.
+ * If tif dbtb sourdf modulf dfmbnds suspfnsion, wf wbnt to bf bblf to bbdk
+ * up to tif stbrt of tif durrfnt MCU.  To do tiis, wf dopy stbtf vbribblfs
+ * into lodbl working storbgf, bnd updbtf tifm bbdk to tif pfrmbnfnt
+ * storbgf only upon suddfssful domplftion of bn MCU.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
-#include "jdhuff.h"             /* Declarations shared with jdphuff.c */
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
+#indludf "jdiuff.i"             /* Dfdlbrbtions sibrfd witi jdpiuff.d */
 
 
 /*
- * Expanded entropy decoder object for Huffman decoding.
+ * Expbndfd fntropy dfdodfr objfdt for Huffmbn dfdoding.
  *
- * The savable_state subrecord contains fields that change within an MCU,
- * but must not be updated permanently until we complete the MCU.
+ * Tif sbvbblf_stbtf subrfdord dontbins fiflds tibt dibngf witiin bn MCU,
+ * but must not bf updbtfd pfrmbnfntly until wf domplftf tif MCU.
  */
 
-typedef struct {
-  int last_dc_val[MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
-} savable_state;
+typfdff strudt {
+  int lbst_dd_vbl[MAX_COMPS_IN_SCAN]; /* lbst DC doff for fbdi domponfnt */
+} sbvbblf_stbtf;
 
-/* This macro is to work around compilers with missing or broken
- * structure assignment.  You'll need to fix this code if you have
- * such a compiler and you change MAX_COMPS_IN_SCAN.
+/* Tiis mbdro is to work bround dompilfrs witi missing or brokfn
+ * strudturf bssignmfnt.  You'll nffd to fix tiis dodf if you ibvf
+ * sudi b dompilfr bnd you dibngf MAX_COMPS_IN_SCAN.
  */
 
-#ifndef NO_STRUCT_ASSIGN
-#define ASSIGN_STATE(dest,src)  ((dest) = (src))
-#else
+#ifndff NO_STRUCT_ASSIGN
+#dffinf ASSIGN_STATE(dfst,srd)  ((dfst) = (srd))
+#flsf
 #if MAX_COMPS_IN_SCAN == 4
-#define ASSIGN_STATE(dest,src)  \
-        ((dest).last_dc_val[0] = (src).last_dc_val[0], \
-         (dest).last_dc_val[1] = (src).last_dc_val[1], \
-         (dest).last_dc_val[2] = (src).last_dc_val[2], \
-         (dest).last_dc_val[3] = (src).last_dc_val[3])
-#endif
-#endif
+#dffinf ASSIGN_STATE(dfst,srd)  \
+        ((dfst).lbst_dd_vbl[0] = (srd).lbst_dd_vbl[0], \
+         (dfst).lbst_dd_vbl[1] = (srd).lbst_dd_vbl[1], \
+         (dfst).lbst_dd_vbl[2] = (srd).lbst_dd_vbl[2], \
+         (dfst).lbst_dd_vbl[3] = (srd).lbst_dd_vbl[3])
+#fndif
+#fndif
 
 
-typedef struct {
-  struct jpeg_entropy_decoder pub; /* public fields */
+typfdff strudt {
+  strudt jpfg_fntropy_dfdodfr pub; /* publid fiflds */
 
-  /* These fields are loaded into local variables at start of each MCU.
-   * In case of suspension, we exit WITHOUT updating them.
+  /* Tifsf fiflds brf lobdfd into lodbl vbribblfs bt stbrt of fbdi MCU.
+   * In dbsf of suspfnsion, wf fxit WITHOUT updbting tifm.
    */
-  bitread_perm_state bitstate;  /* Bit buffer at start of MCU */
-  savable_state saved;          /* Other state at start of MCU */
+  bitrfbd_pfrm_stbtf bitstbtf;  /* Bit bufffr bt stbrt of MCU */
+  sbvbblf_stbtf sbvfd;          /* Otifr stbtf bt stbrt of MCU */
 
-  /* These fields are NOT loaded into local working state. */
-  unsigned int restarts_to_go;  /* MCUs left in this restart interval */
+  /* Tifsf fiflds brf NOT lobdfd into lodbl working stbtf. */
+  unsignfd int rfstbrts_to_go;  /* MCUs lfft in tiis rfstbrt intfrvbl */
 
-  /* Pointers to derived tables (these workspaces have image lifespan) */
-  d_derived_tbl * dc_derived_tbls[NUM_HUFF_TBLS];
-  d_derived_tbl * ac_derived_tbls[NUM_HUFF_TBLS];
+  /* Pointfrs to dfrivfd tbblfs (tifsf workspbdfs ibvf imbgf liffspbn) */
+  d_dfrivfd_tbl * dd_dfrivfd_tbls[NUM_HUFF_TBLS];
+  d_dfrivfd_tbl * bd_dfrivfd_tbls[NUM_HUFF_TBLS];
 
-  /* Precalculated info set up by start_pass for use in decode_mcu: */
+  /* Prfdbldulbtfd info sft up by stbrt_pbss for usf in dfdodf_mdu: */
 
-  /* Pointers to derived tables to be used for each block within an MCU */
-  d_derived_tbl * dc_cur_tbls[D_MAX_BLOCKS_IN_MCU];
-  d_derived_tbl * ac_cur_tbls[D_MAX_BLOCKS_IN_MCU];
-  /* Whether we care about the DC and AC coefficient values for each block */
-  boolean dc_needed[D_MAX_BLOCKS_IN_MCU];
-  boolean ac_needed[D_MAX_BLOCKS_IN_MCU];
-} huff_entropy_decoder;
+  /* Pointfrs to dfrivfd tbblfs to bf usfd for fbdi blodk witiin bn MCU */
+  d_dfrivfd_tbl * dd_dur_tbls[D_MAX_BLOCKS_IN_MCU];
+  d_dfrivfd_tbl * bd_dur_tbls[D_MAX_BLOCKS_IN_MCU];
+  /* Wiftifr wf dbrf bbout tif DC bnd AC dofffidifnt vblufs for fbdi blodk */
+  boolfbn dd_nffdfd[D_MAX_BLOCKS_IN_MCU];
+  boolfbn bd_nffdfd[D_MAX_BLOCKS_IN_MCU];
+} iuff_fntropy_dfdodfr;
 
-typedef huff_entropy_decoder * huff_entropy_ptr;
+typfdff iuff_fntropy_dfdodfr * iuff_fntropy_ptr;
 
 
 /*
- * Initialize for a Huffman-compressed scan.
+ * Initiblizf for b Huffmbn-domprfssfd sdbn.
  */
 
 METHODDEF(void)
-start_pass_huff_decoder (j_decompress_ptr cinfo)
+stbrt_pbss_iuff_dfdodfr (j_dfdomprfss_ptr dinfo)
 {
-  huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  int ci, blkn, dctbl, actbl;
-  jpeg_component_info * compptr;
+  iuff_fntropy_ptr fntropy = (iuff_fntropy_ptr) dinfo->fntropy;
+  int di, blkn, ddtbl, bdtbl;
+  jpfg_domponfnt_info * dompptr;
 
-  /* Check that the scan parameters Ss, Se, Ah/Al are OK for sequential JPEG.
-   * This ought to be an error condition, but we make it a warning because
-   * there are some baseline files out there with all zeroes in these bytes.
+  /* Cifdk tibt tif sdbn pbrbmftfrs Ss, Sf, Ai/Al brf OK for sfqufntibl JPEG.
+   * Tiis ougit to bf bn frror dondition, but wf mbkf it b wbrning bfdbusf
+   * tifrf brf somf bbsflinf filfs out tifrf witi bll zfrofs in tifsf bytfs.
    */
-  if (cinfo->Ss != 0 || cinfo->Se != DCTSIZE2-1 ||
-      cinfo->Ah != 0 || cinfo->Al != 0)
-    WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);
+  if (dinfo->Ss != 0 || dinfo->Sf != DCTSIZE2-1 ||
+      dinfo->Ai != 0 || dinfo->Al != 0)
+    WARNMS(dinfo, JWRN_NOT_SEQUENTIAL);
 
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-    compptr = cinfo->cur_comp_info[ci];
-    dctbl = compptr->dc_tbl_no;
-    actbl = compptr->ac_tbl_no;
-    /* Compute derived values for Huffman tables */
-    /* We may do this more than once for a table, but it's not expensive */
-    jpeg_make_d_derived_tbl(cinfo, TRUE, dctbl,
-                            & entropy->dc_derived_tbls[dctbl]);
-    jpeg_make_d_derived_tbl(cinfo, FALSE, actbl,
-                            & entropy->ac_derived_tbls[actbl]);
-    /* Initialize DC predictions to 0 */
-    entropy->saved.last_dc_val[ci] = 0;
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    ddtbl = dompptr->dd_tbl_no;
+    bdtbl = dompptr->bd_tbl_no;
+    /* Computf dfrivfd vblufs for Huffmbn tbblfs */
+    /* Wf mby do tiis morf tibn ondf for b tbblf, but it's not fxpfnsivf */
+    jpfg_mbkf_d_dfrivfd_tbl(dinfo, TRUE, ddtbl,
+                            & fntropy->dd_dfrivfd_tbls[ddtbl]);
+    jpfg_mbkf_d_dfrivfd_tbl(dinfo, FALSE, bdtbl,
+                            & fntropy->bd_dfrivfd_tbls[bdtbl]);
+    /* Initiblizf DC prfdidtions to 0 */
+    fntropy->sbvfd.lbst_dd_vbl[di] = 0;
   }
 
-  /* Precalculate decoding info for each block in an MCU of this scan */
-  for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
-    ci = cinfo->MCU_membership[blkn];
-    compptr = cinfo->cur_comp_info[ci];
-    /* Precalculate which table to use for each block */
-    entropy->dc_cur_tbls[blkn] = entropy->dc_derived_tbls[compptr->dc_tbl_no];
-    entropy->ac_cur_tbls[blkn] = entropy->ac_derived_tbls[compptr->ac_tbl_no];
-    /* Decide whether we really care about the coefficient values */
-    if (compptr->component_needed) {
-      entropy->dc_needed[blkn] = TRUE;
-      /* we don't need the ACs if producing a 1/8th-size image */
-      entropy->ac_needed[blkn] = (compptr->DCT_scaled_size > 1);
-    } else {
-      entropy->dc_needed[blkn] = entropy->ac_needed[blkn] = FALSE;
+  /* Prfdbldulbtf dfdoding info for fbdi blodk in bn MCU of tiis sdbn */
+  for (blkn = 0; blkn < dinfo->blodks_in_MCU; blkn++) {
+    di = dinfo->MCU_mfmbfrsiip[blkn];
+    dompptr = dinfo->dur_domp_info[di];
+    /* Prfdbldulbtf wiidi tbblf to usf for fbdi blodk */
+    fntropy->dd_dur_tbls[blkn] = fntropy->dd_dfrivfd_tbls[dompptr->dd_tbl_no];
+    fntropy->bd_dur_tbls[blkn] = fntropy->bd_dfrivfd_tbls[dompptr->bd_tbl_no];
+    /* Dfdidf wiftifr wf rfblly dbrf bbout tif dofffidifnt vblufs */
+    if (dompptr->domponfnt_nffdfd) {
+      fntropy->dd_nffdfd[blkn] = TRUE;
+      /* wf don't nffd tif ACs if produding b 1/8ti-sizf imbgf */
+      fntropy->bd_nffdfd[blkn] = (dompptr->DCT_sdblfd_sizf > 1);
+    } flsf {
+      fntropy->dd_nffdfd[blkn] = fntropy->bd_nffdfd[blkn] = FALSE;
     }
   }
 
-  /* Initialize bitread state variables */
-  entropy->bitstate.bits_left = 0;
-  entropy->bitstate.get_buffer = 0; /* unnecessary, but keeps Purify quiet */
-  entropy->pub.insufficient_data = FALSE;
+  /* Initiblizf bitrfbd stbtf vbribblfs */
+  fntropy->bitstbtf.bits_lfft = 0;
+  fntropy->bitstbtf.gft_bufffr = 0; /* unnfdfssbry, but kffps Purify quift */
+  fntropy->pub.insuffidifnt_dbtb = FALSE;
 
-  /* Initialize restart counter */
-  entropy->restarts_to_go = cinfo->restart_interval;
+  /* Initiblizf rfstbrt dountfr */
+  fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
 }
 
 
 /*
- * Compute the derived values for a Huffman table.
- * This routine also performs some validation checks on the table.
+ * Computf tif dfrivfd vblufs for b Huffmbn tbblf.
+ * Tiis routinf blso pfrforms somf vblidbtion difdks on tif tbblf.
  *
- * Note this is also used by jdphuff.c.
+ * Notf tiis is blso usfd by jdpiuff.d.
  */
 
 GLOBAL(void)
-jpeg_make_d_derived_tbl (j_decompress_ptr cinfo, boolean isDC, int tblno,
-                         d_derived_tbl ** pdtbl)
+jpfg_mbkf_d_dfrivfd_tbl (j_dfdomprfss_ptr dinfo, boolfbn isDC, int tblno,
+                         d_dfrivfd_tbl ** pdtbl)
 {
-  JHUFF_TBL *htbl;
-  d_derived_tbl *dtbl;
+  JHUFF_TBL *itbl;
+  d_dfrivfd_tbl *dtbl;
   int p, i, l, si, numsymbols;
-  int lookbits, ctr;
-  char huffsize[257];
-  unsigned int huffcode[257];
-  unsigned int code;
+  int lookbits, dtr;
+  dibr iuffsizf[257];
+  unsignfd int iuffdodf[257];
+  unsignfd int dodf;
 
-  /* Note that huffsize[] and huffcode[] are filled in code-length order,
-   * paralleling the order of the symbols themselves in htbl->huffval[].
+  /* Notf tibt iuffsizf[] bnd iuffdodf[] brf fillfd in dodf-lfngti ordfr,
+   * pbrbllfling tif ordfr of tif symbols tifmsflvfs in itbl->iuffvbl[].
    */
 
-  /* Find the input Huffman table */
+  /* Find tif input Huffmbn tbblf */
   if (tblno < 0 || tblno >= NUM_HUFF_TBLS)
-    ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tblno);
-  htbl =
-    isDC ? cinfo->dc_huff_tbl_ptrs[tblno] : cinfo->ac_huff_tbl_ptrs[tblno];
-  if (htbl == NULL)
-    ERREXIT1(cinfo, JERR_NO_HUFF_TABLE, tblno);
+    ERREXIT1(dinfo, JERR_NO_HUFF_TABLE, tblno);
+  itbl =
+    isDC ? dinfo->dd_iuff_tbl_ptrs[tblno] : dinfo->bd_iuff_tbl_ptrs[tblno];
+  if (itbl == NULL)
+    ERREXIT1(dinfo, JERR_NO_HUFF_TABLE, tblno);
 
-  /* Allocate a workspace if we haven't already done so. */
+  /* Allodbtf b workspbdf if wf ibvfn't blrfbdy donf so. */
   if (*pdtbl == NULL)
-    *pdtbl = (d_derived_tbl *)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                  SIZEOF(d_derived_tbl));
+    *pdtbl = (d_dfrivfd_tbl *)
+      (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  SIZEOF(d_dfrivfd_tbl));
   dtbl = *pdtbl;
-  dtbl->pub = htbl;             /* fill in back link */
+  dtbl->pub = itbl;             /* fill in bbdk link */
 
-  /* Figure C.1: make table of Huffman code length for each symbol */
+  /* Figurf C.1: mbkf tbblf of Huffmbn dodf lfngti for fbdi symbol */
 
   p = 0;
   for (l = 1; l <= 16; l++) {
-    i = (int) htbl->bits[l];
-    if (i < 0 || p + i > 256)   /* protect against table overrun */
-      ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
-    while (i--)
-      huffsize[p++] = (char) l;
+    i = (int) itbl->bits[l];
+    if (i < 0 || p + i > 256)   /* protfdt bgbinst tbblf ovfrrun */
+      ERREXIT(dinfo, JERR_BAD_HUFF_TABLE);
+    wiilf (i--)
+      iuffsizf[p++] = (dibr) l;
   }
-  huffsize[p] = 0;
+  iuffsizf[p] = 0;
   numsymbols = p;
 
-  /* Figure C.2: generate the codes themselves */
-  /* We also validate that the counts represent a legal Huffman code tree. */
+  /* Figurf C.2: gfnfrbtf tif dodfs tifmsflvfs */
+  /* Wf blso vblidbtf tibt tif dounts rfprfsfnt b lfgbl Huffmbn dodf trff. */
 
-  code = 0;
-  si = huffsize[0];
+  dodf = 0;
+  si = iuffsizf[0];
   p = 0;
-  while (huffsize[p]) {
-    while (((int) huffsize[p]) == si) {
-      huffcode[p++] = code;
-      code++;
+  wiilf (iuffsizf[p]) {
+    wiilf (((int) iuffsizf[p]) == si) {
+      iuffdodf[p++] = dodf;
+      dodf++;
     }
-    /* code is now 1 more than the last code used for codelength si; but
-     * it must still fit in si bits, since no code is allowed to be all ones.
+    /* dodf is now 1 morf tibn tif lbst dodf usfd for dodflfngti si; but
+     * it must still fit in si bits, sindf no dodf is bllowfd to bf bll onfs.
      */
-    if (((INT32) code) >= (((INT32) 1) << si))
-      ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
-    code <<= 1;
+    if (((INT32) dodf) >= (((INT32) 1) << si))
+      ERREXIT(dinfo, JERR_BAD_HUFF_TABLE);
+    dodf <<= 1;
     si++;
   }
 
-  /* Figure F.15: generate decoding tables for bit-sequential decoding */
+  /* Figurf F.15: gfnfrbtf dfdoding tbblfs for bit-sfqufntibl dfdoding */
 
   p = 0;
   for (l = 1; l <= 16; l++) {
-    if (htbl->bits[l]) {
-      /* valoffset[l] = huffval[] index of 1st symbol of code length l,
-       * minus the minimum code of length l
+    if (itbl->bits[l]) {
+      /* vbloffsft[l] = iuffvbl[] indfx of 1st symbol of dodf lfngti l,
+       * minus tif minimum dodf of lfngti l
        */
-      dtbl->valoffset[l] = (INT32) p - (INT32) huffcode[p];
-      p += htbl->bits[l];
-      dtbl->maxcode[l] = huffcode[p-1]; /* maximum code of length l */
-    } else {
-      dtbl->maxcode[l] = -1;    /* -1 if no codes of this length */
+      dtbl->vbloffsft[l] = (INT32) p - (INT32) iuffdodf[p];
+      p += itbl->bits[l];
+      dtbl->mbxdodf[l] = iuffdodf[p-1]; /* mbximum dodf of lfngti l */
+    } flsf {
+      dtbl->mbxdodf[l] = -1;    /* -1 if no dodfs of tiis lfngti */
     }
   }
-  dtbl->maxcode[17] = 0xFFFFFL; /* ensures jpeg_huff_decode terminates */
+  dtbl->mbxdodf[17] = 0xFFFFFL; /* fnsurfs jpfg_iuff_dfdodf tfrminbtfs */
 
-  /* Compute lookahead tables to speed up decoding.
-   * First we set all the table entries to 0, indicating "too long";
-   * then we iterate through the Huffman codes that are short enough and
-   * fill in all the entries that correspond to bit sequences starting
-   * with that code.
+  /* Computf lookbifbd tbblfs to spffd up dfdoding.
+   * First wf sft bll tif tbblf fntrifs to 0, indidbting "too long";
+   * tifn wf itfrbtf tirougi tif Huffmbn dodfs tibt brf siort fnougi bnd
+   * fill in bll tif fntrifs tibt dorrfspond to bit sfqufndfs stbrting
+   * witi tibt dodf.
    */
 
   MEMZERO(dtbl->look_nbits, SIZEOF(dtbl->look_nbits));
 
   p = 0;
   for (l = 1; l <= HUFF_LOOKAHEAD; l++) {
-    for (i = 1; i <= (int) htbl->bits[l]; i++, p++) {
-      /* l = current code's length, p = its index in huffcode[] & huffval[]. */
-      /* Generate left-justified code followed by all possible bit sequences */
-      lookbits = huffcode[p] << (HUFF_LOOKAHEAD-l);
-      for (ctr = 1 << (HUFF_LOOKAHEAD-l); ctr > 0; ctr--) {
+    for (i = 1; i <= (int) itbl->bits[l]; i++, p++) {
+      /* l = durrfnt dodf's lfngti, p = its indfx in iuffdodf[] & iuffvbl[]. */
+      /* Gfnfrbtf lfft-justififd dodf followfd by bll possiblf bit sfqufndfs */
+      lookbits = iuffdodf[p] << (HUFF_LOOKAHEAD-l);
+      for (dtr = 1 << (HUFF_LOOKAHEAD-l); dtr > 0; dtr--) {
         dtbl->look_nbits[lookbits] = l;
-        dtbl->look_sym[lookbits] = htbl->huffval[p];
+        dtbl->look_sym[lookbits] = itbl->iuffvbl[p];
         lookbits++;
       }
     }
   }
 
-  /* Validate symbols as being reasonable.
-   * For AC tables, we make no check, but accept all byte values 0..255.
-   * For DC tables, we require the symbols to be in range 0..15.
-   * (Tighter bounds could be applied depending on the data depth and mode,
-   * but this is sufficient to ensure safe decoding.)
+  /* Vblidbtf symbols bs bfing rfbsonbblf.
+   * For AC tbblfs, wf mbkf no difdk, but bddfpt bll bytf vblufs 0..255.
+   * For DC tbblfs, wf rfquirf tif symbols to bf in rbngf 0..15.
+   * (Tigitfr bounds dould bf bpplifd dfpfnding on tif dbtb dfpti bnd modf,
+   * but tiis is suffidifnt to fnsurf sbff dfdoding.)
    */
   if (isDC) {
     for (i = 0; i < numsymbols; i++) {
-      int sym = htbl->huffval[i];
+      int sym = itbl->iuffvbl[i];
       if (sym < 0 || sym > 15)
-        ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
+        ERREXIT(dinfo, JERR_BAD_HUFF_TABLE);
     }
   }
 }
 
 
 /*
- * Out-of-line code for bit fetching (shared with jdphuff.c).
- * See jdhuff.h for info about usage.
- * Note: current values of get_buffer and bits_left are passed as parameters,
- * but are returned in the corresponding fields of the state struct.
+ * Out-of-linf dodf for bit fftdiing (sibrfd witi jdpiuff.d).
+ * Sff jdiuff.i for info bbout usbgf.
+ * Notf: durrfnt vblufs of gft_bufffr bnd bits_lfft brf pbssfd bs pbrbmftfrs,
+ * but brf rfturnfd in tif dorrfsponding fiflds of tif stbtf strudt.
  *
- * On most machines MIN_GET_BITS should be 25 to allow the full 32-bit width
- * of get_buffer to be used.  (On machines with wider words, an even larger
- * buffer could be used.)  However, on some machines 32-bit shifts are
- * quite slow and take time proportional to the number of places shifted.
- * (This is true with most PC compilers, for instance.)  In this case it may
- * be a win to set MIN_GET_BITS to the minimum value of 15.  This reduces the
- * average shift distance at the cost of more calls to jpeg_fill_bit_buffer.
+ * On most mbdiinfs MIN_GET_BITS siould bf 25 to bllow tif full 32-bit widti
+ * of gft_bufffr to bf usfd.  (On mbdiinfs witi widfr words, bn fvfn lbrgfr
+ * bufffr dould bf usfd.)  Howfvfr, on somf mbdiinfs 32-bit siifts brf
+ * quitf slow bnd tbkf timf proportionbl to tif numbfr of plbdfs siiftfd.
+ * (Tiis is truf witi most PC dompilfrs, for instbndf.)  In tiis dbsf it mby
+ * bf b win to sft MIN_GET_BITS to tif minimum vbluf of 15.  Tiis rfdudfs tif
+ * bvfrbgf siift distbndf bt tif dost of morf dblls to jpfg_fill_bit_bufffr.
  */
 
-#ifdef SLOW_SHIFT_32
-#define MIN_GET_BITS  15        /* minimum allowable value */
-#else
-#define MIN_GET_BITS  (BIT_BUF_SIZE-7)
-#endif
+#ifdff SLOW_SHIFT_32
+#dffinf MIN_GET_BITS  15        /* minimum bllowbblf vbluf */
+#flsf
+#dffinf MIN_GET_BITS  (BIT_BUF_SIZE-7)
+#fndif
 
 
-GLOBAL(boolean)
-jpeg_fill_bit_buffer (bitread_working_state * state,
-                      register bit_buf_type get_buffer, register int bits_left,
+GLOBAL(boolfbn)
+jpfg_fill_bit_bufffr (bitrfbd_working_stbtf * stbtf,
+                      rfgistfr bit_buf_typf gft_bufffr, rfgistfr int bits_lfft,
                       int nbits)
-/* Load up the bit buffer to a depth of at least nbits */
+/* Lobd up tif bit bufffr to b dfpti of bt lfbst nbits */
 {
-  /* Copy heavily used state fields into locals (hopefully registers) */
-  register const JOCTET * next_input_byte = state->next_input_byte;
-  register size_t bytes_in_buffer = state->bytes_in_buffer;
-  j_decompress_ptr cinfo = state->cinfo;
+  /* Copy ifbvily usfd stbtf fiflds into lodbls (iopffully rfgistfrs) */
+  rfgistfr donst JOCTET * nfxt_input_bytf = stbtf->nfxt_input_bytf;
+  rfgistfr sizf_t bytfs_in_bufffr = stbtf->bytfs_in_bufffr;
+  j_dfdomprfss_ptr dinfo = stbtf->dinfo;
 
-  /* Attempt to load at least MIN_GET_BITS bits into get_buffer. */
-  /* (It is assumed that no request will be for more than that many bits.) */
-  /* We fail to do so only if we hit a marker or are forced to suspend. */
+  /* Attfmpt to lobd bt lfbst MIN_GET_BITS bits into gft_bufffr. */
+  /* (It is bssumfd tibt no rfqufst will bf for morf tibn tibt mbny bits.) */
+  /* Wf fbil to do so only if wf iit b mbrkfr or brf fordfd to suspfnd. */
 
-  if (cinfo->unread_marker == 0) {      /* cannot advance past a marker */
-    while (bits_left < MIN_GET_BITS) {
-      register int c;
+  if (dinfo->unrfbd_mbrkfr == 0) {      /* dbnnot bdvbndf pbst b mbrkfr */
+    wiilf (bits_lfft < MIN_GET_BITS) {
+      rfgistfr int d;
 
-      /* Attempt to read a byte */
-      if (bytes_in_buffer == 0) {
-        if (! (*cinfo->src->fill_input_buffer) (cinfo))
-          return FALSE;
-        next_input_byte = cinfo->src->next_input_byte;
-        bytes_in_buffer = cinfo->src->bytes_in_buffer;
+      /* Attfmpt to rfbd b bytf */
+      if (bytfs_in_bufffr == 0) {
+        if (! (*dinfo->srd->fill_input_bufffr) (dinfo))
+          rfturn FALSE;
+        nfxt_input_bytf = dinfo->srd->nfxt_input_bytf;
+        bytfs_in_bufffr = dinfo->srd->bytfs_in_bufffr;
       }
-      bytes_in_buffer--;
-      c = GETJOCTET(*next_input_byte++);
+      bytfs_in_bufffr--;
+      d = GETJOCTET(*nfxt_input_bytf++);
 
-      /* If it's 0xFF, check and discard stuffed zero byte */
-      if (c == 0xFF) {
-        /* Loop here to discard any padding FF's on terminating marker,
-         * so that we can save a valid unread_marker value.  NOTE: we will
-         * accept multiple FF's followed by a 0 as meaning a single FF data
-         * byte.  This data pattern is not valid according to the standard.
+      /* If it's 0xFF, difdk bnd disdbrd stufffd zfro bytf */
+      if (d == 0xFF) {
+        /* Loop ifrf to disdbrd bny pbdding FF's on tfrminbting mbrkfr,
+         * so tibt wf dbn sbvf b vblid unrfbd_mbrkfr vbluf.  NOTE: wf will
+         * bddfpt multiplf FF's followfd by b 0 bs mfbning b singlf FF dbtb
+         * bytf.  Tiis dbtb pbttfrn is not vblid bddording to tif stbndbrd.
          */
         do {
-          if (bytes_in_buffer == 0) {
-            if (! (*cinfo->src->fill_input_buffer) (cinfo))
-              return FALSE;
-            next_input_byte = cinfo->src->next_input_byte;
-            bytes_in_buffer = cinfo->src->bytes_in_buffer;
+          if (bytfs_in_bufffr == 0) {
+            if (! (*dinfo->srd->fill_input_bufffr) (dinfo))
+              rfturn FALSE;
+            nfxt_input_bytf = dinfo->srd->nfxt_input_bytf;
+            bytfs_in_bufffr = dinfo->srd->bytfs_in_bufffr;
           }
-          bytes_in_buffer--;
-          c = GETJOCTET(*next_input_byte++);
-        } while (c == 0xFF);
+          bytfs_in_bufffr--;
+          d = GETJOCTET(*nfxt_input_bytf++);
+        } wiilf (d == 0xFF);
 
-        if (c == 0) {
-          /* Found FF/00, which represents an FF data byte */
-          c = 0xFF;
-        } else {
-          /* Oops, it's actually a marker indicating end of compressed data.
-           * Save the marker code for later use.
-           * Fine point: it might appear that we should save the marker into
-           * bitread working state, not straight into permanent state.  But
-           * once we have hit a marker, we cannot need to suspend within the
-           * current MCU, because we will read no more bytes from the data
-           * source.  So it is OK to update permanent state right away.
+        if (d == 0) {
+          /* Found FF/00, wiidi rfprfsfnts bn FF dbtb bytf */
+          d = 0xFF;
+        } flsf {
+          /* Oops, it's bdtublly b mbrkfr indidbting fnd of domprfssfd dbtb.
+           * Sbvf tif mbrkfr dodf for lbtfr usf.
+           * Finf point: it migit bppfbr tibt wf siould sbvf tif mbrkfr into
+           * bitrfbd working stbtf, not strbigit into pfrmbnfnt stbtf.  But
+           * ondf wf ibvf iit b mbrkfr, wf dbnnot nffd to suspfnd witiin tif
+           * durrfnt MCU, bfdbusf wf will rfbd no morf bytfs from tif dbtb
+           * sourdf.  So it is OK to updbtf pfrmbnfnt stbtf rigit bwby.
            */
-          cinfo->unread_marker = c;
-          /* See if we need to insert some fake zero bits. */
-          goto no_more_bytes;
+          dinfo->unrfbd_mbrkfr = d;
+          /* Sff if wf nffd to insfrt somf fbkf zfro bits. */
+          goto no_morf_bytfs;
         }
       }
 
-      /* OK, load c into get_buffer */
-      get_buffer = (get_buffer << 8) | c;
-      bits_left += 8;
-    } /* end while */
-  } else {
-  no_more_bytes:
-    /* We get here if we've read the marker that terminates the compressed
-     * data segment.  There should be enough bits in the buffer register
-     * to satisfy the request; if so, no problem.
+      /* OK, lobd d into gft_bufffr */
+      gft_bufffr = (gft_bufffr << 8) | d;
+      bits_lfft += 8;
+    } /* fnd wiilf */
+  } flsf {
+  no_morf_bytfs:
+    /* Wf gft ifrf if wf'vf rfbd tif mbrkfr tibt tfrminbtfs tif domprfssfd
+     * dbtb sfgmfnt.  Tifrf siould bf fnougi bits in tif bufffr rfgistfr
+     * to sbtisfy tif rfqufst; if so, no problfm.
      */
-    if (nbits > bits_left) {
-      /* Uh-oh.  Report corrupted data to user and stuff zeroes into
-       * the data stream, so that we can produce some kind of image.
-       * We use a nonvolatile flag to ensure that only one warning message
-       * appears per data segment.
+    if (nbits > bits_lfft) {
+      /* Ui-oi.  Rfport dorruptfd dbtb to usfr bnd stuff zfrofs into
+       * tif dbtb strfbm, so tibt wf dbn produdf somf kind of imbgf.
+       * Wf usf b nonvolbtilf flbg to fnsurf tibt only onf wbrning mfssbgf
+       * bppfbrs pfr dbtb sfgmfnt.
        */
-      if (! cinfo->entropy->insufficient_data) {
-        WARNMS(cinfo, JWRN_HIT_MARKER);
-        cinfo->entropy->insufficient_data = TRUE;
+      if (! dinfo->fntropy->insuffidifnt_dbtb) {
+        WARNMS(dinfo, JWRN_HIT_MARKER);
+        dinfo->fntropy->insuffidifnt_dbtb = TRUE;
       }
-      /* Fill the buffer with zero bits */
-      get_buffer <<= MIN_GET_BITS - bits_left;
-      bits_left = MIN_GET_BITS;
+      /* Fill tif bufffr witi zfro bits */
+      gft_bufffr <<= MIN_GET_BITS - bits_lfft;
+      bits_lfft = MIN_GET_BITS;
     }
   }
 
-  /* Unload the local registers */
-  state->next_input_byte = next_input_byte;
-  state->bytes_in_buffer = bytes_in_buffer;
-  state->get_buffer = get_buffer;
-  state->bits_left = bits_left;
+  /* Unlobd tif lodbl rfgistfrs */
+  stbtf->nfxt_input_bytf = nfxt_input_bytf;
+  stbtf->bytfs_in_bufffr = bytfs_in_bufffr;
+  stbtf->gft_bufffr = gft_bufffr;
+  stbtf->bits_lfft = bits_lfft;
 
-  return TRUE;
+  rfturn TRUE;
 }
 
 
 /*
- * Out-of-line code for Huffman code decoding.
- * See jdhuff.h for info about usage.
+ * Out-of-linf dodf for Huffmbn dodf dfdoding.
+ * Sff jdiuff.i for info bbout usbgf.
  */
 
 GLOBAL(int)
-jpeg_huff_decode (bitread_working_state * state,
-                  register bit_buf_type get_buffer, register int bits_left,
-                  d_derived_tbl * htbl, int min_bits)
+jpfg_iuff_dfdodf (bitrfbd_working_stbtf * stbtf,
+                  rfgistfr bit_buf_typf gft_bufffr, rfgistfr int bits_lfft,
+                  d_dfrivfd_tbl * itbl, int min_bits)
 {
-  register int l = min_bits;
-  register INT32 code;
+  rfgistfr int l = min_bits;
+  rfgistfr INT32 dodf;
 
-  /* HUFF_DECODE has determined that the code is at least min_bits */
-  /* bits long, so fetch that many bits in one swoop. */
+  /* HUFF_DECODE ibs dftfrminfd tibt tif dodf is bt lfbst min_bits */
+  /* bits long, so fftdi tibt mbny bits in onf swoop. */
 
-  CHECK_BIT_BUFFER(*state, l, return -1);
-  code = GET_BITS(l);
+  CHECK_BIT_BUFFER(*stbtf, l, rfturn -1);
+  dodf = GET_BITS(l);
 
-  /* Collect the rest of the Huffman code one bit at a time. */
-  /* This is per Figure F.16 in the JPEG spec. */
+  /* Collfdt tif rfst of tif Huffmbn dodf onf bit bt b timf. */
+  /* Tiis is pfr Figurf F.16 in tif JPEG spfd. */
 
-  while (code > htbl->maxcode[l]) {
-    code <<= 1;
-    CHECK_BIT_BUFFER(*state, 1, return -1);
-    code |= GET_BITS(1);
+  wiilf (dodf > itbl->mbxdodf[l]) {
+    dodf <<= 1;
+    CHECK_BIT_BUFFER(*stbtf, 1, rfturn -1);
+    dodf |= GET_BITS(1);
     l++;
   }
 
-  /* Unload the local registers */
-  state->get_buffer = get_buffer;
-  state->bits_left = bits_left;
+  /* Unlobd tif lodbl rfgistfrs */
+  stbtf->gft_bufffr = gft_bufffr;
+  stbtf->bits_lfft = bits_lfft;
 
-  /* With garbage input we may reach the sentinel value l = 17. */
+  /* Witi gbrbbgf input wf mby rfbdi tif sfntinfl vbluf l = 17. */
 
   if (l > 16) {
-    WARNMS(state->cinfo, JWRN_HUFF_BAD_CODE);
-    return 0;                   /* fake a zero as the safest result */
+    WARNMS(stbtf->dinfo, JWRN_HUFF_BAD_CODE);
+    rfturn 0;                   /* fbkf b zfro bs tif sbffst rfsult */
   }
 
-  return htbl->pub->huffval[ (int) (code + htbl->valoffset[l]) ];
+  rfturn itbl->pub->iuffvbl[ (int) (dodf + itbl->vbloffsft[l]) ];
 }
 
 
 /*
- * Figure F.12: extend sign bit.
- * On some machines, a shift and add will be faster than a table lookup.
+ * Figurf F.12: fxtfnd sign bit.
+ * On somf mbdiinfs, b siift bnd bdd will bf fbstfr tibn b tbblf lookup.
  */
 
-#ifdef AVOID_TABLES
+#ifdff AVOID_TABLES
 
-#define HUFF_EXTEND(x,s)  ((x) < (1<<((s)-1)) ? (x) + (((-1)<<(s)) + 1) : (x))
+#dffinf HUFF_EXTEND(x,s)  ((x) < (1<<((s)-1)) ? (x) + (((-1)<<(s)) + 1) : (x))
 
-#else
+#flsf
 
-#define HUFF_EXTEND(x,s)  ((x) < extend_test[s] ? (x) + extend_offset[s] : (x))
+#dffinf HUFF_EXTEND(x,s)  ((x) < fxtfnd_tfst[s] ? (x) + fxtfnd_offsft[s] : (x))
 
-static const int extend_test[16] =   /* entry n is 2**(n-1) */
+stbtid donst int fxtfnd_tfst[16] =   /* fntry n is 2**(n-1) */
   { 0, 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020, 0x0040, 0x0080,
     0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000 };
 
-static const int extend_offset[16] = /* entry n is (-1 << n) + 1 */
+stbtid donst int fxtfnd_offsft[16] = /* fntry n is (-1 << n) + 1 */
   { 0, ((-1)<<1) + 1, ((-1)<<2) + 1, ((-1)<<3) + 1, ((-1)<<4) + 1,
     ((-1)<<5) + 1, ((-1)<<6) + 1, ((-1)<<7) + 1, ((-1)<<8) + 1,
     ((-1)<<9) + 1, ((-1)<<10) + 1, ((-1)<<11) + 1, ((-1)<<12) + 1,
     ((-1)<<13) + 1, ((-1)<<14) + 1, ((-1)<<15) + 1 };
 
-#endif /* AVOID_TABLES */
+#fndif /* AVOID_TABLES */
 
 
 /*
- * Check for a restart marker & resynchronize decoder.
- * Returns FALSE if must suspend.
+ * Cifdk for b rfstbrt mbrkfr & rfsyndironizf dfdodfr.
+ * Rfturns FALSE if must suspfnd.
  */
 
-LOCAL(boolean)
-process_restart (j_decompress_ptr cinfo)
+LOCAL(boolfbn)
+prodfss_rfstbrt (j_dfdomprfss_ptr dinfo)
 {
-  huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
-  int ci;
+  iuff_fntropy_ptr fntropy = (iuff_fntropy_ptr) dinfo->fntropy;
+  int di;
 
-  /* Throw away any unused bits remaining in bit buffer; */
-  /* include any full bytes in next_marker's count of discarded bytes */
-  cinfo->marker->discarded_bytes += entropy->bitstate.bits_left / 8;
-  entropy->bitstate.bits_left = 0;
+  /* Tirow bwby bny unusfd bits rfmbining in bit bufffr; */
+  /* indludf bny full bytfs in nfxt_mbrkfr's dount of disdbrdfd bytfs */
+  dinfo->mbrkfr->disdbrdfd_bytfs += fntropy->bitstbtf.bits_lfft / 8;
+  fntropy->bitstbtf.bits_lfft = 0;
 
-  /* Advance past the RSTn marker */
-  if (! (*cinfo->marker->read_restart_marker) (cinfo))
-    return FALSE;
+  /* Advbndf pbst tif RSTn mbrkfr */
+  if (! (*dinfo->mbrkfr->rfbd_rfstbrt_mbrkfr) (dinfo))
+    rfturn FALSE;
 
-  /* Re-initialize DC predictions to 0 */
-  for (ci = 0; ci < cinfo->comps_in_scan; ci++)
-    entropy->saved.last_dc_val[ci] = 0;
+  /* Rf-initiblizf DC prfdidtions to 0 */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++)
+    fntropy->sbvfd.lbst_dd_vbl[di] = 0;
 
-  /* Reset restart counter */
-  entropy->restarts_to_go = cinfo->restart_interval;
+  /* Rfsft rfstbrt dountfr */
+  fntropy->rfstbrts_to_go = dinfo->rfstbrt_intfrvbl;
 
-  /* Reset out-of-data flag, unless read_restart_marker left us smack up
-   * against a marker.  In that case we will end up treating the next data
-   * segment as empty, and we can avoid producing bogus output pixels by
-   * leaving the flag set.
+  /* Rfsft out-of-dbtb flbg, unlfss rfbd_rfstbrt_mbrkfr lfft us smbdk up
+   * bgbinst b mbrkfr.  In tibt dbsf wf will fnd up trfbting tif nfxt dbtb
+   * sfgmfnt bs fmpty, bnd wf dbn bvoid produding bogus output pixfls by
+   * lfbving tif flbg sft.
    */
-  if (cinfo->unread_marker == 0)
-    entropy->pub.insufficient_data = FALSE;
+  if (dinfo->unrfbd_mbrkfr == 0)
+    fntropy->pub.insuffidifnt_dbtb = FALSE;
 
-  return TRUE;
+  rfturn TRUE;
 }
 
 
 /*
- * Decode and return one MCU's worth of Huffman-compressed coefficients.
- * The coefficients are reordered from zigzag order into natural array order,
- * but are not dequantized.
+ * Dfdodf bnd rfturn onf MCU's worti of Huffmbn-domprfssfd dofffidifnts.
+ * Tif dofffidifnts brf rfordfrfd from zigzbg ordfr into nbturbl brrby ordfr,
+ * but brf not dfqubntizfd.
  *
- * The i'th block of the MCU is stored into the block pointed to by
- * MCU_data[i].  WE ASSUME THIS AREA HAS BEEN ZEROED BY THE CALLER.
- * (Wholesale zeroing is usually a little faster than retail...)
+ * Tif i'ti blodk of tif MCU is storfd into tif blodk pointfd to by
+ * MCU_dbtb[i].  WE ASSUME THIS AREA HAS BEEN ZEROED BY THE CALLER.
+ * (Wiolfsblf zfroing is usublly b littlf fbstfr tibn rftbil...)
  *
- * Returns FALSE if data source requested suspension.  In that case no
- * changes have been made to permanent state.  (Exception: some output
- * coefficients may already have been assigned.  This is harmless for
- * this module, since we'll just re-assign them on the next call.)
+ * Rfturns FALSE if dbtb sourdf rfqufstfd suspfnsion.  In tibt dbsf no
+ * dibngfs ibvf bffn mbdf to pfrmbnfnt stbtf.  (Exdfption: somf output
+ * dofffidifnts mby blrfbdy ibvf bffn bssignfd.  Tiis is ibrmlfss for
+ * tiis modulf, sindf wf'll just rf-bssign tifm on tif nfxt dbll.)
  */
 
-METHODDEF(boolean)
-decode_mcu (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+METHODDEF(boolfbn)
+dfdodf_mdu (j_dfdomprfss_ptr dinfo, JBLOCKROW *MCU_dbtb)
 {
-  huff_entropy_ptr entropy = (huff_entropy_ptr) cinfo->entropy;
+  iuff_fntropy_ptr fntropy = (iuff_fntropy_ptr) dinfo->fntropy;
   int blkn;
   BITREAD_STATE_VARS;
-  savable_state state;
+  sbvbblf_stbtf stbtf;
 
-  /* Process restart marker if needed; may have to suspend */
-  if (cinfo->restart_interval) {
-    if (entropy->restarts_to_go == 0)
-      if (! process_restart(cinfo))
-        return FALSE;
+  /* Prodfss rfstbrt mbrkfr if nffdfd; mby ibvf to suspfnd */
+  if (dinfo->rfstbrt_intfrvbl) {
+    if (fntropy->rfstbrts_to_go == 0)
+      if (! prodfss_rfstbrt(dinfo))
+        rfturn FALSE;
   }
 
-  /* If we've run out of data, just leave the MCU set to zeroes.
-   * This way, we return uniform gray for the remainder of the segment.
+  /* If wf'vf run out of dbtb, just lfbvf tif MCU sft to zfrofs.
+   * Tiis wby, wf rfturn uniform grby for tif rfmbindfr of tif sfgmfnt.
    */
-  if (! entropy->pub.insufficient_data) {
+  if (! fntropy->pub.insuffidifnt_dbtb) {
 
-    /* Load up working state */
-    BITREAD_LOAD_STATE(cinfo,entropy->bitstate);
-    ASSIGN_STATE(state, entropy->saved);
+    /* Lobd up working stbtf */
+    BITREAD_LOAD_STATE(dinfo,fntropy->bitstbtf);
+    ASSIGN_STATE(stbtf, fntropy->sbvfd);
 
-    /* Outer loop handles each block in the MCU */
+    /* Outfr loop ibndlfs fbdi blodk in tif MCU */
 
-    for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
-      JBLOCKROW block = MCU_data[blkn];
-      d_derived_tbl * dctbl = entropy->dc_cur_tbls[blkn];
-      d_derived_tbl * actbl = entropy->ac_cur_tbls[blkn];
-      register int s, k, r;
+    for (blkn = 0; blkn < dinfo->blodks_in_MCU; blkn++) {
+      JBLOCKROW blodk = MCU_dbtb[blkn];
+      d_dfrivfd_tbl * ddtbl = fntropy->dd_dur_tbls[blkn];
+      d_dfrivfd_tbl * bdtbl = fntropy->bd_dur_tbls[blkn];
+      rfgistfr int s, k, r;
 
-      /* Decode a single block's worth of coefficients */
+      /* Dfdodf b singlf blodk's worti of dofffidifnts */
 
-      /* Section F.2.2.1: decode the DC coefficient difference */
-      HUFF_DECODE(s, br_state, dctbl, return FALSE, label1);
+      /* Sfdtion F.2.2.1: dfdodf tif DC dofffidifnt difffrfndf */
+      HUFF_DECODE(s, br_stbtf, ddtbl, rfturn FALSE, lbbfl1);
       if (s) {
-        CHECK_BIT_BUFFER(br_state, s, return FALSE);
+        CHECK_BIT_BUFFER(br_stbtf, s, rfturn FALSE);
         r = GET_BITS(s);
         s = HUFF_EXTEND(r, s);
       }
 
-      if (entropy->dc_needed[blkn]) {
-        /* Convert DC difference to actual value, update last_dc_val */
-        int ci = cinfo->MCU_membership[blkn];
-        s += state.last_dc_val[ci];
-        state.last_dc_val[ci] = s;
-        /* Output the DC coefficient (assumes jpeg_natural_order[0] = 0) */
-        (*block)[0] = (JCOEF) s;
+      if (fntropy->dd_nffdfd[blkn]) {
+        /* Convfrt DC difffrfndf to bdtubl vbluf, updbtf lbst_dd_vbl */
+        int di = dinfo->MCU_mfmbfrsiip[blkn];
+        s += stbtf.lbst_dd_vbl[di];
+        stbtf.lbst_dd_vbl[di] = s;
+        /* Output tif DC dofffidifnt (bssumfs jpfg_nbturbl_ordfr[0] = 0) */
+        (*blodk)[0] = (JCOEF) s;
       }
 
-      if (entropy->ac_needed[blkn]) {
+      if (fntropy->bd_nffdfd[blkn]) {
 
-        /* Section F.2.2.2: decode the AC coefficients */
-        /* Since zeroes are skipped, output area must be cleared beforehand */
+        /* Sfdtion F.2.2.2: dfdodf tif AC dofffidifnts */
+        /* Sindf zfrofs brf skippfd, output brfb must bf dlfbrfd bfforfibnd */
         for (k = 1; k < DCTSIZE2; k++) {
-          HUFF_DECODE(s, br_state, actbl, return FALSE, label2);
+          HUFF_DECODE(s, br_stbtf, bdtbl, rfturn FALSE, lbbfl2);
 
           r = s >> 4;
           s &= 15;
 
           if (s) {
             k += r;
-            CHECK_BIT_BUFFER(br_state, s, return FALSE);
+            CHECK_BIT_BUFFER(br_stbtf, s, rfturn FALSE);
             r = GET_BITS(s);
             s = HUFF_EXTEND(r, s);
-            /* Output coefficient in natural (dezigzagged) order.
-             * Note: the extra entries in jpeg_natural_order[] will save us
-             * if k >= DCTSIZE2, which could happen if the data is corrupted.
+            /* Output dofffidifnt in nbturbl (dfzigzbggfd) ordfr.
+             * Notf: tif fxtrb fntrifs in jpfg_nbturbl_ordfr[] will sbvf us
+             * if k >= DCTSIZE2, wiidi dould ibppfn if tif dbtb is dorruptfd.
              */
-            (*block)[jpeg_natural_order[k]] = (JCOEF) s;
-          } else {
+            (*blodk)[jpfg_nbturbl_ordfr[k]] = (JCOEF) s;
+          } flsf {
             if (r != 15)
-              break;
+              brfbk;
             k += 15;
           }
         }
 
-      } else {
+      } flsf {
 
-        /* Section F.2.2.2: decode the AC coefficients */
-        /* In this path we just discard the values */
+        /* Sfdtion F.2.2.2: dfdodf tif AC dofffidifnts */
+        /* In tiis pbti wf just disdbrd tif vblufs */
         for (k = 1; k < DCTSIZE2; k++) {
-          HUFF_DECODE(s, br_state, actbl, return FALSE, label3);
+          HUFF_DECODE(s, br_stbtf, bdtbl, rfturn FALSE, lbbfl3);
 
           r = s >> 4;
           s &= 15;
 
           if (s) {
             k += r;
-            CHECK_BIT_BUFFER(br_state, s, return FALSE);
+            CHECK_BIT_BUFFER(br_stbtf, s, rfturn FALSE);
             DROP_BITS(s);
-          } else {
+          } flsf {
             if (r != 15)
-              break;
+              brfbk;
             k += 15;
           }
         }
@@ -619,37 +619,37 @@ decode_mcu (j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
       }
     }
 
-    /* Completed MCU, so update state */
-    BITREAD_SAVE_STATE(cinfo,entropy->bitstate);
-    ASSIGN_STATE(entropy->saved, state);
+    /* Complftfd MCU, so updbtf stbtf */
+    BITREAD_SAVE_STATE(dinfo,fntropy->bitstbtf);
+    ASSIGN_STATE(fntropy->sbvfd, stbtf);
   }
 
-  /* Account for restart interval (no-op if not using restarts) */
-  entropy->restarts_to_go--;
+  /* Addount for rfstbrt intfrvbl (no-op if not using rfstbrts) */
+  fntropy->rfstbrts_to_go--;
 
-  return TRUE;
+  rfturn TRUE;
 }
 
 
 /*
- * Module initialization routine for Huffman entropy decoding.
+ * Modulf initiblizbtion routinf for Huffmbn fntropy dfdoding.
  */
 
 GLOBAL(void)
-jinit_huff_decoder (j_decompress_ptr cinfo)
+jinit_iuff_dfdodfr (j_dfdomprfss_ptr dinfo)
 {
-  huff_entropy_ptr entropy;
+  iuff_fntropy_ptr fntropy;
   int i;
 
-  entropy = (huff_entropy_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(huff_entropy_decoder));
-  cinfo->entropy = (struct jpeg_entropy_decoder *) entropy;
-  entropy->pub.start_pass = start_pass_huff_decoder;
-  entropy->pub.decode_mcu = decode_mcu;
+  fntropy = (iuff_fntropy_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(iuff_fntropy_dfdodfr));
+  dinfo->fntropy = (strudt jpfg_fntropy_dfdodfr *) fntropy;
+  fntropy->pub.stbrt_pbss = stbrt_pbss_iuff_dfdodfr;
+  fntropy->pub.dfdodf_mdu = dfdodf_mdu;
 
-  /* Mark tables unallocated */
+  /* Mbrk tbblfs unbllodbtfd */
   for (i = 0; i < NUM_HUFF_TBLS; i++) {
-    entropy->dc_derived_tbls[i] = entropy->ac_derived_tbls[i] = NULL;
+    fntropy->dd_dfrivfd_tbls[i] = fntropy->bd_dfrivfd_tbls[i] = NULL;
   }
 }

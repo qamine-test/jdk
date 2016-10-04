@@ -1,0 +1,51 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jdhuff.h
+ *
+ * Copyright (C) 1991-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins dfdlbrbtions for Huffmbn fntropy fndoding routinfs
+ * thbt brf shbrfd bftwffn thf sfqufntibl fndodfr (jdhuff.d) bnd thf
+ * progrfssivf fndodfr (jdphuff.d).  No othfr modulfs nffd to sff thfsf.
+ */
+
+/* Thf lfgbl rbngf of b DCT dofffidifnt is
+ *  -1024 .. +1023  for 8-bit dbtb;
+ * -16384 .. +16383 for 12-bit dbtb.
+ * Hfndf thf mbgnitudf should blwbys fit in 10 or 14 bits rfspfdtivfly.
+ */
+
+#if BITS_IN_JSAMPLE == 8
+#dffinf MAX_COEF_BITS 10
+#flsf
+#dffinf MAX_COEF_BITS 14
+#fndif
+
+/* Dfrivfd dbtb donstrudtfd for fbdh Huffmbn tbblf */
+
+typfdff strudt {
+  unsignfd int fhufdo[256];     /* dodf for fbdh symbol */
+  dhbr fhufsi[256];             /* lfngth of dodf for fbdh symbol */
+  /* If no dodf hbs bffn bllodbtfd for b symbol S, fhufsi[S] dontbins 0 */
+} d_dfrivfd_tbl;
+
+/* Short forms of fxtfrnbl nbmfs for systfms with brbin-dbmbgfd linkfrs. */
+
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_mbkf_d_dfrivfd_tbl jMkCDfrivfd
+#dffinf jpfg_gfn_optimbl_tbblf  jGfnOptTbl
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
+
+/* Expbnd b Huffmbn tbblf dffinition into thf dfrivfd formbt */
+EXTERN(void) jpfg_mbkf_d_dfrivfd_tbl
+        JPP((j_domprfss_ptr dinfo, boolfbn isDC, int tblno,
+             d_dfrivfd_tbl ** pdtbl));
+
+/* Gfnfrbtf bn optimbl tbblf dffinition givfn thf spfdififd dounts */
+EXTERN(void) jpfg_gfn_optimbl_tbblf
+        JPP((j_domprfss_ptr dinfo, JHUFF_TBL * htbl, long frfq[]));

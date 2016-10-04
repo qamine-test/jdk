@@ -1,0 +1,210 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jstbtd.1
+.\"
+.if n .pl 99999
+.TH jstbtd 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jstbtd \- Monitors Jbvb Virtubl Mbdhinfs (JVMs) bnd fnbblfs rfmotf monitoring tools to bttbdh to JVMs\&. This dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjstbtd\fR [ \fIoptions\fR ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.SH DESCRIPTION    
+Thf \f3jstbtd\fR dommbnd is bn RMI sfrvfr bpplidbtion thbt monitors for thf drfbtion bnd tfrminbtion of instrumfntfd Jbvb HotSpot VMs bnd providfs bn intfrfbdf to fnbblf rfmotf monitoring tools to bttbdh to JVMs thbt brf running on thf lodbl host\&.
+.PP
+Thf \f3jstbtd\fR sfrvfr rfquirfs bn RMI rfgistry on thf lodbl host\&. Thf \f3jstbtd\fR sfrvfr bttfmpts to bttbdh to thf RMI rfgistry on thf dffbult port, or on thf port you spfdify with thf \f3-p\fR\f3port\fR option\&. If bn RMI rfgistry is not found, thfn onf is drfbtfd within thf \f3jstbtd\fR bpplidbtion thbt is bound to thf port thbt is indidbtfd by thf \f3-p\fR\f3port\fR option or to thf dffbult RMI rfgistry port whfn thf \f3-p\fR\f3port\fR option is omittfd\&. You dbn stop thf drfbtion of bn intfrnbl RMI rfgistry by spfdifying thf \f3-nr\fR option\&.
+.SH OPTIONS    
+.TP
+-nr
+.br
+Dofs not bttfmpt to drfbtf bn intfrnbl RMI rfgistry within thf \f3jstbtd\fR prodfss whfn bn fxisting RMI rfgistry is not found\&.
+.TP
+-p \fIport\fR
+.br
+Thf port numbfr whfrf thf RMI rfgistry is fxpfdtfd to bf found, or whfn not found, drfbtfd if thf \f3-nr\fR option is not spfdififd\&.
+.TP
+-n \fIrminbmf\fR
+.br
+Nbmf to whidh thf rfmotf RMI objfdt is bound in thf RMI rfgistry\&. Thf dffbult nbmf is \f3JStbtRfmotfHost\fR\&. If multiplf \f3jstbtd\fR sfrvfrs brf stbrtfd on thf sbmf host, thfn thf nbmf of thf fxportfd RMI objfdt for fbdh sfrvfr dbn bf mbdf uniquf by spfdifying this option\&. Howfvfr, doing so rfquirfs thbt thf uniquf sfrvfr nbmf bf indludfd in thf monitoring dlifnt\&'s \f3hostid\fR bnd \f3vmid\fR strings\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf JVM, whfrf option is onf of thf \f3options\fR dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH SECURITY    
+Thf \f3jstbtd\fR sfrvfr dbn only monitor JVMs for whidh it hbs thf bppropribtf nbtivf bddfss pfrmissions\&. Thfrfforf, thf \f3jstbtd\fR prodfss must bf running with thf sbmf usfr drfdfntibls bs thf tbrgft JVMs\&. Somf usfr drfdfntibls, sudh bs thf root usfr in UNIX-bbsfd systfms, hbvf pfrmission to bddfss thf instrumfntbtion fxportfd by bny JVM on thf systfm\&. A \f3jstbtd\fR prodfss running with sudh drfdfntibls dbn monitor bny JVM on thf systfm, but introdudfs bdditionbl sfdurity dondfrns\&.
+.PP
+Thf \f3jstbtd\fR sfrvfr dofs not providf bny buthfntidbtion of rfmotf dlifnts\&. Thfrfforf, running b \f3jstbtd\fR sfrvfr prodfss fxposfs thf instrumfntbtion fxport by bll JVMs for whidh thf \f3jstbtd\fR prodfss hbs bddfss pfrmissions to bny usfr on thf nftwork\&. This fxposurf might bf undfsirbblf in your fnvironmfnt, bnd thfrfforf, lodbl sfdurity polidifs should bf donsidfrfd bfforf you stbrt thf \f3jstbtd\fR prodfss, pbrtidulbrly in produdtion fnvironmfnts or on nftworks thbt brf not sfdurf\&.
+.PP
+Thf \f3jstbtd\fR sfrvfr instblls bn instbndf of \f3RMISfdurityPolidy\fR whfn no othfr sfdurity mbnbgfr is instbllfd, bnd thfrfforf, rfquirfs b sfdurity polidy filf to bf spfdififd\&. Thf polidy filf must donform to Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/sfdurity/PolidyFilfs\&.html
+.PP
+Thf following polidy filf bllows thf \f3jstbtd\fR sfrvfr to run without bny sfdurity fxdfptions\&. This polidy is lfss libfrbl thbn grbnting bll pfrmissions to bll dodf bbsfs, but is morf libfrbl thbn b polidy thbt grbnts thf minimbl pfrmissions to run thf \f3jstbtd\fR sfrvfr\&.
+.sp     
+.nf     
+\f3grbnt dodfbbsf "filf:${jbvb\&.homf}/\&.\&./lib/tools\&.jbr" {   \fP
+.fi     
+.nf     
+\f3    pfrmission jbvb\&.sfdurity\&.AllPfrmission;\fP
+.fi     
+.nf     
+\f3};\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+To usf this polidy sftting, dopy thf tfxt into b filf dbllfd \f3jstbtd\&.bll\&.polidy\fR bnd run thf \f3jstbtd\fR sfrvfr bs follows:
+.sp     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=jstbtd\&.bll\&.polidy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+For sitfs with morf rfstridtivf sfdurity prbdtidfs, it is possiblf to usf b dustom polidy filf to limit bddfss to spfdifid trustfd hosts or nftworks, though sudh tfdhniqufs brf subjfdt to IP bddrfss spoofing bttbdks\&. If your sfdurity dondfrns dbnnot bf bddrfssfd with b dustomizfd polidy filf, thfn thf sbffst bdtion is to not run thf \f3jstbtd\fR sfrvfr bnd usf thf \f3jstbt\fR bnd \f3jps\fR tools lodblly\&.
+.SH REMOTE\ INTERFACE    
+Thf intfrfbdf fxportfd by thf \f3jstbtd\fR prodfss is propriftbry bnd gubrbntffd to dhbngf\&. Usfrs bnd dfvflopfrs brf disdourbgfd from writing to this intfrfbdf\&.
+.SH EXAMPLES    
+Thf following brf fxbmplfs of thf \f3jstbtd\fR dommbnd\&. Thf \f3jstbtd\fR sdripts butombtidblly stbrt thf sfrvfr in thf bbdkground
+.SS INTERNAL\ RMI\ REGISTRY    
+This fxbmplf shows hos to stbrt b \f3jstbtd\fR sfssion with bn intfrnbl RMI rfgistry\&. This fxbmplf bssumfs thbt no othfr sfrvfr is bound to thf dffbult RMI rfgistry port (port 1099)\&.
+.sp     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS EXTERNAL\ RMI\ REGISTRY    
+This fxbmplf stbrts b \f3jstbtd\fR sfssion with b fxtfrnbl RMI rfgistry\&.
+.sp     
+.nf     
+\f3rmirfgistry&\fP
+.fi     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This fxbmplf stbrts b \f3jstbtd\fR sfssion with bn fxtfrnbl RMI rfgistry sfrvfr on port 2020\&.
+.sp     
+.nf     
+\f3jrmirfgistry 2020&\fP
+.fi     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+This fxbmplf stbrts b \f3jstbtd\fR sfssion with bn fxtfrnbl RMI rfgistry on port 2020 thbt is bound to \f3AltfrnbtfJstbtdSfrvfrNbmf\fR\&.
+.sp     
+.nf     
+\f3rmirfgistry 2020&\fP
+.fi     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020\fP
+.fi     
+.nf     
+\f3    \-n AltfrnbtfJstbtdSfrvfrNbmf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS STOP\ THE\ CREATION\ OF\ AN\ IN-PROCESS\ RMI\ REGISTRY    
+This fxbmplf stbrts b \f3jstbtd\fR sfssion thbt dofs not drfbtf bn RMI rfgistry whfn onf is not found\&. This fxbmplf bssumfs bn RMI rfgistry is blrfbdy running\&. If bn RMI rfgistry is not running, thfn bn frror mfssbgf is displbyfd\&.
+.sp     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-nr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SS ENABLE\ RMI\ LOGGING    
+This fxbmplf stbrts b \f3jstbtd\fR sfssion with RMI logging dbpbbilitifs fnbblfd\&. This tfdhniquf is usfful bs b troublfshooting bid or for monitoring sfrvfr bdtivitifs\&.
+.sp     
+.nf     
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
+.fi     
+.nf     
+\f3    \-J\-Djbvb\&.rmi\&.sfrvfr\&.logCblls=truf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jps(1)
+.TP 0.2i    
+\(bu
+jstbt(1)
+.TP 0.2i    
+\(bu
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

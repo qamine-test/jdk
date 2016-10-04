@@ -1,0 +1,326 @@
+/*
+ * Copyright (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.dfrt.intfrnbl.x509;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.Signbturf;
+import jbvbx.sfdurity.dfrt.*;
+import jbvb.sfdurity.*;
+import jbvb.util.Dbtf;
+import jbvb.util.BitSft;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+
+/**
+ * Thf X509V1CfrtImpl dlbss is usfd bs b donvfrsion wrbppfr bround
+ * sun.sfdurity.x509.X509Cfrt dfrtifidbtfs whfn running undfr JDK1.1.x.
+ *
+ * @buthor Jfff Nisfwbngfr
+ */
+publid dlbss X509V1CfrtImpl fxtfnds X509Cfrtifidbtf implfmfnts Sfriblizbblf {
+    stbtid finbl long sfriblVfrsionUID = -2048442350420423405L;
+    privbtf jbvb.sfdurity.dfrt.X509Cfrtifidbtf wrbppfdCfrt;
+
+    syndhronizfd privbtf stbtid jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory
+    gftFbdtory()
+    throws jbvb.sfdurity.dfrt.CfrtifidbtfExdfption
+    {
+        rfturn jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory.gftInstbndf("X.509");
+    }
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid X509V1CfrtImpl() { }
+
+    /**
+     * Unmbrshbls b dfrtifidbtf from its fndodfd form, pbrsing thf
+     * fndodfd bytfs.  This form of donstrudtor is usfd by bgfnts whidh
+     * nffd to fxbminf bnd usf dfrtifidbtf dontfnts.  Thbt is, this is
+     * onf of thf morf dommonly usfd donstrudtors.  Notf thbt thf bufffr
+     * must indludf only b dfrtifidbtf, bnd no "gbrbbgf" mby bf lfft bt
+     * thf fnd.  If you nffd to ignorf dbtb bt thf fnd of b dfrtifidbtf,
+     * usf bnothfr donstrudtor.
+     *
+     * @pbrbm dfrtDbtb thf fndodfd bytfs, with no trbiling pbdding.
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid X509V1CfrtImpl(bytf[] dfrtDbtb)
+    throws CfrtifidbtfExdfption {
+        try {
+            BytfArrbyInputStrfbm bs;
+
+            bs = nfw BytfArrbyInputStrfbm(dfrtDbtb);
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(bs);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            throw nfw CfrtifidbtfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * unmbrshbls bn X.509 dfrtifidbtf from bn input strfbm.
+     *
+     * @pbrbm in bn input strfbm holding bt lfbst onf dfrtifidbtf
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid X509V1CfrtImpl(InputStrfbm in)
+    throws CfrtifidbtfExdfption {
+        try {
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(in);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            throw nfw CfrtifidbtfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rfturns thf fndodfd form of this dfrtifidbtf. It is
+     * bssumfd thbt fbdh dfrtifidbtf typf would hbvf only b singlf
+     * form of fndoding; for fxbmplf, X.509 dfrtifidbtfs would
+     * bf fndodfd bs ASN.1 DER.
+     */
+    publid bytf[] gftEndodfd() throws CfrtifidbtfEndodingExdfption {
+        try {
+            rfturn wrbppfdCfrt.gftEndodfd();
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfEndodingExdfption f) {
+            throw nfw CfrtifidbtfEndodingExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Throws bn fxdfption if thf dfrtifidbtf wbs not signfd using thf
+     * vfrifidbtion kfy providfd.  Suddfssfully vfrifying b dfrtifidbtf
+     * dofs <fm>not</fm> indidbtf thbt onf should trust thf fntity whidh
+     * it rfprfsfnts.
+     *
+     * @pbrbm kfy thf publid kfy usfd for vfrifidbtion.
+     */
+    publid void vfrify(PublidKfy kfy)
+        throws CfrtifidbtfExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption
+    {
+        try {
+            wrbppfdCfrt.vfrify(kfy);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            throw nfw CfrtifidbtfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Throws bn fxdfption if thf dfrtifidbtf wbs not signfd using thf
+     * vfrifidbtion kfy providfd.  Suddfssfully vfrifying b dfrtifidbtf
+     * dofs <fm>not</fm> indidbtf thbt onf should trust thf fntity whidh
+     * it rfprfsfnts.
+     *
+     * @pbrbm kfy thf publid kfy usfd for vfrifidbtion.
+     * @pbrbm sigProvidfr thf nbmf of thf providfr.
+     */
+    publid void vfrify(PublidKfy kfy, String sigProvidfr)
+        throws CfrtifidbtfExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption
+    {
+        try {
+            wrbppfdCfrt.vfrify(kfy, sigProvidfr);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            throw nfw CfrtifidbtfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Chfdks thbt thf dfrtifidbtf is durrfntly vblid, i.f. thf durrfnt
+     * timf is within thf spfdififd vblidity pfriod.
+     */
+    publid void dhfdkVblidity() throws
+      CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption {
+        dhfdkVblidity(nfw Dbtf());
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd dbtf is within thf dfrtifidbtf's
+     * vblidity pfriod, or bbsidblly if thf dfrtifidbtf would bf
+     * vblid bt thf spfdififd dbtf/timf.
+     *
+     * @pbrbm dbtf thf Dbtf to dhfdk bgbinst to sff if this dfrtifidbtf
+     *        is vblid bt thbt dbtf/timf.
+     */
+    publid void dhfdkVblidity(Dbtf dbtf) throws
+      CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption {
+        try {
+            wrbppfdCfrt.dhfdkVblidity(dbtf);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption f) {
+            throw nfw CfrtifidbtfNotYftVblidExdfption(f.gftMfssbgf());
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption f) {
+            throw nfw CfrtifidbtfExpirfdExdfption(f.gftMfssbgf());
+        }
+    }
+
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf dfrtifidbtf.  This dofs not
+     * dontbin bll thf informbtion bvbilbblf to distinguish this from bny
+     * othfr dfrtifidbtf.  Thf dfrtifidbtf must bf fully donstrudtfd
+     * bfforf this fundtion mby bf dbllfd.
+     */
+    publid String toString() {
+        rfturn wrbppfdCfrt.toString();
+    }
+
+    /**
+     * Gfts thf publidkfy from this dfrtifidbtf.
+     *
+     * @rfturn thf publidkfy.
+     */
+    publid PublidKfy gftPublidKfy() {
+        PublidKfy kfy = wrbppfdCfrt.gftPublidKfy();
+        rfturn kfy;
+    }
+
+    /*
+     * Gfts thf vfrsion numbfr from thf dfrtifidbtf.
+     *
+     * @rfturn thf vfrsion numbfr.
+     */
+    publid int gftVfrsion() {
+        rfturn wrbppfdCfrt.gftVfrsion() - 1;
+    }
+
+    /**
+     * Gfts thf sfribl numbfr from thf dfrtifidbtf.
+     *
+     * @rfturn thf sfribl numbfr.
+     */
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn wrbppfdCfrt.gftSfriblNumbfr();
+    }
+
+    /**
+     * Gfts thf subjfdt distinguishfd nbmf from thf dfrtifidbtf.
+     *
+     * @rfturn thf subjfdt nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid Prindipbl gftSubjfdtDN() {
+        rfturn wrbppfdCfrt.gftSubjfdtDN();
+    }
+
+    /**
+     * Gfts thf issufr distinguishfd nbmf from thf dfrtifidbtf.
+     *
+     * @rfturn thf issufr nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid Prindipbl gftIssufrDN() {
+        rfturn wrbppfdCfrt.gftIssufrDN();
+    }
+
+    /**
+     * Gfts thf notBfforf dbtf from thf vblidity pfriod of thf dfrtifidbtf.
+     *
+     * @rfturn thf stbrt dbtf of thf vblidity pfriod.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid Dbtf gftNotBfforf() {
+        rfturn wrbppfdCfrt.gftNotBfforf();
+    }
+
+    /**
+     * Gfts thf notAftfr dbtf from thf vblidity pfriod of thf dfrtifidbtf.
+     *
+     * @rfturn thf fnd dbtf of thf vblidity pfriod.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid Dbtf gftNotAftfr() {
+        rfturn wrbppfdCfrt.gftNotAftfr();
+    }
+
+    /**
+     * Gfts thf signbturf blgorithm nbmf for thf dfrtifidbtf
+     * signbturf blgorithm.
+     * For fxbmplf, thf string "SHA1/DSA".
+     *
+     * @rfturn thf signbturf blgorithm nbmf.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid String gftSigAlgNbmf() {
+        rfturn wrbppfdCfrt.gftSigAlgNbmf();
+    }
+
+    /**
+     * Gfts thf signbturf blgorithm OID string from thf dfrtifidbtf.
+     * For fxbmplf, thf string "1.2.840.10040.4.3"
+     *
+     * @rfturn thf signbturf blgorithm oid string.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid String gftSigAlgOID() {
+        rfturn wrbppfdCfrt.gftSigAlgOID();
+    }
+
+    /**
+     * Gfts thf DER fndodfd signbturf blgorithm pbrbmftfrs from this
+     * dfrtifidbtf's signbturf blgorithm.
+     *
+     * @rfturn thf DER fndodfd signbturf blgorithm pbrbmftfrs, or
+     *         null if no pbrbmftfrs brf prfsfnt.
+     * @fxdfption CfrtifidbtfExdfption if b pbrsing frror oddurs.
+     */
+    publid bytf[] gftSigAlgPbrbms() {
+        rfturn wrbppfdCfrt.gftSigAlgPbrbms();
+    }
+
+    privbtf syndhronizfd void writfObjfdt(ObjfdtOutputStrfbm strfbm)
+        throws IOExdfption {
+        try {
+            strfbm.writf(gftEndodfd());
+        } dbtdh (CfrtifidbtfEndodingExdfption f) {
+            throw nfw IOExdfption("gftEndodfd fbilfd: " + f.gftMfssbgf());
+        }
+    }
+
+    privbtf syndhronizfd void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        throws IOExdfption {
+        try {
+            wrbppfdCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)
+                gftFbdtory().gfnfrbtfCfrtifidbtf(strfbm);
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            throw nfw IOExdfption("gfnfrbtfCfrtifidbtf fbilfd: " + f.gftMfssbgf());
+        }
+    }
+
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf gftX509Cfrtifidbtf() {
+        rfturn wrbppfdCfrt;
+    }
+}

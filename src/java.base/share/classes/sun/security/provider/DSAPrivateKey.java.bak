@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.util.*;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.ProviderException;
-import java.security.AlgorithmParameters;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.interfaces.DSAParams;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.AlgoritimPbrbmftfrs;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
 
-import sun.security.x509.AlgIdDSA;
-import sun.security.pkcs.PKCS8Key;
-import sun.security.util.Debug;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.sfdurity.x509.AlgIdDSA;
+import sun.sfdurity.pkds.PKCS8Kfy;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
 
 /**
- * A PKCS#8 private key for the Digital Signature Algorithm.
+ * A PKCS#8 privbtf kfy for tif Digitbl Signbturf Algoritim.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
  *
- * @see DSAPublicKey
- * @see AlgIdDSA
- * @see DSA
+ * @sff DSAPublidKfy
+ * @sff AlgIdDSA
+ * @sff DSA
  */
 
-public final class DSAPrivateKey extends PKCS8Key
-implements java.security.interfaces.DSAPrivateKey, Serializable {
+publid finbl dlbss DSAPrivbtfKfy fxtfnds PKCS8Kfy
+implfmfnts jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy, Sfriblizbblf {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -3244453684193605938L;
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3244453684193605938L;
 
-    /* the private key */
-    private BigInteger x;
+    /* tif privbtf kfy */
+    privbtf BigIntfgfr x;
 
     /*
-     * Keep this constructor for backwards compatibility with JDK1.1.
+     * Kffp tiis donstrudtor for bbdkwbrds dompbtibility witi JDK1.1.
      */
-    public DSAPrivateKey() {
+    publid DSAPrivbtfKfy() {
     }
 
     /**
-     * Make a DSA private key out of a private key and three parameters.
+     * Mbkf b DSA privbtf kfy out of b privbtf kfy bnd tirff pbrbmftfrs.
      */
-    public DSAPrivateKey(BigInteger x, BigInteger p,
-                         BigInteger q, BigInteger g)
-    throws InvalidKeyException {
-        this.x = x;
-        algid = new AlgIdDSA(p, q, g);
+    publid DSAPrivbtfKfy(BigIntfgfr x, BigIntfgfr p,
+                         BigIntfgfr q, BigIntfgfr g)
+    tirows InvblidKfyExdfption {
+        tiis.x = x;
+        blgid = nfw AlgIdDSA(p, q, g);
 
         try {
-            key = new DerValue(DerValue.tag_Integer,
-                               x.toByteArray()).toByteArray();
-            encode();
-        } catch (IOException e) {
-            InvalidKeyException ike = new InvalidKeyException(
-                "could not DER encode x: " + e.getMessage());
-            ike.initCause(e);
-            throw ike;
+            kfy = nfw DfrVbluf(DfrVbluf.tbg_Intfgfr,
+                               x.toBytfArrby()).toBytfArrby();
+            fndodf();
+        } dbtdi (IOExdfption f) {
+            InvblidKfyExdfption ikf = nfw InvblidKfyExdfption(
+                "dould not DER fndodf x: " + f.gftMfssbgf());
+            ikf.initCbusf(f);
+            tirow ikf;
         }
     }
 
     /**
-     * Make a DSA private key from its DER encoding (PKCS #8).
+     * Mbkf b DSA privbtf kfy from its DER fndoding (PKCS #8).
      */
-    public DSAPrivateKey(byte[] encoded) throws InvalidKeyException {
-        clearOldKey();
-        decode(encoded);
+    publid DSAPrivbtfKfy(bytf[] fndodfd) tirows InvblidKfyExdfption {
+        dlfbrOldKfy();
+        dfdodf(fndodfd);
     }
 
     /**
-     * Returns the DSA parameters associated with this key, or null if the
-     * parameters could not be parsed.
+     * Rfturns tif DSA pbrbmftfrs bssodibtfd witi tiis kfy, or null if tif
+     * pbrbmftfrs dould not bf pbrsfd.
      */
-    public DSAParams getParams() {
+    publid DSAPbrbms gftPbrbms() {
         try {
-            if (algid instanceof DSAParams) {
-                return (DSAParams)algid;
-            } else {
-                DSAParameterSpec paramSpec;
-                AlgorithmParameters algParams = algid.getParameters();
-                if (algParams == null) {
-                    return null;
+            if (blgid instbndfof DSAPbrbms) {
+                rfturn (DSAPbrbms)blgid;
+            } flsf {
+                DSAPbrbmftfrSpfd pbrbmSpfd;
+                AlgoritimPbrbmftfrs blgPbrbms = blgid.gftPbrbmftfrs();
+                if (blgPbrbms == null) {
+                    rfturn null;
                 }
-                paramSpec = algParams.getParameterSpec(DSAParameterSpec.class);
-                return (DSAParams)paramSpec;
+                pbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+                rfturn (DSAPbrbms)pbrbmSpfd;
             }
-        } catch (InvalidParameterSpecException e) {
-            return null;
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Get the raw private key, x, without the parameters.
+     * Gft tif rbw privbtf kfy, x, witiout tif pbrbmftfrs.
      *
-     * @see getParameters
+     * @sff gftPbrbmftfrs
      */
-    public BigInteger getX() {
-        return x;
+    publid BigIntfgfr gftX() {
+        rfturn x;
     }
 
-    private void clearOldKey() {
+    privbtf void dlfbrOldKfy() {
         int i;
-        if (this.encodedKey != null) {
-            for (i = 0; i < this.encodedKey.length; i++) {
-                this.encodedKey[i] = (byte)0x00;
+        if (tiis.fndodfdKfy != null) {
+            for (i = 0; i < tiis.fndodfdKfy.lfngti; i++) {
+                tiis.fndodfdKfy[i] = (bytf)0x00;
             }
         }
-        if (this.key != null) {
-            for (i = 0; i < this.key.length; i++) {
-                this.key[i] = (byte)0x00;
+        if (tiis.kfy != null) {
+            for (i = 0; i < tiis.kfy.lfngti; i++) {
+                tiis.kfy[i] = (bytf)0x00;
             }
         }
     }
 
-    protected void parseKeyBits() throws InvalidKeyException {
+    protfdtfd void pbrsfKfyBits() tirows InvblidKfyExdfption {
         try {
-            DerInputStream in = new DerInputStream(key);
-            x = in.getBigInteger();
-        } catch (IOException e) {
-            InvalidKeyException ike = new InvalidKeyException(e.getMessage());
-            ike.initCause(e);
-            throw ike;
+            DfrInputStrfbm in = nfw DfrInputStrfbm(kfy);
+            x = in.gftBigIntfgfr();
+        } dbtdi (IOExdfption f) {
+            InvblidKfyExdfption ikf = nfw InvblidKfyExdfption(f.gftMfssbgf());
+            ikf.initCbusf(f);
+            tirow ikf;
         }
     }
 }

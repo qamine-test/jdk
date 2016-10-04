@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * Represents the CRL Issuing Distribution Point Extension (OID = 2.5.29.28).
+ * Rfprfsfnts tif CRL Issuing Distribution Point Extfnsion (OID = 2.5.29.28).
  *
  * <p>
- * The issuing distribution point is a critical CRL extension that
- * identifies the CRL distribution point and scope for a particular CRL,
- * and it indicates whether the CRL covers revocation for end entity
- * certificates only, CA certificates only, attribute certificates only,
- * or a limited set of reason codes.
+ * Tif issuing distribution point is b dritidbl CRL fxtfnsion tibt
+ * idfntififs tif CRL distribution point bnd sdopf for b pbrtidulbr CRL,
+ * bnd it indidbtfs wiftifr tif CRL dovfrs rfvodbtion for fnd fntity
+ * dfrtifidbtfs only, CA dfrtifidbtfs only, bttributf dfrtifidbtfs only,
+ * or b limitfd sft of rfbson dodfs.
  *
  * <p>
- * The extension is defined in Section 5.2.5 of
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
-ate and Certificate Revocation List (CRL) Profile</a>.
+ * Tif fxtfnsion is dffinfd in Sfdtion 5.2.5 of
+ * <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">Intfrnft X.509 PKI Cfrtifid
+btf bnd Cfrtifidbtf Rfvodbtion List (CRL) Profilf</b>.
  *
  * <p>
- * Its ASN.1 definition is as follows:
- * <pre>
- *     id-ce-issuingDistributionPoint OBJECT IDENTIFIER ::= { id-ce 28 }
+ * Its ASN.1 dffinition is bs follows:
+ * <prf>
+ *     id-df-issuingDistributionPoint OBJECT IDENTIFIER ::= { id-df 28 }
  *
  *     issuingDistributionPoint ::= SEQUENCE {
- *          distributionPoint          [0] DistributionPointName OPTIONAL,
- *          onlyContainsUserCerts      [1] BOOLEAN DEFAULT FALSE,
- *          onlyContainsCACerts        [2] BOOLEAN DEFAULT FALSE,
- *          onlySomeReasons            [3] ReasonFlags OPTIONAL,
- *          indirectCRL                [4] BOOLEAN DEFAULT FALSE,
- *          onlyContainsAttributeCerts [5] BOOLEAN DEFAULT FALSE }
- * </pre>
+ *          distributionPoint          [0] DistributionPointNbmf OPTIONAL,
+ *          onlyContbinsUsfrCfrts      [1] BOOLEAN DEFAULT FALSE,
+ *          onlyContbinsCACfrts        [2] BOOLEAN DEFAULT FALSE,
+ *          onlySomfRfbsons            [3] RfbsonFlbgs OPTIONAL,
+ *          indirfdtCRL                [4] BOOLEAN DEFAULT FALSE,
+ *          onlyContbinsAttributfCfrts [5] BOOLEAN DEFAULT FALSE }
+ * </prf>
  *
- * @see DistributionPoint
- * @since 1.6
+ * @sff DistributionPoint
+ * @sindf 1.6
  */
-public class IssuingDistributionPointExtension extends Extension
-        implements CertAttrSet<String> {
+publid dlbss IssuingDistributionPointExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT =
-                                "x509.info.extensions.IssuingDistributionPoint";
+    publid stbtid finbl String IDENT =
+                                "x509.info.fxtfnsions.IssuingDistributionPoint";
 
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "IssuingDistributionPoint";
-    public static final String POINT = "point";
-    public static final String REASONS = "reasons";
-    public static final String ONLY_USER_CERTS = "only_user_certs";
-    public static final String ONLY_CA_CERTS = "only_ca_certs";
-    public static final String ONLY_ATTRIBUTE_CERTS = "only_attribute_certs";
-    public static final String INDIRECT_CRL = "indirect_crl";
+    publid stbtid finbl String NAME = "IssuingDistributionPoint";
+    publid stbtid finbl String POINT = "point";
+    publid stbtid finbl String REASONS = "rfbsons";
+    publid stbtid finbl String ONLY_USER_CERTS = "only_usfr_dfrts";
+    publid stbtid finbl String ONLY_CA_CERTS = "only_db_dfrts";
+    publid stbtid finbl String ONLY_ATTRIBUTE_CERTS = "only_bttributf_dfrts";
+    publid stbtid finbl String INDIRECT_CRL = "indirfdt_drl";
 
     /*
-     * The distribution point name for the CRL.
+     * Tif distribution point nbmf for tif CRL.
      */
-    private DistributionPointName distributionPoint = null;
+    privbtf DistributionPointNbmf distributionPoint = null;
 
     /*
-     * The scope settings for the CRL.
+     * Tif sdopf sfttings for tif CRL.
      */
-    private ReasonFlags revocationReasons = null;
-    private boolean hasOnlyUserCerts = false;
-    private boolean hasOnlyCACerts = false;
-    private boolean hasOnlyAttributeCerts = false;
-    private boolean isIndirectCRL = false;
+    privbtf RfbsonFlbgs rfvodbtionRfbsons = null;
+    privbtf boolfbn ibsOnlyUsfrCfrts = fblsf;
+    privbtf boolfbn ibsOnlyCACfrts = fblsf;
+    privbtf boolfbn ibsOnlyAttributfCfrts = fblsf;
+    privbtf boolfbn isIndirfdtCRL = fblsf;
 
     /*
-     * ASN.1 context specific tag values
+     * ASN.1 dontfxt spfdifid tbg vblufs
      */
-    private static final byte TAG_DISTRIBUTION_POINT = 0;
-    private static final byte TAG_ONLY_USER_CERTS = 1;
-    private static final byte TAG_ONLY_CA_CERTS = 2;
-    private static final byte TAG_ONLY_SOME_REASONS = 3;
-    private static final byte TAG_INDIRECT_CRL = 4;
-    private static final byte TAG_ONLY_ATTRIBUTE_CERTS = 5;
+    privbtf stbtid finbl bytf TAG_DISTRIBUTION_POINT = 0;
+    privbtf stbtid finbl bytf TAG_ONLY_USER_CERTS = 1;
+    privbtf stbtid finbl bytf TAG_ONLY_CA_CERTS = 2;
+    privbtf stbtid finbl bytf TAG_ONLY_SOME_REASONS = 3;
+    privbtf stbtid finbl bytf TAG_INDIRECT_CRL = 4;
+    privbtf stbtid finbl bytf TAG_ONLY_ATTRIBUTE_CERTS = 5;
 
     /**
-     * Creates a critical IssuingDistributionPointExtension.
+     * Crfbtfs b dritidbl IssuingDistributionPointExtfnsion.
      *
-     * @param distributionPoint the name of the distribution point, or null for
-     *        none.
-     * @param revocationReasons the revocation reasons associated with the
-     *        distribution point, or null for none.
-     * @param hasOnlyUserCerts if <code>true</code> then scope of the CRL
-     *        includes only user certificates.
-     * @param hasOnlyCACerts if <code>true</code> then scope of the CRL
-     *        includes only CA certificates.
-     * @param hasOnlyAttributeCerts if <code>true</code> then scope of the CRL
-     *        includes only attribute certificates.
-     * @param isIndirectCRL if <code>true</code> then the scope of the CRL
-     *        includes certificates issued by authorities other than the CRL
-     *        issuer. The responsible authority is indicated by a certificate
-     *        issuer CRL entry extension.
-     * @throws IllegalArgumentException if more than one of
-     *        <code>hasOnlyUserCerts</code>, <code>hasOnlyCACerts</code>,
-     *        <code>hasOnlyAttributeCerts</code> is set to <code>true</code>.
-     * @throws IOException on encoding error.
+     * @pbrbm distributionPoint tif nbmf of tif distribution point, or null for
+     *        nonf.
+     * @pbrbm rfvodbtionRfbsons tif rfvodbtion rfbsons bssodibtfd witi tif
+     *        distribution point, or null for nonf.
+     * @pbrbm ibsOnlyUsfrCfrts if <dodf>truf</dodf> tifn sdopf of tif CRL
+     *        indludfs only usfr dfrtifidbtfs.
+     * @pbrbm ibsOnlyCACfrts if <dodf>truf</dodf> tifn sdopf of tif CRL
+     *        indludfs only CA dfrtifidbtfs.
+     * @pbrbm ibsOnlyAttributfCfrts if <dodf>truf</dodf> tifn sdopf of tif CRL
+     *        indludfs only bttributf dfrtifidbtfs.
+     * @pbrbm isIndirfdtCRL if <dodf>truf</dodf> tifn tif sdopf of tif CRL
+     *        indludfs dfrtifidbtfs issufd by butioritifs otifr tibn tif CRL
+     *        issufr. Tif rfsponsiblf butiority is indidbtfd by b dfrtifidbtf
+     *        issufr CRL fntry fxtfnsion.
+     * @tirows IllfgblArgumfntExdfption if morf tibn onf of
+     *        <dodf>ibsOnlyUsfrCfrts</dodf>, <dodf>ibsOnlyCACfrts</dodf>,
+     *        <dodf>ibsOnlyAttributfCfrts</dodf> is sft to <dodf>truf</dodf>.
+     * @tirows IOExdfption on fndoding frror.
      */
-    public IssuingDistributionPointExtension(
-        DistributionPointName distributionPoint, ReasonFlags revocationReasons,
-        boolean hasOnlyUserCerts, boolean hasOnlyCACerts,
-        boolean hasOnlyAttributeCerts, boolean isIndirectCRL)
-            throws IOException {
+    publid IssuingDistributionPointExtfnsion(
+        DistributionPointNbmf distributionPoint, RfbsonFlbgs rfvodbtionRfbsons,
+        boolfbn ibsOnlyUsfrCfrts, boolfbn ibsOnlyCACfrts,
+        boolfbn ibsOnlyAttributfCfrts, boolfbn isIndirfdtCRL)
+            tirows IOExdfption {
 
-        if ((hasOnlyUserCerts && (hasOnlyCACerts || hasOnlyAttributeCerts)) ||
-            (hasOnlyCACerts && (hasOnlyUserCerts || hasOnlyAttributeCerts)) ||
-            (hasOnlyAttributeCerts && (hasOnlyUserCerts || hasOnlyCACerts))) {
-            throw new IllegalArgumentException(
-                "Only one of hasOnlyUserCerts, hasOnlyCACerts, " +
-                "hasOnlyAttributeCerts may be set to true");
+        if ((ibsOnlyUsfrCfrts && (ibsOnlyCACfrts || ibsOnlyAttributfCfrts)) ||
+            (ibsOnlyCACfrts && (ibsOnlyUsfrCfrts || ibsOnlyAttributfCfrts)) ||
+            (ibsOnlyAttributfCfrts && (ibsOnlyUsfrCfrts || ibsOnlyCACfrts))) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Only onf of ibsOnlyUsfrCfrts, ibsOnlyCACfrts, " +
+                "ibsOnlyAttributfCfrts mby bf sft to truf");
         }
-        this.extensionId = PKIXExtensions.IssuingDistributionPoint_Id;
-        this.critical = true;
-        this.distributionPoint = distributionPoint;
-        this.revocationReasons = revocationReasons;
-        this.hasOnlyUserCerts = hasOnlyUserCerts;
-        this.hasOnlyCACerts = hasOnlyCACerts;
-        this.hasOnlyAttributeCerts = hasOnlyAttributeCerts;
-        this.isIndirectCRL = isIndirectCRL;
-        encodeThis();
+        tiis.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+        tiis.dritidbl = truf;
+        tiis.distributionPoint = distributionPoint;
+        tiis.rfvodbtionRfbsons = rfvodbtionRfbsons;
+        tiis.ibsOnlyUsfrCfrts = ibsOnlyUsfrCfrts;
+        tiis.ibsOnlyCACfrts = ibsOnlyCACfrts;
+        tiis.ibsOnlyAttributfCfrts = ibsOnlyAttributfCfrts;
+        tiis.isIndirfdtCRL = isIndirfdtCRL;
+        fndodfTiis();
     }
 
     /**
-     * Creates a critical IssuingDistributionPointExtension from its
-     * DER-encoding.
+     * Crfbtfs b dritidbl IssuingDistributionPointExtfnsion from its
+     * DER-fndoding.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value the DER-encoded value. It must be a <code>byte[]</code>.
-     * @exception IOException on decoding error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf tif DER-fndodfd vbluf. It must bf b <dodf>bytf[]</dodf>.
+     * @fxdfption IOExdfption on dfdoding frror.
      */
-    public IssuingDistributionPointExtension(Boolean critical, Object value)
-            throws IOException {
-        this.extensionId = PKIXExtensions.IssuingDistributionPoint_Id;
-        this.critical = critical.booleanValue();
+    publid IssuingDistributionPointExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+            tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-        if (!(value instanceof byte[])) {
-            throw new IOException("Illegal argument type");
+        if (!(vbluf instbndfof bytf[])) {
+            tirow nfw IOExdfption("Illfgbl brgumfnt typf");
         }
 
-        extensionValue = (byte[])value;
-        DerValue val = new DerValue(extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
-                                  "IssuingDistributionPointExtension.");
+        fxtfnsionVbluf = (bytf[])vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for " +
+                                  "IssuingDistributionPointExtfnsion.");
         }
 
-        // All the elements in issuingDistributionPoint are optional
-        if ((val.data == null) || (val.data.available() == 0)) {
-            return;
+        // All tif flfmfnts in issuingDistributionPoint brf optionbl
+        if ((vbl.dbtb == null) || (vbl.dbtb.bvbilbblf() == 0)) {
+            rfturn;
         }
 
-        DerInputStream in = val.data;
-        while (in != null && in.available() != 0) {
-            DerValue opt = in.getDerValue();
+        DfrInputStrfbm in = vbl.dbtb;
+        wiilf (in != null && in.bvbilbblf() != 0) {
+            DfrVbluf opt = in.gftDfrVbluf();
 
-            if (opt.isContextSpecific(TAG_DISTRIBUTION_POINT) &&
-                opt.isConstructed()) {
+            if (opt.isContfxtSpfdifid(TAG_DISTRIBUTION_POINT) &&
+                opt.isConstrudtfd()) {
                 distributionPoint =
-                    new DistributionPointName(opt.data.getDerValue());
-            } else if (opt.isContextSpecific(TAG_ONLY_USER_CERTS) &&
-                       !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Boolean);
-                hasOnlyUserCerts = opt.getBoolean();
-            } else if (opt.isContextSpecific(TAG_ONLY_CA_CERTS) &&
-                  !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Boolean);
-                hasOnlyCACerts = opt.getBoolean();
-            } else if (opt.isContextSpecific(TAG_ONLY_SOME_REASONS) &&
-                       !opt.isConstructed()) {
-                revocationReasons = new ReasonFlags(opt); // expects tag implicit
-            } else if (opt.isContextSpecific(TAG_INDIRECT_CRL) &&
-                       !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Boolean);
-                isIndirectCRL = opt.getBoolean();
-            } else if (opt.isContextSpecific(TAG_ONLY_ATTRIBUTE_CERTS) &&
-                       !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Boolean);
-                hasOnlyAttributeCerts = opt.getBoolean();
-            } else {
-                throw new IOException
-                    ("Invalid encoding of IssuingDistributionPoint");
+                    nfw DistributionPointNbmf(opt.dbtb.gftDfrVbluf());
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_USER_CERTS) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                ibsOnlyUsfrCfrts = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_CA_CERTS) &&
+                  !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                ibsOnlyCACfrts = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_SOME_REASONS) &&
+                       !opt.isConstrudtfd()) {
+                rfvodbtionRfbsons = nfw RfbsonFlbgs(opt); // fxpfdts tbg implidit
+            } flsf if (opt.isContfxtSpfdifid(TAG_INDIRECT_CRL) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                isIndirfdtCRL = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_ATTRIBUTE_CERTS) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                ibsOnlyAttributfCfrts = opt.gftBoolfbn();
+            } flsf {
+                tirow nfw IOExdfption
+                    ("Invblid fndoding of IssuingDistributionPoint");
             }
         }
     }
 
     /**
-     * Returns the name of this attribute.
+     * Rfturns tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return NAME;
+    publid String gftNbmf() {
+        rfturn NAME;
     }
 
     /**
-     * Encodes the issuing distribution point extension and writes it to the
-     * DerOutputStream.
+     * Endodfs tif issuing distribution point fxtfnsion bnd writfs it to tif
+     * DfrOutputStrfbm.
      *
-     * @param out the output stream.
-     * @exception IOException on encoding error.
+     * @pbrbm out tif output strfbm.
+     * @fxdfption IOExdfption on fndoding frror.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.IssuingDistributionPoint_Id;
-            this.critical = false;
-            encodeThis();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+            tiis.dritidbl = fblsf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Sets the attribute value.
+     * Sfts tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(POINT)) {
-            if (!(obj instanceof DistributionPointName)) {
-                throw new IOException(
-                    "Attribute value should be of type DistributionPointName.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
+            if (!(obj instbndfof DistributionPointNbmf)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf DistributionPointNbmf.");
             }
-            distributionPoint = (DistributionPointName)obj;
+            distributionPoint = (DistributionPointNbmf)obj;
 
-        } else if (name.equalsIgnoreCase(REASONS)) {
-            if (!(obj instanceof ReasonFlags)) {
-                throw new IOException(
-                    "Attribute value should be of type ReasonFlags.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            if (!(obj instbndfof RfbsonFlbgs)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf RfbsonFlbgs.");
             }
 
-        } else if (name.equalsIgnoreCase(INDIRECT_CRL)) {
-            if (!(obj instanceof Boolean)) {
-                throw new IOException(
-                    "Attribute value should be of type Boolean.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            if (!(obj instbndfof Boolfbn)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf Boolfbn.");
             }
-            isIndirectCRL = ((Boolean)obj).booleanValue();
+            isIndirfdtCRL = ((Boolfbn)obj).boolfbnVbluf();
 
-        } else if (name.equalsIgnoreCase(ONLY_USER_CERTS)) {
-            if (!(obj instanceof Boolean)) {
-                throw new IOException(
-                    "Attribute value should be of type Boolean.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf Boolfbn.");
             }
-            hasOnlyUserCerts = ((Boolean)obj).booleanValue();
+            ibsOnlyUsfrCfrts = ((Boolfbn)obj).boolfbnVbluf();
 
-        } else if (name.equalsIgnoreCase(ONLY_CA_CERTS)) {
-            if (!(obj instanceof Boolean)) {
-                throw new IOException(
-                    "Attribute value should be of type Boolean.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf Boolfbn.");
             }
-            hasOnlyCACerts = ((Boolean)obj).booleanValue();
+            ibsOnlyCACfrts = ((Boolfbn)obj).boolfbnVbluf();
 
-        } else if (name.equalsIgnoreCase(ONLY_ATTRIBUTE_CERTS)) {
-            if (!(obj instanceof Boolean)) {
-                throw new IOException(
-                    "Attribute value should be of type Boolean.");
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                tirow nfw IOExdfption(
+                    "Attributf vbluf siould bf of typf Boolfbn.");
             }
-            hasOnlyAttributeCerts = ((Boolean)obj).booleanValue();
+            ibsOnlyAttributfCfrts = ((Boolfbn)obj).boolfbnVbluf();
 
 
-        } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by " +
-                "CertAttrSet:IssuingDistributionPointExtension.");
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Gets the attribute value.
+     * Gfts tif bttributf vbluf.
      */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINT)) {
-            return distributionPoint;
+    publid Objfdt gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
+            rfturn distributionPoint;
 
-        } else if (name.equalsIgnoreCase(INDIRECT_CRL)) {
-            return Boolean.valueOf(isIndirectCRL);
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            rfturn Boolfbn.vblufOf(isIndirfdtCRL);
 
-        } else if (name.equalsIgnoreCase(REASONS)) {
-            return revocationReasons;
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            rfturn rfvodbtionRfbsons;
 
-        } else if (name.equalsIgnoreCase(ONLY_USER_CERTS)) {
-            return Boolean.valueOf(hasOnlyUserCerts);
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            rfturn Boolfbn.vblufOf(ibsOnlyUsfrCfrts);
 
-        } else if (name.equalsIgnoreCase(ONLY_CA_CERTS)) {
-            return Boolean.valueOf(hasOnlyCACerts);
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            rfturn Boolfbn.vblufOf(ibsOnlyCACfrts);
 
-        } else if (name.equalsIgnoreCase(ONLY_ATTRIBUTE_CERTS)) {
-            return Boolean.valueOf(hasOnlyAttributeCerts);
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            rfturn Boolfbn.vblufOf(ibsOnlyAttributfCfrts);
 
-        } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by " +
-                "CertAttrSet:IssuingDistributionPointExtension.");
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
         }
     }
 
     /**
-     * Deletes the attribute value.
+     * Dflftfs tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(POINT)) {
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
             distributionPoint = null;
 
-        } else if (name.equalsIgnoreCase(INDIRECT_CRL)) {
-            isIndirectCRL = false;
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            isIndirfdtCRL = fblsf;
 
-        } else if (name.equalsIgnoreCase(REASONS)) {
-            revocationReasons = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            rfvodbtionRfbsons = null;
 
-        } else if (name.equalsIgnoreCase(ONLY_USER_CERTS)) {
-            hasOnlyUserCerts = false;
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            ibsOnlyUsfrCfrts = fblsf;
 
-        } else if (name.equalsIgnoreCase(ONLY_CA_CERTS)) {
-            hasOnlyCACerts = false;
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            ibsOnlyCACfrts = fblsf;
 
-        } else if (name.equalsIgnoreCase(ONLY_ATTRIBUTE_CERTS)) {
-            hasOnlyAttributeCerts = false;
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            ibsOnlyAttributfCfrts = fblsf;
 
-        } else {
-            throw new IOException("Attribute name [" + name +
-                "] not recognized by " +
-                "CertAttrSet:IssuingDistributionPointExtension.");
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Returns an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturns bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(POINT);
-        elements.addElement(REASONS);
-        elements.addElement(ONLY_USER_CERTS);
-        elements.addElement(ONLY_CA_CERTS);
-        elements.addElement(ONLY_ATTRIBUTE_CERTS);
-        elements.addElement(INDIRECT_CRL);
-        return elements.elements();
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(POINT);
+        flfmfnts.bddElfmfnt(REASONS);
+        flfmfnts.bddElfmfnt(ONLY_USER_CERTS);
+        flfmfnts.bddElfmfnt(ONLY_CA_CERTS);
+        flfmfnts.bddElfmfnt(ONLY_ATTRIBUTE_CERTS);
+        flfmfnts.bddElfmfnt(INDIRECT_CRL);
+        rfturn flfmfnts.flfmfnts();
     }
 
-     // Encodes this extension value
-    private void encodeThis() throws IOException {
+     // Endodfs tiis fxtfnsion vbluf
+    privbtf void fndodfTiis() tirows IOExdfption {
 
         if (distributionPoint == null &&
-            revocationReasons == null &&
-            !hasOnlyUserCerts &&
-            !hasOnlyCACerts &&
-            !hasOnlyAttributeCerts &&
-            !isIndirectCRL) {
+            rfvodbtionRfbsons == null &&
+            !ibsOnlyUsfrCfrts &&
+            !ibsOnlyCACfrts &&
+            !ibsOnlyAttributfCfrts &&
+            !isIndirfdtCRL) {
 
-            this.extensionValue = null;
-            return;
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
 
         }
 
-        DerOutputStream tagged = new DerOutputStream();
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
 
         if (distributionPoint != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            distributionPoint.encode(tmp);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, true,
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            distributionPoint.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
                 TAG_DISTRIBUTION_POINT), tmp);
         }
 
-        if (hasOnlyUserCerts) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putBoolean(hasOnlyUserCerts);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, false,
+        if (ibsOnlyUsfrCfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(ibsOnlyUsfrCfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
                 TAG_ONLY_USER_CERTS), tmp);
         }
 
-        if (hasOnlyCACerts) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putBoolean(hasOnlyCACerts);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, false,
+        if (ibsOnlyCACfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(ibsOnlyCACfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
                 TAG_ONLY_CA_CERTS), tmp);
         }
 
-        if (revocationReasons != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            revocationReasons.encode(tmp);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, false,
+        if (rfvodbtionRfbsons != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            rfvodbtionRfbsons.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
                 TAG_ONLY_SOME_REASONS), tmp);
         }
 
-        if (isIndirectCRL) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putBoolean(isIndirectCRL);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, false,
+        if (isIndirfdtCRL) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(isIndirfdtCRL);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
                 TAG_INDIRECT_CRL), tmp);
         }
 
-        if (hasOnlyAttributeCerts) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putBoolean(hasOnlyAttributeCerts);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT, false,
+        if (ibsOnlyAttributfCfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(ibsOnlyAttributfCfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
                 TAG_ONLY_ATTRIBUTE_CERTS), tmp);
         }
 
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        tiis.fxtfnsionVbluf = sfq.toBytfArrby();
     }
 
     /**
-     * Returns the extension as user readable string.
+     * Rfturns tif fxtfnsion bs usfr rfbdbblf string.
      */
-    public String toString() {
+    publid String toString() {
 
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("IssuingDistributionPoint [\n  ");
+        StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+        sb.bppfnd("IssuingDistributionPoint [\n  ");
 
         if (distributionPoint != null) {
-            sb.append(distributionPoint);
+            sb.bppfnd(distributionPoint);
         }
 
-        if (revocationReasons != null) {
-            sb.append(revocationReasons);
+        if (rfvodbtionRfbsons != null) {
+            sb.bppfnd(rfvodbtionRfbsons);
         }
 
-        sb.append((hasOnlyUserCerts)
-                ? ("  Only contains user certs: true")
-                : ("  Only contains user certs: false")).append("\n");
+        sb.bppfnd((ibsOnlyUsfrCfrts)
+                ? ("  Only dontbins usfr dfrts: truf")
+                : ("  Only dontbins usfr dfrts: fblsf")).bppfnd("\n");
 
-        sb.append((hasOnlyCACerts)
-                ? ("  Only contains CA certs: true")
-                : ("  Only contains CA certs: false")).append("\n");
+        sb.bppfnd((ibsOnlyCACfrts)
+                ? ("  Only dontbins CA dfrts: truf")
+                : ("  Only dontbins CA dfrts: fblsf")).bppfnd("\n");
 
-        sb.append((hasOnlyAttributeCerts)
-                ? ("  Only contains attribute certs: true")
-                : ("  Only contains attribute certs: false")).append("\n");
+        sb.bppfnd((ibsOnlyAttributfCfrts)
+                ? ("  Only dontbins bttributf dfrts: truf")
+                : ("  Only dontbins bttributf dfrts: fblsf")).bppfnd("\n");
 
-        sb.append((isIndirectCRL)
-                ? ("  Indirect CRL: true")
-                : ("  Indirect CRL: false")).append("\n");
+        sb.bppfnd((isIndirfdtCRL)
+                ? ("  Indirfdt CRL: truf")
+                : ("  Indirfdt CRL: fblsf")).bppfnd("\n");
 
-        sb.append("]\n");
+        sb.bppfnd("]\n");
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

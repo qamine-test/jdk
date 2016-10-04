@@ -1,388 +1,388 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
 /**
- * This class represents a datagram packet.
+ * Tiis dlbss rfprfsfnts b dbtbgrbm pbdkft.
  * <p>
- * Datagram packets are used to implement a connectionless packet
- * delivery service. Each message is routed from one machine to
- * another based solely on information contained within that packet.
- * Multiple packets sent from one machine to another might be routed
- * differently, and might arrive in any order. Packet delivery is
- * not guaranteed.
+ * Dbtbgrbm pbdkfts brf usfd to implfmfnt b donnfdtionlfss pbdkft
+ * dflivfry sfrvidf. Ebdi mfssbgf is routfd from onf mbdiinf to
+ * bnotifr bbsfd solfly on informbtion dontbinfd witiin tibt pbdkft.
+ * Multiplf pbdkfts sfnt from onf mbdiinf to bnotifr migit bf routfd
+ * difffrfntly, bnd migit brrivf in bny ordfr. Pbdkft dflivfry is
+ * not gubrbntffd.
  *
- * @author  Pavani Diwanji
- * @author  Benjamin Renaud
- * @since   1.0
+ * @butior  Pbvbni Diwbnji
+ * @butior  Bfnjbmin Rfnbud
+ * @sindf   1.0
  */
-public final
-class DatagramPacket {
+publid finbl
+dlbss DbtbgrbmPbdkft {
 
     /**
-     * Perform class initialization
+     * Pfrform dlbss initiblizbtion
      */
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("net");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
                 }
             });
         init();
     }
 
     /*
-     * The fields of this class are package-private since DatagramSocketImpl
-     * classes needs to access them.
+     * Tif fiflds of tiis dlbss brf pbdkbgf-privbtf sindf DbtbgrbmSodkftImpl
+     * dlbssfs nffds to bddfss tifm.
      */
-    byte[] buf;
-    int offset;
-    int length;
-    int bufLength;
-    InetAddress address;
+    bytf[] buf;
+    int offsft;
+    int lfngti;
+    int bufLfngti;
+    InftAddrfss bddrfss;
     int port;
 
     /**
-     * Constructs a {@code DatagramPacket} for receiving packets of
-     * length {@code length}, specifying an offset into the buffer.
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngti {@dodf lfngti}, spfdifying bn offsft into tif bufffr.
      * <p>
-     * The {@code length} argument must be less than or equal to
-     * {@code buf.length}.
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
      *
-     * @param   buf      buffer for holding the incoming datagram.
-     * @param   offset   the offset for the buffer
-     * @param   length   the number of bytes to read.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   offsft   tif offsft for tif bufffr
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public DatagramPacket(byte buf[], int offset, int length) {
-        setData(buf, offset, length);
-        this.address = null;
-        this.port = -1;
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti) {
+        sftDbtb(buf, offsft, lfngti);
+        tiis.bddrfss = null;
+        tiis.port = -1;
     }
 
     /**
-     * Constructs a {@code DatagramPacket} for receiving packets of
-     * length {@code length}.
+     * Construdts b {@dodf DbtbgrbmPbdkft} for rfdfiving pbdkfts of
+     * lfngti {@dodf lfngti}.
      * <p>
-     * The {@code length} argument must be less than or equal to
-     * {@code buf.length}.
+     * Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
      *
-     * @param   buf      buffer for holding the incoming datagram.
-     * @param   length   the number of bytes to read.
+     * @pbrbm   buf      bufffr for iolding tif indoming dbtbgrbm.
+     * @pbrbm   lfngti   tif numbfr of bytfs to rfbd.
      */
-    public DatagramPacket(byte buf[], int length) {
-        this (buf, 0, length);
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti) {
+        tiis (buf, 0, lfngti);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
-     * {@code length} with offset {@code ioffset}to the
-     * specified port number on the specified host. The
-     * {@code length} argument must be less than or equal to
-     * {@code buf.length}.
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
      *
-     * @param   buf      the packet data.
-     * @param   offset   the packet data offset.
-     * @param   length   the packet data length.
-     * @param   address  the destination address.
-     * @param   port     the destination port number.
-     * @see java.net.InetAddress
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @sff jbvb.nft.InftAddrfss
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public DatagramPacket(byte buf[], int offset, int length,
-                          InetAddress address, int port) {
-        setData(buf, offset, length);
-        setAddress(address);
-        setPort(port);
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti,
+                          InftAddrfss bddrfss, int port) {
+        sftDbtb(buf, offsft, lfngti);
+        sftAddrfss(bddrfss);
+        sftPort(port);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
-     * {@code length} with offset {@code ioffset}to the
-     * specified port number on the specified host. The
-     * {@code length} argument must be less than or equal to
-     * {@code buf.length}.
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} witi offsft {@dodf ioffsft}to tif
+     * spfdififd port numbfr on tif spfdififd iost. Tif
+     * {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl to
+     * {@dodf buf.lfngti}.
      *
-     * @param   buf      the packet data.
-     * @param   offset   the packet data offset.
-     * @param   length   the packet data length.
-     * @param   address  the destination socket address.
-     * @throws  IllegalArgumentException if address type is not supported
-     * @see java.net.InetAddress
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   offsft   tif pbdkft dbtb offsft.
+     * @pbrbm   lfngti   tif pbdkft dbtb lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion sodkft bddrfss.
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sff jbvb.nft.InftAddrfss
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public DatagramPacket(byte buf[], int offset, int length, SocketAddress address) {
-        setData(buf, offset, length);
-        setSocketAddress(address);
+    publid DbtbgrbmPbdkft(bytf buf[], int offsft, int lfngti, SodkftAddrfss bddrfss) {
+        sftDbtb(buf, offsft, lfngti);
+        sftSodkftAddrfss(bddrfss);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
-     * {@code length} to the specified port number on the specified
-     * host. The {@code length} argument must be less than or equal
-     * to {@code buf.length}.
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * to {@dodf buf.lfngti}.
      *
-     * @param   buf      the packet data.
-     * @param   length   the packet length.
-     * @param   address  the destination address.
-     * @param   port     the destination port number.
-     * @see     java.net.InetAddress
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @pbrbm   port     tif dfstinbtion port numbfr.
+     * @sff     jbvb.nft.InftAddrfss
      */
-    public DatagramPacket(byte buf[], int length,
-                          InetAddress address, int port) {
-        this(buf, 0, length, address, port);
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti,
+                          InftAddrfss bddrfss, int port) {
+        tiis(buf, 0, lfngti, bddrfss, port);
     }
 
     /**
-     * Constructs a datagram packet for sending packets of length
-     * {@code length} to the specified port number on the specified
-     * host. The {@code length} argument must be less than or equal
-     * to {@code buf.length}.
+     * Construdts b dbtbgrbm pbdkft for sfnding pbdkfts of lfngti
+     * {@dodf lfngti} to tif spfdififd port numbfr on tif spfdififd
+     * iost. Tif {@dodf lfngti} brgumfnt must bf lfss tibn or fqubl
+     * to {@dodf buf.lfngti}.
      *
-     * @param   buf      the packet data.
-     * @param   length   the packet length.
-     * @param   address  the destination address.
-     * @throws  IllegalArgumentException if address type is not supported
-     * @since 1.4
-     * @see     java.net.InetAddress
+     * @pbrbm   buf      tif pbdkft dbtb.
+     * @pbrbm   lfngti   tif pbdkft lfngti.
+     * @pbrbm   bddrfss  tif dfstinbtion bddrfss.
+     * @tirows  IllfgblArgumfntExdfption if bddrfss typf is not supportfd
+     * @sindf 1.4
+     * @sff     jbvb.nft.InftAddrfss
      */
-    public DatagramPacket(byte buf[], int length, SocketAddress address) {
-        this(buf, 0, length, address);
+    publid DbtbgrbmPbdkft(bytf buf[], int lfngti, SodkftAddrfss bddrfss) {
+        tiis(buf, 0, lfngti, bddrfss);
     }
 
     /**
-     * Returns the IP address of the machine to which this datagram is being
-     * sent or from which the datagram was received.
+     * Rfturns tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     * sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
      *
-     * @return  the IP address of the machine to which this datagram is being
-     *          sent or from which the datagram was received.
-     * @see     java.net.InetAddress
-     * @see #setAddress(java.net.InetAddress)
+     * @rfturn  tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm is bfing
+     *          sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * @sff     jbvb.nft.InftAddrfss
+     * @sff #sftAddrfss(jbvb.nft.InftAddrfss)
      */
-    public synchronized InetAddress getAddress() {
-        return address;
+    publid syndironizfd InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
     }
 
     /**
-     * Returns the port number on the remote host to which this datagram is
-     * being sent or from which the datagram was received.
+     * Rfturns tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     * bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
      *
-     * @return  the port number on the remote host to which this datagram is
-     *          being sent or from which the datagram was received.
-     * @see #setPort(int)
+     * @rfturn  tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm is
+     *          bfing sfnt or from wiidi tif dbtbgrbm wbs rfdfivfd.
+     * @sff #sftPort(int)
      */
-    public synchronized int getPort() {
-        return port;
+    publid syndironizfd int gftPort() {
+        rfturn port;
     }
 
     /**
-     * Returns the data buffer. The data received or the data to be sent
-     * starts from the {@code offset} in the buffer,
-     * and runs for {@code length} long.
+     * Rfturns tif dbtb bufffr. Tif dbtb rfdfivfd or tif dbtb to bf sfnt
+     * stbrts from tif {@dodf offsft} in tif bufffr,
+     * bnd runs for {@dodf lfngti} long.
      *
-     * @return  the buffer used to receive or  send data
-     * @see #setData(byte[], int, int)
+     * @rfturn  tif bufffr usfd to rfdfivf or  sfnd dbtb
+     * @sff #sftDbtb(bytf[], int, int)
      */
-    public synchronized byte[] getData() {
-        return buf;
+    publid syndironizfd bytf[] gftDbtb() {
+        rfturn buf;
     }
 
     /**
-     * Returns the offset of the data to be sent or the offset of the
-     * data received.
+     * Rfturns tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     * dbtb rfdfivfd.
      *
-     * @return  the offset of the data to be sent or the offset of the
-     *          data received.
+     * @rfturn  tif offsft of tif dbtb to bf sfnt or tif offsft of tif
+     *          dbtb rfdfivfd.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public synchronized int getOffset() {
-        return offset;
+    publid syndironizfd int gftOffsft() {
+        rfturn offsft;
     }
 
     /**
-     * Returns the length of the data to be sent or the length of the
-     * data received.
+     * Rfturns tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     * dbtb rfdfivfd.
      *
-     * @return  the length of the data to be sent or the length of the
-     *          data received.
-     * @see #setLength(int)
+     * @rfturn  tif lfngti of tif dbtb to bf sfnt or tif lfngti of tif
+     *          dbtb rfdfivfd.
+     * @sff #sftLfngti(int)
      */
-    public synchronized int getLength() {
-        return length;
+    publid syndironizfd int gftLfngti() {
+        rfturn lfngti;
     }
 
     /**
-     * Set the data buffer for this packet. This sets the
-     * data, length and offset of the packet.
+     * Sft tif dbtb bufffr for tiis pbdkft. Tiis sfts tif
+     * dbtb, lfngti bnd offsft of tif pbdkft.
      *
-     * @param buf the buffer to set for this packet
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft
      *
-     * @param offset the offset into the data
+     * @pbrbm offsft tif offsft into tif dbtb
      *
-     * @param length the length of the data
-     *       and/or the length of the buffer used to receive data
+     * @pbrbm lfngti tif lfngti of tif dbtb
+     *       bnd/or tif lfngti of tif bufffr usfd to rfdfivf dbtb
      *
-     * @exception NullPointerException if the argument is null
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null
      *
-     * @see #getData
-     * @see #getOffset
-     * @see #getLength
+     * @sff #gftDbtb
+     * @sff #gftOffsft
+     * @sff #gftLfngti
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public synchronized void setData(byte[] buf, int offset, int length) {
-        /* this will check to see if buf is null */
-        if (length < 0 || offset < 0 ||
-            (length + offset) < 0 ||
-            ((length + offset) > buf.length)) {
-            throw new IllegalArgumentException("illegal length or offset");
+    publid syndironizfd void sftDbtb(bytf[] buf, int offsft, int lfngti) {
+        /* tiis will difdk to sff if buf is null */
+        if (lfngti < 0 || offsft < 0 ||
+            (lfngti + offsft) < 0 ||
+            ((lfngti + offsft) > buf.lfngti)) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti or offsft");
         }
-        this.buf = buf;
-        this.length = length;
-        this.bufLength = length;
-        this.offset = offset;
+        tiis.buf = buf;
+        tiis.lfngti = lfngti;
+        tiis.bufLfngti = lfngti;
+        tiis.offsft = offsft;
     }
 
     /**
-     * Sets the IP address of the machine to which this datagram
-     * is being sent.
-     * @param iaddr the {@code InetAddress}
-     * @since   1.1
-     * @see #getAddress()
+     * Sfts tif IP bddrfss of tif mbdiinf to wiidi tiis dbtbgrbm
+     * is bfing sfnt.
+     * @pbrbm ibddr tif {@dodf InftAddrfss}
+     * @sindf   1.1
+     * @sff #gftAddrfss()
      */
-    public synchronized void setAddress(InetAddress iaddr) {
-        address = iaddr;
+    publid syndironizfd void sftAddrfss(InftAddrfss ibddr) {
+        bddrfss = ibddr;
     }
 
     /**
-     * Sets the port number on the remote host to which this datagram
-     * is being sent.
-     * @param iport the port number
-     * @since   1.1
-     * @see #getPort()
+     * Sfts tif port numbfr on tif rfmotf iost to wiidi tiis dbtbgrbm
+     * is bfing sfnt.
+     * @pbrbm iport tif port numbfr
+     * @sindf   1.1
+     * @sff #gftPort()
      */
-    public synchronized void setPort(int iport) {
+    publid syndironizfd void sftPort(int iport) {
         if (iport < 0 || iport > 0xFFFF) {
-            throw new IllegalArgumentException("Port out of range:"+ iport);
+            tirow nfw IllfgblArgumfntExdfption("Port out of rbngf:"+ iport);
         }
         port = iport;
     }
 
     /**
-     * Sets the SocketAddress (usually IP address + port number) of the remote
-     * host to which this datagram is being sent.
+     * Sfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * iost to wiidi tiis dbtbgrbm is bfing sfnt.
      *
-     * @param address the {@code SocketAddress}
-     * @throws  IllegalArgumentException if address is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm bddrfss tif {@dodf SodkftAddrfss}
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
      *
-     * @since 1.4
-     * @see #getSocketAddress
+     * @sindf 1.4
+     * @sff #gftSodkftAddrfss
      */
-    public synchronized void setSocketAddress(SocketAddress address) {
-        if (address == null || !(address instanceof InetSocketAddress))
-            throw new IllegalArgumentException("unsupported address type");
-        InetSocketAddress addr = (InetSocketAddress) address;
-        if (addr.isUnresolved())
-            throw new IllegalArgumentException("unresolved address");
-        setAddress(addr.getAddress());
-        setPort(addr.getPort());
+    publid syndironizfd void sftSodkftAddrfss(SodkftAddrfss bddrfss) {
+        if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+        InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+        if (bddr.isUnrfsolvfd())
+            tirow nfw IllfgblArgumfntExdfption("unrfsolvfd bddrfss");
+        sftAddrfss(bddr.gftAddrfss());
+        sftPort(bddr.gftPort());
     }
 
     /**
-     * Gets the SocketAddress (usually IP address + port number) of the remote
-     * host that this packet is being sent to or is coming from.
+     * Gfts tif SodkftAddrfss (usublly IP bddrfss + port numbfr) of tif rfmotf
+     * iost tibt tiis pbdkft is bfing sfnt to or is doming from.
      *
-     * @return the {@code SocketAddress}
-     * @since 1.4
-     * @see #setSocketAddress
+     * @rfturn tif {@dodf SodkftAddrfss}
+     * @sindf 1.4
+     * @sff #sftSodkftAddrfss
      */
-    public synchronized SocketAddress getSocketAddress() {
-        return new InetSocketAddress(getAddress(), getPort());
+    publid syndironizfd SodkftAddrfss gftSodkftAddrfss() {
+        rfturn nfw InftSodkftAddrfss(gftAddrfss(), gftPort());
     }
 
     /**
-     * Set the data buffer for this packet. With the offset of
-     * this DatagramPacket set to 0, and the length set to
-     * the length of {@code buf}.
+     * Sft tif dbtb bufffr for tiis pbdkft. Witi tif offsft of
+     * tiis DbtbgrbmPbdkft sft to 0, bnd tif lfngti sft to
+     * tif lfngti of {@dodf buf}.
      *
-     * @param buf the buffer to set for this packet.
+     * @pbrbm buf tif bufffr to sft for tiis pbdkft.
      *
-     * @exception NullPointerException if the argument is null.
+     * @fxdfption NullPointfrExdfption if tif brgumfnt is null.
      *
-     * @see #getLength
-     * @see #getData
+     * @sff #gftLfngti
+     * @sff #gftDbtb
      *
-     * @since 1.1
+     * @sindf 1.1
      */
-    public synchronized void setData(byte[] buf) {
+    publid syndironizfd void sftDbtb(bytf[] buf) {
         if (buf == null) {
-            throw new NullPointerException("null packet buffer");
+            tirow nfw NullPointfrExdfption("null pbdkft bufffr");
         }
-        this.buf = buf;
-        this.offset = 0;
-        this.length = buf.length;
-        this.bufLength = buf.length;
+        tiis.buf = buf;
+        tiis.offsft = 0;
+        tiis.lfngti = buf.lfngti;
+        tiis.bufLfngti = buf.lfngti;
     }
 
     /**
-     * Set the length for this packet. The length of the packet is
-     * the number of bytes from the packet's data buffer that will be
-     * sent, or the number of bytes of the packet's data buffer that
-     * will be used for receiving data. The length must be lesser or
-     * equal to the offset plus the length of the packet's buffer.
+     * Sft tif lfngti for tiis pbdkft. Tif lfngti of tif pbdkft is
+     * tif numbfr of bytfs from tif pbdkft's dbtb bufffr tibt will bf
+     * sfnt, or tif numbfr of bytfs of tif pbdkft's dbtb bufffr tibt
+     * will bf usfd for rfdfiving dbtb. Tif lfngti must bf lfssfr or
+     * fqubl to tif offsft plus tif lfngti of tif pbdkft's bufffr.
      *
-     * @param length the length to set for this packet.
+     * @pbrbm lfngti tif lfngti to sft for tiis pbdkft.
      *
-     * @exception IllegalArgumentException if the length is negative
-     * of if the length is greater than the packet's data buffer
-     * length.
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti is nfgbtivf
+     * of if tif lfngti is grfbtfr tibn tif pbdkft's dbtb bufffr
+     * lfngti.
      *
-     * @see #getLength
-     * @see #setData
+     * @sff #gftLfngti
+     * @sff #sftDbtb
      *
-     * @since 1.1
+     * @sindf 1.1
      */
-    public synchronized void setLength(int length) {
-        if ((length + offset) > buf.length || length < 0 ||
-            (length + offset) < 0) {
-            throw new IllegalArgumentException("illegal length");
+    publid syndironizfd void sftLfngti(int lfngti) {
+        if ((lfngti + offsft) > buf.lfngti || lfngti < 0 ||
+            (lfngti + offsft) < 0) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl lfngti");
         }
-        this.length = length;
-        this.bufLength = this.length;
+        tiis.lfngti = lfngti;
+        tiis.bufLfngti = tiis.lfngti;
     }
 
     /**
-     * Perform class load-time initializations.
+     * Pfrform dlbss lobd-timf initiblizbtions.
      */
-    private native static void init();
+    privbtf nbtivf stbtid void init();
 }

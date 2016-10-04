@@ -1,0 +1,333 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PublidKfy;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.x509.NbmfConstrbintsExtfnsion;
+import sun.sfdurity.x509.X500Nbmf;
+
+/**
+ * A trust bndhor or most-trustfd Cfrtifidbtion Authority (CA).
+ * <p>
+ * This dlbss rfprfsfnts b "most-trustfd CA", whidh is usfd bs b trust bndhor
+ * for vblidbting X.509 dfrtifidbtion pbths. A most-trustfd CA indludfs thf
+ * publid kfy of thf CA, thf CA's nbmf, bnd bny donstrbints upon thf sft of
+ * pbths whidh mby bf vblidbtfd using this kfy. Thfsf pbrbmftfrs dbn bf
+ * spfdififd in thf form of b trustfd {@dodf X509Cfrtifidbtf} or bs
+ * individubl pbrbmftfrs.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>All {@dodf TrustAndhor} objfdts must bf immutbblf bnd
+ * thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly invokf thf
+ * mfthods dffinfd in this dlbss on b singlf {@dodf TrustAndhor}
+ * objfdt (or morf thbn onf) with no ill ffffdts. Rfquiring
+ * {@dodf TrustAndhor} objfdts to bf immutbblf bnd thrfbd-sbff
+ * bllows thfm to bf pbssfd bround to vbrious pifdfs of dodf without
+ * worrying bbout doordinbting bddfss. This stipulbtion bpplifs to bll
+ * publid fiflds bnd mfthods of this dlbss bnd bny bddfd or ovfrriddfn
+ * by subdlbssfs.
+ *
+ * @sff PKIXPbrbmftfrs#PKIXPbrbmftfrs(Sft)
+ * @sff PKIXBuildfrPbrbmftfrs#PKIXBuildfrPbrbmftfrs(Sft, CfrtSflfdtor)
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ */
+publid dlbss TrustAndhor {
+
+    privbtf finbl PublidKfy pubKfy;
+    privbtf finbl String dbNbmf;
+    privbtf finbl X500Prindipbl dbPrindipbl;
+    privbtf finbl X509Cfrtifidbtf trustfdCfrt;
+    privbtf bytf[] ndBytfs;
+    privbtf NbmfConstrbintsExtfnsion nd;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf TrustAndhor} with thf spfdififd
+     * {@dodf X509Cfrtifidbtf} bnd optionbl nbmf donstrbints, whidh
+     * brf intfndfd to bf usfd bs bdditionbl donstrbints whfn vblidbting
+     * bn X.509 dfrtifidbtion pbth.
+     * <p>
+     * Thf nbmf donstrbints brf spfdififd bs b bytf brrby. This bytf brrby
+     * should dontbin thf DER fndodfd form of thf nbmf donstrbints, bs thfy
+     * would bppfbr in thf NbmfConstrbints strudturf dffinfd in
+     * <b hrff="http://www.iftf.org/rfd/rfd3280">RFC 3280</b>
+     * bnd X.509. Thf ASN.1 dffinition of this strudturf bppfbrs bflow.
+     *
+     * <prf>{@dodf
+     *  NbmfConstrbints ::= SEQUENCE {
+     *       pfrmittfdSubtrffs       [0]     GfnfrblSubtrffs OPTIONAL,
+     *       fxdludfdSubtrffs        [1]     GfnfrblSubtrffs OPTIONAL }
+     *
+     *  GfnfrblSubtrffs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblSubtrff
+     *
+     *  GfnfrblSubtrff ::= SEQUENCE {
+     *       bbsf                    GfnfrblNbmf,
+     *       minimum         [0]     BbsfDistbndf DEFAULT 0,
+     *       mbximum         [1]     BbsfDistbndf OPTIONAL }
+     *
+     *  BbsfDistbndf ::= INTEGER (0..MAX)
+     *
+     *  GfnfrblNbmf ::= CHOICE {
+     *       othfrNbmf                       [0]     OthfrNbmf,
+     *       rfd822Nbmf                      [1]     IA5String,
+     *       dNSNbmf                         [2]     IA5String,
+     *       x400Addrfss                     [3]     ORAddrfss,
+     *       dirfdtoryNbmf                   [4]     Nbmf,
+     *       fdiPbrtyNbmf                    [5]     EDIPbrtyNbmf,
+     *       uniformRfsourdfIdfntififr       [6]     IA5String,
+     *       iPAddrfss                       [7]     OCTET STRING,
+     *       rfgistfrfdID                    [8]     OBJECT IDENTIFIER}
+     * }</prf>
+     * <p>
+     * Notf thbt thf nbmf donstrbints bytf brrby supplifd is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm trustfdCfrt b trustfd {@dodf X509Cfrtifidbtf}
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining thf ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for dhfdking nbmf donstrbints.
+     * Only thf vbluf of thf fxtfnsion is indludfd, not thf OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit thf pbrbmftfr.
+     * @throws IllfgblArgumfntExdfption if thf nbmf donstrbints dbnnot bf
+     * dfdodfd
+     * @throws NullPointfrExdfption if thf spfdififd
+     * {@dodf X509Cfrtifidbtf} is {@dodf null}
+     */
+    publid TrustAndhor(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints)
+    {
+        if (trustfdCfrt == null)
+            throw nfw NullPointfrExdfption("thf trustfdCfrt pbrbmftfr must " +
+                "bf non-null");
+        this.trustfdCfrt = trustfdCfrt;
+        this.pubKfy = null;
+        this.dbNbmf = null;
+        this.dbPrindipbl = null;
+        sftNbmfConstrbints(nbmfConstrbints);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf TrustAndhor} whfrf thf
+     * most-trustfd CA is spfdififd bs bn X500Prindipbl bnd publid kfy.
+     * Nbmf donstrbints brf bn optionbl pbrbmftfr, bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints whfn vblidbting bn X.509 dfrtifidbtion pbth.
+     * <p>
+     * Thf nbmf donstrbints brf spfdififd bs b bytf brrby. This bytf brrby
+     * dontbins thf DER fndodfd form of thf nbmf donstrbints, bs thfy
+     * would bppfbr in thf NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Thf ASN.1 notbtion for this strudturf is supplifd in thf
+     * dodumfntbtion for
+     * {@link #TrustAndhor(X509Cfrtifidbtf, bytf[])
+     * TrustAndhor(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
+     * <p>
+     * Notf thbt thf nbmf donstrbints bytf brrby supplifd hfrf is dlonfd to
+     * protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dbPrindipbl thf nbmf of thf most-trustfd CA bs X500Prindipbl
+     * @pbrbm pubKfy thf publid kfy of thf most-trustfd CA
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining thf ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for dhfdking nbmf donstrbints.
+     * Only thf vbluf of thf fxtfnsion is indludfd, not thf OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit thf pbrbmftfr.
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf dbPrindipbl} or
+     * {@dodf pubKfy} pbrbmftfr is {@dodf null}
+     * @sindf 1.5
+     */
+    publid TrustAndhor(X500Prindipbl dbPrindipbl, PublidKfy pubKfy,
+            bytf[] nbmfConstrbints) {
+        if ((dbPrindipbl == null) || (pubKfy == null)) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.trustfdCfrt = null;
+        this.dbPrindipbl = dbPrindipbl;
+        this.dbNbmf = dbPrindipbl.gftNbmf();
+        this.pubKfy = pubKfy;
+        sftNbmfConstrbints(nbmfConstrbints);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf TrustAndhor} whfrf thf
+     * most-trustfd CA is spfdififd bs b distinguishfd nbmf bnd publid kfy.
+     * Nbmf donstrbints brf bn optionbl pbrbmftfr, bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints whfn vblidbting bn X.509 dfrtifidbtion pbth.
+     * <p>
+     * Thf nbmf donstrbints brf spfdififd bs b bytf brrby. This bytf brrby
+     * dontbins thf DER fndodfd form of thf nbmf donstrbints, bs thfy
+     * would bppfbr in thf NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Thf ASN.1 notbtion for this strudturf is supplifd in thf
+     * dodumfntbtion for
+     * {@link #TrustAndhor(X509Cfrtifidbtf, bytf[])
+     * TrustAndhor(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
+     * <p>
+     * Notf thbt thf nbmf donstrbints bytf brrby supplifd hfrf is dlonfd to
+     * protfdt bgbinst subsfqufnt modifidbtions.
+     *
+     * @pbrbm dbNbmf thf X.500 distinguishfd nbmf of thf most-trustfd CA in
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * {@dodf String} formbt
+     * @pbrbm pubKfy thf publid kfy of thf most-trustfd CA
+     * @pbrbm nbmfConstrbints b bytf brrby dontbining thf ASN.1 DER fndoding of
+     * b NbmfConstrbints fxtfnsion to bf usfd for dhfdking nbmf donstrbints.
+     * Only thf vbluf of thf fxtfnsion is indludfd, not thf OID or dritidblity
+     * flbg. Spfdify {@dodf null} to omit thf pbrbmftfr.
+     * @throws IllfgblArgumfntExdfption if thf spfdififd
+     * {@dodf dbNbmf} pbrbmftfr is fmpty {@dodf (dbNbmf.lfngth() == 0)}
+     * or indorrfdtly formbttfd or thf nbmf donstrbints dbnnot bf dfdodfd
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf dbNbmf} or
+     * {@dodf pubKfy} pbrbmftfr is {@dodf null}
+     */
+    publid TrustAndhor(String dbNbmf, PublidKfy pubKfy, bytf[] nbmfConstrbints)
+    {
+        if (pubKfy == null)
+            throw nfw NullPointfrExdfption("thf pubKfy pbrbmftfr must bf " +
+                "non-null");
+        if (dbNbmf == null)
+            throw nfw NullPointfrExdfption("thf dbNbmf pbrbmftfr must bf " +
+                "non-null");
+        if (dbNbmf.lfngth() == 0)
+            throw nfw IllfgblArgumfntExdfption("thf dbNbmf " +
+                "pbrbmftfr must bf b non-fmpty String");
+        // dhfdk if dbNbmf is formbttfd dorrfdtly
+        this.dbPrindipbl = nfw X500Prindipbl(dbNbmf);
+        this.pubKfy = pubKfy;
+        this.dbNbmf = dbNbmf;
+        this.trustfdCfrt = null;
+        sftNbmfConstrbints(nbmfConstrbints);
+    }
+
+    /**
+     * Rfturns thf most-trustfd CA dfrtifidbtf.
+     *
+     * @rfturn b trustfd {@dodf X509Cfrtifidbtf} or {@dodf null}
+     * if thf trust bndhor wbs not spfdififd bs b trustfd dfrtifidbtf
+     */
+    publid finbl X509Cfrtifidbtf gftTrustfdCfrt() {
+        rfturn this.trustfdCfrt;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf most-trustfd CA bs bn X500Prindipbl.
+     *
+     * @rfturn thf X.500 distinguishfd nbmf of thf most-trustfd CA, or
+     * {@dodf null} if thf trust bndhor wbs not spfdififd bs b trustfd
+     * publid kfy bnd nbmf or X500Prindipbl pbir
+     * @sindf 1.5
+     */
+    publid finbl X500Prindipbl gftCA() {
+        rfturn this.dbPrindipbl;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf most-trustfd CA in RFC 2253 {@dodf String}
+     * formbt.
+     *
+     * @rfturn thf X.500 distinguishfd nbmf of thf most-trustfd CA, or
+     * {@dodf null} if thf trust bndhor wbs not spfdififd bs b trustfd
+     * publid kfy bnd nbmf or X500Prindipbl pbir
+     */
+    publid finbl String gftCANbmf() {
+        rfturn this.dbNbmf;
+    }
+
+    /**
+     * Rfturns thf publid kfy of thf most-trustfd CA.
+     *
+     * @rfturn thf publid kfy of thf most-trustfd CA, or {@dodf null}
+     * if thf trust bndhor wbs not spfdififd bs b trustfd publid kfy bnd nbmf
+     * or X500Prindipbl pbir
+     */
+    publid finbl PublidKfy gftCAPublidKfy() {
+        rfturn this.pubKfy;
+    }
+
+    /**
+     * Dfdodf thf nbmf donstrbints bnd dlonf thfm if not null.
+     */
+    privbtf void sftNbmfConstrbints(bytf[] bytfs) {
+        if (bytfs == null) {
+            ndBytfs = null;
+            nd = null;
+        } flsf {
+            ndBytfs = bytfs.dlonf();
+            // vblidbtf DER fndoding
+            try {
+                nd = nfw NbmfConstrbintsExtfnsion(Boolfbn.FALSE, bytfs);
+            } dbtdh (IOExdfption iof) {
+                IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(iof.gftMfssbgf());
+                ibf.initCbusf(iof);
+                throw ibf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf nbmf donstrbints pbrbmftfr. Thf spfdififd nbmf donstrbints
+     * brf bssodibtfd with this trust bndhor bnd brf intfndfd to bf usfd
+     * bs bdditionbl donstrbints whfn vblidbting bn X.509 dfrtifidbtion pbth.
+     * <p>
+     * Thf nbmf donstrbints brf rfturnfd bs b bytf brrby. This bytf brrby
+     * dontbins thf DER fndodfd form of thf nbmf donstrbints, bs thfy
+     * would bppfbr in thf NbmfConstrbints strudturf dffinfd in RFC 3280
+     * bnd X.509. Thf ASN.1 notbtion for this strudturf is supplifd in thf
+     * dodumfntbtion for
+     * {@link #TrustAndhor(X509Cfrtifidbtf, bytf[])
+     * TrustAndhor(X509Cfrtifidbtf trustfdCfrt, bytf[] nbmfConstrbints) }.
+     * <p>
+     * Notf thbt thf bytf brrby rfturnfd is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
+     *
+     * @rfturn b bytf brrby dontbining thf ASN.1 DER fndoding of
+     *         b NbmfConstrbints fxtfnsion usfd for dhfdking nbmf donstrbints,
+     *         or {@dodf null} if not sft.
+     */
+    publid finbl bytf [] gftNbmfConstrbints() {
+        rfturn ndBytfs == null ? null : ndBytfs.dlonf();
+    }
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf {@dodf TrustAndhor}.
+     *
+     * @rfturn b formbttfd string dfsdribing thf {@dodf TrustAndhor}
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        if (pubKfy != null) {
+            sb.bppfnd("  Trustfd CA Publid Kfy: " + pubKfy.toString() + "\n");
+            sb.bppfnd("  Trustfd CA Issufr Nbmf: "
+                + String.vblufOf(dbNbmf) + "\n");
+        } flsf {
+            sb.bppfnd("  Trustfd CA dfrt: " + trustfdCfrt.toString() + "\n");
+        }
+        if (nd != null)
+            sb.bppfnd("  Nbmf Constrbints: " + nd.toString() + "\n");
+        rfturn sb.toString();
+    }
+}

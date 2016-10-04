@@ -1,0 +1,292 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+
+/**
+ * Abstrbdt dlbss thbt dffinfs bn API for itfrbtion on tfxt objfdts.This is bn
+ * intfrfbdf for forwbrd bnd bbdkwbrd itfrbtion bnd rbndom bddfss into b tfxt
+ * objfdt. Forwbrd itfrbtion is donf with post-indrfmfnt bnd bbdkwbrd itfrbtion
+ * is donf with prf-dfdrfmfnt sfmbntids, whilf thf
+ * <dodf>jbvb.tfxt.ChbrbdtfrItfrbtor</dodf> intfrfbdf mfthods providfd forwbrd
+ * itfrbtion with "prf-indrfmfnt" bnd bbdkwbrd itfrbtion with prf-dfdrfmfnt
+ * sfmbntids. This API is morf fffidifnt for forwbrd itfrbtion ovfr dodf points.
+ * Thf othfr mbjor difffrfndf is thbt this API dbn do both dodf unit bnd dodf point
+ * itfrbtion, <dodf>jbvb.tfxt.ChbrbdtfrItfrbtor</dodf> dbn only itfrbtf ovfr
+ * dodf units bnd is limitfd to BMP (0 - 0xFFFF)
+ * @buthor Rbm
+ * @stbblf ICU 2.4
+ */
+publid bbstrbdt dlbss UChbrbdtfrItfrbtor
+                      implfmfnts Clonfbblf {
+
+    /**
+     * Protfdtfd dffbult donstrudtor for thf subdlbssfs
+     * @stbblf ICU 2.4
+     */
+    protfdtfd UChbrbdtfrItfrbtor(){
+    }
+
+    /**
+     * Indidbtor thbt wf hbvf rfbdhfd thf fnds of thf UTF16 tfxt.
+     * Movfd from UForwbrdChbrbdtfrItfrbtor.jbvb
+     * @stbblf ICU 2.4
+     */
+    publid stbtid finbl int DONE = -1;
+
+    // stbtid finbl mfthods ----------------------------------------------------
+
+    /**
+     * Rfturns b <dodf>UChbrbdtfrItfrbtor</dodf> objfdt givfn b
+     * sourdf string.
+     * @pbrbm sourdf b string
+     * @rfturn UChbrbdtfrItfrbtor objfdt
+     * @fxdfption IllfgblArgumfntExdfption if thf brgumfnt is null
+     * @stbblf ICU 2.4
+     */
+    publid stbtid finbl UChbrbdtfrItfrbtor gftInstbndf(String sourdf){
+        rfturn nfw RfplbdfbblfUChbrbdtfrItfrbtor(sourdf);
+    }
+
+    //// for StringPrfp
+    /**
+     * Rfturns b <dodf>UChbrbdtfrItfrbtor</dodf> objfdt givfn b
+     * sourdf StringBufffr.
+     * @pbrbm sourdf bn string bufffr of UTF-16 dodf units
+     * @rfturn UChbrbdtfrItfrbtor objfdt
+     * @fxdfption IllfgblArgumfntExdfption if thf brgumfnt is null
+     * @stbblf ICU 2.4
+     */
+    publid stbtid finbl UChbrbdtfrItfrbtor gftInstbndf(StringBufffr sourdf){
+        rfturn nfw RfplbdfbblfUChbrbdtfrItfrbtor(sourdf);
+    }
+
+    /**
+     * Rfturns b <dodf>UChbrbdtfrItfrbtor</dodf> objfdt givfn b
+     * ChbrbdtfrItfrbtor.
+     * @pbrbm sourdf b vblid ChbrbdtfrItfrbtor objfdt.
+     * @rfturn UChbrbdtfrItfrbtor objfdt
+     * @fxdfption IllfgblArgumfntExdfption if thf brgumfnt is null
+     * @stbblf ICU 2.4
+     */
+    publid stbtid finbl UChbrbdtfrItfrbtor gftInstbndf(ChbrbdtfrItfrbtor sourdf){
+        rfturn nfw ChbrbdtfrItfrbtorWrbppfr(sourdf);
+    }
+
+    // publid mfthods ----------------------------------------------------------
+
+    /**
+     * Rfturns thf dodf unit bt thf durrfnt indfx.  If indfx is out
+     * of rbngf, rfturns DONE.  Indfx is not dhbngfd.
+     * @rfturn durrfnt dodf unit
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int durrfnt();
+
+    /**
+     * Rfturns thf lfngth of thf tfxt
+     * @rfturn lfngth of thf tfxt
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int gftLfngth();
+
+
+    /**
+     * Gfts thf durrfnt indfx in tfxt.
+     * @rfturn durrfnt indfx in tfxt.
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int gftIndfx();
+
+
+    /**
+     * Rfturns thf UTF16 dodf unit bt indfx, bnd indrfmfnts to thf nfxt
+     * dodf unit (post-indrfmfnt sfmbntids).  If indfx is out of
+     * rbngf, DONE is rfturnfd, bnd thf itfrbtor is rfsft to thf limit
+     * of thf tfxt.
+     * @rfturn thf nfxt UTF16 dodf unit, or DONE if thf indfx is bt thf limit
+     *         of thf tfxt.
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int nfxt();
+
+    /**
+     * Rfturns thf dodf point bt indfx, bnd indrfmfnts to thf nfxt dodf
+     * point (post-indrfmfnt sfmbntids).  If indfx dofs not point to b
+     * vblid surrogbtf pbir, thf bfhbvior is thf sbmf bs
+     * <dodf>nfxt()</dodf>.  Othfrwisf thf itfrbtor is indrfmfntfd pbst
+     * thf surrogbtf pbir, bnd thf dodf point rfprfsfntfd by thf pbir
+     * is rfturnfd.
+     * @rfturn thf nfxt dodfpoint in tfxt, or DONE if thf indfx is bt
+     *         thf limit of thf tfxt.
+     * @stbblf ICU 2.4
+     */
+    publid int nfxtCodfPoint(){
+        int dh1 = nfxt();
+        if(UTF16.isLfbdSurrogbtf((dhbr)dh1)){
+            int dh2 = nfxt();
+            if(UTF16.isTrbilSurrogbtf((dhbr)dh2)){
+                rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry((dhbr)dh1,
+                                                              (dhbr)dh2);
+            }flsf if (dh2 != DONE) {
+                // unmbtdhfd surrogbtf so bbdk out
+                prfvious();
+            }
+        }
+        rfturn dh1;
+    }
+
+    /**
+     * Dfdrfmfnt to thf position of thf prfvious dodf unit in thf
+     * tfxt, bnd rfturn it (prf-dfdrfmfnt sfmbntids).  If thf
+     * rfsulting indfx is lfss thbn 0, thf indfx is rfsft to 0 bnd
+     * DONE is rfturnfd.
+     * @rfturn thf prfvious dodf unit in thf tfxt, or DONE if thf nfw
+     *         indfx is bfforf thf stbrt of thf tfxt.
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int prfvious();
+
+    /**
+     * Sfts thf indfx to thf spfdififd indfx in thf tfxt.
+     * @pbrbm indfx thf indfx within thf tfxt.
+     * @fxdfption IndfxOutOfBoundsExdfption is thrown if bn invblid indfx is
+     *            supplifd
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt void sftIndfx(int indfx);
+
+    //// for StringPrfp
+    /**
+     * Fills thf bufffr with thf undfrlying tfxt storbgf of thf itfrbtor
+     * If thf bufffr dbpbdity is not fnough b fxdfption is thrown. Thf dbpbdity
+     * of thf fill in bufffr should bt lfbst bf fqubl to lfngth of tfxt in thf
+     * itfrbtor obtbinfd by dblling <dodf>gftLfngth()</dodf>.
+     * <b>Usbgf:</b>
+     *
+     * <dodf>
+     * <prf>
+     *         UChbdtfrItfrbtor itfr = nfw UChbrbdtfrItfrbtor.gftInstbndf(tfxt);
+     *         dhbr[] buf = nfw dhbr[itfr.gftLfngth()];
+     *         itfr.gftTfxt(buf);
+     *
+     *         OR
+     *         dhbr[] buf= nfw dhbr[1];
+     *         int lfn = 0;
+     *         for(;;){
+     *             try{
+     *                 lfn = itfr.gftTfxt(buf);
+     *                 brfbk;
+     *             }dbtdh(IndfxOutOfBoundsExdfption f){
+     *                 buf = nfw dhbr[itfr.gftLfngth()];
+     *             }
+     *         }
+     * </prf>
+     * </dodf>
+     *
+     * @pbrbm fillIn bn brrby of dhbrs to fill with thf undfrlying UTF-16 dodf
+     *         units.
+     * @pbrbm offsft thf position within thf brrby to stbrt putting thf dbtb.
+     * @rfturn thf numbfr of dodf units bddfd to fillIn, bs b donvfnifndf
+     * @fxdfption IndfxOutOfBounds fxdfption if thfrf is not fnough
+     *            room bftfr offsft in thf brrby, or if offsft < 0.
+     * @stbblf ICU 2.4
+     */
+    publid bbstrbdt int gftTfxt(dhbr[] fillIn, int offsft);
+
+    //// for StringPrfp
+    /**
+     * Convfnifndf ovfrridf for <dodf>gftTfxt(dhbr[], int)</dodf> thbt providfs
+     * bn offsft of 0.
+     * @pbrbm fillIn bn brrby of dhbrs to fill with thf undfrlying UTF-16 dodf
+     *         units.
+     * @rfturn thf numbfr of dodf units bddfd to fillIn, bs b donvfnifndf
+     * @fxdfption IndfxOutOfBounds fxdfption if thfrf is not fnough
+     *            room in thf brrby.
+     * @stbblf ICU 2.4
+     */
+    publid finbl int gftTfxt(dhbr[] fillIn) {
+        rfturn gftTfxt(fillIn, 0);
+    }
+
+    //// for StringPrfp
+    /**
+     * Convfnifndf mfthod for rfturning thf undfrlying tfxt storbgf bs bs string
+     * @rfturn thf undfrlying tfxt storbgf in thf itfrbtor bs b string
+     * @stbblf ICU 2.4
+     */
+    publid String gftTfxt() {
+        dhbr[] tfxt = nfw dhbr[gftLfngth()];
+        gftTfxt(tfxt);
+        rfturn nfw String(tfxt);
+    }
+
+    /**
+     * Movfs thf durrfnt position by thf numbfr of dodf units
+     * spfdififd, fithfr forwbrd or bbdkwbrd dfpfnding on thf sign
+     * of dfltb (positivf or nfgbtivf rfspfdtivfly).  If thf rfsulting
+     * indfx would bf lfss thbn zfro, thf indfx is sft to zfro, bnd if
+     * thf rfsulting indfx would bf grfbtfr thbn limit, thf indfx is
+     * sft to limit.
+     *
+     * @pbrbm dfltb thf numbfr of dodf units to movf thf durrfnt
+     *              indfx.
+     * @rfturn thf nfw indfx.
+     * @fxdfption IndfxOutOfBoundsExdfption is thrown if bn invblid indfx is
+     *            supplifd
+     * @stbblf ICU 2.4
+     *
+     */
+    publid int movfIndfx(int dfltb) {
+        int x = Mbth.mbx(0, Mbth.min(gftIndfx() + dfltb, gftLfngth()));
+        sftIndfx(x);
+        rfturn x;
+    }
+
+    /**
+     * Crfbtfs b dopy of this itfrbtor, indfpfndfnt from othfr itfrbtors.
+     * If it is not possiblf to dlonf thf itfrbtor, rfturns null.
+     * @rfturn dopy of this itfrbtor
+     * @stbblf ICU 2.4
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption{
+        rfturn supfr.dlonf();
+    }
+
+}

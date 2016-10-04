@@ -1,764 +1,764 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.Font;
+import jbvb.bwt.Font;
 
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.AttributedString;
-import java.text.Bidi;
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.AttributfdString;
+import jbvb.tfxt.Bidi;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
 
-import java.awt.font.FontRenderContext;
+import jbvb.bwt.font.FontRfndfrContfxt;
 
-import java.util.Hashtable;
-import java.util.Map;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp;
 
-import sun.font.AttributeValues;
+import sun.font.AttributfVblufs;
 import sun.font.BidiUtils;
-import sun.font.TextLineComponent;
-import sun.font.TextLabelFactory;
-import sun.font.FontResolver;
+import sun.font.TfxtLinfComponfnt;
+import sun.font.TfxtLbbflFbdtory;
+import sun.font.FontRfsolvfr;
 
 /**
- * The <code>TextMeasurer</code> class provides the primitive operations
- * needed for line break: measuring up to a given advance, determining the
- * advance of a range of characters, and generating a
- * <code>TextLayout</code> for a range of characters. It also provides
- * methods for incremental editing of paragraphs.
+ * Tif <dodf>TfxtMfbsurfr</dodf> dlbss providfs tif primitivf opfrbtions
+ * nffdfd for linf brfbk: mfbsuring up to b givfn bdvbndf, dftfrmining tif
+ * bdvbndf of b rbngf of dibrbdtfrs, bnd gfnfrbting b
+ * <dodf>TfxtLbyout</dodf> for b rbngf of dibrbdtfrs. It blso providfs
+ * mftiods for indrfmfntbl fditing of pbrbgrbpis.
  * <p>
- * A <code>TextMeasurer</code> object is constructed with an
- * {@link java.text.AttributedCharacterIterator AttributedCharacterIterator}
- * representing a single paragraph of text.  The value returned by the
- * {@link AttributedCharacterIterator#getBeginIndex() getBeginIndex}
- * method of <code>AttributedCharacterIterator</code>
- * defines the absolute index of the first character.  The value
- * returned by the
- * {@link AttributedCharacterIterator#getEndIndex() getEndIndex}
- * method of <code>AttributedCharacterIterator</code> defines the index
- * past the last character.  These values define the range of indexes to
- * use in calls to the <code>TextMeasurer</code>.  For example, calls to
- * get the advance of a range of text or the line break of a range of text
- * must use indexes between the beginning and end index values.  Calls to
- * {@link #insertChar(java.text.AttributedCharacterIterator, int) insertChar}
- * and
- * {@link #deleteChar(java.text.AttributedCharacterIterator, int) deleteChar}
- * reset the <code>TextMeasurer</code> to use the beginning index and end
- * index of the <code>AttributedCharacterIterator</code> passed in those calls.
+ * A <dodf>TfxtMfbsurfr</dodf> objfdt is donstrudtfd witi bn
+ * {@link jbvb.tfxt.AttributfdCibrbdtfrItfrbtor AttributfdCibrbdtfrItfrbtor}
+ * rfprfsfnting b singlf pbrbgrbpi of tfxt.  Tif vbluf rfturnfd by tif
+ * {@link AttributfdCibrbdtfrItfrbtor#gftBfginIndfx() gftBfginIndfx}
+ * mftiod of <dodf>AttributfdCibrbdtfrItfrbtor</dodf>
+ * dffinfs tif bbsolutf indfx of tif first dibrbdtfr.  Tif vbluf
+ * rfturnfd by tif
+ * {@link AttributfdCibrbdtfrItfrbtor#gftEndIndfx() gftEndIndfx}
+ * mftiod of <dodf>AttributfdCibrbdtfrItfrbtor</dodf> dffinfs tif indfx
+ * pbst tif lbst dibrbdtfr.  Tifsf vblufs dffinf tif rbngf of indfxfs to
+ * usf in dblls to tif <dodf>TfxtMfbsurfr</dodf>.  For fxbmplf, dblls to
+ * gft tif bdvbndf of b rbngf of tfxt or tif linf brfbk of b rbngf of tfxt
+ * must usf indfxfs bftwffn tif bfginning bnd fnd indfx vblufs.  Cblls to
+ * {@link #insfrtCibr(jbvb.tfxt.AttributfdCibrbdtfrItfrbtor, int) insfrtCibr}
+ * bnd
+ * {@link #dflftfCibr(jbvb.tfxt.AttributfdCibrbdtfrItfrbtor, int) dflftfCibr}
+ * rfsft tif <dodf>TfxtMfbsurfr</dodf> to usf tif bfginning indfx bnd fnd
+ * indfx of tif <dodf>AttributfdCibrbdtfrItfrbtor</dodf> pbssfd in tiosf dblls.
  * <p>
- * Most clients will use the more convenient <code>LineBreakMeasurer</code>,
- * which implements the standard line break policy (placing as many words
- * as will fit on each line).
+ * Most dlifnts will usf tif morf donvfnifnt <dodf>LinfBrfbkMfbsurfr</dodf>,
+ * wiidi implfmfnts tif stbndbrd linf brfbk polidy (plbding bs mbny words
+ * bs will fit on fbdi linf).
  *
- * @author John Raley
- * @see LineBreakMeasurer
- * @since 1.3
+ * @butior Join Rblfy
+ * @sff LinfBrfbkMfbsurfr
+ * @sindf 1.3
  */
 
-public final class TextMeasurer implements Cloneable {
+publid finbl dlbss TfxtMfbsurfr implfmfnts Clonfbblf {
 
-    // Number of lines to format to.
-    private static float EST_LINES = (float) 2.1;
+    // Numbfr of linfs to formbt to.
+    privbtf stbtid flobt EST_LINES = (flobt) 2.1;
 
     /*
-    static {
-        String s = System.getProperty("estLines");
+    stbtid {
+        String s = Systfm.gftPropfrty("fstLinfs");
         if (s != null) {
             try {
-                Float f = new Float(s);
-                EST_LINES = f.floatValue();
+                Flobt f = nfw Flobt(s);
+                EST_LINES = f.flobtVbluf();
             }
-            catch(NumberFormatException e) {
+            dbtdi(NumbfrFormbtExdfption f) {
             }
         }
-        //System.out.println("EST_LINES="+EST_LINES);
+        //Systfm.out.println("EST_LINES="+EST_LINES);
     }
     */
 
-    private FontRenderContext fFrc;
+    privbtf FontRfndfrContfxt fFrd;
 
-    private int fStart;
+    privbtf int fStbrt;
 
-    // characters in source text
-    private char[] fChars;
+    // dibrbdtfrs in sourdf tfxt
+    privbtf dibr[] fCibrs;
 
-    // Bidi for this paragraph
-    private Bidi fBidi;
+    // Bidi for tiis pbrbgrbpi
+    privbtf Bidi fBidi;
 
-    // Levels array for chars in this paragraph - needed to reorder
-    // trailing counterdirectional whitespace
-    private byte[] fLevels;
+    // Lfvfls brrby for dibrs in tiis pbrbgrbpi - nffdfd to rfordfr
+    // trbiling dountfrdirfdtionbl wiitfspbdf
+    privbtf bytf[] fLfvfls;
 
-    // line components in logical order
-    private TextLineComponent[] fComponents;
+    // linf domponfnts in logidbl ordfr
+    privbtf TfxtLinfComponfnt[] fComponfnts;
 
-    // index where components begin
-    private int fComponentStart;
+    // indfx wifrf domponfnts bfgin
+    privbtf int fComponfntStbrt;
 
-    // index where components end
-    private int fComponentLimit;
+    // indfx wifrf domponfnts fnd
+    privbtf int fComponfntLimit;
 
-    private boolean haveLayoutWindow;
+    privbtf boolfbn ibvfLbyoutWindow;
 
-    // used to find valid starting points for line components
-    private BreakIterator fLineBreak = null;
-    private CharArrayIterator charIter = null;
-    int layoutCount = 0;
-    int layoutCharCount = 0;
+    // usfd to find vblid stbrting points for linf domponfnts
+    privbtf BrfbkItfrbtor fLinfBrfbk = null;
+    privbtf CibrArrbyItfrbtor dibrItfr = null;
+    int lbyoutCount = 0;
+    int lbyoutCibrCount = 0;
 
-    // paragraph, with resolved fonts and styles
-    private StyledParagraph fParagraph;
+    // pbrbgrbpi, witi rfsolvfd fonts bnd stylfs
+    privbtf StylfdPbrbgrbpi fPbrbgrbpi;
 
-    // paragraph data - same across all layouts
-    private boolean fIsDirectionLTR;
-    private byte fBaseline;
-    private float[] fBaselineOffsets;
-    private float fJustifyRatio = 1;
+    // pbrbgrbpi dbtb - sbmf bdross bll lbyouts
+    privbtf boolfbn fIsDirfdtionLTR;
+    privbtf bytf fBbsflinf;
+    privbtf flobt[] fBbsflinfOffsfts;
+    privbtf flobt fJustifyRbtio = 1;
 
     /**
-     * Constructs a <code>TextMeasurer</code> from the source text.
-     * The source text should be a single entire paragraph.
-     * @param text the source paragraph.  Cannot be null.
-     * @param frc the information about a graphics device which is needed
-     *       to measure the text correctly.  Cannot be null.
+     * Construdts b <dodf>TfxtMfbsurfr</dodf> from tif sourdf tfxt.
+     * Tif sourdf tfxt siould bf b singlf fntirf pbrbgrbpi.
+     * @pbrbm tfxt tif sourdf pbrbgrbpi.  Cbnnot bf null.
+     * @pbrbm frd tif informbtion bbout b grbpiids dfvidf wiidi is nffdfd
+     *       to mfbsurf tif tfxt dorrfdtly.  Cbnnot bf null.
      */
-    public TextMeasurer(AttributedCharacterIterator text, FontRenderContext frc) {
+    publid TfxtMfbsurfr(AttributfdCibrbdtfrItfrbtor tfxt, FontRfndfrContfxt frd) {
 
-        fFrc = frc;
-        initAll(text);
+        fFrd = frd;
+        initAll(tfxt);
     }
 
-    protected Object clone() {
-        TextMeasurer other;
+    protfdtfd Objfdt dlonf() {
+        TfxtMfbsurfr otifr;
         try {
-            other = (TextMeasurer) super.clone();
+            otifr = (TfxtMfbsurfr) supfr.dlonf();
         }
-        catch(CloneNotSupportedException e) {
-            throw new Error();
+        dbtdi(ClonfNotSupportfdExdfption f) {
+            tirow nfw Error();
         }
-        if (fComponents != null) {
-            other.fComponents = fComponents.clone();
+        if (fComponfnts != null) {
+            otifr.fComponfnts = fComponfnts.dlonf();
         }
-        return other;
+        rfturn otifr;
     }
 
-    private void invalidateComponents() {
-        fComponentStart = fComponentLimit = fChars.length;
-        fComponents = null;
-        haveLayoutWindow = false;
+    privbtf void invblidbtfComponfnts() {
+        fComponfntStbrt = fComponfntLimit = fCibrs.lfngti;
+        fComponfnts = null;
+        ibvfLbyoutWindow = fblsf;
     }
 
     /**
-     * Initialize state, including fChars array, direction, and
+     * Initiblizf stbtf, indluding fCibrs brrby, dirfdtion, bnd
      * fBidi.
      */
-    private void initAll(AttributedCharacterIterator text) {
+    privbtf void initAll(AttributfdCibrbdtfrItfrbtor tfxt) {
 
-        fStart = text.getBeginIndex();
+        fStbrt = tfxt.gftBfginIndfx();
 
-        // extract chars
-        fChars = new char[text.getEndIndex() - fStart];
+        // fxtrbdt dibrs
+        fCibrs = nfw dibr[tfxt.gftEndIndfx() - fStbrt];
 
         int n = 0;
-        for (char c = text.first();
-             c != CharacterIterator.DONE;
-             c = text.next())
+        for (dibr d = tfxt.first();
+             d != CibrbdtfrItfrbtor.DONE;
+             d = tfxt.nfxt())
         {
-            fChars[n++] = c;
+            fCibrs[n++] = d;
         }
 
-        text.first();
+        tfxt.first();
 
-        fBidi = new Bidi(text);
-        if (fBidi.isLeftToRight()) {
+        fBidi = nfw Bidi(tfxt);
+        if (fBidi.isLfftToRigit()) {
             fBidi = null;
         }
 
-        text.first();
-        Map<? extends Attribute, ?> paragraphAttrs = text.getAttributes();
-        NumericShaper shaper = AttributeValues.getNumericShaping(paragraphAttrs);
-        if (shaper != null) {
-            shaper.shape(fChars, 0, fChars.length);
+        tfxt.first();
+        Mbp<? fxtfnds Attributf, ?> pbrbgrbpiAttrs = tfxt.gftAttributfs();
+        NumfridSibpfr sibpfr = AttributfVblufs.gftNumfridSibping(pbrbgrbpiAttrs);
+        if (sibpfr != null) {
+            sibpfr.sibpf(fCibrs, 0, fCibrs.lfngti);
         }
 
-        fParagraph = new StyledParagraph(text, fChars);
+        fPbrbgrbpi = nfw StylfdPbrbgrbpi(tfxt, fCibrs);
 
-        // set paragraph attributes
+        // sft pbrbgrbpi bttributfs
         {
-            // If there's an embedded graphic at the start of the
-            // paragraph, look for the first non-graphic character
-            // and use it and its font to initialize the paragraph.
-            // If not, use the first graphic to initialize.
-            fJustifyRatio = AttributeValues.getJustification(paragraphAttrs);
+            // If tifrf's bn fmbfddfd grbpiid bt tif stbrt of tif
+            // pbrbgrbpi, look for tif first non-grbpiid dibrbdtfr
+            // bnd usf it bnd its font to initiblizf tif pbrbgrbpi.
+            // If not, usf tif first grbpiid to initiblizf.
+            fJustifyRbtio = AttributfVblufs.gftJustifidbtion(pbrbgrbpiAttrs);
 
-            boolean haveFont = TextLine.advanceToFirstFont(text);
+            boolfbn ibvfFont = TfxtLinf.bdvbndfToFirstFont(tfxt);
 
-            if (haveFont) {
-                Font defaultFont = TextLine.getFontAtCurrentPos(text);
-                int charsStart = text.getIndex() - text.getBeginIndex();
-                LineMetrics lm = defaultFont.getLineMetrics(fChars, charsStart, charsStart+1, fFrc);
-                fBaseline = (byte) lm.getBaselineIndex();
-                fBaselineOffsets = lm.getBaselineOffsets();
+            if (ibvfFont) {
+                Font dffbultFont = TfxtLinf.gftFontAtCurrfntPos(tfxt);
+                int dibrsStbrt = tfxt.gftIndfx() - tfxt.gftBfginIndfx();
+                LinfMftrids lm = dffbultFont.gftLinfMftrids(fCibrs, dibrsStbrt, dibrsStbrt+1, fFrd);
+                fBbsflinf = (bytf) lm.gftBbsflinfIndfx();
+                fBbsflinfOffsfts = lm.gftBbsflinfOffsfts();
             }
-            else {
-                // hmmm what to do here?  Just try to supply reasonable
-                // values I guess.
+            flsf {
+                // immm wibt to do ifrf?  Just try to supply rfbsonbblf
+                // vblufs I gufss.
 
-                GraphicAttribute graphic = (GraphicAttribute)
-                                paragraphAttrs.get(TextAttribute.CHAR_REPLACEMENT);
-                fBaseline = TextLayout.getBaselineFromGraphic(graphic);
-                Hashtable<Attribute, ?> fmap = new Hashtable<>(5, (float)0.9);
-                Font dummyFont = new Font(fmap);
-                LineMetrics lm = dummyFont.getLineMetrics(" ", 0, 1, fFrc);
-                fBaselineOffsets = lm.getBaselineOffsets();
+                GrbpiidAttributf grbpiid = (GrbpiidAttributf)
+                                pbrbgrbpiAttrs.gft(TfxtAttributf.CHAR_REPLACEMENT);
+                fBbsflinf = TfxtLbyout.gftBbsflinfFromGrbpiid(grbpiid);
+                Hbsitbblf<Attributf, ?> fmbp = nfw Hbsitbblf<>(5, (flobt)0.9);
+                Font dummyFont = nfw Font(fmbp);
+                LinfMftrids lm = dummyFont.gftLinfMftrids(" ", 0, 1, fFrd);
+                fBbsflinfOffsfts = lm.gftBbsflinfOffsfts();
             }
-            fBaselineOffsets = TextLine.getNormalizedOffsets(fBaselineOffsets, fBaseline);
+            fBbsflinfOffsfts = TfxtLinf.gftNormblizfdOffsfts(fBbsflinfOffsfts, fBbsflinf);
         }
 
-        invalidateComponents();
+        invblidbtfComponfnts();
     }
 
     /**
-     * Generate components for the paragraph.  fChars, fBidi should have been
-     * initialized already.
+     * Gfnfrbtf domponfnts for tif pbrbgrbpi.  fCibrs, fBidi siould ibvf bffn
+     * initiblizfd blrfbdy.
      */
-    private void generateComponents(int startingAt, int endingAt) {
+    privbtf void gfnfrbtfComponfnts(int stbrtingAt, int fndingAt) {
 
-        if (collectStats) {
-            formattedChars += (endingAt-startingAt);
+        if (dollfdtStbts) {
+            formbttfdCibrs += (fndingAt-stbrtingAt);
         }
-        int layoutFlags = 0; // no extra info yet, bidi determines run and line direction
-        TextLabelFactory factory = new TextLabelFactory(fFrc, fChars, fBidi, layoutFlags);
+        int lbyoutFlbgs = 0; // no fxtrb info yft, bidi dftfrminfs run bnd linf dirfdtion
+        TfxtLbbflFbdtory fbdtory = nfw TfxtLbbflFbdtory(fFrd, fCibrs, fBidi, lbyoutFlbgs);
 
-        int[] charsLtoV = null;
+        int[] dibrsLtoV = null;
 
         if (fBidi != null) {
-            fLevels = BidiUtils.getLevels(fBidi);
-            int[] charsVtoL = BidiUtils.createVisualToLogicalMap(fLevels);
-            charsLtoV = BidiUtils.createInverseMap(charsVtoL);
-            fIsDirectionLTR = fBidi.baseIsLeftToRight();
+            fLfvfls = BidiUtils.gftLfvfls(fBidi);
+            int[] dibrsVtoL = BidiUtils.drfbtfVisublToLogidblMbp(fLfvfls);
+            dibrsLtoV = BidiUtils.drfbtfInvfrsfMbp(dibrsVtoL);
+            fIsDirfdtionLTR = fBidi.bbsfIsLfftToRigit();
         }
-        else {
-            fLevels = null;
-            fIsDirectionLTR = true;
+        flsf {
+            fLfvfls = null;
+            fIsDirfdtionLTR = truf;
         }
 
         try {
-            fComponents = TextLine.getComponents(
-                fParagraph, fChars, startingAt, endingAt, charsLtoV, fLevels, factory);
+            fComponfnts = TfxtLinf.gftComponfnts(
+                fPbrbgrbpi, fCibrs, stbrtingAt, fndingAt, dibrsLtoV, fLfvfls, fbdtory);
         }
-        catch(IllegalArgumentException e) {
-            System.out.println("startingAt="+startingAt+"; endingAt="+endingAt);
-            System.out.println("fComponentLimit="+fComponentLimit);
-            throw e;
+        dbtdi(IllfgblArgumfntExdfption f) {
+            Systfm.out.println("stbrtingAt="+stbrtingAt+"; fndingAt="+fndingAt);
+            Systfm.out.println("fComponfntLimit="+fComponfntLimit);
+            tirow f;
         }
 
-        fComponentStart = startingAt;
-        fComponentLimit = endingAt;
-        //debugFormatCount += (endingAt-startingAt);
+        fComponfntStbrt = stbrtingAt;
+        fComponfntLimit = fndingAt;
+        //dfbugFormbtCount += (fndingAt-stbrtingAt);
     }
 
-    private int calcLineBreak(final int pos, final float maxAdvance) {
+    privbtf int dbldLinfBrfbk(finbl int pos, finbl flobt mbxAdvbndf) {
 
-        // either of these statements removes the bug:
-        //generateComponents(0, fChars.length);
-        //generateComponents(pos, fChars.length);
+        // fitifr of tifsf stbtfmfnts rfmovfs tif bug:
+        //gfnfrbtfComponfnts(0, fCibrs.lfngti);
+        //gfnfrbtfComponfnts(pos, fCibrs.lfngti);
 
-        int startPos = pos;
-        float width = maxAdvance;
+        int stbrtPos = pos;
+        flobt widti = mbxAdvbndf;
 
-        int tlcIndex;
-        int tlcStart = fComponentStart;
+        int tldIndfx;
+        int tldStbrt = fComponfntStbrt;
 
-        for (tlcIndex = 0; tlcIndex < fComponents.length; tlcIndex++) {
-            int gaLimit = tlcStart + fComponents[tlcIndex].getNumCharacters();
-            if (gaLimit > startPos) {
-                break;
+        for (tldIndfx = 0; tldIndfx < fComponfnts.lfngti; tldIndfx++) {
+            int gbLimit = tldStbrt + fComponfnts[tldIndfx].gftNumCibrbdtfrs();
+            if (gbLimit > stbrtPos) {
+                brfbk;
             }
-            else {
-                tlcStart = gaLimit;
-            }
-        }
-
-        // tlcStart is now the start of the tlc at tlcIndex
-
-        for (; tlcIndex < fComponents.length; tlcIndex++) {
-
-            TextLineComponent tlc = fComponents[tlcIndex];
-            int numCharsInGa = tlc.getNumCharacters();
-
-            int lineBreak = tlc.getLineBreakIndex(startPos - tlcStart, width);
-            if (lineBreak == numCharsInGa && tlcIndex < fComponents.length) {
-                width -= tlc.getAdvanceBetween(startPos - tlcStart, lineBreak);
-                tlcStart += numCharsInGa;
-                startPos = tlcStart;
-            }
-            else {
-                return tlcStart + lineBreak;
+            flsf {
+                tldStbrt = gbLimit;
             }
         }
 
-        if (fComponentLimit < fChars.length) {
-            // format more text and try again
-            //if (haveLayoutWindow) {
+        // tldStbrt is now tif stbrt of tif tld bt tldIndfx
+
+        for (; tldIndfx < fComponfnts.lfngti; tldIndfx++) {
+
+            TfxtLinfComponfnt tld = fComponfnts[tldIndfx];
+            int numCibrsInGb = tld.gftNumCibrbdtfrs();
+
+            int linfBrfbk = tld.gftLinfBrfbkIndfx(stbrtPos - tldStbrt, widti);
+            if (linfBrfbk == numCibrsInGb && tldIndfx < fComponfnts.lfngti) {
+                widti -= tld.gftAdvbndfBftwffn(stbrtPos - tldStbrt, linfBrfbk);
+                tldStbrt += numCibrsInGb;
+                stbrtPos = tldStbrt;
+            }
+            flsf {
+                rfturn tldStbrt + linfBrfbk;
+            }
+        }
+
+        if (fComponfntLimit < fCibrs.lfngti) {
+            // formbt morf tfxt bnd try bgbin
+            //if (ibvfLbyoutWindow) {
             //    outOfWindow++;
             //}
 
-            generateComponents(pos, fChars.length);
-            return calcLineBreak(pos, maxAdvance);
+            gfnfrbtfComponfnts(pos, fCibrs.lfngti);
+            rfturn dbldLinfBrfbk(pos, mbxAdvbndf);
         }
 
-        return fChars.length;
+        rfturn fCibrs.lfngti;
     }
 
     /**
-     * According to the Unicode Bidirectional Behavior specification
-     * (Unicode Standard 2.0, section 3.11), whitespace at the ends
-     * of lines which would naturally flow against the base direction
-     * must be made to flow with the line direction, and moved to the
-     * end of the line.  This method returns the start of the sequence
-     * of trailing whitespace characters to move to the end of a
-     * line taken from the given range.
+     * Addording to tif Unidodf Bidirfdtionbl Bfibvior spfdifidbtion
+     * (Unidodf Stbndbrd 2.0, sfdtion 3.11), wiitfspbdf bt tif fnds
+     * of linfs wiidi would nbturblly flow bgbinst tif bbsf dirfdtion
+     * must bf mbdf to flow witi tif linf dirfdtion, bnd movfd to tif
+     * fnd of tif linf.  Tiis mftiod rfturns tif stbrt of tif sfqufndf
+     * of trbiling wiitfspbdf dibrbdtfrs to movf to tif fnd of b
+     * linf tbkfn from tif givfn rbngf.
      */
-    private int trailingCdWhitespaceStart(int startPos, int limitPos) {
+    privbtf int trbilingCdWiitfspbdfStbrt(int stbrtPos, int limitPos) {
 
-        if (fLevels != null) {
-            // Back up over counterdirectional whitespace
-            final byte baseLevel = (byte) (fIsDirectionLTR? 0 : 1);
-            for (int cdWsStart = limitPos; --cdWsStart >= startPos;) {
-                if ((fLevels[cdWsStart] % 2) == baseLevel ||
-                        Character.getDirectionality(fChars[cdWsStart]) != Character.DIRECTIONALITY_WHITESPACE) {
-                    return ++cdWsStart;
+        if (fLfvfls != null) {
+            // Bbdk up ovfr dountfrdirfdtionbl wiitfspbdf
+            finbl bytf bbsfLfvfl = (bytf) (fIsDirfdtionLTR? 0 : 1);
+            for (int ddWsStbrt = limitPos; --ddWsStbrt >= stbrtPos;) {
+                if ((fLfvfls[ddWsStbrt] % 2) == bbsfLfvfl ||
+                        Cibrbdtfr.gftDirfdtionblity(fCibrs[ddWsStbrt]) != Cibrbdtfr.DIRECTIONALITY_WHITESPACE) {
+                    rfturn ++ddWsStbrt;
                 }
             }
         }
 
-        return startPos;
+        rfturn stbrtPos;
     }
 
-    private TextLineComponent[] makeComponentsOnRange(int startPos,
+    privbtf TfxtLinfComponfnt[] mbkfComponfntsOnRbngf(int stbrtPos,
                                                       int limitPos) {
 
-        // sigh I really hate to do this here since it's part of the
-        // bidi algorithm.
-        // cdWsStart is the start of the trailing counterdirectional
-        // whitespace
-        final int cdWsStart = trailingCdWhitespaceStart(startPos, limitPos);
+        // sigi I rfblly ibtf to do tiis ifrf sindf it's pbrt of tif
+        // bidi blgoritim.
+        // ddWsStbrt is tif stbrt of tif trbiling dountfrdirfdtionbl
+        // wiitfspbdf
+        finbl int ddWsStbrt = trbilingCdWiitfspbdfStbrt(stbrtPos, limitPos);
 
-        int tlcIndex;
-        int tlcStart = fComponentStart;
+        int tldIndfx;
+        int tldStbrt = fComponfntStbrt;
 
-        for (tlcIndex = 0; tlcIndex < fComponents.length; tlcIndex++) {
-            int gaLimit = tlcStart + fComponents[tlcIndex].getNumCharacters();
-            if (gaLimit > startPos) {
-                break;
+        for (tldIndfx = 0; tldIndfx < fComponfnts.lfngti; tldIndfx++) {
+            int gbLimit = tldStbrt + fComponfnts[tldIndfx].gftNumCibrbdtfrs();
+            if (gbLimit > stbrtPos) {
+                brfbk;
             }
-            else {
-                tlcStart = gaLimit;
+            flsf {
+                tldStbrt = gbLimit;
             }
         }
 
-        // tlcStart is now the start of the tlc at tlcIndex
+        // tldStbrt is now tif stbrt of tif tld bt tldIndfx
 
-        int componentCount;
+        int domponfntCount;
         {
-            boolean split = false;
-            int compStart = tlcStart;
-            int lim=tlcIndex;
-            for (boolean cont=true; cont; lim++) {
-                int gaLimit = compStart + fComponents[lim].getNumCharacters();
-                if (cdWsStart > Math.max(compStart, startPos)
-                            && cdWsStart < Math.min(gaLimit, limitPos)) {
-                    split = true;
+            boolfbn split = fblsf;
+            int dompStbrt = tldStbrt;
+            int lim=tldIndfx;
+            for (boolfbn dont=truf; dont; lim++) {
+                int gbLimit = dompStbrt + fComponfnts[lim].gftNumCibrbdtfrs();
+                if (ddWsStbrt > Mbti.mbx(dompStbrt, stbrtPos)
+                            && ddWsStbrt < Mbti.min(gbLimit, limitPos)) {
+                    split = truf;
                 }
-                if (gaLimit >= limitPos) {
-                    cont=false;
+                if (gbLimit >= limitPos) {
+                    dont=fblsf;
                 }
-                else {
-                    compStart = gaLimit;
+                flsf {
+                    dompStbrt = gbLimit;
                 }
             }
-            componentCount = lim-tlcIndex;
+            domponfntCount = lim-tldIndfx;
             if (split) {
-                componentCount++;
+                domponfntCount++;
             }
         }
 
-        TextLineComponent[] components = new TextLineComponent[componentCount];
-        int newCompIndex = 0;
-        int linePos = startPos;
+        TfxtLinfComponfnt[] domponfnts = nfw TfxtLinfComponfnt[domponfntCount];
+        int nfwCompIndfx = 0;
+        int linfPos = stbrtPos;
 
-        int breakPt = cdWsStart;
+        int brfbkPt = ddWsStbrt;
 
-        int subsetFlag;
-        if (breakPt == startPos) {
-            subsetFlag = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
-                                          TextLineComponent.RIGHT_TO_LEFT;
-            breakPt = limitPos;
+        int subsftFlbg;
+        if (brfbkPt == stbrtPos) {
+            subsftFlbg = fIsDirfdtionLTR? TfxtLinfComponfnt.LEFT_TO_RIGHT :
+                                          TfxtLinfComponfnt.RIGHT_TO_LEFT;
+            brfbkPt = limitPos;
         }
-        else {
-            subsetFlag = TextLineComponent.UNCHANGED;
+        flsf {
+            subsftFlbg = TfxtLinfComponfnt.UNCHANGED;
         }
 
-        while (linePos < limitPos) {
+        wiilf (linfPos < limitPos) {
 
-            int compLength = fComponents[tlcIndex].getNumCharacters();
-            int tlcLimit = tlcStart + compLength;
+            int dompLfngti = fComponfnts[tldIndfx].gftNumCibrbdtfrs();
+            int tldLimit = tldStbrt + dompLfngti;
 
-            int start = Math.max(linePos, tlcStart);
-            int limit = Math.min(breakPt, tlcLimit);
+            int stbrt = Mbti.mbx(linfPos, tldStbrt);
+            int limit = Mbti.min(brfbkPt, tldLimit);
 
-            components[newCompIndex++] = fComponents[tlcIndex].getSubset(
-                                                                start-tlcStart,
-                                                                limit-tlcStart,
-                                                                subsetFlag);
-            linePos += (limit-start);
-            if (linePos == breakPt) {
-                breakPt = limitPos;
-                subsetFlag = fIsDirectionLTR? TextLineComponent.LEFT_TO_RIGHT :
-                                              TextLineComponent.RIGHT_TO_LEFT;
+            domponfnts[nfwCompIndfx++] = fComponfnts[tldIndfx].gftSubsft(
+                                                                stbrt-tldStbrt,
+                                                                limit-tldStbrt,
+                                                                subsftFlbg);
+            linfPos += (limit-stbrt);
+            if (linfPos == brfbkPt) {
+                brfbkPt = limitPos;
+                subsftFlbg = fIsDirfdtionLTR? TfxtLinfComponfnt.LEFT_TO_RIGHT :
+                                              TfxtLinfComponfnt.RIGHT_TO_LEFT;
             }
-            if (linePos == tlcLimit) {
-                tlcIndex++;
-                tlcStart = tlcLimit;
+            if (linfPos == tldLimit) {
+                tldIndfx++;
+                tldStbrt = tldLimit;
             }
         }
 
-        return components;
+        rfturn domponfnts;
     }
 
-    private TextLine makeTextLineOnRange(int startPos, int limitPos) {
+    privbtf TfxtLinf mbkfTfxtLinfOnRbngf(int stbrtPos, int limitPos) {
 
-        int[] charsLtoV = null;
-        byte[] charLevels = null;
+        int[] dibrsLtoV = null;
+        bytf[] dibrLfvfls = null;
 
         if (fBidi != null) {
-            Bidi lineBidi = fBidi.createLineBidi(startPos, limitPos);
-            charLevels = BidiUtils.getLevels(lineBidi);
-            int[] charsVtoL = BidiUtils.createVisualToLogicalMap(charLevels);
-            charsLtoV = BidiUtils.createInverseMap(charsVtoL);
+            Bidi linfBidi = fBidi.drfbtfLinfBidi(stbrtPos, limitPos);
+            dibrLfvfls = BidiUtils.gftLfvfls(linfBidi);
+            int[] dibrsVtoL = BidiUtils.drfbtfVisublToLogidblMbp(dibrLfvfls);
+            dibrsLtoV = BidiUtils.drfbtfInvfrsfMbp(dibrsVtoL);
         }
 
-        TextLineComponent[] components = makeComponentsOnRange(startPos, limitPos);
+        TfxtLinfComponfnt[] domponfnts = mbkfComponfntsOnRbngf(stbrtPos, limitPos);
 
-        return new TextLine(fFrc,
-                            components,
-                            fBaselineOffsets,
-                            fChars,
-                            startPos,
+        rfturn nfw TfxtLinf(fFrd,
+                            domponfnts,
+                            fBbsflinfOffsfts,
+                            fCibrs,
+                            stbrtPos,
                             limitPos,
-                            charsLtoV,
-                            charLevels,
-                            fIsDirectionLTR);
+                            dibrsLtoV,
+                            dibrLfvfls,
+                            fIsDirfdtionLTR);
 
     }
 
-    private void ensureComponents(int start, int limit) {
+    privbtf void fnsurfComponfnts(int stbrt, int limit) {
 
-        if (start < fComponentStart || limit > fComponentLimit) {
-            generateComponents(start, limit);
+        if (stbrt < fComponfntStbrt || limit > fComponfntLimit) {
+            gfnfrbtfComponfnts(stbrt, limit);
         }
     }
 
-    private void makeLayoutWindow(int localStart) {
+    privbtf void mbkfLbyoutWindow(int lodblStbrt) {
 
-        int compStart = localStart;
-        int compLimit = fChars.length;
+        int dompStbrt = lodblStbrt;
+        int dompLimit = fCibrs.lfngti;
 
-        // If we've already gone past the layout window, format to end of paragraph
-        if (layoutCount > 0 && !haveLayoutWindow) {
-            float avgLineLength = Math.max(layoutCharCount / layoutCount, 1);
-            compLimit = Math.min(localStart + (int)(avgLineLength*EST_LINES), fChars.length);
+        // If wf'vf blrfbdy gonf pbst tif lbyout window, formbt to fnd of pbrbgrbpi
+        if (lbyoutCount > 0 && !ibvfLbyoutWindow) {
+            flobt bvgLinfLfngti = Mbti.mbx(lbyoutCibrCount / lbyoutCount, 1);
+            dompLimit = Mbti.min(lodblStbrt + (int)(bvgLinfLfngti*EST_LINES), fCibrs.lfngti);
         }
 
-        if (localStart > 0 || compLimit < fChars.length) {
-            if (charIter == null) {
-                charIter = new CharArrayIterator(fChars);
+        if (lodblStbrt > 0 || dompLimit < fCibrs.lfngti) {
+            if (dibrItfr == null) {
+                dibrItfr = nfw CibrArrbyItfrbtor(fCibrs);
             }
-            else {
-                charIter.reset(fChars);
+            flsf {
+                dibrItfr.rfsft(fCibrs);
             }
-            if (fLineBreak == null) {
-                fLineBreak = BreakIterator.getLineInstance();
+            if (fLinfBrfbk == null) {
+                fLinfBrfbk = BrfbkItfrbtor.gftLinfInstbndf();
             }
-            fLineBreak.setText(charIter);
-            if (localStart > 0) {
-                if (!fLineBreak.isBoundary(localStart)) {
-                    compStart = fLineBreak.preceding(localStart);
+            fLinfBrfbk.sftTfxt(dibrItfr);
+            if (lodblStbrt > 0) {
+                if (!fLinfBrfbk.isBoundbry(lodblStbrt)) {
+                    dompStbrt = fLinfBrfbk.prfdfding(lodblStbrt);
                 }
             }
-            if (compLimit < fChars.length) {
-                if (!fLineBreak.isBoundary(compLimit)) {
-                    compLimit = fLineBreak.following(compLimit);
+            if (dompLimit < fCibrs.lfngti) {
+                if (!fLinfBrfbk.isBoundbry(dompLimit)) {
+                    dompLimit = fLinfBrfbk.following(dompLimit);
                 }
             }
         }
 
-        ensureComponents(compStart, compLimit);
-        haveLayoutWindow = true;
+        fnsurfComponfnts(dompStbrt, dompLimit);
+        ibvfLbyoutWindow = truf;
     }
 
     /**
-     * Returns the index of the first character which will not fit on
-     * on a line beginning at <code>start</code> and possible
-     * measuring up to <code>maxAdvance</code> in graphical width.
+     * Rfturns tif indfx of tif first dibrbdtfr wiidi will not fit on
+     * on b linf bfginning bt <dodf>stbrt</dodf> bnd possiblf
+     * mfbsuring up to <dodf>mbxAdvbndf</dodf> in grbpiidbl widti.
      *
-     * @param start the character index at which to start measuring.
-     *  <code>start</code> is an absolute index, not relative to the
-     *  start of the paragraph
-     * @param maxAdvance the graphical width in which the line must fit
-     * @return the index after the last character that will fit
-     *  on a line beginning at <code>start</code>, which is not longer
-     *  than <code>maxAdvance</code> in graphical width
-     * @throws IllegalArgumentException if <code>start</code> is
-     *          less than the beginning of the paragraph.
+     * @pbrbm stbrt tif dibrbdtfr indfx bt wiidi to stbrt mfbsuring.
+     *  <dodf>stbrt</dodf> is bn bbsolutf indfx, not rflbtivf to tif
+     *  stbrt of tif pbrbgrbpi
+     * @pbrbm mbxAdvbndf tif grbpiidbl widti in wiidi tif linf must fit
+     * @rfturn tif indfx bftfr tif lbst dibrbdtfr tibt will fit
+     *  on b linf bfginning bt <dodf>stbrt</dodf>, wiidi is not longfr
+     *  tibn <dodf>mbxAdvbndf</dodf> in grbpiidbl widti
+     * @tirows IllfgblArgumfntExdfption if <dodf>stbrt</dodf> is
+     *          lfss tibn tif bfginning of tif pbrbgrbpi.
      */
-    public int getLineBreakIndex(int start, float maxAdvance) {
+    publid int gftLinfBrfbkIndfx(int stbrt, flobt mbxAdvbndf) {
 
-        int localStart = start - fStart;
+        int lodblStbrt = stbrt - fStbrt;
 
-        if (!haveLayoutWindow ||
-                localStart < fComponentStart ||
-                localStart >= fComponentLimit) {
-            makeLayoutWindow(localStart);
+        if (!ibvfLbyoutWindow ||
+                lodblStbrt < fComponfntStbrt ||
+                lodblStbrt >= fComponfntLimit) {
+            mbkfLbyoutWindow(lodblStbrt);
         }
 
-        return calcLineBreak(localStart, maxAdvance) + fStart;
+        rfturn dbldLinfBrfbk(lodblStbrt, mbxAdvbndf) + fStbrt;
     }
 
     /**
-     * Returns the graphical width of a line beginning at <code>start</code>
-     * and including characters up to <code>limit</code>.
-     * <code>start</code> and <code>limit</code> are absolute indices,
-     * not relative to the start of the paragraph.
+     * Rfturns tif grbpiidbl widti of b linf bfginning bt <dodf>stbrt</dodf>
+     * bnd indluding dibrbdtfrs up to <dodf>limit</dodf>.
+     * <dodf>stbrt</dodf> bnd <dodf>limit</dodf> brf bbsolutf indidfs,
+     * not rflbtivf to tif stbrt of tif pbrbgrbpi.
      *
-     * @param start the character index at which to start measuring
-     * @param limit the character index at which to stop measuring
-     * @return the graphical width of a line beginning at <code>start</code>
-     *   and including characters up to <code>limit</code>
-     * @throws IndexOutOfBoundsException if <code>limit</code> is less
-     *         than <code>start</code>
-     * @throws IllegalArgumentException if <code>start</code> or
-     *          <code>limit</code> is not between the beginning of
-     *          the paragraph and the end of the paragraph.
+     * @pbrbm stbrt tif dibrbdtfr indfx bt wiidi to stbrt mfbsuring
+     * @pbrbm limit tif dibrbdtfr indfx bt wiidi to stop mfbsuring
+     * @rfturn tif grbpiidbl widti of b linf bfginning bt <dodf>stbrt</dodf>
+     *   bnd indluding dibrbdtfrs up to <dodf>limit</dodf>
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>limit</dodf> is lfss
+     *         tibn <dodf>stbrt</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>stbrt</dodf> or
+     *          <dodf>limit</dodf> is not bftwffn tif bfginning of
+     *          tif pbrbgrbpi bnd tif fnd of tif pbrbgrbpi.
      */
-    public float getAdvanceBetween(int start, int limit) {
+    publid flobt gftAdvbndfBftwffn(int stbrt, int limit) {
 
-        int localStart = start - fStart;
-        int localLimit = limit - fStart;
+        int lodblStbrt = stbrt - fStbrt;
+        int lodblLimit = limit - fStbrt;
 
-        ensureComponents(localStart, localLimit);
-        TextLine line = makeTextLineOnRange(localStart, localLimit);
-        return line.getMetrics().advance;
-        // could cache line in case getLayout is called with same start, limit
+        fnsurfComponfnts(lodblStbrt, lodblLimit);
+        TfxtLinf linf = mbkfTfxtLinfOnRbngf(lodblStbrt, lodblLimit);
+        rfturn linf.gftMftrids().bdvbndf;
+        // dould dbdif linf in dbsf gftLbyout is dbllfd witi sbmf stbrt, limit
     }
 
     /**
-     * Returns a <code>TextLayout</code> on the given character range.
+     * Rfturns b <dodf>TfxtLbyout</dodf> on tif givfn dibrbdtfr rbngf.
      *
-     * @param start the index of the first character
-     * @param limit the index after the last character.  Must be greater
-     *   than <code>start</code>
-     * @return a <code>TextLayout</code> for the characters beginning at
-     *  <code>start</code> up to (but not including) <code>limit</code>
-     * @throws IndexOutOfBoundsException if <code>limit</code> is less
-     *         than <code>start</code>
-     * @throws IllegalArgumentException if <code>start</code> or
-     *          <code>limit</code> is not between the beginning of
-     *          the paragraph and the end of the paragraph.
+     * @pbrbm stbrt tif indfx of tif first dibrbdtfr
+     * @pbrbm limit tif indfx bftfr tif lbst dibrbdtfr.  Must bf grfbtfr
+     *   tibn <dodf>stbrt</dodf>
+     * @rfturn b <dodf>TfxtLbyout</dodf> for tif dibrbdtfrs bfginning bt
+     *  <dodf>stbrt</dodf> up to (but not indluding) <dodf>limit</dodf>
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>limit</dodf> is lfss
+     *         tibn <dodf>stbrt</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>stbrt</dodf> or
+     *          <dodf>limit</dodf> is not bftwffn tif bfginning of
+     *          tif pbrbgrbpi bnd tif fnd of tif pbrbgrbpi.
      */
-    public TextLayout getLayout(int start, int limit) {
+    publid TfxtLbyout gftLbyout(int stbrt, int limit) {
 
-        int localStart = start - fStart;
-        int localLimit = limit - fStart;
+        int lodblStbrt = stbrt - fStbrt;
+        int lodblLimit = limit - fStbrt;
 
-        ensureComponents(localStart, localLimit);
-        TextLine textLine = makeTextLineOnRange(localStart, localLimit);
+        fnsurfComponfnts(lodblStbrt, lodblLimit);
+        TfxtLinf tfxtLinf = mbkfTfxtLinfOnRbngf(lodblStbrt, lodblLimit);
 
-        if (localLimit < fChars.length) {
-            layoutCharCount += limit-start;
-            layoutCount++;
+        if (lodblLimit < fCibrs.lfngti) {
+            lbyoutCibrCount += limit-stbrt;
+            lbyoutCount++;
         }
 
-        return new TextLayout(textLine,
-                              fBaseline,
-                              fBaselineOffsets,
-                              fJustifyRatio);
+        rfturn nfw TfxtLbyout(tfxtLinf,
+                              fBbsflinf,
+                              fBbsflinfOffsfts,
+                              fJustifyRbtio);
     }
 
-    private int formattedChars = 0;
-    private static boolean wantStats = false;/*"true".equals(System.getProperty("collectStats"));*/
-    private boolean collectStats = false;
+    privbtf int formbttfdCibrs = 0;
+    privbtf stbtid boolfbn wbntStbts = fblsf;/*"truf".fqubls(Systfm.gftPropfrty("dollfdtStbts"));*/
+    privbtf boolfbn dollfdtStbts = fblsf;
 
-    private void printStats() {
-        System.out.println("formattedChars: " + formattedChars);
-        //formattedChars = 0;
-        collectStats = false;
+    privbtf void printStbts() {
+        Systfm.out.println("formbttfdCibrs: " + formbttfdCibrs);
+        //formbttfdCibrs = 0;
+        dollfdtStbts = fblsf;
     }
 
     /**
-     * Updates the <code>TextMeasurer</code> after a single character has
-     * been inserted
-     * into the paragraph currently represented by this
-     * <code>TextMeasurer</code>.  After this call, this
-     * <code>TextMeasurer</code> is equivalent to a new
-     * <code>TextMeasurer</code> created from the text;  however, it will
-     * usually be more efficient to update an existing
-     * <code>TextMeasurer</code> than to create a new one from scratch.
+     * Updbtfs tif <dodf>TfxtMfbsurfr</dodf> bftfr b singlf dibrbdtfr ibs
+     * bffn insfrtfd
+     * into tif pbrbgrbpi durrfntly rfprfsfntfd by tiis
+     * <dodf>TfxtMfbsurfr</dodf>.  Aftfr tiis dbll, tiis
+     * <dodf>TfxtMfbsurfr</dodf> is fquivblfnt to b nfw
+     * <dodf>TfxtMfbsurfr</dodf> drfbtfd from tif tfxt;  iowfvfr, it will
+     * usublly bf morf fffidifnt to updbtf bn fxisting
+     * <dodf>TfxtMfbsurfr</dodf> tibn to drfbtf b nfw onf from sdrbtdi.
      *
-     * @param newParagraph the text of the paragraph after performing
-     * the insertion.  Cannot be null.
-     * @param insertPos the position in the text where the character was
-     * inserted.  Must not be less than the start of
-     * <code>newParagraph</code>, and must be less than the end of
-     * <code>newParagraph</code>.
-     * @throws IndexOutOfBoundsException if <code>insertPos</code> is less
-     *         than the start of <code>newParagraph</code> or greater than
-     *         or equal to the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
-     *         <code>null</code>
+     * @pbrbm nfwPbrbgrbpi tif tfxt of tif pbrbgrbpi bftfr pfrforming
+     * tif insfrtion.  Cbnnot bf null.
+     * @pbrbm insfrtPos tif position in tif tfxt wifrf tif dibrbdtfr wbs
+     * insfrtfd.  Must not bf lfss tibn tif stbrt of
+     * <dodf>nfwPbrbgrbpi</dodf>, bnd must bf lfss tibn tif fnd of
+     * <dodf>nfwPbrbgrbpi</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>insfrtPos</dodf> is lfss
+     *         tibn tif stbrt of <dodf>nfwPbrbgrbpi</dodf> or grfbtfr tibn
+     *         or fqubl to tif fnd of <dodf>nfwPbrbgrbpi</dodf>
+     * @tirows NullPointfrExdfption if <dodf>nfwPbrbgrbpi</dodf> is
+     *         <dodf>null</dodf>
      */
-    public void insertChar(AttributedCharacterIterator newParagraph, int insertPos) {
+    publid void insfrtCibr(AttributfdCibrbdtfrItfrbtor nfwPbrbgrbpi, int insfrtPos) {
 
-        if (collectStats) {
-            printStats();
+        if (dollfdtStbts) {
+            printStbts();
         }
-        if (wantStats) {
-            collectStats = true;
-        }
-
-        fStart = newParagraph.getBeginIndex();
-        int end = newParagraph.getEndIndex();
-        if (end - fStart != fChars.length+1) {
-            initAll(newParagraph);
+        if (wbntStbts) {
+            dollfdtStbts = truf;
         }
 
-        char[] newChars = new char[end-fStart];
-        int newCharIndex = insertPos - fStart;
-        System.arraycopy(fChars, 0, newChars, 0, newCharIndex);
+        fStbrt = nfwPbrbgrbpi.gftBfginIndfx();
+        int fnd = nfwPbrbgrbpi.gftEndIndfx();
+        if (fnd - fStbrt != fCibrs.lfngti+1) {
+            initAll(nfwPbrbgrbpi);
+        }
 
-        char newChar = newParagraph.setIndex(insertPos);
-        newChars[newCharIndex] = newChar;
-        System.arraycopy(fChars,
-                         newCharIndex,
-                         newChars,
-                         newCharIndex+1,
-                         end-insertPos-1);
-        fChars = newChars;
+        dibr[] nfwCibrs = nfw dibr[fnd-fStbrt];
+        int nfwCibrIndfx = insfrtPos - fStbrt;
+        Systfm.brrbydopy(fCibrs, 0, nfwCibrs, 0, nfwCibrIndfx);
 
-        if (fBidi != null || Bidi.requiresBidi(newChars, newCharIndex, newCharIndex + 1) ||
-                newParagraph.getAttribute(TextAttribute.BIDI_EMBEDDING) != null) {
+        dibr nfwCibr = nfwPbrbgrbpi.sftIndfx(insfrtPos);
+        nfwCibrs[nfwCibrIndfx] = nfwCibr;
+        Systfm.brrbydopy(fCibrs,
+                         nfwCibrIndfx,
+                         nfwCibrs,
+                         nfwCibrIndfx+1,
+                         fnd-insfrtPos-1);
+        fCibrs = nfwCibrs;
 
-            fBidi = new Bidi(newParagraph);
-            if (fBidi.isLeftToRight()) {
+        if (fBidi != null || Bidi.rfquirfsBidi(nfwCibrs, nfwCibrIndfx, nfwCibrIndfx + 1) ||
+                nfwPbrbgrbpi.gftAttributf(TfxtAttributf.BIDI_EMBEDDING) != null) {
+
+            fBidi = nfw Bidi(nfwPbrbgrbpi);
+            if (fBidi.isLfftToRigit()) {
                 fBidi = null;
             }
         }
 
-        fParagraph = StyledParagraph.insertChar(newParagraph,
-                                                fChars,
-                                                insertPos,
-                                                fParagraph);
-        invalidateComponents();
+        fPbrbgrbpi = StylfdPbrbgrbpi.insfrtCibr(nfwPbrbgrbpi,
+                                                fCibrs,
+                                                insfrtPos,
+                                                fPbrbgrbpi);
+        invblidbtfComponfnts();
     }
 
     /**
-     * Updates the <code>TextMeasurer</code> after a single character has
-     * been deleted
-     * from the paragraph currently represented by this
-     * <code>TextMeasurer</code>.  After this call, this
-     * <code>TextMeasurer</code> is equivalent to a new <code>TextMeasurer</code>
-     * created from the text;  however, it will usually be more efficient
-     * to update an existing <code>TextMeasurer</code> than to create a new one
-     * from scratch.
+     * Updbtfs tif <dodf>TfxtMfbsurfr</dodf> bftfr b singlf dibrbdtfr ibs
+     * bffn dflftfd
+     * from tif pbrbgrbpi durrfntly rfprfsfntfd by tiis
+     * <dodf>TfxtMfbsurfr</dodf>.  Aftfr tiis dbll, tiis
+     * <dodf>TfxtMfbsurfr</dodf> is fquivblfnt to b nfw <dodf>TfxtMfbsurfr</dodf>
+     * drfbtfd from tif tfxt;  iowfvfr, it will usublly bf morf fffidifnt
+     * to updbtf bn fxisting <dodf>TfxtMfbsurfr</dodf> tibn to drfbtf b nfw onf
+     * from sdrbtdi.
      *
-     * @param newParagraph the text of the paragraph after performing
-     * the deletion.  Cannot be null.
-     * @param deletePos the position in the text where the character was removed.
-     * Must not be less than
-     * the start of <code>newParagraph</code>, and must not be greater than the
-     * end of <code>newParagraph</code>.
-     * @throws IndexOutOfBoundsException if <code>deletePos</code> is
-     *         less than the start of <code>newParagraph</code> or greater
-     *         than the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
-     *         <code>null</code>
+     * @pbrbm nfwPbrbgrbpi tif tfxt of tif pbrbgrbpi bftfr pfrforming
+     * tif dflftion.  Cbnnot bf null.
+     * @pbrbm dflftfPos tif position in tif tfxt wifrf tif dibrbdtfr wbs rfmovfd.
+     * Must not bf lfss tibn
+     * tif stbrt of <dodf>nfwPbrbgrbpi</dodf>, bnd must not bf grfbtfr tibn tif
+     * fnd of <dodf>nfwPbrbgrbpi</dodf>.
+     * @tirows IndfxOutOfBoundsExdfption if <dodf>dflftfPos</dodf> is
+     *         lfss tibn tif stbrt of <dodf>nfwPbrbgrbpi</dodf> or grfbtfr
+     *         tibn tif fnd of <dodf>nfwPbrbgrbpi</dodf>
+     * @tirows NullPointfrExdfption if <dodf>nfwPbrbgrbpi</dodf> is
+     *         <dodf>null</dodf>
      */
-    public void deleteChar(AttributedCharacterIterator newParagraph, int deletePos) {
+    publid void dflftfCibr(AttributfdCibrbdtfrItfrbtor nfwPbrbgrbpi, int dflftfPos) {
 
-        fStart = newParagraph.getBeginIndex();
-        int end = newParagraph.getEndIndex();
-        if (end - fStart != fChars.length-1) {
-            initAll(newParagraph);
+        fStbrt = nfwPbrbgrbpi.gftBfginIndfx();
+        int fnd = nfwPbrbgrbpi.gftEndIndfx();
+        if (fnd - fStbrt != fCibrs.lfngti-1) {
+            initAll(nfwPbrbgrbpi);
         }
 
-        char[] newChars = new char[end-fStart];
-        int changedIndex = deletePos-fStart;
+        dibr[] nfwCibrs = nfw dibr[fnd-fStbrt];
+        int dibngfdIndfx = dflftfPos-fStbrt;
 
-        System.arraycopy(fChars, 0, newChars, 0, deletePos-fStart);
-        System.arraycopy(fChars, changedIndex+1, newChars, changedIndex, end-deletePos);
-        fChars = newChars;
+        Systfm.brrbydopy(fCibrs, 0, nfwCibrs, 0, dflftfPos-fStbrt);
+        Systfm.brrbydopy(fCibrs, dibngfdIndfx+1, nfwCibrs, dibngfdIndfx, fnd-dflftfPos);
+        fCibrs = nfwCibrs;
 
         if (fBidi != null) {
-            fBidi = new Bidi(newParagraph);
-            if (fBidi.isLeftToRight()) {
+            fBidi = nfw Bidi(nfwPbrbgrbpi);
+            if (fBidi.isLfftToRigit()) {
                 fBidi = null;
             }
         }
 
-        fParagraph = StyledParagraph.deleteChar(newParagraph,
-                                                fChars,
-                                                deletePos,
-                                                fParagraph);
-        invalidateComponents();
+        fPbrbgrbpi = StylfdPbrbgrbpi.dflftfCibr(nfwPbrbgrbpi,
+                                                fCibrs,
+                                                dflftfPos,
+                                                fPbrbgrbpi);
+        invblidbtfComponfnts();
     }
 
     /**
-     * NOTE:  This method is only for LineBreakMeasurer's use.  It is package-
-     * private because it returns internal data.
+     * NOTE:  Tiis mftiod is only for LinfBrfbkMfbsurfr's usf.  It is pbdkbgf-
+     * privbtf bfdbusf it rfturns intfrnbl dbtb.
      */
-    char[] getChars() {
+    dibr[] gftCibrs() {
 
-        return fChars;
+        rfturn fCibrs;
     }
 }

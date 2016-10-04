@@ -1,695 +1,695 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* pngmem.c - stub functions for memory allocation
+/* pngmfm.d - stub fundtions for mfmory bllodbtion
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf bnd, pfr its tfrms, siould not bf rfmovfd:
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Lbst dibngfd in libpng 1.5.4 [July 7, 2011]
+ * Copyrigit (d) 1998-2011 Glfnn Rbndfrs-Pfirson
+ * (Vfrsion 0.96 Copyrigit (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyrigit (d) 1995, 1996 Guy Erid Sdiblnbt, Group 42, Ind.)
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * Tiis dodf is rflfbsfd undfr tif libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff tif disdlbimfr
+ * bnd lidfnsf in png.i
  *
- * This file provides a location for all memory allocation.  Users who
- * need special memory handling are expected to supply replacement
- * functions for png_malloc() and png_free(), and to use
- * png_create_read_struct_2() and png_create_write_struct_2() to
- * identify the replacement functions.
+ * Tiis filf providfs b lodbtion for bll mfmory bllodbtion.  Usfrs wio
+ * nffd spfdibl mfmory ibndling brf fxpfdtfd to supply rfplbdfmfnt
+ * fundtions for png_mbllod() bnd png_frff(), bnd to usf
+ * png_drfbtf_rfbd_strudt_2() bnd png_drfbtf_writf_strudt_2() to
+ * idfntify tif rfplbdfmfnt fundtions.
  */
 
-#include "pngpriv.h"
+#indludf "pngpriv.i"
 
-#if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
+#if dffinfd(PNG_READ_SUPPORTED) || dffinfd(PNG_WRITE_SUPPORTED)
 
-/* Borland DOS special memory handler */
-#if defined(__TURBOC__) && !defined(_Windows) && !defined(__FLAT__)
-/* If you change this, be sure to change the one in png.h also */
+/* Borlbnd DOS spfdibl mfmory ibndlfr */
+#if dffinfd(__TURBOC__) && !dffinfd(_Windows) && !dffinfd(__FLAT__)
+/* If you dibngf tiis, bf surf to dibngf tif onf in png.i blso */
 
-/* Allocate memory for a png_struct.  The malloc and memset can be replaced
-   by a single call to calloc() if this is thought to improve performance. */
+/* Allodbtf mfmory for b png_strudt.  Tif mbllod bnd mfmsft dbn bf rfplbdfd
+   by b singlf dbll to dbllod() if tiis is tiougit to improvf pfrformbndf. */
 PNG_FUNCTION(png_voidp /* PRIVATE */,
-png_create_struct,(int type),PNG_ALLOCATED)
+png_drfbtf_strudt,(int typf),PNG_ALLOCATED)
 {
-#  ifdef PNG_USER_MEM_SUPPORTED
-   return (png_create_struct_2(type, NULL, NULL));
+#  ifdff PNG_USER_MEM_SUPPORTED
+   rfturn (png_drfbtf_strudt_2(typf, NULL, NULL));
 }
 
-/* Alternate version of png_create_struct, for use with user-defined malloc. */
+/* Altfrnbtf vfrsion of png_drfbtf_strudt, for usf witi usfr-dffinfd mbllod. */
 PNG_FUNCTION(png_voidp /* PRIVATE */,
-png_create_struct_2,(int type, png_malloc_ptr malloc_fn, png_voidp mem_ptr),
+png_drfbtf_strudt_2,(int typf, png_mbllod_ptr mbllod_fn, png_voidp mfm_ptr),
    PNG_ALLOCATED)
 {
-#  endif /* PNG_USER_MEM_SUPPORTED */
-   png_size_t size;
-   png_voidp struct_ptr;
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+   png_sizf_t sizf;
+   png_voidp strudt_ptr;
 
-   if (type == PNG_STRUCT_INFO)
-      size = png_sizeof(png_info);
+   if (typf == PNG_STRUCT_INFO)
+      sizf = png_sizfof(png_info);
 
-   else if (type == PNG_STRUCT_PNG)
-      size = png_sizeof(png_struct);
+   flsf if (typf == PNG_STRUCT_PNG)
+      sizf = png_sizfof(png_strudt);
 
-   else
-      return (png_get_copyright(NULL));
+   flsf
+      rfturn (png_gft_dopyrigit(NULL));
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (malloc_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (mbllod_fn != NULL)
    {
-      png_struct dummy_struct;
-      png_structp png_ptr = &dummy_struct;
-      png_ptr->mem_ptr=mem_ptr;
-      struct_ptr = (*(malloc_fn))(png_ptr, (png_uint_32)size);
+      png_strudt dummy_strudt;
+      png_strudtp png_ptr = &dummy_strudt;
+      png_ptr->mfm_ptr=mfm_ptr;
+      strudt_ptr = (*(mbllod_fn))(png_ptr, (png_uint_32)sizf);
    }
 
-   else
-#  endif /* PNG_USER_MEM_SUPPORTED */
-   struct_ptr = (png_voidp)farmalloc(size);
-   if (struct_ptr != NULL)
-      png_memset(struct_ptr, 0, size);
+   flsf
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+   strudt_ptr = (png_voidp)fbrmbllod(sizf);
+   if (strudt_ptr != NULL)
+      png_mfmsft(strudt_ptr, 0, sizf);
 
-   return (struct_ptr);
+   rfturn (strudt_ptr);
 }
 
-/* Free memory allocated by a png_create_struct() call */
+/* Frff mfmory bllodbtfd by b png_drfbtf_strudt() dbll */
 void /* PRIVATE */
-png_destroy_struct(png_voidp struct_ptr)
+png_dfstroy_strudt(png_voidp strudt_ptr)
 {
-#  ifdef PNG_USER_MEM_SUPPORTED
-   png_destroy_struct_2(struct_ptr, NULL, NULL);
+#  ifdff PNG_USER_MEM_SUPPORTED
+   png_dfstroy_strudt_2(strudt_ptr, NULL, NULL);
 }
 
-/* Free memory allocated by a png_create_struct() call */
+/* Frff mfmory bllodbtfd by b png_drfbtf_strudt() dbll */
 void /* PRIVATE */
-png_destroy_struct_2(png_voidp struct_ptr, png_free_ptr free_fn,
-    png_voidp mem_ptr)
+png_dfstroy_strudt_2(png_voidp strudt_ptr, png_frff_ptr frff_fn,
+    png_voidp mfm_ptr)
 {
-#  endif
-   if (struct_ptr != NULL)
+#  fndif
+   if (strudt_ptr != NULL)
    {
-#  ifdef PNG_USER_MEM_SUPPORTED
-      if (free_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+      if (frff_fn != NULL)
       {
-         png_struct dummy_struct;
-         png_structp png_ptr = &dummy_struct;
-         png_ptr->mem_ptr=mem_ptr;
-         (*(free_fn))(png_ptr, struct_ptr);
-         return;
+         png_strudt dummy_strudt;
+         png_strudtp png_ptr = &dummy_strudt;
+         png_ptr->mfm_ptr=mfm_ptr;
+         (*(frff_fn))(png_ptr, strudt_ptr);
+         rfturn;
       }
 
-#  endif /* PNG_USER_MEM_SUPPORTED */
-      farfree (struct_ptr);
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+      fbrfrff (strudt_ptr);
    }
 }
 
-/* Allocate memory.  For reasonable files, size should never exceed
- * 64K.  However, zlib may allocate more then 64K if you don't tell
- * it not to.  See zconf.h and png.h for more information. zlib does
- * need to allocate exactly 64K, so whatever you call here must
- * have the ability to do that.
+/* Allodbtf mfmory.  For rfbsonbblf filfs, sizf siould nfvfr fxdffd
+ * 64K.  Howfvfr, zlib mby bllodbtf morf tifn 64K if you don't tfll
+ * it not to.  Sff zdonf.i bnd png.i for morf informbtion. zlib dofs
+ * nffd to bllodbtf fxbdtly 64K, so wibtfvfr you dbll ifrf must
+ * ibvf tif bbility to do tibt.
  *
- * Borland seems to have a problem in DOS mode for exactly 64K.
- * It gives you a segment with an offset of 8 (perhaps to store its
- * memory stuff).  zlib doesn't like this at all, so we have to
- * detect and deal with it.  This code should not be needed in
- * Windows or OS/2 modes, and only in 16 bit mode.  This code has
- * been updated by Alexander Lehmann for version 0.89 to waste less
- * memory.
+ * Borlbnd sffms to ibvf b problfm in DOS modf for fxbdtly 64K.
+ * It givfs you b sfgmfnt witi bn offsft of 8 (pfribps to storf its
+ * mfmory stuff).  zlib dofsn't likf tiis bt bll, so wf ibvf to
+ * dftfdt bnd dfbl witi it.  Tiis dodf siould not bf nffdfd in
+ * Windows or OS/2 modfs, bnd only in 16 bit modf.  Tiis dodf ibs
+ * bffn updbtfd by Alfxbndfr Lfimbnn for vfrsion 0.89 to wbstf lfss
+ * mfmory.
  *
- * Note that we can't use png_size_t for the "size" declaration,
- * since on some systems a png_size_t is a 16-bit quantity, and as a
- * result, we would be truncating potentially larger memory requests
- * (which should cause a fatal error) and introducing major problems.
+ * Notf tibt wf dbn't usf png_sizf_t for tif "sizf" dfdlbrbtion,
+ * sindf on somf systfms b png_sizf_t is b 16-bit qubntity, bnd bs b
+ * rfsult, wf would bf trundbting potfntiblly lbrgfr mfmory rfqufsts
+ * (wiidi siould dbusf b fbtbl frror) bnd introduding mbjor problfms.
  */
 PNG_FUNCTION(png_voidp,PNGAPI
-png_calloc,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_dbllod,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
+   png_voidp rft;
 
-   ret = (png_malloc(png_ptr, size));
+   rft = (png_mbllod(png_ptr, sizf));
 
-   if (ret != NULL)
-      png_memset(ret,0,(png_size_t)size);
+   if (rft != NULL)
+      png_mfmsft(rft,0,(png_sizf_t)sizf);
 
-   return (ret);
+   rfturn (rft);
 }
 
 PNG_FUNCTION(png_voidp,PNGAPI
-png_malloc,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_mbllod,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
+   png_voidp rft;
 
-   if (png_ptr == NULL || size == 0)
-      return (NULL);
+   if (png_ptr == NULL || sizf == 0)
+      rfturn (NULL);
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (png_ptr->malloc_fn != NULL)
-      ret = ((png_voidp)(*(png_ptr->malloc_fn))(png_ptr, (png_size_t)size));
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (png_ptr->mbllod_fn != NULL)
+      rft = ((png_voidp)(*(png_ptr->mbllod_fn))(png_ptr, (png_sizf_t)sizf));
 
-   else
-      ret = (png_malloc_default(png_ptr, size));
+   flsf
+      rft = (png_mbllod_dffbult(png_ptr, sizf));
 
-   if (ret == NULL && (png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-       png_error(png_ptr, "Out of memory");
+   if (rft == NULL && (png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+       png_frror(png_ptr, "Out of mfmory");
 
-   return (ret);
+   rfturn (rft);
 }
 
 PNG_FUNCTION(png_voidp,PNGAPI
-png_malloc_default,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_mbllod_dffbult,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
-#  endif /* PNG_USER_MEM_SUPPORTED */
+   png_voidp rft;
+#  fndif /* PNG_USER_MEM_SUPPORTED */
 
-   if (png_ptr == NULL || size == 0)
-      return (NULL);
+   if (png_ptr == NULL || sizf == 0)
+      rfturn (NULL);
 
-#  ifdef PNG_MAX_MALLOC_64K
-   if (size > (png_uint_32)65536L)
+#  ifdff PNG_MAX_MALLOC_64K
+   if (sizf > (png_uint_32)65536L)
    {
-      png_warning(png_ptr, "Cannot Allocate > 64K");
-      ret = NULL;
+      png_wbrning(png_ptr, "Cbnnot Allodbtf > 64K");
+      rft = NULL;
    }
 
-   else
-#  endif
+   flsf
+#  fndif
 
-   if (size != (size_t)size)
-      ret = NULL;
+   if (sizf != (sizf_t)sizf)
+      rft = NULL;
 
-   else if (size == (png_uint_32)65536L)
+   flsf if (sizf == (png_uint_32)65536L)
    {
-      if (png_ptr->offset_table == NULL)
+      if (png_ptr->offsft_tbblf == NULL)
       {
-         /* Try to see if we need to do any of this fancy stuff */
-         ret = farmalloc(size);
-         if (ret == NULL || ((png_size_t)ret & 0xffff))
+         /* Try to sff if wf nffd to do bny of tiis fbndy stuff */
+         rft = fbrmbllod(sizf);
+         if (rft == NULL || ((png_sizf_t)rft & 0xffff))
          {
-            int num_blocks;
-            png_uint_32 total_size;
-            png_bytep table;
-            int i, mem_level, window_bits;
-            png_byte huge * hptr;
+            int num_blodks;
+            png_uint_32 totbl_sizf;
+            png_bytfp tbblf;
+            int i, mfm_lfvfl, window_bits;
+            png_bytf iugf * iptr;
             int window_bits
 
-            if (ret != NULL)
+            if (rft != NULL)
             {
-               farfree(ret);
-               ret = NULL;
+               fbrfrff(rft);
+               rft = NULL;
             }
 
             window_bits =
-                png_ptr->zlib_window_bits >= png_ptr->zlib_text_window_bits ?
-                png_ptr->zlib_window_bits : png_ptr->zlib_text_window_bits;
+                png_ptr->zlib_window_bits >= png_ptr->zlib_tfxt_window_bits ?
+                png_ptr->zlib_window_bits : png_ptr->zlib_tfxt_window_bits;
 
             if (window_bits > 14)
-               num_blocks = (int)(1 << (window_bits - 14));
+               num_blodks = (int)(1 << (window_bits - 14));
 
-            else
-               num_blocks = 1;
+            flsf
+               num_blodks = 1;
 
-            mem_level =
-                png_ptr->zlib_mem_level >= png_ptr->zlib_text_mem_level ?
-                png_ptr->zlib_mem_level : png_ptr->zlib_text_mem_level;
+            mfm_lfvfl =
+                png_ptr->zlib_mfm_lfvfl >= png_ptr->zlib_tfxt_mfm_lfvfl ?
+                png_ptr->zlib_mfm_lfvfl : png_ptr->zlib_tfxt_mfm_lfvfl;
 
-            if (mem_level >= 7)
-               num_blocks += (int)(1 << (mem_level - 7));
+            if (mfm_lfvfl >= 7)
+               num_blodks += (int)(1 << (mfm_lfvfl - 7));
 
-            else
-               num_blocks++;
+            flsf
+               num_blodks++;
 
-            total_size = ((png_uint_32)65536L) * (png_uint_32)num_blocks+16;
+            totbl_sizf = ((png_uint_32)65536L) * (png_uint_32)num_blodks+16;
 
-            table = farmalloc(total_size);
+            tbblf = fbrmbllod(totbl_sizf);
 
-            if (table == NULL)
+            if (tbblf == NULL)
             {
-#  ifndef PNG_USER_MEM_SUPPORTED
-               if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-                  png_error(png_ptr, "Out Of Memory"); /* Note "O", "M" */
+#  ifndff PNG_USER_MEM_SUPPORTED
+               if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+                  png_frror(png_ptr, "Out Of Mfmory"); /* Notf "O", "M" */
 
-               else
-                  png_warning(png_ptr, "Out Of Memory");
-#  endif
-               return (NULL);
+               flsf
+                  png_wbrning(png_ptr, "Out Of Mfmory");
+#  fndif
+               rfturn (NULL);
             }
 
-            if ((png_size_t)table & 0xfff0)
+            if ((png_sizf_t)tbblf & 0xfff0)
             {
-#  ifndef PNG_USER_MEM_SUPPORTED
-               if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-                  png_error(png_ptr,
-                    "Farmalloc didn't return normalized pointer");
+#  ifndff PNG_USER_MEM_SUPPORTED
+               if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+                  png_frror(png_ptr,
+                    "Fbrmbllod didn't rfturn normblizfd pointfr");
 
-               else
-                  png_warning(png_ptr,
-                    "Farmalloc didn't return normalized pointer");
-#  endif
-               return (NULL);
+               flsf
+                  png_wbrning(png_ptr,
+                    "Fbrmbllod didn't rfturn normblizfd pointfr");
+#  fndif
+               rfturn (NULL);
             }
 
-            png_ptr->offset_table = table;
-            png_ptr->offset_table_ptr = farmalloc(num_blocks *
-               png_sizeof(png_bytep));
+            png_ptr->offsft_tbblf = tbblf;
+            png_ptr->offsft_tbblf_ptr = fbrmbllod(num_blodks *
+               png_sizfof(png_bytfp));
 
-            if (png_ptr->offset_table_ptr == NULL)
+            if (png_ptr->offsft_tbblf_ptr == NULL)
             {
-#  ifndef PNG_USER_MEM_SUPPORTED
-               if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-                  png_error(png_ptr, "Out Of memory"); /* Note "O", "m" */
+#  ifndff PNG_USER_MEM_SUPPORTED
+               if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+                  png_frror(png_ptr, "Out Of mfmory"); /* Notf "O", "m" */
 
-               else
-                  png_warning(png_ptr, "Out Of memory");
-#  endif
-               return (NULL);
+               flsf
+                  png_wbrning(png_ptr, "Out Of mfmory");
+#  fndif
+               rfturn (NULL);
             }
 
-            hptr = (png_byte huge *)table;
-            if ((png_size_t)hptr & 0xf)
+            iptr = (png_bytf iugf *)tbblf;
+            if ((png_sizf_t)iptr & 0xf)
             {
-               hptr = (png_byte huge *)((long)(hptr) & 0xfffffff0L);
-               hptr = hptr + 16L;  /* "hptr += 16L" fails on Turbo C++ 3.0 */
+               iptr = (png_bytf iugf *)((long)(iptr) & 0xfffffff0L);
+               iptr = iptr + 16L;  /* "iptr += 16L" fbils on Turbo C++ 3.0 */
             }
 
-            for (i = 0; i < num_blocks; i++)
+            for (i = 0; i < num_blodks; i++)
             {
-               png_ptr->offset_table_ptr[i] = (png_bytep)hptr;
-               hptr = hptr + (png_uint_32)65536L;  /* "+=" fails on TC++3.0 */
+               png_ptr->offsft_tbblf_ptr[i] = (png_bytfp)iptr;
+               iptr = iptr + (png_uint_32)65536L;  /* "+=" fbils on TC++3.0 */
             }
 
-            png_ptr->offset_table_number = num_blocks;
-            png_ptr->offset_table_count = 0;
-            png_ptr->offset_table_count_free = 0;
+            png_ptr->offsft_tbblf_numbfr = num_blodks;
+            png_ptr->offsft_tbblf_dount = 0;
+            png_ptr->offsft_tbblf_dount_frff = 0;
          }
       }
 
-      if (png_ptr->offset_table_count >= png_ptr->offset_table_number)
+      if (png_ptr->offsft_tbblf_dount >= png_ptr->offsft_tbblf_numbfr)
       {
-#  ifndef PNG_USER_MEM_SUPPORTED
-         if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-            png_error(png_ptr, "Out of Memory"); /* Note "O" and "M" */
+#  ifndff PNG_USER_MEM_SUPPORTED
+         if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+            png_frror(png_ptr, "Out of Mfmory"); /* Notf "O" bnd "M" */
 
-         else
-            png_warning(png_ptr, "Out of Memory");
-#  endif
-         return (NULL);
+         flsf
+            png_wbrning(png_ptr, "Out of Mfmory");
+#  fndif
+         rfturn (NULL);
       }
 
-      ret = png_ptr->offset_table_ptr[png_ptr->offset_table_count++];
+      rft = png_ptr->offsft_tbblf_ptr[png_ptr->offsft_tbblf_dount++];
    }
 
-   else
-      ret = farmalloc(size);
+   flsf
+      rft = fbrmbllod(sizf);
 
-#  ifndef PNG_USER_MEM_SUPPORTED
-   if (ret == NULL)
+#  ifndff PNG_USER_MEM_SUPPORTED
+   if (rft == NULL)
    {
-      if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-         png_error(png_ptr, "Out of memory"); /* Note "o" and "m" */
+      if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+         png_frror(png_ptr, "Out of mfmory"); /* Notf "o" bnd "m" */
 
-      else
-         png_warning(png_ptr, "Out of memory"); /* Note "o" and "m" */
+      flsf
+         png_wbrning(png_ptr, "Out of mfmory"); /* Notf "o" bnd "m" */
    }
-#  endif
+#  fndif
 
-   return (ret);
+   rfturn (rft);
 }
 
-/* Free a pointer allocated by png_malloc().  In the default
- * configuration, png_ptr is not used, but is passed in case it
- * is needed.  If ptr is NULL, return without taking any action.
+/* Frff b pointfr bllodbtfd by png_mbllod().  In tif dffbult
+ * donfigurbtion, png_ptr is not usfd, but is pbssfd in dbsf it
+ * is nffdfd.  If ptr is NULL, rfturn witiout tbking bny bdtion.
  */
 void PNGAPI
-png_free(png_structp png_ptr, png_voidp ptr)
+png_frff(png_strudtp png_ptr, png_voidp ptr)
 {
    if (png_ptr == NULL || ptr == NULL)
-      return;
+      rfturn;
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (png_ptr->free_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (png_ptr->frff_fn != NULL)
    {
-      (*(png_ptr->free_fn))(png_ptr, ptr);
-      return;
+      (*(png_ptr->frff_fn))(png_ptr, ptr);
+      rfturn;
    }
 
-   else
-      png_free_default(png_ptr, ptr);
+   flsf
+      png_frff_dffbult(png_ptr, ptr);
 }
 
 void PNGAPI
-png_free_default(png_structp png_ptr, png_voidp ptr)
+png_frff_dffbult(png_strudtp png_ptr, png_voidp ptr)
 {
-#  endif /* PNG_USER_MEM_SUPPORTED */
+#  fndif /* PNG_USER_MEM_SUPPORTED */
 
    if (png_ptr == NULL || ptr == NULL)
-      return;
+      rfturn;
 
-   if (png_ptr->offset_table != NULL)
+   if (png_ptr->offsft_tbblf != NULL)
    {
       int i;
 
-      for (i = 0; i < png_ptr->offset_table_count; i++)
+      for (i = 0; i < png_ptr->offsft_tbblf_dount; i++)
       {
-         if (ptr == png_ptr->offset_table_ptr[i])
+         if (ptr == png_ptr->offsft_tbblf_ptr[i])
          {
             ptr = NULL;
-            png_ptr->offset_table_count_free++;
-            break;
+            png_ptr->offsft_tbblf_dount_frff++;
+            brfbk;
          }
       }
-      if (png_ptr->offset_table_count_free == png_ptr->offset_table_count)
+      if (png_ptr->offsft_tbblf_dount_frff == png_ptr->offsft_tbblf_dount)
       {
-         farfree(png_ptr->offset_table);
-         farfree(png_ptr->offset_table_ptr);
-         png_ptr->offset_table = NULL;
-         png_ptr->offset_table_ptr = NULL;
+         fbrfrff(png_ptr->offsft_tbblf);
+         fbrfrff(png_ptr->offsft_tbblf_ptr);
+         png_ptr->offsft_tbblf = NULL;
+         png_ptr->offsft_tbblf_ptr = NULL;
       }
    }
 
    if (ptr != NULL)
-      farfree(ptr);
+      fbrfrff(ptr);
 }
 
-#else /* Not the Borland DOS special memory handler */
+#flsf /* Not tif Borlbnd DOS spfdibl mfmory ibndlfr */
 
-/* Allocate memory for a png_struct or a png_info.  The malloc and
-   memset can be replaced by a single call to calloc() if this is thought
-   to improve performance noticably. */
+/* Allodbtf mfmory for b png_strudt or b png_info.  Tif mbllod bnd
+   mfmsft dbn bf rfplbdfd by b singlf dbll to dbllod() if tiis is tiougit
+   to improvf pfrformbndf notidbbly. */
 PNG_FUNCTION(png_voidp /* PRIVATE */,
-png_create_struct,(int type),PNG_ALLOCATED)
+png_drfbtf_strudt,(int typf),PNG_ALLOCATED)
 {
-#  ifdef PNG_USER_MEM_SUPPORTED
-   return (png_create_struct_2(type, NULL, NULL));
+#  ifdff PNG_USER_MEM_SUPPORTED
+   rfturn (png_drfbtf_strudt_2(typf, NULL, NULL));
 }
 
-/* Allocate memory for a png_struct or a png_info.  The malloc and
-   memset can be replaced by a single call to calloc() if this is thought
-   to improve performance noticably. */
+/* Allodbtf mfmory for b png_strudt or b png_info.  Tif mbllod bnd
+   mfmsft dbn bf rfplbdfd by b singlf dbll to dbllod() if tiis is tiougit
+   to improvf pfrformbndf notidbbly. */
 PNG_FUNCTION(png_voidp /* PRIVATE */,
-png_create_struct_2,(int type, png_malloc_ptr malloc_fn, png_voidp mem_ptr),
+png_drfbtf_strudt_2,(int typf, png_mbllod_ptr mbllod_fn, png_voidp mfm_ptr),
    PNG_ALLOCATED)
 {
-#  endif /* PNG_USER_MEM_SUPPORTED */
-   png_size_t size;
-   png_voidp struct_ptr;
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+   png_sizf_t sizf;
+   png_voidp strudt_ptr;
 
-   if (type == PNG_STRUCT_INFO)
-      size = png_sizeof(png_info);
+   if (typf == PNG_STRUCT_INFO)
+      sizf = png_sizfof(png_info);
 
-   else if (type == PNG_STRUCT_PNG)
-      size = png_sizeof(png_struct);
+   flsf if (typf == PNG_STRUCT_PNG)
+      sizf = png_sizfof(png_strudt);
 
-   else
-      return (NULL);
+   flsf
+      rfturn (NULL);
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (malloc_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (mbllod_fn != NULL)
    {
-      png_struct dummy_struct;
-      png_structp png_ptr = &dummy_struct;
-      png_ptr->mem_ptr=mem_ptr;
-      struct_ptr = (*(malloc_fn))(png_ptr, size);
+      png_strudt dummy_strudt;
+      png_strudtp png_ptr = &dummy_strudt;
+      png_ptr->mfm_ptr=mfm_ptr;
+      strudt_ptr = (*(mbllod_fn))(png_ptr, sizf);
 
-      if (struct_ptr != NULL)
-         png_memset(struct_ptr, 0, size);
+      if (strudt_ptr != NULL)
+         png_mfmsft(strudt_ptr, 0, sizf);
 
-      return (struct_ptr);
+      rfturn (strudt_ptr);
    }
-#  endif /* PNG_USER_MEM_SUPPORTED */
+#  fndif /* PNG_USER_MEM_SUPPORTED */
 
-#  if defined(__TURBOC__) && !defined(__FLAT__)
-   struct_ptr = (png_voidp)farmalloc(size);
-#  else
-#    if defined(_MSC_VER) && defined(MAXSEG_64K)
-   struct_ptr = (png_voidp)halloc(size, 1);
-#    else
-   struct_ptr = (png_voidp)malloc(size);
-#    endif
-#  endif
+#  if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
+   strudt_ptr = (png_voidp)fbrmbllod(sizf);
+#  flsf
+#    if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+   strudt_ptr = (png_voidp)ibllod(sizf, 1);
+#    flsf
+   strudt_ptr = (png_voidp)mbllod(sizf);
+#    fndif
+#  fndif
 
-   if (struct_ptr != NULL)
-      png_memset(struct_ptr, 0, size);
+   if (strudt_ptr != NULL)
+      png_mfmsft(strudt_ptr, 0, sizf);
 
-   return (struct_ptr);
+   rfturn (strudt_ptr);
 }
 
 
-/* Free memory allocated by a png_create_struct() call */
+/* Frff mfmory bllodbtfd by b png_drfbtf_strudt() dbll */
 void /* PRIVATE */
-png_destroy_struct(png_voidp struct_ptr)
+png_dfstroy_strudt(png_voidp strudt_ptr)
 {
-#  ifdef PNG_USER_MEM_SUPPORTED
-   png_destroy_struct_2(struct_ptr, NULL, NULL);
+#  ifdff PNG_USER_MEM_SUPPORTED
+   png_dfstroy_strudt_2(strudt_ptr, NULL, NULL);
 }
 
-/* Free memory allocated by a png_create_struct() call */
+/* Frff mfmory bllodbtfd by b png_drfbtf_strudt() dbll */
 void /* PRIVATE */
-png_destroy_struct_2(png_voidp struct_ptr, png_free_ptr free_fn,
-    png_voidp mem_ptr)
+png_dfstroy_strudt_2(png_voidp strudt_ptr, png_frff_ptr frff_fn,
+    png_voidp mfm_ptr)
 {
-#  endif /* PNG_USER_MEM_SUPPORTED */
-   if (struct_ptr != NULL)
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+   if (strudt_ptr != NULL)
    {
-#  ifdef PNG_USER_MEM_SUPPORTED
-      if (free_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+      if (frff_fn != NULL)
       {
-         png_struct dummy_struct;
-         png_structp png_ptr = &dummy_struct;
-         png_ptr->mem_ptr=mem_ptr;
-         (*(free_fn))(png_ptr, struct_ptr);
-         return;
+         png_strudt dummy_strudt;
+         png_strudtp png_ptr = &dummy_strudt;
+         png_ptr->mfm_ptr=mfm_ptr;
+         (*(frff_fn))(png_ptr, strudt_ptr);
+         rfturn;
       }
-#  endif /* PNG_USER_MEM_SUPPORTED */
-#  if defined(__TURBOC__) && !defined(__FLAT__)
-      farfree(struct_ptr);
+#  fndif /* PNG_USER_MEM_SUPPORTED */
+#  if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
+      fbrfrff(strudt_ptr);
 
-#  else
-#    if defined(_MSC_VER) && defined(MAXSEG_64K)
-      hfree(struct_ptr);
+#  flsf
+#    if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+      ifrff(strudt_ptr);
 
-#    else
-      free(struct_ptr);
+#    flsf
+      frff(strudt_ptr);
 
-#    endif
-#  endif
+#    fndif
+#  fndif
    }
 }
 
-/* Allocate memory.  For reasonable files, size should never exceed
- * 64K.  However, zlib may allocate more then 64K if you don't tell
- * it not to.  See zconf.h and png.h for more information.  zlib does
- * need to allocate exactly 64K, so whatever you call here must
- * have the ability to do that.
+/* Allodbtf mfmory.  For rfbsonbblf filfs, sizf siould nfvfr fxdffd
+ * 64K.  Howfvfr, zlib mby bllodbtf morf tifn 64K if you don't tfll
+ * it not to.  Sff zdonf.i bnd png.i for morf informbtion.  zlib dofs
+ * nffd to bllodbtf fxbdtly 64K, so wibtfvfr you dbll ifrf must
+ * ibvf tif bbility to do tibt.
  */
 
 PNG_FUNCTION(png_voidp,PNGAPI
-png_calloc,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_dbllod,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
+   png_voidp rft;
 
-   ret = (png_malloc(png_ptr, size));
+   rft = (png_mbllod(png_ptr, sizf));
 
-   if (ret != NULL)
-      png_memset(ret,0,(png_size_t)size);
+   if (rft != NULL)
+      png_mfmsft(rft,0,(png_sizf_t)sizf);
 
-   return (ret);
+   rfturn (rft);
 }
 
 PNG_FUNCTION(png_voidp,PNGAPI
-png_malloc,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_mbllod,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
+   png_voidp rft;
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (png_ptr == NULL || size == 0)
-      return (NULL);
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (png_ptr == NULL || sizf == 0)
+      rfturn (NULL);
 
-   if (png_ptr->malloc_fn != NULL)
-      ret = ((png_voidp)(*(png_ptr->malloc_fn))(png_ptr, (png_size_t)size));
+   if (png_ptr->mbllod_fn != NULL)
+      rft = ((png_voidp)(*(png_ptr->mbllod_fn))(png_ptr, (png_sizf_t)sizf));
 
-   else
-      ret = (png_malloc_default(png_ptr, size));
+   flsf
+      rft = (png_mbllod_dffbult(png_ptr, sizf));
 
-   if (ret == NULL && (png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-       png_error(png_ptr, "Out of Memory");
+   if (rft == NULL && (png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+       png_frror(png_ptr, "Out of Mfmory");
 
-   return (ret);
+   rfturn (rft);
 }
 
 PNG_FUNCTION(png_voidp,PNGAPI
-png_malloc_default,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_mbllod_dffbult,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
-   png_voidp ret;
-#  endif /* PNG_USER_MEM_SUPPORTED */
+   png_voidp rft;
+#  fndif /* PNG_USER_MEM_SUPPORTED */
 
-   if (png_ptr == NULL || size == 0)
-      return (NULL);
+   if (png_ptr == NULL || sizf == 0)
+      rfturn (NULL);
 
-#  ifdef PNG_MAX_MALLOC_64K
-   if (size > (png_uint_32)65536L)
+#  ifdff PNG_MAX_MALLOC_64K
+   if (sizf > (png_uint_32)65536L)
    {
-#    ifndef PNG_USER_MEM_SUPPORTED
-      if ((png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-         png_error(png_ptr, "Cannot Allocate > 64K");
+#    ifndff PNG_USER_MEM_SUPPORTED
+      if ((png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+         png_frror(png_ptr, "Cbnnot Allodbtf > 64K");
 
-      else
-#    endif
-         return NULL;
+      flsf
+#    fndif
+         rfturn NULL;
    }
-#  endif
+#  fndif
 
-   /* Check for overflow */
-#  if defined(__TURBOC__) && !defined(__FLAT__)
+   /* Cifdk for ovfrflow */
+#  if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
 
-   if (size != (unsigned long)size)
-      ret = NULL;
+   if (sizf != (unsignfd long)sizf)
+      rft = NULL;
 
-   else
-      ret = farmalloc(size);
+   flsf
+      rft = fbrmbllod(sizf);
 
-#  else
-#    if defined(_MSC_VER) && defined(MAXSEG_64K)
-   if (size != (unsigned long)size)
-      ret = NULL;
+#  flsf
+#    if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+   if (sizf != (unsignfd long)sizf)
+      rft = NULL;
 
-   else
-      ret = halloc(size, 1);
+   flsf
+      rft = ibllod(sizf, 1);
 
-#    else
-   if (size != (size_t)size)
-      ret = NULL;
+#    flsf
+   if (sizf != (sizf_t)sizf)
+      rft = NULL;
 
-   else
-      ret = malloc((size_t)size);
-#    endif
-#  endif
+   flsf
+      rft = mbllod((sizf_t)sizf);
+#    fndif
+#  fndif
 
-#  ifndef PNG_USER_MEM_SUPPORTED
-   if (ret == NULL && (png_ptr->flags&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
-      png_error(png_ptr, "Out of Memory");
-#  endif
+#  ifndff PNG_USER_MEM_SUPPORTED
+   if (rft == NULL && (png_ptr->flbgs&PNG_FLAG_MALLOC_NULL_MEM_OK) == 0)
+      png_frror(png_ptr, "Out of Mfmory");
+#  fndif
 
-   return (ret);
+   rfturn (rft);
 }
 
-/* Free a pointer allocated by png_malloc().  If ptr is NULL, return
- * without taking any action.
+/* Frff b pointfr bllodbtfd by png_mbllod().  If ptr is NULL, rfturn
+ * witiout tbking bny bdtion.
  */
 void PNGAPI
-png_free(png_structp png_ptr, png_voidp ptr)
+png_frff(png_strudtp png_ptr, png_voidp ptr)
 {
    if (png_ptr == NULL || ptr == NULL)
-      return;
+      rfturn;
 
-#  ifdef PNG_USER_MEM_SUPPORTED
-   if (png_ptr->free_fn != NULL)
+#  ifdff PNG_USER_MEM_SUPPORTED
+   if (png_ptr->frff_fn != NULL)
    {
-      (*(png_ptr->free_fn))(png_ptr, ptr);
-      return;
+      (*(png_ptr->frff_fn))(png_ptr, ptr);
+      rfturn;
    }
 
-   else
-      png_free_default(png_ptr, ptr);
+   flsf
+      png_frff_dffbult(png_ptr, ptr);
 }
 
 void PNGAPI
-png_free_default(png_structp png_ptr, png_voidp ptr)
+png_frff_dffbult(png_strudtp png_ptr, png_voidp ptr)
 {
    if (png_ptr == NULL || ptr == NULL)
-      return;
+      rfturn;
 
-#  endif /* PNG_USER_MEM_SUPPORTED */
+#  fndif /* PNG_USER_MEM_SUPPORTED */
 
-#  if defined(__TURBOC__) && !defined(__FLAT__)
-   farfree(ptr);
+#  if dffinfd(__TURBOC__) && !dffinfd(__FLAT__)
+   fbrfrff(ptr);
 
-#  else
-#    if defined(_MSC_VER) && defined(MAXSEG_64K)
-   hfree(ptr);
+#  flsf
+#    if dffinfd(_MSC_VER) && dffinfd(MAXSEG_64K)
+   ifrff(ptr);
 
-#    else
-   free(ptr);
+#    flsf
+   frff(ptr);
 
-#    endif
-#  endif
+#    fndif
+#  fndif
 }
-#endif /* Not Borland DOS special memory handler */
+#fndif /* Not Borlbnd DOS spfdibl mfmory ibndlfr */
 
-/* This function was added at libpng version 1.2.3.  The png_malloc_warn()
- * function will set up png_malloc() to issue a png_warning and return NULL
- * instead of issuing a png_error, if it fails to allocate the requested
- * memory.
+/* Tiis fundtion wbs bddfd bt libpng vfrsion 1.2.3.  Tif png_mbllod_wbrn()
+ * fundtion will sft up png_mbllod() to issuf b png_wbrning bnd rfturn NULL
+ * instfbd of issuing b png_frror, if it fbils to bllodbtf tif rfqufstfd
+ * mfmory.
  */
 PNG_FUNCTION(png_voidp,PNGAPI
-png_malloc_warn,(png_structp png_ptr, png_alloc_size_t size),PNG_ALLOCATED)
+png_mbllod_wbrn,(png_strudtp png_ptr, png_bllod_sizf_t sizf),PNG_ALLOCATED)
 {
    png_voidp ptr;
-   png_uint_32 save_flags;
+   png_uint_32 sbvf_flbgs;
    if (png_ptr == NULL)
-      return (NULL);
+      rfturn (NULL);
 
-   save_flags = png_ptr->flags;
-   png_ptr->flags|=PNG_FLAG_MALLOC_NULL_MEM_OK;
-   ptr = (png_voidp)png_malloc((png_structp)png_ptr, size);
-   png_ptr->flags=save_flags;
-   return(ptr);
+   sbvf_flbgs = png_ptr->flbgs;
+   png_ptr->flbgs|=PNG_FLAG_MALLOC_NULL_MEM_OK;
+   ptr = (png_voidp)png_mbllod((png_strudtp)png_ptr, sizf);
+   png_ptr->flbgs=sbvf_flbgs;
+   rfturn(ptr);
 }
 
 
-#ifdef PNG_USER_MEM_SUPPORTED
-/* This function is called when the application wants to use another method
- * of allocating and freeing memory.
+#ifdff PNG_USER_MEM_SUPPORTED
+/* Tiis fundtion is dbllfd wifn tif bpplidbtion wbnts to usf bnotifr mftiod
+ * of bllodbting bnd frffing mfmory.
  */
 void PNGAPI
-png_set_mem_fn(png_structp png_ptr, png_voidp mem_ptr, png_malloc_ptr
-  malloc_fn, png_free_ptr free_fn)
+png_sft_mfm_fn(png_strudtp png_ptr, png_voidp mfm_ptr, png_mbllod_ptr
+  mbllod_fn, png_frff_ptr frff_fn)
 {
    if (png_ptr != NULL)
    {
-      png_ptr->mem_ptr = mem_ptr;
-      png_ptr->malloc_fn = malloc_fn;
-      png_ptr->free_fn = free_fn;
+      png_ptr->mfm_ptr = mfm_ptr;
+      png_ptr->mbllod_fn = mbllod_fn;
+      png_ptr->frff_fn = frff_fn;
    }
 }
 
-/* This function returns a pointer to the mem_ptr associated with the user
- * functions.  The application should free any memory associated with this
- * pointer before png_write_destroy and png_read_destroy are called.
+/* Tiis fundtion rfturns b pointfr to tif mfm_ptr bssodibtfd witi tif usfr
+ * fundtions.  Tif bpplidbtion siould frff bny mfmory bssodibtfd witi tiis
+ * pointfr bfforf png_writf_dfstroy bnd png_rfbd_dfstroy brf dbllfd.
  */
 png_voidp PNGAPI
-png_get_mem_ptr(png_const_structp png_ptr)
+png_gft_mfm_ptr(png_donst_strudtp png_ptr)
 {
    if (png_ptr == NULL)
-      return (NULL);
+      rfturn (NULL);
 
-   return ((png_voidp)png_ptr->mem_ptr);
+   rfturn ((png_voidp)png_ptr->mfm_ptr);
 }
-#endif /* PNG_USER_MEM_SUPPORTED */
-#endif /* PNG_READ_SUPPORTED || PNG_WRITE_SUPPORTED */
+#fndif /* PNG_USER_MEM_SUPPORTED */
+#fndif /* PNG_READ_SUPPORTED || PNG_WRITE_SUPPORTED */

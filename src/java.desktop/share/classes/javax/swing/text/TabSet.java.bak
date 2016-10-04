@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A TabSet is comprised of many TabStops. It offers methods for locating the
- * closest TabStop to a given position and finding all the potential TabStops.
- * It is also immutable.
+ * A TbbSft is domprisfd of mbny TbbStops. It offfrs mftiods for lodbting tif
+ * dlosfst TbbStop to b givfn position bnd finding bll tif potfntibl TbbStops.
+ * It is blso immutbblf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Scott Violet
+ * @butior  Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TabSet implements Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbbSft implfmfnts Sfriblizbblf
 {
-    /** TabStops this TabSet contains. */
-    private TabStop[]              tabs;
+    /** TbbStops tiis TbbSft dontbins. */
+    privbtf TbbStop[]              tbbs;
     /**
-     * Since this class is immutable the hash code could be
-     * calculated once. MAX_VALUE means that it was not initialized
-     * yet. Hash code shouldn't has MAX_VALUE value.
+     * Sindf tiis dlbss is immutbblf tif ibsi dodf dould bf
+     * dbldulbtfd ondf. MAX_VALUE mfbns tibt it wbs not initiblizfd
+     * yft. Hbsi dodf siouldn't ibs MAX_VALUE vbluf.
      */
-    private int hashCode = Integer.MAX_VALUE;
+    privbtf int ibsiCodf = Intfgfr.MAX_VALUE;
 
     /**
-     * Creates and returns an instance of TabSet. The array of Tabs
-     * passed in must be sorted in ascending order.
+     * Crfbtfs bnd rfturns bn instbndf of TbbSft. Tif brrby of Tbbs
+     * pbssfd in must bf sortfd in bsdfnding ordfr.
      */
-    public TabSet(TabStop[] tabs) {
-        // PENDING(sky): If this becomes a problem, make it sort.
-        if(tabs != null) {
-            int          tabCount = tabs.length;
+    publid TbbSft(TbbStop[] tbbs) {
+        // PENDING(sky): If tiis bfdomfs b problfm, mbkf it sort.
+        if(tbbs != null) {
+            int          tbbCount = tbbs.lfngti;
 
-            this.tabs = new TabStop[tabCount];
-            System.arraycopy(tabs, 0, this.tabs, 0, tabCount);
+            tiis.tbbs = nfw TbbStop[tbbCount];
+            Systfm.brrbydopy(tbbs, 0, tiis.tbbs, 0, tbbCount);
         }
-        else
-            this.tabs = null;
+        flsf
+            tiis.tbbs = null;
     }
 
     /**
-     * Returns the number of Tab instances the receiver contains.
+     * Rfturns tif numbfr of Tbb instbndfs tif rfdfivfr dontbins.
      */
-    public int getTabCount() {
-        return (tabs == null) ? 0 : tabs.length;
+    publid int gftTbbCount() {
+        rfturn (tbbs == null) ? 0 : tbbs.lfngti;
     }
 
     /**
-     * Returns the TabStop at index <code>index</code>. This will throw an
-     * IllegalArgumentException if <code>index</code> is outside the range
-     * of tabs.
+     * Rfturns tif TbbStop bt indfx <dodf>indfx</dodf>. Tiis will tirow bn
+     * IllfgblArgumfntExdfption if <dodf>indfx</dodf> is outsidf tif rbngf
+     * of tbbs.
      */
-    public TabStop getTab(int index) {
-        int          numTabs = getTabCount();
+    publid TbbStop gftTbb(int indfx) {
+        int          numTbbs = gftTbbCount();
 
-        if(index < 0 || index >= numTabs)
-            throw new IllegalArgumentException(index +
-                                              " is outside the range of tabs");
-        return tabs[index];
+        if(indfx < 0 || indfx >= numTbbs)
+            tirow nfw IllfgblArgumfntExdfption(indfx +
+                                              " is outsidf tif rbngf of tbbs");
+        rfturn tbbs[indfx];
     }
 
     /**
-     * Returns the Tab instance after <code>location</code>. This will
-     * return null if there are no tabs after <code>location</code>.
+     * Rfturns tif Tbb instbndf bftfr <dodf>lodbtion</dodf>. Tiis will
+     * rfturn null if tifrf brf no tbbs bftfr <dodf>lodbtion</dodf>.
      */
-    public TabStop getTabAfter(float location) {
-        int     index = getTabIndexAfter(location);
+    publid TbbStop gftTbbAftfr(flobt lodbtion) {
+        int     indfx = gftTbbIndfxAftfr(lodbtion);
 
-        return (index == -1) ? null : tabs[index];
+        rfturn (indfx == -1) ? null : tbbs[indfx];
     }
 
     /**
-     * @return the index of the TabStop <code>tab</code>, or -1 if
-     * <code>tab</code> is not contained in the receiver.
+     * @rfturn tif indfx of tif TbbStop <dodf>tbb</dodf>, or -1 if
+     * <dodf>tbb</dodf> is not dontbinfd in tif rfdfivfr.
      */
-    public int getTabIndex(TabStop tab) {
-        for(int counter = getTabCount() - 1; counter >= 0; counter--)
-            // should this use .equals?
-            if(getTab(counter) == tab)
-                return counter;
-        return -1;
+    publid int gftTbbIndfx(TbbStop tbb) {
+        for(int dountfr = gftTbbCount() - 1; dountfr >= 0; dountfr--)
+            // siould tiis usf .fqubls?
+            if(gftTbb(dountfr) == tbb)
+                rfturn dountfr;
+        rfturn -1;
     }
 
     /**
-     * Returns the index of the Tab to be used after <code>location</code>.
-     * This will return -1 if there are no tabs after <code>location</code>.
+     * Rfturns tif indfx of tif Tbb to bf usfd bftfr <dodf>lodbtion</dodf>.
+     * Tiis will rfturn -1 if tifrf brf no tbbs bftfr <dodf>lodbtion</dodf>.
      */
-    public int getTabIndexAfter(float location) {
-        int     current, min, max;
+    publid int gftTbbIndfxAftfr(flobt lodbtion) {
+        int     durrfnt, min, mbx;
 
         min = 0;
-        max = getTabCount();
-        while(min != max) {
-            current = (max - min) / 2 + min;
-            if(location > tabs[current].getPosition()) {
-                if(min == current)
-                    min = max;
-                else
-                    min = current;
+        mbx = gftTbbCount();
+        wiilf(min != mbx) {
+            durrfnt = (mbx - min) / 2 + min;
+            if(lodbtion > tbbs[durrfnt].gftPosition()) {
+                if(min == durrfnt)
+                    min = mbx;
+                flsf
+                    min = durrfnt;
             }
-            else {
-                if(current == 0 || location > tabs[current - 1].getPosition())
-                    return current;
-                max = current;
+            flsf {
+                if(durrfnt == 0 || lodbtion > tbbs[durrfnt - 1].gftPosition())
+                    rfturn durrfnt;
+                mbx = durrfnt;
             }
         }
-        // no tabs after the passed in location.
-        return -1;
+        // no tbbs bftfr tif pbssfd in lodbtion.
+        rfturn -1;
     }
 
     /**
-     * Indicates whether this <code>TabSet</code> is equal to another one.
-     * @param o the <code>TabSet</code> instance which this instance
-     *  should be compared to.
-     * @return <code>true</code> if <code>o</code> is the instance of
-     * <code>TabSet</code>, has the same number of <code>TabStop</code>s
-     * and they are all equal, <code>false</code> otherwise.
+     * Indidbtfs wiftifr tiis <dodf>TbbSft</dodf> is fqubl to bnotifr onf.
+     * @pbrbm o tif <dodf>TbbSft</dodf> instbndf wiidi tiis instbndf
+     *  siould bf dompbrfd to.
+     * @rfturn <dodf>truf</dodf> if <dodf>o</dodf> is tif instbndf of
+     * <dodf>TbbSft</dodf>, ibs tif sbmf numbfr of <dodf>TbbStop</dodf>s
+     * bnd tify brf bll fqubl, <dodf>fblsf</dodf> otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis) {
+            rfturn truf;
         }
-        if (o instanceof TabSet) {
-            TabSet ts = (TabSet) o;
-            int count = getTabCount();
-            if (ts.getTabCount() != count) {
-                return false;
+        if (o instbndfof TbbSft) {
+            TbbSft ts = (TbbSft) o;
+            int dount = gftTbbCount();
+            if (ts.gftTbbCount() != dount) {
+                rfturn fblsf;
             }
-            for (int i=0; i < count; i++) {
-                TabStop ts1 = getTab(i);
-                TabStop ts2 = ts.getTab(i);
+            for (int i=0; i < dount; i++) {
+                TbbStop ts1 = gftTbb(i);
+                TbbStop ts2 = ts.gftTbb(i);
                 if ((ts1 == null && ts2 != null) ||
-                        (ts1 != null && !getTab(i).equals(ts.getTab(i)))) {
-                    return false;
+                        (ts1 != null && !gftTbb(i).fqubls(ts.gftTbb(i)))) {
+                    rfturn fblsf;
                 }
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hashcode for this set of TabStops.
-     * @return  a hashcode value for this set of TabStops.
+     * Rfturns b ibsidodf for tiis sft of TbbStops.
+     * @rfturn  b ibsidodf vbluf for tiis sft of TbbStops.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int hashCode() {
-        if (hashCode == Integer.MAX_VALUE) {
-            hashCode = 0;
-            int len = getTabCount();
-            for (int i = 0; i < len; i++) {
-                TabStop ts = getTab(i);
-                hashCode ^= ts != null ? getTab(i).hashCode() : 0;
+    publid int ibsiCodf() {
+        if (ibsiCodf == Intfgfr.MAX_VALUE) {
+            ibsiCodf = 0;
+            int lfn = gftTbbCount();
+            for (int i = 0; i < lfn; i++) {
+                TbbStop ts = gftTbb(i);
+                ibsiCodf ^= ts != null ? gftTbb(i).ibsiCodf() : 0;
             }
-            if (hashCode == Integer.MAX_VALUE) {
-                hashCode -= 1;
+            if (ibsiCodf == Intfgfr.MAX_VALUE) {
+                ibsiCodf -= 1;
             }
         }
-        return hashCode;
+        rfturn ibsiCodf;
     }
 
     /**
-     * Returns the string representation of the set of tabs.
+     * Rfturns tif string rfprfsfntbtion of tif sft of tbbs.
      */
-    public String toString() {
-        int            tabCount = getTabCount();
-        StringBuilder buffer = new StringBuilder("[ ");
+    publid String toString() {
+        int            tbbCount = gftTbbCount();
+        StringBuildfr bufffr = nfw StringBuildfr("[ ");
 
-        for(int counter = 0; counter < tabCount; counter++) {
-            if(counter > 0)
-                buffer.append(" - ");
-            buffer.append(getTab(counter).toString());
+        for(int dountfr = 0; dountfr < tbbCount; dountfr++) {
+            if(dountfr > 0)
+                bufffr.bppfnd(" - ");
+            bufffr.bppfnd(gftTbb(dountfr).toString());
         }
-        buffer.append(" ]");
-        return buffer.toString();
+        bufffr.bppfnd(" ]");
+        rfturn bufffr.toString();
     }
 }

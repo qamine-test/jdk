@@ -1,67 +1,67 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-</head>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-A package of the Java Image I/O API dealing with low-level I/O from
-files and streams.
-
-<p>
-
-The <code>ImageInputStream</code> interface unifies streaming and
-file-based operations.  An abstract base class,
-<code>ImageInputStreamImpl</code> is provided to simplify writing
-a new <code>ImageInputStream</code> class.  Concrete implementation
-classes (<code>FileImageInputStream</code>,
-<code>FileCacheImageInputStream</code>, and
-<code>MemoryCacheImageInputStream</code>) are provided that allow
-input to come from a <code>File</code> or <code>InputStream</code>
-with or without the use of a temporary cache file.
+A pbdkbgf of tif Jbvb Imbgf I/O API dfbling witi low-lfvfl I/O from
+filfs bnd strfbms.
 
 <p>
 
-The <code>ImageOutputStream</code> interface performs an analogous
-function for output.  An abstract base class,
-<code>ImageOutputStreamImpl</code> is provided, along with
-concrete implementation classes (<code>FileImageOutputStream</code>,
-<code>FileCacheImageOutputStream</code>, and
-<code>MemoryCacheImageOutputStream</code>) are provided that allow
-output to go to a <code>File</code> or <code>OutputStream</code> with
-or without the use of a temporary cache file.
+Tif <dodf>ImbgfInputStrfbm</dodf> intfrfbdf unififs strfbming bnd
+filf-bbsfd opfrbtions.  An bbstrbdt bbsf dlbss,
+<dodf>ImbgfInputStrfbmImpl</dodf> is providfd to simplify writing
+b nfw <dodf>ImbgfInputStrfbm</dodf> dlbss.  Condrftf implfmfntbtion
+dlbssfs (<dodf>FilfImbgfInputStrfbm</dodf>,
+<dodf>FilfCbdifImbgfInputStrfbm</dodf>, bnd
+<dodf>MfmoryCbdifImbgfInputStrfbm</dodf>) brf providfd tibt bllow
+input to domf from b <dodf>Filf</dodf> or <dodf>InputStrfbm</dodf>
+witi or witiout tif usf of b tfmporbry dbdif filf.
 
 <p>
 
-The <code>IIOByteBuffer</code> class provides an alternative way to
-perform reads of sequences of bytes that reduces the amount of
-internal data copying.
+Tif <dodf>ImbgfOutputStrfbm</dodf> intfrfbdf pfrforms bn bnblogous
+fundtion for output.  An bbstrbdt bbsf dlbss,
+<dodf>ImbgfOutputStrfbmImpl</dodf> is providfd, blong witi
+dondrftf implfmfntbtion dlbssfs (<dodf>FilfImbgfOutputStrfbm</dodf>,
+<dodf>FilfCbdifImbgfOutputStrfbm</dodf>, bnd
+<dodf>MfmoryCbdifImbgfOutputStrfbm</dodf>) brf providfd tibt bllow
+output to go to b <dodf>Filf</dodf> or <dodf>OutputStrfbm</dodf> witi
+or witiout tif usf of b tfmporbry dbdif filf.
 
-@since 1.4
+<p>
+
+Tif <dodf>IIOBytfBufffr</dodf> dlbss providfs bn bltfrnbtivf wby to
+pfrform rfbds of sfqufndfs of bytfs tibt rfdudfs tif bmount of
+intfrnbl dbtb dopying.
+
+@sindf 1.4
 </body>
-</html>
+</itml>

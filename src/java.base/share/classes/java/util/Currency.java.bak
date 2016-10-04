@@ -1,770 +1,770 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.spi.CurrencyNameProvider;
-import sun.util.locale.provider.LocaleServiceProviderPool;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.rfgfx.Mbtdifr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+import sun.util.logging.PlbtformLoggfr;
 
 
 /**
- * Represents a currency. Currencies are identified by their ISO 4217 currency
- * codes. Visit the <a href="http://www.iso.org/iso/home/standards/currency_codes.htm">
- * ISO web site</a> for more information.
+ * Rfprfsfnts b durrfndy. Currfndifs brf idfntififd by tifir ISO 4217 durrfndy
+ * dodfs. Visit tif <b irff="ittp://www.iso.org/iso/iomf/stbndbrds/durrfndy_dodfs.itm">
+ * ISO wfb sitf</b> for morf informbtion.
  * <p>
- * The class is designed so that there's never more than one
- * <code>Currency</code> instance for any given currency. Therefore, there's
- * no public constructor. You obtain a <code>Currency</code> instance using
- * the <code>getInstance</code> methods.
+ * Tif dlbss is dfsignfd so tibt tifrf's nfvfr morf tibn onf
+ * <dodf>Currfndy</dodf> instbndf for bny givfn durrfndy. Tifrfforf, tifrf's
+ * no publid donstrudtor. You obtbin b <dodf>Currfndy</dodf> instbndf using
+ * tif <dodf>gftInstbndf</dodf> mftiods.
  * <p>
- * Users can supersede the Java runtime currency data by means of the system
- * property {@code java.util.currency.data}. If this system property is
- * defined then its value is the location of a properties file, the contents of
- * which are key/value pairs of the ISO 3166 country codes and the ISO 4217
- * currency data respectively.  The value part consists of three ISO 4217 values
- * of a currency, i.e., an alphabetic code, a numeric code, and a minor unit.
- * Those three ISO 4217 values are separated by commas.
- * The lines which start with '#'s are considered comment lines. An optional UTC
- * timestamp may be specified per currency entry if users need to specify a
- * cutover date indicating when the new data comes into effect. The timestamp is
- * appended to the end of the currency properties and uses a comma as a separator.
- * If a UTC datestamp is present and valid, the JRE will only use the new currency
- * properties if the current UTC date is later than the date specified at class
- * loading time. The format of the timestamp must be of ISO 8601 format :
- * {@code 'yyyy-MM-dd'T'HH:mm:ss'}. For example,
+ * Usfrs dbn supfrsfdf tif Jbvb runtimf durrfndy dbtb by mfbns of tif systfm
+ * propfrty {@dodf jbvb.util.durrfndy.dbtb}. If tiis systfm propfrty is
+ * dffinfd tifn its vbluf is tif lodbtion of b propfrtifs filf, tif dontfnts of
+ * wiidi brf kfy/vbluf pbirs of tif ISO 3166 dountry dodfs bnd tif ISO 4217
+ * durrfndy dbtb rfspfdtivfly.  Tif vbluf pbrt donsists of tirff ISO 4217 vblufs
+ * of b durrfndy, i.f., bn blpibbftid dodf, b numfrid dodf, bnd b minor unit.
+ * Tiosf tirff ISO 4217 vblufs brf sfpbrbtfd by dommbs.
+ * Tif linfs wiidi stbrt witi '#'s brf donsidfrfd dommfnt linfs. An optionbl UTC
+ * timfstbmp mby bf spfdififd pfr durrfndy fntry if usfrs nffd to spfdify b
+ * dutovfr dbtf indidbting wifn tif nfw dbtb domfs into ffffdt. Tif timfstbmp is
+ * bppfndfd to tif fnd of tif durrfndy propfrtifs bnd usfs b dommb bs b sfpbrbtor.
+ * If b UTC dbtfstbmp is prfsfnt bnd vblid, tif JRE will only usf tif nfw durrfndy
+ * propfrtifs if tif durrfnt UTC dbtf is lbtfr tibn tif dbtf spfdififd bt dlbss
+ * lobding timf. Tif formbt of tif timfstbmp must bf of ISO 8601 formbt :
+ * {@dodf 'yyyy-MM-dd'T'HH:mm:ss'}. For fxbmplf,
  * <p>
- * <code>
- * #Sample currency properties<br>
+ * <dodf>
+ * #Sbmplf durrfndy propfrtifs<br>
  * JP=JPZ,999,0
- * </code>
+ * </dodf>
  * <p>
- * will supersede the currency data for Japan.
+ * will supfrsfdf tif durrfndy dbtb for Jbpbn.
  *
  * <p>
- * <code>
- * #Sample currency properties with cutover date<br>
+ * <dodf>
+ * #Sbmplf durrfndy propfrtifs witi dutovfr dbtf<br>
  * JP=JPZ,999,0,2014-01-01T00:00:00
- * </code>
+ * </dodf>
  * <p>
- * will supersede the currency data for Japan if {@code Currency} class is loaded after
- * 1st January 2014 00:00:00 GMT.
+ * will supfrsfdf tif durrfndy dbtb for Jbpbn if {@dodf Currfndy} dlbss is lobdfd bftfr
+ * 1st Jbnubry 2014 00:00:00 GMT.
  * <p>
- * Where syntactically malformed entries are encountered, the entry is ignored
- * and the remainder of entries in file are processed. For instances where duplicate
- * country code entries exist, the behavior of the Currency information for that
- * {@code Currency} is undefined and the remainder of entries in file are processed.
+ * Wifrf syntbdtidblly mblformfd fntrifs brf fndountfrfd, tif fntry is ignorfd
+ * bnd tif rfmbindfr of fntrifs in filf brf prodfssfd. For instbndfs wifrf duplidbtf
+ * dountry dodf fntrifs fxist, tif bfibvior of tif Currfndy informbtion for tibt
+ * {@dodf Currfndy} is undffinfd bnd tif rfmbindfr of fntrifs in filf brf prodfssfd.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public final class Currency implements Serializable {
+publid finbl dlbss Currfndy implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = -158308464356906721L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -158308464356906721L;
 
     /**
-     * ISO 4217 currency code for this currency.
+     * ISO 4217 durrfndy dodf for tiis durrfndy.
      *
-     * @serial
+     * @sfribl
      */
-    private final String currencyCode;
+    privbtf finbl String durrfndyCodf;
 
     /**
-     * Default fraction digits for this currency.
-     * Set from currency data tables.
+     * Dffbult frbdtion digits for tiis durrfndy.
+     * Sft from durrfndy dbtb tbblfs.
      */
-    transient private final int defaultFractionDigits;
+    trbnsifnt privbtf finbl int dffbultFrbdtionDigits;
 
     /**
-     * ISO 4217 numeric code for this currency.
-     * Set from currency data tables.
+     * ISO 4217 numfrid dodf for tiis durrfndy.
+     * Sft from durrfndy dbtb tbblfs.
      */
-    transient private final int numericCode;
+    trbnsifnt privbtf finbl int numfridCodf;
 
 
-    // class data: instance map
+    // dlbss dbtb: instbndf mbp
 
-    private static ConcurrentMap<String, Currency> instances = new ConcurrentHashMap<>(7);
-    private static HashSet<Currency> available;
+    privbtf stbtid CondurrfntMbp<String, Currfndy> instbndfs = nfw CondurrfntHbsiMbp<>(7);
+    privbtf stbtid HbsiSft<Currfndy> bvbilbblf;
 
-    // Class data: currency data obtained from currency.data file.
-    // Purpose:
-    // - determine valid country codes
-    // - determine valid currency codes
-    // - map country codes to currency codes
-    // - obtain default fraction digits for currency codes
+    // Clbss dbtb: durrfndy dbtb obtbinfd from durrfndy.dbtb filf.
+    // Purposf:
+    // - dftfrminf vblid dountry dodfs
+    // - dftfrminf vblid durrfndy dodfs
+    // - mbp dountry dodfs to durrfndy dodfs
+    // - obtbin dffbult frbdtion digits for durrfndy dodfs
     //
-    // sc = special case; dfd = default fraction digits
-    // Simple countries are those where the country code is a prefix of the
-    // currency code, and there are no known plans to change the currency.
+    // sd = spfdibl dbsf; dfd = dffbult frbdtion digits
+    // Simplf dountrifs brf tiosf wifrf tif dountry dodf is b prffix of tif
+    // durrfndy dodf, bnd tifrf brf no known plbns to dibngf tif durrfndy.
     //
-    // table formats:
-    // - mainTable:
-    //   - maps country code to 32-bit int
-    //   - 26*26 entries, corresponding to [A-Z]*[A-Z]
-    //   - \u007F -> not valid country
-    //   - bits 18-31: unused
-    //   - bits 8-17: numeric code (0 to 1023)
-    //   - bit 7: 1 - special case, bits 0-4 indicate which one
-    //            0 - simple country, bits 0-4 indicate final char of currency code
-    //   - bits 5-6: fraction digits for simple countries, 0 for special cases
-    //   - bits 0-4: final char for currency code for simple country, or ID of special case
-    // - special case IDs:
-    //   - 0: country has no currency
-    //   - other: index into sc* arrays + 1
-    // - scCutOverTimes: cut-over time in millis as returned by
-    //   System.currentTimeMillis for special case countries that are changing
-    //   currencies; Long.MAX_VALUE for countries that are not changing currencies
-    // - scOldCurrencies: old currencies for special case countries
-    // - scNewCurrencies: new currencies for special case countries that are
-    //   changing currencies; null for others
-    // - scOldCurrenciesDFD: default fraction digits for old currencies
-    // - scNewCurrenciesDFD: default fraction digits for new currencies, 0 for
-    //   countries that are not changing currencies
-    // - otherCurrencies: concatenation of all currency codes that are not the
-    //   main currency of a simple country, separated by "-"
-    // - otherCurrenciesDFD: decimal format digits for currencies in otherCurrencies, same order
+    // tbblf formbts:
+    // - mbinTbblf:
+    //   - mbps dountry dodf to 32-bit int
+    //   - 26*26 fntrifs, dorrfsponding to [A-Z]*[A-Z]
+    //   - \u007F -> not vblid dountry
+    //   - bits 18-31: unusfd
+    //   - bits 8-17: numfrid dodf (0 to 1023)
+    //   - bit 7: 1 - spfdibl dbsf, bits 0-4 indidbtf wiidi onf
+    //            0 - simplf dountry, bits 0-4 indidbtf finbl dibr of durrfndy dodf
+    //   - bits 5-6: frbdtion digits for simplf dountrifs, 0 for spfdibl dbsfs
+    //   - bits 0-4: finbl dibr for durrfndy dodf for simplf dountry, or ID of spfdibl dbsf
+    // - spfdibl dbsf IDs:
+    //   - 0: dountry ibs no durrfndy
+    //   - otifr: indfx into sd* brrbys + 1
+    // - sdCutOvfrTimfs: dut-ovfr timf in millis bs rfturnfd by
+    //   Systfm.durrfntTimfMillis for spfdibl dbsf dountrifs tibt brf dibnging
+    //   durrfndifs; Long.MAX_VALUE for dountrifs tibt brf not dibnging durrfndifs
+    // - sdOldCurrfndifs: old durrfndifs for spfdibl dbsf dountrifs
+    // - sdNfwCurrfndifs: nfw durrfndifs for spfdibl dbsf dountrifs tibt brf
+    //   dibnging durrfndifs; null for otifrs
+    // - sdOldCurrfndifsDFD: dffbult frbdtion digits for old durrfndifs
+    // - sdNfwCurrfndifsDFD: dffbult frbdtion digits for nfw durrfndifs, 0 for
+    //   dountrifs tibt brf not dibnging durrfndifs
+    // - otifrCurrfndifs: dondbtfnbtion of bll durrfndy dodfs tibt brf not tif
+    //   mbin durrfndy of b simplf dountry, sfpbrbtfd by "-"
+    // - otifrCurrfndifsDFD: dfdimbl formbt digits for durrfndifs in otifrCurrfndifs, sbmf ordfr
 
-    static int formatVersion;
-    static int dataVersion;
-    static int[] mainTable;
-    static long[] scCutOverTimes;
-    static String[] scOldCurrencies;
-    static String[] scNewCurrencies;
-    static int[] scOldCurrenciesDFD;
-    static int[] scNewCurrenciesDFD;
-    static int[] scOldCurrenciesNumericCode;
-    static int[] scNewCurrenciesNumericCode;
-    static String otherCurrencies;
-    static int[] otherCurrenciesDFD;
-    static int[] otherCurrenciesNumericCode;
+    stbtid int formbtVfrsion;
+    stbtid int dbtbVfrsion;
+    stbtid int[] mbinTbblf;
+    stbtid long[] sdCutOvfrTimfs;
+    stbtid String[] sdOldCurrfndifs;
+    stbtid String[] sdNfwCurrfndifs;
+    stbtid int[] sdOldCurrfndifsDFD;
+    stbtid int[] sdNfwCurrfndifsDFD;
+    stbtid int[] sdOldCurrfndifsNumfridCodf;
+    stbtid int[] sdNfwCurrfndifsNumfridCodf;
+    stbtid String otifrCurrfndifs;
+    stbtid int[] otifrCurrfndifsDFD;
+    stbtid int[] otifrCurrfndifsNumfridCodf;
 
-    // handy constants - must match definitions in GenerateCurrencyData
-    // magic number
-    private static final int MAGIC_NUMBER = 0x43757244;
-    // number of characters from A to Z
-    private static final int A_TO_Z = ('Z' - 'A') + 1;
-    // entry for invalid country codes
-    private static final int INVALID_COUNTRY_ENTRY = 0x007F;
-    // entry for countries without currency
-    private static final int COUNTRY_WITHOUT_CURRENCY_ENTRY = 0x0080;
-    // mask for simple case country entries
-    private static final int SIMPLE_CASE_COUNTRY_MASK = 0x0000;
-    // mask for simple case country entry final character
-    private static final int SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK = 0x001F;
-    // mask for simple case country entry default currency digits
-    private static final int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK = 0x0060;
-    // shift count for simple case country entry default currency digits
-    private static final int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT = 5;
-    // mask for special case country entries
-    private static final int SPECIAL_CASE_COUNTRY_MASK = 0x0080;
-    // mask for special case country index
-    private static final int SPECIAL_CASE_COUNTRY_INDEX_MASK = 0x001F;
-    // delta from entry index component in main table to index into special case tables
-    private static final int SPECIAL_CASE_COUNTRY_INDEX_DELTA = 1;
-    // mask for distinguishing simple and special case countries
-    private static final int COUNTRY_TYPE_MASK = SIMPLE_CASE_COUNTRY_MASK | SPECIAL_CASE_COUNTRY_MASK;
-    // mask for the numeric code of the currency
-    private static final int NUMERIC_CODE_MASK = 0x0003FF00;
-    // shift count for the numeric code of the currency
-    private static final int NUMERIC_CODE_SHIFT = 8;
+    // ibndy donstbnts - must mbtdi dffinitions in GfnfrbtfCurrfndyDbtb
+    // mbgid numbfr
+    privbtf stbtid finbl int MAGIC_NUMBER = 0x43757244;
+    // numbfr of dibrbdtfrs from A to Z
+    privbtf stbtid finbl int A_TO_Z = ('Z' - 'A') + 1;
+    // fntry for invblid dountry dodfs
+    privbtf stbtid finbl int INVALID_COUNTRY_ENTRY = 0x007F;
+    // fntry for dountrifs witiout durrfndy
+    privbtf stbtid finbl int COUNTRY_WITHOUT_CURRENCY_ENTRY = 0x0080;
+    // mbsk for simplf dbsf dountry fntrifs
+    privbtf stbtid finbl int SIMPLE_CASE_COUNTRY_MASK = 0x0000;
+    // mbsk for simplf dbsf dountry fntry finbl dibrbdtfr
+    privbtf stbtid finbl int SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK = 0x001F;
+    // mbsk for simplf dbsf dountry fntry dffbult durrfndy digits
+    privbtf stbtid finbl int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK = 0x0060;
+    // siift dount for simplf dbsf dountry fntry dffbult durrfndy digits
+    privbtf stbtid finbl int SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT = 5;
+    // mbsk for spfdibl dbsf dountry fntrifs
+    privbtf stbtid finbl int SPECIAL_CASE_COUNTRY_MASK = 0x0080;
+    // mbsk for spfdibl dbsf dountry indfx
+    privbtf stbtid finbl int SPECIAL_CASE_COUNTRY_INDEX_MASK = 0x001F;
+    // dfltb from fntry indfx domponfnt in mbin tbblf to indfx into spfdibl dbsf tbblfs
+    privbtf stbtid finbl int SPECIAL_CASE_COUNTRY_INDEX_DELTA = 1;
+    // mbsk for distinguisiing simplf bnd spfdibl dbsf dountrifs
+    privbtf stbtid finbl int COUNTRY_TYPE_MASK = SIMPLE_CASE_COUNTRY_MASK | SPECIAL_CASE_COUNTRY_MASK;
+    // mbsk for tif numfrid dodf of tif durrfndy
+    privbtf stbtid finbl int NUMERIC_CODE_MASK = 0x0003FF00;
+    // siift dount for tif numfrid dodf of tif durrfndy
+    privbtf stbtid finbl int NUMERIC_CODE_SHIFT = 8;
 
-    // Currency data format version
-    private static final int VALID_FORMAT_VERSION = 1;
+    // Currfndy dbtb formbt vfrsion
+    privbtf stbtid finbl int VALID_FORMAT_VERSION = 1;
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
                 try {
-                    try (DataInputStream dis = new DataInputStream(
-                             new BufferedInputStream(getClass().getResourceAsStream("/java/util/currency.data")))) {
-                        if (dis.readInt() != MAGIC_NUMBER) {
-                            throw new InternalError("Currency data is possibly corrupted");
+                    try (DbtbInputStrfbm dis = nfw DbtbInputStrfbm(
+                             nfw BufffrfdInputStrfbm(gftClbss().gftRfsourdfAsStrfbm("/jbvb/util/durrfndy.dbtb")))) {
+                        if (dis.rfbdInt() != MAGIC_NUMBER) {
+                            tirow nfw IntfrnblError("Currfndy dbtb is possibly dorruptfd");
                         }
-                        formatVersion = dis.readInt();
-                        if (formatVersion != VALID_FORMAT_VERSION) {
-                            throw new InternalError("Currency data format is incorrect");
+                        formbtVfrsion = dis.rfbdInt();
+                        if (formbtVfrsion != VALID_FORMAT_VERSION) {
+                            tirow nfw IntfrnblError("Currfndy dbtb formbt is indorrfdt");
                         }
-                        dataVersion = dis.readInt();
-                        mainTable = readIntArray(dis, A_TO_Z * A_TO_Z);
-                        int scCount = dis.readInt();
-                        scCutOverTimes = readLongArray(dis, scCount);
-                        scOldCurrencies = readStringArray(dis, scCount);
-                        scNewCurrencies = readStringArray(dis, scCount);
-                        scOldCurrenciesDFD = readIntArray(dis, scCount);
-                        scNewCurrenciesDFD = readIntArray(dis, scCount);
-                        scOldCurrenciesNumericCode = readIntArray(dis, scCount);
-                        scNewCurrenciesNumericCode = readIntArray(dis, scCount);
-                        int ocCount = dis.readInt();
-                        otherCurrencies = dis.readUTF();
-                        otherCurrenciesDFD = readIntArray(dis, ocCount);
-                        otherCurrenciesNumericCode = readIntArray(dis, ocCount);
+                        dbtbVfrsion = dis.rfbdInt();
+                        mbinTbblf = rfbdIntArrby(dis, A_TO_Z * A_TO_Z);
+                        int sdCount = dis.rfbdInt();
+                        sdCutOvfrTimfs = rfbdLongArrby(dis, sdCount);
+                        sdOldCurrfndifs = rfbdStringArrby(dis, sdCount);
+                        sdNfwCurrfndifs = rfbdStringArrby(dis, sdCount);
+                        sdOldCurrfndifsDFD = rfbdIntArrby(dis, sdCount);
+                        sdNfwCurrfndifsDFD = rfbdIntArrby(dis, sdCount);
+                        sdOldCurrfndifsNumfridCodf = rfbdIntArrby(dis, sdCount);
+                        sdNfwCurrfndifsNumfridCodf = rfbdIntArrby(dis, sdCount);
+                        int odCount = dis.rfbdInt();
+                        otifrCurrfndifs = dis.rfbdUTF();
+                        otifrCurrfndifsDFD = rfbdIntArrby(dis, odCount);
+                        otifrCurrfndifsNumfridCodf = rfbdIntArrby(dis, odCount);
                     }
-                } catch (IOException e) {
-                    throw new InternalError(e);
+                } dbtdi (IOExdfption f) {
+                    tirow nfw IntfrnblError(f);
                 }
 
-                // look for the properties file for overrides
-                String propsFile = System.getProperty("java.util.currency.data");
-                if (propsFile == null) {
-                    propsFile = System.getProperty("java.home") + File.separator + "lib" +
-                        File.separator + "currency.properties";
+                // look for tif propfrtifs filf for ovfrridfs
+                String propsFilf = Systfm.gftPropfrty("jbvb.util.durrfndy.dbtb");
+                if (propsFilf == null) {
+                    propsFilf = Systfm.gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor + "lib" +
+                        Filf.sfpbrbtor + "durrfndy.propfrtifs";
                 }
                 try {
-                    File propFile = new File(propsFile);
-                    if (propFile.exists()) {
-                        Properties props = new Properties();
-                        try (FileReader fr = new FileReader(propFile)) {
-                            props.load(fr);
+                    Filf propFilf = nfw Filf(propsFilf);
+                    if (propFilf.fxists()) {
+                        Propfrtifs props = nfw Propfrtifs();
+                        try (FilfRfbdfr fr = nfw FilfRfbdfr(propFilf)) {
+                            props.lobd(fr);
                         }
-                        Set<String> keys = props.stringPropertyNames();
-                        Pattern propertiesPattern =
-                            Pattern.compile("([A-Z]{3})\\s*,\\s*(\\d{3})\\s*,\\s*" +
+                        Sft<String> kfys = props.stringPropfrtyNbmfs();
+                        Pbttfrn propfrtifsPbttfrn =
+                            Pbttfrn.dompilf("([A-Z]{3})\\s*,\\s*(\\d{3})\\s*,\\s*" +
                                 "([0-3])\\s*,?\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:" +
                                 "\\d{2}:\\d{2})?");
-                        for (String key : keys) {
-                           replaceCurrencyData(propertiesPattern,
-                               key.toUpperCase(Locale.ROOT),
-                               props.getProperty(key).toUpperCase(Locale.ROOT));
+                        for (String kfy : kfys) {
+                           rfplbdfCurrfndyDbtb(propfrtifsPbttfrn,
+                               kfy.toUppfrCbsf(Lodblf.ROOT),
+                               props.gftPropfrty(kfy).toUppfrCbsf(Lodblf.ROOT));
                         }
                     }
-                } catch (IOException e) {
-                    info("currency.properties is ignored because of an IOException", e);
+                } dbtdi (IOExdfption f) {
+                    info("durrfndy.propfrtifs is ignorfd bfdbusf of bn IOExdfption", f);
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
     /**
-     * Constants for retrieving localized names from the name providers.
+     * Constbnts for rftrifving lodblizfd nbmfs from tif nbmf providfrs.
      */
-    private static final int SYMBOL = 0;
-    private static final int DISPLAYNAME = 1;
+    privbtf stbtid finbl int SYMBOL = 0;
+    privbtf stbtid finbl int DISPLAYNAME = 1;
 
 
     /**
-     * Constructs a <code>Currency</code> instance. The constructor is private
-     * so that we can insure that there's never more than one instance for a
-     * given currency.
+     * Construdts b <dodf>Currfndy</dodf> instbndf. Tif donstrudtor is privbtf
+     * so tibt wf dbn insurf tibt tifrf's nfvfr morf tibn onf instbndf for b
+     * givfn durrfndy.
      */
-    private Currency(String currencyCode, int defaultFractionDigits, int numericCode) {
-        this.currencyCode = currencyCode;
-        this.defaultFractionDigits = defaultFractionDigits;
-        this.numericCode = numericCode;
+    privbtf Currfndy(String durrfndyCodf, int dffbultFrbdtionDigits, int numfridCodf) {
+        tiis.durrfndyCodf = durrfndyCodf;
+        tiis.dffbultFrbdtionDigits = dffbultFrbdtionDigits;
+        tiis.numfridCodf = numfridCodf;
     }
 
     /**
-     * Returns the <code>Currency</code> instance for the given currency code.
+     * Rfturns tif <dodf>Currfndy</dodf> instbndf for tif givfn durrfndy dodf.
      *
-     * @param currencyCode the ISO 4217 code of the currency
-     * @return the <code>Currency</code> instance for the given currency code
-     * @exception NullPointerException if <code>currencyCode</code> is null
-     * @exception IllegalArgumentException if <code>currencyCode</code> is not
-     * a supported ISO 4217 code.
+     * @pbrbm durrfndyCodf tif ISO 4217 dodf of tif durrfndy
+     * @rfturn tif <dodf>Currfndy</dodf> instbndf for tif givfn durrfndy dodf
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndyCodf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>durrfndyCodf</dodf> is not
+     * b supportfd ISO 4217 dodf.
      */
-    public static Currency getInstance(String currencyCode) {
-        return getInstance(currencyCode, Integer.MIN_VALUE, 0);
+    publid stbtid Currfndy gftInstbndf(String durrfndyCodf) {
+        rfturn gftInstbndf(durrfndyCodf, Intfgfr.MIN_VALUE, 0);
     }
 
-    private static Currency getInstance(String currencyCode, int defaultFractionDigits,
-        int numericCode) {
-        // Try to look up the currency code in the instances table.
-        // This does the null pointer check as a side effect.
-        // Also, if there already is an entry, the currencyCode must be valid.
-        Currency instance = instances.get(currencyCode);
-        if (instance != null) {
-            return instance;
+    privbtf stbtid Currfndy gftInstbndf(String durrfndyCodf, int dffbultFrbdtionDigits,
+        int numfridCodf) {
+        // Try to look up tif durrfndy dodf in tif instbndfs tbblf.
+        // Tiis dofs tif null pointfr difdk bs b sidf ffffdt.
+        // Also, if tifrf blrfbdy is bn fntry, tif durrfndyCodf must bf vblid.
+        Currfndy instbndf = instbndfs.gft(durrfndyCodf);
+        if (instbndf != null) {
+            rfturn instbndf;
         }
 
-        if (defaultFractionDigits == Integer.MIN_VALUE) {
-            // Currency code not internally generated, need to verify first
-            // A currency code must have 3 characters and exist in the main table
-            // or in the list of other currencies.
-            if (currencyCode.length() != 3) {
-                throw new IllegalArgumentException();
+        if (dffbultFrbdtionDigits == Intfgfr.MIN_VALUE) {
+            // Currfndy dodf not intfrnblly gfnfrbtfd, nffd to vfrify first
+            // A durrfndy dodf must ibvf 3 dibrbdtfrs bnd fxist in tif mbin tbblf
+            // or in tif list of otifr durrfndifs.
+            if (durrfndyCodf.lfngti() != 3) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
-            char char1 = currencyCode.charAt(0);
-            char char2 = currencyCode.charAt(1);
-            int tableEntry = getMainTableEntry(char1, char2);
-            if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                    && tableEntry != INVALID_COUNTRY_ENTRY
-                    && currencyCode.charAt(2) - 'A' == (tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK)) {
-                defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-                numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
-            } else {
-                // Check for '-' separately so we don't get false hits in the table.
-                if (currencyCode.charAt(2) == '-') {
-                    throw new IllegalArgumentException();
+            dibr dibr1 = durrfndyCodf.dibrAt(0);
+            dibr dibr2 = durrfndyCodf.dibrAt(1);
+            int tbblfEntry = gftMbinTbblfEntry(dibr1, dibr2);
+            if ((tbblfEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                    && tbblfEntry != INVALID_COUNTRY_ENTRY
+                    && durrfndyCodf.dibrAt(2) - 'A' == (tbblfEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK)) {
+                dffbultFrbdtionDigits = (tbblfEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+                numfridCodf = (tbblfEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+            } flsf {
+                // Cifdk for '-' sfpbrbtfly so wf don't gft fblsf iits in tif tbblf.
+                if (durrfndyCodf.dibrAt(2) == '-') {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                int index = otherCurrencies.indexOf(currencyCode);
-                if (index == -1) {
-                    throw new IllegalArgumentException();
+                int indfx = otifrCurrfndifs.indfxOf(durrfndyCodf);
+                if (indfx == -1) {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                defaultFractionDigits = otherCurrenciesDFD[index / 4];
-                numericCode = otherCurrenciesNumericCode[index / 4];
+                dffbultFrbdtionDigits = otifrCurrfndifsDFD[indfx / 4];
+                numfridCodf = otifrCurrfndifsNumfridCodf[indfx / 4];
             }
         }
 
-        Currency currencyVal =
-            new Currency(currencyCode, defaultFractionDigits, numericCode);
-        instance = instances.putIfAbsent(currencyCode, currencyVal);
-        return (instance != null ? instance : currencyVal);
+        Currfndy durrfndyVbl =
+            nfw Currfndy(durrfndyCodf, dffbultFrbdtionDigits, numfridCodf);
+        instbndf = instbndfs.putIfAbsfnt(durrfndyCodf, durrfndyVbl);
+        rfturn (instbndf != null ? instbndf : durrfndyVbl);
     }
 
     /**
-     * Returns the <code>Currency</code> instance for the country of the
-     * given locale. The language and variant components of the locale
-     * are ignored. The result may vary over time, as countries change their
-     * currencies. For example, for the original member countries of the
-     * European Monetary Union, the method returns the old national currencies
-     * until December 31, 2001, and the Euro from January 1, 2002, local time
-     * of the respective countries.
+     * Rfturns tif <dodf>Currfndy</dodf> instbndf for tif dountry of tif
+     * givfn lodblf. Tif lbngubgf bnd vbribnt domponfnts of tif lodblf
+     * brf ignorfd. Tif rfsult mby vbry ovfr timf, bs dountrifs dibngf tifir
+     * durrfndifs. For fxbmplf, for tif originbl mfmbfr dountrifs of tif
+     * Europfbn Monftbry Union, tif mftiod rfturns tif old nbtionbl durrfndifs
+     * until Dfdfmbfr 31, 2001, bnd tif Euro from Jbnubry 1, 2002, lodbl timf
+     * of tif rfspfdtivf dountrifs.
      * <p>
-     * The method returns <code>null</code> for territories that don't
-     * have a currency, such as Antarctica.
+     * Tif mftiod rfturns <dodf>null</dodf> for tfrritorifs tibt don't
+     * ibvf b durrfndy, sudi bs Antbrdtidb.
      *
-     * @param locale the locale for whose country a <code>Currency</code>
-     * instance is needed
-     * @return the <code>Currency</code> instance for the country of the given
-     * locale, or {@code null}
-     * @exception NullPointerException if <code>locale</code> or its country
-     * code is {@code null}
-     * @exception IllegalArgumentException if the country of the given {@code locale}
-     * is not a supported ISO 3166 country code.
+     * @pbrbm lodblf tif lodblf for wiosf dountry b <dodf>Currfndy</dodf>
+     * instbndf is nffdfd
+     * @rfturn tif <dodf>Currfndy</dodf> instbndf for tif dountry of tif givfn
+     * lodblf, or {@dodf null}
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> or its dountry
+     * dodf is {@dodf null}
+     * @fxdfption IllfgblArgumfntExdfption if tif dountry of tif givfn {@dodf lodblf}
+     * is not b supportfd ISO 3166 dountry dodf.
      */
-    public static Currency getInstance(Locale locale) {
-        String country = locale.getCountry();
-        if (country == null) {
-            throw new NullPointerException();
+    publid stbtid Currfndy gftInstbndf(Lodblf lodblf) {
+        String dountry = lodblf.gftCountry();
+        if (dountry == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        if (country.length() != 2) {
-            throw new IllegalArgumentException();
+        if (dountry.lfngti() != 2) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        char char1 = country.charAt(0);
-        char char2 = country.charAt(1);
-        int tableEntry = getMainTableEntry(char1, char2);
-        if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                    && tableEntry != INVALID_COUNTRY_ENTRY) {
-            char finalChar = (char) ((tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
-            int defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-            int numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
-            StringBuilder sb = new StringBuilder(country);
-            sb.append(finalChar);
-            return getInstance(sb.toString(), defaultFractionDigits, numericCode);
-        } else {
-            // special cases
-            if (tableEntry == INVALID_COUNTRY_ENTRY) {
-                throw new IllegalArgumentException();
+        dibr dibr1 = dountry.dibrAt(0);
+        dibr dibr2 = dountry.dibrAt(1);
+        int tbblfEntry = gftMbinTbblfEntry(dibr1, dibr2);
+        if ((tbblfEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                    && tbblfEntry != INVALID_COUNTRY_ENTRY) {
+            dibr finblCibr = (dibr) ((tbblfEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
+            int dffbultFrbdtionDigits = (tbblfEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+            int numfridCodf = (tbblfEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+            StringBuildfr sb = nfw StringBuildfr(dountry);
+            sb.bppfnd(finblCibr);
+            rfturn gftInstbndf(sb.toString(), dffbultFrbdtionDigits, numfridCodf);
+        } flsf {
+            // spfdibl dbsfs
+            if (tbblfEntry == INVALID_COUNTRY_ENTRY) {
+                tirow nfw IllfgblArgumfntExdfption();
             }
-            if (tableEntry == COUNTRY_WITHOUT_CURRENCY_ENTRY) {
-                return null;
-            } else {
-                int index = (tableEntry & SPECIAL_CASE_COUNTRY_INDEX_MASK) - SPECIAL_CASE_COUNTRY_INDEX_DELTA;
-                if (scCutOverTimes[index] == Long.MAX_VALUE || System.currentTimeMillis() < scCutOverTimes[index]) {
-                    return getInstance(scOldCurrencies[index], scOldCurrenciesDFD[index],
-                        scOldCurrenciesNumericCode[index]);
-                } else {
-                    return getInstance(scNewCurrencies[index], scNewCurrenciesDFD[index],
-                        scNewCurrenciesNumericCode[index]);
+            if (tbblfEntry == COUNTRY_WITHOUT_CURRENCY_ENTRY) {
+                rfturn null;
+            } flsf {
+                int indfx = (tbblfEntry & SPECIAL_CASE_COUNTRY_INDEX_MASK) - SPECIAL_CASE_COUNTRY_INDEX_DELTA;
+                if (sdCutOvfrTimfs[indfx] == Long.MAX_VALUE || Systfm.durrfntTimfMillis() < sdCutOvfrTimfs[indfx]) {
+                    rfturn gftInstbndf(sdOldCurrfndifs[indfx], sdOldCurrfndifsDFD[indfx],
+                        sdOldCurrfndifsNumfridCodf[indfx]);
+                } flsf {
+                    rfturn gftInstbndf(sdNfwCurrfndifs[indfx], sdNfwCurrfndifsDFD[indfx],
+                        sdNfwCurrfndifsNumfridCodf[indfx]);
                 }
             }
         }
     }
 
     /**
-     * Gets the set of available currencies.  The returned set of currencies
-     * contains all of the available currencies, which may include currencies
-     * that represent obsolete ISO 4217 codes.  The set can be modified
-     * without affecting the available currencies in the runtime.
+     * Gfts tif sft of bvbilbblf durrfndifs.  Tif rfturnfd sft of durrfndifs
+     * dontbins bll of tif bvbilbblf durrfndifs, wiidi mby indludf durrfndifs
+     * tibt rfprfsfnt obsolftf ISO 4217 dodfs.  Tif sft dbn bf modififd
+     * witiout bfffdting tif bvbilbblf durrfndifs in tif runtimf.
      *
-     * @return the set of available currencies.  If there is no currency
-     *    available in the runtime, the returned set is empty.
-     * @since 1.7
+     * @rfturn tif sft of bvbilbblf durrfndifs.  If tifrf is no durrfndy
+     *    bvbilbblf in tif runtimf, tif rfturnfd sft is fmpty.
+     * @sindf 1.7
      */
-    public static Set<Currency> getAvailableCurrencies() {
-        synchronized(Currency.class) {
-            if (available == null) {
-                available = new HashSet<>(256);
+    publid stbtid Sft<Currfndy> gftAvbilbblfCurrfndifs() {
+        syndironizfd(Currfndy.dlbss) {
+            if (bvbilbblf == null) {
+                bvbilbblf = nfw HbsiSft<>(256);
 
-                // Add simple currencies first
-                for (char c1 = 'A'; c1 <= 'Z'; c1 ++) {
-                    for (char c2 = 'A'; c2 <= 'Z'; c2 ++) {
-                        int tableEntry = getMainTableEntry(c1, c2);
-                        if ((tableEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
-                             && tableEntry != INVALID_COUNTRY_ENTRY) {
-                            char finalChar = (char) ((tableEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
-                            int defaultFractionDigits = (tableEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
-                            int numericCode = (tableEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
-                            StringBuilder sb = new StringBuilder();
-                            sb.append(c1);
-                            sb.append(c2);
-                            sb.append(finalChar);
-                            available.add(getInstance(sb.toString(), defaultFractionDigits, numericCode));
+                // Add simplf durrfndifs first
+                for (dibr d1 = 'A'; d1 <= 'Z'; d1 ++) {
+                    for (dibr d2 = 'A'; d2 <= 'Z'; d2 ++) {
+                        int tbblfEntry = gftMbinTbblfEntry(d1, d2);
+                        if ((tbblfEntry & COUNTRY_TYPE_MASK) == SIMPLE_CASE_COUNTRY_MASK
+                             && tbblfEntry != INVALID_COUNTRY_ENTRY) {
+                            dibr finblCibr = (dibr) ((tbblfEntry & SIMPLE_CASE_COUNTRY_FINAL_CHAR_MASK) + 'A');
+                            int dffbultFrbdtionDigits = (tbblfEntry & SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_MASK) >> SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT;
+                            int numfridCodf = (tbblfEntry & NUMERIC_CODE_MASK) >> NUMERIC_CODE_SHIFT;
+                            StringBuildfr sb = nfw StringBuildfr();
+                            sb.bppfnd(d1);
+                            sb.bppfnd(d2);
+                            sb.bppfnd(finblCibr);
+                            bvbilbblf.bdd(gftInstbndf(sb.toString(), dffbultFrbdtionDigits, numfridCodf));
                         }
                     }
                 }
 
-                // Now add other currencies
-                StringTokenizer st = new StringTokenizer(otherCurrencies, "-");
-                while (st.hasMoreElements()) {
-                    available.add(getInstance((String)st.nextElement()));
+                // Now bdd otifr durrfndifs
+                StringTokfnizfr st = nfw StringTokfnizfr(otifrCurrfndifs, "-");
+                wiilf (st.ibsMorfElfmfnts()) {
+                    bvbilbblf.bdd(gftInstbndf((String)st.nfxtElfmfnt()));
                 }
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Set<Currency> result = (Set<Currency>) available.clone();
-        return result;
+        @SupprfssWbrnings("undifdkfd")
+        Sft<Currfndy> rfsult = (Sft<Currfndy>) bvbilbblf.dlonf();
+        rfturn rfsult;
     }
 
     /**
-     * Gets the ISO 4217 currency code of this currency.
+     * Gfts tif ISO 4217 durrfndy dodf of tiis durrfndy.
      *
-     * @return the ISO 4217 currency code of this currency.
+     * @rfturn tif ISO 4217 durrfndy dodf of tiis durrfndy.
      */
-    public String getCurrencyCode() {
-        return currencyCode;
+    publid String gftCurrfndyCodf() {
+        rfturn durrfndyCodf;
     }
 
     /**
-     * Gets the symbol of this currency for the default
-     * {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * For example, for the US Dollar, the symbol is "$" if the default
-     * locale is the US, while for other locales it may be "US$". If no
-     * symbol can be determined, the ISO 4217 currency code is returned.
+     * Gfts tif symbol of tiis durrfndy for tif dffbult
+     * {@link Lodblf.Cbtfgory#DISPLAY DISPLAY} lodblf.
+     * For fxbmplf, for tif US Dollbr, tif symbol is "$" if tif dffbult
+     * lodblf is tif US, wiilf for otifr lodblfs it mby bf "US$". If no
+     * symbol dbn bf dftfrminfd, tif ISO 4217 durrfndy dodf is rfturnfd.
      * <p>
-     * This is equivalent to calling
-     * {@link #getSymbol(Locale)
-     *     getSymbol(Locale.getDefault(Locale.Category.DISPLAY))}.
+     * Tiis is fquivblfnt to dblling
+     * {@link #gftSymbol(Lodblf)
+     *     gftSymbol(Lodblf.gftDffbult(Lodblf.Cbtfgory.DISPLAY))}.
      *
-     * @return the symbol of this currency for the default
-     *     {@link Locale.Category#DISPLAY DISPLAY} locale
+     * @rfturn tif symbol of tiis durrfndy for tif dffbult
+     *     {@link Lodblf.Cbtfgory#DISPLAY DISPLAY} lodblf
      */
-    public String getSymbol() {
-        return getSymbol(Locale.getDefault(Locale.Category.DISPLAY));
+    publid String gftSymbol() {
+        rfturn gftSymbol(Lodblf.gftDffbult(Lodblf.Cbtfgory.DISPLAY));
     }
 
     /**
-     * Gets the symbol of this currency for the specified locale.
-     * For example, for the US Dollar, the symbol is "$" if the specified
-     * locale is the US, while for other locales it may be "US$". If no
-     * symbol can be determined, the ISO 4217 currency code is returned.
+     * Gfts tif symbol of tiis durrfndy for tif spfdififd lodblf.
+     * For fxbmplf, for tif US Dollbr, tif symbol is "$" if tif spfdififd
+     * lodblf is tif US, wiilf for otifr lodblfs it mby bf "US$". If no
+     * symbol dbn bf dftfrminfd, tif ISO 4217 durrfndy dodf is rfturnfd.
      *
-     * @param locale the locale for which a display name for this currency is
-     * needed
-     * @return the symbol of this currency for the specified locale
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm lodblf tif lodblf for wiidi b displby nbmf for tiis durrfndy is
+     * nffdfd
+     * @rfturn tif symbol of tiis durrfndy for tif spfdififd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public String getSymbol(Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CurrencyNameProvider.class);
-        String symbol = pool.getLocalizedObject(
-                                CurrencyNameGetter.INSTANCE,
-                                locale, currencyCode, SYMBOL);
+    publid String gftSymbol(Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CurrfndyNbmfProvidfr.dlbss);
+        String symbol = pool.gftLodblizfdObjfdt(
+                                CurrfndyNbmfGfttfr.INSTANCE,
+                                lodblf, durrfndyCodf, SYMBOL);
         if (symbol != null) {
-            return symbol;
+            rfturn symbol;
         }
 
-        // use currency code as symbol of last resort
-        return currencyCode;
+        // usf durrfndy dodf bs symbol of lbst rfsort
+        rfturn durrfndyCodf;
     }
 
     /**
-     * Gets the default number of fraction digits used with this currency.
-     * For example, the default number of fraction digits for the Euro is 2,
-     * while for the Japanese Yen it's 0.
-     * In the case of pseudo-currencies, such as IMF Special Drawing Rights,
-     * -1 is returned.
+     * Gfts tif dffbult numbfr of frbdtion digits usfd witi tiis durrfndy.
+     * For fxbmplf, tif dffbult numbfr of frbdtion digits for tif Euro is 2,
+     * wiilf for tif Jbpbnfsf Yfn it's 0.
+     * In tif dbsf of psfudo-durrfndifs, sudi bs IMF Spfdibl Drbwing Rigits,
+     * -1 is rfturnfd.
      *
-     * @return the default number of fraction digits used with this currency
+     * @rfturn tif dffbult numbfr of frbdtion digits usfd witi tiis durrfndy
      */
-    public int getDefaultFractionDigits() {
-        return defaultFractionDigits;
+    publid int gftDffbultFrbdtionDigits() {
+        rfturn dffbultFrbdtionDigits;
     }
 
     /**
-     * Returns the ISO 4217 numeric code of this currency.
+     * Rfturns tif ISO 4217 numfrid dodf of tiis durrfndy.
      *
-     * @return the ISO 4217 numeric code of this currency
-     * @since 1.7
+     * @rfturn tif ISO 4217 numfrid dodf of tiis durrfndy
+     * @sindf 1.7
      */
-    public int getNumericCode() {
-        return numericCode;
+    publid int gftNumfridCodf() {
+        rfturn numfridCodf;
     }
 
     /**
-     * Gets the name that is suitable for displaying this currency for
-     * the default {@link Locale.Category#DISPLAY DISPLAY} locale.
-     * If there is no suitable display name found
-     * for the default locale, the ISO 4217 currency code is returned.
+     * Gfts tif nbmf tibt is suitbblf for displbying tiis durrfndy for
+     * tif dffbult {@link Lodblf.Cbtfgory#DISPLAY DISPLAY} lodblf.
+     * If tifrf is no suitbblf displby nbmf found
+     * for tif dffbult lodblf, tif ISO 4217 durrfndy dodf is rfturnfd.
      * <p>
-     * This is equivalent to calling
-     * {@link #getDisplayName(Locale)
-     *     getDisplayName(Locale.getDefault(Locale.Category.DISPLAY))}.
+     * Tiis is fquivblfnt to dblling
+     * {@link #gftDisplbyNbmf(Lodblf)
+     *     gftDisplbyNbmf(Lodblf.gftDffbult(Lodblf.Cbtfgory.DISPLAY))}.
      *
-     * @return the display name of this currency for the default
-     *     {@link Locale.Category#DISPLAY DISPLAY} locale
-     * @since 1.7
+     * @rfturn tif displby nbmf of tiis durrfndy for tif dffbult
+     *     {@link Lodblf.Cbtfgory#DISPLAY DISPLAY} lodblf
+     * @sindf 1.7
      */
-    public String getDisplayName() {
-        return getDisplayName(Locale.getDefault(Locale.Category.DISPLAY));
+    publid String gftDisplbyNbmf() {
+        rfturn gftDisplbyNbmf(Lodblf.gftDffbult(Lodblf.Cbtfgory.DISPLAY));
     }
 
     /**
-     * Gets the name that is suitable for displaying this currency for
-     * the specified locale.  If there is no suitable display name found
-     * for the specified locale, the ISO 4217 currency code is returned.
+     * Gfts tif nbmf tibt is suitbblf for displbying tiis durrfndy for
+     * tif spfdififd lodblf.  If tifrf is no suitbblf displby nbmf found
+     * for tif spfdififd lodblf, tif ISO 4217 durrfndy dodf is rfturnfd.
      *
-     * @param locale the locale for which a display name for this currency is
-     * needed
-     * @return the display name of this currency for the specified locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @since 1.7
+     * @pbrbm lodblf tif lodblf for wiidi b displby nbmf for tiis durrfndy is
+     * nffdfd
+     * @rfturn tif displby nbmf of tiis durrfndy for tif spfdififd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @sindf 1.7
      */
-    public String getDisplayName(Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CurrencyNameProvider.class);
-        String result = pool.getLocalizedObject(
-                                CurrencyNameGetter.INSTANCE,
-                                locale, currencyCode, DISPLAYNAME);
-        if (result != null) {
-            return result;
+    publid String gftDisplbyNbmf(Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CurrfndyNbmfProvidfr.dlbss);
+        String rfsult = pool.gftLodblizfdObjfdt(
+                                CurrfndyNbmfGfttfr.INSTANCE,
+                                lodblf, durrfndyCodf, DISPLAYNAME);
+        if (rfsult != null) {
+            rfturn rfsult;
         }
 
-        // use currency code as symbol of last resort
-        return currencyCode;
+        // usf durrfndy dodf bs symbol of lbst rfsort
+        rfturn durrfndyCodf;
     }
 
     /**
-     * Returns the ISO 4217 currency code of this currency.
+     * Rfturns tif ISO 4217 durrfndy dodf of tiis durrfndy.
      *
-     * @return the ISO 4217 currency code of this currency
+     * @rfturn tif ISO 4217 durrfndy dodf of tiis durrfndy
      */
-    @Override
-    public String toString() {
-        return currencyCode;
+    @Ovfrridf
+    publid String toString() {
+        rfturn durrfndyCodf;
     }
 
     /**
-     * Resolves instances being deserialized to a single instance per currency.
+     * Rfsolvfs instbndfs bfing dfsfriblizfd to b singlf instbndf pfr durrfndy.
      */
-    private Object readResolve() {
-        return getInstance(currencyCode);
+    privbtf Objfdt rfbdRfsolvf() {
+        rfturn gftInstbndf(durrfndyCodf);
     }
 
     /**
-     * Gets the main table entry for the country whose country code consists
-     * of char1 and char2.
+     * Gfts tif mbin tbblf fntry for tif dountry wiosf dountry dodf donsists
+     * of dibr1 bnd dibr2.
      */
-    private static int getMainTableEntry(char char1, char char2) {
-        if (char1 < 'A' || char1 > 'Z' || char2 < 'A' || char2 > 'Z') {
-            throw new IllegalArgumentException();
+    privbtf stbtid int gftMbinTbblfEntry(dibr dibr1, dibr dibr2) {
+        if (dibr1 < 'A' || dibr1 > 'Z' || dibr2 < 'A' || dibr2 > 'Z') {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        return mainTable[(char1 - 'A') * A_TO_Z + (char2 - 'A')];
+        rfturn mbinTbblf[(dibr1 - 'A') * A_TO_Z + (dibr2 - 'A')];
     }
 
     /**
-     * Sets the main table entry for the country whose country code consists
-     * of char1 and char2.
+     * Sfts tif mbin tbblf fntry for tif dountry wiosf dountry dodf donsists
+     * of dibr1 bnd dibr2.
      */
-    private static void setMainTableEntry(char char1, char char2, int entry) {
-        if (char1 < 'A' || char1 > 'Z' || char2 < 'A' || char2 > 'Z') {
-            throw new IllegalArgumentException();
+    privbtf stbtid void sftMbinTbblfEntry(dibr dibr1, dibr dibr2, int fntry) {
+        if (dibr1 < 'A' || dibr1 > 'Z' || dibr2 < 'A' || dibr2 > 'Z') {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        mainTable[(char1 - 'A') * A_TO_Z + (char2 - 'A')] = entry;
+        mbinTbblf[(dibr1 - 'A') * A_TO_Z + (dibr2 - 'A')] = fntry;
     }
 
     /**
-     * Obtains a localized currency names from a CurrencyNameProvider
-     * implementation.
+     * Obtbins b lodblizfd durrfndy nbmfs from b CurrfndyNbmfProvidfr
+     * implfmfntbtion.
      */
-    private static class CurrencyNameGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<CurrencyNameProvider,
+    privbtf stbtid dlbss CurrfndyNbmfGfttfr
+        implfmfnts LodblfSfrvidfProvidfrPool.LodblizfdObjfdtGfttfr<CurrfndyNbmfProvidfr,
                                                                    String> {
-        private static final CurrencyNameGetter INSTANCE = new CurrencyNameGetter();
+        privbtf stbtid finbl CurrfndyNbmfGfttfr INSTANCE = nfw CurrfndyNbmfGfttfr();
 
-        @Override
-        public String getObject(CurrencyNameProvider currencyNameProvider,
-                                Locale locale,
-                                String key,
-                                Object... params) {
-            assert params.length == 1;
-            int type = (Integer)params[0];
+        @Ovfrridf
+        publid String gftObjfdt(CurrfndyNbmfProvidfr durrfndyNbmfProvidfr,
+                                Lodblf lodblf,
+                                String kfy,
+                                Objfdt... pbrbms) {
+            bssfrt pbrbms.lfngti == 1;
+            int typf = (Intfgfr)pbrbms[0];
 
-            switch(type) {
-            case SYMBOL:
-                return currencyNameProvider.getSymbol(key, locale);
-            case DISPLAYNAME:
-                return currencyNameProvider.getDisplayName(key, locale);
-            default:
-                assert false; // shouldn't happen
+            switdi(typf) {
+            dbsf SYMBOL:
+                rfturn durrfndyNbmfProvidfr.gftSymbol(kfy, lodblf);
+            dbsf DISPLAYNAME:
+                rfturn durrfndyNbmfProvidfr.gftDisplbyNbmf(kfy, lodblf);
+            dffbult:
+                bssfrt fblsf; // siouldn't ibppfn
             }
 
-            return null;
+            rfturn null;
         }
     }
 
-    private static int[] readIntArray(DataInputStream dis, int count) throws IOException {
-        int[] ret = new int[count];
-        for (int i = 0; i < count; i++) {
-            ret[i] = dis.readInt();
+    privbtf stbtid int[] rfbdIntArrby(DbtbInputStrfbm dis, int dount) tirows IOExdfption {
+        int[] rft = nfw int[dount];
+        for (int i = 0; i < dount; i++) {
+            rft[i] = dis.rfbdInt();
         }
 
-        return ret;
+        rfturn rft;
     }
 
-    private static long[] readLongArray(DataInputStream dis, int count) throws IOException {
-        long[] ret = new long[count];
-        for (int i = 0; i < count; i++) {
-            ret[i] = dis.readLong();
+    privbtf stbtid long[] rfbdLongArrby(DbtbInputStrfbm dis, int dount) tirows IOExdfption {
+        long[] rft = nfw long[dount];
+        for (int i = 0; i < dount; i++) {
+            rft[i] = dis.rfbdLong();
         }
 
-        return ret;
+        rfturn rft;
     }
 
-    private static String[] readStringArray(DataInputStream dis, int count) throws IOException {
-        String[] ret = new String[count];
-        for (int i = 0; i < count; i++) {
-            ret[i] = dis.readUTF();
+    privbtf stbtid String[] rfbdStringArrby(DbtbInputStrfbm dis, int dount) tirows IOExdfption {
+        String[] rft = nfw String[dount];
+        for (int i = 0; i < dount; i++) {
+            rft[i] = dis.rfbdUTF();
         }
 
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Replaces currency data found in the currencydata.properties file
+     * Rfplbdfs durrfndy dbtb found in tif durrfndydbtb.propfrtifs filf
      *
-     * @param pattern regex pattern for the properties
-     * @param ctry country code
-     * @param curdata currency data.  This is a comma separated string that
-     *    consists of "three-letter alphabet code", "three-digit numeric code",
-     *    and "one-digit (0,1,2, or 3) default fraction digit".
-     *    For example, "JPZ,392,0".
-     *    An optional UTC date can be appended to the string (comma separated)
-     *    to allow a currency change take effect after date specified.
-     *    For example, "JP=JPZ,999,0,2014-01-01T00:00:00" has no effect unless
-     *    UTC time is past 1st January 2014 00:00:00 GMT.
+     * @pbrbm pbttfrn rfgfx pbttfrn for tif propfrtifs
+     * @pbrbm dtry dountry dodf
+     * @pbrbm durdbtb durrfndy dbtb.  Tiis is b dommb sfpbrbtfd string tibt
+     *    donsists of "tirff-lfttfr blpibbft dodf", "tirff-digit numfrid dodf",
+     *    bnd "onf-digit (0,1,2, or 3) dffbult frbdtion digit".
+     *    For fxbmplf, "JPZ,392,0".
+     *    An optionbl UTC dbtf dbn bf bppfndfd to tif string (dommb sfpbrbtfd)
+     *    to bllow b durrfndy dibngf tbkf ffffdt bftfr dbtf spfdififd.
+     *    For fxbmplf, "JP=JPZ,999,0,2014-01-01T00:00:00" ibs no ffffdt unlfss
+     *    UTC timf is pbst 1st Jbnubry 2014 00:00:00 GMT.
      */
-    private static void replaceCurrencyData(Pattern pattern, String ctry, String curdata) {
+    privbtf stbtid void rfplbdfCurrfndyDbtb(Pbttfrn pbttfrn, String dtry, String durdbtb) {
 
-        if (ctry.length() != 2) {
-            // ignore invalid country code
-            info("currency.properties entry for " + ctry +
-                    " is ignored because of the invalid country code.", null);
-            return;
+        if (dtry.lfngti() != 2) {
+            // ignorf invblid dountry dodf
+            info("durrfndy.propfrtifs fntry for " + dtry +
+                    " is ignorfd bfdbusf of tif invblid dountry dodf.", null);
+            rfturn;
         }
 
-        Matcher m = pattern.matcher(curdata);
-        if (!m.find() || (m.group(4) == null && countOccurrences(curdata, ',') >= 3)) {
-            // format is not recognized.  ignore the data
-            // if group(4) date string is null and we've 4 values, bad date value
-            info("currency.properties entry for " + ctry +
-                    " ignored because the value format is not recognized.", null);
-            return;
+        Mbtdifr m = pbttfrn.mbtdifr(durdbtb);
+        if (!m.find() || (m.group(4) == null && dountOddurrfndfs(durdbtb, ',') >= 3)) {
+            // formbt is not rfdognizfd.  ignorf tif dbtb
+            // if group(4) dbtf string is null bnd wf'vf 4 vblufs, bbd dbtf vbluf
+            info("durrfndy.propfrtifs fntry for " + dtry +
+                    " ignorfd bfdbusf tif vbluf formbt is not rfdognizfd.", null);
+            rfturn;
         }
 
         try {
-            if (m.group(4) != null && !isPastCutoverDate(m.group(4))) {
-                info("currency.properties entry for " + ctry +
-                        " ignored since cutover date has not passed :" + curdata, null);
-                return;
+            if (m.group(4) != null && !isPbstCutovfrDbtf(m.group(4))) {
+                info("durrfndy.propfrtifs fntry for " + dtry +
+                        " ignorfd sindf dutovfr dbtf ibs not pbssfd :" + durdbtb, null);
+                rfturn;
             }
-        } catch (ParseException ex) {
-            info("currency.properties entry for " + ctry +
-                        " ignored since exception encountered :" + ex.getMessage(), null);
-            return;
+        } dbtdi (PbrsfExdfption fx) {
+            info("durrfndy.propfrtifs fntry for " + dtry +
+                        " ignorfd sindf fxdfption fndountfrfd :" + fx.gftMfssbgf(), null);
+            rfturn;
         }
 
-        String code = m.group(1);
-        int numeric = Integer.parseInt(m.group(2));
-        int fraction = Integer.parseInt(m.group(3));
-        int entry = numeric << NUMERIC_CODE_SHIFT;
+        String dodf = m.group(1);
+        int numfrid = Intfgfr.pbrsfInt(m.group(2));
+        int frbdtion = Intfgfr.pbrsfInt(m.group(3));
+        int fntry = numfrid << NUMERIC_CODE_SHIFT;
 
-        int index;
-        for (index = 0; index < scOldCurrencies.length; index++) {
-            if (scOldCurrencies[index].equals(code)) {
-                break;
-            }
-        }
-
-        if (index == scOldCurrencies.length) {
-            // simple case
-            entry |= (fraction << SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT) |
-                     (code.charAt(2) - 'A');
-        } else {
-            // special case
-            entry |= SPECIAL_CASE_COUNTRY_MASK |
-                     (index + SPECIAL_CASE_COUNTRY_INDEX_DELTA);
-        }
-        setMainTableEntry(ctry.charAt(0), ctry.charAt(1), entry);
-    }
-
-    private static boolean isPastCutoverDate(String s) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT);
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        format.setLenient(false);
-        long time = format.parse(s.trim()).getTime();
-        return System.currentTimeMillis() > time;
-
-    }
-
-    private static int countOccurrences(String value, char match) {
-        int count = 0;
-        for (char c : value.toCharArray()) {
-            if (c == match) {
-               ++count;
+        int indfx;
+        for (indfx = 0; indfx < sdOldCurrfndifs.lfngti; indfx++) {
+            if (sdOldCurrfndifs[indfx].fqubls(dodf)) {
+                brfbk;
             }
         }
-        return count;
+
+        if (indfx == sdOldCurrfndifs.lfngti) {
+            // simplf dbsf
+            fntry |= (frbdtion << SIMPLE_CASE_COUNTRY_DEFAULT_DIGITS_SHIFT) |
+                     (dodf.dibrAt(2) - 'A');
+        } flsf {
+            // spfdibl dbsf
+            fntry |= SPECIAL_CASE_COUNTRY_MASK |
+                     (indfx + SPECIAL_CASE_COUNTRY_INDEX_DELTA);
+        }
+        sftMbinTbblfEntry(dtry.dibrAt(0), dtry.dibrAt(1), fntry);
     }
 
-    private static void info(String message, Throwable t) {
-        PlatformLogger logger = PlatformLogger.getLogger("java.util.Currency");
-        if (logger.isLoggable(PlatformLogger.Level.INFO)) {
+    privbtf stbtid boolfbn isPbstCutovfrDbtf(String s) tirows PbrsfExdfption {
+        SimplfDbtfFormbt formbt = nfw SimplfDbtfFormbt("yyyy-MM-dd'T'HH:mm:ss", Lodblf.ROOT);
+        formbt.sftTimfZonf(TimfZonf.gftTimfZonf("UTC"));
+        formbt.sftLfnifnt(fblsf);
+        long timf = formbt.pbrsf(s.trim()).gftTimf();
+        rfturn Systfm.durrfntTimfMillis() > timf;
+
+    }
+
+    privbtf stbtid int dountOddurrfndfs(String vbluf, dibr mbtdi) {
+        int dount = 0;
+        for (dibr d : vbluf.toCibrArrby()) {
+            if (d == mbtdi) {
+               ++dount;
+            }
+        }
+        rfturn dount;
+    }
+
+    privbtf stbtid void info(String mfssbgf, Tirowbblf t) {
+        PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.util.Currfndy");
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.INFO)) {
             if (t != null) {
-                logger.info(message, t);
-            } else {
-                logger.info(message);
+                loggfr.info(mfssbgf, t);
+            } flsf {
+                loggfr.info(mfssbgf);
             }
         }
     }

@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 1995, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.PushbackInputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.IOException;
+import jbvb.io.PusibbdkInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a Berkeley uu character decoder. This decoder
- * was made famous by the uudecode program.
+ * Tiis dlbss implfmfnts b Bfrkflfy uu dibrbdtfr dfdodfr. Tiis dfdodfr
+ * wbs mbdf fbmous by tif uudfdodf progrbm.
  *
- * The basic character coding is algorithmic, taking 6 bits of binary
- * data and adding it to an ASCII ' ' (space) character. This converts
- * these six bits into a printable representation. Note that it depends
- * on the ASCII character encoding standard for english. Groups of three
- * bytes are converted into 4 characters by treating the three bytes
- * a four 6 bit groups, group 1 is byte 1's most significant six bits,
- * group 2 is byte 1's least significant two bits plus byte 2's four
- * most significant bits. etc.
+ * Tif bbsid dibrbdtfr doding is blgoritimid, tbking 6 bits of binbry
+ * dbtb bnd bdding it to bn ASCII ' ' (spbdf) dibrbdtfr. Tiis donvfrts
+ * tifsf six bits into b printbblf rfprfsfntbtion. Notf tibt it dfpfnds
+ * on tif ASCII dibrbdtfr fndoding stbndbrd for fnglisi. Groups of tirff
+ * bytfs brf donvfrtfd into 4 dibrbdtfrs by trfbting tif tirff bytfs
+ * b four 6 bit groups, group 1 is bytf 1's most signifidbnt six bits,
+ * group 2 is bytf 1's lfbst signifidbnt two bits plus bytf 2's four
+ * most signifidbnt bits. ftd.
  *
- * In this encoding, the buffer prefix is:
- * <pre>
- *     begin [mode] [filename]
- * </pre>
+ * In tiis fndoding, tif bufffr prffix is:
+ * <prf>
+ *     bfgin [modf] [filfnbmf]
+ * </prf>
  *
- * This is followed by one or more lines of the form:
- * <pre>
- *      (len)(data)(data)(data) ...
- * </pre>
- * where (len) is the number of bytes on this line. Note that groupings
- * are always four characters, even if length is not a multiple of three
- * bytes. When less than three characters are encoded, the values of the
- * last remaining bytes is undefined and should be ignored.
+ * Tiis is followfd by onf or morf linfs of tif form:
+ * <prf>
+ *      (lfn)(dbtb)(dbtb)(dbtb) ...
+ * </prf>
+ * wifrf (lfn) is tif numbfr of bytfs on tiis linf. Notf tibt groupings
+ * brf blwbys four dibrbdtfrs, fvfn if lfngti is not b multiplf of tirff
+ * bytfs. Wifn lfss tibn tirff dibrbdtfrs brf fndodfd, tif vblufs of tif
+ * lbst rfmbining bytfs is undffinfd bnd siould bf ignorfd.
  *
- * The last line of data in a uuencoded buffer is represented by a single
- * space character. This is translated by the decoding engine to a line
- * length of zero. This is immediately followed by a line which contains
- * the word 'end[newline]'
+ * Tif lbst linf of dbtb in b uufndodfd bufffr is rfprfsfntfd by b singlf
+ * spbdf dibrbdtfr. Tiis is trbnslbtfd by tif dfdoding fnginf to b linf
+ * lfngti of zfro. Tiis is immfdibtfly followfd by b linf wiidi dontbins
+ * tif word 'fnd[nfwlinf]'
  *
- * If an error is encountered during decoding this class throws a
- * CEFormatException. The specific detail messages are:
+ * If bn frror is fndountfrfd during dfdoding tiis dlbss tirows b
+ * CEFormbtExdfption. Tif spfdifid dftbil mfssbgfs brf:
  *
- * <pre>
- *      "UUDecoder: No begin line."
- *      "UUDecoder: Malformed begin line."
- *      "UUDecoder: Short Buffer."
- *      "UUDecoder: Bad Line Length."
- *      "UUDecoder: Missing 'end' line."
- * </pre>
+ * <prf>
+ *      "UUDfdodfr: No bfgin linf."
+ *      "UUDfdodfr: Mblformfd bfgin linf."
+ *      "UUDfdodfr: Siort Bufffr."
+ *      "UUDfdodfr: Bbd Linf Lfngti."
+ *      "UUDfdodfr: Missing 'fnd' linf."
+ * </prf>
  *
- * @author      Chuck McManis
- * @see         CharacterDecoder
- * @see         UUEncoder
+ * @butior      Ciudk MdMbnis
+ * @sff         CibrbdtfrDfdodfr
+ * @sff         UUEndodfr
  */
-public class UUDecoder extends CharacterDecoder {
+publid dlbss UUDfdodfr fxtfnds CibrbdtfrDfdodfr {
 
     /**
-     * This string contains the name that was in the buffer being decoded.
+     * Tiis string dontbins tif nbmf tibt wbs in tif bufffr bfing dfdodfd.
      */
-    public String bufferName;
+    publid String bufffrNbmf;
 
     /**
-     * Represents UNIX(tm) mode bits. Generally three octal digits
-     * representing read, write, and execute permission of the owner,
-     * group owner, and  others. They should be interpreted as the bit groups:
-     * <pre>
-     * (owner) (group) (others)
-     *  rwx      rwx     rwx    (r = read, w = write, x = execute)
-     *</pre>
+     * Rfprfsfnts UNIX(tm) modf bits. Gfnfrblly tirff odtbl digits
+     * rfprfsfnting rfbd, writf, bnd fxfdutf pfrmission of tif ownfr,
+     * group ownfr, bnd  otifrs. Tify siould bf intfrprftfd bs tif bit groups:
+     * <prf>
+     * (ownfr) (group) (otifrs)
+     *  rwx      rwx     rwx    (r = rfbd, w = writf, x = fxfdutf)
+     *</prf>
      *
      */
-    public int mode;
+    publid int modf;
 
 
     /**
-     * UU encoding specifies 3 bytes per atom.
+     * UU fndoding spfdififs 3 bytfs pfr btom.
      */
-    protected int bytesPerAtom() {
-        return (3);
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (3);
     }
 
     /**
-     * All UU lines have 45 bytes on them, for line length of 15*4+1 or 61
-     * characters per line.
+     * All UU linfs ibvf 45 bytfs on tifm, for linf lfngti of 15*4+1 or 61
+     * dibrbdtfrs pfr linf.
      */
-    protected int bytesPerLine() {
-        return (45);
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (45);
     }
 
-    /** This is used to decode the atoms */
-    private byte decoderBuffer[] = new byte[4];
+    /** Tiis is usfd to dfdodf tif btoms */
+    privbtf bytf dfdodfrBufffr[] = nfw bytf[4];
 
     /**
-     * Decode a UU atom. Note that if l is less than 3 we don't write
-     * the extra bits, however the encoder always encodes 4 character
-     * groups even when they are not needed.
+     * Dfdodf b UU btom. Notf tibt if l is lfss tibn 3 wf don't writf
+     * tif fxtrb bits, iowfvfr tif fndodfr blwbys fndodfs 4 dibrbdtfr
+     * groups fvfn wifn tify brf not nffdfd.
      */
-    protected void decodeAtom(PushbackInputStream inStream, OutputStream outStream, int l)
-        throws IOException {
-        int i, c1, c2, c3, c4;
-        int a, b, c;
-        StringBuilder x = new StringBuilder();
+    protfdtfd void dfdodfAtom(PusibbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm, int l)
+        tirows IOExdfption {
+        int i, d1, d2, d3, d4;
+        int b, b, d;
+        StringBuildfr x = nfw StringBuildfr();
 
         for (i = 0; i < 4; i++) {
-            c1 = inStream.read();
-            if (c1 == -1) {
-                throw new CEStreamExhausted();
+            d1 = inStrfbm.rfbd();
+            if (d1 == -1) {
+                tirow nfw CEStrfbmExibustfd();
             }
-            x.append((char)c1);
-            decoderBuffer[i] = (byte) ((c1 - ' ') & 0x3f);
+            x.bppfnd((dibr)d1);
+            dfdodfrBufffr[i] = (bytf) ((d1 - ' ') & 0x3f);
         }
-        a = ((decoderBuffer[0] << 2) & 0xfc) | ((decoderBuffer[1] >>> 4) & 3);
-        b = ((decoderBuffer[1] << 4) & 0xf0) | ((decoderBuffer[2] >>> 2) & 0xf);
-        c = ((decoderBuffer[2] << 6) & 0xc0) | (decoderBuffer[3] & 0x3f);
-        outStream.write((byte)(a & 0xff));
+        b = ((dfdodfrBufffr[0] << 2) & 0xfd) | ((dfdodfrBufffr[1] >>> 4) & 3);
+        b = ((dfdodfrBufffr[1] << 4) & 0xf0) | ((dfdodfrBufffr[2] >>> 2) & 0xf);
+        d = ((dfdodfrBufffr[2] << 6) & 0xd0) | (dfdodfrBufffr[3] & 0x3f);
+        outStrfbm.writf((bytf)(b & 0xff));
         if (l > 1) {
-            outStream.write((byte)( b & 0xff));
+            outStrfbm.writf((bytf)( b & 0xff));
         }
         if (l > 2) {
-            outStream.write((byte)(c&0xff));
+            outStrfbm.writf((bytf)(d&0xff));
         }
     }
 
     /**
-     * For uuencoded buffers, the data begins with a line of the form:
-     *          begin MODE FILENAME
-     * This line always starts in column 1.
+     * For uufndodfd bufffrs, tif dbtb bfgins witi b linf of tif form:
+     *          bfgin MODE FILENAME
+     * Tiis linf blwbys stbrts in dolumn 1.
      */
-    protected void decodeBufferPrefix(PushbackInputStream inStream, OutputStream outStream) throws IOException {
-        int     c;
-        StringBuilder q = new StringBuilder(32);
+    protfdtfd void dfdodfBufffrPrffix(PusibbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) tirows IOExdfption {
+        int     d;
+        StringBuildfr q = nfw StringBuildfr(32);
         String r;
-        boolean sawNewLine;
+        boolfbn sbwNfwLinf;
 
         /*
-         * This works by ripping through the buffer until it finds a 'begin'
-         * line or the end of the buffer.
+         * Tiis works by ripping tirougi tif bufffr until it finds b 'bfgin'
+         * linf or tif fnd of tif bufffr.
          */
-        sawNewLine = true;
-        while (true) {
-            c = inStream.read();
-            if (c == -1) {
-                throw new CEFormatException("UUDecoder: No begin line.");
+        sbwNfwLinf = truf;
+        wiilf (truf) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                tirow nfw CEFormbtExdfption("UUDfdodfr: No bfgin linf.");
             }
-            if ((c == 'b')  && sawNewLine){
-                c = inStream.read();
-                if (c == 'e') {
-                    break;
+            if ((d == 'b')  && sbwNfwLinf){
+                d = inStrfbm.rfbd();
+                if (d == 'f') {
+                    brfbk;
                 }
             }
-            sawNewLine = (c == '\n') || (c == '\r');
+            sbwNfwLinf = (d == '\n') || (d == '\r');
         }
 
         /*
-         * Now we think its begin, (we've seen ^be) so verify it here.
+         * Now wf tiink its bfgin, (wf'vf sffn ^bf) so vfrify it ifrf.
          */
-        while ((c != '\n') && (c != '\r')) {
-            c = inStream.read();
-            if (c == -1) {
-                throw new CEFormatException("UUDecoder: No begin line.");
+        wiilf ((d != '\n') && (d != '\r')) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                tirow nfw CEFormbtExdfption("UUDfdodfr: No bfgin linf.");
             }
-            if ((c != '\n') && (c != '\r')) {
-                q.append((char)c);
+            if ((d != '\n') && (d != '\r')) {
+                q.bppfnd((dibr)d);
             }
         }
         r = q.toString();
-        if (r.indexOf(' ') != 3) {
-                throw new CEFormatException("UUDecoder: Malformed begin line.");
+        if (r.indfxOf(' ') != 3) {
+                tirow nfw CEFormbtExdfption("UUDfdodfr: Mblformfd bfgin linf.");
         }
-        mode = Integer.parseInt(r.substring(4,7));
-        bufferName = r.substring(r.indexOf(' ',6)+1);
+        modf = Intfgfr.pbrsfInt(r.substring(4,7));
+        bufffrNbmf = r.substring(r.indfxOf(' ',6)+1);
         /*
-         * Check for \n after \r
+         * Cifdk for \n bftfr \r
          */
-        if (c == '\r') {
-            c = inStream.read ();
-            if ((c != '\n') && (c != -1))
-                inStream.unread (c);
+        if (d == '\r') {
+            d = inStrfbm.rfbd ();
+            if ((d != '\n') && (d != -1))
+                inStrfbm.unrfbd (d);
         }
     }
 
     /**
-     * In uuencoded buffers, encoded lines start with a character that
-     * represents the number of bytes encoded in this line. The last
-     * line of input is always a line that starts with a single space
-     * character, which would be a zero length line.
+     * In uufndodfd bufffrs, fndodfd linfs stbrt witi b dibrbdtfr tibt
+     * rfprfsfnts tif numbfr of bytfs fndodfd in tiis linf. Tif lbst
+     * linf of input is blwbys b linf tibt stbrts witi b singlf spbdf
+     * dibrbdtfr, wiidi would bf b zfro lfngti linf.
      */
-    protected int decodeLinePrefix(PushbackInputStream inStream, OutputStream outStream) throws IOException {
-        int     c;
+    protfdtfd int dfdodfLinfPrffix(PusibbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) tirows IOExdfption {
+        int     d;
 
-        c = inStream.read();
-        if (c == ' ') {
-            c = inStream.read(); /* discard the (first)trailing CR or LF  */
-            c = inStream.read(); /* check for a second one  */
-            if ((c != '\n') && (c != -1))
-                inStream.unread (c);
-            throw new CEStreamExhausted();
-        } else if (c == -1) {
-            throw new CEFormatException("UUDecoder: Short Buffer.");
+        d = inStrfbm.rfbd();
+        if (d == ' ') {
+            d = inStrfbm.rfbd(); /* disdbrd tif (first)trbiling CR or LF  */
+            d = inStrfbm.rfbd(); /* difdk for b sfdond onf  */
+            if ((d != '\n') && (d != -1))
+                inStrfbm.unrfbd (d);
+            tirow nfw CEStrfbmExibustfd();
+        } flsf if (d == -1) {
+            tirow nfw CEFormbtExdfption("UUDfdodfr: Siort Bufffr.");
         }
 
-        c = (c - ' ') & 0x3f;
-        if (c > bytesPerLine()) {
-            throw new CEFormatException("UUDecoder: Bad Line Length.");
+        d = (d - ' ') & 0x3f;
+        if (d > bytfsPfrLinf()) {
+            tirow nfw CEFormbtExdfption("UUDfdodfr: Bbd Linf Lfngti.");
         }
-        return (c);
+        rfturn (d);
     }
 
 
     /**
-     * Find the end of the line for the next operation.
-     * The following sequences are recognized as end-of-line
+     * Find tif fnd of tif linf for tif nfxt opfrbtion.
+     * Tif following sfqufndfs brf rfdognizfd bs fnd-of-linf
      * CR, CR LF, or LF
      */
-    protected void decodeLineSuffix(PushbackInputStream inStream, OutputStream outStream) throws IOException {
-        int c;
-        while (true) {
-            c = inStream.read();
-            if (c == -1) {
-                throw new CEStreamExhausted();
+    protfdtfd void dfdodfLinfSuffix(PusibbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) tirows IOExdfption {
+        int d;
+        wiilf (truf) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                tirow nfw CEStrfbmExibustfd();
             }
-            if (c == '\n') {
-                break;
+            if (d == '\n') {
+                brfbk;
             }
-            if (c == '\r') {
-                c = inStream.read();
-                if ((c != '\n') && (c != -1)) {
-                    inStream.unread (c);
+            if (d == '\r') {
+                d = inStrfbm.rfbd();
+                if ((d != '\n') && (d != -1)) {
+                    inStrfbm.unrfbd (d);
                 }
-                break;
+                brfbk;
             }
         }
     }
 
     /**
-     * UUencoded files have a buffer suffix which consists of the word
-     * end. This line should immediately follow the line with a single
-     * space in it.
+     * UUfndodfd filfs ibvf b bufffr suffix wiidi donsists of tif word
+     * fnd. Tiis linf siould immfdibtfly follow tif linf witi b singlf
+     * spbdf in it.
      */
-    protected void decodeBufferSuffix(PushbackInputStream inStream, OutputStream outStream) throws IOException  {
-        int     c;
+    protfdtfd void dfdodfBufffrSuffix(PusibbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) tirows IOExdfption  {
+        int     d;
 
-        c = inStream.read(decoderBuffer);
-        if ((decoderBuffer[0] != 'e') || (decoderBuffer[1] != 'n') ||
-            (decoderBuffer[2] != 'd')) {
-            throw new CEFormatException("UUDecoder: Missing 'end' line.");
+        d = inStrfbm.rfbd(dfdodfrBufffr);
+        if ((dfdodfrBufffr[0] != 'f') || (dfdodfrBufffr[1] != 'n') ||
+            (dfdodfrBufffr[2] != 'd')) {
+            tirow nfw CEFormbtExdfption("UUDfdodfr: Missing 'fnd' linf.");
         }
     }
 

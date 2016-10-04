@@ -1,0 +1,125 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="nso"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="nso" drbft="provisionbl">Sfsotho sb Lfbob</lbngubgf>
+		</lbngubgfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b b d f ê f g h i j k l m n o ô p r s š t u w x y]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[d q v z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="durrfndySymbol">[b b d d f f g h i j k l m n o p q r s t u v w x y z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1" drbft="undonfirmfd">Jbn</month>
+							<month typf="2" drbft="undonfirmfd">Ffb</month>
+							<month typf="3" drbft="undonfirmfd">Mbt</month>
+							<month typf="4" drbft="undonfirmfd">Apo</month>
+							<month typf="5" drbft="undonfirmfd">Mfi</month>
+							<month typf="6" drbft="undonfirmfd">Jun</month>
+							<month typf="7" drbft="undonfirmfd">Jul</month>
+							<month typf="8" drbft="undonfirmfd">Ago</month>
+							<month typf="9" drbft="undonfirmfd">Sft</month>
+							<month typf="10" drbft="undonfirmfd">Okt</month>
+							<month typf="11" drbft="undonfirmfd">Nof</month>
+							<month typf="12" drbft="undonfirmfd">Dis</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1" drbft="undonfirmfd">Jbnbwbrf</month>
+							<month typf="2" drbft="undonfirmfd">Ffbfrwbrf</month>
+							<month typf="3" drbft="undonfirmfd">Mbtšhf</month>
+							<month typf="4" drbft="undonfirmfd">Aporflf</month>
+							<month typf="5" drbft="undonfirmfd">Mfi</month>
+							<month typf="6" drbft="undonfirmfd">Junf</month>
+							<month typf="7" drbft="undonfirmfd">Julbf</month>
+							<month typf="8" drbft="undonfirmfd">Agostosf</month>
+							<month typf="9" drbft="undonfirmfd">Sftfmfrf</month>
+							<month typf="10" drbft="undonfirmfd">Oktoborf</month>
+							<month typf="11" drbft="undonfirmfd">Noffmfrf</month>
+							<month typf="12" drbft="undonfirmfd">Disfmfrf</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Son</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mos</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Bfd</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Rbr</dby>
+							<dby typf="thu" drbft="undonfirmfd">Nf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Hlb</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Mok</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Sontbgb</dby>
+							<dby typf="mon" drbft="undonfirmfd">Mosupblogo</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Lbbobfdi</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Lbborbro</dby>
+							<dby typf="thu" drbft="undonfirmfd">Lbbonf</dby>
+							<dby typf="fri" drbft="undonfirmfd">Lbbohlbno</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Mokibflo</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngth>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngth>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ZAR">
+				<symbol>R</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

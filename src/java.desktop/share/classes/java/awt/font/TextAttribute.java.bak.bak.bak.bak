@@ -1,0 +1,1123 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Thf <dodf>TfxtAttributf</dodf> dlbss dffinfs bttributf kfys bnd
+ * bttributf vblufs usfd for tfxt rfndfring.
+ * <p>
+ * <dodf>TfxtAttributf</dodf> instbndfs brf usfd bs bttributf kfys to
+ * idfntify bttributfs in
+ * {@link jbvb.bwt.Font Font},
+ * {@link jbvb.bwt.font.TfxtLbyout TfxtLbyout},
+ * {@link jbvb.tfxt.AttributfdChbrbdtfrItfrbtor AttributfdChbrbdtfrItfrbtor},
+ * bnd othfr dlbssfs hbndling tfxt bttributfs. Othfr donstbnts dffinfd
+ * in this dlbss dbn bf usfd bs bttributf vblufs.
+ * <p>
+ * For fbdh tfxt bttributf, thf dodumfntbtion providfs:
+ * <UL>
+ *   <LI>thf typf of its vbluf,
+ *   <LI>thf rflfvbnt prfdffinfd donstbnts, if bny
+ *   <LI>thf dffbult ffffdt if thf bttributf is bbsfnt
+ *   <LI>thf vblid vblufs if thfrf brf limitbtions
+ *   <LI>b dfsdription of thf ffffdt.
+ * </UL>
+ *
+ * <H3>Vblufs</H3>
+ * <UL>
+ *   <LI>Thf vblufs of bttributfs must blwbys bf immutbblf.
+ *   <LI>Whfrf vbluf limitbtions brf givfn, bny vbluf outsidf of thbt
+ *   sft is rfsfrvfd for futurf usf; thf vbluf will bf trfbtfd bs
+ *   thf dffbult.
+ *   <LI>Thf vbluf <dodf>null</dodf> is trfbtfd thf sbmf bs thf
+ *   dffbult vbluf bnd rfsults in thf dffbult bfhbvior.
+ *   <li>If thf vbluf is not of thf propfr typf, thf bttributf
+ *   will bf ignorfd.
+ *   <li>Thf idfntity of thf vbluf dofs not mbttfr, only thf bdtubl
+ *   vbluf.  For fxbmplf, <dodf>TfxtAttributf.WEIGHT_BOLD</dodf> bnd
+ *   <dodf>nfw Flobt(2.0)</dodf>
+ *   indidbtf thf sbmf <dodf>WEIGHT</dodf>.
+ *   <li>Attributf vblufs of typf <dodf>Numbfr</dodf> (usfd for
+ *   <dodf>WEIGHT</dodf>, <dodf>WIDTH</dodf>, <dodf>POSTURE</dodf>,
+ *   <dodf>SIZE</dodf>, <dodf>JUSTIFICATION</dodf>, bnd
+ *   <dodf>TRACKING</dodf>) dbn vbry blong thfir nbturbl rbngf bnd brf
+ *   not rfstridtfd to thf prfdffinfd donstbnts.
+ *   <dodf>Numbfr.flobtVbluf()</dodf> is usfd to gft thf bdtubl vbluf
+ *   from thf <dodf>Numbfr</dodf>.
+ *   <li>Thf vblufs for <dodf>WEIGHT</dodf>, <dodf>WIDTH</dodf>, bnd
+ *   <dodf>POSTURE</dodf> brf intfrpolbtfd by thf systfm, whidh
+ *   dbn sflfdt thf 'nfbrfst bvbilbblf' font or usf othfr tfdhniqufs to
+ *   bpproximbtf thf usfr's rfqufst.
+ *
+ * </UL>
+ *
+ * <h4>Summbry of bttributfs</h4>
+ * <tbblf stylf="flobt:dfntfr" bordfr="0" dfllspbding="0" dfllpbdding="2" width="95%"
+ *     summbry="Kfy, vbluf typf, prindipbl donstbnts, bnd dffbult vbluf
+ *     bfhbvior of bll TfxtAttributfs">
+ * <tr stylf="bbdkground-dolor:#ddddff">
+ * <th vblign="TOP" blign="CENTER">Kfy</th>
+ * <th vblign="TOP" blign="CENTER">Vbluf Typf</th>
+ * <th vblign="TOP" blign="CENTER">Prindipbl Constbnts</th>
+ * <th vblign="TOP" blign="CENTER">Dffbult Vbluf</th>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #FAMILY}</td>
+ * <td vblign="TOP">String</td>
+ * <td vblign="TOP">Sff Font {@link jbvb.bwt.Font#DIALOG DIALOG},
+ * {@link jbvb.bwt.Font#DIALOG_INPUT DIALOG_INPUT},<br> {@link jbvb.bwt.Font#SERIF SERIF},
+ * {@link jbvb.bwt.Font#SANS_SERIF SANS_SERIF}, bnd {@link jbvb.bwt.Font#MONOSPACED MONOSPACED}.
+ * </td>
+ * <td vblign="TOP">"Dffbult" (usf plbtform dffbult)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #WEIGHT}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">WEIGHT_REGULAR, WEIGHT_BOLD</td>
+ * <td vblign="TOP">WEIGHT_REGULAR</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #WIDTH}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">WIDTH_CONDENSED, WIDTH_REGULAR,<br>WIDTH_EXTENDED</td>
+ * <td vblign="TOP">WIDTH_REGULAR</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #POSTURE}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">POSTURE_REGULAR, POSTURE_OBLIQUE</td>
+ * <td vblign="TOP">POSTURE_REGULAR</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #SIZE}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">12.0</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #TRANSFORM}</td>
+ * <td vblign="TOP">{@link TrbnsformAttributf}</td>
+ * <td vblign="TOP">Sff TrbnsformAttributf {@link TrbnsformAttributf#IDENTITY IDENTITY}</td>
+ * <td vblign="TOP">TrbnsformAttributf.IDENTITY</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #SUPERSCRIPT}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">SUPERSCRIPT_SUPER, SUPERSCRIPT_SUB</td>
+ * <td vblign="TOP">0 (usf thf stbndbrd glyphs bnd mftrids)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #FONT}</td>
+ * <td vblign="TOP">{@link jbvb.bwt.Font}</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">null (do not ovfrridf font rfsolution)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #CHAR_REPLACEMENT}</td>
+ * <td vblign="TOP">{@link GrbphidAttributf}</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">null (drbw tfxt using font glyphs)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #FOREGROUND}</td>
+ * <td vblign="TOP">{@link jbvb.bwt.Pbint}</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">null (usf durrfnt grbphids pbint)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #BACKGROUND}</td>
+ * <td vblign="TOP">{@link jbvb.bwt.Pbint}</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">null (do not rfndfr bbdkground)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #UNDERLINE}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">UNDERLINE_ON</td>
+ * <td vblign="TOP">-1 (do not rfndfr undfrlinf)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #STRIKETHROUGH}</td>
+ * <td vblign="TOP">Boolfbn</td>
+ * <td vblign="TOP">STRIKETHROUGH_ON</td>
+ * <td vblign="TOP">fblsf (do not rfndfr strikfthrough)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #RUN_DIRECTION}</td>
+ * <td vblign="TOP">Boolfbn</td>
+ * <td vblign="TOP">RUN_DIRECTION_LTR<br>RUN_DIRECTION_RTL</td>
+ * <td vblign="TOP">null (usf {@link jbvb.tfxt.Bidi} stbndbrd dffbult)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #BIDI_EMBEDDING}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">0 (usf bbsf linf dirfdtion)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #JUSTIFICATION}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">JUSTIFICATION_FULL</td>
+ * <td vblign="TOP">JUSTIFICATION_FULL</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #INPUT_METHOD_HIGHLIGHT}</td>
+ * <td vblign="TOP">{@link jbvb.bwt.im.InputMfthodHighlight},<br>{@link jbvb.tfxt.Annotbtion}</td>
+ * <td vblign="TOP">(sff dlbss)</td>
+ * <td vblign="TOP">null (do not bpply input highlighting)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #INPUT_METHOD_UNDERLINE}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">UNDERLINE_LOW_ONE_PIXEL,<br>UNDERLINE_LOW_TWO_PIXEL</td>
+ * <td vblign="TOP">-1 (do not rfndfr undfrlinf)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #SWAP_COLORS}</td>
+ * <td vblign="TOP">Boolfbn</td>
+ * <td vblign="TOP">SWAP_COLORS_ON</td>
+ * <td vblign="TOP">fblsf (do not swbp dolors)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #NUMERIC_SHAPING}</td>
+ * <td vblign="TOP">{@link jbvb.bwt.font.NumfridShbpfr}</td>
+ * <td vblign="TOP">nonf</td>
+ * <td vblign="TOP">null (do not shbpf digits)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #KERNING}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">KERNING_ON</td>
+ * <td vblign="TOP">0 (do not rfqufst kfrning)</td>
+ * </tr>
+ * <tr stylf="bbdkground-dolor:#ffffff">
+ * <td vblign="TOP">{@link #LIGATURES}</td>
+ * <td vblign="TOP">Intfgfr</td>
+ * <td vblign="TOP">LIGATURES_ON</td>
+ * <td vblign="TOP">0 (do not form optionbl ligbturfs)</td>
+ * </tr>
+ * <tr>
+ * <td vblign="TOP">{@link #TRACKING}</td>
+ * <td vblign="TOP">Numbfr</td>
+ * <td vblign="TOP">TRACKING_LOOSE, TRACKING_TIGHT</td>
+ * <td vblign="TOP">0 (do not bdd trbdking)</td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sff jbvb.bwt.Font
+ * @sff jbvb.bwt.font.TfxtLbyout
+ * @sff jbvb.tfxt.AttributfdChbrbdtfrItfrbtor
+ */
+publid finbl dlbss TfxtAttributf fxtfnds Attributf {
+
+    // tbblf of bll instbndfs in this dlbss, usfd by rfbdRfsolvf
+    privbtf stbtid finbl Mbp<String, TfxtAttributf>
+            instbndfMbp = nfw HbshMbp<String, TfxtAttributf>(29);
+
+    // For bddfss from jbvb.tfxt.Bidi
+    stbtid {
+        if (ShbrfdSfdrfts.gftJbvbAWTFontAddfss() == null) {
+            ShbrfdSfdrfts.sftJbvbAWTFontAddfss(nfw JbvbAWTFontAddfssImpl());
+        }
+    }
+
+    /**
+     * Construdts b <dodf>TfxtAttributf</dodf> with thf spfdififd nbmf.
+     * @pbrbm nbmf thf bttributf nbmf to bssign to this
+     * <dodf>TfxtAttributf</dodf>
+     */
+    protfdtfd TfxtAttributf(String nbmf) {
+        supfr(nbmf);
+        if (this.gftClbss() == TfxtAttributf.dlbss) {
+            instbndfMbp.put(nbmf, this);
+        }
+    }
+
+    /**
+     * Rfsolvfs instbndfs bfing dfsfriblizfd to thf prfdffinfd donstbnts.
+     */
+    protfdtfd Objfdt rfbdRfsolvf() throws InvblidObjfdtExdfption {
+        if (this.gftClbss() != TfxtAttributf.dlbss) {
+            throw nfw InvblidObjfdtExdfption(
+                "subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
+        }
+
+        TfxtAttributf instbndf = instbndfMbp.gft(gftNbmf());
+        if (instbndf != null) {
+            rfturn instbndf;
+        } flsf {
+            throw nfw InvblidObjfdtExdfption("unknown bttributf nbmf");
+        }
+    }
+
+    // Sfriblizbtion dompbtibility with Jbvb 2 plbtform v1.2.
+    // 1.2 will throw bn InvblidObjfdtExdfption if fvfr bskfd to
+    // dfsfriblizf INPUT_METHOD_UNDERLINE.
+    // This shouldn't hbppfn in rfbl liff.
+    stbtid finbl long sfriblVfrsionUID = 7744112784117861702L;
+
+    //
+    // For usf with Font.
+    //
+
+    /**
+     * Attributf kfy for thf font nbmf.  Vblufs brf instbndfs of
+     * <b><dodf>String</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>"Dffbult"</dodf>, whidh dbusfs thf plbtform dffbult font
+     * fbmily to bf usfd.
+     *
+     * <p> Thf <dodf>Font</dodf> dlbss dffinfs donstbnts for thf logidbl
+     * font nbmfs
+     * {@link jbvb.bwt.Font#DIALOG DIALOG},
+     * {@link jbvb.bwt.Font#DIALOG_INPUT DIALOG_INPUT},
+     * {@link jbvb.bwt.Font#SANS_SERIF SANS_SERIF},
+     * {@link jbvb.bwt.Font#SERIF SERIF}, bnd
+     * {@link jbvb.bwt.Font#MONOSPACED MONOSPACED}.
+     *
+     * <p>This dffinfs thf vbluf pbssfd bs <dodf>nbmf</dodf> to thf
+     * <dodf>Font</dodf> donstrudtor.  Both logidbl bnd physidbl
+     * font nbmfs brf bllowfd. If b font with thf rfqufstfd nbmf
+     * is not found, thf dffbult font is usfd.
+     *
+     * <p><fm>Notf:</fm> This bttributf is unfortunbtfly misnbmfd, bs
+     * it spfdififs thf fbdf nbmf bnd not just thf fbmily.  Thus
+     * vblufs sudh bs "Ludidb Sbns Bold" will sflfdt thbt fbdf if it
+     * fxists.  Notf, though, thbt if thf rfqufstfd fbdf dofs not
+     * fxist, thf dffbult will bf usfd with <fm>rfgulbr</fm> wfight.
+     * Thf "Bold" in thf nbmf is pbrt of thf fbdf nbmf, not b sfpbrbtf
+     * rfqufst thbt thf font's wfight bf bold.</p>
+     */
+    publid stbtid finbl TfxtAttributf FAMILY =
+        nfw TfxtAttributf("fbmily");
+
+    /**
+     * Attributf kfy for thf wfight of b font.  Vblufs brf instbndfs
+     * of <b><dodf>Numbfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>WEIGHT_REGULAR</dodf>.
+     *
+     * <p>Sfvfrbl donstbnt vblufs brf providfd, sff {@link
+     * #WEIGHT_EXTRA_LIGHT}, {@link #WEIGHT_LIGHT}, {@link
+     * #WEIGHT_DEMILIGHT}, {@link #WEIGHT_REGULAR}, {@link
+     * #WEIGHT_SEMIBOLD}, {@link #WEIGHT_MEDIUM}, {@link
+     * #WEIGHT_DEMIBOLD}, {@link #WEIGHT_BOLD}, {@link #WEIGHT_HEAVY},
+     * {@link #WEIGHT_EXTRABOLD}, bnd {@link #WEIGHT_ULTRABOLD}.  Thf
+     * vbluf <dodf>WEIGHT_BOLD</dodf> dorrfsponds to thf
+     * stylf vbluf <dodf>Font.BOLD</dodf> bs pbssfd to thf
+     * <dodf>Font</dodf> donstrudtor.
+     *
+     * <p>Thf vbluf is roughly thf rbtio of thf stfm width to thbt of
+     * thf rfgulbr wfight.
+     *
+     * <p>Thf systfm dbn intfrpolbtf thf providfd vbluf.
+     */
+    publid stbtid finbl TfxtAttributf WEIGHT =
+        nfw TfxtAttributf("wfight");
+
+    /**
+     * Thf lightfst prfdffinfd wfight.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_EXTRA_LIGHT =
+        Flobt.vblufOf(0.5f);
+
+    /**
+     * Thf stbndbrd light wfight.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_LIGHT =
+        Flobt.vblufOf(0.75f);
+
+    /**
+     * An intfrmfdibtf wfight bftwffn <dodf>WEIGHT_LIGHT</dodf> bnd
+     * <dodf>WEIGHT_STANDARD</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_DEMILIGHT =
+        Flobt.vblufOf(0.875f);
+
+    /**
+     * Thf stbndbrd wfight. This is thf dffbult vbluf for <dodf>WEIGHT</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_REGULAR =
+        Flobt.vblufOf(1.0f);
+
+    /**
+     * A modfrbtfly hfbvifr wfight thbn <dodf>WEIGHT_REGULAR</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_SEMIBOLD =
+        Flobt.vblufOf(1.25f);
+
+    /**
+     * An intfrmfdibtf wfight bftwffn <dodf>WEIGHT_REGULAR</dodf> bnd
+     * <dodf>WEIGHT_BOLD</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_MEDIUM =
+        Flobt.vblufOf(1.5f);
+
+    /**
+     * A modfrbtfly lightfr wfight thbn <dodf>WEIGHT_BOLD</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_DEMIBOLD =
+        Flobt.vblufOf(1.75f);
+
+    /**
+     * Thf stbndbrd bold wfight.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_BOLD =
+        Flobt.vblufOf(2.0f);
+
+    /**
+     * A modfrbtfly hfbvifr wfight thbn <dodf>WEIGHT_BOLD</dodf>.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_HEAVY =
+        Flobt.vblufOf(2.25f);
+
+    /**
+     * An fxtrb hfbvy wfight.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_EXTRABOLD =
+        Flobt.vblufOf(2.5f);
+
+    /**
+     * Thf hfbvifst prfdffinfd wfight.
+     * @sff #WEIGHT
+     */
+    publid stbtid finbl Flobt WEIGHT_ULTRABOLD =
+        Flobt.vblufOf(2.75f);
+
+    /**
+     * Attributf kfy for thf width of b font.  Vblufs brf instbndfs of
+     * <b><dodf>Numbfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>WIDTH_REGULAR</dodf>.
+     *
+     * <p>Sfvfrbl donstbnt vblufs brf providfd, sff {@link
+     * #WIDTH_CONDENSED}, {@link #WIDTH_SEMI_CONDENSED}, {@link
+     * #WIDTH_REGULAR}, {@link #WIDTH_SEMI_EXTENDED}, {@link
+     * #WIDTH_EXTENDED}.
+     *
+     * <p>Thf vbluf is roughly thf rbtio of thf bdvbndf width to thbt
+     * of thf rfgulbr width.
+     *
+     * <p>Thf systfm dbn intfrpolbtf thf providfd vbluf.
+     */
+    publid stbtid finbl TfxtAttributf WIDTH =
+        nfw TfxtAttributf("width");
+
+    /**
+     * Thf most dondfnsfd prfdffinfd width.
+     * @sff #WIDTH
+     */
+    publid stbtid finbl Flobt WIDTH_CONDENSED =
+        Flobt.vblufOf(0.75f);
+
+    /**
+     * A modfrbtfly dondfnsfd width.
+     * @sff #WIDTH
+     */
+    publid stbtid finbl Flobt WIDTH_SEMI_CONDENSED =
+        Flobt.vblufOf(0.875f);
+
+    /**
+     * Thf stbndbrd width. This is thf dffbult vbluf for
+     * <dodf>WIDTH</dodf>.
+     * @sff #WIDTH
+     */
+    publid stbtid finbl Flobt WIDTH_REGULAR =
+        Flobt.vblufOf(1.0f);
+
+    /**
+     * A modfrbtfly fxtfndfd width.
+     * @sff #WIDTH
+     */
+    publid stbtid finbl Flobt WIDTH_SEMI_EXTENDED =
+        Flobt.vblufOf(1.25f);
+
+    /**
+     * Thf most fxtfndfd prfdffinfd width.
+     * @sff #WIDTH
+     */
+    publid stbtid finbl Flobt WIDTH_EXTENDED =
+        Flobt.vblufOf(1.5f);
+
+    /**
+     * Attributf kfy for thf posturf of b font.  Vblufs brf instbndfs
+     * of <b><dodf>Numbfr</dodf></b>. Thf dffbult vbluf is
+     * <dodf>POSTURE_REGULAR</dodf>.
+     *
+     * <p>Two donstbnt vblufs brf providfd, {@link #POSTURE_REGULAR}
+     * bnd {@link #POSTURE_OBLIQUE}. Thf vbluf
+     * <dodf>POSTURE_OBLIQUE</dodf> dorrfsponds to thf stylf vbluf
+     * <dodf>Font.ITALIC</dodf> bs pbssfd to thf <dodf>Font</dodf>
+     * donstrudtor.
+     *
+     * <p>Thf vbluf is roughly thf slopf of thf stfms of thf font,
+     * fxprfssfd bs thf run ovfr thf risf.  Positivf vblufs lfbn right.
+     *
+     * <p>Thf systfm dbn intfrpolbtf thf providfd vbluf.
+     *
+     * <p>This will bfffdt thf font's itblid bnglf bs rfturnfd by
+     * <dodf>Font.gftItblidAnglf</dodf>.
+     *
+     * @sff jbvb.bwt.Font#gftItblidAnglf()
+     */
+    publid stbtid finbl TfxtAttributf POSTURE =
+        nfw TfxtAttributf("posturf");
+
+    /**
+     * Thf stbndbrd posturf, upright.  This is thf dffbult vbluf for
+     * <dodf>POSTURE</dodf>.
+     * @sff #POSTURE
+     */
+    publid stbtid finbl Flobt POSTURE_REGULAR =
+        Flobt.vblufOf(0.0f);
+
+    /**
+     * Thf stbndbrd itblid posturf.
+     * @sff #POSTURE
+     */
+    publid stbtid finbl Flobt POSTURE_OBLIQUE =
+        Flobt.vblufOf(0.20f);
+
+    /**
+     * Attributf kfy for thf font sizf.  Vblufs brf instbndfs of
+     * <b><dodf>Numbfr</dodf></b>.  Thf dffbult vbluf is 12pt.
+     *
+     * <p>This dorrfsponds to thf <dodf>sizf</dodf> pbrbmftfr to thf
+     * <dodf>Font</dodf> donstrudtor.
+     *
+     * <p>Vfry lbrgf or smbll sizfs will impbdt rfndfring pfrformbndf,
+     * bnd thf rfndfring systfm might not rfndfr tfxt bt thfsf sizfs.
+     * Nfgbtivf sizfs brf illfgbl bnd rfsult in thf dffbult sizf.
+     *
+     * <p>Notf thbt thf bppfbrbndf bnd mftrids of b 12pt font with b
+     * 2x trbnsform might bf difffrfnt thbn thbt of b 24 point font
+     * with no trbnsform.
+     */
+    publid stbtid finbl TfxtAttributf SIZE =
+        nfw TfxtAttributf("sizf");
+
+    /**
+     * Attributf kfy for thf trbnsform of b font.  Vblufs brf
+     * instbndfs of <b><dodf>TrbnsformAttributf</dodf></b>.  Thf
+     * dffbult vbluf is <dodf>TrbnsformAttributf.IDENTITY</dodf>.
+     *
+     * <p>Thf <dodf>TrbnsformAttributf</dodf> dlbss dffinfs thf
+     * donstbnt {@link TrbnsformAttributf#IDENTITY IDENTITY}.
+     *
+     * <p>This dorrfsponds to thf trbnsform pbssfd to
+     * <dodf>Font.dfrivfFont(AffinfTrbnsform)</dodf>.  Sindf thbt
+     * trbnsform is mutbblf bnd <dodf>TfxtAttributf</dodf> vblufs must
+     * not bf, thf <dodf>TrbnsformAttributf</dodf> wrbppfr dlbss is
+     * usfd.
+     *
+     * <p>Thf primbry intfnt is to support sdbling bnd skfwing, though
+     * othfr ffffdts brf possiblf.</p>
+     *
+     * <p>Somf trbnsforms will dbusf thf bbsflinf to bf rotbtfd bnd/or
+     * shiftfd.  Thf tfxt bnd thf bbsflinf brf trbnsformfd togfthfr so
+     * thbt thf tfxt follows thf nfw bbsflinf.  For fxbmplf, with tfxt
+     * on b horizontbl bbsflinf, thf nfw bbsflinf follows thf
+     * dirfdtion of thf unit x vfdtor pbssfd through thf
+     * trbnsform. Tfxt mftrids brf mfbsurfd bgbinst this nfw bbsflinf.
+     * So, for fxbmplf, with othfr things bfing fqubl, tfxt rfndfrfd
+     * with b rotbtfd TRANSFORM bnd bn unrotbtfd TRANSFORM will mfbsurf bs
+     * hbving thf sbmf bsdfnt, dfsdfnt, bnd bdvbndf.</p>
+     *
+     * <p>In stylfd tfxt, thf bbsflinfs for fbdh sudh run brf blignfd
+     * onf bftfr thf othfr to potfntiblly drfbtf b non-linfbr bbsflinf
+     * for thf fntirf run of tfxt. For morf informbtion, sff {@link
+     * TfxtLbyout#gftLbyoutPbth}.</p>
+     *
+     * @sff TrbnsformAttributf
+     * @sff jbvb.bwt.gfom.AffinfTrbnsform
+     */
+     publid stbtid finbl TfxtAttributf TRANSFORM =
+        nfw TfxtAttributf("trbnsform");
+
+    /**
+     * Attributf kfy for supfrsdripting bnd subsdripting.  Vblufs brf
+     * instbndfs of <b><dodf>Intfgfr</dodf></b>.  Thf dffbult vbluf is
+     * 0, whidh mfbns thbt no supfrsdript or subsdript is usfd.
+     *
+     * <p>Two donstbnt vblufs brf providfd, sff {@link
+     * #SUPERSCRIPT_SUPER} bnd {@link #SUPERSCRIPT_SUB}.  Thfsf hbvf
+     * thf vblufs 1 bnd -1 rfspfdtivfly.  Vblufs of
+     * grfbtfr mbgnitudf dffinf grfbtfr lfvfls of supfrsdript or
+     * subsdripting, for fxbmplf, 2 dorrfsponds to supfr-supfrsdript,
+     * 3 to supfr-supfr-supfrsdript, bnd similbrly for nfgbtivf vblufs
+     * bnd subsdript, up to b lfvfl of 7 (or -7).  Vblufs bfyond this
+     * rbngf brf rfsfrvfd; bfhbvior is plbtform-dfpfndfnt.
+     *
+     * <p><dodf>SUPERSCRIPT</dodf> dbn
+     * impbdt thf bsdfnt bnd dfsdfnt of b font.  Thf bsdfnt
+     * bnd dfsdfnt dbn nfvfr bfdomf nfgbtivf, howfvfr.
+     */
+    publid stbtid finbl TfxtAttributf SUPERSCRIPT =
+        nfw TfxtAttributf("supfrsdript");
+
+    /**
+     * Stbndbrd supfrsdript.
+     * @sff #SUPERSCRIPT
+     */
+    publid stbtid finbl Intfgfr SUPERSCRIPT_SUPER =
+        Intfgfr.vblufOf(1);
+
+    /**
+     * Stbndbrd subsdript.
+     * @sff #SUPERSCRIPT
+     */
+    publid stbtid finbl Intfgfr SUPERSCRIPT_SUB =
+        Intfgfr.vblufOf(-1);
+
+    /**
+     * Attributf kfy usfd to providf thf font to usf to rfndfr tfxt.
+     * Vblufs brf instbndfs of {@link jbvb.bwt.Font}.  Thf dffbult
+     * vbluf is null, indidbting thbt normbl rfsolution of b
+     * <dodf>Font</dodf> from bttributfs should bf pfrformfd.
+     *
+     * <p><dodf>TfxtLbyout</dodf> bnd
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> work in tfrms of
+     * <dodf>Mbps</dodf> of <dodf>TfxtAttributfs</dodf>.  Normblly,
+     * bll thf bttributfs brf fxbminfd bnd usfd to sflfdt bnd
+     * donfigurf b <dodf>Font</dodf> instbndf.  If b <dodf>FONT</dodf>
+     * bttributf is prfsfnt, though, its bssodibtfd <dodf>Font</dodf>
+     * will bf usfd.  This providfs b wby for usfrs to ovfrridf thf
+     * rfsolution of font bttributfs into b <dodf>Font</dodf>, or
+     * fordf usf of b pbrtidulbr <dodf>Font</dodf> instbndf.  This
+     * blso bllows usfrs to spfdify subdlbssfs of <dodf>Font</dodf> in
+     * dbsfs whfrf b <dodf>Font</dodf> dbn bf subdlbssfd.
+     *
+     * <p><dodf>FONT</dodf> is usfd for spfdibl situbtions whfrf
+     * dlifnts blrfbdy hbvf b <dodf>Font</dodf> instbndf but still
+     * nffd to usf <dodf>Mbp</dodf>-bbsfd APIs.  Typidblly, thfrf will
+     * bf no othfr bttributfs in thf <dodf>Mbp</dodf> fxdfpt thf
+     * <dodf>FONT</dodf> bttributf.  With <dodf>Mbp</dodf>-bbsfd APIs
+     * thf dommon dbsf is to spfdify bll bttributfs individublly, so
+     * <dodf>FONT</dodf> is not nffdfd or dfsirfbblf.
+     *
+     * <p>Howfvfr, if both <dodf>FONT</dodf> bnd othfr bttributfs brf
+     * prfsfnt in thf <dodf>Mbp</dodf>, thf rfndfring systfm will
+     * mfrgf thf bttributfs dffinfd in thf <dodf>Font</dodf> with thf
+     * bdditionbl bttributfs.  This mfrging prodfss dlbssififs
+     * <dodf>TfxtAttributfs</dodf> into two groups.  Onf group, thf
+     * 'primbry' group, is donsidfrfd fundbmfntbl to thf sflfdtion bnd
+     * mftrid bfhbvior of b font.  Thfsf bttributfs brf
+     * <dodf>FAMILY</dodf>, <dodf>WEIGHT</dodf>, <dodf>WIDTH</dodf>,
+     * <dodf>POSTURE</dodf>, <dodf>SIZE</dodf>,
+     * <dodf>TRANSFORM</dodf>, <dodf>SUPERSCRIPT</dodf>, bnd
+     * <dodf>TRACKING</dodf>. Thf othfr group, thf 'sfdondbry' group,
+     * donsists of bll othfr dffinfd bttributfs, with thf fxdfption of
+     * <dodf>FONT</dodf> itsflf.
+     *
+     * <p>To gfnfrbtf thf nfw <dodf>Mbp</dodf>, first thf
+     * <dodf>Font</dodf> is obtbinfd from thf <dodf>FONT</dodf>
+     * bttributf, bnd <fm>bll</fm> of its bttributfs fxtrbdtfd into b
+     * nfw <dodf>Mbp</dodf>.  Thfn only thf <fm>sfdondbry</fm>
+     * bttributfs from thf originbl <dodf>Mbp</dodf> brf bddfd to
+     * thosf in thf nfw <dodf>Mbp</dodf>.  Thus thf vblufs of primbry
+     * bttributfs domf solfly from thf <dodf>Font</dodf>, bnd thf
+     * vblufs of sfdondbry bttributfs originbtf with thf
+     * <dodf>Font</dodf> but dbn bf ovfrriddfn by othfr vblufs in thf
+     * <dodf>Mbp</dodf>.
+     *
+     * <p><fm>Notf:</fm><dodf>Font's</dodf> <dodf>Mbp</dodf>-bbsfd
+     * donstrudtor bnd <dodf>dfrivfFont</dodf> mfthods do not prodfss
+     * thf <dodf>FONT</dodf> bttributf, bs thfsf brf usfd to drfbtf
+     * nfw <dodf>Font</dodf> objfdts.  Instfbd, {@link
+     * jbvb.bwt.Font#gftFont(Mbp) Font.gftFont(Mbp)} should bf usfd to
+     * hbndlf thf <dodf>FONT</dodf> bttributf.
+     *
+     * @sff jbvb.bwt.Font
+     */
+    publid stbtid finbl TfxtAttributf FONT =
+        nfw TfxtAttributf("font");
+
+    /**
+     * Attributf kfy for b usfr-dffinfd glyph to displby in lifu
+     * of thf font's stbndbrd glyph for b dhbrbdtfr.  Vblufs brf
+     * intbndfs of GrbphidAttributf.  Thf dffbult vbluf is null,
+     * indidbting thbt thf stbndbrd glyphs providfd by thf font
+     * should bf usfd.
+     *
+     * <p>This bttributf is usfd to rfsfrvf spbdf for b grbphid or
+     * othfr domponfnt fmbfddfd in b linf of tfxt.  It is rfquirfd for
+     * dorrfdt positioning of 'inlinf' domponfnts within b linf whfn
+     * bidirfdtionbl rfordfring (sff {@link jbvb.tfxt.Bidi}) is
+     * pfrformfd.  Ebdh dhbrbdtfr (Unidodf dodf point) will bf
+     * rfndfrfd using thf providfd GrbphidAttributf. Typidblly, thf
+     * dhbrbdtfrs to whidh this bttributf is bpplifd should bf
+     * <dodf>&#92;uFFFC</dodf>.
+     *
+     * <p>Thf GrbphidAttributf dftfrminfs thf logidbl bnd visubl
+     * bounds of thf tfxt; thf bdtubl Font vblufs brf ignorfd.
+     *
+     * @sff GrbphidAttributf
+     */
+    publid stbtid finbl TfxtAttributf CHAR_REPLACEMENT =
+        nfw TfxtAttributf("dhbr_rfplbdfmfnt");
+
+    //
+    // Adornmfnts bddfd to tfxt.
+    //
+
+    /**
+     * Attributf kfy for thf pbint usfd to rfndfr thf tfxt.  Vblufs brf
+     * instbndfs of <b><dodf>Pbint</dodf></b>.  Thf dffbult vbluf is
+     * null, indidbting thbt thf <dodf>Pbint</dodf> sft on thf
+     * <dodf>Grbphids2D</dodf> bt thf timf of rfndfring is usfd.
+     *
+     * <p>Glyphs will bf rfndfrfd using this
+     * <dodf>Pbint</dodf> rfgbrdlfss of thf <dodf>Pbint</dodf> vbluf
+     * sft on thf <dodf>Grbphids</dodf> (but sff {@link #SWAP_COLORS}).
+     *
+     * @sff jbvb.bwt.Pbint
+     * @sff #SWAP_COLORS
+     */
+    publid stbtid finbl TfxtAttributf FOREGROUND =
+        nfw TfxtAttributf("forfground");
+
+    /**
+     * Attributf kfy for thf pbint usfd to rfndfr thf bbdkground of
+     * thf tfxt.  Vblufs brf instbndfs of <b><dodf>Pbint</dodf></b>.
+     * Thf dffbult vbluf is null, indidbting thbt thf bbdkground
+     * should not bf rfndfrfd.
+     *
+     * <p>Thf logidbl bounds of thf tfxt will bf fillfd using this
+     * <dodf>Pbint</dodf>, bnd thfn thf tfxt will bf rfndfrfd on top
+     * of it (but sff {@link #SWAP_COLORS}).
+     *
+     * <p>Thf visubl bounds of thf tfxt is fxtfndfd to indludf thf
+     * logidbl bounds, if nfdfssbry.  Thf outlinf is not bfffdtfd.
+     *
+     * @sff jbvb.bwt.Pbint
+     * @sff #SWAP_COLORS
+     */
+    publid stbtid finbl TfxtAttributf BACKGROUND =
+        nfw TfxtAttributf("bbdkground");
+
+    /**
+     * Attributf kfy for undfrlinf.  Vblufs brf instbndfs of
+     * <b><dodf>Intfgfr</dodf></b>.  Thf dffbult vbluf is -1, whidh
+     * mfbns no undfrlinf.
+     *
+     * <p>Thf donstbnt vbluf {@link #UNDERLINE_ON} is providfd.
+     *
+     * <p>Thf undfrlinf bfffdts both thf visubl bounds bnd thf outlinf
+     * of thf tfxt.
+     */
+    publid stbtid finbl TfxtAttributf UNDERLINE =
+        nfw TfxtAttributf("undfrlinf");
+
+    /**
+     * Stbndbrd undfrlinf.
+     *
+     * @sff #UNDERLINE
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_ON =
+        Intfgfr.vblufOf(0);
+
+    /**
+     * Attributf kfy for strikfthrough.  Vblufs brf instbndfs of
+     * <b><dodf>Boolfbn</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>fblsf</dodf>, whidh mfbns no strikfthrough.
+     *
+     * <p>Thf donstbnt vbluf {@link #STRIKETHROUGH_ON} is providfd.
+     *
+     * <p>Thf strikfthrough bfffdts both thf visubl bounds bnd thf
+     * outlinf of thf tfxt.
+     */
+    publid stbtid finbl TfxtAttributf STRIKETHROUGH =
+        nfw TfxtAttributf("strikfthrough");
+
+    /**
+     * A singlf strikfthrough.
+     *
+     * @sff #STRIKETHROUGH
+     */
+    publid stbtid finbl Boolfbn STRIKETHROUGH_ON =
+        Boolfbn.TRUE;
+
+    //
+    // Attributfs usf to dontrol lbyout of tfxt on b linf.
+    //
+
+    /**
+     * Attributf kfy for thf run dirfdtion of thf linf.  Vblufs brf
+     * instbndfs of <b><dodf>Boolfbn</dodf></b>.  Thf dffbult vbluf is
+     * null, whidh indidbtfs thbt thf stbndbrd Bidi blgorithm for
+     * dftfrmining run dirfdtion should bf usfd with thf vbluf {@link
+     * jbvb.tfxt.Bidi#DIRECTION_DEFAULT_LEFT_TO_RIGHT}.
+     *
+     * <p>Thf donstbnts {@link #RUN_DIRECTION_RTL} bnd {@link
+     * #RUN_DIRECTION_LTR} brf providfd.
+     *
+     * <p>This dftfrminfs thf vbluf pbssfd to thf {@link
+     * jbvb.tfxt.Bidi} donstrudtor to sflfdt thf primbry dirfdtion of
+     * thf tfxt in thf pbrbgrbph.
+     *
+     * <p><fm>Notf:</fm> This bttributf should hbvf thf sbmf vbluf for
+     * bll thf tfxt in b pbrbgrbph, othfrwisf thf bfhbvior is
+     * undftfrminfd.
+     *
+     * @sff jbvb.tfxt.Bidi
+     */
+    publid stbtid finbl TfxtAttributf RUN_DIRECTION =
+        nfw TfxtAttributf("run_dirfdtion");
+
+    /**
+     * Lfft-to-right run dirfdtion.
+     * @sff #RUN_DIRECTION
+     */
+    publid stbtid finbl Boolfbn RUN_DIRECTION_LTR =
+        Boolfbn.FALSE;
+
+    /**
+     * Right-to-lfft run dirfdtion.
+     * @sff #RUN_DIRECTION
+     */
+    publid stbtid finbl Boolfbn RUN_DIRECTION_RTL =
+        Boolfbn.TRUE;
+
+    /**
+     * Attributf kfy for thf fmbfdding lfvfl of thf tfxt.  Vblufs brf
+     * instbndfs of <b><dodf>Intfgfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>null</dodf>, indidbting thbt thf thf Bidirfdtionbl
+     * blgorithm should run without fxplidit fmbfddings.
+     *
+     * <p>Positivf vblufs 1 through 61 brf <fm>fmbfdding</fm> lfvfls,
+     * nfgbtivf vblufs -1 through -61 brf <fm>ovfrridf</fm> lfvfls.
+     * Thf vbluf 0 mfbns thbt thf bbsf linf dirfdtion is usfd.  Thfsf
+     * lfvfls brf pbssfd in thf fmbfdding lfvfls brrby to thf {@link
+     * jbvb.tfxt.Bidi} donstrudtor.
+     *
+     * <p><fm>Notf:</fm> Whfn this bttributf is prfsfnt bnywhfrf in
+     * b pbrbgrbph, thfn bny Unidodf bidi dontrol dhbrbdtfrs (RLO,
+     * LRO, RLE, LRE, bnd PDF) in thf pbrbgrbph brf
+     * disrfgbrdfd, bnd runs of tfxt whfrf this bttributf is not
+     * prfsfnt brf trfbtfd bs though it wfrf prfsfnt bnd hbd thf vbluf
+     * 0.
+     *
+     * @sff jbvb.tfxt.Bidi
+     */
+    publid stbtid finbl TfxtAttributf BIDI_EMBEDDING =
+        nfw TfxtAttributf("bidi_fmbfdding");
+
+    /**
+     * Attributf kfy for thf justifidbtion of b pbrbgrbph.  Vblufs brf
+     * instbndfs of <b><dodf>Numbfr</dodf></b>.  Thf dffbult vbluf is
+     * 1, indidbting thbt justifidbtion should usf thf full width
+     * providfd.  Vblufs brf pinnfd to thf rbngf [0..1].
+     *
+     * <p>Thf donstbnts {@link #JUSTIFICATION_FULL} bnd {@link
+     * #JUSTIFICATION_NONE} brf providfd.
+     *
+     * <p>Spfdififs thf frbdtion of thf fxtrb spbdf to usf whfn
+     * justifidbtion is rfqufstfd on b <dodf>TfxtLbyout</dodf>. For
+     * fxbmplf, if thf linf is 50 points widf bnd it is rfqufstfd to
+     * justify to 70 points, b vbluf of 0.75 will pbd to usf
+     * thrff-qubrtfrs of thf rfmbining spbdf, or 15 points, so thbt
+     * thf rfsulting linf will bf 65 points in lfngth.
+     *
+     * <p><fm>Notf:</fm> This should hbvf thf sbmf vbluf for bll thf
+     * tfxt in b pbrbgrbph, othfrwisf thf bfhbvior is undftfrminfd.
+     *
+     * @sff TfxtLbyout#gftJustififdLbyout
+     */
+    publid stbtid finbl TfxtAttributf JUSTIFICATION =
+        nfw TfxtAttributf("justifidbtion");
+
+    /**
+     * Justify thf linf to thf full rfqufstfd width.  This is thf
+     * dffbult vbluf for <dodf>JUSTIFICATION</dodf>.
+     * @sff #JUSTIFICATION
+     */
+    publid stbtid finbl Flobt JUSTIFICATION_FULL =
+        Flobt.vblufOf(1.0f);
+
+    /**
+     * Do not bllow thf linf to bf justififd.
+     * @sff #JUSTIFICATION
+     */
+    publid stbtid finbl Flobt JUSTIFICATION_NONE =
+        Flobt.vblufOf(0.0f);
+
+    //
+    // For usf by input mfthod.
+    //
+
+    /**
+     * Attributf kfy for input mfthod highlight stylfs.
+     *
+     * <p>Vblufs brf instbndfs of {@link
+     * jbvb.bwt.im.InputMfthodHighlight} or {@link
+     * jbvb.tfxt.Annotbtion}.  Thf dffbult vbluf is <dodf>null</dodf>,
+     * whidh mfbns thbt input mfthod stylfs should not bf bpplifd
+     * bfforf rfndfring.
+     *
+     * <p>If bdjbdfnt runs of tfxt with thf sbmf
+     * <dodf>InputMfthodHighlight</dodf> nffd to bf rfndfrfd
+     * sfpbrbtfly, thf <dodf>InputMfthodHighlights</dodf> should bf
+     * wrbppfd in <dodf>Annotbtion</dodf> instbndfs.
+     *
+     * <p>Input mfthod highlights brf usfd whilf tfxt is bfing
+     * domposfd by bn input mfthod. Tfxt fditing domponfnts should
+     * rftbin thfm fvfn if thfy gfnfrblly only dfbl with unstylfd
+     * tfxt, bnd mbkf thfm bvbilbblf to thf drbwing routinfs.
+     *
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.im.InputMfthodHighlight
+     * @sff jbvb.tfxt.Annotbtion
+     */
+    publid stbtid finbl TfxtAttributf INPUT_METHOD_HIGHLIGHT =
+        nfw TfxtAttributf("input mfthod highlight");
+
+    /**
+     * Attributf kfy for input mfthod undfrlinfs.  Vblufs
+     * brf instbndfs of <b><dodf>Intfgfr</dodf></b>.  Thf dffbult
+     * vbluf is <dodf>-1</dodf>, whidh mfbns no undfrlinf.
+     *
+     * <p>Sfvfrbl donstbnt vblufs brf providfd, sff {@link
+     * #UNDERLINE_LOW_ONE_PIXEL}, {@link #UNDERLINE_LOW_TWO_PIXEL},
+     * {@link #UNDERLINE_LOW_DOTTED}, {@link #UNDERLINE_LOW_GRAY}, bnd
+     * {@link #UNDERLINE_LOW_DASHED}.
+     *
+     * <p>This mby bf usfd in donjundtion with {@link #UNDERLINE} if
+     * dfsirfd.  Thf primbry purposf is for usf by input mfthods.
+     * Othfr usf of thfsf undfrlinfs for simplf ornbmfntbtion might
+     * donfusf usfrs.
+     *
+     * <p>Thf input mfthod undfrlinf bfffdts both thf visubl bounds bnd
+     * thf outlinf of thf tfxt.
+     *
+     * @sindf 1.3
+     */
+    publid stbtid finbl TfxtAttributf INPUT_METHOD_UNDERLINE =
+        nfw TfxtAttributf("input mfthod undfrlinf");
+
+    /**
+     * Singlf pixfl solid low undfrlinf.
+     * @sff #INPUT_METHOD_UNDERLINE
+     * @sindf 1.3
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_LOW_ONE_PIXEL =
+        Intfgfr.vblufOf(1);
+
+    /**
+     * Doublf pixfl solid low undfrlinf.
+     * @sff #INPUT_METHOD_UNDERLINE
+     * @sindf 1.3
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_LOW_TWO_PIXEL =
+        Intfgfr.vblufOf(2);
+
+    /**
+     * Singlf pixfl dottfd low undfrlinf.
+     * @sff #INPUT_METHOD_UNDERLINE
+     * @sindf 1.3
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_LOW_DOTTED =
+        Intfgfr.vblufOf(3);
+
+    /**
+     * Doublf pixfl grby low undfrlinf.
+     * @sff #INPUT_METHOD_UNDERLINE
+     * @sindf 1.3
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_LOW_GRAY =
+        Intfgfr.vblufOf(4);
+
+    /**
+     * Singlf pixfl dbshfd low undfrlinf.
+     * @sff #INPUT_METHOD_UNDERLINE
+     * @sindf 1.3
+     */
+    publid stbtid finbl Intfgfr UNDERLINE_LOW_DASHED =
+        Intfgfr.vblufOf(5);
+
+    /**
+     * Attributf kfy for swbpping forfground bnd bbdkground
+     * <dodf>Pbints</dodf>.  Vblufs brf instbndfs of
+     * <b><dodf>Boolfbn</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>fblsf</dodf>, whidh mfbns do not swbp dolors.
+     *
+     * <p>Thf donstbnt vbluf {@link #SWAP_COLORS_ON} is dffinfd.
+     *
+     * <p>If thf {@link #FOREGROUND} bttributf is sft, its
+     * <dodf>Pbint</dodf> will bf usfd bs thf bbdkground, othfrwisf
+     * thf <dodf>Pbint</dodf> durrfntly on thf <dodf>Grbphids</dodf>
+     * will bf usfd.  If thf {@link #BACKGROUND} bttributf is sft, its
+     * <dodf>Pbint</dodf> will bf usfd bs thf forfground, othfrwisf
+     * thf systfm will find b dontrbsting dolor to thf
+     * (rfsolvfd) bbdkground so thbt thf tfxt will bf visiblf.
+     *
+     * @sff #FOREGROUND
+     * @sff #BACKGROUND
+     */
+    publid stbtid finbl TfxtAttributf SWAP_COLORS =
+        nfw TfxtAttributf("swbp_dolors");
+
+    /**
+     * Swbp forfground bnd bbdkground.
+     * @sff #SWAP_COLORS
+     * @sindf 1.3
+     */
+    publid stbtid finbl Boolfbn SWAP_COLORS_ON =
+        Boolfbn.TRUE;
+
+    /**
+     * Attributf kfy for donvfrting ASCII dfdimbl digits to othfr
+     * dfdimbl rbngfs.  Vblufs brf instbndfs of {@link NumfridShbpfr}.
+     * Thf dffbult is <dodf>null</dodf>, whidh mfbns do not pfrform
+     * numfrid shbping.
+     *
+     * <p>Whfn b numfrid shbpfr is dffinfd, thf tfxt is first
+     * prodfssfd by thf shbpfr bfforf bny othfr bnblysis of thf tfxt
+     * is pfrformfd.
+     *
+     * <p><fm>Notf:</fm> This should hbvf thf sbmf vbluf for bll thf
+     * tfxt in thf pbrbgrbph, othfrwisf thf bfhbvior is undftfrminfd.
+     *
+     * @sff NumfridShbpfr
+     * @sindf 1.4
+     */
+    publid stbtid finbl TfxtAttributf NUMERIC_SHAPING =
+        nfw TfxtAttributf("numfrid_shbping");
+
+    /**
+     * Attributf kfy to rfqufst kfrning. Vblufs brf instbndfs of
+     * <b><dodf>Intfgfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>0</dodf>, whidh dofs not rfqufst kfrning.
+     *
+     * <p>Thf donstbnt vbluf {@link #KERNING_ON} is providfd.
+     *
+     * <p>Thf dffbult bdvbndfs of singlf dhbrbdtfrs brf not
+     * bppropribtf for somf dhbrbdtfr sfqufndfs, for fxbmplf "To" or
+     * "AWAY".  Without kfrning thf bdjbdfnt dhbrbdtfrs bppfbr to bf
+     * sfpbrbtfd by too mudh spbdf.  Kfrning dbusfs sflfdtfd sfqufndfs
+     * of dhbrbdtfrs to bf spbdfd difffrfntly for b morf plfbsing
+     * visubl bppfbrbndf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl TfxtAttributf KERNING =
+        nfw TfxtAttributf("kfrning");
+
+    /**
+     * Rfqufst stbndbrd kfrning.
+     * @sff #KERNING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Intfgfr KERNING_ON =
+        Intfgfr.vblufOf(1);
+
+
+    /**
+     * Attributf kfy for fnbbling optionbl ligbturfs. Vblufs brf
+     * instbndfs of <b><dodf>Intfgfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>0</dodf>, whidh mfbns do not usf optionbl ligbturfs.
+     *
+     * <p>Thf donstbnt vbluf {@link #LIGATURES_ON} is dffinfd.
+     *
+     * <p>Ligbturfs rfquirfd by thf writing systfm brf blwbys fnbblfd.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl TfxtAttributf LIGATURES =
+        nfw TfxtAttributf("ligbturfs");
+
+    /**
+     * Rfqufst stbndbrd optionbl ligbturfs.
+     * @sff #LIGATURES
+     * @sindf 1.6
+     */
+    publid stbtid finbl Intfgfr LIGATURES_ON =
+        Intfgfr.vblufOf(1);
+
+    /**
+     * Attributf kfy to dontrol trbdking.  Vblufs brf instbndfs of
+     * <b><dodf>Numbfr</dodf></b>.  Thf dffbult vbluf is
+     * <dodf>0</dodf>, whidh mfbns no bdditionbl trbdking.
+     *
+     * <p>Thf donstbnt vblufs {@link #TRACKING_TIGHT} bnd {@link
+     * #TRACKING_LOOSE} brf providfd.
+     *
+     * <p>Thf trbdking vbluf is multiplifd by thf font point sizf bnd
+     * pbssfd through thf font trbnsform to dftfrminf bn bdditionbl
+     * bmount to bdd to thf bdvbndf of fbdh glyph dlustfr.  Positivf
+     * trbdking vblufs will inhibit formbtion of optionbl ligbturfs.
+     * Trbdking vblufs brf typidblly bftwffn <dodf>-0.1</dodf> bnd
+     * <dodf>0.3</dodf>; vblufs outsidf this rbngf brf gfnfrblly not
+     * dfsirfbblf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl TfxtAttributf TRACKING =
+        nfw TfxtAttributf("trbdking");
+
+    /**
+     * Pfrform tight trbdking.
+     * @sff #TRACKING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Flobt TRACKING_TIGHT =
+        Flobt.vblufOf(-.04f);
+
+    /**
+     * Pfrform loosf trbdking.
+     * @sff #TRACKING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Flobt TRACKING_LOOSE =
+        Flobt.vblufOf(.04f);
+}

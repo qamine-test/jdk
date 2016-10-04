@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+
+/**
+ * Clbss DiblogTypfSflfdtion is b printing bttributf dlbss, bn fnumfrbtion,
+ * thbt indidbtfs thf usfr diblog typf to bf usfd for spfdifying
+ * printing options.
+ * If {@dodf NATIVE} is spfdififd, thfn whfrf bvbilbblf, b nbtivf
+ * plbtform diblog is displbyfd.
+ * If {@dodf COMMON} is spfdififd, b dross-plbtform print diblog is displbyfd.
+ *
+ * This option to spfdify b nbtivf diblog for usf with bn IPP bttributf
+ * sft providfs b stbndbrd wby to rfflfdt bbdk of thf sftting bnd option
+ * dhbngfs mbdf by b usfr to thf dblling bpplidbtion, bnd intfgrbtfs
+ * thf nbtivf diblog into thf Jbvb printing APIs.
+ * But notf thbt somf options bnd sfttings in b nbtivf diblog mby not
+ * nfdfssbrily mbp to IPP bttributfs bs thfy mby bf non-stbndbrd plbtform,
+ * or fvfn printfr spfdifid options.
+ * <P>
+ * <B>IPP Compbtibility:</B> This is not bn IPP bttributf.
+ *
+ * @sindf 1.7
+ */
+publid finbl dlbss DiblogTypfSflfdtion fxtfnds EnumSyntbx
+        implfmfnts PrintRfqufstAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7518682952133256029L;
+
+    /**
+     *
+     */
+    publid stbtid finbl DiblogTypfSflfdtion
+        NATIVE = nfw DiblogTypfSflfdtion(0);
+
+    /**
+     *
+     */
+    publid stbtid finbl DiblogTypfSflfdtion
+        COMMON = nfw DiblogTypfSflfdtion(1);
+
+    /**
+     * Construdt b nfw diblog typf sflfdtion fnumfrbtion vbluf with thf
+     * givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd DiblogTypfSflfdtion(int vbluf) {
+                supfr(vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "nbtivf", "dommon"};
+
+
+    privbtf stbtid finbl DiblogTypfSflfdtion[] myEnumVblufTbblf = {
+        NATIVE,
+        COMMON
+    };
+
+    /**
+     * Rfturns thf string tbblf for dlbss DiblogTypfSflfdtion.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss DiblogTypfSflfdtion.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
+    }
+
+
+   /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss DiblogTypfSflfdtion thf dbtfgory is dlbss
+     * DiblogTypfSflfdtion itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn DiblogTypfSflfdtion.dlbss;
+    }
+
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss DiblogTypfSflfdtion thf dbtfgory nbmf is
+     * <CODE>"diblog-typf-sflfdtion"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "diblog-typf-sflfdtion";
+    }
+
+}

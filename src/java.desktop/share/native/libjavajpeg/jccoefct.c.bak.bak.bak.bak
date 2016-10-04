@@ -1,0 +1,453 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jddoffdt.d
+ *
+ * Copyright (C) 1994-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins thf dofffidifnt bufffr dontrollfr for domprfssion.
+ * This dontrollfr is thf top lfvfl of thf JPEG domprfssor propfr.
+ * Thf dofffidifnt bufffr lifs bftwffn forwbrd-DCT bnd fntropy fndoding stfps.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+
+
+/* Wf usf b full-imbgf dofffidifnt bufffr whfn doing Huffmbn optimizbtion,
+ * bnd blso for writing multiplf-sdbn JPEG filfs.  In bll dbsfs, thf DCT
+ * stfp is run during thf first pbss, bnd subsfqufnt pbssfs nffd only rfbd
+ * thf bufffrfd dofffidifnts.
+ */
+#ifdff ENTROPY_OPT_SUPPORTED
+#dffinf FULL_COEF_BUFFER_SUPPORTED
+#flsf
+#ifdff C_MULTISCAN_FILES_SUPPORTED
+#dffinf FULL_COEF_BUFFER_SUPPORTED
+#fndif
+#fndif
+
+
+/* Privbtf bufffr dontrollfr objfdt */
+
+typfdff strudt {
+  strudt jpfg_d_doff_dontrollfr pub; /* publid fiflds */
+
+  JDIMENSION iMCU_row_num;      /* iMCU row # within imbgf */
+  JDIMENSION mdu_dtr;           /* dounts MCUs prodfssfd in durrfnt row */
+  int MCU_vfrt_offsft;          /* dounts MCU rows within iMCU row */
+  int MCU_rows_pfr_iMCU_row;    /* numbfr of sudh rows nffdfd */
+
+  /* For singlf-pbss domprfssion, it's suffidifnt to bufffr just onf MCU
+   * (blthough this mby provf b bit slow in prbdtidf).  Wf bllodbtf b
+   * workspbdf of C_MAX_BLOCKS_IN_MCU dofffidifnt blodks, bnd rfusf it for fbdh
+   * MCU donstrudtfd bnd sfnt.  (On 80x86, thf workspbdf is FAR fvfn though
+   * it's not rfblly vfry big; this is to kffp thf modulf intfrfbdfs undhbngfd
+   * whfn b lbrgf dofffidifnt bufffr is nfdfssbry.)
+   * In multi-pbss modfs, this brrby points to thf durrfnt MCU's blodks
+   * within thf virtubl brrbys.
+   */
+  JBLOCKROW MCU_bufffr[C_MAX_BLOCKS_IN_MCU];
+
+  /* In multi-pbss modfs, wf nffd b virtubl blodk brrby for fbdh domponfnt. */
+  jvirt_bbrrby_ptr wholf_imbgf[MAX_COMPONENTS];
+} my_doff_dontrollfr;
+
+typfdff my_doff_dontrollfr * my_doff_ptr;
+
+
+/* Forwbrd dfdlbrbtions */
+METHODDEF(boolfbn) domprfss_dbtb
+    JPP((j_domprfss_ptr dinfo, JSAMPIMAGE input_buf));
+#ifdff FULL_COEF_BUFFER_SUPPORTED
+METHODDEF(boolfbn) domprfss_first_pbss
+    JPP((j_domprfss_ptr dinfo, JSAMPIMAGE input_buf));
+METHODDEF(boolfbn) domprfss_output
+    JPP((j_domprfss_ptr dinfo, JSAMPIMAGE input_buf));
+#fndif
+
+
+LOCAL(void)
+stbrt_iMCU_row (j_domprfss_ptr dinfo)
+/* Rfsft within-iMCU-row dountfrs for b nfw row */
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+
+  /* In bn intfrlfbvfd sdbn, bn MCU row is thf sbmf bs bn iMCU row.
+   * In b nonintfrlfbvfd sdbn, bn iMCU row hbs v_sbmp_fbdtor MCU rows.
+   * But bt thf bottom of thf imbgf, prodfss only whbt's lfft.
+   */
+  if (dinfo->domps_in_sdbn > 1) {
+    doff->MCU_rows_pfr_iMCU_row = 1;
+  } flsf {
+    if (doff->iMCU_row_num < (dinfo->totbl_iMCU_rows-1))
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->v_sbmp_fbdtor;
+    flsf
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->lbst_row_hfight;
+  }
+
+  doff->mdu_dtr = 0;
+  doff->MCU_vfrt_offsft = 0;
+}
+
+
+/*
+ * Initiblizf for b prodfssing pbss.
+ */
+
+METHODDEF(void)
+stbrt_pbss_doff (j_domprfss_ptr dinfo, J_BUF_MODE pbss_modf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+
+  doff->iMCU_row_num = 0;
+  stbrt_iMCU_row(dinfo);
+
+  switdh (pbss_modf) {
+  dbsf JBUF_PASS_THRU:
+    if (doff->wholf_imbgf[0] != NULL)
+      ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
+    doff->pub.domprfss_dbtb = domprfss_dbtb;
+    brfbk;
+#ifdff FULL_COEF_BUFFER_SUPPORTED
+  dbsf JBUF_SAVE_AND_PASS:
+    if (doff->wholf_imbgf[0] == NULL)
+      ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
+    doff->pub.domprfss_dbtb = domprfss_first_pbss;
+    brfbk;
+  dbsf JBUF_CRANK_DEST:
+    if (doff->wholf_imbgf[0] == NULL)
+      ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
+    doff->pub.domprfss_dbtb = domprfss_output;
+    brfbk;
+#fndif
+  dffbult:
+    ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
+    brfbk;
+  }
+}
+
+
+/*
+ * Prodfss somf dbtb in thf singlf-pbss dbsf.
+ * Wf prodfss thf fquivblfnt of onf fully intfrlfbvfd MCU row ("iMCU" row)
+ * pfr dbll, if, v_sbmp_fbdtor blodk rows for fbdh domponfnt in thf imbgf.
+ * Rfturns TRUE if thf iMCU row is domplftfd, FALSE if suspfndfd.
+ *
+ * NB: input_buf dontbins b plbnf for fbdh domponfnt in imbgf,
+ * whidh wf indfx bddording to thf domponfnt's SOF position.
+ */
+
+METHODDEF(boolfbn)
+domprfss_dbtb (j_domprfss_ptr dinfo, JSAMPIMAGE input_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU within row */
+  JDIMENSION lbst_MCU_dol = dinfo->MCUs_pfr_row - 1;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  int blkn, bi, di, yindfx, yoffsft, blodkdnt;
+  JDIMENSION ypos, xpos;
+  jpfg_domponfnt_info *dompptr;
+
+  /* Loop to writf bs mudh bs onf wholf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->mdu_dtr; MCU_dol_num <= lbst_MCU_dol;
+         MCU_dol_num++) {
+      /* Dftfrminf whfrf dbtb domfs from in input_buf bnd do thf DCT thing.
+       * Ebdh dbll on forwbrd_DCT prodfssfs b horizontbl row of DCT blodks
+       * bs widf bs bn MCU; wf rfly on hbving bllodbtfd thf MCU_bufffr[] blodks
+       * sfqufntiblly.  Dummy blodks bt thf right or bottom fdgf brf fillfd in
+       * spfdiblly.  Thf dbtb in thfm dofs not mbttfr for imbgf rfdonstrudtion,
+       * so wf fill thfm with vblufs thbt will fndodf to thf smbllfst bmount of
+       * dbtb, viz: bll zfrofs in thf AC fntrifs, DC fntrifs fqubl to prfvious
+       * blodk's DC vbluf.  (Thbnks to Thombs Kinsmbn for this idfb.)
+       */
+      blkn = 0;
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        blodkdnt = (MCU_dol_num < lbst_MCU_dol) ? dompptr->MCU_width
+                                                : dompptr->lbst_dol_width;
+        xpos = MCU_dol_num * dompptr->MCU_sbmplf_width;
+        ypos = yoffsft * DCTSIZE; /* ypos == (yoffsft+yindfx) * DCTSIZE */
+        for (yindfx = 0; yindfx < dompptr->MCU_hfight; yindfx++) {
+          if (doff->iMCU_row_num < lbst_iMCU_row ||
+              yoffsft+yindfx < dompptr->lbst_row_hfight) {
+            (*dinfo->fddt->forwbrd_DCT) (dinfo, dompptr,
+                                         input_buf[dompptr->domponfnt_indfx],
+                                         doff->MCU_bufffr[blkn],
+                                         ypos, xpos, (JDIMENSION) blodkdnt);
+            if (blodkdnt < dompptr->MCU_width) {
+              /* Crfbtf somf dummy blodks bt thf right fdgf of thf imbgf. */
+              jzfro_fbr((void FAR *) doff->MCU_bufffr[blkn + blodkdnt],
+                        (dompptr->MCU_width - blodkdnt) * SIZEOF(JBLOCK));
+              for (bi = blodkdnt; bi < dompptr->MCU_width; bi++) {
+                doff->MCU_bufffr[blkn+bi][0][0] = doff->MCU_bufffr[blkn+bi-1][0][0];
+              }
+            }
+          } flsf {
+            /* Crfbtf b row of dummy blodks bt thf bottom of thf imbgf. */
+            jzfro_fbr((void FAR *) doff->MCU_bufffr[blkn],
+                      dompptr->MCU_width * SIZEOF(JBLOCK));
+            for (bi = 0; bi < dompptr->MCU_width; bi++) {
+              doff->MCU_bufffr[blkn+bi][0][0] = doff->MCU_bufffr[blkn-1][0][0];
+            }
+          }
+          blkn += dompptr->MCU_width;
+          ypos += DCTSIZE;
+        }
+      }
+      /* Try to writf thf MCU.  In fvfnt of b suspfnsion fbilurf, wf will
+       * rf-DCT thf MCU on rfstbrt (b bit infffidifnt, dould bf fixfd...)
+       */
+      if (! (*dinfo->fntropy->fndodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->mdu_dtr = MCU_dol_num;
+        rfturn FALSE;
+      }
+    }
+    /* Complftfd bn MCU row, but pfrhbps not bn iMCU row */
+    doff->mdu_dtr = 0;
+  }
+  /* Complftfd thf iMCU row, bdvbndf dountfrs for nfxt onf */
+  doff->iMCU_row_num++;
+  stbrt_iMCU_row(dinfo);
+  rfturn TRUE;
+}
+
+
+#ifdff FULL_COEF_BUFFER_SUPPORTED
+
+/*
+ * Prodfss somf dbtb in thf first pbss of b multi-pbss dbsf.
+ * Wf prodfss thf fquivblfnt of onf fully intfrlfbvfd MCU row ("iMCU" row)
+ * pfr dbll, if, v_sbmp_fbdtor blodk rows for fbdh domponfnt in thf imbgf.
+ * This bmount of dbtb is rfbd from thf sourdf bufffr, DCT'd bnd qubntizfd,
+ * bnd sbvfd into thf virtubl brrbys.  Wf blso gfnfrbtf suitbblf dummy blodks
+ * bs nffdfd bt thf right bnd lowfr fdgfs.  (Thf dummy blodks brf donstrudtfd
+ * in thf virtubl brrbys, whidh hbvf bffn pbddfd bppropribtfly.)  This mbkfs
+ * it possiblf for subsfqufnt pbssfs not to worry bbout rfbl vs. dummy blodks.
+ *
+ * Wf must blso fmit thf dbtb to thf fntropy fndodfr.  This is donvfnifntly
+ * donf by dblling domprfss_output() bftfr wf'vf lobdfd thf durrfnt strip
+ * of thf virtubl brrbys.
+ *
+ * NB: input_buf dontbins b plbnf for fbdh domponfnt in imbgf.  All
+ * domponfnts brf DCT'd bnd lobdfd into thf virtubl brrbys in this pbss.
+ * Howfvfr, it mby bf thbt only b subsft of thf domponfnts brf fmittfd to
+ * thf fntropy fndodfr during this first pbss; bf dbrfful bbout looking
+ * bt thf sdbn-dfpfndfnt vbribblfs (MCU dimfnsions, ftd).
+ */
+
+METHODDEF(boolfbn)
+domprfss_first_pbss (j_domprfss_ptr dinfo, JSAMPIMAGE input_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  JDIMENSION blodks_bdross, MCUs_bdross, MCUindfx;
+  int bi, di, h_sbmp_fbdtor, blodk_row, blodk_rows, ndummy;
+  JCOEF lbstDC;
+  jpfg_domponfnt_info *dompptr;
+  JBLOCKARRAY bufffr;
+  JBLOCKROW thisblodkrow, lbstblodkrow;
+
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Align thf virtubl bufffr for this domponfnt. */
+    bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wholf_imbgf[di],
+       doff->iMCU_row_num * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, TRUE);
+    /* Count non-dummy DCT blodk rows in this iMCU row. */
+    if (doff->iMCU_row_num < lbst_iMCU_row)
+      blodk_rows = dompptr->v_sbmp_fbdtor;
+    flsf {
+      /* NB: dbn't usf lbst_row_hfight hfrf, sindf mby not bf sft! */
+      blodk_rows = (int) (dompptr->hfight_in_blodks % dompptr->v_sbmp_fbdtor);
+      if (blodk_rows == 0) blodk_rows = dompptr->v_sbmp_fbdtor;
+    }
+    blodks_bdross = dompptr->width_in_blodks;
+    h_sbmp_fbdtor = dompptr->h_sbmp_fbdtor;
+    /* Count numbfr of dummy blodks to bf bddfd bt thf right mbrgin. */
+    ndummy = (int) (blodks_bdross % h_sbmp_fbdtor);
+    if (ndummy > 0)
+      ndummy = h_sbmp_fbdtor - ndummy;
+    /* Pfrform DCT for bll non-dummy blodks in this iMCU row.  Ebdh dbll
+     * on forwbrd_DCT prodfssfs b domplftf horizontbl row of DCT blodks.
+     */
+    for (blodk_row = 0; blodk_row < blodk_rows; blodk_row++) {
+      thisblodkrow = bufffr[blodk_row];
+      (*dinfo->fddt->forwbrd_DCT) (dinfo, dompptr,
+                                   input_buf[di], thisblodkrow,
+                                   (JDIMENSION) (blodk_row * DCTSIZE),
+                                   (JDIMENSION) 0, blodks_bdross);
+      if (ndummy > 0) {
+        /* Crfbtf dummy blodks bt thf right fdgf of thf imbgf. */
+        thisblodkrow += blodks_bdross; /* => first dummy blodk */
+        jzfro_fbr((void FAR *) thisblodkrow, ndummy * SIZEOF(JBLOCK));
+        lbstDC = thisblodkrow[-1][0];
+        for (bi = 0; bi < ndummy; bi++) {
+          thisblodkrow[bi][0] = lbstDC;
+        }
+      }
+    }
+    /* If bt fnd of imbgf, drfbtf dummy blodk rows bs nffdfd.
+     * Thf tridky pbrt hfrf is thbt within fbdh MCU, wf wbnt thf DC vblufs
+     * of thf dummy blodks to mbtdh thf lbst rfbl blodk's DC vbluf.
+     * This squffzfs b ffw morf bytfs out of thf rfsulting filf...
+     */
+    if (doff->iMCU_row_num == lbst_iMCU_row) {
+      blodks_bdross += ndummy;  /* indludf lowfr right dornfr */
+      MCUs_bdross = blodks_bdross / h_sbmp_fbdtor;
+      for (blodk_row = blodk_rows; blodk_row < dompptr->v_sbmp_fbdtor;
+           blodk_row++) {
+        thisblodkrow = bufffr[blodk_row];
+        lbstblodkrow = bufffr[blodk_row-1];
+        jzfro_fbr((void FAR *) thisblodkrow,
+                  (sizf_t) (blodks_bdross * SIZEOF(JBLOCK)));
+        for (MCUindfx = 0; MCUindfx < MCUs_bdross; MCUindfx++) {
+          lbstDC = lbstblodkrow[h_sbmp_fbdtor-1][0];
+          for (bi = 0; bi < h_sbmp_fbdtor; bi++) {
+            thisblodkrow[bi][0] = lbstDC;
+          }
+          thisblodkrow += h_sbmp_fbdtor; /* bdvbndf to nfxt MCU in row */
+          lbstblodkrow += h_sbmp_fbdtor;
+        }
+      }
+    }
+  }
+  /* NB: domprfss_output will indrfmfnt iMCU_row_num if suddfssful.
+   * A suspfnsion rfturn will rfsult in rfdoing bll thf work bbovf nfxt timf.
+   */
+
+  /* Emit dbtb to thf fntropy fndodfr, shbring dodf with subsfqufnt pbssfs */
+  rfturn domprfss_output(dinfo, input_buf);
+}
+
+
+/*
+ * Prodfss somf dbtb in subsfqufnt pbssfs of b multi-pbss dbsf.
+ * Wf prodfss thf fquivblfnt of onf fully intfrlfbvfd MCU row ("iMCU" row)
+ * pfr dbll, if, v_sbmp_fbdtor blodk rows for fbdh domponfnt in thf sdbn.
+ * Thf dbtb is obtbinfd from thf virtubl brrbys bnd ffd to thf fntropy dodfr.
+ * Rfturns TRUE if thf iMCU row is domplftfd, FALSE if suspfndfd.
+ *
+ * NB: input_buf is ignorfd; it is likfly to bf b NULL pointfr.
+ */
+
+METHODDEF(boolfbn)
+domprfss_output (j_domprfss_ptr dinfo, JSAMPIMAGE input_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU within row */
+  int blkn, di, xindfx, yindfx, yoffsft;
+  JDIMENSION stbrt_dol;
+  JBLOCKARRAY bufffr[MAX_COMPS_IN_SCAN];
+  JBLOCKROW bufffr_ptr;
+  jpfg_domponfnt_info *dompptr;
+
+  /* Align thf virtubl bufffrs for thf domponfnts usfd in this sdbn.
+   * NB: during first pbss, this is sbff only bfdbusf thf bufffrs will
+   * blrfbdy bf blignfd propfrly, so jmfmmgr.d won't nffd to do bny I/O.
+   */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    bufffr[di] = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wholf_imbgf[dompptr->domponfnt_indfx],
+       doff->iMCU_row_num * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, FALSE);
+  }
+
+  /* Loop to prodfss onf wholf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->mdu_dtr; MCU_dol_num < dinfo->MCUs_pfr_row;
+         MCU_dol_num++) {
+      /* Construdt list of pointfrs to DCT blodks bflonging to this MCU */
+      blkn = 0;                 /* indfx of durrfnt DCT blodk within MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        stbrt_dol = MCU_dol_num * dompptr->MCU_width;
+        for (yindfx = 0; yindfx < dompptr->MCU_hfight; yindfx++) {
+          bufffr_ptr = bufffr[di][yindfx+yoffsft] + stbrt_dol;
+          for (xindfx = 0; xindfx < dompptr->MCU_width; xindfx++) {
+            doff->MCU_bufffr[blkn++] = bufffr_ptr++;
+          }
+        }
+      }
+      /* Try to writf thf MCU. */
+      if (! (*dinfo->fntropy->fndodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->mdu_dtr = MCU_dol_num;
+        rfturn FALSE;
+      }
+    }
+    /* Complftfd bn MCU row, but pfrhbps not bn iMCU row */
+    doff->mdu_dtr = 0;
+  }
+  /* Complftfd thf iMCU row, bdvbndf dountfrs for nfxt onf */
+  doff->iMCU_row_num++;
+  stbrt_iMCU_row(dinfo);
+  rfturn TRUE;
+}
+
+#fndif /* FULL_COEF_BUFFER_SUPPORTED */
+
+
+/*
+ * Initiblizf dofffidifnt bufffr dontrollfr.
+ */
+
+GLOBAL(void)
+jinit_d_doff_dontrollfr (j_domprfss_ptr dinfo, boolfbn nffd_full_bufffr)
+{
+  my_doff_ptr doff;
+
+  doff = (my_doff_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_doff_dontrollfr));
+  dinfo->doff = (strudt jpfg_d_doff_dontrollfr *) doff;
+  doff->pub.stbrt_pbss = stbrt_pbss_doff;
+
+  /* Crfbtf thf dofffidifnt bufffr. */
+  if (nffd_full_bufffr) {
+#ifdff FULL_COEF_BUFFER_SUPPORTED
+    /* Allodbtf b full-imbgf virtubl brrby for fbdh domponfnt, */
+    /* pbddfd to b multiplf of sbmp_fbdtor DCT blodks in fbdh dirfdtion. */
+    int di;
+    jpfg_domponfnt_info *dompptr;
+
+    for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+         di++, dompptr++) {
+      doff->wholf_imbgf[di] = (*dinfo->mfm->rfqufst_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, JPOOL_IMAGE, FALSE,
+         (JDIMENSION) jround_up((long) dompptr->width_in_blodks,
+                                (long) dompptr->h_sbmp_fbdtor),
+         (JDIMENSION) jround_up((long) dompptr->hfight_in_blodks,
+                                (long) dompptr->v_sbmp_fbdtor),
+         (JDIMENSION) dompptr->v_sbmp_fbdtor);
+    }
+#flsf
+    ERREXIT(dinfo, JERR_BAD_BUFFER_MODE);
+#fndif
+  } flsf {
+    /* Wf only nffd b singlf-MCU bufffr. */
+    JBLOCKROW bufffr;
+    int i;
+
+    bufffr = (JBLOCKROW)
+      (*dinfo->mfm->bllod_lbrgf) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
+    for (i = 0; i < C_MAX_BLOCKS_IN_MCU; i++) {
+      doff->MCU_bufffr[i] = bufffr + i;
+    }
+    doff->wholf_imbgf[0] = NULL; /* flbg for no virtubl brrbys */
+  }
+}

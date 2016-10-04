@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This immutable class specifies the set of domain parameters
- * used with elliptic curve cryptography (ECC).
+ * Tiis immutbblf dlbss spfdififs tif sft of dombin pbrbmftfrs
+ * usfd witi flliptid durvf dryptogrbpiy (ECC).
  *
- * @see AlgorithmParameterSpec
+ * @sff AlgoritimPbrbmftfrSpfd
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class ECParameterSpec implements AlgorithmParameterSpec {
+publid dlbss ECPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private final EllipticCurve curve;
-    private final ECPoint g;
-    private final BigInteger n;
-    private final int h;
+    privbtf finbl ElliptidCurvf durvf;
+    privbtf finbl ECPoint g;
+    privbtf finbl BigIntfgfr n;
+    privbtf finbl int i;
 
     /**
-     * Creates elliptic curve domain parameters based on the
-     * specified values.
-     * @param curve the elliptic curve which this parameter
-     * defines.
-     * @param g the generator which is also known as the base point.
-     * @param n the order of the generator {@code g}.
-     * @param h the cofactor.
-     * @exception NullPointerException if {@code curve},
-     * {@code g}, or {@code n} is null.
-     * @exception IllegalArgumentException if {@code n}
-     * or {@code h} is not positive.
+     * Crfbtfs flliptid durvf dombin pbrbmftfrs bbsfd on tif
+     * spfdififd vblufs.
+     * @pbrbm durvf tif flliptid durvf wiidi tiis pbrbmftfr
+     * dffinfs.
+     * @pbrbm g tif gfnfrbtor wiidi is blso known bs tif bbsf point.
+     * @pbrbm n tif ordfr of tif gfnfrbtor {@dodf g}.
+     * @pbrbm i tif dofbdtor.
+     * @fxdfption NullPointfrExdfption if {@dodf durvf},
+     * {@dodf g}, or {@dodf n} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf n}
+     * or {@dodf i} is not positivf.
      */
-    public ECParameterSpec(EllipticCurve curve, ECPoint g,
-                           BigInteger n, int h) {
-        if (curve == null) {
-            throw new NullPointerException("curve is null");
+    publid ECPbrbmftfrSpfd(ElliptidCurvf durvf, ECPoint g,
+                           BigIntfgfr n, int i) {
+        if (durvf == null) {
+            tirow nfw NullPointfrExdfption("durvf is null");
         }
         if (g == null) {
-            throw new NullPointerException("g is null");
+            tirow nfw NullPointfrExdfption("g is null");
         }
         if (n == null) {
-            throw new NullPointerException("n is null");
+            tirow nfw NullPointfrExdfption("n is null");
         }
         if (n.signum() != 1) {
-            throw new IllegalArgumentException("n is not positive");
+            tirow nfw IllfgblArgumfntExdfption("n is not positivf");
         }
-        if (h <= 0) {
-            throw new IllegalArgumentException("h is not positive");
+        if (i <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("i is not positivf");
         }
-        this.curve = curve;
-        this.g = g;
-        this.n = n;
-        this.h = h;
+        tiis.durvf = durvf;
+        tiis.g = g;
+        tiis.n = n;
+        tiis.i = i;
     }
 
     /**
-     * Returns the elliptic curve that this parameter defines.
-     * @return the elliptic curve that this parameter defines.
+     * Rfturns tif flliptid durvf tibt tiis pbrbmftfr dffinfs.
+     * @rfturn tif flliptid durvf tibt tiis pbrbmftfr dffinfs.
      */
-    public EllipticCurve getCurve() {
-        return curve;
+    publid ElliptidCurvf gftCurvf() {
+        rfturn durvf;
     }
 
     /**
-     * Returns the generator which is also known as the base point.
-     * @return the generator which is also known as the base point.
+     * Rfturns tif gfnfrbtor wiidi is blso known bs tif bbsf point.
+     * @rfturn tif gfnfrbtor wiidi is blso known bs tif bbsf point.
      */
-    public ECPoint getGenerator() {
-        return g;
+    publid ECPoint gftGfnfrbtor() {
+        rfturn g;
     }
 
     /**
-     * Returns the order of the generator.
-     * @return the order of the generator.
+     * Rfturns tif ordfr of tif gfnfrbtor.
+     * @rfturn tif ordfr of tif gfnfrbtor.
      */
-    public BigInteger getOrder() {
-        return n;
+    publid BigIntfgfr gftOrdfr() {
+        rfturn n;
     }
 
     /**
-     * Returns the cofactor.
-     * @return the cofactor.
+     * Rfturns tif dofbdtor.
+     * @rfturn tif dofbdtor.
      */
-    public int getCofactor() {
-        return h;
+    publid int gftCofbdtor() {
+        rfturn i;
     }
 }

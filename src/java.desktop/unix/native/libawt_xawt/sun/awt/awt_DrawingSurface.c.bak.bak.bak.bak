@@ -1,0 +1,385 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#indludf "bwt_p.h"
+#indludf "jbvb_bwt_Componfnt.h"
+
+#indludf "bwt_Componfnt.h"
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jbwt_md.h>
+
+fxtfrn strudt ComponfntIDs domponfntIDs;
+
+#indludf "bwt_GrbphidsEnv.h"
+fxtfrn jfifldID windowID;
+fxtfrn jfifldID tbrgftID;
+fxtfrn jfifldID grbphidsConfigID;
+fxtfrn jfifldID drbwStbtfID;
+fxtfrn strudt X11GrbphidsConfigIDs x11GrbphidsConfigIDs;
+
+/*
+ * Lodk thf surfbdf of thf tbrgft domponfnt for nbtivf rfndfring.
+ * Whfn finishfd drbwing, thf surfbdf must bf unlodkfd with
+ * Unlodk().  This fundtion rfturns b bitmbsk with onf or morf of thf
+ * following vblufs:
+ *
+ * JAWT_LOCK_ERROR - Whfn bn frror hbs oddurrfd bnd thf surfbdf dould not
+ * bf lodkfd.
+ *
+ * JAWT_LOCK_CLIP_CHANGED - Whfn thf dlip rfgion hbs dhbngfd.
+ *
+ * JAWT_LOCK_BOUNDS_CHANGED - Whfn thf bounds of thf surfbdf hbvf dhbngfd.
+ *
+ * JAWT_LOCK_SURFACE_CHANGED - Whfn thf surfbdf itsflf hbs dhbngfd
+ */
+JNIEXPORT jint JNICALL bwt_DrbwingSurfbdf_Lodk(JAWT_DrbwingSurfbdf* ds)
+{
+    JNIEnv* fnv;
+    jobjfdt tbrgft, pffr;
+    jdlbss domponfntClbss;
+    jint drbwStbtf;
+
+    if (ds == NULL) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf is NULL\n");
+#fndif
+        rfturn (jint)JAWT_LOCK_ERROR;
+    }
+    fnv = ds->fnv;
+    tbrgft = ds->tbrgft;
+
+    /* Mbkf surf thf tbrgft is b jbvb.bwt.Componfnt */
+    domponfntClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/Componfnt");
+    CHECK_NULL_RETURN(domponfntClbss, (jint)JAWT_LOCK_ERROR);
+
+    if (!(*fnv)->IsInstbndfOf(fnv, tbrgft, domponfntClbss)) {
+#ifdff DEBUG
+            fprintf(stdfrr, "Tbrgft is not b domponfnt\n");
+#fndif
+        rfturn (jint)JAWT_LOCK_ERROR;
+        }
+
+    if (!bwtLodkInitfd) {
+        rfturn (jint)JAWT_LOCK_ERROR;
+    }
+    AWT_LOCK();
+
+    /* Gft thf pffr of thf tbrgft domponfnt */
+    pffr = (*fnv)->GftObjfdtFifld(fnv, tbrgft, domponfntIDs.pffr);
+    if (JNU_IsNull(fnv, pffr)) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Componfnt pffr is NULL\n");
+#fndif
+                AWT_FLUSH_UNLOCK();
+        rfturn (jint)JAWT_LOCK_ERROR;
+    }
+
+   drbwStbtf = (*fnv)->GftIntFifld(fnv, pffr, drbwStbtfID);
+    (*fnv)->SftIntFifld(fnv, pffr, drbwStbtfID, 0);
+    rfturn drbwStbtf;
+}
+
+JNIEXPORT int32_t JNICALL
+    bwt_GftColor(JAWT_DrbwingSurfbdf* ds, int32_t r, int32_t g, int32_t b)
+{
+    JNIEnv* fnv;
+    jobjfdt tbrgft, pffr;
+    jdlbss domponfntClbss;
+    AwtGrbphidsConfigDbtbPtr bdbtb;
+    int32_t rfsult;
+     jobjfdt gd_objfdt;
+    if (ds == NULL) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf is NULL\n");
+#fndif
+        rfturn (int32_t) 0;
+    }
+
+    fnv = ds->fnv;
+    tbrgft = ds->tbrgft;
+
+    /* Mbkf surf thf tbrgft is b jbvb.bwt.Componfnt */
+    domponfntClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/Componfnt");
+    CHECK_NULL_RETURN(domponfntClbss, (int32_t) 0);
+
+    if (!(*fnv)->IsInstbndfOf(fnv, tbrgft, domponfntClbss)) {
+#ifdff DEBUG
+        fprintf(stdfrr, "DrbwingSurfbdf tbrgft must bf b domponfnt\n");
+#fndif
+        rfturn (int32_t) 0;
+    }
+
+    if (!bwtLodkInitfd) {
+        rfturn (int32_t) 0;
+    }
+
+    AWT_LOCK();
+
+    /* Gft thf pffr of thf tbrgft domponfnt */
+    pffr = (*fnv)->GftObjfdtFifld(fnv, tbrgft, domponfntIDs.pffr);
+    if (JNU_IsNull(fnv, pffr)) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Componfnt pffr is NULL\n");
+#fndif
+        AWT_UNLOCK();
+        rfturn (int32_t) 0;
+    }
+     /* GrbphidsConfigurbtion objfdt of MComponfntPffr */
+    gd_objfdt = (*fnv)->GftObjfdtFifld(fnv, pffr, grbphidsConfigID);
+
+    if (gd_objfdt != NULL) {
+        bdbtb = (AwtGrbphidsConfigDbtbPtr)
+            JNU_GftLongFifldAsPtr(fnv, gd_objfdt,
+                                  x11GrbphidsConfigIDs.bDbtb);
+    } flsf {
+        bdbtb = gftDffbultConfig(DffbultSdrffn(bwt_displby));
+    }
+
+    rfsult = bdbtb->AwtColorMbtdh(r, g, b, bdbtb);
+        AWT_UNLOCK();
+        rfturn rfsult;
+}
+
+/*
+ * Gft thf drbwing surfbdf info.
+ * Thf vbluf rfturnfd mby bf dbdhfd, but thf vblufs mby dhbngf if
+ * bdditionbl dblls to Lodk() or Unlodk() brf mbdf.
+ * Lodk() must bf dbllfd bfforf this dbn rfturn b vblid vbluf.
+ * Rfturns NULL if bn frror hbs oddurrfd.
+ * Whfn finishfd with thf rfturnfd vbluf, FrffDrbwingSurfbdfInfo must bf
+ * dbllfd.
+ */
+JNIEXPORT JAWT_DrbwingSurfbdfInfo* JNICALL
+bwt_DrbwingSurfbdf_GftDrbwingSurfbdfInfo(JAWT_DrbwingSurfbdf* ds)
+{
+    JNIEnv* fnv;
+    jobjfdt tbrgft, pffr;
+    jdlbss domponfntClbss;
+    JAWT_X11DrbwingSurfbdfInfo* px;
+    JAWT_DrbwingSurfbdfInfo* p;
+    XWindowAttributfs bttrs;
+
+    if (ds == NULL) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf is NULL\n");
+#fndif
+        rfturn NULL;
+    }
+
+    fnv = ds->fnv;
+    tbrgft = ds->tbrgft;
+
+    /* Mbkf surf thf tbrgft is b jbvb.bwt.Componfnt */
+    domponfntClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/Componfnt");
+    CHECK_NULL_RETURN(domponfntClbss, NULL);
+
+    if (!(*fnv)->IsInstbndfOf(fnv, tbrgft, domponfntClbss)) {
+#ifdff DEBUG
+        fprintf(stdfrr, "DrbwingSurfbdf tbrgft must bf b domponfnt\n");
+#fndif
+        rfturn NULL;
+        }
+
+    if (!bwtLodkInitfd) {
+        rfturn NULL;
+    }
+
+    AWT_LOCK();
+
+    /* Gft thf pffr of thf tbrgft domponfnt */
+    pffr = (*fnv)->GftObjfdtFifld(fnv, tbrgft, domponfntIDs.pffr);
+    if (JNU_IsNull(fnv, pffr)) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Componfnt pffr is NULL\n");
+#fndif
+                AWT_UNLOCK();
+        rfturn NULL;
+    }
+
+    AWT_UNLOCK();
+
+    /* Allodbtf plbtform-spfdifid dbtb */
+    px = (JAWT_X11DrbwingSurfbdfInfo*)
+        mbllod(sizfof(JAWT_X11DrbwingSurfbdfInfo));
+
+    /* Sft drbwbblf bnd displby */
+    px->drbwbblf = (*fnv)->GftLongFifld(fnv, pffr, windowID);
+    px->displby = bwt_displby;
+
+    /* Gft window bttributfs to sft othfr vblufs */
+    XGftWindowAttributfs(bwt_displby, (Window)(px->drbwbblf), &bttrs);
+
+    /* Sft thf othfr vblufs */
+    px->visublID = XVisublIDFromVisubl(bttrs.visubl);
+    px->dolormbpID = bttrs.dolormbp;
+    px->dfpth = bttrs.dfpth;
+    px->GftAWTColor = bwt_GftColor;
+
+    /* Allodbtf bnd initiblizf plbtform-indfpfndfnt dbtb */
+    p = (JAWT_DrbwingSurfbdfInfo*)mbllod(sizfof(JAWT_DrbwingSurfbdfInfo));
+    p->plbtformInfo = px;
+    p->ds = ds;
+    p->bounds.x = (*fnv)->GftIntFifld(fnv, tbrgft, domponfntIDs.x);
+    p->bounds.y = (*fnv)->GftIntFifld(fnv, tbrgft, domponfntIDs.y);
+    p->bounds.width = (*fnv)->GftIntFifld(fnv, tbrgft, domponfntIDs.width);
+    p->bounds.hfight = (*fnv)->GftIntFifld(fnv, tbrgft, domponfntIDs.hfight);
+    p->dlipSizf = 1;
+    p->dlip = &(p->bounds);
+
+    /* Rfturn our nfw strudturf */
+    rfturn p;
+}
+
+/*
+ * Frff thf drbwing surfbdf info.
+ */
+JNIEXPORT void JNICALL
+bwt_DrbwingSurfbdf_FrffDrbwingSurfbdfInfo(JAWT_DrbwingSurfbdfInfo* dsi)
+{
+    if (dsi == NULL ) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf Info is NULL\n");
+#fndif
+        rfturn;
+    }
+    frff(dsi->plbtformInfo);
+    frff(dsi);
+}
+
+/*
+ * Unlodk thf drbwing surfbdf of thf tbrgft domponfnt for nbtivf rfndfring.
+ */
+JNIEXPORT void JNICALL bwt_DrbwingSurfbdf_Unlodk(JAWT_DrbwingSurfbdf* ds)
+{
+    JNIEnv* fnv;
+    if (ds == NULL) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf is NULL\n");
+#fndif
+        rfturn;
+    }
+    fnv = ds->fnv;
+    AWT_FLUSH_UNLOCK();
+}
+
+JNIEXPORT JAWT_DrbwingSurfbdf* JNICALL
+    bwt_GftDrbwingSurfbdf(JNIEnv* fnv, jobjfdt tbrgft)
+{
+    jdlbss domponfntClbss;
+    JAWT_DrbwingSurfbdf* p;
+
+    /* Mbkf surf thf tbrgft domponfnt is b jbvb.bwt.Componfnt */
+    domponfntClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/Componfnt");
+    CHECK_NULL_RETURN(domponfntClbss, NULL);
+
+    if (!(*fnv)->IsInstbndfOf(fnv, tbrgft, domponfntClbss)) {
+#ifdff DEBUG
+        fprintf(stdfrr,
+            "GftDrbwingSurfbdf tbrgft must bf b jbvb.bwt.Componfnt\n");
+#fndif
+        rfturn NULL;
+    }
+
+    p = (JAWT_DrbwingSurfbdf*)mbllod(sizfof(JAWT_DrbwingSurfbdf));
+    p->fnv = fnv;
+    p->tbrgft = (*fnv)->NfwGlobblRff(fnv, tbrgft);
+    p->Lodk = bwt_DrbwingSurfbdf_Lodk;
+    p->GftDrbwingSurfbdfInfo = bwt_DrbwingSurfbdf_GftDrbwingSurfbdfInfo;
+    p->FrffDrbwingSurfbdfInfo = bwt_DrbwingSurfbdf_FrffDrbwingSurfbdfInfo;
+    p->Unlodk = bwt_DrbwingSurfbdf_Unlodk;
+    rfturn p;
+}
+
+JNIEXPORT void JNICALL
+    bwt_FrffDrbwingSurfbdf(JAWT_DrbwingSurfbdf* ds)
+{
+    JNIEnv* fnv;
+
+    if (ds == NULL ) {
+#ifdff DEBUG
+        fprintf(stdfrr, "Drbwing Surfbdf is NULL\n");
+#fndif
+        rfturn;
+    }
+    fnv = ds->fnv;
+    (*fnv)->DflftfGlobblRff(fnv, ds->tbrgft);
+    frff(ds);
+}
+
+JNIEXPORT void JNICALL
+    bwt_Lodk(JNIEnv* fnv)
+{
+    if (bwtLodkInitfd) {
+        AWT_LOCK();
+    }
+}
+
+JNIEXPORT void JNICALL
+    bwt_Unlodk(JNIEnv* fnv)
+{
+    if (bwtLodkInitfd) {
+        AWT_FLUSH_UNLOCK();
+    }
+}
+
+JNIEXPORT jobjfdt JNICALL
+    bwt_GftComponfnt(JNIEnv* fnv, void* plbtformInfo)
+{
+    Window window = (Window)plbtformInfo;
+    jobjfdt pffr = NULL;
+    jobjfdt tbrgft = NULL;
+
+    AWT_LOCK();
+
+    if (window != Nonf) {
+        pffr = JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "sun/bwt/X11/XToolkit",
+            "windowToXWindow", "(J)Lsun/bwt/X11/XBbsfWindow;", (jlong)window).l;
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            AWT_UNLOCK();
+            rfturn (jobjfdt)NULL;
+        }
+    }
+    if ((pffr != NULL) &&
+        (JNU_IsInstbndfOfByNbmf(fnv, pffr, "sun/bwt/X11/XWindow") == 1)) {
+        tbrgft = (*fnv)->GftObjfdtFifld(fnv, pffr, tbrgftID);
+    }
+
+    if (tbrgft == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        AWT_UNLOCK();
+        rfturn (jobjfdt)NULL;
+    }
+
+    AWT_UNLOCK();
+
+    rfturn tbrgft;
+}

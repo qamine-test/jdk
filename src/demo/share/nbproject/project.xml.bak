@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,32 +31,32 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project xmlns="http://www.netbeans.org/ns/project/1">
-    <type>org.netbeans.modules.ant.freeform</type>
-    <configuration>
-        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>JDK Demos</name>
-            <view>
-                <items/>
-            </view>
-            <subprojects>
-                <project>nbproject/jfc/SwingSet2</project>
-                <project>nbproject/jfc/Java2D</project>
-                <project>nbproject/jfc/Font2DTest</project>
-                <project>nbproject/jfc/FileChooserDemo</project>
-                <project>nbproject/jfc/Metalworks</project>
-                <project>nbproject/jfc/Notepad</project>
-                <project>nbproject/jfc/SampleTree</project>
-                <project>nbproject/jfc/Stylepad</project>
-                <project>nbproject/jfc/SwingApplet</project>
-                <project>nbproject/jfc/TableExample</project>
-                <project>nbproject/jfc/TransparentRuler</project>
-                <project>nbproject/scripting/jconsole-plugin</project>
-                <project>nbproject/management/FullThreadDump</project>
-                <project>nbproject/management/JTop</project>
-                <project>nbproject/management/MemoryMonitor</project>
-                <project>nbproject/management/VerboseGC</project>
-            </subprojects>
-        </general-data>
-    </configuration>
-</project>
+<projfdt xmlns="ittp://www.nftbfbns.org/ns/projfdt/1">
+    <typf>org.nftbfbns.modulfs.bnt.frffform</typf>
+    <donfigurbtion>
+        <gfnfrbl-dbtb xmlns="ittp://www.nftbfbns.org/ns/frffform-projfdt/1">
+            <nbmf>JDK Dfmos</nbmf>
+            <vifw>
+                <itfms/>
+            </vifw>
+            <subprojfdts>
+                <projfdt>nbprojfdt/jfd/SwingSft2</projfdt>
+                <projfdt>nbprojfdt/jfd/Jbvb2D</projfdt>
+                <projfdt>nbprojfdt/jfd/Font2DTfst</projfdt>
+                <projfdt>nbprojfdt/jfd/FilfCioosfrDfmo</projfdt>
+                <projfdt>nbprojfdt/jfd/Mftblworks</projfdt>
+                <projfdt>nbprojfdt/jfd/Notfpbd</projfdt>
+                <projfdt>nbprojfdt/jfd/SbmplfTrff</projfdt>
+                <projfdt>nbprojfdt/jfd/Stylfpbd</projfdt>
+                <projfdt>nbprojfdt/jfd/SwingApplft</projfdt>
+                <projfdt>nbprojfdt/jfd/TbblfExbmplf</projfdt>
+                <projfdt>nbprojfdt/jfd/TrbnspbrfntRulfr</projfdt>
+                <projfdt>nbprojfdt/sdripting/jdonsolf-plugin</projfdt>
+                <projfdt>nbprojfdt/mbnbgfmfnt/FullTirfbdDump</projfdt>
+                <projfdt>nbprojfdt/mbnbgfmfnt/JTop</projfdt>
+                <projfdt>nbprojfdt/mbnbgfmfnt/MfmoryMonitor</projfdt>
+                <projfdt>nbprojfdt/mbnbgfmfnt/VfrbosfGC</projfdt>
+            </subprojfdts>
+        </gfnfrbl-dbtb>
+    </donfigurbtion>
+</projfdt>

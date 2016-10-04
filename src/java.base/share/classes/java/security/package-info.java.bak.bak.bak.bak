@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Providfs thf dlbssfs bnd intfrfbdfs for thf sfdurity frbmfwork.
+ * This indludfs dlbssfs thbt implfmfnt bn fbsily donfigurbblf,
+ * finf-grbinfd bddfss dontrol sfdurity brdhitfdturf.
+ * This pbdkbgf blso supports
+ * thf gfnfrbtion bnd storbgf of dryptogrbphid publid kfy pbirs,
+ * bs wfll bs b numbfr of fxportbblf dryptogrbphid opfrbtions
+ * indluding thosf for mfssbgf digfst bnd signbturf gfnfrbtion.  Finblly,
+ * this pbdkbgf providfs dlbssfs thbt support signfd/gubrdfd objfdts
+ * bnd sfdurf rbndom numbfr gfnfrbtion.
+ *
+ * Mbny of thf dlbssfs providfd in this pbdkbgf (thf dryptogrbphid
+ * bnd sfdurf rbndom numbfr gfnfrbtor dlbssfs in pbrtidulbr) brf
+ * providfr-bbsfd.  Thf dlbss itsflf dffinfs b progrbmming intfrfbdf
+ * to whidh bpplidbtions mby writf.  Thf implfmfntbtions thfmsflvfs mby
+ * thfn bf writtfn by indfpfndfnt third-pbrty vfndors bnd pluggfd
+ * in sfbmlfssly bs nffdfd.  Thfrfforf bpplidbtion dfvflopfrs mby
+ * tbkf bdvbntbgf of bny numbfr of providfr-bbsfd implfmfntbtions
+ * without hbving to bdd or rfwritf dodf.
+ *
+ * <h2>Pbdkbgf Spfdifidbtion</h2>
+ *
+ * <ul>
+ *   <li><b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbphy Ardhitfdturf (JCA) Rfffrfndf Guidf</b></b></li>
+ *
+ *   <li>PKCS #8: Privbtf-Kfy Informbtion Syntbx Stbndbrd, Vfrsion 1.2,
+ *     Novfmbfr 1993</li>
+ *
+ *   <li><b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+ *     Dodumfntbtion</b></b></li>
+ * </ul>
+ *
+ * <h2>Rflbtfd Dodumfntbtion</h2>
+ *
+ * For furthfr dodumfntbtion, plfbsf sff:
+ * <ul>
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/spfd/sfdurity-spfd.dod.html">
+ *     <b>Jbvb&trbdf;
+ *     SE Plbtform Sfdurity Ardhitfdturf</b></b></li>
+ *
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr.html">
+ *     <b>How to Implfmfnt b Providfr in thf
+ *     Jbvb&trbdf; Cryptogrbphy Ardhitfdturf
+ *     </b></b></li>
+ *
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/PolidyFilfs.html"><b>
+ *     Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx
+ *     </b></b></li>
+ *
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/pfrmissions.html"><b>
+ *     Pfrmissions in thf
+ *     Jbvb&trbdf; SE Dfvflopmfnt Kit (JDK)
+ *     </b></b></li>
+ *
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/SfdurityToolsSummbry.html"><b>
+ *     Summbry of Tools for
+ *     Jbvb&trbdf; Plbtform Sfdurity
+ *     </b></b></li>
+ *
+ *   <li><b>kfytool</b>
+ *     (<b hrff="{@dodRoot}/../tfdhnotfs/tools/unix/kfytool.html">
+ *       for Solbris/Linux</b>)
+ *     (<b hrff="{@dodRoot}/../tfdhnotfs/tools/windows/kfytool.html">
+ *       for Windows</b>)
+ *     </li>
+ *
+ *   <li><b>jbrsignfr</b>
+ *     (<b hrff="{@dodRoot}/../tfdhnotfs/tools/unix/jbrsignfr.html">
+ *       for Solbris/Linux</b>)
+ *     (<b hrff="{@dodRoot}/../tfdhnotfs/tools/windows/jbrsignfr.html">
+ *       for Windows</b>)
+ *     </li>
+ *
+ * </ul>
+ *
+ * @sindf 1.1
+ */
+pbdkbgf jbvb.sfdurity;

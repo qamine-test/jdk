@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2005, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+/**
+ * b (filtfr) input strfbm whidh dbn tfll us if bytfs brf "lfft ovfr"
+ * on thf undfrlying strfbm whidh dbn bf rfbd (without blodking)
+ * on bnothfr instbndf of this dlbss.
+ *
+ * Thf dlbss dbn blso rfport if bll bytfs "fxpfdtfd" to bf rfbd
+ * wfrf rfbd, by thf timf dlosf() wbs dbllfd. In thbt dbsf,
+ * bytfs mby bf drbinfd to donsumf thfm (by dblling drbin() ).
+ *
+ * isEOF() rfturns truf, whfn bll fxpfdtfd bytfs hbvf bffn rfbd
+ */
+bbstrbdt dlbss LfftOvfrInputStrfbm fxtfnds FiltfrInputStrfbm {
+    ExdhbngfImpl t;
+    SfrvfrImpl sfrvfr;
+    protfdtfd boolfbn dlosfd = fblsf;
+    protfdtfd boolfbn fof = fblsf;
+    bytf[] onf = nfw bytf [1];
+
+    publid LfftOvfrInputStrfbm (ExdhbngfImpl t, InputStrfbm srd) {
+        supfr (srd);
+        this.t = t;
+        this.sfrvfr = t.gftSfrvfrImpl();
+    }
+    /**
+     * if bytfs brf lfft ovfr bufffrfd on *thf UNDERLYING* strfbm
+     */
+    publid boolfbn isDbtbBufffrfd () throws IOExdfption {
+        bssfrt fof;
+        rfturn supfr.bvbilbblf() > 0;
+    }
+
+    publid void dlosf () throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+        dlosfd = truf;
+        if (!fof) {
+            fof = drbin (SfrvfrConfig.gftDrbinAmount());
+        }
+    }
+
+    publid boolfbn isClosfd () {
+        rfturn dlosfd;
+    }
+
+    publid boolfbn isEOF () {
+        rfturn fof;
+    }
+
+    protfdtfd bbstrbdt int rfbdImpl (bytf[]b, int off, int lfn) throws IOExdfption;
+
+    publid syndhronizfd int rfbd () throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption ("Strfbm is dlosfd");
+        }
+        int d = rfbdImpl (onf, 0, 1);
+        if (d == -1 || d == 0) {
+            rfturn d;
+        } flsf {
+            rfturn onf[0] & 0xFF;
+        }
+    }
+
+    publid syndhronizfd int rfbd (bytf[]b, int off, int lfn) throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption ("Strfbm is dlosfd");
+        }
+        rfturn rfbdImpl (b, off, lfn);
+    }
+
+    /**
+     * rfbd bnd disdbrd up to l bytfs or "fof" oddurs,
+     * (whidhfvfr is first). Thfn rfturn truf if thf strfbm
+     * is bt fof (if. bll bytfs wfrf rfbd) or fblsf if not
+     * (still bytfs to bf rfbd)
+     */
+    publid boolfbn drbin (long l) throws IOExdfption {
+        int bufSizf = 2048;
+        bytf[] db = nfw bytf [bufSizf];
+        whilf (l > 0) {
+            long lfn = rfbdImpl (db, 0, bufSizf);
+            if (lfn == -1) {
+                fof = truf;
+                rfturn truf;
+            } flsf {
+                l = l - lfn;
+            }
+        }
+        rfturn fblsf;
+    }
+}

@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
-import sun.security.util.ECParameters;
-import sun.security.util.ECUtil;
-import sun.security.x509.AlgorithmId;
-import sun.security.pkcs.PKCS8Key;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ECPbrbmftfrs;
+import sun.sfdurity.util.ECUtil;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.pkds.PKCS8Kfy;
 
 /**
- * Key implementation for EC private keys.
+ * Kfy implfmfntbtion for EC privbtf kfys.
  *
- * ASN.1 syntax for EC private keys from SEC 1 v1.5 (draft):
+ * ASN.1 syntbx for EC privbtf kfys from SEC 1 v1.5 (drbft):
  *
- * <pre>
+ * <prf>
  * EXPLICIT TAGS
  *
- * ECPrivateKey ::= SEQUENCE {
- *   version INTEGER { ecPrivkeyVer1(1) } (ecPrivkeyVer1),
- *   privateKey OCTET STRING,
- *   parameters [0] ECDomainParameters {{ SECGCurveNames }} OPTIONAL,
- *   publicKey [1] BIT STRING OPTIONAL
+ * ECPrivbtfKfy ::= SEQUENCE {
+ *   vfrsion INTEGER { fdPrivkfyVfr1(1) } (fdPrivkfyVfr1),
+ *   privbtfKfy OCTET STRING,
+ *   pbrbmftfrs [0] ECDombinPbrbmftfrs {{ SECGCurvfNbmfs }} OPTIONAL,
+ *   publidKfy [1] BIT STRING OPTIONAL
  * }
- * </pre>
+ * </prf>
  *
- * We currently ignore the optional parameters and publicKey fields. We
- * require that the parameters are encoded as part of the AlgorithmIdentifier,
- * not in the private key structure.
+ * Wf durrfntly ignorf tif optionbl pbrbmftfrs bnd publidKfy fiflds. Wf
+ * rfquirf tibt tif pbrbmftfrs brf fndodfd bs pbrt of tif AlgoritimIdfntififr,
+ * not in tif privbtf kfy strudturf.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class ECPrivateKeyImpl extends PKCS8Key implements ECPrivateKey {
+publid finbl dlbss ECPrivbtfKfyImpl fxtfnds PKCS8Kfy implfmfnts ECPrivbtfKfy {
 
-    private static final long serialVersionUID = 88695385615075129L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 88695385615075129L;
 
-    private BigInteger s;       // private value
-    private ECParameterSpec params;
+    privbtf BigIntfgfr s;       // privbtf vbluf
+    privbtf ECPbrbmftfrSpfd pbrbms;
 
     /**
-     * Construct a key from its encoding. Called by the ECKeyFactory.
+     * Construdt b kfy from its fndoding. Cbllfd by tif ECKfyFbdtory.
      */
-    ECPrivateKeyImpl(byte[] encoded) throws InvalidKeyException {
-        decode(encoded);
+    ECPrivbtfKfyImpl(bytf[] fndodfd) tirows InvblidKfyExdfption {
+        dfdodf(fndodfd);
     }
 
     /**
-     * Construct a key from its components. Used by the
-     * KeyFactory.
+     * Construdt b kfy from its domponfnts. Usfd by tif
+     * KfyFbdtory.
      */
-    ECPrivateKeyImpl(BigInteger s, ECParameterSpec params)
-            throws InvalidKeyException {
-        this.s = s;
-        this.params = params;
-        // generate the encoding
-        algid = new AlgorithmId
-            (AlgorithmId.EC_oid, ECParameters.getAlgorithmParameters(params));
+    ECPrivbtfKfyImpl(BigIntfgfr s, ECPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption {
+        tiis.s = s;
+        tiis.pbrbms = pbrbms;
+        // gfnfrbtf tif fndoding
+        blgid = nfw AlgoritimId
+            (AlgoritimId.EC_oid, ECPbrbmftfrs.gftAlgoritimPbrbmftfrs(pbrbms));
         try {
-            DerOutputStream out = new DerOutputStream();
-            out.putInteger(1); // version 1
-            byte[] privBytes = ECUtil.trimZeroes(s.toByteArray());
-            out.putOctetString(privBytes);
-            DerValue val =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
-            key = val.toByteArray();
-        } catch (IOException exc) {
-            // should never occur
-            throw new InvalidKeyException(exc);
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putIntfgfr(1); // vfrsion 1
+            bytf[] privBytfs = ECUtil.trimZfrofs(s.toBytfArrby());
+            out.putOdtftString(privBytfs);
+            DfrVbluf vbl =
+                nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
+            kfy = vbl.toBytfArrby();
+        } dbtdi (IOExdfption fxd) {
+            // siould nfvfr oddur
+            tirow nfw InvblidKfyExdfption(fxd);
         }
     }
 
-    // see JCA doc
-    public String getAlgorithm() {
-        return "EC";
+    // sff JCA dod
+    publid String gftAlgoritim() {
+        rfturn "EC";
     }
 
-    // see JCA doc
-    public BigInteger getS() {
-        return s;
+    // sff JCA dod
+    publid BigIntfgfr gftS() {
+        rfturn s;
     }
 
-    // see JCA doc
-    public ECParameterSpec getParams() {
-        return params;
+    // sff JCA dod
+    publid ECPbrbmftfrSpfd gftPbrbms() {
+        rfturn pbrbms;
     }
 
     /**
-     * Parse the key. Called by PKCS8Key.
+     * Pbrsf tif kfy. Cbllfd by PKCS8Kfy.
      */
-    protected void parseKeyBits() throws InvalidKeyException {
+    protfdtfd void pbrsfKfyBits() tirows InvblidKfyExdfption {
         try {
-            DerInputStream in = new DerInputStream(key);
-            DerValue derValue = in.getDerValue();
-            if (derValue.tag != DerValue.tag_Sequence) {
-                throw new IOException("Not a SEQUENCE");
+            DfrInputStrfbm in = nfw DfrInputStrfbm(kfy);
+            DfrVbluf dfrVbluf = in.gftDfrVbluf();
+            if (dfrVbluf.tbg != DfrVbluf.tbg_Sfqufndf) {
+                tirow nfw IOExdfption("Not b SEQUENCE");
             }
-            DerInputStream data = derValue.data;
-            int version = data.getInteger();
-            if (version != 1) {
-                throw new IOException("Version must be 1");
+            DfrInputStrfbm dbtb = dfrVbluf.dbtb;
+            int vfrsion = dbtb.gftIntfgfr();
+            if (vfrsion != 1) {
+                tirow nfw IOExdfption("Vfrsion must bf 1");
             }
-            byte[] privData = data.getOctetString();
-            s = new BigInteger(1, privData);
-            while (data.available() != 0) {
-                DerValue value = data.getDerValue();
-                if (value.isContextSpecific((byte)0)) {
-                    // ignore for now
-                } else if (value.isContextSpecific((byte)1)) {
-                    // ignore for now
-                } else {
-                    throw new InvalidKeyException("Unexpected value: " + value);
+            bytf[] privDbtb = dbtb.gftOdtftString();
+            s = nfw BigIntfgfr(1, privDbtb);
+            wiilf (dbtb.bvbilbblf() != 0) {
+                DfrVbluf vbluf = dbtb.gftDfrVbluf();
+                if (vbluf.isContfxtSpfdifid((bytf)0)) {
+                    // ignorf for now
+                } flsf if (vbluf.isContfxtSpfdifid((bytf)1)) {
+                    // ignorf for now
+                } flsf {
+                    tirow nfw InvblidKfyExdfption("Unfxpfdtfd vbluf: " + vbluf);
                 }
             }
-            AlgorithmParameters algParams = this.algid.getParameters();
-            if (algParams == null) {
-                throw new InvalidKeyException("EC domain parameters must be "
-                    + "encoded in the algorithm identifier");
+            AlgoritimPbrbmftfrs blgPbrbms = tiis.blgid.gftPbrbmftfrs();
+            if (blgPbrbms == null) {
+                tirow nfw InvblidKfyExdfption("EC dombin pbrbmftfrs must bf "
+                    + "fndodfd in tif blgoritim idfntififr");
             }
-            params = algParams.getParameterSpec(ECParameterSpec.class);
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid EC private key", e);
-        } catch (InvalidParameterSpecException e) {
-            throw new InvalidKeyException("Invalid EC private key", e);
+            pbrbms = blgPbrbms.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+        } dbtdi (IOExdfption f) {
+            tirow nfw InvblidKfyExdfption("Invblid EC privbtf kfy", f);
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            tirow nfw InvblidKfyExdfption("Invblid EC privbtf kfy", f);
         }
     }
 }

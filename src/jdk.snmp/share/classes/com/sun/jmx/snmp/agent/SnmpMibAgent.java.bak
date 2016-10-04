@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistration;
-import javax.management.ObjectName;
-import javax.management.InstanceNotFoundException;
-import javax.management.ServiceNotFoundException;
-import javax.management.ReflectionException;
-import javax.management.MBeanException;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpEngine;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.SfrvidfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpEnginf;
 
 /**
- * Abstract class for representing an SNMP agent.
+ * Abstrbdt dlbss for rfprfsfnting bn SNMP bgfnt.
  *
- * The class is used by the SNMP protocol adaptor as the entry point in
- * the SNMP agent to query.
+ * Tif dlbss is usfd by tif SNMP protodol bdbptor bs tif fntry point in
+ * tif SNMP bgfnt to qufry.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpMibAgent
-    implements SnmpMibAgentMBean, MBeanRegistration, Serializable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibAgfnt
+    implfmfnts SnmpMibAgfntMBfbn, MBfbnRfgistrbtion, Sfriblizbblf {
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public SnmpMibAgent() {
+    publid SnmpMibAgfnt() {
     }
 
     // ---------------------------------------------------------------------
@@ -74,614 +74,614 @@ public abstract class SnmpMibAgent
     //----------------------------------------------------------------------
 
     /**
-     * Initializes the MIB (with no registration of the MBeans into the
-     * MBean server).
+     * Initiblizfs tif MIB (witi no rfgistrbtion of tif MBfbns into tif
+     * MBfbn sfrvfr).
      *
-     * @exception IllegalAccessException The MIB can not be initialized.
+     * @fxdfption IllfgblAddfssExdfption Tif MIB dbn not bf initiblizfd.
      */
-    public abstract void init() throws IllegalAccessException;
+    publid bbstrbdt void init() tirows IllfgblAddfssExdfption;
 
     /**
-     * Initializes the MIB but each single MBean representing the MIB
-     * is inserted into the MBean server.
+     * Initiblizfs tif MIB but fbdi singlf MBfbn rfprfsfnting tif MIB
+     * is insfrtfd into tif MBfbn sfrvfr.
      *
-     * @param server The MBean server to register the service with.
-     * @param name The object name.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr to rfgistfr tif sfrvidf witi.
+     * @pbrbm nbmf Tif objfdt nbmf.
      *
-     * @return The name of the SNMP MIB registered.
+     * @rfturn Tif nbmf of tif SNMP MIB rfgistfrfd.
      *
-     * @exception java.lang.Exception
+     * @fxdfption jbvb.lbng.Exdfption
      */
-    @Override
-    public abstract ObjectName preRegister(MBeanServer server,
-                                           ObjectName name)
-        throws java.lang.Exception;
+    @Ovfrridf
+    publid bbstrbdt ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr,
+                                           ObjfdtNbmf nbmf)
+        tirows jbvb.lbng.Exdfption;
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void postRegister (Boolean registrationDone) {
+    @Ovfrridf
+    publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void preDeregister() throws java.lang.Exception {
+    @Ovfrridf
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption {
     }
 
     /**
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    @Override
-    public void postDeregister() {
+    @Ovfrridf
+    publid void postDfrfgistfr() {
     }
 
     /**
-     * Processes a <CODE>get</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Prodfssfs b <CODE>gft</CODE> opfrbtion.
+     * Tiis mftiod must updbtf tif SnmpVbrBinds dontbinfd in tif
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
-     *            be retrieved. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm rfq Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to
+     *            bf rftrifvfd. Tiis list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
-    @Override
-    public abstract void get(SnmpMibRequest req)
-        throws SnmpStatusException;
+    @Ovfrridf
+    publid bbstrbdt void gft(SnmpMibRfqufst rfq)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Processes a <CODE>getNext</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Prodfssfs b <CODE>gftNfxt</CODE> opfrbtion.
+     * Tiis mftiod must updbtf tif SnmpVbrBinds dontbinfd in tif
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
      *
-     * @param req The SnmpMibRequest object holding the list of
-     *            OIDs from which the next variables should be retrieved.
-     *            This list is composed of <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm rfq Tif SnmpMibRfqufst objfdt iolding tif list of
+     *            OIDs from wiidi tif nfxt vbribblfs siould bf rftrifvfd.
+     *            Tiis list is domposfd of <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
-    @Override
-    public abstract void getNext(SnmpMibRequest req)
-        throws SnmpStatusException;
+    @Ovfrridf
+    publid bbstrbdt void gftNfxt(SnmpMibRfqufst rfq)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Processes a <CODE>getBulk</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion.
+     * Tiis mftiod must updbtf tif SnmpVbrBinds dontbinfd in tif
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
-     *            be retrieved. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm rfq Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to
+     *            bf rftrifvfd. Tiis list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @param nonRepeat The number of variables, starting with the first
-     *    variable in the variable-bindings, for which a single
-     *    lexicographic successor is requested.
+     * @pbrbm nonRfpfbt Tif numbfr of vbribblfs, stbrting witi tif first
+     *    vbribblf in tif vbribblf-bindings, for wiidi b singlf
+     *    lfxidogrbpiid suddfssor is rfqufstfd.
      *
-     * @param maxRepeat The number of lexicographic successors requested
-     *    for each of the last R variables. R is the number of variables
-     *    following the first <CODE>nonRepeat</CODE> variables for which
-     *    multiple lexicographic successors are requested.
+     * @pbrbm mbxRfpfbt Tif numbfr of lfxidogrbpiid suddfssors rfqufstfd
+     *    for fbdi of tif lbst R vbribblfs. R is tif numbfr of vbribblfs
+     *    following tif first <CODE>nonRfpfbt</CODE> vbribblfs for wiidi
+     *    multiplf lfxidogrbpiid suddfssors brf rfqufstfd.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
-    @Override
-    public abstract void getBulk(SnmpMibRequest req, int nonRepeat,
-                                 int maxRepeat)
-        throws SnmpStatusException;
+    @Ovfrridf
+    publid bbstrbdt void gftBulk(SnmpMibRfqufst rfq, int nonRfpfbt,
+                                 int mbxRfpfbt)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Processes a <CODE>set</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
-     * This method is called during the second phase of the SET two-phase
-     * commit.
+     * Prodfssfs b <CODE>sft</CODE> opfrbtion.
+     * Tiis mftiod must updbtf tif SnmpVbrBinds dontbinfd in tif
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
+     * Tiis mftiod is dbllfd during tif sfdond pibsf of tif SET two-pibsf
+     * dommit.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
-     *            be set. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm rfq Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to
+     *            bf sft. Tiis list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
-     *            Throwing an exception in this method will break the
-     *            atomicity of the SET operation. Care must be taken so that
-     *            the exception is thrown in the {@link #check(SnmpMibRequest)}
-     *            method instead.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
+     *            Tirowing bn fxdfption in tiis mftiod will brfbk tif
+     *            btomidity of tif SET opfrbtion. Cbrf must bf tbkfn so tibt
+     *            tif fxdfption is tirown in tif {@link #difdk(SnmpMibRfqufst)}
+     *            mftiod instfbd.
      */
-    @Override
-    public abstract void set(SnmpMibRequest req)
-        throws SnmpStatusException;
+    @Ovfrridf
+    publid bbstrbdt void sft(SnmpMibRfqufst rfq)
+        tirows SnmpStbtusExdfption;
 
 
     /**
-     * Checks if a <CODE>set</CODE> operation can be performed.
-     * If the operation can not be performed, the method should throw an
-     * <CODE>SnmpStatusException</CODE>.
-     * This method is called during the first phase of the SET two-phase
-     * commit.
+     * Cifdks if b <CODE>sft</CODE> opfrbtion dbn bf pfrformfd.
+     * If tif opfrbtion dbn not bf pfrformfd, tif mftiod siould tirow bn
+     * <CODE>SnmpStbtusExdfption</CODE>.
+     * Tiis mftiod is dbllfd during tif first pibsf of tif SET two-pibsf
+     * dommit.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
-     *            be set. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm rfq Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to
+     *            bf sft. Tiis list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @exception SnmpStatusException The <CODE>set</CODE> operation
-     *    cannot be performed.
+     * @fxdfption SnmpStbtusExdfption Tif <CODE>sft</CODE> opfrbtion
+     *    dbnnot bf pfrformfd.
      */
-    @Override
-    public abstract void check(SnmpMibRequest req)
-        throws SnmpStatusException;
+    @Ovfrridf
+    publid bbstrbdt void difdk(SnmpMibRfqufst rfq)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Gets the root object identifier of the MIB.
-     * <P>The root object identifier is the object identifier uniquely
-     * identifying the MIB.
+     * Gfts tif root objfdt idfntififr of tif MIB.
+     * <P>Tif root objfdt idfntififr is tif objfdt idfntififr uniqufly
+     * idfntifying tif MIB.
      *
-     * @return The root object identifier.
+     * @rfturn Tif root objfdt idfntififr.
      */
-    public abstract long[] getRootOid();
+    publid bbstrbdt long[] gftRootOid();
 
     // ---------------------------------------------------------------------
     // GETTERS AND SETTERS
     // ---------------------------------------------------------------------
 
     /**
-     * Gets the reference to the MBean server in which the SNMP MIB is
-     * registered.
+     * Gfts tif rfffrfndf to tif MBfbn sfrvfr in wiidi tif SNMP MIB is
+     * rfgistfrfd.
      *
-     * @return The MBean server or null if the MIB is not registered in any
-     *     MBean server.
+     * @rfturn Tif MBfbn sfrvfr or null if tif MIB is not rfgistfrfd in bny
+     *     MBfbn sfrvfr.
      */
-    @Override
-    public MBeanServer getMBeanServer() {
-        return server;
+    @Ovfrridf
+    publid MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn sfrvfr;
     }
 
     /**
-     * Gets the reference to the SNMP protocol adaptor to which the MIB is
+     * Gfts tif rfffrfndf to tif SNMP protodol bdbptor to wiidi tif MIB is
      * bound.
      *
-     * @return The SNMP MIB handler.
+     * @rfturn Tif SNMP MIB ibndlfr.
      */
-    @Override
-    public SnmpMibHandler getSnmpAdaptor() {
-        return adaptor;
+    @Ovfrridf
+    publid SnmpMibHbndlfr gftSnmpAdbptor() {
+        rfturn bdbptor;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr.
      *
-     * @param stack The SNMP MIB handler.
+     * @pbrbm stbdk Tif SNMP MIB ibndlfr.
      */
-    @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack) {
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this);
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(tiis);
         }
     }
 
      /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler.
-     * This method is to be called to set a specific agent to a specific OID. This can be useful when dealing with MIB overlapping.
-     * Some OID can be implemented in more than one MIB. In this case, the OID nearest the agent will be used on SNMP operations.
-     * @param stack The SNMP MIB handler.
-     * @param oids The set of OIDs this agent implements.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr.
+     * Tiis mftiod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID. Tiis dbn bf usfful wifn dfbling witi MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf tibn onf MIB. In tiis dbsf, tif OID nfbrfst tif bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm stbdk Tif SNMP MIB ibndlfr.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack, SnmpOid[] oids) {
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, SnmpOid[] oids) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, oids);
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(tiis, oids);
         }
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and adds this new MIB in the SNMP MIB handler.
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdds tiis nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw dontfxtublizfd MIB in tif SNMP MIB ibndlfr.
      *
-     * @param stack The SNMP MIB handler.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
+     * @pbrbm stbdk Tif SNMP MIB ibndlfr.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack, String contextName) {
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, String dontfxtNbmf) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis, dontfxtNbmf);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, contextName);
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(tiis, dontfxtNbmf);
         }
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and adds this new MIB in the SNMP MIB handler.
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdds tiis nfw MIB in tif SNMP MIB ibndlfr.
+     * Adds b nfw dontfxtublizfd MIB in tif SNMP MIB ibndlfr.
      *
-     * @param stack The SNMP MIB handler.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The set of OIDs this agent implements.
-     * @exception IllegalArgumentException If the parameter is null.
+     * @pbrbm stbdk Tif SNMP MIB ibndlfr.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack,
-                               String contextName,
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk,
+                               String dontfxtNbmf,
                                SnmpOid[] oids) {
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis, dontfxtNbmf);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, contextName, oids);
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(tiis, dontfxtNbmf, oids);
         }
     }
 
     /**
-     * Gets the object name of the SNMP protocol adaptor to which the MIB
+     * Gfts tif objfdt nbmf of tif SNMP protodol bdbptor to wiidi tif MIB
      * is bound.
      *
-     * @return The name of the SNMP protocol adaptor.
+     * @rfturn Tif nbmf of tif SNMP protodol bdbptor.
      */
-    @Override
-    public ObjectName getSnmpAdaptorName() {
-        return adaptorName;
+    @Ovfrridf
+    publid ObjfdtNbmf gftSnmpAdbptorNbmf() {
+        rfturn bdbptorNbmf;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr
+     * bssodibtfd to tif spfdififd <CODE>nbmf</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
+     * @pbrbm nbmf Tif nbmf of tif SNMP protodol bdbptor.
      *
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif SNMP protodol bdbptor dofs
+     *     not fxist in tif MBfbn sfrvfr.
      *
-     * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     * @fxdfption SfrvidfNotFoundExdfption Tiis SNMP MIB is not rfgistfrfd
+     *     in tif MBfbn sfrvfr or tif rfqufstfd sfrvidf is not supportfd.
      */
-    @Override
-    public void setSnmpAdaptorName(ObjectName name)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf)
+        tirows InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
 
-        if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+        if (sfrvfr == null) {
+            tirow nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in tif MBfbn sfrvfr");
         }
-        // First remove the reference on the old adaptor server.
+        // First rfmovf tif rfffrfndf on tif old bdbptor sfrvfr.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Tifn updbtf tif rfffrfndf to tif nfw bdbptor sfrvfr.
         //
-        Object[] params = {this};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent"};
+        Objfdt[] pbrbms = {tiis};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt"};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
-            // Should never occur...
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdi (RfflfdtionExdfption f) {
+            tirow nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdi (MBfbnExdfption f) {
+            // Siould nfvfr oddur...
         }
 
-        adaptorName = name;
+        bdbptorNbmf = nbmf;
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
-     * This method is to be called to set a specific agent to a specific OID. This can be useful when dealing with MIB overlapping.
-     * Some OID can be implemented in more than one MIB. In this case, the OID nearer agent will be used on SNMP operations.
-     * @param name The name of the SNMP protocol adaptor.
-     * @param oids The set of OIDs this agent implements.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr
+     * bssodibtfd to tif spfdififd <CODE>nbmf</CODE>.
+     * Tiis mftiod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID. Tiis dbn bf usfful wifn dfbling witi MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf tibn onf MIB. In tiis dbsf, tif OID nfbrfr bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm nbmf Tif nbmf of tif SNMP protodol bdbptor.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Tif SNMP protodol bdbptor dofs
+     *     not fxist in tif MBfbn sfrvfr.
      *
-     * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     * @fxdfption SfrvidfNotFoundExdfption Tiis SNMP MIB is not rfgistfrfd
+     *     in tif MBfbn sfrvfr or tif rfqufstfd sfrvidf is not supportfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptorName(ObjectName name, SnmpOid[] oids)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, SnmpOid[] oids)
+        tirows InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
 
-        if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+        if (sfrvfr == null) {
+            tirow nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in tif MBfbn sfrvfr");
         }
-        // First remove the reference on the old adaptor server.
+        // First rfmovf tif rfffrfndf on tif old bdbptor sfrvfr.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Tifn updbtf tif rfffrfndf to tif nfw bdbptor sfrvfr.
         //
-        Object[] params = {this, oids};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent",
-        oids.getClass().getName()};
+        Objfdt[] pbrbms = {tiis, oids};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt",
+        oids.gftClbss().gftNbmf()};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
-            // Should never occur...
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdi (RfflfdtionExdfption f) {
+            tirow nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdi (MBfbnExdfption f) {
+            // Siould nfvfr oddur...
         }
 
-        adaptorName = name;
+        bdbptorNbmf = nbmf;
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr
+     * bssodibtfd to tif spfdififd <CODE>nbmf</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @pbrbm nbmf Tif nbmf of tif SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
+     * @fxdfption InstbndfNotFoundExdfption Tif SNMP protodol bdbptor dofs
+     *     not fxist in tif MBfbn sfrvfr.
      *
-     * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     * @fxdfption SfrvidfNotFoundExdfption Tiis SNMP MIB is not rfgistfrfd
+     *     in tif MBfbn sfrvfr or tif rfqufstfd sfrvidf is not supportfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptorName(ObjectName name, String contextName)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, String dontfxtNbmf)
+        tirows InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
 
-        if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+        if (sfrvfr == null) {
+            tirow nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in tif MBfbn sfrvfr");
         }
 
-        // First remove the reference on the old adaptor server.
+        // First rfmovf tif rfffrfndf on tif old bdbptor sfrvfr.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis, dontfxtNbmf);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Tifn updbtf tif rfffrfndf to tif nfw bdbptor sfrvfr.
         //
-        Object[] params = {this, contextName};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent", "java.lang.String"};
+        Objfdt[] pbrbms = {tiis, dontfxtNbmf};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt", "jbvb.lbng.String"};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
-            // Should never occur...
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdi (RfflfdtionExdfption f) {
+            tirow nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdi (MBfbnExdfption f) {
+            // Siould nfvfr oddur...
         }
 
-        adaptorName = name;
+        bdbptorNbmf = nbmf;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sfts tif rfffrfndf to tif SNMP protodol bdbptor tirougi wiidi tif MIB
+     * will bf SNMP bddfssiblf bnd bdd tiis nfw MIB in tif SNMP MIB ibndlfr
+     * bssodibtfd to tif spfdififd <CODE>nbmf</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The set of OIDs this agent implements.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @pbrbm nbmf Tif nbmf of tif SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
+     * @pbrbm oids Tif sft of OIDs tiis bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Tif SNMP protodol bdbptor dofs
+     *     not fxist in tif MBfbn sfrvfr.
      *
-     * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     * @fxdfption SfrvidfNotFoundExdfption Tiis SNMP MIB is not rfgistfrfd
+     *     in tif MBfbn sfrvfr or tif rfqufstfd sfrvidf is not supportfd.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    @Override
-    public void setSnmpAdaptorName(ObjectName name,
-                                   String contextName, SnmpOid[] oids)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf,
+                                   String dontfxtNbmf, SnmpOid[] oids)
+        tirows InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
 
-        if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+        if (sfrvfr == null) {
+            tirow nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in tif MBfbn sfrvfr");
         }
 
-        // First remove the reference on the old adaptor server.
+        // First rfmovf tif rfffrfndf on tif old bdbptor sfrvfr.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(tiis, dontfxtNbmf);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Tifn updbtf tif rfffrfndf to tif nfw bdbptor sfrvfr.
         //
-        Object[] params = {this, contextName, oids};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent", "java.lang.String", oids.getClass().getName()};
+        Objfdt[] pbrbms = {tiis, dontfxtNbmf, oids};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt", "jbvb.lbng.String", oids.gftClbss().gftNbmf()};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
-            // Should never occur...
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdi (RfflfdtionExdfption f) {
+            tirow nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdi (MBfbnExdfption f) {
+            // Siould nfvfr oddur...
         }
 
-        adaptorName = name;
+        bdbptorNbmf = nbmf;
     }
 
     /**
-     * Indicates whether or not the MIB module is bound to a SNMP protocol
-     * adaptor.
-     * As a reminder, only bound MIBs can be accessed through SNMP protocol
-     * adaptor.
+     * Indidbtfs wiftifr or not tif MIB modulf is bound to b SNMP protodol
+     * bdbptor.
+     * As b rfmindfr, only bound MIBs dbn bf bddfssfd tirougi SNMP protodol
+     * bdbptor.
      *
-     * @return <CODE>true</CODE> if the MIB module is bound,
-     *         <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif MIB modulf is bound,
+     *         <CODE>fblsf</CODE> otifrwisf.
      */
-    @Override
-    public boolean getBindingState() {
-        if (adaptor == null)
-            return false;
-        else
-            return true;
+    @Ovfrridf
+    publid boolfbn gftBindingStbtf() {
+        if (bdbptor == null)
+            rfturn fblsf;
+        flsf
+            rfturn truf;
     }
 
     /**
-     * Gets the MIB name.
+     * Gfts tif MIB nbmf.
      *
-     * @return The MIB name.
+     * @rfturn Tif MIB nbmf.
      */
-    @Override
-    public String getMibName() {
-        return mibName;
+    @Ovfrridf
+    publid String gftMibNbmf() {
+        rfturn mibNbmf;
     }
 
     /**
-     * This is a factory method for creating new SnmpMibRequest objects.
-     * @param reqPdu The received PDU.
-     * @param vblist   The vector of SnmpVarBind objects in which the
-     *        MIB concerned by this request is involved.
-     * @param version  The protocol version of the SNMP request.
-     * @param userData User allocated contextual data.
+     * Tiis is b fbdtory mftiod for drfbting nfw SnmpMibRfqufst objfdts.
+     * @pbrbm rfqPdu Tif rfdfivfd PDU.
+     * @pbrbm vblist   Tif vfdtor of SnmpVbrBind objfdts in wiidi tif
+     *        MIB dondfrnfd by tiis rfqufst is involvfd.
+     * @pbrbm vfrsion  Tif protodol vfrsion of tif SNMP rfqufst.
+     * @pbrbm usfrDbtb Usfr bllodbtfd dontfxtubl dbtb.
      *
-     * @return A new SnmpMibRequest object.
+     * @rfturn A nfw SnmpMibRfqufst objfdt.
      *
-     * @since 1.5
+     * @sindf 1.5
      **/
-    public static SnmpMibRequest newMibRequest(SnmpPdu reqPdu,
-                                               Vector<SnmpVarBind> vblist,
-                                               int version,
-                                               Object userData)
+    publid stbtid SnmpMibRfqufst nfwMibRfqufst(SnmpPdu rfqPdu,
+                                               Vfdtor<SnmpVbrBind> vblist,
+                                               int vfrsion,
+                                               Objfdt usfrDbtb)
     {
-        return new SnmpMibRequestImpl(null,
-                                      reqPdu,
+        rfturn nfw SnmpMibRfqufstImpl(null,
+                                      rfqPdu,
                                       vblist,
-                                      version,
-                                      userData,
+                                      vfrsion,
+                                      usfrDbtb,
                                       null,
-                                      SnmpDefinitions.noAuthNoPriv,
-                                      getSecurityModel(version),
+                                      SnmpDffinitions.noAutiNoPriv,
+                                      gftSfdurityModfl(vfrsion),
                                       null,null);
     }
     /**
-     * This is a factory method for creating new SnmpMibRequest objects.
-     * @param engine The local engine.
-     * @param reqPdu The received pdu.
-     * @param vblist The vector of SnmpVarBind objects in which the
-     *        MIB concerned by this request is involved.
-     * @param version The protocol version of the SNMP request.
-     * @param userData User allocated contextual data.
+     * Tiis is b fbdtory mftiod for drfbting nfw SnmpMibRfqufst objfdts.
+     * @pbrbm fnginf Tif lodbl fnginf.
+     * @pbrbm rfqPdu Tif rfdfivfd pdu.
+     * @pbrbm vblist Tif vfdtor of SnmpVbrBind objfdts in wiidi tif
+     *        MIB dondfrnfd by tiis rfqufst is involvfd.
+     * @pbrbm vfrsion Tif protodol vfrsion of tif SNMP rfqufst.
+     * @pbrbm usfrDbtb Usfr bllodbtfd dontfxtubl dbtb.
      *
-     * @return A new SnmpMibRequest object.
+     * @rfturn A nfw SnmpMibRfqufst objfdt.
      *
-     * @since 1.5
+     * @sindf 1.5
      **/
-    public static SnmpMibRequest newMibRequest(SnmpEngine engine,
-                                               SnmpPdu reqPdu,
-                                               Vector<SnmpVarBind> vblist,
-                                               int version,
-                                               Object userData,
-                                               String principal,
-                                               int securityLevel,
-                                               int securityModel,
-                                               byte[] contextName,
-                                               byte[] accessContextName) {
-        return new SnmpMibRequestImpl(engine,
-                                      reqPdu,
+    publid stbtid SnmpMibRfqufst nfwMibRfqufst(SnmpEnginf fnginf,
+                                               SnmpPdu rfqPdu,
+                                               Vfdtor<SnmpVbrBind> vblist,
+                                               int vfrsion,
+                                               Objfdt usfrDbtb,
+                                               String prindipbl,
+                                               int sfdurityLfvfl,
+                                               int sfdurityModfl,
+                                               bytf[] dontfxtNbmf,
+                                               bytf[] bddfssContfxtNbmf) {
+        rfturn nfw SnmpMibRfqufstImpl(fnginf,
+                                      rfqPdu,
                                       vblist,
-                                      version,
-                                      userData,
-                                      principal,
-                                      securityLevel,
-                                      securityModel,
-                                      contextName,
-                                      accessContextName);
+                                      vfrsion,
+                                      usfrDbtb,
+                                      prindipbl,
+                                      sfdurityLfvfl,
+                                      sfdurityModfl,
+                                      dontfxtNbmf,
+                                      bddfssContfxtNbmf);
     }
     // ---------------------------------------------------------------------
     // PACKAGE METHODS
     // ---------------------------------------------------------------------
 
     /**
-     * Processes a <CODE>getBulk</CODE> operation using call to
-     * <CODE>getNext</CODE>.
-     * The method implements the <CODE>getBulk</CODE> operation by calling
-     * appropriately the <CODE>getNext</CODE> method.
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion using dbll to
+     * <CODE>gftNfxt</CODE>.
+     * Tif mftiod implfmfnts tif <CODE>gftBulk</CODE> opfrbtion by dblling
+     * bppropribtfly tif <CODE>gftNfxt</CODE> mftiod.
      *
-     * @param req The SnmpMibRequest containing the variable list to be
-     *        retrieved.
+     * @pbrbm rfq Tif SnmpMibRfqufst dontbining tif vbribblf list to bf
+     *        rftrifvfd.
      *
-     * @param nonRepeat The number of variables, starting with the first
-     *    variable in the variable-bindings, for which a single lexicographic
-     *    successor is requested.
+     * @pbrbm nonRfpfbt Tif numbfr of vbribblfs, stbrting witi tif first
+     *    vbribblf in tif vbribblf-bindings, for wiidi b singlf lfxidogrbpiid
+     *    suddfssor is rfqufstfd.
      *
-     * @param maxRepeat The number of lexicographic successors
-     *    requested for each of the last R variables. R is the number of
-     *    variables following the first nonRepeat variables for which
-     *    multiple lexicographic successors are requested.
+     * @pbrbm mbxRfpfbt Tif numbfr of lfxidogrbpiid suddfssors
+     *    rfqufstfd for fbdi of tif lbst R vbribblfs. R is tif numbfr of
+     *    vbribblfs following tif first nonRfpfbt vbribblfs for wiidi
+     *    multiplf lfxidogrbpiid suddfssors brf rfqufstfd.
      *
-     * @return The variable list containing returned values.
+     * @rfturn Tif vbribblf list dontbining rfturnfd vblufs.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
-    void getBulkWithGetNext(SnmpMibRequest req, int nonRepeat, int maxRepeat)
-        throws SnmpStatusException {
-        final Vector<SnmpVarBind> list = req.getSubList();
+    void gftBulkWitiGftNfxt(SnmpMibRfqufst rfq, int nonRfpfbt, int mbxRfpfbt)
+        tirows SnmpStbtusExdfption {
+        finbl Vfdtor<SnmpVbrBind> list = rfq.gftSubList();
 
-        // RFC 1905, Section 4.2.3, p14
-        final int L = list.size() ;
-        final int N = Math.max(Math.min(nonRepeat, L), 0) ;
-        final int M = Math.max(maxRepeat, 0) ;
-        final int R = L - N ;
+        // RFC 1905, Sfdtion 4.2.3, p14
+        finbl int L = list.sizf() ;
+        finbl int N = Mbti.mbx(Mbti.min(nonRfpfbt, L), 0) ;
+        finbl int M = Mbti.mbx(mbxRfpfbt, 0) ;
+        finbl int R = L - N ;
 
-        // Let's build the varBindList for the response pdu
+        // Lft's build tif vbrBindList for tif rfsponsf pdu
         //
-        // int errorStatus = SnmpDefinitions.snmpRspNoError ;
-        // int errorIndex = 0 ;
+        // int frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+        // int frrorIndfx = 0 ;
         if (L != 0) {
 
-            // Non-repeaters and first row of repeaters
+            // Non-rfpfbtfrs bnd first row of rfpfbtfrs
             //
-            getNext(req);
+            gftNfxt(rfq);
 
-            // Now the remaining repeaters
+            // Now tif rfmbining rfpfbtfrs
             //
-            Vector<SnmpVarBind> repeaters= splitFrom(list, N);
-            SnmpMibRequestImpl repeatedReq =
-                new SnmpMibRequestImpl(req.getEngine(),
-                                       req.getPdu(),
-                                       repeaters,
-                                       SnmpDefinitions.snmpVersionTwo,
-                                       req.getUserData(),
-                                       req.getPrincipal(),
-                                       req.getSecurityLevel(),
-                                       req.getSecurityModel(),
-                                       req.getContextName(),
-                                       req.getAccessContextName());
+            Vfdtor<SnmpVbrBind> rfpfbtfrs= splitFrom(list, N);
+            SnmpMibRfqufstImpl rfpfbtfdRfq =
+                nfw SnmpMibRfqufstImpl(rfq.gftEnginf(),
+                                       rfq.gftPdu(),
+                                       rfpfbtfrs,
+                                       SnmpDffinitions.snmpVfrsionTwo,
+                                       rfq.gftUsfrDbtb(),
+                                       rfq.gftPrindipbl(),
+                                       rfq.gftSfdurityLfvfl(),
+                                       rfq.gftSfdurityModfl(),
+                                       rfq.gftContfxtNbmf(),
+                                       rfq.gftAddfssContfxtNbmf());
             for (int i = 2 ; i <= M ; i++) {
-                getNext(repeatedReq);
-                concatVector(req, repeaters);
+                gftNfxt(rfpfbtfdRfq);
+                dondbtVfdtor(rfq, rfpfbtfrs);
             }
         }
     }
@@ -692,46 +692,46 @@ public abstract class SnmpMibAgent
     // ---------------------------------------------------------------------
 
     /**
-     * This method creates a new Vector which does not contain the first
-     * element up to the specified limit.
+     * Tiis mftiod drfbtfs b nfw Vfdtor wiidi dofs not dontbin tif first
+     * flfmfnt up to tif spfdififd limit.
      *
-     * @param original The original vector.
-     * @param limit The limit.
+     * @pbrbm originbl Tif originbl vfdtor.
+     * @pbrbm limit Tif limit.
      */
-    private Vector<SnmpVarBind> splitFrom(Vector<SnmpVarBind> original, int limit) {
+    privbtf Vfdtor<SnmpVbrBind> splitFrom(Vfdtor<SnmpVbrBind> originbl, int limit) {
 
-        int max= original.size();
-        Vector<SnmpVarBind> result= new Vector<>(max - limit);
+        int mbx= originbl.sizf();
+        Vfdtor<SnmpVbrBind> rfsult= nfw Vfdtor<>(mbx - limit);
         int i= limit;
 
-        // Ok the loop looks a bit strange. But in order to improve the
-        // perf, we try to avoid reference to the limit variable from
-        // within the loop ...
+        // Ok tif loop looks b bit strbngf. But in ordfr to improvf tif
+        // pfrf, wf try to bvoid rfffrfndf to tif limit vbribblf from
+        // witiin tif loop ...
         //
-        for(Enumeration<SnmpVarBind> e= original.elements(); e.hasMoreElements(); --i) {
-            SnmpVarBind var= e.nextElement();
+        for(Enumfrbtion<SnmpVbrBind> f= originbl.flfmfnts(); f.ibsMorfElfmfnts(); --i) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
             if (i >0)
-                continue;
-            result.addElement(new SnmpVarBind(var.oid, var.value));
+                dontinuf;
+            rfsult.bddElfmfnt(nfw SnmpVbrBind(vbr.oid, vbr.vbluf));
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private void concatVector(SnmpMibRequest req, Vector<SnmpVarBind> source) {
-        for(Enumeration<SnmpVarBind> e= source.elements(); e.hasMoreElements(); ) {
-            SnmpVarBind var= e.nextElement();
-            // We need to duplicate the SnmpVarBind otherwise it is going
-            // to be overloaded by the next get Next ...
-            req.addVarBind(new SnmpVarBind(var.oid, var.value));
+    privbtf void dondbtVfdtor(SnmpMibRfqufst rfq, Vfdtor<SnmpVbrBind> sourdf) {
+        for(Enumfrbtion<SnmpVbrBind> f= sourdf.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            // Wf nffd to duplidbtf tif SnmpVbrBind otifrwisf it is going
+            // to bf ovfrlobdfd by tif nfxt gft Nfxt ...
+            rfq.bddVbrBind(nfw SnmpVbrBind(vbr.oid, vbr.vbluf));
         }
     }
 
-    private static int getSecurityModel(int version) {
-        switch(version) {
-        case SnmpDefinitions.snmpVersionOne:
-            return SnmpDefinitions.snmpV1SecurityModel;
-        default:
-            return SnmpDefinitions.snmpV2SecurityModel;
+    privbtf stbtid int gftSfdurityModfl(int vfrsion) {
+        switdi(vfrsion) {
+        dbsf SnmpDffinitions.snmpVfrsionOnf:
+            rfturn SnmpDffinitions.snmpV1SfdurityModfl;
+        dffbult:
+            rfturn SnmpDffinitions.snmpV2SfdurityModfl;
         }
     }
 
@@ -740,29 +740,29 @@ public abstract class SnmpMibAgent
     // ---------------------------------------------------------------------
 
     /**
-     * The object name of the MIB.
-     * @serial
+     * Tif objfdt nbmf of tif MIB.
+     * @sfribl
      */
-    protected String mibName;
+    protfdtfd String mibNbmf;
 
     /**
-     * The reference to the MBean server.
-     * @serial
+     * Tif rfffrfndf to tif MBfbn sfrvfr.
+     * @sfribl
      */
-    protected MBeanServer server;
+    protfdtfd MBfbnSfrvfr sfrvfr;
 
     // ---------------------------------------------------------------------
     // PRIVATE VARIABLES
     // ---------------------------------------------------------------------
 
     /**
-     * The object name of the SNMP protocol adaptor.
-     * @serial
+     * Tif objfdt nbmf of tif SNMP protodol bdbptor.
+     * @sfribl
      */
-    private ObjectName adaptorName;
+    privbtf ObjfdtNbmf bdbptorNbmf;
 
     /**
-     * The reference to the SNMP stack.
+     * Tif rfffrfndf to tif SNMP stbdk.
      */
-    private transient SnmpMibHandler adaptor;
+    privbtf trbnsifnt SnmpMibHbndlfr bdbptor;
 }

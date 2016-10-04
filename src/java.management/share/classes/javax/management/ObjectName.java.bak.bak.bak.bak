@@ -1,0 +1,2111 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp;
+
+/**
+ * <p>Rfprfsfnts thf objfdt nbmf of bn MBfbn, or b pbttfrn thbt dbn
+ * mbtdh thf nbmfs of sfvfrbl MBfbns.  Instbndfs of this dlbss brf
+ * immutbblf.</p>
+ *
+ * <p>An instbndf of this dlbss dbn bf usfd to rfprfsfnt:</p>
+ * <ul>
+ * <li>An objfdt nbmf</li>
+ * <li>An objfdt nbmf pbttfrn, within thf dontfxt of b qufry</li>
+ * </ul>
+ *
+ * <p>An objfdt nbmf donsists of two pbrts, thf dombin bnd thf kfy
+ * propfrtifs.</p>
+ *
+ * <p>Thf <fm>dombin</fm> is b string of dhbrbdtfrs not indluding
+ * thf dhbrbdtfr dolon (<dodf>:</dodf>).  It is rfdommfndfd thbt thf dombin
+ * should not dontbin thf string "{@dodf //}", whidh is rfsfrvfd for futurf usf.
+ *
+ * <p>If thf dombin indludfs bt lfbst onf oddurrfndf of thf wilddbrd
+ * dhbrbdtfrs bstfrisk (<dodf>*</dodf>) or qufstion mbrk
+ * (<dodf>?</dodf>), thfn thf objfdt nbmf is b pbttfrn.  Thf bstfrisk
+ * mbtdhfs bny sfqufndf of zfro or morf dhbrbdtfrs, whilf thf qufstion
+ * mbrk mbtdhfs bny singlf dhbrbdtfr.</p>
+ *
+ * <p>If thf dombin is fmpty, it will bf rfplbdfd in dfrtbin dontfxts
+ * by thf <fm>dffbult dombin</fm> of thf MBfbn sfrvfr in whidh thf
+ * ObjfdtNbmf is usfd.</p>
+ *
+ * <p>Thf <fm>kfy propfrtifs</fm> brf bn unordfrfd sft of kfys bnd
+ * bssodibtfd vblufs.</p>
+ *
+ * <p>Ebdh <fm>kfy</fm> is b nonfmpty string of dhbrbdtfrs whidh mby
+ * not dontbin bny of thf dhbrbdtfrs dommb (<dodf>,</dodf>), fqubls
+ * (<dodf>=</dodf>), dolon, bstfrisk, or qufstion mbrk.  Thf sbmf kfy
+ * mby not oddur twidf in b givfn ObjfdtNbmf.</p>
+ *
+ * <p>Ebdh <fm>vbluf</fm> bssodibtfd with b kfy is b string of
+ * dhbrbdtfrs thbt is fithfr unquotfd or quotfd.</p>
+ *
+ * <p>An <fm>unquotfd vbluf</fm> is b possibly fmpty string of
+ * dhbrbdtfrs whidh mby not dontbin bny of thf dhbrbdtfrs dommb,
+ * fqubls, dolon, or quotf.</p>
+ *
+ * <p>If thf <fm>unquotfd vbluf</fm> dontbins bt lfbst onf oddurrfndf
+ * of thf wilddbrd dhbrbdtfrs bstfrisk or qufstion mbrk, thfn thf objfdt
+ * nbmf is b <fm>propfrty vbluf pbttfrn</fm>. Thf bstfrisk mbtdhfs bny
+ * sfqufndf of zfro or morf dhbrbdtfrs, whilf thf qufstion mbrk mbtdhfs
+ * bny singlf dhbrbdtfr.</p>
+ *
+ * <p>A <fm>quotfd vbluf</fm> donsists of b quotf (<dodf>"</dodf>),
+ * followfd by b possibly fmpty string of dhbrbdtfrs, followfd by
+ * bnothfr quotf.  Within thf string of dhbrbdtfrs, thf bbdkslbsh
+ * (<dodf>\</dodf>) hbs b spfdibl mfbning.  It must bf followfd by
+ * onf of thf following dhbrbdtfrs:</p>
+ *
+ * <ul>
+ * <li>Anothfr bbdkslbsh.  Thf sfdond bbdkslbsh hbs no spfdibl
+ * mfbning bnd thf two dhbrbdtfrs rfprfsfnt b singlf bbdkslbsh.</li>
+ *
+ * <li>Thf dhbrbdtfr 'n'.  Thf two dhbrbdtfrs rfprfsfnt b nfwlinf
+ * ('\n' in Jbvb).</li>
+ *
+ * <li>A quotf.  Thf two dhbrbdtfrs rfprfsfnt b quotf, bnd thbt quotf
+ * is not donsidfrfd to tfrminbtf thf quotfd vbluf. An fnding dlosing
+ * quotf must bf prfsfnt for thf quotfd vbluf to bf vblid.</li>
+ *
+ * <li>A qufstion mbrk (?) or bstfrisk (*).  Thf two dhbrbdtfrs rfprfsfnt
+ * b qufstion mbrk or bstfrisk rfspfdtivfly.</li>
+ * </ul>
+ *
+ * <p>A quotf mby not bppfbr insidf b quotfd vbluf fxdfpt immfdibtfly
+ * bftfr bn odd numbfr of donsfdutivf bbdkslbshfs.</p>
+ *
+ * <p>Thf quotfs surrounding b quotfd vbluf, bnd bny bbdkslbshfs
+ * within thbt vbluf, brf donsidfrfd to bf pbrt of thf vbluf.</p>
+ *
+ * <p>If thf <fm>quotfd vbluf</fm> dontbins bt lfbst onf oddurrfndf of
+ * thf dhbrbdtfrs bstfrisk or qufstion mbrk bnd thfy brf not prfdfdfd
+ * by b bbdkslbsh, thfn thfy brf donsidfrfd bs wilddbrd dhbrbdtfrs bnd
+ * thf objfdt nbmf is b <fm>propfrty vbluf pbttfrn</fm>. Thf bstfrisk
+ * mbtdhfs bny sfqufndf of zfro or morf dhbrbdtfrs, whilf thf qufstion
+ * mbrk mbtdhfs bny singlf dhbrbdtfr.</p>
+ *
+ * <p>An ObjfdtNbmf mby bf b <fm>propfrty list pbttfrn</fm>. In this
+ * dbsf it mby hbvf zfro or morf kfys bnd bssodibtfd vblufs. It mbtdhfs
+ * b nonpbttfrn ObjfdtNbmf whosf dombin mbtdhfs bnd thbt dontbins thf
+ * sbmf kfys bnd bssodibtfd vblufs, bs wfll bs possibly othfr kfys bnd
+ * vblufs.</p>
+ *
+ * <p>An ObjfdtNbmf is b <fm>propfrty vbluf pbttfrn</fm> whfn bt lfbst
+ * onf of its <fm>quotfd</fm> or <fm>unquotfd</fm> kfy propfrty vblufs
+ * dontbins thf wilddbrd dhbrbdtfrs bstfrisk or qufstion mbrk bs dfsdribfd
+ * bbovf. In this dbsf it hbs onf or morf kfys bnd bssodibtfd vblufs, with
+ * bt lfbst onf of thf vblufs dontbining wilddbrd dhbrbdtfrs. It mbtdhfs b
+ * nonpbttfrn ObjfdtNbmf whosf dombin mbtdhfs bnd thbt dontbins thf sbmf
+ * kfys whosf vblufs mbtdh; if thf propfrty vbluf pbttfrn is blso b
+ * propfrty list pbttfrn thfn thf nonpbttfrn ObjfdtNbmf dbn dontbin
+ * othfr kfys bnd vblufs.</p>
+ *
+ * <p>An ObjfdtNbmf is b <fm>propfrty pbttfrn</fm> if it is fithfr b
+ * <fm>propfrty list pbttfrn</fm> or b <fm>propfrty vbluf pbttfrn</fm>
+ * or both.</p>
+ *
+ * <p>An ObjfdtNbmf is b pbttfrn if its dombin dontbins b wilddbrd or
+ * if thf ObjfdtNbmf is b propfrty pbttfrn.</p>
+ *
+ * <p>If bn ObjfdtNbmf is not b pbttfrn, it must dontbin bt lfbst onf
+ * kfy with its bssodibtfd vbluf.</p>
+ *
+ * <p>Exbmplfs of ObjfdtNbmf pbttfrns brf:</p>
+ *
+ * <ul>
+ * <li>{@dodf *:typf=Foo,nbmf=Bbr} to mbtdh nbmfs in bny dombin whosf
+ *     fxbdt sft of kfys is {@dodf typf=Foo,nbmf=Bbr}.</li>
+ * <li>{@dodf d:typf=Foo,nbmf=Bbr,*} to mbtdh nbmfs in thf dombin
+ *     {@dodf d} thbt hbvf thf kfys {@dodf typf=Foo,nbmf=Bbr} plus
+ *     zfro or morf othfr kfys.</li>
+ * <li>{@dodf *:typf=Foo,nbmf=Bbr,*} to mbtdh nbmfs in bny dombin
+ *     thbt hbs thf kfys {@dodf typf=Foo,nbmf=Bbr} plus zfro or
+ *     morf othfr kfys.</li>
+ * <li>{@dodf d:typf=F?o,nbmf=Bbr} will mbtdh f.g.
+ *     {@dodf d:typf=Foo,nbmf=Bbr} bnd {@dodf d:typf=Fro,nbmf=Bbr}.</li>
+ * <li>{@dodf d:typf=F*o,nbmf=Bbr} will mbtdh f.g.
+ *     {@dodf d:typf=Fo,nbmf=Bbr} bnd {@dodf d:typf=Frodo,nbmf=Bbr}.</li>
+ * <li>{@dodf d:typf=Foo,nbmf="B*"} will mbtdh f.g.
+ *     {@dodf d:typf=Foo,nbmf="Bling"}. Wilddbrds brf rfdognizfd fvfn
+ *     insidf quotfs, bnd likf othfr spfdibl dhbrbdtfrs dbn bf fsdbpfd
+ *     with {@dodf \}.</li>
+ * </ul>
+ *
+ * <p>An ObjfdtNbmf dbn bf writtfn bs b String with thf following
+ * flfmfnts in ordfr:</p>
+ *
+ * <ul>
+ * <li>Thf dombin.
+ * <li>A dolon (<dodf>:</dodf>).
+ * <li>A kfy propfrty list bs dffinfd bflow.
+ * </ul>
+ *
+ * <p>A kfy propfrty list writtfn bs b String is b dommb-sfpbrbtfd
+ * list of flfmfnts.  Ebdh flfmfnt is fithfr bn bstfrisk or b kfy
+ * propfrty.  A kfy propfrty donsists of b kfy, bn fqubls
+ * (<dodf>=</dodf>), bnd thf bssodibtfd vbluf.</p>
+ *
+ * <p>At most onf flfmfnt of b kfy propfrty list mby bf bn bstfrisk.
+ * If thf kfy propfrty list dontbins bn bstfrisk flfmfnt, thf
+ * ObjfdtNbmf is b propfrty list pbttfrn.</p>
+ *
+ * <p>Spbdfs hbvf no spfdibl signifidbndf in b String rfprfsfnting bn
+ * ObjfdtNbmf.  For fxbmplf, thf String:
+ * <prf>
+ * dombin: kfy1 = vbluf1 , kfy2 = vbluf2
+ * </prf>
+ * rfprfsfnts bn ObjfdtNbmf with two kfys.  Thf nbmf of fbdh kfy
+ * dontbins six dhbrbdtfrs, of whidh thf first bnd lbst brf spbdfs.
+ * Thf vbluf bssodibtfd with thf kfy <dodf>"&nbsp;kfy1&nbsp;"</dodf>
+ * blso bfgins bnd fnds with b spbdf.
+ *
+ * <p>In bddition to thf rfstridtions on dhbrbdtfrs spflt out bbovf,
+ * no pbrt of bn ObjfdtNbmf mby dontbin b nfwlinf dhbrbdtfr
+ * (<dodf>'\n'</dodf>), whfthfr thf dombin, b kfy, or b vbluf, whfthfr
+ * quotfd or unquotfd.  Thf nfwlinf dhbrbdtfr dbn bf rfprfsfntfd in b
+ * quotfd vbluf with thf sfqufndf <dodf>\n</dodf>.
+ *
+ * <p>Thf rulfs on spfdibl dhbrbdtfrs bnd quoting bpply rfgbrdlfss of
+ * whidh donstrudtor is usfd to mbkf bn ObjfdtNbmf.</p>
+ *
+ * <p>To bvoid dollisions bftwffn MBfbns supplifd by difffrfnt
+ * vfndors, b usfful donvfntion is to bfgin thf dombin nbmf with thf
+ * rfvfrsf DNS nbmf of thf orgbnizbtion thbt spfdififs thf MBfbns,
+ * followfd by b pfriod bnd b string whosf intfrprftbtion is
+ * dftfrminfd by thbt orgbnizbtion.  For fxbmplf, MBfbns spfdififd by
+ * <dodf>fxbmplf.dom</dodf>  would hbvf
+ * dombins sudh bs <dodf>dom.fxbmplf.MyDombin</dodf>.  This is fssfntiblly
+ * thf sbmf donvfntion bs for Jbvb-lbngubgf pbdkbgf nbmfs.</p>
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>1081892073854801359L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // don't domplbin sfriblVfrsionUID not donstbnt
+publid dlbss ObjfdtNbmf implfmfnts Compbrbblf<ObjfdtNbmf>, QufryExp {
+
+    /**
+     * A strudturf rfdording propfrty strudturf bnd
+     * proposing minimbl sfrvidfs
+     */
+    privbtf stbtid dlbss Propfrty {
+
+        int _kfy_indfx;
+        int _kfy_lfngth;
+        int _vbluf_lfngth;
+
+        /**
+         * Construdtor.
+         */
+        Propfrty(int kfy_indfx, int kfy_lfngth, int vbluf_lfngth) {
+            _kfy_indfx = kfy_indfx;
+            _kfy_lfngth = kfy_lfngth;
+            _vbluf_lfngth = vbluf_lfngth;
+        }
+
+        /**
+         * Assigns thf kfy indfx of propfrty
+         */
+        void sftKfyIndfx(int kfy_indfx) {
+            _kfy_indfx = kfy_indfx;
+        }
+
+        /**
+         * Rfturns b kfy string for rfdfivfr kfy
+         */
+        String gftKfyString(String nbmf) {
+            rfturn nbmf.substring(_kfy_indfx, _kfy_indfx + _kfy_lfngth);
+        }
+
+        /**
+         * Rfturns b vbluf string for rfdfivfr kfy
+         */
+        String gftVblufString(String nbmf) {
+            int in_bfgin = _kfy_indfx + _kfy_lfngth + 1;
+            int out_fnd = in_bfgin + _vbluf_lfngth;
+            rfturn nbmf.substring(in_bfgin, out_fnd);
+        }
+    }
+
+    /**
+     * Mbrkfr dlbss for vbluf pbttfrn propfrty.
+     */
+    privbtf stbtid dlbss PbttfrnPropfrty fxtfnds Propfrty {
+        /**
+         * Construdtor.
+         */
+        PbttfrnPropfrty(int kfy_indfx, int kfy_lfngth, int vbluf_lfngth) {
+            supfr(kfy_indfx, kfy_lfngth, vbluf_lfngth);
+        }
+    }
+
+    // Innfr dlbssfs <========================================
+
+
+
+    // Privbtf fiflds ---------------------------------------->
+
+
+    // Sfriblizbtion dompbtibility stuff -------------------->
+
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -5467795090068647408L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 1081892073854801359L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("dombin", String.dlbss),
+        nfw ObjfdtStrfbmFifld("propfrtyList", Hbshtbblf.dlbss),
+        nfw ObjfdtStrfbmFifld("propfrtyListString", String.dlbss),
+        nfw ObjfdtStrfbmFifld("dbnonidblNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("pbttfrn", Boolfbn.TYPE),
+        nfw ObjfdtStrfbmFifld("propfrtyPbttfrn", Boolfbn.TYPE)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds = { };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt with 1.0, too bbd
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+
+    //
+    // Sfriblizbtion dompbtibility stuff <==============================
+
+    // Clbss privbtf fiflds ----------------------------------->
+
+    /**
+     * b shbrfd fmpty brrby for fmpty propfrty lists
+     */
+    stbtid finbl privbtf Propfrty[] _Empty_propfrty_brrby = nfw Propfrty[0];
+
+
+    // Clbss privbtf fiflds <==============================
+
+    // Instbndf privbtf fiflds ----------------------------------->
+
+    /**
+     * b String dontbining thf dbnonidbl nbmf
+     */
+    privbtf trbnsifnt String _dbnonidblNbmf;
+
+
+    /**
+     * An brrby of propfrtifs in thf sbmf sfq ordfr bs timf drfbtion
+     */
+    privbtf trbnsifnt Propfrty[] _kp_brrby;
+
+    /**
+     * An brrby of propfrtifs in thf sbmf sfq ordfr bs dbnonidbl ordfr
+     */
+    privbtf trbnsifnt Propfrty[] _db_brrby;
+
+
+    /**
+     * Thf lfngth of thf dombin pbrt of built objfdtnbmf
+     */
+    privbtf trbnsifnt int _dombin_lfngth = 0;
+
+
+    /**
+     * Thf propfrtyList of built objfdt nbmf. Initiblizfd lbzily.
+     * Tbblf thbt dontbins bll thf pbirs (kfy,vbluf) for this ObjfdtNbmf.
+     */
+    privbtf trbnsifnt Mbp<String,String> _propfrtyList;
+
+    /**
+     * boolfbn thbt dfdlbrfs if this ObjfdtNbmf dombin pbrt is b pbttfrn
+     */
+    privbtf trbnsifnt boolfbn _dombin_pbttfrn = fblsf;
+
+    /**
+     * boolfbn thbt dfdlbrfs if this ObjfdtNbmf dontbins b pbttfrn on thf
+     * kfy propfrty list
+     */
+    privbtf trbnsifnt boolfbn _propfrty_list_pbttfrn = fblsf;
+
+    /**
+     * boolfbn thbt dfdlbrfs if this ObjfdtNbmf dontbins b pbttfrn on thf
+     * vbluf of bt lfbst onf kfy propfrty
+     */
+    privbtf trbnsifnt boolfbn _propfrty_vbluf_pbttfrn = fblsf;
+
+    // Instbndf privbtf fiflds <=======================================
+
+    // Privbtf fiflds <========================================
+
+
+    //  Privbtf mfthods ---------------------------------------->
+
+    // Cbtfgory : Instbndf donstrudtion ------------------------->
+
+    /**
+     * Initiblizfs this {@link ObjfdtNbmf} from thf givfn string
+     * rfprfsfntbtion.
+     *
+     * @pbrbm nbmf A string rfprfsfntbtion of thf {@link ObjfdtNbmf}
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf string pbssfd bs b
+     * pbrbmftfr dofs not hbvf thf right formbt.
+     * @fxdfption NullPointfrExdfption Thf <dodf>nbmf</dodf> pbrbmftfr
+     * is null.
+     */
+    privbtf void donstrudt(String nbmf)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        // Thf nbmf dbnnot bf null
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("nbmf dbnnot bf null");
+
+        // Tfst if thf nbmf is fmpty
+        if (nbmf.lfngth() == 0) {
+            // this is fquivblfnt to thf wholf word qufry objfdt nbmf.
+            _dbnonidblNbmf = "*:*";
+            _kp_brrby = _Empty_propfrty_brrby;
+            _db_brrby = _Empty_propfrty_brrby;
+            _dombin_lfngth = 1;
+            _propfrtyList = null;
+            _dombin_pbttfrn = truf;
+            _propfrty_list_pbttfrn = truf;
+            _propfrty_vbluf_pbttfrn = fblsf;
+            rfturn;
+        }
+
+        // initiblizf pbrsing of thf string
+        finbl dhbr[] nbmf_dhbrs = nbmf.toChbrArrby();
+        finbl int lfn = nbmf_dhbrs.lfngth;
+        finbl dhbr[] dbnonidbl_dhbrs = nfw dhbr[lfn]; // dbnonidbl form will
+                                                      // bf sbmf lfngth bt most
+        int dnbmf_indfx = 0;
+        int indfx = 0;
+        dhbr d, d1;
+
+        // pbrsfs dombin pbrt
+    dombin_pbrsing:
+        whilf (indfx < lfn) {
+            switdh (nbmf_dhbrs[indfx]) {
+                dbsf ':' :
+                    _dombin_lfngth = indfx++;
+                    brfbk dombin_pbrsing;
+                dbsf '=' :
+                    // ":" omission dhfdk.
+                    //
+                    // Although "=" is b vblid dhbrbdtfr in thf dombin pbrt
+                    // it is truf thbt it is rbrfly usfd in thf rfbl world.
+                    // So dhfdk strbight bwby if thf ":" hbs bffn omittfd
+                    // from thf ObjfdtNbmf. This bllows us to providf b morf
+                    // bddurbtf fxdfption mfssbgf.
+                    int i = ++indfx;
+                    whilf ((i < lfn) && (nbmf_dhbrs[i++] != ':'))
+                        if (i == lfn)
+                            throw nfw MblformfdObjfdtNbmfExdfption(
+                                "Dombin pbrt must bf spfdififd");
+                    brfbk;
+                dbsf '\n' :
+                    throw nfw MblformfdObjfdtNbmfExdfption(
+                              "Invblid dhbrbdtfr '\\n' in dombin nbmf");
+                dbsf '*' :
+                dbsf '?' :
+                    _dombin_pbttfrn = truf;
+                    indfx++;
+                    brfbk;
+                dffbult :
+                    indfx++;
+                    brfbk;
+            }
+        }
+
+        // dhfdk for non-fmpty propfrtifs
+        if (indfx == lfn)
+            throw nfw MblformfdObjfdtNbmfExdfption(
+                                         "Kfy propfrtifs dbnnot bf fmpty");
+
+        // wf hbvf got thf dombin pbrt, bfgins building of _dbnonidblNbmf
+        Systfm.brrbydopy(nbmf_dhbrs, 0, dbnonidbl_dhbrs, 0, _dombin_lfngth);
+        dbnonidbl_dhbrs[_dombin_lfngth] = ':';
+        dnbmf_indfx = _dombin_lfngth + 1;
+
+        // pbrsfs propfrty list
+        Propfrty prop;
+        Mbp<String,Propfrty> kfys_mbp = nfw HbshMbp<String,Propfrty>();
+        String[] kfys;
+        String kfy_nbmf;
+        boolfbn quotfd_vbluf;
+        int propfrty_indfx = 0;
+        int in_indfx;
+        int kfy_indfx, kfy_lfngth, vbluf_indfx, vbluf_lfngth;
+
+        kfys = nfw String[10];
+        _kp_brrby = nfw Propfrty[10];
+        _propfrty_list_pbttfrn = fblsf;
+        _propfrty_vbluf_pbttfrn = fblsf;
+
+        whilf (indfx < lfn) {
+            d = nbmf_dhbrs[indfx];
+
+            // dbsf of pbttfrn propfrtifs
+            if (d == '*') {
+                if (_propfrty_list_pbttfrn)
+                    throw nfw MblformfdObjfdtNbmfExdfption(
+                              "Cbnnot hbvf sfvfrbl '*' dhbrbdtfrs in pbttfrn " +
+                              "propfrty list");
+                flsf {
+                    _propfrty_list_pbttfrn = truf;
+                    if ((++indfx < lfn ) && (nbmf_dhbrs[indfx] != ','))
+                        throw nfw MblformfdObjfdtNbmfExdfption(
+                                  "Invblid dhbrbdtfr found bftfr '*': fnd of " +
+                                  "nbmf or ',' fxpfdtfd");
+                    flsf if (indfx == lfn) {
+                        if (propfrty_indfx == 0) {
+                            // fmpty propfrtifs dbsf
+                            _kp_brrby = _Empty_propfrty_brrby;
+                            _db_brrby = _Empty_propfrty_brrby;
+                            _propfrtyList = Collfdtions.fmptyMbp();
+                        }
+                        brfbk;
+                    } flsf {
+                        // dorrfdt pbttfrn spfd in props, dontinuf
+                        indfx++;
+                        dontinuf;
+                    }
+                }
+            }
+
+            // stbndbrd propfrty dbsf, kfy pbrt
+            in_indfx = indfx;
+            kfy_indfx = in_indfx;
+            if (nbmf_dhbrs[in_indfx] == '=')
+                throw nfw MblformfdObjfdtNbmfExdfption("Invblid kfy (fmpty)");
+            whilf ((in_indfx < lfn) && ((d1 = nbmf_dhbrs[in_indfx++]) != '='))
+                switdh (d1) {
+                    // '=' donsidfrfd to introdudf vbluf pbrt
+                    dbsf  '*' :
+                    dbsf  '?' :
+                    dbsf  ',' :
+                    dbsf  ':' :
+                    dbsf  '\n' :
+                        finbl String idhbr = ((d1=='\n')?"\\n":""+d1);
+                        throw nfw MblformfdObjfdtNbmfExdfption(
+                                  "Invblid dhbrbdtfr '" + idhbr +
+                                  "' in kfy pbrt of propfrty");
+                }
+            if (nbmf_dhbrs[in_indfx - 1] != '=')
+                throw nfw MblformfdObjfdtNbmfExdfption(
+                                             "Untfrminbtfd kfy propfrty pbrt");
+            vbluf_indfx = in_indfx; // in_indfx pointing bftfr '=' dhbr
+            kfy_lfngth = vbluf_indfx - kfy_indfx - 1; // found fnd of kfy
+
+            // stbndbrd propfrty dbsf, vbluf pbrt
+            boolfbn vbluf_pbttfrn = fblsf;
+            if (in_indfx < lfn && nbmf_dhbrs[in_indfx] == '\"') {
+                quotfd_vbluf = truf;
+                // thf dbsf of quotfd vbluf pbrt
+            quotfd_vbluf_pbrsing:
+                whilf ((++in_indfx < lfn) &&
+                       ((d1 = nbmf_dhbrs[in_indfx]) != '\"')) {
+                    // thf dbsf of bn fsdbpfd dhbrbdtfr
+                    if (d1 == '\\') {
+                        if (++in_indfx == lfn)
+                            throw nfw MblformfdObjfdtNbmfExdfption(
+                                               "Untfrminbtfd quotfd vbluf");
+                        switdh (d1 = nbmf_dhbrs[in_indfx]) {
+                            dbsf '\\' :
+                            dbsf '\"' :
+                            dbsf '?' :
+                            dbsf '*' :
+                            dbsf 'n' :
+                                brfbk; // vblid dhbrbdtfr
+                            dffbult :
+                                throw nfw MblformfdObjfdtNbmfExdfption(
+                                          "Invblid fsdbpf sfqufndf '\\" +
+                                          d1 + "' in quotfd vbluf");
+                        }
+                    } flsf if (d1 == '\n') {
+                        throw nfw MblformfdObjfdtNbmfExdfption(
+                                                     "Nfwlinf in quotfd vbluf");
+                    } flsf {
+                        switdh (d1) {
+                            dbsf '?' :
+                            dbsf '*' :
+                                vbluf_pbttfrn = truf;
+                                brfbk;
+                        }
+                    }
+                }
+                if (in_indfx == lfn)
+                    throw nfw MblformfdObjfdtNbmfExdfption(
+                                                 "Untfrminbtfd quotfd vbluf");
+                flsf vbluf_lfngth = ++in_indfx - vbluf_indfx;
+            } flsf {
+                // thf dbsf of stbndbrd vbluf pbrt
+                quotfd_vbluf = fblsf;
+                whilf ((in_indfx < lfn) && ((d1 = nbmf_dhbrs[in_indfx]) != ','))
+                switdh (d1) {
+                    // ',' donsidfrfd to bf thf vbluf sfpbrbtor
+                    dbsf '*' :
+                    dbsf '?' :
+                        vbluf_pbttfrn = truf;
+                        in_indfx++;
+                        brfbk;
+                    dbsf '=' :
+                    dbsf ':' :
+                    dbsf '"' :
+                    dbsf '\n' :
+                        finbl String idhbr = ((d1=='\n')?"\\n":""+d1);
+                        throw nfw MblformfdObjfdtNbmfExdfption(
+                                                 "Invblid dhbrbdtfr '" + idhbr +
+                                                 "' in vbluf pbrt of propfrty");
+                    dffbult :
+                        in_indfx++;
+                        brfbk;
+                }
+                vbluf_lfngth = in_indfx - vbluf_indfx;
+            }
+
+            // Pbrsfd propfrty, dhfdks thf fnd of nbmf
+            if (in_indfx == lfn - 1) {
+                if (quotfd_vbluf)
+                    throw nfw MblformfdObjfdtNbmfExdfption(
+                                             "Invblid fnding dhbrbdtfr `" +
+                                             nbmf_dhbrs[in_indfx] + "'");
+                flsf throw nfw MblformfdObjfdtNbmfExdfption(
+                                                  "Invblid fnding dommb");
+            } flsf in_indfx++;
+
+            // wf got thf kfy bnd vbluf pbrt, prfpbrf b propfrty for this
+            if (!vbluf_pbttfrn) {
+                prop = nfw Propfrty(kfy_indfx, kfy_lfngth, vbluf_lfngth);
+            } flsf {
+                _propfrty_vbluf_pbttfrn = truf;
+                prop = nfw PbttfrnPropfrty(kfy_indfx, kfy_lfngth, vbluf_lfngth);
+            }
+            kfy_nbmf = nbmf.substring(kfy_indfx, kfy_indfx + kfy_lfngth);
+
+            if (propfrty_indfx == kfys.lfngth) {
+                String[] tmp_string_brrby = nfw String[propfrty_indfx + 10];
+                Systfm.brrbydopy(kfys, 0, tmp_string_brrby, 0, propfrty_indfx);
+                kfys = tmp_string_brrby;
+            }
+            kfys[propfrty_indfx] = kfy_nbmf;
+
+            bddPropfrty(prop, propfrty_indfx, kfys_mbp, kfy_nbmf);
+            propfrty_indfx++;
+            indfx = in_indfx;
+        }
+
+        // domputfs bnd sft dbnonidbl nbmf
+        sftCbnonidblNbmf(nbmf_dhbrs, dbnonidbl_dhbrs, kfys,
+                         kfys_mbp, dnbmf_indfx, propfrty_indfx);
+    }
+
+    /**
+     * Construdt bn ObjfdtNbmf from b dombin bnd b Hbshtbblf.
+     *
+     * @pbrbm dombin Dombin of thf ObjfdtNbmf.
+     * @pbrbm props  Mbp dontbining douplfs <i>kfy</i> {@litfrbl ->} <i>vbluf</i>.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf <dodf>dombin</dodf>
+     * dontbins bn illfgbl dhbrbdtfr, or onf of thf kfys or vblufs in
+     * <dodf>tbblf</dodf> dontbins bn illfgbl dhbrbdtfr, or onf of thf
+     * vblufs in <dodf>tbblf</dodf> dofs not follow thf rulfs for quoting.
+     * @fxdfption NullPointfrExdfption Onf of thf pbrbmftfrs is null.
+     */
+    privbtf void donstrudt(String dombin, Mbp<String,String> props)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        // Thf dombin dbnnot bf null
+        if (dombin == null)
+            throw nfw NullPointfrExdfption("dombin dbnnot bf null");
+
+        // Thf kfy propfrty list dbnnot bf null
+        if (props == null)
+            throw nfw NullPointfrExdfption("kfy propfrty list dbnnot bf null");
+
+        // Thf kfy propfrty list dbnnot bf fmpty
+        if (props.isEmpty())
+            throw nfw MblformfdObjfdtNbmfExdfption(
+                                         "kfy propfrty list dbnnot bf fmpty");
+
+        // dhfdks dombin vblidity
+        if (!isDombin(dombin))
+            throw nfw MblformfdObjfdtNbmfExdfption("Invblid dombin: " + dombin);
+
+        // init dbnonidblnbmf
+        finbl StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(dombin).bppfnd(':');
+        _dombin_lfngth = dombin.lfngth();
+
+        // bllodbtfs thf propfrty brrby
+        int nb_props = props.sizf();
+        _kp_brrby = nfw Propfrty[nb_props];
+
+        String[] kfys = nfw String[nb_props];
+        finbl Mbp<String,Propfrty> kfys_mbp = nfw HbshMbp<String,Propfrty>();
+        Propfrty prop;
+        int kfy_indfx;
+        int i = 0;
+        for (Mbp.Entry<String,String> fntry : props.fntrySft()) {
+            if (sb.lfngth() > 0)
+                sb.bppfnd(",");
+            String kfy = fntry.gftKfy();
+            String vbluf;
+            try {
+                vbluf = fntry.gftVbluf();
+            } dbtdh (ClbssCbstExdfption f) {
+                throw nfw MblformfdObjfdtNbmfExdfption(f.gftMfssbgf());
+            }
+            kfy_indfx = sb.lfngth();
+            dhfdkKfy(kfy);
+            sb.bppfnd(kfy);
+            kfys[i] = kfy;
+            sb.bppfnd("=");
+            boolfbn vbluf_pbttfrn = dhfdkVbluf(vbluf);
+            sb.bppfnd(vbluf);
+            if (!vbluf_pbttfrn) {
+                prop = nfw Propfrty(kfy_indfx,
+                                    kfy.lfngth(),
+                                    vbluf.lfngth());
+            } flsf {
+                _propfrty_vbluf_pbttfrn = truf;
+                prop = nfw PbttfrnPropfrty(kfy_indfx,
+                                           kfy.lfngth(),
+                                           vbluf.lfngth());
+            }
+            bddPropfrty(prop, i, kfys_mbp, kfy);
+            i++;
+        }
+
+        // initiblizf dbnonidbl nbmf bnd dbtb strudturf
+        int lfn = sb.lfngth();
+        dhbr[] initibl_dhbrs = nfw dhbr[lfn];
+        sb.gftChbrs(0, lfn, initibl_dhbrs, 0);
+        dhbr[] dbnonidbl_dhbrs = nfw dhbr[lfn];
+        Systfm.brrbydopy(initibl_dhbrs, 0, dbnonidbl_dhbrs, 0,
+                         _dombin_lfngth + 1);
+        sftCbnonidblNbmf(initibl_dhbrs, dbnonidbl_dhbrs, kfys, kfys_mbp,
+                         _dombin_lfngth + 1, _kp_brrby.lfngth);
+    }
+    // Cbtfgory : Instbndf donstrudtion <==============================
+
+    // Cbtfgory : Intfrnbl utilitifs ------------------------------>
+
+    /**
+     * Add pbssfd propfrty to thf list bt thf givfn indfx
+     * for thf pbssfd kfy nbmf
+     */
+    privbtf void bddPropfrty(Propfrty prop, int indfx,
+                             Mbp<String,Propfrty> kfys_mbp, String kfy_nbmf)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        if (kfys_mbp.dontbinsKfy(kfy_nbmf)) throw nfw
+                MblformfdObjfdtNbmfExdfption("kfy `" +
+                                         kfy_nbmf +"' blrfbdy dffinfd");
+
+        // if no morf spbdf for propfrty brrbys, hbvf to indrfbsf it
+        if (indfx == _kp_brrby.lfngth) {
+            Propfrty[] tmp_prop_brrby = nfw Propfrty[indfx + 10];
+            Systfm.brrbydopy(_kp_brrby, 0, tmp_prop_brrby, 0, indfx);
+            _kp_brrby = tmp_prop_brrby;
+        }
+        _kp_brrby[indfx] = prop;
+        kfys_mbp.put(kfy_nbmf, prop);
+    }
+
+    /**
+     * Sfts thf dbnonidbl nbmf of rfdfivfr from input 'spfdififd_dhbrs'
+     * brrby, by filling 'dbnonidbl_dhbrs' brrby with found 'nb-props'
+     * propfrtifs stbrting bt position 'prop_indfx'.
+     */
+    privbtf void sftCbnonidblNbmf(dhbr[] spfdififd_dhbrs,
+                                  dhbr[] dbnonidbl_dhbrs,
+                                  String[] kfys, Mbp<String,Propfrty> kfys_mbp,
+                                  int prop_indfx, int nb_props) {
+
+        // Sort thf list of found propfrtifs
+        if (_kp_brrby != _Empty_propfrty_brrby) {
+            String[] tmp_kfys = nfw String[nb_props];
+            Propfrty[] tmp_props = nfw Propfrty[nb_props];
+
+            Systfm.brrbydopy(kfys, 0, tmp_kfys, 0, nb_props);
+            Arrbys.sort(tmp_kfys);
+            kfys = tmp_kfys;
+            Systfm.brrbydopy(_kp_brrby, 0, tmp_props, 0 , nb_props);
+            _kp_brrby = tmp_props;
+            _db_brrby = nfw Propfrty[nb_props];
+
+            // now bssigns _db_brrby to thf sortfd list of kfys
+            // (thfrf dbnnot bf two idfntidbl kfys in bn objfdtnbmf.
+            for (int i = 0; i < nb_props; i++)
+                _db_brrby[i] = kfys_mbp.gft(kfys[i]);
+
+            // now wf build thf dbnonidbl nbmf bnd sft bfgin indfxfs of
+            // propfrtifs to rfflfdt dbnonidbl form
+            int lbst_indfx = nb_props - 1;
+            int prop_lfn;
+            Propfrty prop;
+            for (int i = 0; i <= lbst_indfx; i++) {
+                prop = _db_brrby[i];
+                // lfngth of prop indluding '=' dhbr
+                prop_lfn = prop._kfy_lfngth + prop._vbluf_lfngth + 1;
+                Systfm.brrbydopy(spfdififd_dhbrs, prop._kfy_indfx,
+                                 dbnonidbl_dhbrs, prop_indfx, prop_lfn);
+                prop.sftKfyIndfx(prop_indfx);
+                prop_indfx += prop_lfn;
+                if (i != lbst_indfx) {
+                    dbnonidbl_dhbrs[prop_indfx] = ',';
+                    prop_indfx++;
+                }
+            }
+        }
+
+        // tfrminbtf dbnonidblnbmf with '*' in dbsf of pbttfrn
+        if (_propfrty_list_pbttfrn) {
+            if (_kp_brrby != _Empty_propfrty_brrby)
+                dbnonidbl_dhbrs[prop_indfx++] = ',';
+            dbnonidbl_dhbrs[prop_indfx++] = '*';
+        }
+
+        // wf now build thf dbnonidblnbmf string
+        _dbnonidblNbmf = (nfw String(dbnonidbl_dhbrs, 0, prop_indfx)).intfrn();
+    }
+
+    /**
+     * Pbrsf b kfy.
+     * <prf>finbl int fndKfy=pbrsfKfy(s,stbrtKfy);</prf>
+     * <p>kfy stbrts bt stbrtKfy (indludfd), bnd fnds bt fndKfy (fxdludfd).
+     * If (stbrtKfy == fndKfy), thfn thf kfy is fmpty.
+     *
+     * @pbrbm s Thf dhbr brrby of thf originbl string.
+     * @pbrbm stbrtKfy indfx bt whidh to bfgin pbrsing.
+     * @rfturn Thf indfx following thf lbst dhbrbdtfr of thf kfy.
+     **/
+    privbtf stbtid int pbrsfKfy(finbl dhbr[] s, finbl int stbrtKfy)
+        throws MblformfdObjfdtNbmfExdfption {
+        int nfxt   = stbrtKfy;
+        int fndKfy = stbrtKfy;
+        finbl int lfn = s.lfngth;
+        whilf (nfxt < lfn) {
+            finbl dhbr k = s[nfxt++];
+            switdh (k) {
+            dbsf '*':
+            dbsf '?':
+            dbsf ',':
+            dbsf ':':
+            dbsf '\n':
+                finbl String idhbr = ((k=='\n')?"\\n":""+k);
+                throw nfw
+                    MblformfdObjfdtNbmfExdfption("Invblid dhbrbdtfr in kfy: `"
+                                                 + idhbr + "'");
+            dbsf '=':
+                // wf got thf kfy.
+                fndKfy = nfxt-1;
+                brfbk;
+            dffbult:
+                if (nfxt < lfn) dontinuf;
+                flsf fndKfy=nfxt;
+            }
+            brfbk;
+        }
+        rfturn fndKfy;
+    }
+
+    /**
+     * Pbrsf b vbluf.
+     * <prf>finbl int fndVbl=pbrsfVbluf(s,stbrtVbl);</prf>
+     * <p>vbluf stbrts bt stbrtVbl (indludfd), bnd fnds bt fndVbl (fxdludfd).
+     * If (stbrtVbl == fndVbl), thfn thf kfy is fmpty.
+     *
+     * @pbrbm s Thf dhbr brrby of thf originbl string.
+     * @pbrbm stbrtVbluf indfx bt whidh to bfgin pbrsing.
+     * @rfturn Thf first flfmfnt of thf int brrby indidbtfs thf indfx
+     *         following thf lbst dhbrbdtfr of thf vbluf. Thf sfdond
+     *         flfmfnt of thf int brrby indidbtfs thbt thf vbluf is
+     *         b pbttfrn whfn its vbluf fqubls 1.
+     **/
+    privbtf stbtid int[] pbrsfVbluf(finbl dhbr[] s, finbl int stbrtVbluf)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        boolfbn vbluf_pbttfrn = fblsf;
+
+        int nfxt   = stbrtVbluf;
+        int fndVbluf = stbrtVbluf;
+
+        finbl int lfn = s.lfngth;
+        finbl dhbr q=s[stbrtVbluf];
+
+        if (q == '"') {
+            // quotfd vbluf
+            if (++nfxt == lfn) throw nfw
+                MblformfdObjfdtNbmfExdfption("Invblid quotf");
+            whilf (nfxt < lfn) {
+                dhbr lbst = s[nfxt];
+                if (lbst == '\\') {
+                    if (++nfxt == lfn) throw nfw
+                        MblformfdObjfdtNbmfExdfption(
+                           "Invblid untfrminbtfd quotfd dhbrbdtfr sfqufndf");
+                    lbst = s[nfxt];
+                    switdh (lbst) {
+                        dbsf '\\' :
+                        dbsf '?' :
+                        dbsf '*' :
+                        dbsf 'n' :
+                            brfbk;
+                        dbsf '\"' :
+                            // Wf hbvf bn fsdbpfd quotf. If this fsdbpfd
+                            // quotf is thf lbst dhbrbdtfr, it dofs not
+                            // qublify bs b vblid tfrminbtion quotf.
+                            //
+                            if (nfxt+1 == lfn) throw nfw
+                                MblformfdObjfdtNbmfExdfption(
+                                                 "Missing tfrminbtion quotf");
+                            brfbk;
+                        dffbult:
+                            throw nfw
+                                MblformfdObjfdtNbmfExdfption(
+                                "Invblid quotfd dhbrbdtfr sfqufndf '\\" +
+                                lbst + "'");
+                    }
+                } flsf if (lbst == '\n') {
+                    throw nfw MblformfdObjfdtNbmfExdfption(
+                                                 "Nfwlinf in quotfd vbluf");
+                } flsf if (lbst == '\"') {
+                    nfxt++;
+                    brfbk;
+                } flsf {
+                    switdh (lbst) {
+                        dbsf '?' :
+                        dbsf '*' :
+                            vbluf_pbttfrn = truf;
+                            brfbk;
+                    }
+                }
+                nfxt++;
+
+                // Chfdk thbt lbst dhbrbdtfr is b tfrminbtion quotf.
+                // Wf hbvf blrfbdy hbndlfd thf dbsf wfrf thf lbst
+                // dhbrbdtfr is bn fsdbpfd quotf fbrlifr.
+                //
+                if ((nfxt >= lfn) && (lbst != '\"')) throw nfw
+                    MblformfdObjfdtNbmfExdfption("Missing tfrminbtion quotf");
+            }
+            fndVbluf = nfxt;
+            if (nfxt < lfn) {
+                if (s[nfxt++] != ',') throw nfw
+                    MblformfdObjfdtNbmfExdfption("Invblid quotf");
+            }
+        } flsf {
+            // Non quotfd vbluf.
+            whilf (nfxt < lfn) {
+                finbl dhbr v=s[nfxt++];
+                switdh(v) {
+                    dbsf '*':
+                    dbsf '?':
+                        vbluf_pbttfrn = truf;
+                        if (nfxt < lfn) dontinuf;
+                        flsf fndVbluf=nfxt;
+                        brfbk;
+                    dbsf '=':
+                    dbsf ':':
+                    dbsf '\n' :
+                        finbl String idhbr = ((v=='\n')?"\\n":""+v);
+                        throw nfw
+                            MblformfdObjfdtNbmfExdfption("Invblid dhbrbdtfr `" +
+                                                         idhbr + "' in vbluf");
+                    dbsf ',':
+                        fndVbluf = nfxt-1;
+                        brfbk;
+                    dffbult:
+                        if (nfxt < lfn) dontinuf;
+                        flsf fndVbluf=nfxt;
+                }
+                brfbk;
+            }
+        }
+        rfturn nfw int[] { fndVbluf, vbluf_pbttfrn ? 1 : 0 };
+    }
+
+    /**
+     * Chfdk if thf supplifd vbluf is b vblid vbluf.
+     *
+     * @rfturn truf if thf vbluf is b pbttfrn, othfrwisf fblsf.
+     */
+    privbtf stbtid boolfbn dhfdkVbluf(String vbl)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        if (vbl == null) throw nfw
+            NullPointfrExdfption("Invblid vbluf (null)");
+
+        finbl int lfn = vbl.lfngth();
+        if (lfn == 0)
+            rfturn fblsf;
+
+        finbl dhbr[] s = vbl.toChbrArrby();
+        finbl int[] rfsult = pbrsfVbluf(s,0);
+        finbl int fndVbluf = rfsult[0];
+        finbl boolfbn vbluf_pbttfrn = rfsult[1] == 1;
+        if (fndVbluf < lfn) throw nfw
+            MblformfdObjfdtNbmfExdfption("Invblid dhbrbdtfr in vbluf: `" +
+                                         s[fndVbluf] + "'");
+        rfturn vbluf_pbttfrn;
+    }
+
+    /**
+     * Chfdk if thf supplifd kfy is b vblid kfy.
+     */
+    privbtf stbtid void dhfdkKfy(String kfy)
+        throws MblformfdObjfdtNbmfExdfption {
+
+        if (kfy == null) throw nfw
+            NullPointfrExdfption("Invblid kfy (null)");
+
+        finbl int lfn = kfy.lfngth();
+        if (lfn == 0) throw nfw
+            MblformfdObjfdtNbmfExdfption("Invblid kfy (fmpty)");
+        finbl dhbr[] k=kfy.toChbrArrby();
+        finbl int fndKfy = pbrsfKfy(k,0);
+        if (fndKfy < lfn) throw nfw
+            MblformfdObjfdtNbmfExdfption("Invblid dhbrbdtfr in vbluf: `" +
+                                         k[fndKfy] + "'");
+    }
+
+
+    // Cbtfgory : Intfrnbl utilitifs <==============================
+
+    // Cbtfgory : Intfrnbl bddfssors ------------------------------>
+
+    /**
+     * Chfdk if dombin is b vblid dombin.  Sft _dombin_pbttfrn if bppropribtf.
+     */
+    privbtf boolfbn isDombin(String dombin) {
+        if (dombin == null) rfturn truf;
+        finbl int lfn = dombin.lfngth();
+        int nfxt = 0;
+        whilf (nfxt < lfn) {
+            finbl dhbr d = dombin.dhbrAt(nfxt++);
+            switdh (d) {
+                dbsf ':' :
+                dbsf '\n' :
+                    rfturn fblsf;
+                dbsf '*' :
+                dbsf '?' :
+                    _dombin_pbttfrn = truf;
+                    brfbk;
+            }
+        }
+        rfturn truf;
+    }
+
+    // Cbtfgory : Intfrnbl bddfssors <==============================
+
+    // Cbtfgory : Sfriblizbtion ----------------------------------->
+
+    /**
+     * Dfsfriblizfs bn {@link ObjfdtNbmf} from bn {@link ObjfdtInputStrfbm}.
+     * @sfriblDbtb <ul>
+     *               <li>In thf durrfnt sfribl form (vbluf of propfrty
+     *                   <dodf>jmx.sfribl.form</dodf> difffrs from
+     *                   <dodf>1.0</dodf>): thf string
+     *                   &quot;&lt;dombin&gt;:&lt;propfrtifs&gt;&lt;wild&gt;&quot;,
+     *                   whfrf: <ul>
+     *                            <li>&lt;dombin&gt; rfprfsfnts thf dombin pbrt
+     *                                of thf {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtifs&gt; rfprfsfnts thf list of
+     *                                propfrtifs, bs rfturnfd by
+     *                                {@link #gftKfyPropfrtyListString}
+     *                            <li>&lt;wild&gt; is fmpty if not
+     *                                <dodf>isPropfrtyPbttfrn</dodf>, or
+     *                                is thf dhbrbdtfr "<dodf>*</dodf>" if
+     *                                <dodf>isPropfrtyPbttfrn</dodf>
+     *                                bnd &lt;propfrtifs&gt; is fmpty, or
+     *                                is "<dodf>,*</dodf>" if
+     *                                <dodf>isPropfrtyPbttfrn</dodf> bnd
+     *                                &lt;propfrtifs&gt; is not fmpty.
+     *                            </li>
+     *                          </ul>
+     *                   Thf intfnt is thbt this string dould bf supplifd
+     *                   to thf {@link #ObjfdtNbmf(String)} donstrudtor to
+     *                   produdf bn fquivblfnt {@link ObjfdtNbmf}.
+     *               </li>
+     *               <li>In thf old sfribl form (vbluf of propfrty
+     *                   <dodf>jmx.sfribl.form</dodf> is
+     *                   <dodf>1.0</dodf>): &lt;dombin&gt; &lt;propfrtyList&gt;
+     *                   &lt;propfrtyListString&gt; &lt;dbnonidblNbmf&gt;
+     *                   &lt;pbttfrn&gt; &lt;propfrtyPbttfrn&gt;,
+     *                   whfrf: <ul>
+     *                            <li>&lt;dombin&gt; rfprfsfnts thf dombin pbrt
+     *                                of thf {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtyList&gt; is thf
+     *                                {@link Hbshtbblf} thbt dontbins bll thf
+     *                                pbirs (kfy,vbluf) for this
+     *                                {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtyListString&gt; is thf
+     *                                {@link String} rfprfsfntbtion of thf
+     *                                list of propfrtifs in bny ordfr (not
+     *                                mbndbtorily b dbnonidbl rfprfsfntbtion)
+     *                                </li>
+     *                            <li>&lt;dbnonidblNbmf&gt; is thf
+     *                                {@link String} dontbining this
+     *                                {@link ObjfdtNbmf}'s dbnonidbl nbmf</li>
+     *                            <li>&lt;pbttfrn&gt; is b boolfbn whidh is
+     *                                <dodf>truf</dodf> if this
+     *                                {@link ObjfdtNbmf} dontbins b pbttfrn</li>
+     *                            <li>&lt;propfrtyPbttfrn&gt; is b boolfbn whidh
+     *                                is <dodf>truf</dodf> if this
+     *                                {@link ObjfdtNbmf} dontbins b pbttfrn in
+     *                                thf list of propfrtifs</li>
+     *                          </ul>
+     *               </li>
+     *             </ul>
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        throws IOExdfption, ClbssNotFoundExdfption {
+
+        String dn;
+        if (dompbt) {
+            // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+            //
+            //in.dffbultRfbdObjfdt();
+            finbl ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+            String propListString =
+                    (String)fiflds.gft("propfrtyListString", "");
+
+            // 6616825: tbkf dbrf of propfrty pbttfrns
+            finbl boolfbn propPbttfrn =
+                    fiflds.gft("propfrtyPbttfrn" , fblsf);
+            if (propPbttfrn) {
+                propListString =
+                        (propListString.lfngth()==0?"*":(propListString+",*"));
+            }
+
+            dn = (String)fiflds.gft("dombin", "dffbult")+
+                ":"+ propListString;
+        } flsf {
+            // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+            //
+            in.dffbultRfbdObjfdt();
+            dn = (String)in.rfbdObjfdt();
+        }
+
+        try {
+            donstrudt(dn);
+        } dbtdh (NullPointfrExdfption f) {
+            throw nfw InvblidObjfdtExdfption(f.toString());
+        } dbtdh (MblformfdObjfdtNbmfExdfption f) {
+            throw nfw InvblidObjfdtExdfption(f.toString());
+        }
+    }
+
+
+    /**
+     * Sfriblizfs bn {@link ObjfdtNbmf} to bn {@link ObjfdtOutputStrfbm}.
+     * @sfriblDbtb <ul>
+     *               <li>In thf durrfnt sfribl form (vbluf of propfrty
+     *                   <dodf>jmx.sfribl.form</dodf> difffrs from
+     *                   <dodf>1.0</dodf>): thf string
+     *                   &quot;&lt;dombin&gt;:&lt;propfrtifs&gt;&lt;wild&gt;&quot;,
+     *                   whfrf: <ul>
+     *                            <li>&lt;dombin&gt; rfprfsfnts thf dombin pbrt
+     *                                of thf {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtifs&gt; rfprfsfnts thf list of
+     *                                propfrtifs, bs rfturnfd by
+     *                                {@link #gftKfyPropfrtyListString}
+     *                            <li>&lt;wild&gt; is fmpty if not
+     *                                <dodf>isPropfrtyPbttfrn</dodf>, or
+     *                                is thf dhbrbdtfr "<dodf>*</dodf>" if
+     *                                this <dodf>isPropfrtyPbttfrn</dodf>
+     *                                bnd &lt;propfrtifs&gt; is fmpty, or
+     *                                is "<dodf>,*</dodf>" if
+     *                                <dodf>isPropfrtyPbttfrn</dodf> bnd
+     *                                &lt;propfrtifs&gt; is not fmpty.
+     *                            </li>
+     *                          </ul>
+     *                   Thf intfnt is thbt this string dould bf supplifd
+     *                   to thf {@link #ObjfdtNbmf(String)} donstrudtor to
+     *                   produdf bn fquivblfnt {@link ObjfdtNbmf}.
+     *               </li>
+     *               <li>In thf old sfribl form (vbluf of propfrty
+     *                   <dodf>jmx.sfribl.form</dodf> is
+     *                   <dodf>1.0</dodf>): &lt;dombin&gt; &lt;propfrtyList&gt;
+     *                   &lt;propfrtyListString&gt; &lt;dbnonidblNbmf&gt;
+     *                   &lt;pbttfrn&gt; &lt;propfrtyPbttfrn&gt;,
+     *                   whfrf: <ul>
+     *                            <li>&lt;dombin&gt; rfprfsfnts thf dombin pbrt
+     *                                of thf {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtyList&gt; is thf
+     *                                {@link Hbshtbblf} thbt dontbins bll thf
+     *                                pbirs (kfy,vbluf) for this
+     *                                {@link ObjfdtNbmf}</li>
+     *                            <li>&lt;propfrtyListString&gt; is thf
+     *                                {@link String} rfprfsfntbtion of thf
+     *                                list of propfrtifs in bny ordfr (not
+     *                                mbndbtorily b dbnonidbl rfprfsfntbtion)
+     *                                </li>
+     *                            <li>&lt;dbnonidblNbmf&gt; is thf
+     *                                {@link String} dontbining this
+     *                                {@link ObjfdtNbmf}'s dbnonidbl nbmf</li>
+     *                            <li>&lt;pbttfrn&gt; is b boolfbn whidh is
+     *                                <dodf>truf</dodf> if this
+     *                                {@link ObjfdtNbmf} dontbins b pbttfrn</li>
+     *                            <li>&lt;propfrtyPbttfrn&gt; is b boolfbn whidh
+     *                                is <dodf>truf</dodf> if this
+     *                                {@link ObjfdtNbmf} dontbins b pbttfrn in
+     *                                thf list of propfrtifs</li>
+     *                          </ul>
+     *               </li>
+     *             </ul>
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        // Rfbd CR 6441274 bfforf mbking bny dhbngfs to this dodf
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("dombin", _dbnonidblNbmf.substring(0, _dombin_lfngth));
+        fiflds.put("propfrtyList", gftKfyPropfrtyList());
+        fiflds.put("propfrtyListString", gftKfyPropfrtyListString());
+        fiflds.put("dbnonidblNbmf", _dbnonidblNbmf);
+        fiflds.put("pbttfrn", (_dombin_pbttfrn || _propfrty_list_pbttfrn));
+        fiflds.put("propfrtyPbttfrn", _propfrty_list_pbttfrn);
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+        out.writfObjfdt(gftSfriblizfdNbmfString());
+      }
+    }
+
+    //  Cbtfgory : Sfriblizbtion <===================================
+
+    // Privbtf mfthods <========================================
+
+    // Publid mfthods ---------------------------------------->
+
+    // Cbtfgory : ObjfdtNbmf Construdtion ------------------------------>
+
+    /**
+     * <p>Rfturn bn instbndf of ObjfdtNbmf thbt dbn bf usfd bnywhfrf
+     * bn objfdt obtbinfd with {@link #ObjfdtNbmf(String) nfw
+     * ObjfdtNbmf(nbmf)} dbn bf usfd.  Thf rfturnfd objfdt mby bf of
+     * b subdlbss of ObjfdtNbmf.  Cblling this mfthod twidf with thf
+     * sbmf pbrbmftfrs mby rfturn thf sbmf objfdt or two fqubl but
+     * not idfntidbl objfdts.</p>
+     *
+     * @pbrbm nbmf  A string rfprfsfntbtion of thf objfdt nbmf.
+     *
+     * @rfturn bn ObjfdtNbmf dorrfsponding to thf givfn String.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf string pbssfd bs b
+     * pbrbmftfr dofs not hbvf thf right formbt.
+     * @fxdfption NullPointfrExdfption Thf <dodf>nbmf</dodf> pbrbmftfr
+     * is null.
+     *
+     */
+    publid stbtid ObjfdtNbmf gftInstbndf(String nbmf)
+            throws MblformfdObjfdtNbmfExdfption, NullPointfrExdfption {
+        rfturn nfw ObjfdtNbmf(nbmf);
+    }
+
+    /**
+     * <p>Rfturn bn instbndf of ObjfdtNbmf thbt dbn bf usfd bnywhfrf
+     * bn objfdt obtbinfd with {@link #ObjfdtNbmf(String, String,
+     * String) nfw ObjfdtNbmf(dombin, kfy, vbluf)} dbn bf usfd.  Thf
+     * rfturnfd objfdt mby bf of b subdlbss of ObjfdtNbmf.  Cblling
+     * this mfthod twidf with thf sbmf pbrbmftfrs mby rfturn thf sbmf
+     * objfdt or two fqubl but not idfntidbl objfdts.</p>
+     *
+     * @pbrbm dombin  Thf dombin pbrt of thf objfdt nbmf.
+     * @pbrbm kfy  Thf bttributf in thf kfy propfrty of thf objfdt nbmf.
+     * @pbrbm vbluf Thf vbluf in thf kfy propfrty of thf objfdt nbmf.
+     *
+     * @rfturn bn ObjfdtNbmf dorrfsponding to thf givfn dombin,
+     * kfy, bnd vbluf.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf
+     * <dodf>dombin</dodf>, <dodf>kfy</dodf>, or <dodf>vbluf</dodf>
+     * dontbins bn illfgbl dhbrbdtfr, or <dodf>vbluf</dodf> dofs not
+     * follow thf rulfs for quoting.
+     * @fxdfption NullPointfrExdfption Onf of thf pbrbmftfrs is null.
+     *
+     */
+    publid stbtid ObjfdtNbmf gftInstbndf(String dombin, String kfy,
+                                         String vbluf)
+            throws MblformfdObjfdtNbmfExdfption {
+        rfturn nfw ObjfdtNbmf(dombin, kfy, vbluf);
+    }
+
+    /**
+     * <p>Rfturn bn instbndf of ObjfdtNbmf thbt dbn bf usfd bnywhfrf
+     * bn objfdt obtbinfd with {@link #ObjfdtNbmf(String, Hbshtbblf)
+     * nfw ObjfdtNbmf(dombin, tbblf)} dbn bf usfd.  Thf rfturnfd
+     * objfdt mby bf of b subdlbss of ObjfdtNbmf.  Cblling this mfthod
+     * twidf with thf sbmf pbrbmftfrs mby rfturn thf sbmf objfdt or
+     * two fqubl but not idfntidbl objfdts.</p>
+     *
+     * @pbrbm dombin  Thf dombin pbrt of thf objfdt nbmf.
+     * @pbrbm tbblf A hbsh tbblf dontbining onf or morf kfy
+     * propfrtifs.  Thf kfy of fbdh fntry in thf tbblf is thf kfy of b
+     * kfy propfrty in thf objfdt nbmf.  Thf bssodibtfd vbluf in thf
+     * tbblf is thf bssodibtfd vbluf in thf objfdt nbmf.
+     *
+     * @rfturn bn ObjfdtNbmf dorrfsponding to thf givfn dombin bnd
+     * kfy mbppings.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf <dodf>dombin</dodf>
+     * dontbins bn illfgbl dhbrbdtfr, or onf of thf kfys or vblufs in
+     * <dodf>tbblf</dodf> dontbins bn illfgbl dhbrbdtfr, or onf of thf
+     * vblufs in <dodf>tbblf</dodf> dofs not follow thf rulfs for
+     * quoting.
+     * @fxdfption NullPointfrExdfption Onf of thf pbrbmftfrs is null.
+     *
+     */
+    publid stbtid ObjfdtNbmf gftInstbndf(String dombin,
+                                         Hbshtbblf<String,String> tbblf)
+        throws MblformfdObjfdtNbmfExdfption {
+        rfturn nfw ObjfdtNbmf(dombin, tbblf);
+    }
+
+    /**
+     * <p>Rfturn bn instbndf of ObjfdtNbmf thbt dbn bf usfd bnywhfrf
+     * thf givfn objfdt dbn bf usfd.  Thf rfturnfd objfdt mby bf of b
+     * subdlbss of ObjfdtNbmf.  If <dodf>nbmf</dodf> is of b subdlbss
+     * of ObjfdtNbmf, it is not gubrbntffd thbt thf rfturnfd objfdt
+     * will bf of thf sbmf dlbss.</p>
+     *
+     * <p>Thf rfturnfd vbluf mby or mby not bf idfntidbl to
+     * <dodf>nbmf</dodf>.  Cblling this mfthod twidf with thf sbmf
+     * pbrbmftfrs mby rfturn thf sbmf objfdt or two fqubl but not
+     * idfntidbl objfdts.</p>
+     *
+     * <p>Sindf ObjfdtNbmf is immutbblf, it is not usublly usfful to
+     * mbkf b dopy of bn ObjfdtNbmf.  Thf prindipbl usf of this mfthod
+     * is to gubrd bgbinst b mblidious dbllfr who might pbss bn
+     * instbndf of b subdlbss with surprising bfhbvior to sfnsitivf
+     * dodf.  Sudh dodf dbn dbll this mfthod to obtbin bn ObjfdtNbmf
+     * thbt is known not to hbvf surprising bfhbvior.</p>
+     *
+     * @pbrbm nbmf bn instbndf of thf ObjfdtNbmf dlbss or of b subdlbss
+     *
+     * @rfturn bn instbndf of ObjfdtNbmf or b subdlbss thbt is known to
+     * hbvf thf sbmf sfmbntids.  If <dodf>nbmf</dodf> rfspfdts thf
+     * sfmbntids of ObjfdtNbmf, thfn thf rfturnfd objfdt is fqubl
+     * (though not nfdfssbrily idfntidbl) to <dodf>nbmf</dodf>.
+     *
+     * @fxdfption NullPointfrExdfption Thf <dodf>nbmf</dodf> is null.
+     *
+     */
+    publid stbtid ObjfdtNbmf gftInstbndf(ObjfdtNbmf nbmf) {
+        if (nbmf.gftClbss().fqubls(ObjfdtNbmf.dlbss))
+            rfturn nbmf;
+        rfturn Util.nfwObjfdtNbmf(nbmf.gftSfriblizfdNbmfString());
+    }
+
+    /**
+     * Construdt bn objfdt nbmf from thf givfn string.
+     *
+     * @pbrbm nbmf  A string rfprfsfntbtion of thf objfdt nbmf.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf string pbssfd bs b
+     * pbrbmftfr dofs not hbvf thf right formbt.
+     * @fxdfption NullPointfrExdfption Thf <dodf>nbmf</dodf> pbrbmftfr
+     * is null.
+     */
+    publid ObjfdtNbmf(String nbmf)
+        throws MblformfdObjfdtNbmfExdfption {
+        donstrudt(nbmf);
+    }
+
+    /**
+     * Construdt bn objfdt nbmf with fxbdtly onf kfy propfrty.
+     *
+     * @pbrbm dombin  Thf dombin pbrt of thf objfdt nbmf.
+     * @pbrbm kfy  Thf bttributf in thf kfy propfrty of thf objfdt nbmf.
+     * @pbrbm vbluf Thf vbluf in thf kfy propfrty of thf objfdt nbmf.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf
+     * <dodf>dombin</dodf>, <dodf>kfy</dodf>, or <dodf>vbluf</dodf>
+     * dontbins bn illfgbl dhbrbdtfr, or <dodf>vbluf</dodf> dofs not
+     * follow thf rulfs for quoting.
+     * @fxdfption NullPointfrExdfption Onf of thf pbrbmftfrs is null.
+     */
+    publid ObjfdtNbmf(String dombin, String kfy, String vbluf)
+        throws MblformfdObjfdtNbmfExdfption {
+        // If kfy or vbluf brf null b NullPointfrExdfption
+        // will bf thrown by thf put mfthod in Hbshtbblf.
+        //
+        Mbp<String,String> tbblf = Collfdtions.singlftonMbp(kfy, vbluf);
+        donstrudt(dombin, tbblf);
+    }
+
+    /**
+     * Construdt bn objfdt nbmf with sfvfrbl kfy propfrtifs from b Hbshtbblf.
+     *
+     * @pbrbm dombin  Thf dombin pbrt of thf objfdt nbmf.
+     * @pbrbm tbblf A hbsh tbblf dontbining onf or morf kfy
+     * propfrtifs.  Thf kfy of fbdh fntry in thf tbblf is thf kfy of b
+     * kfy propfrty in thf objfdt nbmf.  Thf bssodibtfd vbluf in thf
+     * tbblf is thf bssodibtfd vbluf in thf objfdt nbmf.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf <dodf>dombin</dodf>
+     * dontbins bn illfgbl dhbrbdtfr, or onf of thf kfys or vblufs in
+     * <dodf>tbblf</dodf> dontbins bn illfgbl dhbrbdtfr, or onf of thf
+     * vblufs in <dodf>tbblf</dodf> dofs not follow thf rulfs for
+     * quoting.
+     * @fxdfption NullPointfrExdfption Onf of thf pbrbmftfrs is null.
+     */
+    publid ObjfdtNbmf(String dombin, Hbshtbblf<String,String> tbblf)
+            throws MblformfdObjfdtNbmfExdfption {
+        donstrudt(dombin, tbblf);
+        /* Thf fxdfption for whfn b kfy or vbluf in thf tbblf is not b
+           String is now ClbssCbstExdfption rbthfr thbn
+           MblformfdObjfdtNbmfExdfption.  This wbs not prfviously
+           spfdififd.  */
+    }
+
+    // Cbtfgory : ObjfdtNbmf Construdtion <==============================
+
+
+    // Cbtfgory : Gfttfr mfthods ------------------------------>
+
+    /**
+     * Chfdks whfthfr thf objfdt nbmf is b pbttfrn.
+     * <p>
+     * An objfdt nbmf is b pbttfrn if its dombin dontbins b
+     * wilddbrd or if thf objfdt nbmf is b propfrty pbttfrn.
+     *
+     * @rfturn  Truf if thf nbmf is b pbttfrn, othfrwisf fblsf.
+     */
+    publid boolfbn isPbttfrn() {
+        rfturn (_dombin_pbttfrn ||
+                _propfrty_list_pbttfrn ||
+                _propfrty_vbluf_pbttfrn);
+    }
+
+    /**
+     * Chfdks whfthfr thf objfdt nbmf is b pbttfrn on thf dombin pbrt.
+     *
+     * @rfturn  Truf if thf nbmf is b dombin pbttfrn, othfrwisf fblsf.
+     *
+     */
+    publid boolfbn isDombinPbttfrn() {
+        rfturn _dombin_pbttfrn;
+    }
+
+    /**
+     * Chfdks whfthfr thf objfdt nbmf is b pbttfrn on thf kfy propfrtifs.
+     * <p>
+     * An objfdt nbmf is b pbttfrn on thf kfy propfrtifs if it is b
+     * pbttfrn on thf kfy propfrty list (f.g. "d:k=v,*") or on thf
+     * propfrty vblufs (f.g. "d:k=*") or on both (f.g. "d:k=*,*").
+     *
+     * @rfturn  Truf if thf nbmf is b propfrty pbttfrn, othfrwisf fblsf.
+     */
+    publid boolfbn isPropfrtyPbttfrn() {
+        rfturn _propfrty_list_pbttfrn || _propfrty_vbluf_pbttfrn;
+    }
+
+    /**
+     * Chfdks whfthfr thf objfdt nbmf is b pbttfrn on thf kfy propfrty list.
+     * <p>
+     * For fxbmplf, "d:k=v,*" bnd "d:k=*,*" brf kfy propfrty list pbttfrns
+     * whfrfbs "d:k=*" is not.
+     *
+     * @rfturn  Truf if thf nbmf is b propfrty list pbttfrn, othfrwisf fblsf.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn isPropfrtyListPbttfrn() {
+        rfturn _propfrty_list_pbttfrn;
+    }
+
+    /**
+     * Chfdks whfthfr thf objfdt nbmf is b pbttfrn on thf vbluf pbrt
+     * of bt lfbst onf of thf kfy propfrtifs.
+     * <p>
+     * For fxbmplf, "d:k=*" bnd "d:k=*,*" brf propfrty vbluf pbttfrns
+     * whfrfbs "d:k=v,*" is not.
+     *
+     * @rfturn  Truf if thf nbmf is b propfrty vbluf pbttfrn, othfrwisf fblsf.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn isPropfrtyVblufPbttfrn() {
+        rfturn _propfrty_vbluf_pbttfrn;
+    }
+
+    /**
+     * Chfdks whfthfr thf vbluf bssodibtfd with b kfy in b kfy
+     * propfrty is b pbttfrn.
+     *
+     * @pbrbm propfrty Thf propfrty whosf vbluf is to bf dhfdkfd.
+     *
+     * @rfturn Truf if thf vbluf bssodibtfd with thf givfn kfy propfrty
+     * is b pbttfrn, othfrwisf fblsf.
+     *
+     * @fxdfption NullPointfrExdfption If <dodf>propfrty</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption If <dodf>propfrty</dodf> is not
+     * b vblid kfy propfrty for this ObjfdtNbmf.
+     *
+     * @sindf 1.6
+     */
+    publid boolfbn isPropfrtyVblufPbttfrn(String propfrty) {
+        if (propfrty == null)
+            throw nfw NullPointfrExdfption("kfy propfrty dbn't bf null");
+        for (int i = 0; i < _db_brrby.lfngth; i++) {
+            Propfrty prop = _db_brrby[i];
+            String kfy = prop.gftKfyString(_dbnonidblNbmf);
+            if (kfy.fqubls(propfrty))
+                rfturn (prop instbndfof PbttfrnPropfrty);
+        }
+        throw nfw IllfgblArgumfntExdfption("kfy propfrty not found");
+    }
+
+    /**
+     * <p>Rfturns thf dbnonidbl form of thf nbmf; thbt is, b string
+     * rfprfsfntbtion whfrf thf propfrtifs brf sortfd in lfxidbl
+     * ordfr.</p>
+     *
+     * <p>Morf prfdisfly, thf dbnonidbl form of thf nbmf is b String
+     * donsisting of thf <fm>dombin pbrt</fm>, b dolon
+     * (<dodf>:</dodf>), thf <fm>dbnonidbl kfy propfrty list</fm>, bnd
+     * b <fm>pbttfrn indidbtion</fm>.</p>
+     *
+     * <p>Thf <fm>dbnonidbl kfy propfrty list</fm> is thf sbmf string
+     * bs dfsdribfd for {@link #gftCbnonidblKfyPropfrtyListString()}.</p>
+     *
+     * <p>Thf <fm>pbttfrn indidbtion</fm> is:
+     * <ul>
+     * <li>fmpty for bn ObjfdtNbmf
+     * thbt is not b propfrty list pbttfrn;
+     * <li>bn bstfrisk for bn ObjfdtNbmf
+     * thbt is b propfrty list pbttfrn with no kfys; or
+     * <li>b dommb bnd bn
+     * bstfrisk (<dodf>,*</dodf>) for bn ObjfdtNbmf thbt is b propfrty
+     * list pbttfrn with bt lfbst onf kfy.
+     * </ul>
+     *
+     * @rfturn Thf dbnonidbl form of thf nbmf.
+     */
+    publid String gftCbnonidblNbmf()  {
+        rfturn _dbnonidblNbmf;
+    }
+
+    /**
+     * Rfturns thf dombin pbrt.
+     *
+     * @rfturn Thf dombin.
+     */
+    publid String gftDombin()  {
+        rfturn _dbnonidblNbmf.substring(0, _dombin_lfngth);
+    }
+
+    /**
+     * Obtbins thf vbluf bssodibtfd with b kfy in b kfy propfrty.
+     *
+     * @pbrbm propfrty Thf propfrty whosf vbluf is to bf obtbinfd.
+     *
+     * @rfturn Thf vbluf of thf propfrty, or null if thfrf is no sudh
+     * propfrty in this ObjfdtNbmf.
+     *
+     * @fxdfption NullPointfrExdfption If <dodf>propfrty</dodf> is null.
+     */
+    publid String gftKfyPropfrty(String propfrty) {
+        rfturn _gftKfyPropfrtyList().gft(propfrty);
+    }
+
+    /**
+     * <p>Rfturns thf kfy propfrtifs bs b Mbp.  Thf rfturnfd
+     * vbluf is b Mbp in whidh fbdh kfy is b kfy in thf
+     * ObjfdtNbmf's kfy propfrty list bnd fbdh vbluf is thf bssodibtfd
+     * vbluf.</p>
+     *
+     * <p>Thf rfturnfd vbluf must not bf modififd.</p>
+     *
+     * @rfturn Thf tbblf of kfy propfrtifs.
+     */
+    privbtf Mbp<String,String> _gftKfyPropfrtyList()  {
+        syndhronizfd (this) {
+            if (_propfrtyList == null) {
+                // build (lbzy fvbl) thf propfrty list from thf dbnonidbl
+                // propfrtifs brrby
+                _propfrtyList = nfw HbshMbp<String,String>();
+                int lfn = _db_brrby.lfngth;
+                Propfrty prop;
+                for (int i = lfn - 1; i >= 0; i--) {
+                    prop = _db_brrby[i];
+                    _propfrtyList.put(prop.gftKfyString(_dbnonidblNbmf),
+                                      prop.gftVblufString(_dbnonidblNbmf));
+                }
+            }
+        }
+        rfturn _propfrtyList;
+    }
+
+    /**
+     * <p>Rfturns thf kfy propfrtifs bs b Hbshtbblf.  Thf rfturnfd
+     * vbluf is b Hbshtbblf in whidh fbdh kfy is b kfy in thf
+     * ObjfdtNbmf's kfy propfrty list bnd fbdh vbluf is thf bssodibtfd
+     * vbluf.</p>
+     *
+     * <p>Thf rfturnfd vbluf mby bf unmodifibblf.  If it is
+     * modifibblf, dhbnging it hbs no ffffdt on this ObjfdtNbmf.</p>
+     *
+     * @rfturn Thf tbblf of kfy propfrtifs.
+     */
+    // CR 6441274 dfpfnds on thf modifidbtion propfrty dffinfd bbovf
+    publid Hbshtbblf<String,String> gftKfyPropfrtyList()  {
+        rfturn nfw Hbshtbblf<String,String>(_gftKfyPropfrtyList());
+    }
+
+    /**
+     * <p>Rfturns b string rfprfsfntbtion of thf list of kfy
+     * propfrtifs spfdififd bt drfbtion timf.  If this ObjfdtNbmf wbs
+     * donstrudtfd with thf donstrudtor {@link #ObjfdtNbmf(String)},
+     * thf kfy propfrtifs in thf rfturnfd String will bf in thf sbmf
+     * ordfr bs in thf brgumfnt to thf donstrudtor.</p>
+     *
+     * @rfturn Thf kfy propfrty list string.  This string is
+     * indfpfndfnt of whfthfr thf ObjfdtNbmf is b pbttfrn.
+     */
+    publid String gftKfyPropfrtyListString()  {
+        // BEWARE : wf rfbuild thf propfrtyliststring bt fbdh dbll !!
+        if (_kp_brrby.lfngth == 0) rfturn "";
+
+        // thf sizf of thf string is thf dbnonidbl onf minus dombin
+        // pbrt bnd pbttfrn pbrt
+        finbl int totbl_sizf = _dbnonidblNbmf.lfngth() - _dombin_lfngth - 1
+            - (_propfrty_list_pbttfrn?2:0);
+
+        finbl dhbr[] dfst_dhbrs = nfw dhbr[totbl_sizf];
+        finbl dhbr[] vbluf = _dbnonidblNbmf.toChbrArrby();
+        writfKfyPropfrtyListString(vbluf,dfst_dhbrs,0);
+        rfturn nfw String(dfst_dhbrs);
+    }
+
+    /**
+     * <p>Rfturns thf sfriblizfd string of thf ObjfdtNbmf.
+     * propfrtifs spfdififd bt drfbtion timf.  If this ObjfdtNbmf wbs
+     * donstrudtfd with thf donstrudtor {@link #ObjfdtNbmf(String)},
+     * thf kfy propfrtifs in thf rfturnfd String will bf in thf sbmf
+     * ordfr bs in thf brgumfnt to thf donstrudtor.</p>
+     *
+     * @rfturn Thf kfy propfrty list string.  This string is
+     * indfpfndfnt of whfthfr thf ObjfdtNbmf is b pbttfrn.
+     */
+    privbtf String gftSfriblizfdNbmfString()  {
+
+        // thf sizf of thf string is thf dbnonidbl onf
+        finbl int totbl_sizf = _dbnonidblNbmf.lfngth();
+        finbl dhbr[] dfst_dhbrs = nfw dhbr[totbl_sizf];
+        finbl dhbr[] vbluf = _dbnonidblNbmf.toChbrArrby();
+        finbl int offsft = _dombin_lfngth+1;
+
+        // dopy "dombin:" into dfst_dhbrs
+        //
+        Systfm.brrbydopy(vbluf, 0, dfst_dhbrs, 0, offsft);
+
+        // Add propfrty list string
+        finbl int fnd = writfKfyPropfrtyListString(vbluf,dfst_dhbrs,offsft);
+
+        // Add ",*" if nfdfssbry
+        if (_propfrty_list_pbttfrn) {
+            if (fnd == offsft)  {
+                // Propfrty list string is fmpty.
+                dfst_dhbrs[fnd] = '*';
+            } flsf {
+                // Propfrty list string is not fmpty.
+                dfst_dhbrs[fnd]   = ',';
+                dfst_dhbrs[fnd+1] = '*';
+            }
+        }
+
+        rfturn nfw String(dfst_dhbrs);
+    }
+
+    /**
+     * <p>Writf b string rfprfsfntbtion of thf list of kfy
+     * propfrtifs spfdififd bt drfbtion timf in thf givfn brrby, stbrting
+     * bt thf spfdififd offsft.  If this ObjfdtNbmf wbs
+     * donstrudtfd with thf donstrudtor {@link #ObjfdtNbmf(String)},
+     * thf kfy propfrtifs in thf rfturnfd String will bf in thf sbmf
+     * ordfr bs in thf brgumfnt to thf donstrudtor.</p>
+     *
+     * @rfturn offsft + #of dhbrs writtfn
+     */
+    privbtf int writfKfyPropfrtyListString(dhbr[] dbnonidblChbrs,
+                                           dhbr[] dbtb, int offsft)  {
+        if (_kp_brrby.lfngth == 0) rfturn offsft;
+
+        finbl dhbr[] dfst_dhbrs = dbtb;
+        finbl dhbr[] vbluf = dbnonidblChbrs;
+
+        int indfx = offsft;
+        finbl int lfn = _kp_brrby.lfngth;
+        finbl int lbst = lfn - 1;
+        for (int i = 0; i < lfn; i++) {
+            finbl Propfrty prop = _kp_brrby[i];
+            finbl int prop_lfn = prop._kfy_lfngth + prop._vbluf_lfngth + 1;
+            Systfm.brrbydopy(vbluf, prop._kfy_indfx, dfst_dhbrs, indfx,
+                             prop_lfn);
+            indfx += prop_lfn;
+            if (i < lbst ) dfst_dhbrs[indfx++] = ',';
+        }
+        rfturn indfx;
+    }
+
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf list of kfy propfrtifs,
+     * in whidh thf kfy propfrtifs brf sortfd in lfxidbl ordfr. This
+     * is usfd in lfxidogrbphid dompbrisons pfrformfd in ordfr to
+     * sflfdt MBfbns bbsfd on thfir kfy propfrty list.  Lfxidbl ordfr
+     * is thf ordfr implifd by {@link String#dompbrfTo(String)
+     * String.dompbrfTo(String)}.
+     *
+     * @rfturn Thf dbnonidbl kfy propfrty list string.  This string is
+     * indfpfndfnt of whfthfr thf ObjfdtNbmf is b pbttfrn.
+     */
+    publid String gftCbnonidblKfyPropfrtyListString()  {
+        if (_db_brrby.lfngth == 0) rfturn "";
+
+        int lfn = _dbnonidblNbmf.lfngth();
+        if (_propfrty_list_pbttfrn) lfn -= 2;
+        rfturn _dbnonidblNbmf.substring(_dombin_lfngth +1, lfn);
+    }
+    // Cbtfgory : Gfttfr mfthods <===================================
+
+    // Cbtfgory : Utilitifs ---------------------------------------->
+
+    /**
+     * <p>Rfturns b string rfprfsfntbtion of thf objfdt nbmf.  Thf
+     * formbt of this string is not spfdififd, but usfrs dbn fxpfdt
+     * thbt two ObjfdtNbmfs rfturn thf sbmf string if bnd only if thfy
+     * brf fqubl.</p>
+     *
+     * @rfturn b string rfprfsfntbtion of this objfdt nbmf.
+     */
+    @Ovfrridf
+    publid String toString()  {
+        rfturn gftSfriblizfdNbmfString();
+    }
+
+    /**
+     * Compbrfs thf durrfnt objfdt nbmf with bnothfr objfdt nbmf.  Two
+     * ObjfdtNbmf instbndfs brf fqubl if bnd only if thfir dbnonidbl
+     * forms brf fqubl.  Thf dbnonidbl form is thf string dfsdribfd
+     * for {@link #gftCbnonidblNbmf()}.
+     *
+     * @pbrbm objfdt  Thf objfdt nbmf thbt thf durrfnt objfdt nbmf is to bf
+     *        dompbrfd with.
+     *
+     * @rfturn Truf if <dodf>objfdt</dodf> is bn ObjfdtNbmf whosf
+     * dbnonidbl form is fqubl to thbt of this ObjfdtNbmf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt)  {
+
+        // sbmf objfdt dbsf
+        if (this == objfdt) rfturn truf;
+
+        // objfdt is not bn objfdt nbmf dbsf
+        if (!(objfdt instbndfof ObjfdtNbmf)) rfturn fblsf;
+
+        // fqublity whfn dbnonidbl nbmfs brf thf sbmf
+        // (bfdbusf usbgf of intfrn())
+        ObjfdtNbmf on = (ObjfdtNbmf) objfdt;
+        String on_string = on._dbnonidblNbmf;
+        if (_dbnonidblNbmf == on_string) rfturn truf;  // ES: OK
+
+        // Bfdbusf wf brf shbring dbnonidbl form bftwffn objfdt nbmfs,
+        // wf hbvf finishfd thf dompbrison bt this stbgf ==> unfqubl
+        rfturn fblsf;
+   }
+
+    /**
+     * Rfturns b hbsh dodf for this objfdt nbmf.
+     *
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn _dbnonidblNbmf.hbshCodf();
+    }
+
+    /**
+     * <p>Rfturns b quotfd form of thf givfn String, suitbblf for
+     * indlusion in bn ObjfdtNbmf.  Thf rfturnfd vbluf dbn bf usfd bs
+     * thf vbluf bssodibtfd with b kfy in bn ObjfdtNbmf.  Thf String
+     * <dodf>s</dodf> mby dontbin bny dhbrbdtfr.  Appropribtf quoting
+     * fnsurfs thbt thf rfturnfd vbluf is lfgbl in bn ObjfdtNbmf.</p>
+     *
+     * <p>Thf rfturnfd vbluf donsists of b quotf ('"'), b sfqufndf of
+     * dhbrbdtfrs dorrfsponding to thf dhbrbdtfrs of <dodf>s</dodf>,
+     * bnd bnothfr quotf.  Chbrbdtfrs in <dodf>s</dodf> bppfbr
+     * undhbngfd within thf rfturnfd vbluf fxdfpt:</p>
+     *
+     * <ul>
+     * <li>A quotf ('"') is rfplbdfd by b bbdkslbsh (\) followfd by b quotf.</li>
+     * <li>An bstfrisk ('*') is rfplbdfd by b bbdkslbsh (\) followfd by bn
+     * bstfrisk.</li>
+     * <li>A qufstion mbrk ('?') is rfplbdfd by b bbdkslbsh (\) followfd by
+     * b qufstion mbrk.</li>
+     * <li>A bbdkslbsh ('\') is rfplbdfd by two bbdkslbshfs.</li>
+     * <li>A nfwlinf dhbrbdtfr (thf dhbrbdtfr '\n' in Jbvb) is rfplbdfd
+     * by b bbdkslbsh followfd by thf dhbrbdtfr '\n'.</li>
+     * </ul>
+     *
+     * @pbrbm s thf String to bf quotfd.
+     *
+     * @rfturn thf quotfd String.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>s</dodf> is null.
+     *
+     */
+    publid stbtid String quotf(String s) {
+        finbl StringBuildfr buf = nfw StringBuildfr("\"");
+        finbl int lfn = s.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            switdh (d) {
+            dbsf '\n':
+                d = 'n';
+                buf.bppfnd('\\');
+                brfbk;
+            dbsf '\\':
+            dbsf '\"':
+            dbsf '*':
+            dbsf '?':
+                buf.bppfnd('\\');
+                brfbk;
+            }
+            buf.bppfnd(d);
+        }
+        buf.bppfnd('"');
+        rfturn buf.toString();
+    }
+
+    /**
+     * <p>Rfturns bn unquotfd form of thf givfn String.  If
+     * <dodf>q</dodf> is b String rfturnfd by {@link #quotf quotf(s)},
+     * thfn <dodf>unquotf(q).fqubls(s)</dodf>.  If thfrf is no String
+     * <dodf>s</dodf> for whidh <dodf>quotf(s).fqubls(q)</dodf>, thfn
+     * unquotf(q) throws bn IllfgblArgumfntExdfption.</p>
+     *
+     * <p>Thfsf rulfs imply thbt thfrf is b onf-to-onf mbpping bftwffn
+     * quotfd bnd unquotfd forms.</p>
+     *
+     * @pbrbm q thf String to bf unquotfd.
+     *
+     * @rfturn thf unquotfd String.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>q</dodf> dould not
+     * hbvf bffn rfturnfd by thf {@link #quotf} mfthod, for instbndf
+     * if it dofs not bfgin bnd fnd with b quotf (").
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>q</dodf> is null.
+     *
+     */
+    publid stbtid String unquotf(String q) {
+        finbl StringBuildfr buf = nfw StringBuildfr();
+        finbl int lfn = q.lfngth();
+        if (lfn < 2 || q.dhbrAt(0) != '"' || q.dhbrAt(lfn - 1) != '"')
+            throw nfw IllfgblArgumfntExdfption("Argumfnt not quotfd");
+        for (int i = 1; i < lfn - 1; i++) {
+            dhbr d = q.dhbrAt(i);
+            if (d == '\\') {
+                if (i == lfn - 2)
+                    throw nfw IllfgblArgumfntExdfption("Trbiling bbdkslbsh");
+                d = q.dhbrAt(++i);
+                switdh (d) {
+                dbsf 'n':
+                    d = '\n';
+                    brfbk;
+                dbsf '\\':
+                dbsf '\"':
+                dbsf '*':
+                dbsf '?':
+                    brfbk;
+                dffbult:
+                  throw nfw IllfgblArgumfntExdfption(
+                                   "Bbd dhbrbdtfr '" + d + "' bftfr bbdkslbsh");
+                }
+            } flsf {
+                switdh (d) {
+                    dbsf '*' :
+                    dbsf '?' :
+                    dbsf '\"':
+                    dbsf '\n':
+                         throw nfw IllfgblArgumfntExdfption(
+                                          "Invblid unfsdbpfd dhbrbdtfr '" + d +
+                                          "' in thf string to unquotf");
+                }
+            }
+            buf.bppfnd(d);
+        }
+        rfturn buf.toString();
+    }
+
+    /**
+     * Dffinfs thf wilddbrd "*:*" ObjfdtNbmf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl ObjfdtNbmf WILDCARD = Util.nfwObjfdtNbmf("*:*");
+
+    // Cbtfgory : Utilitifs <===================================
+
+    // Cbtfgory : QufryExp Intfrfbdf ---------------------------------------->
+
+    /**
+     * <p>Tfst whfthfr this ObjfdtNbmf, whidh mby bf b pbttfrn,
+     * mbtdhfs bnothfr ObjfdtNbmf.  If <dodf>nbmf</dodf> is b pbttfrn,
+     * thf rfsult is fblsf.  If this ObjfdtNbmf is b pbttfrn, thf
+     * rfsult is truf if bnd only if <dodf>nbmf</dodf> mbtdhfs thf
+     * pbttfrn.  If nfithfr this ObjfdtNbmf nor <dodf>nbmf</dodf> is
+     * b pbttfrn, thf rfsult is truf if bnd only if thf two
+     * ObjfdtNbmfs brf fqubl bs dfsdribfd for thf {@link
+     * #fqubls(Objfdt)} mfthod.</p>
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn to dompbrf to.
+     *
+     * @rfturn Truf if <dodf>nbmf</dodf> mbtdhfs this ObjfdtNbmf.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>nbmf</dodf> is null.
+     *
+     */
+    publid boolfbn bpply(ObjfdtNbmf nbmf) {
+
+        if (nbmf == null) throw nfw NullPointfrExdfption();
+
+        if (nbmf._dombin_pbttfrn ||
+            nbmf._propfrty_list_pbttfrn ||
+            nbmf._propfrty_vbluf_pbttfrn)
+            rfturn fblsf;
+
+        // No pbttfrn
+        if (!_dombin_pbttfrn &&
+            !_propfrty_list_pbttfrn &&
+            !_propfrty_vbluf_pbttfrn)
+            rfturn _dbnonidblNbmf.fqubls(nbmf._dbnonidblNbmf);
+
+        rfturn mbtdhDombins(nbmf) && mbtdhKfys(nbmf);
+    }
+
+    privbtf finbl boolfbn mbtdhDombins(ObjfdtNbmf nbmf) {
+        if (_dombin_pbttfrn) {
+            // wildmbtdh dombins
+            // This ObjfdtNbmf is thf pbttfrn
+            // Thf othfr ObjfdtNbmf is thf string.
+            rfturn Util.wildmbtdh(nbmf.gftDombin(),gftDombin());
+        }
+        rfturn gftDombin().fqubls(nbmf.gftDombin());
+    }
+
+    privbtf finbl boolfbn mbtdhKfys(ObjfdtNbmf nbmf) {
+        // If kfy propfrty vbluf pbttfrn but not kfy propfrty list
+        // pbttfrn, thfn thf numbfr of kfy propfrtifs must bf fqubl
+        //
+        if (_propfrty_vbluf_pbttfrn &&
+            !_propfrty_list_pbttfrn &&
+            (nbmf._db_brrby.lfngth != _db_brrby.lfngth))
+                rfturn fblsf;
+
+        // If kfy propfrty vbluf pbttfrn or kfy propfrty list pbttfrn,
+        // thfn fvfry propfrty insidf pbttfrn should fxist in nbmf
+        //
+        if (_propfrty_vbluf_pbttfrn || _propfrty_list_pbttfrn) {
+            finbl Mbp<String,String> nbmfProps = nbmf._gftKfyPropfrtyList();
+            finbl Propfrty[] props = _db_brrby;
+            finbl String dn = _dbnonidblNbmf;
+            for (int i = props.lfngth - 1; i >= 0 ; i--) {
+                // Find vbluf in givfn objfdt nbmf for kfy bt durrfnt
+                // indfx in rfdfivfr
+                //
+                finbl Propfrty p = props[i];
+                finbl String   k = p.gftKfyString(dn);
+                finbl String   v = nbmfProps.gft(k);
+                // Did wf find b vbluf for this kfy ?
+                //
+                if (v == null) rfturn fblsf;
+                // If this propfrty is ok (sbmf kfy, sbmf vbluf), go to nfxt
+                //
+                if (_propfrty_vbluf_pbttfrn && (p instbndfof PbttfrnPropfrty)) {
+                    // wildmbtdh kfy propfrty vblufs
+                    // p is thf propfrty pbttfrn, v is thf string
+                    if (Util.wildmbtdh(v,p.gftVblufString(dn)))
+                        dontinuf;
+                    flsf
+                        rfturn fblsf;
+                }
+                if (v.fqubls(p.gftVblufString(dn))) dontinuf;
+                rfturn fblsf;
+            }
+            rfturn truf;
+        }
+
+        // If no pbttfrn, thfn dbnonidbl nbmfs must bf fqubl
+        //
+        finbl String p1 = nbmf.gftCbnonidblKfyPropfrtyListString();
+        finbl String p2 = gftCbnonidblKfyPropfrtyListString();
+        rfturn (p1.fqubls(p2));
+    }
+
+    /* Mfthod inhfritfd from QufryExp, no implfmfntbtion nffdfd hfrf
+       bfdbusf ObjfdtNbmf is not rflbtivf to bn MBfbnSfrvfr bnd dofs
+       not dontbin b subqufry.
+    */
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr mbs) { }
+
+    // Cbtfgory : QufryExp Intfrfbdf <=========================
+
+    // Cbtfgory : Compbrbblf Intfrfbdf ---------------------------------------->
+
+    /**
+     * <p>Compbrfs two ObjfdtNbmf instbndfs. Thf ordfring rflbtion bftwffn
+     * ObjfdtNbmfs is not domplftfly spfdififd but is intfndfd to bf sudh
+     * thbt b sortfd list of ObjfdtNbmfs will bppfbr in bn ordfr thbt is
+     * donvfnifnt for b pfrson to rfbd.</p>
+     *
+     * <p>In pbrtidulbr, if thf two ObjfdtNbmf instbndfs hbvf difffrfnt
+     * dombins thfn thfir ordfr is thf lfxidogrbphidbl ordfr of thf dombins.
+     * Thf ordfring of thf kfy propfrty list rfmbins unspfdififd.</p>
+     *
+     * <p>For fxbmplf, thf ObjfdtNbmf instbndfs bflow:</p>
+     * <ul>
+     * <li>Shbpfs:typf=Squbrf,nbmf=3</li>
+     * <li>Colors:typf=Rfd,nbmf=2</li>
+     * <li>Shbpfs:typf=Tribnglf,sidf=isosdflfs,nbmf=2</li>
+     * <li>Colors:typf=Rfd,nbmf=1</li>
+     * <li>Shbpfs:typf=Squbrf,nbmf=1</li>
+     * <li>Colors:typf=Bluf,nbmf=1</li>
+     * <li>Shbpfs:typf=Squbrf,nbmf=2</li>
+     * <li>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</li>
+     * <li>Shbpfs:typf=Tribnglf,sidf=sdblfnf,nbmf=1</li>
+     * </ul>
+     * <p>dould bf ordfrfd bs follows:</p>
+     * <ul>
+     * <li>Colors:typf=Bluf,nbmf=1</li>
+     * <li>Colors:typf=Rfd,nbmf=1</li>
+     * <li>Colors:typf=Rfd,nbmf=2</li>
+     * <li>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</li>
+     * <li>Shbpfs:typf=Squbrf,nbmf=1</li>
+     * <li>Shbpfs:typf=Squbrf,nbmf=2</li>
+     * <li>Shbpfs:typf=Squbrf,nbmf=3</li>
+     * <li>Shbpfs:typf=Tribnglf,sidf=sdblfnf,nbmf=1</li>
+     * <li>Shbpfs:typf=Tribnglf,sidf=isosdflfs,nbmf=2</li>
+     * </ul>
+     *
+     * @pbrbm nbmf thf ObjfdtNbmf to bf dompbrfd.
+     *
+     * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this
+     *         ObjfdtNbmf is lfss thbn, fqubl to, or grfbtfr thbn thf
+     *         spfdififd ObjfdtNbmf.
+     *
+     * @sindf 1.6
+     */
+    publid int dompbrfTo(ObjfdtNbmf nbmf) {
+        // Quidk optimizbtion:
+        //
+        if (nbmf == this) rfturn 0;
+
+        // (1) Compbrf dombins
+        //
+        int dombinVbluf = this.gftDombin().dompbrfTo(nbmf.gftDombin());
+        if (dombinVbluf != 0)
+            rfturn dombinVbluf;
+
+        // (2) Compbrf "typf=" kfys
+        //
+        // Within b givfn dombin, bll nbmfs with missing or fmpty "typf="
+        // domf bfforf bll nbmfs with non-fmpty typf.
+        //
+        // Whfn both typfs brf missing or fmpty, dbnonidbl-nbmf ordfring
+        // bpplifs whidh is b totbl ordfr.
+        //
+        String thisTypfKfy = this.gftKfyPropfrty("typf");
+        String bnothfrTypfKfy = nbmf.gftKfyPropfrty("typf");
+        if (thisTypfKfy == null)
+            thisTypfKfy = "";
+        if (bnothfrTypfKfy == null)
+            bnothfrTypfKfy = "";
+        int typfKfyVbluf = thisTypfKfy.dompbrfTo(bnothfrTypfKfy);
+        if (typfKfyVbluf != 0)
+            rfturn typfKfyVbluf;
+
+        // (3) Compbrf dbnonidbl nbmfs
+        //
+        rfturn this.gftCbnonidblNbmf().dompbrfTo(nbmf.gftCbnonidblNbmf());
+    }
+
+    // Cbtfgory : Compbrbblf Intfrfbdf <=========================
+
+    // Publid mfthods <========================================
+
+}

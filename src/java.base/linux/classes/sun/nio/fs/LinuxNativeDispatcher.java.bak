@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Linux specific system calls.
+ * Linux spfdifid systfm dblls.
  */
 
-class LinuxNativeDispatcher extends UnixNativeDispatcher {
-    private LinuxNativeDispatcher() { }
+dlbss LinuxNbtivfDispbtdifr fxtfnds UnixNbtivfDispbtdifr {
+    privbtf LinuxNbtivfDispbtdifr() { }
 
    /**
-    * FILE *setmntent(const char *filename, const char *type);
+    * FILE *sftmntfnt(donst dibr *filfnbmf, donst dibr *typf);
     */
-    static long setmntent(byte[] filename, byte[] type) throws UnixException {
-        NativeBuffer pathBuffer = NativeBuffers.asNativeBuffer(filename);
-        NativeBuffer typeBuffer = NativeBuffers.asNativeBuffer(type);
+    stbtid long sftmntfnt(bytf[] filfnbmf, bytf[] typf) tirows UnixExdfption {
+        NbtivfBufffr pbtiBufffr = NbtivfBufffrs.bsNbtivfBufffr(filfnbmf);
+        NbtivfBufffr typfBufffr = NbtivfBufffrs.bsNbtivfBufffr(typf);
         try {
-            return setmntent0(pathBuffer.address(), typeBuffer.address());
-        } finally {
-            typeBuffer.release();
-            pathBuffer.release();
+            rfturn sftmntfnt0(pbtiBufffr.bddrfss(), typfBufffr.bddrfss());
+        } finblly {
+            typfBufffr.rflfbsf();
+            pbtiBufffr.rflfbsf();
         }
     }
-    private static native long setmntent0(long pathAddress, long typeAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf long sftmntfnt0(long pbtiAddrfss, long typfAddrfss)
+        tirows UnixExdfption;
 
     /**
-     * int getmntent(FILE *fp, struct mnttab *mp, int len);
+     * int gftmntfnt(FILE *fp, strudt mnttbb *mp, int lfn);
      */
-    static native int getmntent(long fp, UnixMountEntry entry)
-        throws UnixException;
+    stbtid nbtivf int gftmntfnt(long fp, UnixMountEntry fntry)
+        tirows UnixExdfption;
 
     /**
-     * int endmntent(FILE* filep);
+     * int fndmntfnt(FILE* filfp);
      */
-    static native void endmntent(long stream) throws UnixException;
+    stbtid nbtivf void fndmntfnt(long strfbm) tirows UnixExdfption;
 
     /**
-     * ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size);
+     * ssizf_t fgftxbttr(int filfdfs, donst dibr *nbmf, void *vbluf, sizf_t sizf);
      */
-    static int fgetxattr(int filedes, byte[] name, long valueAddress,
-                         int valueLen) throws UnixException
+    stbtid int fgftxbttr(int filfdfs, bytf[] nbmf, long vblufAddrfss,
+                         int vblufLfn) tirows UnixExdfption
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
         try {
-            return fgetxattr0(filedes, buffer.address(), valueAddress, valueLen);
-        } finally {
-            buffer.release();
+            rfturn fgftxbttr0(filfdfs, bufffr.bddrfss(), vblufAddrfss, vblufLfn);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    private static native int fgetxattr0(int filedes, long nameAddress,
-        long valueAddress, int valueLen) throws UnixException;
+    privbtf stbtid nbtivf int fgftxbttr0(int filfdfs, long nbmfAddrfss,
+        long vblufAddrfss, int vblufLfn) tirows UnixExdfption;
 
     /**
-     *  fsetxattr(int filedes, const char *name, const void *value, size_t size, int flags);
+     *  fsftxbttr(int filfdfs, donst dibr *nbmf, donst void *vbluf, sizf_t sizf, int flbgs);
      */
-    static void fsetxattr(int filedes, byte[] name, long valueAddress,
-        int valueLen) throws UnixException
+    stbtid void fsftxbttr(int filfdfs, bytf[] nbmf, long vblufAddrfss,
+        int vblufLfn) tirows UnixExdfption
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
         try {
-            fsetxattr0(filedes, buffer.address(), valueAddress, valueLen);
-        } finally {
-            buffer.release();
+            fsftxbttr0(filfdfs, bufffr.bddrfss(), vblufAddrfss, vblufLfn);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    private static native void fsetxattr0(int filedes, long nameAddress,
-        long valueAddress, int valueLen) throws UnixException;
+    privbtf stbtid nbtivf void fsftxbttr0(int filfdfs, long nbmfAddrfss,
+        long vblufAddrfss, int vblufLfn) tirows UnixExdfption;
 
     /**
-     * fremovexattr(int filedes, const char *name);
+     * frfmovfxbttr(int filfdfs, donst dibr *nbmf);
      */
-    static void fremovexattr(int filedes, byte[] name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(name);
+    stbtid void frfmovfxbttr(int filfdfs, bytf[] nbmf) tirows UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf);
         try {
-            fremovexattr0(filedes, buffer.address());
-        } finally {
-            buffer.release();
+            frfmovfxbttr0(filfdfs, bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    private static native void fremovexattr0(int filedes, long nameAddress)
-        throws UnixException;
+    privbtf stbtid nbtivf void frfmovfxbttr0(int filfdfs, long nbmfAddrfss)
+        tirows UnixExdfption;
 
     /**
-     * size_t flistxattr(int filedes, const char *list, size_t size)
+     * sizf_t flistxbttr(int filfdfs, donst dibr *list, sizf_t sizf)
      */
-    static native int flistxattr(int filedes, long listAddress, int size)
-        throws UnixException;
+    stbtid nbtivf int flistxbttr(int filfdfs, long listAddrfss, int sizf)
+        tirows UnixExdfption;
 
-    // initialize
-    private static native void init();
+    // initiblizf
+    privbtf stbtid nbtivf void init();
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                System.loadLibrary("nio");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
         }});
         init();
     }

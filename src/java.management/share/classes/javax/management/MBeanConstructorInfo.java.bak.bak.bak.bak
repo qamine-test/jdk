@@ -1,0 +1,215 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
+
+/**
+ * Dfsdribfs b donstrudtor fxposfd by bn MBfbn.  Instbndfs of this
+ * dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf but this is not
+ * rfdommfndfd.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnConstrudtorInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 4433990064191844427L;
+
+    stbtid finbl MBfbnConstrudtorInfo[] NO_CONSTRUCTORS =
+        nfw MBfbnConstrudtorInfo[0];
+
+    /** @sff MBfbnInfo#brrbyGfttfrsSbff */
+    privbtf finbl trbnsifnt boolfbn brrbyGfttfrsSbff;
+
+    /**
+     * @sfribl Thf signbturf of thf mfthod, thbt is, thf dlbss nbmfs of thf brgumfnts.
+     */
+    privbtf finbl MBfbnPbrbmftfrInfo[] signbturf;
+
+    /**
+     * Construdts bn <CODE>MBfbnConstrudtorInfo</CODE> objfdt.  Thf
+     * {@link Dfsdriptor} of thf donstrudtfd objfdt will indludf
+     * fiflds dontributfd by bny bnnotbtions on thf {@dodf
+     * Construdtor} objfdt thbt dontbin thf {@link DfsdriptorKfy}
+     * mftb-bnnotbtion.
+     *
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf opfrbtion.
+     * @pbrbm donstrudtor Thf <CODE>jbvb.lbng.rfflfdt.Construdtor</CODE>
+     * objfdt dfsdribing thf MBfbn donstrudtor.
+     */
+    publid MBfbnConstrudtorInfo(String dfsdription, Construdtor<?> donstrudtor) {
+        this(donstrudtor.gftNbmf(), dfsdription,
+             donstrudtorSignbturf(donstrudtor),
+             Introspfdtor.dfsdriptorForElfmfnt(donstrudtor));
+    }
+
+    /**
+     * Construdts bn <CODE>MBfbnConstrudtorInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf donstrudtor.
+     * @pbrbm signbturf <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts
+     * dfsdribing thf pbrbmftfrs(brgumfnts) of thf donstrudtor.  This
+     * mby bf null with thf sbmf ffffdt bs b zfro-lfngth brrby.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf donstrudtor.
+     */
+    publid MBfbnConstrudtorInfo(String nbmf,
+                                String dfsdription,
+                                MBfbnPbrbmftfrInfo[] signbturf) {
+        this(nbmf, dfsdription, signbturf, null);
+    }
+
+    /**
+     * Construdts bn <CODE>MBfbnConstrudtorInfo</CODE> objfdt.
+     *
+     * @pbrbm nbmf Thf nbmf of thf donstrudtor.
+     * @pbrbm signbturf <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts
+     * dfsdribing thf pbrbmftfrs(brgumfnts) of thf donstrudtor.  This
+     * mby bf null with thf sbmf ffffdt bs b zfro-lfngth brrby.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf donstrudtor.
+     * @pbrbm dfsdriptor Thf dfsdriptor for thf donstrudtor.  This mby bf null
+     * whidh is fquivblfnt to bn fmpty dfsdriptor.
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnConstrudtorInfo(String nbmf,
+                                String dfsdription,
+                                MBfbnPbrbmftfrInfo[] signbturf,
+                                Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
+
+        if (signbturf == null || signbturf.lfngth == 0)
+            signbturf = MBfbnPbrbmftfrInfo.NO_PARAMS;
+        flsf
+            signbturf = signbturf.dlonf();
+        this.signbturf = signbturf;
+        this.brrbyGfttfrsSbff =
+            MBfbnInfo.brrbyGfttfrsSbff(this.gftClbss(),
+                                       MBfbnConstrudtorInfo.dlbss);
+    }
+
+
+    /**
+     * <p>Rfturns b shbllow dlonf of this instbndf.  Thf dlonf is
+     * obtbinfd by simply dblling <tt>supfr.dlonf()</tt>, thus dblling
+     * thf dffbult nbtivf shbllow dloning mfdhbnism implfmfntfd by
+     * <tt>Objfdt.dlonf()</tt>.  No dffpfr dloning of bny intfrnbl
+     * fifld is mbdf.</p>
+     *
+     * <p>Sindf this dlbss is immutbblf, dloning is dhiffly of
+     * intfrfst to subdlbssfs.</p>
+     */
+     publid Objfdt dlonf () {
+         try {
+             rfturn supfr.dlonf() ;
+         } dbtdh (ClonfNotSupportfdExdfption f) {
+             // should not hbppfn bs this dlbss is dlonfbblf
+             rfturn null;
+         }
+     }
+
+    /**
+     * <p>Rfturns thf list of pbrbmftfrs for this donstrudtor.  Ebdh
+     * pbrbmftfr is dfsdribfd by bn <CODE>MBfbnPbrbmftfrInfo</CODE>
+     * objfdt.</p>
+     *
+     * <p>Thf rfturnfd brrby is b shbllow dopy of thf intfrnbl brrby,
+     * whidh mfbns thbt it is b dopy of thf intfrnbl brrby of
+     * rfffrfndfs to thf <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts but
+     * thbt fbdh rfffrfndfd <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt is
+     * not dopifd.</p>
+     *
+     * @rfturn  An brrby of <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts.
+     */
+    publid MBfbnPbrbmftfrInfo[] gftSignbturf() {
+        if (signbturf.lfngth == 0)
+            rfturn signbturf;
+        flsf
+            rfturn signbturf.dlonf();
+    }
+
+    privbtf MBfbnPbrbmftfrInfo[] fbstGftSignbturf() {
+        if (brrbyGfttfrsSbff)
+            rfturn signbturf;
+        flsf
+            rfturn gftSignbturf();
+    }
+
+    publid String toString() {
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "signbturf=" + Arrbys.bsList(fbstGftSignbturf()) + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
+            "]";
+    }
+
+    /**
+     * Compbrf this MBfbnConstrudtorInfo to bnothfr.
+     *
+     * @pbrbm o thf objfdt to dompbrf to.
+     *
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnConstrudtorInfo sudh
+     * thbt its {@link #gftNbmf()}, {@link #gftDfsdription()},
+     * {@link #gftSignbturf()}, bnd {@link #gftDfsdriptor()}
+     * vblufs brf fqubl (not nfdfssbrily
+     * idfntidbl) to thosf of this MBfbnConstrudtorInfo.  Two
+     * signbturf brrbys brf fqubl if thfir flfmfnts brf pbirwisf
+     * fqubl.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof MBfbnConstrudtorInfo))
+            rfturn fblsf;
+        MBfbnConstrudtorInfo p = (MBfbnConstrudtorInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Arrbys.fqubls(p.fbstGftSignbturf(), fbstGftSignbturf()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()));
+    }
+
+    /* Unlikf bttributfs bnd opfrbtions, it's quitf likfly wf'll hbvf
+       morf thbn onf donstrudtor with thf sbmf nbmf bnd fvfn
+       dfsdription, so wf indludf thf pbrbmftfr brrby in thf hbshdodf.
+       Wf don't indludf thf dfsdription, though, bfdbusf it dould bf
+       quitf long bnd yft thf sbmf bftwffn donstrudtors.  Likfwisf for
+       thf dfsdriptor.  */
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(gftNbmf()) ^ Arrbys.hbshCodf(fbstGftSignbturf());
+    }
+
+    privbtf stbtid MBfbnPbrbmftfrInfo[] donstrudtorSignbturf(Construdtor<?> dn) {
+        finbl Clbss<?>[] dlbssfs = dn.gftPbrbmftfrTypfs();
+        finbl Annotbtion[][] bnnots = dn.gftPbrbmftfrAnnotbtions();
+        rfturn MBfbnOpfrbtionInfo.pbrbmftfrs(dlbssfs, bnnots);
+    }
+}

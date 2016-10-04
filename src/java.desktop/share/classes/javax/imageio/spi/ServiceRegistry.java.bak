@@ -1,842 +1,842 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.ServiceLoader;
+import jbvb.io.Filf;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.SfrvidfLobdfr;
 
 /**
- * A registry for service provider instances.
+ * A rfgistry for sfrvidf providfr instbndfs.
  *
- * <p> A <i>service</i> is a well-known set of interfaces and (usually
- * abstract) classes.  A <i>service provider</i> is a specific
- * implementation of a service.  The classes in a provider typically
- * implement the interface or subclass the class defined by the
- * service itself.
+ * <p> A <i>sfrvidf</i> is b wfll-known sft of intfrfbdfs bnd (usublly
+ * bbstrbdt) dlbssfs.  A <i>sfrvidf providfr</i> is b spfdifid
+ * implfmfntbtion of b sfrvidf.  Tif dlbssfs in b providfr typidblly
+ * implfmfnt tif intfrfbdf or subdlbss tif dlbss dffinfd by tif
+ * sfrvidf itsflf.
  *
- * <p> Service providers are stored in one or more <i>categories</i>,
- * each of which is defined by a class of interface (described by a
- * <code>Class</code> object) that all of its members must implement.
- * The set of categories may be changed dynamically.
+ * <p> Sfrvidf providfrs brf storfd in onf or morf <i>dbtfgorifs</i>,
+ * fbdi of wiidi is dffinfd by b dlbss of intfrfbdf (dfsdribfd by b
+ * <dodf>Clbss</dodf> objfdt) tibt bll of its mfmbfrs must implfmfnt.
+ * Tif sft of dbtfgorifs mby bf dibngfd dynbmidblly.
  *
- * <p> Only a single instance of a given leaf class (that is, the
- * actual class returned by <code>getClass()</code>, as opposed to any
- * inherited classes or interfaces) may be registered.  That is,
- * suppose that the
- * <code>com.mycompany.mypkg.GreenServiceProvider</code> class
- * implements the <code>com.mycompany.mypkg.MyService</code>
- * interface.  If a <code>GreenServiceProvider</code> instance is
- * registered, it will be stored in the category defined by the
- * <code>MyService</code> class.  If a new instance of
- * <code>GreenServiceProvider</code> is registered, it will replace
- * the previous instance.  In practice, service provider objects are
- * usually singletons so this behavior is appropriate.
+ * <p> Only b singlf instbndf of b givfn lfbf dlbss (tibt is, tif
+ * bdtubl dlbss rfturnfd by <dodf>gftClbss()</dodf>, bs opposfd to bny
+ * inifritfd dlbssfs or intfrfbdfs) mby bf rfgistfrfd.  Tibt is,
+ * supposf tibt tif
+ * <dodf>dom.mydompbny.mypkg.GrffnSfrvidfProvidfr</dodf> dlbss
+ * implfmfnts tif <dodf>dom.mydompbny.mypkg.MySfrvidf</dodf>
+ * intfrfbdf.  If b <dodf>GrffnSfrvidfProvidfr</dodf> instbndf is
+ * rfgistfrfd, it will bf storfd in tif dbtfgory dffinfd by tif
+ * <dodf>MySfrvidf</dodf> dlbss.  If b nfw instbndf of
+ * <dodf>GrffnSfrvidfProvidfr</dodf> is rfgistfrfd, it will rfplbdf
+ * tif prfvious instbndf.  In prbdtidf, sfrvidf providfr objfdts brf
+ * usublly singlftons so tiis bfibvior is bppropribtf.
  *
- * <p> To declare a service provider, a <code>services</code>
- * subdirectory is placed within the <code>META-INF</code> directory
- * that is present in every JAR file.  This directory contains a file
- * for each service provider interface that has one or more
- * implementation classes present in the JAR file.  For example, if
- * the JAR file contained a class named
- * <code>com.mycompany.mypkg.MyServiceImpl</code> which implements the
- * <code>javax.someapi.SomeService</code> interface, the JAR file
- * would contain a file named: <pre>
- * META-INF/services/javax.someapi.SomeService </pre>
+ * <p> To dfdlbrf b sfrvidf providfr, b <dodf>sfrvidfs</dodf>
+ * subdirfdtory is plbdfd witiin tif <dodf>META-INF</dodf> dirfdtory
+ * tibt is prfsfnt in fvfry JAR filf.  Tiis dirfdtory dontbins b filf
+ * for fbdi sfrvidf providfr intfrfbdf tibt ibs onf or morf
+ * implfmfntbtion dlbssfs prfsfnt in tif JAR filf.  For fxbmplf, if
+ * tif JAR filf dontbinfd b dlbss nbmfd
+ * <dodf>dom.mydompbny.mypkg.MySfrvidfImpl</dodf> wiidi implfmfnts tif
+ * <dodf>jbvbx.somfbpi.SomfSfrvidf</dodf> intfrfbdf, tif JAR filf
+ * would dontbin b filf nbmfd: <prf>
+ * META-INF/sfrvidfs/jbvbx.somfbpi.SomfSfrvidf </prf>
  *
- * containing the line:
+ * dontbining tif linf:
  *
- * <pre>
- * com.mycompany.mypkg.MyService
- * </pre>
+ * <prf>
+ * dom.mydompbny.mypkg.MySfrvidf
+ * </prf>
  *
- * <p> The service provider classes should be to be lightweight and
- * quick to load.  Implementations of these interfaces should avoid
- * complex dependencies on other classes and on native code. The usual
- * pattern for more complex services is to register a lightweight
- * proxy for the heavyweight service.
+ * <p> Tif sfrvidf providfr dlbssfs siould bf to bf ligitwfigit bnd
+ * quidk to lobd.  Implfmfntbtions of tifsf intfrfbdfs siould bvoid
+ * domplfx dfpfndfndifs on otifr dlbssfs bnd on nbtivf dodf. Tif usubl
+ * pbttfrn for morf domplfx sfrvidfs is to rfgistfr b ligitwfigit
+ * proxy for tif ifbvywfigit sfrvidf.
  *
- * <p> An application may customize the contents of a registry as it
- * sees fit, so long as it has the appropriate runtime permission.
+ * <p> An bpplidbtion mby dustomizf tif dontfnts of b rfgistry bs it
+ * sffs fit, so long bs it ibs tif bppropribtf runtimf pfrmission.
  *
- * <p> For more details on declaring service providers, and the JAR
- * format in general, see the <a
- * href="../../../../technotes/guides/jar/jar.html">
- * JAR File Specification</a>.
+ * <p> For morf dftbils on dfdlbring sfrvidf providfrs, bnd tif JAR
+ * formbt in gfnfrbl, sff tif <b
+ * irff="../../../../tfdinotfs/guidfs/jbr/jbr.itml">
+ * JAR Filf Spfdifidbtion</b>.
  *
- * @see RegisterableService
+ * @sff RfgistfrbblfSfrvidf
  *
  */
-public class ServiceRegistry {
+publid dlbss SfrvidfRfgistry {
 
-    // Class -> Registry
-    private Map<Class<?>, SubRegistry> categoryMap = new HashMap<>();
+    // Clbss -> Rfgistry
+    privbtf Mbp<Clbss<?>, SubRfgistry> dbtfgoryMbp = nfw HbsiMbp<>();
 
     /**
-     * Constructs a <code>ServiceRegistry</code> instance with a
-     * set of categories taken from the <code>categories</code>
-     * argument.
+     * Construdts b <dodf>SfrvidfRfgistry</dodf> instbndf witi b
+     * sft of dbtfgorifs tbkfn from tif <dodf>dbtfgorifs</dodf>
+     * brgumfnt.
      *
-     * @param categories an <code>Iterator</code> containing
-     * <code>Class</code> objects to be used to define categories.
+     * @pbrbm dbtfgorifs bn <dodf>Itfrbtor</dodf> dontbining
+     * <dodf>Clbss</dodf> objfdts to bf usfd to dffinf dbtfgorifs.
      *
-     * @exception IllegalArgumentException if
-     * <code>categories</code> is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>dbtfgorifs</dodf> is <dodf>null</dodf>.
      */
-    public ServiceRegistry(Iterator<Class<?>> categories) {
-        if (categories == null) {
-            throw new IllegalArgumentException("categories == null!");
+    publid SfrvidfRfgistry(Itfrbtor<Clbss<?>> dbtfgorifs) {
+        if (dbtfgorifs == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgorifs == null!");
         }
-        while (categories.hasNext()) {
-            Class<?> category = categories.next();
-            SubRegistry reg = new SubRegistry(this, category);
-            categoryMap.put(category, reg);
+        wiilf (dbtfgorifs.ibsNfxt()) {
+            Clbss<?> dbtfgory = dbtfgorifs.nfxt();
+            SubRfgistry rfg = nfw SubRfgistry(tiis, dbtfgory);
+            dbtfgoryMbp.put(dbtfgory, rfg);
         }
     }
 
     /**
-     * Searches for implementations of a particular service class
-     * using the given class loader.
+     * Sfbrdifs for implfmfntbtions of b pbrtidulbr sfrvidf dlbss
+     * using tif givfn dlbss lobdfr.
      *
-     * <p> This method transforms the name of the given service class
-     * into a provider-configuration filename as described in the
-     * class comment and then uses the <code>getResources</code>
-     * method of the given class loader to find all available files
-     * with that name.  These files are then read and parsed to
-     * produce a list of provider-class names.  The iterator that is
-     * returned uses the given class loader to look up and then
-     * instantiate each element of the list.
+     * <p> Tiis mftiod trbnsforms tif nbmf of tif givfn sfrvidf dlbss
+     * into b providfr-donfigurbtion filfnbmf bs dfsdribfd in tif
+     * dlbss dommfnt bnd tifn usfs tif <dodf>gftRfsourdfs</dodf>
+     * mftiod of tif givfn dlbss lobdfr to find bll bvbilbblf filfs
+     * witi tibt nbmf.  Tifsf filfs brf tifn rfbd bnd pbrsfd to
+     * produdf b list of providfr-dlbss nbmfs.  Tif itfrbtor tibt is
+     * rfturnfd usfs tif givfn dlbss lobdfr to look up bnd tifn
+     * instbntibtf fbdi flfmfnt of tif list.
      *
-     * <p> Because it is possible for extensions to be installed into
-     * a running Java virtual machine, this method may return
-     * different results each time it is invoked.
+     * <p> Bfdbusf it is possiblf for fxtfnsions to bf instbllfd into
+     * b running Jbvb virtubl mbdiinf, tiis mftiod mby rfturn
+     * difffrfnt rfsults fbdi timf it is invokfd.
      *
-     * @param providerClass a <code>Class</code>object indicating the
-     * class or interface of the service providers being detected.
+     * @pbrbm providfrClbss b <dodf>Clbss</dodf>objfdt indidbting tif
+     * dlbss or intfrfbdf of tif sfrvidf providfrs bfing dftfdtfd.
      *
-     * @param loader the class loader to be used to load
-     * provider-configuration files and instantiate provider classes,
-     * or <code>null</code> if the system class loader (or, failing that
-     * the bootstrap class loader) is to be used.
+     * @pbrbm lobdfr tif dlbss lobdfr to bf usfd to lobd
+     * providfr-donfigurbtion filfs bnd instbntibtf providfr dlbssfs,
+     * or <dodf>null</dodf> if tif systfm dlbss lobdfr (or, fbiling tibt
+     * tif bootstrbp dlbss lobdfr) is to bf usfd.
      *
-     * @param <T> the type of the providerClass.
+     * @pbrbm <T> tif typf of tif providfrClbss.
      *
-     * @return An <code>Iterator</code> that yields provider objects
-     * for the given service, in some arbitrary order.  The iterator
-     * will throw an <code>Error</code> if a provider-configuration
-     * file violates the specified format or if a provider class
-     * cannot be found and instantiated.
+     * @rfturn An <dodf>Itfrbtor</dodf> tibt yiflds providfr objfdts
+     * for tif givfn sfrvidf, in somf brbitrbry ordfr.  Tif itfrbtor
+     * will tirow bn <dodf>Error</dodf> if b providfr-donfigurbtion
+     * filf violbtfs tif spfdififd formbt or if b providfr dlbss
+     * dbnnot bf found bnd instbntibtfd.
      *
-     * @exception IllegalArgumentException if
-     * <code>providerClass</code> is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfrClbss</dodf> is <dodf>null</dodf>.
      */
-    public static <T> Iterator<T> lookupProviders(Class<T> providerClass,
-                                                  ClassLoader loader)
+    publid stbtid <T> Itfrbtor<T> lookupProvidfrs(Clbss<T> providfrClbss,
+                                                  ClbssLobdfr lobdfr)
     {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+        if (providfrClbss == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfrClbss == null!");
         }
-        return ServiceLoader.load(providerClass, loader).iterator();
+        rfturn SfrvidfLobdfr.lobd(providfrClbss, lobdfr).itfrbtor();
     }
 
     /**
-     * Locates and incrementally instantiates the available providers
-     * of a given service using the context class loader.  This
-     * convenience method is equivalent to:
+     * Lodbtfs bnd indrfmfntblly instbntibtfs tif bvbilbblf providfrs
+     * of b givfn sfrvidf using tif dontfxt dlbss lobdfr.  Tiis
+     * donvfnifndf mftiod is fquivblfnt to:
      *
-     * <pre>
-     *   ClassLoader cl = Thread.currentThread().getContextClassLoader();
-     *   return Service.providers(service, cl);
-     * </pre>
+     * <prf>
+     *   ClbssLobdfr dl = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+     *   rfturn Sfrvidf.providfrs(sfrvidf, dl);
+     * </prf>
      *
-     * @param providerClass a <code>Class</code>object indicating the
-     * class or interface of the service providers being detected.
+     * @pbrbm providfrClbss b <dodf>Clbss</dodf>objfdt indidbting tif
+     * dlbss or intfrfbdf of tif sfrvidf providfrs bfing dftfdtfd.
      *
-     * @param <T> the type of the providerClass.
+     * @pbrbm <T> tif typf of tif providfrClbss.
      *
-     * @return An <code>Iterator</code> that yields provider objects
-     * for the given service, in some arbitrary order.  The iterator
-     * will throw an <code>Error</code> if a provider-configuration
-     * file violates the specified format or if a provider class
-     * cannot be found and instantiated.
+     * @rfturn An <dodf>Itfrbtor</dodf> tibt yiflds providfr objfdts
+     * for tif givfn sfrvidf, in somf brbitrbry ordfr.  Tif itfrbtor
+     * will tirow bn <dodf>Error</dodf> if b providfr-donfigurbtion
+     * filf violbtfs tif spfdififd formbt or if b providfr dlbss
+     * dbnnot bf found bnd instbntibtfd.
      *
-     * @exception IllegalArgumentException if
-     * <code>providerClass</code> is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfrClbss</dodf> is <dodf>null</dodf>.
      */
-    public static <T> Iterator<T> lookupProviders(Class<T> providerClass) {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+    publid stbtid <T> Itfrbtor<T> lookupProvidfrs(Clbss<T> providfrClbss) {
+        if (providfrClbss == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfrClbss == null!");
         }
-        return ServiceLoader.load(providerClass).iterator();
+        rfturn SfrvidfLobdfr.lobd(providfrClbss).itfrbtor();
     }
 
     /**
-     * Returns an <code>Iterator</code> of <code>Class</code> objects
-     * indicating the current set of categories.  The iterator will be
-     * empty if no categories exist.
+     * Rfturns bn <dodf>Itfrbtor</dodf> of <dodf>Clbss</dodf> objfdts
+     * indidbting tif durrfnt sft of dbtfgorifs.  Tif itfrbtor will bf
+     * fmpty if no dbtfgorifs fxist.
      *
-     * @return an <code>Iterator</code> containing
-     * <code>Class</code>objects.
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining
+     * <dodf>Clbss</dodf>objfdts.
      */
-    public Iterator<Class<?>> getCategories() {
-        Set<Class<?>> keySet = categoryMap.keySet();
-        return keySet.iterator();
+    publid Itfrbtor<Clbss<?>> gftCbtfgorifs() {
+        Sft<Clbss<?>> kfySft = dbtfgoryMbp.kfySft();
+        rfturn kfySft.itfrbtor();
     }
 
     /**
-     * Returns an Iterator containing the subregistries to which the
-     * provider belongs.
+     * Rfturns bn Itfrbtor dontbining tif subrfgistrifs to wiidi tif
+     * providfr bflongs.
      */
-    private Iterator<SubRegistry> getSubRegistries(Object provider) {
-        List<SubRegistry> l = new ArrayList<>();
-        Iterator<Class<?>> iter = categoryMap.keySet().iterator();
-        while (iter.hasNext()) {
-            Class<?> c = iter.next();
-            if (c.isAssignableFrom(provider.getClass())) {
-                l.add(categoryMap.get(c));
+    privbtf Itfrbtor<SubRfgistry> gftSubRfgistrifs(Objfdt providfr) {
+        List<SubRfgistry> l = nfw ArrbyList<>();
+        Itfrbtor<Clbss<?>> itfr = dbtfgoryMbp.kfySft().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Clbss<?> d = itfr.nfxt();
+            if (d.isAssignbblfFrom(providfr.gftClbss())) {
+                l.bdd(dbtfgoryMbp.gft(d));
             }
         }
-        return l.iterator();
+        rfturn l.itfrbtor();
     }
 
     /**
-     * Adds a service provider object to the registry.  The provider
-     * is associated with the given category.
+     * Adds b sfrvidf providfr objfdt to tif rfgistry.  Tif providfr
+     * is bssodibtfd witi tif givfn dbtfgory.
      *
-     * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category, for example if a
-     * category is removed or the registry is garbage collected.
+     * <p> If <dodf>providfr</dodf> implfmfnts tif
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mftiod will bf dbllfd.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mftiod will bf dbllfd fbdi timf
+     * it is dfrfgistfrfd from b dbtfgory, for fxbmplf if b
+     * dbtfgory is rfmovfd or tif rfgistry is gbrbbgf dollfdtfd.
      *
-     * @param provider the service provide object to be registered.
-     * @param category the category under which to register the
-     * provider.
-     * @param <T> the type of the provider.
+     * @pbrbm providfr tif sfrvidf providf objfdt to bf rfgistfrfd.
+     * @pbrbm dbtfgory tif dbtfgory undfr wiidi to rfgistfr tif
+     * providfr.
+     * @pbrbm <T> tif typf of tif providfr.
      *
-     * @return true if no provider of the same class was previously
-     * registered in the same category category.
+     * @rfturn truf if no providfr of tif sbmf dlbss wbs prfviously
+     * rfgistfrfd in tif sbmf dbtfgory dbtfgory.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
-     * @exception ClassCastException if provider does not implement
-     * the <code>Class</code> defined by <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     * @fxdfption ClbssCbstExdfption if providfr dofs not implfmfnt
+     * tif <dodf>Clbss</dodf> dffinfd by <dodf>dbtfgory</dodf>.
      */
-    public <T> boolean registerServiceProvider(T provider,
-                                               Class<T> category) {
-        if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+    publid <T> boolfbn rfgistfrSfrvidfProvidfr(T providfr,
+                                               Clbss<T> dbtfgory) {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
         }
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        if (!category.isAssignableFrom(provider.getClass())) {
-            throw new ClassCastException();
+        if (!dbtfgory.isAssignbblfFrom(providfr.gftClbss())) {
+            tirow nfw ClbssCbstExdfption();
         }
 
-        return reg.registerServiceProvider(provider);
+        rfturn rfg.rfgistfrSfrvidfProvidfr(providfr);
     }
 
     /**
-     * Adds a service provider object to the registry.  The provider
-     * is associated within each category present in the registry
-     * whose <code>Class</code> it implements.
+     * Adds b sfrvidf providfr objfdt to tif rfgistry.  Tif providfr
+     * is bssodibtfd witiin fbdi dbtfgory prfsfnt in tif rfgistry
+     * wiosf <dodf>Clbss</dodf> it implfmfnts.
      *
-     * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called once for each
-     * category it is registered under.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category or when the registry is
-     * finalized.
+     * <p> If <dodf>providfr</dodf> implfmfnts tif
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mftiod will bf dbllfd ondf for fbdi
+     * dbtfgory it is rfgistfrfd undfr.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mftiod will bf dbllfd fbdi timf
+     * it is dfrfgistfrfd from b dbtfgory or wifn tif rfgistry is
+     * finblizfd.
      *
-     * @param provider the service provider object to be registered.
+     * @pbrbm providfr tif sfrvidf providfr objfdt to bf rfgistfrfd.
      *
-     * @exception IllegalArgumentException if
-     * <code>provider</code> is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfr</dodf> is <dodf>null</dodf>.
      */
-    public void registerServiceProvider(Object provider) {
-        if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+    publid void rfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
         }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
-            SubRegistry reg = regs.next();
-            reg.registerServiceProvider(provider);
-        }
-    }
-
-    /**
-     * Adds a set of service provider objects, taken from an
-     * <code>Iterator</code> to the registry.  Each provider is
-     * associated within each category present in the registry whose
-     * <code>Class</code> it implements.
-     *
-     * <p> For each entry of <code>providers</code> that implements
-     * the <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called once for each
-     * category it is registered under.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category or when the registry is
-     * finalized.
-     *
-     * @param providers an Iterator containing service provider
-     * objects to be registered.
-     *
-     * @exception IllegalArgumentException if <code>providers</code>
-     * is <code>null</code> or contains a <code>null</code> entry.
-     */
-    public void registerServiceProviders(Iterator<?> providers) {
-        if (providers == null) {
-            throw new IllegalArgumentException("provider == null!");
-        }
-        while (providers.hasNext()) {
-            registerServiceProvider(providers.next());
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        wiilf (rfgs.ibsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            rfg.rfgistfrSfrvidfProvidfr(providfr);
         }
     }
 
     /**
-     * Removes a service provider object from the given category.  If
-     * the provider was not previously registered, nothing happens and
-     * <code>false</code> is returned.  Otherwise, <code>true</code>
-     * is returned.  If an object of the same class as
-     * <code>provider</code> but not equal (using <code>==</code>) to
-     * <code>provider</code> is registered, it will not be
-     * deregistered.
+     * Adds b sft of sfrvidf providfr objfdts, tbkfn from bn
+     * <dodf>Itfrbtor</dodf> to tif rfgistry.  Ebdi providfr is
+     * bssodibtfd witiin fbdi dbtfgory prfsfnt in tif rfgistry wiosf
+     * <dodf>Clbss</dodf> it implfmfnts.
      *
-     * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onDeregistration</code> method will be called.
+     * <p> For fbdi fntry of <dodf>providfrs</dodf> tibt implfmfnts
+     * tif <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mftiod will bf dbllfd ondf for fbdi
+     * dbtfgory it is rfgistfrfd undfr.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mftiod will bf dbllfd fbdi timf
+     * it is dfrfgistfrfd from b dbtfgory or wifn tif rfgistry is
+     * finblizfd.
      *
-     * @param provider the service provider object to be deregistered.
-     * @param category the category from which to deregister the
-     * provider.
-     * @param <T> the type of the provider.
+     * @pbrbm providfrs bn Itfrbtor dontbining sfrvidf providfr
+     * objfdts to bf rfgistfrfd.
      *
-     * @return <code>true</code> if the provider was previously
-     * registered in the same category category,
-     * <code>false</code> otherwise.
-     *
-     * @exception IllegalArgumentException if <code>provider</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
-     * @exception ClassCastException if provider does not implement
-     * the class defined by <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfrs</dodf>
+     * is <dodf>null</dodf> or dontbins b <dodf>null</dodf> fntry.
      */
-    public <T> boolean deregisterServiceProvider(T provider,
-                                                 Class<T> category) {
-        if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+    publid void rfgistfrSfrvidfProvidfrs(Itfrbtor<?> providfrs) {
+        if (providfrs == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
         }
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
-        }
-        if (!category.isAssignableFrom(provider.getClass())) {
-            throw new ClassCastException();
-        }
-        return reg.deregisterServiceProvider(provider);
-    }
-
-    /**
-     * Removes a service provider object from all categories that
-     * contain it.
-     *
-     * @param provider the service provider object to be deregistered.
-     *
-     * @exception IllegalArgumentException if <code>provider</code> is
-     * <code>null</code>.
-     */
-    public void deregisterServiceProvider(Object provider) {
-        if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
-        }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
-            SubRegistry reg = regs.next();
-            reg.deregisterServiceProvider(provider);
+        wiilf (providfrs.ibsNfxt()) {
+            rfgistfrSfrvidfProvidfr(providfrs.nfxt());
         }
     }
 
     /**
-     * Returns <code>true</code> if <code>provider</code> is currently
-     * registered.
+     * Rfmovfs b sfrvidf providfr objfdt from tif givfn dbtfgory.  If
+     * tif providfr wbs not prfviously rfgistfrfd, notiing ibppfns bnd
+     * <dodf>fblsf</dodf> is rfturnfd.  Otifrwisf, <dodf>truf</dodf>
+     * is rfturnfd.  If bn objfdt of tif sbmf dlbss bs
+     * <dodf>providfr</dodf> but not fqubl (using <dodf>==</dodf>) to
+     * <dodf>providfr</dodf> is rfgistfrfd, it will not bf
+     * dfrfgistfrfd.
      *
-     * @param provider the service provider object to be queried.
+     * <p> If <dodf>providfr</dodf> implfmfnts tif
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onDfrfgistrbtion</dodf> mftiod will bf dbllfd.
      *
-     * @return <code>true</code> if the given provider has been
-     * registered.
+     * @pbrbm providfr tif sfrvidf providfr objfdt to bf dfrfgistfrfd.
+     * @pbrbm dbtfgory tif dbtfgory from wiidi to dfrfgistfr tif
+     * providfr.
+     * @pbrbm <T> tif typf of tif providfr.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
-     * <code>null</code>.
+     * @rfturn <dodf>truf</dodf> if tif providfr wbs prfviously
+     * rfgistfrfd in tif sbmf dbtfgory dbtfgory,
+     * <dodf>fblsf</dodf> otifrwisf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     * @fxdfption ClbssCbstExdfption if providfr dofs not implfmfnt
+     * tif dlbss dffinfd by <dodf>dbtfgory</dodf>.
      */
-    public boolean contains(Object provider) {
-        if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+    publid <T> boolfbn dfrfgistfrSfrvidfProvidfr(T providfr,
+                                                 Clbss<T> dbtfgory) {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
         }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
-            SubRegistry reg = regs.next();
-            if (reg.contains(provider)) {
-                return true;
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        if (!dbtfgory.isAssignbblfFrom(providfr.gftClbss())) {
+            tirow nfw ClbssCbstExdfption();
+        }
+        rfturn rfg.dfrfgistfrSfrvidfProvidfr(providfr);
+    }
+
+    /**
+     * Rfmovfs b sfrvidf providfr objfdt from bll dbtfgorifs tibt
+     * dontbin it.
+     *
+     * @pbrbm providfr tif sfrvidf providfr objfdt to bf dfrfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid void dfrfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        wiilf (rfgs.ibsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            rfg.dfrfgistfrSfrvidfProvidfr(providfr);
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if <dodf>providfr</dodf> is durrfntly
+     * rfgistfrfd.
+     *
+     * @pbrbm providfr tif sfrvidf providfr objfdt to bf qufrifd.
+     *
+     * @rfturn <dodf>truf</dodf> if tif givfn providfr ibs bffn
+     * rfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid boolfbn dontbins(Objfdt providfr) {
+        if (providfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        wiilf (rfgs.ibsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            if (rfg.dontbins(providfr)) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all registered
-     * service providers in the given category.  If
-     * <code>useOrdering</code> is <code>false</code>, the iterator
-     * will return all of the server provider objects in an arbitrary
-     * order.  Otherwise, the ordering will respect any pairwise
-     * orderings that have been set.  If the graph of pairwise
-     * orderings contains cycles, any providers that belong to a cycle
-     * will not be returned.
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining bll rfgistfrfd
+     * sfrvidf providfrs in tif givfn dbtfgory.  If
+     * <dodf>usfOrdfring</dodf> is <dodf>fblsf</dodf>, tif itfrbtor
+     * will rfturn bll of tif sfrvfr providfr objfdts in bn brbitrbry
+     * ordfr.  Otifrwisf, tif ordfring will rfspfdt bny pbirwisf
+     * ordfrings tibt ibvf bffn sft.  If tif grbpi of pbirwisf
+     * ordfrings dontbins dydlfs, bny providfrs tibt bflong to b dydlf
+     * will not bf rfturnfd.
      *
-     * @param category the category to be retrieved from.
-     * @param useOrdering <code>true</code> if pairwise orderings
-     * should be taken account in ordering the returned objects.
-     * @param <T> the type of the category.
+     * @pbrbm dbtfgory tif dbtfgory to bf rftrifvfd from.
+     * @pbrbm usfOrdfring <dodf>truf</dodf> if pbirwisf ordfrings
+     * siould bf tbkfn bddount in ordfring tif rfturnfd objfdts.
+     * @pbrbm <T> tif typf of tif dbtfgory.
      *
-     * @return an <code>Iterator</code> containing service provider
-     * objects from the given category, possibly in order.
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts from tif givfn dbtfgory, possibly in ordfr.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
      */
-    public <T> Iterator<T> getServiceProviders(Class<T> category,
-                                               boolean useOrdering) {
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+    publid <T> Itfrbtor<T> gftSfrvidfProvidfrs(Clbss<T> dbtfgory,
+                                               boolfbn usfOrdfring) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        @SuppressWarnings("unchecked")
-        Iterator<T> it = (Iterator<T>)reg.getServiceProviders(useOrdering);
-        return it;
+        @SupprfssWbrnings("undifdkfd")
+        Itfrbtor<T> it = (Itfrbtor<T>)rfg.gftSfrvidfProvidfrs(usfOrdfring);
+        rfturn it;
     }
 
     /**
-     * A simple filter interface used by
-     * <code>ServiceRegistry.getServiceProviders</code> to select
-     * providers matching an arbitrary criterion.  Classes that
-     * implement this interface should be defined in order to make use
-     * of the <code>getServiceProviders</code> method of
-     * <code>ServiceRegistry</code> that takes a <code>Filter</code>.
+     * A simplf filtfr intfrfbdf usfd by
+     * <dodf>SfrvidfRfgistry.gftSfrvidfProvidfrs</dodf> to sflfdt
+     * providfrs mbtdiing bn brbitrbry dritfrion.  Clbssfs tibt
+     * implfmfnt tiis intfrfbdf siould bf dffinfd in ordfr to mbkf usf
+     * of tif <dodf>gftSfrvidfProvidfrs</dodf> mftiod of
+     * <dodf>SfrvidfRfgistry</dodf> tibt tbkfs b <dodf>Filtfr</dodf>.
      *
-     * @see ServiceRegistry#getServiceProviders(Class, ServiceRegistry.Filter, boolean)
+     * @sff SfrvidfRfgistry#gftSfrvidfProvidfrs(Clbss, SfrvidfRfgistry.Filtfr, boolfbn)
      */
-    public interface Filter {
+    publid intfrfbdf Filtfr {
 
         /**
-         * Returns <code>true</code> if the given
-         * <code>provider</code> object matches the criterion defined
-         * by this <code>Filter</code>.
+         * Rfturns <dodf>truf</dodf> if tif givfn
+         * <dodf>providfr</dodf> objfdt mbtdifs tif dritfrion dffinfd
+         * by tiis <dodf>Filtfr</dodf>.
          *
-         * @param provider a service provider <code>Object</code>.
+         * @pbrbm providfr b sfrvidf providfr <dodf>Objfdt</dodf>.
          *
-         * @return true if the provider matches the criterion.
+         * @rfturn truf if tif providfr mbtdifs tif dritfrion.
          */
-        boolean filter(Object provider);
+        boolfbn filtfr(Objfdt providfr);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing service provider
-     * objects within a given category that satisfy a criterion
-     * imposed by the supplied <code>ServiceRegistry.Filter</code>
-     * object's <code>filter</code> method.
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts witiin b givfn dbtfgory tibt sbtisfy b dritfrion
+     * imposfd by tif supplifd <dodf>SfrvidfRfgistry.Filtfr</dodf>
+     * objfdt's <dodf>filtfr</dodf> mftiod.
      *
-     * <p> The <code>useOrdering</code> argument controls the
-     * ordering of the results using the same rules as
-     * <code>getServiceProviders(Class, boolean)</code>.
+     * <p> Tif <dodf>usfOrdfring</dodf> brgumfnt dontrols tif
+     * ordfring of tif rfsults using tif sbmf rulfs bs
+     * <dodf>gftSfrvidfProvidfrs(Clbss, boolfbn)</dodf>.
      *
-     * @param category the category to be retrieved from.
-     * @param filter an instance of <code>ServiceRegistry.Filter</code>
-     * whose <code>filter</code> method will be invoked.
-     * @param useOrdering <code>true</code> if pairwise orderings
-     * should be taken account in ordering the returned objects.
-     * @param <T> the type of the category.
+     * @pbrbm dbtfgory tif dbtfgory to bf rftrifvfd from.
+     * @pbrbm filtfr bn instbndf of <dodf>SfrvidfRfgistry.Filtfr</dodf>
+     * wiosf <dodf>filtfr</dodf> mftiod will bf invokfd.
+     * @pbrbm usfOrdfring <dodf>truf</dodf> if pbirwisf ordfrings
+     * siould bf tbkfn bddount in ordfring tif rfturnfd objfdts.
+     * @pbrbm <T> tif typf of tif dbtfgory.
      *
-     * @return an <code>Iterator</code> containing service provider
-     * objects from the given category, possibly in order.
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts from tif givfn dbtfgory, possibly in ordfr.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
      */
-    public <T> Iterator<T> getServiceProviders(Class<T> category,
-                                               Filter filter,
-                                               boolean useOrdering) {
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+    publid <T> Itfrbtor<T> gftSfrvidfProvidfrs(Clbss<T> dbtfgory,
+                                               Filtfr filtfr,
+                                               boolfbn usfOrdfring) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        Iterator<T> iter = getServiceProviders(category, useOrdering);
-        return new FilterIterator<>(iter, filter);
+        Itfrbtor<T> itfr = gftSfrvidfProvidfrs(dbtfgory, usfOrdfring);
+        rfturn nfw FiltfrItfrbtor<>(itfr, filtfr);
     }
 
     /**
-     * Returns the currently registered service provider object that
-     * is of the given class type.  At most one object of a given
-     * class is allowed to be registered at any given time.  If no
-     * registered object has the desired class type, <code>null</code>
-     * is returned.
+     * Rfturns tif durrfntly rfgistfrfd sfrvidf providfr objfdt tibt
+     * is of tif givfn dlbss typf.  At most onf objfdt of b givfn
+     * dlbss is bllowfd to bf rfgistfrfd bt bny givfn timf.  If no
+     * rfgistfrfd objfdt ibs tif dfsirfd dlbss typf, <dodf>null</dodf>
+     * is rfturnfd.
      *
-     * @param providerClass the <code>Class</code> of the desired
-     * service provider object.
-     * @param <T> the type of the provider.
+     * @pbrbm providfrClbss tif <dodf>Clbss</dodf> of tif dfsirfd
+     * sfrvidf providfr objfdt.
+     * @pbrbm <T> tif typf of tif providfr.
      *
-     * @return a currently registered service provider object with the
-     * desired <code>Class</code>type, or <code>null</code> is none is
-     * present.
+     * @rfturn b durrfntly rfgistfrfd sfrvidf providfr objfdt witi tif
+     * dfsirfd <dodf>Clbss</dodf>typf, or <dodf>null</dodf> is nonf is
+     * prfsfnt.
      *
-     * @exception IllegalArgumentException if <code>providerClass</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfrClbss</dodf> is
+     * <dodf>null</dodf>.
      */
-    public <T> T getServiceProviderByClass(Class<T> providerClass) {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+    publid <T> T gftSfrvidfProvidfrByClbss(Clbss<T> providfrClbss) {
+        if (providfrClbss == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfrClbss == null!");
         }
-        Iterator<Class<?>> iter = categoryMap.keySet().iterator();
-        while (iter.hasNext()) {
-            Class<?> c = iter.next();
-            if (c.isAssignableFrom(providerClass)) {
-                SubRegistry reg = categoryMap.get(c);
-                T provider = reg.getServiceProviderByClass(providerClass);
-                if (provider != null) {
-                    return provider;
+        Itfrbtor<Clbss<?>> itfr = dbtfgoryMbp.kfySft().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Clbss<?> d = itfr.nfxt();
+            if (d.isAssignbblfFrom(providfrClbss)) {
+                SubRfgistry rfg = dbtfgoryMbp.gft(d);
+                T providfr = rfg.gftSfrvidfProvidfrByClbss(providfrClbss);
+                if (providfr != null) {
+                    rfturn providfr;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Sets a pairwise ordering between two service provider objects
-     * within a given category.  If one or both objects are not
-     * currently registered within the given category, or if the
-     * desired ordering is already set, nothing happens and
-     * <code>false</code> is returned.  If the providers previously
-     * were ordered in the reverse direction, that ordering is
-     * removed.
+     * Sfts b pbirwisf ordfring bftwffn two sfrvidf providfr objfdts
+     * witiin b givfn dbtfgory.  If onf or boti objfdts brf not
+     * durrfntly rfgistfrfd witiin tif givfn dbtfgory, or if tif
+     * dfsirfd ordfring is blrfbdy sft, notiing ibppfns bnd
+     * <dodf>fblsf</dodf> is rfturnfd.  If tif providfrs prfviously
+     * wfrf ordfrfd in tif rfvfrsf dirfdtion, tibt ordfring is
+     * rfmovfd.
      *
-     * <p> The ordering will be used by the
-     * <code>getServiceProviders</code> methods when their
-     * <code>useOrdering</code> argument is <code>true</code>.
+     * <p> Tif ordfring will bf usfd by tif
+     * <dodf>gftSfrvidfProvidfrs</dodf> mftiods wifn tifir
+     * <dodf>usfOrdfring</dodf> brgumfnt is <dodf>truf</dodf>.
      *
-     * @param category a <code>Class</code> object indicating the
-     * category under which the preference is to be established.
-     * @param firstProvider the preferred provider.
-     * @param secondProvider the provider to which
-     * <code>firstProvider</code> is preferred.
-     * @param <T> the type of the category.
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting tif
+     * dbtfgory undfr wiidi tif prfffrfndf is to bf fstbblisifd.
+     * @pbrbm firstProvidfr tif prfffrrfd providfr.
+     * @pbrbm sfdondProvidfr tif providfr to wiidi
+     * <dodf>firstProvidfr</dodf> is prfffrrfd.
+     * @pbrbm <T> tif typf of tif dbtfgory.
      *
-     * @return <code>true</code> if a previously unset ordering
-     * was established.
+     * @rfturn <dodf>truf</dodf> if b prfviously unsft ordfring
+     * wbs fstbblisifd.
      *
-     * @exception IllegalArgumentException if either provider is
-     * <code>null</code> or they are the same object.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if fitifr providfr is
+     * <dodf>null</dodf> or tify brf tif sbmf objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
      */
-    public <T> boolean setOrdering(Class<T> category,
-                                   T firstProvider,
-                                   T secondProvider) {
-        if (firstProvider == null || secondProvider == null) {
-            throw new IllegalArgumentException("provider is null!");
+    publid <T> boolfbn sftOrdfring(Clbss<T> dbtfgory,
+                                   T firstProvidfr,
+                                   T sfdondProvidfr) {
+        if (firstProvidfr == null || sfdondProvidfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr is null!");
         }
-        if (firstProvider == secondProvider) {
-            throw new IllegalArgumentException("providers are the same!");
+        if (firstProvidfr == sfdondProvidfr) {
+            tirow nfw IllfgblArgumfntExdfption("providfrs brf tif sbmf!");
         }
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        if (reg.contains(firstProvider) &&
-            reg.contains(secondProvider)) {
-            return reg.setOrdering(firstProvider, secondProvider);
+        if (rfg.dontbins(firstProvidfr) &&
+            rfg.dontbins(sfdondProvidfr)) {
+            rfturn rfg.sftOrdfring(firstProvidfr, sfdondProvidfr);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Sets a pairwise ordering between two service provider objects
-     * within a given category.  If one or both objects are not
-     * currently registered within the given category, or if no
-     * ordering is currently set between them, nothing happens
-     * and <code>false</code> is returned.
+     * Sfts b pbirwisf ordfring bftwffn two sfrvidf providfr objfdts
+     * witiin b givfn dbtfgory.  If onf or boti objfdts brf not
+     * durrfntly rfgistfrfd witiin tif givfn dbtfgory, or if no
+     * ordfring is durrfntly sft bftwffn tifm, notiing ibppfns
+     * bnd <dodf>fblsf</dodf> is rfturnfd.
      *
-     * <p> The ordering will be used by the
-     * <code>getServiceProviders</code> methods when their
-     * <code>useOrdering</code> argument is <code>true</code>.
+     * <p> Tif ordfring will bf usfd by tif
+     * <dodf>gftSfrvidfProvidfrs</dodf> mftiods wifn tifir
+     * <dodf>usfOrdfring</dodf> brgumfnt is <dodf>truf</dodf>.
      *
-     * @param category a <code>Class</code> object indicating the
-     * category under which the preference is to be disestablished.
-     * @param firstProvider the formerly preferred provider.
-     * @param secondProvider the provider to which
-     * <code>firstProvider</code> was formerly preferred.
-     * @param <T> the type of the category.
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting tif
+     * dbtfgory undfr wiidi tif prfffrfndf is to bf disfstbblisifd.
+     * @pbrbm firstProvidfr tif formfrly prfffrrfd providfr.
+     * @pbrbm sfdondProvidfr tif providfr to wiidi
+     * <dodf>firstProvidfr</dodf> wbs formfrly prfffrrfd.
+     * @pbrbm <T> tif typf of tif dbtfgory.
      *
-     * @return <code>true</code> if a previously set ordering was
-     * disestablished.
+     * @rfturn <dodf>truf</dodf> if b prfviously sft ordfring wbs
+     * disfstbblisifd.
      *
-     * @exception IllegalArgumentException if either provider is
-     * <code>null</code> or they are the same object.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if fitifr providfr is
+     * <dodf>null</dodf> or tify brf tif sbmf objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
      */
-    public <T> boolean unsetOrdering(Class<T> category,
-                                     T firstProvider,
-                                     T secondProvider) {
-        if (firstProvider == null || secondProvider == null) {
-            throw new IllegalArgumentException("provider is null!");
+    publid <T> boolfbn unsftOrdfring(Clbss<T> dbtfgory,
+                                     T firstProvidfr,
+                                     T sfdondProvidfr) {
+        if (firstProvidfr == null || sfdondProvidfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("providfr is null!");
         }
-        if (firstProvider == secondProvider) {
-            throw new IllegalArgumentException("providers are the same!");
+        if (firstProvidfr == sfdondProvidfr) {
+            tirow nfw IllfgblArgumfntExdfption("providfrs brf tif sbmf!");
         }
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        if (reg.contains(firstProvider) &&
-            reg.contains(secondProvider)) {
-            return reg.unsetOrdering(firstProvider, secondProvider);
+        if (rfg.dontbins(firstProvidfr) &&
+            rfg.dontbins(sfdondProvidfr)) {
+            rfturn rfg.unsftOrdfring(firstProvidfr, sfdondProvidfr);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Deregisters all service provider object currently registered
-     * under the given category.
+     * Dfrfgistfrs bll sfrvidf providfr objfdt durrfntly rfgistfrfd
+     * undfr tif givfn dbtfgory.
      *
-     * @param category the category to be emptied.
+     * @pbrbm dbtfgory tif dbtfgory to bf fmptifd.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @fxdfption IllfgblArgumfntExdfption if tifrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
      */
-    public void deregisterAll(Class<?> category) {
-        SubRegistry reg = categoryMap.get(category);
-        if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+    publid void dfrfgistfrAll(Clbss<?> dbtfgory) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            tirow nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
         }
-        reg.clear();
+        rfg.dlfbr();
     }
 
     /**
-     * Deregisters all currently registered service providers from all
-     * categories.
+     * Dfrfgistfrs bll durrfntly rfgistfrfd sfrvidf providfrs from bll
+     * dbtfgorifs.
      */
-    public void deregisterAll() {
-        Iterator<SubRegistry> iter = categoryMap.values().iterator();
-        while (iter.hasNext()) {
-            SubRegistry reg = iter.next();
-            reg.clear();
+    publid void dfrfgistfrAll() {
+        Itfrbtor<SubRfgistry> itfr = dbtfgoryMbp.vblufs().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            SubRfgistry rfg = itfr.nfxt();
+            rfg.dlfbr();
         }
     }
 
     /**
-     * Finalizes this object prior to garbage collection.  The
-     * <code>deregisterAll</code> method is called to deregister all
-     * currently registered service providers.  This method should not
-     * be called from application code.
+     * Finblizfs tiis objfdt prior to gbrbbgf dollfdtion.  Tif
+     * <dodf>dfrfgistfrAll</dodf> mftiod is dbllfd to dfrfgistfr bll
+     * durrfntly rfgistfrfd sfrvidf providfrs.  Tiis mftiod siould not
+     * bf dbllfd from bpplidbtion dodf.
      *
-     * @exception Throwable if an error occurs during superclass
-     * finalization.
+     * @fxdfption Tirowbblf if bn frror oddurs during supfrdlbss
+     * finblizbtion.
      */
-    public void finalize() throws Throwable {
-        deregisterAll();
-        super.finalize();
+    publid void finblizf() tirows Tirowbblf {
+        dfrfgistfrAll();
+        supfr.finblizf();
     }
 }
 
 
 /**
- * A portion of a registry dealing with a single superclass or
- * interface.
+ * A portion of b rfgistry dfbling witi b singlf supfrdlbss or
+ * intfrfbdf.
  */
-class SubRegistry {
+dlbss SubRfgistry {
 
-    ServiceRegistry registry;
+    SfrvidfRfgistry rfgistry;
 
-    Class<?> category;
+    Clbss<?> dbtfgory;
 
-    // Provider Objects organized by partial oridering
-    PartiallyOrderedSet<Object> poset = new PartiallyOrderedSet<>();
+    // Providfr Objfdts orgbnizfd by pbrtibl oridfring
+    PbrtibllyOrdfrfdSft<Objfdt> posft = nfw PbrtibllyOrdfrfdSft<>();
 
-    // Class -> Provider Object of that class
-    // No way to express heterogeneous map, we want
-    // Map<Class<T>, T>, where T is ?
-    Map<Class<?>, Object> map = new HashMap<>();
+    // Clbss -> Providfr Objfdt of tibt dlbss
+    // No wby to fxprfss iftfrogfnfous mbp, wf wbnt
+    // Mbp<Clbss<T>, T>, wifrf T is ?
+    Mbp<Clbss<?>, Objfdt> mbp = nfw HbsiMbp<>();
 
-    public SubRegistry(ServiceRegistry registry, Class<?> category) {
-        this.registry = registry;
-        this.category = category;
+    publid SubRfgistry(SfrvidfRfgistry rfgistry, Clbss<?> dbtfgory) {
+        tiis.rfgistry = rfgistry;
+        tiis.dbtfgory = dbtfgory;
     }
 
-    public boolean registerServiceProvider(Object provider) {
-        Object oprovider = map.get(provider.getClass());
-        boolean present =  oprovider != null;
+    publid boolfbn rfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
+        boolfbn prfsfnt =  oprovidfr != null;
 
-        if (present) {
-            deregisterServiceProvider(oprovider);
+        if (prfsfnt) {
+            dfrfgistfrSfrvidfProvidfr(oprovidfr);
         }
-        map.put(provider.getClass(), provider);
-        poset.add(provider);
-        if (provider instanceof RegisterableService) {
-            RegisterableService rs = (RegisterableService)provider;
-            rs.onRegistration(registry, category);
+        mbp.put(providfr.gftClbss(), providfr);
+        posft.bdd(providfr);
+        if (providfr instbndfof RfgistfrbblfSfrvidf) {
+            RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+            rs.onRfgistrbtion(rfgistry, dbtfgory);
         }
 
-        return !present;
+        rfturn !prfsfnt;
     }
 
     /**
-     * If the provider was not previously registered, do nothing.
+     * If tif providfr wbs not prfviously rfgistfrfd, do notiing.
      *
-     * @return true if the provider was previously registered.
+     * @rfturn truf if tif providfr wbs prfviously rfgistfrfd.
      */
-    public boolean deregisterServiceProvider(Object provider) {
-        Object oprovider = map.get(provider.getClass());
+    publid boolfbn dfrfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
 
-        if (provider == oprovider) {
-            map.remove(provider.getClass());
-            poset.remove(provider);
-            if (provider instanceof RegisterableService) {
-                RegisterableService rs = (RegisterableService)provider;
-                rs.onDeregistration(registry, category);
+        if (providfr == oprovidfr) {
+            mbp.rfmovf(providfr.gftClbss());
+            posft.rfmovf(providfr);
+            if (providfr instbndfof RfgistfrbblfSfrvidf) {
+                RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+                rs.onDfrfgistrbtion(rfgistry, dbtfgory);
             }
 
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public boolean contains(Object provider) {
-        Object oprovider = map.get(provider.getClass());
-        return oprovider == provider;
+    publid boolfbn dontbins(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
+        rfturn oprovidfr == providfr;
     }
 
-    public boolean setOrdering(Object firstProvider,
-                               Object secondProvider) {
-        return poset.setOrdering(firstProvider, secondProvider);
+    publid boolfbn sftOrdfring(Objfdt firstProvidfr,
+                               Objfdt sfdondProvidfr) {
+        rfturn posft.sftOrdfring(firstProvidfr, sfdondProvidfr);
     }
 
-    public boolean unsetOrdering(Object firstProvider,
-                                 Object secondProvider) {
-        return poset.unsetOrdering(firstProvider, secondProvider);
+    publid boolfbn unsftOrdfring(Objfdt firstProvidfr,
+                                 Objfdt sfdondProvidfr) {
+        rfturn posft.unsftOrdfring(firstProvidfr, sfdondProvidfr);
     }
 
-    public Iterator<Object> getServiceProviders(boolean useOrdering) {
-        if (useOrdering) {
-            return poset.iterator();
-        } else {
-            return map.values().iterator();
+    publid Itfrbtor<Objfdt> gftSfrvidfProvidfrs(boolfbn usfOrdfring) {
+        if (usfOrdfring) {
+            rfturn posft.itfrbtor();
+        } flsf {
+            rfturn mbp.vblufs().itfrbtor();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T getServiceProviderByClass(Class<T> providerClass) {
-        return (T)map.get(providerClass);
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T gftSfrvidfProvidfrByClbss(Clbss<T> providfrClbss) {
+        rfturn (T)mbp.gft(providfrClbss);
     }
 
-    public void clear() {
-        Iterator<Object> iter = map.values().iterator();
-        while (iter.hasNext()) {
-            Object provider = iter.next();
-            iter.remove();
+    publid void dlfbr() {
+        Itfrbtor<Objfdt> itfr = mbp.vblufs().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Objfdt providfr = itfr.nfxt();
+            itfr.rfmovf();
 
-            if (provider instanceof RegisterableService) {
-                RegisterableService rs = (RegisterableService)provider;
-                rs.onDeregistration(registry, category);
+            if (providfr instbndfof RfgistfrbblfSfrvidf) {
+                RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+                rs.onDfrfgistrbtion(rfgistry, dbtfgory);
             }
         }
-        poset.clear();
+        posft.dlfbr();
     }
 
-    public void finalize() {
-        clear();
+    publid void finblizf() {
+        dlfbr();
     }
 }
 
 
 /**
- * A class for wrapping <code>Iterators</code> with a filter function.
- * This provides an iterator for a subset without duplication.
+ * A dlbss for wrbpping <dodf>Itfrbtors</dodf> witi b filtfr fundtion.
+ * Tiis providfs bn itfrbtor for b subsft witiout duplidbtion.
  */
-class FilterIterator<T> implements Iterator<T> {
+dlbss FiltfrItfrbtor<T> implfmfnts Itfrbtor<T> {
 
-    private Iterator<? extends T> iter;
-    private ServiceRegistry.Filter filter;
+    privbtf Itfrbtor<? fxtfnds T> itfr;
+    privbtf SfrvidfRfgistry.Filtfr filtfr;
 
-    private T next = null;
+    privbtf T nfxt = null;
 
-    public FilterIterator(Iterator<? extends T> iter,
-                          ServiceRegistry.Filter filter) {
-        this.iter = iter;
-        this.filter = filter;
-        advance();
+    publid FiltfrItfrbtor(Itfrbtor<? fxtfnds T> itfr,
+                          SfrvidfRfgistry.Filtfr filtfr) {
+        tiis.itfr = itfr;
+        tiis.filtfr = filtfr;
+        bdvbndf();
     }
 
-    private void advance() {
-        while (iter.hasNext()) {
-            T elt = iter.next();
-            if (filter.filter(elt)) {
-                next = elt;
-                return;
+    privbtf void bdvbndf() {
+        wiilf (itfr.ibsNfxt()) {
+            T flt = itfr.nfxt();
+            if (filtfr.filtfr(flt)) {
+                nfxt = flt;
+                rfturn;
             }
         }
 
-        next = null;
+        nfxt = null;
     }
 
-    public boolean hasNext() {
-        return next != null;
+    publid boolfbn ibsNfxt() {
+        rfturn nfxt != null;
     }
 
-    public T next() {
-        if (next == null) {
-            throw new NoSuchElementException();
+    publid T nfxt() {
+        if (nfxt == null) {
+            tirow nfw NoSudiElfmfntExdfption();
         }
-        T o = next;
-        advance();
-        return o;
+        T o = nfxt;
+        bdvbndf();
+        rfturn o;
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+    publid void rfmovf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

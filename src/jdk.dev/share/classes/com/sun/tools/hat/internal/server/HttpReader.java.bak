@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.sfrvfr;
 
 /**
- * Reads a single HTTP query from a socket, and starts up a QueryHandler
- * to server it.
+ * Rfbds b singlf HTTP qufry from b sodkft, bnd stbrts up b QufryHbndlfr
+ * to sfrvfr it.
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
-import java.net.Socket;
+import jbvb.nft.Sodkft;
 
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
-import java.io.OutputStreamWriter;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.PrintWritfr;
+import jbvb.io.OutputStrfbmWritfr;
 
-import com.sun.tools.hat.internal.model.Snapshot;
-import com.sun.tools.hat.internal.oql.OQLEngine;
-import com.sun.tools.hat.internal.util.Misc;
+import dom.sun.tools.ibt.intfrnbl.modfl.Snbpsiot;
+import dom.sun.tools.ibt.intfrnbl.oql.OQLEnginf;
+import dom.sun.tools.ibt.intfrnbl.util.Misd;
 
-public class HttpReader implements Runnable {
+publid dlbss HttpRfbdfr implfmfnts Runnbblf {
 
 
-    private Socket socket;
-    private PrintWriter out;
-    private Snapshot snapshot;
-    private OQLEngine engine;
+    privbtf Sodkft sodkft;
+    privbtf PrintWritfr out;
+    privbtf Snbpsiot snbpsiot;
+    privbtf OQLEnginf fnginf;
 
-    public HttpReader (Socket s, Snapshot snapshot, OQLEngine engine) {
-        this.socket = s;
-        this.snapshot = snapshot;
-        this.engine = engine;
+    publid HttpRfbdfr (Sodkft s, Snbpsiot snbpsiot, OQLEnginf fnginf) {
+        tiis.sodkft = s;
+        tiis.snbpsiot = snbpsiot;
+        tiis.fnginf = fnginf;
     }
 
-    public void run() {
-        InputStream in = null;
+    publid void run() {
+        InputStrfbm in = null;
         try {
-            in = new BufferedInputStream(socket.getInputStream());
-            out = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(
-                                socket.getOutputStream())));
+            in = nfw BufffrfdInputStrfbm(sodkft.gftInputStrfbm());
+            out = nfw PrintWritfr(nfw BufffrfdWritfr(
+                            nfw OutputStrfbmWritfr(
+                                sodkft.gftOutputStrfbm())));
             out.println("HTTP/1.0 200 OK");
-            out.println("Cache-Control: no-cache");
-            out.println("Pragma: no-cache");
+            out.println("Cbdif-Control: no-dbdif");
+            out.println("Prbgmb: no-dbdif");
             out.println();
-            if (in.read() != 'G' || in.read() != 'E'
-                    || in.read() != 'T' || in.read() != ' ') {
-                outputError("Protocol error");
+            if (in.rfbd() != 'G' || in.rfbd() != 'E'
+                    || in.rfbd() != 'T' || in.rfbd() != ' ') {
+                outputError("Protodol frror");
             }
-            int data;
-            StringBuilder queryBuf = new StringBuilder();
-            while ((data = in.read()) != -1 && data != ' ') {
-                char ch = (char) data;
-                queryBuf.append(ch);
+            int dbtb;
+            StringBuildfr qufryBuf = nfw StringBuildfr();
+            wiilf ((dbtb = in.rfbd()) != -1 && dbtb != ' ') {
+                dibr di = (dibr) dbtb;
+                qufryBuf.bppfnd(di);
             }
-            String query = queryBuf.toString();
-            query = java.net.URLDecoder.decode(query, "UTF-8");
-            QueryHandler handler = null;
-            if (snapshot == null) {
-                outputError("The heap snapshot is still being read.");
-                return;
-            } else if (query.equals("/")) {
-                handler = new AllClassesQuery(true, engine != null);
-                handler.setUrlStart("");
-                handler.setQuery("");
-            } else if (query.startsWith("/oql/")) {
-                if (engine != null) {
-                    handler = new OQLQuery(engine);
-                    handler.setUrlStart("");
-                    handler.setQuery(query.substring(5));
+            String qufry = qufryBuf.toString();
+            qufry = jbvb.nft.URLDfdodfr.dfdodf(qufry, "UTF-8");
+            QufryHbndlfr ibndlfr = null;
+            if (snbpsiot == null) {
+                outputError("Tif ifbp snbpsiot is still bfing rfbd.");
+                rfturn;
+            } flsf if (qufry.fqubls("/")) {
+                ibndlfr = nfw AllClbssfsQufry(truf, fnginf != null);
+                ibndlfr.sftUrlStbrt("");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWiti("/oql/")) {
+                if (fnginf != null) {
+                    ibndlfr = nfw OQLQufry(fnginf);
+                    ibndlfr.sftUrlStbrt("");
+                    ibndlfr.sftQufry(qufry.substring(5));
                 }
-            } else if (query.startsWith("/oqlhelp/")) {
-                if (engine != null) {
-                    handler = new OQLHelp();
-                    handler.setUrlStart("");
-                    handler.setQuery("");
+            } flsf if (qufry.stbrtsWiti("/oqliflp/")) {
+                if (fnginf != null) {
+                    ibndlfr = nfw OQLHflp();
+                    ibndlfr.sftUrlStbrt("");
+                    ibndlfr.sftQufry("");
                 }
-            } else if (query.equals("/allClassesWithPlatform/")) {
-                handler = new AllClassesQuery(false, engine != null);
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.equals("/showRoots/")) {
-                handler = new AllRootsQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.equals("/showInstanceCounts/includePlatform/")) {
-                handler = new InstancesCountQuery(false);
-                handler.setUrlStart("../../");
-                handler.setQuery("");
-            } else if (query.equals("/showInstanceCounts/")) {
-                handler = new InstancesCountQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.startsWith("/instances/")) {
-                handler = new InstancesQuery(false);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(11));
-            }  else if (query.startsWith("/newInstances/")) {
-                handler = new InstancesQuery(false, true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(14));
-            }  else if (query.startsWith("/allInstances/")) {
-                handler = new InstancesQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(14));
-            }  else if (query.startsWith("/allNewInstances/")) {
-                handler = new InstancesQuery(true, true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(17));
-            } else if (query.startsWith("/object/")) {
-                handler = new ObjectQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(8));
-            } else if (query.startsWith("/class/")) {
-                handler = new ClassQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/roots/")) {
-                handler = new RootsQuery(false);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/allRoots/")) {
-                handler = new RootsQuery(true);
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(10));
-            } else if (query.startsWith("/reachableFrom/")) {
-                handler = new ReachableQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(15));
-            } else if (query.startsWith("/rootStack/")) {
-                handler = new RootStackQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(11));
-            } else if (query.startsWith("/histo/")) {
-                handler = new HistogramQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(7));
-            } else if (query.startsWith("/refsByType/")) {
-                handler = new RefsByTypeQuery();
-                handler.setUrlStart("../");
-                handler.setQuery(query.substring(12));
-            } else if (query.startsWith("/finalizerSummary/")) {
-                handler = new FinalizerSummaryQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
-            } else if (query.startsWith("/finalizerObjects/")) {
-                handler = new FinalizerObjectsQuery();
-                handler.setUrlStart("../");
-                handler.setQuery("");
+            } flsf if (qufry.fqubls("/bllClbssfsWitiPlbtform/")) {
+                ibndlfr = nfw AllClbssfsQufry(fblsf, fnginf != null);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/siowRoots/")) {
+                ibndlfr = nfw AllRootsQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/siowInstbndfCounts/indludfPlbtform/")) {
+                ibndlfr = nfw InstbndfsCountQufry(fblsf);
+                ibndlfr.sftUrlStbrt("../../");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/siowInstbndfCounts/")) {
+                ibndlfr = nfw InstbndfsCountQufry(truf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWiti("/instbndfs/")) {
+                ibndlfr = nfw InstbndfsQufry(fblsf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(11));
+            }  flsf if (qufry.stbrtsWiti("/nfwInstbndfs/")) {
+                ibndlfr = nfw InstbndfsQufry(fblsf, truf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(14));
+            }  flsf if (qufry.stbrtsWiti("/bllInstbndfs/")) {
+                ibndlfr = nfw InstbndfsQufry(truf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(14));
+            }  flsf if (qufry.stbrtsWiti("/bllNfwInstbndfs/")) {
+                ibndlfr = nfw InstbndfsQufry(truf, truf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(17));
+            } flsf if (qufry.stbrtsWiti("/objfdt/")) {
+                ibndlfr = nfw ObjfdtQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(8));
+            } flsf if (qufry.stbrtsWiti("/dlbss/")) {
+                ibndlfr = nfw ClbssQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWiti("/roots/")) {
+                ibndlfr = nfw RootsQufry(fblsf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWiti("/bllRoots/")) {
+                ibndlfr = nfw RootsQufry(truf);
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(10));
+            } flsf if (qufry.stbrtsWiti("/rfbdibblfFrom/")) {
+                ibndlfr = nfw RfbdibblfQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(15));
+            } flsf if (qufry.stbrtsWiti("/rootStbdk/")) {
+                ibndlfr = nfw RootStbdkQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(11));
+            } flsf if (qufry.stbrtsWiti("/iisto/")) {
+                ibndlfr = nfw HistogrbmQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWiti("/rffsByTypf/")) {
+                ibndlfr = nfw RffsByTypfQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry(qufry.substring(12));
+            } flsf if (qufry.stbrtsWiti("/finblizfrSummbry/")) {
+                ibndlfr = nfw FinblizfrSummbryQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWiti("/finblizfrObjfdts/")) {
+                ibndlfr = nfw FinblizfrObjfdtsQufry();
+                ibndlfr.sftUrlStbrt("../");
+                ibndlfr.sftQufry("");
             }
 
-            if (handler != null) {
-                handler.setOutput(out);
-                handler.setSnapshot(snapshot);
-                handler.run();
-            } else {
-                outputError("Query '" + query + "' not implemented");
+            if (ibndlfr != null) {
+                ibndlfr.sftOutput(out);
+                ibndlfr.sftSnbpsiot(snbpsiot);
+                ibndlfr.run();
+            } flsf {
+                outputError("Qufry '" + qufry + "' not implfmfntfd");
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
+        } dbtdi (IOExdfption fx) {
+            fx.printStbdkTrbdf();
+        } finblly {
             if (out != null) {
-                out.close();
+                out.dlosf();
             }
             try {
                 if (in != null) {
-                    in.close();
+                    in.dlosf();
                 }
-            } catch (IOException ignored) {
+            } dbtdi (IOExdfption ignorfd) {
             }
             try {
-                socket.close();
-            } catch (IOException ignored) {
+                sodkft.dlosf();
+            } dbtdi (IOExdfption ignorfd) {
             }
         }
     }
 
-    private void outputError(String msg) {
+    privbtf void outputError(String msg) {
         out.println();
-        out.println("<html><body bgcolor=\"#ffffff\">");
-        out.println(Misc.encodeHtml(msg));
-        out.println("</body></html>");
+        out.println("<itml><body bgdolor=\"#ffffff\">");
+        out.println(Misd.fndodfHtml(msg));
+        out.println("</body></itml>");
     }
 
 }

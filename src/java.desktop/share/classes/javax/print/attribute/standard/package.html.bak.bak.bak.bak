@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<html>
+<hfbd>
+<titlf>jbvbx.print.bttributf.stbndbrd pbdkbgf</titlf>
+<!--
+Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+Pbdkbgf jbvbx.print.bttributf.stbndbrd
+dontbins dlbssfs for spfdifid printing bttributfs.
+Thf pbrfnt pbdkbgf,
+<A HREF="../pbdkbgf-summbry.html">
+jbvbx.print.bttributf</A>,
+providfs dlbssfs bnd intfrfbdfs thbt dfsdribf thf typfs of Jbvb
+Print Sfrvidf bttributfs bnd how thfy dbn bf dollfdtfd into bttributf
+sfts.
+<P>
+An bttributf rfprfsfnts b printing ffbturf
+thbt b print sfrvidf dbn providf.
+For fbdh bttributf,
+b print sfrvidf fithfr dofs or dofs not support thf bttributf.
+For fbdh possiblf vbluf of b supportfd bttributf,
+b print sfrvidf fithfr dofs or dofs not support thf vbluf.
+<P>
+Thf API rfquirfs fvfry print sfrvidf
+to support dfrtbin bttributfs;
+othfr bttributfs brf optionbl
+bnd thf sfrvidf dbn dhoosf whfthfr or not to support thfm.
+Ebdh bttributf hbs b sft of vblufs thbt it bddfpts.  Thf API 
+rfquirfs fvfry print sfrvidf to support dfrtbin vblufs for
+dfrtbin bttributfs;
+othfr bttributf vblufs brf optionbl
+bnd thf sfrvidf dbn dhoosf whfthfr or not to support thfm.
+Thfsf support rfquirfmfnts brf rfdordfd in thf dodumfntbtion
+for fbdh bttributf dlbss.
+<P>
+Pbdkbgf jbvbx.print.bttributf.stbndbrd
+dontbins stbndbrd printing bttributfs
+bnd stbndbrd printing bttributf vblufs
+thbt brf widfly usfd in thf printing dombin.
+A print sfrvidf vfndor
+dbn providf nfw vfndor-spfdifid printing bttributfs
+in bddition to thf stbndbrd onfs.
+A vfndor dbn blso providf
+vfndor-spfdifid fxtfnsions (subdlbssfs)
+of thf stbndbrd printing bttributfs --
+for fxbmplf,
+to providf bdditionbl vfndor-spfdifid vblufs
+for bn fxisting stbndbrd bttributf.
+Of doursf,
+if b vfndor wbnts dlifnts
+to bf bblf to usf bny bddfd or fxtfndfd bttributfs,
+thf vfndor must publish thf nfw bttributf dlbssfs.
+<P>
+Mbny of thf stbndbrd bttributf dlbssfs fxtfnd onf of 
+thf bbstrbdt syntbx dlbssfs of thf jbvbx.print.bttributf pbdkbgf.
+Thfsf bbstrbdt syntbx dlbssfs fbdh rfprfsfnt b 
+difffrfnt typf.  Thf <b hrff="../EnumSyntbx.html">
+EnumSyntbx</b> dlbss, for fxbmplf, rfprfsfnts b typf-sbff
+fnumfrbtion.  Thf bbstrbdt syntbx dlbss providfs b wrbppfr for thf bttributf 
+vbluf.  
+<p>
+If bn bttributf dlbss fxtfnds <dodf>EnumSyntbx</dodf>, bnd thf vbluf of thf 
+bttributf is bn IPP-dompbtiblf vbluf, thf bttributf's <dodf>toString</dodf> 
+mfthod rfturns thf IPP string rfprfsfntbtion of thf bttributf vbluf, sudh bs
+"prodfssing-stoppfd" for thf 
+<b hrff="JobStbtf.html">JobStbtf</b> bttributf.  Howfvfr, bfdbusf thf 
+<dodf>EnumSyntbx</dodf> dlbss is fxtfnsiblf, vfndors dbn dffinf thfir own 
+bttributf vblufs.  If bn bttributf usfs thf <dodf>EnumSyntbx</dodf> dlbss 
+bnd is sft to onf of thfsf vfndor-dffinfd vblufs thfn thf <dodf>toString</dodf>
+ mfthod will not rfturn thf IPP string rfprfsfntbtion of thf vbluf.
+<p>
+A printing dlifnt bpplidbtion
+will typidblly not nffd to usf
+bll thf printing bttributf dlbssfs
+in pbdkbgf jbvbx.print.bttributf.stbndbrd,
+just thf onfs thbt pfrtbin to thf bpplidbtion.
+<P>
+Thf bttributf dlbssfs in pbdkbgf jbvbx.print.bttributf.stbndbrd
+brf bbsfd on thf Intfrnft Printing Protodol (IPP) bttributfs
+bs dffinfd in thf Intfrnft RFC dodumfnt,
+<I>RFC 2911 Intfrnft Printing Protodol/1.1: Modfl bnd Sfmbntids</I>
+dbtfd Sfptfmbfr 2000.
+Sff <b HREF="http://www.iftf.org/rfd/rfd2911.txt">RFC 2911</b>
+for morf informbtion.
+Thf dfsdriptivf tfxt for fbdh bttributf dlbss
+wbs tbkfn lbrgfly from thf bbovf dodumfnts.
+Thf bbovf buthors' dontribution to thf API
+is grbtffully bdknowlfdgfd.
+
+<H3>Attributf Orgbnizbtion</H3>
+Thfrf brf fivf kinds of printing bttributfs:
+dod bttributfs,
+print rfqufst bttributfs,
+print job bttributfs,
+print sfrvidf bttributfs,
+bnd supportfd-vblufs bttributfs.
+
+<H4>Dod Attributfs</H4>
+Dod bttributfs spfdify thf dhbrbdtfristids of bn individubl dod
+bnd thf print job sfttings to bf bpplifd to bn individubl dod.
+A dod bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../DodAttributf.html">DodAttributf</A>.
+A dod bttributf dbn bppfbr in b 
+<b hrff="../DodAttributfSft.html">
+DodAttributfSft</b>.
+
+<H4>Print Rfqufst Attributfs</H4>
+Print rfqufst bttributfs
+spfdify thf sfttings to bf bpplifd to b wholf print job
+bnd to bll thf dods in thf print job. 
+A print rfqufst bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintRfqufstAttributf.html">
+PrintRfqufstAttributf</A>.
+A print rfqufst bttributf dbn bppfbr in b   
+<b hrff="../PrintRfqufstAttributfSft.html">
+PrintRfqufstAttributfSft</b>.
+
+<P>
+Somf bttributfs brf dod bttributfs
+but not print rfqufst bttributfs
+bnd mby only bf spfdififd bt thf dod lfvfl.
+Somf bttributfs brf print rfqufst bttributfs
+but not dod bttributfs
+bnd mby only bf spfdififd bt thf Print Rfqufst lfvfl.
+Somf bttributfs brf both dod bttributfs
+bnd print rfqufst bttributfs
+bnd mby bf spfdififd fithfr bt thf dod lfvfl
+or bt thf Print Rfqufst lfvfl.
+<P>
+Whfn spfdififd bt thf dod lfvfl,
+bn bttributf bpplifs just to thbt onf dod.
+Whfn spfdififd bt thf Print Rfqufst lfvfl,
+bn bttributf bpplifs to thf wholf job,
+indluding bll thf dods in thf job.
+Howfvfr, bn bttributf spfdififd bt thf dod lfvfl
+ovfrridfs bn bttributf in thf sbmf dbtfgory
+spfdififd bt thf Print Rfqufst lfvfl.
+
+<H4>Print Job Attributfs</H4>
+Print job bttributfs rfport thf stbtus of b Print Job.
+A print job bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintJobAttributf.html">PrintJobAttributf</A>.
+A print job bttributf
+dbn bppfbr in b <A HREF="../PrintJobAttributfSft.html">
+PrintJobAttributfSft</A>.
+<P>
+Somf bttributfs brf both print rfqufst bttributfs
+bnd print job bttributfs;
+b dlifnt mby indludf sudh bttributfs in b Print Rfqufst
+to spfdify dhbrbdtfristids for thf fnsuing Print Job,
+bnd thosf bttributfs thfn blso bppfbr
+in thf Print Job's bttributf sft.
+Somf bttributfs brf print job bttributfs
+but not print rfqufst bttributfs;
+thf print sfrvidf itsflf
+bdds thfsf bttributfs to thf Print Job's bttributf sft.
+
+<H4>Print Sfrvidf Attributfs</H4>
+Print sfrvidf bttributfs rfport thf stbtus
+of b print sfrvidf.
+A print sfrvidf bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../PrintSfrvidfAttributf.html">
+PrintSfrvidfAttributf</A>.
+A print sfrvidf bttributf
+dbn bppfbr in b <A HREF="../PrintSfrvidfAttributfSft.html">
+PrintSfrvidfAttributfSft</A>.
+
+<H4>Supportfd-Vblufs Attributfs</H4>
+A supportfd-vbluf bttributf
+indidbtfs thf lfgbl vblufs for bnothfr bttributf
+thbt b print sfrvidf supports.
+A supportfd-vblufs bttributf dlbss implfmfnts intfrfbdf
+<A HREF="../SupportfdVblufsAttributf.html">
+SupportfdVblufsAttributf</A>.
+Howfvfr, supportfd-vblufs bttributfs
+nfvfr bppfbr in bttributf sfts,
+so thfrf is no rfstridtfd <A HREF="../AttributfSft.html">
+AttributfSft</A>
+subintfrfbdf for thfm.
+
+<H4>Attributf Tbblf</H4>
+Thf tbblf bflow lists bll thf printing bttributfs.
+Thf tbblf shows thf tbgging intfrfbdfs
+fbdh bttributf dlbss implfmfnts
+in bddition to intfrfbdf <A HREF="../Attributf.html">
+Attributf</A>,
+thus indidbting how fbdh bttributf is usfd in thf API.
+For fbdh dod bttributf bnd print rfqufst bttributf,
+thf dolumn mbrkfd "SupportfdVblufsAttributf"
+lists thf supportfd-vblufs bttributf dlbss, if bny,
+with whidh b print sfrvidf 
+indidbtfs thf supportfd vblufs for thbt bttributf dbtfgory.
+<TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Lists bll printing bttributfs bs dfsdribfd in bbovf tfxt">
+<TR BGCOLOR="#E5E5E5">
+<TH VALIGN="bottom">Attributf Clbss</TH>
+<TH VALIGN="bottom">Dod<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Rfqufst<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Job<BR>Attributf</TH>
+<TH VALIGN="bottom">Print<BR>Sfrvidf<BR>Attributf</TH>
+<TH VALIGN="bottom">SupportfdVblufsAttributf</TH>
+</TR>
+<TR><TD><A HREF="Comprfssion.html">Comprfssion</A></TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DodumfntNbmf.html">DodumfntNbmf</A></TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Chrombtidity.html">Chrombtidity</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Copifs.html">Copifs</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="CopifsSupportfd.html">CopifsSupportfd</A></TD></TR>
+<TR><TD><A HREF="Finishings.html">Finishings</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobHoldUntil.html">JobHoldUntil</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobImprfssions.html">JobImprfssions</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobImprfssionsSupportfd.html">JobImprfssionsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobKOdtfts.html">JobKOdtfts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobKOdtftsSupportfd.html">JobKOdtftsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobMfdibShffts.html">JobMfdibShffts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobMfdibShfftsSupportfd.html">JobMfdibShfftsSupportfd</A></TD></TR>
+<TR><TD><A HREF="JobNbmf.html">JobNbmf</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobPriority.html">JobPriority</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="JobPrioritySupportfd.html">JobPrioritySupportfd</A></TD></TR>
+<TR><TD><A HREF="JobShffts.html">JobShffts</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Mfdib.html">Mfdib</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="MfdibSizf.html">MfdibSizf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="MultiplfDodumfntHbndling.html">MultiplfDodumfntHbndling</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrUp.html">NumbfrUp</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD><A HREF="NumbfrUpSupportfd.html">NumbfrUpSupportfd</A></TD></TR>
+<TR><TD><A HREF="OrifntbtionRfqufstfd.html">OrifntbtionRfqufstfd</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfRbngfs.html">PbgfRbngfs</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrfsfntbtionDirfdtion.html">PrfsfntbtionDirfdtion</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrRfsolution.html">PrintfrRfsolution</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintQublity.html">PrintQublity</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="RfqufstingUsfrNbmf.html">RfqufstingUsfrNbmf</A></TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="ShfftCollbtf.html">ShfftCollbtf</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="Sidfs.html">Sidfs</A></TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtComplftfd.html">DbtfTimfAtComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtCrfbtion.html">DbtfTimfAtCrfbtion</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="DbtfTimfAtProdfssing.html">DbtfTimfAtProdfssing</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobImprfssionsComplftfd.html">JobImprfssionsComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobKOdtftsProdfssfd.html">JobKOdtftsProdfssfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobMfdibShfftsComplftfd.html">JobMfdibShfftsComplftfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobMfssbgfFromOpfrbtor.html">JobMfssbgfFromOpfrbtor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobOriginbtingUsfrNbmf.html">JobOriginbtingUsfrNbmf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobStbtf.html">JobStbtf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="JobStbtfRfbsons.html">JobStbtfRfbsons</A><BR>Contbins zfro or morf --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="JobStbtfRfbson.html">JobStbtfRfbson</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrOfDodumfnts.html">NumbfrOfDodumfnts</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="NumbfrOfIntfrvfningJobs.html">NumbfrOfIntfrvfningJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="OutputDfvidfAssignfd.html">OutputDfvidfAssignfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="ColorSupportfd.html">ColorSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfsPfrMinutf.html">PbgfsPfrMinutf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PbgfsPfrMinutfColor.html">PbgfsPfrMinutfColor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PDLOvfrridfSupportfd.html">PDLOvfrridfSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrIsAddfptingJobs.html">PrintfrIsAddfptingJobs</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrInfo.html">PrintfrInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrLodbtion.html">PrintfrLodbtion</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMfssbgfFromOpfrbtor.html">PrintfrMfssbgfFromOpfrbtor</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMbkfAndModfl.html">PrintfrMbkfAndModfl</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMorfInfo.html">PrintfrMorfInfo</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrMorfInfoMbnufbdturfr.html">PrintfrMorfInfoMbnufbdturfr</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrNbmf.html">PrintfrNbmf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrStbtf.html">PrintfrStbtf</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="PrintfrStbtfRfbsons.html">PrintfrStbtfRfbsons</A><BR>Contbins zfro or morf --</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="PrintfrStbtfRfbson.html">PrintfrStbtfRfbson</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD>-- <A HREF="Sfvfrity.html">Sfvfrity</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="QufufdJobCount.html">QufufdJobCount</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD ALIGN="dfntfr">X</TD><TD>&nbsp;</TD></TR>
+<TR><TD><A HREF="RfffrfndfUriSdhfmfsSupportfd.html">RfffrfndfUriSdhfmfsSupportfd</A></TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>
+</TABLE>
+<P>
+Plfbsf notf: In thf jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mfthods 
+is indorrfdt unlfss fxpliditly dodumfntfd on thf mfthod bs hbving b mfbningful
+intfrprftbtion. Usbgf to thf dontrbry is indorrfdt doding bnd mby rfsult
+in b run timf fxdfption fithfr immfdibtfly or bt somf lbtfr timf.
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+typidbl bnd bddfptbblf run timf fxdfptions for sudh dbsfs.
+
+@sindf 1.4
+</body>
+</html>

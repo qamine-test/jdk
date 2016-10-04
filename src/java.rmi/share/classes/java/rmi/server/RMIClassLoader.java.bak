@@ -1,722 +1,722 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
 
 /**
- * <code>RMIClassLoader</code> comprises static methods to support
- * dynamic class loading with RMI.  Included are methods for loading
- * classes from a network location (one or more URLs) and obtaining
- * the location from which an existing class should be loaded by
- * remote parties.  These methods are used by the RMI runtime when
- * marshalling and unmarshalling classes contained in the arguments
- * and return values of remote method calls, and they also may be
- * invoked directly by applications in order to mimic RMI's dynamic
- * class loading behavior.
+ * <dodf>RMIClbssLobdfr</dodf> domprisfs stbtid mftiods to support
+ * dynbmid dlbss lobding witi RMI.  Indludfd brf mftiods for lobding
+ * dlbssfs from b nftwork lodbtion (onf or morf URLs) bnd obtbining
+ * tif lodbtion from wiidi bn fxisting dlbss siould bf lobdfd by
+ * rfmotf pbrtifs.  Tifsf mftiods brf usfd by tif RMI runtimf wifn
+ * mbrsiblling bnd unmbrsiblling dlbssfs dontbinfd in tif brgumfnts
+ * bnd rfturn vblufs of rfmotf mftiod dblls, bnd tify blso mby bf
+ * invokfd dirfdtly by bpplidbtions in ordfr to mimid RMI's dynbmid
+ * dlbss lobding bfibvior.
  *
- * <p>The implementation of the following static methods
- *
- * <ul>
- *
- * <li>{@link #loadClass(URL,String)}
- * <li>{@link #loadClass(String,String)}
- * <li>{@link #loadClass(String,String,ClassLoader)}
- * <li>{@link #loadProxyClass(String,String[],ClassLoader)}
- * <li>{@link #getClassLoader(String)}
- * <li>{@link #getClassAnnotation(Class)}
- *
- * </ul>
- *
- * is provided by an instance of {@link RMIClassLoaderSpi}, the
- * service provider interface for those methods.  When one of the
- * methods is invoked, its behavior is to delegate to a corresponding
- * method on the service provider instance.  The details of how each
- * method delegates to the provider instance is described in the
- * documentation for each particular method.
- *
- * <p>The service provider instance is chosen as follows:
+ * <p>Tif implfmfntbtion of tif following stbtid mftiods
  *
  * <ul>
  *
- * <li>If the system property
- * <code>java.rmi.server.RMIClassLoaderSpi</code> is defined, then if
- * its value equals the string <code>"default"</code>, the provider
- * instance will be the value returned by an invocation of the {@link
- * #getDefaultProviderInstance()} method, and for any other value, if
- * a class named with the value of the property can be loaded by the
- * system class loader (see {@link ClassLoader#getSystemClassLoader})
- * and that class is assignable to {@link RMIClassLoaderSpi} and has a
- * public no-argument constructor, then that constructor will be
- * invoked to create the provider instance.  If the property is
- * defined but any other of those conditions are not true, then an
- * unspecified <code>Error</code> will be thrown to code that attempts
- * to use <code>RMIClassLoader</code>, indicating the failure to
- * obtain a provider instance.
- *
- * <li>If a resource named
- * <code>META-INF/services/java.rmi.server.RMIClassLoaderSpi</code> is
- * visible to the system class loader, then the contents of that
- * resource are interpreted as a provider-configuration file, and the
- * first class name specified in that file is used as the provider
- * class name.  If a class with that name can be loaded by the system
- * class loader and that class is assignable to {@link
- * RMIClassLoaderSpi} and has a public no-argument constructor, then
- * that constructor will be invoked to create the provider instance.
- * If the resource is found but a provider cannot be instantiated as
- * described, then an unspecified <code>Error</code> will be thrown to
- * code that attempts to use <code>RMIClassLoader</code>, indicating
- * the failure to obtain a provider instance.
- *
- * <li>Otherwise, the provider instance will be the value returned by
- * an invocation of the {@link #getDefaultProviderInstance()} method.
+ * <li>{@link #lobdClbss(URL,String)}
+ * <li>{@link #lobdClbss(String,String)}
+ * <li>{@link #lobdClbss(String,String,ClbssLobdfr)}
+ * <li>{@link #lobdProxyClbss(String,String[],ClbssLobdfr)}
+ * <li>{@link #gftClbssLobdfr(String)}
+ * <li>{@link #gftClbssAnnotbtion(Clbss)}
  *
  * </ul>
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @author      Laird Dornin
- * @see         RMIClassLoaderSpi
- * @since       1.1
+ * is providfd by bn instbndf of {@link RMIClbssLobdfrSpi}, tif
+ * sfrvidf providfr intfrfbdf for tiosf mftiods.  Wifn onf of tif
+ * mftiods is invokfd, its bfibvior is to dflfgbtf to b dorrfsponding
+ * mftiod on tif sfrvidf providfr instbndf.  Tif dftbils of iow fbdi
+ * mftiod dflfgbtfs to tif providfr instbndf is dfsdribfd in tif
+ * dodumfntbtion for fbdi pbrtidulbr mftiod.
+ *
+ * <p>Tif sfrvidf providfr instbndf is diosfn bs follows:
+ *
+ * <ul>
+ *
+ * <li>If tif systfm propfrty
+ * <dodf>jbvb.rmi.sfrvfr.RMIClbssLobdfrSpi</dodf> is dffinfd, tifn if
+ * its vbluf fqubls tif string <dodf>"dffbult"</dodf>, tif providfr
+ * instbndf will bf tif vbluf rfturnfd by bn invodbtion of tif {@link
+ * #gftDffbultProvidfrInstbndf()} mftiod, bnd for bny otifr vbluf, if
+ * b dlbss nbmfd witi tif vbluf of tif propfrty dbn bf lobdfd by tif
+ * systfm dlbss lobdfr (sff {@link ClbssLobdfr#gftSystfmClbssLobdfr})
+ * bnd tibt dlbss is bssignbblf to {@link RMIClbssLobdfrSpi} bnd ibs b
+ * publid no-brgumfnt donstrudtor, tifn tibt donstrudtor will bf
+ * invokfd to drfbtf tif providfr instbndf.  If tif propfrty is
+ * dffinfd but bny otifr of tiosf donditions brf not truf, tifn bn
+ * unspfdififd <dodf>Error</dodf> will bf tirown to dodf tibt bttfmpts
+ * to usf <dodf>RMIClbssLobdfr</dodf>, indidbting tif fbilurf to
+ * obtbin b providfr instbndf.
+ *
+ * <li>If b rfsourdf nbmfd
+ * <dodf>META-INF/sfrvidfs/jbvb.rmi.sfrvfr.RMIClbssLobdfrSpi</dodf> is
+ * visiblf to tif systfm dlbss lobdfr, tifn tif dontfnts of tibt
+ * rfsourdf brf intfrprftfd bs b providfr-donfigurbtion filf, bnd tif
+ * first dlbss nbmf spfdififd in tibt filf is usfd bs tif providfr
+ * dlbss nbmf.  If b dlbss witi tibt nbmf dbn bf lobdfd by tif systfm
+ * dlbss lobdfr bnd tibt dlbss is bssignbblf to {@link
+ * RMIClbssLobdfrSpi} bnd ibs b publid no-brgumfnt donstrudtor, tifn
+ * tibt donstrudtor will bf invokfd to drfbtf tif providfr instbndf.
+ * If tif rfsourdf is found but b providfr dbnnot bf instbntibtfd bs
+ * dfsdribfd, tifn bn unspfdififd <dodf>Error</dodf> will bf tirown to
+ * dodf tibt bttfmpts to usf <dodf>RMIClbssLobdfr</dodf>, indidbting
+ * tif fbilurf to obtbin b providfr instbndf.
+ *
+ * <li>Otifrwisf, tif providfr instbndf will bf tif vbluf rfturnfd by
+ * bn invodbtion of tif {@link #gftDffbultProvidfrInstbndf()} mftiod.
+ *
+ * </ul>
+ *
+ * @butior      Ann Wollrbti
+ * @butior      Pftfr Jonfs
+ * @butior      Lbird Dornin
+ * @sff         RMIClbssLobdfrSpi
+ * @sindf       1.1
  */
-public class RMIClassLoader {
+publid dlbss RMIClbssLobdfr {
 
-    /** "default" provider instance */
-    private static final RMIClassLoaderSpi defaultProvider =
-        newDefaultProviderInstance();
+    /** "dffbult" providfr instbndf */
+    privbtf stbtid finbl RMIClbssLobdfrSpi dffbultProvidfr =
+        nfwDffbultProvidfrInstbndf();
 
-    /** provider instance */
-    private static final RMIClassLoaderSpi provider =
-        AccessController.doPrivileged(
-            new PrivilegedAction<RMIClassLoaderSpi>() {
-                public RMIClassLoaderSpi run() { return initializeProvider(); }
+    /** providfr instbndf */
+    privbtf stbtid finbl RMIClbssLobdfrSpi providfr =
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RMIClbssLobdfrSpi>() {
+                publid RMIClbssLobdfrSpi run() { rfturn initiblizfProvidfr(); }
             });
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyonf from drfbting onf of tifsf.
      */
-    private RMIClassLoader() {}
+    privbtf RMIClbssLobdfr() {}
 
     /**
-     * Loads the class with the specified <code>name</code>.
+     * Lobds tif dlbss witi tif spfdififd <dodf>nbmf</dodf>.
      *
-     * <p>This method delegates to {@link #loadClass(String,String)},
-     * passing <code>null</code> as the first argument and
-     * <code>name</code> as the second argument.
+     * <p>Tiis mftiod dflfgbtfs to {@link #lobdClbss(String,String)},
+     * pbssing <dodf>null</dodf> bs tif first brgumfnt bnd
+     * <dodf>nbmf</dodf> bs tif sfdond brgumfnt.
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbmf tif nbmf of tif dlbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @rfturn  tif <dodf>Clbss</dodf> objfdt rfprfsfnting tif lobdfd dlbss
      *
-     * @throws MalformedURLException if a provider-specific URL used
-     * to load classes is invalid
+     * @tirows MblformfdURLExdfption if b providfr-spfdifid URL usfd
+     * to lobd dlbssfs is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the codebase location
+     * @tirows  ClbssNotFoundExdfption if b dffinition for tif dlbss
+     * dould not bf found bt tif dodfbbsf lodbtion
      *
-     * @deprecated replaced by <code>loadClass(String,String)</code> method
-     * @see #loadClass(String,String)
+     * @dfprfdbtfd rfplbdfd by <dodf>lobdClbss(String,String)</dodf> mftiod
+     * @sff #lobdClbss(String,String)
      */
-    @Deprecated
-    public static Class<?> loadClass(String name)
-        throws MalformedURLException, ClassNotFoundException
+    @Dfprfdbtfd
+    publid stbtid Clbss<?> lobdClbss(String nbmf)
+        tirows MblformfdURLExdfption, ClbssNotFoundExdfption
     {
-        return loadClass((String) null, name);
+        rfturn lobdClbss((String) null, nbmf);
     }
 
     /**
-     * Loads a class from a codebase URL.
+     * Lobds b dlbss from b dodfbbsf URL.
      *
-     * If <code>codebase</code> is <code>null</code>, then this method
-     * will behave the same as {@link #loadClass(String,String)} with a
-     * <code>null</code> <code>codebase</code> and the given class name.
+     * If <dodf>dodfbbsf</dodf> is <dodf>null</dodf>, tifn tiis mftiod
+     * will bfibvf tif sbmf bs {@link #lobdClbss(String,String)} witi b
+     * <dodf>null</dodf> <dodf>dodfbbsf</dodf> bnd tif givfn dlbss nbmf.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing the result of invoking
-     * {@link URL#toString} on the given URL (or <code>null</code> if
-     * <code>codebase</code> is null) as the first argument,
-     * <code>name</code> as the second argument,
-     * and <code>null</code> as the third argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#lobdClbss(String,String,ClbssLobdfr)}
+     * mftiod of tif providfr instbndf, pbssing tif rfsult of invoking
+     * {@link URL#toString} on tif givfn URL (or <dodf>null</dodf> if
+     * <dodf>dodfbbsf</dodf> is null) bs tif first brgumfnt,
+     * <dodf>nbmf</dodf> bs tif sfdond brgumfnt,
+     * bnd <dodf>null</dodf> bs tif tiird brgumfnt.
      *
-     * @param   codebase the URL to load the class from, or <code>null</code>
+     * @pbrbm   dodfbbsf tif URL to lobd tif dlbss from, or <dodf>null</dodf>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbmf tif nbmf of tif dlbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @rfturn  tif <dodf>Clbss</dodf> objfdt rfprfsfnting tif lobdfd dlbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * <code>null</code> and a provider-specific URL used
-     * to load classes is invalid
+     * @tirows MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * <dodf>null</dodf> bnd b providfr-spfdifid URL usfd
+     * to lobd dlbssfs is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified URL
+     * @tirows  ClbssNotFoundExdfption if b dffinition for tif dlbss
+     * dould not bf found bt tif spfdififd URL
      */
-    public static Class<?> loadClass(URL codebase, String name)
-        throws MalformedURLException, ClassNotFoundException
+    publid stbtid Clbss<?> lobdClbss(URL dodfbbsf, String nbmf)
+        tirows MblformfdURLExdfption, ClbssNotFoundExdfption
     {
-        return provider.loadClass(
-            codebase != null ? codebase.toString() : null, name, null);
+        rfturn providfr.lobdClbss(
+            dodfbbsf != null ? dodfbbsf.toString() : null, nbmf, null);
     }
 
     /**
-     * Loads a class from a codebase URL path.
+     * Lobds b dlbss from b dodfbbsf URL pbti.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>name</code> as the second argument,
-     * and <code>null</code> as the third argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#lobdClbss(String,String,ClbssLobdfr)}
+     * mftiod of tif providfr instbndf, pbssing <dodf>dodfbbsf</dodf>
+     * bs tif first brgumfnt, <dodf>nbmf</dodf> bs tif sfdond brgumfnt,
+     * bnd <dodf>null</dodf> bs tif tiird brgumfnt.
      *
-     * @param   codebase the list of URLs (separated by spaces) to load
-     * the class from, or <code>null</code>
+     * @pbrbm   dodfbbsf tif list of URLs (sfpbrbtfd by spbdfs) to lobd
+     * tif dlbss from, or <dodf>null</dodf>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbmf tif nbmf of tif dlbss to lobd
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @rfturn  tif <dodf>Clbss</dodf> objfdt rfprfsfnting tif lobdfd dlbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or if
-     * <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @tirows MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or if
+     * <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to lobd dlbssfs is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified location
+     * @tirows  ClbssNotFoundExdfption if b dffinition for tif dlbss
+     * dould not bf found bt tif spfdififd lodbtion
      *
-     * @since   1.2
+     * @sindf   1.2
      */
-    public static Class<?> loadClass(String codebase, String name)
-        throws MalformedURLException, ClassNotFoundException
+    publid stbtid Clbss<?> lobdClbss(String dodfbbsf, String nbmf)
+        tirows MblformfdURLExdfption, ClbssNotFoundExdfption
     {
-        return provider.loadClass(codebase, name, null);
+        rfturn providfr.lobdClbss(dodfbbsf, nbmf, null);
     }
 
     /**
-     * Loads a class from a codebase URL path, optionally using the
-     * supplied loader.
+     * Lobds b dlbss from b dodfbbsf URL pbti, optionblly using tif
+     * supplifd lobdfr.
      *
-     * This method should be used when the caller would like to make
-     * available to the provider implementation an additional contextual
-     * class loader to consider, such as the loader of a caller on the
-     * stack.  Typically, a provider implementation will attempt to
-     * resolve the named class using the given <code>defaultLoader</code>,
-     * if specified, before attempting to resolve the class from the
-     * codebase URL path.
+     * Tiis mftiod siould bf usfd wifn tif dbllfr would likf to mbkf
+     * bvbilbblf to tif providfr implfmfntbtion bn bdditionbl dontfxtubl
+     * dlbss lobdfr to donsidfr, sudi bs tif lobdfr of b dbllfr on tif
+     * stbdk.  Typidblly, b providfr implfmfntbtion will bttfmpt to
+     * rfsolvf tif nbmfd dlbss using tif givfn <dodf>dffbultLobdfr</dodf>,
+     * if spfdififd, bfforf bttfmpting to rfsolvf tif dlbss from tif
+     * dodfbbsf URL pbti.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadClass(String,String,ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>name</code> as the second argument,
-     * and <code>defaultLoader</code> as the third argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#lobdClbss(String,String,ClbssLobdfr)}
+     * mftiod of tif providfr instbndf, pbssing <dodf>dodfbbsf</dodf>
+     * bs tif first brgumfnt, <dodf>nbmf</dodf> bs tif sfdond brgumfnt,
+     * bnd <dodf>dffbultLobdfr</dodf> bs tif tiird brgumfnt.
      *
-     * @param   codebase the list of URLs (separated by spaces) to load
-     * the class from, or <code>null</code>
+     * @pbrbm   dodfbbsf tif list of URLs (sfpbrbtfd by spbdfs) to lobd
+     * tif dlbss from, or <dodf>null</dodf>
      *
-     * @param   name the name of the class to load
+     * @pbrbm   nbmf tif nbmf of tif dlbss to lobd
      *
-     * @param   defaultLoader additional contextual class loader
-     * to use, or <code>null</code>
+     * @pbrbm   dffbultLobdfr bdditionbl dontfxtubl dlbss lobdfr
+     * to usf, or <dodf>null</dodf>
      *
-     * @return  the <code>Class</code> object representing the loaded class
+     * @rfturn  tif <dodf>Clbss</dodf> objfdt rfprfsfnting tif lobdfd dlbss
      *
-     * @throws MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or if
-     * <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @tirows MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or if
+     * <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to lobd dlbssfs is invblid
      *
-     * @throws  ClassNotFoundException if a definition for the class
-     * could not be found at the specified location
+     * @tirows  ClbssNotFoundExdfption if b dffinition for tif dlbss
+     * dould not bf found bt tif spfdififd lodbtion
      *
-     * @since   1.4
+     * @sindf   1.4
      */
-    public static Class<?> loadClass(String codebase, String name,
-                                     ClassLoader defaultLoader)
-        throws MalformedURLException, ClassNotFoundException
+    publid stbtid Clbss<?> lobdClbss(String dodfbbsf, String nbmf,
+                                     ClbssLobdfr dffbultLobdfr)
+        tirows MblformfdURLExdfption, ClbssNotFoundExdfption
     {
-        return provider.loadClass(codebase, name, defaultLoader);
+        rfturn providfr.lobdClbss(dodfbbsf, nbmf, dffbultLobdfr);
     }
 
     /**
-     * Loads a dynamic proxy class (see {@link java.lang.reflect.Proxy})
-     * that implements a set of interfaces with the given names
-     * from a codebase URL path.
+     * Lobds b dynbmid proxy dlbss (sff {@link jbvb.lbng.rfflfdt.Proxy})
+     * tibt implfmfnts b sft of intfrfbdfs witi tif givfn nbmfs
+     * from b dodfbbsf URL pbti.
      *
-     * <p>The interfaces will be resolved similar to classes loaded via
-     * the {@link #loadClass(String,String)} method using the given
-     * <code>codebase</code>.
+     * <p>Tif intfrfbdfs will bf rfsolvfd similbr to dlbssfs lobdfd vib
+     * tif {@link #lobdClbss(String,String)} mftiod using tif givfn
+     * <dodf>dodfbbsf</dodf>.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#loadProxyClass(String,String[],ClassLoader)}
-     * method of the provider instance, passing <code>codebase</code>
-     * as the first argument, <code>interfaces</code> as the second argument,
-     * and <code>defaultLoader</code> as the third argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#lobdProxyClbss(String,String[],ClbssLobdfr)}
+     * mftiod of tif providfr instbndf, pbssing <dodf>dodfbbsf</dodf>
+     * bs tif first brgumfnt, <dodf>intfrfbdfs</dodf> bs tif sfdond brgumfnt,
+     * bnd <dodf>dffbultLobdfr</dodf> bs tif tiird brgumfnt.
      *
-     * @param   codebase the list of URLs (space-separated) to load
-     * classes from, or <code>null</code>
+     * @pbrbm   dodfbbsf tif list of URLs (spbdf-sfpbrbtfd) to lobd
+     * dlbssfs from, or <dodf>null</dodf>
      *
-     * @param   interfaces the names of the interfaces for the proxy class
-     * to implement
+     * @pbrbm   intfrfbdfs tif nbmfs of tif intfrfbdfs for tif proxy dlbss
+     * to implfmfnt
      *
-     * @param   defaultLoader additional contextual class loader
-     * to use, or <code>null</code>
+     * @pbrbm   dffbultLobdfr bdditionbl dontfxtubl dlbss lobdfr
+     * to usf, or <dodf>null</dodf>
      *
-     * @return  a dynamic proxy class that implements the named interfaces
+     * @rfturn  b dynbmid proxy dlbss tibt implfmfnts tif nbmfd intfrfbdfs
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to load classes is invalid
+     * @tirows  MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or
+     * if <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to lobd dlbssfs is invblid
      *
-     * @throws  ClassNotFoundException if a definition for one of
-     * the named interfaces could not be found at the specified location,
-     * or if creation of the dynamic proxy class failed (such as if
-     * {@link java.lang.reflect.Proxy#getProxyClass(ClassLoader,Class[])}
-     * would throw an <code>IllegalArgumentException</code> for the given
-     * interface list)
+     * @tirows  ClbssNotFoundExdfption if b dffinition for onf of
+     * tif nbmfd intfrfbdfs dould not bf found bt tif spfdififd lodbtion,
+     * or if drfbtion of tif dynbmid proxy dlbss fbilfd (sudi bs if
+     * {@link jbvb.lbng.rfflfdt.Proxy#gftProxyClbss(ClbssLobdfr,Clbss[])}
+     * would tirow bn <dodf>IllfgblArgumfntExdfption</dodf> for tif givfn
+     * intfrfbdf list)
      *
-     * @since   1.4
+     * @sindf   1.4
      */
-    public static Class<?> loadProxyClass(String codebase, String[] interfaces,
-                                          ClassLoader defaultLoader)
-        throws ClassNotFoundException, MalformedURLException
+    publid stbtid Clbss<?> lobdProxyClbss(String dodfbbsf, String[] intfrfbdfs,
+                                          ClbssLobdfr dffbultLobdfr)
+        tirows ClbssNotFoundExdfption, MblformfdURLExdfption
     {
-        return provider.loadProxyClass(codebase, interfaces, defaultLoader);
+        rfturn providfr.lobdProxyClbss(dodfbbsf, intfrfbdfs, dffbultLobdfr);
     }
 
     /**
-     * Returns a class loader that loads classes from the given codebase
-     * URL path.
+     * Rfturns b dlbss lobdfr tibt lobds dlbssfs from tif givfn dodfbbsf
+     * URL pbti.
      *
-     * <p>The class loader returned is the class loader that the
-     * {@link #loadClass(String,String)} method would use to load classes
-     * for the same <code>codebase</code> argument.
+     * <p>Tif dlbss lobdfr rfturnfd is tif dlbss lobdfr tibt tif
+     * {@link #lobdClbss(String,String)} mftiod would usf to lobd dlbssfs
+     * for tif sbmf <dodf>dodfbbsf</dodf> brgumfnt.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#getClassLoader(String)} method
-     * of the provider instance, passing <code>codebase</code> as the argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#gftClbssLobdfr(String)} mftiod
+     * of tif providfr instbndf, pbssing <dodf>dodfbbsf</dodf> bs tif brgumfnt.
      *
-     * <p>If there is a security manger, its <code>checkPermission</code>
-     * method will be invoked with a
-     * <code>RuntimePermission("getClassLoader")</code> permission;
-     * this could result in a <code>SecurityException</code>.
-     * The provider implementation of this method may also perform further
-     * security checks to verify that the calling context has permission to
-     * connect to all of the URLs in the codebase URL path.
+     * <p>If tifrf is b sfdurity mbngfr, its <dodf>difdkPfrmission</dodf>
+     * mftiod will bf invokfd witi b
+     * <dodf>RuntimfPfrmission("gftClbssLobdfr")</dodf> pfrmission;
+     * tiis dould rfsult in b <dodf>SfdurityExdfption</dodf>.
+     * Tif providfr implfmfntbtion of tiis mftiod mby blso pfrform furtifr
+     * sfdurity difdks to vfrify tibt tif dblling dontfxt ibs pfrmission to
+     * donnfdt to bll of tif URLs in tif dodfbbsf URL pbti.
      *
-     * @param   codebase the list of URLs (space-separated) from which
-     * the returned class loader will load classes from, or <code>null</code>
+     * @pbrbm   dodfbbsf tif list of URLs (spbdf-sfpbrbtfd) from wiidi
+     * tif rfturnfd dlbss lobdfr will lobd dlbssfs from, or <dodf>null</dodf>
      *
-     * @return a class loader that loads classes from the given codebase URL
-     * path
+     * @rfturn b dlbss lobdfr tibt lobds dlbssfs from tif givfn dodfbbsf URL
+     * pbti
      *
-     * @throws  MalformedURLException if <code>codebase</code> is
-     * non-<code>null</code> and contains an invalid URL, or
-     * if <code>codebase</code> is <code>null</code> and a provider-specific
-     * URL used to identify the class loader is invalid
+     * @tirows  MblformfdURLExdfption if <dodf>dodfbbsf</dodf> is
+     * non-<dodf>null</dodf> bnd dontbins bn invblid URL, or
+     * if <dodf>dodfbbsf</dodf> is <dodf>null</dodf> bnd b providfr-spfdifid
+     * URL usfd to idfntify tif dlbss lobdfr is invblid
      *
-     * @throws  SecurityException if there is a security manager and the
-     * invocation of its <code>checkPermission</code> method fails, or
-     * if the caller does not have permission to connect to all of the
-     * URLs in the codebase URL path
+     * @tirows  SfdurityExdfption if tifrf is b sfdurity mbnbgfr bnd tif
+     * invodbtion of its <dodf>difdkPfrmission</dodf> mftiod fbils, or
+     * if tif dbllfr dofs not ibvf pfrmission to donnfdt to bll of tif
+     * URLs in tif dodfbbsf URL pbti
      *
-     * @since   1.3
+     * @sindf   1.3
      */
-    public static ClassLoader getClassLoader(String codebase)
-        throws MalformedURLException, SecurityException
+    publid stbtid ClbssLobdfr gftClbssLobdfr(String dodfbbsf)
+        tirows MblformfdURLExdfption, SfdurityExdfption
     {
-        return provider.getClassLoader(codebase);
+        rfturn providfr.gftClbssLobdfr(dodfbbsf);
     }
 
     /**
-     * Returns the annotation string (representing a location for
-     * the class definition) that RMI will use to annotate the class
-     * descriptor when marshalling objects of the given class.
+     * Rfturns tif bnnotbtion string (rfprfsfnting b lodbtion for
+     * tif dlbss dffinition) tibt RMI will usf to bnnotbtf tif dlbss
+     * dfsdriptor wifn mbrsiblling objfdts of tif givfn dlbss.
      *
-     * <p>This method delegates to the
-     * {@link RMIClassLoaderSpi#getClassAnnotation(Class)} method
-     * of the provider instance, passing <code>cl</code> as the argument.
+     * <p>Tiis mftiod dflfgbtfs to tif
+     * {@link RMIClbssLobdfrSpi#gftClbssAnnotbtion(Clbss)} mftiod
+     * of tif providfr instbndf, pbssing <dodf>dl</dodf> bs tif brgumfnt.
      *
-     * @param   cl the class to obtain the annotation for
+     * @pbrbm   dl tif dlbss to obtbin tif bnnotbtion for
      *
-     * @return  a string to be used to annotate the given class when
-     * it gets marshalled, or <code>null</code>
+     * @rfturn  b string to bf usfd to bnnotbtf tif givfn dlbss wifn
+     * it gfts mbrsibllfd, or <dodf>null</dodf>
      *
-     * @throws  NullPointerException if <code>cl</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption if <dodf>dl</dodf> is <dodf>null</dodf>
      *
-     * @since   1.2
+     * @sindf   1.2
      */
     /*
-     * REMIND: Should we say that the returned class annotation will or
-     * should be a (space-separated) list of URLs?
+     * REMIND: Siould wf sby tibt tif rfturnfd dlbss bnnotbtion will or
+     * siould bf b (spbdf-sfpbrbtfd) list of URLs?
      */
-    public static String getClassAnnotation(Class<?> cl) {
-        return provider.getClassAnnotation(cl);
+    publid stbtid String gftClbssAnnotbtion(Clbss<?> dl) {
+        rfturn providfr.gftClbssAnnotbtion(dl);
     }
 
     /**
-     * Returns the canonical instance of the default provider
-     * for the service provider interface {@link RMIClassLoaderSpi}.
-     * If the system property <code>java.rmi.server.RMIClassLoaderSpi</code>
-     * is not defined, then the <code>RMIClassLoader</code> static
-     * methods
+     * Rfturns tif dbnonidbl instbndf of tif dffbult providfr
+     * for tif sfrvidf providfr intfrfbdf {@link RMIClbssLobdfrSpi}.
+     * If tif systfm propfrty <dodf>jbvb.rmi.sfrvfr.RMIClbssLobdfrSpi</dodf>
+     * is not dffinfd, tifn tif <dodf>RMIClbssLobdfr</dodf> stbtid
+     * mftiods
      *
      * <ul>
      *
-     * <li>{@link #loadClass(URL,String)}
-     * <li>{@link #loadClass(String,String)}
-     * <li>{@link #loadClass(String,String,ClassLoader)}
-     * <li>{@link #loadProxyClass(String,String[],ClassLoader)}
-     * <li>{@link #getClassLoader(String)}
-     * <li>{@link #getClassAnnotation(Class)}
+     * <li>{@link #lobdClbss(URL,String)}
+     * <li>{@link #lobdClbss(String,String)}
+     * <li>{@link #lobdClbss(String,String,ClbssLobdfr)}
+     * <li>{@link #lobdProxyClbss(String,String[],ClbssLobdfr)}
+     * <li>{@link #gftClbssLobdfr(String)}
+     * <li>{@link #gftClbssAnnotbtion(Clbss)}
      *
      * </ul>
      *
-     * will use the canonical instance of the default provider
-     * as the service provider instance.
+     * will usf tif dbnonidbl instbndf of tif dffbult providfr
+     * bs tif sfrvidf providfr instbndf.
      *
-     * <p>If there is a security manager, its
-     * <code>checkPermission</code> method will be invoked with a
-     * <code>RuntimePermission("setFactory")</code> permission; this
-     * could result in a <code>SecurityException</code>.
+     * <p>If tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPfrmission</dodf> mftiod will bf invokfd witi b
+     * <dodf>RuntimfPfrmission("sftFbdtory")</dodf> pfrmission; tiis
+     * dould rfsult in b <dodf>SfdurityExdfption</dodf>.
      *
-     * <p>The default service provider instance implements
-     * {@link RMIClassLoaderSpi} as follows:
+     * <p>Tif dffbult sfrvidf providfr instbndf implfmfnts
+     * {@link RMIClbssLobdfrSpi} bs follows:
      *
-     * <blockquote>
+     * <blodkquotf>
      *
-     * <p>The <b>{@link RMIClassLoaderSpi#getClassAnnotation(Class)
-     * getClassAnnotation}</b> method returns a <code>String</code>
-     * representing the codebase URL path that a remote party should
-     * use to download the definition for the specified class.  The
-     * format of the returned string is a path of URLs separated by
-     * spaces.
+     * <p>Tif <b>{@link RMIClbssLobdfrSpi#gftClbssAnnotbtion(Clbss)
+     * gftClbssAnnotbtion}</b> mftiod rfturns b <dodf>String</dodf>
+     * rfprfsfnting tif dodfbbsf URL pbti tibt b rfmotf pbrty siould
+     * usf to downlobd tif dffinition for tif spfdififd dlbss.  Tif
+     * formbt of tif rfturnfd string is b pbti of URLs sfpbrbtfd by
+     * spbdfs.
      *
-     * The codebase string returned depends on the defining class
-     * loader of the specified class:
+     * Tif dodfbbsf string rfturnfd dfpfnds on tif dffining dlbss
+     * lobdfr of tif spfdififd dlbss:
      *
      * <ul>
      *
-     * <li><p>If the class loader is the system class loader (see
-     * {@link ClassLoader#getSystemClassLoader}), a parent of the
-     * system class loader such as the loader used for installed
-     * extensions, or the bootstrap class loader (which may be
-     * represented by <code>null</code>), then the value of the
-     * <code>java.rmi.server.codebase</code> property (or possibly an
-     * earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * <li><p>If tif dlbss lobdfr is tif systfm dlbss lobdfr (sff
+     * {@link ClbssLobdfr#gftSystfmClbssLobdfr}), b pbrfnt of tif
+     * systfm dlbss lobdfr sudi bs tif lobdfr usfd for instbllfd
+     * fxtfnsions, or tif bootstrbp dlbss lobdfr (wiidi mby bf
+     * rfprfsfntfd by <dodf>null</dodf>), tifn tif vbluf of tif
+     * <dodf>jbvb.rmi.sfrvfr.dodfbbsf</dodf> propfrty (or possibly bn
+     * fbrlifr dbdifd vbluf) is rfturnfd, or
+     * <dodf>null</dodf> is rfturnfd if tibt propfrty is not sft.
      *
-     * <li><p>Otherwise, if the class loader is an instance of
-     * <code>URLClassLoader</code>, then the returned string is a
-     * space-separated list of the external forms of the URLs returned
-     * by invoking the <code>getURLs</code> methods of the loader.  If
-     * the <code>URLClassLoader</code> was created by this provider to
-     * service an invocation of its <code>loadClass</code> or
-     * <code>loadProxyClass</code> methods, then no permissions are
-     * required to get the associated codebase string.  If it is an
-     * arbitrary other <code>URLClassLoader</code> instance, then if
-     * there is a security manager, its <code>checkPermission</code>
-     * method will be invoked once for each URL returned by the
-     * <code>getURLs</code> method, with the permission returned by
-     * invoking <code>openConnection().getPermission()</code> on each
-     * URL; if any of those invocations throws a
-     * <code>SecurityException</code> or an <code>IOException</code>,
-     * then the value of the <code>java.rmi.server.codebase</code>
-     * property (or possibly an earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * <li><p>Otifrwisf, if tif dlbss lobdfr is bn instbndf of
+     * <dodf>URLClbssLobdfr</dodf>, tifn tif rfturnfd string is b
+     * spbdf-sfpbrbtfd list of tif fxtfrnbl forms of tif URLs rfturnfd
+     * by invoking tif <dodf>gftURLs</dodf> mftiods of tif lobdfr.  If
+     * tif <dodf>URLClbssLobdfr</dodf> wbs drfbtfd by tiis providfr to
+     * sfrvidf bn invodbtion of its <dodf>lobdClbss</dodf> or
+     * <dodf>lobdProxyClbss</dodf> mftiods, tifn no pfrmissions brf
+     * rfquirfd to gft tif bssodibtfd dodfbbsf string.  If it is bn
+     * brbitrbry otifr <dodf>URLClbssLobdfr</dodf> instbndf, tifn if
+     * tifrf is b sfdurity mbnbgfr, its <dodf>difdkPfrmission</dodf>
+     * mftiod will bf invokfd ondf for fbdi URL rfturnfd by tif
+     * <dodf>gftURLs</dodf> mftiod, witi tif pfrmission rfturnfd by
+     * invoking <dodf>opfnConnfdtion().gftPfrmission()</dodf> on fbdi
+     * URL; if bny of tiosf invodbtions tirows b
+     * <dodf>SfdurityExdfption</dodf> or bn <dodf>IOExdfption</dodf>,
+     * tifn tif vbluf of tif <dodf>jbvb.rmi.sfrvfr.dodfbbsf</dodf>
+     * propfrty (or possibly bn fbrlifr dbdifd vbluf) is rfturnfd, or
+     * <dodf>null</dodf> is rfturnfd if tibt propfrty is not sft.
      *
-     * <li><p>Finally, if the class loader is not an instance of
-     * <code>URLClassLoader</code>, then the value of the
-     * <code>java.rmi.server.codebase</code> property (or possibly an
-     * earlier cached value) is returned, or
-     * <code>null</code> is returned if that property is not set.
+     * <li><p>Finblly, if tif dlbss lobdfr is not bn instbndf of
+     * <dodf>URLClbssLobdfr</dodf>, tifn tif vbluf of tif
+     * <dodf>jbvb.rmi.sfrvfr.dodfbbsf</dodf> propfrty (or possibly bn
+     * fbrlifr dbdifd vbluf) is rfturnfd, or
+     * <dodf>null</dodf> is rfturnfd if tibt propfrty is not sft.
      *
      * </ul>
      *
-     * <p>For the implementations of the methods described below,
-     * which all take a <code>String</code> parameter named
-     * <code>codebase</code> that is a space-separated list of URLs,
-     * each invocation has an associated <i>codebase loader</i> that
-     * is identified using the <code>codebase</code> argument in
-     * conjunction with the current thread's context class loader (see
-     * {@link Thread#getContextClassLoader()}).  When there is a
-     * security manager, this provider maintains an internal table of
-     * class loader instances (which are at least instances of {@link
-     * java.net.URLClassLoader}) keyed by the pair of their parent
-     * class loader and their codebase URL path (an ordered list of
-     * URLs).  If the <code>codebase</code> argument is <code>null</code>,
-     * the codebase URL path is the value of the system property
-     * <code>java.rmi.server.codebase</code> or possibly an
-     * earlier cached value.  For a given codebase URL path passed as the
-     * <code>codebase</code> argument to an invocation of one of the
-     * below methods in a given context, the codebase loader is the
-     * loader in the table with the specified codebase URL path and
-     * the current thread's context class loader as its parent.  If no
-     * such loader exists, then one is created and added to the table.
-     * The table does not maintain strong references to its contained
-     * loaders, in order to allow them and their defined classes to be
-     * garbage collected when not otherwise reachable.  In order to
-     * prevent arbitrary untrusted code from being implicitly loaded
-     * into a virtual machine with no security manager, if there is no
-     * security manager set, the codebase loader is just the current
-     * thread's context class loader (the supplied codebase URL path
-     * is ignored, so remote class loading is disabled).
+     * <p>For tif implfmfntbtions of tif mftiods dfsdribfd bflow,
+     * wiidi bll tbkf b <dodf>String</dodf> pbrbmftfr nbmfd
+     * <dodf>dodfbbsf</dodf> tibt is b spbdf-sfpbrbtfd list of URLs,
+     * fbdi invodbtion ibs bn bssodibtfd <i>dodfbbsf lobdfr</i> tibt
+     * is idfntififd using tif <dodf>dodfbbsf</dodf> brgumfnt in
+     * donjundtion witi tif durrfnt tirfbd's dontfxt dlbss lobdfr (sff
+     * {@link Tirfbd#gftContfxtClbssLobdfr()}).  Wifn tifrf is b
+     * sfdurity mbnbgfr, tiis providfr mbintbins bn intfrnbl tbblf of
+     * dlbss lobdfr instbndfs (wiidi brf bt lfbst instbndfs of {@link
+     * jbvb.nft.URLClbssLobdfr}) kfyfd by tif pbir of tifir pbrfnt
+     * dlbss lobdfr bnd tifir dodfbbsf URL pbti (bn ordfrfd list of
+     * URLs).  If tif <dodf>dodfbbsf</dodf> brgumfnt is <dodf>null</dodf>,
+     * tif dodfbbsf URL pbti is tif vbluf of tif systfm propfrty
+     * <dodf>jbvb.rmi.sfrvfr.dodfbbsf</dodf> or possibly bn
+     * fbrlifr dbdifd vbluf.  For b givfn dodfbbsf URL pbti pbssfd bs tif
+     * <dodf>dodfbbsf</dodf> brgumfnt to bn invodbtion of onf of tif
+     * bflow mftiods in b givfn dontfxt, tif dodfbbsf lobdfr is tif
+     * lobdfr in tif tbblf witi tif spfdififd dodfbbsf URL pbti bnd
+     * tif durrfnt tirfbd's dontfxt dlbss lobdfr bs its pbrfnt.  If no
+     * sudi lobdfr fxists, tifn onf is drfbtfd bnd bddfd to tif tbblf.
+     * Tif tbblf dofs not mbintbin strong rfffrfndfs to its dontbinfd
+     * lobdfrs, in ordfr to bllow tifm bnd tifir dffinfd dlbssfs to bf
+     * gbrbbgf dollfdtfd wifn not otifrwisf rfbdibblf.  In ordfr to
+     * prfvfnt brbitrbry untrustfd dodf from bfing impliditly lobdfd
+     * into b virtubl mbdiinf witi no sfdurity mbnbgfr, if tifrf is no
+     * sfdurity mbnbgfr sft, tif dodfbbsf lobdfr is just tif durrfnt
+     * tirfbd's dontfxt dlbss lobdfr (tif supplifd dodfbbsf URL pbti
+     * is ignorfd, so rfmotf dlbss lobding is disbblfd).
      *
-     * <p>The <b>{@link RMIClassLoaderSpi#getClassLoader(String)
-     * getClassLoader}</b> method returns the codebase loader for the
-     * specified codebase URL path.  If there is a security manager,
-     * then if the calling context does not have permission to connect
-     * to all of the URLs in the codebase URL path, a
-     * <code>SecurityException</code> will be thrown.
+     * <p>Tif <b>{@link RMIClbssLobdfrSpi#gftClbssLobdfr(String)
+     * gftClbssLobdfr}</b> mftiod rfturns tif dodfbbsf lobdfr for tif
+     * spfdififd dodfbbsf URL pbti.  If tifrf is b sfdurity mbnbgfr,
+     * tifn if tif dblling dontfxt dofs not ibvf pfrmission to donnfdt
+     * to bll of tif URLs in tif dodfbbsf URL pbti, b
+     * <dodf>SfdurityExdfption</dodf> will bf tirown.
      *
-     * <p>The <b>{@link
-     * RMIClassLoaderSpi#loadClass(String,String,ClassLoader)
-     * loadClass}</b> method attempts to load the class with the
-     * specified name as follows:
+     * <p>Tif <b>{@link
+     * RMIClbssLobdfrSpi#lobdClbss(String,String,ClbssLobdfr)
+     * lobdClbss}</b> mftiod bttfmpts to lobd tif dlbss witi tif
+     * spfdififd nbmf bs follows:
      *
-     * <blockquote>
+     * <blodkquotf>
      *
-     * If the <code>defaultLoader</code> argument is
-     * non-<code>null</code>, it first attempts to load the class with the
-     * specified <code>name</code> using the
-     * <code>defaultLoader</code>, such as by evaluating
+     * If tif <dodf>dffbultLobdfr</dodf> brgumfnt is
+     * non-<dodf>null</dodf>, it first bttfmpts to lobd tif dlbss witi tif
+     * spfdififd <dodf>nbmf</dodf> using tif
+     * <dodf>dffbultLobdfr</dodf>, sudi bs by fvblubting
      *
-     * <pre>
-     *     Class.forName(name, false, defaultLoader)
-     * </pre>
+     * <prf>
+     *     Clbss.forNbmf(nbmf, fblsf, dffbultLobdfr)
+     * </prf>
      *
-     * If the class is successfully loaded from the
-     * <code>defaultLoader</code>, that class is returned.  If an
-     * exception other than <code>ClassNotFoundException</code> is
-     * thrown, that exception is thrown to the caller.
+     * If tif dlbss is suddfssfully lobdfd from tif
+     * <dodf>dffbultLobdfr</dodf>, tibt dlbss is rfturnfd.  If bn
+     * fxdfption otifr tibn <dodf>ClbssNotFoundExdfption</dodf> is
+     * tirown, tibt fxdfption is tirown to tif dbllfr.
      *
-     * <p>Next, the <code>loadClass</code> method attempts to load the
-     * class with the specified <code>name</code> using the codebase
-     * loader for the specified codebase URL path.
-     * If there is a security manager, then the calling context
-     * must have permission to connect to all of the URLs in the
-     * codebase URL path; otherwise, the current thread's context
-     * class loader will be used instead of the codebase loader.
+     * <p>Nfxt, tif <dodf>lobdClbss</dodf> mftiod bttfmpts to lobd tif
+     * dlbss witi tif spfdififd <dodf>nbmf</dodf> using tif dodfbbsf
+     * lobdfr for tif spfdififd dodfbbsf URL pbti.
+     * If tifrf is b sfdurity mbnbgfr, tifn tif dblling dontfxt
+     * must ibvf pfrmission to donnfdt to bll of tif URLs in tif
+     * dodfbbsf URL pbti; otifrwisf, tif durrfnt tirfbd's dontfxt
+     * dlbss lobdfr will bf usfd instfbd of tif dodfbbsf lobdfr.
      *
-     * </blockquote>
+     * </blodkquotf>
      *
-     * <p>The <b>{@link
-     * RMIClassLoaderSpi#loadProxyClass(String,String[],ClassLoader)
-     * loadProxyClass}</b> method attempts to return a dynamic proxy
-     * class with the named interface as follows:
+     * <p>Tif <b>{@link
+     * RMIClbssLobdfrSpi#lobdProxyClbss(String,String[],ClbssLobdfr)
+     * lobdProxyClbss}</b> mftiod bttfmpts to rfturn b dynbmid proxy
+     * dlbss witi tif nbmfd intfrfbdf bs follows:
      *
-     * <blockquote>
+     * <blodkquotf>
      *
-     * <p>If the <code>defaultLoader</code> argument is
-     * non-<code>null</code> and all of the named interfaces can be
-     * resolved through that loader, then,
+     * <p>If tif <dodf>dffbultLobdfr</dodf> brgumfnt is
+     * non-<dodf>null</dodf> bnd bll of tif nbmfd intfrfbdfs dbn bf
+     * rfsolvfd tirougi tibt lobdfr, tifn,
      *
      * <ul>
      *
-     * <li>if all of the resolved interfaces are <code>public</code>,
-     * then it first attempts to obtain a dynamic proxy class (using
+     * <li>if bll of tif rfsolvfd intfrfbdfs brf <dodf>publid</dodf>,
+     * tifn it first bttfmpts to obtbin b dynbmid proxy dlbss (using
      * {@link
-     * java.lang.reflect.Proxy#getProxyClass(ClassLoader,Class[])
-     * Proxy.getProxyClass}) for the resolved interfaces defined in
-     * the codebase loader; if that attempt throws an
-     * <code>IllegalArgumentException</code>, it then attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in the <code>defaultLoader</code>.  If both attempts
-     * throw <code>IllegalArgumentException</code>, then this method
-     * throws a <code>ClassNotFoundException</code>.  If any other
-     * exception is thrown, that exception is thrown to the caller.
+     * jbvb.lbng.rfflfdt.Proxy#gftProxyClbss(ClbssLobdfr,Clbss[])
+     * Proxy.gftProxyClbss}) for tif rfsolvfd intfrfbdfs dffinfd in
+     * tif dodfbbsf lobdfr; if tibt bttfmpt tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf>, it tifn bttfmpts to
+     * obtbin b dynbmid proxy dlbss for tif rfsolvfd intfrfbdfs
+     * dffinfd in tif <dodf>dffbultLobdfr</dodf>.  If boti bttfmpts
+     * tirow <dodf>IllfgblArgumfntExdfption</dodf>, tifn tiis mftiod
+     * tirows b <dodf>ClbssNotFoundExdfption</dodf>.  If bny otifr
+     * fxdfption is tirown, tibt fxdfption is tirown to tif dbllfr.
      *
-     * <li>if all of the non-<code>public</code> resolved interfaces
-     * are defined in the same class loader, then it attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in that loader.
+     * <li>if bll of tif non-<dodf>publid</dodf> rfsolvfd intfrfbdfs
+     * brf dffinfd in tif sbmf dlbss lobdfr, tifn it bttfmpts to
+     * obtbin b dynbmid proxy dlbss for tif rfsolvfd intfrfbdfs
+     * dffinfd in tibt lobdfr.
      *
-     * <li>otherwise, a <code>LinkageError</code> is thrown (because a
-     * class that implements all of the specified interfaces cannot be
-     * defined in any loader).
+     * <li>otifrwisf, b <dodf>LinkbgfError</dodf> is tirown (bfdbusf b
+     * dlbss tibt implfmfnts bll of tif spfdififd intfrfbdfs dbnnot bf
+     * dffinfd in bny lobdfr).
      *
      * </ul>
      *
-     * <p>Otherwise, if all of the named interfaces can be resolved
-     * through the codebase loader, then,
+     * <p>Otifrwisf, if bll of tif nbmfd intfrfbdfs dbn bf rfsolvfd
+     * tirougi tif dodfbbsf lobdfr, tifn,
      *
      * <ul>
      *
-     * <li>if all of the resolved interfaces are <code>public</code>,
-     * then it attempts to obtain a dynamic proxy class for the
-     * resolved interfaces in the codebase loader.  If the attempt
-     * throws an <code>IllegalArgumentException</code>, then this
-     * method throws a <code>ClassNotFoundException</code>.
+     * <li>if bll of tif rfsolvfd intfrfbdfs brf <dodf>publid</dodf>,
+     * tifn it bttfmpts to obtbin b dynbmid proxy dlbss for tif
+     * rfsolvfd intfrfbdfs in tif dodfbbsf lobdfr.  If tif bttfmpt
+     * tirows bn <dodf>IllfgblArgumfntExdfption</dodf>, tifn tiis
+     * mftiod tirows b <dodf>ClbssNotFoundExdfption</dodf>.
      *
-     * <li>if all of the non-<code>public</code> resolved interfaces
-     * are defined in the same class loader, then it attempts to
-     * obtain a dynamic proxy class for the resolved interfaces
-     * defined in that loader.
+     * <li>if bll of tif non-<dodf>publid</dodf> rfsolvfd intfrfbdfs
+     * brf dffinfd in tif sbmf dlbss lobdfr, tifn it bttfmpts to
+     * obtbin b dynbmid proxy dlbss for tif rfsolvfd intfrfbdfs
+     * dffinfd in tibt lobdfr.
      *
-     * <li>otherwise, a <code>LinkageError</code> is thrown (because a
-     * class that implements all of the specified interfaces cannot be
-     * defined in any loader).
+     * <li>otifrwisf, b <dodf>LinkbgfError</dodf> is tirown (bfdbusf b
+     * dlbss tibt implfmfnts bll of tif spfdififd intfrfbdfs dbnnot bf
+     * dffinfd in bny lobdfr).
      *
      * </ul>
      *
-     * <p>Otherwise, a <code>ClassNotFoundException</code> is thrown
-     * for one of the named interfaces that could not be resolved.
+     * <p>Otifrwisf, b <dodf>ClbssNotFoundExdfption</dodf> is tirown
+     * for onf of tif nbmfd intfrfbdfs tibt dould not bf rfsolvfd.
      *
-     * </blockquote>
+     * </blodkquotf>
      *
-     * </blockquote>
+     * </blodkquotf>
      *
-     * @return  the canonical instance of the default service provider
+     * @rfturn  tif dbnonidbl instbndf of tif dffbult sfrvidf providfr
      *
-     * @throws  SecurityException if there is a security manager and the
-     * invocation of its <code>checkPermission</code> method fails
+     * @tirows  SfdurityExdfption if tifrf is b sfdurity mbnbgfr bnd tif
+     * invodbtion of its <dodf>difdkPfrmission</dodf> mftiod fbils
      *
-     * @since   1.4
+     * @sindf   1.4
      */
-    public static RMIClassLoaderSpi getDefaultProviderInstance() {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid RMIClbssLobdfrSpi gftDffbultProvidfrInstbndf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("setFactory"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("sftFbdtory"));
         }
-        return defaultProvider;
+        rfturn dffbultProvidfr;
     }
 
     /**
-     * Returns the security context of the given class loader.
+     * Rfturns tif sfdurity dontfxt of tif givfn dlbss lobdfr.
      *
-     * @param   loader a class loader from which to get the security context
+     * @pbrbm   lobdfr b dlbss lobdfr from wiidi to gft tif sfdurity dontfxt
      *
-     * @return  the security context
+     * @rfturn  tif sfdurity dontfxt
      *
-     * @deprecated no replacement.  As of the Java 2 platform v1.2, RMI no
-     * longer uses this method to obtain a class loader's security context.
-     * @see java.lang.SecurityManager#getSecurityContext()
+     * @dfprfdbtfd no rfplbdfmfnt.  As of tif Jbvb 2 plbtform v1.2, RMI no
+     * longfr usfs tiis mftiod to obtbin b dlbss lobdfr's sfdurity dontfxt.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
      */
-    @Deprecated
-    public static Object getSecurityContext(ClassLoader loader)
+    @Dfprfdbtfd
+    publid stbtid Objfdt gftSfdurityContfxt(ClbssLobdfr lobdfr)
     {
-        return sun.rmi.server.LoaderHandler.getSecurityContext(loader);
+        rfturn sun.rmi.sfrvfr.LobdfrHbndlfr.gftSfdurityContfxt(lobdfr);
     }
 
     /**
-     * Creates an instance of the default provider class.
+     * Crfbtfs bn instbndf of tif dffbult providfr dlbss.
      */
-    private static RMIClassLoaderSpi newDefaultProviderInstance() {
-        return new RMIClassLoaderSpi() {
-            public Class<?> loadClass(String codebase, String name,
-                                      ClassLoader defaultLoader)
-                throws MalformedURLException, ClassNotFoundException
+    privbtf stbtid RMIClbssLobdfrSpi nfwDffbultProvidfrInstbndf() {
+        rfturn nfw RMIClbssLobdfrSpi() {
+            publid Clbss<?> lobdClbss(String dodfbbsf, String nbmf,
+                                      ClbssLobdfr dffbultLobdfr)
+                tirows MblformfdURLExdfption, ClbssNotFoundExdfption
             {
-                return sun.rmi.server.LoaderHandler.loadClass(
-                    codebase, name, defaultLoader);
+                rfturn sun.rmi.sfrvfr.LobdfrHbndlfr.lobdClbss(
+                    dodfbbsf, nbmf, dffbultLobdfr);
             }
 
-            public Class<?> loadProxyClass(String codebase,
-                                           String[] interfaces,
-                                           ClassLoader defaultLoader)
-                throws MalformedURLException, ClassNotFoundException
+            publid Clbss<?> lobdProxyClbss(String dodfbbsf,
+                                           String[] intfrfbdfs,
+                                           ClbssLobdfr dffbultLobdfr)
+                tirows MblformfdURLExdfption, ClbssNotFoundExdfption
             {
-                return sun.rmi.server.LoaderHandler.loadProxyClass(
-                    codebase, interfaces, defaultLoader);
+                rfturn sun.rmi.sfrvfr.LobdfrHbndlfr.lobdProxyClbss(
+                    dodfbbsf, intfrfbdfs, dffbultLobdfr);
             }
 
-            public ClassLoader getClassLoader(String codebase)
-                throws MalformedURLException
+            publid ClbssLobdfr gftClbssLobdfr(String dodfbbsf)
+                tirows MblformfdURLExdfption
             {
-                return sun.rmi.server.LoaderHandler.getClassLoader(codebase);
+                rfturn sun.rmi.sfrvfr.LobdfrHbndlfr.gftClbssLobdfr(dodfbbsf);
             }
 
-            public String getClassAnnotation(Class<?> cl) {
-                return sun.rmi.server.LoaderHandler.getClassAnnotation(cl);
+            publid String gftClbssAnnotbtion(Clbss<?> dl) {
+                rfturn sun.rmi.sfrvfr.LobdfrHbndlfr.gftClbssAnnotbtion(dl);
             }
         };
     }
 
     /**
-     * Chooses provider instance, following above documentation.
+     * Cioosfs providfr instbndf, following bbovf dodumfntbtion.
      *
-     * This method assumes that it has been invoked in a privileged block.
+     * Tiis mftiod bssumfs tibt it ibs bffn invokfd in b privilfgfd blodk.
      */
-    private static RMIClassLoaderSpi initializeProvider() {
+    privbtf stbtid RMIClbssLobdfrSpi initiblizfProvidfr() {
         /*
-         * First check for the system property being set:
+         * First difdk for tif systfm propfrty bfing sft:
          */
-        String providerClassName =
-            System.getProperty("java.rmi.server.RMIClassLoaderSpi");
+        String providfrClbssNbmf =
+            Systfm.gftPropfrty("jbvb.rmi.sfrvfr.RMIClbssLobdfrSpi");
 
-        if (providerClassName != null) {
-            if (providerClassName.equals("default")) {
-                return defaultProvider;
+        if (providfrClbssNbmf != null) {
+            if (providfrClbssNbmf.fqubls("dffbult")) {
+                rfturn dffbultProvidfr;
             }
 
             try {
-                Class<? extends RMIClassLoaderSpi> providerClass =
-                    Class.forName(providerClassName, false,
-                                  ClassLoader.getSystemClassLoader())
-                    .asSubclass(RMIClassLoaderSpi.class);
-                return providerClass.newInstance();
+                Clbss<? fxtfnds RMIClbssLobdfrSpi> providfrClbss =
+                    Clbss.forNbmf(providfrClbssNbmf, fblsf,
+                                  ClbssLobdfr.gftSystfmClbssLobdfr())
+                    .bsSubdlbss(RMIClbssLobdfrSpi.dlbss);
+                rfturn providfrClbss.nfwInstbndf();
 
-            } catch (ClassNotFoundException e) {
-                throw new NoClassDefFoundError(e.getMessage());
-            } catch (IllegalAccessException e) {
-                throw new IllegalAccessError(e.getMessage());
-            } catch (InstantiationException e) {
-                throw new InstantiationError(e.getMessage());
-            } catch (ClassCastException e) {
-                Error error = new LinkageError(
-                    "provider class not assignable to RMIClassLoaderSpi");
-                error.initCause(e);
-                throw error;
+            } dbtdi (ClbssNotFoundExdfption f) {
+                tirow nfw NoClbssDffFoundError(f.gftMfssbgf());
+            } dbtdi (IllfgblAddfssExdfption f) {
+                tirow nfw IllfgblAddfssError(f.gftMfssbgf());
+            } dbtdi (InstbntibtionExdfption f) {
+                tirow nfw InstbntibtionError(f.gftMfssbgf());
+            } dbtdi (ClbssCbstExdfption f) {
+                Error frror = nfw LinkbgfError(
+                    "providfr dlbss not bssignbblf to RMIClbssLobdfrSpi");
+                frror.initCbusf(f);
+                tirow frror;
             }
         }
 
         /*
-         * Next look for a provider configuration file installed:
+         * Nfxt look for b providfr donfigurbtion filf instbllfd:
          */
-        Iterator<RMIClassLoaderSpi> iter =
-            ServiceLoader.load(RMIClassLoaderSpi.class,
-                               ClassLoader.getSystemClassLoader()).iterator();
-        if (iter.hasNext()) {
+        Itfrbtor<RMIClbssLobdfrSpi> itfr =
+            SfrvidfLobdfr.lobd(RMIClbssLobdfrSpi.dlbss,
+                               ClbssLobdfr.gftSystfmClbssLobdfr()).itfrbtor();
+        if (itfr.ibsNfxt()) {
             try {
-                return iter.next();
-            } catch (ClassCastException e) {
-                Error error = new LinkageError(
-                    "provider class not assignable to RMIClassLoaderSpi");
-                error.initCause(e);
-                throw error;
+                rfturn itfr.nfxt();
+            } dbtdi (ClbssCbstExdfption f) {
+                Error frror = nfw LinkbgfError(
+                    "providfr dlbss not bssignbblf to RMIClbssLobdfrSpi");
+                frror.initCbusf(f);
+                tirow frror;
             }
         }
 
         /*
-         * Finally, return the canonical instance of the default provider.
+         * Finblly, rfturn tif dbnonidbl instbndf of tif dffbult providfr.
          */
-        return defaultProvider;
+        rfturn dffbultProvidfr;
     }
 }

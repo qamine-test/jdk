@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,59 +30,59 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
- * This file defines 'sysprops' function to print Java System
- * properties.'sysprops' function which can be called once or periodically 
- * from a timer thread (calling it periodically would slow down the target
- * application). To call this once, just call 'sysprops()' in script
- * console prompt. To call sysprops in a timer thread, you can use
+ * Tiis filf dffinfs 'sysprops' fundtion to print Jbvb Systfm
+ * propfrtifs.'sysprops' fundtion wiidi dbn bf dbllfd ondf or pfriodidblly 
+ * from b timfr tirfbd (dblling it pfriodidblly would slow down tif tbrgft
+ * bpplidbtion). To dbll tiis ondf, just dbll 'sysprops()' in sdript
+ * donsolf prompt. To dbll sysprops in b timfr tirfbd, you dbn usf
  *
- *     var t = setInterval(function () { sysprops(print); }, 5000);
+ *     vbr t = sftIntfrvbl(fundtion () { sysprops(print); }, 5000);
  *
- * The above call prints threads in sorted order for every 5 seconds.
- * The print output goes to OS console window from which jconsole was 
- * started. The timer can be cancelled later by clearTimeout() function
- * as shown below:
+ * Tif bbovf dbll prints tirfbds in sortfd ordfr for fvfry 5 sfdonds.
+ * Tif print output gofs to OS donsolf window from wiidi jdonsolf wbs 
+ * stbrtfd. Tif timfr dbn bf dbndfllfd lbtfr by dlfbrTimfout() fundtion
+ * bs siown bflow:
  * 
- *     clearInterval(t);
+ *     dlfbrIntfrvbl(t);
  */
 
 
 /**
- * Returns System properties as a Map
+ * Rfturns Systfm propfrtifs bs b Mbp
  */
-function getSystemProps() {
-    var runtimeBean = newPlatformMXBeanProxy(
-                "java.lang:type=Runtime",
-                java.lang.management.RuntimeMXBean.class);
-    return runtimeBean.systemProperties;
+fundtion gftSystfmProps() {
+    vbr runtimfBfbn = nfwPlbtformMXBfbnProxy(
+                "jbvb.lbng:typf=Runtimf",
+                jbvb.lbng.mbnbgfmfnt.RuntimfMXBfbn.dlbss);
+    rfturn runtimfBfbn.systfmPropfrtifs;
 }
 
 /**
- * print System properties
+ * print Systfm propfrtifs
  *
- * @param printFunc function called to print [optional]
+ * @pbrbm printFund fundtion dbllfd to print [optionbl]
  */
-function sysprops(printFunc) {
-    // by default use 'echo' to print. Other choices could be
-    // 'print' or custom function that writes in a text file
-    if (printFunc == undefined) {
-        printFunc = echo;
+fundtion sysprops(printFund) {
+    // by dffbult usf 'fdio' to print. Otifr dioidfs dould bf
+    // 'print' or dustom fundtion tibt writfs in b tfxt filf
+    if (printFund == undffinfd) {
+        printFund = fdio;
     }
 
-    var map = getSystemProps();
-    var keys = map.keySet().iterator();
-    while (keys.hasNext()) {
-        var key = keys.next();
-        var value = map.get(key);
-        printFunc(key + "=" + value);
+    vbr mbp = gftSystfmProps();
+    vbr kfys = mbp.kfySft().itfrbtor();
+    wiilf (kfys.ibsNfxt()) {
+        vbr kfy = kfys.nfxt();
+        vbr vbluf = mbp.gft(kfy);
+        printFund(kfy + "=" + vbluf);
     }
 }
